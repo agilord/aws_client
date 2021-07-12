@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
-
-part 'json_value_trait.g.dart';
 
 /// JSON value trait
 class JsonValueTrait {
   final _s.RestJsonProtocol _protocol;
   JsonValueTrait({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -45,15 +38,16 @@ class JsonValueTrait {
         );
 
   Future<void> operationName0({
-    BodyStructure body,
-    String headerField,
-    String queryField,
+    BodyStructure? body,
+    Object? headerField,
+    Object? queryField,
   }) async {
-    final headers = <String, String>{};
-    headerField
-        ?.let((v) => headers['X-Amz-Foo'] = base64Encode(utf8.encode(v)));
+    final headers = <String, String>{
+      if (headerField != null)
+        'X-Amz-Foo': base64Encode(utf8.encode(jsonEncode(headerField))),
+    };
     final $query = <String, List<String>>{
-      if (queryField != null) 'Bar': [queryField],
+      if (queryField != null) 'Bar': [jsonEncode(queryField)],
     };
     await _protocol.send(
       payload: body,
@@ -66,15 +60,16 @@ class JsonValueTrait {
   }
 
   Future<void> operationName1({
-    BodyStructure body,
-    String headerField,
-    String queryField,
+    BodyStructure? body,
+    Object? headerField,
+    Object? queryField,
   }) async {
-    final headers = <String, String>{};
-    headerField
-        ?.let((v) => headers['X-Amz-Foo'] = base64Encode(utf8.encode(v)));
+    final headers = <String, String>{
+      if (headerField != null)
+        'X-Amz-Foo': base64Encode(utf8.encode(jsonEncode(headerField))),
+    };
     final $query = <String, List<String>>{
-      if (queryField != null) 'Bar': [queryField],
+      if (queryField != null) 'Bar': [jsonEncode(queryField)],
     };
     await _protocol.send(
       payload: body,
@@ -87,15 +82,16 @@ class JsonValueTrait {
   }
 
   Future<void> operationName2({
-    BodyStructure body,
-    String headerField,
-    String queryField,
+    BodyStructure? body,
+    Object? headerField,
+    Object? queryField,
   }) async {
-    final headers = <String, String>{};
-    headerField
-        ?.let((v) => headers['X-Amz-Foo'] = base64Encode(utf8.encode(v)));
+    final headers = <String, String>{
+      if (headerField != null)
+        'X-Amz-Foo': base64Encode(utf8.encode(jsonEncode(headerField))),
+    };
     final $query = <String, List<String>>{
-      if (queryField != null) 'Bar': [queryField],
+      if (queryField != null) 'Bar': [jsonEncode(queryField)],
     };
     await _protocol.send(
       payload: body,
@@ -108,22 +104,38 @@ class JsonValueTrait {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BodyStructure {
-  @_s.JsonKey(name: 'BodyField')
-  final Object bodyField;
-  @_s.JsonKey(name: 'BodyListField')
-  final List<Object> bodyListField;
+  final Object? bodyField;
+  final List<Object>? bodyListField;
 
   BodyStructure({
     this.bodyField,
     this.bodyListField,
   });
-  Map<String, dynamic> toJson() => _$BodyStructureToJson(this);
+
+  factory BodyStructure.fromJson(Map<String, dynamic> json) {
+    return BodyStructure(
+      bodyField: json['BodyField'] == null
+          ? null
+          : jsonDecode(json['BodyField'] as String),
+      bodyListField: json['BodyListField'] == null
+          ? null
+          : (json['BodyListField'] as List)
+              .map((v) => jsonDecode(v as String))
+              .toList()
+              .cast<Object>(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bodyField = this.bodyField;
+    final bodyListField = this.bodyListField;
+    return {
+      if (bodyField != null) 'BodyField': jsonEncode(bodyField),
+      if (bodyListField != null)
+        'BodyListField': bodyListField.map(jsonEncode).toList(),
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

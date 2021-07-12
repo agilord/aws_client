@@ -15,7 +15,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "TransitiveTagKeys": {"shape": "tagKeyListType", "flattened": false},
       "ExternalId": {"shape": "externalIdType", "flattened": false},
       "SerialNumber": {"shape": "serialNumberType", "flattened": false},
-      "TokenCode": {"shape": "tokenCodeType", "flattened": false}
+      "TokenCode": {"shape": "tokenCodeType", "flattened": false},
+      "SourceIdentity": {"shape": "sourceIdentityType", "flattened": false}
     },
     "flattened": false
   },
@@ -27,7 +28,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "PackedPolicySize": {
         "shape": "nonNegativeIntegerType",
         "flattened": false
-      }
+      },
+      "SourceIdentity": {"shape": "sourceIdentityType", "flattened": false}
     },
     "flattened": false
   },
@@ -59,7 +61,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "SubjectType": {"shape": "SubjectType", "flattened": false},
       "Issuer": {"shape": "Issuer", "flattened": false},
       "Audience": {"shape": "Audience", "flattened": false},
-      "NameQualifier": {"shape": "NameQualifier", "flattened": false}
+      "NameQualifier": {"shape": "NameQualifier", "flattened": false},
+      "SourceIdentity": {"shape": "sourceIdentityType", "flattened": false}
     },
     "flattened": false
   },
@@ -93,7 +96,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Provider": {"shape": "Issuer", "flattened": false},
-      "Audience": {"shape": "Audience", "flattened": false}
+      "Audience": {"shape": "Audience", "flattened": false},
+      "SourceIdentity": {"shape": "sourceIdentityType", "flattened": false}
     },
     "flattened": false
   },
@@ -247,6 +251,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "roleSessionNameType": {"type": "string", "flattened": false},
   "serialNumberType": {"type": "string", "flattened": false},
   "sessionPolicyDocumentType": {"type": "string", "flattened": false},
+  "sourceIdentityType": {"type": "string", "flattened": false},
   "tagKeyListType": {
     "type": "list",
     "member": {"shape": "tagKeyType"},

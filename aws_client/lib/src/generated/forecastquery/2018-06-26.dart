@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-06-26.g.dart';
 
 /// Provides APIs for creating and managing Amazon Forecast resources.
 class ForecastQuery {
   final _s.JsonProtocol _protocol;
   ForecastQuery({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -96,11 +89,11 @@ class ForecastQuery {
   /// The start date for the forecast. Specify the date using this format:
   /// yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
   Future<QueryForecastResponse> queryForecast({
-    @_s.required Map<String, String> filters,
-    @_s.required String forecastArn,
-    String endDate,
-    String nextToken,
-    String startDate,
+    required Map<String, String> filters,
+    required String forecastArn,
+    String? endDate,
+    String? nextToken,
+    String? startDate,
   }) async {
     ArgumentError.checkNotNull(filters, 'filters');
     ArgumentError.checkNotNull(forecastArn, 'forecastArn');
@@ -109,12 +102,6 @@ class ForecastQuery {
       forecastArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'forecastArn',
-      forecastArn,
-      r'''arn:([a-z\d-]+):forecast:.*:.*:.+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -147,35 +134,37 @@ class ForecastQuery {
 }
 
 /// The forecast value for a specific date. Part of the <a>Forecast</a> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataPoint {
   /// The timestamp of the specific forecast.
-  @_s.JsonKey(name: 'Timestamp')
-  final String timestamp;
+  final String? timestamp;
 
   /// The forecast value.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   DataPoint({
     this.timestamp,
     this.value,
   });
-  factory DataPoint.fromJson(Map<String, dynamic> json) =>
-      _$DataPointFromJson(json);
+
+  factory DataPoint.fromJson(Map<String, dynamic> json) {
+    return DataPoint(
+      timestamp: json['Timestamp'] as String?,
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    return {
+      if (timestamp != null) 'Timestamp': timestamp,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Provides information about a forecast. Returned as part of the
 /// <a>QueryForecast</a> response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Forecast {
   /// The forecast.
   ///
@@ -192,55 +181,78 @@ class Forecast {
   /// p90
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Predictions')
-  final Map<String, List<DataPoint>> predictions;
+  final Map<String, List<DataPoint>>? predictions;
 
   Forecast({
     this.predictions,
   });
-  factory Forecast.fromJson(Map<String, dynamic> json) =>
-      _$ForecastFromJson(json);
+
+  factory Forecast.fromJson(Map<String, dynamic> json) {
+    return Forecast(
+      predictions: (json['Predictions'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) => DataPoint.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final predictions = this.predictions;
+    return {
+      if (predictions != null) 'Predictions': predictions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryForecastResponse {
   /// The forecast.
-  @_s.JsonKey(name: 'Forecast')
-  final Forecast forecast;
+  final Forecast? forecast;
 
   QueryForecastResponse({
     this.forecast,
   });
-  factory QueryForecastResponse.fromJson(Map<String, dynamic> json) =>
-      _$QueryForecastResponseFromJson(json);
+
+  factory QueryForecastResponse.fromJson(Map<String, dynamic> json) {
+    return QueryForecastResponse(
+      forecast: json['Forecast'] != null
+          ? Forecast.fromJson(json['Forecast'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forecast = this.forecast;
+    return {
+      if (forecast != null) 'Forecast': forecast,
+    };
+  }
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

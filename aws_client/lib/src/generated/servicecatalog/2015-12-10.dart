@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2015-12-10.g.dart';
 
 /// <a href="https://aws.amazon.com/servicecatalog/">AWS Service Catalog</a>
 /// enables organizations to create and manage catalogs of IT services that are
@@ -35,10 +28,10 @@ part '2015-12-10.g.dart';
 class ServiceCatalog {
   final _s.JsonProtocol _protocol;
   ServiceCatalog({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -94,9 +87,9 @@ class ServiceCatalog {
   /// --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type
   /// AWS_ORGANIZATIONS</code>
   Future<void> acceptPortfolioShare({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    PortfolioShareType portfolioShareType,
+    required String portfolioId,
+    String? acceptLanguage,
+    PortfolioShareType? portfolioShareType,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -104,12 +97,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -122,7 +109,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.AcceptPortfolioShare'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -135,8 +122,6 @@ class ServiceCatalog {
           'PortfolioShareType': portfolioShareType.toValue(),
       },
     );
-
-    return AcceptPortfolioShareOutput.fromJson(jsonResponse.body);
   }
 
   /// Associates the specified budget with the specified resource.
@@ -152,8 +137,8 @@ class ServiceCatalog {
   /// Parameter [resourceId] :
   /// The resource identifier. Either a portfolio-id or a product-id.
   Future<void> associateBudgetWithResource({
-    @_s.required String budgetName,
-    @_s.required String resourceId,
+    required String budgetName,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -171,17 +156,11 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.AssociateBudgetWithResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -192,8 +171,6 @@ class ServiceCatalog {
         'ResourceId': resourceId,
       },
     );
-
-    return AssociateBudgetWithResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Associates the specified principal ARN with the specified portfolio.
@@ -226,10 +203,10 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> associatePrincipalWithPortfolio({
-    @_s.required String portfolioId,
-    @_s.required String principalARN,
-    @_s.required PrincipalType principalType,
-    String acceptLanguage,
+    required String portfolioId,
+    required String principalARN,
+    required PrincipalType principalType,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -237,12 +214,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(principalARN, 'principalARN');
@@ -265,7 +236,7 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.AssociatePrincipalWithPortfolio'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -274,12 +245,10 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
-        'PrincipalType': principalType?.toValue() ?? '',
+        'PrincipalType': principalType.toValue(),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return AssociatePrincipalWithPortfolioOutput.fromJson(jsonResponse.body);
   }
 
   /// Associates the specified product with the specified portfolio.
@@ -314,10 +283,10 @@ class ServiceCatalog {
   /// Parameter [sourcePortfolioId] :
   /// The identifier of the source portfolio.
   Future<void> associateProductWithPortfolio({
-    @_s.required String portfolioId,
-    @_s.required String productId,
-    String acceptLanguage,
-    String sourcePortfolioId,
+    required String portfolioId,
+    required String productId,
+    String? acceptLanguage,
+    String? sourcePortfolioId,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -327,24 +296,12 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
       'productId',
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -359,17 +316,12 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'sourcePortfolioId',
-      sourcePortfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'AWS242ServiceCatalogService.AssociateProductWithPortfolio'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -382,8 +334,6 @@ class ServiceCatalog {
         if (sourcePortfolioId != null) 'SourcePortfolioId': sourcePortfolioId,
       },
     );
-
-    return AssociateProductWithPortfolioOutput.fromJson(jsonResponse.body);
   }
 
   /// Associates a self-service action with a provisioning artifact.
@@ -418,10 +368,10 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> associateServiceActionWithProvisioningArtifact({
-    @_s.required String productId,
-    @_s.required String provisioningArtifactId,
-    @_s.required String serviceActionId,
-    String acceptLanguage,
+    required String productId,
+    required String provisioningArtifactId,
+    required String serviceActionId,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -429,12 +379,6 @@ class ServiceCatalog {
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -446,24 +390,12 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
     _s.validateStringLength(
       'serviceActionId',
       serviceActionId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceActionId',
-      serviceActionId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -477,7 +409,7 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.AssociateServiceActionWithProvisioningArtifact'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -490,9 +422,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return AssociateServiceActionWithProvisioningArtifactOutput.fromJson(
-        jsonResponse.body);
   }
 
   /// Associate the specified TagOption with the specified portfolio or product.
@@ -510,8 +439,8 @@ class ServiceCatalog {
   /// Parameter [tagOptionId] :
   /// The TagOption identifier.
   Future<void> associateTagOptionWithResource({
-    @_s.required String resourceId,
-    @_s.required String tagOptionId,
+    required String resourceId,
+    required String tagOptionId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tagOptionId, 'tagOptionId');
@@ -527,7 +456,7 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.AssociateTagOptionWithResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -538,8 +467,6 @@ class ServiceCatalog {
         'TagOptionId': tagOptionId,
       },
     );
-
-    return AssociateTagOptionWithResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Associates multiple self-service actions with provisioning artifacts.
@@ -566,8 +493,8 @@ class ServiceCatalog {
   /// </ul>
   Future<BatchAssociateServiceActionWithProvisioningArtifactOutput>
       batchAssociateServiceActionWithProvisioningArtifact({
-    @_s.required List<ServiceActionAssociation> serviceActionAssociations,
-    String acceptLanguage,
+    required List<ServiceActionAssociation> serviceActionAssociations,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(
         serviceActionAssociations, 'serviceActionAssociations');
@@ -623,8 +550,8 @@ class ServiceCatalog {
   /// </ul>
   Future<BatchDisassociateServiceActionFromProvisioningArtifactOutput>
       batchDisassociateServiceActionFromProvisioningArtifact({
-    @_s.required List<ServiceActionAssociation> serviceActionAssociations,
-    String acceptLanguage,
+    required List<ServiceActionAssociation> serviceActionAssociations,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(
         serviceActionAssociations, 'serviceActionAssociations');
@@ -667,11 +594,6 @@ class ServiceCatalog {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
-  ///
   /// Parameter [sourceProductArn] :
   /// The Amazon Resource Name (ARN) of the source product.
   ///
@@ -694,6 +616,11 @@ class ServiceCatalog {
   /// The copy options. If the value is <code>CopyTags</code>, the tags from the
   /// source product are copied to the target product.
   ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
+  ///
   /// Parameter [sourceProvisioningArtifactIdentifiers] :
   /// The identifiers of the provisioning artifacts (also known as versions) of
   /// the product to copy. By default, all provisioning artifacts are copied.
@@ -706,41 +633,21 @@ class ServiceCatalog {
   /// A name for the target product. The default is the name of the source
   /// product.
   Future<CopyProductOutput> copyProduct({
-    @_s.required String idempotencyToken,
-    @_s.required String sourceProductArn,
-    String acceptLanguage,
-    List<CopyOption> copyOptions,
-    List<Map<ProvisioningArtifactPropertyName, String>>
+    required String sourceProductArn,
+    String? acceptLanguage,
+    List<CopyOption>? copyOptions,
+    String? idempotencyToken,
+    List<Map<ProvisioningArtifactPropertyName, String>>?
         sourceProvisioningArtifactIdentifiers,
-    String targetProductId,
-    String targetProductName,
+    String? targetProductId,
+    String? targetProductName,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceProductArn, 'sourceProductArn');
     _s.validateStringLength(
       'sourceProductArn',
       sourceProductArn,
       1,
       1224,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'sourceProductArn',
-      sourceProductArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -750,15 +657,16 @@ class ServiceCatalog {
       100,
     );
     _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
+    );
+    _s.validateStringLength(
       'targetProductId',
       targetProductId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'targetProductId',
-      targetProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     _s.validateStringLength(
       'targetProductName',
@@ -777,15 +685,15 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'SourceProductArn': sourceProductArn,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (copyOptions != null)
-          'CopyOptions': copyOptions.map((e) => e?.toValue() ?? '').toList(),
+          'CopyOptions': copyOptions.map((e) => e.toValue()).toList(),
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (sourceProvisioningArtifactIdentifiers != null)
           'SourceProvisioningArtifactIdentifiers':
               sourceProvisioningArtifactIdentifiers
-                  .map((e) => e?.map((k, e) => MapEntry(k.toValue(), e)))
+                  .map((e) => e.map((k, e) => MapEntry(k.toValue(), e)))
                   .toList(),
         if (targetProductId != null) 'TargetProductId': targetProductId,
         if (targetProductName != null) 'TargetProductName': targetProductName,
@@ -803,11 +711,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
   /// May throw [DuplicateResourceException].
-  ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
   ///
   /// Parameter [parameters] :
   /// The constraint parameters, in JSON format. The syntax depends on the
@@ -916,29 +819,20 @@ class ServiceCatalog {
   ///
   /// Parameter [description] :
   /// The description of the constraint.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
   Future<CreateConstraintOutput> createConstraint({
-    @_s.required String idempotencyToken,
-    @_s.required String parameters,
-    @_s.required String portfolioId,
-    @_s.required String productId,
-    @_s.required String type,
-    String acceptLanguage,
-    String description,
+    required String parameters,
+    required String portfolioId,
+    required String productId,
+    required String type,
+    String? acceptLanguage,
+    String? description,
+    String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parameters, 'parameters');
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -948,24 +842,12 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
       'productId',
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -988,6 +870,12 @@ class ServiceCatalog {
       0,
       2000,
     );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateConstraint'
@@ -999,13 +887,13 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Parameters': parameters,
         'PortfolioId': portfolioId,
         'ProductId': productId,
         'Type': type,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -1022,11 +910,6 @@ class ServiceCatalog {
   ///
   /// Parameter [displayName] :
   /// The name to use for display purposes.
-  ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
   ///
   /// Parameter [providerName] :
   /// The name of the portfolio provider.
@@ -1049,15 +932,20 @@ class ServiceCatalog {
   /// Parameter [description] :
   /// The description of the portfolio.
   ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
+  ///
   /// Parameter [tags] :
   /// One or more tags.
   Future<CreatePortfolioOutput> createPortfolio({
-    @_s.required String displayName,
-    @_s.required String idempotencyToken,
-    @_s.required String providerName,
-    String acceptLanguage,
-    String description,
-    List<Tag> tags,
+    required String displayName,
+    required String providerName,
+    String? acceptLanguage,
+    String? description,
+    String? idempotencyToken,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(displayName, 'displayName');
     _s.validateStringLength(
@@ -1065,20 +953,6 @@ class ServiceCatalog {
       displayName,
       1,
       100,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(providerName, 'providerName');
@@ -1101,6 +975,12 @@ class ServiceCatalog {
       0,
       2000,
     );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreatePortfolio'
@@ -1113,10 +993,10 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'DisplayName': displayName,
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'ProviderName': providerName,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1184,11 +1064,11 @@ class ServiceCatalog {
   /// portfolio share. If this flag is not provided, TagOptions sharing is
   /// disabled.
   Future<CreatePortfolioShareOutput> createPortfolioShare({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    String accountId,
-    OrganizationNode organizationNode,
-    bool shareTagOptions,
+    required String portfolioId,
+    String? acceptLanguage,
+    String? accountId,
+    OrganizationNode? organizationNode,
+    bool? shareTagOptions,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -1198,22 +1078,11 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^[0-9]{12}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1250,11 +1119,6 @@ class ServiceCatalog {
   /// May throw [LimitExceededException].
   /// May throw [TagOptionNotMigratedException].
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
-  ///
   /// Parameter [name] :
   /// The name of the product.
   ///
@@ -1288,6 +1152,11 @@ class ServiceCatalog {
   /// Parameter [distributor] :
   /// The distributor of the product.
   ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
+  ///
   /// Parameter [supportDescription] :
   /// The support information about the product.
   ///
@@ -1302,33 +1171,19 @@ class ServiceCatalog {
   /// Parameter [tags] :
   /// One or more tags.
   Future<CreateProductOutput> createProduct({
-    @_s.required String idempotencyToken,
-    @_s.required String name,
-    @_s.required String owner,
-    @_s.required ProductType productType,
-    @_s.required ProvisioningArtifactProperties provisioningArtifactParameters,
-    String acceptLanguage,
-    String description,
-    String distributor,
-    String supportDescription,
-    String supportEmail,
-    String supportUrl,
-    List<Tag> tags,
+    required String name,
+    required String owner,
+    required ProductType productType,
+    required ProvisioningArtifactProperties provisioningArtifactParameters,
+    String? acceptLanguage,
+    String? description,
+    String? distributor,
+    String? idempotencyToken,
+    String? supportDescription,
+    String? supportEmail,
+    String? supportUrl,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -1367,6 +1222,12 @@ class ServiceCatalog {
       8191,
     );
     _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
+    );
+    _s.validateStringLength(
       'supportDescription',
       supportDescription,
       0,
@@ -1395,14 +1256,14 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         'Owner': owner,
-        'ProductType': productType?.toValue() ?? '',
+        'ProductType': productType.toValue(),
         'ProvisioningArtifactParameters': provisioningArtifactParameters,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
         if (distributor != null) 'Distributor': distributor,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (supportDescription != null)
           'SupportDescription': supportDescription,
         if (supportEmail != null) 'SupportEmail': supportEmail,
@@ -1429,11 +1290,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
-  ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
   ///
   /// Parameter [planName] :
   /// The name of the plan.
@@ -1467,6 +1323,11 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
+  ///
   /// Parameter [notificationArns] :
   /// Passed to CloudFormation. The SNS topic ARNs to which to publish
   /// stack-related events.
@@ -1488,32 +1349,18 @@ class ServiceCatalog {
   /// <code>TagUpdatesOnProvisionedProduct</code> set to <code>ALLOWED</code> to
   /// allow tag updates.
   Future<CreateProvisionedProductPlanOutput> createProvisionedProductPlan({
-    @_s.required String idempotencyToken,
-    @_s.required String planName,
-    @_s.required ProvisionedProductPlanType planType,
-    @_s.required String productId,
-    @_s.required String provisionedProductName,
-    @_s.required String provisioningArtifactId,
-    String acceptLanguage,
-    List<String> notificationArns,
-    String pathId,
-    List<UpdateProvisioningParameter> provisioningParameters,
-    List<Tag> tags,
+    required String planName,
+    required ProvisionedProductPlanType planType,
+    required String productId,
+    required String provisionedProductName,
+    required String provisioningArtifactId,
+    String? acceptLanguage,
+    String? idempotencyToken,
+    List<String>? notificationArns,
+    String? pathId,
+    List<UpdateProvisioningParameter>? provisioningParameters,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(planName, 'planName');
     ArgumentError.checkNotNull(planType, 'planType');
     ArgumentError.checkNotNull(productId, 'productId');
@@ -1522,12 +1369,6 @@ class ServiceCatalog {
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -1539,12 +1380,6 @@ class ServiceCatalog {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'provisionedProductName',
-      provisionedProductName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
     _s.validateStringLength(
@@ -1554,12 +1389,6 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
@@ -1567,15 +1396,16 @@ class ServiceCatalog {
       100,
     );
     _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
+    );
+    _s.validateStringLength(
       'pathId',
       pathId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'pathId',
-      pathId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1588,13 +1418,13 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PlanName': planName,
-        'PlanType': planType?.toValue() ?? '',
+        'PlanType': planType.toValue(),
         'ProductId': productId,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         if (notificationArns != null) 'NotificationArns': notificationArns,
         if (pathId != null) 'PathId': pathId,
         if (provisioningParameters != null)
@@ -1621,11 +1451,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [LimitExceededException].
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
-  ///
   /// Parameter [parameters] :
   /// The configuration for the provisioning artifact.
   ///
@@ -1646,26 +1471,17 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
   Future<CreateProvisioningArtifactOutput> createProvisioningArtifact({
-    @_s.required String idempotencyToken,
-    @_s.required ProvisioningArtifactProperties parameters,
-    @_s.required String productId,
-    String acceptLanguage,
+    required ProvisioningArtifactProperties parameters,
+    required String productId,
+    String? acceptLanguage,
+    String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parameters, 'parameters');
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -1675,17 +1491,17 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1698,10 +1514,10 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Parameters': parameters,
         'ProductId': productId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -1742,11 +1558,6 @@ class ServiceCatalog {
   /// The service action definition type. For example,
   /// <code>SSM_AUTOMATION</code>.
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
-  ///
   /// Parameter [name] :
   /// The self-service action name.
   ///
@@ -1767,42 +1578,27 @@ class ServiceCatalog {
   ///
   /// Parameter [description] :
   /// The self-service action description.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
   Future<CreateServiceActionOutput> createServiceAction({
-    @_s.required Map<ServiceActionDefinitionKey, String> definition,
-    @_s.required ServiceActionDefinitionType definitionType,
-    @_s.required String idempotencyToken,
-    @_s.required String name,
-    String acceptLanguage,
-    String description,
+    required Map<ServiceActionDefinitionKey, String> definition,
+    required ServiceActionDefinitionType definitionType,
+    required String name,
+    String? acceptLanguage,
+    String? description,
+    String? idempotencyToken,
   }) async {
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(definitionType, 'definitionType');
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1817,6 +1613,12 @@ class ServiceCatalog {
       0,
       1024,
     );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.CreateServiceAction'
@@ -1828,12 +1630,12 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Definition': definition?.map((k, e) => MapEntry(k.toValue(), e)),
-        'DefinitionType': definitionType?.toValue() ?? '',
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        'Definition': definition.map((k, e) => MapEntry(k.toValue(), e)),
+        'DefinitionType': definitionType.toValue(),
         'Name': name,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -1852,8 +1654,8 @@ class ServiceCatalog {
   /// Parameter [value] :
   /// The TagOption value.
   Future<CreateTagOptionOutput> createTagOption({
-    @_s.required String key,
-    @_s.required String value,
+    required String key,
+    required String value,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
@@ -1863,24 +1665,12 @@ class ServiceCatalog {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'key',
-      key,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(value, 'value');
     _s.validateStringLength(
       'value',
       value,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'value',
-      value,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1927,8 +1717,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> deleteConstraint({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1936,12 +1726,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1954,7 +1738,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteConstraint'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1965,8 +1749,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DeleteConstraintOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified portfolio.
@@ -1999,8 +1781,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> deletePortfolio({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2008,12 +1790,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2026,7 +1802,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeletePortfolio'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2037,8 +1813,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DeletePortfolioOutput.fromJson(jsonResponse.body);
   }
 
   /// Stops sharing the specified portfolio with the specified account or
@@ -2077,10 +1851,10 @@ class ServiceCatalog {
   /// Parameter [organizationNode] :
   /// The organization node to whom you are going to stop sharing.
   Future<DeletePortfolioShareOutput> deletePortfolioShare({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    String accountId,
-    OrganizationNode organizationNode,
+    required String portfolioId,
+    String? acceptLanguage,
+    String? accountId,
+    OrganizationNode? organizationNode,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -2090,22 +1864,11 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^[0-9]{12}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2158,8 +1921,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> deleteProduct({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2167,12 +1930,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2185,7 +1942,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteProduct'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2196,8 +1953,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DeleteProductOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified plan.
@@ -2227,9 +1982,9 @@ class ServiceCatalog {
   /// If set to true, AWS Service Catalog stops managing the specified
   /// provisioned product even if it cannot delete the underlying resources.
   Future<void> deleteProvisionedProductPlan({
-    @_s.required String planId,
-    String acceptLanguage,
-    bool ignoreErrors,
+    required String planId,
+    String? acceptLanguage,
+    bool? ignoreErrors,
   }) async {
     ArgumentError.checkNotNull(planId, 'planId');
     _s.validateStringLength(
@@ -2237,12 +1992,6 @@ class ServiceCatalog {
       planId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'planId',
-      planId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2255,7 +2004,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteProvisionedProductPlan'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2267,8 +2016,6 @@ class ServiceCatalog {
         if (ignoreErrors != null) 'IgnoreErrors': ignoreErrors,
       },
     );
-
-    return DeleteProvisionedProductPlanOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified provisioning artifact (also known as a version) for
@@ -2303,9 +2050,9 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> deleteProvisioningArtifact({
-    @_s.required String productId,
-    @_s.required String provisioningArtifactId,
-    String acceptLanguage,
+    required String productId,
+    required String provisioningArtifactId,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -2315,12 +2062,6 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
     _s.validateStringLength(
@@ -2328,12 +2069,6 @@ class ServiceCatalog {
       provisioningArtifactId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2346,7 +2081,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteProvisioningArtifact'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2358,8 +2093,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DeleteProvisioningArtifactOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a self-service action.
@@ -2386,8 +2119,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> deleteServiceAction({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2395,12 +2128,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2413,7 +2140,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteServiceAction'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2424,8 +2151,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DeleteServiceActionOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified TagOption.
@@ -2440,7 +2165,7 @@ class ServiceCatalog {
   /// Parameter [id] :
   /// The TagOption identifier.
   Future<void> deleteTagOption({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2454,7 +2179,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DeleteTagOption'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2464,8 +2189,6 @@ class ServiceCatalog {
         'Id': id,
       },
     );
-
-    return DeleteTagOptionOutput.fromJson(jsonResponse.body);
   }
 
   /// Gets information about the specified constraint.
@@ -2490,8 +2213,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<DescribeConstraintOutput> describeConstraint({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2499,12 +2222,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2555,8 +2272,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<DescribeCopyProductStatusOutput> describeCopyProductStatus({
-    @_s.required String copyProductToken,
-    String acceptLanguage,
+    required String copyProductToken,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(copyProductToken, 'copyProductToken');
     _s.validateStringLength(
@@ -2564,12 +2281,6 @@ class ServiceCatalog {
       copyProductToken,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'copyProductToken',
-      copyProductToken,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2621,8 +2332,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<DescribePortfolioOutput> describePortfolio({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2630,12 +2341,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2675,7 +2380,7 @@ class ServiceCatalog {
   /// The token for the portfolio share operation. This token is returned either
   /// by CreatePortfolioShare or by DeletePortfolioShare.
   Future<DescribePortfolioShareStatusOutput> describePortfolioShareStatus({
-    @_s.required String portfolioShareToken,
+    required String portfolioShareToken,
   }) async {
     ArgumentError.checkNotNull(portfolioShareToken, 'portfolioShareToken');
     _s.validateStringLength(
@@ -2683,12 +2388,6 @@ class ServiceCatalog {
       portfolioShareToken,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioShareToken',
-      portfolioShareToken,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2747,10 +2446,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<DescribePortfolioSharesOutput> describePortfolioShares({
-    @_s.required String portfolioId,
-    @_s.required DescribePortfolioShareType type,
-    int pageSize,
-    String pageToken,
+    required String portfolioId,
+    required DescribePortfolioShareType type,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -2758,12 +2457,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -2779,11 +2472,6 @@ class ServiceCatalog {
       0,
       2024,
     );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.DescribePortfolioShares'
@@ -2796,7 +2484,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'PortfolioId': portfolioId,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
       },
@@ -2831,9 +2519,9 @@ class ServiceCatalog {
   /// Parameter [name] :
   /// The product name.
   Future<DescribeProductOutput> describeProduct({
-    String acceptLanguage,
-    String id,
-    String name,
+    String? acceptLanguage,
+    String? id,
+    String? name,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -2846,11 +2534,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     _s.validateStringLength(
       'name',
@@ -2915,10 +2598,10 @@ class ServiceCatalog {
   /// local and shared TagOptions associated with the product. Otherwise only
   /// local TagOptions will be returned.
   Future<DescribeProductAsAdminOutput> describeProductAsAdmin({
-    String acceptLanguage,
-    String id,
-    String name,
-    String sourcePortfolioId,
+    String? acceptLanguage,
+    String? id,
+    String? name,
+    String? sourcePortfolioId,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -2932,11 +2615,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'name',
       name,
@@ -2948,11 +2626,6 @@ class ServiceCatalog {
       sourcePortfolioId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'sourcePortfolioId',
-      sourcePortfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2998,8 +2671,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<DescribeProductViewOutput> describeProductView({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -3007,12 +2680,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3074,9 +2741,9 @@ class ServiceCatalog {
   /// If you do not provide a name or ID, or you provide both name and ID, an
   /// <code>InvalidParametersException</code> will occur.
   Future<DescribeProvisionedProductOutput> describeProvisionedProduct({
-    String acceptLanguage,
-    String id,
-    String name,
+    String? acceptLanguage,
+    String? id,
+    String? name,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -3090,21 +2757,11 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3156,10 +2813,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<DescribeProvisionedProductPlanOutput> describeProvisionedProductPlan({
-    @_s.required String planId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String planId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(planId, 'planId');
     _s.validateStringLength(
@@ -3167,12 +2824,6 @@ class ServiceCatalog {
       planId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'planId',
-      planId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3192,11 +2843,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3256,12 +2902,12 @@ class ServiceCatalog {
   /// Parameter [verbose] :
   /// Indicates whether a verbose level of detail is enabled.
   Future<DescribeProvisioningArtifactOutput> describeProvisioningArtifact({
-    String acceptLanguage,
-    String productId,
-    String productName,
-    String provisioningArtifactId,
-    String provisioningArtifactName,
-    bool verbose,
+    String? acceptLanguage,
+    String? productId,
+    String? productName,
+    String? provisioningArtifactId,
+    String? provisioningArtifactName,
+    bool? verbose,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -3275,11 +2921,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'productName',
       productName,
@@ -3291,11 +2932,6 @@ class ServiceCatalog {
       provisioningArtifactId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     _s.validateStringLength(
       'provisioningArtifactName',
@@ -3381,13 +3017,13 @@ class ServiceCatalog {
   /// The name of the provisioning artifact. You must provide the name or ID,
   /// but not both.
   Future<DescribeProvisioningParametersOutput> describeProvisioningParameters({
-    String acceptLanguage,
-    String pathId,
-    String pathName,
-    String productId,
-    String productName,
-    String provisioningArtifactId,
-    String provisioningArtifactName,
+    String? acceptLanguage,
+    String? pathId,
+    String? pathName,
+    String? productId,
+    String? productName,
+    String? provisioningArtifactId,
+    String? provisioningArtifactName,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -3401,11 +3037,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'pathId',
-      pathId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'pathName',
       pathName,
@@ -3418,11 +3049,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'productName',
       productName,
@@ -3434,11 +3060,6 @@ class ServiceCatalog {
       provisioningArtifactId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     _s.validateStringLength(
       'provisioningArtifactName',
@@ -3515,10 +3136,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<DescribeRecordOutput> describeRecord({
-    @_s.required String id,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String id,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -3526,12 +3147,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3551,11 +3166,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3600,8 +3210,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<DescribeServiceActionOutput> describeServiceAction({
-    @_s.required String id,
-    String acceptLanguage,
+    required String id,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -3609,12 +3219,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3670,9 +3274,9 @@ class ServiceCatalog {
   /// </ul>
   Future<DescribeServiceActionExecutionParametersOutput>
       describeServiceActionExecutionParameters({
-    @_s.required String provisionedProductId,
-    @_s.required String serviceActionId,
-    String acceptLanguage,
+    required String provisionedProductId,
+    required String serviceActionId,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
     _s.validateStringLength(
@@ -3682,24 +3286,12 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'provisionedProductId',
-      provisionedProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
     _s.validateStringLength(
       'serviceActionId',
       serviceActionId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceActionId',
-      serviceActionId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3738,7 +3330,7 @@ class ServiceCatalog {
   /// Parameter [id] :
   /// The TagOption identifier.
   Future<DescribeTagOptionOutput> describeTagOption({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -3788,15 +3380,13 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.DisableAWSOrganizationsAccess'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return DisableAWSOrganizationsAccessOutput.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified budget from the specified resource.
@@ -3810,8 +3400,8 @@ class ServiceCatalog {
   /// The resource identifier you want to disassociate from. Either a
   /// portfolio-id or a product-id.
   Future<void> disassociateBudgetFromResource({
-    @_s.required String budgetName,
-    @_s.required String resourceId,
+    required String budgetName,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(budgetName, 'budgetName');
     _s.validateStringLength(
@@ -3829,18 +3419,12 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'AWS242ServiceCatalogService.DisassociateBudgetFromResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3851,8 +3435,6 @@ class ServiceCatalog {
         'ResourceId': resourceId,
       },
     );
-
-    return DisassociateBudgetFromResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Disassociates a previously associated principal ARN from a specified
@@ -3882,9 +3464,9 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> disassociatePrincipalFromPortfolio({
-    @_s.required String portfolioId,
-    @_s.required String principalARN,
-    String acceptLanguage,
+    required String portfolioId,
+    required String principalARN,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -3892,12 +3474,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(principalARN, 'principalARN');
@@ -3919,7 +3495,7 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.DisassociatePrincipalFromPortfolio'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3931,8 +3507,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DisassociatePrincipalFromPortfolioOutput.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified product from the specified portfolio.
@@ -3964,9 +3538,9 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> disassociateProductFromPortfolio({
-    @_s.required String portfolioId,
-    @_s.required String productId,
-    String acceptLanguage,
+    required String portfolioId,
+    required String productId,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -3976,24 +3550,12 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
       'productId',
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4007,7 +3569,7 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.DisassociateProductFromPortfolio'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4019,8 +3581,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DisassociateProductFromPortfolioOutput.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified self-service action association from the
@@ -4054,10 +3614,10 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<void> disassociateServiceActionFromProvisioningArtifact({
-    @_s.required String productId,
-    @_s.required String provisioningArtifactId,
-    @_s.required String serviceActionId,
-    String acceptLanguage,
+    required String productId,
+    required String provisioningArtifactId,
+    required String serviceActionId,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -4065,12 +3625,6 @@ class ServiceCatalog {
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -4082,24 +3636,12 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
     _s.validateStringLength(
       'serviceActionId',
       serviceActionId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceActionId',
-      serviceActionId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4113,7 +3655,7 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.DisassociateServiceActionFromProvisioningArtifact'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4126,9 +3668,6 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
-
-    return DisassociateServiceActionFromProvisioningArtifactOutput.fromJson(
-        jsonResponse.body);
   }
 
   /// Disassociates the specified TagOption from the specified resource.
@@ -4142,8 +3681,8 @@ class ServiceCatalog {
   /// Parameter [tagOptionId] :
   /// The TagOption identifier.
   Future<void> disassociateTagOptionFromResource({
-    @_s.required String resourceId,
-    @_s.required String tagOptionId,
+    required String resourceId,
+    required String tagOptionId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tagOptionId, 'tagOptionId');
@@ -4159,7 +3698,7 @@ class ServiceCatalog {
       'X-Amz-Target':
           'AWS242ServiceCatalogService.DisassociateTagOptionFromResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4170,8 +3709,6 @@ class ServiceCatalog {
         'TagOptionId': tagOptionId,
       },
     );
-
-    return DisassociateTagOptionFromResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Enable portfolio sharing feature through AWS Organizations. This API will
@@ -4194,15 +3731,13 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.EnableAWSOrganizationsAccess'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return EnableAWSOrganizationsAccessOutput.fromJson(jsonResponse.body);
   }
 
   /// Provisions or modifies a product based on the resource changes for the
@@ -4211,11 +3746,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
-  ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
   ///
   /// Parameter [planId] :
   /// The plan identifier.
@@ -4234,25 +3764,16 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
   Future<ExecuteProvisionedProductPlanOutput> executeProvisionedProductPlan({
-    @_s.required String idempotencyToken,
-    @_s.required String planId,
-    String acceptLanguage,
+    required String planId,
+    String? acceptLanguage,
+    String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(planId, 'planId');
     _s.validateStringLength(
       'planId',
@@ -4261,17 +3782,17 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'planId',
-      planId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4285,9 +3806,9 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PlanId': planId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -4299,9 +3820,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
-  ///
-  /// Parameter [executeToken] :
-  /// An idempotency token that uniquely identifies the execute request.
   ///
   /// Parameter [provisionedProductId] :
   /// The identifier of the provisioned product.
@@ -4325,6 +3843,9 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [executeToken] :
+  /// An idempotency token that uniquely identifies the execute request.
+  ///
   /// Parameter [parameters] :
   /// A map of all self-service action parameters and their values. If a
   /// provided parameter is of a special type, such as <code>TARGET</code>, the
@@ -4334,38 +3855,18 @@ class ServiceCatalog {
   /// as <code>TARGET</code>.
   Future<ExecuteProvisionedProductServiceActionOutput>
       executeProvisionedProductServiceAction({
-    @_s.required String executeToken,
-    @_s.required String provisionedProductId,
-    @_s.required String serviceActionId,
-    String acceptLanguage,
-    Map<String, List<String>> parameters,
+    required String provisionedProductId,
+    required String serviceActionId,
+    String? acceptLanguage,
+    String? executeToken,
+    Map<String, List<String>>? parameters,
   }) async {
-    ArgumentError.checkNotNull(executeToken, 'executeToken');
-    _s.validateStringLength(
-      'executeToken',
-      executeToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'executeToken',
-      executeToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
     _s.validateStringLength(
       'provisionedProductId',
       provisionedProductId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisionedProductId',
-      provisionedProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
@@ -4376,17 +3877,17 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceActionId',
-      serviceActionId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'executeToken',
+      executeToken,
+      1,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4400,10 +3901,10 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExecuteToken': executeToken ?? _s.generateIdempotencyToken(),
         'ProvisionedProductId': provisionedProductId,
         'ServiceActionId': serviceActionId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'ExecuteToken': executeToken ?? _s.generateIdempotencyToken(),
         if (parameters != null) 'Parameters': parameters,
       },
     );
@@ -4475,12 +3976,12 @@ class ServiceCatalog {
   /// Parameter [provisionedProductName] :
   /// The name of the provisioned product that you want the outputs from.
   Future<GetProvisionedProductOutputsOutput> getProvisionedProductOutputs({
-    String acceptLanguage,
-    List<String> outputKeys,
-    int pageSize,
-    String pageToken,
-    String provisionedProductId,
-    String provisionedProductName,
+    String? acceptLanguage,
+    List<String>? outputKeys,
+    int? pageSize,
+    String? pageToken,
+    String? provisionedProductId,
+    String? provisionedProductName,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -4500,32 +4001,17 @@ class ServiceCatalog {
       0,
       2024,
     );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
-    );
     _s.validateStringLength(
       'provisionedProductId',
       provisionedProductId,
       1,
       100,
     );
-    _s.validateStringPattern(
-      'provisionedProductId',
-      provisionedProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'provisionedProductName',
       provisionedProductName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'provisionedProductName',
-      provisionedProductName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4577,11 +4063,6 @@ class ServiceCatalog {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParametersException].
   ///
-  /// Parameter [idempotencyToken] :
-  /// A unique identifier that you provide to ensure idempotency. If multiple
-  /// requests differ only by the idempotency token, the same response is
-  /// returned for each repeated request.
-  ///
   /// Parameter [physicalId] :
   /// The unique identifier of the resource to be imported. It only currently
   /// supports CloudFormation stack IDs.
@@ -4611,28 +4092,19 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique identifier that you provide to ensure idempotency. If multiple
+  /// requests differ only by the idempotency token, the same response is
+  /// returned for each repeated request.
   Future<ImportAsProvisionedProductOutput> importAsProvisionedProduct({
-    @_s.required String idempotencyToken,
-    @_s.required String physicalId,
-    @_s.required String productId,
-    @_s.required String provisionedProductName,
-    @_s.required String provisioningArtifactId,
-    String acceptLanguage,
+    required String physicalId,
+    required String productId,
+    required String provisionedProductName,
+    required String provisioningArtifactId,
+    String? acceptLanguage,
+    String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(physicalId, 'physicalId');
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -4640,12 +4112,6 @@ class ServiceCatalog {
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -4657,12 +4123,6 @@ class ServiceCatalog {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'provisionedProductName',
-      provisionedProductName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
     _s.validateStringLength(
@@ -4672,17 +4132,17 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4695,12 +4155,12 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PhysicalId': physicalId,
         'ProductId': productId,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -4751,10 +4211,10 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<ListAcceptedPortfolioSharesOutput> listAcceptedPortfolioShares({
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
-    PortfolioShareType portfolioShareType,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
+    PortfolioShareType? portfolioShareType,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -4766,18 +4226,13 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     _s.validateStringLength(
       'pageToken',
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4831,10 +4286,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListBudgetsForResourceOutput> listBudgetsForResource({
-    @_s.required String resourceId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String resourceId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -4842,12 +4297,6 @@ class ServiceCatalog {
       resourceId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4867,11 +4316,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4927,11 +4371,11 @@ class ServiceCatalog {
   /// Parameter [productId] :
   /// The product identifier.
   Future<ListConstraintsForPortfolioOutput> listConstraintsForPortfolio({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
-    String productId,
+    required String portfolioId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
+    String? productId,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -4939,12 +4383,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4965,21 +4403,11 @@ class ServiceCatalog {
       0,
       2024,
     );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
-    );
     _s.validateStringLength(
       'productId',
       productId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5035,10 +4463,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListLaunchPathsOutput> listLaunchPaths({
-    @_s.required String productId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String productId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -5046,12 +4474,6 @@ class ServiceCatalog {
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5071,11 +4493,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5152,11 +4569,11 @@ class ServiceCatalog {
   /// results, use null.
   Future<ListOrganizationPortfolioAccessOutput>
       listOrganizationPortfolioAccess({
-    @_s.required OrganizationNodeType organizationNodeType,
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required OrganizationNodeType organizationNodeType,
+    required String portfolioId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(organizationNodeType, 'organizationNodeType');
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
@@ -5165,12 +4582,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5191,11 +4602,6 @@ class ServiceCatalog {
       0,
       2024,
     );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -5208,7 +4614,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OrganizationNodeType': organizationNodeType?.toValue() ?? '',
+        'OrganizationNodeType': organizationNodeType.toValue(),
         'PortfolioId': portfolioId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (pageSize != null) 'PageSize': pageSize,
@@ -5257,11 +4663,11 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListPortfolioAccessOutput> listPortfolioAccess({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    String organizationParentId,
-    int pageSize,
-    String pageToken,
+    required String portfolioId,
+    String? acceptLanguage,
+    String? organizationParentId,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -5269,12 +4675,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5289,11 +4689,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'organizationParentId',
-      organizationParentId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
@@ -5305,11 +4700,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5360,9 +4750,9 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListPortfoliosOutput> listPortfolios({
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -5374,18 +4764,13 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     _s.validateStringLength(
       'pageToken',
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5437,10 +4822,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListPortfoliosForProductOutput> listPortfoliosForProduct({
-    @_s.required String productId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String productId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -5448,12 +4833,6 @@ class ServiceCatalog {
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5466,18 +4845,13 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     _s.validateStringLength(
       'pageToken',
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5530,10 +4904,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListPrincipalsForPortfolioOutput> listPrincipalsForPortfolio({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String portfolioId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -5541,12 +4915,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5566,11 +4934,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5628,11 +4991,11 @@ class ServiceCatalog {
   /// Parameter [provisionProductId] :
   /// The product identifier.
   Future<ListProvisionedProductPlansOutput> listProvisionedProductPlans({
-    String acceptLanguage,
-    AccessLevelFilter accessLevelFilter,
-    int pageSize,
-    String pageToken,
-    String provisionProductId,
+    String? acceptLanguage,
+    AccessLevelFilter? accessLevelFilter,
+    int? pageSize,
+    String? pageToken,
+    String? provisionProductId,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -5652,21 +5015,11 @@ class ServiceCatalog {
       0,
       2024,
     );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
-    );
     _s.validateStringLength(
       'provisionProductId',
       provisionProductId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'provisionProductId',
-      provisionProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5715,8 +5068,8 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<ListProvisioningArtifactsOutput> listProvisioningArtifacts({
-    @_s.required String productId,
-    String acceptLanguage,
+    required String productId,
+    String? acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -5724,12 +5077,6 @@ class ServiceCatalog {
       productId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5790,10 +5137,10 @@ class ServiceCatalog {
   /// results, use null.
   Future<ListProvisioningArtifactsForServiceActionOutput>
       listProvisioningArtifactsForServiceAction({
-    @_s.required String serviceActionId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String serviceActionId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(serviceActionId, 'serviceActionId');
     _s.validateStringLength(
@@ -5801,12 +5148,6 @@ class ServiceCatalog {
       serviceActionId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceActionId',
-      serviceActionId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5826,11 +5167,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5888,11 +5224,11 @@ class ServiceCatalog {
   /// Parameter [searchFilter] :
   /// The search filter to scope the results.
   Future<ListRecordHistoryOutput> listRecordHistory({
-    String acceptLanguage,
-    AccessLevelFilter accessLevelFilter,
-    int pageSize,
-    String pageToken,
-    ListRecordHistorySearchFilter searchFilter,
+    String? acceptLanguage,
+    AccessLevelFilter? accessLevelFilter,
+    int? pageSize,
+    String? pageToken,
+    ListRecordHistorySearchFilter? searchFilter,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -5911,11 +5247,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -5967,10 +5298,10 @@ class ServiceCatalog {
   /// </li>
   /// </ul>
   Future<ListResourcesForTagOptionOutput> listResourcesForTagOption({
-    @_s.required String tagOptionId,
-    int pageSize,
-    String pageToken,
-    String resourceType,
+    required String tagOptionId,
+    int? pageSize,
+    String? pageToken,
+    String? resourceType,
   }) async {
     ArgumentError.checkNotNull(tagOptionId, 'tagOptionId');
     _s.validateStringLength(
@@ -5991,11 +5322,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6044,9 +5370,9 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListServiceActionsOutput> listServiceActions({
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -6065,11 +5391,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6127,11 +5448,11 @@ class ServiceCatalog {
   /// results, use null.
   Future<ListServiceActionsForProvisioningArtifactOutput>
       listServiceActionsForProvisioningArtifact({
-    @_s.required String productId,
-    @_s.required String provisioningArtifactId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String productId,
+    required String provisioningArtifactId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -6141,12 +5462,6 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
     _s.validateStringLength(
@@ -6154,12 +5469,6 @@ class ServiceCatalog {
       provisioningArtifactId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -6179,11 +5488,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6243,10 +5547,10 @@ class ServiceCatalog {
   /// results, use null.
   Future<ListStackInstancesForProvisionedProductOutput>
       listStackInstancesForProvisionedProduct({
-    @_s.required String provisionedProductId,
-    String acceptLanguage,
-    int pageSize,
-    String pageToken,
+    required String provisionedProductId,
+    String? acceptLanguage,
+    int? pageSize,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
     _s.validateStringLength(
@@ -6254,12 +5558,6 @@ class ServiceCatalog {
       provisionedProductId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisionedProductId',
-      provisionedProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -6279,11 +5577,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6324,9 +5617,9 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ListTagOptionsOutput> listTagOptions({
-    ListTagOptionsFilters filters,
-    int pageSize,
-    String pageToken,
+    ListTagOptionsFilters? filters,
+    int? pageSize,
+    String? pageToken,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -6339,11 +5632,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6380,9 +5668,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   /// May throw [DuplicateResourceException].
-  ///
-  /// Parameter [provisionToken] :
-  /// An idempotency token that uniquely identifies the provisioning request.
   ///
   /// Parameter [provisionedProductName] :
   /// A user-friendly name for the provisioned product. This value must be
@@ -6423,6 +5708,9 @@ class ServiceCatalog {
   /// Parameter [productName] :
   /// The name of the product. You must provide the name or ID, but not both.
   ///
+  /// Parameter [provisionToken] :
+  /// An idempotency token that uniquely identifies the provisioning request.
+  ///
   /// Parameter [provisioningArtifactId] :
   /// The identifier of the provisioning artifact. You must provide the name or
   /// ID, but not both.
@@ -6442,34 +5730,20 @@ class ServiceCatalog {
   /// Parameter [tags] :
   /// One or more tags.
   Future<ProvisionProductOutput> provisionProduct({
-    @_s.required String provisionToken,
-    @_s.required String provisionedProductName,
-    String acceptLanguage,
-    List<String> notificationArns,
-    String pathId,
-    String pathName,
-    String productId,
-    String productName,
-    String provisioningArtifactId,
-    String provisioningArtifactName,
-    List<ProvisioningParameter> provisioningParameters,
-    ProvisioningPreferences provisioningPreferences,
-    List<Tag> tags,
+    required String provisionedProductName,
+    String? acceptLanguage,
+    List<String>? notificationArns,
+    String? pathId,
+    String? pathName,
+    String? productId,
+    String? productName,
+    String? provisionToken,
+    String? provisioningArtifactId,
+    String? provisioningArtifactName,
+    List<ProvisioningParameter>? provisioningParameters,
+    ProvisioningPreferences? provisioningPreferences,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(provisionToken, 'provisionToken');
-    _s.validateStringLength(
-      'provisionToken',
-      provisionToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisionToken',
-      provisionToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisionedProductName, 'provisionedProductName');
     _s.validateStringLength(
@@ -6477,12 +5751,6 @@ class ServiceCatalog {
       provisionedProductName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisionedProductName',
-      provisionedProductName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9._-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -6497,11 +5765,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'pathId',
-      pathId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'pathName',
       pathName,
@@ -6514,11 +5777,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'productName',
       productName,
@@ -6526,15 +5784,16 @@ class ServiceCatalog {
       8191,
     );
     _s.validateStringLength(
+      'provisionToken',
+      provisionToken,
+      1,
+      128,
+    );
+    _s.validateStringLength(
       'provisioningArtifactId',
       provisioningArtifactId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     _s.validateStringLength(
       'provisioningArtifactName',
@@ -6553,7 +5812,6 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ProvisionToken': provisionToken ?? _s.generateIdempotencyToken(),
         'ProvisionedProductName': provisionedProductName,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (notificationArns != null) 'NotificationArns': notificationArns,
@@ -6561,6 +5819,7 @@ class ServiceCatalog {
         if (pathName != null) 'PathName': pathName,
         if (productId != null) 'ProductId': productId,
         if (productName != null) 'ProductName': productName,
+        'ProvisionToken': provisionToken ?? _s.generateIdempotencyToken(),
         if (provisioningArtifactId != null)
           'ProvisioningArtifactId': provisioningArtifactId,
         if (provisioningArtifactName != null)
@@ -6619,9 +5878,9 @@ class ServiceCatalog {
   /// --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type
   /// AWS_ORGANIZATIONS</code>
   Future<void> rejectPortfolioShare({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    PortfolioShareType portfolioShareType,
+    required String portfolioId,
+    String? acceptLanguage,
+    PortfolioShareType? portfolioShareType,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -6629,12 +5888,6 @@ class ServiceCatalog {
       portfolioId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -6647,7 +5900,7 @@ class ServiceCatalog {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWS242ServiceCatalogService.RejectPortfolioShare'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6660,8 +5913,6 @@ class ServiceCatalog {
           'PortfolioShareType': portfolioShareType.toValue(),
       },
     );
-
-    return RejectPortfolioShareOutput.fromJson(jsonResponse.body);
   }
 
   /// Lists the provisioned products that are available (not terminated).
@@ -6696,10 +5947,10 @@ class ServiceCatalog {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
   Future<ScanProvisionedProductsOutput> scanProvisionedProducts({
-    String acceptLanguage,
-    AccessLevelFilter accessLevelFilter,
-    int pageSize,
-    String pageToken,
+    String? acceptLanguage,
+    AccessLevelFilter? accessLevelFilter,
+    int? pageSize,
+    String? pageToken,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -6718,11 +5969,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6781,12 +6027,12 @@ class ServiceCatalog {
   /// Parameter [sortOrder] :
   /// The sort order. If no value is specified, the results are not sorted.
   Future<SearchProductsOutput> searchProducts({
-    String acceptLanguage,
-    Map<ProductViewFilterBy, List<String>> filters,
-    int pageSize,
-    String pageToken,
-    ProductViewSortBy sortBy,
-    SortOrder sortOrder,
+    String? acceptLanguage,
+    Map<ProductViewFilterBy, List<String>>? filters,
+    int? pageSize,
+    String? pageToken,
+    ProductViewSortBy? sortBy,
+    SortOrder? sortOrder,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -6798,18 +6044,13 @@ class ServiceCatalog {
       'pageSize',
       pageSize,
       0,
-      20,
+      100,
     );
     _s.validateStringLength(
       'pageToken',
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -6879,14 +6120,14 @@ class ServiceCatalog {
   /// Parameter [sortOrder] :
   /// The sort order. If no value is specified, the results are not sorted.
   Future<SearchProductsAsAdminOutput> searchProductsAsAdmin({
-    String acceptLanguage,
-    Map<ProductViewFilterBy, List<String>> filters,
-    int pageSize,
-    String pageToken,
-    String portfolioId,
-    ProductSource productSource,
-    ProductViewSortBy sortBy,
-    SortOrder sortOrder,
+    String? acceptLanguage,
+    Map<ProductViewFilterBy, List<String>>? filters,
+    int? pageSize,
+    String? pageToken,
+    String? portfolioId,
+    ProductSource? productSource,
+    ProductViewSortBy? sortBy,
+    SortOrder? sortOrder,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -6906,21 +6147,11 @@ class ServiceCatalog {
       0,
       2024,
     );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
-    );
     _s.validateStringLength(
       'portfolioId',
       portfolioId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7002,13 +6233,13 @@ class ServiceCatalog {
   /// Parameter [sortOrder] :
   /// The sort order. If no value is specified, the results are not sorted.
   Future<SearchProvisionedProductsOutput> searchProvisionedProducts({
-    String acceptLanguage,
-    AccessLevelFilter accessLevelFilter,
-    Map<ProvisionedProductViewFilterBy, List<String>> filters,
-    int pageSize,
-    String pageToken,
-    String sortBy,
-    SortOrder sortOrder,
+    String? acceptLanguage,
+    AccessLevelFilter? accessLevelFilter,
+    Map<ProvisionedProductViewFilterBy, List<String>>? filters,
+    int? pageSize,
+    String? pageToken,
+    String? sortBy,
+    SortOrder? sortOrder,
   }) async {
     _s.validateStringLength(
       'acceptLanguage',
@@ -7027,11 +6258,6 @@ class ServiceCatalog {
       pageToken,
       0,
       2024,
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''[\u0009\u000a\u000d\u0020-\uD7FF\uE000-\uFFFD]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7067,12 +6293,6 @@ class ServiceCatalog {
   ///
   /// May throw [ResourceNotFoundException].
   ///
-  /// Parameter [terminateToken] :
-  /// An idempotency token that uniquely identifies the termination request.
-  /// This token is only valid during the termination process. After the
-  /// provisioned product is terminated, subsequent requests to terminate the
-  /// same provisioned product always return <b>ResourceNotFound</b>.
-  ///
   /// Parameter [acceptLanguage] :
   /// The language code.
   ///
@@ -7106,28 +6326,20 @@ class ServiceCatalog {
   /// provisioned product. However, it does not remove the CloudFormation stack,
   /// stack set, or the underlying resources of the deleted provisioned product.
   /// The default value is false.
+  ///
+  /// Parameter [terminateToken] :
+  /// An idempotency token that uniquely identifies the termination request.
+  /// This token is only valid during the termination process. After the
+  /// provisioned product is terminated, subsequent requests to terminate the
+  /// same provisioned product always return <b>ResourceNotFound</b>.
   Future<TerminateProvisionedProductOutput> terminateProvisionedProduct({
-    @_s.required String terminateToken,
-    String acceptLanguage,
-    bool ignoreErrors,
-    String provisionedProductId,
-    String provisionedProductName,
-    bool retainPhysicalResources,
+    String? acceptLanguage,
+    bool? ignoreErrors,
+    String? provisionedProductId,
+    String? provisionedProductName,
+    bool? retainPhysicalResources,
+    String? terminateToken,
   }) async {
-    ArgumentError.checkNotNull(terminateToken, 'terminateToken');
-    _s.validateStringLength(
-      'terminateToken',
-      terminateToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'terminateToken',
-      terminateToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
@@ -7140,21 +6352,17 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'provisionedProductId',
-      provisionedProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'provisionedProductName',
       provisionedProductName,
       1,
       1224,
     );
-    _s.validateStringPattern(
-      'provisionedProductName',
-      provisionedProductName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    _s.validateStringLength(
+      'terminateToken',
+      terminateToken,
+      1,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7167,7 +6375,6 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'TerminateToken': terminateToken ?? _s.generateIdempotencyToken(),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (ignoreErrors != null) 'IgnoreErrors': ignoreErrors,
         if (provisionedProductId != null)
@@ -7176,6 +6383,7 @@ class ServiceCatalog {
           'ProvisionedProductName': provisionedProductName,
         if (retainPhysicalResources != null)
           'RetainPhysicalResources': retainPhysicalResources,
+        'TerminateToken': terminateToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -7271,10 +6479,10 @@ class ServiceCatalog {
   /// Constraint Rules</a>.
   /// </dd> </dl>
   Future<UpdateConstraintOutput> updateConstraint({
-    @_s.required String id,
-    String acceptLanguage,
-    String description,
-    String parameters,
+    required String id,
+    String? acceptLanguage,
+    String? description,
+    String? parameters,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -7282,12 +6490,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -7365,13 +6567,13 @@ class ServiceCatalog {
   /// Parameter [removeTags] :
   /// The tags to remove.
   Future<UpdatePortfolioOutput> updatePortfolio({
-    @_s.required String id,
-    String acceptLanguage,
-    List<Tag> addTags,
-    String description,
-    String displayName,
-    String providerName,
-    List<String> removeTags,
+    required String id,
+    String? acceptLanguage,
+    List<Tag>? addTags,
+    String? description,
+    String? displayName,
+    String? providerName,
+    List<String>? removeTags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -7379,12 +6581,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -7486,11 +6682,11 @@ class ServiceCatalog {
   /// this field is not provided, the current state of TagOptions sharing on the
   /// portfolio share will not be modified.
   Future<UpdatePortfolioShareOutput> updatePortfolioShare({
-    @_s.required String portfolioId,
-    String acceptLanguage,
-    String accountId,
-    OrganizationNode organizationNode,
-    bool shareTagOptions,
+    required String portfolioId,
+    String? acceptLanguage,
+    String? accountId,
+    OrganizationNode? organizationNode,
+    bool? shareTagOptions,
   }) async {
     ArgumentError.checkNotNull(portfolioId, 'portfolioId');
     _s.validateStringLength(
@@ -7500,22 +6696,11 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'portfolioId',
-      portfolioId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^[0-9]{12}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7590,17 +6775,17 @@ class ServiceCatalog {
   /// Parameter [supportUrl] :
   /// The updated support URL for the product.
   Future<UpdateProductOutput> updateProduct({
-    @_s.required String id,
-    String acceptLanguage,
-    List<Tag> addTags,
-    String description,
-    String distributor,
-    String name,
-    String owner,
-    List<String> removeTags,
-    String supportDescription,
-    String supportEmail,
-    String supportUrl,
+    required String id,
+    String? acceptLanguage,
+    List<Tag>? addTags,
+    String? description,
+    String? distributor,
+    String? name,
+    String? owner,
+    List<String>? removeTags,
+    String? supportDescription,
+    String? supportEmail,
+    String? supportUrl,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -7608,12 +6793,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -7706,10 +6885,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   ///
-  /// Parameter [updateToken] :
-  /// The idempotency token that uniquely identifies the provisioning update
-  /// request.
-  ///
   /// Parameter [acceptLanguage] :
   /// The language code.
   ///
@@ -7767,35 +6942,25 @@ class ServiceCatalog {
   /// <code>RESOURCE_UPDATE</code> constraint with
   /// <code>TagUpdatesOnProvisionedProduct</code> set to <code>ALLOWED</code> to
   /// allow tag updates.
+  ///
+  /// Parameter [updateToken] :
+  /// The idempotency token that uniquely identifies the provisioning update
+  /// request.
   Future<UpdateProvisionedProductOutput> updateProvisionedProduct({
-    @_s.required String updateToken,
-    String acceptLanguage,
-    String pathId,
-    String pathName,
-    String productId,
-    String productName,
-    String provisionedProductId,
-    String provisionedProductName,
-    String provisioningArtifactId,
-    String provisioningArtifactName,
-    List<UpdateProvisioningParameter> provisioningParameters,
-    UpdateProvisioningPreferences provisioningPreferences,
-    List<Tag> tags,
+    String? acceptLanguage,
+    String? pathId,
+    String? pathName,
+    String? productId,
+    String? productName,
+    String? provisionedProductId,
+    String? provisionedProductName,
+    String? provisioningArtifactId,
+    String? provisioningArtifactName,
+    List<UpdateProvisioningParameter>? provisioningParameters,
+    UpdateProvisioningPreferences? provisioningPreferences,
+    List<Tag>? tags,
+    String? updateToken,
   }) async {
-    ArgumentError.checkNotNull(updateToken, 'updateToken');
-    _s.validateStringLength(
-      'updateToken',
-      updateToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'acceptLanguage',
       acceptLanguage,
@@ -7807,11 +6972,6 @@ class ServiceCatalog {
       pathId,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'pathId',
-      pathId,
-      r'''^[a-zA-Z0-9_\-]*''',
     );
     _s.validateStringLength(
       'pathName',
@@ -7825,11 +6985,6 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'productName',
       productName,
@@ -7842,21 +6997,11 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'provisionedProductId',
-      provisionedProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'provisionedProductName',
       provisionedProductName,
       1,
       1224,
-    );
-    _s.validateStringPattern(
-      'provisionedProductName',
-      provisionedProductName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}|arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     _s.validateStringLength(
       'provisioningArtifactId',
@@ -7864,16 +7009,17 @@ class ServiceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
-    );
     _s.validateStringLength(
       'provisioningArtifactName',
       provisioningArtifactName,
       0,
       8192,
+    );
+    _s.validateStringLength(
+      'updateToken',
+      updateToken,
+      1,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7886,7 +7032,6 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'UpdateToken': updateToken ?? _s.generateIdempotencyToken(),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (pathId != null) 'PathId': pathId,
         if (pathName != null) 'PathName': pathName,
@@ -7905,6 +7050,7 @@ class ServiceCatalog {
         if (provisioningPreferences != null)
           'ProvisioningPreferences': provisioningPreferences,
         if (tags != null) 'Tags': tags,
+        'UpdateToken': updateToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -7916,10 +7062,6 @@ class ServiceCatalog {
   /// May throw [InvalidParametersException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidStateException].
-  ///
-  /// Parameter [idempotencyToken] :
-  /// The idempotency token that uniquely identifies the provisioning product
-  /// update request.
   ///
   /// Parameter [provisionedProductId] :
   /// The identifier of the provisioned product.
@@ -7970,39 +7112,23 @@ class ServiceCatalog {
   /// <code>zh</code> - Chinese
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [idempotencyToken] :
+  /// The idempotency token that uniquely identifies the provisioning product
+  /// update request.
   Future<UpdateProvisionedProductPropertiesOutput>
       updateProvisionedProductProperties({
-    @_s.required String idempotencyToken,
-    @_s.required String provisionedProductId,
-    @_s.required Map<PropertyKey, String> provisionedProductProperties,
-    String acceptLanguage,
+    required String provisionedProductId,
+    required Map<PropertyKey, String> provisionedProductProperties,
+    String? acceptLanguage,
+    String? idempotencyToken,
   }) async {
-    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
-    _s.validateStringLength(
-      'idempotencyToken',
-      idempotencyToken,
-      1,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(provisionedProductId, 'provisionedProductId');
     _s.validateStringLength(
       'provisionedProductId',
       provisionedProductId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisionedProductId',
-      provisionedProductId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -8012,6 +7138,12 @@ class ServiceCatalog {
       acceptLanguage,
       0,
       100,
+    );
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      1,
+      128,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8025,11 +7157,11 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'ProvisionedProductId': provisionedProductId,
         'ProvisionedProductProperties': provisionedProductProperties
-            ?.map((k, e) => MapEntry(k.toValue(), e)),
+            .map((k, e) => MapEntry(k.toValue(), e)),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -8091,13 +7223,13 @@ class ServiceCatalog {
   /// Parameter [name] :
   /// The updated name of the provisioning artifact.
   Future<UpdateProvisioningArtifactOutput> updateProvisioningArtifact({
-    @_s.required String productId,
-    @_s.required String provisioningArtifactId,
-    String acceptLanguage,
-    bool active,
-    String description,
-    ProvisioningArtifactGuidance guidance,
-    String name,
+    required String productId,
+    required String provisioningArtifactId,
+    String? acceptLanguage,
+    bool? active,
+    String? description,
+    ProvisioningArtifactGuidance? guidance,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(productId, 'productId');
     _s.validateStringLength(
@@ -8107,12 +7239,6 @@ class ServiceCatalog {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         provisioningArtifactId, 'provisioningArtifactId');
     _s.validateStringLength(
@@ -8120,12 +7246,6 @@ class ServiceCatalog {
       provisioningArtifactId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provisioningArtifactId',
-      provisioningArtifactId,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -8202,11 +7322,11 @@ class ServiceCatalog {
   /// Parameter [name] :
   /// The self-service action name.
   Future<UpdateServiceActionOutput> updateServiceAction({
-    @_s.required String id,
-    String acceptLanguage,
-    Map<ServiceActionDefinitionKey, String> definition,
-    String description,
-    String name,
+    required String id,
+    String? acceptLanguage,
+    Map<ServiceActionDefinitionKey, String>? definition,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -8214,12 +7334,6 @@ class ServiceCatalog {
       id,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^[a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -8239,11 +7353,6 @@ class ServiceCatalog {
       name,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8284,9 +7393,9 @@ class ServiceCatalog {
   /// Parameter [value] :
   /// The updated value.
   Future<UpdateTagOptionOutput> updateTagOption({
-    @_s.required String id,
-    bool active,
-    String value,
+    required String id,
+    bool? active,
+    String? value,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -8301,11 +7410,6 @@ class ServiceCatalog {
       value,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'value',
-      value,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8328,23 +7432,19 @@ class ServiceCatalog {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptPortfolioShareOutput {
   AcceptPortfolioShareOutput();
-  factory AcceptPortfolioShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$AcceptPortfolioShareOutputFromJson(json);
+
+  factory AcceptPortfolioShareOutput.fromJson(Map<String, dynamic> _) {
+    return AcceptPortfolioShareOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The access level to use to filter results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AccessLevelFilter {
   /// The access level.
   ///
@@ -8360,213 +7460,324 @@ class AccessLevelFilter {
   /// <code>User</code> - Filter results based on the specified user.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Key')
-  final AccessLevelFilterKey key;
+  final AccessLevelFilterKey? key;
 
   /// The user to which the access level applies. The only supported value is
   /// <code>Self</code>.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   AccessLevelFilter({
     this.key,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$AccessLevelFilterToJson(this);
+
+  factory AccessLevelFilter.fromJson(Map<String, dynamic> json) {
+    return AccessLevelFilter(
+      key: (json['Key'] as String?)?.toAccessLevelFilterKey(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum AccessLevelFilterKey {
-  @_s.JsonValue('Account')
   account,
-  @_s.JsonValue('Role')
   role,
-  @_s.JsonValue('User')
   user,
 }
 
+extension on AccessLevelFilterKey {
+  String toValue() {
+    switch (this) {
+      case AccessLevelFilterKey.account:
+        return 'Account';
+      case AccessLevelFilterKey.role:
+        return 'Role';
+      case AccessLevelFilterKey.user:
+        return 'User';
+    }
+  }
+}
+
+extension on String {
+  AccessLevelFilterKey toAccessLevelFilterKey() {
+    switch (this) {
+      case 'Account':
+        return AccessLevelFilterKey.account;
+      case 'Role':
+        return AccessLevelFilterKey.role;
+      case 'User':
+        return AccessLevelFilterKey.user;
+    }
+    throw Exception('$this is not known in enum AccessLevelFilterKey');
+  }
+}
+
 enum AccessStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('UNDER_CHANGE')
   underChange,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on AccessStatus {
+  String toValue() {
+    switch (this) {
+      case AccessStatus.enabled:
+        return 'ENABLED';
+      case AccessStatus.underChange:
+        return 'UNDER_CHANGE';
+      case AccessStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  AccessStatus toAccessStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return AccessStatus.enabled;
+      case 'UNDER_CHANGE':
+        return AccessStatus.underChange;
+      case 'DISABLED':
+        return AccessStatus.disabled;
+    }
+    throw Exception('$this is not known in enum AccessStatus');
+  }
+}
+
 class AssociateBudgetWithResourceOutput {
   AssociateBudgetWithResourceOutput();
-  factory AssociateBudgetWithResourceOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateBudgetWithResourceOutputFromJson(json);
+
+  factory AssociateBudgetWithResourceOutput.fromJson(Map<String, dynamic> _) {
+    return AssociateBudgetWithResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociatePrincipalWithPortfolioOutput {
   AssociatePrincipalWithPortfolioOutput();
+
   factory AssociatePrincipalWithPortfolioOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociatePrincipalWithPortfolioOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociatePrincipalWithPortfolioOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateProductWithPortfolioOutput {
   AssociateProductWithPortfolioOutput();
-  factory AssociateProductWithPortfolioOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateProductWithPortfolioOutputFromJson(json);
+
+  factory AssociateProductWithPortfolioOutput.fromJson(Map<String, dynamic> _) {
+    return AssociateProductWithPortfolioOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateServiceActionWithProvisioningArtifactOutput {
   AssociateServiceActionWithProvisioningArtifactOutput();
+
   factory AssociateServiceActionWithProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateServiceActionWithProvisioningArtifactOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateServiceActionWithProvisioningArtifactOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateTagOptionWithResourceOutput {
   AssociateTagOptionWithResourceOutput();
+
   factory AssociateTagOptionWithResourceOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateTagOptionWithResourceOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateTagOptionWithResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAssociateServiceActionWithProvisioningArtifactOutput {
   /// An object that contains a list of errors, along with information to help you
   /// identify the self-service action.
-  @_s.JsonKey(name: 'FailedServiceActionAssociations')
-  final List<FailedServiceActionAssociation> failedServiceActionAssociations;
+  final List<FailedServiceActionAssociation>? failedServiceActionAssociations;
 
   BatchAssociateServiceActionWithProvisioningArtifactOutput({
     this.failedServiceActionAssociations,
   });
+
   factory BatchAssociateServiceActionWithProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchAssociateServiceActionWithProvisioningArtifactOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchAssociateServiceActionWithProvisioningArtifactOutput(
+      failedServiceActionAssociations:
+          (json['FailedServiceActionAssociations'] as List?)
+              ?.whereNotNull()
+              .map((e) => FailedServiceActionAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedServiceActionAssociations =
+        this.failedServiceActionAssociations;
+    return {
+      if (failedServiceActionAssociations != null)
+        'FailedServiceActionAssociations': failedServiceActionAssociations,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDisassociateServiceActionFromProvisioningArtifactOutput {
   /// An object that contains a list of errors, along with information to help you
   /// identify the self-service action.
-  @_s.JsonKey(name: 'FailedServiceActionAssociations')
-  final List<FailedServiceActionAssociation> failedServiceActionAssociations;
+  final List<FailedServiceActionAssociation>? failedServiceActionAssociations;
 
   BatchDisassociateServiceActionFromProvisioningArtifactOutput({
     this.failedServiceActionAssociations,
   });
+
   factory BatchDisassociateServiceActionFromProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDisassociateServiceActionFromProvisioningArtifactOutputFromJson(
-          json);
+      Map<String, dynamic> json) {
+    return BatchDisassociateServiceActionFromProvisioningArtifactOutput(
+      failedServiceActionAssociations:
+          (json['FailedServiceActionAssociations'] as List?)
+              ?.whereNotNull()
+              .map((e) => FailedServiceActionAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedServiceActionAssociations =
+        this.failedServiceActionAssociations;
+    return {
+      if (failedServiceActionAssociations != null)
+        'FailedServiceActionAssociations': failedServiceActionAssociations,
+    };
+  }
 }
 
 /// Information about a budget.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BudgetDetail {
   /// Name of the associated budget.
-  @_s.JsonKey(name: 'BudgetName')
-  final String budgetName;
+  final String? budgetName;
 
   BudgetDetail({
     this.budgetName,
   });
-  factory BudgetDetail.fromJson(Map<String, dynamic> json) =>
-      _$BudgetDetailFromJson(json);
+
+  factory BudgetDetail.fromJson(Map<String, dynamic> json) {
+    return BudgetDetail(
+      budgetName: json['BudgetName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final budgetName = this.budgetName;
+    return {
+      if (budgetName != null) 'BudgetName': budgetName,
+    };
+  }
 }
 
 enum ChangeAction {
-  @_s.JsonValue('ADD')
   add,
-  @_s.JsonValue('MODIFY')
   modify,
-  @_s.JsonValue('REMOVE')
   remove,
 }
 
+extension on ChangeAction {
+  String toValue() {
+    switch (this) {
+      case ChangeAction.add:
+        return 'ADD';
+      case ChangeAction.modify:
+        return 'MODIFY';
+      case ChangeAction.remove:
+        return 'REMOVE';
+    }
+  }
+}
+
+extension on String {
+  ChangeAction toChangeAction() {
+    switch (this) {
+      case 'ADD':
+        return ChangeAction.add;
+      case 'MODIFY':
+        return ChangeAction.modify;
+      case 'REMOVE':
+        return ChangeAction.remove;
+    }
+    throw Exception('$this is not known in enum ChangeAction');
+  }
+}
+
 /// Information about a CloudWatch dashboard.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CloudWatchDashboard {
   /// The name of the CloudWatch dashboard.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CloudWatchDashboard({
     this.name,
   });
-  factory CloudWatchDashboard.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchDashboardFromJson(json);
+
+  factory CloudWatchDashboard.fromJson(Map<String, dynamic> json) {
+    return CloudWatchDashboard(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Information about a constraint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConstraintDetail {
   /// The identifier of the constraint.
-  @_s.JsonKey(name: 'ConstraintId')
-  final String constraintId;
+  final String? constraintId;
 
   /// The description of the constraint.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The owner of the constraint.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// The identifier of the portfolio the product resides in. The constraint
   /// applies only to the instance of the product that lives within this
   /// portfolio.
-  @_s.JsonKey(name: 'PortfolioId')
-  final String portfolioId;
+  final String? portfolioId;
 
   /// The identifier of the product the constraint applies to. Note that a
   /// constraint applies to a specific instance of a product within a certain
   /// portfolio.
-  @_s.JsonKey(name: 'ProductId')
-  final String productId;
+  final String? productId;
 
   /// The type of constraint.
   ///
@@ -8584,8 +7795,7 @@ class ConstraintDetail {
   /// <code>TEMPLATE</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   ConstraintDetail({
     this.constraintId,
@@ -8595,20 +7805,40 @@ class ConstraintDetail {
     this.productId,
     this.type,
   });
-  factory ConstraintDetail.fromJson(Map<String, dynamic> json) =>
-      _$ConstraintDetailFromJson(json);
+
+  factory ConstraintDetail.fromJson(Map<String, dynamic> json) {
+    return ConstraintDetail(
+      constraintId: json['ConstraintId'] as String?,
+      description: json['Description'] as String?,
+      owner: json['Owner'] as String?,
+      portfolioId: json['PortfolioId'] as String?,
+      productId: json['ProductId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintId = this.constraintId;
+    final description = this.description;
+    final owner = this.owner;
+    final portfolioId = this.portfolioId;
+    final productId = this.productId;
+    final type = this.type;
+    return {
+      if (constraintId != null) 'ConstraintId': constraintId,
+      if (description != null) 'Description': description,
+      if (owner != null) 'Owner': owner,
+      if (portfolioId != null) 'PortfolioId': portfolioId,
+      if (productId != null) 'ProductId': productId,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Summary information about a constraint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConstraintSummary {
   /// The description of the constraint.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The type of constraint.
   ///
@@ -8626,19 +7856,31 @@ class ConstraintSummary {
   /// <code>TEMPLATE</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   ConstraintSummary({
     this.description,
     this.type,
   });
-  factory ConstraintSummary.fromJson(Map<String, dynamic> json) =>
-      _$ConstraintSummaryFromJson(json);
+
+  factory ConstraintSummary.fromJson(Map<String, dynamic> json) {
+    return ConstraintSummary(
+      description: json['Description'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final type = this.type;
+    return {
+      if (description != null) 'Description': description,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 enum CopyOption {
-  @_s.JsonValue('CopyTags')
   copyTags,
 }
 
@@ -8648,155 +7890,234 @@ extension on CopyOption {
       case CopyOption.copyTags:
         return 'CopyTags';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  CopyOption toCopyOption() {
+    switch (this) {
+      case 'CopyTags':
+        return CopyOption.copyTags;
+    }
+    throw Exception('$this is not known in enum CopyOption');
+  }
+}
+
 class CopyProductOutput {
   /// The token to use to track the progress of the operation.
-  @_s.JsonKey(name: 'CopyProductToken')
-  final String copyProductToken;
+  final String? copyProductToken;
 
   CopyProductOutput({
     this.copyProductToken,
   });
-  factory CopyProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$CopyProductOutputFromJson(json);
+
+  factory CopyProductOutput.fromJson(Map<String, dynamic> json) {
+    return CopyProductOutput(
+      copyProductToken: json['CopyProductToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final copyProductToken = this.copyProductToken;
+    return {
+      if (copyProductToken != null) 'CopyProductToken': copyProductToken,
+    };
+  }
 }
 
 enum CopyProductStatus {
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CopyProductStatus {
+  String toValue() {
+    switch (this) {
+      case CopyProductStatus.succeeded:
+        return 'SUCCEEDED';
+      case CopyProductStatus.inProgress:
+        return 'IN_PROGRESS';
+      case CopyProductStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  CopyProductStatus toCopyProductStatus() {
+    switch (this) {
+      case 'SUCCEEDED':
+        return CopyProductStatus.succeeded;
+      case 'IN_PROGRESS':
+        return CopyProductStatus.inProgress;
+      case 'FAILED':
+        return CopyProductStatus.failed;
+    }
+    throw Exception('$this is not known in enum CopyProductStatus');
+  }
+}
+
 class CreateConstraintOutput {
   /// Information about the constraint.
-  @_s.JsonKey(name: 'ConstraintDetail')
-  final ConstraintDetail constraintDetail;
+  final ConstraintDetail? constraintDetail;
 
   /// The constraint parameters.
-  @_s.JsonKey(name: 'ConstraintParameters')
-  final String constraintParameters;
+  final String? constraintParameters;
 
   /// The status of the current request.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   CreateConstraintOutput({
     this.constraintDetail,
     this.constraintParameters,
     this.status,
   });
-  factory CreateConstraintOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateConstraintOutputFromJson(json);
+
+  factory CreateConstraintOutput.fromJson(Map<String, dynamic> json) {
+    return CreateConstraintOutput(
+      constraintDetail: json['ConstraintDetail'] != null
+          ? ConstraintDetail.fromJson(
+              json['ConstraintDetail'] as Map<String, dynamic>)
+          : null,
+      constraintParameters: json['ConstraintParameters'] as String?,
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintDetail = this.constraintDetail;
+    final constraintParameters = this.constraintParameters;
+    final status = this.status;
+    return {
+      if (constraintDetail != null) 'ConstraintDetail': constraintDetail,
+      if (constraintParameters != null)
+        'ConstraintParameters': constraintParameters,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePortfolioOutput {
   /// Information about the portfolio.
-  @_s.JsonKey(name: 'PortfolioDetail')
-  final PortfolioDetail portfolioDetail;
+  final PortfolioDetail? portfolioDetail;
 
   /// Information about the tags associated with the portfolio.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   CreatePortfolioOutput({
     this.portfolioDetail,
     this.tags,
   });
-  factory CreatePortfolioOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreatePortfolioOutputFromJson(json);
+
+  factory CreatePortfolioOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePortfolioOutput(
+      portfolioDetail: json['PortfolioDetail'] != null
+          ? PortfolioDetail.fromJson(
+              json['PortfolioDetail'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portfolioDetail = this.portfolioDetail;
+    final tags = this.tags;
+    return {
+      if (portfolioDetail != null) 'PortfolioDetail': portfolioDetail,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePortfolioShareOutput {
   /// The portfolio shares a unique identifier that only returns if the portfolio
   /// is shared to an organization node.
-  @_s.JsonKey(name: 'PortfolioShareToken')
-  final String portfolioShareToken;
+  final String? portfolioShareToken;
 
   CreatePortfolioShareOutput({
     this.portfolioShareToken,
   });
-  factory CreatePortfolioShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreatePortfolioShareOutputFromJson(json);
+
+  factory CreatePortfolioShareOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePortfolioShareOutput(
+      portfolioShareToken: json['PortfolioShareToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portfolioShareToken = this.portfolioShareToken;
+    return {
+      if (portfolioShareToken != null)
+        'PortfolioShareToken': portfolioShareToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProductOutput {
   /// Information about the product view.
-  @_s.JsonKey(name: 'ProductViewDetail')
-  final ProductViewDetail productViewDetail;
+  final ProductViewDetail? productViewDetail;
 
   /// Information about the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactDetail')
-  final ProvisioningArtifactDetail provisioningArtifactDetail;
+  final ProvisioningArtifactDetail? provisioningArtifactDetail;
 
   /// Information about the tags associated with the product.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   CreateProductOutput({
     this.productViewDetail,
     this.provisioningArtifactDetail,
     this.tags,
   });
-  factory CreateProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateProductOutputFromJson(json);
+
+  factory CreateProductOutput.fromJson(Map<String, dynamic> json) {
+    return CreateProductOutput(
+      productViewDetail: json['ProductViewDetail'] != null
+          ? ProductViewDetail.fromJson(
+              json['ProductViewDetail'] as Map<String, dynamic>)
+          : null,
+      provisioningArtifactDetail: json['ProvisioningArtifactDetail'] != null
+          ? ProvisioningArtifactDetail.fromJson(
+              json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productViewDetail = this.productViewDetail;
+    final provisioningArtifactDetail = this.provisioningArtifactDetail;
+    final tags = this.tags;
+    return {
+      if (productViewDetail != null) 'ProductViewDetail': productViewDetail,
+      if (provisioningArtifactDetail != null)
+        'ProvisioningArtifactDetail': provisioningArtifactDetail,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProvisionedProductPlanOutput {
   /// The plan identifier.
-  @_s.JsonKey(name: 'PlanId')
-  final String planId;
+  final String? planId;
 
   /// The name of the plan.
-  @_s.JsonKey(name: 'PlanName')
-  final String planName;
+  final String? planName;
 
   /// The product identifier.
-  @_s.JsonKey(name: 'ProvisionProductId')
-  final String provisionProductId;
+  final String? provisionProductId;
 
   /// The user-friendly name of the provisioned product.
-  @_s.JsonKey(name: 'ProvisionedProductName')
-  final String provisionedProductName;
+  final String? provisionedProductName;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
-  final String provisioningArtifactId;
+  final String? provisioningArtifactId;
 
   CreateProvisionedProductPlanOutput({
     this.planId,
@@ -8805,16 +8126,36 @@ class CreateProvisionedProductPlanOutput {
     this.provisionedProductName,
     this.provisioningArtifactId,
   });
+
   factory CreateProvisionedProductPlanOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateProvisionedProductPlanOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateProvisionedProductPlanOutput(
+      planId: json['PlanId'] as String?,
+      planName: json['PlanName'] as String?,
+      provisionProductId: json['ProvisionProductId'] as String?,
+      provisionedProductName: json['ProvisionedProductName'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final planId = this.planId;
+    final planName = this.planName;
+    final provisionProductId = this.provisionProductId;
+    final provisionedProductName = this.provisionedProductName;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    return {
+      if (planId != null) 'PlanId': planId,
+      if (planName != null) 'PlanName': planName,
+      if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
+      if (provisionedProductName != null)
+        'ProvisionedProductName': provisionedProductName,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProvisioningArtifactOutput {
   /// Specify the template source with one of the following options, but not both.
   /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
@@ -8830,233 +8171,294 @@ class CreateProvisioningArtifactOutput {
   ///
   /// Use the physical id of the resource that contains the template; currently
   /// supports CloudFormation stack ARN.
-  @_s.JsonKey(name: 'Info')
-  final Map<String, String> info;
+  final Map<String, String>? info;
 
   /// Information about the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactDetail')
-  final ProvisioningArtifactDetail provisioningArtifactDetail;
+  final ProvisioningArtifactDetail? provisioningArtifactDetail;
 
   /// The status of the current request.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   CreateProvisioningArtifactOutput({
     this.info,
     this.provisioningArtifactDetail,
     this.status,
   });
-  factory CreateProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateProvisioningArtifactOutputFromJson(json);
+
+  factory CreateProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
+    return CreateProvisioningArtifactOutput(
+      info: (json['Info'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      provisioningArtifactDetail: json['ProvisioningArtifactDetail'] != null
+          ? ProvisioningArtifactDetail.fromJson(
+              json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final info = this.info;
+    final provisioningArtifactDetail = this.provisioningArtifactDetail;
+    final status = this.status;
+    return {
+      if (info != null) 'Info': info,
+      if (provisioningArtifactDetail != null)
+        'ProvisioningArtifactDetail': provisioningArtifactDetail,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateServiceActionOutput {
   /// An object containing information about the self-service action.
-  @_s.JsonKey(name: 'ServiceActionDetail')
-  final ServiceActionDetail serviceActionDetail;
+  final ServiceActionDetail? serviceActionDetail;
 
   CreateServiceActionOutput({
     this.serviceActionDetail,
   });
-  factory CreateServiceActionOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateServiceActionOutputFromJson(json);
+
+  factory CreateServiceActionOutput.fromJson(Map<String, dynamic> json) {
+    return CreateServiceActionOutput(
+      serviceActionDetail: json['ServiceActionDetail'] != null
+          ? ServiceActionDetail.fromJson(
+              json['ServiceActionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceActionDetail = this.serviceActionDetail;
+    return {
+      if (serviceActionDetail != null)
+        'ServiceActionDetail': serviceActionDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTagOptionOutput {
   /// Information about the TagOption.
-  @_s.JsonKey(name: 'TagOptionDetail')
-  final TagOptionDetail tagOptionDetail;
+  final TagOptionDetail? tagOptionDetail;
 
   CreateTagOptionOutput({
     this.tagOptionDetail,
   });
-  factory CreateTagOptionOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateTagOptionOutputFromJson(json);
+
+  factory CreateTagOptionOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTagOptionOutput(
+      tagOptionDetail: json['TagOptionDetail'] != null
+          ? TagOptionDetail.fromJson(
+              json['TagOptionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagOptionDetail = this.tagOptionDetail;
+    return {
+      if (tagOptionDetail != null) 'TagOptionDetail': tagOptionDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConstraintOutput {
   DeleteConstraintOutput();
-  factory DeleteConstraintOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConstraintOutputFromJson(json);
+
+  factory DeleteConstraintOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteConstraintOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePortfolioOutput {
   DeletePortfolioOutput();
-  factory DeletePortfolioOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeletePortfolioOutputFromJson(json);
+
+  factory DeletePortfolioOutput.fromJson(Map<String, dynamic> _) {
+    return DeletePortfolioOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePortfolioShareOutput {
   /// The portfolio share unique identifier. This will only be returned if delete
   /// is made to an organization node.
-  @_s.JsonKey(name: 'PortfolioShareToken')
-  final String portfolioShareToken;
+  final String? portfolioShareToken;
 
   DeletePortfolioShareOutput({
     this.portfolioShareToken,
   });
-  factory DeletePortfolioShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeletePortfolioShareOutputFromJson(json);
+
+  factory DeletePortfolioShareOutput.fromJson(Map<String, dynamic> json) {
+    return DeletePortfolioShareOutput(
+      portfolioShareToken: json['PortfolioShareToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portfolioShareToken = this.portfolioShareToken;
+    return {
+      if (portfolioShareToken != null)
+        'PortfolioShareToken': portfolioShareToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProductOutput {
   DeleteProductOutput();
-  factory DeleteProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProductOutputFromJson(json);
+
+  factory DeleteProductOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteProductOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProvisionedProductPlanOutput {
   DeleteProvisionedProductPlanOutput();
-  factory DeleteProvisionedProductPlanOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteProvisionedProductPlanOutputFromJson(json);
+
+  factory DeleteProvisionedProductPlanOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteProvisionedProductPlanOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProvisioningArtifactOutput {
   DeleteProvisioningArtifactOutput();
-  factory DeleteProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteProvisioningArtifactOutputFromJson(json);
+
+  factory DeleteProvisioningArtifactOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteProvisioningArtifactOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteServiceActionOutput {
   DeleteServiceActionOutput();
-  factory DeleteServiceActionOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteServiceActionOutputFromJson(json);
+
+  factory DeleteServiceActionOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteServiceActionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTagOptionOutput {
   DeleteTagOptionOutput();
-  factory DeleteTagOptionOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTagOptionOutputFromJson(json);
+
+  factory DeleteTagOptionOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteTagOptionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConstraintOutput {
   /// Information about the constraint.
-  @_s.JsonKey(name: 'ConstraintDetail')
-  final ConstraintDetail constraintDetail;
+  final ConstraintDetail? constraintDetail;
 
   /// The constraint parameters.
-  @_s.JsonKey(name: 'ConstraintParameters')
-  final String constraintParameters;
+  final String? constraintParameters;
 
   /// The status of the current request.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   DescribeConstraintOutput({
     this.constraintDetail,
     this.constraintParameters,
     this.status,
   });
-  factory DescribeConstraintOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeConstraintOutputFromJson(json);
+
+  factory DescribeConstraintOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeConstraintOutput(
+      constraintDetail: json['ConstraintDetail'] != null
+          ? ConstraintDetail.fromJson(
+              json['ConstraintDetail'] as Map<String, dynamic>)
+          : null,
+      constraintParameters: json['ConstraintParameters'] as String?,
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintDetail = this.constraintDetail;
+    final constraintParameters = this.constraintParameters;
+    final status = this.status;
+    return {
+      if (constraintDetail != null) 'ConstraintDetail': constraintDetail,
+      if (constraintParameters != null)
+        'ConstraintParameters': constraintParameters,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCopyProductStatusOutput {
   /// The status of the copy product operation.
-  @_s.JsonKey(name: 'CopyProductStatus')
-  final CopyProductStatus copyProductStatus;
+  final CopyProductStatus? copyProductStatus;
 
   /// The status message.
-  @_s.JsonKey(name: 'StatusDetail')
-  final String statusDetail;
+  final String? statusDetail;
 
   /// The identifier of the copied product.
-  @_s.JsonKey(name: 'TargetProductId')
-  final String targetProductId;
+  final String? targetProductId;
 
   DescribeCopyProductStatusOutput({
     this.copyProductStatus,
     this.statusDetail,
     this.targetProductId,
   });
-  factory DescribeCopyProductStatusOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCopyProductStatusOutputFromJson(json);
+
+  factory DescribeCopyProductStatusOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeCopyProductStatusOutput(
+      copyProductStatus:
+          (json['CopyProductStatus'] as String?)?.toCopyProductStatus(),
+      statusDetail: json['StatusDetail'] as String?,
+      targetProductId: json['TargetProductId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final copyProductStatus = this.copyProductStatus;
+    final statusDetail = this.statusDetail;
+    final targetProductId = this.targetProductId;
+    return {
+      if (copyProductStatus != null)
+        'CopyProductStatus': copyProductStatus.toValue(),
+      if (statusDetail != null) 'StatusDetail': statusDetail,
+      if (targetProductId != null) 'TargetProductId': targetProductId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePortfolioOutput {
   /// Information about the associated budgets.
-  @_s.JsonKey(name: 'Budgets')
-  final List<BudgetDetail> budgets;
+  final List<BudgetDetail>? budgets;
 
   /// Information about the portfolio.
-  @_s.JsonKey(name: 'PortfolioDetail')
-  final PortfolioDetail portfolioDetail;
+  final PortfolioDetail? portfolioDetail;
 
   /// Information about the TagOptions associated with the portfolio.
-  @_s.JsonKey(name: 'TagOptions')
-  final List<TagOptionDetail> tagOptions;
+  final List<TagOptionDetail>? tagOptions;
 
   /// Information about the tags associated with the portfolio.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   DescribePortfolioOutput({
     this.budgets,
@@ -9064,37 +8466,59 @@ class DescribePortfolioOutput {
     this.tagOptions,
     this.tags,
   });
-  factory DescribePortfolioOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribePortfolioOutputFromJson(json);
+
+  factory DescribePortfolioOutput.fromJson(Map<String, dynamic> json) {
+    return DescribePortfolioOutput(
+      budgets: (json['Budgets'] as List?)
+          ?.whereNotNull()
+          .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      portfolioDetail: json['PortfolioDetail'] != null
+          ? PortfolioDetail.fromJson(
+              json['PortfolioDetail'] as Map<String, dynamic>)
+          : null,
+      tagOptions: (json['TagOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final budgets = this.budgets;
+    final portfolioDetail = this.portfolioDetail;
+    final tagOptions = this.tagOptions;
+    final tags = this.tags;
+    return {
+      if (budgets != null) 'Budgets': budgets,
+      if (portfolioDetail != null) 'PortfolioDetail': portfolioDetail,
+      if (tagOptions != null) 'TagOptions': tagOptions,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePortfolioShareStatusOutput {
   /// Organization node identifier. It can be either account id, organizational
   /// unit id or organization id.
-  @_s.JsonKey(name: 'OrganizationNodeValue')
-  final String organizationNodeValue;
+  final String? organizationNodeValue;
 
   /// The portfolio identifier.
-  @_s.JsonKey(name: 'PortfolioId')
-  final String portfolioId;
+  final String? portfolioId;
 
   /// The token for the portfolio share operation. For example,
   /// <code>share-6v24abcdefghi</code>.
-  @_s.JsonKey(name: 'PortfolioShareToken')
-  final String portfolioShareToken;
+  final String? portfolioShareToken;
 
   /// Information about the portfolio share operation.
-  @_s.JsonKey(name: 'ShareDetails')
-  final ShareDetails shareDetails;
+  final ShareDetails? shareDetails;
 
   /// Status of the portfolio share operation.
-  @_s.JsonKey(name: 'Status')
-  final ShareStatus status;
+  final ShareStatus? status;
 
   DescribePortfolioShareStatusOutput({
     this.organizationNodeValue,
@@ -9103,19 +8527,42 @@ class DescribePortfolioShareStatusOutput {
     this.shareDetails,
     this.status,
   });
+
   factory DescribePortfolioShareStatusOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePortfolioShareStatusOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePortfolioShareStatusOutput(
+      organizationNodeValue: json['OrganizationNodeValue'] as String?,
+      portfolioId: json['PortfolioId'] as String?,
+      portfolioShareToken: json['PortfolioShareToken'] as String?,
+      shareDetails: json['ShareDetails'] != null
+          ? ShareDetails.fromJson(json['ShareDetails'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toShareStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationNodeValue = this.organizationNodeValue;
+    final portfolioId = this.portfolioId;
+    final portfolioShareToken = this.portfolioShareToken;
+    final shareDetails = this.shareDetails;
+    final status = this.status;
+    return {
+      if (organizationNodeValue != null)
+        'OrganizationNodeValue': organizationNodeValue,
+      if (portfolioId != null) 'PortfolioId': portfolioId,
+      if (portfolioShareToken != null)
+        'PortfolioShareToken': portfolioShareToken,
+      if (shareDetails != null) 'ShareDetails': shareDetails,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum DescribePortfolioShareType {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('ORGANIZATION')
   organization,
-  @_s.JsonValue('ORGANIZATIONAL_UNIT')
   organizationalUnit,
-  @_s.JsonValue('ORGANIZATION_MEMBER_ACCOUNT')
   organizationMemberAccount,
 }
 
@@ -9131,59 +8578,75 @@ extension on DescribePortfolioShareType {
       case DescribePortfolioShareType.organizationMemberAccount:
         return 'ORGANIZATION_MEMBER_ACCOUNT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DescribePortfolioShareType toDescribePortfolioShareType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return DescribePortfolioShareType.account;
+      case 'ORGANIZATION':
+        return DescribePortfolioShareType.organization;
+      case 'ORGANIZATIONAL_UNIT':
+        return DescribePortfolioShareType.organizationalUnit;
+      case 'ORGANIZATION_MEMBER_ACCOUNT':
+        return DescribePortfolioShareType.organizationMemberAccount;
+    }
+    throw Exception('$this is not known in enum DescribePortfolioShareType');
+  }
+}
+
 class DescribePortfolioSharesOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Summaries about each of the portfolio shares.
-  @_s.JsonKey(name: 'PortfolioShareDetails')
-  final List<PortfolioShareDetail> portfolioShareDetails;
+  final List<PortfolioShareDetail>? portfolioShareDetails;
 
   DescribePortfolioSharesOutput({
     this.nextPageToken,
     this.portfolioShareDetails,
   });
-  factory DescribePortfolioSharesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribePortfolioSharesOutputFromJson(json);
+
+  factory DescribePortfolioSharesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribePortfolioSharesOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      portfolioShareDetails: (json['PortfolioShareDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortfolioShareDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final portfolioShareDetails = this.portfolioShareDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (portfolioShareDetails != null)
+        'PortfolioShareDetails': portfolioShareDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProductAsAdminOutput {
   /// Information about the associated budgets.
-  @_s.JsonKey(name: 'Budgets')
-  final List<BudgetDetail> budgets;
+  final List<BudgetDetail>? budgets;
 
   /// Information about the product view.
-  @_s.JsonKey(name: 'ProductViewDetail')
-  final ProductViewDetail productViewDetail;
+  final ProductViewDetail? productViewDetail;
 
   /// Information about the provisioning artifacts (also known as versions) for
   /// the specified product.
-  @_s.JsonKey(name: 'ProvisioningArtifactSummaries')
-  final List<ProvisioningArtifactSummary> provisioningArtifactSummaries;
+  final List<ProvisioningArtifactSummary>? provisioningArtifactSummaries;
 
   /// Information about the TagOptions associated with the product.
-  @_s.JsonKey(name: 'TagOptions')
-  final List<TagOptionDetail> tagOptions;
+  final List<TagOptionDetail>? tagOptions;
 
   /// Information about the tags associated with the product.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   DescribeProductAsAdminOutput({
     this.budgets,
@@ -9192,31 +8655,63 @@ class DescribeProductAsAdminOutput {
     this.tagOptions,
     this.tags,
   });
-  factory DescribeProductAsAdminOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProductAsAdminOutputFromJson(json);
+
+  factory DescribeProductAsAdminOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeProductAsAdminOutput(
+      budgets: (json['Budgets'] as List?)
+          ?.whereNotNull()
+          .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      productViewDetail: json['ProductViewDetail'] != null
+          ? ProductViewDetail.fromJson(
+              json['ProductViewDetail'] as Map<String, dynamic>)
+          : null,
+      provisioningArtifactSummaries: (json['ProvisioningArtifactSummaries']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningArtifactSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tagOptions: (json['TagOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final budgets = this.budgets;
+    final productViewDetail = this.productViewDetail;
+    final provisioningArtifactSummaries = this.provisioningArtifactSummaries;
+    final tagOptions = this.tagOptions;
+    final tags = this.tags;
+    return {
+      if (budgets != null) 'Budgets': budgets,
+      if (productViewDetail != null) 'ProductViewDetail': productViewDetail,
+      if (provisioningArtifactSummaries != null)
+        'ProvisioningArtifactSummaries': provisioningArtifactSummaries,
+      if (tagOptions != null) 'TagOptions': tagOptions,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProductOutput {
   /// Information about the associated budgets.
-  @_s.JsonKey(name: 'Budgets')
-  final List<BudgetDetail> budgets;
+  final List<BudgetDetail>? budgets;
 
   /// Information about the associated launch paths.
-  @_s.JsonKey(name: 'LaunchPaths')
-  final List<LaunchPath> launchPaths;
+  final List<LaunchPath>? launchPaths;
 
   /// Summary information about the product view.
-  @_s.JsonKey(name: 'ProductViewSummary')
-  final ProductViewSummary productViewSummary;
+  final ProductViewSummary? productViewSummary;
 
   /// Information about the provisioning artifacts for the specified product.
-  @_s.JsonKey(name: 'ProvisioningArtifacts')
-  final List<ProvisioningArtifact> provisioningArtifacts;
+  final List<ProvisioningArtifact>? provisioningArtifacts;
 
   DescribeProductOutput({
     this.budgets,
@@ -9224,145 +8719,226 @@ class DescribeProductOutput {
     this.productViewSummary,
     this.provisioningArtifacts,
   });
-  factory DescribeProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProductOutputFromJson(json);
+
+  factory DescribeProductOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeProductOutput(
+      budgets: (json['Budgets'] as List?)
+          ?.whereNotNull()
+          .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      launchPaths: (json['LaunchPaths'] as List?)
+          ?.whereNotNull()
+          .map((e) => LaunchPath.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      productViewSummary: json['ProductViewSummary'] != null
+          ? ProductViewSummary.fromJson(
+              json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      provisioningArtifacts: (json['ProvisioningArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final budgets = this.budgets;
+    final launchPaths = this.launchPaths;
+    final productViewSummary = this.productViewSummary;
+    final provisioningArtifacts = this.provisioningArtifacts;
+    return {
+      if (budgets != null) 'Budgets': budgets,
+      if (launchPaths != null) 'LaunchPaths': launchPaths,
+      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
+      if (provisioningArtifacts != null)
+        'ProvisioningArtifacts': provisioningArtifacts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProductViewOutput {
   /// Summary information about the product.
-  @_s.JsonKey(name: 'ProductViewSummary')
-  final ProductViewSummary productViewSummary;
+  final ProductViewSummary? productViewSummary;
 
   /// Information about the provisioning artifacts for the product.
-  @_s.JsonKey(name: 'ProvisioningArtifacts')
-  final List<ProvisioningArtifact> provisioningArtifacts;
+  final List<ProvisioningArtifact>? provisioningArtifacts;
 
   DescribeProductViewOutput({
     this.productViewSummary,
     this.provisioningArtifacts,
   });
-  factory DescribeProductViewOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProductViewOutputFromJson(json);
+
+  factory DescribeProductViewOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeProductViewOutput(
+      productViewSummary: json['ProductViewSummary'] != null
+          ? ProductViewSummary.fromJson(
+              json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      provisioningArtifacts: (json['ProvisioningArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProvisioningArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productViewSummary = this.productViewSummary;
+    final provisioningArtifacts = this.provisioningArtifacts;
+    return {
+      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
+      if (provisioningArtifacts != null)
+        'ProvisioningArtifacts': provisioningArtifacts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProvisionedProductOutput {
   /// Any CloudWatch dashboards that were created when provisioning the product.
-  @_s.JsonKey(name: 'CloudWatchDashboards')
-  final List<CloudWatchDashboard> cloudWatchDashboards;
+  final List<CloudWatchDashboard>? cloudWatchDashboards;
 
   /// Information about the provisioned product.
-  @_s.JsonKey(name: 'ProvisionedProductDetail')
-  final ProvisionedProductDetail provisionedProductDetail;
+  final ProvisionedProductDetail? provisionedProductDetail;
 
   DescribeProvisionedProductOutput({
     this.cloudWatchDashboards,
     this.provisionedProductDetail,
   });
-  factory DescribeProvisionedProductOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeProvisionedProductOutputFromJson(json);
+
+  factory DescribeProvisionedProductOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeProvisionedProductOutput(
+      cloudWatchDashboards: (json['CloudWatchDashboards'] as List?)
+          ?.whereNotNull()
+          .map((e) => CloudWatchDashboard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisionedProductDetail: json['ProvisionedProductDetail'] != null
+          ? ProvisionedProductDetail.fromJson(
+              json['ProvisionedProductDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchDashboards = this.cloudWatchDashboards;
+    final provisionedProductDetail = this.provisionedProductDetail;
+    return {
+      if (cloudWatchDashboards != null)
+        'CloudWatchDashboards': cloudWatchDashboards,
+      if (provisionedProductDetail != null)
+        'ProvisionedProductDetail': provisionedProductDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProvisionedProductPlanOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the plan.
-  @_s.JsonKey(name: 'ProvisionedProductPlanDetails')
-  final ProvisionedProductPlanDetails provisionedProductPlanDetails;
+  final ProvisionedProductPlanDetails? provisionedProductPlanDetails;
 
   /// Information about the resource changes that will occur when the plan is
   /// executed.
-  @_s.JsonKey(name: 'ResourceChanges')
-  final List<ResourceChange> resourceChanges;
+  final List<ResourceChange>? resourceChanges;
 
   DescribeProvisionedProductPlanOutput({
     this.nextPageToken,
     this.provisionedProductPlanDetails,
     this.resourceChanges,
   });
+
   factory DescribeProvisionedProductPlanOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeProvisionedProductPlanOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeProvisionedProductPlanOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      provisionedProductPlanDetails:
+          json['ProvisionedProductPlanDetails'] != null
+              ? ProvisionedProductPlanDetails.fromJson(
+                  json['ProvisionedProductPlanDetails'] as Map<String, dynamic>)
+              : null,
+      resourceChanges: (json['ResourceChanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceChange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final provisionedProductPlanDetails = this.provisionedProductPlanDetails;
+    final resourceChanges = this.resourceChanges;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (provisionedProductPlanDetails != null)
+        'ProvisionedProductPlanDetails': provisionedProductPlanDetails,
+      if (resourceChanges != null) 'ResourceChanges': resourceChanges,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProvisioningArtifactOutput {
   /// The URL of the CloudFormation template in Amazon S3.
-  @_s.JsonKey(name: 'Info')
-  final Map<String, String> info;
+  final Map<String, String>? info;
 
   /// Information about the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactDetail')
-  final ProvisioningArtifactDetail provisioningArtifactDetail;
+  final ProvisioningArtifactDetail? provisioningArtifactDetail;
 
   /// The status of the current request.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   DescribeProvisioningArtifactOutput({
     this.info,
     this.provisioningArtifactDetail,
     this.status,
   });
+
   factory DescribeProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeProvisioningArtifactOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeProvisioningArtifactOutput(
+      info: (json['Info'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      provisioningArtifactDetail: json['ProvisioningArtifactDetail'] != null
+          ? ProvisioningArtifactDetail.fromJson(
+              json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final info = this.info;
+    final provisioningArtifactDetail = this.provisioningArtifactDetail;
+    final status = this.status;
+    return {
+      if (info != null) 'Info': info,
+      if (provisioningArtifactDetail != null)
+        'ProvisioningArtifactDetail': provisioningArtifactDetail,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProvisioningParametersOutput {
   /// Information about the constraints used to provision the product.
-  @_s.JsonKey(name: 'ConstraintSummaries')
-  final List<ConstraintSummary> constraintSummaries;
+  final List<ConstraintSummary>? constraintSummaries;
 
   /// The output of the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactOutputs')
-  final List<ProvisioningArtifactOutput> provisioningArtifactOutputs;
+  final List<ProvisioningArtifactOutput>? provisioningArtifactOutputs;
 
   /// Information about the parameters used to provision the product.
-  @_s.JsonKey(name: 'ProvisioningArtifactParameters')
-  final List<ProvisioningArtifactParameter> provisioningArtifactParameters;
+  final List<ProvisioningArtifactParameter>? provisioningArtifactParameters;
 
   /// An object that contains information about preferences, such as regions and
   /// accounts, for the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactPreferences')
-  final ProvisioningArtifactPreferences provisioningArtifactPreferences;
+  final ProvisioningArtifactPreferences? provisioningArtifactPreferences;
 
   /// Information about the TagOptions associated with the resource.
-  @_s.JsonKey(name: 'TagOptions')
-  final List<TagOptionSummary> tagOptions;
+  final List<TagOptionSummary>? tagOptions;
 
   /// Any additional metadata specifically related to the provisioning of the
   /// product. For example, see the <code>Version</code> field of the
   /// CloudFormation template.
-  @_s.JsonKey(name: 'UsageInstructions')
-  final List<UsageInstruction> usageInstructions;
+  final List<UsageInstruction>? usageInstructions;
 
   DescribeProvisioningParametersOutput({
     this.constraintSummaries,
@@ -9372,279 +8948,416 @@ class DescribeProvisioningParametersOutput {
     this.tagOptions,
     this.usageInstructions,
   });
+
   factory DescribeProvisioningParametersOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeProvisioningParametersOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeProvisioningParametersOutput(
+      constraintSummaries: (json['ConstraintSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisioningArtifactOutputs: (json['ProvisioningArtifactOutputs']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningArtifactOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisioningArtifactParameters: (json['ProvisioningArtifactParameters']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningArtifactParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisioningArtifactPreferences:
+          json['ProvisioningArtifactPreferences'] != null
+              ? ProvisioningArtifactPreferences.fromJson(
+                  json['ProvisioningArtifactPreferences']
+                      as Map<String, dynamic>)
+              : null,
+      tagOptions: (json['TagOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagOptionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      usageInstructions: (json['UsageInstructions'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageInstruction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintSummaries = this.constraintSummaries;
+    final provisioningArtifactOutputs = this.provisioningArtifactOutputs;
+    final provisioningArtifactParameters = this.provisioningArtifactParameters;
+    final provisioningArtifactPreferences =
+        this.provisioningArtifactPreferences;
+    final tagOptions = this.tagOptions;
+    final usageInstructions = this.usageInstructions;
+    return {
+      if (constraintSummaries != null)
+        'ConstraintSummaries': constraintSummaries,
+      if (provisioningArtifactOutputs != null)
+        'ProvisioningArtifactOutputs': provisioningArtifactOutputs,
+      if (provisioningArtifactParameters != null)
+        'ProvisioningArtifactParameters': provisioningArtifactParameters,
+      if (provisioningArtifactPreferences != null)
+        'ProvisioningArtifactPreferences': provisioningArtifactPreferences,
+      if (tagOptions != null) 'TagOptions': tagOptions,
+      if (usageInstructions != null) 'UsageInstructions': usageInstructions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRecordOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the product.
-  @_s.JsonKey(name: 'RecordDetail')
-  final RecordDetail recordDetail;
+  final RecordDetail? recordDetail;
 
   /// Information about the product created as the result of a request. For
   /// example, the output for a CloudFormation-backed product that creates an S3
   /// bucket would include the S3 bucket URL.
-  @_s.JsonKey(name: 'RecordOutputs')
-  final List<RecordOutput> recordOutputs;
+  final List<RecordOutput>? recordOutputs;
 
   DescribeRecordOutput({
     this.nextPageToken,
     this.recordDetail,
     this.recordOutputs,
   });
-  factory DescribeRecordOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRecordOutputFromJson(json);
+
+  factory DescribeRecordOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeRecordOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      recordDetail: json['RecordDetail'] != null
+          ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
+          : null,
+      recordOutputs: (json['RecordOutputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecordOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final recordDetail = this.recordDetail;
+    final recordOutputs = this.recordOutputs;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (recordDetail != null) 'RecordDetail': recordDetail,
+      if (recordOutputs != null) 'RecordOutputs': recordOutputs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeServiceActionExecutionParametersOutput {
   /// The parameters of the self-service action.
-  @_s.JsonKey(name: 'ServiceActionParameters')
-  final List<ExecutionParameter> serviceActionParameters;
+  final List<ExecutionParameter>? serviceActionParameters;
 
   DescribeServiceActionExecutionParametersOutput({
     this.serviceActionParameters,
   });
+
   factory DescribeServiceActionExecutionParametersOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeServiceActionExecutionParametersOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeServiceActionExecutionParametersOutput(
+      serviceActionParameters: (json['ServiceActionParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExecutionParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceActionParameters = this.serviceActionParameters;
+    return {
+      if (serviceActionParameters != null)
+        'ServiceActionParameters': serviceActionParameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeServiceActionOutput {
   /// Detailed information about the self-service action.
-  @_s.JsonKey(name: 'ServiceActionDetail')
-  final ServiceActionDetail serviceActionDetail;
+  final ServiceActionDetail? serviceActionDetail;
 
   DescribeServiceActionOutput({
     this.serviceActionDetail,
   });
-  factory DescribeServiceActionOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeServiceActionOutputFromJson(json);
+
+  factory DescribeServiceActionOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeServiceActionOutput(
+      serviceActionDetail: json['ServiceActionDetail'] != null
+          ? ServiceActionDetail.fromJson(
+              json['ServiceActionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceActionDetail = this.serviceActionDetail;
+    return {
+      if (serviceActionDetail != null)
+        'ServiceActionDetail': serviceActionDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTagOptionOutput {
   /// Information about the TagOption.
-  @_s.JsonKey(name: 'TagOptionDetail')
-  final TagOptionDetail tagOptionDetail;
+  final TagOptionDetail? tagOptionDetail;
 
   DescribeTagOptionOutput({
     this.tagOptionDetail,
   });
-  factory DescribeTagOptionOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTagOptionOutputFromJson(json);
+
+  factory DescribeTagOptionOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTagOptionOutput(
+      tagOptionDetail: json['TagOptionDetail'] != null
+          ? TagOptionDetail.fromJson(
+              json['TagOptionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagOptionDetail = this.tagOptionDetail;
+    return {
+      if (tagOptionDetail != null) 'TagOptionDetail': tagOptionDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableAWSOrganizationsAccessOutput {
   DisableAWSOrganizationsAccessOutput();
-  factory DisableAWSOrganizationsAccessOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisableAWSOrganizationsAccessOutputFromJson(json);
+
+  factory DisableAWSOrganizationsAccessOutput.fromJson(Map<String, dynamic> _) {
+    return DisableAWSOrganizationsAccessOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateBudgetFromResourceOutput {
   DisassociateBudgetFromResourceOutput();
+
   factory DisassociateBudgetFromResourceOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateBudgetFromResourceOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateBudgetFromResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociatePrincipalFromPortfolioOutput {
   DisassociatePrincipalFromPortfolioOutput();
+
   factory DisassociatePrincipalFromPortfolioOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociatePrincipalFromPortfolioOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociatePrincipalFromPortfolioOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateProductFromPortfolioOutput {
   DisassociateProductFromPortfolioOutput();
+
   factory DisassociateProductFromPortfolioOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateProductFromPortfolioOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateProductFromPortfolioOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateServiceActionFromProvisioningArtifactOutput {
   DisassociateServiceActionFromProvisioningArtifactOutput();
+
   factory DisassociateServiceActionFromProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateServiceActionFromProvisioningArtifactOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateServiceActionFromProvisioningArtifactOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateTagOptionFromResourceOutput {
   DisassociateTagOptionFromResourceOutput();
+
   factory DisassociateTagOptionFromResourceOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateTagOptionFromResourceOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateTagOptionFromResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableAWSOrganizationsAccessOutput {
   EnableAWSOrganizationsAccessOutput();
-  factory EnableAWSOrganizationsAccessOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$EnableAWSOrganizationsAccessOutputFromJson(json);
+
+  factory EnableAWSOrganizationsAccessOutput.fromJson(Map<String, dynamic> _) {
+    return EnableAWSOrganizationsAccessOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum EvaluationType {
-  @_s.JsonValue('STATIC')
   static,
-  @_s.JsonValue('DYNAMIC')
   dynamic,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EvaluationType {
+  String toValue() {
+    switch (this) {
+      case EvaluationType.static:
+        return 'STATIC';
+      case EvaluationType.dynamic:
+        return 'DYNAMIC';
+    }
+  }
+}
+
+extension on String {
+  EvaluationType toEvaluationType() {
+    switch (this) {
+      case 'STATIC':
+        return EvaluationType.static;
+      case 'DYNAMIC':
+        return EvaluationType.dynamic;
+    }
+    throw Exception('$this is not known in enum EvaluationType');
+  }
+}
+
 class ExecuteProvisionedProductPlanOutput {
   /// Information about the result of provisioning the product.
-  @_s.JsonKey(name: 'RecordDetail')
-  final RecordDetail recordDetail;
+  final RecordDetail? recordDetail;
 
   ExecuteProvisionedProductPlanOutput({
     this.recordDetail,
   });
+
   factory ExecuteProvisionedProductPlanOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExecuteProvisionedProductPlanOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ExecuteProvisionedProductPlanOutput(
+      recordDetail: json['RecordDetail'] != null
+          ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordDetail = this.recordDetail;
+    return {
+      if (recordDetail != null) 'RecordDetail': recordDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecuteProvisionedProductServiceActionOutput {
   /// An object containing detailed information about the result of provisioning
   /// the product.
-  @_s.JsonKey(name: 'RecordDetail')
-  final RecordDetail recordDetail;
+  final RecordDetail? recordDetail;
 
   ExecuteProvisionedProductServiceActionOutput({
     this.recordDetail,
   });
+
   factory ExecuteProvisionedProductServiceActionOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExecuteProvisionedProductServiceActionOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ExecuteProvisionedProductServiceActionOutput(
+      recordDetail: json['RecordDetail'] != null
+          ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordDetail = this.recordDetail;
+    return {
+      if (recordDetail != null) 'RecordDetail': recordDetail,
+    };
+  }
 }
 
 /// Details of an execution parameter value that is passed to a self-service
 /// action when executed on a provisioned product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecutionParameter {
   /// The default values for the execution parameter.
-  @_s.JsonKey(name: 'DefaultValues')
-  final List<String> defaultValues;
+  final List<String>? defaultValues;
 
   /// The name of the execution parameter.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The execution parameter type.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   ExecutionParameter({
     this.defaultValues,
     this.name,
     this.type,
   });
-  factory ExecutionParameter.fromJson(Map<String, dynamic> json) =>
-      _$ExecutionParameterFromJson(json);
+
+  factory ExecutionParameter.fromJson(Map<String, dynamic> json) {
+    return ExecutionParameter(
+      defaultValues: (json['DefaultValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValues = this.defaultValues;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (defaultValues != null) 'DefaultValues': defaultValues,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// An object containing information about the error, along with identifying
 /// information about the self-service action and its associations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedServiceActionAssociation {
   /// The error code. Valid values are listed below.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ServiceActionAssociationErrorCode errorCode;
+  final ServiceActionAssociationErrorCode? errorCode;
 
   /// A text description of the error.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
-  @_s.JsonKey(name: 'ProductId')
-  final String productId;
+  final String? productId;
 
   /// The identifier of the provisioning artifact. For example,
   /// <code>pa-4abcdjnxjj6ne</code>.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
-  final String provisioningArtifactId;
+  final String? provisioningArtifactId;
 
   /// The self-service action identifier. For example,
   /// <code>act-fs7abcd89wxyz</code>.
-  @_s.JsonKey(name: 'ServiceActionId')
-  final String serviceActionId;
+  final String? serviceActionId;
 
   FailedServiceActionAssociation({
     this.errorCode,
@@ -9653,116 +9366,160 @@ class FailedServiceActionAssociation {
     this.provisioningArtifactId,
     this.serviceActionId,
   });
-  factory FailedServiceActionAssociation.fromJson(Map<String, dynamic> json) =>
-      _$FailedServiceActionAssociationFromJson(json);
+
+  factory FailedServiceActionAssociation.fromJson(Map<String, dynamic> json) {
+    return FailedServiceActionAssociation(
+      errorCode:
+          (json['ErrorCode'] as String?)?.toServiceActionAssociationErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      productId: json['ProductId'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      serviceActionId: json['ServiceActionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final productId = this.productId;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final serviceActionId = this.serviceActionId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (productId != null) 'ProductId': productId,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (serviceActionId != null) 'ServiceActionId': serviceActionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAWSOrganizationsAccessStatusOutput {
   /// The status of the portfolio share feature.
-  @_s.JsonKey(name: 'AccessStatus')
-  final AccessStatus accessStatus;
+  final AccessStatus? accessStatus;
 
   GetAWSOrganizationsAccessStatusOutput({
     this.accessStatus,
   });
+
   factory GetAWSOrganizationsAccessStatusOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAWSOrganizationsAccessStatusOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAWSOrganizationsAccessStatusOutput(
+      accessStatus: (json['AccessStatus'] as String?)?.toAccessStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessStatus = this.accessStatus;
+    return {
+      if (accessStatus != null) 'AccessStatus': accessStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProvisionedProductOutputsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the product created as the result of a request. For
   /// example, the output for a CloudFormation-backed product that creates an S3
   /// bucket would include the S3 bucket URL.
-  @_s.JsonKey(name: 'Outputs')
-  final List<RecordOutput> outputs;
+  final List<RecordOutput>? outputs;
 
   GetProvisionedProductOutputsOutput({
     this.nextPageToken,
     this.outputs,
   });
+
   factory GetProvisionedProductOutputsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetProvisionedProductOutputsOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetProvisionedProductOutputsOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      outputs: (json['Outputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecordOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final outputs = this.outputs;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (outputs != null) 'Outputs': outputs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportAsProvisionedProductOutput {
-  @_s.JsonKey(name: 'RecordDetail')
-  final RecordDetail recordDetail;
+  final RecordDetail? recordDetail;
 
   ImportAsProvisionedProductOutput({
     this.recordDetail,
   });
-  factory ImportAsProvisionedProductOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ImportAsProvisionedProductOutputFromJson(json);
+
+  factory ImportAsProvisionedProductOutput.fromJson(Map<String, dynamic> json) {
+    return ImportAsProvisionedProductOutput(
+      recordDetail: json['RecordDetail'] != null
+          ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordDetail = this.recordDetail;
+    return {
+      if (recordDetail != null) 'RecordDetail': recordDetail,
+    };
+  }
 }
 
 /// A launch path object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LaunchPath {
   /// The identifier of the launch path.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the launch path.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   LaunchPath({
     this.id,
     this.name,
   });
-  factory LaunchPath.fromJson(Map<String, dynamic> json) =>
-      _$LaunchPathFromJson(json);
+
+  factory LaunchPath.fromJson(Map<String, dynamic> json) {
+    return LaunchPath(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Summary information about a product path for a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LaunchPathSummary {
   /// The constraints on the portfolio-product relationship.
-  @_s.JsonKey(name: 'ConstraintSummaries')
-  final List<ConstraintSummary> constraintSummaries;
+  final List<ConstraintSummary>? constraintSummaries;
 
   /// The identifier of the product path.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the portfolio to which the user was assigned.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The tags associated with this product path.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   LaunchPathSummary({
     this.constraintSummaries,
@@ -9770,322 +9527,481 @@ class LaunchPathSummary {
     this.name,
     this.tags,
   });
-  factory LaunchPathSummary.fromJson(Map<String, dynamic> json) =>
-      _$LaunchPathSummaryFromJson(json);
+
+  factory LaunchPathSummary.fromJson(Map<String, dynamic> json) {
+    return LaunchPathSummary(
+      constraintSummaries: (json['ConstraintSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConstraintSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintSummaries = this.constraintSummaries;
+    final id = this.id;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (constraintSummaries != null)
+        'ConstraintSummaries': constraintSummaries,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAcceptedPortfolioSharesOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the portfolios.
-  @_s.JsonKey(name: 'PortfolioDetails')
-  final List<PortfolioDetail> portfolioDetails;
+  final List<PortfolioDetail>? portfolioDetails;
 
   ListAcceptedPortfolioSharesOutput({
     this.nextPageToken,
     this.portfolioDetails,
   });
+
   factory ListAcceptedPortfolioSharesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAcceptedPortfolioSharesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAcceptedPortfolioSharesOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      portfolioDetails: (json['PortfolioDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final portfolioDetails = this.portfolioDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (portfolioDetails != null) 'PortfolioDetails': portfolioDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBudgetsForResourceOutput {
   /// Information about the associated budgets.
-  @_s.JsonKey(name: 'Budgets')
-  final List<BudgetDetail> budgets;
+  final List<BudgetDetail>? budgets;
 
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   ListBudgetsForResourceOutput({
     this.budgets,
     this.nextPageToken,
   });
-  factory ListBudgetsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBudgetsForResourceOutputFromJson(json);
+
+  factory ListBudgetsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListBudgetsForResourceOutput(
+      budgets: (json['Budgets'] as List?)
+          ?.whereNotNull()
+          .map((e) => BudgetDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final budgets = this.budgets;
+    final nextPageToken = this.nextPageToken;
+    return {
+      if (budgets != null) 'Budgets': budgets,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConstraintsForPortfolioOutput {
   /// Information about the constraints.
-  @_s.JsonKey(name: 'ConstraintDetails')
-  final List<ConstraintDetail> constraintDetails;
+  final List<ConstraintDetail>? constraintDetails;
 
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   ListConstraintsForPortfolioOutput({
     this.constraintDetails,
     this.nextPageToken,
   });
+
   factory ListConstraintsForPortfolioOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListConstraintsForPortfolioOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListConstraintsForPortfolioOutput(
+      constraintDetails: (json['ConstraintDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConstraintDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintDetails = this.constraintDetails;
+    final nextPageToken = this.nextPageToken;
+    return {
+      if (constraintDetails != null) 'ConstraintDetails': constraintDetails,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLaunchPathsOutput {
   /// Information about the launch path.
-  @_s.JsonKey(name: 'LaunchPathSummaries')
-  final List<LaunchPathSummary> launchPathSummaries;
+  final List<LaunchPathSummary>? launchPathSummaries;
 
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   ListLaunchPathsOutput({
     this.launchPathSummaries,
     this.nextPageToken,
   });
-  factory ListLaunchPathsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListLaunchPathsOutputFromJson(json);
+
+  factory ListLaunchPathsOutput.fromJson(Map<String, dynamic> json) {
+    return ListLaunchPathsOutput(
+      launchPathSummaries: (json['LaunchPathSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => LaunchPathSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final launchPathSummaries = this.launchPathSummaries;
+    final nextPageToken = this.nextPageToken;
+    return {
+      if (launchPathSummaries != null)
+        'LaunchPathSummaries': launchPathSummaries,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOrganizationPortfolioAccessOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Displays information about the organization nodes.
-  @_s.JsonKey(name: 'OrganizationNodes')
-  final List<OrganizationNode> organizationNodes;
+  final List<OrganizationNode>? organizationNodes;
 
   ListOrganizationPortfolioAccessOutput({
     this.nextPageToken,
     this.organizationNodes,
   });
+
   factory ListOrganizationPortfolioAccessOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListOrganizationPortfolioAccessOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListOrganizationPortfolioAccessOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      organizationNodes: (json['OrganizationNodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => OrganizationNode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final organizationNodes = this.organizationNodes;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (organizationNodes != null) 'OrganizationNodes': organizationNodes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPortfolioAccessOutput {
   /// Information about the AWS accounts with access to the portfolio.
-  @_s.JsonKey(name: 'AccountIds')
-  final List<String> accountIds;
+  final List<String>? accountIds;
 
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   ListPortfolioAccessOutput({
     this.accountIds,
     this.nextPageToken,
   });
-  factory ListPortfolioAccessOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPortfolioAccessOutputFromJson(json);
+
+  factory ListPortfolioAccessOutput.fromJson(Map<String, dynamic> json) {
+    return ListPortfolioAccessOutput(
+      accountIds: (json['AccountIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountIds = this.accountIds;
+    final nextPageToken = this.nextPageToken;
+    return {
+      if (accountIds != null) 'AccountIds': accountIds,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPortfoliosForProductOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the portfolios.
-  @_s.JsonKey(name: 'PortfolioDetails')
-  final List<PortfolioDetail> portfolioDetails;
+  final List<PortfolioDetail>? portfolioDetails;
 
   ListPortfoliosForProductOutput({
     this.nextPageToken,
     this.portfolioDetails,
   });
-  factory ListPortfoliosForProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPortfoliosForProductOutputFromJson(json);
+
+  factory ListPortfoliosForProductOutput.fromJson(Map<String, dynamic> json) {
+    return ListPortfoliosForProductOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      portfolioDetails: (json['PortfolioDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final portfolioDetails = this.portfolioDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (portfolioDetails != null) 'PortfolioDetails': portfolioDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPortfoliosOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the portfolios.
-  @_s.JsonKey(name: 'PortfolioDetails')
-  final List<PortfolioDetail> portfolioDetails;
+  final List<PortfolioDetail>? portfolioDetails;
 
   ListPortfoliosOutput({
     this.nextPageToken,
     this.portfolioDetails,
   });
-  factory ListPortfoliosOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPortfoliosOutputFromJson(json);
+
+  factory ListPortfoliosOutput.fromJson(Map<String, dynamic> json) {
+    return ListPortfoliosOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      portfolioDetails: (json['PortfolioDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortfolioDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final portfolioDetails = this.portfolioDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (portfolioDetails != null) 'PortfolioDetails': portfolioDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPrincipalsForPortfolioOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The IAM principals (users or roles) associated with the portfolio.
-  @_s.JsonKey(name: 'Principals')
-  final List<Principal> principals;
+  final List<Principal>? principals;
 
   ListPrincipalsForPortfolioOutput({
     this.nextPageToken,
     this.principals,
   });
-  factory ListPrincipalsForPortfolioOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPrincipalsForPortfolioOutputFromJson(json);
+
+  factory ListPrincipalsForPortfolioOutput.fromJson(Map<String, dynamic> json) {
+    return ListPrincipalsForPortfolioOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      principals: (json['Principals'] as List?)
+          ?.whereNotNull()
+          .map((e) => Principal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final principals = this.principals;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (principals != null) 'Principals': principals,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProvisionedProductPlansOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the plans.
-  @_s.JsonKey(name: 'ProvisionedProductPlans')
-  final List<ProvisionedProductPlanSummary> provisionedProductPlans;
+  final List<ProvisionedProductPlanSummary>? provisionedProductPlans;
 
   ListProvisionedProductPlansOutput({
     this.nextPageToken,
     this.provisionedProductPlans,
   });
+
   factory ListProvisionedProductPlansOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListProvisionedProductPlansOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListProvisionedProductPlansOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      provisionedProductPlans: (json['ProvisionedProductPlans'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisionedProductPlanSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final provisionedProductPlans = this.provisionedProductPlans;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (provisionedProductPlans != null)
+        'ProvisionedProductPlans': provisionedProductPlans,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProvisioningArtifactsForServiceActionOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// An array of objects with information about product views and provisioning
   /// artifacts.
-  @_s.JsonKey(name: 'ProvisioningArtifactViews')
-  final List<ProvisioningArtifactView> provisioningArtifactViews;
+  final List<ProvisioningArtifactView>? provisioningArtifactViews;
 
   ListProvisioningArtifactsForServiceActionOutput({
     this.nextPageToken,
     this.provisioningArtifactViews,
   });
+
   factory ListProvisioningArtifactsForServiceActionOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListProvisioningArtifactsForServiceActionOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListProvisioningArtifactsForServiceActionOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      provisioningArtifactViews: (json['ProvisioningArtifactViews'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningArtifactView.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final provisioningArtifactViews = this.provisioningArtifactViews;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (provisioningArtifactViews != null)
+        'ProvisioningArtifactViews': provisioningArtifactViews,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProvisioningArtifactsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the provisioning artifacts.
-  @_s.JsonKey(name: 'ProvisioningArtifactDetails')
-  final List<ProvisioningArtifactDetail> provisioningArtifactDetails;
+  final List<ProvisioningArtifactDetail>? provisioningArtifactDetails;
 
   ListProvisioningArtifactsOutput({
     this.nextPageToken,
     this.provisioningArtifactDetails,
   });
-  factory ListProvisioningArtifactsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListProvisioningArtifactsOutputFromJson(json);
+
+  factory ListProvisioningArtifactsOutput.fromJson(Map<String, dynamic> json) {
+    return ListProvisioningArtifactsOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      provisioningArtifactDetails: (json['ProvisioningArtifactDetails']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningArtifactDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final provisioningArtifactDetails = this.provisioningArtifactDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (provisioningArtifactDetails != null)
+        'ProvisioningArtifactDetails': provisioningArtifactDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRecordHistoryOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The records, in reverse chronological order.
-  @_s.JsonKey(name: 'RecordDetails')
-  final List<RecordDetail> recordDetails;
+  final List<RecordDetail>? recordDetails;
 
   ListRecordHistoryOutput({
     this.nextPageToken,
     this.recordDetails,
   });
-  factory ListRecordHistoryOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListRecordHistoryOutputFromJson(json);
+
+  factory ListRecordHistoryOutput.fromJson(Map<String, dynamic> json) {
+    return ListRecordHistoryOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      recordDetails: (json['RecordDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecordDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final recordDetails = this.recordDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (recordDetails != null) 'RecordDetails': recordDetails,
+    };
+  }
 }
 
 /// The search filter to use when listing history records.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ListRecordHistorySearchFilter {
   /// The filter key.
   ///
@@ -10099,197 +10015,274 @@ class ListRecordHistorySearchFilter {
   /// product identifier.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The filter value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ListRecordHistorySearchFilter({
     this.key,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$ListRecordHistorySearchFilterToJson(this);
+
+  factory ListRecordHistorySearchFilter.fromJson(Map<String, dynamic> json) {
+    return ListRecordHistorySearchFilter(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourcesForTagOptionOutput {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
-  @_s.JsonKey(name: 'PageToken')
-  final String pageToken;
+  final String? pageToken;
 
   /// Information about the resources.
-  @_s.JsonKey(name: 'ResourceDetails')
-  final List<ResourceDetail> resourceDetails;
+  final List<ResourceDetail>? resourceDetails;
 
   ListResourcesForTagOptionOutput({
     this.pageToken,
     this.resourceDetails,
   });
-  factory ListResourcesForTagOptionOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListResourcesForTagOptionOutputFromJson(json);
+
+  factory ListResourcesForTagOptionOutput.fromJson(Map<String, dynamic> json) {
+    return ListResourcesForTagOptionOutput(
+      pageToken: json['PageToken'] as String?,
+      resourceDetails: (json['ResourceDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pageToken = this.pageToken;
+    final resourceDetails = this.resourceDetails;
+    return {
+      if (pageToken != null) 'PageToken': pageToken,
+      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListServiceActionsForProvisioningArtifactOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// An object containing information about the self-service actions associated
   /// with the provisioning artifact.
-  @_s.JsonKey(name: 'ServiceActionSummaries')
-  final List<ServiceActionSummary> serviceActionSummaries;
+  final List<ServiceActionSummary>? serviceActionSummaries;
 
   ListServiceActionsForProvisioningArtifactOutput({
     this.nextPageToken,
     this.serviceActionSummaries,
   });
+
   factory ListServiceActionsForProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListServiceActionsForProvisioningArtifactOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListServiceActionsForProvisioningArtifactOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      serviceActionSummaries: (json['ServiceActionSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceActionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final serviceActionSummaries = this.serviceActionSummaries;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (serviceActionSummaries != null)
+        'ServiceActionSummaries': serviceActionSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListServiceActionsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// An object containing information about the service actions associated with
   /// the provisioning artifact.
-  @_s.JsonKey(name: 'ServiceActionSummaries')
-  final List<ServiceActionSummary> serviceActionSummaries;
+  final List<ServiceActionSummary>? serviceActionSummaries;
 
   ListServiceActionsOutput({
     this.nextPageToken,
     this.serviceActionSummaries,
   });
-  factory ListServiceActionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListServiceActionsOutputFromJson(json);
+
+  factory ListServiceActionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListServiceActionsOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      serviceActionSummaries: (json['ServiceActionSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceActionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final serviceActionSummaries = this.serviceActionSummaries;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (serviceActionSummaries != null)
+        'ServiceActionSummaries': serviceActionSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStackInstancesForProvisionedProductOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// List of stack instances.
-  @_s.JsonKey(name: 'StackInstances')
-  final List<StackInstance> stackInstances;
+  final List<StackInstance>? stackInstances;
 
   ListStackInstancesForProvisionedProductOutput({
     this.nextPageToken,
     this.stackInstances,
   });
+
   factory ListStackInstancesForProvisionedProductOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListStackInstancesForProvisionedProductOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListStackInstancesForProvisionedProductOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      stackInstances: (json['StackInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => StackInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final stackInstances = this.stackInstances;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (stackInstances != null) 'StackInstances': stackInstances,
+    };
+  }
 }
 
 /// Filters to use when listing TagOptions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ListTagOptionsFilters {
   /// The active state.
-  @_s.JsonKey(name: 'Active')
-  final bool active;
+  final bool? active;
 
   /// The TagOption key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The TagOption value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ListTagOptionsFilters({
     this.active,
     this.key,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$ListTagOptionsFiltersToJson(this);
+
+  factory ListTagOptionsFilters.fromJson(Map<String, dynamic> json) {
+    return ListTagOptionsFilters(
+      active: json['Active'] as bool?,
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final active = this.active;
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (active != null) 'Active': active,
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagOptionsOutput {
   /// The page token for the next set of results. To retrieve the first set of
   /// results, use null.
-  @_s.JsonKey(name: 'PageToken')
-  final String pageToken;
+  final String? pageToken;
 
   /// Information about the TagOptions.
-  @_s.JsonKey(name: 'TagOptionDetails')
-  final List<TagOptionDetail> tagOptionDetails;
+  final List<TagOptionDetail>? tagOptionDetails;
 
   ListTagOptionsOutput({
     this.pageToken,
     this.tagOptionDetails,
   });
-  factory ListTagOptionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagOptionsOutputFromJson(json);
+
+  factory ListTagOptionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagOptionsOutput(
+      pageToken: json['PageToken'] as String?,
+      tagOptionDetails: (json['TagOptionDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagOptionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pageToken = this.pageToken;
+    final tagOptionDetails = this.tagOptionDetails;
+    return {
+      if (pageToken != null) 'PageToken': pageToken,
+      if (tagOptionDetails != null) 'TagOptionDetails': tagOptionDetails,
+    };
+  }
 }
 
 /// Information about the organization node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OrganizationNode {
   /// The organization node type.
-  @_s.JsonKey(name: 'Type')
-  final OrganizationNodeType type;
+  final OrganizationNodeType? type;
 
   /// The identifier of the organization node.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   OrganizationNode({
     this.type,
     this.value,
   });
-  factory OrganizationNode.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationNodeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OrganizationNodeToJson(this);
+  factory OrganizationNode.fromJson(Map<String, dynamic> json) {
+    return OrganizationNode(
+      type: (json['Type'] as String?)?.toOrganizationNodeType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum OrganizationNodeType {
-  @_s.JsonValue('ORGANIZATION')
   organization,
-  @_s.JsonValue('ORGANIZATIONAL_UNIT')
   organizationalUnit,
-  @_s.JsonValue('ACCOUNT')
   account,
 }
 
@@ -10303,26 +10296,32 @@ extension on OrganizationNodeType {
       case OrganizationNodeType.account:
         return 'ACCOUNT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OrganizationNodeType toOrganizationNodeType() {
+    switch (this) {
+      case 'ORGANIZATION':
+        return OrganizationNodeType.organization;
+      case 'ORGANIZATIONAL_UNIT':
+        return OrganizationNodeType.organizationalUnit;
+      case 'ACCOUNT':
+        return OrganizationNodeType.account;
+    }
+    throw Exception('$this is not known in enum OrganizationNodeType');
   }
 }
 
 /// The constraints that the administrator has put on the parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParameterConstraints {
   /// A regular expression that represents the patterns that allow for
   /// <code>String</code> types. The pattern must match the entire parameter value
   /// provided.
-  @_s.JsonKey(name: 'AllowedPattern')
-  final String allowedPattern;
+  final String? allowedPattern;
 
   /// The values that the administrator has allowed for the parameter.
-  @_s.JsonKey(name: 'AllowedValues')
-  final List<String> allowedValues;
+  final List<String>? allowedValues;
 
   /// A string that explains a constraint when the constraint is violated. For
   /// example, without a constraint description, a parameter that has an allowed
@@ -10338,28 +10337,23 @@ class ParameterConstraints {
   ///
   /// <code>Malformed input-Parameter MyParameter must only contain uppercase and
   /// lowercase letters and numbers.</code>
-  @_s.JsonKey(name: 'ConstraintDescription')
-  final String constraintDescription;
+  final String? constraintDescription;
 
   /// An integer value that determines the largest number of characters you want
   /// to allow for <code>String</code> types.
-  @_s.JsonKey(name: 'MaxLength')
-  final String maxLength;
+  final String? maxLength;
 
   /// A numeric value that determines the largest numeric value you want to allow
   /// for <code>Number</code> types.
-  @_s.JsonKey(name: 'MaxValue')
-  final String maxValue;
+  final String? maxValue;
 
   /// An integer value that determines the smallest number of characters you want
   /// to allow for <code>String</code> types.
-  @_s.JsonKey(name: 'MinLength')
-  final String minLength;
+  final String? minLength;
 
   /// A numeric value that determines the smallest numeric value you want to allow
   /// for <code>Number</code> types.
-  @_s.JsonKey(name: 'MinValue')
-  final String minValue;
+  final String? minValue;
 
   ParameterConstraints({
     this.allowedPattern,
@@ -10370,41 +10364,62 @@ class ParameterConstraints {
     this.minLength,
     this.minValue,
   });
-  factory ParameterConstraints.fromJson(Map<String, dynamic> json) =>
-      _$ParameterConstraintsFromJson(json);
+
+  factory ParameterConstraints.fromJson(Map<String, dynamic> json) {
+    return ParameterConstraints(
+      allowedPattern: json['AllowedPattern'] as String?,
+      allowedValues: (json['AllowedValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      constraintDescription: json['ConstraintDescription'] as String?,
+      maxLength: json['MaxLength'] as String?,
+      maxValue: json['MaxValue'] as String?,
+      minLength: json['MinLength'] as String?,
+      minValue: json['MinValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedPattern = this.allowedPattern;
+    final allowedValues = this.allowedValues;
+    final constraintDescription = this.constraintDescription;
+    final maxLength = this.maxLength;
+    final maxValue = this.maxValue;
+    final minLength = this.minLength;
+    final minValue = this.minValue;
+    return {
+      if (allowedPattern != null) 'AllowedPattern': allowedPattern,
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (constraintDescription != null)
+        'ConstraintDescription': constraintDescription,
+      if (maxLength != null) 'MaxLength': maxLength,
+      if (maxValue != null) 'MaxValue': maxValue,
+      if (minLength != null) 'MinLength': minLength,
+      if (minValue != null) 'MinValue': minValue,
+    };
+  }
 }
 
 /// Information about a portfolio.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PortfolioDetail {
   /// The ARN assigned to the portfolio.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description of the portfolio.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name to use for display purposes.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The portfolio identifier.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the portfolio provider.
-  @_s.JsonKey(name: 'ProviderName')
-  final String providerName;
+  final String? providerName;
 
   PortfolioDetail({
     this.arn,
@@ -10414,22 +10429,42 @@ class PortfolioDetail {
     this.id,
     this.providerName,
   });
-  factory PortfolioDetail.fromJson(Map<String, dynamic> json) =>
-      _$PortfolioDetailFromJson(json);
+
+  factory PortfolioDetail.fromJson(Map<String, dynamic> json) {
+    return PortfolioDetail(
+      arn: json['ARN'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      id: json['Id'] as String?,
+      providerName: json['ProviderName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final displayName = this.displayName;
+    final id = this.id;
+    final providerName = this.providerName;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (id != null) 'Id': id,
+      if (providerName != null) 'ProviderName': providerName,
+    };
+  }
 }
 
 /// Information about the portfolio share.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PortfolioShareDetail {
   /// Indicates whether the shared portfolio is imported by the recipient account.
   /// If the recipient is in an organization node, the share is automatically
   /// imported, and the field is always set to true.
-  @_s.JsonKey(name: 'Accepted')
-  final bool accepted;
+  final bool? accepted;
 
   /// The identifier of the recipient entity that received the portfolio share.
   /// The recipient entities can be one of the following:
@@ -10442,17 +10477,14 @@ class PortfolioShareDetail {
   ///
   /// 4. The organization itself. (This shares with every account in the
   /// organization).
-  @_s.JsonKey(name: 'PrincipalId')
-  final String principalId;
+  final String? principalId;
 
   /// Indicates whether TagOptions sharing is enabled or disabled for the
   /// portfolio share.
-  @_s.JsonKey(name: 'ShareTagOptions')
-  final bool shareTagOptions;
+  final bool? shareTagOptions;
 
   /// The type of the portfolio share.
-  @_s.JsonKey(name: 'Type')
-  final DescribePortfolioShareType type;
+  final DescribePortfolioShareType? type;
 
   PortfolioShareDetail({
     this.accepted,
@@ -10460,16 +10492,33 @@ class PortfolioShareDetail {
     this.shareTagOptions,
     this.type,
   });
-  factory PortfolioShareDetail.fromJson(Map<String, dynamic> json) =>
-      _$PortfolioShareDetailFromJson(json);
+
+  factory PortfolioShareDetail.fromJson(Map<String, dynamic> json) {
+    return PortfolioShareDetail(
+      accepted: json['Accepted'] as bool?,
+      principalId: json['PrincipalId'] as String?,
+      shareTagOptions: json['ShareTagOptions'] as bool?,
+      type: (json['Type'] as String?)?.toDescribePortfolioShareType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accepted = this.accepted;
+    final principalId = this.principalId;
+    final shareTagOptions = this.shareTagOptions;
+    final type = this.type;
+    return {
+      if (accepted != null) 'Accepted': accepted,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (shareTagOptions != null) 'ShareTagOptions': shareTagOptions,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum PortfolioShareType {
-  @_s.JsonValue('IMPORTED')
   imported,
-  @_s.JsonValue('AWS_SERVICECATALOG')
   awsServicecatalog,
-  @_s.JsonValue('AWS_ORGANIZATIONS')
   awsOrganizations,
 }
 
@@ -10483,35 +10532,54 @@ extension on PortfolioShareType {
       case PortfolioShareType.awsOrganizations:
         return 'AWS_ORGANIZATIONS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PortfolioShareType toPortfolioShareType() {
+    switch (this) {
+      case 'IMPORTED':
+        return PortfolioShareType.imported;
+      case 'AWS_SERVICECATALOG':
+        return PortfolioShareType.awsServicecatalog;
+      case 'AWS_ORGANIZATIONS':
+        return PortfolioShareType.awsOrganizations;
+    }
+    throw Exception('$this is not known in enum PortfolioShareType');
   }
 }
 
 /// Information about a principal.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Principal {
   /// The ARN of the principal (IAM user, role, or group).
-  @_s.JsonKey(name: 'PrincipalARN')
-  final String principalARN;
+  final String? principalARN;
 
   /// The principal type. The supported value is <code>IAM</code>.
-  @_s.JsonKey(name: 'PrincipalType')
-  final PrincipalType principalType;
+  final PrincipalType? principalType;
 
   Principal({
     this.principalARN,
     this.principalType,
   });
-  factory Principal.fromJson(Map<String, dynamic> json) =>
-      _$PrincipalFromJson(json);
+
+  factory Principal.fromJson(Map<String, dynamic> json) {
+    return Principal(
+      principalARN: json['PrincipalARN'] as String?,
+      principalType: (json['PrincipalType'] as String?)?.toPrincipalType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final principalARN = this.principalARN;
+    final principalType = this.principalType;
+    return {
+      if (principalARN != null) 'PrincipalARN': principalARN,
+      if (principalType != null) 'PrincipalType': principalType.toValue(),
+    };
+  }
 }
 
 enum PrincipalType {
-  @_s.JsonValue('IAM')
   iam,
 }
 
@@ -10521,12 +10589,20 @@ extension on PrincipalType {
       case PrincipalType.iam:
         return 'IAM';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PrincipalType toPrincipalType() {
+    switch (this) {
+      case 'IAM':
+        return PrincipalType.iam;
+    }
+    throw Exception('$this is not known in enum PrincipalType');
   }
 }
 
 enum ProductSource {
-  @_s.JsonValue('ACCOUNT')
   account,
 }
 
@@ -10536,14 +10612,21 @@ extension on ProductSource {
       case ProductSource.account:
         return 'ACCOUNT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProductSource toProductSource() {
+    switch (this) {
+      case 'ACCOUNT':
+        return ProductSource.account;
+    }
+    throw Exception('$this is not known in enum ProductSource');
   }
 }
 
 enum ProductType {
-  @_s.JsonValue('CLOUD_FORMATION_TEMPLATE')
   cloudFormationTemplate,
-  @_s.JsonValue('MARKETPLACE')
   marketplace,
 }
 
@@ -10555,53 +10638,62 @@ extension on ProductType {
       case ProductType.marketplace:
         return 'MARKETPLACE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProductType toProductType() {
+    switch (this) {
+      case 'CLOUD_FORMATION_TEMPLATE':
+        return ProductType.cloudFormationTemplate;
+      case 'MARKETPLACE':
+        return ProductType.marketplace;
+    }
+    throw Exception('$this is not known in enum ProductType');
   }
 }
 
 /// A single product view aggregation value/count pair, containing metadata
 /// about each product to which the calling user has access.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProductViewAggregationValue {
   /// An approximate count of the products that match the value.
-  @_s.JsonKey(name: 'ApproximateCount')
-  final int approximateCount;
+  final int? approximateCount;
 
   /// The value of the product view aggregation.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ProductViewAggregationValue({
     this.approximateCount,
     this.value,
   });
-  factory ProductViewAggregationValue.fromJson(Map<String, dynamic> json) =>
-      _$ProductViewAggregationValueFromJson(json);
+
+  factory ProductViewAggregationValue.fromJson(Map<String, dynamic> json) {
+    return ProductViewAggregationValue(
+      approximateCount: json['ApproximateCount'] as int?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateCount = this.approximateCount;
+    final value = this.value;
+    return {
+      if (approximateCount != null) 'ApproximateCount': approximateCount,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Information about a product view.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProductViewDetail {
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The ARN of the product.
-  @_s.JsonKey(name: 'ProductARN')
-  final String productARN;
+  final String? productARN;
 
   /// Summary information about the product view.
-  @_s.JsonKey(name: 'ProductViewSummary')
-  final ProductViewSummary productViewSummary;
+  final ProductViewSummary? productViewSummary;
 
   /// The status of the product.
   ///
@@ -10617,8 +10709,7 @@ class ProductViewDetail {
   /// <code>FAILED</code> - An action failed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   ProductViewDetail({
     this.createdTime,
@@ -10626,18 +10717,37 @@ class ProductViewDetail {
     this.productViewSummary,
     this.status,
   });
-  factory ProductViewDetail.fromJson(Map<String, dynamic> json) =>
-      _$ProductViewDetailFromJson(json);
+
+  factory ProductViewDetail.fromJson(Map<String, dynamic> json) {
+    return ProductViewDetail(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      productARN: json['ProductARN'] as String?,
+      productViewSummary: json['ProductViewSummary'] != null
+          ? ProductViewSummary.fromJson(
+              json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final productARN = this.productARN;
+    final productViewSummary = this.productViewSummary;
+    final status = this.status;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (productARN != null) 'ProductARN': productARN,
+      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum ProductViewFilterBy {
-  @_s.JsonValue('FullTextSearch')
   fullTextSearch,
-  @_s.JsonValue('Owner')
   owner,
-  @_s.JsonValue('ProductType')
   productType,
-  @_s.JsonValue('SourceProductId')
   sourceProductId,
 }
 
@@ -10653,16 +10763,28 @@ extension on ProductViewFilterBy {
       case ProductViewFilterBy.sourceProductId:
         return 'SourceProductId';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProductViewFilterBy toProductViewFilterBy() {
+    switch (this) {
+      case 'FullTextSearch':
+        return ProductViewFilterBy.fullTextSearch;
+      case 'Owner':
+        return ProductViewFilterBy.owner;
+      case 'ProductType':
+        return ProductViewFilterBy.productType;
+      case 'SourceProductId':
+        return ProductViewFilterBy.sourceProductId;
+    }
+    throw Exception('$this is not known in enum ProductViewFilterBy');
   }
 }
 
 enum ProductViewSortBy {
-  @_s.JsonValue('Title')
   title,
-  @_s.JsonValue('VersionCount')
   versionCount,
-  @_s.JsonValue('CreationDate')
   creationDate,
 }
 
@@ -10676,68 +10798,65 @@ extension on ProductViewSortBy {
       case ProductViewSortBy.creationDate:
         return 'CreationDate';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProductViewSortBy toProductViewSortBy() {
+    switch (this) {
+      case 'Title':
+        return ProductViewSortBy.title;
+      case 'VersionCount':
+        return ProductViewSortBy.versionCount;
+      case 'CreationDate':
+        return ProductViewSortBy.creationDate;
+    }
+    throw Exception('$this is not known in enum ProductViewSortBy');
   }
 }
 
 /// Summary information about a product view.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProductViewSummary {
   /// The distributor of the product. Contact the product administrator for the
   /// significance of this value.
-  @_s.JsonKey(name: 'Distributor')
-  final String distributor;
+  final String? distributor;
 
   /// Indicates whether the product has a default path. If the product does not
   /// have a default path, call <a>ListLaunchPaths</a> to disambiguate between
   /// paths. Otherwise, <a>ListLaunchPaths</a> is not required, and the output of
   /// <a>ProductViewSummary</a> can be used directly with
   /// <a>DescribeProvisioningParameters</a>.
-  @_s.JsonKey(name: 'HasDefaultPath')
-  final bool hasDefaultPath;
+  final bool? hasDefaultPath;
 
   /// The product view identifier.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the product.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The owner of the product. Contact the product administrator for the
   /// significance of this value.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// The product identifier.
-  @_s.JsonKey(name: 'ProductId')
-  final String productId;
+  final String? productId;
 
   /// Short description of the product.
-  @_s.JsonKey(name: 'ShortDescription')
-  final String shortDescription;
+  final String? shortDescription;
 
   /// The description of the support for this Product.
-  @_s.JsonKey(name: 'SupportDescription')
-  final String supportDescription;
+  final String? supportDescription;
 
   /// The email contact information to obtain support for this Product.
-  @_s.JsonKey(name: 'SupportEmail')
-  final String supportEmail;
+  final String? supportEmail;
 
   /// The URL information to obtain support for this Product.
-  @_s.JsonKey(name: 'SupportUrl')
-  final String supportUrl;
+  final String? supportUrl;
 
   /// The product type. Contact the product administrator for the significance of
   /// this value. If this value is <code>MARKETPLACE</code>, the product was
   /// created by AWS Marketplace.
-  @_s.JsonKey(name: 'Type')
-  final ProductType type;
+  final ProductType? type;
 
   ProductViewSummary({
     this.distributor,
@@ -10752,14 +10871,53 @@ class ProductViewSummary {
     this.supportUrl,
     this.type,
   });
-  factory ProductViewSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProductViewSummaryFromJson(json);
+
+  factory ProductViewSummary.fromJson(Map<String, dynamic> json) {
+    return ProductViewSummary(
+      distributor: json['Distributor'] as String?,
+      hasDefaultPath: json['HasDefaultPath'] as bool?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      productId: json['ProductId'] as String?,
+      shortDescription: json['ShortDescription'] as String?,
+      supportDescription: json['SupportDescription'] as String?,
+      supportEmail: json['SupportEmail'] as String?,
+      supportUrl: json['SupportUrl'] as String?,
+      type: (json['Type'] as String?)?.toProductType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributor = this.distributor;
+    final hasDefaultPath = this.hasDefaultPath;
+    final id = this.id;
+    final name = this.name;
+    final owner = this.owner;
+    final productId = this.productId;
+    final shortDescription = this.shortDescription;
+    final supportDescription = this.supportDescription;
+    final supportEmail = this.supportEmail;
+    final supportUrl = this.supportUrl;
+    final type = this.type;
+    return {
+      if (distributor != null) 'Distributor': distributor,
+      if (hasDefaultPath != null) 'HasDefaultPath': hasDefaultPath,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (productId != null) 'ProductId': productId,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
+      if (supportDescription != null) 'SupportDescription': supportDescription,
+      if (supportEmail != null) 'SupportEmail': supportEmail,
+      if (supportUrl != null) 'SupportUrl': supportUrl,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum PropertyKey {
-  @_s.JsonValue('OWNER')
   owner,
-  @_s.JsonValue('LAUNCH_ROLE')
   launchRole,
 }
 
@@ -10771,52 +10929,60 @@ extension on PropertyKey {
       case PropertyKey.launchRole:
         return 'LAUNCH_ROLE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  PropertyKey toPropertyKey() {
+    switch (this) {
+      case 'OWNER':
+        return PropertyKey.owner;
+      case 'LAUNCH_ROLE':
+        return PropertyKey.launchRole;
+    }
+    throw Exception('$this is not known in enum PropertyKey');
+  }
+}
+
 class ProvisionProductOutput {
   /// Information about the result of provisioning the product.
-  @_s.JsonKey(name: 'RecordDetail')
-  final RecordDetail recordDetail;
+  final RecordDetail? recordDetail;
 
   ProvisionProductOutput({
     this.recordDetail,
   });
-  factory ProvisionProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionProductOutputFromJson(json);
+
+  factory ProvisionProductOutput.fromJson(Map<String, dynamic> json) {
+    return ProvisionProductOutput(
+      recordDetail: json['RecordDetail'] != null
+          ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordDetail = this.recordDetail;
+    return {
+      if (recordDetail != null) 'RecordDetail': recordDetail,
+    };
+  }
 }
 
 /// Information about a provisioned product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedProductAttribute {
   /// The ARN of the provisioned product.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The identifier of the provisioned product.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// A unique identifier that you provide to ensure idempotency. If multiple
   /// requests differ only by the idempotency token, the same response is returned
   /// for each repeated request.
-  @_s.JsonKey(name: 'IdempotencyToken')
-  final String idempotencyToken;
+  final String? idempotencyToken;
 
   /// The record identifier of the last request performed on this provisioned
   /// product of the following types:
@@ -10835,13 +11001,11 @@ class ProvisionedProductAttribute {
   /// TerminateProvisionedProduct
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'LastProvisioningRecordId')
-  final String lastProvisioningRecordId;
+  final String? lastProvisioningRecordId;
 
   /// The record identifier of the last request performed on this provisioned
   /// product.
-  @_s.JsonKey(name: 'LastRecordId')
-  final String lastRecordId;
+  final String? lastRecordId;
 
   /// The record identifier of the last successful request performed on this
   /// provisioned product of the following types:
@@ -10860,33 +11024,26 @@ class ProvisionedProductAttribute {
   /// TerminateProvisionedProduct
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'LastSuccessfulProvisioningRecordId')
-  final String lastSuccessfulProvisioningRecordId;
+  final String? lastSuccessfulProvisioningRecordId;
 
   /// The user-friendly name of the provisioned product.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The assigned identifier for the resource, such as an EC2 instance ID or an
   /// S3 bucket name.
-  @_s.JsonKey(name: 'PhysicalId')
-  final String physicalId;
+  final String? physicalId;
 
   /// The product identifier.
-  @_s.JsonKey(name: 'ProductId')
-  final String productId;
+  final String? productId;
 
   /// The name of the product.
-  @_s.JsonKey(name: 'ProductName')
-  final String productName;
+  final String? productName;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
-  final String provisioningArtifactId;
+  final String? provisioningArtifactId;
 
   /// The name of the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactName')
-  final String provisioningArtifactName;
+  final String? provisioningArtifactName;
 
   /// The current status of the provisioned product.
   ///
@@ -10919,29 +11076,23 @@ class ProvisionedProductAttribute {
   /// operations.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final ProvisionedProductStatus status;
+  final ProvisionedProductStatus? status;
 
   /// The current status message of the provisioned product.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// One or more tags.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The type of provisioned product. The supported values are
   /// <code>CFN_STACK</code> and <code>CFN_STACKSET</code>.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The Amazon Resource Name (ARN) of the IAM user.
-  @_s.JsonKey(name: 'UserArn')
-  final String userArn;
+  final String? userArn;
 
   /// The ARN of the IAM user in the session. This ARN might contain a session ID.
-  @_s.JsonKey(name: 'UserArnSession')
-  final String userArnSession;
+  final String? userArnSession;
 
   ProvisionedProductAttribute({
     this.arn,
@@ -10964,35 +11115,100 @@ class ProvisionedProductAttribute {
     this.userArn,
     this.userArnSession,
   });
-  factory ProvisionedProductAttribute.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionedProductAttributeFromJson(json);
+
+  factory ProvisionedProductAttribute.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductAttribute(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      idempotencyToken: json['IdempotencyToken'] as String?,
+      lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
+      lastRecordId: json['LastRecordId'] as String?,
+      lastSuccessfulProvisioningRecordId:
+          json['LastSuccessfulProvisioningRecordId'] as String?,
+      name: json['Name'] as String?,
+      physicalId: json['PhysicalId'] as String?,
+      productId: json['ProductId'] as String?,
+      productName: json['ProductName'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      provisioningArtifactName: json['ProvisioningArtifactName'] as String?,
+      status: (json['Status'] as String?)?.toProvisionedProductStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+      userArn: json['UserArn'] as String?,
+      userArnSession: json['UserArnSession'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final idempotencyToken = this.idempotencyToken;
+    final lastProvisioningRecordId = this.lastProvisioningRecordId;
+    final lastRecordId = this.lastRecordId;
+    final lastSuccessfulProvisioningRecordId =
+        this.lastSuccessfulProvisioningRecordId;
+    final name = this.name;
+    final physicalId = this.physicalId;
+    final productId = this.productId;
+    final productName = this.productName;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final provisioningArtifactName = this.provisioningArtifactName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    final type = this.type;
+    final userArn = this.userArn;
+    final userArnSession = this.userArnSession;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (id != null) 'Id': id,
+      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+      if (lastProvisioningRecordId != null)
+        'LastProvisioningRecordId': lastProvisioningRecordId,
+      if (lastRecordId != null) 'LastRecordId': lastRecordId,
+      if (lastSuccessfulProvisioningRecordId != null)
+        'LastSuccessfulProvisioningRecordId':
+            lastSuccessfulProvisioningRecordId,
+      if (name != null) 'Name': name,
+      if (physicalId != null) 'PhysicalId': physicalId,
+      if (productId != null) 'ProductId': productId,
+      if (productName != null) 'ProductName': productName,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (provisioningArtifactName != null)
+        'ProvisioningArtifactName': provisioningArtifactName,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+      if (userArn != null) 'UserArn': userArn,
+      if (userArnSession != null) 'UserArnSession': userArnSession,
+    };
+  }
 }
 
 /// Information about a provisioned product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedProductDetail {
   /// The ARN of the provisioned product.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The identifier of the provisioned product.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// A unique identifier that you provide to ensure idempotency. If multiple
   /// requests differ only by the idempotency token, the same response is returned
   /// for each repeated request.
-  @_s.JsonKey(name: 'IdempotencyToken')
-  final String idempotencyToken;
+  final String? idempotencyToken;
 
   /// The record identifier of the last request performed on this provisioned
   /// product of the following types:
@@ -11011,13 +11227,11 @@ class ProvisionedProductDetail {
   /// TerminateProvisionedProduct
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'LastProvisioningRecordId')
-  final String lastProvisioningRecordId;
+  final String? lastProvisioningRecordId;
 
   /// The record identifier of the last request performed on this provisioned
   /// product.
-  @_s.JsonKey(name: 'LastRecordId')
-  final String lastRecordId;
+  final String? lastRecordId;
 
   /// The record identifier of the last successful request performed on this
   /// provisioned product of the following types:
@@ -11036,25 +11250,20 @@ class ProvisionedProductDetail {
   /// TerminateProvisionedProduct
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'LastSuccessfulProvisioningRecordId')
-  final String lastSuccessfulProvisioningRecordId;
+  final String? lastSuccessfulProvisioningRecordId;
 
   /// The ARN of the launch role associated with the provisioned product.
-  @_s.JsonKey(name: 'LaunchRoleArn')
-  final String launchRoleArn;
+  final String? launchRoleArn;
 
   /// The user-friendly name of the provisioned product.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
-  @_s.JsonKey(name: 'ProductId')
-  final String productId;
+  final String? productId;
 
   /// The identifier of the provisioning artifact. For example,
   /// <code>pa-4abcdjnxjj6ne</code>.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
-  final String provisioningArtifactId;
+  final String? provisioningArtifactId;
 
   /// The current status of the provisioned product.
   ///
@@ -11087,17 +11296,14 @@ class ProvisionedProductDetail {
   /// operations.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final ProvisionedProductStatus status;
+  final ProvisionedProductStatus? status;
 
   /// The current status message of the provisioned product.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The type of provisioned product. The supported values are
   /// <code>CFN_STACK</code> and <code>CFN_STACKSET</code>.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   ProvisionedProductDetail({
     this.arn,
@@ -11115,82 +11321,116 @@ class ProvisionedProductDetail {
     this.statusMessage,
     this.type,
   });
-  factory ProvisionedProductDetail.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionedProductDetailFromJson(json);
+
+  factory ProvisionedProductDetail.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductDetail(
+      arn: json['Arn'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      id: json['Id'] as String?,
+      idempotencyToken: json['IdempotencyToken'] as String?,
+      lastProvisioningRecordId: json['LastProvisioningRecordId'] as String?,
+      lastRecordId: json['LastRecordId'] as String?,
+      lastSuccessfulProvisioningRecordId:
+          json['LastSuccessfulProvisioningRecordId'] as String?,
+      launchRoleArn: json['LaunchRoleArn'] as String?,
+      name: json['Name'] as String?,
+      productId: json['ProductId'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      status: (json['Status'] as String?)?.toProvisionedProductStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final idempotencyToken = this.idempotencyToken;
+    final lastProvisioningRecordId = this.lastProvisioningRecordId;
+    final lastRecordId = this.lastRecordId;
+    final lastSuccessfulProvisioningRecordId =
+        this.lastSuccessfulProvisioningRecordId;
+    final launchRoleArn = this.launchRoleArn;
+    final name = this.name;
+    final productId = this.productId;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (id != null) 'Id': id,
+      if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+      if (lastProvisioningRecordId != null)
+        'LastProvisioningRecordId': lastProvisioningRecordId,
+      if (lastRecordId != null) 'LastRecordId': lastRecordId,
+      if (lastSuccessfulProvisioningRecordId != null)
+        'LastSuccessfulProvisioningRecordId':
+            lastSuccessfulProvisioningRecordId,
+      if (launchRoleArn != null) 'LaunchRoleArn': launchRoleArn,
+      if (name != null) 'Name': name,
+      if (productId != null) 'ProductId': productId,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Information about a plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedProductPlanDetails {
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// Passed to CloudFormation. The SNS topic ARNs to which to publish
   /// stack-related events.
-  @_s.JsonKey(name: 'NotificationArns')
-  final List<String> notificationArns;
+  final List<String>? notificationArns;
 
   /// The path identifier of the product. This value is optional if the product
   /// has a default path, and required if the product has more than one path. To
   /// list the paths for a product, use <a>ListLaunchPaths</a>.
-  @_s.JsonKey(name: 'PathId')
-  final String pathId;
+  final String? pathId;
 
   /// The plan identifier.
-  @_s.JsonKey(name: 'PlanId')
-  final String planId;
+  final String? planId;
 
   /// The name of the plan.
-  @_s.JsonKey(name: 'PlanName')
-  final String planName;
+  final String? planName;
 
   /// The plan type.
-  @_s.JsonKey(name: 'PlanType')
-  final ProvisionedProductPlanType planType;
+  final ProvisionedProductPlanType? planType;
 
   /// The product identifier.
-  @_s.JsonKey(name: 'ProductId')
-  final String productId;
+  final String? productId;
 
   /// The product identifier.
-  @_s.JsonKey(name: 'ProvisionProductId')
-  final String provisionProductId;
+  final String? provisionProductId;
 
   /// The user-friendly name of the provisioned product.
-  @_s.JsonKey(name: 'ProvisionProductName')
-  final String provisionProductName;
+  final String? provisionProductName;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
-  final String provisioningArtifactId;
+  final String? provisioningArtifactId;
 
   /// Parameters specified by the administrator that are required for provisioning
   /// the product.
-  @_s.JsonKey(name: 'ProvisioningParameters')
-  final List<UpdateProvisioningParameter> provisioningParameters;
+  final List<UpdateProvisioningParameter>? provisioningParameters;
 
   /// The status.
-  @_s.JsonKey(name: 'Status')
-  final ProvisionedProductPlanStatus status;
+  final ProvisionedProductPlanStatus? status;
 
   /// The status message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// One or more tags.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The time when the plan was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTime')
-  final DateTime updatedTime;
+  final DateTime? updatedTime;
 
   ProvisionedProductPlanDetails({
     this.createdTime,
@@ -11209,55 +11449,143 @@ class ProvisionedProductPlanDetails {
     this.tags,
     this.updatedTime,
   });
-  factory ProvisionedProductPlanDetails.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionedProductPlanDetailsFromJson(json);
+
+  factory ProvisionedProductPlanDetails.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductPlanDetails(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      notificationArns: (json['NotificationArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      pathId: json['PathId'] as String?,
+      planId: json['PlanId'] as String?,
+      planName: json['PlanName'] as String?,
+      planType: (json['PlanType'] as String?)?.toProvisionedProductPlanType(),
+      productId: json['ProductId'] as String?,
+      provisionProductId: json['ProvisionProductId'] as String?,
+      provisionProductName: json['ProvisionProductName'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      provisioningParameters: (json['ProvisioningParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              UpdateProvisioningParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['Status'] as String?)?.toProvisionedProductPlanStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updatedTime: timeStampFromJson(json['UpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final notificationArns = this.notificationArns;
+    final pathId = this.pathId;
+    final planId = this.planId;
+    final planName = this.planName;
+    final planType = this.planType;
+    final productId = this.productId;
+    final provisionProductId = this.provisionProductId;
+    final provisionProductName = this.provisionProductName;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final provisioningParameters = this.provisioningParameters;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final tags = this.tags;
+    final updatedTime = this.updatedTime;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (notificationArns != null) 'NotificationArns': notificationArns,
+      if (pathId != null) 'PathId': pathId,
+      if (planId != null) 'PlanId': planId,
+      if (planName != null) 'PlanName': planName,
+      if (planType != null) 'PlanType': planType.toValue(),
+      if (productId != null) 'ProductId': productId,
+      if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
+      if (provisionProductName != null)
+        'ProvisionProductName': provisionProductName,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (provisioningParameters != null)
+        'ProvisioningParameters': provisioningParameters,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (tags != null) 'Tags': tags,
+      if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
+    };
+  }
 }
 
 enum ProvisionedProductPlanStatus {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('CREATE_SUCCESS')
   createSuccess,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('EXECUTE_IN_PROGRESS')
   executeInProgress,
-  @_s.JsonValue('EXECUTE_SUCCESS')
   executeSuccess,
-  @_s.JsonValue('EXECUTE_FAILED')
   executeFailed,
 }
 
+extension on ProvisionedProductPlanStatus {
+  String toValue() {
+    switch (this) {
+      case ProvisionedProductPlanStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case ProvisionedProductPlanStatus.createSuccess:
+        return 'CREATE_SUCCESS';
+      case ProvisionedProductPlanStatus.createFailed:
+        return 'CREATE_FAILED';
+      case ProvisionedProductPlanStatus.executeInProgress:
+        return 'EXECUTE_IN_PROGRESS';
+      case ProvisionedProductPlanStatus.executeSuccess:
+        return 'EXECUTE_SUCCESS';
+      case ProvisionedProductPlanStatus.executeFailed:
+        return 'EXECUTE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  ProvisionedProductPlanStatus toProvisionedProductPlanStatus() {
+    switch (this) {
+      case 'CREATE_IN_PROGRESS':
+        return ProvisionedProductPlanStatus.createInProgress;
+      case 'CREATE_SUCCESS':
+        return ProvisionedProductPlanStatus.createSuccess;
+      case 'CREATE_FAILED':
+        return ProvisionedProductPlanStatus.createFailed;
+      case 'EXECUTE_IN_PROGRESS':
+        return ProvisionedProductPlanStatus.executeInProgress;
+      case 'EXECUTE_SUCCESS':
+        return ProvisionedProductPlanStatus.executeSuccess;
+      case 'EXECUTE_FAILED':
+        return ProvisionedProductPlanStatus.executeFailed;
+    }
+    throw Exception('$this is not known in enum ProvisionedProductPlanStatus');
+  }
+}
+
 /// Summary information about a plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedProductPlanSummary {
   /// The plan identifier.
-  @_s.JsonKey(name: 'PlanId')
-  final String planId;
+  final String? planId;
 
   /// The name of the plan.
-  @_s.JsonKey(name: 'PlanName')
-  final String planName;
+  final String? planName;
 
   /// The plan type.
-  @_s.JsonKey(name: 'PlanType')
-  final ProvisionedProductPlanType planType;
+  final ProvisionedProductPlanType? planType;
 
   /// The product identifier.
-  @_s.JsonKey(name: 'ProvisionProductId')
-  final String provisionProductId;
+  final String? provisionProductId;
 
   /// The user-friendly name of the provisioned product.
-  @_s.JsonKey(name: 'ProvisionProductName')
-  final String provisionProductName;
+  final String? provisionProductName;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
-  final String provisioningArtifactId;
+  final String? provisioningArtifactId;
 
   ProvisionedProductPlanSummary({
     this.planId,
@@ -11267,12 +11595,39 @@ class ProvisionedProductPlanSummary {
     this.provisionProductName,
     this.provisioningArtifactId,
   });
-  factory ProvisionedProductPlanSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionedProductPlanSummaryFromJson(json);
+
+  factory ProvisionedProductPlanSummary.fromJson(Map<String, dynamic> json) {
+    return ProvisionedProductPlanSummary(
+      planId: json['PlanId'] as String?,
+      planName: json['PlanName'] as String?,
+      planType: (json['PlanType'] as String?)?.toProvisionedProductPlanType(),
+      provisionProductId: json['ProvisionProductId'] as String?,
+      provisionProductName: json['ProvisionProductName'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final planId = this.planId;
+    final planName = this.planName;
+    final planType = this.planType;
+    final provisionProductId = this.provisionProductId;
+    final provisionProductName = this.provisionProductName;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    return {
+      if (planId != null) 'PlanId': planId,
+      if (planName != null) 'PlanName': planName,
+      if (planType != null) 'PlanType': planType.toValue(),
+      if (provisionProductId != null) 'ProvisionProductId': provisionProductId,
+      if (provisionProductName != null)
+        'ProvisionProductName': provisionProductName,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+    };
+  }
 }
 
 enum ProvisionedProductPlanType {
-  @_s.JsonValue('CLOUDFORMATION')
   cloudformation,
 }
 
@@ -11282,25 +11637,63 @@ extension on ProvisionedProductPlanType {
       case ProvisionedProductPlanType.cloudformation:
         return 'CLOUDFORMATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProvisionedProductPlanType toProvisionedProductPlanType() {
+    switch (this) {
+      case 'CLOUDFORMATION':
+        return ProvisionedProductPlanType.cloudformation;
+    }
+    throw Exception('$this is not known in enum ProvisionedProductPlanType');
   }
 }
 
 enum ProvisionedProductStatus {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('UNDER_CHANGE')
   underChange,
-  @_s.JsonValue('TAINTED')
   tainted,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('PLAN_IN_PROGRESS')
   planInProgress,
 }
 
+extension on ProvisionedProductStatus {
+  String toValue() {
+    switch (this) {
+      case ProvisionedProductStatus.available:
+        return 'AVAILABLE';
+      case ProvisionedProductStatus.underChange:
+        return 'UNDER_CHANGE';
+      case ProvisionedProductStatus.tainted:
+        return 'TAINTED';
+      case ProvisionedProductStatus.error:
+        return 'ERROR';
+      case ProvisionedProductStatus.planInProgress:
+        return 'PLAN_IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  ProvisionedProductStatus toProvisionedProductStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return ProvisionedProductStatus.available;
+      case 'UNDER_CHANGE':
+        return ProvisionedProductStatus.underChange;
+      case 'TAINTED':
+        return ProvisionedProductStatus.tainted;
+      case 'ERROR':
+        return ProvisionedProductStatus.error;
+      case 'PLAN_IN_PROGRESS':
+        return ProvisionedProductStatus.planInProgress;
+    }
+    throw Exception('$this is not known in enum ProvisionedProductStatus');
+  }
+}
+
 enum ProvisionedProductViewFilterBy {
-  @_s.JsonValue('SearchQuery')
   searchQuery,
 }
 
@@ -11310,39 +11703,38 @@ extension on ProvisionedProductViewFilterBy {
       case ProvisionedProductViewFilterBy.searchQuery:
         return 'SearchQuery';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProvisionedProductViewFilterBy toProvisionedProductViewFilterBy() {
+    switch (this) {
+      case 'SearchQuery':
+        return ProvisionedProductViewFilterBy.searchQuery;
+    }
+    throw Exception(
+        '$this is not known in enum ProvisionedProductViewFilterBy');
   }
 }
 
 /// Information about a provisioning artifact. A provisioning artifact is also
 /// known as a product version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningArtifact {
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description of the provisioning artifact.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Information set by the administrator to provide guidance to end users about
   /// which provisioning artifacts to use.
-  @_s.JsonKey(name: 'Guidance')
-  final ProvisioningArtifactGuidance guidance;
+  final ProvisioningArtifactGuidance? guidance;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the provisioning artifact.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   ProvisioningArtifact({
     this.createdTime,
@@ -11351,43 +11743,54 @@ class ProvisioningArtifact {
     this.id,
     this.name,
   });
-  factory ProvisioningArtifact.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningArtifactFromJson(json);
+
+  factory ProvisioningArtifact.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifact(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      guidance: (json['Guidance'] as String?)?.toProvisioningArtifactGuidance(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final guidance = this.guidance;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (guidance != null) 'Guidance': guidance.toValue(),
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Information about a provisioning artifact (also known as a version) for a
 /// product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningArtifactDetail {
   /// Indicates whether the product version is active.
-  @_s.JsonKey(name: 'Active')
-  final bool active;
+  final bool? active;
 
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description of the provisioning artifact.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Information set by the administrator to provide guidance to end users about
   /// which provisioning artifacts to use.
-  @_s.JsonKey(name: 'Guidance')
-  final ProvisioningArtifactGuidance guidance;
+  final ProvisioningArtifactGuidance? guidance;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the provisioning artifact.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of provisioning artifact.
   ///
@@ -11402,8 +11805,7 @@ class ProvisioningArtifactDetail {
   /// <code>MARKETPLACE_CAR</code> - AWS Marketplace Clusters and AWS Resources
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final ProvisioningArtifactType type;
+  final ProvisioningArtifactType? type;
 
   ProvisioningArtifactDetail({
     this.active,
@@ -11414,14 +11816,41 @@ class ProvisioningArtifactDetail {
     this.name,
     this.type,
   });
-  factory ProvisioningArtifactDetail.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningArtifactDetailFromJson(json);
+
+  factory ProvisioningArtifactDetail.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactDetail(
+      active: json['Active'] as bool?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      guidance: (json['Guidance'] as String?)?.toProvisioningArtifactGuidance(),
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toProvisioningArtifactType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final active = this.active;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final guidance = this.guidance;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (active != null) 'Active': active,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (guidance != null) 'Guidance': guidance.toValue(),
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ProvisioningArtifactGuidance {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('DEPRECATED')
   deprecated,
 }
 
@@ -11433,65 +11862,72 @@ extension on ProvisioningArtifactGuidance {
       case ProvisioningArtifactGuidance.deprecated:
         return 'DEPRECATED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProvisioningArtifactGuidance toProvisioningArtifactGuidance() {
+    switch (this) {
+      case 'DEFAULT':
+        return ProvisioningArtifactGuidance.$default;
+      case 'DEPRECATED':
+        return ProvisioningArtifactGuidance.deprecated;
+    }
+    throw Exception('$this is not known in enum ProvisioningArtifactGuidance');
   }
 }
 
 /// Provisioning artifact output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningArtifactOutput {
   /// Description of the provisioning artifact output key.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The provisioning artifact output key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   ProvisioningArtifactOutput({
     this.description,
     this.key,
   });
-  factory ProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningArtifactOutputFromJson(json);
+
+  factory ProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactOutput(
+      description: json['Description'] as String?,
+      key: json['Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final key = this.key;
+    return {
+      if (description != null) 'Description': description,
+      if (key != null) 'Key': key,
+    };
+  }
 }
 
 /// Information about a parameter used to provision a product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningArtifactParameter {
   /// The default value.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// The description of the parameter.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// If this value is true, the value for this parameter is obfuscated from view
   /// when the parameter is retrieved. This parameter is used to hide sensitive
   /// information.
-  @_s.JsonKey(name: 'IsNoEcho')
-  final bool isNoEcho;
+  final bool? isNoEcho;
 
   /// Constraints that the administrator has put on a parameter.
-  @_s.JsonKey(name: 'ParameterConstraints')
-  final ParameterConstraints parameterConstraints;
+  final ParameterConstraints? parameterConstraints;
 
   /// The parameter key.
-  @_s.JsonKey(name: 'ParameterKey')
-  final String parameterKey;
+  final String? parameterKey;
 
   /// The parameter type.
-  @_s.JsonKey(name: 'ParameterType')
-  final String parameterType;
+  final String? parameterType;
 
   ProvisioningArtifactParameter({
     this.defaultValue,
@@ -11501,8 +11937,38 @@ class ProvisioningArtifactParameter {
     this.parameterKey,
     this.parameterType,
   });
-  factory ProvisioningArtifactParameter.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningArtifactParameterFromJson(json);
+
+  factory ProvisioningArtifactParameter.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactParameter(
+      defaultValue: json['DefaultValue'] as String?,
+      description: json['Description'] as String?,
+      isNoEcho: json['IsNoEcho'] as bool?,
+      parameterConstraints: json['ParameterConstraints'] != null
+          ? ParameterConstraints.fromJson(
+              json['ParameterConstraints'] as Map<String, dynamic>)
+          : null,
+      parameterKey: json['ParameterKey'] as String?,
+      parameterType: json['ParameterType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final isNoEcho = this.isNoEcho;
+    final parameterConstraints = this.parameterConstraints;
+    final parameterKey = this.parameterKey;
+    final parameterType = this.parameterType;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (description != null) 'Description': description,
+      if (isNoEcho != null) 'IsNoEcho': isNoEcho,
+      if (parameterConstraints != null)
+        'ParameterConstraints': parameterConstraints,
+      if (parameterKey != null) 'ParameterKey': parameterKey,
+      if (parameterType != null) 'ParameterType': parameterType,
+    };
+  }
 }
 
 /// The user-defined preferences that will be applied during product
@@ -11513,11 +11979,6 @@ class ProvisioningArtifactParameter {
 /// see <a
 /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options">Stack
 /// set operation options</a> in the <i>AWS CloudFormation User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningArtifactPreferences {
   /// One or more AWS accounts where stack instances are deployed from the stack
   /// set. These accounts can be scoped in
@@ -11525,8 +11986,7 @@ class ProvisioningArtifactPreferences {
   /// <code>UpdateProvisioningPreferences$StackSetAccounts</code>.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  @_s.JsonKey(name: 'StackSetAccounts')
-  final List<String> stackSetAccounts;
+  final List<String>? stackSetAccounts;
 
   /// One or more AWS Regions where stack instances are deployed from the stack
   /// set. These regions can be scoped in
@@ -11534,24 +11994,38 @@ class ProvisioningArtifactPreferences {
   /// <code>UpdateProvisioningPreferences$StackSetRegions</code>.
   ///
   /// Applicable only to a <code>CFN_STACKSET</code> provisioned product type.
-  @_s.JsonKey(name: 'StackSetRegions')
-  final List<String> stackSetRegions;
+  final List<String>? stackSetRegions;
 
   ProvisioningArtifactPreferences({
     this.stackSetAccounts,
     this.stackSetRegions,
   });
-  factory ProvisioningArtifactPreferences.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningArtifactPreferencesFromJson(json);
+
+  factory ProvisioningArtifactPreferences.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactPreferences(
+      stackSetAccounts: (json['StackSetAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      stackSetRegions: (json['StackSetRegions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackSetAccounts = this.stackSetAccounts;
+    final stackSetRegions = this.stackSetRegions;
+    return {
+      if (stackSetAccounts != null) 'StackSetAccounts': stackSetAccounts,
+      if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
+    };
+  }
 }
 
 /// Information about a provisioning artifact (also known as a version) for a
 /// product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ProvisioningArtifactProperties {
   /// Specify the template source with one of the following options, but not both.
   /// Keys accepted: [ <code>LoadTemplateFromURL</code>,
@@ -11568,23 +12042,19 @@ class ProvisioningArtifactProperties {
   /// Specify the physical id in JSON format as follows:
   /// <code>ImportFromPhysicalId:
   /// “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]</code>
-  @_s.JsonKey(name: 'Info')
   final Map<String, String> info;
 
   /// The description of the provisioning artifact, including how it differs from
   /// the previous provisioning artifact.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// If set to true, AWS Service Catalog stops validating the specified
   /// provisioning artifact even if it is invalid.
-  @_s.JsonKey(name: 'DisableTemplateValidation')
-  final bool disableTemplateValidation;
+  final bool? disableTemplateValidation;
 
   /// The name of the provisioning artifact (for example, v1 v2beta). No spaces
   /// are allowed.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of provisioning artifact.
   ///
@@ -11599,21 +12069,45 @@ class ProvisioningArtifactProperties {
   /// <code>MARKETPLACE_CAR</code> - AWS Marketplace Clusters and AWS Resources
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final ProvisioningArtifactType type;
+  final ProvisioningArtifactType? type;
 
   ProvisioningArtifactProperties({
-    @_s.required this.info,
+    required this.info,
     this.description,
     this.disableTemplateValidation,
     this.name,
     this.type,
   });
-  Map<String, dynamic> toJson() => _$ProvisioningArtifactPropertiesToJson(this);
+
+  factory ProvisioningArtifactProperties.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactProperties(
+      info: (json['Info'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      description: json['Description'] as String?,
+      disableTemplateValidation: json['DisableTemplateValidation'] as bool?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toProvisioningArtifactType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final info = this.info;
+    final description = this.description;
+    final disableTemplateValidation = this.disableTemplateValidation;
+    final name = this.name;
+    final type = this.type;
+    return {
+      'Info': info,
+      if (description != null) 'Description': description,
+      if (disableTemplateValidation != null)
+        'DisableTemplateValidation': disableTemplateValidation,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ProvisioningArtifactPropertyName {
-  @_s.JsonValue('Id')
   id,
 }
 
@@ -11623,39 +12117,38 @@ extension on ProvisioningArtifactPropertyName {
       case ProvisioningArtifactPropertyName.id:
         return 'Id';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProvisioningArtifactPropertyName toProvisioningArtifactPropertyName() {
+    switch (this) {
+      case 'Id':
+        return ProvisioningArtifactPropertyName.id;
+    }
+    throw Exception(
+        '$this is not known in enum ProvisioningArtifactPropertyName');
   }
 }
 
 /// Summary information about a provisioning artifact (also known as a version)
 /// for a product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningArtifactSummary {
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description of the provisioning artifact.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the provisioning artifact.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The metadata for the provisioning artifact. This is used with AWS
   /// Marketplace products.
-  @_s.JsonKey(name: 'ProvisioningArtifactMetadata')
-  final Map<String, String> provisioningArtifactMetadata;
+  final Map<String, String>? provisioningArtifactMetadata;
 
   ProvisioningArtifactSummary({
     this.createdTime,
@@ -11664,64 +12157,136 @@ class ProvisioningArtifactSummary {
     this.name,
     this.provisioningArtifactMetadata,
   });
-  factory ProvisioningArtifactSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningArtifactSummaryFromJson(json);
+
+  factory ProvisioningArtifactSummary.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactSummary(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      provisioningArtifactMetadata:
+          (json['ProvisioningArtifactMetadata'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final provisioningArtifactMetadata = this.provisioningArtifactMetadata;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (provisioningArtifactMetadata != null)
+        'ProvisioningArtifactMetadata': provisioningArtifactMetadata,
+    };
+  }
 }
 
 enum ProvisioningArtifactType {
-  @_s.JsonValue('CLOUD_FORMATION_TEMPLATE')
   cloudFormationTemplate,
-  @_s.JsonValue('MARKETPLACE_AMI')
   marketplaceAmi,
-  @_s.JsonValue('MARKETPLACE_CAR')
   marketplaceCar,
+}
+
+extension on ProvisioningArtifactType {
+  String toValue() {
+    switch (this) {
+      case ProvisioningArtifactType.cloudFormationTemplate:
+        return 'CLOUD_FORMATION_TEMPLATE';
+      case ProvisioningArtifactType.marketplaceAmi:
+        return 'MARKETPLACE_AMI';
+      case ProvisioningArtifactType.marketplaceCar:
+        return 'MARKETPLACE_CAR';
+    }
+  }
+}
+
+extension on String {
+  ProvisioningArtifactType toProvisioningArtifactType() {
+    switch (this) {
+      case 'CLOUD_FORMATION_TEMPLATE':
+        return ProvisioningArtifactType.cloudFormationTemplate;
+      case 'MARKETPLACE_AMI':
+        return ProvisioningArtifactType.marketplaceAmi;
+      case 'MARKETPLACE_CAR':
+        return ProvisioningArtifactType.marketplaceCar;
+    }
+    throw Exception('$this is not known in enum ProvisioningArtifactType');
+  }
 }
 
 /// An object that contains summary information about a product view and a
 /// provisioning artifact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningArtifactView {
   /// Summary information about a product view.
-  @_s.JsonKey(name: 'ProductViewSummary')
-  final ProductViewSummary productViewSummary;
+  final ProductViewSummary? productViewSummary;
 
   /// Information about a provisioning artifact. A provisioning artifact is also
   /// known as a product version.
-  @_s.JsonKey(name: 'ProvisioningArtifact')
-  final ProvisioningArtifact provisioningArtifact;
+  final ProvisioningArtifact? provisioningArtifact;
 
   ProvisioningArtifactView({
     this.productViewSummary,
     this.provisioningArtifact,
   });
-  factory ProvisioningArtifactView.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningArtifactViewFromJson(json);
+
+  factory ProvisioningArtifactView.fromJson(Map<String, dynamic> json) {
+    return ProvisioningArtifactView(
+      productViewSummary: json['ProductViewSummary'] != null
+          ? ProductViewSummary.fromJson(
+              json['ProductViewSummary'] as Map<String, dynamic>)
+          : null,
+      provisioningArtifact: json['ProvisioningArtifact'] != null
+          ? ProvisioningArtifact.fromJson(
+              json['ProvisioningArtifact'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productViewSummary = this.productViewSummary;
+    final provisioningArtifact = this.provisioningArtifact;
+    return {
+      if (productViewSummary != null) 'ProductViewSummary': productViewSummary,
+      if (provisioningArtifact != null)
+        'ProvisioningArtifact': provisioningArtifact,
+    };
+  }
 }
 
 /// Information about a parameter used to provision a product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ProvisioningParameter {
   /// The parameter key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The parameter value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ProvisioningParameter({
     this.key,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$ProvisioningParameterToJson(this);
+
+  factory ProvisioningParameter.fromJson(Map<String, dynamic> json) {
+    return ProvisioningParameter(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The user-defined preferences that will be applied when updating a
@@ -11739,11 +12304,6 @@ class ProvisioningParameter {
 ///
 /// If no values are specified, the default value is all accounts from the
 /// <code>STACKSET</code> constraint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ProvisioningPreferences {
   /// One or more AWS accounts where the provisioned product will be available.
   ///
@@ -11756,8 +12316,7 @@ class ProvisioningPreferences {
   ///
   /// If no values are specified, the default value is all acounts from the
   /// <code>STACKSET</code> constraint.
-  @_s.JsonKey(name: 'StackSetAccounts')
-  final List<String> stackSetAccounts;
+  final List<String>? stackSetAccounts;
 
   /// The number of accounts, per region, for which this operation can fail before
   /// AWS Service Catalog stops the operation in that region. If the operation is
@@ -11771,8 +12330,7 @@ class ProvisioningPreferences {
   /// <code>StackSetFailureTolerancePercentage</code>, but not both.
   ///
   /// The default value is <code>0</code> if no value is specified.
-  @_s.JsonKey(name: 'StackSetFailureToleranceCount')
-  final int stackSetFailureToleranceCount;
+  final int? stackSetFailureToleranceCount;
 
   /// The percentage of accounts, per region, for which this stack operation can
   /// fail before AWS Service Catalog stops the operation in that region. If the
@@ -11787,8 +12345,7 @@ class ProvisioningPreferences {
   /// Conditional: You must specify either
   /// <code>StackSetFailureToleranceCount</code> or
   /// <code>StackSetFailureTolerancePercentage</code>, but not both.
-  @_s.JsonKey(name: 'StackSetFailureTolerancePercentage')
-  final int stackSetFailureTolerancePercentage;
+  final int? stackSetFailureTolerancePercentage;
 
   /// The maximum number of accounts in which to perform this operation at one
   /// time. This is dependent on the value of
@@ -11804,8 +12361,7 @@ class ProvisioningPreferences {
   ///
   /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
   /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
-  @_s.JsonKey(name: 'StackSetMaxConcurrencyCount')
-  final int stackSetMaxConcurrencyCount;
+  final int? stackSetMaxConcurrencyCount;
 
   /// The maximum percentage of accounts in which to perform this operation at one
   /// time.
@@ -11823,8 +12379,7 @@ class ProvisioningPreferences {
   ///
   /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
   /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
-  @_s.JsonKey(name: 'StackSetMaxConcurrencyPercentage')
-  final int stackSetMaxConcurrencyPercentage;
+  final int? stackSetMaxConcurrencyPercentage;
 
   /// One or more AWS Regions where the provisioned product will be available.
   ///
@@ -11837,8 +12392,7 @@ class ProvisioningPreferences {
   ///
   /// If no values are specified, the default value is all regions from the
   /// <code>STACKSET</code> constraint.
-  @_s.JsonKey(name: 'StackSetRegions')
-  final List<String> stackSetRegions;
+  final List<String>? stackSetRegions;
 
   ProvisioningPreferences({
     this.stackSetAccounts,
@@ -11848,61 +12402,87 @@ class ProvisioningPreferences {
     this.stackSetMaxConcurrencyPercentage,
     this.stackSetRegions,
   });
-  Map<String, dynamic> toJson() => _$ProvisioningPreferencesToJson(this);
+
+  factory ProvisioningPreferences.fromJson(Map<String, dynamic> json) {
+    return ProvisioningPreferences(
+      stackSetAccounts: (json['StackSetAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      stackSetFailureToleranceCount:
+          json['StackSetFailureToleranceCount'] as int?,
+      stackSetFailureTolerancePercentage:
+          json['StackSetFailureTolerancePercentage'] as int?,
+      stackSetMaxConcurrencyCount: json['StackSetMaxConcurrencyCount'] as int?,
+      stackSetMaxConcurrencyPercentage:
+          json['StackSetMaxConcurrencyPercentage'] as int?,
+      stackSetRegions: (json['StackSetRegions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackSetAccounts = this.stackSetAccounts;
+    final stackSetFailureToleranceCount = this.stackSetFailureToleranceCount;
+    final stackSetFailureTolerancePercentage =
+        this.stackSetFailureTolerancePercentage;
+    final stackSetMaxConcurrencyCount = this.stackSetMaxConcurrencyCount;
+    final stackSetMaxConcurrencyPercentage =
+        this.stackSetMaxConcurrencyPercentage;
+    final stackSetRegions = this.stackSetRegions;
+    return {
+      if (stackSetAccounts != null) 'StackSetAccounts': stackSetAccounts,
+      if (stackSetFailureToleranceCount != null)
+        'StackSetFailureToleranceCount': stackSetFailureToleranceCount,
+      if (stackSetFailureTolerancePercentage != null)
+        'StackSetFailureTolerancePercentage':
+            stackSetFailureTolerancePercentage,
+      if (stackSetMaxConcurrencyCount != null)
+        'StackSetMaxConcurrencyCount': stackSetMaxConcurrencyCount,
+      if (stackSetMaxConcurrencyPercentage != null)
+        'StackSetMaxConcurrencyPercentage': stackSetMaxConcurrencyPercentage,
+      if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
+    };
+  }
 }
 
 /// Information about a request operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecordDetail {
   /// The UTC time stamp of the creation time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The ARN of the launch role associated with the provisioned product.
-  @_s.JsonKey(name: 'LaunchRoleArn')
-  final String launchRoleArn;
+  final String? launchRoleArn;
 
   /// The path identifier.
-  @_s.JsonKey(name: 'PathId')
-  final String pathId;
+  final String? pathId;
 
   /// The product identifier.
-  @_s.JsonKey(name: 'ProductId')
-  final String productId;
+  final String? productId;
 
   /// The identifier of the provisioned product.
-  @_s.JsonKey(name: 'ProvisionedProductId')
-  final String provisionedProductId;
+  final String? provisionedProductId;
 
   /// The user-friendly name of the provisioned product.
-  @_s.JsonKey(name: 'ProvisionedProductName')
-  final String provisionedProductName;
+  final String? provisionedProductName;
 
   /// The type of provisioned product. The supported values are
   /// <code>CFN_STACK</code> and <code>CFN_STACKSET</code>.
-  @_s.JsonKey(name: 'ProvisionedProductType')
-  final String provisionedProductType;
+  final String? provisionedProductType;
 
   /// The identifier of the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
-  final String provisioningArtifactId;
+  final String? provisioningArtifactId;
 
   /// The errors that occurred.
-  @_s.JsonKey(name: 'RecordErrors')
-  final List<RecordError> recordErrors;
+  final List<RecordError>? recordErrors;
 
   /// The identifier of the record.
-  @_s.JsonKey(name: 'RecordId')
-  final String recordId;
+  final String? recordId;
 
   /// One or more tags.
-  @_s.JsonKey(name: 'RecordTags')
-  final List<RecordTag> recordTags;
+  final List<RecordTag>? recordTags;
 
   /// The record type.
   ///
@@ -11917,8 +12497,7 @@ class RecordDetail {
   /// <code>TERMINATE_PROVISIONED_PRODUCT</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'RecordType')
-  final String recordType;
+  final String? recordType;
 
   /// The status of the provisioned product.
   ///
@@ -11943,13 +12522,10 @@ class RecordDetail {
   /// Investigate using the error messages returned.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final RecordStatus status;
+  final RecordStatus? status;
 
   /// The time when the record was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTime')
-  final DateTime updatedTime;
+  final DateTime? updatedTime;
 
   RecordDetail({
     this.createdTime,
@@ -11967,178 +12543,361 @@ class RecordDetail {
     this.status,
     this.updatedTime,
   });
-  factory RecordDetail.fromJson(Map<String, dynamic> json) =>
-      _$RecordDetailFromJson(json);
+
+  factory RecordDetail.fromJson(Map<String, dynamic> json) {
+    return RecordDetail(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      launchRoleArn: json['LaunchRoleArn'] as String?,
+      pathId: json['PathId'] as String?,
+      productId: json['ProductId'] as String?,
+      provisionedProductId: json['ProvisionedProductId'] as String?,
+      provisionedProductName: json['ProvisionedProductName'] as String?,
+      provisionedProductType: json['ProvisionedProductType'] as String?,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String?,
+      recordErrors: (json['RecordErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecordError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordId: json['RecordId'] as String?,
+      recordTags: (json['RecordTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecordTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordType: json['RecordType'] as String?,
+      status: (json['Status'] as String?)?.toRecordStatus(),
+      updatedTime: timeStampFromJson(json['UpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final launchRoleArn = this.launchRoleArn;
+    final pathId = this.pathId;
+    final productId = this.productId;
+    final provisionedProductId = this.provisionedProductId;
+    final provisionedProductName = this.provisionedProductName;
+    final provisionedProductType = this.provisionedProductType;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final recordErrors = this.recordErrors;
+    final recordId = this.recordId;
+    final recordTags = this.recordTags;
+    final recordType = this.recordType;
+    final status = this.status;
+    final updatedTime = this.updatedTime;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (launchRoleArn != null) 'LaunchRoleArn': launchRoleArn,
+      if (pathId != null) 'PathId': pathId,
+      if (productId != null) 'ProductId': productId,
+      if (provisionedProductId != null)
+        'ProvisionedProductId': provisionedProductId,
+      if (provisionedProductName != null)
+        'ProvisionedProductName': provisionedProductName,
+      if (provisionedProductType != null)
+        'ProvisionedProductType': provisionedProductType,
+      if (provisioningArtifactId != null)
+        'ProvisioningArtifactId': provisioningArtifactId,
+      if (recordErrors != null) 'RecordErrors': recordErrors,
+      if (recordId != null) 'RecordId': recordId,
+      if (recordTags != null) 'RecordTags': recordTags,
+      if (recordType != null) 'RecordType': recordType,
+      if (status != null) 'Status': status.toValue(),
+      if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
+    };
+  }
 }
 
 /// The error code and description resulting from an operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecordError {
   /// The numeric value of the error.
-  @_s.JsonKey(name: 'Code')
-  final String code;
+  final String? code;
 
   /// The description of the error.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   RecordError({
     this.code,
     this.description,
   });
-  factory RecordError.fromJson(Map<String, dynamic> json) =>
-      _$RecordErrorFromJson(json);
+
+  factory RecordError.fromJson(Map<String, dynamic> json) {
+    return RecordError(
+      code: json['Code'] as String?,
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final description = this.description;
+    return {
+      if (code != null) 'Code': code,
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
 /// The output for the product created as the result of a request. For example,
 /// the output for a CloudFormation-backed product that creates an S3 bucket
 /// would include the S3 bucket URL.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecordOutput {
   /// The description of the output.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The output key.
-  @_s.JsonKey(name: 'OutputKey')
-  final String outputKey;
+  final String? outputKey;
 
   /// The output value.
-  @_s.JsonKey(name: 'OutputValue')
-  final String outputValue;
+  final String? outputValue;
 
   RecordOutput({
     this.description,
     this.outputKey,
     this.outputValue,
   });
-  factory RecordOutput.fromJson(Map<String, dynamic> json) =>
-      _$RecordOutputFromJson(json);
+
+  factory RecordOutput.fromJson(Map<String, dynamic> json) {
+    return RecordOutput(
+      description: json['Description'] as String?,
+      outputKey: json['OutputKey'] as String?,
+      outputValue: json['OutputValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final outputKey = this.outputKey;
+    final outputValue = this.outputValue;
+    return {
+      if (description != null) 'Description': description,
+      if (outputKey != null) 'OutputKey': outputKey,
+      if (outputValue != null) 'OutputValue': outputValue,
+    };
+  }
 }
 
 enum RecordStatus {
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('IN_PROGRESS_IN_ERROR')
   inProgressInError,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on RecordStatus {
+  String toValue() {
+    switch (this) {
+      case RecordStatus.created:
+        return 'CREATED';
+      case RecordStatus.inProgress:
+        return 'IN_PROGRESS';
+      case RecordStatus.inProgressInError:
+        return 'IN_PROGRESS_IN_ERROR';
+      case RecordStatus.succeeded:
+        return 'SUCCEEDED';
+      case RecordStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  RecordStatus toRecordStatus() {
+    switch (this) {
+      case 'CREATED':
+        return RecordStatus.created;
+      case 'IN_PROGRESS':
+        return RecordStatus.inProgress;
+      case 'IN_PROGRESS_IN_ERROR':
+        return RecordStatus.inProgressInError;
+      case 'SUCCEEDED':
+        return RecordStatus.succeeded;
+      case 'FAILED':
+        return RecordStatus.failed;
+    }
+    throw Exception('$this is not known in enum RecordStatus');
+  }
+}
+
 /// Information about a tag, which is a key-value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecordTag {
   /// The key for this tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value for this tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   RecordTag({
     this.key,
     this.value,
   });
-  factory RecordTag.fromJson(Map<String, dynamic> json) =>
-      _$RecordTagFromJson(json);
+
+  factory RecordTag.fromJson(Map<String, dynamic> json) {
+    return RecordTag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectPortfolioShareOutput {
   RejectPortfolioShareOutput();
-  factory RejectPortfolioShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$RejectPortfolioShareOutputFromJson(json);
+
+  factory RejectPortfolioShareOutput.fromJson(Map<String, dynamic> _) {
+    return RejectPortfolioShareOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum Replacement {
-  @_s.JsonValue('TRUE')
   $true,
-  @_s.JsonValue('FALSE')
   $false,
-  @_s.JsonValue('CONDITIONAL')
   conditional,
 }
 
+extension on Replacement {
+  String toValue() {
+    switch (this) {
+      case Replacement.$true:
+        return 'TRUE';
+      case Replacement.$false:
+        return 'FALSE';
+      case Replacement.conditional:
+        return 'CONDITIONAL';
+    }
+  }
+}
+
+extension on String {
+  Replacement toReplacement() {
+    switch (this) {
+      case 'TRUE':
+        return Replacement.$true;
+      case 'FALSE':
+        return Replacement.$false;
+      case 'CONDITIONAL':
+        return Replacement.conditional;
+    }
+    throw Exception('$this is not known in enum Replacement');
+  }
+}
+
 enum RequiresRecreation {
-  @_s.JsonValue('NEVER')
   never,
-  @_s.JsonValue('CONDITIONALLY')
   conditionally,
-  @_s.JsonValue('ALWAYS')
   always,
 }
 
+extension on RequiresRecreation {
+  String toValue() {
+    switch (this) {
+      case RequiresRecreation.never:
+        return 'NEVER';
+      case RequiresRecreation.conditionally:
+        return 'CONDITIONALLY';
+      case RequiresRecreation.always:
+        return 'ALWAYS';
+    }
+  }
+}
+
+extension on String {
+  RequiresRecreation toRequiresRecreation() {
+    switch (this) {
+      case 'NEVER':
+        return RequiresRecreation.never;
+      case 'CONDITIONALLY':
+        return RequiresRecreation.conditionally;
+      case 'ALWAYS':
+        return RequiresRecreation.always;
+    }
+    throw Exception('$this is not known in enum RequiresRecreation');
+  }
+}
+
 enum ResourceAttribute {
-  @_s.JsonValue('PROPERTIES')
   properties,
-  @_s.JsonValue('METADATA')
   metadata,
-  @_s.JsonValue('CREATIONPOLICY')
   creationpolicy,
-  @_s.JsonValue('UPDATEPOLICY')
   updatepolicy,
-  @_s.JsonValue('DELETIONPOLICY')
   deletionpolicy,
-  @_s.JsonValue('TAGS')
   tags,
 }
 
+extension on ResourceAttribute {
+  String toValue() {
+    switch (this) {
+      case ResourceAttribute.properties:
+        return 'PROPERTIES';
+      case ResourceAttribute.metadata:
+        return 'METADATA';
+      case ResourceAttribute.creationpolicy:
+        return 'CREATIONPOLICY';
+      case ResourceAttribute.updatepolicy:
+        return 'UPDATEPOLICY';
+      case ResourceAttribute.deletionpolicy:
+        return 'DELETIONPOLICY';
+      case ResourceAttribute.tags:
+        return 'TAGS';
+    }
+  }
+}
+
+extension on String {
+  ResourceAttribute toResourceAttribute() {
+    switch (this) {
+      case 'PROPERTIES':
+        return ResourceAttribute.properties;
+      case 'METADATA':
+        return ResourceAttribute.metadata;
+      case 'CREATIONPOLICY':
+        return ResourceAttribute.creationpolicy;
+      case 'UPDATEPOLICY':
+        return ResourceAttribute.updatepolicy;
+      case 'DELETIONPOLICY':
+        return ResourceAttribute.deletionpolicy;
+      case 'TAGS':
+        return ResourceAttribute.tags;
+    }
+    throw Exception('$this is not known in enum ResourceAttribute');
+  }
+}
+
 /// Information about a resource change that will occur when a plan is executed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceChange {
   /// The change action.
-  @_s.JsonKey(name: 'Action')
-  final ChangeAction action;
+  final ChangeAction? action;
 
   /// Information about the resource changes.
-  @_s.JsonKey(name: 'Details')
-  final List<ResourceChangeDetail> details;
+  final List<ResourceChangeDetail>? details;
 
   /// The ID of the resource, as defined in the CloudFormation template.
-  @_s.JsonKey(name: 'LogicalResourceId')
-  final String logicalResourceId;
+  final String? logicalResourceId;
 
   /// The ID of the resource, if it was already created.
-  @_s.JsonKey(name: 'PhysicalResourceId')
-  final String physicalResourceId;
+  final String? physicalResourceId;
 
   /// If the change type is <code>Modify</code>, indicates whether the existing
   /// resource is deleted and replaced with a new one.
-  @_s.JsonKey(name: 'Replacement')
-  final Replacement replacement;
+  final Replacement? replacement;
 
   /// The type of resource.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The change scope.
-  @_s.JsonKey(name: 'Scope')
-  final List<ResourceAttribute> scope;
+  final List<ResourceAttribute>? scope;
 
   ResourceChange({
     this.action,
@@ -12149,67 +12908,103 @@ class ResourceChange {
     this.resourceType,
     this.scope,
   });
-  factory ResourceChange.fromJson(Map<String, dynamic> json) =>
-      _$ResourceChangeFromJson(json);
+
+  factory ResourceChange.fromJson(Map<String, dynamic> json) {
+    return ResourceChange(
+      action: (json['Action'] as String?)?.toChangeAction(),
+      details: (json['Details'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceChangeDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      logicalResourceId: json['LogicalResourceId'] as String?,
+      physicalResourceId: json['PhysicalResourceId'] as String?,
+      replacement: (json['Replacement'] as String?)?.toReplacement(),
+      resourceType: json['ResourceType'] as String?,
+      scope: (json['Scope'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toResourceAttribute())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final details = this.details;
+    final logicalResourceId = this.logicalResourceId;
+    final physicalResourceId = this.physicalResourceId;
+    final replacement = this.replacement;
+    final resourceType = this.resourceType;
+    final scope = this.scope;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (details != null) 'Details': details,
+      if (logicalResourceId != null) 'LogicalResourceId': logicalResourceId,
+      if (physicalResourceId != null) 'PhysicalResourceId': physicalResourceId,
+      if (replacement != null) 'Replacement': replacement.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (scope != null) 'Scope': scope.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Information about a change to a resource attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceChangeDetail {
   /// The ID of the entity that caused the change.
-  @_s.JsonKey(name: 'CausingEntity')
-  final String causingEntity;
+  final String? causingEntity;
 
   /// For static evaluations, the value of the resource attribute will change and
   /// the new value is known. For dynamic evaluations, the value might change, and
   /// any new value will be determined when the plan is updated.
-  @_s.JsonKey(name: 'Evaluation')
-  final EvaluationType evaluation;
+  final EvaluationType? evaluation;
 
   /// Information about the resource attribute to be modified.
-  @_s.JsonKey(name: 'Target')
-  final ResourceTargetDefinition target;
+  final ResourceTargetDefinition? target;
 
   ResourceChangeDetail({
     this.causingEntity,
     this.evaluation,
     this.target,
   });
-  factory ResourceChangeDetail.fromJson(Map<String, dynamic> json) =>
-      _$ResourceChangeDetailFromJson(json);
+
+  factory ResourceChangeDetail.fromJson(Map<String, dynamic> json) {
+    return ResourceChangeDetail(
+      causingEntity: json['CausingEntity'] as String?,
+      evaluation: (json['Evaluation'] as String?)?.toEvaluationType(),
+      target: json['Target'] != null
+          ? ResourceTargetDefinition.fromJson(
+              json['Target'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final causingEntity = this.causingEntity;
+    final evaluation = this.evaluation;
+    final target = this.target;
+    return {
+      if (causingEntity != null) 'CausingEntity': causingEntity,
+      if (evaluation != null) 'Evaluation': evaluation.toValue(),
+      if (target != null) 'Target': target,
+    };
+  }
 }
 
 /// Information about a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceDetail {
   /// The ARN of the resource.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The creation time of the resource.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The description of the resource.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The identifier of the resource.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the resource.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   ResourceDetail({
     this.arn,
@@ -12218,193 +13013,322 @@ class ResourceDetail {
     this.id,
     this.name,
   });
-  factory ResourceDetail.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDetailFromJson(json);
+
+  factory ResourceDetail.fromJson(Map<String, dynamic> json) {
+    return ResourceDetail(
+      arn: json['ARN'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Information about a change to a resource attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceTargetDefinition {
   /// The attribute to be changed.
-  @_s.JsonKey(name: 'Attribute')
-  final ResourceAttribute attribute;
+  final ResourceAttribute? attribute;
 
   /// If the attribute is <code>Properties</code>, the value is the name of the
   /// property. Otherwise, the value is null.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// If the attribute is <code>Properties</code>, indicates whether a change to
   /// this property causes the resource to be re-created.
-  @_s.JsonKey(name: 'RequiresRecreation')
-  final RequiresRecreation requiresRecreation;
+  final RequiresRecreation? requiresRecreation;
 
   ResourceTargetDefinition({
     this.attribute,
     this.name,
     this.requiresRecreation,
   });
-  factory ResourceTargetDefinition.fromJson(Map<String, dynamic> json) =>
-      _$ResourceTargetDefinitionFromJson(json);
+
+  factory ResourceTargetDefinition.fromJson(Map<String, dynamic> json) {
+    return ResourceTargetDefinition(
+      attribute: (json['Attribute'] as String?)?.toResourceAttribute(),
+      name: json['Name'] as String?,
+      requiresRecreation:
+          (json['RequiresRecreation'] as String?)?.toRequiresRecreation(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final name = this.name;
+    final requiresRecreation = this.requiresRecreation;
+    return {
+      if (attribute != null) 'Attribute': attribute.toValue(),
+      if (name != null) 'Name': name,
+      if (requiresRecreation != null)
+        'RequiresRecreation': requiresRecreation.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScanProvisionedProductsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the provisioned products.
-  @_s.JsonKey(name: 'ProvisionedProducts')
-  final List<ProvisionedProductDetail> provisionedProducts;
+  final List<ProvisionedProductDetail>? provisionedProducts;
 
   ScanProvisionedProductsOutput({
     this.nextPageToken,
     this.provisionedProducts,
   });
-  factory ScanProvisionedProductsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ScanProvisionedProductsOutputFromJson(json);
+
+  factory ScanProvisionedProductsOutput.fromJson(Map<String, dynamic> json) {
+    return ScanProvisionedProductsOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      provisionedProducts: (json['ProvisionedProducts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisionedProductDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final provisionedProducts = this.provisionedProducts;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (provisionedProducts != null)
+        'ProvisionedProducts': provisionedProducts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchProductsAsAdminOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the product views.
-  @_s.JsonKey(name: 'ProductViewDetails')
-  final List<ProductViewDetail> productViewDetails;
+  final List<ProductViewDetail>? productViewDetails;
 
   SearchProductsAsAdminOutput({
     this.nextPageToken,
     this.productViewDetails,
   });
-  factory SearchProductsAsAdminOutput.fromJson(Map<String, dynamic> json) =>
-      _$SearchProductsAsAdminOutputFromJson(json);
+
+  factory SearchProductsAsAdminOutput.fromJson(Map<String, dynamic> json) {
+    return SearchProductsAsAdminOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      productViewDetails: (json['ProductViewDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProductViewDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final productViewDetails = this.productViewDetails;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (productViewDetails != null) 'ProductViewDetails': productViewDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchProductsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The product view aggregations.
-  @_s.JsonKey(name: 'ProductViewAggregations')
-  final Map<String, List<ProductViewAggregationValue>> productViewAggregations;
+  final Map<String, List<ProductViewAggregationValue>>? productViewAggregations;
 
   /// Information about the product views.
-  @_s.JsonKey(name: 'ProductViewSummaries')
-  final List<ProductViewSummary> productViewSummaries;
+  final List<ProductViewSummary>? productViewSummaries;
 
   SearchProductsOutput({
     this.nextPageToken,
     this.productViewAggregations,
     this.productViewSummaries,
   });
-  factory SearchProductsOutput.fromJson(Map<String, dynamic> json) =>
-      _$SearchProductsOutputFromJson(json);
+
+  factory SearchProductsOutput.fromJson(Map<String, dynamic> json) {
+    return SearchProductsOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      productViewAggregations:
+          (json['ProductViewAggregations'] as Map<String, dynamic>?)?.map(
+              (k, e) => MapEntry(
+                  k,
+                  (e as List)
+                      .whereNotNull()
+                      .map((e) => ProductViewAggregationValue.fromJson(
+                          e as Map<String, dynamic>))
+                      .toList())),
+      productViewSummaries: (json['ProductViewSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProductViewSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final productViewAggregations = this.productViewAggregations;
+    final productViewSummaries = this.productViewSummaries;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (productViewAggregations != null)
+        'ProductViewAggregations': productViewAggregations,
+      if (productViewSummaries != null)
+        'ProductViewSummaries': productViewSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchProvisionedProductsOutput {
   /// The page token to use to retrieve the next set of results. If there are no
   /// additional results, this value is null.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Information about the provisioned products.
-  @_s.JsonKey(name: 'ProvisionedProducts')
-  final List<ProvisionedProductAttribute> provisionedProducts;
+  final List<ProvisionedProductAttribute>? provisionedProducts;
 
   /// The number of provisioned products found.
-  @_s.JsonKey(name: 'TotalResultsCount')
-  final int totalResultsCount;
+  final int? totalResultsCount;
 
   SearchProvisionedProductsOutput({
     this.nextPageToken,
     this.provisionedProducts,
     this.totalResultsCount,
   });
-  factory SearchProvisionedProductsOutput.fromJson(Map<String, dynamic> json) =>
-      _$SearchProvisionedProductsOutputFromJson(json);
+
+  factory SearchProvisionedProductsOutput.fromJson(Map<String, dynamic> json) {
+    return SearchProvisionedProductsOutput(
+      nextPageToken: json['NextPageToken'] as String?,
+      provisionedProducts: (json['ProvisionedProducts'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisionedProductAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalResultsCount: json['TotalResultsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final provisionedProducts = this.provisionedProducts;
+    final totalResultsCount = this.totalResultsCount;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (provisionedProducts != null)
+        'ProvisionedProducts': provisionedProducts,
+      if (totalResultsCount != null) 'TotalResultsCount': totalResultsCount,
+    };
+  }
 }
 
 /// A self-service action association consisting of the Action ID, the Product
 /// ID, and the Provisioning Artifact ID.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ServiceActionAssociation {
   /// The product identifier. For example, <code>prod-abcdzk7xy33qa</code>.
-  @_s.JsonKey(name: 'ProductId')
   final String productId;
 
   /// The identifier of the provisioning artifact. For example,
   /// <code>pa-4abcdjnxjj6ne</code>.
-  @_s.JsonKey(name: 'ProvisioningArtifactId')
   final String provisioningArtifactId;
 
   /// The self-service action identifier. For example,
   /// <code>act-fs7abcd89wxyz</code>.
-  @_s.JsonKey(name: 'ServiceActionId')
   final String serviceActionId;
 
   ServiceActionAssociation({
-    @_s.required this.productId,
-    @_s.required this.provisioningArtifactId,
-    @_s.required this.serviceActionId,
+    required this.productId,
+    required this.provisioningArtifactId,
+    required this.serviceActionId,
   });
-  Map<String, dynamic> toJson() => _$ServiceActionAssociationToJson(this);
+
+  factory ServiceActionAssociation.fromJson(Map<String, dynamic> json) {
+    return ServiceActionAssociation(
+      productId: json['ProductId'] as String,
+      provisioningArtifactId: json['ProvisioningArtifactId'] as String,
+      serviceActionId: json['ServiceActionId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productId = this.productId;
+    final provisioningArtifactId = this.provisioningArtifactId;
+    final serviceActionId = this.serviceActionId;
+    return {
+      'ProductId': productId,
+      'ProvisioningArtifactId': provisioningArtifactId,
+      'ServiceActionId': serviceActionId,
+    };
+  }
 }
 
 enum ServiceActionAssociationErrorCode {
-  @_s.JsonValue('DUPLICATE_RESOURCE')
   duplicateResource,
-  @_s.JsonValue('INTERNAL_FAILURE')
   internalFailure,
-  @_s.JsonValue('LIMIT_EXCEEDED')
   limitExceeded,
-  @_s.JsonValue('RESOURCE_NOT_FOUND')
   resourceNotFound,
-  @_s.JsonValue('THROTTLING')
   throttling,
 }
 
+extension on ServiceActionAssociationErrorCode {
+  String toValue() {
+    switch (this) {
+      case ServiceActionAssociationErrorCode.duplicateResource:
+        return 'DUPLICATE_RESOURCE';
+      case ServiceActionAssociationErrorCode.internalFailure:
+        return 'INTERNAL_FAILURE';
+      case ServiceActionAssociationErrorCode.limitExceeded:
+        return 'LIMIT_EXCEEDED';
+      case ServiceActionAssociationErrorCode.resourceNotFound:
+        return 'RESOURCE_NOT_FOUND';
+      case ServiceActionAssociationErrorCode.throttling:
+        return 'THROTTLING';
+    }
+  }
+}
+
+extension on String {
+  ServiceActionAssociationErrorCode toServiceActionAssociationErrorCode() {
+    switch (this) {
+      case 'DUPLICATE_RESOURCE':
+        return ServiceActionAssociationErrorCode.duplicateResource;
+      case 'INTERNAL_FAILURE':
+        return ServiceActionAssociationErrorCode.internalFailure;
+      case 'LIMIT_EXCEEDED':
+        return ServiceActionAssociationErrorCode.limitExceeded;
+      case 'RESOURCE_NOT_FOUND':
+        return ServiceActionAssociationErrorCode.resourceNotFound;
+      case 'THROTTLING':
+        return ServiceActionAssociationErrorCode.throttling;
+    }
+    throw Exception(
+        '$this is not known in enum ServiceActionAssociationErrorCode');
+  }
+}
+
 enum ServiceActionDefinitionKey {
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('Version')
   version,
-  @_s.JsonValue('AssumeRole')
   assumeRole,
-  @_s.JsonValue('Parameters')
   parameters,
 }
 
@@ -12420,12 +13344,26 @@ extension on ServiceActionDefinitionKey {
       case ServiceActionDefinitionKey.parameters:
         return 'Parameters';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ServiceActionDefinitionKey toServiceActionDefinitionKey() {
+    switch (this) {
+      case 'Name':
+        return ServiceActionDefinitionKey.name;
+      case 'Version':
+        return ServiceActionDefinitionKey.version;
+      case 'AssumeRole':
+        return ServiceActionDefinitionKey.assumeRole;
+      case 'Parameters':
+        return ServiceActionDefinitionKey.parameters;
+    }
+    throw Exception('$this is not known in enum ServiceActionDefinitionKey');
   }
 }
 
 enum ServiceActionDefinitionType {
-  @_s.JsonValue('SSM_AUTOMATION')
   ssmAutomation,
 }
 
@@ -12435,56 +13373,69 @@ extension on ServiceActionDefinitionType {
       case ServiceActionDefinitionType.ssmAutomation:
         return 'SSM_AUTOMATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ServiceActionDefinitionType toServiceActionDefinitionType() {
+    switch (this) {
+      case 'SSM_AUTOMATION':
+        return ServiceActionDefinitionType.ssmAutomation;
+    }
+    throw Exception('$this is not known in enum ServiceActionDefinitionType');
   }
 }
 
 /// An object containing detailed information about the self-service action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceActionDetail {
   /// A map that defines the self-service action.
-  @_s.JsonKey(name: 'Definition')
-  final Map<ServiceActionDefinitionKey, String> definition;
+  final Map<ServiceActionDefinitionKey, String>? definition;
 
   /// Summary information about the self-service action.
-  @_s.JsonKey(name: 'ServiceActionSummary')
-  final ServiceActionSummary serviceActionSummary;
+  final ServiceActionSummary? serviceActionSummary;
 
   ServiceActionDetail({
     this.definition,
     this.serviceActionSummary,
   });
-  factory ServiceActionDetail.fromJson(Map<String, dynamic> json) =>
-      _$ServiceActionDetailFromJson(json);
+
+  factory ServiceActionDetail.fromJson(Map<String, dynamic> json) {
+    return ServiceActionDetail(
+      definition: (json['Definition'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k.toServiceActionDefinitionKey(), e as String)),
+      serviceActionSummary: json['ServiceActionSummary'] != null
+          ? ServiceActionSummary.fromJson(
+              json['ServiceActionSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final serviceActionSummary = this.serviceActionSummary;
+    return {
+      if (definition != null)
+        'Definition': definition.map((k, e) => MapEntry(k.toValue(), e)),
+      if (serviceActionSummary != null)
+        'ServiceActionSummary': serviceActionSummary,
+    };
+  }
 }
 
 /// Detailed information about the self-service action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceActionSummary {
   /// The self-service action definition type. For example,
   /// <code>SSM_AUTOMATION</code>.
-  @_s.JsonKey(name: 'DefinitionType')
-  final ServiceActionDefinitionType definitionType;
+  final ServiceActionDefinitionType? definitionType;
 
   /// The self-service action description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The self-service action identifier.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The self-service action name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   ServiceActionSummary({
     this.definitionType,
@@ -12492,78 +13443,152 @@ class ServiceActionSummary {
     this.id,
     this.name,
   });
-  factory ServiceActionSummary.fromJson(Map<String, dynamic> json) =>
-      _$ServiceActionSummaryFromJson(json);
+
+  factory ServiceActionSummary.fromJson(Map<String, dynamic> json) {
+    return ServiceActionSummary(
+      definitionType:
+          (json['DefinitionType'] as String?)?.toServiceActionDefinitionType(),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitionType = this.definitionType;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (definitionType != null) 'DefinitionType': definitionType.toValue(),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Information about the portfolio share operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ShareDetails {
   /// List of errors.
-  @_s.JsonKey(name: 'ShareErrors')
-  final List<ShareError> shareErrors;
+  final List<ShareError>? shareErrors;
 
   /// List of accounts for whom the operation succeeded.
-  @_s.JsonKey(name: 'SuccessfulShares')
-  final List<String> successfulShares;
+  final List<String>? successfulShares;
 
   ShareDetails({
     this.shareErrors,
     this.successfulShares,
   });
-  factory ShareDetails.fromJson(Map<String, dynamic> json) =>
-      _$ShareDetailsFromJson(json);
+
+  factory ShareDetails.fromJson(Map<String, dynamic> json) {
+    return ShareDetails(
+      shareErrors: (json['ShareErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ShareError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successfulShares: (json['SuccessfulShares'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareErrors = this.shareErrors;
+    final successfulShares = this.successfulShares;
+    return {
+      if (shareErrors != null) 'ShareErrors': shareErrors,
+      if (successfulShares != null) 'SuccessfulShares': successfulShares,
+    };
+  }
 }
 
 /// Errors that occurred during the portfolio share operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ShareError {
   /// List of accounts impacted by the error.
-  @_s.JsonKey(name: 'Accounts')
-  final List<String> accounts;
+  final List<String>? accounts;
 
   /// Error type that happened when processing the operation.
-  @_s.JsonKey(name: 'Error')
-  final String error;
+  final String? error;
 
   /// Information about the error.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ShareError({
     this.accounts,
     this.error,
     this.message,
   });
-  factory ShareError.fromJson(Map<String, dynamic> json) =>
-      _$ShareErrorFromJson(json);
+
+  factory ShareError.fromJson(Map<String, dynamic> json) {
+    return ShareError(
+      accounts: (json['Accounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      error: json['Error'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final error = this.error;
+    final message = this.message;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (error != null) 'Error': error,
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum ShareStatus {
-  @_s.JsonValue('NOT_STARTED')
   notStarted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('COMPLETED_WITH_ERRORS')
   completedWithErrors,
-  @_s.JsonValue('ERROR')
   error,
 }
 
+extension on ShareStatus {
+  String toValue() {
+    switch (this) {
+      case ShareStatus.notStarted:
+        return 'NOT_STARTED';
+      case ShareStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ShareStatus.completed:
+        return 'COMPLETED';
+      case ShareStatus.completedWithErrors:
+        return 'COMPLETED_WITH_ERRORS';
+      case ShareStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  ShareStatus toShareStatus() {
+    switch (this) {
+      case 'NOT_STARTED':
+        return ShareStatus.notStarted;
+      case 'IN_PROGRESS':
+        return ShareStatus.inProgress;
+      case 'COMPLETED':
+        return ShareStatus.completed;
+      case 'COMPLETED_WITH_ERRORS':
+        return ShareStatus.completedWithErrors;
+      case 'ERROR':
+        return ShareStatus.error;
+    }
+    throw Exception('$this is not known in enum ShareStatus');
+  }
+}
+
 enum SortOrder {
-  @_s.JsonValue('ASCENDING')
   ascending,
-  @_s.JsonValue('DESCENDING')
   descending,
 }
 
@@ -12575,7 +13600,18 @@ extension on SortOrder {
       case SortOrder.descending:
         return 'DESCENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
   }
 }
 
@@ -12586,19 +13622,12 @@ extension on SortOrder {
 /// reason. A stack instance is associated with only one stack set. Each stack
 /// instance contains the ID of its associated stack set, as well as the ID of
 /// the actual stack and the stack status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StackInstance {
   /// The name of the AWS account that the stack instance is associated with.
-  @_s.JsonKey(name: 'Account')
-  final String account;
+  final String? account;
 
   /// The name of the AWS region that the stack instance is associated with.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The status of the stack instance, in terms of its synchronization with its
   /// associated stack set.
@@ -12624,96 +13653,182 @@ class StackInstance {
   /// <code>CURRENT</code>: The stack is currently up to date with the stack set.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StackInstanceStatus')
-  final StackInstanceStatus stackInstanceStatus;
+  final StackInstanceStatus? stackInstanceStatus;
 
   StackInstance({
     this.account,
     this.region,
     this.stackInstanceStatus,
   });
-  factory StackInstance.fromJson(Map<String, dynamic> json) =>
-      _$StackInstanceFromJson(json);
+
+  factory StackInstance.fromJson(Map<String, dynamic> json) {
+    return StackInstance(
+      account: json['Account'] as String?,
+      region: json['Region'] as String?,
+      stackInstanceStatus:
+          (json['StackInstanceStatus'] as String?)?.toStackInstanceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final region = this.region;
+    final stackInstanceStatus = this.stackInstanceStatus;
+    return {
+      if (account != null) 'Account': account,
+      if (region != null) 'Region': region,
+      if (stackInstanceStatus != null)
+        'StackInstanceStatus': stackInstanceStatus.toValue(),
+    };
+  }
 }
 
 enum StackInstanceStatus {
-  @_s.JsonValue('CURRENT')
   current,
-  @_s.JsonValue('OUTDATED')
   outdated,
-  @_s.JsonValue('INOPERABLE')
   inoperable,
 }
 
+extension on StackInstanceStatus {
+  String toValue() {
+    switch (this) {
+      case StackInstanceStatus.current:
+        return 'CURRENT';
+      case StackInstanceStatus.outdated:
+        return 'OUTDATED';
+      case StackInstanceStatus.inoperable:
+        return 'INOPERABLE';
+    }
+  }
+}
+
+extension on String {
+  StackInstanceStatus toStackInstanceStatus() {
+    switch (this) {
+      case 'CURRENT':
+        return StackInstanceStatus.current;
+      case 'OUTDATED':
+        return StackInstanceStatus.outdated;
+      case 'INOPERABLE':
+        return StackInstanceStatus.inoperable;
+    }
+    throw Exception('$this is not known in enum StackInstanceStatus');
+  }
+}
+
 enum StackSetOperationType {
-  @_s.JsonValue('CREATE')
   create,
-  @_s.JsonValue('UPDATE')
   update,
-  @_s.JsonValue('DELETE')
   delete,
 }
 
+extension on StackSetOperationType {
+  String toValue() {
+    switch (this) {
+      case StackSetOperationType.create:
+        return 'CREATE';
+      case StackSetOperationType.update:
+        return 'UPDATE';
+      case StackSetOperationType.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  StackSetOperationType toStackSetOperationType() {
+    switch (this) {
+      case 'CREATE':
+        return StackSetOperationType.create;
+      case 'UPDATE':
+        return StackSetOperationType.update;
+      case 'DELETE':
+        return StackSetOperationType.delete;
+    }
+    throw Exception('$this is not known in enum StackSetOperationType');
+  }
+}
+
 enum Status {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.available:
+        return 'AVAILABLE';
+      case Status.creating:
+        return 'CREATING';
+      case Status.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'AVAILABLE':
+        return Status.available;
+      case 'CREATING':
+        return Status.creating;
+      case 'FAILED':
+        return Status.failed;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
 }
 
 /// Information about a tag. A tag is a key-value pair. Tags are propagated to
 /// the resources created when provisioning a product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value for this key.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// Information about a TagOption.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagOptionDetail {
   /// The TagOption active state.
-  @_s.JsonKey(name: 'Active')
-  final bool active;
+  final bool? active;
 
   /// The TagOption identifier.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The TagOption key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The AWS account Id of the owner account that created the TagOption.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// The TagOption value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   TagOptionDetail({
     this.active,
@@ -12722,185 +13837,270 @@ class TagOptionDetail {
     this.owner,
     this.value,
   });
-  factory TagOptionDetail.fromJson(Map<String, dynamic> json) =>
-      _$TagOptionDetailFromJson(json);
+
+  factory TagOptionDetail.fromJson(Map<String, dynamic> json) {
+    return TagOptionDetail(
+      active: json['Active'] as bool?,
+      id: json['Id'] as String?,
+      key: json['Key'] as String?,
+      owner: json['Owner'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final active = this.active;
+    final id = this.id;
+    final key = this.key;
+    final owner = this.owner;
+    final value = this.value;
+    return {
+      if (active != null) 'Active': active,
+      if (id != null) 'Id': id,
+      if (key != null) 'Key': key,
+      if (owner != null) 'Owner': owner,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Summary information about a TagOption.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagOptionSummary {
   /// The TagOption key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The TagOption value.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   TagOptionSummary({
     this.key,
     this.values,
   });
-  factory TagOptionSummary.fromJson(Map<String, dynamic> json) =>
-      _$TagOptionSummaryFromJson(json);
+
+  factory TagOptionSummary.fromJson(Map<String, dynamic> json) {
+    return TagOptionSummary(
+      key: json['Key'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminateProvisionedProductOutput {
   /// Information about the result of this request.
-  @_s.JsonKey(name: 'RecordDetail')
-  final RecordDetail recordDetail;
+  final RecordDetail? recordDetail;
 
   TerminateProvisionedProductOutput({
     this.recordDetail,
   });
+
   factory TerminateProvisionedProductOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$TerminateProvisionedProductOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return TerminateProvisionedProductOutput(
+      recordDetail: json['RecordDetail'] != null
+          ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordDetail = this.recordDetail;
+    return {
+      if (recordDetail != null) 'RecordDetail': recordDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConstraintOutput {
   /// Information about the constraint.
-  @_s.JsonKey(name: 'ConstraintDetail')
-  final ConstraintDetail constraintDetail;
+  final ConstraintDetail? constraintDetail;
 
   /// The constraint parameters.
-  @_s.JsonKey(name: 'ConstraintParameters')
-  final String constraintParameters;
+  final String? constraintParameters;
 
   /// The status of the current request.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   UpdateConstraintOutput({
     this.constraintDetail,
     this.constraintParameters,
     this.status,
   });
-  factory UpdateConstraintOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateConstraintOutputFromJson(json);
+
+  factory UpdateConstraintOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateConstraintOutput(
+      constraintDetail: json['ConstraintDetail'] != null
+          ? ConstraintDetail.fromJson(
+              json['ConstraintDetail'] as Map<String, dynamic>)
+          : null,
+      constraintParameters: json['ConstraintParameters'] as String?,
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraintDetail = this.constraintDetail;
+    final constraintParameters = this.constraintParameters;
+    final status = this.status;
+    return {
+      if (constraintDetail != null) 'ConstraintDetail': constraintDetail,
+      if (constraintParameters != null)
+        'ConstraintParameters': constraintParameters,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePortfolioOutput {
   /// Information about the portfolio.
-  @_s.JsonKey(name: 'PortfolioDetail')
-  final PortfolioDetail portfolioDetail;
+  final PortfolioDetail? portfolioDetail;
 
   /// Information about the tags associated with the portfolio.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   UpdatePortfolioOutput({
     this.portfolioDetail,
     this.tags,
   });
-  factory UpdatePortfolioOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePortfolioOutputFromJson(json);
+
+  factory UpdatePortfolioOutput.fromJson(Map<String, dynamic> json) {
+    return UpdatePortfolioOutput(
+      portfolioDetail: json['PortfolioDetail'] != null
+          ? PortfolioDetail.fromJson(
+              json['PortfolioDetail'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portfolioDetail = this.portfolioDetail;
+    final tags = this.tags;
+    return {
+      if (portfolioDetail != null) 'PortfolioDetail': portfolioDetail,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePortfolioShareOutput {
   /// The token that tracks the status of the <code>UpdatePortfolioShare</code>
   /// operation for external account to account or organizational type sharing.
-  @_s.JsonKey(name: 'PortfolioShareToken')
-  final String portfolioShareToken;
+  final String? portfolioShareToken;
 
   /// The status of <code>UpdatePortfolioShare</code> operation. You can also
   /// obtain the operation status using <code>DescribePortfolioShareStatus</code>
   /// API.
-  @_s.JsonKey(name: 'Status')
-  final ShareStatus status;
+  final ShareStatus? status;
 
   UpdatePortfolioShareOutput({
     this.portfolioShareToken,
     this.status,
   });
-  factory UpdatePortfolioShareOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePortfolioShareOutputFromJson(json);
+
+  factory UpdatePortfolioShareOutput.fromJson(Map<String, dynamic> json) {
+    return UpdatePortfolioShareOutput(
+      portfolioShareToken: json['PortfolioShareToken'] as String?,
+      status: (json['Status'] as String?)?.toShareStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final portfolioShareToken = this.portfolioShareToken;
+    final status = this.status;
+    return {
+      if (portfolioShareToken != null)
+        'PortfolioShareToken': portfolioShareToken,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProductOutput {
   /// Information about the product view.
-  @_s.JsonKey(name: 'ProductViewDetail')
-  final ProductViewDetail productViewDetail;
+  final ProductViewDetail? productViewDetail;
 
   /// Information about the tags associated with the product.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   UpdateProductOutput({
     this.productViewDetail,
     this.tags,
   });
-  factory UpdateProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProductOutputFromJson(json);
+
+  factory UpdateProductOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProductOutput(
+      productViewDetail: json['ProductViewDetail'] != null
+          ? ProductViewDetail.fromJson(
+              json['ProductViewDetail'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final productViewDetail = this.productViewDetail;
+    final tags = this.tags;
+    return {
+      if (productViewDetail != null) 'ProductViewDetail': productViewDetail,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProvisionedProductOutput {
   /// Information about the result of the request.
-  @_s.JsonKey(name: 'RecordDetail')
-  final RecordDetail recordDetail;
+  final RecordDetail? recordDetail;
 
   UpdateProvisionedProductOutput({
     this.recordDetail,
   });
-  factory UpdateProvisionedProductOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProvisionedProductOutputFromJson(json);
+
+  factory UpdateProvisionedProductOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProvisionedProductOutput(
+      recordDetail: json['RecordDetail'] != null
+          ? RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordDetail = this.recordDetail;
+    return {
+      if (recordDetail != null) 'RecordDetail': recordDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProvisionedProductPropertiesOutput {
   /// The provisioned product identifier.
-  @_s.JsonKey(name: 'ProvisionedProductId')
-  final String provisionedProductId;
+  final String? provisionedProductId;
 
   /// A map that contains the properties updated.
-  @_s.JsonKey(name: 'ProvisionedProductProperties')
-  final Map<PropertyKey, String> provisionedProductProperties;
+  final Map<PropertyKey, String>? provisionedProductProperties;
 
   /// The identifier of the record.
-  @_s.JsonKey(name: 'RecordId')
-  final String recordId;
+  final String? recordId;
 
   /// The status of the request.
-  @_s.JsonKey(name: 'Status')
-  final RecordStatus status;
+  final RecordStatus? status;
 
   UpdateProvisionedProductPropertiesOutput({
     this.provisionedProductId,
@@ -12908,78 +14108,118 @@ class UpdateProvisionedProductPropertiesOutput {
     this.recordId,
     this.status,
   });
+
   factory UpdateProvisionedProductPropertiesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateProvisionedProductPropertiesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateProvisionedProductPropertiesOutput(
+      provisionedProductId: json['ProvisionedProductId'] as String?,
+      provisionedProductProperties:
+          (json['ProvisionedProductProperties'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toPropertyKey(), e as String)),
+      recordId: json['RecordId'] as String?,
+      status: (json['Status'] as String?)?.toRecordStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final provisionedProductId = this.provisionedProductId;
+    final provisionedProductProperties = this.provisionedProductProperties;
+    final recordId = this.recordId;
+    final status = this.status;
+    return {
+      if (provisionedProductId != null)
+        'ProvisionedProductId': provisionedProductId,
+      if (provisionedProductProperties != null)
+        'ProvisionedProductProperties': provisionedProductProperties
+            .map((k, e) => MapEntry(k.toValue(), e)),
+      if (recordId != null) 'RecordId': recordId,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProvisioningArtifactOutput {
   /// The URL of the CloudFormation template in Amazon S3.
-  @_s.JsonKey(name: 'Info')
-  final Map<String, String> info;
+  final Map<String, String>? info;
 
   /// Information about the provisioning artifact.
-  @_s.JsonKey(name: 'ProvisioningArtifactDetail')
-  final ProvisioningArtifactDetail provisioningArtifactDetail;
+  final ProvisioningArtifactDetail? provisioningArtifactDetail;
 
   /// The status of the current request.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   UpdateProvisioningArtifactOutput({
     this.info,
     this.provisioningArtifactDetail,
     this.status,
   });
-  factory UpdateProvisioningArtifactOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateProvisioningArtifactOutputFromJson(json);
+
+  factory UpdateProvisioningArtifactOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateProvisioningArtifactOutput(
+      info: (json['Info'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      provisioningArtifactDetail: json['ProvisioningArtifactDetail'] != null
+          ? ProvisioningArtifactDetail.fromJson(
+              json['ProvisioningArtifactDetail'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final info = this.info;
+    final provisioningArtifactDetail = this.provisioningArtifactDetail;
+    final status = this.status;
+    return {
+      if (info != null) 'Info': info,
+      if (provisioningArtifactDetail != null)
+        'ProvisioningArtifactDetail': provisioningArtifactDetail,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// The parameter key-value pair used to update a provisioned product.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UpdateProvisioningParameter {
   /// The parameter key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// If set to true, <code>Value</code> is ignored and the previous parameter
   /// value is kept.
-  @_s.JsonKey(name: 'UsePreviousValue')
-  final bool usePreviousValue;
+  final bool? usePreviousValue;
 
   /// The parameter value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   UpdateProvisioningParameter({
     this.key,
     this.usePreviousValue,
     this.value,
   });
-  factory UpdateProvisioningParameter.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProvisioningParameterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UpdateProvisioningParameterToJson(this);
+  factory UpdateProvisioningParameter.fromJson(Map<String, dynamic> json) {
+    return UpdateProvisioningParameter(
+      key: json['Key'] as String?,
+      usePreviousValue: json['UsePreviousValue'] as bool?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final usePreviousValue = this.usePreviousValue;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (usePreviousValue != null) 'UsePreviousValue': usePreviousValue,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The user-defined preferences that will be applied when updating a
 /// provisioned product. Not all preferences are applicable to all provisioned
 /// product types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateProvisioningPreferences {
   /// One or more AWS accounts that will have access to the provisioned product.
   ///
@@ -12992,8 +14232,7 @@ class UpdateProvisioningPreferences {
   ///
   /// If no values are specified, the default value is all accounts from the
   /// <code>STACKSET</code> constraint.
-  @_s.JsonKey(name: 'StackSetAccounts')
-  final List<String> stackSetAccounts;
+  final List<String>? stackSetAccounts;
 
   /// The number of accounts, per region, for which this operation can fail before
   /// AWS Service Catalog stops the operation in that region. If the operation is
@@ -13007,8 +14246,7 @@ class UpdateProvisioningPreferences {
   /// <code>StackSetFailureTolerancePercentage</code>, but not both.
   ///
   /// The default value is <code>0</code> if no value is specified.
-  @_s.JsonKey(name: 'StackSetFailureToleranceCount')
-  final int stackSetFailureToleranceCount;
+  final int? stackSetFailureToleranceCount;
 
   /// The percentage of accounts, per region, for which this stack operation can
   /// fail before AWS Service Catalog stops the operation in that region. If the
@@ -13023,8 +14261,7 @@ class UpdateProvisioningPreferences {
   /// Conditional: You must specify either
   /// <code>StackSetFailureToleranceCount</code> or
   /// <code>StackSetFailureTolerancePercentage</code>, but not both.
-  @_s.JsonKey(name: 'StackSetFailureTolerancePercentage')
-  final int stackSetFailureTolerancePercentage;
+  final int? stackSetFailureTolerancePercentage;
 
   /// The maximum number of accounts in which to perform this operation at one
   /// time. This is dependent on the value of
@@ -13040,8 +14277,7 @@ class UpdateProvisioningPreferences {
   ///
   /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
   /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
-  @_s.JsonKey(name: 'StackSetMaxConcurrencyCount')
-  final int stackSetMaxConcurrencyCount;
+  final int? stackSetMaxConcurrencyCount;
 
   /// The maximum percentage of accounts in which to perform this operation at one
   /// time.
@@ -13059,8 +14295,7 @@ class UpdateProvisioningPreferences {
   ///
   /// Conditional: You must specify either <code>StackSetMaxConcurrentCount</code>
   /// or <code>StackSetMaxConcurrentPercentage</code>, but not both.
-  @_s.JsonKey(name: 'StackSetMaxConcurrencyPercentage')
-  final int stackSetMaxConcurrencyPercentage;
+  final int? stackSetMaxConcurrencyPercentage;
 
   /// Determines what action AWS Service Catalog performs to a stack set or a
   /// stack instance represented by the provisioned product. The default value is
@@ -13079,8 +14314,7 @@ class UpdateProvisioningPreferences {
   /// Deletes a stack instance in the stack set represented by the provisioned
   /// product.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'StackSetOperationType')
-  final StackSetOperationType stackSetOperationType;
+  final StackSetOperationType? stackSetOperationType;
 
   /// One or more AWS Regions where the provisioned product will be available.
   ///
@@ -13093,8 +14327,7 @@ class UpdateProvisioningPreferences {
   ///
   /// If no values are specified, the default value is all regions from the
   /// <code>STACKSET</code> constraint.
-  @_s.JsonKey(name: 'StackSetRegions')
-  final List<String> stackSetRegions;
+  final List<String>? stackSetRegions;
 
   UpdateProvisioningPreferences({
     this.stackSetAccounts,
@@ -13105,88 +14338,160 @@ class UpdateProvisioningPreferences {
     this.stackSetOperationType,
     this.stackSetRegions,
   });
-  Map<String, dynamic> toJson() => _$UpdateProvisioningPreferencesToJson(this);
+
+  factory UpdateProvisioningPreferences.fromJson(Map<String, dynamic> json) {
+    return UpdateProvisioningPreferences(
+      stackSetAccounts: (json['StackSetAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      stackSetFailureToleranceCount:
+          json['StackSetFailureToleranceCount'] as int?,
+      stackSetFailureTolerancePercentage:
+          json['StackSetFailureTolerancePercentage'] as int?,
+      stackSetMaxConcurrencyCount: json['StackSetMaxConcurrencyCount'] as int?,
+      stackSetMaxConcurrencyPercentage:
+          json['StackSetMaxConcurrencyPercentage'] as int?,
+      stackSetOperationType:
+          (json['StackSetOperationType'] as String?)?.toStackSetOperationType(),
+      stackSetRegions: (json['StackSetRegions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stackSetAccounts = this.stackSetAccounts;
+    final stackSetFailureToleranceCount = this.stackSetFailureToleranceCount;
+    final stackSetFailureTolerancePercentage =
+        this.stackSetFailureTolerancePercentage;
+    final stackSetMaxConcurrencyCount = this.stackSetMaxConcurrencyCount;
+    final stackSetMaxConcurrencyPercentage =
+        this.stackSetMaxConcurrencyPercentage;
+    final stackSetOperationType = this.stackSetOperationType;
+    final stackSetRegions = this.stackSetRegions;
+    return {
+      if (stackSetAccounts != null) 'StackSetAccounts': stackSetAccounts,
+      if (stackSetFailureToleranceCount != null)
+        'StackSetFailureToleranceCount': stackSetFailureToleranceCount,
+      if (stackSetFailureTolerancePercentage != null)
+        'StackSetFailureTolerancePercentage':
+            stackSetFailureTolerancePercentage,
+      if (stackSetMaxConcurrencyCount != null)
+        'StackSetMaxConcurrencyCount': stackSetMaxConcurrencyCount,
+      if (stackSetMaxConcurrencyPercentage != null)
+        'StackSetMaxConcurrencyPercentage': stackSetMaxConcurrencyPercentage,
+      if (stackSetOperationType != null)
+        'StackSetOperationType': stackSetOperationType.toValue(),
+      if (stackSetRegions != null) 'StackSetRegions': stackSetRegions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateServiceActionOutput {
   /// Detailed information about the self-service action.
-  @_s.JsonKey(name: 'ServiceActionDetail')
-  final ServiceActionDetail serviceActionDetail;
+  final ServiceActionDetail? serviceActionDetail;
 
   UpdateServiceActionOutput({
     this.serviceActionDetail,
   });
-  factory UpdateServiceActionOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateServiceActionOutputFromJson(json);
+
+  factory UpdateServiceActionOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateServiceActionOutput(
+      serviceActionDetail: json['ServiceActionDetail'] != null
+          ? ServiceActionDetail.fromJson(
+              json['ServiceActionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceActionDetail = this.serviceActionDetail;
+    return {
+      if (serviceActionDetail != null)
+        'ServiceActionDetail': serviceActionDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTagOptionOutput {
   /// Information about the TagOption.
-  @_s.JsonKey(name: 'TagOptionDetail')
-  final TagOptionDetail tagOptionDetail;
+  final TagOptionDetail? tagOptionDetail;
 
   UpdateTagOptionOutput({
     this.tagOptionDetail,
   });
-  factory UpdateTagOptionOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTagOptionOutputFromJson(json);
+
+  factory UpdateTagOptionOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateTagOptionOutput(
+      tagOptionDetail: json['TagOptionDetail'] != null
+          ? TagOptionDetail.fromJson(
+              json['TagOptionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagOptionDetail = this.tagOptionDetail;
+    return {
+      if (tagOptionDetail != null) 'TagOptionDetail': tagOptionDetail,
+    };
+  }
 }
 
 /// Additional information provided by the administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UsageInstruction {
   /// The usage instruction type for the value.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The usage instruction value for this type.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   UsageInstruction({
     this.type,
     this.value,
   });
-  factory UsageInstruction.fromJson(Map<String, dynamic> json) =>
-      _$UsageInstructionFromJson(json);
+
+  factory UsageInstruction.fromJson(Map<String, dynamic> json) {
+    return UsageInstruction(
+      type: json['Type'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 class DuplicateResourceException extends _s.GenericAwsException {
-  DuplicateResourceException({String type, String message})
+  DuplicateResourceException({String? type, String? message})
       : super(type: type, code: 'DuplicateResourceException', message: message);
 }
 
 class InvalidParametersException extends _s.GenericAwsException {
-  InvalidParametersException({String type, String message})
+  InvalidParametersException({String? type, String? message})
       : super(type: type, code: 'InvalidParametersException', message: message);
 }
 
 class InvalidStateException extends _s.GenericAwsException {
-  InvalidStateException({String type, String message})
+  InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class OperationNotSupportedException extends _s.GenericAwsException {
-  OperationNotSupportedException({String type, String message})
+  OperationNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotSupportedException',
@@ -13194,17 +14499,17 @@ class OperationNotSupportedException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TagOptionNotMigratedException extends _s.GenericAwsException {
-  TagOptionNotMigratedException({String type, String message})
+  TagOptionNotMigratedException({String? type, String? message})
       : super(
             type: type,
             code: 'TagOptionNotMigratedException',

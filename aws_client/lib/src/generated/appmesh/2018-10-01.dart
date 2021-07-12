@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-10-01.g.dart';
 
 /// AWS App Mesh is a service mesh based on the Envoy proxy that makes it easy
 /// to monitor and
@@ -61,10 +54,10 @@ part '2018-10-01.g.dart';
 class AppMesh {
   final _s.RestJsonProtocol _protocol;
   AppMesh({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -102,8 +95,8 @@ class AppMesh {
   /// idempotency of the
   /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
   Future<CreateMeshOutput> createMesh({
-    @_s.required String meshName,
-    String clientToken,
+    required String meshName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -170,11 +163,11 @@ class AppMesh {
   /// idempotency of the
   /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
   Future<CreateRouteOutput> createRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required RouteSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
+    required String meshName,
+    required String routeName,
+    required RouteSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -281,10 +274,10 @@ class AppMesh {
   /// idempotency of the
   /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
   Future<CreateVirtualNodeOutput> createVirtualNode({
-    @_s.required String meshName,
-    @_s.required VirtualNodeSpec spec,
-    @_s.required String virtualNodeName,
-    String clientToken,
+    required String meshName,
+    required VirtualNodeSpec spec,
+    required String virtualNodeName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -352,10 +345,10 @@ class AppMesh {
   /// idempotency of the
   /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
   Future<CreateVirtualRouterOutput> createVirtualRouter({
-    @_s.required String meshName,
-    @_s.required VirtualRouterSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
+    required String meshName,
+    required VirtualRouterSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -409,7 +402,7 @@ class AppMesh {
   /// Parameter [meshName] :
   /// The name of the service mesh to delete.
   Future<DeleteMeshOutput> deleteMesh({
-    @_s.required String meshName,
+    required String meshName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -450,9 +443,9 @@ class AppMesh {
   /// Parameter [virtualRouterName] :
   /// The name of the virtual router in which to delete the route.
   Future<DeleteRouteOutput> deleteRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required String virtualRouterName,
+    required String meshName,
+    required String routeName,
+    required String virtualRouterName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -507,8 +500,8 @@ class AppMesh {
   /// Parameter [virtualNodeName] :
   /// The name of the virtual node to delete.
   Future<DeleteVirtualNodeOutput> deleteVirtualNode({
-    @_s.required String meshName,
-    @_s.required String virtualNodeName,
+    required String meshName,
+    required String virtualNodeName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -560,8 +553,8 @@ class AppMesh {
   /// Parameter [virtualRouterName] :
   /// The name of the virtual router to delete.
   Future<DeleteVirtualRouterOutput> deleteVirtualRouter({
-    @_s.required String meshName,
-    @_s.required String virtualRouterName,
+    required String meshName,
+    required String virtualRouterName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -604,7 +597,7 @@ class AppMesh {
   /// Parameter [meshName] :
   /// The name of the service mesh to describe.
   Future<DescribeMeshOutput> describeMesh({
-    @_s.required String meshName,
+    required String meshName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -644,9 +637,9 @@ class AppMesh {
   /// Parameter [virtualRouterName] :
   /// The name of the virtual router with which the route is associated.
   Future<DescribeRouteOutput> describeRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required String virtualRouterName,
+    required String meshName,
+    required String routeName,
+    required String virtualRouterName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -700,8 +693,8 @@ class AppMesh {
   /// Parameter [virtualNodeName] :
   /// The name of the virtual node to describe.
   Future<DescribeVirtualNodeOutput> describeVirtualNode({
-    @_s.required String meshName,
-    @_s.required String virtualNodeName,
+    required String meshName,
+    required String virtualNodeName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -747,8 +740,8 @@ class AppMesh {
   /// Parameter [virtualRouterName] :
   /// The name of the virtual router to describe.
   Future<DescribeVirtualRouterOutput> describeVirtualRouter({
-    @_s.required String meshName,
-    @_s.required String virtualRouterName,
+    required String meshName,
+    required String virtualRouterName,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -816,8 +809,8 @@ class AppMesh {
   ///
   /// </note>
   Future<ListMeshesOutput> listMeshes({
-    int limit,
-    String nextToken,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -875,10 +868,10 @@ class AppMesh {
   /// the end of the
   /// previous results that returned the <code>nextToken</code> value.
   Future<ListRoutesOutput> listRoutes({
-    @_s.required String meshName,
-    @_s.required String virtualRouterName,
-    int limit,
-    String nextToken,
+    required String meshName,
+    required String virtualRouterName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -952,9 +945,9 @@ class AppMesh {
   /// the end of the
   /// previous results that returned the <code>nextToken</code> value.
   Future<ListVirtualNodesOutput> listVirtualNodes({
-    @_s.required String meshName,
-    int limit,
-    String nextToken,
+    required String meshName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1019,9 +1012,9 @@ class AppMesh {
   /// the end of the
   /// previous results that returned the <code>nextToken</code> value.
   Future<ListVirtualRoutersOutput> listVirtualRouters({
-    @_s.required String meshName,
-    int limit,
-    String nextToken,
+    required String meshName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1079,11 +1072,11 @@ class AppMesh {
   /// idempotency of the
   /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
   Future<UpdateRouteOutput> updateRoute({
-    @_s.required String meshName,
-    @_s.required String routeName,
-    @_s.required RouteSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
+    required String meshName,
+    required String routeName,
+    required RouteSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1153,10 +1146,10 @@ class AppMesh {
   /// idempotency of the
   /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
   Future<UpdateVirtualNodeOutput> updateVirtualNode({
-    @_s.required String meshName,
-    @_s.required VirtualNodeSpec spec,
-    @_s.required String virtualNodeName,
-    String clientToken,
+    required String meshName,
+    required VirtualNodeSpec spec,
+    required String virtualNodeName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1218,10 +1211,10 @@ class AppMesh {
   /// idempotency of the
   /// request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
   Future<UpdateVirtualRouterOutput> updateVirtualRouter({
-    @_s.required String meshName,
-    @_s.required VirtualRouterSpec spec,
-    @_s.required String virtualRouterName,
-    String clientToken,
+    required String meshName,
+    required VirtualRouterSpec spec,
+    required String virtualRouterName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(meshName, 'meshName');
     _s.validateStringLength(
@@ -1258,47 +1251,86 @@ class AppMesh {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMeshOutput {
   /// The service mesh that was deleted.
-  @_s.JsonKey(name: 'mesh')
-  final MeshData mesh;
+  final MeshData? mesh;
 
   DeleteMeshOutput({
     this.mesh,
   });
-  factory DeleteMeshOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMeshOutputFromJson(json);
+
+  factory DeleteMeshOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteMeshOutput(
+      mesh: json['mesh'] != null
+          ? MeshData.fromJson(json['mesh'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mesh = this.mesh;
+    return {
+      if (mesh != null) 'mesh': mesh,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVirtualRouterOutput {
   /// A full description of the virtual router that was updated.
-  @_s.JsonKey(name: 'virtualRouter')
-  final VirtualRouterData virtualRouter;
+  final VirtualRouterData? virtualRouter;
 
   UpdateVirtualRouterOutput({
     this.virtualRouter,
   });
-  factory UpdateVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVirtualRouterOutputFromJson(json);
+
+  factory UpdateVirtualRouterOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateVirtualRouterOutput(
+      virtualRouter: json['virtualRouter'] != null
+          ? VirtualRouterData.fromJson(
+              json['virtualRouter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualRouter = this.virtualRouter;
+    return {
+      if (virtualRouter != null) 'virtualRouter': virtualRouter,
+    };
+  }
 }
 
 enum MeshStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('INACTIVE')
   inactive,
+}
+
+extension on MeshStatusCode {
+  String toValue() {
+    switch (this) {
+      case MeshStatusCode.active:
+        return 'ACTIVE';
+      case MeshStatusCode.deleted:
+        return 'DELETED';
+      case MeshStatusCode.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  MeshStatusCode toMeshStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return MeshStatusCode.active;
+      case 'DELETED':
+        return MeshStatusCode.deleted;
+      case 'INACTIVE':
+        return MeshStatusCode.inactive;
+    }
+    throw Exception('$this is not known in enum MeshStatusCode');
+  }
 }
 
 /// An object representing a target and its relative weight. Traffic is
@@ -1308,362 +1340,478 @@ enum MeshStatusCode {
 /// weight of 50 receives five times as much traffic as one with a relative
 /// weight of
 /// 10.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WeightedTarget {
   /// The virtual node to associate with the weighted target.
-  @_s.JsonKey(name: 'virtualNode')
-  final String virtualNode;
+  final String? virtualNode;
 
   /// The relative weight of the weighted target.
-  @_s.JsonKey(name: 'weight')
-  final int weight;
+  final int? weight;
 
   WeightedTarget({
     this.virtualNode,
     this.weight,
   });
-  factory WeightedTarget.fromJson(Map<String, dynamic> json) =>
-      _$WeightedTargetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WeightedTargetToJson(this);
+  factory WeightedTarget.fromJson(Map<String, dynamic> json) {
+    return WeightedTarget(
+      virtualNode: json['virtualNode'] as String?,
+      weight: json['weight'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualNode = this.virtualNode;
+    final weight = this.weight;
+    return {
+      if (virtualNode != null) 'virtualNode': virtualNode,
+      if (weight != null) 'weight': weight,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRouteOutput {
   /// The full description of your mesh following the create call.
-  @_s.JsonKey(name: 'route')
-  final RouteData route;
+  final RouteData? route;
 
   CreateRouteOutput({
     this.route,
   });
-  factory CreateRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateRouteOutputFromJson(json);
+
+  factory CreateRouteOutput.fromJson(Map<String, dynamic> json) {
+    return CreateRouteOutput(
+      route: json['route'] != null
+          ? RouteData.fromJson(json['route'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final route = this.route;
+    return {
+      if (route != null) 'route': route,
+    };
+  }
 }
 
 /// The DNS service discovery information for your virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DnsServiceDiscovery {
   /// The DNS service name for your virtual node.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   DnsServiceDiscovery({
     this.serviceName,
   });
-  factory DnsServiceDiscovery.fromJson(Map<String, dynamic> json) =>
-      _$DnsServiceDiscoveryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DnsServiceDiscoveryToJson(this);
+  factory DnsServiceDiscovery.fromJson(Map<String, dynamic> json) {
+    return DnsServiceDiscovery(
+      serviceName: json['serviceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    return {
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
 }
 
 /// An object representing a virtual node returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualNodeRef {
   /// The full Amazon Resource Name (ARN) for the virtual node.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the service mesh in which the virtual node resides.
-  @_s.JsonKey(name: 'meshName')
-  final String meshName;
+  final String? meshName;
 
   /// The name of the virtual node.
-  @_s.JsonKey(name: 'virtualNodeName')
-  final String virtualNodeName;
+  final String? virtualNodeName;
 
   VirtualNodeRef({
     this.arn,
     this.meshName,
     this.virtualNodeName,
   });
-  factory VirtualNodeRef.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeRefFromJson(json);
+
+  factory VirtualNodeRef.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeRef(
+      arn: json['arn'] as String?,
+      meshName: json['meshName'] as String?,
+      virtualNodeName: json['virtualNodeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final meshName = this.meshName;
+    final virtualNodeName = this.virtualNodeName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (meshName != null) 'meshName': meshName,
+      if (virtualNodeName != null) 'virtualNodeName': virtualNodeName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRouteOutput {
   /// The full description of your route.
-  @_s.JsonKey(name: 'route')
-  final RouteData route;
+  final RouteData? route;
 
   DescribeRouteOutput({
     this.route,
   });
-  factory DescribeRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRouteOutputFromJson(json);
+
+  factory DescribeRouteOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeRouteOutput(
+      route: json['route'] != null
+          ? RouteData.fromJson(json['route'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final route = this.route;
+    return {
+      if (route != null) 'route': route,
+    };
+  }
 }
 
 /// An object representing the service discovery information for a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceDiscovery {
   /// Specifies the DNS service name for the virtual node.
-  @_s.JsonKey(name: 'dns')
-  final DnsServiceDiscovery dns;
+  final DnsServiceDiscovery? dns;
 
   ServiceDiscovery({
     this.dns,
   });
-  factory ServiceDiscovery.fromJson(Map<String, dynamic> json) =>
-      _$ServiceDiscoveryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ServiceDiscoveryToJson(this);
+  factory ServiceDiscovery.fromJson(Map<String, dynamic> json) {
+    return ServiceDiscovery(
+      dns: json['dns'] != null
+          ? DnsServiceDiscovery.fromJson(json['dns'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dns = this.dns;
+    return {
+      if (dns != null) 'dns': dns,
+    };
+  }
 }
 
 /// An object representing the status of a service mesh.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeshStatus {
   /// The current mesh status.
-  @_s.JsonKey(name: 'status')
-  final MeshStatusCode status;
+  final MeshStatusCode? status;
 
   MeshStatus({
     this.status,
   });
-  factory MeshStatus.fromJson(Map<String, dynamic> json) =>
-      _$MeshStatusFromJson(json);
+
+  factory MeshStatus.fromJson(Map<String, dynamic> json) {
+    return MeshStatus(
+      status: (json['status'] as String?)?.toMeshStatusCode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// An object representing a virtual node returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualNodeData {
   /// The name of the service mesh in which the virtual node resides.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The name of the virtual node.
-  @_s.JsonKey(name: 'virtualNodeName')
   final String virtualNodeName;
 
   /// The associated metadata for the virtual node.
-  @_s.JsonKey(name: 'metadata')
-  final ResourceMetadata metadata;
+  final ResourceMetadata? metadata;
 
   /// The specifications of the virtual node.
-  @_s.JsonKey(name: 'spec')
-  final VirtualNodeSpec spec;
+  final VirtualNodeSpec? spec;
 
   /// The current status for the virtual node.
-  @_s.JsonKey(name: 'status')
-  final VirtualNodeStatus status;
+  final VirtualNodeStatus? status;
 
   VirtualNodeData({
-    @_s.required this.meshName,
-    @_s.required this.virtualNodeName,
+    required this.meshName,
+    required this.virtualNodeName,
     this.metadata,
     this.spec,
     this.status,
   });
-  factory VirtualNodeData.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeDataFromJson(json);
+
+  factory VirtualNodeData.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeData(
+      meshName: json['meshName'] as String,
+      virtualNodeName: json['virtualNodeName'] as String,
+      metadata: json['metadata'] != null
+          ? ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+      spec: json['spec'] != null
+          ? VirtualNodeSpec.fromJson(json['spec'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] != null
+          ? VirtualNodeStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meshName = this.meshName;
+    final virtualNodeName = this.virtualNodeName;
+    final metadata = this.metadata;
+    final spec = this.spec;
+    final status = this.status;
+    return {
+      'meshName': meshName,
+      'virtualNodeName': virtualNodeName,
+      if (metadata != null) 'metadata': metadata,
+      if (spec != null) 'spec': spec,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// An object representing the specification of a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualNodeSpec {
   /// The backends to which the virtual node is expected to send outbound traffic.
-  @_s.JsonKey(name: 'backends')
-  final List<String> backends;
+  final List<String>? backends;
 
   /// The listeners from which the virtual node is expected to receive inbound
   /// traffic.
-  @_s.JsonKey(name: 'listeners')
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   /// The service discovery information for the virtual node.
-  @_s.JsonKey(name: 'serviceDiscovery')
-  final ServiceDiscovery serviceDiscovery;
+  final ServiceDiscovery? serviceDiscovery;
 
   VirtualNodeSpec({
     this.backends,
     this.listeners,
     this.serviceDiscovery,
   });
-  factory VirtualNodeSpec.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeSpecFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VirtualNodeSpecToJson(this);
+  factory VirtualNodeSpec.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeSpec(
+      backends: (json['backends'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      listeners: (json['listeners'] as List?)
+          ?.whereNotNull()
+          .map((e) => Listener.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceDiscovery: json['serviceDiscovery'] != null
+          ? ServiceDiscovery.fromJson(
+              json['serviceDiscovery'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backends = this.backends;
+    final listeners = this.listeners;
+    final serviceDiscovery = this.serviceDiscovery;
+    return {
+      if (backends != null) 'backends': backends,
+      if (listeners != null) 'listeners': listeners,
+      if (serviceDiscovery != null) 'serviceDiscovery': serviceDiscovery,
+    };
+  }
 }
 
 /// An object representing a service mesh returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeshRef {
   /// The full Amazon Resource Name (ARN) of the service mesh.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the service mesh.
-  @_s.JsonKey(name: 'meshName')
-  final String meshName;
+  final String? meshName;
 
   MeshRef({
     this.arn,
     this.meshName,
   });
-  factory MeshRef.fromJson(Map<String, dynamic> json) =>
-      _$MeshRefFromJson(json);
+
+  factory MeshRef.fromJson(Map<String, dynamic> json) {
+    return MeshRef(
+      arn: json['arn'] as String?,
+      meshName: json['meshName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final meshName = this.meshName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (meshName != null) 'meshName': meshName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVirtualRouterOutput {
   /// The full description of your virtual router.
-  @_s.JsonKey(name: 'virtualRouter')
-  final VirtualRouterData virtualRouter;
+  final VirtualRouterData? virtualRouter;
 
   DescribeVirtualRouterOutput({
     this.virtualRouter,
   });
-  factory DescribeVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVirtualRouterOutputFromJson(json);
+
+  factory DescribeVirtualRouterOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeVirtualRouterOutput(
+      virtualRouter: json['virtualRouter'] != null
+          ? VirtualRouterData.fromJson(
+              json['virtualRouter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualRouter = this.virtualRouter;
+    return {
+      if (virtualRouter != null) 'virtualRouter': virtualRouter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRouteOutput {
   /// A full description of the route that was updated.
-  @_s.JsonKey(name: 'route')
-  final RouteData route;
+  final RouteData? route;
 
   UpdateRouteOutput({
     this.route,
   });
-  factory UpdateRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRouteOutputFromJson(json);
+
+  factory UpdateRouteOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateRouteOutput(
+      route: json['route'] != null
+          ? RouteData.fromJson(json['route'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final route = this.route;
+    return {
+      if (route != null) 'route': route,
+    };
+  }
 }
 
 /// An object representing the traffic distribution requirements for matched
 /// HTTP
 /// requests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRouteAction {
   /// The targets that traffic is routed to when a request matches the route. You
   /// can specify
   /// one or more targets and their relative weights with which to distribute
   /// traffic.
-  @_s.JsonKey(name: 'weightedTargets')
-  final List<WeightedTarget> weightedTargets;
+  final List<WeightedTarget>? weightedTargets;
 
   HttpRouteAction({
     this.weightedTargets,
   });
-  factory HttpRouteAction.fromJson(Map<String, dynamic> json) =>
-      _$HttpRouteActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HttpRouteActionToJson(this);
+  factory HttpRouteAction.fromJson(Map<String, dynamic> json) {
+    return HttpRouteAction(
+      weightedTargets: (json['weightedTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => WeightedTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final weightedTargets = this.weightedTargets;
+    return {
+      if (weightedTargets != null) 'weightedTargets': weightedTargets,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVirtualRouterOutput {
   /// The full description of your virtual router following the create call.
-  @_s.JsonKey(name: 'virtualRouter')
-  final VirtualRouterData virtualRouter;
+  final VirtualRouterData? virtualRouter;
 
   CreateVirtualRouterOutput({
     this.virtualRouter,
   });
-  factory CreateVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateVirtualRouterOutputFromJson(json);
+
+  factory CreateVirtualRouterOutput.fromJson(Map<String, dynamic> json) {
+    return CreateVirtualRouterOutput(
+      virtualRouter: json['virtualRouter'] != null
+          ? VirtualRouterData.fromJson(
+              json['virtualRouter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualRouter = this.virtualRouter;
+    return {
+      if (virtualRouter != null) 'virtualRouter': virtualRouter,
+    };
+  }
 }
 
 /// An object representing the current status of a route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RouteStatus {
   /// The current status for the route.
-  @_s.JsonKey(name: 'status')
-  final RouteStatusCode status;
+  final RouteStatusCode? status;
 
   RouteStatus({
     this.status,
   });
-  factory RouteStatus.fromJson(Map<String, dynamic> json) =>
-      _$RouteStatusFromJson(json);
+
+  factory RouteStatus.fromJson(Map<String, dynamic> json) {
+    return RouteStatus(
+      status: (json['status'] as String?)?.toRouteStatusCode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// An object representing the status of a virtual router.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualRouterStatus {
   /// The current status of the virtual router.
-  @_s.JsonKey(name: 'status')
-  final VirtualRouterStatusCode status;
+  final VirtualRouterStatusCode? status;
 
   VirtualRouterStatus({
     this.status,
   });
-  factory VirtualRouterStatus.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterStatusFromJson(json);
+
+  factory VirtualRouterStatus.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterStatus(
+      status: (json['status'] as String?)?.toVirtualRouterStatusCode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMeshesOutput {
   /// The list of existing service meshes.
-  @_s.JsonKey(name: 'meshes')
   final List<MeshRef> meshes;
 
   /// The <code>nextToken</code> value to include in a future
@@ -1672,128 +1820,183 @@ class ListMeshesOutput {
   /// <code>limit</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMeshesOutput({
-    @_s.required this.meshes,
+    required this.meshes,
     this.nextToken,
   });
-  factory ListMeshesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListMeshesOutputFromJson(json);
+
+  factory ListMeshesOutput.fromJson(Map<String, dynamic> json) {
+    return ListMeshesOutput(
+      meshes: (json['meshes'] as List)
+          .whereNotNull()
+          .map((e) => MeshRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meshes = this.meshes;
+    final nextToken = this.nextToken;
+    return {
+      'meshes': meshes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVirtualNodeOutput {
   /// The full description of your virtual node.
-  @_s.JsonKey(name: 'virtualNode')
-  final VirtualNodeData virtualNode;
+  final VirtualNodeData? virtualNode;
 
   DescribeVirtualNodeOutput({
     this.virtualNode,
   });
-  factory DescribeVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVirtualNodeOutputFromJson(json);
+
+  factory DescribeVirtualNodeOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeVirtualNodeOutput(
+      virtualNode: json['virtualNode'] != null
+          ? VirtualNodeData.fromJson(
+              json['virtualNode'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualNode = this.virtualNode;
+    return {
+      if (virtualNode != null) 'virtualNode': virtualNode,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMeshOutput {
   /// The full description of your service mesh following the create call.
-  @_s.JsonKey(name: 'mesh')
-  final MeshData mesh;
+  final MeshData? mesh;
 
   CreateMeshOutput({
     this.mesh,
   });
-  factory CreateMeshOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateMeshOutputFromJson(json);
+
+  factory CreateMeshOutput.fromJson(Map<String, dynamic> json) {
+    return CreateMeshOutput(
+      mesh: json['mesh'] != null
+          ? MeshData.fromJson(json['mesh'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mesh = this.mesh;
+    return {
+      if (mesh != null) 'mesh': mesh,
+    };
+  }
 }
 
 /// An object representing a route returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RouteData {
   /// The name of the service mesh in which the route resides.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The name of the route.
-  @_s.JsonKey(name: 'routeName')
   final String routeName;
 
   /// The virtual router with which the route is associated.
-  @_s.JsonKey(name: 'virtualRouterName')
   final String virtualRouterName;
 
   /// The associated metadata for the route.
-  @_s.JsonKey(name: 'metadata')
-  final ResourceMetadata metadata;
+  final ResourceMetadata? metadata;
 
   /// The specifications of the route.
-  @_s.JsonKey(name: 'spec')
-  final RouteSpec spec;
+  final RouteSpec? spec;
 
   /// The status of the route.
-  @_s.JsonKey(name: 'status')
-  final RouteStatus status;
+  final RouteStatus? status;
 
   RouteData({
-    @_s.required this.meshName,
-    @_s.required this.routeName,
-    @_s.required this.virtualRouterName,
+    required this.meshName,
+    required this.routeName,
+    required this.virtualRouterName,
     this.metadata,
     this.spec,
     this.status,
   });
-  factory RouteData.fromJson(Map<String, dynamic> json) =>
-      _$RouteDataFromJson(json);
+
+  factory RouteData.fromJson(Map<String, dynamic> json) {
+    return RouteData(
+      meshName: json['meshName'] as String,
+      routeName: json['routeName'] as String,
+      virtualRouterName: json['virtualRouterName'] as String,
+      metadata: json['metadata'] != null
+          ? ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+      spec: json['spec'] != null
+          ? RouteSpec.fromJson(json['spec'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] != null
+          ? RouteStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meshName = this.meshName;
+    final routeName = this.routeName;
+    final virtualRouterName = this.virtualRouterName;
+    final metadata = this.metadata;
+    final spec = this.spec;
+    final status = this.status;
+    return {
+      'meshName': meshName,
+      'routeName': routeName,
+      'virtualRouterName': virtualRouterName,
+      if (metadata != null) 'metadata': metadata,
+      if (spec != null) 'spec': spec,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// An object representing the HTTP routing specification for a route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRoute {
   /// The action to take if a match is determined.
-  @_s.JsonKey(name: 'action')
-  final HttpRouteAction action;
+  final HttpRouteAction? action;
 
   /// The criteria for determining an HTTP request match.
-  @_s.JsonKey(name: 'match')
-  final HttpRouteMatch match;
+  final HttpRouteMatch? match;
 
   HttpRoute({
     this.action,
     this.match,
   });
-  factory HttpRoute.fromJson(Map<String, dynamic> json) =>
-      _$HttpRouteFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HttpRouteToJson(this);
+  factory HttpRoute.fromJson(Map<String, dynamic> json) {
+    return HttpRoute(
+      action: json['action'] != null
+          ? HttpRouteAction.fromJson(json['action'] as Map<String, dynamic>)
+          : null,
+      match: json['match'] != null
+          ? HttpRouteMatch.fromJson(json['match'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final match = this.match;
+    return {
+      if (action != null) 'action': action,
+      if (match != null) 'match': match,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRoutesOutput {
   /// The list of existing routes for the specified service mesh and virtual
   /// router.
-  @_s.JsonKey(name: 'routes')
   final List<RouteRef> routes;
 
   /// The <code>nextToken</code> value to include in a future
@@ -1802,82 +2005,130 @@ class ListRoutesOutput {
   /// <code>limit</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListRoutesOutput({
-    @_s.required this.routes,
+    required this.routes,
     this.nextToken,
   });
-  factory ListRoutesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListRoutesOutputFromJson(json);
+
+  factory ListRoutesOutput.fromJson(Map<String, dynamic> json) {
+    return ListRoutesOutput(
+      routes: (json['routes'] as List)
+          .whereNotNull()
+          .map((e) => RouteRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final routes = this.routes;
+    final nextToken = this.nextToken;
+    return {
+      'routes': routes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// An object representing the specification of a route.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RouteSpec {
   /// The HTTP routing information for the route.
-  @_s.JsonKey(name: 'httpRoute')
-  final HttpRoute httpRoute;
+  final HttpRoute? httpRoute;
 
   RouteSpec({
     this.httpRoute,
   });
-  factory RouteSpec.fromJson(Map<String, dynamic> json) =>
-      _$RouteSpecFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RouteSpecToJson(this);
+  factory RouteSpec.fromJson(Map<String, dynamic> json) {
+    return RouteSpec(
+      httpRoute: json['httpRoute'] != null
+          ? HttpRoute.fromJson(json['httpRoute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpRoute = this.httpRoute;
+    return {
+      if (httpRoute != null) 'httpRoute': httpRoute,
+    };
+  }
 }
 
 /// An object representing a virtual router returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualRouterRef {
   /// The full Amazon Resource Name (ARN) for the virtual router.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the service mesh in which the virtual router resides.
-  @_s.JsonKey(name: 'meshName')
-  final String meshName;
+  final String? meshName;
 
   /// The name of the virtual router.
-  @_s.JsonKey(name: 'virtualRouterName')
-  final String virtualRouterName;
+  final String? virtualRouterName;
 
   VirtualRouterRef({
     this.arn,
     this.meshName,
     this.virtualRouterName,
   });
-  factory VirtualRouterRef.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterRefFromJson(json);
+
+  factory VirtualRouterRef.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterRef(
+      arn: json['arn'] as String?,
+      meshName: json['meshName'] as String?,
+      virtualRouterName: json['virtualRouterName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final meshName = this.meshName;
+    final virtualRouterName = this.virtualRouterName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (meshName != null) 'meshName': meshName,
+      if (virtualRouterName != null) 'virtualRouterName': virtualRouterName,
+    };
+  }
 }
 
 enum VirtualRouterStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on VirtualRouterStatusCode {
+  String toValue() {
+    switch (this) {
+      case VirtualRouterStatusCode.active:
+        return 'ACTIVE';
+      case VirtualRouterStatusCode.deleted:
+        return 'DELETED';
+      case VirtualRouterStatusCode.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  VirtualRouterStatusCode toVirtualRouterStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return VirtualRouterStatusCode.active;
+      case 'DELETED':
+        return VirtualRouterStatusCode.deleted;
+      case 'INACTIVE':
+        return VirtualRouterStatusCode.inactive;
+    }
+    throw Exception('$this is not known in enum VirtualRouterStatusCode');
+  }
+}
+
 class ListVirtualNodesOutput {
   /// The list of existing virtual nodes for the specified service mesh.
-  @_s.JsonKey(name: 'virtualNodes')
   final List<VirtualNodeRef> virtualNodes;
 
   /// The <code>nextToken</code> value to include in a future
@@ -1886,42 +2137,60 @@ class ListVirtualNodesOutput {
   /// <code>limit</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListVirtualNodesOutput({
-    @_s.required this.virtualNodes,
+    required this.virtualNodes,
     this.nextToken,
   });
-  factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVirtualNodesOutputFromJson(json);
+
+  factory ListVirtualNodesOutput.fromJson(Map<String, dynamic> json) {
+    return ListVirtualNodesOutput(
+      virtualNodes: (json['virtualNodes'] as List)
+          .whereNotNull()
+          .map((e) => VirtualNodeRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualNodes = this.virtualNodes;
+    final nextToken = this.nextToken;
+    return {
+      'virtualNodes': virtualNodes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualNodeOutput {
   /// The virtual node that was deleted.
-  @_s.JsonKey(name: 'virtualNode')
-  final VirtualNodeData virtualNode;
+  final VirtualNodeData? virtualNode;
 
   DeleteVirtualNodeOutput({
     this.virtualNode,
   });
-  factory DeleteVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualNodeOutputFromJson(json);
+
+  factory DeleteVirtualNodeOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteVirtualNodeOutput(
+      virtualNode: json['virtualNode'] != null
+          ? VirtualNodeData.fromJson(
+              json['virtualNode'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualNode = this.virtualNode;
+    return {
+      if (virtualNode != null) 'virtualNode': virtualNode,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVirtualRoutersOutput {
   /// The list of existing virtual routers for the specified service mesh.
-  @_s.JsonKey(name: 'virtualRouters')
   final List<VirtualRouterRef> virtualRouters;
 
   /// The <code>nextToken</code> value to include in a future
@@ -1931,64 +2200,112 @@ class ListVirtualRoutersOutput {
   /// <code>limit</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListVirtualRoutersOutput({
-    @_s.required this.virtualRouters,
+    required this.virtualRouters,
     this.nextToken,
   });
-  factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListVirtualRoutersOutputFromJson(json);
+
+  factory ListVirtualRoutersOutput.fromJson(Map<String, dynamic> json) {
+    return ListVirtualRoutersOutput(
+      virtualRouters: (json['virtualRouters'] as List)
+          .whereNotNull()
+          .map((e) => VirtualRouterRef.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualRouters = this.virtualRouters;
+    final nextToken = this.nextToken;
+    return {
+      'virtualRouters': virtualRouters,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVirtualNodeOutput {
   /// The full description of your virtual node following the create call.
-  @_s.JsonKey(name: 'virtualNode')
-  final VirtualNodeData virtualNode;
+  final VirtualNodeData? virtualNode;
 
   CreateVirtualNodeOutput({
     this.virtualNode,
   });
-  factory CreateVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateVirtualNodeOutputFromJson(json);
+
+  factory CreateVirtualNodeOutput.fromJson(Map<String, dynamic> json) {
+    return CreateVirtualNodeOutput(
+      virtualNode: json['virtualNode'] != null
+          ? VirtualNodeData.fromJson(
+              json['virtualNode'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualNode = this.virtualNode;
+    return {
+      if (virtualNode != null) 'virtualNode': virtualNode,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualRouterOutput {
   /// The virtual router that was deleted.
-  @_s.JsonKey(name: 'virtualRouter')
-  final VirtualRouterData virtualRouter;
+  final VirtualRouterData? virtualRouter;
 
   DeleteVirtualRouterOutput({
     this.virtualRouter,
   });
-  factory DeleteVirtualRouterOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualRouterOutputFromJson(json);
+
+  factory DeleteVirtualRouterOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteVirtualRouterOutput(
+      virtualRouter: json['virtualRouter'] != null
+          ? VirtualRouterData.fromJson(
+              json['virtualRouter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualRouter = this.virtualRouter;
+    return {
+      if (virtualRouter != null) 'virtualRouter': virtualRouter,
+    };
+  }
 }
 
 enum PortProtocol {
-  @_s.JsonValue('http')
   http,
-  @_s.JsonValue('tcp')
   tcp,
 }
 
+extension on PortProtocol {
+  String toValue() {
+    switch (this) {
+      case PortProtocol.http:
+        return 'http';
+      case PortProtocol.tcp:
+        return 'tcp';
+    }
+  }
+}
+
+extension on String {
+  PortProtocol toPortProtocol() {
+    switch (this) {
+      case 'http':
+        return PortProtocol.http;
+      case 'tcp':
+        return PortProtocol.tcp;
+    }
+    throw Exception('$this is not known in enum PortProtocol');
+  }
+}
+
 /// An object representing metadata for a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceMetadata {
   /// The full Amazon Resource Name (ARN) for the resource.
   ///
@@ -2011,28 +2328,21 @@ class ResourceMetadata {
   /// <code>APPMESH_VIRTUAL_NODE_CLUSTER</code> environment variable.
   ///
   /// </note>
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The unique identifier for the resource.
-  @_s.JsonKey(name: 'uid')
-  final String uid;
+  final String? uid;
 
   /// The version of the resource. Resources are created at version 1, and this
   /// version is
   /// incremented each time they are updated.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   ResourceMetadata({
     this.arn,
@@ -2041,242 +2351,359 @@ class ResourceMetadata {
     this.uid,
     this.version,
   });
-  factory ResourceMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ResourceMetadataFromJson(json);
+
+  factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
+    return ResourceMetadata(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      uid: json['uid'] as String?,
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final uid = this.uid;
+    final version = this.version;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (uid != null) 'uid': uid,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// An object representing a virtual node listener port mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortMapping {
   /// The port used for the port mapping.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   /// The protocol used for the port mapping.
-  @_s.JsonKey(name: 'protocol')
-  final PortProtocol protocol;
+  final PortProtocol? protocol;
 
   PortMapping({
     this.port,
     this.protocol,
   });
-  factory PortMapping.fromJson(Map<String, dynamic> json) =>
-      _$PortMappingFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PortMappingToJson(this);
+  factory PortMapping.fromJson(Map<String, dynamic> json) {
+    return PortMapping(
+      port: json['port'] as int?,
+      protocol: (json['protocol'] as String?)?.toPortProtocol(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final protocol = this.protocol;
+    return {
+      if (port != null) 'port': port,
+      if (protocol != null) 'protocol': protocol.toValue(),
+    };
+  }
 }
 
 enum VirtualNodeStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
+extension on VirtualNodeStatusCode {
+  String toValue() {
+    switch (this) {
+      case VirtualNodeStatusCode.active:
+        return 'ACTIVE';
+      case VirtualNodeStatusCode.deleted:
+        return 'DELETED';
+      case VirtualNodeStatusCode.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  VirtualNodeStatusCode toVirtualNodeStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return VirtualNodeStatusCode.active;
+      case 'DELETED':
+        return VirtualNodeStatusCode.deleted;
+      case 'INACTIVE':
+        return VirtualNodeStatusCode.inactive;
+    }
+    throw Exception('$this is not known in enum VirtualNodeStatusCode');
+  }
+}
+
 /// An object representing the specification of a virtual router.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VirtualRouterSpec {
   /// The service mesh service names to associate with the virtual router.
-  @_s.JsonKey(name: 'serviceNames')
-  final List<String> serviceNames;
+  final List<String>? serviceNames;
 
   VirtualRouterSpec({
     this.serviceNames,
   });
-  factory VirtualRouterSpec.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterSpecFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VirtualRouterSpecToJson(this);
+  factory VirtualRouterSpec.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterSpec(
+      serviceNames: (json['serviceNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceNames = this.serviceNames;
+    return {
+      if (serviceNames != null) 'serviceNames': serviceNames,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMeshOutput {
   /// The full description of your service mesh.
-  @_s.JsonKey(name: 'mesh')
-  final MeshData mesh;
+  final MeshData? mesh;
 
   DescribeMeshOutput({
     this.mesh,
   });
-  factory DescribeMeshOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMeshOutputFromJson(json);
+
+  factory DescribeMeshOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeMeshOutput(
+      mesh: json['mesh'] != null
+          ? MeshData.fromJson(json['mesh'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mesh = this.mesh;
+    return {
+      if (mesh != null) 'mesh': mesh,
+    };
+  }
 }
 
 /// An object representing a virtual router returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualRouterData {
   /// The name of the service mesh in which the virtual router resides.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The name of the virtual router.
-  @_s.JsonKey(name: 'virtualRouterName')
   final String virtualRouterName;
 
   /// The associated metadata for the virtual router.
-  @_s.JsonKey(name: 'metadata')
-  final ResourceMetadata metadata;
+  final ResourceMetadata? metadata;
 
   /// The specifications of the virtual router.
-  @_s.JsonKey(name: 'spec')
-  final VirtualRouterSpec spec;
+  final VirtualRouterSpec? spec;
 
   /// The current status of the virtual router.
-  @_s.JsonKey(name: 'status')
-  final VirtualRouterStatus status;
+  final VirtualRouterStatus? status;
 
   VirtualRouterData({
-    @_s.required this.meshName,
-    @_s.required this.virtualRouterName,
+    required this.meshName,
+    required this.virtualRouterName,
     this.metadata,
     this.spec,
     this.status,
   });
-  factory VirtualRouterData.fromJson(Map<String, dynamic> json) =>
-      _$VirtualRouterDataFromJson(json);
+
+  factory VirtualRouterData.fromJson(Map<String, dynamic> json) {
+    return VirtualRouterData(
+      meshName: json['meshName'] as String,
+      virtualRouterName: json['virtualRouterName'] as String,
+      metadata: json['metadata'] != null
+          ? ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+      spec: json['spec'] != null
+          ? VirtualRouterSpec.fromJson(json['spec'] as Map<String, dynamic>)
+          : null,
+      status: json['status'] != null
+          ? VirtualRouterStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meshName = this.meshName;
+    final virtualRouterName = this.virtualRouterName;
+    final metadata = this.metadata;
+    final spec = this.spec;
+    final status = this.status;
+    return {
+      'meshName': meshName,
+      'virtualRouterName': virtualRouterName,
+      if (metadata != null) 'metadata': metadata,
+      if (spec != null) 'spec': spec,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// An object representing a listener for a virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Listener {
   /// The health check information for the listener.
-  @_s.JsonKey(name: 'healthCheck')
-  final HealthCheckPolicy healthCheck;
+  final HealthCheckPolicy? healthCheck;
 
   /// The port mapping information for the listener.
-  @_s.JsonKey(name: 'portMapping')
-  final PortMapping portMapping;
+  final PortMapping? portMapping;
 
   Listener({
     this.healthCheck,
     this.portMapping,
   });
-  factory Listener.fromJson(Map<String, dynamic> json) =>
-      _$ListenerFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ListenerToJson(this);
+  factory Listener.fromJson(Map<String, dynamic> json) {
+    return Listener(
+      healthCheck: json['healthCheck'] != null
+          ? HealthCheckPolicy.fromJson(
+              json['healthCheck'] as Map<String, dynamic>)
+          : null,
+      portMapping: json['portMapping'] != null
+          ? PortMapping.fromJson(json['portMapping'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheck = this.healthCheck;
+    final portMapping = this.portMapping;
+    return {
+      if (healthCheck != null) 'healthCheck': healthCheck,
+      if (portMapping != null) 'portMapping': portMapping,
+    };
+  }
 }
 
 /// An object representing the health check policy for a virtual node's
 /// listener.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HealthCheckPolicy {
   /// The number of consecutive successful health checks that must occur before
   /// declaring
   /// listener healthy.
-  @_s.JsonKey(name: 'healthyThreshold')
   final int healthyThreshold;
 
   /// The time period in milliseconds between each health check execution.
-  @_s.JsonKey(name: 'intervalMillis')
   final int intervalMillis;
 
   /// The protocol for the health check request.
-  @_s.JsonKey(name: 'protocol')
   final PortProtocol protocol;
 
   /// The amount of time to wait when receiving a response from the health check,
   /// in
   /// milliseconds.
-  @_s.JsonKey(name: 'timeoutMillis')
   final int timeoutMillis;
 
   /// The number of consecutive failed health checks that must occur before
   /// declaring a
   /// virtual node unhealthy.
-  @_s.JsonKey(name: 'unhealthyThreshold')
   final int unhealthyThreshold;
 
   /// The destination path for the health check request. This is only required if
   /// the
   /// specified protocol is HTTP; if the protocol is TCP, then this parameter is
   /// ignored.
-  @_s.JsonKey(name: 'path')
-  final String path;
+  final String? path;
 
   /// The destination port for the health check request. This port must match the
   /// port defined
   /// in the <a>PortMapping</a> for the listener.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   HealthCheckPolicy({
-    @_s.required this.healthyThreshold,
-    @_s.required this.intervalMillis,
-    @_s.required this.protocol,
-    @_s.required this.timeoutMillis,
-    @_s.required this.unhealthyThreshold,
+    required this.healthyThreshold,
+    required this.intervalMillis,
+    required this.protocol,
+    required this.timeoutMillis,
+    required this.unhealthyThreshold,
     this.path,
     this.port,
   });
-  factory HealthCheckPolicy.fromJson(Map<String, dynamic> json) =>
-      _$HealthCheckPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HealthCheckPolicyToJson(this);
+  factory HealthCheckPolicy.fromJson(Map<String, dynamic> json) {
+    return HealthCheckPolicy(
+      healthyThreshold: json['healthyThreshold'] as int,
+      intervalMillis: json['intervalMillis'] as int,
+      protocol: (json['protocol'] as String).toPortProtocol(),
+      timeoutMillis: json['timeoutMillis'] as int,
+      unhealthyThreshold: json['unhealthyThreshold'] as int,
+      path: json['path'] as String?,
+      port: json['port'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthyThreshold = this.healthyThreshold;
+    final intervalMillis = this.intervalMillis;
+    final protocol = this.protocol;
+    final timeoutMillis = this.timeoutMillis;
+    final unhealthyThreshold = this.unhealthyThreshold;
+    final path = this.path;
+    final port = this.port;
+    return {
+      'healthyThreshold': healthyThreshold,
+      'intervalMillis': intervalMillis,
+      'protocol': protocol.toValue(),
+      'timeoutMillis': timeoutMillis,
+      'unhealthyThreshold': unhealthyThreshold,
+      if (path != null) 'path': path,
+      if (port != null) 'port': port,
+    };
+  }
 }
 
 /// An object representing a service mesh returned by a describe operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeshData {
   /// The name of the service mesh.
-  @_s.JsonKey(name: 'meshName')
   final String meshName;
 
   /// The associated metadata for the service mesh.
-  @_s.JsonKey(name: 'metadata')
   final ResourceMetadata metadata;
 
   /// The status of the service mesh.
-  @_s.JsonKey(name: 'status')
-  final MeshStatus status;
+  final MeshStatus? status;
 
   MeshData({
-    @_s.required this.meshName,
-    @_s.required this.metadata,
+    required this.meshName,
+    required this.metadata,
     this.status,
   });
-  factory MeshData.fromJson(Map<String, dynamic> json) =>
-      _$MeshDataFromJson(json);
+
+  factory MeshData.fromJson(Map<String, dynamic> json) {
+    return MeshData(
+      meshName: json['meshName'] as String,
+      metadata:
+          ResourceMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      status: json['status'] != null
+          ? MeshStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meshName = this.meshName;
+    final metadata = this.metadata;
+    final status = this.status;
+    return {
+      'meshName': meshName,
+      'metadata': metadata,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// An object representing the requirements for a route to match HTTP requests
 /// for a virtual
 /// router.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpRouteMatch {
   /// Specifies the path with which to match requests. This parameter must always
   /// start with
@@ -2288,75 +2715,86 @@ class HttpRouteMatch {
   /// match requests to
   /// <code>my-service.local/metrics</code>, then your prefix should be
   /// <code>/metrics</code>.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   HttpRouteMatch({
     this.prefix,
   });
-  factory HttpRouteMatch.fromJson(Map<String, dynamic> json) =>
-      _$HttpRouteMatchFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HttpRouteMatchToJson(this);
+  factory HttpRouteMatch.fromJson(Map<String, dynamic> json) {
+    return HttpRouteMatch(
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    return {
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRouteOutput {
   /// The route that was deleted.
-  @_s.JsonKey(name: 'route')
-  final RouteData route;
+  final RouteData? route;
 
   DeleteRouteOutput({
     this.route,
   });
-  factory DeleteRouteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRouteOutputFromJson(json);
+
+  factory DeleteRouteOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteRouteOutput(
+      route: json['route'] != null
+          ? RouteData.fromJson(json['route'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final route = this.route;
+    return {
+      if (route != null) 'route': route,
+    };
+  }
 }
 
 /// An object representing the current status of the virtual node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualNodeStatus {
   /// The current status of the virtual node.
-  @_s.JsonKey(name: 'status')
-  final VirtualNodeStatusCode status;
+  final VirtualNodeStatusCode? status;
 
   VirtualNodeStatus({
     this.status,
   });
-  factory VirtualNodeStatus.fromJson(Map<String, dynamic> json) =>
-      _$VirtualNodeStatusFromJson(json);
+
+  factory VirtualNodeStatus.fromJson(Map<String, dynamic> json) {
+    return VirtualNodeStatus(
+      status: (json['status'] as String?)?.toVirtualNodeStatusCode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// An object representing a route returned by a list operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RouteRef {
   /// The full Amazon Resource Name (ARN) for the route.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the service mesh in which the route resides.
-  @_s.JsonKey(name: 'meshName')
-  final String meshName;
+  final String? meshName;
 
   /// The name of the route.
-  @_s.JsonKey(name: 'routeName')
-  final String routeName;
+  final String? routeName;
 
   /// The virtual router with which the route is associated.
-  @_s.JsonKey(name: 'virtualRouterName')
-  final String virtualRouterName;
+  final String? virtualRouterName;
 
   RouteRef({
     this.arn,
@@ -2364,80 +2802,132 @@ class RouteRef {
     this.routeName,
     this.virtualRouterName,
   });
-  factory RouteRef.fromJson(Map<String, dynamic> json) =>
-      _$RouteRefFromJson(json);
+
+  factory RouteRef.fromJson(Map<String, dynamic> json) {
+    return RouteRef(
+      arn: json['arn'] as String?,
+      meshName: json['meshName'] as String?,
+      routeName: json['routeName'] as String?,
+      virtualRouterName: json['virtualRouterName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final meshName = this.meshName;
+    final routeName = this.routeName;
+    final virtualRouterName = this.virtualRouterName;
+    return {
+      if (arn != null) 'arn': arn,
+      if (meshName != null) 'meshName': meshName,
+      if (routeName != null) 'routeName': routeName,
+      if (virtualRouterName != null) 'virtualRouterName': virtualRouterName,
+    };
+  }
 }
 
 enum RouteStatusCode {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RouteStatusCode {
+  String toValue() {
+    switch (this) {
+      case RouteStatusCode.active:
+        return 'ACTIVE';
+      case RouteStatusCode.deleted:
+        return 'DELETED';
+      case RouteStatusCode.inactive:
+        return 'INACTIVE';
+    }
+  }
+}
+
+extension on String {
+  RouteStatusCode toRouteStatusCode() {
+    switch (this) {
+      case 'ACTIVE':
+        return RouteStatusCode.active;
+      case 'DELETED':
+        return RouteStatusCode.deleted;
+      case 'INACTIVE':
+        return RouteStatusCode.inactive;
+    }
+    throw Exception('$this is not known in enum RouteStatusCode');
+  }
+}
+
 class UpdateVirtualNodeOutput {
   /// A full description of the virtual node that was updated.
-  @_s.JsonKey(name: 'virtualNode')
-  final VirtualNodeData virtualNode;
+  final VirtualNodeData? virtualNode;
 
   UpdateVirtualNodeOutput({
     this.virtualNode,
   });
-  factory UpdateVirtualNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVirtualNodeOutputFromJson(json);
+
+  factory UpdateVirtualNodeOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateVirtualNodeOutput(
+      virtualNode: json['virtualNode'] != null
+          ? VirtualNodeData.fromJson(
+              json['virtualNode'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualNode = this.virtualNode;
+    return {
+      if (virtualNode != null) 'virtualNode': virtualNode,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

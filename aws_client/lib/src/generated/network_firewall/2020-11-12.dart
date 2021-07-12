@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-11-12.g.dart';
 
 /// This is the API Reference for AWS Network Firewall. This guide is for
 /// developers who need detailed information about the Network Firewall API
@@ -79,9 +72,6 @@ part '2020-11-12.g.dart';
 /// Perform deep packet inspection on traffic entering or leaving your VPC.
 /// </li>
 /// <li>
-/// Rate limit traffic going from AWS to on-premises IP destinations.
-/// </li>
-/// <li>
 /// Use stateful protocol detection to filter protocols like HTTPS, regardless
 /// of the port used.
 /// </li>
@@ -122,10 +112,10 @@ part '2020-11-12.g.dart';
 class NetworkFirewall {
   final _s.JsonProtocol _protocol;
   NetworkFirewall({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -183,10 +173,10 @@ class NetworkFirewall {
   /// new token. Reapply your changes as needed, then try the operation again
   /// using the new token.
   Future<AssociateFirewallPolicyResponse> associateFirewallPolicy({
-    @_s.required String firewallPolicyArn,
-    String firewallArn,
-    String firewallName,
-    String updateToken,
+    required String firewallPolicyArn,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
   }) async {
     ArgumentError.checkNotNull(firewallPolicyArn, 'firewallPolicyArn');
     _s.validateStringLength(
@@ -196,22 +186,11 @@ class NetworkFirewall {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      r'''^arn:aws.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'firewallArn',
       firewallArn,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
     );
     _s.validateStringLength(
       'firewallName',
@@ -219,21 +198,11 @@ class NetworkFirewall {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'updateToken',
       updateToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -272,6 +241,7 @@ class NetworkFirewall {
   /// May throw [ThrottlingException].
   /// May throw [InvalidTokenException].
   /// May throw [InvalidOperationException].
+  /// May throw [InsufficientCapacityException].
   ///
   /// Parameter [subnetMappings] :
   /// The IDs of the subnets that you want to associate with the firewall.
@@ -305,10 +275,10 @@ class NetworkFirewall {
   /// new token. Reapply your changes as needed, then try the operation again
   /// using the new token.
   Future<AssociateSubnetsResponse> associateSubnets({
-    @_s.required List<SubnetMapping> subnetMappings,
-    String firewallArn,
-    String firewallName,
-    String updateToken,
+    required List<SubnetMapping> subnetMappings,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
   }) async {
     ArgumentError.checkNotNull(subnetMappings, 'subnetMappings');
     _s.validateStringLength(
@@ -317,32 +287,17 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'updateToken',
       updateToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -440,15 +395,15 @@ class NetworkFirewall {
   /// Parameter [tags] :
   /// The key:value pairs to associate with the resource.
   Future<CreateFirewallResponse> createFirewall({
-    @_s.required String firewallName,
-    @_s.required String firewallPolicyArn,
-    @_s.required List<SubnetMapping> subnetMappings,
-    @_s.required String vpcId,
-    bool deleteProtection,
-    String description,
-    bool firewallPolicyChangeProtection,
-    bool subnetChangeProtection,
-    List<Tag> tags,
+    required String firewallName,
+    required String firewallPolicyArn,
+    required List<SubnetMapping> subnetMappings,
+    required String vpcId,
+    bool? deleteProtection,
+    String? description,
+    bool? firewallPolicyChangeProtection,
+    bool? subnetChangeProtection,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(firewallName, 'firewallName');
     _s.validateStringLength(
@@ -458,24 +413,12 @@ class NetworkFirewall {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(firewallPolicyArn, 'firewallPolicyArn');
     _s.validateStringLength(
       'firewallPolicyArn',
       firewallPolicyArn,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      r'''^arn:aws.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(subnetMappings, 'subnetMappings');
@@ -487,22 +430,11 @@ class NetworkFirewall {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'vpcId',
-      vpcId,
-      r'''^vpc-[0-9a-f]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^.*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -573,11 +505,11 @@ class NetworkFirewall {
   /// Parameter [tags] :
   /// The key:value pairs to associate with the resource.
   Future<CreateFirewallPolicyResponse> createFirewallPolicy({
-    @_s.required FirewallPolicy firewallPolicy,
-    @_s.required String firewallPolicyName,
-    String description,
-    bool dryRun,
-    List<Tag> tags,
+    required FirewallPolicy firewallPolicy,
+    required String firewallPolicyName,
+    String? description,
+    bool? dryRun,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(firewallPolicy, 'firewallPolicy');
     ArgumentError.checkNotNull(firewallPolicyName, 'firewallPolicyName');
@@ -588,22 +520,11 @@ class NetworkFirewall {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'firewallPolicyName',
-      firewallPolicyName,
-      r'''^[a-zA-Z0-9-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^.*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -722,33 +643,29 @@ class NetworkFirewall {
   /// </note>
   ///
   /// Parameter [rules] :
-  /// The name of a file containing stateful rule group rules specifications in
-  /// Suricata flat format, with one rule per line. Use this to import your
-  /// existing Suricata compatible rule groups.
+  /// A string containing stateful rule group rules specifications in Suricata
+  /// flat format, with one rule per line. Use this to import your existing
+  /// Suricata compatible rule groups.
   /// <note>
   /// You must provide either this rules setting or a populated
   /// <code>RuleGroup</code> setting, but not both.
   /// </note>
-  /// You can provide your rule group specification in a file through this
-  /// setting when you create or update your rule group. The call response
-  /// returns a <a>RuleGroup</a> object that Network Firewall has populated from
-  /// your file. Network Firewall uses the file contents to populate the rule
-  /// group rules, but does not maintain a reference to the file or use the file
-  /// in any way after performing the create or update. If you call
-  /// <a>DescribeRuleGroup</a> to retrieve the rule group, Network Firewall
-  /// returns rules settings inside a <a>RuleGroup</a> object.
+  /// You can provide your rule group specification in Suricata flat format
+  /// through this setting when you create or update your rule group. The call
+  /// response returns a <a>RuleGroup</a> object that Network Firewall has
+  /// populated from your string.
   ///
   /// Parameter [tags] :
   /// The key:value pairs to associate with the resource.
   Future<CreateRuleGroupResponse> createRuleGroup({
-    @_s.required int capacity,
-    @_s.required String ruleGroupName,
-    @_s.required RuleGroupType type,
-    String description,
-    bool dryRun,
-    RuleGroup ruleGroup,
-    String rules,
-    List<Tag> tags,
+    required int capacity,
+    required String ruleGroupName,
+    required RuleGroupType type,
+    String? description,
+    bool? dryRun,
+    RuleGroup? ruleGroup,
+    String? rules,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(capacity, 'capacity');
     ArgumentError.checkNotNull(ruleGroupName, 'ruleGroupName');
@@ -759,23 +676,12 @@ class NetworkFirewall {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleGroupName',
-      ruleGroupName,
-      r'''^[a-zA-Z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^.*$''',
     );
     _s.validateStringLength(
       'rules',
@@ -796,7 +702,7 @@ class NetworkFirewall {
       payload: {
         'Capacity': capacity,
         'RuleGroupName': ruleGroupName,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (description != null) 'Description': description,
         if (dryRun != null) 'DryRun': dryRun,
         if (ruleGroup != null) 'RuleGroup': ruleGroup,
@@ -842,8 +748,8 @@ class NetworkFirewall {
   ///
   /// You must specify the ARN or the name, and you can specify both.
   Future<DeleteFirewallResponse> deleteFirewall({
-    String firewallArn,
-    String firewallName,
+    String? firewallArn,
+    String? firewallName,
   }) async {
     _s.validateStringLength(
       'firewallArn',
@@ -851,21 +757,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -906,8 +802,8 @@ class NetworkFirewall {
   ///
   /// You must specify the ARN or the name, and you can specify both.
   Future<DeleteFirewallPolicyResponse> deleteFirewallPolicy({
-    String firewallPolicyArn,
-    String firewallPolicyName,
+    String? firewallPolicyArn,
+    String? firewallPolicyName,
   }) async {
     _s.validateStringLength(
       'firewallPolicyArn',
@@ -915,21 +811,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallPolicyName',
       firewallPolicyName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'firewallPolicyName',
-      firewallPolicyName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -954,6 +840,7 @@ class NetworkFirewall {
   /// Deletes a resource policy that you created in a <a>PutResourcePolicy</a>
   /// request.
   ///
+  /// May throw [InvalidRequestException].
   /// May throw [InternalServerError].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -962,7 +849,7 @@ class NetworkFirewall {
   /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose
   /// resource policy you want to delete.
   Future<void> deleteResourcePolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -972,17 +859,11 @@ class NetworkFirewall {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.DeleteResourcePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -992,8 +873,6 @@ class NetworkFirewall {
         'ResourceArn': resourceArn,
       },
     );
-
-    return DeleteResourcePolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified <a>RuleGroup</a>.
@@ -1025,9 +904,9 @@ class NetworkFirewall {
   /// <code>RuleGroupARN</code>.
   /// </note>
   Future<DeleteRuleGroupResponse> deleteRuleGroup({
-    String ruleGroupArn,
-    String ruleGroupName,
-    RuleGroupType type,
+    String? ruleGroupArn,
+    String? ruleGroupName,
+    RuleGroupType? type,
   }) async {
     _s.validateStringLength(
       'ruleGroupArn',
@@ -1035,21 +914,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'ruleGroupArn',
-      ruleGroupArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'ruleGroupName',
       ruleGroupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'ruleGroupName',
-      ruleGroupName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1089,8 +958,8 @@ class NetworkFirewall {
   ///
   /// You must specify the ARN or the name, and you can specify both.
   Future<DescribeFirewallResponse> describeFirewall({
-    String firewallArn,
-    String firewallName,
+    String? firewallArn,
+    String? firewallName,
   }) async {
     _s.validateStringLength(
       'firewallArn',
@@ -1098,21 +967,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1151,8 +1010,8 @@ class NetworkFirewall {
   ///
   /// You must specify the ARN or the name, and you can specify both.
   Future<DescribeFirewallPolicyResponse> describeFirewallPolicy({
-    String firewallPolicyArn,
-    String firewallPolicyName,
+    String? firewallPolicyArn,
+    String? firewallPolicyName,
   }) async {
     _s.validateStringLength(
       'firewallPolicyArn',
@@ -1160,21 +1019,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallPolicyName',
       firewallPolicyName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'firewallPolicyName',
-      firewallPolicyName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1214,8 +1063,8 @@ class NetworkFirewall {
   ///
   /// You must specify the ARN or the name, and you can specify both.
   Future<DescribeLoggingConfigurationResponse> describeLoggingConfiguration({
-    String firewallArn,
-    String firewallName,
+    String? firewallArn,
+    String? firewallName,
   }) async {
     _s.validateStringLength(
       'firewallArn',
@@ -1223,21 +1072,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1261,6 +1100,7 @@ class NetworkFirewall {
   /// Retrieves a resource policy that you created in a <a>PutResourcePolicy</a>
   /// request.
   ///
+  /// May throw [InvalidRequestException].
   /// May throw [InternalServerError].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -1269,7 +1109,7 @@ class NetworkFirewall {
   /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose
   /// resource policy you want to retrieve.
   Future<DescribeResourcePolicyResponse> describeResourcePolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1277,12 +1117,6 @@ class NetworkFirewall {
       resourceArn,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1330,9 +1164,9 @@ class NetworkFirewall {
   /// <code>RuleGroupARN</code>.
   /// </note>
   Future<DescribeRuleGroupResponse> describeRuleGroup({
-    String ruleGroupArn,
-    String ruleGroupName,
-    RuleGroupType type,
+    String? ruleGroupArn,
+    String? ruleGroupName,
+    RuleGroupType? type,
   }) async {
     _s.validateStringLength(
       'ruleGroupArn',
@@ -1340,21 +1174,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'ruleGroupArn',
-      ruleGroupArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'ruleGroupName',
       ruleGroupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'ruleGroupName',
-      ruleGroupName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1419,10 +1243,10 @@ class NetworkFirewall {
   /// new token. Reapply your changes as needed, then try the operation again
   /// using the new token.
   Future<DisassociateSubnetsResponse> disassociateSubnets({
-    @_s.required List<String> subnetIds,
-    String firewallArn,
-    String firewallName,
-    String updateToken,
+    required List<String> subnetIds,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
   }) async {
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     _s.validateStringLength(
@@ -1431,32 +1255,17 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'updateToken',
       updateToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1501,8 +1310,8 @@ class NetworkFirewall {
   /// of objects, use the token returned from the prior request in your next
   /// request.
   Future<ListFirewallPoliciesResponse> listFirewallPolicies({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1515,11 +1324,6 @@ class NetworkFirewall {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[0-9A-Za-z:\/+=]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1570,9 +1374,9 @@ class NetworkFirewall {
   /// retrieve the firewalls for. Leave this blank to retrieve all firewalls
   /// that you have defined.
   Future<ListFirewallsResponse> listFirewalls({
-    int maxResults,
-    String nextToken,
-    List<String> vpcIds,
+    int? maxResults,
+    String? nextToken,
+    List<String>? vpcIds,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1585,11 +1389,6 @@ class NetworkFirewall {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[0-9A-Za-z:\/+=]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1633,8 +1432,8 @@ class NetworkFirewall {
   /// of objects, use the token returned from the prior request in your next
   /// request.
   Future<ListRuleGroupsResponse> listRuleGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1647,11 +1446,6 @@ class NetworkFirewall {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[0-9A-Za-z:\/+=]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1682,6 +1476,7 @@ class NetworkFirewall {
   /// Firewall: firewalls, firewall policies, and rule groups.
   ///
   /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
@@ -1700,9 +1495,9 @@ class NetworkFirewall {
   /// of objects, use the token returned from the prior request in your next
   /// request.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1710,12 +1505,6 @@ class NetworkFirewall {
       resourceArn,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws.*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1729,11 +1518,6 @@ class NetworkFirewall {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[0-9A-Za-z:\/+=]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1837,8 +1621,8 @@ class NetworkFirewall {
   /// The Amazon Resource Name (ARN) of the account that you want to share rule
   /// groups and firewall policies with.
   Future<void> putResourcePolicy({
-    @_s.required String policy,
-    @_s.required String resourceArn,
+    required String policy,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
@@ -1846,12 +1630,6 @@ class NetworkFirewall {
       policy,
       1,
       395000,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -1862,17 +1640,11 @@ class NetworkFirewall {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws.*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.PutResourcePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1883,8 +1655,6 @@ class NetworkFirewall {
         'ResourceArn': resourceArn,
       },
     );
-
-    return PutResourcePolicyResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds the specified tags to the specified resource. Tags are key:value
@@ -1905,8 +1675,8 @@ class NetworkFirewall {
   /// Parameter [tags] :
   /// <p/>
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1916,18 +1686,12 @@ class NetworkFirewall {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1938,8 +1702,6 @@ class NetworkFirewall {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the tags with the specified keys from the specified resource. Tags
@@ -1961,8 +1723,8 @@ class NetworkFirewall {
   /// Parameter [tagKeys] :
   /// <p/>
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1972,18 +1734,12 @@ class NetworkFirewall {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'NetworkFirewall_20201112.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1994,8 +1750,6 @@ class NetworkFirewall {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Modifies the flag, <code>DeleteProtection</code>, which indicates whether
@@ -2048,10 +1802,10 @@ class NetworkFirewall {
   /// using the new token.
   Future<UpdateFirewallDeleteProtectionResponse>
       updateFirewallDeleteProtection({
-    @_s.required bool deleteProtection,
-    String firewallArn,
-    String firewallName,
-    String updateToken,
+    required bool deleteProtection,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
   }) async {
     ArgumentError.checkNotNull(deleteProtection, 'deleteProtection');
     _s.validateStringLength(
@@ -2060,32 +1814,17 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'updateToken',
       updateToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2150,10 +1889,10 @@ class NetworkFirewall {
   /// new token. Reapply your changes as needed, then try the operation again
   /// using the new token.
   Future<UpdateFirewallDescriptionResponse> updateFirewallDescription({
-    String description,
-    String firewallArn,
-    String firewallName,
-    String updateToken,
+    String? description,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
   }) async {
     _s.validateStringLength(
       'description',
@@ -2161,21 +1900,11 @@ class NetworkFirewall {
       0,
       512,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^.*$''',
-    );
     _s.validateStringLength(
       'firewallArn',
       firewallArn,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
     );
     _s.validateStringLength(
       'firewallName',
@@ -2183,21 +1912,11 @@ class NetworkFirewall {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'updateToken',
       updateToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2273,12 +1992,12 @@ class NetworkFirewall {
   ///
   /// You must specify the ARN or the name, and you can specify both.
   Future<UpdateFirewallPolicyResponse> updateFirewallPolicy({
-    @_s.required FirewallPolicy firewallPolicy,
-    @_s.required String updateToken,
-    String description,
-    bool dryRun,
-    String firewallPolicyArn,
-    String firewallPolicyName,
+    required FirewallPolicy firewallPolicy,
+    required String updateToken,
+    String? description,
+    bool? dryRun,
+    String? firewallPolicyArn,
+    String? firewallPolicyName,
   }) async {
     ArgumentError.checkNotNull(firewallPolicy, 'firewallPolicy');
     ArgumentError.checkNotNull(updateToken, 'updateToken');
@@ -2289,22 +2008,11 @@ class NetworkFirewall {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^.*$''',
     );
     _s.validateStringLength(
       'firewallPolicyArn',
@@ -2312,21 +2020,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallPolicyArn',
-      firewallPolicyArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallPolicyName',
       firewallPolicyName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'firewallPolicyName',
-      firewallPolicyName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2398,10 +2096,10 @@ class NetworkFirewall {
   /// using the new token.
   Future<UpdateFirewallPolicyChangeProtectionResponse>
       updateFirewallPolicyChangeProtection({
-    @_s.required bool firewallPolicyChangeProtection,
-    String firewallArn,
-    String firewallName,
-    String updateToken,
+    required bool firewallPolicyChangeProtection,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
   }) async {
     ArgumentError.checkNotNull(
         firewallPolicyChangeProtection, 'firewallPolicyChangeProtection');
@@ -2411,32 +2109,17 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'updateToken',
       updateToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2517,9 +2200,9 @@ class NetworkFirewall {
   /// Defines how Network Firewall performs logging for a firewall. If you omit
   /// this setting, Network Firewall disables logging for the firewall.
   Future<UpdateLoggingConfigurationResponse> updateLoggingConfiguration({
-    String firewallArn,
-    String firewallName,
-    LoggingConfiguration loggingConfiguration,
+    String? firewallArn,
+    String? firewallName,
+    LoggingConfiguration? loggingConfiguration,
   }) async {
     _s.validateStringLength(
       'firewallArn',
@@ -2527,21 +2210,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2628,21 +2301,17 @@ class NetworkFirewall {
   /// You must specify the ARN or the name, and you can specify both.
   ///
   /// Parameter [rules] :
-  /// The name of a file containing stateful rule group rules specifications in
-  /// Suricata flat format, with one rule per line. Use this to import your
-  /// existing Suricata compatible rule groups.
+  /// A string containing stateful rule group rules specifications in Suricata
+  /// flat format, with one rule per line. Use this to import your existing
+  /// Suricata compatible rule groups.
   /// <note>
   /// You must provide either this rules setting or a populated
   /// <code>RuleGroup</code> setting, but not both.
   /// </note>
-  /// You can provide your rule group specification in a file through this
-  /// setting when you create or update your rule group. The call response
-  /// returns a <a>RuleGroup</a> object that Network Firewall has populated from
-  /// your file. Network Firewall uses the file contents to populate the rule
-  /// group rules, but does not maintain a reference to the file or use the file
-  /// in any way after performing the create or update. If you call
-  /// <a>DescribeRuleGroup</a> to retrieve the rule group, Network Firewall
-  /// returns rules settings inside a <a>RuleGroup</a> object.
+  /// You can provide your rule group specification in Suricata flat format
+  /// through this setting when you create or update your rule group. The call
+  /// response returns a <a>RuleGroup</a> object that Network Firewall has
+  /// populated from your string.
   ///
   /// Parameter [type] :
   /// Indicates whether the rule group is stateless or stateful. If the rule
@@ -2653,14 +2322,14 @@ class NetworkFirewall {
   /// <code>RuleGroupARN</code>.
   /// </note>
   Future<UpdateRuleGroupResponse> updateRuleGroup({
-    @_s.required String updateToken,
-    String description,
-    bool dryRun,
-    RuleGroup ruleGroup,
-    String ruleGroupArn,
-    String ruleGroupName,
-    String rules,
-    RuleGroupType type,
+    required String updateToken,
+    String? description,
+    bool? dryRun,
+    RuleGroup? ruleGroup,
+    String? ruleGroupArn,
+    String? ruleGroupName,
+    String? rules,
+    RuleGroupType? type,
   }) async {
     ArgumentError.checkNotNull(updateToken, 'updateToken');
     _s.validateStringLength(
@@ -2670,22 +2339,11 @@ class NetworkFirewall {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^.*$''',
     );
     _s.validateStringLength(
       'ruleGroupArn',
@@ -2693,21 +2351,11 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'ruleGroupArn',
-      ruleGroupArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'ruleGroupName',
       ruleGroupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'ruleGroupName',
-      ruleGroupName,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     _s.validateStringLength(
       'rules',
@@ -2785,10 +2433,10 @@ class NetworkFirewall {
   /// new token. Reapply your changes as needed, then try the operation again
   /// using the new token.
   Future<UpdateSubnetChangeProtectionResponse> updateSubnetChangeProtection({
-    @_s.required bool subnetChangeProtection,
-    String firewallArn,
-    String firewallName,
-    String updateToken,
+    required bool subnetChangeProtection,
+    String? firewallArn,
+    String? firewallName,
+    String? updateToken,
   }) async {
     ArgumentError.checkNotNull(
         subnetChangeProtection, 'subnetChangeProtection');
@@ -2798,32 +2446,17 @@ class NetworkFirewall {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'firewallArn',
-      firewallArn,
-      r'''^arn:aws.*''',
-    );
     _s.validateStringLength(
       'firewallName',
       firewallName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'firewallName',
-      firewallName,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'updateToken',
       updateToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'updateToken',
-      updateToken,
-      r'''^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2849,11 +2482,6 @@ class NetworkFirewall {
 
 /// A custom action to use in stateless rule actions settings. This is used in
 /// <a>CustomAction</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActionDefinition {
   /// Stateless inspection criteria that publishes the specified metrics to Amazon
   /// CloudWatch for the matching packet. This setting defines a CloudWatch
@@ -2864,25 +2492,32 @@ class ActionDefinition {
   /// action that forwards the packet for stateful inspection. Then, when a packet
   /// matches the rule, Network Firewall publishes metrics for the packet and
   /// forwards it.
-  @_s.JsonKey(name: 'PublishMetricAction')
-  final PublishMetricAction publishMetricAction;
+  final PublishMetricAction? publishMetricAction;
 
   ActionDefinition({
     this.publishMetricAction,
   });
-  factory ActionDefinition.fromJson(Map<String, dynamic> json) =>
-      _$ActionDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActionDefinitionToJson(this);
+  factory ActionDefinition.fromJson(Map<String, dynamic> json) {
+    return ActionDefinition(
+      publishMetricAction: json['PublishMetricAction'] != null
+          ? PublishMetricAction.fromJson(
+              json['PublishMetricAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publishMetricAction = this.publishMetricAction;
+    return {
+      if (publishMetricAction != null)
+        'PublishMetricAction': publishMetricAction,
+    };
+  }
 }
 
 /// A single IP address specification. This is used in the
 /// <a>MatchAttributes</a> source and destination specifications.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Address {
   /// Specify an IP address or a block of IP addresses in Classless Inter-Domain
   /// Routing (CIDR) notation. Network Firewall supports all address ranges for
@@ -2903,36 +2538,36 @@ class Address {
   /// For more information about CIDR notation, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
-  @_s.JsonKey(name: 'AddressDefinition')
   final String addressDefinition;
 
   Address({
-    @_s.required this.addressDefinition,
+    required this.addressDefinition,
   });
-  factory Address.fromJson(Map<String, dynamic> json) =>
-      _$AddressFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AddressToJson(this);
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      addressDefinition: json['AddressDefinition'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressDefinition = this.addressDefinition;
+    return {
+      'AddressDefinition': addressDefinition,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateFirewallPolicyResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// The Amazon Resource Name (ARN) of the firewall policy.
-  @_s.JsonKey(name: 'FirewallPolicyArn')
-  final String firewallPolicyArn;
+  final String? firewallPolicyArn;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -2948,8 +2583,7 @@ class AssociateFirewallPolicyResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   AssociateFirewallPolicyResponse({
     this.firewallArn,
@@ -2957,28 +2591,40 @@ class AssociateFirewallPolicyResponse {
     this.firewallPolicyArn,
     this.updateToken,
   });
-  factory AssociateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateFirewallPolicyResponseFromJson(json);
+
+  factory AssociateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateFirewallPolicyResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      firewallPolicyArn: json['FirewallPolicyArn'] as String?,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final firewallPolicyArn = this.firewallPolicyArn;
+    final updateToken = this.updateToken;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (firewallPolicyArn != null) 'FirewallPolicyArn': firewallPolicyArn,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateSubnetsResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// The IDs of the subnets that are associated with the firewall.
-  @_s.JsonKey(name: 'SubnetMappings')
-  final List<SubnetMapping> subnetMappings;
+  final List<SubnetMapping>? subnetMappings;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -2994,8 +2640,7 @@ class AssociateSubnetsResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   AssociateSubnetsResponse({
     this.firewallArn,
@@ -3003,25 +2648,42 @@ class AssociateSubnetsResponse {
     this.subnetMappings,
     this.updateToken,
   });
-  factory AssociateSubnetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateSubnetsResponseFromJson(json);
+
+  factory AssociateSubnetsResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateSubnetsResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      subnetMappings: (json['SubnetMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final subnetMappings = this.subnetMappings;
+    final updateToken = this.updateToken;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (subnetMappings != null) 'SubnetMappings': subnetMappings,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
 /// The configuration and status for a single subnet that you've specified for
 /// use by the AWS Network Firewall firewall. This is part of the
 /// <a>FirewallStatus</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Attachment {
   /// The identifier of the firewall endpoint that Network Firewall has
   /// instantiated in the subnet. You use this to identify the firewall endpoint
   /// in the VPC route tables, when you redirect the VPC traffic through the
   /// endpoint.
-  @_s.JsonKey(name: 'EndpointId')
-  final String endpointId;
+  final String? endpointId;
 
   /// The current status of the firewall endpoint in the subnet. This value
   /// reflects both the instantiation of the endpoint in the VPC subnet and the
@@ -3030,51 +2692,108 @@ class Attachment {
   /// properly to handle network traffic. When the endpoint isn't available for
   /// traffic, this value will reflect its state, for example
   /// <code>CREATING</code>, <code>DELETING</code>, or <code>FAILED</code>.
-  @_s.JsonKey(name: 'Status')
-  final AttachmentStatus status;
+  final AttachmentStatus? status;
 
   /// The unique identifier of the subnet that you've specified to be used for a
   /// firewall endpoint.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   Attachment({
     this.endpointId,
     this.status,
     this.subnetId,
   });
-  factory Attachment.fromJson(Map<String, dynamic> json) =>
-      _$AttachmentFromJson(json);
+
+  factory Attachment.fromJson(Map<String, dynamic> json) {
+    return Attachment(
+      endpointId: json['EndpointId'] as String?,
+      status: (json['Status'] as String?)?.toAttachmentStatus(),
+      subnetId: json['SubnetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointId = this.endpointId;
+    final status = this.status;
+    final subnetId = this.subnetId;
+    return {
+      if (endpointId != null) 'EndpointId': endpointId,
+      if (status != null) 'Status': status.toValue(),
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
 }
 
 enum AttachmentStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('SCALING')
   scaling,
-  @_s.JsonValue('READY')
   ready,
 }
 
+extension on AttachmentStatus {
+  String toValue() {
+    switch (this) {
+      case AttachmentStatus.creating:
+        return 'CREATING';
+      case AttachmentStatus.deleting:
+        return 'DELETING';
+      case AttachmentStatus.scaling:
+        return 'SCALING';
+      case AttachmentStatus.ready:
+        return 'READY';
+    }
+  }
+}
+
+extension on String {
+  AttachmentStatus toAttachmentStatus() {
+    switch (this) {
+      case 'CREATING':
+        return AttachmentStatus.creating;
+      case 'DELETING':
+        return AttachmentStatus.deleting;
+      case 'SCALING':
+        return AttachmentStatus.scaling;
+      case 'READY':
+        return AttachmentStatus.ready;
+    }
+    throw Exception('$this is not known in enum AttachmentStatus');
+  }
+}
+
 enum ConfigurationSyncState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('IN_SYNC')
   inSync,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConfigurationSyncState {
+  String toValue() {
+    switch (this) {
+      case ConfigurationSyncState.pending:
+        return 'PENDING';
+      case ConfigurationSyncState.inSync:
+        return 'IN_SYNC';
+    }
+  }
+}
+
+extension on String {
+  ConfigurationSyncState toConfigurationSyncState() {
+    switch (this) {
+      case 'PENDING':
+        return ConfigurationSyncState.pending;
+      case 'IN_SYNC':
+        return ConfigurationSyncState.inSync;
+    }
+    throw Exception('$this is not known in enum ConfigurationSyncState');
+  }
+}
+
 class CreateFirewallPolicyResponse {
   /// The high-level properties of a firewall policy. This, along with the
   /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
   /// firewall policy by calling <a>DescribeFirewallPolicy</a>.
-  @_s.JsonKey(name: 'FirewallPolicyResponse')
   final FirewallPolicyResponse firewallPolicyResponse;
 
   /// A token used for optimistic locking. Network Firewall returns a token to
@@ -3087,53 +2806,73 @@ class CreateFirewallPolicyResponse {
   /// <code>InvalidTokenException</code>. If this happens, retrieve the firewall
   /// policy again to get a current copy of it with current token. Reapply your
   /// changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
   final String updateToken;
 
   CreateFirewallPolicyResponse({
-    @_s.required this.firewallPolicyResponse,
-    @_s.required this.updateToken,
+    required this.firewallPolicyResponse,
+    required this.updateToken,
   });
-  factory CreateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFirewallPolicyResponseFromJson(json);
+
+  factory CreateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFirewallPolicyResponse(
+      firewallPolicyResponse: FirewallPolicyResponse.fromJson(
+          json['FirewallPolicyResponse'] as Map<String, dynamic>),
+      updateToken: json['UpdateToken'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallPolicyResponse = this.firewallPolicyResponse;
+    final updateToken = this.updateToken;
+    return {
+      'FirewallPolicyResponse': firewallPolicyResponse,
+      'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFirewallResponse {
   /// The configuration settings for the firewall. These settings include the
   /// firewall policy and the subnets in your VPC to use for the firewall
   /// endpoints.
-  @_s.JsonKey(name: 'Firewall')
-  final Firewall firewall;
+  final Firewall? firewall;
 
   /// Detailed information about the current status of a <a>Firewall</a>. You can
   /// retrieve this for a firewall by calling <a>DescribeFirewall</a> and
   /// providing the firewall name and ARN.
-  @_s.JsonKey(name: 'FirewallStatus')
-  final FirewallStatus firewallStatus;
+  final FirewallStatus? firewallStatus;
 
   CreateFirewallResponse({
     this.firewall,
     this.firewallStatus,
   });
-  factory CreateFirewallResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFirewallResponseFromJson(json);
+
+  factory CreateFirewallResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFirewallResponse(
+      firewall: json['Firewall'] != null
+          ? Firewall.fromJson(json['Firewall'] as Map<String, dynamic>)
+          : null,
+      firewallStatus: json['FirewallStatus'] != null
+          ? FirewallStatus.fromJson(
+              json['FirewallStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewall = this.firewall;
+    final firewallStatus = this.firewallStatus;
+    return {
+      if (firewall != null) 'Firewall': firewall,
+      if (firewallStatus != null) 'FirewallStatus': firewallStatus,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
   /// rule group by calling <a>DescribeRuleGroup</a>.
-  @_s.JsonKey(name: 'RuleGroupResponse')
   final RuleGroupResponse ruleGroupResponse;
 
   /// A token used for optimistic locking. Network Firewall returns a token to
@@ -3146,15 +2885,29 @@ class CreateRuleGroupResponse {
   /// <code>InvalidTokenException</code>. If this happens, retrieve the rule group
   /// again to get a current copy of it with a current token. Reapply your changes
   /// as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
   final String updateToken;
 
   CreateRuleGroupResponse({
-    @_s.required this.ruleGroupResponse,
-    @_s.required this.updateToken,
+    required this.ruleGroupResponse,
+    required this.updateToken,
   });
-  factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRuleGroupResponseFromJson(json);
+
+  factory CreateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRuleGroupResponse(
+      ruleGroupResponse: RuleGroupResponse.fromJson(
+          json['RuleGroupResponse'] as Map<String, dynamic>),
+      updateToken: json['UpdateToken'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleGroupResponse = this.ruleGroupResponse;
+    final updateToken = this.updateToken;
+    return {
+      'RuleGroupResponse': ruleGroupResponse,
+      'UpdateToken': updateToken,
+    };
+  }
 }
 
 /// An optional, non-standard action to use for stateless packet handling. You
@@ -3181,108 +2934,133 @@ class CreateRuleGroupResponse {
 /// packets that don't match any of the policy's stateless rules.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomAction {
   /// The custom action associated with the action name.
-  @_s.JsonKey(name: 'ActionDefinition')
   final ActionDefinition actionDefinition;
 
   /// The descriptive name of the custom action. You can't change the name of a
   /// custom action after you create it.
-  @_s.JsonKey(name: 'ActionName')
   final String actionName;
 
   CustomAction({
-    @_s.required this.actionDefinition,
-    @_s.required this.actionName,
+    required this.actionDefinition,
+    required this.actionName,
   });
-  factory CustomAction.fromJson(Map<String, dynamic> json) =>
-      _$CustomActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CustomActionToJson(this);
+  factory CustomAction.fromJson(Map<String, dynamic> json) {
+    return CustomAction(
+      actionDefinition: ActionDefinition.fromJson(
+          json['ActionDefinition'] as Map<String, dynamic>),
+      actionName: json['ActionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionDefinition = this.actionDefinition;
+    final actionName = this.actionName;
+    return {
+      'ActionDefinition': actionDefinition,
+      'ActionName': actionName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFirewallPolicyResponse {
   /// The object containing the definition of the <a>FirewallPolicyResponse</a>
   /// that you asked to delete.
-  @_s.JsonKey(name: 'FirewallPolicyResponse')
   final FirewallPolicyResponse firewallPolicyResponse;
 
   DeleteFirewallPolicyResponse({
-    @_s.required this.firewallPolicyResponse,
+    required this.firewallPolicyResponse,
   });
-  factory DeleteFirewallPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFirewallPolicyResponseFromJson(json);
+
+  factory DeleteFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFirewallPolicyResponse(
+      firewallPolicyResponse: FirewallPolicyResponse.fromJson(
+          json['FirewallPolicyResponse'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallPolicyResponse = this.firewallPolicyResponse;
+    return {
+      'FirewallPolicyResponse': firewallPolicyResponse,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFirewallResponse {
-  @_s.JsonKey(name: 'Firewall')
-  final Firewall firewall;
-  @_s.JsonKey(name: 'FirewallStatus')
-  final FirewallStatus firewallStatus;
+  final Firewall? firewall;
+  final FirewallStatus? firewallStatus;
 
   DeleteFirewallResponse({
     this.firewall,
     this.firewallStatus,
   });
-  factory DeleteFirewallResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFirewallResponseFromJson(json);
+
+  factory DeleteFirewallResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteFirewallResponse(
+      firewall: json['Firewall'] != null
+          ? Firewall.fromJson(json['Firewall'] as Map<String, dynamic>)
+          : null,
+      firewallStatus: json['FirewallStatus'] != null
+          ? FirewallStatus.fromJson(
+              json['FirewallStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewall = this.firewall;
+    final firewallStatus = this.firewallStatus;
+    return {
+      if (firewall != null) 'Firewall': firewall,
+      if (firewallStatus != null) 'FirewallStatus': firewallStatus,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourcePolicyResponse {
   DeleteResourcePolicyResponse();
-  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResourcePolicyResponseFromJson(json);
+
+  factory DeleteResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteResourcePolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
   /// rule group by calling <a>DescribeRuleGroup</a>.
-  @_s.JsonKey(name: 'RuleGroupResponse')
   final RuleGroupResponse ruleGroupResponse;
 
   DeleteRuleGroupResponse({
-    @_s.required this.ruleGroupResponse,
+    required this.ruleGroupResponse,
   });
-  factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRuleGroupResponseFromJson(json);
+
+  factory DeleteRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRuleGroupResponse(
+      ruleGroupResponse: RuleGroupResponse.fromJson(
+          json['RuleGroupResponse'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleGroupResponse = this.ruleGroupResponse;
+    return {
+      'RuleGroupResponse': ruleGroupResponse,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFirewallPolicyResponse {
   /// The high-level properties of a firewall policy. This, along with the
   /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
   /// firewall policy by calling <a>DescribeFirewallPolicy</a>.
-  @_s.JsonKey(name: 'FirewallPolicyResponse')
   final FirewallPolicyResponse firewallPolicyResponse;
 
   /// A token used for optimistic locking. Network Firewall returns a token to
@@ -3295,39 +3073,51 @@ class DescribeFirewallPolicyResponse {
   /// <code>InvalidTokenException</code>. If this happens, retrieve the firewall
   /// policy again to get a current copy of it with current token. Reapply your
   /// changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
   final String updateToken;
 
   /// The policy for the specified firewall policy.
-  @_s.JsonKey(name: 'FirewallPolicy')
-  final FirewallPolicy firewallPolicy;
+  final FirewallPolicy? firewallPolicy;
 
   DescribeFirewallPolicyResponse({
-    @_s.required this.firewallPolicyResponse,
-    @_s.required this.updateToken,
+    required this.firewallPolicyResponse,
+    required this.updateToken,
     this.firewallPolicy,
   });
-  factory DescribeFirewallPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFirewallPolicyResponseFromJson(json);
+
+  factory DescribeFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFirewallPolicyResponse(
+      firewallPolicyResponse: FirewallPolicyResponse.fromJson(
+          json['FirewallPolicyResponse'] as Map<String, dynamic>),
+      updateToken: json['UpdateToken'] as String,
+      firewallPolicy: json['FirewallPolicy'] != null
+          ? FirewallPolicy.fromJson(
+              json['FirewallPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallPolicyResponse = this.firewallPolicyResponse;
+    final updateToken = this.updateToken;
+    final firewallPolicy = this.firewallPolicy;
+    return {
+      'FirewallPolicyResponse': firewallPolicyResponse,
+      'UpdateToken': updateToken,
+      if (firewallPolicy != null) 'FirewallPolicy': firewallPolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFirewallResponse {
   /// The configuration settings for the firewall. These settings include the
   /// firewall policy and the subnets in your VPC to use for the firewall
   /// endpoints.
-  @_s.JsonKey(name: 'Firewall')
-  final Firewall firewall;
+  final Firewall? firewall;
 
   /// Detailed information about the current status of a <a>Firewall</a>. You can
   /// retrieve this for a firewall by calling <a>DescribeFirewall</a> and
   /// providing the firewall name and ARN.
-  @_s.JsonKey(name: 'FirewallStatus')
-  final FirewallStatus firewallStatus;
+  final FirewallStatus? firewallStatus;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -3343,66 +3133,97 @@ class DescribeFirewallResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   DescribeFirewallResponse({
     this.firewall,
     this.firewallStatus,
     this.updateToken,
   });
-  factory DescribeFirewallResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFirewallResponseFromJson(json);
+
+  factory DescribeFirewallResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFirewallResponse(
+      firewall: json['Firewall'] != null
+          ? Firewall.fromJson(json['Firewall'] as Map<String, dynamic>)
+          : null,
+      firewallStatus: json['FirewallStatus'] != null
+          ? FirewallStatus.fromJson(
+              json['FirewallStatus'] as Map<String, dynamic>)
+          : null,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewall = this.firewall;
+    final firewallStatus = this.firewallStatus;
+    final updateToken = this.updateToken;
+    return {
+      if (firewall != null) 'Firewall': firewall,
+      if (firewallStatus != null) 'FirewallStatus': firewallStatus,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLoggingConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
-  @_s.JsonKey(name: 'LoggingConfiguration')
-  final LoggingConfiguration loggingConfiguration;
+  final String? firewallArn;
+  final LoggingConfiguration? loggingConfiguration;
 
   DescribeLoggingConfigurationResponse({
     this.firewallArn,
     this.loggingConfiguration,
   });
+
   factory DescribeLoggingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeLoggingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeLoggingConfigurationResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final loggingConfiguration = this.loggingConfiguration;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (loggingConfiguration != null)
+        'LoggingConfiguration': loggingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeResourcePolicyResponse {
   /// The AWS Identity and Access Management policy for the resource.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   DescribeResourcePolicyResponse({
     this.policy,
   });
-  factory DescribeResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeResourcePolicyResponseFromJson(json);
+
+  factory DescribeResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeResourcePolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
   /// rule group by calling <a>DescribeRuleGroup</a>.
-  @_s.JsonKey(name: 'RuleGroupResponse')
   final RuleGroupResponse ruleGroupResponse;
 
   /// A token used for optimistic locking. Network Firewall returns a token to
@@ -3415,7 +3236,6 @@ class DescribeRuleGroupResponse {
   /// <code>InvalidTokenException</code>. If this happens, retrieve the rule group
   /// again to get a current copy of it with a current token. Reapply your changes
   /// as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
   final String updateToken;
 
   /// The object that defines the rules in a rule group. This, along with
@@ -3431,16 +3251,35 @@ class DescribeRuleGroupResponse {
   /// firewall policy, then you use the policy in a firewall. You can reference a
   /// rule group from more than one firewall policy, and you can use a firewall
   /// policy in more than one firewall.
-  @_s.JsonKey(name: 'RuleGroup')
-  final RuleGroup ruleGroup;
+  final RuleGroup? ruleGroup;
 
   DescribeRuleGroupResponse({
-    @_s.required this.ruleGroupResponse,
-    @_s.required this.updateToken,
+    required this.ruleGroupResponse,
+    required this.updateToken,
     this.ruleGroup,
   });
-  factory DescribeRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRuleGroupResponseFromJson(json);
+
+  factory DescribeRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRuleGroupResponse(
+      ruleGroupResponse: RuleGroupResponse.fromJson(
+          json['RuleGroupResponse'] as Map<String, dynamic>),
+      updateToken: json['UpdateToken'] as String,
+      ruleGroup: json['RuleGroup'] != null
+          ? RuleGroup.fromJson(json['RuleGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleGroupResponse = this.ruleGroupResponse;
+    final updateToken = this.updateToken;
+    final ruleGroup = this.ruleGroup;
+    return {
+      'RuleGroupResponse': ruleGroupResponse,
+      'UpdateToken': updateToken,
+      if (ruleGroup != null) 'RuleGroup': ruleGroup,
+    };
+  }
 }
 
 /// The value to use in an Amazon CloudWatch custom metric dimension. This is
@@ -3456,43 +3295,38 @@ class DescribeRuleGroupResponse {
 /// Custom Metrics</a> in the <a
 /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html">Amazon
 /// CloudWatch User Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Dimension {
   /// The value to use in the custom metric dimension.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Dimension({
-    @_s.required this.value,
+    required this.value,
   });
-  factory Dimension.fromJson(Map<String, dynamic> json) =>
-      _$DimensionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DimensionToJson(this);
+  factory Dimension.fromJson(Map<String, dynamic> json) {
+    return Dimension(
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateSubnetsResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// The IDs of the subnets that are associated with the firewall.
-  @_s.JsonKey(name: 'SubnetMappings')
-  final List<SubnetMapping> subnetMappings;
+  final List<SubnetMapping>? subnetMappings;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -3508,8 +3342,7 @@ class DisassociateSubnetsResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   DisassociateSubnetsResponse({
     this.firewallArn,
@@ -3517,8 +3350,31 @@ class DisassociateSubnetsResponse {
     this.subnetMappings,
     this.updateToken,
   });
-  factory DisassociateSubnetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateSubnetsResponseFromJson(json);
+
+  factory DisassociateSubnetsResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateSubnetsResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      subnetMappings: (json['SubnetMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final subnetMappings = this.subnetMappings;
+    final updateToken = this.updateToken;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (subnetMappings != null) 'SubnetMappings': subnetMappings,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
 /// The firewall defines the configuration settings for an AWS Network Firewall
@@ -3529,14 +3385,8 @@ class DisassociateSubnetsResponse {
 /// The status of the firewall, for example whether it's ready to filter network
 /// traffic, is provided in the corresponding <a>FirewallStatus</a>. You can
 /// retrieve both objects by calling <a>DescribeFirewall</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Firewall {
   /// The unique identifier for the firewall.
-  @_s.JsonKey(name: 'FirewallId')
   final String firewallId;
 
   /// The Amazon Resource Name (ARN) of the firewall policy.
@@ -3544,16 +3394,13 @@ class Firewall {
   /// The relationship of firewall to firewall policy is many to one. Each
   /// firewall requires one firewall policy association, and you can use the same
   /// firewall policy for multiple firewalls.
-  @_s.JsonKey(name: 'FirewallPolicyArn')
   final String firewallPolicyArn;
 
   /// The public subnets that Network Firewall is using for the firewall. Each
   /// subnet must belong to a different Availability Zone.
-  @_s.JsonKey(name: 'SubnetMappings')
   final List<SubnetMapping> subnetMappings;
 
   /// The unique identifier of the VPC where the firewall is in use.
-  @_s.JsonKey(name: 'VpcId')
   final String vpcId;
 
   /// A flag indicating whether it is possible to delete the firewall. A setting
@@ -3561,47 +3408,40 @@ class Firewall {
   /// deletion. Use this setting to protect against accidentally deleting a
   /// firewall that is in use. When you create a firewall, the operation
   /// initializes this flag to <code>TRUE</code>.
-  @_s.JsonKey(name: 'DeleteProtection')
-  final bool deleteProtection;
+  final bool? deleteProtection;
 
   /// A description of the firewall.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// A setting indicating whether the firewall is protected against a change to
   /// the firewall policy association. Use this setting to protect against
   /// accidentally modifying the firewall policy for a firewall that is in use.
   /// When you create a firewall, the operation initializes this setting to
   /// <code>TRUE</code>.
-  @_s.JsonKey(name: 'FirewallPolicyChangeProtection')
-  final bool firewallPolicyChangeProtection;
+  final bool? firewallPolicyChangeProtection;
 
   /// A setting indicating whether the firewall is protected against changes to
   /// the subnet associations. Use this setting to protect against accidentally
   /// modifying the subnet associations for a firewall that is in use. When you
   /// create a firewall, the operation initializes this setting to
   /// <code>TRUE</code>.
-  @_s.JsonKey(name: 'SubnetChangeProtection')
-  final bool subnetChangeProtection;
+  final bool? subnetChangeProtection;
 
   /// <p/>
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Firewall({
-    @_s.required this.firewallId,
-    @_s.required this.firewallPolicyArn,
-    @_s.required this.subnetMappings,
-    @_s.required this.vpcId,
+    required this.firewallId,
+    required this.firewallPolicyArn,
+    required this.subnetMappings,
+    required this.vpcId,
     this.deleteProtection,
     this.description,
     this.firewallArn,
@@ -3610,34 +3450,91 @@ class Firewall {
     this.subnetChangeProtection,
     this.tags,
   });
-  factory Firewall.fromJson(Map<String, dynamic> json) =>
-      _$FirewallFromJson(json);
+
+  factory Firewall.fromJson(Map<String, dynamic> json) {
+    return Firewall(
+      firewallId: json['FirewallId'] as String,
+      firewallPolicyArn: json['FirewallPolicyArn'] as String,
+      subnetMappings: (json['SubnetMappings'] as List)
+          .whereNotNull()
+          .map((e) => SubnetMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String,
+      deleteProtection: json['DeleteProtection'] as bool?,
+      description: json['Description'] as String?,
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      firewallPolicyChangeProtection:
+          json['FirewallPolicyChangeProtection'] as bool?,
+      subnetChangeProtection: json['SubnetChangeProtection'] as bool?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallId = this.firewallId;
+    final firewallPolicyArn = this.firewallPolicyArn;
+    final subnetMappings = this.subnetMappings;
+    final vpcId = this.vpcId;
+    final deleteProtection = this.deleteProtection;
+    final description = this.description;
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final firewallPolicyChangeProtection = this.firewallPolicyChangeProtection;
+    final subnetChangeProtection = this.subnetChangeProtection;
+    final tags = this.tags;
+    return {
+      'FirewallId': firewallId,
+      'FirewallPolicyArn': firewallPolicyArn,
+      'SubnetMappings': subnetMappings,
+      'VpcId': vpcId,
+      if (deleteProtection != null) 'DeleteProtection': deleteProtection,
+      if (description != null) 'Description': description,
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (firewallPolicyChangeProtection != null)
+        'FirewallPolicyChangeProtection': firewallPolicyChangeProtection,
+      if (subnetChangeProtection != null)
+        'SubnetChangeProtection': subnetChangeProtection,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// High-level information about a firewall, returned by operations like create
 /// and describe. You can use the information provided in the metadata to
 /// retrieve and manage a firewall.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FirewallMetadata {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   FirewallMetadata({
     this.firewallArn,
     this.firewallName,
   });
-  factory FirewallMetadata.fromJson(Map<String, dynamic> json) =>
-      _$FirewallMetadataFromJson(json);
+
+  factory FirewallMetadata.fromJson(Map<String, dynamic> json) {
+    return FirewallMetadata(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+    };
+  }
 }
 
 /// The firewall policy defines the behavior of a firewall using a collection of
@@ -3647,11 +3544,6 @@ class FirewallMetadata {
 /// This, along with <a>FirewallPolicyResponse</a>, define the policy. You can
 /// retrieve all objects for a firewall policy by calling
 /// <a>DescribeFirewallPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FirewallPolicy {
   /// The actions to take on a packet if it doesn't match any of the stateless
   /// rules in the policy. If you want non-matching packets to be forwarded for
@@ -3665,13 +3557,13 @@ class FirewallPolicy {
   /// For example, you could specify <code>["aws:pass"]</code> or you could
   /// specify <code>["aws:pass", “customActionName”]</code>. For information about
   /// compatibility, see the custom action descriptions under <a>CustomAction</a>.
-  @_s.JsonKey(name: 'StatelessDefaultActions')
   final List<String> statelessDefaultActions;
 
-  /// The actions to take on a fragmented packet if it doesn't match any of the
-  /// stateless rules in the policy. If you want non-matching fragmented packets
-  /// to be forwarded for stateful inspection, specify
-  /// <code>aws:forward_to_sfe</code>.
+  /// The actions to take on a fragmented UDP packet if it doesn't match any of
+  /// the stateless rules in the policy. Network Firewall only manages UDP packet
+  /// fragments and silently drops packet fragments for other protocols. If you
+  /// want non-matching fragmented UDP packets to be forwarded for stateful
+  /// inspection, specify <code>aws:forward_to_sfe</code>.
   ///
   /// You must specify one of the standard actions: <code>aws:pass</code>,
   /// <code>aws:drop</code>, or <code>aws:forward_to_sfe</code>. In addition, you
@@ -3681,74 +3573,117 @@ class FirewallPolicy {
   /// For example, you could specify <code>["aws:pass"]</code> or you could
   /// specify <code>["aws:pass", “customActionName”]</code>. For information about
   /// compatibility, see the custom action descriptions under <a>CustomAction</a>.
-  @_s.JsonKey(name: 'StatelessFragmentDefaultActions')
   final List<String> statelessFragmentDefaultActions;
 
   /// References to the stateless rule groups that are used in the policy. These
   /// define the inspection criteria in stateful rules.
-  @_s.JsonKey(name: 'StatefulRuleGroupReferences')
-  final List<StatefulRuleGroupReference> statefulRuleGroupReferences;
+  final List<StatefulRuleGroupReference>? statefulRuleGroupReferences;
 
   /// The custom action definitions that are available for use in the firewall
   /// policy's <code>StatelessDefaultActions</code> setting. You name each custom
   /// action that you define, and then you can use it by name in your default
   /// actions specifications.
-  @_s.JsonKey(name: 'StatelessCustomActions')
-  final List<CustomAction> statelessCustomActions;
+  final List<CustomAction>? statelessCustomActions;
 
   /// References to the stateless rule groups that are used in the policy. These
   /// define the matching criteria in stateless rules.
-  @_s.JsonKey(name: 'StatelessRuleGroupReferences')
-  final List<StatelessRuleGroupReference> statelessRuleGroupReferences;
+  final List<StatelessRuleGroupReference>? statelessRuleGroupReferences;
 
   FirewallPolicy({
-    @_s.required this.statelessDefaultActions,
-    @_s.required this.statelessFragmentDefaultActions,
+    required this.statelessDefaultActions,
+    required this.statelessFragmentDefaultActions,
     this.statefulRuleGroupReferences,
     this.statelessCustomActions,
     this.statelessRuleGroupReferences,
   });
-  factory FirewallPolicy.fromJson(Map<String, dynamic> json) =>
-      _$FirewallPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FirewallPolicyToJson(this);
+  factory FirewallPolicy.fromJson(Map<String, dynamic> json) {
+    return FirewallPolicy(
+      statelessDefaultActions: (json['StatelessDefaultActions'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statelessFragmentDefaultActions:
+          (json['StatelessFragmentDefaultActions'] as List)
+              .whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      statefulRuleGroupReferences: (json['StatefulRuleGroupReferences']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              StatefulRuleGroupReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statelessCustomActions: (json['StatelessCustomActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statelessRuleGroupReferences: (json['StatelessRuleGroupReferences']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              StatelessRuleGroupReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statelessDefaultActions = this.statelessDefaultActions;
+    final statelessFragmentDefaultActions =
+        this.statelessFragmentDefaultActions;
+    final statefulRuleGroupReferences = this.statefulRuleGroupReferences;
+    final statelessCustomActions = this.statelessCustomActions;
+    final statelessRuleGroupReferences = this.statelessRuleGroupReferences;
+    return {
+      'StatelessDefaultActions': statelessDefaultActions,
+      'StatelessFragmentDefaultActions': statelessFragmentDefaultActions,
+      if (statefulRuleGroupReferences != null)
+        'StatefulRuleGroupReferences': statefulRuleGroupReferences,
+      if (statelessCustomActions != null)
+        'StatelessCustomActions': statelessCustomActions,
+      if (statelessRuleGroupReferences != null)
+        'StatelessRuleGroupReferences': statelessRuleGroupReferences,
+    };
+  }
 }
 
 /// High-level information about a firewall policy, returned by operations like
 /// create and describe. You can use the information provided in the metadata to
 /// retrieve and manage a firewall policy. You can retrieve all objects for a
 /// firewall policy by calling <a>DescribeFirewallPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FirewallPolicyMetadata {
   /// The Amazon Resource Name (ARN) of the firewall policy.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The descriptive name of the firewall policy. You can't change the name of a
   /// firewall policy after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   FirewallPolicyMetadata({
     this.arn,
     this.name,
   });
-  factory FirewallPolicyMetadata.fromJson(Map<String, dynamic> json) =>
-      _$FirewallPolicyMetadataFromJson(json);
+
+  factory FirewallPolicyMetadata.fromJson(Map<String, dynamic> json) {
+    return FirewallPolicyMetadata(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// The high-level properties of a firewall policy. This, along with the
 /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
 /// firewall policy by calling <a>DescribeFirewallPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FirewallPolicyResponse {
   /// The Amazon Resource Name (ARN) of the firewall policy.
   /// <note>
@@ -3756,52 +3691,72 @@ class FirewallPolicyResponse {
   /// <code>TRUE</code>, then this ARN is a placeholder that isn't attached to a
   /// valid resource.
   /// </note>
-  @_s.JsonKey(name: 'FirewallPolicyArn')
   final String firewallPolicyArn;
 
   /// The unique identifier for the firewall policy.
-  @_s.JsonKey(name: 'FirewallPolicyId')
   final String firewallPolicyId;
 
   /// The descriptive name of the firewall policy. You can't change the name of a
   /// firewall policy after you create it.
-  @_s.JsonKey(name: 'FirewallPolicyName')
   final String firewallPolicyName;
 
   /// A description of the firewall policy.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The current status of the firewall policy. You can retrieve this for a
   /// firewall policy by calling <a>DescribeFirewallPolicy</a> and providing the
   /// firewall policy's name or ARN.
-  @_s.JsonKey(name: 'FirewallPolicyStatus')
-  final ResourceStatus firewallPolicyStatus;
+  final ResourceStatus? firewallPolicyStatus;
 
   /// The key:value pairs to associate with the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   FirewallPolicyResponse({
-    @_s.required this.firewallPolicyArn,
-    @_s.required this.firewallPolicyId,
-    @_s.required this.firewallPolicyName,
+    required this.firewallPolicyArn,
+    required this.firewallPolicyId,
+    required this.firewallPolicyName,
     this.description,
     this.firewallPolicyStatus,
     this.tags,
   });
-  factory FirewallPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$FirewallPolicyResponseFromJson(json);
+
+  factory FirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return FirewallPolicyResponse(
+      firewallPolicyArn: json['FirewallPolicyArn'] as String,
+      firewallPolicyId: json['FirewallPolicyId'] as String,
+      firewallPolicyName: json['FirewallPolicyName'] as String,
+      description: json['Description'] as String?,
+      firewallPolicyStatus:
+          (json['FirewallPolicyStatus'] as String?)?.toResourceStatus(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallPolicyArn = this.firewallPolicyArn;
+    final firewallPolicyId = this.firewallPolicyId;
+    final firewallPolicyName = this.firewallPolicyName;
+    final description = this.description;
+    final firewallPolicyStatus = this.firewallPolicyStatus;
+    final tags = this.tags;
+    return {
+      'FirewallPolicyArn': firewallPolicyArn,
+      'FirewallPolicyId': firewallPolicyId,
+      'FirewallPolicyName': firewallPolicyName,
+      if (description != null) 'Description': description,
+      if (firewallPolicyStatus != null)
+        'FirewallPolicyStatus': firewallPolicyStatus.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Detailed information about the current status of a <a>Firewall</a>. You can
 /// retrieve this for a firewall by calling <a>DescribeFirewall</a> and
 /// providing the firewall name and ARN.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FirewallStatus {
   /// The configuration sync state for the firewall. This summarizes the sync
   /// states reported in the <code>Config</code> settings for all of the
@@ -3816,7 +3771,6 @@ class FirewallStatus {
   /// This status must be <code>IN_SYNC</code> for the firewall to be ready for
   /// use, but it doesn't indicate that the firewall is ready. The
   /// <code>Status</code> setting indicates firewall readiness.
-  @_s.JsonKey(name: 'ConfigurationSyncStateSummary')
   final ConfigurationSyncState configurationSyncStateSummary;
 
   /// The readiness of the configured firewall to handle network traffic across
@@ -3825,7 +3779,6 @@ class FirewallStatus {
   /// value is <code>IN_SYNC</code> and the <code>Attachment</code>
   /// <code>Status</code> values for all of the configured subnets are
   /// <code>READY</code>.
-  @_s.JsonKey(name: 'Status')
   final FirewallStatusValue status;
 
   /// The subnets that you've configured for use by the Network Firewall firewall.
@@ -3833,42 +3786,101 @@ class FirewallStatus {
   /// configured a subnet. These objects provide details of the information that
   /// is summarized in the <code>ConfigurationSyncStateSummary</code> and
   /// <code>Status</code>, broken down by zone and configuration object.
-  @_s.JsonKey(name: 'SyncStates')
-  final Map<String, SyncState> syncStates;
+  final Map<String, SyncState>? syncStates;
 
   FirewallStatus({
-    @_s.required this.configurationSyncStateSummary,
-    @_s.required this.status,
+    required this.configurationSyncStateSummary,
+    required this.status,
     this.syncStates,
   });
-  factory FirewallStatus.fromJson(Map<String, dynamic> json) =>
-      _$FirewallStatusFromJson(json);
+
+  factory FirewallStatus.fromJson(Map<String, dynamic> json) {
+    return FirewallStatus(
+      configurationSyncStateSummary:
+          (json['ConfigurationSyncStateSummary'] as String)
+              .toConfigurationSyncState(),
+      status: (json['Status'] as String).toFirewallStatusValue(),
+      syncStates: (json['SyncStates'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, SyncState.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationSyncStateSummary = this.configurationSyncStateSummary;
+    final status = this.status;
+    final syncStates = this.syncStates;
+    return {
+      'ConfigurationSyncStateSummary': configurationSyncStateSummary.toValue(),
+      'Status': status.toValue(),
+      if (syncStates != null) 'SyncStates': syncStates,
+    };
+  }
 }
 
 enum FirewallStatusValue {
-  @_s.JsonValue('PROVISIONING')
   provisioning,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('READY')
   ready,
 }
 
+extension on FirewallStatusValue {
+  String toValue() {
+    switch (this) {
+      case FirewallStatusValue.provisioning:
+        return 'PROVISIONING';
+      case FirewallStatusValue.deleting:
+        return 'DELETING';
+      case FirewallStatusValue.ready:
+        return 'READY';
+    }
+  }
+}
+
+extension on String {
+  FirewallStatusValue toFirewallStatusValue() {
+    switch (this) {
+      case 'PROVISIONING':
+        return FirewallStatusValue.provisioning;
+      case 'DELETING':
+        return FirewallStatusValue.deleting;
+      case 'READY':
+        return FirewallStatusValue.ready;
+    }
+    throw Exception('$this is not known in enum FirewallStatusValue');
+  }
+}
+
 enum GeneratedRulesType {
-  @_s.JsonValue('ALLOWLIST')
   allowlist,
-  @_s.JsonValue('DENYLIST')
   denylist,
+}
+
+extension on GeneratedRulesType {
+  String toValue() {
+    switch (this) {
+      case GeneratedRulesType.allowlist:
+        return 'ALLOWLIST';
+      case GeneratedRulesType.denylist:
+        return 'DENYLIST';
+    }
+  }
+}
+
+extension on String {
+  GeneratedRulesType toGeneratedRulesType() {
+    switch (this) {
+      case 'ALLOWLIST':
+        return GeneratedRulesType.allowlist;
+      case 'DENYLIST':
+        return GeneratedRulesType.denylist;
+    }
+    throw Exception('$this is not known in enum GeneratedRulesType');
+  }
 }
 
 /// The 5-tuple criteria for AWS Network Firewall to use to inspect packet
 /// headers in stateful traffic flow inspection. Traffic flows that match the
 /// criteria are a match for the corresponding <a>StatefulRule</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Header {
   /// The destination IP address or address range to inspect for, in CIDR
   /// notation. To match with any address, specify <code>ANY</code>.
@@ -3892,13 +3904,11 @@ class Header {
   /// For more information about CIDR notation, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
-  @_s.JsonKey(name: 'Destination')
   final String destination;
 
   /// The destination port to inspect for. You can specify an individual port, for
   /// example <code>1994</code> and you can specify a port range, for example
   /// <code>1990-1994</code>. To match with any port, specify <code>ANY</code>.
-  @_s.JsonKey(name: 'DestinationPort')
   final String destinationPort;
 
   /// The direction of traffic flow to inspect. If set to <code>ANY</code>, the
@@ -3906,12 +3916,10 @@ class Header {
   /// destination and from the destination to the source. If set to
   /// <code>FORWARD</code>, the inspection only matches traffic going from the
   /// source to the destination.
-  @_s.JsonKey(name: 'Direction')
   final StatefulRuleDirection direction;
 
-  /// The protocol to inspect for. To match with any protocol, specify
-  /// <code>ANY</code>.
-  @_s.JsonKey(name: 'Protocol')
+  /// The protocol to inspect for. To specify all, you can use <code>IP</code>,
+  /// because all traffic on AWS and on the internet is IP.
   final StatefulRuleProtocol protocol;
 
   /// The source IP address or address range to inspect for, in CIDR notation. To
@@ -3936,156 +3944,227 @@ class Header {
   /// For more information about CIDR notation, see the Wikipedia entry <a
   /// href="https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing">Classless
   /// Inter-Domain Routing</a>.
-  @_s.JsonKey(name: 'Source')
   final String source;
 
   /// The source port to inspect for. You can specify an individual port, for
   /// example <code>1994</code> and you can specify a port range, for example
   /// <code>1990-1994</code>. To match with any port, specify <code>ANY</code>.
-  @_s.JsonKey(name: 'SourcePort')
   final String sourcePort;
 
   Header({
-    @_s.required this.destination,
-    @_s.required this.destinationPort,
-    @_s.required this.direction,
-    @_s.required this.protocol,
-    @_s.required this.source,
-    @_s.required this.sourcePort,
+    required this.destination,
+    required this.destinationPort,
+    required this.direction,
+    required this.protocol,
+    required this.source,
+    required this.sourcePort,
   });
-  factory Header.fromJson(Map<String, dynamic> json) => _$HeaderFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HeaderToJson(this);
+  factory Header.fromJson(Map<String, dynamic> json) {
+    return Header(
+      destination: json['Destination'] as String,
+      destinationPort: json['DestinationPort'] as String,
+      direction: (json['Direction'] as String).toStatefulRuleDirection(),
+      protocol: (json['Protocol'] as String).toStatefulRuleProtocol(),
+      source: json['Source'] as String,
+      sourcePort: json['SourcePort'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final destinationPort = this.destinationPort;
+    final direction = this.direction;
+    final protocol = this.protocol;
+    final source = this.source;
+    final sourcePort = this.sourcePort;
+    return {
+      'Destination': destination,
+      'DestinationPort': destinationPort,
+      'Direction': direction.toValue(),
+      'Protocol': protocol.toValue(),
+      'Source': source,
+      'SourcePort': sourcePort,
+    };
+  }
 }
 
 /// A list of IP addresses and address ranges, in CIDR notation. This is part of
 /// a <a>RuleVariables</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IPSet {
   /// The list of IP addresses and address ranges, in CIDR notation.
-  @_s.JsonKey(name: 'Definition')
   final List<String> definition;
 
   IPSet({
-    @_s.required this.definition,
+    required this.definition,
   });
-  factory IPSet.fromJson(Map<String, dynamic> json) => _$IPSetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$IPSetToJson(this);
+  factory IPSet.fromJson(Map<String, dynamic> json) {
+    return IPSet(
+      definition: (json['Definition'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    return {
+      'Definition': definition,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFirewallPoliciesResponse {
   /// The metadata for the firewall policies. Depending on your setting for max
   /// results and the number of firewall policies that you have, this might not be
   /// the full list.
-  @_s.JsonKey(name: 'FirewallPolicies')
-  final List<FirewallPolicyMetadata> firewallPolicies;
+  final List<FirewallPolicyMetadata>? firewallPolicies;
 
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
   /// maximum you requested, Network Firewall returns a <code>NextToken</code>
   /// value in the response. To retrieve the next batch of objects, use the token
   /// returned from the prior request in your next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFirewallPoliciesResponse({
     this.firewallPolicies,
     this.nextToken,
   });
-  factory ListFirewallPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFirewallPoliciesResponseFromJson(json);
+
+  factory ListFirewallPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListFirewallPoliciesResponse(
+      firewallPolicies: (json['FirewallPolicies'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => FirewallPolicyMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallPolicies = this.firewallPolicies;
+    final nextToken = this.nextToken;
+    return {
+      if (firewallPolicies != null) 'FirewallPolicies': firewallPolicies,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFirewallsResponse {
   /// The firewall metadata objects for the VPCs that you specified. Depending on
   /// your setting for max results and the number of firewalls you have, a single
   /// call might not be the full list.
-  @_s.JsonKey(name: 'Firewalls')
-  final List<FirewallMetadata> firewalls;
+  final List<FirewallMetadata>? firewalls;
 
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
   /// maximum you requested, Network Firewall returns a <code>NextToken</code>
   /// value in the response. To retrieve the next batch of objects, use the token
   /// returned from the prior request in your next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFirewallsResponse({
     this.firewalls,
     this.nextToken,
   });
-  factory ListFirewallsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFirewallsResponseFromJson(json);
+
+  factory ListFirewallsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFirewallsResponse(
+      firewalls: (json['Firewalls'] as List?)
+          ?.whereNotNull()
+          .map((e) => FirewallMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewalls = this.firewalls;
+    final nextToken = this.nextToken;
+    return {
+      if (firewalls != null) 'Firewalls': firewalls,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRuleGroupsResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
   /// maximum you requested, Network Firewall returns a <code>NextToken</code>
   /// value in the response. To retrieve the next batch of objects, use the token
   /// returned from the prior request in your next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The rule group metadata objects that you've defined. Depending on your
   /// setting for max results and the number of rule groups, this might not be the
   /// full list.
-  @_s.JsonKey(name: 'RuleGroups')
-  final List<RuleGroupMetadata> ruleGroups;
+  final List<RuleGroupMetadata>? ruleGroups;
 
   ListRuleGroupsResponse({
     this.nextToken,
     this.ruleGroups,
   });
-  factory ListRuleGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRuleGroupsResponseFromJson(json);
+
+  factory ListRuleGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRuleGroupsResponse(
+      nextToken: json['NextToken'] as String?,
+      ruleGroups: (json['RuleGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleGroupMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final ruleGroups = this.ruleGroups;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (ruleGroups != null) 'RuleGroups': ruleGroups,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// When you request a list of objects with a <code>MaxResults</code> setting,
   /// if the number of objects that are still available for retrieval exceeds the
   /// maximum you requested, Network Firewall returns a <code>NextToken</code>
   /// value in the response. To retrieve the next batch of objects, use the token
   /// returned from the prior request in your next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tags that are associated with the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Defines where AWS Network Firewall sends logs for the firewall for one log
@@ -4098,11 +4177,6 @@ class ListTagsForResourceResponse {
 /// network traffic that it receives. It records alert logs for traffic that
 /// matches stateful rules that have the rule action set to <code>DROP</code> or
 /// <code>ALERT</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogDestinationConfig {
   /// The named location for the logs, provided in a key:value mapping that is
   /// specific to the chosen destination type.
@@ -4132,77 +4206,137 @@ class LogDestinationConfig {
   /// <code>"LogDestination": { "deliveryStream": "alert-delivery-stream" }</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'LogDestination')
   final Map<String, String> logDestination;
 
   /// The type of storage destination to send these logs to. You can send logs to
   /// an Amazon S3 bucket, a CloudWatch log group, or a Kinesis Data Firehose
   /// delivery stream.
-  @_s.JsonKey(name: 'LogDestinationType')
   final LogDestinationType logDestinationType;
 
   /// The type of log to send. Alert logs report traffic that matches a
   /// <a>StatefulRule</a> with an action setting that sends an alert log message.
   /// Flow logs are standard network traffic flow logs.
-  @_s.JsonKey(name: 'LogType')
   final LogType logType;
 
   LogDestinationConfig({
-    @_s.required this.logDestination,
-    @_s.required this.logDestinationType,
-    @_s.required this.logType,
+    required this.logDestination,
+    required this.logDestinationType,
+    required this.logType,
   });
-  factory LogDestinationConfig.fromJson(Map<String, dynamic> json) =>
-      _$LogDestinationConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LogDestinationConfigToJson(this);
+  factory LogDestinationConfig.fromJson(Map<String, dynamic> json) {
+    return LogDestinationConfig(
+      logDestination: (json['LogDestination'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      logDestinationType:
+          (json['LogDestinationType'] as String).toLogDestinationType(),
+      logType: (json['LogType'] as String).toLogType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logDestination = this.logDestination;
+    final logDestinationType = this.logDestinationType;
+    final logType = this.logType;
+    return {
+      'LogDestination': logDestination,
+      'LogDestinationType': logDestinationType.toValue(),
+      'LogType': logType.toValue(),
+    };
+  }
 }
 
 enum LogDestinationType {
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('CloudWatchLogs')
   cloudWatchLogs,
-  @_s.JsonValue('KinesisDataFirehose')
   kinesisDataFirehose,
 }
 
+extension on LogDestinationType {
+  String toValue() {
+    switch (this) {
+      case LogDestinationType.s3:
+        return 'S3';
+      case LogDestinationType.cloudWatchLogs:
+        return 'CloudWatchLogs';
+      case LogDestinationType.kinesisDataFirehose:
+        return 'KinesisDataFirehose';
+    }
+  }
+}
+
+extension on String {
+  LogDestinationType toLogDestinationType() {
+    switch (this) {
+      case 'S3':
+        return LogDestinationType.s3;
+      case 'CloudWatchLogs':
+        return LogDestinationType.cloudWatchLogs;
+      case 'KinesisDataFirehose':
+        return LogDestinationType.kinesisDataFirehose;
+    }
+    throw Exception('$this is not known in enum LogDestinationType');
+  }
+}
+
 enum LogType {
-  @_s.JsonValue('ALERT')
   alert,
-  @_s.JsonValue('FLOW')
   flow,
 }
 
+extension on LogType {
+  String toValue() {
+    switch (this) {
+      case LogType.alert:
+        return 'ALERT';
+      case LogType.flow:
+        return 'FLOW';
+    }
+  }
+}
+
+extension on String {
+  LogType toLogType() {
+    switch (this) {
+      case 'ALERT':
+        return LogType.alert;
+      case 'FLOW':
+        return LogType.flow;
+    }
+    throw Exception('$this is not known in enum LogType');
+  }
+}
+
 /// Defines how AWS Network Firewall performs logging for a <a>Firewall</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggingConfiguration {
   /// Defines the logging destinations for the logs for a firewall. Network
   /// Firewall generates logs for stateful rule groups.
-  @_s.JsonKey(name: 'LogDestinationConfigs')
   final List<LogDestinationConfig> logDestinationConfigs;
 
   LoggingConfiguration({
-    @_s.required this.logDestinationConfigs,
+    required this.logDestinationConfigs,
   });
-  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LoggingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoggingConfigurationToJson(this);
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      logDestinationConfigs: (json['LogDestinationConfigs'] as List)
+          .whereNotNull()
+          .map((e) => LogDestinationConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logDestinationConfigs = this.logDestinationConfigs;
+    return {
+      'LogDestinationConfigs': logDestinationConfigs,
+    };
+  }
 }
 
 /// Criteria for Network Firewall to use to inspect an individual packet in
 /// stateless rule inspection. Each match attributes set can include one or more
 /// items such as IP address, CIDR range, port number, protocol, and TCP flags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MatchAttributes {
   /// The destination ports to inspect for. If not specified, this matches with
   /// any destination port. This setting is only used for protocols 6 (TCP) and 17
@@ -4210,37 +4344,31 @@ class MatchAttributes {
   ///
   /// You can specify individual ports, for example <code>1994</code> and you can
   /// specify port ranges, for example <code>1990-1994</code>.
-  @_s.JsonKey(name: 'DestinationPorts')
-  final List<PortRange> destinationPorts;
+  final List<PortRange>? destinationPorts;
 
   /// The destination IP addresses and address ranges to inspect for, in CIDR
   /// notation. If not specified, this matches with any destination address.
-  @_s.JsonKey(name: 'Destinations')
-  final List<Address> destinations;
+  final List<Address>? destinations;
 
   /// The protocols to inspect for, specified using each protocol's assigned
   /// internet protocol number (IANA). If not specified, this matches with any
   /// protocol.
-  @_s.JsonKey(name: 'Protocols')
-  final List<int> protocols;
+  final List<int>? protocols;
 
   /// The source ports to inspect for. If not specified, this matches with any
   /// source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).
   ///
   /// You can specify individual ports, for example <code>1994</code> and you can
   /// specify port ranges, for example <code>1990-1994</code>.
-  @_s.JsonKey(name: 'SourcePorts')
-  final List<PortRange> sourcePorts;
+  final List<PortRange>? sourcePorts;
 
   /// The source IP addresses and address ranges to inspect for, in CIDR notation.
   /// If not specified, this matches with any source address.
-  @_s.JsonKey(name: 'Sources')
-  final List<Address> sources;
+  final List<Address>? sources;
 
   /// The TCP flags and masks to inspect for. If not specified, this matches with
   /// any settings. This setting is only used for protocol 6 (TCP).
-  @_s.JsonKey(name: 'TCPFlags')
-  final List<TCPFlagField> tCPFlags;
+  final List<TCPFlagField>? tCPFlags;
 
   MatchAttributes({
     this.destinationPorts,
@@ -4250,135 +4378,251 @@ class MatchAttributes {
     this.sources,
     this.tCPFlags,
   });
-  factory MatchAttributes.fromJson(Map<String, dynamic> json) =>
-      _$MatchAttributesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MatchAttributesToJson(this);
+  factory MatchAttributes.fromJson(Map<String, dynamic> json) {
+    return MatchAttributes(
+      destinationPorts: (json['DestinationPorts'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      destinations: (json['Destinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      protocols: (json['Protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      sourcePorts: (json['SourcePorts'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sources: (json['Sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tCPFlags: (json['TCPFlags'] as List?)
+          ?.whereNotNull()
+          .map((e) => TCPFlagField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationPorts = this.destinationPorts;
+    final destinations = this.destinations;
+    final protocols = this.protocols;
+    final sourcePorts = this.sourcePorts;
+    final sources = this.sources;
+    final tCPFlags = this.tCPFlags;
+    return {
+      if (destinationPorts != null) 'DestinationPorts': destinationPorts,
+      if (destinations != null) 'Destinations': destinations,
+      if (protocols != null) 'Protocols': protocols,
+      if (sourcePorts != null) 'SourcePorts': sourcePorts,
+      if (sources != null) 'Sources': sources,
+      if (tCPFlags != null) 'TCPFlags': tCPFlags,
+    };
+  }
 }
 
-/// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Provides configuration status for a single policy or rule group that is used
+/// for a firewall endpoint. Network Firewall provides each endpoint with the
+/// rules that are configured in the firewall policy. Each time you add a subnet
+/// or modify the associated firewall policy, Network Firewall synchronizes the
+/// rules in the endpoint, so it can properly filter network traffic. This is
+/// part of a <a>SyncState</a> for a firewall.
 class PerObjectStatus {
-  /// <p/>
-  @_s.JsonKey(name: 'SyncStatus')
-  final PerObjectSyncStatus syncStatus;
+  /// Indicates whether this object is in sync with the version indicated in the
+  /// update token.
+  final PerObjectSyncStatus? syncStatus;
+
+  /// The current version of the object that is either in sync or pending
+  /// synchronization.
+  final String? updateToken;
 
   PerObjectStatus({
     this.syncStatus,
+    this.updateToken,
   });
-  factory PerObjectStatus.fromJson(Map<String, dynamic> json) =>
-      _$PerObjectStatusFromJson(json);
+
+  factory PerObjectStatus.fromJson(Map<String, dynamic> json) {
+    return PerObjectStatus(
+      syncStatus: (json['SyncStatus'] as String?)?.toPerObjectSyncStatus(),
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final syncStatus = this.syncStatus;
+    final updateToken = this.updateToken;
+    return {
+      if (syncStatus != null) 'SyncStatus': syncStatus.toValue(),
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
 enum PerObjectSyncStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('IN_SYNC')
   inSync,
+}
+
+extension on PerObjectSyncStatus {
+  String toValue() {
+    switch (this) {
+      case PerObjectSyncStatus.pending:
+        return 'PENDING';
+      case PerObjectSyncStatus.inSync:
+        return 'IN_SYNC';
+    }
+  }
+}
+
+extension on String {
+  PerObjectSyncStatus toPerObjectSyncStatus() {
+    switch (this) {
+      case 'PENDING':
+        return PerObjectSyncStatus.pending;
+      case 'IN_SYNC':
+        return PerObjectSyncStatus.inSync;
+    }
+    throw Exception('$this is not known in enum PerObjectSyncStatus');
+  }
 }
 
 /// A single port range specification. This is used for source and destination
 /// port ranges in the stateless rule <a>MatchAttributes</a>,
 /// <code>SourcePorts</code>, and <code>DestinationPorts</code> settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortRange {
   /// The lower limit of the port range. This must be less than or equal to the
   /// <code>ToPort</code> specification.
-  @_s.JsonKey(name: 'FromPort')
   final int fromPort;
 
   /// The upper limit of the port range. This must be greater than or equal to the
   /// <code>FromPort</code> specification.
-  @_s.JsonKey(name: 'ToPort')
   final int toPort;
 
   PortRange({
-    @_s.required this.fromPort,
-    @_s.required this.toPort,
+    required this.fromPort,
+    required this.toPort,
   });
-  factory PortRange.fromJson(Map<String, dynamic> json) =>
-      _$PortRangeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PortRangeToJson(this);
+  factory PortRange.fromJson(Map<String, dynamic> json) {
+    return PortRange(
+      fromPort: json['FromPort'] as int,
+      toPort: json['ToPort'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fromPort = this.fromPort;
+    final toPort = this.toPort;
+    return {
+      'FromPort': fromPort,
+      'ToPort': toPort,
+    };
+  }
 }
 
 /// A set of port ranges for use in the rules in a rule group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortSet {
   /// The set of port ranges.
-  @_s.JsonKey(name: 'Definition')
-  final List<String> definition;
+  final List<String>? definition;
 
   PortSet({
     this.definition,
   });
-  factory PortSet.fromJson(Map<String, dynamic> json) =>
-      _$PortSetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PortSetToJson(this);
+  factory PortSet.fromJson(Map<String, dynamic> json) {
+    return PortSet(
+      definition: (json['Definition'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    return {
+      if (definition != null) 'Definition': definition,
+    };
+  }
 }
 
 /// Stateless inspection criteria that publishes the specified metrics to Amazon
 /// CloudWatch for the matching packet. This setting defines a CloudWatch
 /// dimension value to be published.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PublishMetricAction {
   /// <p/>
-  @_s.JsonKey(name: 'Dimensions')
   final List<Dimension> dimensions;
 
   PublishMetricAction({
-    @_s.required this.dimensions,
+    required this.dimensions,
   });
-  factory PublishMetricAction.fromJson(Map<String, dynamic> json) =>
-      _$PublishMetricActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PublishMetricActionToJson(this);
+  factory PublishMetricAction.fromJson(Map<String, dynamic> json) {
+    return PublishMetricAction(
+      dimensions: (json['Dimensions'] as List)
+          .whereNotNull()
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    return {
+      'Dimensions': dimensions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResourcePolicyResponse {
   PutResourcePolicyResponse();
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutResourcePolicyResponseFromJson(json);
+
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutResourcePolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum ResourceStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on ResourceStatus {
+  String toValue() {
+    switch (this) {
+      case ResourceStatus.active:
+        return 'ACTIVE';
+      case ResourceStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ResourceStatus toResourceStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return ResourceStatus.active;
+      case 'DELETING':
+        return ResourceStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ResourceStatus');
+  }
 }
 
 /// The inspection criteria and action for a single stateless rule. AWS Network
 /// Firewall inspects each packet for the specified matching criteria. When a
 /// packet matches the criteria, Network Firewall performs the rule's actions on
 /// the packet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RuleDefinition {
   /// The actions to take on a packet that matches one of the stateless rule
   /// definition's match attributes. You must specify a standard action and you
@@ -4417,23 +4661,37 @@ class RuleDefinition {
   /// action that you've named <code>MyMetricsAction</code>, then you could
   /// specify the standard action <code>aws:pass</code> and the custom action with
   /// <code>[“aws:pass”, “MyMetricsAction”]</code>.
-  @_s.JsonKey(name: 'Actions')
   final List<String> actions;
 
   /// Criteria for Network Firewall to use to inspect an individual packet in
   /// stateless rule inspection. Each match attributes set can include one or more
   /// items such as IP address, CIDR range, port number, protocol, and TCP flags.
-  @_s.JsonKey(name: 'MatchAttributes')
   final MatchAttributes matchAttributes;
 
   RuleDefinition({
-    @_s.required this.actions,
-    @_s.required this.matchAttributes,
+    required this.actions,
+    required this.matchAttributes,
   });
-  factory RuleDefinition.fromJson(Map<String, dynamic> json) =>
-      _$RuleDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RuleDefinitionToJson(this);
+  factory RuleDefinition.fromJson(Map<String, dynamic> json) {
+    return RuleDefinition(
+      actions: (json['Actions'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      matchAttributes: MatchAttributes.fromJson(
+          json['MatchAttributes'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final matchAttributes = this.matchAttributes;
+    return {
+      'Actions': actions,
+      'MatchAttributes': matchAttributes,
+    };
+  }
 }
 
 /// The object that defines the rules in a rule group. This, along with
@@ -4449,65 +4707,76 @@ class RuleDefinition {
 /// firewall policy, then you use the policy in a firewall. You can reference a
 /// rule group from more than one firewall policy, and you can use a firewall
 /// policy in more than one firewall.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RuleGroup {
   /// The stateful rules or stateless rules for the rule group.
-  @_s.JsonKey(name: 'RulesSource')
   final RulesSource rulesSource;
 
   /// Settings that are available for use in the rules in the rule group. You can
   /// only use these for stateful rule groups.
-  @_s.JsonKey(name: 'RuleVariables')
-  final RuleVariables ruleVariables;
+  final RuleVariables? ruleVariables;
 
   RuleGroup({
-    @_s.required this.rulesSource,
+    required this.rulesSource,
     this.ruleVariables,
   });
-  factory RuleGroup.fromJson(Map<String, dynamic> json) =>
-      _$RuleGroupFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RuleGroupToJson(this);
+  factory RuleGroup.fromJson(Map<String, dynamic> json) {
+    return RuleGroup(
+      rulesSource:
+          RulesSource.fromJson(json['RulesSource'] as Map<String, dynamic>),
+      ruleVariables: json['RuleVariables'] != null
+          ? RuleVariables.fromJson(
+              json['RuleVariables'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rulesSource = this.rulesSource;
+    final ruleVariables = this.ruleVariables;
+    return {
+      'RulesSource': rulesSource,
+      if (ruleVariables != null) 'RuleVariables': ruleVariables,
+    };
+  }
 }
 
 /// High-level information about a rule group, returned by
 /// <a>ListRuleGroups</a>. You can use the information provided in the metadata
 /// to retrieve and manage a rule group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuleGroupMetadata {
   /// The Amazon Resource Name (ARN) of the rule group.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The descriptive name of the rule group. You can't change the name of a rule
   /// group after you create it.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   RuleGroupMetadata({
     this.arn,
     this.name,
   });
-  factory RuleGroupMetadata.fromJson(Map<String, dynamic> json) =>
-      _$RuleGroupMetadataFromJson(json);
+
+  factory RuleGroupMetadata.fromJson(Map<String, dynamic> json) {
+    return RuleGroupMetadata(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// The high-level properties of a rule group. This, along with the
 /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
 /// rule group by calling <a>DescribeRuleGroup</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuleGroupResponse {
   /// The Amazon Resource Name (ARN) of the rule group.
   /// <note>
@@ -4515,16 +4784,13 @@ class RuleGroupResponse {
   /// <code>TRUE</code>, then this ARN is a placeholder that isn't attached to a
   /// valid resource.
   /// </note>
-  @_s.JsonKey(name: 'RuleGroupArn')
   final String ruleGroupArn;
 
   /// The unique identifier for the rule group.
-  @_s.JsonKey(name: 'RuleGroupId')
   final String ruleGroupId;
 
   /// The descriptive name of the rule group. You can't change the name of a rule
   /// group after you create it.
-  @_s.JsonKey(name: 'RuleGroupName')
   final String ruleGroupName;
 
   /// The maximum operating resources that this rule group can use. Rule group
@@ -4535,45 +4801,73 @@ class RuleGroupResponse {
   /// You can retrieve the capacity that would be required for a rule group before
   /// you create the rule group by calling <a>CreateRuleGroup</a> with
   /// <code>DryRun</code> set to <code>TRUE</code>.
-  @_s.JsonKey(name: 'Capacity')
-  final int capacity;
+  final int? capacity;
 
   /// A description of the rule group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Detailed information about the current status of a rule group.
-  @_s.JsonKey(name: 'RuleGroupStatus')
-  final ResourceStatus ruleGroupStatus;
+  final ResourceStatus? ruleGroupStatus;
 
   /// The key:value pairs to associate with the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// Indicates whether the rule group is stateless or stateful. If the rule group
   /// is stateless, it contains stateless rules. If it is stateful, it contains
   /// stateful rules.
-  @_s.JsonKey(name: 'Type')
-  final RuleGroupType type;
+  final RuleGroupType? type;
 
   RuleGroupResponse({
-    @_s.required this.ruleGroupArn,
-    @_s.required this.ruleGroupId,
-    @_s.required this.ruleGroupName,
+    required this.ruleGroupArn,
+    required this.ruleGroupId,
+    required this.ruleGroupName,
     this.capacity,
     this.description,
     this.ruleGroupStatus,
     this.tags,
     this.type,
   });
-  factory RuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$RuleGroupResponseFromJson(json);
+
+  factory RuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return RuleGroupResponse(
+      ruleGroupArn: json['RuleGroupArn'] as String,
+      ruleGroupId: json['RuleGroupId'] as String,
+      ruleGroupName: json['RuleGroupName'] as String,
+      capacity: json['Capacity'] as int?,
+      description: json['Description'] as String?,
+      ruleGroupStatus: (json['RuleGroupStatus'] as String?)?.toResourceStatus(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toRuleGroupType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleGroupArn = this.ruleGroupArn;
+    final ruleGroupId = this.ruleGroupId;
+    final ruleGroupName = this.ruleGroupName;
+    final capacity = this.capacity;
+    final description = this.description;
+    final ruleGroupStatus = this.ruleGroupStatus;
+    final tags = this.tags;
+    final type = this.type;
+    return {
+      'RuleGroupArn': ruleGroupArn,
+      'RuleGroupId': ruleGroupId,
+      'RuleGroupName': ruleGroupName,
+      if (capacity != null) 'Capacity': capacity,
+      if (description != null) 'Description': description,
+      if (ruleGroupStatus != null) 'RuleGroupStatus': ruleGroupStatus.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum RuleGroupType {
-  @_s.JsonValue('STATELESS')
   stateless,
-  @_s.JsonValue('STATEFUL')
   stateful,
 }
 
@@ -4585,74 +4879,94 @@ extension on RuleGroupType {
       case RuleGroupType.stateful:
         return 'STATEFUL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RuleGroupType toRuleGroupType() {
+    switch (this) {
+      case 'STATELESS':
+        return RuleGroupType.stateless;
+      case 'STATEFUL':
+        return RuleGroupType.stateful;
+    }
+    throw Exception('$this is not known in enum RuleGroupType');
   }
 }
 
 /// Additional settings for a stateful rule. This is part of the
 /// <a>StatefulRule</a> configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RuleOption {
   /// <p/>
-  @_s.JsonKey(name: 'Keyword')
   final String keyword;
 
   /// <p/>
-  @_s.JsonKey(name: 'Settings')
-  final List<String> settings;
+  final List<String>? settings;
 
   RuleOption({
-    @_s.required this.keyword,
+    required this.keyword,
     this.settings,
   });
-  factory RuleOption.fromJson(Map<String, dynamic> json) =>
-      _$RuleOptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RuleOptionToJson(this);
+  factory RuleOption.fromJson(Map<String, dynamic> json) {
+    return RuleOption(
+      keyword: json['Keyword'] as String,
+      settings: (json['Settings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyword = this.keyword;
+    final settings = this.settings;
+    return {
+      'Keyword': keyword,
+      if (settings != null) 'Settings': settings,
+    };
+  }
 }
 
 /// Settings that are available for use in the rules in the <a>RuleGroup</a>
 /// where this is defined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RuleVariables {
   /// A list of IP addresses and address ranges, in CIDR notation.
-  @_s.JsonKey(name: 'IPSets')
-  final Map<String, IPSet> iPSets;
+  final Map<String, IPSet>? iPSets;
 
   /// A list of port ranges.
-  @_s.JsonKey(name: 'PortSets')
-  final Map<String, PortSet> portSets;
+  final Map<String, PortSet>? portSets;
 
   RuleVariables({
     this.iPSets,
     this.portSets,
   });
-  factory RuleVariables.fromJson(Map<String, dynamic> json) =>
-      _$RuleVariablesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RuleVariablesToJson(this);
+  factory RuleVariables.fromJson(Map<String, dynamic> json) {
+    return RuleVariables(
+      iPSets: (json['IPSets'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, IPSet.fromJson(e as Map<String, dynamic>))),
+      portSets: (json['PortSets'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, PortSet.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPSets = this.iPSets;
+    final portSets = this.portSets;
+    return {
+      if (iPSets != null) 'IPSets': iPSets,
+      if (portSets != null) 'PortSets': portSets,
+    };
+  }
 }
 
 /// The stateless or stateful rules definitions for use in a single rule group.
 /// Each rule group requires a single <code>RulesSource</code>. You can use an
 /// instance of this for either stateless rules or stateful rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RulesSource {
   /// Stateful inspection criteria for a domain list rule group.
-  @_s.JsonKey(name: 'RulesSourceList')
-  final RulesSourceList rulesSourceList;
+  final RulesSourceList? rulesSourceList;
 
   /// Stateful inspection criteria, provided in Suricata compatible intrusion
   /// prevention system (IPS) rules. Suricata is an open-source network IPS that
@@ -4661,24 +4975,15 @@ class RulesSource {
   /// These rules contain the inspection criteria and the action to take for
   /// traffic that matches the criteria, so this type of rule group doesn't have a
   /// separate action setting.
-  ///
-  /// You can provide the rules from a file that you've stored in an Amazon S3
-  /// bucket, or by providing the rules in a Suricata rules string. To import from
-  /// Amazon S3, provide the fully qualified name of the file that contains the
-  /// rules definitions. To provide a Suricata rule string, provide the complete,
-  /// Suricata compatible rule.
-  @_s.JsonKey(name: 'RulesString')
-  final String rulesString;
+  final String? rulesString;
 
   /// The 5-tuple stateful inspection criteria. This contains an array of
   /// individual 5-tuple stateful rules to be used together in a stateful rule
   /// group.
-  @_s.JsonKey(name: 'StatefulRules')
-  final List<StatefulRule> statefulRules;
+  final List<StatefulRule>? statefulRules;
 
   /// Stateless inspection criteria to be used in a stateless rule group.
-  @_s.JsonKey(name: 'StatelessRulesAndCustomActions')
-  final StatelessRulesAndCustomActions statelessRulesAndCustomActions;
+  final StatelessRulesAndCustomActions? statelessRulesAndCustomActions;
 
   RulesSource({
     this.rulesSourceList,
@@ -4686,58 +4991,150 @@ class RulesSource {
     this.statefulRules,
     this.statelessRulesAndCustomActions,
   });
-  factory RulesSource.fromJson(Map<String, dynamic> json) =>
-      _$RulesSourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RulesSourceToJson(this);
+  factory RulesSource.fromJson(Map<String, dynamic> json) {
+    return RulesSource(
+      rulesSourceList: json['RulesSourceList'] != null
+          ? RulesSourceList.fromJson(
+              json['RulesSourceList'] as Map<String, dynamic>)
+          : null,
+      rulesString: json['RulesString'] as String?,
+      statefulRules: (json['StatefulRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => StatefulRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      statelessRulesAndCustomActions: json['StatelessRulesAndCustomActions'] !=
+              null
+          ? StatelessRulesAndCustomActions.fromJson(
+              json['StatelessRulesAndCustomActions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rulesSourceList = this.rulesSourceList;
+    final rulesString = this.rulesString;
+    final statefulRules = this.statefulRules;
+    final statelessRulesAndCustomActions = this.statelessRulesAndCustomActions;
+    return {
+      if (rulesSourceList != null) 'RulesSourceList': rulesSourceList,
+      if (rulesString != null) 'RulesString': rulesString,
+      if (statefulRules != null) 'StatefulRules': statefulRules,
+      if (statelessRulesAndCustomActions != null)
+        'StatelessRulesAndCustomActions': statelessRulesAndCustomActions,
+    };
+  }
 }
 
 /// Stateful inspection criteria for a domain list rule group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+///
+/// For HTTPS traffic, domain filtering is SNI-based. It uses the server name
+/// indicator extension of the TLS handshake.
+///
+/// By default, Network Firewall domain list inspection only includes traffic
+/// coming from the VPC where you deploy the firewall. To inspect traffic from
+/// IP addresses outside of the deployment VPC, you set the
+/// <code>HOME_NET</code> rule variable to include the CIDR range of the
+/// deployment VPC plus the other CIDR ranges. For more information, see
+/// <a>RuleVariables</a> in this guide and <a
+/// href="https://docs.aws.amazon.com/network-firewall/latest/developerguide/stateful-rule-groups-domain-names.html">Stateful
+/// domain list rule groups in AWS Network Firewall</a> in the <i>Network
+/// Firewall Developer Guide</i>
 class RulesSourceList {
   /// Whether you want to allow or deny access to the domains in your target list.
-  @_s.JsonKey(name: 'GeneratedRulesType')
   final GeneratedRulesType generatedRulesType;
 
-  /// <p/>
-  @_s.JsonKey(name: 'TargetTypes')
+  /// The protocols you want to inspect. Specify <code>TLS_SNI</code> for
+  /// <code>HTTPS</code>. Specity <code>HTTP_HOST</code> for <code>HTTP</code>.
+  /// You can specify either or both.
   final List<TargetType> targetTypes;
 
   /// The domains that you want to inspect for in your traffic flows. To provide
-  /// multiple domains, separate them with commas.
-  @_s.JsonKey(name: 'Targets')
+  /// multiple domains, separate them with commas. Valid domain specifications are
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Explicit names. For example, <code>abc.example.com</code> matches only the
+  /// domain <code>abc.example.com</code>.
+  /// </li>
+  /// <li>
+  /// Names that use a domain wildcard, which you indicate with an initial
+  /// '<code>.</code>'. For example,<code>.example.com</code> matches
+  /// <code>example.com</code> and matches all subdomains of
+  /// <code>example.com</code>, such as <code>abc.example.com</code> and
+  /// <code>www.example.com</code>.
+  /// </li>
+  /// </ul>
   final List<String> targets;
 
   RulesSourceList({
-    @_s.required this.generatedRulesType,
-    @_s.required this.targetTypes,
-    @_s.required this.targets,
+    required this.generatedRulesType,
+    required this.targetTypes,
+    required this.targets,
   });
-  factory RulesSourceList.fromJson(Map<String, dynamic> json) =>
-      _$RulesSourceListFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RulesSourceListToJson(this);
+  factory RulesSourceList.fromJson(Map<String, dynamic> json) {
+    return RulesSourceList(
+      generatedRulesType:
+          (json['GeneratedRulesType'] as String).toGeneratedRulesType(),
+      targetTypes: (json['TargetTypes'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toTargetType())
+          .toList(),
+      targets: (json['Targets'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final generatedRulesType = this.generatedRulesType;
+    final targetTypes = this.targetTypes;
+    final targets = this.targets;
+    return {
+      'GeneratedRulesType': generatedRulesType.toValue(),
+      'TargetTypes': targetTypes.map((e) => e.toValue()).toList(),
+      'Targets': targets,
+    };
+  }
 }
 
 enum StatefulAction {
-  @_s.JsonValue('PASS')
   pass,
-  @_s.JsonValue('DROP')
   drop,
-  @_s.JsonValue('ALERT')
   alert,
 }
 
+extension on StatefulAction {
+  String toValue() {
+    switch (this) {
+      case StatefulAction.pass:
+        return 'PASS';
+      case StatefulAction.drop:
+        return 'DROP';
+      case StatefulAction.alert:
+        return 'ALERT';
+    }
+  }
+}
+
+extension on String {
+  StatefulAction toStatefulAction() {
+    switch (this) {
+      case 'PASS':
+        return StatefulAction.pass;
+      case 'DROP':
+        return StatefulAction.drop;
+      case 'ALERT':
+        return StatefulAction.alert;
+    }
+    throw Exception('$this is not known in enum StatefulAction');
+  }
+}
+
 /// A single 5-tuple stateful rule, for use in a stateful rule group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StatefulRule {
   /// Defines what Network Firewall should do with the packets in a traffic flow
   /// when the flow matches the stateful rule criteria. For all actions, Network
@@ -4766,105 +5163,211 @@ class StatefulRule {
   /// <code>DROP</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Action')
   final StatefulAction action;
 
   /// The stateful 5-tuple inspection criteria for this rule, used to inspect
   /// traffic flows.
-  @_s.JsonKey(name: 'Header')
   final Header header;
 
   /// <p/>
-  @_s.JsonKey(name: 'RuleOptions')
   final List<RuleOption> ruleOptions;
 
   StatefulRule({
-    @_s.required this.action,
-    @_s.required this.header,
-    @_s.required this.ruleOptions,
+    required this.action,
+    required this.header,
+    required this.ruleOptions,
   });
-  factory StatefulRule.fromJson(Map<String, dynamic> json) =>
-      _$StatefulRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StatefulRuleToJson(this);
+  factory StatefulRule.fromJson(Map<String, dynamic> json) {
+    return StatefulRule(
+      action: (json['Action'] as String).toStatefulAction(),
+      header: Header.fromJson(json['Header'] as Map<String, dynamic>),
+      ruleOptions: (json['RuleOptions'] as List)
+          .whereNotNull()
+          .map((e) => RuleOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final header = this.header;
+    final ruleOptions = this.ruleOptions;
+    return {
+      'Action': action.toValue(),
+      'Header': header,
+      'RuleOptions': ruleOptions,
+    };
+  }
 }
 
 enum StatefulRuleDirection {
-  @_s.JsonValue('FORWARD')
   forward,
-  @_s.JsonValue('ANY')
   any,
+}
+
+extension on StatefulRuleDirection {
+  String toValue() {
+    switch (this) {
+      case StatefulRuleDirection.forward:
+        return 'FORWARD';
+      case StatefulRuleDirection.any:
+        return 'ANY';
+    }
+  }
+}
+
+extension on String {
+  StatefulRuleDirection toStatefulRuleDirection() {
+    switch (this) {
+      case 'FORWARD':
+        return StatefulRuleDirection.forward;
+      case 'ANY':
+        return StatefulRuleDirection.any;
+    }
+    throw Exception('$this is not known in enum StatefulRuleDirection');
+  }
 }
 
 /// Identifier for a single stateful rule group, used in a firewall policy to
 /// refer to a rule group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StatefulRuleGroupReference {
   /// The Amazon Resource Name (ARN) of the stateful rule group.
-  @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
   StatefulRuleGroupReference({
-    @_s.required this.resourceArn,
+    required this.resourceArn,
   });
-  factory StatefulRuleGroupReference.fromJson(Map<String, dynamic> json) =>
-      _$StatefulRuleGroupReferenceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StatefulRuleGroupReferenceToJson(this);
+  factory StatefulRuleGroupReference.fromJson(Map<String, dynamic> json) {
+    return StatefulRuleGroupReference(
+      resourceArn: json['ResourceArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    return {
+      'ResourceArn': resourceArn,
+    };
+  }
 }
 
 enum StatefulRuleProtocol {
-  @_s.JsonValue('IP')
   ip,
-  @_s.JsonValue('TCP')
   tcp,
-  @_s.JsonValue('UDP')
   udp,
-  @_s.JsonValue('ICMP')
   icmp,
-  @_s.JsonValue('HTTP')
   http,
-  @_s.JsonValue('FTP')
   ftp,
-  @_s.JsonValue('TLS')
   tls,
-  @_s.JsonValue('SMB')
   smb,
-  @_s.JsonValue('DNS')
   dns,
-  @_s.JsonValue('DCERPC')
   dcerpc,
-  @_s.JsonValue('SSH')
   ssh,
-  @_s.JsonValue('SMTP')
   smtp,
-  @_s.JsonValue('IMAP')
   imap,
-  @_s.JsonValue('MSN')
   msn,
-  @_s.JsonValue('KRB5')
   krb5,
-  @_s.JsonValue('IKEV2')
   ikev2,
-  @_s.JsonValue('TFTP')
   tftp,
-  @_s.JsonValue('NTP')
   ntp,
-  @_s.JsonValue('DHCP')
   dhcp,
+}
+
+extension on StatefulRuleProtocol {
+  String toValue() {
+    switch (this) {
+      case StatefulRuleProtocol.ip:
+        return 'IP';
+      case StatefulRuleProtocol.tcp:
+        return 'TCP';
+      case StatefulRuleProtocol.udp:
+        return 'UDP';
+      case StatefulRuleProtocol.icmp:
+        return 'ICMP';
+      case StatefulRuleProtocol.http:
+        return 'HTTP';
+      case StatefulRuleProtocol.ftp:
+        return 'FTP';
+      case StatefulRuleProtocol.tls:
+        return 'TLS';
+      case StatefulRuleProtocol.smb:
+        return 'SMB';
+      case StatefulRuleProtocol.dns:
+        return 'DNS';
+      case StatefulRuleProtocol.dcerpc:
+        return 'DCERPC';
+      case StatefulRuleProtocol.ssh:
+        return 'SSH';
+      case StatefulRuleProtocol.smtp:
+        return 'SMTP';
+      case StatefulRuleProtocol.imap:
+        return 'IMAP';
+      case StatefulRuleProtocol.msn:
+        return 'MSN';
+      case StatefulRuleProtocol.krb5:
+        return 'KRB5';
+      case StatefulRuleProtocol.ikev2:
+        return 'IKEV2';
+      case StatefulRuleProtocol.tftp:
+        return 'TFTP';
+      case StatefulRuleProtocol.ntp:
+        return 'NTP';
+      case StatefulRuleProtocol.dhcp:
+        return 'DHCP';
+    }
+  }
+}
+
+extension on String {
+  StatefulRuleProtocol toStatefulRuleProtocol() {
+    switch (this) {
+      case 'IP':
+        return StatefulRuleProtocol.ip;
+      case 'TCP':
+        return StatefulRuleProtocol.tcp;
+      case 'UDP':
+        return StatefulRuleProtocol.udp;
+      case 'ICMP':
+        return StatefulRuleProtocol.icmp;
+      case 'HTTP':
+        return StatefulRuleProtocol.http;
+      case 'FTP':
+        return StatefulRuleProtocol.ftp;
+      case 'TLS':
+        return StatefulRuleProtocol.tls;
+      case 'SMB':
+        return StatefulRuleProtocol.smb;
+      case 'DNS':
+        return StatefulRuleProtocol.dns;
+      case 'DCERPC':
+        return StatefulRuleProtocol.dcerpc;
+      case 'SSH':
+        return StatefulRuleProtocol.ssh;
+      case 'SMTP':
+        return StatefulRuleProtocol.smtp;
+      case 'IMAP':
+        return StatefulRuleProtocol.imap;
+      case 'MSN':
+        return StatefulRuleProtocol.msn;
+      case 'KRB5':
+        return StatefulRuleProtocol.krb5;
+      case 'IKEV2':
+        return StatefulRuleProtocol.ikev2;
+      case 'TFTP':
+        return StatefulRuleProtocol.tftp;
+      case 'NTP':
+        return StatefulRuleProtocol.ntp;
+      case 'DHCP':
+        return StatefulRuleProtocol.dhcp;
+    }
+    throw Exception('$this is not known in enum StatefulRuleProtocol');
+  }
 }
 
 /// A single stateless rule. This is used in
 /// <a>StatelessRulesAndCustomActions</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StatelessRule {
   /// A setting that indicates the order in which to run this rule relative to all
   /// of the rules that are defined for a stateless rule group. Network Firewall
@@ -4882,64 +5385,74 @@ class StatelessRule {
   /// You can change the priority settings of your rules at any time. To make it
   /// easier to insert rules later, number them so there's a wide range in
   /// between, for example use 100, 200, and so on.
-  @_s.JsonKey(name: 'Priority')
   final int priority;
 
   /// Defines the stateless 5-tuple packet inspection criteria and the action to
   /// take on a packet that matches the criteria.
-  @_s.JsonKey(name: 'RuleDefinition')
   final RuleDefinition ruleDefinition;
 
   StatelessRule({
-    @_s.required this.priority,
-    @_s.required this.ruleDefinition,
+    required this.priority,
+    required this.ruleDefinition,
   });
-  factory StatelessRule.fromJson(Map<String, dynamic> json) =>
-      _$StatelessRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StatelessRuleToJson(this);
+  factory StatelessRule.fromJson(Map<String, dynamic> json) {
+    return StatelessRule(
+      priority: json['Priority'] as int,
+      ruleDefinition: RuleDefinition.fromJson(
+          json['RuleDefinition'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final ruleDefinition = this.ruleDefinition;
+    return {
+      'Priority': priority,
+      'RuleDefinition': ruleDefinition,
+    };
+  }
 }
 
 /// Identifier for a single stateless rule group, used in a firewall policy to
 /// refer to the rule group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StatelessRuleGroupReference {
   /// An integer setting that indicates the order in which to run the stateless
   /// rule groups in a single <a>FirewallPolicy</a>. Network Firewall applies each
   /// stateless rule group to a packet starting with the group that has the lowest
   /// priority setting. You must ensure that the priority settings are unique
   /// within each policy.
-  @_s.JsonKey(name: 'Priority')
   final int priority;
 
   /// The Amazon Resource Name (ARN) of the stateless rule group.
-  @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
   StatelessRuleGroupReference({
-    @_s.required this.priority,
-    @_s.required this.resourceArn,
+    required this.priority,
+    required this.resourceArn,
   });
-  factory StatelessRuleGroupReference.fromJson(Map<String, dynamic> json) =>
-      _$StatelessRuleGroupReferenceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StatelessRuleGroupReferenceToJson(this);
+  factory StatelessRuleGroupReference.fromJson(Map<String, dynamic> json) {
+    return StatelessRuleGroupReference(
+      priority: json['Priority'] as int,
+      resourceArn: json['ResourceArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final resourceArn = this.resourceArn;
+    return {
+      'Priority': priority,
+      'ResourceArn': resourceArn,
+    };
+  }
 }
 
 /// Stateless inspection criteria. Each stateless rule group uses exactly one of
 /// these data types to define its stateless rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StatelessRulesAndCustomActions {
   /// Defines the set of stateless rules for use in a stateless rule group.
-  @_s.JsonKey(name: 'StatelessRules')
   final List<StatelessRule> statelessRules;
 
   /// Defines an array of individual custom action definitions that are available
@@ -4948,40 +5461,60 @@ class StatelessRulesAndCustomActions {
   /// custom action that you define, and then you can use it by name in your
   /// <a>StatelessRule</a> <a>RuleDefinition</a> <code>Actions</code>
   /// specification.
-  @_s.JsonKey(name: 'CustomActions')
-  final List<CustomAction> customActions;
+  final List<CustomAction>? customActions;
 
   StatelessRulesAndCustomActions({
-    @_s.required this.statelessRules,
+    required this.statelessRules,
     this.customActions,
   });
-  factory StatelessRulesAndCustomActions.fromJson(Map<String, dynamic> json) =>
-      _$StatelessRulesAndCustomActionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StatelessRulesAndCustomActionsToJson(this);
+  factory StatelessRulesAndCustomActions.fromJson(Map<String, dynamic> json) {
+    return StatelessRulesAndCustomActions(
+      statelessRules: (json['StatelessRules'] as List)
+          .whereNotNull()
+          .map((e) => StatelessRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customActions: (json['CustomActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statelessRules = this.statelessRules;
+    final customActions = this.customActions;
+    return {
+      'StatelessRules': statelessRules,
+      if (customActions != null) 'CustomActions': customActions,
+    };
+  }
 }
 
 /// The ID for a subnet that you want to associate with the firewall. This is
 /// used with <a>CreateFirewall</a> and <a>AssociateSubnets</a>. AWS Network
 /// Firewall creates an instance of the associated firewall in each subnet that
 /// you specify, to filter traffic in the subnet's Availability Zone.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SubnetMapping {
   /// The unique identifier for the subnet.
-  @_s.JsonKey(name: 'SubnetId')
   final String subnetId;
 
   SubnetMapping({
-    @_s.required this.subnetId,
+    required this.subnetId,
   });
-  factory SubnetMapping.fromJson(Map<String, dynamic> json) =>
-      _$SubnetMappingFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SubnetMappingToJson(this);
+  factory SubnetMapping.fromJson(Map<String, dynamic> json) {
+    return SubnetMapping(
+      subnetId: json['SubnetId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetId = this.subnetId;
+    return {
+      'SubnetId': subnetId,
+    };
+  }
 }
 
 /// The status of the firewall endpoint and firewall policy configuration for a
@@ -5002,18 +5535,12 @@ class SubnetMapping {
 /// When you update a firewall, for example to add a subnet association or
 /// change a rule group in the firewall policy, the affected sync states reflect
 /// out-of-sync or not ready status until the changes are complete.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SyncState {
   /// The attachment status of the firewall's association with a single VPC
   /// subnet. For each configured subnet, Network Firewall creates the attachment
   /// by instantiating the firewall endpoint in the subnet so that it's ready to
   /// take traffic. This is part of the <a>FirewallStatus</a>.
-  @_s.JsonKey(name: 'Attachment')
-  final Attachment attachment;
+  final Attachment? attachment;
 
   /// The configuration status of the firewall endpoint in a single VPC subnet.
   /// Network Firewall provides each endpoint with the rules that are configured
@@ -5021,43 +5548,93 @@ class SyncState {
   /// firewall policy, Network Firewall synchronizes the rules in the endpoint, so
   /// it can properly filter network traffic. This is part of the
   /// <a>FirewallStatus</a>.
-  @_s.JsonKey(name: 'Config')
-  final Map<String, PerObjectStatus> config;
+  final Map<String, PerObjectStatus>? config;
 
   SyncState({
     this.attachment,
     this.config,
   });
-  factory SyncState.fromJson(Map<String, dynamic> json) =>
-      _$SyncStateFromJson(json);
+
+  factory SyncState.fromJson(Map<String, dynamic> json) {
+    return SyncState(
+      attachment: json['Attachment'] != null
+          ? Attachment.fromJson(json['Attachment'] as Map<String, dynamic>)
+          : null,
+      config: (json['Config'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, PerObjectStatus.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    final config = this.config;
+    return {
+      if (attachment != null) 'Attachment': attachment,
+      if (config != null) 'Config': config,
+    };
+  }
 }
 
 enum TCPFlag {
-  @_s.JsonValue('FIN')
   fin,
-  @_s.JsonValue('SYN')
   syn,
-  @_s.JsonValue('RST')
   rst,
-  @_s.JsonValue('PSH')
   psh,
-  @_s.JsonValue('ACK')
   ack,
-  @_s.JsonValue('URG')
   urg,
-  @_s.JsonValue('ECE')
   ece,
-  @_s.JsonValue('CWR')
   cwr,
+}
+
+extension on TCPFlag {
+  String toValue() {
+    switch (this) {
+      case TCPFlag.fin:
+        return 'FIN';
+      case TCPFlag.syn:
+        return 'SYN';
+      case TCPFlag.rst:
+        return 'RST';
+      case TCPFlag.psh:
+        return 'PSH';
+      case TCPFlag.ack:
+        return 'ACK';
+      case TCPFlag.urg:
+        return 'URG';
+      case TCPFlag.ece:
+        return 'ECE';
+      case TCPFlag.cwr:
+        return 'CWR';
+    }
+  }
+}
+
+extension on String {
+  TCPFlag toTCPFlag() {
+    switch (this) {
+      case 'FIN':
+        return TCPFlag.fin;
+      case 'SYN':
+        return TCPFlag.syn;
+      case 'RST':
+        return TCPFlag.rst;
+      case 'PSH':
+        return TCPFlag.psh;
+      case 'ACK':
+        return TCPFlag.ack;
+      case 'URG':
+        return TCPFlag.urg;
+      case 'ECE':
+        return TCPFlag.ece;
+      case 'CWR':
+        return TCPFlag.cwr;
+    }
+    throw Exception('$this is not known in enum TCPFlag');
+  }
 }
 
 /// TCP flags and masks to inspect packets for, used in stateless rules
 /// <a>MatchAttributes</a> settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TCPFlagField {
   /// Used in conjunction with the <code>Masks</code> setting to define the flags
   /// that must be set and flags that must not be set in order for the packet to
@@ -5076,22 +5653,38 @@ class TCPFlagField {
   /// packet.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Flags')
   final List<TCPFlag> flags;
 
   /// The set of flags to consider in the inspection. To inspect all flags in the
   /// valid values list, leave this with no setting.
-  @_s.JsonKey(name: 'Masks')
-  final List<TCPFlag> masks;
+  final List<TCPFlag>? masks;
 
   TCPFlagField({
-    @_s.required this.flags,
+    required this.flags,
     this.masks,
   });
-  factory TCPFlagField.fromJson(Map<String, dynamic> json) =>
-      _$TCPFlagFieldFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TCPFlagFieldToJson(this);
+  factory TCPFlagField.fromJson(Map<String, dynamic> json) {
+    return TCPFlagField(
+      flags: (json['Flags'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toTCPFlag())
+          .toList(),
+      masks: (json['Masks'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toTCPFlag())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flags = this.flags;
+    final masks = this.masks;
+    return {
+      'Flags': flags.map((e) => e.toValue()).toList(),
+      if (masks != null) 'Masks': masks.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// A key:value pair associated with an AWS resource. The key:value pair can be
@@ -5099,80 +5692,101 @@ class TCPFlagField {
 /// "environment") and the tag value represents a specific value within that
 /// category (such as "test," "development," or "production"). You can add up to
 /// 50 tags to each AWS resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
   /// case-sensitive.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The part of the key:value pair that defines a tag. You can use a tag value
   /// to describe a specific value within a category, such as "companyA" or
   /// "companyB." Tag values are case-sensitive.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum TargetType {
-  @_s.JsonValue('TLS_SNI')
   tlsSni,
-  @_s.JsonValue('HTTP_HOST')
   httpHost,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UntagResourceResponse {
-  UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+extension on TargetType {
+  String toValue() {
+    switch (this) {
+      case TargetType.tlsSni:
+        return 'TLS_SNI';
+      case TargetType.httpHost:
+        return 'HTTP_HOST';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  TargetType toTargetType() {
+    switch (this) {
+      case 'TLS_SNI':
+        return TargetType.tlsSni;
+      case 'HTTP_HOST':
+        return TargetType.httpHost;
+    }
+    throw Exception('$this is not known in enum TargetType');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateFirewallDeleteProtectionResponse {
   /// <p/>
-  @_s.JsonKey(name: 'DeleteProtection')
-  final bool deleteProtection;
+  final bool? deleteProtection;
 
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -5188,8 +5802,7 @@ class UpdateFirewallDeleteProtectionResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   UpdateFirewallDeleteProtectionResponse({
     this.deleteProtection,
@@ -5197,29 +5810,41 @@ class UpdateFirewallDeleteProtectionResponse {
     this.firewallName,
     this.updateToken,
   });
+
   factory UpdateFirewallDeleteProtectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateFirewallDeleteProtectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateFirewallDeleteProtectionResponse(
+      deleteProtection: json['DeleteProtection'] as bool?,
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteProtection = this.deleteProtection;
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final updateToken = this.updateToken;
+    return {
+      if (deleteProtection != null) 'DeleteProtection': deleteProtection,
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFirewallDescriptionResponse {
   /// A description of the firewall.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -5235,8 +5860,7 @@ class UpdateFirewallDescriptionResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   UpdateFirewallDescriptionResponse({
     this.description,
@@ -5244,33 +5868,45 @@ class UpdateFirewallDescriptionResponse {
     this.firewallName,
     this.updateToken,
   });
+
   factory UpdateFirewallDescriptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateFirewallDescriptionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateFirewallDescriptionResponse(
+      description: json['Description'] as String?,
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final updateToken = this.updateToken;
+    return {
+      if (description != null) 'Description': description,
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFirewallPolicyChangeProtectionResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// A setting indicating whether the firewall is protected against a change to
   /// the firewall policy association. Use this setting to protect against
   /// accidentally modifying the firewall policy for a firewall that is in use.
   /// When you create a firewall, the operation initializes this setting to
   /// <code>TRUE</code>.
-  @_s.JsonKey(name: 'FirewallPolicyChangeProtection')
-  final bool firewallPolicyChangeProtection;
+  final bool? firewallPolicyChangeProtection;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -5286,8 +5922,7 @@ class UpdateFirewallPolicyChangeProtectionResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   UpdateFirewallPolicyChangeProtectionResponse({
     this.firewallArn,
@@ -5295,21 +5930,37 @@ class UpdateFirewallPolicyChangeProtectionResponse {
     this.firewallPolicyChangeProtection,
     this.updateToken,
   });
+
   factory UpdateFirewallPolicyChangeProtectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateFirewallPolicyChangeProtectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateFirewallPolicyChangeProtectionResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      firewallPolicyChangeProtection:
+          json['FirewallPolicyChangeProtection'] as bool?,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final firewallPolicyChangeProtection = this.firewallPolicyChangeProtection;
+    final updateToken = this.updateToken;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (firewallPolicyChangeProtection != null)
+        'FirewallPolicyChangeProtection': firewallPolicyChangeProtection,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFirewallPolicyResponse {
   /// The high-level properties of a firewall policy. This, along with the
   /// <a>FirewallPolicy</a>, define the policy. You can retrieve all objects for a
   /// firewall policy by calling <a>DescribeFirewallPolicy</a>.
-  @_s.JsonKey(name: 'FirewallPolicyResponse')
   final FirewallPolicyResponse firewallPolicyResponse;
 
   /// A token used for optimistic locking. Network Firewall returns a token to
@@ -5322,54 +5973,75 @@ class UpdateFirewallPolicyResponse {
   /// <code>InvalidTokenException</code>. If this happens, retrieve the firewall
   /// policy again to get a current copy of it with current token. Reapply your
   /// changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
   final String updateToken;
 
   UpdateFirewallPolicyResponse({
-    @_s.required this.firewallPolicyResponse,
-    @_s.required this.updateToken,
+    required this.firewallPolicyResponse,
+    required this.updateToken,
   });
-  factory UpdateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFirewallPolicyResponseFromJson(json);
+
+  factory UpdateFirewallPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFirewallPolicyResponse(
+      firewallPolicyResponse: FirewallPolicyResponse.fromJson(
+          json['FirewallPolicyResponse'] as Map<String, dynamic>),
+      updateToken: json['UpdateToken'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallPolicyResponse = this.firewallPolicyResponse;
+    final updateToken = this.updateToken;
+    return {
+      'FirewallPolicyResponse': firewallPolicyResponse,
+      'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateLoggingConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
-  @_s.JsonKey(name: 'LoggingConfiguration')
-  final LoggingConfiguration loggingConfiguration;
+  final String? firewallName;
+  final LoggingConfiguration? loggingConfiguration;
 
   UpdateLoggingConfigurationResponse({
     this.firewallArn,
     this.firewallName,
     this.loggingConfiguration,
   });
+
   factory UpdateLoggingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateLoggingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateLoggingConfigurationResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final loggingConfiguration = this.loggingConfiguration;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (loggingConfiguration != null)
+        'LoggingConfiguration': loggingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRuleGroupResponse {
   /// The high-level properties of a rule group. This, along with the
   /// <a>RuleGroup</a>, define the rule group. You can retrieve all objects for a
   /// rule group by calling <a>DescribeRuleGroup</a>.
-  @_s.JsonKey(name: 'RuleGroupResponse')
   final RuleGroupResponse ruleGroupResponse;
 
   /// A token used for optimistic locking. Network Firewall returns a token to
@@ -5382,39 +6054,45 @@ class UpdateRuleGroupResponse {
   /// <code>InvalidTokenException</code>. If this happens, retrieve the rule group
   /// again to get a current copy of it with a current token. Reapply your changes
   /// as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
   final String updateToken;
 
   UpdateRuleGroupResponse({
-    @_s.required this.ruleGroupResponse,
-    @_s.required this.updateToken,
+    required this.ruleGroupResponse,
+    required this.updateToken,
   });
-  factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRuleGroupResponseFromJson(json);
+
+  factory UpdateRuleGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRuleGroupResponse(
+      ruleGroupResponse: RuleGroupResponse.fromJson(
+          json['RuleGroupResponse'] as Map<String, dynamic>),
+      updateToken: json['UpdateToken'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleGroupResponse = this.ruleGroupResponse;
+    final updateToken = this.updateToken;
+    return {
+      'RuleGroupResponse': ruleGroupResponse,
+      'UpdateToken': updateToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSubnetChangeProtectionResponse {
   /// The Amazon Resource Name (ARN) of the firewall.
-  @_s.JsonKey(name: 'FirewallArn')
-  final String firewallArn;
+  final String? firewallArn;
 
   /// The descriptive name of the firewall. You can't change the name of a
   /// firewall after you create it.
-  @_s.JsonKey(name: 'FirewallName')
-  final String firewallName;
+  final String? firewallName;
 
   /// A setting indicating whether the firewall is protected against changes to
   /// the subnet associations. Use this setting to protect against accidentally
   /// modifying the subnet associations for a firewall that is in use. When you
   /// create a firewall, the operation initializes this setting to
   /// <code>TRUE</code>.
-  @_s.JsonKey(name: 'SubnetChangeProtection')
-  final bool subnetChangeProtection;
+  final bool? subnetChangeProtection;
 
   /// An optional token that you can use for optimistic locking. Network Firewall
   /// returns a token to your requests that access the firewall. The token marks
@@ -5430,8 +6108,7 @@ class UpdateSubnetChangeProtectionResponse {
   /// fails with an <code>InvalidTokenException</code>. If this happens, retrieve
   /// the firewall again to get a current copy of it with a new token. Reapply
   /// your changes as needed, then try the operation again using the new token.
-  @_s.JsonKey(name: 'UpdateToken')
-  final String updateToken;
+  final String? updateToken;
 
   UpdateSubnetChangeProtectionResponse({
     this.firewallArn,
@@ -5439,13 +6116,34 @@ class UpdateSubnetChangeProtectionResponse {
     this.subnetChangeProtection,
     this.updateToken,
   });
+
   factory UpdateSubnetChangeProtectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateSubnetChangeProtectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateSubnetChangeProtectionResponse(
+      firewallArn: json['FirewallArn'] as String?,
+      firewallName: json['FirewallName'] as String?,
+      subnetChangeProtection: json['SubnetChangeProtection'] as bool?,
+      updateToken: json['UpdateToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final firewallArn = this.firewallArn;
+    final firewallName = this.firewallName;
+    final subnetChangeProtection = this.subnetChangeProtection;
+    final updateToken = this.updateToken;
+    return {
+      if (firewallArn != null) 'FirewallArn': firewallArn,
+      if (firewallName != null) 'FirewallName': firewallName,
+      if (subnetChangeProtection != null)
+        'SubnetChangeProtection': subnetChangeProtection,
+      if (updateToken != null) 'UpdateToken': updateToken,
+    };
+  }
 }
 
 class InsufficientCapacityException extends _s.GenericAwsException {
-  InsufficientCapacityException({String type, String message})
+  InsufficientCapacityException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientCapacityException',
@@ -5453,22 +6151,22 @@ class InsufficientCapacityException extends _s.GenericAwsException {
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class InvalidResourcePolicyException extends _s.GenericAwsException {
-  InvalidResourcePolicyException({String type, String message})
+  InvalidResourcePolicyException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidResourcePolicyException',
@@ -5476,17 +6174,17 @@ class InvalidResourcePolicyException extends _s.GenericAwsException {
 }
 
 class InvalidTokenException extends _s.GenericAwsException {
-  InvalidTokenException({String type, String message})
+  InvalidTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidTokenException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class LogDestinationPermissionException extends _s.GenericAwsException {
-  LogDestinationPermissionException({String type, String message})
+  LogDestinationPermissionException({String? type, String? message})
       : super(
             type: type,
             code: 'LogDestinationPermissionException',
@@ -5494,23 +6192,23 @@ class LogDestinationPermissionException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceOwnerCheckException extends _s.GenericAwsException {
-  ResourceOwnerCheckException({String type, String message})
+  ResourceOwnerCheckException({String? type, String? message})
       : super(
             type: type, code: 'ResourceOwnerCheckException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',

@@ -1,12 +1,11 @@
-import 'package:meta/meta.dart';
 import 'endpoint_config_data.dart' as config;
 import 'shared.dart';
 
 class ServiceMetadata {
   final String endpointPrefix;
-  final String signingName;
+  final String? signingName;
 
-  const ServiceMetadata({@required this.endpointPrefix, this.signingName});
+  const ServiceMetadata({required this.endpointPrefix, this.signingName});
 
   @override
   bool operator ==(Object other) {
@@ -39,20 +38,15 @@ class Endpoint {
   final String signatureVersion;
 
   Endpoint(
-      {@required this.service,
-      @required this.url,
-      @required this.signingRegion,
-      String signatureVersion})
-      : assert(service != null),
-        assert(url != null),
-        assert(signingRegion != null),
-        signatureVersion = signatureVersion ?? 'v4';
+      {required this.service,
+      required this.url,
+      required this.signingRegion,
+      String? signatureVersion})
+      : signatureVersion = signatureVersion ?? 'v4';
 
   /// Creates a `Endpoint` using only the service prefix and an optional region
   /// The other information will be inferred from the global configuration rules.
-  static Endpoint fromConfig(ServiceMetadata service, {String region}) {
-    assert(service != null);
-
+  static Endpoint fromConfig(ServiceMetadata service, {String? region}) {
     final regionConfig = _findRegionConfig(service, region);
     final urlPattern =
         regionConfig?.endpoint ?? '{service}.{region}.amazonaws.com';
@@ -62,7 +56,7 @@ class Endpoint {
           'Region must not be null when the service is not a global service.');
     }
 
-    String signingRegion;
+    String? signingRegion;
     if (regionConfig != null && regionConfig.globalEndpoint) {
       signingRegion = regionConfig.signingRegion ?? 'us-east-1';
     }
@@ -81,7 +75,7 @@ class Endpoint {
     return Endpoint(
       service: service,
       url: url,
-      signingRegion: signingRegion ?? region,
+      signingRegion: signingRegion ?? region!,
       signatureVersion: regionConfig?.signatureVersion ?? 'v4',
     );
   }
@@ -89,7 +83,7 @@ class Endpoint {
   /// Creates a `Endpoint` from either a user-provided custom endpointUrl or
   /// by inferring the configuration from the service prefix.
   static Endpoint forProtocol(
-      {ServiceMetadata service, String region, String endpointUrl}) {
+      {ServiceMetadata? service, String? region, String? endpointUrl}) {
     if (service == null) {
       ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
     }
@@ -101,7 +95,7 @@ class Endpoint {
       return Endpoint(
           service: service, url: endpointUrl, signingRegion: region);
     } else {
-      return Endpoint.fromConfig(service, region: region);
+      return Endpoint.fromConfig(service!, region: region);
     }
   }
 
@@ -133,18 +127,18 @@ class RegionConfig {
   /// The pattern can contains a "{service}" and "{region}" placeholder (ie. {service}.{region}.amazonaws.com)
   final String endpoint;
   final bool globalEndpoint;
-  final String signatureVersion;
-  final String signingRegion;
+  final String? signatureVersion;
+  final String? signingRegion;
 
   RegionConfig(
-      {@required this.endpoint,
-      bool globalEndpoint,
+      {required this.endpoint,
+      bool? globalEndpoint,
       this.signatureVersion,
       this.signingRegion})
       : globalEndpoint = globalEndpoint ?? false;
 }
 
-RegionConfig _findRegionConfig(ServiceMetadata service, String region) {
+RegionConfig? _findRegionConfig(ServiceMetadata service, String? region) {
   final keys = _derivedKeys(service.endpointPrefix, region);
   for (var key in keys) {
     final regionConfig = config.rules[key];
@@ -155,7 +149,7 @@ RegionConfig _findRegionConfig(ServiceMetadata service, String region) {
   return null;
 }
 
-List<String> _derivedKeys(String endpointPrefix, String region) {
+List<String> _derivedKeys(String endpointPrefix, String? region) {
   final regionPrefix = _generateRegionPrefix(region);
 
   return [
@@ -168,7 +162,7 @@ List<String> _derivedKeys(String endpointPrefix, String region) {
   ].where((l) => l.every((e) => e != null)).map((l) => l.join('/')).toList();
 }
 
-String _generateRegionPrefix(String region) {
+String? _generateRegionPrefix(String? region) {
   if (region == null) return null;
 
   final parts = region.split('-');

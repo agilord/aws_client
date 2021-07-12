@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
@@ -20,10 +26,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 class CloudFront {
   final _s.RestXmlProtocol _protocol;
   CloudFront({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -33,6 +39,52 @@ class CloudFront {
           credentials: credentials,
           endpointUrl: endpointUrl,
         );
+
+  /// Associates an alias (also known as a CNAME or an alternate domain name)
+  /// with a CloudFront distribution.
+  ///
+  /// With this operation you can move an alias that’s already in use on a
+  /// CloudFront distribution to a different distribution in one step. This
+  /// prevents the downtime that could occur if you first remove the alias from
+  /// one distribution and then separately add the alias to another
+  /// distribution.
+  ///
+  /// To use this operation to associate an alias with a distribution, you
+  /// provide the alias and the ID of the target distribution for the alias. For
+  /// more information, including how to set up the target distribution,
+  /// prerequisites that you must complete, and other restrictions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move">Moving
+  /// an alternate domain name to a different distribution</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [NoSuchDistribution].
+  /// May throw [TooManyDistributionCNAMEs].
+  /// May throw [IllegalUpdate].
+  /// May throw [AccessDenied].
+  ///
+  /// Parameter [alias] :
+  /// The alias (also known as a CNAME) to add to the target distribution.
+  ///
+  /// Parameter [targetDistributionId] :
+  /// The ID of the distribution that you’re associating the alias with.
+  Future<void> associateAlias2020_05_31({
+    required String alias,
+    required String targetDistributionId,
+  }) async {
+    ArgumentError.checkNotNull(alias, 'alias');
+    ArgumentError.checkNotNull(targetDistributionId, 'targetDistributionId');
+    final $query = <String, List<String>>{
+      'Alias': [alias],
+    };
+    await _protocol.send(
+      method: 'PUT',
+      requestUri:
+          '/2020-05-31/distribution/${Uri.encodeComponent(targetDistributionId)}/associate-alias',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
 
   /// Creates a cache policy.
   ///
@@ -75,7 +127,7 @@ class CloudFront {
   /// Parameter [cachePolicyConfig] :
   /// A cache policy configuration.
   Future<CreateCachePolicyResult> createCachePolicy2020_05_31({
-    @_s.required CachePolicyConfig cachePolicyConfig,
+    required CachePolicyConfig cachePolicyConfig,
   }) async {
     ArgumentError.checkNotNull(cachePolicyConfig, 'cachePolicyConfig');
     final $result = await _protocol.sendRaw(
@@ -110,9 +162,8 @@ class CloudFront {
   /// The current configuration information for the identity.
   Future<CreateCloudFrontOriginAccessIdentityResult>
       createCloudFrontOriginAccessIdentity2020_05_31({
-    @_s.required
-        CloudFrontOriginAccessIdentityConfig
-            cloudFrontOriginAccessIdentityConfig,
+    required CloudFrontOriginAccessIdentityConfig
+        cloudFrontOriginAccessIdentityConfig,
   }) async {
     ArgumentError.checkNotNull(cloudFrontOriginAccessIdentityConfig,
         'cloudFrontOriginAccessIdentityConfig');
@@ -189,6 +240,9 @@ class CloudFront {
   /// May throw [TooManyDistributionsWithSingleFunctionARN].
   /// May throw [TooManyLambdaFunctionAssociations].
   /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
   /// May throw [InvalidOriginReadTimeout].
   /// May throw [InvalidOriginKeepaliveTimeout].
   /// May throw [NoSuchFieldLevelEncryptionConfig].
@@ -201,11 +255,13 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
   /// May throw [TooManyKeyGroupsAssociatedToDistribution].
   /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
   ///
   /// Parameter [distributionConfig] :
   /// The distribution's configuration information.
   Future<CreateDistributionResult> createDistribution2020_05_31({
-    @_s.required DistributionConfig distributionConfig,
+    required DistributionConfig distributionConfig,
   }) async {
     ArgumentError.checkNotNull(distributionConfig, 'distributionConfig');
     final $result = await _protocol.sendRaw(
@@ -265,6 +321,9 @@ class CloudFront {
   /// May throw [TooManyDistributionsWithSingleFunctionARN].
   /// May throw [TooManyLambdaFunctionAssociations].
   /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
   /// May throw [InvalidOriginReadTimeout].
   /// May throw [InvalidOriginKeepaliveTimeout].
   /// May throw [NoSuchFieldLevelEncryptionConfig].
@@ -277,12 +336,14 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
   /// May throw [TooManyKeyGroupsAssociatedToDistribution].
   /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
   ///
   /// Parameter [distributionConfigWithTags] :
   /// The distribution's configuration information.
   Future<CreateDistributionWithTagsResult>
       createDistributionWithTags2020_05_31({
-    @_s.required DistributionConfigWithTags distributionConfigWithTags,
+    required DistributionConfigWithTags distributionConfigWithTags,
   }) async {
     ArgumentError.checkNotNull(
         distributionConfigWithTags, 'distributionConfigWithTags');
@@ -315,7 +376,7 @@ class CloudFront {
   /// The request to create a new field-level encryption configuration.
   Future<CreateFieldLevelEncryptionConfigResult>
       createFieldLevelEncryptionConfig2020_05_31({
-    @_s.required FieldLevelEncryptionConfig fieldLevelEncryptionConfig,
+    required FieldLevelEncryptionConfig fieldLevelEncryptionConfig,
   }) async {
     ArgumentError.checkNotNull(
         fieldLevelEncryptionConfig, 'fieldLevelEncryptionConfig');
@@ -348,8 +409,8 @@ class CloudFront {
   /// The request to create a field-level encryption profile.
   Future<CreateFieldLevelEncryptionProfileResult>
       createFieldLevelEncryptionProfile2020_05_31({
-    @_s.required
-        FieldLevelEncryptionProfileConfig fieldLevelEncryptionProfileConfig,
+    required FieldLevelEncryptionProfileConfig
+        fieldLevelEncryptionProfileConfig,
   }) async {
     ArgumentError.checkNotNull(
         fieldLevelEncryptionProfileConfig, 'fieldLevelEncryptionProfileConfig');
@@ -363,6 +424,80 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return CreateFieldLevelEncryptionProfileResult(
       fieldLevelEncryptionProfile: FieldLevelEncryptionProfile.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
+  /// Creates a CloudFront function.
+  ///
+  /// To create a function, you provide the function code and some configuration
+  /// information about the function. The response contains an Amazon Resource
+  /// Name (ARN) that uniquely identifies the function.
+  ///
+  /// When you create a function, it’s in the <code>DEVELOPMENT</code> stage. In
+  /// this stage, you can test the function with <code>TestFunction</code>, and
+  /// update it with <code>UpdateFunction</code>.
+  ///
+  /// When you’re ready to use your function with a CloudFront distribution, use
+  /// <code>PublishFunction</code> to copy the function from the
+  /// <code>DEVELOPMENT</code> stage to <code>LIVE</code>. When it’s live, you
+  /// can attach the function to a distribution’s cache behavior, using the
+  /// function’s ARN.
+  ///
+  /// May throw [TooManyFunctions].
+  /// May throw [FunctionAlreadyExists].
+  /// May throw [FunctionSizeLimitExceeded].
+  /// May throw [InvalidArgument].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [functionCode] :
+  /// The function code. For more information about writing a CloudFront
+  /// function, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  ///
+  /// Parameter [functionConfig] :
+  /// Configuration information about the function, including an optional
+  /// comment and the function’s runtime.
+  ///
+  /// Parameter [name] :
+  /// A name to identify the function.
+  Future<CreateFunctionResult> createFunction2020_05_31({
+    required Uint8List functionCode,
+    required FunctionConfig functionConfig,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(functionCode, 'functionCode');
+    ArgumentError.checkNotNull(functionConfig, 'functionConfig');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      64,
+      isRequired: true,
+    );
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/function',
+      payload: CreateFunctionRequest(
+              functionCode: functionCode,
+              functionConfig: functionConfig,
+              name: name)
+          .toXml(
+        'CreateFunctionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
       location: _s.extractHeaderStringValue($result.headers, 'Location'),
     );
@@ -384,8 +519,8 @@ class CloudFront {
   /// Parameter [invalidationBatch] :
   /// The batch information for the invalidation.
   Future<CreateInvalidationResult> createInvalidation2020_05_31({
-    @_s.required String distributionId,
-    @_s.required InvalidationBatch invalidationBatch,
+    required String distributionId,
+    required InvalidationBatch invalidationBatch,
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     ArgumentError.checkNotNull(invalidationBatch, 'invalidationBatch');
@@ -426,7 +561,7 @@ class CloudFront {
   /// Parameter [keyGroupConfig] :
   /// A key group configuration.
   Future<CreateKeyGroupResult> createKeyGroup2020_05_31({
-    @_s.required KeyGroupConfig keyGroupConfig,
+    required KeyGroupConfig keyGroupConfig,
   }) async {
     ArgumentError.checkNotNull(keyGroupConfig, 'keyGroupConfig');
     final $result = await _protocol.sendRaw(
@@ -453,6 +588,7 @@ class CloudFront {
   ///
   /// May throw [AccessDenied].
   /// May throw [NoSuchDistribution].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [distributionId] :
   /// The ID of the distribution that you are enabling metrics for.
@@ -463,8 +599,8 @@ class CloudFront {
   /// distribution.
   Future<CreateMonitoringSubscriptionResult>
       createMonitoringSubscription2020_05_31({
-    @_s.required String distributionId,
-    @_s.required MonitoringSubscription monitoringSubscription,
+    required String distributionId,
+    required MonitoringSubscription monitoringSubscription,
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     ArgumentError.checkNotNull(
@@ -527,7 +663,7 @@ class CloudFront {
   /// Parameter [originRequestPolicyConfig] :
   /// An origin request policy configuration.
   Future<CreateOriginRequestPolicyResult> createOriginRequestPolicy2020_05_31({
-    @_s.required OriginRequestPolicyConfig originRequestPolicyConfig,
+    required OriginRequestPolicyConfig originRequestPolicyConfig,
   }) async {
     ArgumentError.checkNotNull(
         originRequestPolicyConfig, 'originRequestPolicyConfig');
@@ -558,7 +694,7 @@ class CloudFront {
   /// Parameter [publicKeyConfig] :
   /// A CloudFront public key configuration.
   Future<CreatePublicKeyResult> createPublicKey2020_05_31({
-    @_s.required PublicKeyConfig publicKeyConfig,
+    required PublicKeyConfig publicKeyConfig,
   }) async {
     ArgumentError.checkNotNull(publicKeyConfig, 'publicKeyConfig');
     final $result = await _protocol.sendRaw(
@@ -611,10 +747,10 @@ class CloudFront {
   /// real-time log data. You must provide an integer between 1 and 100,
   /// inclusive.
   Future<CreateRealtimeLogConfigResult> createRealtimeLogConfig2020_05_31({
-    @_s.required List<EndPoint> endPoints,
-    @_s.required List<String> fields,
-    @_s.required String name,
-    @_s.required int samplingRate,
+    required List<EndPoint> endPoints,
+    required List<String> fields,
+    required String name,
+    required int samplingRate,
   }) async {
     ArgumentError.checkNotNull(endPoints, 'endPoints');
     ArgumentError.checkNotNull(fields, 'fields');
@@ -663,7 +799,7 @@ class CloudFront {
   /// The streaming distribution's configuration information.
   Future<CreateStreamingDistributionResult>
       createStreamingDistribution2020_05_31({
-    @_s.required StreamingDistributionConfig streamingDistributionConfig,
+    required StreamingDistributionConfig streamingDistributionConfig,
   }) async {
     ArgumentError.checkNotNull(
         streamingDistributionConfig, 'streamingDistributionConfig');
@@ -705,8 +841,8 @@ class CloudFront {
   /// The streaming distribution's configuration information.
   Future<CreateStreamingDistributionWithTagsResult>
       createStreamingDistributionWithTags2020_05_31({
-    @_s.required
-        StreamingDistributionConfigWithTags streamingDistributionConfigWithTags,
+    required StreamingDistributionConfigWithTags
+        streamingDistributionConfigWithTags,
   }) async {
     ArgumentError.checkNotNull(streamingDistributionConfigWithTags,
         'streamingDistributionConfigWithTags');
@@ -752,12 +888,13 @@ class CloudFront {
   /// <code>ListCachePolicies</code>, <code>GetCachePolicy</code>, or
   /// <code>GetCachePolicyConfig</code>.
   Future<void> deleteCachePolicy2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2020-05-31/cache-policy/${Uri.encodeComponent(id)}',
@@ -782,12 +919,13 @@ class CloudFront {
   /// <code>GET</code> or <code>PUT</code> request. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<void> deleteCloudFrontOriginAccessIdentity2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -812,12 +950,13 @@ class CloudFront {
   /// The value of the <code>ETag</code> header that you received when you
   /// disabled the distribution. For example: <code>E2QWRUHAPOMQZL</code>.
   Future<void> deleteDistribution2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2020-05-31/distribution/${Uri.encodeComponent(id)}',
@@ -842,12 +981,13 @@ class CloudFront {
   /// retrieving the configuration identity to delete. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<void> deleteFieldLevelEncryptionConfig2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -873,16 +1013,56 @@ class CloudFront {
   /// retrieving the profile to delete. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<void> deleteFieldLevelEncryptionProfile2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri:
           '/2020-05-31/field-level-encryption-profile/${Uri.encodeComponent(id)}',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes a CloudFront function.
+  ///
+  /// You cannot delete a function if it’s associated with a cache behavior.
+  /// First, update your distributions to remove the function association from
+  /// all cache behaviors, then delete the function.
+  ///
+  /// To delete a function, you must provide the function’s name and version
+  /// (<code>ETag</code> value). To get these values, you can use
+  /// <code>ListFunctions</code> and <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [FunctionInUse].
+  /// May throw [PreconditionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// deleting, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are deleting.
+  Future<void> deleteFunction2020_05_31({
+    required String ifMatch,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(ifMatch, 'ifMatch');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    await _protocol.send(
+      method: 'DELETE',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -912,12 +1092,13 @@ class CloudFront {
   /// group’s <code>ETag</code> value. To get the <code>ETag</code>, use
   /// <code>GetKeyGroup</code> or <code>GetKeyGroupConfig</code>.
   Future<void> deleteKeyGroup2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2020-05-31/key-group/${Uri.encodeComponent(id)}',
@@ -931,11 +1112,12 @@ class CloudFront {
   ///
   /// May throw [AccessDenied].
   /// May throw [NoSuchDistribution].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [distributionId] :
   /// The ID of the distribution that you are disabling metrics for.
   Future<void> deleteMonitoringSubscription2020_05_31({
-    @_s.required String distributionId,
+    required String distributionId,
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     await _protocol.send(
@@ -975,12 +1157,13 @@ class CloudFront {
   /// <code>GetOriginRequestPolicy</code>, or
   /// <code>GetOriginRequestPolicyConfig</code>.
   Future<void> deleteOriginRequestPolicy2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri:
@@ -1006,12 +1189,13 @@ class CloudFront {
   /// retrieving the public key identity to delete. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<void> deletePublicKey2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/2020-05-31/public-key/${Uri.encodeComponent(id)}',
@@ -1044,8 +1228,8 @@ class CloudFront {
   /// Parameter [name] :
   /// The name of the real-time log configuration to delete.
   Future<void> deleteRealtimeLogConfig2020_05_31({
-    String arn,
-    String name,
+    String? arn,
+    String? name,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -1125,18 +1309,57 @@ class CloudFront {
   /// disabled the streaming distribution. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<void> deleteStreamingDistribution2020_05_31({
-    @_s.required String id,
-    String ifMatch,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri:
           '/2020-05-31/streaming-distribution/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Gets configuration information and metadata about a CloudFront function,
+  /// but not the function’s code. To get a function’s code, use
+  /// <code>GetFunction</code>.
+  ///
+  /// To get configuration information and metadata about a function, you must
+  /// provide the function’s name and stage. To get these values, you can use
+  /// <code>ListFunctions</code>.
+  ///
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are getting information about.
+  ///
+  /// Parameter [stage] :
+  /// The function’s stage, either <code>DEVELOPMENT</code> or
+  /// <code>LIVE</code>.
+  Future<DescribeFunctionResult> describeFunction2020_05_31({
+    required String name,
+    FunctionStage? stage,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final $query = <String, List<String>>{
+      if (stage != null) 'Stage': [stage.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}/describe',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return DescribeFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
     );
   }
 
@@ -1168,7 +1391,7 @@ class CloudFront {
   /// cache behavior, you can get the identifier using
   /// <code>ListCachePolicies</code>.
   Future<GetCachePolicyResult> getCachePolicy2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1203,7 +1426,7 @@ class CloudFront {
   /// cache behavior, you can get the identifier using
   /// <code>ListCachePolicies</code>.
   Future<GetCachePolicyConfigResult> getCachePolicyConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1227,7 +1450,7 @@ class CloudFront {
   /// The identity's ID.
   Future<GetCloudFrontOriginAccessIdentityResult>
       getCloudFrontOriginAccessIdentity2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1253,7 +1476,7 @@ class CloudFront {
   /// The identity's ID.
   Future<GetCloudFrontOriginAccessIdentityConfigResult>
       getCloudFrontOriginAccessIdentityConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1279,7 +1502,7 @@ class CloudFront {
   /// The distribution's ID. If the ID is empty, an empty distribution
   /// configuration is returned.
   Future<GetDistributionResult> getDistribution2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1303,7 +1526,7 @@ class CloudFront {
   /// The distribution's ID. If the ID is empty, an empty distribution
   /// configuration is returned.
   Future<GetDistributionConfigResult> getDistributionConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1326,7 +1549,7 @@ class CloudFront {
   /// Parameter [id] :
   /// Request the ID for the field-level encryption configuration information.
   Future<GetFieldLevelEncryptionResult> getFieldLevelEncryption2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1351,7 +1574,7 @@ class CloudFront {
   /// Request the ID for the field-level encryption configuration information.
   Future<GetFieldLevelEncryptionConfigResult>
       getFieldLevelEncryptionConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1376,7 +1599,7 @@ class CloudFront {
   /// Get the ID for the field-level encryption profile information.
   Future<GetFieldLevelEncryptionProfileResult>
       getFieldLevelEncryptionProfile2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1402,7 +1625,7 @@ class CloudFront {
   /// information.
   Future<GetFieldLevelEncryptionProfileConfigResult>
       getFieldLevelEncryptionProfileConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1415,6 +1638,42 @@ class CloudFront {
     return GetFieldLevelEncryptionProfileConfigResult(
       fieldLevelEncryptionProfileConfig:
           FieldLevelEncryptionProfileConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Gets the code of a CloudFront function. To get configuration information
+  /// and metadata about a function, use <code>DescribeFunction</code>.
+  ///
+  /// To get a function’s code, you must provide the function’s name and stage.
+  /// To get these values, you can use <code>ListFunctions</code>.
+  ///
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [name] :
+  /// The name of the function whose code you are getting.
+  ///
+  /// Parameter [stage] :
+  /// The function’s stage, either <code>DEVELOPMENT</code> or
+  /// <code>LIVE</code>.
+  Future<GetFunctionResult> getFunction2020_05_31({
+    required String name,
+    FunctionStage? stage,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    final $query = <String, List<String>>{
+      if (stage != null) 'Stage': [stage.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFunctionResult(
+      functionCode: await $result.stream.toBytes(),
+      contentType: _s.extractHeaderStringValue($result.headers, 'Content-Type'),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
     );
   }
@@ -1432,8 +1691,8 @@ class CloudFront {
   /// The identifier for the invalidation request, for example,
   /// <code>IDFDVBD632BHDS5</code>.
   Future<GetInvalidationResult> getInvalidation2020_05_31({
-    @_s.required String distributionId,
-    @_s.required String id,
+    required String distributionId,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     ArgumentError.checkNotNull(id, 'id');
@@ -1465,7 +1724,7 @@ class CloudFront {
   /// The identifier of the key group that you are getting. To get the
   /// identifier, use <code>ListKeyGroups</code>.
   Future<GetKeyGroupResult> getKeyGroup2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1495,7 +1754,7 @@ class CloudFront {
   /// The identifier of the key group whose configuration you are getting. To
   /// get the identifier, use <code>ListKeyGroups</code>.
   Future<GetKeyGroupConfigResult> getKeyGroupConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1515,11 +1774,12 @@ class CloudFront {
   ///
   /// May throw [AccessDenied].
   /// May throw [NoSuchDistribution].
+  /// May throw [UnsupportedOperation].
   ///
   /// Parameter [distributionId] :
   /// The ID of the distribution that you are getting metrics information for.
   Future<GetMonitoringSubscriptionResult> getMonitoringSubscription2020_05_31({
-    @_s.required String distributionId,
+    required String distributionId,
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     final $result = await _protocol.sendRaw(
@@ -1562,7 +1822,7 @@ class CloudFront {
   /// to a cache behavior, you can get the identifier using
   /// <code>ListOriginRequestPolicies</code>.
   Future<GetOriginRequestPolicyResult> getOriginRequestPolicy2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1599,7 +1859,7 @@ class CloudFront {
   /// <code>ListOriginRequestPolicies</code>.
   Future<GetOriginRequestPolicyConfigResult>
       getOriginRequestPolicyConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1623,7 +1883,7 @@ class CloudFront {
   /// Parameter [id] :
   /// The identifier of the public key you are getting.
   Future<GetPublicKeyResult> getPublicKey2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1646,7 +1906,7 @@ class CloudFront {
   /// Parameter [id] :
   /// The identifier of the public key whose configuration you are getting.
   Future<GetPublicKeyConfigResult> getPublicKeyConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1678,8 +1938,8 @@ class CloudFront {
   /// Parameter [name] :
   /// The name of the real-time log configuration to get.
   Future<GetRealtimeLogConfigResult> getRealtimeLogConfig2020_05_31({
-    String arn,
-    String name,
+    String? arn,
+    String? name,
   }) async {
     final $result = await _protocol.send(
       method: 'POST',
@@ -1705,7 +1965,7 @@ class CloudFront {
   /// Parameter [id] :
   /// The streaming distribution's ID.
   Future<GetStreamingDistributionResult> getStreamingDistribution2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1730,7 +1990,7 @@ class CloudFront {
   /// The streaming distribution's ID.
   Future<GetStreamingDistributionConfigResult>
       getStreamingDistributionConfig2020_05_31({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
@@ -1749,7 +2009,8 @@ class CloudFront {
   /// Gets a list of cache policies.
   ///
   /// You can optionally apply a filter to return only the managed policies
-  /// created by AWS, or only the custom policies created in your AWS account.
+  /// created by Amazon Web Services, or only the custom policies created in
+  /// your account.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -1778,17 +2039,18 @@ class CloudFront {
   ///
   /// <ul>
   /// <li>
-  /// <code>managed</code> – Returns only the managed policies created by AWS.
+  /// <code>managed</code> – Returns only the managed policies created by Amazon
+  /// Web Services.
   /// </li>
   /// <li>
-  /// <code>custom</code> – Returns only the custom policies created in your AWS
+  /// <code>custom</code> – Returns only the custom policies created in your
   /// account.
   /// </li>
   /// </ul>
   Future<ListCachePoliciesResult> listCachePolicies2020_05_31({
-    String marker,
-    String maxItems,
-    CachePolicyType type,
+    String? marker,
+    String? maxItems,
+    CachePolicyType? type,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -1824,8 +2086,8 @@ class CloudFront {
   /// body.
   Future<ListCloudFrontOriginAccessIdentitiesResult>
       listCloudFrontOriginAccessIdentities2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -1844,6 +2106,104 @@ class CloudFront {
     );
   }
 
+  /// Gets a list of aliases (also called CNAMEs or alternate domain names) that
+  /// conflict or overlap with the provided alias, and the associated CloudFront
+  /// distributions and Amazon Web Services accounts for each conflicting alias.
+  /// In the returned list, the distribution and account IDs are partially
+  /// hidden, which allows you to identify the distributions and accounts that
+  /// you own, but helps to protect the information of ones that you don’t own.
+  ///
+  /// Use this operation to find aliases that are in use in CloudFront that
+  /// conflict or overlap with the provided alias. For example, if you provide
+  /// <code>www.example.com</code> as input, the returned list can include
+  /// <code>www.example.com</code> and the overlapping wildcard alternate domain
+  /// name (<code>*.example.com</code>), if they exist. If you provide
+  /// <code>*.example.com</code> as input, the returned list can include
+  /// <code>*.example.com</code> and any alternate domain names covered by that
+  /// wildcard (for example, <code>www.example.com</code>,
+  /// <code>test.example.com</code>, <code>dev.example.com</code>, and so on),
+  /// if they exist.
+  ///
+  /// To list conflicting aliases, you provide the alias to search and the ID of
+  /// a distribution in your account that has an attached SSL/TLS certificate
+  /// that includes the provided alias. For more information, including how to
+  /// set up the distribution and certificate, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html#alternate-domain-names-move">Moving
+  /// an alternate domain name to a different distribution</a> in the <i>Amazon
+  /// CloudFront Developer Guide</i>.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [NoSuchDistribution].
+  ///
+  /// Parameter [alias] :
+  /// The alias (also called a CNAME) to search for conflicting aliases.
+  ///
+  /// Parameter [distributionId] :
+  /// The ID of a distribution in your account that has an attached SSL/TLS
+  /// certificate that includes the provided alias.
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in the
+  /// list of conflicting aliases. The response includes conflicting aliases in
+  /// the list that occur after the marker. To get the next page of the list,
+  /// set this field’s value to the value of <code>NextMarker</code> from the
+  /// current page’s response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of conflicting aliases that you want in the response.
+  Future<ListConflictingAliasesResult> listConflictingAliases2020_05_31({
+    required String alias,
+    required String distributionId,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(alias, 'alias');
+    _s.validateStringLength(
+      'alias',
+      alias,
+      0,
+      253,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(distributionId, 'distributionId');
+    _s.validateStringLength(
+      'distributionId',
+      distributionId,
+      0,
+      25,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      0,
+      100,
+    );
+    final $query = <String, List<String>>{
+      'Alias': [alias],
+      'DistributionId': [distributionId],
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/conflicting-alias',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListConflictingAliasesResult(
+      conflictingAliasesList: ConflictingAliasesList.fromXml($elem),
+    );
+  }
+
   /// List CloudFront distributions.
   ///
   /// May throw [InvalidArgument].
@@ -1859,8 +2219,8 @@ class CloudFront {
   /// Parameter [maxItems] :
   /// The maximum number of distributions you want in the response body.
   Future<ListDistributionsResult> listDistributions2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -1907,9 +2267,9 @@ class CloudFront {
   /// The maximum number of distribution IDs that you want in the response.
   Future<ListDistributionsByCachePolicyIdResult>
       listDistributionsByCachePolicyId2020_05_31({
-    @_s.required String cachePolicyId,
-    String marker,
-    String maxItems,
+    required String cachePolicyId,
+    String? marker,
+    String? maxItems,
   }) async {
     ArgumentError.checkNotNull(cachePolicyId, 'cachePolicyId');
     final $query = <String, List<String>>{
@@ -1956,9 +2316,9 @@ class CloudFront {
   /// The maximum number of distribution IDs that you want in the response.
   Future<ListDistributionsByKeyGroupResult>
       listDistributionsByKeyGroup2020_05_31({
-    @_s.required String keyGroupId,
-    String marker,
-    String maxItems,
+    required String keyGroupId,
+    String? marker,
+    String? maxItems,
   }) async {
     ArgumentError.checkNotNull(keyGroupId, 'keyGroupId');
     final $query = <String, List<String>>{
@@ -2007,9 +2367,9 @@ class CloudFront {
   /// The maximum number of distribution IDs that you want in the response.
   Future<ListDistributionsByOriginRequestPolicyIdResult>
       listDistributionsByOriginRequestPolicyId2020_05_31({
-    @_s.required String originRequestPolicyId,
-    String marker,
-    String maxItems,
+    required String originRequestPolicyId,
+    String? marker,
+    String? maxItems,
   }) async {
     ArgumentError.checkNotNull(originRequestPolicyId, 'originRequestPolicyId');
     final $query = <String, List<String>>{
@@ -2065,10 +2425,10 @@ class CloudFront {
   /// you want to list.
   Future<ListDistributionsByRealtimeLogConfigResult>
       listDistributionsByRealtimeLogConfig2020_05_31({
-    String marker,
-    String maxItems,
-    String realtimeLogConfigArn,
-    String realtimeLogConfigName,
+    String? marker,
+    String? maxItems,
+    String? realtimeLogConfigArn,
+    String? realtimeLogConfigName,
   }) async {
     final $result = await _protocol.sendRaw(
       method: 'POST',
@@ -2093,14 +2453,13 @@ class CloudFront {
     );
   }
 
-  /// List the distributions that are associated with a specified AWS WAF web
-  /// ACL.
+  /// List the distributions that are associated with a specified WAF web ACL.
   ///
   /// May throw [InvalidArgument].
   /// May throw [InvalidWebACLId].
   ///
   /// Parameter [webACLId] :
-  /// The ID of the AWS WAF web ACL that you want to list the associated
+  /// The ID of the WAF web ACL that you want to list the associated
   /// distributions. If you specify "null" for the ID, the request returns a
   /// list of the distributions that aren't associated with a web ACL.
   ///
@@ -2117,9 +2476,9 @@ class CloudFront {
   /// the response body. The maximum and default values are both 100.
   Future<ListDistributionsByWebACLIdResult>
       listDistributionsByWebACLId2020_05_31({
-    @_s.required String webACLId,
-    String marker,
-    String maxItems,
+    required String webACLId,
+    String? marker,
+    String? maxItems,
   }) async {
     ArgumentError.checkNotNull(webACLId, 'webACLId');
     final $query = <String, List<String>>{
@@ -2157,8 +2516,8 @@ class CloudFront {
   /// the response body.
   Future<ListFieldLevelEncryptionConfigsResult>
       listFieldLevelEncryptionConfigs2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -2193,8 +2552,8 @@ class CloudFront {
   /// response body.
   Future<ListFieldLevelEncryptionProfilesResult>
       listFieldLevelEncryptionProfiles2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -2210,6 +2569,55 @@ class CloudFront {
     return ListFieldLevelEncryptionProfilesResult(
       fieldLevelEncryptionProfileList:
           FieldLevelEncryptionProfileList.fromXml($elem),
+    );
+  }
+
+  /// Gets a list of all CloudFront functions in your account.
+  ///
+  /// You can optionally apply a filter to return only the functions that are in
+  /// the specified stage, either <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  ///
+  /// You can optionally specify the maximum number of items to receive in the
+  /// response. If the total number of items in the list exceeds the maximum
+  /// that you specify, or the default maximum, the response is paginated. To
+  /// get the next page of items, send a subsequent request that specifies the
+  /// <code>NextMarker</code> value from the current response as the
+  /// <code>Marker</code> value in the subsequent request.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [marker] :
+  /// Use this field when paginating results to indicate where to begin in your
+  /// list of functions. The response includes functions in the list that occur
+  /// after the marker. To get the next page of the list, set this field’s value
+  /// to the value of <code>NextMarker</code> from the current page’s response.
+  ///
+  /// Parameter [maxItems] :
+  /// The maximum number of functions that you want in the response.
+  ///
+  /// Parameter [stage] :
+  /// An optional filter to return only the functions that are in the specified
+  /// stage, either <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  Future<ListFunctionsResult> listFunctions2020_05_31({
+    String? marker,
+    String? maxItems,
+    FunctionStage? stage,
+  }) async {
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+      if (stage != null) 'Stage': [stage.toValue()],
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'GET',
+      requestUri: '/2020-05-31/function',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return ListFunctionsResult(
+      functionList: FunctionList.fromXml($elem),
     );
   }
 
@@ -2235,9 +2643,9 @@ class CloudFront {
   /// The maximum number of invalidation batches that you want in the response
   /// body.
   Future<ListInvalidationsResult> listInvalidations2020_05_31({
-    @_s.required String distributionId,
-    String marker,
-    String maxItems,
+    required String distributionId,
+    String? marker,
+    String? maxItems,
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     final $query = <String, List<String>>{
@@ -2278,8 +2686,8 @@ class CloudFront {
   /// Parameter [maxItems] :
   /// The maximum number of key groups that you want in the response.
   Future<ListKeyGroupsResult> listKeyGroups2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -2300,7 +2708,8 @@ class CloudFront {
   /// Gets a list of origin request policies.
   ///
   /// You can optionally apply a filter to return only the managed policies
-  /// created by AWS, or only the custom policies created in your AWS account.
+  /// created by Amazon Web Services, or only the custom policies created in
+  /// your account.
   ///
   /// You can optionally specify the maximum number of items to receive in the
   /// response. If the total number of items in the list exceeds the maximum
@@ -2330,17 +2739,18 @@ class CloudFront {
   ///
   /// <ul>
   /// <li>
-  /// <code>managed</code> – Returns only the managed policies created by AWS.
+  /// <code>managed</code> – Returns only the managed policies created by Amazon
+  /// Web Services.
   /// </li>
   /// <li>
-  /// <code>custom</code> – Returns only the custom policies created in your AWS
+  /// <code>custom</code> – Returns only the custom policies created in your
   /// account.
   /// </li>
   /// </ul>
   Future<ListOriginRequestPoliciesResult> listOriginRequestPolicies2020_05_31({
-    String marker,
-    String maxItems,
-    OriginRequestPolicyType type,
+    String? marker,
+    String? maxItems,
+    OriginRequestPolicyType? type,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -2374,8 +2784,8 @@ class CloudFront {
   /// Parameter [maxItems] :
   /// The maximum number of public keys you want in the response body.
   Future<ListPublicKeysResult> listPublicKeys2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -2417,8 +2827,8 @@ class CloudFront {
   /// The maximum number of real-time log configurations that you want in the
   /// response.
   Future<ListRealtimeLogConfigsResult> listRealtimeLogConfigs2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -2448,8 +2858,8 @@ class CloudFront {
   /// parameter.
   Future<ListStreamingDistributionsResult>
       listStreamingDistributions2020_05_31({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     final $query = <String, List<String>>{
       if (marker != null) 'Marker': [marker],
@@ -2477,17 +2887,11 @@ class CloudFront {
   /// Parameter [resource] :
   /// An ARN of a CloudFront resource.
   Future<ListTagsForResourceResult> listTagsForResource2020_05_31({
-    @_s.required String resource,
+    required String resource,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws(-cn)?:cloudfront::[0-9]+:.*''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (resource != null) 'Resource': [resource],
+      'Resource': [resource],
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -2498,6 +2902,52 @@ class CloudFront {
     final $elem = await _s.xmlFromResponse($result);
     return ListTagsForResourceResult(
       tags: Tags.fromXml($elem),
+    );
+  }
+
+  /// Publishes a CloudFront function by copying the function code from the
+  /// <code>DEVELOPMENT</code> stage to <code>LIVE</code>. This automatically
+  /// updates all cache behaviors that are using this function to use the newly
+  /// published copy in the <code>LIVE</code> stage.
+  ///
+  /// When a function is published to the <code>LIVE</code> stage, you can
+  /// attach the function to a distribution’s cache behavior, using the
+  /// function’s Amazon Resource Name (ARN).
+  ///
+  /// To publish a function, you must provide the function’s name and version
+  /// (<code>ETag</code> value). To get these values, you can use
+  /// <code>ListFunctions</code> and <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [PreconditionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// publishing, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are publishing.
+  Future<PublishFunctionResult> publishFunction2020_05_31({
+    required String ifMatch,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(ifMatch, 'ifMatch');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}/publish',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return PublishFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
     );
   }
 
@@ -2514,19 +2964,13 @@ class CloudFront {
   /// Parameter [tags] :
   /// A complex type that contains zero or more <code>Tag</code> elements.
   Future<void> tagResource2020_05_31({
-    @_s.required String resource,
-    @_s.required Tags tags,
+    required String resource,
+    required Tags tags,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws(-cn)?:cloudfront::[0-9]+:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
-      if (resource != null) 'Resource': [resource],
+      'Resource': [resource],
     };
     await _protocol.send(
       method: 'POST',
@@ -2534,6 +2978,81 @@ class CloudFront {
       queryParams: $query,
       payload: tags.toXml('Tags'),
       exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Tests a CloudFront function.
+  ///
+  /// To test a function, you provide an <i>event object</i> that represents an
+  /// HTTP request or response that your CloudFront distribution could receive
+  /// in production. CloudFront runs the function, passing it the event object
+  /// that you provided, and returns the function’s result (the modified event
+  /// object) in the response. The response also contains function logs and
+  /// error messages, if any exist. For more information about testing
+  /// functions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function">Testing
+  /// functions</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  ///
+  /// To test a function, you provide the function’s name and version
+  /// (<code>ETag</code> value) along with the event object. To get the
+  /// function’s name and version, you can use <code>ListFunctions</code> and
+  /// <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [TestFunctionFailed].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [eventObject] :
+  /// The event object to test the function with. For more information about the
+  /// structure of the event object, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function">Testing
+  /// functions</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// testing, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are testing.
+  ///
+  /// Parameter [stage] :
+  /// The stage of the function that you are testing, either
+  /// <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  Future<TestFunctionResult> testFunction2020_05_31({
+    required Uint8List eventObject,
+    required String ifMatch,
+    required String name,
+    FunctionStage? stage,
+  }) async {
+    ArgumentError.checkNotNull(eventObject, 'eventObject');
+    ArgumentError.checkNotNull(ifMatch, 'ifMatch');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}/test',
+      headers: headers,
+      payload: TestFunctionRequest(
+              eventObject: eventObject,
+              ifMatch: ifMatch,
+              name: name,
+              stage: stage)
+          .toXml(
+        'TestFunctionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return TestFunctionResult(
+      testResult: TestResult.fromXml($elem),
     );
   }
 
@@ -2550,19 +3069,13 @@ class CloudFront {
   /// Parameter [tagKeys] :
   /// A complex type that contains zero or more <code>Tag</code> key elements.
   Future<void> untagResource2020_05_31({
-    @_s.required String resource,
-    @_s.required TagKeys tagKeys,
+    required String resource,
+    required TagKeys tagKeys,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws(-cn)?:cloudfront::[0-9]+:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (resource != null) 'Resource': [resource],
+      'Resource': [resource],
     };
     await _protocol.send(
       method: 'POST',
@@ -2617,14 +3130,15 @@ class CloudFront {
   /// returned in the cache policy’s <code>ETag</code> field in the response to
   /// <code>GetCachePolicyConfig</code>.
   Future<UpdateCachePolicyResult> updateCachePolicy2020_05_31({
-    @_s.required CachePolicyConfig cachePolicyConfig,
-    @_s.required String id,
-    String ifMatch,
+    required CachePolicyConfig cachePolicyConfig,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(cachePolicyConfig, 'cachePolicyConfig');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/2020-05-31/cache-policy/${Uri.encodeComponent(id)}',
@@ -2662,17 +3176,17 @@ class CloudFront {
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<UpdateCloudFrontOriginAccessIdentityResult>
       updateCloudFrontOriginAccessIdentity2020_05_31({
-    @_s.required
-        CloudFrontOriginAccessIdentityConfig
-            cloudFrontOriginAccessIdentityConfig,
-    @_s.required String id,
-    String ifMatch,
+    required CloudFrontOriginAccessIdentityConfig
+        cloudFrontOriginAccessIdentityConfig,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(cloudFrontOriginAccessIdentityConfig,
         'cloudFrontOriginAccessIdentityConfig');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
@@ -2819,6 +3333,9 @@ class CloudFront {
   /// May throw [TooManyDistributionsWithSingleFunctionARN].
   /// May throw [TooManyLambdaFunctionAssociations].
   /// May throw [InvalidLambdaFunctionAssociation].
+  /// May throw [TooManyDistributionsWithFunctionAssociations].
+  /// May throw [TooManyFunctionAssociations].
+  /// May throw [InvalidFunctionAssociation].
   /// May throw [InvalidOriginReadTimeout].
   /// May throw [InvalidOriginKeepaliveTimeout].
   /// May throw [NoSuchFieldLevelEncryptionConfig].
@@ -2831,6 +3348,8 @@ class CloudFront {
   /// May throw [TooManyDistributionsAssociatedToKeyGroup].
   /// May throw [TooManyKeyGroupsAssociatedToDistribution].
   /// May throw [TrustedKeyGroupDoesNotExist].
+  /// May throw [NoSuchRealtimeLogConfig].
+  /// May throw [RealtimeLogConfigOwnerMismatch].
   ///
   /// Parameter [distributionConfig] :
   /// The distribution's configuration information.
@@ -2843,14 +3362,15 @@ class CloudFront {
   /// retrieving the distribution's configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<UpdateDistributionResult> updateDistribution2020_05_31({
-    @_s.required DistributionConfig distributionConfig,
-    @_s.required String id,
-    String ifMatch,
+    required DistributionConfig distributionConfig,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(distributionConfig, 'distributionConfig');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/2020-05-31/distribution/${Uri.encodeComponent(id)}/config',
@@ -2891,15 +3411,16 @@ class CloudFront {
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<UpdateFieldLevelEncryptionConfigResult>
       updateFieldLevelEncryptionConfig2020_05_31({
-    @_s.required FieldLevelEncryptionConfig fieldLevelEncryptionConfig,
-    @_s.required String id,
-    String ifMatch,
+    required FieldLevelEncryptionConfig fieldLevelEncryptionConfig,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(
         fieldLevelEncryptionConfig, 'fieldLevelEncryptionConfig');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
@@ -2942,16 +3463,17 @@ class CloudFront {
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<UpdateFieldLevelEncryptionProfileResult>
       updateFieldLevelEncryptionProfile2020_05_31({
-    @_s.required
-        FieldLevelEncryptionProfileConfig fieldLevelEncryptionProfileConfig,
-    @_s.required String id,
-    String ifMatch,
+    required FieldLevelEncryptionProfileConfig
+        fieldLevelEncryptionProfileConfig,
+    required String id,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(
         fieldLevelEncryptionProfileConfig, 'fieldLevelEncryptionProfileConfig');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
@@ -2965,6 +3487,77 @@ class CloudFront {
     return UpdateFieldLevelEncryptionProfileResult(
       fieldLevelEncryptionProfile: FieldLevelEncryptionProfile.fromXml($elem),
       eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
+  }
+
+  /// Updates a CloudFront function.
+  ///
+  /// You can update a function’s code or the comment that describes the
+  /// function. You cannot update a function’s name.
+  ///
+  /// To update a function, you provide the function’s name and version
+  /// (<code>ETag</code> value) along with the updated function code. To get the
+  /// name and version, you can use <code>ListFunctions</code> and
+  /// <code>DescribeFunction</code>.
+  ///
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidIfMatchVersion].
+  /// May throw [NoSuchFunctionExists].
+  /// May throw [PreconditionFailed].
+  /// May throw [FunctionSizeLimitExceeded].
+  /// May throw [UnsupportedOperation].
+  ///
+  /// Parameter [functionCode] :
+  /// The function code. For more information about writing a CloudFront
+  /// function, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  ///
+  /// Parameter [functionConfig] :
+  /// Configuration information about the function.
+  ///
+  /// Parameter [ifMatch] :
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// updating, which you can get using <code>DescribeFunction</code>.
+  ///
+  /// Parameter [name] :
+  /// The name of the function that you are updating.
+  Future<UpdateFunctionResult> updateFunction2020_05_31({
+    required Uint8List functionCode,
+    required FunctionConfig functionConfig,
+    required String ifMatch,
+    required String name,
+  }) async {
+    ArgumentError.checkNotNull(functionCode, 'functionCode');
+    ArgumentError.checkNotNull(functionConfig, 'functionConfig');
+    ArgumentError.checkNotNull(ifMatch, 'ifMatch');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'If-Match': ifMatch.toString(),
+    };
+    final $result = await _protocol.sendRaw(
+      method: 'PUT',
+      requestUri: '/2020-05-31/function/${Uri.encodeComponent(name)}',
+      headers: headers,
+      payload: UpdateFunctionRequest(
+              functionCode: functionCode,
+              functionConfig: functionConfig,
+              ifMatch: ifMatch,
+              name: name)
+          .toXml(
+        'UpdateFunctionRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'http://cloudfront.amazonaws.com/doc/2020-05-31/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateFunctionResult(
+      functionSummary: FunctionSummary.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETtag'),
     );
   }
 
@@ -3004,14 +3597,15 @@ class CloudFront {
   /// The version of the key group that you are updating. The version is the key
   /// group’s <code>ETag</code> value.
   Future<UpdateKeyGroupResult> updateKeyGroup2020_05_31({
-    @_s.required String id,
-    @_s.required KeyGroupConfig keyGroupConfig,
-    String ifMatch,
+    required String id,
+    required KeyGroupConfig keyGroupConfig,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(keyGroupConfig, 'keyGroupConfig');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/2020-05-31/key-group/${Uri.encodeComponent(id)}',
@@ -3073,15 +3667,16 @@ class CloudFront {
   /// version is returned in the origin request policy’s <code>ETag</code> field
   /// in the response to <code>GetOriginRequestPolicyConfig</code>.
   Future<UpdateOriginRequestPolicyResult> updateOriginRequestPolicy2020_05_31({
-    @_s.required String id,
-    @_s.required OriginRequestPolicyConfig originRequestPolicyConfig,
-    String ifMatch,
+    required String id,
+    required OriginRequestPolicyConfig originRequestPolicyConfig,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(
         originRequestPolicyConfig, 'originRequestPolicyConfig');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
@@ -3119,14 +3714,15 @@ class CloudFront {
   /// retrieving the public key to update. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<UpdatePublicKeyResult> updatePublicKey2020_05_31({
-    @_s.required String id,
-    @_s.required PublicKeyConfig publicKeyConfig,
-    String ifMatch,
+    required String id,
+    required PublicKeyConfig publicKeyConfig,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(publicKeyConfig, 'publicKeyConfig');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/2020-05-31/public-key/${Uri.encodeComponent(id)}/config',
@@ -3191,11 +3787,11 @@ class CloudFront {
   /// real-time log data. You must provide an integer between 1 and 100,
   /// inclusive.
   Future<UpdateRealtimeLogConfigResult> updateRealtimeLogConfig2020_05_31({
-    String arn,
-    List<EndPoint> endPoints,
-    List<String> fields,
-    String name,
-    int samplingRate,
+    String? arn,
+    List<EndPoint>? endPoints,
+    List<String>? fields,
+    String? name,
+    int? samplingRate,
   }) async {
     final $result = await _protocol.send(
       method: 'PUT',
@@ -3246,15 +3842,16 @@ class CloudFront {
   /// <code>E2QWRUHAPOMQZL</code>.
   Future<UpdateStreamingDistributionResult>
       updateStreamingDistribution2020_05_31({
-    @_s.required String id,
-    @_s.required StreamingDistributionConfig streamingDistributionConfig,
-    String ifMatch,
+    required String id,
+    required StreamingDistributionConfig streamingDistributionConfig,
+    String? ifMatch,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(
         streamingDistributionConfig, 'streamingDistributionConfig');
-    final headers = <String, String>{};
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
+    final headers = <String, String>{
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
@@ -3285,71 +3882,117 @@ class ActiveTrustedKeyGroups {
   /// A list of key groups, including the identifiers of the public keys in each
   /// key group that CloudFront can use to verify the signatures of signed URLs
   /// and signed cookies.
-  final List<KGKeyPairIds> items;
+  final List<KGKeyPairIds>? items;
 
   ActiveTrustedKeyGroups({
-    @_s.required this.enabled,
-    @_s.required this.quantity,
+    required this.enabled,
+    required this.quantity,
     this.items,
   });
+
+  factory ActiveTrustedKeyGroups.fromJson(Map<String, dynamic> json) {
+    return ActiveTrustedKeyGroups(
+      enabled: json['Enabled'] as bool,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => KGKeyPairIds.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ActiveTrustedKeyGroups.fromXml(_s.XmlElement elem) {
     return ActiveTrustedKeyGroups(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('KeyGroup')
           .map((c) => KGKeyPairIds.fromXml(c))
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Enabled': enabled,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
 }
 
-/// A list of AWS accounts and the active CloudFront key pairs in each account
-/// that CloudFront can use to verify the signatures of signed URLs and signed
+/// A list of accounts and the active CloudFront key pairs in each account that
+/// CloudFront can use to verify the signatures of signed URLs and signed
 /// cookies.
 class ActiveTrustedSigners {
-  /// This field is <code>true</code> if any of the AWS accounts in the list have
+  /// This field is <code>true</code> if any of the accounts in the list have
   /// active CloudFront key pairs that CloudFront can use to verify the signatures
   /// of signed URLs and signed cookies. If not, this field is <code>false</code>.
   final bool enabled;
 
-  /// The number of AWS accounts in the list.
+  /// The number of accounts in the list.
   final int quantity;
 
-  /// A list of AWS accounts and the identifiers of active CloudFront key pairs in
+  /// A list of accounts and the identifiers of active CloudFront key pairs in
   /// each account that CloudFront can use to verify the signatures of signed URLs
   /// and signed cookies.
-  final List<Signer> items;
+  final List<Signer>? items;
 
   ActiveTrustedSigners({
-    @_s.required this.enabled,
-    @_s.required this.quantity,
+    required this.enabled,
+    required this.quantity,
     this.items,
   });
+
+  factory ActiveTrustedSigners.fromJson(Map<String, dynamic> json) {
+    return ActiveTrustedSigners(
+      enabled: json['Enabled'] as bool,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Signer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ActiveTrustedSigners.fromXml(_s.XmlElement elem) {
     return ActiveTrustedSigners(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
           elem.findElements('Signer').map((c) => Signer.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Enabled': enabled,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
 }
 
-/// AWS services in China customers must file for an Internet Content Provider
-/// (ICP) recordal if they want to serve content publicly on an alternate domain
-/// name, also known as a CNAME, that they've added to CloudFront.
-/// AliasICPRecordal provides the ICP recordal status for CNAMEs associated with
-/// distributions. The status is returned in the CloudFront response; you can't
-/// configure it yourself.
+/// Amazon Web Services services in China customers must file for an Internet
+/// Content Provider (ICP) recordal if they want to serve content publicly on an
+/// alternate domain name, also known as a CNAME, that they've added to
+/// CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs
+/// associated with distributions. The status is returned in the CloudFront
+/// response; you can't configure it yourself.
 ///
 /// For more information about ICP recordals, see <a
 /// href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
-/// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS
-/// services in China</i>.
+/// Signup, Accounts, and Credentials</a> in <i>Getting Started with Amazon Web
+/// Services services in China</i>.
 class AliasICPRecordal {
   /// A domain name associated with a distribution.
-  final String cname;
+  final String? cname;
 
   /// The Internet Content Provider (ICP) recordal status for a CNAME. The
   /// ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in regions
@@ -3377,12 +4020,21 @@ class AliasICPRecordal {
   /// status.
   /// </li>
   /// </ul>
-  final ICPRecordalStatus iCPRecordalStatus;
+  final ICPRecordalStatus? iCPRecordalStatus;
 
   AliasICPRecordal({
     this.cname,
     this.iCPRecordalStatus,
   });
+
+  factory AliasICPRecordal.fromJson(Map<String, dynamic> json) {
+    return AliasICPRecordal(
+      cname: json['CNAME'] as String?,
+      iCPRecordalStatus:
+          (json['ICPRecordalStatus'] as String?)?.toICPRecordalStatus(),
+    );
+  }
+
   factory AliasICPRecordal.fromXml(_s.XmlElement elem) {
     return AliasICPRecordal(
       cname: _s.extractXmlStringValue(elem, 'CNAME'),
@@ -3390,6 +4042,16 @@ class AliasICPRecordal {
           .extractXmlStringValue(elem, 'ICPRecordalStatus')
           ?.toICPRecordalStatus(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cname = this.cname;
+    final iCPRecordalStatus = this.iCPRecordalStatus;
+    return {
+      if (cname != null) 'CNAME': cname,
+      if (iCPRecordalStatus != null)
+        'ICPRecordalStatus': iCPRecordalStatus.toValue(),
+    };
   }
 }
 
@@ -3402,22 +4064,44 @@ class Aliases {
 
   /// A complex type that contains the CNAME aliases, if any, that you want to
   /// associate with this distribution.
-  final List<String> items;
+  final List<String>? items;
 
   Aliases({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory Aliases.fromJson(Map<String, dynamic> json) {
+    return Aliases(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory Aliases.fromXml(_s.XmlElement elem) {
     return Aliases(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'CNAME')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -3430,7 +4114,7 @@ class Aliases {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3467,35 +4151,62 @@ class AllowedMethods {
   /// <code>OPTIONS</code> requests) and 7 (for <code>GET, HEAD, OPTIONS, PUT,
   /// PATCH, POST</code>, and <code>DELETE</code> requests).
   final int quantity;
-  final CachedMethods cachedMethods;
+  final CachedMethods? cachedMethods;
 
   AllowedMethods({
-    @_s.required this.items,
-    @_s.required this.quantity,
+    required this.items,
+    required this.quantity,
     this.cachedMethods,
   });
+
+  factory AllowedMethods.fromJson(Map<String, dynamic> json) {
+    return AllowedMethods(
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toMethod())
+          .toList(),
+      quantity: json['Quantity'] as int,
+      cachedMethods: json['CachedMethods'] != null
+          ? CachedMethods.fromJson(
+              json['CachedMethods'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory AllowedMethods.fromXml(_s.XmlElement elem) {
     return AllowedMethods(
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => _s
-          .extractXmlStringListValues(elem, 'Method')
+      items: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'Items')!, 'Method')
           .map((s) => s.toMethod())
-          .toList()),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+          .toList(),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       cachedMethods: _s
           .extractXmlChild(elem, 'CachedMethods')
           ?.let((e) => CachedMethods.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    final cachedMethods = this.cachedMethods;
+    return {
+      'Items': items.map((e) => e.toValue()).toList(),
+      'Quantity': quantity,
+      if (cachedMethods != null) 'CachedMethods': cachedMethods,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
+    final cachedMethods = this.cachedMethods;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(
-          _s.XmlName('Items'),
-          [],
-          items?.map(
-              (e) => _s.encodeXmlStringValue('Method', e?.toValue() ?? ''))),
-      if (cachedMethods != null) cachedMethods?.toXml('CachedMethods'),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Method', e.toValue()))),
+      if (cachedMethods != null) cachedMethods.toXml('CachedMethods'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3503,7 +4214,7 @@ class AllowedMethods {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3596,7 +4307,7 @@ class CacheBehavior {
   /// Cache Expiration</a> in the <i>Amazon CloudFront Developer Guide</i>.
   /// </note>
   final ViewerProtocolPolicy viewerProtocolPolicy;
-  final AllowedMethods allowedMethods;
+  final AllowedMethods? allowedMethods;
 
   /// The unique identifier of the cache policy that is attached to this cache
   /// behavior. For more information, see <a
@@ -3605,14 +4316,18 @@ class CacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html">Using
   /// the managed cache policies</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
-  final String cachePolicyId;
+  ///
+  /// A <code>CacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
+  final String? cachePolicyId;
 
   /// Whether you want CloudFront to automatically compress certain files for this
   /// cache behavior. If so, specify true; if not, specify false. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html">Serving
   /// Compressed Files</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final bool compress;
+  final bool? compress;
 
   /// This field is deprecated. We recommend that you use the
   /// <code>DefaultTTL</code> field in a cache policy instead of this field. For
@@ -3632,12 +4347,12 @@ class CacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html">Managing
   /// How Long Content Stays in an Edge Cache (Expiration)</a> in the <i>Amazon
   /// CloudFront Developer Guide</i>.
-  final int defaultTTL;
+  final int? defaultTTL;
 
   /// The value of <code>ID</code> for the field-level encryption configuration
   /// that you want CloudFront to use for encrypting specific fields of data for
   /// this cache behavior.
-  final String fieldLevelEncryptionId;
+  final String? fieldLevelEncryptionId;
 
   /// This field is deprecated. We recommend that you use a cache policy or an
   /// origin request policy instead of this field. For more information, see <a
@@ -3660,13 +4375,22 @@ class CacheBehavior {
   /// the managed origin request policies</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
   ///
+  /// A <code>CacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
+  ///
   /// A complex type that specifies how CloudFront handles query strings, cookies,
   /// and HTTP headers.
-  final ForwardedValues forwardedValues;
+  final ForwardedValues? forwardedValues;
 
-  /// A complex type that contains zero or more Lambda function associations for a
-  /// cache behavior.
-  final LambdaFunctionAssociations lambdaFunctionAssociations;
+  /// A list of CloudFront functions that are associated with this cache behavior.
+  /// CloudFront functions must be published to the <code>LIVE</code> stage to
+  /// associate them with a cache behavior.
+  final FunctionAssociations? functionAssociations;
+
+  /// A complex type that contains zero or more Lambda@Edge function associations
+  /// for a cache behavior.
+  final LambdaFunctionAssociations? lambdaFunctionAssociations;
 
   /// This field is deprecated. We recommend that you use the <code>MaxTTL</code>
   /// field in a cache policy instead of this field. For more information, see <a
@@ -3685,7 +4409,7 @@ class CacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html">Managing
   /// How Long Content Stays in an Edge Cache (Expiration)</a> in the <i>Amazon
   /// CloudFront Developer Guide</i>.
-  final int maxTTL;
+  final int? maxTTL;
 
   /// This field is deprecated. We recommend that you use the <code>MinTTL</code>
   /// field in a cache policy instead of this field. For more information, see <a
@@ -3706,7 +4430,7 @@ class CacheBehavior {
   /// CloudFront to forward all headers to your origin (under
   /// <code>Headers</code>, if you specify <code>1</code> for
   /// <code>Quantity</code> and <code>*</code> for <code>Name</code>).
-  final int minTTL;
+  final int? minTTL;
 
   /// The unique identifier of the origin request policy that is attached to this
   /// cache behavior. For more information, see <a
@@ -3715,13 +4439,13 @@ class CacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html">Using
   /// the managed origin request policies</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
-  final String originRequestPolicyId;
+  final String? originRequestPolicyId;
 
   /// The Amazon Resource Name (ARN) of the real-time log configuration that is
   /// attached to this cache behavior. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html">Real-time
   /// logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final String realtimeLogConfigArn;
+  final String? realtimeLogConfigArn;
 
   /// Indicates whether you want to distribute media files in the Microsoft Smooth
   /// Streaming format using the origin that is associated with this cache
@@ -3730,7 +4454,7 @@ class CacheBehavior {
   /// <code>SmoothStreaming</code>, you can still distribute other content using
   /// this cache behavior if the content matches the value of
   /// <code>PathPattern</code>.
-  final bool smoothStreaming;
+  final bool? smoothStreaming;
 
   /// A list of key groups that CloudFront can use to validate signed URLs or
   /// signed cookies.
@@ -3743,35 +4467,36 @@ class CacheBehavior {
   /// the signature. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final TrustedKeyGroups trustedKeyGroups;
+  final TrustedKeyGroups? trustedKeyGroups;
 
   /// <important>
   /// We recommend using <code>TrustedKeyGroups</code> instead of
   /// <code>TrustedSigners</code>.
   /// </important>
-  /// A list of AWS account IDs whose public keys CloudFront can use to validate
+  /// A list of account IDs whose public keys CloudFront can use to validate
   /// signed URLs or signed cookies.
   ///
   /// When a cache behavior contains trusted signers, CloudFront requires signed
   /// URLs or signed cookies for all requests that match the cache behavior. The
   /// URLs or cookies must be signed with the private key of a CloudFront key pair
-  /// in the trusted signer’s AWS account. The signed URL or cookie contains
+  /// in the trusted signer’s account. The signed URL or cookie contains
   /// information about which public key CloudFront should use to verify the
   /// signature. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final TrustedSigners trustedSigners;
+  final TrustedSigners? trustedSigners;
 
   CacheBehavior({
-    @_s.required this.pathPattern,
-    @_s.required this.targetOriginId,
-    @_s.required this.viewerProtocolPolicy,
+    required this.pathPattern,
+    required this.targetOriginId,
+    required this.viewerProtocolPolicy,
     this.allowedMethods,
     this.cachePolicyId,
     this.compress,
     this.defaultTTL,
     this.fieldLevelEncryptionId,
     this.forwardedValues,
+    this.functionAssociations,
     this.lambdaFunctionAssociations,
     this.maxTTL,
     this.minTTL,
@@ -3781,13 +4506,56 @@ class CacheBehavior {
     this.trustedKeyGroups,
     this.trustedSigners,
   });
+
+  factory CacheBehavior.fromJson(Map<String, dynamic> json) {
+    return CacheBehavior(
+      pathPattern: json['PathPattern'] as String,
+      targetOriginId: json['TargetOriginId'] as String,
+      viewerProtocolPolicy:
+          (json['ViewerProtocolPolicy'] as String).toViewerProtocolPolicy(),
+      allowedMethods: json['AllowedMethods'] != null
+          ? AllowedMethods.fromJson(
+              json['AllowedMethods'] as Map<String, dynamic>)
+          : null,
+      cachePolicyId: json['CachePolicyId'] as String?,
+      compress: json['Compress'] as bool?,
+      defaultTTL: json['DefaultTTL'] as int?,
+      fieldLevelEncryptionId: json['FieldLevelEncryptionId'] as String?,
+      forwardedValues: json['ForwardedValues'] != null
+          ? ForwardedValues.fromJson(
+              json['ForwardedValues'] as Map<String, dynamic>)
+          : null,
+      functionAssociations: json['FunctionAssociations'] != null
+          ? FunctionAssociations.fromJson(
+              json['FunctionAssociations'] as Map<String, dynamic>)
+          : null,
+      lambdaFunctionAssociations: json['LambdaFunctionAssociations'] != null
+          ? LambdaFunctionAssociations.fromJson(
+              json['LambdaFunctionAssociations'] as Map<String, dynamic>)
+          : null,
+      maxTTL: json['MaxTTL'] as int?,
+      minTTL: json['MinTTL'] as int?,
+      originRequestPolicyId: json['OriginRequestPolicyId'] as String?,
+      realtimeLogConfigArn: json['RealtimeLogConfigArn'] as String?,
+      smoothStreaming: json['SmoothStreaming'] as bool?,
+      trustedKeyGroups: json['TrustedKeyGroups'] != null
+          ? TrustedKeyGroups.fromJson(
+              json['TrustedKeyGroups'] as Map<String, dynamic>)
+          : null,
+      trustedSigners: json['TrustedSigners'] != null
+          ? TrustedSigners.fromJson(
+              json['TrustedSigners'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CacheBehavior.fromXml(_s.XmlElement elem) {
     return CacheBehavior(
-      pathPattern: _s.extractXmlStringValue(elem, 'PathPattern'),
-      targetOriginId: _s.extractXmlStringValue(elem, 'TargetOriginId'),
+      pathPattern: _s.extractXmlStringValue(elem, 'PathPattern')!,
+      targetOriginId: _s.extractXmlStringValue(elem, 'TargetOriginId')!,
       viewerProtocolPolicy: _s
-          .extractXmlStringValue(elem, 'ViewerProtocolPolicy')
-          ?.toViewerProtocolPolicy(),
+          .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
+          .toViewerProtocolPolicy(),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let((e) => AllowedMethods.fromXml(e)),
@@ -3799,6 +4567,9 @@ class CacheBehavior {
       forwardedValues: _s
           .extractXmlChild(elem, 'ForwardedValues')
           ?.let((e) => ForwardedValues.fromXml(e)),
+      functionAssociations: _s
+          .extractXmlChild(elem, 'FunctionAssociations')
+          ?.let((e) => FunctionAssociations.fromXml(e)),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
           ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
@@ -3818,20 +4589,86 @@ class CacheBehavior {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final pathPattern = this.pathPattern;
+    final targetOriginId = this.targetOriginId;
+    final viewerProtocolPolicy = this.viewerProtocolPolicy;
+    final allowedMethods = this.allowedMethods;
+    final cachePolicyId = this.cachePolicyId;
+    final compress = this.compress;
+    final defaultTTL = this.defaultTTL;
+    final fieldLevelEncryptionId = this.fieldLevelEncryptionId;
+    final forwardedValues = this.forwardedValues;
+    final functionAssociations = this.functionAssociations;
+    final lambdaFunctionAssociations = this.lambdaFunctionAssociations;
+    final maxTTL = this.maxTTL;
+    final minTTL = this.minTTL;
+    final originRequestPolicyId = this.originRequestPolicyId;
+    final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final smoothStreaming = this.smoothStreaming;
+    final trustedKeyGroups = this.trustedKeyGroups;
+    final trustedSigners = this.trustedSigners;
+    return {
+      'PathPattern': pathPattern,
+      'TargetOriginId': targetOriginId,
+      'ViewerProtocolPolicy': viewerProtocolPolicy.toValue(),
+      if (allowedMethods != null) 'AllowedMethods': allowedMethods,
+      if (cachePolicyId != null) 'CachePolicyId': cachePolicyId,
+      if (compress != null) 'Compress': compress,
+      if (defaultTTL != null) 'DefaultTTL': defaultTTL,
+      if (fieldLevelEncryptionId != null)
+        'FieldLevelEncryptionId': fieldLevelEncryptionId,
+      if (forwardedValues != null) 'ForwardedValues': forwardedValues,
+      if (functionAssociations != null)
+        'FunctionAssociations': functionAssociations,
+      if (lambdaFunctionAssociations != null)
+        'LambdaFunctionAssociations': lambdaFunctionAssociations,
+      if (maxTTL != null) 'MaxTTL': maxTTL,
+      if (minTTL != null) 'MinTTL': minTTL,
+      if (originRequestPolicyId != null)
+        'OriginRequestPolicyId': originRequestPolicyId,
+      if (realtimeLogConfigArn != null)
+        'RealtimeLogConfigArn': realtimeLogConfigArn,
+      if (smoothStreaming != null) 'SmoothStreaming': smoothStreaming,
+      if (trustedKeyGroups != null) 'TrustedKeyGroups': trustedKeyGroups,
+      if (trustedSigners != null) 'TrustedSigners': trustedSigners,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final pathPattern = this.pathPattern;
+    final targetOriginId = this.targetOriginId;
+    final viewerProtocolPolicy = this.viewerProtocolPolicy;
+    final allowedMethods = this.allowedMethods;
+    final cachePolicyId = this.cachePolicyId;
+    final compress = this.compress;
+    final defaultTTL = this.defaultTTL;
+    final fieldLevelEncryptionId = this.fieldLevelEncryptionId;
+    final forwardedValues = this.forwardedValues;
+    final functionAssociations = this.functionAssociations;
+    final lambdaFunctionAssociations = this.lambdaFunctionAssociations;
+    final maxTTL = this.maxTTL;
+    final minTTL = this.minTTL;
+    final originRequestPolicyId = this.originRequestPolicyId;
+    final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final smoothStreaming = this.smoothStreaming;
+    final trustedKeyGroups = this.trustedKeyGroups;
+    final trustedSigners = this.trustedSigners;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('PathPattern', pathPattern),
       _s.encodeXmlStringValue('TargetOriginId', targetOriginId),
-      if (trustedSigners != null) trustedSigners?.toXml('TrustedSigners'),
-      if (trustedKeyGroups != null) trustedKeyGroups?.toXml('TrustedKeyGroups'),
+      if (trustedSigners != null) trustedSigners.toXml('TrustedSigners'),
+      if (trustedKeyGroups != null) trustedKeyGroups.toXml('TrustedKeyGroups'),
       _s.encodeXmlStringValue(
-          'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue() ?? ''),
-      if (allowedMethods != null) allowedMethods?.toXml('AllowedMethods'),
+          'ViewerProtocolPolicy', viewerProtocolPolicy.toValue()),
+      if (allowedMethods != null) allowedMethods.toXml('AllowedMethods'),
       if (smoothStreaming != null)
         _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
       if (compress != null) _s.encodeXmlBoolValue('Compress', compress),
       if (lambdaFunctionAssociations != null)
-        lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
+        lambdaFunctionAssociations.toXml('LambdaFunctionAssociations'),
+      if (functionAssociations != null)
+        functionAssociations.toXml('FunctionAssociations'),
       if (fieldLevelEncryptionId != null)
         _s.encodeXmlStringValue(
             'FieldLevelEncryptionId', fieldLevelEncryptionId),
@@ -3841,7 +4678,7 @@ class CacheBehavior {
         _s.encodeXmlStringValue('CachePolicyId', cachePolicyId),
       if (originRequestPolicyId != null)
         _s.encodeXmlStringValue('OriginRequestPolicyId', originRequestPolicyId),
-      if (forwardedValues != null) forwardedValues?.toXml('ForwardedValues'),
+      if (forwardedValues != null) forwardedValues.toXml('ForwardedValues'),
       if (minTTL != null) _s.encodeXmlIntValue('MinTTL', minTTL),
       if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
       if (maxTTL != null) _s.encodeXmlIntValue('MaxTTL', maxTTL),
@@ -3852,7 +4689,7 @@ class CacheBehavior {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3866,15 +4703,26 @@ class CacheBehaviors {
   /// Optional: A complex type that contains cache behaviors for this
   /// distribution. If <code>Quantity</code> is <code>0</code>, you can omit
   /// <code>Items</code>.
-  final List<CacheBehavior> items;
+  final List<CacheBehavior>? items;
 
   CacheBehaviors({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory CacheBehaviors.fromJson(Map<String, dynamic> json) {
+    return CacheBehaviors(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => CacheBehavior.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory CacheBehaviors.fromXml(_s.XmlElement elem) {
     return CacheBehaviors(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CacheBehavior')
           .map((c) => CacheBehavior.fromXml(c))
@@ -3882,12 +4730,23 @@ class CacheBehaviors {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            items.map((e) => e?.toXml('CacheBehavior'))),
+            items.map((e) => e.toXml('CacheBehavior'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3895,7 +4754,7 @@ class CacheBehaviors {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -3933,18 +4792,39 @@ class CachePolicy {
   final DateTime lastModifiedTime;
 
   CachePolicy({
-    @_s.required this.cachePolicyConfig,
-    @_s.required this.id,
-    @_s.required this.lastModifiedTime,
+    required this.cachePolicyConfig,
+    required this.id,
+    required this.lastModifiedTime,
   });
+
+  factory CachePolicy.fromJson(Map<String, dynamic> json) {
+    return CachePolicy(
+      cachePolicyConfig: CachePolicyConfig.fromJson(
+          json['CachePolicyConfig'] as Map<String, dynamic>),
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+    );
+  }
+
   factory CachePolicy.fromXml(_s.XmlElement elem) {
     return CachePolicy(
-      cachePolicyConfig: _s
-          .extractXmlChild(elem, 'CachePolicyConfig')
-          ?.let((e) => CachePolicyConfig.fromXml(e)),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
+      cachePolicyConfig: CachePolicyConfig.fromXml(
+          _s.extractXmlChild(elem, 'CachePolicyConfig')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cachePolicyConfig = this.cachePolicyConfig;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'CachePolicyConfig': cachePolicyConfig,
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
   }
 }
 
@@ -3981,8 +4861,9 @@ class CachePolicyConfig {
   /// A unique name to identify the cache policy.
   final String name;
 
-  /// A comment to describe the cache policy.
-  final String comment;
+  /// A comment to describe the cache policy. The comment cannot be longer than
+  /// 128 characters.
+  final String? comment;
 
   /// The default amount of time, in seconds, that you want objects to stay in the
   /// CloudFront cache before CloudFront sends another request to the origin to
@@ -3997,7 +4878,7 @@ class CachePolicyConfig {
   /// The default value for this field is 86400 seconds (one day). If the value of
   /// <code>MinTTL</code> is more than 86400 seconds, then the default value for
   /// this field is the same as the value of <code>MinTTL</code>.
-  final int defaultTTL;
+  final int? defaultTTL;
 
   /// The maximum amount of time, in seconds, that objects stay in the CloudFront
   /// cache before CloudFront sends another request to the origin to see if the
@@ -4012,26 +4893,43 @@ class CachePolicyConfig {
   /// value of <code>MinTTL</code> or <code>DefaultTTL</code> is more than
   /// 31536000 seconds, then the default value for this field is the same as the
   /// value of <code>DefaultTTL</code>.
-  final int maxTTL;
+  final int? maxTTL;
 
   /// The HTTP headers, cookies, and URL query strings to include in the cache
   /// key. The values included in the cache key are automatically included in
   /// requests that CloudFront sends to the origin.
-  final ParametersInCacheKeyAndForwardedToOrigin
+  final ParametersInCacheKeyAndForwardedToOrigin?
       parametersInCacheKeyAndForwardedToOrigin;
 
   CachePolicyConfig({
-    @_s.required this.minTTL,
-    @_s.required this.name,
+    required this.minTTL,
+    required this.name,
     this.comment,
     this.defaultTTL,
     this.maxTTL,
     this.parametersInCacheKeyAndForwardedToOrigin,
   });
+
+  factory CachePolicyConfig.fromJson(Map<String, dynamic> json) {
+    return CachePolicyConfig(
+      minTTL: json['MinTTL'] as int,
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+      defaultTTL: json['DefaultTTL'] as int?,
+      maxTTL: json['MaxTTL'] as int?,
+      parametersInCacheKeyAndForwardedToOrigin:
+          json['ParametersInCacheKeyAndForwardedToOrigin'] != null
+              ? ParametersInCacheKeyAndForwardedToOrigin.fromJson(
+                  json['ParametersInCacheKeyAndForwardedToOrigin']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
   factory CachePolicyConfig.fromXml(_s.XmlElement elem) {
     return CachePolicyConfig(
-      minTTL: _s.extractXmlIntValue(elem, 'MinTTL'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      minTTL: _s.extractXmlIntValue(elem, 'MinTTL')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       defaultTTL: _s.extractXmlIntValue(elem, 'DefaultTTL'),
       maxTTL: _s.extractXmlIntValue(elem, 'MaxTTL'),
@@ -4041,7 +4939,34 @@ class CachePolicyConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final minTTL = this.minTTL;
+    final name = this.name;
+    final comment = this.comment;
+    final defaultTTL = this.defaultTTL;
+    final maxTTL = this.maxTTL;
+    final parametersInCacheKeyAndForwardedToOrigin =
+        this.parametersInCacheKeyAndForwardedToOrigin;
+    return {
+      'MinTTL': minTTL,
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+      if (defaultTTL != null) 'DefaultTTL': defaultTTL,
+      if (maxTTL != null) 'MaxTTL': maxTTL,
+      if (parametersInCacheKeyAndForwardedToOrigin != null)
+        'ParametersInCacheKeyAndForwardedToOrigin':
+            parametersInCacheKeyAndForwardedToOrigin,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final minTTL = this.minTTL;
+    final name = this.name;
+    final comment = this.comment;
+    final defaultTTL = this.defaultTTL;
+    final maxTTL = this.maxTTL;
+    final parametersInCacheKeyAndForwardedToOrigin =
+        this.parametersInCacheKeyAndForwardedToOrigin;
     final $children = <_s.XmlNode>[
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
       _s.encodeXmlStringValue('Name', name),
@@ -4050,7 +4975,7 @@ class CachePolicyConfig {
       _s.encodeXmlIntValue('MinTTL', minTTL),
       if (parametersInCacheKeyAndForwardedToOrigin != null)
         parametersInCacheKeyAndForwardedToOrigin
-            ?.toXml('ParametersInCacheKeyAndForwardedToOrigin'),
+            .toXml('ParametersInCacheKeyAndForwardedToOrigin'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4058,7 +4983,7 @@ class CachePolicyConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4082,7 +5007,6 @@ extension on CachePolicyCookieBehavior {
       case CachePolicyCookieBehavior.all:
         return 'all';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4098,7 +5022,7 @@ extension on String {
       case 'all':
         return CachePolicyCookieBehavior.all;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum CachePolicyCookieBehavior');
   }
 }
 
@@ -4136,28 +5060,49 @@ class CachePolicyCookiesConfig {
   /// </li>
   /// </ul>
   final CachePolicyCookieBehavior cookieBehavior;
-  final CookieNames cookies;
+  final CookieNames? cookies;
 
   CachePolicyCookiesConfig({
-    @_s.required this.cookieBehavior,
+    required this.cookieBehavior,
     this.cookies,
   });
+
+  factory CachePolicyCookiesConfig.fromJson(Map<String, dynamic> json) {
+    return CachePolicyCookiesConfig(
+      cookieBehavior:
+          (json['CookieBehavior'] as String).toCachePolicyCookieBehavior(),
+      cookies: json['Cookies'] != null
+          ? CookieNames.fromJson(json['Cookies'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CachePolicyCookiesConfig.fromXml(_s.XmlElement elem) {
     return CachePolicyCookiesConfig(
       cookieBehavior: _s
-          .extractXmlStringValue(elem, 'CookieBehavior')
-          ?.toCachePolicyCookieBehavior(),
+          .extractXmlStringValue(elem, 'CookieBehavior')!
+          .toCachePolicyCookieBehavior(),
       cookies: _s
           .extractXmlChild(elem, 'Cookies')
           ?.let((e) => CookieNames.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final cookieBehavior = this.cookieBehavior;
+    final cookies = this.cookies;
+    return {
+      'CookieBehavior': cookieBehavior.toValue(),
+      if (cookies != null) 'Cookies': cookies,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cookieBehavior = this.cookieBehavior;
+    final cookies = this.cookies;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'CookieBehavior', cookieBehavior?.toValue() ?? ''),
-      if (cookies != null) cookies?.toXml('Cookies'),
+      _s.encodeXmlStringValue('CookieBehavior', cookieBehavior.toValue()),
+      if (cookies != null) cookies.toXml('Cookies'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4165,7 +5110,7 @@ class CachePolicyCookiesConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4183,7 +5128,6 @@ extension on CachePolicyHeaderBehavior {
       case CachePolicyHeaderBehavior.whitelist:
         return 'whitelist';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4195,7 +5139,7 @@ extension on String {
       case 'whitelist':
         return CachePolicyHeaderBehavior.whitelist;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum CachePolicyHeaderBehavior');
   }
 }
 
@@ -4222,27 +5166,48 @@ class CachePolicyHeadersConfig {
   /// </li>
   /// </ul>
   final CachePolicyHeaderBehavior headerBehavior;
-  final Headers headers;
+  final Headers? headers;
 
   CachePolicyHeadersConfig({
-    @_s.required this.headerBehavior,
+    required this.headerBehavior,
     this.headers,
   });
+
+  factory CachePolicyHeadersConfig.fromJson(Map<String, dynamic> json) {
+    return CachePolicyHeadersConfig(
+      headerBehavior:
+          (json['HeaderBehavior'] as String).toCachePolicyHeaderBehavior(),
+      headers: json['Headers'] != null
+          ? Headers.fromJson(json['Headers'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CachePolicyHeadersConfig.fromXml(_s.XmlElement elem) {
     return CachePolicyHeadersConfig(
       headerBehavior: _s
-          .extractXmlStringValue(elem, 'HeaderBehavior')
-          ?.toCachePolicyHeaderBehavior(),
+          .extractXmlStringValue(elem, 'HeaderBehavior')!
+          .toCachePolicyHeaderBehavior(),
       headers:
           _s.extractXmlChild(elem, 'Headers')?.let((e) => Headers.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final headerBehavior = this.headerBehavior;
+    final headers = this.headers;
+    return {
+      'HeaderBehavior': headerBehavior.toValue(),
+      if (headers != null) 'Headers': headers,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final headerBehavior = this.headerBehavior;
+    final headers = this.headers;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'HeaderBehavior', headerBehavior?.toValue() ?? ''),
-      if (headers != null) headers?.toXml('Headers'),
+      _s.encodeXmlStringValue('HeaderBehavior', headerBehavior.toValue()),
+      if (headers != null) headers.toXml('Headers'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4250,7 +5215,7 @@ class CachePolicyHeadersConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4264,30 +5229,56 @@ class CachePolicyList {
   final int quantity;
 
   /// Contains the cache policies in the list.
-  final List<CachePolicySummary> items;
+  final List<CachePolicySummary>? items;
 
   /// If there are more items in the list than are in this response, this element
   /// is present. It contains the value that you should use in the
   /// <code>Marker</code> field of a subsequent request to continue listing cache
   /// policies where you left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   CachePolicyList({
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory CachePolicyList.fromJson(Map<String, dynamic> json) {
+    return CachePolicyList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => CachePolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory CachePolicyList.fromXml(_s.XmlElement elem) {
     return CachePolicyList(
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CachePolicySummary')
           .map((c) => CachePolicySummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -4310,7 +5301,6 @@ extension on CachePolicyQueryStringBehavior {
       case CachePolicyQueryStringBehavior.all:
         return 'all';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4326,7 +5316,8 @@ extension on String {
       case 'all':
         return CachePolicyQueryStringBehavior.all;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum CachePolicyQueryStringBehavior');
   }
 }
 
@@ -4374,28 +5365,51 @@ class CachePolicyQueryStringsConfig {
   /// <code>whitelist</code> (the listed query strings <i> <b>are</b> </i>
   /// included) or <code>allExcept</code> (the listed query strings <i> <b>are
   /// not</b> </i> included, but all other query strings are).
-  final QueryStringNames queryStrings;
+  final QueryStringNames? queryStrings;
 
   CachePolicyQueryStringsConfig({
-    @_s.required this.queryStringBehavior,
+    required this.queryStringBehavior,
     this.queryStrings,
   });
+
+  factory CachePolicyQueryStringsConfig.fromJson(Map<String, dynamic> json) {
+    return CachePolicyQueryStringsConfig(
+      queryStringBehavior: (json['QueryStringBehavior'] as String)
+          .toCachePolicyQueryStringBehavior(),
+      queryStrings: json['QueryStrings'] != null
+          ? QueryStringNames.fromJson(
+              json['QueryStrings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CachePolicyQueryStringsConfig.fromXml(_s.XmlElement elem) {
     return CachePolicyQueryStringsConfig(
       queryStringBehavior: _s
-          .extractXmlStringValue(elem, 'QueryStringBehavior')
-          ?.toCachePolicyQueryStringBehavior(),
+          .extractXmlStringValue(elem, 'QueryStringBehavior')!
+          .toCachePolicyQueryStringBehavior(),
       queryStrings: _s
           .extractXmlChild(elem, 'QueryStrings')
           ?.let((e) => QueryStringNames.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final queryStringBehavior = this.queryStringBehavior;
+    final queryStrings = this.queryStrings;
+    return {
+      'QueryStringBehavior': queryStringBehavior.toValue(),
+      if (queryStrings != null) 'QueryStrings': queryStrings,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final queryStringBehavior = this.queryStringBehavior;
+    final queryStrings = this.queryStrings;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue(
-          'QueryStringBehavior', queryStringBehavior?.toValue() ?? ''),
-      if (queryStrings != null) queryStrings?.toXml('QueryStrings'),
+          'QueryStringBehavior', queryStringBehavior.toValue()),
+      if (queryStrings != null) queryStrings.toXml('QueryStrings'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4403,7 +5417,7 @@ class CachePolicyQueryStringsConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4413,21 +5427,38 @@ class CachePolicySummary {
   /// The cache policy.
   final CachePolicy cachePolicy;
 
-  /// The type of cache policy, either <code>managed</code> (created by AWS) or
-  /// <code>custom</code> (created in this AWS account).
+  /// The type of cache policy, either <code>managed</code> (created by Amazon Web
+  /// Services) or <code>custom</code> (created in this account).
   final CachePolicyType type;
 
   CachePolicySummary({
-    @_s.required this.cachePolicy,
-    @_s.required this.type,
+    required this.cachePolicy,
+    required this.type,
   });
+
+  factory CachePolicySummary.fromJson(Map<String, dynamic> json) {
+    return CachePolicySummary(
+      cachePolicy:
+          CachePolicy.fromJson(json['CachePolicy'] as Map<String, dynamic>),
+      type: (json['Type'] as String).toCachePolicyType(),
+    );
+  }
+
   factory CachePolicySummary.fromXml(_s.XmlElement elem) {
     return CachePolicySummary(
-      cachePolicy: _s
-          .extractXmlChild(elem, 'CachePolicy')
-          ?.let((e) => CachePolicy.fromXml(e)),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toCachePolicyType(),
+      cachePolicy:
+          CachePolicy.fromXml(_s.extractXmlChild(elem, 'CachePolicy')!),
+      type: _s.extractXmlStringValue(elem, 'Type')!.toCachePolicyType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cachePolicy = this.cachePolicy;
+    final type = this.type;
+    return {
+      'CachePolicy': cachePolicy,
+      'Type': type.toValue(),
+    };
   }
 }
 
@@ -4444,7 +5475,6 @@ extension on CachePolicyType {
       case CachePolicyType.custom:
         return 'custom';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4456,7 +5486,7 @@ extension on String {
       case 'custom':
         return CachePolicyType.custom;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum CachePolicyType');
   }
 }
 
@@ -4488,27 +5518,47 @@ class CachedMethods {
   final int quantity;
 
   CachedMethods({
-    @_s.required this.items,
-    @_s.required this.quantity,
+    required this.items,
+    required this.quantity,
   });
-  factory CachedMethods.fromXml(_s.XmlElement elem) {
+
+  factory CachedMethods.fromJson(Map<String, dynamic> json) {
     return CachedMethods(
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => _s
-          .extractXmlStringListValues(elem, 'Method')
-          .map((s) => s.toMethod())
-          .toList()),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toMethod())
+          .toList(),
+      quantity: json['Quantity'] as int,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory CachedMethods.fromXml(_s.XmlElement elem) {
+    return CachedMethods(
+      items: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'Items')!, 'Method')
+          .map((s) => s.toMethod())
+          .toList(),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items.map((e) => e.toValue()).toList(),
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      _s.XmlElement(
-          _s.XmlName('Items'),
-          [],
-          items?.map(
-              (e) => _s.encodeXmlStringValue('Method', e?.toValue() ?? ''))),
+      _s.XmlElement(_s.XmlName('Items'), [],
+          items.map((e) => _s.encodeXmlStringValue('Method', e.toValue()))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4516,7 +5566,7 @@ class CachedMethods {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4537,7 +5587,6 @@ extension on CertificateSource {
       case CertificateSource.acm:
         return 'acm';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4551,7 +5600,7 @@ extension on String {
       case 'acm':
         return CertificateSource.acm;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum CertificateSource');
   }
 }
 
@@ -4566,22 +5615,50 @@ class CloudFrontOriginAccessIdentity {
   final String s3CanonicalUserId;
 
   /// The current configuration information for the identity.
-  final CloudFrontOriginAccessIdentityConfig
+  final CloudFrontOriginAccessIdentityConfig?
       cloudFrontOriginAccessIdentityConfig;
 
   CloudFrontOriginAccessIdentity({
-    @_s.required this.id,
-    @_s.required this.s3CanonicalUserId,
+    required this.id,
+    required this.s3CanonicalUserId,
     this.cloudFrontOriginAccessIdentityConfig,
   });
+
+  factory CloudFrontOriginAccessIdentity.fromJson(Map<String, dynamic> json) {
+    return CloudFrontOriginAccessIdentity(
+      id: json['Id'] as String,
+      s3CanonicalUserId: json['S3CanonicalUserId'] as String,
+      cloudFrontOriginAccessIdentityConfig:
+          json['CloudFrontOriginAccessIdentityConfig'] != null
+              ? CloudFrontOriginAccessIdentityConfig.fromJson(
+                  json['CloudFrontOriginAccessIdentityConfig']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
   factory CloudFrontOriginAccessIdentity.fromXml(_s.XmlElement elem) {
     return CloudFrontOriginAccessIdentity(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      s3CanonicalUserId: _s.extractXmlStringValue(elem, 'S3CanonicalUserId'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      s3CanonicalUserId: _s.extractXmlStringValue(elem, 'S3CanonicalUserId')!,
       cloudFrontOriginAccessIdentityConfig: _s
           .extractXmlChild(elem, 'CloudFrontOriginAccessIdentityConfig')
           ?.let((e) => CloudFrontOriginAccessIdentityConfig.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final s3CanonicalUserId = this.s3CanonicalUserId;
+    final cloudFrontOriginAccessIdentityConfig =
+        this.cloudFrontOriginAccessIdentityConfig;
+    return {
+      'Id': id,
+      'S3CanonicalUserId': s3CanonicalUserId,
+      if (cloudFrontOriginAccessIdentityConfig != null)
+        'CloudFrontOriginAccessIdentityConfig':
+            cloudFrontOriginAccessIdentityConfig,
+    };
   }
 }
 
@@ -4609,21 +5686,42 @@ class CloudFrontOriginAccessIdentityConfig {
   /// <code>CloudFrontOriginAccessIdentityAlreadyExists</code> error.
   final String callerReference;
 
-  /// Any comments you want to include about the origin access identity.
+  /// A comment to describe the origin access identity. The comment cannot be
+  /// longer than 128 characters.
   final String comment;
 
   CloudFrontOriginAccessIdentityConfig({
-    @_s.required this.callerReference,
-    @_s.required this.comment,
+    required this.callerReference,
+    required this.comment,
   });
-  factory CloudFrontOriginAccessIdentityConfig.fromXml(_s.XmlElement elem) {
+
+  factory CloudFrontOriginAccessIdentityConfig.fromJson(
+      Map<String, dynamic> json) {
     return CloudFrontOriginAccessIdentityConfig(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
+      callerReference: json['CallerReference'] as String,
+      comment: json['Comment'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory CloudFrontOriginAccessIdentityConfig.fromXml(_s.XmlElement elem) {
+    return CloudFrontOriginAccessIdentityConfig(
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
+    return {
+      'CallerReference': callerReference,
+      'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
       _s.encodeXmlStringValue('Comment', comment),
@@ -4634,7 +5732,7 @@ class CloudFrontOriginAccessIdentityConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4667,40 +5765,74 @@ class CloudFrontOriginAccessIdentityList {
   final int maxItems;
 
   /// The number of CloudFront origin access identities that were created by the
-  /// current AWS account.
+  /// current account.
   final int quantity;
 
   /// A complex type that contains one
   /// <code>CloudFrontOriginAccessIdentitySummary</code> element for each origin
-  /// access identity that was created by the current AWS account.
-  final List<CloudFrontOriginAccessIdentitySummary> items;
+  /// access identity that was created by the current account.
+  final List<CloudFrontOriginAccessIdentitySummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value you can use for the <code>Marker</code> request
   /// parameter to continue listing your origin access identities where they left
   /// off.
-  final String nextMarker;
+  final String? nextMarker;
 
   CloudFrontOriginAccessIdentityList({
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory CloudFrontOriginAccessIdentityList.fromJson(
+      Map<String, dynamic> json) {
+    return CloudFrontOriginAccessIdentityList(
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => CloudFrontOriginAccessIdentitySummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory CloudFrontOriginAccessIdentityList.fromXml(_s.XmlElement elem) {
     return CloudFrontOriginAccessIdentityList(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CloudFrontOriginAccessIdentitySummary')
           .map((c) => CloudFrontOriginAccessIdentitySummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -4720,16 +5852,154 @@ class CloudFrontOriginAccessIdentitySummary {
   final String s3CanonicalUserId;
 
   CloudFrontOriginAccessIdentitySummary({
-    @_s.required this.comment,
-    @_s.required this.id,
-    @_s.required this.s3CanonicalUserId,
+    required this.comment,
+    required this.id,
+    required this.s3CanonicalUserId,
   });
+
+  factory CloudFrontOriginAccessIdentitySummary.fromJson(
+      Map<String, dynamic> json) {
+    return CloudFrontOriginAccessIdentitySummary(
+      comment: json['Comment'] as String,
+      id: json['Id'] as String,
+      s3CanonicalUserId: json['S3CanonicalUserId'] as String,
+    );
+  }
+
   factory CloudFrontOriginAccessIdentitySummary.fromXml(_s.XmlElement elem) {
     return CloudFrontOriginAccessIdentitySummary(
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      s3CanonicalUserId: _s.extractXmlStringValue(elem, 'S3CanonicalUserId'),
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      s3CanonicalUserId: _s.extractXmlStringValue(elem, 'S3CanonicalUserId')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final id = this.id;
+    final s3CanonicalUserId = this.s3CanonicalUserId;
+    return {
+      'Comment': comment,
+      'Id': id,
+      'S3CanonicalUserId': s3CanonicalUserId,
+    };
+  }
+}
+
+/// An alias (also called a CNAME) and the CloudFront distribution and Amazon
+/// Web Services account ID that it’s associated with. The distribution and
+/// account IDs are partially hidden, which allows you to identify the
+/// distributions and accounts that you own, but helps to protect the
+/// information of ones that you don’t own.
+class ConflictingAlias {
+  /// The (partially hidden) ID of the Amazon Web Services account that owns the
+  /// distribution that’s associated with the alias.
+  final String? accountId;
+
+  /// An alias (also called a CNAME).
+  final String? alias;
+
+  /// The (partially hidden) ID of the CloudFront distribution associated with the
+  /// alias.
+  final String? distributionId;
+
+  ConflictingAlias({
+    this.accountId,
+    this.alias,
+    this.distributionId,
+  });
+
+  factory ConflictingAlias.fromJson(Map<String, dynamic> json) {
+    return ConflictingAlias(
+      accountId: json['AccountId'] as String?,
+      alias: json['Alias'] as String?,
+      distributionId: json['DistributionId'] as String?,
+    );
+  }
+
+  factory ConflictingAlias.fromXml(_s.XmlElement elem) {
+    return ConflictingAlias(
+      accountId: _s.extractXmlStringValue(elem, 'AccountId'),
+      alias: _s.extractXmlStringValue(elem, 'Alias'),
+      distributionId: _s.extractXmlStringValue(elem, 'DistributionId'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final alias = this.alias;
+    final distributionId = this.distributionId;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (alias != null) 'Alias': alias,
+      if (distributionId != null) 'DistributionId': distributionId,
+    };
+  }
+}
+
+/// A list of aliases (also called CNAMEs) and the CloudFront distributions and
+/// Amazon Web Services accounts that they are associated with. In the list, the
+/// distribution and account IDs are partially hidden, which allows you to
+/// identify the distributions and accounts that you own, but helps to protect
+/// the information of ones that you don’t own.
+class ConflictingAliasesList {
+  /// Contains the conflicting aliases in the list.
+  final List<ConflictingAlias>? items;
+
+  /// The maximum number of conflicting aliases requested.
+  final int? maxItems;
+
+  /// If there are more items in the list than are in this response, this element
+  /// is present. It contains the value that you should use in the
+  /// <code>Marker</code> field of a subsequent request to continue listing
+  /// conflicting aliases where you left off.
+  final String? nextMarker;
+
+  /// The number of conflicting aliases returned in the response.
+  final int? quantity;
+
+  ConflictingAliasesList({
+    this.items,
+    this.maxItems,
+    this.nextMarker,
+    this.quantity,
+  });
+
+  factory ConflictingAliasesList.fromJson(Map<String, dynamic> json) {
+    return ConflictingAliasesList(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConflictingAlias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxItems: json['MaxItems'] as int?,
+      nextMarker: json['NextMarker'] as String?,
+      quantity: json['Quantity'] as int?,
+    );
+  }
+
+  factory ConflictingAliasesList.fromXml(_s.XmlElement elem) {
+    return ConflictingAliasesList(
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('ConflictingAlias')
+          .map((c) => ConflictingAlias.fromXml(c))
+          .toList()),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final maxItems = this.maxItems;
+    final nextMarker = this.nextMarker;
+    final quantity = this.quantity;
+    return {
+      if (items != null) 'Items': items,
+      if (maxItems != null) 'MaxItems': maxItems,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (quantity != null) 'Quantity': quantity,
+    };
   }
 }
 
@@ -4742,24 +6012,47 @@ class ContentTypeProfile {
   final Format format;
 
   /// The profile ID for a field-level encryption content type-profile mapping.
-  final String profileId;
+  final String? profileId;
 
   ContentTypeProfile({
-    @_s.required this.contentType,
-    @_s.required this.format,
+    required this.contentType,
+    required this.format,
     this.profileId,
   });
+
+  factory ContentTypeProfile.fromJson(Map<String, dynamic> json) {
+    return ContentTypeProfile(
+      contentType: json['ContentType'] as String,
+      format: (json['Format'] as String).toFormat(),
+      profileId: json['ProfileId'] as String?,
+    );
+  }
+
   factory ContentTypeProfile.fromXml(_s.XmlElement elem) {
     return ContentTypeProfile(
-      contentType: _s.extractXmlStringValue(elem, 'ContentType'),
-      format: _s.extractXmlStringValue(elem, 'Format')?.toFormat(),
+      contentType: _s.extractXmlStringValue(elem, 'ContentType')!,
+      format: _s.extractXmlStringValue(elem, 'Format')!.toFormat(),
       profileId: _s.extractXmlStringValue(elem, 'ProfileId'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final format = this.format;
+    final profileId = this.profileId;
+    return {
+      'ContentType': contentType,
+      'Format': format.toValue(),
+      if (profileId != null) 'ProfileId': profileId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final contentType = this.contentType;
+    final format = this.format;
+    final profileId = this.profileId;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Format', format.toValue()),
       if (profileId != null) _s.encodeXmlStringValue('ProfileId', profileId),
       _s.encodeXmlStringValue('ContentType', contentType),
     ];
@@ -4769,7 +6062,7 @@ class ContentTypeProfile {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4784,28 +6077,54 @@ class ContentTypeProfileConfig {
   final bool forwardWhenContentTypeIsUnknown;
 
   /// The configuration for a field-level encryption content type-profile.
-  final ContentTypeProfiles contentTypeProfiles;
+  final ContentTypeProfiles? contentTypeProfiles;
 
   ContentTypeProfileConfig({
-    @_s.required this.forwardWhenContentTypeIsUnknown,
+    required this.forwardWhenContentTypeIsUnknown,
     this.contentTypeProfiles,
   });
+
+  factory ContentTypeProfileConfig.fromJson(Map<String, dynamic> json) {
+    return ContentTypeProfileConfig(
+      forwardWhenContentTypeIsUnknown:
+          json['ForwardWhenContentTypeIsUnknown'] as bool,
+      contentTypeProfiles: json['ContentTypeProfiles'] != null
+          ? ContentTypeProfiles.fromJson(
+              json['ContentTypeProfiles'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ContentTypeProfileConfig.fromXml(_s.XmlElement elem) {
     return ContentTypeProfileConfig(
       forwardWhenContentTypeIsUnknown:
-          _s.extractXmlBoolValue(elem, 'ForwardWhenContentTypeIsUnknown'),
+          _s.extractXmlBoolValue(elem, 'ForwardWhenContentTypeIsUnknown')!,
       contentTypeProfiles: _s
           .extractXmlChild(elem, 'ContentTypeProfiles')
           ?.let((e) => ContentTypeProfiles.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final forwardWhenContentTypeIsUnknown =
+        this.forwardWhenContentTypeIsUnknown;
+    final contentTypeProfiles = this.contentTypeProfiles;
+    return {
+      'ForwardWhenContentTypeIsUnknown': forwardWhenContentTypeIsUnknown,
+      if (contentTypeProfiles != null)
+        'ContentTypeProfiles': contentTypeProfiles,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final forwardWhenContentTypeIsUnknown =
+        this.forwardWhenContentTypeIsUnknown;
+    final contentTypeProfiles = this.contentTypeProfiles;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue(
           'ForwardWhenContentTypeIsUnknown', forwardWhenContentTypeIsUnknown),
       if (contentTypeProfiles != null)
-        contentTypeProfiles?.toXml('ContentTypeProfiles'),
+        contentTypeProfiles.toXml('ContentTypeProfiles'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4813,7 +6132,7 @@ class ContentTypeProfileConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4824,15 +6143,26 @@ class ContentTypeProfiles {
   final int quantity;
 
   /// Items in a field-level encryption content type-profile mapping.
-  final List<ContentTypeProfile> items;
+  final List<ContentTypeProfile>? items;
 
   ContentTypeProfiles({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory ContentTypeProfiles.fromJson(Map<String, dynamic> json) {
+    return ContentTypeProfiles(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContentTypeProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ContentTypeProfiles.fromXml(_s.XmlElement elem) {
     return ContentTypeProfiles(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('ContentTypeProfile')
           .map((c) => ContentTypeProfile.fromXml(c))
@@ -4840,12 +6170,23 @@ class ContentTypeProfiles {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            items.map((e) => e?.toXml('ContentTypeProfile'))),
+            items.map((e) => e.toXml('ContentTypeProfile'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4853,7 +6194,7 @@ class ContentTypeProfiles {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4864,22 +6205,44 @@ class CookieNames {
   final int quantity;
 
   /// A list of cookie names.
-  final List<String> items;
+  final List<String>? items;
 
   CookieNames({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory CookieNames.fromJson(Map<String, dynamic> json) {
+    return CookieNames(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory CookieNames.fromXml(_s.XmlElement elem) {
     return CookieNames(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Name')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -4892,7 +6255,7 @@ class CookieNames {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -4964,26 +6327,48 @@ class CookiePreference {
   /// For the current limit on the number of cookie names that you can whitelist
   /// for each cache behavior, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/xrefaws_service_limits.html#limits_cloudfront">
-  /// CloudFront Limits</a> in the <i>AWS General Reference</i>.
-  final CookieNames whitelistedNames;
+  /// CloudFront Limits</a> in the <i>Amazon Web Services General Reference</i>.
+  final CookieNames? whitelistedNames;
 
   CookiePreference({
-    @_s.required this.forward,
+    required this.forward,
     this.whitelistedNames,
   });
+
+  factory CookiePreference.fromJson(Map<String, dynamic> json) {
+    return CookiePreference(
+      forward: (json['Forward'] as String).toItemSelection(),
+      whitelistedNames: json['WhitelistedNames'] != null
+          ? CookieNames.fromJson(
+              json['WhitelistedNames'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CookiePreference.fromXml(_s.XmlElement elem) {
     return CookiePreference(
-      forward: _s.extractXmlStringValue(elem, 'Forward')?.toItemSelection(),
+      forward: _s.extractXmlStringValue(elem, 'Forward')!.toItemSelection(),
       whitelistedNames: _s
           .extractXmlChild(elem, 'WhitelistedNames')
           ?.let((e) => CookieNames.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final forward = this.forward;
+    final whitelistedNames = this.whitelistedNames;
+    return {
+      'Forward': forward.toValue(),
+      if (whitelistedNames != null) 'WhitelistedNames': whitelistedNames,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final forward = this.forward;
+    final whitelistedNames = this.whitelistedNames;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Forward', forward?.toValue() ?? ''),
-      if (whitelistedNames != null) whitelistedNames?.toXml('WhitelistedNames'),
+      _s.encodeXmlStringValue('Forward', forward.toValue()),
+      if (whitelistedNames != null) whitelistedNames.toXml('WhitelistedNames'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4991,199 +6376,510 @@ class CookiePreference {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class CreateCachePolicyResult {
   /// A cache policy.
-  final CachePolicy cachePolicy;
+  final CachePolicy? cachePolicy;
 
   /// The current version of the cache policy.
-  final String eTag;
+  final String? eTag;
 
   /// The fully qualified URI of the cache policy just created.
-  final String location;
+  final String? location;
 
   CreateCachePolicyResult({
     this.cachePolicy,
     this.eTag,
     this.location,
   });
+
+  factory CreateCachePolicyResult.fromJson(Map<String, dynamic> json) {
+    return CreateCachePolicyResult(
+      cachePolicy: json['CachePolicy'] != null
+          ? CachePolicy.fromJson(json['CachePolicy'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cachePolicy = this.cachePolicy;
+    final eTag = this.eTag;
+    final location = this.location;
+    return {
+      if (cachePolicy != null) 'CachePolicy': cachePolicy,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class CreateCloudFrontOriginAccessIdentityResult {
   /// The origin access identity's information.
-  final CloudFrontOriginAccessIdentity cloudFrontOriginAccessIdentity;
+  final CloudFrontOriginAccessIdentity? cloudFrontOriginAccessIdentity;
 
   /// The current version of the origin access identity created.
-  final String eTag;
+  final String? eTag;
 
   /// The fully qualified URI of the new origin access identity just created.
-  final String location;
+  final String? location;
 
   CreateCloudFrontOriginAccessIdentityResult({
     this.cloudFrontOriginAccessIdentity,
     this.eTag,
     this.location,
   });
+
+  factory CreateCloudFrontOriginAccessIdentityResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateCloudFrontOriginAccessIdentityResult(
+      cloudFrontOriginAccessIdentity: json['CloudFrontOriginAccessIdentity'] !=
+              null
+          ? CloudFrontOriginAccessIdentity.fromJson(
+              json['CloudFrontOriginAccessIdentity'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFrontOriginAccessIdentity = this.cloudFrontOriginAccessIdentity;
+    final eTag = this.eTag;
+    final location = this.location;
+    return {
+      if (cloudFrontOriginAccessIdentity != null)
+        'CloudFrontOriginAccessIdentity': cloudFrontOriginAccessIdentity,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class CreateDistributionResult {
   /// The distribution's information.
-  final Distribution distribution;
+  final Distribution? distribution;
 
   /// The current version of the distribution created.
-  final String eTag;
+  final String? eTag;
 
   /// The fully qualified URI of the new distribution resource just created.
-  final String location;
+  final String? location;
 
   CreateDistributionResult({
     this.distribution,
     this.eTag,
     this.location,
   });
+
+  factory CreateDistributionResult.fromJson(Map<String, dynamic> json) {
+    return CreateDistributionResult(
+      distribution: json['Distribution'] != null
+          ? Distribution.fromJson(json['Distribution'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distribution = this.distribution;
+    final eTag = this.eTag;
+    final location = this.location;
+    return {
+      if (distribution != null) 'Distribution': distribution,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class CreateDistributionWithTagsResult {
   /// The distribution's information.
-  final Distribution distribution;
+  final Distribution? distribution;
 
   /// The current version of the distribution created.
-  final String eTag;
+  final String? eTag;
 
   /// The fully qualified URI of the new distribution resource just created.
-  final String location;
+  final String? location;
 
   CreateDistributionWithTagsResult({
     this.distribution,
     this.eTag,
     this.location,
   });
+
+  factory CreateDistributionWithTagsResult.fromJson(Map<String, dynamic> json) {
+    return CreateDistributionWithTagsResult(
+      distribution: json['Distribution'] != null
+          ? Distribution.fromJson(json['Distribution'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distribution = this.distribution;
+    final eTag = this.eTag;
+    final location = this.location;
+    return {
+      if (distribution != null) 'Distribution': distribution,
+    };
+  }
 }
 
 class CreateFieldLevelEncryptionConfigResult {
   /// The current version of the field level encryption configuration. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// Returned when you create a new field-level encryption configuration.
-  final FieldLevelEncryption fieldLevelEncryption;
+  final FieldLevelEncryption? fieldLevelEncryption;
 
   /// The fully qualified URI of the new configuration resource just created.
-  final String location;
+  final String? location;
 
   CreateFieldLevelEncryptionConfigResult({
     this.eTag,
     this.fieldLevelEncryption,
     this.location,
   });
+
+  factory CreateFieldLevelEncryptionConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateFieldLevelEncryptionConfigResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryption: json['FieldLevelEncryption'] != null
+          ? FieldLevelEncryption.fromJson(
+              json['FieldLevelEncryption'] as Map<String, dynamic>)
+          : null,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryption = this.fieldLevelEncryption;
+    final location = this.location;
+    return {
+      if (fieldLevelEncryption != null)
+        'FieldLevelEncryption': fieldLevelEncryption,
+    };
+  }
 }
 
 class CreateFieldLevelEncryptionProfileResult {
   /// The current version of the field level encryption profile. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// Returned when you create a new field-level encryption profile.
-  final FieldLevelEncryptionProfile fieldLevelEncryptionProfile;
+  final FieldLevelEncryptionProfile? fieldLevelEncryptionProfile;
 
   /// The fully qualified URI of the new profile resource just created.
-  final String location;
+  final String? location;
 
   CreateFieldLevelEncryptionProfileResult({
     this.eTag,
     this.fieldLevelEncryptionProfile,
     this.location,
   });
+
+  factory CreateFieldLevelEncryptionProfileResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateFieldLevelEncryptionProfileResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryptionProfile: json['FieldLevelEncryptionProfile'] != null
+          ? FieldLevelEncryptionProfile.fromJson(
+              json['FieldLevelEncryptionProfile'] as Map<String, dynamic>)
+          : null,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryptionProfile = this.fieldLevelEncryptionProfile;
+    final location = this.location;
+    return {
+      if (fieldLevelEncryptionProfile != null)
+        'FieldLevelEncryptionProfile': fieldLevelEncryptionProfile,
+    };
+  }
+}
+
+class CreateFunctionRequest {
+  /// The function code. For more information about writing a CloudFront function,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  final Uint8List functionCode;
+
+  /// Configuration information about the function, including an optional comment
+  /// and the function’s runtime.
+  final FunctionConfig functionConfig;
+
+  /// A name to identify the function.
+  final String name;
+
+  CreateFunctionRequest({
+    required this.functionCode,
+    required this.functionConfig,
+    required this.name,
+  });
+
+  factory CreateFunctionRequest.fromJson(Map<String, dynamic> json) {
+    return CreateFunctionRequest(
+      functionCode: _s.decodeUint8List(json['FunctionCode']! as String),
+      functionConfig: FunctionConfig.fromJson(
+          json['FunctionConfig'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionCode = this.functionCode;
+    final functionConfig = this.functionConfig;
+    final name = this.name;
+    return {
+      'FunctionCode': base64Encode(functionCode),
+      'FunctionConfig': functionConfig,
+      'Name': name,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionCode = this.functionCode;
+    final functionConfig = this.functionConfig;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Name', name),
+      functionConfig.toXml('FunctionConfig'),
+      _s.encodeXmlUint8ListValue('FunctionCode', functionCode),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class CreateFunctionResult {
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  /// The URL of the CloudFront function. Use the URL to manage the function with
+  /// the CloudFront API.
+  final String? location;
+
+  CreateFunctionResult({
+    this.eTag,
+    this.functionSummary,
+    this.location,
+  });
+
+  factory CreateFunctionResult.fromJson(Map<String, dynamic> json) {
+    return CreateFunctionResult(
+      eTag: json['ETag'] as String?,
+      functionSummary: json['FunctionSummary'] != null
+          ? FunctionSummary.fromJson(
+              json['FunctionSummary'] as Map<String, dynamic>)
+          : null,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final functionSummary = this.functionSummary;
+    final location = this.location;
+    return {
+      if (functionSummary != null) 'FunctionSummary': functionSummary,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class CreateInvalidationResult {
   /// The invalidation's information.
-  final Invalidation invalidation;
+  final Invalidation? invalidation;
 
   /// The fully qualified URI of the distribution and invalidation batch request,
   /// including the <code>Invalidation ID</code>.
-  final String location;
+  final String? location;
 
   CreateInvalidationResult({
     this.invalidation,
     this.location,
   });
+
+  factory CreateInvalidationResult.fromJson(Map<String, dynamic> json) {
+    return CreateInvalidationResult(
+      invalidation: json['Invalidation'] != null
+          ? Invalidation.fromJson(json['Invalidation'] as Map<String, dynamic>)
+          : null,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidation = this.invalidation;
+    final location = this.location;
+    return {
+      if (invalidation != null) 'Invalidation': invalidation,
+    };
+  }
 }
 
 class CreateKeyGroupResult {
   /// The identifier for this version of the key group.
-  final String eTag;
+  final String? eTag;
 
   /// The key group that was just created.
-  final KeyGroup keyGroup;
+  final KeyGroup? keyGroup;
 
   /// The URL of the key group.
-  final String location;
+  final String? location;
 
   CreateKeyGroupResult({
     this.eTag,
     this.keyGroup,
     this.location,
   });
+
+  factory CreateKeyGroupResult.fromJson(Map<String, dynamic> json) {
+    return CreateKeyGroupResult(
+      eTag: json['ETag'] as String?,
+      keyGroup: json['KeyGroup'] != null
+          ? KeyGroup.fromJson(json['KeyGroup'] as Map<String, dynamic>)
+          : null,
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final keyGroup = this.keyGroup;
+    final location = this.location;
+    return {
+      if (keyGroup != null) 'KeyGroup': keyGroup,
+    };
+  }
 }
 
 class CreateMonitoringSubscriptionResult {
   /// A monitoring subscription. This structure contains information about whether
   /// additional CloudWatch metrics are enabled for a given CloudFront
   /// distribution.
-  final MonitoringSubscription monitoringSubscription;
+  final MonitoringSubscription? monitoringSubscription;
 
   CreateMonitoringSubscriptionResult({
     this.monitoringSubscription,
   });
-  factory CreateMonitoringSubscriptionResult.fromXml(_s.XmlElement elem) {
+
+  factory CreateMonitoringSubscriptionResult.fromJson(
+      Map<String, dynamic> json) {
     return CreateMonitoringSubscriptionResult(
-      monitoringSubscription:
-          elem?.let((e) => MonitoringSubscription.fromXml(e)),
+      monitoringSubscription: json['MonitoringSubscription'] != null
+          ? MonitoringSubscription.fromJson(
+              json['MonitoringSubscription'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitoringSubscription = this.monitoringSubscription;
+    return {
+      if (monitoringSubscription != null)
+        'MonitoringSubscription': monitoringSubscription,
+    };
   }
 }
 
 class CreateOriginRequestPolicyResult {
   /// The current version of the origin request policy.
-  final String eTag;
+  final String? eTag;
 
   /// The fully qualified URI of the origin request policy just created.
-  final String location;
+  final String? location;
 
   /// An origin request policy.
-  final OriginRequestPolicy originRequestPolicy;
+  final OriginRequestPolicy? originRequestPolicy;
 
   CreateOriginRequestPolicyResult({
     this.eTag,
     this.location,
     this.originRequestPolicy,
   });
+
+  factory CreateOriginRequestPolicyResult.fromJson(Map<String, dynamic> json) {
+    return CreateOriginRequestPolicyResult(
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+      originRequestPolicy: json['OriginRequestPolicy'] != null
+          ? OriginRequestPolicy.fromJson(
+              json['OriginRequestPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final location = this.location;
+    final originRequestPolicy = this.originRequestPolicy;
+    return {
+      if (originRequestPolicy != null)
+        'OriginRequestPolicy': originRequestPolicy,
+    };
+  }
 }
 
 class CreatePublicKeyResult {
   /// The identifier for this version of the public key.
-  final String eTag;
+  final String? eTag;
 
   /// The URL of the public key.
-  final String location;
+  final String? location;
 
   /// The public key.
-  final PublicKey publicKey;
+  final PublicKey? publicKey;
 
   CreatePublicKeyResult({
     this.eTag,
     this.location,
     this.publicKey,
   });
+
+  factory CreatePublicKeyResult.fromJson(Map<String, dynamic> json) {
+    return CreatePublicKeyResult(
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+      publicKey: json['PublicKey'] != null
+          ? PublicKey.fromJson(json['PublicKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final location = this.location;
+    final publicKey = this.publicKey;
+    return {
+      if (publicKey != null) 'PublicKey': publicKey,
+    };
+  }
 }
 
 class CreateRealtimeLogConfigRequest {
@@ -5209,17 +6905,50 @@ class CreateRealtimeLogConfigRequest {
   final int samplingRate;
 
   CreateRealtimeLogConfigRequest({
-    @_s.required this.endPoints,
-    @_s.required this.fields,
-    @_s.required this.name,
-    @_s.required this.samplingRate,
+    required this.endPoints,
+    required this.fields,
+    required this.name,
+    required this.samplingRate,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateRealtimeLogConfigRequest.fromJson(Map<String, dynamic> json) {
+    return CreateRealtimeLogConfigRequest(
+      endPoints: (json['EndPoints'] as List)
+          .whereNotNull()
+          .map((e) => EndPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fields: (json['Fields'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      samplingRate: json['SamplingRate'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endPoints = this.endPoints;
+    final fields = this.fields;
+    final name = this.name;
+    final samplingRate = this.samplingRate;
+    return {
+      'EndPoints': endPoints,
+      'Fields': fields,
+      'Name': name,
+      'SamplingRate': samplingRate,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final endPoints = this.endPoints;
+    final fields = this.fields;
+    final name = this.name;
+    final samplingRate = this.samplingRate;
     final $children = <_s.XmlNode>[
-      _s.XmlElement(_s.XmlName('EndPoints'), [],
-          endPoints?.map((e) => e?.toXml('member'))),
+      _s.XmlElement(
+          _s.XmlName('EndPoints'), [], endPoints.map((e) => e.toXml('member'))),
       _s.XmlElement(_s.XmlName('Fields'), [],
-          fields?.map((e) => _s.encodeXmlStringValue('Field', e))),
+          fields.map((e) => _s.encodeXmlStringValue('Field', e))),
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlIntValue('SamplingRate', samplingRate),
     ];
@@ -5229,18 +6958,28 @@ class CreateRealtimeLogConfigRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class CreateRealtimeLogConfigResult {
   /// A real-time log configuration.
-  final RealtimeLogConfig realtimeLogConfig;
+  final RealtimeLogConfig? realtimeLogConfig;
 
   CreateRealtimeLogConfigResult({
     this.realtimeLogConfig,
   });
+
+  factory CreateRealtimeLogConfigResult.fromJson(Map<String, dynamic> json) {
+    return CreateRealtimeLogConfigResult(
+      realtimeLogConfig: json['RealtimeLogConfig'] != null
+          ? RealtimeLogConfig.fromJson(
+              json['RealtimeLogConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreateRealtimeLogConfigResult.fromXml(_s.XmlElement elem) {
     return CreateRealtimeLogConfigResult(
       realtimeLogConfig: _s
@@ -5248,44 +6987,95 @@ class CreateRealtimeLogConfigResult {
           ?.let((e) => RealtimeLogConfig.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final realtimeLogConfig = this.realtimeLogConfig;
+    return {
+      if (realtimeLogConfig != null) 'RealtimeLogConfig': realtimeLogConfig,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class CreateStreamingDistributionResult {
   /// The current version of the streaming distribution created.
-  final String eTag;
+  final String? eTag;
 
   /// The fully qualified URI of the new streaming distribution resource just
   /// created.
-  final String location;
+  final String? location;
 
   /// The streaming distribution's information.
-  final StreamingDistribution streamingDistribution;
+  final StreamingDistribution? streamingDistribution;
 
   CreateStreamingDistributionResult({
     this.eTag,
     this.location,
     this.streamingDistribution,
   });
+
+  factory CreateStreamingDistributionResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateStreamingDistributionResult(
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+      streamingDistribution: json['StreamingDistribution'] != null
+          ? StreamingDistribution.fromJson(
+              json['StreamingDistribution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final location = this.location;
+    final streamingDistribution = this.streamingDistribution;
+    return {
+      if (streamingDistribution != null)
+        'StreamingDistribution': streamingDistribution,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class CreateStreamingDistributionWithTagsResult {
   /// The current version of the distribution created.
-  final String eTag;
+  final String? eTag;
 
   /// The fully qualified URI of the new streaming distribution resource just
   /// created.
-  final String location;
+  final String? location;
 
   /// The streaming distribution's information.
-  final StreamingDistribution streamingDistribution;
+  final StreamingDistribution? streamingDistribution;
 
   CreateStreamingDistributionWithTagsResult({
     this.eTag,
     this.location,
     this.streamingDistribution,
   });
+
+  factory CreateStreamingDistributionWithTagsResult.fromJson(
+      Map<String, dynamic> json) {
+    return CreateStreamingDistributionWithTagsResult(
+      eTag: json['ETag'] as String?,
+      location: json['Location'] as String?,
+      streamingDistribution: json['StreamingDistribution'] != null
+          ? StreamingDistribution.fromJson(
+              json['StreamingDistribution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final location = this.location;
+    final streamingDistribution = this.streamingDistribution;
+    return {
+      if (streamingDistribution != null)
+        'StreamingDistribution': streamingDistribution,
+    };
+  }
 }
 
 /// A complex type that controls:
@@ -5316,7 +7106,7 @@ class CustomErrorResponse {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
   /// Error Responses</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final int errorCachingMinTTL;
+  final int? errorCachingMinTTL;
 
   /// The HTTP status code that you want CloudFront to return to the viewer along
   /// with the custom error page. There are a variety of reasons that you might
@@ -5342,7 +7132,7 @@ class CustomErrorResponse {
   /// </ul>
   /// If you specify a value for <code>ResponseCode</code>, you must also specify
   /// a value for <code>ResponsePagePath</code>.
-  final String responseCode;
+  final String? responseCode;
 
   /// The path to the custom error page that you want CloudFront to return to a
   /// viewer when your origin returns the HTTP status code specified by
@@ -5373,24 +7163,51 @@ class CustomErrorResponse {
   /// you store custom error pages on an HTTP server and the server starts to
   /// return 5xx errors, CloudFront can't get the files that you want to return to
   /// viewers because the origin server is unavailable.
-  final String responsePagePath;
+  final String? responsePagePath;
 
   CustomErrorResponse({
-    @_s.required this.errorCode,
+    required this.errorCode,
     this.errorCachingMinTTL,
     this.responseCode,
     this.responsePagePath,
   });
+
+  factory CustomErrorResponse.fromJson(Map<String, dynamic> json) {
+    return CustomErrorResponse(
+      errorCode: json['ErrorCode'] as int,
+      errorCachingMinTTL: json['ErrorCachingMinTTL'] as int?,
+      responseCode: json['ResponseCode'] as String?,
+      responsePagePath: json['ResponsePagePath'] as String?,
+    );
+  }
+
   factory CustomErrorResponse.fromXml(_s.XmlElement elem) {
     return CustomErrorResponse(
-      errorCode: _s.extractXmlIntValue(elem, 'ErrorCode'),
+      errorCode: _s.extractXmlIntValue(elem, 'ErrorCode')!,
       errorCachingMinTTL: _s.extractXmlIntValue(elem, 'ErrorCachingMinTTL'),
       responseCode: _s.extractXmlStringValue(elem, 'ResponseCode'),
       responsePagePath: _s.extractXmlStringValue(elem, 'ResponsePagePath'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorCachingMinTTL = this.errorCachingMinTTL;
+    final responseCode = this.responseCode;
+    final responsePagePath = this.responsePagePath;
+    return {
+      'ErrorCode': errorCode,
+      if (errorCachingMinTTL != null) 'ErrorCachingMinTTL': errorCachingMinTTL,
+      if (responseCode != null) 'ResponseCode': responseCode,
+      if (responsePagePath != null) 'ResponsePagePath': responsePagePath,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final errorCode = this.errorCode;
+    final errorCachingMinTTL = this.errorCachingMinTTL;
+    final responseCode = this.responseCode;
+    final responsePagePath = this.responsePagePath;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('ErrorCode', errorCode),
       if (responsePagePath != null)
@@ -5406,7 +7223,7 @@ class CustomErrorResponse {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5434,15 +7251,26 @@ class CustomErrorResponses {
   /// A complex type that contains a <code>CustomErrorResponse</code> element for
   /// each HTTP status code for which you want to specify a custom error page
   /// and/or a caching duration.
-  final List<CustomErrorResponse> items;
+  final List<CustomErrorResponse>? items;
 
   CustomErrorResponses({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory CustomErrorResponses.fromJson(Map<String, dynamic> json) {
+    return CustomErrorResponses(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomErrorResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory CustomErrorResponses.fromXml(_s.XmlElement elem) {
     return CustomErrorResponses(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('CustomErrorResponse')
           .map((c) => CustomErrorResponse.fromXml(c))
@@ -5450,12 +7278,23 @@ class CustomErrorResponses {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            items.map((e) => e?.toXml('CustomErrorResponse'))),
+            items.map((e) => e.toXml('CustomErrorResponse'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5463,7 +7302,7 @@ class CustomErrorResponses {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5476,15 +7315,26 @@ class CustomHeaders {
   /// <b>Optional</b>: A list that contains one <code>OriginCustomHeader</code>
   /// element for each custom header that you want CloudFront to forward to the
   /// origin. If Quantity is <code>0</code>, omit <code>Items</code>.
-  final List<OriginCustomHeader> items;
+  final List<OriginCustomHeader>? items;
 
   CustomHeaders({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory CustomHeaders.fromJson(Map<String, dynamic> json) {
+    return CustomHeaders(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => OriginCustomHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory CustomHeaders.fromXml(_s.XmlElement elem) {
     return CustomHeaders(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('OriginCustomHeader')
           .map((c) => OriginCustomHeader.fromXml(c))
@@ -5492,12 +7342,23 @@ class CustomHeaders {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            items.map((e) => e?.toXml('OriginCustomHeader'))),
+            items.map((e) => e.toXml('OriginCustomHeader'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5505,7 +7366,7 @@ class CustomHeaders {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5549,7 +7410,7 @@ class CustomOriginConfig {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout">Origin
   /// Keep-alive Timeout</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final int originKeepaliveTimeout;
+  final int? originKeepaliveTimeout;
 
   /// Specifies how long, in seconds, CloudFront waits for a response from the
   /// origin. This is also known as the <i>origin response timeout</i>. The
@@ -5559,7 +7420,7 @@ class CustomOriginConfig {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout">Origin
   /// Response Timeout</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final int originReadTimeout;
+  final int? originReadTimeout;
 
   /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting
   /// to your origin over HTTPS. Valid values include <code>SSLv3</code>,
@@ -5568,23 +7429,39 @@ class CustomOriginConfig {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginSSLProtocols">Minimum
   /// Origin SSL Protocol</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final OriginSslProtocols originSslProtocols;
+  final OriginSslProtocols? originSslProtocols;
 
   CustomOriginConfig({
-    @_s.required this.hTTPPort,
-    @_s.required this.hTTPSPort,
-    @_s.required this.originProtocolPolicy,
+    required this.hTTPPort,
+    required this.hTTPSPort,
+    required this.originProtocolPolicy,
     this.originKeepaliveTimeout,
     this.originReadTimeout,
     this.originSslProtocols,
   });
+
+  factory CustomOriginConfig.fromJson(Map<String, dynamic> json) {
+    return CustomOriginConfig(
+      hTTPPort: json['HTTPPort'] as int,
+      hTTPSPort: json['HTTPSPort'] as int,
+      originProtocolPolicy:
+          (json['OriginProtocolPolicy'] as String).toOriginProtocolPolicy(),
+      originKeepaliveTimeout: json['OriginKeepaliveTimeout'] as int?,
+      originReadTimeout: json['OriginReadTimeout'] as int?,
+      originSslProtocols: json['OriginSslProtocols'] != null
+          ? OriginSslProtocols.fromJson(
+              json['OriginSslProtocols'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CustomOriginConfig.fromXml(_s.XmlElement elem) {
     return CustomOriginConfig(
-      hTTPPort: _s.extractXmlIntValue(elem, 'HTTPPort'),
-      hTTPSPort: _s.extractXmlIntValue(elem, 'HTTPSPort'),
+      hTTPPort: _s.extractXmlIntValue(elem, 'HTTPPort')!,
+      hTTPSPort: _s.extractXmlIntValue(elem, 'HTTPSPort')!,
       originProtocolPolicy: _s
-          .extractXmlStringValue(elem, 'OriginProtocolPolicy')
-          ?.toOriginProtocolPolicy(),
+          .extractXmlStringValue(elem, 'OriginProtocolPolicy')!
+          .toOriginProtocolPolicy(),
       originKeepaliveTimeout:
           _s.extractXmlIntValue(elem, 'OriginKeepaliveTimeout'),
       originReadTimeout: _s.extractXmlIntValue(elem, 'OriginReadTimeout'),
@@ -5594,14 +7471,38 @@ class CustomOriginConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final hTTPPort = this.hTTPPort;
+    final hTTPSPort = this.hTTPSPort;
+    final originProtocolPolicy = this.originProtocolPolicy;
+    final originKeepaliveTimeout = this.originKeepaliveTimeout;
+    final originReadTimeout = this.originReadTimeout;
+    final originSslProtocols = this.originSslProtocols;
+    return {
+      'HTTPPort': hTTPPort,
+      'HTTPSPort': hTTPSPort,
+      'OriginProtocolPolicy': originProtocolPolicy.toValue(),
+      if (originKeepaliveTimeout != null)
+        'OriginKeepaliveTimeout': originKeepaliveTimeout,
+      if (originReadTimeout != null) 'OriginReadTimeout': originReadTimeout,
+      if (originSslProtocols != null) 'OriginSslProtocols': originSslProtocols,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hTTPPort = this.hTTPPort;
+    final hTTPSPort = this.hTTPSPort;
+    final originProtocolPolicy = this.originProtocolPolicy;
+    final originKeepaliveTimeout = this.originKeepaliveTimeout;
+    final originReadTimeout = this.originReadTimeout;
+    final originSslProtocols = this.originSslProtocols;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('HTTPPort', hTTPPort),
       _s.encodeXmlIntValue('HTTPSPort', hTTPSPort),
       _s.encodeXmlStringValue(
-          'OriginProtocolPolicy', originProtocolPolicy?.toValue() ?? ''),
+          'OriginProtocolPolicy', originProtocolPolicy.toValue()),
       if (originSslProtocols != null)
-        originSslProtocols?.toXml('OriginSslProtocols'),
+        originSslProtocols.toXml('OriginSslProtocols'),
       if (originReadTimeout != null)
         _s.encodeXmlIntValue('OriginReadTimeout', originReadTimeout),
       if (originKeepaliveTimeout != null)
@@ -5613,7 +7514,7 @@ class CustomOriginConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5662,7 +7563,7 @@ class DefaultCacheBehavior {
   /// Cache Expiration</a> in the <i>Amazon CloudFront Developer Guide</i>.
   /// </note>
   final ViewerProtocolPolicy viewerProtocolPolicy;
-  final AllowedMethods allowedMethods;
+  final AllowedMethods? allowedMethods;
 
   /// The unique identifier of the cache policy that is attached to the default
   /// cache behavior. For more information, see <a
@@ -5671,14 +7572,18 @@ class DefaultCacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html">Using
   /// the managed cache policies</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
-  final String cachePolicyId;
+  ///
+  /// A <code>DefaultCacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
+  final String? cachePolicyId;
 
   /// Whether you want CloudFront to automatically compress certain files for this
   /// cache behavior. If so, specify <code>true</code>; if not, specify
   /// <code>false</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html">Serving
   /// Compressed Files</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final bool compress;
+  final bool? compress;
 
   /// This field is deprecated. We recommend that you use the
   /// <code>DefaultTTL</code> field in a cache policy instead of this field. For
@@ -5698,12 +7603,12 @@ class DefaultCacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html">Managing
   /// How Long Content Stays in an Edge Cache (Expiration)</a> in the <i>Amazon
   /// CloudFront Developer Guide</i>.
-  final int defaultTTL;
+  final int? defaultTTL;
 
   /// The value of <code>ID</code> for the field-level encryption configuration
   /// that you want CloudFront to use for encrypting specific fields of data for
   /// the default cache behavior.
-  final String fieldLevelEncryptionId;
+  final String? fieldLevelEncryptionId;
 
   /// This field is deprecated. We recommend that you use a cache policy or an
   /// origin request policy instead of this field. For more information, see <a
@@ -5726,13 +7631,22 @@ class DefaultCacheBehavior {
   /// the managed origin request policies</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
   ///
+  /// A <code>DefaultCacheBehavior</code> must include either a
+  /// <code>CachePolicyId</code> or <code>ForwardedValues</code>. We recommend
+  /// that you use a <code>CachePolicyId</code>.
+  ///
   /// A complex type that specifies how CloudFront handles query strings, cookies,
   /// and HTTP headers.
-  final ForwardedValues forwardedValues;
+  final ForwardedValues? forwardedValues;
 
-  /// A complex type that contains zero or more Lambda function associations for a
-  /// cache behavior.
-  final LambdaFunctionAssociations lambdaFunctionAssociations;
+  /// A list of CloudFront functions that are associated with this cache behavior.
+  /// CloudFront functions must be published to the <code>LIVE</code> stage to
+  /// associate them with a cache behavior.
+  final FunctionAssociations? functionAssociations;
+
+  /// A complex type that contains zero or more Lambda@Edge function associations
+  /// for a cache behavior.
+  final LambdaFunctionAssociations? lambdaFunctionAssociations;
 
   /// This field is deprecated. We recommend that you use the <code>MaxTTL</code>
   /// field in a cache policy instead of this field. For more information, see <a
@@ -5751,7 +7665,7 @@ class DefaultCacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html">Managing
   /// How Long Content Stays in an Edge Cache (Expiration)</a> in the <i>Amazon
   /// CloudFront Developer Guide</i>.
-  final int maxTTL;
+  final int? maxTTL;
 
   /// This field is deprecated. We recommend that you use the <code>MinTTL</code>
   /// field in a cache policy instead of this field. For more information, see <a
@@ -5772,7 +7686,7 @@ class DefaultCacheBehavior {
   /// CloudFront to forward all headers to your origin (under
   /// <code>Headers</code>, if you specify <code>1</code> for
   /// <code>Quantity</code> and <code>*</code> for <code>Name</code>).
-  final int minTTL;
+  final int? minTTL;
 
   /// The unique identifier of the origin request policy that is attached to the
   /// default cache behavior. For more information, see <a
@@ -5781,13 +7695,13 @@ class DefaultCacheBehavior {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html">Using
   /// the managed origin request policies</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
-  final String originRequestPolicyId;
+  final String? originRequestPolicyId;
 
   /// The Amazon Resource Name (ARN) of the real-time log configuration that is
   /// attached to this cache behavior. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html">Real-time
   /// logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final String realtimeLogConfigArn;
+  final String? realtimeLogConfigArn;
 
   /// Indicates whether you want to distribute media files in the Microsoft Smooth
   /// Streaming format using the origin that is associated with this cache
@@ -5796,7 +7710,7 @@ class DefaultCacheBehavior {
   /// <code>SmoothStreaming</code>, you can still distribute other content using
   /// this cache behavior if the content matches the value of
   /// <code>PathPattern</code>.
-  final bool smoothStreaming;
+  final bool? smoothStreaming;
 
   /// A list of key groups that CloudFront can use to validate signed URLs or
   /// signed cookies.
@@ -5809,34 +7723,35 @@ class DefaultCacheBehavior {
   /// the signature. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final TrustedKeyGroups trustedKeyGroups;
+  final TrustedKeyGroups? trustedKeyGroups;
 
   /// <important>
   /// We recommend using <code>TrustedKeyGroups</code> instead of
   /// <code>TrustedSigners</code>.
   /// </important>
-  /// A list of AWS account IDs whose public keys CloudFront can use to validate
+  /// A list of account IDs whose public keys CloudFront can use to validate
   /// signed URLs or signed cookies.
   ///
   /// When a cache behavior contains trusted signers, CloudFront requires signed
   /// URLs or signed cookies for all requests that match the cache behavior. The
   /// URLs or cookies must be signed with the private key of a CloudFront key pair
-  /// in a trusted signer’s AWS account. The signed URL or cookie contains
-  /// information about which public key CloudFront should use to verify the
-  /// signature. For more information, see <a
+  /// in a trusted signer’s account. The signed URL or cookie contains information
+  /// about which public key CloudFront should use to verify the signature. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// private content</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final TrustedSigners trustedSigners;
+  final TrustedSigners? trustedSigners;
 
   DefaultCacheBehavior({
-    @_s.required this.targetOriginId,
-    @_s.required this.viewerProtocolPolicy,
+    required this.targetOriginId,
+    required this.viewerProtocolPolicy,
     this.allowedMethods,
     this.cachePolicyId,
     this.compress,
     this.defaultTTL,
     this.fieldLevelEncryptionId,
     this.forwardedValues,
+    this.functionAssociations,
     this.lambdaFunctionAssociations,
     this.maxTTL,
     this.minTTL,
@@ -5846,12 +7761,54 @@ class DefaultCacheBehavior {
     this.trustedKeyGroups,
     this.trustedSigners,
   });
+
+  factory DefaultCacheBehavior.fromJson(Map<String, dynamic> json) {
+    return DefaultCacheBehavior(
+      targetOriginId: json['TargetOriginId'] as String,
+      viewerProtocolPolicy:
+          (json['ViewerProtocolPolicy'] as String).toViewerProtocolPolicy(),
+      allowedMethods: json['AllowedMethods'] != null
+          ? AllowedMethods.fromJson(
+              json['AllowedMethods'] as Map<String, dynamic>)
+          : null,
+      cachePolicyId: json['CachePolicyId'] as String?,
+      compress: json['Compress'] as bool?,
+      defaultTTL: json['DefaultTTL'] as int?,
+      fieldLevelEncryptionId: json['FieldLevelEncryptionId'] as String?,
+      forwardedValues: json['ForwardedValues'] != null
+          ? ForwardedValues.fromJson(
+              json['ForwardedValues'] as Map<String, dynamic>)
+          : null,
+      functionAssociations: json['FunctionAssociations'] != null
+          ? FunctionAssociations.fromJson(
+              json['FunctionAssociations'] as Map<String, dynamic>)
+          : null,
+      lambdaFunctionAssociations: json['LambdaFunctionAssociations'] != null
+          ? LambdaFunctionAssociations.fromJson(
+              json['LambdaFunctionAssociations'] as Map<String, dynamic>)
+          : null,
+      maxTTL: json['MaxTTL'] as int?,
+      minTTL: json['MinTTL'] as int?,
+      originRequestPolicyId: json['OriginRequestPolicyId'] as String?,
+      realtimeLogConfigArn: json['RealtimeLogConfigArn'] as String?,
+      smoothStreaming: json['SmoothStreaming'] as bool?,
+      trustedKeyGroups: json['TrustedKeyGroups'] != null
+          ? TrustedKeyGroups.fromJson(
+              json['TrustedKeyGroups'] as Map<String, dynamic>)
+          : null,
+      trustedSigners: json['TrustedSigners'] != null
+          ? TrustedSigners.fromJson(
+              json['TrustedSigners'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DefaultCacheBehavior.fromXml(_s.XmlElement elem) {
     return DefaultCacheBehavior(
-      targetOriginId: _s.extractXmlStringValue(elem, 'TargetOriginId'),
+      targetOriginId: _s.extractXmlStringValue(elem, 'TargetOriginId')!,
       viewerProtocolPolicy: _s
-          .extractXmlStringValue(elem, 'ViewerProtocolPolicy')
-          ?.toViewerProtocolPolicy(),
+          .extractXmlStringValue(elem, 'ViewerProtocolPolicy')!
+          .toViewerProtocolPolicy(),
       allowedMethods: _s
           .extractXmlChild(elem, 'AllowedMethods')
           ?.let((e) => AllowedMethods.fromXml(e)),
@@ -5863,6 +7820,9 @@ class DefaultCacheBehavior {
       forwardedValues: _s
           .extractXmlChild(elem, 'ForwardedValues')
           ?.let((e) => ForwardedValues.fromXml(e)),
+      functionAssociations: _s
+          .extractXmlChild(elem, 'FunctionAssociations')
+          ?.let((e) => FunctionAssociations.fromXml(e)),
       lambdaFunctionAssociations: _s
           .extractXmlChild(elem, 'LambdaFunctionAssociations')
           ?.let((e) => LambdaFunctionAssociations.fromXml(e)),
@@ -5882,19 +7842,82 @@ class DefaultCacheBehavior {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final targetOriginId = this.targetOriginId;
+    final viewerProtocolPolicy = this.viewerProtocolPolicy;
+    final allowedMethods = this.allowedMethods;
+    final cachePolicyId = this.cachePolicyId;
+    final compress = this.compress;
+    final defaultTTL = this.defaultTTL;
+    final fieldLevelEncryptionId = this.fieldLevelEncryptionId;
+    final forwardedValues = this.forwardedValues;
+    final functionAssociations = this.functionAssociations;
+    final lambdaFunctionAssociations = this.lambdaFunctionAssociations;
+    final maxTTL = this.maxTTL;
+    final minTTL = this.minTTL;
+    final originRequestPolicyId = this.originRequestPolicyId;
+    final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final smoothStreaming = this.smoothStreaming;
+    final trustedKeyGroups = this.trustedKeyGroups;
+    final trustedSigners = this.trustedSigners;
+    return {
+      'TargetOriginId': targetOriginId,
+      'ViewerProtocolPolicy': viewerProtocolPolicy.toValue(),
+      if (allowedMethods != null) 'AllowedMethods': allowedMethods,
+      if (cachePolicyId != null) 'CachePolicyId': cachePolicyId,
+      if (compress != null) 'Compress': compress,
+      if (defaultTTL != null) 'DefaultTTL': defaultTTL,
+      if (fieldLevelEncryptionId != null)
+        'FieldLevelEncryptionId': fieldLevelEncryptionId,
+      if (forwardedValues != null) 'ForwardedValues': forwardedValues,
+      if (functionAssociations != null)
+        'FunctionAssociations': functionAssociations,
+      if (lambdaFunctionAssociations != null)
+        'LambdaFunctionAssociations': lambdaFunctionAssociations,
+      if (maxTTL != null) 'MaxTTL': maxTTL,
+      if (minTTL != null) 'MinTTL': minTTL,
+      if (originRequestPolicyId != null)
+        'OriginRequestPolicyId': originRequestPolicyId,
+      if (realtimeLogConfigArn != null)
+        'RealtimeLogConfigArn': realtimeLogConfigArn,
+      if (smoothStreaming != null) 'SmoothStreaming': smoothStreaming,
+      if (trustedKeyGroups != null) 'TrustedKeyGroups': trustedKeyGroups,
+      if (trustedSigners != null) 'TrustedSigners': trustedSigners,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final targetOriginId = this.targetOriginId;
+    final viewerProtocolPolicy = this.viewerProtocolPolicy;
+    final allowedMethods = this.allowedMethods;
+    final cachePolicyId = this.cachePolicyId;
+    final compress = this.compress;
+    final defaultTTL = this.defaultTTL;
+    final fieldLevelEncryptionId = this.fieldLevelEncryptionId;
+    final forwardedValues = this.forwardedValues;
+    final functionAssociations = this.functionAssociations;
+    final lambdaFunctionAssociations = this.lambdaFunctionAssociations;
+    final maxTTL = this.maxTTL;
+    final minTTL = this.minTTL;
+    final originRequestPolicyId = this.originRequestPolicyId;
+    final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final smoothStreaming = this.smoothStreaming;
+    final trustedKeyGroups = this.trustedKeyGroups;
+    final trustedSigners = this.trustedSigners;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('TargetOriginId', targetOriginId),
-      if (trustedSigners != null) trustedSigners?.toXml('TrustedSigners'),
-      if (trustedKeyGroups != null) trustedKeyGroups?.toXml('TrustedKeyGroups'),
+      if (trustedSigners != null) trustedSigners.toXml('TrustedSigners'),
+      if (trustedKeyGroups != null) trustedKeyGroups.toXml('TrustedKeyGroups'),
       _s.encodeXmlStringValue(
-          'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue() ?? ''),
-      if (allowedMethods != null) allowedMethods?.toXml('AllowedMethods'),
+          'ViewerProtocolPolicy', viewerProtocolPolicy.toValue()),
+      if (allowedMethods != null) allowedMethods.toXml('AllowedMethods'),
       if (smoothStreaming != null)
         _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
       if (compress != null) _s.encodeXmlBoolValue('Compress', compress),
       if (lambdaFunctionAssociations != null)
-        lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
+        lambdaFunctionAssociations.toXml('LambdaFunctionAssociations'),
+      if (functionAssociations != null)
+        functionAssociations.toXml('FunctionAssociations'),
       if (fieldLevelEncryptionId != null)
         _s.encodeXmlStringValue(
             'FieldLevelEncryptionId', fieldLevelEncryptionId),
@@ -5904,7 +7927,7 @@ class DefaultCacheBehavior {
         _s.encodeXmlStringValue('CachePolicyId', cachePolicyId),
       if (originRequestPolicyId != null)
         _s.encodeXmlStringValue('OriginRequestPolicyId', originRequestPolicyId),
-      if (forwardedValues != null) forwardedValues?.toXml('ForwardedValues'),
+      if (forwardedValues != null) forwardedValues.toXml('ForwardedValues'),
       if (minTTL != null) _s.encodeXmlIntValue('MinTTL', minTTL),
       if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
       if (maxTTL != null) _s.encodeXmlIntValue('MaxTTL', maxTTL),
@@ -5915,32 +7938,60 @@ class DefaultCacheBehavior {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class DeleteMonitoringSubscriptionResult {
   DeleteMonitoringSubscriptionResult();
+
+  factory DeleteMonitoringSubscriptionResult.fromJson(Map<String, dynamic> _) {
+    return DeleteMonitoringSubscriptionResult();
+  }
+
   factory DeleteMonitoringSubscriptionResult.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteMonitoringSubscriptionResult();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class DeleteRealtimeLogConfigRequest {
   /// The Amazon Resource Name (ARN) of the real-time log configuration to delete.
-  final String arn;
+  final String? arn;
 
   /// The name of the real-time log configuration to delete.
-  final String name;
+  final String? name;
 
   DeleteRealtimeLogConfigRequest({
     this.arn,
     this.name,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory DeleteRealtimeLogConfigRequest.fromJson(Map<String, dynamic> json) {
+    return DeleteRealtimeLogConfigRequest(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final arn = this.arn;
+    final name = this.name;
     final $children = <_s.XmlNode>[
       if (name != null) _s.encodeXmlStringValue('Name', name),
       if (arn != null) _s.encodeXmlStringValue('ARN', arn),
@@ -5951,8 +8002,39 @@ class DeleteRealtimeLogConfigRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
+  }
+}
+
+class DescribeFunctionResult {
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  DescribeFunctionResult({
+    this.eTag,
+    this.functionSummary,
+  });
+
+  factory DescribeFunctionResult.fromJson(Map<String, dynamic> json) {
+    return DescribeFunctionResult(
+      eTag: json['ETag'] as String?,
+      functionSummary: json['FunctionSummary'] != null
+          ? FunctionSummary.fromJson(
+              json['FunctionSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final functionSummary = this.functionSummary;
+    return {
+      if (functionSummary != null) 'FunctionSummary': functionSummary,
+    };
   }
 }
 
@@ -5961,7 +8043,7 @@ class DeleteRealtimeLogConfigRequest {
 class Distribution {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// where <code>123456789012</code> is your account ID.
   final String arn;
 
   /// The current configuration information for the distribution. Send a
@@ -5993,7 +8075,7 @@ class Distribution {
   /// using key groups. This field contains a list of key groups and the public
   /// keys in each key group that CloudFront can use to verify the signatures of
   /// signed URLs or signed cookies.
-  final ActiveTrustedKeyGroups activeTrustedKeyGroups;
+  final ActiveTrustedKeyGroups? activeTrustedKeyGroups;
 
   /// <important>
   /// We recommend using <code>TrustedKeyGroups</code> instead of
@@ -6001,47 +8083,74 @@ class Distribution {
   /// </important>
   /// CloudFront automatically adds this field to the response if you’ve
   /// configured a cache behavior in this distribution to serve private content
-  /// using trusted signers. This field contains a list of AWS account IDs and the
+  /// using trusted signers. This field contains a list of account IDs and the
   /// active CloudFront key pairs in each account that CloudFront can use to
   /// verify the signatures of signed URLs or signed cookies.
-  final ActiveTrustedSigners activeTrustedSigners;
+  final ActiveTrustedSigners? activeTrustedSigners;
 
-  /// AWS services in China customers must file for an Internet Content Provider
-  /// (ICP) recordal if they want to serve content publicly on an alternate domain
-  /// name, also known as a CNAME, that they've added to CloudFront.
-  /// AliasICPRecordal provides the ICP recordal status for CNAMEs associated with
-  /// distributions.
+  /// Amazon Web Services services in China customers must file for an Internet
+  /// Content Provider (ICP) recordal if they want to serve content publicly on an
+  /// alternate domain name, also known as a CNAME, that they've added to
+  /// CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs
+  /// associated with distributions.
   ///
   /// For more information about ICP recordals, see <a
   /// href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
-  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS
-  /// services in China</i>.
-  final List<AliasICPRecordal> aliasICPRecordals;
+  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with Amazon Web
+  /// Services services in China</i>.
+  final List<AliasICPRecordal>? aliasICPRecordals;
 
   Distribution({
-    @_s.required this.arn,
-    @_s.required this.distributionConfig,
-    @_s.required this.domainName,
-    @_s.required this.id,
-    @_s.required this.inProgressInvalidationBatches,
-    @_s.required this.lastModifiedTime,
-    @_s.required this.status,
+    required this.arn,
+    required this.distributionConfig,
+    required this.domainName,
+    required this.id,
+    required this.inProgressInvalidationBatches,
+    required this.lastModifiedTime,
+    required this.status,
     this.activeTrustedKeyGroups,
     this.activeTrustedSigners,
     this.aliasICPRecordals,
   });
+
+  factory Distribution.fromJson(Map<String, dynamic> json) {
+    return Distribution(
+      arn: json['ARN'] as String,
+      distributionConfig: DistributionConfig.fromJson(
+          json['DistributionConfig'] as Map<String, dynamic>),
+      domainName: json['DomainName'] as String,
+      id: json['Id'] as String,
+      inProgressInvalidationBatches:
+          json['InProgressInvalidationBatches'] as int,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      status: json['Status'] as String,
+      activeTrustedKeyGroups: json['ActiveTrustedKeyGroups'] != null
+          ? ActiveTrustedKeyGroups.fromJson(
+              json['ActiveTrustedKeyGroups'] as Map<String, dynamic>)
+          : null,
+      activeTrustedSigners: json['ActiveTrustedSigners'] != null
+          ? ActiveTrustedSigners.fromJson(
+              json['ActiveTrustedSigners'] as Map<String, dynamic>)
+          : null,
+      aliasICPRecordals: (json['AliasICPRecordals'] as List?)
+          ?.whereNotNull()
+          .map((e) => AliasICPRecordal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory Distribution.fromXml(_s.XmlElement elem) {
     return Distribution(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      distributionConfig: _s
-          .extractXmlChild(elem, 'DistributionConfig')
-          ?.let((e) => DistributionConfig.fromXml(e)),
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      arn: _s.extractXmlStringValue(elem, 'ARN')!,
+      distributionConfig: DistributionConfig.fromXml(
+          _s.extractXmlChild(elem, 'DistributionConfig')!),
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       inProgressInvalidationBatches:
-          _s.extractXmlIntValue(elem, 'InProgressInvalidationBatches'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
+          _s.extractXmlIntValue(elem, 'InProgressInvalidationBatches')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!,
       activeTrustedKeyGroups: _s
           .extractXmlChild(elem, 'ActiveTrustedKeyGroups')
           ?.let((e) => ActiveTrustedKeyGroups.fromXml(e)),
@@ -6054,6 +8163,33 @@ class Distribution {
               .map((c) => AliasICPRecordal.fromXml(c))
               .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final distributionConfig = this.distributionConfig;
+    final domainName = this.domainName;
+    final id = this.id;
+    final inProgressInvalidationBatches = this.inProgressInvalidationBatches;
+    final lastModifiedTime = this.lastModifiedTime;
+    final status = this.status;
+    final activeTrustedKeyGroups = this.activeTrustedKeyGroups;
+    final activeTrustedSigners = this.activeTrustedSigners;
+    final aliasICPRecordals = this.aliasICPRecordals;
+    return {
+      'ARN': arn,
+      'DistributionConfig': distributionConfig,
+      'DomainName': domainName,
+      'Id': id,
+      'InProgressInvalidationBatches': inProgressInvalidationBatches,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'Status': status,
+      if (activeTrustedKeyGroups != null)
+        'ActiveTrustedKeyGroups': activeTrustedKeyGroups,
+      if (activeTrustedSigners != null)
+        'ActiveTrustedSigners': activeTrustedSigners,
+      if (aliasICPRecordals != null) 'AliasICPRecordals': aliasICPRecordals,
+    };
   }
 }
 
@@ -6071,16 +8207,8 @@ class DistributionConfig {
   /// <code>DistributionAlreadyExists</code> error.
   final String callerReference;
 
-  /// Any comments you want to include about the distribution.
-  ///
-  /// If you don't want to specify a comment, include an empty
-  /// <code>Comment</code> element.
-  ///
-  /// To delete an existing comment, update the distribution configuration and
-  /// include an empty <code>Comment</code> element.
-  ///
-  /// To add or change a comment, update the distribution configuration and
-  /// specify the new comment.
+  /// An optional comment to describe the distribution. The comment cannot be
+  /// longer than 128 characters.
   final String comment;
 
   /// A complex type that describes the default cache behavior if you don't
@@ -6098,11 +8226,11 @@ class DistributionConfig {
 
   /// A complex type that contains information about CNAMEs (alternate domain
   /// names), if any, for this distribution.
-  final Aliases aliases;
+  final Aliases? aliases;
 
   /// A complex type that contains zero or more <code>CacheBehavior</code>
   /// elements.
-  final CacheBehaviors cacheBehaviors;
+  final CacheBehaviors? cacheBehaviors;
 
   /// A complex type that controls the following:
   ///
@@ -6118,7 +8246,7 @@ class DistributionConfig {
   /// For more information about custom error pages, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/custom-error-pages.html">Customizing
   /// Error Responses</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final CustomErrorResponses customErrorResponses;
+  final CustomErrorResponses? customErrorResponses;
 
   /// The object that you want CloudFront to request from your origin (for
   /// example, <code>index.html</code>) when a viewer requests the root URL for
@@ -6143,7 +8271,7 @@ class DistributionConfig {
   /// For more information about the default root object, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html">Creating
   /// a Default Root Object</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final String defaultRootObject;
+  final String? defaultRootObject;
 
   /// (Optional) Specify the maximum HTTP version that you want viewers to use to
   /// communicate with CloudFront. The default value for new web distributions is
@@ -6156,7 +8284,7 @@ class DistributionConfig {
   /// In general, configuring CloudFront to communicate with viewers using HTTP/2
   /// reduces latency. You can improve performance by optimizing for HTTP/2. For
   /// more information, do an Internet search for "http/2 optimization."
-  final HttpVersion httpVersion;
+  final HttpVersion? httpVersion;
 
   /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address
   /// for your distribution, specify <code>true</code>. If you specify
@@ -6177,9 +8305,10 @@ class DistributionConfig {
   /// a Signed URL Using a Custom Policy</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
   ///
-  /// If you're using an Amazon Route 53 alias resource record set to route
-  /// traffic to your CloudFront distribution, you need to create a second alias
-  /// resource record set when both of the following are true:
+  /// If you're using an Route 53 Amazon Web Services Integration alias resource
+  /// record set to route traffic to your CloudFront distribution, you need to
+  /// create a second alias resource record set when both of the following are
+  /// true:
   ///
   /// <ul>
   /// <li>
@@ -6192,13 +8321,14 @@ class DistributionConfig {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html">Routing
   /// Traffic to an Amazon CloudFront Web Distribution by Using Your Domain
-  /// Name</a> in the <i>Amazon Route 53 Developer Guide</i>.
+  /// Name</a> in the <i>Route 53 Amazon Web Services Integration Developer
+  /// Guide</i>.
   ///
-  /// If you created a CNAME resource record set, either with Amazon Route 53 or
-  /// with another DNS service, you don't need to make any changes. A CNAME record
-  /// will route traffic to your distribution regardless of the IP address format
-  /// of the viewer request.
-  final bool isIPV6Enabled;
+  /// If you created a CNAME resource record set, either with Route 53 Amazon Web
+  /// Services Integration or with another DNS service, you don't need to make any
+  /// changes. A CNAME record will route traffic to your distribution regardless
+  /// of the IP address format of the viewer request.
+  final bool? isIPV6Enabled;
 
   /// A complex type that controls whether access logs are written for the
   /// distribution.
@@ -6206,11 +8336,11 @@ class DistributionConfig {
   /// For more information about logging, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html">Access
   /// Logs</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final LoggingConfig logging;
+  final LoggingConfig? logging;
 
   /// A complex type that contains information about origin groups for this
   /// distribution.
-  final OriginGroups originGroups;
+  final OriginGroups? originGroups;
 
   /// The price class that corresponds with the maximum price that you want to pay
   /// for CloudFront service. If you specify <code>PriceClass_All</code>,
@@ -6230,41 +8360,41 @@ class DistributionConfig {
   /// including how price classes (such as Price Class 100) map to CloudFront
   /// regions, see <a href="http://aws.amazon.com/cloudfront/pricing/">Amazon
   /// CloudFront Pricing</a>.
-  final PriceClass priceClass;
+  final PriceClass? priceClass;
 
   /// A complex type that identifies ways in which you want to restrict
   /// distribution of your content.
-  final Restrictions restrictions;
+  final Restrictions? restrictions;
 
   /// A complex type that determines the distribution’s SSL/TLS configuration for
   /// communicating with viewers.
-  final ViewerCertificate viewerCertificate;
+  final ViewerCertificate? viewerCertificate;
 
-  /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate
+  /// A unique identifier that specifies the WAF web ACL, if any, to associate
   /// with this distribution. To specify a web ACL created using the latest
-  /// version of AWS WAF, use the ACL ARN, for example
+  /// version of WAF, use the ACL ARN, for example
   /// <code>arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
-  /// To specify a web ACL created using AWS WAF Classic, use the ACL ID, for
-  /// example <code>473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
+  /// To specify a web ACL created using WAF Classic, use the ACL ID, for example
+  /// <code>473e64fd-f30b-4765-81a0-62ad96dd167a</code>.
   ///
-  /// AWS WAF is a web application firewall that lets you monitor the HTTP and
-  /// HTTPS requests that are forwarded to CloudFront, and lets you control access
-  /// to your content. Based on conditions that you specify, such as the IP
-  /// addresses that requests originate from or the values of query strings,
-  /// CloudFront responds to requests either with the requested content or with an
-  /// HTTP 403 status code (Forbidden). You can also configure CloudFront to
-  /// return a custom error page when a request is blocked. For more information
-  /// about AWS WAF, see the <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html">AWS
-  /// WAF Developer Guide</a>.
-  final String webACLId;
+  /// WAF is a web application firewall that lets you monitor the HTTP and HTTPS
+  /// requests that are forwarded to CloudFront, and lets you control access to
+  /// your content. Based on conditions that you specify, such as the IP addresses
+  /// that requests originate from or the values of query strings, CloudFront
+  /// responds to requests either with the requested content or with an HTTP 403
+  /// status code (Forbidden). You can also configure CloudFront to return a
+  /// custom error page when a request is blocked. For more information about WAF,
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html">WAF
+  /// Developer Guide</a>.
+  final String? webACLId;
 
   DistributionConfig({
-    @_s.required this.callerReference,
-    @_s.required this.comment,
-    @_s.required this.defaultCacheBehavior,
-    @_s.required this.enabled,
-    @_s.required this.origins,
+    required this.callerReference,
+    required this.comment,
+    required this.defaultCacheBehavior,
+    required this.enabled,
+    required this.origins,
     this.aliases,
     this.cacheBehaviors,
     this.customErrorResponses,
@@ -6278,16 +8408,55 @@ class DistributionConfig {
     this.viewerCertificate,
     this.webACLId,
   });
+
+  factory DistributionConfig.fromJson(Map<String, dynamic> json) {
+    return DistributionConfig(
+      callerReference: json['CallerReference'] as String,
+      comment: json['Comment'] as String,
+      defaultCacheBehavior: DefaultCacheBehavior.fromJson(
+          json['DefaultCacheBehavior'] as Map<String, dynamic>),
+      enabled: json['Enabled'] as bool,
+      origins: Origins.fromJson(json['Origins'] as Map<String, dynamic>),
+      aliases: json['Aliases'] != null
+          ? Aliases.fromJson(json['Aliases'] as Map<String, dynamic>)
+          : null,
+      cacheBehaviors: json['CacheBehaviors'] != null
+          ? CacheBehaviors.fromJson(
+              json['CacheBehaviors'] as Map<String, dynamic>)
+          : null,
+      customErrorResponses: json['CustomErrorResponses'] != null
+          ? CustomErrorResponses.fromJson(
+              json['CustomErrorResponses'] as Map<String, dynamic>)
+          : null,
+      defaultRootObject: json['DefaultRootObject'] as String?,
+      httpVersion: (json['HttpVersion'] as String?)?.toHttpVersion(),
+      isIPV6Enabled: json['IsIPV6Enabled'] as bool?,
+      logging: json['Logging'] != null
+          ? LoggingConfig.fromJson(json['Logging'] as Map<String, dynamic>)
+          : null,
+      originGroups: json['OriginGroups'] != null
+          ? OriginGroups.fromJson(json['OriginGroups'] as Map<String, dynamic>)
+          : null,
+      priceClass: (json['PriceClass'] as String?)?.toPriceClass(),
+      restrictions: json['Restrictions'] != null
+          ? Restrictions.fromJson(json['Restrictions'] as Map<String, dynamic>)
+          : null,
+      viewerCertificate: json['ViewerCertificate'] != null
+          ? ViewerCertificate.fromJson(
+              json['ViewerCertificate'] as Map<String, dynamic>)
+          : null,
+      webACLId: json['WebACLId'] as String?,
+    );
+  }
+
   factory DistributionConfig.fromXml(_s.XmlElement elem) {
     return DistributionConfig(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
-      defaultCacheBehavior: _s
-          .extractXmlChild(elem, 'DefaultCacheBehavior')
-          ?.let((e) => DefaultCacheBehavior.fromXml(e)),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      origins:
-          _s.extractXmlChild(elem, 'Origins')?.let((e) => Origins.fromXml(e)),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      defaultCacheBehavior: DefaultCacheBehavior.fromXml(
+          _s.extractXmlChild(elem, 'DefaultCacheBehavior')!),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      origins: Origins.fromXml(_s.extractXmlChild(elem, 'Origins')!),
       aliases:
           _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
       cacheBehaviors: _s
@@ -6317,26 +8486,83 @@ class DistributionConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
+    final defaultCacheBehavior = this.defaultCacheBehavior;
+    final enabled = this.enabled;
+    final origins = this.origins;
+    final aliases = this.aliases;
+    final cacheBehaviors = this.cacheBehaviors;
+    final customErrorResponses = this.customErrorResponses;
+    final defaultRootObject = this.defaultRootObject;
+    final httpVersion = this.httpVersion;
+    final isIPV6Enabled = this.isIPV6Enabled;
+    final logging = this.logging;
+    final originGroups = this.originGroups;
+    final priceClass = this.priceClass;
+    final restrictions = this.restrictions;
+    final viewerCertificate = this.viewerCertificate;
+    final webACLId = this.webACLId;
+    return {
+      'CallerReference': callerReference,
+      'Comment': comment,
+      'DefaultCacheBehavior': defaultCacheBehavior,
+      'Enabled': enabled,
+      'Origins': origins,
+      if (aliases != null) 'Aliases': aliases,
+      if (cacheBehaviors != null) 'CacheBehaviors': cacheBehaviors,
+      if (customErrorResponses != null)
+        'CustomErrorResponses': customErrorResponses,
+      if (defaultRootObject != null) 'DefaultRootObject': defaultRootObject,
+      if (httpVersion != null) 'HttpVersion': httpVersion.toValue(),
+      if (isIPV6Enabled != null) 'IsIPV6Enabled': isIPV6Enabled,
+      if (logging != null) 'Logging': logging,
+      if (originGroups != null) 'OriginGroups': originGroups,
+      if (priceClass != null) 'PriceClass': priceClass.toValue(),
+      if (restrictions != null) 'Restrictions': restrictions,
+      if (viewerCertificate != null) 'ViewerCertificate': viewerCertificate,
+      if (webACLId != null) 'WebACLId': webACLId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
+    final defaultCacheBehavior = this.defaultCacheBehavior;
+    final enabled = this.enabled;
+    final origins = this.origins;
+    final aliases = this.aliases;
+    final cacheBehaviors = this.cacheBehaviors;
+    final customErrorResponses = this.customErrorResponses;
+    final defaultRootObject = this.defaultRootObject;
+    final httpVersion = this.httpVersion;
+    final isIPV6Enabled = this.isIPV6Enabled;
+    final logging = this.logging;
+    final originGroups = this.originGroups;
+    final priceClass = this.priceClass;
+    final restrictions = this.restrictions;
+    final viewerCertificate = this.viewerCertificate;
+    final webACLId = this.webACLId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      if (aliases != null) aliases?.toXml('Aliases'),
+      if (aliases != null) aliases.toXml('Aliases'),
       if (defaultRootObject != null)
         _s.encodeXmlStringValue('DefaultRootObject', defaultRootObject),
-      origins?.toXml('Origins'),
-      if (originGroups != null) originGroups?.toXml('OriginGroups'),
-      defaultCacheBehavior?.toXml('DefaultCacheBehavior'),
-      if (cacheBehaviors != null) cacheBehaviors?.toXml('CacheBehaviors'),
+      origins.toXml('Origins'),
+      if (originGroups != null) originGroups.toXml('OriginGroups'),
+      defaultCacheBehavior.toXml('DefaultCacheBehavior'),
+      if (cacheBehaviors != null) cacheBehaviors.toXml('CacheBehaviors'),
       if (customErrorResponses != null)
-        customErrorResponses?.toXml('CustomErrorResponses'),
+        customErrorResponses.toXml('CustomErrorResponses'),
       _s.encodeXmlStringValue('Comment', comment),
-      if (logging != null) logging?.toXml('Logging'),
+      if (logging != null) logging.toXml('Logging'),
       if (priceClass != null)
         _s.encodeXmlStringValue('PriceClass', priceClass.toValue()),
       _s.encodeXmlBoolValue('Enabled', enabled),
       if (viewerCertificate != null)
-        viewerCertificate?.toXml('ViewerCertificate'),
-      if (restrictions != null) restrictions?.toXml('Restrictions'),
+        viewerCertificate.toXml('ViewerCertificate'),
+      if (restrictions != null) restrictions.toXml('Restrictions'),
       if (webACLId != null) _s.encodeXmlStringValue('WebACLId', webACLId),
       if (httpVersion != null)
         _s.encodeXmlStringValue('HttpVersion', httpVersion.toValue()),
@@ -6349,7 +8575,7 @@ class DistributionConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6364,13 +8590,33 @@ class DistributionConfigWithTags {
   final Tags tags;
 
   DistributionConfigWithTags({
-    @_s.required this.distributionConfig,
-    @_s.required this.tags,
+    required this.distributionConfig,
+    required this.tags,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory DistributionConfigWithTags.fromJson(Map<String, dynamic> json) {
+    return DistributionConfigWithTags(
+      distributionConfig: DistributionConfig.fromJson(
+          json['DistributionConfig'] as Map<String, dynamic>),
+      tags: Tags.fromJson(json['Tags'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionConfig = this.distributionConfig;
+    final tags = this.tags;
+    return {
+      'DistributionConfig': distributionConfig,
+      'Tags': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final distributionConfig = this.distributionConfig;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
-      distributionConfig?.toXml('DistributionConfig'),
-      tags?.toXml('Tags'),
+      distributionConfig.toXml('DistributionConfig'),
+      tags.toXml('Tags'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6378,7 +8624,7 @@ class DistributionConfigWithTags {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6401,30 +8647,62 @@ class DistributionIdList {
   final int quantity;
 
   /// Contains the distribution IDs in the list.
-  final List<String> items;
+  final List<String>? items;
 
   /// Contains the value that you should use in the <code>Marker</code> field of a
   /// subsequent request to continue listing distribution IDs where you left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   DistributionIdList({
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory DistributionIdList.fromJson(Map<String, dynamic> json) {
+    return DistributionIdList(
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory DistributionIdList.fromXml(_s.XmlElement elem) {
     return DistributionIdList(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let(
           (elem) => _s.extractXmlStringListValues(elem, 'DistributionId')),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -6442,32 +8720,47 @@ class DistributionList {
   /// The value you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of distributions that were created by the current AWS account.
+  /// The number of distributions that were created by the current account.
   final int quantity;
 
   /// A complex type that contains one <code>DistributionSummary</code> element
-  /// for each distribution that was created by the current AWS account.
-  final List<DistributionSummary> items;
+  /// for each distribution that was created by the current account.
+  final List<DistributionSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value you can use for the <code>Marker</code> request
   /// parameter to continue listing your distributions where they left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   DistributionList({
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory DistributionList.fromJson(Map<String, dynamic> json) {
+    return DistributionList(
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => DistributionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory DistributionList.fromXml(_s.XmlElement elem) {
     return DistributionList(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('DistributionSummary')
           .map((c) => DistributionSummary.fromXml(c))
@@ -6475,13 +8768,30 @@ class DistributionList {
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
 /// A summary of the information about a CloudFront distribution.
 class DistributionSummary {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// where <code>123456789012</code> is your account ID.
   final String arn;
 
   /// A complex type that contains information about CNAMEs (alternate domain
@@ -6553,77 +8863,107 @@ class DistributionSummary {
   /// The Web ACL Id (if any) associated with the distribution.
   final String webACLId;
 
-  /// AWS services in China customers must file for an Internet Content Provider
-  /// (ICP) recordal if they want to serve content publicly on an alternate domain
-  /// name, also known as a CNAME, that they've added to CloudFront.
-  /// AliasICPRecordal provides the ICP recordal status for CNAMEs associated with
-  /// distributions.
+  /// Amazon Web Services services in China customers must file for an Internet
+  /// Content Provider (ICP) recordal if they want to serve content publicly on an
+  /// alternate domain name, also known as a CNAME, that they've added to
+  /// CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs
+  /// associated with distributions.
   ///
   /// For more information about ICP recordals, see <a
   /// href="https://docs.amazonaws.cn/en_us/aws/latest/userguide/accounts-and-credentials.html">
-  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with AWS
-  /// services in China</i>.
-  final List<AliasICPRecordal> aliasICPRecordals;
+  /// Signup, Accounts, and Credentials</a> in <i>Getting Started with Amazon Web
+  /// Services services in China</i>.
+  final List<AliasICPRecordal>? aliasICPRecordals;
 
   /// A complex type that contains information about origin groups for this
   /// distribution.
-  final OriginGroups originGroups;
+  final OriginGroups? originGroups;
 
   DistributionSummary({
-    @_s.required this.arn,
-    @_s.required this.aliases,
-    @_s.required this.cacheBehaviors,
-    @_s.required this.comment,
-    @_s.required this.customErrorResponses,
-    @_s.required this.defaultCacheBehavior,
-    @_s.required this.domainName,
-    @_s.required this.enabled,
-    @_s.required this.httpVersion,
-    @_s.required this.id,
-    @_s.required this.isIPV6Enabled,
-    @_s.required this.lastModifiedTime,
-    @_s.required this.origins,
-    @_s.required this.priceClass,
-    @_s.required this.restrictions,
-    @_s.required this.status,
-    @_s.required this.viewerCertificate,
-    @_s.required this.webACLId,
+    required this.arn,
+    required this.aliases,
+    required this.cacheBehaviors,
+    required this.comment,
+    required this.customErrorResponses,
+    required this.defaultCacheBehavior,
+    required this.domainName,
+    required this.enabled,
+    required this.httpVersion,
+    required this.id,
+    required this.isIPV6Enabled,
+    required this.lastModifiedTime,
+    required this.origins,
+    required this.priceClass,
+    required this.restrictions,
+    required this.status,
+    required this.viewerCertificate,
+    required this.webACLId,
     this.aliasICPRecordals,
     this.originGroups,
   });
+
+  factory DistributionSummary.fromJson(Map<String, dynamic> json) {
+    return DistributionSummary(
+      arn: json['ARN'] as String,
+      aliases: Aliases.fromJson(json['Aliases'] as Map<String, dynamic>),
+      cacheBehaviors: CacheBehaviors.fromJson(
+          json['CacheBehaviors'] as Map<String, dynamic>),
+      comment: json['Comment'] as String,
+      customErrorResponses: CustomErrorResponses.fromJson(
+          json['CustomErrorResponses'] as Map<String, dynamic>),
+      defaultCacheBehavior: DefaultCacheBehavior.fromJson(
+          json['DefaultCacheBehavior'] as Map<String, dynamic>),
+      domainName: json['DomainName'] as String,
+      enabled: json['Enabled'] as bool,
+      httpVersion: (json['HttpVersion'] as String).toHttpVersion(),
+      id: json['Id'] as String,
+      isIPV6Enabled: json['IsIPV6Enabled'] as bool,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      origins: Origins.fromJson(json['Origins'] as Map<String, dynamic>),
+      priceClass: (json['PriceClass'] as String).toPriceClass(),
+      restrictions:
+          Restrictions.fromJson(json['Restrictions'] as Map<String, dynamic>),
+      status: json['Status'] as String,
+      viewerCertificate: ViewerCertificate.fromJson(
+          json['ViewerCertificate'] as Map<String, dynamic>),
+      webACLId: json['WebACLId'] as String,
+      aliasICPRecordals: (json['AliasICPRecordals'] as List?)
+          ?.whereNotNull()
+          .map((e) => AliasICPRecordal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      originGroups: json['OriginGroups'] != null
+          ? OriginGroups.fromJson(json['OriginGroups'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DistributionSummary.fromXml(_s.XmlElement elem) {
     return DistributionSummary(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      aliases:
-          _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
-      cacheBehaviors: _s
-          .extractXmlChild(elem, 'CacheBehaviors')
-          ?.let((e) => CacheBehaviors.fromXml(e)),
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
-      customErrorResponses: _s
-          .extractXmlChild(elem, 'CustomErrorResponses')
-          ?.let((e) => CustomErrorResponses.fromXml(e)),
-      defaultCacheBehavior: _s
-          .extractXmlChild(elem, 'DefaultCacheBehavior')
-          ?.let((e) => DefaultCacheBehavior.fromXml(e)),
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      arn: _s.extractXmlStringValue(elem, 'ARN')!,
+      aliases: Aliases.fromXml(_s.extractXmlChild(elem, 'Aliases')!),
+      cacheBehaviors:
+          CacheBehaviors.fromXml(_s.extractXmlChild(elem, 'CacheBehaviors')!),
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      customErrorResponses: CustomErrorResponses.fromXml(
+          _s.extractXmlChild(elem, 'CustomErrorResponses')!),
+      defaultCacheBehavior: DefaultCacheBehavior.fromXml(
+          _s.extractXmlChild(elem, 'DefaultCacheBehavior')!),
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       httpVersion:
-          _s.extractXmlStringValue(elem, 'HttpVersion')?.toHttpVersion(),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
-      origins:
-          _s.extractXmlChild(elem, 'Origins')?.let((e) => Origins.fromXml(e)),
-      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
-      restrictions: _s
-          .extractXmlChild(elem, 'Restrictions')
-          ?.let((e) => Restrictions.fromXml(e)),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      viewerCertificate: _s
-          .extractXmlChild(elem, 'ViewerCertificate')
-          ?.let((e) => ViewerCertificate.fromXml(e)),
-      webACLId: _s.extractXmlStringValue(elem, 'WebACLId'),
+          _s.extractXmlStringValue(elem, 'HttpVersion')!.toHttpVersion(),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      isIPV6Enabled: _s.extractXmlBoolValue(elem, 'IsIPV6Enabled')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      origins: Origins.fromXml(_s.extractXmlChild(elem, 'Origins')!),
+      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')!.toPriceClass(),
+      restrictions:
+          Restrictions.fromXml(_s.extractXmlChild(elem, 'Restrictions')!),
+      status: _s.extractXmlStringValue(elem, 'Status')!,
+      viewerCertificate: ViewerCertificate.fromXml(
+          _s.extractXmlChild(elem, 'ViewerCertificate')!),
+      webACLId: _s.extractXmlStringValue(elem, 'WebACLId')!,
       aliasICPRecordals: _s.extractXmlChild(elem, 'AliasICPRecordals')?.let(
           (elem) => elem
               .findElements('AliasICPRecordal')
@@ -6633,6 +8973,51 @@ class DistributionSummary {
           .extractXmlChild(elem, 'OriginGroups')
           ?.let((e) => OriginGroups.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final aliases = this.aliases;
+    final cacheBehaviors = this.cacheBehaviors;
+    final comment = this.comment;
+    final customErrorResponses = this.customErrorResponses;
+    final defaultCacheBehavior = this.defaultCacheBehavior;
+    final domainName = this.domainName;
+    final enabled = this.enabled;
+    final httpVersion = this.httpVersion;
+    final id = this.id;
+    final isIPV6Enabled = this.isIPV6Enabled;
+    final lastModifiedTime = this.lastModifiedTime;
+    final origins = this.origins;
+    final priceClass = this.priceClass;
+    final restrictions = this.restrictions;
+    final status = this.status;
+    final viewerCertificate = this.viewerCertificate;
+    final webACLId = this.webACLId;
+    final aliasICPRecordals = this.aliasICPRecordals;
+    final originGroups = this.originGroups;
+    return {
+      'ARN': arn,
+      'Aliases': aliases,
+      'CacheBehaviors': cacheBehaviors,
+      'Comment': comment,
+      'CustomErrorResponses': customErrorResponses,
+      'DefaultCacheBehavior': defaultCacheBehavior,
+      'DomainName': domainName,
+      'Enabled': enabled,
+      'HttpVersion': httpVersion.toValue(),
+      'Id': id,
+      'IsIPV6Enabled': isIPV6Enabled,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'Origins': origins,
+      'PriceClass': priceClass.toValue(),
+      'Restrictions': restrictions,
+      'Status': status,
+      'ViewerCertificate': viewerCertificate,
+      'WebACLId': webACLId,
+      if (aliasICPRecordals != null) 'AliasICPRecordals': aliasICPRecordals,
+      if (originGroups != null) 'OriginGroups': originGroups,
+    };
   }
 }
 
@@ -6645,15 +9030,26 @@ class EncryptionEntities {
 
   /// An array of field patterns in a field-level encryption content type-profile
   /// mapping.
-  final List<EncryptionEntity> items;
+  final List<EncryptionEntity>? items;
 
   EncryptionEntities({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory EncryptionEntities.fromJson(Map<String, dynamic> json) {
+    return EncryptionEntities(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => EncryptionEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory EncryptionEntities.fromXml(_s.XmlElement elem) {
     return EncryptionEntities(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('EncryptionEntity')
           .map((c) => EncryptionEntity.fromXml(c))
@@ -6661,12 +9057,23 @@ class EncryptionEntities {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            items.map((e) => e?.toXml('EncryptionEntity'))),
+            items.map((e) => e.toXml('EncryptionEntity'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6674,7 +9081,7 @@ class EncryptionEntities {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6699,25 +9106,48 @@ class EncryptionEntity {
   final String publicKeyId;
 
   EncryptionEntity({
-    @_s.required this.fieldPatterns,
-    @_s.required this.providerId,
-    @_s.required this.publicKeyId,
+    required this.fieldPatterns,
+    required this.providerId,
+    required this.publicKeyId,
   });
-  factory EncryptionEntity.fromXml(_s.XmlElement elem) {
+
+  factory EncryptionEntity.fromJson(Map<String, dynamic> json) {
     return EncryptionEntity(
-      fieldPatterns: _s
-          .extractXmlChild(elem, 'FieldPatterns')
-          ?.let((e) => FieldPatterns.fromXml(e)),
-      providerId: _s.extractXmlStringValue(elem, 'ProviderId'),
-      publicKeyId: _s.extractXmlStringValue(elem, 'PublicKeyId'),
+      fieldPatterns:
+          FieldPatterns.fromJson(json['FieldPatterns'] as Map<String, dynamic>),
+      providerId: json['ProviderId'] as String,
+      publicKeyId: json['PublicKeyId'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory EncryptionEntity.fromXml(_s.XmlElement elem) {
+    return EncryptionEntity(
+      fieldPatterns:
+          FieldPatterns.fromXml(_s.extractXmlChild(elem, 'FieldPatterns')!),
+      providerId: _s.extractXmlStringValue(elem, 'ProviderId')!,
+      publicKeyId: _s.extractXmlStringValue(elem, 'PublicKeyId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldPatterns = this.fieldPatterns;
+    final providerId = this.providerId;
+    final publicKeyId = this.publicKeyId;
+    return {
+      'FieldPatterns': fieldPatterns,
+      'ProviderId': providerId,
+      'PublicKeyId': publicKeyId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final fieldPatterns = this.fieldPatterns;
+    final providerId = this.providerId;
+    final publicKeyId = this.publicKeyId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('PublicKeyId', publicKeyId),
       _s.encodeXmlStringValue('ProviderId', providerId),
-      fieldPatterns?.toXml('FieldPatterns'),
+      fieldPatterns.toXml('FieldPatterns'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6725,7 +9155,7 @@ class EncryptionEntity {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6739,26 +9169,49 @@ class EndPoint {
 
   /// Contains information about the Amazon Kinesis data stream where you are
   /// sending real-time log data.
-  final KinesisStreamConfig kinesisStreamConfig;
+  final KinesisStreamConfig? kinesisStreamConfig;
 
   EndPoint({
-    @_s.required this.streamType,
+    required this.streamType,
     this.kinesisStreamConfig,
   });
+
+  factory EndPoint.fromJson(Map<String, dynamic> json) {
+    return EndPoint(
+      streamType: json['StreamType'] as String,
+      kinesisStreamConfig: json['KinesisStreamConfig'] != null
+          ? KinesisStreamConfig.fromJson(
+              json['KinesisStreamConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory EndPoint.fromXml(_s.XmlElement elem) {
     return EndPoint(
-      streamType: _s.extractXmlStringValue(elem, 'StreamType'),
+      streamType: _s.extractXmlStringValue(elem, 'StreamType')!,
       kinesisStreamConfig: _s
           .extractXmlChild(elem, 'KinesisStreamConfig')
           ?.let((e) => KinesisStreamConfig.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final streamType = this.streamType;
+    final kinesisStreamConfig = this.kinesisStreamConfig;
+    return {
+      'StreamType': streamType,
+      if (kinesisStreamConfig != null)
+        'KinesisStreamConfig': kinesisStreamConfig,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final streamType = this.streamType;
+    final kinesisStreamConfig = this.kinesisStreamConfig;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('StreamType', streamType),
       if (kinesisStreamConfig != null)
-        kinesisStreamConfig?.toXml('KinesisStreamConfig'),
+        kinesisStreamConfig.toXml('KinesisStreamConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6766,7 +9219,7 @@ class EndPoint {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6790,7 +9243,6 @@ extension on EventType {
       case EventType.originResponse:
         return 'origin-response';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -6806,7 +9258,7 @@ extension on String {
       case 'origin-response':
         return EventType.originResponse;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EventType');
   }
 }
 
@@ -6826,18 +9278,39 @@ class FieldLevelEncryption {
   final DateTime lastModifiedTime;
 
   FieldLevelEncryption({
-    @_s.required this.fieldLevelEncryptionConfig,
-    @_s.required this.id,
-    @_s.required this.lastModifiedTime,
+    required this.fieldLevelEncryptionConfig,
+    required this.id,
+    required this.lastModifiedTime,
   });
+
+  factory FieldLevelEncryption.fromJson(Map<String, dynamic> json) {
+    return FieldLevelEncryption(
+      fieldLevelEncryptionConfig: FieldLevelEncryptionConfig.fromJson(
+          json['FieldLevelEncryptionConfig'] as Map<String, dynamic>),
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+    );
+  }
+
   factory FieldLevelEncryption.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryption(
-      fieldLevelEncryptionConfig: _s
-          .extractXmlChild(elem, 'FieldLevelEncryptionConfig')
-          ?.let((e) => FieldLevelEncryptionConfig.fromXml(e)),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
+      fieldLevelEncryptionConfig: FieldLevelEncryptionConfig.fromXml(
+          _s.extractXmlChild(elem, 'FieldLevelEncryptionConfig')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldLevelEncryptionConfig = this.fieldLevelEncryptionConfig;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'FieldLevelEncryptionConfig': fieldLevelEncryptionConfig,
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
   }
 }
 
@@ -6847,28 +9320,45 @@ class FieldLevelEncryptionConfig {
   /// A unique number that ensures the request can't be replayed.
   final String callerReference;
 
-  /// An optional comment about the configuration.
-  final String comment;
+  /// An optional comment about the configuration. The comment cannot be longer
+  /// than 128 characters.
+  final String? comment;
 
   /// A complex data type that specifies when to forward content if a content type
   /// isn't recognized and profiles to use as by default in a request if a query
   /// argument doesn't specify a profile to use.
-  final ContentTypeProfileConfig contentTypeProfileConfig;
+  final ContentTypeProfileConfig? contentTypeProfileConfig;
 
   /// A complex data type that specifies when to forward content if a profile
   /// isn't found and the profile that can be provided as a query argument in a
   /// request.
-  final QueryArgProfileConfig queryArgProfileConfig;
+  final QueryArgProfileConfig? queryArgProfileConfig;
 
   FieldLevelEncryptionConfig({
-    @_s.required this.callerReference,
+    required this.callerReference,
     this.comment,
     this.contentTypeProfileConfig,
     this.queryArgProfileConfig,
   });
+
+  factory FieldLevelEncryptionConfig.fromJson(Map<String, dynamic> json) {
+    return FieldLevelEncryptionConfig(
+      callerReference: json['CallerReference'] as String,
+      comment: json['Comment'] as String?,
+      contentTypeProfileConfig: json['ContentTypeProfileConfig'] != null
+          ? ContentTypeProfileConfig.fromJson(
+              json['ContentTypeProfileConfig'] as Map<String, dynamic>)
+          : null,
+      queryArgProfileConfig: json['QueryArgProfileConfig'] != null
+          ? QueryArgProfileConfig.fromJson(
+              json['QueryArgProfileConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory FieldLevelEncryptionConfig.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryptionConfig(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       contentTypeProfileConfig: _s
           .extractXmlChild(elem, 'ContentTypeProfileConfig')
@@ -6879,14 +9369,33 @@ class FieldLevelEncryptionConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
+    final contentTypeProfileConfig = this.contentTypeProfileConfig;
+    final queryArgProfileConfig = this.queryArgProfileConfig;
+    return {
+      'CallerReference': callerReference,
+      if (comment != null) 'Comment': comment,
+      if (contentTypeProfileConfig != null)
+        'ContentTypeProfileConfig': contentTypeProfileConfig,
+      if (queryArgProfileConfig != null)
+        'QueryArgProfileConfig': queryArgProfileConfig,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
+    final contentTypeProfileConfig = this.contentTypeProfileConfig;
+    final queryArgProfileConfig = this.queryArgProfileConfig;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
       if (queryArgProfileConfig != null)
-        queryArgProfileConfig?.toXml('QueryArgProfileConfig'),
+        queryArgProfileConfig.toXml('QueryArgProfileConfig'),
       if (contentTypeProfileConfig != null)
-        contentTypeProfileConfig?.toXml('ContentTypeProfileConfig'),
+        contentTypeProfileConfig.toXml('ContentTypeProfileConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6894,7 +9403,7 @@ class FieldLevelEncryptionConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6908,29 +9417,56 @@ class FieldLevelEncryptionList {
   final int quantity;
 
   /// An array of field-level encryption items.
-  final List<FieldLevelEncryptionSummary> items;
+  final List<FieldLevelEncryptionSummary>? items;
 
   /// If there are more elements to be listed, this element is present and
   /// contains the value that you can use for the <code>Marker</code> request
   /// parameter to continue listing your configurations where you left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   FieldLevelEncryptionList({
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory FieldLevelEncryptionList.fromJson(Map<String, dynamic> json) {
+    return FieldLevelEncryptionList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FieldLevelEncryptionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory FieldLevelEncryptionList.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryptionList(
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FieldLevelEncryptionSummary')
           .map((c) => FieldLevelEncryptionSummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -6949,18 +9485,43 @@ class FieldLevelEncryptionProfile {
   final DateTime lastModifiedTime;
 
   FieldLevelEncryptionProfile({
-    @_s.required this.fieldLevelEncryptionProfileConfig,
-    @_s.required this.id,
-    @_s.required this.lastModifiedTime,
+    required this.fieldLevelEncryptionProfileConfig,
+    required this.id,
+    required this.lastModifiedTime,
   });
+
+  factory FieldLevelEncryptionProfile.fromJson(Map<String, dynamic> json) {
+    return FieldLevelEncryptionProfile(
+      fieldLevelEncryptionProfileConfig:
+          FieldLevelEncryptionProfileConfig.fromJson(
+              json['FieldLevelEncryptionProfileConfig']
+                  as Map<String, dynamic>),
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+    );
+  }
+
   factory FieldLevelEncryptionProfile.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryptionProfile(
-      fieldLevelEncryptionProfileConfig: _s
-          .extractXmlChild(elem, 'FieldLevelEncryptionProfileConfig')
-          ?.let((e) => FieldLevelEncryptionProfileConfig.fromXml(e)),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
+      fieldLevelEncryptionProfileConfig:
+          FieldLevelEncryptionProfileConfig.fromXml(
+              _s.extractXmlChild(elem, 'FieldLevelEncryptionProfileConfig')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldLevelEncryptionProfileConfig =
+        this.fieldLevelEncryptionProfileConfig;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'FieldLevelEncryptionProfileConfig': fieldLevelEncryptionProfileConfig,
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
   }
 }
 
@@ -6977,32 +9538,61 @@ class FieldLevelEncryptionProfileConfig {
   /// Profile name for the field-level encryption profile.
   final String name;
 
-  /// An optional comment for the field-level encryption profile.
-  final String comment;
+  /// An optional comment for the field-level encryption profile. The comment
+  /// cannot be longer than 128 characters.
+  final String? comment;
 
   FieldLevelEncryptionProfileConfig({
-    @_s.required this.callerReference,
-    @_s.required this.encryptionEntities,
-    @_s.required this.name,
+    required this.callerReference,
+    required this.encryptionEntities,
+    required this.name,
     this.comment,
   });
+
+  factory FieldLevelEncryptionProfileConfig.fromJson(
+      Map<String, dynamic> json) {
+    return FieldLevelEncryptionProfileConfig(
+      callerReference: json['CallerReference'] as String,
+      encryptionEntities: EncryptionEntities.fromJson(
+          json['EncryptionEntities'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory FieldLevelEncryptionProfileConfig.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryptionProfileConfig(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      encryptionEntities: _s
-          .extractXmlChild(elem, 'EncryptionEntities')
-          ?.let((e) => EncryptionEntities.fromXml(e)),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      encryptionEntities: EncryptionEntities.fromXml(
+          _s.extractXmlChild(elem, 'EncryptionEntities')!),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final encryptionEntities = this.encryptionEntities;
+    final name = this.name;
+    final comment = this.comment;
+    return {
+      'CallerReference': callerReference,
+      'EncryptionEntities': encryptionEntities,
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final encryptionEntities = this.encryptionEntities;
+    final name = this.name;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('CallerReference', callerReference),
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
-      encryptionEntities?.toXml('EncryptionEntities'),
+      encryptionEntities.toXml('EncryptionEntities'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7010,7 +9600,7 @@ class FieldLevelEncryptionProfileConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7025,29 +9615,56 @@ class FieldLevelEncryptionProfileList {
   final int quantity;
 
   /// The field-level encryption profile items.
-  final List<FieldLevelEncryptionProfileSummary> items;
+  final List<FieldLevelEncryptionProfileSummary>? items;
 
   /// If there are more elements to be listed, this element is present and
   /// contains the value that you can use for the <code>Marker</code> request
   /// parameter to continue listing your profiles where you left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   FieldLevelEncryptionProfileList({
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory FieldLevelEncryptionProfileList.fromJson(Map<String, dynamic> json) {
+    return FieldLevelEncryptionProfileList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => FieldLevelEncryptionProfileSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory FieldLevelEncryptionProfileList.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryptionProfileList(
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('FieldLevelEncryptionProfileSummary')
           .map((c) => FieldLevelEncryptionProfileSummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -7068,26 +9685,55 @@ class FieldLevelEncryptionProfileSummary {
   /// Name for the field-level encryption profile summary.
   final String name;
 
-  /// An optional comment for the field-level encryption profile summary.
-  final String comment;
+  /// An optional comment for the field-level encryption profile summary. The
+  /// comment cannot be longer than 128 characters.
+  final String? comment;
 
   FieldLevelEncryptionProfileSummary({
-    @_s.required this.encryptionEntities,
-    @_s.required this.id,
-    @_s.required this.lastModifiedTime,
-    @_s.required this.name,
+    required this.encryptionEntities,
+    required this.id,
+    required this.lastModifiedTime,
+    required this.name,
     this.comment,
   });
+
+  factory FieldLevelEncryptionProfileSummary.fromJson(
+      Map<String, dynamic> json) {
+    return FieldLevelEncryptionProfileSummary(
+      encryptionEntities: EncryptionEntities.fromJson(
+          json['EncryptionEntities'] as Map<String, dynamic>),
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory FieldLevelEncryptionProfileSummary.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryptionProfileSummary(
-      encryptionEntities: _s
-          .extractXmlChild(elem, 'EncryptionEntities')
-          ?.let((e) => EncryptionEntities.fromXml(e)),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      encryptionEntities: EncryptionEntities.fromXml(
+          _s.extractXmlChild(elem, 'EncryptionEntities')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionEntities = this.encryptionEntities;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final name = this.name;
+    final comment = this.comment;
+    return {
+      'EncryptionEntities': encryptionEntities,
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+    };
   }
 }
 
@@ -7099,26 +9745,45 @@ class FieldLevelEncryptionSummary {
   /// The last time that the summary of field-level encryption items was modified.
   final DateTime lastModifiedTime;
 
-  /// An optional comment about the field-level encryption item.
-  final String comment;
+  /// An optional comment about the field-level encryption item. The comment
+  /// cannot be longer than 128 characters.
+  final String? comment;
 
   /// A summary of a content type-profile mapping.
-  final ContentTypeProfileConfig contentTypeProfileConfig;
+  final ContentTypeProfileConfig? contentTypeProfileConfig;
 
   /// A summary of a query argument-profile mapping.
-  final QueryArgProfileConfig queryArgProfileConfig;
+  final QueryArgProfileConfig? queryArgProfileConfig;
 
   FieldLevelEncryptionSummary({
-    @_s.required this.id,
-    @_s.required this.lastModifiedTime,
+    required this.id,
+    required this.lastModifiedTime,
     this.comment,
     this.contentTypeProfileConfig,
     this.queryArgProfileConfig,
   });
+
+  factory FieldLevelEncryptionSummary.fromJson(Map<String, dynamic> json) {
+    return FieldLevelEncryptionSummary(
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      comment: json['Comment'] as String?,
+      contentTypeProfileConfig: json['ContentTypeProfileConfig'] != null
+          ? ContentTypeProfileConfig.fromJson(
+              json['ContentTypeProfileConfig'] as Map<String, dynamic>)
+          : null,
+      queryArgProfileConfig: json['QueryArgProfileConfig'] != null
+          ? QueryArgProfileConfig.fromJson(
+              json['QueryArgProfileConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory FieldLevelEncryptionSummary.fromXml(_s.XmlElement elem) {
     return FieldLevelEncryptionSummary(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
       contentTypeProfileConfig: _s
           .extractXmlChild(elem, 'ContentTypeProfileConfig')
@@ -7127,6 +9792,23 @@ class FieldLevelEncryptionSummary {
           .extractXmlChild(elem, 'QueryArgProfileConfig')
           ?.let((e) => QueryArgProfileConfig.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final comment = this.comment;
+    final contentTypeProfileConfig = this.contentTypeProfileConfig;
+    final queryArgProfileConfig = this.queryArgProfileConfig;
+    return {
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (comment != null) 'Comment': comment,
+      if (contentTypeProfileConfig != null)
+        'ContentTypeProfileConfig': contentTypeProfileConfig,
+      if (queryArgProfileConfig != null)
+        'QueryArgProfileConfig': queryArgProfileConfig,
+    };
   }
 }
 
@@ -7137,22 +9819,44 @@ class FieldPatterns {
   final int quantity;
 
   /// An array of the field-level encryption field patterns.
-  final List<String> items;
+  final List<String>? items;
 
   FieldPatterns({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory FieldPatterns.fromJson(Map<String, dynamic> json) {
+    return FieldPatterns(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory FieldPatterns.fromXml(_s.XmlElement elem) {
     return FieldPatterns(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'FieldPattern')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -7165,7 +9869,7 @@ class FieldPatterns {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7180,7 +9884,6 @@ extension on Format {
       case Format.uRLEncoded:
         return 'URLEncoded';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7190,7 +9893,7 @@ extension on String {
       case 'URLEncoded':
         return Format.uRLEncoded;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Format');
   }
 }
 
@@ -7295,7 +9998,7 @@ class ForwardedValues {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/header-caching.html">
   /// Caching Content Based on Request Headers</a> in the <i>Amazon CloudFront
   /// Developer Guide</i>.
-  final Headers headers;
+  final Headers? headers;
 
   /// This field is deprecated. We recommend that you use a cache policy or an
   /// origin request policy instead of this field.
@@ -7312,20 +10015,34 @@ class ForwardedValues {
   ///
   /// A complex type that contains information about the query string parameters
   /// that you want CloudFront to use for caching for this cache behavior.
-  final QueryStringCacheKeys queryStringCacheKeys;
+  final QueryStringCacheKeys? queryStringCacheKeys;
 
   ForwardedValues({
-    @_s.required this.cookies,
-    @_s.required this.queryString,
+    required this.cookies,
+    required this.queryString,
     this.headers,
     this.queryStringCacheKeys,
   });
+
+  factory ForwardedValues.fromJson(Map<String, dynamic> json) {
+    return ForwardedValues(
+      cookies:
+          CookiePreference.fromJson(json['Cookies'] as Map<String, dynamic>),
+      queryString: json['QueryString'] as bool,
+      headers: json['Headers'] != null
+          ? Headers.fromJson(json['Headers'] as Map<String, dynamic>)
+          : null,
+      queryStringCacheKeys: json['QueryStringCacheKeys'] != null
+          ? QueryStringCacheKeys.fromJson(
+              json['QueryStringCacheKeys'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ForwardedValues.fromXml(_s.XmlElement elem) {
     return ForwardedValues(
-      cookies: _s
-          .extractXmlChild(elem, 'Cookies')
-          ?.let((e) => CookiePreference.fromXml(e)),
-      queryString: _s.extractXmlBoolValue(elem, 'QueryString'),
+      cookies: CookiePreference.fromXml(_s.extractXmlChild(elem, 'Cookies')!),
+      queryString: _s.extractXmlBoolValue(elem, 'QueryString')!,
       headers:
           _s.extractXmlChild(elem, 'Headers')?.let((e) => Headers.fromXml(e)),
       queryStringCacheKeys: _s
@@ -7334,13 +10051,31 @@ class ForwardedValues {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final cookies = this.cookies;
+    final queryString = this.queryString;
+    final headers = this.headers;
+    final queryStringCacheKeys = this.queryStringCacheKeys;
+    return {
+      'Cookies': cookies,
+      'QueryString': queryString,
+      if (headers != null) 'Headers': headers,
+      if (queryStringCacheKeys != null)
+        'QueryStringCacheKeys': queryStringCacheKeys,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cookies = this.cookies;
+    final queryString = this.queryString;
+    final headers = this.headers;
+    final queryStringCacheKeys = this.queryStringCacheKeys;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('QueryString', queryString),
-      cookies?.toXml('Cookies'),
-      if (headers != null) headers?.toXml('Headers'),
+      cookies.toXml('Cookies'),
+      if (headers != null) headers.toXml('Headers'),
       if (queryStringCacheKeys != null)
-        queryStringCacheKeys?.toXml('QueryStringCacheKeys'),
+        queryStringCacheKeys.toXml('QueryStringCacheKeys'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7348,8 +10083,420 @@ class ForwardedValues {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
+  }
+}
+
+/// A CloudFront function that is associated with a cache behavior in a
+/// CloudFront distribution.
+class FunctionAssociation {
+  /// The event type of the function, either <code>viewer-request</code> or
+  /// <code>viewer-response</code>. You cannot use origin-facing event types
+  /// (<code>origin-request</code> and <code>origin-response</code>) with a
+  /// CloudFront function.
+  final EventType eventType;
+
+  /// The Amazon Resource Name (ARN) of the function.
+  final String functionARN;
+
+  FunctionAssociation({
+    required this.eventType,
+    required this.functionARN,
+  });
+
+  factory FunctionAssociation.fromJson(Map<String, dynamic> json) {
+    return FunctionAssociation(
+      eventType: (json['EventType'] as String).toEventType(),
+      functionARN: json['FunctionARN'] as String,
+    );
+  }
+
+  factory FunctionAssociation.fromXml(_s.XmlElement elem) {
+    return FunctionAssociation(
+      eventType: _s.extractXmlStringValue(elem, 'EventType')!.toEventType(),
+      functionARN: _s.extractXmlStringValue(elem, 'FunctionARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final functionARN = this.functionARN;
+    return {
+      'EventType': eventType.toValue(),
+      'FunctionARN': functionARN,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eventType = this.eventType;
+    final functionARN = this.functionARN;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('FunctionARN', functionARN),
+      _s.encodeXmlStringValue('EventType', eventType.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of CloudFront functions that are associated with a cache behavior in
+/// a CloudFront distribution. CloudFront functions must be published to the
+/// <code>LIVE</code> stage to associate them with a cache behavior.
+class FunctionAssociations {
+  /// The number of CloudFront functions in the list.
+  final int quantity;
+
+  /// The CloudFront functions that are associated with a cache behavior in a
+  /// CloudFront distribution. CloudFront functions must be published to the
+  /// <code>LIVE</code> stage to associate them with a cache behavior.
+  final List<FunctionAssociation>? items;
+
+  FunctionAssociations({
+    required this.quantity,
+    this.items,
+  });
+
+  factory FunctionAssociations.fromJson(Map<String, dynamic> json) {
+    return FunctionAssociations(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => FunctionAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  factory FunctionAssociations.fromXml(_s.XmlElement elem) {
+    return FunctionAssociations(
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('FunctionAssociation')
+          .map((c) => FunctionAssociation.fromXml(c))
+          .toList()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlIntValue('Quantity', quantity),
+      if (items != null)
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => e.toXml('FunctionAssociation'))),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// Contains configuration information about a CloudFront function.
+class FunctionConfig {
+  /// A comment to describe the function.
+  final String comment;
+
+  /// The function’s runtime environment. The only valid value is
+  /// <code>cloudfront-js-1.0</code>.
+  final FunctionRuntime runtime;
+
+  FunctionConfig({
+    required this.comment,
+    required this.runtime,
+  });
+
+  factory FunctionConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionConfig(
+      comment: json['Comment'] as String,
+      runtime: (json['Runtime'] as String).toFunctionRuntime(),
+    );
+  }
+
+  factory FunctionConfig.fromXml(_s.XmlElement elem) {
+    return FunctionConfig(
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      runtime: _s.extractXmlStringValue(elem, 'Runtime')!.toFunctionRuntime(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final runtime = this.runtime;
+    return {
+      'Comment': comment,
+      'Runtime': runtime.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final comment = this.comment;
+    final runtime = this.runtime;
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('Comment', comment),
+      _s.encodeXmlStringValue('Runtime', runtime.toValue()),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+/// A list of CloudFront functions.
+class FunctionList {
+  /// The maximum number of functions requested.
+  final int maxItems;
+
+  /// The number of functions returned in the response.
+  final int quantity;
+
+  /// Contains the functions in the list.
+  final List<FunctionSummary>? items;
+
+  /// If there are more items in the list than are in this response, this element
+  /// is present. It contains the value that you should use in the
+  /// <code>Marker</code> field of a subsequent request to continue listing
+  /// functions where you left off.
+  final String? nextMarker;
+
+  FunctionList({
+    required this.maxItems,
+    required this.quantity,
+    this.items,
+    this.nextMarker,
+  });
+
+  factory FunctionList.fromJson(Map<String, dynamic> json) {
+    return FunctionList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => FunctionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  factory FunctionList.fromXml(_s.XmlElement elem) {
+    return FunctionList(
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
+          .findElements('FunctionSummary')
+          .map((c) => FunctionSummary.fromXml(c))
+          .toList()),
+      nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
+}
+
+/// Contains metadata about a CloudFront function.
+class FunctionMetadata {
+  /// The Amazon Resource Name (ARN) of the function. The ARN uniquely identifies
+  /// the function.
+  final String functionARN;
+
+  /// The date and time when the function was most recently updated.
+  final DateTime lastModifiedTime;
+
+  /// The date and time when the function was created.
+  final DateTime? createdTime;
+
+  /// The stage that the function is in, either <code>DEVELOPMENT</code> or
+  /// <code>LIVE</code>.
+  ///
+  /// When a function is in the <code>DEVELOPMENT</code> stage, you can test the
+  /// function with <code>TestFunction</code>, and update it with
+  /// <code>UpdateFunction</code>.
+  ///
+  /// When a function is in the <code>LIVE</code> stage, you can attach the
+  /// function to a distribution’s cache behavior, using the function’s ARN.
+  final FunctionStage? stage;
+
+  FunctionMetadata({
+    required this.functionARN,
+    required this.lastModifiedTime,
+    this.createdTime,
+    this.stage,
+  });
+
+  factory FunctionMetadata.fromJson(Map<String, dynamic> json) {
+    return FunctionMetadata(
+      functionARN: json['FunctionARN'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      stage: (json['Stage'] as String?)?.toFunctionStage(),
+    );
+  }
+
+  factory FunctionMetadata.fromXml(_s.XmlElement elem) {
+    return FunctionMetadata(
+      functionARN: _s.extractXmlStringValue(elem, 'FunctionARN')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
+      stage: _s.extractXmlStringValue(elem, 'Stage')?.toFunctionStage(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionARN = this.functionARN;
+    final lastModifiedTime = this.lastModifiedTime;
+    final createdTime = this.createdTime;
+    final stage = this.stage;
+    return {
+      'FunctionARN': functionARN,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (stage != null) 'Stage': stage.toValue(),
+    };
+  }
+}
+
+enum FunctionRuntime {
+  cloudfrontJs_1_0,
+}
+
+extension on FunctionRuntime {
+  String toValue() {
+    switch (this) {
+      case FunctionRuntime.cloudfrontJs_1_0:
+        return 'cloudfront-js-1.0';
+    }
+  }
+}
+
+extension on String {
+  FunctionRuntime toFunctionRuntime() {
+    switch (this) {
+      case 'cloudfront-js-1.0':
+        return FunctionRuntime.cloudfrontJs_1_0;
+    }
+    throw Exception('$this is not known in enum FunctionRuntime');
+  }
+}
+
+enum FunctionStage {
+  development,
+  live,
+}
+
+extension on FunctionStage {
+  String toValue() {
+    switch (this) {
+      case FunctionStage.development:
+        return 'DEVELOPMENT';
+      case FunctionStage.live:
+        return 'LIVE';
+    }
+  }
+}
+
+extension on String {
+  FunctionStage toFunctionStage() {
+    switch (this) {
+      case 'DEVELOPMENT':
+        return FunctionStage.development;
+      case 'LIVE':
+        return FunctionStage.live;
+    }
+    throw Exception('$this is not known in enum FunctionStage');
+  }
+}
+
+/// Contains configuration information and metadata about a CloudFront function.
+class FunctionSummary {
+  /// Contains configuration information about a CloudFront function.
+  final FunctionConfig functionConfig;
+
+  /// Contains metadata about a CloudFront function.
+  final FunctionMetadata functionMetadata;
+
+  /// The name of the CloudFront function.
+  final String name;
+
+  /// The status of the CloudFront function.
+  final String? status;
+
+  FunctionSummary({
+    required this.functionConfig,
+    required this.functionMetadata,
+    required this.name,
+    this.status,
+  });
+
+  factory FunctionSummary.fromJson(Map<String, dynamic> json) {
+    return FunctionSummary(
+      functionConfig: FunctionConfig.fromJson(
+          json['FunctionConfig'] as Map<String, dynamic>),
+      functionMetadata: FunctionMetadata.fromJson(
+          json['FunctionMetadata'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      status: json['Status'] as String?,
+    );
+  }
+
+  factory FunctionSummary.fromXml(_s.XmlElement elem) {
+    return FunctionSummary(
+      functionConfig:
+          FunctionConfig.fromXml(_s.extractXmlChild(elem, 'FunctionConfig')!),
+      functionMetadata: FunctionMetadata.fromXml(
+          _s.extractXmlChild(elem, 'FunctionMetadata')!),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionConfig = this.functionConfig;
+    final functionMetadata = this.functionMetadata;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'FunctionConfig': functionConfig,
+      'FunctionMetadata': functionMetadata,
+      'Name': name,
+      if (status != null) 'Status': status,
+    };
   }
 }
 
@@ -7397,29 +10544,55 @@ class GeoRestriction {
   /// <code>ISO 3166-1-alpha-2</code> code on the <i>International Organization
   /// for Standardization</i> website. You can also refer to the country list on
   /// the CloudFront console, which includes both country names and codes.
-  final List<String> items;
+  final List<String>? items;
 
   GeoRestriction({
-    @_s.required this.quantity,
-    @_s.required this.restrictionType,
+    required this.quantity,
+    required this.restrictionType,
     this.items,
   });
+
+  factory GeoRestriction.fromJson(Map<String, dynamic> json) {
+    return GeoRestriction(
+      quantity: json['Quantity'] as int,
+      restrictionType:
+          (json['RestrictionType'] as String).toGeoRestrictionType(),
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory GeoRestriction.fromXml(_s.XmlElement elem) {
     return GeoRestriction(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       restrictionType: _s
-          .extractXmlStringValue(elem, 'RestrictionType')
-          ?.toGeoRestrictionType(),
+          .extractXmlStringValue(elem, 'RestrictionType')!
+          .toGeoRestrictionType(),
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Location')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final restrictionType = this.restrictionType;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      'RestrictionType': restrictionType.toValue(),
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final restrictionType = this.restrictionType;
+    final items = this.items;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'RestrictionType', restrictionType?.toValue() ?? ''),
+      _s.encodeXmlStringValue('RestrictionType', restrictionType.toValue()),
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
@@ -7431,7 +10604,7 @@ class GeoRestriction {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7452,7 +10625,6 @@ extension on GeoRestrictionType {
       case GeoRestrictionType.none:
         return 'none';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7466,151 +10638,382 @@ extension on String {
       case 'none':
         return GeoRestrictionType.none;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum GeoRestrictionType');
   }
 }
 
 class GetCachePolicyConfigResult {
   /// The cache policy configuration.
-  final CachePolicyConfig cachePolicyConfig;
+  final CachePolicyConfig? cachePolicyConfig;
 
   /// The current version of the cache policy.
-  final String eTag;
+  final String? eTag;
 
   GetCachePolicyConfigResult({
     this.cachePolicyConfig,
     this.eTag,
   });
+
+  factory GetCachePolicyConfigResult.fromJson(Map<String, dynamic> json) {
+    return GetCachePolicyConfigResult(
+      cachePolicyConfig: json['CachePolicyConfig'] != null
+          ? CachePolicyConfig.fromJson(
+              json['CachePolicyConfig'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cachePolicyConfig = this.cachePolicyConfig;
+    final eTag = this.eTag;
+    return {
+      if (cachePolicyConfig != null) 'CachePolicyConfig': cachePolicyConfig,
+    };
+  }
 }
 
 class GetCachePolicyResult {
   /// The cache policy.
-  final CachePolicy cachePolicy;
+  final CachePolicy? cachePolicy;
 
   /// The current version of the cache policy.
-  final String eTag;
+  final String? eTag;
 
   GetCachePolicyResult({
     this.cachePolicy,
     this.eTag,
   });
+
+  factory GetCachePolicyResult.fromJson(Map<String, dynamic> json) {
+    return GetCachePolicyResult(
+      cachePolicy: json['CachePolicy'] != null
+          ? CachePolicy.fromJson(json['CachePolicy'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cachePolicy = this.cachePolicy;
+    final eTag = this.eTag;
+    return {
+      if (cachePolicy != null) 'CachePolicy': cachePolicy,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class GetCloudFrontOriginAccessIdentityConfigResult {
   /// The origin access identity's configuration information.
-  final CloudFrontOriginAccessIdentityConfig
+  final CloudFrontOriginAccessIdentityConfig?
       cloudFrontOriginAccessIdentityConfig;
 
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   GetCloudFrontOriginAccessIdentityConfigResult({
     this.cloudFrontOriginAccessIdentityConfig,
     this.eTag,
   });
+
+  factory GetCloudFrontOriginAccessIdentityConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetCloudFrontOriginAccessIdentityConfigResult(
+      cloudFrontOriginAccessIdentityConfig:
+          json['CloudFrontOriginAccessIdentityConfig'] != null
+              ? CloudFrontOriginAccessIdentityConfig.fromJson(
+                  json['CloudFrontOriginAccessIdentityConfig']
+                      as Map<String, dynamic>)
+              : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFrontOriginAccessIdentityConfig =
+        this.cloudFrontOriginAccessIdentityConfig;
+    final eTag = this.eTag;
+    return {
+      if (cloudFrontOriginAccessIdentityConfig != null)
+        'CloudFrontOriginAccessIdentityConfig':
+            cloudFrontOriginAccessIdentityConfig,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class GetCloudFrontOriginAccessIdentityResult {
   /// The origin access identity's information.
-  final CloudFrontOriginAccessIdentity cloudFrontOriginAccessIdentity;
+  final CloudFrontOriginAccessIdentity? cloudFrontOriginAccessIdentity;
 
   /// The current version of the origin access identity's information. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   GetCloudFrontOriginAccessIdentityResult({
     this.cloudFrontOriginAccessIdentity,
     this.eTag,
   });
+
+  factory GetCloudFrontOriginAccessIdentityResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetCloudFrontOriginAccessIdentityResult(
+      cloudFrontOriginAccessIdentity: json['CloudFrontOriginAccessIdentity'] !=
+              null
+          ? CloudFrontOriginAccessIdentity.fromJson(
+              json['CloudFrontOriginAccessIdentity'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFrontOriginAccessIdentity = this.cloudFrontOriginAccessIdentity;
+    final eTag = this.eTag;
+    return {
+      if (cloudFrontOriginAccessIdentity != null)
+        'CloudFrontOriginAccessIdentity': cloudFrontOriginAccessIdentity,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class GetDistributionConfigResult {
   /// The distribution's configuration information.
-  final DistributionConfig distributionConfig;
+  final DistributionConfig? distributionConfig;
 
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   GetDistributionConfigResult({
     this.distributionConfig,
     this.eTag,
   });
+
+  factory GetDistributionConfigResult.fromJson(Map<String, dynamic> json) {
+    return GetDistributionConfigResult(
+      distributionConfig: json['DistributionConfig'] != null
+          ? DistributionConfig.fromJson(
+              json['DistributionConfig'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionConfig = this.distributionConfig;
+    final eTag = this.eTag;
+    return {
+      if (distributionConfig != null) 'DistributionConfig': distributionConfig,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class GetDistributionResult {
   /// The distribution's information.
-  final Distribution distribution;
+  final Distribution? distribution;
 
   /// The current version of the distribution's information. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   GetDistributionResult({
     this.distribution,
     this.eTag,
   });
+
+  factory GetDistributionResult.fromJson(Map<String, dynamic> json) {
+    return GetDistributionResult(
+      distribution: json['Distribution'] != null
+          ? Distribution.fromJson(json['Distribution'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distribution = this.distribution;
+    final eTag = this.eTag;
+    return {
+      if (distribution != null) 'Distribution': distribution,
+    };
+  }
 }
 
 class GetFieldLevelEncryptionConfigResult {
   /// The current version of the field level encryption configuration. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// Return the field-level encryption configuration information.
-  final FieldLevelEncryptionConfig fieldLevelEncryptionConfig;
+  final FieldLevelEncryptionConfig? fieldLevelEncryptionConfig;
 
   GetFieldLevelEncryptionConfigResult({
     this.eTag,
     this.fieldLevelEncryptionConfig,
   });
+
+  factory GetFieldLevelEncryptionConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetFieldLevelEncryptionConfigResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryptionConfig: json['FieldLevelEncryptionConfig'] != null
+          ? FieldLevelEncryptionConfig.fromJson(
+              json['FieldLevelEncryptionConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryptionConfig = this.fieldLevelEncryptionConfig;
+    return {
+      if (fieldLevelEncryptionConfig != null)
+        'FieldLevelEncryptionConfig': fieldLevelEncryptionConfig,
+    };
+  }
 }
 
 class GetFieldLevelEncryptionProfileConfigResult {
   /// The current version of the field-level encryption profile configuration
   /// result. For example: <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// Return the field-level encryption profile configuration information.
-  final FieldLevelEncryptionProfileConfig fieldLevelEncryptionProfileConfig;
+  final FieldLevelEncryptionProfileConfig? fieldLevelEncryptionProfileConfig;
 
   GetFieldLevelEncryptionProfileConfigResult({
     this.eTag,
     this.fieldLevelEncryptionProfileConfig,
   });
+
+  factory GetFieldLevelEncryptionProfileConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetFieldLevelEncryptionProfileConfigResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryptionProfileConfig:
+          json['FieldLevelEncryptionProfileConfig'] != null
+              ? FieldLevelEncryptionProfileConfig.fromJson(
+                  json['FieldLevelEncryptionProfileConfig']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryptionProfileConfig =
+        this.fieldLevelEncryptionProfileConfig;
+    return {
+      if (fieldLevelEncryptionProfileConfig != null)
+        'FieldLevelEncryptionProfileConfig': fieldLevelEncryptionProfileConfig,
+    };
+  }
 }
 
 class GetFieldLevelEncryptionProfileResult {
   /// The current version of the field level encryption profile. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// Return the field-level encryption profile information.
-  final FieldLevelEncryptionProfile fieldLevelEncryptionProfile;
+  final FieldLevelEncryptionProfile? fieldLevelEncryptionProfile;
 
   GetFieldLevelEncryptionProfileResult({
     this.eTag,
     this.fieldLevelEncryptionProfile,
   });
+
+  factory GetFieldLevelEncryptionProfileResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetFieldLevelEncryptionProfileResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryptionProfile: json['FieldLevelEncryptionProfile'] != null
+          ? FieldLevelEncryptionProfile.fromJson(
+              json['FieldLevelEncryptionProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryptionProfile = this.fieldLevelEncryptionProfile;
+    return {
+      if (fieldLevelEncryptionProfile != null)
+        'FieldLevelEncryptionProfile': fieldLevelEncryptionProfile,
+    };
+  }
 }
 
 class GetFieldLevelEncryptionResult {
   /// The current version of the field level encryption configuration. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// Return the field-level encryption configuration information.
-  final FieldLevelEncryption fieldLevelEncryption;
+  final FieldLevelEncryption? fieldLevelEncryption;
 
   GetFieldLevelEncryptionResult({
     this.eTag,
     this.fieldLevelEncryption,
   });
+
+  factory GetFieldLevelEncryptionResult.fromJson(Map<String, dynamic> json) {
+    return GetFieldLevelEncryptionResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryption: json['FieldLevelEncryption'] != null
+          ? FieldLevelEncryption.fromJson(
+              json['FieldLevelEncryption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryption = this.fieldLevelEncryption;
+    return {
+      if (fieldLevelEncryption != null)
+        'FieldLevelEncryption': fieldLevelEncryption,
+    };
+  }
+}
+
+class GetFunctionResult {
+  /// The content type (media type) of the response.
+  final String? contentType;
+
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// The function code of a CloudFront function.
+  final Uint8List? functionCode;
+
+  GetFunctionResult({
+    this.contentType,
+    this.eTag,
+    this.functionCode,
+  });
+
+  factory GetFunctionResult.fromJson(Map<String, dynamic> json) {
+    return GetFunctionResult(
+      contentType: json['Content-Type'] as String?,
+      eTag: json['ETag'] as String?,
+      functionCode: _s.decodeNullableUint8List(json['FunctionCode'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final eTag = this.eTag;
+    final functionCode = this.functionCode;
+    return {
+      if (functionCode != null) 'FunctionCode': base64Encode(functionCode),
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
@@ -7618,125 +11021,274 @@ class GetInvalidationResult {
   /// The invalidation's information. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/InvalidationDatatype.html">Invalidation
   /// Complex Type</a>.
-  final Invalidation invalidation;
+  final Invalidation? invalidation;
 
   GetInvalidationResult({
     this.invalidation,
   });
-  factory GetInvalidationResult.fromXml(_s.XmlElement elem) {
+
+  factory GetInvalidationResult.fromJson(Map<String, dynamic> json) {
     return GetInvalidationResult(
-      invalidation: elem?.let((e) => Invalidation.fromXml(e)),
+      invalidation: json['Invalidation'] != null
+          ? Invalidation.fromJson(json['Invalidation'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidation = this.invalidation;
+    return {
+      if (invalidation != null) 'Invalidation': invalidation,
+    };
   }
 }
 
 class GetKeyGroupConfigResult {
   /// The identifier for this version of the key group.
-  final String eTag;
+  final String? eTag;
 
   /// The key group configuration.
-  final KeyGroupConfig keyGroupConfig;
+  final KeyGroupConfig? keyGroupConfig;
 
   GetKeyGroupConfigResult({
     this.eTag,
     this.keyGroupConfig,
   });
+
+  factory GetKeyGroupConfigResult.fromJson(Map<String, dynamic> json) {
+    return GetKeyGroupConfigResult(
+      eTag: json['ETag'] as String?,
+      keyGroupConfig: json['KeyGroupConfig'] != null
+          ? KeyGroupConfig.fromJson(
+              json['KeyGroupConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final keyGroupConfig = this.keyGroupConfig;
+    return {
+      if (keyGroupConfig != null) 'KeyGroupConfig': keyGroupConfig,
+    };
+  }
 }
 
 class GetKeyGroupResult {
   /// The identifier for this version of the key group.
-  final String eTag;
+  final String? eTag;
 
   /// The key group.
-  final KeyGroup keyGroup;
+  final KeyGroup? keyGroup;
 
   GetKeyGroupResult({
     this.eTag,
     this.keyGroup,
   });
+
+  factory GetKeyGroupResult.fromJson(Map<String, dynamic> json) {
+    return GetKeyGroupResult(
+      eTag: json['ETag'] as String?,
+      keyGroup: json['KeyGroup'] != null
+          ? KeyGroup.fromJson(json['KeyGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final keyGroup = this.keyGroup;
+    return {
+      if (keyGroup != null) 'KeyGroup': keyGroup,
+    };
+  }
 }
 
 class GetMonitoringSubscriptionResult {
   /// A monitoring subscription. This structure contains information about whether
   /// additional CloudWatch metrics are enabled for a given CloudFront
   /// distribution.
-  final MonitoringSubscription monitoringSubscription;
+  final MonitoringSubscription? monitoringSubscription;
 
   GetMonitoringSubscriptionResult({
     this.monitoringSubscription,
   });
-  factory GetMonitoringSubscriptionResult.fromXml(_s.XmlElement elem) {
+
+  factory GetMonitoringSubscriptionResult.fromJson(Map<String, dynamic> json) {
     return GetMonitoringSubscriptionResult(
-      monitoringSubscription:
-          elem?.let((e) => MonitoringSubscription.fromXml(e)),
+      monitoringSubscription: json['MonitoringSubscription'] != null
+          ? MonitoringSubscription.fromJson(
+              json['MonitoringSubscription'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitoringSubscription = this.monitoringSubscription;
+    return {
+      if (monitoringSubscription != null)
+        'MonitoringSubscription': monitoringSubscription,
+    };
   }
 }
 
 class GetOriginRequestPolicyConfigResult {
   /// The current version of the origin request policy.
-  final String eTag;
+  final String? eTag;
 
   /// The origin request policy configuration.
-  final OriginRequestPolicyConfig originRequestPolicyConfig;
+  final OriginRequestPolicyConfig? originRequestPolicyConfig;
 
   GetOriginRequestPolicyConfigResult({
     this.eTag,
     this.originRequestPolicyConfig,
   });
+
+  factory GetOriginRequestPolicyConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetOriginRequestPolicyConfigResult(
+      eTag: json['ETag'] as String?,
+      originRequestPolicyConfig: json['OriginRequestPolicyConfig'] != null
+          ? OriginRequestPolicyConfig.fromJson(
+              json['OriginRequestPolicyConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final originRequestPolicyConfig = this.originRequestPolicyConfig;
+    return {
+      if (originRequestPolicyConfig != null)
+        'OriginRequestPolicyConfig': originRequestPolicyConfig,
+    };
+  }
 }
 
 class GetOriginRequestPolicyResult {
   /// The current version of the origin request policy.
-  final String eTag;
+  final String? eTag;
 
   /// The origin request policy.
-  final OriginRequestPolicy originRequestPolicy;
+  final OriginRequestPolicy? originRequestPolicy;
 
   GetOriginRequestPolicyResult({
     this.eTag,
     this.originRequestPolicy,
   });
+
+  factory GetOriginRequestPolicyResult.fromJson(Map<String, dynamic> json) {
+    return GetOriginRequestPolicyResult(
+      eTag: json['ETag'] as String?,
+      originRequestPolicy: json['OriginRequestPolicy'] != null
+          ? OriginRequestPolicy.fromJson(
+              json['OriginRequestPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final originRequestPolicy = this.originRequestPolicy;
+    return {
+      if (originRequestPolicy != null)
+        'OriginRequestPolicy': originRequestPolicy,
+    };
+  }
 }
 
 class GetPublicKeyConfigResult {
   /// The identifier for this version of the public key configuration.
-  final String eTag;
+  final String? eTag;
 
   /// A public key configuration.
-  final PublicKeyConfig publicKeyConfig;
+  final PublicKeyConfig? publicKeyConfig;
 
   GetPublicKeyConfigResult({
     this.eTag,
     this.publicKeyConfig,
   });
+
+  factory GetPublicKeyConfigResult.fromJson(Map<String, dynamic> json) {
+    return GetPublicKeyConfigResult(
+      eTag: json['ETag'] as String?,
+      publicKeyConfig: json['PublicKeyConfig'] != null
+          ? PublicKeyConfig.fromJson(
+              json['PublicKeyConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final publicKeyConfig = this.publicKeyConfig;
+    return {
+      if (publicKeyConfig != null) 'PublicKeyConfig': publicKeyConfig,
+    };
+  }
 }
 
 class GetPublicKeyResult {
   /// The identifier for this version of the public key.
-  final String eTag;
+  final String? eTag;
 
   /// The public key.
-  final PublicKey publicKey;
+  final PublicKey? publicKey;
 
   GetPublicKeyResult({
     this.eTag,
     this.publicKey,
   });
+
+  factory GetPublicKeyResult.fromJson(Map<String, dynamic> json) {
+    return GetPublicKeyResult(
+      eTag: json['ETag'] as String?,
+      publicKey: json['PublicKey'] != null
+          ? PublicKey.fromJson(json['PublicKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final publicKey = this.publicKey;
+    return {
+      if (publicKey != null) 'PublicKey': publicKey,
+    };
+  }
 }
 
 class GetRealtimeLogConfigRequest {
   /// The Amazon Resource Name (ARN) of the real-time log configuration to get.
-  final String arn;
+  final String? arn;
 
   /// The name of the real-time log configuration to get.
-  final String name;
+  final String? name;
 
   GetRealtimeLogConfigRequest({
     this.arn,
     this.name,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory GetRealtimeLogConfigRequest.fromJson(Map<String, dynamic> json) {
+    return GetRealtimeLogConfigRequest(
+      arn: json['ARN'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (name != null) 'Name': name,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final arn = this.arn;
+    final name = this.name;
     final $children = <_s.XmlNode>[
       if (name != null) _s.encodeXmlStringValue('Name', name),
       if (arn != null) _s.encodeXmlStringValue('ARN', arn),
@@ -7747,18 +11299,28 @@ class GetRealtimeLogConfigRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class GetRealtimeLogConfigResult {
   /// A real-time log configuration.
-  final RealtimeLogConfig realtimeLogConfig;
+  final RealtimeLogConfig? realtimeLogConfig;
 
   GetRealtimeLogConfigResult({
     this.realtimeLogConfig,
   });
+
+  factory GetRealtimeLogConfigResult.fromJson(Map<String, dynamic> json) {
+    return GetRealtimeLogConfigResult(
+      realtimeLogConfig: json['RealtimeLogConfig'] != null
+          ? RealtimeLogConfig.fromJson(
+              json['RealtimeLogConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetRealtimeLogConfigResult.fromXml(_s.XmlElement elem) {
     return GetRealtimeLogConfigResult(
       realtimeLogConfig: _s
@@ -7766,36 +11328,82 @@ class GetRealtimeLogConfigResult {
           ?.let((e) => RealtimeLogConfig.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final realtimeLogConfig = this.realtimeLogConfig;
+    return {
+      if (realtimeLogConfig != null) 'RealtimeLogConfig': realtimeLogConfig,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class GetStreamingDistributionConfigResult {
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// The streaming distribution's configuration information.
-  final StreamingDistributionConfig streamingDistributionConfig;
+  final StreamingDistributionConfig? streamingDistributionConfig;
 
   GetStreamingDistributionConfigResult({
     this.eTag,
     this.streamingDistributionConfig,
   });
+
+  factory GetStreamingDistributionConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return GetStreamingDistributionConfigResult(
+      eTag: json['ETag'] as String?,
+      streamingDistributionConfig: json['StreamingDistributionConfig'] != null
+          ? StreamingDistributionConfig.fromJson(
+              json['StreamingDistributionConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final streamingDistributionConfig = this.streamingDistributionConfig;
+    return {
+      if (streamingDistributionConfig != null)
+        'StreamingDistributionConfig': streamingDistributionConfig,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class GetStreamingDistributionResult {
   /// The current version of the streaming distribution's information. For
   /// example: <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// The streaming distribution's information.
-  final StreamingDistribution streamingDistribution;
+  final StreamingDistribution? streamingDistribution;
 
   GetStreamingDistributionResult({
     this.eTag,
     this.streamingDistribution,
   });
+
+  factory GetStreamingDistributionResult.fromJson(Map<String, dynamic> json) {
+    return GetStreamingDistributionResult(
+      eTag: json['ETag'] as String?,
+      streamingDistribution: json['StreamingDistribution'] != null
+          ? StreamingDistribution.fromJson(
+              json['StreamingDistribution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final streamingDistribution = this.streamingDistribution;
+    return {
+      if (streamingDistribution != null)
+        'StreamingDistribution': streamingDistribution,
+    };
+  }
 }
 
 /// Contains a list of HTTP header names.
@@ -7804,22 +11412,44 @@ class Headers {
   final int quantity;
 
   /// A list of HTTP header names.
-  final List<String> items;
+  final List<String>? items;
 
   Headers({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory Headers.fromJson(Map<String, dynamic> json) {
+    return Headers(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory Headers.fromXml(_s.XmlElement elem) {
     return Headers(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Name')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -7832,7 +11462,7 @@ class Headers {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7850,7 +11480,6 @@ extension on HttpVersion {
       case HttpVersion.http2:
         return 'http2';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7862,7 +11491,7 @@ extension on String {
       case 'http2':
         return HttpVersion.http2;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum HttpVersion');
   }
 }
 
@@ -7882,7 +11511,6 @@ extension on ICPRecordalStatus {
       case ICPRecordalStatus.pending:
         return 'PENDING';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -7896,7 +11524,7 @@ extension on String {
       case 'PENDING':
         return ICPRecordalStatus.pending;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ICPRecordalStatus');
   }
 }
 
@@ -7917,20 +11545,43 @@ class Invalidation {
   final String status;
 
   Invalidation({
-    @_s.required this.createTime,
-    @_s.required this.id,
-    @_s.required this.invalidationBatch,
-    @_s.required this.status,
+    required this.createTime,
+    required this.id,
+    required this.invalidationBatch,
+    required this.status,
   });
+
+  factory Invalidation.fromJson(Map<String, dynamic> json) {
+    return Invalidation(
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
+      id: json['Id'] as String,
+      invalidationBatch: InvalidationBatch.fromJson(
+          json['InvalidationBatch'] as Map<String, dynamic>),
+      status: json['Status'] as String,
+    );
+  }
+
   factory Invalidation.fromXml(_s.XmlElement elem) {
     return Invalidation(
-      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      invalidationBatch: _s
-          .extractXmlChild(elem, 'InvalidationBatch')
-          ?.let((e) => InvalidationBatch.fromXml(e)),
-      status: _s.extractXmlStringValue(elem, 'Status'),
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      invalidationBatch: InvalidationBatch.fromXml(
+          _s.extractXmlChild(elem, 'InvalidationBatch')!),
+      status: _s.extractXmlStringValue(elem, 'Status')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTime = this.createTime;
+    final id = this.id;
+    final invalidationBatch = this.invalidationBatch;
+    final status = this.status;
+    return {
+      'CreateTime': unixTimestampToJson(createTime),
+      'Id': id,
+      'InvalidationBatch': invalidationBatch,
+      'Status': status,
+    };
   }
 }
 
@@ -7964,19 +11615,38 @@ class InvalidationBatch {
   final Paths paths;
 
   InvalidationBatch({
-    @_s.required this.callerReference,
-    @_s.required this.paths,
+    required this.callerReference,
+    required this.paths,
   });
-  factory InvalidationBatch.fromXml(_s.XmlElement elem) {
+
+  factory InvalidationBatch.fromJson(Map<String, dynamic> json) {
     return InvalidationBatch(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      paths: _s.extractXmlChild(elem, 'Paths')?.let((e) => Paths.fromXml(e)),
+      callerReference: json['CallerReference'] as String,
+      paths: Paths.fromJson(json['Paths'] as Map<String, dynamic>),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory InvalidationBatch.fromXml(_s.XmlElement elem) {
+    return InvalidationBatch(
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      paths: Paths.fromXml(_s.extractXmlChild(elem, 'Paths')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final paths = this.paths;
+    return {
+      'CallerReference': callerReference,
+      'Paths': paths,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final paths = this.paths;
     final $children = <_s.XmlNode>[
-      paths?.toXml('Paths'),
+      paths.toXml('Paths'),
       _s.encodeXmlStringValue('CallerReference', callerReference),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -7985,7 +11655,7 @@ class InvalidationBatch {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -8008,39 +11678,70 @@ class InvalidationList {
   /// The value that you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of invalidation batches that were created by the current AWS
-  /// account.
+  /// The number of invalidation batches that were created by the current account.
   final int quantity;
 
   /// A complex type that contains one <code>InvalidationSummary</code> element
-  /// for each invalidation batch created by the current AWS account.
-  final List<InvalidationSummary> items;
+  /// for each invalidation batch created by the current account.
+  final List<InvalidationSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value that you can use for the <code>Marker</code> request
   /// parameter to continue listing your invalidation batches where they left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   InvalidationList({
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory InvalidationList.fromJson(Map<String, dynamic> json) {
+    return InvalidationList(
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => InvalidationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory InvalidationList.fromXml(_s.XmlElement elem) {
     return InvalidationList(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('InvalidationSummary')
           .map((c) => InvalidationSummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -8056,16 +11757,36 @@ class InvalidationSummary {
   final String status;
 
   InvalidationSummary({
-    @_s.required this.createTime,
-    @_s.required this.id,
-    @_s.required this.status,
+    required this.createTime,
+    required this.id,
+    required this.status,
   });
+
+  factory InvalidationSummary.fromJson(Map<String, dynamic> json) {
+    return InvalidationSummary(
+      createTime: nonNullableTimeStampFromJson(json['CreateTime'] as Object),
+      id: json['Id'] as String,
+      status: json['Status'] as String,
+    );
+  }
+
   factory InvalidationSummary.fromXml(_s.XmlElement elem) {
     return InvalidationSummary(
-      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
+      createTime: _s.extractXmlDateTimeValue(elem, 'CreateTime')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTime = this.createTime;
+    final id = this.id;
+    final status = this.status;
+    return {
+      'CreateTime': unixTimestampToJson(createTime),
+      'Id': id,
+      'Status': status,
+    };
   }
 }
 
@@ -8085,7 +11806,6 @@ extension on ItemSelection {
       case ItemSelection.all:
         return 'all';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8099,7 +11819,7 @@ extension on String {
       case 'all':
         return ItemSelection.all;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ItemSelection');
   }
 }
 
@@ -8107,13 +11827,23 @@ extension on String {
 /// the signatures of signed URLs and signed cookies.
 class KGKeyPairIds {
   /// The identifier of the key group that contains the public keys.
-  final String keyGroupId;
-  final KeyPairIds keyPairIds;
+  final String? keyGroupId;
+  final KeyPairIds? keyPairIds;
 
   KGKeyPairIds({
     this.keyGroupId,
     this.keyPairIds,
   });
+
+  factory KGKeyPairIds.fromJson(Map<String, dynamic> json) {
+    return KGKeyPairIds(
+      keyGroupId: json['KeyGroupId'] as String?,
+      keyPairIds: json['KeyPairIds'] != null
+          ? KeyPairIds.fromJson(json['KeyPairIds'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory KGKeyPairIds.fromXml(_s.XmlElement elem) {
     return KGKeyPairIds(
       keyGroupId: _s.extractXmlStringValue(elem, 'KeyGroupId'),
@@ -8121,6 +11851,15 @@ class KGKeyPairIds {
           .extractXmlChild(elem, 'KeyPairIds')
           ?.let((e) => KeyPairIds.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyGroupId = this.keyGroupId;
+    final keyPairIds = this.keyPairIds;
+    return {
+      if (keyGroupId != null) 'KeyGroupId': keyGroupId,
+      if (keyPairIds != null) 'KeyPairIds': keyPairIds,
+    };
   }
 }
 
@@ -8140,18 +11879,39 @@ class KeyGroup {
   final DateTime lastModifiedTime;
 
   KeyGroup({
-    @_s.required this.id,
-    @_s.required this.keyGroupConfig,
-    @_s.required this.lastModifiedTime,
+    required this.id,
+    required this.keyGroupConfig,
+    required this.lastModifiedTime,
   });
+
+  factory KeyGroup.fromJson(Map<String, dynamic> json) {
+    return KeyGroup(
+      id: json['Id'] as String,
+      keyGroupConfig: KeyGroupConfig.fromJson(
+          json['KeyGroupConfig'] as Map<String, dynamic>),
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+    );
+  }
+
   factory KeyGroup.fromXml(_s.XmlElement elem) {
     return KeyGroup(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      keyGroupConfig: _s
-          .extractXmlChild(elem, 'KeyGroupConfig')
-          ?.let((e) => KeyGroupConfig.fromXml(e)),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      keyGroupConfig:
+          KeyGroupConfig.fromXml(_s.extractXmlChild(elem, 'KeyGroupConfig')!),
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final keyGroupConfig = this.keyGroupConfig;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'Id': id,
+      'KeyGroupConfig': keyGroupConfig,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
   }
 }
 
@@ -8167,29 +11927,55 @@ class KeyGroupConfig {
   /// A name to identify the key group.
   final String name;
 
-  /// A comment to describe the key group.
-  final String comment;
+  /// A comment to describe the key group. The comment cannot be longer than 128
+  /// characters.
+  final String? comment;
 
   KeyGroupConfig({
-    @_s.required this.items,
-    @_s.required this.name,
+    required this.items,
+    required this.name,
     this.comment,
   });
+
+  factory KeyGroupConfig.fromJson(Map<String, dynamic> json) {
+    return KeyGroupConfig(
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory KeyGroupConfig.fromXml(_s.XmlElement elem) {
     return KeyGroupConfig(
-      items: _s
-          .extractXmlChild(elem, 'Items')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'PublicKey')),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      items: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Items')!, 'PublicKey'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final name = this.name;
+    final comment = this.comment;
+    return {
+      'Items': items,
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final name = this.name;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
       _s.XmlElement(_s.XmlName('Items'), [],
-          items?.map((e) => _s.encodeXmlStringValue('PublicKey', e))),
+          items.map((e) => _s.encodeXmlStringValue('PublicKey', e))),
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -8198,7 +11984,7 @@ class KeyGroupConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -8212,30 +11998,56 @@ class KeyGroupList {
   final int quantity;
 
   /// A list of key groups.
-  final List<KeyGroupSummary> items;
+  final List<KeyGroupSummary>? items;
 
   /// If there are more items in the list than are in this response, this element
   /// is present. It contains the value that you should use in the
   /// <code>Marker</code> field of a subsequent request to continue listing key
   /// groups.
-  final String nextMarker;
+  final String? nextMarker;
 
   KeyGroupList({
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory KeyGroupList.fromJson(Map<String, dynamic> json) {
+    return KeyGroupList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory KeyGroupList.fromXml(_s.XmlElement elem) {
     return KeyGroupList(
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('KeyGroupSummary')
           .map((c) => KeyGroupSummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -8245,13 +12057,26 @@ class KeyGroupSummary {
   final KeyGroup keyGroup;
 
   KeyGroupSummary({
-    @_s.required this.keyGroup,
+    required this.keyGroup,
   });
+
+  factory KeyGroupSummary.fromJson(Map<String, dynamic> json) {
+    return KeyGroupSummary(
+      keyGroup: KeyGroup.fromJson(json['KeyGroup'] as Map<String, dynamic>),
+    );
+  }
+
   factory KeyGroupSummary.fromXml(_s.XmlElement elem) {
     return KeyGroupSummary(
-      keyGroup:
-          _s.extractXmlChild(elem, 'KeyGroup')?.let((e) => KeyGroup.fromXml(e)),
+      keyGroup: KeyGroup.fromXml(_s.extractXmlChild(elem, 'KeyGroup')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyGroup = this.keyGroup;
+    return {
+      'KeyGroup': keyGroup,
+    };
   }
 }
 
@@ -8261,28 +12086,48 @@ class KeyPairIds {
   final int quantity;
 
   /// A list of CloudFront key pair identifiers.
-  final List<String> items;
+  final List<String>? items;
 
   KeyPairIds({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory KeyPairIds.fromJson(Map<String, dynamic> json) {
+    return KeyPairIds(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory KeyPairIds.fromXml(_s.XmlElement elem) {
     return KeyPairIds(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'KeyPairId')),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
   }
 }
 
 /// Contains information about the Amazon Kinesis data stream where you are
 /// sending real-time log data.
 class KinesisStreamConfig {
-  /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management
-  /// (IAM) role that CloudFront can use to send real-time log data to your
-  /// Kinesis data stream.
+  /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM)
+  /// role that CloudFront can use to send real-time log data to your Kinesis data
+  /// stream.
   ///
   /// For more information the IAM role, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html#understand-real-time-log-config-iam-role">Real-time
@@ -8295,17 +12140,36 @@ class KinesisStreamConfig {
   final String streamARN;
 
   KinesisStreamConfig({
-    @_s.required this.roleARN,
-    @_s.required this.streamARN,
+    required this.roleARN,
+    required this.streamARN,
   });
-  factory KinesisStreamConfig.fromXml(_s.XmlElement elem) {
+
+  factory KinesisStreamConfig.fromJson(Map<String, dynamic> json) {
     return KinesisStreamConfig(
-      roleARN: _s.extractXmlStringValue(elem, 'RoleARN'),
-      streamARN: _s.extractXmlStringValue(elem, 'StreamARN'),
+      roleARN: json['RoleARN'] as String,
+      streamARN: json['StreamARN'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory KinesisStreamConfig.fromXml(_s.XmlElement elem) {
+    return KinesisStreamConfig(
+      roleARN: _s.extractXmlStringValue(elem, 'RoleARN')!,
+      streamARN: _s.extractXmlStringValue(elem, 'StreamARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleARN = this.roleARN;
+    final streamARN = this.streamARN;
+    return {
+      'RoleARN': roleARN,
+      'StreamARN': streamARN,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final roleARN = this.roleARN;
+    final streamARN = this.streamARN;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('RoleARN', roleARN),
       _s.encodeXmlStringValue('StreamARN', streamARN),
@@ -8316,15 +12180,15 @@ class KinesisStreamConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
-/// A complex type that contains a Lambda function association.
+/// A complex type that contains a Lambda@Edge function association.
 class LambdaFunctionAssociation {
-  /// Specifies the event type that triggers a Lambda function invocation. You can
-  /// specify the following values:
+  /// Specifies the event type that triggers a Lambda@Edge function invocation.
+  /// You can specify the following values:
   ///
   /// <ul>
   /// <li>
@@ -8354,34 +12218,57 @@ class LambdaFunctionAssociation {
   /// </ul>
   final EventType eventType;
 
-  /// The ARN of the Lambda function. You must specify the ARN of a function
-  /// version; you can't specify a Lambda alias or $LATEST.
+  /// The ARN of the Lambda@Edge function. You must specify the ARN of a function
+  /// version; you can't specify an alias or $LATEST.
   final String lambdaFunctionARN;
 
-  /// A flag that allows a Lambda function to have read access to the body
+  /// A flag that allows a Lambda@Edge function to have read access to the body
   /// content. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-include-body-access.html">Accessing
   /// the Request Body by Choosing the Include Body Option</a> in the Amazon
   /// CloudFront Developer Guide.
-  final bool includeBody;
+  final bool? includeBody;
 
   LambdaFunctionAssociation({
-    @_s.required this.eventType,
-    @_s.required this.lambdaFunctionARN,
+    required this.eventType,
+    required this.lambdaFunctionARN,
     this.includeBody,
   });
+
+  factory LambdaFunctionAssociation.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionAssociation(
+      eventType: (json['EventType'] as String).toEventType(),
+      lambdaFunctionARN: json['LambdaFunctionARN'] as String,
+      includeBody: json['IncludeBody'] as bool?,
+    );
+  }
+
   factory LambdaFunctionAssociation.fromXml(_s.XmlElement elem) {
     return LambdaFunctionAssociation(
-      eventType: _s.extractXmlStringValue(elem, 'EventType')?.toEventType(),
-      lambdaFunctionARN: _s.extractXmlStringValue(elem, 'LambdaFunctionARN'),
+      eventType: _s.extractXmlStringValue(elem, 'EventType')!.toEventType(),
+      lambdaFunctionARN: _s.extractXmlStringValue(elem, 'LambdaFunctionARN')!,
       includeBody: _s.extractXmlBoolValue(elem, 'IncludeBody'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final lambdaFunctionARN = this.lambdaFunctionARN;
+    final includeBody = this.includeBody;
+    return {
+      'EventType': eventType.toValue(),
+      'LambdaFunctionARN': lambdaFunctionARN,
+      if (includeBody != null) 'IncludeBody': includeBody,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eventType = this.eventType;
+    final lambdaFunctionARN = this.lambdaFunctionARN;
+    final includeBody = this.includeBody;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('LambdaFunctionARN', lambdaFunctionARN),
-      _s.encodeXmlStringValue('EventType', eventType?.toValue() ?? ''),
+      _s.encodeXmlStringValue('EventType', eventType.toValue()),
       if (includeBody != null)
         _s.encodeXmlBoolValue('IncludeBody', includeBody),
     ];
@@ -8391,40 +12278,53 @@ class LambdaFunctionAssociation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
-/// A complex type that specifies a list of Lambda functions associations for a
-/// cache behavior.
+/// A complex type that specifies a list of Lambda@Edge functions associations
+/// for a cache behavior.
 ///
-/// If you want to invoke one or more Lambda functions triggered by requests
-/// that match the <code>PathPattern</code> of the cache behavior, specify the
-/// applicable values for <code>Quantity</code> and <code>Items</code>. Note
-/// that there can be up to 4 <code>LambdaFunctionAssociation</code> items in
-/// this list (one for each possible value of <code>EventType</code>) and each
-/// <code>EventType</code> can be associated with the Lambda function only once.
+/// If you want to invoke one or more Lambda@Edge functions triggered by
+/// requests that match the <code>PathPattern</code> of the cache behavior,
+/// specify the applicable values for <code>Quantity</code> and
+/// <code>Items</code>. Note that there can be up to 4
+/// <code>LambdaFunctionAssociation</code> items in this list (one for each
+/// possible value of <code>EventType</code>) and each <code>EventType</code>
+/// can be associated with only one function.
 ///
-/// If you don't want to invoke any Lambda functions for the requests that match
-/// <code>PathPattern</code>, specify <code>0</code> for <code>Quantity</code>
-/// and omit <code>Items</code>.
+/// If you don't want to invoke any Lambda@Edge functions for the requests that
+/// match <code>PathPattern</code>, specify <code>0</code> for
+/// <code>Quantity</code> and omit <code>Items</code>.
 class LambdaFunctionAssociations {
-  /// The number of Lambda function associations for this cache behavior.
+  /// The number of Lambda@Edge function associations for this cache behavior.
   final int quantity;
 
   /// <b>Optional</b>: A complex type that contains
   /// <code>LambdaFunctionAssociation</code> items for this cache behavior. If
   /// <code>Quantity</code> is <code>0</code>, you can omit <code>Items</code>.
-  final List<LambdaFunctionAssociation> items;
+  final List<LambdaFunctionAssociation>? items;
 
   LambdaFunctionAssociations({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory LambdaFunctionAssociations.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionAssociations(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LambdaFunctionAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory LambdaFunctionAssociations.fromXml(_s.XmlElement elem) {
     return LambdaFunctionAssociations(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('LambdaFunctionAssociation')
           .map((c) => LambdaFunctionAssociation.fromXml(c))
@@ -8432,12 +12332,23 @@ class LambdaFunctionAssociations {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            items.map((e) => e?.toXml('LambdaFunctionAssociation'))),
+            items.map((e) => e.toXml('LambdaFunctionAssociation'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8445,81 +12356,168 @@ class LambdaFunctionAssociations {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class ListCachePoliciesResult {
   /// A list of cache policies.
-  final CachePolicyList cachePolicyList;
+  final CachePolicyList? cachePolicyList;
 
   ListCachePoliciesResult({
     this.cachePolicyList,
   });
-  factory ListCachePoliciesResult.fromXml(_s.XmlElement elem) {
+
+  factory ListCachePoliciesResult.fromJson(Map<String, dynamic> json) {
     return ListCachePoliciesResult(
-      cachePolicyList: elem?.let((e) => CachePolicyList.fromXml(e)),
+      cachePolicyList: json['CachePolicyList'] != null
+          ? CachePolicyList.fromJson(
+              json['CachePolicyList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cachePolicyList = this.cachePolicyList;
+    return {
+      if (cachePolicyList != null) 'CachePolicyList': cachePolicyList,
+    };
   }
 }
 
 /// The returned result of the corresponding request.
 class ListCloudFrontOriginAccessIdentitiesResult {
   /// The <code>CloudFrontOriginAccessIdentityList</code> type.
-  final CloudFrontOriginAccessIdentityList cloudFrontOriginAccessIdentityList;
+  final CloudFrontOriginAccessIdentityList? cloudFrontOriginAccessIdentityList;
 
   ListCloudFrontOriginAccessIdentitiesResult({
     this.cloudFrontOriginAccessIdentityList,
   });
-  factory ListCloudFrontOriginAccessIdentitiesResult.fromXml(
-      _s.XmlElement elem) {
+
+  factory ListCloudFrontOriginAccessIdentitiesResult.fromJson(
+      Map<String, dynamic> json) {
     return ListCloudFrontOriginAccessIdentitiesResult(
       cloudFrontOriginAccessIdentityList:
-          elem?.let((e) => CloudFrontOriginAccessIdentityList.fromXml(e)),
+          json['CloudFrontOriginAccessIdentityList'] != null
+              ? CloudFrontOriginAccessIdentityList.fromJson(
+                  json['CloudFrontOriginAccessIdentityList']
+                      as Map<String, dynamic>)
+              : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFrontOriginAccessIdentityList =
+        this.cloudFrontOriginAccessIdentityList;
+    return {
+      if (cloudFrontOriginAccessIdentityList != null)
+        'CloudFrontOriginAccessIdentityList':
+            cloudFrontOriginAccessIdentityList,
+    };
+  }
+}
+
+class ListConflictingAliasesResult {
+  /// A list of conflicting aliases.
+  final ConflictingAliasesList? conflictingAliasesList;
+
+  ListConflictingAliasesResult({
+    this.conflictingAliasesList,
+  });
+
+  factory ListConflictingAliasesResult.fromJson(Map<String, dynamic> json) {
+    return ListConflictingAliasesResult(
+      conflictingAliasesList: json['ConflictingAliasesList'] != null
+          ? ConflictingAliasesList.fromJson(
+              json['ConflictingAliasesList'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conflictingAliasesList = this.conflictingAliasesList;
+    return {
+      if (conflictingAliasesList != null)
+        'ConflictingAliasesList': conflictingAliasesList,
+    };
   }
 }
 
 class ListDistributionsByCachePolicyIdResult {
   /// A list of distribution IDs.
-  final DistributionIdList distributionIdList;
+  final DistributionIdList? distributionIdList;
 
   ListDistributionsByCachePolicyIdResult({
     this.distributionIdList,
   });
-  factory ListDistributionsByCachePolicyIdResult.fromXml(_s.XmlElement elem) {
+
+  factory ListDistributionsByCachePolicyIdResult.fromJson(
+      Map<String, dynamic> json) {
     return ListDistributionsByCachePolicyIdResult(
-      distributionIdList: elem?.let((e) => DistributionIdList.fromXml(e)),
+      distributionIdList: json['DistributionIdList'] != null
+          ? DistributionIdList.fromJson(
+              json['DistributionIdList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionIdList = this.distributionIdList;
+    return {
+      if (distributionIdList != null) 'DistributionIdList': distributionIdList,
+    };
   }
 }
 
 class ListDistributionsByKeyGroupResult {
-  final DistributionIdList distributionIdList;
+  final DistributionIdList? distributionIdList;
 
   ListDistributionsByKeyGroupResult({
     this.distributionIdList,
   });
-  factory ListDistributionsByKeyGroupResult.fromXml(_s.XmlElement elem) {
+
+  factory ListDistributionsByKeyGroupResult.fromJson(
+      Map<String, dynamic> json) {
     return ListDistributionsByKeyGroupResult(
-      distributionIdList: elem?.let((e) => DistributionIdList.fromXml(e)),
+      distributionIdList: json['DistributionIdList'] != null
+          ? DistributionIdList.fromJson(
+              json['DistributionIdList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionIdList = this.distributionIdList;
+    return {
+      if (distributionIdList != null) 'DistributionIdList': distributionIdList,
+    };
   }
 }
 
 class ListDistributionsByOriginRequestPolicyIdResult {
   /// A list of distribution IDs.
-  final DistributionIdList distributionIdList;
+  final DistributionIdList? distributionIdList;
 
   ListDistributionsByOriginRequestPolicyIdResult({
     this.distributionIdList,
   });
-  factory ListDistributionsByOriginRequestPolicyIdResult.fromXml(
-      _s.XmlElement elem) {
+
+  factory ListDistributionsByOriginRequestPolicyIdResult.fromJson(
+      Map<String, dynamic> json) {
     return ListDistributionsByOriginRequestPolicyIdResult(
-      distributionIdList: elem?.let((e) => DistributionIdList.fromXml(e)),
+      distributionIdList: json['DistributionIdList'] != null
+          ? DistributionIdList.fromJson(
+              json['DistributionIdList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionIdList = this.distributionIdList;
+    return {
+      if (distributionIdList != null) 'DistributionIdList': distributionIdList,
+    };
   }
 }
 
@@ -8529,18 +12527,18 @@ class ListDistributionsByRealtimeLogConfigRequest {
   /// occur after the marker. To get the next page of the list, set this field’s
   /// value to the value of <code>NextMarker</code> from the current page’s
   /// response.
-  final String marker;
+  final String? marker;
 
   /// The maximum number of distributions that you want in the response.
-  final String maxItems;
+  final String? maxItems;
 
   /// The Amazon Resource Name (ARN) of the real-time log configuration whose
   /// associated distributions you want to list.
-  final String realtimeLogConfigArn;
+  final String? realtimeLogConfigArn;
 
   /// The name of the real-time log configuration whose associated distributions
   /// you want to list.
-  final String realtimeLogConfigName;
+  final String? realtimeLogConfigName;
 
   ListDistributionsByRealtimeLogConfigRequest({
     this.marker,
@@ -8548,7 +12546,37 @@ class ListDistributionsByRealtimeLogConfigRequest {
     this.realtimeLogConfigArn,
     this.realtimeLogConfigName,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ListDistributionsByRealtimeLogConfigRequest.fromJson(
+      Map<String, dynamic> json) {
+    return ListDistributionsByRealtimeLogConfigRequest(
+      marker: json['Marker'] as String?,
+      maxItems: json['MaxItems'] as String?,
+      realtimeLogConfigArn: json['RealtimeLogConfigArn'] as String?,
+      realtimeLogConfigName: json['RealtimeLogConfigName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final realtimeLogConfigName = this.realtimeLogConfigName;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (maxItems != null) 'MaxItems': maxItems,
+      if (realtimeLogConfigArn != null)
+        'RealtimeLogConfigArn': realtimeLogConfigArn,
+      if (realtimeLogConfigName != null)
+        'RealtimeLogConfigName': realtimeLogConfigName,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final realtimeLogConfigArn = this.realtimeLogConfigArn;
+    final realtimeLogConfigName = this.realtimeLogConfigName;
     final $children = <_s.XmlNode>[
       if (marker != null) _s.encodeXmlStringValue('Marker', marker),
       if (maxItems != null) _s.encodeXmlStringValue('MaxItems', maxItems),
@@ -8563,174 +12591,324 @@ class ListDistributionsByRealtimeLogConfigRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class ListDistributionsByRealtimeLogConfigResult {
-  final DistributionList distributionList;
+  final DistributionList? distributionList;
 
   ListDistributionsByRealtimeLogConfigResult({
     this.distributionList,
   });
-  factory ListDistributionsByRealtimeLogConfigResult.fromXml(
-      _s.XmlElement elem) {
+
+  factory ListDistributionsByRealtimeLogConfigResult.fromJson(
+      Map<String, dynamic> json) {
     return ListDistributionsByRealtimeLogConfigResult(
-      distributionList: elem?.let((e) => DistributionList.fromXml(e)),
+      distributionList: json['DistributionList'] != null
+          ? DistributionList.fromJson(
+              json['DistributionList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionList = this.distributionList;
+    return {
+      if (distributionList != null) 'DistributionList': distributionList,
+    };
   }
 }
 
 /// The response to a request to list the distributions that are associated with
-/// a specified AWS WAF web ACL.
+/// a specified WAF web ACL.
 class ListDistributionsByWebACLIdResult {
   /// The <code>DistributionList</code> type.
-  final DistributionList distributionList;
+  final DistributionList? distributionList;
 
   ListDistributionsByWebACLIdResult({
     this.distributionList,
   });
-  factory ListDistributionsByWebACLIdResult.fromXml(_s.XmlElement elem) {
+
+  factory ListDistributionsByWebACLIdResult.fromJson(
+      Map<String, dynamic> json) {
     return ListDistributionsByWebACLIdResult(
-      distributionList: elem?.let((e) => DistributionList.fromXml(e)),
+      distributionList: json['DistributionList'] != null
+          ? DistributionList.fromJson(
+              json['DistributionList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionList = this.distributionList;
+    return {
+      if (distributionList != null) 'DistributionList': distributionList,
+    };
   }
 }
 
 /// The returned result of the corresponding request.
 class ListDistributionsResult {
   /// The <code>DistributionList</code> type.
-  final DistributionList distributionList;
+  final DistributionList? distributionList;
 
   ListDistributionsResult({
     this.distributionList,
   });
-  factory ListDistributionsResult.fromXml(_s.XmlElement elem) {
+
+  factory ListDistributionsResult.fromJson(Map<String, dynamic> json) {
     return ListDistributionsResult(
-      distributionList: elem?.let((e) => DistributionList.fromXml(e)),
+      distributionList: json['DistributionList'] != null
+          ? DistributionList.fromJson(
+              json['DistributionList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distributionList = this.distributionList;
+    return {
+      if (distributionList != null) 'DistributionList': distributionList,
+    };
   }
 }
 
 class ListFieldLevelEncryptionConfigsResult {
   /// Returns a list of all field-level encryption configurations that have been
   /// created in CloudFront for this account.
-  final FieldLevelEncryptionList fieldLevelEncryptionList;
+  final FieldLevelEncryptionList? fieldLevelEncryptionList;
 
   ListFieldLevelEncryptionConfigsResult({
     this.fieldLevelEncryptionList,
   });
-  factory ListFieldLevelEncryptionConfigsResult.fromXml(_s.XmlElement elem) {
+
+  factory ListFieldLevelEncryptionConfigsResult.fromJson(
+      Map<String, dynamic> json) {
     return ListFieldLevelEncryptionConfigsResult(
-      fieldLevelEncryptionList:
-          elem?.let((e) => FieldLevelEncryptionList.fromXml(e)),
+      fieldLevelEncryptionList: json['FieldLevelEncryptionList'] != null
+          ? FieldLevelEncryptionList.fromJson(
+              json['FieldLevelEncryptionList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldLevelEncryptionList = this.fieldLevelEncryptionList;
+    return {
+      if (fieldLevelEncryptionList != null)
+        'FieldLevelEncryptionList': fieldLevelEncryptionList,
+    };
   }
 }
 
 class ListFieldLevelEncryptionProfilesResult {
   /// Returns a list of the field-level encryption profiles that have been created
   /// in CloudFront for this account.
-  final FieldLevelEncryptionProfileList fieldLevelEncryptionProfileList;
+  final FieldLevelEncryptionProfileList? fieldLevelEncryptionProfileList;
 
   ListFieldLevelEncryptionProfilesResult({
     this.fieldLevelEncryptionProfileList,
   });
-  factory ListFieldLevelEncryptionProfilesResult.fromXml(_s.XmlElement elem) {
+
+  factory ListFieldLevelEncryptionProfilesResult.fromJson(
+      Map<String, dynamic> json) {
     return ListFieldLevelEncryptionProfilesResult(
       fieldLevelEncryptionProfileList:
-          elem?.let((e) => FieldLevelEncryptionProfileList.fromXml(e)),
+          json['FieldLevelEncryptionProfileList'] != null
+              ? FieldLevelEncryptionProfileList.fromJson(
+                  json['FieldLevelEncryptionProfileList']
+                      as Map<String, dynamic>)
+              : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldLevelEncryptionProfileList =
+        this.fieldLevelEncryptionProfileList;
+    return {
+      if (fieldLevelEncryptionProfileList != null)
+        'FieldLevelEncryptionProfileList': fieldLevelEncryptionProfileList,
+    };
+  }
+}
+
+class ListFunctionsResult {
+  /// A list of CloudFront functions.
+  final FunctionList? functionList;
+
+  ListFunctionsResult({
+    this.functionList,
+  });
+
+  factory ListFunctionsResult.fromJson(Map<String, dynamic> json) {
+    return ListFunctionsResult(
+      functionList: json['FunctionList'] != null
+          ? FunctionList.fromJson(json['FunctionList'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionList = this.functionList;
+    return {
+      if (functionList != null) 'FunctionList': functionList,
+    };
   }
 }
 
 /// The returned result of the corresponding request.
 class ListInvalidationsResult {
   /// Information about invalidation batches.
-  final InvalidationList invalidationList;
+  final InvalidationList? invalidationList;
 
   ListInvalidationsResult({
     this.invalidationList,
   });
-  factory ListInvalidationsResult.fromXml(_s.XmlElement elem) {
+
+  factory ListInvalidationsResult.fromJson(Map<String, dynamic> json) {
     return ListInvalidationsResult(
-      invalidationList: elem?.let((e) => InvalidationList.fromXml(e)),
+      invalidationList: json['InvalidationList'] != null
+          ? InvalidationList.fromJson(
+              json['InvalidationList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidationList = this.invalidationList;
+    return {
+      if (invalidationList != null) 'InvalidationList': invalidationList,
+    };
   }
 }
 
 class ListKeyGroupsResult {
   /// A list of key groups.
-  final KeyGroupList keyGroupList;
+  final KeyGroupList? keyGroupList;
 
   ListKeyGroupsResult({
     this.keyGroupList,
   });
-  factory ListKeyGroupsResult.fromXml(_s.XmlElement elem) {
+
+  factory ListKeyGroupsResult.fromJson(Map<String, dynamic> json) {
     return ListKeyGroupsResult(
-      keyGroupList: elem?.let((e) => KeyGroupList.fromXml(e)),
+      keyGroupList: json['KeyGroupList'] != null
+          ? KeyGroupList.fromJson(json['KeyGroupList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyGroupList = this.keyGroupList;
+    return {
+      if (keyGroupList != null) 'KeyGroupList': keyGroupList,
+    };
   }
 }
 
 class ListOriginRequestPoliciesResult {
   /// A list of origin request policies.
-  final OriginRequestPolicyList originRequestPolicyList;
+  final OriginRequestPolicyList? originRequestPolicyList;
 
   ListOriginRequestPoliciesResult({
     this.originRequestPolicyList,
   });
-  factory ListOriginRequestPoliciesResult.fromXml(_s.XmlElement elem) {
+
+  factory ListOriginRequestPoliciesResult.fromJson(Map<String, dynamic> json) {
     return ListOriginRequestPoliciesResult(
-      originRequestPolicyList:
-          elem?.let((e) => OriginRequestPolicyList.fromXml(e)),
+      originRequestPolicyList: json['OriginRequestPolicyList'] != null
+          ? OriginRequestPolicyList.fromJson(
+              json['OriginRequestPolicyList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final originRequestPolicyList = this.originRequestPolicyList;
+    return {
+      if (originRequestPolicyList != null)
+        'OriginRequestPolicyList': originRequestPolicyList,
+    };
   }
 }
 
 class ListPublicKeysResult {
   /// Returns a list of all public keys that have been added to CloudFront for
   /// this account.
-  final PublicKeyList publicKeyList;
+  final PublicKeyList? publicKeyList;
 
   ListPublicKeysResult({
     this.publicKeyList,
   });
-  factory ListPublicKeysResult.fromXml(_s.XmlElement elem) {
+
+  factory ListPublicKeysResult.fromJson(Map<String, dynamic> json) {
     return ListPublicKeysResult(
-      publicKeyList: elem?.let((e) => PublicKeyList.fromXml(e)),
+      publicKeyList: json['PublicKeyList'] != null
+          ? PublicKeyList.fromJson(
+              json['PublicKeyList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publicKeyList = this.publicKeyList;
+    return {
+      if (publicKeyList != null) 'PublicKeyList': publicKeyList,
+    };
   }
 }
 
 class ListRealtimeLogConfigsResult {
   /// A list of real-time log configurations.
-  final RealtimeLogConfigs realtimeLogConfigs;
+  final RealtimeLogConfigs? realtimeLogConfigs;
 
   ListRealtimeLogConfigsResult({
     this.realtimeLogConfigs,
   });
-  factory ListRealtimeLogConfigsResult.fromXml(_s.XmlElement elem) {
+
+  factory ListRealtimeLogConfigsResult.fromJson(Map<String, dynamic> json) {
     return ListRealtimeLogConfigsResult(
-      realtimeLogConfigs: elem?.let((e) => RealtimeLogConfigs.fromXml(e)),
+      realtimeLogConfigs: json['RealtimeLogConfigs'] != null
+          ? RealtimeLogConfigs.fromJson(
+              json['RealtimeLogConfigs'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final realtimeLogConfigs = this.realtimeLogConfigs;
+    return {
+      if (realtimeLogConfigs != null) 'RealtimeLogConfigs': realtimeLogConfigs,
+    };
   }
 }
 
 /// The returned result of the corresponding request.
 class ListStreamingDistributionsResult {
   /// The <code>StreamingDistributionList</code> type.
-  final StreamingDistributionList streamingDistributionList;
+  final StreamingDistributionList? streamingDistributionList;
 
   ListStreamingDistributionsResult({
     this.streamingDistributionList,
   });
-  factory ListStreamingDistributionsResult.fromXml(_s.XmlElement elem) {
+
+  factory ListStreamingDistributionsResult.fromJson(Map<String, dynamic> json) {
     return ListStreamingDistributionsResult(
-      streamingDistributionList:
-          elem?.let((e) => StreamingDistributionList.fromXml(e)),
+      streamingDistributionList: json['StreamingDistributionList'] != null
+          ? StreamingDistributionList.fromJson(
+              json['StreamingDistributionList'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamingDistributionList = this.streamingDistributionList;
+    return {
+      if (streamingDistributionList != null)
+        'StreamingDistributionList': streamingDistributionList,
+    };
   }
 }
 
@@ -8740,12 +12918,20 @@ class ListTagsForResourceResult {
   final Tags tags;
 
   ListTagsForResourceResult({
-    @_s.required this.tags,
+    required this.tags,
   });
-  factory ListTagsForResourceResult.fromXml(_s.XmlElement elem) {
+
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
     return ListTagsForResourceResult(
-      tags: elem?.let((e) => Tags.fromXml(e)),
+      tags: Tags.fromJson(json['Tags'] as Map<String, dynamic>),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      'Tags': tags,
+    };
   }
 }
 
@@ -8783,21 +12969,48 @@ class LoggingConfig {
   final String prefix;
 
   LoggingConfig({
-    @_s.required this.bucket,
-    @_s.required this.enabled,
-    @_s.required this.includeCookies,
-    @_s.required this.prefix,
+    required this.bucket,
+    required this.enabled,
+    required this.includeCookies,
+    required this.prefix,
   });
-  factory LoggingConfig.fromXml(_s.XmlElement elem) {
+
+  factory LoggingConfig.fromJson(Map<String, dynamic> json) {
     return LoggingConfig(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      includeCookies: _s.extractXmlBoolValue(elem, 'IncludeCookies'),
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      bucket: json['Bucket'] as String,
+      enabled: json['Enabled'] as bool,
+      includeCookies: json['IncludeCookies'] as bool,
+      prefix: json['Prefix'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory LoggingConfig.fromXml(_s.XmlElement elem) {
+    return LoggingConfig(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      includeCookies: _s.extractXmlBoolValue(elem, 'IncludeCookies')!,
+      prefix: _s.extractXmlStringValue(elem, 'Prefix')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final enabled = this.enabled;
+    final includeCookies = this.includeCookies;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      'Enabled': enabled,
+      'IncludeCookies': includeCookies,
+      'Prefix': prefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final enabled = this.enabled;
+    final includeCookies = this.includeCookies;
+    final prefix = this.prefix;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlBoolValue('IncludeCookies', includeCookies),
@@ -8810,7 +13023,7 @@ class LoggingConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -8843,7 +13056,6 @@ extension on Method {
       case Method.delete:
         return 'DELETE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8865,7 +13077,7 @@ extension on String {
       case 'DELETE':
         return Method.delete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Method');
   }
 }
 
@@ -8876,6 +13088,7 @@ enum MinimumProtocolVersion {
   tLSv1_1_2016,
   tLSv1_2_2018,
   tLSv1_2_2019,
+  tLSv1_2_2021,
 }
 
 extension on MinimumProtocolVersion {
@@ -8893,8 +13106,9 @@ extension on MinimumProtocolVersion {
         return 'TLSv1.2_2018';
       case MinimumProtocolVersion.tLSv1_2_2019:
         return 'TLSv1.2_2019';
+      case MinimumProtocolVersion.tLSv1_2_2021:
+        return 'TLSv1.2_2021';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8913,8 +13127,10 @@ extension on String {
         return MinimumProtocolVersion.tLSv1_2_2018;
       case 'TLSv1.2_2019':
         return MinimumProtocolVersion.tLSv1_2_2019;
+      case 'TLSv1.2_2021':
+        return MinimumProtocolVersion.tLSv1_2_2021;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MinimumProtocolVersion');
   }
 }
 
@@ -8923,11 +13139,23 @@ extension on String {
 /// distribution.
 class MonitoringSubscription {
   /// A subscription configuration for additional CloudWatch metrics.
-  final RealtimeMetricsSubscriptionConfig realtimeMetricsSubscriptionConfig;
+  final RealtimeMetricsSubscriptionConfig? realtimeMetricsSubscriptionConfig;
 
   MonitoringSubscription({
     this.realtimeMetricsSubscriptionConfig,
   });
+
+  factory MonitoringSubscription.fromJson(Map<String, dynamic> json) {
+    return MonitoringSubscription(
+      realtimeMetricsSubscriptionConfig:
+          json['RealtimeMetricsSubscriptionConfig'] != null
+              ? RealtimeMetricsSubscriptionConfig.fromJson(
+                  json['RealtimeMetricsSubscriptionConfig']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
   factory MonitoringSubscription.fromXml(_s.XmlElement elem) {
     return MonitoringSubscription(
       realtimeMetricsSubscriptionConfig: _s
@@ -8936,11 +13164,22 @@ class MonitoringSubscription {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final realtimeMetricsSubscriptionConfig =
+        this.realtimeMetricsSubscriptionConfig;
+    return {
+      if (realtimeMetricsSubscriptionConfig != null)
+        'RealtimeMetricsSubscriptionConfig': realtimeMetricsSubscriptionConfig,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final realtimeMetricsSubscriptionConfig =
+        this.realtimeMetricsSubscriptionConfig;
     final $children = <_s.XmlNode>[
       if (realtimeMetricsSubscriptionConfig != null)
         realtimeMetricsSubscriptionConfig
-            ?.toXml('RealtimeMetricsSubscriptionConfig'),
+            .toXml('RealtimeMetricsSubscriptionConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8948,7 +13187,7 @@ class MonitoringSubscription {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9019,7 +13258,7 @@ class Origin {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-attempts">Origin
   /// Connection Attempts</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final int connectionAttempts;
+  final int? connectionAttempts;
 
   /// The number of seconds that CloudFront waits when trying to establish a
   /// connection to the origin. The minimum timeout is 1 second, the maximum is 10
@@ -9028,7 +13267,7 @@ class Origin {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#origin-connection-timeout">Origin
   /// Connection Timeout</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final int connectionTimeout;
+  final int? connectionTimeout;
 
   /// A list of HTTP header names and values that CloudFront adds to the requests
   /// that it sends to the origin.
@@ -9037,13 +13276,13 @@ class Origin {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/add-origin-custom-headers.html">Adding
   /// Custom Headers to Origin Requests</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
-  final CustomHeaders customHeaders;
+  final CustomHeaders? customHeaders;
 
   /// Use this type to specify an origin that is not an Amazon S3 bucket, with one
   /// exception. If the Amazon S3 bucket is configured with static website
   /// hosting, use this type. If the Amazon S3 bucket is not configured with
   /// static website hosting, use the <code>S3OriginConfig</code> type instead.
-  final CustomOriginConfig customOriginConfig;
+  final CustomOriginConfig? customOriginConfig;
 
   /// An optional path that CloudFront appends to the origin domain name when
   /// CloudFront requests content from the origin.
@@ -9051,7 +13290,7 @@ class Origin {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginPath">Origin
   /// Path</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final String originPath;
+  final String? originPath;
 
   /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on
   /// your origin.
@@ -9059,17 +13298,17 @@ class Origin {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html">Using
   /// Origin Shield</a> in the <i>Amazon CloudFront Developer Guide</i>.
-  final OriginShield originShield;
+  final OriginShield? originShield;
 
   /// Use this type to specify an origin that is an Amazon S3 bucket that is not
   /// configured with static website hosting. To specify any other type of origin,
   /// including an Amazon S3 bucket that is configured with static website
   /// hosting, use the <code>CustomOriginConfig</code> type instead.
-  final S3OriginConfig s3OriginConfig;
+  final S3OriginConfig? s3OriginConfig;
 
   Origin({
-    @_s.required this.domainName,
-    @_s.required this.id,
+    required this.domainName,
+    required this.id,
     this.connectionAttempts,
     this.connectionTimeout,
     this.customHeaders,
@@ -9078,10 +13317,36 @@ class Origin {
     this.originShield,
     this.s3OriginConfig,
   });
+
+  factory Origin.fromJson(Map<String, dynamic> json) {
+    return Origin(
+      domainName: json['DomainName'] as String,
+      id: json['Id'] as String,
+      connectionAttempts: json['ConnectionAttempts'] as int?,
+      connectionTimeout: json['ConnectionTimeout'] as int?,
+      customHeaders: json['CustomHeaders'] != null
+          ? CustomHeaders.fromJson(
+              json['CustomHeaders'] as Map<String, dynamic>)
+          : null,
+      customOriginConfig: json['CustomOriginConfig'] != null
+          ? CustomOriginConfig.fromJson(
+              json['CustomOriginConfig'] as Map<String, dynamic>)
+          : null,
+      originPath: json['OriginPath'] as String?,
+      originShield: json['OriginShield'] != null
+          ? OriginShield.fromJson(json['OriginShield'] as Map<String, dynamic>)
+          : null,
+      s3OriginConfig: json['S3OriginConfig'] != null
+          ? S3OriginConfig.fromJson(
+              json['S3OriginConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory Origin.fromXml(_s.XmlElement elem) {
     return Origin(
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       connectionAttempts: _s.extractXmlIntValue(elem, 'ConnectionAttempts'),
       connectionTimeout: _s.extractXmlIntValue(elem, 'ConnectionTimeout'),
       customHeaders: _s
@@ -9100,20 +13365,52 @@ class Origin {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final id = this.id;
+    final connectionAttempts = this.connectionAttempts;
+    final connectionTimeout = this.connectionTimeout;
+    final customHeaders = this.customHeaders;
+    final customOriginConfig = this.customOriginConfig;
+    final originPath = this.originPath;
+    final originShield = this.originShield;
+    final s3OriginConfig = this.s3OriginConfig;
+    return {
+      'DomainName': domainName,
+      'Id': id,
+      if (connectionAttempts != null) 'ConnectionAttempts': connectionAttempts,
+      if (connectionTimeout != null) 'ConnectionTimeout': connectionTimeout,
+      if (customHeaders != null) 'CustomHeaders': customHeaders,
+      if (customOriginConfig != null) 'CustomOriginConfig': customOriginConfig,
+      if (originPath != null) 'OriginPath': originPath,
+      if (originShield != null) 'OriginShield': originShield,
+      if (s3OriginConfig != null) 'S3OriginConfig': s3OriginConfig,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final domainName = this.domainName;
+    final id = this.id;
+    final connectionAttempts = this.connectionAttempts;
+    final connectionTimeout = this.connectionTimeout;
+    final customHeaders = this.customHeaders;
+    final customOriginConfig = this.customOriginConfig;
+    final originPath = this.originPath;
+    final originShield = this.originShield;
+    final s3OriginConfig = this.s3OriginConfig;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('DomainName', domainName),
       if (originPath != null) _s.encodeXmlStringValue('OriginPath', originPath),
-      if (customHeaders != null) customHeaders?.toXml('CustomHeaders'),
-      if (s3OriginConfig != null) s3OriginConfig?.toXml('S3OriginConfig'),
+      if (customHeaders != null) customHeaders.toXml('CustomHeaders'),
+      if (s3OriginConfig != null) s3OriginConfig.toXml('S3OriginConfig'),
       if (customOriginConfig != null)
-        customOriginConfig?.toXml('CustomOriginConfig'),
+        customOriginConfig.toXml('CustomOriginConfig'),
       if (connectionAttempts != null)
         _s.encodeXmlIntValue('ConnectionAttempts', connectionAttempts),
       if (connectionTimeout != null)
         _s.encodeXmlIntValue('ConnectionTimeout', connectionTimeout),
-      if (originShield != null) originShield?.toXml('OriginShield'),
+      if (originShield != null) originShield.toXml('OriginShield'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9121,7 +13418,7 @@ class Origin {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9141,17 +13438,36 @@ class OriginCustomHeader {
   final String headerValue;
 
   OriginCustomHeader({
-    @_s.required this.headerName,
-    @_s.required this.headerValue,
+    required this.headerName,
+    required this.headerValue,
   });
-  factory OriginCustomHeader.fromXml(_s.XmlElement elem) {
+
+  factory OriginCustomHeader.fromJson(Map<String, dynamic> json) {
     return OriginCustomHeader(
-      headerName: _s.extractXmlStringValue(elem, 'HeaderName'),
-      headerValue: _s.extractXmlStringValue(elem, 'HeaderValue'),
+      headerName: json['HeaderName'] as String,
+      headerValue: json['HeaderValue'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory OriginCustomHeader.fromXml(_s.XmlElement elem) {
+    return OriginCustomHeader(
+      headerName: _s.extractXmlStringValue(elem, 'HeaderName')!,
+      headerValue: _s.extractXmlStringValue(elem, 'HeaderValue')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headerName = this.headerName;
+    final headerValue = this.headerValue;
+    return {
+      'HeaderName': headerName,
+      'HeaderValue': headerValue,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final headerName = this.headerName;
+    final headerValue = this.headerValue;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HeaderName', headerName),
       _s.encodeXmlStringValue('HeaderValue', headerValue),
@@ -9162,7 +13478,7 @@ class OriginCustomHeader {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9186,27 +13502,49 @@ class OriginGroup {
   final OriginGroupMembers members;
 
   OriginGroup({
-    @_s.required this.failoverCriteria,
-    @_s.required this.id,
-    @_s.required this.members,
+    required this.failoverCriteria,
+    required this.id,
+    required this.members,
   });
-  factory OriginGroup.fromXml(_s.XmlElement elem) {
+
+  factory OriginGroup.fromJson(Map<String, dynamic> json) {
     return OriginGroup(
-      failoverCriteria: _s
-          .extractXmlChild(elem, 'FailoverCriteria')
-          ?.let((e) => OriginGroupFailoverCriteria.fromXml(e)),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      members: _s
-          .extractXmlChild(elem, 'Members')
-          ?.let((e) => OriginGroupMembers.fromXml(e)),
+      failoverCriteria: OriginGroupFailoverCriteria.fromJson(
+          json['FailoverCriteria'] as Map<String, dynamic>),
+      id: json['Id'] as String,
+      members:
+          OriginGroupMembers.fromJson(json['Members'] as Map<String, dynamic>),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory OriginGroup.fromXml(_s.XmlElement elem) {
+    return OriginGroup(
+      failoverCriteria: OriginGroupFailoverCriteria.fromXml(
+          _s.extractXmlChild(elem, 'FailoverCriteria')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      members: OriginGroupMembers.fromXml(_s.extractXmlChild(elem, 'Members')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failoverCriteria = this.failoverCriteria;
+    final id = this.id;
+    final members = this.members;
+    return {
+      'FailoverCriteria': failoverCriteria,
+      'Id': id,
+      'Members': members,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final failoverCriteria = this.failoverCriteria;
+    final id = this.id;
+    final members = this.members;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      failoverCriteria?.toXml('FailoverCriteria'),
-      members?.toXml('Members'),
+      failoverCriteria.toXml('FailoverCriteria'),
+      members.toXml('Members'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9214,7 +13552,7 @@ class OriginGroup {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9228,19 +13566,34 @@ class OriginGroupFailoverCriteria {
   final StatusCodes statusCodes;
 
   OriginGroupFailoverCriteria({
-    @_s.required this.statusCodes,
+    required this.statusCodes,
   });
-  factory OriginGroupFailoverCriteria.fromXml(_s.XmlElement elem) {
+
+  factory OriginGroupFailoverCriteria.fromJson(Map<String, dynamic> json) {
     return OriginGroupFailoverCriteria(
-      statusCodes: _s
-          .extractXmlChild(elem, 'StatusCodes')
-          ?.let((e) => StatusCodes.fromXml(e)),
+      statusCodes:
+          StatusCodes.fromJson(json['StatusCodes'] as Map<String, dynamic>),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory OriginGroupFailoverCriteria.fromXml(_s.XmlElement elem) {
+    return OriginGroupFailoverCriteria(
+      statusCodes:
+          StatusCodes.fromXml(_s.extractXmlChild(elem, 'StatusCodes')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statusCodes = this.statusCodes;
+    return {
+      'StatusCodes': statusCodes,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final statusCodes = this.statusCodes;
     final $children = <_s.XmlNode>[
-      statusCodes?.toXml('StatusCodes'),
+      statusCodes.toXml('StatusCodes'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9248,7 +13601,7 @@ class OriginGroupFailoverCriteria {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9259,15 +13612,30 @@ class OriginGroupMember {
   final String originId;
 
   OriginGroupMember({
-    @_s.required this.originId,
+    required this.originId,
   });
-  factory OriginGroupMember.fromXml(_s.XmlElement elem) {
+
+  factory OriginGroupMember.fromJson(Map<String, dynamic> json) {
     return OriginGroupMember(
-      originId: _s.extractXmlStringValue(elem, 'OriginId'),
+      originId: json['OriginId'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory OriginGroupMember.fromXml(_s.XmlElement elem) {
+    return OriginGroupMember(
+      originId: _s.extractXmlStringValue(elem, 'OriginId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final originId = this.originId;
+    return {
+      'OriginId': originId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final originId = this.originId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('OriginId', originId),
     ];
@@ -9277,7 +13645,7 @@ class OriginGroupMember {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9291,24 +13659,47 @@ class OriginGroupMembers {
   final int quantity;
 
   OriginGroupMembers({
-    @_s.required this.items,
-    @_s.required this.quantity,
+    required this.items,
+    required this.quantity,
   });
-  factory OriginGroupMembers.fromXml(_s.XmlElement elem) {
+
+  factory OriginGroupMembers.fromJson(Map<String, dynamic> json) {
     return OriginGroupMembers(
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
-          .findElements('OriginGroupMember')
-          .map((c) => OriginGroupMember.fromXml(c))
-          .toList()),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => OriginGroupMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quantity: json['Quantity'] as int,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory OriginGroupMembers.fromXml(_s.XmlElement elem) {
+    return OriginGroupMembers(
+      items: _s
+          .extractXmlChild(elem, 'Items')!
+          .findElements('OriginGroupMember')
+          .map((c) => OriginGroupMember.fromXml(c))
+          .toList(),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items,
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       _s.XmlElement(_s.XmlName('Items'), [],
-          items?.map((e) => e?.toXml('OriginGroupMember'))),
+          items.map((e) => e.toXml('OriginGroupMember'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9316,7 +13707,7 @@ class OriginGroupMembers {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9327,15 +13718,26 @@ class OriginGroups {
   final int quantity;
 
   /// The items (origin groups) in a distribution.
-  final List<OriginGroup> items;
+  final List<OriginGroup>? items;
 
   OriginGroups({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory OriginGroups.fromJson(Map<String, dynamic> json) {
+    return OriginGroups(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => OriginGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory OriginGroups.fromXml(_s.XmlElement elem) {
     return OriginGroups(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('OriginGroup')
           .map((c) => OriginGroup.fromXml(c))
@@ -9343,12 +13745,23 @@ class OriginGroups {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(
-            _s.XmlName('Items'), [], items.map((e) => e?.toXml('OriginGroup'))),
+            _s.XmlName('Items'), [], items.map((e) => e.toXml('OriginGroup'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9356,7 +13769,7 @@ class OriginGroups {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9377,7 +13790,6 @@ extension on OriginProtocolPolicy {
       case OriginProtocolPolicy.httpsOnly:
         return 'https-only';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9391,7 +13803,7 @@ extension on String {
       case 'https-only':
         return OriginProtocolPolicy.httpsOnly;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OriginProtocolPolicy');
   }
 }
 
@@ -9432,18 +13844,39 @@ class OriginRequestPolicy {
   final OriginRequestPolicyConfig originRequestPolicyConfig;
 
   OriginRequestPolicy({
-    @_s.required this.id,
-    @_s.required this.lastModifiedTime,
-    @_s.required this.originRequestPolicyConfig,
+    required this.id,
+    required this.lastModifiedTime,
+    required this.originRequestPolicyConfig,
   });
+
+  factory OriginRequestPolicy.fromJson(Map<String, dynamic> json) {
+    return OriginRequestPolicy(
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      originRequestPolicyConfig: OriginRequestPolicyConfig.fromJson(
+          json['OriginRequestPolicyConfig'] as Map<String, dynamic>),
+    );
+  }
+
   factory OriginRequestPolicy.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicy(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
-      originRequestPolicyConfig: _s
-          .extractXmlChild(elem, 'OriginRequestPolicyConfig')
-          ?.let((e) => OriginRequestPolicyConfig.fromXml(e)),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      originRequestPolicyConfig: OriginRequestPolicyConfig.fromXml(
+          _s.extractXmlChild(elem, 'OriginRequestPolicyConfig')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final originRequestPolicyConfig = this.originRequestPolicyConfig;
+    return {
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'OriginRequestPolicyConfig': originRequestPolicyConfig,
+    };
   }
 }
 
@@ -9487,39 +13920,71 @@ class OriginRequestPolicyConfig {
   /// The URL query strings from viewer requests to include in origin requests.
   final OriginRequestPolicyQueryStringsConfig queryStringsConfig;
 
-  /// A comment to describe the origin request policy.
-  final String comment;
+  /// A comment to describe the origin request policy. The comment cannot be
+  /// longer than 128 characters.
+  final String? comment;
 
   OriginRequestPolicyConfig({
-    @_s.required this.cookiesConfig,
-    @_s.required this.headersConfig,
-    @_s.required this.name,
-    @_s.required this.queryStringsConfig,
+    required this.cookiesConfig,
+    required this.headersConfig,
+    required this.name,
+    required this.queryStringsConfig,
     this.comment,
   });
+
+  factory OriginRequestPolicyConfig.fromJson(Map<String, dynamic> json) {
+    return OriginRequestPolicyConfig(
+      cookiesConfig: OriginRequestPolicyCookiesConfig.fromJson(
+          json['CookiesConfig'] as Map<String, dynamic>),
+      headersConfig: OriginRequestPolicyHeadersConfig.fromJson(
+          json['HeadersConfig'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      queryStringsConfig: OriginRequestPolicyQueryStringsConfig.fromJson(
+          json['QueryStringsConfig'] as Map<String, dynamic>),
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory OriginRequestPolicyConfig.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicyConfig(
-      cookiesConfig: _s
-          .extractXmlChild(elem, 'CookiesConfig')
-          ?.let((e) => OriginRequestPolicyCookiesConfig.fromXml(e)),
-      headersConfig: _s
-          .extractXmlChild(elem, 'HeadersConfig')
-          ?.let((e) => OriginRequestPolicyHeadersConfig.fromXml(e)),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      queryStringsConfig: _s
-          .extractXmlChild(elem, 'QueryStringsConfig')
-          ?.let((e) => OriginRequestPolicyQueryStringsConfig.fromXml(e)),
+      cookiesConfig: OriginRequestPolicyCookiesConfig.fromXml(
+          _s.extractXmlChild(elem, 'CookiesConfig')!),
+      headersConfig: OriginRequestPolicyHeadersConfig.fromXml(
+          _s.extractXmlChild(elem, 'HeadersConfig')!),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      queryStringsConfig: OriginRequestPolicyQueryStringsConfig.fromXml(
+          _s.extractXmlChild(elem, 'QueryStringsConfig')!),
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final cookiesConfig = this.cookiesConfig;
+    final headersConfig = this.headersConfig;
+    final name = this.name;
+    final queryStringsConfig = this.queryStringsConfig;
+    final comment = this.comment;
+    return {
+      'CookiesConfig': cookiesConfig,
+      'HeadersConfig': headersConfig,
+      'Name': name,
+      'QueryStringsConfig': queryStringsConfig,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cookiesConfig = this.cookiesConfig;
+    final headersConfig = this.headersConfig;
+    final name = this.name;
+    final queryStringsConfig = this.queryStringsConfig;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
       _s.encodeXmlStringValue('Name', name),
-      headersConfig?.toXml('HeadersConfig'),
-      cookiesConfig?.toXml('CookiesConfig'),
-      queryStringsConfig?.toXml('QueryStringsConfig'),
+      headersConfig.toXml('HeadersConfig'),
+      cookiesConfig.toXml('CookiesConfig'),
+      queryStringsConfig.toXml('QueryStringsConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9527,7 +13992,7 @@ class OriginRequestPolicyConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9548,7 +14013,6 @@ extension on OriginRequestPolicyCookieBehavior {
       case OriginRequestPolicyCookieBehavior.all:
         return 'all';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9562,7 +14026,8 @@ extension on String {
       case 'all':
         return OriginRequestPolicyCookieBehavior.all;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum OriginRequestPolicyCookieBehavior');
   }
 }
 
@@ -9590,28 +14055,49 @@ class OriginRequestPolicyCookiesConfig {
   /// </li>
   /// </ul>
   final OriginRequestPolicyCookieBehavior cookieBehavior;
-  final CookieNames cookies;
+  final CookieNames? cookies;
 
   OriginRequestPolicyCookiesConfig({
-    @_s.required this.cookieBehavior,
+    required this.cookieBehavior,
     this.cookies,
   });
+
+  factory OriginRequestPolicyCookiesConfig.fromJson(Map<String, dynamic> json) {
+    return OriginRequestPolicyCookiesConfig(
+      cookieBehavior: (json['CookieBehavior'] as String)
+          .toOriginRequestPolicyCookieBehavior(),
+      cookies: json['Cookies'] != null
+          ? CookieNames.fromJson(json['Cookies'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory OriginRequestPolicyCookiesConfig.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicyCookiesConfig(
       cookieBehavior: _s
-          .extractXmlStringValue(elem, 'CookieBehavior')
-          ?.toOriginRequestPolicyCookieBehavior(),
+          .extractXmlStringValue(elem, 'CookieBehavior')!
+          .toOriginRequestPolicyCookieBehavior(),
       cookies: _s
           .extractXmlChild(elem, 'Cookies')
           ?.let((e) => CookieNames.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final cookieBehavior = this.cookieBehavior;
+    final cookies = this.cookies;
+    return {
+      'CookieBehavior': cookieBehavior.toValue(),
+      if (cookies != null) 'Cookies': cookies,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cookieBehavior = this.cookieBehavior;
+    final cookies = this.cookies;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'CookieBehavior', cookieBehavior?.toValue() ?? ''),
-      if (cookies != null) cookies?.toXml('Cookies'),
+      _s.encodeXmlStringValue('CookieBehavior', cookieBehavior.toValue()),
+      if (cookies != null) cookies.toXml('Cookies'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9619,7 +14105,7 @@ class OriginRequestPolicyCookiesConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9643,7 +14129,6 @@ extension on OriginRequestPolicyHeaderBehavior {
       case OriginRequestPolicyHeaderBehavior.allViewerAndWhitelistCloudFront:
         return 'allViewerAndWhitelistCloudFront';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9660,7 +14145,8 @@ extension on String {
         return OriginRequestPolicyHeaderBehavior
             .allViewerAndWhitelistCloudFront;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum OriginRequestPolicyHeaderBehavior');
   }
 }
 
@@ -9694,27 +14180,48 @@ class OriginRequestPolicyHeadersConfig {
   /// </li>
   /// </ul>
   final OriginRequestPolicyHeaderBehavior headerBehavior;
-  final Headers headers;
+  final Headers? headers;
 
   OriginRequestPolicyHeadersConfig({
-    @_s.required this.headerBehavior,
+    required this.headerBehavior,
     this.headers,
   });
+
+  factory OriginRequestPolicyHeadersConfig.fromJson(Map<String, dynamic> json) {
+    return OriginRequestPolicyHeadersConfig(
+      headerBehavior: (json['HeaderBehavior'] as String)
+          .toOriginRequestPolicyHeaderBehavior(),
+      headers: json['Headers'] != null
+          ? Headers.fromJson(json['Headers'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory OriginRequestPolicyHeadersConfig.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicyHeadersConfig(
       headerBehavior: _s
-          .extractXmlStringValue(elem, 'HeaderBehavior')
-          ?.toOriginRequestPolicyHeaderBehavior(),
+          .extractXmlStringValue(elem, 'HeaderBehavior')!
+          .toOriginRequestPolicyHeaderBehavior(),
       headers:
           _s.extractXmlChild(elem, 'Headers')?.let((e) => Headers.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final headerBehavior = this.headerBehavior;
+    final headers = this.headers;
+    return {
+      'HeaderBehavior': headerBehavior.toValue(),
+      if (headers != null) 'Headers': headers,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final headerBehavior = this.headerBehavior;
+    final headers = this.headers;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'HeaderBehavior', headerBehavior?.toValue() ?? ''),
-      if (headers != null) headers?.toXml('Headers'),
+      _s.encodeXmlStringValue('HeaderBehavior', headerBehavior.toValue()),
+      if (headers != null) headers.toXml('Headers'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9722,7 +14229,7 @@ class OriginRequestPolicyHeadersConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9736,30 +14243,57 @@ class OriginRequestPolicyList {
   final int quantity;
 
   /// Contains the origin request policies in the list.
-  final List<OriginRequestPolicySummary> items;
+  final List<OriginRequestPolicySummary>? items;
 
   /// If there are more items in the list than are in this response, this element
   /// is present. It contains the value that you should use in the
   /// <code>Marker</code> field of a subsequent request to continue listing origin
   /// request policies where you left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   OriginRequestPolicyList({
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory OriginRequestPolicyList.fromJson(Map<String, dynamic> json) {
+    return OriginRequestPolicyList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              OriginRequestPolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory OriginRequestPolicyList.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicyList(
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('OriginRequestPolicySummary')
           .map((c) => OriginRequestPolicySummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -9779,7 +14313,6 @@ extension on OriginRequestPolicyQueryStringBehavior {
       case OriginRequestPolicyQueryStringBehavior.all:
         return 'all';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9794,7 +14327,8 @@ extension on String {
       case 'all':
         return OriginRequestPolicyQueryStringBehavior.all;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum OriginRequestPolicyQueryStringBehavior');
   }
 }
 
@@ -9826,28 +14360,52 @@ class OriginRequestPolicyQueryStringsConfig {
 
   /// Contains a list of the query strings in viewer requests that are included in
   /// requests that CloudFront sends to the origin.
-  final QueryStringNames queryStrings;
+  final QueryStringNames? queryStrings;
 
   OriginRequestPolicyQueryStringsConfig({
-    @_s.required this.queryStringBehavior,
+    required this.queryStringBehavior,
     this.queryStrings,
   });
+
+  factory OriginRequestPolicyQueryStringsConfig.fromJson(
+      Map<String, dynamic> json) {
+    return OriginRequestPolicyQueryStringsConfig(
+      queryStringBehavior: (json['QueryStringBehavior'] as String)
+          .toOriginRequestPolicyQueryStringBehavior(),
+      queryStrings: json['QueryStrings'] != null
+          ? QueryStringNames.fromJson(
+              json['QueryStrings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory OriginRequestPolicyQueryStringsConfig.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicyQueryStringsConfig(
       queryStringBehavior: _s
-          .extractXmlStringValue(elem, 'QueryStringBehavior')
-          ?.toOriginRequestPolicyQueryStringBehavior(),
+          .extractXmlStringValue(elem, 'QueryStringBehavior')!
+          .toOriginRequestPolicyQueryStringBehavior(),
       queryStrings: _s
           .extractXmlChild(elem, 'QueryStrings')
           ?.let((e) => QueryStringNames.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final queryStringBehavior = this.queryStringBehavior;
+    final queryStrings = this.queryStrings;
+    return {
+      'QueryStringBehavior': queryStringBehavior.toValue(),
+      if (queryStrings != null) 'QueryStrings': queryStrings,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final queryStringBehavior = this.queryStringBehavior;
+    final queryStrings = this.queryStrings;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue(
-          'QueryStringBehavior', queryStringBehavior?.toValue() ?? ''),
-      if (queryStrings != null) queryStrings?.toXml('QueryStrings'),
+          'QueryStringBehavior', queryStringBehavior.toValue()),
+      if (queryStrings != null) queryStrings.toXml('QueryStrings'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9855,7 +14413,7 @@ class OriginRequestPolicyQueryStringsConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9866,20 +14424,37 @@ class OriginRequestPolicySummary {
   final OriginRequestPolicy originRequestPolicy;
 
   /// The type of origin request policy, either <code>managed</code> (created by
-  /// AWS) or <code>custom</code> (created in this AWS account).
+  /// Amazon Web Services) or <code>custom</code> (created in this account).
   final OriginRequestPolicyType type;
 
   OriginRequestPolicySummary({
-    @_s.required this.originRequestPolicy,
-    @_s.required this.type,
+    required this.originRequestPolicy,
+    required this.type,
   });
+
+  factory OriginRequestPolicySummary.fromJson(Map<String, dynamic> json) {
+    return OriginRequestPolicySummary(
+      originRequestPolicy: OriginRequestPolicy.fromJson(
+          json['OriginRequestPolicy'] as Map<String, dynamic>),
+      type: (json['Type'] as String).toOriginRequestPolicyType(),
+    );
+  }
+
   factory OriginRequestPolicySummary.fromXml(_s.XmlElement elem) {
     return OriginRequestPolicySummary(
-      originRequestPolicy: _s
-          .extractXmlChild(elem, 'OriginRequestPolicy')
-          ?.let((e) => OriginRequestPolicy.fromXml(e)),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toOriginRequestPolicyType(),
+      originRequestPolicy: OriginRequestPolicy.fromXml(
+          _s.extractXmlChild(elem, 'OriginRequestPolicy')!),
+      type: _s.extractXmlStringValue(elem, 'Type')!.toOriginRequestPolicyType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final originRequestPolicy = this.originRequestPolicy;
+    final type = this.type;
+    return {
+      'OriginRequestPolicy': originRequestPolicy,
+      'Type': type.toValue(),
+    };
   }
 }
 
@@ -9896,7 +14471,6 @@ extension on OriginRequestPolicyType {
       case OriginRequestPolicyType.custom:
         return 'custom';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9908,7 +14482,7 @@ extension on String {
       case 'custom':
         return OriginRequestPolicyType.custom;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OriginRequestPolicyType');
   }
 }
 
@@ -9927,32 +14501,51 @@ class OriginShield {
   /// regional edge caches.
   final bool enabled;
 
-  /// The AWS Region for Origin Shield.
+  /// The Region for Origin Shield.
   ///
-  /// Specify the AWS Region that has the lowest latency to your origin. To
-  /// specify a region, use the region code, not the region name. For example,
-  /// specify the US East (Ohio) region as <code>us-east-2</code>.
+  /// Specify the Region that has the lowest latency to your origin. To specify a
+  /// region, use the region code, not the region name. For example, specify the
+  /// US East (Ohio) region as <code>us-east-2</code>.
   ///
-  /// When you enable CloudFront Origin Shield, you must specify the AWS Region
-  /// for Origin Shield. For the list of AWS Regions that you can specify, and for
-  /// help choosing the best Region for your origin, see <a
+  /// When you enable CloudFront Origin Shield, you must specify the Region for
+  /// Origin Shield. For the list of Regions that you can specify, and for help
+  /// choosing the best Region for your origin, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html#choose-origin-shield-region">Choosing
-  /// the AWS Region for Origin Shield</a> in the <i>Amazon CloudFront Developer
+  /// the Region for Origin Shield</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
-  final String originShieldRegion;
+  final String? originShieldRegion;
 
   OriginShield({
-    @_s.required this.enabled,
+    required this.enabled,
     this.originShieldRegion,
   });
+
+  factory OriginShield.fromJson(Map<String, dynamic> json) {
+    return OriginShield(
+      enabled: json['Enabled'] as bool,
+      originShieldRegion: json['OriginShieldRegion'] as String?,
+    );
+  }
+
   factory OriginShield.fromXml(_s.XmlElement elem) {
     return OriginShield(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       originShieldRegion: _s.extractXmlStringValue(elem, 'OriginShieldRegion'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final originShieldRegion = this.originShieldRegion;
+    return {
+      'Enabled': enabled,
+      if (originShieldRegion != null) 'OriginShieldRegion': originShieldRegion,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final originShieldRegion = this.originShieldRegion;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('Enabled', enabled),
       if (originShieldRegion != null)
@@ -9964,7 +14557,7 @@ class OriginShield {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9980,27 +14573,50 @@ class OriginSslProtocols {
   final int quantity;
 
   OriginSslProtocols({
-    @_s.required this.items,
-    @_s.required this.quantity,
+    required this.items,
+    required this.quantity,
   });
-  factory OriginSslProtocols.fromXml(_s.XmlElement elem) {
+
+  factory OriginSslProtocols.fromJson(Map<String, dynamic> json) {
     return OriginSslProtocols(
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => _s
-          .extractXmlStringListValues(elem, 'SslProtocol')
-          .map((s) => s.toSslProtocol())
-          .toList()),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toSslProtocol())
+          .toList(),
+      quantity: json['Quantity'] as int,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory OriginSslProtocols.fromXml(_s.XmlElement elem) {
+    return OriginSslProtocols(
+      items: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'Items')!, 'SslProtocol')
+          .map((s) => s.toSslProtocol())
+          .toList(),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items.map((e) => e.toValue()).toList(),
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       _s.XmlElement(
           _s.XmlName('Items'),
           [],
-          items?.map((e) =>
-              _s.encodeXmlStringValue('SslProtocol', e?.toValue() ?? ''))),
+          items
+              .map((e) => _s.encodeXmlStringValue('SslProtocol', e.toValue()))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10008,7 +14624,7 @@ class OriginSslProtocols {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10022,22 +14638,47 @@ class Origins {
   final int quantity;
 
   Origins({
-    @_s.required this.items,
-    @_s.required this.quantity,
+    required this.items,
+    required this.quantity,
   });
-  factory Origins.fromXml(_s.XmlElement elem) {
+
+  factory Origins.fromJson(Map<String, dynamic> json) {
     return Origins(
-      items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
-          elem.findElements('Origin').map((c) => Origin.fromXml(c)).toList()),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      items: (json['Items'] as List)
+          .whereNotNull()
+          .map((e) => Origin.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quantity: json['Quantity'] as int,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory Origins.fromXml(_s.XmlElement elem) {
+    return Origins(
+      items: _s
+          .extractXmlChild(elem, 'Items')!
+          .findElements('Origin')
+          .map((c) => Origin.fromXml(c))
+          .toList(),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items,
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       _s.XmlElement(
-          _s.XmlName('Items'), [], items?.map((e) => e?.toXml('Origin'))),
+          _s.XmlName('Items'), [], items.map((e) => e.toXml('Origin'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10045,7 +14686,7 @@ class Origins {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10155,43 +14796,76 @@ class ParametersInCacheKeyAndForwardedToOrigin {
   /// included in origin requests. In this case, you can manually add
   /// <code>Accept-Encoding</code> to the headers whitelist like any other HTTP
   /// header.
-  final bool enableAcceptEncodingBrotli;
+  final bool? enableAcceptEncodingBrotli;
 
   ParametersInCacheKeyAndForwardedToOrigin({
-    @_s.required this.cookiesConfig,
-    @_s.required this.enableAcceptEncodingGzip,
-    @_s.required this.headersConfig,
-    @_s.required this.queryStringsConfig,
+    required this.cookiesConfig,
+    required this.enableAcceptEncodingGzip,
+    required this.headersConfig,
+    required this.queryStringsConfig,
     this.enableAcceptEncodingBrotli,
   });
+
+  factory ParametersInCacheKeyAndForwardedToOrigin.fromJson(
+      Map<String, dynamic> json) {
+    return ParametersInCacheKeyAndForwardedToOrigin(
+      cookiesConfig: CachePolicyCookiesConfig.fromJson(
+          json['CookiesConfig'] as Map<String, dynamic>),
+      enableAcceptEncodingGzip: json['EnableAcceptEncodingGzip'] as bool,
+      headersConfig: CachePolicyHeadersConfig.fromJson(
+          json['HeadersConfig'] as Map<String, dynamic>),
+      queryStringsConfig: CachePolicyQueryStringsConfig.fromJson(
+          json['QueryStringsConfig'] as Map<String, dynamic>),
+      enableAcceptEncodingBrotli: json['EnableAcceptEncodingBrotli'] as bool?,
+    );
+  }
+
   factory ParametersInCacheKeyAndForwardedToOrigin.fromXml(_s.XmlElement elem) {
     return ParametersInCacheKeyAndForwardedToOrigin(
-      cookiesConfig: _s
-          .extractXmlChild(elem, 'CookiesConfig')
-          ?.let((e) => CachePolicyCookiesConfig.fromXml(e)),
+      cookiesConfig: CachePolicyCookiesConfig.fromXml(
+          _s.extractXmlChild(elem, 'CookiesConfig')!),
       enableAcceptEncodingGzip:
-          _s.extractXmlBoolValue(elem, 'EnableAcceptEncodingGzip'),
-      headersConfig: _s
-          .extractXmlChild(elem, 'HeadersConfig')
-          ?.let((e) => CachePolicyHeadersConfig.fromXml(e)),
-      queryStringsConfig: _s
-          .extractXmlChild(elem, 'QueryStringsConfig')
-          ?.let((e) => CachePolicyQueryStringsConfig.fromXml(e)),
+          _s.extractXmlBoolValue(elem, 'EnableAcceptEncodingGzip')!,
+      headersConfig: CachePolicyHeadersConfig.fromXml(
+          _s.extractXmlChild(elem, 'HeadersConfig')!),
+      queryStringsConfig: CachePolicyQueryStringsConfig.fromXml(
+          _s.extractXmlChild(elem, 'QueryStringsConfig')!),
       enableAcceptEncodingBrotli:
           _s.extractXmlBoolValue(elem, 'EnableAcceptEncodingBrotli'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final cookiesConfig = this.cookiesConfig;
+    final enableAcceptEncodingGzip = this.enableAcceptEncodingGzip;
+    final headersConfig = this.headersConfig;
+    final queryStringsConfig = this.queryStringsConfig;
+    final enableAcceptEncodingBrotli = this.enableAcceptEncodingBrotli;
+    return {
+      'CookiesConfig': cookiesConfig,
+      'EnableAcceptEncodingGzip': enableAcceptEncodingGzip,
+      'HeadersConfig': headersConfig,
+      'QueryStringsConfig': queryStringsConfig,
+      if (enableAcceptEncodingBrotli != null)
+        'EnableAcceptEncodingBrotli': enableAcceptEncodingBrotli,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cookiesConfig = this.cookiesConfig;
+    final enableAcceptEncodingGzip = this.enableAcceptEncodingGzip;
+    final headersConfig = this.headersConfig;
+    final queryStringsConfig = this.queryStringsConfig;
+    final enableAcceptEncodingBrotli = this.enableAcceptEncodingBrotli;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue(
           'EnableAcceptEncodingGzip', enableAcceptEncodingGzip),
       if (enableAcceptEncodingBrotli != null)
         _s.encodeXmlBoolValue(
             'EnableAcceptEncodingBrotli', enableAcceptEncodingBrotli),
-      headersConfig?.toXml('HeadersConfig'),
-      cookiesConfig?.toXml('CookiesConfig'),
-      queryStringsConfig?.toXml('QueryStringsConfig'),
+      headersConfig.toXml('HeadersConfig'),
+      cookiesConfig.toXml('CookiesConfig'),
+      queryStringsConfig.toXml('QueryStringsConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10199,7 +14873,7 @@ class ParametersInCacheKeyAndForwardedToOrigin {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10216,22 +14890,44 @@ class Paths {
 
   /// A complex type that contains a list of the paths that you want to
   /// invalidate.
-  final List<String> items;
+  final List<String>? items;
 
   Paths({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory Paths.fromJson(Map<String, dynamic> json) {
+    return Paths(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory Paths.fromXml(_s.XmlElement elem) {
     return Paths(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Path')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -10244,7 +14940,7 @@ class Paths {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10265,7 +14961,6 @@ extension on PriceClass {
       case PriceClass.priceClassAll:
         return 'PriceClass_All';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10279,7 +14974,7 @@ extension on String {
       case 'PriceClass_All':
         return PriceClass.priceClassAll;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PriceClass');
   }
 }
 
@@ -10303,18 +14998,38 @@ class PublicKey {
   final PublicKeyConfig publicKeyConfig;
 
   PublicKey({
-    @_s.required this.createdTime,
-    @_s.required this.id,
-    @_s.required this.publicKeyConfig,
+    required this.createdTime,
+    required this.id,
+    required this.publicKeyConfig,
   });
+
+  factory PublicKey.fromJson(Map<String, dynamic> json) {
+    return PublicKey(
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
+      id: json['Id'] as String,
+      publicKeyConfig: PublicKeyConfig.fromJson(
+          json['PublicKeyConfig'] as Map<String, dynamic>),
+    );
+  }
+
   factory PublicKey.fromXml(_s.XmlElement elem) {
     return PublicKey(
-      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      publicKeyConfig: _s
-          .extractXmlChild(elem, 'PublicKeyConfig')
-          ?.let((e) => PublicKeyConfig.fromXml(e)),
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      publicKeyConfig:
+          PublicKeyConfig.fromXml(_s.extractXmlChild(elem, 'PublicKeyConfig')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final id = this.id;
+    final publicKeyConfig = this.publicKeyConfig;
+    return {
+      'CreatedTime': unixTimestampToJson(createdTime),
+      'Id': id,
+      'PublicKeyConfig': publicKeyConfig,
+    };
   }
 }
 
@@ -10338,25 +15053,53 @@ class PublicKeyConfig {
   /// A name to help identify the public key.
   final String name;
 
-  /// A comment to describe the public key.
-  final String comment;
+  /// A comment to describe the public key. The comment cannot be longer than 128
+  /// characters.
+  final String? comment;
 
   PublicKeyConfig({
-    @_s.required this.callerReference,
-    @_s.required this.encodedKey,
-    @_s.required this.name,
+    required this.callerReference,
+    required this.encodedKey,
+    required this.name,
     this.comment,
   });
+
+  factory PublicKeyConfig.fromJson(Map<String, dynamic> json) {
+    return PublicKeyConfig(
+      callerReference: json['CallerReference'] as String,
+      encodedKey: json['EncodedKey'] as String,
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory PublicKeyConfig.fromXml(_s.XmlElement elem) {
     return PublicKeyConfig(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      encodedKey: _s.extractXmlStringValue(elem, 'EncodedKey'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      encodedKey: _s.extractXmlStringValue(elem, 'EncodedKey')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final encodedKey = this.encodedKey;
+    final name = this.name;
+    final comment = this.comment;
+    return {
+      'CallerReference': callerReference,
+      'EncodedKey': encodedKey,
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final encodedKey = this.encodedKey;
+    final name = this.name;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
       _s.encodeXmlStringValue('Name', name),
@@ -10369,7 +15112,7 @@ class PublicKeyConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10387,29 +15130,55 @@ class PublicKeyList {
   final int quantity;
 
   /// A list of public keys.
-  final List<PublicKeySummary> items;
+  final List<PublicKeySummary>? items;
 
   /// If there are more elements to be listed, this element is present and
   /// contains the value that you can use for the <code>Marker</code> request
   /// parameter to continue listing your public keys where you left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   PublicKeyList({
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory PublicKeyList.fromJson(Map<String, dynamic> json) {
+    return PublicKeyList(
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => PublicKeySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory PublicKeyList.fromXml(_s.XmlElement elem) {
     return PublicKeyList(
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('PublicKeySummary')
           .map((c) => PublicKeySummary.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -10427,24 +15196,76 @@ class PublicKeySummary {
   /// A name to help identify the public key.
   final String name;
 
-  /// A comment to describe the public key.
-  final String comment;
+  /// A comment to describe the public key. The comment cannot be longer than 128
+  /// characters.
+  final String? comment;
 
   PublicKeySummary({
-    @_s.required this.createdTime,
-    @_s.required this.encodedKey,
-    @_s.required this.id,
-    @_s.required this.name,
+    required this.createdTime,
+    required this.encodedKey,
+    required this.id,
+    required this.name,
     this.comment,
   });
+
+  factory PublicKeySummary.fromJson(Map<String, dynamic> json) {
+    return PublicKeySummary(
+      createdTime: nonNullableTimeStampFromJson(json['CreatedTime'] as Object),
+      encodedKey: json['EncodedKey'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory PublicKeySummary.fromXml(_s.XmlElement elem) {
     return PublicKeySummary(
-      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
-      encodedKey: _s.extractXmlStringValue(elem, 'EncodedKey'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime')!,
+      encodedKey: _s.extractXmlStringValue(elem, 'EncodedKey')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final encodedKey = this.encodedKey;
+    final id = this.id;
+    final name = this.name;
+    final comment = this.comment;
+    return {
+      'CreatedTime': unixTimestampToJson(createdTime),
+      'EncodedKey': encodedKey,
+      'Id': id,
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+}
+
+class PublishFunctionResult {
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  PublishFunctionResult({
+    this.functionSummary,
+  });
+
+  factory PublishFunctionResult.fromJson(Map<String, dynamic> json) {
+    return PublishFunctionResult(
+      functionSummary: json['FunctionSummary'] != null
+          ? FunctionSummary.fromJson(
+              json['FunctionSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionSummary = this.functionSummary;
+    return {
+      if (functionSummary != null) 'FunctionSummary': functionSummary,
+    };
   }
 }
 
@@ -10458,17 +15279,36 @@ class QueryArgProfile {
   final String queryArg;
 
   QueryArgProfile({
-    @_s.required this.profileId,
-    @_s.required this.queryArg,
+    required this.profileId,
+    required this.queryArg,
   });
-  factory QueryArgProfile.fromXml(_s.XmlElement elem) {
+
+  factory QueryArgProfile.fromJson(Map<String, dynamic> json) {
     return QueryArgProfile(
-      profileId: _s.extractXmlStringValue(elem, 'ProfileId'),
-      queryArg: _s.extractXmlStringValue(elem, 'QueryArg'),
+      profileId: json['ProfileId'] as String,
+      queryArg: json['QueryArg'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory QueryArgProfile.fromXml(_s.XmlElement elem) {
+    return QueryArgProfile(
+      profileId: _s.extractXmlStringValue(elem, 'ProfileId')!,
+      queryArg: _s.extractXmlStringValue(elem, 'QueryArg')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileId = this.profileId;
+    final queryArg = this.queryArg;
+    return {
+      'ProfileId': profileId,
+      'QueryArg': queryArg,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final profileId = this.profileId;
+    final queryArg = this.queryArg;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('QueryArg', queryArg),
       _s.encodeXmlStringValue('ProfileId', profileId),
@@ -10479,7 +15319,7 @@ class QueryArgProfile {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10493,27 +15333,53 @@ class QueryArgProfileConfig {
 
   /// Profiles specified for query argument-profile mapping for field-level
   /// encryption.
-  final QueryArgProfiles queryArgProfiles;
+  final QueryArgProfiles? queryArgProfiles;
 
   QueryArgProfileConfig({
-    @_s.required this.forwardWhenQueryArgProfileIsUnknown,
+    required this.forwardWhenQueryArgProfileIsUnknown,
     this.queryArgProfiles,
   });
+
+  factory QueryArgProfileConfig.fromJson(Map<String, dynamic> json) {
+    return QueryArgProfileConfig(
+      forwardWhenQueryArgProfileIsUnknown:
+          json['ForwardWhenQueryArgProfileIsUnknown'] as bool,
+      queryArgProfiles: json['QueryArgProfiles'] != null
+          ? QueryArgProfiles.fromJson(
+              json['QueryArgProfiles'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory QueryArgProfileConfig.fromXml(_s.XmlElement elem) {
     return QueryArgProfileConfig(
       forwardWhenQueryArgProfileIsUnknown:
-          _s.extractXmlBoolValue(elem, 'ForwardWhenQueryArgProfileIsUnknown'),
+          _s.extractXmlBoolValue(elem, 'ForwardWhenQueryArgProfileIsUnknown')!,
       queryArgProfiles: _s
           .extractXmlChild(elem, 'QueryArgProfiles')
           ?.let((e) => QueryArgProfiles.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final forwardWhenQueryArgProfileIsUnknown =
+        this.forwardWhenQueryArgProfileIsUnknown;
+    final queryArgProfiles = this.queryArgProfiles;
+    return {
+      'ForwardWhenQueryArgProfileIsUnknown':
+          forwardWhenQueryArgProfileIsUnknown,
+      if (queryArgProfiles != null) 'QueryArgProfiles': queryArgProfiles,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final forwardWhenQueryArgProfileIsUnknown =
+        this.forwardWhenQueryArgProfileIsUnknown;
+    final queryArgProfiles = this.queryArgProfiles;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('ForwardWhenQueryArgProfileIsUnknown',
           forwardWhenQueryArgProfileIsUnknown),
-      if (queryArgProfiles != null) queryArgProfiles?.toXml('QueryArgProfiles'),
+      if (queryArgProfiles != null) queryArgProfiles.toXml('QueryArgProfiles'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10521,7 +15387,7 @@ class QueryArgProfileConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10534,15 +15400,26 @@ class QueryArgProfiles {
 
   /// Number of items for query argument-profile mapping for field-level
   /// encryption.
-  final List<QueryArgProfile> items;
+  final List<QueryArgProfile>? items;
 
   QueryArgProfiles({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory QueryArgProfiles.fromJson(Map<String, dynamic> json) {
+    return QueryArgProfiles(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryArgProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory QueryArgProfiles.fromXml(_s.XmlElement elem) {
     return QueryArgProfiles(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('QueryArgProfile')
           .map((c) => QueryArgProfile.fromXml(c))
@@ -10550,12 +15427,23 @@ class QueryArgProfiles {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            items.map((e) => e?.toXml('QueryArgProfile'))),
+            items.map((e) => e.toXml('QueryArgProfile'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10563,7 +15451,7 @@ class QueryArgProfiles {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10589,22 +15477,44 @@ class QueryStringCacheKeys {
   /// A list that contains the query string parameters that you want CloudFront to
   /// use as a basis for caching for a cache behavior. If <code>Quantity</code> is
   /// 0, you can omit <code>Items</code>.
-  final List<String> items;
+  final List<String>? items;
 
   QueryStringCacheKeys({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory QueryStringCacheKeys.fromJson(Map<String, dynamic> json) {
+    return QueryStringCacheKeys(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory QueryStringCacheKeys.fromXml(_s.XmlElement elem) {
     return QueryStringCacheKeys(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Name')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -10617,7 +15527,7 @@ class QueryStringCacheKeys {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10628,22 +15538,44 @@ class QueryStringNames {
   final int quantity;
 
   /// A list of query string names.
-  final List<String> items;
+  final List<String>? items;
 
   QueryStringNames({
-    @_s.required this.quantity,
+    required this.quantity,
     this.items,
   });
+
+  factory QueryStringNames.fromJson(Map<String, dynamic> json) {
+    return QueryStringNames(
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory QueryStringNames.fromXml(_s.XmlElement elem) {
     return QueryStringNames(
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'Name')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
@@ -10656,7 +15588,7 @@ class QueryStringNames {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10690,23 +15622,57 @@ class RealtimeLogConfig {
   final int samplingRate;
 
   RealtimeLogConfig({
-    @_s.required this.arn,
-    @_s.required this.endPoints,
-    @_s.required this.fields,
-    @_s.required this.name,
-    @_s.required this.samplingRate,
+    required this.arn,
+    required this.endPoints,
+    required this.fields,
+    required this.name,
+    required this.samplingRate,
   });
+
+  factory RealtimeLogConfig.fromJson(Map<String, dynamic> json) {
+    return RealtimeLogConfig(
+      arn: json['ARN'] as String,
+      endPoints: (json['EndPoints'] as List)
+          .whereNotNull()
+          .map((e) => EndPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fields: (json['Fields'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String,
+      samplingRate: json['SamplingRate'] as int,
+    );
+  }
+
   factory RealtimeLogConfig.fromXml(_s.XmlElement elem) {
     return RealtimeLogConfig(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      endPoints: _s.extractXmlChild(elem, 'EndPoints')?.let((elem) =>
-          elem.findElements('member').map((c) => EndPoint.fromXml(c)).toList()),
-      fields: _s
-          .extractXmlChild(elem, 'Fields')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Field')),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      samplingRate: _s.extractXmlIntValue(elem, 'SamplingRate'),
+      arn: _s.extractXmlStringValue(elem, 'ARN')!,
+      endPoints: _s
+          .extractXmlChild(elem, 'EndPoints')!
+          .findElements('member')
+          .map((c) => EndPoint.fromXml(c))
+          .toList(),
+      fields: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Fields')!, 'Field'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      samplingRate: _s.extractXmlIntValue(elem, 'SamplingRate')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final endPoints = this.endPoints;
+    final fields = this.fields;
+    final name = this.name;
+    final samplingRate = this.samplingRate;
+    return {
+      'ARN': arn,
+      'EndPoints': endPoints,
+      'Fields': fields,
+      'Name': name,
+      'SamplingRate': samplingRate,
+    };
   }
 }
 
@@ -10725,32 +15691,61 @@ class RealtimeLogConfigs {
   final int maxItems;
 
   /// Contains the list of real-time log configurations.
-  final List<RealtimeLogConfig> items;
+  final List<RealtimeLogConfig>? items;
 
   /// If there are more items in the list than are in this response, this element
   /// is present. It contains the value that you should use in the
   /// <code>Marker</code> field of a subsequent request to continue listing
   /// real-time log configurations where you left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   RealtimeLogConfigs({
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
     this.items,
     this.nextMarker,
   });
+
+  factory RealtimeLogConfigs.fromJson(Map<String, dynamic> json) {
+    return RealtimeLogConfigs(
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => RealtimeLogConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory RealtimeLogConfigs.fromXml(_s.XmlElement elem) {
     return RealtimeLogConfigs(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('member')
           .map((c) => RealtimeLogConfig.fromXml(c))
           .toList()),
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -10761,20 +15756,41 @@ class RealtimeMetricsSubscriptionConfig {
   final RealtimeMetricsSubscriptionStatus realtimeMetricsSubscriptionStatus;
 
   RealtimeMetricsSubscriptionConfig({
-    @_s.required this.realtimeMetricsSubscriptionStatus,
+    required this.realtimeMetricsSubscriptionStatus,
   });
-  factory RealtimeMetricsSubscriptionConfig.fromXml(_s.XmlElement elem) {
+
+  factory RealtimeMetricsSubscriptionConfig.fromJson(
+      Map<String, dynamic> json) {
     return RealtimeMetricsSubscriptionConfig(
-      realtimeMetricsSubscriptionStatus: _s
-          .extractXmlStringValue(elem, 'RealtimeMetricsSubscriptionStatus')
-          ?.toRealtimeMetricsSubscriptionStatus(),
+      realtimeMetricsSubscriptionStatus:
+          (json['RealtimeMetricsSubscriptionStatus'] as String)
+              .toRealtimeMetricsSubscriptionStatus(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory RealtimeMetricsSubscriptionConfig.fromXml(_s.XmlElement elem) {
+    return RealtimeMetricsSubscriptionConfig(
+      realtimeMetricsSubscriptionStatus: _s
+          .extractXmlStringValue(elem, 'RealtimeMetricsSubscriptionStatus')!
+          .toRealtimeMetricsSubscriptionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final realtimeMetricsSubscriptionStatus =
+        this.realtimeMetricsSubscriptionStatus;
+    return {
+      'RealtimeMetricsSubscriptionStatus':
+          realtimeMetricsSubscriptionStatus.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final realtimeMetricsSubscriptionStatus =
+        this.realtimeMetricsSubscriptionStatus;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('RealtimeMetricsSubscriptionStatus',
-          realtimeMetricsSubscriptionStatus?.toValue() ?? ''),
+          realtimeMetricsSubscriptionStatus.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10782,7 +15798,7 @@ class RealtimeMetricsSubscriptionConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10800,7 +15816,6 @@ extension on RealtimeMetricsSubscriptionStatus {
       case RealtimeMetricsSubscriptionStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10812,7 +15827,8 @@ extension on String {
       case 'Disabled':
         return RealtimeMetricsSubscriptionStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum RealtimeMetricsSubscriptionStatus');
   }
 }
 
@@ -10825,19 +15841,34 @@ class Restrictions {
   final GeoRestriction geoRestriction;
 
   Restrictions({
-    @_s.required this.geoRestriction,
+    required this.geoRestriction,
   });
-  factory Restrictions.fromXml(_s.XmlElement elem) {
+
+  factory Restrictions.fromJson(Map<String, dynamic> json) {
     return Restrictions(
-      geoRestriction: _s
-          .extractXmlChild(elem, 'GeoRestriction')
-          ?.let((e) => GeoRestriction.fromXml(e)),
+      geoRestriction: GeoRestriction.fromJson(
+          json['GeoRestriction'] as Map<String, dynamic>),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory Restrictions.fromXml(_s.XmlElement elem) {
+    return Restrictions(
+      geoRestriction:
+          GeoRestriction.fromXml(_s.extractXmlChild(elem, 'GeoRestriction')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final geoRestriction = this.geoRestriction;
+    return {
+      'GeoRestriction': geoRestriction,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final geoRestriction = this.geoRestriction;
     final $children = <_s.XmlNode>[
-      geoRestriction?.toXml('GeoRestriction'),
+      geoRestriction.toXml('GeoRestriction'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10845,7 +15876,7 @@ class Restrictions {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10878,18 +15909,37 @@ class S3Origin {
   final String originAccessIdentity;
 
   S3Origin({
-    @_s.required this.domainName,
-    @_s.required this.originAccessIdentity,
+    required this.domainName,
+    required this.originAccessIdentity,
   });
-  factory S3Origin.fromXml(_s.XmlElement elem) {
+
+  factory S3Origin.fromJson(Map<String, dynamic> json) {
     return S3Origin(
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
-      originAccessIdentity:
-          _s.extractXmlStringValue(elem, 'OriginAccessIdentity'),
+      domainName: json['DomainName'] as String,
+      originAccessIdentity: json['OriginAccessIdentity'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory S3Origin.fromXml(_s.XmlElement elem) {
+    return S3Origin(
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
+      originAccessIdentity:
+          _s.extractXmlStringValue(elem, 'OriginAccessIdentity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final originAccessIdentity = this.originAccessIdentity;
+    return {
+      'DomainName': domainName,
+      'OriginAccessIdentity': originAccessIdentity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final domainName = this.domainName;
+    final originAccessIdentity = this.originAccessIdentity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('DomainName', domainName),
       _s.encodeXmlStringValue('OriginAccessIdentity', originAccessIdentity),
@@ -10900,7 +15950,7 @@ class S3Origin {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10938,16 +15988,31 @@ class S3OriginConfig {
   final String originAccessIdentity;
 
   S3OriginConfig({
-    @_s.required this.originAccessIdentity,
+    required this.originAccessIdentity,
   });
-  factory S3OriginConfig.fromXml(_s.XmlElement elem) {
+
+  factory S3OriginConfig.fromJson(Map<String, dynamic> json) {
     return S3OriginConfig(
-      originAccessIdentity:
-          _s.extractXmlStringValue(elem, 'OriginAccessIdentity'),
+      originAccessIdentity: json['OriginAccessIdentity'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory S3OriginConfig.fromXml(_s.XmlElement elem) {
+    return S3OriginConfig(
+      originAccessIdentity:
+          _s.extractXmlStringValue(elem, 'OriginAccessIdentity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final originAccessIdentity = this.originAccessIdentity;
+    return {
+      'OriginAccessIdentity': originAccessIdentity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final originAccessIdentity = this.originAccessIdentity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('OriginAccessIdentity', originAccessIdentity),
     ];
@@ -10957,7 +16022,7 @@ class S3OriginConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10978,7 +16043,6 @@ extension on SSLSupportMethod {
       case SSLSupportMethod.staticIp:
         return 'static-ip';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10992,28 +16056,37 @@ extension on String {
       case 'static-ip':
         return SSLSupportMethod.staticIp;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SSLSupportMethod');
   }
 }
 
-/// A list of AWS accounts and the active CloudFront key pairs in each account
-/// that CloudFront can use to verify the signatures of signed URLs and signed
+/// A list of accounts and the active CloudFront key pairs in each account that
+/// CloudFront can use to verify the signatures of signed URLs and signed
 /// cookies.
 class Signer {
-  /// An AWS account number that contains active CloudFront key pairs that
-  /// CloudFront can use to verify the signatures of signed URLs and signed
-  /// cookies. If the AWS account that owns the key pairs is the same account that
-  /// owns the CloudFront distribution, the value of this field is
-  /// <code>self</code>.
-  final String awsAccountNumber;
+  /// An account number that contains active CloudFront key pairs that CloudFront
+  /// can use to verify the signatures of signed URLs and signed cookies. If the
+  /// account that owns the key pairs is the same account that owns the CloudFront
+  /// distribution, the value of this field is <code>self</code>.
+  final String? awsAccountNumber;
 
   /// A list of CloudFront key pair identifiers.
-  final KeyPairIds keyPairIds;
+  final KeyPairIds? keyPairIds;
 
   Signer({
     this.awsAccountNumber,
     this.keyPairIds,
   });
+
+  factory Signer.fromJson(Map<String, dynamic> json) {
+    return Signer(
+      awsAccountNumber: json['AwsAccountNumber'] as String?,
+      keyPairIds: json['KeyPairIds'] != null
+          ? KeyPairIds.fromJson(json['KeyPairIds'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory Signer.fromXml(_s.XmlElement elem) {
     return Signer(
       awsAccountNumber: _s.extractXmlStringValue(elem, 'AwsAccountNumber'),
@@ -11021,6 +16094,15 @@ class Signer {
           .extractXmlChild(elem, 'KeyPairIds')
           ?.let((e) => KeyPairIds.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsAccountNumber = this.awsAccountNumber;
+    final keyPairIds = this.keyPairIds;
+    return {
+      if (awsAccountNumber != null) 'AwsAccountNumber': awsAccountNumber,
+      if (keyPairIds != null) 'KeyPairIds': keyPairIds,
+    };
   }
 }
 
@@ -11043,7 +16125,6 @@ extension on SslProtocol {
       case SslProtocol.tLSv1_2:
         return 'TLSv1.2';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11059,7 +16140,7 @@ extension on String {
       case 'TLSv1.2':
         return SslProtocol.tLSv1_2;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SslProtocol');
   }
 }
 
@@ -11074,23 +16155,42 @@ class StatusCodes {
   final int quantity;
 
   StatusCodes({
-    @_s.required this.items,
-    @_s.required this.quantity,
+    required this.items,
+    required this.quantity,
   });
-  factory StatusCodes.fromXml(_s.XmlElement elem) {
+
+  factory StatusCodes.fromJson(Map<String, dynamic> json) {
     return StatusCodes(
-      items: _s
-          .extractXmlChild(elem, 'Items')
-          ?.let((elem) => _s.extractXmlIntListValues(elem, 'StatusCode')),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      items:
+          (json['Items'] as List).whereNotNull().map((e) => e as int).toList(),
+      quantity: json['Quantity'] as int,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory StatusCodes.fromXml(_s.XmlElement elem) {
+    return StatusCodes(
+      items: _s.extractXmlIntListValues(
+          _s.extractXmlChild(elem, 'Items')!, 'StatusCode'),
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final quantity = this.quantity;
+    return {
+      'Items': items,
+      'Quantity': quantity,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
+    final quantity = this.quantity;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       _s.XmlElement(_s.XmlName('Items'), [],
-          items?.map((e) => _s.encodeXmlIntValue('StatusCode', e))),
+          items.map((e) => _s.encodeXmlIntValue('StatusCode', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11098,7 +16198,7 @@ class StatusCodes {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11109,19 +16209,19 @@ class StatusCodes {
 class StreamingDistribution {
   /// The ARN (Amazon Resource Name) for the distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// where <code>123456789012</code> is your account ID.
   final String arn;
 
-  /// A complex type that lists the AWS accounts, if any, that you included in the
+  /// A complex type that lists the accounts, if any, that you included in the
   /// <code>TrustedSigners</code> complex type for this distribution. These are
   /// the accounts that you want to allow to create signed URLs for private
   /// content.
   ///
-  /// The <code>Signer</code> complex type lists the AWS account number of the
-  /// trusted signer or <code>self</code> if the signer is the AWS account that
-  /// created the distribution. The <code>Signer</code> element also includes the
-  /// IDs of any active CloudFront key pairs that are associated with the trusted
-  /// signer's AWS account. If no <code>KeyPairId</code> element appears for a
+  /// The <code>Signer</code> complex type lists the account number of the trusted
+  /// signer or <code>self</code> if the signer is the account that created the
+  /// distribution. The <code>Signer</code> element also includes the IDs of any
+  /// active CloudFront key pairs that are associated with the trusted signer's
+  /// account. If no <code>KeyPairId</code> element appears for a
   /// <code>Signer</code>, that signer can't create signed URLs.
   ///
   /// For more information, see <a
@@ -11147,31 +16247,64 @@ class StreamingDistribution {
   final StreamingDistributionConfig streamingDistributionConfig;
 
   /// The date and time that the distribution was last modified.
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   StreamingDistribution({
-    @_s.required this.arn,
-    @_s.required this.activeTrustedSigners,
-    @_s.required this.domainName,
-    @_s.required this.id,
-    @_s.required this.status,
-    @_s.required this.streamingDistributionConfig,
+    required this.arn,
+    required this.activeTrustedSigners,
+    required this.domainName,
+    required this.id,
+    required this.status,
+    required this.streamingDistributionConfig,
     this.lastModifiedTime,
   });
+
+  factory StreamingDistribution.fromJson(Map<String, dynamic> json) {
+    return StreamingDistribution(
+      arn: json['ARN'] as String,
+      activeTrustedSigners: ActiveTrustedSigners.fromJson(
+          json['ActiveTrustedSigners'] as Map<String, dynamic>),
+      domainName: json['DomainName'] as String,
+      id: json['Id'] as String,
+      status: json['Status'] as String,
+      streamingDistributionConfig: StreamingDistributionConfig.fromJson(
+          json['StreamingDistributionConfig'] as Map<String, dynamic>),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    );
+  }
+
   factory StreamingDistribution.fromXml(_s.XmlElement elem) {
     return StreamingDistribution(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      activeTrustedSigners: _s
-          .extractXmlChild(elem, 'ActiveTrustedSigners')
-          ?.let((e) => ActiveTrustedSigners.fromXml(e)),
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      streamingDistributionConfig: _s
-          .extractXmlChild(elem, 'StreamingDistributionConfig')
-          ?.let((e) => StreamingDistributionConfig.fromXml(e)),
+      arn: _s.extractXmlStringValue(elem, 'ARN')!,
+      activeTrustedSigners: ActiveTrustedSigners.fromXml(
+          _s.extractXmlChild(elem, 'ActiveTrustedSigners')!),
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!,
+      streamingDistributionConfig: StreamingDistributionConfig.fromXml(
+          _s.extractXmlChild(elem, 'StreamingDistributionConfig')!),
       lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final activeTrustedSigners = this.activeTrustedSigners;
+    final domainName = this.domainName;
+    final id = this.id;
+    final status = this.status;
+    final streamingDistributionConfig = this.streamingDistributionConfig;
+    final lastModifiedTime = this.lastModifiedTime;
+    return {
+      'ARN': arn,
+      'ActiveTrustedSigners': activeTrustedSigners,
+      'DomainName': domainName,
+      'Id': id,
+      'Status': status,
+      'StreamingDistributionConfig': streamingDistributionConfig,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+    };
   }
 }
 
@@ -11200,10 +16333,10 @@ class StreamingDistributionConfig {
   /// which you want CloudFront to get your media files for distribution.
   final S3Origin s3Origin;
 
-  /// A complex type that specifies any AWS accounts that you want to permit to
-  /// create signed URLs for private content. If you want the distribution to use
-  /// signed URLs, include this element; if you want the distribution to use
-  /// public URLs, remove this element. For more information, see <a
+  /// A complex type that specifies any accounts that you want to permit to create
+  /// signed URLs for private content. If you want the distribution to use signed
+  /// URLs, include this element; if you want the distribution to use public URLs,
+  /// remove this element. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html">Serving
   /// Private Content through CloudFront</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
@@ -11211,36 +16344,54 @@ class StreamingDistributionConfig {
 
   /// A complex type that contains information about CNAMEs (alternate domain
   /// names), if any, for this streaming distribution.
-  final Aliases aliases;
+  final Aliases? aliases;
 
   /// A complex type that controls whether access logs are written for the
   /// streaming distribution.
-  final StreamingLoggingConfig logging;
+  final StreamingLoggingConfig? logging;
 
   /// A complex type that contains information about price class for this
   /// streaming distribution.
-  final PriceClass priceClass;
+  final PriceClass? priceClass;
 
   StreamingDistributionConfig({
-    @_s.required this.callerReference,
-    @_s.required this.comment,
-    @_s.required this.enabled,
-    @_s.required this.s3Origin,
-    @_s.required this.trustedSigners,
+    required this.callerReference,
+    required this.comment,
+    required this.enabled,
+    required this.s3Origin,
+    required this.trustedSigners,
     this.aliases,
     this.logging,
     this.priceClass,
   });
+
+  factory StreamingDistributionConfig.fromJson(Map<String, dynamic> json) {
+    return StreamingDistributionConfig(
+      callerReference: json['CallerReference'] as String,
+      comment: json['Comment'] as String,
+      enabled: json['Enabled'] as bool,
+      s3Origin: S3Origin.fromJson(json['S3Origin'] as Map<String, dynamic>),
+      trustedSigners: TrustedSigners.fromJson(
+          json['TrustedSigners'] as Map<String, dynamic>),
+      aliases: json['Aliases'] != null
+          ? Aliases.fromJson(json['Aliases'] as Map<String, dynamic>)
+          : null,
+      logging: json['Logging'] != null
+          ? StreamingLoggingConfig.fromJson(
+              json['Logging'] as Map<String, dynamic>)
+          : null,
+      priceClass: (json['PriceClass'] as String?)?.toPriceClass(),
+    );
+  }
+
   factory StreamingDistributionConfig.fromXml(_s.XmlElement elem) {
     return StreamingDistributionConfig(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      s3Origin:
-          _s.extractXmlChild(elem, 'S3Origin')?.let((e) => S3Origin.fromXml(e)),
-      trustedSigners: _s
-          .extractXmlChild(elem, 'TrustedSigners')
-          ?.let((e) => TrustedSigners.fromXml(e)),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      s3Origin: S3Origin.fromXml(_s.extractXmlChild(elem, 'S3Origin')!),
+      trustedSigners:
+          TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
       aliases:
           _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
       logging: _s
@@ -11250,14 +16401,43 @@ class StreamingDistributionConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
+    final enabled = this.enabled;
+    final s3Origin = this.s3Origin;
+    final trustedSigners = this.trustedSigners;
+    final aliases = this.aliases;
+    final logging = this.logging;
+    final priceClass = this.priceClass;
+    return {
+      'CallerReference': callerReference,
+      'Comment': comment,
+      'Enabled': enabled,
+      'S3Origin': s3Origin,
+      'TrustedSigners': trustedSigners,
+      if (aliases != null) 'Aliases': aliases,
+      if (logging != null) 'Logging': logging,
+      if (priceClass != null) 'PriceClass': priceClass.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final comment = this.comment;
+    final enabled = this.enabled;
+    final s3Origin = this.s3Origin;
+    final trustedSigners = this.trustedSigners;
+    final aliases = this.aliases;
+    final logging = this.logging;
+    final priceClass = this.priceClass;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      s3Origin?.toXml('S3Origin'),
-      if (aliases != null) aliases?.toXml('Aliases'),
+      s3Origin.toXml('S3Origin'),
+      if (aliases != null) aliases.toXml('Aliases'),
       _s.encodeXmlStringValue('Comment', comment),
-      if (logging != null) logging?.toXml('Logging'),
-      trustedSigners?.toXml('TrustedSigners'),
+      if (logging != null) logging.toXml('Logging'),
+      trustedSigners.toXml('TrustedSigners'),
       if (priceClass != null)
         _s.encodeXmlStringValue('PriceClass', priceClass.toValue()),
       _s.encodeXmlBoolValue('Enabled', enabled),
@@ -11268,7 +16448,7 @@ class StreamingDistributionConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11283,13 +16463,34 @@ class StreamingDistributionConfigWithTags {
   final Tags tags;
 
   StreamingDistributionConfigWithTags({
-    @_s.required this.streamingDistributionConfig,
-    @_s.required this.tags,
+    required this.streamingDistributionConfig,
+    required this.tags,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory StreamingDistributionConfigWithTags.fromJson(
+      Map<String, dynamic> json) {
+    return StreamingDistributionConfigWithTags(
+      streamingDistributionConfig: StreamingDistributionConfig.fromJson(
+          json['StreamingDistributionConfig'] as Map<String, dynamic>),
+      tags: Tags.fromJson(json['Tags'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamingDistributionConfig = this.streamingDistributionConfig;
+    final tags = this.tags;
+    return {
+      'StreamingDistributionConfig': streamingDistributionConfig,
+      'Tags': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final streamingDistributionConfig = this.streamingDistributionConfig;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
-      streamingDistributionConfig?.toXml('StreamingDistributionConfig'),
-      tags?.toXml('Tags'),
+      streamingDistributionConfig.toXml('StreamingDistributionConfig'),
+      tags.toXml('Tags'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11297,7 +16498,7 @@ class StreamingDistributionConfigWithTags {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11316,33 +16517,49 @@ class StreamingDistributionList {
   /// The value you provided for the <code>MaxItems</code> request parameter.
   final int maxItems;
 
-  /// The number of streaming distributions that were created by the current AWS
+  /// The number of streaming distributions that were created by the current
   /// account.
   final int quantity;
 
   /// A complex type that contains one <code>StreamingDistributionSummary</code>
-  /// element for each distribution that was created by the current AWS account.
-  final List<StreamingDistributionSummary> items;
+  /// element for each distribution that was created by the current account.
+  final List<StreamingDistributionSummary>? items;
 
   /// If <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value you can use for the <code>Marker</code> request
   /// parameter to continue listing your RTMP distributions where they left off.
-  final String nextMarker;
+  final String? nextMarker;
 
   StreamingDistributionList({
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
-    @_s.required this.quantity,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
+    required this.quantity,
     this.items,
     this.nextMarker,
   });
+
+  factory StreamingDistributionList.fromJson(Map<String, dynamic> json) {
+    return StreamingDistributionList(
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as int,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              StreamingDistributionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory StreamingDistributionList.fromXml(_s.XmlElement elem) {
     return StreamingDistributionList(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlIntValue(elem, 'MaxItems'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlIntValue(elem, 'MaxItems')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) => elem
           .findElements('StreamingDistributionSummary')
           .map((c) => StreamingDistributionSummary.fromXml(c))
@@ -11350,13 +16567,30 @@ class StreamingDistributionList {
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final quantity = this.quantity;
+    final items = this.items;
+    final nextMarker = this.nextMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
 /// A summary of the information for a CloudFront streaming distribution.
 class StreamingDistributionSummary {
   /// The ARN (Amazon Resource Name) for the streaming distribution. For example:
   /// <code>arn:aws:cloudfront::123456789012:streaming-distribution/EDFDVBD632BHDS5</code>,
-  /// where <code>123456789012</code> is your AWS account ID.
+  /// where <code>123456789012</code> is your account ID.
   final String arn;
 
   /// A complex type that contains information about CNAMEs (alternate domain
@@ -11393,9 +16627,9 @@ class StreamingDistributionSummary {
   /// throughout the Amazon CloudFront system.
   final String status;
 
-  /// A complex type that specifies the AWS accounts, if any, that you want to
-  /// allow to create signed URLs for private content. If you want to require
-  /// signed URLs in requests for objects in the target origin that match the
+  /// A complex type that specifies the accounts, if any, that you want to allow
+  /// to create signed URLs for private content. If you want to require signed
+  /// URLs in requests for objects in the target origin that match the
   /// <code>PathPattern</code> for this cache behavior, specify <code>true</code>
   /// for <code>Enabled</code>, and specify the applicable values for
   /// <code>Quantity</code> and <code>Items</code>.If you don't want to require
@@ -11414,36 +16648,79 @@ class StreamingDistributionSummary {
   final TrustedSigners trustedSigners;
 
   StreamingDistributionSummary({
-    @_s.required this.arn,
-    @_s.required this.aliases,
-    @_s.required this.comment,
-    @_s.required this.domainName,
-    @_s.required this.enabled,
-    @_s.required this.id,
-    @_s.required this.lastModifiedTime,
-    @_s.required this.priceClass,
-    @_s.required this.s3Origin,
-    @_s.required this.status,
-    @_s.required this.trustedSigners,
+    required this.arn,
+    required this.aliases,
+    required this.comment,
+    required this.domainName,
+    required this.enabled,
+    required this.id,
+    required this.lastModifiedTime,
+    required this.priceClass,
+    required this.s3Origin,
+    required this.status,
+    required this.trustedSigners,
   });
+
+  factory StreamingDistributionSummary.fromJson(Map<String, dynamic> json) {
+    return StreamingDistributionSummary(
+      arn: json['ARN'] as String,
+      aliases: Aliases.fromJson(json['Aliases'] as Map<String, dynamic>),
+      comment: json['Comment'] as String,
+      domainName: json['DomainName'] as String,
+      enabled: json['Enabled'] as bool,
+      id: json['Id'] as String,
+      lastModifiedTime:
+          nonNullableTimeStampFromJson(json['LastModifiedTime'] as Object),
+      priceClass: (json['PriceClass'] as String).toPriceClass(),
+      s3Origin: S3Origin.fromJson(json['S3Origin'] as Map<String, dynamic>),
+      status: json['Status'] as String,
+      trustedSigners: TrustedSigners.fromJson(
+          json['TrustedSigners'] as Map<String, dynamic>),
+    );
+  }
+
   factory StreamingDistributionSummary.fromXml(_s.XmlElement elem) {
     return StreamingDistributionSummary(
-      arn: _s.extractXmlStringValue(elem, 'ARN'),
-      aliases:
-          _s.extractXmlChild(elem, 'Aliases')?.let((e) => Aliases.fromXml(e)),
-      comment: _s.extractXmlStringValue(elem, 'Comment'),
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime'),
-      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')?.toPriceClass(),
-      s3Origin:
-          _s.extractXmlChild(elem, 'S3Origin')?.let((e) => S3Origin.fromXml(e)),
-      status: _s.extractXmlStringValue(elem, 'Status'),
-      trustedSigners: _s
-          .extractXmlChild(elem, 'TrustedSigners')
-          ?.let((e) => TrustedSigners.fromXml(e)),
+      arn: _s.extractXmlStringValue(elem, 'ARN')!,
+      aliases: Aliases.fromXml(_s.extractXmlChild(elem, 'Aliases')!),
+      comment: _s.extractXmlStringValue(elem, 'Comment')!,
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      lastModifiedTime: _s.extractXmlDateTimeValue(elem, 'LastModifiedTime')!,
+      priceClass: _s.extractXmlStringValue(elem, 'PriceClass')!.toPriceClass(),
+      s3Origin: S3Origin.fromXml(_s.extractXmlChild(elem, 'S3Origin')!),
+      status: _s.extractXmlStringValue(elem, 'Status')!,
+      trustedSigners:
+          TrustedSigners.fromXml(_s.extractXmlChild(elem, 'TrustedSigners')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final aliases = this.aliases;
+    final comment = this.comment;
+    final domainName = this.domainName;
+    final enabled = this.enabled;
+    final id = this.id;
+    final lastModifiedTime = this.lastModifiedTime;
+    final priceClass = this.priceClass;
+    final s3Origin = this.s3Origin;
+    final status = this.status;
+    final trustedSigners = this.trustedSigners;
+    return {
+      'ARN': arn,
+      'Aliases': aliases,
+      'Comment': comment,
+      'DomainName': domainName,
+      'Enabled': enabled,
+      'Id': id,
+      'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      'PriceClass': priceClass.toValue(),
+      'S3Origin': s3Origin,
+      'Status': status,
+      'TrustedSigners': trustedSigners,
+    };
   }
 }
 
@@ -11472,19 +16749,42 @@ class StreamingLoggingConfig {
   final String prefix;
 
   StreamingLoggingConfig({
-    @_s.required this.bucket,
-    @_s.required this.enabled,
-    @_s.required this.prefix,
+    required this.bucket,
+    required this.enabled,
+    required this.prefix,
   });
-  factory StreamingLoggingConfig.fromXml(_s.XmlElement elem) {
+
+  factory StreamingLoggingConfig.fromJson(Map<String, dynamic> json) {
     return StreamingLoggingConfig(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      bucket: json['Bucket'] as String,
+      enabled: json['Enabled'] as bool,
+      prefix: json['Prefix'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory StreamingLoggingConfig.fromXml(_s.XmlElement elem) {
+    return StreamingLoggingConfig(
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      prefix: _s.extractXmlStringValue(elem, 'Prefix')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final enabled = this.enabled;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      'Enabled': enabled,
+      'Prefix': prefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final enabled = this.enabled;
+    final prefix = this.prefix;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlStringValue('Bucket', bucket),
@@ -11496,7 +16796,7 @@ class StreamingLoggingConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11516,20 +16816,39 @@ class Tag {
   /// The string length should be between 0 and 256 characters. Valid characters
   /// include <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, space, and the
   /// special characters <code>_ - . : / = + @</code>.
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       if (value != null) _s.encodeXmlStringValue('Value', value),
@@ -11540,7 +16859,7 @@ class Tag {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11548,12 +16867,30 @@ class Tag {
 /// A complex type that contains zero or more <code>Tag</code> elements.
 class TagKeys {
   /// A complex type that contains <code>Tag</code> key elements.
-  final List<String> items;
+  final List<String>? items;
 
   TagKeys({
     this.items,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory TagKeys.fromJson(Map<String, dynamic> json) {
+    return TagKeys(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    return {
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
     final $children = <_s.XmlNode>[
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
@@ -11565,7 +16902,7 @@ class TagKeys {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11573,11 +16910,21 @@ class TagKeys {
 /// A complex type that contains zero or more <code>Tag</code> elements.
 class Tags {
   /// A complex type that contains <code>Tag</code> elements.
-  final List<Tag> items;
+  final List<Tag>? items;
 
   Tags({
     this.items,
   });
+
+  factory Tags.fromJson(Map<String, dynamic> json) {
+    return Tags(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory Tags.fromXml(_s.XmlElement elem) {
     return Tags(
       items: _s.extractXmlChild(elem, 'Items')?.let((elem) =>
@@ -11585,11 +16932,19 @@ class Tags {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    return {
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final items = this.items;
     final $children = <_s.XmlNode>[
       if (items != null)
         _s.XmlElement(
-            _s.XmlName('Items'), [], items.map((e) => e?.toXml('Tag'))),
+            _s.XmlName('Items'), [], items.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11597,8 +16952,181 @@ class Tags {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
+  }
+}
+
+class TestFunctionRequest {
+  /// The event object to test the function with. For more information about the
+  /// structure of the event object, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/managing-functions.html#test-function">Testing
+  /// functions</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  final Uint8List eventObject;
+
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// testing, which you can get using <code>DescribeFunction</code>.
+  final String ifMatch;
+
+  /// The name of the function that you are testing.
+  final String name;
+
+  /// The stage of the function that you are testing, either
+  /// <code>DEVELOPMENT</code> or <code>LIVE</code>.
+  final FunctionStage? stage;
+
+  TestFunctionRequest({
+    required this.eventObject,
+    required this.ifMatch,
+    required this.name,
+    this.stage,
+  });
+
+  factory TestFunctionRequest.fromJson(Map<String, dynamic> json) {
+    return TestFunctionRequest(
+      eventObject: _s.decodeUint8List(json['EventObject']! as String),
+      ifMatch: json['If-Match'] as String,
+      name: json['Name'] as String,
+      stage: (json['Stage'] as String?)?.toFunctionStage(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventObject = this.eventObject;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    final stage = this.stage;
+    return {
+      'EventObject': base64Encode(eventObject),
+      if (stage != null) 'Stage': stage.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eventObject = this.eventObject;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    final stage = this.stage;
+    final $children = <_s.XmlNode>[
+      if (stage != null) _s.encodeXmlStringValue('Stage', stage.toValue()),
+      _s.encodeXmlUint8ListValue('EventObject', eventObject),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class TestFunctionResult {
+  /// An object that represents the result of running the function with the
+  /// provided event object.
+  final TestResult? testResult;
+
+  TestFunctionResult({
+    this.testResult,
+  });
+
+  factory TestFunctionResult.fromJson(Map<String, dynamic> json) {
+    return TestFunctionResult(
+      testResult: json['TestResult'] != null
+          ? TestResult.fromJson(json['TestResult'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final testResult = this.testResult;
+    return {
+      if (testResult != null) 'TestResult': testResult,
+    };
+  }
+}
+
+/// Contains the result of testing a CloudFront function with
+/// <code>TestFunction</code>.
+class TestResult {
+  /// The amount of time that the function took to run as a percentage of the
+  /// maximum allowed time. For example, a compute utilization of 35 means that
+  /// the function completed in 35% of the maximum allowed time.
+  final String? computeUtilization;
+
+  /// If the result of testing the function was an error, this field contains the
+  /// error message.
+  final String? functionErrorMessage;
+
+  /// Contains the log lines that the function wrote (if any) when running the
+  /// test.
+  final List<String>? functionExecutionLogs;
+
+  /// The event object returned by the function. For more information about the
+  /// structure of the event object, see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/functions-event-structure.html">Event
+  /// object structure</a> in the <i>Amazon CloudFront Developer Guide</i>.
+  final String? functionOutput;
+
+  /// Contains configuration information and metadata about the CloudFront
+  /// function that was tested.
+  final FunctionSummary? functionSummary;
+
+  TestResult({
+    this.computeUtilization,
+    this.functionErrorMessage,
+    this.functionExecutionLogs,
+    this.functionOutput,
+    this.functionSummary,
+  });
+
+  factory TestResult.fromJson(Map<String, dynamic> json) {
+    return TestResult(
+      computeUtilization: json['ComputeUtilization'] as String?,
+      functionErrorMessage: json['FunctionErrorMessage'] as String?,
+      functionExecutionLogs: (json['FunctionExecutionLogs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      functionOutput: json['FunctionOutput'] as String?,
+      functionSummary: json['FunctionSummary'] != null
+          ? FunctionSummary.fromJson(
+              json['FunctionSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  factory TestResult.fromXml(_s.XmlElement elem) {
+    return TestResult(
+      computeUtilization: _s.extractXmlStringValue(elem, 'ComputeUtilization'),
+      functionErrorMessage:
+          _s.extractXmlStringValue(elem, 'FunctionErrorMessage'),
+      functionExecutionLogs: _s
+          .extractXmlChild(elem, 'FunctionExecutionLogs')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      functionOutput: _s.extractXmlStringValue(elem, 'FunctionOutput'),
+      functionSummary: _s
+          .extractXmlChild(elem, 'FunctionSummary')
+          ?.let((e) => FunctionSummary.fromXml(e)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeUtilization = this.computeUtilization;
+    final functionErrorMessage = this.functionErrorMessage;
+    final functionExecutionLogs = this.functionExecutionLogs;
+    final functionOutput = this.functionOutput;
+    final functionSummary = this.functionSummary;
+    return {
+      if (computeUtilization != null) 'ComputeUtilization': computeUtilization,
+      if (functionErrorMessage != null)
+        'FunctionErrorMessage': functionErrorMessage,
+      if (functionExecutionLogs != null)
+        'FunctionExecutionLogs': functionExecutionLogs,
+      if (functionOutput != null) 'FunctionOutput': functionOutput,
+      if (functionSummary != null) 'FunctionSummary': functionSummary,
+    };
   }
 }
 
@@ -11614,24 +17142,50 @@ class TrustedKeyGroups {
   final int quantity;
 
   /// A list of key groups identifiers.
-  final List<String> items;
+  final List<String>? items;
 
   TrustedKeyGroups({
-    @_s.required this.enabled,
-    @_s.required this.quantity,
+    required this.enabled,
+    required this.quantity,
     this.items,
   });
+
+  factory TrustedKeyGroups.fromJson(Map<String, dynamic> json) {
+    return TrustedKeyGroups(
+      enabled: json['Enabled'] as bool,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory TrustedKeyGroups.fromXml(_s.XmlElement elem) {
     return TrustedKeyGroups(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s
           .extractXmlChild(elem, 'Items')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'KeyGroup')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Enabled': enabled,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlIntValue('Quantity', quantity),
@@ -11645,40 +17199,66 @@ class TrustedKeyGroups {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
-/// A list of AWS accounts whose public keys CloudFront can use to verify the
+/// A list of accounts whose public keys CloudFront can use to verify the
 /// signatures of signed URLs and signed cookies.
 class TrustedSigners {
-  /// This field is <code>true</code> if any of the AWS accounts have public keys
-  /// that CloudFront can use to verify the signatures of signed URLs and signed
+  /// This field is <code>true</code> if any of the accounts have public keys that
+  /// CloudFront can use to verify the signatures of signed URLs and signed
   /// cookies. If not, this field is <code>false</code>.
   final bool enabled;
 
-  /// The number of AWS accounts in the list.
+  /// The number of accounts in the list.
   final int quantity;
 
-  /// A list of AWS account identifiers.
-  final List<String> items;
+  /// A list of account identifiers.
+  final List<String>? items;
 
   TrustedSigners({
-    @_s.required this.enabled,
-    @_s.required this.quantity,
+    required this.enabled,
+    required this.quantity,
     this.items,
   });
+
+  factory TrustedSigners.fromJson(Map<String, dynamic> json) {
+    return TrustedSigners(
+      enabled: json['Enabled'] as bool,
+      quantity: json['Quantity'] as int,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory TrustedSigners.fromXml(_s.XmlElement elem) {
     return TrustedSigners(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
-      quantity: _s.extractXmlIntValue(elem, 'Quantity'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+      quantity: _s.extractXmlIntValue(elem, 'Quantity')!,
       items: _s.extractXmlChild(elem, 'Items')?.let(
           (elem) => _s.extractXmlStringListValues(elem, 'AwsAccountNumber')),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final quantity = this.quantity;
+    final items = this.items;
+    return {
+      'Enabled': enabled,
+      'Quantity': quantity,
+      if (items != null) 'Items': items,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
+    final quantity = this.quantity;
+    final items = this.items;
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlIntValue('Quantity', quantity),
@@ -11692,127 +17272,372 @@ class TrustedSigners {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class UpdateCachePolicyResult {
   /// A cache policy.
-  final CachePolicy cachePolicy;
+  final CachePolicy? cachePolicy;
 
   /// The current version of the cache policy.
-  final String eTag;
+  final String? eTag;
 
   UpdateCachePolicyResult({
     this.cachePolicy,
     this.eTag,
   });
+
+  factory UpdateCachePolicyResult.fromJson(Map<String, dynamic> json) {
+    return UpdateCachePolicyResult(
+      cachePolicy: json['CachePolicy'] != null
+          ? CachePolicy.fromJson(json['CachePolicy'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cachePolicy = this.cachePolicy;
+    final eTag = this.eTag;
+    return {
+      if (cachePolicy != null) 'CachePolicy': cachePolicy,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class UpdateCloudFrontOriginAccessIdentityResult {
   /// The origin access identity's information.
-  final CloudFrontOriginAccessIdentity cloudFrontOriginAccessIdentity;
+  final CloudFrontOriginAccessIdentity? cloudFrontOriginAccessIdentity;
 
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   UpdateCloudFrontOriginAccessIdentityResult({
     this.cloudFrontOriginAccessIdentity,
     this.eTag,
   });
+
+  factory UpdateCloudFrontOriginAccessIdentityResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateCloudFrontOriginAccessIdentityResult(
+      cloudFrontOriginAccessIdentity: json['CloudFrontOriginAccessIdentity'] !=
+              null
+          ? CloudFrontOriginAccessIdentity.fromJson(
+              json['CloudFrontOriginAccessIdentity'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFrontOriginAccessIdentity = this.cloudFrontOriginAccessIdentity;
+    final eTag = this.eTag;
+    return {
+      if (cloudFrontOriginAccessIdentity != null)
+        'CloudFrontOriginAccessIdentity': cloudFrontOriginAccessIdentity,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class UpdateDistributionResult {
   /// The distribution's information.
-  final Distribution distribution;
+  final Distribution? distribution;
 
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   UpdateDistributionResult({
     this.distribution,
     this.eTag,
   });
+
+  factory UpdateDistributionResult.fromJson(Map<String, dynamic> json) {
+    return UpdateDistributionResult(
+      distribution: json['Distribution'] != null
+          ? Distribution.fromJson(json['Distribution'] as Map<String, dynamic>)
+          : null,
+      eTag: json['ETag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final distribution = this.distribution;
+    final eTag = this.eTag;
+    return {
+      if (distribution != null) 'Distribution': distribution,
+    };
+  }
 }
 
 class UpdateFieldLevelEncryptionConfigResult {
   /// The value of the <code>ETag</code> header that you received when updating
   /// the configuration. For example: <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// Return the results of updating the configuration.
-  final FieldLevelEncryption fieldLevelEncryption;
+  final FieldLevelEncryption? fieldLevelEncryption;
 
   UpdateFieldLevelEncryptionConfigResult({
     this.eTag,
     this.fieldLevelEncryption,
   });
+
+  factory UpdateFieldLevelEncryptionConfigResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateFieldLevelEncryptionConfigResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryption: json['FieldLevelEncryption'] != null
+          ? FieldLevelEncryption.fromJson(
+              json['FieldLevelEncryption'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryption = this.fieldLevelEncryption;
+    return {
+      if (fieldLevelEncryption != null)
+        'FieldLevelEncryption': fieldLevelEncryption,
+    };
+  }
 }
 
 class UpdateFieldLevelEncryptionProfileResult {
   /// The result of the field-level encryption profile request.
-  final String eTag;
+  final String? eTag;
 
   /// Return the results of updating the profile.
-  final FieldLevelEncryptionProfile fieldLevelEncryptionProfile;
+  final FieldLevelEncryptionProfile? fieldLevelEncryptionProfile;
 
   UpdateFieldLevelEncryptionProfileResult({
     this.eTag,
     this.fieldLevelEncryptionProfile,
   });
+
+  factory UpdateFieldLevelEncryptionProfileResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateFieldLevelEncryptionProfileResult(
+      eTag: json['ETag'] as String?,
+      fieldLevelEncryptionProfile: json['FieldLevelEncryptionProfile'] != null
+          ? FieldLevelEncryptionProfile.fromJson(
+              json['FieldLevelEncryptionProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final fieldLevelEncryptionProfile = this.fieldLevelEncryptionProfile;
+    return {
+      if (fieldLevelEncryptionProfile != null)
+        'FieldLevelEncryptionProfile': fieldLevelEncryptionProfile,
+    };
+  }
+}
+
+class UpdateFunctionRequest {
+  /// The function code. For more information about writing a CloudFront function,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html">Writing
+  /// function code for CloudFront Functions</a> in the <i>Amazon CloudFront
+  /// Developer Guide</i>.
+  final Uint8List functionCode;
+
+  /// Configuration information about the function.
+  final FunctionConfig functionConfig;
+
+  /// The current version (<code>ETag</code> value) of the function that you are
+  /// updating, which you can get using <code>DescribeFunction</code>.
+  final String ifMatch;
+
+  /// The name of the function that you are updating.
+  final String name;
+
+  UpdateFunctionRequest({
+    required this.functionCode,
+    required this.functionConfig,
+    required this.ifMatch,
+    required this.name,
+  });
+
+  factory UpdateFunctionRequest.fromJson(Map<String, dynamic> json) {
+    return UpdateFunctionRequest(
+      functionCode: _s.decodeUint8List(json['FunctionCode']! as String),
+      functionConfig: FunctionConfig.fromJson(
+          json['FunctionConfig'] as Map<String, dynamic>),
+      ifMatch: json['If-Match'] as String,
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionCode = this.functionCode;
+    final functionConfig = this.functionConfig;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    return {
+      'FunctionCode': base64Encode(functionCode),
+      'FunctionConfig': functionConfig,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final functionCode = this.functionCode;
+    final functionConfig = this.functionConfig;
+    final ifMatch = this.ifMatch;
+    final name = this.name;
+    final $children = <_s.XmlNode>[
+      functionConfig.toXml('FunctionConfig'),
+      _s.encodeXmlUint8ListValue('FunctionCode', functionCode),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children,
+    );
+  }
+}
+
+class UpdateFunctionResult {
+  /// The version identifier for the current version of the CloudFront function.
+  final String? eTag;
+
+  /// Contains configuration information and metadata about a CloudFront function.
+  final FunctionSummary? functionSummary;
+
+  UpdateFunctionResult({
+    this.eTag,
+    this.functionSummary,
+  });
+
+  factory UpdateFunctionResult.fromJson(Map<String, dynamic> json) {
+    return UpdateFunctionResult(
+      eTag: json['ETtag'] as String?,
+      functionSummary: json['FunctionSummary'] != null
+          ? FunctionSummary.fromJson(
+              json['FunctionSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final functionSummary = this.functionSummary;
+    return {
+      if (functionSummary != null) 'FunctionSummary': functionSummary,
+    };
+  }
 }
 
 class UpdateKeyGroupResult {
   /// The identifier for this version of the key group.
-  final String eTag;
+  final String? eTag;
 
   /// The key group that was just updated.
-  final KeyGroup keyGroup;
+  final KeyGroup? keyGroup;
 
   UpdateKeyGroupResult({
     this.eTag,
     this.keyGroup,
   });
+
+  factory UpdateKeyGroupResult.fromJson(Map<String, dynamic> json) {
+    return UpdateKeyGroupResult(
+      eTag: json['ETag'] as String?,
+      keyGroup: json['KeyGroup'] != null
+          ? KeyGroup.fromJson(json['KeyGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final keyGroup = this.keyGroup;
+    return {
+      if (keyGroup != null) 'KeyGroup': keyGroup,
+    };
+  }
 }
 
 class UpdateOriginRequestPolicyResult {
   /// The current version of the origin request policy.
-  final String eTag;
+  final String? eTag;
 
   /// An origin request policy.
-  final OriginRequestPolicy originRequestPolicy;
+  final OriginRequestPolicy? originRequestPolicy;
 
   UpdateOriginRequestPolicyResult({
     this.eTag,
     this.originRequestPolicy,
   });
+
+  factory UpdateOriginRequestPolicyResult.fromJson(Map<String, dynamic> json) {
+    return UpdateOriginRequestPolicyResult(
+      eTag: json['ETag'] as String?,
+      originRequestPolicy: json['OriginRequestPolicy'] != null
+          ? OriginRequestPolicy.fromJson(
+              json['OriginRequestPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final originRequestPolicy = this.originRequestPolicy;
+    return {
+      if (originRequestPolicy != null)
+        'OriginRequestPolicy': originRequestPolicy,
+    };
+  }
 }
 
 class UpdatePublicKeyResult {
   /// The identifier of the current version of the public key.
-  final String eTag;
+  final String? eTag;
 
   /// The public key.
-  final PublicKey publicKey;
+  final PublicKey? publicKey;
 
   UpdatePublicKeyResult({
     this.eTag,
     this.publicKey,
   });
+
+  factory UpdatePublicKeyResult.fromJson(Map<String, dynamic> json) {
+    return UpdatePublicKeyResult(
+      eTag: json['ETag'] as String?,
+      publicKey: json['PublicKey'] != null
+          ? PublicKey.fromJson(json['PublicKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final publicKey = this.publicKey;
+    return {
+      if (publicKey != null) 'PublicKey': publicKey,
+    };
+  }
 }
 
 class UpdateRealtimeLogConfigRequest {
   /// The Amazon Resource Name (ARN) for this real-time log configuration.
-  final String arn;
+  final String? arn;
 
   /// Contains information about the Amazon Kinesis data stream where you are
   /// sending real-time log data.
-  final List<EndPoint> endPoints;
+  final List<EndPoint>? endPoints;
 
   /// A list of fields to include in each real-time log record.
   ///
@@ -11820,16 +17645,16 @@ class UpdateRealtimeLogConfigRequest {
   /// href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html#understand-real-time-log-config-fields">Real-time
   /// log configuration fields</a> in the <i>Amazon CloudFront Developer
   /// Guide</i>.
-  final List<String> fields;
+  final List<String>? fields;
 
   /// The name for this real-time log configuration.
-  final String name;
+  final String? name;
 
   /// The sampling rate for this real-time log configuration. The sampling rate
   /// determines the percentage of viewer requests that are represented in the
   /// real-time log data. You must provide an integer between 1 and 100,
   /// inclusive.
-  final int samplingRate;
+  final int? samplingRate;
 
   UpdateRealtimeLogConfigRequest({
     this.arn,
@@ -11838,11 +17663,48 @@ class UpdateRealtimeLogConfigRequest {
     this.name,
     this.samplingRate,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory UpdateRealtimeLogConfigRequest.fromJson(Map<String, dynamic> json) {
+    return UpdateRealtimeLogConfigRequest(
+      arn: json['ARN'] as String?,
+      endPoints: (json['EndPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => EndPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fields: (json['Fields'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      samplingRate: json['SamplingRate'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final endPoints = this.endPoints;
+    final fields = this.fields;
+    final name = this.name;
+    final samplingRate = this.samplingRate;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (endPoints != null) 'EndPoints': endPoints,
+      if (fields != null) 'Fields': fields,
+      if (name != null) 'Name': name,
+      if (samplingRate != null) 'SamplingRate': samplingRate,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final arn = this.arn;
+    final endPoints = this.endPoints;
+    final fields = this.fields;
+    final name = this.name;
+    final samplingRate = this.samplingRate;
     final $children = <_s.XmlNode>[
       if (endPoints != null)
         _s.XmlElement(_s.XmlName('EndPoints'), [],
-            endPoints.map((e) => e?.toXml('member'))),
+            endPoints.map((e) => e.toXml('member'))),
       if (fields != null)
         _s.XmlElement(_s.XmlName('Fields'), [],
             fields.map((e) => _s.encodeXmlStringValue('Field', e))),
@@ -11857,18 +17719,28 @@ class UpdateRealtimeLogConfigRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class UpdateRealtimeLogConfigResult {
   /// A real-time log configuration.
-  final RealtimeLogConfig realtimeLogConfig;
+  final RealtimeLogConfig? realtimeLogConfig;
 
   UpdateRealtimeLogConfigResult({
     this.realtimeLogConfig,
   });
+
+  factory UpdateRealtimeLogConfigResult.fromJson(Map<String, dynamic> json) {
+    return UpdateRealtimeLogConfigResult(
+      realtimeLogConfig: json['RealtimeLogConfig'] != null
+          ? RealtimeLogConfig.fromJson(
+              json['RealtimeLogConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory UpdateRealtimeLogConfigResult.fromXml(_s.XmlElement elem) {
     return UpdateRealtimeLogConfigResult(
       realtimeLogConfig: _s
@@ -11876,21 +17748,48 @@ class UpdateRealtimeLogConfigResult {
           ?.let((e) => RealtimeLogConfig.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final realtimeLogConfig = this.realtimeLogConfig;
+    return {
+      if (realtimeLogConfig != null) 'RealtimeLogConfig': realtimeLogConfig,
+    };
+  }
 }
 
 /// The returned result of the corresponding request.
 class UpdateStreamingDistributionResult {
   /// The current version of the configuration. For example:
   /// <code>E2QWRUHAPOMQZL</code>.
-  final String eTag;
+  final String? eTag;
 
   /// The streaming distribution's information.
-  final StreamingDistribution streamingDistribution;
+  final StreamingDistribution? streamingDistribution;
 
   UpdateStreamingDistributionResult({
     this.eTag,
     this.streamingDistribution,
   });
+
+  factory UpdateStreamingDistributionResult.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateStreamingDistributionResult(
+      eTag: json['ETag'] as String?,
+      streamingDistribution: json['StreamingDistribution'] != null
+          ? StreamingDistribution.fromJson(
+              json['StreamingDistribution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final streamingDistribution = this.streamingDistribution;
+    return {
+      if (streamingDistribution != null)
+        'StreamingDistribution': streamingDistribution,
+    };
+  }
 }
 
 /// A complex type that determines the distribution’s SSL/TLS configuration for
@@ -11935,11 +17834,11 @@ class UpdateStreamingDistributionResult {
 /// </li>
 /// <li>
 /// The location of the SSL/TLS certificate, <a
-/// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">AWS
-/// Certificate Manager (ACM)</a> (recommended) or <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">AWS
-/// Identity and Access Management (AWS IAM)</a>. You specify the location by
-/// setting a value in one of the following fields (not both):
+/// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">Certificate
+/// Manager (ACM)</a> (recommended) or <a
+/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Identity
+/// and Access Management (IAM)</a>. You specify the location by setting a value
+/// in one of the following fields (not both):
 ///
 /// <ul>
 /// <li>
@@ -11966,14 +17865,14 @@ class UpdateStreamingDistributionResult {
 class ViewerCertificate {
   /// If the distribution uses <code>Aliases</code> (alternate domain names or
   /// CNAMEs) and the SSL/TLS certificate is stored in <a
-  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">AWS
-  /// Certificate Manager (ACM)</a>, provide the Amazon Resource Name (ARN) of the
-  /// ACM certificate. CloudFront only supports ACM certificates in the US East
-  /// (N. Virginia) Region (<code>us-east-1</code>).
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html">Certificate
+  /// Manager (ACM)</a>, provide the Amazon Resource Name (ARN) of the ACM
+  /// certificate. CloudFront only supports ACM certificates in the US East (N.
+  /// Virginia) Region (<code>us-east-1</code>).
   ///
   /// If you specify an ACM certificate ARN, you must also specify values for
   /// <code>MinimumProtocolVersion</code> and <code>SSLSupportMethod</code>.
-  final String aCMCertificateArn;
+  final String? aCMCertificateArn;
 
   /// This field is deprecated. Use one of the following fields instead:
   ///
@@ -11988,7 +17887,7 @@ class ViewerCertificate {
   /// <code>CloudFrontDefaultCertificate</code>
   /// </li>
   /// </ul>
-  final String certificate;
+  final String? certificate;
 
   /// This field is deprecated. Use one of the following fields instead:
   ///
@@ -12003,7 +17902,7 @@ class ViewerCertificate {
   /// <code>CloudFrontDefaultCertificate</code>
   /// </li>
   /// </ul>
-  final CertificateSource certificateSource;
+  final CertificateSource? certificateSource;
 
   /// If the distribution uses the CloudFront domain name such as
   /// <code>d111111abcdef8.cloudfront.net</code>, set this field to
@@ -12025,17 +17924,16 @@ class ViewerCertificate {
   /// <code>SSLSupportMethod</code>
   /// </li>
   /// </ul>
-  final bool cloudFrontDefaultCertificate;
+  final bool? cloudFrontDefaultCertificate;
 
   /// If the distribution uses <code>Aliases</code> (alternate domain names or
   /// CNAMEs) and the SSL/TLS certificate is stored in <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">AWS
-  /// Identity and Access Management (AWS IAM)</a>, provide the ID of the IAM
-  /// certificate.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Identity
+  /// and Access Management (IAM)</a>, provide the ID of the IAM certificate.
   ///
   /// If you specify an IAM certificate ID, you must also specify values for
   /// <code>MinimumProtocolVersion</code> and <code>SSLSupportMethod</code>.
-  final String iAMCertificateId;
+  final String? iAMCertificateId;
 
   /// If the distribution uses <code>Aliases</code> (alternate domain names or
   /// CNAMEs), specify the security policy that you want CloudFront to use for
@@ -12068,7 +17966,7 @@ class ViewerCertificate {
   /// <code>CloudFrontDefaultCertificate</code> to <code>true</code>), CloudFront
   /// automatically sets the security policy to <code>TLSv1</code> regardless of
   /// the value that you set here.
-  final MinimumProtocolVersion minimumProtocolVersion;
+  final MinimumProtocolVersion? minimumProtocolVersion;
 
   /// If the distribution uses <code>Aliases</code> (alternate domain names or
   /// CNAMEs), specify which viewers the distribution accepts HTTPS connections
@@ -12092,13 +17990,14 @@ class ViewerCertificate {
   /// has been enabled for this feature by the CloudFront team. If you have a use
   /// case that requires static IP addresses for a distribution, contact
   /// CloudFront through the <a
-  /// href="https://console.aws.amazon.com/support/home">AWS Support Center</a>.
+  /// href="https://console.aws.amazon.com/support/home">Amazon Web Services
+  /// Support Center</a>.
   /// </li>
   /// </ul>
   /// If the distribution uses the CloudFront domain name such as
   /// <code>d111111abcdef8.cloudfront.net</code>, don’t set a value for this
   /// field.
-  final SSLSupportMethod sSLSupportMethod;
+  final SSLSupportMethod? sSLSupportMethod;
 
   ViewerCertificate({
     this.aCMCertificateArn,
@@ -12109,6 +18008,23 @@ class ViewerCertificate {
     this.minimumProtocolVersion,
     this.sSLSupportMethod,
   });
+
+  factory ViewerCertificate.fromJson(Map<String, dynamic> json) {
+    return ViewerCertificate(
+      aCMCertificateArn: json['ACMCertificateArn'] as String?,
+      certificate: json['Certificate'] as String?,
+      certificateSource:
+          (json['CertificateSource'] as String?)?.toCertificateSource(),
+      cloudFrontDefaultCertificate:
+          json['CloudFrontDefaultCertificate'] as bool?,
+      iAMCertificateId: json['IAMCertificateId'] as String?,
+      minimumProtocolVersion: (json['MinimumProtocolVersion'] as String?)
+          ?.toMinimumProtocolVersion(),
+      sSLSupportMethod:
+          (json['SSLSupportMethod'] as String?)?.toSSLSupportMethod(),
+    );
+  }
+
   factory ViewerCertificate.fromXml(_s.XmlElement elem) {
     return ViewerCertificate(
       aCMCertificateArn: _s.extractXmlStringValue(elem, 'ACMCertificateArn'),
@@ -12128,7 +18044,37 @@ class ViewerCertificate {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final aCMCertificateArn = this.aCMCertificateArn;
+    final certificate = this.certificate;
+    final certificateSource = this.certificateSource;
+    final cloudFrontDefaultCertificate = this.cloudFrontDefaultCertificate;
+    final iAMCertificateId = this.iAMCertificateId;
+    final minimumProtocolVersion = this.minimumProtocolVersion;
+    final sSLSupportMethod = this.sSLSupportMethod;
+    return {
+      if (aCMCertificateArn != null) 'ACMCertificateArn': aCMCertificateArn,
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateSource != null)
+        'CertificateSource': certificateSource.toValue(),
+      if (cloudFrontDefaultCertificate != null)
+        'CloudFrontDefaultCertificate': cloudFrontDefaultCertificate,
+      if (iAMCertificateId != null) 'IAMCertificateId': iAMCertificateId,
+      if (minimumProtocolVersion != null)
+        'MinimumProtocolVersion': minimumProtocolVersion.toValue(),
+      if (sSLSupportMethod != null)
+        'SSLSupportMethod': sSLSupportMethod.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final aCMCertificateArn = this.aCMCertificateArn;
+    final certificate = this.certificate;
+    final certificateSource = this.certificateSource;
+    final cloudFrontDefaultCertificate = this.cloudFrontDefaultCertificate;
+    final iAMCertificateId = this.iAMCertificateId;
+    final minimumProtocolVersion = this.minimumProtocolVersion;
+    final sSLSupportMethod = this.sSLSupportMethod;
     final $children = <_s.XmlNode>[
       if (cloudFrontDefaultCertificate != null)
         _s.encodeXmlBoolValue(
@@ -12154,7 +18100,7 @@ class ViewerCertificate {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12175,7 +18121,6 @@ extension on ViewerProtocolPolicy {
       case ViewerProtocolPolicy.redirectToHttps:
         return 'redirect-to-https';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12189,37 +18134,37 @@ extension on String {
       case 'redirect-to-https':
         return ViewerProtocolPolicy.redirectToHttps;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ViewerProtocolPolicy');
   }
 }
 
 class AccessDenied extends _s.GenericAwsException {
-  AccessDenied({String type, String message})
+  AccessDenied({String? type, String? message})
       : super(type: type, code: 'AccessDenied', message: message);
 }
 
 class BatchTooLarge extends _s.GenericAwsException {
-  BatchTooLarge({String type, String message})
+  BatchTooLarge({String? type, String? message})
       : super(type: type, code: 'BatchTooLarge', message: message);
 }
 
 class CNAMEAlreadyExists extends _s.GenericAwsException {
-  CNAMEAlreadyExists({String type, String message})
+  CNAMEAlreadyExists({String? type, String? message})
       : super(type: type, code: 'CNAMEAlreadyExists', message: message);
 }
 
 class CachePolicyAlreadyExists extends _s.GenericAwsException {
-  CachePolicyAlreadyExists({String type, String message})
+  CachePolicyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'CachePolicyAlreadyExists', message: message);
 }
 
 class CachePolicyInUse extends _s.GenericAwsException {
-  CachePolicyInUse({String type, String message})
+  CachePolicyInUse({String? type, String? message})
       : super(type: type, code: 'CachePolicyInUse', message: message);
 }
 
 class CannotChangeImmutablePublicKeyFields extends _s.GenericAwsException {
-  CannotChangeImmutablePublicKeyFields({String type, String message})
+  CannotChangeImmutablePublicKeyFields({String? type, String? message})
       : super(
             type: type,
             code: 'CannotChangeImmutablePublicKeyFields',
@@ -12228,7 +18173,7 @@ class CannotChangeImmutablePublicKeyFields extends _s.GenericAwsException {
 
 class CloudFrontOriginAccessIdentityAlreadyExists
     extends _s.GenericAwsException {
-  CloudFrontOriginAccessIdentityAlreadyExists({String type, String message})
+  CloudFrontOriginAccessIdentityAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'CloudFrontOriginAccessIdentityAlreadyExists',
@@ -12236,7 +18181,7 @@ class CloudFrontOriginAccessIdentityAlreadyExists
 }
 
 class CloudFrontOriginAccessIdentityInUse extends _s.GenericAwsException {
-  CloudFrontOriginAccessIdentityInUse({String type, String message})
+  CloudFrontOriginAccessIdentityInUse({String? type, String? message})
       : super(
             type: type,
             code: 'CloudFrontOriginAccessIdentityInUse',
@@ -12244,17 +18189,17 @@ class CloudFrontOriginAccessIdentityInUse extends _s.GenericAwsException {
 }
 
 class DistributionAlreadyExists extends _s.GenericAwsException {
-  DistributionAlreadyExists({String type, String message})
+  DistributionAlreadyExists({String? type, String? message})
       : super(type: type, code: 'DistributionAlreadyExists', message: message);
 }
 
 class DistributionNotDisabled extends _s.GenericAwsException {
-  DistributionNotDisabled({String type, String message})
+  DistributionNotDisabled({String? type, String? message})
       : super(type: type, code: 'DistributionNotDisabled', message: message);
 }
 
 class FieldLevelEncryptionConfigAlreadyExists extends _s.GenericAwsException {
-  FieldLevelEncryptionConfigAlreadyExists({String type, String message})
+  FieldLevelEncryptionConfigAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'FieldLevelEncryptionConfigAlreadyExists',
@@ -12262,7 +18207,7 @@ class FieldLevelEncryptionConfigAlreadyExists extends _s.GenericAwsException {
 }
 
 class FieldLevelEncryptionConfigInUse extends _s.GenericAwsException {
-  FieldLevelEncryptionConfigInUse({String type, String message})
+  FieldLevelEncryptionConfigInUse({String? type, String? message})
       : super(
             type: type,
             code: 'FieldLevelEncryptionConfigInUse',
@@ -12270,7 +18215,7 @@ class FieldLevelEncryptionConfigInUse extends _s.GenericAwsException {
 }
 
 class FieldLevelEncryptionProfileAlreadyExists extends _s.GenericAwsException {
-  FieldLevelEncryptionProfileAlreadyExists({String type, String message})
+  FieldLevelEncryptionProfileAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'FieldLevelEncryptionProfileAlreadyExists',
@@ -12278,7 +18223,7 @@ class FieldLevelEncryptionProfileAlreadyExists extends _s.GenericAwsException {
 }
 
 class FieldLevelEncryptionProfileInUse extends _s.GenericAwsException {
-  FieldLevelEncryptionProfileInUse({String type, String message})
+  FieldLevelEncryptionProfileInUse({String? type, String? message})
       : super(
             type: type,
             code: 'FieldLevelEncryptionProfileInUse',
@@ -12286,22 +18231,37 @@ class FieldLevelEncryptionProfileInUse extends _s.GenericAwsException {
 }
 
 class FieldLevelEncryptionProfileSizeExceeded extends _s.GenericAwsException {
-  FieldLevelEncryptionProfileSizeExceeded({String type, String message})
+  FieldLevelEncryptionProfileSizeExceeded({String? type, String? message})
       : super(
             type: type,
             code: 'FieldLevelEncryptionProfileSizeExceeded',
             message: message);
 }
 
+class FunctionAlreadyExists extends _s.GenericAwsException {
+  FunctionAlreadyExists({String? type, String? message})
+      : super(type: type, code: 'FunctionAlreadyExists', message: message);
+}
+
+class FunctionInUse extends _s.GenericAwsException {
+  FunctionInUse({String? type, String? message})
+      : super(type: type, code: 'FunctionInUse', message: message);
+}
+
+class FunctionSizeLimitExceeded extends _s.GenericAwsException {
+  FunctionSizeLimitExceeded({String? type, String? message})
+      : super(type: type, code: 'FunctionSizeLimitExceeded', message: message);
+}
+
 class IllegalDelete extends _s.GenericAwsException {
-  IllegalDelete({String type, String message})
+  IllegalDelete({String? type, String? message})
       : super(type: type, code: 'IllegalDelete', message: message);
 }
 
 class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
     extends _s.GenericAwsException {
   IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code:
@@ -12310,37 +18270,42 @@ class IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior
 }
 
 class IllegalUpdate extends _s.GenericAwsException {
-  IllegalUpdate({String type, String message})
+  IllegalUpdate({String? type, String? message})
       : super(type: type, code: 'IllegalUpdate', message: message);
 }
 
 class InconsistentQuantities extends _s.GenericAwsException {
-  InconsistentQuantities({String type, String message})
+  InconsistentQuantities({String? type, String? message})
       : super(type: type, code: 'InconsistentQuantities', message: message);
 }
 
 class InvalidArgument extends _s.GenericAwsException {
-  InvalidArgument({String type, String message})
+  InvalidArgument({String? type, String? message})
       : super(type: type, code: 'InvalidArgument', message: message);
 }
 
 class InvalidDefaultRootObject extends _s.GenericAwsException {
-  InvalidDefaultRootObject({String type, String message})
+  InvalidDefaultRootObject({String? type, String? message})
       : super(type: type, code: 'InvalidDefaultRootObject', message: message);
 }
 
 class InvalidErrorCode extends _s.GenericAwsException {
-  InvalidErrorCode({String type, String message})
+  InvalidErrorCode({String? type, String? message})
       : super(type: type, code: 'InvalidErrorCode', message: message);
 }
 
 class InvalidForwardCookies extends _s.GenericAwsException {
-  InvalidForwardCookies({String type, String message})
+  InvalidForwardCookies({String? type, String? message})
       : super(type: type, code: 'InvalidForwardCookies', message: message);
 }
 
+class InvalidFunctionAssociation extends _s.GenericAwsException {
+  InvalidFunctionAssociation({String? type, String? message})
+      : super(type: type, code: 'InvalidFunctionAssociation', message: message);
+}
+
 class InvalidGeoRestrictionParameter extends _s.GenericAwsException {
-  InvalidGeoRestrictionParameter({String type, String message})
+  InvalidGeoRestrictionParameter({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidGeoRestrictionParameter',
@@ -12348,17 +18313,17 @@ class InvalidGeoRestrictionParameter extends _s.GenericAwsException {
 }
 
 class InvalidHeadersForS3Origin extends _s.GenericAwsException {
-  InvalidHeadersForS3Origin({String type, String message})
+  InvalidHeadersForS3Origin({String? type, String? message})
       : super(type: type, code: 'InvalidHeadersForS3Origin', message: message);
 }
 
 class InvalidIfMatchVersion extends _s.GenericAwsException {
-  InvalidIfMatchVersion({String type, String message})
+  InvalidIfMatchVersion({String? type, String? message})
       : super(type: type, code: 'InvalidIfMatchVersion', message: message);
 }
 
 class InvalidLambdaFunctionAssociation extends _s.GenericAwsException {
-  InvalidLambdaFunctionAssociation({String type, String message})
+  InvalidLambdaFunctionAssociation({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLambdaFunctionAssociation',
@@ -12366,12 +18331,12 @@ class InvalidLambdaFunctionAssociation extends _s.GenericAwsException {
 }
 
 class InvalidLocationCode extends _s.GenericAwsException {
-  InvalidLocationCode({String type, String message})
+  InvalidLocationCode({String? type, String? message})
       : super(type: type, code: 'InvalidLocationCode', message: message);
 }
 
 class InvalidMinimumProtocolVersion extends _s.GenericAwsException {
-  InvalidMinimumProtocolVersion({String type, String message})
+  InvalidMinimumProtocolVersion({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidMinimumProtocolVersion',
@@ -12379,18 +18344,18 @@ class InvalidMinimumProtocolVersion extends _s.GenericAwsException {
 }
 
 class InvalidOrigin extends _s.GenericAwsException {
-  InvalidOrigin({String type, String message})
+  InvalidOrigin({String? type, String? message})
       : super(type: type, code: 'InvalidOrigin', message: message);
 }
 
 class InvalidOriginAccessIdentity extends _s.GenericAwsException {
-  InvalidOriginAccessIdentity({String type, String message})
+  InvalidOriginAccessIdentity({String? type, String? message})
       : super(
             type: type, code: 'InvalidOriginAccessIdentity', message: message);
 }
 
 class InvalidOriginKeepaliveTimeout extends _s.GenericAwsException {
-  InvalidOriginKeepaliveTimeout({String type, String message})
+  InvalidOriginKeepaliveTimeout({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidOriginKeepaliveTimeout',
@@ -12398,73 +18363,73 @@ class InvalidOriginKeepaliveTimeout extends _s.GenericAwsException {
 }
 
 class InvalidOriginReadTimeout extends _s.GenericAwsException {
-  InvalidOriginReadTimeout({String type, String message})
+  InvalidOriginReadTimeout({String? type, String? message})
       : super(type: type, code: 'InvalidOriginReadTimeout', message: message);
 }
 
 class InvalidProtocolSettings extends _s.GenericAwsException {
-  InvalidProtocolSettings({String type, String message})
+  InvalidProtocolSettings({String? type, String? message})
       : super(type: type, code: 'InvalidProtocolSettings', message: message);
 }
 
 class InvalidQueryStringParameters extends _s.GenericAwsException {
-  InvalidQueryStringParameters({String type, String message})
+  InvalidQueryStringParameters({String? type, String? message})
       : super(
             type: type, code: 'InvalidQueryStringParameters', message: message);
 }
 
 class InvalidRelativePath extends _s.GenericAwsException {
-  InvalidRelativePath({String type, String message})
+  InvalidRelativePath({String? type, String? message})
       : super(type: type, code: 'InvalidRelativePath', message: message);
 }
 
 class InvalidRequiredProtocol extends _s.GenericAwsException {
-  InvalidRequiredProtocol({String type, String message})
+  InvalidRequiredProtocol({String? type, String? message})
       : super(type: type, code: 'InvalidRequiredProtocol', message: message);
 }
 
 class InvalidResponseCode extends _s.GenericAwsException {
-  InvalidResponseCode({String type, String message})
+  InvalidResponseCode({String? type, String? message})
       : super(type: type, code: 'InvalidResponseCode', message: message);
 }
 
 class InvalidTTLOrder extends _s.GenericAwsException {
-  InvalidTTLOrder({String type, String message})
+  InvalidTTLOrder({String? type, String? message})
       : super(type: type, code: 'InvalidTTLOrder', message: message);
 }
 
 class InvalidTagging extends _s.GenericAwsException {
-  InvalidTagging({String type, String message})
+  InvalidTagging({String? type, String? message})
       : super(type: type, code: 'InvalidTagging', message: message);
 }
 
 class InvalidViewerCertificate extends _s.GenericAwsException {
-  InvalidViewerCertificate({String type, String message})
+  InvalidViewerCertificate({String? type, String? message})
       : super(type: type, code: 'InvalidViewerCertificate', message: message);
 }
 
 class InvalidWebACLId extends _s.GenericAwsException {
-  InvalidWebACLId({String type, String message})
+  InvalidWebACLId({String? type, String? message})
       : super(type: type, code: 'InvalidWebACLId', message: message);
 }
 
 class KeyGroupAlreadyExists extends _s.GenericAwsException {
-  KeyGroupAlreadyExists({String type, String message})
+  KeyGroupAlreadyExists({String? type, String? message})
       : super(type: type, code: 'KeyGroupAlreadyExists', message: message);
 }
 
 class MissingBody extends _s.GenericAwsException {
-  MissingBody({String type, String message})
+  MissingBody({String? type, String? message})
       : super(type: type, code: 'MissingBody', message: message);
 }
 
 class NoSuchCachePolicy extends _s.GenericAwsException {
-  NoSuchCachePolicy({String type, String message})
+  NoSuchCachePolicy({String? type, String? message})
       : super(type: type, code: 'NoSuchCachePolicy', message: message);
 }
 
 class NoSuchCloudFrontOriginAccessIdentity extends _s.GenericAwsException {
-  NoSuchCloudFrontOriginAccessIdentity({String type, String message})
+  NoSuchCloudFrontOriginAccessIdentity({String? type, String? message})
       : super(
             type: type,
             code: 'NoSuchCloudFrontOriginAccessIdentity',
@@ -12472,12 +18437,12 @@ class NoSuchCloudFrontOriginAccessIdentity extends _s.GenericAwsException {
 }
 
 class NoSuchDistribution extends _s.GenericAwsException {
-  NoSuchDistribution({String type, String message})
+  NoSuchDistribution({String? type, String? message})
       : super(type: type, code: 'NoSuchDistribution', message: message);
 }
 
 class NoSuchFieldLevelEncryptionConfig extends _s.GenericAwsException {
-  NoSuchFieldLevelEncryptionConfig({String type, String message})
+  NoSuchFieldLevelEncryptionConfig({String? type, String? message})
       : super(
             type: type,
             code: 'NoSuchFieldLevelEncryptionConfig',
@@ -12485,51 +18450,56 @@ class NoSuchFieldLevelEncryptionConfig extends _s.GenericAwsException {
 }
 
 class NoSuchFieldLevelEncryptionProfile extends _s.GenericAwsException {
-  NoSuchFieldLevelEncryptionProfile({String type, String message})
+  NoSuchFieldLevelEncryptionProfile({String? type, String? message})
       : super(
             type: type,
             code: 'NoSuchFieldLevelEncryptionProfile',
             message: message);
 }
 
+class NoSuchFunctionExists extends _s.GenericAwsException {
+  NoSuchFunctionExists({String? type, String? message})
+      : super(type: type, code: 'NoSuchFunctionExists', message: message);
+}
+
 class NoSuchInvalidation extends _s.GenericAwsException {
-  NoSuchInvalidation({String type, String message})
+  NoSuchInvalidation({String? type, String? message})
       : super(type: type, code: 'NoSuchInvalidation', message: message);
 }
 
 class NoSuchOrigin extends _s.GenericAwsException {
-  NoSuchOrigin({String type, String message})
+  NoSuchOrigin({String? type, String? message})
       : super(type: type, code: 'NoSuchOrigin', message: message);
 }
 
 class NoSuchOriginRequestPolicy extends _s.GenericAwsException {
-  NoSuchOriginRequestPolicy({String type, String message})
+  NoSuchOriginRequestPolicy({String? type, String? message})
       : super(type: type, code: 'NoSuchOriginRequestPolicy', message: message);
 }
 
 class NoSuchPublicKey extends _s.GenericAwsException {
-  NoSuchPublicKey({String type, String message})
+  NoSuchPublicKey({String? type, String? message})
       : super(type: type, code: 'NoSuchPublicKey', message: message);
 }
 
 class NoSuchRealtimeLogConfig extends _s.GenericAwsException {
-  NoSuchRealtimeLogConfig({String type, String message})
+  NoSuchRealtimeLogConfig({String? type, String? message})
       : super(type: type, code: 'NoSuchRealtimeLogConfig', message: message);
 }
 
 class NoSuchResource extends _s.GenericAwsException {
-  NoSuchResource({String type, String message})
+  NoSuchResource({String? type, String? message})
       : super(type: type, code: 'NoSuchResource', message: message);
 }
 
 class NoSuchStreamingDistribution extends _s.GenericAwsException {
-  NoSuchStreamingDistribution({String type, String message})
+  NoSuchStreamingDistribution({String? type, String? message})
       : super(
             type: type, code: 'NoSuchStreamingDistribution', message: message);
 }
 
 class OriginRequestPolicyAlreadyExists extends _s.GenericAwsException {
-  OriginRequestPolicyAlreadyExists({String type, String message})
+  OriginRequestPolicyAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'OriginRequestPolicyAlreadyExists',
@@ -12537,32 +18507,32 @@ class OriginRequestPolicyAlreadyExists extends _s.GenericAwsException {
 }
 
 class OriginRequestPolicyInUse extends _s.GenericAwsException {
-  OriginRequestPolicyInUse({String type, String message})
+  OriginRequestPolicyInUse({String? type, String? message})
       : super(type: type, code: 'OriginRequestPolicyInUse', message: message);
 }
 
 class PreconditionFailed extends _s.GenericAwsException {
-  PreconditionFailed({String type, String message})
+  PreconditionFailed({String? type, String? message})
       : super(type: type, code: 'PreconditionFailed', message: message);
 }
 
 class PublicKeyAlreadyExists extends _s.GenericAwsException {
-  PublicKeyAlreadyExists({String type, String message})
+  PublicKeyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'PublicKeyAlreadyExists', message: message);
 }
 
 class PublicKeyInUse extends _s.GenericAwsException {
-  PublicKeyInUse({String type, String message})
+  PublicKeyInUse({String? type, String? message})
       : super(type: type, code: 'PublicKeyInUse', message: message);
 }
 
 class QueryArgProfileEmpty extends _s.GenericAwsException {
-  QueryArgProfileEmpty({String type, String message})
+  QueryArgProfileEmpty({String? type, String? message})
       : super(type: type, code: 'QueryArgProfileEmpty', message: message);
 }
 
 class RealtimeLogConfigAlreadyExists extends _s.GenericAwsException {
-  RealtimeLogConfigAlreadyExists({String type, String message})
+  RealtimeLogConfigAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'RealtimeLogConfigAlreadyExists',
@@ -12570,17 +18540,25 @@ class RealtimeLogConfigAlreadyExists extends _s.GenericAwsException {
 }
 
 class RealtimeLogConfigInUse extends _s.GenericAwsException {
-  RealtimeLogConfigInUse({String type, String message})
+  RealtimeLogConfigInUse({String? type, String? message})
       : super(type: type, code: 'RealtimeLogConfigInUse', message: message);
 }
 
+class RealtimeLogConfigOwnerMismatch extends _s.GenericAwsException {
+  RealtimeLogConfigOwnerMismatch({String? type, String? message})
+      : super(
+            type: type,
+            code: 'RealtimeLogConfigOwnerMismatch',
+            message: message);
+}
+
 class ResourceInUse extends _s.GenericAwsException {
-  ResourceInUse({String type, String message})
+  ResourceInUse({String? type, String? message})
       : super(type: type, code: 'ResourceInUse', message: message);
 }
 
 class StreamingDistributionAlreadyExists extends _s.GenericAwsException {
-  StreamingDistributionAlreadyExists({String type, String message})
+  StreamingDistributionAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'StreamingDistributionAlreadyExists',
@@ -12588,30 +18566,35 @@ class StreamingDistributionAlreadyExists extends _s.GenericAwsException {
 }
 
 class StreamingDistributionNotDisabled extends _s.GenericAwsException {
-  StreamingDistributionNotDisabled({String type, String message})
+  StreamingDistributionNotDisabled({String? type, String? message})
       : super(
             type: type,
             code: 'StreamingDistributionNotDisabled',
             message: message);
 }
 
+class TestFunctionFailed extends _s.GenericAwsException {
+  TestFunctionFailed({String? type, String? message})
+      : super(type: type, code: 'TestFunctionFailed', message: message);
+}
+
 class TooManyCacheBehaviors extends _s.GenericAwsException {
-  TooManyCacheBehaviors({String type, String message})
+  TooManyCacheBehaviors({String? type, String? message})
       : super(type: type, code: 'TooManyCacheBehaviors', message: message);
 }
 
 class TooManyCachePolicies extends _s.GenericAwsException {
-  TooManyCachePolicies({String type, String message})
+  TooManyCachePolicies({String? type, String? message})
       : super(type: type, code: 'TooManyCachePolicies', message: message);
 }
 
 class TooManyCertificates extends _s.GenericAwsException {
-  TooManyCertificates({String type, String message})
+  TooManyCertificates({String? type, String? message})
       : super(type: type, code: 'TooManyCertificates', message: message);
 }
 
 class TooManyCloudFrontOriginAccessIdentities extends _s.GenericAwsException {
-  TooManyCloudFrontOriginAccessIdentities({String type, String message})
+  TooManyCloudFrontOriginAccessIdentities({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyCloudFrontOriginAccessIdentities',
@@ -12619,7 +18602,7 @@ class TooManyCloudFrontOriginAccessIdentities extends _s.GenericAwsException {
 }
 
 class TooManyCookieNamesInWhiteList extends _s.GenericAwsException {
-  TooManyCookieNamesInWhiteList({String type, String message})
+  TooManyCookieNamesInWhiteList({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyCookieNamesInWhiteList',
@@ -12627,13 +18610,13 @@ class TooManyCookieNamesInWhiteList extends _s.GenericAwsException {
 }
 
 class TooManyCookiesInCachePolicy extends _s.GenericAwsException {
-  TooManyCookiesInCachePolicy({String type, String message})
+  TooManyCookiesInCachePolicy({String? type, String? message})
       : super(
             type: type, code: 'TooManyCookiesInCachePolicy', message: message);
 }
 
 class TooManyCookiesInOriginRequestPolicy extends _s.GenericAwsException {
-  TooManyCookiesInOriginRequestPolicy({String type, String message})
+  TooManyCookiesInOriginRequestPolicy({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyCookiesInOriginRequestPolicy',
@@ -12641,18 +18624,18 @@ class TooManyCookiesInOriginRequestPolicy extends _s.GenericAwsException {
 }
 
 class TooManyDistributionCNAMEs extends _s.GenericAwsException {
-  TooManyDistributionCNAMEs({String type, String message})
+  TooManyDistributionCNAMEs({String? type, String? message})
       : super(type: type, code: 'TooManyDistributionCNAMEs', message: message);
 }
 
 class TooManyDistributions extends _s.GenericAwsException {
-  TooManyDistributions({String type, String message})
+  TooManyDistributions({String? type, String? message})
       : super(type: type, code: 'TooManyDistributions', message: message);
 }
 
 class TooManyDistributionsAssociatedToCachePolicy
     extends _s.GenericAwsException {
-  TooManyDistributionsAssociatedToCachePolicy({String type, String message})
+  TooManyDistributionsAssociatedToCachePolicy({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyDistributionsAssociatedToCachePolicy',
@@ -12662,7 +18645,7 @@ class TooManyDistributionsAssociatedToCachePolicy
 class TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToFieldLevelEncryptionConfig(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'TooManyDistributionsAssociatedToFieldLevelEncryptionConfig',
@@ -12670,7 +18653,7 @@ class TooManyDistributionsAssociatedToFieldLevelEncryptionConfig
 }
 
 class TooManyDistributionsAssociatedToKeyGroup extends _s.GenericAwsException {
-  TooManyDistributionsAssociatedToKeyGroup({String type, String message})
+  TooManyDistributionsAssociatedToKeyGroup({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyDistributionsAssociatedToKeyGroup',
@@ -12680,16 +18663,25 @@ class TooManyDistributionsAssociatedToKeyGroup extends _s.GenericAwsException {
 class TooManyDistributionsAssociatedToOriginRequestPolicy
     extends _s.GenericAwsException {
   TooManyDistributionsAssociatedToOriginRequestPolicy(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'TooManyDistributionsAssociatedToOriginRequestPolicy',
             message: message);
 }
 
+class TooManyDistributionsWithFunctionAssociations
+    extends _s.GenericAwsException {
+  TooManyDistributionsWithFunctionAssociations({String? type, String? message})
+      : super(
+            type: type,
+            code: 'TooManyDistributionsWithFunctionAssociations',
+            message: message);
+}
+
 class TooManyDistributionsWithLambdaAssociations
     extends _s.GenericAwsException {
-  TooManyDistributionsWithLambdaAssociations({String type, String message})
+  TooManyDistributionsWithLambdaAssociations({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyDistributionsWithLambdaAssociations',
@@ -12697,7 +18689,7 @@ class TooManyDistributionsWithLambdaAssociations
 }
 
 class TooManyDistributionsWithSingleFunctionARN extends _s.GenericAwsException {
-  TooManyDistributionsWithSingleFunctionARN({String type, String message})
+  TooManyDistributionsWithSingleFunctionARN({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyDistributionsWithSingleFunctionARN',
@@ -12705,7 +18697,7 @@ class TooManyDistributionsWithSingleFunctionARN extends _s.GenericAwsException {
 }
 
 class TooManyFieldLevelEncryptionConfigs extends _s.GenericAwsException {
-  TooManyFieldLevelEncryptionConfigs({String type, String message})
+  TooManyFieldLevelEncryptionConfigs({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyFieldLevelEncryptionConfigs',
@@ -12714,7 +18706,8 @@ class TooManyFieldLevelEncryptionConfigs extends _s.GenericAwsException {
 
 class TooManyFieldLevelEncryptionContentTypeProfiles
     extends _s.GenericAwsException {
-  TooManyFieldLevelEncryptionContentTypeProfiles({String type, String message})
+  TooManyFieldLevelEncryptionContentTypeProfiles(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'TooManyFieldLevelEncryptionContentTypeProfiles',
@@ -12723,7 +18716,7 @@ class TooManyFieldLevelEncryptionContentTypeProfiles
 
 class TooManyFieldLevelEncryptionEncryptionEntities
     extends _s.GenericAwsException {
-  TooManyFieldLevelEncryptionEncryptionEntities({String type, String message})
+  TooManyFieldLevelEncryptionEncryptionEntities({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyFieldLevelEncryptionEncryptionEntities',
@@ -12731,7 +18724,7 @@ class TooManyFieldLevelEncryptionEncryptionEntities
 }
 
 class TooManyFieldLevelEncryptionFieldPatterns extends _s.GenericAwsException {
-  TooManyFieldLevelEncryptionFieldPatterns({String type, String message})
+  TooManyFieldLevelEncryptionFieldPatterns({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyFieldLevelEncryptionFieldPatterns',
@@ -12739,7 +18732,7 @@ class TooManyFieldLevelEncryptionFieldPatterns extends _s.GenericAwsException {
 }
 
 class TooManyFieldLevelEncryptionProfiles extends _s.GenericAwsException {
-  TooManyFieldLevelEncryptionProfiles({String type, String message})
+  TooManyFieldLevelEncryptionProfiles({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyFieldLevelEncryptionProfiles',
@@ -12748,21 +18741,32 @@ class TooManyFieldLevelEncryptionProfiles extends _s.GenericAwsException {
 
 class TooManyFieldLevelEncryptionQueryArgProfiles
     extends _s.GenericAwsException {
-  TooManyFieldLevelEncryptionQueryArgProfiles({String type, String message})
+  TooManyFieldLevelEncryptionQueryArgProfiles({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyFieldLevelEncryptionQueryArgProfiles',
             message: message);
 }
 
+class TooManyFunctionAssociations extends _s.GenericAwsException {
+  TooManyFunctionAssociations({String? type, String? message})
+      : super(
+            type: type, code: 'TooManyFunctionAssociations', message: message);
+}
+
+class TooManyFunctions extends _s.GenericAwsException {
+  TooManyFunctions({String? type, String? message})
+      : super(type: type, code: 'TooManyFunctions', message: message);
+}
+
 class TooManyHeadersInCachePolicy extends _s.GenericAwsException {
-  TooManyHeadersInCachePolicy({String type, String message})
+  TooManyHeadersInCachePolicy({String? type, String? message})
       : super(
             type: type, code: 'TooManyHeadersInCachePolicy', message: message);
 }
 
 class TooManyHeadersInForwardedValues extends _s.GenericAwsException {
-  TooManyHeadersInForwardedValues({String type, String message})
+  TooManyHeadersInForwardedValues({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyHeadersInForwardedValues',
@@ -12770,7 +18774,7 @@ class TooManyHeadersInForwardedValues extends _s.GenericAwsException {
 }
 
 class TooManyHeadersInOriginRequestPolicy extends _s.GenericAwsException {
-  TooManyHeadersInOriginRequestPolicy({String type, String message})
+  TooManyHeadersInOriginRequestPolicy({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyHeadersInOriginRequestPolicy',
@@ -12778,7 +18782,7 @@ class TooManyHeadersInOriginRequestPolicy extends _s.GenericAwsException {
 }
 
 class TooManyInvalidationsInProgress extends _s.GenericAwsException {
-  TooManyInvalidationsInProgress({String type, String message})
+  TooManyInvalidationsInProgress({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyInvalidationsInProgress',
@@ -12786,12 +18790,12 @@ class TooManyInvalidationsInProgress extends _s.GenericAwsException {
 }
 
 class TooManyKeyGroups extends _s.GenericAwsException {
-  TooManyKeyGroups({String type, String message})
+  TooManyKeyGroups({String? type, String? message})
       : super(type: type, code: 'TooManyKeyGroups', message: message);
 }
 
 class TooManyKeyGroupsAssociatedToDistribution extends _s.GenericAwsException {
-  TooManyKeyGroupsAssociatedToDistribution({String type, String message})
+  TooManyKeyGroupsAssociatedToDistribution({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyKeyGroupsAssociatedToDistribution',
@@ -12799,7 +18803,7 @@ class TooManyKeyGroupsAssociatedToDistribution extends _s.GenericAwsException {
 }
 
 class TooManyLambdaFunctionAssociations extends _s.GenericAwsException {
-  TooManyLambdaFunctionAssociations({String type, String message})
+  TooManyLambdaFunctionAssociations({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyLambdaFunctionAssociations',
@@ -12807,12 +18811,12 @@ class TooManyLambdaFunctionAssociations extends _s.GenericAwsException {
 }
 
 class TooManyOriginCustomHeaders extends _s.GenericAwsException {
-  TooManyOriginCustomHeaders({String type, String message})
+  TooManyOriginCustomHeaders({String? type, String? message})
       : super(type: type, code: 'TooManyOriginCustomHeaders', message: message);
 }
 
 class TooManyOriginGroupsPerDistribution extends _s.GenericAwsException {
-  TooManyOriginGroupsPerDistribution({String type, String message})
+  TooManyOriginGroupsPerDistribution({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyOriginGroupsPerDistribution',
@@ -12820,35 +18824,35 @@ class TooManyOriginGroupsPerDistribution extends _s.GenericAwsException {
 }
 
 class TooManyOriginRequestPolicies extends _s.GenericAwsException {
-  TooManyOriginRequestPolicies({String type, String message})
+  TooManyOriginRequestPolicies({String? type, String? message})
       : super(
             type: type, code: 'TooManyOriginRequestPolicies', message: message);
 }
 
 class TooManyOrigins extends _s.GenericAwsException {
-  TooManyOrigins({String type, String message})
+  TooManyOrigins({String? type, String? message})
       : super(type: type, code: 'TooManyOrigins', message: message);
 }
 
 class TooManyPublicKeys extends _s.GenericAwsException {
-  TooManyPublicKeys({String type, String message})
+  TooManyPublicKeys({String? type, String? message})
       : super(type: type, code: 'TooManyPublicKeys', message: message);
 }
 
 class TooManyPublicKeysInKeyGroup extends _s.GenericAwsException {
-  TooManyPublicKeysInKeyGroup({String type, String message})
+  TooManyPublicKeysInKeyGroup({String? type, String? message})
       : super(
             type: type, code: 'TooManyPublicKeysInKeyGroup', message: message);
 }
 
 class TooManyQueryStringParameters extends _s.GenericAwsException {
-  TooManyQueryStringParameters({String type, String message})
+  TooManyQueryStringParameters({String? type, String? message})
       : super(
             type: type, code: 'TooManyQueryStringParameters', message: message);
 }
 
 class TooManyQueryStringsInCachePolicy extends _s.GenericAwsException {
-  TooManyQueryStringsInCachePolicy({String type, String message})
+  TooManyQueryStringsInCachePolicy({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyQueryStringsInCachePolicy',
@@ -12856,7 +18860,7 @@ class TooManyQueryStringsInCachePolicy extends _s.GenericAwsException {
 }
 
 class TooManyQueryStringsInOriginRequestPolicy extends _s.GenericAwsException {
-  TooManyQueryStringsInOriginRequestPolicy({String type, String message})
+  TooManyQueryStringsInOriginRequestPolicy({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyQueryStringsInOriginRequestPolicy',
@@ -12864,12 +18868,12 @@ class TooManyQueryStringsInOriginRequestPolicy extends _s.GenericAwsException {
 }
 
 class TooManyRealtimeLogConfigs extends _s.GenericAwsException {
-  TooManyRealtimeLogConfigs({String type, String message})
+  TooManyRealtimeLogConfigs({String? type, String? message})
       : super(type: type, code: 'TooManyRealtimeLogConfigs', message: message);
 }
 
 class TooManyStreamingDistributionCNAMEs extends _s.GenericAwsException {
-  TooManyStreamingDistributionCNAMEs({String type, String message})
+  TooManyStreamingDistributionCNAMEs({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyStreamingDistributionCNAMEs',
@@ -12877,7 +18881,7 @@ class TooManyStreamingDistributionCNAMEs extends _s.GenericAwsException {
 }
 
 class TooManyStreamingDistributions extends _s.GenericAwsException {
-  TooManyStreamingDistributions({String type, String message})
+  TooManyStreamingDistributions({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyStreamingDistributions',
@@ -12885,19 +18889,24 @@ class TooManyStreamingDistributions extends _s.GenericAwsException {
 }
 
 class TooManyTrustedSigners extends _s.GenericAwsException {
-  TooManyTrustedSigners({String type, String message})
+  TooManyTrustedSigners({String? type, String? message})
       : super(type: type, code: 'TooManyTrustedSigners', message: message);
 }
 
 class TrustedKeyGroupDoesNotExist extends _s.GenericAwsException {
-  TrustedKeyGroupDoesNotExist({String type, String message})
+  TrustedKeyGroupDoesNotExist({String? type, String? message})
       : super(
             type: type, code: 'TrustedKeyGroupDoesNotExist', message: message);
 }
 
 class TrustedSignerDoesNotExist extends _s.GenericAwsException {
-  TrustedSignerDoesNotExist({String type, String message})
+  TrustedSignerDoesNotExist({String? type, String? message})
       : super(type: type, code: 'TrustedSignerDoesNotExist', message: message);
+}
+
+class UnsupportedOperation extends _s.GenericAwsException {
+  UnsupportedOperation({String? type, String? message})
+      : super(type: type, code: 'UnsupportedOperation', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -12930,6 +18939,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       FieldLevelEncryptionProfileInUse(type: type, message: message),
   'FieldLevelEncryptionProfileSizeExceeded': (type, message) =>
       FieldLevelEncryptionProfileSizeExceeded(type: type, message: message),
+  'FunctionAlreadyExists': (type, message) =>
+      FunctionAlreadyExists(type: type, message: message),
+  'FunctionInUse': (type, message) =>
+      FunctionInUse(type: type, message: message),
+  'FunctionSizeLimitExceeded': (type, message) =>
+      FunctionSizeLimitExceeded(type: type, message: message),
   'IllegalDelete': (type, message) =>
       IllegalDelete(type: type, message: message),
   'IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior':
@@ -12948,6 +18963,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidErrorCode(type: type, message: message),
   'InvalidForwardCookies': (type, message) =>
       InvalidForwardCookies(type: type, message: message),
+  'InvalidFunctionAssociation': (type, message) =>
+      InvalidFunctionAssociation(type: type, message: message),
   'InvalidGeoRestrictionParameter': (type, message) =>
       InvalidGeoRestrictionParameter(type: type, message: message),
   'InvalidHeadersForS3Origin': (type, message) =>
@@ -12999,6 +19016,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NoSuchFieldLevelEncryptionConfig(type: type, message: message),
   'NoSuchFieldLevelEncryptionProfile': (type, message) =>
       NoSuchFieldLevelEncryptionProfile(type: type, message: message),
+  'NoSuchFunctionExists': (type, message) =>
+      NoSuchFunctionExists(type: type, message: message),
   'NoSuchInvalidation': (type, message) =>
       NoSuchInvalidation(type: type, message: message),
   'NoSuchOrigin': (type, message) => NoSuchOrigin(type: type, message: message),
@@ -13028,12 +19047,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       RealtimeLogConfigAlreadyExists(type: type, message: message),
   'RealtimeLogConfigInUse': (type, message) =>
       RealtimeLogConfigInUse(type: type, message: message),
+  'RealtimeLogConfigOwnerMismatch': (type, message) =>
+      RealtimeLogConfigOwnerMismatch(type: type, message: message),
   'ResourceInUse': (type, message) =>
       ResourceInUse(type: type, message: message),
   'StreamingDistributionAlreadyExists': (type, message) =>
       StreamingDistributionAlreadyExists(type: type, message: message),
   'StreamingDistributionNotDisabled': (type, message) =>
       StreamingDistributionNotDisabled(type: type, message: message),
+  'TestFunctionFailed': (type, message) =>
+      TestFunctionFailed(type: type, message: message),
   'TooManyCacheBehaviors': (type, message) =>
       TooManyCacheBehaviors(type: type, message: message),
   'TooManyCachePolicies': (type, message) =>
@@ -13063,6 +19086,9 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'TooManyDistributionsAssociatedToOriginRequestPolicy': (type, message) =>
       TooManyDistributionsAssociatedToOriginRequestPolicy(
           type: type, message: message),
+  'TooManyDistributionsWithFunctionAssociations': (type, message) =>
+      TooManyDistributionsWithFunctionAssociations(
+          type: type, message: message),
   'TooManyDistributionsWithLambdaAssociations': (type, message) =>
       TooManyDistributionsWithLambdaAssociations(type: type, message: message),
   'TooManyDistributionsWithSingleFunctionARN': (type, message) =>
@@ -13081,6 +19107,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyFieldLevelEncryptionProfiles(type: type, message: message),
   'TooManyFieldLevelEncryptionQueryArgProfiles': (type, message) =>
       TooManyFieldLevelEncryptionQueryArgProfiles(type: type, message: message),
+  'TooManyFunctionAssociations': (type, message) =>
+      TooManyFunctionAssociations(type: type, message: message),
+  'TooManyFunctions': (type, message) =>
+      TooManyFunctions(type: type, message: message),
   'TooManyHeadersInCachePolicy': (type, message) =>
       TooManyHeadersInCachePolicy(type: type, message: message),
   'TooManyHeadersInForwardedValues': (type, message) =>
@@ -13125,4 +19155,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TrustedKeyGroupDoesNotExist(type: type, message: message),
   'TrustedSignerDoesNotExist': (type, message) =>
       TrustedSignerDoesNotExist(type: type, message: message),
+  'UnsupportedOperation': (type, message) =>
+      UnsupportedOperation(type: type, message: message),
 };

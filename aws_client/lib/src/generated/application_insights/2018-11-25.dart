@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-11-25.g.dart';
 
 /// Amazon CloudWatch Application Insights is a service that helps you detect
 /// common problems with your applications. It enables you to pinpoint the
@@ -34,10 +27,10 @@ part '2018-11-25.g.dart';
 class ApplicationInsights {
   final _s.JsonProtocol _protocol;
   ApplicationInsights({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -80,11 +73,11 @@ class ApplicationInsights {
   /// associated tag value (<code>Value</code>). The maximum length of a tag key
   /// is 128 characters. The maximum length of a tag value is 256 characters.
   Future<CreateApplicationResponse> createApplication({
-    @_s.required String resourceGroupName,
-    bool cWEMonitorEnabled,
-    bool opsCenterEnabled,
-    String opsItemSNSTopicArn,
-    List<Tag> tags,
+    required String resourceGroupName,
+    bool? cWEMonitorEnabled,
+    bool? opsCenterEnabled,
+    String? opsItemSNSTopicArn,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
@@ -94,22 +87,11 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'opsItemSNSTopicArn',
       opsItemSNSTopicArn,
       20,
       300,
-    );
-    _s.validateStringPattern(
-      'opsItemSNSTopicArn',
-      opsItemSNSTopicArn,
-      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -151,9 +133,9 @@ class ApplicationInsights {
   /// Parameter [resourceList] :
   /// The list of resource ARNs that belong to the component.
   Future<void> createComponent({
-    @_s.required String componentName,
-    @_s.required String resourceGroupName,
-    @_s.required List<String> resourceList,
+    required String componentName,
+    required String resourceGroupName,
+    required List<String> resourceList,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
     _s.validateStringLength(
@@ -161,12 +143,6 @@ class ApplicationInsights {
       componentName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'componentName',
-      componentName,
-      r'''^[\d\w\-_\.+]*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
@@ -177,18 +153,12 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceList, 'resourceList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.CreateComponent'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -200,8 +170,6 @@ class ApplicationInsights {
         'ResourceList': resourceList,
       },
     );
-
-    return CreateComponentResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds an log pattern to a <code>LogPatternSet</code>.
@@ -238,11 +206,11 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   Future<CreateLogPatternResponse> createLogPattern({
-    @_s.required String pattern,
-    @_s.required String patternName,
-    @_s.required String patternSetName,
-    @_s.required int rank,
-    @_s.required String resourceGroupName,
+    required String pattern,
+    required String patternName,
+    required String patternSetName,
+    required int rank,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(pattern, 'pattern');
     _s.validateStringLength(
@@ -250,12 +218,6 @@ class ApplicationInsights {
       pattern,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pattern',
-      pattern,
-      r'''[\S\s]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(patternName, 'patternName');
@@ -266,24 +228,12 @@ class ApplicationInsights {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'patternName',
-      patternName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(patternSetName, 'patternSetName');
     _s.validateStringLength(
       'patternSetName',
       patternSetName,
       1,
       30,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patternSetName',
-      patternSetName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(rank, 'rank');
@@ -293,12 +243,6 @@ class ApplicationInsights {
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -334,7 +278,7 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   Future<void> deleteApplication({
-    @_s.required String resourceGroupName,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
@@ -344,17 +288,11 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.DeleteApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -364,8 +302,6 @@ class ApplicationInsights {
         'ResourceGroupName': resourceGroupName,
       },
     );
-
-    return DeleteApplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Ungroups a custom component. When you ungroup custom components, all
@@ -382,8 +318,8 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   Future<void> deleteComponent({
-    @_s.required String componentName,
-    @_s.required String resourceGroupName,
+    required String componentName,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
     _s.validateStringLength(
@@ -391,12 +327,6 @@ class ApplicationInsights {
       componentName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'componentName',
-      componentName,
-      r'''^[\d\w\-_\.+]*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
@@ -407,17 +337,11 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.DeleteComponent'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -428,8 +352,6 @@ class ApplicationInsights {
         'ResourceGroupName': resourceGroupName,
       },
     );
-
-    return DeleteComponentResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the specified log pattern from a <code>LogPatternSet</code>.
@@ -448,9 +370,9 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   Future<void> deleteLogPattern({
-    @_s.required String patternName,
-    @_s.required String patternSetName,
-    @_s.required String resourceGroupName,
+    required String patternName,
+    required String patternSetName,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(patternName, 'patternName');
     _s.validateStringLength(
@@ -458,12 +380,6 @@ class ApplicationInsights {
       patternName,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patternName',
-      patternName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(patternSetName, 'patternSetName');
@@ -474,12 +390,6 @@ class ApplicationInsights {
       30,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'patternSetName',
-      patternSetName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -488,17 +398,11 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.DeleteLogPattern'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -510,8 +414,6 @@ class ApplicationInsights {
         'ResourceGroupName': resourceGroupName,
       },
     );
-
-    return DeleteLogPatternResponse.fromJson(jsonResponse.body);
   }
 
   /// Describes the application.
@@ -523,7 +425,7 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   Future<DescribeApplicationResponse> describeApplication({
-    @_s.required String resourceGroupName,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
@@ -531,12 +433,6 @@ class ApplicationInsights {
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -570,8 +466,8 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   Future<DescribeComponentResponse> describeComponent({
-    @_s.required String componentName,
-    @_s.required String resourceGroupName,
+    required String componentName,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
     _s.validateStringLength(
@@ -581,24 +477,12 @@ class ApplicationInsights {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'componentName',
-      componentName,
-      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -633,8 +517,8 @@ class ApplicationInsights {
   /// The name of the resource group.
   Future<DescribeComponentConfigurationResponse>
       describeComponentConfiguration({
-    @_s.required String componentName,
-    @_s.required String resourceGroupName,
+    required String componentName,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
     _s.validateStringLength(
@@ -644,24 +528,12 @@ class ApplicationInsights {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'componentName',
-      componentName,
-      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -702,9 +574,9 @@ class ApplicationInsights {
   /// <code>DEFAULT</code>.
   Future<DescribeComponentConfigurationRecommendationResponse>
       describeComponentConfigurationRecommendation({
-    @_s.required String componentName,
-    @_s.required String resourceGroupName,
-    @_s.required Tier tier,
+    required String componentName,
+    required String resourceGroupName,
+    required Tier tier,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
     _s.validateStringLength(
@@ -714,24 +586,12 @@ class ApplicationInsights {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'componentName',
-      componentName,
-      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tier, 'tier');
@@ -749,7 +609,7 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
-        'Tier': tier?.toValue() ?? '',
+        'Tier': tier.toValue(),
       },
     );
 
@@ -772,9 +632,9 @@ class ApplicationInsights {
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
   Future<DescribeLogPatternResponse> describeLogPattern({
-    @_s.required String patternName,
-    @_s.required String patternSetName,
-    @_s.required String resourceGroupName,
+    required String patternName,
+    required String patternSetName,
+    required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(patternName, 'patternName');
     _s.validateStringLength(
@@ -782,12 +642,6 @@ class ApplicationInsights {
       patternName,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patternName',
-      patternName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(patternSetName, 'patternSetName');
@@ -798,24 +652,12 @@ class ApplicationInsights {
       30,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'patternSetName',
-      patternSetName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -847,7 +689,7 @@ class ApplicationInsights {
   /// Parameter [observationId] :
   /// The ID of the observation.
   Future<DescribeObservationResponse> describeObservation({
-    @_s.required String observationId,
+    required String observationId,
   }) async {
     ArgumentError.checkNotNull(observationId, 'observationId');
     _s.validateStringLength(
@@ -855,12 +697,6 @@ class ApplicationInsights {
       observationId,
       38,
       38,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'observationId',
-      observationId,
-      r'''o-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -890,7 +726,7 @@ class ApplicationInsights {
   /// Parameter [problemId] :
   /// The ID of the problem.
   Future<DescribeProblemResponse> describeProblem({
-    @_s.required String problemId,
+    required String problemId,
   }) async {
     ArgumentError.checkNotNull(problemId, 'problemId');
     _s.validateStringLength(
@@ -898,12 +734,6 @@ class ApplicationInsights {
       problemId,
       38,
       38,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'problemId',
-      problemId,
-      r'''p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -933,7 +763,7 @@ class ApplicationInsights {
   /// Parameter [problemId] :
   /// The ID of the problem.
   Future<DescribeProblemObservationsResponse> describeProblemObservations({
-    @_s.required String problemId,
+    required String problemId,
   }) async {
     ArgumentError.checkNotNull(problemId, 'problemId');
     _s.validateStringLength(
@@ -941,12 +771,6 @@ class ApplicationInsights {
       problemId,
       38,
       38,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'problemId',
-      problemId,
-      r'''p-[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -980,8 +804,8 @@ class ApplicationInsights {
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
   Future<ListApplicationsResponse> listApplications({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -994,11 +818,6 @@ class ApplicationInsights {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1037,9 +856,9 @@ class ApplicationInsights {
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
   Future<ListComponentsResponse> listComponents({
-    @_s.required String resourceGroupName,
-    int maxResults,
-    String nextToken,
+    required String resourceGroupName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
@@ -1047,12 +866,6 @@ class ApplicationInsights {
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1066,11 +879,6 @@ class ApplicationInsights {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1144,12 +952,12 @@ class ApplicationInsights {
   /// Parameter [startTime] :
   /// The start time of the event.
   Future<ListConfigurationHistoryResponse> listConfigurationHistory({
-    DateTime endTime,
-    ConfigurationEventStatus eventStatus,
-    int maxResults,
-    String nextToken,
-    String resourceGroupName,
-    DateTime startTime,
+    DateTime? endTime,
+    ConfigurationEventStatus? eventStatus,
+    int? maxResults,
+    String? nextToken,
+    String? resourceGroupName,
+    DateTime? startTime,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1163,21 +971,11 @@ class ApplicationInsights {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.+''',
-    );
     _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1219,9 +1017,9 @@ class ApplicationInsights {
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
   Future<ListLogPatternSetsResponse> listLogPatternSets({
-    @_s.required String resourceGroupName,
-    int maxResults,
-    String nextToken,
+    required String resourceGroupName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
@@ -1229,12 +1027,6 @@ class ApplicationInsights {
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1248,11 +1040,6 @@ class ApplicationInsights {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1294,10 +1081,10 @@ class ApplicationInsights {
   /// Parameter [patternSetName] :
   /// The name of the log pattern set.
   Future<ListLogPatternsResponse> listLogPatterns({
-    @_s.required String resourceGroupName,
-    int maxResults,
-    String nextToken,
-    String patternSetName,
+    required String resourceGroupName,
+    int? maxResults,
+    String? nextToken,
+    String? patternSetName,
   }) async {
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
@@ -1305,12 +1092,6 @@ class ApplicationInsights {
       resourceGroupName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1325,21 +1106,11 @@ class ApplicationInsights {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.+''',
-    );
     _s.validateStringLength(
       'patternSetName',
       patternSetName,
       1,
       30,
-    );
-    _s.validateStringPattern(
-      'patternSetName',
-      patternSetName,
-      r'''[a-zA-Z0-9\.\-_]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1388,11 +1159,11 @@ class ApplicationInsights {
   /// specify a time frame for the request, problems within the past seven days
   /// are returned.
   Future<ListProblemsResponse> listProblems({
-    DateTime endTime,
-    int maxResults,
-    String nextToken,
-    String resourceGroupName,
-    DateTime startTime,
+    DateTime? endTime,
+    int? maxResults,
+    String? nextToken,
+    String? resourceGroupName,
+    DateTime? startTime,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1406,21 +1177,11 @@ class ApplicationInsights {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.+''',
-    );
     _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1458,7 +1219,7 @@ class ApplicationInsights {
   /// The Amazon Resource Name (ARN) of the application that you want to
   /// retrieve tag information for.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1466,12 +1227,6 @@ class ApplicationInsights {
       resourceARN,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1516,8 +1271,8 @@ class ApplicationInsights {
   /// (<code>Value</code>). The maximum length of a tag key is 128 characters.
   /// The maximum length of a tag value is 256 characters.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1527,18 +1282,12 @@ class ApplicationInsights {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1549,8 +1298,6 @@ class ApplicationInsights {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Remove one or more tags (keys and values) from a specified application.
@@ -1571,8 +1318,8 @@ class ApplicationInsights {
   /// <code>TagKeys</code> parameter and argument for each additional tag to
   /// remove, separated by an ampersand.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1582,18 +1329,12 @@ class ApplicationInsights {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1604,8 +1345,6 @@ class ApplicationInsights {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the application.
@@ -1635,11 +1374,11 @@ class ApplicationInsights {
   /// Disassociates the SNS topic from the opsItem created for detected
   /// problems.
   Future<UpdateApplicationResponse> updateApplication({
-    @_s.required String resourceGroupName,
-    bool cWEMonitorEnabled,
-    bool opsCenterEnabled,
-    String opsItemSNSTopicArn,
-    bool removeSNSTopic,
+    required String resourceGroupName,
+    bool? cWEMonitorEnabled,
+    bool? opsCenterEnabled,
+    String? opsItemSNSTopicArn,
+    bool? removeSNSTopic,
   }) async {
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
@@ -1649,22 +1388,11 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'opsItemSNSTopicArn',
       opsItemSNSTopicArn,
       20,
       300,
-    );
-    _s.validateStringPattern(
-      'opsItemSNSTopicArn',
-      opsItemSNSTopicArn,
-      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1709,10 +1437,10 @@ class ApplicationInsights {
   /// Parameter [resourceList] :
   /// The list of resource ARNs that belong to the component.
   Future<void> updateComponent({
-    @_s.required String componentName,
-    @_s.required String resourceGroupName,
-    String newComponentName,
-    List<String> resourceList,
+    required String componentName,
+    required String resourceGroupName,
+    String? newComponentName,
+    List<String>? resourceList,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
     _s.validateStringLength(
@@ -1720,12 +1448,6 @@ class ApplicationInsights {
       componentName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'componentName',
-      componentName,
-      r'''^[\d\w\-_\.+]*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
@@ -1736,28 +1458,17 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'newComponentName',
       newComponentName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'newComponentName',
-      newComponentName,
-      r'''^[\d\w\-_\.+]*$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UpdateComponent'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1770,8 +1481,6 @@ class ApplicationInsights {
         if (resourceList != null) 'ResourceList': resourceList,
       },
     );
-
-    return UpdateComponentResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the monitoring configurations for the component. The configuration
@@ -1809,11 +1518,11 @@ class ApplicationInsights {
   /// <code>DOT_NET_CORE</code>, <code>SQL_SERVER</code>, and
   /// <code>DEFAULT</code>.
   Future<void> updateComponentConfiguration({
-    @_s.required String componentName,
-    @_s.required String resourceGroupName,
-    String componentConfiguration,
-    bool monitor,
-    Tier tier,
+    required String componentName,
+    required String resourceGroupName,
+    String? componentConfiguration,
+    bool? monitor,
+    Tier? tier,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
     _s.validateStringLength(
@@ -1821,12 +1530,6 @@ class ApplicationInsights {
       componentName,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'componentName',
-      componentName,
-      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
@@ -1837,28 +1540,17 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'componentConfiguration',
       componentConfiguration,
       1,
       10000,
     );
-    _s.validateStringPattern(
-      'componentConfiguration',
-      componentConfiguration,
-      r'''[\S\s]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UpdateComponentConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1873,8 +1565,6 @@ class ApplicationInsights {
         if (tier != null) 'Tier': tier.toValue(),
       },
     );
-
-    return UpdateComponentConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds a log pattern to a <code>LogPatternSet</code>.
@@ -1911,11 +1601,11 @@ class ApplicationInsights {
   /// <code>1</code> or greater than <code>1,000,000</code> are reserved for
   /// AWS-provided patterns.
   Future<UpdateLogPatternResponse> updateLogPattern({
-    @_s.required String patternName,
-    @_s.required String patternSetName,
-    @_s.required String resourceGroupName,
-    String pattern,
-    int rank,
+    required String patternName,
+    required String patternSetName,
+    required String resourceGroupName,
+    String? pattern,
+    int? rank,
   }) async {
     ArgumentError.checkNotNull(patternName, 'patternName');
     _s.validateStringLength(
@@ -1923,12 +1613,6 @@ class ApplicationInsights {
       patternName,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patternName',
-      patternName,
-      r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(patternSetName, 'patternSetName');
@@ -1939,12 +1623,6 @@ class ApplicationInsights {
       30,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'patternSetName',
-      patternSetName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -1953,22 +1631,11 @@ class ApplicationInsights {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceGroupName',
-      resourceGroupName,
-      r'''[a-zA-Z0-9\.\-_]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'pattern',
       pattern,
       1,
       50,
-    );
-    _s.validateStringPattern(
-      'pattern',
-      pattern,
-      r'''[\S\s]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1995,41 +1662,29 @@ class ApplicationInsights {
 
 /// Describes a standalone resource or similarly grouped resources that the
 /// application is made up of.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationComponent {
   /// The name of the component.
-  @_s.JsonKey(name: 'ComponentName')
-  final String componentName;
+  final String? componentName;
 
   /// If logging is supported for the resource type, indicates whether the
   /// component has configured logs to be monitored.
-  @_s.JsonKey(name: 'ComponentRemarks')
-  final String componentRemarks;
+  final String? componentRemarks;
 
   /// Workloads detected in the application component.
-  @_s.JsonKey(name: 'DetectedWorkload')
-  final Map<Tier, Map<String, String>> detectedWorkload;
+  final Map<Tier, Map<String, String>>? detectedWorkload;
 
   /// Indicates whether the application component is monitored.
-  @_s.JsonKey(name: 'Monitor')
-  final bool monitor;
+  final bool? monitor;
 
   /// The operating system of the component.
-  @_s.JsonKey(name: 'OsType')
-  final OsType osType;
+  final OsType? osType;
 
   /// The resource type. Supported resource types include EC2 instances, Auto
   /// Scaling group, Classic ELB, Application ELB, and SQS Queue.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The stack tier of the application component.
-  @_s.JsonKey(name: 'Tier')
-  final Tier tier;
+  final Tier? tier;
 
   ApplicationComponent({
     this.componentName,
@@ -2040,36 +1695,62 @@ class ApplicationComponent {
     this.resourceType,
     this.tier,
   });
-  factory ApplicationComponent.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationComponentFromJson(json);
+
+  factory ApplicationComponent.fromJson(Map<String, dynamic> json) {
+    return ApplicationComponent(
+      componentName: json['ComponentName'] as String?,
+      componentRemarks: json['ComponentRemarks'] as String?,
+      detectedWorkload: (json['DetectedWorkload'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k.toTier(),
+              (e as Map<String, dynamic>)
+                  .map((k, e) => MapEntry(k, e as String)))),
+      monitor: json['Monitor'] as bool?,
+      osType: (json['OsType'] as String?)?.toOsType(),
+      resourceType: json['ResourceType'] as String?,
+      tier: (json['Tier'] as String?)?.toTier(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentName = this.componentName;
+    final componentRemarks = this.componentRemarks;
+    final detectedWorkload = this.detectedWorkload;
+    final monitor = this.monitor;
+    final osType = this.osType;
+    final resourceType = this.resourceType;
+    final tier = this.tier;
+    return {
+      if (componentName != null) 'ComponentName': componentName,
+      if (componentRemarks != null) 'ComponentRemarks': componentRemarks,
+      if (detectedWorkload != null)
+        'DetectedWorkload':
+            detectedWorkload.map((k, e) => MapEntry(k.toValue(), e)),
+      if (monitor != null) 'Monitor': monitor,
+      if (osType != null) 'OsType': osType.toValue(),
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (tier != null) 'Tier': tier.toValue(),
+    };
+  }
 }
 
 /// Describes the status of the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationInfo {
   /// Indicates whether Application Insights can listen to CloudWatch events for
   /// the application resources, such as <code>instance terminated</code>,
   /// <code>failed deployment</code>, and others.
-  @_s.JsonKey(name: 'CWEMonitorEnabled')
-  final bool cWEMonitorEnabled;
+  final bool? cWEMonitorEnabled;
 
   /// The lifecycle of the application.
-  @_s.JsonKey(name: 'LifeCycle')
-  final String lifeCycle;
+  final String? lifeCycle;
 
   /// Indicates whether Application Insights will create opsItems for any problem
   /// detected by Application Insights for an application.
-  @_s.JsonKey(name: 'OpsCenterEnabled')
-  final bool opsCenterEnabled;
+  final bool? opsCenterEnabled;
 
   /// The SNS topic provided to Application Insights that is associated to the
   /// created opsItems to receive SNS notifications for opsItem updates.
-  @_s.JsonKey(name: 'OpsItemSNSTopicArn')
-  final String opsItemSNSTopicArn;
+  final String? opsItemSNSTopicArn;
 
   /// The issues on the user side that block Application Insights from
   /// successfully monitoring an application. Example remarks include:
@@ -2082,12 +1763,10 @@ class ApplicationInfo {
   /// “Configuring application, detected 1 Unconfigured Components”
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Remarks')
-  final String remarks;
+  final String? remarks;
 
   /// The name of the resource group used for the application.
-  @_s.JsonKey(name: 'ResourceGroupName')
-  final String resourceGroupName;
+  final String? resourceGroupName;
 
   ApplicationInfo({
     this.cWEMonitorEnabled,
@@ -2097,54 +1776,95 @@ class ApplicationInfo {
     this.remarks,
     this.resourceGroupName,
   });
-  factory ApplicationInfo.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationInfoFromJson(json);
+
+  factory ApplicationInfo.fromJson(Map<String, dynamic> json) {
+    return ApplicationInfo(
+      cWEMonitorEnabled: json['CWEMonitorEnabled'] as bool?,
+      lifeCycle: json['LifeCycle'] as String?,
+      opsCenterEnabled: json['OpsCenterEnabled'] as bool?,
+      opsItemSNSTopicArn: json['OpsItemSNSTopicArn'] as String?,
+      remarks: json['Remarks'] as String?,
+      resourceGroupName: json['ResourceGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cWEMonitorEnabled = this.cWEMonitorEnabled;
+    final lifeCycle = this.lifeCycle;
+    final opsCenterEnabled = this.opsCenterEnabled;
+    final opsItemSNSTopicArn = this.opsItemSNSTopicArn;
+    final remarks = this.remarks;
+    final resourceGroupName = this.resourceGroupName;
+    return {
+      if (cWEMonitorEnabled != null) 'CWEMonitorEnabled': cWEMonitorEnabled,
+      if (lifeCycle != null) 'LifeCycle': lifeCycle,
+      if (opsCenterEnabled != null) 'OpsCenterEnabled': opsCenterEnabled,
+      if (opsItemSNSTopicArn != null) 'OpsItemSNSTopicArn': opsItemSNSTopicArn,
+      if (remarks != null) 'Remarks': remarks,
+      if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+    };
+  }
 }
 
 enum CloudWatchEventSource {
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('CODE_DEPLOY')
   codeDeploy,
-  @_s.JsonValue('HEALTH')
   health,
-  @_s.JsonValue('RDS')
   rds,
 }
 
+extension on CloudWatchEventSource {
+  String toValue() {
+    switch (this) {
+      case CloudWatchEventSource.ec2:
+        return 'EC2';
+      case CloudWatchEventSource.codeDeploy:
+        return 'CODE_DEPLOY';
+      case CloudWatchEventSource.health:
+        return 'HEALTH';
+      case CloudWatchEventSource.rds:
+        return 'RDS';
+    }
+  }
+}
+
+extension on String {
+  CloudWatchEventSource toCloudWatchEventSource() {
+    switch (this) {
+      case 'EC2':
+        return CloudWatchEventSource.ec2;
+      case 'CODE_DEPLOY':
+        return CloudWatchEventSource.codeDeploy;
+      case 'HEALTH':
+        return CloudWatchEventSource.health;
+      case 'RDS':
+        return CloudWatchEventSource.rds;
+    }
+    throw Exception('$this is not known in enum CloudWatchEventSource');
+  }
+}
+
 /// The event information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfigurationEvent {
   /// The details of the event in plain text.
-  @_s.JsonKey(name: 'EventDetail')
-  final String eventDetail;
+  final String? eventDetail;
 
   /// The name of the resource Application Insights attempted to configure.
-  @_s.JsonKey(name: 'EventResourceName')
-  final String eventResourceName;
+  final String? eventResourceName;
 
   /// The resource type that Application Insights attempted to configure, for
   /// example, CLOUDWATCH_ALARM.
-  @_s.JsonKey(name: 'EventResourceType')
-  final ConfigurationEventResourceType eventResourceType;
+  final ConfigurationEventResourceType? eventResourceType;
 
   /// The status of the configuration update event. Possible values include INFO,
   /// WARN, and ERROR.
-  @_s.JsonKey(name: 'EventStatus')
-  final ConfigurationEventStatus eventStatus;
+  final ConfigurationEventStatus? eventStatus;
 
   /// The timestamp of the event.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EventTime')
-  final DateTime eventTime;
+  final DateTime? eventTime;
 
   /// The resource monitored by Application Insights.
-  @_s.JsonKey(name: 'MonitoredResourceARN')
-  final String monitoredResourceARN;
+  final String? monitoredResourceARN;
 
   ConfigurationEvent({
     this.eventDetail,
@@ -2154,27 +1874,82 @@ class ConfigurationEvent {
     this.eventTime,
     this.monitoredResourceARN,
   });
-  factory ConfigurationEvent.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationEventFromJson(json);
+
+  factory ConfigurationEvent.fromJson(Map<String, dynamic> json) {
+    return ConfigurationEvent(
+      eventDetail: json['EventDetail'] as String?,
+      eventResourceName: json['EventResourceName'] as String?,
+      eventResourceType: (json['EventResourceType'] as String?)
+          ?.toConfigurationEventResourceType(),
+      eventStatus:
+          (json['EventStatus'] as String?)?.toConfigurationEventStatus(),
+      eventTime: timeStampFromJson(json['EventTime']),
+      monitoredResourceARN: json['MonitoredResourceARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventDetail = this.eventDetail;
+    final eventResourceName = this.eventResourceName;
+    final eventResourceType = this.eventResourceType;
+    final eventStatus = this.eventStatus;
+    final eventTime = this.eventTime;
+    final monitoredResourceARN = this.monitoredResourceARN;
+    return {
+      if (eventDetail != null) 'EventDetail': eventDetail,
+      if (eventResourceName != null) 'EventResourceName': eventResourceName,
+      if (eventResourceType != null)
+        'EventResourceType': eventResourceType.toValue(),
+      if (eventStatus != null) 'EventStatus': eventStatus.toValue(),
+      if (eventTime != null) 'EventTime': unixTimestampToJson(eventTime),
+      if (monitoredResourceARN != null)
+        'MonitoredResourceARN': monitoredResourceARN,
+    };
+  }
 }
 
 enum ConfigurationEventResourceType {
-  @_s.JsonValue('CLOUDWATCH_ALARM')
   cloudwatchAlarm,
-  @_s.JsonValue('CLOUDWATCH_LOG')
   cloudwatchLog,
-  @_s.JsonValue('CLOUDFORMATION')
   cloudformation,
-  @_s.JsonValue('SSM_ASSOCIATION')
   ssmAssociation,
 }
 
+extension on ConfigurationEventResourceType {
+  String toValue() {
+    switch (this) {
+      case ConfigurationEventResourceType.cloudwatchAlarm:
+        return 'CLOUDWATCH_ALARM';
+      case ConfigurationEventResourceType.cloudwatchLog:
+        return 'CLOUDWATCH_LOG';
+      case ConfigurationEventResourceType.cloudformation:
+        return 'CLOUDFORMATION';
+      case ConfigurationEventResourceType.ssmAssociation:
+        return 'SSM_ASSOCIATION';
+    }
+  }
+}
+
+extension on String {
+  ConfigurationEventResourceType toConfigurationEventResourceType() {
+    switch (this) {
+      case 'CLOUDWATCH_ALARM':
+        return ConfigurationEventResourceType.cloudwatchAlarm;
+      case 'CLOUDWATCH_LOG':
+        return ConfigurationEventResourceType.cloudwatchLog;
+      case 'CLOUDFORMATION':
+        return ConfigurationEventResourceType.cloudformation;
+      case 'SSM_ASSOCIATION':
+        return ConfigurationEventResourceType.ssmAssociation;
+    }
+    throw Exception(
+        '$this is not known in enum ConfigurationEventResourceType');
+  }
+}
+
 enum ConfigurationEventStatus {
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('ERROR')
   error,
 }
 
@@ -2188,323 +1963,485 @@ extension on ConfigurationEventStatus {
       case ConfigurationEventStatus.error:
         return 'ERROR';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ConfigurationEventStatus toConfigurationEventStatus() {
+    switch (this) {
+      case 'INFO':
+        return ConfigurationEventStatus.info;
+      case 'WARN':
+        return ConfigurationEventStatus.warn;
+      case 'ERROR':
+        return ConfigurationEventStatus.error;
+    }
+    throw Exception('$this is not known in enum ConfigurationEventStatus');
+  }
+}
+
 class CreateApplicationResponse {
   /// Information about the application.
-  @_s.JsonKey(name: 'ApplicationInfo')
-  final ApplicationInfo applicationInfo;
+  final ApplicationInfo? applicationInfo;
 
   CreateApplicationResponse({
     this.applicationInfo,
   });
-  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApplicationResponseFromJson(json);
+
+  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResponse(
+      applicationInfo: json['ApplicationInfo'] != null
+          ? ApplicationInfo.fromJson(
+              json['ApplicationInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationInfo = this.applicationInfo;
+    return {
+      if (applicationInfo != null) 'ApplicationInfo': applicationInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateComponentResponse {
   CreateComponentResponse();
-  factory CreateComponentResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateComponentResponseFromJson(json);
+
+  factory CreateComponentResponse.fromJson(Map<String, dynamic> _) {
+    return CreateComponentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLogPatternResponse {
   /// The successfully created log pattern.
-  @_s.JsonKey(name: 'LogPattern')
-  final LogPattern logPattern;
+  final LogPattern? logPattern;
 
   /// The name of the resource group.
-  @_s.JsonKey(name: 'ResourceGroupName')
-  final String resourceGroupName;
+  final String? resourceGroupName;
 
   CreateLogPatternResponse({
     this.logPattern,
     this.resourceGroupName,
   });
-  factory CreateLogPatternResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLogPatternResponseFromJson(json);
+
+  factory CreateLogPatternResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLogPatternResponse(
+      logPattern: json['LogPattern'] != null
+          ? LogPattern.fromJson(json['LogPattern'] as Map<String, dynamic>)
+          : null,
+      resourceGroupName: json['ResourceGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logPattern = this.logPattern;
+    final resourceGroupName = this.resourceGroupName;
+    return {
+      if (logPattern != null) 'LogPattern': logPattern,
+      if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
-  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteApplicationResponseFromJson(json);
+
+  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteComponentResponse {
   DeleteComponentResponse();
-  factory DeleteComponentResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteComponentResponseFromJson(json);
+
+  factory DeleteComponentResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteComponentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLogPatternResponse {
   DeleteLogPatternResponse();
-  factory DeleteLogPatternResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLogPatternResponseFromJson(json);
+
+  factory DeleteLogPatternResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteLogPatternResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeApplicationResponse {
   /// Information about the application.
-  @_s.JsonKey(name: 'ApplicationInfo')
-  final ApplicationInfo applicationInfo;
+  final ApplicationInfo? applicationInfo;
 
   DescribeApplicationResponse({
     this.applicationInfo,
   });
-  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeApplicationResponseFromJson(json);
+
+  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationResponse(
+      applicationInfo: json['ApplicationInfo'] != null
+          ? ApplicationInfo.fromJson(
+              json['ApplicationInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationInfo = this.applicationInfo;
+    return {
+      if (applicationInfo != null) 'ApplicationInfo': applicationInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeComponentConfigurationRecommendationResponse {
   /// The recommended configuration settings of the component. The value is the
   /// escaped JSON of the configuration.
-  @_s.JsonKey(name: 'ComponentConfiguration')
-  final String componentConfiguration;
+  final String? componentConfiguration;
 
   DescribeComponentConfigurationRecommendationResponse({
     this.componentConfiguration,
   });
+
   factory DescribeComponentConfigurationRecommendationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeComponentConfigurationRecommendationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeComponentConfigurationRecommendationResponse(
+      componentConfiguration: json['ComponentConfiguration'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentConfiguration = this.componentConfiguration;
+    return {
+      if (componentConfiguration != null)
+        'ComponentConfiguration': componentConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeComponentConfigurationResponse {
   /// The configuration settings of the component. The value is the escaped JSON
   /// of the configuration.
-  @_s.JsonKey(name: 'ComponentConfiguration')
-  final String componentConfiguration;
+  final String? componentConfiguration;
 
   /// Indicates whether the application component is monitored.
-  @_s.JsonKey(name: 'Monitor')
-  final bool monitor;
+  final bool? monitor;
 
   /// The tier of the application component. Supported tiers include
   /// <code>DOT_NET_CORE</code>, <code>DOT_NET_WORKER</code>,
   /// <code>DOT_NET_WEB</code>, <code>SQL_SERVER</code>, and <code>DEFAULT</code>
-  @_s.JsonKey(name: 'Tier')
-  final Tier tier;
+  final Tier? tier;
 
   DescribeComponentConfigurationResponse({
     this.componentConfiguration,
     this.monitor,
     this.tier,
   });
+
   factory DescribeComponentConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeComponentConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeComponentConfigurationResponse(
+      componentConfiguration: json['ComponentConfiguration'] as String?,
+      monitor: json['Monitor'] as bool?,
+      tier: (json['Tier'] as String?)?.toTier(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final componentConfiguration = this.componentConfiguration;
+    final monitor = this.monitor;
+    final tier = this.tier;
+    return {
+      if (componentConfiguration != null)
+        'ComponentConfiguration': componentConfiguration,
+      if (monitor != null) 'Monitor': monitor,
+      if (tier != null) 'Tier': tier.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeComponentResponse {
-  @_s.JsonKey(name: 'ApplicationComponent')
-  final ApplicationComponent applicationComponent;
+  final ApplicationComponent? applicationComponent;
 
   /// The list of resource ARNs that belong to the component.
-  @_s.JsonKey(name: 'ResourceList')
-  final List<String> resourceList;
+  final List<String>? resourceList;
 
   DescribeComponentResponse({
     this.applicationComponent,
     this.resourceList,
   });
-  factory DescribeComponentResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeComponentResponseFromJson(json);
+
+  factory DescribeComponentResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeComponentResponse(
+      applicationComponent: json['ApplicationComponent'] != null
+          ? ApplicationComponent.fromJson(
+              json['ApplicationComponent'] as Map<String, dynamic>)
+          : null,
+      resourceList: (json['ResourceList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationComponent = this.applicationComponent;
+    final resourceList = this.resourceList;
+    return {
+      if (applicationComponent != null)
+        'ApplicationComponent': applicationComponent,
+      if (resourceList != null) 'ResourceList': resourceList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLogPatternResponse {
   /// The successfully created log pattern.
-  @_s.JsonKey(name: 'LogPattern')
-  final LogPattern logPattern;
+  final LogPattern? logPattern;
 
   /// The name of the resource group.
-  @_s.JsonKey(name: 'ResourceGroupName')
-  final String resourceGroupName;
+  final String? resourceGroupName;
 
   DescribeLogPatternResponse({
     this.logPattern,
     this.resourceGroupName,
   });
-  factory DescribeLogPatternResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLogPatternResponseFromJson(json);
+
+  factory DescribeLogPatternResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLogPatternResponse(
+      logPattern: json['LogPattern'] != null
+          ? LogPattern.fromJson(json['LogPattern'] as Map<String, dynamic>)
+          : null,
+      resourceGroupName: json['ResourceGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logPattern = this.logPattern;
+    final resourceGroupName = this.resourceGroupName;
+    return {
+      if (logPattern != null) 'LogPattern': logPattern,
+      if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeObservationResponse {
   /// Information about the observation.
-  @_s.JsonKey(name: 'Observation')
-  final Observation observation;
+  final Observation? observation;
 
   DescribeObservationResponse({
     this.observation,
   });
-  factory DescribeObservationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeObservationResponseFromJson(json);
+
+  factory DescribeObservationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeObservationResponse(
+      observation: json['Observation'] != null
+          ? Observation.fromJson(json['Observation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final observation = this.observation;
+    return {
+      if (observation != null) 'Observation': observation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProblemObservationsResponse {
   /// Observations related to the problem.
-  @_s.JsonKey(name: 'RelatedObservations')
-  final RelatedObservations relatedObservations;
+  final RelatedObservations? relatedObservations;
 
   DescribeProblemObservationsResponse({
     this.relatedObservations,
   });
+
   factory DescribeProblemObservationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeProblemObservationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeProblemObservationsResponse(
+      relatedObservations: json['RelatedObservations'] != null
+          ? RelatedObservations.fromJson(
+              json['RelatedObservations'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final relatedObservations = this.relatedObservations;
+    return {
+      if (relatedObservations != null)
+        'RelatedObservations': relatedObservations,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProblemResponse {
   /// Information about the problem.
-  @_s.JsonKey(name: 'Problem')
-  final Problem problem;
+  final Problem? problem;
 
   DescribeProblemResponse({
     this.problem,
   });
-  factory DescribeProblemResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProblemResponseFromJson(json);
+
+  factory DescribeProblemResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProblemResponse(
+      problem: json['Problem'] != null
+          ? Problem.fromJson(json['Problem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final problem = this.problem;
+    return {
+      if (problem != null) 'Problem': problem,
+    };
+  }
 }
 
 enum FeedbackKey {
-  @_s.JsonValue('INSIGHTS_FEEDBACK')
   insightsFeedback,
 }
 
+extension on FeedbackKey {
+  String toValue() {
+    switch (this) {
+      case FeedbackKey.insightsFeedback:
+        return 'INSIGHTS_FEEDBACK';
+    }
+  }
+}
+
+extension on String {
+  FeedbackKey toFeedbackKey() {
+    switch (this) {
+      case 'INSIGHTS_FEEDBACK':
+        return FeedbackKey.insightsFeedback;
+    }
+    throw Exception('$this is not known in enum FeedbackKey');
+  }
+}
+
 enum FeedbackValue {
-  @_s.JsonValue('NOT_SPECIFIED')
   notSpecified,
-  @_s.JsonValue('USEFUL')
   useful,
-  @_s.JsonValue('NOT_USEFUL')
   notUseful,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FeedbackValue {
+  String toValue() {
+    switch (this) {
+      case FeedbackValue.notSpecified:
+        return 'NOT_SPECIFIED';
+      case FeedbackValue.useful:
+        return 'USEFUL';
+      case FeedbackValue.notUseful:
+        return 'NOT_USEFUL';
+    }
+  }
+}
+
+extension on String {
+  FeedbackValue toFeedbackValue() {
+    switch (this) {
+      case 'NOT_SPECIFIED':
+        return FeedbackValue.notSpecified;
+      case 'USEFUL':
+        return FeedbackValue.useful;
+      case 'NOT_USEFUL':
+        return FeedbackValue.notUseful;
+    }
+    throw Exception('$this is not known in enum FeedbackValue');
+  }
+}
+
 class ListApplicationsResponse {
   /// The list of applications.
-  @_s.JsonKey(name: 'ApplicationInfoList')
-  final List<ApplicationInfo> applicationInfoList;
+  final List<ApplicationInfo>? applicationInfoList;
 
   /// The token used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApplicationsResponse({
     this.applicationInfoList,
     this.nextToken,
   });
-  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListApplicationsResponseFromJson(json);
+
+  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationsResponse(
+      applicationInfoList: (json['ApplicationInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApplicationInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationInfoList = this.applicationInfoList;
+    final nextToken = this.nextToken;
+    return {
+      if (applicationInfoList != null)
+        'ApplicationInfoList': applicationInfoList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListComponentsResponse {
   /// The list of application components.
-  @_s.JsonKey(name: 'ApplicationComponentList')
-  final List<ApplicationComponent> applicationComponentList;
+  final List<ApplicationComponent>? applicationComponentList;
 
   /// The token to request the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListComponentsResponse({
     this.applicationComponentList,
     this.nextToken,
   });
-  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListComponentsResponseFromJson(json);
+
+  factory ListComponentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListComponentsResponse(
+      applicationComponentList: (json['ApplicationComponentList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApplicationComponent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationComponentList = this.applicationComponentList;
+    final nextToken = this.nextToken;
+    return {
+      if (applicationComponentList != null)
+        'ApplicationComponentList': applicationComponentList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConfigurationHistoryResponse {
   /// The list of configuration events and their corresponding details.
-  @_s.JsonKey(name: 'EventList')
-  final List<ConfigurationEvent> eventList;
+  final List<ConfigurationEvent>? eventList;
 
   /// The <code>NextToken</code> value to include in a future
   /// <code>ListConfigurationHistory</code> request. When the results of a
@@ -2512,151 +2449,224 @@ class ListConfigurationHistoryResponse {
   /// <code>MaxResults</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConfigurationHistoryResponse({
     this.eventList,
     this.nextToken,
   });
-  factory ListConfigurationHistoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListConfigurationHistoryResponseFromJson(json);
+
+  factory ListConfigurationHistoryResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationHistoryResponse(
+      eventList: (json['EventList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventList = this.eventList;
+    final nextToken = this.nextToken;
+    return {
+      if (eventList != null) 'EventList': eventList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLogPatternSetsResponse {
   /// The list of log pattern sets.
-  @_s.JsonKey(name: 'LogPatternSets')
-  final List<String> logPatternSets;
+  final List<String>? logPatternSets;
 
   /// The token used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The name of the resource group.
-  @_s.JsonKey(name: 'ResourceGroupName')
-  final String resourceGroupName;
+  final String? resourceGroupName;
 
   ListLogPatternSetsResponse({
     this.logPatternSets,
     this.nextToken,
     this.resourceGroupName,
   });
-  factory ListLogPatternSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLogPatternSetsResponseFromJson(json);
+
+  factory ListLogPatternSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLogPatternSetsResponse(
+      logPatternSets: (json['LogPatternSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      resourceGroupName: json['ResourceGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logPatternSets = this.logPatternSets;
+    final nextToken = this.nextToken;
+    final resourceGroupName = this.resourceGroupName;
+    return {
+      if (logPatternSets != null) 'LogPatternSets': logPatternSets,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLogPatternsResponse {
   /// The list of log patterns.
-  @_s.JsonKey(name: 'LogPatterns')
-  final List<LogPattern> logPatterns;
+  final List<LogPattern>? logPatterns;
 
   /// The token used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The name of the resource group.
-  @_s.JsonKey(name: 'ResourceGroupName')
-  final String resourceGroupName;
+  final String? resourceGroupName;
 
   ListLogPatternsResponse({
     this.logPatterns,
     this.nextToken,
     this.resourceGroupName,
   });
-  factory ListLogPatternsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLogPatternsResponseFromJson(json);
+
+  factory ListLogPatternsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLogPatternsResponse(
+      logPatterns: (json['LogPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogPattern.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      resourceGroupName: json['ResourceGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logPatterns = this.logPatterns;
+    final nextToken = this.nextToken;
+    final resourceGroupName = this.resourceGroupName;
+    return {
+      if (logPatterns != null) 'LogPatterns': logPatterns,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProblemsResponse {
   /// The token used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of problems.
-  @_s.JsonKey(name: 'ProblemList')
-  final List<Problem> problemList;
+  final List<Problem>? problemList;
 
   ListProblemsResponse({
     this.nextToken,
     this.problemList,
   });
-  factory ListProblemsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProblemsResponseFromJson(json);
+
+  factory ListProblemsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProblemsResponse(
+      nextToken: json['NextToken'] as String?,
+      problemList: (json['ProblemList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Problem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final problemList = this.problemList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (problemList != null) 'ProblemList': problemList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// An array that lists all the tags that are associated with the application.
   /// Each tag consists of a required tag key (<code>Key</code>) and an associated
   /// tag value (<code>Value</code>).
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum LogFilter {
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('INFO')
   info,
+}
+
+extension on LogFilter {
+  String toValue() {
+    switch (this) {
+      case LogFilter.error:
+        return 'ERROR';
+      case LogFilter.warn:
+        return 'WARN';
+      case LogFilter.info:
+        return 'INFO';
+    }
+  }
+}
+
+extension on String {
+  LogFilter toLogFilter() {
+    switch (this) {
+      case 'ERROR':
+        return LogFilter.error;
+      case 'WARN':
+        return LogFilter.warn;
+      case 'INFO':
+        return LogFilter.info;
+    }
+    throw Exception('$this is not known in enum LogFilter');
+  }
 }
 
 /// An object that defines the log patterns that belongs to a
 /// <code>LogPatternSet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogPattern {
   /// A regular expression that defines the log pattern. A log pattern can contain
   /// as many as 50 characters, and it cannot be empty. The pattern must be DFA
   /// compatible. Patterns that utilize forward lookahead or backreference
   /// constructions are not supported.
-  @_s.JsonKey(name: 'Pattern')
-  final String pattern;
+  final String? pattern;
 
   /// The name of the log pattern. A log pattern name can contain as many as 50
   /// characters, and it cannot be empty. The characters can be Unicode letters,
   /// digits, or one of the following symbols: period, dash, underscore.
-  @_s.JsonKey(name: 'PatternName')
-  final String patternName;
+  final String? patternName;
 
   /// The name of the log pattern. A log pattern name can contain as many as 30
   /// characters, and it cannot be empty. The characters can be Unicode letters,
   /// digits, or one of the following symbols: period, dash, underscore.
-  @_s.JsonKey(name: 'PatternSetName')
-  final String patternSetName;
+  final String? patternSetName;
 
   /// Rank of the log pattern. Must be a value between <code>1</code> and
   /// <code>1,000,000</code>. The patterns are sorted by rank, so we recommend
@@ -2669,8 +2679,7 @@ class LogPattern {
   /// <code>High</code> severity pattern translates to a <code>250,000</code>
   /// rank. Rank values less than <code>1</code> or greater than
   /// <code>1,000,000</code> are reserved for AWS-provided patterns.
-  @_s.JsonKey(name: 'Rank')
-  final int rank;
+  final int? rank;
 
   LogPattern({
     this.pattern,
@@ -2678,210 +2687,177 @@ class LogPattern {
     this.patternSetName,
     this.rank,
   });
-  factory LogPattern.fromJson(Map<String, dynamic> json) =>
-      _$LogPatternFromJson(json);
+
+  factory LogPattern.fromJson(Map<String, dynamic> json) {
+    return LogPattern(
+      pattern: json['Pattern'] as String?,
+      patternName: json['PatternName'] as String?,
+      patternSetName: json['PatternSetName'] as String?,
+      rank: json['Rank'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pattern = this.pattern;
+    final patternName = this.patternName;
+    final patternSetName = this.patternSetName;
+    final rank = this.rank;
+    return {
+      if (pattern != null) 'Pattern': pattern,
+      if (patternName != null) 'PatternName': patternName,
+      if (patternSetName != null) 'PatternSetName': patternSetName,
+      if (rank != null) 'Rank': rank,
+    };
+  }
 }
 
 /// Describes an anomaly or error with the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Observation {
   /// The detail type of the CloudWatch Event-based observation, for example,
   /// <code>EC2 Instance State-change Notification</code>.
-  @_s.JsonKey(name: 'CloudWatchEventDetailType')
-  final String cloudWatchEventDetailType;
+  final String? cloudWatchEventDetailType;
 
   /// The ID of the CloudWatch Event-based observation related to the detected
   /// problem.
-  @_s.JsonKey(name: 'CloudWatchEventId')
-  final String cloudWatchEventId;
+  final String? cloudWatchEventId;
 
   /// The source of the CloudWatch Event.
-  @_s.JsonKey(name: 'CloudWatchEventSource')
-  final CloudWatchEventSource cloudWatchEventSource;
+  final CloudWatchEventSource? cloudWatchEventSource;
 
   /// The CodeDeploy application to which the deployment belongs.
-  @_s.JsonKey(name: 'CodeDeployApplication')
-  final String codeDeployApplication;
+  final String? codeDeployApplication;
 
   /// The deployment group to which the CodeDeploy deployment belongs.
-  @_s.JsonKey(name: 'CodeDeployDeploymentGroup')
-  final String codeDeployDeploymentGroup;
+  final String? codeDeployDeploymentGroup;
 
   /// The deployment ID of the CodeDeploy-based observation related to the
   /// detected problem.
-  @_s.JsonKey(name: 'CodeDeployDeploymentId')
-  final String codeDeployDeploymentId;
+  final String? codeDeployDeploymentId;
 
   /// The instance group to which the CodeDeploy instance belongs.
-  @_s.JsonKey(name: 'CodeDeployInstanceGroupId')
-  final String codeDeployInstanceGroupId;
+  final String? codeDeployInstanceGroupId;
 
   /// The status of the CodeDeploy deployment, for example <code>SUCCESS</code> or
   /// <code> FAILURE</code>.
-  @_s.JsonKey(name: 'CodeDeployState')
-  final String codeDeployState;
+  final String? codeDeployState;
 
   /// The cause of an EBS CloudWatch event.
-  @_s.JsonKey(name: 'EbsCause')
-  final String ebsCause;
+  final String? ebsCause;
 
   /// The type of EBS CloudWatch event, such as <code>createVolume</code>,
   /// <code>deleteVolume</code> or <code>attachVolume</code>.
-  @_s.JsonKey(name: 'EbsEvent')
-  final String ebsEvent;
+  final String? ebsEvent;
 
   /// The request ID of an EBS CloudWatch event.
-  @_s.JsonKey(name: 'EbsRequestId')
-  final String ebsRequestId;
+  final String? ebsRequestId;
 
   /// The result of an EBS CloudWatch event, such as <code>failed</code> or
   /// <code>succeeded</code>.
-  @_s.JsonKey(name: 'EbsResult')
-  final String ebsResult;
+  final String? ebsResult;
 
   /// The state of the instance, such as <code>STOPPING</code> or
   /// <code>TERMINATING</code>.
-  @_s.JsonKey(name: 'Ec2State')
-  final String ec2State;
+  final String? ec2State;
 
   /// The time when the observation ended, in epoch seconds.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
-  @_s.JsonKey(name: 'HealthEventArn')
-  final String healthEventArn;
+  final String? healthEventArn;
 
   /// The description of the AWS Health event provided by the service, such as
   /// Amazon EC2.
-  @_s.JsonKey(name: 'HealthEventDescription')
-  final String healthEventDescription;
+  final String? healthEventDescription;
 
   /// The category of the AWS Health event, such as <code>issue</code>.
-  @_s.JsonKey(name: 'HealthEventTypeCategory')
-  final String healthEventTypeCategory;
+  final String? healthEventTypeCategory;
 
   /// The type of the AWS Health event, for example,
   /// <code>AWS_EC2_POWER_CONNECTIVITY_ISSUE</code>.
-  @_s.JsonKey(name: 'HealthEventTypeCode')
-  final String healthEventTypeCode;
+  final String? healthEventTypeCode;
 
   /// The service to which the AWS Health Event belongs, such as EC2.
-  @_s.JsonKey(name: 'HealthService')
-  final String healthService;
+  final String? healthService;
 
   /// The ID of the observation type.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The timestamp in the CloudWatch Logs that specifies when the matched line
   /// occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LineTime')
-  final DateTime lineTime;
+  final DateTime? lineTime;
 
   /// The log filter of the observation.
-  @_s.JsonKey(name: 'LogFilter')
-  final LogFilter logFilter;
+  final LogFilter? logFilter;
 
   /// The log group name.
-  @_s.JsonKey(name: 'LogGroup')
-  final String logGroup;
+  final String? logGroup;
 
   /// The log text of the observation.
-  @_s.JsonKey(name: 'LogText')
-  final String logText;
+  final String? logText;
 
   /// The name of the observation metric.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// The namespace of the observation metric.
-  @_s.JsonKey(name: 'MetricNamespace')
-  final String metricNamespace;
+  final String? metricNamespace;
 
   /// The category of an RDS event.
-  @_s.JsonKey(name: 'RdsEventCategories')
-  final String rdsEventCategories;
+  final String? rdsEventCategories;
 
   /// The message of an RDS event.
-  @_s.JsonKey(name: 'RdsEventMessage')
-  final String rdsEventMessage;
+  final String? rdsEventMessage;
 
   /// The name of the S3 CloudWatch Event-based observation.
-  @_s.JsonKey(name: 'S3EventName')
-  final String s3EventName;
+  final String? s3EventName;
 
   /// The source resource ARN of the observation.
-  @_s.JsonKey(name: 'SourceARN')
-  final String sourceARN;
+  final String? sourceARN;
 
   /// The source type of the observation.
-  @_s.JsonKey(name: 'SourceType')
-  final String sourceType;
+  final String? sourceType;
 
   /// The time when the observation was first detected, in epoch seconds.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The Amazon Resource Name (ARN) of the step function-based observation.
-  @_s.JsonKey(name: 'StatesArn')
-  final String statesArn;
+  final String? statesArn;
 
   /// The Amazon Resource Name (ARN) of the step function execution-based
   /// observation.
-  @_s.JsonKey(name: 'StatesExecutionArn')
-  final String statesExecutionArn;
+  final String? statesExecutionArn;
 
   /// The input to the step function-based observation.
-  @_s.JsonKey(name: 'StatesInput')
-  final String statesInput;
+  final String? statesInput;
 
   /// The status of the step function-related observation.
-  @_s.JsonKey(name: 'StatesStatus')
-  final String statesStatus;
+  final String? statesStatus;
 
   /// The unit of the source observation metric.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   /// The value of the source observation metric.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   /// The X-Ray request error percentage for this node.
-  @_s.JsonKey(name: 'XRayErrorPercent')
-  final int xRayErrorPercent;
+  final int? xRayErrorPercent;
 
   /// The X-Ray request fault percentage for this node.
-  @_s.JsonKey(name: 'XRayFaultPercent')
-  final int xRayFaultPercent;
+  final int? xRayFaultPercent;
 
   /// The name of the X-Ray node.
-  @_s.JsonKey(name: 'XRayNodeName')
-  final String xRayNodeName;
+  final String? xRayNodeName;
 
   /// The type of the X-Ray node.
-  @_s.JsonKey(name: 'XRayNodeType')
-  final String xRayNodeType;
+  final String? xRayNodeType;
 
   /// The X-Ray node request average latency for this node.
-  @_s.JsonKey(name: 'XRayRequestAverageLatency')
-  final int xRayRequestAverageLatency;
+  final int? xRayRequestAverageLatency;
 
   /// The X-Ray request count for this node.
-  @_s.JsonKey(name: 'XRayRequestCount')
-  final int xRayRequestCount;
+  final int? xRayRequestCount;
 
   /// The X-Ray request throttle percentage for this node.
-  @_s.JsonKey(name: 'XRayThrottlePercent')
-  final int xRayThrottlePercent;
+  final int? xRayThrottlePercent;
 
   Observation({
     this.cloudWatchEventDetailType,
@@ -2930,65 +2906,224 @@ class Observation {
     this.xRayRequestCount,
     this.xRayThrottlePercent,
   });
-  factory Observation.fromJson(Map<String, dynamic> json) =>
-      _$ObservationFromJson(json);
+
+  factory Observation.fromJson(Map<String, dynamic> json) {
+    return Observation(
+      cloudWatchEventDetailType: json['CloudWatchEventDetailType'] as String?,
+      cloudWatchEventId: json['CloudWatchEventId'] as String?,
+      cloudWatchEventSource:
+          (json['CloudWatchEventSource'] as String?)?.toCloudWatchEventSource(),
+      codeDeployApplication: json['CodeDeployApplication'] as String?,
+      codeDeployDeploymentGroup: json['CodeDeployDeploymentGroup'] as String?,
+      codeDeployDeploymentId: json['CodeDeployDeploymentId'] as String?,
+      codeDeployInstanceGroupId: json['CodeDeployInstanceGroupId'] as String?,
+      codeDeployState: json['CodeDeployState'] as String?,
+      ebsCause: json['EbsCause'] as String?,
+      ebsEvent: json['EbsEvent'] as String?,
+      ebsRequestId: json['EbsRequestId'] as String?,
+      ebsResult: json['EbsResult'] as String?,
+      ec2State: json['Ec2State'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      healthEventArn: json['HealthEventArn'] as String?,
+      healthEventDescription: json['HealthEventDescription'] as String?,
+      healthEventTypeCategory: json['HealthEventTypeCategory'] as String?,
+      healthEventTypeCode: json['HealthEventTypeCode'] as String?,
+      healthService: json['HealthService'] as String?,
+      id: json['Id'] as String?,
+      lineTime: timeStampFromJson(json['LineTime']),
+      logFilter: (json['LogFilter'] as String?)?.toLogFilter(),
+      logGroup: json['LogGroup'] as String?,
+      logText: json['LogText'] as String?,
+      metricName: json['MetricName'] as String?,
+      metricNamespace: json['MetricNamespace'] as String?,
+      rdsEventCategories: json['RdsEventCategories'] as String?,
+      rdsEventMessage: json['RdsEventMessage'] as String?,
+      s3EventName: json['S3EventName'] as String?,
+      sourceARN: json['SourceARN'] as String?,
+      sourceType: json['SourceType'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      statesArn: json['StatesArn'] as String?,
+      statesExecutionArn: json['StatesExecutionArn'] as String?,
+      statesInput: json['StatesInput'] as String?,
+      statesStatus: json['StatesStatus'] as String?,
+      unit: json['Unit'] as String?,
+      value: json['Value'] as double?,
+      xRayErrorPercent: json['XRayErrorPercent'] as int?,
+      xRayFaultPercent: json['XRayFaultPercent'] as int?,
+      xRayNodeName: json['XRayNodeName'] as String?,
+      xRayNodeType: json['XRayNodeType'] as String?,
+      xRayRequestAverageLatency: json['XRayRequestAverageLatency'] as int?,
+      xRayRequestCount: json['XRayRequestCount'] as int?,
+      xRayThrottlePercent: json['XRayThrottlePercent'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchEventDetailType = this.cloudWatchEventDetailType;
+    final cloudWatchEventId = this.cloudWatchEventId;
+    final cloudWatchEventSource = this.cloudWatchEventSource;
+    final codeDeployApplication = this.codeDeployApplication;
+    final codeDeployDeploymentGroup = this.codeDeployDeploymentGroup;
+    final codeDeployDeploymentId = this.codeDeployDeploymentId;
+    final codeDeployInstanceGroupId = this.codeDeployInstanceGroupId;
+    final codeDeployState = this.codeDeployState;
+    final ebsCause = this.ebsCause;
+    final ebsEvent = this.ebsEvent;
+    final ebsRequestId = this.ebsRequestId;
+    final ebsResult = this.ebsResult;
+    final ec2State = this.ec2State;
+    final endTime = this.endTime;
+    final healthEventArn = this.healthEventArn;
+    final healthEventDescription = this.healthEventDescription;
+    final healthEventTypeCategory = this.healthEventTypeCategory;
+    final healthEventTypeCode = this.healthEventTypeCode;
+    final healthService = this.healthService;
+    final id = this.id;
+    final lineTime = this.lineTime;
+    final logFilter = this.logFilter;
+    final logGroup = this.logGroup;
+    final logText = this.logText;
+    final metricName = this.metricName;
+    final metricNamespace = this.metricNamespace;
+    final rdsEventCategories = this.rdsEventCategories;
+    final rdsEventMessage = this.rdsEventMessage;
+    final s3EventName = this.s3EventName;
+    final sourceARN = this.sourceARN;
+    final sourceType = this.sourceType;
+    final startTime = this.startTime;
+    final statesArn = this.statesArn;
+    final statesExecutionArn = this.statesExecutionArn;
+    final statesInput = this.statesInput;
+    final statesStatus = this.statesStatus;
+    final unit = this.unit;
+    final value = this.value;
+    final xRayErrorPercent = this.xRayErrorPercent;
+    final xRayFaultPercent = this.xRayFaultPercent;
+    final xRayNodeName = this.xRayNodeName;
+    final xRayNodeType = this.xRayNodeType;
+    final xRayRequestAverageLatency = this.xRayRequestAverageLatency;
+    final xRayRequestCount = this.xRayRequestCount;
+    final xRayThrottlePercent = this.xRayThrottlePercent;
+    return {
+      if (cloudWatchEventDetailType != null)
+        'CloudWatchEventDetailType': cloudWatchEventDetailType,
+      if (cloudWatchEventId != null) 'CloudWatchEventId': cloudWatchEventId,
+      if (cloudWatchEventSource != null)
+        'CloudWatchEventSource': cloudWatchEventSource.toValue(),
+      if (codeDeployApplication != null)
+        'CodeDeployApplication': codeDeployApplication,
+      if (codeDeployDeploymentGroup != null)
+        'CodeDeployDeploymentGroup': codeDeployDeploymentGroup,
+      if (codeDeployDeploymentId != null)
+        'CodeDeployDeploymentId': codeDeployDeploymentId,
+      if (codeDeployInstanceGroupId != null)
+        'CodeDeployInstanceGroupId': codeDeployInstanceGroupId,
+      if (codeDeployState != null) 'CodeDeployState': codeDeployState,
+      if (ebsCause != null) 'EbsCause': ebsCause,
+      if (ebsEvent != null) 'EbsEvent': ebsEvent,
+      if (ebsRequestId != null) 'EbsRequestId': ebsRequestId,
+      if (ebsResult != null) 'EbsResult': ebsResult,
+      if (ec2State != null) 'Ec2State': ec2State,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (healthEventArn != null) 'HealthEventArn': healthEventArn,
+      if (healthEventDescription != null)
+        'HealthEventDescription': healthEventDescription,
+      if (healthEventTypeCategory != null)
+        'HealthEventTypeCategory': healthEventTypeCategory,
+      if (healthEventTypeCode != null)
+        'HealthEventTypeCode': healthEventTypeCode,
+      if (healthService != null) 'HealthService': healthService,
+      if (id != null) 'Id': id,
+      if (lineTime != null) 'LineTime': unixTimestampToJson(lineTime),
+      if (logFilter != null) 'LogFilter': logFilter.toValue(),
+      if (logGroup != null) 'LogGroup': logGroup,
+      if (logText != null) 'LogText': logText,
+      if (metricName != null) 'MetricName': metricName,
+      if (metricNamespace != null) 'MetricNamespace': metricNamespace,
+      if (rdsEventCategories != null) 'RdsEventCategories': rdsEventCategories,
+      if (rdsEventMessage != null) 'RdsEventMessage': rdsEventMessage,
+      if (s3EventName != null) 'S3EventName': s3EventName,
+      if (sourceARN != null) 'SourceARN': sourceARN,
+      if (sourceType != null) 'SourceType': sourceType,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (statesArn != null) 'StatesArn': statesArn,
+      if (statesExecutionArn != null) 'StatesExecutionArn': statesExecutionArn,
+      if (statesInput != null) 'StatesInput': statesInput,
+      if (statesStatus != null) 'StatesStatus': statesStatus,
+      if (unit != null) 'Unit': unit,
+      if (value != null) 'Value': value,
+      if (xRayErrorPercent != null) 'XRayErrorPercent': xRayErrorPercent,
+      if (xRayFaultPercent != null) 'XRayFaultPercent': xRayFaultPercent,
+      if (xRayNodeName != null) 'XRayNodeName': xRayNodeName,
+      if (xRayNodeType != null) 'XRayNodeType': xRayNodeType,
+      if (xRayRequestAverageLatency != null)
+        'XRayRequestAverageLatency': xRayRequestAverageLatency,
+      if (xRayRequestCount != null) 'XRayRequestCount': xRayRequestCount,
+      if (xRayThrottlePercent != null)
+        'XRayThrottlePercent': xRayThrottlePercent,
+    };
+  }
 }
 
 enum OsType {
-  @_s.JsonValue('WINDOWS')
   windows,
-  @_s.JsonValue('LINUX')
   linux,
 }
 
+extension on OsType {
+  String toValue() {
+    switch (this) {
+      case OsType.windows:
+        return 'WINDOWS';
+      case OsType.linux:
+        return 'LINUX';
+    }
+  }
+}
+
+extension on String {
+  OsType toOsType() {
+    switch (this) {
+      case 'WINDOWS':
+        return OsType.windows;
+      case 'LINUX':
+        return OsType.linux;
+    }
+    throw Exception('$this is not known in enum OsType');
+  }
+}
+
 /// Describes a problem that is detected by correlating observations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Problem {
   /// The resource affected by the problem.
-  @_s.JsonKey(name: 'AffectedResource')
-  final String affectedResource;
+  final String? affectedResource;
 
   /// The time when the problem ended, in epoch seconds.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// Feedback provided by the user about the problem.
-  @_s.JsonKey(name: 'Feedback')
-  final Map<FeedbackKey, FeedbackValue> feedback;
+  final Map<FeedbackKey, FeedbackValue>? feedback;
 
   /// The ID of the problem.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// A detailed analysis of the problem using machine learning.
-  @_s.JsonKey(name: 'Insights')
-  final String insights;
+  final String? insights;
 
   /// The name of the resource group affected by the problem.
-  @_s.JsonKey(name: 'ResourceGroupName')
-  final String resourceGroupName;
+  final String? resourceGroupName;
 
   /// A measure of the level of impact of the problem.
-  @_s.JsonKey(name: 'SeverityLevel')
-  final SeverityLevel severityLevel;
+  final SeverityLevel? severityLevel;
 
   /// The time when the problem started, in epoch seconds.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the problem.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   /// The name of the problem.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   Problem({
     this.affectedResource,
@@ -3002,44 +3137,140 @@ class Problem {
     this.status,
     this.title,
   });
-  factory Problem.fromJson(Map<String, dynamic> json) =>
-      _$ProblemFromJson(json);
+
+  factory Problem.fromJson(Map<String, dynamic> json) {
+    return Problem(
+      affectedResource: json['AffectedResource'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      feedback: (json['Feedback'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k.toFeedbackKey(), (e as String).toFeedbackValue())),
+      id: json['Id'] as String?,
+      insights: json['Insights'] as String?,
+      resourceGroupName: json['ResourceGroupName'] as String?,
+      severityLevel: (json['SeverityLevel'] as String?)?.toSeverityLevel(),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toStatus(),
+      title: json['Title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final affectedResource = this.affectedResource;
+    final endTime = this.endTime;
+    final feedback = this.feedback;
+    final id = this.id;
+    final insights = this.insights;
+    final resourceGroupName = this.resourceGroupName;
+    final severityLevel = this.severityLevel;
+    final startTime = this.startTime;
+    final status = this.status;
+    final title = this.title;
+    return {
+      if (affectedResource != null) 'AffectedResource': affectedResource,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (feedback != null)
+        'Feedback': feedback.map((k, e) => MapEntry(k.toValue(), e.toValue())),
+      if (id != null) 'Id': id,
+      if (insights != null) 'Insights': insights,
+      if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+      if (severityLevel != null) 'SeverityLevel': severityLevel.toValue(),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (title != null) 'Title': title,
+    };
+  }
 }
 
 /// Describes observations related to the problem.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RelatedObservations {
   /// The list of observations related to the problem.
-  @_s.JsonKey(name: 'ObservationList')
-  final List<Observation> observationList;
+  final List<Observation>? observationList;
 
   RelatedObservations({
     this.observationList,
   });
-  factory RelatedObservations.fromJson(Map<String, dynamic> json) =>
-      _$RelatedObservationsFromJson(json);
+
+  factory RelatedObservations.fromJson(Map<String, dynamic> json) {
+    return RelatedObservations(
+      observationList: (json['ObservationList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Observation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final observationList = this.observationList;
+    return {
+      if (observationList != null) 'ObservationList': observationList,
+    };
+  }
 }
 
 enum SeverityLevel {
-  @_s.JsonValue('Low')
   low,
-  @_s.JsonValue('Medium')
   medium,
-  @_s.JsonValue('High')
   high,
 }
 
+extension on SeverityLevel {
+  String toValue() {
+    switch (this) {
+      case SeverityLevel.low:
+        return 'Low';
+      case SeverityLevel.medium:
+        return 'Medium';
+      case SeverityLevel.high:
+        return 'High';
+    }
+  }
+}
+
+extension on String {
+  SeverityLevel toSeverityLevel() {
+    switch (this) {
+      case 'Low':
+        return SeverityLevel.low;
+      case 'Medium':
+        return SeverityLevel.medium;
+      case 'High':
+        return SeverityLevel.high;
+    }
+    throw Exception('$this is not known in enum SeverityLevel');
+  }
+}
+
 enum Status {
-  @_s.JsonValue('IGNORE')
   ignore,
-  @_s.JsonValue('RESOLVED')
   resolved,
-  @_s.JsonValue('PENDING')
   pending,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.ignore:
+        return 'IGNORE';
+      case Status.resolved:
+        return 'RESOLVED';
+      case Status.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'IGNORE':
+        return Status.ignore;
+      case 'RESOLVED':
+        return Status.resolved;
+      case 'PENDING':
+        return Status.pending;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
 }
 
 /// An object that defines the tags associated with an application. A <i>tag</i>
@@ -3070,68 +3301,63 @@ enum Status {
 /// remove tag keys or values that use this prefix.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// One part of a key-value pair that defines a tag. The maximum length of a tag
   /// key is 128 characters. The minimum length is 1 character.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The optional part of a key-value pair that defines a tag. The maximum length
   /// of a tag value is 256 characters. The minimum length is 0 characters. If you
   /// don't want an application to have a specific tag value, don't specify a
   /// value for this parameter.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum Tier {
-  @_s.JsonValue('CUSTOM')
   custom,
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('DOT_NET_CORE')
   dotNetCore,
-  @_s.JsonValue('DOT_NET_WORKER')
   dotNetWorker,
-  @_s.JsonValue('DOT_NET_WEB_TIER')
   dotNetWebTier,
-  @_s.JsonValue('DOT_NET_WEB')
   dotNetWeb,
-  @_s.JsonValue('SQL_SERVER')
   sqlServer,
-  @_s.JsonValue('SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP')
   sqlServerAlwaysonAvailabilityGroup,
-  @_s.JsonValue('MYSQL')
   mysql,
-  @_s.JsonValue('POSTGRESQL')
   postgresql,
-  @_s.JsonValue('JAVA_JMX')
   javaJmx,
-  @_s.JsonValue('ORACLE')
   oracle,
 }
 
@@ -3163,120 +3389,171 @@ extension on Tier {
       case Tier.oracle:
         return 'ORACLE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UntagResourceResponse {
-  UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+extension on String {
+  Tier toTier() {
+    switch (this) {
+      case 'CUSTOM':
+        return Tier.custom;
+      case 'DEFAULT':
+        return Tier.$default;
+      case 'DOT_NET_CORE':
+        return Tier.dotNetCore;
+      case 'DOT_NET_WORKER':
+        return Tier.dotNetWorker;
+      case 'DOT_NET_WEB_TIER':
+        return Tier.dotNetWebTier;
+      case 'DOT_NET_WEB':
+        return Tier.dotNetWeb;
+      case 'SQL_SERVER':
+        return Tier.sqlServer;
+      case 'SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP':
+        return Tier.sqlServerAlwaysonAvailabilityGroup;
+      case 'MYSQL':
+        return Tier.mysql;
+      case 'POSTGRESQL':
+        return Tier.postgresql;
+      case 'JAVA_JMX':
+        return Tier.javaJmx;
+      case 'ORACLE':
+        return Tier.oracle;
+    }
+    throw Exception('$this is not known in enum Tier');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateApplicationResponse {
   /// Information about the application.
-  @_s.JsonKey(name: 'ApplicationInfo')
-  final ApplicationInfo applicationInfo;
+  final ApplicationInfo? applicationInfo;
 
   UpdateApplicationResponse({
     this.applicationInfo,
   });
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApplicationResponseFromJson(json);
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApplicationResponse(
+      applicationInfo: json['ApplicationInfo'] != null
+          ? ApplicationInfo.fromJson(
+              json['ApplicationInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationInfo = this.applicationInfo;
+    return {
+      if (applicationInfo != null) 'ApplicationInfo': applicationInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateComponentConfigurationResponse {
   UpdateComponentConfigurationResponse();
+
   factory UpdateComponentConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateComponentConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateComponentConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateComponentResponse {
   UpdateComponentResponse();
-  factory UpdateComponentResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateComponentResponseFromJson(json);
+
+  factory UpdateComponentResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateComponentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateLogPatternResponse {
   /// The successfully created log pattern.
-  @_s.JsonKey(name: 'LogPattern')
-  final LogPattern logPattern;
+  final LogPattern? logPattern;
 
   /// The name of the resource group.
-  @_s.JsonKey(name: 'ResourceGroupName')
-  final String resourceGroupName;
+  final String? resourceGroupName;
 
   UpdateLogPatternResponse({
     this.logPattern,
     this.resourceGroupName,
   });
-  factory UpdateLogPatternResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateLogPatternResponseFromJson(json);
+
+  factory UpdateLogPatternResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateLogPatternResponse(
+      logPattern: json['LogPattern'] != null
+          ? LogPattern.fromJson(json['LogPattern'] as Map<String, dynamic>)
+          : null,
+      resourceGroupName: json['ResourceGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logPattern = this.logPattern;
+    final resourceGroupName = this.resourceGroupName;
+    return {
+      if (logPattern != null) 'LogPattern': logPattern,
+      if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TagsAlreadyExistException extends _s.GenericAwsException {
-  TagsAlreadyExistException({String type, String message})
+  TagsAlreadyExistException({String? type, String? message})
       : super(type: type, code: 'TagsAlreadyExistException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

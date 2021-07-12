@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,32 +11,29 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-12-20.g.dart';
 
 /// You can use the Amazon Redshift Data API to run queries on Amazon Redshift
 /// tables. You can run individual SQL statements, which are committed if the
 /// statement succeeds.
+///
+/// For more information about the Amazon Redshift Data API, see <a
+/// href="https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html">Using
+/// the Amazon Redshift Data API</a> in the <i>Amazon Redshift Cluster
+/// Management Guide</i>.
 class RedshiftDataApi {
   final _s.JsonProtocol _protocol;
   RedshiftDataApi({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -58,7 +56,7 @@ class RedshiftDataApi {
   /// identifier is returned by <code>ExecuteStatment</code> and
   /// <code>ListStatements</code>.
   Future<CancelStatementResponse> cancelStatement({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
@@ -94,7 +92,7 @@ class RedshiftDataApi {
   /// API. This identifier is returned by <code>ExecuteStatment</code> and
   /// <code>ListStatements</code>.
   Future<DescribeStatementResponse> describeStatement({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
@@ -141,8 +139,13 @@ class RedshiftDataApi {
   /// using either AWS Secrets Manager or temporary credentials.
   ///
   /// Parameter [database] :
-  /// The name of the database. This parameter is required when authenticating
-  /// using temporary credentials.
+  /// The name of the database that contains the tables to be described. If
+  /// <code>ConnectedDatabase</code> is not specified, this is also the database
+  /// to connect to with your authentication credentials.
+  ///
+  /// Parameter [connectedDatabase] :
+  /// A database name. The connected database is specified when you connect with
+  /// your authentication credentials.
   ///
   /// Parameter [dbUser] :
   /// The database user name. This parameter is required when authenticating
@@ -174,16 +177,24 @@ class RedshiftDataApi {
   /// schemas are returned. If no table and no schema is specified, then all
   /// tables for all schemas in the database are returned
   Future<DescribeTableResponse> describeTable({
-    @_s.required String clusterIdentifier,
-    String database,
-    String dbUser,
-    int maxResults,
-    String nextToken,
-    String schema,
-    String secretArn,
-    String table,
+    required String clusterIdentifier,
+    required String database,
+    String? connectedDatabase,
+    String? dbUser,
+    int? maxResults,
+    String? nextToken,
+    String? schema,
+    String? secretArn,
+    String? table,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    ArgumentError.checkNotNull(database, 'database');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RedshiftData.DescribeTable'
@@ -196,7 +207,8 @@ class RedshiftDataApi {
       headers: headers,
       payload: {
         'ClusterIdentifier': clusterIdentifier,
-        if (database != null) 'Database': database,
+        'Database': database,
+        if (connectedDatabase != null) 'ConnectedDatabase': connectedDatabase,
         if (dbUser != null) 'DbUser': dbUser,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -229,6 +241,7 @@ class RedshiftDataApi {
   ///
   /// May throw [ValidationException].
   /// May throw [ExecuteStatementException].
+  /// May throw [ActiveStatementsExceededException].
   ///
   /// Parameter [clusterIdentifier] :
   /// The cluster identifier. This parameter is required when authenticating
@@ -245,6 +258,9 @@ class RedshiftDataApi {
   /// The database user name. This parameter is required when authenticating
   /// using temporary credentials.
   ///
+  /// Parameter [parameters] :
+  /// The parameters for the SQL statement.
+  ///
   /// Parameter [secretArn] :
   /// The name or ARN of the secret that enables access to the database. This
   /// parameter is required when authenticating using AWS Secrets Manager.
@@ -257,13 +273,14 @@ class RedshiftDataApi {
   /// A value that indicates whether to send an event to the Amazon EventBridge
   /// event bus after the SQL statement runs.
   Future<ExecuteStatementOutput> executeStatement({
-    @_s.required String clusterIdentifier,
-    @_s.required String sql,
-    String database,
-    String dbUser,
-    String secretArn,
-    String statementName,
-    bool withEvent,
+    required String clusterIdentifier,
+    required String sql,
+    String? database,
+    String? dbUser,
+    List<SqlParameter>? parameters,
+    String? secretArn,
+    String? statementName,
+    bool? withEvent,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(sql, 'sql');
@@ -288,6 +305,7 @@ class RedshiftDataApi {
         'Sql': sql,
         if (database != null) 'Database': database,
         if (dbUser != null) 'DbUser': dbUser,
+        if (parameters != null) 'Parameters': parameters,
         if (secretArn != null) 'SecretArn': secretArn,
         if (statementName != null) 'StatementName': statementName,
         if (withEvent != null) 'WithEvent': withEvent,
@@ -318,8 +336,8 @@ class RedshiftDataApi {
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
   Future<GetStatementResultResponse> getStatementResult({
-    @_s.required String id,
-    String nextToken,
+    required String id,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{
@@ -390,14 +408,20 @@ class RedshiftDataApi {
   /// The name or ARN of the secret that enables access to the database. This
   /// parameter is required when authenticating using AWS Secrets Manager.
   Future<ListDatabasesResponse> listDatabases({
-    @_s.required String clusterIdentifier,
-    String database,
-    String dbUser,
-    int maxResults,
-    String nextToken,
-    String secretArn,
+    required String clusterIdentifier,
+    String? database,
+    String? dbUser,
+    int? maxResults,
+    String? nextToken,
+    String? secretArn,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RedshiftData.ListDatabases'
@@ -446,8 +470,13 @@ class RedshiftDataApi {
   /// using either AWS Secrets Manager or temporary credentials.
   ///
   /// Parameter [database] :
-  /// The name of the database. This parameter is required when authenticating
-  /// using temporary credentials.
+  /// The name of the database that contains the schemas to list. If
+  /// <code>ConnectedDatabase</code> is not specified, this is also the database
+  /// to connect to with your authentication credentials.
+  ///
+  /// Parameter [connectedDatabase] :
+  /// A database name. The connected database is specified when you connect with
+  /// your authentication credentials.
   ///
   /// Parameter [dbUser] :
   /// The database user name. This parameter is required when authenticating
@@ -476,16 +505,23 @@ class RedshiftDataApi {
   /// The name or ARN of the secret that enables access to the database. This
   /// parameter is required when authenticating using AWS Secrets Manager.
   Future<ListSchemasResponse> listSchemas({
-    @_s.required String clusterIdentifier,
-    @_s.required String database,
-    String dbUser,
-    int maxResults,
-    String nextToken,
-    String schemaPattern,
-    String secretArn,
+    required String clusterIdentifier,
+    required String database,
+    String? connectedDatabase,
+    String? dbUser,
+    int? maxResults,
+    String? nextToken,
+    String? schemaPattern,
+    String? secretArn,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(database, 'database');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RedshiftData.ListSchemas'
@@ -499,6 +535,7 @@ class RedshiftDataApi {
       payload: {
         'ClusterIdentifier': clusterIdentifier,
         'Database': database,
+        if (connectedDatabase != null) 'ConnectedDatabase': connectedDatabase,
         if (dbUser != null) 'DbUser': dbUser,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -528,6 +565,12 @@ class RedshiftDataApi {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
+  ///
+  /// Parameter [roleLevel] :
+  /// A value that filters which statements to return in the response. If true,
+  /// all statements run by the caller's IAM role are returned. If false, only
+  /// statements run by the caller's IAM role in the current IAM session are
+  /// returned. The default is true.
   ///
   /// Parameter [statementName] :
   /// The name of the SQL statement specified as input to
@@ -567,10 +610,11 @@ class RedshiftDataApi {
   /// </li>
   /// </ul>
   Future<ListStatementsResponse> listStatements({
-    int maxResults,
-    String nextToken,
-    String statementName,
-    StatusString status,
+    int? maxResults,
+    String? nextToken,
+    bool? roleLevel,
+    String? statementName,
+    StatusString? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -597,6 +641,7 @@ class RedshiftDataApi {
       payload: {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (roleLevel != null) 'RoleLevel': roleLevel,
         if (statementName != null) 'StatementName': statementName,
         if (status != null) 'Status': status.toValue(),
       },
@@ -632,8 +677,13 @@ class RedshiftDataApi {
   /// using either AWS Secrets Manager or temporary credentials.
   ///
   /// Parameter [database] :
-  /// The name of the database. This parameter is required when authenticating
-  /// using temporary credentials.
+  /// The name of the database that contains the tables to list. If
+  /// <code>ConnectedDatabase</code> is not specified, this is also the database
+  /// to connect to with your authentication credentials.
+  ///
+  /// Parameter [connectedDatabase] :
+  /// A database name. The connected database is specified when you connect with
+  /// your authentication credentials.
   ///
   /// Parameter [dbUser] :
   /// The database user name. This parameter is required when authenticating
@@ -674,17 +724,24 @@ class RedshiftDataApi {
   /// <code>SchemaPattern</code> or <code>TablePattern</code> are specified,
   /// then all tables are returned.
   Future<ListTablesResponse> listTables({
-    @_s.required String clusterIdentifier,
-    @_s.required String database,
-    String dbUser,
-    int maxResults,
-    String nextToken,
-    String schemaPattern,
-    String secretArn,
-    String tablePattern,
+    required String clusterIdentifier,
+    required String database,
+    String? connectedDatabase,
+    String? dbUser,
+    int? maxResults,
+    String? nextToken,
+    String? schemaPattern,
+    String? secretArn,
+    String? tablePattern,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
     ArgumentError.checkNotNull(database, 'database');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      1000,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'RedshiftData.ListTables'
@@ -698,6 +755,7 @@ class RedshiftDataApi {
       payload: {
         'ClusterIdentifier': clusterIdentifier,
         'Database': database,
+        if (connectedDatabase != null) 'ConnectedDatabase': connectedDatabase,
         if (dbUser != null) 'DbUser': dbUser,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -711,81 +769,68 @@ class RedshiftDataApi {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelStatementResponse {
   /// A value that indicates whether the cancel statement succeeded (true).
-  @_s.JsonKey(name: 'Status')
-  final bool status;
+  final bool? status;
 
   CancelStatementResponse({
     this.status,
   });
-  factory CancelStatementResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelStatementResponseFromJson(json);
+
+  factory CancelStatementResponse.fromJson(Map<String, dynamic> json) {
+    return CancelStatementResponse(
+      status: json['Status'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// The properties (metadata) of a column.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnMetadata {
   /// The default value of the column.
-  @_s.JsonKey(name: 'columnDefault')
-  final String columnDefault;
+  final String? columnDefault;
 
   /// A value that indicates whether the column is case-sensitive.
-  @_s.JsonKey(name: 'isCaseSensitive')
-  final bool isCaseSensitive;
+  final bool? isCaseSensitive;
 
   /// A value that indicates whether the column contains currency values.
-  @_s.JsonKey(name: 'isCurrency')
-  final bool isCurrency;
+  final bool? isCurrency;
 
   /// A value that indicates whether an integer column is signed.
-  @_s.JsonKey(name: 'isSigned')
-  final bool isSigned;
+  final bool? isSigned;
 
   /// The label for the column.
-  @_s.JsonKey(name: 'label')
-  final String label;
+  final String? label;
 
   /// The length of the column.
-  @_s.JsonKey(name: 'length')
-  final int length;
+  final int? length;
 
   /// The name of the column.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A value that indicates whether the column is nullable.
-  @_s.JsonKey(name: 'nullable')
-  final int nullable;
+  final int? nullable;
 
   /// The precision value of a decimal number column.
-  @_s.JsonKey(name: 'precision')
-  final int precision;
+  final int? precision;
 
   /// The scale value of a decimal number column.
-  @_s.JsonKey(name: 'scale')
-  final int scale;
+  final int? scale;
 
   /// The name of the schema that contains the table that includes the column.
-  @_s.JsonKey(name: 'schemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The name of the table that includes the column.
-  @_s.JsonKey(name: 'tableName')
-  final String tableName;
+  final String? tableName;
 
   /// The database-specific data type of the column.
-  @_s.JsonKey(name: 'typeName')
-  final String typeName;
+  final String? typeName;
 
   ColumnMetadata({
     this.columnDefault,
@@ -802,76 +847,111 @@ class ColumnMetadata {
     this.tableName,
     this.typeName,
   });
-  factory ColumnMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ColumnMetadataFromJson(json);
+
+  factory ColumnMetadata.fromJson(Map<String, dynamic> json) {
+    return ColumnMetadata(
+      columnDefault: json['columnDefault'] as String?,
+      isCaseSensitive: json['isCaseSensitive'] as bool?,
+      isCurrency: json['isCurrency'] as bool?,
+      isSigned: json['isSigned'] as bool?,
+      label: json['label'] as String?,
+      length: json['length'] as int?,
+      name: json['name'] as String?,
+      nullable: json['nullable'] as int?,
+      precision: json['precision'] as int?,
+      scale: json['scale'] as int?,
+      schemaName: json['schemaName'] as String?,
+      tableName: json['tableName'] as String?,
+      typeName: json['typeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnDefault = this.columnDefault;
+    final isCaseSensitive = this.isCaseSensitive;
+    final isCurrency = this.isCurrency;
+    final isSigned = this.isSigned;
+    final label = this.label;
+    final length = this.length;
+    final name = this.name;
+    final nullable = this.nullable;
+    final precision = this.precision;
+    final scale = this.scale;
+    final schemaName = this.schemaName;
+    final tableName = this.tableName;
+    final typeName = this.typeName;
+    return {
+      if (columnDefault != null) 'columnDefault': columnDefault,
+      if (isCaseSensitive != null) 'isCaseSensitive': isCaseSensitive,
+      if (isCurrency != null) 'isCurrency': isCurrency,
+      if (isSigned != null) 'isSigned': isSigned,
+      if (label != null) 'label': label,
+      if (length != null) 'length': length,
+      if (name != null) 'name': name,
+      if (nullable != null) 'nullable': nullable,
+      if (precision != null) 'precision': precision,
+      if (scale != null) 'scale': scale,
+      if (schemaName != null) 'schemaName': schemaName,
+      if (tableName != null) 'tableName': tableName,
+      if (typeName != null) 'typeName': typeName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStatementResponse {
   /// The identifier of the SQL statement described. This value is a universally
   /// unique identifier (UUID) generated by Amazon Redshift Data API.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The cluster identifier.
-  @_s.JsonKey(name: 'ClusterIdentifier')
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// The date and time (UTC) when the SQL statement was submitted to run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The name of the database.
-  @_s.JsonKey(name: 'Database')
-  final String database;
+  final String? database;
 
   /// The database user name.
-  @_s.JsonKey(name: 'DbUser')
-  final String dbUser;
+  final String? dbUser;
 
   /// The amount of time in nanoseconds that the statement ran.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// The error message from the cluster if the SQL statement encountered an error
   /// while running.
-  @_s.JsonKey(name: 'Error')
-  final String error;
+  final String? error;
+
+  /// A value that indicates whether the statement has a result set. The result
+  /// set can be empty.
+  final bool? hasResultSet;
+
+  /// The parameters for the SQL statement.
+  final List<SqlParameter>? queryParameters;
 
   /// The SQL statement text.
-  @_s.JsonKey(name: 'QueryString')
-  final String queryString;
+  final String? queryString;
 
   /// The process identifier from Amazon Redshift.
-  @_s.JsonKey(name: 'RedshiftPid')
-  final int redshiftPid;
+  final int? redshiftPid;
 
   /// The identifier of the query generated by Amazon Redshift. These identifiers
   /// are also available in the <code>query</code> column of the
   /// <code>STL_QUERY</code> system view.
-  @_s.JsonKey(name: 'RedshiftQueryId')
-  final int redshiftQueryId;
+  final int? redshiftQueryId;
 
   /// Either the number of rows returned from the SQL statement or the number of
   /// rows affected. If result size is greater than zero, the result rows can be
   /// the number of rows affected by SQL statements such as INSERT, UPDATE,
   /// DELETE, COPY, and others.
-  @_s.JsonKey(name: 'ResultRows')
-  final int resultRows;
+  final int? resultRows;
 
   /// The size in bytes of the returned results.
-  @_s.JsonKey(name: 'ResultSize')
-  final int resultSize;
+  final int? resultSize;
 
   /// The name or Amazon Resource Name (ARN) of the secret that enables access to
   /// the database.
-  @_s.JsonKey(name: 'SecretArn')
-  final String secretArn;
+  final String? secretArn;
 
   /// The status of the SQL statement being described. Status values are defined
   /// as follows:
@@ -900,23 +980,22 @@ class DescribeStatementResponse {
   /// SUBMITTED - The query was submitted, but not yet processed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final StatusString status;
+  final StatusString? status;
 
   /// The date and time (UTC) that the metadata for the SQL statement was last
   /// updated. An example is the time the status last changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   DescribeStatementResponse({
-    @_s.required this.id,
+    required this.id,
     this.clusterIdentifier,
     this.createdAt,
     this.database,
     this.dbUser,
     this.duration,
     this.error,
+    this.hasResultSet,
+    this.queryParameters,
     this.queryString,
     this.redshiftPid,
     this.redshiftQueryId,
@@ -926,19 +1005,75 @@ class DescribeStatementResponse {
     this.status,
     this.updatedAt,
   });
-  factory DescribeStatementResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStatementResponseFromJson(json);
+
+  factory DescribeStatementResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeStatementResponse(
+      id: json['Id'] as String,
+      clusterIdentifier: json['ClusterIdentifier'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      database: json['Database'] as String?,
+      dbUser: json['DbUser'] as String?,
+      duration: json['Duration'] as int?,
+      error: json['Error'] as String?,
+      hasResultSet: json['HasResultSet'] as bool?,
+      queryParameters: (json['QueryParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => SqlParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queryString: json['QueryString'] as String?,
+      redshiftPid: json['RedshiftPid'] as int?,
+      redshiftQueryId: json['RedshiftQueryId'] as int?,
+      resultRows: json['ResultRows'] as int?,
+      resultSize: json['ResultSize'] as int?,
+      secretArn: json['SecretArn'] as String?,
+      status: (json['Status'] as String?)?.toStatusString(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final clusterIdentifier = this.clusterIdentifier;
+    final createdAt = this.createdAt;
+    final database = this.database;
+    final dbUser = this.dbUser;
+    final duration = this.duration;
+    final error = this.error;
+    final hasResultSet = this.hasResultSet;
+    final queryParameters = this.queryParameters;
+    final queryString = this.queryString;
+    final redshiftPid = this.redshiftPid;
+    final redshiftQueryId = this.redshiftQueryId;
+    final resultRows = this.resultRows;
+    final resultSize = this.resultSize;
+    final secretArn = this.secretArn;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      'Id': id,
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (database != null) 'Database': database,
+      if (dbUser != null) 'DbUser': dbUser,
+      if (duration != null) 'Duration': duration,
+      if (error != null) 'Error': error,
+      if (hasResultSet != null) 'HasResultSet': hasResultSet,
+      if (queryParameters != null) 'QueryParameters': queryParameters,
+      if (queryString != null) 'QueryString': queryString,
+      if (redshiftPid != null) 'RedshiftPid': redshiftPid,
+      if (redshiftQueryId != null) 'RedshiftQueryId': redshiftQueryId,
+      if (resultRows != null) 'ResultRows': resultRows,
+      if (resultSize != null) 'ResultSize': resultSize,
+      if (secretArn != null) 'SecretArn': secretArn,
+      if (status != null) 'Status': status.toValue(),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTableResponse {
   /// A list of columns in the table.
-  @_s.JsonKey(name: 'ColumnList')
-  final List<ColumnMetadata> columnList;
+  final List<ColumnMetadata>? columnList;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -946,53 +1081,59 @@ class DescribeTableResponse {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The table name.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   DescribeTableResponse({
     this.columnList,
     this.nextToken,
     this.tableName,
   });
-  factory DescribeTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTableResponseFromJson(json);
+
+  factory DescribeTableResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTableResponse(
+      columnList: (json['ColumnList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnList = this.columnList;
+    final nextToken = this.nextToken;
+    final tableName = this.tableName;
+    return {
+      if (columnList != null) 'ColumnList': columnList,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecuteStatementOutput {
   /// The cluster identifier.
-  @_s.JsonKey(name: 'ClusterIdentifier')
-  final String clusterIdentifier;
+  final String? clusterIdentifier;
 
   /// The date and time (UTC) the statement was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The name of the database.
-  @_s.JsonKey(name: 'Database')
-  final String database;
+  final String? database;
 
   /// The database user name.
-  @_s.JsonKey(name: 'DbUser')
-  final String dbUser;
+  final String? dbUser;
 
   /// The identifier of the statement to be run. This value is a universally
   /// unique identifier (UUID) generated by Amazon Redshift Data API.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name or ARN of the secret that enables access to the database.
-  @_s.JsonKey(name: 'SecretArn')
-  final String secretArn;
+  final String? secretArn;
 
   ExecuteStatementOutput({
     this.clusterIdentifier,
@@ -1002,41 +1143,55 @@ class ExecuteStatementOutput {
     this.id,
     this.secretArn,
   });
-  factory ExecuteStatementOutput.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteStatementOutputFromJson(json);
+
+  factory ExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
+    return ExecuteStatementOutput(
+      clusterIdentifier: json['ClusterIdentifier'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      database: json['Database'] as String?,
+      dbUser: json['DbUser'] as String?,
+      id: json['Id'] as String?,
+      secretArn: json['SecretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterIdentifier = this.clusterIdentifier;
+    final createdAt = this.createdAt;
+    final database = this.database;
+    final dbUser = this.dbUser;
+    final id = this.id;
+    final secretArn = this.secretArn;
+    return {
+      if (clusterIdentifier != null) 'ClusterIdentifier': clusterIdentifier,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (database != null) 'Database': database,
+      if (dbUser != null) 'DbUser': dbUser,
+      if (id != null) 'Id': id,
+      if (secretArn != null) 'SecretArn': secretArn,
+    };
+  }
 }
 
 /// A data value in a column.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Field {
   /// A value of the BLOB data type.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'blobValue')
-  final Uint8List blobValue;
+  final Uint8List? blobValue;
 
   /// A value of the Boolean data type.
-  @_s.JsonKey(name: 'booleanValue')
-  final bool booleanValue;
+  final bool? booleanValue;
 
   /// A value of the double data type.
-  @_s.JsonKey(name: 'doubleValue')
-  final double doubleValue;
+  final double? doubleValue;
 
   /// A value that indicates whether the data is NULL.
-  @_s.JsonKey(name: 'isNull')
-  final bool isNull;
+  final bool? isNull;
 
   /// A value of the long data type.
-  @_s.JsonKey(name: 'longValue')
-  final int longValue;
+  final int? longValue;
 
   /// A value of the string data type.
-  @_s.JsonKey(name: 'stringValue')
-  final String stringValue;
+  final String? stringValue;
 
   Field({
     this.blobValue,
@@ -1046,22 +1201,42 @@ class Field {
     this.longValue,
     this.stringValue,
   });
-  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
+
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      blobValue: _s.decodeNullableUint8List(json['blobValue'] as String?),
+      booleanValue: json['booleanValue'] as bool?,
+      doubleValue: json['doubleValue'] as double?,
+      isNull: json['isNull'] as bool?,
+      longValue: json['longValue'] as int?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobValue = this.blobValue;
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final isNull = this.isNull;
+    final longValue = this.longValue;
+    final stringValue = this.stringValue;
+    return {
+      if (blobValue != null) 'blobValue': base64Encode(blobValue),
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (isNull != null) 'isNull': isNull,
+      if (longValue != null) 'longValue': longValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetStatementResultResponse {
   /// The results of the SQL statement.
-  @_s.JsonKey(name: 'Records')
   final List<List<Field>> records;
 
   /// The properties (metadata) of a column.
-  @_s.JsonKey(name: 'ColumnMetadata')
-  final List<ColumnMetadata> columnMetadata;
+  final List<ColumnMetadata>? columnMetadata;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -1069,35 +1244,56 @@ class GetStatementResultResponse {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The total number of rows in the result set returned from a query. You can
   /// use this number to estimate the number of calls to the
   /// <code>GetStatementResult</code> operation needed to page through the
   /// results.
-  @_s.JsonKey(name: 'TotalNumRows')
-  final int totalNumRows;
+  final int? totalNumRows;
 
   GetStatementResultResponse({
-    @_s.required this.records,
+    required this.records,
     this.columnMetadata,
     this.nextToken,
     this.totalNumRows,
   });
-  factory GetStatementResultResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetStatementResultResponseFromJson(json);
+
+  factory GetStatementResultResponse.fromJson(Map<String, dynamic> json) {
+    return GetStatementResultResponse(
+      records: (json['Records'] as List)
+          .whereNotNull()
+          .map((e) => (e as List)
+              .whereNotNull()
+              .map((e) => Field.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+      columnMetadata: (json['ColumnMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      totalNumRows: json['TotalNumRows'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final records = this.records;
+    final columnMetadata = this.columnMetadata;
+    final nextToken = this.nextToken;
+    final totalNumRows = this.totalNumRows;
+    return {
+      'Records': records,
+      if (columnMetadata != null) 'ColumnMetadata': columnMetadata,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (totalNumRows != null) 'TotalNumRows': totalNumRows,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatabasesResponse {
   /// The names of databases.
-  @_s.JsonKey(name: 'Databases')
-  final List<String> databases;
+  final List<String>? databases;
 
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -1105,22 +1301,33 @@ class ListDatabasesResponse {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatabasesResponse({
     this.databases,
     this.nextToken,
   });
-  factory ListDatabasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatabasesResponseFromJson(json);
+
+  factory ListDatabasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatabasesResponse(
+      databases: (json['Databases'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databases = this.databases;
+    final nextToken = this.nextToken;
+    return {
+      if (databases != null) 'Databases': databases,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSchemasResponse {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -1128,29 +1335,38 @@ class ListSchemasResponse {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The schemas that match the request pattern.
-  @_s.JsonKey(name: 'Schemas')
-  final List<String> schemas;
+  final List<String>? schemas;
 
   ListSchemasResponse({
     this.nextToken,
     this.schemas,
   });
-  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSchemasResponseFromJson(json);
+
+  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchemasResponse(
+      nextToken: json['NextToken'] as String?,
+      schemas: (json['Schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final schemas = this.schemas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemas != null) 'Schemas': schemas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStatementsResponse {
   /// The SQL statements.
-  @_s.JsonKey(name: 'Statements')
   final List<StatementData> statements;
 
   /// A value that indicates the starting point for the next set of response
@@ -1159,22 +1375,33 @@ class ListStatementsResponse {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListStatementsResponse({
-    @_s.required this.statements,
+    required this.statements,
     this.nextToken,
   });
-  factory ListStatementsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListStatementsResponseFromJson(json);
+
+  factory ListStatementsResponse.fromJson(Map<String, dynamic> json) {
+    return ListStatementsResponse(
+      statements: (json['Statements'] as List)
+          .whereNotNull()
+          .map((e) => StatementData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statements = this.statements;
+    final nextToken = this.nextToken;
+    return {
+      'Statements': statements,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTablesResponse {
   /// A value that indicates the starting point for the next set of response
   /// records in a subsequent request. If a value is returned in a response, you
@@ -1182,163 +1409,269 @@ class ListTablesResponse {
   /// value in the next NextToken parameter and retrying the command. If the
   /// NextToken field is empty, all response records have been retrieved for the
   /// request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tables that match the request pattern.
-  @_s.JsonKey(name: 'Tables')
-  final List<TableMember> tables;
+  final List<TableMember>? tables;
 
   ListTablesResponse({
     this.nextToken,
     this.tables,
   });
-  factory ListTablesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTablesResponseFromJson(json);
+
+  factory ListTablesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTablesResponse(
+      nextToken: json['NextToken'] as String?,
+      tables: (json['Tables'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableMember.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tables = this.tables;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tables != null) 'Tables': tables,
+    };
+  }
+}
+
+/// A parameter used in a SQL statement.
+class SqlParameter {
+  /// The name of the parameter.
+  final String name;
+
+  /// The value of the parameter. Amazon Redshift implicitly converts to the
+  /// proper data type. For more inforation, see <a
+  /// href="https://docs.aws.amazon.com/redshift/latest/dg/c_Supported_data_types.html">Data
+  /// types</a> in the <i>Amazon Redshift Database Developer Guide</i>.
+  final String value;
+
+  SqlParameter({
+    required this.name,
+    required this.value,
+  });
+
+  factory SqlParameter.fromJson(Map<String, dynamic> json) {
+    return SqlParameter(
+      name: json['name'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
 }
 
 /// The SQL statement to run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StatementData {
   /// The SQL statement identifier. This value is a universally unique identifier
   /// (UUID) generated by Amazon Redshift Data API.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The date and time (UTC) the statement was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
+
+  /// The parameters used in a SQL statement.
+  final List<SqlParameter>? queryParameters;
 
   /// The SQL statement.
-  @_s.JsonKey(name: 'QueryString')
-  final String queryString;
+  final String? queryString;
 
   /// The name or Amazon Resource Name (ARN) of the secret that enables access to
   /// the database.
-  @_s.JsonKey(name: 'SecretArn')
-  final String secretArn;
+  final String? secretArn;
 
   /// The name of the SQL statement.
-  @_s.JsonKey(name: 'StatementName')
-  final String statementName;
+  final String? statementName;
 
   /// The status of the SQL statement. An example is the that the SQL statement
   /// finished.
-  @_s.JsonKey(name: 'Status')
-  final StatusString status;
+  final StatusString? status;
 
   /// The date and time (UTC) that the statement metadata was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   StatementData({
-    @_s.required this.id,
+    required this.id,
     this.createdAt,
+    this.queryParameters,
     this.queryString,
     this.secretArn,
     this.statementName,
     this.status,
     this.updatedAt,
   });
-  factory StatementData.fromJson(Map<String, dynamic> json) =>
-      _$StatementDataFromJson(json);
+
+  factory StatementData.fromJson(Map<String, dynamic> json) {
+    return StatementData(
+      id: json['Id'] as String,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      queryParameters: (json['QueryParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => SqlParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queryString: json['QueryString'] as String?,
+      secretArn: json['SecretArn'] as String?,
+      statementName: json['StatementName'] as String?,
+      status: (json['Status'] as String?)?.toStatusString(),
+      updatedAt: timeStampFromJson(json['UpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final createdAt = this.createdAt;
+    final queryParameters = this.queryParameters;
+    final queryString = this.queryString;
+    final secretArn = this.secretArn;
+    final statementName = this.statementName;
+    final status = this.status;
+    final updatedAt = this.updatedAt;
+    return {
+      'Id': id,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (queryParameters != null) 'QueryParameters': queryParameters,
+      if (queryString != null) 'QueryString': queryString,
+      if (secretArn != null) 'SecretArn': secretArn,
+      if (statementName != null) 'StatementName': statementName,
+      if (status != null) 'Status': status.toValue(),
+      if (updatedAt != null) 'UpdatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
 }
 
 enum StatusString {
-  @_s.JsonValue('ABORTED')
-  aborted,
-  @_s.JsonValue('ALL')
-  all,
-  @_s.JsonValue('FAILED')
-  failed,
-  @_s.JsonValue('FINISHED')
-  finished,
-  @_s.JsonValue('PICKED')
-  picked,
-  @_s.JsonValue('STARTED')
-  started,
-  @_s.JsonValue('SUBMITTED')
   submitted,
+  picked,
+  started,
+  finished,
+  aborted,
+  failed,
+  all,
 }
 
 extension on StatusString {
   String toValue() {
     switch (this) {
-      case StatusString.aborted:
-        return 'ABORTED';
-      case StatusString.all:
-        return 'ALL';
-      case StatusString.failed:
-        return 'FAILED';
-      case StatusString.finished:
-        return 'FINISHED';
+      case StatusString.submitted:
+        return 'SUBMITTED';
       case StatusString.picked:
         return 'PICKED';
       case StatusString.started:
         return 'STARTED';
-      case StatusString.submitted:
-        return 'SUBMITTED';
+      case StatusString.finished:
+        return 'FINISHED';
+      case StatusString.aborted:
+        return 'ABORTED';
+      case StatusString.failed:
+        return 'FAILED';
+      case StatusString.all:
+        return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StatusString toStatusString() {
+    switch (this) {
+      case 'SUBMITTED':
+        return StatusString.submitted;
+      case 'PICKED':
+        return StatusString.picked;
+      case 'STARTED':
+        return StatusString.started;
+      case 'FINISHED':
+        return StatusString.finished;
+      case 'ABORTED':
+        return StatusString.aborted;
+      case 'FAILED':
+        return StatusString.failed;
+      case 'ALL':
+        return StatusString.all;
+    }
+    throw Exception('$this is not known in enum StatusString');
   }
 }
 
 /// The properties of a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableMember {
   /// The name of the table.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The schema containing the table.
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   /// The type of the table. Possible values include TABLE, VIEW, SYSTEM TABLE,
   /// GLOBAL TEMPORARY, LOCAL TEMPORARY, ALIAS, and SYNONYM.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   TableMember({
     this.name,
     this.schema,
     this.type,
   });
-  factory TableMember.fromJson(Map<String, dynamic> json) =>
-      _$TableMemberFromJson(json);
+
+  factory TableMember.fromJson(Map<String, dynamic> json) {
+    return TableMember(
+      name: json['name'] as String?,
+      schema: json['schema'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final schema = this.schema;
+    final type = this.type;
+    return {
+      if (name != null) 'name': name,
+      if (schema != null) 'schema': schema,
+      if (type != null) 'type': type,
+    };
+  }
+}
+
+class ActiveStatementsExceededException extends _s.GenericAwsException {
+  ActiveStatementsExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ActiveStatementsExceededException',
+            message: message);
 }
 
 class ExecuteStatementException extends _s.GenericAwsException {
-  ExecuteStatementException({String type, String message})
+  ExecuteStatementException({String? type, String? message})
       : super(type: type, code: 'ExecuteStatementException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'ActiveStatementsExceededException': (type, message) =>
+      ActiveStatementsExceededException(type: type, message: message),
   'ExecuteStatementException': (type, message) =>
       ExecuteStatementException(type: type, message: message),
   'InternalServerException': (type, message) =>

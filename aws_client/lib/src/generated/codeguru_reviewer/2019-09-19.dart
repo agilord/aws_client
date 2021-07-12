@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,26 +11,18 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-09-19.g.dart';
 
 /// This section provides documentation for the Amazon CodeGuru Reviewer API
 /// operations. CodeGuru Reviewer is a service that uses program analysis and
 /// machine learning to detect potential defects that are difficult for
-/// developers to find and recommends fixes in your Java code.
+/// developers to find and recommends fixes in your Java and Python code.
 ///
 /// By proactively detecting and providing recommendations for addressing code
 /// defects and implementing best practices, CodeGuru Reviewer improves the
@@ -47,10 +40,10 @@ part '2019-09-19.g.dart';
 class CodeGuruReviewer {
   final _s.RestJsonProtocol _protocol;
   CodeGuruReviewer({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,16 +65,15 @@ class CodeGuruReviewer {
   /// in Amazon CodeGuru Reviewer</a> in the <i>Amazon CodeGuru Reviewer User
   /// Guide.</i>
   ///
-  /// If you associate a CodeCommit repository, it must be in the same AWS
+  /// If you associate a CodeCommit or S3 repository, it must be in the same AWS
   /// Region and AWS account where its CodeGuru Reviewer code reviews are
   /// configured.
   ///
   /// Bitbucket and GitHub Enterprise Server repositories are managed by AWS
   /// CodeStar Connections to connect to CodeGuru Reviewer. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/reviewer-ug/step-one.html#select-repository-source-provider">Connect
-  /// to a repository source provider</a> in the <i>Amazon CodeGuru Reviewer
-  /// User Guide.</i>
+  /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/getting-started-associate-repository.html">Associate
+  /// a repository</a> in the <i>Amazon CodeGuru Reviewer User Guide.</i>
   /// <note>
   /// You cannot use the CodeGuru Reviewer SDK or the AWS CLI to associate a
   /// GitHub repository with Amazon CodeGuru Reviewer. To associate a GitHub
@@ -105,6 +97,21 @@ class CodeGuruReviewer {
   /// creation of duplicate repository associations if there are failures and
   /// retries.
   ///
+  /// Parameter [kMSKeyDetails] :
+  /// A <code>KMSKeyDetails</code> object that contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// The encryption option for this repository association. It is either owned
+  /// by AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or
+  /// customer managed (<code>CUSTOMER_MANAGED_CMK</code>).
+  /// </li>
+  /// <li>
+  /// The ID of the AWS KMS key that is associated with this respository
+  /// association.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tags] :
   /// An array of key-value pairs used to tag an associated repository. A tag is
   /// a custom attribute label with two parts:
@@ -123,9 +130,10 @@ class CodeGuruReviewer {
   /// </li>
   /// </ul>
   Future<AssociateRepositoryResponse> associateRepository({
-    @_s.required Repository repository,
-    String clientRequestToken,
-    Map<String, String> tags,
+    required Repository repository,
+    String? clientRequestToken,
+    KMSKeyDetails? kMSKeyDetails,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(repository, 'repository');
     _s.validateStringLength(
@@ -134,14 +142,10 @@ class CodeGuruReviewer {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w-]+$''',
-    );
     final $payload = <String, dynamic>{
       'Repository': repository,
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (kMSKeyDetails != null) 'KMSKeyDetails': kMSKeyDetails,
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -158,8 +162,7 @@ class CodeGuruReviewer {
   /// <code>CodeReviewType</code> </a> of <code>RepositoryAnalysis</code>. This
   /// type of code review analyzes all code under a specified branch in an
   /// associated repository. <code>PullRequest</code> code reviews are
-  /// automatically triggered by a pull request so cannot be created using this
-  /// method.
+  /// automatically triggered by a pull request.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
@@ -193,10 +196,10 @@ class CodeGuruReviewer {
   /// Amazon CodeGuru Reviewer uses this value to prevent the accidental
   /// creation of duplicate code reviews if there are failures and retries.
   Future<CreateCodeReviewResponse> createCodeReview({
-    @_s.required String name,
-    @_s.required String repositoryAssociationArn,
-    @_s.required CodeReviewType type,
-    String clientRequestToken,
+    required String name,
+    required String repositoryAssociationArn,
+    required CodeReviewType type,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -204,12 +207,6 @@ class CodeGuruReviewer {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9-_]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -221,23 +218,12 @@ class CodeGuruReviewer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryAssociationArn',
-      repositoryAssociationArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w-]+$''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -268,7 +254,7 @@ class CodeGuruReviewer {
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html">
   /// <code>CodeReview</code> </a> object.
   Future<DescribeCodeReviewResponse> describeCodeReview({
-    @_s.required String codeReviewArn,
+    required String codeReviewArn,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
     _s.validateStringLength(
@@ -276,12 +262,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -322,9 +302,9 @@ class CodeGuruReviewer {
   /// User Guide</i>.
   Future<DescribeRecommendationFeedbackResponse>
       describeRecommendationFeedback({
-    @_s.required String codeReviewArn,
-    @_s.required String recommendationId,
-    String userId,
+    required String codeReviewArn,
+    required String recommendationId,
+    String? userId,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
     _s.validateStringLength(
@@ -332,12 +312,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(recommendationId, 'recommendationId');
@@ -355,7 +329,7 @@ class CodeGuruReviewer {
       256,
     );
     final $query = <String, List<String>>{
-      if (recommendationId != null) 'RecommendationId': [recommendationId],
+      'RecommendationId': [recommendationId],
       if (userId != null) 'UserId': [userId],
     };
     final response = await _protocol.send(
@@ -387,7 +361,7 @@ class CodeGuruReviewer {
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
   /// <code>ListRepositoryAssociations</code> </a>.
   Future<DescribeRepositoryAssociationResponse> describeRepositoryAssociation({
-    @_s.required String associationArn,
+    required String associationArn,
   }) async {
     ArgumentError.checkNotNull(associationArn, 'associationArn');
     _s.validateStringLength(
@@ -395,12 +369,6 @@ class CodeGuruReviewer {
       associationArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'associationArn',
-      associationArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -429,7 +397,7 @@ class CodeGuruReviewer {
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
   /// <code>ListRepositoryAssociations</code> </a>.
   Future<DisassociateRepositoryResponse> disassociateRepository({
-    @_s.required String associationArn,
+    required String associationArn,
   }) async {
     ArgumentError.checkNotNull(associationArn, 'associationArn');
     _s.validateStringLength(
@@ -437,12 +405,6 @@ class CodeGuruReviewer {
       associationArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'associationArn',
-      associationArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -507,12 +469,12 @@ class CodeGuruReviewer {
   /// </li>
   /// </ul>
   Future<ListCodeReviewsResponse> listCodeReviews({
-    @_s.required Type type,
-    int maxResults,
-    String nextToken,
-    List<ProviderType> providerTypes,
-    List<String> repositoryNames,
-    List<JobState> states,
+    required Type type,
+    int? maxResults,
+    String? nextToken,
+    List<ProviderType>? providerTypes,
+    List<String>? repositoryNames,
+    List<JobState>? states,
   }) async {
     ArgumentError.checkNotNull(type, 'type');
     _s.validateNumRange(
@@ -528,14 +490,13 @@ class CodeGuruReviewer {
       2048,
     );
     final $query = <String, List<String>>{
-      if (type != null) 'Type': [type.toValue()],
+      'Type': [type.toValue()],
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
       if (providerTypes != null)
-        'ProviderTypes': providerTypes.map((e) => e?.toValue() ?? '').toList(),
+        'ProviderTypes': providerTypes.map((e) => e.toValue()).toList(),
       if (repositoryNames != null) 'RepositoryNames': repositoryNames,
-      if (states != null)
-        'States': states.map((e) => e?.toValue() ?? '').toList(),
+      if (states != null) 'States': states.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -587,11 +548,11 @@ class CodeGuruReviewer {
   /// Specifying a Principal</a> in the <i>AWS Identity and Access Management
   /// User Guide</i>.
   Future<ListRecommendationFeedbackResponse> listRecommendationFeedback({
-    @_s.required String codeReviewArn,
-    int maxResults,
-    String nextToken,
-    List<String> recommendationIds,
-    List<String> userIds,
+    required String codeReviewArn,
+    int? maxResults,
+    String? nextToken,
+    List<String>? recommendationIds,
+    List<String>? userIds,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
     _s.validateStringLength(
@@ -599,12 +560,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -656,9 +611,9 @@ class CodeGuruReviewer {
   /// Parameter [nextToken] :
   /// Pagination token.
   Future<ListRecommendationsResponse> listRecommendations({
-    @_s.required String codeReviewArn,
-    int maxResults,
-    String nextToken,
+    required String codeReviewArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
     _s.validateStringLength(
@@ -666,12 +621,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -802,12 +751,12 @@ class CodeGuruReviewer {
   /// </li>
   /// </ul>
   Future<ListRepositoryAssociationsResponse> listRepositoryAssociations({
-    int maxResults,
-    List<String> names,
-    String nextToken,
-    List<String> owners,
-    List<ProviderType> providerTypes,
-    List<RepositoryAssociationState> states,
+    int? maxResults,
+    List<String>? names,
+    String? nextToken,
+    List<String>? owners,
+    List<ProviderType>? providerTypes,
+    List<RepositoryAssociationState>? states,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -827,9 +776,8 @@ class CodeGuruReviewer {
       if (nextToken != null) 'NextToken': [nextToken],
       if (owners != null) 'Owner': owners,
       if (providerTypes != null)
-        'ProviderType': providerTypes.map((e) => e?.toValue() ?? '').toList(),
-      if (states != null)
-        'State': states.map((e) => e?.toValue() ?? '').toList(),
+        'ProviderType': providerTypes.map((e) => e.toValue()).toList(),
+      if (states != null) 'State': states.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -856,7 +804,7 @@ class CodeGuruReviewer {
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
   /// <code>ListRepositoryAssociations</code> </a>.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -864,12 +812,6 @@ class CodeGuruReviewer {
       resourceArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -904,9 +846,9 @@ class CodeGuruReviewer {
   /// The recommendation ID that can be used to track the provided
   /// recommendations and then to collect the feedback.
   Future<void> putRecommendationFeedback({
-    @_s.required String codeReviewArn,
-    @_s.required List<Reaction> reactions,
-    @_s.required String recommendationId,
+    required String codeReviewArn,
+    required List<Reaction> reactions,
+    required String recommendationId,
   }) async {
     ArgumentError.checkNotNull(codeReviewArn, 'codeReviewArn');
     _s.validateStringLength(
@@ -914,12 +856,6 @@ class CodeGuruReviewer {
       codeReviewArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeReviewArn',
-      codeReviewArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z-]+:[\w-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(reactions, 'reactions');
@@ -933,7 +869,7 @@ class CodeGuruReviewer {
     );
     final $payload = <String, dynamic>{
       'CodeReviewArn': codeReviewArn,
-      'Reactions': reactions?.map((e) => e?.toValue() ?? '')?.toList(),
+      'Reactions': reactions.map((e) => e.toValue()).toList(),
       'RecommendationId': recommendationId,
     };
     final response = await _protocol.send(
@@ -942,7 +878,6 @@ class CodeGuruReviewer {
       requestUri: '/feedback',
       exceptionFnMap: _exceptionFns,
     );
-    return PutRecommendationFeedbackResponse.fromJson(response);
   }
 
   /// Adds one or more tags to an associated repository.
@@ -977,8 +912,8 @@ class CodeGuruReviewer {
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
   /// <code>ListRepositoryAssociations</code> </a>.
   Future<void> tagResource({
-    @_s.required Map<String, String> tags,
-    @_s.required String resourceArn,
+    required Map<String, String> tags,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -987,12 +922,6 @@ class CodeGuruReviewer {
       resourceArn,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1004,7 +933,6 @@ class CodeGuruReviewer {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes a tag from an associated repository.
@@ -1025,8 +953,8 @@ class CodeGuruReviewer {
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
   /// <code>ListRepositoryAssociations</code> </a>.
   Future<void> untagResource({
-    @_s.required List<String> tagKeys,
-    @_s.required String resourceArn,
+    required List<String> tagKeys,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -1037,14 +965,8 @@ class CodeGuruReviewer {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:association:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1053,19 +975,40 @@ class CodeGuruReviewer {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+enum AnalysisType {
+  security,
+  codeQuality,
+}
+
+extension on AnalysisType {
+  String toValue() {
+    switch (this) {
+      case AnalysisType.security:
+        return 'Security';
+      case AnalysisType.codeQuality:
+        return 'CodeQuality';
+    }
+  }
+}
+
+extension on String {
+  AnalysisType toAnalysisType() {
+    switch (this) {
+      case 'Security':
+        return AnalysisType.security;
+      case 'CodeQuality':
+        return AnalysisType.codeQuality;
+    }
+    throw Exception('$this is not known in enum AnalysisType');
+  }
+}
+
 class AssociateRepositoryResponse {
   /// Information about the repository association.
-  @_s.JsonKey(name: 'RepositoryAssociation')
-  final RepositoryAssociation repositoryAssociation;
+  final RepositoryAssociation? repositoryAssociation;
 
   /// An array of key-value pairs used to tag an associated repository. A tag is a
   /// custom attribute label with two parts:
@@ -1083,103 +1026,197 @@ class AssociateRepositoryResponse {
   /// tag values are case sensitive.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   AssociateRepositoryResponse({
     this.repositoryAssociation,
     this.tags,
   });
-  factory AssociateRepositoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateRepositoryResponseFromJson(json);
+
+  factory AssociateRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateRepositoryResponse(
+      repositoryAssociation: json['RepositoryAssociation'] != null
+          ? RepositoryAssociation.fromJson(
+              json['RepositoryAssociation'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryAssociation = this.repositoryAssociation;
+    final tags = this.tags;
+    return {
+      if (repositoryAssociation != null)
+        'RepositoryAssociation': repositoryAssociation,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+/// A type of <a
+/// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">
+/// <code>SourceCodeType</code> </a> that specifies a code diff between a source
+/// and destination branch in an associated repository.
+class BranchDiffSourceCodeType {
+  /// The destination branch for a diff in an associated repository.
+  final String destinationBranchName;
+
+  /// The source branch for a diff in an associated repository.
+  final String sourceBranchName;
+
+  BranchDiffSourceCodeType({
+    required this.destinationBranchName,
+    required this.sourceBranchName,
+  });
+
+  factory BranchDiffSourceCodeType.fromJson(Map<String, dynamic> json) {
+    return BranchDiffSourceCodeType(
+      destinationBranchName: json['DestinationBranchName'] as String,
+      sourceBranchName: json['SourceBranchName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationBranchName = this.destinationBranchName;
+    final sourceBranchName = this.sourceBranchName;
+    return {
+      'DestinationBranchName': destinationBranchName,
+      'SourceBranchName': sourceBranchName,
+    };
+  }
+}
+
+/// Code artifacts are source code artifacts and build artifacts used in a
+/// repository analysis or a pull request review.
+///
+/// <ul>
+/// <li>
+/// Source code artifacts are source code files in a Git repository that are
+/// compressed into a .zip file.
+/// </li>
+/// <li>
+/// Build artifacts are .jar or .class files that are compressed in a .zip file.
+/// </li>
+/// </ul>
+class CodeArtifacts {
+  /// The S3 object key for a source code .zip file. This is required for all code
+  /// reviews.
+  final String sourceCodeArtifactsObjectKey;
+
+  /// The S3 object key for a build artifacts .zip file that contains .jar or
+  /// .class files. This is required for a code review with security analysis. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-ug/code-review-security.html">Create
+  /// code reviews with security analysis</a> in the <i>Amazon CodeGuru Reviewer
+  /// User Guide</i>.
+  final String? buildArtifactsObjectKey;
+
+  CodeArtifacts({
+    required this.sourceCodeArtifactsObjectKey,
+    this.buildArtifactsObjectKey,
+  });
+
+  factory CodeArtifacts.fromJson(Map<String, dynamic> json) {
+    return CodeArtifacts(
+      sourceCodeArtifactsObjectKey:
+          json['SourceCodeArtifactsObjectKey'] as String,
+      buildArtifactsObjectKey: json['BuildArtifactsObjectKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceCodeArtifactsObjectKey = this.sourceCodeArtifactsObjectKey;
+    final buildArtifactsObjectKey = this.buildArtifactsObjectKey;
+    return {
+      'SourceCodeArtifactsObjectKey': sourceCodeArtifactsObjectKey,
+      if (buildArtifactsObjectKey != null)
+        'BuildArtifactsObjectKey': buildArtifactsObjectKey,
+    };
+  }
 }
 
 /// Information about an AWS CodeCommit repository. The CodeCommit repository
 /// must be in the same AWS Region and AWS account where its CodeGuru Reviewer
 /// code reviews are configured.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CodeCommitRepository {
   /// The name of the AWS CodeCommit repository. For more information, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/APIReference/API_GetRepository.html#CodeCommit-GetRepository-request-repositoryName">repositoryName</a>
   /// in the <i>AWS CodeCommit API Reference</i>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   CodeCommitRepository({
-    @_s.required this.name,
+    required this.name,
   });
-  Map<String, dynamic> toJson() => _$CodeCommitRepositoryToJson(this);
+
+  factory CodeCommitRepository.fromJson(Map<String, dynamic> json) {
+    return CodeCommitRepository(
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
 }
 
 /// Information about a code review. A code review belongs to the associated
 /// repository that contains the reviewed code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CodeReview {
+  /// They types of analysis performed during a repository analysis or a pull
+  /// request review. You can specify either <code>Security</code>,
+  /// <code>CodeQuality</code>, or both.
+  final List<AnalysisType>? analysisTypes;
+
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html">
   /// <code>RepositoryAssociation</code> </a> that contains the reviewed source
   /// code. You can retrieve associated repository ARNs by calling <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
   /// <code>ListRepositoryAssociations</code> </a>.
-  @_s.JsonKey(name: 'AssociationArn')
-  final String associationArn;
+  final String? associationArn;
 
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html">
   /// <code>CodeReview</code> </a> object.
-  @_s.JsonKey(name: 'CodeReviewArn')
-  final String codeReviewArn;
+  final String? codeReviewArn;
 
   /// The time, in milliseconds since the epoch, when the code review was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimeStamp')
-  final DateTime createdTimeStamp;
+  final DateTime? createdTimeStamp;
 
   /// The time, in milliseconds since the epoch, when the code review was last
   /// updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimeStamp')
-  final DateTime lastUpdatedTimeStamp;
+  final DateTime? lastUpdatedTimeStamp;
 
   /// The statistics from the code review.
-  @_s.JsonKey(name: 'Metrics')
-  final Metrics metrics;
+  final Metrics? metrics;
 
   /// The name of the code review.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The owner of the repository. For an AWS CodeCommit repository, this is the
   /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
   /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  /// account that owns the repository. For an S3 repository, it can be the
+  /// username or AWS account ID.
+  final String? owner;
 
   /// The type of repository that contains the reviewed code (for example, GitHub
   /// or Bitbucket).
-  @_s.JsonKey(name: 'ProviderType')
-  final ProviderType providerType;
+  final ProviderType? providerType;
 
   /// The pull request ID for the code review.
-  @_s.JsonKey(name: 'PullRequestId')
-  final String pullRequestId;
+  final String? pullRequestId;
 
   /// The name of the repository.
-  @_s.JsonKey(name: 'RepositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The type of the source code for the code review.
-  @_s.JsonKey(name: 'SourceCodeType')
-  final SourceCodeType sourceCodeType;
+  final SourceCodeType? sourceCodeType;
 
   /// The valid code review states are:
   ///
@@ -1198,18 +1235,16 @@ class CodeReview {
   /// <code>Deleting</code>: The code review is being deleted.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'State')
-  final JobState state;
+  final JobState? state;
 
   /// The reason for the state of the code review.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   /// The type of code review.
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   CodeReview({
+    this.analysisTypes,
     this.associationArn,
     this.codeReviewArn,
     this.createdTimeStamp,
@@ -1225,60 +1260,110 @@ class CodeReview {
     this.stateReason,
     this.type,
   });
-  factory CodeReview.fromJson(Map<String, dynamic> json) =>
-      _$CodeReviewFromJson(json);
+
+  factory CodeReview.fromJson(Map<String, dynamic> json) {
+    return CodeReview(
+      analysisTypes: (json['AnalysisTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAnalysisType())
+          .toList(),
+      associationArn: json['AssociationArn'] as String?,
+      codeReviewArn: json['CodeReviewArn'] as String?,
+      createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
+      lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
+      metrics: json['Metrics'] != null
+          ? Metrics.fromJson(json['Metrics'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      pullRequestId: json['PullRequestId'] as String?,
+      repositoryName: json['RepositoryName'] as String?,
+      sourceCodeType: json['SourceCodeType'] != null
+          ? SourceCodeType.fromJson(
+              json['SourceCodeType'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.toJobState(),
+      stateReason: json['StateReason'] as String?,
+      type: (json['Type'] as String?)?.toType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analysisTypes = this.analysisTypes;
+    final associationArn = this.associationArn;
+    final codeReviewArn = this.codeReviewArn;
+    final createdTimeStamp = this.createdTimeStamp;
+    final lastUpdatedTimeStamp = this.lastUpdatedTimeStamp;
+    final metrics = this.metrics;
+    final name = this.name;
+    final owner = this.owner;
+    final providerType = this.providerType;
+    final pullRequestId = this.pullRequestId;
+    final repositoryName = this.repositoryName;
+    final sourceCodeType = this.sourceCodeType;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    final type = this.type;
+    return {
+      if (analysisTypes != null)
+        'AnalysisTypes': analysisTypes.map((e) => e.toValue()).toList(),
+      if (associationArn != null) 'AssociationArn': associationArn,
+      if (codeReviewArn != null) 'CodeReviewArn': codeReviewArn,
+      if (createdTimeStamp != null)
+        'CreatedTimeStamp': unixTimestampToJson(createdTimeStamp),
+      if (lastUpdatedTimeStamp != null)
+        'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
+      if (metrics != null) 'Metrics': metrics,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (pullRequestId != null) 'PullRequestId': pullRequestId,
+      if (repositoryName != null) 'RepositoryName': repositoryName,
+      if (sourceCodeType != null) 'SourceCodeType': sourceCodeType,
+      if (state != null) 'State': state.toValue(),
+      if (stateReason != null) 'StateReason': stateReason,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// Information about the summary of the code review.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CodeReviewSummary {
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html">
   /// <code>CodeReview</code> </a> object.
-  @_s.JsonKey(name: 'CodeReviewArn')
-  final String codeReviewArn;
+  final String? codeReviewArn;
 
   /// The time, in milliseconds since the epoch, when the code review was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimeStamp')
-  final DateTime createdTimeStamp;
+  final DateTime? createdTimeStamp;
 
   /// The time, in milliseconds since the epoch, when the code review was last
   /// updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimeStamp')
-  final DateTime lastUpdatedTimeStamp;
+  final DateTime? lastUpdatedTimeStamp;
 
   /// The statistics from the code review.
-  @_s.JsonKey(name: 'MetricsSummary')
-  final MetricsSummary metricsSummary;
+  final MetricsSummary? metricsSummary;
 
   /// The name of the code review.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The owner of the repository. For an AWS CodeCommit repository, this is the
   /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
   /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  /// account that owns the repository. For an S3 repository, it can be the
+  /// username or AWS account ID.
+  final String? owner;
 
   /// The provider type of the repository association.
-  @_s.JsonKey(name: 'ProviderType')
-  final ProviderType providerType;
+  final ProviderType? providerType;
 
   /// The pull request ID for the code review.
-  @_s.JsonKey(name: 'PullRequestId')
-  final String pullRequestId;
+  final String? pullRequestId;
 
   /// The name of the repository.
-  @_s.JsonKey(name: 'RepositoryName')
-  final String repositoryName;
+  final String? repositoryName;
+  final SourceCodeType? sourceCodeType;
 
   /// The state of the code review.
   ///
@@ -1299,12 +1384,10 @@ class CodeReviewSummary {
   /// <code>Deleting</code>: The code review is being deleted.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'State')
-  final JobState state;
+  final JobState? state;
 
   /// The type of the code review.
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   CodeReviewSummary({
     this.codeReviewArn,
@@ -1316,11 +1399,64 @@ class CodeReviewSummary {
     this.providerType,
     this.pullRequestId,
     this.repositoryName,
+    this.sourceCodeType,
     this.state,
     this.type,
   });
-  factory CodeReviewSummary.fromJson(Map<String, dynamic> json) =>
-      _$CodeReviewSummaryFromJson(json);
+
+  factory CodeReviewSummary.fromJson(Map<String, dynamic> json) {
+    return CodeReviewSummary(
+      codeReviewArn: json['CodeReviewArn'] as String?,
+      createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
+      lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
+      metricsSummary: json['MetricsSummary'] != null
+          ? MetricsSummary.fromJson(
+              json['MetricsSummary'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      pullRequestId: json['PullRequestId'] as String?,
+      repositoryName: json['RepositoryName'] as String?,
+      sourceCodeType: json['SourceCodeType'] != null
+          ? SourceCodeType.fromJson(
+              json['SourceCodeType'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.toJobState(),
+      type: (json['Type'] as String?)?.toType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeReviewArn = this.codeReviewArn;
+    final createdTimeStamp = this.createdTimeStamp;
+    final lastUpdatedTimeStamp = this.lastUpdatedTimeStamp;
+    final metricsSummary = this.metricsSummary;
+    final name = this.name;
+    final owner = this.owner;
+    final providerType = this.providerType;
+    final pullRequestId = this.pullRequestId;
+    final repositoryName = this.repositoryName;
+    final sourceCodeType = this.sourceCodeType;
+    final state = this.state;
+    final type = this.type;
+    return {
+      if (codeReviewArn != null) 'CodeReviewArn': codeReviewArn,
+      if (createdTimeStamp != null)
+        'CreatedTimeStamp': unixTimestampToJson(createdTimeStamp),
+      if (lastUpdatedTimeStamp != null)
+        'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
+      if (metricsSummary != null) 'MetricsSummary': metricsSummary,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (pullRequestId != null) 'PullRequestId': pullRequestId,
+      if (repositoryName != null) 'RepositoryName': repositoryName,
+      if (sourceCodeType != null) 'SourceCodeType': sourceCodeType,
+      if (state != null) 'State': state.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// The type of a code review. There are two code review types:
@@ -1328,126 +1464,177 @@ class CodeReviewSummary {
 /// <ul>
 /// <li>
 /// <code>PullRequest</code> - A code review that is automatically triggered by
-/// a pull request on an assocaited repository. Because this type of code review
-/// is automatically generated, you cannot specify this code review type using
-/// <a
-/// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview">
-/// <code>CreateCodeReview</code> </a>.
+/// a pull request on an associated repository.
 /// </li>
 /// <li>
 /// <code>RepositoryAnalysis</code> - A code review that analyzes all code under
-/// a specified branch in an associated respository. The assocated repository is
+/// a specified branch in an associated repository. The associated repository is
 /// specified using its ARN in <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview">
 /// <code>CreateCodeReview</code> </a>.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CodeReviewType {
   /// A code review that analyzes all code under a specified branch in an
-  /// associated respository. The assocated repository is specified using its ARN
+  /// associated repository. The associated repository is specified using its ARN
   /// in <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview">
   /// <code>CreateCodeReview</code> </a>.
-  @_s.JsonKey(name: 'RepositoryAnalysis')
   final RepositoryAnalysis repositoryAnalysis;
 
+  /// They types of analysis performed during a repository analysis or a pull
+  /// request review. You can specify either <code>Security</code>,
+  /// <code>CodeQuality</code>, or both.
+  final List<AnalysisType>? analysisTypes;
+
   CodeReviewType({
-    @_s.required this.repositoryAnalysis,
+    required this.repositoryAnalysis,
+    this.analysisTypes,
   });
-  Map<String, dynamic> toJson() => _$CodeReviewTypeToJson(this);
+
+  factory CodeReviewType.fromJson(Map<String, dynamic> json) {
+    return CodeReviewType(
+      repositoryAnalysis: RepositoryAnalysis.fromJson(
+          json['RepositoryAnalysis'] as Map<String, dynamic>),
+      analysisTypes: (json['AnalysisTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAnalysisType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryAnalysis = this.repositoryAnalysis;
+    final analysisTypes = this.analysisTypes;
+    return {
+      'RepositoryAnalysis': repositoryAnalysis,
+      if (analysisTypes != null)
+        'AnalysisTypes': analysisTypes.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// A type of <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">
 /// <code>SourceCodeType</code> </a> that specifies the commit diff for a pull
-/// request on an associated repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// request on an associated repository. The <code>SourceCommit</code> and
+/// <code>DestinationCommit</code> fields are required to do a pull request code
+/// review.
 class CommitDiffSourceCodeType {
-  /// The SHA of the destination commit used to generate a commit diff.
-  @_s.JsonKey(name: 'DestinationCommit')
-  final String destinationCommit;
+  /// The SHA of the destination commit used to generate a commit diff. This field
+  /// is required for a pull request code review.
+  final String? destinationCommit;
 
-  /// The SHA of the source commit used to generate a commit diff.
-  @_s.JsonKey(name: 'SourceCommit')
-  final String sourceCommit;
+  /// The SHA of the merge base of a commit.
+  final String? mergeBaseCommit;
+
+  /// The SHA of the source commit used to generate a commit diff. This field is
+  /// required for a pull request code review.
+  final String? sourceCommit;
 
   CommitDiffSourceCodeType({
     this.destinationCommit,
+    this.mergeBaseCommit,
     this.sourceCommit,
   });
-  factory CommitDiffSourceCodeType.fromJson(Map<String, dynamic> json) =>
-      _$CommitDiffSourceCodeTypeFromJson(json);
+
+  factory CommitDiffSourceCodeType.fromJson(Map<String, dynamic> json) {
+    return CommitDiffSourceCodeType(
+      destinationCommit: json['DestinationCommit'] as String?,
+      mergeBaseCommit: json['MergeBaseCommit'] as String?,
+      sourceCommit: json['SourceCommit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCommit = this.destinationCommit;
+    final mergeBaseCommit = this.mergeBaseCommit;
+    final sourceCommit = this.sourceCommit;
+    return {
+      if (destinationCommit != null) 'DestinationCommit': destinationCommit,
+      if (mergeBaseCommit != null) 'MergeBaseCommit': mergeBaseCommit,
+      if (sourceCommit != null) 'SourceCommit': sourceCommit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCodeReviewResponse {
-  @_s.JsonKey(name: 'CodeReview')
-  final CodeReview codeReview;
+  final CodeReview? codeReview;
 
   CreateCodeReviewResponse({
     this.codeReview,
   });
-  factory CreateCodeReviewResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCodeReviewResponseFromJson(json);
+
+  factory CreateCodeReviewResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCodeReviewResponse(
+      codeReview: json['CodeReview'] != null
+          ? CodeReview.fromJson(json['CodeReview'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeReview = this.codeReview;
+    return {
+      if (codeReview != null) 'CodeReview': codeReview,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCodeReviewResponse {
   /// Information about the code review.
-  @_s.JsonKey(name: 'CodeReview')
-  final CodeReview codeReview;
+  final CodeReview? codeReview;
 
   DescribeCodeReviewResponse({
     this.codeReview,
   });
-  factory DescribeCodeReviewResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCodeReviewResponseFromJson(json);
+
+  factory DescribeCodeReviewResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCodeReviewResponse(
+      codeReview: json['CodeReview'] != null
+          ? CodeReview.fromJson(json['CodeReview'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeReview = this.codeReview;
+    return {
+      if (codeReview != null) 'CodeReview': codeReview,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRecommendationFeedbackResponse {
   /// The recommendation feedback given by the user.
-  @_s.JsonKey(name: 'RecommendationFeedback')
-  final RecommendationFeedback recommendationFeedback;
+  final RecommendationFeedback? recommendationFeedback;
 
   DescribeRecommendationFeedbackResponse({
     this.recommendationFeedback,
   });
+
   factory DescribeRecommendationFeedbackResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeRecommendationFeedbackResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeRecommendationFeedbackResponse(
+      recommendationFeedback: json['RecommendationFeedback'] != null
+          ? RecommendationFeedback.fromJson(
+              json['RecommendationFeedback'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recommendationFeedback = this.recommendationFeedback;
+    return {
+      if (recommendationFeedback != null)
+        'RecommendationFeedback': recommendationFeedback,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRepositoryAssociationResponse {
   /// Information about the repository association.
-  @_s.JsonKey(name: 'RepositoryAssociation')
-  final RepositoryAssociation repositoryAssociation;
+  final RepositoryAssociation? repositoryAssociation;
 
   /// An array of key-value pairs used to tag an associated repository. A tag is a
   /// custom attribute label with two parts:
@@ -1465,27 +1652,39 @@ class DescribeRepositoryAssociationResponse {
   /// tag values are case sensitive.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DescribeRepositoryAssociationResponse({
     this.repositoryAssociation,
     this.tags,
   });
+
   factory DescribeRepositoryAssociationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeRepositoryAssociationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeRepositoryAssociationResponse(
+      repositoryAssociation: json['RepositoryAssociation'] != null
+          ? RepositoryAssociation.fromJson(
+              json['RepositoryAssociation'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryAssociation = this.repositoryAssociation;
+    final tags = this.tags;
+    return {
+      if (repositoryAssociation != null)
+        'RepositoryAssociation': repositoryAssociation,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateRepositoryResponse {
   /// Information about the disassociated repository.
-  @_s.JsonKey(name: 'RepositoryAssociation')
-  final RepositoryAssociation repositoryAssociation;
+  final RepositoryAssociation? repositoryAssociation;
 
   /// An array of key-value pairs used to tag an associated repository. A tag is a
   /// custom attribute label with two parts:
@@ -1503,25 +1702,99 @@ class DisassociateRepositoryResponse {
   /// tag values are case sensitive.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DisassociateRepositoryResponse({
     this.repositoryAssociation,
     this.tags,
   });
-  factory DisassociateRepositoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateRepositoryResponseFromJson(json);
+
+  factory DisassociateRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateRepositoryResponse(
+      repositoryAssociation: json['RepositoryAssociation'] != null
+          ? RepositoryAssociation.fromJson(
+              json['RepositoryAssociation'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryAssociation = this.repositoryAssociation;
+    final tags = this.tags;
+    return {
+      if (repositoryAssociation != null)
+        'RepositoryAssociation': repositoryAssociation,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+enum EncryptionOption {
+  awsOwnedCmk,
+  customerManagedCmk,
+}
+
+extension on EncryptionOption {
+  String toValue() {
+    switch (this) {
+      case EncryptionOption.awsOwnedCmk:
+        return 'AWS_OWNED_CMK';
+      case EncryptionOption.customerManagedCmk:
+        return 'CUSTOMER_MANAGED_CMK';
+    }
+  }
+}
+
+extension on String {
+  EncryptionOption toEncryptionOption() {
+    switch (this) {
+      case 'AWS_OWNED_CMK':
+        return EncryptionOption.awsOwnedCmk;
+      case 'CUSTOMER_MANAGED_CMK':
+        return EncryptionOption.customerManagedCmk;
+    }
+    throw Exception('$this is not known in enum EncryptionOption');
+  }
+}
+
+/// Information about an event. The event might be a push, pull request,
+/// scheduled request, or another type of event.
+class EventInfo {
+  /// The name of the event. The possible names are <code>pull_request</code>,
+  /// <code>workflow_dispatch</code>, <code>schedule</code>, and <code>push</code>
+  final String? name;
+
+  /// The state of an event. The state might be open, closed, or another state.
+  final String? state;
+
+  EventInfo({
+    this.name,
+    this.state,
+  });
+
+  factory EventInfo.fromJson(Map<String, dynamic> json) {
+    return EventInfo(
+      name: json['Name'] as String?,
+      state: json['State'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (name != null) 'Name': name,
+      if (state != null) 'State': state,
+    };
+  }
 }
 
 enum JobState {
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Deleting')
   deleting,
 }
 
@@ -1537,112 +1810,216 @@ extension on JobState {
       case JobState.deleting:
         return 'Deleting';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  JobState toJobState() {
+    switch (this) {
+      case 'Completed':
+        return JobState.completed;
+      case 'Pending':
+        return JobState.pending;
+      case 'Failed':
+        return JobState.failed;
+      case 'Deleting':
+        return JobState.deleting;
+    }
+    throw Exception('$this is not known in enum JobState');
+  }
+}
+
+/// An object that contains:
+///
+/// <ul>
+/// <li>
+/// The encryption option for a repository association. It is either owned by
+/// AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or customer
+/// managed (<code>CUSTOMER_MANAGED_CMK</code>).
+/// </li>
+/// <li>
+/// The ID of the AWS KMS key that is associated with a respository association.
+/// </li>
+/// </ul>
+class KMSKeyDetails {
+  /// The encryption option for a repository association. It is either owned by
+  /// AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or customer
+  /// managed (<code>CUSTOMER_MANAGED_CMK</code>).
+  final EncryptionOption? encryptionOption;
+
+  /// The ID of the AWS KMS key that is associated with a respository association.
+  final String? kMSKeyId;
+
+  KMSKeyDetails({
+    this.encryptionOption,
+    this.kMSKeyId,
+  });
+
+  factory KMSKeyDetails.fromJson(Map<String, dynamic> json) {
+    return KMSKeyDetails(
+      encryptionOption:
+          (json['EncryptionOption'] as String?)?.toEncryptionOption(),
+      kMSKeyId: json['KMSKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionOption = this.encryptionOption;
+    final kMSKeyId = this.kMSKeyId;
+    return {
+      if (encryptionOption != null)
+        'EncryptionOption': encryptionOption.toValue(),
+      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
+    };
+  }
+}
+
 class ListCodeReviewsResponse {
   /// A list of code reviews that meet the criteria of the request.
-  @_s.JsonKey(name: 'CodeReviewSummaries')
-  final List<CodeReviewSummary> codeReviewSummaries;
+  final List<CodeReviewSummary>? codeReviewSummaries;
 
   /// Pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCodeReviewsResponse({
     this.codeReviewSummaries,
     this.nextToken,
   });
-  factory ListCodeReviewsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCodeReviewsResponseFromJson(json);
+
+  factory ListCodeReviewsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCodeReviewsResponse(
+      codeReviewSummaries: (json['CodeReviewSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeReviewSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeReviewSummaries = this.codeReviewSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (codeReviewSummaries != null)
+        'CodeReviewSummaries': codeReviewSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRecommendationFeedbackResponse {
   /// If nextToken is returned, there are more results available. The value of
   /// nextToken is a unique pagination token for each page. Make the call again
   /// using the returned token to retrieve the next page. Keep all other arguments
   /// unchanged.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Recommendation feedback summaries corresponding to the code review ARN.
-  @_s.JsonKey(name: 'RecommendationFeedbackSummaries')
-  final List<RecommendationFeedbackSummary> recommendationFeedbackSummaries;
+  final List<RecommendationFeedbackSummary>? recommendationFeedbackSummaries;
 
   ListRecommendationFeedbackResponse({
     this.nextToken,
     this.recommendationFeedbackSummaries,
   });
+
   factory ListRecommendationFeedbackResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRecommendationFeedbackResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRecommendationFeedbackResponse(
+      nextToken: json['NextToken'] as String?,
+      recommendationFeedbackSummaries: (json['RecommendationFeedbackSummaries']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RecommendationFeedbackSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final recommendationFeedbackSummaries =
+        this.recommendationFeedbackSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (recommendationFeedbackSummaries != null)
+        'RecommendationFeedbackSummaries': recommendationFeedbackSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRecommendationsResponse {
   /// Pagination token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of recommendations for the requested code review.
-  @_s.JsonKey(name: 'RecommendationSummaries')
-  final List<RecommendationSummary> recommendationSummaries;
+  final List<RecommendationSummary>? recommendationSummaries;
 
   ListRecommendationsResponse({
     this.nextToken,
     this.recommendationSummaries,
   });
-  factory ListRecommendationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRecommendationsResponseFromJson(json);
+
+  factory ListRecommendationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRecommendationsResponse(
+      nextToken: json['NextToken'] as String?,
+      recommendationSummaries: (json['RecommendationSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecommendationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final recommendationSummaries = this.recommendationSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (recommendationSummaries != null)
+        'RecommendationSummaries': recommendationSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRepositoryAssociationsResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListRecommendations</code> request. When the results of a
   /// <code>ListRecommendations</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of repository associations that meet the criteria of the request.
-  @_s.JsonKey(name: 'RepositoryAssociationSummaries')
-  final List<RepositoryAssociationSummary> repositoryAssociationSummaries;
+  final List<RepositoryAssociationSummary>? repositoryAssociationSummaries;
 
   ListRepositoryAssociationsResponse({
     this.nextToken,
     this.repositoryAssociationSummaries,
   });
+
   factory ListRepositoryAssociationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRepositoryAssociationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRepositoryAssociationsResponse(
+      nextToken: json['NextToken'] as String?,
+      repositoryAssociationSummaries: (json['RepositoryAssociationSummaries']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RepositoryAssociationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final repositoryAssociationSummaries = this.repositoryAssociationSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (repositoryAssociationSummaries != null)
+        'RepositoryAssociationSummaries': repositoryAssociationSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// An array of key-value pairs used to tag an associated repository. A tag is a
   /// custom attribute label with two parts:
@@ -1660,26 +2037,31 @@ class ListTagsForResourceResponse {
   /// tag values are case sensitive.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Information about the statistics from the code review.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Metrics {
   /// Total number of recommendations found in the code review.
-  @_s.JsonKey(name: 'FindingsCount')
-  final int findingsCount;
+  final int? findingsCount;
 
   /// Lines of code metered in the code review. For the initial code review pull
   /// request and all subsequent revisions, this includes all lines of code in the
@@ -1692,27 +2074,35 @@ class Metrics {
   /// across the initial 5 files, <code>MeteredLinesOfCodeCount</code> includes
   /// the first 5 files (5 * 500 = 2,500 lines), the new file (200 lines) and the
   /// 25 changed lines of code for a total of 2,725 lines of code.
-  @_s.JsonKey(name: 'MeteredLinesOfCodeCount')
-  final int meteredLinesOfCodeCount;
+  final int? meteredLinesOfCodeCount;
 
   Metrics({
     this.findingsCount,
     this.meteredLinesOfCodeCount,
   });
-  factory Metrics.fromJson(Map<String, dynamic> json) =>
-      _$MetricsFromJson(json);
+
+  factory Metrics.fromJson(Map<String, dynamic> json) {
+    return Metrics(
+      findingsCount: json['FindingsCount'] as int?,
+      meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingsCount = this.findingsCount;
+    final meteredLinesOfCodeCount = this.meteredLinesOfCodeCount;
+    return {
+      if (findingsCount != null) 'FindingsCount': findingsCount,
+      if (meteredLinesOfCodeCount != null)
+        'MeteredLinesOfCodeCount': meteredLinesOfCodeCount,
+    };
+  }
 }
 
 /// Information about metrics summaries.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetricsSummary {
   /// Total number of recommendations found in the code review.
-  @_s.JsonKey(name: 'FindingsCount')
-  final int findingsCount;
+  final int? findingsCount;
 
   /// Lines of code metered in the code review. For the initial code review pull
   /// request and all subsequent revisions, this includes all lines of code in the
@@ -1725,26 +2115,37 @@ class MetricsSummary {
   /// across the initial 5 files, <code>MeteredLinesOfCodeCount</code> includes
   /// the first 5 files (5 * 500 = 2,500 lines), the new file (200 lines) and the
   /// 25 changed lines of code for a total of 2,725 lines of code.
-  @_s.JsonKey(name: 'MeteredLinesOfCodeCount')
-  final int meteredLinesOfCodeCount;
+  final int? meteredLinesOfCodeCount;
 
   MetricsSummary({
     this.findingsCount,
     this.meteredLinesOfCodeCount,
   });
-  factory MetricsSummary.fromJson(Map<String, dynamic> json) =>
-      _$MetricsSummaryFromJson(json);
+
+  factory MetricsSummary.fromJson(Map<String, dynamic> json) {
+    return MetricsSummary(
+      findingsCount: json['FindingsCount'] as int?,
+      meteredLinesOfCodeCount: json['MeteredLinesOfCodeCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingsCount = this.findingsCount;
+    final meteredLinesOfCodeCount = this.meteredLinesOfCodeCount;
+    return {
+      if (findingsCount != null) 'FindingsCount': findingsCount,
+      if (meteredLinesOfCodeCount != null)
+        'MeteredLinesOfCodeCount': meteredLinesOfCodeCount,
+    };
+  }
 }
 
 enum ProviderType {
-  @_s.JsonValue('CodeCommit')
   codeCommit,
-  @_s.JsonValue('GitHub')
   gitHub,
-  @_s.JsonValue('Bitbucket')
   bitbucket,
-  @_s.JsonValue('GitHubEnterpriseServer')
   gitHubEnterpriseServer,
+  s3Bucket,
 }
 
 extension on ProviderType {
@@ -1758,27 +2159,44 @@ extension on ProviderType {
         return 'Bitbucket';
       case ProviderType.gitHubEnterpriseServer:
         return 'GitHubEnterpriseServer';
+      case ProviderType.s3Bucket:
+        return 'S3Bucket';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ProviderType toProviderType() {
+    switch (this) {
+      case 'CodeCommit':
+        return ProviderType.codeCommit;
+      case 'GitHub':
+        return ProviderType.gitHub;
+      case 'Bitbucket':
+        return ProviderType.bitbucket;
+      case 'GitHubEnterpriseServer':
+        return ProviderType.gitHubEnterpriseServer;
+      case 'S3Bucket':
+        return ProviderType.s3Bucket;
+    }
+    throw Exception('$this is not known in enum ProviderType');
+  }
+}
+
 class PutRecommendationFeedbackResponse {
   PutRecommendationFeedbackResponse();
-  factory PutRecommendationFeedbackResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutRecommendationFeedbackResponseFromJson(json);
+
+  factory PutRecommendationFeedbackResponse.fromJson(Map<String, dynamic> _) {
+    return PutRecommendationFeedbackResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum Reaction {
-  @_s.JsonValue('ThumbsUp')
   thumbsUp,
-  @_s.JsonValue('ThumbsDown')
   thumbsDown,
 }
 
@@ -1790,42 +2208,109 @@ extension on Reaction {
       case Reaction.thumbsDown:
         return 'ThumbsDown';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Reaction toReaction() {
+    switch (this) {
+      case 'ThumbsUp':
+        return Reaction.thumbsUp;
+      case 'ThumbsDown':
+        return Reaction.thumbsDown;
+    }
+    throw Exception('$this is not known in enum Reaction');
+  }
+}
+
+enum RecommendationCategory {
+  awsBestPractices,
+  awsCloudFormationIssues,
+  duplicateCode,
+  codeMaintenanceIssues,
+  concurrencyIssues,
+  inputValidations,
+  pythonBestPractices,
+  javaBestPractices,
+  resourceLeaks,
+  securityIssues,
+}
+
+extension on RecommendationCategory {
+  String toValue() {
+    switch (this) {
+      case RecommendationCategory.awsBestPractices:
+        return 'AWSBestPractices';
+      case RecommendationCategory.awsCloudFormationIssues:
+        return 'AWSCloudFormationIssues';
+      case RecommendationCategory.duplicateCode:
+        return 'DuplicateCode';
+      case RecommendationCategory.codeMaintenanceIssues:
+        return 'CodeMaintenanceIssues';
+      case RecommendationCategory.concurrencyIssues:
+        return 'ConcurrencyIssues';
+      case RecommendationCategory.inputValidations:
+        return 'InputValidations';
+      case RecommendationCategory.pythonBestPractices:
+        return 'PythonBestPractices';
+      case RecommendationCategory.javaBestPractices:
+        return 'JavaBestPractices';
+      case RecommendationCategory.resourceLeaks:
+        return 'ResourceLeaks';
+      case RecommendationCategory.securityIssues:
+        return 'SecurityIssues';
+    }
+  }
+}
+
+extension on String {
+  RecommendationCategory toRecommendationCategory() {
+    switch (this) {
+      case 'AWSBestPractices':
+        return RecommendationCategory.awsBestPractices;
+      case 'AWSCloudFormationIssues':
+        return RecommendationCategory.awsCloudFormationIssues;
+      case 'DuplicateCode':
+        return RecommendationCategory.duplicateCode;
+      case 'CodeMaintenanceIssues':
+        return RecommendationCategory.codeMaintenanceIssues;
+      case 'ConcurrencyIssues':
+        return RecommendationCategory.concurrencyIssues;
+      case 'InputValidations':
+        return RecommendationCategory.inputValidations;
+      case 'PythonBestPractices':
+        return RecommendationCategory.pythonBestPractices;
+      case 'JavaBestPractices':
+        return RecommendationCategory.javaBestPractices;
+      case 'ResourceLeaks':
+        return RecommendationCategory.resourceLeaks;
+      case 'SecurityIssues':
+        return RecommendationCategory.securityIssues;
+    }
+    throw Exception('$this is not known in enum RecommendationCategory');
   }
 }
 
 /// Information about the recommendation feedback.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecommendationFeedback {
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CodeReview.html">
   /// <code>CodeReview</code> </a> object.
-  @_s.JsonKey(name: 'CodeReviewArn')
-  final String codeReviewArn;
+  final String? codeReviewArn;
 
   /// The time at which the feedback was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimeStamp')
-  final DateTime createdTimeStamp;
+  final DateTime? createdTimeStamp;
 
   /// The time at which the feedback was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimeStamp')
-  final DateTime lastUpdatedTimeStamp;
+  final DateTime? lastUpdatedTimeStamp;
 
   /// List for storing reactions. Reactions are utf-8 text code for emojis. You
   /// can send an empty list to clear off all your feedback.
-  @_s.JsonKey(name: 'Reactions')
-  final List<Reaction> reactions;
+  final List<Reaction>? reactions;
 
   /// The recommendation ID that can be used to track the provided
   /// recommendations. Later on it can be used to collect the feedback.
-  @_s.JsonKey(name: 'RecommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   /// The ID of the user that made the API call.
   ///
@@ -1834,8 +2319,7 @@ class RecommendationFeedback {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying">
   /// Specifying a Principal</a> in the <i>AWS Identity and Access Management User
   /// Guide</i>.
-  @_s.JsonKey(name: 'UserId')
-  final String userId;
+  final String? userId;
 
   RecommendationFeedback({
     this.codeReviewArn,
@@ -1845,25 +2329,50 @@ class RecommendationFeedback {
     this.recommendationId,
     this.userId,
   });
-  factory RecommendationFeedback.fromJson(Map<String, dynamic> json) =>
-      _$RecommendationFeedbackFromJson(json);
+
+  factory RecommendationFeedback.fromJson(Map<String, dynamic> json) {
+    return RecommendationFeedback(
+      codeReviewArn: json['CodeReviewArn'] as String?,
+      createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
+      lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
+      reactions: (json['Reactions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toReaction())
+          .toList(),
+      recommendationId: json['RecommendationId'] as String?,
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeReviewArn = this.codeReviewArn;
+    final createdTimeStamp = this.createdTimeStamp;
+    final lastUpdatedTimeStamp = this.lastUpdatedTimeStamp;
+    final reactions = this.reactions;
+    final recommendationId = this.recommendationId;
+    final userId = this.userId;
+    return {
+      if (codeReviewArn != null) 'CodeReviewArn': codeReviewArn,
+      if (createdTimeStamp != null)
+        'CreatedTimeStamp': unixTimestampToJson(createdTimeStamp),
+      if (lastUpdatedTimeStamp != null)
+        'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
+      if (reactions != null)
+        'Reactions': reactions.map((e) => e.toValue()).toList(),
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+      if (userId != null) 'UserId': userId,
+    };
+  }
 }
 
 /// Information about recommendation feedback summaries.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecommendationFeedbackSummary {
   /// List for storing reactions. Reactions are utf-8 text code for emojis.
-  @_s.JsonKey(name: 'Reactions')
-  final List<Reaction> reactions;
+  final List<Reaction>? reactions;
 
   /// The recommendation ID that can be used to track the provided
   /// recommendations. Later on it can be used to collect the feedback.
-  @_s.JsonKey(name: 'RecommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   /// The ID of the user that gave the feedback.
   ///
@@ -1872,132 +2381,211 @@ class RecommendationFeedbackSummary {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying">
   /// Specifying a Principal</a> in the <i>AWS Identity and Access Management User
   /// Guide</i>.
-  @_s.JsonKey(name: 'UserId')
-  final String userId;
+  final String? userId;
 
   RecommendationFeedbackSummary({
     this.reactions,
     this.recommendationId,
     this.userId,
   });
-  factory RecommendationFeedbackSummary.fromJson(Map<String, dynamic> json) =>
-      _$RecommendationFeedbackSummaryFromJson(json);
+
+  factory RecommendationFeedbackSummary.fromJson(Map<String, dynamic> json) {
+    return RecommendationFeedbackSummary(
+      reactions: (json['Reactions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toReaction())
+          .toList(),
+      recommendationId: json['RecommendationId'] as String?,
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reactions = this.reactions;
+    final recommendationId = this.recommendationId;
+    final userId = this.userId;
+    return {
+      if (reactions != null)
+        'Reactions': reactions.map((e) => e.toValue()).toList(),
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+      if (userId != null) 'UserId': userId,
+    };
+  }
 }
 
 /// Information about recommendations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecommendationSummary {
   /// A description of the recommendation generated by CodeGuru Reviewer for the
   /// lines of code between the start line and the end line.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Last line where the recommendation is applicable in the source commit or
   /// source branch. For a single line comment the start line and end line values
   /// are the same.
-  @_s.JsonKey(name: 'EndLine')
-  final int endLine;
+  final int? endLine;
 
   /// Name of the file on which a recommendation is provided.
-  @_s.JsonKey(name: 'FilePath')
-  final String filePath;
+  final String? filePath;
+
+  /// The type of a recommendation.
+  final RecommendationCategory? recommendationCategory;
 
   /// The recommendation ID that can be used to track the provided
   /// recommendations. Later on it can be used to collect the feedback.
-  @_s.JsonKey(name: 'RecommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   /// Start line from where the recommendation is applicable in the source commit
   /// or source branch.
-  @_s.JsonKey(name: 'StartLine')
-  final int startLine;
+  final int? startLine;
 
   RecommendationSummary({
     this.description,
     this.endLine,
     this.filePath,
+    this.recommendationCategory,
     this.recommendationId,
     this.startLine,
   });
-  factory RecommendationSummary.fromJson(Map<String, dynamic> json) =>
-      _$RecommendationSummaryFromJson(json);
+
+  factory RecommendationSummary.fromJson(Map<String, dynamic> json) {
+    return RecommendationSummary(
+      description: json['Description'] as String?,
+      endLine: json['EndLine'] as int?,
+      filePath: json['FilePath'] as String?,
+      recommendationCategory: (json['RecommendationCategory'] as String?)
+          ?.toRecommendationCategory(),
+      recommendationId: json['RecommendationId'] as String?,
+      startLine: json['StartLine'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final endLine = this.endLine;
+    final filePath = this.filePath;
+    final recommendationCategory = this.recommendationCategory;
+    final recommendationId = this.recommendationId;
+    final startLine = this.startLine;
+    return {
+      if (description != null) 'Description': description,
+      if (endLine != null) 'EndLine': endLine,
+      if (filePath != null) 'FilePath': filePath,
+      if (recommendationCategory != null)
+        'RecommendationCategory': recommendationCategory.toValue(),
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+      if (startLine != null) 'StartLine': startLine,
+    };
+  }
 }
 
 /// Information about an associated AWS CodeCommit repository or an associated
 /// repository that is managed by AWS CodeStar Connections (for example,
 /// Bitbucket). This <code>Repository</code> object is not used if your source
 /// code is in an associated GitHub repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Repository {
   /// Information about a Bitbucket repository.
-  @_s.JsonKey(name: 'Bitbucket')
-  final ThirdPartySourceRepository bitbucket;
+  final ThirdPartySourceRepository? bitbucket;
 
   /// Information about an AWS CodeCommit repository.
-  @_s.JsonKey(name: 'CodeCommit')
-  final CodeCommitRepository codeCommit;
+  final CodeCommitRepository? codeCommit;
 
   /// Information about a GitHub Enterprise Server repository.
-  @_s.JsonKey(name: 'GitHubEnterpriseServer')
-  final ThirdPartySourceRepository gitHubEnterpriseServer;
+  final ThirdPartySourceRepository? gitHubEnterpriseServer;
+  final S3Repository? s3Bucket;
 
   Repository({
     this.bitbucket,
     this.codeCommit,
     this.gitHubEnterpriseServer,
+    this.s3Bucket,
   });
-  Map<String, dynamic> toJson() => _$RepositoryToJson(this);
+
+  factory Repository.fromJson(Map<String, dynamic> json) {
+    return Repository(
+      bitbucket: json['Bitbucket'] != null
+          ? ThirdPartySourceRepository.fromJson(
+              json['Bitbucket'] as Map<String, dynamic>)
+          : null,
+      codeCommit: json['CodeCommit'] != null
+          ? CodeCommitRepository.fromJson(
+              json['CodeCommit'] as Map<String, dynamic>)
+          : null,
+      gitHubEnterpriseServer: json['GitHubEnterpriseServer'] != null
+          ? ThirdPartySourceRepository.fromJson(
+              json['GitHubEnterpriseServer'] as Map<String, dynamic>)
+          : null,
+      s3Bucket: json['S3Bucket'] != null
+          ? S3Repository.fromJson(json['S3Bucket'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bitbucket = this.bitbucket;
+    final codeCommit = this.codeCommit;
+    final gitHubEnterpriseServer = this.gitHubEnterpriseServer;
+    final s3Bucket = this.s3Bucket;
+    return {
+      if (bitbucket != null) 'Bitbucket': bitbucket,
+      if (codeCommit != null) 'CodeCommit': codeCommit,
+      if (gitHubEnterpriseServer != null)
+        'GitHubEnterpriseServer': gitHubEnterpriseServer,
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+    };
+  }
 }
 
 /// A code review type that analyzes all code under a specified branch in an
-/// associated respository. The assocated repository is specified using its ARN
+/// associated repository. The associated repository is specified using its ARN
 /// when you call <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_CreateCodeReview">
 /// <code>CreateCodeReview</code> </a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RepositoryAnalysis {
   /// A <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">
   /// <code>SourceCodeType</code> </a> that specifies the tip of a branch in an
   /// associated repository.
-  @_s.JsonKey(name: 'RepositoryHead')
-  final RepositoryHeadSourceCodeType repositoryHead;
+  final RepositoryHeadSourceCodeType? repositoryHead;
+  final SourceCodeType? sourceCodeType;
 
   RepositoryAnalysis({
-    @_s.required this.repositoryHead,
+    this.repositoryHead,
+    this.sourceCodeType,
   });
-  Map<String, dynamic> toJson() => _$RepositoryAnalysisToJson(this);
+
+  factory RepositoryAnalysis.fromJson(Map<String, dynamic> json) {
+    return RepositoryAnalysis(
+      repositoryHead: json['RepositoryHead'] != null
+          ? RepositoryHeadSourceCodeType.fromJson(
+              json['RepositoryHead'] as Map<String, dynamic>)
+          : null,
+      sourceCodeType: json['SourceCodeType'] != null
+          ? SourceCodeType.fromJson(
+              json['SourceCodeType'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryHead = this.repositoryHead;
+    final sourceCodeType = this.sourceCodeType;
+    return {
+      if (repositoryHead != null) 'RepositoryHead': repositoryHead,
+      if (sourceCodeType != null) 'SourceCodeType': sourceCodeType,
+    };
+  }
 }
 
 /// Information about a repository association. The <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_DescribeRepositoryAssociation.html">
 /// <code>DescribeRepositoryAssociation</code> </a> operation returns a
 /// <code>RepositoryAssociation</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RepositoryAssociation {
   /// The Amazon Resource Name (ARN) identifying the repository association.
-  @_s.JsonKey(name: 'AssociationArn')
-  final String associationArn;
+  final String? associationArn;
 
   /// The ID of the repository association.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection.
   /// Its format is
@@ -2006,35 +2594,44 @@ class RepositoryAssociation {
   /// href="https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html">
   /// <code>Connection</code> </a> in the <i>AWS CodeStar Connections API
   /// Reference</i>.
-  @_s.JsonKey(name: 'ConnectionArn')
-  final String connectionArn;
+  final String? connectionArn;
 
   /// The time, in milliseconds since the epoch, when the repository association
   /// was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimeStamp')
-  final DateTime createdTimeStamp;
+  final DateTime? createdTimeStamp;
+
+  /// A <code>KMSKeyDetails</code> object that contains:
+  ///
+  /// <ul>
+  /// <li>
+  /// The encryption option for this repository association. It is either owned by
+  /// AWS Key Management Service (KMS) (<code>AWS_OWNED_CMK</code>) or customer
+  /// managed (<code>CUSTOMER_MANAGED_CMK</code>).
+  /// </li>
+  /// <li>
+  /// The ID of the AWS KMS key that is associated with this respository
+  /// association.
+  /// </li>
+  /// </ul>
+  final KMSKeyDetails? kMSKeyDetails;
 
   /// The time, in milliseconds since the epoch, when the repository association
   /// was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimeStamp')
-  final DateTime lastUpdatedTimeStamp;
+  final DateTime? lastUpdatedTimeStamp;
 
   /// The name of the repository.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The owner of the repository. For an AWS CodeCommit repository, this is the
   /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
   /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  /// account that owns the repository. For an S3 repository, it can be the
+  /// username or AWS account ID.
+  final String? owner;
 
   /// The provider type of the repository association.
-  @_s.JsonKey(name: 'ProviderType')
-  final ProviderType providerType;
+  final ProviderType? providerType;
+  final S3RepositoryDetails? s3RepositoryDetails;
 
   /// The state of the repository association.
   ///
@@ -2081,39 +2678,87 @@ class RepositoryAssociation {
   /// CodeGuru Reviewer User Guide</i>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'State')
-  final RepositoryAssociationState state;
+  final RepositoryAssociationState? state;
 
   /// A description of why the repository association is in the current state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   RepositoryAssociation({
     this.associationArn,
     this.associationId,
     this.connectionArn,
     this.createdTimeStamp,
+    this.kMSKeyDetails,
     this.lastUpdatedTimeStamp,
     this.name,
     this.owner,
     this.providerType,
+    this.s3RepositoryDetails,
     this.state,
     this.stateReason,
   });
-  factory RepositoryAssociation.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryAssociationFromJson(json);
+
+  factory RepositoryAssociation.fromJson(Map<String, dynamic> json) {
+    return RepositoryAssociation(
+      associationArn: json['AssociationArn'] as String?,
+      associationId: json['AssociationId'] as String?,
+      connectionArn: json['ConnectionArn'] as String?,
+      createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
+      kMSKeyDetails: json['KMSKeyDetails'] != null
+          ? KMSKeyDetails.fromJson(
+              json['KMSKeyDetails'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      s3RepositoryDetails: json['S3RepositoryDetails'] != null
+          ? S3RepositoryDetails.fromJson(
+              json['S3RepositoryDetails'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.toRepositoryAssociationState(),
+      stateReason: json['StateReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationArn = this.associationArn;
+    final associationId = this.associationId;
+    final connectionArn = this.connectionArn;
+    final createdTimeStamp = this.createdTimeStamp;
+    final kMSKeyDetails = this.kMSKeyDetails;
+    final lastUpdatedTimeStamp = this.lastUpdatedTimeStamp;
+    final name = this.name;
+    final owner = this.owner;
+    final providerType = this.providerType;
+    final s3RepositoryDetails = this.s3RepositoryDetails;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    return {
+      if (associationArn != null) 'AssociationArn': associationArn,
+      if (associationId != null) 'AssociationId': associationId,
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (createdTimeStamp != null)
+        'CreatedTimeStamp': unixTimestampToJson(createdTimeStamp),
+      if (kMSKeyDetails != null) 'KMSKeyDetails': kMSKeyDetails,
+      if (lastUpdatedTimeStamp != null)
+        'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (s3RepositoryDetails != null)
+        'S3RepositoryDetails': s3RepositoryDetails,
+      if (state != null) 'State': state.toValue(),
+      if (stateReason != null) 'StateReason': stateReason,
+    };
+  }
 }
 
 enum RepositoryAssociationState {
-  @_s.JsonValue('Associated')
   associated,
-  @_s.JsonValue('Associating')
   associating,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Disassociating')
   disassociating,
-  @_s.JsonValue('Disassociated')
   disassociated,
 }
 
@@ -2131,7 +2776,24 @@ extension on RepositoryAssociationState {
       case RepositoryAssociationState.disassociated:
         return 'Disassociated';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RepositoryAssociationState toRepositoryAssociationState() {
+    switch (this) {
+      case 'Associated':
+        return RepositoryAssociationState.associated;
+      case 'Associating':
+        return RepositoryAssociationState.associating;
+      case 'Failed':
+        return RepositoryAssociationState.failed;
+      case 'Disassociating':
+        return RepositoryAssociationState.disassociating;
+      case 'Disassociated':
+        return RepositoryAssociationState.disassociated;
+    }
+    throw Exception('$this is not known in enum RepositoryAssociationState');
   }
 }
 
@@ -2139,11 +2801,6 @@ extension on RepositoryAssociationState {
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
 /// <code>ListRepositoryAssociations</code> </a> operation returns a list of
 /// <code>RepositoryAssociationSummary</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RepositoryAssociationSummary {
   /// The Amazon Resource Name (ARN) of the <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html">
@@ -2151,12 +2808,10 @@ class RepositoryAssociationSummary {
   /// calling <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_ListRepositoryAssociations.html">
   /// <code>ListRepositoryAssociations</code> </a>.
-  @_s.JsonKey(name: 'AssociationArn')
-  final String associationArn;
+  final String? associationArn;
 
   /// The repository association ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection.
   /// Its format is
@@ -2165,29 +2820,24 @@ class RepositoryAssociationSummary {
   /// href="https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html">
   /// <code>Connection</code> </a> in the <i>AWS CodeStar Connections API
   /// Reference</i>.
-  @_s.JsonKey(name: 'ConnectionArn')
-  final String connectionArn;
+  final String? connectionArn;
 
   /// The time, in milliseconds since the epoch, since the repository association
   /// was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimeStamp')
-  final DateTime lastUpdatedTimeStamp;
+  final DateTime? lastUpdatedTimeStamp;
 
   /// The name of the repository association.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The owner of the repository. For an AWS CodeCommit repository, this is the
   /// AWS account ID of the account that owns the repository. For a GitHub, GitHub
   /// Enterprise Server, or Bitbucket repository, this is the username for the
-  /// account that owns the repository.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  /// account that owns the repository. For an S3 repository, it can be the
+  /// username or AWS account ID.
+  final String? owner;
 
   /// The provider type of the repository association.
-  @_s.JsonKey(name: 'ProviderType')
-  final ProviderType providerType;
+  final ProviderType? providerType;
 
   /// The state of the repository association.
   ///
@@ -2234,8 +2884,7 @@ class RepositoryAssociationSummary {
   /// CodeGuru Reviewer User Guide</i>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'State')
-  final RepositoryAssociationState state;
+  final RepositoryAssociationState? state;
 
   RepositoryAssociationSummary({
     this.associationArn,
@@ -2247,78 +2896,327 @@ class RepositoryAssociationSummary {
     this.providerType,
     this.state,
   });
-  factory RepositoryAssociationSummary.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryAssociationSummaryFromJson(json);
+
+  factory RepositoryAssociationSummary.fromJson(Map<String, dynamic> json) {
+    return RepositoryAssociationSummary(
+      associationArn: json['AssociationArn'] as String?,
+      associationId: json['AssociationId'] as String?,
+      connectionArn: json['ConnectionArn'] as String?,
+      lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      state: (json['State'] as String?)?.toRepositoryAssociationState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationArn = this.associationArn;
+    final associationId = this.associationId;
+    final connectionArn = this.connectionArn;
+    final lastUpdatedTimeStamp = this.lastUpdatedTimeStamp;
+    final name = this.name;
+    final owner = this.owner;
+    final providerType = this.providerType;
+    final state = this.state;
+    return {
+      if (associationArn != null) 'AssociationArn': associationArn,
+      if (associationId != null) 'AssociationId': associationId,
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (lastUpdatedTimeStamp != null)
+        'LastUpdatedTimeStamp': unixTimestampToJson(lastUpdatedTimeStamp),
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 /// A <a
 /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">
 /// <code>SourceCodeType</code> </a> that specifies the tip of a branch in an
 /// associated repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RepositoryHeadSourceCodeType {
   /// The name of the branch in an associated repository. The
   /// <code>RepositoryHeadSourceCodeType</code> specifies the tip of this branch.
-  @_s.JsonKey(name: 'BranchName')
   final String branchName;
 
   RepositoryHeadSourceCodeType({
-    @_s.required this.branchName,
+    required this.branchName,
   });
-  factory RepositoryHeadSourceCodeType.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryHeadSourceCodeTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RepositoryHeadSourceCodeTypeToJson(this);
+  factory RepositoryHeadSourceCodeType.fromJson(Map<String, dynamic> json) {
+    return RepositoryHeadSourceCodeType(
+      branchName: json['BranchName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branchName = this.branchName;
+    return {
+      'BranchName': branchName,
+    };
+  }
 }
 
-/// Specifies the source code that is analyzed in a code review. A code review
-/// can analyze the source code that is specified using a pull request diff or a
-/// branch in an associated repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Metadata that is associated with a code review. This applies to both pull
+/// request and repository analysis code reviews.
+class RequestMetadata {
+  /// Information about the event associated with a code review.
+  final EventInfo? eventInfo;
+
+  /// The ID of the request. This is required for a pull request code review.
+  final String? requestId;
+
+  /// An identifier, such as a name or account ID, that is associated with the
+  /// requester. The <code>Requester</code> is used to capture the
+  /// <code>author/actor</code> name of the event request.
+  final String? requester;
+
+  /// The name of the repository vendor used to upload code to an S3 bucket for a
+  /// CI/CD code review. For example, if code and artifacts are uploaded to an S3
+  /// bucket for a CI/CD code review by GitHub scripts from a GitHub repository,
+  /// then the repository association's <code>ProviderType</code> is
+  /// <code>S3Bucket</code> and the CI/CD repository vendor name is GitHub. For
+  /// more information, see the definition for <code>ProviderType</code> in <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_RepositoryAssociation.html">RepositoryAssociation</a>.
+  final VendorName? vendorName;
+
+  RequestMetadata({
+    this.eventInfo,
+    this.requestId,
+    this.requester,
+    this.vendorName,
+  });
+
+  factory RequestMetadata.fromJson(Map<String, dynamic> json) {
+    return RequestMetadata(
+      eventInfo: json['EventInfo'] != null
+          ? EventInfo.fromJson(json['EventInfo'] as Map<String, dynamic>)
+          : null,
+      requestId: json['RequestId'] as String?,
+      requester: json['Requester'] as String?,
+      vendorName: (json['VendorName'] as String?)?.toVendorName(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventInfo = this.eventInfo;
+    final requestId = this.requestId;
+    final requester = this.requester;
+    final vendorName = this.vendorName;
+    return {
+      if (eventInfo != null) 'EventInfo': eventInfo,
+      if (requestId != null) 'RequestId': requestId,
+      if (requester != null) 'Requester': requester,
+      if (vendorName != null) 'VendorName': vendorName.toValue(),
+    };
+  }
+}
+
+/// Information about an associated repository in an S3 bucket. The associated
+/// repository contains a source code .zip file and a build artifacts .zip file
+/// that contains .jar or .class files.
+class S3BucketRepository {
+  /// The name of the repository when the <code>ProviderType</code> is
+  /// <code>S3Bucket</code>.
+  final String name;
+
+  /// An <code>S3RepositoryDetails</code> object that specifies the name of an S3
+  /// bucket and a <code>CodeArtifacts</code> object. The
+  /// <code>CodeArtifacts</code> object includes the S3 object keys for a source
+  /// code .zip file and for a build artifacts .zip file.
+  final S3RepositoryDetails? details;
+
+  S3BucketRepository({
+    required this.name,
+    this.details,
+  });
+
+  factory S3BucketRepository.fromJson(Map<String, dynamic> json) {
+    return S3BucketRepository(
+      name: json['Name'] as String,
+      details: json['Details'] != null
+          ? S3RepositoryDetails.fromJson(
+              json['Details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final details = this.details;
+    return {
+      'Name': name,
+      if (details != null) 'Details': details,
+    };
+  }
+}
+
+/// Information about a repository in an S3 bucket.
+class S3Repository {
+  /// The name of the S3 bucket used for associating a new S3 repository. It must
+  /// begin with <code>codeguru-reviewer-</code>.
+  final String bucketName;
+
+  /// The name of the repository in the S3 bucket.
+  final String name;
+
+  S3Repository({
+    required this.bucketName,
+    required this.name,
+  });
+
+  factory S3Repository.fromJson(Map<String, dynamic> json) {
+    return S3Repository(
+      bucketName: json['BucketName'] as String,
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final name = this.name;
+    return {
+      'BucketName': bucketName,
+      'Name': name,
+    };
+  }
+}
+
+/// Specifies the name of an S3 bucket and a <code>CodeArtifacts</code> object
+/// that contains the S3 object keys for a source code .zip file and for a build
+/// artifacts .zip file that contains .jar or .class files.
+class S3RepositoryDetails {
+  /// The name of the S3 bucket used for associating a new S3 repository. It must
+  /// begin with <code>codeguru-reviewer-</code>.
+  final String? bucketName;
+
+  /// A <code>CodeArtifacts</code> object. The <code>CodeArtifacts</code> object
+  /// includes the S3 object key for a source code .zip file and for a build
+  /// artifacts .zip file that contains .jar or .class files.
+  final CodeArtifacts? codeArtifacts;
+
+  S3RepositoryDetails({
+    this.bucketName,
+    this.codeArtifacts,
+  });
+
+  factory S3RepositoryDetails.fromJson(Map<String, dynamic> json) {
+    return S3RepositoryDetails(
+      bucketName: json['BucketName'] as String?,
+      codeArtifacts: json['CodeArtifacts'] != null
+          ? CodeArtifacts.fromJson(
+              json['CodeArtifacts'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final codeArtifacts = this.codeArtifacts;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (codeArtifacts != null) 'CodeArtifacts': codeArtifacts,
+    };
+  }
+}
+
+/// Specifies the source code that is analyzed in a code review.
 class SourceCodeType {
+  /// A type of <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">
+  /// <code>SourceCodeType</code> </a> that specifies a source branch name and a
+  /// destination branch name in an associated repository.
+  final BranchDiffSourceCodeType? branchDiff;
+
   /// A <a
   /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">
   /// <code>SourceCodeType</code> </a> that specifies a commit diff created by a
   /// pull request on an associated repository.
-  @_s.JsonKey(name: 'CommitDiff')
-  final CommitDiffSourceCodeType commitDiff;
-  @_s.JsonKey(name: 'RepositoryHead')
-  final RepositoryHeadSourceCodeType repositoryHead;
+  final CommitDiffSourceCodeType? commitDiff;
+  final RepositoryHeadSourceCodeType? repositoryHead;
+
+  /// Metadata that is associated with a code review. This applies to any type of
+  /// code review supported by CodeGuru Reviewer. The <code>RequestMetadaa</code>
+  /// field captures any event metadata. For example, it might capture metadata
+  /// associated with an event trigger, such as a push or a pull request.
+  final RequestMetadata? requestMetadata;
+
+  /// Information about an associated repository in an S3 bucket that includes its
+  /// name and an <code>S3RepositoryDetails</code> object. The
+  /// <code>S3RepositoryDetails</code> object includes the name of an S3 bucket,
+  /// an S3 key for a source code .zip file, and an S3 key for a build artifacts
+  /// .zip file. <code>S3BucketRepository</code> is required in <a
+  /// href="https://docs.aws.amazon.com/codeguru/latest/reviewer-api/API_SourceCodeType">
+  /// <code>SourceCodeType</code> </a> for <code>S3BucketRepository</code> based
+  /// code reviews.
+  final S3BucketRepository? s3BucketRepository;
 
   SourceCodeType({
+    this.branchDiff,
     this.commitDiff,
     this.repositoryHead,
+    this.requestMetadata,
+    this.s3BucketRepository,
   });
-  factory SourceCodeType.fromJson(Map<String, dynamic> json) =>
-      _$SourceCodeTypeFromJson(json);
+
+  factory SourceCodeType.fromJson(Map<String, dynamic> json) {
+    return SourceCodeType(
+      branchDiff: json['BranchDiff'] != null
+          ? BranchDiffSourceCodeType.fromJson(
+              json['BranchDiff'] as Map<String, dynamic>)
+          : null,
+      commitDiff: json['CommitDiff'] != null
+          ? CommitDiffSourceCodeType.fromJson(
+              json['CommitDiff'] as Map<String, dynamic>)
+          : null,
+      repositoryHead: json['RepositoryHead'] != null
+          ? RepositoryHeadSourceCodeType.fromJson(
+              json['RepositoryHead'] as Map<String, dynamic>)
+          : null,
+      requestMetadata: json['RequestMetadata'] != null
+          ? RequestMetadata.fromJson(
+              json['RequestMetadata'] as Map<String, dynamic>)
+          : null,
+      s3BucketRepository: json['S3BucketRepository'] != null
+          ? S3BucketRepository.fromJson(
+              json['S3BucketRepository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branchDiff = this.branchDiff;
+    final commitDiff = this.commitDiff;
+    final repositoryHead = this.repositoryHead;
+    final requestMetadata = this.requestMetadata;
+    final s3BucketRepository = this.s3BucketRepository;
+    return {
+      if (branchDiff != null) 'BranchDiff': branchDiff,
+      if (commitDiff != null) 'CommitDiff': commitDiff,
+      if (repositoryHead != null) 'RepositoryHead': repositoryHead,
+      if (requestMetadata != null) 'RequestMetadata': requestMetadata,
+      if (s3BucketRepository != null) 'S3BucketRepository': s3BucketRepository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about a third-party source repository connected to CodeGuru
 /// Reviewer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ThirdPartySourceRepository {
   /// The Amazon Resource Name (ARN) of an AWS CodeStar Connections connection.
   /// Its format is
@@ -2327,30 +3225,44 @@ class ThirdPartySourceRepository {
   /// href="https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html">
   /// <code>Connection</code> </a> in the <i>AWS CodeStar Connections API
   /// Reference</i>.
-  @_s.JsonKey(name: 'ConnectionArn')
   final String connectionArn;
 
   /// The name of the third party source repository.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The owner of the repository. For a GitHub, GitHub Enterprise, or Bitbucket
   /// repository, this is the username for the account that owns the repository.
-  @_s.JsonKey(name: 'Owner')
+  /// For an S3 repository, this can be the username or AWS account ID.
   final String owner;
 
   ThirdPartySourceRepository({
-    @_s.required this.connectionArn,
-    @_s.required this.name,
-    @_s.required this.owner,
+    required this.connectionArn,
+    required this.name,
+    required this.owner,
   });
-  Map<String, dynamic> toJson() => _$ThirdPartySourceRepositoryToJson(this);
+
+  factory ThirdPartySourceRepository.fromJson(Map<String, dynamic> json) {
+    return ThirdPartySourceRepository(
+      connectionArn: json['ConnectionArn'] as String,
+      name: json['Name'] as String,
+      owner: json['Owner'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionArn = this.connectionArn;
+    final name = this.name;
+    final owner = this.owner;
+    return {
+      'ConnectionArn': connectionArn,
+      'Name': name,
+      'Owner': owner,
+    };
+  }
 }
 
 enum Type {
-  @_s.JsonValue('PullRequest')
   pullRequest,
-  @_s.JsonValue('RepositoryAnalysis')
   repositoryAnalysis,
 }
 
@@ -2362,53 +3274,98 @@ extension on Type {
       case Type.repositoryAnalysis:
         return 'RepositoryAnalysis';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Type toType() {
+    switch (this) {
+      case 'PullRequest':
+        return Type.pullRequest;
+      case 'RepositoryAnalysis':
+        return Type.repositoryAnalysis;
+    }
+    throw Exception('$this is not known in enum Type');
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+enum VendorName {
+  gitHub,
+  gitLab,
+  nativeS3,
+}
+
+extension on VendorName {
+  String toValue() {
+    switch (this) {
+      case VendorName.gitHub:
+        return 'GitHub';
+      case VendorName.gitLab:
+        return 'GitLab';
+      case VendorName.nativeS3:
+        return 'NativeS3';
+    }
+  }
+}
+
+extension on String {
+  VendorName toVendorName() {
+    switch (this) {
+      case 'GitHub':
+        return VendorName.gitHub;
+      case 'GitLab':
+        return VendorName.gitLab;
+      case 'NativeS3':
+        return VendorName.nativeS3;
+    }
+    throw Exception('$this is not known in enum VendorName');
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

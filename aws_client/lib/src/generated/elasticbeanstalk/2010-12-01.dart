@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,22 +11,14 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import '2010-12-01.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2010-12-01.g.dart';
 
 /// AWS Elastic Beanstalk makes it easy for you to create, deploy, and manage
 /// scalable, fault-tolerant applications running on the Amazon Web Services
@@ -35,9 +28,9 @@ class ElasticBeanstalk {
   final Map<String, _s.Shape> shapes;
 
   ElasticBeanstalk({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,8 +55,8 @@ class ElasticBeanstalk {
   /// This specifies the name of the environment with the in-progress update
   /// that you want to cancel.
   Future<void> abortEnvironmentUpdate({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -103,9 +96,9 @@ class ElasticBeanstalk {
   /// Parameter [environmentName] :
   /// The name of the target environment.
   Future<ApplyEnvironmentManagedActionResult> applyEnvironmentManagedAction({
-    @_s.required String actionId,
-    String environmentId,
-    String environmentName,
+    required String actionId,
+    String? environmentId,
+    String? environmentName,
   }) async {
     ArgumentError.checkNotNull(actionId, 'actionId');
     final $request = <String, dynamic>{};
@@ -142,8 +135,8 @@ class ElasticBeanstalk {
   /// The Amazon Resource Name (ARN) of an existing IAM role to be used as the
   /// environment's operations role.
   Future<void> associateEnvironmentOperationsRole({
-    @_s.required String environmentName,
-    @_s.required String operationsRole,
+    required String environmentName,
+    required String operationsRole,
   }) async {
     ArgumentError.checkNotNull(environmentName, 'environmentName');
     _s.validateStringLength(
@@ -181,7 +174,7 @@ class ElasticBeanstalk {
   /// Parameter [cNAMEPrefix] :
   /// The prefix used when this CNAME is reserved.
   Future<CheckDNSAvailabilityResultMessage> checkDNSAvailability({
-    @_s.required String cNAMEPrefix,
+    required String cNAMEPrefix,
   }) async {
     ArgumentError.checkNotNull(cNAMEPrefix, 'cNAMEPrefix');
     _s.validateStringLength(
@@ -236,9 +229,9 @@ class ElasticBeanstalk {
   /// and the name of the solution stack to use, and optionally can specify
   /// environment links to create.
   Future<EnvironmentDescriptionsMessage> composeEnvironments({
-    String applicationName,
-    String groupName,
-    List<String> versionLabels,
+    String? applicationName,
+    String? groupName,
+    List<String>? versionLabels,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -291,10 +284,10 @@ class ElasticBeanstalk {
   /// Elastic Beanstalk applies these tags only to the application. Environments
   /// that you create in the application don't inherit the tags.
   Future<ApplicationDescriptionMessage> createApplication({
-    @_s.required String applicationName,
-    String description,
-    ApplicationResourceLifecycleConfig resourceLifecycleConfig,
-    List<Tag> tags,
+    required String applicationName,
+    String? description,
+    ApplicationResourceLifecycleConfig? resourceLifecycleConfig,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -416,15 +409,15 @@ class ElasticBeanstalk {
   /// Elastic Beanstalk applies these tags only to the application version.
   /// Environments that use the application version don't inherit the tags.
   Future<ApplicationVersionDescriptionMessage> createApplicationVersion({
-    @_s.required String applicationName,
-    @_s.required String versionLabel,
-    bool autoCreateApplication,
-    BuildConfiguration buildConfiguration,
-    String description,
-    bool process,
-    SourceBuildInformation sourceBuildInformation,
-    S3Location sourceBundle,
-    List<Tag> tags,
+    required String applicationName,
+    required String versionLabel,
+    bool? autoCreateApplication,
+    BuildConfiguration? buildConfiguration,
+    String? description,
+    bool? process,
+    SourceBuildInformation? sourceBuildInformation,
+    S3Location? sourceBundle,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -575,15 +568,15 @@ class ElasticBeanstalk {
   /// Parameter [tags] :
   /// Specifies the tags applied to the configuration template.
   Future<ConfigurationSettingsDescription> createConfigurationTemplate({
-    @_s.required String applicationName,
-    @_s.required String templateName,
-    String description,
-    String environmentId,
-    List<ConfigurationOptionSetting> optionSettings,
-    String platformArn,
-    String solutionStackName,
-    SourceConfiguration sourceConfiguration,
-    List<Tag> tags,
+    required String applicationName,
+    required String templateName,
+    String? description,
+    String? environmentId,
+    List<ConfigurationOptionSetting>? optionSettings,
+    String? platformArn,
+    String? solutionStackName,
+    SourceConfiguration? sourceConfiguration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -735,20 +728,20 @@ class ElasticBeanstalk {
   /// Default: If not specified, Elastic Beanstalk attempts to deploy the sample
   /// application.
   Future<EnvironmentDescription> createEnvironment({
-    @_s.required String applicationName,
-    String cNAMEPrefix,
-    String description,
-    String environmentName,
-    String groupName,
-    String operationsRole,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<OptionSpecification> optionsToRemove,
-    String platformArn,
-    String solutionStackName,
-    List<Tag> tags,
-    String templateName,
-    EnvironmentTier tier,
-    String versionLabel,
+    required String applicationName,
+    String? cNAMEPrefix,
+    String? description,
+    String? environmentName,
+    String? groupName,
+    String? operationsRole,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<OptionSpecification>? optionsToRemove,
+    String? platformArn,
+    String? solutionStackName,
+    List<Tag>? tags,
+    String? templateName,
+    EnvironmentTier? tier,
+    String? versionLabel,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -857,12 +850,12 @@ class ElasticBeanstalk {
   /// Environments that you create using the platform version don't inherit the
   /// tags.
   Future<CreatePlatformVersionResult> createPlatformVersion({
-    @_s.required S3Location platformDefinitionBundle,
-    @_s.required String platformName,
-    @_s.required String platformVersion,
-    String environmentName,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<Tag> tags,
+    required S3Location platformDefinitionBundle,
+    required String platformName,
+    required String platformVersion,
+    String? environmentName,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         platformDefinitionBundle, 'platformDefinitionBundle');
@@ -936,8 +929,8 @@ class ElasticBeanstalk {
   /// When set to true, running environments will be terminated before deleting
   /// the application.
   Future<void> deleteApplication({
-    @_s.required String applicationName,
-    bool terminateEnvByForce,
+    required String applicationName,
+    bool? terminateEnvByForce,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -984,9 +977,9 @@ class ElasticBeanstalk {
   /// bucket. Otherwise, the application version is deleted only from Elastic
   /// Beanstalk and the source bundle remains in Amazon S3.
   Future<void> deleteApplicationVersion({
-    @_s.required String applicationName,
-    @_s.required String versionLabel,
-    bool deleteSourceBundle,
+    required String applicationName,
+    required String versionLabel,
+    bool? deleteSourceBundle,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1036,8 +1029,8 @@ class ElasticBeanstalk {
   /// Parameter [templateName] :
   /// The name of the configuration template to delete.
   Future<void> deleteConfigurationTemplate({
-    @_s.required String applicationName,
-    @_s.required String templateName,
+    required String applicationName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1086,8 +1079,8 @@ class ElasticBeanstalk {
   /// Parameter [environmentName] :
   /// The name of the environment to delete the draft configuration from.
   Future<void> deleteEnvironmentConfiguration({
-    @_s.required String applicationName,
-    @_s.required String environmentName,
+    required String applicationName,
+    required String environmentName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1130,7 +1123,7 @@ class ElasticBeanstalk {
   /// Parameter [platformArn] :
   /// The ARN of the version of the custom platform.
   Future<DeletePlatformVersionResult> deletePlatformVersion({
-    String platformArn,
+    String? platformArn,
   }) async {
     final $request = <String, dynamic>{};
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
@@ -1192,10 +1185,10 @@ class ElasticBeanstalk {
   /// Parameter [versionLabels] :
   /// Specify a version label to show a specific application version.
   Future<ApplicationVersionDescriptionsMessage> describeApplicationVersions({
-    String applicationName,
-    int maxRecords,
-    String nextToken,
-    List<String> versionLabels,
+    String? applicationName,
+    int? maxRecords,
+    String? nextToken,
+    List<String>? versionLabels,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1234,7 +1227,7 @@ class ElasticBeanstalk {
   /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   /// only include those with the specified names.
   Future<ApplicationDescriptionsMessage> describeApplications({
-    List<String> applicationNames,
+    List<String>? applicationNames,
   }) async {
     final $request = <String, dynamic>{};
     applicationNames?.also((arg) => $request['ApplicationNames'] = arg);
@@ -1283,12 +1276,12 @@ class ElasticBeanstalk {
   /// The name of the configuration template whose configuration options you
   /// want to describe.
   Future<ConfigurationOptionsDescription> describeConfigurationOptions({
-    String applicationName,
-    String environmentName,
-    List<OptionSpecification> options,
-    String platformArn,
-    String solutionStackName,
-    String templateName,
+    String? applicationName,
+    String? environmentName,
+    List<OptionSpecification>? options,
+    String? platformArn,
+    String? solutionStackName,
+    String? templateName,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1370,9 +1363,9 @@ class ElasticBeanstalk {
   /// either, AWS Elastic Beanstalk returns a
   /// <code>MissingRequiredParameter</code> error.
   Future<ConfigurationSettingsDescriptions> describeConfigurationSettings({
-    @_s.required String applicationName,
-    String environmentName,
-    String templateName,
+    required String applicationName,
+    String? environmentName,
+    String? templateName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1434,9 +1427,9 @@ class ElasticBeanstalk {
   ///
   /// You must specify either this or an EnvironmentName, or both.
   Future<DescribeEnvironmentHealthResult> describeEnvironmentHealth({
-    List<EnvironmentHealthAttribute> attributeNames,
-    String environmentId,
-    String environmentName,
+    List<EnvironmentHealthAttribute>? attributeNames,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1445,8 +1438,8 @@ class ElasticBeanstalk {
       40,
     );
     final $request = <String, dynamic>{};
-    attributeNames?.also((arg) => $request['AttributeNames'] =
-        arg.map((e) => e?.toValue() ?? '').toList());
+    attributeNames?.also((arg) =>
+        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
@@ -1480,10 +1473,10 @@ class ElasticBeanstalk {
   /// The pagination token returned by a previous request.
   Future<DescribeEnvironmentManagedActionHistoryResult>
       describeEnvironmentManagedActionHistory({
-    String environmentId,
-    String environmentName,
-    int maxItems,
-    String nextToken,
+    String? environmentId,
+    String? environmentName,
+    int? maxItems,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1530,9 +1523,9 @@ class ElasticBeanstalk {
   /// To show only actions with a particular status, specify a status.
   Future<DescribeEnvironmentManagedActionsResult>
       describeEnvironmentManagedActions({
-    String environmentId,
-    String environmentName,
-    ActionStatus status,
+    String? environmentId,
+    String? environmentName,
+    ActionStatus? status,
   }) async {
     final $request = <String, dynamic>{};
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
@@ -1570,8 +1563,8 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<EnvironmentResourceDescriptionsMessage> describeEnvironmentResources({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1640,14 +1633,14 @@ class ElasticBeanstalk {
   /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   /// include only those that are associated with this application version.
   Future<EnvironmentDescriptionsMessage> describeEnvironments({
-    String applicationName,
-    List<String> environmentIds,
-    List<String> environmentNames,
-    bool includeDeleted,
-    DateTime includedDeletedBackTo,
-    int maxRecords,
-    String nextToken,
-    String versionLabel,
+    String? applicationName,
+    List<String>? environmentIds,
+    List<String>? environmentNames,
+    bool? includeDeleted,
+    DateTime? includedDeletedBackTo,
+    int? maxRecords,
+    String? nextToken,
+    String? versionLabel,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1747,18 +1740,18 @@ class ElasticBeanstalk {
   /// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
   /// those associated with this application version.
   Future<EventDescriptionsMessage> describeEvents({
-    String applicationName,
-    DateTime endTime,
-    String environmentId,
-    String environmentName,
-    int maxRecords,
-    String nextToken,
-    String platformArn,
-    String requestId,
-    EventSeverity severity,
-    DateTime startTime,
-    String templateName,
-    String versionLabel,
+    String? applicationName,
+    DateTime? endTime,
+    String? environmentId,
+    String? environmentName,
+    int? maxRecords,
+    String? nextToken,
+    String? platformArn,
+    String? requestId,
+    EventSeverity? severity,
+    DateTime? startTime,
+    String? templateName,
+    String? versionLabel,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -1839,10 +1832,10 @@ class ElasticBeanstalk {
   /// Parameter [nextToken] :
   /// Specify the pagination token returned by a previous call.
   Future<DescribeInstancesHealthResult> describeInstancesHealth({
-    List<InstancesHealthAttribute> attributeNames,
-    String environmentId,
-    String environmentName,
-    String nextToken,
+    List<InstancesHealthAttribute>? attributeNames,
+    String? environmentId,
+    String? environmentName,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -1857,8 +1850,8 @@ class ElasticBeanstalk {
       100,
     );
     final $request = <String, dynamic>{};
-    attributeNames?.also((arg) => $request['AttributeNames'] =
-        arg.map((e) => e?.toValue() ?? '').toList());
+    attributeNames?.also((arg) =>
+        $request['AttributeNames'] = arg.map((e) => e.toValue()).toList());
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -1891,7 +1884,7 @@ class ElasticBeanstalk {
   /// Parameter [platformArn] :
   /// The ARN of the platform version.
   Future<DescribePlatformVersionResult> describePlatformVersion({
-    String platformArn,
+    String? platformArn,
   }) async {
     final $request = <String, dynamic>{};
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
@@ -1922,7 +1915,7 @@ class ElasticBeanstalk {
   /// The name of the environment from which to disassociate the operations
   /// role.
   Future<void> disassociateEnvironmentOperationsRole({
-    @_s.required String environmentName,
+    required String environmentName,
   }) async {
     ArgumentError.checkNotNull(environmentName, 'environmentName');
     _s.validateStringLength(
@@ -2044,9 +2037,9 @@ class ElasticBeanstalk {
   ///
   /// If no <code>NextToken</code> is specified, the first page is retrieved.
   Future<ListPlatformBranchesResult> listPlatformBranches({
-    List<SearchFilter> filters,
-    int maxRecords,
-    String nextToken,
+    List<SearchFilter>? filters,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxRecords',
@@ -2100,9 +2093,9 @@ class ElasticBeanstalk {
   ///
   /// If no <code>NextToken</code> is specified, the first page is retrieved.
   Future<ListPlatformVersionsResult> listPlatformVersions({
-    List<PlatformFilter> filters,
-    int maxRecords,
-    String nextToken,
+    List<PlatformFilter>? filters,
+    int? maxRecords,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxRecords',
@@ -2146,7 +2139,7 @@ class ElasticBeanstalk {
   ///
   /// Must be the ARN of an Elastic Beanstalk resource.
   Future<ResourceTagsDescriptionMessage> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $request = <String, dynamic>{};
@@ -2185,8 +2178,8 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<void> rebuildEnvironment({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -2254,9 +2247,9 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<void> requestEnvironmentInfo({
-    @_s.required EnvironmentInfoType infoType,
-    String environmentId,
-    String environmentName,
+    required EnvironmentInfoType infoType,
+    String? environmentId,
+    String? environmentName,
   }) async {
     ArgumentError.checkNotNull(infoType, 'infoType');
     _s.validateStringLength(
@@ -2298,8 +2291,8 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<void> restartAppServer({
-    String environmentId,
-    String environmentName,
+    String? environmentId,
+    String? environmentName,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -2356,9 +2349,9 @@ class ElasticBeanstalk {
   /// you do not specify either, AWS Elastic Beanstalk returns
   /// <code>MissingRequiredParameter</code> error.
   Future<RetrieveEnvironmentInfoResultMessage> retrieveEnvironmentInfo({
-    @_s.required EnvironmentInfoType infoType,
-    String environmentId,
-    String environmentName,
+    required EnvironmentInfoType infoType,
+    String? environmentId,
+    String? environmentName,
   }) async {
     ArgumentError.checkNotNull(infoType, 'infoType');
     _s.validateStringLength(
@@ -2421,10 +2414,10 @@ class ElasticBeanstalk {
   /// you specify the <code>SourceEnvironmentName</code>, you must specify the
   /// <code>DestinationEnvironmentName</code>.
   Future<void> swapEnvironmentCNAMEs({
-    String destinationEnvironmentId,
-    String destinationEnvironmentName,
-    String sourceEnvironmentId,
-    String sourceEnvironmentName,
+    String? destinationEnvironmentId,
+    String? destinationEnvironmentName,
+    String? sourceEnvironmentId,
+    String? sourceEnvironmentName,
   }) async {
     _s.validateStringLength(
       'destinationEnvironmentName',
@@ -2502,10 +2495,10 @@ class ElasticBeanstalk {
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
   Future<EnvironmentDescription> terminateEnvironment({
-    String environmentId,
-    String environmentName,
-    bool forceTerminate,
-    bool terminateResources,
+    String? environmentId,
+    String? environmentName,
+    bool? forceTerminate,
+    bool? terminateResources,
   }) async {
     _s.validateStringLength(
       'environmentName',
@@ -2550,8 +2543,8 @@ class ElasticBeanstalk {
   /// Default: If not specified, AWS Elastic Beanstalk does not update the
   /// description.
   Future<ApplicationDescriptionMessage> updateApplication({
-    @_s.required String applicationName,
-    String description,
+    required String applicationName,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2595,8 +2588,8 @@ class ElasticBeanstalk {
   /// The lifecycle configuration.
   Future<ApplicationResourceLifecycleDescriptionMessage>
       updateApplicationResourceLifecycle({
-    @_s.required String applicationName,
-    @_s.required ApplicationResourceLifecycleConfig resourceLifecycleConfig,
+    required String applicationName,
+    required ApplicationResourceLifecycleConfig resourceLifecycleConfig,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2648,9 +2641,9 @@ class ElasticBeanstalk {
   /// Parameter [description] :
   /// A new description for this version.
   Future<ApplicationVersionDescriptionMessage> updateApplicationVersion({
-    @_s.required String applicationName,
-    @_s.required String versionLabel,
-    String description,
+    required String applicationName,
+    required String versionLabel,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2738,11 +2731,11 @@ class ElasticBeanstalk {
   /// Constraint: You can remove only <code>UserDefined</code> configuration
   /// options.
   Future<ConfigurationSettingsDescription> updateConfigurationTemplate({
-    @_s.required String applicationName,
-    @_s.required String templateName,
-    String description,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<OptionSpecification> optionsToRemove,
+    required String applicationName,
+    required String templateName,
+    String? description,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<OptionSpecification>? optionsToRemove,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2870,18 +2863,18 @@ class ElasticBeanstalk {
   /// application version to the environment. If no such application version is
   /// found, returns an <code>InvalidParameterValue</code> error.
   Future<EnvironmentDescription> updateEnvironment({
-    String applicationName,
-    String description,
-    String environmentId,
-    String environmentName,
-    String groupName,
-    List<ConfigurationOptionSetting> optionSettings,
-    List<OptionSpecification> optionsToRemove,
-    String platformArn,
-    String solutionStackName,
-    String templateName,
-    EnvironmentTier tier,
-    String versionLabel,
+    String? applicationName,
+    String? description,
+    String? environmentId,
+    String? environmentName,
+    String? groupName,
+    List<ConfigurationOptionSetting>? optionSettings,
+    List<OptionSpecification>? optionsToRemove,
+    String? platformArn,
+    String? solutionStackName,
+    String? templateName,
+    EnvironmentTier? tier,
+    String? versionLabel,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -2994,9 +2987,9 @@ class ElasticBeanstalk {
   /// Specify at least one of these parameters: <code>TagsToAdd</code>,
   /// <code>TagsToRemove</code>.
   Future<void> updateTagsForResource({
-    @_s.required String resourceArn,
-    List<Tag> tagsToAdd,
-    List<String> tagsToRemove,
+    required String resourceArn,
+    List<Tag>? tagsToAdd,
+    List<String>? tagsToRemove,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $request = <String, dynamic>{};
@@ -3042,10 +3035,10 @@ class ElasticBeanstalk {
   /// Condition: You cannot specify both this and an environment name.
   Future<ConfigurationSettingsValidationMessages>
       validateConfigurationSettings({
-    @_s.required String applicationName,
-    @_s.required List<ConfigurationOptionSetting> optionSettings,
-    String environmentName,
-    String templateName,
+    required String applicationName,
+    required List<ConfigurationOptionSetting> optionSettings,
+    String? environmentName,
+    String? templateName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -3089,12 +3082,22 @@ class ElasticBeanstalk {
 }
 
 enum ActionHistoryStatus {
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Unknown')
   unknown,
+}
+
+extension on ActionHistoryStatus {
+  String toValue() {
+    switch (this) {
+      case ActionHistoryStatus.completed:
+        return 'Completed';
+      case ActionHistoryStatus.failed:
+        return 'Failed';
+      case ActionHistoryStatus.unknown:
+        return 'Unknown';
+    }
+  }
 }
 
 extension on String {
@@ -3107,18 +3110,14 @@ extension on String {
       case 'Unknown':
         return ActionHistoryStatus.unknown;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionHistoryStatus');
   }
 }
 
 enum ActionStatus {
-  @_s.JsonValue('Scheduled')
   scheduled,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Running')
   running,
-  @_s.JsonValue('Unknown')
   unknown,
 }
 
@@ -3134,7 +3133,6 @@ extension on ActionStatus {
       case ActionStatus.unknown:
         return 'Unknown';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3150,17 +3148,27 @@ extension on String {
       case 'Unknown':
         return ActionStatus.unknown;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionStatus');
   }
 }
 
 enum ActionType {
-  @_s.JsonValue('InstanceRefresh')
   instanceRefresh,
-  @_s.JsonValue('PlatformUpdate')
   platformUpdate,
-  @_s.JsonValue('Unknown')
   unknown,
+}
+
+extension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.instanceRefresh:
+        return 'InstanceRefresh';
+      case ActionType.platformUpdate:
+        return 'PlatformUpdate';
+      case ActionType.unknown:
+        return 'Unknown';
+    }
+  }
 }
 
 extension on String {
@@ -3173,35 +3181,35 @@ extension on String {
       case 'Unknown':
         return ActionType.unknown;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ActionType');
   }
 }
 
 /// Describes the properties of an application.
 class ApplicationDescription {
   /// The Amazon Resource Name (ARN) of the application.
-  final String applicationArn;
+  final String? applicationArn;
 
   /// The name of the application.
-  final String applicationName;
+  final String? applicationName;
 
   /// The names of the configuration templates associated with this application.
-  final List<String> configurationTemplates;
+  final List<String>? configurationTemplates;
 
   /// The date when the application was created.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The date when the application was last modified.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// User-defined description of the application.
-  final String description;
+  final String? description;
 
   /// The lifecycle settings for the application.
-  final ApplicationResourceLifecycleConfig resourceLifecycleConfig;
+  final ApplicationResourceLifecycleConfig? resourceLifecycleConfig;
 
   /// The names of the versions for this application.
-  final List<String> versions;
+  final List<String>? versions;
 
   ApplicationDescription({
     this.applicationArn,
@@ -3213,6 +3221,29 @@ class ApplicationDescription {
     this.resourceLifecycleConfig,
     this.versions,
   });
+
+  factory ApplicationDescription.fromJson(Map<String, dynamic> json) {
+    return ApplicationDescription(
+      applicationArn: json['ApplicationArn'] as String?,
+      applicationName: json['ApplicationName'] as String?,
+      configurationTemplates: (json['ConfigurationTemplates'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateUpdated: timeStampFromJson(json['DateUpdated']),
+      description: json['Description'] as String?,
+      resourceLifecycleConfig: json['ResourceLifecycleConfig'] != null
+          ? ApplicationResourceLifecycleConfig.fromJson(
+              json['ResourceLifecycleConfig'] as Map<String, dynamic>)
+          : null,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory ApplicationDescription.fromXml(_s.XmlElement elem) {
     return ApplicationDescription(
       applicationArn: _s.extractXmlStringValue(elem, 'ApplicationArn'),
@@ -3231,16 +3262,49 @@ class ApplicationDescription {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationArn = this.applicationArn;
+    final applicationName = this.applicationName;
+    final configurationTemplates = this.configurationTemplates;
+    final dateCreated = this.dateCreated;
+    final dateUpdated = this.dateUpdated;
+    final description = this.description;
+    final resourceLifecycleConfig = this.resourceLifecycleConfig;
+    final versions = this.versions;
+    return {
+      if (applicationArn != null) 'ApplicationArn': applicationArn,
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (configurationTemplates != null)
+        'ConfigurationTemplates': configurationTemplates,
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateUpdated != null) 'DateUpdated': unixTimestampToJson(dateUpdated),
+      if (description != null) 'Description': description,
+      if (resourceLifecycleConfig != null)
+        'ResourceLifecycleConfig': resourceLifecycleConfig,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
 /// Result message containing a single description of an application.
 class ApplicationDescriptionMessage {
   /// The <a>ApplicationDescription</a> of the application.
-  final ApplicationDescription application;
+  final ApplicationDescription? application;
 
   ApplicationDescriptionMessage({
     this.application,
   });
+
+  factory ApplicationDescriptionMessage.fromJson(Map<String, dynamic> json) {
+    return ApplicationDescriptionMessage(
+      application: json['Application'] != null
+          ? ApplicationDescription.fromJson(
+              json['Application'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ApplicationDescriptionMessage.fromXml(_s.XmlElement elem) {
     return ApplicationDescriptionMessage(
       application: _s
@@ -3248,16 +3312,34 @@ class ApplicationDescriptionMessage {
           ?.let((e) => ApplicationDescription.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final application = this.application;
+    return {
+      if (application != null) 'Application': application,
+    };
+  }
 }
 
 /// Result message containing a list of application descriptions.
 class ApplicationDescriptionsMessage {
   /// This parameter contains a list of <a>ApplicationDescription</a>.
-  final List<ApplicationDescription> applications;
+  final List<ApplicationDescription>? applications;
 
   ApplicationDescriptionsMessage({
     this.applications,
   });
+
+  factory ApplicationDescriptionsMessage.fromJson(Map<String, dynamic> json) {
+    return ApplicationDescriptionsMessage(
+      applications: (json['Applications'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ApplicationDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ApplicationDescriptionsMessage.fromXml(_s.XmlElement elem) {
     return ApplicationDescriptionsMessage(
       applications: _s.extractXmlChild(elem, 'Applications')?.let((elem) => elem
@@ -3266,6 +3348,13 @@ class ApplicationDescriptionsMessage {
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    return {
+      if (applications != null) 'Applications': applications,
+    };
+  }
 }
 
 /// Application request metrics for an AWS Elastic Beanstalk environment.
@@ -3273,20 +3362,20 @@ class ApplicationMetrics {
   /// The amount of time that the metrics cover (usually 10 seconds). For example,
   /// you might have 5 requests (<code>request_count</code>) within the most
   /// recent time slice of 10 seconds (<code>duration</code>).
-  final int duration;
+  final int? duration;
 
   /// Represents the average latency for the slowest X percent of requests over
   /// the last 10 seconds. Latencies are in seconds with one millisecond
   /// resolution.
-  final Latency latency;
+  final Latency? latency;
 
   /// Average number of requests handled by the web server per second over the
   /// last 10 seconds.
-  final int requestCount;
+  final int? requestCount;
 
   /// Represents the percentage of requests over the last 10 seconds that resulted
   /// in each type of status code response.
-  final StatusCodes statusCodes;
+  final StatusCodes? statusCodes;
 
   ApplicationMetrics({
     this.duration,
@@ -3294,6 +3383,20 @@ class ApplicationMetrics {
     this.requestCount,
     this.statusCodes,
   });
+
+  factory ApplicationMetrics.fromJson(Map<String, dynamic> json) {
+    return ApplicationMetrics(
+      duration: json['Duration'] as int?,
+      latency: json['Latency'] != null
+          ? Latency.fromJson(json['Latency'] as Map<String, dynamic>)
+          : null,
+      requestCount: json['RequestCount'] as int?,
+      statusCodes: json['StatusCodes'] != null
+          ? StatusCodes.fromJson(json['StatusCodes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ApplicationMetrics.fromXml(_s.XmlElement elem) {
     return ApplicationMetrics(
       duration: _s.extractXmlIntValue(elem, 'Duration'),
@@ -3305,6 +3408,19 @@ class ApplicationMetrics {
           ?.let((e) => StatusCodes.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    final latency = this.latency;
+    final requestCount = this.requestCount;
+    final statusCodes = this.statusCodes;
+    return {
+      if (duration != null) 'Duration': duration,
+      if (latency != null) 'Latency': latency,
+      if (requestCount != null) 'RequestCount': requestCount,
+      if (statusCodes != null) 'StatusCodes': statusCodes,
+    };
+  }
 }
 
 /// The resource lifecycle configuration for an application. Defines lifecycle
@@ -3312,11 +3428,6 @@ class ApplicationMetrics {
 /// that AWS Elastic Beanstalk assumes in order to apply lifecycle settings. The
 /// version lifecycle configuration defines lifecycle settings for application
 /// versions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationResourceLifecycleConfig {
   /// The ARN of an IAM service role that Elastic Beanstalk has permission to
   /// assume.
@@ -3329,17 +3440,27 @@ class ApplicationResourceLifecycleConfig {
   /// the application, and you don't need to specify it again in subsequent
   /// <code>UpdateApplicationResourceLifecycle</code> calls. You can, however,
   /// specify it in subsequent calls to change the Service Role to another value.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// Defines lifecycle settings for application versions.
-  @_s.JsonKey(name: 'VersionLifecycleConfig')
-  final ApplicationVersionLifecycleConfig versionLifecycleConfig;
+  final ApplicationVersionLifecycleConfig? versionLifecycleConfig;
 
   ApplicationResourceLifecycleConfig({
     this.serviceRole,
     this.versionLifecycleConfig,
   });
+
+  factory ApplicationResourceLifecycleConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationResourceLifecycleConfig(
+      serviceRole: json['ServiceRole'] as String?,
+      versionLifecycleConfig: json['VersionLifecycleConfig'] != null
+          ? ApplicationVersionLifecycleConfig.fromJson(
+              json['VersionLifecycleConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ApplicationResourceLifecycleConfig.fromXml(_s.XmlElement elem) {
     return ApplicationResourceLifecycleConfig(
       serviceRole: _s.extractXmlStringValue(elem, 'ServiceRole'),
@@ -3349,21 +3470,40 @@ class ApplicationResourceLifecycleConfig {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      _$ApplicationResourceLifecycleConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final serviceRole = this.serviceRole;
+    final versionLifecycleConfig = this.versionLifecycleConfig;
+    return {
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (versionLifecycleConfig != null)
+        'VersionLifecycleConfig': versionLifecycleConfig,
+    };
+  }
 }
 
 class ApplicationResourceLifecycleDescriptionMessage {
   /// The name of the application.
-  final String applicationName;
+  final String? applicationName;
 
   /// The lifecycle configuration.
-  final ApplicationResourceLifecycleConfig resourceLifecycleConfig;
+  final ApplicationResourceLifecycleConfig? resourceLifecycleConfig;
 
   ApplicationResourceLifecycleDescriptionMessage({
     this.applicationName,
     this.resourceLifecycleConfig,
   });
+
+  factory ApplicationResourceLifecycleDescriptionMessage.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationResourceLifecycleDescriptionMessage(
+      applicationName: json['ApplicationName'] as String?,
+      resourceLifecycleConfig: json['ResourceLifecycleConfig'] != null
+          ? ApplicationResourceLifecycleConfig.fromJson(
+              json['ResourceLifecycleConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ApplicationResourceLifecycleDescriptionMessage.fromXml(
       _s.XmlElement elem) {
     return ApplicationResourceLifecycleDescriptionMessage(
@@ -3373,35 +3513,45 @@ class ApplicationResourceLifecycleDescriptionMessage {
           ?.let((e) => ApplicationResourceLifecycleConfig.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final resourceLifecycleConfig = this.resourceLifecycleConfig;
+    return {
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (resourceLifecycleConfig != null)
+        'ResourceLifecycleConfig': resourceLifecycleConfig,
+    };
+  }
 }
 
 /// Describes the properties of an application version.
 class ApplicationVersionDescription {
   /// The name of the application to which the application version belongs.
-  final String applicationName;
+  final String? applicationName;
 
   /// The Amazon Resource Name (ARN) of the application version.
-  final String applicationVersionArn;
+  final String? applicationVersionArn;
 
   /// Reference to the artifact from the AWS CodeBuild build.
-  final String buildArn;
+  final String? buildArn;
 
   /// The creation date of the application version.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The last modified date of the application version.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// The description of the application version.
-  final String description;
+  final String? description;
 
   /// If the version's source code was retrieved from AWS CodeCommit, the location
   /// of the source code for the application version.
-  final SourceBuildInformation sourceBuildInformation;
+  final SourceBuildInformation? sourceBuildInformation;
 
   /// The storage location of the application version's source bundle in Amazon
   /// S3.
-  final S3Location sourceBundle;
+  final S3Location? sourceBundle;
 
   /// The processing status of the application version. Reflects the state of the
   /// application version during its creation. Many of the values are only
@@ -3432,10 +3582,10 @@ class ApplicationVersionDescription {
   /// files didn't pass validation. This application version isn't usable.
   /// </li>
   /// </ul>
-  final ApplicationVersionStatus status;
+  final ApplicationVersionStatus? status;
 
   /// A unique identifier for the application version.
-  final String versionLabel;
+  final String? versionLabel;
 
   ApplicationVersionDescription({
     this.applicationName,
@@ -3449,6 +3599,27 @@ class ApplicationVersionDescription {
     this.status,
     this.versionLabel,
   });
+
+  factory ApplicationVersionDescription.fromJson(Map<String, dynamic> json) {
+    return ApplicationVersionDescription(
+      applicationName: json['ApplicationName'] as String?,
+      applicationVersionArn: json['ApplicationVersionArn'] as String?,
+      buildArn: json['BuildArn'] as String?,
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateUpdated: timeStampFromJson(json['DateUpdated']),
+      description: json['Description'] as String?,
+      sourceBuildInformation: json['SourceBuildInformation'] != null
+          ? SourceBuildInformation.fromJson(
+              json['SourceBuildInformation'] as Map<String, dynamic>)
+          : null,
+      sourceBundle: json['SourceBundle'] != null
+          ? S3Location.fromJson(json['SourceBundle'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toApplicationVersionStatus(),
+      versionLabel: json['VersionLabel'] as String?,
+    );
+  }
+
   factory ApplicationVersionDescription.fromXml(_s.XmlElement elem) {
     return ApplicationVersionDescription(
       applicationName: _s.extractXmlStringValue(elem, 'ApplicationName'),
@@ -3470,16 +3641,54 @@ class ApplicationVersionDescription {
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final applicationVersionArn = this.applicationVersionArn;
+    final buildArn = this.buildArn;
+    final dateCreated = this.dateCreated;
+    final dateUpdated = this.dateUpdated;
+    final description = this.description;
+    final sourceBuildInformation = this.sourceBuildInformation;
+    final sourceBundle = this.sourceBundle;
+    final status = this.status;
+    final versionLabel = this.versionLabel;
+    return {
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (applicationVersionArn != null)
+        'ApplicationVersionArn': applicationVersionArn,
+      if (buildArn != null) 'BuildArn': buildArn,
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateUpdated != null) 'DateUpdated': unixTimestampToJson(dateUpdated),
+      if (description != null) 'Description': description,
+      if (sourceBuildInformation != null)
+        'SourceBuildInformation': sourceBuildInformation,
+      if (sourceBundle != null) 'SourceBundle': sourceBundle,
+      if (status != null) 'Status': status.toValue(),
+      if (versionLabel != null) 'VersionLabel': versionLabel,
+    };
+  }
 }
 
 /// Result message wrapping a single description of an application version.
 class ApplicationVersionDescriptionMessage {
   /// The <a>ApplicationVersionDescription</a> of the application version.
-  final ApplicationVersionDescription applicationVersion;
+  final ApplicationVersionDescription? applicationVersion;
 
   ApplicationVersionDescriptionMessage({
     this.applicationVersion,
   });
+
+  factory ApplicationVersionDescriptionMessage.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationVersionDescriptionMessage(
+      applicationVersion: json['ApplicationVersion'] != null
+          ? ApplicationVersionDescription.fromJson(
+              json['ApplicationVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ApplicationVersionDescriptionMessage.fromXml(_s.XmlElement elem) {
     return ApplicationVersionDescriptionMessage(
       applicationVersion: _s
@@ -3487,22 +3696,42 @@ class ApplicationVersionDescriptionMessage {
           ?.let((e) => ApplicationVersionDescription.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationVersion = this.applicationVersion;
+    return {
+      if (applicationVersion != null) 'ApplicationVersion': applicationVersion,
+    };
+  }
 }
 
 /// Result message wrapping a list of application version descriptions.
 class ApplicationVersionDescriptionsMessage {
   /// List of <code>ApplicationVersionDescription</code> objects sorted in order
   /// of creation.
-  final List<ApplicationVersionDescription> applicationVersions;
+  final List<ApplicationVersionDescription>? applicationVersions;
 
   /// In a paginated request, the token that you can pass in a subsequent request
   /// to get the next response page.
-  final String nextToken;
+  final String? nextToken;
 
   ApplicationVersionDescriptionsMessage({
     this.applicationVersions,
     this.nextToken,
   });
+
+  factory ApplicationVersionDescriptionsMessage.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationVersionDescriptionsMessage(
+      applicationVersions: (json['ApplicationVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ApplicationVersionDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory ApplicationVersionDescriptionsMessage.fromXml(_s.XmlElement elem) {
     return ApplicationVersionDescriptionsMessage(
       applicationVersions: _s.extractXmlChild(elem, 'ApplicationVersions')?.let(
@@ -3513,6 +3742,16 @@ class ApplicationVersionDescriptionsMessage {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationVersions = this.applicationVersions;
+    final nextToken = this.nextToken;
+    return {
+      if (applicationVersions != null)
+        'ApplicationVersions': applicationVersions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// The application version lifecycle settings for an application. Defines the
@@ -3522,26 +3761,32 @@ class ApplicationVersionDescriptionsMessage {
 /// When Elastic Beanstalk deletes an application version from its database, you
 /// can no longer deploy that version to an environment. The source bundle
 /// remains in S3 unless you configure the rule to delete it.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationVersionLifecycleConfig {
   /// Specify a max age rule to restrict the length of time that application
   /// versions are retained for an application.
-  @_s.JsonKey(name: 'MaxAgeRule')
-  final MaxAgeRule maxAgeRule;
+  final MaxAgeRule? maxAgeRule;
 
   /// Specify a max count rule to restrict the number of application versions that
   /// are retained for an application.
-  @_s.JsonKey(name: 'MaxCountRule')
-  final MaxCountRule maxCountRule;
+  final MaxCountRule? maxCountRule;
 
   ApplicationVersionLifecycleConfig({
     this.maxAgeRule,
     this.maxCountRule,
   });
+
+  factory ApplicationVersionLifecycleConfig.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationVersionLifecycleConfig(
+      maxAgeRule: json['MaxAgeRule'] != null
+          ? MaxAgeRule.fromJson(json['MaxAgeRule'] as Map<String, dynamic>)
+          : null,
+      maxCountRule: json['MaxCountRule'] != null
+          ? MaxCountRule.fromJson(json['MaxCountRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ApplicationVersionLifecycleConfig.fromXml(_s.XmlElement elem) {
     return ApplicationVersionLifecycleConfig(
       maxAgeRule: _s
@@ -3553,21 +3798,39 @@ class ApplicationVersionLifecycleConfig {
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      _$ApplicationVersionLifecycleConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final maxAgeRule = this.maxAgeRule;
+    final maxCountRule = this.maxCountRule;
+    return {
+      if (maxAgeRule != null) 'MaxAgeRule': maxAgeRule,
+      if (maxCountRule != null) 'MaxCountRule': maxCountRule,
+    };
+  }
 }
 
 enum ApplicationVersionStatus {
-  @_s.JsonValue('Processed')
   processed,
-  @_s.JsonValue('Unprocessed')
   unprocessed,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Processing')
   processing,
-  @_s.JsonValue('Building')
   building,
+}
+
+extension on ApplicationVersionStatus {
+  String toValue() {
+    switch (this) {
+      case ApplicationVersionStatus.processed:
+        return 'Processed';
+      case ApplicationVersionStatus.unprocessed:
+        return 'Unprocessed';
+      case ApplicationVersionStatus.failed:
+        return 'Failed';
+      case ApplicationVersionStatus.processing:
+        return 'Processing';
+      case ApplicationVersionStatus.building:
+        return 'Building';
+    }
+  }
 }
 
 extension on String {
@@ -3584,23 +3847,23 @@ extension on String {
       case 'Building':
         return ApplicationVersionStatus.building;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ApplicationVersionStatus');
   }
 }
 
 /// The result message containing information about the managed action.
 class ApplyEnvironmentManagedActionResult {
   /// A description of the managed action.
-  final String actionDescription;
+  final String? actionDescription;
 
   /// The action ID of the managed action.
-  final String actionId;
+  final String? actionId;
 
   /// The type of managed action.
-  final ActionType actionType;
+  final ActionType? actionType;
 
   /// The status of the managed action.
-  final String status;
+  final String? status;
 
   ApplyEnvironmentManagedActionResult({
     this.actionDescription,
@@ -3608,6 +3871,17 @@ class ApplyEnvironmentManagedActionResult {
     this.actionType,
     this.status,
   });
+
+  factory ApplyEnvironmentManagedActionResult.fromJson(
+      Map<String, dynamic> json) {
+    return ApplyEnvironmentManagedActionResult(
+      actionDescription: json['ActionDescription'] as String?,
+      actionId: json['ActionId'] as String?,
+      actionType: (json['ActionType'] as String?)?.toActionType(),
+      status: json['Status'] as String?,
+    );
+  }
+
   factory ApplyEnvironmentManagedActionResult.fromXml(_s.XmlElement elem) {
     return ApplyEnvironmentManagedActionResult(
       actionDescription: _s.extractXmlStringValue(elem, 'ActionDescription'),
@@ -3616,38 +3890,58 @@ class ApplyEnvironmentManagedActionResult {
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final actionDescription = this.actionDescription;
+    final actionId = this.actionId;
+    final actionType = this.actionType;
+    final status = this.status;
+    return {
+      if (actionDescription != null) 'ActionDescription': actionDescription,
+      if (actionId != null) 'ActionId': actionId,
+      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Describes an Auto Scaling launch configuration.
 class AutoScalingGroup {
   /// The name of the <code>AutoScalingGroup</code> .
-  final String name;
+  final String? name;
 
   AutoScalingGroup({
     this.name,
   });
+
+  factory AutoScalingGroup.fromJson(Map<String, dynamic> json) {
+    return AutoScalingGroup(
+      name: json['Name'] as String?,
+    );
+  }
+
   factory AutoScalingGroup.fromXml(_s.XmlElement elem) {
     return AutoScalingGroup(
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Settings for an AWS CodeBuild build.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BuildConfiguration {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
   /// (IAM) role that enables AWS CodeBuild to interact with dependent AWS
   /// services on behalf of the AWS account.
-  @_s.JsonKey(name: 'CodeBuildServiceRole')
   final String codeBuildServiceRole;
 
   /// The ID of the Docker image to use for this build project.
-  @_s.JsonKey(name: 'Image')
   final String image;
 
   /// The name of the artifact of the CodeBuild build. If provided, Elastic
@@ -3656,8 +3950,7 @@ class BuildConfiguration {
   /// If not provided, Elastic Beanstalk stores the build artifact in the S3
   /// location
   /// <i>S3-bucket</i>/resources/<i>application-name</i>/codebuild/codebuild-<i>version-label</i>.zip.
-  @_s.JsonKey(name: 'ArtifactName')
-  final String artifactName;
+  final String? artifactName;
 
   /// Information about the compute resources the build project will use.
   ///
@@ -3675,37 +3968,73 @@ class BuildConfiguration {
   /// builds</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ComputeType')
-  final ComputeType computeType;
+  final ComputeType? computeType;
 
   /// How long in minutes, from 5 to 480 (8 hours), for AWS CodeBuild to wait
   /// until timing out any related build that does not get marked as completed.
   /// The default is 60 minutes.
-  @_s.JsonKey(name: 'TimeoutInMinutes')
-  final int timeoutInMinutes;
+  final int? timeoutInMinutes;
 
   BuildConfiguration({
-    @_s.required this.codeBuildServiceRole,
-    @_s.required this.image,
+    required this.codeBuildServiceRole,
+    required this.image,
     this.artifactName,
     this.computeType,
     this.timeoutInMinutes,
   });
-  Map<String, dynamic> toJson() => _$BuildConfigurationToJson(this);
+
+  factory BuildConfiguration.fromJson(Map<String, dynamic> json) {
+    return BuildConfiguration(
+      codeBuildServiceRole: json['CodeBuildServiceRole'] as String,
+      image: json['Image'] as String,
+      artifactName: json['ArtifactName'] as String?,
+      computeType: (json['ComputeType'] as String?)?.toComputeType(),
+      timeoutInMinutes: json['TimeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeBuildServiceRole = this.codeBuildServiceRole;
+    final image = this.image;
+    final artifactName = this.artifactName;
+    final computeType = this.computeType;
+    final timeoutInMinutes = this.timeoutInMinutes;
+    return {
+      'CodeBuildServiceRole': codeBuildServiceRole,
+      'Image': image,
+      if (artifactName != null) 'ArtifactName': artifactName,
+      if (computeType != null) 'ComputeType': computeType.toValue(),
+      if (timeoutInMinutes != null) 'TimeoutInMinutes': timeoutInMinutes,
+    };
+  }
 }
 
 /// The builder used to build the custom platform.
 class Builder {
   /// The ARN of the builder.
-  final String arn;
+  final String? arn;
 
   Builder({
     this.arn,
   });
+
+  factory Builder.fromJson(Map<String, dynamic> json) {
+    return Builder(
+      arn: json['ARN'] as String?,
+    );
+  }
+
   factory Builder.fromXml(_s.XmlElement elem) {
     return Builder(
       arn: _s.extractXmlStringValue(elem, 'ARN'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'ARN': arn,
+    };
   }
 }
 
@@ -3715,45 +4044,45 @@ class CPUUtilization {
   ///
   /// Percentage of time that the CPU has spent in the <code>I/O Wait</code> state
   /// over the last 10 seconds.
-  final double iOWait;
+  final double? iOWait;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>IRQ</code> state over
   /// the last 10 seconds.
-  final double irq;
+  final double? irq;
 
   /// Percentage of time that the CPU has spent in the <code>Idle</code> state
   /// over the last 10 seconds.
-  final double idle;
+  final double? idle;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>Nice</code> state
   /// over the last 10 seconds.
-  final double nice;
+  final double? nice;
 
   /// Available on Windows environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>Privileged</code>
   /// state over the last 10 seconds.
-  final double privileged;
+  final double? privileged;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>SoftIRQ</code> state
   /// over the last 10 seconds.
-  final double softIRQ;
+  final double? softIRQ;
 
   /// Available on Linux environments only.
   ///
   /// Percentage of time that the CPU has spent in the <code>System</code> state
   /// over the last 10 seconds.
-  final double system;
+  final double? system;
 
   /// Percentage of time that the CPU has spent in the <code>User</code> state
   /// over the last 10 seconds.
-  final double user;
+  final double? user;
 
   CPUUtilization({
     this.iOWait,
@@ -3765,6 +4094,20 @@ class CPUUtilization {
     this.system,
     this.user,
   });
+
+  factory CPUUtilization.fromJson(Map<String, dynamic> json) {
+    return CPUUtilization(
+      iOWait: json['IOWait'] as double?,
+      irq: json['IRQ'] as double?,
+      idle: json['Idle'] as double?,
+      nice: json['Nice'] as double?,
+      privileged: json['Privileged'] as double?,
+      softIRQ: json['SoftIRQ'] as double?,
+      system: json['System'] as double?,
+      user: json['User'] as double?,
+    );
+  }
+
   factory CPUUtilization.fromXml(_s.XmlElement elem) {
     return CPUUtilization(
       iOWait: _s.extractXmlDoubleValue(elem, 'IOWait'),
@@ -3776,6 +4119,27 @@ class CPUUtilization {
       system: _s.extractXmlDoubleValue(elem, 'System'),
       user: _s.extractXmlDoubleValue(elem, 'User'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iOWait = this.iOWait;
+    final irq = this.irq;
+    final idle = this.idle;
+    final nice = this.nice;
+    final privileged = this.privileged;
+    final softIRQ = this.softIRQ;
+    final system = this.system;
+    final user = this.user;
+    return {
+      if (iOWait != null) 'IOWait': iOWait,
+      if (irq != null) 'IRQ': irq,
+      if (idle != null) 'Idle': idle,
+      if (nice != null) 'Nice': nice,
+      if (privileged != null) 'Privileged': privileged,
+      if (softIRQ != null) 'SoftIRQ': softIRQ,
+      if (system != null) 'System': system,
+      if (user != null) 'User': user,
+    };
   }
 }
 
@@ -3791,16 +4155,25 @@ class CheckDNSAvailabilityResultMessage {
   /// <code>false</code> : The CNAME is not available.
   /// </li>
   /// </ul>
-  final bool available;
+  final bool? available;
 
   /// The fully qualified CNAME to reserve when <a>CreateEnvironment</a> is called
   /// with the provided prefix.
-  final String fullyQualifiedCNAME;
+  final String? fullyQualifiedCNAME;
 
   CheckDNSAvailabilityResultMessage({
     this.available,
     this.fullyQualifiedCNAME,
   });
+
+  factory CheckDNSAvailabilityResultMessage.fromJson(
+      Map<String, dynamic> json) {
+    return CheckDNSAvailabilityResultMessage(
+      available: json['Available'] as bool?,
+      fullyQualifiedCNAME: json['FullyQualifiedCNAME'] as String?,
+    );
+  }
+
   factory CheckDNSAvailabilityResultMessage.fromXml(_s.XmlElement elem) {
     return CheckDNSAvailabilityResultMessage(
       available: _s.extractXmlBoolValue(elem, 'Available'),
@@ -3808,15 +4181,35 @@ class CheckDNSAvailabilityResultMessage {
           _s.extractXmlStringValue(elem, 'FullyQualifiedCNAME'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final available = this.available;
+    final fullyQualifiedCNAME = this.fullyQualifiedCNAME;
+    return {
+      if (available != null) 'Available': available,
+      if (fullyQualifiedCNAME != null)
+        'FullyQualifiedCNAME': fullyQualifiedCNAME,
+    };
+  }
 }
 
 enum ComputeType {
-  @_s.JsonValue('BUILD_GENERAL1_SMALL')
   buildGeneral1Small,
-  @_s.JsonValue('BUILD_GENERAL1_MEDIUM')
   buildGeneral1Medium,
-  @_s.JsonValue('BUILD_GENERAL1_LARGE')
   buildGeneral1Large,
+}
+
+extension on ComputeType {
+  String toValue() {
+    switch (this) {
+      case ComputeType.buildGeneral1Small:
+        return 'BUILD_GENERAL1_SMALL';
+      case ComputeType.buildGeneral1Medium:
+        return 'BUILD_GENERAL1_MEDIUM';
+      case ComputeType.buildGeneral1Large:
+        return 'BUILD_GENERAL1_LARGE';
+    }
+  }
 }
 
 extension on String {
@@ -3829,17 +4222,27 @@ extension on String {
       case 'BUILD_GENERAL1_LARGE':
         return ComputeType.buildGeneral1Large;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ComputeType');
   }
 }
 
 enum ConfigurationDeploymentStatus {
-  @_s.JsonValue('deployed')
   deployed,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('failed')
   failed,
+}
+
+extension on ConfigurationDeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case ConfigurationDeploymentStatus.deployed:
+        return 'deployed';
+      case ConfigurationDeploymentStatus.pending:
+        return 'pending';
+      case ConfigurationDeploymentStatus.failed:
+        return 'failed';
+    }
+  }
 }
 
 extension on String {
@@ -3852,7 +4255,7 @@ extension on String {
       case 'failed':
         return ConfigurationDeploymentStatus.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ConfigurationDeploymentStatus');
   }
 }
 
@@ -3877,32 +4280,32 @@ class ConfigurationOptionDescription {
   /// servers on the running Amazon EC2 instances are restarted.
   /// </li>
   /// </ul>
-  final String changeSeverity;
+  final String? changeSeverity;
 
   /// The default value for this configuration option.
-  final String defaultValue;
+  final String? defaultValue;
 
   /// If specified, the configuration option must be a string value no longer than
   /// this value.
-  final int maxLength;
+  final int? maxLength;
 
   /// If specified, the configuration option must be a numeric value less than
   /// this value.
-  final int maxValue;
+  final int? maxValue;
 
   /// If specified, the configuration option must be a numeric value greater than
   /// this value.
-  final int minValue;
+  final int? minValue;
 
   /// The name of the configuration option.
-  final String name;
+  final String? name;
 
   /// A unique namespace identifying the option's associated AWS resource.
-  final String namespace;
+  final String? namespace;
 
   /// If specified, the configuration option must be a string value that satisfies
   /// this regular expression.
-  final OptionRestrictionRegex regex;
+  final OptionRestrictionRegex? regex;
 
   /// An indication of whether the user defined this configuration option:
   ///
@@ -3920,11 +4323,11 @@ class ConfigurationOptionDescription {
   /// configuration.
   ///
   /// Valid Values: <code>true</code> | <code>false</code>
-  final bool userDefined;
+  final bool? userDefined;
 
   /// If specified, values for the configuration option are selected from this
   /// list.
-  final List<String> valueOptions;
+  final List<String>? valueOptions;
 
   /// An indication of which type of values this option has and whether it is
   /// allowable to select one or more than one of the possible values:
@@ -3948,7 +4351,7 @@ class ConfigurationOptionDescription {
   /// <code>ConfigDocument</code>.
   /// </li>
   /// </ul>
-  final ConfigurationOptionValueType valueType;
+  final ConfigurationOptionValueType? valueType;
 
   ConfigurationOptionDescription({
     this.changeSeverity,
@@ -3963,6 +4366,30 @@ class ConfigurationOptionDescription {
     this.valueOptions,
     this.valueType,
   });
+
+  factory ConfigurationOptionDescription.fromJson(Map<String, dynamic> json) {
+    return ConfigurationOptionDescription(
+      changeSeverity: json['ChangeSeverity'] as String?,
+      defaultValue: json['DefaultValue'] as String?,
+      maxLength: json['MaxLength'] as int?,
+      maxValue: json['MaxValue'] as int?,
+      minValue: json['MinValue'] as int?,
+      name: json['Name'] as String?,
+      namespace: json['Namespace'] as String?,
+      regex: json['Regex'] != null
+          ? OptionRestrictionRegex.fromJson(
+              json['Regex'] as Map<String, dynamic>)
+          : null,
+      userDefined: json['UserDefined'] as bool?,
+      valueOptions: (json['ValueOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      valueType:
+          (json['ValueType'] as String?)?.toConfigurationOptionValueType(),
+    );
+  }
+
   factory ConfigurationOptionDescription.fromXml(_s.XmlElement elem) {
     return ConfigurationOptionDescription(
       changeSeverity: _s.extractXmlStringValue(elem, 'ChangeSeverity'),
@@ -3984,6 +4411,33 @@ class ConfigurationOptionDescription {
           ?.toConfigurationOptionValueType(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final changeSeverity = this.changeSeverity;
+    final defaultValue = this.defaultValue;
+    final maxLength = this.maxLength;
+    final maxValue = this.maxValue;
+    final minValue = this.minValue;
+    final name = this.name;
+    final namespace = this.namespace;
+    final regex = this.regex;
+    final userDefined = this.userDefined;
+    final valueOptions = this.valueOptions;
+    final valueType = this.valueType;
+    return {
+      if (changeSeverity != null) 'ChangeSeverity': changeSeverity,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (maxLength != null) 'MaxLength': maxLength,
+      if (maxValue != null) 'MaxValue': maxValue,
+      if (minValue != null) 'MinValue': minValue,
+      if (name != null) 'Name': name,
+      if (namespace != null) 'Namespace': namespace,
+      if (regex != null) 'Regex': regex,
+      if (userDefined != null) 'UserDefined': userDefined,
+      if (valueOptions != null) 'ValueOptions': valueOptions,
+      if (valueType != null) 'ValueType': valueType.toValue(),
+    };
+  }
 }
 
 /// A specification identifying an individual configuration option along with
@@ -3991,28 +4445,19 @@ class ConfigurationOptionDescription {
 /// <a
 /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html">Option
 /// Values</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConfigurationOptionSetting {
   /// A unique namespace that identifies the option's associated AWS resource.
-  @_s.JsonKey(name: 'Namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the configuration option.
-  @_s.JsonKey(name: 'OptionName')
-  final String optionName;
+  final String? optionName;
 
   /// A unique resource name for the option setting. Use it for a time–based
   /// scaling configuration option.
-  @_s.JsonKey(name: 'ResourceName')
-  final String resourceName;
+  final String? resourceName;
 
   /// The current value for the configuration option.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ConfigurationOptionSetting({
     this.namespace,
@@ -4020,6 +4465,16 @@ class ConfigurationOptionSetting {
     this.resourceName,
     this.value,
   });
+
+  factory ConfigurationOptionSetting.fromJson(Map<String, dynamic> json) {
+    return ConfigurationOptionSetting(
+      namespace: json['Namespace'] as String?,
+      optionName: json['OptionName'] as String?,
+      resourceName: json['ResourceName'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
   factory ConfigurationOptionSetting.fromXml(_s.XmlElement elem) {
     return ConfigurationOptionSetting(
       namespace: _s.extractXmlStringValue(elem, 'Namespace'),
@@ -4029,14 +4484,34 @@ class ConfigurationOptionSetting {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ConfigurationOptionSettingToJson(this);
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    final optionName = this.optionName;
+    final resourceName = this.resourceName;
+    final value = this.value;
+    return {
+      if (namespace != null) 'Namespace': namespace,
+      if (optionName != null) 'OptionName': optionName,
+      if (resourceName != null) 'ResourceName': resourceName,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum ConfigurationOptionValueType {
-  @_s.JsonValue('Scalar')
   scalar,
-  @_s.JsonValue('List')
   list,
+}
+
+extension on ConfigurationOptionValueType {
+  String toValue() {
+    switch (this) {
+      case ConfigurationOptionValueType.scalar:
+        return 'Scalar';
+      case ConfigurationOptionValueType.list:
+        return 'List';
+    }
+  }
 }
 
 extension on String {
@@ -4047,26 +4522,39 @@ extension on String {
       case 'List':
         return ConfigurationOptionValueType.list;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ConfigurationOptionValueType');
   }
 }
 
 /// Describes the settings for a specified configuration set.
 class ConfigurationOptionsDescription {
   /// A list of <a>ConfigurationOptionDescription</a>.
-  final List<ConfigurationOptionDescription> options;
+  final List<ConfigurationOptionDescription>? options;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The name of the solution stack these configuration options belong to.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   ConfigurationOptionsDescription({
     this.options,
     this.platformArn,
     this.solutionStackName,
   });
+
+  factory ConfigurationOptionsDescription.fromJson(Map<String, dynamic> json) {
+    return ConfigurationOptionsDescription(
+      options: (json['Options'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationOptionDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      platformArn: json['PlatformArn'] as String?,
+      solutionStackName: json['SolutionStackName'] as String?,
+    );
+  }
+
   factory ConfigurationOptionsDescription.fromXml(_s.XmlElement elem) {
     return ConfigurationOptionsDescription(
       options: _s.extractXmlChild(elem, 'Options')?.let((elem) => elem
@@ -4077,18 +4565,29 @@ class ConfigurationOptionsDescription {
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final platformArn = this.platformArn;
+    final solutionStackName = this.solutionStackName;
+    return {
+      if (options != null) 'Options': options,
+      if (platformArn != null) 'PlatformArn': platformArn,
+      if (solutionStackName != null) 'SolutionStackName': solutionStackName,
+    };
+  }
 }
 
 /// Describes the settings for a configuration set.
 class ConfigurationSettingsDescription {
   /// The name of the application associated with this configuration set.
-  final String applicationName;
+  final String? applicationName;
 
   /// The date (in UTC time) when this configuration set was created.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The date (in UTC time) when this configuration set was last modified.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// If this configuration set is associated with an environment, the
   /// <code>DeploymentStatus</code> parameter indicates the deployment status of
@@ -4112,28 +4611,28 @@ class ConfigurationSettingsDescription {
   /// successfully deploy.
   /// </li>
   /// </ul>
-  final ConfigurationDeploymentStatus deploymentStatus;
+  final ConfigurationDeploymentStatus? deploymentStatus;
 
   /// Describes this configuration set.
-  final String description;
+  final String? description;
 
   /// If not <code>null</code>, the name of the environment for this configuration
   /// set.
-  final String environmentName;
+  final String? environmentName;
 
   /// A list of the configuration options and their values in this configuration
   /// set.
-  final List<ConfigurationOptionSetting> optionSettings;
+  final List<ConfigurationOptionSetting>? optionSettings;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The name of the solution stack this configuration set uses.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   /// If not <code>null</code>, the name of the configuration template for this
   /// configuration set.
-  final String templateName;
+  final String? templateName;
 
   ConfigurationSettingsDescription({
     this.applicationName,
@@ -4147,6 +4646,27 @@ class ConfigurationSettingsDescription {
     this.solutionStackName,
     this.templateName,
   });
+
+  factory ConfigurationSettingsDescription.fromJson(Map<String, dynamic> json) {
+    return ConfigurationSettingsDescription(
+      applicationName: json['ApplicationName'] as String?,
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateUpdated: timeStampFromJson(json['DateUpdated']),
+      deploymentStatus: (json['DeploymentStatus'] as String?)
+          ?.toConfigurationDeploymentStatus(),
+      description: json['Description'] as String?,
+      environmentName: json['EnvironmentName'] as String?,
+      optionSettings: (json['OptionSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ConfigurationOptionSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      platformArn: json['PlatformArn'] as String?,
+      solutionStackName: json['SolutionStackName'] as String?,
+      templateName: json['TemplateName'] as String?,
+    );
+  }
+
   factory ConfigurationSettingsDescription.fromXml(_s.XmlElement elem) {
     return ConfigurationSettingsDescription(
       applicationName: _s.extractXmlStringValue(elem, 'ApplicationName'),
@@ -4167,17 +4687,55 @@ class ConfigurationSettingsDescription {
       templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final dateCreated = this.dateCreated;
+    final dateUpdated = this.dateUpdated;
+    final deploymentStatus = this.deploymentStatus;
+    final description = this.description;
+    final environmentName = this.environmentName;
+    final optionSettings = this.optionSettings;
+    final platformArn = this.platformArn;
+    final solutionStackName = this.solutionStackName;
+    final templateName = this.templateName;
+    return {
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateUpdated != null) 'DateUpdated': unixTimestampToJson(dateUpdated),
+      if (deploymentStatus != null)
+        'DeploymentStatus': deploymentStatus.toValue(),
+      if (description != null) 'Description': description,
+      if (environmentName != null) 'EnvironmentName': environmentName,
+      if (optionSettings != null) 'OptionSettings': optionSettings,
+      if (platformArn != null) 'PlatformArn': platformArn,
+      if (solutionStackName != null) 'SolutionStackName': solutionStackName,
+      if (templateName != null) 'TemplateName': templateName,
+    };
+  }
 }
 
 /// The results from a request to change the configuration settings of an
 /// environment.
 class ConfigurationSettingsDescriptions {
   /// A list of <a>ConfigurationSettingsDescription</a>.
-  final List<ConfigurationSettingsDescription> configurationSettings;
+  final List<ConfigurationSettingsDescription>? configurationSettings;
 
   ConfigurationSettingsDescriptions({
     this.configurationSettings,
   });
+
+  factory ConfigurationSettingsDescriptions.fromJson(
+      Map<String, dynamic> json) {
+    return ConfigurationSettingsDescriptions(
+      configurationSettings: (json['ConfigurationSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationSettingsDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ConfigurationSettingsDescriptions.fromXml(_s.XmlElement elem) {
     return ConfigurationSettingsDescriptions(
       configurationSettings: _s
@@ -4188,16 +4746,35 @@ class ConfigurationSettingsDescriptions {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final configurationSettings = this.configurationSettings;
+    return {
+      if (configurationSettings != null)
+        'ConfigurationSettings': configurationSettings,
+    };
+  }
 }
 
 /// Provides a list of validation messages.
 class ConfigurationSettingsValidationMessages {
   /// A list of <a>ValidationMessage</a>.
-  final List<ValidationMessage> messages;
+  final List<ValidationMessage>? messages;
 
   ConfigurationSettingsValidationMessages({
     this.messages,
   });
+
+  factory ConfigurationSettingsValidationMessages.fromJson(
+      Map<String, dynamic> json) {
+    return ConfigurationSettingsValidationMessages(
+      messages: (json['Messages'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ConfigurationSettingsValidationMessages.fromXml(_s.XmlElement elem) {
     return ConfigurationSettingsValidationMessages(
       messages: _s.extractXmlChild(elem, 'Messages')?.let((elem) => elem
@@ -4206,19 +4783,39 @@ class ConfigurationSettingsValidationMessages {
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final messages = this.messages;
+    return {
+      if (messages != null) 'Messages': messages,
+    };
+  }
 }
 
 class CreatePlatformVersionResult {
   /// The builder used to create the custom platform.
-  final Builder builder;
+  final Builder? builder;
 
   /// Detailed information about the new version of the custom platform.
-  final PlatformSummary platformSummary;
+  final PlatformSummary? platformSummary;
 
   CreatePlatformVersionResult({
     this.builder,
     this.platformSummary,
   });
+
+  factory CreatePlatformVersionResult.fromJson(Map<String, dynamic> json) {
+    return CreatePlatformVersionResult(
+      builder: json['Builder'] != null
+          ? Builder.fromJson(json['Builder'] as Map<String, dynamic>)
+          : null,
+      platformSummary: json['PlatformSummary'] != null
+          ? PlatformSummary.fromJson(
+              json['PlatformSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreatePlatformVersionResult.fromXml(_s.XmlElement elem) {
     return CreatePlatformVersionResult(
       builder:
@@ -4228,50 +4825,101 @@ class CreatePlatformVersionResult {
           ?.let((e) => PlatformSummary.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final builder = this.builder;
+    final platformSummary = this.platformSummary;
+    return {
+      if (builder != null) 'Builder': builder,
+      if (platformSummary != null) 'PlatformSummary': platformSummary,
+    };
+  }
 }
 
 /// Results of a <a>CreateStorageLocationResult</a> call.
 class CreateStorageLocationResultMessage {
   /// The name of the Amazon S3 bucket created.
-  final String s3Bucket;
+  final String? s3Bucket;
 
   CreateStorageLocationResultMessage({
     this.s3Bucket,
   });
+
+  factory CreateStorageLocationResultMessage.fromJson(
+      Map<String, dynamic> json) {
+    return CreateStorageLocationResultMessage(
+      s3Bucket: json['S3Bucket'] as String?,
+    );
+  }
+
   factory CreateStorageLocationResultMessage.fromXml(_s.XmlElement elem) {
     return CreateStorageLocationResultMessage(
       s3Bucket: _s.extractXmlStringValue(elem, 'S3Bucket'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    return {
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+    };
   }
 }
 
 /// A custom AMI available to platforms.
 class CustomAmi {
   /// THe ID of the image used to create the custom AMI.
-  final String imageId;
+  final String? imageId;
 
   /// The type of virtualization used to create the custom AMI.
-  final String virtualizationType;
+  final String? virtualizationType;
 
   CustomAmi({
     this.imageId,
     this.virtualizationType,
   });
+
+  factory CustomAmi.fromJson(Map<String, dynamic> json) {
+    return CustomAmi(
+      imageId: json['ImageId'] as String?,
+      virtualizationType: json['VirtualizationType'] as String?,
+    );
+  }
+
   factory CustomAmi.fromXml(_s.XmlElement elem) {
     return CustomAmi(
       imageId: _s.extractXmlStringValue(elem, 'ImageId'),
       virtualizationType: _s.extractXmlStringValue(elem, 'VirtualizationType'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    final virtualizationType = this.virtualizationType;
+    return {
+      if (imageId != null) 'ImageId': imageId,
+      if (virtualizationType != null) 'VirtualizationType': virtualizationType,
+    };
+  }
 }
 
 class DeletePlatformVersionResult {
   /// Detailed information about the version of the custom platform.
-  final PlatformSummary platformSummary;
+  final PlatformSummary? platformSummary;
 
   DeletePlatformVersionResult({
     this.platformSummary,
   });
+
+  factory DeletePlatformVersionResult.fromJson(Map<String, dynamic> json) {
+    return DeletePlatformVersionResult(
+      platformSummary: json['PlatformSummary'] != null
+          ? PlatformSummary.fromJson(
+              json['PlatformSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DeletePlatformVersionResult.fromXml(_s.XmlElement elem) {
     return DeletePlatformVersionResult(
       platformSummary: _s
@@ -4279,18 +4927,25 @@ class DeletePlatformVersionResult {
           ?.let((e) => PlatformSummary.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final platformSummary = this.platformSummary;
+    return {
+      if (platformSummary != null) 'PlatformSummary': platformSummary,
+    };
+  }
 }
 
 /// Information about an application version deployment.
 class Deployment {
   /// The ID of the deployment. This number increases by one each time that you
   /// deploy source code or change instance configuration settings.
-  final int deploymentId;
+  final int? deploymentId;
 
   /// For in-progress deployments, the time that the deployment started.
   ///
   /// For completed deployments, the time that the deployment ended.
-  final DateTime deploymentTime;
+  final DateTime? deploymentTime;
 
   /// The status of the deployment:
   ///
@@ -4305,10 +4960,10 @@ class Deployment {
   /// <code>Failed</code> : The deployment failed.
   /// </li>
   /// </ul>
-  final String status;
+  final String? status;
 
   /// The version label of the application version in the deployment.
-  final String versionLabel;
+  final String? versionLabel;
 
   Deployment({
     this.deploymentId,
@@ -4316,6 +4971,16 @@ class Deployment {
     this.status,
     this.versionLabel,
   });
+
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      deploymentId: json['DeploymentId'] as int?,
+      deploymentTime: timeStampFromJson(json['DeploymentTime']),
+      status: json['Status'] as String?,
+      versionLabel: json['VersionLabel'] as String?,
+    );
+  }
+
   factory Deployment.fromXml(_s.XmlElement elem) {
     return Deployment(
       deploymentId: _s.extractXmlIntValue(elem, 'DeploymentId'),
@@ -4324,16 +4989,40 @@ class Deployment {
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final deploymentTime = this.deploymentTime;
+    final status = this.status;
+    final versionLabel = this.versionLabel;
+    return {
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (deploymentTime != null)
+        'DeploymentTime': unixTimestampToJson(deploymentTime),
+      if (status != null) 'Status': status,
+      if (versionLabel != null) 'VersionLabel': versionLabel,
+    };
+  }
 }
 
 class DescribeAccountAttributesResult {
   /// The Elastic Beanstalk resource quotas associated with the calling AWS
   /// account.
-  final ResourceQuotas resourceQuotas;
+  final ResourceQuotas? resourceQuotas;
 
   DescribeAccountAttributesResult({
     this.resourceQuotas,
   });
+
+  factory DescribeAccountAttributesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAccountAttributesResult(
+      resourceQuotas: json['ResourceQuotas'] != null
+          ? ResourceQuotas.fromJson(
+              json['ResourceQuotas'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DescribeAccountAttributesResult.fromXml(_s.XmlElement elem) {
     return DescribeAccountAttributesResult(
       resourceQuotas: _s
@@ -4341,40 +5030,47 @@ class DescribeAccountAttributesResult {
           ?.let((e) => ResourceQuotas.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final resourceQuotas = this.resourceQuotas;
+    return {
+      if (resourceQuotas != null) 'ResourceQuotas': resourceQuotas,
+    };
+  }
 }
 
 /// Health details for an AWS Elastic Beanstalk environment.
 class DescribeEnvironmentHealthResult {
   /// Application request metrics for the environment.
-  final ApplicationMetrics applicationMetrics;
+  final ApplicationMetrics? applicationMetrics;
 
   /// Descriptions of the data that contributed to the environment's current
   /// health status.
-  final List<String> causes;
+  final List<String>? causes;
 
   /// The <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">health
   /// color</a> of the environment.
-  final String color;
+  final String? color;
 
   /// The environment's name.
-  final String environmentName;
+  final String? environmentName;
 
   /// The <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">health
   /// status</a> of the environment. For example, <code>Ok</code>.
-  final String healthStatus;
+  final String? healthStatus;
 
   /// Summary health information for the instances in the environment.
-  final InstanceHealthSummary instancesHealth;
+  final InstanceHealthSummary? instancesHealth;
 
   /// The date and time that the health information was retrieved.
-  final DateTime refreshedAt;
+  final DateTime? refreshedAt;
 
   /// The environment's operational status. <code>Ready</code>,
   /// <code>Launching</code>, <code>Updating</code>, <code>Terminating</code>, or
   /// <code>Terminated</code>.
-  final EnvironmentHealth status;
+  final EnvironmentHealth? status;
 
   DescribeEnvironmentHealthResult({
     this.applicationMetrics,
@@ -4386,6 +5082,29 @@ class DescribeEnvironmentHealthResult {
     this.refreshedAt,
     this.status,
   });
+
+  factory DescribeEnvironmentHealthResult.fromJson(Map<String, dynamic> json) {
+    return DescribeEnvironmentHealthResult(
+      applicationMetrics: json['ApplicationMetrics'] != null
+          ? ApplicationMetrics.fromJson(
+              json['ApplicationMetrics'] as Map<String, dynamic>)
+          : null,
+      causes: (json['Causes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      color: json['Color'] as String?,
+      environmentName: json['EnvironmentName'] as String?,
+      healthStatus: json['HealthStatus'] as String?,
+      instancesHealth: json['InstancesHealth'] != null
+          ? InstanceHealthSummary.fromJson(
+              json['InstancesHealth'] as Map<String, dynamic>)
+          : null,
+      refreshedAt: timeStampFromJson(json['RefreshedAt']),
+      status: (json['Status'] as String?)?.toEnvironmentHealth(),
+    );
+  }
+
   factory DescribeEnvironmentHealthResult.fromXml(_s.XmlElement elem) {
     return DescribeEnvironmentHealthResult(
       applicationMetrics: _s
@@ -4404,22 +5123,56 @@ class DescribeEnvironmentHealthResult {
       status: _s.extractXmlStringValue(elem, 'Status')?.toEnvironmentHealth(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationMetrics = this.applicationMetrics;
+    final causes = this.causes;
+    final color = this.color;
+    final environmentName = this.environmentName;
+    final healthStatus = this.healthStatus;
+    final instancesHealth = this.instancesHealth;
+    final refreshedAt = this.refreshedAt;
+    final status = this.status;
+    return {
+      if (applicationMetrics != null) 'ApplicationMetrics': applicationMetrics,
+      if (causes != null) 'Causes': causes,
+      if (color != null) 'Color': color,
+      if (environmentName != null) 'EnvironmentName': environmentName,
+      if (healthStatus != null) 'HealthStatus': healthStatus,
+      if (instancesHealth != null) 'InstancesHealth': instancesHealth,
+      if (refreshedAt != null) 'RefreshedAt': unixTimestampToJson(refreshedAt),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// A result message containing a list of completed and failed managed actions.
 class DescribeEnvironmentManagedActionHistoryResult {
   /// A list of completed and failed managed actions.
-  final List<ManagedActionHistoryItem> managedActionHistoryItems;
+  final List<ManagedActionHistoryItem>? managedActionHistoryItems;
 
   /// A pagination token that you pass to
   /// <a>DescribeEnvironmentManagedActionHistory</a> to get the next page of
   /// results.
-  final String nextToken;
+  final String? nextToken;
 
   DescribeEnvironmentManagedActionHistoryResult({
     this.managedActionHistoryItems,
     this.nextToken,
   });
+
+  factory DescribeEnvironmentManagedActionHistoryResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeEnvironmentManagedActionHistoryResult(
+      managedActionHistoryItems: (json['ManagedActionHistoryItems'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ManagedActionHistoryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory DescribeEnvironmentManagedActionHistoryResult.fromXml(
       _s.XmlElement elem) {
     return DescribeEnvironmentManagedActionHistoryResult(
@@ -4432,16 +5185,37 @@ class DescribeEnvironmentManagedActionHistoryResult {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final managedActionHistoryItems = this.managedActionHistoryItems;
+    final nextToken = this.nextToken;
+    return {
+      if (managedActionHistoryItems != null)
+        'ManagedActionHistoryItems': managedActionHistoryItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// The result message containing a list of managed actions.
 class DescribeEnvironmentManagedActionsResult {
   /// A list of upcoming and in-progress managed actions.
-  final List<ManagedAction> managedActions;
+  final List<ManagedAction>? managedActions;
 
   DescribeEnvironmentManagedActionsResult({
     this.managedActions,
   });
+
+  factory DescribeEnvironmentManagedActionsResult.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeEnvironmentManagedActionsResult(
+      managedActions: (json['ManagedActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ManagedAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeEnvironmentManagedActionsResult.fromXml(_s.XmlElement elem) {
     return DescribeEnvironmentManagedActionsResult(
       managedActions: _s.extractXmlChild(elem, 'ManagedActions')?.let((elem) =>
@@ -4450,6 +5224,13 @@ class DescribeEnvironmentManagedActionsResult {
               .map((c) => ManagedAction.fromXml(c))
               .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managedActions = this.managedActions;
+    return {
+      if (managedActions != null) 'ManagedActions': managedActions,
+    };
   }
 }
 
@@ -4461,19 +5242,31 @@ class DescribeInstancesHealthResult {
   /// The output differs slightly between Linux and Windows environments. There is
   /// a difference in the members that are supported under the
   /// <code>&lt;CPUUtilization&gt;</code> type.
-  final List<SingleInstanceHealth> instanceHealthList;
+  final List<SingleInstanceHealth>? instanceHealthList;
 
   /// Pagination token for the next page of results, if available.
-  final String nextToken;
+  final String? nextToken;
 
   /// The date and time that the health information was retrieved.
-  final DateTime refreshedAt;
+  final DateTime? refreshedAt;
 
   DescribeInstancesHealthResult({
     this.instanceHealthList,
     this.nextToken,
     this.refreshedAt,
   });
+
+  factory DescribeInstancesHealthResult.fromJson(Map<String, dynamic> json) {
+    return DescribeInstancesHealthResult(
+      instanceHealthList: (json['InstanceHealthList'] as List?)
+          ?.whereNotNull()
+          .map((e) => SingleInstanceHealth.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      refreshedAt: timeStampFromJson(json['RefreshedAt']),
+    );
+  }
+
   factory DescribeInstancesHealthResult.fromXml(_s.XmlElement elem) {
     return DescribeInstancesHealthResult(
       instanceHealthList: _s.extractXmlChild(elem, 'InstanceHealthList')?.let(
@@ -4485,21 +5278,50 @@ class DescribeInstancesHealthResult {
       refreshedAt: _s.extractXmlDateTimeValue(elem, 'RefreshedAt'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final instanceHealthList = this.instanceHealthList;
+    final nextToken = this.nextToken;
+    final refreshedAt = this.refreshedAt;
+    return {
+      if (instanceHealthList != null) 'InstanceHealthList': instanceHealthList,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (refreshedAt != null) 'RefreshedAt': unixTimestampToJson(refreshedAt),
+    };
+  }
 }
 
 class DescribePlatformVersionResult {
   /// Detailed information about the platform version.
-  final PlatformDescription platformDescription;
+  final PlatformDescription? platformDescription;
 
   DescribePlatformVersionResult({
     this.platformDescription,
   });
+
+  factory DescribePlatformVersionResult.fromJson(Map<String, dynamic> json) {
+    return DescribePlatformVersionResult(
+      platformDescription: json['PlatformDescription'] != null
+          ? PlatformDescription.fromJson(
+              json['PlatformDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DescribePlatformVersionResult.fromXml(_s.XmlElement elem) {
     return DescribePlatformVersionResult(
       platformDescription: _s
           .extractXmlChild(elem, 'PlatformDescription')
           ?.let((e) => PlatformDescription.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final platformDescription = this.platformDescription;
+    return {
+      if (platformDescription != null)
+        'PlatformDescription': platformDescription,
+    };
   }
 }
 
@@ -4511,39 +5333,39 @@ class EnvironmentDescription {
   /// <code>true:</code> There is an update in progress.
   ///
   /// <code>false:</code> There are no updates currently in progress.
-  final bool abortableOperationInProgress;
+  final bool? abortableOperationInProgress;
 
   /// The name of the application associated with this environment.
-  final String applicationName;
+  final String? applicationName;
 
   /// The URL to the CNAME for this environment.
-  final String cname;
+  final String? cname;
 
   /// The creation date for this environment.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The last modified date for this environment.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// Describes this environment.
-  final String description;
+  final String? description;
 
   /// For load-balanced, autoscaling environments, the URL to the LoadBalancer.
   /// For single-instance environments, the IP address of the instance.
-  final String endpointURL;
+  final String? endpointURL;
 
   /// The environment's Amazon Resource Name (ARN), which can be used in other API
   /// requests that require an ARN.
-  final String environmentArn;
+  final String? environmentArn;
 
   /// The ID of this environment.
-  final String environmentId;
+  final String? environmentId;
 
   /// A list of links to other environments in the same group.
-  final List<EnvironmentLink> environmentLinks;
+  final List<EnvironmentLink>? environmentLinks;
 
   /// The name of this environment.
-  final String environmentName;
+  final String? environmentName;
 
   /// Describes the health status of the environment. AWS Elastic Beanstalk
   /// indicates the failure levels for a running environment:
@@ -4569,28 +5391,28 @@ class EnvironmentDescription {
   /// </li>
   /// </ul>
   /// Default: <code>Grey</code>
-  final EnvironmentHealth health;
+  final EnvironmentHealth? health;
 
   /// Returns the health status of the application running in your environment.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">Health
   /// Colors and Statuses</a>.
-  final EnvironmentHealthStatus healthStatus;
+  final EnvironmentHealthStatus? healthStatus;
 
   /// The Amazon Resource Name (ARN) of the environment's operations role. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/iam-operationsrole.html">Operations
   /// roles</a> in the <i>AWS Elastic Beanstalk Developer Guide</i>.
-  final String operationsRole;
+  final String? operationsRole;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The description of the AWS resources used by this environment.
-  final EnvironmentResourcesDescription resources;
+  final EnvironmentResourcesDescription? resources;
 
   /// The name of the <code>SolutionStack</code> deployed with this environment.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   /// The current operational status of the environment:
   ///
@@ -4613,17 +5435,17 @@ class EnvironmentDescription {
   /// <code>Terminated</code>: Environment is not running.
   /// </li>
   /// </ul>
-  final EnvironmentStatus status;
+  final EnvironmentStatus? status;
 
   /// The name of the configuration template used to originally launch this
   /// environment.
-  final String templateName;
+  final String? templateName;
 
   /// Describes the current tier of this environment.
-  final EnvironmentTier tier;
+  final EnvironmentTier? tier;
 
   /// The application version deployed in this environment.
-  final String versionLabel;
+  final String? versionLabel;
 
   EnvironmentDescription({
     this.abortableOperationInProgress,
@@ -4648,6 +5470,43 @@ class EnvironmentDescription {
     this.tier,
     this.versionLabel,
   });
+
+  factory EnvironmentDescription.fromJson(Map<String, dynamic> json) {
+    return EnvironmentDescription(
+      abortableOperationInProgress:
+          json['AbortableOperationInProgress'] as bool?,
+      applicationName: json['ApplicationName'] as String?,
+      cname: json['CNAME'] as String?,
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateUpdated: timeStampFromJson(json['DateUpdated']),
+      description: json['Description'] as String?,
+      endpointURL: json['EndpointURL'] as String?,
+      environmentArn: json['EnvironmentArn'] as String?,
+      environmentId: json['EnvironmentId'] as String?,
+      environmentLinks: (json['EnvironmentLinks'] as List?)
+          ?.whereNotNull()
+          .map((e) => EnvironmentLink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      environmentName: json['EnvironmentName'] as String?,
+      health: (json['Health'] as String?)?.toEnvironmentHealth(),
+      healthStatus:
+          (json['HealthStatus'] as String?)?.toEnvironmentHealthStatus(),
+      operationsRole: json['OperationsRole'] as String?,
+      platformArn: json['PlatformArn'] as String?,
+      resources: json['Resources'] != null
+          ? EnvironmentResourcesDescription.fromJson(
+              json['Resources'] as Map<String, dynamic>)
+          : null,
+      solutionStackName: json['SolutionStackName'] as String?,
+      status: (json['Status'] as String?)?.toEnvironmentStatus(),
+      templateName: json['TemplateName'] as String?,
+      tier: json['Tier'] != null
+          ? EnvironmentTier.fromJson(json['Tier'] as Map<String, dynamic>)
+          : null,
+      versionLabel: json['VersionLabel'] as String?,
+    );
+  }
+
   factory EnvironmentDescription.fromXml(_s.XmlElement elem) {
     return EnvironmentDescription(
       abortableOperationInProgress:
@@ -4684,21 +5543,81 @@ class EnvironmentDescription {
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final abortableOperationInProgress = this.abortableOperationInProgress;
+    final applicationName = this.applicationName;
+    final cname = this.cname;
+    final dateCreated = this.dateCreated;
+    final dateUpdated = this.dateUpdated;
+    final description = this.description;
+    final endpointURL = this.endpointURL;
+    final environmentArn = this.environmentArn;
+    final environmentId = this.environmentId;
+    final environmentLinks = this.environmentLinks;
+    final environmentName = this.environmentName;
+    final health = this.health;
+    final healthStatus = this.healthStatus;
+    final operationsRole = this.operationsRole;
+    final platformArn = this.platformArn;
+    final resources = this.resources;
+    final solutionStackName = this.solutionStackName;
+    final status = this.status;
+    final templateName = this.templateName;
+    final tier = this.tier;
+    final versionLabel = this.versionLabel;
+    return {
+      if (abortableOperationInProgress != null)
+        'AbortableOperationInProgress': abortableOperationInProgress,
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (cname != null) 'CNAME': cname,
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateUpdated != null) 'DateUpdated': unixTimestampToJson(dateUpdated),
+      if (description != null) 'Description': description,
+      if (endpointURL != null) 'EndpointURL': endpointURL,
+      if (environmentArn != null) 'EnvironmentArn': environmentArn,
+      if (environmentId != null) 'EnvironmentId': environmentId,
+      if (environmentLinks != null) 'EnvironmentLinks': environmentLinks,
+      if (environmentName != null) 'EnvironmentName': environmentName,
+      if (health != null) 'Health': health.toValue(),
+      if (healthStatus != null) 'HealthStatus': healthStatus.toValue(),
+      if (operationsRole != null) 'OperationsRole': operationsRole,
+      if (platformArn != null) 'PlatformArn': platformArn,
+      if (resources != null) 'Resources': resources,
+      if (solutionStackName != null) 'SolutionStackName': solutionStackName,
+      if (status != null) 'Status': status.toValue(),
+      if (templateName != null) 'TemplateName': templateName,
+      if (tier != null) 'Tier': tier,
+      if (versionLabel != null) 'VersionLabel': versionLabel,
+    };
+  }
 }
 
 /// Result message containing a list of environment descriptions.
 class EnvironmentDescriptionsMessage {
   /// Returns an <a>EnvironmentDescription</a> list.
-  final List<EnvironmentDescription> environments;
+  final List<EnvironmentDescription>? environments;
 
   /// In a paginated request, the token that you can pass in a subsequent request
   /// to get the next response page.
-  final String nextToken;
+  final String? nextToken;
 
   EnvironmentDescriptionsMessage({
     this.environments,
     this.nextToken,
   });
+
+  factory EnvironmentDescriptionsMessage.fromJson(Map<String, dynamic> json) {
+    return EnvironmentDescriptionsMessage(
+      environments: (json['Environments'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => EnvironmentDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory EnvironmentDescriptionsMessage.fromXml(_s.XmlElement elem) {
     return EnvironmentDescriptionsMessage(
       environments: _s.extractXmlChild(elem, 'Environments')?.let((elem) => elem
@@ -4708,17 +5627,37 @@ class EnvironmentDescriptionsMessage {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final environments = this.environments;
+    final nextToken = this.nextToken;
+    return {
+      if (environments != null) 'Environments': environments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 enum EnvironmentHealth {
-  @_s.JsonValue('Green')
   green,
-  @_s.JsonValue('Yellow')
   yellow,
-  @_s.JsonValue('Red')
   red,
-  @_s.JsonValue('Grey')
   grey,
+}
+
+extension on EnvironmentHealth {
+  String toValue() {
+    switch (this) {
+      case EnvironmentHealth.green:
+        return 'Green';
+      case EnvironmentHealth.yellow:
+        return 'Yellow';
+      case EnvironmentHealth.red:
+        return 'Red';
+      case EnvironmentHealth.grey:
+        return 'Grey';
+    }
+  }
 }
 
 extension on String {
@@ -4733,26 +5672,18 @@ extension on String {
       case 'Grey':
         return EnvironmentHealth.grey;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentHealth');
   }
 }
 
 enum EnvironmentHealthAttribute {
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('Color')
   color,
-  @_s.JsonValue('Causes')
   causes,
-  @_s.JsonValue('ApplicationMetrics')
   applicationMetrics,
-  @_s.JsonValue('InstancesHealth')
   instancesHealth,
-  @_s.JsonValue('All')
   all,
-  @_s.JsonValue('HealthStatus')
   healthStatus,
-  @_s.JsonValue('RefreshedAt')
   refreshedAt,
 }
 
@@ -4776,7 +5707,6 @@ extension on EnvironmentHealthAttribute {
       case EnvironmentHealthAttribute.refreshedAt:
         return 'RefreshedAt';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4800,29 +5730,45 @@ extension on String {
       case 'RefreshedAt':
         return EnvironmentHealthAttribute.refreshedAt;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentHealthAttribute');
   }
 }
 
 enum EnvironmentHealthStatus {
-  @_s.JsonValue('NoData')
   noData,
-  @_s.JsonValue('Unknown')
   unknown,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Ok')
   ok,
-  @_s.JsonValue('Info')
   info,
-  @_s.JsonValue('Warning')
   warning,
-  @_s.JsonValue('Degraded')
   degraded,
-  @_s.JsonValue('Severe')
   severe,
-  @_s.JsonValue('Suspended')
   suspended,
+}
+
+extension on EnvironmentHealthStatus {
+  String toValue() {
+    switch (this) {
+      case EnvironmentHealthStatus.noData:
+        return 'NoData';
+      case EnvironmentHealthStatus.unknown:
+        return 'Unknown';
+      case EnvironmentHealthStatus.pending:
+        return 'Pending';
+      case EnvironmentHealthStatus.ok:
+        return 'Ok';
+      case EnvironmentHealthStatus.info:
+        return 'Info';
+      case EnvironmentHealthStatus.warning:
+        return 'Warning';
+      case EnvironmentHealthStatus.degraded:
+        return 'Degraded';
+      case EnvironmentHealthStatus.severe:
+        return 'Severe';
+      case EnvironmentHealthStatus.suspended:
+        return 'Suspended';
+    }
+  }
 }
 
 extension on String {
@@ -4847,27 +5793,27 @@ extension on String {
       case 'Suspended':
         return EnvironmentHealthStatus.suspended;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentHealthStatus');
   }
 }
 
 /// The information retrieved from the Amazon EC2 instances.
 class EnvironmentInfoDescription {
   /// The Amazon EC2 Instance ID for this information.
-  final String ec2InstanceId;
+  final String? ec2InstanceId;
 
   /// The type of information retrieved.
-  final EnvironmentInfoType infoType;
+  final EnvironmentInfoType? infoType;
 
   /// The retrieved information. Currently contains a presigned Amazon S3 URL. The
   /// files are deleted after 15 minutes.
   ///
   /// Anyone in possession of this URL can access the files before they are
   /// deleted. Make the URL available only to trusted parties.
-  final String message;
+  final String? message;
 
   /// The time stamp when this information was retrieved.
-  final DateTime sampleTimestamp;
+  final DateTime? sampleTimestamp;
 
   EnvironmentInfoDescription({
     this.ec2InstanceId,
@@ -4875,6 +5821,16 @@ class EnvironmentInfoDescription {
     this.message,
     this.sampleTimestamp,
   });
+
+  factory EnvironmentInfoDescription.fromJson(Map<String, dynamic> json) {
+    return EnvironmentInfoDescription(
+      ec2InstanceId: json['Ec2InstanceId'] as String?,
+      infoType: (json['InfoType'] as String?)?.toEnvironmentInfoType(),
+      message: json['Message'] as String?,
+      sampleTimestamp: timeStampFromJson(json['SampleTimestamp']),
+    );
+  }
+
   factory EnvironmentInfoDescription.fromXml(_s.XmlElement elem) {
     return EnvironmentInfoDescription(
       ec2InstanceId: _s.extractXmlStringValue(elem, 'Ec2InstanceId'),
@@ -4884,12 +5840,24 @@ class EnvironmentInfoDescription {
       sampleTimestamp: _s.extractXmlDateTimeValue(elem, 'SampleTimestamp'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final ec2InstanceId = this.ec2InstanceId;
+    final infoType = this.infoType;
+    final message = this.message;
+    final sampleTimestamp = this.sampleTimestamp;
+    return {
+      if (ec2InstanceId != null) 'Ec2InstanceId': ec2InstanceId,
+      if (infoType != null) 'InfoType': infoType.toValue(),
+      if (message != null) 'Message': message,
+      if (sampleTimestamp != null)
+        'SampleTimestamp': unixTimestampToJson(sampleTimestamp),
+    };
+  }
 }
 
 enum EnvironmentInfoType {
-  @_s.JsonValue('tail')
   tail,
-  @_s.JsonValue('bundle')
   bundle,
 }
 
@@ -4901,7 +5869,6 @@ extension on EnvironmentInfoType {
       case EnvironmentInfoType.bundle:
         return 'bundle';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4913,7 +5880,7 @@ extension on String {
       case 'bundle':
         return EnvironmentInfoType.bundle;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentInfoType');
   }
 }
 
@@ -4924,48 +5891,65 @@ extension on String {
 /// Manifest (env.yaml)</a> for details.
 class EnvironmentLink {
   /// The name of the linked environment (the dependency).
-  final String environmentName;
+  final String? environmentName;
 
   /// The name of the link.
-  final String linkName;
+  final String? linkName;
 
   EnvironmentLink({
     this.environmentName,
     this.linkName,
   });
+
+  factory EnvironmentLink.fromJson(Map<String, dynamic> json) {
+    return EnvironmentLink(
+      environmentName: json['EnvironmentName'] as String?,
+      linkName: json['LinkName'] as String?,
+    );
+  }
+
   factory EnvironmentLink.fromXml(_s.XmlElement elem) {
     return EnvironmentLink(
       environmentName: _s.extractXmlStringValue(elem, 'EnvironmentName'),
       linkName: _s.extractXmlStringValue(elem, 'LinkName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final environmentName = this.environmentName;
+    final linkName = this.linkName;
+    return {
+      if (environmentName != null) 'EnvironmentName': environmentName,
+      if (linkName != null) 'LinkName': linkName,
+    };
+  }
 }
 
 /// Describes the AWS resources in use by this environment. This data is live.
 class EnvironmentResourceDescription {
   /// The <code>AutoScalingGroups</code> used by this environment.
-  final List<AutoScalingGroup> autoScalingGroups;
+  final List<AutoScalingGroup>? autoScalingGroups;
 
   /// The name of the environment.
-  final String environmentName;
+  final String? environmentName;
 
   /// The Amazon EC2 instances used by this environment.
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   /// The Auto Scaling launch configurations in use by this environment.
-  final List<LaunchConfiguration> launchConfigurations;
+  final List<LaunchConfiguration>? launchConfigurations;
 
   /// The Amazon EC2 launch templates in use by this environment.
-  final List<LaunchTemplate> launchTemplates;
+  final List<LaunchTemplate>? launchTemplates;
 
   /// The LoadBalancers in use by this environment.
-  final List<LoadBalancer> loadBalancers;
+  final List<LoadBalancer>? loadBalancers;
 
   /// The queues used by this environment.
-  final List<Queue> queues;
+  final List<Queue>? queues;
 
   /// The <code>AutoScaling</code> triggers in use by this environment.
-  final List<Trigger> triggers;
+  final List<Trigger>? triggers;
 
   EnvironmentResourceDescription({
     this.autoScalingGroups,
@@ -4977,6 +5961,41 @@ class EnvironmentResourceDescription {
     this.queues,
     this.triggers,
   });
+
+  factory EnvironmentResourceDescription.fromJson(Map<String, dynamic> json) {
+    return EnvironmentResourceDescription(
+      autoScalingGroups: (json['AutoScalingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      environmentName: json['EnvironmentName'] as String?,
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      launchConfigurations: (json['LaunchConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => LaunchConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      launchTemplates: (json['LaunchTemplates'] as List?)
+          ?.whereNotNull()
+          .map((e) => LaunchTemplate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      loadBalancers: (json['LoadBalancers'] as List?)
+          ?.whereNotNull()
+          .map((e) => LoadBalancer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queues: (json['Queues'] as List?)
+          ?.whereNotNull()
+          .map((e) => Queue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      triggers: (json['Triggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Trigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory EnvironmentResourceDescription.fromXml(_s.XmlElement elem) {
     return EnvironmentResourceDescription(
       autoScalingGroups: _s.extractXmlChild(elem, 'AutoScalingGroups')?.let(
@@ -5009,16 +6028,49 @@ class EnvironmentResourceDescription {
           elem.findElements('member').map((c) => Trigger.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroups = this.autoScalingGroups;
+    final environmentName = this.environmentName;
+    final instances = this.instances;
+    final launchConfigurations = this.launchConfigurations;
+    final launchTemplates = this.launchTemplates;
+    final loadBalancers = this.loadBalancers;
+    final queues = this.queues;
+    final triggers = this.triggers;
+    return {
+      if (autoScalingGroups != null) 'AutoScalingGroups': autoScalingGroups,
+      if (environmentName != null) 'EnvironmentName': environmentName,
+      if (instances != null) 'Instances': instances,
+      if (launchConfigurations != null)
+        'LaunchConfigurations': launchConfigurations,
+      if (launchTemplates != null) 'LaunchTemplates': launchTemplates,
+      if (loadBalancers != null) 'LoadBalancers': loadBalancers,
+      if (queues != null) 'Queues': queues,
+      if (triggers != null) 'Triggers': triggers,
+    };
+  }
 }
 
 /// Result message containing a list of environment resource descriptions.
 class EnvironmentResourceDescriptionsMessage {
   /// A list of <a>EnvironmentResourceDescription</a>.
-  final EnvironmentResourceDescription environmentResources;
+  final EnvironmentResourceDescription? environmentResources;
 
   EnvironmentResourceDescriptionsMessage({
     this.environmentResources,
   });
+
+  factory EnvironmentResourceDescriptionsMessage.fromJson(
+      Map<String, dynamic> json) {
+    return EnvironmentResourceDescriptionsMessage(
+      environmentResources: json['EnvironmentResources'] != null
+          ? EnvironmentResourceDescription.fromJson(
+              json['EnvironmentResources'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory EnvironmentResourceDescriptionsMessage.fromXml(_s.XmlElement elem) {
     return EnvironmentResourceDescriptionsMessage(
       environmentResources: _s
@@ -5026,17 +6078,35 @@ class EnvironmentResourceDescriptionsMessage {
           ?.let((e) => EnvironmentResourceDescription.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final environmentResources = this.environmentResources;
+    return {
+      if (environmentResources != null)
+        'EnvironmentResources': environmentResources,
+    };
+  }
 }
 
 /// Describes the AWS resources in use by this environment. This data is not
 /// live data.
 class EnvironmentResourcesDescription {
   /// Describes the LoadBalancer.
-  final LoadBalancerDescription loadBalancer;
+  final LoadBalancerDescription? loadBalancer;
 
   EnvironmentResourcesDescription({
     this.loadBalancer,
   });
+
+  factory EnvironmentResourcesDescription.fromJson(Map<String, dynamic> json) {
+    return EnvironmentResourcesDescription(
+      loadBalancer: json['LoadBalancer'] != null
+          ? LoadBalancerDescription.fromJson(
+              json['LoadBalancer'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory EnvironmentResourcesDescription.fromXml(_s.XmlElement elem) {
     return EnvironmentResourcesDescription(
       loadBalancer: _s
@@ -5044,25 +6114,47 @@ class EnvironmentResourcesDescription {
           ?.let((e) => LoadBalancerDescription.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancer = this.loadBalancer;
+    return {
+      if (loadBalancer != null) 'LoadBalancer': loadBalancer,
+    };
+  }
 }
 
 enum EnvironmentStatus {
-  @_s.JsonValue('Aborting')
   aborting,
-  @_s.JsonValue('Launching')
   launching,
-  @_s.JsonValue('Updating')
   updating,
-  @_s.JsonValue('LinkingFrom')
   linkingFrom,
-  @_s.JsonValue('LinkingTo')
   linkingTo,
-  @_s.JsonValue('Ready')
   ready,
-  @_s.JsonValue('Terminating')
   terminating,
-  @_s.JsonValue('Terminated')
   terminated,
+}
+
+extension on EnvironmentStatus {
+  String toValue() {
+    switch (this) {
+      case EnvironmentStatus.aborting:
+        return 'Aborting';
+      case EnvironmentStatus.launching:
+        return 'Launching';
+      case EnvironmentStatus.updating:
+        return 'Updating';
+      case EnvironmentStatus.linkingFrom:
+        return 'LinkingFrom';
+      case EnvironmentStatus.linkingTo:
+        return 'LinkingTo';
+      case EnvironmentStatus.ready:
+        return 'Ready';
+      case EnvironmentStatus.terminating:
+        return 'Terminating';
+      case EnvironmentStatus.terminated:
+        return 'Terminated';
+    }
+  }
 }
 
 extension on String {
@@ -5085,16 +6177,11 @@ extension on String {
       case 'Terminated':
         return EnvironmentStatus.terminated;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnvironmentStatus');
   }
 }
 
 /// Describes the properties of an environment tier
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EnvironmentTier {
   /// The name of this environment tier.
   ///
@@ -5108,8 +6195,7 @@ class EnvironmentTier {
   /// For <i>Worker tier</i> – <code>Worker</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of this environment tier.
   ///
@@ -5123,8 +6209,7 @@ class EnvironmentTier {
   /// For <i>Worker tier</i> – <code>SQS/HTTP</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The version of this environment tier. When you don't set a value to it,
   /// Elastic Beanstalk uses the latest compatible worker tier version.
@@ -5132,14 +6217,22 @@ class EnvironmentTier {
   /// This member is deprecated. Any specific version that you set may become out
   /// of date. We recommend leaving it unspecified.
   /// </note>
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   EnvironmentTier({
     this.name,
     this.type,
     this.version,
   });
+
+  factory EnvironmentTier.fromJson(Map<String, dynamic> json) {
+    return EnvironmentTier(
+      name: json['Name'] as String?,
+      type: json['Type'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
   factory EnvironmentTier.fromXml(_s.XmlElement elem) {
     return EnvironmentTier(
       name: _s.extractXmlStringValue(elem, 'Name'),
@@ -5148,37 +6241,46 @@ class EnvironmentTier {
     );
   }
 
-  Map<String, dynamic> toJson() => _$EnvironmentTierToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final version = this.version;
+    return {
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Describes an event.
 class EventDescription {
   /// The application associated with the event.
-  final String applicationName;
+  final String? applicationName;
 
   /// The name of the environment associated with this event.
-  final String environmentName;
+  final String? environmentName;
 
   /// The date when the event occurred.
-  final DateTime eventDate;
+  final DateTime? eventDate;
 
   /// The event message.
-  final String message;
+  final String? message;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The web service request ID for the activity of this event.
-  final String requestId;
+  final String? requestId;
 
   /// The severity level of this event.
-  final EventSeverity severity;
+  final EventSeverity? severity;
 
   /// The name of the configuration associated with this event.
-  final String templateName;
+  final String? templateName;
 
   /// The release label for the application version associated with this event.
-  final String versionLabel;
+  final String? versionLabel;
 
   EventDescription({
     this.applicationName,
@@ -5191,6 +6293,21 @@ class EventDescription {
     this.templateName,
     this.versionLabel,
   });
+
+  factory EventDescription.fromJson(Map<String, dynamic> json) {
+    return EventDescription(
+      applicationName: json['ApplicationName'] as String?,
+      environmentName: json['EnvironmentName'] as String?,
+      eventDate: timeStampFromJson(json['EventDate']),
+      message: json['Message'] as String?,
+      platformArn: json['PlatformArn'] as String?,
+      requestId: json['RequestId'] as String?,
+      severity: (json['Severity'] as String?)?.toEventSeverity(),
+      templateName: json['TemplateName'] as String?,
+      versionLabel: json['VersionLabel'] as String?,
+    );
+  }
+
   factory EventDescription.fromXml(_s.XmlElement elem) {
     return EventDescription(
       applicationName: _s.extractXmlStringValue(elem, 'ApplicationName'),
@@ -5204,22 +6321,56 @@ class EventDescription {
       versionLabel: _s.extractXmlStringValue(elem, 'VersionLabel'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final environmentName = this.environmentName;
+    final eventDate = this.eventDate;
+    final message = this.message;
+    final platformArn = this.platformArn;
+    final requestId = this.requestId;
+    final severity = this.severity;
+    final templateName = this.templateName;
+    final versionLabel = this.versionLabel;
+    return {
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (environmentName != null) 'EnvironmentName': environmentName,
+      if (eventDate != null) 'EventDate': unixTimestampToJson(eventDate),
+      if (message != null) 'Message': message,
+      if (platformArn != null) 'PlatformArn': platformArn,
+      if (requestId != null) 'RequestId': requestId,
+      if (severity != null) 'Severity': severity.toValue(),
+      if (templateName != null) 'TemplateName': templateName,
+      if (versionLabel != null) 'VersionLabel': versionLabel,
+    };
+  }
 }
 
 /// Result message wrapping a list of event descriptions.
 class EventDescriptionsMessage {
   /// A list of <a>EventDescription</a>.
-  final List<EventDescription> events;
+  final List<EventDescription>? events;
 
   /// If returned, this indicates that there are more results to obtain. Use this
   /// token in the next <a>DescribeEvents</a> call to get the next batch of
   /// events.
-  final String nextToken;
+  final String? nextToken;
 
   EventDescriptionsMessage({
     this.events,
     this.nextToken,
   });
+
+  factory EventDescriptionsMessage.fromJson(Map<String, dynamic> json) {
+    return EventDescriptionsMessage(
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory EventDescriptionsMessage.fromXml(_s.XmlElement elem) {
     return EventDescriptionsMessage(
       events: _s.extractXmlChild(elem, 'Events')?.let((elem) => elem
@@ -5229,20 +6380,23 @@ class EventDescriptionsMessage {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextToken = this.nextToken;
+    return {
+      if (events != null) 'Events': events,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 enum EventSeverity {
-  @_s.JsonValue('TRACE')
   trace,
-  @_s.JsonValue('DEBUG')
   debug,
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('FATAL')
   fatal,
 }
 
@@ -5262,7 +6416,6 @@ extension on EventSeverity {
       case EventSeverity.fatal:
         return 'FATAL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5282,25 +6435,39 @@ extension on String {
       case 'FATAL':
         return EventSeverity.fatal;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EventSeverity');
   }
 }
 
 enum FailureType {
-  @_s.JsonValue('UpdateCancelled')
   updateCancelled,
-  @_s.JsonValue('CancellationFailed')
   cancellationFailed,
-  @_s.JsonValue('RollbackFailed')
   rollbackFailed,
-  @_s.JsonValue('RollbackSuccessful')
   rollbackSuccessful,
-  @_s.JsonValue('InternalFailure')
   internalFailure,
-  @_s.JsonValue('InvalidEnvironmentState')
   invalidEnvironmentState,
-  @_s.JsonValue('PermissionsError')
   permissionsError,
+}
+
+extension on FailureType {
+  String toValue() {
+    switch (this) {
+      case FailureType.updateCancelled:
+        return 'UpdateCancelled';
+      case FailureType.cancellationFailed:
+        return 'CancellationFailed';
+      case FailureType.rollbackFailed:
+        return 'RollbackFailed';
+      case FailureType.rollbackSuccessful:
+        return 'RollbackSuccessful';
+      case FailureType.internalFailure:
+        return 'InternalFailure';
+      case FailureType.invalidEnvironmentState:
+        return 'InvalidEnvironmentState';
+      case FailureType.permissionsError:
+        return 'PermissionsError';
+    }
+  }
 }
 
 extension on String {
@@ -5321,22 +6488,36 @@ extension on String {
       case 'PermissionsError':
         return FailureType.permissionsError;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum FailureType');
   }
 }
 
 /// The description of an Amazon EC2 instance.
 class Instance {
   /// The ID of the Amazon EC2 instance.
-  final String id;
+  final String? id;
 
   Instance({
     this.id,
   });
+
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      id: json['Id'] as String?,
+    );
+  }
+
   factory Instance.fromXml(_s.XmlElement elem) {
     return Instance(
       id: _s.extractXmlStringValue(elem, 'Id'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
   }
 }
 
@@ -5347,34 +6528,34 @@ class Instance {
 class InstanceHealthSummary {
   /// <b>Red.</b> The health agent is reporting a high number of request failures
   /// or other issues for an instance or environment.
-  final int degraded;
+  final int? degraded;
 
   /// <b>Green.</b> An operation is in progress on an instance.
-  final int info;
+  final int? info;
 
   /// <b>Grey.</b> AWS Elastic Beanstalk and the health agent are reporting no
   /// data on an instance.
-  final int noData;
+  final int? noData;
 
   /// <b>Green.</b> An instance is passing health checks and the health agent is
   /// not reporting any problems.
-  final int ok;
+  final int? ok;
 
   /// <b>Grey.</b> An operation is in progress on an instance within the command
   /// timeout.
-  final int pending;
+  final int? pending;
 
   /// <b>Red.</b> The health agent is reporting a very high number of request
   /// failures or other issues for an instance or environment.
-  final int severe;
+  final int? severe;
 
   /// <b>Grey.</b> AWS Elastic Beanstalk and the health agent are reporting an
   /// insufficient amount of data on an instance.
-  final int unknown;
+  final int? unknown;
 
   /// <b>Yellow.</b> The health agent is reporting a moderate number of request
   /// failures or other issues for an instance or environment.
-  final int warning;
+  final int? warning;
 
   InstanceHealthSummary({
     this.degraded,
@@ -5386,6 +6567,20 @@ class InstanceHealthSummary {
     this.unknown,
     this.warning,
   });
+
+  factory InstanceHealthSummary.fromJson(Map<String, dynamic> json) {
+    return InstanceHealthSummary(
+      degraded: json['Degraded'] as int?,
+      info: json['Info'] as int?,
+      noData: json['NoData'] as int?,
+      ok: json['Ok'] as int?,
+      pending: json['Pending'] as int?,
+      severe: json['Severe'] as int?,
+      unknown: json['Unknown'] as int?,
+      warning: json['Warning'] as int?,
+    );
+  }
+
   factory InstanceHealthSummary.fromXml(_s.XmlElement elem) {
     return InstanceHealthSummary(
       degraded: _s.extractXmlIntValue(elem, 'Degraded'),
@@ -5398,30 +6593,40 @@ class InstanceHealthSummary {
       warning: _s.extractXmlIntValue(elem, 'Warning'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final degraded = this.degraded;
+    final info = this.info;
+    final noData = this.noData;
+    final ok = this.ok;
+    final pending = this.pending;
+    final severe = this.severe;
+    final unknown = this.unknown;
+    final warning = this.warning;
+    return {
+      if (degraded != null) 'Degraded': degraded,
+      if (info != null) 'Info': info,
+      if (noData != null) 'NoData': noData,
+      if (ok != null) 'Ok': ok,
+      if (pending != null) 'Pending': pending,
+      if (severe != null) 'Severe': severe,
+      if (unknown != null) 'Unknown': unknown,
+      if (warning != null) 'Warning': warning,
+    };
+  }
 }
 
 enum InstancesHealthAttribute {
-  @_s.JsonValue('HealthStatus')
   healthStatus,
-  @_s.JsonValue('Color')
   color,
-  @_s.JsonValue('Causes')
   causes,
-  @_s.JsonValue('ApplicationMetrics')
   applicationMetrics,
-  @_s.JsonValue('RefreshedAt')
   refreshedAt,
-  @_s.JsonValue('LaunchedAt')
   launchedAt,
-  @_s.JsonValue('System')
   system,
-  @_s.JsonValue('Deployment')
   deployment,
-  @_s.JsonValue('AvailabilityZone')
   availabilityZone,
-  @_s.JsonValue('InstanceType')
   instanceType,
-  @_s.JsonValue('All')
   all,
 }
 
@@ -5451,7 +6656,6 @@ extension on InstancesHealthAttribute {
       case InstancesHealthAttribute.all:
         return 'All';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5481,7 +6685,7 @@ extension on String {
       case 'All':
         return InstancesHealthAttribute.all;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InstancesHealthAttribute');
   }
 }
 
@@ -5490,35 +6694,35 @@ extension on String {
 class Latency {
   /// The average latency for the slowest 90 percent of requests over the last 10
   /// seconds.
-  final double p10;
+  final double? p10;
 
   /// The average latency for the slowest 50 percent of requests over the last 10
   /// seconds.
-  final double p50;
+  final double? p50;
 
   /// The average latency for the slowest 25 percent of requests over the last 10
   /// seconds.
-  final double p75;
+  final double? p75;
 
   /// The average latency for the slowest 15 percent of requests over the last 10
   /// seconds.
-  final double p85;
+  final double? p85;
 
   /// The average latency for the slowest 10 percent of requests over the last 10
   /// seconds.
-  final double p90;
+  final double? p90;
 
   /// The average latency for the slowest 5 percent of requests over the last 10
   /// seconds.
-  final double p95;
+  final double? p95;
 
   /// The average latency for the slowest 1 percent of requests over the last 10
   /// seconds.
-  final double p99;
+  final double? p99;
 
   /// The average latency for the slowest 0.1 percent of requests over the last 10
   /// seconds.
-  final double p999;
+  final double? p999;
 
   Latency({
     this.p10,
@@ -5530,6 +6734,20 @@ class Latency {
     this.p99,
     this.p999,
   });
+
+  factory Latency.fromJson(Map<String, dynamic> json) {
+    return Latency(
+      p10: json['P10'] as double?,
+      p50: json['P50'] as double?,
+      p75: json['P75'] as double?,
+      p85: json['P85'] as double?,
+      p90: json['P90'] as double?,
+      p95: json['P95'] as double?,
+      p99: json['P99'] as double?,
+      p999: json['P999'] as double?,
+    );
+  }
+
   factory Latency.fromXml(_s.XmlElement elem) {
     return Latency(
       p10: _s.extractXmlDoubleValue(elem, 'P10'),
@@ -5542,35 +6760,84 @@ class Latency {
       p999: _s.extractXmlDoubleValue(elem, 'P999'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final p10 = this.p10;
+    final p50 = this.p50;
+    final p75 = this.p75;
+    final p85 = this.p85;
+    final p90 = this.p90;
+    final p95 = this.p95;
+    final p99 = this.p99;
+    final p999 = this.p999;
+    return {
+      if (p10 != null) 'P10': p10,
+      if (p50 != null) 'P50': p50,
+      if (p75 != null) 'P75': p75,
+      if (p85 != null) 'P85': p85,
+      if (p90 != null) 'P90': p90,
+      if (p95 != null) 'P95': p95,
+      if (p99 != null) 'P99': p99,
+      if (p999 != null) 'P999': p999,
+    };
+  }
 }
 
 /// Describes an Auto Scaling launch configuration.
 class LaunchConfiguration {
   /// The name of the launch configuration.
-  final String name;
+  final String? name;
 
   LaunchConfiguration({
     this.name,
   });
+
+  factory LaunchConfiguration.fromJson(Map<String, dynamic> json) {
+    return LaunchConfiguration(
+      name: json['Name'] as String?,
+    );
+  }
+
   factory LaunchConfiguration.fromXml(_s.XmlElement elem) {
     return LaunchConfiguration(
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
   }
 }
 
 /// Describes an Amazon EC2 launch template.
 class LaunchTemplate {
   /// The ID of the launch template.
-  final String id;
+  final String? id;
 
   LaunchTemplate({
     this.id,
   });
+
+  factory LaunchTemplate.fromJson(Map<String, dynamic> json) {
+    return LaunchTemplate(
+      id: json['Id'] as String?,
+    );
+  }
+
   factory LaunchTemplate.fromXml(_s.XmlElement elem) {
     return LaunchTemplate(
       id: _s.extractXmlStringValue(elem, 'Id'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'Id': id,
+    };
   }
 }
 
@@ -5578,15 +6845,31 @@ class LaunchTemplate {
 class ListAvailableSolutionStacksResultMessage {
   /// A list of available solution stacks and their
   /// <a>SolutionStackDescription</a>.
-  final List<SolutionStackDescription> solutionStackDetails;
+  final List<SolutionStackDescription>? solutionStackDetails;
 
   /// A list of available solution stacks.
-  final List<String> solutionStacks;
+  final List<String>? solutionStacks;
 
   ListAvailableSolutionStacksResultMessage({
     this.solutionStackDetails,
     this.solutionStacks,
   });
+
+  factory ListAvailableSolutionStacksResultMessage.fromJson(
+      Map<String, dynamic> json) {
+    return ListAvailableSolutionStacksResultMessage(
+      solutionStackDetails: (json['SolutionStackDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SolutionStackDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      solutionStacks: (json['SolutionStacks'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory ListAvailableSolutionStacksResultMessage.fromXml(_s.XmlElement elem) {
     return ListAvailableSolutionStacksResultMessage(
       solutionStackDetails: _s
@@ -5600,21 +6883,42 @@ class ListAvailableSolutionStacksResultMessage {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final solutionStackDetails = this.solutionStackDetails;
+    final solutionStacks = this.solutionStacks;
+    return {
+      if (solutionStackDetails != null)
+        'SolutionStackDetails': solutionStackDetails,
+      if (solutionStacks != null) 'SolutionStacks': solutionStacks,
+    };
+  }
 }
 
 class ListPlatformBranchesResult {
   /// In a paginated request, if this value isn't <code>null</code>, it's the
   /// token that you can pass in a subsequent request to get the next response
   /// page.
-  final String nextToken;
+  final String? nextToken;
 
   /// Summary information about the platform branches.
-  final List<PlatformBranchSummary> platformBranchSummaryList;
+  final List<PlatformBranchSummary>? platformBranchSummaryList;
 
   ListPlatformBranchesResult({
     this.nextToken,
     this.platformBranchSummaryList,
   });
+
+  factory ListPlatformBranchesResult.fromJson(Map<String, dynamic> json) {
+    return ListPlatformBranchesResult(
+      nextToken: json['NextToken'] as String?,
+      platformBranchSummaryList: (json['PlatformBranchSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PlatformBranchSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListPlatformBranchesResult.fromXml(_s.XmlElement elem) {
     return ListPlatformBranchesResult(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -5626,21 +6930,42 @@ class ListPlatformBranchesResult {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final platformBranchSummaryList = this.platformBranchSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (platformBranchSummaryList != null)
+        'PlatformBranchSummaryList': platformBranchSummaryList,
+    };
+  }
 }
 
 class ListPlatformVersionsResult {
   /// In a paginated request, if this value isn't <code>null</code>, it's the
   /// token that you can pass in a subsequent request to get the next response
   /// page.
-  final String nextToken;
+  final String? nextToken;
 
   /// Summary information about the platform versions.
-  final List<PlatformSummary> platformSummaryList;
+  final List<PlatformSummary>? platformSummaryList;
 
   ListPlatformVersionsResult({
     this.nextToken,
     this.platformSummaryList,
   });
+
+  factory ListPlatformVersionsResult.fromJson(Map<String, dynamic> json) {
+    return ListPlatformVersionsResult(
+      nextToken: json['NextToken'] as String?,
+      platformSummaryList: (json['PlatformSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PlatformSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListPlatformVersionsResult.fromXml(_s.XmlElement elem) {
     return ListPlatformVersionsResult(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -5651,59 +6976,112 @@ class ListPlatformVersionsResult {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final platformSummaryList = this.platformSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (platformSummaryList != null)
+        'PlatformSummaryList': platformSummaryList,
+    };
+  }
 }
 
 /// Describes the properties of a Listener for the LoadBalancer.
 class Listener {
   /// The port that is used by the Listener.
-  final int port;
+  final int? port;
 
   /// The protocol that is used by the Listener.
-  final String protocol;
+  final String? protocol;
 
   Listener({
     this.port,
     this.protocol,
   });
+
+  factory Listener.fromJson(Map<String, dynamic> json) {
+    return Listener(
+      port: json['Port'] as int?,
+      protocol: json['Protocol'] as String?,
+    );
+  }
+
   factory Listener.fromXml(_s.XmlElement elem) {
     return Listener(
       port: _s.extractXmlIntValue(elem, 'Port'),
       protocol: _s.extractXmlStringValue(elem, 'Protocol'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final protocol = this.protocol;
+    return {
+      if (port != null) 'Port': port,
+      if (protocol != null) 'Protocol': protocol,
+    };
+  }
 }
 
 /// Describes a LoadBalancer.
 class LoadBalancer {
   /// The name of the LoadBalancer.
-  final String name;
+  final String? name;
 
   LoadBalancer({
     this.name,
   });
+
+  factory LoadBalancer.fromJson(Map<String, dynamic> json) {
+    return LoadBalancer(
+      name: json['Name'] as String?,
+    );
+  }
+
   factory LoadBalancer.fromXml(_s.XmlElement elem) {
     return LoadBalancer(
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
   }
 }
 
 /// Describes the details of a LoadBalancer.
 class LoadBalancerDescription {
   /// The domain name of the LoadBalancer.
-  final String domain;
+  final String? domain;
 
   /// A list of Listeners used by the LoadBalancer.
-  final List<Listener> listeners;
+  final List<Listener>? listeners;
 
   /// The name of the LoadBalancer.
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   LoadBalancerDescription({
     this.domain,
     this.listeners,
     this.loadBalancerName,
   });
+
+  factory LoadBalancerDescription.fromJson(Map<String, dynamic> json) {
+    return LoadBalancerDescription(
+      domain: json['Domain'] as String?,
+      listeners: (json['Listeners'] as List?)
+          ?.whereNotNull()
+          .map((e) => Listener.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      loadBalancerName: json['LoadBalancerName'] as String?,
+    );
+  }
+
   factory LoadBalancerDescription.fromXml(_s.XmlElement elem) {
     return LoadBalancerDescription(
       domain: _s.extractXmlStringValue(elem, 'Domain'),
@@ -5712,26 +7090,37 @@ class LoadBalancerDescription {
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    final listeners = this.listeners;
+    final loadBalancerName = this.loadBalancerName;
+    return {
+      if (domain != null) 'Domain': domain,
+      if (listeners != null) 'Listeners': listeners,
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+    };
+  }
 }
 
 /// The record of an upcoming or in-progress managed action.
 class ManagedAction {
   /// A description of the managed action.
-  final String actionDescription;
+  final String? actionDescription;
 
   /// A unique identifier for the managed action.
-  final String actionId;
+  final String? actionId;
 
   /// The type of managed action.
-  final ActionType actionType;
+  final ActionType? actionType;
 
   /// The status of the managed action. If the action is <code>Scheduled</code>,
   /// you can apply it immediately with <a>ApplyEnvironmentManagedAction</a>.
-  final ActionStatus status;
+  final ActionStatus? status;
 
   /// The start time of the maintenance window in which the managed action will
   /// execute.
-  final DateTime windowStartTime;
+  final DateTime? windowStartTime;
 
   ManagedAction({
     this.actionDescription,
@@ -5740,6 +7129,17 @@ class ManagedAction {
     this.status,
     this.windowStartTime,
   });
+
+  factory ManagedAction.fromJson(Map<String, dynamic> json) {
+    return ManagedAction(
+      actionDescription: json['ActionDescription'] as String?,
+      actionId: json['ActionId'] as String?,
+      actionType: (json['ActionType'] as String?)?.toActionType(),
+      status: (json['Status'] as String?)?.toActionStatus(),
+      windowStartTime: timeStampFromJson(json['WindowStartTime']),
+    );
+  }
+
   factory ManagedAction.fromXml(_s.XmlElement elem) {
     return ManagedAction(
       actionDescription: _s.extractXmlStringValue(elem, 'ActionDescription'),
@@ -5749,33 +7149,49 @@ class ManagedAction {
       windowStartTime: _s.extractXmlDateTimeValue(elem, 'WindowStartTime'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final actionDescription = this.actionDescription;
+    final actionId = this.actionId;
+    final actionType = this.actionType;
+    final status = this.status;
+    final windowStartTime = this.windowStartTime;
+    return {
+      if (actionDescription != null) 'ActionDescription': actionDescription,
+      if (actionId != null) 'ActionId': actionId,
+      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (windowStartTime != null)
+        'WindowStartTime': unixTimestampToJson(windowStartTime),
+    };
+  }
 }
 
 /// The record of a completed or failed managed action.
 class ManagedActionHistoryItem {
   /// A description of the managed action.
-  final String actionDescription;
+  final String? actionDescription;
 
   /// A unique identifier for the managed action.
-  final String actionId;
+  final String? actionId;
 
   /// The type of the managed action.
-  final ActionType actionType;
+  final ActionType? actionType;
 
   /// The date and time that the action started executing.
-  final DateTime executedTime;
+  final DateTime? executedTime;
 
   /// If the action failed, a description of the failure.
-  final String failureDescription;
+  final String? failureDescription;
 
   /// If the action failed, the type of failure.
-  final FailureType failureType;
+  final FailureType? failureType;
 
   /// The date and time that the action finished executing.
-  final DateTime finishedTime;
+  final DateTime? finishedTime;
 
   /// The status of the action.
-  final ActionHistoryStatus status;
+  final ActionHistoryStatus? status;
 
   ManagedActionHistoryItem({
     this.actionDescription,
@@ -5787,6 +7203,20 @@ class ManagedActionHistoryItem {
     this.finishedTime,
     this.status,
   });
+
+  factory ManagedActionHistoryItem.fromJson(Map<String, dynamic> json) {
+    return ManagedActionHistoryItem(
+      actionDescription: json['ActionDescription'] as String?,
+      actionId: json['ActionId'] as String?,
+      actionType: (json['ActionType'] as String?)?.toActionType(),
+      executedTime: timeStampFromJson(json['ExecutedTime']),
+      failureDescription: json['FailureDescription'] as String?,
+      failureType: (json['FailureType'] as String?)?.toFailureType(),
+      finishedTime: timeStampFromJson(json['FinishedTime']),
+      status: (json['Status'] as String?)?.toActionHistoryStatus(),
+    );
+  }
+
   factory ManagedActionHistoryItem.fromXml(_s.XmlElement elem) {
     return ManagedActionHistoryItem(
       actionDescription: _s.extractXmlStringValue(elem, 'ActionDescription'),
@@ -5800,137 +7230,207 @@ class ManagedActionHistoryItem {
       status: _s.extractXmlStringValue(elem, 'Status')?.toActionHistoryStatus(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final actionDescription = this.actionDescription;
+    final actionId = this.actionId;
+    final actionType = this.actionType;
+    final executedTime = this.executedTime;
+    final failureDescription = this.failureDescription;
+    final failureType = this.failureType;
+    final finishedTime = this.finishedTime;
+    final status = this.status;
+    return {
+      if (actionDescription != null) 'ActionDescription': actionDescription,
+      if (actionId != null) 'ActionId': actionId,
+      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (executedTime != null)
+        'ExecutedTime': unixTimestampToJson(executedTime),
+      if (failureDescription != null) 'FailureDescription': failureDescription,
+      if (failureType != null) 'FailureType': failureType.toValue(),
+      if (finishedTime != null)
+        'FinishedTime': unixTimestampToJson(finishedTime),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// A lifecycle rule that deletes application versions after the specified
 /// number of days.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MaxAgeRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Set to <code>true</code> to delete a version's source bundle from Amazon S3
   /// when Elastic Beanstalk deletes the application version.
-  @_s.JsonKey(name: 'DeleteSourceFromS3')
-  final bool deleteSourceFromS3;
+  final bool? deleteSourceFromS3;
 
   /// Specify the number of days to retain an application versions.
-  @_s.JsonKey(name: 'MaxAgeInDays')
-  final int maxAgeInDays;
+  final int? maxAgeInDays;
 
   MaxAgeRule({
-    @_s.required this.enabled,
+    required this.enabled,
     this.deleteSourceFromS3,
     this.maxAgeInDays,
   });
+
+  factory MaxAgeRule.fromJson(Map<String, dynamic> json) {
+    return MaxAgeRule(
+      enabled: json['Enabled'] as bool,
+      deleteSourceFromS3: json['DeleteSourceFromS3'] as bool?,
+      maxAgeInDays: json['MaxAgeInDays'] as int?,
+    );
+  }
+
   factory MaxAgeRule.fromXml(_s.XmlElement elem) {
     return MaxAgeRule(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       deleteSourceFromS3: _s.extractXmlBoolValue(elem, 'DeleteSourceFromS3'),
       maxAgeInDays: _s.extractXmlIntValue(elem, 'MaxAgeInDays'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$MaxAgeRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final deleteSourceFromS3 = this.deleteSourceFromS3;
+    final maxAgeInDays = this.maxAgeInDays;
+    return {
+      'Enabled': enabled,
+      if (deleteSourceFromS3 != null) 'DeleteSourceFromS3': deleteSourceFromS3,
+      if (maxAgeInDays != null) 'MaxAgeInDays': maxAgeInDays,
+    };
+  }
 }
 
 /// A lifecycle rule that deletes the oldest application version when the
 /// maximum count is exceeded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MaxCountRule {
   /// Specify <code>true</code> to apply the rule, or <code>false</code> to
   /// disable it.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Set to <code>true</code> to delete a version's source bundle from Amazon S3
   /// when Elastic Beanstalk deletes the application version.
-  @_s.JsonKey(name: 'DeleteSourceFromS3')
-  final bool deleteSourceFromS3;
+  final bool? deleteSourceFromS3;
 
   /// Specify the maximum number of application versions to retain.
-  @_s.JsonKey(name: 'MaxCount')
-  final int maxCount;
+  final int? maxCount;
 
   MaxCountRule({
-    @_s.required this.enabled,
+    required this.enabled,
     this.deleteSourceFromS3,
     this.maxCount,
   });
+
+  factory MaxCountRule.fromJson(Map<String, dynamic> json) {
+    return MaxCountRule(
+      enabled: json['Enabled'] as bool,
+      deleteSourceFromS3: json['DeleteSourceFromS3'] as bool?,
+      maxCount: json['MaxCount'] as int?,
+    );
+  }
+
   factory MaxCountRule.fromXml(_s.XmlElement elem) {
     return MaxCountRule(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       deleteSourceFromS3: _s.extractXmlBoolValue(elem, 'DeleteSourceFromS3'),
       maxCount: _s.extractXmlIntValue(elem, 'MaxCount'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$MaxCountRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final deleteSourceFromS3 = this.deleteSourceFromS3;
+    final maxCount = this.maxCount;
+    return {
+      'Enabled': enabled,
+      if (deleteSourceFromS3 != null) 'DeleteSourceFromS3': deleteSourceFromS3,
+      if (maxCount != null) 'MaxCount': maxCount,
+    };
+  }
 }
 
 /// A regular expression representing a restriction on a string configuration
 /// option value.
 class OptionRestrictionRegex {
   /// A unique name representing this regular expression.
-  final String label;
+  final String? label;
 
   /// The regular expression pattern that a string configuration option value with
   /// this restriction must match.
-  final String pattern;
+  final String? pattern;
 
   OptionRestrictionRegex({
     this.label,
     this.pattern,
   });
+
+  factory OptionRestrictionRegex.fromJson(Map<String, dynamic> json) {
+    return OptionRestrictionRegex(
+      label: json['Label'] as String?,
+      pattern: json['Pattern'] as String?,
+    );
+  }
+
   factory OptionRestrictionRegex.fromXml(_s.XmlElement elem) {
     return OptionRestrictionRegex(
       label: _s.extractXmlStringValue(elem, 'Label'),
       pattern: _s.extractXmlStringValue(elem, 'Pattern'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final label = this.label;
+    final pattern = this.pattern;
+    return {
+      if (label != null) 'Label': label,
+      if (pattern != null) 'Pattern': pattern,
+    };
+  }
 }
 
 /// A specification identifying an individual configuration option.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OptionSpecification {
   /// A unique namespace identifying the option's associated AWS resource.
-  @_s.JsonKey(name: 'Namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the configuration option.
-  @_s.JsonKey(name: 'OptionName')
-  final String optionName;
+  final String? optionName;
 
   /// A unique resource name for a time-based scaling configuration option.
-  @_s.JsonKey(name: 'ResourceName')
-  final String resourceName;
+  final String? resourceName;
 
   OptionSpecification({
     this.namespace,
     this.optionName,
     this.resourceName,
   });
-  Map<String, dynamic> toJson() => _$OptionSpecificationToJson(this);
+
+  factory OptionSpecification.fromJson(Map<String, dynamic> json) {
+    return OptionSpecification(
+      namespace: json['Namespace'] as String?,
+      optionName: json['OptionName'] as String?,
+      resourceName: json['ResourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    final optionName = this.optionName;
+    final resourceName = this.resourceName;
+    return {
+      if (namespace != null) 'Namespace': namespace,
+      if (optionName != null) 'OptionName': optionName,
+      if (resourceName != null) 'ResourceName': resourceName,
+    };
+  }
 }
 
 /// Summary information about a platform branch.
 class PlatformBranchSummary {
   /// The name of the platform branch.
-  final String branchName;
+  final String? branchName;
 
   /// An ordinal number that designates the order in which platform branches have
   /// been added to a platform. This can be helpful, for example, if your code
@@ -5939,22 +7439,22 @@ class PlatformBranchSummary {
   ///
   /// A larger <code>BranchOrder</code> value designates a newer platform branch
   /// within the platform.
-  final int branchOrder;
+  final int? branchOrder;
 
   /// The support life cycle state of the platform branch.
   ///
   /// Possible values: <code>beta</code> | <code>supported</code> |
   /// <code>deprecated</code> | <code>retired</code>
-  final String lifecycleState;
+  final String? lifecycleState;
 
   /// The name of the platform to which this platform branch belongs.
-  final String platformName;
+  final String? platformName;
 
   /// The environment tiers that platform versions in this branch support.
   ///
   /// Possible values: <code>WebServer/Standard</code> |
   /// <code>Worker/SQS/HTTP</code>
-  final List<String> supportedTierList;
+  final List<String>? supportedTierList;
 
   PlatformBranchSummary({
     this.branchName,
@@ -5963,6 +7463,20 @@ class PlatformBranchSummary {
     this.platformName,
     this.supportedTierList,
   });
+
+  factory PlatformBranchSummary.fromJson(Map<String, dynamic> json) {
+    return PlatformBranchSummary(
+      branchName: json['BranchName'] as String?,
+      branchOrder: json['BranchOrder'] as int?,
+      lifecycleState: json['LifecycleState'] as String?,
+      platformName: json['PlatformName'] as String?,
+      supportedTierList: (json['SupportedTierList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory PlatformBranchSummary.fromXml(_s.XmlElement elem) {
     return PlatformBranchSummary(
       branchName: _s.extractXmlStringValue(elem, 'BranchName'),
@@ -5974,48 +7488,63 @@ class PlatformBranchSummary {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final branchName = this.branchName;
+    final branchOrder = this.branchOrder;
+    final lifecycleState = this.lifecycleState;
+    final platformName = this.platformName;
+    final supportedTierList = this.supportedTierList;
+    return {
+      if (branchName != null) 'BranchName': branchName,
+      if (branchOrder != null) 'BranchOrder': branchOrder,
+      if (lifecycleState != null) 'LifecycleState': lifecycleState,
+      if (platformName != null) 'PlatformName': platformName,
+      if (supportedTierList != null) 'SupportedTierList': supportedTierList,
+    };
+  }
 }
 
 /// Detailed information about a platform version.
 class PlatformDescription {
   /// The custom AMIs supported by the platform version.
-  final List<CustomAmi> customAmiList;
+  final List<CustomAmi>? customAmiList;
 
   /// The date when the platform version was created.
-  final DateTime dateCreated;
+  final DateTime? dateCreated;
 
   /// The date when the platform version was last updated.
-  final DateTime dateUpdated;
+  final DateTime? dateUpdated;
 
   /// The description of the platform version.
-  final String description;
+  final String? description;
 
   /// The frameworks supported by the platform version.
-  final List<PlatformFramework> frameworks;
+  final List<PlatformFramework>? frameworks;
 
   /// Information about the maintainer of the platform version.
-  final String maintainer;
+  final String? maintainer;
 
   /// The operating system used by the platform version.
-  final String operatingSystemName;
+  final String? operatingSystemName;
 
   /// The version of the operating system used by the platform version.
-  final String operatingSystemVersion;
+  final String? operatingSystemVersion;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The state of the platform version's branch in its lifecycle.
   ///
   /// Possible values: <code>Beta</code> | <code>Supported</code> |
   /// <code>Deprecated</code> | <code>Retired</code>
-  final String platformBranchLifecycleState;
+  final String? platformBranchLifecycleState;
 
   /// The platform branch to which the platform version belongs.
-  final String platformBranchName;
+  final String? platformBranchName;
 
   /// The category of the platform version.
-  final String platformCategory;
+  final String? platformCategory;
 
   /// The state of the platform version in its lifecycle.
   ///
@@ -6024,31 +7553,31 @@ class PlatformDescription {
   /// If a null value is returned, the platform version isn't the recommended one
   /// for its branch. Each platform branch has a single recommended platform
   /// version, typically the most recent one.
-  final String platformLifecycleState;
+  final String? platformLifecycleState;
 
   /// The name of the platform version.
-  final String platformName;
+  final String? platformName;
 
   /// The AWS account ID of the person who created the platform version.
-  final String platformOwner;
+  final String? platformOwner;
 
   /// The status of the platform version.
-  final PlatformStatus platformStatus;
+  final PlatformStatus? platformStatus;
 
   /// The version of the platform version.
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The programming languages supported by the platform version.
-  final List<PlatformProgrammingLanguage> programmingLanguages;
+  final List<PlatformProgrammingLanguage>? programmingLanguages;
 
   /// The name of the solution stack used by the platform version.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   /// The additions supported by the platform version.
-  final List<String> supportedAddonList;
+  final List<String>? supportedAddonList;
 
   /// The tiers supported by the platform version.
-  final List<String> supportedTierList;
+  final List<String>? supportedTierList;
 
   PlatformDescription({
     this.customAmiList,
@@ -6073,6 +7602,50 @@ class PlatformDescription {
     this.supportedAddonList,
     this.supportedTierList,
   });
+
+  factory PlatformDescription.fromJson(Map<String, dynamic> json) {
+    return PlatformDescription(
+      customAmiList: (json['CustomAmiList'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomAmi.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dateCreated: timeStampFromJson(json['DateCreated']),
+      dateUpdated: timeStampFromJson(json['DateUpdated']),
+      description: json['Description'] as String?,
+      frameworks: (json['Frameworks'] as List?)
+          ?.whereNotNull()
+          .map((e) => PlatformFramework.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maintainer: json['Maintainer'] as String?,
+      operatingSystemName: json['OperatingSystemName'] as String?,
+      operatingSystemVersion: json['OperatingSystemVersion'] as String?,
+      platformArn: json['PlatformArn'] as String?,
+      platformBranchLifecycleState:
+          json['PlatformBranchLifecycleState'] as String?,
+      platformBranchName: json['PlatformBranchName'] as String?,
+      platformCategory: json['PlatformCategory'] as String?,
+      platformLifecycleState: json['PlatformLifecycleState'] as String?,
+      platformName: json['PlatformName'] as String?,
+      platformOwner: json['PlatformOwner'] as String?,
+      platformStatus: (json['PlatformStatus'] as String?)?.toPlatformStatus(),
+      platformVersion: json['PlatformVersion'] as String?,
+      programmingLanguages: (json['ProgrammingLanguages'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PlatformProgrammingLanguage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      solutionStackName: json['SolutionStackName'] as String?,
+      supportedAddonList: (json['SupportedAddonList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedTierList: (json['SupportedTierList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory PlatformDescription.fromXml(_s.XmlElement elem) {
     return PlatformDescription(
       customAmiList: _s.extractXmlChild(elem, 'CustomAmiList')?.let((elem) =>
@@ -6119,16 +7692,63 @@ class PlatformDescription {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final customAmiList = this.customAmiList;
+    final dateCreated = this.dateCreated;
+    final dateUpdated = this.dateUpdated;
+    final description = this.description;
+    final frameworks = this.frameworks;
+    final maintainer = this.maintainer;
+    final operatingSystemName = this.operatingSystemName;
+    final operatingSystemVersion = this.operatingSystemVersion;
+    final platformArn = this.platformArn;
+    final platformBranchLifecycleState = this.platformBranchLifecycleState;
+    final platformBranchName = this.platformBranchName;
+    final platformCategory = this.platformCategory;
+    final platformLifecycleState = this.platformLifecycleState;
+    final platformName = this.platformName;
+    final platformOwner = this.platformOwner;
+    final platformStatus = this.platformStatus;
+    final platformVersion = this.platformVersion;
+    final programmingLanguages = this.programmingLanguages;
+    final solutionStackName = this.solutionStackName;
+    final supportedAddonList = this.supportedAddonList;
+    final supportedTierList = this.supportedTierList;
+    return {
+      if (customAmiList != null) 'CustomAmiList': customAmiList,
+      if (dateCreated != null) 'DateCreated': unixTimestampToJson(dateCreated),
+      if (dateUpdated != null) 'DateUpdated': unixTimestampToJson(dateUpdated),
+      if (description != null) 'Description': description,
+      if (frameworks != null) 'Frameworks': frameworks,
+      if (maintainer != null) 'Maintainer': maintainer,
+      if (operatingSystemName != null)
+        'OperatingSystemName': operatingSystemName,
+      if (operatingSystemVersion != null)
+        'OperatingSystemVersion': operatingSystemVersion,
+      if (platformArn != null) 'PlatformArn': platformArn,
+      if (platformBranchLifecycleState != null)
+        'PlatformBranchLifecycleState': platformBranchLifecycleState,
+      if (platformBranchName != null) 'PlatformBranchName': platformBranchName,
+      if (platformCategory != null) 'PlatformCategory': platformCategory,
+      if (platformLifecycleState != null)
+        'PlatformLifecycleState': platformLifecycleState,
+      if (platformName != null) 'PlatformName': platformName,
+      if (platformOwner != null) 'PlatformOwner': platformOwner,
+      if (platformStatus != null) 'PlatformStatus': platformStatus.toValue(),
+      if (platformVersion != null) 'PlatformVersion': platformVersion,
+      if (programmingLanguages != null)
+        'ProgrammingLanguages': programmingLanguages,
+      if (solutionStackName != null) 'SolutionStackName': solutionStackName,
+      if (supportedAddonList != null) 'SupportedAddonList': supportedAddonList,
+      if (supportedTierList != null) 'SupportedTierList': supportedTierList,
+    };
+  }
 }
 
 /// Describes criteria to restrict the results when listing platform versions.
 ///
 /// The filter is evaluated as follows: <code>Type Operator Values[1]</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PlatformFilter {
   /// The operator to apply to the <code>Type</code> with each of the
   /// <code>Values</code>.
@@ -6136,8 +7756,7 @@ class PlatformFilter {
   /// Valid values: <code>=</code> | <code>!=</code> | <code>&lt;</code> |
   /// <code>&lt;=</code> | <code>&gt;</code> | <code>&gt;=</code> |
   /// <code>contains</code> | <code>begins_with</code> | <code>ends_with</code>
-  @_s.JsonKey(name: 'Operator')
-  final String operator;
+  final String? operator;
 
   /// The platform version attribute to which the filter values are applied.
   ///
@@ -6146,8 +7765,7 @@ class PlatformFilter {
   /// <code>PlatformLifecycleState</code> | <code>PlatformOwner</code> |
   /// <code>SupportedTier</code> | <code>SupportedAddon</code> |
   /// <code>ProgrammingLanguageName</code> | <code>OperatingSystemName</code>
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The list of values applied to the filtering platform version attribute. Only
   /// one value is supported for all current operators.
@@ -6171,68 +7789,134 @@ class PlatformFilter {
   /// <code>Monitoring/Healthd</code> | <code>WorkerDaemon/SQSD</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   PlatformFilter({
     this.operator,
     this.type,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$PlatformFilterToJson(this);
+
+  factory PlatformFilter.fromJson(Map<String, dynamic> json) {
+    return PlatformFilter(
+      operator: json['Operator'] as String?,
+      type: json['Type'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operator = this.operator;
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (operator != null) 'Operator': operator,
+      if (type != null) 'Type': type,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// A framework supported by the platform.
 class PlatformFramework {
   /// The name of the framework.
-  final String name;
+  final String? name;
 
   /// The version of the framework.
-  final String version;
+  final String? version;
 
   PlatformFramework({
     this.name,
     this.version,
   });
+
+  factory PlatformFramework.fromJson(Map<String, dynamic> json) {
+    return PlatformFramework(
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
   factory PlatformFramework.fromXml(_s.XmlElement elem) {
     return PlatformFramework(
       name: _s.extractXmlStringValue(elem, 'Name'),
       version: _s.extractXmlStringValue(elem, 'Version'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// A programming language supported by the platform.
 class PlatformProgrammingLanguage {
   /// The name of the programming language.
-  final String name;
+  final String? name;
 
   /// The version of the programming language.
-  final String version;
+  final String? version;
 
   PlatformProgrammingLanguage({
     this.name,
     this.version,
   });
+
+  factory PlatformProgrammingLanguage.fromJson(Map<String, dynamic> json) {
+    return PlatformProgrammingLanguage(
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
   factory PlatformProgrammingLanguage.fromXml(_s.XmlElement elem) {
     return PlatformProgrammingLanguage(
       name: _s.extractXmlStringValue(elem, 'Name'),
       version: _s.extractXmlStringValue(elem, 'Version'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum PlatformStatus {
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Ready')
   ready,
-  @_s.JsonValue('Deleting')
   deleting,
-  @_s.JsonValue('Deleted')
   deleted,
+}
+
+extension on PlatformStatus {
+  String toValue() {
+    switch (this) {
+      case PlatformStatus.creating:
+        return 'Creating';
+      case PlatformStatus.failed:
+        return 'Failed';
+      case PlatformStatus.ready:
+        return 'Ready';
+      case PlatformStatus.deleting:
+        return 'Deleting';
+      case PlatformStatus.deleted:
+        return 'Deleted';
+    }
+  }
 }
 
 extension on String {
@@ -6249,32 +7933,32 @@ extension on String {
       case 'Deleted':
         return PlatformStatus.deleted;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PlatformStatus');
   }
 }
 
 /// Summary information about a platform version.
 class PlatformSummary {
   /// The operating system used by the platform version.
-  final String operatingSystemName;
+  final String? operatingSystemName;
 
   /// The version of the operating system used by the platform version.
-  final String operatingSystemVersion;
+  final String? operatingSystemVersion;
 
   /// The ARN of the platform version.
-  final String platformArn;
+  final String? platformArn;
 
   /// The state of the platform version's branch in its lifecycle.
   ///
   /// Possible values: <code>beta</code> | <code>supported</code> |
   /// <code>deprecated</code> | <code>retired</code>
-  final String platformBranchLifecycleState;
+  final String? platformBranchLifecycleState;
 
   /// The platform branch to which the platform version belongs.
-  final String platformBranchName;
+  final String? platformBranchName;
 
   /// The category of platform version.
-  final String platformCategory;
+  final String? platformCategory;
 
   /// The state of the platform version in its lifecycle.
   ///
@@ -6282,23 +7966,23 @@ class PlatformSummary {
   ///
   /// If an empty value is returned, the platform version is supported but isn't
   /// the recommended one for its branch.
-  final String platformLifecycleState;
+  final String? platformLifecycleState;
 
   /// The AWS account ID of the person who created the platform version.
-  final String platformOwner;
+  final String? platformOwner;
 
   /// The status of the platform version. You can create an environment from the
   /// platform version once it is ready.
-  final PlatformStatus platformStatus;
+  final PlatformStatus? platformStatus;
 
   /// The version string of the platform version.
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The additions associated with the platform version.
-  final List<String> supportedAddonList;
+  final List<String>? supportedAddonList;
 
   /// The tiers in which the platform version runs.
-  final List<String> supportedTierList;
+  final List<String>? supportedTierList;
 
   PlatformSummary({
     this.operatingSystemName,
@@ -6314,6 +7998,31 @@ class PlatformSummary {
     this.supportedAddonList,
     this.supportedTierList,
   });
+
+  factory PlatformSummary.fromJson(Map<String, dynamic> json) {
+    return PlatformSummary(
+      operatingSystemName: json['OperatingSystemName'] as String?,
+      operatingSystemVersion: json['OperatingSystemVersion'] as String?,
+      platformArn: json['PlatformArn'] as String?,
+      platformBranchLifecycleState:
+          json['PlatformBranchLifecycleState'] as String?,
+      platformBranchName: json['PlatformBranchName'] as String?,
+      platformCategory: json['PlatformCategory'] as String?,
+      platformLifecycleState: json['PlatformLifecycleState'] as String?,
+      platformOwner: json['PlatformOwner'] as String?,
+      platformStatus: (json['PlatformStatus'] as String?)?.toPlatformStatus(),
+      platformVersion: json['PlatformVersion'] as String?,
+      supportedAddonList: (json['SupportedAddonList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      supportedTierList: (json['SupportedTierList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory PlatformSummary.fromXml(_s.XmlElement elem) {
     return PlatformSummary(
       operatingSystemName:
@@ -6339,25 +8048,75 @@ class PlatformSummary {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final operatingSystemName = this.operatingSystemName;
+    final operatingSystemVersion = this.operatingSystemVersion;
+    final platformArn = this.platformArn;
+    final platformBranchLifecycleState = this.platformBranchLifecycleState;
+    final platformBranchName = this.platformBranchName;
+    final platformCategory = this.platformCategory;
+    final platformLifecycleState = this.platformLifecycleState;
+    final platformOwner = this.platformOwner;
+    final platformStatus = this.platformStatus;
+    final platformVersion = this.platformVersion;
+    final supportedAddonList = this.supportedAddonList;
+    final supportedTierList = this.supportedTierList;
+    return {
+      if (operatingSystemName != null)
+        'OperatingSystemName': operatingSystemName,
+      if (operatingSystemVersion != null)
+        'OperatingSystemVersion': operatingSystemVersion,
+      if (platformArn != null) 'PlatformArn': platformArn,
+      if (platformBranchLifecycleState != null)
+        'PlatformBranchLifecycleState': platformBranchLifecycleState,
+      if (platformBranchName != null) 'PlatformBranchName': platformBranchName,
+      if (platformCategory != null) 'PlatformCategory': platformCategory,
+      if (platformLifecycleState != null)
+        'PlatformLifecycleState': platformLifecycleState,
+      if (platformOwner != null) 'PlatformOwner': platformOwner,
+      if (platformStatus != null) 'PlatformStatus': platformStatus.toValue(),
+      if (platformVersion != null) 'PlatformVersion': platformVersion,
+      if (supportedAddonList != null) 'SupportedAddonList': supportedAddonList,
+      if (supportedTierList != null) 'SupportedTierList': supportedTierList,
+    };
+  }
 }
 
 /// Describes a queue.
 class Queue {
   /// The name of the queue.
-  final String name;
+  final String? name;
 
   /// The URL of the queue.
-  final String url;
+  final String? url;
 
   Queue({
     this.name,
     this.url,
   });
+
+  factory Queue.fromJson(Map<String, dynamic> json) {
+    return Queue(
+      name: json['Name'] as String?,
+      url: json['URL'] as String?,
+    );
+  }
+
   factory Queue.fromXml(_s.XmlElement elem) {
     return Queue(
       name: _s.extractXmlStringValue(elem, 'Name'),
       url: _s.extractXmlStringValue(elem, 'URL'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final url = this.url;
+    return {
+      if (name != null) 'Name': name,
+      if (url != null) 'URL': url,
+    };
   }
 }
 
@@ -6366,15 +8125,29 @@ class Queue {
 class ResourceQuota {
   /// The maximum number of instances of this Elastic Beanstalk resource type that
   /// an AWS account can use.
-  final int maximum;
+  final int? maximum;
 
   ResourceQuota({
     this.maximum,
   });
+
+  factory ResourceQuota.fromJson(Map<String, dynamic> json) {
+    return ResourceQuota(
+      maximum: json['Maximum'] as int?,
+    );
+  }
+
   factory ResourceQuota.fromXml(_s.XmlElement elem) {
     return ResourceQuota(
       maximum: _s.extractXmlIntValue(elem, 'Maximum'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximum = this.maximum;
+    return {
+      if (maximum != null) 'Maximum': maximum,
+    };
   }
 }
 
@@ -6382,19 +8155,19 @@ class ResourceQuota {
 /// account. They reflect Elastic Beanstalk resource limits for this account.
 class ResourceQuotas {
   /// The quota for applications in the AWS account.
-  final ResourceQuota applicationQuota;
+  final ResourceQuota? applicationQuota;
 
   /// The quota for application versions in the AWS account.
-  final ResourceQuota applicationVersionQuota;
+  final ResourceQuota? applicationVersionQuota;
 
   /// The quota for configuration templates in the AWS account.
-  final ResourceQuota configurationTemplateQuota;
+  final ResourceQuota? configurationTemplateQuota;
 
   /// The quota for custom platforms in the AWS account.
-  final ResourceQuota customPlatformQuota;
+  final ResourceQuota? customPlatformQuota;
 
   /// The quota for environments in the AWS account.
-  final ResourceQuota environmentQuota;
+  final ResourceQuota? environmentQuota;
 
   ResourceQuotas({
     this.applicationQuota,
@@ -6403,6 +8176,32 @@ class ResourceQuotas {
     this.customPlatformQuota,
     this.environmentQuota,
   });
+
+  factory ResourceQuotas.fromJson(Map<String, dynamic> json) {
+    return ResourceQuotas(
+      applicationQuota: json['ApplicationQuota'] != null
+          ? ResourceQuota.fromJson(
+              json['ApplicationQuota'] as Map<String, dynamic>)
+          : null,
+      applicationVersionQuota: json['ApplicationVersionQuota'] != null
+          ? ResourceQuota.fromJson(
+              json['ApplicationVersionQuota'] as Map<String, dynamic>)
+          : null,
+      configurationTemplateQuota: json['ConfigurationTemplateQuota'] != null
+          ? ResourceQuota.fromJson(
+              json['ConfigurationTemplateQuota'] as Map<String, dynamic>)
+          : null,
+      customPlatformQuota: json['CustomPlatformQuota'] != null
+          ? ResourceQuota.fromJson(
+              json['CustomPlatformQuota'] as Map<String, dynamic>)
+          : null,
+      environmentQuota: json['EnvironmentQuota'] != null
+          ? ResourceQuota.fromJson(
+              json['EnvironmentQuota'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ResourceQuotas.fromXml(_s.XmlElement elem) {
     return ResourceQuotas(
       applicationQuota: _s
@@ -6422,20 +8221,49 @@ class ResourceQuotas {
           ?.let((e) => ResourceQuota.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationQuota = this.applicationQuota;
+    final applicationVersionQuota = this.applicationVersionQuota;
+    final configurationTemplateQuota = this.configurationTemplateQuota;
+    final customPlatformQuota = this.customPlatformQuota;
+    final environmentQuota = this.environmentQuota;
+    return {
+      if (applicationQuota != null) 'ApplicationQuota': applicationQuota,
+      if (applicationVersionQuota != null)
+        'ApplicationVersionQuota': applicationVersionQuota,
+      if (configurationTemplateQuota != null)
+        'ConfigurationTemplateQuota': configurationTemplateQuota,
+      if (customPlatformQuota != null)
+        'CustomPlatformQuota': customPlatformQuota,
+      if (environmentQuota != null) 'EnvironmentQuota': environmentQuota,
+    };
+  }
 }
 
 class ResourceTagsDescriptionMessage {
   /// The Amazon Resource Name (ARN) of the resource for which a tag list was
   /// requested.
-  final String resourceArn;
+  final String? resourceArn;
 
   /// A list of tag key-value pairs.
-  final List<Tag> resourceTags;
+  final List<Tag>? resourceTags;
 
   ResourceTagsDescriptionMessage({
     this.resourceArn,
     this.resourceTags,
   });
+
+  factory ResourceTagsDescriptionMessage.fromJson(Map<String, dynamic> json) {
+    return ResourceTagsDescriptionMessage(
+      resourceArn: json['ResourceArn'] as String?,
+      resourceTags: (json['ResourceTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ResourceTagsDescriptionMessage.fromXml(_s.XmlElement elem) {
     return ResourceTagsDescriptionMessage(
       resourceArn: _s.extractXmlStringValue(elem, 'ResourceArn'),
@@ -6443,16 +8271,37 @@ class ResourceTagsDescriptionMessage {
           elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final resourceTags = this.resourceTags;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (resourceTags != null) 'ResourceTags': resourceTags,
+    };
+  }
 }
 
 /// Result message containing a description of the requested environment info.
 class RetrieveEnvironmentInfoResultMessage {
   /// The <a>EnvironmentInfoDescription</a> of the environment.
-  final List<EnvironmentInfoDescription> environmentInfo;
+  final List<EnvironmentInfoDescription>? environmentInfo;
 
   RetrieveEnvironmentInfoResultMessage({
     this.environmentInfo,
   });
+
+  factory RetrieveEnvironmentInfoResultMessage.fromJson(
+      Map<String, dynamic> json) {
+    return RetrieveEnvironmentInfoResultMessage(
+      environmentInfo: (json['EnvironmentInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EnvironmentInfoDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory RetrieveEnvironmentInfoResultMessage.fromXml(_s.XmlElement elem) {
     return RetrieveEnvironmentInfoResultMessage(
       environmentInfo: _s.extractXmlChild(elem, 'EnvironmentInfo')?.let(
@@ -6462,27 +8311,35 @@ class RetrieveEnvironmentInfoResultMessage {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final environmentInfo = this.environmentInfo;
+    return {
+      if (environmentInfo != null) 'EnvironmentInfo': environmentInfo,
+    };
+  }
 }
 
 /// The bucket and key of an item stored in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3Location {
   /// The Amazon S3 bucket where the data is located.
-  @_s.JsonKey(name: 'S3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// The Amazon S3 key where the data is located.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   S3Location({
     this.s3Bucket,
     this.s3Key,
   });
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      s3Bucket: json['S3Bucket'] as String?,
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
   factory S3Location.fromXml(_s.XmlElement elem) {
     return S3Location(
       s3Bucket: _s.extractXmlStringValue(elem, 'S3Bucket'),
@@ -6490,7 +8347,14 @@ class S3Location {
     );
   }
 
-  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    return {
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
 }
 
 /// Describes criteria to restrict a list of results.
@@ -6506,75 +8370,88 @@ class S3Location {
 /// The valid values for attributes of <code>SearchFilter</code> depend on the
 /// API action. For valid values, see the reference page for the API action
 /// you're calling that takes a <code>SearchFilter</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SearchFilter {
   /// The result attribute to which the filter values are applied. Valid values
   /// vary by API action.
-  @_s.JsonKey(name: 'Attribute')
-  final String attribute;
+  final String? attribute;
 
   /// The operator to apply to the <code>Attribute</code> with each of the
   /// <code>Values</code>. Valid values vary by <code>Attribute</code>.
-  @_s.JsonKey(name: 'Operator')
-  final String operator;
+  final String? operator;
 
   /// The list of values applied to the <code>Attribute</code> and
   /// <code>Operator</code> attributes. Number of values and valid values vary by
   /// <code>Attribute</code>.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   SearchFilter({
     this.attribute,
     this.operator,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$SearchFilterToJson(this);
+
+  factory SearchFilter.fromJson(Map<String, dynamic> json) {
+    return SearchFilter(
+      attribute: json['Attribute'] as String?,
+      operator: json['Operator'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      if (attribute != null) 'Attribute': attribute,
+      if (operator != null) 'Operator': operator,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Detailed health information about an Amazon EC2 instance in your Elastic
 /// Beanstalk environment.
 class SingleInstanceHealth {
   /// Request metrics from your application.
-  final ApplicationMetrics applicationMetrics;
+  final ApplicationMetrics? applicationMetrics;
 
   /// The availability zone in which the instance runs.
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// Represents the causes, which provide more information about the current
   /// health status.
-  final List<String> causes;
+  final List<String>? causes;
 
   /// Represents the color indicator that gives you information about the health
   /// of the EC2 instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">Health
   /// Colors and Statuses</a>.
-  final String color;
+  final String? color;
 
   /// Information about the most recent deployment to an instance.
-  final Deployment deployment;
+  final Deployment? deployment;
 
   /// Returns the health status of the specified instance. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html">Health
   /// Colors and Statuses</a>.
-  final String healthStatus;
+  final String? healthStatus;
 
   /// The ID of the Amazon EC2 instance.
-  final String instanceId;
+  final String? instanceId;
 
   /// The instance's type.
-  final String instanceType;
+  final String? instanceType;
 
   /// The time at which the EC2 instance was launched.
-  final DateTime launchedAt;
+  final DateTime? launchedAt;
 
   /// Operating system metrics from the instance.
-  final SystemStatus system;
+  final SystemStatus? system;
 
   SingleInstanceHealth({
     this.applicationMetrics,
@@ -6588,6 +8465,32 @@ class SingleInstanceHealth {
     this.launchedAt,
     this.system,
   });
+
+  factory SingleInstanceHealth.fromJson(Map<String, dynamic> json) {
+    return SingleInstanceHealth(
+      applicationMetrics: json['ApplicationMetrics'] != null
+          ? ApplicationMetrics.fromJson(
+              json['ApplicationMetrics'] as Map<String, dynamic>)
+          : null,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      causes: (json['Causes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      color: json['Color'] as String?,
+      deployment: json['Deployment'] != null
+          ? Deployment.fromJson(json['Deployment'] as Map<String, dynamic>)
+          : null,
+      healthStatus: json['HealthStatus'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      launchedAt: timeStampFromJson(json['LaunchedAt']),
+      system: json['System'] != null
+          ? SystemStatus.fromJson(json['System'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory SingleInstanceHealth.fromXml(_s.XmlElement elem) {
     return SingleInstanceHealth(
       applicationMetrics: _s
@@ -6610,20 +8513,56 @@ class SingleInstanceHealth {
           ?.let((e) => SystemStatus.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final applicationMetrics = this.applicationMetrics;
+    final availabilityZone = this.availabilityZone;
+    final causes = this.causes;
+    final color = this.color;
+    final deployment = this.deployment;
+    final healthStatus = this.healthStatus;
+    final instanceId = this.instanceId;
+    final instanceType = this.instanceType;
+    final launchedAt = this.launchedAt;
+    final system = this.system;
+    return {
+      if (applicationMetrics != null) 'ApplicationMetrics': applicationMetrics,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (causes != null) 'Causes': causes,
+      if (color != null) 'Color': color,
+      if (deployment != null) 'Deployment': deployment,
+      if (healthStatus != null) 'HealthStatus': healthStatus,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (launchedAt != null) 'LaunchedAt': unixTimestampToJson(launchedAt),
+      if (system != null) 'System': system,
+    };
+  }
 }
 
 /// Describes the solution stack.
 class SolutionStackDescription {
   /// The permitted file types allowed for a solution stack.
-  final List<String> permittedFileTypes;
+  final List<String>? permittedFileTypes;
 
   /// The name of the solution stack.
-  final String solutionStackName;
+  final String? solutionStackName;
 
   SolutionStackDescription({
     this.permittedFileTypes,
     this.solutionStackName,
   });
+
+  factory SolutionStackDescription.fromJson(Map<String, dynamic> json) {
+    return SolutionStackDescription(
+      permittedFileTypes: (json['PermittedFileTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      solutionStackName: json['SolutionStackName'] as String?,
+    );
+  }
+
   factory SolutionStackDescription.fromXml(_s.XmlElement elem) {
     return SolutionStackDescription(
       permittedFileTypes: _s
@@ -6632,14 +8571,18 @@ class SolutionStackDescription {
       solutionStackName: _s.extractXmlStringValue(elem, 'SolutionStackName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final permittedFileTypes = this.permittedFileTypes;
+    final solutionStackName = this.solutionStackName;
+    return {
+      if (permittedFileTypes != null) 'PermittedFileTypes': permittedFileTypes,
+      if (solutionStackName != null) 'SolutionStackName': solutionStackName,
+    };
+  }
 }
 
 /// Location of the source code for an application version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceBuildInformation {
   /// The location of the source code, as a formatted string, depending on the
   /// value of <code>SourceRepository</code>
@@ -6656,7 +8599,6 @@ class SourceBuildInformation {
   /// <code>my-s3-bucket/Folders/my-source-file</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SourceLocation')
   final String sourceLocation;
 
   /// Location where the repository is stored.
@@ -6669,7 +8611,6 @@ class SourceBuildInformation {
   /// <code>S3</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SourceRepository')
   final SourceRepository sourceRepository;
 
   /// The type of repository.
@@ -6682,54 +8623,89 @@ class SourceBuildInformation {
   /// <code>Zip</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SourceType')
   final SourceType sourceType;
 
   SourceBuildInformation({
-    @_s.required this.sourceLocation,
-    @_s.required this.sourceRepository,
-    @_s.required this.sourceType,
+    required this.sourceLocation,
+    required this.sourceRepository,
+    required this.sourceType,
   });
-  factory SourceBuildInformation.fromXml(_s.XmlElement elem) {
+
+  factory SourceBuildInformation.fromJson(Map<String, dynamic> json) {
     return SourceBuildInformation(
-      sourceLocation: _s.extractXmlStringValue(elem, 'SourceLocation'),
-      sourceRepository: _s
-          .extractXmlStringValue(elem, 'SourceRepository')
-          ?.toSourceRepository(),
-      sourceType: _s.extractXmlStringValue(elem, 'SourceType')?.toSourceType(),
+      sourceLocation: json['SourceLocation'] as String,
+      sourceRepository:
+          (json['SourceRepository'] as String).toSourceRepository(),
+      sourceType: (json['SourceType'] as String).toSourceType(),
     );
   }
 
-  Map<String, dynamic> toJson() => _$SourceBuildInformationToJson(this);
+  factory SourceBuildInformation.fromXml(_s.XmlElement elem) {
+    return SourceBuildInformation(
+      sourceLocation: _s.extractXmlStringValue(elem, 'SourceLocation')!,
+      sourceRepository: _s
+          .extractXmlStringValue(elem, 'SourceRepository')!
+          .toSourceRepository(),
+      sourceType: _s.extractXmlStringValue(elem, 'SourceType')!.toSourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceLocation = this.sourceLocation;
+    final sourceRepository = this.sourceRepository;
+    final sourceType = this.sourceType;
+    return {
+      'SourceLocation': sourceLocation,
+      'SourceRepository': sourceRepository.toValue(),
+      'SourceType': sourceType.toValue(),
+    };
+  }
 }
 
 /// A specification for an environment configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceConfiguration {
   /// The name of the application associated with the configuration.
-  @_s.JsonKey(name: 'ApplicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// The name of the configuration template.
-  @_s.JsonKey(name: 'TemplateName')
-  final String templateName;
+  final String? templateName;
 
   SourceConfiguration({
     this.applicationName,
     this.templateName,
   });
-  Map<String, dynamic> toJson() => _$SourceConfigurationToJson(this);
+
+  factory SourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SourceConfiguration(
+      applicationName: json['ApplicationName'] as String?,
+      templateName: json['TemplateName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final templateName = this.templateName;
+    return {
+      if (applicationName != null) 'ApplicationName': applicationName,
+      if (templateName != null) 'TemplateName': templateName,
+    };
+  }
 }
 
 enum SourceRepository {
-  @_s.JsonValue('CodeCommit')
   codeCommit,
-  @_s.JsonValue('S3')
   s3,
+}
+
+extension on SourceRepository {
+  String toValue() {
+    switch (this) {
+      case SourceRepository.codeCommit:
+        return 'CodeCommit';
+      case SourceRepository.s3:
+        return 'S3';
+    }
+  }
 }
 
 extension on String {
@@ -6740,15 +8716,24 @@ extension on String {
       case 'S3':
         return SourceRepository.s3;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceRepository');
   }
 }
 
 enum SourceType {
-  @_s.JsonValue('Git')
   git,
-  @_s.JsonValue('Zip')
   zip,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.git:
+        return 'Git';
+      case SourceType.zip:
+        return 'Zip';
+    }
+  }
 }
 
 extension on String {
@@ -6759,7 +8744,7 @@ extension on String {
       case 'Zip':
         return SourceType.zip;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceType');
   }
 }
 
@@ -6770,19 +8755,19 @@ extension on String {
 class StatusCodes {
   /// The percentage of requests over the last 10 seconds that resulted in a 2xx
   /// (200, 201, etc.) status code.
-  final int status2xx;
+  final int? status2xx;
 
   /// The percentage of requests over the last 10 seconds that resulted in a 3xx
   /// (300, 301, etc.) status code.
-  final int status3xx;
+  final int? status3xx;
 
   /// The percentage of requests over the last 10 seconds that resulted in a 4xx
   /// (400, 401, etc.) status code.
-  final int status4xx;
+  final int? status4xx;
 
   /// The percentage of requests over the last 10 seconds that resulted in a 5xx
   /// (500, 501, etc.) status code.
-  final int status5xx;
+  final int? status5xx;
 
   StatusCodes({
     this.status2xx,
@@ -6790,6 +8775,16 @@ class StatusCodes {
     this.status4xx,
     this.status5xx,
   });
+
+  factory StatusCodes.fromJson(Map<String, dynamic> json) {
+    return StatusCodes(
+      status2xx: json['Status2xx'] as int?,
+      status3xx: json['Status3xx'] as int?,
+      status4xx: json['Status4xx'] as int?,
+      status5xx: json['Status5xx'] as int?,
+    );
+  }
+
   factory StatusCodes.fromXml(_s.XmlElement elem) {
     return StatusCodes(
       status2xx: _s.extractXmlIntValue(elem, 'Status2xx'),
@@ -6798,23 +8793,50 @@ class StatusCodes {
       status5xx: _s.extractXmlIntValue(elem, 'Status5xx'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final status2xx = this.status2xx;
+    final status3xx = this.status3xx;
+    final status4xx = this.status4xx;
+    final status5xx = this.status5xx;
+    return {
+      if (status2xx != null) 'Status2xx': status2xx,
+      if (status3xx != null) 'Status3xx': status3xx,
+      if (status4xx != null) 'Status4xx': status4xx,
+      if (status5xx != null) 'Status5xx': status5xx,
+    };
+  }
 }
 
 /// CPU utilization and load average metrics for an Amazon EC2 instance.
 class SystemStatus {
   /// CPU utilization metrics for the instance.
-  final CPUUtilization cPUUtilization;
+  final CPUUtilization? cPUUtilization;
 
   /// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-metrics.html#health-enhanced-metrics-os">Operating
   /// System Metrics</a>.
-  final List<double> loadAverage;
+  final List<double>? loadAverage;
 
   SystemStatus({
     this.cPUUtilization,
     this.loadAverage,
   });
+
+  factory SystemStatus.fromJson(Map<String, dynamic> json) {
+    return SystemStatus(
+      cPUUtilization: json['CPUUtilization'] != null
+          ? CPUUtilization.fromJson(
+              json['CPUUtilization'] as Map<String, dynamic>)
+          : null,
+      loadAverage: (json['LoadAverage'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+    );
+  }
+
   factory SystemStatus.fromXml(_s.XmlElement elem) {
     return SystemStatus(
       cPUUtilization: _s
@@ -6825,27 +8847,37 @@ class SystemStatus {
           ?.let((elem) => _s.extractXmlDoubleListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final cPUUtilization = this.cPUUtilization;
+    final loadAverage = this.loadAverage;
+    return {
+      if (cPUUtilization != null) 'CPUUtilization': cPUUtilization,
+      if (loadAverage != null) 'LoadAverage': loadAverage,
+    };
+  }
 }
 
 /// Describes a tag applied to a resource in an environment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
       key: _s.extractXmlStringValue(elem, 'Key'),
@@ -6853,34 +8885,55 @@ class Tag {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Describes a trigger.
 class Trigger {
   /// The name of the trigger.
-  final String name;
+  final String? name;
 
   Trigger({
     this.name,
   });
+
+  factory Trigger.fromJson(Map<String, dynamic> json) {
+    return Trigger(
+      name: json['Name'] as String?,
+    );
+  }
+
   factory Trigger.fromXml(_s.XmlElement elem) {
     return Trigger(
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
   }
 }
 
 /// An error or warning for a desired configuration option value.
 class ValidationMessage {
   /// A message describing the error or warning.
-  final String message;
+  final String? message;
 
   /// The namespace to which the option belongs.
-  final String namespace;
+  final String? namespace;
 
   /// The name of the option.
-  final String optionName;
+  final String? optionName;
 
   /// An indication of the severity of this message:
   ///
@@ -6894,7 +8947,7 @@ class ValidationMessage {
   /// into account.
   /// </li>
   /// </ul>
-  final ValidationSeverity severity;
+  final ValidationSeverity? severity;
 
   ValidationMessage({
     this.message,
@@ -6902,6 +8955,16 @@ class ValidationMessage {
     this.optionName,
     this.severity,
   });
+
+  factory ValidationMessage.fromJson(Map<String, dynamic> json) {
+    return ValidationMessage(
+      message: json['Message'] as String?,
+      namespace: json['Namespace'] as String?,
+      optionName: json['OptionName'] as String?,
+      severity: (json['Severity'] as String?)?.toValidationSeverity(),
+    );
+  }
+
   factory ValidationMessage.fromXml(_s.XmlElement elem) {
     return ValidationMessage(
       message: _s.extractXmlStringValue(elem, 'Message'),
@@ -6911,13 +8974,35 @@ class ValidationMessage {
           _s.extractXmlStringValue(elem, 'Severity')?.toValidationSeverity(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final namespace = this.namespace;
+    final optionName = this.optionName;
+    final severity = this.severity;
+    return {
+      if (message != null) 'Message': message,
+      if (namespace != null) 'Namespace': namespace,
+      if (optionName != null) 'OptionName': optionName,
+      if (severity != null) 'Severity': severity.toValue(),
+    };
+  }
 }
 
 enum ValidationSeverity {
-  @_s.JsonValue('error')
   error,
-  @_s.JsonValue('warning')
   warning,
+}
+
+extension on ValidationSeverity {
+  String toValue() {
+    switch (this) {
+      case ValidationSeverity.error:
+        return 'error';
+      case ValidationSeverity.warning:
+        return 'warning';
+    }
+  }
 }
 
 extension on String {
@@ -6928,12 +9013,12 @@ extension on String {
       case 'warning':
         return ValidationSeverity.warning;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ValidationSeverity');
   }
 }
 
 class CodeBuildNotInServiceRegionException extends _s.GenericAwsException {
-  CodeBuildNotInServiceRegionException({String type, String message})
+  CodeBuildNotInServiceRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'CodeBuildNotInServiceRegionException',
@@ -6941,7 +9026,7 @@ class CodeBuildNotInServiceRegionException extends _s.GenericAwsException {
 }
 
 class ElasticBeanstalkServiceException extends _s.GenericAwsException {
-  ElasticBeanstalkServiceException({String type, String message})
+  ElasticBeanstalkServiceException({String? type, String? message})
       : super(
             type: type,
             code: 'ElasticBeanstalkServiceException',
@@ -6949,7 +9034,7 @@ class ElasticBeanstalkServiceException extends _s.GenericAwsException {
 }
 
 class InsufficientPrivilegesException extends _s.GenericAwsException {
-  InsufficientPrivilegesException({String type, String message})
+  InsufficientPrivilegesException({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientPrivilegesException',
@@ -6957,12 +9042,12 @@ class InsufficientPrivilegesException extends _s.GenericAwsException {
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ManagedActionInvalidStateException extends _s.GenericAwsException {
-  ManagedActionInvalidStateException({String type, String message})
+  ManagedActionInvalidStateException({String? type, String? message})
       : super(
             type: type,
             code: 'ManagedActionInvalidStateException',
@@ -6970,13 +9055,13 @@ class ManagedActionInvalidStateException extends _s.GenericAwsException {
 }
 
 class OperationInProgressException extends _s.GenericAwsException {
-  OperationInProgressException({String type, String message})
+  OperationInProgressException({String? type, String? message})
       : super(
             type: type, code: 'OperationInProgressException', message: message);
 }
 
 class PlatformVersionStillReferencedException extends _s.GenericAwsException {
-  PlatformVersionStillReferencedException({String type, String message})
+  PlatformVersionStillReferencedException({String? type, String? message})
       : super(
             type: type,
             code: 'PlatformVersionStillReferencedException',
@@ -6984,12 +9069,12 @@ class PlatformVersionStillReferencedException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceTypeNotSupportedException extends _s.GenericAwsException {
-  ResourceTypeNotSupportedException({String type, String message})
+  ResourceTypeNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceTypeNotSupportedException',
@@ -6997,7 +9082,7 @@ class ResourceTypeNotSupportedException extends _s.GenericAwsException {
 }
 
 class S3LocationNotInServiceRegionException extends _s.GenericAwsException {
-  S3LocationNotInServiceRegionException({String type, String message})
+  S3LocationNotInServiceRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'S3LocationNotInServiceRegionException',
@@ -7005,7 +9090,7 @@ class S3LocationNotInServiceRegionException extends _s.GenericAwsException {
 }
 
 class S3SubscriptionRequiredException extends _s.GenericAwsException {
-  S3SubscriptionRequiredException({String type, String message})
+  S3SubscriptionRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'S3SubscriptionRequiredException',
@@ -7013,7 +9098,7 @@ class S3SubscriptionRequiredException extends _s.GenericAwsException {
 }
 
 class SourceBundleDeletionException extends _s.GenericAwsException {
-  SourceBundleDeletionException({String type, String message})
+  SourceBundleDeletionException({String? type, String? message})
       : super(
             type: type,
             code: 'SourceBundleDeletionException',
@@ -7021,7 +9106,7 @@ class SourceBundleDeletionException extends _s.GenericAwsException {
 }
 
 class TooManyApplicationVersionsException extends _s.GenericAwsException {
-  TooManyApplicationVersionsException({String type, String message})
+  TooManyApplicationVersionsException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyApplicationVersionsException',
@@ -7029,18 +9114,18 @@ class TooManyApplicationVersionsException extends _s.GenericAwsException {
 }
 
 class TooManyApplicationsException extends _s.GenericAwsException {
-  TooManyApplicationsException({String type, String message})
+  TooManyApplicationsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyApplicationsException', message: message);
 }
 
 class TooManyBucketsException extends _s.GenericAwsException {
-  TooManyBucketsException({String type, String message})
+  TooManyBucketsException({String? type, String? message})
       : super(type: type, code: 'TooManyBucketsException', message: message);
 }
 
 class TooManyConfigurationTemplatesException extends _s.GenericAwsException {
-  TooManyConfigurationTemplatesException({String type, String message})
+  TooManyConfigurationTemplatesException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyConfigurationTemplatesException',
@@ -7048,18 +9133,18 @@ class TooManyConfigurationTemplatesException extends _s.GenericAwsException {
 }
 
 class TooManyEnvironmentsException extends _s.GenericAwsException {
-  TooManyEnvironmentsException({String type, String message})
+  TooManyEnvironmentsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyEnvironmentsException', message: message);
 }
 
 class TooManyPlatformsException extends _s.GenericAwsException {
-  TooManyPlatformsException({String type, String message})
+  TooManyPlatformsException({String? type, String? message})
       : super(type: type, code: 'TooManyPlatformsException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

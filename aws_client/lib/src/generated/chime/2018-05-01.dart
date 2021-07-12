@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-05-01.g.dart';
 
 /// The Amazon Chime API (application programming interface) is designed for
 /// developers to perform key tasks, such as creating and managing Amazon Chime
@@ -33,8 +26,8 @@ part '2018-05-01.g.dart';
 /// and outputs, and error codes. It also includes some server-side API actions
 /// to use with the Amazon Chime SDK. For more information about the Amazon
 /// Chime SDK, see <a
-/// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-/// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+/// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html"> Using
+/// the Amazon Chime SDK </a> in the <i>Amazon Chime Developer Guide</i>.
 ///
 /// You can use an AWS SDK, the AWS Command Line Interface (AWS CLI), or the
 /// REST API to make API calls. We recommend using an AWS SDK or the AWS CLI.
@@ -53,9 +46,9 @@ part '2018-05-01.g.dart';
 /// Guide</i>. For a list of available Amazon Chime commands, see the <a
 /// href="https://docs.aws.amazon.com/cli/latest/reference/chime/index.html">Amazon
 /// Chime commands</a> in the <i>AWS CLI Command Reference</i>.
-/// </dd> <dt>Using REST</dt> <dd>
+/// </dd> <dt>Using REST APIs</dt> <dd>
 /// If you use REST to make API calls, you must authenticate your request by
-/// providing a signature. Amazon Chime supports Signature Version 4. For more
+/// providing a signature. Amazon Chime supports signature version 4. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
 /// Version 4 Signing Process</a> in the <i>Amazon Web Services General
@@ -72,10 +65,10 @@ part '2018-05-01.g.dart';
 class Chime {
   final _s.RestJsonProtocol _protocol;
   Chime({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -106,18 +99,12 @@ class Chime {
   /// Parameter [userId] :
   /// The user ID.
   Future<void> associatePhoneNumberWithUser({
-    @_s.required String accountId,
-    @_s.required String e164PhoneNumber,
-    @_s.required String userId,
+    required String accountId,
+    required String e164PhoneNumber,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(e164PhoneNumber, 'e164PhoneNumber');
-    _s.validateStringPattern(
-      'e164PhoneNumber',
-      e164PhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{
       'E164PhoneNumber': e164PhoneNumber,
@@ -129,7 +116,6 @@ class Chime {
           '/accounts/${Uri.encodeComponent(accountId)}/users/${Uri.encodeComponent(userId)}?operation=associate-phone-number',
       exceptionFnMap: _exceptionFns,
     );
-    return AssociatePhoneNumberWithUserResponse.fromJson(response);
   }
 
   /// Associates phone numbers with the specified Amazon Chime Voice Connector.
@@ -156,18 +142,12 @@ class Chime {
   /// associations.
   Future<AssociatePhoneNumbersWithVoiceConnectorResponse>
       associatePhoneNumbersWithVoiceConnector({
-    @_s.required List<String> e164PhoneNumbers,
-    @_s.required String voiceConnectorId,
-    bool forceAssociate,
+    required List<String> e164PhoneNumbers,
+    required String voiceConnectorId,
+    bool? forceAssociate,
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
       if (forceAssociate != null) 'ForceAssociate': forceAssociate,
@@ -207,18 +187,12 @@ class Chime {
   /// previously existing associations.
   Future<AssociatePhoneNumbersWithVoiceConnectorGroupResponse>
       associatePhoneNumbersWithVoiceConnectorGroup({
-    @_s.required List<String> e164PhoneNumbers,
-    @_s.required String voiceConnectorGroupId,
-    bool forceAssociate,
+    required List<String> e164PhoneNumbers,
+    required String voiceConnectorGroupId,
+    bool? forceAssociate,
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
       if (forceAssociate != null) 'ForceAssociate': forceAssociate,
@@ -251,16 +225,10 @@ class Chime {
   /// Parameter [signinDelegateGroups] :
   /// The sign-in delegate groups.
   Future<void> associateSigninDelegateGroupsWithAccount({
-    @_s.required String accountId,
-    @_s.required List<SigninDelegateGroup> signinDelegateGroups,
+    required String accountId,
+    required List<SigninDelegateGroup> signinDelegateGroups,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(signinDelegateGroups, 'signinDelegateGroups');
     final $payload = <String, dynamic>{
       'SigninDelegateGroups': signinDelegateGroups,
@@ -272,7 +240,6 @@ class Chime {
           '/accounts/${Uri.encodeComponent(accountId)}?operation=associate-signin-delegate-groups',
       exceptionFnMap: _exceptionFns,
     );
-    return AssociateSigninDelegateGroupsWithAccountResponse.fromJson(response);
   }
 
   /// Creates up to 100 new attendees for an active Amazon Chime SDK meeting.
@@ -295,17 +262,11 @@ class Chime {
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   Future<BatchCreateAttendeeResponse> batchCreateAttendee({
-    @_s.required List<CreateAttendeeRequestItem> attendees,
-    @_s.required String meetingId,
+    required List<CreateAttendeeRequestItem> attendees,
+    required String meetingId,
   }) async {
     ArgumentError.checkNotNull(attendees, 'attendees');
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Attendees': attendees,
     };
@@ -319,10 +280,73 @@ class Chime {
     return BatchCreateAttendeeResponse.fromJson(response);
   }
 
+  /// Adds a specified number of users to a channel.
+  ///
+  /// May throw [ServiceFailureException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel to which you're adding users.
+  ///
+  /// Parameter [memberArns] :
+  /// The ARNs of the members you want to add to the channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
+  /// Parameter [type] :
+  /// The membership type of a user, <code>DEFAULT</code> or
+  /// <code>HIDDEN</code>. Default members are always returned as part of
+  /// <code>ListChannelMemberships</code>. Hidden members are only returned if
+  /// the type filter in <code>ListChannelMemberships</code> equals
+  /// <code>HIDDEN</code>. Otherwise hidden members are not returned. This is
+  /// only supported by moderators.
+  Future<BatchCreateChannelMembershipResponse> batchCreateChannelMembership({
+    required String channelArn,
+    required List<String> memberArns,
+    String? chimeBearer,
+    ChannelMembershipType? type,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(memberArns, 'memberArns');
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
+    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
+    final $payload = <String, dynamic>{
+      'MemberArns': memberArns,
+      if (type != null) 'Type': type.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/channels/${Uri.encodeComponent(channelArn)}/memberships?operation=batch-create',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchCreateChannelMembershipResponse.fromJson(response);
+  }
+
   /// Adds up to 50 members to a chat room in an Amazon Chime Enterprise
-  /// account. Members can be either users or bots. The member role designates
-  /// whether the member is a chat room administrator or a general chat room
-  /// member.
+  /// account. Members can be users or bots. The member role designates whether
+  /// the member is a chat room administrator or a general chat room member.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -341,25 +365,13 @@ class Chime {
   /// Parameter [roomId] :
   /// The room ID.
   Future<BatchCreateRoomMembershipResponse> batchCreateRoomMembership({
-    @_s.required String accountId,
-    @_s.required List<MembershipItem> membershipItemList,
-    @_s.required String roomId,
+    required String accountId,
+    required List<MembershipItem> membershipItemList,
+    required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(membershipItemList, 'membershipItemList');
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'MembershipItemList': membershipItemList,
     };
@@ -391,7 +403,7 @@ class Chime {
   /// Parameter [phoneNumberIds] :
   /// List of phone number IDs.
   Future<BatchDeletePhoneNumberResponse> batchDeletePhoneNumber({
-    @_s.required List<String> phoneNumberIds,
+    required List<String> phoneNumberIds,
   }) async {
     ArgumentError.checkNotNull(phoneNumberIds, 'phoneNumberIds');
     final $payload = <String, dynamic>{
@@ -414,7 +426,7 @@ class Chime {
   /// Guide</i>.
   ///
   /// Users suspended from a <code>Team</code> account are disassociated from
-  /// the account, but they can continue to use Amazon Chime as free users. To
+  /// the account,but they can continue to use Amazon Chime as free users. To
   /// remove the suspension from suspended <code>Team</code> account users,
   /// invite them to the <code>Team</code> account again. You can use the
   /// <a>InviteUsers</a> action to do so.
@@ -441,16 +453,10 @@ class Chime {
   /// Parameter [userIdList] :
   /// The request containing the user IDs to suspend.
   Future<BatchSuspendUserResponse> batchSuspendUser({
-    @_s.required String accountId,
-    @_s.required List<String> userIdList,
+    required String accountId,
+    required List<String> userIdList,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userIdList, 'userIdList');
     final $payload = <String, dynamic>{
       'UserIdList': userIdList,
@@ -469,9 +475,9 @@ class Chime {
   /// specified Amazon Chime <code>EnterpriseLWA</code> account. Only users on
   /// <code>EnterpriseLWA</code> accounts can be unsuspended using this action.
   /// For more information about different account types, see <a
-  /// href="https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html">Managing
-  /// Your Amazon Chime Accounts</a> in the <i>Amazon Chime Administration
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html">
+  /// Managing Your Amazon Chime Accounts </a> in the account types, in the
+  /// <i>Amazon Chime Administration Guide</i>.
   ///
   /// Previously suspended users who are unsuspended using this action are
   /// returned to <code>Registered</code> status. Users who are not previously
@@ -491,16 +497,10 @@ class Chime {
   /// Parameter [userIdList] :
   /// The request containing the user IDs to unsuspend.
   Future<BatchUnsuspendUserResponse> batchUnsuspendUser({
-    @_s.required String accountId,
-    @_s.required List<String> userIdList,
+    required String accountId,
+    required List<String> userIdList,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userIdList, 'userIdList');
     final $payload = <String, dynamic>{
       'UserIdList': userIdList,
@@ -517,11 +517,11 @@ class Chime {
 
   /// Updates phone number product types or calling names. You can update one
   /// attribute at a time for each <code>UpdatePhoneNumberRequestItem</code>.
-  /// For example, you can update either the product type or the calling name.
+  /// For example, you can update the product type or the calling name.
   ///
-  /// For product types, choose from Amazon Chime Business Calling and Amazon
-  /// Chime Voice Connector. For toll-free numbers, you must use the Amazon
-  /// Chime Voice Connector product type.
+  /// For toll-free numbers, you cannot use the Amazon Chime Business Calling
+  /// product type. For numbers outside the U.S., you must use the Amazon Chime
+  /// SIP Media Application Dial-In product type.
   ///
   /// Updates to outbound calling names can take up to 72 hours to complete.
   /// Pending updates to outbound calling names must be complete before you can
@@ -539,8 +539,7 @@ class Chime {
   /// The request containing the phone number IDs and product types or calling
   /// names to update.
   Future<BatchUpdatePhoneNumberResponse> batchUpdatePhoneNumber({
-    @_s.required
-        List<UpdatePhoneNumberRequestItem> updatePhoneNumberRequestItems,
+    required List<UpdatePhoneNumberRequestItem> updatePhoneNumberRequestItems,
   }) async {
     ArgumentError.checkNotNull(
         updatePhoneNumberRequestItems, 'updatePhoneNumberRequestItems');
@@ -574,16 +573,10 @@ class Chime {
   /// Parameter [updateUserRequestItems] :
   /// The request containing the user IDs and details to update.
   Future<BatchUpdateUserResponse> batchUpdateUser({
-    @_s.required String accountId,
-    @_s.required List<UpdateUserRequestItem> updateUserRequestItems,
+    required String accountId,
+    required List<UpdateUserRequestItem> updateUserRequestItems,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         updateUserRequestItems, 'updateUserRequestItems');
     final $payload = <String, dynamic>{
@@ -616,7 +609,7 @@ class Chime {
   /// Parameter [name] :
   /// The name of the Amazon Chime account.
   Future<CreateAccountResponse> createAccount({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -624,12 +617,6 @@ class Chime {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -644,10 +631,10 @@ class Chime {
     return CreateAccountResponse.fromJson(response);
   }
 
-  /// Creates an Amazon Chime Messaging SDK <code>AppInstance</code> under an
-  /// AWS Account. Only Messaging SDK customers use this API.
-  /// <code>CreateAppInstance</code> supports <code>idempotency</code> behavior
-  /// as described in the AWS API Standard.
+  /// Creates an Amazon Chime SDK messaging <code>AppInstance</code> under an
+  /// AWS account. Only SDK messaging customers use this API.
+  /// <code>CreateAppInstance</code> supports idempotency behavior as described
+  /// in the AWS API Standard.
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -658,33 +645,24 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
-  /// Parameter [clientRequestToken] :
-  /// The <code>ClientRequestToken</code> of the app instance.
-  ///
   /// Parameter [name] :
-  /// The name of the app instance.
+  /// The name of the <code>AppInstance</code>.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The <code>ClientRequestToken</code> of the <code>AppInstance</code>.
   ///
   /// Parameter [metadata] :
-  /// The metadata of the app instance. Limited to a 1KB string in UTF-8.
+  /// The metadata of the <code>AppInstance</code>. Limited to a 1KB string in
+  /// UTF-8.
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to the <code>AppInstanceUser</code>.
   Future<CreateAppInstanceResponse> createAppInstance({
-    @_s.required String clientRequestToken,
-    @_s.required String name,
-    String metadata,
+    required String name,
+    String? clientRequestToken,
+    String? metadata,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -693,11 +671,11 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
     );
     _s.validateStringLength(
       'metadata',
@@ -705,15 +683,11 @@ class Chime {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
-    );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'Name': name,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (metadata != null) 'Metadata': metadata,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -730,8 +704,8 @@ class Chime {
   ///
   /// <ul>
   /// <li>
-  /// <code>ChannelModerator</code> actions across all channels in the app
-  /// instance.
+  /// <code>ChannelModerator</code> actions across all channels in the
+  /// <code>AppInstance</code>.
   /// </li>
   /// <li>
   /// <code>DeleteChannelMessage</code> actions.
@@ -750,13 +724,13 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceAdminArn] :
-  /// The ARN of the administrator of the current app instance.
+  /// The ARN of the administrator of the current <code>AppInstance</code>.
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   Future<CreateAppInstanceAdminResponse> createAppInstanceAdmin({
-    @_s.required String appInstanceAdminArn,
-    @_s.required String appInstanceArn,
+    required String appInstanceAdminArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
     _s.validateStringLength(
@@ -766,24 +740,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
       'appInstanceArn',
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -813,25 +775,29 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance request.
+  /// The ARN of the <code>AppInstance</code> request.
   ///
   /// Parameter [appInstanceUserId] :
-  /// The user ID of the app instance.
-  ///
-  /// Parameter [clientRequestToken] :
-  /// The token assigned to the user requesting an app instance.
+  /// The user ID of the <code>AppInstance</code>.
   ///
   /// Parameter [name] :
   /// The user's name.
   ///
+  /// Parameter [clientRequestToken] :
+  /// The token assigned to the user requesting an <code>AppInstance</code>.
+  ///
   /// Parameter [metadata] :
   /// The request's metadata. Limited to a 1KB string in UTF-8.
+  ///
+  /// Parameter [tags] :
+  /// Tags assigned to the <code>AppInstanceUser</code>.
   Future<CreateAppInstanceUserResponse> createAppInstanceUser({
-    @_s.required String appInstanceArn,
-    @_s.required String appInstanceUserId,
-    @_s.required String clientRequestToken,
-    @_s.required String name,
-    String metadata,
+    required String appInstanceArn,
+    required String appInstanceUserId,
+    required String name,
+    String? clientRequestToken,
+    String? metadata,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -841,38 +807,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceUserId, 'appInstanceUserId');
     _s.validateStringLength(
       'appInstanceUserId',
       appInstanceUserId,
       1,
-      50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserId',
-      appInstanceUserId,
-      r'''[A-Za-z0-9][A-Za-z0-9\:\-\_\.\@]{3,50}[A-Za-z0-9]''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -883,11 +823,11 @@ class Chime {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
     );
     _s.validateStringLength(
       'metadata',
@@ -895,17 +835,13 @@ class Chime {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
-    );
     final $payload = <String, dynamic>{
       'AppInstanceArn': appInstanceArn,
       'AppInstanceUserId': appInstanceUserId,
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'Name': name,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (metadata != null) 'Metadata': metadata,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -932,9 +868,7 @@ class Chime {
   ///
   /// Parameter [externalUserId] :
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
-  /// attendee to an identity managed by a builder application. If you create an
-  /// attendee with the same external user id, the service returns the existing
-  /// record.
+  /// attendee to an identity managed by a builder application.
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
@@ -942,9 +876,9 @@ class Chime {
   /// Parameter [tags] :
   /// The tag key-value pairs.
   Future<CreateAttendeeResponse> createAttendee({
-    @_s.required String externalUserId,
-    @_s.required String meetingId,
-    List<Tag> tags,
+    required String externalUserId,
+    required String meetingId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(externalUserId, 'externalUserId');
     _s.validateStringLength(
@@ -955,12 +889,6 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'ExternalUserId': externalUserId,
       if (tags != null) 'Tags': tags,
@@ -994,23 +922,12 @@ class Chime {
   /// Parameter [domain] :
   /// The domain of the Amazon Chime Enterprise account.
   Future<CreateBotResponse> createBot({
-    @_s.required String accountId,
-    @_s.required String displayName,
-    String domain,
+    required String accountId,
+    required String displayName,
+    String? domain,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(displayName, 'displayName');
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''.*\S.*''',
-    );
     final $payload = <String, dynamic>{
       'DisplayName': displayName,
       if (domain != null) 'Domain': domain,
@@ -1027,6 +944,11 @@ class Chime {
   /// Creates a channel to which you can add users and send messages.
   ///
   /// <b>Restriction</b>: You can't change a channel's privacy.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1040,11 +962,14 @@ class Chime {
   /// Parameter [appInstanceArn] :
   /// The ARN of the channel request.
   ///
-  /// Parameter [clientRequestToken] :
-  /// The client token for the request. An <code>Idempotency</code> token.
-  ///
   /// Parameter [name] :
   /// The name of the channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The client token for the request. An <code>Idempotency</code> token.
   ///
   /// Parameter [metadata] :
   /// The metadata of the creation request. Limited to 1KB and UTF-8.
@@ -1058,15 +983,19 @@ class Chime {
   /// Parameter [privacy] :
   /// The channel's privacy level: <code>PUBLIC</code> or <code>PRIVATE</code>.
   /// Private channels aren't discoverable by users outside the channel. Public
-  /// channels are discoverable by anyone in the app instance.
+  /// channels are discoverable by anyone in the <code>AppInstance</code>.
+  ///
+  /// Parameter [tags] :
+  /// The tags for the creation request.
   Future<CreateChannelResponse> createChannel({
-    @_s.required String appInstanceArn,
-    @_s.required String clientRequestToken,
-    @_s.required String name,
-    String metadata,
-    ChannelMode mode,
-    ChannelPrivacy privacy,
-    List<Tag> tags,
+    required String appInstanceArn,
+    required String name,
+    String? chimeBearer,
+    String? clientRequestToken,
+    String? metadata,
+    ChannelMode? mode,
+    ChannelPrivacy? privacy,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -1074,26 +1003,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -1104,11 +1013,17 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
+    );
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
     );
     _s.validateStringLength(
       'metadata',
@@ -1116,15 +1031,13 @@ class Chime {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $payload = <String, dynamic>{
       'AppInstanceArn': appInstanceArn,
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'Name': name,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (metadata != null) 'Metadata': metadata,
       if (mode != null) 'Mode': mode.toValue(),
       if (privacy != null) 'Privacy': privacy.toValue(),
@@ -1134,6 +1047,7 @@ class Chime {
       payload: $payload,
       method: 'POST',
       requestUri: '/channels',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelResponse.fromJson(response);
@@ -1147,6 +1061,11 @@ class Chime {
   ///
   /// If you ban a user who is already part of a channel, that user is
   /// automatically kicked from the channel.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1162,9 +1081,13 @@ class Chime {
   ///
   /// Parameter [memberArn] :
   /// The ARN of the member being banned.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<CreateChannelBanResponse> createChannelBan({
-    @_s.required String channelArn,
-    @_s.required String memberArn,
+    required String channelArn,
+    required String memberArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -1172,12 +1095,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
@@ -1188,12 +1105,15 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $payload = <String, dynamic>{
       'MemberArn': memberArn,
     };
@@ -1201,6 +1121,7 @@ class Chime {
       payload: $payload,
       method: 'POST',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}/bans',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelBanResponse.fromJson(response);
@@ -1236,7 +1157,11 @@ class Chime {
   /// <li>
   /// Private Channels: You must be a member to list or send messages.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1260,10 +1185,14 @@ class Chime {
   /// the type filter in <code>ListChannelMemberships</code> equals
   /// <code>HIDDEN</code>. Otherwise hidden members are not returned. This is
   /// only supported by moderators.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<CreateChannelMembershipResponse> createChannelMembership({
-    @_s.required String channelArn,
-    @_s.required String memberArn,
-    @_s.required ChannelMembershipType type,
+    required String channelArn,
+    required String memberArn,
+    required ChannelMembershipType type,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -1271,12 +1200,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
@@ -1287,21 +1210,25 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
+    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $payload = <String, dynamic>{
       'MemberArn': memberArn,
-      'Type': type?.toValue() ?? '',
+      'Type': type.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}/memberships',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelMembershipResponse.fromJson(response);
@@ -1325,7 +1252,11 @@ class Chime {
   /// <li>
   /// List messages in the channel.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1341,9 +1272,13 @@ class Chime {
   ///
   /// Parameter [channelModeratorArn] :
   /// The ARN of the moderator.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<CreateChannelModeratorResponse> createChannelModerator({
-    @_s.required String channelArn,
-    @_s.required String channelModeratorArn,
+    required String channelArn,
+    required String channelModeratorArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -1351,12 +1286,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
@@ -1367,12 +1296,15 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelModeratorArn',
-      channelModeratorArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $payload = <String, dynamic>{
       'ChannelModeratorArn': channelModeratorArn,
     };
@@ -1380,19 +1312,93 @@ class Chime {
       payload: $payload,
       method: 'POST',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}/moderators',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateChannelModeratorResponse.fromJson(response);
+  }
+
+  /// Creates a media capture pipeline.
+  ///
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sinkArn] :
+  /// The ARN of the sink type.
+  ///
+  /// Parameter [sinkType] :
+  /// Destination type to which the media artifacts are saved. You must use an
+  /// S3 bucket.
+  ///
+  /// Parameter [sourceArn] :
+  /// ARN of the source from which the media artifacts are captured.
+  ///
+  /// Parameter [sourceType] :
+  /// Source type from which the media artifacts will be captured. A Chime SDK
+  /// Meeting is the only supported source.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The token assigned to the client making the pipeline request.
+  Future<CreateMediaCapturePipelineResponse> createMediaCapturePipeline({
+    required String sinkArn,
+    required MediaPipelineSinkType sinkType,
+    required String sourceArn,
+    required MediaPipelineSourceType sourceType,
+    String? clientRequestToken,
+  }) async {
+    ArgumentError.checkNotNull(sinkArn, 'sinkArn');
+    _s.validateStringLength(
+      'sinkArn',
+      sinkArn,
+      1,
+      1024,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sinkType, 'sinkType');
+    ArgumentError.checkNotNull(sourceArn, 'sourceArn');
+    _s.validateStringLength(
+      'sourceArn',
+      sourceArn,
+      1,
+      1024,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sourceType, 'sourceType');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
+    );
+    final $payload = <String, dynamic>{
+      'SinkArn': sinkArn,
+      'SinkType': sinkType.toValue(),
+      'SourceArn': sourceArn,
+      'SourceType': sourceType.toValue(),
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/media-capture-pipelines',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateMediaCapturePipelineResponse.fromJson(response);
   }
 
   /// Creates a new Amazon Chime SDK meeting in the specified media Region with
   /// no initial attendees. For more information about specifying media Regions,
   /// see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon
-  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i> .
   /// For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i> .
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1413,14 +1419,14 @@ class Chime {
   /// The Region in which to create the meeting. Default:
   /// <code>us-east-1</code>.
   ///
-  /// Available values: <code>af-south-1</code>, <code>ap-northeast-1</code>,
-  /// <code>ap-northeast-2</code>, <code>ap-south-1</code>,
-  /// <code>ap-southeast-1</code>, <code>ap-southeast-2</code>,
-  /// <code>ca-central-1</code>, <code>eu-central-1</code>,
-  /// <code>eu-north-1</code>, <code>eu-south-1</code>, <code>eu-west-1</code>,
-  /// <code>eu-west-2</code>, <code>eu-west-3</code>, <code>sa-east-1</code>,
-  /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
-  /// <code>us-west-2</code>.
+  /// Available values: <code>af-south-1</code> , <code>ap-northeast-1</code> ,
+  /// <code>ap-northeast-2</code> , <code>ap-south-1</code> ,
+  /// <code>ap-southeast-1</code> , <code>ap-southeast-2</code> ,
+  /// <code>ca-central-1</code> , <code>eu-central-1</code> ,
+  /// <code>eu-north-1</code> , <code>eu-south-1</code> , <code>eu-west-1</code>
+  /// , <code>eu-west-2</code> , <code>eu-west-3</code> , <code>sa-east-1</code>
+  /// , <code>us-east-1</code> , <code>us-east-2</code> , <code>us-west-1</code>
+  /// , <code>us-west-2</code> .
   ///
   /// Parameter [meetingHostId] :
   /// Reserved.
@@ -1432,26 +1438,18 @@ class Chime {
   /// Parameter [tags] :
   /// The tag key-value pairs.
   Future<CreateMeetingResponse> createMeeting({
-    @_s.required String clientRequestToken,
-    String externalMeetingId,
-    String mediaRegion,
-    String meetingHostId,
-    MeetingNotificationConfiguration notificationsConfiguration,
-    List<Tag> tags,
+    String? clientRequestToken,
+    String? externalMeetingId,
+    String? mediaRegion,
+    String? meetingHostId,
+    MeetingNotificationConfiguration? notificationsConfiguration,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       2,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
     );
     _s.validateStringLength(
       'externalMeetingId',
@@ -1485,11 +1483,11 @@ class Chime {
 
   /// Uses the join token and call metadata in a meeting request (From number,
   /// To number, and so forth) to initiate an outbound call to a public switched
-  /// telephone network (PSTN) and joins them into Chime meeting. Also ensures
+  /// telephone network (PSTN) and join them into a Chime meeting. Also ensures
   /// that the From number belongs to the customer.
   ///
   /// To play welcome audio or implement an interactive voice response (IVR),
-  /// use the <code>CreateSipMediaApplicationCall</code> API with the
+  /// use the <code>CreateSipMediaApplicationCall</code> action with the
   /// corresponding SIP media application ID.
   ///
   /// May throw [BadRequestException].
@@ -1505,33 +1503,21 @@ class Chime {
   ///
   /// Parameter [joinToken] :
   /// Token used by the Amazon Chime SDK attendee. Call the <a
-  /// href="https://docs.aws.amazon.com/https:/docs.aws.amazon.com/chime/latest/APIReference/API_Attendee.html">
-  /// CreateAttendee API</a> to get a join token.
+  /// href="https://docs.aws.amazon.com/chime/latest/APIReference/API_CreateAttendee.html">CreateAttendee</a>
+  /// action to get a join token.
   ///
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   ///
-  /// Type: String
-  ///
-  /// Pattern: [a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}
-  ///
-  /// Required: No
-  ///
   /// Parameter [toPhoneNumber] :
   /// Phone number called when inviting someone to a meeting.
   Future<CreateMeetingDialOutResponse> createMeetingDialOut({
-    @_s.required String fromPhoneNumber,
-    @_s.required String joinToken,
-    @_s.required String meetingId,
-    @_s.required String toPhoneNumber,
+    required String fromPhoneNumber,
+    required String joinToken,
+    required String meetingId,
+    required String toPhoneNumber,
   }) async {
     ArgumentError.checkNotNull(fromPhoneNumber, 'fromPhoneNumber');
-    _s.validateStringPattern(
-      'fromPhoneNumber',
-      fromPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(joinToken, 'joinToken');
     _s.validateStringLength(
       'joinToken',
@@ -1540,26 +1526,8 @@ class Chime {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'joinToken',
-      joinToken,
-      r'''^[a-zA-Z0-9+/]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(toPhoneNumber, 'toPhoneNumber');
-    _s.validateStringPattern(
-      'toPhoneNumber',
-      toPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'FromPhoneNumber': fromPhoneNumber,
       'JoinToken': joinToken,
@@ -1577,10 +1545,10 @@ class Chime {
   /// Creates a new Amazon Chime SDK meeting in the specified media Region, with
   /// attendees. For more information about specifying media Regions, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html">Amazon
-  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// Chime SDK Media Regions</a> in the <i>Amazon Chime Developer Guide</i> .
   /// For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i> .
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1590,28 +1558,28 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
+  /// Parameter [attendees] :
+  /// The request containing the attendees to create.
+  ///
   /// Parameter [clientRequestToken] :
   /// The unique identifier for the client request. Use a different token for
   /// different meetings.
-  ///
-  /// Parameter [attendees] :
-  /// The request containing the attendees to create.
   ///
   /// Parameter [externalMeetingId] :
   /// The external meeting ID.
   ///
   /// Parameter [mediaRegion] :
-  /// The Region in which to create the meeting. Default:
-  /// <code>us-east-1</code>.
+  /// The Region in which to create the meeting. Default: <code>us-east-1</code>
+  /// .
   ///
-  /// Available values: <code>af-south-1</code>, <code>ap-northeast-1</code>,
-  /// <code>ap-northeast-2</code>, <code>ap-south-1</code>,
-  /// <code>ap-southeast-1</code>, <code>ap-southeast-2</code>,
-  /// <code>ca-central-1</code>, <code>eu-central-1</code>,
-  /// <code>eu-north-1</code>, <code>eu-south-1</code>, <code>eu-west-1</code>,
-  /// <code>eu-west-2</code>, <code>eu-west-3</code>, <code>sa-east-1</code>,
-  /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
-  /// <code>us-west-2</code>.
+  /// Available values: <code>af-south-1</code> , <code>ap-northeast-1</code> ,
+  /// <code>ap-northeast-2</code> , <code>ap-south-1</code> ,
+  /// <code>ap-southeast-1</code> , <code>ap-southeast-2</code> ,
+  /// <code>ca-central-1</code> , <code>eu-central-1</code> ,
+  /// <code>eu-north-1</code> , <code>eu-south-1</code> , <code>eu-west-1</code>
+  /// , <code>eu-west-2</code> , <code>eu-west-3</code> , <code>sa-east-1</code>
+  /// , <code>us-east-1</code> , <code>us-east-2</code> , <code>us-west-1</code>
+  /// , <code>us-west-2</code> .
   ///
   /// Parameter [meetingHostId] :
   /// Reserved.
@@ -1619,27 +1587,19 @@ class Chime {
   /// Parameter [tags] :
   /// The tag key-value pairs.
   Future<CreateMeetingWithAttendeesResponse> createMeetingWithAttendees({
-    @_s.required String clientRequestToken,
-    List<CreateAttendeeRequestItem> attendees,
-    String externalMeetingId,
-    String mediaRegion,
-    String meetingHostId,
-    MeetingNotificationConfiguration notificationsConfiguration,
-    List<Tag> tags,
+    List<CreateAttendeeRequestItem>? attendees,
+    String? clientRequestToken,
+    String? externalMeetingId,
+    String? mediaRegion,
+    String? meetingHostId,
+    MeetingNotificationConfiguration? notificationsConfiguration,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       2,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
     );
     _s.validateStringLength(
       'externalMeetingId',
@@ -1654,8 +1614,8 @@ class Chime {
       64,
     );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (attendees != null) 'Attendees': attendees,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (externalMeetingId != null) 'ExternalMeetingId': externalMeetingId,
       if (mediaRegion != null) 'MediaRegion': mediaRegion,
       if (meetingHostId != null) 'MeetingHostId': meetingHostId,
@@ -1672,10 +1632,10 @@ class Chime {
     return CreateMeetingWithAttendeesResponse.fromJson(response);
   }
 
-  /// Creates an order for phone numbers to be provisioned. Choose from Amazon
-  /// Chime Business Calling and Amazon Chime Voice Connector product types. For
-  /// toll-free numbers, you must use the Amazon Chime Voice Connector product
-  /// type.
+  /// Creates an order for phone numbers to be provisioned. For toll-free
+  /// numbers, you cannot use the Amazon Chime Business Calling product type.
+  /// For numbers outside the U.S., you must use the Amazon Chime SIP Media
+  /// Application Dial-In product type.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -1692,14 +1652,14 @@ class Chime {
   /// Parameter [productType] :
   /// The phone number product type.
   Future<CreatePhoneNumberOrderResponse> createPhoneNumberOrder({
-    @_s.required List<String> e164PhoneNumbers,
-    @_s.required PhoneNumberProductType productType,
+    required List<String> e164PhoneNumbers,
+    required PhoneNumberProductType productType,
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(productType, 'productType');
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
-      'ProductType': productType?.toValue() ?? '',
+      'ProductType': productType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1747,14 +1707,14 @@ class Chime {
   /// The preference for proxy phone number reuse, or stickiness, between the
   /// same participants across sessions.
   Future<CreateProxySessionResponse> createProxySession({
-    @_s.required List<Capability> capabilities,
-    @_s.required List<String> participantPhoneNumbers,
-    @_s.required String voiceConnectorId,
-    int expiryMinutes,
-    GeoMatchLevel geoMatchLevel,
-    GeoMatchParams geoMatchParams,
-    String name,
-    NumberSelectionBehavior numberSelectionBehavior,
+    required List<Capability> capabilities,
+    required List<String> participantPhoneNumbers,
+    required String voiceConnectorId,
+    int? expiryMinutes,
+    GeoMatchLevel? geoMatchLevel,
+    GeoMatchParams? geoMatchParams,
+    String? name,
+    NumberSelectionBehavior? numberSelectionBehavior,
   }) async {
     ArgumentError.checkNotNull(capabilities, 'capabilities');
     ArgumentError.checkNotNull(
@@ -1767,25 +1727,14 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'expiryMinutes',
       expiryMinutes,
       1,
       1152921504606846976,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^$|^[a-zA-Z0-9 ]{0,30}$''',
-    );
     final $payload = <String, dynamic>{
-      'Capabilities': capabilities?.map((e) => e?.toValue() ?? '')?.toList(),
+      'Capabilities': capabilities.map((e) => e.toValue()).toList(),
       'ParticipantPhoneNumbers': participantPhoneNumbers,
       if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
       if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.toValue(),
@@ -1824,28 +1773,17 @@ class Chime {
   /// Parameter [clientRequestToken] :
   /// The idempotency token for the request.
   Future<CreateRoomResponse> createRoom({
-    @_s.required String accountId,
-    @_s.required String name,
-    String clientRequestToken,
+    required String accountId,
+    required String name,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       2,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -1886,32 +1824,14 @@ class Chime {
   /// Parameter [role] :
   /// The role of the member.
   Future<CreateRoomMembershipResponse> createRoomMembership({
-    @_s.required String accountId,
-    @_s.required String memberId,
-    @_s.required String roomId,
-    RoomMembershipRole role,
+    required String accountId,
+    required String memberId,
+    required String roomId,
+    RoomMembershipRole? role,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringPattern(
-      'memberId',
-      memberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'MemberId': memberId,
       if (role != null) 'Role': role.toValue(),
@@ -1939,7 +1859,7 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [awsRegion] :
-  /// AWS Region assigned to the SIP media application.
+  /// The AWS Region assigned to the SIP media application.
   ///
   /// Parameter [endpoints] :
   /// List of endpoints (Lambda Amazon Resource Names) specified for the SIP
@@ -1948,22 +1868,24 @@ class Chime {
   /// Parameter [name] :
   /// The SIP media application name.
   Future<CreateSipMediaApplicationResponse> createSipMediaApplication({
-    @_s.required String awsRegion,
-    @_s.required List<SipMediaApplicationEndpoint> endpoints,
-    String name,
+    required String awsRegion,
+    required List<SipMediaApplicationEndpoint> endpoints,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
     ArgumentError.checkNotNull(endpoints, 'endpoints');
+    ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       256,
+      isRequired: true,
     );
     final $payload = <String, dynamic>{
       'AwsRegion': awsRegion,
       'Endpoints': endpoints,
-      if (name != null) 'Name': name,
+      'Name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1986,39 +1908,26 @@ class Chime {
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
+  /// Parameter [fromPhoneNumber] :
+  /// The phone number that a user calls from. This is a phone number in your
+  /// Amazon Chime phone number inventory.
+  ///
   /// Parameter [sipMediaApplicationId] :
   /// The ID of the SIP media application.
   ///
-  /// Parameter [fromPhoneNumber] :
-  /// The phone number that a user calls from.
-  ///
   /// Parameter [toPhoneNumber] :
-  /// The phone number that the user dials in order to connect to a meeting
+  /// The phone number that the service should call.
   Future<CreateSipMediaApplicationCallResponse> createSipMediaApplicationCall({
-    @_s.required String sipMediaApplicationId,
-    String fromPhoneNumber,
-    String toPhoneNumber,
+    required String fromPhoneNumber,
+    required String sipMediaApplicationId,
+    required String toPhoneNumber,
   }) async {
+    ArgumentError.checkNotNull(fromPhoneNumber, 'fromPhoneNumber');
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fromPhoneNumber',
-      fromPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-    );
-    _s.validateStringPattern(
-      'toPhoneNumber',
-      toPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
-    );
+    ArgumentError.checkNotNull(toPhoneNumber, 'toPhoneNumber');
     final $payload = <String, dynamic>{
-      if (fromPhoneNumber != null) 'FromPhoneNumber': fromPhoneNumber,
-      if (toPhoneNumber != null) 'ToPhoneNumber': toPhoneNumber,
+      'FromPhoneNumber': fromPhoneNumber,
+      'ToPhoneNumber': toPhoneNumber,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2051,32 +1960,28 @@ class Chime {
   /// application per AWS Region can be used.
   ///
   /// Parameter [triggerType] :
-  /// The type of trigger whose value is assigned to the SIP rule in
-  /// <code>TriggerValue</code>. Allowed trigger values are
-  /// <code>RequestUriHostname</code> and <code>ToPhoneNumber</code>.
+  /// The type of trigger assigned to the SIP rule in <code>TriggerValue</code>,
+  /// currently <code>RequestUriHostname</code> or <code>ToPhoneNumber</code>.
   ///
   /// Parameter [triggerValue] :
-  /// If <code>TriggerType</code> is <code>RequestUriHostname</code> then the
-  /// value can be the outbound host name of an Amazon Chime Voice Connector. If
-  /// <code>TriggerType</code> is <code>ToPhoneNumber</code> then the value can
-  /// be a customer-owned phone number in E164 format. <code>SipRule</code> is
-  /// triggered if the SIP application requests a host name, or a If
-  /// <code>TriggerType</code> is <code>RequestUriHostname</code>, then the
-  /// value can be the outbound hostname of an Amazon Chime Voice Connector. If
-  /// <code>TriggerType</code> is <code>ToPhoneNumber</code>, then the value can
-  /// be a customer-owned phone number in E164 format. <code>SipRule</code> is
-  /// triggered if the SIP application requests a host name, or a
-  /// <code>ToPhoneNumber</code> value matches the incoming SIP request.
+  /// If <code>TriggerType</code> is <code>RequestUriHostname</code>, the value
+  /// can be the outbound host name of an Amazon Chime Voice Connector. If
+  /// <code>TriggerType</code> is <code>ToPhoneNumber</code>, the value can be a
+  /// customer-owned phone number in the E164 format. The
+  /// <code>SipMediaApplication</code> specified in the <code>SipRule</code> is
+  /// triggered if the request URI in an incoming SIP request matches the
+  /// <code>RequestUriHostname</code>, or if the <code>To</code> header in the
+  /// incoming SIP request matches the <code>ToPhoneNumber</code> value.
   ///
   /// Parameter [disabled] :
   /// Enables or disables a rule. You must disable rules before you can delete
   /// them.
   Future<CreateSipRuleResponse> createSipRule({
-    @_s.required String name,
-    @_s.required List<SipRuleTargetApplication> targetApplications,
-    @_s.required SipRuleTriggerType triggerType,
-    @_s.required String triggerValue,
-    bool disabled,
+    required String name,
+    required List<SipRuleTargetApplication> targetApplications,
+    required SipRuleTriggerType triggerType,
+    required String triggerValue,
+    bool? disabled,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2089,16 +1994,10 @@ class Chime {
     ArgumentError.checkNotNull(targetApplications, 'targetApplications');
     ArgumentError.checkNotNull(triggerType, 'triggerType');
     ArgumentError.checkNotNull(triggerValue, 'triggerValue');
-    _s.validateStringPattern(
-      'triggerValue',
-      triggerValue,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'TargetApplications': targetApplications,
-      'TriggerType': triggerType?.toValue() ?? '',
+      'TriggerType': triggerType.toValue(),
       'TriggerValue': triggerValue,
       if (disabled != null) 'Disabled': disabled,
     };
@@ -2134,23 +2033,12 @@ class Chime {
   /// Parameter [username] :
   /// The user name.
   Future<CreateUserResponse> createUser({
-    @_s.required String accountId,
-    String email,
-    UserType userType,
-    String username,
+    required String accountId,
+    String? email,
+    UserType? userType,
+    String? username,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'email',
-      email,
-      r'''.+@.+\..+''',
-    );
     final $payload = <String, dynamic>{
       if (email != null) 'Email': email,
       if (userType != null) 'UserType': userType.toValue(),
@@ -2192,11 +2080,11 @@ class Chime {
   ///
   /// Parameter [awsRegion] :
   /// The AWS Region in which the Amazon Chime Voice Connector is created.
-  /// Default value: <code>us-east-1</code>.
+  /// Default value: <code>us-east-1</code> .
   Future<CreateVoiceConnectorResponse> createVoiceConnector({
-    @_s.required String name,
-    @_s.required bool requireEncryption,
-    VoiceConnectorAwsRegion awsRegion,
+    required String name,
+    required bool requireEncryption,
+    VoiceConnectorAwsRegion? awsRegion,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2245,8 +2133,8 @@ class Chime {
   /// Parameter [voiceConnectorItems] :
   /// The Amazon Chime Voice Connectors to route inbound calls to.
   Future<CreateVoiceConnectorGroupResponse> createVoiceConnectorGroup({
-    @_s.required String name,
-    List<VoiceConnectorItem> voiceConnectorItems,
+    required String name,
+    List<VoiceConnectorItem>? voiceConnectorItems,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2271,8 +2159,8 @@ class Chime {
   }
 
   /// Deletes the specified Amazon Chime account. You must suspend all users
-  /// before deleting a <code>Team</code> account. You can use the
-  /// <a>BatchSuspendUser</a> action to do so.
+  /// before deleting <code>Team</code> account. You can use the
+  /// <a>BatchSuspendUser</a> action to dodo.
   ///
   /// For <code>EnterpriseLWA</code> and <code>EnterpriseAD</code> accounts, you
   /// must release the claimed domains for your Amazon Chime account before
@@ -2280,8 +2168,8 @@ class Chime {
   /// are suspended.
   ///
   /// Deleted accounts appear in your <code>Disabled</code> accounts list for 90
-  /// days. To restore a deleted account from your <code>Disabled</code>
-  /// accounts list, you must contact AWS Support.
+  /// days. To restore deleted account from your <code>Disabled</code> accounts
+  /// list, you must contact AWS Support.
   ///
   /// After 90 days, deleted accounts are permanently removed from your
   /// <code>Disabled</code> accounts list.
@@ -2298,22 +2186,15 @@ class Chime {
   /// Parameter [accountId] :
   /// The Amazon Chime account ID.
   Future<void> deleteAccount({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/accounts/${Uri.encodeComponent(accountId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAccountResponse.fromJson(response);
   }
 
   /// Deletes an <code>AppInstance</code> and all associated data
@@ -2327,9 +2208,9 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   Future<void> deleteAppInstance({
-    @_s.required String appInstanceArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -2337,12 +2218,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2359,20 +2234,19 @@ class Chime {
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
-  /// May throw [ResourceLimitExceededException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceAdminArn] :
-  /// The ARN of the app instance's administrator.
+  /// The ARN of the <code>AppInstance</code>'s administrator.
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   Future<void> deleteAppInstanceAdmin({
-    @_s.required String appInstanceAdminArn,
-    @_s.required String appInstanceArn,
+    required String appInstanceAdminArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
     _s.validateStringLength(
@@ -2382,24 +2256,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
       'appInstanceArn',
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2411,7 +2273,7 @@ class Chime {
     );
   }
 
-  /// Deletes the streaming configurations of an app instance.
+  /// Deletes the streaming configurations of an <code>AppInstance</code>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2424,7 +2286,7 @@ class Chime {
   /// Parameter [appInstanceArn] :
   /// The ARN of the streaming configurations being deleted.
   Future<void> deleteAppInstanceStreamingConfigurations({
-    @_s.required String appInstanceArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -2432,12 +2294,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2461,7 +2317,7 @@ class Chime {
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the user request being deleted.
   Future<void> deleteAppInstanceUser({
-    @_s.required String appInstanceUserArn,
+    required String appInstanceUserArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
     _s.validateStringLength(
@@ -2469,12 +2325,6 @@ class Chime {
       appInstanceUserArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2507,23 +2357,11 @@ class Chime {
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   Future<void> deleteAttendee({
-    @_s.required String attendeeId,
-    @_s.required String meetingId,
+    required String attendeeId,
+    required String meetingId,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2535,6 +2373,11 @@ class Chime {
 
   /// Immediately makes a channel and its memberships inaccessible and marks
   /// them for deletion. This is an irreversible process.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2545,8 +2388,12 @@ class Chime {
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel being deleted.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<void> deleteChannel({
-    @_s.required String channelArn,
+    required String channelArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -2556,21 +2403,30 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
 
   /// Removes a user from a channel's ban list.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2580,13 +2436,18 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [channelArn] :
-  /// The ARN of the channel from which the app instance user was banned.
+  /// The ARN of the channel from which the <code>AppInstanceUser</code> was
+  /// banned.
   ///
   /// Parameter [memberArn] :
-  /// The ARN of the app instance user that you want to reinstate.
+  /// The ARN of the <code>AppInstanceUser</code> that you want to reinstate.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<void> deleteChannelBan({
-    @_s.required String channelArn,
-    @_s.required String memberArn,
+    required String channelArn,
+    required String memberArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -2594,12 +2455,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
@@ -2610,26 +2465,36 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/bans/${Uri.encodeComponent(memberArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
 
   /// Removes a member from a channel.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
   /// May throw [UnauthorizedClientException].
+  /// May throw [ConflictException].
   /// May throw [ThrottledClientException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
@@ -2639,9 +2504,13 @@ class Chime {
   ///
   /// Parameter [memberArn] :
   /// The ARN of the member that you're removing from the channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<void> deleteChannelMembership({
-    @_s.required String channelArn,
-    @_s.required String memberArn,
+    required String channelArn,
+    required String memberArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -2649,12 +2518,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
@@ -2665,17 +2528,21 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/memberships/${Uri.encodeComponent(memberArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2683,6 +2550,11 @@ class Chime {
   /// Deletes a channel message. Only admins can perform this action. Deletion
   /// makes messages inaccessible immediately. A background process deletes any
   /// revisions created by <code>UpdateChannelMessage</code>.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2696,9 +2568,13 @@ class Chime {
   ///
   /// Parameter [messageId] :
   /// The ID of the message being deleted.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<void> deleteChannelMessage({
-    @_s.required String channelArn,
-    @_s.required String messageId,
+    required String channelArn,
+    required String messageId,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -2706,12 +2582,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(messageId, 'messageId');
@@ -2722,22 +2592,31 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
 
   /// Deletes a channel moderator.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -2751,9 +2630,13 @@ class Chime {
   ///
   /// Parameter [channelModeratorArn] :
   /// The ARN of the moderator being deleted.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<void> deleteChannelModerator({
-    @_s.required String channelArn,
-    @_s.required String channelModeratorArn,
+    required String channelArn,
+    required String channelModeratorArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -2761,12 +2644,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
@@ -2777,17 +2654,21 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelModeratorArn',
-      channelModeratorArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/moderators/${Uri.encodeComponent(channelModeratorArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2808,23 +2689,11 @@ class Chime {
   /// Parameter [botId] :
   /// The bot ID.
   Future<void> deleteEventsConfiguration({
-    @_s.required String accountId,
-    @_s.required String botId,
+    required String accountId,
+    required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2834,9 +2703,34 @@ class Chime {
     );
   }
 
-  /// Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted,
-  /// its attendees are also deleted and clients can no longer join it. For more
-  /// information about the Amazon Chime SDK, see <a
+  /// Deletes the media capture pipeline.
+  ///
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [mediaPipelineId] :
+  /// The ID of the media capture pipeline being deleted.
+  Future<void> deleteMediaCapturePipeline({
+    required String mediaPipelineId,
+  }) async {
+    ArgumentError.checkNotNull(mediaPipelineId, 'mediaPipelineId');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/media-capture-pipelines/${Uri.encodeComponent(mediaPipelineId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all
+  /// attendees, disconnects all clients, and prevents new clients from joining
+  /// the meeting. For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
   /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
   ///
@@ -2851,15 +2745,9 @@ class Chime {
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   Future<void> deleteMeeting({
-    @_s.required String meetingId,
+    required String meetingId,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -2886,7 +2774,7 @@ class Chime {
   /// Parameter [phoneNumberId] :
   /// The phone number ID.
   Future<void> deletePhoneNumber({
-    @_s.required String phoneNumberId,
+    required String phoneNumberId,
   }) async {
     ArgumentError.checkNotNull(phoneNumberId, 'phoneNumberId');
     await _protocol.send(
@@ -2914,8 +2802,8 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime voice connector ID.
   Future<void> deleteProxySession({
-    @_s.required String proxySessionId,
-    @_s.required String voiceConnectorId,
+    required String proxySessionId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(proxySessionId, 'proxySessionId');
     _s.validateStringLength(
@@ -2925,24 +2813,12 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'proxySessionId',
-      proxySessionId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
       'voiceConnectorId',
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     await _protocol.send(
@@ -2970,23 +2846,11 @@ class Chime {
   /// Parameter [roomId] :
   /// The chat room ID.
   Future<void> deleteRoom({
-    @_s.required String accountId,
-    @_s.required String roomId,
+    required String accountId,
+    required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3015,31 +2879,13 @@ class Chime {
   /// Parameter [roomId] :
   /// The room ID.
   Future<void> deleteRoomMembership({
-    @_s.required String accountId,
-    @_s.required String memberId,
-    @_s.required String roomId,
+    required String accountId,
+    required String memberId,
+    required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringPattern(
-      'memberId',
-      memberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3063,15 +2909,9 @@ class Chime {
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
   Future<void> deleteSipMediaApplication({
-    @_s.required String sipMediaApplicationId,
+    required String sipMediaApplicationId,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3095,15 +2935,9 @@ class Chime {
   /// Parameter [sipRuleId] :
   /// The SIP rule ID.
   Future<void> deleteSipRule({
-    @_s.required String sipRuleId,
+    required String sipRuleId,
   }) async {
     ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
-    _s.validateStringPattern(
-      'sipRuleId',
-      sipRuleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3128,15 +2962,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnector({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3159,15 +2987,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnectorEmergencyCallingConfiguration({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3193,15 +3015,9 @@ class Chime {
   /// Parameter [voiceConnectorGroupId] :
   /// The Amazon Chime Voice Connector group ID.
   Future<void> deleteVoiceConnectorGroup({
-    @_s.required String voiceConnectorGroupId,
+    required String voiceConnectorGroupId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3229,15 +3045,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnectorOrigination({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3261,7 +3071,7 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnectorProxy({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
@@ -3269,12 +3079,6 @@ class Chime {
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     await _protocol.send(
@@ -3300,15 +3104,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnectorStreamingConfiguration({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3336,15 +3134,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnectorTermination({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3372,17 +3164,11 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<void> deleteVoiceConnectorTerminationCredentials({
-    @_s.required List<String> usernames,
-    @_s.required String voiceConnectorId,
+    required List<String> usernames,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(usernames, 'usernames');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Usernames': usernames,
     };
@@ -3405,9 +3191,9 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   Future<DescribeAppInstanceResponse> describeAppInstance({
-    @_s.required String appInstanceArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -3415,12 +3201,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3442,13 +3222,13 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceAdminArn] :
-  /// The ARN of the app instance administrator.
+  /// The ARN of the <code>AppInstanceAdmin</code>.
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   Future<DescribeAppInstanceAdminResponse> describeAppInstanceAdmin({
-    @_s.required String appInstanceAdminArn,
-    @_s.required String appInstanceArn,
+    required String appInstanceAdminArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceAdminArn, 'appInstanceAdminArn');
     _s.validateStringLength(
@@ -3458,24 +3238,12 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceAdminArn',
-      appInstanceAdminArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
       'appInstanceArn',
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3488,7 +3256,7 @@ class Chime {
     return DescribeAppInstanceAdminResponse.fromJson(response);
   }
 
-  /// Returns the full details of an <code>AppInstanceUser</code>.
+  /// Returns the full details of an <code>AppInstanceUser</code> .
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3498,9 +3266,9 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
-  /// The ARN of the app instance user.
+  /// The ARN of the <code>AppInstanceUser</code>.
   Future<DescribeAppInstanceUserResponse> describeAppInstanceUser({
-    @_s.required String appInstanceUserArn,
+    required String appInstanceUserArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
     _s.validateStringLength(
@@ -3508,12 +3276,6 @@ class Chime {
       appInstanceUserArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -3526,7 +3288,13 @@ class Chime {
     return DescribeAppInstanceUserResponse.fromJson(response);
   }
 
-  /// Returns the full details of a channel in an Amazon Chime app instance.
+  /// Returns the full details of a channel in an Amazon Chime
+  /// <code>AppInstance</code>.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3537,8 +3305,12 @@ class Chime {
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<DescribeChannelResponse> describeChannel({
-    @_s.required String channelArn,
+    required String channelArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -3548,22 +3320,31 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelResponse.fromJson(response);
   }
 
   /// Returns the full details of a channel ban.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3578,9 +3359,13 @@ class Chime {
   ///
   /// Parameter [memberArn] :
   /// The ARN of the member being banned.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<DescribeChannelBanResponse> describeChannelBan({
-    @_s.required String channelArn,
-    @_s.required String memberArn,
+    required String channelArn,
+    required String memberArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -3588,12 +3373,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
@@ -3604,23 +3383,32 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/bans/${Uri.encodeComponent(memberArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelBanResponse.fromJson(response);
   }
 
   /// Returns the full details of a user's channel membership.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3635,9 +3423,13 @@ class Chime {
   ///
   /// Parameter [memberArn] :
   /// The ARN of the member.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<DescribeChannelMembershipResponse> describeChannelMembership({
-    @_s.required String channelArn,
-    @_s.required String memberArn,
+    required String channelArn,
+    required String memberArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -3645,12 +3437,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(memberArn, 'memberArn');
@@ -3661,24 +3447,33 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'memberArn',
-      memberArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/memberships/${Uri.encodeComponent(memberArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelMembershipResponse.fromJson(response);
   }
 
-  /// Returns the details of a channel based on the membership of the
-  /// <code>AppInstanceUser</code> specified.
+  /// Returns the details of a channel based on the membership of the specified
+  /// <code>AppInstanceUser</code>.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3692,10 +3487,14 @@ class Chime {
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel to which the user belongs.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<DescribeChannelMembershipForAppInstanceUserResponse>
       describeChannelMembershipForAppInstanceUser({
-    @_s.required String appInstanceUserArn,
-    @_s.required String channelArn,
+    required String appInstanceUserArn,
+    required String channelArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
     _s.validateStringLength(
@@ -3703,12 +3502,6 @@ class Chime {
       appInstanceUserArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(channelArn, 'channelArn');
@@ -3719,15 +3512,17 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $query = <String, List<String>>{
-      if (appInstanceUserArn != null)
-        'app-instance-user-arn': [appInstanceUserArn],
+      'app-instance-user-arn': [appInstanceUserArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3735,6 +3530,7 @@ class Chime {
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}?scope=app-instance-user-membership',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelMembershipForAppInstanceUserResponse.fromJson(
@@ -3743,6 +3539,11 @@ class Chime {
 
   /// Returns the full details of a channel moderated by the specified
   /// <code>AppInstanceUser</code>.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3752,14 +3553,18 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
-  /// The ARN of the app instance user in the moderated channel.
+  /// The ARN of the <code>AppInstanceUser</code> in the moderated channel.
   ///
   /// Parameter [channelArn] :
   /// The ARN of the moderated channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<DescribeChannelModeratedByAppInstanceUserResponse>
       describeChannelModeratedByAppInstanceUser({
-    @_s.required String appInstanceUserArn,
-    @_s.required String channelArn,
+    required String appInstanceUserArn,
+    required String channelArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
     _s.validateStringLength(
@@ -3767,12 +3572,6 @@ class Chime {
       appInstanceUserArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(channelArn, 'channelArn');
@@ -3783,15 +3582,17 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $query = <String, List<String>>{
-      if (appInstanceUserArn != null)
-        'app-instance-user-arn': [appInstanceUserArn],
+      'app-instance-user-arn': [appInstanceUserArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3799,12 +3600,18 @@ class Chime {
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}?scope=app-instance-user-moderated-channel',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelModeratedByAppInstanceUserResponse.fromJson(response);
   }
 
   /// Returns the full details of a single ChannelModerator.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -3819,9 +3626,13 @@ class Chime {
   ///
   /// Parameter [channelModeratorArn] :
   /// The ARN of the channel moderator.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<DescribeChannelModeratorResponse> describeChannelModerator({
-    @_s.required String channelArn,
-    @_s.required String channelModeratorArn,
+    required String channelArn,
+    required String channelModeratorArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -3829,12 +3640,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(channelModeratorArn, 'channelModeratorArn');
@@ -3845,17 +3650,21 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelModeratorArn',
-      channelModeratorArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/moderators/${Uri.encodeComponent(channelModeratorArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelModeratorResponse.fromJson(response);
@@ -3878,8 +3687,8 @@ class Chime {
   /// Parameter [userId] :
   /// The user ID.
   Future<void> disassociatePhoneNumberFromUser({
-    @_s.required String accountId,
-    @_s.required String userId,
+    required String accountId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(userId, 'userId');
@@ -3890,7 +3699,6 @@ class Chime {
           '/accounts/${Uri.encodeComponent(accountId)}/users/${Uri.encodeComponent(userId)}?operation=disassociate-phone-number',
       exceptionFnMap: _exceptionFns,
     );
-    return DisassociatePhoneNumberFromUserResponse.fromJson(response);
   }
 
   /// Disassociates the specified phone numbers from the specified Amazon Chime
@@ -3911,17 +3719,11 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<DisassociatePhoneNumbersFromVoiceConnectorResponse>
       disassociatePhoneNumbersFromVoiceConnector({
-    @_s.required List<String> e164PhoneNumbers,
-    @_s.required String voiceConnectorId,
+    required List<String> e164PhoneNumbers,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
     };
@@ -3954,17 +3756,11 @@ class Chime {
   /// The Amazon Chime Voice Connector group ID.
   Future<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse>
       disassociatePhoneNumbersFromVoiceConnectorGroup({
-    @_s.required List<String> e164PhoneNumbers,
-    @_s.required String voiceConnectorGroupId,
+    required List<String> e164PhoneNumbers,
+    required String voiceConnectorGroupId,
   }) async {
     ArgumentError.checkNotNull(e164PhoneNumbers, 'e164PhoneNumbers');
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
     };
@@ -3996,16 +3792,10 @@ class Chime {
   /// Parameter [groupNames] :
   /// The sign-in delegate group names.
   Future<void> disassociateSigninDelegateGroupsFromAccount({
-    @_s.required String accountId,
-    @_s.required List<String> groupNames,
+    required String accountId,
+    required List<String> groupNames,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupNames, 'groupNames');
     final $payload = <String, dynamic>{
       'GroupNames': groupNames,
@@ -4017,8 +3807,6 @@ class Chime {
           '/accounts/${Uri.encodeComponent(accountId)}?operation=disassociate-signin-delegate-groups',
       exceptionFnMap: _exceptionFns,
     );
-    return DisassociateSigninDelegateGroupsFromAccountResponse.fromJson(
-        response);
   }
 
   /// Retrieves details for the specified Amazon Chime account, such as account
@@ -4035,15 +3823,9 @@ class Chime {
   /// Parameter [accountId] :
   /// The Amazon Chime account ID.
   Future<GetAccountResponse> getAccount({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4054,7 +3836,7 @@ class Chime {
   }
 
   /// Retrieves account settings for the specified Amazon Chime account ID, such
-  /// as remote control and dial out settings. For more information about these
+  /// as remote control and dialout settings. For more information about these
   /// settings, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/ag/policies.html">Use the
   /// Policies Page</a> in the <i>Amazon Chime Administration Guide</i>.
@@ -4070,15 +3852,9 @@ class Chime {
   /// Parameter [accountId] :
   /// The Amazon Chime account ID.
   Future<GetAccountSettingsResponse> getAccountSettings({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4088,7 +3864,7 @@ class Chime {
     return GetAccountSettingsResponse.fromJson(response);
   }
 
-  /// Gets the retention settings for an app instance.
+  /// Gets the retention settings for an <code>AppInstance</code>.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -4099,10 +3875,10 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   Future<GetAppInstanceRetentionSettingsResponse>
       getAppInstanceRetentionSettings({
-    @_s.required String appInstanceArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -4110,12 +3886,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4128,7 +3898,7 @@ class Chime {
     return GetAppInstanceRetentionSettingsResponse.fromJson(response);
   }
 
-  /// Gets the streaming settings for an app instance.
+  /// Gets the streaming settings for an <code>AppInstance</code>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4139,10 +3909,10 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   Future<GetAppInstanceStreamingConfigurationsResponse>
       getAppInstanceStreamingConfigurations({
-    @_s.required String appInstanceArn,
+    required String appInstanceArn,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -4150,12 +3920,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4171,7 +3935,7 @@ class Chime {
   /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and
   /// attendee ID. For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i> .
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4187,23 +3951,11 @@ class Chime {
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   Future<GetAttendeeResponse> getAttendee({
-    @_s.required String attendeeId,
-    @_s.required String meetingId,
+    required String attendeeId,
+    required String meetingId,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4231,23 +3983,11 @@ class Chime {
   /// Parameter [botId] :
   /// The bot ID.
   Future<GetBotResponse> getBot({
-    @_s.required String accountId,
-    @_s.required String botId,
+    required String accountId,
+    required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4259,6 +3999,11 @@ class Chime {
   }
 
   /// Gets the full details of a channel message.
+  /// <note>
+  /// The x-amz-chime-bearer request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4273,9 +4018,13 @@ class Chime {
   ///
   /// Parameter [messageId] :
   /// The ID of the message.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<GetChannelMessageResponse> getChannelMessage({
-    @_s.required String channelArn,
-    @_s.required String messageId,
+    required String channelArn,
+    required String messageId,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -4283,12 +4032,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(messageId, 'messageId');
@@ -4299,17 +4042,21 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetChannelMessageResponse.fromJson(response);
@@ -4332,23 +4079,11 @@ class Chime {
   /// Parameter [botId] :
   /// The bot ID.
   Future<GetEventsConfigurationResponse> getEventsConfiguration({
-    @_s.required String accountId,
-    @_s.required String botId,
+    required String accountId,
+    required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4378,10 +4113,36 @@ class Chime {
     return GetGlobalSettingsResponse.fromJson(response);
   }
 
+  /// Gets an existing media capture pipeline.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [mediaPipelineId] :
+  /// The ID of the pipeline that you want to get.
+  Future<GetMediaCapturePipelineResponse> getMediaCapturePipeline({
+    required String mediaPipelineId,
+  }) async {
+    ArgumentError.checkNotNull(mediaPipelineId, 'mediaPipelineId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/media-capture-pipelines/${Uri.encodeComponent(mediaPipelineId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMediaCapturePipelineResponse.fromJson(response);
+  }
+
   /// Gets the Amazon Chime SDK meeting details for the specified meeting ID.
   /// For more information about the Amazon Chime SDK, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html">Using
-  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i>.
+  /// the Amazon Chime SDK</a> in the <i>Amazon Chime Developer Guide</i> .
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -4394,15 +4155,9 @@ class Chime {
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   Future<GetMeetingResponse> getMeeting({
-    @_s.required String meetingId,
+    required String meetingId,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4412,7 +4167,7 @@ class Chime {
     return GetMeetingResponse.fromJson(response);
   }
 
-  /// The endpoint for the messaging session.
+  /// The details of the endpoint for the messaging session.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
@@ -4444,7 +4199,7 @@ class Chime {
   /// Parameter [phoneNumberId] :
   /// The phone number ID.
   Future<GetPhoneNumberResponse> getPhoneNumber({
-    @_s.required String phoneNumberId,
+    required String phoneNumberId,
   }) async {
     ArgumentError.checkNotNull(phoneNumberId, 'phoneNumberId');
     final response = await _protocol.send(
@@ -4456,7 +4211,7 @@ class Chime {
     return GetPhoneNumberResponse.fromJson(response);
   }
 
-  /// Retrieves details for the specified phone number order, such as order
+  /// Retrieves details for the specified phone number order, such as the order
   /// creation timestamp, phone numbers in E.164 format, product type, and order
   /// status.
   ///
@@ -4471,15 +4226,9 @@ class Chime {
   /// Parameter [phoneNumberOrderId] :
   /// The ID for the phone number order.
   Future<GetPhoneNumberOrderResponse> getPhoneNumberOrder({
-    @_s.required String phoneNumberOrderId,
+    required String phoneNumberOrderId,
   }) async {
     ArgumentError.checkNotNull(phoneNumberOrderId, 'phoneNumberOrderId');
-    _s.validateStringPattern(
-      'phoneNumberOrderId',
-      phoneNumberOrderId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4526,8 +4275,8 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime voice connector ID.
   Future<GetProxySessionResponse> getProxySession({
-    @_s.required String proxySessionId,
-    @_s.required String voiceConnectorId,
+    required String proxySessionId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(proxySessionId, 'proxySessionId');
     _s.validateStringLength(
@@ -4537,24 +4286,12 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'proxySessionId',
-      proxySessionId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
       'voiceConnectorId',
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4584,15 +4321,9 @@ class Chime {
   /// Parameter [accountId] :
   /// The Amazon Chime account ID.
   Future<GetRetentionSettingsResponse> getRetentionSettings({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4620,23 +4351,11 @@ class Chime {
   /// Parameter [roomId] :
   /// The room ID.
   Future<GetRoomResponse> getRoom({
-    @_s.required String accountId,
-    @_s.required String roomId,
+    required String accountId,
+    required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4661,15 +4380,9 @@ class Chime {
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
   Future<GetSipMediaApplicationResponse> getSipMediaApplication({
-    @_s.required String sipMediaApplicationId,
+    required String sipMediaApplicationId,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4691,18 +4404,12 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [sipMediaApplicationId] :
-  /// The ID of the SIP media application.
+  /// The SIP media application ID.
   Future<GetSipMediaApplicationLoggingConfigurationResponse>
       getSipMediaApplicationLoggingConfiguration({
-    @_s.required String sipMediaApplicationId,
+    required String sipMediaApplicationId,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4728,15 +4435,9 @@ class Chime {
   /// Parameter [sipRuleId] :
   /// The SIP rule ID.
   Future<GetSipRuleResponse> getSipRule({
-    @_s.required String sipRuleId,
+    required String sipRuleId,
   }) async {
     ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
-    _s.validateStringPattern(
-      'sipRuleId',
-      sipRuleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4747,7 +4448,7 @@ class Chime {
   }
 
   /// Retrieves details for the specified user ID, such as primary email
-  /// address, license type, and personal meeting PIN.
+  /// address, license type,and personal meeting PIN.
   ///
   /// To retrieve user details with an email address instead of a user ID, use
   /// the <a>ListUsers</a> action, and then filter by email address.
@@ -4766,23 +4467,11 @@ class Chime {
   /// Parameter [userId] :
   /// The user ID.
   Future<GetUserResponse> getUser({
-    @_s.required String accountId,
-    @_s.required String userId,
+    required String accountId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4810,8 +4499,8 @@ class Chime {
   /// Parameter [userId] :
   /// The user ID.
   Future<GetUserSettingsResponse> getUserSettings({
-    @_s.required String accountId,
-    @_s.required String userId,
+    required String accountId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(userId, 'userId');
@@ -4826,7 +4515,7 @@ class Chime {
   }
 
   /// Retrieves details for the specified Amazon Chime Voice Connector, such as
-  /// timestamps, name, outbound host, and encryption requirements.
+  /// timestamps,name, outbound host, and encryption requirements.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -4839,15 +4528,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<GetVoiceConnectorResponse> getVoiceConnector({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4872,15 +4555,9 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<GetVoiceConnectorEmergencyCallingConfigurationResponse>
       getVoiceConnectorEmergencyCallingConfiguration({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4893,7 +4570,7 @@ class Chime {
   }
 
   /// Retrieves details for the specified Amazon Chime Voice Connector group,
-  /// such as timestamps, name, and associated <code>VoiceConnectorItems</code>.
+  /// such as timestamps,name, and associated <code>VoiceConnectorItems</code>.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -4906,15 +4583,9 @@ class Chime {
   /// Parameter [voiceConnectorGroupId] :
   /// The Amazon Chime Voice Connector group ID.
   Future<GetVoiceConnectorGroupResponse> getVoiceConnectorGroup({
-    @_s.required String voiceConnectorGroupId,
+    required String voiceConnectorGroupId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4927,7 +4598,7 @@ class Chime {
 
   /// Retrieves the logging configuration details for the specified Amazon Chime
   /// Voice Connector. Shows whether SIP message logs are enabled for sending to
-  /// Amazon CloudWatch.
+  /// Amazon CloudWatch Logs.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -4941,15 +4612,9 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<GetVoiceConnectorLoggingConfigurationResponse>
       getVoiceConnectorLoggingConfiguration({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -4974,15 +4639,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<GetVoiceConnectorOriginationResponse> getVoiceConnectorOrigination({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5007,7 +4666,7 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime voice connector ID.
   Future<GetVoiceConnectorProxyResponse> getVoiceConnectorProxy({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
@@ -5015,12 +4674,6 @@ class Chime {
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5050,15 +4703,9 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<GetVoiceConnectorStreamingConfigurationResponse>
       getVoiceConnectorStreamingConfiguration({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5083,15 +4730,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<GetVoiceConnectorTerminationResponse> getVoiceConnectorTermination({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5118,15 +4759,9 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<GetVoiceConnectorTerminationHealthResponse>
       getVoiceConnectorTerminationHealth({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5158,17 +4793,11 @@ class Chime {
   /// Parameter [userType] :
   /// The user type.
   Future<InviteUsersResponse> inviteUsers({
-    @_s.required String accountId,
-    @_s.required List<String> userEmailList,
-    UserType userType,
+    required String accountId,
+    required List<String> userEmailList,
+    UserType? userType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userEmailList, 'userEmailList');
     final $payload = <String, dynamic>{
       'UserEmailList': userEmailList,
@@ -5209,10 +4838,10 @@ class Chime {
   /// Parameter [userEmail] :
   /// User email address with which to filter results.
   Future<ListAccountsResponse> listAccounts({
-    int maxResults,
-    String name,
-    String nextToken,
-    String userEmail,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+    String? userEmail,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -5225,16 +4854,6 @@ class Chime {
       name,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-    );
-    _s.validateStringPattern(
-      'userEmail',
-      userEmail,
-      r'''.+@.+\..+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5252,18 +4871,17 @@ class Chime {
     return ListAccountsResponse.fromJson(response);
   }
 
-  /// Returns a list of the administrators in the app instance.
+  /// Returns a list of the administrators in the <code>AppInstance</code>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
-  /// May throw [ResourceLimitExceededException].
   /// May throw [ThrottledClientException].
   /// May throw [UnauthorizedClientException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of administrators that you want to return.
@@ -5272,9 +4890,9 @@ class Chime {
   /// The token returned from previous API requests until the number of
   /// administrators is reached.
   Future<ListAppInstanceAdminsResponse> listAppInstanceAdmins({
-    @_s.required String appInstanceArn,
-    int maxResults,
-    String nextToken,
+    required String appInstanceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -5282,12 +4900,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5301,11 +4913,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5322,8 +4929,8 @@ class Chime {
     return ListAppInstanceAdminsResponse.fromJson(response);
   }
 
-  /// List all <code>AppInstanceUsers</code> created under a single app
-  /// instance.
+  /// List all <code>AppInstanceUsers</code> created under a single
+  /// <code>AppInstance</code>.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -5333,7 +4940,7 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of requests that you want returned.
@@ -5342,9 +4949,9 @@ class Chime {
   /// The token passed by previous API calls until all requested users are
   /// returned.
   Future<ListAppInstanceUsersResponse> listAppInstanceUsers({
-    @_s.required String appInstanceArn,
-    int maxResults,
-    String nextToken,
+    required String appInstanceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -5352,12 +4959,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5372,13 +4973,8 @@ class Chime {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final $query = <String, List<String>>{
-      if (appInstanceArn != null) 'app-instance-arn': [appInstanceArn],
+      'app-instance-arn': [appInstanceArn],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
     };
@@ -5392,7 +4988,8 @@ class Chime {
     return ListAppInstanceUsersResponse.fromJson(response);
   }
 
-  /// Lists all Amazon Chime app instances created under a single AWS account.
+  /// Lists all Amazon Chime <code>AppInstance</code>s created under a single
+  /// AWS account.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -5402,14 +4999,14 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of app instances that you want to return.
+  /// The maximum number of <code>AppInstance</code>s that you want to return.
   ///
   /// Parameter [nextToken] :
   /// The token passed by previous API requests until you reach the maximum
-  /// number of app instances.
+  /// number of <code>AppInstance</code>s.
   Future<ListAppInstancesResponse> listAppInstances({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -5422,11 +5019,6 @@ class Chime {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -5458,23 +5050,11 @@ class Chime {
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   Future<ListAttendeeTagsResponse> listAttendeeTags({
-    @_s.required String attendeeId,
-    @_s.required String meetingId,
+    required String attendeeId,
+    required String meetingId,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -5507,17 +5087,11 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListAttendeesResponse> listAttendees({
-    @_s.required String meetingId,
-    int maxResults,
-    String nextToken,
+    required String meetingId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5559,17 +5133,11 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListBotsResponse> listBots({
-    @_s.required String accountId,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -5591,227 +5159,10 @@ class Chime {
   }
 
   /// Lists all the users banned from a particular channel.
-  ///
-  /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [channelArn] :
-  /// The ARN of the channel.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of bans that you want returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The token passed by previous API calls until all requested bans are
-  /// returned.
-  Future<ListChannelBansResponse> listChannelBans({
-    @_s.required String channelArn,
-    int maxResults,
-    String nextToken,
-  }) async {
-    ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'max-results': [maxResults.toString()],
-      if (nextToken != null) 'next-token': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/bans',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListChannelBansResponse.fromJson(response);
-  }
-
-  /// Lists all channel memberships in a channel.
-  ///
-  /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [channelArn] :
-  /// The maximum number of channel memberships that you want returned.
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of channel memberships that you want returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The token passed by previous API calls until all requested channel
-  /// memberships are returned..
-  ///
-  /// Parameter [type] :
-  /// The membership type of a user, <code>DEFAULT</code> or
-  /// <code>HIDDEN</code>. Default members are always returned as part of
-  /// <code>ListChannelMemberships</code>. Hidden members are only returned if
-  /// the type filter in <code>ListChannelMemberships</code> equals
-  /// <code>HIDDEN</code>. Otherwise hidden members are not returned.
-  Future<ListChannelMembershipsResponse> listChannelMemberships({
-    @_s.required String channelArn,
-    int maxResults,
-    String nextToken,
-    ChannelMembershipType type,
-  }) async {
-    ArgumentError.checkNotNull(channelArn, 'channelArn');
-    _s.validateStringLength(
-      'channelArn',
-      channelArn,
-      5,
-      1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    final $query = <String, List<String>>{
-      if (maxResults != null) 'max-results': [maxResults.toString()],
-      if (nextToken != null) 'next-token': [nextToken],
-      if (type != null) 'type': [type.toValue()],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/memberships',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListChannelMembershipsResponse.fromJson(response);
-  }
-
-  /// Lists all channels that a particular <code>AppInstanceUser</code> is a
-  /// part of. Only an <code>AppInstanceAdmin</code> can call the API with a
-  /// user ARN that is not their own.
-  ///
-  /// May throw [BadRequestException].
-  /// May throw [ForbiddenException].
-  /// May throw [UnauthorizedClientException].
-  /// May throw [ThrottledClientException].
-  /// May throw [ServiceUnavailableException].
-  /// May throw [ServiceFailureException].
-  ///
-  /// Parameter [appInstanceUserArn] :
-  /// The ARN of the app instance users
-  ///
-  /// Parameter [maxResults] :
-  /// The maximum number of users that you want returned.
-  ///
-  /// Parameter [nextToken] :
-  /// The token returned from previous API requests until the number of channel
-  /// memberships is reached.
-  Future<ListChannelMembershipsForAppInstanceUserResponse>
-      listChannelMembershipsForAppInstanceUser({
-    String appInstanceUserArn,
-    int maxResults,
-    String nextToken,
-  }) async {
-    _s.validateStringLength(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      5,
-      1600,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
-    _s.validateNumRange(
-      'maxResults',
-      maxResults,
-      1,
-      50,
-    );
-    _s.validateStringLength(
-      'nextToken',
-      nextToken,
-      0,
-      2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
-    final $query = <String, List<String>>{
-      if (appInstanceUserArn != null)
-        'app-instance-user-arn': [appInstanceUserArn],
-      if (maxResults != null) 'max-results': [maxResults.toString()],
-      if (nextToken != null) 'next-token': [nextToken],
-    };
-    final response = await _protocol.send(
-      payload: null,
-      method: 'GET',
-      requestUri: '/channels?scope=app-instance-user-memberships',
-      queryParams: $query,
-      exceptionFnMap: _exceptionFns,
-    );
-    return ListChannelMembershipsForAppInstanceUserResponse.fromJson(response);
-  }
-
-  /// List all the messages in a channel. Returns a paginated list of
-  /// <code>ChannelMessages</code>. Sorted in descending order by default, based
-  /// on the creation timestamp.
   /// <note>
-  /// Redacted messages appear in the results as empty, since they are only
-  /// redacted, not deleted. Deleted messages do not appear in the results. This
-  /// action always returns the latest version of an edited message.
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
   /// </note>
   ///
   /// May throw [BadRequestException].
@@ -5823,6 +5174,255 @@ class Chime {
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of bans that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested bans are
+  /// returned.
+  Future<ListChannelBansResponse> listChannelBans({
+    required String channelArn,
+    String? chimeBearer,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/bans',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelBansResponse.fromJson(response);
+  }
+
+  /// Lists all channel memberships in a channel.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The maximum number of channel memberships that you want returned.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of channel memberships that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token passed by previous API calls until all requested channel
+  /// memberships are returned.
+  ///
+  /// Parameter [type] :
+  /// The membership type of a user, <code>DEFAULT</code> or
+  /// <code>HIDDEN</code>. Default members are always returned as part of
+  /// <code>ListChannelMemberships</code>. Hidden members are only returned if
+  /// the type filter in <code>ListChannelMemberships</code> equals
+  /// <code>HIDDEN</code>. Otherwise hidden members are not returned.
+  Future<ListChannelMembershipsResponse> listChannelMemberships({
+    required String channelArn,
+    String? chimeBearer,
+    int? maxResults,
+    String? nextToken,
+    ChannelMembershipType? type,
+  }) async {
+    ArgumentError.checkNotNull(channelArn, 'channelArn');
+    _s.validateStringLength(
+      'channelArn',
+      channelArn,
+      5,
+      1600,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (type != null) 'type': [type.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels/${Uri.encodeComponent(channelArn)}/memberships',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelMembershipsResponse.fromJson(response);
+  }
+
+  /// Lists all channels that a particular <code>AppInstanceUser</code> is a
+  /// part of. Only an <code>AppInstanceAdmin</code> can call the API with a
+  /// user ARN that is not their own.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [appInstanceUserArn] :
+  /// The ARN of the <code>AppInstanceUser</code>s
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of users that you want returned.
+  ///
+  /// Parameter [nextToken] :
+  /// The token returned from previous API requests until the number of channel
+  /// memberships is reached.
+  Future<ListChannelMembershipsForAppInstanceUserResponse>
+      listChannelMembershipsForAppInstanceUser({
+    String? appInstanceUserArn,
+    String? chimeBearer,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateStringLength(
+      'appInstanceUserArn',
+      appInstanceUserArn,
+      5,
+      1600,
+    );
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      2048,
+    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
+    final $query = <String, List<String>>{
+      if (appInstanceUserArn != null)
+        'app-instance-user-arn': [appInstanceUserArn],
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/channels?scope=app-instance-user-memberships',
+      queryParams: $query,
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListChannelMembershipsForAppInstanceUserResponse.fromJson(response);
+  }
+
+  /// List all the messages in a channel. Returns a paginated list of
+  /// <code>ChannelMessages</code>. By default, sorted by creation timestamp in
+  /// descending order.
+  /// <note>
+  /// Redacted messages appear in the results as empty, since they are only
+  /// redacted, not deleted. Deleted messages do not appear in the results. This
+  /// action always returns the latest version of an edited message.
+  ///
+  /// Also, the x-amz-chime-bearer request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [channelArn] :
+  /// The ARN of the channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of messages that you want returned.
@@ -5841,12 +5441,13 @@ class Chime {
   /// The order in which you want messages sorted. Default is Descending, based
   /// on time created.
   Future<ListChannelMessagesResponse> listChannelMessages({
-    @_s.required String channelArn,
-    int maxResults,
-    String nextToken,
-    DateTime notAfter,
-    DateTime notBefore,
-    SortOrder sortOrder,
+    required String channelArn,
+    String? chimeBearer,
+    int? maxResults,
+    String? nextToken,
+    DateTime? notAfter,
+    DateTime? notBefore,
+    SortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -5856,11 +5457,11 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
     _s.validateNumRange(
       'maxResults',
@@ -5874,11 +5475,9 @@ class Chime {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -5893,12 +5492,18 @@ class Chime {
       method: 'GET',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}/messages',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelMessagesResponse.fromJson(response);
   }
 
   /// Lists all the moderators for a channel.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -5910,6 +5515,9 @@ class Chime {
   /// Parameter [channelArn] :
   /// The ARN of the channel.
   ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of moderators that you want returned.
   ///
@@ -5917,9 +5525,10 @@ class Chime {
   /// The token passed by previous API calls until all requested moderators are
   /// returned.
   Future<ListChannelModeratorsResponse> listChannelModerators({
-    @_s.required String channelArn,
-    int maxResults,
-    String nextToken,
+    required String channelArn,
+    String? chimeBearer,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -5929,11 +5538,11 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
     _s.validateNumRange(
       'maxResults',
@@ -5947,11 +5556,9 @@ class Chime {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
@@ -5961,6 +5568,7 @@ class Chime {
       method: 'GET',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}/moderators',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelModeratorsResponse.fromJson(response);
@@ -5973,13 +5581,17 @@ class Chime {
   /// <ul>
   /// <li>
   /// Use privacy = <code>PUBLIC</code> to retrieve all public channels in the
-  /// account
+  /// account.
   /// </li>
   /// <li>
   /// Only an <code>AppInstanceAdmin</code> can set privacy =
   /// <code>PRIVATE</code> to list the private channels in an account.
   /// </li>
-  /// </ul>
+  /// </ul> <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -5989,7 +5601,10 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of channels that you want to return.
@@ -6000,13 +5615,14 @@ class Chime {
   ///
   /// Parameter [privacy] :
   /// The privacy setting. <code>PUBLIC</code> retrieves all the public
-  /// channels. <code>PRIVATE</code> retrieves private channels. Only an app
-  /// instance administrator can retrieve private channels.
+  /// channels. <code>PRIVATE</code> retrieves private channels. Only an
+  /// <code>AppInstanceAdmin</code> can retrieve private channels.
   Future<ListChannelsResponse> listChannels({
-    @_s.required String appInstanceArn,
-    int maxResults,
-    String nextToken,
-    ChannelPrivacy privacy,
+    required String appInstanceArn,
+    String? chimeBearer,
+    int? maxResults,
+    String? nextToken,
+    ChannelPrivacy? privacy,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -6016,11 +5632,11 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
     _s.validateNumRange(
       'maxResults',
@@ -6034,13 +5650,11 @@ class Chime {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $query = <String, List<String>>{
-      if (appInstanceArn != null) 'app-instance-arn': [appInstanceArn],
+      'app-instance-arn': [appInstanceArn],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
       if (privacy != null) 'privacy': [privacy.toValue()],
@@ -6050,12 +5664,18 @@ class Chime {
       method: 'GET',
       requestUri: '/channels',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelsResponse.fromJson(response);
   }
 
-  /// A list of the channels moderated by an app instance user.
+  /// A list of the channels moderated by an <code>AppInstanceUser</code>.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -6067,6 +5687,9 @@ class Chime {
   /// Parameter [appInstanceUserArn] :
   /// The ARN of the user in the moderated channel.
   ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of channels in the request.
   ///
@@ -6075,9 +5698,10 @@ class Chime {
   /// moderated by the user is reached.
   Future<ListChannelsModeratedByAppInstanceUserResponse>
       listChannelsModeratedByAppInstanceUser({
-    String appInstanceUserArn,
-    int maxResults,
-    String nextToken,
+    String? appInstanceUserArn,
+    String? chimeBearer,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'appInstanceUserArn',
@@ -6085,10 +5709,11 @@ class Chime {
       5,
       1600,
     );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
     _s.validateNumRange(
       'maxResults',
@@ -6102,11 +5727,9 @@ class Chime {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $query = <String, List<String>>{
       if (appInstanceUserArn != null)
         'app-instance-user-arn': [appInstanceUserArn],
@@ -6118,9 +5741,49 @@ class Chime {
       method: 'GET',
       requestUri: '/channels?scope=app-instance-user-moderated-channels',
       queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelsModeratedByAppInstanceUserResponse.fromJson(response);
+  }
+
+  /// Returns a list of media capture pipelines.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in a single call. Valid Range: 1 -
+  /// 99.
+  ///
+  /// Parameter [nextToken] :
+  /// The token used to retrieve the next page of results.
+  Future<ListMediaCapturePipelinesResponse> listMediaCapturePipelines({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      99,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/media-capture-pipelines',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListMediaCapturePipelinesResponse.fromJson(response);
   }
 
   /// Lists the tags applied to an Amazon Chime SDK meeting resource.
@@ -6136,15 +5799,9 @@ class Chime {
   /// Parameter [meetingId] :
   /// The Amazon Chime SDK meeting ID.
   Future<ListMeetingTagsResponse> listMeetingTags({
-    @_s.required String meetingId,
+    required String meetingId,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -6172,8 +5829,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListMeetingsResponse> listMeetings({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6211,8 +5868,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListPhoneNumberOrdersResponse> listPhoneNumberOrders({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6241,6 +5898,7 @@ class Chime {
   /// May throw [UnauthorizedClientException].
   /// May throw [ForbiddenException].
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
   /// May throw [ThrottledClientException].
   /// May throw [ServiceUnavailableException].
   /// May throw [ServiceFailureException].
@@ -6263,12 +5921,12 @@ class Chime {
   /// Parameter [status] :
   /// The phone number status.
   Future<ListPhoneNumbersResponse> listPhoneNumbers({
-    PhoneNumberAssociationName filterName,
-    String filterValue,
-    int maxResults,
-    String nextToken,
-    PhoneNumberProductType productType,
-    PhoneNumberStatus status,
+    PhoneNumberAssociationName? filterName,
+    String? filterValue,
+    int? maxResults,
+    String? nextToken,
+    PhoneNumberProductType? productType,
+    PhoneNumberStatus? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6316,10 +5974,10 @@ class Chime {
   /// Parameter [status] :
   /// The proxy session status.
   Future<ListProxySessionsResponse> listProxySessions({
-    @_s.required String voiceConnectorId,
-    int maxResults,
-    String nextToken,
-    ProxySessionStatus status,
+    required String voiceConnectorId,
+    int? maxResults,
+    String? nextToken,
+    ProxySessionStatus? status,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
@@ -6327,12 +5985,6 @@ class Chime {
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -6386,25 +6038,13 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListRoomMembershipsResponse> listRoomMemberships({
-    @_s.required String accountId,
-    @_s.required String roomId,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    required String roomId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6450,18 +6090,12 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListRoomsResponse> listRooms({
-    @_s.required String accountId,
-    int maxResults,
-    String memberId,
-    String nextToken,
+    required String accountId,
+    int? maxResults,
+    String? memberId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6498,8 +6132,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListSipMediaApplicationsResponse> listSipMediaApplications({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6545,9 +6179,9 @@ class Chime {
   /// Parameter [sipMediaApplicationId] :
   /// The SIP media application ID.
   Future<ListSipRulesResponse> listSipRules({
-    int maxResults,
-    String nextToken,
-    String sipMediaApplicationId,
+    int? maxResults,
+    String? nextToken,
+    String? sipMediaApplicationId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6560,11 +6194,6 @@ class Chime {
       nextToken,
       0,
       65535,
-    );
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -6582,6 +6211,36 @@ class Chime {
     return ListSipRulesResponse.fromJson(response);
   }
 
+  /// Lists supported phone number countries.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [AccessDeniedException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ThrottledClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [productType] :
+  /// The phone number product type.
+  Future<ListSupportedPhoneNumberCountriesResponse>
+      listSupportedPhoneNumberCountries({
+    required PhoneNumberProductType productType,
+  }) async {
+    ArgumentError.checkNotNull(productType, 'productType');
+    final $query = <String, List<String>>{
+      'product-type': [productType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/phone-number-countries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSupportedPhoneNumberCountriesResponse.fromJson(response);
+  }
+
   /// Lists the tags applied to an Amazon Chime SDK meeting resource.
   ///
   /// May throw [BadRequestException].
@@ -6594,7 +6253,7 @@ class Chime {
   /// Parameter [resourceARN] :
   /// The resource ARN.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -6604,14 +6263,8 @@ class Chime {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn[\/\:\-\_\.a-zA-Z0-9]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (resourceARN != null) 'arn': [resourceARN],
+      'arn': [resourceARN],
     };
     final response = await _protocol.send(
       payload: null,
@@ -6650,29 +6303,18 @@ class Chime {
   /// Parameter [userType] :
   /// The user type.
   Future<ListUsersResponse> listUsers({
-    @_s.required String accountId,
-    int maxResults,
-    String nextToken,
-    String userEmail,
-    UserType userType,
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
+    String? userEmail,
+    UserType? userType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'userEmail',
-      userEmail,
-      r'''.+@.+\..+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -6706,8 +6348,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListVoiceConnectorGroupsResponse> listVoiceConnectorGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6743,15 +6385,9 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<ListVoiceConnectorTerminationCredentialsResponse>
       listVoiceConnectorTerminationCredentials({
-    @_s.required String voiceConnectorId,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -6778,8 +6414,8 @@ class Chime {
   /// Parameter [nextToken] :
   /// The token to use to retrieve the next page of results.
   Future<ListVoiceConnectorsResponse> listVoiceConnectors({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6818,23 +6454,11 @@ class Chime {
   /// Parameter [userId] :
   /// The user ID.
   Future<void> logoutUser({
-    @_s.required String accountId,
-    @_s.required String userId,
+    required String accountId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -6842,10 +6466,10 @@ class Chime {
           '/accounts/${Uri.encodeComponent(accountId)}/users/${Uri.encodeComponent(userId)}?operation=logout',
       exceptionFnMap: _exceptionFns,
     );
-    return LogoutUserResponse.fromJson(response);
   }
 
-  /// Sets the amount of time in days that a given app instance retains data.
+  /// Sets the amount of time in days that a given <code>AppInstance</code>
+  /// retains data.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -6857,14 +6481,14 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   ///
   /// Parameter [appInstanceRetentionSettings] :
   /// The time in days to retain data. Data type: number.
   Future<PutAppInstanceRetentionSettingsResponse>
       putAppInstanceRetentionSettings({
-    @_s.required String appInstanceArn,
-    @_s.required AppInstanceRetentionSettings appInstanceRetentionSettings,
+    required String appInstanceArn,
+    required AppInstanceRetentionSettings appInstanceRetentionSettings,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -6872,12 +6496,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -6895,7 +6513,7 @@ class Chime {
     return PutAppInstanceRetentionSettingsResponse.fromJson(response);
   }
 
-  /// The data streaming configurations of an app instance.
+  /// The data streaming configurations of an <code>AppInstance</code>.
   ///
   /// May throw [NotFoundException].
   /// May throw [BadRequestException].
@@ -6906,16 +6524,15 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   ///
   /// Parameter [appInstanceStreamingConfigurations] :
-  /// The streaming configurations set for an app instance.
+  /// The streaming configurations set for an <code>AppInstance</code>.
   Future<PutAppInstanceStreamingConfigurationsResponse>
       putAppInstanceStreamingConfigurations({
-    @_s.required String appInstanceArn,
-    @_s.required
-        List<AppInstanceStreamingConfiguration>
-            appInstanceStreamingConfigurations,
+    required String appInstanceArn,
+    required List<AppInstanceStreamingConfiguration>
+        appInstanceStreamingConfigurations,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -6923,12 +6540,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(appInstanceStreamingConfigurations,
@@ -6970,25 +6581,13 @@ class Chime {
   /// Parameter [outboundEventsHTTPSEndpoint] :
   /// HTTPS endpoint that allows the bot to receive outgoing events.
   Future<PutEventsConfigurationResponse> putEventsConfiguration({
-    @_s.required String accountId,
-    @_s.required String botId,
-    String lambdaFunctionArn,
-    String outboundEventsHTTPSEndpoint,
+    required String accountId,
+    required String botId,
+    String? lambdaFunctionArn,
+    String? outboundEventsHTTPSEndpoint,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (lambdaFunctionArn != null) 'LambdaFunctionArn': lambdaFunctionArn,
       if (outboundEventsHTTPSEndpoint != null)
@@ -7034,16 +6633,10 @@ class Chime {
   /// Parameter [retentionSettings] :
   /// The retention settings.
   Future<PutRetentionSettingsResponse> putRetentionSettings({
-    @_s.required String accountId,
-    @_s.required RetentionSettings retentionSettings,
+    required String accountId,
+    required RetentionSettings retentionSettings,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(retentionSettings, 'retentionSettings');
     final $payload = <String, dynamic>{
       'RetentionSettings': retentionSettings,
@@ -7069,23 +6662,17 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [sipMediaApplicationId] :
-  /// The ID of the specified SIP media application
+  /// The SIP media application ID.
   ///
   /// Parameter [sipMediaApplicationLoggingConfiguration] :
   /// The actual logging configuration.
   Future<PutSipMediaApplicationLoggingConfigurationResponse>
       putSipMediaApplicationLoggingConfiguration({
-    @_s.required String sipMediaApplicationId,
-    SipMediaApplicationLoggingConfiguration
+    required String sipMediaApplicationId,
+    SipMediaApplicationLoggingConfiguration?
         sipMediaApplicationLoggingConfiguration,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (sipMediaApplicationLoggingConfiguration != null)
         'SipMediaApplicationLoggingConfiguration':
@@ -7122,18 +6709,12 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<PutVoiceConnectorEmergencyCallingConfigurationResponse>
       putVoiceConnectorEmergencyCallingConfiguration({
-    @_s.required EmergencyCallingConfiguration emergencyCallingConfiguration,
-    @_s.required String voiceConnectorId,
+    required EmergencyCallingConfiguration emergencyCallingConfiguration,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(
         emergencyCallingConfiguration, 'emergencyCallingConfiguration');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'EmergencyCallingConfiguration': emergencyCallingConfiguration,
     };
@@ -7167,17 +6748,11 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<PutVoiceConnectorLoggingConfigurationResponse>
       putVoiceConnectorLoggingConfiguration({
-    @_s.required LoggingConfiguration loggingConfiguration,
-    @_s.required String voiceConnectorId,
+    required LoggingConfiguration loggingConfiguration,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(loggingConfiguration, 'loggingConfiguration');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'LoggingConfiguration': loggingConfiguration,
     };
@@ -7211,17 +6786,11 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<PutVoiceConnectorOriginationResponse> putVoiceConnectorOrigination({
-    @_s.required Origination origination,
-    @_s.required String voiceConnectorId,
+    required Origination origination,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(origination, 'origination');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Origination': origination,
     };
@@ -7263,11 +6832,11 @@ class Chime {
   /// Parameter [fallBackPhoneNumber] :
   /// The phone number to route calls to after a proxy session expires.
   Future<PutVoiceConnectorProxyResponse> putVoiceConnectorProxy({
-    @_s.required int defaultSessionExpiryMinutes,
-    @_s.required List<String> phoneNumberPoolCountries,
-    @_s.required String voiceConnectorId,
-    bool disabled,
-    String fallBackPhoneNumber,
+    required int defaultSessionExpiryMinutes,
+    required List<String> phoneNumberPoolCountries,
+    required String voiceConnectorId,
+    bool? disabled,
+    String? fallBackPhoneNumber,
   }) async {
     ArgumentError.checkNotNull(
         defaultSessionExpiryMinutes, 'defaultSessionExpiryMinutes');
@@ -7280,17 +6849,6 @@ class Chime {
       1,
       128,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'fallBackPhoneNumber',
-      fallBackPhoneNumber,
-      r'''^\+?[1-9]\d{1,14}$''',
     );
     final $payload = <String, dynamic>{
       'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
@@ -7311,8 +6869,8 @@ class Chime {
 
   /// Adds a streaming configuration for the specified Amazon Chime Voice
   /// Connector. The streaming configuration specifies whether media streaming
-  /// is enabled for sending to Amazon Kinesis. It also sets the retention
-  /// period, in hours, for the Amazon Kinesis data.
+  /// is enabled for sending to Indonesians. It also sets the retention period,
+  /// in hours, for the Amazon Kinesis data.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -7329,18 +6887,12 @@ class Chime {
   /// The Amazon Chime Voice Connector ID.
   Future<PutVoiceConnectorStreamingConfigurationResponse>
       putVoiceConnectorStreamingConfiguration({
-    @_s.required StreamingConfiguration streamingConfiguration,
-    @_s.required String voiceConnectorId,
+    required StreamingConfiguration streamingConfiguration,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(
         streamingConfiguration, 'streamingConfiguration');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'StreamingConfiguration': streamingConfiguration,
     };
@@ -7375,17 +6927,11 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<PutVoiceConnectorTerminationResponse> putVoiceConnectorTermination({
-    @_s.required Termination termination,
-    @_s.required String voiceConnectorId,
+    required Termination termination,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(termination, 'termination');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Termination': termination,
     };
@@ -7416,16 +6962,10 @@ class Chime {
   /// Parameter [credentials] :
   /// The termination SIP credentials.
   Future<void> putVoiceConnectorTerminationCredentials({
-    @_s.required String voiceConnectorId,
-    List<Credential> credentials,
+    required String voiceConnectorId,
+    List<Credential>? credentials,
   }) async {
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (credentials != null) 'Credentials': credentials,
     };
@@ -7440,6 +6980,11 @@ class Chime {
 
   /// Redacts message content, but not metadata. The message exists in the back
   /// end, but the action returns null content, and the state shows as redacted.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -7453,9 +6998,13 @@ class Chime {
   ///
   /// Parameter [messageId] :
   /// The ID of the message being redacted.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<RedactChannelMessageResponse> redactChannelMessage({
-    @_s.required String channelArn,
-    @_s.required String messageId,
+    required String channelArn,
+    required String messageId,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -7463,12 +7012,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(messageId, 'messageId');
@@ -7479,17 +7022,21 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}?operation=redact',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return RedactChannelMessageResponse.fromJson(response);
@@ -7515,31 +7062,13 @@ class Chime {
   /// Parameter [messageId] :
   /// The message ID.
   Future<void> redactConversationMessage({
-    @_s.required String accountId,
-    @_s.required String conversationId,
-    @_s.required String messageId,
+    required String accountId,
+    required String conversationId,
+    required String messageId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(conversationId, 'conversationId');
-    _s.validateStringPattern(
-      'conversationId',
-      conversationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7547,7 +7076,6 @@ class Chime {
           '/accounts/${Uri.encodeComponent(accountId)}/conversations/${Uri.encodeComponent(conversationId)}/messages/${Uri.encodeComponent(messageId)}?operation=redact',
       exceptionFnMap: _exceptionFns,
     );
-    return RedactConversationMessageResponse.fromJson(response);
   }
 
   /// Redacts the specified message from the specified Amazon Chime channel.
@@ -7569,31 +7097,13 @@ class Chime {
   /// Parameter [roomId] :
   /// The room ID.
   Future<void> redactRoomMessage({
-    @_s.required String accountId,
-    @_s.required String messageId,
-    @_s.required String roomId,
+    required String accountId,
+    required String messageId,
+    required String roomId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(messageId, 'messageId');
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7601,7 +7111,6 @@ class Chime {
           '/accounts/${Uri.encodeComponent(accountId)}/rooms/${Uri.encodeComponent(roomId)}/messages/${Uri.encodeComponent(messageId)}?operation=redact',
       exceptionFnMap: _exceptionFns,
     );
-    return RedactRoomMessageResponse.fromJson(response);
   }
 
   /// Regenerates the security token for a bot.
@@ -7620,23 +7129,11 @@ class Chime {
   /// Parameter [botId] :
   /// The bot ID.
   Future<RegenerateSecurityTokenResponse> regenerateSecurityToken({
-    @_s.required String accountId,
-    @_s.required String botId,
+    required String accountId,
+    required String botId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7665,23 +7162,11 @@ class Chime {
   /// Parameter [userId] :
   /// The user ID.
   Future<ResetPersonalPINResponse> resetPersonalPIN({
-    @_s.required String accountId,
-    @_s.required String userId,
+    required String accountId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7707,15 +7192,9 @@ class Chime {
   /// Parameter [phoneNumberId] :
   /// The phone number.
   Future<RestorePhoneNumberResponse> restorePhoneNumber({
-    @_s.required String phoneNumberId,
+    required String phoneNumberId,
   }) async {
     ArgumentError.checkNotNull(phoneNumberId, 'phoneNumberId');
-    _s.validateStringPattern(
-      'phoneNumberId',
-      phoneNumberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -7726,7 +7205,12 @@ class Chime {
     return RestorePhoneNumberResponse.fromJson(response);
   }
 
-  /// Searches phone numbers that can be ordered.
+  /// Searches for phone numbers that can be ordered. For US numbers, provide at
+  /// least one of the following search filters: <code>AreaCode</code>,
+  /// <code>City</code>, <code>State</code>, or <code>TollFreePrefix</code>. If
+  /// you provide <code>City</code>, you must also provide <code>State</code>.
+  /// Numbers outside the US only support the <code>PhoneNumberType</code>
+  /// filter, which you must use.
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -7737,33 +7221,40 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [areaCode] :
-  /// The area code used to filter results.
+  /// The area code used to filter results. Only applies to the US.
   ///
   /// Parameter [city] :
-  /// The city used to filter results.
+  /// The city used to filter results. Only applies to the US.
   ///
   /// Parameter [country] :
-  /// The country used to filter results.
+  /// The country used to filter results. Defaults to the US Format: ISO 3166-1
+  /// alpha-2.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call.
   ///
   /// Parameter [nextToken] :
-  /// The token to use to retrieve the next page of results.
+  /// The token used to retrieve the next page of results.
+  ///
+  /// Parameter [phoneNumberType] :
+  /// The phone number type used to filter results. Required for non-US numbers.
   ///
   /// Parameter [state] :
-  /// The state used to filter results.
+  /// The state used to filter results. Required only if you provide
+  /// <code>City</code>. Only applies to the US.
   ///
   /// Parameter [tollFreePrefix] :
-  /// The toll-free prefix that you use to filter results.
+  /// The toll-free prefix that you use to filter results. Only applies to the
+  /// US.
   Future<SearchAvailablePhoneNumbersResponse> searchAvailablePhoneNumbers({
-    String areaCode,
-    String city,
-    String country,
-    int maxResults,
-    String nextToken,
-    String state,
-    String tollFreePrefix,
+    String? areaCode,
+    String? city,
+    String? country,
+    int? maxResults,
+    String? nextToken,
+    PhoneNumberType? phoneNumberType,
+    String? state,
+    String? tollFreePrefix,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7777,17 +7268,14 @@ class Chime {
       3,
       3,
     );
-    _s.validateStringPattern(
-      'tollFreePrefix',
-      tollFreePrefix,
-      r'''^8(00|33|44|55|66|77|88)$''',
-    );
     final $query = <String, List<String>>{
       if (areaCode != null) 'area-code': [areaCode],
       if (city != null) 'city': [city],
       if (country != null) 'country': [country],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (nextToken != null) 'next-token': [nextToken],
+      if (phoneNumberType != null)
+        'phone-number-type': [phoneNumberType.toValue()],
       if (state != null) 'state': [state],
       if (tollFreePrefix != null) 'toll-free-prefix': [tollFreePrefix],
     };
@@ -7803,9 +7291,13 @@ class Chime {
 
   /// Sends a message to a particular channel that the member is a part of.
   /// <note>
-  /// <code>STANDARD</code> messages can contain 4KB of data and the 1KB of
-  /// metadata. <code>CONTROL</code> messages can contain 30 bytes of data and
-  /// no metadata.
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  ///
+  /// Also, <code>STANDARD</code> messages can contain 4KB of data and the 1KB
+  /// of metadata. <code>CONTROL</code> messages can contain 30 bytes of data
+  /// and no metadata.
   /// </note>
   ///
   /// May throw [BadRequestException].
@@ -7819,9 +7311,6 @@ class Chime {
   /// Parameter [channelArn] :
   /// The ARN of the channel.
   ///
-  /// Parameter [clientRequestToken] :
-  /// The <code>Idempotency</code> token for each client request.
-  ///
   /// Parameter [content] :
   /// The content of the message.
   ///
@@ -7832,15 +7321,22 @@ class Chime {
   /// Parameter [type] :
   /// The type of message, <code>STANDARD</code> or <code>CONTROL</code>.
   ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The <code>Idempotency</code> token for each client request.
+  ///
   /// Parameter [metadata] :
   /// The optional metadata for each message.
   Future<SendChannelMessageResponse> sendChannelMessage({
-    @_s.required String channelArn,
-    @_s.required String clientRequestToken,
-    @_s.required String content,
-    @_s.required ChannelMessagePersistenceType persistence,
-    @_s.required ChannelMessageType type,
-    String metadata,
+    required String channelArn,
+    required String content,
+    required ChannelMessagePersistenceType persistence,
+    required ChannelMessageType type,
+    String? chimeBearer,
+    String? clientRequestToken,
+    String? metadata,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -7850,64 +7346,49 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      2,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(content, 'content');
     _s.validateStringLength(
       'content',
       content,
       1,
-      4096,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
+      1152921504606846976,
       isRequired: true,
     );
     ArgumentError.checkNotNull(persistence, 'persistence');
     ArgumentError.checkNotNull(type, 'type');
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
+    );
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      2,
+      64,
+    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'Content': content,
-      'Persistence': persistence?.toValue() ?? '',
-      'Type': type?.toValue() ?? '',
+      'Persistence': persistence.toValue(),
+      'Type': type.toValue(),
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (metadata != null) 'Metadata': metadata,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}/messages',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return SendChannelMessageResponse.fromJson(response);
@@ -7933,24 +7414,12 @@ class Chime {
   /// Parameter [tags] :
   /// The tag key-value pairs.
   Future<void> tagAttendee({
-    @_s.required String attendeeId,
-    @_s.required String meetingId,
-    @_s.required List<Tag> tags,
+    required String attendeeId,
+    required String meetingId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -7981,16 +7450,10 @@ class Chime {
   /// Parameter [tags] :
   /// The tag key-value pairs.
   Future<void> tagMeeting({
-    @_s.required String meetingId,
-    @_s.required List<Tag> tags,
+    required String meetingId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -8020,8 +7483,8 @@ class Chime {
   /// Parameter [tags] :
   /// The tag key-value pairs.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -8029,12 +7492,6 @@ class Chime {
       resourceARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn[\/\:\-\_\.a-zA-Z0-9]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -8069,24 +7526,12 @@ class Chime {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagAttendee({
-    @_s.required String attendeeId,
-    @_s.required String meetingId,
-    @_s.required List<String> tagKeys,
+    required String attendeeId,
+    required String meetingId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(attendeeId, 'attendeeId');
-    _s.validateStringPattern(
-      'attendeeId',
-      attendeeId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
@@ -8116,16 +7561,10 @@ class Chime {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagMeeting({
-    @_s.required String meetingId,
-    @_s.required List<String> tagKeys,
+    required String meetingId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(meetingId, 'meetingId');
-    _s.validateStringPattern(
-      'meetingId',
-      meetingId,
-      r'''[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
@@ -8155,8 +7594,8 @@ class Chime {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -8164,12 +7603,6 @@ class Chime {
       resourceARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn[\/\:\-\_\.a-zA-Z0-9]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -8186,7 +7619,8 @@ class Chime {
   }
 
   /// Updates account details for the specified Amazon Chime account. Currently,
-  /// only account name updates are supported for this action.
+  /// only account name and default license updates are supported for this
+  /// action.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -8199,31 +7633,25 @@ class Chime {
   /// Parameter [accountId] :
   /// The Amazon Chime account ID.
   ///
+  /// Parameter [defaultLicense] :
+  /// The default license applied when you add users to an Amazon Chime account.
+  ///
   /// Parameter [name] :
   /// The new name for the specified Amazon Chime account.
   Future<UpdateAccountResponse> updateAccount({
-    @_s.required String accountId,
-    String name,
+    required String accountId,
+    License? defaultLicense,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       100,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-    );
     final $payload = <String, dynamic>{
+      if (defaultLicense != null) 'DefaultLicense': defaultLicense.toValue(),
       if (name != null) 'Name': name,
     };
     final response = await _protocol.send(
@@ -8256,16 +7684,10 @@ class Chime {
   /// Parameter [accountSettings] :
   /// The Amazon Chime account settings to update.
   Future<void> updateAccountSettings({
-    @_s.required String accountId,
-    @_s.required AccountSettings accountSettings,
+    required String accountId,
+    required AccountSettings accountSettings,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(accountSettings, 'accountSettings');
     final $payload = <String, dynamic>{
       'AccountSettings': accountSettings,
@@ -8276,7 +7698,6 @@ class Chime {
       requestUri: '/accounts/${Uri.encodeComponent(accountId)}/settings',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateAccountSettingsResponse.fromJson(response);
   }
 
   /// Updates <code>AppInstance</code> metadata.
@@ -8290,7 +7711,7 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceArn] :
-  /// The ARN of the app instance.
+  /// The ARN of the <code>AppInstance</code>.
   ///
   /// Parameter [name] :
   /// The name that you want to change.
@@ -8298,9 +7719,9 @@ class Chime {
   /// Parameter [metadata] :
   /// The metadata that you want to change.
   Future<UpdateAppInstanceResponse> updateAppInstance({
-    @_s.required String appInstanceArn,
-    @_s.required String name,
-    String metadata,
+    required String appInstanceArn,
+    required String name,
+    String? metadata,
   }) async {
     ArgumentError.checkNotNull(appInstanceArn, 'appInstanceArn');
     _s.validateStringLength(
@@ -8308,12 +7729,6 @@ class Chime {
       appInstanceArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceArn',
-      appInstanceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -8324,22 +7739,11 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -8354,7 +7758,7 @@ class Chime {
     return UpdateAppInstanceResponse.fromJson(response);
   }
 
-  /// Updates the details for an <code>AppInstanceUser</code>. You can update
+  /// Updates the details of an <code>AppInstanceUser</code>. You can update
   /// names and metadata.
   ///
   /// May throw [BadRequestException].
@@ -8366,17 +7770,17 @@ class Chime {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [appInstanceUserArn] :
-  /// The ARN of the app instance user.
+  /// The ARN of the <code>AppInstanceUser</code>.
   ///
   /// Parameter [name] :
-  /// The name of the app instance user.
+  /// The name of the <code>AppInstanceUser</code>.
   ///
   /// Parameter [metadata] :
-  /// The metadata of the app instance user.
+  /// The metadata of the <code>AppInstanceUser</code>.
   Future<UpdateAppInstanceUserResponse> updateAppInstanceUser({
-    @_s.required String appInstanceUserArn,
-    @_s.required String name,
-    String metadata,
+    required String appInstanceUserArn,
+    required String name,
+    String? metadata,
   }) async {
     ArgumentError.checkNotNull(appInstanceUserArn, 'appInstanceUserArn');
     _s.validateStringLength(
@@ -8384,12 +7788,6 @@ class Chime {
       appInstanceUserArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appInstanceUserArn',
-      appInstanceUserArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -8400,22 +7798,11 @@ class Chime {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -8451,24 +7838,12 @@ class Chime {
   /// Parameter [disabled] :
   /// When true, stops the specified bot from running in your account.
   Future<UpdateBotResponse> updateBot({
-    @_s.required String accountId,
-    @_s.required String botId,
-    bool disabled,
+    required String accountId,
+    required String botId,
+    bool? disabled,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(botId, 'botId');
-    _s.validateStringPattern(
-      'botId',
-      botId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (disabled != null) 'Disabled': disabled,
     };
@@ -8485,6 +7860,11 @@ class Chime {
   /// Update a channel's attributes.
   ///
   /// <b>Restriction</b>: You can't change a channel's privacy.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -8503,13 +7883,17 @@ class Chime {
   /// Parameter [name] :
   /// The name of the channel.
   ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
   /// Parameter [metadata] :
-  /// The metadata of the channel.
+  /// The metadata for the update request.
   Future<UpdateChannelResponse> updateChannel({
-    @_s.required String channelArn,
-    @_s.required ChannelMode mode,
-    @_s.required String name,
-    String metadata,
+    required String channelArn,
+    required ChannelMode mode,
+    required String name,
+    String? chimeBearer,
+    String? metadata,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -8517,12 +7901,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(mode, 'mode');
@@ -8534,11 +7912,11 @@ class Chime {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
     _s.validateStringLength(
       'metadata',
@@ -8546,13 +7924,11 @@ class Chime {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $payload = <String, dynamic>{
-      'Mode': mode?.toValue() ?? '',
+      'Mode': mode.toValue(),
       'Name': name,
       if (metadata != null) 'Metadata': metadata,
     };
@@ -8560,12 +7936,18 @@ class Chime {
       payload: $payload,
       method: 'PUT',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelResponse.fromJson(response);
   }
 
   /// Updates the content of a message.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ConflictException].
@@ -8581,16 +7963,20 @@ class Chime {
   /// Parameter [messageId] :
   /// The ID string of the message being updated.
   ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
+  ///
   /// Parameter [content] :
   /// The content of the message being updated.
   ///
   /// Parameter [metadata] :
   /// The metadata of the message being updated.
   Future<UpdateChannelMessageResponse> updateChannelMessage({
-    @_s.required String channelArn,
-    @_s.required String messageId,
-    String content,
-    String metadata,
+    required String channelArn,
+    required String messageId,
+    String? chimeBearer,
+    String? content,
+    String? metadata,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -8598,12 +7984,6 @@ class Chime {
       channelArn,
       5,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(messageId, 'messageId');
@@ -8614,11 +7994,11 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messageId',
-      messageId,
-      r'''[-_a-zA-Z0-9]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
     _s.validateStringLength(
       'content',
@@ -8626,22 +8006,15 @@ class Chime {
       0,
       4096,
     );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
-    );
     _s.validateStringLength(
       'metadata',
       metadata,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'metadata',
-      metadata,
-      r'''.*''',
-    );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final $payload = <String, dynamic>{
       if (content != null) 'Content': content,
       if (metadata != null) 'Metadata': metadata,
@@ -8651,13 +8024,18 @@ class Chime {
       method: 'PUT',
       requestUri:
           '/channels/${Uri.encodeComponent(channelArn)}/messages/${Uri.encodeComponent(messageId)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelMessageResponse.fromJson(response);
   }
 
-  /// Sets the timestamp to the point when a user last read messages in a
-  /// channel.
+  /// The details of the time when a user last read messages in a channel.
+  /// <note>
+  /// The <code>x-amz-chime-bearer</code> request header is mandatory. Use the
+  /// <code>AppInstanceUserArn</code> of the user that makes the API call as the
+  /// value in the header.
+  /// </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [ForbiddenException].
@@ -8669,8 +8047,12 @@ class Chime {
   ///
   /// Parameter [channelArn] :
   /// The ARN of the channel.
+  ///
+  /// Parameter [chimeBearer] :
+  /// The <code>AppInstanceUserArn</code> of the user that makes the API call.
   Future<UpdateChannelReadMarkerResponse> updateChannelReadMarker({
-    @_s.required String channelArn,
+    required String channelArn,
+    String? chimeBearer,
   }) async {
     ArgumentError.checkNotNull(channelArn, 'channelArn');
     _s.validateStringLength(
@@ -8680,16 +8062,20 @@ class Chime {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelArn',
-      channelArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
+    _s.validateStringLength(
+      'chimeBearer',
+      chimeBearer,
+      5,
+      1600,
     );
+    final headers = <String, String>{
+      if (chimeBearer != null) 'x-amz-chime-bearer': chimeBearer.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
       requestUri: '/channels/${Uri.encodeComponent(channelArn)}/readMarker',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelReadMarkerResponse.fromJson(response);
@@ -8711,8 +8097,8 @@ class Chime {
   /// Parameter [voiceConnector] :
   /// The Amazon Chime Voice Connector settings.
   Future<void> updateGlobalSettings({
-    @_s.required BusinessCallingSettings businessCalling,
-    @_s.required VoiceConnectorSettings voiceConnector,
+    required BusinessCallingSettings businessCalling,
+    required VoiceConnectorSettings voiceConnector,
   }) async {
     ArgumentError.checkNotNull(businessCalling, 'businessCalling');
     ArgumentError.checkNotNull(voiceConnector, 'voiceConnector');
@@ -8733,12 +8119,13 @@ class Chime {
   /// time. For example, you can update either the product type or the calling
   /// name in one action.
   ///
-  /// For toll-free numbers, you must use the Amazon Chime Voice Connector
-  /// product type.
+  /// For toll-free numbers, you cannot use the Amazon Chime Business Calling
+  /// product type. For numbers outside the U.S., you must use the Amazon Chime
+  /// SIP Media Application Dial-In product type.
   ///
-  /// Updates to outbound calling names can take up to 72 hours to complete.
-  /// Pending updates to outbound calling names must be complete before you can
-  /// request another update.
+  /// Updates to outbound calling names can take 72 hours to complete. Pending
+  /// updates to outbound calling names must be complete before you can request
+  /// another update.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -8757,16 +8144,11 @@ class Chime {
   /// Parameter [productType] :
   /// The product type.
   Future<UpdatePhoneNumberResponse> updatePhoneNumber({
-    @_s.required String phoneNumberId,
-    String callingName,
-    PhoneNumberProductType productType,
+    required String phoneNumberId,
+    String? callingName,
+    PhoneNumberProductType? productType,
   }) async {
     ArgumentError.checkNotNull(phoneNumberId, 'phoneNumberId');
-    _s.validateStringPattern(
-      'callingName',
-      callingName,
-      r'''^$|^[a-zA-Z0-9 ]{2,15}$''',
-    );
     final $payload = <String, dynamic>{
       if (callingName != null) 'CallingName': callingName,
       if (productType != null) 'ProductType': productType.toValue(),
@@ -8795,15 +8177,9 @@ class Chime {
   /// Parameter [callingName] :
   /// The default outbound calling name for the account.
   Future<void> updatePhoneNumberSettings({
-    @_s.required String callingName,
+    required String callingName,
   }) async {
     ArgumentError.checkNotNull(callingName, 'callingName');
-    _s.validateStringPattern(
-      'callingName',
-      callingName,
-      r'''^$|^[a-zA-Z0-9 ]{2,15}$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'CallingName': callingName,
     };
@@ -8838,10 +8214,10 @@ class Chime {
   /// Parameter [expiryMinutes] :
   /// The number of minutes allowed for the proxy session.
   Future<UpdateProxySessionResponse> updateProxySession({
-    @_s.required List<Capability> capabilities,
-    @_s.required String proxySessionId,
-    @_s.required String voiceConnectorId,
-    int expiryMinutes,
+    required List<Capability> capabilities,
+    required String proxySessionId,
+    required String voiceConnectorId,
+    int? expiryMinutes,
   }) async {
     ArgumentError.checkNotNull(capabilities, 'capabilities');
     ArgumentError.checkNotNull(proxySessionId, 'proxySessionId');
@@ -8852,24 +8228,12 @@ class Chime {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'proxySessionId',
-      proxySessionId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
     _s.validateStringLength(
       'voiceConnectorId',
       voiceConnectorId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8879,7 +8243,7 @@ class Chime {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'Capabilities': capabilities?.map((e) => e?.toValue() ?? '')?.toList(),
+      'Capabilities': capabilities.map((e) => e.toValue()).toList(),
       if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
     };
     final response = await _protocol.send(
@@ -8912,24 +8276,12 @@ class Chime {
   /// Parameter [name] :
   /// The room name.
   Future<UpdateRoomResponse> updateRoom({
-    @_s.required String accountId,
-    @_s.required String roomId,
-    String name,
+    required String accountId,
+    required String roomId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
     };
@@ -8968,32 +8320,14 @@ class Chime {
   /// Parameter [role] :
   /// The role of the member.
   Future<UpdateRoomMembershipResponse> updateRoomMembership({
-    @_s.required String accountId,
-    @_s.required String memberId,
-    @_s.required String roomId,
-    RoomMembershipRole role,
+    required String accountId,
+    required String memberId,
+    required String roomId,
+    RoomMembershipRole? role,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringPattern(
-      'memberId',
-      memberId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roomId, 'roomId');
-    _s.validateStringPattern(
-      'roomId',
-      roomId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (role != null) 'Role': role.toValue(),
     };
@@ -9007,7 +8341,7 @@ class Chime {
     return UpdateRoomMembershipResponse.fromJson(response);
   }
 
-  /// Updates the details for the specified SIP media application.
+  /// Updates the details of the specified SIP media application.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -9027,17 +8361,11 @@ class Chime {
   /// Parameter [name] :
   /// The new name for the specified SIP media application.
   Future<UpdateSipMediaApplicationResponse> updateSipMediaApplication({
-    @_s.required String sipMediaApplicationId,
-    List<SipMediaApplicationEndpoint> endpoints,
-    String name,
+    required String sipMediaApplicationId,
+    List<SipMediaApplicationEndpoint>? endpoints,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
-    _s.validateStringPattern(
-      'sipMediaApplicationId',
-      sipMediaApplicationId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
@@ -9058,7 +8386,51 @@ class Chime {
     return UpdateSipMediaApplicationResponse.fromJson(response);
   }
 
-  /// Updates the details for the specified SIP rule.
+  /// Allows you to trigger a Lambda function at any time while a call is
+  /// active, and replace the current actions with new actions returned by the
+  /// invocation.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ThrottledClientException].
+  /// May throw [UnauthorizedClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [arguments] :
+  /// Arguments made available to the Lambda function as part of the
+  /// <code>CALL_UPDATE_REQUESTED</code> event. Can contain 0-20 key-value
+  /// pairs.
+  ///
+  /// Parameter [sipMediaApplicationId] :
+  /// The ID of the SIP media application handling the call.
+  ///
+  /// Parameter [transactionId] :
+  /// The ID of the call transaction.
+  Future<UpdateSipMediaApplicationCallResponse> updateSipMediaApplicationCall({
+    required Map<String, String> arguments,
+    required String sipMediaApplicationId,
+    required String transactionId,
+  }) async {
+    ArgumentError.checkNotNull(arguments, 'arguments');
+    ArgumentError.checkNotNull(sipMediaApplicationId, 'sipMediaApplicationId');
+    ArgumentError.checkNotNull(transactionId, 'transactionId');
+    final $payload = <String, dynamic>{
+      'Arguments': arguments,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/sip-media-applications/${Uri.encodeComponent(sipMediaApplicationId)}/calls/${Uri.encodeComponent(transactionId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateSipMediaApplicationCallResponse.fromJson(response);
+  }
+
+  /// Updates the details of the specified SIP rule.
   ///
   /// May throw [UnauthorizedClientException].
   /// May throw [NotFoundException].
@@ -9082,10 +8454,10 @@ class Chime {
   /// Parameter [targetApplications] :
   /// The new value of the list of target applications.
   Future<UpdateSipRuleResponse> updateSipRule({
-    @_s.required String name,
-    @_s.required String sipRuleId,
-    bool disabled,
-    List<SipRuleTargetApplication> targetApplications,
+    required String name,
+    required String sipRuleId,
+    bool? disabled,
+    List<SipRuleTargetApplication>? targetApplications,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9096,12 +8468,6 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(sipRuleId, 'sipRuleId');
-    _s.validateStringPattern(
-      'sipRuleId',
-      sipRuleId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       if (disabled != null) 'Disabled': disabled,
@@ -9143,26 +8509,14 @@ class Chime {
   /// Parameter [userType] :
   /// The user type.
   Future<UpdateUserResponse> updateUser({
-    @_s.required String accountId,
-    @_s.required String userId,
-    AlexaForBusinessMetadata alexaForBusinessMetadata,
-    License licenseType,
-    UserType userType,
+    required String accountId,
+    required String userId,
+    AlexaForBusinessMetadata? alexaForBusinessMetadata,
+    License? licenseType,
+    UserType? userType,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       if (alexaForBusinessMetadata != null)
         'AlexaForBusinessMetadata': alexaForBusinessMetadata,
@@ -9199,9 +8553,9 @@ class Chime {
   /// Parameter [userSettings] :
   /// The user settings to update.
   Future<void> updateUserSettings({
-    @_s.required String accountId,
-    @_s.required String userId,
-    @_s.required UserSettings userSettings,
+    required String accountId,
+    required String userId,
+    required UserSettings userSettings,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(userId, 'userId');
@@ -9237,9 +8591,9 @@ class Chime {
   /// Parameter [voiceConnectorId] :
   /// The Amazon Chime Voice Connector ID.
   Future<UpdateVoiceConnectorResponse> updateVoiceConnector({
-    @_s.required String name,
-    @_s.required bool requireEncryption,
-    @_s.required String voiceConnectorId,
+    required String name,
+    required bool requireEncryption,
+    required String voiceConnectorId,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9251,12 +8605,6 @@ class Chime {
     );
     ArgumentError.checkNotNull(requireEncryption, 'requireEncryption');
     ArgumentError.checkNotNull(voiceConnectorId, 'voiceConnectorId');
-    _s.validateStringPattern(
-      'voiceConnectorId',
-      voiceConnectorId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Name': name,
       'RequireEncryption': requireEncryption,
@@ -9270,7 +8618,7 @@ class Chime {
     return UpdateVoiceConnectorResponse.fromJson(response);
   }
 
-  /// Updates details for the specified Amazon Chime Voice Connector group, such
+  /// Updates details of the specified Amazon Chime Voice Connector group, such
   /// as the name and Amazon Chime Voice Connector priority ranking.
   ///
   /// May throw [UnauthorizedClientException].
@@ -9291,9 +8639,9 @@ class Chime {
   /// Parameter [voiceConnectorItems] :
   /// The <code>VoiceConnectorItems</code> to associate with the group.
   Future<UpdateVoiceConnectorGroupResponse> updateVoiceConnectorGroup({
-    @_s.required String name,
-    @_s.required String voiceConnectorGroupId,
-    @_s.required List<VoiceConnectorItem> voiceConnectorItems,
+    required String name,
+    required String voiceConnectorGroupId,
+    required List<VoiceConnectorItem> voiceConnectorItems,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -9304,12 +8652,6 @@ class Chime {
       isRequired: true,
     );
     ArgumentError.checkNotNull(voiceConnectorGroupId, 'voiceConnectorGroupId');
-    _s.validateStringPattern(
-      'voiceConnectorGroupId',
-      voiceConnectorGroupId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(voiceConnectorItems, 'voiceConnectorItems');
     final $payload = <String, dynamic>{
       'Name': name,
@@ -9328,22 +8670,14 @@ class Chime {
 
 /// The Amazon Chime account details. An AWS account can have multiple Amazon
 /// Chime accounts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Account {
   /// The Amazon Chime account ID.
-  @_s.JsonKey(name: 'AccountId')
   final String accountId;
 
   /// The AWS account ID.
-  @_s.JsonKey(name: 'AwsAccountId')
   final String awsAccountId;
 
   /// The Amazon Chime account name.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The Amazon Chime account type. For more information about different account
@@ -9351,38 +8685,73 @@ class Account {
   /// href="https://docs.aws.amazon.com/chime/latest/ag/manage-chime-account.html">Managing
   /// Your Amazon Chime Accounts</a> in the <i>Amazon Chime Administration
   /// Guide</i>.
-  @_s.JsonKey(name: 'AccountType')
-  final AccountType accountType;
+  final AccountType? accountType;
 
   /// The Amazon Chime account creation timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The default license for the Amazon Chime account.
-  @_s.JsonKey(name: 'DefaultLicense')
-  final License defaultLicense;
+  final License? defaultLicense;
 
   /// The sign-in delegate groups associated with the account.
-  @_s.JsonKey(name: 'SigninDelegateGroups')
-  final List<SigninDelegateGroup> signinDelegateGroups;
+  final List<SigninDelegateGroup>? signinDelegateGroups;
 
   /// Supported licenses for the Amazon Chime account.
-  @_s.JsonKey(name: 'SupportedLicenses')
-  final List<License> supportedLicenses;
+  final List<License>? supportedLicenses;
 
   Account({
-    @_s.required this.accountId,
-    @_s.required this.awsAccountId,
-    @_s.required this.name,
+    required this.accountId,
+    required this.awsAccountId,
+    required this.name,
     this.accountType,
     this.createdTimestamp,
     this.defaultLicense,
     this.signinDelegateGroups,
     this.supportedLicenses,
   });
-  factory Account.fromJson(Map<String, dynamic> json) =>
-      _$AccountFromJson(json);
+
+  factory Account.fromJson(Map<String, dynamic> json) {
+    return Account(
+      accountId: json['AccountId'] as String,
+      awsAccountId: json['AwsAccountId'] as String,
+      name: json['Name'] as String,
+      accountType: (json['AccountType'] as String?)?.toAccountType(),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      defaultLicense: (json['DefaultLicense'] as String?)?.toLicense(),
+      signinDelegateGroups: (json['SigninDelegateGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => SigninDelegateGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedLicenses: (json['SupportedLicenses'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLicense())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final awsAccountId = this.awsAccountId;
+    final name = this.name;
+    final accountType = this.accountType;
+    final createdTimestamp = this.createdTimestamp;
+    final defaultLicense = this.defaultLicense;
+    final signinDelegateGroups = this.signinDelegateGroups;
+    final supportedLicenses = this.supportedLicenses;
+    return {
+      'AccountId': accountId,
+      'AwsAccountId': awsAccountId,
+      'Name': name,
+      if (accountType != null) 'AccountType': accountType.toValue(),
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (defaultLicense != null) 'DefaultLicense': defaultLicense.toValue(),
+      if (signinDelegateGroups != null)
+        'SigninDelegateGroups': signinDelegateGroups,
+      if (supportedLicenses != null)
+        'SupportedLicenses': supportedLicenses.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Settings related to the Amazon Chime account. This includes settings that
@@ -9391,99 +8760,130 @@ class Account {
 /// about these settings, see <a
 /// href="https://docs.aws.amazon.com/chime/latest/ag/policies.html">Use the
 /// Policies Page</a> in the <i>Amazon Chime Administration Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccountSettings {
   /// Setting that stops or starts remote control of shared screens during
   /// meetings.
-  @_s.JsonKey(name: 'DisableRemoteControl')
-  final bool disableRemoteControl;
+  final bool? disableRemoteControl;
 
   /// Setting that allows meeting participants to choose the <b>Call me at a phone
   /// number</b> option. For more information, see <a
   /// href="https://docs.aws.amazon.com/chime/latest/ug/chime-join-meeting.html">Join
   /// a Meeting without the Amazon Chime App</a>.
-  @_s.JsonKey(name: 'EnableDialOut')
-  final bool enableDialOut;
+  final bool? enableDialOut;
 
   AccountSettings({
     this.disableRemoteControl,
     this.enableDialOut,
   });
-  factory AccountSettings.fromJson(Map<String, dynamic> json) =>
-      _$AccountSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AccountSettingsToJson(this);
+  factory AccountSettings.fromJson(Map<String, dynamic> json) {
+    return AccountSettings(
+      disableRemoteControl: json['DisableRemoteControl'] as bool?,
+      enableDialOut: json['EnableDialOut'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disableRemoteControl = this.disableRemoteControl;
+    final enableDialOut = this.enableDialOut;
+    return {
+      if (disableRemoteControl != null)
+        'DisableRemoteControl': disableRemoteControl,
+      if (enableDialOut != null) 'EnableDialOut': enableDialOut,
+    };
+  }
 }
 
 enum AccountType {
-  @_s.JsonValue('Team')
   team,
-  @_s.JsonValue('EnterpriseDirectory')
   enterpriseDirectory,
-  @_s.JsonValue('EnterpriseLWA')
   enterpriseLWA,
-  @_s.JsonValue('EnterpriseOIDC')
   enterpriseOIDC,
+}
+
+extension on AccountType {
+  String toValue() {
+    switch (this) {
+      case AccountType.team:
+        return 'Team';
+      case AccountType.enterpriseDirectory:
+        return 'EnterpriseDirectory';
+      case AccountType.enterpriseLWA:
+        return 'EnterpriseLWA';
+      case AccountType.enterpriseOIDC:
+        return 'EnterpriseOIDC';
+    }
+  }
+}
+
+extension on String {
+  AccountType toAccountType() {
+    switch (this) {
+      case 'Team':
+        return AccountType.team;
+      case 'EnterpriseDirectory':
+        return AccountType.enterpriseDirectory;
+      case 'EnterpriseLWA':
+        return AccountType.enterpriseLWA;
+      case 'EnterpriseOIDC':
+        return AccountType.enterpriseOIDC;
+    }
+    throw Exception('$this is not known in enum AccountType');
+  }
 }
 
 /// The Alexa for Business metadata associated with an Amazon Chime user, used
 /// to integrate Alexa for Business with a device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AlexaForBusinessMetadata {
   /// The ARN of the room resource.
-  @_s.JsonKey(name: 'AlexaForBusinessRoomArn')
-  final String alexaForBusinessRoomArn;
+  final String? alexaForBusinessRoomArn;
 
   /// Starts or stops Alexa for Business.
-  @_s.JsonKey(name: 'IsAlexaForBusinessEnabled')
-  final bool isAlexaForBusinessEnabled;
+  final bool? isAlexaForBusinessEnabled;
 
   AlexaForBusinessMetadata({
     this.alexaForBusinessRoomArn,
     this.isAlexaForBusinessEnabled,
   });
-  factory AlexaForBusinessMetadata.fromJson(Map<String, dynamic> json) =>
-      _$AlexaForBusinessMetadataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AlexaForBusinessMetadataToJson(this);
+  factory AlexaForBusinessMetadata.fromJson(Map<String, dynamic> json) {
+    return AlexaForBusinessMetadata(
+      alexaForBusinessRoomArn: json['AlexaForBusinessRoomArn'] as String?,
+      isAlexaForBusinessEnabled: json['IsAlexaForBusinessEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alexaForBusinessRoomArn = this.alexaForBusinessRoomArn;
+    final isAlexaForBusinessEnabled = this.isAlexaForBusinessEnabled;
+    return {
+      if (alexaForBusinessRoomArn != null)
+        'AlexaForBusinessRoomArn': alexaForBusinessRoomArn,
+      if (isAlexaForBusinessEnabled != null)
+        'IsAlexaForBusinessEnabled': isAlexaForBusinessEnabled,
+    };
+  }
 }
 
-/// An instance of a Chime messaging application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of an <code>AppInstance</code>, an instance of an Amazon Chime
+/// SDK messaging application.
 class AppInstance {
   /// The ARN of the messaging instance.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  final String? appInstanceArn;
 
-  /// The time at which an app instance was created. In epoch milliseconds.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  /// The time at which an <code>AppInstance</code> was created. In epoch
+  /// milliseconds.
+  final DateTime? createdTimestamp;
 
-  /// The time an app instance was last updated. In epoch milliseconds.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  /// The time an <code>AppInstance</code> was last updated. In epoch
+  /// milliseconds.
+  final DateTime? lastUpdatedTimestamp;
 
-  /// The metadata of an app instance.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  /// The metadata of an <code>AppInstance</code>.
+  final String? metadata;
 
-  /// The name of an app instance.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  /// The name of an <code>AppInstance</code>.
+  final String? name;
 
   AppInstance({
     this.appInstanceArn,
@@ -9492,168 +8892,241 @@ class AppInstance {
     this.metadata,
     this.name,
   });
-  factory AppInstance.fromJson(Map<String, dynamic> json) =>
-      _$AppInstanceFromJson(json);
+
+  factory AppInstance.fromJson(Map<String, dynamic> json) {
+    return AppInstance(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    final createdTimestamp = this.createdTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-/// Promotes a user to the administrator role for the duration of an app
-/// instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of an <code>AppInstanceAdmin</code>.
 class AppInstanceAdmin {
-  /// The name and metadata of the app instance administrator.
-  @_s.JsonKey(name: 'Admin')
-  final Identity admin;
+  /// The <code>AppInstanceAdmin</code> data.
+  final Identity? admin;
 
-  /// The ARN of the app instance administrator.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  /// The ARN of the <code>AppInstance</code> for which the user is an
+  /// administrator.
+  final String? appInstanceArn;
 
   /// The time at which an administrator was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   AppInstanceAdmin({
     this.admin,
     this.appInstanceArn,
     this.createdTimestamp,
   });
-  factory AppInstanceAdmin.fromJson(Map<String, dynamic> json) =>
-      _$AppInstanceAdminFromJson(json);
+
+  factory AppInstanceAdmin.fromJson(Map<String, dynamic> json) {
+    return AppInstanceAdmin(
+      admin: json['Admin'] != null
+          ? Identity.fromJson(json['Admin'] as Map<String, dynamic>)
+          : null,
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final admin = this.admin;
+    final appInstanceArn = this.appInstanceArn;
+    final createdTimestamp = this.createdTimestamp;
+    return {
+      if (admin != null) 'Admin': admin,
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+    };
+  }
 }
 
-/// The identity and metadata of an administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the details of an <code>AppInstanceAdmin</code>.
 class AppInstanceAdminSummary {
-  /// The name and metadata of the app instance administrator.
-  @_s.JsonKey(name: 'Admin')
-  final Identity admin;
+  /// The details of the <code>AppInstanceAdmin</code>.
+  final Identity? admin;
 
   AppInstanceAdminSummary({
     this.admin,
   });
-  factory AppInstanceAdminSummary.fromJson(Map<String, dynamic> json) =>
-      _$AppInstanceAdminSummaryFromJson(json);
+
+  factory AppInstanceAdminSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceAdminSummary(
+      admin: json['Admin'] != null
+          ? Identity.fromJson(json['Admin'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final admin = this.admin;
+    return {
+      if (admin != null) 'Admin': admin,
+    };
+  }
 }
 
 enum AppInstanceDataType {
-  @_s.JsonValue('Channel')
   channel,
-  @_s.JsonValue('ChannelMessage')
   channelMessage,
 }
 
-/// The length of time in days to retain messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+extension on AppInstanceDataType {
+  String toValue() {
+    switch (this) {
+      case AppInstanceDataType.channel:
+        return 'Channel';
+      case AppInstanceDataType.channelMessage:
+        return 'ChannelMessage';
+    }
+  }
+}
+
+extension on String {
+  AppInstanceDataType toAppInstanceDataType() {
+    switch (this) {
+      case 'Channel':
+        return AppInstanceDataType.channel;
+      case 'ChannelMessage':
+        return AppInstanceDataType.channelMessage;
+    }
+    throw Exception('$this is not known in enum AppInstanceDataType');
+  }
+}
+
+/// The details of the data-retention settings for an <code>AppInstance</code>.
 class AppInstanceRetentionSettings {
-  /// The length of time in days to retain a channel.
-  @_s.JsonKey(name: 'ChannelRetentionSettings')
-  final ChannelRetentionSettings channelRetentionSettings;
+  /// The length of time in days to retain the messages in a channel.
+  final ChannelRetentionSettings? channelRetentionSettings;
 
   AppInstanceRetentionSettings({
     this.channelRetentionSettings,
   });
-  factory AppInstanceRetentionSettings.fromJson(Map<String, dynamic> json) =>
-      _$AppInstanceRetentionSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AppInstanceRetentionSettingsToJson(this);
+  factory AppInstanceRetentionSettings.fromJson(Map<String, dynamic> json) {
+    return AppInstanceRetentionSettings(
+      channelRetentionSettings: json['ChannelRetentionSettings'] != null
+          ? ChannelRetentionSettings.fromJson(
+              json['ChannelRetentionSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelRetentionSettings = this.channelRetentionSettings;
+    return {
+      if (channelRetentionSettings != null)
+        'ChannelRetentionSettings': channelRetentionSettings,
+    };
+  }
 }
 
-/// The streaming configuration of an app instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// The details of the streaming configuration of an <code>AppInstance</code>.
 class AppInstanceStreamingConfiguration {
-  /// The data type of the app instance.
-  @_s.JsonKey(name: 'AppInstanceDataType')
+  /// The type of data to be streamed.
   final AppInstanceDataType appInstanceDataType;
 
   /// The resource ARN.
-  @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
   AppInstanceStreamingConfiguration({
-    @_s.required this.appInstanceDataType,
-    @_s.required this.resourceArn,
+    required this.appInstanceDataType,
+    required this.resourceArn,
   });
-  factory AppInstanceStreamingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$AppInstanceStreamingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$AppInstanceStreamingConfigurationToJson(this);
+  factory AppInstanceStreamingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return AppInstanceStreamingConfiguration(
+      appInstanceDataType:
+          (json['AppInstanceDataType'] as String).toAppInstanceDataType(),
+      resourceArn: json['ResourceArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceDataType = this.appInstanceDataType;
+    final resourceArn = this.resourceArn;
+    return {
+      'AppInstanceDataType': appInstanceDataType.toValue(),
+      'ResourceArn': resourceArn,
+    };
+  }
 }
 
-/// The summary data for an app instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the data for an <code>AppInstance</code>.
 class AppInstanceSummary {
-  /// The app instance ARN.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  /// The <code>AppInstance</code> ARN.
+  final String? appInstanceArn;
 
-  /// The metadata of the app instance summary.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  /// The metadata of the <code>AppInstance</code>.
+  final String? metadata;
 
-  /// The name of the app instance summary.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  /// The name of the <code>AppInstance</code>.
+  final String? name;
 
   AppInstanceSummary({
     this.appInstanceArn,
     this.metadata,
     this.name,
   });
-  factory AppInstanceSummary.fromJson(Map<String, dynamic> json) =>
-      _$AppInstanceSummaryFromJson(json);
+
+  factory AppInstanceSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceSummary(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-/// The app instance user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of an <code>AppInstanceUser</code>.
 class AppInstanceUser {
-  /// The ARN of the app instance user.
-  @_s.JsonKey(name: 'AppInstanceUserArn')
-  final String appInstanceUserArn;
+  /// The ARN of the <code>AppInstanceUser</code>.
+  final String? appInstanceUserArn;
 
-  /// The time at which the app instance user was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  /// The time at which the <code>AppInstanceUser</code> was created.
+  final DateTime? createdTimestamp;
 
-  /// The time at which the app instance user was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  /// The time at which the <code>AppInstanceUser</code> was last updated.
+  final DateTime? lastUpdatedTimestamp;
 
-  /// The metadata of the app instance user.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  /// The metadata of the <code>AppInstanceUser</code>.
+  final String? metadata;
 
-  /// The name of the app instance user.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  /// The name of the <code>AppInstanceUser</code>.
+  final String? name;
 
   AppInstanceUser({
     this.appInstanceUserArn,
@@ -9662,129 +9135,187 @@ class AppInstanceUser {
     this.metadata,
     this.name,
   });
-  factory AppInstanceUser.fromJson(Map<String, dynamic> json) =>
-      _$AppInstanceUserFromJson(json);
+
+  factory AppInstanceUser.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUser(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserArn = this.appInstanceUserArn;
+    final createdTimestamp = this.createdTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-/// Lists the channels to which app instance users belong.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the membership details of an <code>AppInstanceUser</code>.
 class AppInstanceUserMembershipSummary {
-  /// The time at which a summary was last read.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReadMarkerTimestamp')
-  final DateTime readMarkerTimestamp;
+  /// The time at which a message was last read.
+  final DateTime? readMarkerTimestamp;
 
-  /// The type of channel summary,
-  @_s.JsonKey(name: 'Type')
-  final ChannelMembershipType type;
+  /// The type of <code>ChannelMembership</code>.
+  final ChannelMembershipType? type;
 
   AppInstanceUserMembershipSummary({
     this.readMarkerTimestamp,
     this.type,
   });
-  factory AppInstanceUserMembershipSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$AppInstanceUserMembershipSummaryFromJson(json);
+
+  factory AppInstanceUserMembershipSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUserMembershipSummary(
+      readMarkerTimestamp: timeStampFromJson(json['ReadMarkerTimestamp']),
+      type: (json['Type'] as String?)?.toChannelMembershipType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readMarkerTimestamp = this.readMarkerTimestamp;
+    final type = this.type;
+    return {
+      if (readMarkerTimestamp != null)
+        'ReadMarkerTimestamp': unixTimestampToJson(readMarkerTimestamp),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
-/// The app instance user summary data .
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the details of an <code>AppInstanceUser</code>.
 class AppInstanceUserSummary {
-  /// The ARN of the app instance user.
-  @_s.JsonKey(name: 'AppInstanceUserArn')
-  final String appInstanceUserArn;
+  /// The ARN of the <code>AppInstanceUser</code>.
+  final String? appInstanceUserArn;
 
-  /// The metadata in an app instance user summary.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  /// The metadata of the <code>AppInstanceUser</code>.
+  final String? metadata;
 
-  /// The name in an app instance user summary.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  /// The name of an <code>AppInstanceUser</code>.
+  final String? name;
 
   AppInstanceUserSummary({
     this.appInstanceUserArn,
     this.metadata,
     this.name,
   });
-  factory AppInstanceUserSummary.fromJson(Map<String, dynamic> json) =>
-      _$AppInstanceUserSummaryFromJson(json);
+
+  factory AppInstanceUserSummary.fromJson(Map<String, dynamic> json) {
+    return AppInstanceUserSummary(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+      metadata: json['Metadata'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserArn = this.appInstanceUserArn;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociatePhoneNumberWithUserResponse {
   AssociatePhoneNumberWithUserResponse();
+
   factory AssociatePhoneNumberWithUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociatePhoneNumberWithUserResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociatePhoneNumberWithUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
-  @_s.JsonKey(name: 'PhoneNumberErrors')
-  final List<PhoneNumberError> phoneNumberErrors;
+  final List<PhoneNumberError>? phoneNumberErrors;
 
   AssociatePhoneNumbersWithVoiceConnectorGroupResponse({
     this.phoneNumberErrors,
   });
+
   factory AssociatePhoneNumbersWithVoiceConnectorGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociatePhoneNumbersWithVoiceConnectorGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociatePhoneNumbersWithVoiceConnectorGroupResponse(
+      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberErrors = this.phoneNumberErrors;
+    return {
+      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociatePhoneNumbersWithVoiceConnectorResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
-  @_s.JsonKey(name: 'PhoneNumberErrors')
-  final List<PhoneNumberError> phoneNumberErrors;
+  final List<PhoneNumberError>? phoneNumberErrors;
 
   AssociatePhoneNumbersWithVoiceConnectorResponse({
     this.phoneNumberErrors,
   });
+
   factory AssociatePhoneNumbersWithVoiceConnectorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociatePhoneNumbersWithVoiceConnectorResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociatePhoneNumbersWithVoiceConnectorResponse(
+      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberErrors = this.phoneNumberErrors;
+    return {
+      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateSigninDelegateGroupsWithAccountResponse {
   AssociateSigninDelegateGroupsWithAccountResponse();
+
   factory AssociateSigninDelegateGroupsWithAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateSigninDelegateGroupsWithAccountResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateSigninDelegateGroupsWithAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// An Amazon Chime SDK meeting attendee. Includes a unique
-/// <code>AttendeeId</code> and <code>JoinToken</code>. The
+/// <code>AttendeeId</code> and <code>JoinToken</code> . The
 /// <code>JoinToken</code> allows a client to authenticate and join as the
 /// specified attendee. The <code>JoinToken</code> expires when the meeting ends
 /// or when <a>DeleteAttendee</a> is called. After that, the attendee is unable
@@ -9793,219 +9324,397 @@ class AssociateSigninDelegateGroupsWithAccountResponse {
 /// We recommend securely transferring each <code>JoinToken</code> from your
 /// server application to the client so that no other client has access to the
 /// token except for the one authorized to represent the attendee.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Attendee {
   /// The Amazon Chime SDK attendee ID.
-  @_s.JsonKey(name: 'AttendeeId')
-  final String attendeeId;
+  final String? attendeeId;
 
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
-  /// attendee to an identity managed by a builder application. If you create an
-  /// attendee with the same external user id, the service returns the existing
-  /// record.
-  @_s.JsonKey(name: 'ExternalUserId')
-  final String externalUserId;
+  /// attendee to an identity managed by a builder application.
+  final String? externalUserId;
 
   /// The join token used by the Amazon Chime SDK attendee.
-  @_s.JsonKey(name: 'JoinToken')
-  final String joinToken;
+  final String? joinToken;
 
   Attendee({
     this.attendeeId,
     this.externalUserId,
     this.joinToken,
   });
-  factory Attendee.fromJson(Map<String, dynamic> json) =>
-      _$AttendeeFromJson(json);
+
+  factory Attendee.fromJson(Map<String, dynamic> json) {
+    return Attendee(
+      attendeeId: json['AttendeeId'] as String?,
+      externalUserId: json['ExternalUserId'] as String?,
+      joinToken: json['JoinToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendeeId = this.attendeeId;
+    final externalUserId = this.externalUserId;
+    final joinToken = this.joinToken;
+    return {
+      if (attendeeId != null) 'AttendeeId': attendeeId,
+      if (externalUserId != null) 'ExternalUserId': externalUserId,
+      if (joinToken != null) 'JoinToken': joinToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The membership information, including member ARNs, the channel ARN, and
+/// membership types.
+class BatchChannelMemberships {
+  /// The ARN of the channel to which you're adding users.
+  final String? channelArn;
+  final Identity? invitedBy;
+
+  /// The users successfully added to the request.
+  final List<Identity>? members;
+
+  /// The membership types set for the channel users.
+  final ChannelMembershipType? type;
+
+  BatchChannelMemberships({
+    this.channelArn,
+    this.invitedBy,
+    this.members,
+    this.type,
+  });
+
+  factory BatchChannelMemberships.fromJson(Map<String, dynamic> json) {
+    return BatchChannelMemberships(
+      channelArn: json['ChannelArn'] as String?,
+      invitedBy: json['InvitedBy'] != null
+          ? Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>)
+          : null,
+      members: (json['Members'] as List?)
+          ?.whereNotNull()
+          .map((e) => Identity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toChannelMembershipType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final invitedBy = this.invitedBy;
+    final members = this.members;
+    final type = this.type;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (invitedBy != null) 'InvitedBy': invitedBy,
+      if (members != null) 'Members': members,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
 class BatchCreateAttendeeResponse {
   /// The attendee information, including attendees IDs and join tokens.
-  @_s.JsonKey(name: 'Attendees')
-  final List<Attendee> attendees;
+  final List<Attendee>? attendees;
 
   /// If the action fails for one or more of the attendees in the request, a list
   /// of the attendees is returned, along with error codes and error messages.
-  @_s.JsonKey(name: 'Errors')
-  final List<CreateAttendeeError> errors;
+  final List<CreateAttendeeError>? errors;
 
   BatchCreateAttendeeResponse({
     this.attendees,
     this.errors,
   });
-  factory BatchCreateAttendeeResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchCreateAttendeeResponseFromJson(json);
+
+  factory BatchCreateAttendeeResponse.fromJson(Map<String, dynamic> json) {
+    return BatchCreateAttendeeResponse(
+      attendees: (json['Attendees'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => CreateAttendeeError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendees = this.attendees;
+    final errors = this.errors;
+    return {
+      if (attendees != null) 'Attendees': attendees,
+      if (errors != null) 'Errors': errors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// A list of failed member ARNs, error codes, and error messages.
+class BatchCreateChannelMembershipError {
+  /// The error code.
+  final ErrorCode? errorCode;
+
+  /// The error message.
+  final String? errorMessage;
+
+  /// The ARN of the member that the service couldn't add.
+  final String? memberArn;
+
+  BatchCreateChannelMembershipError({
+    this.errorCode,
+    this.errorMessage,
+    this.memberArn,
+  });
+
+  factory BatchCreateChannelMembershipError.fromJson(
+      Map<String, dynamic> json) {
+    return BatchCreateChannelMembershipError(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      memberArn: json['MemberArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final memberArn = this.memberArn;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (memberArn != null) 'MemberArn': memberArn,
+    };
+  }
+}
+
+class BatchCreateChannelMembershipResponse {
+  /// The list of channel memberships in the response.
+  final BatchChannelMemberships? batchChannelMemberships;
+
+  /// If the action fails for one or more of the memberships in the request, a
+  /// list of the memberships is returned, along with error codes and error
+  /// messages.
+  final List<BatchCreateChannelMembershipError>? errors;
+
+  BatchCreateChannelMembershipResponse({
+    this.batchChannelMemberships,
+    this.errors,
+  });
+
+  factory BatchCreateChannelMembershipResponse.fromJson(
+      Map<String, dynamic> json) {
+    return BatchCreateChannelMembershipResponse(
+      batchChannelMemberships: json['BatchChannelMemberships'] != null
+          ? BatchChannelMemberships.fromJson(
+              json['BatchChannelMemberships'] as Map<String, dynamic>)
+          : null,
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchCreateChannelMembershipError.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchChannelMemberships = this.batchChannelMemberships;
+    final errors = this.errors;
+    return {
+      if (batchChannelMemberships != null)
+        'BatchChannelMemberships': batchChannelMemberships,
+      if (errors != null) 'Errors': errors,
+    };
+  }
+}
+
 class BatchCreateRoomMembershipResponse {
   /// If the action fails for one or more of the member IDs in the request, a list
   /// of the member IDs is returned, along with error codes and error messages.
-  @_s.JsonKey(name: 'Errors')
-  final List<MemberError> errors;
+  final List<MemberError>? errors;
 
   BatchCreateRoomMembershipResponse({
     this.errors,
   });
+
   factory BatchCreateRoomMembershipResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchCreateRoomMembershipResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchCreateRoomMembershipResponse(
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'Errors': errors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeletePhoneNumberResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
-  @_s.JsonKey(name: 'PhoneNumberErrors')
-  final List<PhoneNumberError> phoneNumberErrors;
+  final List<PhoneNumberError>? phoneNumberErrors;
 
   BatchDeletePhoneNumberResponse({
     this.phoneNumberErrors,
   });
-  factory BatchDeletePhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeletePhoneNumberResponseFromJson(json);
+
+  factory BatchDeletePhoneNumberResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeletePhoneNumberResponse(
+      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberErrors = this.phoneNumberErrors;
+    return {
+      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchSuspendUserResponse {
   /// If the <a>BatchSuspendUser</a> action fails for one or more of the user IDs
   /// in the request, a list of the user IDs is returned, along with error codes
   /// and error messages.
-  @_s.JsonKey(name: 'UserErrors')
-  final List<UserError> userErrors;
+  final List<UserError>? userErrors;
 
   BatchSuspendUserResponse({
     this.userErrors,
   });
-  factory BatchSuspendUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchSuspendUserResponseFromJson(json);
+
+  factory BatchSuspendUserResponse.fromJson(Map<String, dynamic> json) {
+    return BatchSuspendUserResponse(
+      userErrors: (json['UserErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userErrors = this.userErrors;
+    return {
+      if (userErrors != null) 'UserErrors': userErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUnsuspendUserResponse {
   /// If the <a>BatchUnsuspendUser</a> action fails for one or more of the user
   /// IDs in the request, a list of the user IDs is returned, along with error
   /// codes and error messages.
-  @_s.JsonKey(name: 'UserErrors')
-  final List<UserError> userErrors;
+  final List<UserError>? userErrors;
 
   BatchUnsuspendUserResponse({
     this.userErrors,
   });
-  factory BatchUnsuspendUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchUnsuspendUserResponseFromJson(json);
+
+  factory BatchUnsuspendUserResponse.fromJson(Map<String, dynamic> json) {
+    return BatchUnsuspendUserResponse(
+      userErrors: (json['UserErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userErrors = this.userErrors;
+    return {
+      if (userErrors != null) 'UserErrors': userErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdatePhoneNumberResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
-  @_s.JsonKey(name: 'PhoneNumberErrors')
-  final List<PhoneNumberError> phoneNumberErrors;
+  final List<PhoneNumberError>? phoneNumberErrors;
 
   BatchUpdatePhoneNumberResponse({
     this.phoneNumberErrors,
   });
-  factory BatchUpdatePhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchUpdatePhoneNumberResponseFromJson(json);
+
+  factory BatchUpdatePhoneNumberResponse.fromJson(Map<String, dynamic> json) {
+    return BatchUpdatePhoneNumberResponse(
+      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberErrors = this.phoneNumberErrors;
+    return {
+      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdateUserResponse {
   /// If the <a>BatchUpdateUser</a> action fails for one or more of the user IDs
   /// in the request, a list of the user IDs is returned, along with error codes
   /// and error messages.
-  @_s.JsonKey(name: 'UserErrors')
-  final List<UserError> userErrors;
+  final List<UserError>? userErrors;
 
   BatchUpdateUserResponse({
     this.userErrors,
   });
-  factory BatchUpdateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchUpdateUserResponseFromJson(json);
+
+  factory BatchUpdateUserResponse.fromJson(Map<String, dynamic> json) {
+    return BatchUpdateUserResponse(
+      userErrors: (json['UserErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userErrors = this.userErrors;
+    return {
+      if (userErrors != null) 'UserErrors': userErrors,
+    };
+  }
 }
 
 /// A resource that allows Enterprise account administrators to configure an
 /// interface to receive events from Amazon Chime.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Bot {
   /// The bot email address.
-  @_s.JsonKey(name: 'BotEmail')
-  final String botEmail;
+  final String? botEmail;
 
   /// The bot ID.
-  @_s.JsonKey(name: 'BotId')
-  final String botId;
+  final String? botId;
 
   /// The bot type.
-  @_s.JsonKey(name: 'BotType')
-  final BotType botType;
+  final BotType? botType;
 
   /// The bot creation timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// When true, the bot is stopped from running in your account.
-  @_s.JsonKey(name: 'Disabled')
-  final bool disabled;
+  final bool? disabled;
 
   /// The bot display name.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The security token used to authenticate Amazon Chime with the outgoing event
   /// endpoint.
-  @_s.JsonKey(name: 'SecurityToken')
-  final String securityToken;
+  final String? securityToken;
 
   /// The updated bot timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  final DateTime? updatedTimestamp;
 
   /// The unique ID for the bot user.
-  @_s.JsonKey(name: 'UserId')
-  final String userId;
+  final String? userId;
 
   Bot({
     this.botEmail,
@@ -10018,51 +9727,135 @@ class Bot {
     this.updatedTimestamp,
     this.userId,
   });
-  factory Bot.fromJson(Map<String, dynamic> json) => _$BotFromJson(json);
+
+  factory Bot.fromJson(Map<String, dynamic> json) {
+    return Bot(
+      botEmail: json['BotEmail'] as String?,
+      botId: json['BotId'] as String?,
+      botType: (json['BotType'] as String?)?.toBotType(),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      disabled: json['Disabled'] as bool?,
+      displayName: json['DisplayName'] as String?,
+      securityToken: json['SecurityToken'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final botEmail = this.botEmail;
+    final botId = this.botId;
+    final botType = this.botType;
+    final createdTimestamp = this.createdTimestamp;
+    final disabled = this.disabled;
+    final displayName = this.displayName;
+    final securityToken = this.securityToken;
+    final updatedTimestamp = this.updatedTimestamp;
+    final userId = this.userId;
+    return {
+      if (botEmail != null) 'BotEmail': botEmail,
+      if (botId != null) 'BotId': botId,
+      if (botType != null) 'BotType': botType.toValue(),
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (disabled != null) 'Disabled': disabled,
+      if (displayName != null) 'DisplayName': displayName,
+      if (securityToken != null) 'SecurityToken': securityToken,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (userId != null) 'UserId': userId,
+    };
+  }
 }
 
 enum BotType {
-  @_s.JsonValue('ChatBot')
   chatBot,
+}
+
+extension on BotType {
+  String toValue() {
+    switch (this) {
+      case BotType.chatBot:
+        return 'ChatBot';
+    }
+  }
+}
+
+extension on String {
+  BotType toBotType() {
+    switch (this) {
+      case 'ChatBot':
+        return BotType.chatBot;
+    }
+    throw Exception('$this is not known in enum BotType');
+  }
 }
 
 /// The Amazon Chime Business Calling settings for the administrator's AWS
 /// account. Includes any Amazon S3 buckets designated for storing call detail
 /// records.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BusinessCallingSettings {
   /// The Amazon S3 bucket designated for call detail record storage.
-  @_s.JsonKey(name: 'CdrBucket')
-  final String cdrBucket;
+  final String? cdrBucket;
 
   BusinessCallingSettings({
     this.cdrBucket,
   });
-  factory BusinessCallingSettings.fromJson(Map<String, dynamic> json) =>
-      _$BusinessCallingSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BusinessCallingSettingsToJson(this);
+  factory BusinessCallingSettings.fromJson(Map<String, dynamic> json) {
+    return BusinessCallingSettings(
+      cdrBucket: json['CdrBucket'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cdrBucket = this.cdrBucket;
+    return {
+      if (cdrBucket != null) 'CdrBucket': cdrBucket,
+    };
+  }
 }
 
 enum CallingNameStatus {
-  @_s.JsonValue('Unassigned')
   unassigned,
-  @_s.JsonValue('UpdateInProgress')
   updateInProgress,
-  @_s.JsonValue('UpdateSucceeded')
   updateSucceeded,
-  @_s.JsonValue('UpdateFailed')
   updateFailed,
 }
 
+extension on CallingNameStatus {
+  String toValue() {
+    switch (this) {
+      case CallingNameStatus.unassigned:
+        return 'Unassigned';
+      case CallingNameStatus.updateInProgress:
+        return 'UpdateInProgress';
+      case CallingNameStatus.updateSucceeded:
+        return 'UpdateSucceeded';
+      case CallingNameStatus.updateFailed:
+        return 'UpdateFailed';
+    }
+  }
+}
+
+extension on String {
+  CallingNameStatus toCallingNameStatus() {
+    switch (this) {
+      case 'Unassigned':
+        return CallingNameStatus.unassigned;
+      case 'UpdateInProgress':
+        return CallingNameStatus.updateInProgress;
+      case 'UpdateSucceeded':
+        return CallingNameStatus.updateSucceeded;
+      case 'UpdateFailed':
+        return CallingNameStatus.updateFailed;
+    }
+    throw Exception('$this is not known in enum CallingNameStatus');
+  }
+}
+
 enum Capability {
-  @_s.JsonValue('Voice')
   voice,
-  @_s.JsonValue('SMS')
   sms,
 }
 
@@ -10074,55 +9867,49 @@ extension on Capability {
       case Capability.sms:
         return 'SMS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Creates a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Capability toCapability() {
+    switch (this) {
+      case 'Voice':
+        return Capability.voice;
+      case 'SMS':
+        return Capability.sms;
+    }
+    throw Exception('$this is not known in enum Capability');
+  }
+}
+
+/// The details of a channel.
 class Channel {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
-  /// The administrator who created the channel.
-  @_s.JsonKey(name: 'CreatedBy')
-  final Identity createdBy;
+  /// The <code>AppInstanceUser</code> who created the channel.
+  final Identity? createdBy;
 
-  /// The time at which the administrator created the channel.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  /// The time at which the <code>AppInstanceUser</code> created the channel.
+  final DateTime? createdTimestamp;
 
-  /// The time at which a member sent the last message in a session.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastMessageTimestamp')
-  final DateTime lastMessageTimestamp;
+  /// The time at which a member sent the last message in the channel.
+  final DateTime? lastMessageTimestamp;
 
   /// The time at which a channel was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  final DateTime? lastUpdatedTimestamp;
 
-  /// The metadata of the channel.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  /// The channel's metadata.
+  final String? metadata;
 
   /// The mode of the channel.
-  @_s.JsonKey(name: 'Mode')
-  final ChannelMode mode;
+  final ChannelMode? mode;
 
   /// The name of the channel.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
-  /// The channel's privacy setting, <code>PUBLIC</code> or <code>HIDDEN</code>.
-  @_s.JsonKey(name: 'Privacy')
-  final ChannelPrivacy privacy;
+  /// The channel's privacy setting.
+  final ChannelPrivacy? privacy;
 
   Channel({
     this.channelArn,
@@ -10135,33 +9922,63 @@ class Channel {
     this.name,
     this.privacy,
   });
-  factory Channel.fromJson(Map<String, dynamic> json) =>
-      _$ChannelFromJson(json);
+
+  factory Channel.fromJson(Map<String, dynamic> json) {
+    return Channel(
+      channelArn: json['ChannelArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastMessageTimestamp: timeStampFromJson(json['LastMessageTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      metadata: json['Metadata'] as String?,
+      mode: (json['Mode'] as String?)?.toChannelMode(),
+      name: json['Name'] as String?,
+      privacy: (json['Privacy'] as String?)?.toChannelPrivacy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final lastMessageTimestamp = this.lastMessageTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final metadata = this.metadata;
+    final mode = this.mode;
+    final name = this.name;
+    final privacy = this.privacy;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastMessageTimestamp != null)
+        'LastMessageTimestamp': unixTimestampToJson(lastMessageTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (name != null) 'Name': name,
+      if (privacy != null) 'Privacy': privacy.toValue(),
+    };
+  }
 }
 
-/// Bans a user from a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of a channel ban.
 class ChannelBan {
   /// The ARN of the channel from which a member is being banned.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
-  /// The parameter of the action.
-  @_s.JsonKey(name: 'CreatedBy')
-  final Identity createdBy;
+  /// The <code>AppInstanceUser</code> who created the ban.
+  final Identity? createdBy;
 
   /// The time at which the ban was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The member being banned from the channel.
-  @_s.JsonKey(name: 'Member')
-  final Identity member;
+  final Identity? member;
 
   ChannelBan({
     this.channelArn,
@@ -10169,61 +9986,79 @@ class ChannelBan {
     this.createdTimestamp,
     this.member,
   });
-  factory ChannelBan.fromJson(Map<String, dynamic> json) =>
-      _$ChannelBanFromJson(json);
+
+  factory ChannelBan.fromJson(Map<String, dynamic> json) {
+    return ChannelBan(
+      channelArn: json['ChannelArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final member = this.member;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (member != null) 'Member': member,
+    };
+  }
 }
 
-/// The summary data for the channel ban.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the details of a <code>ChannelBan</code>.
 class ChannelBanSummary {
   /// The member being banned from a channel.
-  @_s.JsonKey(name: 'Member')
-  final Identity member;
+  final Identity? member;
 
   ChannelBanSummary({
     this.member,
   });
-  factory ChannelBanSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChannelBanSummaryFromJson(json);
+
+  factory ChannelBanSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelBanSummary(
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final member = this.member;
+    return {
+      if (member != null) 'Member': member,
+    };
+  }
 }
 
-/// Creates a channel member.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of a channel member.
 class ChannelMembership {
   /// The ARN of the member's channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The time at which the channel membership was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
-  /// The identifier of the member who invited another member. Taken from the
-  /// message header.
-  @_s.JsonKey(name: 'InvitedBy')
-  final Identity invitedBy;
+  /// The identifier of the member who invited another member.
+  final Identity? invitedBy;
 
   /// The time at which a channel membership was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  final DateTime? lastUpdatedTimestamp;
 
   /// The data of the channel member.
-  @_s.JsonKey(name: 'Member')
-  final Identity member;
+  final Identity? member;
 
   /// The membership type set for the channel member.
-  @_s.JsonKey(name: 'Type')
-  final ChannelMembershipType type;
+  final ChannelMembershipType? type;
 
   ChannelMembership({
     this.channelArn,
@@ -10233,54 +10068,109 @@ class ChannelMembership {
     this.member,
     this.type,
   });
-  factory ChannelMembership.fromJson(Map<String, dynamic> json) =>
-      _$ChannelMembershipFromJson(json);
+
+  factory ChannelMembership.fromJson(Map<String, dynamic> json) {
+    return ChannelMembership(
+      channelArn: json['ChannelArn'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      invitedBy: json['InvitedBy'] != null
+          ? Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toChannelMembershipType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final createdTimestamp = this.createdTimestamp;
+    final invitedBy = this.invitedBy;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final member = this.member;
+    final type = this.type;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (invitedBy != null) 'InvitedBy': invitedBy,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (member != null) 'Member': member,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
-/// Returns the channel membership summary data for an app instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the channel membership details of an
+/// <code>AppInstanceUser</code>.
 class ChannelMembershipForAppInstanceUserSummary {
-  /// Returns the channel membership data for an app instance.
-  @_s.JsonKey(name: 'AppInstanceUserMembershipSummary')
-  final AppInstanceUserMembershipSummary appInstanceUserMembershipSummary;
-  @_s.JsonKey(name: 'ChannelSummary')
-  final ChannelSummary channelSummary;
+  /// Returns the channel membership data for an <code>AppInstance</code>.
+  final AppInstanceUserMembershipSummary? appInstanceUserMembershipSummary;
+  final ChannelSummary? channelSummary;
 
   ChannelMembershipForAppInstanceUserSummary({
     this.appInstanceUserMembershipSummary,
     this.channelSummary,
   });
+
   factory ChannelMembershipForAppInstanceUserSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChannelMembershipForAppInstanceUserSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return ChannelMembershipForAppInstanceUserSummary(
+      appInstanceUserMembershipSummary:
+          json['AppInstanceUserMembershipSummary'] != null
+              ? AppInstanceUserMembershipSummary.fromJson(
+                  json['AppInstanceUserMembershipSummary']
+                      as Map<String, dynamic>)
+              : null,
+      channelSummary: json['ChannelSummary'] != null
+          ? ChannelSummary.fromJson(
+              json['ChannelSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserMembershipSummary =
+        this.appInstanceUserMembershipSummary;
+    final channelSummary = this.channelSummary;
+    return {
+      if (appInstanceUserMembershipSummary != null)
+        'AppInstanceUserMembershipSummary': appInstanceUserMembershipSummary,
+      if (channelSummary != null) 'ChannelSummary': channelSummary,
+    };
+  }
 }
 
-/// The summary data of a channel membership.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the details of a <code>ChannelMembership</code>.
 class ChannelMembershipSummary {
   /// A member's summary data.
-  @_s.JsonKey(name: 'Member')
-  final Identity member;
+  final Identity? member;
 
   ChannelMembershipSummary({
     this.member,
   });
-  factory ChannelMembershipSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChannelMembershipSummaryFromJson(json);
+
+  factory ChannelMembershipSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelMembershipSummary(
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final member = this.member;
+    return {
+      if (member != null) 'Member': member,
+    };
+  }
 }
 
 enum ChannelMembershipType {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('HIDDEN')
   hidden,
 }
 
@@ -10292,62 +10182,55 @@ extension on ChannelMembershipType {
       case ChannelMembershipType.hidden:
         return 'HIDDEN';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Creates a message in a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ChannelMembershipType toChannelMembershipType() {
+    switch (this) {
+      case 'DEFAULT':
+        return ChannelMembershipType.$default;
+      case 'HIDDEN':
+        return ChannelMembershipType.hidden;
+    }
+    throw Exception('$this is not known in enum ChannelMembershipType');
+  }
+}
+
+/// The details of a message in a channel.
 class ChannelMessage {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The message content.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// The time at which the message was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The time at which a message was edited.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastEditedTimestamp')
-  final DateTime lastEditedTimestamp;
+  final DateTime? lastEditedTimestamp;
 
   /// The time at which a message was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  final DateTime? lastUpdatedTimestamp;
 
   /// The ID of a message.
-  @_s.JsonKey(name: 'MessageId')
-  final String messageId;
+  final String? messageId;
 
   /// The message metadata.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
-  @_s.JsonKey(name: 'Persistence')
-  final ChannelMessagePersistenceType persistence;
+  final String? metadata;
 
-  /// Hides the content of a message. The message still exists on the back end,
-  /// but this action only returns metadata.
-  @_s.JsonKey(name: 'Redacted')
-  final bool redacted;
+  /// The persistence setting for a channel message.
+  final ChannelMessagePersistenceType? persistence;
+
+  /// Hides the content of a message.
+  final bool? redacted;
 
   /// The message sender.
-  @_s.JsonKey(name: 'Sender')
-  final Identity sender;
+  final Identity? sender;
 
   /// The message type.
-  @_s.JsonKey(name: 'Type')
-  final ChannelMessageType type;
+  final ChannelMessageType? type;
 
   ChannelMessage({
     this.channelArn,
@@ -10362,14 +10245,59 @@ class ChannelMessage {
     this.sender,
     this.type,
   });
-  factory ChannelMessage.fromJson(Map<String, dynamic> json) =>
-      _$ChannelMessageFromJson(json);
+
+  factory ChannelMessage.fromJson(Map<String, dynamic> json) {
+    return ChannelMessage(
+      channelArn: json['ChannelArn'] as String?,
+      content: json['Content'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastEditedTimestamp: timeStampFromJson(json['LastEditedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      messageId: json['MessageId'] as String?,
+      metadata: json['Metadata'] as String?,
+      persistence:
+          (json['Persistence'] as String?)?.toChannelMessagePersistenceType(),
+      redacted: json['Redacted'] as bool?,
+      sender: json['Sender'] != null
+          ? Identity.fromJson(json['Sender'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toChannelMessageType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final content = this.content;
+    final createdTimestamp = this.createdTimestamp;
+    final lastEditedTimestamp = this.lastEditedTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final messageId = this.messageId;
+    final metadata = this.metadata;
+    final persistence = this.persistence;
+    final redacted = this.redacted;
+    final sender = this.sender;
+    final type = this.type;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (content != null) 'Content': content,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastEditedTimestamp != null)
+        'LastEditedTimestamp': unixTimestampToJson(lastEditedTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (messageId != null) 'MessageId': messageId,
+      if (metadata != null) 'Metadata': metadata,
+      if (persistence != null) 'Persistence': persistence.toValue(),
+      if (redacted != null) 'Redacted': redacted,
+      if (sender != null) 'Sender': sender,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ChannelMessagePersistenceType {
-  @_s.JsonValue('PERSISTENT')
   persistent,
-  @_s.JsonValue('NON_PERSISTENT')
   nonPersistent,
 }
 
@@ -10381,51 +10309,49 @@ extension on ChannelMessagePersistenceType {
       case ChannelMessagePersistenceType.nonPersistent:
         return 'NON_PERSISTENT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// A summary of the messages in a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ChannelMessagePersistenceType toChannelMessagePersistenceType() {
+    switch (this) {
+      case 'PERSISTENT':
+        return ChannelMessagePersistenceType.persistent;
+      case 'NON_PERSISTENT':
+        return ChannelMessagePersistenceType.nonPersistent;
+    }
+    throw Exception('$this is not known in enum ChannelMessagePersistenceType');
+  }
+}
+
+/// Summary of the messages in a <code>Channel</code>.
 class ChannelMessageSummary {
-  /// The content of the message summary.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  /// The content of the message.
+  final String? content;
 
   /// The time at which the message summary was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastEditedTimestamp')
-  final DateTime lastEditedTimestamp;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  final DateTime? createdTimestamp;
 
-  /// The ID of the message summary.
-  @_s.JsonKey(name: 'MessageId')
-  final String messageId;
+  /// The time at which a message was last edited.
+  final DateTime? lastEditedTimestamp;
 
-  /// The metadata of the message summary.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  /// The time at which a message was last updated.
+  final DateTime? lastUpdatedTimestamp;
 
-  /// Redacts the content of a message summary.
-  @_s.JsonKey(name: 'Redacted')
-  final bool redacted;
+  /// The ID of the message.
+  final String? messageId;
 
-  /// The sender of the message summary.
-  @_s.JsonKey(name: 'Sender')
-  final Identity sender;
+  /// The metadata of the message.
+  final String? metadata;
 
-  /// The type of message summary.
-  @_s.JsonKey(name: 'Type')
-  final ChannelMessageType type;
+  /// Indicates whether a message was redacted.
+  final bool? redacted;
+
+  /// The message sender.
+  final Identity? sender;
+
+  /// The type of message.
+  final ChannelMessageType? type;
 
   ChannelMessageSummary({
     this.content,
@@ -10438,14 +10364,52 @@ class ChannelMessageSummary {
     this.sender,
     this.type,
   });
-  factory ChannelMessageSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChannelMessageSummaryFromJson(json);
+
+  factory ChannelMessageSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelMessageSummary(
+      content: json['Content'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      lastEditedTimestamp: timeStampFromJson(json['LastEditedTimestamp']),
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      messageId: json['MessageId'] as String?,
+      metadata: json['Metadata'] as String?,
+      redacted: json['Redacted'] as bool?,
+      sender: json['Sender'] != null
+          ? Identity.fromJson(json['Sender'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toChannelMessageType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final createdTimestamp = this.createdTimestamp;
+    final lastEditedTimestamp = this.lastEditedTimestamp;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final messageId = this.messageId;
+    final metadata = this.metadata;
+    final redacted = this.redacted;
+    final sender = this.sender;
+    final type = this.type;
+    return {
+      if (content != null) 'Content': content,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (lastEditedTimestamp != null)
+        'LastEditedTimestamp': unixTimestampToJson(lastEditedTimestamp),
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (messageId != null) 'MessageId': messageId,
+      if (metadata != null) 'Metadata': metadata,
+      if (redacted != null) 'Redacted': redacted,
+      if (sender != null) 'Sender': sender,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ChannelMessageType {
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('CONTROL')
   control,
 }
 
@@ -10457,14 +10421,23 @@ extension on ChannelMessageType {
       case ChannelMessageType.control:
         return 'CONTROL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ChannelMessageType toChannelMessageType() {
+    switch (this) {
+      case 'STANDARD':
+        return ChannelMessageType.standard;
+      case 'CONTROL':
+        return ChannelMessageType.control;
+    }
+    throw Exception('$this is not known in enum ChannelMessageType');
   }
 }
 
 enum ChannelMode {
-  @_s.JsonValue('UNRESTRICTED')
   unrestricted,
-  @_s.JsonValue('RESTRICTED')
   restricted,
 }
 
@@ -10476,51 +10449,60 @@ extension on ChannelMode {
       case ChannelMode.restricted:
         return 'RESTRICTED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Returns the summary data for a moderated channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ChannelMode toChannelMode() {
+    switch (this) {
+      case 'UNRESTRICTED':
+        return ChannelMode.unrestricted;
+      case 'RESTRICTED':
+        return ChannelMode.restricted;
+    }
+    throw Exception('$this is not known in enum ChannelMode');
+  }
+}
+
+/// Summary of the details of a moderated channel.
 class ChannelModeratedByAppInstanceUserSummary {
-  @_s.JsonKey(name: 'ChannelSummary')
-  final ChannelSummary channelSummary;
+  final ChannelSummary? channelSummary;
 
   ChannelModeratedByAppInstanceUserSummary({
     this.channelSummary,
   });
+
   factory ChannelModeratedByAppInstanceUserSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChannelModeratedByAppInstanceUserSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return ChannelModeratedByAppInstanceUserSummary(
+      channelSummary: json['ChannelSummary'] != null
+          ? ChannelSummary.fromJson(
+              json['ChannelSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelSummary = this.channelSummary;
+    return {
+      if (channelSummary != null) 'ChannelSummary': channelSummary,
+    };
+  }
 }
 
-/// Creates a moderator on a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of a channel moderator.
 class ChannelModerator {
   /// The ARN of the moderator's channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
-  /// The member who created the moderator.
-  @_s.JsonKey(name: 'CreatedBy')
-  final Identity createdBy;
+  /// The <code>AppInstanceUser</code> who created the moderator.
+  final Identity? createdBy;
 
   /// The time at which the moderator was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The moderator's data.
-  @_s.JsonKey(name: 'Moderator')
-  final Identity moderator;
+  final Identity? moderator;
 
   ChannelModerator({
     this.channelArn,
@@ -10528,32 +10510,62 @@ class ChannelModerator {
     this.createdTimestamp,
     this.moderator,
   });
-  factory ChannelModerator.fromJson(Map<String, dynamic> json) =>
-      _$ChannelModeratorFromJson(json);
+
+  factory ChannelModerator.fromJson(Map<String, dynamic> json) {
+    return ChannelModerator(
+      channelArn: json['ChannelArn'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      moderator: json['Moderator'] != null
+          ? Identity.fromJson(json['Moderator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final moderator = this.moderator;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (moderator != null) 'Moderator': moderator,
+    };
+  }
 }
 
-/// Summary data of the moderators in a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the details of a <code>ChannelModerator</code>.
 class ChannelModeratorSummary {
   /// The data for a moderator.
-  @_s.JsonKey(name: 'Moderator')
-  final Identity moderator;
+  final Identity? moderator;
 
   ChannelModeratorSummary({
     this.moderator,
   });
-  factory ChannelModeratorSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChannelModeratorSummaryFromJson(json);
+
+  factory ChannelModeratorSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelModeratorSummary(
+      moderator: json['Moderator'] != null
+          ? Identity.fromJson(json['Moderator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final moderator = this.moderator;
+    return {
+      if (moderator != null) 'Moderator': moderator,
+    };
+  }
 }
 
 enum ChannelPrivacy {
-  @_s.JsonValue('PUBLIC')
   public,
-  @_s.JsonValue('PRIVATE')
   private,
 }
 
@@ -10565,62 +10577,63 @@ extension on ChannelPrivacy {
       case ChannelPrivacy.private:
         return 'PRIVATE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// The retention settings for a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+extension on String {
+  ChannelPrivacy toChannelPrivacy() {
+    switch (this) {
+      case 'PUBLIC':
+        return ChannelPrivacy.public;
+      case 'PRIVATE':
+        return ChannelPrivacy.private;
+    }
+    throw Exception('$this is not known in enum ChannelPrivacy');
+  }
+}
+
+/// The details of the retention settings for a channel.
 class ChannelRetentionSettings {
-  /// The time in days to retain a channel.
-  @_s.JsonKey(name: 'RetentionDays')
-  final int retentionDays;
+  /// The time in days to retain the messages in a channel.
+  final int? retentionDays;
 
   ChannelRetentionSettings({
     this.retentionDays,
   });
-  factory ChannelRetentionSettings.fromJson(Map<String, dynamic> json) =>
-      _$ChannelRetentionSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ChannelRetentionSettingsToJson(this);
+  factory ChannelRetentionSettings.fromJson(Map<String, dynamic> json) {
+    return ChannelRetentionSettings(
+      retentionDays: json['RetentionDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retentionDays = this.retentionDays;
+    return {
+      if (retentionDays != null) 'RetentionDays': retentionDays,
+    };
+  }
 }
 
-/// The summary data for a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Summary of the details of a <code>Channel</code>.
 class ChannelSummary {
-  /// The ARN of the channel summary.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  /// The ARN of the channel.
+  final String? channelArn;
 
   /// The time at which the last message in a channel was sent.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastMessageTimestamp')
-  final DateTime lastMessageTimestamp;
+  final DateTime? lastMessageTimestamp;
 
-  /// The metadata of the channel summary.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  /// The metadata of the channel.
+  final String? metadata;
 
-  /// The summary mode of the channel.
-  @_s.JsonKey(name: 'Mode')
-  final ChannelMode mode;
+  /// The mode of the channel.
+  final ChannelMode? mode;
 
-  /// The parameter of the action.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  /// The name of the channel.
+  final String? name;
 
-  /// The privacy setting of the channel being summarized, <code>PUBLIC</code> or
-  /// <code>HIDDEN</code>.
-  @_s.JsonKey(name: 'Privacy')
-  final ChannelPrivacy privacy;
+  /// The privacy setting of the channel.
+  final ChannelPrivacy? privacy;
 
   ChannelSummary({
     this.channelArn,
@@ -10630,911 +10643,1363 @@ class ChannelSummary {
     this.name,
     this.privacy,
   });
-  factory ChannelSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChannelSummaryFromJson(json);
+
+  factory ChannelSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelSummary(
+      channelArn: json['ChannelArn'] as String?,
+      lastMessageTimestamp: timeStampFromJson(json['LastMessageTimestamp']),
+      metadata: json['Metadata'] as String?,
+      mode: (json['Mode'] as String?)?.toChannelMode(),
+      name: json['Name'] as String?,
+      privacy: (json['Privacy'] as String?)?.toChannelPrivacy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final lastMessageTimestamp = this.lastMessageTimestamp;
+    final metadata = this.metadata;
+    final mode = this.mode;
+    final name = this.name;
+    final privacy = this.privacy;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (lastMessageTimestamp != null)
+        'LastMessageTimestamp': unixTimestampToJson(lastMessageTimestamp),
+      if (metadata != null) 'Metadata': metadata,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (name != null) 'Name': name,
+      if (privacy != null) 'Privacy': privacy.toValue(),
+    };
+  }
 }
 
-/// The retention settings that determine how long to retain chat conversation
+/// The retention settings that determine how long to retain conversation
 /// messages for an Amazon Chime Enterprise account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConversationRetentionSettings {
-  /// The number of days for which to retain chat conversation messages.
-  @_s.JsonKey(name: 'RetentionDays')
-  final int retentionDays;
+  /// The number of days for which to retain conversation messages.
+  final int? retentionDays;
 
   ConversationRetentionSettings({
     this.retentionDays,
   });
-  factory ConversationRetentionSettings.fromJson(Map<String, dynamic> json) =>
-      _$ConversationRetentionSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConversationRetentionSettingsToJson(this);
+  factory ConversationRetentionSettings.fromJson(Map<String, dynamic> json) {
+    return ConversationRetentionSettings(
+      retentionDays: json['RetentionDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retentionDays = this.retentionDays;
+    return {
+      if (retentionDays != null) 'RetentionDays': retentionDays,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAccountResponse {
-  @_s.JsonKey(name: 'Account')
-  final Account account;
+  /// The Amazon Chime account details.
+  final Account? account;
 
   CreateAccountResponse({
     this.account,
   });
-  factory CreateAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAccountResponseFromJson(json);
+
+  factory CreateAccountResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAccountResponse(
+      account: json['Account'] != null
+          ? Account.fromJson(json['Account'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    return {
+      if (account != null) 'Account': account,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAppInstanceAdminResponse {
-  /// The name and ARN of the admin for the app instance.
-  @_s.JsonKey(name: 'AppInstanceAdmin')
-  final Identity appInstanceAdmin;
+  /// The name and ARN of the admin for the <code>AppInstance</code>.
+  final Identity? appInstanceAdmin;
 
-  /// The ARN of the of the admin for the app instance.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  /// The ARN of the of the admin for the <code>AppInstance</code>.
+  final String? appInstanceArn;
 
   CreateAppInstanceAdminResponse({
     this.appInstanceAdmin,
     this.appInstanceArn,
   });
-  factory CreateAppInstanceAdminResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAppInstanceAdminResponseFromJson(json);
+
+  factory CreateAppInstanceAdminResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAppInstanceAdminResponse(
+      appInstanceAdmin: json['AppInstanceAdmin'] != null
+          ? Identity.fromJson(json['AppInstanceAdmin'] as Map<String, dynamic>)
+          : null,
+      appInstanceArn: json['AppInstanceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceAdmin = this.appInstanceAdmin;
+    final appInstanceArn = this.appInstanceArn;
+    return {
+      if (appInstanceAdmin != null) 'AppInstanceAdmin': appInstanceAdmin,
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAppInstanceResponse {
-  /// The Amazon Resource Number (ARN) of the app instance.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  /// The Amazon Resource Number (ARN) of the <code>AppInstance</code>.
+  final String? appInstanceArn;
 
   CreateAppInstanceResponse({
     this.appInstanceArn,
   });
-  factory CreateAppInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAppInstanceResponseFromJson(json);
+
+  factory CreateAppInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAppInstanceResponse(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAppInstanceUserResponse {
   /// The user's ARN.
-  @_s.JsonKey(name: 'AppInstanceUserArn')
-  final String appInstanceUserArn;
+  final String? appInstanceUserArn;
 
   CreateAppInstanceUserResponse({
     this.appInstanceUserArn,
   });
-  factory CreateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAppInstanceUserResponseFromJson(json);
+
+  factory CreateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAppInstanceUserResponse(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserArn = this.appInstanceUserArn;
+    return {
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+    };
+  }
 }
 
 /// The list of errors returned when errors are encountered during the
 /// BatchCreateAttendee and CreateAttendee actions. This includes external user
 /// IDs, error codes, and error messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAttendeeError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
-  /// attendee to an identity managed by a builder application. If you create an
-  /// attendee with the same external user id, the service returns the existing
-  /// record.
-  @_s.JsonKey(name: 'ExternalUserId')
-  final String externalUserId;
+  /// attendee to an identity managed by a builder application.
+  final String? externalUserId;
 
   CreateAttendeeError({
     this.errorCode,
     this.errorMessage,
     this.externalUserId,
   });
-  factory CreateAttendeeError.fromJson(Map<String, dynamic> json) =>
-      _$CreateAttendeeErrorFromJson(json);
+
+  factory CreateAttendeeError.fromJson(Map<String, dynamic> json) {
+    return CreateAttendeeError(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      externalUserId: json['ExternalUserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final externalUserId = this.externalUserId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (externalUserId != null) 'ExternalUserId': externalUserId,
+    };
+  }
 }
 
 /// The Amazon Chime SDK attendee fields to create, used with the
 /// BatchCreateAttendee action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateAttendeeRequestItem {
   /// The Amazon Chime SDK external user ID. An idempotency token. Links the
-  /// attendee to an identity managed by a builder application. If you create an
-  /// attendee with the same external user id, the service returns the existing
-  /// record.
-  ///
-  /// The Amazon Chime SDK external user ID. Links the attendee to an identity
-  /// managed by a builder application.
-  @_s.JsonKey(name: 'ExternalUserId')
+  /// attendee to an identity managed by a builder application.
   final String externalUserId;
 
   /// The tag key-value pairs.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   CreateAttendeeRequestItem({
-    @_s.required this.externalUserId,
+    required this.externalUserId,
     this.tags,
   });
-  Map<String, dynamic> toJson() => _$CreateAttendeeRequestItemToJson(this);
+
+  factory CreateAttendeeRequestItem.fromJson(Map<String, dynamic> json) {
+    return CreateAttendeeRequestItem(
+      externalUserId: json['ExternalUserId'] as String,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalUserId = this.externalUserId;
+    final tags = this.tags;
+    return {
+      'ExternalUserId': externalUserId,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAttendeeResponse {
   /// The attendee information, including attendee ID and join token.
-  @_s.JsonKey(name: 'Attendee')
-  final Attendee attendee;
+  final Attendee? attendee;
 
   CreateAttendeeResponse({
     this.attendee,
   });
-  factory CreateAttendeeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAttendeeResponseFromJson(json);
+
+  factory CreateAttendeeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAttendeeResponse(
+      attendee: json['Attendee'] != null
+          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendee = this.attendee;
+    return {
+      if (attendee != null) 'Attendee': attendee,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBotResponse {
   /// The bot details.
-  @_s.JsonKey(name: 'Bot')
-  final Bot bot;
+  final Bot? bot;
 
   CreateBotResponse({
     this.bot,
   });
-  factory CreateBotResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBotResponseFromJson(json);
+
+  factory CreateBotResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBotResponse(
+      bot: json['Bot'] != null
+          ? Bot.fromJson(json['Bot'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bot = this.bot;
+    return {
+      if (bot != null) 'Bot': bot,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateChannelBanResponse {
   /// The ARN of the response to the ban request.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The <code>ChannelArn</code> and <code>BannedIdentity</code> of the member in
   /// the ban response.
-  @_s.JsonKey(name: 'Member')
-  final Identity member;
+  final Identity? member;
 
   CreateChannelBanResponse({
     this.channelArn,
     this.member,
   });
-  factory CreateChannelBanResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateChannelBanResponseFromJson(json);
+
+  factory CreateChannelBanResponse.fromJson(Map<String, dynamic> json) {
+    return CreateChannelBanResponse(
+      channelArn: json['ChannelArn'] as String?,
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final member = this.member;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (member != null) 'Member': member,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateChannelMembershipResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The ARN and metadata of the member being added.
-  @_s.JsonKey(name: 'Member')
-  final Identity member;
+  final Identity? member;
 
   CreateChannelMembershipResponse({
     this.channelArn,
     this.member,
   });
-  factory CreateChannelMembershipResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateChannelMembershipResponseFromJson(json);
+
+  factory CreateChannelMembershipResponse.fromJson(Map<String, dynamic> json) {
+    return CreateChannelMembershipResponse(
+      channelArn: json['ChannelArn'] as String?,
+      member: json['Member'] != null
+          ? Identity.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final member = this.member;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (member != null) 'Member': member,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateChannelModeratorResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The ARNs of the channel and the moderator.
-  @_s.JsonKey(name: 'ChannelModerator')
-  final Identity channelModerator;
+  final Identity? channelModerator;
 
   CreateChannelModeratorResponse({
     this.channelArn,
     this.channelModerator,
   });
-  factory CreateChannelModeratorResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateChannelModeratorResponseFromJson(json);
+
+  factory CreateChannelModeratorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateChannelModeratorResponse(
+      channelArn: json['ChannelArn'] as String?,
+      channelModerator: json['ChannelModerator'] != null
+          ? Identity.fromJson(json['ChannelModerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelModerator = this.channelModerator;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (channelModerator != null) 'ChannelModerator': channelModerator,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateChannelResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   CreateChannelResponse({
     this.channelArn,
   });
-  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateChannelResponseFromJson(json);
+
+  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateChannelResponse(
+      channelArn: json['ChannelArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class CreateMediaCapturePipelineResponse {
+  /// A media capture pipeline object, the ID, source type, source ARN, sink type,
+  /// and sink ARN of a media capture pipeline object.
+  final MediaCapturePipeline? mediaCapturePipeline;
+
+  CreateMediaCapturePipelineResponse({
+    this.mediaCapturePipeline,
+  });
+
+  factory CreateMediaCapturePipelineResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateMediaCapturePipelineResponse(
+      mediaCapturePipeline: json['MediaCapturePipeline'] != null
+          ? MediaCapturePipeline.fromJson(
+              json['MediaCapturePipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaCapturePipeline = this.mediaCapturePipeline;
+    return {
+      if (mediaCapturePipeline != null)
+        'MediaCapturePipeline': mediaCapturePipeline,
+    };
+  }
+}
+
 class CreateMeetingDialOutResponse {
   /// Unique ID that tracks API calls.
-  @_s.JsonKey(name: 'TransactionId')
-  final String transactionId;
+  final String? transactionId;
 
   CreateMeetingDialOutResponse({
     this.transactionId,
   });
-  factory CreateMeetingDialOutResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateMeetingDialOutResponseFromJson(json);
+
+  factory CreateMeetingDialOutResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMeetingDialOutResponse(
+      transactionId: json['TransactionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionId = this.transactionId;
+    return {
+      if (transactionId != null) 'TransactionId': transactionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMeetingResponse {
   /// The meeting information, including the meeting ID and
-  /// <code>MediaPlacement</code>.
-  @_s.JsonKey(name: 'Meeting')
-  final Meeting meeting;
+  /// <code>MediaPlacement</code> .
+  final Meeting? meeting;
 
   CreateMeetingResponse({
     this.meeting,
   });
-  factory CreateMeetingResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateMeetingResponseFromJson(json);
+
+  factory CreateMeetingResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMeetingResponse(
+      meeting: json['Meeting'] != null
+          ? Meeting.fromJson(json['Meeting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meeting = this.meeting;
+    return {
+      if (meeting != null) 'Meeting': meeting,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMeetingWithAttendeesResponse {
   /// The attendee information, including attendees IDs and join tokens.
-  @_s.JsonKey(name: 'Attendees')
-  final List<Attendee> attendees;
+  final List<Attendee>? attendees;
 
   /// If the action fails for one or more of the attendees in the request, a list
   /// of the attendees is returned, along with error codes and error messages.
-  @_s.JsonKey(name: 'Errors')
-  final List<CreateAttendeeError> errors;
-  @_s.JsonKey(name: 'Meeting')
-  final Meeting meeting;
+  final List<CreateAttendeeError>? errors;
+  final Meeting? meeting;
 
   CreateMeetingWithAttendeesResponse({
     this.attendees,
     this.errors,
     this.meeting,
   });
+
   factory CreateMeetingWithAttendeesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateMeetingWithAttendeesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateMeetingWithAttendeesResponse(
+      attendees: (json['Attendees'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['Errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => CreateAttendeeError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      meeting: json['Meeting'] != null
+          ? Meeting.fromJson(json['Meeting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendees = this.attendees;
+    final errors = this.errors;
+    final meeting = this.meeting;
+    return {
+      if (attendees != null) 'Attendees': attendees,
+      if (errors != null) 'Errors': errors,
+      if (meeting != null) 'Meeting': meeting,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePhoneNumberOrderResponse {
   /// The phone number order details.
-  @_s.JsonKey(name: 'PhoneNumberOrder')
-  final PhoneNumberOrder phoneNumberOrder;
+  final PhoneNumberOrder? phoneNumberOrder;
 
   CreatePhoneNumberOrderResponse({
     this.phoneNumberOrder,
   });
-  factory CreatePhoneNumberOrderResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePhoneNumberOrderResponseFromJson(json);
+
+  factory CreatePhoneNumberOrderResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePhoneNumberOrderResponse(
+      phoneNumberOrder: json['PhoneNumberOrder'] != null
+          ? PhoneNumberOrder.fromJson(
+              json['PhoneNumberOrder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberOrder = this.phoneNumberOrder;
+    return {
+      if (phoneNumberOrder != null) 'PhoneNumberOrder': phoneNumberOrder,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProxySessionResponse {
   /// The proxy session details.
-  @_s.JsonKey(name: 'ProxySession')
-  final ProxySession proxySession;
+  final ProxySession? proxySession;
 
   CreateProxySessionResponse({
     this.proxySession,
   });
-  factory CreateProxySessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProxySessionResponseFromJson(json);
+
+  factory CreateProxySessionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProxySessionResponse(
+      proxySession: json['ProxySession'] != null
+          ? ProxySession.fromJson(json['ProxySession'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proxySession = this.proxySession;
+    return {
+      if (proxySession != null) 'ProxySession': proxySession,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRoomMembershipResponse {
   /// The room membership details.
-  @_s.JsonKey(name: 'RoomMembership')
-  final RoomMembership roomMembership;
+  final RoomMembership? roomMembership;
 
   CreateRoomMembershipResponse({
     this.roomMembership,
   });
-  factory CreateRoomMembershipResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRoomMembershipResponseFromJson(json);
+
+  factory CreateRoomMembershipResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRoomMembershipResponse(
+      roomMembership: json['RoomMembership'] != null
+          ? RoomMembership.fromJson(
+              json['RoomMembership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roomMembership = this.roomMembership;
+    return {
+      if (roomMembership != null) 'RoomMembership': roomMembership,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRoomResponse {
   /// The room details.
-  @_s.JsonKey(name: 'Room')
-  final Room room;
+  final Room? room;
 
   CreateRoomResponse({
     this.room,
   });
-  factory CreateRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRoomResponseFromJson(json);
+
+  factory CreateRoomResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRoomResponse(
+      room: json['Room'] != null
+          ? Room.fromJson(json['Room'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final room = this.room;
+    return {
+      if (room != null) 'Room': room,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSipMediaApplicationCallResponse {
   /// The actual call.
-  @_s.JsonKey(name: 'SipMediaApplicationCall')
-  final SipMediaApplicationCall sipMediaApplicationCall;
+  final SipMediaApplicationCall? sipMediaApplicationCall;
 
   CreateSipMediaApplicationCallResponse({
     this.sipMediaApplicationCall,
   });
+
   factory CreateSipMediaApplicationCallResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSipMediaApplicationCallResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSipMediaApplicationCallResponse(
+      sipMediaApplicationCall: json['SipMediaApplicationCall'] != null
+          ? SipMediaApplicationCall.fromJson(
+              json['SipMediaApplicationCall'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplicationCall = this.sipMediaApplicationCall;
+    return {
+      if (sipMediaApplicationCall != null)
+        'SipMediaApplicationCall': sipMediaApplicationCall,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSipMediaApplicationResponse {
-  /// The Sip media application details.
-  @_s.JsonKey(name: 'SipMediaApplication')
-  final SipMediaApplication sipMediaApplication;
+  /// The SIP media application details.
+  final SipMediaApplication? sipMediaApplication;
 
   CreateSipMediaApplicationResponse({
     this.sipMediaApplication,
   });
+
   factory CreateSipMediaApplicationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSipMediaApplicationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSipMediaApplicationResponse(
+      sipMediaApplication: json['SipMediaApplication'] != null
+          ? SipMediaApplication.fromJson(
+              json['SipMediaApplication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplication = this.sipMediaApplication;
+    return {
+      if (sipMediaApplication != null)
+        'SipMediaApplication': sipMediaApplication,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSipRuleResponse {
   /// Returns the SIP rule information, including the rule ID, triggers, and
   /// target applications.
-  @_s.JsonKey(name: 'SipRule')
-  final SipRule sipRule;
+  final SipRule? sipRule;
 
   CreateSipRuleResponse({
     this.sipRule,
   });
-  factory CreateSipRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSipRuleResponseFromJson(json);
+
+  factory CreateSipRuleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSipRuleResponse(
+      sipRule: json['SipRule'] != null
+          ? SipRule.fromJson(json['SipRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipRule = this.sipRule;
+    return {
+      if (sipRule != null) 'SipRule': sipRule,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserResponse {
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   CreateUserResponse({
     this.user,
   });
-  factory CreateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserResponseFromJson(json);
+
+  factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVoiceConnectorGroupResponse {
   /// The Amazon Chime Voice Connector group details.
-  @_s.JsonKey(name: 'VoiceConnectorGroup')
-  final VoiceConnectorGroup voiceConnectorGroup;
+  final VoiceConnectorGroup? voiceConnectorGroup;
 
   CreateVoiceConnectorGroupResponse({
     this.voiceConnectorGroup,
   });
+
   factory CreateVoiceConnectorGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateVoiceConnectorGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateVoiceConnectorGroupResponse(
+      voiceConnectorGroup: json['VoiceConnectorGroup'] != null
+          ? VoiceConnectorGroup.fromJson(
+              json['VoiceConnectorGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnectorGroup = this.voiceConnectorGroup;
+    return {
+      if (voiceConnectorGroup != null)
+        'VoiceConnectorGroup': voiceConnectorGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVoiceConnectorResponse {
   /// The Amazon Chime Voice Connector details.
-  @_s.JsonKey(name: 'VoiceConnector')
-  final VoiceConnector voiceConnector;
+  final VoiceConnector? voiceConnector;
 
   CreateVoiceConnectorResponse({
     this.voiceConnector,
   });
-  factory CreateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateVoiceConnectorResponseFromJson(json);
+
+  factory CreateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVoiceConnectorResponse(
+      voiceConnector: json['VoiceConnector'] != null
+          ? VoiceConnector.fromJson(
+              json['VoiceConnector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnector = this.voiceConnector;
+    return {
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+    };
+  }
 }
 
 /// The SIP credentials used to authenticate requests to your Amazon Chime Voice
 /// Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Credential {
   /// The RFC2617 compliant password associated with the SIP credentials, in
   /// US-ASCII format.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The RFC2617 compliant user name associated with the SIP credentials, in
   /// US-ASCII format.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   Credential({
     this.password,
     this.username,
   });
-  Map<String, dynamic> toJson() => _$CredentialToJson(this);
+
+  factory Credential.fromJson(Map<String, dynamic> json) {
+    return Credential(
+      password: json['Password'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    return {
+      if (password != null) 'Password': password,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 /// The Dialed Number Identification Service (DNIS) emergency calling
 /// configuration details associated with an Amazon Chime Voice Connector's
 /// emergency calling configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DNISEmergencyCallingConfiguration {
   /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2
   /// format.
-  @_s.JsonKey(name: 'CallingCountry')
   final String callingCountry;
 
   /// The DNIS phone number to route emergency calls to, in E.164 format.
-  @_s.JsonKey(name: 'EmergencyPhoneNumber')
   final String emergencyPhoneNumber;
 
   /// The DNIS phone number to route test emergency calls to, in E.164 format.
-  @_s.JsonKey(name: 'TestPhoneNumber')
-  final String testPhoneNumber;
+  final String? testPhoneNumber;
 
   DNISEmergencyCallingConfiguration({
-    @_s.required this.callingCountry,
-    @_s.required this.emergencyPhoneNumber,
+    required this.callingCountry,
+    required this.emergencyPhoneNumber,
     this.testPhoneNumber,
   });
-  factory DNISEmergencyCallingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$DNISEmergencyCallingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DNISEmergencyCallingConfigurationToJson(this);
+  factory DNISEmergencyCallingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DNISEmergencyCallingConfiguration(
+      callingCountry: json['CallingCountry'] as String,
+      emergencyPhoneNumber: json['EmergencyPhoneNumber'] as String,
+      testPhoneNumber: json['TestPhoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callingCountry = this.callingCountry;
+    final emergencyPhoneNumber = this.emergencyPhoneNumber;
+    final testPhoneNumber = this.testPhoneNumber;
+    return {
+      'CallingCountry': callingCountry,
+      'EmergencyPhoneNumber': emergencyPhoneNumber,
+      if (testPhoneNumber != null) 'TestPhoneNumber': testPhoneNumber,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAccountResponse {
   DeleteAccountResponse();
-  factory DeleteAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAccountResponseFromJson(json);
+
+  factory DeleteAccountResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAppInstanceAdminResponse {
-  /// The ARN and name of the app instance user, the ARN of the app instance, and
-  /// the created and last-updated timestamps. All timestamps use epoch
-  /// milliseconds.
-  @_s.JsonKey(name: 'AppInstanceAdmin')
-  final AppInstanceAdmin appInstanceAdmin;
+  /// The ARN and name of the <code>AppInstanceUser</code>, the ARN of the
+  /// <code>AppInstance</code>, and the created and last-updated timestamps. All
+  /// timestamps use epoch milliseconds.
+  final AppInstanceAdmin? appInstanceAdmin;
 
   DescribeAppInstanceAdminResponse({
     this.appInstanceAdmin,
   });
-  factory DescribeAppInstanceAdminResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAppInstanceAdminResponseFromJson(json);
+
+  factory DescribeAppInstanceAdminResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAppInstanceAdminResponse(
+      appInstanceAdmin: json['AppInstanceAdmin'] != null
+          ? AppInstanceAdmin.fromJson(
+              json['AppInstanceAdmin'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceAdmin = this.appInstanceAdmin;
+    return {
+      if (appInstanceAdmin != null) 'AppInstanceAdmin': appInstanceAdmin,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAppInstanceResponse {
   /// The ARN, metadata, created and last-updated timestamps, and the name of the
-  /// app instance. All timestamps use epoch milliseconds.
-  @_s.JsonKey(name: 'AppInstance')
-  final AppInstance appInstance;
+  /// <code>AppInstance</code>. All timestamps use epoch milliseconds.
+  final AppInstance? appInstance;
 
   DescribeAppInstanceResponse({
     this.appInstance,
   });
-  factory DescribeAppInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAppInstanceResponseFromJson(json);
+
+  factory DescribeAppInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAppInstanceResponse(
+      appInstance: json['AppInstance'] != null
+          ? AppInstance.fromJson(json['AppInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstance = this.appInstance;
+    return {
+      if (appInstance != null) 'AppInstance': appInstance,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAppInstanceUserResponse {
-  /// The name of the app instance user.
-  @_s.JsonKey(name: 'AppInstanceUser')
-  final AppInstanceUser appInstanceUser;
+  /// The name of the <code>AppInstanceUser</code>.
+  final AppInstanceUser? appInstanceUser;
 
   DescribeAppInstanceUserResponse({
     this.appInstanceUser,
   });
-  factory DescribeAppInstanceUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAppInstanceUserResponseFromJson(json);
+
+  factory DescribeAppInstanceUserResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAppInstanceUserResponse(
+      appInstanceUser: json['AppInstanceUser'] != null
+          ? AppInstanceUser.fromJson(
+              json['AppInstanceUser'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUser = this.appInstanceUser;
+    return {
+      if (appInstanceUser != null) 'AppInstanceUser': appInstanceUser,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChannelBanResponse {
-  /// The the details of the ban.
-  @_s.JsonKey(name: 'ChannelBan')
-  final ChannelBan channelBan;
+  /// The details of the ban.
+  final ChannelBan? channelBan;
 
   DescribeChannelBanResponse({
     this.channelBan,
   });
-  factory DescribeChannelBanResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeChannelBanResponseFromJson(json);
+
+  factory DescribeChannelBanResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeChannelBanResponse(
+      channelBan: json['ChannelBan'] != null
+          ? ChannelBan.fromJson(json['ChannelBan'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelBan = this.channelBan;
+    return {
+      if (channelBan != null) 'ChannelBan': channelBan,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChannelMembershipForAppInstanceUserResponse {
   /// The channel to which a user belongs.
-  @_s.JsonKey(name: 'ChannelMembership')
-  final ChannelMembershipForAppInstanceUserSummary channelMembership;
+  final ChannelMembershipForAppInstanceUserSummary? channelMembership;
 
   DescribeChannelMembershipForAppInstanceUserResponse({
     this.channelMembership,
   });
+
   factory DescribeChannelMembershipForAppInstanceUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeChannelMembershipForAppInstanceUserResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeChannelMembershipForAppInstanceUserResponse(
+      channelMembership: json['ChannelMembership'] != null
+          ? ChannelMembershipForAppInstanceUserSummary.fromJson(
+              json['ChannelMembership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelMembership = this.channelMembership;
+    return {
+      if (channelMembership != null) 'ChannelMembership': channelMembership,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChannelMembershipResponse {
   /// The details of the membership.
-  @_s.JsonKey(name: 'ChannelMembership')
-  final ChannelMembership channelMembership;
+  final ChannelMembership? channelMembership;
 
   DescribeChannelMembershipResponse({
     this.channelMembership,
   });
+
   factory DescribeChannelMembershipResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeChannelMembershipResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeChannelMembershipResponse(
+      channelMembership: json['ChannelMembership'] != null
+          ? ChannelMembership.fromJson(
+              json['ChannelMembership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelMembership = this.channelMembership;
+    return {
+      if (channelMembership != null) 'ChannelMembership': channelMembership,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChannelModeratedByAppInstanceUserResponse {
   /// The moderated channel.
-  @_s.JsonKey(name: 'Channel')
-  final ChannelModeratedByAppInstanceUserSummary channel;
+  final ChannelModeratedByAppInstanceUserSummary? channel;
 
   DescribeChannelModeratedByAppInstanceUserResponse({
     this.channel,
   });
+
   factory DescribeChannelModeratedByAppInstanceUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeChannelModeratedByAppInstanceUserResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeChannelModeratedByAppInstanceUserResponse(
+      channel: json['Channel'] != null
+          ? ChannelModeratedByAppInstanceUserSummary.fromJson(
+              json['Channel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channel = this.channel;
+    return {
+      if (channel != null) 'Channel': channel,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChannelModeratorResponse {
   /// The details of the channel moderator.
-  @_s.JsonKey(name: 'ChannelModerator')
-  final ChannelModerator channelModerator;
+  final ChannelModerator? channelModerator;
 
   DescribeChannelModeratorResponse({
     this.channelModerator,
   });
-  factory DescribeChannelModeratorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeChannelModeratorResponseFromJson(json);
+
+  factory DescribeChannelModeratorResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeChannelModeratorResponse(
+      channelModerator: json['ChannelModerator'] != null
+          ? ChannelModerator.fromJson(
+              json['ChannelModerator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelModerator = this.channelModerator;
+    return {
+      if (channelModerator != null) 'ChannelModerator': channelModerator,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChannelResponse {
   /// The channel details.
-  @_s.JsonKey(name: 'Channel')
-  final Channel channel;
+  final Channel? channel;
 
   DescribeChannelResponse({
     this.channel,
   });
-  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeChannelResponseFromJson(json);
+
+  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeChannelResponse(
+      channel: json['Channel'] != null
+          ? Channel.fromJson(json['Channel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channel = this.channel;
+    return {
+      if (channel != null) 'Channel': channel,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociatePhoneNumberFromUserResponse {
   DisassociatePhoneNumberFromUserResponse();
+
   factory DisassociatePhoneNumberFromUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociatePhoneNumberFromUserResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociatePhoneNumberFromUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
-  @_s.JsonKey(name: 'PhoneNumberErrors')
-  final List<PhoneNumberError> phoneNumberErrors;
+  final List<PhoneNumberError>? phoneNumberErrors;
 
   DisassociatePhoneNumbersFromVoiceConnectorGroupResponse({
     this.phoneNumberErrors,
   });
+
   factory DisassociatePhoneNumbersFromVoiceConnectorGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociatePhoneNumbersFromVoiceConnectorGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociatePhoneNumbersFromVoiceConnectorGroupResponse(
+      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberErrors = this.phoneNumberErrors;
+    return {
+      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociatePhoneNumbersFromVoiceConnectorResponse {
   /// If the action fails for one or more of the phone numbers in the request, a
   /// list of the phone numbers is returned, along with error codes and error
   /// messages.
-  @_s.JsonKey(name: 'PhoneNumberErrors')
-  final List<PhoneNumberError> phoneNumberErrors;
+  final List<PhoneNumberError>? phoneNumberErrors;
 
   DisassociatePhoneNumbersFromVoiceConnectorResponse({
     this.phoneNumberErrors,
   });
+
   factory DisassociatePhoneNumbersFromVoiceConnectorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociatePhoneNumbersFromVoiceConnectorResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociatePhoneNumbersFromVoiceConnectorResponse(
+      phoneNumberErrors: (json['PhoneNumberErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberErrors = this.phoneNumberErrors;
+    return {
+      if (phoneNumberErrors != null) 'PhoneNumberErrors': phoneNumberErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateSigninDelegateGroupsFromAccountResponse {
   DisassociateSigninDelegateGroupsFromAccountResponse();
+
   factory DisassociateSigninDelegateGroupsFromAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateSigninDelegateGroupsFromAccountResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateSigninDelegateGroupsFromAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum EmailStatus {
-  @_s.JsonValue('NotSent')
   notSent,
-  @_s.JsonValue('Sent')
   sent,
-  @_s.JsonValue('Failed')
   failed,
+}
+
+extension on EmailStatus {
+  String toValue() {
+    switch (this) {
+      case EmailStatus.notSent:
+        return 'NotSent';
+      case EmailStatus.sent:
+        return 'Sent';
+      case EmailStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  EmailStatus toEmailStatus() {
+    switch (this) {
+      case 'NotSent':
+        return EmailStatus.notSent;
+      case 'Sent':
+        return EmailStatus.sent;
+      case 'Failed':
+        return EmailStatus.failed;
+    }
+    throw Exception('$this is not known in enum EmailStatus');
+  }
 }
 
 /// The emergency calling configuration details associated with an Amazon Chime
 /// Voice Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EmergencyCallingConfiguration {
   /// The Dialed Number Identification Service (DNIS) emergency calling
   /// configuration details.
-  @_s.JsonKey(name: 'DNIS')
-  final List<DNISEmergencyCallingConfiguration> dnis;
+  final List<DNISEmergencyCallingConfiguration>? dnis;
 
   EmergencyCallingConfiguration({
     this.dnis,
   });
-  factory EmergencyCallingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EmergencyCallingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EmergencyCallingConfigurationToJson(this);
+  factory EmergencyCallingConfiguration.fromJson(Map<String, dynamic> json) {
+    return EmergencyCallingConfiguration(
+      dnis: (json['DNIS'] as List?)
+          ?.whereNotNull()
+          .map((e) => DNISEmergencyCallingConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dnis = this.dnis;
+    return {
+      if (dnis != null) 'DNIS': dnis,
+    };
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('BadRequest')
   badRequest,
-  @_s.JsonValue('Conflict')
   conflict,
-  @_s.JsonValue('Forbidden')
   forbidden,
-  @_s.JsonValue('NotFound')
   notFound,
-  @_s.JsonValue('PreconditionFailed')
   preconditionFailed,
-  @_s.JsonValue('ResourceLimitExceeded')
   resourceLimitExceeded,
-  @_s.JsonValue('ServiceFailure')
   serviceFailure,
-  @_s.JsonValue('AccessDenied')
   accessDenied,
-  @_s.JsonValue('ServiceUnavailable')
   serviceUnavailable,
-  @_s.JsonValue('Throttled')
   throttled,
-  @_s.JsonValue('Throttling')
   throttling,
-  @_s.JsonValue('Unauthorized')
   unauthorized,
-  @_s.JsonValue('Unprocessable')
   unprocessable,
-  @_s.JsonValue('VoiceConnectorGroupAssociationsExist')
   voiceConnectorGroupAssociationsExist,
-  @_s.JsonValue('PhoneNumberAssociationsExist')
   phoneNumberAssociationsExist,
+}
+
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.badRequest:
+        return 'BadRequest';
+      case ErrorCode.conflict:
+        return 'Conflict';
+      case ErrorCode.forbidden:
+        return 'Forbidden';
+      case ErrorCode.notFound:
+        return 'NotFound';
+      case ErrorCode.preconditionFailed:
+        return 'PreconditionFailed';
+      case ErrorCode.resourceLimitExceeded:
+        return 'ResourceLimitExceeded';
+      case ErrorCode.serviceFailure:
+        return 'ServiceFailure';
+      case ErrorCode.accessDenied:
+        return 'AccessDenied';
+      case ErrorCode.serviceUnavailable:
+        return 'ServiceUnavailable';
+      case ErrorCode.throttled:
+        return 'Throttled';
+      case ErrorCode.throttling:
+        return 'Throttling';
+      case ErrorCode.unauthorized:
+        return 'Unauthorized';
+      case ErrorCode.unprocessable:
+        return 'Unprocessable';
+      case ErrorCode.voiceConnectorGroupAssociationsExist:
+        return 'VoiceConnectorGroupAssociationsExist';
+      case ErrorCode.phoneNumberAssociationsExist:
+        return 'PhoneNumberAssociationsExist';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'BadRequest':
+        return ErrorCode.badRequest;
+      case 'Conflict':
+        return ErrorCode.conflict;
+      case 'Forbidden':
+        return ErrorCode.forbidden;
+      case 'NotFound':
+        return ErrorCode.notFound;
+      case 'PreconditionFailed':
+        return ErrorCode.preconditionFailed;
+      case 'ResourceLimitExceeded':
+        return ErrorCode.resourceLimitExceeded;
+      case 'ServiceFailure':
+        return ErrorCode.serviceFailure;
+      case 'AccessDenied':
+        return ErrorCode.accessDenied;
+      case 'ServiceUnavailable':
+        return ErrorCode.serviceUnavailable;
+      case 'Throttled':
+        return ErrorCode.throttled;
+      case 'Throttling':
+        return ErrorCode.throttling;
+      case 'Unauthorized':
+        return ErrorCode.unauthorized;
+      case 'Unprocessable':
+        return ErrorCode.unprocessable;
+      case 'VoiceConnectorGroupAssociationsExist':
+        return ErrorCode.voiceConnectorGroupAssociationsExist;
+      case 'PhoneNumberAssociationsExist':
+        return ErrorCode.phoneNumberAssociationsExist;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
 }
 
 /// The configuration that allows a bot to receive outgoing events. Can be
 /// either an HTTPS endpoint or a Lambda function ARN.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventsConfiguration {
   /// The bot ID.
-  @_s.JsonKey(name: 'BotId')
-  final String botId;
+  final String? botId;
 
   /// Lambda function ARN that allows a bot to receive outgoing events.
-  @_s.JsonKey(name: 'LambdaFunctionArn')
-  final String lambdaFunctionArn;
+  final String? lambdaFunctionArn;
 
   /// HTTPS endpoint that allows a bot to receive outgoing events.
-  @_s.JsonKey(name: 'OutboundEventsHTTPSEndpoint')
-  final String outboundEventsHTTPSEndpoint;
+  final String? outboundEventsHTTPSEndpoint;
 
   EventsConfiguration({
     this.botId,
     this.lambdaFunctionArn,
     this.outboundEventsHTTPSEndpoint,
   });
-  factory EventsConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EventsConfigurationFromJson(json);
+
+  factory EventsConfiguration.fromJson(Map<String, dynamic> json) {
+    return EventsConfiguration(
+      botId: json['BotId'] as String?,
+      lambdaFunctionArn: json['LambdaFunctionArn'] as String?,
+      outboundEventsHTTPSEndpoint:
+          json['OutboundEventsHTTPSEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final botId = this.botId;
+    final lambdaFunctionArn = this.lambdaFunctionArn;
+    final outboundEventsHTTPSEndpoint = this.outboundEventsHTTPSEndpoint;
+    return {
+      if (botId != null) 'BotId': botId,
+      if (lambdaFunctionArn != null) 'LambdaFunctionArn': lambdaFunctionArn,
+      if (outboundEventsHTTPSEndpoint != null)
+        'OutboundEventsHTTPSEndpoint': outboundEventsHTTPSEndpoint,
+    };
+  }
 }
 
 enum GeoMatchLevel {
-  @_s.JsonValue('Country')
   country,
-  @_s.JsonValue('AreaCode')
   areaCode,
 }
 
@@ -11546,644 +12011,951 @@ extension on GeoMatchLevel {
       case GeoMatchLevel.areaCode:
         return 'AreaCode';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  GeoMatchLevel toGeoMatchLevel() {
+    switch (this) {
+      case 'Country':
+        return GeoMatchLevel.country;
+      case 'AreaCode':
+        return GeoMatchLevel.areaCode;
+    }
+    throw Exception('$this is not known in enum GeoMatchLevel');
   }
 }
 
 /// The country and area code for a proxy phone number in a proxy phone session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GeoMatchParams {
   /// The area code.
-  @_s.JsonKey(name: 'AreaCode')
   final String areaCode;
 
   /// The country.
-  @_s.JsonKey(name: 'Country')
   final String country;
 
   GeoMatchParams({
-    @_s.required this.areaCode,
-    @_s.required this.country,
+    required this.areaCode,
+    required this.country,
   });
-  factory GeoMatchParams.fromJson(Map<String, dynamic> json) =>
-      _$GeoMatchParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GeoMatchParamsToJson(this);
+  factory GeoMatchParams.fromJson(Map<String, dynamic> json) {
+    return GeoMatchParams(
+      areaCode: json['AreaCode'] as String,
+      country: json['Country'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final areaCode = this.areaCode;
+    final country = this.country;
+    return {
+      'AreaCode': areaCode,
+      'Country': country,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAccountResponse {
-  @_s.JsonKey(name: 'Account')
-  final Account account;
+  /// The Amazon Chime account details.
+  final Account? account;
 
   GetAccountResponse({
     this.account,
   });
-  factory GetAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountResponseFromJson(json);
+
+  factory GetAccountResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountResponse(
+      account: json['Account'] != null
+          ? Account.fromJson(json['Account'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    return {
+      if (account != null) 'Account': account,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAccountSettingsResponse {
   /// The Amazon Chime account settings.
-  @_s.JsonKey(name: 'AccountSettings')
-  final AccountSettings accountSettings;
+  final AccountSettings? accountSettings;
 
   GetAccountSettingsResponse({
     this.accountSettings,
   });
-  factory GetAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountSettingsResponseFromJson(json);
+
+  factory GetAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountSettingsResponse(
+      accountSettings: json['AccountSettings'] != null
+          ? AccountSettings.fromJson(
+              json['AccountSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountSettings = this.accountSettings;
+    return {
+      if (accountSettings != null) 'AccountSettings': accountSettings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppInstanceRetentionSettingsResponse {
-  /// The retention settings for the app instance.
-  @_s.JsonKey(name: 'AppInstanceRetentionSettings')
-  final AppInstanceRetentionSettings appInstanceRetentionSettings;
+  /// The retention settings for the <code>AppInstance</code>.
+  final AppInstanceRetentionSettings? appInstanceRetentionSettings;
 
   /// The timestamp representing the time at which the specified items are
   /// retained, in Epoch Seconds.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
-  final DateTime initiateDeletionTimestamp;
+  final DateTime? initiateDeletionTimestamp;
 
   GetAppInstanceRetentionSettingsResponse({
     this.appInstanceRetentionSettings,
     this.initiateDeletionTimestamp,
   });
+
   factory GetAppInstanceRetentionSettingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAppInstanceRetentionSettingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAppInstanceRetentionSettingsResponse(
+      appInstanceRetentionSettings: json['AppInstanceRetentionSettings'] != null
+          ? AppInstanceRetentionSettings.fromJson(
+              json['AppInstanceRetentionSettings'] as Map<String, dynamic>)
+          : null,
+      initiateDeletionTimestamp:
+          timeStampFromJson(json['InitiateDeletionTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceRetentionSettings = this.appInstanceRetentionSettings;
+    final initiateDeletionTimestamp = this.initiateDeletionTimestamp;
+    return {
+      if (appInstanceRetentionSettings != null)
+        'AppInstanceRetentionSettings': appInstanceRetentionSettings,
+      if (initiateDeletionTimestamp != null)
+        'InitiateDeletionTimestamp':
+            unixTimestampToJson(initiateDeletionTimestamp),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppInstanceStreamingConfigurationsResponse {
   /// The streaming settings.
-  @_s.JsonKey(name: 'AppInstanceStreamingConfigurations')
-  final List<AppInstanceStreamingConfiguration>
+  final List<AppInstanceStreamingConfiguration>?
       appInstanceStreamingConfigurations;
 
   GetAppInstanceStreamingConfigurationsResponse({
     this.appInstanceStreamingConfigurations,
   });
+
   factory GetAppInstanceStreamingConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAppInstanceStreamingConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAppInstanceStreamingConfigurationsResponse(
+      appInstanceStreamingConfigurations:
+          (json['AppInstanceStreamingConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => AppInstanceStreamingConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceStreamingConfigurations =
+        this.appInstanceStreamingConfigurations;
+    return {
+      if (appInstanceStreamingConfigurations != null)
+        'AppInstanceStreamingConfigurations':
+            appInstanceStreamingConfigurations,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAttendeeResponse {
   /// The Amazon Chime SDK attendee information.
-  @_s.JsonKey(name: 'Attendee')
-  final Attendee attendee;
+  final Attendee? attendee;
 
   GetAttendeeResponse({
     this.attendee,
   });
-  factory GetAttendeeResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAttendeeResponseFromJson(json);
+
+  factory GetAttendeeResponse.fromJson(Map<String, dynamic> json) {
+    return GetAttendeeResponse(
+      attendee: json['Attendee'] != null
+          ? Attendee.fromJson(json['Attendee'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendee = this.attendee;
+    return {
+      if (attendee != null) 'Attendee': attendee,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBotResponse {
   /// The chat bot details.
-  @_s.JsonKey(name: 'Bot')
-  final Bot bot;
+  final Bot? bot;
 
   GetBotResponse({
     this.bot,
   });
-  factory GetBotResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBotResponseFromJson(json);
+
+  factory GetBotResponse.fromJson(Map<String, dynamic> json) {
+    return GetBotResponse(
+      bot: json['Bot'] != null
+          ? Bot.fromJson(json['Bot'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bot = this.bot;
+    return {
+      if (bot != null) 'Bot': bot,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetChannelMessageResponse {
   /// The details of and content in the message.
-  @_s.JsonKey(name: 'ChannelMessage')
-  final ChannelMessage channelMessage;
+  final ChannelMessage? channelMessage;
 
   GetChannelMessageResponse({
     this.channelMessage,
   });
-  factory GetChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetChannelMessageResponseFromJson(json);
+
+  factory GetChannelMessageResponse.fromJson(Map<String, dynamic> json) {
+    return GetChannelMessageResponse(
+      channelMessage: json['ChannelMessage'] != null
+          ? ChannelMessage.fromJson(
+              json['ChannelMessage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelMessage = this.channelMessage;
+    return {
+      if (channelMessage != null) 'ChannelMessage': channelMessage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEventsConfigurationResponse {
   /// The events configuration details.
-  @_s.JsonKey(name: 'EventsConfiguration')
-  final EventsConfiguration eventsConfiguration;
+  final EventsConfiguration? eventsConfiguration;
 
   GetEventsConfigurationResponse({
     this.eventsConfiguration,
   });
-  factory GetEventsConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetEventsConfigurationResponseFromJson(json);
+
+  factory GetEventsConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetEventsConfigurationResponse(
+      eventsConfiguration: json['EventsConfiguration'] != null
+          ? EventsConfiguration.fromJson(
+              json['EventsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventsConfiguration = this.eventsConfiguration;
+    return {
+      if (eventsConfiguration != null)
+        'EventsConfiguration': eventsConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGlobalSettingsResponse {
   /// The Amazon Chime Business Calling settings.
-  @_s.JsonKey(name: 'BusinessCalling')
-  final BusinessCallingSettings businessCalling;
+  final BusinessCallingSettings? businessCalling;
 
   /// The Amazon Chime Voice Connector settings.
-  @_s.JsonKey(name: 'VoiceConnector')
-  final VoiceConnectorSettings voiceConnector;
+  final VoiceConnectorSettings? voiceConnector;
 
   GetGlobalSettingsResponse({
     this.businessCalling,
     this.voiceConnector,
   });
-  factory GetGlobalSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGlobalSettingsResponseFromJson(json);
+
+  factory GetGlobalSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetGlobalSettingsResponse(
+      businessCalling: json['BusinessCalling'] != null
+          ? BusinessCallingSettings.fromJson(
+              json['BusinessCalling'] as Map<String, dynamic>)
+          : null,
+      voiceConnector: json['VoiceConnector'] != null
+          ? VoiceConnectorSettings.fromJson(
+              json['VoiceConnector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final businessCalling = this.businessCalling;
+    final voiceConnector = this.voiceConnector;
+    return {
+      if (businessCalling != null) 'BusinessCalling': businessCalling,
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class GetMediaCapturePipelineResponse {
+  /// The media capture pipeline object.
+  final MediaCapturePipeline? mediaCapturePipeline;
+
+  GetMediaCapturePipelineResponse({
+    this.mediaCapturePipeline,
+  });
+
+  factory GetMediaCapturePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return GetMediaCapturePipelineResponse(
+      mediaCapturePipeline: json['MediaCapturePipeline'] != null
+          ? MediaCapturePipeline.fromJson(
+              json['MediaCapturePipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaCapturePipeline = this.mediaCapturePipeline;
+    return {
+      if (mediaCapturePipeline != null)
+        'MediaCapturePipeline': mediaCapturePipeline,
+    };
+  }
+}
+
 class GetMeetingResponse {
   /// The Amazon Chime SDK meeting information.
-  @_s.JsonKey(name: 'Meeting')
-  final Meeting meeting;
+  final Meeting? meeting;
 
   GetMeetingResponse({
     this.meeting,
   });
-  factory GetMeetingResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMeetingResponseFromJson(json);
+
+  factory GetMeetingResponse.fromJson(Map<String, dynamic> json) {
+    return GetMeetingResponse(
+      meeting: json['Meeting'] != null
+          ? Meeting.fromJson(json['Meeting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meeting = this.meeting;
+    return {
+      if (meeting != null) 'Meeting': meeting,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMessagingSessionEndpointResponse {
   /// The endpoint returned in the response.
-  @_s.JsonKey(name: 'Endpoint')
-  final MessagingSessionEndpoint endpoint;
+  final MessagingSessionEndpoint? endpoint;
 
   GetMessagingSessionEndpointResponse({
     this.endpoint,
   });
+
   factory GetMessagingSessionEndpointResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMessagingSessionEndpointResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetMessagingSessionEndpointResponse(
+      endpoint: json['Endpoint'] != null
+          ? MessagingSessionEndpoint.fromJson(
+              json['Endpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPhoneNumberOrderResponse {
   /// The phone number order details.
-  @_s.JsonKey(name: 'PhoneNumberOrder')
-  final PhoneNumberOrder phoneNumberOrder;
+  final PhoneNumberOrder? phoneNumberOrder;
 
   GetPhoneNumberOrderResponse({
     this.phoneNumberOrder,
   });
-  factory GetPhoneNumberOrderResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPhoneNumberOrderResponseFromJson(json);
+
+  factory GetPhoneNumberOrderResponse.fromJson(Map<String, dynamic> json) {
+    return GetPhoneNumberOrderResponse(
+      phoneNumberOrder: json['PhoneNumberOrder'] != null
+          ? PhoneNumberOrder.fromJson(
+              json['PhoneNumberOrder'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberOrder = this.phoneNumberOrder;
+    return {
+      if (phoneNumberOrder != null) 'PhoneNumberOrder': phoneNumberOrder,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPhoneNumberResponse {
   /// The phone number details.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final PhoneNumber phoneNumber;
+  final PhoneNumber? phoneNumber;
 
   GetPhoneNumberResponse({
     this.phoneNumber,
   });
-  factory GetPhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPhoneNumberResponseFromJson(json);
+
+  factory GetPhoneNumberResponse.fromJson(Map<String, dynamic> json) {
+    return GetPhoneNumberResponse(
+      phoneNumber: json['PhoneNumber'] != null
+          ? PhoneNumber.fromJson(json['PhoneNumber'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    return {
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPhoneNumberSettingsResponse {
   /// The default outbound calling name for the account.
-  @_s.JsonKey(name: 'CallingName')
-  final String callingName;
+  final String? callingName;
 
   /// The updated outbound calling name timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CallingNameUpdatedTimestamp')
-  final DateTime callingNameUpdatedTimestamp;
+  final DateTime? callingNameUpdatedTimestamp;
 
   GetPhoneNumberSettingsResponse({
     this.callingName,
     this.callingNameUpdatedTimestamp,
   });
-  factory GetPhoneNumberSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPhoneNumberSettingsResponseFromJson(json);
+
+  factory GetPhoneNumberSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetPhoneNumberSettingsResponse(
+      callingName: json['CallingName'] as String?,
+      callingNameUpdatedTimestamp:
+          timeStampFromJson(json['CallingNameUpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callingName = this.callingName;
+    final callingNameUpdatedTimestamp = this.callingNameUpdatedTimestamp;
+    return {
+      if (callingName != null) 'CallingName': callingName,
+      if (callingNameUpdatedTimestamp != null)
+        'CallingNameUpdatedTimestamp':
+            iso8601ToJson(callingNameUpdatedTimestamp),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProxySessionResponse {
   /// The proxy session details.
-  @_s.JsonKey(name: 'ProxySession')
-  final ProxySession proxySession;
+  final ProxySession? proxySession;
 
   GetProxySessionResponse({
     this.proxySession,
   });
-  factory GetProxySessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetProxySessionResponseFromJson(json);
+
+  factory GetProxySessionResponse.fromJson(Map<String, dynamic> json) {
+    return GetProxySessionResponse(
+      proxySession: json['ProxySession'] != null
+          ? ProxySession.fromJson(json['ProxySession'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proxySession = this.proxySession;
+    return {
+      if (proxySession != null) 'ProxySession': proxySession,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRetentionSettingsResponse {
   /// The timestamp representing the time at which the specified items are
   /// permanently deleted, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
-  final DateTime initiateDeletionTimestamp;
+  final DateTime? initiateDeletionTimestamp;
 
   /// The retention settings.
-  @_s.JsonKey(name: 'RetentionSettings')
-  final RetentionSettings retentionSettings;
+  final RetentionSettings? retentionSettings;
 
   GetRetentionSettingsResponse({
     this.initiateDeletionTimestamp,
     this.retentionSettings,
   });
-  factory GetRetentionSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRetentionSettingsResponseFromJson(json);
+
+  factory GetRetentionSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetRetentionSettingsResponse(
+      initiateDeletionTimestamp:
+          timeStampFromJson(json['InitiateDeletionTimestamp']),
+      retentionSettings: json['RetentionSettings'] != null
+          ? RetentionSettings.fromJson(
+              json['RetentionSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiateDeletionTimestamp = this.initiateDeletionTimestamp;
+    final retentionSettings = this.retentionSettings;
+    return {
+      if (initiateDeletionTimestamp != null)
+        'InitiateDeletionTimestamp': iso8601ToJson(initiateDeletionTimestamp),
+      if (retentionSettings != null) 'RetentionSettings': retentionSettings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRoomResponse {
   /// The room details.
-  @_s.JsonKey(name: 'Room')
-  final Room room;
+  final Room? room;
 
   GetRoomResponse({
     this.room,
   });
-  factory GetRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRoomResponseFromJson(json);
+
+  factory GetRoomResponse.fromJson(Map<String, dynamic> json) {
+    return GetRoomResponse(
+      room: json['Room'] != null
+          ? Room.fromJson(json['Room'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final room = this.room;
+    return {
+      if (room != null) 'Room': room,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSipMediaApplicationLoggingConfigurationResponse {
   /// The actual logging configuration.
-  @_s.JsonKey(name: 'SipMediaApplicationLoggingConfiguration')
-  final SipMediaApplicationLoggingConfiguration
+  final SipMediaApplicationLoggingConfiguration?
       sipMediaApplicationLoggingConfiguration;
 
   GetSipMediaApplicationLoggingConfigurationResponse({
     this.sipMediaApplicationLoggingConfiguration,
   });
+
   factory GetSipMediaApplicationLoggingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSipMediaApplicationLoggingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSipMediaApplicationLoggingConfigurationResponse(
+      sipMediaApplicationLoggingConfiguration:
+          json['SipMediaApplicationLoggingConfiguration'] != null
+              ? SipMediaApplicationLoggingConfiguration.fromJson(
+                  json['SipMediaApplicationLoggingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplicationLoggingConfiguration =
+        this.sipMediaApplicationLoggingConfiguration;
+    return {
+      if (sipMediaApplicationLoggingConfiguration != null)
+        'SipMediaApplicationLoggingConfiguration':
+            sipMediaApplicationLoggingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSipMediaApplicationResponse {
   /// The SIP media application details.
-  @_s.JsonKey(name: 'SipMediaApplication')
-  final SipMediaApplication sipMediaApplication;
+  final SipMediaApplication? sipMediaApplication;
 
   GetSipMediaApplicationResponse({
     this.sipMediaApplication,
   });
-  factory GetSipMediaApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSipMediaApplicationResponseFromJson(json);
+
+  factory GetSipMediaApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return GetSipMediaApplicationResponse(
+      sipMediaApplication: json['SipMediaApplication'] != null
+          ? SipMediaApplication.fromJson(
+              json['SipMediaApplication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplication = this.sipMediaApplication;
+    return {
+      if (sipMediaApplication != null)
+        'SipMediaApplication': sipMediaApplication,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSipRuleResponse {
   /// The SIP rule details.
-  @_s.JsonKey(name: 'SipRule')
-  final SipRule sipRule;
+  final SipRule? sipRule;
 
   GetSipRuleResponse({
     this.sipRule,
   });
-  factory GetSipRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSipRuleResponseFromJson(json);
+
+  factory GetSipRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetSipRuleResponse(
+      sipRule: json['SipRule'] != null
+          ? SipRule.fromJson(json['SipRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipRule = this.sipRule;
+    return {
+      if (sipRule != null) 'SipRule': sipRule,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUserResponse {
   /// The user details.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   GetUserResponse({
     this.user,
   });
-  factory GetUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUserResponseFromJson(json);
+
+  factory GetUserResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUserSettingsResponse {
   /// The user settings.
-  @_s.JsonKey(name: 'UserSettings')
-  final UserSettings userSettings;
+  final UserSettings? userSettings;
 
   GetUserSettingsResponse({
     this.userSettings,
   });
-  factory GetUserSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUserSettingsResponseFromJson(json);
+
+  factory GetUserSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserSettingsResponse(
+      userSettings: json['UserSettings'] != null
+          ? UserSettings.fromJson(json['UserSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userSettings = this.userSettings;
+    return {
+      if (userSettings != null) 'UserSettings': userSettings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorEmergencyCallingConfigurationResponse {
   /// The emergency calling configuration details.
-  @_s.JsonKey(name: 'EmergencyCallingConfiguration')
-  final EmergencyCallingConfiguration emergencyCallingConfiguration;
+  final EmergencyCallingConfiguration? emergencyCallingConfiguration;
 
   GetVoiceConnectorEmergencyCallingConfigurationResponse({
     this.emergencyCallingConfiguration,
   });
+
   factory GetVoiceConnectorEmergencyCallingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetVoiceConnectorEmergencyCallingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorEmergencyCallingConfigurationResponse(
+      emergencyCallingConfiguration:
+          json['EmergencyCallingConfiguration'] != null
+              ? EmergencyCallingConfiguration.fromJson(
+                  json['EmergencyCallingConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emergencyCallingConfiguration = this.emergencyCallingConfiguration;
+    return {
+      if (emergencyCallingConfiguration != null)
+        'EmergencyCallingConfiguration': emergencyCallingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorGroupResponse {
   /// The Amazon Chime Voice Connector group details.
-  @_s.JsonKey(name: 'VoiceConnectorGroup')
-  final VoiceConnectorGroup voiceConnectorGroup;
+  final VoiceConnectorGroup? voiceConnectorGroup;
 
   GetVoiceConnectorGroupResponse({
     this.voiceConnectorGroup,
   });
-  factory GetVoiceConnectorGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetVoiceConnectorGroupResponseFromJson(json);
+
+  factory GetVoiceConnectorGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetVoiceConnectorGroupResponse(
+      voiceConnectorGroup: json['VoiceConnectorGroup'] != null
+          ? VoiceConnectorGroup.fromJson(
+              json['VoiceConnectorGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnectorGroup = this.voiceConnectorGroup;
+    return {
+      if (voiceConnectorGroup != null)
+        'VoiceConnectorGroup': voiceConnectorGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorLoggingConfigurationResponse {
   /// The logging configuration details.
-  @_s.JsonKey(name: 'LoggingConfiguration')
-  final LoggingConfiguration loggingConfiguration;
+  final LoggingConfiguration? loggingConfiguration;
 
   GetVoiceConnectorLoggingConfigurationResponse({
     this.loggingConfiguration,
   });
+
   factory GetVoiceConnectorLoggingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetVoiceConnectorLoggingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorLoggingConfigurationResponse(
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingConfiguration = this.loggingConfiguration;
+    return {
+      if (loggingConfiguration != null)
+        'LoggingConfiguration': loggingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorOriginationResponse {
   /// The origination setting details.
-  @_s.JsonKey(name: 'Origination')
-  final Origination origination;
+  final Origination? origination;
 
   GetVoiceConnectorOriginationResponse({
     this.origination,
   });
+
   factory GetVoiceConnectorOriginationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetVoiceConnectorOriginationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorOriginationResponse(
+      origination: json['Origination'] != null
+          ? Origination.fromJson(json['Origination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final origination = this.origination;
+    return {
+      if (origination != null) 'Origination': origination,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorProxyResponse {
   /// The proxy configuration details.
-  @_s.JsonKey(name: 'Proxy')
-  final Proxy proxy;
+  final Proxy? proxy;
 
   GetVoiceConnectorProxyResponse({
     this.proxy,
   });
-  factory GetVoiceConnectorProxyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetVoiceConnectorProxyResponseFromJson(json);
+
+  factory GetVoiceConnectorProxyResponse.fromJson(Map<String, dynamic> json) {
+    return GetVoiceConnectorProxyResponse(
+      proxy: json['Proxy'] != null
+          ? Proxy.fromJson(json['Proxy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proxy = this.proxy;
+    return {
+      if (proxy != null) 'Proxy': proxy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorResponse {
   /// The Amazon Chime Voice Connector details.
-  @_s.JsonKey(name: 'VoiceConnector')
-  final VoiceConnector voiceConnector;
+  final VoiceConnector? voiceConnector;
 
   GetVoiceConnectorResponse({
     this.voiceConnector,
   });
-  factory GetVoiceConnectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetVoiceConnectorResponseFromJson(json);
+
+  factory GetVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return GetVoiceConnectorResponse(
+      voiceConnector: json['VoiceConnector'] != null
+          ? VoiceConnector.fromJson(
+              json['VoiceConnector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnector = this.voiceConnector;
+    return {
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorStreamingConfigurationResponse {
   /// The streaming configuration details.
-  @_s.JsonKey(name: 'StreamingConfiguration')
-  final StreamingConfiguration streamingConfiguration;
+  final StreamingConfiguration? streamingConfiguration;
 
   GetVoiceConnectorStreamingConfigurationResponse({
     this.streamingConfiguration,
   });
+
   factory GetVoiceConnectorStreamingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetVoiceConnectorStreamingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorStreamingConfigurationResponse(
+      streamingConfiguration: json['StreamingConfiguration'] != null
+          ? StreamingConfiguration.fromJson(
+              json['StreamingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamingConfiguration = this.streamingConfiguration;
+    return {
+      if (streamingConfiguration != null)
+        'StreamingConfiguration': streamingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorTerminationHealthResponse {
   /// The termination health details.
-  @_s.JsonKey(name: 'TerminationHealth')
-  final TerminationHealth terminationHealth;
+  final TerminationHealth? terminationHealth;
 
   GetVoiceConnectorTerminationHealthResponse({
     this.terminationHealth,
   });
+
   factory GetVoiceConnectorTerminationHealthResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetVoiceConnectorTerminationHealthResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorTerminationHealthResponse(
+      terminationHealth: json['TerminationHealth'] != null
+          ? TerminationHealth.fromJson(
+              json['TerminationHealth'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final terminationHealth = this.terminationHealth;
+    return {
+      if (terminationHealth != null) 'TerminationHealth': terminationHealth,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVoiceConnectorTerminationResponse {
   /// The termination setting details.
-  @_s.JsonKey(name: 'Termination')
-  final Termination termination;
+  final Termination? termination;
 
   GetVoiceConnectorTerminationResponse({
     this.termination,
   });
+
   factory GetVoiceConnectorTerminationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetVoiceConnectorTerminationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetVoiceConnectorTerminationResponse(
+      termination: json['Termination'] != null
+          ? Termination.fromJson(json['Termination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final termination = this.termination;
+    return {
+      if (termination != null) 'Termination': termination,
+    };
+  }
 }
 
-/// The ARN and name of a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of a user.
 class Identity {
   /// The ARN in an Identity.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The name in an Identity.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Identity({
     this.arn,
     this.name,
   });
-  factory Identity.fromJson(Map<String, dynamic> json) =>
-      _$IdentityFromJson(json);
+
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Invitation object returned after emailing users to invite them to join the
 /// Amazon Chime <code>Team</code> account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Invite {
   /// The email address to which the invite is sent.
-  @_s.JsonKey(name: 'EmailAddress')
-  final String emailAddress;
+  final String? emailAddress;
 
   /// The status of the invite email.
-  @_s.JsonKey(name: 'EmailStatus')
-  final EmailStatus emailStatus;
+  final EmailStatus? emailStatus;
 
   /// The invite ID.
-  @_s.JsonKey(name: 'InviteId')
-  final String inviteId;
+  final String? inviteId;
 
   /// The status of the invite.
-  @_s.JsonKey(name: 'Status')
-  final InviteStatus status;
+  final InviteStatus? status;
 
   Invite({
     this.emailAddress,
@@ -12191,43 +12963,92 @@ class Invite {
     this.inviteId,
     this.status,
   });
-  factory Invite.fromJson(Map<String, dynamic> json) => _$InviteFromJson(json);
+
+  factory Invite.fromJson(Map<String, dynamic> json) {
+    return Invite(
+      emailAddress: json['EmailAddress'] as String?,
+      emailStatus: (json['EmailStatus'] as String?)?.toEmailStatus(),
+      inviteId: json['InviteId'] as String?,
+      status: (json['Status'] as String?)?.toInviteStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailAddress = this.emailAddress;
+    final emailStatus = this.emailStatus;
+    final inviteId = this.inviteId;
+    final status = this.status;
+    return {
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (emailStatus != null) 'EmailStatus': emailStatus.toValue(),
+      if (inviteId != null) 'InviteId': inviteId,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum InviteStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Accepted')
   accepted,
-  @_s.JsonValue('Failed')
   failed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on InviteStatus {
+  String toValue() {
+    switch (this) {
+      case InviteStatus.pending:
+        return 'Pending';
+      case InviteStatus.accepted:
+        return 'Accepted';
+      case InviteStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  InviteStatus toInviteStatus() {
+    switch (this) {
+      case 'Pending':
+        return InviteStatus.pending;
+      case 'Accepted':
+        return InviteStatus.accepted;
+      case 'Failed':
+        return InviteStatus.failed;
+    }
+    throw Exception('$this is not known in enum InviteStatus');
+  }
+}
+
 class InviteUsersResponse {
   /// The email invitation details.
-  @_s.JsonKey(name: 'Invites')
-  final List<Invite> invites;
+  final List<Invite>? invites;
 
   InviteUsersResponse({
     this.invites,
   });
-  factory InviteUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$InviteUsersResponseFromJson(json);
+
+  factory InviteUsersResponse.fromJson(Map<String, dynamic> json) {
+    return InviteUsersResponse(
+      invites: (json['Invites'] as List?)
+          ?.whereNotNull()
+          .map((e) => Invite.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invites = this.invites;
+    return {
+      if (invites != null) 'Invites': invites,
+    };
+  }
 }
 
 enum License {
-  @_s.JsonValue('Basic')
   basic,
-  @_s.JsonValue('Plus')
   plus,
-  @_s.JsonValue('Pro')
   pro,
-  @_s.JsonValue('ProTrial')
   proTrial,
 }
 
@@ -12243,750 +13064,1303 @@ extension on License {
       case License.proTrial:
         return 'ProTrial';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ListAccountsResponse {
-  /// The list of accounts.
-  @_s.JsonKey(name: 'Accounts')
-  final List<Account> accounts;
+extension on String {
+  License toLicense() {
+    switch (this) {
+      case 'Basic':
+        return License.basic;
+      case 'Plus':
+        return License.plus;
+      case 'Pro':
+        return License.pro;
+      case 'ProTrial':
+        return License.proTrial;
+    }
+    throw Exception('$this is not known in enum License');
+  }
+}
 
-  /// The account's user token.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+class ListAccountsResponse {
+  /// List of Amazon Chime accounts and account details.
+  final List<Account>? accounts;
+
+  /// The token to use to retrieve the next page of results.
+  final String? nextToken;
 
   ListAccountsResponse({
     this.accounts,
     this.nextToken,
   });
-  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccountsResponseFromJson(json);
+
+  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountsResponse(
+      accounts: (json['Accounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Account.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final nextToken = this.nextToken;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAppInstanceAdminsResponse {
   /// The information for each administrator.
-  @_s.JsonKey(name: 'AppInstanceAdmins')
-  final List<AppInstanceAdminSummary> appInstanceAdmins;
+  final List<AppInstanceAdminSummary>? appInstanceAdmins;
 
-  /// The ARN of the app instance.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  /// The ARN of the <code>AppInstance</code>.
+  final String? appInstanceArn;
 
   /// The token returned from previous API requests until the number of
   /// administrators is reached.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAppInstanceAdminsResponse({
     this.appInstanceAdmins,
     this.appInstanceArn,
     this.nextToken,
   });
-  factory ListAppInstanceAdminsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAppInstanceAdminsResponseFromJson(json);
+
+  factory ListAppInstanceAdminsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppInstanceAdminsResponse(
+      appInstanceAdmins: (json['AppInstanceAdmins'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AppInstanceAdminSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceAdmins = this.appInstanceAdmins;
+    final appInstanceArn = this.appInstanceArn;
+    final nextToken = this.nextToken;
+    return {
+      if (appInstanceAdmins != null) 'AppInstanceAdmins': appInstanceAdmins,
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAppInstanceUsersResponse {
-  /// The ARN of the app instance.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  /// The ARN of the <code>AppInstance</code>.
+  final String? appInstanceArn;
 
-  /// The information for each of the requested app instance users.
-  @_s.JsonKey(name: 'AppInstanceUsers')
-  final List<AppInstanceUserSummary> appInstanceUsers;
+  /// The information for each requested <code>AppInstanceUser</code>.
+  final List<AppInstanceUserSummary>? appInstanceUsers;
 
   /// The token passed by previous API calls until all requested users are
   /// returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAppInstanceUsersResponse({
     this.appInstanceArn,
     this.appInstanceUsers,
     this.nextToken,
   });
-  factory ListAppInstanceUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAppInstanceUsersResponseFromJson(json);
+
+  factory ListAppInstanceUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppInstanceUsersResponse(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+      appInstanceUsers: (json['AppInstanceUsers'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AppInstanceUserSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    final appInstanceUsers = this.appInstanceUsers;
+    final nextToken = this.nextToken;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+      if (appInstanceUsers != null) 'AppInstanceUsers': appInstanceUsers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAppInstancesResponse {
-  /// The information for each app instance.
-  @_s.JsonKey(name: 'AppInstances')
-  final List<AppInstanceSummary> appInstances;
+  /// The information for each <code>AppInstance</code>.
+  final List<AppInstanceSummary>? appInstances;
 
-  /// The token passed by previous API requests until the maximum number of app
-  /// instances is reached.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token passed by previous API requests until the maximum number of
+  /// <code>AppInstance</code>s is reached.
+  final String? nextToken;
 
   ListAppInstancesResponse({
     this.appInstances,
     this.nextToken,
   });
-  factory ListAppInstancesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAppInstancesResponseFromJson(json);
+
+  factory ListAppInstancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAppInstancesResponse(
+      appInstances: (json['AppInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => AppInstanceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstances = this.appInstances;
+    final nextToken = this.nextToken;
+    return {
+      if (appInstances != null) 'AppInstances': appInstances,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAttendeeTagsResponse {
   /// A list of tag key-value pairs.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListAttendeeTagsResponse({
     this.tags,
   });
-  factory ListAttendeeTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAttendeeTagsResponseFromJson(json);
+
+  factory ListAttendeeTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttendeeTagsResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAttendeesResponse {
   /// The Amazon Chime SDK attendee information.
-  @_s.JsonKey(name: 'Attendees')
-  final List<Attendee> attendees;
+  final List<Attendee>? attendees;
 
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAttendeesResponse({
     this.attendees,
     this.nextToken,
   });
-  factory ListAttendeesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAttendeesResponseFromJson(json);
+
+  factory ListAttendeesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttendeesResponse(
+      attendees: (json['Attendees'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attendee.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attendees = this.attendees;
+    final nextToken = this.nextToken;
+    return {
+      if (attendees != null) 'Attendees': attendees,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBotsResponse {
   /// List of bots and bot details.
-  @_s.JsonKey(name: 'Bots')
-  final List<Bot> bots;
+  final List<Bot>? bots;
 
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBotsResponse({
     this.bots,
     this.nextToken,
   });
-  factory ListBotsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListBotsResponseFromJson(json);
+
+  factory ListBotsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBotsResponse(
+      bots: (json['Bots'] as List?)
+          ?.whereNotNull()
+          .map((e) => Bot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bots = this.bots;
+    final nextToken = this.nextToken;
+    return {
+      if (bots != null) 'Bots': bots,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelBansResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The information for each requested ban.
-  @_s.JsonKey(name: 'ChannelBans')
-  final List<ChannelBanSummary> channelBans;
+  final List<ChannelBanSummary>? channelBans;
 
   /// The token passed by previous API calls until all requested bans are
   /// returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelBansResponse({
     this.channelArn,
     this.channelBans,
     this.nextToken,
   });
-  factory ListChannelBansResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChannelBansResponseFromJson(json);
+
+  factory ListChannelBansResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelBansResponse(
+      channelArn: json['ChannelArn'] as String?,
+      channelBans: (json['ChannelBans'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelBanSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelBans = this.channelBans;
+    final nextToken = this.nextToken;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (channelBans != null) 'ChannelBans': channelBans,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelMembershipsForAppInstanceUserResponse {
   /// The token passed by previous API calls until all requested users are
   /// returned.
-  @_s.JsonKey(name: 'ChannelMemberships')
-  final List<ChannelMembershipForAppInstanceUserSummary> channelMemberships;
+  final List<ChannelMembershipForAppInstanceUserSummary>? channelMemberships;
 
   /// The token passed by previous API calls until all requested users are
   /// returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelMembershipsForAppInstanceUserResponse({
     this.channelMemberships,
     this.nextToken,
   });
+
   factory ListChannelMembershipsForAppInstanceUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListChannelMembershipsForAppInstanceUserResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListChannelMembershipsForAppInstanceUserResponse(
+      channelMemberships: (json['ChannelMemberships'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelMembershipForAppInstanceUserSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelMemberships = this.channelMemberships;
+    final nextToken = this.nextToken;
+    return {
+      if (channelMemberships != null) 'ChannelMemberships': channelMemberships,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelMembershipsResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The information for the requested channel memberships.
-  @_s.JsonKey(name: 'ChannelMemberships')
-  final List<ChannelMembershipSummary> channelMemberships;
+  final List<ChannelMembershipSummary>? channelMemberships;
 
   /// The token passed by previous API calls until all requested channel
   /// memberships are returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelMembershipsResponse({
     this.channelArn,
     this.channelMemberships,
     this.nextToken,
   });
-  factory ListChannelMembershipsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChannelMembershipsResponseFromJson(json);
+
+  factory ListChannelMembershipsResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelMembershipsResponse(
+      channelArn: json['ChannelArn'] as String?,
+      channelMemberships: (json['ChannelMemberships'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ChannelMembershipSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelMemberships = this.channelMemberships;
+    final nextToken = this.nextToken;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (channelMemberships != null) 'ChannelMemberships': channelMemberships,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelMessagesResponse {
   /// The ARN of the channel containing the requested messages.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
-  /// The information about and content of each requested message.
-  @_s.JsonKey(name: 'ChannelMessages')
-  final List<ChannelMessageSummary> channelMessages;
+  /// The information about, and content of, each requested message.
+  final List<ChannelMessageSummary>? channelMessages;
 
   /// The token passed by previous API calls until all requested messages are
   /// returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelMessagesResponse({
     this.channelArn,
     this.channelMessages,
     this.nextToken,
   });
-  factory ListChannelMessagesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChannelMessagesResponseFromJson(json);
+
+  factory ListChannelMessagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelMessagesResponse(
+      channelArn: json['ChannelArn'] as String?,
+      channelMessages: (json['ChannelMessages'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelMessageSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelMessages = this.channelMessages;
+    final nextToken = this.nextToken;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (channelMessages != null) 'ChannelMessages': channelMessages,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelModeratorsResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The information about and names of each moderator.
-  @_s.JsonKey(name: 'ChannelModerators')
-  final List<ChannelModeratorSummary> channelModerators;
+  final List<ChannelModeratorSummary>? channelModerators;
 
   /// The token passed by previous API calls until all requested moderators are
   /// returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelModeratorsResponse({
     this.channelArn,
     this.channelModerators,
     this.nextToken,
   });
-  factory ListChannelModeratorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChannelModeratorsResponseFromJson(json);
+
+  factory ListChannelModeratorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelModeratorsResponse(
+      channelArn: json['ChannelArn'] as String?,
+      channelModerators: (json['ChannelModerators'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ChannelModeratorSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelModerators = this.channelModerators;
+    final nextToken = this.nextToken;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (channelModerators != null) 'ChannelModerators': channelModerators,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelsModeratedByAppInstanceUserResponse {
   /// The moderated channels in the request.
-  @_s.JsonKey(name: 'Channels')
-  final List<ChannelModeratedByAppInstanceUserSummary> channels;
+  final List<ChannelModeratedByAppInstanceUserSummary>? channels;
 
   /// The token returned from previous API requests until the number of channels
   /// moderated by the user is reached.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelsModeratedByAppInstanceUserResponse({
     this.channels,
     this.nextToken,
   });
+
   factory ListChannelsModeratedByAppInstanceUserResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListChannelsModeratedByAppInstanceUserResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListChannelsModeratedByAppInstanceUserResponse(
+      channels: (json['Channels'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelModeratedByAppInstanceUserSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channels = this.channels;
+    final nextToken = this.nextToken;
+    return {
+      if (channels != null) 'Channels': channels,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelsResponse {
   /// The information about each channel.
-  @_s.JsonKey(name: 'Channels')
-  final List<ChannelSummary> channels;
+  final List<ChannelSummary>? channels;
 
   /// The token returned from previous API requests until the number of channels
   /// is reached.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelsResponse({
     this.channels,
     this.nextToken,
   });
-  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChannelsResponseFromJson(json);
+
+  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelsResponse(
+      channels: (json['Channels'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channels = this.channels;
+    final nextToken = this.nextToken;
+    return {
+      if (channels != null) 'Channels': channels,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class ListMediaCapturePipelinesResponse {
+  /// The media capture pipeline objects in the list.
+  final List<MediaCapturePipeline>? mediaCapturePipelines;
+
+  /// The token used to retrieve the next page of results.
+  final String? nextToken;
+
+  ListMediaCapturePipelinesResponse({
+    this.mediaCapturePipelines,
+    this.nextToken,
+  });
+
+  factory ListMediaCapturePipelinesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListMediaCapturePipelinesResponse(
+      mediaCapturePipelines: (json['MediaCapturePipelines'] as List?)
+          ?.whereNotNull()
+          .map((e) => MediaCapturePipeline.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mediaCapturePipelines = this.mediaCapturePipelines;
+    final nextToken = this.nextToken;
+    return {
+      if (mediaCapturePipelines != null)
+        'MediaCapturePipelines': mediaCapturePipelines,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListMeetingTagsResponse {
   /// A list of tag key-value pairs.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListMeetingTagsResponse({
     this.tags,
   });
-  factory ListMeetingTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMeetingTagsResponseFromJson(json);
+
+  factory ListMeetingTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMeetingTagsResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMeetingsResponse {
   /// The Amazon Chime SDK meeting information.
-  @_s.JsonKey(name: 'Meetings')
-  final List<Meeting> meetings;
+  final List<Meeting>? meetings;
 
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMeetingsResponse({
     this.meetings,
     this.nextToken,
   });
-  factory ListMeetingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMeetingsResponseFromJson(json);
+
+  factory ListMeetingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMeetingsResponse(
+      meetings: (json['Meetings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Meeting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meetings = this.meetings;
+    final nextToken = this.nextToken;
+    return {
+      if (meetings != null) 'Meetings': meetings,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPhoneNumberOrdersResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The phone number order details.
-  @_s.JsonKey(name: 'PhoneNumberOrders')
-  final List<PhoneNumberOrder> phoneNumberOrders;
+  final List<PhoneNumberOrder>? phoneNumberOrders;
 
   ListPhoneNumberOrdersResponse({
     this.nextToken,
     this.phoneNumberOrders,
   });
-  factory ListPhoneNumberOrdersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPhoneNumberOrdersResponseFromJson(json);
+
+  factory ListPhoneNumberOrdersResponse.fromJson(Map<String, dynamic> json) {
+    return ListPhoneNumberOrdersResponse(
+      nextToken: json['NextToken'] as String?,
+      phoneNumberOrders: (json['PhoneNumberOrders'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberOrder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final phoneNumberOrders = this.phoneNumberOrders;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (phoneNumberOrders != null) 'PhoneNumberOrders': phoneNumberOrders,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPhoneNumbersResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The phone number details.
-  @_s.JsonKey(name: 'PhoneNumbers')
-  final List<PhoneNumber> phoneNumbers;
+  final List<PhoneNumber>? phoneNumbers;
 
   ListPhoneNumbersResponse({
     this.nextToken,
     this.phoneNumbers,
   });
-  factory ListPhoneNumbersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPhoneNumbersResponseFromJson(json);
+
+  factory ListPhoneNumbersResponse.fromJson(Map<String, dynamic> json) {
+    return ListPhoneNumbersResponse(
+      nextToken: json['NextToken'] as String?,
+      phoneNumbers: (json['PhoneNumbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final phoneNumbers = this.phoneNumbers;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProxySessionsResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The proxy session details.
-  @_s.JsonKey(name: 'ProxySessions')
-  final List<ProxySession> proxySessions;
+  final List<ProxySession>? proxySessions;
 
   ListProxySessionsResponse({
     this.nextToken,
     this.proxySessions,
   });
-  factory ListProxySessionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProxySessionsResponseFromJson(json);
+
+  factory ListProxySessionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProxySessionsResponse(
+      nextToken: json['NextToken'] as String?,
+      proxySessions: (json['ProxySessions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProxySession.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final proxySessions = this.proxySessions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (proxySessions != null) 'ProxySessions': proxySessions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRoomMembershipsResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The room membership details.
-  @_s.JsonKey(name: 'RoomMemberships')
-  final List<RoomMembership> roomMemberships;
+  final List<RoomMembership>? roomMemberships;
 
   ListRoomMembershipsResponse({
     this.nextToken,
     this.roomMemberships,
   });
-  factory ListRoomMembershipsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRoomMembershipsResponseFromJson(json);
+
+  factory ListRoomMembershipsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRoomMembershipsResponse(
+      nextToken: json['NextToken'] as String?,
+      roomMemberships: (json['RoomMemberships'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoomMembership.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final roomMemberships = this.roomMemberships;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (roomMemberships != null) 'RoomMemberships': roomMemberships,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRoomsResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The room details.
-  @_s.JsonKey(name: 'Rooms')
-  final List<Room> rooms;
+  final List<Room>? rooms;
 
   ListRoomsResponse({
     this.nextToken,
     this.rooms,
   });
-  factory ListRoomsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRoomsResponseFromJson(json);
+
+  factory ListRoomsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRoomsResponse(
+      nextToken: json['NextToken'] as String?,
+      rooms: (json['Rooms'] as List?)
+          ?.whereNotNull()
+          .map((e) => Room.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final rooms = this.rooms;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (rooms != null) 'Rooms': rooms,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSipMediaApplicationsResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of SIP media applications and application details.
-  @_s.JsonKey(name: 'SipMediaApplications')
-  final List<SipMediaApplication> sipMediaApplications;
+  final List<SipMediaApplication>? sipMediaApplications;
 
   ListSipMediaApplicationsResponse({
     this.nextToken,
     this.sipMediaApplications,
   });
-  factory ListSipMediaApplicationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSipMediaApplicationsResponseFromJson(json);
+
+  factory ListSipMediaApplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSipMediaApplicationsResponse(
+      nextToken: json['NextToken'] as String?,
+      sipMediaApplications: (json['SipMediaApplications'] as List?)
+          ?.whereNotNull()
+          .map((e) => SipMediaApplication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sipMediaApplications = this.sipMediaApplications;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sipMediaApplications != null)
+        'SipMediaApplications': sipMediaApplications,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSipRulesResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of SIP rules and rule details.
-  @_s.JsonKey(name: 'SipRules')
-  final List<SipRule> sipRules;
+  final List<SipRule>? sipRules;
 
   ListSipRulesResponse({
     this.nextToken,
     this.sipRules,
   });
-  factory ListSipRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSipRulesResponseFromJson(json);
+
+  factory ListSipRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSipRulesResponse(
+      nextToken: json['NextToken'] as String?,
+      sipRules: (json['SipRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => SipRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sipRules = this.sipRules;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sipRules != null) 'SipRules': sipRules,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class ListSupportedPhoneNumberCountriesResponse {
+  /// The supported phone number countries.
+  final List<PhoneNumberCountry>? phoneNumberCountries;
+
+  ListSupportedPhoneNumberCountriesResponse({
+    this.phoneNumberCountries,
+  });
+
+  factory ListSupportedPhoneNumberCountriesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListSupportedPhoneNumberCountriesResponse(
+      phoneNumberCountries: (json['PhoneNumberCountries'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumberCountry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberCountries = this.phoneNumberCountries;
+    return {
+      if (phoneNumberCountries != null)
+        'PhoneNumberCountries': phoneNumberCountries,
+    };
+  }
+}
+
 class ListTagsForResourceResponse {
   /// A list of tag-key value pairs.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsersResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of users and user details.
-  @_s.JsonKey(name: 'Users')
-  final List<User> users;
+  final List<User>? users;
 
   ListUsersResponse({
     this.nextToken,
     this.users,
   });
-  factory ListUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUsersResponseFromJson(json);
+
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
+      nextToken: json['NextToken'] as String?,
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final users = this.users;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (users != null) 'Users': users,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVoiceConnectorGroupsResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The details of the Amazon Chime Voice Connector groups.
-  @_s.JsonKey(name: 'VoiceConnectorGroups')
-  final List<VoiceConnectorGroup> voiceConnectorGroups;
+  final List<VoiceConnectorGroup>? voiceConnectorGroups;
 
   ListVoiceConnectorGroupsResponse({
     this.nextToken,
     this.voiceConnectorGroups,
   });
-  factory ListVoiceConnectorGroupsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListVoiceConnectorGroupsResponseFromJson(json);
+
+  factory ListVoiceConnectorGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListVoiceConnectorGroupsResponse(
+      nextToken: json['NextToken'] as String?,
+      voiceConnectorGroups: (json['VoiceConnectorGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => VoiceConnectorGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final voiceConnectorGroups = this.voiceConnectorGroups;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (voiceConnectorGroups != null)
+        'VoiceConnectorGroups': voiceConnectorGroups,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVoiceConnectorTerminationCredentialsResponse {
   /// A list of user names.
-  @_s.JsonKey(name: 'Usernames')
-  final List<String> usernames;
+  final List<String>? usernames;
 
   ListVoiceConnectorTerminationCredentialsResponse({
     this.usernames,
   });
+
   factory ListVoiceConnectorTerminationCredentialsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListVoiceConnectorTerminationCredentialsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListVoiceConnectorTerminationCredentialsResponse(
+      usernames: (json['Usernames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final usernames = this.usernames;
+    return {
+      if (usernames != null) 'Usernames': usernames,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVoiceConnectorsResponse {
   /// The token to use to retrieve the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The details of the Amazon Chime Voice Connectors.
-  @_s.JsonKey(name: 'VoiceConnectors')
-  final List<VoiceConnector> voiceConnectors;
+  final List<VoiceConnector>? voiceConnectors;
 
   ListVoiceConnectorsResponse({
     this.nextToken,
     this.voiceConnectors,
   });
-  factory ListVoiceConnectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListVoiceConnectorsResponseFromJson(json);
+
+  factory ListVoiceConnectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListVoiceConnectorsResponse(
+      nextToken: json['NextToken'] as String?,
+      voiceConnectors: (json['VoiceConnectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => VoiceConnector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final voiceConnectors = this.voiceConnectors;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (voiceConnectors != null) 'VoiceConnectors': voiceConnectors,
+    };
+  }
 }
 
 /// The logging configuration associated with an Amazon Chime Voice Connector.
 /// Specifies whether SIP message logs are enabled for sending to Amazon
 /// CloudWatch Logs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggingConfiguration {
   /// When true, enables SIP message logs for sending to Amazon CloudWatch Logs.
-  @_s.JsonKey(name: 'EnableSIPLogs')
-  final bool enableSIPLogs;
+  final bool? enableSIPLogs;
 
   LoggingConfiguration({
     this.enableSIPLogs,
   });
-  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LoggingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoggingConfigurationToJson(this);
+  factory LoggingConfiguration.fromJson(Map<String, dynamic> json) {
+    return LoggingConfiguration(
+      enableSIPLogs: json['EnableSIPLogs'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableSIPLogs = this.enableSIPLogs;
+    return {
+      if (enableSIPLogs != null) 'EnableSIPLogs': enableSIPLogs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogoutUserResponse {
   LogoutUserResponse();
-  factory LogoutUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$LogoutUserResponseFromJson(json);
+
+  factory LogoutUserResponse.fromJson(Map<String, dynamic> _) {
+    return LogoutUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A media capture pipeline object. A string consisting of an ID, source type,
+/// a source ARN, a sink type, and a sink ARN.
+class MediaCapturePipeline {
+  /// The time at which the capture pipeline was created, in ISO 8601 format.
+  final DateTime? createdTimestamp;
+
+  /// The ID of a media capture pipeline.
+  final String? mediaPipelineId;
+
+  /// ARN of the destination to which the media artifacts are saved.
+  final String? sinkArn;
+
+  /// Destination type to which the media artifacts are saved. You must use an S3
+  /// Bucket.
+  final MediaPipelineSinkType? sinkType;
+
+  /// ARN of the source from which the media artifacts will be saved.
+  final String? sourceArn;
+
+  /// Source type from which media artifacts are saved. You must use
+  /// <code>ChimeMeeting</code>.
+  final MediaPipelineSourceType? sourceType;
+
+  /// The status of the media capture pipeline.
+  final MediaPipelineStatus? status;
+
+  /// The time at which the capture pipeline was updated, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
+
+  MediaCapturePipeline({
+    this.createdTimestamp,
+    this.mediaPipelineId,
+    this.sinkArn,
+    this.sinkType,
+    this.sourceArn,
+    this.sourceType,
+    this.status,
+    this.updatedTimestamp,
+  });
+
+  factory MediaCapturePipeline.fromJson(Map<String, dynamic> json) {
+    return MediaCapturePipeline(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      mediaPipelineId: json['MediaPipelineId'] as String?,
+      sinkArn: json['SinkArn'] as String?,
+      sinkType: (json['SinkType'] as String?)?.toMediaPipelineSinkType(),
+      sourceArn: json['SourceArn'] as String?,
+      sourceType: (json['SourceType'] as String?)?.toMediaPipelineSourceType(),
+      status: (json['Status'] as String?)?.toMediaPipelineStatus(),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final mediaPipelineId = this.mediaPipelineId;
+    final sinkArn = this.sinkArn;
+    final sinkType = this.sinkType;
+    final sourceArn = this.sourceArn;
+    final sourceType = this.sourceType;
+    final status = this.status;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (mediaPipelineId != null) 'MediaPipelineId': mediaPipelineId,
+      if (sinkArn != null) 'SinkArn': sinkArn,
+      if (sinkType != null) 'SinkType': sinkType.toValue(),
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (sourceType != null) 'SourceType': sourceType.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
+}
+
+enum MediaPipelineSinkType {
+  s3Bucket,
+}
+
+extension on MediaPipelineSinkType {
+  String toValue() {
+    switch (this) {
+      case MediaPipelineSinkType.s3Bucket:
+        return 'S3Bucket';
+    }
+  }
+}
+
+extension on String {
+  MediaPipelineSinkType toMediaPipelineSinkType() {
+    switch (this) {
+      case 'S3Bucket':
+        return MediaPipelineSinkType.s3Bucket;
+    }
+    throw Exception('$this is not known in enum MediaPipelineSinkType');
+  }
+}
+
+enum MediaPipelineSourceType {
+  chimeSdkMeeting,
+}
+
+extension on MediaPipelineSourceType {
+  String toValue() {
+    switch (this) {
+      case MediaPipelineSourceType.chimeSdkMeeting:
+        return 'ChimeSdkMeeting';
+    }
+  }
+}
+
+extension on String {
+  MediaPipelineSourceType toMediaPipelineSourceType() {
+    switch (this) {
+      case 'ChimeSdkMeeting':
+        return MediaPipelineSourceType.chimeSdkMeeting;
+    }
+    throw Exception('$this is not known in enum MediaPipelineSourceType');
+  }
+}
+
+enum MediaPipelineStatus {
+  initializing,
+  inProgress,
+  failed,
+  stopping,
+  stopped,
+}
+
+extension on MediaPipelineStatus {
+  String toValue() {
+    switch (this) {
+      case MediaPipelineStatus.initializing:
+        return 'Initializing';
+      case MediaPipelineStatus.inProgress:
+        return 'InProgress';
+      case MediaPipelineStatus.failed:
+        return 'Failed';
+      case MediaPipelineStatus.stopping:
+        return 'Stopping';
+      case MediaPipelineStatus.stopped:
+        return 'Stopped';
+    }
+  }
+}
+
+extension on String {
+  MediaPipelineStatus toMediaPipelineStatus() {
+    switch (this) {
+      case 'Initializing':
+        return MediaPipelineStatus.initializing;
+      case 'InProgress':
+        return MediaPipelineStatus.inProgress;
+      case 'Failed':
+        return MediaPipelineStatus.failed;
+      case 'Stopping':
+        return MediaPipelineStatus.stopping;
+      case 'Stopped':
+        return MediaPipelineStatus.stopped;
+    }
+    throw Exception('$this is not known in enum MediaPipelineStatus');
+  }
 }
 
 /// A set of endpoints used by clients to connect to the media service group for
 /// a Amazon Chime SDK meeting.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MediaPlacement {
   /// The audio fallback URL.
-  @_s.JsonKey(name: 'AudioFallbackUrl')
-  final String audioFallbackUrl;
+  final String? audioFallbackUrl;
 
   /// The audio host URL.
-  @_s.JsonKey(name: 'AudioHostUrl')
-  final String audioHostUrl;
+  final String? audioHostUrl;
+
+  /// The event ingestion URL.
+  final String? eventIngestionUrl;
 
   /// The screen data URL.
-  @_s.JsonKey(name: 'ScreenDataUrl')
-  final String screenDataUrl;
+  final String? screenDataUrl;
 
   /// The screen sharing URL.
-  @_s.JsonKey(name: 'ScreenSharingUrl')
-  final String screenSharingUrl;
+  final String? screenSharingUrl;
 
   /// The screen viewing URL.
-  @_s.JsonKey(name: 'ScreenViewingUrl')
-  final String screenViewingUrl;
+  final String? screenViewingUrl;
 
   /// The signaling URL.
-  @_s.JsonKey(name: 'SignalingUrl')
-  final String signalingUrl;
+  final String? signalingUrl;
 
   /// The turn control URL.
-  @_s.JsonKey(name: 'TurnControlUrl')
-  final String turnControlUrl;
+  final String? turnControlUrl;
 
   MediaPlacement({
     this.audioFallbackUrl,
     this.audioHostUrl,
+    this.eventIngestionUrl,
     this.screenDataUrl,
     this.screenSharingUrl,
     this.screenViewingUrl,
     this.signalingUrl,
     this.turnControlUrl,
   });
-  factory MediaPlacement.fromJson(Map<String, dynamic> json) =>
-      _$MediaPlacementFromJson(json);
+
+  factory MediaPlacement.fromJson(Map<String, dynamic> json) {
+    return MediaPlacement(
+      audioFallbackUrl: json['AudioFallbackUrl'] as String?,
+      audioHostUrl: json['AudioHostUrl'] as String?,
+      eventIngestionUrl: json['EventIngestionUrl'] as String?,
+      screenDataUrl: json['ScreenDataUrl'] as String?,
+      screenSharingUrl: json['ScreenSharingUrl'] as String?,
+      screenViewingUrl: json['ScreenViewingUrl'] as String?,
+      signalingUrl: json['SignalingUrl'] as String?,
+      turnControlUrl: json['TurnControlUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioFallbackUrl = this.audioFallbackUrl;
+    final audioHostUrl = this.audioHostUrl;
+    final eventIngestionUrl = this.eventIngestionUrl;
+    final screenDataUrl = this.screenDataUrl;
+    final screenSharingUrl = this.screenSharingUrl;
+    final screenViewingUrl = this.screenViewingUrl;
+    final signalingUrl = this.signalingUrl;
+    final turnControlUrl = this.turnControlUrl;
+    return {
+      if (audioFallbackUrl != null) 'AudioFallbackUrl': audioFallbackUrl,
+      if (audioHostUrl != null) 'AudioHostUrl': audioHostUrl,
+      if (eventIngestionUrl != null) 'EventIngestionUrl': eventIngestionUrl,
+      if (screenDataUrl != null) 'ScreenDataUrl': screenDataUrl,
+      if (screenSharingUrl != null) 'ScreenSharingUrl': screenSharingUrl,
+      if (screenViewingUrl != null) 'ScreenViewingUrl': screenViewingUrl,
+      if (signalingUrl != null) 'SignalingUrl': signalingUrl,
+      if (turnControlUrl != null) 'TurnControlUrl': turnControlUrl,
+    };
+  }
 }
 
 /// A meeting created using the Amazon Chime SDK.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Meeting {
   /// The external meeting ID.
-  @_s.JsonKey(name: 'ExternalMeetingId')
-  final String externalMeetingId;
+  final String? externalMeetingId;
 
   /// The media placement for the meeting.
-  @_s.JsonKey(name: 'MediaPlacement')
-  final MediaPlacement mediaPlacement;
+  final MediaPlacement? mediaPlacement;
 
-  /// The Region in which to create the meeting. Available values:
+  /// The Region in which you create the meeting. Available values:
   /// <code>af-south-1</code>, <code>ap-northeast-1</code>,
   /// <code>ap-northeast-2</code>, <code>ap-south-1</code>,
   /// <code>ap-southeast-1</code>, <code>ap-southeast-2</code>,
@@ -12995,12 +14369,10 @@ class Meeting {
   /// <code>eu-west-2</code>, <code>eu-west-3</code>, <code>sa-east-1</code>,
   /// <code>us-east-1</code>, <code>us-east-2</code>, <code>us-west-1</code>,
   /// <code>us-west-2</code>.
-  @_s.JsonKey(name: 'MediaRegion')
-  final String mediaRegion;
+  final String? mediaRegion;
 
   /// The Amazon Chime SDK meeting ID.
-  @_s.JsonKey(name: 'MeetingId')
-  final String meetingId;
+  final String? meetingId;
 
   Meeting({
     this.externalMeetingId,
@@ -13008,62 +14380,82 @@ class Meeting {
     this.mediaRegion,
     this.meetingId,
   });
-  factory Meeting.fromJson(Map<String, dynamic> json) =>
-      _$MeetingFromJson(json);
+
+  factory Meeting.fromJson(Map<String, dynamic> json) {
+    return Meeting(
+      externalMeetingId: json['ExternalMeetingId'] as String?,
+      mediaPlacement: json['MediaPlacement'] != null
+          ? MediaPlacement.fromJson(
+              json['MediaPlacement'] as Map<String, dynamic>)
+          : null,
+      mediaRegion: json['MediaRegion'] as String?,
+      meetingId: json['MeetingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalMeetingId = this.externalMeetingId;
+    final mediaPlacement = this.mediaPlacement;
+    final mediaRegion = this.mediaRegion;
+    final meetingId = this.meetingId;
+    return {
+      if (externalMeetingId != null) 'ExternalMeetingId': externalMeetingId,
+      if (mediaPlacement != null) 'MediaPlacement': mediaPlacement,
+      if (mediaRegion != null) 'MediaRegion': mediaRegion,
+      if (meetingId != null) 'MeetingId': meetingId,
+    };
+  }
 }
 
-/// The configuration for resource targets to receive notifications when Amazon
-/// Chime SDK meeting and attendee events occur. The Amazon Chime SDK supports
-/// resource targets located in the US East (N. Virginia) AWS Region
+/// The resource target configurations for receiving Amazon Chime SDK meeting
+/// and attendee event notifications. The Amazon Chime SDK supports resource
+/// targets located in the US East (N. Virginia) AWS Region
 /// (<code>us-east-1</code>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MeetingNotificationConfiguration {
   /// The SNS topic ARN.
-  @_s.JsonKey(name: 'SnsTopicArn')
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   /// The SQS queue ARN.
-  @_s.JsonKey(name: 'SqsQueueArn')
-  final String sqsQueueArn;
+  final String? sqsQueueArn;
 
   MeetingNotificationConfiguration({
     this.snsTopicArn,
     this.sqsQueueArn,
   });
-  Map<String, dynamic> toJson() =>
-      _$MeetingNotificationConfigurationToJson(this);
+
+  factory MeetingNotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return MeetingNotificationConfiguration(
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      sqsQueueArn: json['SqsQueueArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snsTopicArn = this.snsTopicArn;
+    final sqsQueueArn = this.sqsQueueArn;
+    return {
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (sqsQueueArn != null) 'SqsQueueArn': sqsQueueArn,
+    };
+  }
 }
 
 /// The member details, such as email address, name, member ID, and member type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Member {
   /// The Amazon Chime account ID.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The member email address.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The member name.
-  @_s.JsonKey(name: 'FullName')
-  final String fullName;
+  final String? fullName;
 
   /// The member ID (user ID or bot ID).
-  @_s.JsonKey(name: 'MemberId')
-  final String memberId;
+  final String? memberId;
 
   /// The member type.
-  @_s.JsonKey(name: 'MemberType')
-  final MemberType memberType;
+  final MemberType? memberType;
 
   Member({
     this.accountId,
@@ -13072,99 +14464,191 @@ class Member {
     this.memberId,
     this.memberType,
   });
-  factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+
+  factory Member.fromJson(Map<String, dynamic> json) {
+    return Member(
+      accountId: json['AccountId'] as String?,
+      email: json['Email'] as String?,
+      fullName: json['FullName'] as String?,
+      memberId: json['MemberId'] as String?,
+      memberType: (json['MemberType'] as String?)?.toMemberType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final email = this.email;
+    final fullName = this.fullName;
+    final memberId = this.memberId;
+    final memberType = this.memberType;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (email != null) 'Email': email,
+      if (fullName != null) 'FullName': fullName,
+      if (memberId != null) 'MemberId': memberId,
+      if (memberType != null) 'MemberType': memberType.toValue(),
+    };
+  }
 }
 
 /// The list of errors returned when a member action results in an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemberError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The member ID.
-  @_s.JsonKey(name: 'MemberId')
-  final String memberId;
+  final String? memberId;
 
   MemberError({
     this.errorCode,
     this.errorMessage,
     this.memberId,
   });
-  factory MemberError.fromJson(Map<String, dynamic> json) =>
-      _$MemberErrorFromJson(json);
+
+  factory MemberError.fromJson(Map<String, dynamic> json) {
+    return MemberError(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      memberId: json['MemberId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final memberId = this.memberId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (memberId != null) 'MemberId': memberId,
+    };
+  }
 }
 
 enum MemberType {
-  @_s.JsonValue('User')
   user,
-  @_s.JsonValue('Bot')
   bot,
-  @_s.JsonValue('Webhook')
   webhook,
 }
 
+extension on MemberType {
+  String toValue() {
+    switch (this) {
+      case MemberType.user:
+        return 'User';
+      case MemberType.bot:
+        return 'Bot';
+      case MemberType.webhook:
+        return 'Webhook';
+    }
+  }
+}
+
+extension on String {
+  MemberType toMemberType() {
+    switch (this) {
+      case 'User':
+        return MemberType.user;
+      case 'Bot':
+        return MemberType.bot;
+      case 'Webhook':
+        return MemberType.webhook;
+    }
+    throw Exception('$this is not known in enum MemberType');
+  }
+}
+
 /// Membership details, such as member ID and member role.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MembershipItem {
   /// The member ID.
-  @_s.JsonKey(name: 'MemberId')
-  final String memberId;
+  final String? memberId;
 
   /// The member role.
-  @_s.JsonKey(name: 'Role')
-  final RoomMembershipRole role;
+  final RoomMembershipRole? role;
 
   MembershipItem({
     this.memberId,
     this.role,
   });
-  Map<String, dynamic> toJson() => _$MembershipItemToJson(this);
+
+  factory MembershipItem.fromJson(Map<String, dynamic> json) {
+    return MembershipItem(
+      memberId: json['MemberId'] as String?,
+      role: (json['Role'] as String?)?.toRoomMembershipRole(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberId = this.memberId;
+    final role = this.role;
+    return {
+      if (memberId != null) 'MemberId': memberId,
+      if (role != null) 'Role': role.toValue(),
+    };
+  }
 }
 
-/// The endpoint of a meeting session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The websocket endpoint used to connect to Amazon Chime SDK messaging.
 class MessagingSessionEndpoint {
-  /// The URL of a meeting session endpoint.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  /// The endpoint to which you establish a websocket connection.
+  final String? url;
 
   MessagingSessionEndpoint({
     this.url,
   });
-  factory MessagingSessionEndpoint.fromJson(Map<String, dynamic> json) =>
-      _$MessagingSessionEndpointFromJson(json);
+
+  factory MessagingSessionEndpoint.fromJson(Map<String, dynamic> json) {
+    return MessagingSessionEndpoint(
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    return {
+      if (url != null) 'Url': url,
+    };
+  }
 }
 
 enum NotificationTarget {
-  @_s.JsonValue('EventBridge')
   eventBridge,
-  @_s.JsonValue('SNS')
   sns,
-  @_s.JsonValue('SQS')
   sqs,
 }
 
+extension on NotificationTarget {
+  String toValue() {
+    switch (this) {
+      case NotificationTarget.eventBridge:
+        return 'EventBridge';
+      case NotificationTarget.sns:
+        return 'SNS';
+      case NotificationTarget.sqs:
+        return 'SQS';
+    }
+  }
+}
+
+extension on String {
+  NotificationTarget toNotificationTarget() {
+    switch (this) {
+      case 'EventBridge':
+        return NotificationTarget.eventBridge;
+      case 'SNS':
+        return NotificationTarget.sns;
+      case 'SQS':
+        return NotificationTarget.sqs;
+    }
+    throw Exception('$this is not known in enum NotificationTarget');
+  }
+}
+
 enum NumberSelectionBehavior {
-  @_s.JsonValue('PreferSticky')
   preferSticky,
-  @_s.JsonValue('AvoidSticky')
   avoidSticky,
 }
 
@@ -13176,101 +14660,141 @@ extension on NumberSelectionBehavior {
       case NumberSelectionBehavior.avoidSticky:
         return 'AvoidSticky';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NumberSelectionBehavior toNumberSelectionBehavior() {
+    switch (this) {
+      case 'PreferSticky':
+        return NumberSelectionBehavior.preferSticky;
+      case 'AvoidSticky':
+        return NumberSelectionBehavior.avoidSticky;
+    }
+    throw Exception('$this is not known in enum NumberSelectionBehavior');
   }
 }
 
 /// A phone number for which an order has been placed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OrderedPhoneNumber {
   /// The phone number, in E.164 format.
-  @_s.JsonKey(name: 'E164PhoneNumber')
-  final String e164PhoneNumber;
+  final String? e164PhoneNumber;
 
   /// The phone number status.
-  @_s.JsonKey(name: 'Status')
-  final OrderedPhoneNumberStatus status;
+  final OrderedPhoneNumberStatus? status;
 
   OrderedPhoneNumber({
     this.e164PhoneNumber,
     this.status,
   });
-  factory OrderedPhoneNumber.fromJson(Map<String, dynamic> json) =>
-      _$OrderedPhoneNumberFromJson(json);
+
+  factory OrderedPhoneNumber.fromJson(Map<String, dynamic> json) {
+    return OrderedPhoneNumber(
+      e164PhoneNumber: json['E164PhoneNumber'] as String?,
+      status: (json['Status'] as String?)?.toOrderedPhoneNumberStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final e164PhoneNumber = this.e164PhoneNumber;
+    final status = this.status;
+    return {
+      if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum OrderedPhoneNumberStatus {
-  @_s.JsonValue('Processing')
   processing,
-  @_s.JsonValue('Acquired')
   acquired,
-  @_s.JsonValue('Failed')
   failed,
+}
+
+extension on OrderedPhoneNumberStatus {
+  String toValue() {
+    switch (this) {
+      case OrderedPhoneNumberStatus.processing:
+        return 'Processing';
+      case OrderedPhoneNumberStatus.acquired:
+        return 'Acquired';
+      case OrderedPhoneNumberStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  OrderedPhoneNumberStatus toOrderedPhoneNumberStatus() {
+    switch (this) {
+      case 'Processing':
+        return OrderedPhoneNumberStatus.processing;
+      case 'Acquired':
+        return OrderedPhoneNumberStatus.acquired;
+      case 'Failed':
+        return OrderedPhoneNumberStatus.failed;
+    }
+    throw Exception('$this is not known in enum OrderedPhoneNumberStatus');
+  }
 }
 
 /// Origination settings enable your SIP hosts to receive inbound calls using
 /// your Amazon Chime Voice Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Origination {
   /// When origination settings are disabled, inbound calls are not enabled for
   /// your Amazon Chime Voice Connector.
-  @_s.JsonKey(name: 'Disabled')
-  final bool disabled;
+  final bool? disabled;
 
   /// The call distribution properties defined for your SIP hosts. Valid range:
   /// Minimum value of 1. Maximum value of 20.
-  @_s.JsonKey(name: 'Routes')
-  final List<OriginationRoute> routes;
+  final List<OriginationRoute>? routes;
 
   Origination({
     this.disabled,
     this.routes,
   });
-  factory Origination.fromJson(Map<String, dynamic> json) =>
-      _$OriginationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OriginationToJson(this);
+  factory Origination.fromJson(Map<String, dynamic> json) {
+    return Origination(
+      disabled: json['Disabled'] as bool?,
+      routes: (json['Routes'] as List?)
+          ?.whereNotNull()
+          .map((e) => OriginationRoute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disabled = this.disabled;
+    final routes = this.routes;
+    return {
+      if (disabled != null) 'Disabled': disabled,
+      if (routes != null) 'Routes': routes,
+    };
+  }
 }
 
 /// Origination routes define call distribution properties for your SIP hosts to
 /// receive inbound calls using your Amazon Chime Voice Connector. Limit: Ten
 /// origination routes for each Amazon Chime Voice Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OriginationRoute {
   /// The FQDN or IP address to contact for origination traffic.
-  @_s.JsonKey(name: 'Host')
-  final String host;
+  final String? host;
 
   /// The designated origination route port. Defaults to 5060.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The priority associated with the host, with 1 being the highest priority.
   /// Higher priority hosts are attempted first.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The protocol to use for the origination route. Encryption-enabled Amazon
   /// Chime Voice Connectors use TCP protocol by default.
-  @_s.JsonKey(name: 'Protocol')
-  final OriginationRouteProtocol protocol;
+  final OriginationRouteProtocol? protocol;
 
   /// The weight associated with the host. If hosts are equal in priority, calls
-  /// are distributed among them based on their relative weight.
-  @_s.JsonKey(name: 'Weight')
-  final int weight;
+  /// are redistributed among them based on their relative weight.
+  final int? weight;
 
   OriginationRoute({
     this.host,
@@ -13279,107 +14803,140 @@ class OriginationRoute {
     this.protocol,
     this.weight,
   });
-  factory OriginationRoute.fromJson(Map<String, dynamic> json) =>
-      _$OriginationRouteFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OriginationRouteToJson(this);
+  factory OriginationRoute.fromJson(Map<String, dynamic> json) {
+    return OriginationRoute(
+      host: json['Host'] as String?,
+      port: json['Port'] as int?,
+      priority: json['Priority'] as int?,
+      protocol: (json['Protocol'] as String?)?.toOriginationRouteProtocol(),
+      weight: json['Weight'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final host = this.host;
+    final port = this.port;
+    final priority = this.priority;
+    final protocol = this.protocol;
+    final weight = this.weight;
+    return {
+      if (host != null) 'Host': host,
+      if (port != null) 'Port': port,
+      if (priority != null) 'Priority': priority,
+      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (weight != null) 'Weight': weight,
+    };
+  }
 }
 
 enum OriginationRouteProtocol {
-  @_s.JsonValue('TCP')
   tcp,
-  @_s.JsonValue('UDP')
   udp,
+}
+
+extension on OriginationRouteProtocol {
+  String toValue() {
+    switch (this) {
+      case OriginationRouteProtocol.tcp:
+        return 'TCP';
+      case OriginationRouteProtocol.udp:
+        return 'UDP';
+    }
+  }
+}
+
+extension on String {
+  OriginationRouteProtocol toOriginationRouteProtocol() {
+    switch (this) {
+      case 'TCP':
+        return OriginationRouteProtocol.tcp;
+      case 'UDP':
+        return OriginationRouteProtocol.udp;
+    }
+    throw Exception('$this is not known in enum OriginationRouteProtocol');
+  }
 }
 
 /// The phone number and proxy phone number for a participant in an Amazon Chime
 /// Voice Connector proxy session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Participant {
   /// The participant's phone number.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   /// The participant's proxy phone number.
-  @_s.JsonKey(name: 'ProxyPhoneNumber')
-  final String proxyPhoneNumber;
+  final String? proxyPhoneNumber;
 
   Participant({
     this.phoneNumber,
     this.proxyPhoneNumber,
   });
-  factory Participant.fromJson(Map<String, dynamic> json) =>
-      _$ParticipantFromJson(json);
+
+  factory Participant.fromJson(Map<String, dynamic> json) {
+    return Participant(
+      phoneNumber: json['PhoneNumber'] as String?,
+      proxyPhoneNumber: json['ProxyPhoneNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    final proxyPhoneNumber = this.proxyPhoneNumber;
+    return {
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (proxyPhoneNumber != null) 'ProxyPhoneNumber': proxyPhoneNumber,
+    };
+  }
 }
 
 /// A phone number used for Amazon Chime Business Calling or an Amazon Chime
 /// Voice Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PhoneNumber {
   /// The phone number associations.
-  @_s.JsonKey(name: 'Associations')
-  final List<PhoneNumberAssociation> associations;
+  final List<PhoneNumberAssociation>? associations;
 
   /// The outbound calling name associated with the phone number.
-  @_s.JsonKey(name: 'CallingName')
-  final String callingName;
+  final String? callingName;
 
   /// The outbound calling name status.
-  @_s.JsonKey(name: 'CallingNameStatus')
-  final CallingNameStatus callingNameStatus;
+  final CallingNameStatus? callingNameStatus;
 
   /// The phone number capabilities.
-  @_s.JsonKey(name: 'Capabilities')
-  final PhoneNumberCapabilities capabilities;
+  final PhoneNumberCapabilities? capabilities;
+
+  /// The phone number country. Format: ISO 3166-1 alpha-2.
+  final String? country;
 
   /// The phone number creation timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The deleted phone number timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionTimestamp')
-  final DateTime deletionTimestamp;
+  final DateTime? deletionTimestamp;
 
   /// The phone number, in E.164 format.
-  @_s.JsonKey(name: 'E164PhoneNumber')
-  final String e164PhoneNumber;
+  final String? e164PhoneNumber;
 
   /// The phone number ID.
-  @_s.JsonKey(name: 'PhoneNumberId')
-  final String phoneNumberId;
+  final String? phoneNumberId;
 
   /// The phone number product type.
-  @_s.JsonKey(name: 'ProductType')
-  final PhoneNumberProductType productType;
+  final PhoneNumberProductType? productType;
 
   /// The phone number status.
-  @_s.JsonKey(name: 'Status')
-  final PhoneNumberStatus status;
+  final PhoneNumberStatus? status;
 
   /// The phone number type.
-  @_s.JsonKey(name: 'Type')
-  final PhoneNumberType type;
+  final PhoneNumberType? type;
 
   /// The updated phone number timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  final DateTime? updatedTimestamp;
 
   PhoneNumber({
     this.associations,
     this.callingName,
     this.callingNameStatus,
     this.capabilities,
+    this.country,
     this.createdTimestamp,
     this.deletionTimestamp,
     this.e164PhoneNumber,
@@ -13389,52 +14946,115 @@ class PhoneNumber {
     this.type,
     this.updatedTimestamp,
   });
-  factory PhoneNumber.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberFromJson(json);
+
+  factory PhoneNumber.fromJson(Map<String, dynamic> json) {
+    return PhoneNumber(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => PhoneNumberAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      callingName: json['CallingName'] as String?,
+      callingNameStatus:
+          (json['CallingNameStatus'] as String?)?.toCallingNameStatus(),
+      capabilities: json['Capabilities'] != null
+          ? PhoneNumberCapabilities.fromJson(
+              json['Capabilities'] as Map<String, dynamic>)
+          : null,
+      country: json['Country'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      deletionTimestamp: timeStampFromJson(json['DeletionTimestamp']),
+      e164PhoneNumber: json['E164PhoneNumber'] as String?,
+      phoneNumberId: json['PhoneNumberId'] as String?,
+      productType: (json['ProductType'] as String?)?.toPhoneNumberProductType(),
+      status: (json['Status'] as String?)?.toPhoneNumberStatus(),
+      type: (json['Type'] as String?)?.toPhoneNumberType(),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final callingName = this.callingName;
+    final callingNameStatus = this.callingNameStatus;
+    final capabilities = this.capabilities;
+    final country = this.country;
+    final createdTimestamp = this.createdTimestamp;
+    final deletionTimestamp = this.deletionTimestamp;
+    final e164PhoneNumber = this.e164PhoneNumber;
+    final phoneNumberId = this.phoneNumberId;
+    final productType = this.productType;
+    final status = this.status;
+    final type = this.type;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (associations != null) 'Associations': associations,
+      if (callingName != null) 'CallingName': callingName,
+      if (callingNameStatus != null)
+        'CallingNameStatus': callingNameStatus.toValue(),
+      if (capabilities != null) 'Capabilities': capabilities,
+      if (country != null) 'Country': country,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (deletionTimestamp != null)
+        'DeletionTimestamp': iso8601ToJson(deletionTimestamp),
+      if (e164PhoneNumber != null) 'E164PhoneNumber': e164PhoneNumber,
+      if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
+      if (productType != null) 'ProductType': productType.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
 }
 
 /// The phone number associations, such as Amazon Chime account ID, Amazon Chime
 /// user ID, Amazon Chime Voice Connector ID, or Amazon Chime Voice Connector
 /// group ID.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PhoneNumberAssociation {
   /// The timestamp of the phone number association, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'AssociatedTimestamp')
-  final DateTime associatedTimestamp;
+  final DateTime? associatedTimestamp;
 
   /// Defines the association with an Amazon Chime account ID, user ID, Amazon
   /// Chime Voice Connector ID, or Amazon Chime Voice Connector group ID.
-  @_s.JsonKey(name: 'Name')
-  final PhoneNumberAssociationName name;
+  final PhoneNumberAssociationName? name;
 
   /// Contains the ID for the entity specified in Name.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   PhoneNumberAssociation({
     this.associatedTimestamp,
     this.name,
     this.value,
   });
-  factory PhoneNumberAssociation.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberAssociationFromJson(json);
+
+  factory PhoneNumberAssociation.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberAssociation(
+      associatedTimestamp: timeStampFromJson(json['AssociatedTimestamp']),
+      name: (json['Name'] as String?)?.toPhoneNumberAssociationName(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedTimestamp = this.associatedTimestamp;
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (associatedTimestamp != null)
+        'AssociatedTimestamp': iso8601ToJson(associatedTimestamp),
+      if (name != null) 'Name': name.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum PhoneNumberAssociationName {
-  @_s.JsonValue('AccountId')
   accountId,
-  @_s.JsonValue('UserId')
   userId,
-  @_s.JsonValue('VoiceConnectorId')
   voiceConnectorId,
-  @_s.JsonValue('VoiceConnectorGroupId')
   voiceConnectorGroupId,
-  @_s.JsonValue('SipRuleId')
   sipRuleId,
 }
 
@@ -13452,41 +15072,47 @@ extension on PhoneNumberAssociationName {
       case PhoneNumberAssociationName.sipRuleId:
         return 'SipRuleId';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PhoneNumberAssociationName toPhoneNumberAssociationName() {
+    switch (this) {
+      case 'AccountId':
+        return PhoneNumberAssociationName.accountId;
+      case 'UserId':
+        return PhoneNumberAssociationName.userId;
+      case 'VoiceConnectorId':
+        return PhoneNumberAssociationName.voiceConnectorId;
+      case 'VoiceConnectorGroupId':
+        return PhoneNumberAssociationName.voiceConnectorGroupId;
+      case 'SipRuleId':
+        return PhoneNumberAssociationName.sipRuleId;
+    }
+    throw Exception('$this is not known in enum PhoneNumberAssociationName');
   }
 }
 
 /// The phone number capabilities for Amazon Chime Business Calling phone
 /// numbers, such as enabled inbound and outbound calling and text messaging.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PhoneNumberCapabilities {
   /// Allows or denies inbound calling for the specified phone number.
-  @_s.JsonKey(name: 'InboundCall')
-  final bool inboundCall;
+  final bool? inboundCall;
 
   /// Allows or denies inbound MMS messaging for the specified phone number.
-  @_s.JsonKey(name: 'InboundMMS')
-  final bool inboundMMS;
+  final bool? inboundMMS;
 
   /// Allows or denies inbound SMS messaging for the specified phone number.
-  @_s.JsonKey(name: 'InboundSMS')
-  final bool inboundSMS;
+  final bool? inboundSMS;
 
   /// Allows or denies outbound calling for the specified phone number.
-  @_s.JsonKey(name: 'OutboundCall')
-  final bool outboundCall;
+  final bool? outboundCall;
 
   /// Allows or denies outbound MMS messaging for the specified phone number.
-  @_s.JsonKey(name: 'OutboundMMS')
-  final bool outboundMMS;
+  final bool? outboundMMS;
 
   /// Allows or denies outbound SMS messaging for the specified phone number.
-  @_s.JsonKey(name: 'OutboundSMS')
-  final bool outboundSMS;
+  final bool? outboundSMS;
 
   PhoneNumberCapabilities({
     this.inboundCall,
@@ -13496,73 +15122,130 @@ class PhoneNumberCapabilities {
     this.outboundMMS,
     this.outboundSMS,
   });
-  factory PhoneNumberCapabilities.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberCapabilitiesFromJson(json);
+
+  factory PhoneNumberCapabilities.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberCapabilities(
+      inboundCall: json['InboundCall'] as bool?,
+      inboundMMS: json['InboundMMS'] as bool?,
+      inboundSMS: json['InboundSMS'] as bool?,
+      outboundCall: json['OutboundCall'] as bool?,
+      outboundMMS: json['OutboundMMS'] as bool?,
+      outboundSMS: json['OutboundSMS'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inboundCall = this.inboundCall;
+    final inboundMMS = this.inboundMMS;
+    final inboundSMS = this.inboundSMS;
+    final outboundCall = this.outboundCall;
+    final outboundMMS = this.outboundMMS;
+    final outboundSMS = this.outboundSMS;
+    return {
+      if (inboundCall != null) 'InboundCall': inboundCall,
+      if (inboundMMS != null) 'InboundMMS': inboundMMS,
+      if (inboundSMS != null) 'InboundSMS': inboundSMS,
+      if (outboundCall != null) 'OutboundCall': outboundCall,
+      if (outboundMMS != null) 'OutboundMMS': outboundMMS,
+      if (outboundSMS != null) 'OutboundSMS': outboundSMS,
+    };
+  }
+}
+
+/// The phone number country.
+class PhoneNumberCountry {
+  /// The phone number country code. Format: ISO 3166-1 alpha-2.
+  final String? countryCode;
+
+  /// The supported phone number types.
+  final List<PhoneNumberType>? supportedPhoneNumberTypes;
+
+  PhoneNumberCountry({
+    this.countryCode,
+    this.supportedPhoneNumberTypes,
+  });
+
+  factory PhoneNumberCountry.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberCountry(
+      countryCode: json['CountryCode'] as String?,
+      supportedPhoneNumberTypes: (json['SupportedPhoneNumberTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPhoneNumberType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countryCode = this.countryCode;
+    final supportedPhoneNumberTypes = this.supportedPhoneNumberTypes;
+    return {
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (supportedPhoneNumberTypes != null)
+        'SupportedPhoneNumberTypes':
+            supportedPhoneNumberTypes.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// If the phone number action fails for one or more of the phone numbers in the
 /// request, a list of the phone numbers is returned, along with error codes and
 /// error messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PhoneNumberError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The phone number ID for which the action failed.
-  @_s.JsonKey(name: 'PhoneNumberId')
-  final String phoneNumberId;
+  final String? phoneNumberId;
 
   PhoneNumberError({
     this.errorCode,
     this.errorMessage,
     this.phoneNumberId,
   });
-  factory PhoneNumberError.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberErrorFromJson(json);
+
+  factory PhoneNumberError.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberError(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      phoneNumberId: json['PhoneNumberId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final phoneNumberId = this.phoneNumberId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (phoneNumberId != null) 'PhoneNumberId': phoneNumberId,
+    };
+  }
 }
 
 /// The details of a phone number order created for Amazon Chime.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PhoneNumberOrder {
-  /// The phone number order creation timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  /// The phone number order creation time stamp, in ISO 8601 format.
+  final DateTime? createdTimestamp;
 
   /// The ordered phone number details, such as the phone number in E.164 format
   /// and the phone number status.
-  @_s.JsonKey(name: 'OrderedPhoneNumbers')
-  final List<OrderedPhoneNumber> orderedPhoneNumbers;
+  final List<OrderedPhoneNumber>? orderedPhoneNumbers;
 
   /// The phone number order ID.
-  @_s.JsonKey(name: 'PhoneNumberOrderId')
-  final String phoneNumberOrderId;
+  final String? phoneNumberOrderId;
 
   /// The phone number order product type.
-  @_s.JsonKey(name: 'ProductType')
-  final PhoneNumberProductType productType;
+  final PhoneNumberProductType? productType;
 
   /// The status of the phone number order.
-  @_s.JsonKey(name: 'Status')
-  final PhoneNumberOrderStatus status;
+  final PhoneNumberOrderStatus? status;
 
-  /// The updated phone number order timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  /// The updated phone number order time stamp, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
 
   PhoneNumberOrder({
     this.createdTimestamp,
@@ -13572,26 +15255,84 @@ class PhoneNumberOrder {
     this.status,
     this.updatedTimestamp,
   });
-  factory PhoneNumberOrder.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberOrderFromJson(json);
+
+  factory PhoneNumberOrder.fromJson(Map<String, dynamic> json) {
+    return PhoneNumberOrder(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => OrderedPhoneNumber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      phoneNumberOrderId: json['PhoneNumberOrderId'] as String?,
+      productType: (json['ProductType'] as String?)?.toPhoneNumberProductType(),
+      status: (json['Status'] as String?)?.toPhoneNumberOrderStatus(),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final orderedPhoneNumbers = this.orderedPhoneNumbers;
+    final phoneNumberOrderId = this.phoneNumberOrderId;
+    final productType = this.productType;
+    final status = this.status;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (orderedPhoneNumbers != null)
+        'OrderedPhoneNumbers': orderedPhoneNumbers,
+      if (phoneNumberOrderId != null) 'PhoneNumberOrderId': phoneNumberOrderId,
+      if (productType != null) 'ProductType': productType.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
 }
 
 enum PhoneNumberOrderStatus {
-  @_s.JsonValue('Processing')
   processing,
-  @_s.JsonValue('Successful')
   successful,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Partial')
   partial,
 }
 
+extension on PhoneNumberOrderStatus {
+  String toValue() {
+    switch (this) {
+      case PhoneNumberOrderStatus.processing:
+        return 'Processing';
+      case PhoneNumberOrderStatus.successful:
+        return 'Successful';
+      case PhoneNumberOrderStatus.failed:
+        return 'Failed';
+      case PhoneNumberOrderStatus.partial:
+        return 'Partial';
+    }
+  }
+}
+
+extension on String {
+  PhoneNumberOrderStatus toPhoneNumberOrderStatus() {
+    switch (this) {
+      case 'Processing':
+        return PhoneNumberOrderStatus.processing;
+      case 'Successful':
+        return PhoneNumberOrderStatus.successful;
+      case 'Failed':
+        return PhoneNumberOrderStatus.failed;
+      case 'Partial':
+        return PhoneNumberOrderStatus.partial;
+    }
+    throw Exception('$this is not known in enum PhoneNumberOrderStatus');
+  }
+}
+
 enum PhoneNumberProductType {
-  @_s.JsonValue('BusinessCalling')
   businessCalling,
-  @_s.JsonValue('VoiceConnector')
   voiceConnector,
+  sipMediaApplicationDialIn,
 }
 
 extension on PhoneNumberProductType {
@@ -13601,27 +15342,34 @@ extension on PhoneNumberProductType {
         return 'BusinessCalling';
       case PhoneNumberProductType.voiceConnector:
         return 'VoiceConnector';
+      case PhoneNumberProductType.sipMediaApplicationDialIn:
+        return 'SipMediaApplicationDialIn';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PhoneNumberProductType toPhoneNumberProductType() {
+    switch (this) {
+      case 'BusinessCalling':
+        return PhoneNumberProductType.businessCalling;
+      case 'VoiceConnector':
+        return PhoneNumberProductType.voiceConnector;
+      case 'SipMediaApplicationDialIn':
+        return PhoneNumberProductType.sipMediaApplicationDialIn;
+    }
+    throw Exception('$this is not known in enum PhoneNumberProductType');
   }
 }
 
 enum PhoneNumberStatus {
-  @_s.JsonValue('AcquireInProgress')
   acquireInProgress,
-  @_s.JsonValue('AcquireFailed')
   acquireFailed,
-  @_s.JsonValue('Unassigned')
   unassigned,
-  @_s.JsonValue('Assigned')
   assigned,
-  @_s.JsonValue('ReleaseInProgress')
   releaseInProgress,
-  @_s.JsonValue('DeleteInProgress')
   deleteInProgress,
-  @_s.JsonValue('ReleaseFailed')
   releaseFailed,
-  @_s.JsonValue('DeleteFailed')
   deleteFailed,
 }
 
@@ -13645,40 +15393,75 @@ extension on PhoneNumberStatus {
       case PhoneNumberStatus.deleteFailed:
         return 'DeleteFailed';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PhoneNumberStatus toPhoneNumberStatus() {
+    switch (this) {
+      case 'AcquireInProgress':
+        return PhoneNumberStatus.acquireInProgress;
+      case 'AcquireFailed':
+        return PhoneNumberStatus.acquireFailed;
+      case 'Unassigned':
+        return PhoneNumberStatus.unassigned;
+      case 'Assigned':
+        return PhoneNumberStatus.assigned;
+      case 'ReleaseInProgress':
+        return PhoneNumberStatus.releaseInProgress;
+      case 'DeleteInProgress':
+        return PhoneNumberStatus.deleteInProgress;
+      case 'ReleaseFailed':
+        return PhoneNumberStatus.releaseFailed;
+      case 'DeleteFailed':
+        return PhoneNumberStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum PhoneNumberStatus');
   }
 }
 
 enum PhoneNumberType {
-  @_s.JsonValue('Local')
   local,
-  @_s.JsonValue('TollFree')
   tollFree,
 }
 
+extension on PhoneNumberType {
+  String toValue() {
+    switch (this) {
+      case PhoneNumberType.local:
+        return 'Local';
+      case PhoneNumberType.tollFree:
+        return 'TollFree';
+    }
+  }
+}
+
+extension on String {
+  PhoneNumberType toPhoneNumberType() {
+    switch (this) {
+      case 'Local':
+        return PhoneNumberType.local;
+      case 'TollFree':
+        return PhoneNumberType.tollFree;
+    }
+    throw Exception('$this is not known in enum PhoneNumberType');
+  }
+}
+
 /// The proxy configuration for an Amazon Chime Voice Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Proxy {
   /// The default number of minutes allowed for proxy sessions.
-  @_s.JsonKey(name: 'DefaultSessionExpiryMinutes')
-  final int defaultSessionExpiryMinutes;
+  final int? defaultSessionExpiryMinutes;
 
   /// When true, stops proxy sessions from being created on the specified Amazon
   /// Chime Voice Connector.
-  @_s.JsonKey(name: 'Disabled')
-  final bool disabled;
+  final bool? disabled;
 
   /// The phone number to route calls to after a proxy session expires.
-  @_s.JsonKey(name: 'FallBackPhoneNumber')
-  final String fallBackPhoneNumber;
+  final String? fallBackPhoneNumber;
 
   /// The countries for proxy phone numbers to be selected from.
-  @_s.JsonKey(name: 'PhoneNumberCountries')
-  final List<String> phoneNumberCountries;
+  final List<String>? phoneNumberCountries;
 
   Proxy({
     this.defaultSessionExpiryMinutes,
@@ -13686,72 +15469,78 @@ class Proxy {
     this.fallBackPhoneNumber,
     this.phoneNumberCountries,
   });
-  factory Proxy.fromJson(Map<String, dynamic> json) => _$ProxyFromJson(json);
+
+  factory Proxy.fromJson(Map<String, dynamic> json) {
+    return Proxy(
+      defaultSessionExpiryMinutes: json['DefaultSessionExpiryMinutes'] as int?,
+      disabled: json['Disabled'] as bool?,
+      fallBackPhoneNumber: json['FallBackPhoneNumber'] as String?,
+      phoneNumberCountries: (json['PhoneNumberCountries'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultSessionExpiryMinutes = this.defaultSessionExpiryMinutes;
+    final disabled = this.disabled;
+    final fallBackPhoneNumber = this.fallBackPhoneNumber;
+    final phoneNumberCountries = this.phoneNumberCountries;
+    return {
+      if (defaultSessionExpiryMinutes != null)
+        'DefaultSessionExpiryMinutes': defaultSessionExpiryMinutes,
+      if (disabled != null) 'Disabled': disabled,
+      if (fallBackPhoneNumber != null)
+        'FallBackPhoneNumber': fallBackPhoneNumber,
+      if (phoneNumberCountries != null)
+        'PhoneNumberCountries': phoneNumberCountries,
+    };
+  }
 }
 
 /// The proxy session for an Amazon Chime Voice Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProxySession {
   /// The proxy session capabilities.
-  @_s.JsonKey(name: 'Capabilities')
-  final List<Capability> capabilities;
+  final List<Capability>? capabilities;
 
-  /// The created timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  /// The created time stamp, in ISO 8601 format.
+  final DateTime? createdTimestamp;
 
-  /// The ended timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'EndedTimestamp')
-  final DateTime endedTimestamp;
+  /// The ended time stamp, in ISO 8601 format.
+  final DateTime? endedTimestamp;
 
   /// The number of minutes allowed for the proxy session.
-  @_s.JsonKey(name: 'ExpiryMinutes')
-  final int expiryMinutes;
+  final int? expiryMinutes;
 
   /// The preference for matching the country or area code of the proxy phone
   /// number with that of the first participant.
-  @_s.JsonKey(name: 'GeoMatchLevel')
-  final GeoMatchLevel geoMatchLevel;
+  final GeoMatchLevel? geoMatchLevel;
 
   /// The country and area code for the proxy phone number.
-  @_s.JsonKey(name: 'GeoMatchParams')
-  final GeoMatchParams geoMatchParams;
+  final GeoMatchParams? geoMatchParams;
 
   /// The name of the proxy session.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The preference for proxy phone number reuse, or stickiness, between the same
   /// participants across sessions.
-  @_s.JsonKey(name: 'NumberSelectionBehavior')
-  final NumberSelectionBehavior numberSelectionBehavior;
+  final NumberSelectionBehavior? numberSelectionBehavior;
 
   /// The proxy session participants.
-  @_s.JsonKey(name: 'Participants')
-  final List<Participant> participants;
+  final List<Participant>? participants;
 
   /// The proxy session ID.
-  @_s.JsonKey(name: 'ProxySessionId')
-  final String proxySessionId;
+  final String? proxySessionId;
 
   /// The status of the proxy session.
-  @_s.JsonKey(name: 'Status')
-  final ProxySessionStatus status;
+  final ProxySessionStatus? status;
 
-  /// The updated timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  /// The updated time stamp, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
 
   /// The Amazon Chime voice connector ID.
-  @_s.JsonKey(name: 'VoiceConnectorId')
-  final String voiceConnectorId;
+  final String? voiceConnectorId;
 
   ProxySession({
     this.capabilities,
@@ -13768,16 +15557,75 @@ class ProxySession {
     this.updatedTimestamp,
     this.voiceConnectorId,
   });
-  factory ProxySession.fromJson(Map<String, dynamic> json) =>
-      _$ProxySessionFromJson(json);
+
+  factory ProxySession.fromJson(Map<String, dynamic> json) {
+    return ProxySession(
+      capabilities: (json['Capabilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCapability())
+          .toList(),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      endedTimestamp: timeStampFromJson(json['EndedTimestamp']),
+      expiryMinutes: json['ExpiryMinutes'] as int?,
+      geoMatchLevel: (json['GeoMatchLevel'] as String?)?.toGeoMatchLevel(),
+      geoMatchParams: json['GeoMatchParams'] != null
+          ? GeoMatchParams.fromJson(
+              json['GeoMatchParams'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      numberSelectionBehavior: (json['NumberSelectionBehavior'] as String?)
+          ?.toNumberSelectionBehavior(),
+      participants: (json['Participants'] as List?)
+          ?.whereNotNull()
+          .map((e) => Participant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      proxySessionId: json['ProxySessionId'] as String?,
+      status: (json['Status'] as String?)?.toProxySessionStatus(),
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceConnectorId: json['VoiceConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capabilities = this.capabilities;
+    final createdTimestamp = this.createdTimestamp;
+    final endedTimestamp = this.endedTimestamp;
+    final expiryMinutes = this.expiryMinutes;
+    final geoMatchLevel = this.geoMatchLevel;
+    final geoMatchParams = this.geoMatchParams;
+    final name = this.name;
+    final numberSelectionBehavior = this.numberSelectionBehavior;
+    final participants = this.participants;
+    final proxySessionId = this.proxySessionId;
+    final status = this.status;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceConnectorId = this.voiceConnectorId;
+    return {
+      if (capabilities != null)
+        'Capabilities': capabilities.map((e) => e.toValue()).toList(),
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (endedTimestamp != null)
+        'EndedTimestamp': iso8601ToJson(endedTimestamp),
+      if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
+      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.toValue(),
+      if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
+      if (name != null) 'Name': name,
+      if (numberSelectionBehavior != null)
+        'NumberSelectionBehavior': numberSelectionBehavior.toValue(),
+      if (participants != null) 'Participants': participants,
+      if (proxySessionId != null) 'ProxySessionId': proxySessionId,
+      if (status != null) 'Status': status.toValue(),
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
+    };
+  }
 }
 
 enum ProxySessionStatus {
-  @_s.JsonValue('Open')
   open,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Closed')
   closed,
 }
 
@@ -13791,382 +15639,556 @@ extension on ProxySessionStatus {
       case ProxySessionStatus.closed:
         return 'Closed';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ProxySessionStatus toProxySessionStatus() {
+    switch (this) {
+      case 'Open':
+        return ProxySessionStatus.open;
+      case 'InProgress':
+        return ProxySessionStatus.inProgress;
+      case 'Closed':
+        return ProxySessionStatus.closed;
+    }
+    throw Exception('$this is not known in enum ProxySessionStatus');
+  }
+}
+
 class PutAppInstanceRetentionSettingsResponse {
   /// The time in days to retain data. Data type: number.
-  @_s.JsonKey(name: 'AppInstanceRetentionSettings')
-  final AppInstanceRetentionSettings appInstanceRetentionSettings;
+  final AppInstanceRetentionSettings? appInstanceRetentionSettings;
 
   /// The time at which the API deletes data.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
-  final DateTime initiateDeletionTimestamp;
+  final DateTime? initiateDeletionTimestamp;
 
   PutAppInstanceRetentionSettingsResponse({
     this.appInstanceRetentionSettings,
     this.initiateDeletionTimestamp,
   });
+
   factory PutAppInstanceRetentionSettingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAppInstanceRetentionSettingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutAppInstanceRetentionSettingsResponse(
+      appInstanceRetentionSettings: json['AppInstanceRetentionSettings'] != null
+          ? AppInstanceRetentionSettings.fromJson(
+              json['AppInstanceRetentionSettings'] as Map<String, dynamic>)
+          : null,
+      initiateDeletionTimestamp:
+          timeStampFromJson(json['InitiateDeletionTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceRetentionSettings = this.appInstanceRetentionSettings;
+    final initiateDeletionTimestamp = this.initiateDeletionTimestamp;
+    return {
+      if (appInstanceRetentionSettings != null)
+        'AppInstanceRetentionSettings': appInstanceRetentionSettings,
+      if (initiateDeletionTimestamp != null)
+        'InitiateDeletionTimestamp':
+            unixTimestampToJson(initiateDeletionTimestamp),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAppInstanceStreamingConfigurationsResponse {
-  /// The streaming configurations of an app instance.
-  @_s.JsonKey(name: 'AppInstanceStreamingConfigurations')
-  final List<AppInstanceStreamingConfiguration>
+  /// The streaming configurations of an <code>AppInstance</code>.
+  final List<AppInstanceStreamingConfiguration>?
       appInstanceStreamingConfigurations;
 
   PutAppInstanceStreamingConfigurationsResponse({
     this.appInstanceStreamingConfigurations,
   });
+
   factory PutAppInstanceStreamingConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutAppInstanceStreamingConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutAppInstanceStreamingConfigurationsResponse(
+      appInstanceStreamingConfigurations:
+          (json['AppInstanceStreamingConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => AppInstanceStreamingConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceStreamingConfigurations =
+        this.appInstanceStreamingConfigurations;
+    return {
+      if (appInstanceStreamingConfigurations != null)
+        'AppInstanceStreamingConfigurations':
+            appInstanceStreamingConfigurations,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEventsConfigurationResponse {
-  @_s.JsonKey(name: 'EventsConfiguration')
-  final EventsConfiguration eventsConfiguration;
+  final EventsConfiguration? eventsConfiguration;
 
   PutEventsConfigurationResponse({
     this.eventsConfiguration,
   });
-  factory PutEventsConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutEventsConfigurationResponseFromJson(json);
+
+  factory PutEventsConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return PutEventsConfigurationResponse(
+      eventsConfiguration: json['EventsConfiguration'] != null
+          ? EventsConfiguration.fromJson(
+              json['EventsConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventsConfiguration = this.eventsConfiguration;
+    return {
+      if (eventsConfiguration != null)
+        'EventsConfiguration': eventsConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRetentionSettingsResponse {
   /// The timestamp representing the time at which the specified items are
   /// permanently deleted, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'InitiateDeletionTimestamp')
-  final DateTime initiateDeletionTimestamp;
+  final DateTime? initiateDeletionTimestamp;
 
   /// The retention settings.
-  @_s.JsonKey(name: 'RetentionSettings')
-  final RetentionSettings retentionSettings;
+  final RetentionSettings? retentionSettings;
 
   PutRetentionSettingsResponse({
     this.initiateDeletionTimestamp,
     this.retentionSettings,
   });
-  factory PutRetentionSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutRetentionSettingsResponseFromJson(json);
+
+  factory PutRetentionSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return PutRetentionSettingsResponse(
+      initiateDeletionTimestamp:
+          timeStampFromJson(json['InitiateDeletionTimestamp']),
+      retentionSettings: json['RetentionSettings'] != null
+          ? RetentionSettings.fromJson(
+              json['RetentionSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiateDeletionTimestamp = this.initiateDeletionTimestamp;
+    final retentionSettings = this.retentionSettings;
+    return {
+      if (initiateDeletionTimestamp != null)
+        'InitiateDeletionTimestamp': iso8601ToJson(initiateDeletionTimestamp),
+      if (retentionSettings != null) 'RetentionSettings': retentionSettings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSipMediaApplicationLoggingConfigurationResponse {
-  /// The actual logging configuration.
-  @_s.JsonKey(name: 'SipMediaApplicationLoggingConfiguration')
-  final SipMediaApplicationLoggingConfiguration
+  final SipMediaApplicationLoggingConfiguration?
       sipMediaApplicationLoggingConfiguration;
 
   PutSipMediaApplicationLoggingConfigurationResponse({
     this.sipMediaApplicationLoggingConfiguration,
   });
+
   factory PutSipMediaApplicationLoggingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutSipMediaApplicationLoggingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutSipMediaApplicationLoggingConfigurationResponse(
+      sipMediaApplicationLoggingConfiguration:
+          json['SipMediaApplicationLoggingConfiguration'] != null
+              ? SipMediaApplicationLoggingConfiguration.fromJson(
+                  json['SipMediaApplicationLoggingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplicationLoggingConfiguration =
+        this.sipMediaApplicationLoggingConfiguration;
+    return {
+      if (sipMediaApplicationLoggingConfiguration != null)
+        'SipMediaApplicationLoggingConfiguration':
+            sipMediaApplicationLoggingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutVoiceConnectorEmergencyCallingConfigurationResponse {
   /// The emergency calling configuration details.
-  @_s.JsonKey(name: 'EmergencyCallingConfiguration')
-  final EmergencyCallingConfiguration emergencyCallingConfiguration;
+  final EmergencyCallingConfiguration? emergencyCallingConfiguration;
 
   PutVoiceConnectorEmergencyCallingConfigurationResponse({
     this.emergencyCallingConfiguration,
   });
+
   factory PutVoiceConnectorEmergencyCallingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutVoiceConnectorEmergencyCallingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutVoiceConnectorEmergencyCallingConfigurationResponse(
+      emergencyCallingConfiguration:
+          json['EmergencyCallingConfiguration'] != null
+              ? EmergencyCallingConfiguration.fromJson(
+                  json['EmergencyCallingConfiguration'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emergencyCallingConfiguration = this.emergencyCallingConfiguration;
+    return {
+      if (emergencyCallingConfiguration != null)
+        'EmergencyCallingConfiguration': emergencyCallingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutVoiceConnectorLoggingConfigurationResponse {
   /// The updated logging configuration details.
-  @_s.JsonKey(name: 'LoggingConfiguration')
-  final LoggingConfiguration loggingConfiguration;
+  final LoggingConfiguration? loggingConfiguration;
 
   PutVoiceConnectorLoggingConfigurationResponse({
     this.loggingConfiguration,
   });
+
   factory PutVoiceConnectorLoggingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutVoiceConnectorLoggingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutVoiceConnectorLoggingConfigurationResponse(
+      loggingConfiguration: json['LoggingConfiguration'] != null
+          ? LoggingConfiguration.fromJson(
+              json['LoggingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingConfiguration = this.loggingConfiguration;
+    return {
+      if (loggingConfiguration != null)
+        'LoggingConfiguration': loggingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutVoiceConnectorOriginationResponse {
   /// The updated origination setting details.
-  @_s.JsonKey(name: 'Origination')
-  final Origination origination;
+  final Origination? origination;
 
   PutVoiceConnectorOriginationResponse({
     this.origination,
   });
+
   factory PutVoiceConnectorOriginationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutVoiceConnectorOriginationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutVoiceConnectorOriginationResponse(
+      origination: json['Origination'] != null
+          ? Origination.fromJson(json['Origination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final origination = this.origination;
+    return {
+      if (origination != null) 'Origination': origination,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutVoiceConnectorProxyResponse {
   /// The proxy configuration details.
-  @_s.JsonKey(name: 'Proxy')
-  final Proxy proxy;
+  final Proxy? proxy;
 
   PutVoiceConnectorProxyResponse({
     this.proxy,
   });
-  factory PutVoiceConnectorProxyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutVoiceConnectorProxyResponseFromJson(json);
+
+  factory PutVoiceConnectorProxyResponse.fromJson(Map<String, dynamic> json) {
+    return PutVoiceConnectorProxyResponse(
+      proxy: json['Proxy'] != null
+          ? Proxy.fromJson(json['Proxy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proxy = this.proxy;
+    return {
+      if (proxy != null) 'Proxy': proxy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutVoiceConnectorStreamingConfigurationResponse {
   /// The updated streaming configuration details.
-  @_s.JsonKey(name: 'StreamingConfiguration')
-  final StreamingConfiguration streamingConfiguration;
+  final StreamingConfiguration? streamingConfiguration;
 
   PutVoiceConnectorStreamingConfigurationResponse({
     this.streamingConfiguration,
   });
+
   factory PutVoiceConnectorStreamingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutVoiceConnectorStreamingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutVoiceConnectorStreamingConfigurationResponse(
+      streamingConfiguration: json['StreamingConfiguration'] != null
+          ? StreamingConfiguration.fromJson(
+              json['StreamingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamingConfiguration = this.streamingConfiguration;
+    return {
+      if (streamingConfiguration != null)
+        'StreamingConfiguration': streamingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutVoiceConnectorTerminationResponse {
   /// The updated termination setting details.
-  @_s.JsonKey(name: 'Termination')
-  final Termination termination;
+  final Termination? termination;
 
   PutVoiceConnectorTerminationResponse({
     this.termination,
   });
+
   factory PutVoiceConnectorTerminationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutVoiceConnectorTerminationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutVoiceConnectorTerminationResponse(
+      termination: json['Termination'] != null
+          ? Termination.fromJson(json['Termination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final termination = this.termination;
+    return {
+      if (termination != null) 'Termination': termination,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RedactChannelMessageResponse {
   /// The ARN of the channel containing the messages that you want to redact.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The ID of the message being redacted.
-  @_s.JsonKey(name: 'MessageId')
-  final String messageId;
+  final String? messageId;
 
   RedactChannelMessageResponse({
     this.channelArn,
     this.messageId,
   });
-  factory RedactChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$RedactChannelMessageResponseFromJson(json);
+
+  factory RedactChannelMessageResponse.fromJson(Map<String, dynamic> json) {
+    return RedactChannelMessageResponse(
+      channelArn: json['ChannelArn'] as String?,
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final messageId = this.messageId;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (messageId != null) 'MessageId': messageId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RedactConversationMessageResponse {
   RedactConversationMessageResponse();
-  factory RedactConversationMessageResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RedactConversationMessageResponseFromJson(json);
+
+  factory RedactConversationMessageResponse.fromJson(Map<String, dynamic> _) {
+    return RedactConversationMessageResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RedactRoomMessageResponse {
   RedactRoomMessageResponse();
-  factory RedactRoomMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$RedactRoomMessageResponseFromJson(json);
+
+  factory RedactRoomMessageResponse.fromJson(Map<String, dynamic> _) {
+    return RedactRoomMessageResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegenerateSecurityTokenResponse {
-  @_s.JsonKey(name: 'Bot')
-  final Bot bot;
+  final Bot? bot;
 
   RegenerateSecurityTokenResponse({
     this.bot,
   });
-  factory RegenerateSecurityTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegenerateSecurityTokenResponseFromJson(json);
+
+  factory RegenerateSecurityTokenResponse.fromJson(Map<String, dynamic> json) {
+    return RegenerateSecurityTokenResponse(
+      bot: json['Bot'] != null
+          ? Bot.fromJson(json['Bot'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bot = this.bot;
+    return {
+      if (bot != null) 'Bot': bot,
+    };
+  }
 }
 
 enum RegistrationStatus {
-  @_s.JsonValue('Unregistered')
   unregistered,
-  @_s.JsonValue('Registered')
   registered,
-  @_s.JsonValue('Suspended')
   suspended,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RegistrationStatus {
+  String toValue() {
+    switch (this) {
+      case RegistrationStatus.unregistered:
+        return 'Unregistered';
+      case RegistrationStatus.registered:
+        return 'Registered';
+      case RegistrationStatus.suspended:
+        return 'Suspended';
+    }
+  }
+}
+
+extension on String {
+  RegistrationStatus toRegistrationStatus() {
+    switch (this) {
+      case 'Unregistered':
+        return RegistrationStatus.unregistered;
+      case 'Registered':
+        return RegistrationStatus.registered;
+      case 'Suspended':
+        return RegistrationStatus.suspended;
+    }
+    throw Exception('$this is not known in enum RegistrationStatus');
+  }
+}
+
 class ResetPersonalPINResponse {
   /// The user details and new personal meeting PIN.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   ResetPersonalPINResponse({
     this.user,
   });
-  factory ResetPersonalPINResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResetPersonalPINResponseFromJson(json);
+
+  factory ResetPersonalPINResponse.fromJson(Map<String, dynamic> json) {
+    return ResetPersonalPINResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestorePhoneNumberResponse {
   /// The phone number details.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final PhoneNumber phoneNumber;
+  final PhoneNumber? phoneNumber;
 
   RestorePhoneNumberResponse({
     this.phoneNumber,
   });
-  factory RestorePhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
-      _$RestorePhoneNumberResponseFromJson(json);
+
+  factory RestorePhoneNumberResponse.fromJson(Map<String, dynamic> json) {
+    return RestorePhoneNumberResponse(
+      phoneNumber: json['PhoneNumber'] != null
+          ? PhoneNumber.fromJson(json['PhoneNumber'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    return {
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
 }
 
 /// The retention settings for an Amazon Chime Enterprise account that determine
-/// how long to retain items such as chat room messages and chat conversation
+/// how long to retain items such as chat-room messages and chat-conversation
 /// messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RetentionSettings {
   /// The chat conversation retention settings.
-  @_s.JsonKey(name: 'ConversationRetentionSettings')
-  final ConversationRetentionSettings conversationRetentionSettings;
+  final ConversationRetentionSettings? conversationRetentionSettings;
 
   /// The chat room retention settings.
-  @_s.JsonKey(name: 'RoomRetentionSettings')
-  final RoomRetentionSettings roomRetentionSettings;
+  final RoomRetentionSettings? roomRetentionSettings;
 
   RetentionSettings({
     this.conversationRetentionSettings,
     this.roomRetentionSettings,
   });
-  factory RetentionSettings.fromJson(Map<String, dynamic> json) =>
-      _$RetentionSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RetentionSettingsToJson(this);
+  factory RetentionSettings.fromJson(Map<String, dynamic> json) {
+    return RetentionSettings(
+      conversationRetentionSettings:
+          json['ConversationRetentionSettings'] != null
+              ? ConversationRetentionSettings.fromJson(
+                  json['ConversationRetentionSettings'] as Map<String, dynamic>)
+              : null,
+      roomRetentionSettings: json['RoomRetentionSettings'] != null
+          ? RoomRetentionSettings.fromJson(
+              json['RoomRetentionSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conversationRetentionSettings = this.conversationRetentionSettings;
+    final roomRetentionSettings = this.roomRetentionSettings;
+    return {
+      if (conversationRetentionSettings != null)
+        'ConversationRetentionSettings': conversationRetentionSettings,
+      if (roomRetentionSettings != null)
+        'RoomRetentionSettings': roomRetentionSettings,
+    };
+  }
 }
 
 /// The Amazon Chime chat room details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Room {
   /// The Amazon Chime account ID.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The identifier of the room creator.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The room creation timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The room name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The room ID.
-  @_s.JsonKey(name: 'RoomId')
-  final String roomId;
+  final String? roomId;
 
   /// The room update timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  final DateTime? updatedTimestamp;
 
   Room({
     this.accountId,
@@ -14176,34 +16198,52 @@ class Room {
     this.roomId,
     this.updatedTimestamp,
   });
-  factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
+
+  factory Room.fromJson(Map<String, dynamic> json) {
+    return Room(
+      accountId: json['AccountId'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      name: json['Name'] as String?,
+      roomId: json['RoomId'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final name = this.name;
+    final roomId = this.roomId;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (name != null) 'Name': name,
+      if (roomId != null) 'RoomId': roomId,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
 }
 
 /// The room membership details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoomMembership {
   /// The identifier of the user that invited the room member.
-  @_s.JsonKey(name: 'InvitedBy')
-  final String invitedBy;
-  @_s.JsonKey(name: 'Member')
-  final Member member;
+  final String? invitedBy;
+  final Member? member;
 
   /// The membership role.
-  @_s.JsonKey(name: 'Role')
-  final RoomMembershipRole role;
+  final RoomMembershipRole? role;
 
   /// The room ID.
-  @_s.JsonKey(name: 'RoomId')
-  final String roomId;
+  final String? roomId;
 
   /// The room membership update timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  final DateTime? updatedTimestamp;
 
   RoomMembership({
     this.invitedBy,
@@ -14212,14 +16252,38 @@ class RoomMembership {
     this.roomId,
     this.updatedTimestamp,
   });
-  factory RoomMembership.fromJson(Map<String, dynamic> json) =>
-      _$RoomMembershipFromJson(json);
+
+  factory RoomMembership.fromJson(Map<String, dynamic> json) {
+    return RoomMembership(
+      invitedBy: json['InvitedBy'] as String?,
+      member: json['Member'] != null
+          ? Member.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+      role: (json['Role'] as String?)?.toRoomMembershipRole(),
+      roomId: json['RoomId'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invitedBy = this.invitedBy;
+    final member = this.member;
+    final role = this.role;
+    final roomId = this.roomId;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (invitedBy != null) 'InvitedBy': invitedBy,
+      if (member != null) 'Member': member,
+      if (role != null) 'Role': role.toValue(),
+      if (roomId != null) 'RoomId': roomId,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
 }
 
 enum RoomMembershipRole {
-  @_s.JsonValue('Administrator')
   administrator,
-  @_s.JsonValue('Member')
   member,
 }
 
@@ -14231,126 +16295,152 @@ extension on RoomMembershipRole {
       case RoomMembershipRole.member:
         return 'Member';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// The retention settings that determine how long to retain chat room messages
+extension on String {
+  RoomMembershipRole toRoomMembershipRole() {
+    switch (this) {
+      case 'Administrator':
+        return RoomMembershipRole.administrator;
+      case 'Member':
+        return RoomMembershipRole.member;
+    }
+    throw Exception('$this is not known in enum RoomMembershipRole');
+  }
+}
+
+/// The retention settings that determine how long to retain chat-room messages
 /// for an Amazon Chime Enterprise account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RoomRetentionSettings {
-  /// The number of days for which to retain chat room messages.
-  @_s.JsonKey(name: 'RetentionDays')
-  final int retentionDays;
+  /// The number of days for which to retain chat-room messages.
+  final int? retentionDays;
 
   RoomRetentionSettings({
     this.retentionDays,
   });
-  factory RoomRetentionSettings.fromJson(Map<String, dynamic> json) =>
-      _$RoomRetentionSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RoomRetentionSettingsToJson(this);
+  factory RoomRetentionSettings.fromJson(Map<String, dynamic> json) {
+    return RoomRetentionSettings(
+      retentionDays: json['RetentionDays'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retentionDays = this.retentionDays;
+    return {
+      if (retentionDays != null) 'RetentionDays': retentionDays,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchAvailablePhoneNumbersResponse {
   /// List of phone numbers, in E.164 format.
-  @_s.JsonKey(name: 'E164PhoneNumbers')
-  final List<String> e164PhoneNumbers;
+  final List<String>? e164PhoneNumbers;
+
+  /// The token used to retrieve the next page of search results.
+  final String? nextToken;
 
   SearchAvailablePhoneNumbersResponse({
     this.e164PhoneNumbers,
+    this.nextToken,
   });
+
   factory SearchAvailablePhoneNumbersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$SearchAvailablePhoneNumbersResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return SearchAvailablePhoneNumbersResponse(
+      e164PhoneNumbers: (json['E164PhoneNumbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final e164PhoneNumbers = this.e164PhoneNumbers;
+    final nextToken = this.nextToken;
+    return {
+      if (e164PhoneNumbers != null) 'E164PhoneNumbers': e164PhoneNumbers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendChannelMessageResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The ID string assigned to each message.
-  @_s.JsonKey(name: 'MessageId')
-  final String messageId;
+  final String? messageId;
 
   SendChannelMessageResponse({
     this.channelArn,
     this.messageId,
   });
-  factory SendChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendChannelMessageResponseFromJson(json);
+
+  factory SendChannelMessageResponse.fromJson(Map<String, dynamic> json) {
+    return SendChannelMessageResponse(
+      channelArn: json['ChannelArn'] as String?,
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final messageId = this.messageId;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (messageId != null) 'MessageId': messageId,
+    };
+  }
 }
 
 /// An Active Directory (AD) group whose members are granted permission to act
 /// as delegates.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SigninDelegateGroup {
   /// The group name.
-  @_s.JsonKey(name: 'GroupName')
-  final String groupName;
+  final String? groupName;
 
   SigninDelegateGroup({
     this.groupName,
   });
-  factory SigninDelegateGroup.fromJson(Map<String, dynamic> json) =>
-      _$SigninDelegateGroupFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SigninDelegateGroupToJson(this);
+  factory SigninDelegateGroup.fromJson(Map<String, dynamic> json) {
+    return SigninDelegateGroup(
+      groupName: json['GroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupName = this.groupName;
+    return {
+      if (groupName != null) 'GroupName': groupName,
+    };
+  }
 }
 
-/// The SIP media application details, including name and endpoints. An AWS
-/// account can have multiple SIP media applications.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The details of the SIP media application, including name and endpoints. An
+/// AWS account can have multiple SIP media applications.
 class SipMediaApplication {
   /// The AWS Region in which the SIP media application is created.
-  @_s.JsonKey(name: 'AwsRegion')
-  final String awsRegion;
+  final String? awsRegion;
 
   /// The SIP media application creation timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// List of endpoints for SIP media application. Currently, only one endpoint
   /// per SIP media application is permitted.
-  @_s.JsonKey(name: 'Endpoints')
-  final List<SipMediaApplicationEndpoint> endpoints;
+  final List<SipMediaApplicationEndpoint>? endpoints;
 
   /// The name of the SIP media application.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The SIP media application ID.
-  @_s.JsonKey(name: 'SipMediaApplicationId')
-  final String sipMediaApplicationId;
+  final String? sipMediaApplicationId;
 
   /// The SIP media application updated timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  final DateTime? updatedTimestamp;
 
   SipMediaApplication({
     this.awsRegion,
@@ -14360,106 +16450,142 @@ class SipMediaApplication {
     this.sipMediaApplicationId,
     this.updatedTimestamp,
   });
-  factory SipMediaApplication.fromJson(Map<String, dynamic> json) =>
-      _$SipMediaApplicationFromJson(json);
+
+  factory SipMediaApplication.fromJson(Map<String, dynamic> json) {
+    return SipMediaApplication(
+      awsRegion: json['AwsRegion'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      endpoints: (json['Endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SipMediaApplicationEndpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String?,
+      sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final createdTimestamp = this.createdTimestamp;
+    final endpoints = this.endpoints;
+    final name = this.name;
+    final sipMediaApplicationId = this.sipMediaApplicationId;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (name != null) 'Name': name,
+      if (sipMediaApplicationId != null)
+        'SipMediaApplicationId': sipMediaApplicationId,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
 }
 
 /// A <code>Call</code> instance for a SIP media application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SipMediaApplicationCall {
   /// The transaction ID of a call.
-  @_s.JsonKey(name: 'TransactionId')
-  final String transactionId;
+  final String? transactionId;
 
   SipMediaApplicationCall({
     this.transactionId,
   });
-  factory SipMediaApplicationCall.fromJson(Map<String, dynamic> json) =>
-      _$SipMediaApplicationCallFromJson(json);
+
+  factory SipMediaApplicationCall.fromJson(Map<String, dynamic> json) {
+    return SipMediaApplicationCall(
+      transactionId: json['TransactionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transactionId = this.transactionId;
+    return {
+      if (transactionId != null) 'TransactionId': transactionId,
+    };
+  }
 }
 
-/// Endpoints to specify as part of a SIP media application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// The endpoint assigned to the SIP media application.
 class SipMediaApplicationEndpoint {
-  /// Valid Amazon Resource Name (ARN) of the Lambda function of the same AWS
-  /// Region where the SIP media application is created.
-  @_s.JsonKey(name: 'LambdaArn')
-  final String lambdaArn;
+  /// Valid Amazon Resource Name (ARN) of the Lambda function. The function must
+  /// be created in the same AWS Region as the SIP media application.
+  final String? lambdaArn;
 
   SipMediaApplicationEndpoint({
     this.lambdaArn,
   });
-  factory SipMediaApplicationEndpoint.fromJson(Map<String, dynamic> json) =>
-      _$SipMediaApplicationEndpointFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SipMediaApplicationEndpointToJson(this);
+  factory SipMediaApplicationEndpoint.fromJson(Map<String, dynamic> json) {
+    return SipMediaApplicationEndpoint(
+      lambdaArn: json['LambdaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaArn = this.lambdaArn;
+    return {
+      if (lambdaArn != null) 'LambdaArn': lambdaArn,
+    };
+  }
 }
 
 /// Logging configuration of the SIP media application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SipMediaApplicationLoggingConfiguration {
   /// Enables application message logs for the SIP media application.
-  @_s.JsonKey(name: 'EnableSipMediaApplicationMessageLogs')
-  final bool enableSipMediaApplicationMessageLogs;
+  final bool? enableSipMediaApplicationMessageLogs;
 
   SipMediaApplicationLoggingConfiguration({
     this.enableSipMediaApplicationMessageLogs,
   });
-  factory SipMediaApplicationLoggingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SipMediaApplicationLoggingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$SipMediaApplicationLoggingConfigurationToJson(this);
+  factory SipMediaApplicationLoggingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SipMediaApplicationLoggingConfiguration(
+      enableSipMediaApplicationMessageLogs:
+          json['EnableSipMediaApplicationMessageLogs'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableSipMediaApplicationMessageLogs =
+        this.enableSipMediaApplicationMessageLogs;
+    return {
+      if (enableSipMediaApplicationMessageLogs != null)
+        'EnableSipMediaApplicationMessageLogs':
+            enableSipMediaApplicationMessageLogs,
+    };
+  }
 }
 
 /// The SIP rule details, including name, triggers, and target applications. An
 /// AWS account can have multiple SIP rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SipRule {
-  /// The SIP rule created timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  /// The time at which the SIP rule was created, in ISO 8601 format.
+  final DateTime? createdTimestamp;
 
-  /// Indicates if the SIP rule is enabled or disabled. You must disable a rule
-  /// before you can delete it.
-  @_s.JsonKey(name: 'Disabled')
-  final bool disabled;
+  /// Indicates whether the SIP rule is enabled or disabled. You must disable a
+  /// rule before you can delete it.
+  final bool? disabled;
 
   /// The name of the SIP rule.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The SIP rule ID.
-  @_s.JsonKey(name: 'SipRuleId')
-  final String sipRuleId;
+  final String? sipRuleId;
 
-  /// List of SIP media applications with priority and AWS Region. You can only
-  /// use one SIP application per AWS Region and priority combination.
-  @_s.JsonKey(name: 'TargetApplications')
-  final List<SipRuleTargetApplication> targetApplications;
+  /// Target SIP media application and other details, such as priority and AWS
+  /// Region, to be specified in the SIP rule. Only one SIP rule per AWS Region
+  /// can be provided.
+  final List<SipRuleTargetApplication>? targetApplications;
 
-  /// The type of trigger whose value is assigned to the SIP rule in
-  /// <code>TriggerValue</code>.
-  @_s.JsonKey(name: 'TriggerType')
-  final SipRuleTriggerType triggerType;
+  /// The type of trigger assigned to the SIP rule in <code>TriggerValue</code>,
+  /// currently <code>RequestUriHostname</code> or <code>ToPhoneNumber</code>.
+  final SipRuleTriggerType? triggerType;
 
   /// If <code>TriggerType</code> is <code>RequestUriHostname</code>, then the
   /// value can be the outbound host name of the Amazon Chime Voice Connector. If
@@ -14467,13 +16593,10 @@ class SipRule {
   /// be a customer-owned phone number in E164 format. <code>SipRule</code> is
   /// triggered when a SIP rule requests host name or <code>ToPhoneNumber</code>
   /// matches in the incoming SIP request.
-  @_s.JsonKey(name: 'TriggerValue')
-  final String triggerValue;
+  final String? triggerValue;
 
-  /// The SIP rule updated timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  /// The time at which the SIP rule was last updated, in ISO 8601 format.
+  final DateTime? updatedTimestamp;
 
   SipRule({
     this.createdTimestamp,
@@ -14485,46 +16608,90 @@ class SipRule {
     this.triggerValue,
     this.updatedTimestamp,
   });
-  factory SipRule.fromJson(Map<String, dynamic> json) =>
-      _$SipRuleFromJson(json);
+
+  factory SipRule.fromJson(Map<String, dynamic> json) {
+    return SipRule(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      disabled: json['Disabled'] as bool?,
+      name: json['Name'] as String?,
+      sipRuleId: json['SipRuleId'] as String?,
+      targetApplications: (json['TargetApplications'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      triggerType: (json['TriggerType'] as String?)?.toSipRuleTriggerType(),
+      triggerValue: json['TriggerValue'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final disabled = this.disabled;
+    final name = this.name;
+    final sipRuleId = this.sipRuleId;
+    final targetApplications = this.targetApplications;
+    final triggerType = this.triggerType;
+    final triggerValue = this.triggerValue;
+    final updatedTimestamp = this.updatedTimestamp;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (disabled != null) 'Disabled': disabled,
+      if (name != null) 'Name': name,
+      if (sipRuleId != null) 'SipRuleId': sipRuleId,
+      if (targetApplications != null) 'TargetApplications': targetApplications,
+      if (triggerType != null) 'TriggerType': triggerType.toValue(),
+      if (triggerValue != null) 'TriggerValue': triggerValue,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+    };
+  }
 }
 
-/// Target SIP media application along with other details like priority and AWS
-/// Region to be specified in the SIP rule. Only one SIP rule per AWS Region can
-/// be provided.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// Target SIP media application and other details, such as priority and AWS
+/// Region, to be specified in the SIP rule. Only one SIP rule per AWS Region
+/// can be provided.
 class SipRuleTargetApplication {
-  /// AWS Region of target application.
-  @_s.JsonKey(name: 'AwsRegion')
-  final String awsRegion;
+  /// The AWS Region of the target application.
+  final String? awsRegion;
 
   /// Priority of the SIP media application in the target list.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The SIP media application ID.
-  @_s.JsonKey(name: 'SipMediaApplicationId')
-  final String sipMediaApplicationId;
+  final String? sipMediaApplicationId;
 
   SipRuleTargetApplication({
     this.awsRegion,
     this.priority,
     this.sipMediaApplicationId,
   });
-  factory SipRuleTargetApplication.fromJson(Map<String, dynamic> json) =>
-      _$SipRuleTargetApplicationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SipRuleTargetApplicationToJson(this);
+  factory SipRuleTargetApplication.fromJson(Map<String, dynamic> json) {
+    return SipRuleTargetApplication(
+      awsRegion: json['AwsRegion'] as String?,
+      priority: json['Priority'] as int?,
+      sipMediaApplicationId: json['SipMediaApplicationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final priority = this.priority;
+    final sipMediaApplicationId = this.sipMediaApplicationId;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (priority != null) 'Priority': priority,
+      if (sipMediaApplicationId != null)
+        'SipMediaApplicationId': sipMediaApplicationId,
+    };
+  }
 }
 
 enum SipRuleTriggerType {
-  @_s.JsonValue('ToPhoneNumber')
   toPhoneNumber,
-  @_s.JsonValue('RequestUriHostname')
   requestUriHostname,
 }
 
@@ -14536,14 +16703,23 @@ extension on SipRuleTriggerType {
       case SipRuleTriggerType.requestUriHostname:
         return 'RequestUriHostname';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SipRuleTriggerType toSipRuleTriggerType() {
+    switch (this) {
+      case 'ToPhoneNumber':
+        return SipRuleTriggerType.toPhoneNumber;
+      case 'RequestUriHostname':
+        return SipRuleTriggerType.requestUriHostname;
+    }
+    throw Exception('$this is not known in enum SipRuleTriggerType');
   }
 }
 
 enum SortOrder {
-  @_s.JsonValue('ASCENDING')
   ascending,
-  @_s.JsonValue('DESCENDING')
   descending,
 }
 
@@ -14555,146 +16731,177 @@ extension on SortOrder {
       case SortOrder.descending:
         return 'DESCENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
   }
 }
 
 /// The streaming configuration associated with an Amazon Chime Voice Connector.
 /// Specifies whether media streaming is enabled for sending to Amazon Kinesis,
 /// and shows the retention period for the Amazon Kinesis data, in hours.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamingConfiguration {
   /// The retention period, in hours, for the Amazon Kinesis data.
-  @_s.JsonKey(name: 'DataRetentionInHours')
   final int dataRetentionInHours;
 
   /// When true, media streaming to Amazon Kinesis is turned off.
-  @_s.JsonKey(name: 'Disabled')
-  final bool disabled;
+  final bool? disabled;
 
   /// The streaming notification targets.
-  @_s.JsonKey(name: 'StreamingNotificationTargets')
-  final List<StreamingNotificationTarget> streamingNotificationTargets;
+  final List<StreamingNotificationTarget>? streamingNotificationTargets;
 
   StreamingConfiguration({
-    @_s.required this.dataRetentionInHours,
+    required this.dataRetentionInHours,
     this.disabled,
     this.streamingNotificationTargets,
   });
-  factory StreamingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$StreamingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StreamingConfigurationToJson(this);
+  factory StreamingConfiguration.fromJson(Map<String, dynamic> json) {
+    return StreamingConfiguration(
+      dataRetentionInHours: json['DataRetentionInHours'] as int,
+      disabled: json['Disabled'] as bool?,
+      streamingNotificationTargets: (json['StreamingNotificationTargets']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              StreamingNotificationTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataRetentionInHours = this.dataRetentionInHours;
+    final disabled = this.disabled;
+    final streamingNotificationTargets = this.streamingNotificationTargets;
+    return {
+      'DataRetentionInHours': dataRetentionInHours,
+      if (disabled != null) 'Disabled': disabled,
+      if (streamingNotificationTargets != null)
+        'StreamingNotificationTargets': streamingNotificationTargets,
+    };
+  }
 }
 
 /// The targeted recipient for a streaming configuration notification.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamingNotificationTarget {
   /// The streaming notification target.
-  @_s.JsonKey(name: 'NotificationTarget')
   final NotificationTarget notificationTarget;
 
   StreamingNotificationTarget({
-    @_s.required this.notificationTarget,
+    required this.notificationTarget,
   });
-  factory StreamingNotificationTarget.fromJson(Map<String, dynamic> json) =>
-      _$StreamingNotificationTargetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StreamingNotificationTargetToJson(this);
+  factory StreamingNotificationTarget.fromJson(Map<String, dynamic> json) {
+    return StreamingNotificationTarget(
+      notificationTarget:
+          (json['NotificationTarget'] as String).toNotificationTarget(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notificationTarget = this.notificationTarget;
+    return {
+      'NotificationTarget': notificationTarget.toValue(),
+    };
+  }
 }
 
 /// Describes a tag applied to a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// Settings that allow management of telephony permissions for an Amazon Chime
 /// user, such as inbound and outbound calling and text messaging.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TelephonySettings {
   /// Allows or denies inbound calling.
-  @_s.JsonKey(name: 'InboundCalling')
   final bool inboundCalling;
 
   /// Allows or denies outbound calling.
-  @_s.JsonKey(name: 'OutboundCalling')
   final bool outboundCalling;
 
   /// Allows or denies SMS messaging.
-  @_s.JsonKey(name: 'SMS')
   final bool sms;
 
   TelephonySettings({
-    @_s.required this.inboundCalling,
-    @_s.required this.outboundCalling,
-    @_s.required this.sms,
+    required this.inboundCalling,
+    required this.outboundCalling,
+    required this.sms,
   });
-  factory TelephonySettings.fromJson(Map<String, dynamic> json) =>
-      _$TelephonySettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TelephonySettingsToJson(this);
+  factory TelephonySettings.fromJson(Map<String, dynamic> json) {
+    return TelephonySettings(
+      inboundCalling: json['InboundCalling'] as bool,
+      outboundCalling: json['OutboundCalling'] as bool,
+      sms: json['SMS'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inboundCalling = this.inboundCalling;
+    final outboundCalling = this.outboundCalling;
+    final sms = this.sms;
+    return {
+      'InboundCalling': inboundCalling,
+      'OutboundCalling': outboundCalling,
+      'SMS': sms,
+    };
+  }
 }
 
 /// Termination settings enable your SIP hosts to make outbound calls using your
 /// Amazon Chime Voice Connector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Termination {
   /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format.
   /// Required.
-  @_s.JsonKey(name: 'CallingRegions')
-  final List<String> callingRegions;
+  final List<String>? callingRegions;
 
   /// The IP addresses allowed to make calls, in CIDR format. Required.
-  @_s.JsonKey(name: 'CidrAllowedList')
-  final List<String> cidrAllowedList;
+  final List<String>? cidrAllowedList;
 
   /// The limit on calls per second. Max value based on account service quota.
   /// Default value of 1.
-  @_s.JsonKey(name: 'CpsLimit')
-  final int cpsLimit;
+  final int? cpsLimit;
 
   /// The default caller ID phone number.
-  @_s.JsonKey(name: 'DefaultPhoneNumber')
-  final String defaultPhoneNumber;
+  final String? defaultPhoneNumber;
 
   /// When termination settings are disabled, outbound calls can not be made.
-  @_s.JsonKey(name: 'Disabled')
-  final bool disabled;
+  final bool? disabled;
 
   Termination({
     this.callingRegions,
@@ -14703,452 +16910,629 @@ class Termination {
     this.defaultPhoneNumber,
     this.disabled,
   });
-  factory Termination.fromJson(Map<String, dynamic> json) =>
-      _$TerminationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TerminationToJson(this);
+  factory Termination.fromJson(Map<String, dynamic> json) {
+    return Termination(
+      callingRegions: (json['CallingRegions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cidrAllowedList: (json['CidrAllowedList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cpsLimit: json['CpsLimit'] as int?,
+      defaultPhoneNumber: json['DefaultPhoneNumber'] as String?,
+      disabled: json['Disabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callingRegions = this.callingRegions;
+    final cidrAllowedList = this.cidrAllowedList;
+    final cpsLimit = this.cpsLimit;
+    final defaultPhoneNumber = this.defaultPhoneNumber;
+    final disabled = this.disabled;
+    return {
+      if (callingRegions != null) 'CallingRegions': callingRegions,
+      if (cidrAllowedList != null) 'CidrAllowedList': cidrAllowedList,
+      if (cpsLimit != null) 'CpsLimit': cpsLimit,
+      if (defaultPhoneNumber != null) 'DefaultPhoneNumber': defaultPhoneNumber,
+      if (disabled != null) 'Disabled': disabled,
+    };
+  }
 }
 
 /// The termination health details, including the source IP address and
 /// timestamp of the last successful SIP <code>OPTIONS</code> message from your
 /// SIP infrastructure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminationHealth {
   /// The source IP address.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   /// The timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   TerminationHealth({
     this.source,
     this.timestamp,
   });
-  factory TerminationHealth.fromJson(Map<String, dynamic> json) =>
-      _$TerminationHealthFromJson(json);
+
+  factory TerminationHealth.fromJson(Map<String, dynamic> json) {
+    return TerminationHealth(
+      source: json['Source'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final timestamp = this.timestamp;
+    return {
+      if (source != null) 'Source': source,
+      if (timestamp != null) 'Timestamp': iso8601ToJson(timestamp),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAccountResponse {
-  @_s.JsonKey(name: 'Account')
-  final Account account;
+  /// The updated Amazon Chime account details.
+  final Account? account;
 
   UpdateAccountResponse({
     this.account,
   });
-  factory UpdateAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAccountResponseFromJson(json);
+
+  factory UpdateAccountResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAccountResponse(
+      account: json['Account'] != null
+          ? Account.fromJson(json['Account'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    return {
+      if (account != null) 'Account': account,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAccountSettingsResponse {
   UpdateAccountSettingsResponse();
-  factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAccountSettingsResponseFromJson(json);
+
+  factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateAccountSettingsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAppInstanceResponse {
-  /// The ARN of the app instance.
-  @_s.JsonKey(name: 'AppInstanceArn')
-  final String appInstanceArn;
+  /// The ARN of the <code>AppInstance</code>.
+  final String? appInstanceArn;
 
   UpdateAppInstanceResponse({
     this.appInstanceArn,
   });
-  factory UpdateAppInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAppInstanceResponseFromJson(json);
+
+  factory UpdateAppInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppInstanceResponse(
+      appInstanceArn: json['AppInstanceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceArn = this.appInstanceArn;
+    return {
+      if (appInstanceArn != null) 'AppInstanceArn': appInstanceArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAppInstanceUserResponse {
-  /// The ARN of the app instance user.
-  @_s.JsonKey(name: 'AppInstanceUserArn')
-  final String appInstanceUserArn;
+  /// The ARN of the <code>AppInstanceUser</code>.
+  final String? appInstanceUserArn;
 
   UpdateAppInstanceUserResponse({
     this.appInstanceUserArn,
   });
-  factory UpdateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAppInstanceUserResponseFromJson(json);
+
+  factory UpdateAppInstanceUserResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAppInstanceUserResponse(
+      appInstanceUserArn: json['AppInstanceUserArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appInstanceUserArn = this.appInstanceUserArn;
+    return {
+      if (appInstanceUserArn != null) 'AppInstanceUserArn': appInstanceUserArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBotResponse {
   /// The updated bot details.
-  @_s.JsonKey(name: 'Bot')
-  final Bot bot;
+  final Bot? bot;
 
   UpdateBotResponse({
     this.bot,
   });
-  factory UpdateBotResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBotResponseFromJson(json);
+
+  factory UpdateBotResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBotResponse(
+      bot: json['Bot'] != null
+          ? Bot.fromJson(json['Bot'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bot = this.bot;
+    return {
+      if (bot != null) 'Bot': bot,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateChannelMessageResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The ID string of the message being updated.
-  @_s.JsonKey(name: 'MessageId')
-  final String messageId;
+  final String? messageId;
 
   UpdateChannelMessageResponse({
     this.channelArn,
     this.messageId,
   });
-  factory UpdateChannelMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateChannelMessageResponseFromJson(json);
+
+  factory UpdateChannelMessageResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateChannelMessageResponse(
+      channelArn: json['ChannelArn'] as String?,
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final messageId = this.messageId;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+      if (messageId != null) 'MessageId': messageId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateChannelReadMarkerResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   UpdateChannelReadMarkerResponse({
     this.channelArn,
   });
-  factory UpdateChannelReadMarkerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateChannelReadMarkerResponseFromJson(json);
+
+  factory UpdateChannelReadMarkerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateChannelReadMarkerResponse(
+      channelArn: json['ChannelArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateChannelResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'ChannelArn')
-  final String channelArn;
+  final String? channelArn;
 
   UpdateChannelResponse({
     this.channelArn,
   });
-  factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateChannelResponseFromJson(json);
+
+  factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateChannelResponse(
+      channelArn: json['ChannelArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    return {
+      if (channelArn != null) 'ChannelArn': channelArn,
+    };
+  }
 }
 
 /// The phone number ID, product type, or calling name fields to update, used
 /// with the <a>BatchUpdatePhoneNumber</a> and <a>UpdatePhoneNumber</a> actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdatePhoneNumberRequestItem {
   /// The phone number ID to update.
-  @_s.JsonKey(name: 'PhoneNumberId')
   final String phoneNumberId;
 
   /// The outbound calling name to update.
-  @_s.JsonKey(name: 'CallingName')
-  final String callingName;
+  final String? callingName;
 
   /// The product type to update.
-  @_s.JsonKey(name: 'ProductType')
-  final PhoneNumberProductType productType;
+  final PhoneNumberProductType? productType;
 
   UpdatePhoneNumberRequestItem({
-    @_s.required this.phoneNumberId,
+    required this.phoneNumberId,
     this.callingName,
     this.productType,
   });
-  Map<String, dynamic> toJson() => _$UpdatePhoneNumberRequestItemToJson(this);
+
+  factory UpdatePhoneNumberRequestItem.fromJson(Map<String, dynamic> json) {
+    return UpdatePhoneNumberRequestItem(
+      phoneNumberId: json['PhoneNumberId'] as String,
+      callingName: json['CallingName'] as String?,
+      productType: (json['ProductType'] as String?)?.toPhoneNumberProductType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumberId = this.phoneNumberId;
+    final callingName = this.callingName;
+    final productType = this.productType;
+    return {
+      'PhoneNumberId': phoneNumberId,
+      if (callingName != null) 'CallingName': callingName,
+      if (productType != null) 'ProductType': productType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePhoneNumberResponse {
   /// The updated phone number details.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final PhoneNumber phoneNumber;
+  final PhoneNumber? phoneNumber;
 
   UpdatePhoneNumberResponse({
     this.phoneNumber,
   });
-  factory UpdatePhoneNumberResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePhoneNumberResponseFromJson(json);
+
+  factory UpdatePhoneNumberResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePhoneNumberResponse(
+      phoneNumber: json['PhoneNumber'] != null
+          ? PhoneNumber.fromJson(json['PhoneNumber'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final phoneNumber = this.phoneNumber;
+    return {
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProxySessionResponse {
   /// The proxy session details.
-  @_s.JsonKey(name: 'ProxySession')
-  final ProxySession proxySession;
+  final ProxySession? proxySession;
 
   UpdateProxySessionResponse({
     this.proxySession,
   });
-  factory UpdateProxySessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProxySessionResponseFromJson(json);
+
+  factory UpdateProxySessionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateProxySessionResponse(
+      proxySession: json['ProxySession'] != null
+          ? ProxySession.fromJson(json['ProxySession'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proxySession = this.proxySession;
+    return {
+      if (proxySession != null) 'ProxySession': proxySession,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRoomMembershipResponse {
   /// The room membership details.
-  @_s.JsonKey(name: 'RoomMembership')
-  final RoomMembership roomMembership;
+  final RoomMembership? roomMembership;
 
   UpdateRoomMembershipResponse({
     this.roomMembership,
   });
-  factory UpdateRoomMembershipResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRoomMembershipResponseFromJson(json);
+
+  factory UpdateRoomMembershipResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRoomMembershipResponse(
+      roomMembership: json['RoomMembership'] != null
+          ? RoomMembership.fromJson(
+              json['RoomMembership'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roomMembership = this.roomMembership;
+    return {
+      if (roomMembership != null) 'RoomMembership': roomMembership,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRoomResponse {
   /// The room details.
-  @_s.JsonKey(name: 'Room')
-  final Room room;
+  final Room? room;
 
   UpdateRoomResponse({
     this.room,
   });
-  factory UpdateRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRoomResponseFromJson(json);
+
+  factory UpdateRoomResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRoomResponse(
+      room: json['Room'] != null
+          ? Room.fromJson(json['Room'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final room = this.room;
+    return {
+      if (room != null) 'Room': room,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class UpdateSipMediaApplicationCallResponse {
+  final SipMediaApplicationCall? sipMediaApplicationCall;
+
+  UpdateSipMediaApplicationCallResponse({
+    this.sipMediaApplicationCall,
+  });
+
+  factory UpdateSipMediaApplicationCallResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateSipMediaApplicationCallResponse(
+      sipMediaApplicationCall: json['SipMediaApplicationCall'] != null
+          ? SipMediaApplicationCall.fromJson(
+              json['SipMediaApplicationCall'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplicationCall = this.sipMediaApplicationCall;
+    return {
+      if (sipMediaApplicationCall != null)
+        'SipMediaApplicationCall': sipMediaApplicationCall,
+    };
+  }
+}
+
 class UpdateSipMediaApplicationResponse {
   /// The updated SIP media application details.
-  @_s.JsonKey(name: 'SipMediaApplication')
-  final SipMediaApplication sipMediaApplication;
+  final SipMediaApplication? sipMediaApplication;
 
   UpdateSipMediaApplicationResponse({
     this.sipMediaApplication,
   });
+
   factory UpdateSipMediaApplicationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateSipMediaApplicationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateSipMediaApplicationResponse(
+      sipMediaApplication: json['SipMediaApplication'] != null
+          ? SipMediaApplication.fromJson(
+              json['SipMediaApplication'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipMediaApplication = this.sipMediaApplication;
+    return {
+      if (sipMediaApplication != null)
+        'SipMediaApplication': sipMediaApplication,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSipRuleResponse {
   /// Updated SIP rule details.
-  @_s.JsonKey(name: 'SipRule')
-  final SipRule sipRule;
+  final SipRule? sipRule;
 
   UpdateSipRuleResponse({
     this.sipRule,
   });
-  factory UpdateSipRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSipRuleResponseFromJson(json);
+
+  factory UpdateSipRuleResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSipRuleResponse(
+      sipRule: json['SipRule'] != null
+          ? SipRule.fromJson(json['SipRule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sipRule = this.sipRule;
+    return {
+      if (sipRule != null) 'SipRule': sipRule,
+    };
+  }
 }
 
 /// The user ID and user fields to update, used with the <a>BatchUpdateUser</a>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateUserRequestItem {
   /// The user ID.
-  @_s.JsonKey(name: 'UserId')
   final String userId;
 
   /// The Alexa for Business metadata.
-  @_s.JsonKey(name: 'AlexaForBusinessMetadata')
-  final AlexaForBusinessMetadata alexaForBusinessMetadata;
+  final AlexaForBusinessMetadata? alexaForBusinessMetadata;
 
   /// The user license type.
-  @_s.JsonKey(name: 'LicenseType')
-  final License licenseType;
+  final License? licenseType;
 
   /// The user type.
-  @_s.JsonKey(name: 'UserType')
-  final UserType userType;
+  final UserType? userType;
 
   UpdateUserRequestItem({
-    @_s.required this.userId,
+    required this.userId,
     this.alexaForBusinessMetadata,
     this.licenseType,
     this.userType,
   });
-  Map<String, dynamic> toJson() => _$UpdateUserRequestItemToJson(this);
+
+  factory UpdateUserRequestItem.fromJson(Map<String, dynamic> json) {
+    return UpdateUserRequestItem(
+      userId: json['UserId'] as String,
+      alexaForBusinessMetadata: json['AlexaForBusinessMetadata'] != null
+          ? AlexaForBusinessMetadata.fromJson(
+              json['AlexaForBusinessMetadata'] as Map<String, dynamic>)
+          : null,
+      licenseType: (json['LicenseType'] as String?)?.toLicense(),
+      userType: (json['UserType'] as String?)?.toUserType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final alexaForBusinessMetadata = this.alexaForBusinessMetadata;
+    final licenseType = this.licenseType;
+    final userType = this.userType;
+    return {
+      'UserId': userId,
+      if (alexaForBusinessMetadata != null)
+        'AlexaForBusinessMetadata': alexaForBusinessMetadata,
+      if (licenseType != null) 'LicenseType': licenseType.toValue(),
+      if (userType != null) 'UserType': userType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUserResponse {
   /// The updated user details.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   UpdateUserResponse({
     this.user,
   });
-  factory UpdateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserResponseFromJson(json);
+
+  factory UpdateUserResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVoiceConnectorGroupResponse {
   /// The updated Amazon Chime Voice Connector group details.
-  @_s.JsonKey(name: 'VoiceConnectorGroup')
-  final VoiceConnectorGroup voiceConnectorGroup;
+  final VoiceConnectorGroup? voiceConnectorGroup;
 
   UpdateVoiceConnectorGroupResponse({
     this.voiceConnectorGroup,
   });
+
   factory UpdateVoiceConnectorGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateVoiceConnectorGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateVoiceConnectorGroupResponse(
+      voiceConnectorGroup: json['VoiceConnectorGroup'] != null
+          ? VoiceConnectorGroup.fromJson(
+              json['VoiceConnectorGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnectorGroup = this.voiceConnectorGroup;
+    return {
+      if (voiceConnectorGroup != null)
+        'VoiceConnectorGroup': voiceConnectorGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVoiceConnectorResponse {
   /// The updated Amazon Chime Voice Connector details.
-  @_s.JsonKey(name: 'VoiceConnector')
-  final VoiceConnector voiceConnector;
+  final VoiceConnector? voiceConnector;
 
   UpdateVoiceConnectorResponse({
     this.voiceConnector,
   });
-  factory UpdateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVoiceConnectorResponseFromJson(json);
+
+  factory UpdateVoiceConnectorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateVoiceConnectorResponse(
+      voiceConnector: json['VoiceConnector'] != null
+          ? VoiceConnector.fromJson(
+              json['VoiceConnector'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final voiceConnector = this.voiceConnector;
+    return {
+      if (voiceConnector != null) 'VoiceConnector': voiceConnector,
+    };
+  }
 }
 
 /// The user on the Amazon Chime account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class User {
   /// The user ID.
-  @_s.JsonKey(name: 'UserId')
   final String userId;
 
   /// The Amazon Chime account ID.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The Alexa for Business metadata.
-  @_s.JsonKey(name: 'AlexaForBusinessMetadata')
-  final AlexaForBusinessMetadata alexaForBusinessMetadata;
+  final AlexaForBusinessMetadata? alexaForBusinessMetadata;
 
   /// The display name of the user.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// Date and time when the user is invited to the Amazon Chime account, in ISO
   /// 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'InvitedOn')
-  final DateTime invitedOn;
+  final DateTime? invitedOn;
 
   /// The license type for the user.
-  @_s.JsonKey(name: 'LicenseType')
-  final License licenseType;
+  final License? licenseType;
 
   /// The user's personal meeting PIN.
-  @_s.JsonKey(name: 'PersonalPIN')
-  final String personalPIN;
+  final String? personalPIN;
 
   /// The primary email address of the user.
-  @_s.JsonKey(name: 'PrimaryEmail')
-  final String primaryEmail;
+  final String? primaryEmail;
 
   /// The primary phone number associated with the user.
-  @_s.JsonKey(name: 'PrimaryProvisionedNumber')
-  final String primaryProvisionedNumber;
+  final String? primaryProvisionedNumber;
 
   /// Date and time when the user is registered, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'RegisteredOn')
-  final DateTime registeredOn;
+  final DateTime? registeredOn;
 
   /// The user invite status.
-  @_s.JsonKey(name: 'UserInvitationStatus')
-  final InviteStatus userInvitationStatus;
+  final InviteStatus? userInvitationStatus;
 
   /// The user registration status.
-  @_s.JsonKey(name: 'UserRegistrationStatus')
-  final RegistrationStatus userRegistrationStatus;
+  final RegistrationStatus? userRegistrationStatus;
 
   /// The user type.
-  @_s.JsonKey(name: 'UserType')
-  final UserType userType;
+  final UserType? userType;
 
   User({
-    @_s.required this.userId,
+    required this.userId,
     this.accountId,
     this.alexaForBusinessMetadata,
     this.displayName,
@@ -15162,65 +17546,133 @@ class User {
     this.userRegistrationStatus,
     this.userType,
   });
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      userId: json['UserId'] as String,
+      accountId: json['AccountId'] as String?,
+      alexaForBusinessMetadata: json['AlexaForBusinessMetadata'] != null
+          ? AlexaForBusinessMetadata.fromJson(
+              json['AlexaForBusinessMetadata'] as Map<String, dynamic>)
+          : null,
+      displayName: json['DisplayName'] as String?,
+      invitedOn: timeStampFromJson(json['InvitedOn']),
+      licenseType: (json['LicenseType'] as String?)?.toLicense(),
+      personalPIN: json['PersonalPIN'] as String?,
+      primaryEmail: json['PrimaryEmail'] as String?,
+      primaryProvisionedNumber: json['PrimaryProvisionedNumber'] as String?,
+      registeredOn: timeStampFromJson(json['RegisteredOn']),
+      userInvitationStatus:
+          (json['UserInvitationStatus'] as String?)?.toInviteStatus(),
+      userRegistrationStatus:
+          (json['UserRegistrationStatus'] as String?)?.toRegistrationStatus(),
+      userType: (json['UserType'] as String?)?.toUserType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final accountId = this.accountId;
+    final alexaForBusinessMetadata = this.alexaForBusinessMetadata;
+    final displayName = this.displayName;
+    final invitedOn = this.invitedOn;
+    final licenseType = this.licenseType;
+    final personalPIN = this.personalPIN;
+    final primaryEmail = this.primaryEmail;
+    final primaryProvisionedNumber = this.primaryProvisionedNumber;
+    final registeredOn = this.registeredOn;
+    final userInvitationStatus = this.userInvitationStatus;
+    final userRegistrationStatus = this.userRegistrationStatus;
+    final userType = this.userType;
+    return {
+      'UserId': userId,
+      if (accountId != null) 'AccountId': accountId,
+      if (alexaForBusinessMetadata != null)
+        'AlexaForBusinessMetadata': alexaForBusinessMetadata,
+      if (displayName != null) 'DisplayName': displayName,
+      if (invitedOn != null) 'InvitedOn': iso8601ToJson(invitedOn),
+      if (licenseType != null) 'LicenseType': licenseType.toValue(),
+      if (personalPIN != null) 'PersonalPIN': personalPIN,
+      if (primaryEmail != null) 'PrimaryEmail': primaryEmail,
+      if (primaryProvisionedNumber != null)
+        'PrimaryProvisionedNumber': primaryProvisionedNumber,
+      if (registeredOn != null) 'RegisteredOn': iso8601ToJson(registeredOn),
+      if (userInvitationStatus != null)
+        'UserInvitationStatus': userInvitationStatus.toValue(),
+      if (userRegistrationStatus != null)
+        'UserRegistrationStatus': userRegistrationStatus.toValue(),
+      if (userType != null) 'UserType': userType.toValue(),
+    };
+  }
 }
 
 /// The list of errors returned when errors are encountered during the
 /// <a>BatchSuspendUser</a>, <a>BatchUnsuspendUser</a>, or
 /// <a>BatchUpdateUser</a> actions. This includes user IDs, error codes, and
 /// error messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The user ID for which the action failed.
-  @_s.JsonKey(name: 'UserId')
-  final String userId;
+  final String? userId;
 
   UserError({
     this.errorCode,
     this.errorMessage,
     this.userId,
   });
-  factory UserError.fromJson(Map<String, dynamic> json) =>
-      _$UserErrorFromJson(json);
+
+  factory UserError.fromJson(Map<String, dynamic> json) {
+    return UserError(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+      userId: json['UserId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final userId = this.userId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (userId != null) 'UserId': userId,
+    };
+  }
 }
 
 /// Settings associated with an Amazon Chime user, including inbound and
 /// outbound calling and text messaging.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UserSettings {
   /// The telephony settings associated with the user.
-  @_s.JsonKey(name: 'Telephony')
   final TelephonySettings telephony;
 
   UserSettings({
-    @_s.required this.telephony,
+    required this.telephony,
   });
-  factory UserSettings.fromJson(Map<String, dynamic> json) =>
-      _$UserSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserSettingsToJson(this);
+  factory UserSettings.fromJson(Map<String, dynamic> json) {
+    return UserSettings(
+      telephony:
+          TelephonySettings.fromJson(json['Telephony'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final telephony = this.telephony;
+    return {
+      'Telephony': telephony,
+    };
+  }
 }
 
 enum UserType {
-  @_s.JsonValue('PrivateUser')
   privateUser,
-  @_s.JsonValue('SharedDevice')
   sharedDevice,
 }
 
@@ -15232,49 +17684,46 @@ extension on UserType {
       case UserType.sharedDevice:
         return 'SharedDevice';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UserType toUserType() {
+    switch (this) {
+      case 'PrivateUser':
+        return UserType.privateUser;
+      case 'SharedDevice':
+        return UserType.sharedDevice;
+    }
+    throw Exception('$this is not known in enum UserType');
   }
 }
 
 /// The Amazon Chime Voice Connector configuration, including outbound host name
 /// and encryption settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VoiceConnector {
   /// The AWS Region in which the Amazon Chime Voice Connector is created.
   /// Default: <code>us-east-1</code>.
-  @_s.JsonKey(name: 'AwsRegion')
-  final VoiceConnectorAwsRegion awsRegion;
+  final VoiceConnectorAwsRegion? awsRegion;
 
   /// The Amazon Chime Voice Connector creation timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The name of the Amazon Chime Voice Connector.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The outbound host name for the Amazon Chime Voice Connector.
-  @_s.JsonKey(name: 'OutboundHostName')
-  final String outboundHostName;
+  final String? outboundHostName;
 
   /// Designates whether encryption is required for the Amazon Chime Voice
   /// Connector.
-  @_s.JsonKey(name: 'RequireEncryption')
-  final bool requireEncryption;
+  final bool? requireEncryption;
 
   /// The updated Amazon Chime Voice Connector timestamp, in ISO 8601 format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  final DateTime? updatedTimestamp;
 
   /// The Amazon Chime Voice Connector ID.
-  @_s.JsonKey(name: 'VoiceConnectorId')
-  final String voiceConnectorId;
+  final String? voiceConnectorId;
 
   VoiceConnector({
     this.awsRegion,
@@ -15285,14 +17734,43 @@ class VoiceConnector {
     this.updatedTimestamp,
     this.voiceConnectorId,
   });
-  factory VoiceConnector.fromJson(Map<String, dynamic> json) =>
-      _$VoiceConnectorFromJson(json);
+
+  factory VoiceConnector.fromJson(Map<String, dynamic> json) {
+    return VoiceConnector(
+      awsRegion: (json['AwsRegion'] as String?)?.toVoiceConnectorAwsRegion(),
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      name: json['Name'] as String?,
+      outboundHostName: json['OutboundHostName'] as String?,
+      requireEncryption: json['RequireEncryption'] as bool?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceConnectorId: json['VoiceConnectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final createdTimestamp = this.createdTimestamp;
+    final name = this.name;
+    final outboundHostName = this.outboundHostName;
+    final requireEncryption = this.requireEncryption;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceConnectorId = this.voiceConnectorId;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion.toValue(),
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (name != null) 'Name': name,
+      if (outboundHostName != null) 'OutboundHostName': outboundHostName,
+      if (requireEncryption != null) 'RequireEncryption': requireEncryption,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceConnectorId != null) 'VoiceConnectorId': voiceConnectorId,
+    };
+  }
 }
 
 enum VoiceConnectorAwsRegion {
-  @_s.JsonValue('us-east-1')
   usEast_1,
-  @_s.JsonValue('us-west-2')
   usWest_2,
 }
 
@@ -15304,7 +17782,18 @@ extension on VoiceConnectorAwsRegion {
       case VoiceConnectorAwsRegion.usWest_2:
         return 'us-west-2';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  VoiceConnectorAwsRegion toVoiceConnectorAwsRegion() {
+    switch (this) {
+      case 'us-east-1':
+        return VoiceConnectorAwsRegion.usEast_1;
+      case 'us-west-2':
+        return VoiceConnectorAwsRegion.usWest_2;
+    }
+    throw Exception('$this is not known in enum VoiceConnectorAwsRegion');
   }
 }
 
@@ -15312,35 +17801,23 @@ extension on VoiceConnectorAwsRegion {
 /// Amazon Chime Voice Connectors. You can include Amazon Chime Voice Connectors
 /// from different AWS Regions in your group. This creates a fault tolerant
 /// mechanism for fallback in case of availability events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VoiceConnectorGroup {
-  /// The Amazon Chime Voice Connector group creation timestamp, in ISO 8601
+  /// The Amazon Chime Voice Connector group creation time stamp, in ISO 8601
   /// format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The name of the Amazon Chime Voice Connector group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
-  /// The updated Amazon Chime Voice Connector group timestamp, in ISO 8601
+  /// The updated Amazon Chime Voice Connector group time stamp, in ISO 8601
   /// format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTimestamp')
-  final DateTime updatedTimestamp;
+  final DateTime? updatedTimestamp;
 
   /// The Amazon Chime Voice Connector group ID.
-  @_s.JsonKey(name: 'VoiceConnectorGroupId')
-  final String voiceConnectorGroupId;
+  final String? voiceConnectorGroupId;
 
   /// The Amazon Chime Voice Connectors to which to route inbound calls.
-  @_s.JsonKey(name: 'VoiceConnectorItems')
-  final List<VoiceConnectorItem> voiceConnectorItems;
+  final List<VoiceConnectorItem>? voiceConnectorItems;
 
   VoiceConnectorGroup({
     this.createdTimestamp,
@@ -15349,88 +17826,126 @@ class VoiceConnectorGroup {
     this.voiceConnectorGroupId,
     this.voiceConnectorItems,
   });
-  factory VoiceConnectorGroup.fromJson(Map<String, dynamic> json) =>
-      _$VoiceConnectorGroupFromJson(json);
+
+  factory VoiceConnectorGroup.fromJson(Map<String, dynamic> json) {
+    return VoiceConnectorGroup(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      name: json['Name'] as String?,
+      updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
+      voiceConnectorGroupId: json['VoiceConnectorGroupId'] as String?,
+      voiceConnectorItems: (json['VoiceConnectorItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => VoiceConnectorItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final name = this.name;
+    final updatedTimestamp = this.updatedTimestamp;
+    final voiceConnectorGroupId = this.voiceConnectorGroupId;
+    final voiceConnectorItems = this.voiceConnectorItems;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': iso8601ToJson(createdTimestamp),
+      if (name != null) 'Name': name,
+      if (updatedTimestamp != null)
+        'UpdatedTimestamp': iso8601ToJson(updatedTimestamp),
+      if (voiceConnectorGroupId != null)
+        'VoiceConnectorGroupId': voiceConnectorGroupId,
+      if (voiceConnectorItems != null)
+        'VoiceConnectorItems': voiceConnectorItems,
+    };
+  }
 }
 
 /// For Amazon Chime Voice Connector groups, the Amazon Chime Voice Connectors
 /// to which to route inbound calls. Includes priority configuration settings.
 /// Limit: 3 <code>VoiceConnectorItems</code> per Amazon Chime Voice Connector
 /// group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VoiceConnectorItem {
   /// The priority associated with the Amazon Chime Voice Connector, with 1 being
   /// the highest priority. Higher priority Amazon Chime Voice Connectors are
   /// attempted first.
-  @_s.JsonKey(name: 'Priority')
   final int priority;
 
   /// The Amazon Chime Voice Connector ID.
-  @_s.JsonKey(name: 'VoiceConnectorId')
   final String voiceConnectorId;
 
   VoiceConnectorItem({
-    @_s.required this.priority,
-    @_s.required this.voiceConnectorId,
+    required this.priority,
+    required this.voiceConnectorId,
   });
-  factory VoiceConnectorItem.fromJson(Map<String, dynamic> json) =>
-      _$VoiceConnectorItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VoiceConnectorItemToJson(this);
+  factory VoiceConnectorItem.fromJson(Map<String, dynamic> json) {
+    return VoiceConnectorItem(
+      priority: json['Priority'] as int,
+      voiceConnectorId: json['VoiceConnectorId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final priority = this.priority;
+    final voiceConnectorId = this.voiceConnectorId;
+    return {
+      'Priority': priority,
+      'VoiceConnectorId': voiceConnectorId,
+    };
+  }
 }
 
 /// The Amazon Chime Voice Connector settings. Includes any Amazon S3 buckets
 /// designated for storing call detail records.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VoiceConnectorSettings {
   /// The Amazon S3 bucket designated for call detail record storage.
-  @_s.JsonKey(name: 'CdrBucket')
-  final String cdrBucket;
+  final String? cdrBucket;
 
   VoiceConnectorSettings({
     this.cdrBucket,
   });
-  factory VoiceConnectorSettings.fromJson(Map<String, dynamic> json) =>
-      _$VoiceConnectorSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VoiceConnectorSettingsToJson(this);
+  factory VoiceConnectorSettings.fromJson(Map<String, dynamic> json) {
+    return VoiceConnectorSettings(
+      cdrBucket: json['CdrBucket'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cdrBucket = this.cdrBucket;
+    return {
+      if (cdrBucket != null) 'CdrBucket': cdrBucket,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
-  ResourceLimitExceededException({String type, String message})
+  ResourceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceLimitExceededException',
@@ -15438,29 +17953,29 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ServiceFailureException extends _s.GenericAwsException {
-  ServiceFailureException({String type, String message})
+  ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottledClientException extends _s.GenericAwsException {
-  ThrottledClientException({String type, String message})
+  ThrottledClientException({String? type, String? message})
       : super(type: type, code: 'ThrottledClientException', message: message);
 }
 
 class UnauthorizedClientException extends _s.GenericAwsException {
-  UnauthorizedClientException({String type, String message})
+  UnauthorizedClientException({String? type, String? message})
       : super(
             type: type, code: 'UnauthorizedClientException', message: message);
 }
 
 class UnprocessableEntityException extends _s.GenericAwsException {
-  UnprocessableEntityException({String type, String message})
+  UnprocessableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnprocessableEntityException', message: message);
 }

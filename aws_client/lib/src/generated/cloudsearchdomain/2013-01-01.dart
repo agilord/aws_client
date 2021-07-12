@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2013-01-01.g.dart';
 
 /// You use the AmazonCloudSearch2013 API to upload documents to a search domain
 /// and search those documents.
@@ -42,10 +35,10 @@ part '2013-01-01.g.dart';
 class CloudSearchDomain {
   final _s.RestJsonProtocol _protocol;
   CloudSearchDomain({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -454,24 +447,24 @@ class CloudSearchDomain {
   /// <code>{"FIELD-A":{},"FIELD-B":{}}</code>
   /// There are currently no options supported for statistics.
   Future<SearchResponse> search({
-    @_s.required String query,
-    String cursor,
-    String expr,
-    String facet,
-    String filterQuery,
-    String highlight,
-    bool partial,
-    String queryOptions,
-    QueryParser queryParser,
-    String returnValue,
-    int size,
-    String sort,
-    int start,
-    String stats,
+    required String query,
+    String? cursor,
+    String? expr,
+    String? facet,
+    String? filterQuery,
+    String? highlight,
+    bool? partial,
+    String? queryOptions,
+    QueryParser? queryParser,
+    String? returnValue,
+    int? size,
+    String? sort,
+    int? start,
+    String? stats,
   }) async {
     ArgumentError.checkNotNull(query, 'query');
     final $query = <String, List<String>>{
-      if (query != null) 'q': [query],
+      'q': [query],
       if (cursor != null) 'cursor': [cursor],
       if (expr != null) 'expr': [expr],
       if (facet != null) 'facet': [facet],
@@ -527,15 +520,15 @@ class CloudSearchDomain {
   /// Parameter [size] :
   /// Specifies the maximum number of suggestions to return.
   Future<SuggestResponse> suggest({
-    @_s.required String query,
-    @_s.required String suggester,
-    int size,
+    required String query,
+    required String suggester,
+    int? size,
   }) async {
     ArgumentError.checkNotNull(query, 'query');
     ArgumentError.checkNotNull(suggester, 'suggester');
     final $query = <String, List<String>>{
-      if (query != null) 'q': [query],
-      if (suggester != null) 'suggester': [suggester],
+      'q': [query],
+      'suggester': [suggester],
       if (size != null) 'size': [size.toString()],
     };
     final response = await _protocol.send(
@@ -589,13 +582,14 @@ class CloudSearchDomain {
   /// Parameter [documents] :
   /// A batch of documents formatted in JSON or HTML.
   Future<UploadDocumentsResponse> uploadDocuments({
-    @_s.required ContentType contentType,
-    @_s.required Uint8List documents,
+    required ContentType contentType,
+    required Uint8List documents,
   }) async {
     ArgumentError.checkNotNull(contentType, 'contentType');
     ArgumentError.checkNotNull(documents, 'documents');
-    final headers = <String, String>{};
-    contentType?.let((v) => headers['Content-Type'] = v.toValue());
+    final headers = <String, String>{
+      'Content-Type': contentType.toValue(),
+    };
     final response = await _protocol.send(
       payload: documents,
       method: 'POST',
@@ -608,50 +602,64 @@ class CloudSearchDomain {
 }
 
 /// A container for facet information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Bucket {
   /// The number of hits that contain the facet value in the specified facet
   /// field.
-  @_s.JsonKey(name: 'count')
-  final int count;
+  final int? count;
 
   /// The facet value being counted.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Bucket({
     this.count,
     this.value,
   });
-  factory Bucket.fromJson(Map<String, dynamic> json) => _$BucketFromJson(json);
+
+  factory Bucket.fromJson(Map<String, dynamic> json) {
+    return Bucket(
+      count: json['count'] as int?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final value = this.value;
+    return {
+      if (count != null) 'count': count,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// A container for the calculated facet values and counts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BucketInfo {
   /// A list of the calculated facet values and counts.
-  @_s.JsonKey(name: 'buckets')
-  final List<Bucket> buckets;
+  final List<Bucket>? buckets;
 
   BucketInfo({
     this.buckets,
   });
-  factory BucketInfo.fromJson(Map<String, dynamic> json) =>
-      _$BucketInfoFromJson(json);
+
+  factory BucketInfo.fromJson(Map<String, dynamic> json) {
+    return BucketInfo(
+      buckets: (json['buckets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Bucket.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final buckets = this.buckets;
+    return {
+      if (buckets != null) 'buckets': buckets,
+    };
+  }
 }
 
 enum ContentType {
-  @_s.JsonValue('application/json')
   applicationJson,
-  @_s.JsonValue('application/xml')
   applicationXml,
 }
 
@@ -663,65 +671,82 @@ extension on ContentType {
       case ContentType.applicationXml:
         return 'application/xml';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContentType toContentType() {
+    switch (this) {
+      case 'application/json':
+        return ContentType.applicationJson;
+      case 'application/xml':
+        return ContentType.applicationXml;
+    }
+    throw Exception('$this is not known in enum ContentType');
   }
 }
 
 /// Information about any problems encountered while processing an upload
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentServiceException implements _s.AwsException {
   /// The description of the errors returned by the document service.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The return status of a document upload request, <code>error</code> or
   /// <code>success</code>.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DocumentServiceException({
     this.message,
     this.status,
   });
-  factory DocumentServiceException.fromJson(Map<String, dynamic> json) =>
-      _$DocumentServiceExceptionFromJson(json);
+
+  factory DocumentServiceException.fromJson(Map<String, dynamic> json) {
+    return DocumentServiceException(
+      message: json['message'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final status = this.status;
+    return {
+      if (message != null) 'message': message,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// A warning returned by the document service when an issue is discovered while
 /// processing an upload request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentServiceWarning {
   /// The description for a warning returned by the document service.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   DocumentServiceWarning({
     this.message,
   });
-  factory DocumentServiceWarning.fromJson(Map<String, dynamic> json) =>
-      _$DocumentServiceWarningFromJson(json);
+
+  factory DocumentServiceWarning.fromJson(Map<String, dynamic> json) {
+    return DocumentServiceWarning(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 /// The statistics for a field calculated in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FieldStats {
   /// The number of documents that contain a value in the specified field in the
   /// result set.
-  @_s.JsonKey(name: 'count')
-  final int count;
+  final int? count;
 
   /// The maximum value found in the specified field in the result set.
   ///
@@ -732,8 +757,7 @@ class FieldStats {
   /// is the string representation of a date with the format specified in <a
   /// href="http://tools.ietf.org/html/rfc3339">IETF RFC3339</a>:
   /// yyyy-mm-ddTHH:mm:ss.SSSZ.
-  @_s.JsonKey(name: 'max')
-  final String max;
+  final String? max;
 
   /// The average of the values found in the specified field in the result set.
   ///
@@ -744,8 +768,7 @@ class FieldStats {
   /// is the string representation of a date with the format specified in <a
   /// href="http://tools.ietf.org/html/rfc3339">IETF RFC3339</a>:
   /// yyyy-mm-ddTHH:mm:ss.SSSZ.
-  @_s.JsonKey(name: 'mean')
-  final String mean;
+  final String? mean;
 
   /// The minimum value found in the specified field in the result set.
   ///
@@ -756,27 +779,22 @@ class FieldStats {
   /// is the string representation of a date with the format specified in <a
   /// href="http://tools.ietf.org/html/rfc3339">IETF RFC3339</a>:
   /// yyyy-mm-ddTHH:mm:ss.SSSZ.
-  @_s.JsonKey(name: 'min')
-  final String min;
+  final String? min;
 
   /// The number of documents that do not contain a value in the specified field
   /// in the result set.
-  @_s.JsonKey(name: 'missing')
-  final int missing;
+  final int? missing;
 
   /// The standard deviation of the values in the specified field in the result
   /// set.
-  @_s.JsonKey(name: 'stddev')
-  final double stddev;
+  final double? stddev;
 
   /// The sum of the field values across the documents in the result set.
   /// <code>null</code> for date fields.
-  @_s.JsonKey(name: 'sum')
-  final double sum;
+  final double? sum;
 
   /// The sum of all field values in the result set squared.
-  @_s.JsonKey(name: 'sumOfSquares')
-  final double sumOfSquares;
+  final double? sumOfSquares;
 
   FieldStats({
     this.count,
@@ -788,32 +806,55 @@ class FieldStats {
     this.sum,
     this.sumOfSquares,
   });
-  factory FieldStats.fromJson(Map<String, dynamic> json) =>
-      _$FieldStatsFromJson(json);
+
+  factory FieldStats.fromJson(Map<String, dynamic> json) {
+    return FieldStats(
+      count: json['count'] as int?,
+      max: json['max'] as String?,
+      mean: json['mean'] as String?,
+      min: json['min'] as String?,
+      missing: json['missing'] as int?,
+      stddev: json['stddev'] as double?,
+      sum: json['sum'] as double?,
+      sumOfSquares: json['sumOfSquares'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final max = this.max;
+    final mean = this.mean;
+    final min = this.min;
+    final missing = this.missing;
+    final stddev = this.stddev;
+    final sum = this.sum;
+    final sumOfSquares = this.sumOfSquares;
+    return {
+      if (count != null) 'count': count,
+      if (max != null) 'max': max,
+      if (mean != null) 'mean': mean,
+      if (min != null) 'min': min,
+      if (missing != null) 'missing': missing,
+      if (stddev != null) 'stddev': stddev,
+      if (sum != null) 'sum': sum,
+      if (sumOfSquares != null) 'sumOfSquares': sumOfSquares,
+    };
+  }
 }
 
 /// Information about a document that matches the search request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Hit {
   /// The expressions returned from a document that matches the search request.
-  @_s.JsonKey(name: 'exprs')
-  final Map<String, String> exprs;
+  final Map<String, String>? exprs;
 
   /// The fields returned from a document that matches the search request.
-  @_s.JsonKey(name: 'fields')
-  final Map<String, List<String>> fields;
+  final Map<String, List<String>>? fields;
 
   /// The highlights returned from a document that matches the search request.
-  @_s.JsonKey(name: 'highlights')
-  final Map<String, String> highlights;
+  final Map<String, String>? highlights;
 
   /// The document ID of a document that matches the search request.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   Hit({
     this.exprs,
@@ -821,32 +862,47 @@ class Hit {
     this.highlights,
     this.id,
   });
-  factory Hit.fromJson(Map<String, dynamic> json) => _$HitFromJson(json);
+
+  factory Hit.fromJson(Map<String, dynamic> json) {
+    return Hit(
+      exprs: (json['exprs'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      fields: (json['fields'] as Map<String, dynamic>?)?.map((k, e) => MapEntry(
+          k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      highlights: (json['highlights'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exprs = this.exprs;
+    final fields = this.fields;
+    final highlights = this.highlights;
+    final id = this.id;
+    return {
+      if (exprs != null) 'exprs': exprs,
+      if (fields != null) 'fields': fields,
+      if (highlights != null) 'highlights': highlights,
+      if (id != null) 'id': id,
+    };
+  }
 }
 
 /// The collection of documents that match the search request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Hits {
   /// A cursor that can be used to retrieve the next set of matching documents
   /// when you want to page through a large result set.
-  @_s.JsonKey(name: 'cursor')
-  final String cursor;
+  final String? cursor;
 
   /// The total number of documents that match the search request.
-  @_s.JsonKey(name: 'found')
-  final int found;
+  final int? found;
 
   /// A document that matches the search request.
-  @_s.JsonKey(name: 'hit')
-  final List<Hit> hit;
+  final List<Hit>? hit;
 
   /// The index of the first matching document.
-  @_s.JsonKey(name: 'start')
-  final int start;
+  final int? start;
 
   Hits({
     this.cursor,
@@ -854,17 +910,37 @@ class Hits {
     this.hit,
     this.start,
   });
-  factory Hits.fromJson(Map<String, dynamic> json) => _$HitsFromJson(json);
+
+  factory Hits.fromJson(Map<String, dynamic> json) {
+    return Hits(
+      cursor: json['cursor'] as String?,
+      found: json['found'] as int?,
+      hit: (json['hit'] as List?)
+          ?.whereNotNull()
+          .map((e) => Hit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      start: json['start'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cursor = this.cursor;
+    final found = this.found;
+    final hit = this.hit;
+    final start = this.start;
+    return {
+      if (cursor != null) 'cursor': cursor,
+      if (found != null) 'found': found,
+      if (hit != null) 'hit': hit,
+      if (start != null) 'start': start,
+    };
+  }
 }
 
 enum QueryParser {
-  @_s.JsonValue('simple')
   simple,
-  @_s.JsonValue('structured')
   structured,
-  @_s.JsonValue('lucene')
   lucene,
-  @_s.JsonValue('dismax')
   dismax,
 }
 
@@ -880,53 +956,64 @@ extension on QueryParser {
       case QueryParser.dismax:
         return 'dismax';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  QueryParser toQueryParser() {
+    switch (this) {
+      case 'simple':
+        return QueryParser.simple;
+      case 'structured':
+        return QueryParser.structured;
+      case 'lucene':
+        return QueryParser.lucene;
+      case 'dismax':
+        return QueryParser.dismax;
+    }
+    throw Exception('$this is not known in enum QueryParser');
   }
 }
 
 /// Information about any problems encountered while processing a search
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchException implements _s.AwsException {
   /// A description of the error returned by the search service.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   SearchException({
     this.message,
   });
-  factory SearchException.fromJson(Map<String, dynamic> json) =>
-      _$SearchExceptionFromJson(json);
+
+  factory SearchException.fromJson(Map<String, dynamic> json) {
+    return SearchException(
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 /// The result of a <code>Search</code> request. Contains the documents that
 /// match the specified search criteria and any requested fields, highlights,
 /// and facet information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchResponse {
   /// The requested facet information.
-  @_s.JsonKey(name: 'facets')
-  final Map<String, BucketInfo> facets;
+  final Map<String, BucketInfo>? facets;
 
   /// The documents that match the search criteria.
-  @_s.JsonKey(name: 'hits')
-  final Hits hits;
+  final Hits? hits;
 
   /// The requested field statistics information.
-  @_s.JsonKey(name: 'stats')
-  final Map<String, FieldStats> stats;
+  final Map<String, FieldStats>? stats;
 
   /// The status information returned for the search request.
-  @_s.JsonKey(name: 'status')
-  final SearchStatus status;
+  final SearchStatus? status;
 
   SearchResponse({
     this.facets,
@@ -934,165 +1021,228 @@ class SearchResponse {
     this.stats,
     this.status,
   });
-  factory SearchResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchResponseFromJson(json);
+
+  factory SearchResponse.fromJson(Map<String, dynamic> json) {
+    return SearchResponse(
+      facets: (json['facets'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, BucketInfo.fromJson(e as Map<String, dynamic>))),
+      hits: json['hits'] != null
+          ? Hits.fromJson(json['hits'] as Map<String, dynamic>)
+          : null,
+      stats: (json['stats'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, FieldStats.fromJson(e as Map<String, dynamic>))),
+      status: json['status'] != null
+          ? SearchStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final facets = this.facets;
+    final hits = this.hits;
+    final stats = this.stats;
+    final status = this.status;
+    return {
+      if (facets != null) 'facets': facets,
+      if (hits != null) 'hits': hits,
+      if (stats != null) 'stats': stats,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// Contains the resource id (<code>rid</code>) and the time it took to process
 /// the request (<code>timems</code>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchStatus {
   /// The encrypted resource ID for the request.
-  @_s.JsonKey(name: 'rid')
-  final String rid;
+  final String? rid;
 
   /// How long it took to process the request, in milliseconds.
-  @_s.JsonKey(name: 'timems')
-  final int timems;
+  final int? timems;
 
   SearchStatus({
     this.rid,
     this.timems,
   });
-  factory SearchStatus.fromJson(Map<String, dynamic> json) =>
-      _$SearchStatusFromJson(json);
+
+  factory SearchStatus.fromJson(Map<String, dynamic> json) {
+    return SearchStatus(
+      rid: json['rid'] as String?,
+      timems: json['timems'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rid = this.rid;
+    final timems = this.timems;
+    return {
+      if (rid != null) 'rid': rid,
+      if (timems != null) 'timems': timems,
+    };
+  }
 }
 
 /// Container for the suggestion information returned in a
 /// <code>SuggestResponse</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SuggestModel {
   /// The number of documents that were found to match the query string.
-  @_s.JsonKey(name: 'found')
-  final int found;
+  final int? found;
 
   /// The query string specified in the suggest request.
-  @_s.JsonKey(name: 'query')
-  final String query;
+  final String? query;
 
   /// The documents that match the query string.
-  @_s.JsonKey(name: 'suggestions')
-  final List<SuggestionMatch> suggestions;
+  final List<SuggestionMatch>? suggestions;
 
   SuggestModel({
     this.found,
     this.query,
     this.suggestions,
   });
-  factory SuggestModel.fromJson(Map<String, dynamic> json) =>
-      _$SuggestModelFromJson(json);
+
+  factory SuggestModel.fromJson(Map<String, dynamic> json) {
+    return SuggestModel(
+      found: json['found'] as int?,
+      query: json['query'] as String?,
+      suggestions: (json['suggestions'] as List?)
+          ?.whereNotNull()
+          .map((e) => SuggestionMatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final found = this.found;
+    final query = this.query;
+    final suggestions = this.suggestions;
+    return {
+      if (found != null) 'found': found,
+      if (query != null) 'query': query,
+      if (suggestions != null) 'suggestions': suggestions,
+    };
+  }
 }
 
 /// Contains the response to a <code>Suggest</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SuggestResponse {
   /// The status of a <code>SuggestRequest</code>. Contains the resource ID
   /// (<code>rid</code>) and how long it took to process the request
   /// (<code>timems</code>).
-  @_s.JsonKey(name: 'status')
-  final SuggestStatus status;
+  final SuggestStatus? status;
 
   /// Container for the matching search suggestion information.
-  @_s.JsonKey(name: 'suggest')
-  final SuggestModel suggest;
+  final SuggestModel? suggest;
 
   SuggestResponse({
     this.status,
     this.suggest,
   });
-  factory SuggestResponse.fromJson(Map<String, dynamic> json) =>
-      _$SuggestResponseFromJson(json);
+
+  factory SuggestResponse.fromJson(Map<String, dynamic> json) {
+    return SuggestResponse(
+      status: json['status'] != null
+          ? SuggestStatus.fromJson(json['status'] as Map<String, dynamic>)
+          : null,
+      suggest: json['suggest'] != null
+          ? SuggestModel.fromJson(json['suggest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final suggest = this.suggest;
+    return {
+      if (status != null) 'status': status,
+      if (suggest != null) 'suggest': suggest,
+    };
+  }
 }
 
 /// Contains the resource id (<code>rid</code>) and the time it took to process
 /// the request (<code>timems</code>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SuggestStatus {
   /// The encrypted resource ID for the request.
-  @_s.JsonKey(name: 'rid')
-  final String rid;
+  final String? rid;
 
   /// How long it took to process the request, in milliseconds.
-  @_s.JsonKey(name: 'timems')
-  final int timems;
+  final int? timems;
 
   SuggestStatus({
     this.rid,
     this.timems,
   });
-  factory SuggestStatus.fromJson(Map<String, dynamic> json) =>
-      _$SuggestStatusFromJson(json);
+
+  factory SuggestStatus.fromJson(Map<String, dynamic> json) {
+    return SuggestStatus(
+      rid: json['rid'] as String?,
+      timems: json['timems'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rid = this.rid;
+    final timems = this.timems;
+    return {
+      if (rid != null) 'rid': rid,
+      if (timems != null) 'timems': timems,
+    };
+  }
 }
 
 /// An autocomplete suggestion that matches the query string specified in a
 /// <code>SuggestRequest</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SuggestionMatch {
   /// The document ID of the suggested document.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The relevance score of a suggested match.
-  @_s.JsonKey(name: 'score')
-  final int score;
+  final int? score;
 
   /// The string that matches the query string specified in the
   /// <code>SuggestRequest</code>.
-  @_s.JsonKey(name: 'suggestion')
-  final String suggestion;
+  final String? suggestion;
 
   SuggestionMatch({
     this.id,
     this.score,
     this.suggestion,
   });
-  factory SuggestionMatch.fromJson(Map<String, dynamic> json) =>
-      _$SuggestionMatchFromJson(json);
+
+  factory SuggestionMatch.fromJson(Map<String, dynamic> json) {
+    return SuggestionMatch(
+      id: json['id'] as String?,
+      score: json['score'] as int?,
+      suggestion: json['suggestion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final score = this.score;
+    final suggestion = this.suggestion;
+    return {
+      if (id != null) 'id': id,
+      if (score != null) 'score': score,
+      if (suggestion != null) 'suggestion': suggestion,
+    };
+  }
 }
 
 /// Contains the response to an <code>UploadDocuments</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UploadDocumentsResponse {
   /// The number of documents that were added to the search domain.
-  @_s.JsonKey(name: 'adds')
-  final int adds;
+  final int? adds;
 
   /// The number of documents that were deleted from the search domain.
-  @_s.JsonKey(name: 'deletes')
-  final int deletes;
+  final int? deletes;
 
   /// The status of an <code>UploadDocumentsRequest</code>.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// Any warnings returned by the document service about the documents being
   /// uploaded.
-  @_s.JsonKey(name: 'warnings')
-  final List<DocumentServiceWarning> warnings;
+  final List<DocumentServiceWarning>? warnings;
 
   UploadDocumentsResponse({
     this.adds,
@@ -1100,8 +1250,32 @@ class UploadDocumentsResponse {
     this.status,
     this.warnings,
   });
-  factory UploadDocumentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$UploadDocumentsResponseFromJson(json);
+
+  factory UploadDocumentsResponse.fromJson(Map<String, dynamic> json) {
+    return UploadDocumentsResponse(
+      adds: json['adds'] as int?,
+      deletes: json['deletes'] as int?,
+      status: json['status'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => DocumentServiceWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adds = this.adds;
+    final deletes = this.deletes;
+    final status = this.status;
+    final warnings = this.warnings;
+    return {
+      if (adds != null) 'adds': adds,
+      if (deletes != null) 'deletes': deletes,
+      if (status != null) 'status': status,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-11-14.g.dart';
 
 ///
 /// The operations for managing an Amazon MSK cluster.
@@ -32,10 +25,10 @@ part '2018-11-14.g.dart';
 class Kafka {
   final _s.RestJsonProtocol _protocol;
   Kafka({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -69,8 +62,8 @@ class Kafka {
   /// List of AWS Secrets Manager secret ARNs.
   ///
   Future<BatchAssociateScramSecretResponse> batchAssociateScramSecret({
-    @_s.required String clusterArn,
-    @_s.required List<String> secretArnList,
+    required String clusterArn,
+    required List<String> secretArnList,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(secretArnList, 'secretArnList');
@@ -152,17 +145,17 @@ class Kafka {
   /// Create tags when creating the cluster.
   ///
   Future<CreateClusterResponse> createCluster({
-    @_s.required BrokerNodeGroupInfo brokerNodeGroupInfo,
-    @_s.required String clusterName,
-    @_s.required String kafkaVersion,
-    @_s.required int numberOfBrokerNodes,
-    ClientAuthentication clientAuthentication,
-    ConfigurationInfo configurationInfo,
-    EncryptionInfo encryptionInfo,
-    EnhancedMonitoring enhancedMonitoring,
-    LoggingInfo loggingInfo,
-    OpenMonitoringInfo openMonitoring,
-    Map<String, String> tags,
+    required BrokerNodeGroupInfo brokerNodeGroupInfo,
+    required String clusterName,
+    required String kafkaVersion,
+    required int numberOfBrokerNodes,
+    ClientAuthentication? clientAuthentication,
+    ConfigurationInfo? configurationInfo,
+    EncryptionInfo? encryptionInfo,
+    EnhancedMonitoring? enhancedMonitoring,
+    LoggingInfo? loggingInfo,
+    OpenMonitoringInfo? openMonitoring,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(brokerNodeGroupInfo, 'brokerNodeGroupInfo');
     ArgumentError.checkNotNull(clusterName, 'clusterName');
@@ -249,16 +242,16 @@ class Kafka {
   /// configuration.
   ///
   Future<CreateConfigurationResponse> createConfiguration({
-    @_s.required String name,
-    @_s.required Uint8List serverProperties,
-    String description,
-    List<String> kafkaVersions,
+    required String name,
+    required Uint8List serverProperties,
+    String? description,
+    List<String>? kafkaVersions,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(serverProperties, 'serverProperties');
     final $payload = <String, dynamic>{
       'name': name,
-      'serverProperties': serverProperties?.let(base64Encode),
+      'serverProperties': base64Encode(serverProperties),
       if (description != null) 'description': description,
       if (kafkaVersions != null) 'kafkaVersions': kafkaVersions,
     };
@@ -291,8 +284,8 @@ class Kafka {
   /// The current version of the MSK cluster.
   ///
   Future<DeleteClusterResponse> deleteCluster({
-    @_s.required String clusterArn,
-    String currentVersion,
+    required String clusterArn,
+    String? currentVersion,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     final $query = <String, List<String>>{
@@ -323,7 +316,7 @@ class Kafka {
   /// configuration.
   ///
   Future<DeleteConfigurationResponse> deleteConfiguration({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
@@ -351,7 +344,7 @@ class Kafka {
   /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
   ///
   Future<DescribeClusterResponse> describeCluster({
-    @_s.required String clusterArn,
+    required String clusterArn,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     final response = await _protocol.send(
@@ -379,7 +372,7 @@ class Kafka {
   /// operation.
   ///
   Future<DescribeClusterOperationResponse> describeClusterOperation({
-    @_s.required String clusterOperationArn,
+    required String clusterOperationArn,
   }) async {
     ArgumentError.checkNotNull(clusterOperationArn, 'clusterOperationArn');
     final response = await _protocol.send(
@@ -408,7 +401,7 @@ class Kafka {
   /// configuration and all of its revisions.
   ///
   Future<DescribeConfigurationResponse> describeConfiguration({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
@@ -442,8 +435,8 @@ class Kafka {
   /// A string that uniquely identifies a revision of an MSK configuration.
   ///
   Future<DescribeConfigurationRevisionResponse> describeConfigurationRevision({
-    @_s.required String arn,
-    @_s.required int revision,
+    required String arn,
+    required int revision,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(revision, 'revision');
@@ -479,8 +472,8 @@ class Kafka {
   /// List of AWS Secrets Manager secret ARNs.
   ///
   Future<BatchDisassociateScramSecretResponse> batchDisassociateScramSecret({
-    @_s.required String clusterArn,
-    @_s.required List<String> secretArnList,
+    required String clusterArn,
+    required List<String> secretArnList,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(secretArnList, 'secretArnList');
@@ -512,7 +505,7 @@ class Kafka {
   /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
   ///
   Future<GetBootstrapBrokersResponse> getBootstrapBrokers({
-    @_s.required String clusterArn,
+    required String clusterArn,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     final response = await _protocol.send(
@@ -542,7 +535,7 @@ class Kafka {
   /// The Amazon Resource Name (ARN) of the cluster check.
   ///
   Future<GetCompatibleKafkaVersionsResponse> getCompatibleKafkaVersions({
-    String clusterArn,
+    String? clusterArn,
   }) async {
     final $query = <String, List<String>>{
       if (clusterArn != null) 'clusterArn': [clusterArn],
@@ -585,9 +578,9 @@ class Kafka {
   /// To get the next batch, provide this token in your next request.
   ///
   Future<ListClusterOperationsResponse> listClusterOperations({
-    @_s.required String clusterArn,
-    int maxResults,
-    String nextToken,
+    required String clusterArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     _s.validateNumRange(
@@ -638,9 +631,9 @@ class Kafka {
   /// To get the next batch, provide this token in your next request.
   ///
   Future<ListClustersResponse> listClusters({
-    String clusterNameFilter,
-    int maxResults,
-    String nextToken,
+    String? clusterNameFilter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -693,9 +686,9 @@ class Kafka {
   /// To get the next batch, provide this token in your next request.
   ///
   Future<ListConfigurationRevisionsResponse> listConfigurationRevisions({
-    @_s.required String arn,
-    int maxResults,
-    String nextToken,
+    required String arn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateNumRange(
@@ -741,8 +734,8 @@ class Kafka {
   /// To get the next batch, provide this token in your next request.
   ///
   Future<ListConfigurationsResponse> listConfigurations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -784,8 +777,8 @@ class Kafka {
   /// truncated, the call returns NextToken in the response. To get the next
   /// batch, provide this token in your next request.
   Future<ListKafkaVersionsResponse> listKafkaVersions({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -834,9 +827,9 @@ class Kafka {
   /// To get the next batch, provide this token in your next request.
   ///
   Future<ListNodesResponse> listNodes({
-    @_s.required String clusterArn,
-    int maxResults,
-    String nextToken,
+    required String clusterArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     _s.validateNumRange(
@@ -886,9 +879,9 @@ class Kafka {
   /// The nextToken of the query.
   ///
   Future<ListScramSecretsResponse> listScramSecrets({
-    @_s.required String clusterArn,
-    int maxResults,
-    String nextToken,
+    required String clusterArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     _s.validateNumRange(
@@ -926,7 +919,7 @@ class Kafka {
   /// that's associated with the tags.
   ///
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -959,8 +952,8 @@ class Kafka {
   /// The Amazon Resource Name (ARN) of the cluster to be updated.
   ///
   Future<RebootBrokerResponse> rebootBroker({
-    @_s.required List<String> brokerIds,
-    @_s.required String clusterArn,
+    required List<String> brokerIds,
+    required String clusterArn,
   }) async {
     ArgumentError.checkNotNull(brokerIds, 'brokerIds');
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
@@ -996,8 +989,8 @@ class Kafka {
   /// The key-value pair for the resource tag.
   ///
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1067,13 +1060,13 @@ class Kafka {
   ///
   /// </ul>
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -1111,9 +1104,9 @@ class Kafka {
   /// operation completes successfully.
   ///
   Future<UpdateBrokerCountResponse> updateBrokerCount({
-    @_s.required String clusterArn,
-    @_s.required String currentVersion,
-    @_s.required int targetNumberOfBrokerNodes,
+    required String clusterArn,
+    required String currentVersion,
+    required int targetNumberOfBrokerNodes,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
@@ -1137,6 +1130,55 @@ class Kafka {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBrokerCountResponse.fromJson(response);
+  }
+
+  ///
+  /// Updates EC2 instance type.
+  ///
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnauthorizedException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [clusterArn] :
+  ///
+  /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+  ///
+  ///
+  /// Parameter [currentVersion] :
+  ///
+  /// The cluster version that you want to change. After this operation
+  /// completes successfully, the cluster will have a new version.
+  ///
+  ///
+  /// Parameter [targetInstanceType] :
+  ///
+  /// The Amazon MSK broker type that you want all of the brokers in this
+  /// cluster to be.
+  ///
+  Future<UpdateBrokerTypeResponse> updateBrokerType({
+    required String clusterArn,
+    required String currentVersion,
+    required String targetInstanceType,
+  }) async {
+    ArgumentError.checkNotNull(clusterArn, 'clusterArn');
+    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
+    ArgumentError.checkNotNull(targetInstanceType, 'targetInstanceType');
+    final $payload = <String, dynamic>{
+      'currentVersion': currentVersion,
+      'targetInstanceType': targetInstanceType,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/nodes/type',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateBrokerTypeResponse.fromJson(response);
   }
 
   ///
@@ -1166,9 +1208,9 @@ class Kafka {
   /// update to.
   ///
   Future<UpdateBrokerStorageResponse> updateBrokerStorage({
-    @_s.required String clusterArn,
-    @_s.required String currentVersion,
-    @_s.required List<BrokerEBSVolumeInfo> targetBrokerEBSVolumeInfo,
+    required String clusterArn,
+    required String currentVersion,
+    required List<BrokerEBSVolumeInfo> targetBrokerEBSVolumeInfo,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
@@ -1217,14 +1259,14 @@ class Kafka {
   /// The description of the configuration revision.
   ///
   Future<UpdateConfigurationResponse> updateConfiguration({
-    @_s.required String arn,
-    @_s.required Uint8List serverProperties,
-    String description,
+    required String arn,
+    required Uint8List serverProperties,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(serverProperties, 'serverProperties');
     final $payload = <String, dynamic>{
-      'serverProperties': serverProperties?.let(base64Encode),
+      'serverProperties': base64Encode(serverProperties),
       if (description != null) 'description': description,
     };
     final response = await _protocol.send(
@@ -1264,9 +1306,9 @@ class Kafka {
   /// The version of the cluster that needs to be updated.
   ///
   Future<UpdateClusterConfigurationResponse> updateClusterConfiguration({
-    @_s.required String clusterArn,
-    @_s.required ConfigurationInfo configurationInfo,
-    @_s.required String currentVersion,
+    required String clusterArn,
+    required ConfigurationInfo configurationInfo,
+    required String currentVersion,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(configurationInfo, 'configurationInfo');
@@ -1318,10 +1360,10 @@ class Kafka {
   /// cluster.
   ///
   Future<UpdateClusterKafkaVersionResponse> updateClusterKafkaVersion({
-    @_s.required String clusterArn,
-    @_s.required String currentVersion,
-    @_s.required String targetKafkaVersion,
-    ConfigurationInfo configurationInfo,
+    required String clusterArn,
+    required String currentVersion,
+    required String targetKafkaVersion,
+    ConfigurationInfo? configurationInfo,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
@@ -1376,11 +1418,11 @@ class Kafka {
   /// The settings for open monitoring.
   ///
   Future<UpdateMonitoringResponse> updateMonitoring({
-    @_s.required String clusterArn,
-    @_s.required String currentVersion,
-    EnhancedMonitoring enhancedMonitoring,
-    LoggingInfo loggingInfo,
-    OpenMonitoringInfo openMonitoring,
+    required String clusterArn,
+    required String currentVersion,
+    EnhancedMonitoring? enhancedMonitoring,
+    LoggingInfo? loggingInfo,
+    OpenMonitoringInfo? openMonitoring,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
@@ -1401,31 +1443,43 @@ class Kafka {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAssociateScramSecretResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// List of errors when associating secrets to cluster.
   ///
-  @_s.JsonKey(name: 'unprocessedScramSecrets')
-  final List<UnprocessedScramSecret> unprocessedScramSecrets;
+  final List<UnprocessedScramSecret>? unprocessedScramSecrets;
 
   BatchAssociateScramSecretResponse({
     this.clusterArn,
     this.unprocessedScramSecrets,
   });
+
   factory BatchAssociateScramSecretResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchAssociateScramSecretResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchAssociateScramSecretResponse(
+      clusterArn: json['clusterArn'] as String?,
+      unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final unprocessedScramSecrets = this.unprocessedScramSecrets;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (unprocessedScramSecrets != null)
+        'unprocessedScramSecrets': unprocessedScramSecrets,
+    };
+  }
 }
 
 ///
@@ -1439,8 +1493,26 @@ class BatchAssociateScramSecretResponse {
 /// that correspond to the subnets you provide when you create the cluster.
 ///
 enum BrokerAZDistribution {
-  @_s.JsonValue('DEFAULT')
   $default,
+}
+
+extension on BrokerAZDistribution {
+  String toValue() {
+    switch (this) {
+      case BrokerAZDistribution.$default:
+        return 'DEFAULT';
+    }
+  }
+}
+
+extension on String {
+  BrokerAZDistribution toBrokerAZDistribution() {
+    switch (this) {
+      case 'DEFAULT':
+        return BrokerAZDistribution.$default;
+    }
+    throw Exception('$this is not known in enum BrokerAZDistribution');
+  }
 }
 
 ///
@@ -1448,66 +1520,80 @@ enum BrokerAZDistribution {
 /// set to the keyword ALL. This means the changes apply to all the brokers in
 /// the cluster.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BrokerEBSVolumeInfo {
   ///
   /// The ID of the broker to update.
   ///
-  @_s.JsonKey(name: 'kafkaBrokerNodeId')
   final String kafkaBrokerNodeId;
 
   ///
   /// Size of the EBS volume to update.
   ///
-  @_s.JsonKey(name: 'volumeSizeGB')
   final int volumeSizeGB;
 
   BrokerEBSVolumeInfo({
-    @_s.required this.kafkaBrokerNodeId,
-    @_s.required this.volumeSizeGB,
+    required this.kafkaBrokerNodeId,
+    required this.volumeSizeGB,
   });
-  factory BrokerEBSVolumeInfo.fromJson(Map<String, dynamic> json) =>
-      _$BrokerEBSVolumeInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BrokerEBSVolumeInfoToJson(this);
+  factory BrokerEBSVolumeInfo.fromJson(Map<String, dynamic> json) {
+    return BrokerEBSVolumeInfo(
+      kafkaBrokerNodeId: json['kafkaBrokerNodeId'] as String,
+      volumeSizeGB: json['volumeSizeGB'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kafkaBrokerNodeId = this.kafkaBrokerNodeId;
+    final volumeSizeGB = this.volumeSizeGB;
+    return {
+      'kafkaBrokerNodeId': kafkaBrokerNodeId,
+      'volumeSizeGB': volumeSizeGB,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BrokerLogs {
-  @_s.JsonKey(name: 'cloudWatchLogs')
-  final CloudWatchLogs cloudWatchLogs;
-  @_s.JsonKey(name: 'firehose')
-  final Firehose firehose;
-  @_s.JsonKey(name: 's3')
-  final S3 s3;
+  final CloudWatchLogs? cloudWatchLogs;
+  final Firehose? firehose;
+  final S3? s3;
 
   BrokerLogs({
     this.cloudWatchLogs,
     this.firehose,
     this.s3,
   });
-  factory BrokerLogs.fromJson(Map<String, dynamic> json) =>
-      _$BrokerLogsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BrokerLogsToJson(this);
+  factory BrokerLogs.fromJson(Map<String, dynamic> json) {
+    return BrokerLogs(
+      cloudWatchLogs: json['cloudWatchLogs'] != null
+          ? CloudWatchLogs.fromJson(
+              json['cloudWatchLogs'] as Map<String, dynamic>)
+          : null,
+      firehose: json['firehose'] != null
+          ? Firehose.fromJson(json['firehose'] as Map<String, dynamic>)
+          : null,
+      s3: json['s3'] != null
+          ? S3.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogs = this.cloudWatchLogs;
+    final firehose = this.firehose;
+    final s3 = this.s3;
+    return {
+      if (cloudWatchLogs != null) 'cloudWatchLogs': cloudWatchLogs,
+      if (firehose != null) 'firehose': firehose,
+      if (s3 != null) 's3': s3,
+    };
+  }
 }
 
 ///
 /// Describes the setup to be used for Kafka broker nodes in the cluster.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BrokerNodeGroupInfo {
   ///
   /// The list of subnets to connect to in the client virtual private cloud (VPC).
@@ -1515,7 +1601,6 @@ class BrokerNodeGroupInfo {
   /// applications use elastic network interfaces to produce and consume data.
   /// Client subnets can't be in Availability Zone us-east-1e.
   ///
-  @_s.JsonKey(name: 'clientSubnets')
   final List<String> clientSubnets;
 
   ///
@@ -1524,7 +1609,6 @@ class BrokerNodeGroupInfo {
   /// kafka.m5.2xlarge,
   /// kafka.m5.4xlarge, kafka.m5.12xlarge, and kafka.m5.24xlarge.
   ///
-  @_s.JsonKey(name: 'instanceType')
   final String instanceType;
 
   ///
@@ -1537,8 +1621,7 @@ class BrokerNodeGroupInfo {
   /// Amazon MSK distributes the broker nodes evenly across the Availability Zones
   /// that correspond to the subnets you provide when you create the cluster.
   ///
-  @_s.JsonKey(name: 'brokerAZDistribution')
-  final BrokerAZDistribution brokerAZDistribution;
+  final BrokerAZDistribution? brokerAZDistribution;
 
   ///
   /// The AWS security groups to associate with the elastic network interfaces in
@@ -1546,73 +1629,91 @@ class BrokerNodeGroupInfo {
   /// cluster. If you don't specify a security group, Amazon MSK uses the default
   /// security group associated with the VPC.
   ///
-  @_s.JsonKey(name: 'securityGroups')
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   ///
   /// Contains information about storage volumes attached to MSK broker nodes.
   ///
-  @_s.JsonKey(name: 'storageInfo')
-  final StorageInfo storageInfo;
+  final StorageInfo? storageInfo;
 
   BrokerNodeGroupInfo({
-    @_s.required this.clientSubnets,
-    @_s.required this.instanceType,
+    required this.clientSubnets,
+    required this.instanceType,
     this.brokerAZDistribution,
     this.securityGroups,
     this.storageInfo,
   });
-  factory BrokerNodeGroupInfo.fromJson(Map<String, dynamic> json) =>
-      _$BrokerNodeGroupInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BrokerNodeGroupInfoToJson(this);
+  factory BrokerNodeGroupInfo.fromJson(Map<String, dynamic> json) {
+    return BrokerNodeGroupInfo(
+      clientSubnets: (json['clientSubnets'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceType: json['instanceType'] as String,
+      brokerAZDistribution:
+          (json['brokerAZDistribution'] as String?)?.toBrokerAZDistribution(),
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      storageInfo: json['storageInfo'] != null
+          ? StorageInfo.fromJson(json['storageInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientSubnets = this.clientSubnets;
+    final instanceType = this.instanceType;
+    final brokerAZDistribution = this.brokerAZDistribution;
+    final securityGroups = this.securityGroups;
+    final storageInfo = this.storageInfo;
+    return {
+      'clientSubnets': clientSubnets,
+      'instanceType': instanceType,
+      if (brokerAZDistribution != null)
+        'brokerAZDistribution': brokerAZDistribution.toValue(),
+      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (storageInfo != null) 'storageInfo': storageInfo,
+    };
+  }
 }
 
 ///
 /// BrokerNodeInfo
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BrokerNodeInfo {
   ///
   /// The attached elastic network interface of the broker.
   ///
-  @_s.JsonKey(name: 'attachedENIId')
-  final String attachedENIId;
+  final String? attachedENIId;
 
   ///
   /// The ID of the broker.
   ///
-  @_s.JsonKey(name: 'brokerId')
-  final double brokerId;
+  final double? brokerId;
 
   ///
   /// The client subnet to which this broker node belongs.
   ///
-  @_s.JsonKey(name: 'clientSubnet')
-  final String clientSubnet;
+  final String? clientSubnet;
 
   ///
   /// The virtual private cloud (VPC) of the client.
   ///
-  @_s.JsonKey(name: 'clientVpcIpAddress')
-  final String clientVpcIpAddress;
+  final String? clientVpcIpAddress;
 
   ///
   /// Information about the version of software currently deployed on the Kafka
   /// brokers in the cluster.
   ///
-  @_s.JsonKey(name: 'currentBrokerSoftwareInfo')
-  final BrokerSoftwareInfo currentBrokerSoftwareInfo;
+  final BrokerSoftwareInfo? currentBrokerSoftwareInfo;
 
   ///
   /// Endpoints for accessing the broker.
   ///
-  @_s.JsonKey(name: 'endpoints')
-  final List<String> endpoints;
+  final List<String>? endpoints;
 
   BrokerNodeInfo({
     this.attachedENIId,
@@ -1622,176 +1723,242 @@ class BrokerNodeInfo {
     this.currentBrokerSoftwareInfo,
     this.endpoints,
   });
-  factory BrokerNodeInfo.fromJson(Map<String, dynamic> json) =>
-      _$BrokerNodeInfoFromJson(json);
+
+  factory BrokerNodeInfo.fromJson(Map<String, dynamic> json) {
+    return BrokerNodeInfo(
+      attachedENIId: json['attachedENIId'] as String?,
+      brokerId: json['brokerId'] as double?,
+      clientSubnet: json['clientSubnet'] as String?,
+      clientVpcIpAddress: json['clientVpcIpAddress'] as String?,
+      currentBrokerSoftwareInfo: json['currentBrokerSoftwareInfo'] != null
+          ? BrokerSoftwareInfo.fromJson(
+              json['currentBrokerSoftwareInfo'] as Map<String, dynamic>)
+          : null,
+      endpoints: (json['endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedENIId = this.attachedENIId;
+    final brokerId = this.brokerId;
+    final clientSubnet = this.clientSubnet;
+    final clientVpcIpAddress = this.clientVpcIpAddress;
+    final currentBrokerSoftwareInfo = this.currentBrokerSoftwareInfo;
+    final endpoints = this.endpoints;
+    return {
+      if (attachedENIId != null) 'attachedENIId': attachedENIId,
+      if (brokerId != null) 'brokerId': brokerId,
+      if (clientSubnet != null) 'clientSubnet': clientSubnet,
+      if (clientVpcIpAddress != null) 'clientVpcIpAddress': clientVpcIpAddress,
+      if (currentBrokerSoftwareInfo != null)
+        'currentBrokerSoftwareInfo': currentBrokerSoftwareInfo,
+      if (endpoints != null) 'endpoints': endpoints,
+    };
+  }
 }
 
 ///
 /// Information about the current software installed on the cluster.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BrokerSoftwareInfo {
   ///
   /// The Amazon Resource Name (ARN) of the configuration used for the cluster.
   /// This field isn't visible in this preview release.
   ///
-  @_s.JsonKey(name: 'configurationArn')
-  final String configurationArn;
+  final String? configurationArn;
 
   ///
   /// The revision of the configuration to use. This field isn't visible in this
   /// preview release.
   ///
-  @_s.JsonKey(name: 'configurationRevision')
-  final int configurationRevision;
+  final int? configurationRevision;
 
   ///
   /// The version of Apache Kafka.
   ///
-  @_s.JsonKey(name: 'kafkaVersion')
-  final String kafkaVersion;
+  final String? kafkaVersion;
 
   BrokerSoftwareInfo({
     this.configurationArn,
     this.configurationRevision,
     this.kafkaVersion,
   });
-  factory BrokerSoftwareInfo.fromJson(Map<String, dynamic> json) =>
-      _$BrokerSoftwareInfoFromJson(json);
+
+  factory BrokerSoftwareInfo.fromJson(Map<String, dynamic> json) {
+    return BrokerSoftwareInfo(
+      configurationArn: json['configurationArn'] as String?,
+      configurationRevision: json['configurationRevision'] as int?,
+      kafkaVersion: json['kafkaVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationArn = this.configurationArn;
+    final configurationRevision = this.configurationRevision;
+    final kafkaVersion = this.kafkaVersion;
+    return {
+      if (configurationArn != null) 'configurationArn': configurationArn,
+      if (configurationRevision != null)
+        'configurationRevision': configurationRevision,
+      if (kafkaVersion != null) 'kafkaVersion': kafkaVersion,
+    };
+  }
 }
 
 ///
 /// Includes all client authentication information.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClientAuthentication {
   ///
   /// Details for ClientAuthentication using SASL.
   ///
-  @_s.JsonKey(name: 'sasl')
-  final Sasl sasl;
+  final Sasl? sasl;
 
   ///
   /// Details for ClientAuthentication using TLS.
   ///
-  @_s.JsonKey(name: 'tls')
-  final Tls tls;
+  final Tls? tls;
 
   ClientAuthentication({
     this.sasl,
     this.tls,
   });
-  factory ClientAuthentication.fromJson(Map<String, dynamic> json) =>
-      _$ClientAuthenticationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ClientAuthenticationToJson(this);
+  factory ClientAuthentication.fromJson(Map<String, dynamic> json) {
+    return ClientAuthentication(
+      sasl: json['sasl'] != null
+          ? Sasl.fromJson(json['sasl'] as Map<String, dynamic>)
+          : null,
+      tls: json['tls'] != null
+          ? Tls.fromJson(json['tls'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sasl = this.sasl;
+    final tls = this.tls;
+    return {
+      if (sasl != null) 'sasl': sasl,
+      if (tls != null) 'tls': tls,
+    };
+  }
 }
 
 ///
 /// Client-broker encryption in transit setting.
 ///
 enum ClientBroker {
-  @_s.JsonValue('TLS')
   tls,
-  @_s.JsonValue('TLS_PLAINTEXT')
   tlsPlaintext,
-  @_s.JsonValue('PLAINTEXT')
   plaintext,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+extension on ClientBroker {
+  String toValue() {
+    switch (this) {
+      case ClientBroker.tls:
+        return 'TLS';
+      case ClientBroker.tlsPlaintext:
+        return 'TLS_PLAINTEXT';
+      case ClientBroker.plaintext:
+        return 'PLAINTEXT';
+    }
+  }
+}
+
+extension on String {
+  ClientBroker toClientBroker() {
+    switch (this) {
+      case 'TLS':
+        return ClientBroker.tls;
+      case 'TLS_PLAINTEXT':
+        return ClientBroker.tlsPlaintext;
+      case 'PLAINTEXT':
+        return ClientBroker.plaintext;
+    }
+    throw Exception('$this is not known in enum ClientBroker');
+  }
+}
+
 class CloudWatchLogs {
-  @_s.JsonKey(name: 'enabled')
   final bool enabled;
-  @_s.JsonKey(name: 'logGroup')
-  final String logGroup;
+  final String? logGroup;
 
   CloudWatchLogs({
-    @_s.required this.enabled,
+    required this.enabled,
     this.logGroup,
   });
-  factory CloudWatchLogs.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchLogsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CloudWatchLogsToJson(this);
+  factory CloudWatchLogs.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLogs(
+      enabled: json['enabled'] as bool,
+      logGroup: json['logGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final logGroup = this.logGroup;
+    return {
+      'enabled': enabled,
+      if (logGroup != null) 'logGroup': logGroup,
+    };
+  }
 }
 
 ///
 /// Returns information about a cluster.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterInfo {
   ///
   /// Arn of active cluster operation.
   ///
-  @_s.JsonKey(name: 'activeOperationArn')
-  final String activeOperationArn;
+  final String? activeOperationArn;
 
   ///
   /// Information about the broker nodes.
   ///
-  @_s.JsonKey(name: 'brokerNodeGroupInfo')
-  final BrokerNodeGroupInfo brokerNodeGroupInfo;
+  final BrokerNodeGroupInfo? brokerNodeGroupInfo;
 
   ///
   /// Includes all client authentication information.
   ///
-  @_s.JsonKey(name: 'clientAuthentication')
-  final ClientAuthentication clientAuthentication;
+  final ClientAuthentication? clientAuthentication;
 
   ///
   /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The name of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterName')
-  final String clusterName;
+  final String? clusterName;
 
   ///
   /// The time when the cluster was created.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   ///
   /// Information about the version of software currently deployed on the Kafka
   /// brokers in the cluster.
   ///
-  @_s.JsonKey(name: 'currentBrokerSoftwareInfo')
-  final BrokerSoftwareInfo currentBrokerSoftwareInfo;
+  final BrokerSoftwareInfo? currentBrokerSoftwareInfo;
 
   ///
   /// The current version of the MSK cluster.
   ///
-  @_s.JsonKey(name: 'currentVersion')
-  final String currentVersion;
+  final String? currentVersion;
 
   ///
   /// Includes all encryption-related information.
   ///
-  @_s.JsonKey(name: 'encryptionInfo')
-  final EncryptionInfo encryptionInfo;
+  final EncryptionInfo? encryptionInfo;
 
   ///
   /// Specifies which metrics are gathered for the MSK cluster. This property has
@@ -1800,49 +1967,40 @@ class ClusterInfo {
   /// of these levels of monitoring, see <a
   /// href="https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html">Monitoring</a>.
   ///
-  @_s.JsonKey(name: 'enhancedMonitoring')
-  final EnhancedMonitoring enhancedMonitoring;
-  @_s.JsonKey(name: 'loggingInfo')
-  final LoggingInfo loggingInfo;
+  final EnhancedMonitoring? enhancedMonitoring;
+  final LoggingInfo? loggingInfo;
 
   ///
   /// The number of broker nodes in the cluster.
   ///
-  @_s.JsonKey(name: 'numberOfBrokerNodes')
-  final int numberOfBrokerNodes;
+  final int? numberOfBrokerNodes;
 
   ///
   /// Settings for open monitoring using Prometheus.
   ///
-  @_s.JsonKey(name: 'openMonitoring')
-  final OpenMonitoring openMonitoring;
+  final OpenMonitoring? openMonitoring;
 
   ///
   /// The state of the cluster. The possible states are ACTIVE, CREATING,
   /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
   ///
-  @_s.JsonKey(name: 'state')
-  final ClusterState state;
-  @_s.JsonKey(name: 'stateInfo')
-  final StateInfo stateInfo;
+  final ClusterState? state;
+  final StateInfo? stateInfo;
 
   ///
   /// Tags attached to the cluster.
   ///
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ///
   /// The connection string to use to connect to the Apache ZooKeeper cluster.
   ///
-  @_s.JsonKey(name: 'zookeeperConnectString')
-  final String zookeeperConnectString;
+  final String? zookeeperConnectString;
 
   ///
   /// The connection string to use to connect to zookeeper cluster on Tls port.
   ///
-  @_s.JsonKey(name: 'zookeeperConnectStringTls')
-  final String zookeeperConnectStringTls;
+  final String? zookeeperConnectStringTls;
 
   ClusterInfo({
     this.activeOperationArn,
@@ -1864,86 +2022,158 @@ class ClusterInfo {
     this.zookeeperConnectString,
     this.zookeeperConnectStringTls,
   });
-  factory ClusterInfo.fromJson(Map<String, dynamic> json) =>
-      _$ClusterInfoFromJson(json);
+
+  factory ClusterInfo.fromJson(Map<String, dynamic> json) {
+    return ClusterInfo(
+      activeOperationArn: json['activeOperationArn'] as String?,
+      brokerNodeGroupInfo: json['brokerNodeGroupInfo'] != null
+          ? BrokerNodeGroupInfo.fromJson(
+              json['brokerNodeGroupInfo'] as Map<String, dynamic>)
+          : null,
+      clientAuthentication: json['clientAuthentication'] != null
+          ? ClientAuthentication.fromJson(
+              json['clientAuthentication'] as Map<String, dynamic>)
+          : null,
+      clusterArn: json['clusterArn'] as String?,
+      clusterName: json['clusterName'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      currentBrokerSoftwareInfo: json['currentBrokerSoftwareInfo'] != null
+          ? BrokerSoftwareInfo.fromJson(
+              json['currentBrokerSoftwareInfo'] as Map<String, dynamic>)
+          : null,
+      currentVersion: json['currentVersion'] as String?,
+      encryptionInfo: json['encryptionInfo'] != null
+          ? EncryptionInfo.fromJson(
+              json['encryptionInfo'] as Map<String, dynamic>)
+          : null,
+      enhancedMonitoring:
+          (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
+      loggingInfo: json['loggingInfo'] != null
+          ? LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>)
+          : null,
+      numberOfBrokerNodes: json['numberOfBrokerNodes'] as int?,
+      openMonitoring: json['openMonitoring'] != null
+          ? OpenMonitoring.fromJson(
+              json['openMonitoring'] as Map<String, dynamic>)
+          : null,
+      state: (json['state'] as String?)?.toClusterState(),
+      stateInfo: json['stateInfo'] != null
+          ? StateInfo.fromJson(json['stateInfo'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      zookeeperConnectString: json['zookeeperConnectString'] as String?,
+      zookeeperConnectStringTls: json['zookeeperConnectStringTls'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeOperationArn = this.activeOperationArn;
+    final brokerNodeGroupInfo = this.brokerNodeGroupInfo;
+    final clientAuthentication = this.clientAuthentication;
+    final clusterArn = this.clusterArn;
+    final clusterName = this.clusterName;
+    final creationTime = this.creationTime;
+    final currentBrokerSoftwareInfo = this.currentBrokerSoftwareInfo;
+    final currentVersion = this.currentVersion;
+    final encryptionInfo = this.encryptionInfo;
+    final enhancedMonitoring = this.enhancedMonitoring;
+    final loggingInfo = this.loggingInfo;
+    final numberOfBrokerNodes = this.numberOfBrokerNodes;
+    final openMonitoring = this.openMonitoring;
+    final state = this.state;
+    final stateInfo = this.stateInfo;
+    final tags = this.tags;
+    final zookeeperConnectString = this.zookeeperConnectString;
+    final zookeeperConnectStringTls = this.zookeeperConnectStringTls;
+    return {
+      if (activeOperationArn != null) 'activeOperationArn': activeOperationArn,
+      if (brokerNodeGroupInfo != null)
+        'brokerNodeGroupInfo': brokerNodeGroupInfo,
+      if (clientAuthentication != null)
+        'clientAuthentication': clientAuthentication,
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterName != null) 'clusterName': clusterName,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (currentBrokerSoftwareInfo != null)
+        'currentBrokerSoftwareInfo': currentBrokerSoftwareInfo,
+      if (currentVersion != null) 'currentVersion': currentVersion,
+      if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
+      if (enhancedMonitoring != null)
+        'enhancedMonitoring': enhancedMonitoring.toValue(),
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (numberOfBrokerNodes != null)
+        'numberOfBrokerNodes': numberOfBrokerNodes,
+      if (openMonitoring != null) 'openMonitoring': openMonitoring,
+      if (state != null) 'state': state.toValue(),
+      if (stateInfo != null) 'stateInfo': stateInfo,
+      if (tags != null) 'tags': tags,
+      if (zookeeperConnectString != null)
+        'zookeeperConnectString': zookeeperConnectString,
+      if (zookeeperConnectStringTls != null)
+        'zookeeperConnectStringTls': zookeeperConnectStringTls,
+    };
+  }
 }
 
 ///
 /// Returns information about a cluster operation.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterOperationInfo {
   ///
   /// The ID of the API request that triggered this operation.
   ///
-  @_s.JsonKey(name: 'clientRequestId')
-  final String clientRequestId;
+  final String? clientRequestId;
 
   ///
   /// ARN of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The time that the operation was created.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   ///
   /// The time at which the operation finished.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   ///
   /// Describes the error if the operation fails.
   ///
-  @_s.JsonKey(name: 'errorInfo')
-  final ErrorInfo errorInfo;
+  final ErrorInfo? errorInfo;
 
   ///
   /// ARN of the cluster operation.
   ///
-  @_s.JsonKey(name: 'operationArn')
-  final String operationArn;
+  final String? operationArn;
 
   ///
   /// State of the cluster operation.
   ///
-  @_s.JsonKey(name: 'operationState')
-  final String operationState;
+  final String? operationState;
 
   ///
   /// Steps completed during the operation.
   ///
-  @_s.JsonKey(name: 'operationSteps')
-  final List<ClusterOperationStep> operationSteps;
+  final List<ClusterOperationStep>? operationSteps;
 
   ///
   /// Type of the cluster operation.
   ///
-  @_s.JsonKey(name: 'operationType')
-  final String operationType;
+  final String? operationType;
 
   ///
   /// Information about cluster attributes before a cluster is updated.
   ///
-  @_s.JsonKey(name: 'sourceClusterInfo')
-  final MutableClusterInfo sourceClusterInfo;
+  final MutableClusterInfo? sourceClusterInfo;
 
   ///
   /// Information about cluster attributes after a cluster is updated.
   ///
-  @_s.JsonKey(name: 'targetClusterInfo')
-  final MutableClusterInfo targetClusterInfo;
+  final MutableClusterInfo? targetClusterInfo;
 
   ClusterOperationInfo({
     this.clientRequestId,
@@ -1958,138 +2188,245 @@ class ClusterOperationInfo {
     this.sourceClusterInfo,
     this.targetClusterInfo,
   });
-  factory ClusterOperationInfo.fromJson(Map<String, dynamic> json) =>
-      _$ClusterOperationInfoFromJson(json);
+
+  factory ClusterOperationInfo.fromJson(Map<String, dynamic> json) {
+    return ClusterOperationInfo(
+      clientRequestId: json['clientRequestId'] as String?,
+      clusterArn: json['clusterArn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      endTime: timeStampFromJson(json['endTime']),
+      errorInfo: json['errorInfo'] != null
+          ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
+          : null,
+      operationArn: json['operationArn'] as String?,
+      operationState: json['operationState'] as String?,
+      operationSteps: (json['operationSteps'] as List?)
+          ?.whereNotNull()
+          .map((e) => ClusterOperationStep.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      operationType: json['operationType'] as String?,
+      sourceClusterInfo: json['sourceClusterInfo'] != null
+          ? MutableClusterInfo.fromJson(
+              json['sourceClusterInfo'] as Map<String, dynamic>)
+          : null,
+      targetClusterInfo: json['targetClusterInfo'] != null
+          ? MutableClusterInfo.fromJson(
+              json['targetClusterInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientRequestId = this.clientRequestId;
+    final clusterArn = this.clusterArn;
+    final creationTime = this.creationTime;
+    final endTime = this.endTime;
+    final errorInfo = this.errorInfo;
+    final operationArn = this.operationArn;
+    final operationState = this.operationState;
+    final operationSteps = this.operationSteps;
+    final operationType = this.operationType;
+    final sourceClusterInfo = this.sourceClusterInfo;
+    final targetClusterInfo = this.targetClusterInfo;
+    return {
+      if (clientRequestId != null) 'clientRequestId': clientRequestId,
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (endTime != null) 'endTime': iso8601ToJson(endTime),
+      if (errorInfo != null) 'errorInfo': errorInfo,
+      if (operationArn != null) 'operationArn': operationArn,
+      if (operationState != null) 'operationState': operationState,
+      if (operationSteps != null) 'operationSteps': operationSteps,
+      if (operationType != null) 'operationType': operationType,
+      if (sourceClusterInfo != null) 'sourceClusterInfo': sourceClusterInfo,
+      if (targetClusterInfo != null) 'targetClusterInfo': targetClusterInfo,
+    };
+  }
 }
 
 ///
 /// Step taken during a cluster operation.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterOperationStep {
   ///
   /// Information about the step and its status.
   ///
-  @_s.JsonKey(name: 'stepInfo')
-  final ClusterOperationStepInfo stepInfo;
+  final ClusterOperationStepInfo? stepInfo;
 
   ///
   /// The name of the step.
   ///
-  @_s.JsonKey(name: 'stepName')
-  final String stepName;
+  final String? stepName;
 
   ClusterOperationStep({
     this.stepInfo,
     this.stepName,
   });
-  factory ClusterOperationStep.fromJson(Map<String, dynamic> json) =>
-      _$ClusterOperationStepFromJson(json);
+
+  factory ClusterOperationStep.fromJson(Map<String, dynamic> json) {
+    return ClusterOperationStep(
+      stepInfo: json['stepInfo'] != null
+          ? ClusterOperationStepInfo.fromJson(
+              json['stepInfo'] as Map<String, dynamic>)
+          : null,
+      stepName: json['stepName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepInfo = this.stepInfo;
+    final stepName = this.stepName;
+    return {
+      if (stepInfo != null) 'stepInfo': stepInfo,
+      if (stepName != null) 'stepName': stepName,
+    };
+  }
 }
 
 ///
 /// State information about the operation step.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterOperationStepInfo {
   ///
   /// The steps current status.
   ///
-  @_s.JsonKey(name: 'stepStatus')
-  final String stepStatus;
+  final String? stepStatus;
 
   ClusterOperationStepInfo({
     this.stepStatus,
   });
-  factory ClusterOperationStepInfo.fromJson(Map<String, dynamic> json) =>
-      _$ClusterOperationStepInfoFromJson(json);
+
+  factory ClusterOperationStepInfo.fromJson(Map<String, dynamic> json) {
+    return ClusterOperationStepInfo(
+      stepStatus: json['stepStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepStatus = this.stepStatus;
+    return {
+      if (stepStatus != null) 'stepStatus': stepStatus,
+    };
+  }
 }
 
 ///
 /// The state of a Kafka cluster.
 ///
 enum ClusterState {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('HEALING')
   healing,
-  @_s.JsonValue('MAINTENANCE')
   maintenance,
-  @_s.JsonValue('REBOOTING_BROKER')
   rebootingBroker,
-  @_s.JsonValue('UPDATING')
   updating,
+}
+
+extension on ClusterState {
+  String toValue() {
+    switch (this) {
+      case ClusterState.active:
+        return 'ACTIVE';
+      case ClusterState.creating:
+        return 'CREATING';
+      case ClusterState.deleting:
+        return 'DELETING';
+      case ClusterState.failed:
+        return 'FAILED';
+      case ClusterState.healing:
+        return 'HEALING';
+      case ClusterState.maintenance:
+        return 'MAINTENANCE';
+      case ClusterState.rebootingBroker:
+        return 'REBOOTING_BROKER';
+      case ClusterState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  ClusterState toClusterState() {
+    switch (this) {
+      case 'ACTIVE':
+        return ClusterState.active;
+      case 'CREATING':
+        return ClusterState.creating;
+      case 'DELETING':
+        return ClusterState.deleting;
+      case 'FAILED':
+        return ClusterState.failed;
+      case 'HEALING':
+        return ClusterState.healing;
+      case 'MAINTENANCE':
+        return ClusterState.maintenance;
+      case 'REBOOTING_BROKER':
+        return ClusterState.rebootingBroker;
+      case 'UPDATING':
+        return ClusterState.updating;
+    }
+    throw Exception('$this is not known in enum ClusterState');
+  }
 }
 
 ///
 /// Contains source Kafka versions and compatible target Kafka versions.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompatibleKafkaVersion {
   ///
   /// A Kafka version.
   ///
-  @_s.JsonKey(name: 'sourceVersion')
-  final String sourceVersion;
+  final String? sourceVersion;
 
   ///
   /// A list of Kafka versions.
   ///
-  @_s.JsonKey(name: 'targetVersions')
-  final List<String> targetVersions;
+  final List<String>? targetVersions;
 
   CompatibleKafkaVersion({
     this.sourceVersion,
     this.targetVersions,
   });
-  factory CompatibleKafkaVersion.fromJson(Map<String, dynamic> json) =>
-      _$CompatibleKafkaVersionFromJson(json);
+
+  factory CompatibleKafkaVersion.fromJson(Map<String, dynamic> json) {
+    return CompatibleKafkaVersion(
+      sourceVersion: json['sourceVersion'] as String?,
+      targetVersions: (json['targetVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceVersion = this.sourceVersion;
+    final targetVersions = this.targetVersions;
+    return {
+      if (sourceVersion != null) 'sourceVersion': sourceVersion,
+      if (targetVersions != null) 'targetVersions': targetVersions,
+    };
+  }
 }
 
 ///
 /// Represents an MSK Configuration.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Configuration {
   ///
   /// The Amazon Resource Name (ARN) of the configuration.
   ///
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   ///
   /// The time when the configuration was created.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
   /// The description of the configuration.
   ///
-  @_s.JsonKey(name: 'description')
   final String description;
 
   ///
@@ -2097,192 +2434,258 @@ class Configuration {
   /// configuration. You can use this configuration for an MSK cluster only if the
   /// Apache Kafka version specified for the cluster appears in this array.
   ///
-  @_s.JsonKey(name: 'kafkaVersions')
   final List<String> kafkaVersions;
 
   ///
   /// Latest revision of the configuration.
   ///
-  @_s.JsonKey(name: 'latestRevision')
   final ConfigurationRevision latestRevision;
 
   ///
   /// The name of the configuration.
   ///
-  @_s.JsonKey(name: 'name')
   final String name;
 
   ///
   /// The state of the configuration. The possible states are ACTIVE, DELETING,
   /// and DELETE_FAILED.
   ///
-  @_s.JsonKey(name: 'state')
   final ConfigurationState state;
 
   Configuration({
-    @_s.required this.arn,
-    @_s.required this.creationTime,
-    @_s.required this.description,
-    @_s.required this.kafkaVersions,
-    @_s.required this.latestRevision,
-    @_s.required this.name,
-    @_s.required this.state,
+    required this.arn,
+    required this.creationTime,
+    required this.description,
+    required this.kafkaVersions,
+    required this.latestRevision,
+    required this.name,
+    required this.state,
   });
-  factory Configuration.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationFromJson(json);
+
+  factory Configuration.fromJson(Map<String, dynamic> json) {
+    return Configuration(
+      arn: json['arn'] as String,
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      description: json['description'] as String,
+      kafkaVersions: (json['kafkaVersions'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      latestRevision: ConfigurationRevision.fromJson(
+          json['latestRevision'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      state: (json['state'] as String).toConfigurationState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final kafkaVersions = this.kafkaVersions;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    final state = this.state;
+    return {
+      'arn': arn,
+      'creationTime': iso8601ToJson(creationTime),
+      'description': description,
+      'kafkaVersions': kafkaVersions,
+      'latestRevision': latestRevision,
+      'name': name,
+      'state': state.toValue(),
+    };
+  }
 }
 
 ///
 /// Specifies the configuration to use for the brokers.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfigurationInfo {
   ///
   /// ARN of the configuration to use.
   ///
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   ///
   /// The revision of the configuration to use.
   ///
-  @_s.JsonKey(name: 'revision')
   final int revision;
 
   ConfigurationInfo({
-    @_s.required this.arn,
-    @_s.required this.revision,
+    required this.arn,
+    required this.revision,
   });
-  factory ConfigurationInfo.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationInfoToJson(this);
+  factory ConfigurationInfo.fromJson(Map<String, dynamic> json) {
+    return ConfigurationInfo(
+      arn: json['arn'] as String,
+      revision: json['revision'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final revision = this.revision;
+    return {
+      'arn': arn,
+      'revision': revision,
+    };
+  }
 }
 
 ///
 /// Describes a configuration revision.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfigurationRevision {
   ///
   /// The time when the configuration revision was created.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
   /// The revision number.
   ///
-  @_s.JsonKey(name: 'revision')
   final int revision;
 
   ///
   /// The description of the configuration revision.
   ///
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   ConfigurationRevision({
-    @_s.required this.creationTime,
-    @_s.required this.revision,
+    required this.creationTime,
+    required this.revision,
     this.description,
   });
-  factory ConfigurationRevision.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationRevisionFromJson(json);
+
+  factory ConfigurationRevision.fromJson(Map<String, dynamic> json) {
+    return ConfigurationRevision(
+      creationTime:
+          nonNullableTimeStampFromJson(json['creationTime'] as Object),
+      revision: json['revision'] as int,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final revision = this.revision;
+    final description = this.description;
+    return {
+      'creationTime': iso8601ToJson(creationTime),
+      'revision': revision,
+      if (description != null) 'description': description,
+    };
+  }
 }
 
 ///
 /// The state of a configuration.
 ///
 enum ConfigurationState {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConfigurationState {
+  String toValue() {
+    switch (this) {
+      case ConfigurationState.active:
+        return 'ACTIVE';
+      case ConfigurationState.deleting:
+        return 'DELETING';
+      case ConfigurationState.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  ConfigurationState toConfigurationState() {
+    switch (this) {
+      case 'ACTIVE':
+        return ConfigurationState.active;
+      case 'DELETING':
+        return ConfigurationState.deleting;
+      case 'DELETE_FAILED':
+        return ConfigurationState.deleteFailed;
+    }
+    throw Exception('$this is not known in enum ConfigurationState');
+  }
+}
+
 class CreateClusterResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The name of the MSK cluster.
   ///
-  @_s.JsonKey(name: 'clusterName')
-  final String clusterName;
+  final String? clusterName;
 
   ///
   /// The state of the cluster. The possible states are ACTIVE, CREATING,
   /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
   ///
-  @_s.JsonKey(name: 'state')
-  final ClusterState state;
+  final ClusterState? state;
 
   CreateClusterResponse({
     this.clusterArn,
     this.clusterName,
     this.state,
   });
-  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateClusterResponseFromJson(json);
+
+  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateClusterResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterName: json['clusterName'] as String?,
+      state: (json['state'] as String?)?.toClusterState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterName = this.clusterName;
+    final state = this.state;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterName != null) 'clusterName': clusterName,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConfigurationResponse {
   ///
   /// The Amazon Resource Name (ARN) of the configuration.
   ///
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   ///
   /// The time when the configuration was created.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   ///
   /// Latest revision of the configuration.
   ///
-  @_s.JsonKey(name: 'latestRevision')
-  final ConfigurationRevision latestRevision;
+  final ConfigurationRevision? latestRevision;
 
   ///
   /// The name of the configuration.
   ///
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   ///
   /// The state of the configuration. The possible states are ACTIVE, DELETING,
   /// and DELETE_FAILED.
   ///
-  @_s.JsonKey(name: 'state')
-  final ConfigurationState state;
+  final ConfigurationState? state;
 
   CreateConfigurationResponse({
     this.arn,
@@ -2291,153 +2694,195 @@ class CreateConfigurationResponse {
     this.name,
     this.state,
   });
-  factory CreateConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateConfigurationResponseFromJson(json);
+
+  factory CreateConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConfigurationResponse(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      latestRevision: json['latestRevision'] != null
+          ? ConfigurationRevision.fromJson(
+              json['latestRevision'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      state: (json['state'] as String?)?.toConfigurationState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (latestRevision != null) 'latestRevision': latestRevision,
+      if (name != null) 'name': name,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteClusterResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The state of the cluster. The possible states are ACTIVE, CREATING,
   /// DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
   ///
-  @_s.JsonKey(name: 'state')
-  final ClusterState state;
+  final ClusterState? state;
 
   DeleteClusterResponse({
     this.clusterArn,
     this.state,
   });
-  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteClusterResponseFromJson(json);
+
+  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteClusterResponse(
+      clusterArn: json['clusterArn'] as String?,
+      state: (json['state'] as String?)?.toClusterState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final state = this.state;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConfigurationResponse {
   ///
   /// The Amazon Resource Name (ARN) that uniquely identifies an MSK
   /// configuration.
   ///
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   ///
   /// The state of the configuration. The possible states are ACTIVE, DELETING,
   /// and DELETE_FAILED.
   ///
-  @_s.JsonKey(name: 'state')
-  final ConfigurationState state;
+  final ConfigurationState? state;
 
   DeleteConfigurationResponse({
     this.arn,
     this.state,
   });
-  factory DeleteConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConfigurationResponseFromJson(json);
+
+  factory DeleteConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteConfigurationResponse(
+      arn: json['arn'] as String?,
+      state: (json['state'] as String?)?.toConfigurationState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final state = this.state;
+    return {
+      if (arn != null) 'arn': arn,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClusterOperationResponse {
   ///
   /// Cluster operation information
   ///
-  @_s.JsonKey(name: 'clusterOperationInfo')
-  final ClusterOperationInfo clusterOperationInfo;
+  final ClusterOperationInfo? clusterOperationInfo;
 
   DescribeClusterOperationResponse({
     this.clusterOperationInfo,
   });
-  factory DescribeClusterOperationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeClusterOperationResponseFromJson(json);
+
+  factory DescribeClusterOperationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterOperationResponse(
+      clusterOperationInfo: json['clusterOperationInfo'] != null
+          ? ClusterOperationInfo.fromJson(
+              json['clusterOperationInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterOperationInfo = this.clusterOperationInfo;
+    return {
+      if (clusterOperationInfo != null)
+        'clusterOperationInfo': clusterOperationInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClusterResponse {
   ///
   /// The cluster information.
   ///
-  @_s.JsonKey(name: 'clusterInfo')
-  final ClusterInfo clusterInfo;
+  final ClusterInfo? clusterInfo;
 
   DescribeClusterResponse({
     this.clusterInfo,
   });
-  factory DescribeClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClusterResponseFromJson(json);
+
+  factory DescribeClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterResponse(
+      clusterInfo: json['clusterInfo'] != null
+          ? ClusterInfo.fromJson(json['clusterInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterInfo = this.clusterInfo;
+    return {
+      if (clusterInfo != null) 'clusterInfo': clusterInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConfigurationResponse {
   ///
   /// The Amazon Resource Name (ARN) of the configuration.
   ///
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   ///
   /// The time when the configuration was created.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   ///
   /// The description of the configuration.
   ///
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   ///
   /// The versions of Apache Kafka with which you can use this MSK configuration.
   ///
-  @_s.JsonKey(name: 'kafkaVersions')
-  final List<String> kafkaVersions;
+  final List<String>? kafkaVersions;
 
   ///
   /// Latest revision of the configuration.
   ///
-  @_s.JsonKey(name: 'latestRevision')
-  final ConfigurationRevision latestRevision;
+  final ConfigurationRevision? latestRevision;
 
   ///
   /// The name of the configuration.
   ///
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   ///
   /// The state of the configuration. The possible states are ACTIVE, DELETING,
   /// and DELETE_FAILED.
   ///
-  @_s.JsonKey(name: 'state')
-  final ConfigurationState state;
+  final ConfigurationState? state;
 
   DescribeConfigurationResponse({
     this.arn,
@@ -2448,40 +2893,65 @@ class DescribeConfigurationResponse {
     this.name,
     this.state,
   });
-  factory DescribeConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeConfigurationResponseFromJson(json);
+
+  factory DescribeConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConfigurationResponse(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      kafkaVersions: (json['kafkaVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      latestRevision: json['latestRevision'] != null
+          ? ConfigurationRevision.fromJson(
+              json['latestRevision'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      state: (json['state'] as String?)?.toConfigurationState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final kafkaVersions = this.kafkaVersions;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    final state = this.state;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (kafkaVersions != null) 'kafkaVersions': kafkaVersions,
+      if (latestRevision != null) 'latestRevision': latestRevision,
+      if (name != null) 'name': name,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConfigurationRevisionResponse {
   ///
   /// The Amazon Resource Name (ARN) of the configuration.
   ///
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   ///
   /// The time when the configuration was created.
   ///
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   ///
   /// The description of the configuration.
   ///
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   ///
   /// The revision number.
   ///
-  @_s.JsonKey(name: 'revision')
-  final int revision;
+  final int? revision;
 
   ///
   /// Contents of the <filename>server.properties</filename> file. When using the
@@ -2489,9 +2959,7 @@ class DescribeConfigurationRevisionResponse {
   /// When using the AWS Management Console, the SDK, or the AWS CLI, the contents
   /// of <filename>server.properties</filename> can be in plaintext.
   ///
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'serverProperties')
-  final Uint8List serverProperties;
+  final Uint8List? serverProperties;
 
   DescribeConfigurationRevisionResponse({
     this.arn,
@@ -2500,96 +2968,134 @@ class DescribeConfigurationRevisionResponse {
     this.revision,
     this.serverProperties,
   });
+
   factory DescribeConfigurationRevisionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeConfigurationRevisionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeConfigurationRevisionResponse(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      description: json['description'] as String?,
+      revision: json['revision'] as int?,
+      serverProperties:
+          _s.decodeNullableUint8List(json['serverProperties'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final revision = this.revision;
+    final serverProperties = this.serverProperties;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null) 'creationTime': iso8601ToJson(creationTime),
+      if (description != null) 'description': description,
+      if (revision != null) 'revision': revision,
+      if (serverProperties != null)
+        'serverProperties': base64Encode(serverProperties),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDisassociateScramSecretResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// List of errors when disassociating secrets to cluster.
   ///
-  @_s.JsonKey(name: 'unprocessedScramSecrets')
-  final List<UnprocessedScramSecret> unprocessedScramSecrets;
+  final List<UnprocessedScramSecret>? unprocessedScramSecrets;
 
   BatchDisassociateScramSecretResponse({
     this.clusterArn,
     this.unprocessedScramSecrets,
   });
+
   factory BatchDisassociateScramSecretResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDisassociateScramSecretResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchDisassociateScramSecretResponse(
+      clusterArn: json['clusterArn'] as String?,
+      unprocessedScramSecrets: (json['unprocessedScramSecrets'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => UnprocessedScramSecret.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final unprocessedScramSecrets = this.unprocessedScramSecrets;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (unprocessedScramSecrets != null)
+        'unprocessedScramSecrets': unprocessedScramSecrets,
+    };
+  }
 }
 
 ///
 /// Contains information about the EBS storage volumes attached to Kafka broker
 /// nodes.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EBSStorageInfo {
   ///
   /// The size in GiB of the EBS volume for the data drive on each broker node.
   ///
-  @_s.JsonKey(name: 'volumeSize')
-  final int volumeSize;
+  final int? volumeSize;
 
   EBSStorageInfo({
     this.volumeSize,
   });
-  factory EBSStorageInfo.fromJson(Map<String, dynamic> json) =>
-      _$EBSStorageInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EBSStorageInfoToJson(this);
+  factory EBSStorageInfo.fromJson(Map<String, dynamic> json) {
+    return EBSStorageInfo(
+      volumeSize: json['volumeSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final volumeSize = this.volumeSize;
+    return {
+      if (volumeSize != null) 'volumeSize': volumeSize,
+    };
+  }
 }
 
 ///
 /// The data-volume encryption details.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionAtRest {
   ///
   /// The ARN of the AWS KMS key for encrypting data at rest. If you don't specify
   /// a KMS key, MSK creates one for you and uses it.
   ///
-  @_s.JsonKey(name: 'dataVolumeKMSKeyId')
   final String dataVolumeKMSKeyId;
 
   EncryptionAtRest({
-    @_s.required this.dataVolumeKMSKeyId,
+    required this.dataVolumeKMSKeyId,
   });
-  factory EncryptionAtRest.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionAtRestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionAtRestToJson(this);
+  factory EncryptionAtRest.fromJson(Map<String, dynamic> json) {
+    return EncryptionAtRest(
+      dataVolumeKMSKeyId: json['dataVolumeKMSKeyId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataVolumeKMSKeyId = this.dataVolumeKMSKeyId;
+    return {
+      'dataVolumeKMSKeyId': dataVolumeKMSKeyId,
+    };
+  }
 }
 
 ///
 /// The settings for encrypting data in transit.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionInTransit {
   ///
   /// Indicates the encryption setting for data in transit between clients and
@@ -2612,8 +3118,7 @@ class EncryptionInTransit {
   ///
   /// The default value is TLS_PLAINTEXT.
   ///
-  @_s.JsonKey(name: 'clientBroker')
-  final ClientBroker clientBroker;
+  final ClientBroker? clientBroker;
 
   ///
   /// When set to true, it indicates that data communication among the broker
@@ -2623,17 +3128,28 @@ class EncryptionInTransit {
   ///
   /// The default value is true.
   ///
-  @_s.JsonKey(name: 'inCluster')
-  final bool inCluster;
+  final bool? inCluster;
 
   EncryptionInTransit({
     this.clientBroker,
     this.inCluster,
   });
-  factory EncryptionInTransit.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionInTransitFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionInTransitToJson(this);
+  factory EncryptionInTransit.fromJson(Map<String, dynamic> json) {
+    return EncryptionInTransit(
+      clientBroker: (json['clientBroker'] as String?)?.toClientBroker(),
+      inCluster: json['inCluster'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientBroker = this.clientBroker;
+    final inCluster = this.inCluster;
+    return {
+      if (clientBroker != null) 'clientBroker': clientBroker.toValue(),
+      if (inCluster != null) 'inCluster': inCluster,
+    };
+  }
 }
 
 ///
@@ -2641,32 +3157,44 @@ class EncryptionInTransit {
 /// encrypting data at rest and whether you want MSK to encrypt your data in
 /// transit.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionInfo {
   ///
   /// The data-volume encryption details.
   ///
-  @_s.JsonKey(name: 'encryptionAtRest')
-  final EncryptionAtRest encryptionAtRest;
+  final EncryptionAtRest? encryptionAtRest;
 
   ///
   /// The details for encryption in transit.
   ///
-  @_s.JsonKey(name: 'encryptionInTransit')
-  final EncryptionInTransit encryptionInTransit;
+  final EncryptionInTransit? encryptionInTransit;
 
   EncryptionInfo({
     this.encryptionAtRest,
     this.encryptionInTransit,
   });
-  factory EncryptionInfo.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionInfoToJson(this);
+  factory EncryptionInfo.fromJson(Map<String, dynamic> json) {
+    return EncryptionInfo(
+      encryptionAtRest: json['encryptionAtRest'] != null
+          ? EncryptionAtRest.fromJson(
+              json['encryptionAtRest'] as Map<String, dynamic>)
+          : null,
+      encryptionInTransit: json['encryptionInTransit'] != null
+          ? EncryptionInTransit.fromJson(
+              json['encryptionInTransit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionAtRest = this.encryptionAtRest;
+    final encryptionInTransit = this.encryptionInTransit;
+    return {
+      if (encryptionAtRest != null) 'encryptionAtRest': encryptionAtRest,
+      if (encryptionInTransit != null)
+        'encryptionInTransit': encryptionInTransit,
+    };
+  }
 }
 
 ///
@@ -2677,13 +3205,9 @@ class EncryptionInfo {
 /// href="https://docs.aws.amazon.com/msk/latest/developerguide/monitoring.html">Monitoring</a>.
 ///
 enum EnhancedMonitoring {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('PER_BROKER')
   perBroker,
-  @_s.JsonValue('PER_TOPIC_PER_BROKER')
   perTopicPerBroker,
-  @_s.JsonValue('PER_TOPIC_PER_PARTITION')
   perTopicPerPartition,
 }
 
@@ -2699,233 +3223,348 @@ extension on EnhancedMonitoring {
       case EnhancedMonitoring.perTopicPerPartition:
         return 'PER_TOPIC_PER_PARTITION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EnhancedMonitoring toEnhancedMonitoring() {
+    switch (this) {
+      case 'DEFAULT':
+        return EnhancedMonitoring.$default;
+      case 'PER_BROKER':
+        return EnhancedMonitoring.perBroker;
+      case 'PER_TOPIC_PER_BROKER':
+        return EnhancedMonitoring.perTopicPerBroker;
+      case 'PER_TOPIC_PER_PARTITION':
+        return EnhancedMonitoring.perTopicPerPartition;
+    }
+    throw Exception('$this is not known in enum EnhancedMonitoring');
   }
 }
 
 ///
 /// Returns information about an error state of the cluster.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorInfo {
   ///
   /// A number describing the error programmatically.
   ///
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   ///
   /// An optional field to provide more details about the error.
   ///
-  @_s.JsonKey(name: 'errorString')
-  final String errorString;
+  final String? errorString;
 
   ErrorInfo({
     this.errorCode,
     this.errorString,
   });
-  factory ErrorInfo.fromJson(Map<String, dynamic> json) =>
-      _$ErrorInfoFromJson(json);
+
+  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
+    return ErrorInfo(
+      errorCode: json['errorCode'] as String?,
+      errorString: json['errorString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorString = this.errorString;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorString != null) 'errorString': errorString,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Firehose {
-  @_s.JsonKey(name: 'enabled')
   final bool enabled;
-  @_s.JsonKey(name: 'deliveryStream')
-  final String deliveryStream;
+  final String? deliveryStream;
 
   Firehose({
-    @_s.required this.enabled,
+    required this.enabled,
     this.deliveryStream,
   });
-  factory Firehose.fromJson(Map<String, dynamic> json) =>
-      _$FirehoseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FirehoseToJson(this);
+  factory Firehose.fromJson(Map<String, dynamic> json) {
+    return Firehose(
+      enabled: json['enabled'] as bool,
+      deliveryStream: json['deliveryStream'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final deliveryStream = this.deliveryStream;
+    return {
+      'enabled': enabled,
+      if (deliveryStream != null) 'deliveryStream': deliveryStream,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBootstrapBrokersResponse {
   ///
   /// A string containing one or more hostname:port pairs.
   ///
-  @_s.JsonKey(name: 'bootstrapBrokerString')
-  final String bootstrapBrokerString;
+  final String? bootstrapBrokerString;
+
+  ///
+  /// A string that contains one or more DNS names (or IP addresses) and SASL IAM
+  /// port pairs.
+  ///
+  final String? bootstrapBrokerStringSaslIam;
 
   ///
   /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
   ///
-  @_s.JsonKey(name: 'bootstrapBrokerStringSaslScram')
-  final String bootstrapBrokerStringSaslScram;
+  final String? bootstrapBrokerStringSaslScram;
 
   ///
   /// A string containing one or more DNS names (or IP) and TLS port pairs.
   ///
-  @_s.JsonKey(name: 'bootstrapBrokerStringTls')
-  final String bootstrapBrokerStringTls;
+  final String? bootstrapBrokerStringTls;
 
   GetBootstrapBrokersResponse({
     this.bootstrapBrokerString,
+    this.bootstrapBrokerStringSaslIam,
     this.bootstrapBrokerStringSaslScram,
     this.bootstrapBrokerStringTls,
   });
-  factory GetBootstrapBrokersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBootstrapBrokersResponseFromJson(json);
+
+  factory GetBootstrapBrokersResponse.fromJson(Map<String, dynamic> json) {
+    return GetBootstrapBrokersResponse(
+      bootstrapBrokerString: json['bootstrapBrokerString'] as String?,
+      bootstrapBrokerStringSaslIam:
+          json['bootstrapBrokerStringSaslIam'] as String?,
+      bootstrapBrokerStringSaslScram:
+          json['bootstrapBrokerStringSaslScram'] as String?,
+      bootstrapBrokerStringTls: json['bootstrapBrokerStringTls'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bootstrapBrokerString = this.bootstrapBrokerString;
+    final bootstrapBrokerStringSaslIam = this.bootstrapBrokerStringSaslIam;
+    final bootstrapBrokerStringSaslScram = this.bootstrapBrokerStringSaslScram;
+    final bootstrapBrokerStringTls = this.bootstrapBrokerStringTls;
+    return {
+      if (bootstrapBrokerString != null)
+        'bootstrapBrokerString': bootstrapBrokerString,
+      if (bootstrapBrokerStringSaslIam != null)
+        'bootstrapBrokerStringSaslIam': bootstrapBrokerStringSaslIam,
+      if (bootstrapBrokerStringSaslScram != null)
+        'bootstrapBrokerStringSaslScram': bootstrapBrokerStringSaslScram,
+      if (bootstrapBrokerStringTls != null)
+        'bootstrapBrokerStringTls': bootstrapBrokerStringTls,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCompatibleKafkaVersionsResponse {
   ///
   /// A list of CompatibleKafkaVersion objects.
   ///
-  @_s.JsonKey(name: 'compatibleKafkaVersions')
-  final List<CompatibleKafkaVersion> compatibleKafkaVersions;
+  final List<CompatibleKafkaVersion>? compatibleKafkaVersions;
 
   GetCompatibleKafkaVersionsResponse({
     this.compatibleKafkaVersions,
   });
+
   factory GetCompatibleKafkaVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCompatibleKafkaVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCompatibleKafkaVersionsResponse(
+      compatibleKafkaVersions: (json['compatibleKafkaVersions'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => CompatibleKafkaVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compatibleKafkaVersions = this.compatibleKafkaVersions;
+    return {
+      if (compatibleKafkaVersions != null)
+        'compatibleKafkaVersions': compatibleKafkaVersions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KafkaVersion {
-  @_s.JsonKey(name: 'status')
-  final KafkaVersionStatus status;
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final KafkaVersionStatus? status;
+  final String? version;
 
   KafkaVersion({
     this.status,
     this.version,
   });
-  factory KafkaVersion.fromJson(Map<String, dynamic> json) =>
-      _$KafkaVersionFromJson(json);
+
+  factory KafkaVersion.fromJson(Map<String, dynamic> json) {
+    return KafkaVersion(
+      status: (json['status'] as String?)?.toKafkaVersionStatus(),
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final version = this.version;
+    return {
+      if (status != null) 'status': status.toValue(),
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 enum KafkaVersionStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DEPRECATED')
   deprecated,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on KafkaVersionStatus {
+  String toValue() {
+    switch (this) {
+      case KafkaVersionStatus.active:
+        return 'ACTIVE';
+      case KafkaVersionStatus.deprecated:
+        return 'DEPRECATED';
+    }
+  }
+}
+
+extension on String {
+  KafkaVersionStatus toKafkaVersionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return KafkaVersionStatus.active;
+      case 'DEPRECATED':
+        return KafkaVersionStatus.deprecated;
+    }
+    throw Exception('$this is not known in enum KafkaVersionStatus');
+  }
+}
+
 class ListClusterOperationsResponse {
   ///
   /// An array of cluster operation information objects.
   ///
-  @_s.JsonKey(name: 'clusterOperationInfoList')
-  final List<ClusterOperationInfo> clusterOperationInfoList;
+  final List<ClusterOperationInfo>? clusterOperationInfoList;
 
   ///
   /// If the response of ListClusterOperations is truncated, it returns a
   /// NextToken in the response. This Nexttoken should be sent in the subsequent
   /// request to ListClusterOperations.
   ///
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListClusterOperationsResponse({
     this.clusterOperationInfoList,
     this.nextToken,
   });
-  factory ListClusterOperationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListClusterOperationsResponseFromJson(json);
+
+  factory ListClusterOperationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListClusterOperationsResponse(
+      clusterOperationInfoList: (json['clusterOperationInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ClusterOperationInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterOperationInfoList = this.clusterOperationInfoList;
+    final nextToken = this.nextToken;
+    return {
+      if (clusterOperationInfoList != null)
+        'clusterOperationInfoList': clusterOperationInfoList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListClustersResponse {
   ///
   /// Information on each of the MSK clusters in the response.
   ///
-  @_s.JsonKey(name: 'clusterInfoList')
-  final List<ClusterInfo> clusterInfoList;
+  final List<ClusterInfo>? clusterInfoList;
 
   ///
   /// The paginated results marker. When the result of a ListClusters operation is
   /// truncated, the call returns NextToken in the response.
   /// To get another batch of clusters, provide this token in your next request.
   ///
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListClustersResponse({
     this.clusterInfoList,
     this.nextToken,
   });
-  factory ListClustersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListClustersResponseFromJson(json);
+
+  factory ListClustersResponse.fromJson(Map<String, dynamic> json) {
+    return ListClustersResponse(
+      clusterInfoList: (json['clusterInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ClusterInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterInfoList = this.clusterInfoList;
+    final nextToken = this.nextToken;
+    return {
+      if (clusterInfoList != null) 'clusterInfoList': clusterInfoList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConfigurationRevisionsResponse {
   ///
   /// Paginated results marker.
   ///
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ///
   /// List of ConfigurationRevision objects.
   ///
-  @_s.JsonKey(name: 'revisions')
-  final List<ConfigurationRevision> revisions;
+  final List<ConfigurationRevision>? revisions;
 
   ListConfigurationRevisionsResponse({
     this.nextToken,
     this.revisions,
   });
+
   factory ListConfigurationRevisionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListConfigurationRevisionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListConfigurationRevisionsResponse(
+      nextToken: json['nextToken'] as String?,
+      revisions: (json['revisions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationRevision.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final revisions = this.revisions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (revisions != null) 'revisions': revisions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConfigurationsResponse {
   ///
   /// An array of MSK configurations.
   ///
-  @_s.JsonKey(name: 'configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   ///
   /// The paginated results marker. When the result of a ListConfigurations
@@ -2933,513 +3572,723 @@ class ListConfigurationsResponse {
   /// To get another batch of configurations, provide this token in your next
   /// request.
   ///
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConfigurationsResponse({
     this.configurations,
     this.nextToken,
   });
-  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListConfigurationsResponseFromJson(json);
+
+  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationsResponse(
+      configurations: (json['configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurations = this.configurations;
+    final nextToken = this.nextToken;
+    return {
+      if (configurations != null) 'configurations': configurations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListKafkaVersionsResponse {
-  @_s.JsonKey(name: 'kafkaVersions')
-  final List<KafkaVersion> kafkaVersions;
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final List<KafkaVersion>? kafkaVersions;
+  final String? nextToken;
 
   ListKafkaVersionsResponse({
     this.kafkaVersions,
     this.nextToken,
   });
-  factory ListKafkaVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListKafkaVersionsResponseFromJson(json);
+
+  factory ListKafkaVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListKafkaVersionsResponse(
+      kafkaVersions: (json['kafkaVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => KafkaVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kafkaVersions = this.kafkaVersions;
+    final nextToken = this.nextToken;
+    return {
+      if (kafkaVersions != null) 'kafkaVersions': kafkaVersions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNodesResponse {
   ///
   /// The paginated results marker. When the result of a ListNodes operation is
   /// truncated, the call returns NextToken in the response.
   /// To get another batch of nodes, provide this token in your next request.
   ///
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ///
   /// List containing a NodeInfo object.
   ///
-  @_s.JsonKey(name: 'nodeInfoList')
-  final List<NodeInfo> nodeInfoList;
+  final List<NodeInfo>? nodeInfoList;
 
   ListNodesResponse({
     this.nextToken,
     this.nodeInfoList,
   });
-  factory ListNodesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListNodesResponseFromJson(json);
+
+  factory ListNodesResponse.fromJson(Map<String, dynamic> json) {
+    return ListNodesResponse(
+      nextToken: json['nextToken'] as String?,
+      nodeInfoList: (json['nodeInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => NodeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final nodeInfoList = this.nodeInfoList;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (nodeInfoList != null) 'nodeInfoList': nodeInfoList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListScramSecretsResponse {
   ///
   /// Paginated results marker.
   ///
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ///
   /// The list of scram secrets associated with the cluster.
   ///
-  @_s.JsonKey(name: 'secretArnList')
-  final List<String> secretArnList;
+  final List<String>? secretArnList;
 
   ListScramSecretsResponse({
     this.nextToken,
     this.secretArnList,
   });
-  factory ListScramSecretsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListScramSecretsResponseFromJson(json);
+
+  factory ListScramSecretsResponse.fromJson(Map<String, dynamic> json) {
+    return ListScramSecretsResponse(
+      nextToken: json['nextToken'] as String?,
+      secretArnList: (json['secretArnList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final secretArnList = this.secretArnList;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (secretArnList != null) 'secretArnList': secretArnList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   ///
   /// The key-value pair for the resource tag.
   ///
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggingInfo {
-  @_s.JsonKey(name: 'brokerLogs')
   final BrokerLogs brokerLogs;
 
   LoggingInfo({
-    @_s.required this.brokerLogs,
+    required this.brokerLogs,
   });
-  factory LoggingInfo.fromJson(Map<String, dynamic> json) =>
-      _$LoggingInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoggingInfoToJson(this);
+  factory LoggingInfo.fromJson(Map<String, dynamic> json) {
+    return LoggingInfo(
+      brokerLogs:
+          BrokerLogs.fromJson(json['brokerLogs'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerLogs = this.brokerLogs;
+    return {
+      'brokerLogs': brokerLogs,
+    };
+  }
 }
 
 ///
 /// Information about cluster attributes that can be updated via update APIs.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MutableClusterInfo {
   ///
   /// Specifies the size of the EBS volume and the ID of the associated broker.
   ///
-  @_s.JsonKey(name: 'brokerEBSVolumeInfo')
-  final List<BrokerEBSVolumeInfo> brokerEBSVolumeInfo;
+  final List<BrokerEBSVolumeInfo>? brokerEBSVolumeInfo;
 
   ///
   /// Information about the changes in the configuration of the brokers.
   ///
-  @_s.JsonKey(name: 'configurationInfo')
-  final ConfigurationInfo configurationInfo;
+  final ConfigurationInfo? configurationInfo;
 
   ///
   /// Specifies which Apache Kafka metrics Amazon MSK gathers and sends to Amazon
   /// CloudWatch for this cluster.
   ///
-  @_s.JsonKey(name: 'enhancedMonitoring')
-  final EnhancedMonitoring enhancedMonitoring;
+  final EnhancedMonitoring? enhancedMonitoring;
+
+  ///
+  /// Information about the Amazon MSK broker type.
+  ///
+  final String? instanceType;
 
   ///
   /// The Kafka version.
   ///
-  @_s.JsonKey(name: 'kafkaVersion')
-  final String kafkaVersion;
-  @_s.JsonKey(name: 'loggingInfo')
-  final LoggingInfo loggingInfo;
+  final String? kafkaVersion;
+  final LoggingInfo? loggingInfo;
 
   ///
   /// The number of broker nodes in the cluster.
   ///
-  @_s.JsonKey(name: 'numberOfBrokerNodes')
-  final int numberOfBrokerNodes;
+  final int? numberOfBrokerNodes;
 
   ///
   /// The settings for open monitoring.
   ///
-  @_s.JsonKey(name: 'openMonitoring')
-  final OpenMonitoring openMonitoring;
+  final OpenMonitoring? openMonitoring;
 
   MutableClusterInfo({
     this.brokerEBSVolumeInfo,
     this.configurationInfo,
     this.enhancedMonitoring,
+    this.instanceType,
     this.kafkaVersion,
     this.loggingInfo,
     this.numberOfBrokerNodes,
     this.openMonitoring,
   });
-  factory MutableClusterInfo.fromJson(Map<String, dynamic> json) =>
-      _$MutableClusterInfoFromJson(json);
+
+  factory MutableClusterInfo.fromJson(Map<String, dynamic> json) {
+    return MutableClusterInfo(
+      brokerEBSVolumeInfo: (json['brokerEBSVolumeInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => BrokerEBSVolumeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      configurationInfo: json['configurationInfo'] != null
+          ? ConfigurationInfo.fromJson(
+              json['configurationInfo'] as Map<String, dynamic>)
+          : null,
+      enhancedMonitoring:
+          (json['enhancedMonitoring'] as String?)?.toEnhancedMonitoring(),
+      instanceType: json['instanceType'] as String?,
+      kafkaVersion: json['kafkaVersion'] as String?,
+      loggingInfo: json['loggingInfo'] != null
+          ? LoggingInfo.fromJson(json['loggingInfo'] as Map<String, dynamic>)
+          : null,
+      numberOfBrokerNodes: json['numberOfBrokerNodes'] as int?,
+      openMonitoring: json['openMonitoring'] != null
+          ? OpenMonitoring.fromJson(
+              json['openMonitoring'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerEBSVolumeInfo = this.brokerEBSVolumeInfo;
+    final configurationInfo = this.configurationInfo;
+    final enhancedMonitoring = this.enhancedMonitoring;
+    final instanceType = this.instanceType;
+    final kafkaVersion = this.kafkaVersion;
+    final loggingInfo = this.loggingInfo;
+    final numberOfBrokerNodes = this.numberOfBrokerNodes;
+    final openMonitoring = this.openMonitoring;
+    return {
+      if (brokerEBSVolumeInfo != null)
+        'brokerEBSVolumeInfo': brokerEBSVolumeInfo,
+      if (configurationInfo != null) 'configurationInfo': configurationInfo,
+      if (enhancedMonitoring != null)
+        'enhancedMonitoring': enhancedMonitoring.toValue(),
+      if (instanceType != null) 'instanceType': instanceType,
+      if (kafkaVersion != null) 'kafkaVersion': kafkaVersion,
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (numberOfBrokerNodes != null)
+        'numberOfBrokerNodes': numberOfBrokerNodes,
+      if (openMonitoring != null) 'openMonitoring': openMonitoring,
+    };
+  }
 }
 
 ///
 /// Indicates whether you want to enable or disable the Node Exporter.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeExporter {
   ///
   /// Indicates whether you want to enable or disable the Node Exporter.
   ///
-  @_s.JsonKey(name: 'enabledInBroker')
   final bool enabledInBroker;
 
   NodeExporter({
-    @_s.required this.enabledInBroker,
+    required this.enabledInBroker,
   });
-  factory NodeExporter.fromJson(Map<String, dynamic> json) =>
-      _$NodeExporterFromJson(json);
+
+  factory NodeExporter.fromJson(Map<String, dynamic> json) {
+    return NodeExporter(
+      enabledInBroker: json['enabledInBroker'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledInBroker = this.enabledInBroker;
+    return {
+      'enabledInBroker': enabledInBroker,
+    };
+  }
 }
 
 ///
 /// Indicates whether you want to enable or disable the Node Exporter.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NodeExporterInfo {
   ///
   /// Indicates whether you want to enable or disable the Node Exporter.
   ///
-  @_s.JsonKey(name: 'enabledInBroker')
   final bool enabledInBroker;
 
   NodeExporterInfo({
-    @_s.required this.enabledInBroker,
+    required this.enabledInBroker,
   });
-  Map<String, dynamic> toJson() => _$NodeExporterInfoToJson(this);
+
+  factory NodeExporterInfo.fromJson(Map<String, dynamic> json) {
+    return NodeExporterInfo(
+      enabledInBroker: json['enabledInBroker'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledInBroker = this.enabledInBroker;
+    return {
+      'enabledInBroker': enabledInBroker,
+    };
+  }
 }
 
 ///
 /// Indicates whether you want to enable or disable the JMX Exporter.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JmxExporter {
   ///
   /// Indicates whether you want to enable or disable the JMX Exporter.
   ///
-  @_s.JsonKey(name: 'enabledInBroker')
   final bool enabledInBroker;
 
   JmxExporter({
-    @_s.required this.enabledInBroker,
+    required this.enabledInBroker,
   });
-  factory JmxExporter.fromJson(Map<String, dynamic> json) =>
-      _$JmxExporterFromJson(json);
+
+  factory JmxExporter.fromJson(Map<String, dynamic> json) {
+    return JmxExporter(
+      enabledInBroker: json['enabledInBroker'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledInBroker = this.enabledInBroker;
+    return {
+      'enabledInBroker': enabledInBroker,
+    };
+  }
 }
 
 ///
 /// Indicates whether you want to enable or disable the JMX Exporter.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class JmxExporterInfo {
   ///
   /// Indicates whether you want to enable or disable the JMX Exporter.
   ///
-  @_s.JsonKey(name: 'enabledInBroker')
   final bool enabledInBroker;
 
   JmxExporterInfo({
-    @_s.required this.enabledInBroker,
+    required this.enabledInBroker,
   });
-  Map<String, dynamic> toJson() => _$JmxExporterInfoToJson(this);
+
+  factory JmxExporterInfo.fromJson(Map<String, dynamic> json) {
+    return JmxExporterInfo(
+      enabledInBroker: json['enabledInBroker'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledInBroker = this.enabledInBroker;
+    return {
+      'enabledInBroker': enabledInBroker,
+    };
+  }
 }
 
 ///
 /// JMX and Node monitoring for the MSK cluster.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpenMonitoring {
   ///
   /// Prometheus settings.
   ///
-  @_s.JsonKey(name: 'prometheus')
   final Prometheus prometheus;
 
   OpenMonitoring({
-    @_s.required this.prometheus,
+    required this.prometheus,
   });
-  factory OpenMonitoring.fromJson(Map<String, dynamic> json) =>
-      _$OpenMonitoringFromJson(json);
+
+  factory OpenMonitoring.fromJson(Map<String, dynamic> json) {
+    return OpenMonitoring(
+      prometheus:
+          Prometheus.fromJson(json['prometheus'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prometheus = this.prometheus;
+    return {
+      'prometheus': prometheus,
+    };
+  }
 }
 
 ///
 /// JMX and Node monitoring for the MSK cluster.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OpenMonitoringInfo {
   ///
   /// Prometheus settings.
   ///
-  @_s.JsonKey(name: 'prometheus')
   final PrometheusInfo prometheus;
 
   OpenMonitoringInfo({
-    @_s.required this.prometheus,
+    required this.prometheus,
   });
-  Map<String, dynamic> toJson() => _$OpenMonitoringInfoToJson(this);
+
+  factory OpenMonitoringInfo.fromJson(Map<String, dynamic> json) {
+    return OpenMonitoringInfo(
+      prometheus:
+          PrometheusInfo.fromJson(json['prometheus'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prometheus = this.prometheus;
+    return {
+      'prometheus': prometheus,
+    };
+  }
 }
 
 ///
 /// Prometheus settings.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Prometheus {
   ///
   /// Indicates whether you want to enable or disable the JMX Exporter.
   ///
-  @_s.JsonKey(name: 'jmxExporter')
-  final JmxExporter jmxExporter;
+  final JmxExporter? jmxExporter;
 
   ///
   /// Indicates whether you want to enable or disable the Node Exporter.
   ///
-  @_s.JsonKey(name: 'nodeExporter')
-  final NodeExporter nodeExporter;
+  final NodeExporter? nodeExporter;
 
   Prometheus({
     this.jmxExporter,
     this.nodeExporter,
   });
-  factory Prometheus.fromJson(Map<String, dynamic> json) =>
-      _$PrometheusFromJson(json);
+
+  factory Prometheus.fromJson(Map<String, dynamic> json) {
+    return Prometheus(
+      jmxExporter: json['jmxExporter'] != null
+          ? JmxExporter.fromJson(json['jmxExporter'] as Map<String, dynamic>)
+          : null,
+      nodeExporter: json['nodeExporter'] != null
+          ? NodeExporter.fromJson(json['nodeExporter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jmxExporter = this.jmxExporter;
+    final nodeExporter = this.nodeExporter;
+    return {
+      if (jmxExporter != null) 'jmxExporter': jmxExporter,
+      if (nodeExporter != null) 'nodeExporter': nodeExporter,
+    };
+  }
 }
 
 ///
 /// Prometheus settings.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PrometheusInfo {
   ///
   /// Indicates whether you want to enable or disable the JMX Exporter.
   ///
-  @_s.JsonKey(name: 'jmxExporter')
-  final JmxExporterInfo jmxExporter;
+  final JmxExporterInfo? jmxExporter;
 
   ///
   /// Indicates whether you want to enable or disable the Node Exporter.
   ///
-  @_s.JsonKey(name: 'nodeExporter')
-  final NodeExporterInfo nodeExporter;
+  final NodeExporterInfo? nodeExporter;
 
   PrometheusInfo({
     this.jmxExporter,
     this.nodeExporter,
   });
-  Map<String, dynamic> toJson() => _$PrometheusInfoToJson(this);
+
+  factory PrometheusInfo.fromJson(Map<String, dynamic> json) {
+    return PrometheusInfo(
+      jmxExporter: json['jmxExporter'] != null
+          ? JmxExporterInfo.fromJson(
+              json['jmxExporter'] as Map<String, dynamic>)
+          : null,
+      nodeExporter: json['nodeExporter'] != null
+          ? NodeExporterInfo.fromJson(
+              json['nodeExporter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jmxExporter = this.jmxExporter;
+    final nodeExporter = this.nodeExporter;
+    return {
+      if (jmxExporter != null) 'jmxExporter': jmxExporter,
+      if (nodeExporter != null) 'nodeExporter': nodeExporter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RebootBrokerResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The Amazon Resource Name (ARN) of the cluster operation.
   ///
-  @_s.JsonKey(name: 'clusterOperationArn')
-  final String clusterOperationArn;
+  final String? clusterOperationArn;
 
   RebootBrokerResponse({
     this.clusterArn,
     this.clusterOperationArn,
   });
-  factory RebootBrokerResponse.fromJson(Map<String, dynamic> json) =>
-      _$RebootBrokerResponseFromJson(json);
+
+  factory RebootBrokerResponse.fromJson(Map<String, dynamic> json) {
+    return RebootBrokerResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3 {
-  @_s.JsonKey(name: 'enabled')
   final bool enabled;
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? bucket;
+  final String? prefix;
 
   S3({
-    @_s.required this.enabled,
+    required this.enabled,
     this.bucket,
     this.prefix,
   });
-  factory S3.fromJson(Map<String, dynamic> json) => _$S3FromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3ToJson(this);
+  factory S3.fromJson(Map<String, dynamic> json) {
+    return S3(
+      enabled: json['enabled'] as bool,
+      bucket: json['bucket'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'enabled': enabled,
+      if (bucket != null) 'bucket': bucket,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
 }
 
 ///
 /// Details for client authentication using SASL.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Sasl {
+  ///
+  /// Indicates whether IAM access control is enabled.
+  ///
+  final Iam? iam;
+
   ///
   /// Details for SASL/SCRAM client authentication.
   ///
-  @_s.JsonKey(name: 'scram')
-  final Scram scram;
+  final Scram? scram;
 
   Sasl({
+    this.iam,
     this.scram,
   });
-  factory Sasl.fromJson(Map<String, dynamic> json) => _$SaslFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SaslToJson(this);
+  factory Sasl.fromJson(Map<String, dynamic> json) {
+    return Sasl(
+      iam: json['iam'] != null
+          ? Iam.fromJson(json['iam'] as Map<String, dynamic>)
+          : null,
+      scram: json['scram'] != null
+          ? Scram.fromJson(json['scram'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iam = this.iam;
+    final scram = this.scram;
+    return {
+      if (iam != null) 'iam': iam,
+      if (scram != null) 'scram': scram,
+    };
+  }
 }
 
 ///
 /// Details for SASL/SCRAM client authentication.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Scram {
   ///
   /// SASL/SCRAM authentication is enabled or not.
   ///
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   Scram({
     this.enabled,
   });
-  factory Scram.fromJson(Map<String, dynamic> json) => _$ScramFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ScramToJson(this);
+  factory Scram.fromJson(Map<String, dynamic> json) {
+    return Scram(
+      enabled: json['enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'enabled': enabled,
+    };
+  }
+}
+
+///
+/// Details for IAM access control.
+///
+class Iam {
+  ///
+  /// Indicates whether IAM access control is enabled.
+  ///
+  final bool? enabled;
+
+  Iam({
+    this.enabled,
+  });
+
+  factory Iam.fromJson(Map<String, dynamic> json) {
+    return Iam(
+      enabled: json['enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'enabled': enabled,
+    };
+  }
 }
 
 ///
 /// The node information object.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeInfo {
   ///
   /// The start time.
   ///
-  @_s.JsonKey(name: 'addedToClusterTime')
-  final String addedToClusterTime;
+  final String? addedToClusterTime;
 
   ///
   /// The broker node info.
   ///
-  @_s.JsonKey(name: 'brokerNodeInfo')
-  final BrokerNodeInfo brokerNodeInfo;
+  final BrokerNodeInfo? brokerNodeInfo;
 
   ///
   /// The instance type.
   ///
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   ///
   /// The Amazon Resource Name (ARN) of the node.
   ///
-  @_s.JsonKey(name: 'nodeARN')
-  final String nodeARN;
+  final String? nodeARN;
 
   ///
   /// The node type.
   ///
-  @_s.JsonKey(name: 'nodeType')
-  final NodeType nodeType;
+  final NodeType? nodeType;
 
   ///
   /// The ZookeeperNodeInfo.
   ///
-  @_s.JsonKey(name: 'zookeeperNodeInfo')
-  final ZookeeperNodeInfo zookeeperNodeInfo;
+  final ZookeeperNodeInfo? zookeeperNodeInfo;
 
   NodeInfo({
     this.addedToClusterTime,
@@ -3449,316 +4298,471 @@ class NodeInfo {
     this.nodeType,
     this.zookeeperNodeInfo,
   });
-  factory NodeInfo.fromJson(Map<String, dynamic> json) =>
-      _$NodeInfoFromJson(json);
+
+  factory NodeInfo.fromJson(Map<String, dynamic> json) {
+    return NodeInfo(
+      addedToClusterTime: json['addedToClusterTime'] as String?,
+      brokerNodeInfo: json['brokerNodeInfo'] != null
+          ? BrokerNodeInfo.fromJson(
+              json['brokerNodeInfo'] as Map<String, dynamic>)
+          : null,
+      instanceType: json['instanceType'] as String?,
+      nodeARN: json['nodeARN'] as String?,
+      nodeType: (json['nodeType'] as String?)?.toNodeType(),
+      zookeeperNodeInfo: json['zookeeperNodeInfo'] != null
+          ? ZookeeperNodeInfo.fromJson(
+              json['zookeeperNodeInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addedToClusterTime = this.addedToClusterTime;
+    final brokerNodeInfo = this.brokerNodeInfo;
+    final instanceType = this.instanceType;
+    final nodeARN = this.nodeARN;
+    final nodeType = this.nodeType;
+    final zookeeperNodeInfo = this.zookeeperNodeInfo;
+    return {
+      if (addedToClusterTime != null) 'addedToClusterTime': addedToClusterTime,
+      if (brokerNodeInfo != null) 'brokerNodeInfo': brokerNodeInfo,
+      if (instanceType != null) 'instanceType': instanceType,
+      if (nodeARN != null) 'nodeARN': nodeARN,
+      if (nodeType != null) 'nodeType': nodeType.toValue(),
+      if (zookeeperNodeInfo != null) 'zookeeperNodeInfo': zookeeperNodeInfo,
+    };
+  }
 }
 
 ///
 /// The broker or Zookeeper node.
 ///
 enum NodeType {
-  @_s.JsonValue('BROKER')
   broker,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on NodeType {
+  String toValue() {
+    switch (this) {
+      case NodeType.broker:
+        return 'BROKER';
+    }
+  }
+}
+
+extension on String {
+  NodeType toNodeType() {
+    switch (this) {
+      case 'BROKER':
+        return NodeType.broker;
+    }
+    throw Exception('$this is not known in enum NodeType');
+  }
+}
+
 class StateInfo {
-  @_s.JsonKey(name: 'code')
-  final String code;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? code;
+  final String? message;
 
   StateInfo({
     this.code,
     this.message,
   });
-  factory StateInfo.fromJson(Map<String, dynamic> json) =>
-      _$StateInfoFromJson(json);
+
+  factory StateInfo.fromJson(Map<String, dynamic> json) {
+    return StateInfo(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 ///
 /// Contains information about storage volumes attached to MSK broker nodes.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StorageInfo {
   ///
   /// EBS volume information.
   ///
-  @_s.JsonKey(name: 'ebsStorageInfo')
-  final EBSStorageInfo ebsStorageInfo;
+  final EBSStorageInfo? ebsStorageInfo;
 
   StorageInfo({
     this.ebsStorageInfo,
   });
-  factory StorageInfo.fromJson(Map<String, dynamic> json) =>
-      _$StorageInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StorageInfoToJson(this);
+  factory StorageInfo.fromJson(Map<String, dynamic> json) {
+    return StorageInfo(
+      ebsStorageInfo: json['ebsStorageInfo'] != null
+          ? EBSStorageInfo.fromJson(
+              json['ebsStorageInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsStorageInfo = this.ebsStorageInfo;
+    return {
+      if (ebsStorageInfo != null) 'ebsStorageInfo': ebsStorageInfo,
+    };
+  }
 }
 
 ///
 /// Details for client authentication using TLS.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tls {
   ///
   /// List of ACM Certificate Authority ARNs.
   ///
-  @_s.JsonKey(name: 'certificateAuthorityArnList')
-  final List<String> certificateAuthorityArnList;
+  final List<String>? certificateAuthorityArnList;
 
   Tls({
     this.certificateAuthorityArnList,
   });
-  factory Tls.fromJson(Map<String, dynamic> json) => _$TlsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TlsToJson(this);
+  factory Tls.fromJson(Map<String, dynamic> json) {
+    return Tls(
+      certificateAuthorityArnList:
+          (json['certificateAuthorityArnList'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArnList = this.certificateAuthorityArnList;
+    return {
+      if (certificateAuthorityArnList != null)
+        'certificateAuthorityArnList': certificateAuthorityArnList,
+    };
+  }
 }
 
 ///
 /// Error info for scram secret associate/disassociate failure.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnprocessedScramSecret {
   ///
   /// Error code for associate/disassociate failure.
   ///
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   ///
   /// Error message for associate/disassociate failure.
   ///
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   ///
   /// AWS Secrets Manager secret ARN.
   ///
-  @_s.JsonKey(name: 'secretArn')
-  final String secretArn;
+  final String? secretArn;
 
   UnprocessedScramSecret({
     this.errorCode,
     this.errorMessage,
     this.secretArn,
   });
-  factory UnprocessedScramSecret.fromJson(Map<String, dynamic> json) =>
-      _$UnprocessedScramSecretFromJson(json);
+
+  factory UnprocessedScramSecret.fromJson(Map<String, dynamic> json) {
+    return UnprocessedScramSecret(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      secretArn: json['secretArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final secretArn = this.secretArn;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (secretArn != null) 'secretArn': secretArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBrokerCountResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The Amazon Resource Name (ARN) of the cluster operation.
   ///
-  @_s.JsonKey(name: 'clusterOperationArn')
-  final String clusterOperationArn;
+  final String? clusterOperationArn;
 
   UpdateBrokerCountResponse({
     this.clusterArn,
     this.clusterOperationArn,
   });
-  factory UpdateBrokerCountResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBrokerCountResponseFromJson(json);
+
+  factory UpdateBrokerCountResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBrokerCountResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UpdateBrokerStorageResponse {
+class UpdateBrokerTypeResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The Amazon Resource Name (ARN) of the cluster operation.
   ///
-  @_s.JsonKey(name: 'clusterOperationArn')
-  final String clusterOperationArn;
+  final String? clusterOperationArn;
+
+  UpdateBrokerTypeResponse({
+    this.clusterArn,
+    this.clusterOperationArn,
+  });
+
+  factory UpdateBrokerTypeResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBrokerTypeResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
+}
+
+class UpdateBrokerStorageResponse {
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster.
+  ///
+  final String? clusterArn;
+
+  ///
+  /// The Amazon Resource Name (ARN) of the cluster operation.
+  ///
+  final String? clusterOperationArn;
 
   UpdateBrokerStorageResponse({
     this.clusterArn,
     this.clusterOperationArn,
   });
-  factory UpdateBrokerStorageResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBrokerStorageResponseFromJson(json);
+
+  factory UpdateBrokerStorageResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBrokerStorageResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateClusterConfigurationResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The Amazon Resource Name (ARN) of the cluster operation.
   ///
-  @_s.JsonKey(name: 'clusterOperationArn')
-  final String clusterOperationArn;
+  final String? clusterOperationArn;
 
   UpdateClusterConfigurationResponse({
     this.clusterArn,
     this.clusterOperationArn,
   });
+
   factory UpdateClusterConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateClusterConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateClusterConfigurationResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateClusterKafkaVersionResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The Amazon Resource Name (ARN) of the cluster operation.
   ///
-  @_s.JsonKey(name: 'clusterOperationArn')
-  final String clusterOperationArn;
+  final String? clusterOperationArn;
 
   UpdateClusterKafkaVersionResponse({
     this.clusterArn,
     this.clusterOperationArn,
   });
+
   factory UpdateClusterKafkaVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateClusterKafkaVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateClusterKafkaVersionResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMonitoringResponse {
   ///
   /// The Amazon Resource Name (ARN) of the cluster.
   ///
-  @_s.JsonKey(name: 'clusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   ///
   /// The Amazon Resource Name (ARN) of the cluster operation.
   ///
-  @_s.JsonKey(name: 'clusterOperationArn')
-  final String clusterOperationArn;
+  final String? clusterOperationArn;
 
   UpdateMonitoringResponse({
     this.clusterArn,
     this.clusterOperationArn,
   });
-  factory UpdateMonitoringResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMonitoringResponseFromJson(json);
+
+  factory UpdateMonitoringResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMonitoringResponse(
+      clusterArn: json['clusterArn'] as String?,
+      clusterOperationArn: json['clusterOperationArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterOperationArn = this.clusterOperationArn;
+    return {
+      if (clusterArn != null) 'clusterArn': clusterArn,
+      if (clusterOperationArn != null)
+        'clusterOperationArn': clusterOperationArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConfigurationResponse {
   ///
   /// The Amazon Resource Name (ARN) of the configuration.
   ///
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   ///
   /// Latest revision of the configuration.
   ///
-  @_s.JsonKey(name: 'latestRevision')
-  final ConfigurationRevision latestRevision;
+  final ConfigurationRevision? latestRevision;
 
   UpdateConfigurationResponse({
     this.arn,
     this.latestRevision,
   });
-  factory UpdateConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateConfigurationResponseFromJson(json);
+
+  factory UpdateConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConfigurationResponse(
+      arn: json['arn'] as String?,
+      latestRevision: json['latestRevision'] != null
+          ? ConfigurationRevision.fromJson(
+              json['latestRevision'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final latestRevision = this.latestRevision;
+    return {
+      if (arn != null) 'arn': arn,
+      if (latestRevision != null) 'latestRevision': latestRevision,
+    };
+  }
 }
 
 ///
 /// Zookeeper node information.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ZookeeperNodeInfo {
   ///
   /// The attached elastic network interface of the broker.
   ///
-  @_s.JsonKey(name: 'attachedENIId')
-  final String attachedENIId;
+  final String? attachedENIId;
 
   ///
   /// The virtual private cloud (VPC) IP address of the client.
   ///
-  @_s.JsonKey(name: 'clientVpcIpAddress')
-  final String clientVpcIpAddress;
+  final String? clientVpcIpAddress;
 
   ///
   /// Endpoints for accessing the ZooKeeper.
   ///
-  @_s.JsonKey(name: 'endpoints')
-  final List<String> endpoints;
+  final List<String>? endpoints;
 
   ///
   /// The role-specific ID for Zookeeper.
   ///
-  @_s.JsonKey(name: 'zookeeperId')
-  final double zookeeperId;
+  final double? zookeeperId;
 
   ///
   /// The version of Zookeeper.
   ///
-  @_s.JsonKey(name: 'zookeeperVersion')
-  final String zookeeperVersion;
+  final String? zookeeperVersion;
 
   ZookeeperNodeInfo({
     this.attachedENIId,
@@ -3767,49 +4771,75 @@ class ZookeeperNodeInfo {
     this.zookeeperId,
     this.zookeeperVersion,
   });
-  factory ZookeeperNodeInfo.fromJson(Map<String, dynamic> json) =>
-      _$ZookeeperNodeInfoFromJson(json);
+
+  factory ZookeeperNodeInfo.fromJson(Map<String, dynamic> json) {
+    return ZookeeperNodeInfo(
+      attachedENIId: json['attachedENIId'] as String?,
+      clientVpcIpAddress: json['clientVpcIpAddress'] as String?,
+      endpoints: (json['endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      zookeeperId: json['zookeeperId'] as double?,
+      zookeeperVersion: json['zookeeperVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedENIId = this.attachedENIId;
+    final clientVpcIpAddress = this.clientVpcIpAddress;
+    final endpoints = this.endpoints;
+    final zookeeperId = this.zookeeperId;
+    final zookeeperVersion = this.zookeeperVersion;
+    return {
+      if (attachedENIId != null) 'attachedENIId': attachedENIId,
+      if (clientVpcIpAddress != null) 'clientVpcIpAddress': clientVpcIpAddress,
+      if (endpoints != null) 'endpoints': endpoints,
+      if (zookeeperId != null) 'zookeeperId': zookeeperId,
+      if (zookeeperVersion != null) 'zookeeperVersion': zookeeperVersion,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

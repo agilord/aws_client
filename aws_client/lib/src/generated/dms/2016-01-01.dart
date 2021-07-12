@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2016-01-01.g.dart';
 
 /// AWS Database Migration Service (AWS DMS) can migrate your data to and from
 /// the most widely used commercial and open-source databases such as Oracle,
@@ -36,10 +29,10 @@ part '2016-01-01.g.dart';
 class DatabaseMigration {
   final _s.JsonProtocol _protocol;
   DatabaseMigration({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -70,8 +63,8 @@ class DatabaseMigration {
   /// Parameter [tags] :
   /// One or more tags to be assigned to the resource.
   Future<void> addTagsToResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -79,7 +72,7 @@ class DatabaseMigration {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.AddTagsToResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -90,8 +83,6 @@ class DatabaseMigration {
         'Tags': tags,
       },
     );
-
-    return AddTagsToResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Applies a pending maintenance action to a resource (for example, to a
@@ -126,9 +117,9 @@ class DatabaseMigration {
   /// The Amazon Resource Name (ARN) of the AWS DMS resource that the pending
   /// maintenance action applies to.
   Future<ApplyPendingMaintenanceActionResponse> applyPendingMaintenanceAction({
-    @_s.required String applyAction,
-    @_s.required String optInType,
-    @_s.required String replicationInstanceArn,
+    required String applyAction,
+    required String optInType,
+    required String replicationInstanceArn,
   }) async {
     ArgumentError.checkNotNull(applyAction, 'applyAction');
     ArgumentError.checkNotNull(optInType, 'optInType');
@@ -169,7 +160,7 @@ class DatabaseMigration {
   /// canceled.
   Future<CancelReplicationTaskAssessmentRunResponse>
       cancelReplicationTaskAssessmentRun({
-    @_s.required String replicationTaskAssessmentRunArn,
+    required String replicationTaskAssessmentRunArn,
   }) async {
     ArgumentError.checkNotNull(
         replicationTaskAssessmentRunArn, 'replicationTaskAssessmentRunArn');
@@ -419,38 +410,38 @@ class DatabaseMigration {
   /// Parameter [username] :
   /// The user name to be used to log in to the endpoint database.
   Future<CreateEndpointResponse> createEndpoint({
-    @_s.required String endpointIdentifier,
-    @_s.required ReplicationEndpointTypeValue endpointType,
-    @_s.required String engineName,
-    String certificateArn,
-    String databaseName,
-    DmsTransferSettings dmsTransferSettings,
-    DocDbSettings docDbSettings,
-    DynamoDbSettings dynamoDbSettings,
-    ElasticsearchSettings elasticsearchSettings,
-    String externalTableDefinition,
-    String extraConnectionAttributes,
-    IBMDb2Settings iBMDb2Settings,
-    KafkaSettings kafkaSettings,
-    KinesisSettings kinesisSettings,
-    String kmsKeyId,
-    MicrosoftSQLServerSettings microsoftSQLServerSettings,
-    MongoDbSettings mongoDbSettings,
-    MySQLSettings mySQLSettings,
-    NeptuneSettings neptuneSettings,
-    OracleSettings oracleSettings,
-    String password,
-    int port,
-    PostgreSQLSettings postgreSQLSettings,
-    RedshiftSettings redshiftSettings,
-    String resourceIdentifier,
-    S3Settings s3Settings,
-    String serverName,
-    String serviceAccessRoleArn,
-    DmsSslModeValue sslMode,
-    SybaseSettings sybaseSettings,
-    List<Tag> tags,
-    String username,
+    required String endpointIdentifier,
+    required ReplicationEndpointTypeValue endpointType,
+    required String engineName,
+    String? certificateArn,
+    String? databaseName,
+    DmsTransferSettings? dmsTransferSettings,
+    DocDbSettings? docDbSettings,
+    DynamoDbSettings? dynamoDbSettings,
+    ElasticsearchSettings? elasticsearchSettings,
+    String? externalTableDefinition,
+    String? extraConnectionAttributes,
+    IBMDb2Settings? iBMDb2Settings,
+    KafkaSettings? kafkaSettings,
+    KinesisSettings? kinesisSettings,
+    String? kmsKeyId,
+    MicrosoftSQLServerSettings? microsoftSQLServerSettings,
+    MongoDbSettings? mongoDbSettings,
+    MySQLSettings? mySQLSettings,
+    NeptuneSettings? neptuneSettings,
+    OracleSettings? oracleSettings,
+    String? password,
+    int? port,
+    PostgreSQLSettings? postgreSQLSettings,
+    RedshiftSettings? redshiftSettings,
+    String? resourceIdentifier,
+    S3Settings? s3Settings,
+    String? serverName,
+    String? serviceAccessRoleArn,
+    DmsSslModeValue? sslMode,
+    SybaseSettings? sybaseSettings,
+    List<Tag>? tags,
+    String? username,
   }) async {
     ArgumentError.checkNotNull(endpointIdentifier, 'endpointIdentifier');
     ArgumentError.checkNotNull(endpointType, 'endpointType');
@@ -467,7 +458,7 @@ class DatabaseMigration {
       headers: headers,
       payload: {
         'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType?.toValue() ?? '',
+        'EndpointType': endpointType.toValue(),
         'EngineName': engineName,
         if (certificateArn != null) 'CertificateArn': certificateArn,
         if (databaseName != null) 'DatabaseName': databaseName,
@@ -586,13 +577,13 @@ class DatabaseMigration {
   /// Parameter [tags] :
   /// One or more tags to be assigned to the event subscription.
   Future<CreateEventSubscriptionResponse> createEventSubscription({
-    @_s.required String snsTopicArn,
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    List<String> sourceIds,
-    String sourceType,
-    List<Tag> tags,
+    required String snsTopicArn,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    List<String>? sourceIds,
+    String? sourceType,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
@@ -761,21 +752,21 @@ class DatabaseMigration {
   /// The VPC security group must work with the VPC containing the replication
   /// instance.
   Future<CreateReplicationInstanceResponse> createReplicationInstance({
-    @_s.required String replicationInstanceClass,
-    @_s.required String replicationInstanceIdentifier,
-    int allocatedStorage,
-    bool autoMinorVersionUpgrade,
-    String availabilityZone,
-    String dnsNameServers,
-    String engineVersion,
-    String kmsKeyId,
-    bool multiAZ,
-    String preferredMaintenanceWindow,
-    bool publiclyAccessible,
-    String replicationSubnetGroupIdentifier,
-    String resourceIdentifier,
-    List<Tag> tags,
-    List<String> vpcSecurityGroupIds,
+    required String replicationInstanceClass,
+    required String replicationInstanceIdentifier,
+    int? allocatedStorage,
+    bool? autoMinorVersionUpgrade,
+    String? availabilityZone,
+    String? dnsNameServers,
+    String? engineVersion,
+    String? kmsKeyId,
+    bool? multiAZ,
+    String? preferredMaintenanceWindow,
+    bool? publiclyAccessible,
+    String? replicationSubnetGroupIdentifier,
+    String? resourceIdentifier,
+    List<Tag>? tags,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(
         replicationInstanceClass, 'replicationInstanceClass');
@@ -847,10 +838,10 @@ class DatabaseMigration {
   /// Parameter [tags] :
   /// One or more tags to be assigned to the subnet group.
   Future<CreateReplicationSubnetGroupResponse> createReplicationSubnetGroup({
-    @_s.required String replicationSubnetGroupDescription,
-    @_s.required String replicationSubnetGroupIdentifier,
-    @_s.required List<String> subnetIds,
-    List<Tag> tags,
+    required String replicationSubnetGroupDescription,
+    required String replicationSubnetGroupIdentifier,
+    required List<String> subnetIds,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         replicationSubnetGroupDescription, 'replicationSubnetGroupDescription');
@@ -996,19 +987,19 @@ class DatabaseMigration {
   /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
   /// Service User Guide.</i>
   Future<CreateReplicationTaskResponse> createReplicationTask({
-    @_s.required MigrationTypeValue migrationType,
-    @_s.required String replicationInstanceArn,
-    @_s.required String replicationTaskIdentifier,
-    @_s.required String sourceEndpointArn,
-    @_s.required String tableMappings,
-    @_s.required String targetEndpointArn,
-    String cdcStartPosition,
-    DateTime cdcStartTime,
-    String cdcStopPosition,
-    String replicationTaskSettings,
-    String resourceIdentifier,
-    List<Tag> tags,
-    String taskData,
+    required MigrationTypeValue migrationType,
+    required String replicationInstanceArn,
+    required String replicationTaskIdentifier,
+    required String sourceEndpointArn,
+    required String tableMappings,
+    required String targetEndpointArn,
+    String? cdcStartPosition,
+    DateTime? cdcStartTime,
+    String? cdcStopPosition,
+    String? replicationTaskSettings,
+    String? resourceIdentifier,
+    List<Tag>? tags,
+    String? taskData,
   }) async {
     ArgumentError.checkNotNull(migrationType, 'migrationType');
     ArgumentError.checkNotNull(
@@ -1029,7 +1020,7 @@ class DatabaseMigration {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MigrationType': migrationType?.toValue() ?? '',
+        'MigrationType': migrationType.toValue(),
         'ReplicationInstanceArn': replicationInstanceArn,
         'ReplicationTaskIdentifier': replicationTaskIdentifier,
         'SourceEndpointArn': sourceEndpointArn,
@@ -1059,7 +1050,7 @@ class DatabaseMigration {
   /// Parameter [certificateArn] :
   /// The Amazon Resource Name (ARN) of the deleted certificate.
   Future<DeleteCertificateResponse> deleteCertificate({
-    @_s.required String certificateArn,
+    required String certificateArn,
   }) async {
     ArgumentError.checkNotNull(certificateArn, 'certificateArn');
     final headers = <String, String>{
@@ -1093,8 +1084,8 @@ class DatabaseMigration {
   /// Parameter [replicationInstanceArn] :
   /// The Amazon Resource Name (ARN) of the replication instance.
   Future<DeleteConnectionResponse> deleteConnection({
-    @_s.required String endpointArn,
-    @_s.required String replicationInstanceArn,
+    required String endpointArn,
+    required String replicationInstanceArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     ArgumentError.checkNotNull(
@@ -1131,7 +1122,7 @@ class DatabaseMigration {
   /// The Amazon Resource Name (ARN) string that uniquely identifies the
   /// endpoint.
   Future<DeleteEndpointResponse> deleteEndpoint({
-    @_s.required String endpointArn,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
@@ -1160,7 +1151,7 @@ class DatabaseMigration {
   /// Parameter [subscriptionName] :
   /// The name of the DMS event notification subscription to be deleted.
   Future<DeleteEventSubscriptionResponse> deleteEventSubscription({
-    @_s.required String subscriptionName,
+    required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final headers = <String, String>{
@@ -1193,7 +1184,7 @@ class DatabaseMigration {
   /// Parameter [replicationInstanceArn] :
   /// The Amazon Resource Name (ARN) of the replication instance to be deleted.
   Future<DeleteReplicationInstanceResponse> deleteReplicationInstance({
-    @_s.required String replicationInstanceArn,
+    required String replicationInstanceArn,
   }) async {
     ArgumentError.checkNotNull(
         replicationInstanceArn, 'replicationInstanceArn');
@@ -1223,7 +1214,7 @@ class DatabaseMigration {
   /// Parameter [replicationSubnetGroupIdentifier] :
   /// The subnet group name of the replication instance.
   Future<void> deleteReplicationSubnetGroup({
-    @_s.required String replicationSubnetGroupIdentifier,
+    required String replicationSubnetGroupIdentifier,
   }) async {
     ArgumentError.checkNotNull(
         replicationSubnetGroupIdentifier, 'replicationSubnetGroupIdentifier');
@@ -1231,7 +1222,7 @@ class DatabaseMigration {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.DeleteReplicationSubnetGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1241,8 +1232,6 @@ class DatabaseMigration {
         'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
       },
     );
-
-    return DeleteReplicationSubnetGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified replication task.
@@ -1253,7 +1242,7 @@ class DatabaseMigration {
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name (ARN) of the replication task to be deleted.
   Future<DeleteReplicationTaskResponse> deleteReplicationTask({
-    @_s.required String replicationTaskArn,
+    required String replicationTaskArn,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
@@ -1289,7 +1278,7 @@ class DatabaseMigration {
   /// deleted.
   Future<DeleteReplicationTaskAssessmentRunResponse>
       deleteReplicationTaskAssessmentRun({
-    @_s.required String replicationTaskAssessmentRunArn,
+    required String replicationTaskAssessmentRunArn,
   }) async {
     ArgumentError.checkNotNull(
         replicationTaskAssessmentRunArn, 'replicationTaskAssessmentRunArn');
@@ -1397,13 +1386,13 @@ class DatabaseMigration {
   /// as a target.
   Future<DescribeApplicableIndividualAssessmentsResponse>
       describeApplicableIndividualAssessments({
-    String marker,
-    int maxRecords,
-    MigrationTypeValue migrationType,
-    String replicationInstanceArn,
-    String replicationTaskArn,
-    String sourceEngineName,
-    String targetEngineName,
+    String? marker,
+    int? maxRecords,
+    MigrationTypeValue? migrationType,
+    String? replicationInstanceArn,
+    String? replicationTaskArn,
+    String? sourceEngineName,
+    String? targetEngineName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1454,9 +1443,9 @@ class DatabaseMigration {
   ///
   /// Default: 10
   Future<DescribeCertificatesResponse> describeCertificates({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1504,9 +1493,9 @@ class DatabaseMigration {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeConnectionsResponse> describeConnections({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1526,6 +1515,48 @@ class DatabaseMigration {
     );
 
     return DescribeConnectionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns information about the possible endpoint settings available when
+  /// you create an endpoint for a specific database engine.
+  ///
+  /// Parameter [engineName] :
+  /// The databse engine used for your source or target endpoint.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so that the remaining results
+  /// can be retrieved.
+  Future<DescribeEndpointSettingsResponse> describeEndpointSettings({
+    required String engineName,
+    String? marker,
+    int? maxRecords,
+  }) async {
+    ArgumentError.checkNotNull(engineName, 'engineName');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonDMSv20160101.DescribeEndpointSettings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EngineName': engineName,
+        if (marker != null) 'Marker': marker,
+        if (maxRecords != null) 'MaxRecords': maxRecords,
+      },
+    );
+
+    return DescribeEndpointSettingsResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about the type of endpoints available.
@@ -1550,9 +1581,9 @@ class DatabaseMigration {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeEndpointTypesResponse> describeEndpointTypes({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1600,9 +1631,9 @@ class DatabaseMigration {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeEndpointsResponse> describeEndpoints({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1639,8 +1670,8 @@ class DatabaseMigration {
   ///
   /// Valid values: replication-instance | replication-task
   Future<DescribeEventCategoriesResponse> describeEventCategories({
-    List<Filter> filters,
-    String sourceType,
+    List<Filter>? filters,
+    String? sourceType,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1693,10 +1724,10 @@ class DatabaseMigration {
   /// Parameter [subscriptionName] :
   /// The name of the AWS DMS event subscription to be described.
   Future<DescribeEventSubscriptionsResponse> describeEventSubscriptions({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String subscriptionName,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? subscriptionName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1764,15 +1795,15 @@ class DatabaseMigration {
   /// Parameter [startTime] :
   /// The start time for the events to be listed.
   Future<DescribeEventsResponse> describeEvents({
-    int duration,
-    DateTime endTime,
-    List<String> eventCategories,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String sourceIdentifier,
-    SourceType sourceType,
-    DateTime startTime,
+    int? duration,
+    DateTime? endTime,
+    List<String>? eventCategories,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? sourceIdentifier,
+    SourceType? sourceType,
+    DateTime? startTime,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1819,8 +1850,8 @@ class DatabaseMigration {
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeOrderableReplicationInstancesResponse>
       describeOrderableReplicationInstances({
-    String marker,
-    int maxRecords,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1868,10 +1899,10 @@ class DatabaseMigration {
   /// The Amazon Resource Name (ARN) of the replication instance.
   Future<DescribePendingMaintenanceActionsResponse>
       describePendingMaintenanceActions({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    String replicationInstanceArn,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    String? replicationInstanceArn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1905,7 +1936,7 @@ class DatabaseMigration {
   /// The Amazon Resource Name (ARN) string that uniquely identifies the
   /// endpoint.
   Future<DescribeRefreshSchemasStatusResponse> describeRefreshSchemasStatus({
-    @_s.required String endpointArn,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
@@ -1950,9 +1981,9 @@ class DatabaseMigration {
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeReplicationInstanceTaskLogsResponse>
       describeReplicationInstanceTaskLogs({
-    @_s.required String replicationInstanceArn,
-    String marker,
-    int maxRecords,
+    required String replicationInstanceArn,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(
         replicationInstanceArn, 'replicationInstanceArn');
@@ -2003,9 +2034,9 @@ class DatabaseMigration {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeReplicationInstancesResponse> describeReplicationInstances({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2052,9 +2083,9 @@ class DatabaseMigration {
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeReplicationSubnetGroupsResponse>
       describeReplicationSubnetGroups({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2103,9 +2134,9 @@ class DatabaseMigration {
   /// <code>Marker</code> parameters.
   Future<DescribeReplicationTaskAssessmentResultsResponse>
       describeReplicationTaskAssessmentResults({
-    String marker,
-    int maxRecords,
-    String replicationTaskArn,
+    String? marker,
+    int? maxRecords,
+    String? replicationTaskArn,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2164,9 +2195,9 @@ class DatabaseMigration {
   /// can be retrieved.
   Future<DescribeReplicationTaskAssessmentRunsResponse>
       describeReplicationTaskAssessmentRuns({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2216,9 +2247,9 @@ class DatabaseMigration {
   /// can be retrieved.
   Future<DescribeReplicationTaskIndividualAssessmentsResponse>
       describeReplicationTaskIndividualAssessments({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2274,10 +2305,10 @@ class DatabaseMigration {
   /// option, choose <code>true</code>; otherwise, choose <code>false</code>
   /// (the default).
   Future<DescribeReplicationTasksResponse> describeReplicationTasks({
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
-    bool withoutSettings,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
+    bool? withoutSettings,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2325,9 +2356,9 @@ class DatabaseMigration {
   ///
   /// Constraints: Minimum 20, maximum 100.
   Future<DescribeSchemasResponse> describeSchemas({
-    @_s.required String endpointArn,
-    String marker,
-    int maxRecords,
+    required String endpointArn,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
@@ -2386,10 +2417,10 @@ class DatabaseMigration {
   ///
   /// Constraints: Minimum 20, maximum 500.
   Future<DescribeTableStatisticsResponse> describeTableStatistics({
-    @_s.required String replicationTaskArn,
-    List<Filter> filters,
-    String marker,
-    int maxRecords,
+    required String replicationTaskArn,
+    List<Filter>? filters,
+    String? marker,
+    int? maxRecords,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
@@ -2434,10 +2465,10 @@ class DatabaseMigration {
   /// Parameter [tags] :
   /// The tags associated with the certificate.
   Future<ImportCertificateResponse> importCertificate({
-    @_s.required String certificateIdentifier,
-    String certificatePem,
-    Uint8List certificateWallet,
-    List<Tag> tags,
+    required String certificateIdentifier,
+    String? certificatePem,
+    Uint8List? certificateWallet,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(certificateIdentifier, 'certificateIdentifier');
     final headers = <String, String>{
@@ -2474,7 +2505,7 @@ class DatabaseMigration {
   /// The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS
   /// resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
@@ -2700,36 +2731,36 @@ class DatabaseMigration {
   /// Parameter [username] :
   /// The user name to be used to login to the endpoint database.
   Future<ModifyEndpointResponse> modifyEndpoint({
-    @_s.required String endpointArn,
-    String certificateArn,
-    String databaseName,
-    DmsTransferSettings dmsTransferSettings,
-    DocDbSettings docDbSettings,
-    DynamoDbSettings dynamoDbSettings,
-    ElasticsearchSettings elasticsearchSettings,
-    String endpointIdentifier,
-    ReplicationEndpointTypeValue endpointType,
-    String engineName,
-    String externalTableDefinition,
-    String extraConnectionAttributes,
-    IBMDb2Settings iBMDb2Settings,
-    KafkaSettings kafkaSettings,
-    KinesisSettings kinesisSettings,
-    MicrosoftSQLServerSettings microsoftSQLServerSettings,
-    MongoDbSettings mongoDbSettings,
-    MySQLSettings mySQLSettings,
-    NeptuneSettings neptuneSettings,
-    OracleSettings oracleSettings,
-    String password,
-    int port,
-    PostgreSQLSettings postgreSQLSettings,
-    RedshiftSettings redshiftSettings,
-    S3Settings s3Settings,
-    String serverName,
-    String serviceAccessRoleArn,
-    DmsSslModeValue sslMode,
-    SybaseSettings sybaseSettings,
-    String username,
+    required String endpointArn,
+    String? certificateArn,
+    String? databaseName,
+    DmsTransferSettings? dmsTransferSettings,
+    DocDbSettings? docDbSettings,
+    DynamoDbSettings? dynamoDbSettings,
+    ElasticsearchSettings? elasticsearchSettings,
+    String? endpointIdentifier,
+    ReplicationEndpointTypeValue? endpointType,
+    String? engineName,
+    String? externalTableDefinition,
+    String? extraConnectionAttributes,
+    IBMDb2Settings? iBMDb2Settings,
+    KafkaSettings? kafkaSettings,
+    KinesisSettings? kinesisSettings,
+    MicrosoftSQLServerSettings? microsoftSQLServerSettings,
+    MongoDbSettings? mongoDbSettings,
+    MySQLSettings? mySQLSettings,
+    NeptuneSettings? neptuneSettings,
+    OracleSettings? oracleSettings,
+    String? password,
+    int? port,
+    PostgreSQLSettings? postgreSQLSettings,
+    RedshiftSettings? redshiftSettings,
+    S3Settings? s3Settings,
+    String? serverName,
+    String? serviceAccessRoleArn,
+    DmsSslModeValue? sslMode,
+    SybaseSettings? sybaseSettings,
+    String? username,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     final headers = <String, String>{
@@ -2821,11 +2852,11 @@ class DatabaseMigration {
   ///
   /// Valid values: replication-instance | replication-task
   Future<ModifyEventSubscriptionResponse> modifyEventSubscription({
-    @_s.required String subscriptionName,
-    bool enabled,
-    List<String> eventCategories,
-    String snsTopicArn,
-    String sourceType,
+    required String subscriptionName,
+    bool? enabled,
+    List<String>? eventCategories,
+    String? snsTopicArn,
+    String? sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
     final headers = <String, String>{
@@ -2953,17 +2984,17 @@ class DatabaseMigration {
   /// The VPC security group must work with the VPC containing the replication
   /// instance.
   Future<ModifyReplicationInstanceResponse> modifyReplicationInstance({
-    @_s.required String replicationInstanceArn,
-    int allocatedStorage,
-    bool allowMajorVersionUpgrade,
-    bool applyImmediately,
-    bool autoMinorVersionUpgrade,
-    String engineVersion,
-    bool multiAZ,
-    String preferredMaintenanceWindow,
-    String replicationInstanceClass,
-    String replicationInstanceIdentifier,
-    List<String> vpcSecurityGroupIds,
+    required String replicationInstanceArn,
+    int? allocatedStorage,
+    bool? allowMajorVersionUpgrade,
+    bool? applyImmediately,
+    bool? autoMinorVersionUpgrade,
+    String? engineVersion,
+    bool? multiAZ,
+    String? preferredMaintenanceWindow,
+    String? replicationInstanceClass,
+    String? replicationInstanceIdentifier,
+    List<String>? vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(
         replicationInstanceArn, 'replicationInstanceArn');
@@ -3019,9 +3050,9 @@ class DatabaseMigration {
   /// Parameter [replicationSubnetGroupDescription] :
   /// A description for the replication instance subnet group.
   Future<ModifyReplicationSubnetGroupResponse> modifyReplicationSubnetGroup({
-    @_s.required String replicationSubnetGroupIdentifier,
-    @_s.required List<String> subnetIds,
-    String replicationSubnetGroupDescription,
+    required String replicationSubnetGroupIdentifier,
+    required List<String> subnetIds,
+    String? replicationSubnetGroupDescription,
   }) async {
     ArgumentError.checkNotNull(
         replicationSubnetGroupIdentifier, 'replicationSubnetGroupIdentifier');
@@ -3133,8 +3164,8 @@ class DatabaseMigration {
   /// Parameter [tableMappings] :
   /// When using the AWS CLI or boto3, provide the path of the JSON file that
   /// contains the table mappings. Precede the path with <code>file://</code>.
-  /// When working with the DMS API, provide the JSON as the parameter value,
-  /// for example: <code>--table-mappings file://mappingfile.json</code>
+  /// For example, <code>--table-mappings file://mappingfile.json</code>. When
+  /// working with the DMS API, provide the JSON as the parameter value.
   ///
   /// Parameter [taskData] :
   /// Supplemental information that the task requires to migrate the data for
@@ -3143,15 +3174,15 @@ class DatabaseMigration {
   /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
   /// Service User Guide.</i>
   Future<ModifyReplicationTaskResponse> modifyReplicationTask({
-    @_s.required String replicationTaskArn,
-    String cdcStartPosition,
-    DateTime cdcStartTime,
-    String cdcStopPosition,
-    MigrationTypeValue migrationType,
-    String replicationTaskIdentifier,
-    String replicationTaskSettings,
-    String tableMappings,
-    String taskData,
+    required String replicationTaskArn,
+    String? cdcStartPosition,
+    DateTime? cdcStartTime,
+    String? cdcStopPosition,
+    MigrationTypeValue? migrationType,
+    String? replicationTaskIdentifier,
+    String? replicationTaskSettings,
+    String? tableMappings,
+    String? taskData,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
@@ -3191,6 +3222,7 @@ class DatabaseMigration {
   /// May throw [AccessDeniedFault].
   /// May throw [InvalidResourceStateFault].
   /// May throw [ResourceNotFoundFault].
+  /// May throw [KMSKeyNotAccessibleFault].
   ///
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name (ARN) of the task that you want to move.
@@ -3198,8 +3230,8 @@ class DatabaseMigration {
   /// Parameter [targetReplicationInstanceArn] :
   /// The ARN of the replication instance where you want to move the task to.
   Future<MoveReplicationTaskResponse> moveReplicationTask({
-    @_s.required String replicationTaskArn,
-    @_s.required String targetReplicationInstanceArn,
+    required String replicationTaskArn,
+    required String targetReplicationInstanceArn,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     ArgumentError.checkNotNull(
@@ -3237,8 +3269,8 @@ class DatabaseMigration {
   /// Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then
   /// you can't specify <code>true</code>.)
   Future<RebootReplicationInstanceResponse> rebootReplicationInstance({
-    @_s.required String replicationInstanceArn,
-    bool forceFailover,
+    required String replicationInstanceArn,
+    bool? forceFailover,
   }) async {
     ArgumentError.checkNotNull(
         replicationInstanceArn, 'replicationInstanceArn');
@@ -3277,8 +3309,8 @@ class DatabaseMigration {
   /// Parameter [replicationInstanceArn] :
   /// The Amazon Resource Name (ARN) of the replication instance.
   Future<RefreshSchemasResponse> refreshSchemas({
-    @_s.required String endpointArn,
-    @_s.required String replicationInstanceArn,
+    required String endpointArn,
+    required String replicationInstanceArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     ArgumentError.checkNotNull(
@@ -3323,9 +3355,9 @@ class DatabaseMigration {
   ///
   /// Default value is data-reload.
   Future<ReloadTablesResponse> reloadTables({
-    @_s.required String replicationTaskArn,
-    @_s.required List<TableToReload> tablesToReload,
-    ReloadOptionValue reloadOption,
+    required String replicationTaskArn,
+    required List<TableToReload> tablesToReload,
+    ReloadOptionValue? reloadOption,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     ArgumentError.checkNotNull(tablesToReload, 'tablesToReload');
@@ -3364,8 +3396,8 @@ class DatabaseMigration {
   /// Parameter [tagKeys] :
   /// The tag key (name) of the tag to be removed.
   Future<void> removeTagsFromResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -3373,7 +3405,7 @@ class DatabaseMigration {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonDMSv20160101.RemoveTagsFromResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3384,8 +3416,6 @@ class DatabaseMigration {
         'TagKeys': tagKeys,
       },
     );
-
-    return RemoveTagsFromResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts the replication task.
@@ -3444,11 +3474,11 @@ class DatabaseMigration {
   /// Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12
   /// “
   Future<StartReplicationTaskResponse> startReplicationTask({
-    @_s.required String replicationTaskArn,
-    @_s.required StartReplicationTaskTypeValue startReplicationTaskType,
-    String cdcStartPosition,
-    DateTime cdcStartTime,
-    String cdcStopPosition,
+    required String replicationTaskArn,
+    required StartReplicationTaskTypeValue startReplicationTaskType,
+    String? cdcStartPosition,
+    DateTime? cdcStartTime,
+    String? cdcStopPosition,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     ArgumentError.checkNotNull(
@@ -3465,7 +3495,7 @@ class DatabaseMigration {
       headers: headers,
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
-        'StartReplicationTaskType': startReplicationTaskType?.toValue() ?? '',
+        'StartReplicationTaskType': startReplicationTaskType.toValue(),
         if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
         if (cdcStartTime != null)
           'CdcStartTime': unixTimestampToJson(cdcStartTime),
@@ -3486,7 +3516,7 @@ class DatabaseMigration {
   /// The Amazon Resource Name (ARN) of the replication task.
   Future<StartReplicationTaskAssessmentResponse>
       startReplicationTaskAssessment({
-    @_s.required String replicationTaskArn,
+    required String replicationTaskArn,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
@@ -3601,15 +3631,15 @@ class DatabaseMigration {
   /// results of this assessment run.
   Future<StartReplicationTaskAssessmentRunResponse>
       startReplicationTaskAssessmentRun({
-    @_s.required String assessmentRunName,
-    @_s.required String replicationTaskArn,
-    @_s.required String resultLocationBucket,
-    @_s.required String serviceAccessRoleArn,
-    List<String> exclude,
-    List<String> includeOnly,
-    String resultEncryptionMode,
-    String resultKmsKeyArn,
-    String resultLocationFolder,
+    required String assessmentRunName,
+    required String replicationTaskArn,
+    required String resultLocationBucket,
+    required String serviceAccessRoleArn,
+    List<String>? exclude,
+    List<String>? includeOnly,
+    String? resultEncryptionMode,
+    String? resultKmsKeyArn,
+    String? resultLocationFolder,
   }) async {
     ArgumentError.checkNotNull(assessmentRunName, 'assessmentRunName');
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
@@ -3652,7 +3682,7 @@ class DatabaseMigration {
   /// Parameter [replicationTaskArn] :
   /// The Amazon Resource Name(ARN) of the replication task to be stopped.
   Future<StopReplicationTaskResponse> stopReplicationTask({
-    @_s.required String replicationTaskArn,
+    required String replicationTaskArn,
   }) async {
     ArgumentError.checkNotNull(replicationTaskArn, 'replicationTaskArn');
     final headers = <String, String>{
@@ -3679,6 +3709,7 @@ class DatabaseMigration {
   /// May throw [InvalidResourceStateFault].
   /// May throw [KMSKeyNotAccessibleFault].
   /// May throw [ResourceQuotaExceededFault].
+  /// May throw [AccessDeniedFault].
   ///
   /// Parameter [endpointArn] :
   /// The Amazon Resource Name (ARN) string that uniquely identifies the
@@ -3687,8 +3718,8 @@ class DatabaseMigration {
   /// Parameter [replicationInstanceArn] :
   /// The Amazon Resource Name (ARN) of the replication instance.
   Future<TestConnectionResponse> testConnection({
-    @_s.required String endpointArn,
-    @_s.required String replicationInstanceArn,
+    required String endpointArn,
+    required String replicationInstanceArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     ArgumentError.checkNotNull(
@@ -3715,78 +3746,145 @@ class DatabaseMigration {
 
 /// Describes a quota for an AWS account, for example, the number of replication
 /// instances allowed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountQuota {
   /// The name of the AWS DMS quota for this AWS account.
-  @_s.JsonKey(name: 'AccountQuotaName')
-  final String accountQuotaName;
+  final String? accountQuotaName;
 
   /// The maximum allowed value for the quota.
-  @_s.JsonKey(name: 'Max')
-  final int max;
+  final int? max;
 
   /// The amount currently used toward the quota maximum.
-  @_s.JsonKey(name: 'Used')
-  final int used;
+  final int? used;
 
   AccountQuota({
     this.accountQuotaName,
     this.max,
     this.used,
   });
-  factory AccountQuota.fromJson(Map<String, dynamic> json) =>
-      _$AccountQuotaFromJson(json);
+
+  factory AccountQuota.fromJson(Map<String, dynamic> json) {
+    return AccountQuota(
+      accountQuotaName: json['AccountQuotaName'] as String?,
+      max: json['Max'] as int?,
+      used: json['Used'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountQuotaName = this.accountQuotaName;
+    final max = this.max;
+    final used = this.used;
+    return {
+      if (accountQuotaName != null) 'AccountQuotaName': accountQuotaName,
+      if (max != null) 'Max': max,
+      if (used != null) 'Used': used,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsToResourceResponse {
   AddTagsToResourceResponse();
-  factory AddTagsToResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsToResourceResponseFromJson(json);
+
+  factory AddTagsToResourceResponse.fromJson(Map<String, dynamic> _) {
+    return AddTagsToResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplyPendingMaintenanceActionResponse {
   /// The AWS DMS resource that the pending maintenance action will be applied to.
-  @_s.JsonKey(name: 'ResourcePendingMaintenanceActions')
-  final ResourcePendingMaintenanceActions resourcePendingMaintenanceActions;
+  final ResourcePendingMaintenanceActions? resourcePendingMaintenanceActions;
 
   ApplyPendingMaintenanceActionResponse({
     this.resourcePendingMaintenanceActions,
   });
+
   factory ApplyPendingMaintenanceActionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ApplyPendingMaintenanceActionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ApplyPendingMaintenanceActionResponse(
+      resourcePendingMaintenanceActions:
+          json['ResourcePendingMaintenanceActions'] != null
+              ? ResourcePendingMaintenanceActions.fromJson(
+                  json['ResourcePendingMaintenanceActions']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourcePendingMaintenanceActions =
+        this.resourcePendingMaintenanceActions;
+    return {
+      if (resourcePendingMaintenanceActions != null)
+        'ResourcePendingMaintenanceActions': resourcePendingMaintenanceActions,
+    };
+  }
 }
 
 enum AuthMechanismValue {
-  @_s.JsonValue('default')
   $default,
-  @_s.JsonValue('mongodb_cr')
   mongodbCr,
-  @_s.JsonValue('scram_sha_1')
   scramSha_1,
 }
 
+extension on AuthMechanismValue {
+  String toValue() {
+    switch (this) {
+      case AuthMechanismValue.$default:
+        return 'default';
+      case AuthMechanismValue.mongodbCr:
+        return 'mongodb_cr';
+      case AuthMechanismValue.scramSha_1:
+        return 'scram_sha_1';
+    }
+  }
+}
+
+extension on String {
+  AuthMechanismValue toAuthMechanismValue() {
+    switch (this) {
+      case 'default':
+        return AuthMechanismValue.$default;
+      case 'mongodb_cr':
+        return AuthMechanismValue.mongodbCr;
+      case 'scram_sha_1':
+        return AuthMechanismValue.scramSha_1;
+    }
+    throw Exception('$this is not known in enum AuthMechanismValue');
+  }
+}
+
 enum AuthTypeValue {
-  @_s.JsonValue('no')
   no,
-  @_s.JsonValue('password')
   password,
+}
+
+extension on AuthTypeValue {
+  String toValue() {
+    switch (this) {
+      case AuthTypeValue.no:
+        return 'no';
+      case AuthTypeValue.password:
+        return 'password';
+    }
+  }
+}
+
+extension on String {
+  AuthTypeValue toAuthTypeValue() {
+    switch (this) {
+      case 'no':
+        return AuthTypeValue.no;
+      case 'password':
+        return AuthTypeValue.password;
+    }
+    throw Exception('$this is not known in enum AuthTypeValue');
+  }
 }
 
 /// The name of an Availability Zone for use during database migration.
@@ -3796,97 +3894,92 @@ enum AuthTypeValue {
 /// relates to the AWS Region of an endpoint. For example, the availability zone
 /// of an endpoint in the us-east-1 region might be us-east-1a, us-east-1b,
 /// us-east-1c, or us-east-1d.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AvailabilityZone {
   /// The name of the Availability Zone.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   AvailabilityZone({
     this.name,
   });
-  factory AvailabilityZone.fromJson(Map<String, dynamic> json) =>
-      _$AvailabilityZoneFromJson(json);
+
+  factory AvailabilityZone.fromJson(Map<String, dynamic> json) {
+    return AvailabilityZone(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelReplicationTaskAssessmentRunResponse {
   /// The <code>ReplicationTaskAssessmentRun</code> object for the canceled
   /// assessment run.
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentRun')
-  final ReplicationTaskAssessmentRun replicationTaskAssessmentRun;
+  final ReplicationTaskAssessmentRun? replicationTaskAssessmentRun;
 
   CancelReplicationTaskAssessmentRunResponse({
     this.replicationTaskAssessmentRun,
   });
+
   factory CancelReplicationTaskAssessmentRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelReplicationTaskAssessmentRunResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CancelReplicationTaskAssessmentRunResponse(
+      replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] != null
+          ? ReplicationTaskAssessmentRun.fromJson(
+              json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTaskAssessmentRun = this.replicationTaskAssessmentRun;
+    return {
+      if (replicationTaskAssessmentRun != null)
+        'ReplicationTaskAssessmentRun': replicationTaskAssessmentRun,
+    };
+  }
 }
 
 /// The SSL certificate that can be used to encrypt connections between the
 /// endpoints and the replication instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Certificate {
   /// The Amazon Resource Name (ARN) for the certificate.
-  @_s.JsonKey(name: 'CertificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The date that the certificate was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CertificateCreationDate')
-  final DateTime certificateCreationDate;
+  final DateTime? certificateCreationDate;
 
   /// A customer-assigned name for the certificate. Identifiers must begin with a
   /// letter and must contain only ASCII letters, digits, and hyphens. They can't
   /// end with a hyphen or contain two consecutive hyphens.
-  @_s.JsonKey(name: 'CertificateIdentifier')
-  final String certificateIdentifier;
+  final String? certificateIdentifier;
 
   /// The owner of the certificate.
-  @_s.JsonKey(name: 'CertificateOwner')
-  final String certificateOwner;
+  final String? certificateOwner;
 
   /// The contents of a <code>.pem</code> file, which contains an X.509
   /// certificate.
-  @_s.JsonKey(name: 'CertificatePem')
-  final String certificatePem;
+  final String? certificatePem;
 
   /// The location of an imported Oracle Wallet certificate for use with SSL.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'CertificateWallet')
-  final Uint8List certificateWallet;
+  final Uint8List? certificateWallet;
 
   /// The key length of the cryptographic algorithm being used.
-  @_s.JsonKey(name: 'KeyLength')
-  final int keyLength;
+  final int? keyLength;
 
   /// The signing algorithm for the certificate.
-  @_s.JsonKey(name: 'SigningAlgorithm')
-  final String signingAlgorithm;
+  final String? signingAlgorithm;
 
   /// The beginning date that the certificate is valid.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ValidFromDate')
-  final DateTime validFromDate;
+  final DateTime? validFromDate;
 
   /// The final date that the certificate is valid.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ValidToDate')
-  final DateTime validToDate;
+  final DateTime? validToDate;
 
   Certificate({
     this.certificateArn,
@@ -3900,56 +3993,135 @@ class Certificate {
     this.validFromDate,
     this.validToDate,
   });
-  factory Certificate.fromJson(Map<String, dynamic> json) =>
-      _$CertificateFromJson(json);
+
+  factory Certificate.fromJson(Map<String, dynamic> json) {
+    return Certificate(
+      certificateArn: json['CertificateArn'] as String?,
+      certificateCreationDate:
+          timeStampFromJson(json['CertificateCreationDate']),
+      certificateIdentifier: json['CertificateIdentifier'] as String?,
+      certificateOwner: json['CertificateOwner'] as String?,
+      certificatePem: json['CertificatePem'] as String?,
+      certificateWallet:
+          _s.decodeNullableUint8List(json['CertificateWallet'] as String?),
+      keyLength: json['KeyLength'] as int?,
+      signingAlgorithm: json['SigningAlgorithm'] as String?,
+      validFromDate: timeStampFromJson(json['ValidFromDate']),
+      validToDate: timeStampFromJson(json['ValidToDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateCreationDate = this.certificateCreationDate;
+    final certificateIdentifier = this.certificateIdentifier;
+    final certificateOwner = this.certificateOwner;
+    final certificatePem = this.certificatePem;
+    final certificateWallet = this.certificateWallet;
+    final keyLength = this.keyLength;
+    final signingAlgorithm = this.signingAlgorithm;
+    final validFromDate = this.validFromDate;
+    final validToDate = this.validToDate;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (certificateCreationDate != null)
+        'CertificateCreationDate': unixTimestampToJson(certificateCreationDate),
+      if (certificateIdentifier != null)
+        'CertificateIdentifier': certificateIdentifier,
+      if (certificateOwner != null) 'CertificateOwner': certificateOwner,
+      if (certificatePem != null) 'CertificatePem': certificatePem,
+      if (certificateWallet != null)
+        'CertificateWallet': base64Encode(certificateWallet),
+      if (keyLength != null) 'KeyLength': keyLength,
+      if (signingAlgorithm != null) 'SigningAlgorithm': signingAlgorithm,
+      if (validFromDate != null)
+        'ValidFromDate': unixTimestampToJson(validFromDate),
+      if (validToDate != null) 'ValidToDate': unixTimestampToJson(validToDate),
+    };
+  }
 }
 
 enum CharLengthSemantics {
-  @_s.JsonValue('default')
   $default,
-  @_s.JsonValue('char')
   char,
-  @_s.JsonValue('byte')
   byte,
 }
 
+extension on CharLengthSemantics {
+  String toValue() {
+    switch (this) {
+      case CharLengthSemantics.$default:
+        return 'default';
+      case CharLengthSemantics.char:
+        return 'char';
+      case CharLengthSemantics.byte:
+        return 'byte';
+    }
+  }
+}
+
+extension on String {
+  CharLengthSemantics toCharLengthSemantics() {
+    switch (this) {
+      case 'default':
+        return CharLengthSemantics.$default;
+      case 'char':
+        return CharLengthSemantics.char;
+      case 'byte':
+        return CharLengthSemantics.byte;
+    }
+    throw Exception('$this is not known in enum CharLengthSemantics');
+  }
+}
+
 enum CompressionTypeValue {
-  @_s.JsonValue('none')
   none,
-  @_s.JsonValue('gzip')
   gzip,
+}
+
+extension on CompressionTypeValue {
+  String toValue() {
+    switch (this) {
+      case CompressionTypeValue.none:
+        return 'none';
+      case CompressionTypeValue.gzip:
+        return 'gzip';
+    }
+  }
+}
+
+extension on String {
+  CompressionTypeValue toCompressionTypeValue() {
+    switch (this) {
+      case 'none':
+        return CompressionTypeValue.none;
+      case 'gzip':
+        return CompressionTypeValue.gzip;
+    }
+    throw Exception('$this is not known in enum CompressionTypeValue');
+  }
 }
 
 /// Status of the connection between an endpoint and a replication instance,
 /// including Amazon Resource Names (ARNs) and the last error message issued.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Connection {
   /// The ARN string that uniquely identifies the endpoint.
-  @_s.JsonKey(name: 'EndpointArn')
-  final String endpointArn;
+  final String? endpointArn;
 
   /// The identifier of the endpoint. Identifiers must begin with a letter and
   /// must contain only ASCII letters, digits, and hyphens. They can't end with a
   /// hyphen or contain two consecutive hyphens.
-  @_s.JsonKey(name: 'EndpointIdentifier')
-  final String endpointIdentifier;
+  final String? endpointIdentifier;
 
   /// The error message when the connection last failed.
-  @_s.JsonKey(name: 'LastFailureMessage')
-  final String lastFailureMessage;
+  final String? lastFailureMessage;
 
   /// The ARN of the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstanceArn')
-  final String replicationInstanceArn;
+  final String? replicationInstanceArn;
 
   /// The replication instance identifier. This parameter is stored as a lowercase
   /// string.
-  @_s.JsonKey(name: 'ReplicationInstanceIdentifier')
-  final String replicationInstanceIdentifier;
+  final String? replicationInstanceIdentifier;
 
   /// The connection status. This parameter can return one of the following
   /// values:
@@ -3968,8 +4140,7 @@ class Connection {
   /// <code>"deleting"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   Connection({
     this.endpointArn,
@@ -3979,284 +4150,482 @@ class Connection {
     this.replicationInstanceIdentifier,
     this.status,
   });
-  factory Connection.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionFromJson(json);
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      endpointArn: json['EndpointArn'] as String?,
+      endpointIdentifier: json['EndpointIdentifier'] as String?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
+      replicationInstanceIdentifier:
+          json['ReplicationInstanceIdentifier'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointArn = this.endpointArn;
+    final endpointIdentifier = this.endpointIdentifier;
+    final lastFailureMessage = this.lastFailureMessage;
+    final replicationInstanceArn = this.replicationInstanceArn;
+    final replicationInstanceIdentifier = this.replicationInstanceIdentifier;
+    final status = this.status;
+    return {
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (endpointIdentifier != null) 'EndpointIdentifier': endpointIdentifier,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (replicationInstanceArn != null)
+        'ReplicationInstanceArn': replicationInstanceArn,
+      if (replicationInstanceIdentifier != null)
+        'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEndpointResponse {
   /// The endpoint that was created.
-  @_s.JsonKey(name: 'Endpoint')
-  final Endpoint endpoint;
+  final Endpoint? endpoint;
 
   CreateEndpointResponse({
     this.endpoint,
   });
-  factory CreateEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEndpointResponseFromJson(json);
+
+  factory CreateEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEndpointResponse(
+      endpoint: json['Endpoint'] != null
+          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEventSubscriptionResponse {
   /// The event subscription that was created.
-  @_s.JsonKey(name: 'EventSubscription')
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   CreateEventSubscriptionResponse({
     this.eventSubscription,
   });
-  factory CreateEventSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEventSubscriptionResponseFromJson(json);
+
+  factory CreateEventSubscriptionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEventSubscriptionResponse(
+      eventSubscription: json['EventSubscription'] != null
+          ? EventSubscription.fromJson(
+              json['EventSubscription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateReplicationInstanceResponse {
   /// The replication instance that was created.
-  @_s.JsonKey(name: 'ReplicationInstance')
-  final ReplicationInstance replicationInstance;
+  final ReplicationInstance? replicationInstance;
 
   CreateReplicationInstanceResponse({
     this.replicationInstance,
   });
+
   factory CreateReplicationInstanceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateReplicationInstanceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateReplicationInstanceResponse(
+      replicationInstance: json['ReplicationInstance'] != null
+          ? ReplicationInstance.fromJson(
+              json['ReplicationInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationInstance = this.replicationInstance;
+    return {
+      if (replicationInstance != null)
+        'ReplicationInstance': replicationInstance,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateReplicationSubnetGroupResponse {
   /// The replication subnet group that was created.
-  @_s.JsonKey(name: 'ReplicationSubnetGroup')
-  final ReplicationSubnetGroup replicationSubnetGroup;
+  final ReplicationSubnetGroup? replicationSubnetGroup;
 
   CreateReplicationSubnetGroupResponse({
     this.replicationSubnetGroup,
   });
+
   factory CreateReplicationSubnetGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateReplicationSubnetGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateReplicationSubnetGroupResponse(
+      replicationSubnetGroup: json['ReplicationSubnetGroup'] != null
+          ? ReplicationSubnetGroup.fromJson(
+              json['ReplicationSubnetGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationSubnetGroup = this.replicationSubnetGroup;
+    return {
+      if (replicationSubnetGroup != null)
+        'ReplicationSubnetGroup': replicationSubnetGroup,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateReplicationTaskResponse {
   /// The replication task that was created.
-  @_s.JsonKey(name: 'ReplicationTask')
-  final ReplicationTask replicationTask;
+  final ReplicationTask? replicationTask;
 
   CreateReplicationTaskResponse({
     this.replicationTask,
   });
-  factory CreateReplicationTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateReplicationTaskResponseFromJson(json);
+
+  factory CreateReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CreateReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
 }
 
 enum DataFormatValue {
-  @_s.JsonValue('csv')
   csv,
-  @_s.JsonValue('parquet')
   parquet,
 }
 
+extension on DataFormatValue {
+  String toValue() {
+    switch (this) {
+      case DataFormatValue.csv:
+        return 'csv';
+      case DataFormatValue.parquet:
+        return 'parquet';
+    }
+  }
+}
+
+extension on String {
+  DataFormatValue toDataFormatValue() {
+    switch (this) {
+      case 'csv':
+        return DataFormatValue.csv;
+      case 'parquet':
+        return DataFormatValue.parquet;
+    }
+    throw Exception('$this is not known in enum DataFormatValue');
+  }
+}
+
 enum DatePartitionDelimiterValue {
-  @_s.JsonValue('SLASH')
   slash,
-  @_s.JsonValue('UNDERSCORE')
   underscore,
-  @_s.JsonValue('DASH')
   dash,
-  @_s.JsonValue('NONE')
   none,
 }
 
+extension on DatePartitionDelimiterValue {
+  String toValue() {
+    switch (this) {
+      case DatePartitionDelimiterValue.slash:
+        return 'SLASH';
+      case DatePartitionDelimiterValue.underscore:
+        return 'UNDERSCORE';
+      case DatePartitionDelimiterValue.dash:
+        return 'DASH';
+      case DatePartitionDelimiterValue.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  DatePartitionDelimiterValue toDatePartitionDelimiterValue() {
+    switch (this) {
+      case 'SLASH':
+        return DatePartitionDelimiterValue.slash;
+      case 'UNDERSCORE':
+        return DatePartitionDelimiterValue.underscore;
+      case 'DASH':
+        return DatePartitionDelimiterValue.dash;
+      case 'NONE':
+        return DatePartitionDelimiterValue.none;
+    }
+    throw Exception('$this is not known in enum DatePartitionDelimiterValue');
+  }
+}
+
 enum DatePartitionSequenceValue {
-  @_s.JsonValue('YYYYMMDD')
   yyyymmdd,
-  @_s.JsonValue('YYYYMMDDHH')
   yyyymmddhh,
-  @_s.JsonValue('YYYYMM')
   yyyymm,
-  @_s.JsonValue('MMYYYYDD')
   mmyyyydd,
-  @_s.JsonValue('DDMMYYYY')
   ddmmyyyy,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DatePartitionSequenceValue {
+  String toValue() {
+    switch (this) {
+      case DatePartitionSequenceValue.yyyymmdd:
+        return 'YYYYMMDD';
+      case DatePartitionSequenceValue.yyyymmddhh:
+        return 'YYYYMMDDHH';
+      case DatePartitionSequenceValue.yyyymm:
+        return 'YYYYMM';
+      case DatePartitionSequenceValue.mmyyyydd:
+        return 'MMYYYYDD';
+      case DatePartitionSequenceValue.ddmmyyyy:
+        return 'DDMMYYYY';
+    }
+  }
+}
+
+extension on String {
+  DatePartitionSequenceValue toDatePartitionSequenceValue() {
+    switch (this) {
+      case 'YYYYMMDD':
+        return DatePartitionSequenceValue.yyyymmdd;
+      case 'YYYYMMDDHH':
+        return DatePartitionSequenceValue.yyyymmddhh;
+      case 'YYYYMM':
+        return DatePartitionSequenceValue.yyyymm;
+      case 'MMYYYYDD':
+        return DatePartitionSequenceValue.mmyyyydd;
+      case 'DDMMYYYY':
+        return DatePartitionSequenceValue.ddmmyyyy;
+    }
+    throw Exception('$this is not known in enum DatePartitionSequenceValue');
+  }
+}
+
 class DeleteCertificateResponse {
   /// The Secure Sockets Layer (SSL) certificate.
-  @_s.JsonKey(name: 'Certificate')
-  final Certificate certificate;
+  final Certificate? certificate;
 
   DeleteCertificateResponse({
     this.certificate,
   });
-  factory DeleteCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCertificateResponseFromJson(json);
+
+  factory DeleteCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteCertificateResponse(
+      certificate: json['Certificate'] != null
+          ? Certificate.fromJson(json['Certificate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    return {
+      if (certificate != null) 'Certificate': certificate,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConnectionResponse {
   /// The connection that is being deleted.
-  @_s.JsonKey(name: 'Connection')
-  final Connection connection;
+  final Connection? connection;
 
   DeleteConnectionResponse({
     this.connection,
   });
-  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConnectionResponseFromJson(json);
+
+  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEndpointResponse {
   /// The endpoint that was deleted.
-  @_s.JsonKey(name: 'Endpoint')
-  final Endpoint endpoint;
+  final Endpoint? endpoint;
 
   DeleteEndpointResponse({
     this.endpoint,
   });
-  factory DeleteEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEndpointResponseFromJson(json);
+
+  factory DeleteEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteEndpointResponse(
+      endpoint: json['Endpoint'] != null
+          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEventSubscriptionResponse {
   /// The event subscription that was deleted.
-  @_s.JsonKey(name: 'EventSubscription')
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   DeleteEventSubscriptionResponse({
     this.eventSubscription,
   });
-  factory DeleteEventSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEventSubscriptionResponseFromJson(json);
+
+  factory DeleteEventSubscriptionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteEventSubscriptionResponse(
+      eventSubscription: json['EventSubscription'] != null
+          ? EventSubscription.fromJson(
+              json['EventSubscription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteReplicationInstanceResponse {
   /// The replication instance that was deleted.
-  @_s.JsonKey(name: 'ReplicationInstance')
-  final ReplicationInstance replicationInstance;
+  final ReplicationInstance? replicationInstance;
 
   DeleteReplicationInstanceResponse({
     this.replicationInstance,
   });
+
   factory DeleteReplicationInstanceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteReplicationInstanceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteReplicationInstanceResponse(
+      replicationInstance: json['ReplicationInstance'] != null
+          ? ReplicationInstance.fromJson(
+              json['ReplicationInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationInstance = this.replicationInstance;
+    return {
+      if (replicationInstance != null)
+        'ReplicationInstance': replicationInstance,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteReplicationSubnetGroupResponse {
   DeleteReplicationSubnetGroupResponse();
+
   factory DeleteReplicationSubnetGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteReplicationSubnetGroupResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteReplicationSubnetGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteReplicationTaskAssessmentRunResponse {
   /// The <code>ReplicationTaskAssessmentRun</code> object for the deleted
   /// assessment run.
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentRun')
-  final ReplicationTaskAssessmentRun replicationTaskAssessmentRun;
+  final ReplicationTaskAssessmentRun? replicationTaskAssessmentRun;
 
   DeleteReplicationTaskAssessmentRunResponse({
     this.replicationTaskAssessmentRun,
   });
+
   factory DeleteReplicationTaskAssessmentRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteReplicationTaskAssessmentRunResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteReplicationTaskAssessmentRunResponse(
+      replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] != null
+          ? ReplicationTaskAssessmentRun.fromJson(
+              json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTaskAssessmentRun = this.replicationTaskAssessmentRun;
+    return {
+      if (replicationTaskAssessmentRun != null)
+        'ReplicationTaskAssessmentRun': replicationTaskAssessmentRun,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteReplicationTaskResponse {
   /// The deleted replication task.
-  @_s.JsonKey(name: 'ReplicationTask')
-  final ReplicationTask replicationTask;
+  final ReplicationTask? replicationTask;
 
   DeleteReplicationTaskResponse({
     this.replicationTask,
   });
-  factory DeleteReplicationTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteReplicationTaskResponseFromJson(json);
+
+  factory DeleteReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountAttributesResponse {
   /// Account quota information.
-  @_s.JsonKey(name: 'AccountQuotas')
-  final List<AccountQuota> accountQuotas;
+  final List<AccountQuota>? accountQuotas;
 
   /// A unique AWS DMS identifier for an account in a particular AWS Region. The
   /// value of this identifier has the following format:
@@ -4271,24 +4640,36 @@ class DescribeAccountAttributesResponse {
   /// AWS DMS supports the <code>UniqueAccountIdentifier</code> parameter in
   /// versions 3.1.4 and later.
   /// </note>
-  @_s.JsonKey(name: 'UniqueAccountIdentifier')
-  final String uniqueAccountIdentifier;
+  final String? uniqueAccountIdentifier;
 
   DescribeAccountAttributesResponse({
     this.accountQuotas,
     this.uniqueAccountIdentifier,
   });
+
   factory DescribeAccountAttributesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAccountAttributesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAccountAttributesResponse(
+      accountQuotas: (json['AccountQuotas'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountQuota.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      uniqueAccountIdentifier: json['UniqueAccountIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountQuotas = this.accountQuotas;
+    final uniqueAccountIdentifier = this.uniqueAccountIdentifier;
+    return {
+      if (accountQuotas != null) 'AccountQuotas': accountQuotas,
+      if (uniqueAccountIdentifier != null)
+        'UniqueAccountIdentifier': uniqueAccountIdentifier,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeApplicableIndividualAssessmentsResponse {
   /// List of names for the individual assessments supported by the premigration
   /// assessment run that you start based on the specified request parameters. For
@@ -4297,522 +4678,788 @@ class DescribeApplicableIndividualAssessmentsResponse {
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.AssessmentReport.html">Working
   /// with premigration assessment runs</a> in the <i>AWS Database Migration
   /// Service User Guide.</i>
-  @_s.JsonKey(name: 'IndividualAssessmentNames')
-  final List<String> individualAssessmentNames;
+  final List<String>? individualAssessmentNames;
 
   /// Pagination token returned for you to pass to a subsequent request. If you
   /// pass this token as the <code>Marker</code> value in a subsequent request,
   /// the response includes only records beyond the marker, up to the value
   /// specified in the request by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeApplicableIndividualAssessmentsResponse({
     this.individualAssessmentNames,
     this.marker,
   });
+
   factory DescribeApplicableIndividualAssessmentsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeApplicableIndividualAssessmentsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeApplicableIndividualAssessmentsResponse(
+      individualAssessmentNames: (json['IndividualAssessmentNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final individualAssessmentNames = this.individualAssessmentNames;
+    final marker = this.marker;
+    return {
+      if (individualAssessmentNames != null)
+        'IndividualAssessmentNames': individualAssessmentNames,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCertificatesResponse {
   /// The Secure Sockets Layer (SSL) certificates associated with the replication
   /// instance.
-  @_s.JsonKey(name: 'Certificates')
-  final List<Certificate> certificates;
+  final List<Certificate>? certificates;
 
   /// The pagination token.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeCertificatesResponse({
     this.certificates,
     this.marker,
   });
-  factory DescribeCertificatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCertificatesResponseFromJson(json);
+
+  factory DescribeCertificatesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCertificatesResponse(
+      certificates: (json['Certificates'] as List?)
+          ?.whereNotNull()
+          .map((e) => Certificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final marker = this.marker;
+    return {
+      if (certificates != null) 'Certificates': certificates,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConnectionsResponse {
   /// A description of the connections.
-  @_s.JsonKey(name: 'Connections')
-  final List<Connection> connections;
+  final List<Connection>? connections;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeConnectionsResponse({
     this.connections,
     this.marker,
   });
-  factory DescribeConnectionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeConnectionsResponseFromJson(json);
+
+  factory DescribeConnectionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectionsResponse(
+      connections: (json['Connections'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final marker = this.marker;
+    return {
+      if (connections != null) 'Connections': connections,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class DescribeEndpointSettingsResponse {
+  /// Descriptions of the endpoint settings available for your source or target
+  /// database engine.
+  final List<EndpointSetting>? endpointSettings;
+
+  /// An optional pagination token provided by a previous request. If this
+  /// parameter is specified, the response includes only records beyond the
+  /// marker, up to the value specified by <code>MaxRecords</code>.
+  final String? marker;
+
+  DescribeEndpointSettingsResponse({
+    this.endpointSettings,
+    this.marker,
+  });
+
+  factory DescribeEndpointSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointSettingsResponse(
+      endpointSettings: (json['EndpointSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) => EndpointSetting.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointSettings = this.endpointSettings;
+    final marker = this.marker;
+    return {
+      if (endpointSettings != null) 'EndpointSettings': endpointSettings,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointTypesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The types of endpoints that are supported.
-  @_s.JsonKey(name: 'SupportedEndpointTypes')
-  final List<SupportedEndpointType> supportedEndpointTypes;
+  final List<SupportedEndpointType>? supportedEndpointTypes;
 
   DescribeEndpointTypesResponse({
     this.marker,
     this.supportedEndpointTypes,
   });
-  factory DescribeEndpointTypesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointTypesResponseFromJson(json);
+
+  factory DescribeEndpointTypesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointTypesResponse(
+      marker: json['Marker'] as String?,
+      supportedEndpointTypes: (json['SupportedEndpointTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SupportedEndpointType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final supportedEndpointTypes = this.supportedEndpointTypes;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (supportedEndpointTypes != null)
+        'SupportedEndpointTypes': supportedEndpointTypes,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointsResponse {
   /// Endpoint description.
-  @_s.JsonKey(name: 'Endpoints')
-  final List<Endpoint> endpoints;
+  final List<Endpoint>? endpoints;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeEndpointsResponse({
     this.endpoints,
     this.marker,
   });
-  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointsResponseFromJson(json);
+
+  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointsResponse(
+      endpoints: (json['Endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final marker = this.marker;
+    return {
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventCategoriesResponse {
   /// A list of event categories.
-  @_s.JsonKey(name: 'EventCategoryGroupList')
-  final List<EventCategoryGroup> eventCategoryGroupList;
+  final List<EventCategoryGroup>? eventCategoryGroupList;
 
   DescribeEventCategoriesResponse({
     this.eventCategoryGroupList,
   });
-  factory DescribeEventCategoriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventCategoriesResponseFromJson(json);
+
+  factory DescribeEventCategoriesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventCategoriesResponse(
+      eventCategoryGroupList: (json['EventCategoryGroupList'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventCategoryGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventCategoryGroupList = this.eventCategoryGroupList;
+    return {
+      if (eventCategoryGroupList != null)
+        'EventCategoryGroupList': eventCategoryGroupList,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventSubscriptionsResponse {
   /// A list of event subscriptions.
-  @_s.JsonKey(name: 'EventSubscriptionsList')
-  final List<EventSubscription> eventSubscriptionsList;
+  final List<EventSubscription>? eventSubscriptionsList;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeEventSubscriptionsResponse({
     this.eventSubscriptionsList,
     this.marker,
   });
+
   factory DescribeEventSubscriptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEventSubscriptionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEventSubscriptionsResponse(
+      eventSubscriptionsList: (json['EventSubscriptionsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventSubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscriptionsList = this.eventSubscriptionsList;
+    final marker = this.marker;
+    return {
+      if (eventSubscriptionsList != null)
+        'EventSubscriptionsList': eventSubscriptionsList,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventsResponse {
   /// The events described.
-  @_s.JsonKey(name: 'Events')
-  final List<Event> events;
+  final List<Event>? events;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeEventsResponse({
     this.events,
     this.marker,
   });
-  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventsResponseFromJson(json);
+
+  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventsResponse(
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final marker = this.marker;
+    return {
+      if (events != null) 'Events': events,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOrderableReplicationInstancesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The order-able replication instances available.
-  @_s.JsonKey(name: 'OrderableReplicationInstances')
-  final List<OrderableReplicationInstance> orderableReplicationInstances;
+  final List<OrderableReplicationInstance>? orderableReplicationInstances;
 
   DescribeOrderableReplicationInstancesResponse({
     this.marker,
     this.orderableReplicationInstances,
   });
+
   factory DescribeOrderableReplicationInstancesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeOrderableReplicationInstancesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeOrderableReplicationInstancesResponse(
+      marker: json['Marker'] as String?,
+      orderableReplicationInstances: (json['OrderableReplicationInstances']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              OrderableReplicationInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final orderableReplicationInstances = this.orderableReplicationInstances;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (orderableReplicationInstances != null)
+        'OrderableReplicationInstances': orderableReplicationInstances,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePendingMaintenanceActionsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The pending maintenance action.
-  @_s.JsonKey(name: 'PendingMaintenanceActions')
-  final List<ResourcePendingMaintenanceActions> pendingMaintenanceActions;
+  final List<ResourcePendingMaintenanceActions>? pendingMaintenanceActions;
 
   DescribePendingMaintenanceActionsResponse({
     this.marker,
     this.pendingMaintenanceActions,
   });
+
   factory DescribePendingMaintenanceActionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePendingMaintenanceActionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePendingMaintenanceActionsResponse(
+      marker: json['Marker'] as String?,
+      pendingMaintenanceActions: (json['PendingMaintenanceActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourcePendingMaintenanceActions.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final pendingMaintenanceActions = this.pendingMaintenanceActions;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (pendingMaintenanceActions != null)
+        'PendingMaintenanceActions': pendingMaintenanceActions,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRefreshSchemasStatusResponse {
   /// The status of the schema.
-  @_s.JsonKey(name: 'RefreshSchemasStatus')
-  final RefreshSchemasStatus refreshSchemasStatus;
+  final RefreshSchemasStatus? refreshSchemasStatus;
 
   DescribeRefreshSchemasStatusResponse({
     this.refreshSchemasStatus,
   });
+
   factory DescribeRefreshSchemasStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeRefreshSchemasStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeRefreshSchemasStatusResponse(
+      refreshSchemasStatus: json['RefreshSchemasStatus'] != null
+          ? RefreshSchemasStatus.fromJson(
+              json['RefreshSchemasStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final refreshSchemasStatus = this.refreshSchemasStatus;
+    return {
+      if (refreshSchemasStatus != null)
+        'RefreshSchemasStatus': refreshSchemasStatus,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplicationInstanceTaskLogsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The Amazon Resource Name (ARN) of the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstanceArn')
-  final String replicationInstanceArn;
+  final String? replicationInstanceArn;
 
   /// An array of replication task log metadata. Each member of the array contains
   /// the replication task name, ARN, and task log size (in bytes).
-  @_s.JsonKey(name: 'ReplicationInstanceTaskLogs')
-  final List<ReplicationInstanceTaskLog> replicationInstanceTaskLogs;
+  final List<ReplicationInstanceTaskLog>? replicationInstanceTaskLogs;
 
   DescribeReplicationInstanceTaskLogsResponse({
     this.marker,
     this.replicationInstanceArn,
     this.replicationInstanceTaskLogs,
   });
+
   factory DescribeReplicationInstanceTaskLogsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReplicationInstanceTaskLogsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReplicationInstanceTaskLogsResponse(
+      marker: json['Marker'] as String?,
+      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
+      replicationInstanceTaskLogs: (json['ReplicationInstanceTaskLogs']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicationInstanceTaskLog.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationInstanceArn = this.replicationInstanceArn;
+    final replicationInstanceTaskLogs = this.replicationInstanceTaskLogs;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationInstanceArn != null)
+        'ReplicationInstanceArn': replicationInstanceArn,
+      if (replicationInstanceTaskLogs != null)
+        'ReplicationInstanceTaskLogs': replicationInstanceTaskLogs,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplicationInstancesResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The replication instances described.
-  @_s.JsonKey(name: 'ReplicationInstances')
-  final List<ReplicationInstance> replicationInstances;
+  final List<ReplicationInstance>? replicationInstances;
 
   DescribeReplicationInstancesResponse({
     this.marker,
     this.replicationInstances,
   });
+
   factory DescribeReplicationInstancesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReplicationInstancesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReplicationInstancesResponse(
+      marker: json['Marker'] as String?,
+      replicationInstances: (json['ReplicationInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicationInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationInstances = this.replicationInstances;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationInstances != null)
+        'ReplicationInstances': replicationInstances,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplicationSubnetGroupsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// A description of the replication subnet groups.
-  @_s.JsonKey(name: 'ReplicationSubnetGroups')
-  final List<ReplicationSubnetGroup> replicationSubnetGroups;
+  final List<ReplicationSubnetGroup>? replicationSubnetGroups;
 
   DescribeReplicationSubnetGroupsResponse({
     this.marker,
     this.replicationSubnetGroups,
   });
+
   factory DescribeReplicationSubnetGroupsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReplicationSubnetGroupsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReplicationSubnetGroupsResponse(
+      marker: json['Marker'] as String?,
+      replicationSubnetGroups: (json['ReplicationSubnetGroups'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ReplicationSubnetGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationSubnetGroups = this.replicationSubnetGroups;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationSubnetGroups != null)
+        'ReplicationSubnetGroups': replicationSubnetGroups,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplicationTaskAssessmentResultsResponse {
   /// - The Amazon S3 bucket where the task assessment report is located.
-  @_s.JsonKey(name: 'BucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The task assessment report.
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentResults')
-  final List<ReplicationTaskAssessmentResult> replicationTaskAssessmentResults;
+  final List<ReplicationTaskAssessmentResult>? replicationTaskAssessmentResults;
 
   DescribeReplicationTaskAssessmentResultsResponse({
     this.bucketName,
     this.marker,
     this.replicationTaskAssessmentResults,
   });
+
   factory DescribeReplicationTaskAssessmentResultsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReplicationTaskAssessmentResultsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReplicationTaskAssessmentResultsResponse(
+      bucketName: json['BucketName'] as String?,
+      marker: json['Marker'] as String?,
+      replicationTaskAssessmentResults:
+          (json['ReplicationTaskAssessmentResults'] as List?)
+              ?.whereNotNull()
+              .map((e) => ReplicationTaskAssessmentResult.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final marker = this.marker;
+    final replicationTaskAssessmentResults =
+        this.replicationTaskAssessmentResults;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (marker != null) 'Marker': marker,
+      if (replicationTaskAssessmentResults != null)
+        'ReplicationTaskAssessmentResults': replicationTaskAssessmentResults,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplicationTaskAssessmentRunsResponse {
   /// A pagination token returned for you to pass to a subsequent request. If you
   /// pass this token as the <code>Marker</code> value in a subsequent request,
   /// the response includes only records beyond the marker, up to the value
   /// specified in the request by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// One or more premigration assessment runs as specified by
   /// <code>Filters</code>.
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentRuns')
-  final List<ReplicationTaskAssessmentRun> replicationTaskAssessmentRuns;
+  final List<ReplicationTaskAssessmentRun>? replicationTaskAssessmentRuns;
 
   DescribeReplicationTaskAssessmentRunsResponse({
     this.marker,
     this.replicationTaskAssessmentRuns,
   });
+
   factory DescribeReplicationTaskAssessmentRunsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReplicationTaskAssessmentRunsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReplicationTaskAssessmentRunsResponse(
+      marker: json['Marker'] as String?,
+      replicationTaskAssessmentRuns: (json['ReplicationTaskAssessmentRuns']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicationTaskAssessmentRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationTaskAssessmentRuns = this.replicationTaskAssessmentRuns;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationTaskAssessmentRuns != null)
+        'ReplicationTaskAssessmentRuns': replicationTaskAssessmentRuns,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplicationTaskIndividualAssessmentsResponse {
   /// A pagination token returned for you to pass to a subsequent request. If you
   /// pass this token as the <code>Marker</code> value in a subsequent request,
   /// the response includes only records beyond the marker, up to the value
   /// specified in the request by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// One or more individual assessments as specified by <code>Filters</code>.
-  @_s.JsonKey(name: 'ReplicationTaskIndividualAssessments')
-  final List<ReplicationTaskIndividualAssessment>
+  final List<ReplicationTaskIndividualAssessment>?
       replicationTaskIndividualAssessments;
 
   DescribeReplicationTaskIndividualAssessmentsResponse({
     this.marker,
     this.replicationTaskIndividualAssessments,
   });
+
   factory DescribeReplicationTaskIndividualAssessmentsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReplicationTaskIndividualAssessmentsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReplicationTaskIndividualAssessmentsResponse(
+      marker: json['Marker'] as String?,
+      replicationTaskIndividualAssessments:
+          (json['ReplicationTaskIndividualAssessments'] as List?)
+              ?.whereNotNull()
+              .map((e) => ReplicationTaskIndividualAssessment.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationTaskIndividualAssessments =
+        this.replicationTaskIndividualAssessments;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationTaskIndividualAssessments != null)
+        'ReplicationTaskIndividualAssessments':
+            replicationTaskIndividualAssessments,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReplicationTasksResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// A description of the replication tasks.
-  @_s.JsonKey(name: 'ReplicationTasks')
-  final List<ReplicationTask> replicationTasks;
+  final List<ReplicationTask>? replicationTasks;
 
   DescribeReplicationTasksResponse({
     this.marker,
     this.replicationTasks,
   });
-  factory DescribeReplicationTasksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReplicationTasksResponseFromJson(json);
+
+  factory DescribeReplicationTasksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReplicationTasksResponse(
+      marker: json['Marker'] as String?,
+      replicationTasks: (json['ReplicationTasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicationTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationTasks = this.replicationTasks;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationTasks != null) 'ReplicationTasks': replicationTasks,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSchemasResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The described schema.
-  @_s.JsonKey(name: 'Schemas')
-  final List<String> schemas;
+  final List<String>? schemas;
 
   DescribeSchemasResponse({
     this.marker,
     this.schemas,
   });
-  factory DescribeSchemasResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSchemasResponseFromJson(json);
+
+  factory DescribeSchemasResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSchemasResponse(
+      marker: json['Marker'] as String?,
+      schemas: (json['Schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final schemas = this.schemas;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (schemas != null) 'Schemas': schemas,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTableStatisticsResponse {
   /// An optional pagination token provided by a previous request. If this
   /// parameter is specified, the response includes only records beyond the
   /// marker, up to the value specified by <code>MaxRecords</code>.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The Amazon Resource Name (ARN) of the replication task.
-  @_s.JsonKey(name: 'ReplicationTaskArn')
-  final String replicationTaskArn;
+  final String? replicationTaskArn;
 
   /// The table statistics.
-  @_s.JsonKey(name: 'TableStatistics')
-  final List<TableStatistics> tableStatistics;
+  final List<TableStatistics>? tableStatistics;
 
   DescribeTableStatisticsResponse({
     this.marker,
     this.replicationTaskArn,
     this.tableStatistics,
   });
-  factory DescribeTableStatisticsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTableStatisticsResponseFromJson(json);
+
+  factory DescribeTableStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTableStatisticsResponse(
+      marker: json['Marker'] as String?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      tableStatistics: (json['TableStatistics'] as List?)
+          ?.whereNotNull()
+          .map((e) => TableStatistics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final replicationTaskArn = this.replicationTaskArn;
+    final tableStatistics = this.tableStatistics;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (tableStatistics != null) 'TableStatistics': tableStatistics,
+    };
+  }
 }
 
 enum DmsSslModeValue {
-  @_s.JsonValue('none')
   none,
-  @_s.JsonValue('require')
   require,
-  @_s.JsonValue('verify-ca')
   verifyCa,
-  @_s.JsonValue('verify-full')
   verifyFull,
 }
 
@@ -4828,45 +5475,60 @@ extension on DmsSslModeValue {
       case DmsSslModeValue.verifyFull:
         return 'verify-full';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DmsSslModeValue toDmsSslModeValue() {
+    switch (this) {
+      case 'none':
+        return DmsSslModeValue.none;
+      case 'require':
+        return DmsSslModeValue.require;
+      case 'verify-ca':
+        return DmsSslModeValue.verifyCa;
+      case 'verify-full':
+        return DmsSslModeValue.verifyFull;
+    }
+    throw Exception('$this is not known in enum DmsSslModeValue');
   }
 }
 
 /// The settings in JSON format for the DMS Transfer type source endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DmsTransferSettings {
   /// The name of the S3 bucket to use.
-  @_s.JsonKey(name: 'BucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// The IAM role that has permission to access the Amazon S3 bucket.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
-  final String serviceAccessRoleArn;
+  final String? serviceAccessRoleArn;
 
   DmsTransferSettings({
     this.bucketName,
     this.serviceAccessRoleArn,
   });
-  factory DmsTransferSettings.fromJson(Map<String, dynamic> json) =>
-      _$DmsTransferSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DmsTransferSettingsToJson(this);
+  factory DmsTransferSettings.fromJson(Map<String, dynamic> json) {
+    return DmsTransferSettings(
+      bucketName: json['BucketName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+    };
+  }
 }
 
 /// Provides information that defines a DocumentDB endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocDbSettings {
   /// The database name on the DocumentDB source endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// Indicates the number of documents to preview to determine the document
   /// organization. Use this setting when <code>NestingLevel</code> is set to
@@ -4874,39 +5536,33 @@ class DocDbSettings {
   ///
   /// Must be a positive value greater than <code>0</code>. Default value is
   /// <code>1000</code>.
-  @_s.JsonKey(name: 'DocsToInvestigate')
-  final int docsToInvestigate;
+  final int? docsToInvestigate;
 
   /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
   /// is set to <code>"none"</code>.
   ///
   /// Default value is <code>"false"</code>.
-  @_s.JsonKey(name: 'ExtractDocId')
-  final bool extractDocId;
+  final bool? extractDocId;
 
   /// The AWS KMS key identifier that is used to encrypt the content on the
   /// replication instance. If you don't specify a value for the
   /// <code>KmsKeyId</code> parameter, then AWS DMS uses your default encryption
   /// key. AWS KMS creates the default encryption key for your AWS account. Your
   /// AWS account has a different default encryption key for each AWS Region.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies either document or table mode.
   ///
   /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
   /// document mode. Specify <code>"one"</code> to use table mode.
-  @_s.JsonKey(name: 'NestingLevel')
-  final NestingLevelValue nestingLevel;
+  final NestingLevelValue? nestingLevel;
 
   /// The password for the user account you use to access the DocumentDB source
   /// endpoint.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The port value for the DocumentDB source endpoint.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -4926,22 +5582,18 @@ class DocDbSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the DocumentDB endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// The name of the server on the DocumentDB source endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// The user name you use to access the DocumentDB source endpoint.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   DocDbSettings({
     this.databaseName,
@@ -4956,53 +5608,90 @@ class DocDbSettings {
     this.serverName,
     this.username,
   });
-  factory DocDbSettings.fromJson(Map<String, dynamic> json) =>
-      _$DocDbSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DocDbSettingsToJson(this);
+  factory DocDbSettings.fromJson(Map<String, dynamic> json) {
+    return DocDbSettings(
+      databaseName: json['DatabaseName'] as String?,
+      docsToInvestigate: json['DocsToInvestigate'] as int?,
+      extractDocId: json['ExtractDocId'] as bool?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      nestingLevel: (json['NestingLevel'] as String?)?.toNestingLevelValue(),
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final docsToInvestigate = this.docsToInvestigate;
+    final extractDocId = this.extractDocId;
+    final kmsKeyId = this.kmsKeyId;
+    final nestingLevel = this.nestingLevel;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final username = this.username;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (docsToInvestigate != null) 'DocsToInvestigate': docsToInvestigate,
+      if (extractDocId != null) 'ExtractDocId': extractDocId,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (nestingLevel != null) 'NestingLevel': nestingLevel.toValue(),
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 /// Provides the Amazon Resource Name (ARN) of the AWS Identity and Access
 /// Management (IAM) role used to define an Amazon DynamoDB target endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DynamoDbSettings {
   /// The Amazon Resource Name (ARN) used by the service access IAM role.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
   final String serviceAccessRoleArn;
 
   DynamoDbSettings({
-    @_s.required this.serviceAccessRoleArn,
+    required this.serviceAccessRoleArn,
   });
-  factory DynamoDbSettings.fromJson(Map<String, dynamic> json) =>
-      _$DynamoDbSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DynamoDbSettingsToJson(this);
+  factory DynamoDbSettings.fromJson(Map<String, dynamic> json) {
+    return DynamoDbSettings(
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    return {
+      'ServiceAccessRoleArn': serviceAccessRoleArn,
+    };
+  }
 }
 
 /// Provides information that defines an Elasticsearch endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ElasticsearchSettings {
   /// The endpoint for the Elasticsearch cluster. AWS DMS uses HTTPS if a
   /// transport protocol (http/https) is not specified.
-  @_s.JsonKey(name: 'EndpointUri')
   final String endpointUri;
 
   /// The Amazon Resource Name (ARN) used by service to access the IAM role.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
   final String serviceAccessRoleArn;
 
   /// The maximum number of seconds for which DMS retries failed API requests to
   /// the Elasticsearch cluster.
-  @_s.JsonKey(name: 'ErrorRetryDuration')
-  final int errorRetryDuration;
+  final int? errorRetryDuration;
 
   /// The maximum percentage of records that can fail to be written before a full
   /// load operation stops.
@@ -5011,35 +5700,98 @@ class ElasticsearchSettings {
   /// are transferred. Elasticsearch also has the concept of error monitoring
   /// during the last 10 minutes of an Observation Window. If transfer of all
   /// records fail in the last 10 minutes, the full load operation stops.
-  @_s.JsonKey(name: 'FullLoadErrorPercentage')
-  final int fullLoadErrorPercentage;
+  final int? fullLoadErrorPercentage;
 
   ElasticsearchSettings({
-    @_s.required this.endpointUri,
-    @_s.required this.serviceAccessRoleArn,
+    required this.endpointUri,
+    required this.serviceAccessRoleArn,
     this.errorRetryDuration,
     this.fullLoadErrorPercentage,
   });
-  factory ElasticsearchSettings.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ElasticsearchSettingsToJson(this);
+  factory ElasticsearchSettings.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchSettings(
+      endpointUri: json['EndpointUri'] as String,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String,
+      errorRetryDuration: json['ErrorRetryDuration'] as int?,
+      fullLoadErrorPercentage: json['FullLoadErrorPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointUri = this.endpointUri;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final errorRetryDuration = this.errorRetryDuration;
+    final fullLoadErrorPercentage = this.fullLoadErrorPercentage;
+    return {
+      'EndpointUri': endpointUri,
+      'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (errorRetryDuration != null) 'ErrorRetryDuration': errorRetryDuration,
+      if (fullLoadErrorPercentage != null)
+        'FullLoadErrorPercentage': fullLoadErrorPercentage,
+    };
+  }
 }
 
 enum EncodingTypeValue {
-  @_s.JsonValue('plain')
   plain,
-  @_s.JsonValue('plain-dictionary')
   plainDictionary,
-  @_s.JsonValue('rle-dictionary')
   rleDictionary,
 }
 
+extension on EncodingTypeValue {
+  String toValue() {
+    switch (this) {
+      case EncodingTypeValue.plain:
+        return 'plain';
+      case EncodingTypeValue.plainDictionary:
+        return 'plain-dictionary';
+      case EncodingTypeValue.rleDictionary:
+        return 'rle-dictionary';
+    }
+  }
+}
+
+extension on String {
+  EncodingTypeValue toEncodingTypeValue() {
+    switch (this) {
+      case 'plain':
+        return EncodingTypeValue.plain;
+      case 'plain-dictionary':
+        return EncodingTypeValue.plainDictionary;
+      case 'rle-dictionary':
+        return EncodingTypeValue.rleDictionary;
+    }
+    throw Exception('$this is not known in enum EncodingTypeValue');
+  }
+}
+
 enum EncryptionModeValue {
-  @_s.JsonValue('sse-s3')
   sseS3,
-  @_s.JsonValue('sse-kms')
   sseKms,
+}
+
+extension on EncryptionModeValue {
+  String toValue() {
+    switch (this) {
+      case EncryptionModeValue.sseS3:
+        return 'sse-s3';
+      case EncryptionModeValue.sseKms:
+        return 'sse-kms';
+    }
+  }
+}
+
+extension on String {
+  EncryptionModeValue toEncryptionModeValue() {
+    switch (this) {
+      case 'sse-s3':
+        return EncryptionModeValue.sseS3;
+      case 'sse-kms':
+        return EncryptionModeValue.sseKms;
+    }
+    throw Exception('$this is not known in enum EncryptionModeValue');
+  }
 }
 
 /// Describes an endpoint of a database instance in response to operations such
@@ -5059,19 +5811,12 @@ enum EncryptionModeValue {
 /// <code>ModifyEndpoint</code>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Endpoint {
   /// The Amazon Resource Name (ARN) used for SSL connection to the endpoint.
-  @_s.JsonKey(name: 'CertificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The name of the database at the endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The settings in JSON format for the DMS transfer type of source endpoint.
   ///
@@ -5097,41 +5842,33 @@ class Endpoint {
   /// JSON syntax for these settings is as follows: <code>{
   /// "ServiceAccessRoleArn": "string", "BucketName": "string", "CompressionType":
   /// "none"|"gzip" } </code>
-  @_s.JsonKey(name: 'DmsTransferSettings')
-  final DmsTransferSettings dmsTransferSettings;
-  @_s.JsonKey(name: 'DocDbSettings')
-  final DocDbSettings docDbSettings;
+  final DmsTransferSettings? dmsTransferSettings;
+  final DocDbSettings? docDbSettings;
 
   /// The settings for the DynamoDB target endpoint. For more information, see the
   /// <code>DynamoDBSettings</code> structure.
-  @_s.JsonKey(name: 'DynamoDbSettings')
-  final DynamoDbSettings dynamoDbSettings;
+  final DynamoDbSettings? dynamoDbSettings;
 
   /// The settings for the Elasticsearch source endpoint. For more information,
   /// see the <code>ElasticsearchSettings</code> structure.
-  @_s.JsonKey(name: 'ElasticsearchSettings')
-  final ElasticsearchSettings elasticsearchSettings;
+  final ElasticsearchSettings? elasticsearchSettings;
 
   /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-  @_s.JsonKey(name: 'EndpointArn')
-  final String endpointArn;
+  final String? endpointArn;
 
   /// The database endpoint identifier. Identifiers must begin with a letter and
   /// must contain only ASCII letters, digits, and hyphens. They can't end with a
   /// hyphen or contain two consecutive hyphens.
-  @_s.JsonKey(name: 'EndpointIdentifier')
-  final String endpointIdentifier;
+  final String? endpointIdentifier;
 
   /// The type of endpoint. Valid values are <code>source</code> and
   /// <code>target</code>.
-  @_s.JsonKey(name: 'EndpointType')
-  final ReplicationEndpointTypeValue endpointType;
+  final ReplicationEndpointTypeValue? endpointType;
 
   /// The expanded name for the engine name. For example, if the
   /// <code>EngineName</code> parameter is "aurora," this value would be "Amazon
   /// Aurora MySQL."
-  @_s.JsonKey(name: 'EngineDisplayName')
-  final String engineDisplayName;
+  final String? engineDisplayName;
 
   /// The database engine name. Valid values, depending on the EndpointType,
   /// include <code>"mysql"</code>, <code>"oracle"</code>,
@@ -5142,37 +5879,30 @@ class Endpoint {
   /// <code>"kinesis"</code>, <code>"kafka"</code>, <code>"elasticsearch"</code>,
   /// <code>"documentdb"</code>, <code>"sqlserver"</code>, and
   /// <code>"neptune"</code>.
-  @_s.JsonKey(name: 'EngineName')
-  final String engineName;
+  final String? engineName;
 
   /// Value returned by a call to CreateEndpoint that can be used for
   /// cross-account validation. Use it on a subsequent call to CreateEndpoint to
   /// create the endpoint with a cross-account.
-  @_s.JsonKey(name: 'ExternalId')
-  final String externalId;
+  final String? externalId;
 
   /// The external table definition.
-  @_s.JsonKey(name: 'ExternalTableDefinition')
-  final String externalTableDefinition;
+  final String? externalTableDefinition;
 
   /// Additional connection attributes used to connect to the endpoint.
-  @_s.JsonKey(name: 'ExtraConnectionAttributes')
-  final String extraConnectionAttributes;
+  final String? extraConnectionAttributes;
 
   /// The settings for the IBM Db2 LUW source endpoint. For more information, see
   /// the <code>IBMDb2Settings</code> structure.
-  @_s.JsonKey(name: 'IBMDb2Settings')
-  final IBMDb2Settings iBMDb2Settings;
+  final IBMDb2Settings? iBMDb2Settings;
 
   /// The settings for the Apache Kafka target endpoint. For more information, see
   /// the <code>KafkaSettings</code> structure.
-  @_s.JsonKey(name: 'KafkaSettings')
-  final KafkaSettings kafkaSettings;
+  final KafkaSettings? kafkaSettings;
 
   /// The settings for the Amazon Kinesis target endpoint. For more information,
   /// see the <code>KinesisSettings</code> structure.
-  @_s.JsonKey(name: 'KinesisSettings')
-  final KinesisSettings kinesisSettings;
+  final KinesisSettings? kinesisSettings;
 
   /// An AWS KMS key identifier that is used to encrypt the connection parameters
   /// for the endpoint.
@@ -5182,77 +5912,61 @@ class Endpoint {
   ///
   /// AWS KMS creates the default encryption key for your AWS account. Your AWS
   /// account has a different default encryption key for each AWS Region.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The settings for the Microsoft SQL Server source and target endpoint. For
   /// more information, see the <code>MicrosoftSQLServerSettings</code> structure.
-  @_s.JsonKey(name: 'MicrosoftSQLServerSettings')
-  final MicrosoftSQLServerSettings microsoftSQLServerSettings;
+  final MicrosoftSQLServerSettings? microsoftSQLServerSettings;
 
   /// The settings for the MongoDB source endpoint. For more information, see the
   /// <code>MongoDbSettings</code> structure.
-  @_s.JsonKey(name: 'MongoDbSettings')
-  final MongoDbSettings mongoDbSettings;
+  final MongoDbSettings? mongoDbSettings;
 
   /// The settings for the MySQL source and target endpoint. For more information,
   /// see the <code>MySQLSettings</code> structure.
-  @_s.JsonKey(name: 'MySQLSettings')
-  final MySQLSettings mySQLSettings;
+  final MySQLSettings? mySQLSettings;
 
   /// The settings for the Amazon Neptune target endpoint. For more information,
   /// see the <code>NeptuneSettings</code> structure.
-  @_s.JsonKey(name: 'NeptuneSettings')
-  final NeptuneSettings neptuneSettings;
+  final NeptuneSettings? neptuneSettings;
 
   /// The settings for the Oracle source and target endpoint. For more
   /// information, see the <code>OracleSettings</code> structure.
-  @_s.JsonKey(name: 'OracleSettings')
-  final OracleSettings oracleSettings;
+  final OracleSettings? oracleSettings;
 
   /// The port value used to access the endpoint.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The settings for the PostgreSQL source and target endpoint. For more
   /// information, see the <code>PostgreSQLSettings</code> structure.
-  @_s.JsonKey(name: 'PostgreSQLSettings')
-  final PostgreSQLSettings postgreSQLSettings;
+  final PostgreSQLSettings? postgreSQLSettings;
 
   /// Settings for the Amazon Redshift endpoint.
-  @_s.JsonKey(name: 'RedshiftSettings')
-  final RedshiftSettings redshiftSettings;
+  final RedshiftSettings? redshiftSettings;
 
   /// The settings for the S3 target endpoint. For more information, see the
   /// <code>S3Settings</code> structure.
-  @_s.JsonKey(name: 'S3Settings')
-  final S3Settings s3Settings;
+  final S3Settings? s3Settings;
 
   /// The name of the server at the endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// The Amazon Resource Name (ARN) used by the service access IAM role.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
-  final String serviceAccessRoleArn;
+  final String? serviceAccessRoleArn;
 
   /// The SSL mode used to connect to the endpoint. The default value is
   /// <code>none</code>.
-  @_s.JsonKey(name: 'SslMode')
-  final DmsSslModeValue sslMode;
+  final DmsSslModeValue? sslMode;
 
   /// The status of the endpoint.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The settings for the SAP ASE source and target endpoint. For more
   /// information, see the <code>SybaseSettings</code> structure.
-  @_s.JsonKey(name: 'SybaseSettings')
-  final SybaseSettings sybaseSettings;
+  final SybaseSettings? sybaseSettings;
 
   /// The user name used to connect to the endpoint.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   Endpoint({
     this.certificateArn,
@@ -5289,41 +6003,306 @@ class Endpoint {
     this.sybaseSettings,
     this.username,
   });
-  factory Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$EndpointFromJson(json);
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      certificateArn: json['CertificateArn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      dmsTransferSettings: json['DmsTransferSettings'] != null
+          ? DmsTransferSettings.fromJson(
+              json['DmsTransferSettings'] as Map<String, dynamic>)
+          : null,
+      docDbSettings: json['DocDbSettings'] != null
+          ? DocDbSettings.fromJson(
+              json['DocDbSettings'] as Map<String, dynamic>)
+          : null,
+      dynamoDbSettings: json['DynamoDbSettings'] != null
+          ? DynamoDbSettings.fromJson(
+              json['DynamoDbSettings'] as Map<String, dynamic>)
+          : null,
+      elasticsearchSettings: json['ElasticsearchSettings'] != null
+          ? ElasticsearchSettings.fromJson(
+              json['ElasticsearchSettings'] as Map<String, dynamic>)
+          : null,
+      endpointArn: json['EndpointArn'] as String?,
+      endpointIdentifier: json['EndpointIdentifier'] as String?,
+      endpointType:
+          (json['EndpointType'] as String?)?.toReplicationEndpointTypeValue(),
+      engineDisplayName: json['EngineDisplayName'] as String?,
+      engineName: json['EngineName'] as String?,
+      externalId: json['ExternalId'] as String?,
+      externalTableDefinition: json['ExternalTableDefinition'] as String?,
+      extraConnectionAttributes: json['ExtraConnectionAttributes'] as String?,
+      iBMDb2Settings: json['IBMDb2Settings'] != null
+          ? IBMDb2Settings.fromJson(
+              json['IBMDb2Settings'] as Map<String, dynamic>)
+          : null,
+      kafkaSettings: json['KafkaSettings'] != null
+          ? KafkaSettings.fromJson(
+              json['KafkaSettings'] as Map<String, dynamic>)
+          : null,
+      kinesisSettings: json['KinesisSettings'] != null
+          ? KinesisSettings.fromJson(
+              json['KinesisSettings'] as Map<String, dynamic>)
+          : null,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      microsoftSQLServerSettings: json['MicrosoftSQLServerSettings'] != null
+          ? MicrosoftSQLServerSettings.fromJson(
+              json['MicrosoftSQLServerSettings'] as Map<String, dynamic>)
+          : null,
+      mongoDbSettings: json['MongoDbSettings'] != null
+          ? MongoDbSettings.fromJson(
+              json['MongoDbSettings'] as Map<String, dynamic>)
+          : null,
+      mySQLSettings: json['MySQLSettings'] != null
+          ? MySQLSettings.fromJson(
+              json['MySQLSettings'] as Map<String, dynamic>)
+          : null,
+      neptuneSettings: json['NeptuneSettings'] != null
+          ? NeptuneSettings.fromJson(
+              json['NeptuneSettings'] as Map<String, dynamic>)
+          : null,
+      oracleSettings: json['OracleSettings'] != null
+          ? OracleSettings.fromJson(
+              json['OracleSettings'] as Map<String, dynamic>)
+          : null,
+      port: json['Port'] as int?,
+      postgreSQLSettings: json['PostgreSQLSettings'] != null
+          ? PostgreSQLSettings.fromJson(
+              json['PostgreSQLSettings'] as Map<String, dynamic>)
+          : null,
+      redshiftSettings: json['RedshiftSettings'] != null
+          ? RedshiftSettings.fromJson(
+              json['RedshiftSettings'] as Map<String, dynamic>)
+          : null,
+      s3Settings: json['S3Settings'] != null
+          ? S3Settings.fromJson(json['S3Settings'] as Map<String, dynamic>)
+          : null,
+      serverName: json['ServerName'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      sslMode: (json['SslMode'] as String?)?.toDmsSslModeValue(),
+      status: json['Status'] as String?,
+      sybaseSettings: json['SybaseSettings'] != null
+          ? SybaseSettings.fromJson(
+              json['SybaseSettings'] as Map<String, dynamic>)
+          : null,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final databaseName = this.databaseName;
+    final dmsTransferSettings = this.dmsTransferSettings;
+    final docDbSettings = this.docDbSettings;
+    final dynamoDbSettings = this.dynamoDbSettings;
+    final elasticsearchSettings = this.elasticsearchSettings;
+    final endpointArn = this.endpointArn;
+    final endpointIdentifier = this.endpointIdentifier;
+    final endpointType = this.endpointType;
+    final engineDisplayName = this.engineDisplayName;
+    final engineName = this.engineName;
+    final externalId = this.externalId;
+    final externalTableDefinition = this.externalTableDefinition;
+    final extraConnectionAttributes = this.extraConnectionAttributes;
+    final iBMDb2Settings = this.iBMDb2Settings;
+    final kafkaSettings = this.kafkaSettings;
+    final kinesisSettings = this.kinesisSettings;
+    final kmsKeyId = this.kmsKeyId;
+    final microsoftSQLServerSettings = this.microsoftSQLServerSettings;
+    final mongoDbSettings = this.mongoDbSettings;
+    final mySQLSettings = this.mySQLSettings;
+    final neptuneSettings = this.neptuneSettings;
+    final oracleSettings = this.oracleSettings;
+    final port = this.port;
+    final postgreSQLSettings = this.postgreSQLSettings;
+    final redshiftSettings = this.redshiftSettings;
+    final s3Settings = this.s3Settings;
+    final serverName = this.serverName;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final sslMode = this.sslMode;
+    final status = this.status;
+    final sybaseSettings = this.sybaseSettings;
+    final username = this.username;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (dmsTransferSettings != null)
+        'DmsTransferSettings': dmsTransferSettings,
+      if (docDbSettings != null) 'DocDbSettings': docDbSettings,
+      if (dynamoDbSettings != null) 'DynamoDbSettings': dynamoDbSettings,
+      if (elasticsearchSettings != null)
+        'ElasticsearchSettings': elasticsearchSettings,
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (endpointIdentifier != null) 'EndpointIdentifier': endpointIdentifier,
+      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (engineDisplayName != null) 'EngineDisplayName': engineDisplayName,
+      if (engineName != null) 'EngineName': engineName,
+      if (externalId != null) 'ExternalId': externalId,
+      if (externalTableDefinition != null)
+        'ExternalTableDefinition': externalTableDefinition,
+      if (extraConnectionAttributes != null)
+        'ExtraConnectionAttributes': extraConnectionAttributes,
+      if (iBMDb2Settings != null) 'IBMDb2Settings': iBMDb2Settings,
+      if (kafkaSettings != null) 'KafkaSettings': kafkaSettings,
+      if (kinesisSettings != null) 'KinesisSettings': kinesisSettings,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (microsoftSQLServerSettings != null)
+        'MicrosoftSQLServerSettings': microsoftSQLServerSettings,
+      if (mongoDbSettings != null) 'MongoDbSettings': mongoDbSettings,
+      if (mySQLSettings != null) 'MySQLSettings': mySQLSettings,
+      if (neptuneSettings != null) 'NeptuneSettings': neptuneSettings,
+      if (oracleSettings != null) 'OracleSettings': oracleSettings,
+      if (port != null) 'Port': port,
+      if (postgreSQLSettings != null) 'PostgreSQLSettings': postgreSQLSettings,
+      if (redshiftSettings != null) 'RedshiftSettings': redshiftSettings,
+      if (s3Settings != null) 'S3Settings': s3Settings,
+      if (serverName != null) 'ServerName': serverName,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (sslMode != null) 'SslMode': sslMode.toValue(),
+      if (status != null) 'Status': status,
+      if (sybaseSettings != null) 'SybaseSettings': sybaseSettings,
+      if (username != null) 'Username': username,
+    };
+  }
+}
+
+/// Endpoint settings.
+class EndpointSetting {
+  /// The relevance or validity of an endpoint setting for an engine name and its
+  /// endpoint type.
+  final String? applicability;
+
+  /// Enumerated values to use for this endpoint.
+  final List<String>? enumValues;
+
+  /// The maximum value of an endpoint setting that is of type <code>int</code>.
+  final int? intValueMax;
+
+  /// The minimum value of an endpoint setting that is of type <code>int</code>.
+  final int? intValueMin;
+
+  /// The name that you want to give the endpoint settings.
+  final String? name;
+
+  /// A value that marks this endpoint setting as sensitive.
+  final bool? sensitive;
+
+  /// The type of endpoint. Valid values are <code>source</code> and
+  /// <code>target</code>.
+  final EndpointSettingTypeValue? type;
+
+  /// The unit of measure for this endpoint setting.
+  final String? units;
+
+  EndpointSetting({
+    this.applicability,
+    this.enumValues,
+    this.intValueMax,
+    this.intValueMin,
+    this.name,
+    this.sensitive,
+    this.type,
+    this.units,
+  });
+
+  factory EndpointSetting.fromJson(Map<String, dynamic> json) {
+    return EndpointSetting(
+      applicability: json['Applicability'] as String?,
+      enumValues: (json['EnumValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      intValueMax: json['IntValueMax'] as int?,
+      intValueMin: json['IntValueMin'] as int?,
+      name: json['Name'] as String?,
+      sensitive: json['Sensitive'] as bool?,
+      type: (json['Type'] as String?)?.toEndpointSettingTypeValue(),
+      units: json['Units'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicability = this.applicability;
+    final enumValues = this.enumValues;
+    final intValueMax = this.intValueMax;
+    final intValueMin = this.intValueMin;
+    final name = this.name;
+    final sensitive = this.sensitive;
+    final type = this.type;
+    final units = this.units;
+    return {
+      if (applicability != null) 'Applicability': applicability,
+      if (enumValues != null) 'EnumValues': enumValues,
+      if (intValueMax != null) 'IntValueMax': intValueMax,
+      if (intValueMin != null) 'IntValueMin': intValueMin,
+      if (name != null) 'Name': name,
+      if (sensitive != null) 'Sensitive': sensitive,
+      if (type != null) 'Type': type.toValue(),
+      if (units != null) 'Units': units,
+    };
+  }
+}
+
+enum EndpointSettingTypeValue {
+  string,
+  boolean,
+  integer,
+  $enum,
+}
+
+extension on EndpointSettingTypeValue {
+  String toValue() {
+    switch (this) {
+      case EndpointSettingTypeValue.string:
+        return 'string';
+      case EndpointSettingTypeValue.boolean:
+        return 'boolean';
+      case EndpointSettingTypeValue.integer:
+        return 'integer';
+      case EndpointSettingTypeValue.$enum:
+        return 'enum';
+    }
+  }
+}
+
+extension on String {
+  EndpointSettingTypeValue toEndpointSettingTypeValue() {
+    switch (this) {
+      case 'string':
+        return EndpointSettingTypeValue.string;
+      case 'boolean':
+        return EndpointSettingTypeValue.boolean;
+      case 'integer':
+        return EndpointSettingTypeValue.integer;
+      case 'enum':
+        return EndpointSettingTypeValue.$enum;
+    }
+    throw Exception('$this is not known in enum EndpointSettingTypeValue');
+  }
 }
 
 /// Describes an identifiable significant activity that affects a replication
 /// instance or task. This object can provide the message, the available event
 /// categories, the date and source of the event, and the AWS DMS resource type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Event {
   /// The date of the event.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Date')
-  final DateTime date;
+  final DateTime? date;
 
   /// The event categories available for the specified source type.
-  @_s.JsonKey(name: 'EventCategories')
-  final List<String> eventCategories;
+  final List<String>? eventCategories;
 
   /// The event message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The identifier of an event source.
-  @_s.JsonKey(name: 'SourceIdentifier')
-  final String sourceIdentifier;
+  final String? sourceIdentifier;
 
   /// The type of AWS DMS resource that generates events.
   ///
   /// Valid values: replication-instance | endpoint | replication-task
-  @_s.JsonKey(name: 'SourceType')
-  final SourceType sourceType;
+  final SourceType? sourceType;
 
   Event({
     this.date,
@@ -5332,77 +6311,102 @@ class Event {
     this.sourceIdentifier,
     this.sourceType,
   });
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      date: timeStampFromJson(json['Date']),
+      eventCategories: (json['EventCategories'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      message: json['Message'] as String?,
+      sourceIdentifier: json['SourceIdentifier'] as String?,
+      sourceType: (json['SourceType'] as String?)?.toSourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final eventCategories = this.eventCategories;
+    final message = this.message;
+    final sourceIdentifier = this.sourceIdentifier;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (message != null) 'Message': message,
+      if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
+      if (sourceType != null) 'SourceType': sourceType.toValue(),
+    };
+  }
 }
 
 /// Lists categories of events subscribed to, and generated by, the applicable
 /// AWS DMS resource type. This data type appears in response to the <a
 /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_EventCategoryGroup.html">
 /// <code>DescribeEventCategories</code> </a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventCategoryGroup {
   /// A list of event categories from a source type that you've chosen.
-  @_s.JsonKey(name: 'EventCategories')
-  final List<String> eventCategories;
+  final List<String>? eventCategories;
 
   /// The type of AWS DMS resource that generates events.
   ///
   /// Valid values: replication-instance | replication-server | security-group |
   /// replication-task
-  @_s.JsonKey(name: 'SourceType')
-  final String sourceType;
+  final String? sourceType;
 
   EventCategoryGroup({
     this.eventCategories,
     this.sourceType,
   });
-  factory EventCategoryGroup.fromJson(Map<String, dynamic> json) =>
-      _$EventCategoryGroupFromJson(json);
+
+  factory EventCategoryGroup.fromJson(Map<String, dynamic> json) {
+    return EventCategoryGroup(
+      eventCategories: (json['EventCategories'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceType: json['SourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventCategories = this.eventCategories;
+    final sourceType = this.sourceType;
+    return {
+      if (eventCategories != null) 'EventCategories': eventCategories,
+      if (sourceType != null) 'SourceType': sourceType,
+    };
+  }
 }
 
 /// Describes an event notification subscription created by the
 /// <code>CreateEventSubscription</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventSubscription {
   /// The AWS DMS event notification subscription Id.
-  @_s.JsonKey(name: 'CustSubscriptionId')
-  final String custSubscriptionId;
+  final String? custSubscriptionId;
 
   /// The AWS customer account associated with the AWS DMS event notification
   /// subscription.
-  @_s.JsonKey(name: 'CustomerAwsId')
-  final String customerAwsId;
+  final String? customerAwsId;
 
   /// Boolean value that indicates if the event subscription is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// A lists of event categories.
-  @_s.JsonKey(name: 'EventCategoriesList')
-  final List<String> eventCategoriesList;
+  final List<String>? eventCategoriesList;
 
   /// The topic ARN of the AWS DMS event notification subscription.
-  @_s.JsonKey(name: 'SnsTopicArn')
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   /// A list of source Ids for the event subscription.
-  @_s.JsonKey(name: 'SourceIdsList')
-  final List<String> sourceIdsList;
+  final List<String>? sourceIdsList;
 
   /// The type of AWS DMS resource that generates events.
   ///
   /// Valid values: replication-instance | replication-server | security-group |
   /// replication-task
-  @_s.JsonKey(name: 'SourceType')
-  final String sourceType;
+  final String? sourceType;
 
   /// The status of the AWS DMS event notification subscription.
   ///
@@ -5414,12 +6418,10 @@ class EventSubscription {
   /// The status "no-permission" indicates that AWS DMS no longer has permission
   /// to post to the SNS topic. The status "topic-not-exist" indicates that the
   /// topic was deleted after the subscription was created.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The time the AWS DMS event notification subscription was created.
-  @_s.JsonKey(name: 'SubscriptionCreationTime')
-  final String subscriptionCreationTime;
+  final String? subscriptionCreationTime;
 
   EventSubscription({
     this.custSubscriptionId,
@@ -5432,64 +6434,108 @@ class EventSubscription {
     this.status,
     this.subscriptionCreationTime,
   });
-  factory EventSubscription.fromJson(Map<String, dynamic> json) =>
-      _$EventSubscriptionFromJson(json);
+
+  factory EventSubscription.fromJson(Map<String, dynamic> json) {
+    return EventSubscription(
+      custSubscriptionId: json['CustSubscriptionId'] as String?,
+      customerAwsId: json['CustomerAwsId'] as String?,
+      enabled: json['Enabled'] as bool?,
+      eventCategoriesList: (json['EventCategoriesList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      sourceIdsList: (json['SourceIdsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceType: json['SourceType'] as String?,
+      status: json['Status'] as String?,
+      subscriptionCreationTime: json['SubscriptionCreationTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final custSubscriptionId = this.custSubscriptionId;
+    final customerAwsId = this.customerAwsId;
+    final enabled = this.enabled;
+    final eventCategoriesList = this.eventCategoriesList;
+    final snsTopicArn = this.snsTopicArn;
+    final sourceIdsList = this.sourceIdsList;
+    final sourceType = this.sourceType;
+    final status = this.status;
+    final subscriptionCreationTime = this.subscriptionCreationTime;
+    return {
+      if (custSubscriptionId != null) 'CustSubscriptionId': custSubscriptionId,
+      if (customerAwsId != null) 'CustomerAwsId': customerAwsId,
+      if (enabled != null) 'Enabled': enabled,
+      if (eventCategoriesList != null)
+        'EventCategoriesList': eventCategoriesList,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (sourceIdsList != null) 'SourceIdsList': sourceIdsList,
+      if (sourceType != null) 'SourceType': sourceType,
+      if (status != null) 'Status': status,
+      if (subscriptionCreationTime != null)
+        'SubscriptionCreationTime': subscriptionCreationTime,
+    };
+  }
 }
 
 /// Identifies the name and value of a filter object. This filter is used to
 /// limit the number and type of AWS DMS objects that are returned for a
 /// particular <code>Describe*</code> call or similar operation. Filters are
 /// used as an optional parameter for certain API operations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The name of the filter as specified for a <code>Describe*</code> or similar
   /// operation.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The filter value, which can specify one or more values used to narrow the
   /// returned results.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   Filter({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      name: json['Name'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'Name': name,
+      'Values': values,
+    };
+  }
 }
 
 /// Provides information that defines an IBM Db2 LUW endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IBMDb2Settings {
   /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence
   /// number (LSN) where you want the replication to start.
-  @_s.JsonKey(name: 'CurrentLsn')
-  final String currentLsn;
+  final String? currentLsn;
 
   /// Database name for the endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// Maximum number of bytes per read, as a NUMBER value. The default is 64 KB.
-  @_s.JsonKey(name: 'MaxKBytesPerRead')
-  final int maxKBytesPerRead;
+  final int? maxKBytesPerRead;
 
   /// Endpoint connection password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// Endpoint TCP port.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -5509,26 +6555,21 @@ class IBMDb2Settings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the Db2 LUW endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// Fully qualified domain name of the endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// Enables ongoing replication (CDC) as a BOOLEAN value. The default is true.
-  @_s.JsonKey(name: 'SetDataCaptureChanges')
-  final bool setDataCaptureChanges;
+  final bool? setDataCaptureChanges;
 
   /// Endpoint connection user name.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   IBMDb2Settings({
     this.currentLsn,
@@ -5542,87 +6583,163 @@ class IBMDb2Settings {
     this.setDataCaptureChanges,
     this.username,
   });
-  factory IBMDb2Settings.fromJson(Map<String, dynamic> json) =>
-      _$IBMDb2SettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$IBMDb2SettingsToJson(this);
+  factory IBMDb2Settings.fromJson(Map<String, dynamic> json) {
+    return IBMDb2Settings(
+      currentLsn: json['CurrentLsn'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      maxKBytesPerRead: json['MaxKBytesPerRead'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      setDataCaptureChanges: json['SetDataCaptureChanges'] as bool?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentLsn = this.currentLsn;
+    final databaseName = this.databaseName;
+    final maxKBytesPerRead = this.maxKBytesPerRead;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final setDataCaptureChanges = this.setDataCaptureChanges;
+    final username = this.username;
+    return {
+      if (currentLsn != null) 'CurrentLsn': currentLsn,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (maxKBytesPerRead != null) 'MaxKBytesPerRead': maxKBytesPerRead,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (setDataCaptureChanges != null)
+        'SetDataCaptureChanges': setDataCaptureChanges,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportCertificateResponse {
   /// The certificate to be uploaded.
-  @_s.JsonKey(name: 'Certificate')
-  final Certificate certificate;
+  final Certificate? certificate;
 
   ImportCertificateResponse({
     this.certificate,
   });
-  factory ImportCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImportCertificateResponseFromJson(json);
+
+  factory ImportCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return ImportCertificateResponse(
+      certificate: json['Certificate'] != null
+          ? Certificate.fromJson(json['Certificate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    return {
+      if (certificate != null) 'Certificate': certificate,
+    };
+  }
+}
+
+enum KafkaSecurityProtocol {
+  plaintext,
+  sslAuthentication,
+  sslEncryption,
+  saslSsl,
+}
+
+extension on KafkaSecurityProtocol {
+  String toValue() {
+    switch (this) {
+      case KafkaSecurityProtocol.plaintext:
+        return 'plaintext';
+      case KafkaSecurityProtocol.sslAuthentication:
+        return 'ssl-authentication';
+      case KafkaSecurityProtocol.sslEncryption:
+        return 'ssl-encryption';
+      case KafkaSecurityProtocol.saslSsl:
+        return 'sasl-ssl';
+    }
+  }
+}
+
+extension on String {
+  KafkaSecurityProtocol toKafkaSecurityProtocol() {
+    switch (this) {
+      case 'plaintext':
+        return KafkaSecurityProtocol.plaintext;
+      case 'ssl-authentication':
+        return KafkaSecurityProtocol.sslAuthentication;
+      case 'ssl-encryption':
+        return KafkaSecurityProtocol.sslEncryption;
+      case 'sasl-ssl':
+        return KafkaSecurityProtocol.saslSsl;
+    }
+    throw Exception('$this is not known in enum KafkaSecurityProtocol');
+  }
 }
 
 /// Provides information that describes an Apache Kafka endpoint. This
 /// information includes the output format of records applied to the endpoint
 /// and details of transaction and control table data information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KafkaSettings {
-  /// The broker location and port of the Kafka broker that hosts your Kafka
-  /// instance. Specify the broker in the form <code>
-  /// <i>broker-hostname-or-ip</i>:<i>port</i> </code>. For example,
-  /// <code>"ec2-12-345-678-901.compute-1.amazonaws.com:2345"</code>.
-  @_s.JsonKey(name: 'Broker')
-  final String broker;
+  /// A comma-separated list of one or more broker locations in your Kafka cluster
+  /// that host your Kafka instance. Specify each broker location in the form
+  /// <code> <i>broker-hostname-or-ip</i>:<i>port</i> </code>. For example,
+  /// <code>"ec2-12-345-678-901.compute-1.amazonaws.com:2345"</code>. For more
+  /// information and examples of specifying a list of broker locations, see <a
+  /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Kafka.html">Using
+  /// Apache Kafka as a target for AWS Database Migration Service</a> in the
+  /// <i>AWS Data Migration Service User Guide</i>.
+  final String? broker;
 
   /// Shows detailed control information for table definition, column definition,
   /// and table and column changes in the Kafka message output. The default is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'IncludeControlDetails')
-  final bool includeControlDetails;
+  final bool? includeControlDetails;
 
   /// Include NULL and empty columns for records migrated to the endpoint. The
   /// default is <code>false</code>.
-  @_s.JsonKey(name: 'IncludeNullAndEmpty')
-  final bool includeNullAndEmpty;
+  final bool? includeNullAndEmpty;
 
   /// Shows the partition value within the Kafka message output, unless the
   /// partition type is <code>schema-table-type</code>. The default is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'IncludePartitionValue')
-  final bool includePartitionValue;
+  final bool? includePartitionValue;
 
   /// Includes any data definition language (DDL) operations that change the table
   /// in the control data, such as <code>rename-table</code>,
   /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
   /// and <code>rename-column</code>. The default is <code>false</code>.
-  @_s.JsonKey(name: 'IncludeTableAlterOperations')
-  final bool includeTableAlterOperations;
+  final bool? includeTableAlterOperations;
 
   /// Provides detailed transaction information from the source database. This
   /// information includes a commit timestamp, a log position, and values for
   /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
   /// <code>transaction_record_id</code> (the record offset within a transaction).
   /// The default is <code>false</code>.
-  @_s.JsonKey(name: 'IncludeTransactionDetails')
-  final bool includeTransactionDetails;
+  final bool? includeTransactionDetails;
 
   /// The output format for the records created on the endpoint. The message
   /// format is <code>JSON</code> (default) or <code>JSON_UNFORMATTED</code> (a
   /// single line with no tab).
-  @_s.JsonKey(name: 'MessageFormat')
-  final MessageFormatValue messageFormat;
+  final MessageFormatValue? messageFormat;
 
   /// The maximum size in bytes for records created on the endpoint The default is
   /// 1,000,000.
-  @_s.JsonKey(name: 'MessageMaxBytes')
-  final int messageMaxBytes;
+  final int? messageMaxBytes;
 
   /// Prefixes schema and table names to partition values, when the partition type
   /// is <code>primary-key-type</code>. Doing this increases data distribution
@@ -5630,13 +6747,44 @@ class KafkaSettings {
   /// thousands of tables and each table has only limited range for a primary key.
   /// In this case, the same primary key is sent from thousands of tables to the
   /// same partition, which causes throttling. The default is <code>false</code>.
-  @_s.JsonKey(name: 'PartitionIncludeSchemaTable')
-  final bool partitionIncludeSchemaTable;
+  final bool? partitionIncludeSchemaTable;
+
+  /// The secure password you created when you first set up your MSK cluster to
+  /// validate a client identity and make an encrypted connection between server
+  /// and client using SASL-SSL authentication.
+  final String? saslPassword;
+
+  /// The secure username you created when you first set up your MSK cluster to
+  /// validate a client identity and make an encrypted connection between server
+  /// and client using SASL-SSL authentication.
+  final String? saslUsername;
+
+  /// Set secure connection to a Kafka target endpoint using Transport Layer
+  /// Security (TLS). Options include <code>ssl-encryption</code>,
+  /// <code>ssl-authentication</code>, and <code>sasl-ssl</code>.
+  /// <code>sasl-ssl</code> requires <code>SaslUsername</code> and
+  /// <code>SaslPassword</code>.
+  final KafkaSecurityProtocol? securityProtocol;
+
+  /// The Amazon Resource Name (ARN) for the private Certification Authority (CA)
+  /// cert that AWS DMS uses to securely connect to your Kafka target endpoint.
+  final String? sslCaCertificateArn;
+
+  /// The Amazon Resource Name (ARN) of the client certificate used to securely
+  /// connect to a Kafka target endpoint.
+  final String? sslClientCertificateArn;
+
+  /// The Amazon Resource Name (ARN) for the client private key used to securely
+  /// connect to a Kafka target endpoint.
+  final String? sslClientKeyArn;
+
+  /// The password for the client private key used to securely connect to a Kafka
+  /// target endpoint.
+  final String? sslClientKeyPassword;
 
   /// The topic to which you migrate the data. If you don't specify a topic, AWS
   /// DMS specifies <code>"kafka-default-topic"</code> as the migration topic.
-  @_s.JsonKey(name: 'Topic')
-  final String topic;
+  final String? topic;
 
   KafkaSettings({
     this.broker,
@@ -5648,60 +6796,124 @@ class KafkaSettings {
     this.messageFormat,
     this.messageMaxBytes,
     this.partitionIncludeSchemaTable,
+    this.saslPassword,
+    this.saslUsername,
+    this.securityProtocol,
+    this.sslCaCertificateArn,
+    this.sslClientCertificateArn,
+    this.sslClientKeyArn,
+    this.sslClientKeyPassword,
     this.topic,
   });
-  factory KafkaSettings.fromJson(Map<String, dynamic> json) =>
-      _$KafkaSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KafkaSettingsToJson(this);
+  factory KafkaSettings.fromJson(Map<String, dynamic> json) {
+    return KafkaSettings(
+      broker: json['Broker'] as String?,
+      includeControlDetails: json['IncludeControlDetails'] as bool?,
+      includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool?,
+      includePartitionValue: json['IncludePartitionValue'] as bool?,
+      includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool?,
+      includeTransactionDetails: json['IncludeTransactionDetails'] as bool?,
+      messageFormat: (json['MessageFormat'] as String?)?.toMessageFormatValue(),
+      messageMaxBytes: json['MessageMaxBytes'] as int?,
+      partitionIncludeSchemaTable: json['PartitionIncludeSchemaTable'] as bool?,
+      saslPassword: json['SaslPassword'] as String?,
+      saslUsername: json['SaslUsername'] as String?,
+      securityProtocol:
+          (json['SecurityProtocol'] as String?)?.toKafkaSecurityProtocol(),
+      sslCaCertificateArn: json['SslCaCertificateArn'] as String?,
+      sslClientCertificateArn: json['SslClientCertificateArn'] as String?,
+      sslClientKeyArn: json['SslClientKeyArn'] as String?,
+      sslClientKeyPassword: json['SslClientKeyPassword'] as String?,
+      topic: json['Topic'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final broker = this.broker;
+    final includeControlDetails = this.includeControlDetails;
+    final includeNullAndEmpty = this.includeNullAndEmpty;
+    final includePartitionValue = this.includePartitionValue;
+    final includeTableAlterOperations = this.includeTableAlterOperations;
+    final includeTransactionDetails = this.includeTransactionDetails;
+    final messageFormat = this.messageFormat;
+    final messageMaxBytes = this.messageMaxBytes;
+    final partitionIncludeSchemaTable = this.partitionIncludeSchemaTable;
+    final saslPassword = this.saslPassword;
+    final saslUsername = this.saslUsername;
+    final securityProtocol = this.securityProtocol;
+    final sslCaCertificateArn = this.sslCaCertificateArn;
+    final sslClientCertificateArn = this.sslClientCertificateArn;
+    final sslClientKeyArn = this.sslClientKeyArn;
+    final sslClientKeyPassword = this.sslClientKeyPassword;
+    final topic = this.topic;
+    return {
+      if (broker != null) 'Broker': broker,
+      if (includeControlDetails != null)
+        'IncludeControlDetails': includeControlDetails,
+      if (includeNullAndEmpty != null)
+        'IncludeNullAndEmpty': includeNullAndEmpty,
+      if (includePartitionValue != null)
+        'IncludePartitionValue': includePartitionValue,
+      if (includeTableAlterOperations != null)
+        'IncludeTableAlterOperations': includeTableAlterOperations,
+      if (includeTransactionDetails != null)
+        'IncludeTransactionDetails': includeTransactionDetails,
+      if (messageFormat != null) 'MessageFormat': messageFormat.toValue(),
+      if (messageMaxBytes != null) 'MessageMaxBytes': messageMaxBytes,
+      if (partitionIncludeSchemaTable != null)
+        'PartitionIncludeSchemaTable': partitionIncludeSchemaTable,
+      if (saslPassword != null) 'SaslPassword': saslPassword,
+      if (saslUsername != null) 'SaslUsername': saslUsername,
+      if (securityProtocol != null)
+        'SecurityProtocol': securityProtocol.toValue(),
+      if (sslCaCertificateArn != null)
+        'SslCaCertificateArn': sslCaCertificateArn,
+      if (sslClientCertificateArn != null)
+        'SslClientCertificateArn': sslClientCertificateArn,
+      if (sslClientKeyArn != null) 'SslClientKeyArn': sslClientKeyArn,
+      if (sslClientKeyPassword != null)
+        'SslClientKeyPassword': sslClientKeyPassword,
+      if (topic != null) 'Topic': topic,
+    };
+  }
 }
 
 /// Provides information that describes an Amazon Kinesis Data Stream endpoint.
 /// This information includes the output format of records applied to the
 /// endpoint and details of transaction and control table data information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisSettings {
   /// Shows detailed control information for table definition, column definition,
   /// and table and column changes in the Kinesis message output. The default is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'IncludeControlDetails')
-  final bool includeControlDetails;
+  final bool? includeControlDetails;
 
   /// Include NULL and empty columns for records migrated to the endpoint. The
   /// default is <code>false</code>.
-  @_s.JsonKey(name: 'IncludeNullAndEmpty')
-  final bool includeNullAndEmpty;
+  final bool? includeNullAndEmpty;
 
   /// Shows the partition value within the Kinesis message output, unless the
   /// partition type is <code>schema-table-type</code>. The default is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'IncludePartitionValue')
-  final bool includePartitionValue;
+  final bool? includePartitionValue;
 
   /// Includes any data definition language (DDL) operations that change the table
   /// in the control data, such as <code>rename-table</code>,
   /// <code>drop-table</code>, <code>add-column</code>, <code>drop-column</code>,
   /// and <code>rename-column</code>. The default is <code>false</code>.
-  @_s.JsonKey(name: 'IncludeTableAlterOperations')
-  final bool includeTableAlterOperations;
+  final bool? includeTableAlterOperations;
 
   /// Provides detailed transaction information from the source database. This
   /// information includes a commit timestamp, a log position, and values for
   /// <code>transaction_id</code>, previous <code>transaction_id</code>, and
   /// <code>transaction_record_id</code> (the record offset within a transaction).
   /// The default is <code>false</code>.
-  @_s.JsonKey(name: 'IncludeTransactionDetails')
-  final bool includeTransactionDetails;
+  final bool? includeTransactionDetails;
 
   /// The output format for the records created on the endpoint. The message
   /// format is <code>JSON</code> (default) or <code>JSON_UNFORMATTED</code> (a
   /// single line with no tab).
-  @_s.JsonKey(name: 'MessageFormat')
-  final MessageFormatValue messageFormat;
+  final MessageFormatValue? messageFormat;
 
   /// Prefixes schema and table names to partition values, when the partition type
   /// is <code>primary-key-type</code>. Doing this increases data distribution
@@ -5709,17 +6921,14 @@ class KinesisSettings {
   /// thousands of tables and each table has only limited range for a primary key.
   /// In this case, the same primary key is sent from thousands of tables to the
   /// same shard, which causes throttling. The default is <code>false</code>.
-  @_s.JsonKey(name: 'PartitionIncludeSchemaTable')
-  final bool partitionIncludeSchemaTable;
+  final bool? partitionIncludeSchemaTable;
 
   /// The Amazon Resource Name (ARN) for the AWS Identity and Access Management
   /// (IAM) role that AWS DMS uses to write to the Kinesis data stream.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
-  final String serviceAccessRoleArn;
+  final String? serviceAccessRoleArn;
 
   /// The Amazon Resource Name (ARN) for the Amazon Kinesis Data Streams endpoint.
-  @_s.JsonKey(name: 'StreamArn')
-  final String streamArn;
+  final String? streamArn;
 
   KinesisSettings({
     this.includeControlDetails,
@@ -5732,66 +6941,131 @@ class KinesisSettings {
     this.serviceAccessRoleArn,
     this.streamArn,
   });
-  factory KinesisSettings.fromJson(Map<String, dynamic> json) =>
-      _$KinesisSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KinesisSettingsToJson(this);
+  factory KinesisSettings.fromJson(Map<String, dynamic> json) {
+    return KinesisSettings(
+      includeControlDetails: json['IncludeControlDetails'] as bool?,
+      includeNullAndEmpty: json['IncludeNullAndEmpty'] as bool?,
+      includePartitionValue: json['IncludePartitionValue'] as bool?,
+      includeTableAlterOperations: json['IncludeTableAlterOperations'] as bool?,
+      includeTransactionDetails: json['IncludeTransactionDetails'] as bool?,
+      messageFormat: (json['MessageFormat'] as String?)?.toMessageFormatValue(),
+      partitionIncludeSchemaTable: json['PartitionIncludeSchemaTable'] as bool?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      streamArn: json['StreamArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final includeControlDetails = this.includeControlDetails;
+    final includeNullAndEmpty = this.includeNullAndEmpty;
+    final includePartitionValue = this.includePartitionValue;
+    final includeTableAlterOperations = this.includeTableAlterOperations;
+    final includeTransactionDetails = this.includeTransactionDetails;
+    final messageFormat = this.messageFormat;
+    final partitionIncludeSchemaTable = this.partitionIncludeSchemaTable;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final streamArn = this.streamArn;
+    return {
+      if (includeControlDetails != null)
+        'IncludeControlDetails': includeControlDetails,
+      if (includeNullAndEmpty != null)
+        'IncludeNullAndEmpty': includeNullAndEmpty,
+      if (includePartitionValue != null)
+        'IncludePartitionValue': includePartitionValue,
+      if (includeTableAlterOperations != null)
+        'IncludeTableAlterOperations': includeTableAlterOperations,
+      if (includeTransactionDetails != null)
+        'IncludeTransactionDetails': includeTransactionDetails,
+      if (messageFormat != null) 'MessageFormat': messageFormat.toValue(),
+      if (partitionIncludeSchemaTable != null)
+        'PartitionIncludeSchemaTable': partitionIncludeSchemaTable,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (streamArn != null) 'StreamArn': streamArn,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A list of tags for the resource.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   ListTagsForResourceResponse({
     this.tagList,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
 }
 
 enum MessageFormatValue {
-  @_s.JsonValue('json')
   json,
-  @_s.JsonValue('json-unformatted')
   jsonUnformatted,
 }
 
+extension on MessageFormatValue {
+  String toValue() {
+    switch (this) {
+      case MessageFormatValue.json:
+        return 'json';
+      case MessageFormatValue.jsonUnformatted:
+        return 'json-unformatted';
+    }
+  }
+}
+
+extension on String {
+  MessageFormatValue toMessageFormatValue() {
+    switch (this) {
+      case 'json':
+        return MessageFormatValue.json;
+      case 'json-unformatted':
+        return MessageFormatValue.jsonUnformatted;
+    }
+    throw Exception('$this is not known in enum MessageFormatValue');
+  }
+}
+
 /// Provides information that defines a Microsoft SQL Server endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MicrosoftSQLServerSettings {
   /// The maximum size of the packets (in bytes) used to transfer data using BCP.
-  @_s.JsonKey(name: 'BcpPacketSize')
-  final int bcpPacketSize;
+  final int? bcpPacketSize;
 
   /// Specifies a file group for the AWS DMS internal tables. When the replication
   /// task starts, all the internal AWS DMS control tables (awsdms_
   /// apply_exception, awsdms_apply, awsdms_changes) are created for the specified
   /// file group.
-  @_s.JsonKey(name: 'ControlTablesFileGroup')
-  final String controlTablesFileGroup;
+  final String? controlTablesFileGroup;
 
   /// Database name for the endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// Endpoint connection password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// Endpoint TCP port.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
+
+  /// Cleans and recreates table metadata information on the replication instance
+  /// when a mismatch occurs. An example is a situation where running an alter DDL
+  /// statement on a table might result in different information about the table
+  /// cached in the replication instance.
+  final bool? querySingleAlwaysOnNode;
 
   /// When this attribute is set to <code>Y</code>, AWS DMS only reads changes
   /// from transaction log backups and doesn't read from the active transaction
@@ -5799,8 +7073,7 @@ class MicrosoftSQLServerSettings {
   /// <code>Y</code> enables you to control active transaction log file growth
   /// during full load and ongoing replication tasks. However, it can add some
   /// source latency to ongoing replication.
-  @_s.JsonKey(name: 'ReadBackupOnly')
-  final bool readBackupOnly;
+  final bool? readBackupOnly;
 
   /// Use this attribute to minimize the need to access the backup log and enable
   /// AWS DMS to prevent truncation using one of the following two methods.
@@ -5819,8 +7092,7 @@ class MicrosoftSQLServerSettings {
   /// isn't running. Also, when using this method, only one AWS DMS task can
   /// access the database at any given time. Therefore, if you need to run
   /// parallel AWS DMS tasks against the same database, use the default method.
-  @_s.JsonKey(name: 'SafeguardPolicy')
-  final SafeguardPolicy safeguardPolicy;
+  final SafeguardPolicy? safeguardPolicy;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -5840,28 +7112,27 @@ class MicrosoftSQLServerSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the SQL Server endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// Fully qualified domain name of the endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// Use this to attribute to transfer data for full-load operations using BCP.
   /// When the target table contains an identity column that does not exist in the
   /// source table, you must disable the use BCP for loading table option.
-  @_s.JsonKey(name: 'UseBcpFullLoad')
-  final bool useBcpFullLoad;
+  final bool? useBcpFullLoad;
+
+  /// When this attribute is set to <code>Y</code>, DMS processes third-party
+  /// transaction log backups if they are created in native format.
+  final bool? useThirdPartyBackupDevice;
 
   /// Endpoint connection user name.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   MicrosoftSQLServerSettings({
     this.bcpPacketSize,
@@ -5869,26 +7140,80 @@ class MicrosoftSQLServerSettings {
     this.databaseName,
     this.password,
     this.port,
+    this.querySingleAlwaysOnNode,
     this.readBackupOnly,
     this.safeguardPolicy,
     this.secretsManagerAccessRoleArn,
     this.secretsManagerSecretId,
     this.serverName,
     this.useBcpFullLoad,
+    this.useThirdPartyBackupDevice,
     this.username,
   });
-  factory MicrosoftSQLServerSettings.fromJson(Map<String, dynamic> json) =>
-      _$MicrosoftSQLServerSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MicrosoftSQLServerSettingsToJson(this);
+  factory MicrosoftSQLServerSettings.fromJson(Map<String, dynamic> json) {
+    return MicrosoftSQLServerSettings(
+      bcpPacketSize: json['BcpPacketSize'] as int?,
+      controlTablesFileGroup: json['ControlTablesFileGroup'] as String?,
+      databaseName: json['DatabaseName'] as String?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      querySingleAlwaysOnNode: json['QuerySingleAlwaysOnNode'] as bool?,
+      readBackupOnly: json['ReadBackupOnly'] as bool?,
+      safeguardPolicy:
+          (json['SafeguardPolicy'] as String?)?.toSafeguardPolicy(),
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      useBcpFullLoad: json['UseBcpFullLoad'] as bool?,
+      useThirdPartyBackupDevice: json['UseThirdPartyBackupDevice'] as bool?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bcpPacketSize = this.bcpPacketSize;
+    final controlTablesFileGroup = this.controlTablesFileGroup;
+    final databaseName = this.databaseName;
+    final password = this.password;
+    final port = this.port;
+    final querySingleAlwaysOnNode = this.querySingleAlwaysOnNode;
+    final readBackupOnly = this.readBackupOnly;
+    final safeguardPolicy = this.safeguardPolicy;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final useBcpFullLoad = this.useBcpFullLoad;
+    final useThirdPartyBackupDevice = this.useThirdPartyBackupDevice;
+    final username = this.username;
+    return {
+      if (bcpPacketSize != null) 'BcpPacketSize': bcpPacketSize,
+      if (controlTablesFileGroup != null)
+        'ControlTablesFileGroup': controlTablesFileGroup,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (querySingleAlwaysOnNode != null)
+        'QuerySingleAlwaysOnNode': querySingleAlwaysOnNode,
+      if (readBackupOnly != null) 'ReadBackupOnly': readBackupOnly,
+      if (safeguardPolicy != null) 'SafeguardPolicy': safeguardPolicy.toValue(),
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (useBcpFullLoad != null) 'UseBcpFullLoad': useBcpFullLoad,
+      if (useThirdPartyBackupDevice != null)
+        'UseThirdPartyBackupDevice': useThirdPartyBackupDevice,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 enum MigrationTypeValue {
-  @_s.JsonValue('full-load')
   fullLoad,
-  @_s.JsonValue('cdc')
   cdc,
-  @_s.JsonValue('full-load-and-cdc')
   fullLoadAndCdc,
 }
 
@@ -5902,108 +7227,157 @@ extension on MigrationTypeValue {
       case MigrationTypeValue.fullLoadAndCdc:
         return 'full-load-and-cdc';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MigrationTypeValue toMigrationTypeValue() {
+    switch (this) {
+      case 'full-load':
+        return MigrationTypeValue.fullLoad;
+      case 'cdc':
+        return MigrationTypeValue.cdc;
+      case 'full-load-and-cdc':
+        return MigrationTypeValue.fullLoadAndCdc;
+    }
+    throw Exception('$this is not known in enum MigrationTypeValue');
   }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyEndpointResponse {
   /// The modified endpoint.
-  @_s.JsonKey(name: 'Endpoint')
-  final Endpoint endpoint;
+  final Endpoint? endpoint;
 
   ModifyEndpointResponse({
     this.endpoint,
   });
-  factory ModifyEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyEndpointResponseFromJson(json);
+
+  factory ModifyEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyEndpointResponse(
+      endpoint: json['Endpoint'] != null
+          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      if (endpoint != null) 'Endpoint': endpoint,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyEventSubscriptionResponse {
   /// The modified event subscription.
-  @_s.JsonKey(name: 'EventSubscription')
-  final EventSubscription eventSubscription;
+  final EventSubscription? eventSubscription;
 
   ModifyEventSubscriptionResponse({
     this.eventSubscription,
   });
-  factory ModifyEventSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyEventSubscriptionResponseFromJson(json);
+
+  factory ModifyEventSubscriptionResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyEventSubscriptionResponse(
+      eventSubscription: json['EventSubscription'] != null
+          ? EventSubscription.fromJson(
+              json['EventSubscription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSubscription = this.eventSubscription;
+    return {
+      if (eventSubscription != null) 'EventSubscription': eventSubscription,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyReplicationInstanceResponse {
   /// The modified replication instance.
-  @_s.JsonKey(name: 'ReplicationInstance')
-  final ReplicationInstance replicationInstance;
+  final ReplicationInstance? replicationInstance;
 
   ModifyReplicationInstanceResponse({
     this.replicationInstance,
   });
+
   factory ModifyReplicationInstanceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModifyReplicationInstanceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ModifyReplicationInstanceResponse(
+      replicationInstance: json['ReplicationInstance'] != null
+          ? ReplicationInstance.fromJson(
+              json['ReplicationInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationInstance = this.replicationInstance;
+    return {
+      if (replicationInstance != null)
+        'ReplicationInstance': replicationInstance,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyReplicationSubnetGroupResponse {
   /// The modified replication subnet group.
-  @_s.JsonKey(name: 'ReplicationSubnetGroup')
-  final ReplicationSubnetGroup replicationSubnetGroup;
+  final ReplicationSubnetGroup? replicationSubnetGroup;
 
   ModifyReplicationSubnetGroupResponse({
     this.replicationSubnetGroup,
   });
+
   factory ModifyReplicationSubnetGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModifyReplicationSubnetGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ModifyReplicationSubnetGroupResponse(
+      replicationSubnetGroup: json['ReplicationSubnetGroup'] != null
+          ? ReplicationSubnetGroup.fromJson(
+              json['ReplicationSubnetGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationSubnetGroup = this.replicationSubnetGroup;
+    return {
+      if (replicationSubnetGroup != null)
+        'ReplicationSubnetGroup': replicationSubnetGroup,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyReplicationTaskResponse {
   /// The replication task that was modified.
-  @_s.JsonKey(name: 'ReplicationTask')
-  final ReplicationTask replicationTask;
+  final ReplicationTask? replicationTask;
 
   ModifyReplicationTaskResponse({
     this.replicationTask,
   });
-  factory ModifyReplicationTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyReplicationTaskResponseFromJson(json);
+
+  factory ModifyReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
 }
 
 /// Provides information that defines a MongoDB endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MongoDbSettings {
   /// The authentication mechanism you use to access the MongoDB source endpoint.
   ///
@@ -6011,26 +7385,22 @@ class MongoDbSettings {
   /// <code>"mongodb_cr"</code>. For MongoDB version 3.x or later,
   /// <code>"default"</code> is <code>"scram_sha_1"</code>. This setting isn't
   /// used when <code>AuthType</code> is set to <code>"no"</code>.
-  @_s.JsonKey(name: 'AuthMechanism')
-  final AuthMechanismValue authMechanism;
+  final AuthMechanismValue? authMechanism;
 
   /// The MongoDB database name. This setting isn't used when
   /// <code>AuthType</code> is set to <code>"no"</code>.
   ///
   /// The default is <code>"admin"</code>.
-  @_s.JsonKey(name: 'AuthSource')
-  final String authSource;
+  final String? authSource;
 
   /// The authentication type you use to access the MongoDB source endpoint.
   ///
   /// When when set to <code>"no"</code>, user name and password parameters are
   /// not used and can be empty.
-  @_s.JsonKey(name: 'AuthType')
-  final AuthTypeValue authType;
+  final AuthTypeValue? authType;
 
   /// The database name on the MongoDB source endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// Indicates the number of documents to preview to determine the document
   /// organization. Use this setting when <code>NestingLevel</code> is set to
@@ -6038,39 +7408,33 @@ class MongoDbSettings {
   ///
   /// Must be a positive value greater than <code>0</code>. Default value is
   /// <code>1000</code>.
-  @_s.JsonKey(name: 'DocsToInvestigate')
-  final String docsToInvestigate;
+  final String? docsToInvestigate;
 
   /// Specifies the document ID. Use this setting when <code>NestingLevel</code>
   /// is set to <code>"none"</code>.
   ///
   /// Default value is <code>"false"</code>.
-  @_s.JsonKey(name: 'ExtractDocId')
-  final String extractDocId;
+  final String? extractDocId;
 
   /// The AWS KMS key identifier that is used to encrypt the content on the
   /// replication instance. If you don't specify a value for the
   /// <code>KmsKeyId</code> parameter, then AWS DMS uses your default encryption
   /// key. AWS KMS creates the default encryption key for your AWS account. Your
   /// AWS account has a different default encryption key for each AWS Region.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies either document or table mode.
   ///
   /// Default value is <code>"none"</code>. Specify <code>"none"</code> to use
   /// document mode. Specify <code>"one"</code> to use table mode.
-  @_s.JsonKey(name: 'NestingLevel')
-  final NestingLevelValue nestingLevel;
+  final NestingLevelValue? nestingLevel;
 
   /// The password for the user account you use to access the MongoDB source
   /// endpoint.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The port value for the MongoDB source endpoint.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -6090,22 +7454,18 @@ class MongoDbSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the MongoDB endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// The name of the server on the MongoDB source endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// The user name you use to access the MongoDB source endpoint.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   MongoDbSettings({
     this.authMechanism,
@@ -6123,46 +7483,104 @@ class MongoDbSettings {
     this.serverName,
     this.username,
   });
-  factory MongoDbSettings.fromJson(Map<String, dynamic> json) =>
-      _$MongoDbSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MongoDbSettingsToJson(this);
+  factory MongoDbSettings.fromJson(Map<String, dynamic> json) {
+    return MongoDbSettings(
+      authMechanism: (json['AuthMechanism'] as String?)?.toAuthMechanismValue(),
+      authSource: json['AuthSource'] as String?,
+      authType: (json['AuthType'] as String?)?.toAuthTypeValue(),
+      databaseName: json['DatabaseName'] as String?,
+      docsToInvestigate: json['DocsToInvestigate'] as String?,
+      extractDocId: json['ExtractDocId'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      nestingLevel: (json['NestingLevel'] as String?)?.toNestingLevelValue(),
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authMechanism = this.authMechanism;
+    final authSource = this.authSource;
+    final authType = this.authType;
+    final databaseName = this.databaseName;
+    final docsToInvestigate = this.docsToInvestigate;
+    final extractDocId = this.extractDocId;
+    final kmsKeyId = this.kmsKeyId;
+    final nestingLevel = this.nestingLevel;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final username = this.username;
+    return {
+      if (authMechanism != null) 'AuthMechanism': authMechanism.toValue(),
+      if (authSource != null) 'AuthSource': authSource,
+      if (authType != null) 'AuthType': authType.toValue(),
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (docsToInvestigate != null) 'DocsToInvestigate': docsToInvestigate,
+      if (extractDocId != null) 'ExtractDocId': extractDocId,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (nestingLevel != null) 'NestingLevel': nestingLevel.toValue(),
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MoveReplicationTaskResponse {
   /// The replication task that was moved.
-  @_s.JsonKey(name: 'ReplicationTask')
-  final ReplicationTask replicationTask;
+  final ReplicationTask? replicationTask;
 
   MoveReplicationTaskResponse({
     this.replicationTask,
   });
-  factory MoveReplicationTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$MoveReplicationTaskResponseFromJson(json);
+
+  factory MoveReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return MoveReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
 }
 
 /// Provides information that defines a MySQL endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MySQLSettings {
   /// Specifies a script to run immediately after AWS DMS connects to the
   /// endpoint. The migration task continues running regardless if the SQL
   /// statement succeeds or fails.
-  @_s.JsonKey(name: 'AfterConnectScript')
-  final String afterConnectScript;
+  final String? afterConnectScript;
+
+  /// Adjusts the behavior of DMS when migrating from an SQL Server source
+  /// database that is hosted as part of an Always On availability group cluster.
+  /// If you need DMS to poll all the nodes in the Always On cluster for
+  /// transaction backups, set this attribute to <code>false</code>.
+  final bool? cleanSourceMetadataOnMismatch;
 
   /// Database name for the endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// Specifies how often to check the binary log for new changes/events when the
   /// database is idle.
@@ -6171,15 +7589,13 @@ class MySQLSettings {
   ///
   /// In the example, AWS DMS checks for changes in the binary logs every five
   /// seconds.
-  @_s.JsonKey(name: 'EventsPollInterval')
-  final int eventsPollInterval;
+  final int? eventsPollInterval;
 
   /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
   /// a MySQL-compatible database.
   ///
   /// Example: <code>maxFileSize=512</code>
-  @_s.JsonKey(name: 'MaxFileSize')
-  final int maxFileSize;
+  final int? maxFileSize;
 
   /// Improves performance when loading data into the MySQL-compatible target
   /// database. Specifies how many threads to use to load the data into the
@@ -6188,16 +7604,13 @@ class MySQLSettings {
   /// required for each thread.
   ///
   /// Example: <code>parallelLoadThreads=1</code>
-  @_s.JsonKey(name: 'ParallelLoadThreads')
-  final int parallelLoadThreads;
+  final int? parallelLoadThreads;
 
   /// Endpoint connection password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// Endpoint TCP port.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -6217,40 +7630,35 @@ class MySQLSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the MySQL endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// Fully qualified domain name of the endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// Specifies the time zone for the source MySQL database.
   ///
   /// Example: <code>serverTimezone=US/Pacific;</code>
   ///
   /// Note: Do not enclose time zones in single quotes.
-  @_s.JsonKey(name: 'ServerTimezone')
-  final String serverTimezone;
+  final String? serverTimezone;
 
   /// Specifies where to migrate source tables on the target, either to a single
   /// database or multiple databases.
   ///
   /// Example: <code>targetDbType=MULTIPLE_DATABASES</code>
-  @_s.JsonKey(name: 'TargetDbType')
-  final TargetDbType targetDbType;
+  final TargetDbType? targetDbType;
 
   /// Endpoint connection user name.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   MySQLSettings({
     this.afterConnectScript,
+    this.cleanSourceMetadataOnMismatch,
     this.databaseName,
     this.eventsPollInterval,
     this.maxFileSize,
@@ -6264,99 +7672,184 @@ class MySQLSettings {
     this.targetDbType,
     this.username,
   });
-  factory MySQLSettings.fromJson(Map<String, dynamic> json) =>
-      _$MySQLSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MySQLSettingsToJson(this);
+  factory MySQLSettings.fromJson(Map<String, dynamic> json) {
+    return MySQLSettings(
+      afterConnectScript: json['AfterConnectScript'] as String?,
+      cleanSourceMetadataOnMismatch:
+          json['CleanSourceMetadataOnMismatch'] as bool?,
+      databaseName: json['DatabaseName'] as String?,
+      eventsPollInterval: json['EventsPollInterval'] as int?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      parallelLoadThreads: json['ParallelLoadThreads'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      serverTimezone: json['ServerTimezone'] as String?,
+      targetDbType: (json['TargetDbType'] as String?)?.toTargetDbType(),
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterConnectScript = this.afterConnectScript;
+    final cleanSourceMetadataOnMismatch = this.cleanSourceMetadataOnMismatch;
+    final databaseName = this.databaseName;
+    final eventsPollInterval = this.eventsPollInterval;
+    final maxFileSize = this.maxFileSize;
+    final parallelLoadThreads = this.parallelLoadThreads;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final serverTimezone = this.serverTimezone;
+    final targetDbType = this.targetDbType;
+    final username = this.username;
+    return {
+      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (cleanSourceMetadataOnMismatch != null)
+        'CleanSourceMetadataOnMismatch': cleanSourceMetadataOnMismatch,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (eventsPollInterval != null) 'EventsPollInterval': eventsPollInterval,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (parallelLoadThreads != null)
+        'ParallelLoadThreads': parallelLoadThreads,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (serverTimezone != null) 'ServerTimezone': serverTimezone,
+      if (targetDbType != null) 'TargetDbType': targetDbType.toValue(),
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 /// Provides information that defines an Amazon Neptune endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NeptuneSettings {
   /// A folder path where you want AWS DMS to store migrated graph data in the S3
   /// bucket specified by <code>S3BucketName</code>
-  @_s.JsonKey(name: 'S3BucketFolder')
   final String s3BucketFolder;
 
   /// The name of the Amazon S3 bucket where AWS DMS can temporarily store
   /// migrated graph data in .csv files before bulk-loading it to the Neptune
   /// target database. AWS DMS maps the SQL source data to graph data before
   /// storing it in these .csv files.
-  @_s.JsonKey(name: 'S3BucketName')
   final String s3BucketName;
 
   /// The number of milliseconds for AWS DMS to wait to retry a bulk-load of
   /// migrated graph data to the Neptune target database before raising an error.
   /// The default is 250.
-  @_s.JsonKey(name: 'ErrorRetryDuration')
-  final int errorRetryDuration;
+  final int? errorRetryDuration;
 
   /// If you want AWS Identity and Access Management (IAM) authorization enabled
   /// for this endpoint, set this parameter to <code>true</code>. Then attach the
   /// appropriate IAM policy document to your service role specified by
   /// <code>ServiceAccessRoleArn</code>. The default is <code>false</code>.
-  @_s.JsonKey(name: 'IamAuthEnabled')
-  final bool iamAuthEnabled;
+  final bool? iamAuthEnabled;
 
   /// The maximum size in kilobytes of migrated graph data stored in a .csv file
   /// before AWS DMS bulk-loads the data to the Neptune target database. The
   /// default is 1,048,576 KB. If the bulk load is successful, AWS DMS clears the
   /// bucket, ready to store the next batch of migrated graph data.
-  @_s.JsonKey(name: 'MaxFileSize')
-  final int maxFileSize;
+  final int? maxFileSize;
 
   /// The number of times for AWS DMS to retry a bulk load of migrated graph data
   /// to the Neptune target database before raising an error. The default is 5.
-  @_s.JsonKey(name: 'MaxRetryCount')
-  final int maxRetryCount;
+  final int? maxRetryCount;
 
   /// The Amazon Resource Name (ARN) of the service role that you created for the
   /// Neptune target endpoint. For more information, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.Neptune.html#CHAP_Target.Neptune.ServiceRole">Creating
   /// an IAM Service Role for Accessing Amazon Neptune as a Target</a> in the
   /// <i>AWS Database Migration Service User Guide. </i>
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
-  final String serviceAccessRoleArn;
+  final String? serviceAccessRoleArn;
 
   NeptuneSettings({
-    @_s.required this.s3BucketFolder,
-    @_s.required this.s3BucketName,
+    required this.s3BucketFolder,
+    required this.s3BucketName,
     this.errorRetryDuration,
     this.iamAuthEnabled,
     this.maxFileSize,
     this.maxRetryCount,
     this.serviceAccessRoleArn,
   });
-  factory NeptuneSettings.fromJson(Map<String, dynamic> json) =>
-      _$NeptuneSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NeptuneSettingsToJson(this);
+  factory NeptuneSettings.fromJson(Map<String, dynamic> json) {
+    return NeptuneSettings(
+      s3BucketFolder: json['S3BucketFolder'] as String,
+      s3BucketName: json['S3BucketName'] as String,
+      errorRetryDuration: json['ErrorRetryDuration'] as int?,
+      iamAuthEnabled: json['IamAuthEnabled'] as bool?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      maxRetryCount: json['MaxRetryCount'] as int?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketFolder = this.s3BucketFolder;
+    final s3BucketName = this.s3BucketName;
+    final errorRetryDuration = this.errorRetryDuration;
+    final iamAuthEnabled = this.iamAuthEnabled;
+    final maxFileSize = this.maxFileSize;
+    final maxRetryCount = this.maxRetryCount;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    return {
+      'S3BucketFolder': s3BucketFolder,
+      'S3BucketName': s3BucketName,
+      if (errorRetryDuration != null) 'ErrorRetryDuration': errorRetryDuration,
+      if (iamAuthEnabled != null) 'IamAuthEnabled': iamAuthEnabled,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (maxRetryCount != null) 'MaxRetryCount': maxRetryCount,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+    };
+  }
 }
 
 enum NestingLevelValue {
-  @_s.JsonValue('none')
   none,
-  @_s.JsonValue('one')
   one,
 }
 
+extension on NestingLevelValue {
+  String toValue() {
+    switch (this) {
+      case NestingLevelValue.none:
+        return 'none';
+      case NestingLevelValue.one:
+        return 'one';
+    }
+  }
+}
+
+extension on String {
+  NestingLevelValue toNestingLevelValue() {
+    switch (this) {
+      case 'none':
+        return NestingLevelValue.none;
+      case 'one':
+        return NestingLevelValue.one;
+    }
+    throw Exception('$this is not known in enum NestingLevelValue');
+  }
+}
+
 /// Provides information that defines an Oracle endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OracleSettings {
   /// Set this attribute to <code>false</code> in order to use the Binary Reader
   /// to capture change data for an Amazon RDS for Oracle as the source. This
   /// tells the DMS instance to not access redo logs through any specified path
   /// prefix replacement using direct file access.
-  @_s.JsonKey(name: 'AccessAlternateDirectly')
-  final bool accessAlternateDirectly;
+  final bool? accessAlternateDirectly;
 
   /// Set this attribute to set up table-level supplemental logging for the Oracle
   /// database. This attribute enables PRIMARY KEY supplemental logging on all
@@ -6364,35 +7857,30 @@ class OracleSettings {
   ///
   /// If you use this option, you still need to enable database-level supplemental
   /// logging.
-  @_s.JsonKey(name: 'AddSupplementalLogging')
-  final bool addSupplementalLogging;
+  final bool? addSupplementalLogging;
 
   /// Set this attribute with <code>archivedLogDestId</code> in a primary/ standby
   /// setup. This attribute is useful in the case of a switchover. In this case,
   /// AWS DMS needs to know which destination to get archive redo logs from to
   /// read changes. This need arises because the previous primary instance is now
   /// a standby instance after switchover.
-  @_s.JsonKey(name: 'AdditionalArchivedLogDestId')
-  final int additionalArchivedLogDestId;
+  final int? additionalArchivedLogDestId;
 
   /// Set this attribute to <code>true</code> to enable replication of Oracle
   /// tables containing columns that are nested tables or defined types.
-  @_s.JsonKey(name: 'AllowSelectNestedTables')
-  final bool allowSelectNestedTables;
+  final bool? allowSelectNestedTables;
 
   /// Specifies the destination of the archived redo logs. The value should be the
   /// same as the DEST_ID number in the v$archived_log table. When working with
   /// multiple log destinations (DEST_ID), we recommend that you to specify an
   /// archived redo logs location identifier. Doing this improves performance by
   /// ensuring that the correct logs are accessed from the outset.
-  @_s.JsonKey(name: 'ArchivedLogDestId')
-  final int archivedLogDestId;
+  final int? archivedLogDestId;
 
   /// When this field is set to <code>Y</code>, AWS DMS only accesses the archived
   /// redo logs. If the archived redo logs are stored on Oracle ASM only, the AWS
   /// DMS user account needs to be granted ASM privileges.
-  @_s.JsonKey(name: 'ArchivedLogsOnly')
-  final bool archivedLogsOnly;
+  final bool? archivedLogsOnly;
 
   /// For an Oracle source endpoint, your Oracle Automatic Storage Management
   /// (ASM) password. You can set this value from the <code>
@@ -6402,8 +7890,7 @@ class OracleSettings {
   /// Binary Reader. For more information, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
   /// for change data capture (CDC) on an Oracle source database</a>.
-  @_s.JsonKey(name: 'AsmPassword')
-  final String asmPassword;
+  final String? asmPassword;
 
   /// For an Oracle source endpoint, your ASM server address. You can set this
   /// value from the <code>asm_server</code> value. You set
@@ -6412,8 +7899,7 @@ class OracleSettings {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
   /// for change data capture (CDC) on an Oracle source database</a>.
-  @_s.JsonKey(name: 'AsmServer')
-  final String asmServer;
+  final String? asmServer;
 
   /// For an Oracle source endpoint, your ASM user name. You can set this value
   /// from the <code>asm_user</code> value. You set <code>asm_user</code> as part
@@ -6421,8 +7907,7 @@ class OracleSettings {
   /// Binary Reader that uses ASM. For more information, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration">Configuration
   /// for change data capture (CDC) on an Oracle source database</a>.
-  @_s.JsonKey(name: 'AsmUser')
-  final String asmUser;
+  final String? asmUser;
 
   /// Specifies whether the length of a character column is in bytes or in
   /// characters. To indicate that the character column length is in characters,
@@ -6430,30 +7915,25 @@ class OracleSettings {
   /// length is in bytes.
   ///
   /// Example: <code>charLengthSemantics=CHAR;</code>
-  @_s.JsonKey(name: 'CharLengthSemantics')
-  final CharLengthSemantics charLengthSemantics;
+  final CharLengthSemantics? charLengthSemantics;
 
   /// Database name for the endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// When set to <code>true</code>, this attribute helps to increase the commit
   /// rate on the Oracle target database by writing directly to tables and not
   /// writing a trail to database logs.
-  @_s.JsonKey(name: 'DirectPathNoLog')
-  final bool directPathNoLog;
+  final bool? directPathNoLog;
 
   /// When set to <code>true</code>, this attribute specifies a parallel load when
   /// <code>useDirectPathFullLoad</code> is set to <code>Y</code>. This attribute
   /// also only applies when you use the AWS DMS parallel load feature. Note that
   /// the target table cannot have any constraints or indexes.
-  @_s.JsonKey(name: 'DirectPathParallelLoad')
-  final bool directPathParallelLoad;
+  final bool? directPathParallelLoad;
 
   /// Set this attribute to enable homogenous tablespace replication and create
   /// existing tables or indexes under the same tablespace on the target.
-  @_s.JsonKey(name: 'EnableHomogenousTablespace')
-  final bool enableHomogenousTablespace;
+  final bool? enableHomogenousTablespace;
 
   /// When set to <code>true</code>, this attribute causes a task to fail if the
   /// actual size of an LOB column is greater than the specified
@@ -6461,64 +7941,54 @@ class OracleSettings {
   ///
   /// If a task is set to limited LOB mode and this option is set to
   /// <code>true</code>, the task fails instead of truncating the LOB data.
-  @_s.JsonKey(name: 'FailTasksOnLobTruncation')
-  final bool failTasksOnLobTruncation;
+  final bool? failTasksOnLobTruncation;
 
   /// Specifies the number scale. You can select a scale up to 38, or you can
   /// select FLOAT. By default, the NUMBER data type is converted to precision 38,
   /// scale 10.
   ///
   /// Example: <code>numberDataTypeScale=12</code>
-  @_s.JsonKey(name: 'NumberDatatypeScale')
-  final int numberDatatypeScale;
+  final int? numberDatatypeScale;
 
   /// Set this string attribute to the required value in order to use the Binary
   /// Reader to capture change data for an Amazon RDS for Oracle as the source.
   /// This value specifies the default Oracle root used to access the redo logs.
-  @_s.JsonKey(name: 'OraclePathPrefix')
-  final String oraclePathPrefix;
+  final String? oraclePathPrefix;
 
   /// Set this attribute to change the number of threads that DMS configures to
   /// perform a Change Data Capture (CDC) load using Oracle Automatic Storage
   /// Management (ASM). You can specify an integer value between 2 (the default)
   /// and 8 (the maximum). Use this attribute together with the
   /// <code>readAheadBlocks</code> attribute.
-  @_s.JsonKey(name: 'ParallelAsmReadThreads')
-  final int parallelAsmReadThreads;
+  final int? parallelAsmReadThreads;
 
   /// Endpoint connection password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// Endpoint TCP port.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// Set this attribute to change the number of read-ahead blocks that DMS
   /// configures to perform a Change Data Capture (CDC) load using Oracle
   /// Automatic Storage Management (ASM). You can specify an integer value between
   /// 1000 (the default) and 200,000 (the maximum).
-  @_s.JsonKey(name: 'ReadAheadBlocks')
-  final int readAheadBlocks;
+  final int? readAheadBlocks;
 
   /// When set to <code>true</code>, this attribute supports tablespace
   /// replication.
-  @_s.JsonKey(name: 'ReadTableSpaceName')
-  final bool readTableSpaceName;
+  final bool? readTableSpaceName;
 
   /// Set this attribute to true in order to use the Binary Reader to capture
   /// change data for an Amazon RDS for Oracle as the source. This setting tells
   /// DMS instance to replace the default Oracle root with the specified
   /// <code>usePathPrefix</code> setting to access the redo logs.
-  @_s.JsonKey(name: 'ReplacePathPrefix')
-  final bool replacePathPrefix;
+  final bool? replacePathPrefix;
 
   /// Specifies the number of seconds that the system waits before resending a
   /// query.
   ///
   /// Example: <code>retryInterval=6;</code>
-  @_s.JsonKey(name: 'RetryInterval')
-  final int retryInterval;
+  final int? retryInterval;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -6538,8 +8008,7 @@ class OracleSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM).
   /// The full ARN of the IAM role that specifies AWS DMS as the trusted entity
@@ -6560,21 +8029,18 @@ class OracleSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerOracleAsmAccessRoleArn')
-  final String secretsManagerOracleAsmAccessRoleArn;
+  final String? secretsManagerOracleAsmAccessRoleArn;
 
   /// Required only if your Oracle endpoint uses Advanced Storage Manager (ASM).
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerOracleAsmSecret</code> that contains the Oracle ASM
   /// connection details for the Oracle endpoint.
-  @_s.JsonKey(name: 'SecretsManagerOracleAsmSecretId')
-  final String secretsManagerOracleAsmSecretId;
+  final String? secretsManagerOracleAsmSecretId;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the Oracle endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// For an Oracle source endpoint, the transparent data encryption (TDE)
   /// password required by AWM DMS to access Oracle redo logs encrypted by TDE
@@ -6586,8 +8052,7 @@ class OracleSettings {
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
   /// Supported encryption methods for using Oracle as a source for AWS DMS</a> in
   /// the <i>AWS Database Migration Service User Guide</i>.
-  @_s.JsonKey(name: 'SecurityDbEncryption')
-  final String securityDbEncryption;
+  final String? securityDbEncryption;
 
   /// For an Oracle source endpoint, the name of a key used for the transparent
   /// data encryption (TDE) of the columns and tablespaces in an Oracle source
@@ -6599,30 +8064,33 @@ class OracleSettings {
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.Encryption">
   /// Supported encryption methods for using Oracle as a source for AWS DMS</a> in
   /// the <i>AWS Database Migration Service User Guide</i>.
-  @_s.JsonKey(name: 'SecurityDbEncryptionName')
-  final String securityDbEncryptionName;
+  final String? securityDbEncryptionName;
 
   /// Fully qualified domain name of the endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
+
+  /// Use this attribute to convert <code>SDO_GEOMETRY</code> to
+  /// <code>GEOJSON</code> format. By default, DMS calls the
+  /// <code>SDO2GEOJSON</code> custom function if present and accessible. Or you
+  /// can create your own custom function that mimics the operation of
+  /// <code>SDOGEOJSON</code> and set
+  /// <code>SpatialDataOptionToGeoJsonFunctionName</code> to call it instead.
+  final String? spatialDataOptionToGeoJsonFunctionName;
 
   /// Set this attribute to <code>true</code> in order to use the Binary Reader to
   /// capture change data for an Amazon RDS for Oracle as the source. This tells
   /// the DMS instance to use any specified prefix replacement to access all
   /// online redo logs.
-  @_s.JsonKey(name: 'UseAlternateFolderForOnline')
-  final bool useAlternateFolderForOnline;
+  final bool? useAlternateFolderForOnline;
 
   /// Set this string attribute to the required value in order to use the Binary
   /// Reader to capture change data for an Amazon RDS for Oracle as the source.
   /// This value specifies the path prefix used to replace the default Oracle root
   /// to access the redo logs.
-  @_s.JsonKey(name: 'UsePathPrefix')
-  final String usePathPrefix;
+  final String? usePathPrefix;
 
   /// Endpoint connection user name.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   OracleSettings({
     this.accessAlternateDirectly,
@@ -6656,53 +8124,182 @@ class OracleSettings {
     this.securityDbEncryption,
     this.securityDbEncryptionName,
     this.serverName,
+    this.spatialDataOptionToGeoJsonFunctionName,
     this.useAlternateFolderForOnline,
     this.usePathPrefix,
     this.username,
   });
-  factory OracleSettings.fromJson(Map<String, dynamic> json) =>
-      _$OracleSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OracleSettingsToJson(this);
+  factory OracleSettings.fromJson(Map<String, dynamic> json) {
+    return OracleSettings(
+      accessAlternateDirectly: json['AccessAlternateDirectly'] as bool?,
+      addSupplementalLogging: json['AddSupplementalLogging'] as bool?,
+      additionalArchivedLogDestId: json['AdditionalArchivedLogDestId'] as int?,
+      allowSelectNestedTables: json['AllowSelectNestedTables'] as bool?,
+      archivedLogDestId: json['ArchivedLogDestId'] as int?,
+      archivedLogsOnly: json['ArchivedLogsOnly'] as bool?,
+      asmPassword: json['AsmPassword'] as String?,
+      asmServer: json['AsmServer'] as String?,
+      asmUser: json['AsmUser'] as String?,
+      charLengthSemantics:
+          (json['CharLengthSemantics'] as String?)?.toCharLengthSemantics(),
+      databaseName: json['DatabaseName'] as String?,
+      directPathNoLog: json['DirectPathNoLog'] as bool?,
+      directPathParallelLoad: json['DirectPathParallelLoad'] as bool?,
+      enableHomogenousTablespace: json['EnableHomogenousTablespace'] as bool?,
+      failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool?,
+      numberDatatypeScale: json['NumberDatatypeScale'] as int?,
+      oraclePathPrefix: json['OraclePathPrefix'] as String?,
+      parallelAsmReadThreads: json['ParallelAsmReadThreads'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      readAheadBlocks: json['ReadAheadBlocks'] as int?,
+      readTableSpaceName: json['ReadTableSpaceName'] as bool?,
+      replacePathPrefix: json['ReplacePathPrefix'] as bool?,
+      retryInterval: json['RetryInterval'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerOracleAsmAccessRoleArn:
+          json['SecretsManagerOracleAsmAccessRoleArn'] as String?,
+      secretsManagerOracleAsmSecretId:
+          json['SecretsManagerOracleAsmSecretId'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      securityDbEncryption: json['SecurityDbEncryption'] as String?,
+      securityDbEncryptionName: json['SecurityDbEncryptionName'] as String?,
+      serverName: json['ServerName'] as String?,
+      spatialDataOptionToGeoJsonFunctionName:
+          json['SpatialDataOptionToGeoJsonFunctionName'] as String?,
+      useAlternateFolderForOnline: json['UseAlternateFolderForOnline'] as bool?,
+      usePathPrefix: json['UsePathPrefix'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessAlternateDirectly = this.accessAlternateDirectly;
+    final addSupplementalLogging = this.addSupplementalLogging;
+    final additionalArchivedLogDestId = this.additionalArchivedLogDestId;
+    final allowSelectNestedTables = this.allowSelectNestedTables;
+    final archivedLogDestId = this.archivedLogDestId;
+    final archivedLogsOnly = this.archivedLogsOnly;
+    final asmPassword = this.asmPassword;
+    final asmServer = this.asmServer;
+    final asmUser = this.asmUser;
+    final charLengthSemantics = this.charLengthSemantics;
+    final databaseName = this.databaseName;
+    final directPathNoLog = this.directPathNoLog;
+    final directPathParallelLoad = this.directPathParallelLoad;
+    final enableHomogenousTablespace = this.enableHomogenousTablespace;
+    final failTasksOnLobTruncation = this.failTasksOnLobTruncation;
+    final numberDatatypeScale = this.numberDatatypeScale;
+    final oraclePathPrefix = this.oraclePathPrefix;
+    final parallelAsmReadThreads = this.parallelAsmReadThreads;
+    final password = this.password;
+    final port = this.port;
+    final readAheadBlocks = this.readAheadBlocks;
+    final readTableSpaceName = this.readTableSpaceName;
+    final replacePathPrefix = this.replacePathPrefix;
+    final retryInterval = this.retryInterval;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerOracleAsmAccessRoleArn =
+        this.secretsManagerOracleAsmAccessRoleArn;
+    final secretsManagerOracleAsmSecretId =
+        this.secretsManagerOracleAsmSecretId;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final securityDbEncryption = this.securityDbEncryption;
+    final securityDbEncryptionName = this.securityDbEncryptionName;
+    final serverName = this.serverName;
+    final spatialDataOptionToGeoJsonFunctionName =
+        this.spatialDataOptionToGeoJsonFunctionName;
+    final useAlternateFolderForOnline = this.useAlternateFolderForOnline;
+    final usePathPrefix = this.usePathPrefix;
+    final username = this.username;
+    return {
+      if (accessAlternateDirectly != null)
+        'AccessAlternateDirectly': accessAlternateDirectly,
+      if (addSupplementalLogging != null)
+        'AddSupplementalLogging': addSupplementalLogging,
+      if (additionalArchivedLogDestId != null)
+        'AdditionalArchivedLogDestId': additionalArchivedLogDestId,
+      if (allowSelectNestedTables != null)
+        'AllowSelectNestedTables': allowSelectNestedTables,
+      if (archivedLogDestId != null) 'ArchivedLogDestId': archivedLogDestId,
+      if (archivedLogsOnly != null) 'ArchivedLogsOnly': archivedLogsOnly,
+      if (asmPassword != null) 'AsmPassword': asmPassword,
+      if (asmServer != null) 'AsmServer': asmServer,
+      if (asmUser != null) 'AsmUser': asmUser,
+      if (charLengthSemantics != null)
+        'CharLengthSemantics': charLengthSemantics.toValue(),
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (directPathNoLog != null) 'DirectPathNoLog': directPathNoLog,
+      if (directPathParallelLoad != null)
+        'DirectPathParallelLoad': directPathParallelLoad,
+      if (enableHomogenousTablespace != null)
+        'EnableHomogenousTablespace': enableHomogenousTablespace,
+      if (failTasksOnLobTruncation != null)
+        'FailTasksOnLobTruncation': failTasksOnLobTruncation,
+      if (numberDatatypeScale != null)
+        'NumberDatatypeScale': numberDatatypeScale,
+      if (oraclePathPrefix != null) 'OraclePathPrefix': oraclePathPrefix,
+      if (parallelAsmReadThreads != null)
+        'ParallelAsmReadThreads': parallelAsmReadThreads,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (readAheadBlocks != null) 'ReadAheadBlocks': readAheadBlocks,
+      if (readTableSpaceName != null) 'ReadTableSpaceName': readTableSpaceName,
+      if (replacePathPrefix != null) 'ReplacePathPrefix': replacePathPrefix,
+      if (retryInterval != null) 'RetryInterval': retryInterval,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerOracleAsmAccessRoleArn != null)
+        'SecretsManagerOracleAsmAccessRoleArn':
+            secretsManagerOracleAsmAccessRoleArn,
+      if (secretsManagerOracleAsmSecretId != null)
+        'SecretsManagerOracleAsmSecretId': secretsManagerOracleAsmSecretId,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (securityDbEncryption != null)
+        'SecurityDbEncryption': securityDbEncryption,
+      if (securityDbEncryptionName != null)
+        'SecurityDbEncryptionName': securityDbEncryptionName,
+      if (serverName != null) 'ServerName': serverName,
+      if (spatialDataOptionToGeoJsonFunctionName != null)
+        'SpatialDataOptionToGeoJsonFunctionName':
+            spatialDataOptionToGeoJsonFunctionName,
+      if (useAlternateFolderForOnline != null)
+        'UseAlternateFolderForOnline': useAlternateFolderForOnline,
+      if (usePathPrefix != null) 'UsePathPrefix': usePathPrefix,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 /// In response to the <code>DescribeOrderableReplicationInstances</code>
 /// operation, this object describes an available replication instance. This
 /// description includes the replication instance's type, engine version, and
 /// allocated storage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OrderableReplicationInstance {
   /// List of Availability Zones for this replication instance.
-  @_s.JsonKey(name: 'AvailabilityZones')
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// The default amount of storage (in gigabytes) that is allocated for the
   /// replication instance.
-  @_s.JsonKey(name: 'DefaultAllocatedStorage')
-  final int defaultAllocatedStorage;
+  final int? defaultAllocatedStorage;
 
   /// The version of the replication engine.
-  @_s.JsonKey(name: 'EngineVersion')
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The amount of storage (in gigabytes) that is allocated for the replication
   /// instance.
-  @_s.JsonKey(name: 'IncludedAllocatedStorage')
-  final int includedAllocatedStorage;
+  final int? includedAllocatedStorage;
 
   /// The minimum amount of storage (in gigabytes) that can be allocated for the
   /// replication instance.
-  @_s.JsonKey(name: 'MaxAllocatedStorage')
-  final int maxAllocatedStorage;
+  final int? maxAllocatedStorage;
 
   /// The minimum amount of storage (in gigabytes) that can be allocated for the
   /// replication instance.
-  @_s.JsonKey(name: 'MinAllocatedStorage')
-  final int minAllocatedStorage;
+  final int? minAllocatedStorage;
 
   /// The value returned when the specified <code>EngineVersion</code> of the
   /// replication instance is in Beta or test mode. This indicates some features
@@ -6711,8 +8308,7 @@ class OrderableReplicationInstance {
   /// AWS DMS supports the <code>ReleaseStatus</code> parameter in versions 3.1.4
   /// and later.
   /// </note>
-  @_s.JsonKey(name: 'ReleaseStatus')
-  final ReleaseStatusValues releaseStatus;
+  final ReleaseStatusValues? releaseStatus;
 
   /// The compute and memory capacity of the replication instance as defined for
   /// the specified replication instance class. For example to specify the
@@ -6723,12 +8319,10 @@ class OrderableReplicationInstance {
   /// replication instance classes, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
   /// Selecting the right AWS DMS replication instance for your migration</a>.
-  @_s.JsonKey(name: 'ReplicationInstanceClass')
-  final String replicationInstanceClass;
+  final String? replicationInstanceClass;
 
   /// The type of storage used by the replication instance.
-  @_s.JsonKey(name: 'StorageType')
-  final String storageType;
+  final String? storageType;
 
   OrderableReplicationInstance({
     this.availabilityZones,
@@ -6741,37 +8335,94 @@ class OrderableReplicationInstance {
     this.replicationInstanceClass,
     this.storageType,
   });
-  factory OrderableReplicationInstance.fromJson(Map<String, dynamic> json) =>
-      _$OrderableReplicationInstanceFromJson(json);
+
+  factory OrderableReplicationInstance.fromJson(Map<String, dynamic> json) {
+    return OrderableReplicationInstance(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      defaultAllocatedStorage: json['DefaultAllocatedStorage'] as int?,
+      engineVersion: json['EngineVersion'] as String?,
+      includedAllocatedStorage: json['IncludedAllocatedStorage'] as int?,
+      maxAllocatedStorage: json['MaxAllocatedStorage'] as int?,
+      minAllocatedStorage: json['MinAllocatedStorage'] as int?,
+      releaseStatus:
+          (json['ReleaseStatus'] as String?)?.toReleaseStatusValues(),
+      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
+      storageType: json['StorageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final defaultAllocatedStorage = this.defaultAllocatedStorage;
+    final engineVersion = this.engineVersion;
+    final includedAllocatedStorage = this.includedAllocatedStorage;
+    final maxAllocatedStorage = this.maxAllocatedStorage;
+    final minAllocatedStorage = this.minAllocatedStorage;
+    final releaseStatus = this.releaseStatus;
+    final replicationInstanceClass = this.replicationInstanceClass;
+    final storageType = this.storageType;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (defaultAllocatedStorage != null)
+        'DefaultAllocatedStorage': defaultAllocatedStorage,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (includedAllocatedStorage != null)
+        'IncludedAllocatedStorage': includedAllocatedStorage,
+      if (maxAllocatedStorage != null)
+        'MaxAllocatedStorage': maxAllocatedStorage,
+      if (minAllocatedStorage != null)
+        'MinAllocatedStorage': minAllocatedStorage,
+      if (releaseStatus != null) 'ReleaseStatus': releaseStatus.toValue(),
+      if (replicationInstanceClass != null)
+        'ReplicationInstanceClass': replicationInstanceClass,
+      if (storageType != null) 'StorageType': storageType,
+    };
+  }
 }
 
 enum ParquetVersionValue {
-  @_s.JsonValue('parquet-1-0')
   parquet_1_0,
-  @_s.JsonValue('parquet-2-0')
   parquet_2_0,
+}
+
+extension on ParquetVersionValue {
+  String toValue() {
+    switch (this) {
+      case ParquetVersionValue.parquet_1_0:
+        return 'parquet-1-0';
+      case ParquetVersionValue.parquet_2_0:
+        return 'parquet-2-0';
+    }
+  }
+}
+
+extension on String {
+  ParquetVersionValue toParquetVersionValue() {
+    switch (this) {
+      case 'parquet-1-0':
+        return ParquetVersionValue.parquet_1_0;
+      case 'parquet-2-0':
+        return ParquetVersionValue.parquet_2_0;
+    }
+    throw Exception('$this is not known in enum ParquetVersionValue');
+  }
 }
 
 /// Describes a maintenance action pending for an AWS DMS resource, including
 /// when and how it will be applied. This data type is a response element to the
 /// <code>DescribePendingMaintenanceActions</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PendingMaintenanceAction {
   /// The type of pending maintenance action that is available for the resource.
-  @_s.JsonKey(name: 'Action')
-  final String action;
+  final String? action;
 
   /// The date of the maintenance window when the action is to be applied. The
   /// maintenance action is applied to the resource during its first maintenance
   /// window after this date. If this date is specified, any
   /// <code>next-maintenance</code> opt-in requests are ignored.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'AutoAppliedAfterDate')
-  final DateTime autoAppliedAfterDate;
+  final DateTime? autoAppliedAfterDate;
 
   /// The effective date when the pending maintenance action will be applied to
   /// the resource. This date takes into account opt-in requests received from the
@@ -6780,25 +8431,19 @@ class PendingMaintenanceAction {
   /// values. This value is blank if an opt-in request has not been received and
   /// nothing has been specified for <code>AutoAppliedAfterDate</code> or
   /// <code>ForcedApplyDate</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CurrentApplyDate')
-  final DateTime currentApplyDate;
+  final DateTime? currentApplyDate;
 
   /// A description providing more detail about the maintenance action.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date when the maintenance action will be automatically applied. The
   /// maintenance action is applied to the resource on this date regardless of the
   /// maintenance window for the resource. If this date is specified, any
   /// <code>immediate</code> opt-in requests are ignored.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ForcedApplyDate')
-  final DateTime forcedApplyDate;
+  final DateTime? forcedApplyDate;
 
   /// The type of opt-in request that has been received for the resource.
-  @_s.JsonKey(name: 'OptInStatus')
-  final String optInStatus;
+  final String? optInStatus;
 
   PendingMaintenanceAction({
     this.action,
@@ -6808,16 +8453,40 @@ class PendingMaintenanceAction {
     this.forcedApplyDate,
     this.optInStatus,
   });
-  factory PendingMaintenanceAction.fromJson(Map<String, dynamic> json) =>
-      _$PendingMaintenanceActionFromJson(json);
+
+  factory PendingMaintenanceAction.fromJson(Map<String, dynamic> json) {
+    return PendingMaintenanceAction(
+      action: json['Action'] as String?,
+      autoAppliedAfterDate: timeStampFromJson(json['AutoAppliedAfterDate']),
+      currentApplyDate: timeStampFromJson(json['CurrentApplyDate']),
+      description: json['Description'] as String?,
+      forcedApplyDate: timeStampFromJson(json['ForcedApplyDate']),
+      optInStatus: json['OptInStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final autoAppliedAfterDate = this.autoAppliedAfterDate;
+    final currentApplyDate = this.currentApplyDate;
+    final description = this.description;
+    final forcedApplyDate = this.forcedApplyDate;
+    final optInStatus = this.optInStatus;
+    return {
+      if (action != null) 'Action': action,
+      if (autoAppliedAfterDate != null)
+        'AutoAppliedAfterDate': unixTimestampToJson(autoAppliedAfterDate),
+      if (currentApplyDate != null)
+        'CurrentApplyDate': unixTimestampToJson(currentApplyDate),
+      if (description != null) 'Description': description,
+      if (forcedApplyDate != null)
+        'ForcedApplyDate': unixTimestampToJson(forcedApplyDate),
+      if (optInStatus != null) 'OptInStatus': optInStatus,
+    };
+  }
 }
 
 /// Provides information that defines a PostgreSQL endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PostgreSQLSettings {
   /// For use with change data capture (CDC) only, this attribute has AWS DMS
   /// bypass foreign keys and user triggers to reduce the time it takes to bulk
@@ -6825,33 +8494,28 @@ class PostgreSQLSettings {
   ///
   /// Example: <code>afterConnectScript=SET
   /// session_replication_role='replica'</code>
-  @_s.JsonKey(name: 'AfterConnectScript')
-  final String afterConnectScript;
+  final String? afterConnectScript;
 
   /// To capture DDL events, AWS DMS creates various artifacts in the PostgreSQL
   /// database when the task starts. You can later remove these artifacts.
   ///
   /// If this value is set to <code>N</code>, you don't have to create tables or
   /// triggers on the source database.
-  @_s.JsonKey(name: 'CaptureDdls')
-  final bool captureDdls;
+  final bool? captureDdls;
 
   /// Database name for the endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The schema in which the operational DDL database artifacts are created.
   ///
   /// Example: <code>ddlArtifactsSchema=xyzddlschema;</code>
-  @_s.JsonKey(name: 'DdlArtifactsSchema')
-  final String ddlArtifactsSchema;
+  final String? ddlArtifactsSchema;
 
   /// Sets the client statement timeout for the PostgreSQL instance, in seconds.
   /// The default value is 60 seconds.
   ///
   /// Example: <code>executeTimeout=100;</code>
-  @_s.JsonKey(name: 'ExecuteTimeout')
-  final int executeTimeout;
+  final int? executeTimeout;
 
   /// When set to <code>true</code>, this value causes a task to fail if the
   /// actual size of a LOB column is greater than the specified
@@ -6859,23 +8523,19 @@ class PostgreSQLSettings {
   ///
   /// If task is set to Limited LOB mode and this option is set to true, the task
   /// fails instead of truncating the LOB data.
-  @_s.JsonKey(name: 'FailTasksOnLobTruncation')
-  final bool failTasksOnLobTruncation;
+  final bool? failTasksOnLobTruncation;
 
   /// Specifies the maximum size (in KB) of any .csv file used to transfer data to
   /// PostgreSQL.
   ///
   /// Example: <code>maxFileSize=512</code>
-  @_s.JsonKey(name: 'MaxFileSize')
-  final int maxFileSize;
+  final int? maxFileSize;
 
   /// Endpoint connection password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// Endpoint TCP port.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -6895,30 +8555,25 @@ class PostgreSQLSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the PostgreSQL endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// Fully qualified domain name of the endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// Sets the name of a previously created logical replication slot for a CDC
   /// load of the PostgreSQL source instance.
   ///
   /// When used with the AWS DMS API <code>CdcStartPosition</code> request
   /// parameter, this attribute also enables using native CDC start points.
-  @_s.JsonKey(name: 'SlotName')
-  final String slotName;
+  final String? slotName;
 
   /// Endpoint connection user name.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   PostgreSQLSettings({
     this.afterConnectScript,
@@ -6936,36 +8591,92 @@ class PostgreSQLSettings {
     this.slotName,
     this.username,
   });
-  factory PostgreSQLSettings.fromJson(Map<String, dynamic> json) =>
-      _$PostgreSQLSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PostgreSQLSettingsToJson(this);
+  factory PostgreSQLSettings.fromJson(Map<String, dynamic> json) {
+    return PostgreSQLSettings(
+      afterConnectScript: json['AfterConnectScript'] as String?,
+      captureDdls: json['CaptureDdls'] as bool?,
+      databaseName: json['DatabaseName'] as String?,
+      ddlArtifactsSchema: json['DdlArtifactsSchema'] as String?,
+      executeTimeout: json['ExecuteTimeout'] as int?,
+      failTasksOnLobTruncation: json['FailTasksOnLobTruncation'] as bool?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      slotName: json['SlotName'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterConnectScript = this.afterConnectScript;
+    final captureDdls = this.captureDdls;
+    final databaseName = this.databaseName;
+    final ddlArtifactsSchema = this.ddlArtifactsSchema;
+    final executeTimeout = this.executeTimeout;
+    final failTasksOnLobTruncation = this.failTasksOnLobTruncation;
+    final maxFileSize = this.maxFileSize;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final slotName = this.slotName;
+    final username = this.username;
+    return {
+      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (captureDdls != null) 'CaptureDdls': captureDdls,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (ddlArtifactsSchema != null) 'DdlArtifactsSchema': ddlArtifactsSchema,
+      if (executeTimeout != null) 'ExecuteTimeout': executeTimeout,
+      if (failTasksOnLobTruncation != null)
+        'FailTasksOnLobTruncation': failTasksOnLobTruncation,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (slotName != null) 'SlotName': slotName,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RebootReplicationInstanceResponse {
   /// The replication instance that is being rebooted.
-  @_s.JsonKey(name: 'ReplicationInstance')
-  final ReplicationInstance replicationInstance;
+  final ReplicationInstance? replicationInstance;
 
   RebootReplicationInstanceResponse({
     this.replicationInstance,
   });
+
   factory RebootReplicationInstanceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RebootReplicationInstanceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RebootReplicationInstanceResponse(
+      replicationInstance: json['ReplicationInstance'] != null
+          ? ReplicationInstance.fromJson(
+              json['ReplicationInstance'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationInstance = this.replicationInstance;
+    return {
+      if (replicationInstance != null)
+        'ReplicationInstance': replicationInstance,
+    };
+  }
 }
 
 /// Provides information that defines an Amazon Redshift endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RedshiftSettings {
   /// A value that indicates to allow any date format, including invalid formats
   /// such as 00/00/00 00:00:00, to be loaded without generating an error. You can
@@ -6975,13 +8686,11 @@ class RedshiftSettings {
   /// ACCEPTANYDATE with the DATEFORMAT parameter. If the date format for the data
   /// doesn't match the DATEFORMAT specification, Amazon Redshift inserts a NULL
   /// value into that field.
-  @_s.JsonKey(name: 'AcceptAnyDate')
-  final bool acceptAnyDate;
+  final bool? acceptAnyDate;
 
   /// Code to run after connecting. This parameter should contain the code itself,
   /// not the name of a file containing the code.
-  @_s.JsonKey(name: 'AfterConnectScript')
-  final String afterConnectScript;
+  final String? afterConnectScript;
 
   /// An S3 folder where the comma-separated-value (.csv) files are stored before
   /// being uploaded to the target Redshift cluster.
@@ -6997,19 +8706,16 @@ class RedshiftSettings {
   /// For change-data-capture (CDC) mode, AWS DMS creates a <i>NetChanges</i>
   /// table, and loads the .csv files to this
   /// <i>BucketFolder/NetChangesTableID</i> path.
-  @_s.JsonKey(name: 'BucketFolder')
-  final String bucketFolder;
+  final String? bucketFolder;
 
   /// The name of the intermediate S3 bucket used to store .csv files before
   /// uploading data to Redshift.
-  @_s.JsonKey(name: 'BucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// If Amazon Redshift is configured to support case sensitive schema names, set
   /// <code>CaseSensitiveNames</code> to <code>true</code>. The default is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'CaseSensitiveNames')
-  final bool caseSensitiveNames;
+  final bool? caseSensitiveNames;
 
   /// If you set <code>CompUpdate</code> to <code>true</code> Amazon Redshift
   /// applies automatic compression if the table is empty. This applies even if
@@ -7017,18 +8723,15 @@ class RedshiftSettings {
   /// set <code>CompUpdate</code> to <code>false</code>, automatic compression is
   /// disabled and existing column encodings aren't changed. The default is
   /// <code>true</code>.
-  @_s.JsonKey(name: 'CompUpdate')
-  final bool compUpdate;
+  final bool? compUpdate;
 
   /// A value that sets the amount of time to wait (in milliseconds) before timing
   /// out, beginning from when you initially establish a connection.
-  @_s.JsonKey(name: 'ConnectionTimeout')
-  final int connectionTimeout;
+  final int? connectionTimeout;
 
   /// The name of the Amazon Redshift data warehouse (service) that you are
   /// working with.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The date format that you are using. Valid values are <code>auto</code>
   /// (case-sensitive), your date format string enclosed in quotes, or NULL. If
@@ -7038,14 +8741,12 @@ class RedshiftSettings {
   ///
   /// If your date and time values use formats different from each other, set this
   /// to <code>auto</code>.
-  @_s.JsonKey(name: 'DateFormat')
-  final String dateFormat;
+  final String? dateFormat;
 
   /// A value that specifies whether AWS DMS should migrate empty CHAR and VARCHAR
   /// fields as NULL. A value of <code>true</code> sets empty CHAR and VARCHAR
   /// fields to null. The default is <code>false</code>.
-  @_s.JsonKey(name: 'EmptyAsNull')
-  final bool emptyAsNull;
+  final bool? emptyAsNull;
 
   /// The type of server-side encryption that you want to use for your data. This
   /// encryption type is part of the endpoint settings or the extra connections
@@ -7060,16 +8761,14 @@ class RedshiftSettings {
   /// To use <code>SSE_S3</code>, create an AWS Identity and Access Management
   /// (IAM) role with a policy that allows <code>"arn:aws:s3:::*"</code> to use
   /// the following actions: <code>"s3:PutObject", "s3:ListBucket"</code>
-  @_s.JsonKey(name: 'EncryptionMode')
-  final EncryptionModeValue encryptionMode;
+  final EncryptionModeValue? encryptionMode;
 
   /// This setting is only valid for a full-load migration task. Set
   /// <code>ExplicitIds</code> to <code>true</code> to have tables with
   /// <code>IDENTITY</code> columns override their auto-generated values with
   /// explicit values loaded from the source data files used to populate the
   /// tables. The default is <code>false</code>.
-  @_s.JsonKey(name: 'ExplicitIds')
-  final bool explicitIds;
+  final bool? explicitIds;
 
   /// The number of threads used to upload a single file. This parameter accepts a
   /// value from 1 through 64. It defaults to 10.
@@ -7081,45 +8780,37 @@ class RedshiftSettings {
   ///
   /// <code>FileTransferUploadStreams</code> accepts a value from 1 through 64. It
   /// defaults to 10.
-  @_s.JsonKey(name: 'FileTransferUploadStreams')
-  final int fileTransferUploadStreams;
+  final int? fileTransferUploadStreams;
 
   /// The amount of time to wait (in milliseconds) before timing out of operations
   /// performed by AWS DMS on a Redshift cluster, such as Redshift COPY, INSERT,
   /// DELETE, and UPDATE.
-  @_s.JsonKey(name: 'LoadTimeout')
-  final int loadTimeout;
+  final int? loadTimeout;
 
   /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket
   /// and transfer data to Amazon Redshift. It defaults to 1048576KB (1 GB).
-  @_s.JsonKey(name: 'MaxFileSize')
-  final int maxFileSize;
+  final int? maxFileSize;
 
   /// The password for the user named in the <code>username</code> property.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The port number for Amazon Redshift. The default value is 5439.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// A value that specifies to remove surrounding quotation marks from strings in
   /// the incoming data. All characters within the quotation marks, including
   /// delimiters, are retained. Choose <code>true</code> to remove quotation
   /// marks. The default is <code>false</code>.
-  @_s.JsonKey(name: 'RemoveQuotes')
-  final bool removeQuotes;
+  final bool? removeQuotes;
 
   /// A value that specifies to replaces the invalid characters specified in
   /// <code>ReplaceInvalidChars</code>, substituting the specified characters
   /// instead. The default is <code>"?"</code>.
-  @_s.JsonKey(name: 'ReplaceChars')
-  final String replaceChars;
+  final String? replaceChars;
 
   /// A list of characters that you want to replace. Use with
   /// <code>ReplaceChars</code>.
-  @_s.JsonKey(name: 'ReplaceInvalidChars')
-  final String replaceInvalidChars;
+  final String? replaceInvalidChars;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -7139,30 +8830,25 @@ class RedshiftSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the Amazon Redshift endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// The name of the Amazon Redshift cluster you are using.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// The AWS KMS key ID. If you are using <code>SSE_KMS</code> for the
   /// <code>EncryptionMode</code>, provide this key ID. The key that you use needs
   /// an attached policy that enables IAM user permissions and allows use of the
   /// key.
-  @_s.JsonKey(name: 'ServerSideEncryptionKmsKeyId')
-  final String serverSideEncryptionKmsKeyId;
+  final String? serverSideEncryptionKmsKeyId;
 
   /// The Amazon Resource Name (ARN) of the IAM role that has access to the Amazon
   /// Redshift service.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
-  final String serviceAccessRoleArn;
+  final String? serviceAccessRoleArn;
 
   /// The time format that you want to use. Valid values are <code>auto</code>
   /// (case-sensitive), <code>'timeformat_string'</code>,
@@ -7172,33 +8858,28 @@ class RedshiftSettings {
   ///
   /// If your date and time values use formats different from each other, set this
   /// parameter to <code>auto</code>.
-  @_s.JsonKey(name: 'TimeFormat')
-  final String timeFormat;
+  final String? timeFormat;
 
   /// A value that specifies to remove the trailing white space characters from a
   /// VARCHAR string. This parameter applies only to columns with a VARCHAR data
   /// type. Choose <code>true</code> to remove unneeded white space. The default
   /// is <code>false</code>.
-  @_s.JsonKey(name: 'TrimBlanks')
-  final bool trimBlanks;
+  final bool? trimBlanks;
 
   /// A value that specifies to truncate data in columns to the appropriate number
   /// of characters, so that the data fits in the column. This parameter applies
   /// only to columns with a VARCHAR or CHAR data type, and rows with a size of 4
   /// MB or less. Choose <code>true</code> to truncate data. The default is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'TruncateColumns')
-  final bool truncateColumns;
+  final bool? truncateColumns;
 
   /// An Amazon Redshift user name for a registered user.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   /// The size (in KB) of the in-memory file write buffer used when generating
   /// .csv files on the local disk at the DMS replication instance. The default
   /// value is 1000 (buffer size is 1000KB).
-  @_s.JsonKey(name: 'WriteBufferSize')
-  final int writeBufferSize;
+  final int? writeBufferSize;
 
   RedshiftSettings({
     this.acceptAnyDate,
@@ -7232,58 +8913,161 @@ class RedshiftSettings {
     this.username,
     this.writeBufferSize,
   });
-  factory RedshiftSettings.fromJson(Map<String, dynamic> json) =>
-      _$RedshiftSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RedshiftSettingsToJson(this);
+  factory RedshiftSettings.fromJson(Map<String, dynamic> json) {
+    return RedshiftSettings(
+      acceptAnyDate: json['AcceptAnyDate'] as bool?,
+      afterConnectScript: json['AfterConnectScript'] as String?,
+      bucketFolder: json['BucketFolder'] as String?,
+      bucketName: json['BucketName'] as String?,
+      caseSensitiveNames: json['CaseSensitiveNames'] as bool?,
+      compUpdate: json['CompUpdate'] as bool?,
+      connectionTimeout: json['ConnectionTimeout'] as int?,
+      databaseName: json['DatabaseName'] as String?,
+      dateFormat: json['DateFormat'] as String?,
+      emptyAsNull: json['EmptyAsNull'] as bool?,
+      encryptionMode:
+          (json['EncryptionMode'] as String?)?.toEncryptionModeValue(),
+      explicitIds: json['ExplicitIds'] as bool?,
+      fileTransferUploadStreams: json['FileTransferUploadStreams'] as int?,
+      loadTimeout: json['LoadTimeout'] as int?,
+      maxFileSize: json['MaxFileSize'] as int?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      removeQuotes: json['RemoveQuotes'] as bool?,
+      replaceChars: json['ReplaceChars'] as String?,
+      replaceInvalidChars: json['ReplaceInvalidChars'] as String?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      serverSideEncryptionKmsKeyId:
+          json['ServerSideEncryptionKmsKeyId'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      timeFormat: json['TimeFormat'] as String?,
+      trimBlanks: json['TrimBlanks'] as bool?,
+      truncateColumns: json['TruncateColumns'] as bool?,
+      username: json['Username'] as String?,
+      writeBufferSize: json['WriteBufferSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptAnyDate = this.acceptAnyDate;
+    final afterConnectScript = this.afterConnectScript;
+    final bucketFolder = this.bucketFolder;
+    final bucketName = this.bucketName;
+    final caseSensitiveNames = this.caseSensitiveNames;
+    final compUpdate = this.compUpdate;
+    final connectionTimeout = this.connectionTimeout;
+    final databaseName = this.databaseName;
+    final dateFormat = this.dateFormat;
+    final emptyAsNull = this.emptyAsNull;
+    final encryptionMode = this.encryptionMode;
+    final explicitIds = this.explicitIds;
+    final fileTransferUploadStreams = this.fileTransferUploadStreams;
+    final loadTimeout = this.loadTimeout;
+    final maxFileSize = this.maxFileSize;
+    final password = this.password;
+    final port = this.port;
+    final removeQuotes = this.removeQuotes;
+    final replaceChars = this.replaceChars;
+    final replaceInvalidChars = this.replaceInvalidChars;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final serverSideEncryptionKmsKeyId = this.serverSideEncryptionKmsKeyId;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final timeFormat = this.timeFormat;
+    final trimBlanks = this.trimBlanks;
+    final truncateColumns = this.truncateColumns;
+    final username = this.username;
+    final writeBufferSize = this.writeBufferSize;
+    return {
+      if (acceptAnyDate != null) 'AcceptAnyDate': acceptAnyDate,
+      if (afterConnectScript != null) 'AfterConnectScript': afterConnectScript,
+      if (bucketFolder != null) 'BucketFolder': bucketFolder,
+      if (bucketName != null) 'BucketName': bucketName,
+      if (caseSensitiveNames != null) 'CaseSensitiveNames': caseSensitiveNames,
+      if (compUpdate != null) 'CompUpdate': compUpdate,
+      if (connectionTimeout != null) 'ConnectionTimeout': connectionTimeout,
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (dateFormat != null) 'DateFormat': dateFormat,
+      if (emptyAsNull != null) 'EmptyAsNull': emptyAsNull,
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (explicitIds != null) 'ExplicitIds': explicitIds,
+      if (fileTransferUploadStreams != null)
+        'FileTransferUploadStreams': fileTransferUploadStreams,
+      if (loadTimeout != null) 'LoadTimeout': loadTimeout,
+      if (maxFileSize != null) 'MaxFileSize': maxFileSize,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (removeQuotes != null) 'RemoveQuotes': removeQuotes,
+      if (replaceChars != null) 'ReplaceChars': replaceChars,
+      if (replaceInvalidChars != null)
+        'ReplaceInvalidChars': replaceInvalidChars,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (serverSideEncryptionKmsKeyId != null)
+        'ServerSideEncryptionKmsKeyId': serverSideEncryptionKmsKeyId,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (timeFormat != null) 'TimeFormat': timeFormat,
+      if (trimBlanks != null) 'TrimBlanks': trimBlanks,
+      if (truncateColumns != null) 'TruncateColumns': truncateColumns,
+      if (username != null) 'Username': username,
+      if (writeBufferSize != null) 'WriteBufferSize': writeBufferSize,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RefreshSchemasResponse {
   /// The status of the refreshed schema.
-  @_s.JsonKey(name: 'RefreshSchemasStatus')
-  final RefreshSchemasStatus refreshSchemasStatus;
+  final RefreshSchemasStatus? refreshSchemasStatus;
 
   RefreshSchemasResponse({
     this.refreshSchemasStatus,
   });
-  factory RefreshSchemasResponse.fromJson(Map<String, dynamic> json) =>
-      _$RefreshSchemasResponseFromJson(json);
+
+  factory RefreshSchemasResponse.fromJson(Map<String, dynamic> json) {
+    return RefreshSchemasResponse(
+      refreshSchemasStatus: json['RefreshSchemasStatus'] != null
+          ? RefreshSchemasStatus.fromJson(
+              json['RefreshSchemasStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final refreshSchemasStatus = this.refreshSchemasStatus;
+    return {
+      if (refreshSchemasStatus != null)
+        'RefreshSchemasStatus': refreshSchemasStatus,
+    };
+  }
 }
 
 /// Provides information that describes status of a schema at an endpoint
 /// specified by the <code>DescribeRefreshSchemaStatus</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RefreshSchemasStatus {
   /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
-  @_s.JsonKey(name: 'EndpointArn')
-  final String endpointArn;
+  final String? endpointArn;
 
   /// The last failure message for the schema.
-  @_s.JsonKey(name: 'LastFailureMessage')
-  final String lastFailureMessage;
+  final String? lastFailureMessage;
 
   /// The date the schema was last refreshed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastRefreshDate')
-  final DateTime lastRefreshDate;
+  final DateTime? lastRefreshDate;
 
   /// The Amazon Resource Name (ARN) of the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstanceArn')
-  final String replicationInstanceArn;
+  final String? replicationInstanceArn;
 
   /// The status of the schema.
-  @_s.JsonKey(name: 'Status')
-  final RefreshSchemasStatusTypeValue status;
+  final RefreshSchemasStatusTypeValue? status;
 
   RefreshSchemasStatus({
     this.endpointArn,
@@ -7292,28 +9076,93 @@ class RefreshSchemasStatus {
     this.replicationInstanceArn,
     this.status,
   });
-  factory RefreshSchemasStatus.fromJson(Map<String, dynamic> json) =>
-      _$RefreshSchemasStatusFromJson(json);
+
+  factory RefreshSchemasStatus.fromJson(Map<String, dynamic> json) {
+    return RefreshSchemasStatus(
+      endpointArn: json['EndpointArn'] as String?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      lastRefreshDate: timeStampFromJson(json['LastRefreshDate']),
+      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
+      status: (json['Status'] as String?)?.toRefreshSchemasStatusTypeValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointArn = this.endpointArn;
+    final lastFailureMessage = this.lastFailureMessage;
+    final lastRefreshDate = this.lastRefreshDate;
+    final replicationInstanceArn = this.replicationInstanceArn;
+    final status = this.status;
+    return {
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (lastRefreshDate != null)
+        'LastRefreshDate': unixTimestampToJson(lastRefreshDate),
+      if (replicationInstanceArn != null)
+        'ReplicationInstanceArn': replicationInstanceArn,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum RefreshSchemasStatusTypeValue {
-  @_s.JsonValue('successful')
   successful,
-  @_s.JsonValue('failed')
   failed,
-  @_s.JsonValue('refreshing')
   refreshing,
 }
 
+extension on RefreshSchemasStatusTypeValue {
+  String toValue() {
+    switch (this) {
+      case RefreshSchemasStatusTypeValue.successful:
+        return 'successful';
+      case RefreshSchemasStatusTypeValue.failed:
+        return 'failed';
+      case RefreshSchemasStatusTypeValue.refreshing:
+        return 'refreshing';
+    }
+  }
+}
+
+extension on String {
+  RefreshSchemasStatusTypeValue toRefreshSchemasStatusTypeValue() {
+    switch (this) {
+      case 'successful':
+        return RefreshSchemasStatusTypeValue.successful;
+      case 'failed':
+        return RefreshSchemasStatusTypeValue.failed;
+      case 'refreshing':
+        return RefreshSchemasStatusTypeValue.refreshing;
+    }
+    throw Exception('$this is not known in enum RefreshSchemasStatusTypeValue');
+  }
+}
+
 enum ReleaseStatusValues {
-  @_s.JsonValue('beta')
   beta,
 }
 
+extension on ReleaseStatusValues {
+  String toValue() {
+    switch (this) {
+      case ReleaseStatusValues.beta:
+        return 'beta';
+    }
+  }
+}
+
+extension on String {
+  ReleaseStatusValues toReleaseStatusValues() {
+    switch (this) {
+      case 'beta':
+        return ReleaseStatusValues.beta;
+    }
+    throw Exception('$this is not known in enum ReleaseStatusValues');
+  }
+}
+
 enum ReloadOptionValue {
-  @_s.JsonValue('data-reload')
   dataReload,
-  @_s.JsonValue('validate-only')
   validateOnly,
 }
 
@@ -7325,43 +9174,58 @@ extension on ReloadOptionValue {
       case ReloadOptionValue.validateOnly:
         return 'validate-only';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ReloadOptionValue toReloadOptionValue() {
+    switch (this) {
+      case 'data-reload':
+        return ReloadOptionValue.dataReload;
+      case 'validate-only':
+        return ReloadOptionValue.validateOnly;
+    }
+    throw Exception('$this is not known in enum ReloadOptionValue');
+  }
+}
+
 class ReloadTablesResponse {
   /// The Amazon Resource Name (ARN) of the replication task.
-  @_s.JsonKey(name: 'ReplicationTaskArn')
-  final String replicationTaskArn;
+  final String? replicationTaskArn;
 
   ReloadTablesResponse({
     this.replicationTaskArn,
   });
-  factory ReloadTablesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ReloadTablesResponseFromJson(json);
+
+  factory ReloadTablesResponse.fromJson(Map<String, dynamic> json) {
+    return ReloadTablesResponse(
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTaskArn = this.replicationTaskArn;
+    return {
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsFromResourceResponse {
   RemoveTagsFromResourceResponse();
-  factory RemoveTagsFromResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsFromResourceResponseFromJson(json);
+
+  factory RemoveTagsFromResourceResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveTagsFromResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum ReplicationEndpointTypeValue {
-  @_s.JsonValue('source')
   source,
-  @_s.JsonValue('target')
   target,
 }
 
@@ -7373,35 +9237,37 @@ extension on ReplicationEndpointTypeValue {
       case ReplicationEndpointTypeValue.target:
         return 'target';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReplicationEndpointTypeValue toReplicationEndpointTypeValue() {
+    switch (this) {
+      case 'source':
+        return ReplicationEndpointTypeValue.source;
+      case 'target':
+        return ReplicationEndpointTypeValue.target;
+    }
+    throw Exception('$this is not known in enum ReplicationEndpointTypeValue');
   }
 }
 
 /// Provides information that defines a replication instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationInstance {
   /// The amount of storage (in gigabytes) that is allocated for the replication
   /// instance.
-  @_s.JsonKey(name: 'AllocatedStorage')
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// Boolean value indicating if minor version upgrades will be automatically
   /// applied to the instance.
-  @_s.JsonKey(name: 'AutoMinorVersionUpgrade')
-  final bool autoMinorVersionUpgrade;
+  final bool? autoMinorVersionUpgrade;
 
   /// The Availability Zone for the instance.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The DNS name servers supported for the replication instance to access your
   /// on-premise source or target database.
-  @_s.JsonKey(name: 'DnsNameServers')
-  final String dnsNameServers;
+  final String? dnsNameServers;
 
   /// The engine version number of the replication instance.
   ///
@@ -7410,19 +9276,14 @@ class ReplicationInstance {
   ///
   /// When modifying a major engine version of an instance, also set
   /// <code>AllowMajorVersionUpgrade</code> to <code>true</code>.
-  @_s.JsonKey(name: 'EngineVersion')
-  final String engineVersion;
+  final String? engineVersion;
 
   /// The expiration date of the free replication instance that is part of the
   /// Free DMS program.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FreeUntil')
-  final DateTime freeUntil;
+  final DateTime? freeUntil;
 
   /// The time the replication instance was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'InstanceCreateTime')
-  final DateTime instanceCreateTime;
+  final DateTime? instanceCreateTime;
 
   /// An AWS KMS key identifier that is used to encrypt the data on the
   /// replication instance.
@@ -7432,34 +9293,28 @@ class ReplicationInstance {
   ///
   /// AWS KMS creates the default encryption key for your AWS account. Your AWS
   /// account has a different default encryption key for each AWS Region.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// Specifies whether the replication instance is a Multi-AZ deployment. You
   /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
   /// parameter is set to <code>true</code>.
-  @_s.JsonKey(name: 'MultiAZ')
-  final bool multiAZ;
+  final bool? multiAZ;
 
   /// The pending modification values.
-  @_s.JsonKey(name: 'PendingModifiedValues')
-  final ReplicationPendingModifiedValues pendingModifiedValues;
+  final ReplicationPendingModifiedValues? pendingModifiedValues;
 
   /// The maintenance window times for the replication instance. Any pending
   /// upgrades to the replication instance are performed during this time.
-  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
-  final String preferredMaintenanceWindow;
+  final String? preferredMaintenanceWindow;
 
   /// Specifies the accessibility options for the replication instance. A value of
   /// <code>true</code> represents an instance with a public IP address. A value
   /// of <code>false</code> represents an instance with a private IP address. The
   /// default value is <code>true</code>.
-  @_s.JsonKey(name: 'PubliclyAccessible')
-  final bool publiclyAccessible;
+  final bool? publiclyAccessible;
 
   /// The Amazon Resource Name (ARN) of the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstanceArn')
-  final String replicationInstanceArn;
+  final String? replicationInstanceArn;
 
   /// The compute and memory capacity of the replication instance as defined for
   /// the specified replication instance class. It is a required parameter,
@@ -7469,8 +9324,7 @@ class ReplicationInstance {
   /// replication instance classes, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
   /// Selecting the right AWS DMS replication instance for your migration</a>.
-  @_s.JsonKey(name: 'ReplicationInstanceClass')
-  final String replicationInstanceClass;
+  final String? replicationInstanceClass;
 
   /// The replication instance identifier is a required parameter. This parameter
   /// is stored as a lowercase string.
@@ -7489,24 +9343,19 @@ class ReplicationInstance {
   /// </li>
   /// </ul>
   /// Example: <code>myrepinstance</code>
-  @_s.JsonKey(name: 'ReplicationInstanceIdentifier')
-  final String replicationInstanceIdentifier;
+  final String? replicationInstanceIdentifier;
 
   /// The private IP address of the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstancePrivateIpAddress')
-  final String replicationInstancePrivateIpAddress;
+  final String? replicationInstancePrivateIpAddress;
 
   /// One or more private IP addresses for the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstancePrivateIpAddresses')
-  final List<String> replicationInstancePrivateIpAddresses;
+  final List<String>? replicationInstancePrivateIpAddresses;
 
   /// The public IP address of the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstancePublicIpAddress')
-  final String replicationInstancePublicIpAddress;
+  final String? replicationInstancePublicIpAddress;
 
   /// One or more public IP addresses for the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstancePublicIpAddresses')
-  final List<String> replicationInstancePublicIpAddresses;
+  final List<String>? replicationInstancePublicIpAddresses;
 
   /// The status of the replication instance. The possible return values include:
   ///
@@ -7551,21 +9400,17 @@ class ReplicationInstance {
   /// <code>"maintenance"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ReplicationInstanceStatus')
-  final String replicationInstanceStatus;
+  final String? replicationInstanceStatus;
 
   /// The subnet group for the replication instance.
-  @_s.JsonKey(name: 'ReplicationSubnetGroup')
-  final ReplicationSubnetGroup replicationSubnetGroup;
+  final ReplicationSubnetGroup? replicationSubnetGroup;
 
   /// The Availability Zone of the standby replication instance in a Multi-AZ
   /// deployment.
-  @_s.JsonKey(name: 'SecondaryAvailabilityZone')
-  final String secondaryAvailabilityZone;
+  final String? secondaryAvailabilityZone;
 
   /// The VPC security group for the instance.
-  @_s.JsonKey(name: 'VpcSecurityGroups')
-  final List<VpcSecurityGroupMembership> vpcSecurityGroups;
+  final List<VpcSecurityGroupMembership>? vpcSecurityGroups;
 
   ReplicationInstance({
     this.allocatedStorage,
@@ -7592,62 +9437,186 @@ class ReplicationInstance {
     this.secondaryAvailabilityZone,
     this.vpcSecurityGroups,
   });
-  factory ReplicationInstance.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationInstanceFromJson(json);
+
+  factory ReplicationInstance.fromJson(Map<String, dynamic> json) {
+    return ReplicationInstance(
+      allocatedStorage: json['AllocatedStorage'] as int?,
+      autoMinorVersionUpgrade: json['AutoMinorVersionUpgrade'] as bool?,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      dnsNameServers: json['DnsNameServers'] as String?,
+      engineVersion: json['EngineVersion'] as String?,
+      freeUntil: timeStampFromJson(json['FreeUntil']),
+      instanceCreateTime: timeStampFromJson(json['InstanceCreateTime']),
+      kmsKeyId: json['KmsKeyId'] as String?,
+      multiAZ: json['MultiAZ'] as bool?,
+      pendingModifiedValues: json['PendingModifiedValues'] != null
+          ? ReplicationPendingModifiedValues.fromJson(
+              json['PendingModifiedValues'] as Map<String, dynamic>)
+          : null,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      publiclyAccessible: json['PubliclyAccessible'] as bool?,
+      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
+      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
+      replicationInstanceIdentifier:
+          json['ReplicationInstanceIdentifier'] as String?,
+      replicationInstancePrivateIpAddress:
+          json['ReplicationInstancePrivateIpAddress'] as String?,
+      replicationInstancePrivateIpAddresses:
+          (json['ReplicationInstancePrivateIpAddresses'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      replicationInstancePublicIpAddress:
+          json['ReplicationInstancePublicIpAddress'] as String?,
+      replicationInstancePublicIpAddresses:
+          (json['ReplicationInstancePublicIpAddresses'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      replicationInstanceStatus: json['ReplicationInstanceStatus'] as String?,
+      replicationSubnetGroup: json['ReplicationSubnetGroup'] != null
+          ? ReplicationSubnetGroup.fromJson(
+              json['ReplicationSubnetGroup'] as Map<String, dynamic>)
+          : null,
+      secondaryAvailabilityZone: json['SecondaryAvailabilityZone'] as String?,
+      vpcSecurityGroups: (json['VpcSecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VpcSecurityGroupMembership.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedStorage = this.allocatedStorage;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
+    final availabilityZone = this.availabilityZone;
+    final dnsNameServers = this.dnsNameServers;
+    final engineVersion = this.engineVersion;
+    final freeUntil = this.freeUntil;
+    final instanceCreateTime = this.instanceCreateTime;
+    final kmsKeyId = this.kmsKeyId;
+    final multiAZ = this.multiAZ;
+    final pendingModifiedValues = this.pendingModifiedValues;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final publiclyAccessible = this.publiclyAccessible;
+    final replicationInstanceArn = this.replicationInstanceArn;
+    final replicationInstanceClass = this.replicationInstanceClass;
+    final replicationInstanceIdentifier = this.replicationInstanceIdentifier;
+    final replicationInstancePrivateIpAddress =
+        this.replicationInstancePrivateIpAddress;
+    final replicationInstancePrivateIpAddresses =
+        this.replicationInstancePrivateIpAddresses;
+    final replicationInstancePublicIpAddress =
+        this.replicationInstancePublicIpAddress;
+    final replicationInstancePublicIpAddresses =
+        this.replicationInstancePublicIpAddresses;
+    final replicationInstanceStatus = this.replicationInstanceStatus;
+    final replicationSubnetGroup = this.replicationSubnetGroup;
+    final secondaryAvailabilityZone = this.secondaryAvailabilityZone;
+    final vpcSecurityGroups = this.vpcSecurityGroups;
+    return {
+      if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
+      if (autoMinorVersionUpgrade != null)
+        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (dnsNameServers != null) 'DnsNameServers': dnsNameServers,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (freeUntil != null) 'FreeUntil': unixTimestampToJson(freeUntil),
+      if (instanceCreateTime != null)
+        'InstanceCreateTime': unixTimestampToJson(instanceCreateTime),
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (pendingModifiedValues != null)
+        'PendingModifiedValues': pendingModifiedValues,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
+      if (replicationInstanceArn != null)
+        'ReplicationInstanceArn': replicationInstanceArn,
+      if (replicationInstanceClass != null)
+        'ReplicationInstanceClass': replicationInstanceClass,
+      if (replicationInstanceIdentifier != null)
+        'ReplicationInstanceIdentifier': replicationInstanceIdentifier,
+      if (replicationInstancePrivateIpAddress != null)
+        'ReplicationInstancePrivateIpAddress':
+            replicationInstancePrivateIpAddress,
+      if (replicationInstancePrivateIpAddresses != null)
+        'ReplicationInstancePrivateIpAddresses':
+            replicationInstancePrivateIpAddresses,
+      if (replicationInstancePublicIpAddress != null)
+        'ReplicationInstancePublicIpAddress':
+            replicationInstancePublicIpAddress,
+      if (replicationInstancePublicIpAddresses != null)
+        'ReplicationInstancePublicIpAddresses':
+            replicationInstancePublicIpAddresses,
+      if (replicationInstanceStatus != null)
+        'ReplicationInstanceStatus': replicationInstanceStatus,
+      if (replicationSubnetGroup != null)
+        'ReplicationSubnetGroup': replicationSubnetGroup,
+      if (secondaryAvailabilityZone != null)
+        'SecondaryAvailabilityZone': secondaryAvailabilityZone,
+      if (vpcSecurityGroups != null) 'VpcSecurityGroups': vpcSecurityGroups,
+    };
+  }
 }
 
 /// Contains metadata for a replication instance task log.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationInstanceTaskLog {
   /// The size, in bytes, of the replication task log.
-  @_s.JsonKey(name: 'ReplicationInstanceTaskLogSize')
-  final int replicationInstanceTaskLogSize;
+  final int? replicationInstanceTaskLogSize;
 
   /// The Amazon Resource Name (ARN) of the replication task.
-  @_s.JsonKey(name: 'ReplicationTaskArn')
-  final String replicationTaskArn;
+  final String? replicationTaskArn;
 
   /// The name of the replication task.
-  @_s.JsonKey(name: 'ReplicationTaskName')
-  final String replicationTaskName;
+  final String? replicationTaskName;
 
   ReplicationInstanceTaskLog({
     this.replicationInstanceTaskLogSize,
     this.replicationTaskArn,
     this.replicationTaskName,
   });
-  factory ReplicationInstanceTaskLog.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationInstanceTaskLogFromJson(json);
+
+  factory ReplicationInstanceTaskLog.fromJson(Map<String, dynamic> json) {
+    return ReplicationInstanceTaskLog(
+      replicationInstanceTaskLogSize:
+          json['ReplicationInstanceTaskLogSize'] as int?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      replicationTaskName: json['ReplicationTaskName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationInstanceTaskLogSize = this.replicationInstanceTaskLogSize;
+    final replicationTaskArn = this.replicationTaskArn;
+    final replicationTaskName = this.replicationTaskName;
+    return {
+      if (replicationInstanceTaskLogSize != null)
+        'ReplicationInstanceTaskLogSize': replicationInstanceTaskLogSize,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (replicationTaskName != null)
+        'ReplicationTaskName': replicationTaskName,
+    };
+  }
 }
 
 /// Provides information about the values of pending modifications to a
 /// replication instance. This data type is an object of the <a
 /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_ReplicationInstance.html">
 /// <code>ReplicationInstance</code> </a> user-defined data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationPendingModifiedValues {
   /// The amount of storage (in gigabytes) that is allocated for the replication
   /// instance.
-  @_s.JsonKey(name: 'AllocatedStorage')
-  final int allocatedStorage;
+  final int? allocatedStorage;
 
   /// The engine version number of the replication instance.
-  @_s.JsonKey(name: 'EngineVersion')
-  final String engineVersion;
+  final String? engineVersion;
 
   /// Specifies whether the replication instance is a Multi-AZ deployment. You
   /// can't set the <code>AvailabilityZone</code> parameter if the Multi-AZ
   /// parameter is set to <code>true</code>.
-  @_s.JsonKey(name: 'MultiAZ')
-  final bool multiAZ;
+  final bool? multiAZ;
 
   /// The compute and memory capacity of the replication instance as defined for
   /// the specified replication instance class.
@@ -7656,8 +9625,7 @@ class ReplicationPendingModifiedValues {
   /// replication instance classes, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth">
   /// Selecting the right AWS DMS replication instance for your migration</a>.
-  @_s.JsonKey(name: 'ReplicationInstanceClass')
-  final String replicationInstanceClass;
+  final String? replicationInstanceClass;
 
   ReplicationPendingModifiedValues({
     this.allocatedStorage,
@@ -7665,38 +9633,48 @@ class ReplicationPendingModifiedValues {
     this.multiAZ,
     this.replicationInstanceClass,
   });
-  factory ReplicationPendingModifiedValues.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReplicationPendingModifiedValuesFromJson(json);
+
+  factory ReplicationPendingModifiedValues.fromJson(Map<String, dynamic> json) {
+    return ReplicationPendingModifiedValues(
+      allocatedStorage: json['AllocatedStorage'] as int?,
+      engineVersion: json['EngineVersion'] as String?,
+      multiAZ: json['MultiAZ'] as bool?,
+      replicationInstanceClass: json['ReplicationInstanceClass'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedStorage = this.allocatedStorage;
+    final engineVersion = this.engineVersion;
+    final multiAZ = this.multiAZ;
+    final replicationInstanceClass = this.replicationInstanceClass;
+    return {
+      if (allocatedStorage != null) 'AllocatedStorage': allocatedStorage,
+      if (engineVersion != null) 'EngineVersion': engineVersion,
+      if (multiAZ != null) 'MultiAZ': multiAZ,
+      if (replicationInstanceClass != null)
+        'ReplicationInstanceClass': replicationInstanceClass,
+    };
+  }
 }
 
 /// Describes a subnet group in response to a request by the
 /// <code>DescribeReplicationSubnetGroups</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationSubnetGroup {
   /// A description for the replication subnet group.
-  @_s.JsonKey(name: 'ReplicationSubnetGroupDescription')
-  final String replicationSubnetGroupDescription;
+  final String? replicationSubnetGroupDescription;
 
   /// The identifier of the replication instance subnet group.
-  @_s.JsonKey(name: 'ReplicationSubnetGroupIdentifier')
-  final String replicationSubnetGroupIdentifier;
+  final String? replicationSubnetGroupIdentifier;
 
   /// The status of the subnet group.
-  @_s.JsonKey(name: 'SubnetGroupStatus')
-  final String subnetGroupStatus;
+  final String? subnetGroupStatus;
 
   /// The subnets that are in the subnet group.
-  @_s.JsonKey(name: 'Subnets')
-  final List<Subnet> subnets;
+  final List<Subnet>? subnets;
 
   /// The ID of the VPC.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   ReplicationSubnetGroup({
     this.replicationSubnetGroupDescription,
@@ -7705,17 +9683,44 @@ class ReplicationSubnetGroup {
     this.subnets,
     this.vpcId,
   });
-  factory ReplicationSubnetGroup.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationSubnetGroupFromJson(json);
+
+  factory ReplicationSubnetGroup.fromJson(Map<String, dynamic> json) {
+    return ReplicationSubnetGroup(
+      replicationSubnetGroupDescription:
+          json['ReplicationSubnetGroupDescription'] as String?,
+      replicationSubnetGroupIdentifier:
+          json['ReplicationSubnetGroupIdentifier'] as String?,
+      subnetGroupStatus: json['SubnetGroupStatus'] as String?,
+      subnets: (json['Subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationSubnetGroupDescription =
+        this.replicationSubnetGroupDescription;
+    final replicationSubnetGroupIdentifier =
+        this.replicationSubnetGroupIdentifier;
+    final subnetGroupStatus = this.subnetGroupStatus;
+    final subnets = this.subnets;
+    final vpcId = this.vpcId;
+    return {
+      if (replicationSubnetGroupDescription != null)
+        'ReplicationSubnetGroupDescription': replicationSubnetGroupDescription,
+      if (replicationSubnetGroupIdentifier != null)
+        'ReplicationSubnetGroupIdentifier': replicationSubnetGroupIdentifier,
+      if (subnetGroupStatus != null) 'SubnetGroupStatus': subnetGroupStatus,
+      if (subnets != null) 'Subnets': subnets,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
 }
 
 /// Provides information that describes a replication task created by the
 /// <code>CreateReplicationTask</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationTask {
   /// Indicates when you want a change data capture (CDC) operation to start. Use
   /// either <code>CdcStartPosition</code> or <code>CdcStartTime</code> to specify
@@ -7730,8 +9735,7 @@ class ReplicationTask {
   /// "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93"
   ///
   /// LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
-  @_s.JsonKey(name: 'CdcStartPosition')
-  final String cdcStartPosition;
+  final String? cdcStartPosition;
 
   /// Indicates when you want a change data capture (CDC) operation to stop. The
   /// value can be either server time or commit time.
@@ -7739,36 +9743,28 @@ class ReplicationTask {
   /// Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12”
   ///
   /// Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
-  @_s.JsonKey(name: 'CdcStopPosition')
-  final String cdcStopPosition;
+  final String? cdcStopPosition;
 
   /// The last error (failure) message generated for the replication task.
-  @_s.JsonKey(name: 'LastFailureMessage')
-  final String lastFailureMessage;
+  final String? lastFailureMessage;
 
   /// The type of migration.
-  @_s.JsonKey(name: 'MigrationType')
-  final MigrationTypeValue migrationType;
+  final MigrationTypeValue? migrationType;
 
   /// Indicates the last checkpoint that occurred during a change data capture
   /// (CDC) operation. You can provide this value to the
   /// <code>CdcStartPosition</code> parameter to start a CDC operation that begins
   /// at that checkpoint.
-  @_s.JsonKey(name: 'RecoveryCheckpoint')
-  final String recoveryCheckpoint;
+  final String? recoveryCheckpoint;
 
   /// The ARN of the replication instance.
-  @_s.JsonKey(name: 'ReplicationInstanceArn')
-  final String replicationInstanceArn;
+  final String? replicationInstanceArn;
 
   /// The Amazon Resource Name (ARN) of the replication task.
-  @_s.JsonKey(name: 'ReplicationTaskArn')
-  final String replicationTaskArn;
+  final String? replicationTaskArn;
 
   /// The date the replication task was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplicationTaskCreationDate')
-  final DateTime replicationTaskCreationDate;
+  final DateTime? replicationTaskCreationDate;
 
   /// The user-assigned replication task identifier or name.
   ///
@@ -7785,26 +9781,20 @@ class ReplicationTask {
   /// Cannot end with a hyphen or contain two consecutive hyphens.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ReplicationTaskIdentifier')
-  final String replicationTaskIdentifier;
+  final String? replicationTaskIdentifier;
 
   /// The settings for the replication task.
-  @_s.JsonKey(name: 'ReplicationTaskSettings')
-  final String replicationTaskSettings;
+  final String? replicationTaskSettings;
 
   /// The date the replication task is scheduled to start.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplicationTaskStartDate')
-  final DateTime replicationTaskStartDate;
+  final DateTime? replicationTaskStartDate;
 
   /// The statistics for the task, including elapsed time, tables loaded, and
   /// table errors.
-  @_s.JsonKey(name: 'ReplicationTaskStats')
-  final ReplicationTaskStats replicationTaskStats;
+  final ReplicationTaskStats? replicationTaskStats;
 
   /// The Amazon Resource Name (ARN) that uniquely identifies the endpoint.
-  @_s.JsonKey(name: 'SourceEndpointArn')
-  final String sourceEndpointArn;
+  final String? sourceEndpointArn;
 
   /// The status of the replication task. This response parameter can return one
   /// of the following values:
@@ -7901,8 +9891,7 @@ class ReplicationTask {
   /// others.
   /// </note> </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The reason the replication task was stopped. This response parameter can
   /// return one of the following values:
@@ -7926,32 +9915,27 @@ class ReplicationTask {
   /// specified server time.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StopReason')
-  final String stopReason;
+  final String? stopReason;
 
   /// Table mappings specified in the task.
-  @_s.JsonKey(name: 'TableMappings')
-  final String tableMappings;
+  final String? tableMappings;
 
   /// The ARN that uniquely identifies the endpoint.
-  @_s.JsonKey(name: 'TargetEndpointArn')
-  final String targetEndpointArn;
+  final String? targetEndpointArn;
 
   /// The ARN of the replication instance to which this task is moved in response
   /// to running the <a
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_MoveReplicationTask.html">
   /// <code>MoveReplicationTask</code> </a> operation. Otherwise, this response
   /// parameter isn't a member of the <code>ReplicationTask</code> object.
-  @_s.JsonKey(name: 'TargetReplicationInstanceArn')
-  final String targetReplicationInstanceArn;
+  final String? targetReplicationInstanceArn;
 
   /// Supplemental information that the task requires to migrate the data for
   /// certain source and target endpoints. For more information, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html">Specifying
   /// Supplemental Data for Task Settings</a> in the <i>AWS Database Migration
   /// Service User Guide.</i>
-  @_s.JsonKey(name: 'TaskData')
-  final String taskData;
+  final String? taskData;
 
   ReplicationTask({
     this.cdcStartPosition,
@@ -7974,46 +9958,113 @@ class ReplicationTask {
     this.targetReplicationInstanceArn,
     this.taskData,
   });
-  factory ReplicationTask.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationTaskFromJson(json);
+
+  factory ReplicationTask.fromJson(Map<String, dynamic> json) {
+    return ReplicationTask(
+      cdcStartPosition: json['CdcStartPosition'] as String?,
+      cdcStopPosition: json['CdcStopPosition'] as String?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      migrationType: (json['MigrationType'] as String?)?.toMigrationTypeValue(),
+      recoveryCheckpoint: json['RecoveryCheckpoint'] as String?,
+      replicationInstanceArn: json['ReplicationInstanceArn'] as String?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      replicationTaskCreationDate:
+          timeStampFromJson(json['ReplicationTaskCreationDate']),
+      replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String?,
+      replicationTaskSettings: json['ReplicationTaskSettings'] as String?,
+      replicationTaskStartDate:
+          timeStampFromJson(json['ReplicationTaskStartDate']),
+      replicationTaskStats: json['ReplicationTaskStats'] != null
+          ? ReplicationTaskStats.fromJson(
+              json['ReplicationTaskStats'] as Map<String, dynamic>)
+          : null,
+      sourceEndpointArn: json['SourceEndpointArn'] as String?,
+      status: json['Status'] as String?,
+      stopReason: json['StopReason'] as String?,
+      tableMappings: json['TableMappings'] as String?,
+      targetEndpointArn: json['TargetEndpointArn'] as String?,
+      targetReplicationInstanceArn:
+          json['TargetReplicationInstanceArn'] as String?,
+      taskData: json['TaskData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cdcStartPosition = this.cdcStartPosition;
+    final cdcStopPosition = this.cdcStopPosition;
+    final lastFailureMessage = this.lastFailureMessage;
+    final migrationType = this.migrationType;
+    final recoveryCheckpoint = this.recoveryCheckpoint;
+    final replicationInstanceArn = this.replicationInstanceArn;
+    final replicationTaskArn = this.replicationTaskArn;
+    final replicationTaskCreationDate = this.replicationTaskCreationDate;
+    final replicationTaskIdentifier = this.replicationTaskIdentifier;
+    final replicationTaskSettings = this.replicationTaskSettings;
+    final replicationTaskStartDate = this.replicationTaskStartDate;
+    final replicationTaskStats = this.replicationTaskStats;
+    final sourceEndpointArn = this.sourceEndpointArn;
+    final status = this.status;
+    final stopReason = this.stopReason;
+    final tableMappings = this.tableMappings;
+    final targetEndpointArn = this.targetEndpointArn;
+    final targetReplicationInstanceArn = this.targetReplicationInstanceArn;
+    final taskData = this.taskData;
+    return {
+      if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
+      if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (migrationType != null) 'MigrationType': migrationType.toValue(),
+      if (recoveryCheckpoint != null) 'RecoveryCheckpoint': recoveryCheckpoint,
+      if (replicationInstanceArn != null)
+        'ReplicationInstanceArn': replicationInstanceArn,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (replicationTaskCreationDate != null)
+        'ReplicationTaskCreationDate':
+            unixTimestampToJson(replicationTaskCreationDate),
+      if (replicationTaskIdentifier != null)
+        'ReplicationTaskIdentifier': replicationTaskIdentifier,
+      if (replicationTaskSettings != null)
+        'ReplicationTaskSettings': replicationTaskSettings,
+      if (replicationTaskStartDate != null)
+        'ReplicationTaskStartDate':
+            unixTimestampToJson(replicationTaskStartDate),
+      if (replicationTaskStats != null)
+        'ReplicationTaskStats': replicationTaskStats,
+      if (sourceEndpointArn != null) 'SourceEndpointArn': sourceEndpointArn,
+      if (status != null) 'Status': status,
+      if (stopReason != null) 'StopReason': stopReason,
+      if (tableMappings != null) 'TableMappings': tableMappings,
+      if (targetEndpointArn != null) 'TargetEndpointArn': targetEndpointArn,
+      if (targetReplicationInstanceArn != null)
+        'TargetReplicationInstanceArn': targetReplicationInstanceArn,
+      if (taskData != null) 'TaskData': taskData,
+    };
+  }
 }
 
 /// The task assessment report in JSON format.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationTaskAssessmentResult {
   /// The task assessment results in JSON format.
-  @_s.JsonKey(name: 'AssessmentResults')
-  final String assessmentResults;
+  final String? assessmentResults;
 
   /// The file containing the results of the task assessment.
-  @_s.JsonKey(name: 'AssessmentResultsFile')
-  final String assessmentResultsFile;
+  final String? assessmentResultsFile;
 
   /// The status of the task assessment.
-  @_s.JsonKey(name: 'AssessmentStatus')
-  final String assessmentStatus;
+  final String? assessmentStatus;
 
   /// The Amazon Resource Name (ARN) of the replication task.
-  @_s.JsonKey(name: 'ReplicationTaskArn')
-  final String replicationTaskArn;
+  final String? replicationTaskArn;
 
   /// The replication task identifier of the task on which the task assessment was
   /// run.
-  @_s.JsonKey(name: 'ReplicationTaskIdentifier')
-  final String replicationTaskIdentifier;
+  final String? replicationTaskIdentifier;
 
   /// The date the task assessment was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplicationTaskLastAssessmentDate')
-  final DateTime replicationTaskLastAssessmentDate;
+  final DateTime? replicationTaskLastAssessmentDate;
 
   /// The URL of the S3 object containing the task assessment results.
-  @_s.JsonKey(name: 'S3ObjectUrl')
-  final String s3ObjectUrl;
+  final String? s3ObjectUrl;
 
   ReplicationTaskAssessmentResult({
     this.assessmentResults,
@@ -8024,8 +10075,43 @@ class ReplicationTaskAssessmentResult {
     this.replicationTaskLastAssessmentDate,
     this.s3ObjectUrl,
   });
-  factory ReplicationTaskAssessmentResult.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationTaskAssessmentResultFromJson(json);
+
+  factory ReplicationTaskAssessmentResult.fromJson(Map<String, dynamic> json) {
+    return ReplicationTaskAssessmentResult(
+      assessmentResults: json['AssessmentResults'] as String?,
+      assessmentResultsFile: json['AssessmentResultsFile'] as String?,
+      assessmentStatus: json['AssessmentStatus'] as String?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String?,
+      replicationTaskLastAssessmentDate:
+          timeStampFromJson(json['ReplicationTaskLastAssessmentDate']),
+      s3ObjectUrl: json['S3ObjectUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentResults = this.assessmentResults;
+    final assessmentResultsFile = this.assessmentResultsFile;
+    final assessmentStatus = this.assessmentStatus;
+    final replicationTaskArn = this.replicationTaskArn;
+    final replicationTaskIdentifier = this.replicationTaskIdentifier;
+    final replicationTaskLastAssessmentDate =
+        this.replicationTaskLastAssessmentDate;
+    final s3ObjectUrl = this.s3ObjectUrl;
+    return {
+      if (assessmentResults != null) 'AssessmentResults': assessmentResults,
+      if (assessmentResultsFile != null)
+        'AssessmentResultsFile': assessmentResultsFile,
+      if (assessmentStatus != null) 'AssessmentStatus': assessmentStatus,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (replicationTaskIdentifier != null)
+        'ReplicationTaskIdentifier': replicationTaskIdentifier,
+      if (replicationTaskLastAssessmentDate != null)
+        'ReplicationTaskLastAssessmentDate':
+            unixTimestampToJson(replicationTaskLastAssessmentDate),
+      if (s3ObjectUrl != null) 'S3ObjectUrl': s3ObjectUrl,
+    };
+  }
 }
 
 /// Provides information that describes a premigration assessment run that you
@@ -8034,61 +10120,44 @@ class ReplicationTaskAssessmentResult {
 ///
 /// Some of the information appears based on other operations that can return
 /// the <code>ReplicationTaskAssessmentRun</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationTaskAssessmentRun {
   /// Indication of the completion progress for the individual assessments
   /// specified to run.
-  @_s.JsonKey(name: 'AssessmentProgress')
-  final ReplicationTaskAssessmentRunProgress assessmentProgress;
+  final ReplicationTaskAssessmentRunProgress? assessmentProgress;
 
   /// Unique name of the assessment run.
-  @_s.JsonKey(name: 'AssessmentRunName')
-  final String assessmentRunName;
+  final String? assessmentRunName;
 
   /// Last message generated by an individual assessment failure.
-  @_s.JsonKey(name: 'LastFailureMessage')
-  final String lastFailureMessage;
+  final String? lastFailureMessage;
 
   /// ARN of the migration task associated with this premigration assessment run.
-  @_s.JsonKey(name: 'ReplicationTaskArn')
-  final String replicationTaskArn;
+  final String? replicationTaskArn;
 
   /// Amazon Resource Name (ARN) of this assessment run.
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentRunArn')
-  final String replicationTaskAssessmentRunArn;
+  final String? replicationTaskAssessmentRunArn;
 
   /// Date on which the assessment run was created using the
   /// <code>StartReplicationTaskAssessmentRun</code> operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentRunCreationDate')
-  final DateTime replicationTaskAssessmentRunCreationDate;
+  final DateTime? replicationTaskAssessmentRunCreationDate;
 
   /// Encryption mode used to encrypt the assessment run results.
-  @_s.JsonKey(name: 'ResultEncryptionMode')
-  final String resultEncryptionMode;
+  final String? resultEncryptionMode;
 
   /// ARN of the AWS KMS encryption key used to encrypt the assessment run
   /// results.
-  @_s.JsonKey(name: 'ResultKmsKeyArn')
-  final String resultKmsKeyArn;
+  final String? resultKmsKeyArn;
 
   /// Amazon S3 bucket where AWS DMS stores the results of this assessment run.
-  @_s.JsonKey(name: 'ResultLocationBucket')
-  final String resultLocationBucket;
+  final String? resultLocationBucket;
 
   /// Folder in an Amazon S3 bucket where AWS DMS stores the results of this
   /// assessment run.
-  @_s.JsonKey(name: 'ResultLocationFolder')
-  final String resultLocationFolder;
+  final String? resultLocationFolder;
 
   /// ARN of the service role used to start the assessment run using the
   /// <code>StartReplicationTaskAssessmentRun</code> operation.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
-  final String serviceAccessRoleArn;
+  final String? serviceAccessRoleArn;
 
   /// Assessment run status.
   ///
@@ -8134,8 +10203,7 @@ class ReplicationTaskAssessmentRun {
   /// not yet being provisioned for individual assessments.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   ReplicationTaskAssessmentRun({
     this.assessmentProgress,
@@ -8151,62 +10219,122 @@ class ReplicationTaskAssessmentRun {
     this.serviceAccessRoleArn,
     this.status,
   });
-  factory ReplicationTaskAssessmentRun.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationTaskAssessmentRunFromJson(json);
+
+  factory ReplicationTaskAssessmentRun.fromJson(Map<String, dynamic> json) {
+    return ReplicationTaskAssessmentRun(
+      assessmentProgress: json['AssessmentProgress'] != null
+          ? ReplicationTaskAssessmentRunProgress.fromJson(
+              json['AssessmentProgress'] as Map<String, dynamic>)
+          : null,
+      assessmentRunName: json['AssessmentRunName'] as String?,
+      lastFailureMessage: json['LastFailureMessage'] as String?,
+      replicationTaskArn: json['ReplicationTaskArn'] as String?,
+      replicationTaskAssessmentRunArn:
+          json['ReplicationTaskAssessmentRunArn'] as String?,
+      replicationTaskAssessmentRunCreationDate:
+          timeStampFromJson(json['ReplicationTaskAssessmentRunCreationDate']),
+      resultEncryptionMode: json['ResultEncryptionMode'] as String?,
+      resultKmsKeyArn: json['ResultKmsKeyArn'] as String?,
+      resultLocationBucket: json['ResultLocationBucket'] as String?,
+      resultLocationFolder: json['ResultLocationFolder'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assessmentProgress = this.assessmentProgress;
+    final assessmentRunName = this.assessmentRunName;
+    final lastFailureMessage = this.lastFailureMessage;
+    final replicationTaskArn = this.replicationTaskArn;
+    final replicationTaskAssessmentRunArn =
+        this.replicationTaskAssessmentRunArn;
+    final replicationTaskAssessmentRunCreationDate =
+        this.replicationTaskAssessmentRunCreationDate;
+    final resultEncryptionMode = this.resultEncryptionMode;
+    final resultKmsKeyArn = this.resultKmsKeyArn;
+    final resultLocationBucket = this.resultLocationBucket;
+    final resultLocationFolder = this.resultLocationFolder;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final status = this.status;
+    return {
+      if (assessmentProgress != null) 'AssessmentProgress': assessmentProgress,
+      if (assessmentRunName != null) 'AssessmentRunName': assessmentRunName,
+      if (lastFailureMessage != null) 'LastFailureMessage': lastFailureMessage,
+      if (replicationTaskArn != null) 'ReplicationTaskArn': replicationTaskArn,
+      if (replicationTaskAssessmentRunArn != null)
+        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
+      if (replicationTaskAssessmentRunCreationDate != null)
+        'ReplicationTaskAssessmentRunCreationDate':
+            unixTimestampToJson(replicationTaskAssessmentRunCreationDate),
+      if (resultEncryptionMode != null)
+        'ResultEncryptionMode': resultEncryptionMode,
+      if (resultKmsKeyArn != null) 'ResultKmsKeyArn': resultKmsKeyArn,
+      if (resultLocationBucket != null)
+        'ResultLocationBucket': resultLocationBucket,
+      if (resultLocationFolder != null)
+        'ResultLocationFolder': resultLocationFolder,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// The progress values reported by the <code>AssessmentProgress</code> response
 /// element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationTaskAssessmentRunProgress {
   /// The number of individual assessments that have completed, successfully or
   /// not.
-  @_s.JsonKey(name: 'IndividualAssessmentCompletedCount')
-  final int individualAssessmentCompletedCount;
+  final int? individualAssessmentCompletedCount;
 
   /// The number of individual assessments that are specified to run.
-  @_s.JsonKey(name: 'IndividualAssessmentCount')
-  final int individualAssessmentCount;
+  final int? individualAssessmentCount;
 
   ReplicationTaskAssessmentRunProgress({
     this.individualAssessmentCompletedCount,
     this.individualAssessmentCount,
   });
+
   factory ReplicationTaskAssessmentRunProgress.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReplicationTaskAssessmentRunProgressFromJson(json);
+      Map<String, dynamic> json) {
+    return ReplicationTaskAssessmentRunProgress(
+      individualAssessmentCompletedCount:
+          json['IndividualAssessmentCompletedCount'] as int?,
+      individualAssessmentCount: json['IndividualAssessmentCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final individualAssessmentCompletedCount =
+        this.individualAssessmentCompletedCount;
+    final individualAssessmentCount = this.individualAssessmentCount;
+    return {
+      if (individualAssessmentCompletedCount != null)
+        'IndividualAssessmentCompletedCount':
+            individualAssessmentCompletedCount,
+      if (individualAssessmentCount != null)
+        'IndividualAssessmentCount': individualAssessmentCount,
+    };
+  }
 }
 
 /// Provides information that describes an individual assessment from a
 /// premigration assessment run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationTaskIndividualAssessment {
   /// Name of this individual assessment.
-  @_s.JsonKey(name: 'IndividualAssessmentName')
-  final String individualAssessmentName;
+  final String? individualAssessmentName;
 
   /// ARN of the premigration assessment run that is created to run this
   /// individual assessment.
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentRunArn')
-  final String replicationTaskAssessmentRunArn;
+  final String? replicationTaskAssessmentRunArn;
 
   /// Amazon Resource Name (ARN) of this individual assessment.
-  @_s.JsonKey(name: 'ReplicationTaskIndividualAssessmentArn')
-  final String replicationTaskIndividualAssessmentArn;
+  final String? replicationTaskIndividualAssessmentArn;
 
   /// Date when this individual assessment was started as part of running the
   /// <code>StartReplicationTaskAssessmentRun</code> operation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplicationTaskIndividualAssessmentStartDate')
-  final DateTime replicationTaskIndividualAssessmentStartDate;
+  final DateTime? replicationTaskIndividualAssessmentStartDate;
 
   /// Individual assessment status.
   ///
@@ -8232,8 +10360,7 @@ class ReplicationTaskIndividualAssessment {
   /// <code>"running"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   ReplicationTaskIndividualAssessment({
     this.individualAssessmentName,
@@ -8242,71 +10369,85 @@ class ReplicationTaskIndividualAssessment {
     this.replicationTaskIndividualAssessmentStartDate,
     this.status,
   });
+
   factory ReplicationTaskIndividualAssessment.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReplicationTaskIndividualAssessmentFromJson(json);
+      Map<String, dynamic> json) {
+    return ReplicationTaskIndividualAssessment(
+      individualAssessmentName: json['IndividualAssessmentName'] as String?,
+      replicationTaskAssessmentRunArn:
+          json['ReplicationTaskAssessmentRunArn'] as String?,
+      replicationTaskIndividualAssessmentArn:
+          json['ReplicationTaskIndividualAssessmentArn'] as String?,
+      replicationTaskIndividualAssessmentStartDate: timeStampFromJson(
+          json['ReplicationTaskIndividualAssessmentStartDate']),
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final individualAssessmentName = this.individualAssessmentName;
+    final replicationTaskAssessmentRunArn =
+        this.replicationTaskAssessmentRunArn;
+    final replicationTaskIndividualAssessmentArn =
+        this.replicationTaskIndividualAssessmentArn;
+    final replicationTaskIndividualAssessmentStartDate =
+        this.replicationTaskIndividualAssessmentStartDate;
+    final status = this.status;
+    return {
+      if (individualAssessmentName != null)
+        'IndividualAssessmentName': individualAssessmentName,
+      if (replicationTaskAssessmentRunArn != null)
+        'ReplicationTaskAssessmentRunArn': replicationTaskAssessmentRunArn,
+      if (replicationTaskIndividualAssessmentArn != null)
+        'ReplicationTaskIndividualAssessmentArn':
+            replicationTaskIndividualAssessmentArn,
+      if (replicationTaskIndividualAssessmentStartDate != null)
+        'ReplicationTaskIndividualAssessmentStartDate':
+            unixTimestampToJson(replicationTaskIndividualAssessmentStartDate),
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// In response to a request by the <code>DescribeReplicationTasks</code>
 /// operation, this object provides a collection of statistics about a
 /// replication task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicationTaskStats {
   /// The elapsed time of the task, in milliseconds.
-  @_s.JsonKey(name: 'ElapsedTimeMillis')
-  final int elapsedTimeMillis;
+  final int? elapsedTimeMillis;
 
   /// The date the replication task was started either with a fresh start or a
   /// target reload.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FreshStartDate')
-  final DateTime freshStartDate;
+  final DateTime? freshStartDate;
 
   /// The date the replication task full load was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FullLoadFinishDate')
-  final DateTime fullLoadFinishDate;
+  final DateTime? fullLoadFinishDate;
 
   /// The percent complete for the full load migration task.
-  @_s.JsonKey(name: 'FullLoadProgressPercent')
-  final int fullLoadProgressPercent;
+  final int? fullLoadProgressPercent;
 
   /// The date the replication task full load was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FullLoadStartDate')
-  final DateTime fullLoadStartDate;
+  final DateTime? fullLoadStartDate;
 
   /// The date the replication task was started either with a fresh start or a
   /// resume. For more information, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html#DMS-StartReplicationTask-request-StartReplicationTaskType">StartReplicationTaskType</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDate')
-  final DateTime startDate;
+  final DateTime? startDate;
 
   /// The date the replication task was stopped.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StopDate')
-  final DateTime stopDate;
+  final DateTime? stopDate;
 
   /// The number of errors that have occurred during this task.
-  @_s.JsonKey(name: 'TablesErrored')
-  final int tablesErrored;
+  final int? tablesErrored;
 
   /// The number of tables loaded for this task.
-  @_s.JsonKey(name: 'TablesLoaded')
-  final int tablesLoaded;
+  final int? tablesLoaded;
 
   /// The number of tables currently loading for this task.
-  @_s.JsonKey(name: 'TablesLoading')
-  final int tablesLoading;
+  final int? tablesLoading;
 
   /// The number of tables queued for this task.
-  @_s.JsonKey(name: 'TablesQueued')
-  final int tablesQueued;
+  final int? tablesQueued;
 
   ReplicationTaskStats({
     this.elapsedTimeMillis,
@@ -8321,56 +10462,108 @@ class ReplicationTaskStats {
     this.tablesLoading,
     this.tablesQueued,
   });
-  factory ReplicationTaskStats.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationTaskStatsFromJson(json);
+
+  factory ReplicationTaskStats.fromJson(Map<String, dynamic> json) {
+    return ReplicationTaskStats(
+      elapsedTimeMillis: json['ElapsedTimeMillis'] as int?,
+      freshStartDate: timeStampFromJson(json['FreshStartDate']),
+      fullLoadFinishDate: timeStampFromJson(json['FullLoadFinishDate']),
+      fullLoadProgressPercent: json['FullLoadProgressPercent'] as int?,
+      fullLoadStartDate: timeStampFromJson(json['FullLoadStartDate']),
+      startDate: timeStampFromJson(json['StartDate']),
+      stopDate: timeStampFromJson(json['StopDate']),
+      tablesErrored: json['TablesErrored'] as int?,
+      tablesLoaded: json['TablesLoaded'] as int?,
+      tablesLoading: json['TablesLoading'] as int?,
+      tablesQueued: json['TablesQueued'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elapsedTimeMillis = this.elapsedTimeMillis;
+    final freshStartDate = this.freshStartDate;
+    final fullLoadFinishDate = this.fullLoadFinishDate;
+    final fullLoadProgressPercent = this.fullLoadProgressPercent;
+    final fullLoadStartDate = this.fullLoadStartDate;
+    final startDate = this.startDate;
+    final stopDate = this.stopDate;
+    final tablesErrored = this.tablesErrored;
+    final tablesLoaded = this.tablesLoaded;
+    final tablesLoading = this.tablesLoading;
+    final tablesQueued = this.tablesQueued;
+    return {
+      if (elapsedTimeMillis != null) 'ElapsedTimeMillis': elapsedTimeMillis,
+      if (freshStartDate != null)
+        'FreshStartDate': unixTimestampToJson(freshStartDate),
+      if (fullLoadFinishDate != null)
+        'FullLoadFinishDate': unixTimestampToJson(fullLoadFinishDate),
+      if (fullLoadProgressPercent != null)
+        'FullLoadProgressPercent': fullLoadProgressPercent,
+      if (fullLoadStartDate != null)
+        'FullLoadStartDate': unixTimestampToJson(fullLoadStartDate),
+      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      if (stopDate != null) 'StopDate': unixTimestampToJson(stopDate),
+      if (tablesErrored != null) 'TablesErrored': tablesErrored,
+      if (tablesLoaded != null) 'TablesLoaded': tablesLoaded,
+      if (tablesLoading != null) 'TablesLoading': tablesLoading,
+      if (tablesQueued != null) 'TablesQueued': tablesQueued,
+    };
+  }
 }
 
 /// Identifies an AWS DMS resource and any pending actions for it.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourcePendingMaintenanceActions {
   /// Detailed information about the pending maintenance action.
-  @_s.JsonKey(name: 'PendingMaintenanceActionDetails')
-  final List<PendingMaintenanceAction> pendingMaintenanceActionDetails;
+  final List<PendingMaintenanceAction>? pendingMaintenanceActionDetails;
 
   /// The Amazon Resource Name (ARN) of the DMS resource that the pending
   /// maintenance action applies to. For information about creating an ARN, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Introduction.AWS.ARN.html">
   /// Constructing an Amazon Resource Name (ARN) for AWS DMS</a> in the DMS
   /// documentation.
-  @_s.JsonKey(name: 'ResourceIdentifier')
-  final String resourceIdentifier;
+  final String? resourceIdentifier;
 
   ResourcePendingMaintenanceActions({
     this.pendingMaintenanceActionDetails,
     this.resourceIdentifier,
   });
+
   factory ResourcePendingMaintenanceActions.fromJson(
-          Map<String, dynamic> json) =>
-      _$ResourcePendingMaintenanceActionsFromJson(json);
+      Map<String, dynamic> json) {
+    return ResourcePendingMaintenanceActions(
+      pendingMaintenanceActionDetails:
+          (json['PendingMaintenanceActionDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  PendingMaintenanceAction.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      resourceIdentifier: json['ResourceIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pendingMaintenanceActionDetails =
+        this.pendingMaintenanceActionDetails;
+    final resourceIdentifier = this.resourceIdentifier;
+    return {
+      if (pendingMaintenanceActionDetails != null)
+        'PendingMaintenanceActionDetails': pendingMaintenanceActionDetails,
+      if (resourceIdentifier != null) 'ResourceIdentifier': resourceIdentifier,
+    };
+  }
 }
 
 /// Settings for exporting data to Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Settings {
   /// An optional parameter to set a folder name in the S3 bucket. If provided,
   /// tables are created in the path <code>
   /// <i>bucketFolder</i>/<i>schema_name</i>/<i>table_name</i>/</code>. If this
   /// parameter isn't specified, then the path used is <code>
   /// <i>schema_name</i>/<i>table_name</i>/</code>.
-  @_s.JsonKey(name: 'BucketFolder')
-  final String bucketFolder;
+  final String? bucketFolder;
 
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'BucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// A value that enables a change data capture (CDC) load to write INSERT and
   /// UPDATE operations to .csv or .parquet (columnar storage) output files. The
@@ -8399,8 +10592,7 @@ class S3Settings {
   /// <code>CdcInsertsOnly</code> or <code>CdcInsertsAndUpdates</code> to
   /// <code>true</code> for the same endpoint, but not both.
   /// </note>
-  @_s.JsonKey(name: 'CdcInsertsAndUpdates')
-  final bool cdcInsertsAndUpdates;
+  final bool? cdcInsertsAndUpdates;
 
   /// A value that enables a change data capture (CDC) load to write only INSERT
   /// operations to .csv or columnar storage (.parquet) output files. By default
@@ -8432,8 +10624,7 @@ class S3Settings {
   /// <code>CdcInsertsOnly</code> or <code>CdcInsertsAndUpdates</code> to
   /// <code>true</code> for the same endpoint, but not both.
   /// </note>
-  @_s.JsonKey(name: 'CdcInsertsOnly')
-  final bool cdcInsertsOnly;
+  final bool? cdcInsertsOnly;
 
   /// Specifies the folder path of CDC files. For an S3 source, this setting is
   /// required if a task captures change data; otherwise, it's optional. If
@@ -8470,20 +10661,17 @@ class S3Settings {
   /// <note>
   /// This setting is supported in AWS DMS versions 3.4.2 and later.
   /// </note>
-  @_s.JsonKey(name: 'CdcPath')
-  final String cdcPath;
+  final String? cdcPath;
 
   /// An optional parameter to use GZIP to compress the target files. Set to GZIP
   /// to compress the target files. Either set this parameter to NONE (the
   /// default) or don't use it to leave the files uncompressed. This parameter
   /// applies to both .csv and .parquet file formats.
-  @_s.JsonKey(name: 'CompressionType')
-  final CompressionTypeValue compressionType;
+  final CompressionTypeValue? compressionType;
 
   /// The delimiter used to separate columns in the .csv file for both source and
   /// target. The default is a comma.
-  @_s.JsonKey(name: 'CsvDelimiter')
-  final String csvDelimiter;
+  final String? csvDelimiter;
 
   /// This setting only applies if your Amazon S3 output files during a change
   /// data capture (CDC) load are written in .csv format. If <a
@@ -8496,13 +10684,11 @@ class S3Settings {
   /// <note>
   /// This setting is supported in AWS DMS versions 3.4.1 and later.
   /// </note>
-  @_s.JsonKey(name: 'CsvNoSupValue')
-  final String csvNoSupValue;
+  final String? csvNoSupValue;
 
   /// The delimiter used to separate rows in the .csv file for both source and
   /// target. The default is a carriage return (<code>\n</code>).
-  @_s.JsonKey(name: 'CsvRowDelimiter')
-  final String csvRowDelimiter;
+  final String? csvRowDelimiter;
 
   /// The format of the data that you want to use for output. You can choose one
   /// of the following:
@@ -8518,33 +10704,28 @@ class S3Settings {
   /// response.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DataFormat')
-  final DataFormatValue dataFormat;
+  final DataFormatValue? dataFormat;
 
   /// The size of one data page in bytes. This parameter defaults to 1024 * 1024
   /// bytes (1 MiB). This number is used for .parquet file format only.
-  @_s.JsonKey(name: 'DataPageSize')
-  final int dataPageSize;
+  final int? dataPageSize;
 
   /// Specifies a date separating delimiter to use during folder partitioning. The
   /// default value is <code>SLASH</code>. Use this parameter when
   /// <code>DatePartitionedEnabled</code> is set to <code>true</code>.
-  @_s.JsonKey(name: 'DatePartitionDelimiter')
-  final DatePartitionDelimiterValue datePartitionDelimiter;
+  final DatePartitionDelimiterValue? datePartitionDelimiter;
 
   /// When set to <code>true</code>, this parameter partitions S3 bucket folders
   /// based on transaction commit dates. The default value is <code>false</code>.
   /// For more information about date-based folder partitoning, see <a
   /// href="https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.DatePartitioning">Using
   /// date-based folder partitioning</a>.
-  @_s.JsonKey(name: 'DatePartitionEnabled')
-  final bool datePartitionEnabled;
+  final bool? datePartitionEnabled;
 
   /// Identifies the sequence of the date format to use during folder
   /// partitioning. The default value is <code>YYYYMMDD</code>. Use this parameter
   /// when <code>DatePartitionedEnabled</code> is set to <code>true</code>.
-  @_s.JsonKey(name: 'DatePartitionSequence')
-  final DatePartitionSequenceValue datePartitionSequence;
+  final DatePartitionSequenceValue? datePartitionSequence;
 
   /// The maximum size of an encoded dictionary page of a column. If the
   /// dictionary page exceeds this, this column is stored using an encoding type
@@ -8552,16 +10733,14 @@ class S3Settings {
   /// the maximum size of a dictionary page before it reverts to
   /// <code>PLAIN</code> encoding. This size is used for .parquet file format
   /// only.
-  @_s.JsonKey(name: 'DictPageSizeLimit')
-  final int dictPageSizeLimit;
+  final int? dictPageSizeLimit;
 
   /// A value that enables statistics for Parquet pages and row groups. Choose
   /// <code>true</code> to enable statistics, <code>false</code> to disable.
   /// Statistics include <code>NULL</code>, <code>DISTINCT</code>,
   /// <code>MAX</code>, and <code>MIN</code> values. This parameter defaults to
   /// <code>true</code>. This value is used for .parquet file format only.
-  @_s.JsonKey(name: 'EnableStatistics')
-  final bool enableStatistics;
+  final bool? enableStatistics;
 
   /// The type of encoding you are using:
   ///
@@ -8580,8 +10759,7 @@ class S3Settings {
   /// column chunk.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EncodingType')
-  final EncodingTypeValue encodingType;
+  final EncodingTypeValue? encodingType;
 
   /// The type of server-side encryption that you want to use for your data. This
   /// encryption type is part of the endpoint settings or the extra connections
@@ -8632,12 +10810,10 @@ class S3Settings {
   /// <code>s3:DeleteBucketPolicy</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EncryptionMode')
-  final EncryptionModeValue encryptionMode;
+  final EncryptionModeValue? encryptionMode;
 
   /// Specifies how tables are defined in the S3 source files only.
-  @_s.JsonKey(name: 'ExternalTableDefinition')
-  final String externalTableDefinition;
+  final String? externalTableDefinition;
 
   /// A value that enables a full load to write INSERT operations to the
   /// comma-separated value (.csv) output files only to indicate how the rows were
@@ -8661,8 +10837,7 @@ class S3Settings {
   /// Source DB Operations in Migrated S3 Data</a> in the <i>AWS Database
   /// Migration Service User Guide.</i>.
   /// </note>
-  @_s.JsonKey(name: 'IncludeOpForFullLoad')
-  final bool includeOpForFullLoad;
+  final bool? includeOpForFullLoad;
 
   /// A value that specifies the precision of any <code>TIMESTAMP</code> column
   /// values that are written to an Amazon S3 object file in .parquet format.
@@ -8687,13 +10862,11 @@ class S3Settings {
   /// string format of the timestamp column value that is inserted by setting the
   /// <code>TimestampColumnName</code> parameter.
   /// </note>
-  @_s.JsonKey(name: 'ParquetTimestampInMillisecond')
-  final bool parquetTimestampInMillisecond;
+  final bool? parquetTimestampInMillisecond;
 
   /// The version of the Apache Parquet format that you want to use:
   /// <code>parquet_1_0</code> (the default) or <code>parquet_2_0</code>.
-  @_s.JsonKey(name: 'ParquetVersion')
-  final ParquetVersionValue parquetVersion;
+  final ParquetVersionValue? parquetVersion;
 
   /// If set to <code>true</code>, AWS DMS saves the transaction order for a
   /// change data capture (CDC) load on the Amazon S3 target specified by <a
@@ -8704,8 +10877,7 @@ class S3Settings {
   /// <note>
   /// This setting is supported in AWS DMS versions 3.4.2 and later.
   /// </note>
-  @_s.JsonKey(name: 'PreserveTransactions')
-  final bool preserveTransactions;
+  final bool? preserveTransactions;
 
   /// The number of rows in a row group. A smaller row group size provides faster
   /// reads. But as the number of row groups grows, the slower writes become. This
@@ -8714,8 +10886,7 @@ class S3Settings {
   ///
   /// If you choose a value larger than the maximum, <code>RowGroupLength</code>
   /// is set to the max row group length in bytes (64 * 1024 * 1024).
-  @_s.JsonKey(name: 'RowGroupLength')
-  final int rowGroupLength;
+  final int? rowGroupLength;
 
   /// If you are using <code>SSE_KMS</code> for the <code>EncryptionMode</code>,
   /// provide the AWS KMS key ID. The key that you use needs an attached policy
@@ -8726,14 +10897,12 @@ class S3Settings {
   /// <i>value</i> --endpoint-type target --engine-name s3 --s3-settings
   /// ServiceAccessRoleArn=<i>value</i>,BucketFolder=<i>value</i>,BucketName=<i>value</i>,EncryptionMode=SSE_KMS,ServerSideEncryptionKmsKeyId=<i>value</i>
   /// </code>
-  @_s.JsonKey(name: 'ServerSideEncryptionKmsKeyId')
-  final String serverSideEncryptionKmsKeyId;
+  final String? serverSideEncryptionKmsKeyId;
 
   /// The Amazon Resource Name (ARN) used by the service access IAM role. It is a
-  /// required parameter that enables DMS to write and read objects from an 3S
+  /// required parameter that enables DMS to write and read objects from an S3
   /// bucket.
-  @_s.JsonKey(name: 'ServiceAccessRoleArn')
-  final String serviceAccessRoleArn;
+  final String? serviceAccessRoleArn;
 
   /// A value that when nonblank causes AWS DMS to add a column with timestamp
   /// information to the endpoint data for an Amazon S3 target.
@@ -8759,8 +10928,7 @@ class S3Settings {
   /// When the <code>AddColumnName</code> parameter is set to <code>true</code>,
   /// DMS also includes a name for the timestamp column that you set with
   /// <code>TimestampColumnName</code>.
-  @_s.JsonKey(name: 'TimestampColumnName')
-  final String timestampColumnName;
+  final String? timestampColumnName;
 
   /// This setting applies if the S3 output files during a change data capture
   /// (CDC) load are written in .csv format. If set to <code>true</code> for
@@ -8772,8 +10940,7 @@ class S3Settings {
   /// <note>
   /// This setting is supported in AWS DMS versions 3.4.1 and later.
   /// </note>
-  @_s.JsonKey(name: 'UseCsvNoSupValue')
-  final bool useCsvNoSupValue;
+  final bool? useCsvNoSupValue;
 
   S3Settings({
     this.bucketFolder,
@@ -8805,23 +10972,154 @@ class S3Settings {
     this.timestampColumnName,
     this.useCsvNoSupValue,
   });
-  factory S3Settings.fromJson(Map<String, dynamic> json) =>
-      _$S3SettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3SettingsToJson(this);
+  factory S3Settings.fromJson(Map<String, dynamic> json) {
+    return S3Settings(
+      bucketFolder: json['BucketFolder'] as String?,
+      bucketName: json['BucketName'] as String?,
+      cdcInsertsAndUpdates: json['CdcInsertsAndUpdates'] as bool?,
+      cdcInsertsOnly: json['CdcInsertsOnly'] as bool?,
+      cdcPath: json['CdcPath'] as String?,
+      compressionType:
+          (json['CompressionType'] as String?)?.toCompressionTypeValue(),
+      csvDelimiter: json['CsvDelimiter'] as String?,
+      csvNoSupValue: json['CsvNoSupValue'] as String?,
+      csvRowDelimiter: json['CsvRowDelimiter'] as String?,
+      dataFormat: (json['DataFormat'] as String?)?.toDataFormatValue(),
+      dataPageSize: json['DataPageSize'] as int?,
+      datePartitionDelimiter: (json['DatePartitionDelimiter'] as String?)
+          ?.toDatePartitionDelimiterValue(),
+      datePartitionEnabled: json['DatePartitionEnabled'] as bool?,
+      datePartitionSequence: (json['DatePartitionSequence'] as String?)
+          ?.toDatePartitionSequenceValue(),
+      dictPageSizeLimit: json['DictPageSizeLimit'] as int?,
+      enableStatistics: json['EnableStatistics'] as bool?,
+      encodingType: (json['EncodingType'] as String?)?.toEncodingTypeValue(),
+      encryptionMode:
+          (json['EncryptionMode'] as String?)?.toEncryptionModeValue(),
+      externalTableDefinition: json['ExternalTableDefinition'] as String?,
+      includeOpForFullLoad: json['IncludeOpForFullLoad'] as bool?,
+      parquetTimestampInMillisecond:
+          json['ParquetTimestampInMillisecond'] as bool?,
+      parquetVersion:
+          (json['ParquetVersion'] as String?)?.toParquetVersionValue(),
+      preserveTransactions: json['PreserveTransactions'] as bool?,
+      rowGroupLength: json['RowGroupLength'] as int?,
+      serverSideEncryptionKmsKeyId:
+          json['ServerSideEncryptionKmsKeyId'] as String?,
+      serviceAccessRoleArn: json['ServiceAccessRoleArn'] as String?,
+      timestampColumnName: json['TimestampColumnName'] as String?,
+      useCsvNoSupValue: json['UseCsvNoSupValue'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketFolder = this.bucketFolder;
+    final bucketName = this.bucketName;
+    final cdcInsertsAndUpdates = this.cdcInsertsAndUpdates;
+    final cdcInsertsOnly = this.cdcInsertsOnly;
+    final cdcPath = this.cdcPath;
+    final compressionType = this.compressionType;
+    final csvDelimiter = this.csvDelimiter;
+    final csvNoSupValue = this.csvNoSupValue;
+    final csvRowDelimiter = this.csvRowDelimiter;
+    final dataFormat = this.dataFormat;
+    final dataPageSize = this.dataPageSize;
+    final datePartitionDelimiter = this.datePartitionDelimiter;
+    final datePartitionEnabled = this.datePartitionEnabled;
+    final datePartitionSequence = this.datePartitionSequence;
+    final dictPageSizeLimit = this.dictPageSizeLimit;
+    final enableStatistics = this.enableStatistics;
+    final encodingType = this.encodingType;
+    final encryptionMode = this.encryptionMode;
+    final externalTableDefinition = this.externalTableDefinition;
+    final includeOpForFullLoad = this.includeOpForFullLoad;
+    final parquetTimestampInMillisecond = this.parquetTimestampInMillisecond;
+    final parquetVersion = this.parquetVersion;
+    final preserveTransactions = this.preserveTransactions;
+    final rowGroupLength = this.rowGroupLength;
+    final serverSideEncryptionKmsKeyId = this.serverSideEncryptionKmsKeyId;
+    final serviceAccessRoleArn = this.serviceAccessRoleArn;
+    final timestampColumnName = this.timestampColumnName;
+    final useCsvNoSupValue = this.useCsvNoSupValue;
+    return {
+      if (bucketFolder != null) 'BucketFolder': bucketFolder,
+      if (bucketName != null) 'BucketName': bucketName,
+      if (cdcInsertsAndUpdates != null)
+        'CdcInsertsAndUpdates': cdcInsertsAndUpdates,
+      if (cdcInsertsOnly != null) 'CdcInsertsOnly': cdcInsertsOnly,
+      if (cdcPath != null) 'CdcPath': cdcPath,
+      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (csvDelimiter != null) 'CsvDelimiter': csvDelimiter,
+      if (csvNoSupValue != null) 'CsvNoSupValue': csvNoSupValue,
+      if (csvRowDelimiter != null) 'CsvRowDelimiter': csvRowDelimiter,
+      if (dataFormat != null) 'DataFormat': dataFormat.toValue(),
+      if (dataPageSize != null) 'DataPageSize': dataPageSize,
+      if (datePartitionDelimiter != null)
+        'DatePartitionDelimiter': datePartitionDelimiter.toValue(),
+      if (datePartitionEnabled != null)
+        'DatePartitionEnabled': datePartitionEnabled,
+      if (datePartitionSequence != null)
+        'DatePartitionSequence': datePartitionSequence.toValue(),
+      if (dictPageSizeLimit != null) 'DictPageSizeLimit': dictPageSizeLimit,
+      if (enableStatistics != null) 'EnableStatistics': enableStatistics,
+      if (encodingType != null) 'EncodingType': encodingType.toValue(),
+      if (encryptionMode != null) 'EncryptionMode': encryptionMode.toValue(),
+      if (externalTableDefinition != null)
+        'ExternalTableDefinition': externalTableDefinition,
+      if (includeOpForFullLoad != null)
+        'IncludeOpForFullLoad': includeOpForFullLoad,
+      if (parquetTimestampInMillisecond != null)
+        'ParquetTimestampInMillisecond': parquetTimestampInMillisecond,
+      if (parquetVersion != null) 'ParquetVersion': parquetVersion.toValue(),
+      if (preserveTransactions != null)
+        'PreserveTransactions': preserveTransactions,
+      if (rowGroupLength != null) 'RowGroupLength': rowGroupLength,
+      if (serverSideEncryptionKmsKeyId != null)
+        'ServerSideEncryptionKmsKeyId': serverSideEncryptionKmsKeyId,
+      if (serviceAccessRoleArn != null)
+        'ServiceAccessRoleArn': serviceAccessRoleArn,
+      if (timestampColumnName != null)
+        'TimestampColumnName': timestampColumnName,
+      if (useCsvNoSupValue != null) 'UseCsvNoSupValue': useCsvNoSupValue,
+    };
+  }
 }
 
 enum SafeguardPolicy {
-  @_s.JsonValue('rely-on-sql-server-replication-agent')
   relyOnSqlServerReplicationAgent,
-  @_s.JsonValue('exclusive-automatic-truncation')
   exclusiveAutomaticTruncation,
-  @_s.JsonValue('shared-automatic-truncation')
   sharedAutomaticTruncation,
 }
 
+extension on SafeguardPolicy {
+  String toValue() {
+    switch (this) {
+      case SafeguardPolicy.relyOnSqlServerReplicationAgent:
+        return 'rely-on-sql-server-replication-agent';
+      case SafeguardPolicy.exclusiveAutomaticTruncation:
+        return 'exclusive-automatic-truncation';
+      case SafeguardPolicy.sharedAutomaticTruncation:
+        return 'shared-automatic-truncation';
+    }
+  }
+}
+
+extension on String {
+  SafeguardPolicy toSafeguardPolicy() {
+    switch (this) {
+      case 'rely-on-sql-server-replication-agent':
+        return SafeguardPolicy.relyOnSqlServerReplicationAgent;
+      case 'exclusive-automatic-truncation':
+        return SafeguardPolicy.exclusiveAutomaticTruncation;
+      case 'shared-automatic-truncation':
+        return SafeguardPolicy.sharedAutomaticTruncation;
+    }
+    throw Exception('$this is not known in enum SafeguardPolicy');
+  }
+}
+
 enum SourceType {
-  @_s.JsonValue('replication-instance')
   replicationInstance,
 }
 
@@ -8831,72 +11129,103 @@ extension on SourceType {
       case SourceType.replicationInstance:
         return 'replication-instance';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SourceType toSourceType() {
+    switch (this) {
+      case 'replication-instance':
+        return SourceType.replicationInstance;
+    }
+    throw Exception('$this is not known in enum SourceType');
   }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartReplicationTaskAssessmentResponse {
   /// The assessed replication task.
-  @_s.JsonKey(name: 'ReplicationTask')
-  final ReplicationTask replicationTask;
+  final ReplicationTask? replicationTask;
 
   StartReplicationTaskAssessmentResponse({
     this.replicationTask,
   });
+
   factory StartReplicationTaskAssessmentResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartReplicationTaskAssessmentResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartReplicationTaskAssessmentResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartReplicationTaskAssessmentRunResponse {
   /// The premigration assessment run that was started.
-  @_s.JsonKey(name: 'ReplicationTaskAssessmentRun')
-  final ReplicationTaskAssessmentRun replicationTaskAssessmentRun;
+  final ReplicationTaskAssessmentRun? replicationTaskAssessmentRun;
 
   StartReplicationTaskAssessmentRunResponse({
     this.replicationTaskAssessmentRun,
   });
+
   factory StartReplicationTaskAssessmentRunResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartReplicationTaskAssessmentRunResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartReplicationTaskAssessmentRunResponse(
+      replicationTaskAssessmentRun: json['ReplicationTaskAssessmentRun'] != null
+          ? ReplicationTaskAssessmentRun.fromJson(
+              json['ReplicationTaskAssessmentRun'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTaskAssessmentRun = this.replicationTaskAssessmentRun;
+    return {
+      if (replicationTaskAssessmentRun != null)
+        'ReplicationTaskAssessmentRun': replicationTaskAssessmentRun,
+    };
+  }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartReplicationTaskResponse {
   /// The replication task started.
-  @_s.JsonKey(name: 'ReplicationTask')
-  final ReplicationTask replicationTask;
+  final ReplicationTask? replicationTask;
 
   StartReplicationTaskResponse({
     this.replicationTask,
   });
-  factory StartReplicationTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartReplicationTaskResponseFromJson(json);
+
+  factory StartReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
 }
 
 enum StartReplicationTaskTypeValue {
-  @_s.JsonValue('start-replication')
   startReplication,
-  @_s.JsonValue('resume-processing')
   resumeProcessing,
-  @_s.JsonValue('reload-target')
   reloadTarget,
 }
 
@@ -8910,77 +11239,105 @@ extension on StartReplicationTaskTypeValue {
       case StartReplicationTaskTypeValue.reloadTarget:
         return 'reload-target';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StartReplicationTaskTypeValue toStartReplicationTaskTypeValue() {
+    switch (this) {
+      case 'start-replication':
+        return StartReplicationTaskTypeValue.startReplication;
+      case 'resume-processing':
+        return StartReplicationTaskTypeValue.resumeProcessing;
+      case 'reload-target':
+        return StartReplicationTaskTypeValue.reloadTarget;
+    }
+    throw Exception('$this is not known in enum StartReplicationTaskTypeValue');
   }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopReplicationTaskResponse {
   /// The replication task stopped.
-  @_s.JsonKey(name: 'ReplicationTask')
-  final ReplicationTask replicationTask;
+  final ReplicationTask? replicationTask;
 
   StopReplicationTaskResponse({
     this.replicationTask,
   });
-  factory StopReplicationTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopReplicationTaskResponseFromJson(json);
+
+  factory StopReplicationTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StopReplicationTaskResponse(
+      replicationTask: json['ReplicationTask'] != null
+          ? ReplicationTask.fromJson(
+              json['ReplicationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationTask = this.replicationTask;
+    return {
+      if (replicationTask != null) 'ReplicationTask': replicationTask,
+    };
+  }
 }
 
 /// In response to a request by the <code>DescribeReplicationSubnetGroups</code>
 /// operation, this object identifies a subnet by its given Availability Zone,
 /// subnet identifier, and status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Subnet {
   /// The Availability Zone of the subnet.
-  @_s.JsonKey(name: 'SubnetAvailabilityZone')
-  final AvailabilityZone subnetAvailabilityZone;
+  final AvailabilityZone? subnetAvailabilityZone;
 
   /// The subnet identifier.
-  @_s.JsonKey(name: 'SubnetIdentifier')
-  final String subnetIdentifier;
+  final String? subnetIdentifier;
 
   /// The status of the subnet.
-  @_s.JsonKey(name: 'SubnetStatus')
-  final String subnetStatus;
+  final String? subnetStatus;
 
   Subnet({
     this.subnetAvailabilityZone,
     this.subnetIdentifier,
     this.subnetStatus,
   });
-  factory Subnet.fromJson(Map<String, dynamic> json) => _$SubnetFromJson(json);
+
+  factory Subnet.fromJson(Map<String, dynamic> json) {
+    return Subnet(
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] != null
+          ? AvailabilityZone.fromJson(
+              json['SubnetAvailabilityZone'] as Map<String, dynamic>)
+          : null,
+      subnetIdentifier: json['SubnetIdentifier'] as String?,
+      subnetStatus: json['SubnetStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetIdentifier = this.subnetIdentifier;
+    final subnetStatus = this.subnetStatus;
+    return {
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
+      if (subnetStatus != null) 'SubnetStatus': subnetStatus,
+    };
+  }
 }
 
 /// Provides information about types of supported endpoints in response to a
 /// request by the <code>DescribeEndpointTypes</code> operation. This
 /// information includes the type of endpoint, the database engine name, and
 /// whether change data capture (CDC) is supported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SupportedEndpointType {
   /// The type of endpoint. Valid values are <code>source</code> and
   /// <code>target</code>.
-  @_s.JsonKey(name: 'EndpointType')
-  final ReplicationEndpointTypeValue endpointType;
+  final ReplicationEndpointTypeValue? endpointType;
 
   /// The expanded name for the engine name. For example, if the
   /// <code>EngineName</code> parameter is "aurora," this value would be "Amazon
   /// Aurora MySQL."
-  @_s.JsonKey(name: 'EngineDisplayName')
-  final String engineDisplayName;
+  final String? engineDisplayName;
 
   /// The database engine name. Valid values, depending on the EndpointType,
   /// include <code>"mysql"</code>, <code>"oracle"</code>,
@@ -8991,18 +11348,15 @@ class SupportedEndpointType {
   /// <code>"kinesis"</code>, <code>"kafka"</code>, <code>"elasticsearch"</code>,
   /// <code>"documentdb"</code>, <code>"sqlserver"</code>, and
   /// <code>"neptune"</code>.
-  @_s.JsonKey(name: 'EngineName')
-  final String engineName;
+  final String? engineName;
 
   /// The earliest AWS DMS engine version that supports this endpoint engine. Note
   /// that endpoint engines released with AWS DMS versions earlier than 3.1.1 do
   /// not return a value for this parameter.
-  @_s.JsonKey(name: 'ReplicationInstanceEngineMinimumVersion')
-  final String replicationInstanceEngineMinimumVersion;
+  final String? replicationInstanceEngineMinimumVersion;
 
   /// Indicates if Change Data Capture (CDC) is supported.
-  @_s.JsonKey(name: 'SupportsCDC')
-  final bool supportsCDC;
+  final bool? supportsCDC;
 
   SupportedEndpointType({
     this.endpointType,
@@ -9011,28 +11365,48 @@ class SupportedEndpointType {
     this.replicationInstanceEngineMinimumVersion,
     this.supportsCDC,
   });
-  factory SupportedEndpointType.fromJson(Map<String, dynamic> json) =>
-      _$SupportedEndpointTypeFromJson(json);
+
+  factory SupportedEndpointType.fromJson(Map<String, dynamic> json) {
+    return SupportedEndpointType(
+      endpointType:
+          (json['EndpointType'] as String?)?.toReplicationEndpointTypeValue(),
+      engineDisplayName: json['EngineDisplayName'] as String?,
+      engineName: json['EngineName'] as String?,
+      replicationInstanceEngineMinimumVersion:
+          json['ReplicationInstanceEngineMinimumVersion'] as String?,
+      supportsCDC: json['SupportsCDC'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointType = this.endpointType;
+    final engineDisplayName = this.engineDisplayName;
+    final engineName = this.engineName;
+    final replicationInstanceEngineMinimumVersion =
+        this.replicationInstanceEngineMinimumVersion;
+    final supportsCDC = this.supportsCDC;
+    return {
+      if (endpointType != null) 'EndpointType': endpointType.toValue(),
+      if (engineDisplayName != null) 'EngineDisplayName': engineDisplayName,
+      if (engineName != null) 'EngineName': engineName,
+      if (replicationInstanceEngineMinimumVersion != null)
+        'ReplicationInstanceEngineMinimumVersion':
+            replicationInstanceEngineMinimumVersion,
+      if (supportsCDC != null) 'SupportsCDC': supportsCDC,
+    };
+  }
 }
 
 /// Provides information that defines a SAP ASE endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SybaseSettings {
   /// Database name for the endpoint.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// Endpoint connection password.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// Endpoint TCP port.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
 
   /// The full Amazon Resource Name (ARN) of the IAM role that specifies AWS DMS
   /// as the trusted entity and grants the required permissions to access the
@@ -9052,22 +11426,18 @@ class SybaseSettings {
   /// secrets to access AWS Database Migration Service resources</a> in the <i>AWS
   /// Database Migration Service User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'SecretsManagerAccessRoleArn')
-  final String secretsManagerAccessRoleArn;
+  final String? secretsManagerAccessRoleArn;
 
   /// The full ARN, partial ARN, or friendly name of the
   /// <code>SecretsManagerSecret</code> that contains the SAP SAE endpoint
   /// connection details.
-  @_s.JsonKey(name: 'SecretsManagerSecretId')
-  final String secretsManagerSecretId;
+  final String? secretsManagerSecretId;
 
   /// Fully qualified domain name of the endpoint.
-  @_s.JsonKey(name: 'ServerName')
-  final String serverName;
+  final String? serverName;
 
   /// Endpoint connection user name.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   SybaseSettings({
     this.databaseName,
@@ -9078,94 +11448,100 @@ class SybaseSettings {
     this.serverName,
     this.username,
   });
-  factory SybaseSettings.fromJson(Map<String, dynamic> json) =>
-      _$SybaseSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SybaseSettingsToJson(this);
+  factory SybaseSettings.fromJson(Map<String, dynamic> json) {
+    return SybaseSettings(
+      databaseName: json['DatabaseName'] as String?,
+      password: json['Password'] as String?,
+      port: json['Port'] as int?,
+      secretsManagerAccessRoleArn:
+          json['SecretsManagerAccessRoleArn'] as String?,
+      secretsManagerSecretId: json['SecretsManagerSecretId'] as String?,
+      serverName: json['ServerName'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final password = this.password;
+    final port = this.port;
+    final secretsManagerAccessRoleArn = this.secretsManagerAccessRoleArn;
+    final secretsManagerSecretId = this.secretsManagerSecretId;
+    final serverName = this.serverName;
+    final username = this.username;
+    return {
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (password != null) 'Password': password,
+      if (port != null) 'Port': port,
+      if (secretsManagerAccessRoleArn != null)
+        'SecretsManagerAccessRoleArn': secretsManagerAccessRoleArn,
+      if (secretsManagerSecretId != null)
+        'SecretsManagerSecretId': secretsManagerSecretId,
+      if (serverName != null) 'ServerName': serverName,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 /// Provides a collection of table statistics in response to a request by the
 /// <code>DescribeTableStatistics</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableStatistics {
   /// The data definition language (DDL) used to build and modify the structure of
   /// your tables.
-  @_s.JsonKey(name: 'Ddls')
-  final int ddls;
+  final int? ddls;
 
   /// The number of delete actions performed on a table.
-  @_s.JsonKey(name: 'Deletes')
-  final int deletes;
+  final int? deletes;
 
   /// The number of rows that failed conditional checks during the full load
   /// operation (valid only for migrations where DynamoDB is the target).
-  @_s.JsonKey(name: 'FullLoadCondtnlChkFailedRows')
-  final int fullLoadCondtnlChkFailedRows;
+  final int? fullLoadCondtnlChkFailedRows;
 
   /// The time when the full load operation completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FullLoadEndTime')
-  final DateTime fullLoadEndTime;
+  final DateTime? fullLoadEndTime;
 
   /// The number of rows that failed to load during the full load operation (valid
   /// only for migrations where DynamoDB is the target).
-  @_s.JsonKey(name: 'FullLoadErrorRows')
-  final int fullLoadErrorRows;
+  final int? fullLoadErrorRows;
 
   /// A value that indicates if the table was reloaded (<code>true</code>) or
   /// loaded as part of a new full load operation (<code>false</code>).
-  @_s.JsonKey(name: 'FullLoadReloaded')
-  final bool fullLoadReloaded;
+  final bool? fullLoadReloaded;
 
   /// The number of rows added during the full load operation.
-  @_s.JsonKey(name: 'FullLoadRows')
-  final int fullLoadRows;
+  final int? fullLoadRows;
 
   /// The time when the full load operation started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'FullLoadStartTime')
-  final DateTime fullLoadStartTime;
+  final DateTime? fullLoadStartTime;
 
   /// The number of insert actions performed on a table.
-  @_s.JsonKey(name: 'Inserts')
-  final int inserts;
+  final int? inserts;
 
   /// The last time a table was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The schema name.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The name of the table.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// The state of the tables described.
   ///
   /// Valid states: Table does not exist | Before load | Full load | Table
   /// completed | Table cancelled | Table error | Table all | Table updates |
   /// Table is being reloaded
-  @_s.JsonKey(name: 'TableState')
-  final String tableState;
+  final String? tableState;
 
   /// The number of update actions performed on a table.
-  @_s.JsonKey(name: 'Updates')
-  final int updates;
+  final int? updates;
 
   /// The number of records that failed validation.
-  @_s.JsonKey(name: 'ValidationFailedRecords')
-  final int validationFailedRecords;
+  final int? validationFailedRecords;
 
   /// The number of records that have yet to be validated.
-  @_s.JsonKey(name: 'ValidationPendingRecords')
-  final int validationPendingRecords;
+  final int? validationPendingRecords;
 
   /// The validation state of the table.
   ///
@@ -9212,16 +11588,13 @@ class TableStatistics {
   /// the table was updated.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ValidationState')
-  final String validationState;
+  final String? validationState;
 
   /// Additional details about the state of validation.
-  @_s.JsonKey(name: 'ValidationStateDetails')
-  final String validationStateDetails;
+  final String? validationStateDetails;
 
   /// The number of records that couldn't be validated.
-  @_s.JsonKey(name: 'ValidationSuspendedRecords')
-  final int validationSuspendedRecords;
+  final int? validationSuspendedRecords;
 
   TableStatistics({
     this.ddls,
@@ -9244,30 +11617,112 @@ class TableStatistics {
     this.validationStateDetails,
     this.validationSuspendedRecords,
   });
-  factory TableStatistics.fromJson(Map<String, dynamic> json) =>
-      _$TableStatisticsFromJson(json);
+
+  factory TableStatistics.fromJson(Map<String, dynamic> json) {
+    return TableStatistics(
+      ddls: json['Ddls'] as int?,
+      deletes: json['Deletes'] as int?,
+      fullLoadCondtnlChkFailedRows:
+          json['FullLoadCondtnlChkFailedRows'] as int?,
+      fullLoadEndTime: timeStampFromJson(json['FullLoadEndTime']),
+      fullLoadErrorRows: json['FullLoadErrorRows'] as int?,
+      fullLoadReloaded: json['FullLoadReloaded'] as bool?,
+      fullLoadRows: json['FullLoadRows'] as int?,
+      fullLoadStartTime: timeStampFromJson(json['FullLoadStartTime']),
+      inserts: json['Inserts'] as int?,
+      lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+      schemaName: json['SchemaName'] as String?,
+      tableName: json['TableName'] as String?,
+      tableState: json['TableState'] as String?,
+      updates: json['Updates'] as int?,
+      validationFailedRecords: json['ValidationFailedRecords'] as int?,
+      validationPendingRecords: json['ValidationPendingRecords'] as int?,
+      validationState: json['ValidationState'] as String?,
+      validationStateDetails: json['ValidationStateDetails'] as String?,
+      validationSuspendedRecords: json['ValidationSuspendedRecords'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ddls = this.ddls;
+    final deletes = this.deletes;
+    final fullLoadCondtnlChkFailedRows = this.fullLoadCondtnlChkFailedRows;
+    final fullLoadEndTime = this.fullLoadEndTime;
+    final fullLoadErrorRows = this.fullLoadErrorRows;
+    final fullLoadReloaded = this.fullLoadReloaded;
+    final fullLoadRows = this.fullLoadRows;
+    final fullLoadStartTime = this.fullLoadStartTime;
+    final inserts = this.inserts;
+    final lastUpdateTime = this.lastUpdateTime;
+    final schemaName = this.schemaName;
+    final tableName = this.tableName;
+    final tableState = this.tableState;
+    final updates = this.updates;
+    final validationFailedRecords = this.validationFailedRecords;
+    final validationPendingRecords = this.validationPendingRecords;
+    final validationState = this.validationState;
+    final validationStateDetails = this.validationStateDetails;
+    final validationSuspendedRecords = this.validationSuspendedRecords;
+    return {
+      if (ddls != null) 'Ddls': ddls,
+      if (deletes != null) 'Deletes': deletes,
+      if (fullLoadCondtnlChkFailedRows != null)
+        'FullLoadCondtnlChkFailedRows': fullLoadCondtnlChkFailedRows,
+      if (fullLoadEndTime != null)
+        'FullLoadEndTime': unixTimestampToJson(fullLoadEndTime),
+      if (fullLoadErrorRows != null) 'FullLoadErrorRows': fullLoadErrorRows,
+      if (fullLoadReloaded != null) 'FullLoadReloaded': fullLoadReloaded,
+      if (fullLoadRows != null) 'FullLoadRows': fullLoadRows,
+      if (fullLoadStartTime != null)
+        'FullLoadStartTime': unixTimestampToJson(fullLoadStartTime),
+      if (inserts != null) 'Inserts': inserts,
+      if (lastUpdateTime != null)
+        'LastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (tableName != null) 'TableName': tableName,
+      if (tableState != null) 'TableState': tableState,
+      if (updates != null) 'Updates': updates,
+      if (validationFailedRecords != null)
+        'ValidationFailedRecords': validationFailedRecords,
+      if (validationPendingRecords != null)
+        'ValidationPendingRecords': validationPendingRecords,
+      if (validationState != null) 'ValidationState': validationState,
+      if (validationStateDetails != null)
+        'ValidationStateDetails': validationStateDetails,
+      if (validationSuspendedRecords != null)
+        'ValidationSuspendedRecords': validationSuspendedRecords,
+    };
+  }
 }
 
 /// Provides the name of the schema and table to be reloaded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TableToReload {
   /// The schema name of the table to be reloaded.
-  @_s.JsonKey(name: 'SchemaName')
   final String schemaName;
 
   /// The table name of the table to be reloaded.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   TableToReload({
-    @_s.required this.schemaName,
-    @_s.required this.tableName,
+    required this.schemaName,
+    required this.tableName,
   });
-  Map<String, dynamic> toJson() => _$TableToReloadToJson(this);
+
+  factory TableToReload.fromJson(Map<String, dynamic> json) {
+    return TableToReload(
+      schemaName: json['SchemaName'] as String,
+      tableName: json['TableName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schemaName = this.schemaName;
+    final tableName = this.tableName;
+    return {
+      'SchemaName': schemaName,
+      'TableName': tableName,
+    };
+  }
 }
 
 /// A user-defined key-value pair that describes metadata added to an AWS DMS
@@ -9284,93 +11739,134 @@ class TableToReload {
 /// <code>RemoveTagsFromResource</code>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A key is the required name of the tag. The string value can be 1-128 Unicode
   /// characters in length and can't be prefixed with "aws:" or "dms:". The string
   /// can only contain only the set of Unicode letters, digits, white-space, '_',
   /// '.', '/', '=', '+', '-' (Java regular expressions:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// A value is the optional value of the tag. The string value can be 1-256
   /// Unicode characters in length and can't be prefixed with "aws:" or "dms:".
   /// The string can only contain only the set of Unicode letters, digits,
   /// white-space, '_', '.', '/', '=', '+', '-' (Java regular expressions:
   /// "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum TargetDbType {
-  @_s.JsonValue('specific-database')
   specificDatabase,
-  @_s.JsonValue('multiple-databases')
   multipleDatabases,
 }
 
+extension on TargetDbType {
+  String toValue() {
+    switch (this) {
+      case TargetDbType.specificDatabase:
+        return 'specific-database';
+      case TargetDbType.multipleDatabases:
+        return 'multiple-databases';
+    }
+  }
+}
+
+extension on String {
+  TargetDbType toTargetDbType() {
+    switch (this) {
+      case 'specific-database':
+        return TargetDbType.specificDatabase;
+      case 'multiple-databases':
+        return TargetDbType.multipleDatabases;
+    }
+    throw Exception('$this is not known in enum TargetDbType');
+  }
+}
+
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestConnectionResponse {
   /// The connection tested.
-  @_s.JsonKey(name: 'Connection')
-  final Connection connection;
+  final Connection? connection;
 
   TestConnectionResponse({
     this.connection,
   });
-  factory TestConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$TestConnectionResponseFromJson(json);
+
+  factory TestConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return TestConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
 /// Describes the status of a security group associated with the virtual private
 /// cloud (VPC) hosting your replication and DB instances.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcSecurityGroupMembership {
   /// The status of the VPC security group.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The VPC security group ID.
-  @_s.JsonKey(name: 'VpcSecurityGroupId')
-  final String vpcSecurityGroupId;
+  final String? vpcSecurityGroupId;
 
   VpcSecurityGroupMembership({
     this.status,
     this.vpcSecurityGroupId,
   });
-  factory VpcSecurityGroupMembership.fromJson(Map<String, dynamic> json) =>
-      _$VpcSecurityGroupMembershipFromJson(json);
+
+  factory VpcSecurityGroupMembership.fromJson(Map<String, dynamic> json) {
+    return VpcSecurityGroupMembership(
+      status: json['Status'] as String?,
+      vpcSecurityGroupId: json['VpcSecurityGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final vpcSecurityGroupId = this.vpcSecurityGroupId;
+    return {
+      if (status != null) 'Status': status,
+      if (vpcSecurityGroupId != null) 'VpcSecurityGroupId': vpcSecurityGroupId,
+    };
+  }
 }
 
 class AccessDeniedFault extends _s.GenericAwsException {
-  AccessDeniedFault({String type, String message})
+  AccessDeniedFault({String? type, String? message})
       : super(type: type, code: 'AccessDeniedFault', message: message);
 }
 
 class InsufficientResourceCapacityFault extends _s.GenericAwsException {
-  InsufficientResourceCapacityFault({String type, String message})
+  InsufficientResourceCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientResourceCapacityFault',
@@ -9378,58 +11874,58 @@ class InsufficientResourceCapacityFault extends _s.GenericAwsException {
 }
 
 class InvalidCertificateFault extends _s.GenericAwsException {
-  InvalidCertificateFault({String type, String message})
+  InvalidCertificateFault({String? type, String? message})
       : super(type: type, code: 'InvalidCertificateFault', message: message);
 }
 
 class InvalidResourceStateFault extends _s.GenericAwsException {
-  InvalidResourceStateFault({String type, String message})
+  InvalidResourceStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidResourceStateFault', message: message);
 }
 
 class InvalidSubnet extends _s.GenericAwsException {
-  InvalidSubnet({String type, String message})
+  InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
 class KMSAccessDeniedFault extends _s.GenericAwsException {
-  KMSAccessDeniedFault({String type, String message})
+  KMSAccessDeniedFault({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedFault', message: message);
 }
 
 class KMSDisabledFault extends _s.GenericAwsException {
-  KMSDisabledFault({String type, String message})
+  KMSDisabledFault({String? type, String? message})
       : super(type: type, code: 'KMSDisabledFault', message: message);
 }
 
 class KMSFault extends _s.GenericAwsException {
-  KMSFault({String type, String message})
+  KMSFault({String? type, String? message})
       : super(type: type, code: 'KMSFault', message: message);
 }
 
 class KMSInvalidStateFault extends _s.GenericAwsException {
-  KMSInvalidStateFault({String type, String message})
+  KMSInvalidStateFault({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateFault', message: message);
 }
 
 class KMSKeyNotAccessibleFault extends _s.GenericAwsException {
-  KMSKeyNotAccessibleFault({String type, String message})
+  KMSKeyNotAccessibleFault({String? type, String? message})
       : super(type: type, code: 'KMSKeyNotAccessibleFault', message: message);
 }
 
 class KMSNotFoundFault extends _s.GenericAwsException {
-  KMSNotFoundFault({String type, String message})
+  KMSNotFoundFault({String? type, String? message})
       : super(type: type, code: 'KMSNotFoundFault', message: message);
 }
 
 class KMSThrottlingFault extends _s.GenericAwsException {
-  KMSThrottlingFault({String type, String message})
+  KMSThrottlingFault({String? type, String? message})
       : super(type: type, code: 'KMSThrottlingFault', message: message);
 }
 
 class ReplicationSubnetGroupDoesNotCoverEnoughAZs
     extends _s.GenericAwsException {
-  ReplicationSubnetGroupDoesNotCoverEnoughAZs({String type, String message})
+  ReplicationSubnetGroupDoesNotCoverEnoughAZs({String? type, String? message})
       : super(
             type: type,
             code: 'ReplicationSubnetGroupDoesNotCoverEnoughAZs',
@@ -9437,52 +11933,52 @@ class ReplicationSubnetGroupDoesNotCoverEnoughAZs
 }
 
 class ResourceAlreadyExistsFault extends _s.GenericAwsException {
-  ResourceAlreadyExistsFault({String type, String message})
+  ResourceAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ResourceAlreadyExistsFault', message: message);
 }
 
 class ResourceNotFoundFault extends _s.GenericAwsException {
-  ResourceNotFoundFault({String type, String message})
+  ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundFault', message: message);
 }
 
 class ResourceQuotaExceededFault extends _s.GenericAwsException {
-  ResourceQuotaExceededFault({String type, String message})
+  ResourceQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'ResourceQuotaExceededFault', message: message);
 }
 
 class S3AccessDeniedFault extends _s.GenericAwsException {
-  S3AccessDeniedFault({String type, String message})
+  S3AccessDeniedFault({String? type, String? message})
       : super(type: type, code: 'S3AccessDeniedFault', message: message);
 }
 
 class S3ResourceNotFoundFault extends _s.GenericAwsException {
-  S3ResourceNotFoundFault({String type, String message})
+  S3ResourceNotFoundFault({String? type, String? message})
       : super(type: type, code: 'S3ResourceNotFoundFault', message: message);
 }
 
 class SNSInvalidTopicFault extends _s.GenericAwsException {
-  SNSInvalidTopicFault({String type, String message})
+  SNSInvalidTopicFault({String? type, String? message})
       : super(type: type, code: 'SNSInvalidTopicFault', message: message);
 }
 
 class SNSNoAuthorizationFault extends _s.GenericAwsException {
-  SNSNoAuthorizationFault({String type, String message})
+  SNSNoAuthorizationFault({String? type, String? message})
       : super(type: type, code: 'SNSNoAuthorizationFault', message: message);
 }
 
 class StorageQuotaExceededFault extends _s.GenericAwsException {
-  StorageQuotaExceededFault({String type, String message})
+  StorageQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'StorageQuotaExceededFault', message: message);
 }
 
 class SubnetAlreadyInUse extends _s.GenericAwsException {
-  SubnetAlreadyInUse({String type, String message})
+  SubnetAlreadyInUse({String? type, String? message})
       : super(type: type, code: 'SubnetAlreadyInUse', message: message);
 }
 
 class UpgradeDependencyFailureFault extends _s.GenericAwsException {
-  UpgradeDependencyFailureFault({String type, String message})
+  UpgradeDependencyFailureFault({String? type, String? message})
       : super(
             type: type,
             code: 'UpgradeDependencyFailureFault',

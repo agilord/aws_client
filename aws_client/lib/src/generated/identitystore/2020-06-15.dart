@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,29 +11,21 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-06-15.g.dart';
 
 class IdentityStore {
   final _s.JsonProtocol _protocol;
   IdentityStore({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,8 +55,8 @@ class IdentityStore {
   /// randomly generated string which contains number and lower case letters.
   /// This value is generated at the time that a new identity store is created.
   Future<DescribeGroupResponse> describeGroup({
-    @_s.required String groupId,
-    @_s.required String identityStoreId,
+    required String groupId,
+    required String identityStoreId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     _s.validateStringLength(
@@ -73,24 +66,12 @@ class IdentityStore {
       47,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(identityStoreId, 'identityStoreId');
     _s.validateStringLength(
       'identityStoreId',
       identityStoreId,
       1,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityStoreId',
-      identityStoreId,
-      r'''^d-[0-9a-f]{10}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -130,8 +111,8 @@ class IdentityStore {
   /// Parameter [userId] :
   /// The identifier for a user in the identity store.
   Future<DescribeUserResponse> describeUser({
-    @_s.required String identityStoreId,
-    @_s.required String userId,
+    required String identityStoreId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(identityStoreId, 'identityStoreId');
     _s.validateStringLength(
@@ -141,24 +122,12 @@ class IdentityStore {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'identityStoreId',
-      identityStoreId,
-      r'''^d-[0-9a-f]{10}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
       'userId',
       userId,
       1,
       47,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -214,10 +183,10 @@ class IdentityStore {
   /// more than the size of one page, and when this token is used in the API
   /// request to search for the next page.
   Future<ListGroupsResponse> listGroups({
-    @_s.required String identityStoreId,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    required String identityStoreId,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(identityStoreId, 'identityStoreId');
     _s.validateStringLength(
@@ -225,12 +194,6 @@ class IdentityStore {
       identityStoreId,
       1,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityStoreId',
-      identityStoreId,
-      r'''^d-[0-9a-f]{10}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -244,11 +207,6 @@ class IdentityStore {
       nextToken,
       1,
       65535,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/:]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -305,10 +263,10 @@ class IdentityStore {
   /// more than the size of one page, and when this token is used in the API
   /// request to search for the next page.
   Future<ListUsersResponse> listUsers({
-    @_s.required String identityStoreId,
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
+    required String identityStoreId,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(identityStoreId, 'identityStoreId');
     _s.validateStringLength(
@@ -316,12 +274,6 @@ class IdentityStore {
       identityStoreId,
       1,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'identityStoreId',
-      identityStoreId,
-      r'''^d-[0-9a-f]{10}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -335,11 +287,6 @@ class IdentityStore {
       nextToken,
       1,
       65535,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[-a-zA-Z0-9+=/:]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -363,11 +310,6 @@ class IdentityStore {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGroupResponse {
   /// Contains the group’s display name value. The length limit is 1024
   /// characters. This value can consist of letters, accented characters, symbols,
@@ -375,29 +317,35 @@ class DescribeGroupResponse {
   /// space in this attribute. The characters “&lt;&gt;;:%” are excluded. This
   /// value is specified at the time the group is created and stored as an
   /// attribute of the group object in the identity store.
-  @_s.JsonKey(name: 'DisplayName')
   final String displayName;
 
   /// The identifier for a group in the identity store.
-  @_s.JsonKey(name: 'GroupId')
   final String groupId;
 
   DescribeGroupResponse({
-    @_s.required this.displayName,
-    @_s.required this.groupId,
+    required this.displayName,
+    required this.groupId,
   });
-  factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeGroupResponseFromJson(json);
+
+  factory DescribeGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGroupResponse(
+      displayName: json['DisplayName'] as String,
+      groupId: json['GroupId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    final groupId = this.groupId;
+    return {
+      'DisplayName': displayName,
+      'GroupId': groupId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserResponse {
   /// The identifier for a user in the identity store.
-  @_s.JsonKey(name: 'UserId')
   final String userId;
 
   /// Contains the user’s username value. The length limit is 128 characters. This
@@ -405,52 +353,68 @@ class DescribeUserResponse {
   /// punctuation. The characters “&lt;&gt;;:%” are excluded. This value is
   /// specified at the time the user is created and stored as an attribute of the
   /// user object in the identity store.
-  @_s.JsonKey(name: 'UserName')
   final String userName;
 
   DescribeUserResponse({
-    @_s.required this.userId,
-    @_s.required this.userName,
+    required this.userId,
+    required this.userName,
   });
-  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserResponseFromJson(json);
+
+  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserResponse(
+      userId: json['UserId'] as String,
+      userName: json['UserName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final userName = this.userName;
+    return {
+      'UserId': userId,
+      'UserName': userName,
+    };
+  }
 }
 
 /// A query filter used by <code>ListUsers</code> and <code>ListGroup</code>.
 /// This filter object provides the attribute name and attribute value to search
 /// users or groups.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The attribute path used to specify which attribute name to search. Length
   /// limit is 255 characters. For example, <code>UserName</code> is a valid
   /// attribute path for the <code>ListUsers</code> API, and
   /// <code>DisplayName</code> is a valid attribute path for the
   /// <code>ListGroups</code> API.
-  @_s.JsonKey(name: 'AttributePath')
   final String attributePath;
 
   /// Represents the data for an attribute. Each attribute value is described as a
   /// name-value pair.
-  @_s.JsonKey(name: 'AttributeValue')
   final String attributeValue;
 
   Filter({
-    @_s.required this.attributePath,
-    @_s.required this.attributeValue,
+    required this.attributePath,
+    required this.attributeValue,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      attributePath: json['AttributePath'] as String,
+      attributeValue: json['AttributeValue'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributePath = this.attributePath;
+    final attributeValue = this.attributeValue;
+    return {
+      'AttributePath': attributePath,
+      'AttributeValue': attributeValue,
+    };
+  }
 }
 
 /// A group object, which contains a specified group’s metadata and attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Group {
   /// Contains the group’s display name value. The length limit is 1024
   /// characters. This value can consist of letters, accented characters, symbols,
@@ -458,28 +422,35 @@ class Group {
   /// space in this attribute. The characters “&lt;&gt;;:%” are excluded. This
   /// value is specified at the time the group is created and stored as an
   /// attribute of the group object in the identity store.
-  @_s.JsonKey(name: 'DisplayName')
   final String displayName;
 
   /// The identifier for a group in the identity store.
-  @_s.JsonKey(name: 'GroupId')
   final String groupId;
 
   Group({
-    @_s.required this.displayName,
-    @_s.required this.groupId,
+    required this.displayName,
+    required this.groupId,
   });
-  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      displayName: json['DisplayName'] as String,
+      groupId: json['GroupId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    final groupId = this.groupId;
+    return {
+      'DisplayName': displayName,
+      'GroupId': groupId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupsResponse {
   /// A list of <code>Group</code> objects in the identity store.
-  @_s.JsonKey(name: 'Groups')
   final List<Group> groups;
 
   /// The pagination token used for the <code>ListUsers</code> and
@@ -487,25 +458,35 @@ class ListGroupsResponse {
   /// service and is returned in the API response if the total results are more
   /// than the size of one page, and when this token is used in the API request to
   /// search for the next page.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGroupsResponse({
-    @_s.required this.groups,
+    required this.groups,
     this.nextToken,
   });
-  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupsResponseFromJson(json);
+
+  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsResponse(
+      groups: (json['Groups'] as List)
+          .whereNotNull()
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final nextToken = this.nextToken;
+    return {
+      'Groups': groups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsersResponse {
   /// A list of <code>User</code> objects in the identity store.
-  @_s.JsonKey(name: 'Users')
   final List<User> users;
 
   /// The pagination token used for the <code>ListUsers</code> and
@@ -513,26 +494,36 @@ class ListUsersResponse {
   /// service and is returned in the API response if the total results are more
   /// than the size of one page, and when this token is used in the API request to
   /// search for the next page.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListUsersResponse({
-    @_s.required this.users,
+    required this.users,
     this.nextToken,
   });
-  factory ListUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUsersResponseFromJson(json);
+
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
+      users: (json['Users'] as List)
+          .whereNotNull()
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final users = this.users;
+    final nextToken = this.nextToken;
+    return {
+      'Users': users,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// A user object, which contains a specified user’s metadata and attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class User {
   /// The identifier for a user in the identity store.
-  @_s.JsonKey(name: 'UserId')
   final String userId;
 
   /// Contains the user’s username value. The length limit is 128 characters. This
@@ -540,38 +531,52 @@ class User {
   /// punctuation. The characters “&lt;&gt;;:%” are excluded. This value is
   /// specified at the time the user is created and stored as an attribute of the
   /// user object in the identity store.
-  @_s.JsonKey(name: 'UserName')
   final String userName;
 
   User({
-    @_s.required this.userId,
-    @_s.required this.userName,
+    required this.userId,
+    required this.userName,
   });
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      userId: json['UserId'] as String,
+      userName: json['UserName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final userName = this.userName;
+    return {
+      'UserId': userId,
+      'UserName': userName,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

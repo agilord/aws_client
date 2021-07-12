@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
-
-part 'timestamp_members.g.dart';
 
 /// Timestamp members
 class TimestampMembers {
   final _s.JsonProtocol _protocol;
   TimestampMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,23 +54,11 @@ class TimestampMembers {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'StructMember')
-  final TimeContainer structMember;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TimeArg')
-  final DateTime timeArg;
-  @RfcDateTimeConverter()
-  @_s.JsonKey(name: 'TimeCustom')
-  final DateTime timeCustom;
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'TimeFormat')
-  final DateTime timeFormat;
+  final TimeContainer? structMember;
+  final DateTime? timeArg;
+  final DateTime? timeCustom;
+  final DateTime? timeFormat;
 
   OutputShape({
     this.structMember,
@@ -85,29 +66,56 @@ class OutputShape {
     this.timeCustom,
     this.timeFormat,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      structMember: json['StructMember'] != null
+          ? TimeContainer.fromJson(json['StructMember'] as Map<String, dynamic>)
+          : null,
+      timeArg: timeStampFromJson(json['TimeArg']),
+      timeCustom: timeStampFromJson(json['TimeCustom']),
+      timeFormat: timeStampFromJson(json['TimeFormat']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final structMember = this.structMember;
+    final timeArg = this.timeArg;
+    final timeCustom = this.timeCustom;
+    final timeFormat = this.timeFormat;
+    return {
+      if (structMember != null) 'StructMember': structMember,
+      if (timeArg != null) 'TimeArg': unixTimestampToJson(timeArg),
+      if (timeCustom != null) 'TimeCustom': rfc822ToJson(timeCustom),
+      if (timeFormat != null) 'TimeFormat': iso8601ToJson(timeFormat),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimeContainer {
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'bar')
-  final DateTime bar;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'foo')
-  final DateTime foo;
+  final DateTime? bar;
+  final DateTime? foo;
 
   TimeContainer({
     this.bar,
     this.foo,
   });
-  factory TimeContainer.fromJson(Map<String, dynamic> json) =>
-      _$TimeContainerFromJson(json);
+
+  factory TimeContainer.fromJson(Map<String, dynamic> json) {
+    return TimeContainer(
+      bar: timeStampFromJson(json['bar']),
+      foo: timeStampFromJson(json['foo']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bar = this.bar;
+    final foo = this.foo;
+    return {
+      if (bar != null) 'bar': iso8601ToJson(bar),
+      if (foo != null) 'foo': unixTimestampToJson(foo),
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

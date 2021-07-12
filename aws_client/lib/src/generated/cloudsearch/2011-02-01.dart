@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,22 +11,14 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import '2011-02-01.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2011-02-01.g.dart';
 
 /// You use the configuration service to create, configure, and manage search
 /// domains. Configuration service requests are submitted using the AWS Query
@@ -36,9 +29,9 @@ class CloudSearch {
   final Map<String, _s.Shape> shapes;
 
   CloudSearch({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -56,7 +49,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [LimitExceededException].
   Future<CreateDomainResponse> createDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -64,12 +57,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -99,8 +86,8 @@ class CloudSearch {
   /// May throw [InvalidTypeException].
   /// May throw [ResourceNotFoundException].
   Future<DefineIndexFieldResponse> defineIndexField({
-    @_s.required String domainName,
-    @_s.required IndexField indexField,
+    required String domainName,
+    required IndexField indexField,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -108,12 +95,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(indexField, 'indexField');
@@ -145,8 +126,8 @@ class CloudSearch {
   /// May throw [InvalidTypeException].
   /// May throw [ResourceNotFoundException].
   Future<DefineRankExpressionResponse> defineRankExpression({
-    @_s.required String domainName,
-    @_s.required NamedRankExpression rankExpression,
+    required String domainName,
+    required NamedRankExpression rankExpression,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -154,12 +135,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(rankExpression, 'rankExpression');
@@ -185,7 +160,7 @@ class CloudSearch {
   /// May throw [BaseException].
   /// May throw [InternalException].
   Future<DeleteDomainResponse> deleteDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -193,12 +168,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -224,8 +193,8 @@ class CloudSearch {
   /// May throw [InvalidTypeException].
   /// May throw [ResourceNotFoundException].
   Future<DeleteIndexFieldResponse> deleteIndexField({
-    @_s.required String domainName,
-    @_s.required String indexFieldName,
+    required String domainName,
+    required String indexFieldName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -235,24 +204,12 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(indexFieldName, 'indexFieldName');
     _s.validateStringLength(
       'indexFieldName',
       indexFieldName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexFieldName',
-      indexFieldName,
-      r'''[a-z][a-z0-9_]*''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -282,8 +239,8 @@ class CloudSearch {
   /// Parameter [rankName] :
   /// The name of the <code>RankExpression</code> to delete.
   Future<DeleteRankExpressionResponse> deleteRankExpression({
-    @_s.required String domainName,
-    @_s.required String rankName,
+    required String domainName,
+    required String rankName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -293,24 +250,12 @@ class CloudSearch {
       28,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(rankName, 'rankName');
     _s.validateStringLength(
       'rankName',
       rankName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'rankName',
-      rankName,
-      r'''[a-z][a-z0-9_]*''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -348,7 +293,7 @@ class CloudSearch {
   /// Parameter [domainName] :
   /// The name of the domain you want to describe.
   Future<DescribeAvailabilityOptionsResponse> describeAvailabilityOptions({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -356,12 +301,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -386,7 +325,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<DescribeDefaultSearchFieldResponse> describeDefaultSearchField({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -394,12 +333,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -427,7 +360,7 @@ class CloudSearch {
   /// Parameter [domainNames] :
   /// Limits the DescribeDomains response to the specified search domains.
   Future<DescribeDomainsResponse> describeDomains({
-    List<String> domainNames,
+    List<String>? domainNames,
   }) async {
     final $request = <String, dynamic>{};
     domainNames?.also((arg) => $request['DomainNames'] = arg);
@@ -456,8 +389,8 @@ class CloudSearch {
   /// Limits the <code>DescribeIndexFields</code> response to the specified
   /// fields.
   Future<DescribeIndexFieldsResponse> describeIndexFields({
-    @_s.required String domainName,
-    List<String> fieldNames,
+    required String domainName,
+    List<String>? fieldNames,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -465,12 +398,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -502,8 +429,8 @@ class CloudSearch {
   /// Limits the <code>DescribeRankExpressions</code> response to the specified
   /// fields.
   Future<DescribeRankExpressionsResponse> describeRankExpressions({
-    @_s.required String domainName,
-    List<String> rankNames,
+    required String domainName,
+    List<String>? rankNames,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -511,12 +438,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -543,7 +464,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<DescribeServiceAccessPoliciesResponse> describeServiceAccessPolicies({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -551,12 +472,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -581,7 +496,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<DescribeStemmingOptionsResponse> describeStemmingOptions({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -589,12 +504,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -619,7 +528,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<DescribeStopwordOptionsResponse> describeStopwordOptions({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -627,12 +536,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -657,7 +560,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<DescribeSynonymOptionsResponse> describeSynonymOptions({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -665,12 +568,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -699,7 +596,7 @@ class CloudSearch {
   /// May throw [InternalException].
   /// May throw [ResourceNotFoundException].
   Future<IndexDocumentsResponse> indexDocuments({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -707,12 +604,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -753,8 +644,8 @@ class CloudSearch {
   /// Multi-AZ option to downgrade the domain to a single Availability Zone by
   /// setting the Multi-AZ option to <code>false</code>.
   Future<UpdateAvailabilityOptionsResponse> updateAvailabilityOptions({
-    @_s.required String domainName,
-    @_s.required bool multiAZ,
+    required String domainName,
+    required bool multiAZ,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -762,12 +653,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(multiAZ, 'multiAZ');
@@ -806,8 +691,8 @@ class CloudSearch {
   /// to a particular field. The default is an empty string, which automatically
   /// searches all text fields.
   Future<UpdateDefaultSearchFieldResponse> updateDefaultSearchField({
-    @_s.required String defaultSearchField,
-    @_s.required String domainName,
+    required String defaultSearchField,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(defaultSearchField, 'defaultSearchField');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -816,12 +701,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -850,8 +729,8 @@ class CloudSearch {
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidTypeException].
   Future<UpdateServiceAccessPoliciesResponse> updateServiceAccessPolicies({
-    @_s.required String accessPolicies,
-    @_s.required String domainName,
+    required String accessPolicies,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(accessPolicies, 'accessPolicies');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -860,12 +739,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -895,8 +768,8 @@ class CloudSearch {
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   Future<UpdateStemmingOptionsResponse> updateStemmingOptions({
-    @_s.required String domainName,
-    @_s.required String stems,
+    required String domainName,
+    required String stems,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -904,12 +777,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stems, 'stems');
@@ -940,8 +807,8 @@ class CloudSearch {
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   Future<UpdateStopwordOptionsResponse> updateStopwordOptions({
-    @_s.required String domainName,
-    @_s.required String stopwords,
+    required String domainName,
+    required String stopwords,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -949,12 +816,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stopwords, 'stopwords');
@@ -986,8 +847,8 @@ class CloudSearch {
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
   Future<UpdateSynonymOptionsResponse> updateSynonymOptions({
-    @_s.required String domainName,
-    @_s.required String synonyms,
+    required String domainName,
+    required String synonyms,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -995,12 +856,6 @@ class CloudSearch {
       domainName,
       3,
       28,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainName',
-      domainName,
-      r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(synonyms, 'synonyms');
@@ -1029,16 +884,31 @@ class AccessPoliciesStatus {
   final OptionStatus status;
 
   AccessPoliciesStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory AccessPoliciesStatus.fromJson(Map<String, dynamic> json) {
+    return AccessPoliciesStatus(
+      options: json['Options'] as String,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory AccessPoliciesStatus.fromXml(_s.XmlElement elem) {
     return AccessPoliciesStatus(
-      options: _s.extractXmlStringValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlStringValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -1049,49 +919,97 @@ class AvailabilityOptionsStatus {
   final OptionStatus status;
 
   AvailabilityOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory AvailabilityOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return AvailabilityOptionsStatus(
+      options: json['Options'] as bool,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory AvailabilityOptionsStatus.fromXml(_s.XmlElement elem) {
     return AvailabilityOptionsStatus(
-      options: _s.extractXmlBoolValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlBoolValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
 /// An error occurred while processing the request.
 class BaseException implements _s.AwsException {
-  final String code;
-  final String message;
+  final String? code;
+  final String? message;
 
   BaseException({
     this.code,
     this.message,
   });
+
+  factory BaseException.fromJson(Map<String, dynamic> json) {
+    return BaseException(
+      code: json['Code'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
   factory BaseException.fromXml(_s.XmlElement elem) {
     return BaseException(
       code: _s.extractXmlStringValue(elem, 'Code'),
       message: _s.extractXmlStringValue(elem, 'Message'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code,
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 /// A response message that contains the status of a newly created domain.
 class CreateDomainResponse {
-  final DomainStatus domainStatus;
+  final DomainStatus? domainStatus;
 
   CreateDomainResponse({
     this.domainStatus,
   });
+
+  factory CreateDomainResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDomainResponse(
+      domainStatus: json['DomainStatus'] != null
+          ? DomainStatus.fromJson(json['DomainStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreateDomainResponse.fromXml(_s.XmlElement elem) {
     return CreateDomainResponse(
       domainStatus: _s
           .extractXmlChild(elem, 'DomainStatus')
           ?.let((e) => DomainStatus.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainStatus = this.domainStatus;
+    return {
+      if (domainStatus != null) 'DomainStatus': domainStatus,
+    };
   }
 }
 
@@ -1105,16 +1023,31 @@ class DefaultSearchFieldStatus {
   final OptionStatus status;
 
   DefaultSearchFieldStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory DefaultSearchFieldStatus.fromJson(Map<String, dynamic> json) {
+    return DefaultSearchFieldStatus(
+      options: json['Options'] as String,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory DefaultSearchFieldStatus.fromXml(_s.XmlElement elem) {
     return DefaultSearchFieldStatus(
-      options: _s.extractXmlStringValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlStringValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -1123,14 +1056,28 @@ class DefineIndexFieldResponse {
   final IndexFieldStatus indexField;
 
   DefineIndexFieldResponse({
-    @_s.required this.indexField,
+    required this.indexField,
   });
+
+  factory DefineIndexFieldResponse.fromJson(Map<String, dynamic> json) {
+    return DefineIndexFieldResponse(
+      indexField:
+          IndexFieldStatus.fromJson(json['IndexField'] as Map<String, dynamic>),
+    );
+  }
+
   factory DefineIndexFieldResponse.fromXml(_s.XmlElement elem) {
     return DefineIndexFieldResponse(
-      indexField: _s
-          .extractXmlChild(elem, 'IndexField')
-          ?.let((e) => IndexFieldStatus.fromXml(e)),
+      indexField:
+          IndexFieldStatus.fromXml(_s.extractXmlChild(elem, 'IndexField')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexField = this.indexField;
+    return {
+      'IndexField': indexField,
+    };
   }
 }
 
@@ -1140,31 +1087,61 @@ class DefineRankExpressionResponse {
   final RankExpressionStatus rankExpression;
 
   DefineRankExpressionResponse({
-    @_s.required this.rankExpression,
+    required this.rankExpression,
   });
+
+  factory DefineRankExpressionResponse.fromJson(Map<String, dynamic> json) {
+    return DefineRankExpressionResponse(
+      rankExpression: RankExpressionStatus.fromJson(
+          json['RankExpression'] as Map<String, dynamic>),
+    );
+  }
+
   factory DefineRankExpressionResponse.fromXml(_s.XmlElement elem) {
     return DefineRankExpressionResponse(
-      rankExpression: _s
-          .extractXmlChild(elem, 'RankExpression')
-          ?.let((e) => RankExpressionStatus.fromXml(e)),
+      rankExpression: RankExpressionStatus.fromXml(
+          _s.extractXmlChild(elem, 'RankExpression')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rankExpression = this.rankExpression;
+    return {
+      'RankExpression': rankExpression,
+    };
   }
 }
 
 /// A response message that contains the status of a newly deleted domain, or no
 /// status if the domain has already been completely deleted.
 class DeleteDomainResponse {
-  final DomainStatus domainStatus;
+  final DomainStatus? domainStatus;
 
   DeleteDomainResponse({
     this.domainStatus,
   });
+
+  factory DeleteDomainResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDomainResponse(
+      domainStatus: json['DomainStatus'] != null
+          ? DomainStatus.fromJson(json['DomainStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DeleteDomainResponse.fromXml(_s.XmlElement elem) {
     return DeleteDomainResponse(
       domainStatus: _s
           .extractXmlChild(elem, 'DomainStatus')
           ?.let((e) => DomainStatus.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainStatus = this.domainStatus;
+    return {
+      if (domainStatus != null) 'DomainStatus': domainStatus,
+    };
   }
 }
 
@@ -1173,14 +1150,28 @@ class DeleteIndexFieldResponse {
   final IndexFieldStatus indexField;
 
   DeleteIndexFieldResponse({
-    @_s.required this.indexField,
+    required this.indexField,
   });
+
+  factory DeleteIndexFieldResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteIndexFieldResponse(
+      indexField:
+          IndexFieldStatus.fromJson(json['IndexField'] as Map<String, dynamic>),
+    );
+  }
+
   factory DeleteIndexFieldResponse.fromXml(_s.XmlElement elem) {
     return DeleteIndexFieldResponse(
-      indexField: _s
-          .extractXmlChild(elem, 'IndexField')
-          ?.let((e) => IndexFieldStatus.fromXml(e)),
+      indexField:
+          IndexFieldStatus.fromXml(_s.extractXmlChild(elem, 'IndexField')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexField = this.indexField;
+    return {
+      'IndexField': indexField,
+    };
   }
 }
 
@@ -1190,14 +1181,28 @@ class DeleteRankExpressionResponse {
   final RankExpressionStatus rankExpression;
 
   DeleteRankExpressionResponse({
-    @_s.required this.rankExpression,
+    required this.rankExpression,
   });
+
+  factory DeleteRankExpressionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRankExpressionResponse(
+      rankExpression: RankExpressionStatus.fromJson(
+          json['RankExpression'] as Map<String, dynamic>),
+    );
+  }
+
   factory DeleteRankExpressionResponse.fromXml(_s.XmlElement elem) {
     return DeleteRankExpressionResponse(
-      rankExpression: _s
-          .extractXmlChild(elem, 'RankExpression')
-          ?.let((e) => RankExpressionStatus.fromXml(e)),
+      rankExpression: RankExpressionStatus.fromXml(
+          _s.extractXmlChild(elem, 'RankExpression')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rankExpression = this.rankExpression;
+    return {
+      'RankExpression': rankExpression,
+    };
   }
 }
 
@@ -1207,17 +1212,36 @@ class DeleteRankExpressionResponse {
 class DescribeAvailabilityOptionsResponse {
   /// The availability options configured for the domain. Indicates whether
   /// Multi-AZ is enabled for the domain.
-  final AvailabilityOptionsStatus availabilityOptions;
+  final AvailabilityOptionsStatus? availabilityOptions;
 
   DescribeAvailabilityOptionsResponse({
     this.availabilityOptions,
   });
+
+  factory DescribeAvailabilityOptionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeAvailabilityOptionsResponse(
+      availabilityOptions: json['AvailabilityOptions'] != null
+          ? AvailabilityOptionsStatus.fromJson(
+              json['AvailabilityOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DescribeAvailabilityOptionsResponse.fromXml(_s.XmlElement elem) {
     return DescribeAvailabilityOptionsResponse(
       availabilityOptions: _s
           .extractXmlChild(elem, 'AvailabilityOptions')
           ?.let((e) => AvailabilityOptionsStatus.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityOptions = this.availabilityOptions;
+    return {
+      if (availabilityOptions != null)
+        'AvailabilityOptions': availabilityOptions,
+    };
   }
 }
 
@@ -1230,14 +1254,29 @@ class DescribeDefaultSearchFieldResponse {
   final DefaultSearchFieldStatus defaultSearchField;
 
   DescribeDefaultSearchFieldResponse({
-    @_s.required this.defaultSearchField,
+    required this.defaultSearchField,
   });
+
+  factory DescribeDefaultSearchFieldResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeDefaultSearchFieldResponse(
+      defaultSearchField: DefaultSearchFieldStatus.fromJson(
+          json['DefaultSearchField'] as Map<String, dynamic>),
+    );
+  }
+
   factory DescribeDefaultSearchFieldResponse.fromXml(_s.XmlElement elem) {
     return DescribeDefaultSearchFieldResponse(
-      defaultSearchField: _s
-          .extractXmlChild(elem, 'DefaultSearchField')
-          ?.let((e) => DefaultSearchFieldStatus.fromXml(e)),
+      defaultSearchField: DefaultSearchFieldStatus.fromXml(
+          _s.extractXmlChild(elem, 'DefaultSearchField')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultSearchField = this.defaultSearchField;
+    return {
+      'DefaultSearchField': defaultSearchField,
+    };
   }
 }
 
@@ -1246,16 +1285,33 @@ class DescribeDomainsResponse {
   final List<DomainStatus> domainStatusList;
 
   DescribeDomainsResponse({
-    @_s.required this.domainStatusList,
+    required this.domainStatusList,
   });
+
+  factory DescribeDomainsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDomainsResponse(
+      domainStatusList: (json['DomainStatusList'] as List)
+          .whereNotNull()
+          .map((e) => DomainStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeDomainsResponse.fromXml(_s.XmlElement elem) {
     return DescribeDomainsResponse(
-      domainStatusList: _s.extractXmlChild(elem, 'DomainStatusList')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => DomainStatus.fromXml(c))
-              .toList()),
+      domainStatusList: _s
+          .extractXmlChild(elem, 'DomainStatusList')!
+          .findElements('member')
+          .map((c) => DomainStatus.fromXml(c))
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainStatusList = this.domainStatusList;
+    return {
+      'DomainStatusList': domainStatusList,
+    };
   }
 }
 
@@ -1265,15 +1321,33 @@ class DescribeIndexFieldsResponse {
   final List<IndexFieldStatus> indexFields;
 
   DescribeIndexFieldsResponse({
-    @_s.required this.indexFields,
+    required this.indexFields,
   });
+
+  factory DescribeIndexFieldsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeIndexFieldsResponse(
+      indexFields: (json['IndexFields'] as List)
+          .whereNotNull()
+          .map((e) => IndexFieldStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeIndexFieldsResponse.fromXml(_s.XmlElement elem) {
     return DescribeIndexFieldsResponse(
-      indexFields: _s.extractXmlChild(elem, 'IndexFields')?.let((elem) => elem
+      indexFields: _s
+          .extractXmlChild(elem, 'IndexFields')!
           .findElements('member')
           .map((c) => IndexFieldStatus.fromXml(c))
-          .toList()),
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexFields = this.indexFields;
+    return {
+      'IndexFields': indexFields,
+    };
   }
 }
 
@@ -1283,16 +1357,33 @@ class DescribeRankExpressionsResponse {
   final List<RankExpressionStatus> rankExpressions;
 
   DescribeRankExpressionsResponse({
-    @_s.required this.rankExpressions,
+    required this.rankExpressions,
   });
+
+  factory DescribeRankExpressionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRankExpressionsResponse(
+      rankExpressions: (json['RankExpressions'] as List)
+          .whereNotNull()
+          .map((e) => RankExpressionStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeRankExpressionsResponse.fromXml(_s.XmlElement elem) {
     return DescribeRankExpressionsResponse(
-      rankExpressions: _s.extractXmlChild(elem, 'RankExpressions')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => RankExpressionStatus.fromXml(c))
-              .toList()),
+      rankExpressions: _s
+          .extractXmlChild(elem, 'RankExpressions')!
+          .findElements('member')
+          .map((c) => RankExpressionStatus.fromXml(c))
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rankExpressions = this.rankExpressions;
+    return {
+      'RankExpressions': rankExpressions,
+    };
   }
 }
 
@@ -1301,14 +1392,29 @@ class DescribeServiceAccessPoliciesResponse {
   final AccessPoliciesStatus accessPolicies;
 
   DescribeServiceAccessPoliciesResponse({
-    @_s.required this.accessPolicies,
+    required this.accessPolicies,
   });
+
+  factory DescribeServiceAccessPoliciesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeServiceAccessPoliciesResponse(
+      accessPolicies: AccessPoliciesStatus.fromJson(
+          json['AccessPolicies'] as Map<String, dynamic>),
+    );
+  }
+
   factory DescribeServiceAccessPoliciesResponse.fromXml(_s.XmlElement elem) {
     return DescribeServiceAccessPoliciesResponse(
-      accessPolicies: _s
-          .extractXmlChild(elem, 'AccessPolicies')
-          ?.let((e) => AccessPoliciesStatus.fromXml(e)),
+      accessPolicies: AccessPoliciesStatus.fromXml(
+          _s.extractXmlChild(elem, 'AccessPolicies')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPolicies = this.accessPolicies;
+    return {
+      'AccessPolicies': accessPolicies,
+    };
   }
 }
 
@@ -1317,14 +1423,27 @@ class DescribeStemmingOptionsResponse {
   final StemmingOptionsStatus stems;
 
   DescribeStemmingOptionsResponse({
-    @_s.required this.stems,
+    required this.stems,
   });
+
+  factory DescribeStemmingOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeStemmingOptionsResponse(
+      stems:
+          StemmingOptionsStatus.fromJson(json['Stems'] as Map<String, dynamic>),
+    );
+  }
+
   factory DescribeStemmingOptionsResponse.fromXml(_s.XmlElement elem) {
     return DescribeStemmingOptionsResponse(
-      stems: _s
-          .extractXmlChild(elem, 'Stems')
-          ?.let((e) => StemmingOptionsStatus.fromXml(e)),
+      stems: StemmingOptionsStatus.fromXml(_s.extractXmlChild(elem, 'Stems')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stems = this.stems;
+    return {
+      'Stems': stems,
+    };
   }
 }
 
@@ -1333,14 +1452,28 @@ class DescribeStopwordOptionsResponse {
   final StopwordOptionsStatus stopwords;
 
   DescribeStopwordOptionsResponse({
-    @_s.required this.stopwords,
+    required this.stopwords,
   });
+
+  factory DescribeStopwordOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeStopwordOptionsResponse(
+      stopwords: StopwordOptionsStatus.fromJson(
+          json['Stopwords'] as Map<String, dynamic>),
+    );
+  }
+
   factory DescribeStopwordOptionsResponse.fromXml(_s.XmlElement elem) {
     return DescribeStopwordOptionsResponse(
-      stopwords: _s
-          .extractXmlChild(elem, 'Stopwords')
-          ?.let((e) => StopwordOptionsStatus.fromXml(e)),
+      stopwords:
+          StopwordOptionsStatus.fromXml(_s.extractXmlChild(elem, 'Stopwords')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stopwords = this.stopwords;
+    return {
+      'Stopwords': stopwords,
+    };
   }
 }
 
@@ -1349,14 +1482,28 @@ class DescribeSynonymOptionsResponse {
   final SynonymOptionsStatus synonyms;
 
   DescribeSynonymOptionsResponse({
-    @_s.required this.synonyms,
+    required this.synonyms,
   });
+
+  factory DescribeSynonymOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSynonymOptionsResponse(
+      synonyms: SynonymOptionsStatus.fromJson(
+          json['Synonyms'] as Map<String, dynamic>),
+    );
+  }
+
   factory DescribeSynonymOptionsResponse.fromXml(_s.XmlElement elem) {
     return DescribeSynonymOptionsResponse(
-      synonyms: _s
-          .extractXmlChild(elem, 'Synonyms')
-          ?.let((e) => SynonymOptionsStatus.fromXml(e)),
+      synonyms:
+          SynonymOptionsStatus.fromXml(_s.extractXmlChild(elem, 'Synonyms')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final synonyms = this.synonyms;
+    return {
+      'Synonyms': synonyms,
+    };
   }
 }
 
@@ -1364,10 +1511,19 @@ class DescribeSynonymOptionsResponse {
 /// enabled.
 class DisabledOperationException implements _s.AwsException {
   DisabledOperationException();
+
+  factory DisabledOperationException.fromJson(Map<String, dynamic> _) {
+    return DisabledOperationException();
+  }
+
   factory DisabledOperationException.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DisabledOperationException();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -1384,43 +1540,43 @@ class DomainStatus {
   /// initialize a domain when <a>CreateDomain</a> is called. Newly created search
   /// domains are returned from <a>DescribeDomains</a> with a false value for
   /// Created until domain creation is complete.
-  final bool created;
+  final bool? created;
 
   /// True if the search domain has been deleted. The system must clean up
   /// resources dedicated to the search domain when <a>DeleteDomain</a> is called.
   /// Newly deleted search domains are returned from <a>DescribeDomains</a> with a
   /// true value for IsDeleted for several minutes until resource cleanup is
   /// complete.
-  final bool deleted;
+  final bool? deleted;
 
   /// The service endpoint for updating documents in a search domain.
-  final ServiceEndpoint docService;
+  final ServiceEndpoint? docService;
 
   /// The number of documents that have been submitted to the domain and indexed.
-  final int numSearchableDocs;
+  final int? numSearchableDocs;
 
   /// True if processing is being done to activate the current domain
   /// configuration.
-  final bool processing;
+  final bool? processing;
 
   /// The number of search instances that are available to process search
   /// requests.
-  final int searchInstanceCount;
+  final int? searchInstanceCount;
 
   /// The instance type (such as search.m1.small) that is being used to process
   /// search requests.
-  final String searchInstanceType;
+  final String? searchInstanceType;
 
   /// The number of partitions across which the search index is spread.
-  final int searchPartitionCount;
+  final int? searchPartitionCount;
 
   /// The service endpoint for requesting search results from a search domain.
-  final ServiceEndpoint searchService;
+  final ServiceEndpoint? searchService;
 
   DomainStatus({
-    @_s.required this.domainId,
-    @_s.required this.domainName,
-    @_s.required this.requiresIndexDocuments,
+    required this.domainId,
+    required this.domainName,
+    required this.requiresIndexDocuments,
     this.created,
     this.deleted,
     this.docService,
@@ -1431,12 +1587,35 @@ class DomainStatus {
     this.searchPartitionCount,
     this.searchService,
   });
+
+  factory DomainStatus.fromJson(Map<String, dynamic> json) {
+    return DomainStatus(
+      domainId: json['DomainId'] as String,
+      domainName: json['DomainName'] as String,
+      requiresIndexDocuments: json['RequiresIndexDocuments'] as bool,
+      created: json['Created'] as bool?,
+      deleted: json['Deleted'] as bool?,
+      docService: json['DocService'] != null
+          ? ServiceEndpoint.fromJson(json['DocService'] as Map<String, dynamic>)
+          : null,
+      numSearchableDocs: json['NumSearchableDocs'] as int?,
+      processing: json['Processing'] as bool?,
+      searchInstanceCount: json['SearchInstanceCount'] as int?,
+      searchInstanceType: json['SearchInstanceType'] as String?,
+      searchPartitionCount: json['SearchPartitionCount'] as int?,
+      searchService: json['SearchService'] != null
+          ? ServiceEndpoint.fromJson(
+              json['SearchService'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DomainStatus.fromXml(_s.XmlElement elem) {
     return DomainStatus(
-      domainId: _s.extractXmlStringValue(elem, 'DomainId'),
-      domainName: _s.extractXmlStringValue(elem, 'DomainName'),
+      domainId: _s.extractXmlStringValue(elem, 'DomainId')!,
+      domainName: _s.extractXmlStringValue(elem, 'DomainName')!,
       requiresIndexDocuments:
-          _s.extractXmlBoolValue(elem, 'RequiresIndexDocuments'),
+          _s.extractXmlBoolValue(elem, 'RequiresIndexDocuments')!,
       created: _s.extractXmlBoolValue(elem, 'Created'),
       deleted: _s.extractXmlBoolValue(elem, 'Deleted'),
       docService: _s
@@ -1452,17 +1631,58 @@ class DomainStatus {
           ?.let((e) => ServiceEndpoint.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final domainId = this.domainId;
+    final domainName = this.domainName;
+    final requiresIndexDocuments = this.requiresIndexDocuments;
+    final created = this.created;
+    final deleted = this.deleted;
+    final docService = this.docService;
+    final numSearchableDocs = this.numSearchableDocs;
+    final processing = this.processing;
+    final searchInstanceCount = this.searchInstanceCount;
+    final searchInstanceType = this.searchInstanceType;
+    final searchPartitionCount = this.searchPartitionCount;
+    final searchService = this.searchService;
+    return {
+      'DomainId': domainId,
+      'DomainName': domainName,
+      'RequiresIndexDocuments': requiresIndexDocuments,
+      if (created != null) 'Created': created,
+      if (deleted != null) 'Deleted': deleted,
+      if (docService != null) 'DocService': docService,
+      if (numSearchableDocs != null) 'NumSearchableDocs': numSearchableDocs,
+      if (processing != null) 'Processing': processing,
+      if (searchInstanceCount != null)
+        'SearchInstanceCount': searchInstanceCount,
+      if (searchInstanceType != null) 'SearchInstanceType': searchInstanceType,
+      if (searchPartitionCount != null)
+        'SearchPartitionCount': searchPartitionCount,
+      if (searchService != null) 'SearchService': searchService,
+    };
+  }
 }
 
 /// The result of an <code>IndexDocuments</code> action.
 class IndexDocumentsResponse {
   /// The names of the fields that are currently being processed due to an
   /// <code>IndexDocuments</code> action.
-  final List<String> fieldNames;
+  final List<String>? fieldNames;
 
   IndexDocumentsResponse({
     this.fieldNames,
   });
+
+  factory IndexDocumentsResponse.fromJson(Map<String, dynamic> json) {
+    return IndexDocumentsResponse(
+      fieldNames: (json['FieldNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory IndexDocumentsResponse.fromXml(_s.XmlElement elem) {
     return IndexDocumentsResponse(
       fieldNames: _s
@@ -1470,36 +1690,35 @@ class IndexDocumentsResponse {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final fieldNames = this.fieldNames;
+    return {
+      if (fieldNames != null) 'FieldNames': fieldNames,
+    };
+  }
 }
 
 /// Defines a field in the index, including its name, type, and the source of
 /// its data. The <code>IndexFieldType</code> indicates which of the options
 /// will be present. It is invalid to specify options for a type other than the
 /// <code>IndexFieldType</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class IndexField {
   /// The name of a field in the search index. Field names must begin with a
   /// letter and can contain the following characters: a-z (lowercase), 0-9, and _
   /// (underscore). Uppercase letters and hyphens are not allowed. The names
   /// "body", "docid", and "text_relevance" are reserved and cannot be specified
   /// as field or rank expression names.
-  @_s.JsonKey(name: 'IndexFieldName')
   final String indexFieldName;
 
   /// The type of field. Based on this type, exactly one of the
   /// <a>UIntOptions</a>, <a>LiteralOptions</a> or <a>TextOptions</a> must be
   /// present.
-  @_s.JsonKey(name: 'IndexFieldType')
   final IndexFieldType indexFieldType;
 
   /// Options for literal field. Present if <code>IndexFieldType</code> specifies
   /// the field is of type literal.
-  @_s.JsonKey(name: 'LiteralOptions')
-  final LiteralOptions literalOptions;
+  final LiteralOptions? literalOptions;
 
   /// An optional list of source attributes that provide data for this index
   /// field. If not specified, the data is pulled from a source attribute with the
@@ -1507,32 +1726,51 @@ class IndexField {
   /// attributes are specified, an optional data transformation can be applied to
   /// the source data when populating the index field. You can configure a maximum
   /// of 20 sources for an <code>IndexField</code>.
-  @_s.JsonKey(name: 'SourceAttributes')
-  final List<SourceAttribute> sourceAttributes;
+  final List<SourceAttribute>? sourceAttributes;
 
   /// Options for text field. Present if <code>IndexFieldType</code> specifies the
   /// field is of type text.
-  @_s.JsonKey(name: 'TextOptions')
-  final TextOptions textOptions;
+  final TextOptions? textOptions;
 
   /// Options for an unsigned integer field. Present if
   /// <code>IndexFieldType</code> specifies the field is of type unsigned integer.
-  @_s.JsonKey(name: 'UIntOptions')
-  final UIntOptions uIntOptions;
+  final UIntOptions? uIntOptions;
 
   IndexField({
-    @_s.required this.indexFieldName,
-    @_s.required this.indexFieldType,
+    required this.indexFieldName,
+    required this.indexFieldType,
     this.literalOptions,
     this.sourceAttributes,
     this.textOptions,
     this.uIntOptions,
   });
+
+  factory IndexField.fromJson(Map<String, dynamic> json) {
+    return IndexField(
+      indexFieldName: json['IndexFieldName'] as String,
+      indexFieldType: (json['IndexFieldType'] as String).toIndexFieldType(),
+      literalOptions: json['LiteralOptions'] != null
+          ? LiteralOptions.fromJson(
+              json['LiteralOptions'] as Map<String, dynamic>)
+          : null,
+      sourceAttributes: (json['SourceAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SourceAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      textOptions: json['TextOptions'] != null
+          ? TextOptions.fromJson(json['TextOptions'] as Map<String, dynamic>)
+          : null,
+      uIntOptions: json['UIntOptions'] != null
+          ? UIntOptions.fromJson(json['UIntOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory IndexField.fromXml(_s.XmlElement elem) {
     return IndexField(
-      indexFieldName: _s.extractXmlStringValue(elem, 'IndexFieldName'),
+      indexFieldName: _s.extractXmlStringValue(elem, 'IndexFieldName')!,
       indexFieldType:
-          _s.extractXmlStringValue(elem, 'IndexFieldType')?.toIndexFieldType(),
+          _s.extractXmlStringValue(elem, 'IndexFieldType')!.toIndexFieldType(),
       literalOptions: _s
           .extractXmlChild(elem, 'LiteralOptions')
           ?.let((e) => LiteralOptions.fromXml(e)),
@@ -1550,7 +1788,22 @@ class IndexField {
     );
   }
 
-  Map<String, dynamic> toJson() => _$IndexFieldToJson(this);
+  Map<String, dynamic> toJson() {
+    final indexFieldName = this.indexFieldName;
+    final indexFieldType = this.indexFieldType;
+    final literalOptions = this.literalOptions;
+    final sourceAttributes = this.sourceAttributes;
+    final textOptions = this.textOptions;
+    final uIntOptions = this.uIntOptions;
+    return {
+      'IndexFieldName': indexFieldName,
+      'IndexFieldType': indexFieldType.toValue(),
+      if (literalOptions != null) 'LiteralOptions': literalOptions,
+      if (sourceAttributes != null) 'SourceAttributes': sourceAttributes,
+      if (textOptions != null) 'TextOptions': textOptions,
+      if (uIntOptions != null) 'UIntOptions': uIntOptions,
+    };
+  }
 }
 
 /// The value of an <code>IndexField</code> and its current status.
@@ -1559,29 +1812,52 @@ class IndexFieldStatus {
   final OptionStatus status;
 
   IndexFieldStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory IndexFieldStatus.fromJson(Map<String, dynamic> json) {
+    return IndexFieldStatus(
+      options: IndexField.fromJson(json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory IndexFieldStatus.fromXml(_s.XmlElement elem) {
     return IndexFieldStatus(
-      options: _s
-          .extractXmlChild(elem, 'Options')
-          ?.let((e) => IndexField.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: IndexField.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
 /// The type of <code>IndexField</code>.
 enum IndexFieldType {
-  @_s.JsonValue('uint')
   uint,
-  @_s.JsonValue('literal')
   literal,
-  @_s.JsonValue('text')
   text,
+}
+
+extension on IndexFieldType {
+  String toValue() {
+    switch (this) {
+      case IndexFieldType.uint:
+        return 'uint';
+      case IndexFieldType.literal:
+        return 'literal';
+      case IndexFieldType.text:
+        return 'text';
+    }
+  }
 }
 
 extension on String {
@@ -1594,7 +1870,7 @@ extension on String {
       case 'text':
         return IndexFieldType.text;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum IndexFieldType');
   }
 }
 
@@ -1603,56 +1879,74 @@ extension on String {
 /// href="http://status.aws.amazon.com/">Service Health Dashboard</a>.
 class InternalException implements _s.AwsException {
   InternalException();
+
+  factory InternalException.fromJson(Map<String, dynamic> _) {
+    return InternalException();
+  }
+
   factory InternalException.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return InternalException();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// The request was rejected because it specified an invalid type definition.
 class InvalidTypeException implements _s.AwsException {
   InvalidTypeException();
+
+  factory InvalidTypeException.fromJson(Map<String, dynamic> _) {
+    return InvalidTypeException();
+  }
+
   factory InvalidTypeException.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return InvalidTypeException();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// The request was rejected because a resource limit has already been met.
 class LimitExceededException implements _s.AwsException {
   LimitExceededException();
+
+  factory LimitExceededException.fromJson(Map<String, dynamic> _) {
+    return LimitExceededException();
+  }
+
   factory LimitExceededException.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return LimitExceededException();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Options that define a literal field in the search index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LiteralOptions {
   /// The default value for a literal field. Optional.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Specifies whether facets are enabled for this field. Default: False.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Specifies whether values of this field can be returned in search results and
   /// used for ranking. Default: False.
-  @_s.JsonKey(name: 'ResultEnabled')
-  final bool resultEnabled;
+  final bool? resultEnabled;
 
   /// Specifies whether search is enabled for this field. Default: False.
-  @_s.JsonKey(name: 'SearchEnabled')
-  final bool searchEnabled;
+  final bool? searchEnabled;
 
   LiteralOptions({
     this.defaultValue,
@@ -1660,6 +1954,16 @@ class LiteralOptions {
     this.resultEnabled,
     this.searchEnabled,
   });
+
+  factory LiteralOptions.fromJson(Map<String, dynamic> json) {
+    return LiteralOptions(
+      defaultValue: json['DefaultValue'] as String?,
+      facetEnabled: json['FacetEnabled'] as bool?,
+      resultEnabled: json['ResultEnabled'] as bool?,
+      searchEnabled: json['SearchEnabled'] as bool?,
+    );
+  }
+
   factory LiteralOptions.fromXml(_s.XmlElement elem) {
     return LiteralOptions(
       defaultValue: _s.extractXmlStringValue(elem, 'DefaultValue'),
@@ -1669,16 +1973,22 @@ class LiteralOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LiteralOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final resultEnabled = this.resultEnabled;
+    final searchEnabled = this.searchEnabled;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (resultEnabled != null) 'ResultEnabled': resultEnabled,
+      if (searchEnabled != null) 'SearchEnabled': searchEnabled,
+    };
+  }
 }
 
 /// A named expression that can be evaluated at search time and used for ranking
 /// or thresholding in a search query.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NamedRankExpression {
   /// The expression to evaluate for ranking or thresholding while processing a
   /// search request. The <code>RankExpression</code> syntax is based on
@@ -1720,7 +2030,6 @@ class NamedRankExpression {
   ///
   /// For more information about using rank expressions to customize ranking, see
   /// the Amazon CloudSearch Developer Guide.
-  @_s.JsonKey(name: 'RankExpression')
   final String rankExpression;
 
   /// The name of a rank expression. Rank expression names must begin with a
@@ -1728,31 +2037,55 @@ class NamedRankExpression {
   /// (underscore). Uppercase letters and hyphens are not allowed. The names
   /// "body", "docid", and "text_relevance" are reserved and cannot be specified
   /// as field or rank expression names.
-  @_s.JsonKey(name: 'RankName')
   final String rankName;
 
   NamedRankExpression({
-    @_s.required this.rankExpression,
-    @_s.required this.rankName,
+    required this.rankExpression,
+    required this.rankName,
   });
-  factory NamedRankExpression.fromXml(_s.XmlElement elem) {
+
+  factory NamedRankExpression.fromJson(Map<String, dynamic> json) {
     return NamedRankExpression(
-      rankExpression: _s.extractXmlStringValue(elem, 'RankExpression'),
-      rankName: _s.extractXmlStringValue(elem, 'RankName'),
+      rankExpression: json['RankExpression'] as String,
+      rankName: json['RankName'] as String,
     );
   }
 
-  Map<String, dynamic> toJson() => _$NamedRankExpressionToJson(this);
+  factory NamedRankExpression.fromXml(_s.XmlElement elem) {
+    return NamedRankExpression(
+      rankExpression: _s.extractXmlStringValue(elem, 'RankExpression')!,
+      rankName: _s.extractXmlStringValue(elem, 'RankName')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rankExpression = this.rankExpression;
+    final rankName = this.rankName;
+    return {
+      'RankExpression': rankExpression,
+      'RankName': rankName,
+    };
+  }
 }
 
 /// The state of processing a change to an option.
 enum OptionState {
-  @_s.JsonValue('RequiresIndexDocuments')
   requiresIndexDocuments,
-  @_s.JsonValue('Processing')
   processing,
-  @_s.JsonValue('Active')
   active,
+}
+
+extension on OptionState {
+  String toValue() {
+    switch (this) {
+      case OptionState.requiresIndexDocuments:
+        return 'RequiresIndexDocuments';
+      case OptionState.processing:
+        return 'Processing';
+      case OptionState.active:
+        return 'Active';
+    }
+  }
 }
 
 extension on String {
@@ -1765,7 +2098,7 @@ extension on String {
       case 'Active':
         return OptionState.active;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OptionState');
   }
 }
 
@@ -1793,26 +2126,53 @@ class OptionStatus {
   final DateTime updateDate;
 
   /// Indicates that the option will be deleted once processing is complete.
-  final bool pendingDeletion;
+  final bool? pendingDeletion;
 
   /// A unique integer that indicates when this option was last updated.
-  final int updateVersion;
+  final int? updateVersion;
 
   OptionStatus({
-    @_s.required this.creationDate,
-    @_s.required this.state,
-    @_s.required this.updateDate,
+    required this.creationDate,
+    required this.state,
+    required this.updateDate,
     this.pendingDeletion,
     this.updateVersion,
   });
+
+  factory OptionStatus.fromJson(Map<String, dynamic> json) {
+    return OptionStatus(
+      creationDate:
+          nonNullableTimeStampFromJson(json['CreationDate'] as Object),
+      state: (json['State'] as String).toOptionState(),
+      updateDate: nonNullableTimeStampFromJson(json['UpdateDate'] as Object),
+      pendingDeletion: json['PendingDeletion'] as bool?,
+      updateVersion: json['UpdateVersion'] as int?,
+    );
+  }
+
   factory OptionStatus.fromXml(_s.XmlElement elem) {
     return OptionStatus(
-      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
-      state: _s.extractXmlStringValue(elem, 'State')?.toOptionState(),
-      updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate'),
+      creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate')!,
+      state: _s.extractXmlStringValue(elem, 'State')!.toOptionState(),
+      updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate')!,
       pendingDeletion: _s.extractXmlBoolValue(elem, 'PendingDeletion'),
       updateVersion: _s.extractXmlIntValue(elem, 'UpdateVersion'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final state = this.state;
+    final updateDate = this.updateDate;
+    final pendingDeletion = this.pendingDeletion;
+    final updateVersion = this.updateVersion;
+    return {
+      'CreationDate': unixTimestampToJson(creationDate),
+      'State': state.toValue(),
+      'UpdateDate': unixTimestampToJson(updateDate),
+      if (pendingDeletion != null) 'PendingDeletion': pendingDeletion,
+      if (updateVersion != null) 'UpdateVersion': updateVersion,
+    };
   }
 }
 
@@ -1824,18 +2184,33 @@ class RankExpressionStatus {
   final OptionStatus status;
 
   RankExpressionStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory RankExpressionStatus.fromJson(Map<String, dynamic> json) {
+    return RankExpressionStatus(
+      options:
+          NamedRankExpression.fromJson(json['Options'] as Map<String, dynamic>),
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory RankExpressionStatus.fromXml(_s.XmlElement elem) {
     return RankExpressionStatus(
-      options: _s
-          .extractXmlChild(elem, 'Options')
-          ?.let((e) => NamedRankExpression.fromXml(e)),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options:
+          NamedRankExpression.fromXml(_s.extractXmlChild(elem, 'Options')!),
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -1843,10 +2218,19 @@ class RankExpressionStatus {
 /// does not exist.
 class ResourceNotFoundException implements _s.AwsException {
   ResourceNotFoundException();
+
+  factory ResourceNotFoundException.fromJson(Map<String, dynamic> _) {
+    return ResourceNotFoundException();
+  }
+
   factory ResourceNotFoundException.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return ResourceNotFoundException();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -1855,18 +2239,35 @@ class ResourceNotFoundException implements _s.AwsException {
 /// the endpoint can be referenced in other API calls such as
 /// <a>UpdateServiceAccessPolicies</a>.
 class ServiceEndpoint {
-  final String arn;
-  final String endpoint;
+  final String? arn;
+  final String? endpoint;
 
   ServiceEndpoint({
     this.arn,
     this.endpoint,
   });
+
+  factory ServiceEndpoint.fromJson(Map<String, dynamic> json) {
+    return ServiceEndpoint(
+      arn: json['Arn'] as String?,
+      endpoint: json['Endpoint'] as String?,
+    );
+  }
+
   factory ServiceEndpoint.fromXml(_s.XmlElement elem) {
     return ServiceEndpoint(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
       endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final endpoint = this.endpoint;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (endpoint != null) 'Endpoint': endpoint,
+    };
   }
 }
 
@@ -1874,43 +2275,53 @@ class ServiceEndpoint {
 /// transformation can be applied to the source data when populating the index
 /// field. By default, the value of the source attribute is copied to the index
 /// field.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceAttribute {
   /// Identifies the transformation to apply when copying data from a source
   /// attribute.
-  @_s.JsonKey(name: 'SourceDataFunction')
   final SourceDataFunction sourceDataFunction;
 
   /// Copies data from a source document attribute to an <code>IndexField</code>.
-  @_s.JsonKey(name: 'SourceDataCopy')
-  final SourceData sourceDataCopy;
+  final SourceData? sourceDataCopy;
 
   /// Maps source document attribute values to new values when populating the
   /// <code>IndexField</code>.
-  @_s.JsonKey(name: 'SourceDataMap')
-  final SourceDataMap sourceDataMap;
+  final SourceDataMap? sourceDataMap;
 
   /// Trims common title words from a source document attribute when populating an
   /// <code>IndexField</code>. This can be used to create an
   /// <code>IndexField</code> you can use for sorting.
-  @_s.JsonKey(name: 'SourceDataTrimTitle')
-  final SourceDataTrimTitle sourceDataTrimTitle;
+  final SourceDataTrimTitle? sourceDataTrimTitle;
 
   SourceAttribute({
-    @_s.required this.sourceDataFunction,
+    required this.sourceDataFunction,
     this.sourceDataCopy,
     this.sourceDataMap,
     this.sourceDataTrimTitle,
   });
+
+  factory SourceAttribute.fromJson(Map<String, dynamic> json) {
+    return SourceAttribute(
+      sourceDataFunction:
+          (json['SourceDataFunction'] as String).toSourceDataFunction(),
+      sourceDataCopy: json['SourceDataCopy'] != null
+          ? SourceData.fromJson(json['SourceDataCopy'] as Map<String, dynamic>)
+          : null,
+      sourceDataMap: json['SourceDataMap'] != null
+          ? SourceDataMap.fromJson(
+              json['SourceDataMap'] as Map<String, dynamic>)
+          : null,
+      sourceDataTrimTitle: json['SourceDataTrimTitle'] != null
+          ? SourceDataTrimTitle.fromJson(
+              json['SourceDataTrimTitle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory SourceAttribute.fromXml(_s.XmlElement elem) {
     return SourceAttribute(
       sourceDataFunction: _s
-          .extractXmlStringValue(elem, 'SourceDataFunction')
-          ?.toSourceDataFunction(),
+          .extractXmlStringValue(elem, 'SourceDataFunction')!
+          .toSourceDataFunction(),
       sourceDataCopy: _s
           .extractXmlChild(elem, 'SourceDataCopy')
           ?.let((e) => SourceData.fromXml(e)),
@@ -1923,48 +2334,78 @@ class SourceAttribute {
     );
   }
 
-  Map<String, dynamic> toJson() => _$SourceAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceDataFunction = this.sourceDataFunction;
+    final sourceDataCopy = this.sourceDataCopy;
+    final sourceDataMap = this.sourceDataMap;
+    final sourceDataTrimTitle = this.sourceDataTrimTitle;
+    return {
+      'SourceDataFunction': sourceDataFunction.toValue(),
+      if (sourceDataCopy != null) 'SourceDataCopy': sourceDataCopy,
+      if (sourceDataMap != null) 'SourceDataMap': sourceDataMap,
+      if (sourceDataTrimTitle != null)
+        'SourceDataTrimTitle': sourceDataTrimTitle,
+    };
+  }
 }
 
 /// The source attribute name and an optional default value to use if a document
 /// doesn't have an attribute of that name.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceData {
   /// The name of the document source field to add to this
   /// <code>IndexField</code>.
-  @_s.JsonKey(name: 'SourceName')
   final String sourceName;
 
   /// The default value to use if the source attribute is not specified in a
   /// document. Optional.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   SourceData({
-    @_s.required this.sourceName,
+    required this.sourceName,
     this.defaultValue,
   });
+
+  factory SourceData.fromJson(Map<String, dynamic> json) {
+    return SourceData(
+      sourceName: json['SourceName'] as String,
+      defaultValue: json['DefaultValue'] as String?,
+    );
+  }
+
   factory SourceData.fromXml(_s.XmlElement elem) {
     return SourceData(
-      sourceName: _s.extractXmlStringValue(elem, 'SourceName'),
+      sourceName: _s.extractXmlStringValue(elem, 'SourceName')!,
       defaultValue: _s.extractXmlStringValue(elem, 'DefaultValue'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$SourceDataToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceName = this.sourceName;
+    final defaultValue = this.defaultValue;
+    return {
+      'SourceName': sourceName,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+    };
+  }
 }
 
 enum SourceDataFunction {
-  @_s.JsonValue('Copy')
   copy,
-  @_s.JsonValue('TrimTitle')
   trimTitle,
-  @_s.JsonValue('Map')
   map,
+}
+
+extension on SourceDataFunction {
+  String toValue() {
+    switch (this) {
+      case SourceDataFunction.copy:
+        return 'Copy';
+      case SourceDataFunction.trimTitle:
+        return 'TrimTitle';
+      case SourceDataFunction.map:
+        return 'Map';
+    }
+  }
 }
 
 extension on String {
@@ -1977,95 +2418,119 @@ extension on String {
       case 'Map':
         return SourceDataFunction.map;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SourceDataFunction');
   }
 }
 
 /// Specifies how to map source attribute values to custom values when
 /// populating an <code>IndexField</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceDataMap {
   /// The name of the document source field to add to this
   /// <code>IndexField</code>.
-  @_s.JsonKey(name: 'SourceName')
   final String sourceName;
 
   /// A map that translates source field values to custom values.
-  @_s.JsonKey(name: 'Cases')
-  final Map<String, String> cases;
+  final Map<String, String>? cases;
 
   /// The default value to use if the source attribute is not specified in a
   /// document. Optional.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   SourceDataMap({
-    @_s.required this.sourceName,
+    required this.sourceName,
     this.cases,
     this.defaultValue,
   });
+
+  factory SourceDataMap.fromJson(Map<String, dynamic> json) {
+    return SourceDataMap(
+      sourceName: json['SourceName'] as String,
+      cases: (json['Cases'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      defaultValue: json['DefaultValue'] as String?,
+    );
+  }
+
   factory SourceDataMap.fromXml(_s.XmlElement elem) {
     return SourceDataMap(
-      sourceName: _s.extractXmlStringValue(elem, 'SourceName'),
+      sourceName: _s.extractXmlStringValue(elem, 'SourceName')!,
       cases: Map.fromEntries(
-        elem.getElement('Cases').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Cases')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
       defaultValue: _s.extractXmlStringValue(elem, 'DefaultValue'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$SourceDataMapToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceName = this.sourceName;
+    final cases = this.cases;
+    final defaultValue = this.defaultValue;
+    return {
+      'SourceName': sourceName,
+      if (cases != null) 'Cases': cases,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+    };
+  }
 }
 
 /// Specifies how to trim common words from the beginning of a field to enable
 /// title sorting by that field.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceDataTrimTitle {
   /// The name of the document source field to add to this
   /// <code>IndexField</code>.
-  @_s.JsonKey(name: 'SourceName')
   final String sourceName;
 
   /// The default value to use if the source attribute is not specified in a
   /// document. Optional.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
-  @_s.JsonKey(name: 'Language')
-  final String language;
+  final String? defaultValue;
+  final String? language;
 
   /// The separator that follows the text to trim.
-  @_s.JsonKey(name: 'Separator')
-  final String separator;
+  final String? separator;
 
   SourceDataTrimTitle({
-    @_s.required this.sourceName,
+    required this.sourceName,
     this.defaultValue,
     this.language,
     this.separator,
   });
+
+  factory SourceDataTrimTitle.fromJson(Map<String, dynamic> json) {
+    return SourceDataTrimTitle(
+      sourceName: json['SourceName'] as String,
+      defaultValue: json['DefaultValue'] as String?,
+      language: json['Language'] as String?,
+      separator: json['Separator'] as String?,
+    );
+  }
+
   factory SourceDataTrimTitle.fromXml(_s.XmlElement elem) {
     return SourceDataTrimTitle(
-      sourceName: _s.extractXmlStringValue(elem, 'SourceName'),
+      sourceName: _s.extractXmlStringValue(elem, 'SourceName')!,
       defaultValue: _s.extractXmlStringValue(elem, 'DefaultValue'),
       language: _s.extractXmlStringValue(elem, 'Language'),
       separator: _s.extractXmlStringValue(elem, 'Separator'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$SourceDataTrimTitleToJson(this);
+  Map<String, dynamic> toJson() {
+    final sourceName = this.sourceName;
+    final defaultValue = this.defaultValue;
+    final language = this.language;
+    final separator = this.separator;
+    return {
+      'SourceName': sourceName,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (language != null) 'Language': language,
+      if (separator != null) 'Separator': separator,
+    };
+  }
 }
 
 /// The stemming options configured for this search domain and the current
@@ -2075,16 +2540,31 @@ class StemmingOptionsStatus {
   final OptionStatus status;
 
   StemmingOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory StemmingOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return StemmingOptionsStatus(
+      options: json['Options'] as String,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory StemmingOptionsStatus.fromXml(_s.XmlElement elem) {
     return StemmingOptionsStatus(
-      options: _s.extractXmlStringValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlStringValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -2095,16 +2575,31 @@ class StopwordOptionsStatus {
   final OptionStatus status;
 
   StopwordOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory StopwordOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return StopwordOptionsStatus(
+      options: json['Options'] as String,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory StopwordOptionsStatus.fromXml(_s.XmlElement elem) {
     return StopwordOptionsStatus(
-      options: _s.extractXmlStringValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlStringValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
@@ -2115,38 +2610,45 @@ class SynonymOptionsStatus {
   final OptionStatus status;
 
   SynonymOptionsStatus({
-    @_s.required this.options,
-    @_s.required this.status,
+    required this.options,
+    required this.status,
   });
+
+  factory SynonymOptionsStatus.fromJson(Map<String, dynamic> json) {
+    return SynonymOptionsStatus(
+      options: json['Options'] as String,
+      status: OptionStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory SynonymOptionsStatus.fromXml(_s.XmlElement elem) {
     return SynonymOptionsStatus(
-      options: _s.extractXmlStringValue(elem, 'Options'),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => OptionStatus.fromXml(e)),
+      options: _s.extractXmlStringValue(elem, 'Options')!,
+      status: OptionStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final options = this.options;
+    final status = this.status;
+    return {
+      'Options': options,
+      'Status': status,
+    };
   }
 }
 
 /// Options that define a text field in the search index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TextOptions {
   /// The default value for a text field. Optional.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// Specifies whether facets are enabled for this field. Default: False.
-  @_s.JsonKey(name: 'FacetEnabled')
-  final bool facetEnabled;
+  final bool? facetEnabled;
 
   /// Specifies whether values of this field can be returned in search results and
   /// used for ranking. Default: False.
-  @_s.JsonKey(name: 'ResultEnabled')
-  final bool resultEnabled;
+  final bool? resultEnabled;
 
   /// The text processor to apply to this field. Optional. Possible values:
   ///
@@ -2155,8 +2657,7 @@ class TextOptions {
   /// field.</li>
   /// </ul>
   /// Default: none
-  @_s.JsonKey(name: 'TextProcessor')
-  final String textProcessor;
+  final String? textProcessor;
 
   TextOptions({
     this.defaultValue,
@@ -2164,6 +2665,16 @@ class TextOptions {
     this.resultEnabled,
     this.textProcessor,
   });
+
+  factory TextOptions.fromJson(Map<String, dynamic> json) {
+    return TextOptions(
+      defaultValue: json['DefaultValue'] as String?,
+      facetEnabled: json['FacetEnabled'] as bool?,
+      resultEnabled: json['ResultEnabled'] as bool?,
+      textProcessor: json['TextProcessor'] as String?,
+    );
+  }
+
   factory TextOptions.fromXml(_s.XmlElement elem) {
     return TextOptions(
       defaultValue: _s.extractXmlStringValue(elem, 'DefaultValue'),
@@ -2173,30 +2684,47 @@ class TextOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TextOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final facetEnabled = this.facetEnabled;
+    final resultEnabled = this.resultEnabled;
+    final textProcessor = this.textProcessor;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (facetEnabled != null) 'FacetEnabled': facetEnabled,
+      if (resultEnabled != null) 'ResultEnabled': resultEnabled,
+      if (textProcessor != null) 'TextProcessor': textProcessor,
+    };
+  }
 }
 
 /// Options that define a <code>uint</code> field in the search index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UIntOptions {
   /// The default value for an unsigned integer field. Optional.
-  @_s.JsonKey(name: 'DefaultValue')
-  final int defaultValue;
+  final int? defaultValue;
 
   UIntOptions({
     this.defaultValue,
   });
+
+  factory UIntOptions.fromJson(Map<String, dynamic> json) {
+    return UIntOptions(
+      defaultValue: json['DefaultValue'] as int?,
+    );
+  }
+
   factory UIntOptions.fromXml(_s.XmlElement elem) {
     return UIntOptions(
       defaultValue: _s.extractXmlIntValue(elem, 'DefaultValue'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$UIntOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+    };
+  }
 }
 
 /// The result of a <code>UpdateAvailabilityOptions</code> request. Contains the
@@ -2204,17 +2732,36 @@ class UIntOptions {
 class UpdateAvailabilityOptionsResponse {
   /// The newly-configured availability options. Indicates whether Multi-AZ is
   /// enabled for the domain.
-  final AvailabilityOptionsStatus availabilityOptions;
+  final AvailabilityOptionsStatus? availabilityOptions;
 
   UpdateAvailabilityOptionsResponse({
     this.availabilityOptions,
   });
+
+  factory UpdateAvailabilityOptionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateAvailabilityOptionsResponse(
+      availabilityOptions: json['AvailabilityOptions'] != null
+          ? AvailabilityOptionsStatus.fromJson(
+              json['AvailabilityOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory UpdateAvailabilityOptionsResponse.fromXml(_s.XmlElement elem) {
     return UpdateAvailabilityOptionsResponse(
       availabilityOptions: _s
           .extractXmlChild(elem, 'AvailabilityOptions')
           ?.let((e) => AvailabilityOptionsStatus.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityOptions = this.availabilityOptions;
+    return {
+      if (availabilityOptions != null)
+        'AvailabilityOptions': availabilityOptions,
+    };
   }
 }
 
@@ -2224,14 +2771,28 @@ class UpdateDefaultSearchFieldResponse {
   final DefaultSearchFieldStatus defaultSearchField;
 
   UpdateDefaultSearchFieldResponse({
-    @_s.required this.defaultSearchField,
+    required this.defaultSearchField,
   });
+
+  factory UpdateDefaultSearchFieldResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDefaultSearchFieldResponse(
+      defaultSearchField: DefaultSearchFieldStatus.fromJson(
+          json['DefaultSearchField'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateDefaultSearchFieldResponse.fromXml(_s.XmlElement elem) {
     return UpdateDefaultSearchFieldResponse(
-      defaultSearchField: _s
-          .extractXmlChild(elem, 'DefaultSearchField')
-          ?.let((e) => DefaultSearchFieldStatus.fromXml(e)),
+      defaultSearchField: DefaultSearchFieldStatus.fromXml(
+          _s.extractXmlChild(elem, 'DefaultSearchField')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultSearchField = this.defaultSearchField;
+    return {
+      'DefaultSearchField': defaultSearchField,
+    };
   }
 }
 
@@ -2240,14 +2801,29 @@ class UpdateServiceAccessPoliciesResponse {
   final AccessPoliciesStatus accessPolicies;
 
   UpdateServiceAccessPoliciesResponse({
-    @_s.required this.accessPolicies,
+    required this.accessPolicies,
   });
+
+  factory UpdateServiceAccessPoliciesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateServiceAccessPoliciesResponse(
+      accessPolicies: AccessPoliciesStatus.fromJson(
+          json['AccessPolicies'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateServiceAccessPoliciesResponse.fromXml(_s.XmlElement elem) {
     return UpdateServiceAccessPoliciesResponse(
-      accessPolicies: _s
-          .extractXmlChild(elem, 'AccessPolicies')
-          ?.let((e) => AccessPoliciesStatus.fromXml(e)),
+      accessPolicies: AccessPoliciesStatus.fromXml(
+          _s.extractXmlChild(elem, 'AccessPolicies')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessPolicies = this.accessPolicies;
+    return {
+      'AccessPolicies': accessPolicies,
+    };
   }
 }
 
@@ -2256,14 +2832,27 @@ class UpdateStemmingOptionsResponse {
   final StemmingOptionsStatus stems;
 
   UpdateStemmingOptionsResponse({
-    @_s.required this.stems,
+    required this.stems,
   });
+
+  factory UpdateStemmingOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateStemmingOptionsResponse(
+      stems:
+          StemmingOptionsStatus.fromJson(json['Stems'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateStemmingOptionsResponse.fromXml(_s.XmlElement elem) {
     return UpdateStemmingOptionsResponse(
-      stems: _s
-          .extractXmlChild(elem, 'Stems')
-          ?.let((e) => StemmingOptionsStatus.fromXml(e)),
+      stems: StemmingOptionsStatus.fromXml(_s.extractXmlChild(elem, 'Stems')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stems = this.stems;
+    return {
+      'Stems': stems,
+    };
   }
 }
 
@@ -2272,14 +2861,28 @@ class UpdateStopwordOptionsResponse {
   final StopwordOptionsStatus stopwords;
 
   UpdateStopwordOptionsResponse({
-    @_s.required this.stopwords,
+    required this.stopwords,
   });
+
+  factory UpdateStopwordOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateStopwordOptionsResponse(
+      stopwords: StopwordOptionsStatus.fromJson(
+          json['Stopwords'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateStopwordOptionsResponse.fromXml(_s.XmlElement elem) {
     return UpdateStopwordOptionsResponse(
-      stopwords: _s
-          .extractXmlChild(elem, 'Stopwords')
-          ?.let((e) => StopwordOptionsStatus.fromXml(e)),
+      stopwords:
+          StopwordOptionsStatus.fromXml(_s.extractXmlChild(elem, 'Stopwords')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stopwords = this.stopwords;
+    return {
+      'Stopwords': stopwords,
+    };
   }
 }
 
@@ -2288,14 +2891,28 @@ class UpdateSynonymOptionsResponse {
   final SynonymOptionsStatus synonyms;
 
   UpdateSynonymOptionsResponse({
-    @_s.required this.synonyms,
+    required this.synonyms,
   });
+
+  factory UpdateSynonymOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSynonymOptionsResponse(
+      synonyms: SynonymOptionsStatus.fromJson(
+          json['Synonyms'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateSynonymOptionsResponse.fromXml(_s.XmlElement elem) {
     return UpdateSynonymOptionsResponse(
-      synonyms: _s
-          .extractXmlChild(elem, 'Synonyms')
-          ?.let((e) => SynonymOptionsStatus.fromXml(e)),
+      synonyms:
+          SynonymOptionsStatus.fromXml(_s.extractXmlChild(elem, 'Synonyms')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final synonyms = this.synonyms;
+    return {
+      'Synonyms': synonyms,
+    };
   }
 }
 

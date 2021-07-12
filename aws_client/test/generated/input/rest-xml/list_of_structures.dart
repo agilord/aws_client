@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +23,10 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 class ListOfStructures {
   final _s.RestXmlProtocol _protocol;
   ListOfStructures({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +38,7 @@ class ListOfStructures {
         );
 
   Future<void> operationName0({
-    List<SingleFieldStruct> listParam,
+    List<SingleFieldStruct>? listParam,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -49,14 +55,32 @@ class ListOfStructures {
 }
 
 class InputShape {
-  final List<SingleFieldStruct> listParam;
+  final List<SingleFieldStruct>? listParam;
 
   InputShape({
     this.listParam,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory InputShape.fromJson(Map<String, dynamic> json) {
+    return InputShape(
+      listParam: (json['item'] as List?)
+          ?.whereNotNull()
+          .map((e) => SingleFieldStruct.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final listParam = this.listParam;
+    return {
+      if (listParam != null) 'item': listParam,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final listParam = this.listParam;
     final $children = <_s.XmlNode>[
-      if (listParam != null) ...listParam.map((e) => e?.toXml('item')),
+      if (listParam != null) ...listParam.map((e) => e.toXml('item')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -64,18 +88,33 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class SingleFieldStruct {
-  final String element;
+  final String? element;
 
   SingleFieldStruct({
     this.element,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory SingleFieldStruct.fromJson(Map<String, dynamic> json) {
+    return SingleFieldStruct(
+      element: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final element = this.element;
+    return {
+      if (element != null) 'value': element,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final element = this.element;
     final $children = <_s.XmlNode>[
       if (element != null) _s.encodeXmlStringValue('value', element),
     ];
@@ -85,7 +124,7 @@ class SingleFieldStruct {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

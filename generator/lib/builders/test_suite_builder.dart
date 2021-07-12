@@ -127,27 +127,34 @@ void _writeTestCase(
 void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
     Member member, Object results) {
   if (results == null) {
-    code.writeln('expect($memberTrail, isNull);');
+    code.writeln('expect(${_removeTrailingMark(memberTrail)}, isNull);');
     return;
   }
 
   if (shape.type == 'list') {
     final resultList = results as List;
     for (var i = 0; i < resultList.length; i++) {
-      _visitExpect(code, '$memberTrail[$i]', shape.member.shapeClass, null,
-          resultList[i]);
+      final listResult = resultList[i];
+      if (listResult != null) {
+        _visitExpect(code, '$memberTrail[$i]', shape.member.shapeClass, null,
+            listResult);
+      }
     }
   } else if (shape.type == 'map') {
     final resultMap = results as Map;
     for (var key in resultMap.keys) {
-      _visitExpect(code, "$memberTrail['$key']", shape.value.shapeClass, null,
+      _visitExpect(code, "$memberTrail['$key']?", shape.value.shapeClass, null,
           resultMap[key]);
     }
   } else if (shape.type == 'structure') {
     for (var member in shape.members) {
       final result = (results as Map<String, dynamic>)[member.name];
-      _visitExpect(code, '$memberTrail.${member.fieldName}', member.shapeClass,
-          member, result);
+      _visitExpect(
+          code,
+          '$memberTrail.${member.fieldName}${member.isRequired ? '' : '?'}',
+          member.shapeClass,
+          member,
+          result);
     }
   } else {
     String match;
@@ -160,9 +167,10 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
     }
 
     if (shape.type == 'timestamp') {
+      memberTrail = memberTrail.replaceAll('?', '!');
       memberTrail += '.millisecondsSinceEpoch ~/ 1000';
     }
-    code.writeln('expect($memberTrail, $match);');
+    code.writeln('expect(${_removeTrailingMark(memberTrail)}, $match);');
   }
 }
 
@@ -175,7 +183,7 @@ String _buildParameters(Shape shape, Member member, Object params,
 
   if (shape.type == 'list') {
     final resultList = params as List;
-    return '[${resultList.map((e) => _buildParameters(shape.member.shapeClass, null, e, descriptor: shape.member)).join(', ')}]';
+    return '[${resultList.map((e) => _buildParameters(shape.member.shapeClass, null, e, descriptor: shape.member)).where((e) => e != 'null').join(', ')}]';
   } else if (shape.type == 'map') {
     final resultMap = params as Map;
     final buffer = StringBuffer('{');
@@ -212,12 +220,14 @@ String _buildParameters(Shape shape, Member member, Object params,
       return 'DateTime.fromMillisecondsSinceEpoch($params * 1000)';
     } else {
       final value = jsonEncode(params);
-      if (member != null && member.jsonvalue ||
-          descriptor != null && descriptor.jsonvalue) {
-        return "r'''$value'''";
-      } else {
-        return value;
-      }
+      return value;
     }
   }
+}
+
+String _removeTrailingMark(String input) {
+  if (input.endsWith('?') || input.endsWith('!')) {
+    return input.substring(0, input.length - 1);
+  }
+  return input;
 }

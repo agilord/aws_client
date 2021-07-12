@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-06-24.g.dart';
 
 /// With Service Quotas, you can view and manage your quotas easily as your AWS
 /// workloads grow. Quotas, also referred to as limits, are the maximum number
@@ -35,10 +28,10 @@ part '2019-06-24.g.dart';
 class ServiceQuotas {
   final _s.JsonProtocol _protocol;
   ServiceQuotas({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -67,15 +60,13 @@ class ServiceQuotas {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.AssociateServiceQuotaTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return AssociateServiceQuotaTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the quota increase request for the specified quota from your quota
@@ -100,9 +91,9 @@ class ServiceQuotas {
   /// Parameter [serviceCode] :
   /// The service identifier.
   Future<void> deleteServiceQuotaIncreaseRequestFromTemplate({
-    @_s.required String awsRegion,
-    @_s.required String quotaCode,
-    @_s.required String serviceCode,
+    required String awsRegion,
+    required String quotaCode,
+    required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
     _s.validateStringLength(
@@ -110,12 +101,6 @@ class ServiceQuotas {
       awsRegion,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsRegion',
-      awsRegion,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
@@ -126,12 +111,6 @@ class ServiceQuotas {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'quotaCode',
-      quotaCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
       'serviceCode',
@@ -140,18 +119,12 @@ class ServiceQuotas {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'ServiceQuotasV20190624.DeleteServiceQuotaIncreaseRequestFromTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -163,9 +136,6 @@ class ServiceQuotas {
         'ServiceCode': serviceCode,
       },
     );
-
-    return DeleteServiceQuotaIncreaseRequestFromTemplateResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Disables your quota request template. After a template is disabled, the
@@ -186,15 +156,13 @@ class ServiceQuotas {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.DisassociateServiceQuotaTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
     );
-
-    return DisassociateServiceQuotaTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the default value for the specified quota. The default value
@@ -212,8 +180,8 @@ class ServiceQuotas {
   /// Parameter [serviceCode] :
   /// The service identifier.
   Future<GetAWSDefaultServiceQuotaResponse> getAWSDefaultServiceQuota({
-    @_s.required String quotaCode,
-    @_s.required String serviceCode,
+    required String quotaCode,
+    required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
     _s.validateStringLength(
@@ -223,24 +191,12 @@ class ServiceQuotas {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'quotaCode',
-      quotaCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -303,7 +259,7 @@ class ServiceQuotas {
   /// The ID of the quota increase request.
   Future<GetRequestedServiceQuotaChangeResponse>
       getRequestedServiceQuotaChange({
-    @_s.required String requestId,
+    required String requestId,
   }) async {
     ArgumentError.checkNotNull(requestId, 'requestId');
     _s.validateStringLength(
@@ -311,12 +267,6 @@ class ServiceQuotas {
       requestId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'requestId',
-      requestId,
-      r'''[0-9a-zA-Z][a-zA-Z0-9-]{1,128}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -353,8 +303,8 @@ class ServiceQuotas {
   /// Parameter [serviceCode] :
   /// The service identifier.
   Future<GetServiceQuotaResponse> getServiceQuota({
-    @_s.required String quotaCode,
-    @_s.required String serviceCode,
+    required String quotaCode,
+    required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
     _s.validateStringLength(
@@ -364,24 +314,12 @@ class ServiceQuotas {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'quotaCode',
-      quotaCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -426,9 +364,9 @@ class ServiceQuotas {
   /// The service identifier.
   Future<GetServiceQuotaIncreaseRequestFromTemplateResponse>
       getServiceQuotaIncreaseRequestFromTemplate({
-    @_s.required String awsRegion,
-    @_s.required String quotaCode,
-    @_s.required String serviceCode,
+    required String awsRegion,
+    required String quotaCode,
+    required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
     _s.validateStringLength(
@@ -436,12 +374,6 @@ class ServiceQuotas {
       awsRegion,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsRegion',
-      awsRegion,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
@@ -452,24 +384,12 @@ class ServiceQuotas {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'quotaCode',
-      quotaCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -515,9 +435,9 @@ class ServiceQuotas {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<ListAWSDefaultServiceQuotasResponse> listAWSDefaultServiceQuotas({
-    @_s.required String serviceCode,
-    int maxResults,
-    String nextToken,
+    required String serviceCode,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -525,12 +445,6 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -544,11 +458,6 @@ class ServiceQuotas {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9/+]*={0,2}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -594,10 +503,10 @@ class ServiceQuotas {
   /// The status of the quota increase request.
   Future<ListRequestedServiceQuotaChangeHistoryResponse>
       listRequestedServiceQuotaChangeHistory({
-    int maxResults,
-    String nextToken,
-    String serviceCode,
-    RequestStatus status,
+    int? maxResults,
+    String? nextToken,
+    String? serviceCode,
+    RequestStatus? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -611,21 +520,11 @@ class ServiceQuotas {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9/+]*={0,2}$''',
-    );
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -677,11 +576,11 @@ class ServiceQuotas {
   /// The status value of the quota increase request.
   Future<ListRequestedServiceQuotaChangeHistoryByQuotaResponse>
       listRequestedServiceQuotaChangeHistoryByQuota({
-    @_s.required String quotaCode,
-    @_s.required String serviceCode,
-    int maxResults,
-    String nextToken,
-    RequestStatus status,
+    required String quotaCode,
+    required String serviceCode,
+    int? maxResults,
+    String? nextToken,
+    RequestStatus? status,
   }) async {
     ArgumentError.checkNotNull(quotaCode, 'quotaCode');
     _s.validateStringLength(
@@ -691,24 +590,12 @@ class ServiceQuotas {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'quotaCode',
-      quotaCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -722,11 +609,6 @@ class ServiceQuotas {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9/+]*={0,2}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -778,21 +660,16 @@ class ServiceQuotas {
   /// The service identifier.
   Future<ListServiceQuotaIncreaseRequestsInTemplateResponse>
       listServiceQuotaIncreaseRequestsInTemplate({
-    String awsRegion,
-    int maxResults,
-    String nextToken,
-    String serviceCode,
+    String? awsRegion,
+    int? maxResults,
+    String? nextToken,
+    String? serviceCode,
   }) async {
     _s.validateStringLength(
       'awsRegion',
       awsRegion,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'awsRegion',
-      awsRegion,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -806,21 +683,11 @@ class ServiceQuotas {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9/+]*={0,2}$''',
-    );
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -867,9 +734,9 @@ class ServiceQuotas {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<ListServiceQuotasResponse> listServiceQuotas({
-    @_s.required String serviceCode,
-    int maxResults,
-    String nextToken,
+    required String serviceCode,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
@@ -877,12 +744,6 @@ class ServiceQuotas {
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -896,11 +757,6 @@ class ServiceQuotas {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9/+]*={0,2}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -938,8 +794,8 @@ class ServiceQuotas {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<ListServicesResponse> listServices({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -952,11 +808,6 @@ class ServiceQuotas {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9/+]*={0,2}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -994,7 +845,7 @@ class ServiceQuotas {
   /// href="https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html">ListServiceQuotas</a>
   /// AWS API operation.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1002,12 +853,6 @@ class ServiceQuotas {
       resourceARN,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1054,10 +899,10 @@ class ServiceQuotas {
   /// The service identifier.
   Future<PutServiceQuotaIncreaseRequestIntoTemplateResponse>
       putServiceQuotaIncreaseRequestIntoTemplate({
-    @_s.required String awsRegion,
-    @_s.required double desiredValue,
-    @_s.required String quotaCode,
-    @_s.required String serviceCode,
+    required String awsRegion,
+    required double desiredValue,
+    required String quotaCode,
+    required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(awsRegion, 'awsRegion');
     _s.validateStringLength(
@@ -1065,12 +910,6 @@ class ServiceQuotas {
       awsRegion,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'awsRegion',
-      awsRegion,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(desiredValue, 'desiredValue');
@@ -1089,24 +928,12 @@ class ServiceQuotas {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'quotaCode',
-      quotaCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1153,9 +980,9 @@ class ServiceQuotas {
   /// Parameter [serviceCode] :
   /// The service identifier.
   Future<RequestServiceQuotaIncreaseResponse> requestServiceQuotaIncrease({
-    @_s.required double desiredValue,
-    @_s.required String quotaCode,
-    @_s.required String serviceCode,
+    required double desiredValue,
+    required String quotaCode,
+    required String serviceCode,
   }) async {
     ArgumentError.checkNotNull(desiredValue, 'desiredValue');
     _s.validateNumRange(
@@ -1173,24 +1000,12 @@ class ServiceQuotas {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'quotaCode',
-      quotaCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,128}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceCode, 'serviceCode');
     _s.validateStringLength(
       'serviceCode',
       serviceCode,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceCode',
-      serviceCode,
-      r'''[a-zA-Z][a-zA-Z0-9-]{1,63}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1236,8 +1051,8 @@ class ServiceQuotas {
   /// Parameter [tags] :
   /// The tags that you want to add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1247,18 +1062,12 @@ class ServiceQuotas {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1269,8 +1078,6 @@ class ServiceQuotas {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from the specified applied quota. You can specify one or more
@@ -1294,8 +1101,8 @@ class ServiceQuotas {
   /// Parameter [tagKeys] :
   /// The keys of the tags that you want to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1305,18 +1112,12 @@ class ServiceQuotas {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws(-[\w]+)*:*:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ServiceQuotasV20190624.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1327,64 +1128,87 @@ class ServiceQuotas {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateServiceQuotaTemplateResponse {
   AssociateServiceQuotaTemplateResponse();
+
   factory AssociateServiceQuotaTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateServiceQuotaTemplateResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateServiceQuotaTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteServiceQuotaIncreaseRequestFromTemplateResponse {
   DeleteServiceQuotaIncreaseRequestFromTemplateResponse();
+
   factory DeleteServiceQuotaIncreaseRequestFromTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteServiceQuotaIncreaseRequestFromTemplateResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteServiceQuotaIncreaseRequestFromTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateServiceQuotaTemplateResponse {
   DisassociateServiceQuotaTemplateResponse();
+
   factory DisassociateServiceQuotaTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateServiceQuotaTemplateResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateServiceQuotaTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('DEPENDENCY_ACCESS_DENIED_ERROR')
   dependencyAccessDeniedError,
-  @_s.JsonValue('DEPENDENCY_THROTTLING_ERROR')
   dependencyThrottlingError,
-  @_s.JsonValue('DEPENDENCY_SERVICE_ERROR')
   dependencyServiceError,
-  @_s.JsonValue('SERVICE_QUOTA_NOT_AVAILABLE_ERROR')
   serviceQuotaNotAvailableError,
 }
 
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.dependencyAccessDeniedError:
+        return 'DEPENDENCY_ACCESS_DENIED_ERROR';
+      case ErrorCode.dependencyThrottlingError:
+        return 'DEPENDENCY_THROTTLING_ERROR';
+      case ErrorCode.dependencyServiceError:
+        return 'DEPENDENCY_SERVICE_ERROR';
+      case ErrorCode.serviceQuotaNotAvailableError:
+        return 'SERVICE_QUOTA_NOT_AVAILABLE_ERROR';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'DEPENDENCY_ACCESS_DENIED_ERROR':
+        return ErrorCode.dependencyAccessDeniedError;
+      case 'DEPENDENCY_THROTTLING_ERROR':
+        return ErrorCode.dependencyThrottlingError;
+      case 'DEPENDENCY_SERVICE_ERROR':
+        return ErrorCode.dependencyServiceError;
+      case 'SERVICE_QUOTA_NOT_AVAILABLE_ERROR':
+        return ErrorCode.serviceQuotaNotAvailableError;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
+}
+
 /// An error that explains why an action did not succeed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorReason {
   /// Service Quotas returns the following error values:
   ///
@@ -1406,297 +1230,420 @@ class ErrorReason {
   /// Service Quotas.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ErrorCode')
-  final ErrorCode errorCode;
+  final ErrorCode? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   ErrorReason({
     this.errorCode,
     this.errorMessage,
   });
-  factory ErrorReason.fromJson(Map<String, dynamic> json) =>
-      _$ErrorReasonFromJson(json);
+
+  factory ErrorReason.fromJson(Map<String, dynamic> json) {
+    return ErrorReason(
+      errorCode: (json['ErrorCode'] as String?)?.toErrorCode(),
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode.toValue(),
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAWSDefaultServiceQuotaResponse {
   /// Information about the quota.
-  @_s.JsonKey(name: 'Quota')
-  final ServiceQuota quota;
+  final ServiceQuota? quota;
 
   GetAWSDefaultServiceQuotaResponse({
     this.quota,
   });
+
   factory GetAWSDefaultServiceQuotaResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAWSDefaultServiceQuotaResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAWSDefaultServiceQuotaResponse(
+      quota: json['Quota'] != null
+          ? ServiceQuota.fromJson(json['Quota'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quota = this.quota;
+    return {
+      if (quota != null) 'Quota': quota,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAssociationForServiceQuotaTemplateResponse {
   /// The association status. If the status is <code>ASSOCIATED</code>, the quota
   /// increase requests in the template are automatically applied to new accounts
   /// in your organization.
-  @_s.JsonKey(name: 'ServiceQuotaTemplateAssociationStatus')
-  final ServiceQuotaTemplateAssociationStatus
+  final ServiceQuotaTemplateAssociationStatus?
       serviceQuotaTemplateAssociationStatus;
 
   GetAssociationForServiceQuotaTemplateResponse({
     this.serviceQuotaTemplateAssociationStatus,
   });
+
   factory GetAssociationForServiceQuotaTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetAssociationForServiceQuotaTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetAssociationForServiceQuotaTemplateResponse(
+      serviceQuotaTemplateAssociationStatus:
+          (json['ServiceQuotaTemplateAssociationStatus'] as String?)
+              ?.toServiceQuotaTemplateAssociationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceQuotaTemplateAssociationStatus =
+        this.serviceQuotaTemplateAssociationStatus;
+    return {
+      if (serviceQuotaTemplateAssociationStatus != null)
+        'ServiceQuotaTemplateAssociationStatus':
+            serviceQuotaTemplateAssociationStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRequestedServiceQuotaChangeResponse {
   /// Information about the quota increase request.
-  @_s.JsonKey(name: 'RequestedQuota')
-  final RequestedServiceQuotaChange requestedQuota;
+  final RequestedServiceQuotaChange? requestedQuota;
 
   GetRequestedServiceQuotaChangeResponse({
     this.requestedQuota,
   });
+
   factory GetRequestedServiceQuotaChangeResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetRequestedServiceQuotaChangeResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetRequestedServiceQuotaChangeResponse(
+      requestedQuota: json['RequestedQuota'] != null
+          ? RequestedServiceQuotaChange.fromJson(
+              json['RequestedQuota'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestedQuota = this.requestedQuota;
+    return {
+      if (requestedQuota != null) 'RequestedQuota': requestedQuota,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetServiceQuotaIncreaseRequestFromTemplateResponse {
   /// Information about the quota increase request.
-  @_s.JsonKey(name: 'ServiceQuotaIncreaseRequestInTemplate')
-  final ServiceQuotaIncreaseRequestInTemplate
+  final ServiceQuotaIncreaseRequestInTemplate?
       serviceQuotaIncreaseRequestInTemplate;
 
   GetServiceQuotaIncreaseRequestFromTemplateResponse({
     this.serviceQuotaIncreaseRequestInTemplate,
   });
+
   factory GetServiceQuotaIncreaseRequestFromTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetServiceQuotaIncreaseRequestFromTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetServiceQuotaIncreaseRequestFromTemplateResponse(
+      serviceQuotaIncreaseRequestInTemplate:
+          json['ServiceQuotaIncreaseRequestInTemplate'] != null
+              ? ServiceQuotaIncreaseRequestInTemplate.fromJson(
+                  json['ServiceQuotaIncreaseRequestInTemplate']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceQuotaIncreaseRequestInTemplate =
+        this.serviceQuotaIncreaseRequestInTemplate;
+    return {
+      if (serviceQuotaIncreaseRequestInTemplate != null)
+        'ServiceQuotaIncreaseRequestInTemplate':
+            serviceQuotaIncreaseRequestInTemplate,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetServiceQuotaResponse {
   /// Information about the quota.
-  @_s.JsonKey(name: 'Quota')
-  final ServiceQuota quota;
+  final ServiceQuota? quota;
 
   GetServiceQuotaResponse({
     this.quota,
   });
-  factory GetServiceQuotaResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetServiceQuotaResponseFromJson(json);
+
+  factory GetServiceQuotaResponse.fromJson(Map<String, dynamic> json) {
+    return GetServiceQuotaResponse(
+      quota: json['Quota'] != null
+          ? ServiceQuota.fromJson(json['Quota'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quota = this.quota;
+    return {
+      if (quota != null) 'Quota': quota,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAWSDefaultServiceQuotasResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the quotas.
-  @_s.JsonKey(name: 'Quotas')
-  final List<ServiceQuota> quotas;
+  final List<ServiceQuota>? quotas;
 
   ListAWSDefaultServiceQuotasResponse({
     this.nextToken,
     this.quotas,
   });
+
   factory ListAWSDefaultServiceQuotasResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAWSDefaultServiceQuotasResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAWSDefaultServiceQuotasResponse(
+      nextToken: json['NextToken'] as String?,
+      quotas: (json['Quotas'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceQuota.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final quotas = this.quotas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (quotas != null) 'Quotas': quotas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the quota increase requests.
-  @_s.JsonKey(name: 'RequestedQuotas')
-  final List<RequestedServiceQuotaChange> requestedQuotas;
+  final List<RequestedServiceQuotaChange>? requestedQuotas;
 
   ListRequestedServiceQuotaChangeHistoryByQuotaResponse({
     this.nextToken,
     this.requestedQuotas,
   });
+
   factory ListRequestedServiceQuotaChangeHistoryByQuotaResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRequestedServiceQuotaChangeHistoryByQuotaResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRequestedServiceQuotaChangeHistoryByQuotaResponse(
+      nextToken: json['NextToken'] as String?,
+      requestedQuotas: (json['RequestedQuotas'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final requestedQuotas = this.requestedQuotas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (requestedQuotas != null) 'RequestedQuotas': requestedQuotas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRequestedServiceQuotaChangeHistoryResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the quota increase requests.
-  @_s.JsonKey(name: 'RequestedQuotas')
-  final List<RequestedServiceQuotaChange> requestedQuotas;
+  final List<RequestedServiceQuotaChange>? requestedQuotas;
 
   ListRequestedServiceQuotaChangeHistoryResponse({
     this.nextToken,
     this.requestedQuotas,
   });
+
   factory ListRequestedServiceQuotaChangeHistoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRequestedServiceQuotaChangeHistoryResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRequestedServiceQuotaChangeHistoryResponse(
+      nextToken: json['NextToken'] as String?,
+      requestedQuotas: (json['RequestedQuotas'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RequestedServiceQuotaChange.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final requestedQuotas = this.requestedQuotas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (requestedQuotas != null) 'RequestedQuotas': requestedQuotas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListServiceQuotaIncreaseRequestsInTemplateResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the quota increase requests.
-  @_s.JsonKey(name: 'ServiceQuotaIncreaseRequestInTemplateList')
-  final List<ServiceQuotaIncreaseRequestInTemplate>
+  final List<ServiceQuotaIncreaseRequestInTemplate>?
       serviceQuotaIncreaseRequestInTemplateList;
 
   ListServiceQuotaIncreaseRequestsInTemplateResponse({
     this.nextToken,
     this.serviceQuotaIncreaseRequestInTemplateList,
   });
+
   factory ListServiceQuotaIncreaseRequestsInTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListServiceQuotaIncreaseRequestsInTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListServiceQuotaIncreaseRequestsInTemplateResponse(
+      nextToken: json['NextToken'] as String?,
+      serviceQuotaIncreaseRequestInTemplateList:
+          (json['ServiceQuotaIncreaseRequestInTemplateList'] as List?)
+              ?.whereNotNull()
+              .map((e) => ServiceQuotaIncreaseRequestInTemplate.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final serviceQuotaIncreaseRequestInTemplateList =
+        this.serviceQuotaIncreaseRequestInTemplateList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (serviceQuotaIncreaseRequestInTemplateList != null)
+        'ServiceQuotaIncreaseRequestInTemplateList':
+            serviceQuotaIncreaseRequestInTemplateList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListServiceQuotasResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the quotas.
-  @_s.JsonKey(name: 'Quotas')
-  final List<ServiceQuota> quotas;
+  final List<ServiceQuota>? quotas;
 
   ListServiceQuotasResponse({
     this.nextToken,
     this.quotas,
   });
-  factory ListServiceQuotasResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListServiceQuotasResponseFromJson(json);
+
+  factory ListServiceQuotasResponse.fromJson(Map<String, dynamic> json) {
+    return ListServiceQuotasResponse(
+      nextToken: json['NextToken'] as String?,
+      quotas: (json['Quotas'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceQuota.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final quotas = this.quotas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (quotas != null) 'Quotas': quotas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListServicesResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the services.
-  @_s.JsonKey(name: 'Services')
-  final List<ServiceInfo> services;
+  final List<ServiceInfo>? services;
 
   ListServicesResponse({
     this.nextToken,
     this.services,
   });
-  factory ListServicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListServicesResponseFromJson(json);
+
+  factory ListServicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListServicesResponse(
+      nextToken: json['NextToken'] as String?,
+      services: (json['Services'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final services = this.services;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (services != null) 'Services': services,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A complex data type that contains zero or more tag elements.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Information about the CloudWatch metric that reflects quota usage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetricInfo {
   /// The metric dimension. This is a name/value pair that is part of the identity
   /// of a metric.
-  @_s.JsonKey(name: 'MetricDimensions')
-  final Map<String, String> metricDimensions;
+  final Map<String, String>? metricDimensions;
 
   /// The name of the metric.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// The namespace of the metric.
-  @_s.JsonKey(name: 'MetricNamespace')
-  final String metricNamespace;
+  final String? metricNamespace;
 
   /// The metric statistic that we recommend you use when determining quota usage.
-  @_s.JsonKey(name: 'MetricStatisticRecommendation')
-  final String metricStatisticRecommendation;
+  final String? metricStatisticRecommendation;
 
   MetricInfo({
     this.metricDimensions,
@@ -1704,97 +1651,179 @@ class MetricInfo {
     this.metricNamespace,
     this.metricStatisticRecommendation,
   });
-  factory MetricInfo.fromJson(Map<String, dynamic> json) =>
-      _$MetricInfoFromJson(json);
+
+  factory MetricInfo.fromJson(Map<String, dynamic> json) {
+    return MetricInfo(
+      metricDimensions: (json['MetricDimensions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      metricName: json['MetricName'] as String?,
+      metricNamespace: json['MetricNamespace'] as String?,
+      metricStatisticRecommendation:
+          json['MetricStatisticRecommendation'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricDimensions = this.metricDimensions;
+    final metricName = this.metricName;
+    final metricNamespace = this.metricNamespace;
+    final metricStatisticRecommendation = this.metricStatisticRecommendation;
+    return {
+      if (metricDimensions != null) 'MetricDimensions': metricDimensions,
+      if (metricName != null) 'MetricName': metricName,
+      if (metricNamespace != null) 'MetricNamespace': metricNamespace,
+      if (metricStatisticRecommendation != null)
+        'MetricStatisticRecommendation': metricStatisticRecommendation,
+    };
+  }
 }
 
 enum PeriodUnit {
-  @_s.JsonValue('MICROSECOND')
   microsecond,
-  @_s.JsonValue('MILLISECOND')
   millisecond,
-  @_s.JsonValue('SECOND')
   second,
-  @_s.JsonValue('MINUTE')
   minute,
-  @_s.JsonValue('HOUR')
   hour,
-  @_s.JsonValue('DAY')
   day,
-  @_s.JsonValue('WEEK')
   week,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on PeriodUnit {
+  String toValue() {
+    switch (this) {
+      case PeriodUnit.microsecond:
+        return 'MICROSECOND';
+      case PeriodUnit.millisecond:
+        return 'MILLISECOND';
+      case PeriodUnit.second:
+        return 'SECOND';
+      case PeriodUnit.minute:
+        return 'MINUTE';
+      case PeriodUnit.hour:
+        return 'HOUR';
+      case PeriodUnit.day:
+        return 'DAY';
+      case PeriodUnit.week:
+        return 'WEEK';
+    }
+  }
+}
+
+extension on String {
+  PeriodUnit toPeriodUnit() {
+    switch (this) {
+      case 'MICROSECOND':
+        return PeriodUnit.microsecond;
+      case 'MILLISECOND':
+        return PeriodUnit.millisecond;
+      case 'SECOND':
+        return PeriodUnit.second;
+      case 'MINUTE':
+        return PeriodUnit.minute;
+      case 'HOUR':
+        return PeriodUnit.hour;
+      case 'DAY':
+        return PeriodUnit.day;
+      case 'WEEK':
+        return PeriodUnit.week;
+    }
+    throw Exception('$this is not known in enum PeriodUnit');
+  }
+}
+
 class PutServiceQuotaIncreaseRequestIntoTemplateResponse {
   /// Information about the quota increase request.
-  @_s.JsonKey(name: 'ServiceQuotaIncreaseRequestInTemplate')
-  final ServiceQuotaIncreaseRequestInTemplate
+  final ServiceQuotaIncreaseRequestInTemplate?
       serviceQuotaIncreaseRequestInTemplate;
 
   PutServiceQuotaIncreaseRequestIntoTemplateResponse({
     this.serviceQuotaIncreaseRequestInTemplate,
   });
+
   factory PutServiceQuotaIncreaseRequestIntoTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutServiceQuotaIncreaseRequestIntoTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutServiceQuotaIncreaseRequestIntoTemplateResponse(
+      serviceQuotaIncreaseRequestInTemplate:
+          json['ServiceQuotaIncreaseRequestInTemplate'] != null
+              ? ServiceQuotaIncreaseRequestInTemplate.fromJson(
+                  json['ServiceQuotaIncreaseRequestInTemplate']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceQuotaIncreaseRequestInTemplate =
+        this.serviceQuotaIncreaseRequestInTemplate;
+    return {
+      if (serviceQuotaIncreaseRequestInTemplate != null)
+        'ServiceQuotaIncreaseRequestInTemplate':
+            serviceQuotaIncreaseRequestInTemplate,
+    };
+  }
 }
 
 /// Information about the quota period.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QuotaPeriod {
   /// The time unit.
-  @_s.JsonKey(name: 'PeriodUnit')
-  final PeriodUnit periodUnit;
+  final PeriodUnit? periodUnit;
 
   /// The value.
-  @_s.JsonKey(name: 'PeriodValue')
-  final int periodValue;
+  final int? periodValue;
 
   QuotaPeriod({
     this.periodUnit,
     this.periodValue,
   });
-  factory QuotaPeriod.fromJson(Map<String, dynamic> json) =>
-      _$QuotaPeriodFromJson(json);
+
+  factory QuotaPeriod.fromJson(Map<String, dynamic> json) {
+    return QuotaPeriod(
+      periodUnit: (json['PeriodUnit'] as String?)?.toPeriodUnit(),
+      periodValue: json['PeriodValue'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final periodUnit = this.periodUnit;
+    final periodValue = this.periodValue;
+    return {
+      if (periodUnit != null) 'PeriodUnit': periodUnit.toValue(),
+      if (periodValue != null) 'PeriodValue': periodValue,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RequestServiceQuotaIncreaseResponse {
   /// Information about the quota increase request.
-  @_s.JsonKey(name: 'RequestedQuota')
-  final RequestedServiceQuotaChange requestedQuota;
+  final RequestedServiceQuotaChange? requestedQuota;
 
   RequestServiceQuotaIncreaseResponse({
     this.requestedQuota,
   });
+
   factory RequestServiceQuotaIncreaseResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RequestServiceQuotaIncreaseResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RequestServiceQuotaIncreaseResponse(
+      requestedQuota: json['RequestedQuota'] != null
+          ? RequestedServiceQuotaChange.fromJson(
+              json['RequestedQuota'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestedQuota = this.requestedQuota;
+    return {
+      if (requestedQuota != null) 'RequestedQuota': requestedQuota,
+    };
+  }
 }
 
 enum RequestStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('CASE_OPENED')
   caseOpened,
-  @_s.JsonValue('APPROVED')
   approved,
-  @_s.JsonValue('DENIED')
   denied,
-  @_s.JsonValue('CASE_CLOSED')
   caseClosed,
 }
 
@@ -1812,75 +1841,71 @@ extension on RequestStatus {
       case RequestStatus.caseClosed:
         return 'CASE_CLOSED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RequestStatus toRequestStatus() {
+    switch (this) {
+      case 'PENDING':
+        return RequestStatus.pending;
+      case 'CASE_OPENED':
+        return RequestStatus.caseOpened;
+      case 'APPROVED':
+        return RequestStatus.approved;
+      case 'DENIED':
+        return RequestStatus.denied;
+      case 'CASE_CLOSED':
+        return RequestStatus.caseClosed;
+    }
+    throw Exception('$this is not known in enum RequestStatus');
   }
 }
 
 /// Information about a quota increase request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RequestedServiceQuotaChange {
   /// The case ID.
-  @_s.JsonKey(name: 'CaseId')
-  final String caseId;
+  final String? caseId;
 
   /// The date and time when the quota increase request was received and the case
   /// ID was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The new, increased value for the quota.
-  @_s.JsonKey(name: 'DesiredValue')
-  final double desiredValue;
+  final double? desiredValue;
 
   /// Indicates whether the quota is global.
-  @_s.JsonKey(name: 'GlobalQuota')
-  final bool globalQuota;
+  final bool? globalQuota;
 
   /// The unique identifier.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The date and time of the most recent change.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdated')
-  final DateTime lastUpdated;
+  final DateTime? lastUpdated;
 
   /// The Amazon Resource Name (ARN) of the quota.
-  @_s.JsonKey(name: 'QuotaArn')
-  final String quotaArn;
+  final String? quotaArn;
 
   /// The quota identifier.
-  @_s.JsonKey(name: 'QuotaCode')
-  final String quotaCode;
+  final String? quotaCode;
 
   /// The quota name.
-  @_s.JsonKey(name: 'QuotaName')
-  final String quotaName;
+  final String? quotaName;
 
   /// The IAM identity of the requester.
-  @_s.JsonKey(name: 'Requester')
-  final String requester;
+  final String? requester;
 
   /// The service identifier.
-  @_s.JsonKey(name: 'ServiceCode')
-  final String serviceCode;
+  final String? serviceCode;
 
   /// The service name.
-  @_s.JsonKey(name: 'ServiceName')
-  final String serviceName;
+  final String? serviceName;
 
   /// The state of the quota increase request.
-  @_s.JsonKey(name: 'Status')
-  final RequestStatus status;
+  final RequestStatus? status;
 
   /// The unit of measurement.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   RequestedServiceQuotaChange({
     this.caseId,
@@ -1898,87 +1923,127 @@ class RequestedServiceQuotaChange {
     this.status,
     this.unit,
   });
-  factory RequestedServiceQuotaChange.fromJson(Map<String, dynamic> json) =>
-      _$RequestedServiceQuotaChangeFromJson(json);
+
+  factory RequestedServiceQuotaChange.fromJson(Map<String, dynamic> json) {
+    return RequestedServiceQuotaChange(
+      caseId: json['CaseId'] as String?,
+      created: timeStampFromJson(json['Created']),
+      desiredValue: json['DesiredValue'] as double?,
+      globalQuota: json['GlobalQuota'] as bool?,
+      id: json['Id'] as String?,
+      lastUpdated: timeStampFromJson(json['LastUpdated']),
+      quotaArn: json['QuotaArn'] as String?,
+      quotaCode: json['QuotaCode'] as String?,
+      quotaName: json['QuotaName'] as String?,
+      requester: json['Requester'] as String?,
+      serviceCode: json['ServiceCode'] as String?,
+      serviceName: json['ServiceName'] as String?,
+      status: (json['Status'] as String?)?.toRequestStatus(),
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final caseId = this.caseId;
+    final created = this.created;
+    final desiredValue = this.desiredValue;
+    final globalQuota = this.globalQuota;
+    final id = this.id;
+    final lastUpdated = this.lastUpdated;
+    final quotaArn = this.quotaArn;
+    final quotaCode = this.quotaCode;
+    final quotaName = this.quotaName;
+    final requester = this.requester;
+    final serviceCode = this.serviceCode;
+    final serviceName = this.serviceName;
+    final status = this.status;
+    final unit = this.unit;
+    return {
+      if (caseId != null) 'CaseId': caseId,
+      if (created != null) 'Created': unixTimestampToJson(created),
+      if (desiredValue != null) 'DesiredValue': desiredValue,
+      if (globalQuota != null) 'GlobalQuota': globalQuota,
+      if (id != null) 'Id': id,
+      if (lastUpdated != null) 'LastUpdated': unixTimestampToJson(lastUpdated),
+      if (quotaArn != null) 'QuotaArn': quotaArn,
+      if (quotaCode != null) 'QuotaCode': quotaCode,
+      if (quotaName != null) 'QuotaName': quotaName,
+      if (requester != null) 'Requester': requester,
+      if (serviceCode != null) 'ServiceCode': serviceCode,
+      if (serviceName != null) 'ServiceName': serviceName,
+      if (status != null) 'Status': status.toValue(),
+      if (unit != null) 'Unit': unit,
+    };
+  }
 }
 
 /// Information about a service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceInfo {
   /// The service identifier.
-  @_s.JsonKey(name: 'ServiceCode')
-  final String serviceCode;
+  final String? serviceCode;
 
   /// The service name.
-  @_s.JsonKey(name: 'ServiceName')
-  final String serviceName;
+  final String? serviceName;
 
   ServiceInfo({
     this.serviceCode,
     this.serviceName,
   });
-  factory ServiceInfo.fromJson(Map<String, dynamic> json) =>
-      _$ServiceInfoFromJson(json);
+
+  factory ServiceInfo.fromJson(Map<String, dynamic> json) {
+    return ServiceInfo(
+      serviceCode: json['ServiceCode'] as String?,
+      serviceName: json['ServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceCode = this.serviceCode;
+    final serviceName = this.serviceName;
+    return {
+      if (serviceCode != null) 'ServiceCode': serviceCode,
+      if (serviceName != null) 'ServiceName': serviceName,
+    };
+  }
 }
 
 /// Information about a quota.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceQuota {
   /// Indicates whether the quota value can be increased.
-  @_s.JsonKey(name: 'Adjustable')
-  final bool adjustable;
+  final bool? adjustable;
 
   /// The error code and error reason.
-  @_s.JsonKey(name: 'ErrorReason')
-  final ErrorReason errorReason;
+  final ErrorReason? errorReason;
 
   /// Indicates whether the quota is global.
-  @_s.JsonKey(name: 'GlobalQuota')
-  final bool globalQuota;
+  final bool? globalQuota;
 
   /// The period of time.
-  @_s.JsonKey(name: 'Period')
-  final QuotaPeriod period;
+  final QuotaPeriod? period;
 
   /// The Amazon Resource Name (ARN) of the quota.
-  @_s.JsonKey(name: 'QuotaArn')
-  final String quotaArn;
+  final String? quotaArn;
 
   /// The quota identifier.
-  @_s.JsonKey(name: 'QuotaCode')
-  final String quotaCode;
+  final String? quotaCode;
 
   /// The quota name.
-  @_s.JsonKey(name: 'QuotaName')
-  final String quotaName;
+  final String? quotaName;
 
   /// The service identifier.
-  @_s.JsonKey(name: 'ServiceCode')
-  final String serviceCode;
+  final String? serviceCode;
 
   /// The service name.
-  @_s.JsonKey(name: 'ServiceName')
-  final String serviceName;
+  final String? serviceName;
 
   /// The unit of measurement.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   /// Information about the measurement.
-  @_s.JsonKey(name: 'UsageMetric')
-  final MetricInfo usageMetric;
+  final MetricInfo? usageMetric;
 
   /// The quota value.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   ServiceQuota({
     this.adjustable,
@@ -1994,48 +2059,85 @@ class ServiceQuota {
     this.usageMetric,
     this.value,
   });
-  factory ServiceQuota.fromJson(Map<String, dynamic> json) =>
-      _$ServiceQuotaFromJson(json);
+
+  factory ServiceQuota.fromJson(Map<String, dynamic> json) {
+    return ServiceQuota(
+      adjustable: json['Adjustable'] as bool?,
+      errorReason: json['ErrorReason'] != null
+          ? ErrorReason.fromJson(json['ErrorReason'] as Map<String, dynamic>)
+          : null,
+      globalQuota: json['GlobalQuota'] as bool?,
+      period: json['Period'] != null
+          ? QuotaPeriod.fromJson(json['Period'] as Map<String, dynamic>)
+          : null,
+      quotaArn: json['QuotaArn'] as String?,
+      quotaCode: json['QuotaCode'] as String?,
+      quotaName: json['QuotaName'] as String?,
+      serviceCode: json['ServiceCode'] as String?,
+      serviceName: json['ServiceName'] as String?,
+      unit: json['Unit'] as String?,
+      usageMetric: json['UsageMetric'] != null
+          ? MetricInfo.fromJson(json['UsageMetric'] as Map<String, dynamic>)
+          : null,
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adjustable = this.adjustable;
+    final errorReason = this.errorReason;
+    final globalQuota = this.globalQuota;
+    final period = this.period;
+    final quotaArn = this.quotaArn;
+    final quotaCode = this.quotaCode;
+    final quotaName = this.quotaName;
+    final serviceCode = this.serviceCode;
+    final serviceName = this.serviceName;
+    final unit = this.unit;
+    final usageMetric = this.usageMetric;
+    final value = this.value;
+    return {
+      if (adjustable != null) 'Adjustable': adjustable,
+      if (errorReason != null) 'ErrorReason': errorReason,
+      if (globalQuota != null) 'GlobalQuota': globalQuota,
+      if (period != null) 'Period': period,
+      if (quotaArn != null) 'QuotaArn': quotaArn,
+      if (quotaCode != null) 'QuotaCode': quotaCode,
+      if (quotaName != null) 'QuotaName': quotaName,
+      if (serviceCode != null) 'ServiceCode': serviceCode,
+      if (serviceName != null) 'ServiceName': serviceName,
+      if (unit != null) 'Unit': unit,
+      if (usageMetric != null) 'UsageMetric': usageMetric,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Information about a quota increase request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceQuotaIncreaseRequestInTemplate {
   /// The AWS Region.
-  @_s.JsonKey(name: 'AwsRegion')
-  final String awsRegion;
+  final String? awsRegion;
 
   /// The new, increased value of the quota.
-  @_s.JsonKey(name: 'DesiredValue')
-  final double desiredValue;
+  final double? desiredValue;
 
   /// Indicates whether the quota is global.
-  @_s.JsonKey(name: 'GlobalQuota')
-  final bool globalQuota;
+  final bool? globalQuota;
 
   /// The quota identifier.
-  @_s.JsonKey(name: 'QuotaCode')
-  final String quotaCode;
+  final String? quotaCode;
 
   /// The quota name.
-  @_s.JsonKey(name: 'QuotaName')
-  final String quotaName;
+  final String? quotaName;
 
   /// The service identifier.
-  @_s.JsonKey(name: 'ServiceCode')
-  final String serviceCode;
+  final String? serviceCode;
 
   /// The service name.
-  @_s.JsonKey(name: 'ServiceName')
-  final String serviceName;
+  final String? serviceName;
 
   /// The unit of measurement.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   ServiceQuotaIncreaseRequestInTemplate({
     this.awsRegion,
@@ -2047,70 +2149,133 @@ class ServiceQuotaIncreaseRequestInTemplate {
     this.serviceName,
     this.unit,
   });
+
   factory ServiceQuotaIncreaseRequestInTemplate.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServiceQuotaIncreaseRequestInTemplateFromJson(json);
+      Map<String, dynamic> json) {
+    return ServiceQuotaIncreaseRequestInTemplate(
+      awsRegion: json['AwsRegion'] as String?,
+      desiredValue: json['DesiredValue'] as double?,
+      globalQuota: json['GlobalQuota'] as bool?,
+      quotaCode: json['QuotaCode'] as String?,
+      quotaName: json['QuotaName'] as String?,
+      serviceCode: json['ServiceCode'] as String?,
+      serviceName: json['ServiceName'] as String?,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final desiredValue = this.desiredValue;
+    final globalQuota = this.globalQuota;
+    final quotaCode = this.quotaCode;
+    final quotaName = this.quotaName;
+    final serviceCode = this.serviceCode;
+    final serviceName = this.serviceName;
+    final unit = this.unit;
+    return {
+      if (awsRegion != null) 'AwsRegion': awsRegion,
+      if (desiredValue != null) 'DesiredValue': desiredValue,
+      if (globalQuota != null) 'GlobalQuota': globalQuota,
+      if (quotaCode != null) 'QuotaCode': quotaCode,
+      if (quotaName != null) 'QuotaName': quotaName,
+      if (serviceCode != null) 'ServiceCode': serviceCode,
+      if (serviceName != null) 'ServiceName': serviceName,
+      if (unit != null) 'Unit': unit,
+    };
+  }
 }
 
 enum ServiceQuotaTemplateAssociationStatus {
-  @_s.JsonValue('ASSOCIATED')
   associated,
-  @_s.JsonValue('DISASSOCIATED')
   disassociated,
 }
 
+extension on ServiceQuotaTemplateAssociationStatus {
+  String toValue() {
+    switch (this) {
+      case ServiceQuotaTemplateAssociationStatus.associated:
+        return 'ASSOCIATED';
+      case ServiceQuotaTemplateAssociationStatus.disassociated:
+        return 'DISASSOCIATED';
+    }
+  }
+}
+
+extension on String {
+  ServiceQuotaTemplateAssociationStatus
+      toServiceQuotaTemplateAssociationStatus() {
+    switch (this) {
+      case 'ASSOCIATED':
+        return ServiceQuotaTemplateAssociationStatus.associated;
+      case 'DISASSOCIATED':
+        return ServiceQuotaTemplateAssociationStatus.disassociated;
+    }
+    throw Exception(
+        '$this is not known in enum ServiceQuotaTemplateAssociationStatus');
+  }
+}
+
 /// A complex data type that contains a tag key and tag value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A string that contains a tag key. The string length should be between 1 and
   /// 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the
   /// special characters _ - . : / = + @.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// A string that contains an optional tag value. The string length should be
   /// between 0 and 256 characters. Valid characters include a-z, A-Z, 0-9, space,
   /// and the special characters _ - . : / = + @.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class AWSServiceAccessNotEnabledException extends _s.GenericAwsException {
-  AWSServiceAccessNotEnabledException({String type, String message})
+  AWSServiceAccessNotEnabledException({String? type, String? message})
       : super(
             type: type,
             code: 'AWSServiceAccessNotEnabledException',
@@ -2118,12 +2283,12 @@ class AWSServiceAccessNotEnabledException extends _s.GenericAwsException {
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class DependencyAccessDeniedException extends _s.GenericAwsException {
-  DependencyAccessDeniedException({String type, String message})
+  DependencyAccessDeniedException({String? type, String? message})
       : super(
             type: type,
             code: 'DependencyAccessDeniedException',
@@ -2131,12 +2296,12 @@ class DependencyAccessDeniedException extends _s.GenericAwsException {
 }
 
 class IllegalArgumentException extends _s.GenericAwsException {
-  IllegalArgumentException({String type, String message})
+  IllegalArgumentException({String? type, String? message})
       : super(type: type, code: 'IllegalArgumentException', message: message);
 }
 
 class InvalidPaginationTokenException extends _s.GenericAwsException {
-  InvalidPaginationTokenException({String type, String message})
+  InvalidPaginationTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPaginationTokenException',
@@ -2144,7 +2309,7 @@ class InvalidPaginationTokenException extends _s.GenericAwsException {
 }
 
 class InvalidResourceStateException extends _s.GenericAwsException {
-  InvalidResourceStateException({String type, String message})
+  InvalidResourceStateException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidResourceStateException',
@@ -2152,7 +2317,7 @@ class InvalidResourceStateException extends _s.GenericAwsException {
 }
 
 class NoAvailableOrganizationException extends _s.GenericAwsException {
-  NoAvailableOrganizationException({String type, String message})
+  NoAvailableOrganizationException({String? type, String? message})
       : super(
             type: type,
             code: 'NoAvailableOrganizationException',
@@ -2160,12 +2325,12 @@ class NoAvailableOrganizationException extends _s.GenericAwsException {
 }
 
 class NoSuchResourceException extends _s.GenericAwsException {
-  NoSuchResourceException({String type, String message})
+  NoSuchResourceException({String? type, String? message})
       : super(type: type, code: 'NoSuchResourceException', message: message);
 }
 
 class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
-  OrganizationNotInAllFeaturesModeException({String type, String message})
+  OrganizationNotInAllFeaturesModeException({String? type, String? message})
       : super(
             type: type,
             code: 'OrganizationNotInAllFeaturesModeException',
@@ -2173,12 +2338,12 @@ class OrganizationNotInAllFeaturesModeException extends _s.GenericAwsException {
 }
 
 class QuotaExceededException extends _s.GenericAwsException {
-  QuotaExceededException({String type, String message})
+  QuotaExceededException({String? type, String? message})
       : super(type: type, code: 'QuotaExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -2186,12 +2351,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ServiceException extends _s.GenericAwsException {
-  ServiceException({String type, String message})
+  ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
 class ServiceQuotaTemplateNotInUseException extends _s.GenericAwsException {
-  ServiceQuotaTemplateNotInUseException({String type, String message})
+  ServiceQuotaTemplateNotInUseException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaTemplateNotInUseException',
@@ -2199,13 +2364,13 @@ class ServiceQuotaTemplateNotInUseException extends _s.GenericAwsException {
 }
 
 class TagPolicyViolationException extends _s.GenericAwsException {
-  TagPolicyViolationException({String type, String message})
+  TagPolicyViolationException({String? type, String? message})
       : super(
             type: type, code: 'TagPolicyViolationException', message: message);
 }
 
 class TemplatesNotAvailableInRegionException extends _s.GenericAwsException {
-  TemplatesNotAvailableInRegionException({String type, String message})
+  TemplatesNotAvailableInRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'TemplatesNotAvailableInRegionException',
@@ -2213,12 +2378,12 @@ class TemplatesNotAvailableInRegionException extends _s.GenericAwsException {
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

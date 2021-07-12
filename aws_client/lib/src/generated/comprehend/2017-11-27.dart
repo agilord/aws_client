@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-11-27.g.dart';
 
 /// Amazon Comprehend is an AWS service for gaining insight into the content of
 /// documents. Use these actions to determine the topics contained in your
@@ -33,10 +26,10 @@ part '2017-11-27.g.dart';
 class Comprehend {
   final _s.JsonProtocol _protocol;
   Comprehend({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,7 +58,7 @@ class Comprehend {
   /// characters and must contain fewer than 5,000 bytes of UTF-8 encoded
   /// characters.
   Future<BatchDetectDominantLanguageResponse> batchDetectDominantLanguage({
-    @_s.required List<String> textList,
+    required List<String> textList,
   }) async {
     ArgumentError.checkNotNull(textList, 'textList');
     final headers = <String, String>{
@@ -106,8 +99,8 @@ class Comprehend {
   /// maximum of 25 documents. Each document must contain fewer than 5,000 bytes
   /// of UTF-8 encoded characters.
   Future<BatchDetectEntitiesResponse> batchDetectEntities({
-    @_s.required LanguageCode languageCode,
-    @_s.required List<String> textList,
+    required LanguageCode languageCode,
+    required List<String> textList,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(textList, 'textList');
@@ -122,7 +115,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'TextList': textList,
       },
     );
@@ -148,8 +141,8 @@ class Comprehend {
   /// maximum of 25 documents. Each document must contain fewer that 5,000 bytes
   /// of UTF-8 encoded characters.
   Future<BatchDetectKeyPhrasesResponse> batchDetectKeyPhrases({
-    @_s.required LanguageCode languageCode,
-    @_s.required List<String> textList,
+    required LanguageCode languageCode,
+    required List<String> textList,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(textList, 'textList');
@@ -164,7 +157,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'TextList': textList,
       },
     );
@@ -192,8 +185,8 @@ class Comprehend {
   /// maximum of 25 documents. Each document must contain fewer that 5,000 bytes
   /// of UTF-8 encoded characters.
   Future<BatchDetectSentimentResponse> batchDetectSentiment({
-    @_s.required LanguageCode languageCode,
-    @_s.required List<String> textList,
+    required LanguageCode languageCode,
+    required List<String> textList,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(textList, 'textList');
@@ -208,7 +201,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'TextList': textList,
       },
     );
@@ -237,8 +230,8 @@ class Comprehend {
   /// maximum of 25 documents. Each document must contain fewer that 5,000 bytes
   /// of UTF-8 encoded characters.
   Future<BatchDetectSyntaxResponse> batchDetectSyntax({
-    @_s.required SyntaxLanguageCode languageCode,
-    @_s.required List<String> textList,
+    required SyntaxLanguageCode languageCode,
+    required List<String> textList,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(textList, 'textList');
@@ -253,7 +246,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'TextList': textList,
       },
     );
@@ -276,8 +269,8 @@ class Comprehend {
   /// Parameter [text] :
   /// The document text to be analyzed.
   Future<ClassifyDocumentResponse> classifyDocument({
-    @_s.required String endpointArn,
-    @_s.required String text,
+    required String endpointArn,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     _s.validateStringLength(
@@ -285,12 +278,6 @@ class Comprehend {
       endpointArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(text, 'text');
@@ -318,6 +305,54 @@ class Comprehend {
     );
 
     return ClassifyDocumentResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Analyzes input text for the presence of personally identifiable
+  /// information (PII) and returns the labels of identified PII entity types
+  /// such as name, address, bank account number, or phone number.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TextSizeLimitExceededException].
+  /// May throw [UnsupportedLanguageException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input documents.
+  ///
+  /// Parameter [text] :
+  /// Creates a new document classification request to analyze a single document
+  /// in real-time, returning personally identifiable information (PII) entity
+  /// labels.
+  Future<ContainsPiiEntitiesResponse> containsPiiEntities({
+    required LanguageCode languageCode,
+    required String text,
+  }) async {
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(text, 'text');
+    _s.validateStringLength(
+      'text',
+      text,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.ContainsPiiEntities'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LanguageCode': languageCode.toValue(),
+        'Text': text,
+      },
+    );
+
+    return ContainsPiiEntitiesResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a new document classifier that you can use to categorize
@@ -364,6 +399,21 @@ class Comprehend {
   /// individual document are separated by a delimiter. The default delimiter
   /// between labels is a pipe (|).
   ///
+  /// Parameter [modelKmsKeyId] :
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
+  /// uses to encrypt trained custom models. The ModelKmsKeyId can be either of
+  /// the following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [outputDataConfig] :
   /// Enables the addition of output results configuration parameters for custom
   /// classifier jobs.
@@ -397,16 +447,17 @@ class Comprehend {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   Future<CreateDocumentClassifierResponse> createDocumentClassifier({
-    @_s.required String dataAccessRoleArn,
-    @_s.required String documentClassifierName,
-    @_s.required DocumentClassifierInputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    String clientRequestToken,
-    DocumentClassifierMode mode,
-    DocumentClassifierOutputDataConfig outputDataConfig,
-    List<Tag> tags,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required String documentClassifierName,
+    required DocumentClassifierInputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    String? clientRequestToken,
+    DocumentClassifierMode? mode,
+    String? modelKmsKeyId,
+    DocumentClassifierOutputDataConfig? outputDataConfig,
+    List<Tag>? tags,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -414,12 +465,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -431,12 +476,6 @@ class Comprehend {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentClassifierName',
-      documentClassifierName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     _s.validateStringLength(
@@ -445,10 +484,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
+    _s.validateStringLength(
+      'modelKmsKeyId',
+      modelKmsKeyId,
+      0,
+      2048,
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -470,10 +510,11 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'DocumentClassifierName': documentClassifierName,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (mode != null) 'Mode': mode.toValue(),
+        if (modelKmsKeyId != null) 'ModelKmsKeyId': modelKmsKeyId,
         if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
         if (tags != null) 'Tags': tags,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
@@ -515,17 +556,23 @@ class Comprehend {
   /// previous endpoint creation request, Amazon Comprehend will not return a
   /// <code>ResourceInUseException</code>.
   ///
+  /// Parameter [dataAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) of the AWS identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to trained custom
+  /// models encrypted with a customer managed key (ModelKmsKeyId).
+  ///
   /// Parameter [tags] :
   /// Tags associated with the endpoint being created. A tag is a key-value pair
   /// that adds metadata to the endpoint. For example, a tag with "Sales" as the
   /// key might be added to an endpoint to indicate its use by the sales
   /// department.
   Future<CreateEndpointResponse> createEndpoint({
-    @_s.required int desiredInferenceUnits,
-    @_s.required String endpointName,
-    @_s.required String modelArn,
-    String clientRequestToken,
-    List<Tag> tags,
+    required int desiredInferenceUnits,
+    required String endpointName,
+    required String modelArn,
+    String? clientRequestToken,
+    String? dataAccessRoleArn,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(desiredInferenceUnits, 'desiredInferenceUnits');
     _s.validateNumRange(
@@ -543,12 +590,6 @@ class Comprehend {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointName',
-      endpointName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelArn, 'modelArn');
     _s.validateStringLength(
       'modelArn',
@@ -557,22 +598,17 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelArn',
-      modelArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
+    _s.validateStringLength(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      20,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -590,6 +626,7 @@ class Comprehend {
         'ModelArn': modelArn,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
         if (tags != null) 'Tags': tags,
       },
     );
@@ -635,6 +672,21 @@ class Comprehend {
   /// A unique identifier for the request. If you don't set the client request
   /// token, Amazon Comprehend generates one.
   ///
+  /// Parameter [modelKmsKeyId] :
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
+  /// uses to encrypt trained custom models. The ModelKmsKeyId can be either of
+  /// the following formats
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [tags] :
   /// Tags to be associated with the entity recognizer being created. A tag is a
   /// key-value pair that adds as a metadata to a resource used by Amazon
@@ -664,14 +716,15 @@ class Comprehend {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   Future<CreateEntityRecognizerResponse> createEntityRecognizer({
-    @_s.required String dataAccessRoleArn,
-    @_s.required EntityRecognizerInputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required String recognizerName,
-    String clientRequestToken,
-    List<Tag> tags,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required EntityRecognizerInputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required String recognizerName,
+    String? clientRequestToken,
+    String? modelKmsKeyId,
+    List<Tag>? tags,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -679,12 +732,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -697,22 +744,17 @@ class Comprehend {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'recognizerName',
-      recognizerName,
-      r'''^[a-zA-Z0-9](-*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
+    _s.validateStringLength(
+      'modelKmsKeyId',
+      modelKmsKeyId,
+      0,
+      2048,
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -733,10 +775,11 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'RecognizerName': recognizerName,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (modelKmsKeyId != null) 'ModelKmsKeyId': modelKmsKeyId,
         if (tags != null) 'Tags': tags,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
@@ -767,7 +810,7 @@ class Comprehend {
   /// Parameter [documentClassifierArn] :
   /// The Amazon Resource Name (ARN) that identifies the document classifier.
   Future<void> deleteDocumentClassifier({
-    @_s.required String documentClassifierArn,
+    required String documentClassifierArn,
   }) async {
     ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
     _s.validateStringLength(
@@ -777,17 +820,11 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteDocumentClassifier'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -797,8 +834,6 @@ class Comprehend {
         'DocumentClassifierArn': documentClassifierArn,
       },
     );
-
-    return DeleteDocumentClassifierResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a model-specific endpoint for a previously-trained custom model.
@@ -813,7 +848,7 @@ class Comprehend {
   /// Parameter [endpointArn] :
   /// The Amazon Resource Number (ARN) of the endpoint being deleted.
   Future<void> deleteEndpoint({
-    @_s.required String endpointArn,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     _s.validateStringLength(
@@ -823,17 +858,11 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteEndpoint'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -843,8 +872,6 @@ class Comprehend {
         'EndpointArn': endpointArn,
       },
     );
-
-    return DeleteEndpointResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes an entity recognizer.
@@ -868,7 +895,7 @@ class Comprehend {
   /// Parameter [entityRecognizerArn] :
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
   Future<void> deleteEntityRecognizer({
-    @_s.required String entityRecognizerArn,
+    required String entityRecognizerArn,
   }) async {
     ArgumentError.checkNotNull(entityRecognizerArn, 'entityRecognizerArn');
     _s.validateStringLength(
@@ -878,17 +905,11 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.DeleteEntityRecognizer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -898,8 +919,6 @@ class Comprehend {
         'EntityRecognizerArn': entityRecognizerArn,
       },
     );
-
-    return DeleteEntityRecognizerResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets the properties associated with a document classification job. Use
@@ -915,7 +934,7 @@ class Comprehend {
   /// returns this identifier in its response.
   Future<DescribeDocumentClassificationJobResponse>
       describeDocumentClassificationJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -923,12 +942,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -961,7 +974,7 @@ class Comprehend {
   /// The Amazon Resource Name (ARN) that identifies the document classifier.
   /// The operation returns this identifier in its response.
   Future<DescribeDocumentClassifierResponse> describeDocumentClassifier({
-    @_s.required String documentClassifierArn,
+    required String documentClassifierArn,
   }) async {
     ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
     _s.validateStringLength(
@@ -969,12 +982,6 @@ class Comprehend {
       documentClassifierArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1008,7 +1015,7 @@ class Comprehend {
   /// returns this identifier in its response.
   Future<DescribeDominantLanguageDetectionJobResponse>
       describeDominantLanguageDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1016,12 +1023,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1054,7 +1055,7 @@ class Comprehend {
   /// Parameter [endpointArn] :
   /// The Amazon Resource Number (ARN) of the endpoint being described.
   Future<DescribeEndpointResponse> describeEndpoint({
-    @_s.required String endpointArn,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(endpointArn, 'endpointArn');
     _s.validateStringLength(
@@ -1062,12 +1063,6 @@ class Comprehend {
       endpointArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1100,7 +1095,7 @@ class Comprehend {
   /// The identifier that Amazon Comprehend generated for the job. The operation
   /// returns this identifier in its response.
   Future<DescribeEntitiesDetectionJobResponse> describeEntitiesDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1108,12 +1103,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1145,7 +1134,7 @@ class Comprehend {
   /// Parameter [entityRecognizerArn] :
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
   Future<DescribeEntityRecognizerResponse> describeEntityRecognizer({
-    @_s.required String entityRecognizerArn,
+    required String entityRecognizerArn,
   }) async {
     ArgumentError.checkNotNull(entityRecognizerArn, 'entityRecognizerArn');
     _s.validateStringLength(
@@ -1153,12 +1142,6 @@ class Comprehend {
       entityRecognizerArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1189,7 +1172,7 @@ class Comprehend {
   /// Parameter [jobId] :
   /// The identifier of the events detection job.
   Future<DescribeEventsDetectionJobResponse> describeEventsDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1197,12 +1180,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1236,7 +1213,7 @@ class Comprehend {
   /// returns this identifier in its response.
   Future<DescribeKeyPhrasesDetectionJobResponse>
       describeKeyPhrasesDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1244,12 +1221,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1283,7 +1254,7 @@ class Comprehend {
   /// returns this identifier in its response.
   Future<DescribePiiEntitiesDetectionJobResponse>
       describePiiEntitiesDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1291,12 +1262,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1329,7 +1294,7 @@ class Comprehend {
   /// The identifier that Amazon Comprehend generated for the job. The operation
   /// returns this identifier in its response.
   Future<DescribeSentimentDetectionJobResponse> describeSentimentDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1337,12 +1302,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1374,7 +1333,7 @@ class Comprehend {
   /// Parameter [jobId] :
   /// The identifier assigned by the user to the detection job.
   Future<DescribeTopicsDetectionJobResponse> describeTopicsDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1382,12 +1341,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1421,7 +1374,7 @@ class Comprehend {
   /// A UTF-8 text string. Each string should contain at least 20 characters and
   /// must contain fewer that 5,000 bytes of UTF-8 encoded characters.
   Future<DetectDominantLanguageResponse> detectDominantLanguage({
-    @_s.required String text,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
@@ -1481,9 +1434,9 @@ class Comprehend {
   /// model, Amazon Comprehend uses the language of your custom model, and it
   /// ignores any language code that you specify here.
   Future<DetectEntitiesResponse> detectEntities({
-    @_s.required String text,
-    String endpointArn,
-    LanguageCode languageCode,
+    required String text,
+    String? endpointArn,
+    LanguageCode? languageCode,
   }) async {
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
@@ -1498,11 +1451,6 @@ class Comprehend {
       endpointArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1540,8 +1488,8 @@ class Comprehend {
   /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
   /// UTF-8 encoded characters.
   Future<DetectKeyPhrasesResponse> detectKeyPhrases({
-    @_s.required LanguageCode languageCode,
-    @_s.required String text,
+    required LanguageCode languageCode,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(text, 'text');
@@ -1563,7 +1511,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'Text': text,
       },
     );
@@ -1586,8 +1534,8 @@ class Comprehend {
   /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
   /// UTF-8 encoded characters.
   Future<DetectPiiEntitiesResponse> detectPiiEntities({
-    @_s.required LanguageCode languageCode,
-    @_s.required String text,
+    required LanguageCode languageCode,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(text, 'text');
@@ -1609,7 +1557,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'Text': text,
       },
     );
@@ -1635,8 +1583,8 @@ class Comprehend {
   /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
   /// UTF-8 encoded characters.
   Future<DetectSentimentResponse> detectSentiment({
-    @_s.required LanguageCode languageCode,
-    @_s.required String text,
+    required LanguageCode languageCode,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(text, 'text');
@@ -1658,7 +1606,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'Text': text,
       },
     );
@@ -1684,8 +1632,8 @@ class Comprehend {
   /// A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF
   /// encoded characters.
   Future<DetectSyntaxResponse> detectSyntax({
-    @_s.required SyntaxLanguageCode languageCode,
-    @_s.required String text,
+    required SyntaxLanguageCode languageCode,
+    required String text,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(text, 'text');
@@ -1707,7 +1655,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'Text': text,
       },
     );
@@ -1735,9 +1683,9 @@ class Comprehend {
   /// Identifies the next page of results to return.
   Future<ListDocumentClassificationJobsResponse>
       listDocumentClassificationJobs({
-    DocumentClassificationJobFilter filter,
-    int maxResults,
-    String nextToken,
+    DocumentClassificationJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1789,9 +1737,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListDocumentClassifiersResponse> listDocumentClassifiers({
-    DocumentClassifierFilter filter,
-    int maxResults,
-    String nextToken,
+    DocumentClassifierFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1845,9 +1793,9 @@ class Comprehend {
   /// Identifies the next page of results to return.
   Future<ListDominantLanguageDetectionJobsResponse>
       listDominantLanguageDetectionJobs({
-    DominantLanguageDetectionJobFilter filter,
-    int maxResults,
-    String nextToken,
+    DominantLanguageDetectionJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1899,9 +1847,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListEndpointsResponse> listEndpoints({
-    EndpointFilter filter,
-    int maxResults,
-    String nextToken,
+    EndpointFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1953,9 +1901,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListEntitiesDetectionJobsResponse> listEntitiesDetectionJobs({
-    EntitiesDetectionJobFilter filter,
-    int maxResults,
-    String nextToken,
+    EntitiesDetectionJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2014,9 +1962,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListEntityRecognizersResponse> listEntityRecognizers({
-    EntityRecognizerFilter filter,
-    int maxResults,
-    String nextToken,
+    EntityRecognizerFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2068,9 +2016,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListEventsDetectionJobsResponse> listEventsDetectionJobs({
-    EventsDetectionJobFilter filter,
-    int maxResults,
-    String nextToken,
+    EventsDetectionJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2122,9 +2070,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListKeyPhrasesDetectionJobsResponse> listKeyPhrasesDetectionJobs({
-    KeyPhrasesDetectionJobFilter filter,
-    int maxResults,
-    String nextToken,
+    KeyPhrasesDetectionJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2176,9 +2124,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListPiiEntitiesDetectionJobsResponse> listPiiEntitiesDetectionJobs({
-    PiiEntitiesDetectionJobFilter filter,
-    int maxResults,
-    String nextToken,
+    PiiEntitiesDetectionJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2230,9 +2178,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListSentimentDetectionJobsResponse> listSentimentDetectionJobs({
-    SentimentDetectionJobFilter filter,
-    int maxResults,
-    String nextToken,
+    SentimentDetectionJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2276,7 +2224,7 @@ class Comprehend {
   /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you
   /// are querying.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2284,12 +2232,6 @@ class Comprehend {
       resourceArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2328,9 +2270,9 @@ class Comprehend {
   /// Parameter [nextToken] :
   /// Identifies the next page of results to return.
   Future<ListTopicsDetectionJobsResponse> listTopicsDetectionJobs({
-    TopicsDetectionJobFilter filter,
-    int maxResults,
-    String nextToken,
+    TopicsDetectionJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2419,14 +2361,14 @@ class Comprehend {
   /// VPC</a>.
   Future<StartDocumentClassificationJobResponse>
       startDocumentClassificationJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required String documentClassifierArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required String documentClassifierArn,
+    required InputDataConfig inputDataConfig,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -2434,12 +2376,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
@@ -2450,12 +2386,6 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
     ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
     _s.validateStringLength(
@@ -2464,21 +2394,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -2563,13 +2483,13 @@ class Comprehend {
   /// VPC</a>.
   Future<StartDominantLanguageDetectionJobResponse>
       startDominantLanguageDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -2577,12 +2497,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -2593,21 +2507,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -2709,15 +2613,15 @@ class Comprehend {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   Future<StartEntitiesDetectionJobResponse> startEntitiesDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String entityRecognizerArn,
-    String jobName,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? entityRecognizerArn,
+    String? jobName,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -2725,12 +2629,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -2742,32 +2640,17 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'entityRecognizerArn',
       entityRecognizerArn,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -2788,7 +2671,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -2833,13 +2716,13 @@ class Comprehend {
   /// Parameter [jobName] :
   /// The identifier of the events detection job.
   Future<StartEventsDetectionJobResponse> startEventsDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    @_s.required List<String> targetEventTypes,
-    String clientRequestToken,
-    String jobName,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    required List<String> targetEventTypes,
+    String? clientRequestToken,
+    String? jobName,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -2847,12 +2730,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -2865,21 +2742,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2894,7 +2761,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'TargetEventTypes': targetEventTypes,
         'ClientRequestToken':
@@ -2961,14 +2828,14 @@ class Comprehend {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   Future<StartKeyPhrasesDetectionJobResponse> startKeyPhrasesDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -2976,12 +2843,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -2993,21 +2854,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -3028,7 +2879,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -3082,14 +2933,14 @@ class Comprehend {
   /// <code>RedactionConfig</code> definition that includes the
   /// <code>PiiEntityTypes</code> parameter.
   Future<StartPiiEntitiesDetectionJobResponse> startPiiEntitiesDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required PiiEntitiesDetectionMode mode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    RedactionConfig redactionConfig,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required PiiEntitiesDetectionMode mode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    RedactionConfig? redactionConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -3097,12 +2948,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -3115,21 +2960,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3144,8 +2979,8 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
-        'Mode': mode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
+        'Mode': mode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -3212,14 +3047,14 @@ class Comprehend {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   Future<StartSentimentDetectionJobResponse> startSentimentDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required LanguageCode languageCode,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required LanguageCode languageCode,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -3227,12 +3062,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -3244,21 +3073,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateStringLength(
       'volumeKmsKeyId',
@@ -3279,7 +3098,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue() ?? '',
+        'LanguageCode': languageCode.toValue(),
         'OutputDataConfig': outputDataConfig,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
@@ -3349,14 +3168,14 @@ class Comprehend {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
   Future<StartTopicsDetectionJobResponse> startTopicsDetectionJob({
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required OutputDataConfig outputDataConfig,
-    String clientRequestToken,
-    String jobName,
-    int numberOfTopics,
-    String volumeKmsKeyId,
-    VpcConfig vpcConfig,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required OutputDataConfig outputDataConfig,
+    String? clientRequestToken,
+    String? jobName,
+    int? numberOfTopics,
+    String? volumeKmsKeyId,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
@@ -3364,12 +3183,6 @@ class Comprehend {
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -3380,21 +3193,11 @@ class Comprehend {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
     _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     _s.validateNumRange(
       'numberOfTopics',
@@ -3457,7 +3260,7 @@ class Comprehend {
   /// The identifier of the dominant language detection job to stop.
   Future<StopDominantLanguageDetectionJobResponse>
       stopDominantLanguageDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3465,12 +3268,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3513,7 +3310,7 @@ class Comprehend {
   /// Parameter [jobId] :
   /// The identifier of the entities detection job to stop.
   Future<StopEntitiesDetectionJobResponse> stopEntitiesDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3521,12 +3318,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3556,7 +3347,7 @@ class Comprehend {
   /// Parameter [jobId] :
   /// The identifier of the events detection job to stop.
   Future<StopEventsDetectionJobResponse> stopEventsDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3564,12 +3355,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3612,7 +3397,7 @@ class Comprehend {
   /// Parameter [jobId] :
   /// The identifier of the key phrases detection job to stop.
   Future<StopKeyPhrasesDetectionJobResponse> stopKeyPhrasesDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3620,12 +3405,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3655,7 +3434,7 @@ class Comprehend {
   /// Parameter [jobId] :
   /// The identifier of the PII entities detection job to stop.
   Future<StopPiiEntitiesDetectionJobResponse> stopPiiEntitiesDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3663,12 +3442,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3711,7 +3484,7 @@ class Comprehend {
   /// Parameter [jobId] :
   /// The identifier of the sentiment detection job to stop.
   Future<StopSentimentDetectionJobResponse> stopSentimentDetectionJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3719,12 +3492,6 @@ class Comprehend {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3763,7 +3530,7 @@ class Comprehend {
   /// The Amazon Resource Name (ARN) that identifies the document classifier
   /// currently being trained.
   Future<void> stopTrainingDocumentClassifier({
-    @_s.required String documentClassifierArn,
+    required String documentClassifierArn,
   }) async {
     ArgumentError.checkNotNull(documentClassifierArn, 'documentClassifierArn');
     _s.validateStringLength(
@@ -3773,17 +3540,11 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentClassifierArn',
-      documentClassifierArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopTrainingDocumentClassifier'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3793,8 +3554,6 @@ class Comprehend {
         'DocumentClassifierArn': documentClassifierArn,
       },
     );
-
-    return StopTrainingDocumentClassifierResponse.fromJson(jsonResponse.body);
   }
 
   /// Stops an entity recognizer training job while in progress.
@@ -3815,7 +3574,7 @@ class Comprehend {
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer
   /// currently being trained.
   Future<void> stopTrainingEntityRecognizer({
-    @_s.required String entityRecognizerArn,
+    required String entityRecognizerArn,
   }) async {
     ArgumentError.checkNotNull(entityRecognizerArn, 'entityRecognizerArn');
     _s.validateStringLength(
@@ -3825,17 +3584,11 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityRecognizerArn',
-      entityRecognizerArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.StopTrainingEntityRecognizer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3845,8 +3598,6 @@ class Comprehend {
         'EntityRecognizerArn': entityRecognizerArn,
       },
     );
-
-    return StopTrainingEntityRecognizerResponse.fromJson(jsonResponse.body);
   }
 
   /// Associates a specific tag with an Amazon Comprehend resource. A tag is a
@@ -3869,8 +3620,8 @@ class Comprehend {
   /// can be a maximum of 50 tags (both existing and pending) associated with a
   /// specific resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3880,18 +3631,12 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3902,8 +3647,6 @@ class Comprehend {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a specific tag associated with an Amazon Comprehend resource.
@@ -3924,8 +3667,8 @@ class Comprehend {
   /// to a resource to indicate its use by the sales department. Keys must be
   /// unique and cannot be duplicated for a particular resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3935,18 +3678,12 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:[a-zA-Z0-9-]{1,64}/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3957,8 +3694,6 @@ class Comprehend {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates information about the specified endpoint.
@@ -3979,8 +3714,8 @@ class Comprehend {
   /// Parameter [endpointArn] :
   /// The Amazon Resource Number (ARN) of the endpoint being updated.
   Future<void> updateEndpoint({
-    @_s.required int desiredInferenceUnits,
-    @_s.required String endpointArn,
+    required int desiredInferenceUnits,
+    required String endpointArn,
   }) async {
     ArgumentError.checkNotNull(desiredInferenceUnits, 'desiredInferenceUnits');
     _s.validateNumRange(
@@ -3998,17 +3733,11 @@ class Comprehend {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'endpointArn',
-      endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Comprehend_20171127.UpdateEndpoint'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4019,19 +3748,12 @@ class Comprehend {
         'EndpointArn': endpointArn,
       },
     );
-
-    return UpdateEndpointResponse.fromJson(jsonResponse.body);
   }
 }
 
 /// An augmented manifest file that provides training data for your custom
 /// model. An augmented manifest file is a labeled dataset that is produced by
 /// Amazon SageMaker Ground Truth.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AugmentedManifestsListItem {
   /// The JSON attribute that contains the annotations for your training
   /// documents. The number of attribute names that you specify depends on whether
@@ -4045,365 +3767,499 @@ class AugmentedManifestsListItem {
   /// If your file is the output of a chained labeling job, specify the
   /// LabelAttributeName key for one or more jobs in the chain. Each
   /// LabelAttributeName key provides the annotations from an individual job.
-  @_s.JsonKey(name: 'AttributeNames')
   final List<String> attributeNames;
 
   /// The Amazon S3 location of the augmented manifest file.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   AugmentedManifestsListItem({
-    @_s.required this.attributeNames,
-    @_s.required this.s3Uri,
+    required this.attributeNames,
+    required this.s3Uri,
   });
-  factory AugmentedManifestsListItem.fromJson(Map<String, dynamic> json) =>
-      _$AugmentedManifestsListItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AugmentedManifestsListItemToJson(this);
+  factory AugmentedManifestsListItem.fromJson(Map<String, dynamic> json) {
+    return AugmentedManifestsListItem(
+      attributeNames: (json['AttributeNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeNames = this.attributeNames;
+    final s3Uri = this.s3Uri;
+    return {
+      'AttributeNames': attributeNames,
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectDominantLanguageItemResult {
   /// The zero-based index of the document in the input list.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   /// One or more <a>DominantLanguage</a> objects describing the dominant
   /// languages in the document.
-  @_s.JsonKey(name: 'Languages')
-  final List<DominantLanguage> languages;
+  final List<DominantLanguage>? languages;
 
   BatchDetectDominantLanguageItemResult({
     this.index,
     this.languages,
   });
+
   factory BatchDetectDominantLanguageItemResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDetectDominantLanguageItemResultFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchDetectDominantLanguageItemResult(
+      index: json['Index'] as int?,
+      languages: (json['Languages'] as List?)
+          ?.whereNotNull()
+          .map((e) => DominantLanguage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final index = this.index;
+    final languages = this.languages;
+    return {
+      if (index != null) 'Index': index,
+      if (languages != null) 'Languages': languages,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectDominantLanguageResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
   /// match the order of the documents in the input list. If there are no errors
   /// in the batch, the <code>ErrorList</code> is empty.
-  @_s.JsonKey(name: 'ErrorList')
   final List<BatchItemError> errorList;
 
   /// A list of objects containing the results of the operation. The results are
   /// sorted in ascending order by the <code>Index</code> field and match the
   /// order of the documents in the input list. If all of the documents contain an
   /// error, the <code>ResultList</code> is empty.
-  @_s.JsonKey(name: 'ResultList')
   final List<BatchDetectDominantLanguageItemResult> resultList;
 
   BatchDetectDominantLanguageResponse({
-    @_s.required this.errorList,
-    @_s.required this.resultList,
+    required this.errorList,
+    required this.resultList,
   });
+
   factory BatchDetectDominantLanguageResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDetectDominantLanguageResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchDetectDominantLanguageResponse(
+      errorList: (json['ErrorList'] as List)
+          .whereNotNull()
+          .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resultList: (json['ResultList'] as List)
+          .whereNotNull()
+          .map((e) => BatchDetectDominantLanguageItemResult.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorList = this.errorList;
+    final resultList = this.resultList;
+    return {
+      'ErrorList': errorList,
+      'ResultList': resultList,
+    };
+  }
 }
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectEntitiesItemResult {
   /// One or more <a>Entity</a> objects, one for each entity detected in the
   /// document.
-  @_s.JsonKey(name: 'Entities')
-  final List<Entity> entities;
+  final List<Entity>? entities;
 
   /// The zero-based index of the document in the input list.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   BatchDetectEntitiesItemResult({
     this.entities,
     this.index,
   });
-  factory BatchDetectEntitiesItemResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectEntitiesItemResultFromJson(json);
+
+  factory BatchDetectEntitiesItemResult.fromJson(Map<String, dynamic> json) {
+    return BatchDetectEntitiesItemResult(
+      entities: (json['Entities'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      index: json['Index'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final index = this.index;
+    return {
+      if (entities != null) 'Entities': entities,
+      if (index != null) 'Index': index,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectEntitiesResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
   /// match the order of the documents in the input list. If there are no errors
   /// in the batch, the <code>ErrorList</code> is empty.
-  @_s.JsonKey(name: 'ErrorList')
   final List<BatchItemError> errorList;
 
   /// A list of objects containing the results of the operation. The results are
   /// sorted in ascending order by the <code>Index</code> field and match the
   /// order of the documents in the input list. If all of the documents contain an
   /// error, the <code>ResultList</code> is empty.
-  @_s.JsonKey(name: 'ResultList')
   final List<BatchDetectEntitiesItemResult> resultList;
 
   BatchDetectEntitiesResponse({
-    @_s.required this.errorList,
-    @_s.required this.resultList,
+    required this.errorList,
+    required this.resultList,
   });
-  factory BatchDetectEntitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectEntitiesResponseFromJson(json);
+
+  factory BatchDetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetectEntitiesResponse(
+      errorList: (json['ErrorList'] as List)
+          .whereNotNull()
+          .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resultList: (json['ResultList'] as List)
+          .whereNotNull()
+          .map((e) =>
+              BatchDetectEntitiesItemResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorList = this.errorList;
+    final resultList = this.resultList;
+    return {
+      'ErrorList': errorList,
+      'ResultList': resultList,
+    };
+  }
 }
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectKeyPhrasesItemResult {
   /// The zero-based index of the document in the input list.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   /// One or more <a>KeyPhrase</a> objects, one for each key phrase detected in
   /// the document.
-  @_s.JsonKey(name: 'KeyPhrases')
-  final List<KeyPhrase> keyPhrases;
+  final List<KeyPhrase>? keyPhrases;
 
   BatchDetectKeyPhrasesItemResult({
     this.index,
     this.keyPhrases,
   });
-  factory BatchDetectKeyPhrasesItemResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectKeyPhrasesItemResultFromJson(json);
+
+  factory BatchDetectKeyPhrasesItemResult.fromJson(Map<String, dynamic> json) {
+    return BatchDetectKeyPhrasesItemResult(
+      index: json['Index'] as int?,
+      keyPhrases: (json['KeyPhrases'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyPhrase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final index = this.index;
+    final keyPhrases = this.keyPhrases;
+    return {
+      if (index != null) 'Index': index,
+      if (keyPhrases != null) 'KeyPhrases': keyPhrases,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectKeyPhrasesResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
   /// match the order of the documents in the input list. If there are no errors
   /// in the batch, the <code>ErrorList</code> is empty.
-  @_s.JsonKey(name: 'ErrorList')
   final List<BatchItemError> errorList;
 
   /// A list of objects containing the results of the operation. The results are
   /// sorted in ascending order by the <code>Index</code> field and match the
   /// order of the documents in the input list. If all of the documents contain an
   /// error, the <code>ResultList</code> is empty.
-  @_s.JsonKey(name: 'ResultList')
   final List<BatchDetectKeyPhrasesItemResult> resultList;
 
   BatchDetectKeyPhrasesResponse({
-    @_s.required this.errorList,
-    @_s.required this.resultList,
+    required this.errorList,
+    required this.resultList,
   });
-  factory BatchDetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectKeyPhrasesResponseFromJson(json);
+
+  factory BatchDetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetectKeyPhrasesResponse(
+      errorList: (json['ErrorList'] as List)
+          .whereNotNull()
+          .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resultList: (json['ResultList'] as List)
+          .whereNotNull()
+          .map((e) => BatchDetectKeyPhrasesItemResult.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorList = this.errorList;
+    final resultList = this.resultList;
+    return {
+      'ErrorList': errorList,
+      'ResultList': resultList,
+    };
+  }
 }
 
 /// The result of calling the operation. The operation returns one object for
 /// each document that is successfully processed by the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectSentimentItemResult {
   /// The zero-based index of the document in the input list.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   /// The sentiment detected in the document.
-  @_s.JsonKey(name: 'Sentiment')
-  final SentimentType sentiment;
+  final SentimentType? sentiment;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of its
   /// sentiment detection.
-  @_s.JsonKey(name: 'SentimentScore')
-  final SentimentScore sentimentScore;
+  final SentimentScore? sentimentScore;
 
   BatchDetectSentimentItemResult({
     this.index,
     this.sentiment,
     this.sentimentScore,
   });
-  factory BatchDetectSentimentItemResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectSentimentItemResultFromJson(json);
+
+  factory BatchDetectSentimentItemResult.fromJson(Map<String, dynamic> json) {
+    return BatchDetectSentimentItemResult(
+      index: json['Index'] as int?,
+      sentiment: (json['Sentiment'] as String?)?.toSentimentType(),
+      sentimentScore: json['SentimentScore'] != null
+          ? SentimentScore.fromJson(
+              json['SentimentScore'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final index = this.index;
+    final sentiment = this.sentiment;
+    final sentimentScore = this.sentimentScore;
+    return {
+      if (index != null) 'Index': index,
+      if (sentiment != null) 'Sentiment': sentiment.toValue(),
+      if (sentimentScore != null) 'SentimentScore': sentimentScore,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectSentimentResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
   /// match the order of the documents in the input list. If there are no errors
   /// in the batch, the <code>ErrorList</code> is empty.
-  @_s.JsonKey(name: 'ErrorList')
   final List<BatchItemError> errorList;
 
   /// A list of objects containing the results of the operation. The results are
   /// sorted in ascending order by the <code>Index</code> field and match the
   /// order of the documents in the input list. If all of the documents contain an
   /// error, the <code>ResultList</code> is empty.
-  @_s.JsonKey(name: 'ResultList')
   final List<BatchDetectSentimentItemResult> resultList;
 
   BatchDetectSentimentResponse({
-    @_s.required this.errorList,
-    @_s.required this.resultList,
+    required this.errorList,
+    required this.resultList,
   });
-  factory BatchDetectSentimentResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectSentimentResponseFromJson(json);
+
+  factory BatchDetectSentimentResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetectSentimentResponse(
+      errorList: (json['ErrorList'] as List)
+          .whereNotNull()
+          .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resultList: (json['ResultList'] as List)
+          .whereNotNull()
+          .map((e) => BatchDetectSentimentItemResult.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorList = this.errorList;
+    final resultList = this.resultList;
+    return {
+      'ErrorList': errorList,
+      'ResultList': resultList,
+    };
+  }
 }
 
 /// The result of calling the operation. The operation returns one object that
 /// is successfully processed by the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectSyntaxItemResult {
   /// The zero-based index of the document in the input list.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   /// The syntax tokens for the words in the document, one token for each word.
-  @_s.JsonKey(name: 'SyntaxTokens')
-  final List<SyntaxToken> syntaxTokens;
+  final List<SyntaxToken>? syntaxTokens;
 
   BatchDetectSyntaxItemResult({
     this.index,
     this.syntaxTokens,
   });
-  factory BatchDetectSyntaxItemResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectSyntaxItemResultFromJson(json);
+
+  factory BatchDetectSyntaxItemResult.fromJson(Map<String, dynamic> json) {
+    return BatchDetectSyntaxItemResult(
+      index: json['Index'] as int?,
+      syntaxTokens: (json['SyntaxTokens'] as List?)
+          ?.whereNotNull()
+          .map((e) => SyntaxToken.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final index = this.index;
+    final syntaxTokens = this.syntaxTokens;
+    return {
+      if (index != null) 'Index': index,
+      if (syntaxTokens != null) 'SyntaxTokens': syntaxTokens,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDetectSyntaxResponse {
   /// A list containing one object for each document that contained an error. The
   /// results are sorted in ascending order by the <code>Index</code> field and
   /// match the order of the documents in the input list. If there are no errors
   /// in the batch, the <code>ErrorList</code> is empty.
-  @_s.JsonKey(name: 'ErrorList')
   final List<BatchItemError> errorList;
 
   /// A list of objects containing the results of the operation. The results are
   /// sorted in ascending order by the <code>Index</code> field and match the
   /// order of the documents in the input list. If all of the documents contain an
   /// error, the <code>ResultList</code> is empty.
-  @_s.JsonKey(name: 'ResultList')
   final List<BatchDetectSyntaxItemResult> resultList;
 
   BatchDetectSyntaxResponse({
-    @_s.required this.errorList,
-    @_s.required this.resultList,
+    required this.errorList,
+    required this.resultList,
   });
-  factory BatchDetectSyntaxResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDetectSyntaxResponseFromJson(json);
+
+  factory BatchDetectSyntaxResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDetectSyntaxResponse(
+      errorList: (json['ErrorList'] as List)
+          .whereNotNull()
+          .map((e) => BatchItemError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resultList: (json['ResultList'] as List)
+          .whereNotNull()
+          .map((e) =>
+              BatchDetectSyntaxItemResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorList = this.errorList;
+    final resultList = this.resultList;
+    return {
+      'ErrorList': errorList,
+      'ResultList': resultList,
+    };
+  }
 }
 
 /// Describes an error that occurred while processing a document in a batch. The
 /// operation returns on <code>BatchItemError</code> object for each document
 /// that contained an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchItemError {
   /// The numeric error code of the error.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// A text description of the error.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The zero-based index of the document in the input list.
-  @_s.JsonKey(name: 'Index')
-  final int index;
+  final int? index;
 
   BatchItemError({
     this.errorCode,
     this.errorMessage,
     this.index,
   });
-  factory BatchItemError.fromJson(Map<String, dynamic> json) =>
-      _$BatchItemErrorFromJson(json);
+
+  factory BatchItemError.fromJson(Map<String, dynamic> json) {
+    return BatchItemError(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      index: json['Index'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final index = this.index;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (index != null) 'Index': index,
+    };
+  }
 }
 
 /// Describes the result metrics for the test data associated with an
 /// documentation classifier.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClassifierEvaluationMetrics {
   /// The fraction of the labels that were correct recognized. It is computed by
   /// dividing the number of labels in the test documents that were correctly
   /// recognized by the total number of labels in the test documents.
-  @_s.JsonKey(name: 'Accuracy')
-  final double accuracy;
+  final double? accuracy;
 
   /// A measure of how accurate the classifier results are for the test data. It
   /// is derived from the <code>Precision</code> and <code>Recall</code> values.
   /// The <code>F1Score</code> is the harmonic average of the two scores. The
   /// highest score is 1, and the worst score is 0.
-  @_s.JsonKey(name: 'F1Score')
-  final double f1Score;
+  final double? f1Score;
 
   /// Indicates the fraction of labels that are incorrectly predicted. Also seen
   /// as the fraction of wrong labels compared to the total number of labels.
   /// Scores closer to zero are better.
-  @_s.JsonKey(name: 'HammingLoss')
-  final double hammingLoss;
+  final double? hammingLoss;
 
   /// A measure of how accurate the classifier results are for the test data. It
   /// is a combination of the <code>Micro Precision</code> and <code>Micro
   /// Recall</code> values. The <code>Micro F1Score</code> is the harmonic mean of
   /// the two scores. The highest score is 1, and the worst score is 0.
-  @_s.JsonKey(name: 'MicroF1Score')
-  final double microF1Score;
+  final double? microF1Score;
 
   /// A measure of the usefulness of the recognizer results in the test data. High
   /// precision means that the recognizer returned substantially more relevant
   /// results than irrelevant ones. Unlike the Precision metric which comes from
   /// averaging the precision of all available labels, this is based on the
   /// overall score of all precision scores added together.
-  @_s.JsonKey(name: 'MicroPrecision')
-  final double microPrecision;
+  final double? microPrecision;
 
   /// A measure of how complete the classifier results are for the test data. High
   /// recall means that the classifier returned most of the relevant results.
@@ -4412,19 +4268,16 @@ class ClassifierEvaluationMetrics {
   /// text that can found. Instead of averaging the recall scores of all labels
   /// (as with Recall), micro Recall is based on the overall score of all recall
   /// scores added together.
-  @_s.JsonKey(name: 'MicroRecall')
-  final double microRecall;
+  final double? microRecall;
 
   /// A measure of the usefulness of the classifier results in the test data. High
   /// precision means that the classifier returned substantially more relevant
   /// results than irrelevant ones.
-  @_s.JsonKey(name: 'Precision')
-  final double precision;
+  final double? precision;
 
   /// A measure of how complete the classifier results are for the test data. High
   /// recall means that the classifier returned most of the relevant results.
-  @_s.JsonKey(name: 'Recall')
-  final double recall;
+  final double? recall;
 
   ClassifierEvaluationMetrics({
     this.accuracy,
@@ -4436,36 +4289,59 @@ class ClassifierEvaluationMetrics {
     this.precision,
     this.recall,
   });
-  factory ClassifierEvaluationMetrics.fromJson(Map<String, dynamic> json) =>
-      _$ClassifierEvaluationMetricsFromJson(json);
+
+  factory ClassifierEvaluationMetrics.fromJson(Map<String, dynamic> json) {
+    return ClassifierEvaluationMetrics(
+      accuracy: json['Accuracy'] as double?,
+      f1Score: json['F1Score'] as double?,
+      hammingLoss: json['HammingLoss'] as double?,
+      microF1Score: json['MicroF1Score'] as double?,
+      microPrecision: json['MicroPrecision'] as double?,
+      microRecall: json['MicroRecall'] as double?,
+      precision: json['Precision'] as double?,
+      recall: json['Recall'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accuracy = this.accuracy;
+    final f1Score = this.f1Score;
+    final hammingLoss = this.hammingLoss;
+    final microF1Score = this.microF1Score;
+    final microPrecision = this.microPrecision;
+    final microRecall = this.microRecall;
+    final precision = this.precision;
+    final recall = this.recall;
+    return {
+      if (accuracy != null) 'Accuracy': accuracy,
+      if (f1Score != null) 'F1Score': f1Score,
+      if (hammingLoss != null) 'HammingLoss': hammingLoss,
+      if (microF1Score != null) 'MicroF1Score': microF1Score,
+      if (microPrecision != null) 'MicroPrecision': microPrecision,
+      if (microRecall != null) 'MicroRecall': microRecall,
+      if (precision != null) 'Precision': precision,
+      if (recall != null) 'Recall': recall,
+    };
+  }
 }
 
 /// Provides information about a document classifier.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClassifierMetadata {
   /// Describes the result metrics for the test data associated with an
   /// documentation classifier.
-  @_s.JsonKey(name: 'EvaluationMetrics')
-  final ClassifierEvaluationMetrics evaluationMetrics;
+  final ClassifierEvaluationMetrics? evaluationMetrics;
 
   /// The number of labels in the input data.
-  @_s.JsonKey(name: 'NumberOfLabels')
-  final int numberOfLabels;
+  final int? numberOfLabels;
 
   /// The number of documents in the input data that were used to test the
   /// classifier. Typically this is 10 to 20 percent of the input documents, up to
   /// 10,000 documents.
-  @_s.JsonKey(name: 'NumberOfTestDocuments')
-  final int numberOfTestDocuments;
+  final int? numberOfTestDocuments;
 
   /// The number of documents in the input data that were used to train the
   /// classifier. Typically this is 80 to 90 percent of the input documents.
-  @_s.JsonKey(name: 'NumberOfTrainedDocuments')
-  final int numberOfTrainedDocuments;
+  final int? numberOfTrainedDocuments;
 
   ClassifierMetadata({
     this.evaluationMetrics,
@@ -4473,334 +4349,527 @@ class ClassifierMetadata {
     this.numberOfTestDocuments,
     this.numberOfTrainedDocuments,
   });
-  factory ClassifierMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ClassifierMetadataFromJson(json);
+
+  factory ClassifierMetadata.fromJson(Map<String, dynamic> json) {
+    return ClassifierMetadata(
+      evaluationMetrics: json['EvaluationMetrics'] != null
+          ? ClassifierEvaluationMetrics.fromJson(
+              json['EvaluationMetrics'] as Map<String, dynamic>)
+          : null,
+      numberOfLabels: json['NumberOfLabels'] as int?,
+      numberOfTestDocuments: json['NumberOfTestDocuments'] as int?,
+      numberOfTrainedDocuments: json['NumberOfTrainedDocuments'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationMetrics = this.evaluationMetrics;
+    final numberOfLabels = this.numberOfLabels;
+    final numberOfTestDocuments = this.numberOfTestDocuments;
+    final numberOfTrainedDocuments = this.numberOfTrainedDocuments;
+    return {
+      if (evaluationMetrics != null) 'EvaluationMetrics': evaluationMetrics,
+      if (numberOfLabels != null) 'NumberOfLabels': numberOfLabels,
+      if (numberOfTestDocuments != null)
+        'NumberOfTestDocuments': numberOfTestDocuments,
+      if (numberOfTrainedDocuments != null)
+        'NumberOfTrainedDocuments': numberOfTrainedDocuments,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClassifyDocumentResponse {
   /// The classes used by the document being analyzed. These are used for
   /// multi-class trained models. Individual classes are mutually exclusive and
   /// each document is expected to have only a single class assigned to it. For
   /// example, an animal can be a dog or a cat, but not both at the same time.
-  @_s.JsonKey(name: 'Classes')
-  final List<DocumentClass> classes;
+  final List<DocumentClass>? classes;
 
   /// The labels used the document being analyzed. These are used for multi-label
   /// trained models. Individual labels represent different categories that are
   /// related in some manner and are not mutually exclusive. For example, a movie
   /// can be just an action movie, or it can be an action movie, a science fiction
   /// movie, and a comedy, all at the same time.
-  @_s.JsonKey(name: 'Labels')
-  final List<DocumentLabel> labels;
+  final List<DocumentLabel>? labels;
 
   ClassifyDocumentResponse({
     this.classes,
     this.labels,
   });
-  factory ClassifyDocumentResponse.fromJson(Map<String, dynamic> json) =>
-      _$ClassifyDocumentResponseFromJson(json);
+
+  factory ClassifyDocumentResponse.fromJson(Map<String, dynamic> json) {
+    return ClassifyDocumentResponse(
+      classes: (json['Classes'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentClass.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentLabel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final classes = this.classes;
+    final labels = this.labels;
+    return {
+      if (classes != null) 'Classes': classes,
+      if (labels != null) 'Labels': labels,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class ContainsPiiEntitiesResponse {
+  /// The labels used in the document being analyzed. Individual labels represent
+  /// personally identifiable information (PII) entity types.
+  final List<EntityLabel>? labels;
+
+  ContainsPiiEntitiesResponse({
+    this.labels,
+  });
+
+  factory ContainsPiiEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ContainsPiiEntitiesResponse(
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntityLabel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    return {
+      if (labels != null) 'Labels': labels,
+    };
+  }
+}
+
 class CreateDocumentClassifierResponse {
   /// The Amazon Resource Name (ARN) that identifies the document classifier.
-  @_s.JsonKey(name: 'DocumentClassifierArn')
-  final String documentClassifierArn;
+  final String? documentClassifierArn;
 
   CreateDocumentClassifierResponse({
     this.documentClassifierArn,
   });
-  factory CreateDocumentClassifierResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDocumentClassifierResponseFromJson(json);
+
+  factory CreateDocumentClassifierResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDocumentClassifierResponse(
+      documentClassifierArn: json['DocumentClassifierArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentClassifierArn = this.documentClassifierArn;
+    return {
+      if (documentClassifierArn != null)
+        'DocumentClassifierArn': documentClassifierArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEndpointResponse {
   /// The Amazon Resource Number (ARN) of the endpoint being created.
-  @_s.JsonKey(name: 'EndpointArn')
-  final String endpointArn;
+  final String? endpointArn;
 
   CreateEndpointResponse({
     this.endpointArn,
   });
-  factory CreateEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEndpointResponseFromJson(json);
+
+  factory CreateEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEndpointResponse(
+      endpointArn: json['EndpointArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointArn = this.endpointArn;
+    return {
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEntityRecognizerResponse {
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
-  @_s.JsonKey(name: 'EntityRecognizerArn')
-  final String entityRecognizerArn;
+  final String? entityRecognizerArn;
 
   CreateEntityRecognizerResponse({
     this.entityRecognizerArn,
   });
-  factory CreateEntityRecognizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateEntityRecognizerResponseFromJson(json);
+
+  factory CreateEntityRecognizerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateEntityRecognizerResponse(
+      entityRecognizerArn: json['EntityRecognizerArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityRecognizerArn = this.entityRecognizerArn;
+    return {
+      if (entityRecognizerArn != null)
+        'EntityRecognizerArn': entityRecognizerArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDocumentClassifierResponse {
   DeleteDocumentClassifierResponse();
-  factory DeleteDocumentClassifierResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteDocumentClassifierResponseFromJson(json);
+
+  factory DeleteDocumentClassifierResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDocumentClassifierResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEndpointResponse {
   DeleteEndpointResponse();
-  factory DeleteEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEndpointResponseFromJson(json);
+
+  factory DeleteEndpointResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteEndpointResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEntityRecognizerResponse {
   DeleteEntityRecognizerResponse();
-  factory DeleteEntityRecognizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEntityRecognizerResponseFromJson(json);
+
+  factory DeleteEntityRecognizerResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteEntityRecognizerResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDocumentClassificationJobResponse {
   /// An object that describes the properties associated with the document
   /// classification job.
-  @_s.JsonKey(name: 'DocumentClassificationJobProperties')
-  final DocumentClassificationJobProperties documentClassificationJobProperties;
+  final DocumentClassificationJobProperties?
+      documentClassificationJobProperties;
 
   DescribeDocumentClassificationJobResponse({
     this.documentClassificationJobProperties,
   });
+
   factory DescribeDocumentClassificationJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDocumentClassificationJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDocumentClassificationJobResponse(
+      documentClassificationJobProperties:
+          json['DocumentClassificationJobProperties'] != null
+              ? DocumentClassificationJobProperties.fromJson(
+                  json['DocumentClassificationJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentClassificationJobProperties =
+        this.documentClassificationJobProperties;
+    return {
+      if (documentClassificationJobProperties != null)
+        'DocumentClassificationJobProperties':
+            documentClassificationJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDocumentClassifierResponse {
   /// An object that contains the properties associated with a document
   /// classifier.
-  @_s.JsonKey(name: 'DocumentClassifierProperties')
-  final DocumentClassifierProperties documentClassifierProperties;
+  final DocumentClassifierProperties? documentClassifierProperties;
 
   DescribeDocumentClassifierResponse({
     this.documentClassifierProperties,
   });
+
   factory DescribeDocumentClassifierResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDocumentClassifierResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDocumentClassifierResponse(
+      documentClassifierProperties: json['DocumentClassifierProperties'] != null
+          ? DocumentClassifierProperties.fromJson(
+              json['DocumentClassifierProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentClassifierProperties = this.documentClassifierProperties;
+    return {
+      if (documentClassifierProperties != null)
+        'DocumentClassifierProperties': documentClassifierProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDominantLanguageDetectionJobResponse {
   /// An object that contains the properties associated with a dominant language
   /// detection job.
-  @_s.JsonKey(name: 'DominantLanguageDetectionJobProperties')
-  final DominantLanguageDetectionJobProperties
+  final DominantLanguageDetectionJobProperties?
       dominantLanguageDetectionJobProperties;
 
   DescribeDominantLanguageDetectionJobResponse({
     this.dominantLanguageDetectionJobProperties,
   });
+
   factory DescribeDominantLanguageDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDominantLanguageDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDominantLanguageDetectionJobResponse(
+      dominantLanguageDetectionJobProperties:
+          json['DominantLanguageDetectionJobProperties'] != null
+              ? DominantLanguageDetectionJobProperties.fromJson(
+                  json['DominantLanguageDetectionJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dominantLanguageDetectionJobProperties =
+        this.dominantLanguageDetectionJobProperties;
+    return {
+      if (dominantLanguageDetectionJobProperties != null)
+        'DominantLanguageDetectionJobProperties':
+            dominantLanguageDetectionJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointResponse {
   /// Describes information associated with the specific endpoint.
-  @_s.JsonKey(name: 'EndpointProperties')
-  final EndpointProperties endpointProperties;
+  final EndpointProperties? endpointProperties;
 
   DescribeEndpointResponse({
     this.endpointProperties,
   });
-  factory DescribeEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointResponseFromJson(json);
+
+  factory DescribeEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointResponse(
+      endpointProperties: json['EndpointProperties'] != null
+          ? EndpointProperties.fromJson(
+              json['EndpointProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointProperties = this.endpointProperties;
+    return {
+      if (endpointProperties != null) 'EndpointProperties': endpointProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEntitiesDetectionJobResponse {
   /// An object that contains the properties associated with an entities detection
   /// job.
-  @_s.JsonKey(name: 'EntitiesDetectionJobProperties')
-  final EntitiesDetectionJobProperties entitiesDetectionJobProperties;
+  final EntitiesDetectionJobProperties? entitiesDetectionJobProperties;
 
   DescribeEntitiesDetectionJobResponse({
     this.entitiesDetectionJobProperties,
   });
+
   factory DescribeEntitiesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEntitiesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEntitiesDetectionJobResponse(
+      entitiesDetectionJobProperties: json['EntitiesDetectionJobProperties'] !=
+              null
+          ? EntitiesDetectionJobProperties.fromJson(
+              json['EntitiesDetectionJobProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entitiesDetectionJobProperties = this.entitiesDetectionJobProperties;
+    return {
+      if (entitiesDetectionJobProperties != null)
+        'EntitiesDetectionJobProperties': entitiesDetectionJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEntityRecognizerResponse {
   /// Describes information associated with an entity recognizer.
-  @_s.JsonKey(name: 'EntityRecognizerProperties')
-  final EntityRecognizerProperties entityRecognizerProperties;
+  final EntityRecognizerProperties? entityRecognizerProperties;
 
   DescribeEntityRecognizerResponse({
     this.entityRecognizerProperties,
   });
-  factory DescribeEntityRecognizerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEntityRecognizerResponseFromJson(json);
+
+  factory DescribeEntityRecognizerResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEntityRecognizerResponse(
+      entityRecognizerProperties: json['EntityRecognizerProperties'] != null
+          ? EntityRecognizerProperties.fromJson(
+              json['EntityRecognizerProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityRecognizerProperties = this.entityRecognizerProperties;
+    return {
+      if (entityRecognizerProperties != null)
+        'EntityRecognizerProperties': entityRecognizerProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventsDetectionJobResponse {
   /// An object that contains the properties associated with an event detection
   /// job.
-  @_s.JsonKey(name: 'EventsDetectionJobProperties')
-  final EventsDetectionJobProperties eventsDetectionJobProperties;
+  final EventsDetectionJobProperties? eventsDetectionJobProperties;
 
   DescribeEventsDetectionJobResponse({
     this.eventsDetectionJobProperties,
   });
+
   factory DescribeEventsDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEventsDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEventsDetectionJobResponse(
+      eventsDetectionJobProperties: json['EventsDetectionJobProperties'] != null
+          ? EventsDetectionJobProperties.fromJson(
+              json['EventsDetectionJobProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventsDetectionJobProperties = this.eventsDetectionJobProperties;
+    return {
+      if (eventsDetectionJobProperties != null)
+        'EventsDetectionJobProperties': eventsDetectionJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeKeyPhrasesDetectionJobResponse {
   /// An object that contains the properties associated with a key phrases
   /// detection job.
-  @_s.JsonKey(name: 'KeyPhrasesDetectionJobProperties')
-  final KeyPhrasesDetectionJobProperties keyPhrasesDetectionJobProperties;
+  final KeyPhrasesDetectionJobProperties? keyPhrasesDetectionJobProperties;
 
   DescribeKeyPhrasesDetectionJobResponse({
     this.keyPhrasesDetectionJobProperties,
   });
+
   factory DescribeKeyPhrasesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeKeyPhrasesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeKeyPhrasesDetectionJobResponse(
+      keyPhrasesDetectionJobProperties:
+          json['KeyPhrasesDetectionJobProperties'] != null
+              ? KeyPhrasesDetectionJobProperties.fromJson(
+                  json['KeyPhrasesDetectionJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyPhrasesDetectionJobProperties =
+        this.keyPhrasesDetectionJobProperties;
+    return {
+      if (keyPhrasesDetectionJobProperties != null)
+        'KeyPhrasesDetectionJobProperties': keyPhrasesDetectionJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePiiEntitiesDetectionJobResponse {
-  @_s.JsonKey(name: 'PiiEntitiesDetectionJobProperties')
-  final PiiEntitiesDetectionJobProperties piiEntitiesDetectionJobProperties;
+  final PiiEntitiesDetectionJobProperties? piiEntitiesDetectionJobProperties;
 
   DescribePiiEntitiesDetectionJobResponse({
     this.piiEntitiesDetectionJobProperties,
   });
+
   factory DescribePiiEntitiesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePiiEntitiesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePiiEntitiesDetectionJobResponse(
+      piiEntitiesDetectionJobProperties:
+          json['PiiEntitiesDetectionJobProperties'] != null
+              ? PiiEntitiesDetectionJobProperties.fromJson(
+                  json['PiiEntitiesDetectionJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final piiEntitiesDetectionJobProperties =
+        this.piiEntitiesDetectionJobProperties;
+    return {
+      if (piiEntitiesDetectionJobProperties != null)
+        'PiiEntitiesDetectionJobProperties': piiEntitiesDetectionJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSentimentDetectionJobResponse {
   /// An object that contains the properties associated with a sentiment detection
   /// job.
-  @_s.JsonKey(name: 'SentimentDetectionJobProperties')
-  final SentimentDetectionJobProperties sentimentDetectionJobProperties;
+  final SentimentDetectionJobProperties? sentimentDetectionJobProperties;
 
   DescribeSentimentDetectionJobResponse({
     this.sentimentDetectionJobProperties,
   });
+
   factory DescribeSentimentDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeSentimentDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeSentimentDetectionJobResponse(
+      sentimentDetectionJobProperties:
+          json['SentimentDetectionJobProperties'] != null
+              ? SentimentDetectionJobProperties.fromJson(
+                  json['SentimentDetectionJobProperties']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sentimentDetectionJobProperties =
+        this.sentimentDetectionJobProperties;
+    return {
+      if (sentimentDetectionJobProperties != null)
+        'SentimentDetectionJobProperties': sentimentDetectionJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTopicsDetectionJobResponse {
   /// The list of properties for the requested job.
-  @_s.JsonKey(name: 'TopicsDetectionJobProperties')
-  final TopicsDetectionJobProperties topicsDetectionJobProperties;
+  final TopicsDetectionJobProperties? topicsDetectionJobProperties;
 
   DescribeTopicsDetectionJobResponse({
     this.topicsDetectionJobProperties,
   });
+
   factory DescribeTopicsDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTopicsDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTopicsDetectionJobResponse(
+      topicsDetectionJobProperties: json['TopicsDetectionJobProperties'] != null
+          ? TopicsDetectionJobProperties.fromJson(
+              json['TopicsDetectionJobProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicsDetectionJobProperties = this.topicsDetectionJobProperties;
+    return {
+      if (topicsDetectionJobProperties != null)
+        'TopicsDetectionJobProperties': topicsDetectionJobProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectDominantLanguageResponse {
   /// The languages that Amazon Comprehend detected in the input text. For each
   /// language, the response returns the RFC 5646 language code and the level of
@@ -4808,21 +4877,29 @@ class DetectDominantLanguageResponse {
   /// more information about RFC 5646, see <a
   /// href="https://tools.ietf.org/html/rfc5646">Tags for Identifying
   /// Languages</a> on the <i>IETF Tools</i> web site.
-  @_s.JsonKey(name: 'Languages')
-  final List<DominantLanguage> languages;
+  final List<DominantLanguage>? languages;
 
   DetectDominantLanguageResponse({
     this.languages,
   });
-  factory DetectDominantLanguageResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectDominantLanguageResponseFromJson(json);
+
+  factory DetectDominantLanguageResponse.fromJson(Map<String, dynamic> json) {
+    return DetectDominantLanguageResponse(
+      languages: (json['Languages'] as List?)
+          ?.whereNotNull()
+          .map((e) => DominantLanguage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languages = this.languages;
+    return {
+      if (languages != null) 'Languages': languages,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectEntitiesResponse {
   /// A collection of entities identified in the input text. For each entity, the
   /// response provides the entity text, entity type, where the entity text begins
@@ -4833,155 +4910,198 @@ class DetectEntitiesResponse {
   /// detects the entities that the model is trained to recognize. Otherwise, it
   /// detects the default entity types. For a list of default entity types, see
   /// <a>how-entities</a>.
-  @_s.JsonKey(name: 'Entities')
-  final List<Entity> entities;
+  final List<Entity>? entities;
 
   DetectEntitiesResponse({
     this.entities,
   });
-  factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectEntitiesResponseFromJson(json);
+
+  factory DetectEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return DetectEntitiesResponse(
+      entities: (json['Entities'] as List?)
+          ?.whereNotNull()
+          .map((e) => Entity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    return {
+      if (entities != null) 'Entities': entities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectKeyPhrasesResponse {
   /// A collection of key phrases that Amazon Comprehend identified in the input
   /// text. For each key phrase, the response provides the text of the key phrase,
   /// where the key phrase begins and ends, and the level of confidence that
   /// Amazon Comprehend has in the accuracy of the detection.
-  @_s.JsonKey(name: 'KeyPhrases')
-  final List<KeyPhrase> keyPhrases;
+  final List<KeyPhrase>? keyPhrases;
 
   DetectKeyPhrasesResponse({
     this.keyPhrases,
   });
-  factory DetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectKeyPhrasesResponseFromJson(json);
+
+  factory DetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) {
+    return DetectKeyPhrasesResponse(
+      keyPhrases: (json['KeyPhrases'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyPhrase.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyPhrases = this.keyPhrases;
+    return {
+      if (keyPhrases != null) 'KeyPhrases': keyPhrases,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectPiiEntitiesResponse {
   /// A collection of PII entities identified in the input text. For each entity,
   /// the response provides the entity type, where the entity text begins and
   /// ends, and the level of confidence that Amazon Comprehend has in the
   /// detection.
-  @_s.JsonKey(name: 'Entities')
-  final List<PiiEntity> entities;
+  final List<PiiEntity>? entities;
 
   DetectPiiEntitiesResponse({
     this.entities,
   });
-  factory DetectPiiEntitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectPiiEntitiesResponseFromJson(json);
+
+  factory DetectPiiEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return DetectPiiEntitiesResponse(
+      entities: (json['Entities'] as List?)
+          ?.whereNotNull()
+          .map((e) => PiiEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    return {
+      if (entities != null) 'Entities': entities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectSentimentResponse {
   /// The inferred sentiment that Amazon Comprehend has the highest level of
   /// confidence in.
-  @_s.JsonKey(name: 'Sentiment')
-  final SentimentType sentiment;
+  final SentimentType? sentiment;
 
   /// An object that lists the sentiments, and their corresponding confidence
   /// levels.
-  @_s.JsonKey(name: 'SentimentScore')
-  final SentimentScore sentimentScore;
+  final SentimentScore? sentimentScore;
 
   DetectSentimentResponse({
     this.sentiment,
     this.sentimentScore,
   });
-  factory DetectSentimentResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectSentimentResponseFromJson(json);
+
+  factory DetectSentimentResponse.fromJson(Map<String, dynamic> json) {
+    return DetectSentimentResponse(
+      sentiment: (json['Sentiment'] as String?)?.toSentimentType(),
+      sentimentScore: json['SentimentScore'] != null
+          ? SentimentScore.fromJson(
+              json['SentimentScore'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sentiment = this.sentiment;
+    final sentimentScore = this.sentimentScore;
+    return {
+      if (sentiment != null) 'Sentiment': sentiment.toValue(),
+      if (sentimentScore != null) 'SentimentScore': sentimentScore,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectSyntaxResponse {
   /// A collection of syntax tokens describing the text. For each token, the
   /// response provides the text, the token type, where the text begins and ends,
   /// and the level of confidence that Amazon Comprehend has that the token is
   /// correct. For a list of token types, see <a>how-syntax</a>.
-  @_s.JsonKey(name: 'SyntaxTokens')
-  final List<SyntaxToken> syntaxTokens;
+  final List<SyntaxToken>? syntaxTokens;
 
   DetectSyntaxResponse({
     this.syntaxTokens,
   });
-  factory DetectSyntaxResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectSyntaxResponseFromJson(json);
+
+  factory DetectSyntaxResponse.fromJson(Map<String, dynamic> json) {
+    return DetectSyntaxResponse(
+      syntaxTokens: (json['SyntaxTokens'] as List?)
+          ?.whereNotNull()
+          .map((e) => SyntaxToken.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final syntaxTokens = this.syntaxTokens;
+    return {
+      if (syntaxTokens != null) 'SyntaxTokens': syntaxTokens,
+    };
+  }
 }
 
 /// Specifies the class that categorizes the document being analyzed
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentClass {
   /// The name of the class.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The confidence score that Amazon Comprehend has this class correctly
   /// attributed.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   DocumentClass({
     this.name,
     this.score,
   });
-  factory DocumentClass.fromJson(Map<String, dynamic> json) =>
-      _$DocumentClassFromJson(json);
+
+  factory DocumentClass.fromJson(Map<String, dynamic> json) {
+    return DocumentClass(
+      name: json['Name'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name,
+      if (score != null) 'Score': score,
+    };
+  }
 }
 
 /// Provides information for filtering a list of document classification jobs.
 /// For more information, see the operation. You can provide only one filter
 /// parameter in each request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DocumentClassificationJobFilter {
   /// Filters on the name of the job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list based on job status. Returns only jobs with the specified
   /// status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   DocumentClassificationJobFilter({
     this.jobName,
@@ -4989,63 +5109,68 @@ class DocumentClassificationJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() =>
-      _$DocumentClassificationJobFilterToJson(this);
+
+  factory DocumentClassificationJobFilter.fromJson(Map<String, dynamic> json) {
+    return DocumentClassificationJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about a document classification job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentClassificationJobProperties {
   /// The Amazon Resource Name (ARN) of the AWS identity and Access Management
   /// (IAM) role that grants Amazon Comprehend read access to your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The Amazon Resource Name (ARN) that identifies the document classifier.
-  @_s.JsonKey(name: 'DocumentClassifierArn')
-  final String documentClassifierArn;
+  final String? documentClassifierArn;
 
   /// The time that the document classification job completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input data configuration that you supplied when you created the document
   /// classification job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the document classification job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name that you assigned to the document classification job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the document classification job. If the status is
   /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
   /// failure.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// A description of the status of the job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The output data configuration that you supplied when you created the
   /// document classification job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the document classification job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -5061,16 +5186,14 @@ class DocumentClassificationJobProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your document classification job.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   DocumentClassificationJobProperties({
     this.dataAccessRoleArn,
@@ -5086,64 +5209,143 @@ class DocumentClassificationJobProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
+
   factory DocumentClassificationJobProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$DocumentClassificationJobPropertiesFromJson(json);
+      Map<String, dynamic> json) {
+    return DocumentClassificationJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      documentClassifierArn: json['DocumentClassifierArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final documentClassifierArn = this.documentClassifierArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (documentClassifierArn != null)
+        'DocumentClassifierArn': documentClassifierArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 enum DocumentClassifierDataFormat {
-  @_s.JsonValue('COMPREHEND_CSV')
   comprehendCsv,
-  @_s.JsonValue('AUGMENTED_MANIFEST')
   augmentedManifest,
+}
+
+extension on DocumentClassifierDataFormat {
+  String toValue() {
+    switch (this) {
+      case DocumentClassifierDataFormat.comprehendCsv:
+        return 'COMPREHEND_CSV';
+      case DocumentClassifierDataFormat.augmentedManifest:
+        return 'AUGMENTED_MANIFEST';
+    }
+  }
+}
+
+extension on String {
+  DocumentClassifierDataFormat toDocumentClassifierDataFormat() {
+    switch (this) {
+      case 'COMPREHEND_CSV':
+        return DocumentClassifierDataFormat.comprehendCsv;
+      case 'AUGMENTED_MANIFEST':
+        return DocumentClassifierDataFormat.augmentedManifest;
+    }
+    throw Exception('$this is not known in enum DocumentClassifierDataFormat');
+  }
 }
 
 /// Provides information for filtering a list of document classifiers. You can
 /// only specify one filtering parameter in a request. For more information, see
 /// the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DocumentClassifierFilter {
   /// Filters the list of classifiers based on status.
-  @_s.JsonKey(name: 'Status')
-  final ModelStatus status;
+  final ModelStatus? status;
 
   /// Filters the list of classifiers based on the time that the classifier was
   /// submitted for processing. Returns only classifiers submitted after the
   /// specified time. Classifiers are returned in descending order, newest to
   /// oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of classifiers based on the time that the classifier was
   /// submitted for processing. Returns only classifiers submitted before the
   /// specified time. Classifiers are returned in ascending order, oldest to
   /// newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   DocumentClassifierFilter({
     this.status,
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$DocumentClassifierFilterToJson(this);
+
+  factory DocumentClassifierFilter.fromJson(Map<String, dynamic> json) {
+    return DocumentClassifierFilter(
+      status: (json['Status'] as String?)?.toModelStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (status != null) 'Status': status.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// The input properties for training a document classifier.
 ///
 /// For more information on how the input file is formatted, see
 /// <a>how-document-classification-training-data</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentClassifierInputDataConfig {
   /// A list of augmented manifest files that provide training data for your
   /// custom model. An augmented manifest file is a labeled dataset that is
@@ -5151,8 +5353,7 @@ class DocumentClassifierInputDataConfig {
   ///
   /// This parameter is required if you set <code>DataFormat</code> to
   /// <code>AUGMENTED_MANIFEST</code>.
-  @_s.JsonKey(name: 'AugmentedManifests')
-  final List<AugmentedManifestsListItem> augmentedManifests;
+  final List<AugmentedManifestsListItem>? augmentedManifests;
 
   /// The format of your training data:
   ///
@@ -5175,8 +5376,7 @@ class DocumentClassifierInputDataConfig {
   /// </ul>
   /// If you don't specify a value, Amazon Comprehend uses
   /// <code>COMPREHEND_CSV</code> as the default.
-  @_s.JsonKey(name: 'DataFormat')
-  final DocumentClassifierDataFormat dataFormat;
+  final DocumentClassifierDataFormat? dataFormat;
 
   /// Indicates the delimiter used to separate each label for training a
   /// multi-label classifier. The default delimiter between labels is a pipe (|).
@@ -5185,8 +5385,7 @@ class DocumentClassifierInputDataConfig {
   /// documents use a delimiter other than the default or the delimiter you
   /// specify, the labels on that line will be combined to make a single unique
   /// label, such as LABELLABELLABEL.
-  @_s.JsonKey(name: 'LabelDelimiter')
-  final String labelDelimiter;
+  final String? labelDelimiter;
 
   /// The Amazon S3 URI for the input data. The S3 bucket must be in the same
   /// region as the API endpoint that you are calling. The URI can point to a
@@ -5200,8 +5399,7 @@ class DocumentClassifierInputDataConfig {
   ///
   /// This parameter is required if you set <code>DataFormat</code> to
   /// <code>COMPREHEND_CSV</code>.
-  @_s.JsonKey(name: 'S3Uri')
-  final String s3Uri;
+  final String? s3Uri;
 
   DocumentClassifierInputDataConfig({
     this.augmentedManifests,
@@ -5209,18 +5407,38 @@ class DocumentClassifierInputDataConfig {
     this.labelDelimiter,
     this.s3Uri,
   });
-  factory DocumentClassifierInputDataConfig.fromJson(
-          Map<String, dynamic> json) =>
-      _$DocumentClassifierInputDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DocumentClassifierInputDataConfigToJson(this);
+  factory DocumentClassifierInputDataConfig.fromJson(
+      Map<String, dynamic> json) {
+    return DocumentClassifierInputDataConfig(
+      augmentedManifests: (json['AugmentedManifests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataFormat:
+          (json['DataFormat'] as String?)?.toDocumentClassifierDataFormat(),
+      labelDelimiter: json['LabelDelimiter'] as String?,
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final augmentedManifests = this.augmentedManifests;
+    final dataFormat = this.dataFormat;
+    final labelDelimiter = this.labelDelimiter;
+    final s3Uri = this.s3Uri;
+    return {
+      if (augmentedManifests != null) 'AugmentedManifests': augmentedManifests,
+      if (dataFormat != null) 'DataFormat': dataFormat.toValue(),
+      if (labelDelimiter != null) 'LabelDelimiter': labelDelimiter,
+      if (s3Uri != null) 'S3Uri': s3Uri,
+    };
+  }
 }
 
 enum DocumentClassifierMode {
-  @_s.JsonValue('MULTI_CLASS')
   multiClass,
-  @_s.JsonValue('MULTI_LABEL')
   multiLabel,
 }
 
@@ -5232,16 +5450,22 @@ extension on DocumentClassifierMode {
       case DocumentClassifierMode.multiLabel:
         return 'MULTI_LABEL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DocumentClassifierMode toDocumentClassifierMode() {
+    switch (this) {
+      case 'MULTI_CLASS':
+        return DocumentClassifierMode.multiClass;
+      case 'MULTI_LABEL':
+        return DocumentClassifierMode.multiLabel;
+    }
+    throw Exception('$this is not known in enum DocumentClassifierMode');
   }
 }
 
 /// Provides output results configuration parameters for custom classifier jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentClassifierOutputDataConfig {
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt the output results from an analysis job. The KmsKeyId can be one
@@ -5263,8 +5487,7 @@ class DocumentClassifierOutputDataConfig {
   /// <code>"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// When you use the <code>OutputDataConfig</code> object while creating a
   /// custom classifier, you specify the Amazon S3 location where you want to
@@ -5276,99 +5499,102 @@ class DocumentClassifierOutputDataConfig {
   /// file in a directory specific to the job. The <code>S3Uri</code> field
   /// contains the location of the output file, called <code>output.tar.gz</code>.
   /// It is a compressed archive that contains the confusion matrix.
-  @_s.JsonKey(name: 'S3Uri')
-  final String s3Uri;
+  final String? s3Uri;
 
   DocumentClassifierOutputDataConfig({
     this.kmsKeyId,
     this.s3Uri,
   });
-  factory DocumentClassifierOutputDataConfig.fromJson(
-          Map<String, dynamic> json) =>
-      _$DocumentClassifierOutputDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DocumentClassifierOutputDataConfigToJson(this);
+  factory DocumentClassifierOutputDataConfig.fromJson(
+      Map<String, dynamic> json) {
+    return DocumentClassifierOutputDataConfig(
+      kmsKeyId: json['KmsKeyId'] as String?,
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKeyId = this.kmsKeyId;
+    final s3Uri = this.s3Uri;
+    return {
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (s3Uri != null) 'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// Provides information about a document classifier.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentClassifierProperties {
   /// Information about the document classifier, including the number of documents
   /// used for training the classifier, the number of documents used for test the
   /// classifier, and an accuracy rating.
-  @_s.JsonKey(name: 'ClassifierMetadata')
-  final ClassifierMetadata classifierMetadata;
+  final ClassifierMetadata? classifierMetadata;
 
   /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role
   /// that grants Amazon Comprehend read access to your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The Amazon Resource Name (ARN) that identifies the document classifier.
-  @_s.JsonKey(name: 'DocumentClassifierArn')
-  final String documentClassifierArn;
+  final String? documentClassifierArn;
 
   /// The time that training the document classifier completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input data configuration that you supplied when you created the document
   /// classifier for training.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final DocumentClassifierInputDataConfig inputDataConfig;
+  final DocumentClassifierInputDataConfig? inputDataConfig;
 
   /// The language code for the language of the documents that the classifier was
   /// trained on.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// Additional information about the status of the classifier.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// Indicates the mode in which the specific classifier was trained. This also
   /// indicates the format of input documents and the format of the confusion
   /// matrix. Each classifier can only be trained in one mode and this cannot be
   /// changed once the classifier is trained.
-  @_s.JsonKey(name: 'Mode')
-  final DocumentClassifierMode mode;
+  final DocumentClassifierMode? mode;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt trained custom models. The ModelKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  final String? modelKmsKeyId;
 
   /// Provides output results configuration parameters for custom classifier jobs.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final DocumentClassifierOutputDataConfig outputDataConfig;
+  final DocumentClassifierOutputDataConfig? outputDataConfig;
 
   /// The status of the document classifier. If the status is <code>TRAINED</code>
   /// the classifier is ready to use. If the status is <code>FAILED</code> you can
   /// see additional information about why the classifier wasn't trained in the
   /// <code>Message</code> field.
-  @_s.JsonKey(name: 'Status')
-  final ModelStatus status;
+  final ModelStatus? status;
 
   /// The time that the document classifier was submitted for training.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// The time that training of the document classifier was completed. Indicates
   /// the time when the training completes on documentation classifiers. You are
   /// billed for the time interval between this time and the value of
   /// TrainingStartTime.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TrainingEndTime')
-  final DateTime trainingEndTime;
+  final DateTime? trainingEndTime;
 
   /// Indicates the time when the training starts on documentation classifiers.
   /// You are billed for the time interval between this time and the value of
   /// TrainingEndTime.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TrainingStartTime')
-  final DateTime trainingStartTime;
+  final DateTime? trainingStartTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -5384,16 +5610,14 @@ class DocumentClassifierProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your custom classifier. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   DocumentClassifierProperties({
     this.classifierMetadata,
@@ -5404,6 +5628,7 @@ class DocumentClassifierProperties {
     this.languageCode,
     this.message,
     this.mode,
+    this.modelKmsKeyId,
     this.outputDataConfig,
     this.status,
     this.submitTime,
@@ -5412,92 +5637,165 @@ class DocumentClassifierProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
-  factory DocumentClassifierProperties.fromJson(Map<String, dynamic> json) =>
-      _$DocumentClassifierPropertiesFromJson(json);
+
+  factory DocumentClassifierProperties.fromJson(Map<String, dynamic> json) {
+    return DocumentClassifierProperties(
+      classifierMetadata: json['ClassifierMetadata'] != null
+          ? ClassifierMetadata.fromJson(
+              json['ClassifierMetadata'] as Map<String, dynamic>)
+          : null,
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      documentClassifierArn: json['DocumentClassifierArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? DocumentClassifierInputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      message: json['Message'] as String?,
+      mode: (json['Mode'] as String?)?.toDocumentClassifierMode(),
+      modelKmsKeyId: json['ModelKmsKeyId'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? DocumentClassifierOutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toModelStatus(),
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
+      trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final classifierMetadata = this.classifierMetadata;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final documentClassifierArn = this.documentClassifierArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final languageCode = this.languageCode;
+    final message = this.message;
+    final mode = this.mode;
+    final modelKmsKeyId = this.modelKmsKeyId;
+    final outputDataConfig = this.outputDataConfig;
+    final status = this.status;
+    final submitTime = this.submitTime;
+    final trainingEndTime = this.trainingEndTime;
+    final trainingStartTime = this.trainingStartTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (classifierMetadata != null) 'ClassifierMetadata': classifierMetadata,
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (documentClassifierArn != null)
+        'DocumentClassifierArn': documentClassifierArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (message != null) 'Message': message,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (modelKmsKeyId != null) 'ModelKmsKeyId': modelKmsKeyId,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (status != null) 'Status': status.toValue(),
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (trainingEndTime != null)
+        'TrainingEndTime': unixTimestampToJson(trainingEndTime),
+      if (trainingStartTime != null)
+        'TrainingStartTime': unixTimestampToJson(trainingStartTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 /// Specifies one of the label or labels that categorize the document being
 /// analyzed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentLabel {
   /// The name of the label.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The confidence score that Amazon Comprehend has this label correctly
   /// attributed.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   DocumentLabel({
     this.name,
     this.score,
   });
-  factory DocumentLabel.fromJson(Map<String, dynamic> json) =>
-      _$DocumentLabelFromJson(json);
+
+  factory DocumentLabel.fromJson(Map<String, dynamic> json) {
+    return DocumentLabel(
+      name: json['Name'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name,
+      if (score != null) 'Score': score,
+    };
+  }
 }
 
 /// Returns the code for the dominant language in the input text and the level
 /// of confidence that Amazon Comprehend has in the accuracy of the detection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DominantLanguage {
   /// The RFC 5646 language code for the dominant language. For more information
   /// about RFC 5646, see <a href="https://tools.ietf.org/html/rfc5646">Tags for
   /// Identifying Languages</a> on the <i>IETF Tools</i> web site.
-  @_s.JsonKey(name: 'LanguageCode')
-  final String languageCode;
+  final String? languageCode;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of the
   /// detection.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   DominantLanguage({
     this.languageCode,
     this.score,
   });
-  factory DominantLanguage.fromJson(Map<String, dynamic> json) =>
-      _$DominantLanguageFromJson(json);
+
+  factory DominantLanguage.fromJson(Map<String, dynamic> json) {
+    return DominantLanguage(
+      languageCode: json['LanguageCode'] as String?,
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final languageCode = this.languageCode;
+    final score = this.score;
+    return {
+      if (languageCode != null) 'LanguageCode': languageCode,
+      if (score != null) 'Score': score,
+    };
+  }
 }
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DominantLanguageDetectionJobFilter {
   /// Filters on the name of the job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based on job status. Returns only jobs with the
   /// specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   DominantLanguageDetectionJobFilter({
     this.jobName,
@@ -5505,60 +5803,67 @@ class DominantLanguageDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() =>
-      _$DominantLanguageDetectionJobFilterToJson(this);
+
+  factory DominantLanguageDetectionJobFilter.fromJson(
+      Map<String, dynamic> json) {
+    return DominantLanguageDetectionJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about a dominant language detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DominantLanguageDetectionJobProperties {
   /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to
   /// your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the dominant language detection job completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input data configuration that you supplied when you created the dominant
   /// language detection job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the dominant language detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name that you assigned to the dominant language detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the dominant language detection job. If the status is
   /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
   /// failure.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// A description for the status of a job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The output data configuration that you supplied when you created the
   /// dominant language detection job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the dominant language detection job was submitted for
   /// processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -5574,16 +5879,14 @@ class DominantLanguageDetectionJobProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your dominant language detection
   /// job. For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   DominantLanguageDetectionJobProperties({
     this.dataAccessRoleArn,
@@ -5598,41 +5901,79 @@ class DominantLanguageDetectionJobProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
+
   factory DominantLanguageDetectionJobProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$DominantLanguageDetectionJobPropertiesFromJson(json);
+      Map<String, dynamic> json) {
+    return DominantLanguageDetectionJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 /// The filter used to determine which endpoints are returned. You can filter
 /// jobs on their name, model, status, or the date and time that they were
 /// created. You can only set one filter at a time.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EndpointFilter {
   /// Specifies a date after which the returned endpoint or endpoints were
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimeAfter')
-  final DateTime creationTimeAfter;
+  final DateTime? creationTimeAfter;
 
   /// Specifies a date before which the returned endpoint or endpoints were
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimeBefore')
-  final DateTime creationTimeBefore;
+  final DateTime? creationTimeBefore;
 
   /// The Amazon Resource Number (ARN) of the model to which the endpoint is
   /// attached.
-  @_s.JsonKey(name: 'ModelArn')
-  final String modelArn;
+  final String? modelArn;
 
   /// Specifies the status of the endpoint being returned. Possible values are:
   /// Creating, Ready, Updating, Deleting, Failed.
-  @_s.JsonKey(name: 'Status')
-  final EndpointStatus status;
+  final EndpointStatus? status;
 
   EndpointFilter({
     this.creationTimeAfter,
@@ -5640,59 +5981,73 @@ class EndpointFilter {
     this.modelArn,
     this.status,
   });
-  Map<String, dynamic> toJson() => _$EndpointFilterToJson(this);
+
+  factory EndpointFilter.fromJson(Map<String, dynamic> json) {
+    return EndpointFilter(
+      creationTimeAfter: timeStampFromJson(json['CreationTimeAfter']),
+      creationTimeBefore: timeStampFromJson(json['CreationTimeBefore']),
+      modelArn: json['ModelArn'] as String?,
+      status: (json['Status'] as String?)?.toEndpointStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimeAfter = this.creationTimeAfter;
+    final creationTimeBefore = this.creationTimeBefore;
+    final modelArn = this.modelArn;
+    final status = this.status;
+    return {
+      if (creationTimeAfter != null)
+        'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
+      if (creationTimeBefore != null)
+        'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Specifies information about the specified endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EndpointProperties {
   /// The creation date and time of the endpoint.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The number of inference units currently used by the model using this
   /// endpoint.
-  @_s.JsonKey(name: 'CurrentInferenceUnits')
-  final int currentInferenceUnits;
+  final int? currentInferenceUnits;
+
+  /// The Amazon Resource Name (ARN) of the AWS identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to trained custom
+  /// models encrypted with a customer managed key (ModelKmsKeyId).
+  final String? dataAccessRoleArn;
 
   /// The desired number of inference units to be used by the model using this
   /// endpoint. Each inference unit represents of a throughput of 100 characters
   /// per second.
-  @_s.JsonKey(name: 'DesiredInferenceUnits')
-  final int desiredInferenceUnits;
+  final int? desiredInferenceUnits;
 
   /// The Amazon Resource Number (ARN) of the endpoint.
-  @_s.JsonKey(name: 'EndpointArn')
-  final String endpointArn;
+  final String? endpointArn;
 
   /// The date and time that the endpoint was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// Specifies a reason for failure in cases of <code>Failed</code> status.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The Amazon Resource Number (ARN) of the model to which the endpoint is
   /// attached.
-  @_s.JsonKey(name: 'ModelArn')
-  final String modelArn;
+  final String? modelArn;
 
   /// Specifies the status of the endpoint. Because the endpoint updates and
   /// creation are asynchronous, so customers will need to wait for the endpoint
   /// to be <code>Ready</code> status before making inference requests.
-  @_s.JsonKey(name: 'Status')
-  final EndpointStatus status;
+  final EndpointStatus? status;
 
   EndpointProperties({
     this.creationTime,
     this.currentInferenceUnits,
+    this.dataAccessRoleArn,
     this.desiredInferenceUnits,
     this.endpointArn,
     this.lastModifiedTime,
@@ -5700,53 +6055,111 @@ class EndpointProperties {
     this.modelArn,
     this.status,
   });
-  factory EndpointProperties.fromJson(Map<String, dynamic> json) =>
-      _$EndpointPropertiesFromJson(json);
+
+  factory EndpointProperties.fromJson(Map<String, dynamic> json) {
+    return EndpointProperties(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      currentInferenceUnits: json['CurrentInferenceUnits'] as int?,
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      desiredInferenceUnits: json['DesiredInferenceUnits'] as int?,
+      endpointArn: json['EndpointArn'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      message: json['Message'] as String?,
+      modelArn: json['ModelArn'] as String?,
+      status: (json['Status'] as String?)?.toEndpointStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final currentInferenceUnits = this.currentInferenceUnits;
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final desiredInferenceUnits = this.desiredInferenceUnits;
+    final endpointArn = this.endpointArn;
+    final lastModifiedTime = this.lastModifiedTime;
+    final message = this.message;
+    final modelArn = this.modelArn;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (currentInferenceUnits != null)
+        'CurrentInferenceUnits': currentInferenceUnits,
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (desiredInferenceUnits != null)
+        'DesiredInferenceUnits': desiredInferenceUnits,
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (message != null) 'Message': message,
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum EndpointStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('IN_SERVICE')
   inService,
-  @_s.JsonValue('UPDATING')
   updating,
+}
+
+extension on EndpointStatus {
+  String toValue() {
+    switch (this) {
+      case EndpointStatus.creating:
+        return 'CREATING';
+      case EndpointStatus.deleting:
+        return 'DELETING';
+      case EndpointStatus.failed:
+        return 'FAILED';
+      case EndpointStatus.inService:
+        return 'IN_SERVICE';
+      case EndpointStatus.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  EndpointStatus toEndpointStatus() {
+    switch (this) {
+      case 'CREATING':
+        return EndpointStatus.creating;
+      case 'DELETING':
+        return EndpointStatus.deleting;
+      case 'FAILED':
+        return EndpointStatus.failed;
+      case 'IN_SERVICE':
+        return EndpointStatus.inService;
+      case 'UPDATING':
+        return EndpointStatus.updating;
+    }
+    throw Exception('$this is not known in enum EndpointStatus');
+  }
 }
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EntitiesDetectionJobFilter {
   /// Filters on the name of the job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based on job status. Returns only jobs with the
   /// specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   EntitiesDetectionJobFilter({
     this.jobName,
@@ -5754,66 +6167,71 @@ class EntitiesDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$EntitiesDetectionJobFilterToJson(this);
+
+  factory EntitiesDetectionJobFilter.fromJson(Map<String, dynamic> json) {
+    return EntitiesDetectionJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about an entities detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntitiesDetectionJobProperties {
   /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to
   /// your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the entities detection job completed
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
-  @_s.JsonKey(name: 'EntityRecognizerArn')
-  final String entityRecognizerArn;
+  final String? entityRecognizerArn;
 
   /// The input data configuration that you supplied when you created the entities
   /// detection job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the entities detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name that you assigned the entities detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the entities detection job. If the status is
   /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
   /// failure.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// The language code of the input documents.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// A description of the status of a job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The output data configuration that you supplied when you created the
   /// entities detection job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the entities detection job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -5829,16 +6247,14 @@ class EntitiesDetectionJobProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your entity detection job. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   EntitiesDetectionJobProperties({
     this.dataAccessRoleArn,
@@ -5855,47 +6271,93 @@ class EntitiesDetectionJobProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
-  factory EntitiesDetectionJobProperties.fromJson(Map<String, dynamic> json) =>
-      _$EntitiesDetectionJobPropertiesFromJson(json);
+
+  factory EntitiesDetectionJobProperties.fromJson(Map<String, dynamic> json) {
+    return EntitiesDetectionJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      entityRecognizerArn: json['EntityRecognizerArn'] as String?,
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final entityRecognizerArn = this.entityRecognizerArn;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final languageCode = this.languageCode;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (entityRecognizerArn != null)
+        'EntityRecognizerArn': entityRecognizerArn,
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 /// Provides information about an entity.
 ///
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Entity {
   /// A character offset in the input text that shows where the entity begins (the
   /// first character is at position 0). The offset returns the position of each
   /// UTF-8 code point in the string. A <i>code point</i> is the abstract
   /// character from a particular graphical representation. For example, a
   /// multi-byte UTF-8 character maps to a single code point.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// A character offset in the input text that shows where the entity ends. The
   /// offset returns the position of each UTF-8 code point in the string. A
   /// <i>code point</i> is the abstract character from a particular graphical
   /// representation. For example, a multi-byte UTF-8 character maps to a single
   /// code point.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of the
   /// detection.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The text of the entity.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// The entity's type.
-  @_s.JsonKey(name: 'Type')
-  final EntityType type;
+  final EntityType? type;
 
   Entity({
     this.beginOffset,
@@ -5904,157 +6366,257 @@ class Entity {
     this.text,
     this.type,
   });
-  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
+
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    return Entity(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+      type: (json['Type'] as String?)?.toEntityType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final endOffset = this.endOffset;
+    final score = this.score;
+    final text = this.text;
+    final type = this.type;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+}
+
+/// Specifies one of the label or labels that categorize the personally
+/// identifiable information (PII) entity being analyzed.
+class EntityLabel {
+  /// The name of the label.
+  final PiiEntityType? name;
+
+  /// The level of confidence that Amazon Comprehend has in the accuracy of the
+  /// detection.
+  final double? score;
+
+  EntityLabel({
+    this.name,
+    this.score,
+  });
+
+  factory EntityLabel.fromJson(Map<String, dynamic> json) {
+    return EntityLabel(
+      name: (json['Name'] as String?)?.toPiiEntityType(),
+      score: json['Score'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final score = this.score;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (score != null) 'Score': score,
+    };
+  }
 }
 
 /// Describes the annotations associated with a entity recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EntityRecognizerAnnotations {
   /// Specifies the Amazon S3 location where the annotations for an entity
   /// recognizer are located. The URI must be in the same region as the API
   /// endpoint that you are calling.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   EntityRecognizerAnnotations({
-    @_s.required this.s3Uri,
+    required this.s3Uri,
   });
-  factory EntityRecognizerAnnotations.fromJson(Map<String, dynamic> json) =>
-      _$EntityRecognizerAnnotationsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EntityRecognizerAnnotationsToJson(this);
+  factory EntityRecognizerAnnotations.fromJson(Map<String, dynamic> json) {
+    return EntityRecognizerAnnotations(
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 enum EntityRecognizerDataFormat {
-  @_s.JsonValue('COMPREHEND_CSV')
   comprehendCsv,
-  @_s.JsonValue('AUGMENTED_MANIFEST')
   augmentedManifest,
 }
 
+extension on EntityRecognizerDataFormat {
+  String toValue() {
+    switch (this) {
+      case EntityRecognizerDataFormat.comprehendCsv:
+        return 'COMPREHEND_CSV';
+      case EntityRecognizerDataFormat.augmentedManifest:
+        return 'AUGMENTED_MANIFEST';
+    }
+  }
+}
+
+extension on String {
+  EntityRecognizerDataFormat toEntityRecognizerDataFormat() {
+    switch (this) {
+      case 'COMPREHEND_CSV':
+        return EntityRecognizerDataFormat.comprehendCsv;
+      case 'AUGMENTED_MANIFEST':
+        return EntityRecognizerDataFormat.augmentedManifest;
+    }
+    throw Exception('$this is not known in enum EntityRecognizerDataFormat');
+  }
+}
+
 /// Describes the training documents submitted with an entity recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EntityRecognizerDocuments {
   /// Specifies the Amazon S3 location where the training documents for an entity
   /// recognizer are located. The URI must be in the same region as the API
   /// endpoint that you are calling.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   EntityRecognizerDocuments({
-    @_s.required this.s3Uri,
+    required this.s3Uri,
   });
-  factory EntityRecognizerDocuments.fromJson(Map<String, dynamic> json) =>
-      _$EntityRecognizerDocumentsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EntityRecognizerDocumentsToJson(this);
+  factory EntityRecognizerDocuments.fromJson(Map<String, dynamic> json) {
+    return EntityRecognizerDocuments(
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// Describes the entity recognizer submitted with an entity recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EntityRecognizerEntityList {
   /// Specifies the Amazon S3 location where the entity list is located. The URI
   /// must be in the same region as the API endpoint that you are calling.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   EntityRecognizerEntityList({
-    @_s.required this.s3Uri,
+    required this.s3Uri,
   });
-  factory EntityRecognizerEntityList.fromJson(Map<String, dynamic> json) =>
-      _$EntityRecognizerEntityListFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EntityRecognizerEntityListToJson(this);
+  factory EntityRecognizerEntityList.fromJson(Map<String, dynamic> json) {
+    return EntityRecognizerEntityList(
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// Detailed information about the accuracy of an entity recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntityRecognizerEvaluationMetrics {
   /// A measure of how accurate the recognizer results are for the test data. It
   /// is derived from the <code>Precision</code> and <code>Recall</code> values.
   /// The <code>F1Score</code> is the harmonic average of the two scores. The
   /// highest score is 1, and the worst score is 0.
-  @_s.JsonKey(name: 'F1Score')
-  final double f1Score;
+  final double? f1Score;
 
   /// A measure of the usefulness of the recognizer results in the test data. High
   /// precision means that the recognizer returned substantially more relevant
   /// results than irrelevant ones.
-  @_s.JsonKey(name: 'Precision')
-  final double precision;
+  final double? precision;
 
   /// A measure of how complete the recognizer results are for the test data. High
   /// recall means that the recognizer returned most of the relevant results.
-  @_s.JsonKey(name: 'Recall')
-  final double recall;
+  final double? recall;
 
   EntityRecognizerEvaluationMetrics({
     this.f1Score,
     this.precision,
     this.recall,
   });
+
   factory EntityRecognizerEvaluationMetrics.fromJson(
-          Map<String, dynamic> json) =>
-      _$EntityRecognizerEvaluationMetricsFromJson(json);
+      Map<String, dynamic> json) {
+    return EntityRecognizerEvaluationMetrics(
+      f1Score: json['F1Score'] as double?,
+      precision: json['Precision'] as double?,
+      recall: json['Recall'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final f1Score = this.f1Score;
+    final precision = this.precision;
+    final recall = this.recall;
+    return {
+      if (f1Score != null) 'F1Score': f1Score,
+      if (precision != null) 'Precision': precision,
+      if (recall != null) 'Recall': recall,
+    };
+  }
 }
 
 /// Provides information for filtering a list of entity recognizers. You can
 /// only specify one filtering parameter in a request. For more information, see
 /// the operation./&gt;
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EntityRecognizerFilter {
   /// The status of an entity recognizer.
-  @_s.JsonKey(name: 'Status')
-  final ModelStatus status;
+  final ModelStatus? status;
 
   /// Filters the list of entities based on the time that the list was submitted
   /// for processing. Returns only jobs submitted after the specified time. Jobs
   /// are returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of entities based on the time that the list was submitted
   /// for processing. Returns only jobs submitted before the specified time. Jobs
   /// are returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   EntityRecognizerFilter({
     this.status,
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$EntityRecognizerFilterToJson(this);
+
+  factory EntityRecognizerFilter.fromJson(Map<String, dynamic> json) {
+    return EntityRecognizerFilter(
+      status: (json['Status'] as String?)?.toModelStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (status != null) 'Status': status.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Specifies the format and location of the input data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EntityRecognizerInputDataConfig {
   /// The entity types in the labeled training data that Amazon Comprehend uses to
   /// train the custom entity recognizer. Any entity types that you don't specify
@@ -6065,12 +6627,10 @@ class EntityRecognizerInputDataConfig {
   /// \n (line break), \\n (escaped line break), \r (carriage return), \\r
   /// (escaped carriage return), \t (tab), \\t (escaped tab), space, and ,
   /// (comma).
-  @_s.JsonKey(name: 'EntityTypes')
   final List<EntityTypesListItem> entityTypes;
 
   /// The S3 location of the CSV file that annotates your training documents.
-  @_s.JsonKey(name: 'Annotations')
-  final EntityRecognizerAnnotations annotations;
+  final EntityRecognizerAnnotations? annotations;
 
   /// A list of augmented manifest files that provide training data for your
   /// custom model. An augmented manifest file is a labeled dataset that is
@@ -6078,8 +6638,7 @@ class EntityRecognizerInputDataConfig {
   ///
   /// This parameter is required if you set <code>DataFormat</code> to
   /// <code>AUGMENTED_MANIFEST</code>.
-  @_s.JsonKey(name: 'AugmentedManifests')
-  final List<AugmentedManifestsListItem> augmentedManifests;
+  final List<AugmentedManifestsListItem>? augmentedManifests;
 
   /// The format of your training data:
   ///
@@ -6107,61 +6666,89 @@ class EntityRecognizerInputDataConfig {
   /// </ul>
   /// If you don't specify a value, Amazon Comprehend uses
   /// <code>COMPREHEND_CSV</code> as the default.
-  @_s.JsonKey(name: 'DataFormat')
-  final EntityRecognizerDataFormat dataFormat;
+  final EntityRecognizerDataFormat? dataFormat;
 
   /// The S3 location of the folder that contains the training documents for your
   /// custom entity recognizer.
   ///
   /// This parameter is required if you set <code>DataFormat</code> to
   /// <code>COMPREHEND_CSV</code>.
-  @_s.JsonKey(name: 'Documents')
-  final EntityRecognizerDocuments documents;
+  final EntityRecognizerDocuments? documents;
 
   /// The S3 location of the CSV file that has the entity list for your custom
   /// entity recognizer.
-  @_s.JsonKey(name: 'EntityList')
-  final EntityRecognizerEntityList entityList;
+  final EntityRecognizerEntityList? entityList;
 
   EntityRecognizerInputDataConfig({
-    @_s.required this.entityTypes,
+    required this.entityTypes,
     this.annotations,
     this.augmentedManifests,
     this.dataFormat,
     this.documents,
     this.entityList,
   });
-  factory EntityRecognizerInputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$EntityRecognizerInputDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$EntityRecognizerInputDataConfigToJson(this);
+  factory EntityRecognizerInputDataConfig.fromJson(Map<String, dynamic> json) {
+    return EntityRecognizerInputDataConfig(
+      entityTypes: (json['EntityTypes'] as List)
+          .whereNotNull()
+          .map((e) => EntityTypesListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      annotations: json['Annotations'] != null
+          ? EntityRecognizerAnnotations.fromJson(
+              json['Annotations'] as Map<String, dynamic>)
+          : null,
+      augmentedManifests: (json['AugmentedManifests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      dataFormat:
+          (json['DataFormat'] as String?)?.toEntityRecognizerDataFormat(),
+      documents: json['Documents'] != null
+          ? EntityRecognizerDocuments.fromJson(
+              json['Documents'] as Map<String, dynamic>)
+          : null,
+      entityList: json['EntityList'] != null
+          ? EntityRecognizerEntityList.fromJson(
+              json['EntityList'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityTypes = this.entityTypes;
+    final annotations = this.annotations;
+    final augmentedManifests = this.augmentedManifests;
+    final dataFormat = this.dataFormat;
+    final documents = this.documents;
+    final entityList = this.entityList;
+    return {
+      'EntityTypes': entityTypes,
+      if (annotations != null) 'Annotations': annotations,
+      if (augmentedManifests != null) 'AugmentedManifests': augmentedManifests,
+      if (dataFormat != null) 'DataFormat': dataFormat.toValue(),
+      if (documents != null) 'Documents': documents,
+      if (entityList != null) 'EntityList': entityList,
+    };
+  }
 }
 
 /// Detailed information about an entity recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntityRecognizerMetadata {
   /// Entity types from the metadata of an entity recognizer.
-  @_s.JsonKey(name: 'EntityTypes')
-  final List<EntityRecognizerMetadataEntityTypesListItem> entityTypes;
+  final List<EntityRecognizerMetadataEntityTypesListItem>? entityTypes;
 
   /// Detailed information about the accuracy of an entity recognizer.
-  @_s.JsonKey(name: 'EvaluationMetrics')
-  final EntityRecognizerEvaluationMetrics evaluationMetrics;
+  final EntityRecognizerEvaluationMetrics? evaluationMetrics;
 
   /// The number of documents in the input data that were used to test the entity
   /// recognizer. Typically this is 10 to 20 percent of the input documents.
-  @_s.JsonKey(name: 'NumberOfTestDocuments')
-  final int numberOfTestDocuments;
+  final int? numberOfTestDocuments;
 
   /// The number of documents in the input data that were used to train the entity
   /// recognizer. Typically this is 80 to 90 percent of the input documents.
-  @_s.JsonKey(name: 'NumberOfTrainedDocuments')
-  final int numberOfTrainedDocuments;
+  final int? numberOfTrainedDocuments;
 
   EntityRecognizerMetadata({
     this.entityTypes,
@@ -6169,99 +6756,136 @@ class EntityRecognizerMetadata {
     this.numberOfTestDocuments,
     this.numberOfTrainedDocuments,
   });
-  factory EntityRecognizerMetadata.fromJson(Map<String, dynamic> json) =>
-      _$EntityRecognizerMetadataFromJson(json);
+
+  factory EntityRecognizerMetadata.fromJson(Map<String, dynamic> json) {
+    return EntityRecognizerMetadata(
+      entityTypes: (json['EntityTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntityRecognizerMetadataEntityTypesListItem.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      evaluationMetrics: json['EvaluationMetrics'] != null
+          ? EntityRecognizerEvaluationMetrics.fromJson(
+              json['EvaluationMetrics'] as Map<String, dynamic>)
+          : null,
+      numberOfTestDocuments: json['NumberOfTestDocuments'] as int?,
+      numberOfTrainedDocuments: json['NumberOfTrainedDocuments'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityTypes = this.entityTypes;
+    final evaluationMetrics = this.evaluationMetrics;
+    final numberOfTestDocuments = this.numberOfTestDocuments;
+    final numberOfTrainedDocuments = this.numberOfTrainedDocuments;
+    return {
+      if (entityTypes != null) 'EntityTypes': entityTypes,
+      if (evaluationMetrics != null) 'EvaluationMetrics': evaluationMetrics,
+      if (numberOfTestDocuments != null)
+        'NumberOfTestDocuments': numberOfTestDocuments,
+      if (numberOfTrainedDocuments != null)
+        'NumberOfTrainedDocuments': numberOfTrainedDocuments,
+    };
+  }
 }
 
 /// Individual item from the list of entity types in the metadata of an entity
 /// recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntityRecognizerMetadataEntityTypesListItem {
   /// Detailed information about the accuracy of the entity recognizer for a
   /// specific item on the list of entity types.
-  @_s.JsonKey(name: 'EvaluationMetrics')
-  final EntityTypesEvaluationMetrics evaluationMetrics;
+  final EntityTypesEvaluationMetrics? evaluationMetrics;
 
   /// Indicates the number of times the given entity type was seen in the training
   /// data.
-  @_s.JsonKey(name: 'NumberOfTrainMentions')
-  final int numberOfTrainMentions;
+  final int? numberOfTrainMentions;
 
   /// Type of entity from the list of entity types in the metadata of an entity
   /// recognizer.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   EntityRecognizerMetadataEntityTypesListItem({
     this.evaluationMetrics,
     this.numberOfTrainMentions,
     this.type,
   });
+
   factory EntityRecognizerMetadataEntityTypesListItem.fromJson(
-          Map<String, dynamic> json) =>
-      _$EntityRecognizerMetadataEntityTypesListItemFromJson(json);
+      Map<String, dynamic> json) {
+    return EntityRecognizerMetadataEntityTypesListItem(
+      evaluationMetrics: json['EvaluationMetrics'] != null
+          ? EntityTypesEvaluationMetrics.fromJson(
+              json['EvaluationMetrics'] as Map<String, dynamic>)
+          : null,
+      numberOfTrainMentions: json['NumberOfTrainMentions'] as int?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluationMetrics = this.evaluationMetrics;
+    final numberOfTrainMentions = this.numberOfTrainMentions;
+    final type = this.type;
+    return {
+      if (evaluationMetrics != null) 'EvaluationMetrics': evaluationMetrics,
+      if (numberOfTrainMentions != null)
+        'NumberOfTrainMentions': numberOfTrainMentions,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Describes information about an entity recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntityRecognizerProperties {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role
   /// that grants Amazon Comprehend read access to your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the recognizer creation completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
-  @_s.JsonKey(name: 'EntityRecognizerArn')
-  final String entityRecognizerArn;
+  final String? entityRecognizerArn;
 
   /// The input data properties of an entity recognizer.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final EntityRecognizerInputDataConfig inputDataConfig;
+  final EntityRecognizerInputDataConfig? inputDataConfig;
 
   /// The language of the input documents. All documents must be in the same
   /// language. Only English ("en") is currently supported.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// A description of the status of the recognizer.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt trained custom models. The ModelKmsKeyId can be either of the
+  /// following formats:
+  ///
+  /// <ul>
+  /// <li>
+  /// KMS Key ID: <code>"1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// <li>
+  /// Amazon Resource Name (ARN) of a KMS Key:
+  /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
+  /// </li>
+  /// </ul>
+  final String? modelKmsKeyId;
 
   /// Provides information about an entity recognizer.
-  @_s.JsonKey(name: 'RecognizerMetadata')
-  final EntityRecognizerMetadata recognizerMetadata;
+  final EntityRecognizerMetadata? recognizerMetadata;
 
   /// Provides the status of the entity recognizer.
-  @_s.JsonKey(name: 'Status')
-  final ModelStatus status;
+  final ModelStatus? status;
 
   /// The time that the recognizer was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// The time that training of the entity recognizer was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TrainingEndTime')
-  final DateTime trainingEndTime;
+  final DateTime? trainingEndTime;
 
   /// The time that training of the entity recognizer started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TrainingStartTime')
-  final DateTime trainingStartTime;
+  final DateTime? trainingStartTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -6277,16 +6901,14 @@ class EntityRecognizerProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your custom entity recognizer.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   EntityRecognizerProperties({
     this.dataAccessRoleArn,
@@ -6295,6 +6917,7 @@ class EntityRecognizerProperties {
     this.inputDataConfig,
     this.languageCode,
     this.message,
+    this.modelKmsKeyId,
     this.recognizerMetadata,
     this.status,
     this.submitTime,
@@ -6303,74 +6926,181 @@ class EntityRecognizerProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
-  factory EntityRecognizerProperties.fromJson(Map<String, dynamic> json) =>
-      _$EntityRecognizerPropertiesFromJson(json);
+
+  factory EntityRecognizerProperties.fromJson(Map<String, dynamic> json) {
+    return EntityRecognizerProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      entityRecognizerArn: json['EntityRecognizerArn'] as String?,
+      inputDataConfig: json['InputDataConfig'] != null
+          ? EntityRecognizerInputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      message: json['Message'] as String?,
+      modelKmsKeyId: json['ModelKmsKeyId'] as String?,
+      recognizerMetadata: json['RecognizerMetadata'] != null
+          ? EntityRecognizerMetadata.fromJson(
+              json['RecognizerMetadata'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toModelStatus(),
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
+      trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final entityRecognizerArn = this.entityRecognizerArn;
+    final inputDataConfig = this.inputDataConfig;
+    final languageCode = this.languageCode;
+    final message = this.message;
+    final modelKmsKeyId = this.modelKmsKeyId;
+    final recognizerMetadata = this.recognizerMetadata;
+    final status = this.status;
+    final submitTime = this.submitTime;
+    final trainingEndTime = this.trainingEndTime;
+    final trainingStartTime = this.trainingStartTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (entityRecognizerArn != null)
+        'EntityRecognizerArn': entityRecognizerArn,
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (message != null) 'Message': message,
+      if (modelKmsKeyId != null) 'ModelKmsKeyId': modelKmsKeyId,
+      if (recognizerMetadata != null) 'RecognizerMetadata': recognizerMetadata,
+      if (status != null) 'Status': status.toValue(),
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (trainingEndTime != null)
+        'TrainingEndTime': unixTimestampToJson(trainingEndTime),
+      if (trainingStartTime != null)
+        'TrainingStartTime': unixTimestampToJson(trainingStartTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 enum EntityType {
-  @_s.JsonValue('PERSON')
   person,
-  @_s.JsonValue('LOCATION')
   location,
-  @_s.JsonValue('ORGANIZATION')
   organization,
-  @_s.JsonValue('COMMERCIAL_ITEM')
   commercialItem,
-  @_s.JsonValue('EVENT')
   event,
-  @_s.JsonValue('DATE')
   date,
-  @_s.JsonValue('QUANTITY')
   quantity,
-  @_s.JsonValue('TITLE')
   title,
-  @_s.JsonValue('OTHER')
   other,
+}
+
+extension on EntityType {
+  String toValue() {
+    switch (this) {
+      case EntityType.person:
+        return 'PERSON';
+      case EntityType.location:
+        return 'LOCATION';
+      case EntityType.organization:
+        return 'ORGANIZATION';
+      case EntityType.commercialItem:
+        return 'COMMERCIAL_ITEM';
+      case EntityType.event:
+        return 'EVENT';
+      case EntityType.date:
+        return 'DATE';
+      case EntityType.quantity:
+        return 'QUANTITY';
+      case EntityType.title:
+        return 'TITLE';
+      case EntityType.other:
+        return 'OTHER';
+    }
+  }
+}
+
+extension on String {
+  EntityType toEntityType() {
+    switch (this) {
+      case 'PERSON':
+        return EntityType.person;
+      case 'LOCATION':
+        return EntityType.location;
+      case 'ORGANIZATION':
+        return EntityType.organization;
+      case 'COMMERCIAL_ITEM':
+        return EntityType.commercialItem;
+      case 'EVENT':
+        return EntityType.event;
+      case 'DATE':
+        return EntityType.date;
+      case 'QUANTITY':
+        return EntityType.quantity;
+      case 'TITLE':
+        return EntityType.title;
+      case 'OTHER':
+        return EntityType.other;
+    }
+    throw Exception('$this is not known in enum EntityType');
+  }
 }
 
 /// Detailed information about the accuracy of an entity recognizer for a
 /// specific entity type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntityTypesEvaluationMetrics {
   /// A measure of how accurate the recognizer results are for a specific entity
   /// type in the test data. It is derived from the <code>Precision</code> and
   /// <code>Recall</code> values. The <code>F1Score</code> is the harmonic average
   /// of the two scores. The highest score is 1, and the worst score is 0.
-  @_s.JsonKey(name: 'F1Score')
-  final double f1Score;
+  final double? f1Score;
 
   /// A measure of the usefulness of the recognizer results for a specific entity
   /// type in the test data. High precision means that the recognizer returned
   /// substantially more relevant results than irrelevant ones.
-  @_s.JsonKey(name: 'Precision')
-  final double precision;
+  final double? precision;
 
   /// A measure of how complete the recognizer results are for a specific entity
   /// type in the test data. High recall means that the recognizer returned most
   /// of the relevant results.
-  @_s.JsonKey(name: 'Recall')
-  final double recall;
+  final double? recall;
 
   EntityTypesEvaluationMetrics({
     this.f1Score,
     this.precision,
     this.recall,
   });
-  factory EntityTypesEvaluationMetrics.fromJson(Map<String, dynamic> json) =>
-      _$EntityTypesEvaluationMetricsFromJson(json);
+
+  factory EntityTypesEvaluationMetrics.fromJson(Map<String, dynamic> json) {
+    return EntityTypesEvaluationMetrics(
+      f1Score: json['F1Score'] as double?,
+      precision: json['Precision'] as double?,
+      recall: json['Recall'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final f1Score = this.f1Score;
+    final precision = this.precision;
+    final recall = this.recall;
+    return {
+      if (f1Score != null) 'F1Score': f1Score,
+      if (precision != null) 'Precision': precision,
+      if (recall != null) 'Recall': recall,
+    };
+  }
 }
 
 /// An entity type within a labeled training dataset that Amazon Comprehend uses
 /// to train a custom entity recognizer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EntityTypesListItem {
   /// An entity type within a labeled training dataset that Amazon Comprehend uses
   /// to train a custom entity recognizer.
@@ -6378,47 +7108,44 @@ class EntityTypesListItem {
   /// Entity types must not contain the following invalid characters: \n (line
   /// break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage
   /// return), \t (tab), \\t (escaped tab), space, and , (comma).
-  @_s.JsonKey(name: 'Type')
   final String type;
 
   EntityTypesListItem({
-    @_s.required this.type,
+    required this.type,
   });
-  factory EntityTypesListItem.fromJson(Map<String, dynamic> json) =>
-      _$EntityTypesListItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EntityTypesListItemToJson(this);
+  factory EntityTypesListItem.fromJson(Map<String, dynamic> json) {
+    return EntityTypesListItem(
+      type: json['Type'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      'Type': type,
+    };
+  }
 }
 
 /// Provides information for filtering a list of event detection jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EventsDetectionJobFilter {
   /// Filters on the name of the events detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based on job status. Returns only jobs with the
   /// specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   EventsDetectionJobFilter({
     this.jobName,
@@ -6426,64 +7153,69 @@ class EventsDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$EventsDetectionJobFilterToJson(this);
+
+  factory EventsDetectionJobFilter.fromJson(Map<String, dynamic> json) {
+    return EventsDetectionJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about an events detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventsDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the AWS Identify and Access Management
   /// (IAM) role that grants Amazon Comprehend read access to your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the events detection job completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input data configuration that you supplied when you created the events
   /// detection job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the events detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name you assigned the events detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the events detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// The language code of the input documents.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// A description of the status of the events detection job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The output data configuration that you supplied when you created the events
   /// detection job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the events detection job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// The types of events that are detected by the job.
-  @_s.JsonKey(name: 'TargetEventTypes')
-  final List<String> targetEventTypes;
+  final List<String>? targetEventTypes;
 
   EventsDetectionJobProperties({
     this.dataAccessRoleArn,
@@ -6498,16 +7230,61 @@ class EventsDetectionJobProperties {
     this.submitTime,
     this.targetEventTypes,
   });
-  factory EventsDetectionJobProperties.fromJson(Map<String, dynamic> json) =>
-      _$EventsDetectionJobPropertiesFromJson(json);
+
+  factory EventsDetectionJobProperties.fromJson(Map<String, dynamic> json) {
+    return EventsDetectionJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      targetEventTypes: (json['TargetEventTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final languageCode = this.languageCode;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final targetEventTypes = this.targetEventTypes;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (targetEventTypes != null) 'TargetEventTypes': targetEventTypes,
+    };
+  }
 }
 
 /// The input properties for a topic detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputDataConfig {
   /// The Amazon S3 URI for the input data. The URI must be in same region as the
   /// API endpoint that you are calling. The URI can point to a single input file
@@ -6517,7 +7294,6 @@ class InputDataConfig {
   /// prefix is a single file, Amazon Comprehend uses that file as input. If more
   /// than one file begins with the prefix, Amazon Comprehend uses all of them as
   /// input.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   /// Specifies how the text in an input file should be processed:
@@ -6534,72 +7310,128 @@ class InputDataConfig {
   /// as text messages.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'InputFormat')
-  final InputFormat inputFormat;
+  final InputFormat? inputFormat;
 
   InputDataConfig({
-    @_s.required this.s3Uri,
+    required this.s3Uri,
     this.inputFormat,
   });
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$InputDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InputDataConfigToJson(this);
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      s3Uri: json['S3Uri'] as String,
+      inputFormat: (json['InputFormat'] as String?)?.toInputFormat(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    final inputFormat = this.inputFormat;
+    return {
+      'S3Uri': s3Uri,
+      if (inputFormat != null) 'InputFormat': inputFormat.toValue(),
+    };
+  }
 }
 
 enum InputFormat {
-  @_s.JsonValue('ONE_DOC_PER_FILE')
   oneDocPerFile,
-  @_s.JsonValue('ONE_DOC_PER_LINE')
   oneDocPerLine,
 }
 
+extension on InputFormat {
+  String toValue() {
+    switch (this) {
+      case InputFormat.oneDocPerFile:
+        return 'ONE_DOC_PER_FILE';
+      case InputFormat.oneDocPerLine:
+        return 'ONE_DOC_PER_LINE';
+    }
+  }
+}
+
+extension on String {
+  InputFormat toInputFormat() {
+    switch (this) {
+      case 'ONE_DOC_PER_FILE':
+        return InputFormat.oneDocPerFile;
+      case 'ONE_DOC_PER_LINE':
+        return InputFormat.oneDocPerLine;
+    }
+    throw Exception('$this is not known in enum InputFormat');
+  }
+}
+
 enum JobStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOP_REQUESTED')
   stopRequested,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.submitted:
+        return 'SUBMITTED';
+      case JobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case JobStatus.completed:
+        return 'COMPLETED';
+      case JobStatus.failed:
+        return 'FAILED';
+      case JobStatus.stopRequested:
+        return 'STOP_REQUESTED';
+      case JobStatus.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return JobStatus.submitted;
+      case 'IN_PROGRESS':
+        return JobStatus.inProgress;
+      case 'COMPLETED':
+        return JobStatus.completed;
+      case 'FAILED':
+        return JobStatus.failed;
+      case 'STOP_REQUESTED':
+        return JobStatus.stopRequested;
+      case 'STOPPED':
+        return JobStatus.stopped;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
 /// Describes a key noun phrase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeyPhrase {
   /// A character offset in the input text that shows where the key phrase begins
   /// (the first character is at position 0). The offset returns the position of
   /// each UTF-8 code point in the string. A <i>code point</i> is the abstract
   /// character from a particular graphical representation. For example, a
   /// multi-byte UTF-8 character maps to a single code point.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// A character offset in the input text where the key phrase ends. The offset
   /// returns the position of each UTF-8 code point in the string. A <code>code
   /// point</code> is the abstract character from a particular graphical
   /// representation. For example, a multi-byte UTF-8 character maps to a single
   /// code point.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of the
   /// detection.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The text of a key noun phrase.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   KeyPhrase({
     this.beginOffset,
@@ -6607,40 +7439,49 @@ class KeyPhrase {
     this.score,
     this.text,
   });
-  factory KeyPhrase.fromJson(Map<String, dynamic> json) =>
-      _$KeyPhraseFromJson(json);
+
+  factory KeyPhrase.fromJson(Map<String, dynamic> json) {
+    return KeyPhrase(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+      score: json['Score'] as double?,
+      text: json['Text'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final endOffset = this.endOffset;
+    final score = this.score;
+    final text = this.text;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (score != null) 'Score': score,
+      if (text != null) 'Text': text,
+    };
+  }
 }
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KeyPhrasesDetectionJobFilter {
   /// Filters on the name of the job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based on job status. Returns only jobs with the
   /// specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   KeyPhrasesDetectionJobFilter({
     this.jobName,
@@ -6648,62 +7489,68 @@ class KeyPhrasesDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$KeyPhrasesDetectionJobFilterToJson(this);
+
+  factory KeyPhrasesDetectionJobFilter.fromJson(Map<String, dynamic> json) {
+    return KeyPhrasesDetectionJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about a key phrases detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeyPhrasesDetectionJobProperties {
   /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to
   /// your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the key phrases detection job completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input data configuration that you supplied when you created the key
   /// phrases detection job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the key phrases detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name that you assigned the key phrases detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the key phrases detection job. If the status is
   /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
   /// failure.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// The language code of the input documents.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// A description of the status of a job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The output data configuration that you supplied when you created the key
   /// phrases detection job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the key phrases detection job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -6719,16 +7566,14 @@ class KeyPhrasesDetectionJobProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your key phrases detection job.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   KeyPhrasesDetectionJobProperties({
     this.dataAccessRoleArn,
@@ -6744,35 +7589,74 @@ class KeyPhrasesDetectionJobProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
-  factory KeyPhrasesDetectionJobProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$KeyPhrasesDetectionJobPropertiesFromJson(json);
+
+  factory KeyPhrasesDetectionJobProperties.fromJson(Map<String, dynamic> json) {
+    return KeyPhrasesDetectionJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final languageCode = this.languageCode;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 enum LanguageCode {
-  @_s.JsonValue('en')
   en,
-  @_s.JsonValue('es')
   es,
-  @_s.JsonValue('fr')
   fr,
-  @_s.JsonValue('de')
   de,
-  @_s.JsonValue('it')
   it,
-  @_s.JsonValue('pt')
   pt,
-  @_s.JsonValue('ar')
   ar,
-  @_s.JsonValue('hi')
   hi,
-  @_s.JsonValue('ja')
   ja,
-  @_s.JsonValue('ko')
   ko,
-  @_s.JsonValue('zh')
   zh,
-  @_s.JsonValue('zh-TW')
   zhTw,
 }
 
@@ -6804,314 +7688,543 @@ extension on LanguageCode {
       case LanguageCode.zhTw:
         return 'zh-TW';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  LanguageCode toLanguageCode() {
+    switch (this) {
+      case 'en':
+        return LanguageCode.en;
+      case 'es':
+        return LanguageCode.es;
+      case 'fr':
+        return LanguageCode.fr;
+      case 'de':
+        return LanguageCode.de;
+      case 'it':
+        return LanguageCode.it;
+      case 'pt':
+        return LanguageCode.pt;
+      case 'ar':
+        return LanguageCode.ar;
+      case 'hi':
+        return LanguageCode.hi;
+      case 'ja':
+        return LanguageCode.ja;
+      case 'ko':
+        return LanguageCode.ko;
+      case 'zh':
+        return LanguageCode.zh;
+      case 'zh-TW':
+        return LanguageCode.zhTw;
+    }
+    throw Exception('$this is not known in enum LanguageCode');
+  }
+}
+
 class ListDocumentClassificationJobsResponse {
   /// A list containing the properties of each job returned.
-  @_s.JsonKey(name: 'DocumentClassificationJobPropertiesList')
-  final List<DocumentClassificationJobProperties>
+  final List<DocumentClassificationJobProperties>?
       documentClassificationJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDocumentClassificationJobsResponse({
     this.documentClassificationJobPropertiesList,
     this.nextToken,
   });
+
   factory ListDocumentClassificationJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDocumentClassificationJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDocumentClassificationJobsResponse(
+      documentClassificationJobPropertiesList:
+          (json['DocumentClassificationJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => DocumentClassificationJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentClassificationJobPropertiesList =
+        this.documentClassificationJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (documentClassificationJobPropertiesList != null)
+        'DocumentClassificationJobPropertiesList':
+            documentClassificationJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDocumentClassifiersResponse {
   /// A list containing the properties of each job returned.
-  @_s.JsonKey(name: 'DocumentClassifierPropertiesList')
-  final List<DocumentClassifierProperties> documentClassifierPropertiesList;
+  final List<DocumentClassifierProperties>? documentClassifierPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDocumentClassifiersResponse({
     this.documentClassifierPropertiesList,
     this.nextToken,
   });
-  factory ListDocumentClassifiersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDocumentClassifiersResponseFromJson(json);
+
+  factory ListDocumentClassifiersResponse.fromJson(Map<String, dynamic> json) {
+    return ListDocumentClassifiersResponse(
+      documentClassifierPropertiesList:
+          (json['DocumentClassifierPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => DocumentClassifierProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentClassifierPropertiesList =
+        this.documentClassifierPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (documentClassifierPropertiesList != null)
+        'DocumentClassifierPropertiesList': documentClassifierPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDominantLanguageDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'DominantLanguageDetectionJobPropertiesList')
-  final List<DominantLanguageDetectionJobProperties>
+  final List<DominantLanguageDetectionJobProperties>?
       dominantLanguageDetectionJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDominantLanguageDetectionJobsResponse({
     this.dominantLanguageDetectionJobPropertiesList,
     this.nextToken,
   });
+
   factory ListDominantLanguageDetectionJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDominantLanguageDetectionJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDominantLanguageDetectionJobsResponse(
+      dominantLanguageDetectionJobPropertiesList:
+          (json['DominantLanguageDetectionJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => DominantLanguageDetectionJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dominantLanguageDetectionJobPropertiesList =
+        this.dominantLanguageDetectionJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (dominantLanguageDetectionJobPropertiesList != null)
+        'DominantLanguageDetectionJobPropertiesList':
+            dominantLanguageDetectionJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEndpointsResponse {
   /// Displays a list of endpoint properties being retrieved by the service in
   /// response to the request.
-  @_s.JsonKey(name: 'EndpointPropertiesList')
-  final List<EndpointProperties> endpointPropertiesList;
+  final List<EndpointProperties>? endpointPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEndpointsResponse({
     this.endpointPropertiesList,
     this.nextToken,
   });
-  factory ListEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEndpointsResponseFromJson(json);
+
+  factory ListEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEndpointsResponse(
+      endpointPropertiesList: (json['EndpointPropertiesList'] as List?)
+          ?.whereNotNull()
+          .map((e) => EndpointProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointPropertiesList = this.endpointPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (endpointPropertiesList != null)
+        'EndpointPropertiesList': endpointPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEntitiesDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'EntitiesDetectionJobPropertiesList')
-  final List<EntitiesDetectionJobProperties> entitiesDetectionJobPropertiesList;
+  final List<EntitiesDetectionJobProperties>?
+      entitiesDetectionJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEntitiesDetectionJobsResponse({
     this.entitiesDetectionJobPropertiesList,
     this.nextToken,
   });
+
   factory ListEntitiesDetectionJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListEntitiesDetectionJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListEntitiesDetectionJobsResponse(
+      entitiesDetectionJobPropertiesList:
+          (json['EntitiesDetectionJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => EntitiesDetectionJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entitiesDetectionJobPropertiesList =
+        this.entitiesDetectionJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (entitiesDetectionJobPropertiesList != null)
+        'EntitiesDetectionJobPropertiesList':
+            entitiesDetectionJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEntityRecognizersResponse {
   /// The list of properties of an entity recognizer.
-  @_s.JsonKey(name: 'EntityRecognizerPropertiesList')
-  final List<EntityRecognizerProperties> entityRecognizerPropertiesList;
+  final List<EntityRecognizerProperties>? entityRecognizerPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEntityRecognizersResponse({
     this.entityRecognizerPropertiesList,
     this.nextToken,
   });
-  factory ListEntityRecognizersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEntityRecognizersResponseFromJson(json);
+
+  factory ListEntityRecognizersResponse.fromJson(Map<String, dynamic> json) {
+    return ListEntityRecognizersResponse(
+      entityRecognizerPropertiesList: (json['EntityRecognizerPropertiesList']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EntityRecognizerProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityRecognizerPropertiesList = this.entityRecognizerPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (entityRecognizerPropertiesList != null)
+        'EntityRecognizerPropertiesList': entityRecognizerPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEventsDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'EventsDetectionJobPropertiesList')
-  final List<EventsDetectionJobProperties> eventsDetectionJobPropertiesList;
+  final List<EventsDetectionJobProperties>? eventsDetectionJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEventsDetectionJobsResponse({
     this.eventsDetectionJobPropertiesList,
     this.nextToken,
   });
-  factory ListEventsDetectionJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEventsDetectionJobsResponseFromJson(json);
+
+  factory ListEventsDetectionJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventsDetectionJobsResponse(
+      eventsDetectionJobPropertiesList:
+          (json['EventsDetectionJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => EventsDetectionJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventsDetectionJobPropertiesList =
+        this.eventsDetectionJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (eventsDetectionJobPropertiesList != null)
+        'EventsDetectionJobPropertiesList': eventsDetectionJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListKeyPhrasesDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'KeyPhrasesDetectionJobPropertiesList')
-  final List<KeyPhrasesDetectionJobProperties>
+  final List<KeyPhrasesDetectionJobProperties>?
       keyPhrasesDetectionJobPropertiesList;
 
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListKeyPhrasesDetectionJobsResponse({
     this.keyPhrasesDetectionJobPropertiesList,
     this.nextToken,
   });
+
   factory ListKeyPhrasesDetectionJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListKeyPhrasesDetectionJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListKeyPhrasesDetectionJobsResponse(
+      keyPhrasesDetectionJobPropertiesList:
+          (json['KeyPhrasesDetectionJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => KeyPhrasesDetectionJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyPhrasesDetectionJobPropertiesList =
+        this.keyPhrasesDetectionJobPropertiesList;
+    final nextToken = this.nextToken;
+    return {
+      if (keyPhrasesDetectionJobPropertiesList != null)
+        'KeyPhrasesDetectionJobPropertiesList':
+            keyPhrasesDetectionJobPropertiesList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPiiEntitiesDetectionJobsResponse {
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'PiiEntitiesDetectionJobPropertiesList')
-  final List<PiiEntitiesDetectionJobProperties>
+  final List<PiiEntitiesDetectionJobProperties>?
       piiEntitiesDetectionJobPropertiesList;
 
   ListPiiEntitiesDetectionJobsResponse({
     this.nextToken,
     this.piiEntitiesDetectionJobPropertiesList,
   });
+
   factory ListPiiEntitiesDetectionJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPiiEntitiesDetectionJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPiiEntitiesDetectionJobsResponse(
+      nextToken: json['NextToken'] as String?,
+      piiEntitiesDetectionJobPropertiesList:
+          (json['PiiEntitiesDetectionJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => PiiEntitiesDetectionJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final piiEntitiesDetectionJobPropertiesList =
+        this.piiEntitiesDetectionJobPropertiesList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (piiEntitiesDetectionJobPropertiesList != null)
+        'PiiEntitiesDetectionJobPropertiesList':
+            piiEntitiesDetectionJobPropertiesList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSentimentDetectionJobsResponse {
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'SentimentDetectionJobPropertiesList')
-  final List<SentimentDetectionJobProperties>
+  final List<SentimentDetectionJobProperties>?
       sentimentDetectionJobPropertiesList;
 
   ListSentimentDetectionJobsResponse({
     this.nextToken,
     this.sentimentDetectionJobPropertiesList,
   });
+
   factory ListSentimentDetectionJobsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSentimentDetectionJobsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListSentimentDetectionJobsResponse(
+      nextToken: json['NextToken'] as String?,
+      sentimentDetectionJobPropertiesList:
+          (json['SentimentDetectionJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => SentimentDetectionJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sentimentDetectionJobPropertiesList =
+        this.sentimentDetectionJobPropertiesList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sentimentDetectionJobPropertiesList != null)
+        'SentimentDetectionJobPropertiesList':
+            sentimentDetectionJobPropertiesList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you
   /// are querying.
-  @_s.JsonKey(name: 'ResourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// Tags associated with the Amazon Comprehend resource being queried. A tag is
   /// a key-value pair that adds as a metadata to a resource used by Amazon
   /// Comprehend. For example, a tag with "Sales" as the key might be added to a
   /// resource to indicate its use by the sales department.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.resourceArn,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      resourceArn: json['ResourceArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
+    return {
+      if (resourceArn != null) 'ResourceArn': resourceArn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTopicsDetectionJobsResponse {
   /// Identifies the next page of results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'TopicsDetectionJobPropertiesList')
-  final List<TopicsDetectionJobProperties> topicsDetectionJobPropertiesList;
+  final List<TopicsDetectionJobProperties>? topicsDetectionJobPropertiesList;
 
   ListTopicsDetectionJobsResponse({
     this.nextToken,
     this.topicsDetectionJobPropertiesList,
   });
-  factory ListTopicsDetectionJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTopicsDetectionJobsResponseFromJson(json);
+
+  factory ListTopicsDetectionJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTopicsDetectionJobsResponse(
+      nextToken: json['NextToken'] as String?,
+      topicsDetectionJobPropertiesList:
+          (json['TopicsDetectionJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => TopicsDetectionJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final topicsDetectionJobPropertiesList =
+        this.topicsDetectionJobPropertiesList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (topicsDetectionJobPropertiesList != null)
+        'TopicsDetectionJobPropertiesList': topicsDetectionJobPropertiesList,
+    };
+  }
 }
 
 enum ModelStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('TRAINING')
   training,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('STOP_REQUESTED')
   stopRequested,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('IN_ERROR')
   inError,
-  @_s.JsonValue('TRAINED')
   trained,
+}
+
+extension on ModelStatus {
+  String toValue() {
+    switch (this) {
+      case ModelStatus.submitted:
+        return 'SUBMITTED';
+      case ModelStatus.training:
+        return 'TRAINING';
+      case ModelStatus.deleting:
+        return 'DELETING';
+      case ModelStatus.stopRequested:
+        return 'STOP_REQUESTED';
+      case ModelStatus.stopped:
+        return 'STOPPED';
+      case ModelStatus.inError:
+        return 'IN_ERROR';
+      case ModelStatus.trained:
+        return 'TRAINED';
+    }
+  }
+}
+
+extension on String {
+  ModelStatus toModelStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return ModelStatus.submitted;
+      case 'TRAINING':
+        return ModelStatus.training;
+      case 'DELETING':
+        return ModelStatus.deleting;
+      case 'STOP_REQUESTED':
+        return ModelStatus.stopRequested;
+      case 'STOPPED':
+        return ModelStatus.stopped;
+      case 'IN_ERROR':
+        return ModelStatus.inError;
+      case 'TRAINED':
+        return ModelStatus.trained;
+    }
+    throw Exception('$this is not known in enum ModelStatus');
+  }
 }
 
 /// Provides configuration parameters for the output of topic detection jobs.
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputDataConfig {
   /// When you use the <code>OutputDataConfig</code> object with asynchronous
   /// operations, you specify the Amazon S3 location where you want to write the
@@ -7123,7 +8236,6 @@ class OutputDataConfig {
   /// in a directory specific to the job. The <code>S3Uri</code> field contains
   /// the location of the output file, called <code>output.tar.gz</code>. It is a
   /// compressed archive that contains the ouput of the operation.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -7146,114 +8258,190 @@ class OutputDataConfig {
   /// <code>"arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   OutputDataConfig({
-    @_s.required this.s3Uri,
+    required this.s3Uri,
     this.kmsKeyId,
   });
-  factory OutputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$OutputDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OutputDataConfigToJson(this);
+  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
+    return OutputDataConfig(
+      s3Uri: json['S3Uri'] as String,
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'S3Uri': s3Uri,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
 }
 
 /// Identifies the part of speech represented by the token and gives the
 /// confidence that Amazon Comprehend has that the part of speech was correctly
 /// identified. For more information about the parts of speech that Amazon
 /// Comprehend can identify, see <a>how-syntax</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PartOfSpeechTag {
   /// The confidence that Amazon Comprehend has that the part of speech was
   /// correctly identified.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// Identifies the part of speech that the token represents.
-  @_s.JsonKey(name: 'Tag')
-  final PartOfSpeechTagType tag;
+  final PartOfSpeechTagType? tag;
 
   PartOfSpeechTag({
     this.score,
     this.tag,
   });
-  factory PartOfSpeechTag.fromJson(Map<String, dynamic> json) =>
-      _$PartOfSpeechTagFromJson(json);
+
+  factory PartOfSpeechTag.fromJson(Map<String, dynamic> json) {
+    return PartOfSpeechTag(
+      score: json['Score'] as double?,
+      tag: (json['Tag'] as String?)?.toPartOfSpeechTagType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final score = this.score;
+    final tag = this.tag;
+    return {
+      if (score != null) 'Score': score,
+      if (tag != null) 'Tag': tag.toValue(),
+    };
+  }
 }
 
 enum PartOfSpeechTagType {
-  @_s.JsonValue('ADJ')
   adj,
-  @_s.JsonValue('ADP')
   adp,
-  @_s.JsonValue('ADV')
   adv,
-  @_s.JsonValue('AUX')
   aux,
-  @_s.JsonValue('CONJ')
   conj,
-  @_s.JsonValue('CCONJ')
   cconj,
-  @_s.JsonValue('DET')
   det,
-  @_s.JsonValue('INTJ')
   intj,
-  @_s.JsonValue('NOUN')
   noun,
-  @_s.JsonValue('NUM')
   num,
-  @_s.JsonValue('O')
   o,
-  @_s.JsonValue('PART')
   part,
-  @_s.JsonValue('PRON')
   pron,
-  @_s.JsonValue('PROPN')
   propn,
-  @_s.JsonValue('PUNCT')
   punct,
-  @_s.JsonValue('SCONJ')
   sconj,
-  @_s.JsonValue('SYM')
   sym,
-  @_s.JsonValue('VERB')
   verb,
 }
 
+extension on PartOfSpeechTagType {
+  String toValue() {
+    switch (this) {
+      case PartOfSpeechTagType.adj:
+        return 'ADJ';
+      case PartOfSpeechTagType.adp:
+        return 'ADP';
+      case PartOfSpeechTagType.adv:
+        return 'ADV';
+      case PartOfSpeechTagType.aux:
+        return 'AUX';
+      case PartOfSpeechTagType.conj:
+        return 'CONJ';
+      case PartOfSpeechTagType.cconj:
+        return 'CCONJ';
+      case PartOfSpeechTagType.det:
+        return 'DET';
+      case PartOfSpeechTagType.intj:
+        return 'INTJ';
+      case PartOfSpeechTagType.noun:
+        return 'NOUN';
+      case PartOfSpeechTagType.num:
+        return 'NUM';
+      case PartOfSpeechTagType.o:
+        return 'O';
+      case PartOfSpeechTagType.part:
+        return 'PART';
+      case PartOfSpeechTagType.pron:
+        return 'PRON';
+      case PartOfSpeechTagType.propn:
+        return 'PROPN';
+      case PartOfSpeechTagType.punct:
+        return 'PUNCT';
+      case PartOfSpeechTagType.sconj:
+        return 'SCONJ';
+      case PartOfSpeechTagType.sym:
+        return 'SYM';
+      case PartOfSpeechTagType.verb:
+        return 'VERB';
+    }
+  }
+}
+
+extension on String {
+  PartOfSpeechTagType toPartOfSpeechTagType() {
+    switch (this) {
+      case 'ADJ':
+        return PartOfSpeechTagType.adj;
+      case 'ADP':
+        return PartOfSpeechTagType.adp;
+      case 'ADV':
+        return PartOfSpeechTagType.adv;
+      case 'AUX':
+        return PartOfSpeechTagType.aux;
+      case 'CONJ':
+        return PartOfSpeechTagType.conj;
+      case 'CCONJ':
+        return PartOfSpeechTagType.cconj;
+      case 'DET':
+        return PartOfSpeechTagType.det;
+      case 'INTJ':
+        return PartOfSpeechTagType.intj;
+      case 'NOUN':
+        return PartOfSpeechTagType.noun;
+      case 'NUM':
+        return PartOfSpeechTagType.num;
+      case 'O':
+        return PartOfSpeechTagType.o;
+      case 'PART':
+        return PartOfSpeechTagType.part;
+      case 'PRON':
+        return PartOfSpeechTagType.pron;
+      case 'PROPN':
+        return PartOfSpeechTagType.propn;
+      case 'PUNCT':
+        return PartOfSpeechTagType.punct;
+      case 'SCONJ':
+        return PartOfSpeechTagType.sconj;
+      case 'SYM':
+        return PartOfSpeechTagType.sym;
+      case 'VERB':
+        return PartOfSpeechTagType.verb;
+    }
+    throw Exception('$this is not known in enum PartOfSpeechTagType');
+  }
+}
+
 /// Provides information for filtering a list of PII entity detection jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PiiEntitiesDetectionJobFilter {
   /// Filters on the name of the job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based on job status. Returns only jobs with the
   /// specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   PiiEntitiesDetectionJobFilter({
     this.jobName,
@@ -7261,61 +8449,68 @@ class PiiEntitiesDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$PiiEntitiesDetectionJobFilterToJson(this);
+
+  factory PiiEntitiesDetectionJobFilter.fromJson(Map<String, dynamic> json) {
+    return PiiEntitiesDetectionJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about a PII entities detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PiiEntitiesDetectionJobProperties {
   /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to
   /// your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the PII entities detection job completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input properties for a PII entities detection job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the PII entities detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name that you assigned the PII entities detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the PII entities detection job. If the status is
   /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
   /// failure.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// The language code of the input documents
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// A description of the status of a job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// Specifies whether the output provides the locations (offsets) of PII
   /// entities or a file in which PII entities are redacted.
-  @_s.JsonKey(name: 'Mode')
-  final PiiEntitiesDetectionMode mode;
+  final PiiEntitiesDetectionMode? mode;
 
   /// The output data configuration that you supplied when you created the PII
   /// entities detection job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final PiiOutputDataConfig outputDataConfig;
+  final PiiOutputDataConfig? outputDataConfig;
 
   /// Provides configuration parameters for PII entity redaction.
   ///
@@ -7323,13 +8518,10 @@ class PiiEntitiesDetectionJobProperties {
   /// <code>ONLY_REDACTION</code>. In that case, you must provide a
   /// <code>RedactionConfig</code> definition that includes the
   /// <code>PiiEntityTypes</code> parameter.
-  @_s.JsonKey(name: 'RedactionConfig')
-  final RedactionConfig redactionConfig;
+  final RedactionConfig? redactionConfig;
 
   /// The time that the PII entities detection job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   PiiEntitiesDetectionJobProperties({
     this.dataAccessRoleArn,
@@ -7345,22 +8537,94 @@ class PiiEntitiesDetectionJobProperties {
     this.redactionConfig,
     this.submitTime,
   });
+
   factory PiiEntitiesDetectionJobProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$PiiEntitiesDetectionJobPropertiesFromJson(json);
+      Map<String, dynamic> json) {
+    return PiiEntitiesDetectionJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      message: json['Message'] as String?,
+      mode: (json['Mode'] as String?)?.toPiiEntitiesDetectionMode(),
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? PiiOutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      redactionConfig: json['RedactionConfig'] != null
+          ? RedactionConfig.fromJson(
+              json['RedactionConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final languageCode = this.languageCode;
+    final message = this.message;
+    final mode = this.mode;
+    final outputDataConfig = this.outputDataConfig;
+    final redactionConfig = this.redactionConfig;
+    final submitTime = this.submitTime;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (message != null) 'Message': message,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (redactionConfig != null) 'RedactionConfig': redactionConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+    };
+  }
 }
 
 enum PiiEntitiesDetectionMaskMode {
-  @_s.JsonValue('MASK')
   mask,
-  @_s.JsonValue('REPLACE_WITH_PII_ENTITY_TYPE')
   replaceWithPiiEntityType,
 }
 
+extension on PiiEntitiesDetectionMaskMode {
+  String toValue() {
+    switch (this) {
+      case PiiEntitiesDetectionMaskMode.mask:
+        return 'MASK';
+      case PiiEntitiesDetectionMaskMode.replaceWithPiiEntityType:
+        return 'REPLACE_WITH_PII_ENTITY_TYPE';
+    }
+  }
+}
+
+extension on String {
+  PiiEntitiesDetectionMaskMode toPiiEntitiesDetectionMaskMode() {
+    switch (this) {
+      case 'MASK':
+        return PiiEntitiesDetectionMaskMode.mask;
+      case 'REPLACE_WITH_PII_ENTITY_TYPE':
+        return PiiEntitiesDetectionMaskMode.replaceWithPiiEntityType;
+    }
+    throw Exception('$this is not known in enum PiiEntitiesDetectionMaskMode');
+  }
+}
+
 enum PiiEntitiesDetectionMode {
-  @_s.JsonValue('ONLY_REDACTION')
   onlyRedaction,
-  @_s.JsonValue('ONLY_OFFSETS')
   onlyOffsets,
 }
 
@@ -7372,41 +8636,43 @@ extension on PiiEntitiesDetectionMode {
       case PiiEntitiesDetectionMode.onlyOffsets:
         return 'ONLY_OFFSETS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PiiEntitiesDetectionMode toPiiEntitiesDetectionMode() {
+    switch (this) {
+      case 'ONLY_REDACTION':
+        return PiiEntitiesDetectionMode.onlyRedaction;
+      case 'ONLY_OFFSETS':
+        return PiiEntitiesDetectionMode.onlyOffsets;
+    }
+    throw Exception('$this is not known in enum PiiEntitiesDetectionMode');
   }
 }
 
 /// Provides information about a PII entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PiiEntity {
   /// A character offset in the input text that shows where the PII entity begins
   /// (the first character is at position 0). The offset returns the position of
   /// each UTF-8 code point in the string. A <i>code point</i> is the abstract
   /// character from a particular graphical representation. For example, a
   /// multi-byte UTF-8 character maps to a single code point.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// A character offset in the input text that shows where the PII entity ends.
   /// The offset returns the position of each UTF-8 code point in the string. A
   /// <i>code point</i> is the abstract character from a particular graphical
   /// representation. For example, a multi-byte UTF-8 character maps to a single
   /// code point.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of the
   /// detection.
-  @_s.JsonKey(name: 'Score')
-  final double score;
+  final double? score;
 
   /// The entity's type.
-  @_s.JsonKey(name: 'Type')
-  final PiiEntityType type;
+  final PiiEntityType? type;
 
   PiiEntity({
     this.beginOffset,
@@ -7414,148 +8680,259 @@ class PiiEntity {
     this.score,
     this.type,
   });
-  factory PiiEntity.fromJson(Map<String, dynamic> json) =>
-      _$PiiEntityFromJson(json);
+
+  factory PiiEntity.fromJson(Map<String, dynamic> json) {
+    return PiiEntity(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+      score: json['Score'] as double?,
+      type: (json['Type'] as String?)?.toPiiEntityType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final endOffset = this.endOffset;
+    final score = this.score;
+    final type = this.type;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (score != null) 'Score': score,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum PiiEntityType {
-  @_s.JsonValue('BANK_ACCOUNT_NUMBER')
   bankAccountNumber,
-  @_s.JsonValue('BANK_ROUTING')
   bankRouting,
-  @_s.JsonValue('CREDIT_DEBIT_NUMBER')
   creditDebitNumber,
-  @_s.JsonValue('CREDIT_DEBIT_CVV')
   creditDebitCvv,
-  @_s.JsonValue('CREDIT_DEBIT_EXPIRY')
   creditDebitExpiry,
-  @_s.JsonValue('PIN')
   pin,
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('ADDRESS')
   address,
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('PHONE')
   phone,
-  @_s.JsonValue('SSN')
   ssn,
-  @_s.JsonValue('DATE_TIME')
   dateTime,
-  @_s.JsonValue('PASSPORT_NUMBER')
   passportNumber,
-  @_s.JsonValue('DRIVER_ID')
   driverId,
-  @_s.JsonValue('URL')
   url,
-  @_s.JsonValue('AGE')
   age,
-  @_s.JsonValue('USERNAME')
   username,
-  @_s.JsonValue('PASSWORD')
   password,
-  @_s.JsonValue('AWS_ACCESS_KEY')
   awsAccessKey,
-  @_s.JsonValue('AWS_SECRET_KEY')
   awsSecretKey,
-  @_s.JsonValue('IP_ADDRESS')
   ipAddress,
-  @_s.JsonValue('MAC_ADDRESS')
   macAddress,
-  @_s.JsonValue('ALL')
   all,
+}
+
+extension on PiiEntityType {
+  String toValue() {
+    switch (this) {
+      case PiiEntityType.bankAccountNumber:
+        return 'BANK_ACCOUNT_NUMBER';
+      case PiiEntityType.bankRouting:
+        return 'BANK_ROUTING';
+      case PiiEntityType.creditDebitNumber:
+        return 'CREDIT_DEBIT_NUMBER';
+      case PiiEntityType.creditDebitCvv:
+        return 'CREDIT_DEBIT_CVV';
+      case PiiEntityType.creditDebitExpiry:
+        return 'CREDIT_DEBIT_EXPIRY';
+      case PiiEntityType.pin:
+        return 'PIN';
+      case PiiEntityType.email:
+        return 'EMAIL';
+      case PiiEntityType.address:
+        return 'ADDRESS';
+      case PiiEntityType.name:
+        return 'NAME';
+      case PiiEntityType.phone:
+        return 'PHONE';
+      case PiiEntityType.ssn:
+        return 'SSN';
+      case PiiEntityType.dateTime:
+        return 'DATE_TIME';
+      case PiiEntityType.passportNumber:
+        return 'PASSPORT_NUMBER';
+      case PiiEntityType.driverId:
+        return 'DRIVER_ID';
+      case PiiEntityType.url:
+        return 'URL';
+      case PiiEntityType.age:
+        return 'AGE';
+      case PiiEntityType.username:
+        return 'USERNAME';
+      case PiiEntityType.password:
+        return 'PASSWORD';
+      case PiiEntityType.awsAccessKey:
+        return 'AWS_ACCESS_KEY';
+      case PiiEntityType.awsSecretKey:
+        return 'AWS_SECRET_KEY';
+      case PiiEntityType.ipAddress:
+        return 'IP_ADDRESS';
+      case PiiEntityType.macAddress:
+        return 'MAC_ADDRESS';
+      case PiiEntityType.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  PiiEntityType toPiiEntityType() {
+    switch (this) {
+      case 'BANK_ACCOUNT_NUMBER':
+        return PiiEntityType.bankAccountNumber;
+      case 'BANK_ROUTING':
+        return PiiEntityType.bankRouting;
+      case 'CREDIT_DEBIT_NUMBER':
+        return PiiEntityType.creditDebitNumber;
+      case 'CREDIT_DEBIT_CVV':
+        return PiiEntityType.creditDebitCvv;
+      case 'CREDIT_DEBIT_EXPIRY':
+        return PiiEntityType.creditDebitExpiry;
+      case 'PIN':
+        return PiiEntityType.pin;
+      case 'EMAIL':
+        return PiiEntityType.email;
+      case 'ADDRESS':
+        return PiiEntityType.address;
+      case 'NAME':
+        return PiiEntityType.name;
+      case 'PHONE':
+        return PiiEntityType.phone;
+      case 'SSN':
+        return PiiEntityType.ssn;
+      case 'DATE_TIME':
+        return PiiEntityType.dateTime;
+      case 'PASSPORT_NUMBER':
+        return PiiEntityType.passportNumber;
+      case 'DRIVER_ID':
+        return PiiEntityType.driverId;
+      case 'URL':
+        return PiiEntityType.url;
+      case 'AGE':
+        return PiiEntityType.age;
+      case 'USERNAME':
+        return PiiEntityType.username;
+      case 'PASSWORD':
+        return PiiEntityType.password;
+      case 'AWS_ACCESS_KEY':
+        return PiiEntityType.awsAccessKey;
+      case 'AWS_SECRET_KEY':
+        return PiiEntityType.awsSecretKey;
+      case 'IP_ADDRESS':
+        return PiiEntityType.ipAddress;
+      case 'MAC_ADDRESS':
+        return PiiEntityType.macAddress;
+      case 'ALL':
+        return PiiEntityType.all;
+    }
+    throw Exception('$this is not known in enum PiiEntityType');
+  }
 }
 
 /// Provides configuration parameters for the output of PII entity detection
 /// jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PiiOutputDataConfig {
   /// When you use the <code>PiiOutputDataConfig</code> object with asynchronous
   /// operations, you specify the Amazon S3 location where you want to write the
   /// output data.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt the output results from an analysis job.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   PiiOutputDataConfig({
-    @_s.required this.s3Uri,
+    required this.s3Uri,
     this.kmsKeyId,
   });
-  factory PiiOutputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$PiiOutputDataConfigFromJson(json);
+
+  factory PiiOutputDataConfig.fromJson(Map<String, dynamic> json) {
+    return PiiOutputDataConfig(
+      s3Uri: json['S3Uri'] as String,
+      kmsKeyId: json['KmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'S3Uri': s3Uri,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+    };
+  }
 }
 
 /// Provides configuration parameters for PII entity redaction.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RedactionConfig {
   /// A character that replaces each character in the redacted PII entity.
-  @_s.JsonKey(name: 'MaskCharacter')
-  final String maskCharacter;
+  final String? maskCharacter;
 
   /// Specifies whether the PII entity is redacted with the mask character or the
   /// entity type.
-  @_s.JsonKey(name: 'MaskMode')
-  final PiiEntitiesDetectionMaskMode maskMode;
+  final PiiEntitiesDetectionMaskMode? maskMode;
 
   /// An array of the types of PII entities that Amazon Comprehend detects in the
   /// input text for your request.
-  @_s.JsonKey(name: 'PiiEntityTypes')
-  final List<PiiEntityType> piiEntityTypes;
+  final List<PiiEntityType>? piiEntityTypes;
 
   RedactionConfig({
     this.maskCharacter,
     this.maskMode,
     this.piiEntityTypes,
   });
-  factory RedactionConfig.fromJson(Map<String, dynamic> json) =>
-      _$RedactionConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RedactionConfigToJson(this);
+  factory RedactionConfig.fromJson(Map<String, dynamic> json) {
+    return RedactionConfig(
+      maskCharacter: json['MaskCharacter'] as String?,
+      maskMode: (json['MaskMode'] as String?)?.toPiiEntitiesDetectionMaskMode(),
+      piiEntityTypes: (json['PiiEntityTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPiiEntityType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maskCharacter = this.maskCharacter;
+    final maskMode = this.maskMode;
+    final piiEntityTypes = this.piiEntityTypes;
+    return {
+      if (maskCharacter != null) 'MaskCharacter': maskCharacter,
+      if (maskMode != null) 'MaskMode': maskMode.toValue(),
+      if (piiEntityTypes != null)
+        'PiiEntityTypes': piiEntityTypes.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Provides information for filtering a list of dominant language detection
 /// jobs. For more information, see the operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SentimentDetectionJobFilter {
   /// Filters on the name of the job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based on job status. Returns only jobs with the
   /// specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   SentimentDetectionJobFilter({
     this.jobName,
@@ -7563,62 +8940,68 @@ class SentimentDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$SentimentDetectionJobFilterToJson(this);
+
+  factory SentimentDetectionJobFilter.fromJson(Map<String, dynamic> json) {
+    return SentimentDetectionJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about a sentiment detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SentimentDetectionJobProperties {
   /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to
   /// your input data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the sentiment detection job ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input data configuration that you supplied when you created the
   /// sentiment detection job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the sentiment detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name that you assigned to the sentiment detection job
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the sentiment detection job. If the status is
   /// <code>FAILED</code>, the <code>Messages</code> field shows the reason for
   /// the failure.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// The language code of the input documents.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// A description of the status of a job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The output data configuration that you supplied when you created the
   /// sentiment detection job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the sentiment detection job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -7634,16 +9017,14 @@ class SentimentDetectionJobProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your sentiment detection job. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   SentimentDetectionJobProperties({
     this.dataAccessRoleArn,
@@ -7659,37 +9040,80 @@ class SentimentDetectionJobProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
-  factory SentimentDetectionJobProperties.fromJson(Map<String, dynamic> json) =>
-      _$SentimentDetectionJobPropertiesFromJson(json);
+
+  factory SentimentDetectionJobProperties.fromJson(Map<String, dynamic> json) {
+    return SentimentDetectionJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final languageCode = this.languageCode;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
 /// Describes the level of confidence that Amazon Comprehend has in the accuracy
 /// of its detection of sentiments.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SentimentScore {
   /// The level of confidence that Amazon Comprehend has in the accuracy of its
   /// detection of the <code>MIXED</code> sentiment.
-  @_s.JsonKey(name: 'Mixed')
-  final double mixed;
+  final double? mixed;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of its
   /// detection of the <code>NEGATIVE</code> sentiment.
-  @_s.JsonKey(name: 'Negative')
-  final double negative;
+  final double? negative;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of its
   /// detection of the <code>NEUTRAL</code> sentiment.
-  @_s.JsonKey(name: 'Neutral')
-  final double neutral;
+  final double? neutral;
 
   /// The level of confidence that Amazon Comprehend has in the accuracy of its
   /// detection of the <code>POSITIVE</code> sentiment.
-  @_s.JsonKey(name: 'Positive')
-  final double positive;
+  final double? positive;
 
   SentimentScore({
     this.mixed,
@@ -7697,31 +9121,72 @@ class SentimentScore {
     this.neutral,
     this.positive,
   });
-  factory SentimentScore.fromJson(Map<String, dynamic> json) =>
-      _$SentimentScoreFromJson(json);
+
+  factory SentimentScore.fromJson(Map<String, dynamic> json) {
+    return SentimentScore(
+      mixed: json['Mixed'] as double?,
+      negative: json['Negative'] as double?,
+      neutral: json['Neutral'] as double?,
+      positive: json['Positive'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mixed = this.mixed;
+    final negative = this.negative;
+    final neutral = this.neutral;
+    final positive = this.positive;
+    return {
+      if (mixed != null) 'Mixed': mixed,
+      if (negative != null) 'Negative': negative,
+      if (neutral != null) 'Neutral': neutral,
+      if (positive != null) 'Positive': positive,
+    };
+  }
 }
 
 enum SentimentType {
-  @_s.JsonValue('POSITIVE')
   positive,
-  @_s.JsonValue('NEGATIVE')
   negative,
-  @_s.JsonValue('NEUTRAL')
   neutral,
-  @_s.JsonValue('MIXED')
   mixed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SentimentType {
+  String toValue() {
+    switch (this) {
+      case SentimentType.positive:
+        return 'POSITIVE';
+      case SentimentType.negative:
+        return 'NEGATIVE';
+      case SentimentType.neutral:
+        return 'NEUTRAL';
+      case SentimentType.mixed:
+        return 'MIXED';
+    }
+  }
+}
+
+extension on String {
+  SentimentType toSentimentType() {
+    switch (this) {
+      case 'POSITIVE':
+        return SentimentType.positive;
+      case 'NEGATIVE':
+        return SentimentType.negative;
+      case 'NEUTRAL':
+        return SentimentType.neutral;
+      case 'MIXED':
+        return SentimentType.mixed;
+    }
+    throw Exception('$this is not known in enum SentimentType');
+  }
+}
+
 class StartDocumentClassificationJobResponse {
   /// The identifier generated for the job. To get the status of the job, use this
   /// identifier with the operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job:
   ///
@@ -7746,28 +9211,35 @@ class StartDocumentClassificationJobResponse {
   /// STOPPED - The job was successfully stopped without completing.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartDocumentClassificationJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StartDocumentClassificationJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartDocumentClassificationJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartDocumentClassificationJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDominantLanguageDetectionJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job.
   ///
@@ -7785,28 +9257,35 @@ class StartDominantLanguageDetectionJobResponse {
   /// FAILED - The job did not complete. To get details, use the operation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartDominantLanguageDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StartDominantLanguageDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartDominantLanguageDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartDominantLanguageDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartEntitiesDetectionJobResponse {
   /// The identifier generated for the job. To get the status of job, use this
   /// identifier with the operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job.
   ///
@@ -7831,51 +9310,65 @@ class StartEntitiesDetectionJobResponse {
   /// STOPPED - The job was successfully stopped without completing.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartEntitiesDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StartEntitiesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartEntitiesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartEntitiesDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartEventsDetectionJobResponse {
   /// An unique identifier for the request. If you don't set the client request
   /// token, Amazon Comprehend generates one.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the events detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartEventsDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
-  factory StartEventsDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartEventsDetectionJobResponseFromJson(json);
+
+  factory StartEventsDetectionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartEventsDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartKeyPhrasesDetectionJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job.
   ///
@@ -7893,51 +9386,65 @@ class StartKeyPhrasesDetectionJobResponse {
   /// FAILED - The job did not complete. To get details, use the operation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartKeyPhrasesDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StartKeyPhrasesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartKeyPhrasesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartKeyPhrasesDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartPiiEntitiesDetectionJobResponse {
   /// The identifier generated for the job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartPiiEntitiesDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StartPiiEntitiesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartPiiEntitiesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartPiiEntitiesDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartSentimentDetectionJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job.
   ///
@@ -7955,28 +9462,35 @@ class StartSentimentDetectionJobResponse {
   /// FAILED - The job did not complete. To get details, use the operation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartSentimentDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StartSentimentDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartSentimentDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartSentimentDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartTopicsDetectionJobResponse {
   /// The identifier generated for the job. To get the status of the job, use this
   /// identifier with the <code>DescribeTopicDetectionJob</code> operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job:
   ///
@@ -7995,198 +9509,248 @@ class StartTopicsDetectionJobResponse {
   /// <code>DescribeTopicDetectionJob</code> operation.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartTopicsDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
-  factory StartTopicsDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartTopicsDetectionJobResponseFromJson(json);
+
+  factory StartTopicsDetectionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartTopicsDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopDominantLanguageDetectionJobResponse {
   /// The identifier of the dominant language detection job to stop.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// Either <code>STOP_REQUESTED</code> if the job is currently running, or
   /// <code>STOPPED</code> if the job was previously stopped with the
   /// <code>StopDominantLanguageDetectionJob</code> operation.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StopDominantLanguageDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StopDominantLanguageDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopDominantLanguageDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StopDominantLanguageDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopEntitiesDetectionJobResponse {
   /// The identifier of the entities detection job to stop.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// Either <code>STOP_REQUESTED</code> if the job is currently running, or
   /// <code>STOPPED</code> if the job was previously stopped with the
   /// <code>StopEntitiesDetectionJob</code> operation.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StopEntitiesDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
-  factory StopEntitiesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopEntitiesDetectionJobResponseFromJson(json);
+
+  factory StopEntitiesDetectionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopEntitiesDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopEventsDetectionJobResponse {
   /// The identifier of the events detection job to stop.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the events detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StopEventsDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
-  factory StopEventsDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopEventsDetectionJobResponseFromJson(json);
+
+  factory StopEventsDetectionJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopEventsDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopKeyPhrasesDetectionJobResponse {
   /// The identifier of the key phrases detection job to stop.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// Either <code>STOP_REQUESTED</code> if the job is currently running, or
   /// <code>STOPPED</code> if the job was previously stopped with the
   /// <code>StopKeyPhrasesDetectionJob</code> operation.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StopKeyPhrasesDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StopKeyPhrasesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopKeyPhrasesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StopKeyPhrasesDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopPiiEntitiesDetectionJobResponse {
   /// The identifier of the PII entities detection job to stop.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the PII entities detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StopPiiEntitiesDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StopPiiEntitiesDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopPiiEntitiesDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StopPiiEntitiesDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopSentimentDetectionJobResponse {
   /// The identifier of the sentiment detection job to stop.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// Either <code>STOP_REQUESTED</code> if the job is currently running, or
   /// <code>STOPPED</code> if the job was previously stopped with the
   /// <code>StopSentimentDetectionJob</code> operation.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StopSentimentDetectionJobResponse({
     this.jobId,
     this.jobStatus,
   });
+
   factory StopSentimentDetectionJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopSentimentDetectionJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StopSentimentDetectionJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopTrainingDocumentClassifierResponse {
   StopTrainingDocumentClassifierResponse();
+
   factory StopTrainingDocumentClassifierResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopTrainingDocumentClassifierResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return StopTrainingDocumentClassifierResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopTrainingEntityRecognizerResponse {
   StopTrainingEntityRecognizerResponse();
+
   factory StopTrainingEntityRecognizerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopTrainingEntityRecognizerResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return StopTrainingEntityRecognizerResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum SyntaxLanguageCode {
-  @_s.JsonValue('en')
   en,
-  @_s.JsonValue('es')
   es,
-  @_s.JsonValue('fr')
   fr,
-  @_s.JsonValue('de')
   de,
-  @_s.JsonValue('it')
   it,
-  @_s.JsonValue('pt')
   pt,
 }
 
@@ -8206,42 +9770,51 @@ extension on SyntaxLanguageCode {
       case SyntaxLanguageCode.pt:
         return 'pt';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SyntaxLanguageCode toSyntaxLanguageCode() {
+    switch (this) {
+      case 'en':
+        return SyntaxLanguageCode.en;
+      case 'es':
+        return SyntaxLanguageCode.es;
+      case 'fr':
+        return SyntaxLanguageCode.fr;
+      case 'de':
+        return SyntaxLanguageCode.de;
+      case 'it':
+        return SyntaxLanguageCode.it;
+      case 'pt':
+        return SyntaxLanguageCode.pt;
+    }
+    throw Exception('$this is not known in enum SyntaxLanguageCode');
   }
 }
 
 /// Represents a work in the input text that was recognized and assigned a part
 /// of speech. There is one syntax token record for each word in the source
 /// text.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SyntaxToken {
   /// The zero-based offset from the beginning of the source text to the first
   /// character in the word.
-  @_s.JsonKey(name: 'BeginOffset')
-  final int beginOffset;
+  final int? beginOffset;
 
   /// The zero-based offset from the beginning of the source text to the last
   /// character in the word.
-  @_s.JsonKey(name: 'EndOffset')
-  final int endOffset;
+  final int? endOffset;
 
   /// Provides the part of speech label and the confidence level that Amazon
   /// Comprehend has that the part of speech was correctly identified. For more
   /// information, see <a>how-syntax</a>.
-  @_s.JsonKey(name: 'PartOfSpeech')
-  final PartOfSpeechTag partOfSpeech;
+  final PartOfSpeechTag? partOfSpeech;
 
   /// The word that was recognized in the source text.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// A unique identifier for a token.
-  @_s.JsonKey(name: 'TokenId')
-  final int tokenId;
+  final int? tokenId;
 
   SyntaxToken({
     this.beginOffset,
@@ -8250,84 +9823,106 @@ class SyntaxToken {
     this.text,
     this.tokenId,
   });
-  factory SyntaxToken.fromJson(Map<String, dynamic> json) =>
-      _$SyntaxTokenFromJson(json);
+
+  factory SyntaxToken.fromJson(Map<String, dynamic> json) {
+    return SyntaxToken(
+      beginOffset: json['BeginOffset'] as int?,
+      endOffset: json['EndOffset'] as int?,
+      partOfSpeech: json['PartOfSpeech'] != null
+          ? PartOfSpeechTag.fromJson(
+              json['PartOfSpeech'] as Map<String, dynamic>)
+          : null,
+      text: json['Text'] as String?,
+      tokenId: json['TokenId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffset = this.beginOffset;
+    final endOffset = this.endOffset;
+    final partOfSpeech = this.partOfSpeech;
+    final text = this.text;
+    final tokenId = this.tokenId;
+    return {
+      if (beginOffset != null) 'BeginOffset': beginOffset,
+      if (endOffset != null) 'EndOffset': endOffset,
+      if (partOfSpeech != null) 'PartOfSpeech': partOfSpeech,
+      if (text != null) 'Text': text,
+      if (tokenId != null) 'TokenId': tokenId,
+    };
+  }
 }
 
 /// A key-value pair that adds as a metadata to a resource used by Amazon
 /// Comprehend. For example, a tag with the key-value pair ‘Department’:’Sales’
 /// might be added to a resource to indicate its use by a particular department.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The initial part of a key-value pair that forms a tag associated with a
   /// given resource. For instance, if you want to show which resources are used
   /// by which departments, you might use “Department” as the key portion of the
   /// pair, with multiple possible values such as “sales,” “legal,” and
   /// “administration.”
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The second part of a key-value pair that forms a tag associated with a given
   /// resource. For instance, if you want to show which resources are used by
   /// which departments, you might use “Department” as the initial (key) portion
   /// of the pair, with a value of “sales” to indicate the sales department.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Provides information for filtering topic detection jobs. For more
 /// information, see .
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TopicsDetectionJobFilter {
   /// <p/>
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of topic detection jobs based on job status. Returns only
   /// jobs with the specified status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Only returns jobs submitted after the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeAfter')
-  final DateTime submitTimeAfter;
+  final DateTime? submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Only returns jobs submitted before the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTimeBefore')
-  final DateTime submitTimeBefore;
+  final DateTime? submitTimeBefore;
 
   TopicsDetectionJobFilter({
     this.jobName,
@@ -8335,63 +9930,69 @@ class TopicsDetectionJobFilter {
     this.submitTimeAfter,
     this.submitTimeBefore,
   });
-  Map<String, dynamic> toJson() => _$TopicsDetectionJobFilterToJson(this);
+
+  factory TopicsDetectionJobFilter.fromJson(Map<String, dynamic> json) {
+    return TopicsDetectionJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submitTimeAfter: timeStampFromJson(json['SubmitTimeAfter']),
+      submitTimeBefore: timeStampFromJson(json['SubmitTimeBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submitTimeAfter = this.submitTimeAfter;
+    final submitTimeBefore = this.submitTimeBefore;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submitTimeAfter != null)
+        'SubmitTimeAfter': unixTimestampToJson(submitTimeAfter),
+      if (submitTimeBefore != null)
+        'SubmitTimeBefore': unixTimestampToJson(submitTimeBefore),
+    };
+  }
 }
 
 /// Provides information about a topic detection job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TopicsDetectionJobProperties {
   /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role
   /// that grants Amazon Comprehend read access to your job data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time that the topic detection job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input data configuration supplied when you created the topic detection
   /// job.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The identifier assigned to the topic detection job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the topic detection job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The current status of the topic detection job. If the status is
   /// <code>Failed</code>, the reason for the failure is shown in the
   /// <code>Message</code> field.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// A description for the status of a job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The number of topics to detect supplied when you created the topic detection
   /// job. The default is 10.
-  @_s.JsonKey(name: 'NumberOfTopics')
-  final int numberOfTopics;
+  final int? numberOfTopics;
 
   /// The output data configuration supplied when you created the topic detection
   /// job.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// The time that the topic detection job was submitted for processing.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmitTime')
-  final DateTime submitTime;
+  final DateTime? submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
   /// to encrypt data on the storage volume attached to the ML compute instance(s)
@@ -8407,16 +10008,14 @@ class TopicsDetectionJobProperties {
   /// <code>"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VolumeKmsKeyId')
-  final String volumeKmsKeyId;
+  final String? volumeKmsKeyId;
 
   /// Configuration parameters for a private Virtual Private Cloud (VPC)
   /// containing the resources you are using for your topic detection job. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
   /// VPC</a>.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfig vpcConfig;
+  final VpcConfig? vpcConfig;
 
   TopicsDetectionJobProperties({
     this.dataAccessRoleArn,
@@ -8432,30 +10031,84 @@ class TopicsDetectionJobProperties {
     this.volumeKmsKeyId,
     this.vpcConfig,
   });
-  factory TopicsDetectionJobProperties.fromJson(Map<String, dynamic> json) =>
-      _$TopicsDetectionJobPropertiesFromJson(json);
+
+  factory TopicsDetectionJobProperties.fromJson(Map<String, dynamic> json) {
+    return TopicsDetectionJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      message: json['Message'] as String?,
+      numberOfTopics: json['NumberOfTopics'] as int?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      submitTime: timeStampFromJson(json['SubmitTime']),
+      volumeKmsKeyId: json['VolumeKmsKeyId'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final message = this.message;
+    final numberOfTopics = this.numberOfTopics;
+    final outputDataConfig = this.outputDataConfig;
+    final submitTime = this.submitTime;
+    final volumeKmsKeyId = this.volumeKmsKeyId;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (message != null) 'Message': message,
+      if (numberOfTopics != null) 'NumberOfTopics': numberOfTopics,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (submitTime != null) 'SubmitTime': unixTimestampToJson(submitTime),
+      if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateEndpointResponse {
   UpdateEndpointResponse();
-  factory UpdateEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateEndpointResponseFromJson(json);
+
+  factory UpdateEndpointResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateEndpointResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
@@ -8463,11 +10116,6 @@ class UpdateEndpointResponse {
 /// see <a
 /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
 /// VPC</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VpcConfig {
   /// The ID number for a security group on an instance of your private VPC.
   /// Security groups on your VPC function serve as a virtual firewall to control
@@ -8476,7 +10124,6 @@ class VpcConfig {
   /// instance: "sg-03b388029b0a285ea". For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html">Security
   /// Groups for your VPC</a>.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// The ID for each subnet being used in your private VPC. This subnet is a
@@ -8486,21 +10133,38 @@ class VpcConfig {
   /// see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html">VPCs
   /// and Subnets</a>.
-  @_s.JsonKey(name: 'Subnets')
   final List<String> subnets;
 
   VpcConfig({
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnets,
+    required this.securityGroupIds,
+    required this.subnets,
   });
-  factory VpcConfig.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VpcConfigToJson(this);
+  factory VpcConfig.fromJson(Map<String, dynamic> json) {
+    return VpcConfig(
+      securityGroupIds: (json['SecurityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnets: (json['Subnets'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnets = this.subnets;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'Subnets': subnets,
+    };
+  }
 }
 
 class BatchSizeLimitExceededException extends _s.GenericAwsException {
-  BatchSizeLimitExceededException({String type, String message})
+  BatchSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'BatchSizeLimitExceededException',
@@ -8508,7 +10172,7 @@ class BatchSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -8516,37 +10180,37 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidFilterException extends _s.GenericAwsException {
-  InvalidFilterException({String type, String message})
+  InvalidFilterException({String? type, String? message})
       : super(type: type, code: 'InvalidFilterException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class JobNotFoundException extends _s.GenericAwsException {
-  JobNotFoundException({String type, String message})
+  JobNotFoundException({String? type, String? message})
       : super(type: type, code: 'JobNotFoundException', message: message);
 }
 
 class KmsKeyValidationException extends _s.GenericAwsException {
-  KmsKeyValidationException({String type, String message})
+  KmsKeyValidationException({String? type, String? message})
       : super(type: type, code: 'KmsKeyValidationException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
-  ResourceLimitExceededException({String type, String message})
+  ResourceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceLimitExceededException',
@@ -8554,18 +10218,18 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceUnavailableException extends _s.GenericAwsException {
-  ResourceUnavailableException({String type, String message})
+  ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
 class TextSizeLimitExceededException extends _s.GenericAwsException {
-  TextSizeLimitExceededException({String type, String message})
+  TextSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'TextSizeLimitExceededException',
@@ -8573,22 +10237,22 @@ class TextSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class TooManyTagKeysException extends _s.GenericAwsException {
-  TooManyTagKeysException({String type, String message})
+  TooManyTagKeysException({String? type, String? message})
       : super(type: type, code: 'TooManyTagKeysException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class UnsupportedLanguageException extends _s.GenericAwsException {
-  UnsupportedLanguageException({String type, String message})
+  UnsupportedLanguageException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedLanguageException', message: message);
 }

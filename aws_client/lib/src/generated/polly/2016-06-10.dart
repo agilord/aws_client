@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2016-06-10.g.dart';
 
 /// Amazon Polly is a web service that makes it easy to synthesize speech from
 /// text.
@@ -36,10 +29,10 @@ part '2016-06-10.g.dart';
 class Polly {
   final _s.RestJsonProtocol _protocol;
   Polly({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -66,22 +59,15 @@ class Polly {
   /// The name of the lexicon to delete. Must be an existing lexicon in the
   /// region.
   Future<void> deleteLexicon({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[0-9A-Za-z]{1,20}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/v1/lexicons/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteLexiconOutput.fromJson(response);
   }
 
   /// Returns the list of voices that are available for use when requesting
@@ -130,10 +116,10 @@ class Polly {
   /// <code>DescribeVoices</code> operation. If present, this indicates where to
   /// continue the listing.
   Future<DescribeVoicesOutput> describeVoices({
-    Engine engine,
-    bool includeAdditionalLanguageCodes,
-    LanguageCode languageCode,
-    String nextToken,
+    Engine? engine,
+    bool? includeAdditionalLanguageCodes,
+    LanguageCode? languageCode,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -171,15 +157,9 @@ class Polly {
   /// Parameter [name] :
   /// Name of the lexicon.
   Future<GetLexiconOutput> getLexicon({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[0-9A-Za-z]{1,20}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -201,15 +181,9 @@ class Polly {
   /// Parameter [taskId] :
   /// The Amazon Polly generated identifier for a speech synthesis task.
   Future<GetSpeechSynthesisTaskOutput> getSpeechSynthesisTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''^[a-zA-Z0-9_-]{1,100}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -232,7 +206,7 @@ class Polly {
   /// <code>ListLexicons</code> operation. If present, indicates where to
   /// continue the list of lexicons.
   Future<ListLexiconsOutput> listLexicons({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -270,9 +244,9 @@ class Polly {
   /// Parameter [status] :
   /// Status of the speech synthesis tasks returned in a List operation
   Future<ListSpeechSynthesisTasksOutput> listSpeechSynthesisTasks({
-    int maxResults,
-    String nextToken,
-    TaskStatus status,
+    int? maxResults,
+    String? nextToken,
+    TaskStatus? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -327,17 +301,11 @@ class Polly {
   /// [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric
   /// string up to 20 characters long.
   Future<void> putLexicon({
-    @_s.required String content,
-    @_s.required String name,
+    required String content,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[0-9A-Za-z]{1,20}''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Content': content,
     };
@@ -347,7 +315,6 @@ class Polly {
       requestUri: '/v1/lexicons/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-    return PutLexiconOutput.fromJson(response);
   }
 
   /// Allows the creation of an asynchronous synthesis task, by starting a new
@@ -433,44 +400,28 @@ class Polly {
   /// Specifies whether the input text is plain text or SSML. The default value
   /// is plain text.
   Future<StartSpeechSynthesisTaskOutput> startSpeechSynthesisTask({
-    @_s.required OutputFormat outputFormat,
-    @_s.required String outputS3BucketName,
-    @_s.required String text,
-    @_s.required VoiceId voiceId,
-    Engine engine,
-    LanguageCode languageCode,
-    List<String> lexiconNames,
-    String outputS3KeyPrefix,
-    String sampleRate,
-    String snsTopicArn,
-    List<SpeechMarkType> speechMarkTypes,
-    TextType textType,
+    required OutputFormat outputFormat,
+    required String outputS3BucketName,
+    required String text,
+    required VoiceId voiceId,
+    Engine? engine,
+    LanguageCode? languageCode,
+    List<String>? lexiconNames,
+    String? outputS3KeyPrefix,
+    String? sampleRate,
+    String? snsTopicArn,
+    List<SpeechMarkType>? speechMarkTypes,
+    TextType? textType,
   }) async {
     ArgumentError.checkNotNull(outputFormat, 'outputFormat');
     ArgumentError.checkNotNull(outputS3BucketName, 'outputS3BucketName');
-    _s.validateStringPattern(
-      'outputS3BucketName',
-      outputS3BucketName,
-      r'''^[a-z0-9][\.\-a-z0-9]{1,61}[a-z0-9]$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(text, 'text');
     ArgumentError.checkNotNull(voiceId, 'voiceId');
-    _s.validateStringPattern(
-      'outputS3KeyPrefix',
-      outputS3KeyPrefix,
-      r'''^[0-9a-zA-Z\/\!\-_\.\*\'\(\):;\$@=+\,\?&]{0,800}$''',
-    );
-    _s.validateStringPattern(
-      'snsTopicArn',
-      snsTopicArn,
-      r'''^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\d{12}:[a-zA-Z0-9_-]{1,256}$''',
-    );
     final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat?.toValue() ?? '',
+      'OutputFormat': outputFormat.toValue(),
       'OutputS3BucketName': outputS3BucketName,
       'Text': text,
-      'VoiceId': voiceId?.toValue() ?? '',
+      'VoiceId': voiceId.toValue(),
       if (engine != null) 'Engine': engine.toValue(),
       if (languageCode != null) 'LanguageCode': languageCode.toValue(),
       if (lexiconNames != null) 'LexiconNames': lexiconNames,
@@ -478,8 +429,7 @@ class Polly {
       if (sampleRate != null) 'SampleRate': sampleRate,
       if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
       if (speechMarkTypes != null)
-        'SpeechMarkTypes':
-            speechMarkTypes.map((e) => e?.toValue() ?? '').toList(),
+        'SpeechMarkTypes': speechMarkTypes.map((e) => e.toValue()).toList(),
       if (textType != null) 'TextType': textType.toValue(),
     };
     final response = await _protocol.send(
@@ -592,30 +542,29 @@ class Polly {
   /// href="https://docs.aws.amazon.com/polly/latest/dg/ssml.html">Using
   /// SSML</a>.
   Future<SynthesizeSpeechOutput> synthesizeSpeech({
-    @_s.required OutputFormat outputFormat,
-    @_s.required String text,
-    @_s.required VoiceId voiceId,
-    Engine engine,
-    LanguageCode languageCode,
-    List<String> lexiconNames,
-    String sampleRate,
-    List<SpeechMarkType> speechMarkTypes,
-    TextType textType,
+    required OutputFormat outputFormat,
+    required String text,
+    required VoiceId voiceId,
+    Engine? engine,
+    LanguageCode? languageCode,
+    List<String>? lexiconNames,
+    String? sampleRate,
+    List<SpeechMarkType>? speechMarkTypes,
+    TextType? textType,
   }) async {
     ArgumentError.checkNotNull(outputFormat, 'outputFormat');
     ArgumentError.checkNotNull(text, 'text');
     ArgumentError.checkNotNull(voiceId, 'voiceId');
     final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat?.toValue() ?? '',
+      'OutputFormat': outputFormat.toValue(),
       'Text': text,
-      'VoiceId': voiceId?.toValue() ?? '',
+      'VoiceId': voiceId.toValue(),
       if (engine != null) 'Engine': engine.toValue(),
       if (languageCode != null) 'LanguageCode': languageCode.toValue(),
       if (lexiconNames != null) 'LexiconNames': lexiconNames,
       if (sampleRate != null) 'SampleRate': sampleRate,
       if (speechMarkTypes != null)
-        'SpeechMarkTypes':
-            speechMarkTypes.map((e) => e?.toValue() ?? '').toList(),
+        'SpeechMarkTypes': speechMarkTypes.map((e) => e.toValue()).toList(),
       if (textType != null) 'TextType': textType.toValue(),
     };
     final response = await _protocol.sendRaw(
@@ -634,45 +583,54 @@ class Polly {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLexiconOutput {
   DeleteLexiconOutput();
-  factory DeleteLexiconOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLexiconOutputFromJson(json);
+
+  factory DeleteLexiconOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteLexiconOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVoicesOutput {
   /// The pagination token to use in the next request to continue the listing of
   /// voices. <code>NextToken</code> is returned only if the response is
   /// truncated.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of voices with their properties.
-  @_s.JsonKey(name: 'Voices')
-  final List<Voice> voices;
+  final List<Voice>? voices;
 
   DescribeVoicesOutput({
     this.nextToken,
     this.voices,
   });
-  factory DescribeVoicesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVoicesOutputFromJson(json);
+
+  factory DescribeVoicesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeVoicesOutput(
+      nextToken: json['NextToken'] as String?,
+      voices: (json['Voices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Voice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final voices = this.voices;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (voices != null) 'Voices': voices,
+    };
+  }
 }
 
 enum Engine {
-  @_s.JsonValue('standard')
   standard,
-  @_s.JsonValue('neural')
   neural,
 }
 
@@ -684,117 +642,140 @@ extension on Engine {
       case Engine.neural:
         return 'neural';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Engine toEngine() {
+    switch (this) {
+      case 'standard':
+        return Engine.standard;
+      case 'neural':
+        return Engine.neural;
+    }
+    throw Exception('$this is not known in enum Engine');
   }
 }
 
 enum Gender {
-  @_s.JsonValue('Female')
   female,
-  @_s.JsonValue('Male')
   male,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Gender {
+  String toValue() {
+    switch (this) {
+      case Gender.female:
+        return 'Female';
+      case Gender.male:
+        return 'Male';
+    }
+  }
+}
+
+extension on String {
+  Gender toGender() {
+    switch (this) {
+      case 'Female':
+        return Gender.female;
+      case 'Male':
+        return Gender.male;
+    }
+    throw Exception('$this is not known in enum Gender');
+  }
+}
+
 class GetLexiconOutput {
   /// Lexicon object that provides name and the string content of the lexicon.
-  @_s.JsonKey(name: 'Lexicon')
-  final Lexicon lexicon;
+  final Lexicon? lexicon;
 
   /// Metadata of the lexicon, including phonetic alphabetic used, language code,
   /// lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon
   /// in bytes.
-  @_s.JsonKey(name: 'LexiconAttributes')
-  final LexiconAttributes lexiconAttributes;
+  final LexiconAttributes? lexiconAttributes;
 
   GetLexiconOutput({
     this.lexicon,
     this.lexiconAttributes,
   });
-  factory GetLexiconOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetLexiconOutputFromJson(json);
+
+  factory GetLexiconOutput.fromJson(Map<String, dynamic> json) {
+    return GetLexiconOutput(
+      lexicon: json['Lexicon'] != null
+          ? Lexicon.fromJson(json['Lexicon'] as Map<String, dynamic>)
+          : null,
+      lexiconAttributes: json['LexiconAttributes'] != null
+          ? LexiconAttributes.fromJson(
+              json['LexiconAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lexicon = this.lexicon;
+    final lexiconAttributes = this.lexiconAttributes;
+    return {
+      if (lexicon != null) 'Lexicon': lexicon,
+      if (lexiconAttributes != null) 'LexiconAttributes': lexiconAttributes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSpeechSynthesisTaskOutput {
   /// SynthesisTask object that provides information from the requested task,
   /// including output format, creation time, task status, and so on.
-  @_s.JsonKey(name: 'SynthesisTask')
-  final SynthesisTask synthesisTask;
+  final SynthesisTask? synthesisTask;
 
   GetSpeechSynthesisTaskOutput({
     this.synthesisTask,
   });
-  factory GetSpeechSynthesisTaskOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetSpeechSynthesisTaskOutputFromJson(json);
+
+  factory GetSpeechSynthesisTaskOutput.fromJson(Map<String, dynamic> json) {
+    return GetSpeechSynthesisTaskOutput(
+      synthesisTask: json['SynthesisTask'] != null
+          ? SynthesisTask.fromJson(
+              json['SynthesisTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final synthesisTask = this.synthesisTask;
+    return {
+      if (synthesisTask != null) 'SynthesisTask': synthesisTask,
+    };
+  }
 }
 
 enum LanguageCode {
-  @_s.JsonValue('arb')
   arb,
-  @_s.JsonValue('cmn-CN')
   cmnCn,
-  @_s.JsonValue('cy-GB')
   cyGb,
-  @_s.JsonValue('da-DK')
   daDk,
-  @_s.JsonValue('de-DE')
   deDe,
-  @_s.JsonValue('en-AU')
   enAu,
-  @_s.JsonValue('en-GB')
   enGb,
-  @_s.JsonValue('en-GB-WLS')
   enGbWls,
-  @_s.JsonValue('en-IN')
   enIn,
-  @_s.JsonValue('en-US')
   enUs,
-  @_s.JsonValue('es-ES')
   esEs,
-  @_s.JsonValue('es-MX')
   esMx,
-  @_s.JsonValue('es-US')
   esUs,
-  @_s.JsonValue('fr-CA')
   frCa,
-  @_s.JsonValue('fr-FR')
   frFr,
-  @_s.JsonValue('is-IS')
   isIs,
-  @_s.JsonValue('it-IT')
   itIt,
-  @_s.JsonValue('ja-JP')
   jaJp,
-  @_s.JsonValue('hi-IN')
   hiIn,
-  @_s.JsonValue('ko-KR')
   koKr,
-  @_s.JsonValue('nb-NO')
   nbNo,
-  @_s.JsonValue('nl-NL')
   nlNl,
-  @_s.JsonValue('pl-PL')
   plPl,
-  @_s.JsonValue('pt-BR')
   ptBr,
-  @_s.JsonValue('pt-PT')
   ptPt,
-  @_s.JsonValue('ro-RO')
   roRo,
-  @_s.JsonValue('ru-RU')
   ruRu,
-  @_s.JsonValue('sv-SE')
   svSe,
-  @_s.JsonValue('tr-TR')
   trTr,
 }
 
@@ -860,7 +841,72 @@ extension on LanguageCode {
       case LanguageCode.trTr:
         return 'tr-TR';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LanguageCode toLanguageCode() {
+    switch (this) {
+      case 'arb':
+        return LanguageCode.arb;
+      case 'cmn-CN':
+        return LanguageCode.cmnCn;
+      case 'cy-GB':
+        return LanguageCode.cyGb;
+      case 'da-DK':
+        return LanguageCode.daDk;
+      case 'de-DE':
+        return LanguageCode.deDe;
+      case 'en-AU':
+        return LanguageCode.enAu;
+      case 'en-GB':
+        return LanguageCode.enGb;
+      case 'en-GB-WLS':
+        return LanguageCode.enGbWls;
+      case 'en-IN':
+        return LanguageCode.enIn;
+      case 'en-US':
+        return LanguageCode.enUs;
+      case 'es-ES':
+        return LanguageCode.esEs;
+      case 'es-MX':
+        return LanguageCode.esMx;
+      case 'es-US':
+        return LanguageCode.esUs;
+      case 'fr-CA':
+        return LanguageCode.frCa;
+      case 'fr-FR':
+        return LanguageCode.frFr;
+      case 'is-IS':
+        return LanguageCode.isIs;
+      case 'it-IT':
+        return LanguageCode.itIt;
+      case 'ja-JP':
+        return LanguageCode.jaJp;
+      case 'hi-IN':
+        return LanguageCode.hiIn;
+      case 'ko-KR':
+        return LanguageCode.koKr;
+      case 'nb-NO':
+        return LanguageCode.nbNo;
+      case 'nl-NL':
+        return LanguageCode.nlNl;
+      case 'pl-PL':
+        return LanguageCode.plPl;
+      case 'pt-BR':
+        return LanguageCode.ptBr;
+      case 'pt-PT':
+        return LanguageCode.ptPt;
+      case 'ro-RO':
+        return LanguageCode.roRo;
+      case 'ru-RU':
+        return LanguageCode.ruRu;
+      case 'sv-SE':
+        return LanguageCode.svSe;
+      case 'tr-TR':
+        return LanguageCode.trTr;
+    }
+    throw Exception('$this is not known in enum LanguageCode');
   }
 }
 
@@ -868,66 +914,61 @@ extension on LanguageCode {
 /// information, see <a
 /// href="https://www.w3.org/TR/pronunciation-lexicon/">Pronunciation Lexicon
 /// Specification (PLS) Version 1.0</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Lexicon {
   /// Lexicon content in string format. The content of a lexicon must be in PLS
   /// format.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// Name of the lexicon.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   Lexicon({
     this.content,
     this.name,
   });
-  factory Lexicon.fromJson(Map<String, dynamic> json) =>
-      _$LexiconFromJson(json);
+
+  factory Lexicon.fromJson(Map<String, dynamic> json) {
+    return Lexicon(
+      content: json['Content'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final name = this.name;
+    return {
+      if (content != null) 'Content': content,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Contains metadata describing the lexicon such as the number of lexemes,
 /// language code, and so on. For more information, see <a
 /// href="https://docs.aws.amazon.com/polly/latest/dg/managing-lexicons.html">Managing
 /// Lexicons</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LexiconAttributes {
   /// Phonetic alphabet used in the lexicon. Valid values are <code>ipa</code> and
   /// <code>x-sampa</code>.
-  @_s.JsonKey(name: 'Alphabet')
-  final String alphabet;
+  final String? alphabet;
 
   /// Language code that the lexicon applies to. A lexicon with a language code
   /// such as "en" would be applied to all English languages (en-GB, en-US,
   /// en-AUS, en-WLS, and so on.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// Date lexicon was last modified (a timestamp value).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// Number of lexemes in the lexicon.
-  @_s.JsonKey(name: 'LexemesCount')
-  final int lexemesCount;
+  final int? lexemesCount;
 
   /// Amazon Resource Name (ARN) of the lexicon.
-  @_s.JsonKey(name: 'LexiconArn')
-  final String lexiconArn;
+  final String? lexiconArn;
 
   /// Total size of the lexicon, in characters.
-  @_s.JsonKey(name: 'Size')
-  final int size;
+  final int? size;
 
   LexiconAttributes({
     this.alphabet,
@@ -937,90 +978,143 @@ class LexiconAttributes {
     this.lexiconArn,
     this.size,
   });
-  factory LexiconAttributes.fromJson(Map<String, dynamic> json) =>
-      _$LexiconAttributesFromJson(json);
+
+  factory LexiconAttributes.fromJson(Map<String, dynamic> json) {
+    return LexiconAttributes(
+      alphabet: json['Alphabet'] as String?,
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lastModified: timeStampFromJson(json['LastModified']),
+      lexemesCount: json['LexemesCount'] as int?,
+      lexiconArn: json['LexiconArn'] as String?,
+      size: json['Size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alphabet = this.alphabet;
+    final languageCode = this.languageCode;
+    final lastModified = this.lastModified;
+    final lexemesCount = this.lexemesCount;
+    final lexiconArn = this.lexiconArn;
+    final size = this.size;
+    return {
+      if (alphabet != null) 'Alphabet': alphabet,
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (lexemesCount != null) 'LexemesCount': lexemesCount,
+      if (lexiconArn != null) 'LexiconArn': lexiconArn,
+      if (size != null) 'Size': size,
+    };
+  }
 }
 
 /// Describes the content of the lexicon.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LexiconDescription {
   /// Provides lexicon metadata.
-  @_s.JsonKey(name: 'Attributes')
-  final LexiconAttributes attributes;
+  final LexiconAttributes? attributes;
 
   /// Name of the lexicon.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   LexiconDescription({
     this.attributes,
     this.name,
   });
-  factory LexiconDescription.fromJson(Map<String, dynamic> json) =>
-      _$LexiconDescriptionFromJson(json);
+
+  factory LexiconDescription.fromJson(Map<String, dynamic> json) {
+    return LexiconDescription(
+      attributes: json['Attributes'] != null
+          ? LexiconAttributes.fromJson(
+              json['Attributes'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final name = this.name;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLexiconsOutput {
   /// A list of lexicon names and attributes.
-  @_s.JsonKey(name: 'Lexicons')
-  final List<LexiconDescription> lexicons;
+  final List<LexiconDescription>? lexicons;
 
   /// The pagination token to use in the next request to continue the listing of
   /// lexicons. <code>NextToken</code> is returned only if the response is
   /// truncated.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLexiconsOutput({
     this.lexicons,
     this.nextToken,
   });
-  factory ListLexiconsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListLexiconsOutputFromJson(json);
+
+  factory ListLexiconsOutput.fromJson(Map<String, dynamic> json) {
+    return ListLexiconsOutput(
+      lexicons: (json['Lexicons'] as List?)
+          ?.whereNotNull()
+          .map((e) => LexiconDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lexicons = this.lexicons;
+    final nextToken = this.nextToken;
+    return {
+      if (lexicons != null) 'Lexicons': lexicons,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSpeechSynthesisTasksOutput {
   /// An opaque pagination token returned from the previous List operation in this
   /// request. If present, this indicates where to continue the listing.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of SynthesisTask objects that provides information from the specified
   /// task in the list request, including output format, creation time, task
   /// status, and so on.
-  @_s.JsonKey(name: 'SynthesisTasks')
-  final List<SynthesisTask> synthesisTasks;
+  final List<SynthesisTask>? synthesisTasks;
 
   ListSpeechSynthesisTasksOutput({
     this.nextToken,
     this.synthesisTasks,
   });
-  factory ListSpeechSynthesisTasksOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListSpeechSynthesisTasksOutputFromJson(json);
+
+  factory ListSpeechSynthesisTasksOutput.fromJson(Map<String, dynamic> json) {
+    return ListSpeechSynthesisTasksOutput(
+      nextToken: json['NextToken'] as String?,
+      synthesisTasks: (json['SynthesisTasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => SynthesisTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final synthesisTasks = this.synthesisTasks;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (synthesisTasks != null) 'SynthesisTasks': synthesisTasks,
+    };
+  }
 }
 
 enum OutputFormat {
-  @_s.JsonValue('json')
   json,
-  @_s.JsonValue('mp3')
   mp3,
-  @_s.JsonValue('ogg_vorbis')
   oggVorbis,
-  @_s.JsonValue('pcm')
   pcm,
 }
 
@@ -1036,29 +1130,41 @@ extension on OutputFormat {
       case OutputFormat.pcm:
         return 'pcm';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  OutputFormat toOutputFormat() {
+    switch (this) {
+      case 'json':
+        return OutputFormat.json;
+      case 'mp3':
+        return OutputFormat.mp3;
+      case 'ogg_vorbis':
+        return OutputFormat.oggVorbis;
+      case 'pcm':
+        return OutputFormat.pcm;
+    }
+    throw Exception('$this is not known in enum OutputFormat');
+  }
+}
+
 class PutLexiconOutput {
   PutLexiconOutput();
-  factory PutLexiconOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutLexiconOutputFromJson(json);
+
+  factory PutLexiconOutput.fromJson(Map<String, dynamic> _) {
+    return PutLexiconOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum SpeechMarkType {
-  @_s.JsonValue('sentence')
   sentence,
-  @_s.JsonValue('ssml')
   ssml,
-  @_s.JsonValue('viseme')
   viseme,
-  @_s.JsonValue('word')
   word,
 }
 
@@ -1074,46 +1180,61 @@ extension on SpeechMarkType {
       case SpeechMarkType.word:
         return 'word';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SpeechMarkType toSpeechMarkType() {
+    switch (this) {
+      case 'sentence':
+        return SpeechMarkType.sentence;
+      case 'ssml':
+        return SpeechMarkType.ssml;
+      case 'viseme':
+        return SpeechMarkType.viseme;
+      case 'word':
+        return SpeechMarkType.word;
+    }
+    throw Exception('$this is not known in enum SpeechMarkType');
+  }
+}
+
 class StartSpeechSynthesisTaskOutput {
   /// SynthesisTask object that provides information and attributes about a newly
   /// submitted speech synthesis task.
-  @_s.JsonKey(name: 'SynthesisTask')
-  final SynthesisTask synthesisTask;
+  final SynthesisTask? synthesisTask;
 
   StartSpeechSynthesisTaskOutput({
     this.synthesisTask,
   });
-  factory StartSpeechSynthesisTaskOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartSpeechSynthesisTaskOutputFromJson(json);
+
+  factory StartSpeechSynthesisTaskOutput.fromJson(Map<String, dynamic> json) {
+    return StartSpeechSynthesisTaskOutput(
+      synthesisTask: json['SynthesisTask'] != null
+          ? SynthesisTask.fromJson(
+              json['SynthesisTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final synthesisTask = this.synthesisTask;
+    return {
+      if (synthesisTask != null) 'SynthesisTask': synthesisTask,
+    };
+  }
 }
 
 /// SynthesisTask object that provides information about a speech synthesis
 /// task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SynthesisTask {
   /// Timestamp for the time the synthesis task was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// Specifies the engine (<code>standard</code> or <code>neural</code>) for
   /// Amazon Polly to use when processing input text for speech synthesis. Using a
   /// voice that is not supported for the engine selected will result in an error.
-  @_s.JsonKey(name: 'Engine')
-  final Engine engine;
+  final Engine? engine;
 
   /// Optional language code for a synthesis task. This is only necessary if using
   /// a bilingual voice, such as Aditi, which can be used for either Indian
@@ -1125,27 +1246,22 @@ class SynthesisTask {
   /// href="https://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html">DescribeVoices</a>
   /// operation for the <code>LanguageCode</code> parameter. For example, if no
   /// language code is specified, Aditi will use Indian English rather than Hindi.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// List of one or more pronunciation lexicon names you want the service to
   /// apply during synthesis. Lexicons are applied only if the language of the
   /// lexicon is the same as the language of the voice.
-  @_s.JsonKey(name: 'LexiconNames')
-  final List<String> lexiconNames;
+  final List<String>? lexiconNames;
 
   /// The format in which the returned output will be encoded. For audio stream,
   /// this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
-  @_s.JsonKey(name: 'OutputFormat')
-  final OutputFormat outputFormat;
+  final OutputFormat? outputFormat;
 
   /// Pathway for the output speech file.
-  @_s.JsonKey(name: 'OutputUri')
-  final String outputUri;
+  final String? outputUri;
 
   /// Number of billable characters synthesized.
-  @_s.JsonKey(name: 'RequestCharacters')
-  final int requestCharacters;
+  final int? requestCharacters;
 
   /// The audio frequency specified in Hz.
   ///
@@ -1154,39 +1270,31 @@ class SynthesisTask {
   /// for neural voices is "24000".
   ///
   /// Valid values for pcm are "8000" and "16000" The default value is "16000".
-  @_s.JsonKey(name: 'SampleRate')
-  final String sampleRate;
+  final String? sampleRate;
 
   /// ARN for the SNS topic optionally used for providing status notification for
   /// a speech synthesis task.
-  @_s.JsonKey(name: 'SnsTopicArn')
-  final String snsTopicArn;
+  final String? snsTopicArn;
 
   /// The type of speech marks returned for the input text.
-  @_s.JsonKey(name: 'SpeechMarkTypes')
-  final List<SpeechMarkType> speechMarkTypes;
+  final List<SpeechMarkType>? speechMarkTypes;
 
   /// The Amazon Polly generated identifier for a speech synthesis task.
-  @_s.JsonKey(name: 'TaskId')
-  final String taskId;
+  final String? taskId;
 
   /// Current status of the individual speech synthesis task.
-  @_s.JsonKey(name: 'TaskStatus')
-  final TaskStatus taskStatus;
+  final TaskStatus? taskStatus;
 
   /// Reason for the current status of a specific speech synthesis task, including
   /// errors if the task has failed.
-  @_s.JsonKey(name: 'TaskStatusReason')
-  final String taskStatusReason;
+  final String? taskStatusReason;
 
   /// Specifies whether the input text is plain text or SSML. The default value is
   /// plain text.
-  @_s.JsonKey(name: 'TextType')
-  final TextType textType;
+  final TextType? textType;
 
   /// Voice ID to use for the synthesis.
-  @_s.JsonKey(name: 'VoiceId')
-  final VoiceId voiceId;
+  final VoiceId? voiceId;
 
   SynthesisTask({
     this.creationTime,
@@ -1205,20 +1313,74 @@ class SynthesisTask {
     this.textType,
     this.voiceId,
   });
-  factory SynthesisTask.fromJson(Map<String, dynamic> json) =>
-      _$SynthesisTaskFromJson(json);
+
+  factory SynthesisTask.fromJson(Map<String, dynamic> json) {
+    return SynthesisTask(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      engine: (json['Engine'] as String?)?.toEngine(),
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      lexiconNames: (json['LexiconNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      outputFormat: (json['OutputFormat'] as String?)?.toOutputFormat(),
+      outputUri: json['OutputUri'] as String?,
+      requestCharacters: json['RequestCharacters'] as int?,
+      sampleRate: json['SampleRate'] as String?,
+      snsTopicArn: json['SnsTopicArn'] as String?,
+      speechMarkTypes: (json['SpeechMarkTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSpeechMarkType())
+          .toList(),
+      taskId: json['TaskId'] as String?,
+      taskStatus: (json['TaskStatus'] as String?)?.toTaskStatus(),
+      taskStatusReason: json['TaskStatusReason'] as String?,
+      textType: (json['TextType'] as String?)?.toTextType(),
+      voiceId: (json['VoiceId'] as String?)?.toVoiceId(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final engine = this.engine;
+    final languageCode = this.languageCode;
+    final lexiconNames = this.lexiconNames;
+    final outputFormat = this.outputFormat;
+    final outputUri = this.outputUri;
+    final requestCharacters = this.requestCharacters;
+    final sampleRate = this.sampleRate;
+    final snsTopicArn = this.snsTopicArn;
+    final speechMarkTypes = this.speechMarkTypes;
+    final taskId = this.taskId;
+    final taskStatus = this.taskStatus;
+    final taskStatusReason = this.taskStatusReason;
+    final textType = this.textType;
+    final voiceId = this.voiceId;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (engine != null) 'Engine': engine.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (lexiconNames != null) 'LexiconNames': lexiconNames,
+      if (outputFormat != null) 'OutputFormat': outputFormat.toValue(),
+      if (outputUri != null) 'OutputUri': outputUri,
+      if (requestCharacters != null) 'RequestCharacters': requestCharacters,
+      if (sampleRate != null) 'SampleRate': sampleRate,
+      if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
+      if (speechMarkTypes != null)
+        'SpeechMarkTypes': speechMarkTypes.map((e) => e.toValue()).toList(),
+      if (taskId != null) 'TaskId': taskId,
+      if (taskStatus != null) 'TaskStatus': taskStatus.toValue(),
+      if (taskStatusReason != null) 'TaskStatusReason': taskStatusReason,
+      if (textType != null) 'TextType': textType.toValue(),
+      if (voiceId != null) 'VoiceId': voiceId.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SynthesizeSpeechOutput {
   /// Stream containing the synthesized speech.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'AudioStream')
-  final Uint8List audioStream;
+  final Uint8List? audioStream;
 
   /// Specifies the type audio stream. This should reflect the
   /// <code>OutputFormat</code> parameter in your request.
@@ -1243,30 +1405,39 @@ class SynthesizeSpeechOutput {
   /// </li>
   /// </ul>
   ///
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// Number of characters synthesized.
-  @_s.JsonKey(name: 'x-amzn-RequestCharacters')
-  final int requestCharacters;
+  final int? requestCharacters;
 
   SynthesizeSpeechOutput({
     this.audioStream,
     this.contentType,
     this.requestCharacters,
   });
-  factory SynthesizeSpeechOutput.fromJson(Map<String, dynamic> json) =>
-      _$SynthesizeSpeechOutputFromJson(json);
+
+  factory SynthesizeSpeechOutput.fromJson(Map<String, dynamic> json) {
+    return SynthesizeSpeechOutput(
+      audioStream: _s.decodeNullableUint8List(json['AudioStream'] as String?),
+      contentType: json['Content-Type'] as String?,
+      requestCharacters: json['x-amzn-RequestCharacters'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioStream = this.audioStream;
+    final contentType = this.contentType;
+    final requestCharacters = this.requestCharacters;
+    return {
+      if (audioStream != null) 'AudioStream': base64Encode(audioStream),
+    };
+  }
 }
 
 enum TaskStatus {
-  @_s.JsonValue('scheduled')
   scheduled,
-  @_s.JsonValue('inProgress')
   inProgress,
-  @_s.JsonValue('completed')
   completed,
-  @_s.JsonValue('failed')
   failed,
 }
 
@@ -1282,14 +1453,27 @@ extension on TaskStatus {
       case TaskStatus.failed:
         return 'failed';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaskStatus toTaskStatus() {
+    switch (this) {
+      case 'scheduled':
+        return TaskStatus.scheduled;
+      case 'inProgress':
+        return TaskStatus.inProgress;
+      case 'completed':
+        return TaskStatus.completed;
+      case 'failed':
+        return TaskStatus.failed;
+    }
+    throw Exception('$this is not known in enum TaskStatus');
   }
 }
 
 enum TextType {
-  @_s.JsonValue('ssml')
   ssml,
-  @_s.JsonValue('text')
   text,
 }
 
@@ -1301,16 +1485,22 @@ extension on TextType {
       case TextType.text:
         return 'text';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TextType toTextType() {
+    switch (this) {
+      case 'ssml':
+        return TextType.ssml;
+      case 'text':
+        return TextType.text;
+    }
+    throw Exception('$this is not known in enum TextType');
   }
 }
 
 /// Description of the voice.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Voice {
   /// Additional codes for languages available for the specified voice in addition
   /// to its default language.
@@ -1319,35 +1509,28 @@ class Voice {
   /// because it was first used for that language. Since Aditi is bilingual and
   /// fluent in both Indian English and Hindi, this parameter would show the code
   /// <code>hi-IN</code>.
-  @_s.JsonKey(name: 'AdditionalLanguageCodes')
-  final List<LanguageCode> additionalLanguageCodes;
+  final List<LanguageCode>? additionalLanguageCodes;
 
   /// Gender of the voice.
-  @_s.JsonKey(name: 'Gender')
-  final Gender gender;
+  final Gender? gender;
 
   /// Amazon Polly assigned voice ID. This is the ID that you specify when calling
   /// the <code>SynthesizeSpeech</code> operation.
-  @_s.JsonKey(name: 'Id')
-  final VoiceId id;
+  final VoiceId? id;
 
   /// Language code of the voice.
-  @_s.JsonKey(name: 'LanguageCode')
-  final LanguageCode languageCode;
+  final LanguageCode? languageCode;
 
   /// Human readable name of the language in English.
-  @_s.JsonKey(name: 'LanguageName')
-  final String languageName;
+  final String? languageName;
 
   /// Name of the voice (for example, Salli, Kendra, etc.). This provides a human
   /// readable voice name that you might display in your application.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Specifies which engines (<code>standard</code> or <code>neural</code>) that
   /// are supported by a given voice.
-  @_s.JsonKey(name: 'SupportedEngines')
-  final List<Engine> supportedEngines;
+  final List<Engine>? supportedEngines;
 
   Voice({
     this.additionalLanguageCodes,
@@ -1358,133 +1541,111 @@ class Voice {
     this.name,
     this.supportedEngines,
   });
-  factory Voice.fromJson(Map<String, dynamic> json) => _$VoiceFromJson(json);
+
+  factory Voice.fromJson(Map<String, dynamic> json) {
+    return Voice(
+      additionalLanguageCodes: (json['AdditionalLanguageCodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toLanguageCode())
+          .toList(),
+      gender: (json['Gender'] as String?)?.toGender(),
+      id: (json['Id'] as String?)?.toVoiceId(),
+      languageCode: (json['LanguageCode'] as String?)?.toLanguageCode(),
+      languageName: json['LanguageName'] as String?,
+      name: json['Name'] as String?,
+      supportedEngines: (json['SupportedEngines'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEngine())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalLanguageCodes = this.additionalLanguageCodes;
+    final gender = this.gender;
+    final id = this.id;
+    final languageCode = this.languageCode;
+    final languageName = this.languageName;
+    final name = this.name;
+    final supportedEngines = this.supportedEngines;
+    return {
+      if (additionalLanguageCodes != null)
+        'AdditionalLanguageCodes':
+            additionalLanguageCodes.map((e) => e.toValue()).toList(),
+      if (gender != null) 'Gender': gender.toValue(),
+      if (id != null) 'Id': id.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+      if (languageName != null) 'LanguageName': languageName,
+      if (name != null) 'Name': name,
+      if (supportedEngines != null)
+        'SupportedEngines': supportedEngines.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum VoiceId {
-  @_s.JsonValue('Aditi')
   aditi,
-  @_s.JsonValue('Amy')
   amy,
-  @_s.JsonValue('Astrid')
   astrid,
-  @_s.JsonValue('Bianca')
   bianca,
-  @_s.JsonValue('Brian')
   brian,
-  @_s.JsonValue('Camila')
   camila,
-  @_s.JsonValue('Carla')
   carla,
-  @_s.JsonValue('Carmen')
   carmen,
-  @_s.JsonValue('Celine')
   celine,
-  @_s.JsonValue('Chantal')
   chantal,
-  @_s.JsonValue('Conchita')
   conchita,
-  @_s.JsonValue('Cristiano')
   cristiano,
-  @_s.JsonValue('Dora')
   dora,
-  @_s.JsonValue('Emma')
   emma,
-  @_s.JsonValue('Enrique')
   enrique,
-  @_s.JsonValue('Ewa')
   ewa,
-  @_s.JsonValue('Filiz')
   filiz,
-  @_s.JsonValue('Geraint')
+  gabrielle,
   geraint,
-  @_s.JsonValue('Giorgio')
   giorgio,
-  @_s.JsonValue('Gwyneth')
   gwyneth,
-  @_s.JsonValue('Hans')
   hans,
-  @_s.JsonValue('Ines')
   ines,
-  @_s.JsonValue('Ivy')
   ivy,
-  @_s.JsonValue('Jacek')
   jacek,
-  @_s.JsonValue('Jan')
   jan,
-  @_s.JsonValue('Joanna')
   joanna,
-  @_s.JsonValue('Joey')
   joey,
-  @_s.JsonValue('Justin')
   justin,
-  @_s.JsonValue('Karl')
   karl,
-  @_s.JsonValue('Kendra')
   kendra,
-  @_s.JsonValue('Kevin')
   kevin,
-  @_s.JsonValue('Kimberly')
   kimberly,
-  @_s.JsonValue('Lea')
   lea,
-  @_s.JsonValue('Liv')
   liv,
-  @_s.JsonValue('Lotte')
   lotte,
-  @_s.JsonValue('Lucia')
   lucia,
-  @_s.JsonValue('Lupe')
   lupe,
-  @_s.JsonValue('Mads')
   mads,
-  @_s.JsonValue('Maja')
   maja,
-  @_s.JsonValue('Marlene')
   marlene,
-  @_s.JsonValue('Mathieu')
   mathieu,
-  @_s.JsonValue('Matthew')
   matthew,
-  @_s.JsonValue('Maxim')
   maxim,
-  @_s.JsonValue('Mia')
   mia,
-  @_s.JsonValue('Miguel')
   miguel,
-  @_s.JsonValue('Mizuki')
   mizuki,
-  @_s.JsonValue('Naja')
   naja,
-  @_s.JsonValue('Nicole')
   nicole,
-  @_s.JsonValue('Olivia')
   olivia,
-  @_s.JsonValue('Penelope')
   penelope,
-  @_s.JsonValue('Raveena')
   raveena,
-  @_s.JsonValue('Ricardo')
   ricardo,
-  @_s.JsonValue('Ruben')
   ruben,
-  @_s.JsonValue('Russell')
   russell,
-  @_s.JsonValue('Salli')
   salli,
-  @_s.JsonValue('Seoyeon')
   seoyeon,
-  @_s.JsonValue('Takumi')
   takumi,
-  @_s.JsonValue('Tatyana')
   tatyana,
-  @_s.JsonValue('Vicki')
   vicki,
-  @_s.JsonValue('Vitoria')
   vitoria,
-  @_s.JsonValue('Zeina')
   zeina,
-  @_s.JsonValue('Zhiyu')
   zhiyu,
 }
 
@@ -1525,6 +1686,8 @@ extension on VoiceId {
         return 'Ewa';
       case VoiceId.filiz:
         return 'Filiz';
+      case VoiceId.gabrielle:
+        return 'Gabrielle';
       case VoiceId.geraint:
         return 'Geraint';
       case VoiceId.giorgio:
@@ -1616,59 +1779,192 @@ extension on VoiceId {
       case VoiceId.zhiyu:
         return 'Zhiyu';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  VoiceId toVoiceId() {
+    switch (this) {
+      case 'Aditi':
+        return VoiceId.aditi;
+      case 'Amy':
+        return VoiceId.amy;
+      case 'Astrid':
+        return VoiceId.astrid;
+      case 'Bianca':
+        return VoiceId.bianca;
+      case 'Brian':
+        return VoiceId.brian;
+      case 'Camila':
+        return VoiceId.camila;
+      case 'Carla':
+        return VoiceId.carla;
+      case 'Carmen':
+        return VoiceId.carmen;
+      case 'Celine':
+        return VoiceId.celine;
+      case 'Chantal':
+        return VoiceId.chantal;
+      case 'Conchita':
+        return VoiceId.conchita;
+      case 'Cristiano':
+        return VoiceId.cristiano;
+      case 'Dora':
+        return VoiceId.dora;
+      case 'Emma':
+        return VoiceId.emma;
+      case 'Enrique':
+        return VoiceId.enrique;
+      case 'Ewa':
+        return VoiceId.ewa;
+      case 'Filiz':
+        return VoiceId.filiz;
+      case 'Gabrielle':
+        return VoiceId.gabrielle;
+      case 'Geraint':
+        return VoiceId.geraint;
+      case 'Giorgio':
+        return VoiceId.giorgio;
+      case 'Gwyneth':
+        return VoiceId.gwyneth;
+      case 'Hans':
+        return VoiceId.hans;
+      case 'Ines':
+        return VoiceId.ines;
+      case 'Ivy':
+        return VoiceId.ivy;
+      case 'Jacek':
+        return VoiceId.jacek;
+      case 'Jan':
+        return VoiceId.jan;
+      case 'Joanna':
+        return VoiceId.joanna;
+      case 'Joey':
+        return VoiceId.joey;
+      case 'Justin':
+        return VoiceId.justin;
+      case 'Karl':
+        return VoiceId.karl;
+      case 'Kendra':
+        return VoiceId.kendra;
+      case 'Kevin':
+        return VoiceId.kevin;
+      case 'Kimberly':
+        return VoiceId.kimberly;
+      case 'Lea':
+        return VoiceId.lea;
+      case 'Liv':
+        return VoiceId.liv;
+      case 'Lotte':
+        return VoiceId.lotte;
+      case 'Lucia':
+        return VoiceId.lucia;
+      case 'Lupe':
+        return VoiceId.lupe;
+      case 'Mads':
+        return VoiceId.mads;
+      case 'Maja':
+        return VoiceId.maja;
+      case 'Marlene':
+        return VoiceId.marlene;
+      case 'Mathieu':
+        return VoiceId.mathieu;
+      case 'Matthew':
+        return VoiceId.matthew;
+      case 'Maxim':
+        return VoiceId.maxim;
+      case 'Mia':
+        return VoiceId.mia;
+      case 'Miguel':
+        return VoiceId.miguel;
+      case 'Mizuki':
+        return VoiceId.mizuki;
+      case 'Naja':
+        return VoiceId.naja;
+      case 'Nicole':
+        return VoiceId.nicole;
+      case 'Olivia':
+        return VoiceId.olivia;
+      case 'Penelope':
+        return VoiceId.penelope;
+      case 'Raveena':
+        return VoiceId.raveena;
+      case 'Ricardo':
+        return VoiceId.ricardo;
+      case 'Ruben':
+        return VoiceId.ruben;
+      case 'Russell':
+        return VoiceId.russell;
+      case 'Salli':
+        return VoiceId.salli;
+      case 'Seoyeon':
+        return VoiceId.seoyeon;
+      case 'Takumi':
+        return VoiceId.takumi;
+      case 'Tatyana':
+        return VoiceId.tatyana;
+      case 'Vicki':
+        return VoiceId.vicki;
+      case 'Vitoria':
+        return VoiceId.vitoria;
+      case 'Zeina':
+        return VoiceId.zeina;
+      case 'Zhiyu':
+        return VoiceId.zhiyu;
+    }
+    throw Exception('$this is not known in enum VoiceId');
   }
 }
 
 class EngineNotSupportedException extends _s.GenericAwsException {
-  EngineNotSupportedException({String type, String message})
+  EngineNotSupportedException({String? type, String? message})
       : super(
             type: type, code: 'EngineNotSupportedException', message: message);
 }
 
 class InvalidLexiconException extends _s.GenericAwsException {
-  InvalidLexiconException({String type, String message})
+  InvalidLexiconException({String? type, String? message})
       : super(type: type, code: 'InvalidLexiconException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidS3BucketException extends _s.GenericAwsException {
-  InvalidS3BucketException({String type, String message})
+  InvalidS3BucketException({String? type, String? message})
       : super(type: type, code: 'InvalidS3BucketException', message: message);
 }
 
 class InvalidS3KeyException extends _s.GenericAwsException {
-  InvalidS3KeyException({String type, String message})
+  InvalidS3KeyException({String? type, String? message})
       : super(type: type, code: 'InvalidS3KeyException', message: message);
 }
 
 class InvalidSampleRateException extends _s.GenericAwsException {
-  InvalidSampleRateException({String type, String message})
+  InvalidSampleRateException({String? type, String? message})
       : super(type: type, code: 'InvalidSampleRateException', message: message);
 }
 
 class InvalidSnsTopicArnException extends _s.GenericAwsException {
-  InvalidSnsTopicArnException({String type, String message})
+  InvalidSnsTopicArnException({String? type, String? message})
       : super(
             type: type, code: 'InvalidSnsTopicArnException', message: message);
 }
 
 class InvalidSsmlException extends _s.GenericAwsException {
-  InvalidSsmlException({String type, String message})
+  InvalidSsmlException({String? type, String? message})
       : super(type: type, code: 'InvalidSsmlException', message: message);
 }
 
 class InvalidTaskIdException extends _s.GenericAwsException {
-  InvalidTaskIdException({String type, String message})
+  InvalidTaskIdException({String? type, String? message})
       : super(type: type, code: 'InvalidTaskIdException', message: message);
 }
 
 class LanguageNotSupportedException extends _s.GenericAwsException {
-  LanguageNotSupportedException({String type, String message})
+  LanguageNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'LanguageNotSupportedException',
@@ -1676,18 +1972,18 @@ class LanguageNotSupportedException extends _s.GenericAwsException {
 }
 
 class LexiconNotFoundException extends _s.GenericAwsException {
-  LexiconNotFoundException({String type, String message})
+  LexiconNotFoundException({String? type, String? message})
       : super(type: type, code: 'LexiconNotFoundException', message: message);
 }
 
 class LexiconSizeExceededException extends _s.GenericAwsException {
-  LexiconSizeExceededException({String type, String message})
+  LexiconSizeExceededException({String? type, String? message})
       : super(
             type: type, code: 'LexiconSizeExceededException', message: message);
 }
 
 class MarksNotSupportedForFormatException extends _s.GenericAwsException {
-  MarksNotSupportedForFormatException({String type, String message})
+  MarksNotSupportedForFormatException({String? type, String? message})
       : super(
             type: type,
             code: 'MarksNotSupportedForFormatException',
@@ -1695,7 +1991,7 @@ class MarksNotSupportedForFormatException extends _s.GenericAwsException {
 }
 
 class MaxLexemeLengthExceededException extends _s.GenericAwsException {
-  MaxLexemeLengthExceededException({String type, String message})
+  MaxLexemeLengthExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaxLexemeLengthExceededException',
@@ -1703,7 +1999,7 @@ class MaxLexemeLengthExceededException extends _s.GenericAwsException {
 }
 
 class MaxLexiconsNumberExceededException extends _s.GenericAwsException {
-  MaxLexiconsNumberExceededException({String type, String message})
+  MaxLexiconsNumberExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaxLexiconsNumberExceededException',
@@ -1711,12 +2007,12 @@ class MaxLexiconsNumberExceededException extends _s.GenericAwsException {
 }
 
 class ServiceFailureException extends _s.GenericAwsException {
-  ServiceFailureException({String type, String message})
+  ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
 class SsmlMarksNotSupportedForTextTypeException extends _s.GenericAwsException {
-  SsmlMarksNotSupportedForTextTypeException({String type, String message})
+  SsmlMarksNotSupportedForTextTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'SsmlMarksNotSupportedForTextTypeException',
@@ -1724,7 +2020,7 @@ class SsmlMarksNotSupportedForTextTypeException extends _s.GenericAwsException {
 }
 
 class SynthesisTaskNotFoundException extends _s.GenericAwsException {
-  SynthesisTaskNotFoundException({String type, String message})
+  SynthesisTaskNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'SynthesisTaskNotFoundException',
@@ -1732,13 +2028,13 @@ class SynthesisTaskNotFoundException extends _s.GenericAwsException {
 }
 
 class TextLengthExceededException extends _s.GenericAwsException {
-  TextLengthExceededException({String type, String message})
+  TextLengthExceededException({String? type, String? message})
       : super(
             type: type, code: 'TextLengthExceededException', message: message);
 }
 
 class UnsupportedPlsAlphabetException extends _s.GenericAwsException {
-  UnsupportedPlsAlphabetException({String type, String message})
+  UnsupportedPlsAlphabetException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedPlsAlphabetException',
@@ -1746,7 +2042,7 @@ class UnsupportedPlsAlphabetException extends _s.GenericAwsException {
 }
 
 class UnsupportedPlsLanguageException extends _s.GenericAwsException {
-  UnsupportedPlsLanguageException({String type, String message})
+  UnsupportedPlsLanguageException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedPlsLanguageException',

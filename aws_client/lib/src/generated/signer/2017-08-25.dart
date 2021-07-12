@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-08-25.g.dart';
 
 /// AWS Signer is a fully managed code signing service to help you ensure the
 /// trust and integrity of your code.
@@ -54,10 +47,10 @@ part '2017-08-25.g.dart';
 class Signer {
   final _s.RestJsonProtocol _protocol;
   Signer({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -98,12 +91,12 @@ class Signer {
   /// Parameter [revisionId] :
   /// A unique identifier for the current profile revision.
   Future<AddProfilePermissionResponse> addProfilePermission({
-    @_s.required String action,
-    @_s.required String principal,
-    @_s.required String profileName,
-    @_s.required String statementId,
-    String profileVersion,
-    String revisionId,
+    required String action,
+    required String principal,
+    required String profileName,
+    required String statementId,
+    String? profileVersion,
+    String? revisionId,
   }) async {
     ArgumentError.checkNotNull(action, 'action');
     ArgumentError.checkNotNull(principal, 'principal');
@@ -115,23 +108,12 @@ class Signer {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
       'profileVersion',
       profileVersion,
       10,
       10,
-    );
-    _s.validateStringPattern(
-      'profileVersion',
-      profileVersion,
-      r'''^[a-zA-Z0-9]{10}$''',
     );
     final $payload = <String, dynamic>{
       'action': action,
@@ -163,7 +145,7 @@ class Signer {
   /// Parameter [profileName] :
   /// The name of the signing profile to be canceled.
   Future<void> cancelSigningProfile({
-    @_s.required String profileName,
+    required String profileName,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
     _s.validateStringLength(
@@ -171,12 +153,6 @@ class Signer {
       profileName,
       2,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
     await _protocol.send(
@@ -199,7 +175,7 @@ class Signer {
   /// Parameter [jobId] :
   /// The ID of the signing job on input.
   Future<DescribeSigningJobResponse> describeSigningJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     final response = await _protocol.send(
@@ -221,7 +197,7 @@ class Signer {
   /// Parameter [platformId] :
   /// The ID of the target signing platform.
   Future<GetSigningPlatformResponse> getSigningPlatform({
-    @_s.required String platformId,
+    required String platformId,
   }) async {
     ArgumentError.checkNotNull(platformId, 'platformId');
     final response = await _protocol.send(
@@ -246,8 +222,8 @@ class Signer {
   /// Parameter [profileOwner] :
   /// The AWS account ID of the profile owner.
   Future<GetSigningProfileResponse> getSigningProfile({
-    @_s.required String profileName,
-    String profileOwner,
+    required String profileName,
+    String? profileOwner,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
     _s.validateStringLength(
@@ -257,22 +233,11 @@ class Signer {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'profileOwner',
       profileOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'profileOwner',
-      profileOwner,
-      r'''^[0-9]{12}$''',
     );
     final $query = <String, List<String>>{
       if (profileOwner != null) 'profileOwner': [profileOwner],
@@ -301,8 +266,8 @@ class Signer {
   /// Parameter [nextToken] :
   /// String for specifying the next set of paginated results.
   Future<ListProfilePermissionsResponse> listProfilePermissions({
-    @_s.required String profileName,
-    String nextToken,
+    required String profileName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
     _s.validateStringLength(
@@ -310,12 +275,6 @@ class Signer {
       profileName,
       2,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -385,26 +344,21 @@ class Signer {
   /// Parameter [status] :
   /// A status value with which to filter your results.
   Future<ListSigningJobsResponse> listSigningJobs({
-    bool isRevoked,
-    String jobInvoker,
-    int maxResults,
-    String nextToken,
-    String platformId,
-    String requestedBy,
-    DateTime signatureExpiresAfter,
-    DateTime signatureExpiresBefore,
-    SigningStatus status,
+    bool? isRevoked,
+    String? jobInvoker,
+    int? maxResults,
+    String? nextToken,
+    String? platformId,
+    String? requestedBy,
+    DateTime? signatureExpiresAfter,
+    DateTime? signatureExpiresBefore,
+    SigningStatus? status,
   }) async {
     _s.validateStringLength(
       'jobInvoker',
       jobInvoker,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'jobInvoker',
-      jobInvoker,
-      r'''^[0-9]{12}$''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -471,11 +425,11 @@ class Signer {
   /// Parameter [target] :
   /// The validation template that is used by the target signing platform.
   Future<ListSigningPlatformsResponse> listSigningPlatforms({
-    String category,
-    int maxResults,
-    String nextToken,
-    String partner,
-    String target,
+    String? category,
+    int? maxResults,
+    String? nextToken,
+    String? partner,
+    String? target,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -536,11 +490,11 @@ class Signer {
   /// Filters results to return only signing jobs with statuses in the specified
   /// list.
   Future<ListSigningProfilesResponse> listSigningProfiles({
-    bool includeCanceled,
-    int maxResults,
-    String nextToken,
-    String platformId,
-    List<SigningProfileStatus> statuses,
+    bool? includeCanceled,
+    int? maxResults,
+    String? nextToken,
+    String? platformId,
+    List<SigningProfileStatus>? statuses,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -555,7 +509,7 @@ class Signer {
       if (nextToken != null) 'nextToken': [nextToken],
       if (platformId != null) 'platformId': [platformId],
       if (statuses != null)
-        'statuses': statuses.map((e) => e?.toValue() ?? '').toList(),
+        'statuses': statuses.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -577,7 +531,7 @@ class Signer {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the signing profile.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -627,13 +581,13 @@ class Signer {
   /// Parameter [tags] :
   /// Tags to be associated with the signing profile that is being created.
   Future<PutSigningProfileResponse> putSigningProfile({
-    @_s.required String platformId,
-    @_s.required String profileName,
-    SigningPlatformOverrides overrides,
-    SignatureValidityPeriod signatureValidityPeriod,
-    SigningMaterial signingMaterial,
-    Map<String, String> signingParameters,
-    Map<String, String> tags,
+    required String platformId,
+    required String profileName,
+    SigningPlatformOverrides? overrides,
+    SignatureValidityPeriod? signatureValidityPeriod,
+    SigningMaterial? signingMaterial,
+    Map<String, String>? signingParameters,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(platformId, 'platformId');
     ArgumentError.checkNotNull(profileName, 'profileName');
@@ -642,12 +596,6 @@ class Signer {
       profileName,
       2,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -687,9 +635,9 @@ class Signer {
   /// Parameter [statementId] :
   /// A unique identifier for the cross-account permissions statement.
   Future<RemoveProfilePermissionResponse> removeProfilePermission({
-    @_s.required String profileName,
-    @_s.required String revisionId,
-    @_s.required String statementId,
+    required String profileName,
+    required String revisionId,
+    required String statementId,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
     _s.validateStringLength(
@@ -699,16 +647,10 @@ class Signer {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(revisionId, 'revisionId');
     ArgumentError.checkNotNull(statementId, 'statementId');
     final $query = <String, List<String>>{
-      if (revisionId != null) 'revisionId': [revisionId],
+      'revisionId': [revisionId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -739,9 +681,9 @@ class Signer {
   /// Parameter [jobOwner] :
   /// AWS account ID of the job owner.
   Future<void> revokeSignature({
-    @_s.required String jobId,
-    @_s.required String reason,
-    String jobOwner,
+    required String jobId,
+    required String reason,
+    String? jobOwner,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     ArgumentError.checkNotNull(reason, 'reason');
@@ -757,11 +699,6 @@ class Signer {
       jobOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'jobOwner',
-      jobOwner,
-      r'''^[0-9]{12}$''',
     );
     final $payload = <String, dynamic>{
       'reason': reason,
@@ -799,10 +736,10 @@ class Signer {
   /// Parameter [reason] :
   /// The reason for revoking a signing profile.
   Future<void> revokeSigningProfile({
-    @_s.required DateTime effectiveTime,
-    @_s.required String profileName,
-    @_s.required String profileVersion,
-    @_s.required String reason,
+    required DateTime effectiveTime,
+    required String profileName,
+    required String profileVersion,
+    required String reason,
   }) async {
     ArgumentError.checkNotNull(effectiveTime, 'effectiveTime');
     ArgumentError.checkNotNull(profileName, 'profileName');
@@ -813,24 +750,12 @@ class Signer {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(profileVersion, 'profileVersion');
     _s.validateStringLength(
       'profileVersion',
       profileVersion,
       10,
       10,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'profileVersion',
-      profileVersion,
-      r'''^[a-zA-Z0-9]{10}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(reason, 'reason');
@@ -894,10 +819,6 @@ class Signer {
   /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
-  /// Parameter [clientRequestToken] :
-  /// String that identifies the signing request. All calls after the first that
-  /// use this token return the same response as the first call.
-  ///
   /// Parameter [destination] :
   /// The S3 bucket in which to save your signed object. The destination
   /// contains the name of your bucket and an optional prefix.
@@ -909,16 +830,19 @@ class Signer {
   /// The S3 bucket that contains the object to sign or a BLOB that contains
   /// your raw code.
   ///
+  /// Parameter [clientRequestToken] :
+  /// String that identifies the signing request. All calls after the first that
+  /// use this token return the same response as the first call.
+  ///
   /// Parameter [profileOwner] :
   /// The AWS account ID of the signing profile owner.
   Future<StartSigningJobResponse> startSigningJob({
-    @_s.required String clientRequestToken,
-    @_s.required Destination destination,
-    @_s.required String profileName,
-    @_s.required Source source,
-    String profileOwner,
+    required Destination destination,
+    required String profileName,
+    required Source source,
+    String? clientRequestToken,
+    String? profileOwner,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(profileName, 'profileName');
     _s.validateStringLength(
@@ -928,12 +852,6 @@ class Signer {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''^[a-zA-Z0-9_]{2,}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(source, 'source');
     _s.validateStringLength(
       'profileOwner',
@@ -941,16 +859,11 @@ class Signer {
       12,
       12,
     );
-    _s.validateStringPattern(
-      'profileOwner',
-      profileOwner,
-      r'''^[0-9]{12}$''',
-    );
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'destination': destination,
       'profileName': profileName,
       'source': source,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (profileOwner != null) 'profileOwner': profileOwner,
     };
     final response = await _protocol.send(
@@ -978,8 +891,8 @@ class Signer {
   /// Parameter [tags] :
   /// One or more tags to be associated with the signing profile.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -992,7 +905,6 @@ class Signer {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes one or more tags from a signing profile. To remove the tags,
@@ -1009,13 +921,13 @@ class Signer {
   /// Parameter [tagKeys] :
   /// A list of tag keys to be removed from the signing profile.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1024,121 +936,116 @@ class Signer {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddProfilePermissionResponse {
   /// A unique identifier for the current profile revision.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   AddProfilePermissionResponse({
     this.revisionId,
   });
-  factory AddProfilePermissionResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddProfilePermissionResponseFromJson(json);
+
+  factory AddProfilePermissionResponse.fromJson(Map<String, dynamic> json) {
+    return AddProfilePermissionResponse(
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revisionId = this.revisionId;
+    return {
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
 }
 
 enum Category {
-  @_s.JsonValue('AWSIoT')
   awsIoT,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Category {
+  String toValue() {
+    switch (this) {
+      case Category.awsIoT:
+        return 'AWSIoT';
+    }
+  }
+}
+
+extension on String {
+  Category toCategory() {
+    switch (this) {
+      case 'AWSIoT':
+        return Category.awsIoT;
+    }
+    throw Exception('$this is not known in enum Category');
+  }
+}
+
 class DescribeSigningJobResponse {
   /// Date and time that the signing job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'completedAt')
-  final DateTime completedAt;
+  final DateTime? completedAt;
 
   /// Date and time that the signing job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The ID of the signing job on output.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The IAM entity that initiated the signing job.
-  @_s.JsonKey(name: 'jobInvoker')
-  final String jobInvoker;
+  final String? jobInvoker;
 
   /// The AWS account ID of the job owner.
-  @_s.JsonKey(name: 'jobOwner')
-  final String jobOwner;
+  final String? jobOwner;
 
   /// A list of any overrides that were applied to the signing operation.
-  @_s.JsonKey(name: 'overrides')
-  final SigningPlatformOverrides overrides;
+  final SigningPlatformOverrides? overrides;
 
   /// A human-readable name for the signing platform associated with the signing
   /// job.
-  @_s.JsonKey(name: 'platformDisplayName')
-  final String platformDisplayName;
+  final String? platformDisplayName;
 
   /// The microcontroller platform to which your signed code image will be
   /// distributed.
-  @_s.JsonKey(name: 'platformId')
-  final String platformId;
+  final String? platformId;
 
   /// The name of the profile that initiated the signing operation.
-  @_s.JsonKey(name: 'profileName')
-  final String profileName;
+  final String? profileName;
 
   /// The version of the signing profile used to initiate the signing job.
-  @_s.JsonKey(name: 'profileVersion')
-  final String profileVersion;
+  final String? profileVersion;
 
   /// The IAM principal that requested the signing job.
-  @_s.JsonKey(name: 'requestedBy')
-  final String requestedBy;
+  final String? requestedBy;
 
   /// A revocation record if the signature generated by the signing job has been
   /// revoked. Contains a timestamp and the ID of the IAM entity that revoked the
   /// signature.
-  @_s.JsonKey(name: 'revocationRecord')
-  final SigningJobRevocationRecord revocationRecord;
+  final SigningJobRevocationRecord? revocationRecord;
 
   /// Thr expiration timestamp for the signature generated by the signing job.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'signatureExpiresAt')
-  final DateTime signatureExpiresAt;
+  final DateTime? signatureExpiresAt;
 
   /// Name of the S3 bucket where the signed code image is saved by code signing.
-  @_s.JsonKey(name: 'signedObject')
-  final SignedObject signedObject;
+  final SignedObject? signedObject;
 
   /// The Amazon Resource Name (ARN) of your code signing certificate.
-  @_s.JsonKey(name: 'signingMaterial')
-  final SigningMaterial signingMaterial;
+  final SigningMaterial? signingMaterial;
 
   /// Map of user-assigned key-value pairs used during signing. These values
   /// contain any information that you specified for use in your signing job.
-  @_s.JsonKey(name: 'signingParameters')
-  final Map<String, String> signingParameters;
+  final Map<String, String>? signingParameters;
 
   /// The object that contains the name of your S3 bucket or your raw code.
-  @_s.JsonKey(name: 'source')
-  final Source source;
+  final Source? source;
 
   /// Status of the signing job.
-  @_s.JsonKey(name: 'status')
-  final SigningStatus status;
+  final SigningStatus? status;
 
   /// String value that contains the status reason.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   DescribeSigningJobResponse({
     this.completedAt,
@@ -1161,102 +1068,208 @@ class DescribeSigningJobResponse {
     this.status,
     this.statusReason,
   });
-  factory DescribeSigningJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSigningJobResponseFromJson(json);
+
+  factory DescribeSigningJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSigningJobResponse(
+      completedAt: timeStampFromJson(json['completedAt']),
+      createdAt: timeStampFromJson(json['createdAt']),
+      jobId: json['jobId'] as String?,
+      jobInvoker: json['jobInvoker'] as String?,
+      jobOwner: json['jobOwner'] as String?,
+      overrides: json['overrides'] != null
+          ? SigningPlatformOverrides.fromJson(
+              json['overrides'] as Map<String, dynamic>)
+          : null,
+      platformDisplayName: json['platformDisplayName'] as String?,
+      platformId: json['platformId'] as String?,
+      profileName: json['profileName'] as String?,
+      profileVersion: json['profileVersion'] as String?,
+      requestedBy: json['requestedBy'] as String?,
+      revocationRecord: json['revocationRecord'] != null
+          ? SigningJobRevocationRecord.fromJson(
+              json['revocationRecord'] as Map<String, dynamic>)
+          : null,
+      signatureExpiresAt: timeStampFromJson(json['signatureExpiresAt']),
+      signedObject: json['signedObject'] != null
+          ? SignedObject.fromJson(json['signedObject'] as Map<String, dynamic>)
+          : null,
+      signingMaterial: json['signingMaterial'] != null
+          ? SigningMaterial.fromJson(
+              json['signingMaterial'] as Map<String, dynamic>)
+          : null,
+      signingParameters: (json['signingParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      source: json['source'] != null
+          ? Source.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toSigningStatus(),
+      statusReason: json['statusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completedAt = this.completedAt;
+    final createdAt = this.createdAt;
+    final jobId = this.jobId;
+    final jobInvoker = this.jobInvoker;
+    final jobOwner = this.jobOwner;
+    final overrides = this.overrides;
+    final platformDisplayName = this.platformDisplayName;
+    final platformId = this.platformId;
+    final profileName = this.profileName;
+    final profileVersion = this.profileVersion;
+    final requestedBy = this.requestedBy;
+    final revocationRecord = this.revocationRecord;
+    final signatureExpiresAt = this.signatureExpiresAt;
+    final signedObject = this.signedObject;
+    final signingMaterial = this.signingMaterial;
+    final signingParameters = this.signingParameters;
+    final source = this.source;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (jobId != null) 'jobId': jobId,
+      if (jobInvoker != null) 'jobInvoker': jobInvoker,
+      if (jobOwner != null) 'jobOwner': jobOwner,
+      if (overrides != null) 'overrides': overrides,
+      if (platformDisplayName != null)
+        'platformDisplayName': platformDisplayName,
+      if (platformId != null) 'platformId': platformId,
+      if (profileName != null) 'profileName': profileName,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (requestedBy != null) 'requestedBy': requestedBy,
+      if (revocationRecord != null) 'revocationRecord': revocationRecord,
+      if (signatureExpiresAt != null)
+        'signatureExpiresAt': unixTimestampToJson(signatureExpiresAt),
+      if (signedObject != null) 'signedObject': signedObject,
+      if (signingMaterial != null) 'signingMaterial': signingMaterial,
+      if (signingParameters != null) 'signingParameters': signingParameters,
+      if (source != null) 'source': source,
+      if (status != null) 'status': status.toValue(),
+      if (statusReason != null) 'statusReason': statusReason,
+    };
+  }
 }
 
 /// Points to an <code>S3Destination</code> object that contains information
 /// about your S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Destination {
   /// The <code>S3Destination</code> object.
-  @_s.JsonKey(name: 's3')
-  final S3Destination s3;
+  final S3Destination? s3;
 
   Destination({
     this.s3,
   });
-  Map<String, dynamic> toJson() => _$DestinationToJson(this);
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      s3: json['s3'] != null
+          ? S3Destination.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 's3': s3,
+    };
+  }
 }
 
 enum EncryptionAlgorithm {
-  @_s.JsonValue('RSA')
   rsa,
-  @_s.JsonValue('ECDSA')
   ecdsa,
 }
 
+extension on EncryptionAlgorithm {
+  String toValue() {
+    switch (this) {
+      case EncryptionAlgorithm.rsa:
+        return 'RSA';
+      case EncryptionAlgorithm.ecdsa:
+        return 'ECDSA';
+    }
+  }
+}
+
+extension on String {
+  EncryptionAlgorithm toEncryptionAlgorithm() {
+    switch (this) {
+      case 'RSA':
+        return EncryptionAlgorithm.rsa;
+      case 'ECDSA':
+        return EncryptionAlgorithm.ecdsa;
+    }
+    throw Exception('$this is not known in enum EncryptionAlgorithm');
+  }
+}
+
 /// The encryption algorithm options that are available to a code signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EncryptionAlgorithmOptions {
   /// The set of accepted encryption algorithms that are allowed in a code signing
   /// job.
-  @_s.JsonKey(name: 'allowedValues')
   final List<EncryptionAlgorithm> allowedValues;
 
   /// The default encryption algorithm that is used by a code signing job.
-  @_s.JsonKey(name: 'defaultValue')
   final EncryptionAlgorithm defaultValue;
 
   EncryptionAlgorithmOptions({
-    @_s.required this.allowedValues,
-    @_s.required this.defaultValue,
+    required this.allowedValues,
+    required this.defaultValue,
   });
-  factory EncryptionAlgorithmOptions.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionAlgorithmOptionsFromJson(json);
+
+  factory EncryptionAlgorithmOptions.fromJson(Map<String, dynamic> json) {
+    return EncryptionAlgorithmOptions(
+      allowedValues: (json['allowedValues'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toEncryptionAlgorithm())
+          .toList(),
+      defaultValue: (json['defaultValue'] as String).toEncryptionAlgorithm(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final defaultValue = this.defaultValue;
+    return {
+      'allowedValues': allowedValues.map((e) => e.toValue()).toList(),
+      'defaultValue': defaultValue.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSigningPlatformResponse {
   /// The category type of the target signing platform.
-  @_s.JsonKey(name: 'category')
-  final Category category;
+  final Category? category;
 
   /// The display name of the target signing platform.
-  @_s.JsonKey(name: 'displayName')
-  final String displayName;
+  final String? displayName;
 
   /// The maximum size (in MB) of the payload that can be signed by the target
   /// platform.
-  @_s.JsonKey(name: 'maxSizeInMB')
-  final int maxSizeInMB;
+  final int? maxSizeInMB;
 
   /// A list of partner entities that use the target signing platform.
-  @_s.JsonKey(name: 'partner')
-  final String partner;
+  final String? partner;
 
   /// The ID of the target signing platform.
-  @_s.JsonKey(name: 'platformId')
-  final String platformId;
+  final String? platformId;
 
   /// A flag indicating whether signatures generated for the signing platform can
   /// be revoked.
-  @_s.JsonKey(name: 'revocationSupported')
-  final bool revocationSupported;
+  final bool? revocationSupported;
 
   /// A list of configurations applied to the target platform at signing.
-  @_s.JsonKey(name: 'signingConfiguration')
-  final SigningConfiguration signingConfiguration;
+  final SigningConfiguration? signingConfiguration;
 
   /// The format of the target platform's signing image.
-  @_s.JsonKey(name: 'signingImageFormat')
-  final SigningImageFormat signingImageFormat;
+  final SigningImageFormat? signingImageFormat;
 
   /// The validation template that is used by the target signing platform.
-  @_s.JsonKey(name: 'target')
-  final String target;
+  final String? target;
 
   GetSigningPlatformResponse({
     this.category,
@@ -1269,71 +1282,95 @@ class GetSigningPlatformResponse {
     this.signingImageFormat,
     this.target,
   });
-  factory GetSigningPlatformResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSigningPlatformResponseFromJson(json);
+
+  factory GetSigningPlatformResponse.fromJson(Map<String, dynamic> json) {
+    return GetSigningPlatformResponse(
+      category: (json['category'] as String?)?.toCategory(),
+      displayName: json['displayName'] as String?,
+      maxSizeInMB: json['maxSizeInMB'] as int?,
+      partner: json['partner'] as String?,
+      platformId: json['platformId'] as String?,
+      revocationSupported: json['revocationSupported'] as bool?,
+      signingConfiguration: json['signingConfiguration'] != null
+          ? SigningConfiguration.fromJson(
+              json['signingConfiguration'] as Map<String, dynamic>)
+          : null,
+      signingImageFormat: json['signingImageFormat'] != null
+          ? SigningImageFormat.fromJson(
+              json['signingImageFormat'] as Map<String, dynamic>)
+          : null,
+      target: json['target'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final displayName = this.displayName;
+    final maxSizeInMB = this.maxSizeInMB;
+    final partner = this.partner;
+    final platformId = this.platformId;
+    final revocationSupported = this.revocationSupported;
+    final signingConfiguration = this.signingConfiguration;
+    final signingImageFormat = this.signingImageFormat;
+    final target = this.target;
+    return {
+      if (category != null) 'category': category.toValue(),
+      if (displayName != null) 'displayName': displayName,
+      if (maxSizeInMB != null) 'maxSizeInMB': maxSizeInMB,
+      if (partner != null) 'partner': partner,
+      if (platformId != null) 'platformId': platformId,
+      if (revocationSupported != null)
+        'revocationSupported': revocationSupported,
+      if (signingConfiguration != null)
+        'signingConfiguration': signingConfiguration,
+      if (signingImageFormat != null) 'signingImageFormat': signingImageFormat,
+      if (target != null) 'target': target,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSigningProfileResponse {
   /// The Amazon Resource Name (ARN) for the signing profile.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// A list of overrides applied by the target signing profile for signing
   /// operations.
-  @_s.JsonKey(name: 'overrides')
-  final SigningPlatformOverrides overrides;
+  final SigningPlatformOverrides? overrides;
 
   /// A human-readable name for the signing platform associated with the signing
   /// profile.
-  @_s.JsonKey(name: 'platformDisplayName')
-  final String platformDisplayName;
+  final String? platformDisplayName;
 
   /// The ID of the platform that is used by the target signing profile.
-  @_s.JsonKey(name: 'platformId')
-  final String platformId;
+  final String? platformId;
 
   /// The name of the target signing profile.
-  @_s.JsonKey(name: 'profileName')
-  final String profileName;
+  final String? profileName;
 
   /// The current version of the signing profile.
-  @_s.JsonKey(name: 'profileVersion')
-  final String profileVersion;
+  final String? profileVersion;
 
   /// The signing profile ARN, including the profile version.
-  @_s.JsonKey(name: 'profileVersionArn')
-  final String profileVersionArn;
-  @_s.JsonKey(name: 'revocationRecord')
-  final SigningProfileRevocationRecord revocationRecord;
-  @_s.JsonKey(name: 'signatureValidityPeriod')
-  final SignatureValidityPeriod signatureValidityPeriod;
+  final String? profileVersionArn;
+  final SigningProfileRevocationRecord? revocationRecord;
+  final SignatureValidityPeriod? signatureValidityPeriod;
 
   /// The ARN of the certificate that the target profile uses for signing
   /// operations.
-  @_s.JsonKey(name: 'signingMaterial')
-  final SigningMaterial signingMaterial;
+  final SigningMaterial? signingMaterial;
 
   /// A map of key-value pairs for signing operations that is attached to the
   /// target signing profile.
-  @_s.JsonKey(name: 'signingParameters')
-  final Map<String, String> signingParameters;
+  final Map<String, String>? signingParameters;
 
   /// The status of the target signing profile.
-  @_s.JsonKey(name: 'status')
-  final SigningProfileStatus status;
+  final SigningProfileStatus? status;
 
   /// Reason for the status of the target signing profile.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// A list of tags associated with the signing profile.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetSigningProfileResponse({
     this.arn,
@@ -1351,70 +1388,182 @@ class GetSigningProfileResponse {
     this.statusReason,
     this.tags,
   });
-  factory GetSigningProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSigningProfileResponseFromJson(json);
+
+  factory GetSigningProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetSigningProfileResponse(
+      arn: json['arn'] as String?,
+      overrides: json['overrides'] != null
+          ? SigningPlatformOverrides.fromJson(
+              json['overrides'] as Map<String, dynamic>)
+          : null,
+      platformDisplayName: json['platformDisplayName'] as String?,
+      platformId: json['platformId'] as String?,
+      profileName: json['profileName'] as String?,
+      profileVersion: json['profileVersion'] as String?,
+      profileVersionArn: json['profileVersionArn'] as String?,
+      revocationRecord: json['revocationRecord'] != null
+          ? SigningProfileRevocationRecord.fromJson(
+              json['revocationRecord'] as Map<String, dynamic>)
+          : null,
+      signatureValidityPeriod: json['signatureValidityPeriod'] != null
+          ? SignatureValidityPeriod.fromJson(
+              json['signatureValidityPeriod'] as Map<String, dynamic>)
+          : null,
+      signingMaterial: json['signingMaterial'] != null
+          ? SigningMaterial.fromJson(
+              json['signingMaterial'] as Map<String, dynamic>)
+          : null,
+      signingParameters: (json['signingParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      status: (json['status'] as String?)?.toSigningProfileStatus(),
+      statusReason: json['statusReason'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final overrides = this.overrides;
+    final platformDisplayName = this.platformDisplayName;
+    final platformId = this.platformId;
+    final profileName = this.profileName;
+    final profileVersion = this.profileVersion;
+    final profileVersionArn = this.profileVersionArn;
+    final revocationRecord = this.revocationRecord;
+    final signatureValidityPeriod = this.signatureValidityPeriod;
+    final signingMaterial = this.signingMaterial;
+    final signingParameters = this.signingParameters;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (overrides != null) 'overrides': overrides,
+      if (platformDisplayName != null)
+        'platformDisplayName': platformDisplayName,
+      if (platformId != null) 'platformId': platformId,
+      if (profileName != null) 'profileName': profileName,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (profileVersionArn != null) 'profileVersionArn': profileVersionArn,
+      if (revocationRecord != null) 'revocationRecord': revocationRecord,
+      if (signatureValidityPeriod != null)
+        'signatureValidityPeriod': signatureValidityPeriod,
+      if (signingMaterial != null) 'signingMaterial': signingMaterial,
+      if (signingParameters != null) 'signingParameters': signingParameters,
+      if (status != null) 'status': status.toValue(),
+      if (statusReason != null) 'statusReason': statusReason,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 enum HashAlgorithm {
-  @_s.JsonValue('SHA1')
   sha1,
-  @_s.JsonValue('SHA256')
   sha256,
 }
 
+extension on HashAlgorithm {
+  String toValue() {
+    switch (this) {
+      case HashAlgorithm.sha1:
+        return 'SHA1';
+      case HashAlgorithm.sha256:
+        return 'SHA256';
+    }
+  }
+}
+
+extension on String {
+  HashAlgorithm toHashAlgorithm() {
+    switch (this) {
+      case 'SHA1':
+        return HashAlgorithm.sha1;
+      case 'SHA256':
+        return HashAlgorithm.sha256;
+    }
+    throw Exception('$this is not known in enum HashAlgorithm');
+  }
+}
+
 /// The hash algorithms that are available to a code signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HashAlgorithmOptions {
   /// The set of accepted hash algorithms allowed in a code signing job.
-  @_s.JsonKey(name: 'allowedValues')
   final List<HashAlgorithm> allowedValues;
 
   /// The default hash algorithm that is used in a code signing job.
-  @_s.JsonKey(name: 'defaultValue')
   final HashAlgorithm defaultValue;
 
   HashAlgorithmOptions({
-    @_s.required this.allowedValues,
-    @_s.required this.defaultValue,
+    required this.allowedValues,
+    required this.defaultValue,
   });
-  factory HashAlgorithmOptions.fromJson(Map<String, dynamic> json) =>
-      _$HashAlgorithmOptionsFromJson(json);
+
+  factory HashAlgorithmOptions.fromJson(Map<String, dynamic> json) {
+    return HashAlgorithmOptions(
+      allowedValues: (json['allowedValues'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toHashAlgorithm())
+          .toList(),
+      defaultValue: (json['defaultValue'] as String).toHashAlgorithm(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final defaultValue = this.defaultValue;
+    return {
+      'allowedValues': allowedValues.map((e) => e.toValue()).toList(),
+      'defaultValue': defaultValue.toValue(),
+    };
+  }
 }
 
 enum ImageFormat {
-  @_s.JsonValue('JSON')
   json,
-  @_s.JsonValue('JSONEmbedded')
   jSONEmbedded,
-  @_s.JsonValue('JSONDetached')
   jSONDetached,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ImageFormat {
+  String toValue() {
+    switch (this) {
+      case ImageFormat.json:
+        return 'JSON';
+      case ImageFormat.jSONEmbedded:
+        return 'JSONEmbedded';
+      case ImageFormat.jSONDetached:
+        return 'JSONDetached';
+    }
+  }
+}
+
+extension on String {
+  ImageFormat toImageFormat() {
+    switch (this) {
+      case 'JSON':
+        return ImageFormat.json;
+      case 'JSONEmbedded':
+        return ImageFormat.jSONEmbedded;
+      case 'JSONDetached':
+        return ImageFormat.jSONDetached;
+    }
+    throw Exception('$this is not known in enum ImageFormat');
+  }
+}
+
 class ListProfilePermissionsResponse {
   /// String for specifying the next set of paginated results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of permissions associated with the Signing Profile.
-  @_s.JsonKey(name: 'permissions')
-  final List<Permission> permissions;
+  final List<Permission>? permissions;
 
   /// Total size of the policy associated with the Signing Profile in bytes.
-  @_s.JsonKey(name: 'policySizeBytes')
-  final int policySizeBytes;
+  final int? policySizeBytes;
 
   /// The identifier for the current revision of profile permissions.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   ListProfilePermissionsResponse({
     this.nextToken,
@@ -1422,117 +1571,167 @@ class ListProfilePermissionsResponse {
     this.policySizeBytes,
     this.revisionId,
   });
-  factory ListProfilePermissionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProfilePermissionsResponseFromJson(json);
+
+  factory ListProfilePermissionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProfilePermissionsResponse(
+      nextToken: json['nextToken'] as String?,
+      permissions: (json['permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      policySizeBytes: json['policySizeBytes'] as int?,
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissions = this.permissions;
+    final policySizeBytes = this.policySizeBytes;
+    final revisionId = this.revisionId;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (permissions != null) 'permissions': permissions,
+      if (policySizeBytes != null) 'policySizeBytes': policySizeBytes,
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSigningJobsResponse {
   /// A list of your signing jobs.
-  @_s.JsonKey(name: 'jobs')
-  final List<SigningJob> jobs;
+  final List<SigningJob>? jobs;
 
   /// String for specifying the next set of paginated results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListSigningJobsResponse({
     this.jobs,
     this.nextToken,
   });
-  factory ListSigningJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSigningJobsResponseFromJson(json);
+
+  factory ListSigningJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSigningJobsResponse(
+      jobs: (json['jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => SigningJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextToken = this.nextToken;
+    return {
+      if (jobs != null) 'jobs': jobs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSigningPlatformsResponse {
   /// Value for specifying the next set of paginated results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of all platforms that match the request parameters.
-  @_s.JsonKey(name: 'platforms')
-  final List<SigningPlatform> platforms;
+  final List<SigningPlatform>? platforms;
 
   ListSigningPlatformsResponse({
     this.nextToken,
     this.platforms,
   });
-  factory ListSigningPlatformsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSigningPlatformsResponseFromJson(json);
+
+  factory ListSigningPlatformsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSigningPlatformsResponse(
+      nextToken: json['nextToken'] as String?,
+      platforms: (json['platforms'] as List?)
+          ?.whereNotNull()
+          .map((e) => SigningPlatform.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final platforms = this.platforms;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (platforms != null) 'platforms': platforms,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSigningProfilesResponse {
   /// Value for specifying the next set of paginated results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of profiles that are available in the AWS account. This includes
   /// profiles with the status of <code>CANCELED</code> if the
   /// <code>includeCanceled</code> parameter is set to <code>true</code>.
-  @_s.JsonKey(name: 'profiles')
-  final List<SigningProfile> profiles;
+  final List<SigningProfile>? profiles;
 
   ListSigningProfilesResponse({
     this.nextToken,
     this.profiles,
   });
-  factory ListSigningProfilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSigningProfilesResponseFromJson(json);
+
+  factory ListSigningProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSigningProfilesResponse(
+      nextToken: json['nextToken'] as String?,
+      profiles: (json['profiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => SigningProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final profiles = this.profiles;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (profiles != null) 'profiles': profiles,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A list of tags associated with the signing profile.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// A cross-account permission for a signing profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Permission {
   /// An AWS Signer action permitted as part of cross-account permissions.
-  @_s.JsonKey(name: 'action')
-  final String action;
+  final String? action;
 
   /// The AWS principal that has been granted a cross-account permission.
-  @_s.JsonKey(name: 'principal')
-  final String principal;
+  final String? principal;
 
   /// The signing profile version that a permission applies to.
-  @_s.JsonKey(name: 'profileVersion')
-  final String profileVersion;
+  final String? profileVersion;
 
   /// A unique identifier for a cross-account permission statement.
-  @_s.JsonKey(name: 'statementId')
-  final String statementId;
+  final String? statementId;
 
   Permission({
     this.action,
@@ -1540,316 +1739,389 @@ class Permission {
     this.profileVersion,
     this.statementId,
   });
-  factory Permission.fromJson(Map<String, dynamic> json) =>
-      _$PermissionFromJson(json);
+
+  factory Permission.fromJson(Map<String, dynamic> json) {
+    return Permission(
+      action: json['action'] as String?,
+      principal: json['principal'] as String?,
+      profileVersion: json['profileVersion'] as String?,
+      statementId: json['statementId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final principal = this.principal;
+    final profileVersion = this.profileVersion;
+    final statementId = this.statementId;
+    return {
+      if (action != null) 'action': action,
+      if (principal != null) 'principal': principal,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (statementId != null) 'statementId': statementId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSigningProfileResponse {
   /// The Amazon Resource Name (ARN) of the signing profile created.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The version of the signing profile being created.
-  @_s.JsonKey(name: 'profileVersion')
-  final String profileVersion;
+  final String? profileVersion;
 
   /// The signing profile ARN, including the profile version.
-  @_s.JsonKey(name: 'profileVersionArn')
-  final String profileVersionArn;
+  final String? profileVersionArn;
 
   PutSigningProfileResponse({
     this.arn,
     this.profileVersion,
     this.profileVersionArn,
   });
-  factory PutSigningProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutSigningProfileResponseFromJson(json);
+
+  factory PutSigningProfileResponse.fromJson(Map<String, dynamic> json) {
+    return PutSigningProfileResponse(
+      arn: json['arn'] as String?,
+      profileVersion: json['profileVersion'] as String?,
+      profileVersionArn: json['profileVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final profileVersion = this.profileVersion;
+    final profileVersionArn = this.profileVersionArn;
+    return {
+      if (arn != null) 'arn': arn,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (profileVersionArn != null) 'profileVersionArn': profileVersionArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveProfilePermissionResponse {
   /// An identifier for the current revision of the profile permissions.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   RemoveProfilePermissionResponse({
     this.revisionId,
   });
-  factory RemoveProfilePermissionResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveProfilePermissionResponseFromJson(json);
+
+  factory RemoveProfilePermissionResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveProfilePermissionResponse(
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revisionId = this.revisionId;
+    return {
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
 }
 
 /// The name and prefix of the S3 bucket where code signing saves your signed
 /// objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3Destination {
   /// Name of the S3 bucket.
-  @_s.JsonKey(name: 'bucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// An Amazon S3 prefix that you can use to limit responses to those that begin
   /// with the specified prefix.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   S3Destination({
     this.bucketName,
     this.prefix,
   });
-  Map<String, dynamic> toJson() => _$S3DestinationToJson(this);
+
+  factory S3Destination.fromJson(Map<String, dynamic> json) {
+    return S3Destination(
+      bucketName: json['bucketName'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
 }
 
 /// The S3 bucket name and key where code signing saved your signed code image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3SignedObject {
   /// Name of the S3 bucket.
-  @_s.JsonKey(name: 'bucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// Key name that uniquely identifies a signed code image in your bucket.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   S3SignedObject({
     this.bucketName,
     this.key,
   });
-  factory S3SignedObject.fromJson(Map<String, dynamic> json) =>
-      _$S3SignedObjectFromJson(json);
+
+  factory S3SignedObject.fromJson(Map<String, dynamic> json) {
+    return S3SignedObject(
+      bucketName: json['bucketName'] as String?,
+      key: json['key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final key = this.key;
+    return {
+      if (bucketName != null) 'bucketName': bucketName,
+      if (key != null) 'key': key,
+    };
+  }
 }
 
 /// Information about the S3 bucket where you saved your unsigned code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Source {
   /// Name of the S3 bucket.
-  @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
   /// Key name of the bucket object that contains your unsigned code.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// Version of your source image in your version enabled S3 bucket.
-  @_s.JsonKey(name: 'version')
   final String version;
 
   S3Source({
-    @_s.required this.bucketName,
-    @_s.required this.key,
-    @_s.required this.version,
+    required this.bucketName,
+    required this.key,
+    required this.version,
   });
-  factory S3Source.fromJson(Map<String, dynamic> json) =>
-      _$S3SourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3SourceToJson(this);
+  factory S3Source.fromJson(Map<String, dynamic> json) {
+    return S3Source(
+      bucketName: json['bucketName'] as String,
+      key: json['key'] as String,
+      version: json['version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final key = this.key;
+    final version = this.version;
+    return {
+      'bucketName': bucketName,
+      'key': key,
+      'version': version,
+    };
+  }
 }
 
 /// The validity period for a signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SignatureValidityPeriod {
   /// The time unit for signature validity.
-  @_s.JsonKey(name: 'type')
-  final ValidityType type;
+  final ValidityType? type;
 
   /// The numerical value of the time unit for signature validity.
-  @_s.JsonKey(name: 'value')
-  final int value;
+  final int? value;
 
   SignatureValidityPeriod({
     this.type,
     this.value,
   });
-  factory SignatureValidityPeriod.fromJson(Map<String, dynamic> json) =>
-      _$SignatureValidityPeriodFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SignatureValidityPeriodToJson(this);
+  factory SignatureValidityPeriod.fromJson(Map<String, dynamic> json) {
+    return SignatureValidityPeriod(
+      type: (json['type'] as String?)?.toValidityType(),
+      value: json['value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'type': type.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// Points to an <code>S3SignedObject</code> object that contains information
 /// about your signed code image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SignedObject {
   /// The <code>S3SignedObject</code>.
-  @_s.JsonKey(name: 's3')
-  final S3SignedObject s3;
+  final S3SignedObject? s3;
 
   SignedObject({
     this.s3,
   });
-  factory SignedObject.fromJson(Map<String, dynamic> json) =>
-      _$SignedObjectFromJson(json);
+
+  factory SignedObject.fromJson(Map<String, dynamic> json) {
+    return SignedObject(
+      s3: json['s3'] != null
+          ? S3SignedObject.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 's3': s3,
+    };
+  }
 }
 
 /// The configuration of a code signing operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SigningConfiguration {
   /// The encryption algorithm options that are available for a code signing job.
-  @_s.JsonKey(name: 'encryptionAlgorithmOptions')
   final EncryptionAlgorithmOptions encryptionAlgorithmOptions;
 
   /// The hash algorithm options that are available for a code signing job.
-  @_s.JsonKey(name: 'hashAlgorithmOptions')
   final HashAlgorithmOptions hashAlgorithmOptions;
 
   SigningConfiguration({
-    @_s.required this.encryptionAlgorithmOptions,
-    @_s.required this.hashAlgorithmOptions,
+    required this.encryptionAlgorithmOptions,
+    required this.hashAlgorithmOptions,
   });
-  factory SigningConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SigningConfigurationFromJson(json);
+
+  factory SigningConfiguration.fromJson(Map<String, dynamic> json) {
+    return SigningConfiguration(
+      encryptionAlgorithmOptions: EncryptionAlgorithmOptions.fromJson(
+          json['encryptionAlgorithmOptions'] as Map<String, dynamic>),
+      hashAlgorithmOptions: HashAlgorithmOptions.fromJson(
+          json['hashAlgorithmOptions'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionAlgorithmOptions = this.encryptionAlgorithmOptions;
+    final hashAlgorithmOptions = this.hashAlgorithmOptions;
+    return {
+      'encryptionAlgorithmOptions': encryptionAlgorithmOptions,
+      'hashAlgorithmOptions': hashAlgorithmOptions,
+    };
+  }
 }
 
 /// A signing configuration that overrides the default encryption or hash
 /// algorithm of a signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SigningConfigurationOverrides {
   /// A specified override of the default encryption algorithm that is used in a
   /// code signing job.
-  @_s.JsonKey(name: 'encryptionAlgorithm')
-  final EncryptionAlgorithm encryptionAlgorithm;
+  final EncryptionAlgorithm? encryptionAlgorithm;
 
   /// A specified override of the default hash algorithm that is used in a code
   /// signing job.
-  @_s.JsonKey(name: 'hashAlgorithm')
-  final HashAlgorithm hashAlgorithm;
+  final HashAlgorithm? hashAlgorithm;
 
   SigningConfigurationOverrides({
     this.encryptionAlgorithm,
     this.hashAlgorithm,
   });
-  factory SigningConfigurationOverrides.fromJson(Map<String, dynamic> json) =>
-      _$SigningConfigurationOverridesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SigningConfigurationOverridesToJson(this);
+  factory SigningConfigurationOverrides.fromJson(Map<String, dynamic> json) {
+    return SigningConfigurationOverrides(
+      encryptionAlgorithm:
+          (json['encryptionAlgorithm'] as String?)?.toEncryptionAlgorithm(),
+      hashAlgorithm: (json['hashAlgorithm'] as String?)?.toHashAlgorithm(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionAlgorithm = this.encryptionAlgorithm;
+    final hashAlgorithm = this.hashAlgorithm;
+    return {
+      if (encryptionAlgorithm != null)
+        'encryptionAlgorithm': encryptionAlgorithm.toValue(),
+      if (hashAlgorithm != null) 'hashAlgorithm': hashAlgorithm.toValue(),
+    };
+  }
 }
 
 /// The image format of a code signing platform or profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SigningImageFormat {
   /// The default format of a code signing image.
-  @_s.JsonKey(name: 'defaultFormat')
   final ImageFormat defaultFormat;
 
   /// The supported formats of a code signing image.
-  @_s.JsonKey(name: 'supportedFormats')
   final List<ImageFormat> supportedFormats;
 
   SigningImageFormat({
-    @_s.required this.defaultFormat,
-    @_s.required this.supportedFormats,
+    required this.defaultFormat,
+    required this.supportedFormats,
   });
-  factory SigningImageFormat.fromJson(Map<String, dynamic> json) =>
-      _$SigningImageFormatFromJson(json);
+
+  factory SigningImageFormat.fromJson(Map<String, dynamic> json) {
+    return SigningImageFormat(
+      defaultFormat: (json['defaultFormat'] as String).toImageFormat(),
+      supportedFormats: (json['supportedFormats'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toImageFormat())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultFormat = this.defaultFormat;
+    final supportedFormats = this.supportedFormats;
+    return {
+      'defaultFormat': defaultFormat.toValue(),
+      'supportedFormats': supportedFormats.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Contains information about a signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SigningJob {
   /// The date and time that the signing job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Indicates whether the signing job is revoked.
-  @_s.JsonKey(name: 'isRevoked')
-  final bool isRevoked;
+  final bool? isRevoked;
 
   /// The ID of the signing job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The AWS account ID of the job invoker.
-  @_s.JsonKey(name: 'jobInvoker')
-  final String jobInvoker;
+  final String? jobInvoker;
 
   /// The AWS account ID of the job owner.
-  @_s.JsonKey(name: 'jobOwner')
-  final String jobOwner;
+  final String? jobOwner;
 
   /// The name of a signing platform.
-  @_s.JsonKey(name: 'platformDisplayName')
-  final String platformDisplayName;
+  final String? platformDisplayName;
 
   /// The unique identifier for a signing platform.
-  @_s.JsonKey(name: 'platformId')
-  final String platformId;
+  final String? platformId;
 
   /// The name of the signing profile that created a signing job.
-  @_s.JsonKey(name: 'profileName')
-  final String profileName;
+  final String? profileName;
 
   /// The version of the signing profile that created a signing job.
-  @_s.JsonKey(name: 'profileVersion')
-  final String profileVersion;
+  final String? profileVersion;
 
   /// The time when the signature of a signing job expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'signatureExpiresAt')
-  final DateTime signatureExpiresAt;
+  final DateTime? signatureExpiresAt;
 
   /// A <code>SignedObject</code> structure that contains information about a
   /// signing job's signed code image.
-  @_s.JsonKey(name: 'signedObject')
-  final SignedObject signedObject;
+  final SignedObject? signedObject;
 
   /// A <code>SigningMaterial</code> object that contains the Amazon Resource Name
   /// (ARN) of the certificate used for the signing job.
-  @_s.JsonKey(name: 'signingMaterial')
-  final SigningMaterial signingMaterial;
+  final SigningMaterial? signingMaterial;
 
   /// A <code>Source</code> that contains information about a signing job's code
   /// image source.
-  @_s.JsonKey(name: 'source')
-  final Source source;
+  final Source? source;
 
   /// The status of the signing job.
-  @_s.JsonKey(name: 'status')
-  final SigningStatus status;
+  final SigningStatus? status;
 
   SigningJob({
     this.createdAt,
@@ -1867,103 +2139,159 @@ class SigningJob {
     this.source,
     this.status,
   });
-  factory SigningJob.fromJson(Map<String, dynamic> json) =>
-      _$SigningJobFromJson(json);
+
+  factory SigningJob.fromJson(Map<String, dynamic> json) {
+    return SigningJob(
+      createdAt: timeStampFromJson(json['createdAt']),
+      isRevoked: json['isRevoked'] as bool?,
+      jobId: json['jobId'] as String?,
+      jobInvoker: json['jobInvoker'] as String?,
+      jobOwner: json['jobOwner'] as String?,
+      platformDisplayName: json['platformDisplayName'] as String?,
+      platformId: json['platformId'] as String?,
+      profileName: json['profileName'] as String?,
+      profileVersion: json['profileVersion'] as String?,
+      signatureExpiresAt: timeStampFromJson(json['signatureExpiresAt']),
+      signedObject: json['signedObject'] != null
+          ? SignedObject.fromJson(json['signedObject'] as Map<String, dynamic>)
+          : null,
+      signingMaterial: json['signingMaterial'] != null
+          ? SigningMaterial.fromJson(
+              json['signingMaterial'] as Map<String, dynamic>)
+          : null,
+      source: json['source'] != null
+          ? Source.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toSigningStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final isRevoked = this.isRevoked;
+    final jobId = this.jobId;
+    final jobInvoker = this.jobInvoker;
+    final jobOwner = this.jobOwner;
+    final platformDisplayName = this.platformDisplayName;
+    final platformId = this.platformId;
+    final profileName = this.profileName;
+    final profileVersion = this.profileVersion;
+    final signatureExpiresAt = this.signatureExpiresAt;
+    final signedObject = this.signedObject;
+    final signingMaterial = this.signingMaterial;
+    final source = this.source;
+    final status = this.status;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (isRevoked != null) 'isRevoked': isRevoked,
+      if (jobId != null) 'jobId': jobId,
+      if (jobInvoker != null) 'jobInvoker': jobInvoker,
+      if (jobOwner != null) 'jobOwner': jobOwner,
+      if (platformDisplayName != null)
+        'platformDisplayName': platformDisplayName,
+      if (platformId != null) 'platformId': platformId,
+      if (profileName != null) 'profileName': profileName,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (signatureExpiresAt != null)
+        'signatureExpiresAt': unixTimestampToJson(signatureExpiresAt),
+      if (signedObject != null) 'signedObject': signedObject,
+      if (signingMaterial != null) 'signingMaterial': signingMaterial,
+      if (source != null) 'source': source,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Revocation information for a signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SigningJobRevocationRecord {
   /// A caller-supplied reason for revocation.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   /// The time of revocation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'revokedAt')
-  final DateTime revokedAt;
+  final DateTime? revokedAt;
 
   /// The identity of the revoker.
-  @_s.JsonKey(name: 'revokedBy')
-  final String revokedBy;
+  final String? revokedBy;
 
   SigningJobRevocationRecord({
     this.reason,
     this.revokedAt,
     this.revokedBy,
   });
-  factory SigningJobRevocationRecord.fromJson(Map<String, dynamic> json) =>
-      _$SigningJobRevocationRecordFromJson(json);
+
+  factory SigningJobRevocationRecord.fromJson(Map<String, dynamic> json) {
+    return SigningJobRevocationRecord(
+      reason: json['reason'] as String?,
+      revokedAt: timeStampFromJson(json['revokedAt']),
+      revokedBy: json['revokedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final revokedAt = this.revokedAt;
+    final revokedBy = this.revokedBy;
+    return {
+      if (reason != null) 'reason': reason,
+      if (revokedAt != null) 'revokedAt': unixTimestampToJson(revokedAt),
+      if (revokedBy != null) 'revokedBy': revokedBy,
+    };
+  }
 }
 
 /// The ACM certificate that is used to sign your code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SigningMaterial {
   /// The Amazon Resource Name (ARN) of the certificates that is used to sign your
   /// code.
-  @_s.JsonKey(name: 'certificateArn')
   final String certificateArn;
 
   SigningMaterial({
-    @_s.required this.certificateArn,
+    required this.certificateArn,
   });
-  factory SigningMaterial.fromJson(Map<String, dynamic> json) =>
-      _$SigningMaterialFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SigningMaterialToJson(this);
+  factory SigningMaterial.fromJson(Map<String, dynamic> json) {
+    return SigningMaterial(
+      certificateArn: json['certificateArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    return {
+      'certificateArn': certificateArn,
+    };
+  }
 }
 
 /// Contains information about the signing configurations and parameters that
 /// are used to perform a code signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SigningPlatform {
   /// The category of a code signing platform.
-  @_s.JsonKey(name: 'category')
-  final Category category;
+  final Category? category;
 
   /// The display name of a code signing platform.
-  @_s.JsonKey(name: 'displayName')
-  final String displayName;
+  final String? displayName;
 
   /// The maximum size (in MB) of code that can be signed by a code signing
   /// platform.
-  @_s.JsonKey(name: 'maxSizeInMB')
-  final int maxSizeInMB;
+  final int? maxSizeInMB;
 
   /// Any partner entities linked to a code signing platform.
-  @_s.JsonKey(name: 'partner')
-  final String partner;
+  final String? partner;
 
   /// The ID of a code signing; platform.
-  @_s.JsonKey(name: 'platformId')
-  final String platformId;
+  final String? platformId;
 
   /// Indicates whether revocation is supported for the platform.
-  @_s.JsonKey(name: 'revocationSupported')
-  final bool revocationSupported;
+  final bool? revocationSupported;
 
   /// The configuration of a code signing platform. This includes the designated
   /// hash algorithm and encryption algorithm of a signing platform.
-  @_s.JsonKey(name: 'signingConfiguration')
-  final SigningConfiguration signingConfiguration;
-  @_s.JsonKey(name: 'signingImageFormat')
-  final SigningImageFormat signingImageFormat;
+  final SigningConfiguration? signingConfiguration;
+  final SigningImageFormat? signingImageFormat;
 
   /// The types of targets that can be signed by a code signing platform.
-  @_s.JsonKey(name: 'target')
-  final String target;
+  final String? target;
 
   SigningPlatform({
     this.category,
@@ -1976,22 +2304,59 @@ class SigningPlatform {
     this.signingImageFormat,
     this.target,
   });
-  factory SigningPlatform.fromJson(Map<String, dynamic> json) =>
-      _$SigningPlatformFromJson(json);
+
+  factory SigningPlatform.fromJson(Map<String, dynamic> json) {
+    return SigningPlatform(
+      category: (json['category'] as String?)?.toCategory(),
+      displayName: json['displayName'] as String?,
+      maxSizeInMB: json['maxSizeInMB'] as int?,
+      partner: json['partner'] as String?,
+      platformId: json['platformId'] as String?,
+      revocationSupported: json['revocationSupported'] as bool?,
+      signingConfiguration: json['signingConfiguration'] != null
+          ? SigningConfiguration.fromJson(
+              json['signingConfiguration'] as Map<String, dynamic>)
+          : null,
+      signingImageFormat: json['signingImageFormat'] != null
+          ? SigningImageFormat.fromJson(
+              json['signingImageFormat'] as Map<String, dynamic>)
+          : null,
+      target: json['target'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final displayName = this.displayName;
+    final maxSizeInMB = this.maxSizeInMB;
+    final partner = this.partner;
+    final platformId = this.platformId;
+    final revocationSupported = this.revocationSupported;
+    final signingConfiguration = this.signingConfiguration;
+    final signingImageFormat = this.signingImageFormat;
+    final target = this.target;
+    return {
+      if (category != null) 'category': category.toValue(),
+      if (displayName != null) 'displayName': displayName,
+      if (maxSizeInMB != null) 'maxSizeInMB': maxSizeInMB,
+      if (partner != null) 'partner': partner,
+      if (platformId != null) 'platformId': platformId,
+      if (revocationSupported != null)
+        'revocationSupported': revocationSupported,
+      if (signingConfiguration != null)
+        'signingConfiguration': signingConfiguration,
+      if (signingImageFormat != null) 'signingImageFormat': signingImageFormat,
+      if (target != null) 'target': target,
+    };
+  }
 }
 
 /// Any overrides that are applied to the signing configuration of a code
 /// signing platform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SigningPlatformOverrides {
   /// A signing configuration that overrides the default encryption or hash
   /// algorithm of a signing job.
-  @_s.JsonKey(name: 'signingConfiguration')
-  final SigningConfigurationOverrides signingConfiguration;
+  final SigningConfigurationOverrides? signingConfiguration;
 
   /// A signed image is a JSON object. When overriding the default signing
   /// platform configuration, a customer can select either of two signing formats,
@@ -2000,70 +2365,71 @@ class SigningPlatformOverrides {
   /// <code>JSONEmbedded</code>, the signing image has the payload embedded in it.
   /// With <code>JSONDetached</code>, the payload is not be embedded in the
   /// signing image.
-  @_s.JsonKey(name: 'signingImageFormat')
-  final ImageFormat signingImageFormat;
+  final ImageFormat? signingImageFormat;
 
   SigningPlatformOverrides({
     this.signingConfiguration,
     this.signingImageFormat,
   });
-  factory SigningPlatformOverrides.fromJson(Map<String, dynamic> json) =>
-      _$SigningPlatformOverridesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SigningPlatformOverridesToJson(this);
+  factory SigningPlatformOverrides.fromJson(Map<String, dynamic> json) {
+    return SigningPlatformOverrides(
+      signingConfiguration: json['signingConfiguration'] != null
+          ? SigningConfigurationOverrides.fromJson(
+              json['signingConfiguration'] as Map<String, dynamic>)
+          : null,
+      signingImageFormat:
+          (json['signingImageFormat'] as String?)?.toImageFormat(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signingConfiguration = this.signingConfiguration;
+    final signingImageFormat = this.signingImageFormat;
+    return {
+      if (signingConfiguration != null)
+        'signingConfiguration': signingConfiguration,
+      if (signingImageFormat != null)
+        'signingImageFormat': signingImageFormat.toValue(),
+    };
+  }
 }
 
 /// Contains information about the ACM certificates and code signing
 /// configuration parameters that can be used by a given code signing user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SigningProfile {
   /// The Amazon Resource Name (ARN) for the signing profile.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The name of the signing platform.
-  @_s.JsonKey(name: 'platformDisplayName')
-  final String platformDisplayName;
+  final String? platformDisplayName;
 
   /// The ID of a platform that is available for use by a signing profile.
-  @_s.JsonKey(name: 'platformId')
-  final String platformId;
+  final String? platformId;
 
   /// The name of the signing profile.
-  @_s.JsonKey(name: 'profileName')
-  final String profileName;
+  final String? profileName;
 
   /// The version of a signing profile.
-  @_s.JsonKey(name: 'profileVersion')
-  final String profileVersion;
+  final String? profileVersion;
 
   /// The ARN of a signing profile, including the profile version.
-  @_s.JsonKey(name: 'profileVersionArn')
-  final String profileVersionArn;
+  final String? profileVersionArn;
 
   /// The validity period for a signing job created using this signing profile.
-  @_s.JsonKey(name: 'signatureValidityPeriod')
-  final SignatureValidityPeriod signatureValidityPeriod;
+  final SignatureValidityPeriod? signatureValidityPeriod;
 
   /// The ACM certificate that is available for use by a signing profile.
-  @_s.JsonKey(name: 'signingMaterial')
-  final SigningMaterial signingMaterial;
+  final SigningMaterial? signingMaterial;
 
   /// The parameters that are available for use by a code signing user.
-  @_s.JsonKey(name: 'signingParameters')
-  final Map<String, String> signingParameters;
+  final Map<String, String>? signingParameters;
 
   /// The status of a code signing profile.
-  @_s.JsonKey(name: 'status')
-  final SigningProfileStatus status;
+  final SigningProfileStatus? status;
 
   /// A list of tags associated with the signing profile.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   SigningProfile({
     this.arn,
@@ -2078,46 +2444,103 @@ class SigningProfile {
     this.status,
     this.tags,
   });
-  factory SigningProfile.fromJson(Map<String, dynamic> json) =>
-      _$SigningProfileFromJson(json);
+
+  factory SigningProfile.fromJson(Map<String, dynamic> json) {
+    return SigningProfile(
+      arn: json['arn'] as String?,
+      platformDisplayName: json['platformDisplayName'] as String?,
+      platformId: json['platformId'] as String?,
+      profileName: json['profileName'] as String?,
+      profileVersion: json['profileVersion'] as String?,
+      profileVersionArn: json['profileVersionArn'] as String?,
+      signatureValidityPeriod: json['signatureValidityPeriod'] != null
+          ? SignatureValidityPeriod.fromJson(
+              json['signatureValidityPeriod'] as Map<String, dynamic>)
+          : null,
+      signingMaterial: json['signingMaterial'] != null
+          ? SigningMaterial.fromJson(
+              json['signingMaterial'] as Map<String, dynamic>)
+          : null,
+      signingParameters: (json['signingParameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      status: (json['status'] as String?)?.toSigningProfileStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final platformDisplayName = this.platformDisplayName;
+    final platformId = this.platformId;
+    final profileName = this.profileName;
+    final profileVersion = this.profileVersion;
+    final profileVersionArn = this.profileVersionArn;
+    final signatureValidityPeriod = this.signatureValidityPeriod;
+    final signingMaterial = this.signingMaterial;
+    final signingParameters = this.signingParameters;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (platformDisplayName != null)
+        'platformDisplayName': platformDisplayName,
+      if (platformId != null) 'platformId': platformId,
+      if (profileName != null) 'profileName': profileName,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (profileVersionArn != null) 'profileVersionArn': profileVersionArn,
+      if (signatureValidityPeriod != null)
+        'signatureValidityPeriod': signatureValidityPeriod,
+      if (signingMaterial != null) 'signingMaterial': signingMaterial,
+      if (signingParameters != null) 'signingParameters': signingParameters,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Revocation information for a signing profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SigningProfileRevocationRecord {
   /// The time when revocation becomes effective.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'revocationEffectiveFrom')
-  final DateTime revocationEffectiveFrom;
+  final DateTime? revocationEffectiveFrom;
 
   /// The time when the signing profile was revoked.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'revokedAt')
-  final DateTime revokedAt;
+  final DateTime? revokedAt;
 
   /// The identity of the revoker.
-  @_s.JsonKey(name: 'revokedBy')
-  final String revokedBy;
+  final String? revokedBy;
 
   SigningProfileRevocationRecord({
     this.revocationEffectiveFrom,
     this.revokedAt,
     this.revokedBy,
   });
-  factory SigningProfileRevocationRecord.fromJson(Map<String, dynamic> json) =>
-      _$SigningProfileRevocationRecordFromJson(json);
+
+  factory SigningProfileRevocationRecord.fromJson(Map<String, dynamic> json) {
+    return SigningProfileRevocationRecord(
+      revocationEffectiveFrom:
+          timeStampFromJson(json['revocationEffectiveFrom']),
+      revokedAt: timeStampFromJson(json['revokedAt']),
+      revokedBy: json['revokedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revocationEffectiveFrom = this.revocationEffectiveFrom;
+    final revokedAt = this.revokedAt;
+    final revokedBy = this.revokedBy;
+    return {
+      if (revocationEffectiveFrom != null)
+        'revocationEffectiveFrom': unixTimestampToJson(revocationEffectiveFrom),
+      if (revokedAt != null) 'revokedAt': unixTimestampToJson(revokedAt),
+      if (revokedBy != null) 'revokedBy': revokedBy,
+    };
+  }
 }
 
 enum SigningProfileStatus {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Canceled')
   canceled,
-  @_s.JsonValue('Revoked')
   revoked,
 }
 
@@ -2131,16 +2554,26 @@ extension on SigningProfileStatus {
       case SigningProfileStatus.revoked:
         return 'Revoked';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SigningProfileStatus toSigningProfileStatus() {
+    switch (this) {
+      case 'Active':
+        return SigningProfileStatus.active;
+      case 'Canceled':
+        return SigningProfileStatus.canceled;
+      case 'Revoked':
+        return SigningProfileStatus.revoked;
+    }
+    throw Exception('$this is not known in enum SigningProfileStatus');
   }
 }
 
 enum SigningStatus {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Succeeded')
   succeeded,
 }
 
@@ -2154,100 +2587,152 @@ extension on SigningStatus {
       case SigningStatus.succeeded:
         return 'Succeeded';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SigningStatus toSigningStatus() {
+    switch (this) {
+      case 'InProgress':
+        return SigningStatus.inProgress;
+      case 'Failed':
+        return SigningStatus.failed;
+      case 'Succeeded':
+        return SigningStatus.succeeded;
+    }
+    throw Exception('$this is not known in enum SigningStatus');
   }
 }
 
 /// An <code>S3Source</code> object that contains information about the S3
 /// bucket where you saved your unsigned code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Source {
   /// The <code>S3Source</code> object.
-  @_s.JsonKey(name: 's3')
-  final S3Source s3;
+  final S3Source? s3;
 
   Source({
     this.s3,
   });
-  factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SourceToJson(this);
+  factory Source.fromJson(Map<String, dynamic> json) {
+    return Source(
+      s3: json['s3'] != null
+          ? S3Source.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 's3': s3,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartSigningJobResponse {
   /// The ID of your signing job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The AWS account ID of the signing job owner.
-  @_s.JsonKey(name: 'jobOwner')
-  final String jobOwner;
+  final String? jobOwner;
 
   StartSigningJobResponse({
     this.jobId,
     this.jobOwner,
   });
-  factory StartSigningJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartSigningJobResponseFromJson(json);
+
+  factory StartSigningJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartSigningJobResponse(
+      jobId: json['jobId'] as String?,
+      jobOwner: json['jobOwner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobOwner = this.jobOwner;
+    return {
+      if (jobId != null) 'jobId': jobId,
+      if (jobOwner != null) 'jobOwner': jobOwner,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum ValidityType {
-  @_s.JsonValue('DAYS')
   days,
-  @_s.JsonValue('MONTHS')
   months,
-  @_s.JsonValue('YEARS')
   years,
 }
 
+extension on ValidityType {
+  String toValue() {
+    switch (this) {
+      case ValidityType.days:
+        return 'DAYS';
+      case ValidityType.months:
+        return 'MONTHS';
+      case ValidityType.years:
+        return 'YEARS';
+    }
+  }
+}
+
+extension on String {
+  ValidityType toValidityType() {
+    switch (this) {
+      case 'DAYS':
+        return ValidityType.days;
+      case 'MONTHS':
+        return ValidityType.months;
+      case 'YEARS':
+        return ValidityType.years;
+    }
+    throw Exception('$this is not known in enum ValidityType');
+  }
+}
+
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServiceErrorException extends _s.GenericAwsException {
-  InternalServiceErrorException({String type, String message})
+  InternalServiceErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'InternalServiceErrorException',
@@ -2255,17 +2740,17 @@ class InternalServiceErrorException extends _s.GenericAwsException {
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceLimitExceededException extends _s.GenericAwsException {
-  ServiceLimitExceededException({String type, String message})
+  ServiceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceLimitExceededException',
@@ -2273,17 +2758,17 @@ class ServiceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

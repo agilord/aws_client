@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2012-08-10.g.dart';
 
 /// Amazon DynamoDB is a fully managed NoSQL database service that provides fast
 /// and predictable performance with seamless scalability. DynamoDB lets you
@@ -34,10 +27,10 @@ part '2012-08-10.g.dart';
 class DynamoDB {
   final _s.JsonProtocol _protocol;
   DynamoDB({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -57,7 +50,7 @@ class DynamoDB {
   /// Parameter [statements] :
   /// The list of PartiQL statements representing the batch to run.
   Future<BatchExecuteStatementOutput> batchExecuteStatement({
-    @_s.required List<BatchStatementRequest> statements,
+    required List<BatchStatementRequest> statements,
   }) async {
     ArgumentError.checkNotNull(statements, 'statements');
     final headers = <String, String>{
@@ -241,8 +234,8 @@ class DynamoDB {
   /// </li>
   /// </ul>
   Future<BatchGetItemOutput> batchGetItem({
-    @_s.required Map<String, KeysAndAttributes> requestItems,
-    ReturnConsumedCapacity returnConsumedCapacity,
+    required Map<String, KeysAndAttributes> requestItems,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
     final headers = <String, String>{
@@ -412,9 +405,9 @@ class DynamoDB {
   /// in the response. If set to <code>NONE</code> (the default), no statistics
   /// are returned.
   Future<BatchWriteItemOutput> batchWriteItem({
-    @_s.required Map<String, List<WriteRequest>> requestItems,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+    required Map<String, List<WriteRequest>> requestItems,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
     final headers = <String, String>{
@@ -493,8 +486,8 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the table.
   Future<CreateBackupOutput> createBackup({
-    @_s.required String backupName,
-    @_s.required String tableName,
+    required String backupName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(backupName, 'backupName');
     _s.validateStringLength(
@@ -504,24 +497,12 @@ class DynamoDB {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'backupName',
-      backupName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
       'tableName',
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -615,8 +596,8 @@ class DynamoDB {
   /// Parameter [replicationGroup] :
   /// The Regions where the global table needs to be created.
   Future<CreateGlobalTableOutput> createGlobalTable({
-    @_s.required String globalTableName,
-    @_s.required List<Replica> replicationGroup,
+    required String globalTableName,
+    required List<Replica> replicationGroup,
   }) async {
     ArgumentError.checkNotNull(globalTableName, 'globalTableName');
     _s.validateStringLength(
@@ -624,12 +605,6 @@ class DynamoDB {
       globalTableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'globalTableName',
-      globalTableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(replicationGroup, 'replicationGroup');
@@ -915,16 +890,16 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
   /// for DynamoDB</a>.
   Future<CreateTableOutput> createTable({
-    @_s.required List<AttributeDefinition> attributeDefinitions,
-    @_s.required List<KeySchemaElement> keySchema,
-    @_s.required String tableName,
-    BillingMode billingMode,
-    List<GlobalSecondaryIndex> globalSecondaryIndexes,
-    List<LocalSecondaryIndex> localSecondaryIndexes,
-    ProvisionedThroughput provisionedThroughput,
-    SSESpecification sSESpecification,
-    StreamSpecification streamSpecification,
-    List<Tag> tags,
+    required List<AttributeDefinition> attributeDefinitions,
+    required List<KeySchemaElement> keySchema,
+    required String tableName,
+    BillingMode? billingMode,
+    List<GlobalSecondaryIndex>? globalSecondaryIndexes,
+    List<LocalSecondaryIndex>? localSecondaryIndexes,
+    ProvisionedThroughput? provisionedThroughput,
+    SSESpecification? sSESpecification,
+    StreamSpecification? streamSpecification,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(attributeDefinitions, 'attributeDefinitions');
     ArgumentError.checkNotNull(keySchema, 'keySchema');
@@ -934,12 +909,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -986,7 +955,7 @@ class DynamoDB {
   /// Parameter [backupArn] :
   /// The ARN associated with the backup.
   Future<DeleteBackupOutput> deleteBackup({
-    @_s.required String backupArn,
+    required String backupArn,
   }) async {
     ArgumentError.checkNotNull(backupArn, 'backupArn');
     _s.validateStringLength(
@@ -1190,16 +1159,16 @@ class DynamoDB {
   /// other than <code>NONE</code> or <code>ALL_OLD</code>.
   /// </note>
   Future<DeleteItemOutput> deleteItem({
-    @_s.required Map<String, AttributeValue> key,
-    @_s.required String tableName,
-    String conditionExpression,
-    ConditionalOperator conditionalOperator,
-    Map<String, ExpectedAttributeValue> expected,
-    Map<String, String> expressionAttributeNames,
-    Map<String, AttributeValue> expressionAttributeValues,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
-    ReturnValue returnValues,
+    required Map<String, AttributeValue> key,
+    required String tableName,
+    String? conditionExpression,
+    ConditionalOperator? conditionalOperator,
+    Map<String, ExpectedAttributeValue>? expected,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, AttributeValue>? expressionAttributeValues,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
+    ReturnValue? returnValues,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -1208,12 +1177,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1280,7 +1243,7 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the table to delete.
   Future<DeleteTableOutput> deleteTable({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -1288,12 +1251,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1325,7 +1282,7 @@ class DynamoDB {
   /// Parameter [backupArn] :
   /// The Amazon Resource Name (ARN) associated with the backup.
   Future<DescribeBackupOutput> describeBackup({
-    @_s.required String backupArn,
+    required String backupArn,
   }) async {
     ArgumentError.checkNotNull(backupArn, 'backupArn');
     _s.validateStringLength(
@@ -1377,7 +1334,7 @@ class DynamoDB {
   /// Name of the table for which the customer wants to check the continuous
   /// backups and point in time recovery settings.
   Future<DescribeContinuousBackupsOutput> describeContinuousBackups({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -1385,12 +1342,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1423,8 +1374,8 @@ class DynamoDB {
   /// Parameter [indexName] :
   /// The name of the global secondary index to describe, if applicable.
   Future<DescribeContributorInsightsOutput> describeContributorInsights({
-    @_s.required String tableName,
-    String indexName,
+    required String tableName,
+    String? indexName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -1434,22 +1385,11 @@ class DynamoDB {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'indexName',
       indexName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -1496,7 +1436,7 @@ class DynamoDB {
   /// Parameter [exportArn] :
   /// The Amazon Resource Name (ARN) associated with the export.
   Future<DescribeExportOutput> describeExport({
-    @_s.required String exportArn,
+    required String exportArn,
   }) async {
     ArgumentError.checkNotNull(exportArn, 'exportArn');
     _s.validateStringLength(
@@ -1541,7 +1481,7 @@ class DynamoDB {
   /// Parameter [globalTableName] :
   /// The name of the global table.
   Future<DescribeGlobalTableOutput> describeGlobalTable({
-    @_s.required String globalTableName,
+    required String globalTableName,
   }) async {
     ArgumentError.checkNotNull(globalTableName, 'globalTableName');
     _s.validateStringLength(
@@ -1549,12 +1489,6 @@ class DynamoDB {
       globalTableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'globalTableName',
-      globalTableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1588,7 +1522,7 @@ class DynamoDB {
   /// Parameter [globalTableName] :
   /// The name of the global table to describe.
   Future<DescribeGlobalTableSettingsOutput> describeGlobalTableSettings({
-    @_s.required String globalTableName,
+    required String globalTableName,
   }) async {
     ArgumentError.checkNotNull(globalTableName, 'globalTableName');
     _s.validateStringLength(
@@ -1596,12 +1530,6 @@ class DynamoDB {
       globalTableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'globalTableName',
-      globalTableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1631,7 +1559,7 @@ class DynamoDB {
   /// The name of the table being described.
   Future<DescribeKinesisStreamingDestinationOutput>
       describeKinesisStreamingDestination({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -1639,12 +1567,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1776,7 +1698,7 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the table to describe.
   Future<DescribeTableOutput> describeTable({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -1784,12 +1706,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1825,7 +1741,7 @@ class DynamoDB {
   /// The name of the table.
   Future<DescribeTableReplicaAutoScalingOutput>
       describeTableReplicaAutoScaling({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -1833,12 +1749,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1868,7 +1778,7 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the table to be described.
   Future<DescribeTimeToLiveOutput> describeTimeToLive({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -1876,12 +1786,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1916,8 +1820,8 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the DynamoDB table.
   Future<KinesisStreamingDestinationOutput> disableKinesisStreamingDestination({
-    @_s.required String streamArn,
-    @_s.required String tableName,
+    required String streamArn,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(streamArn, 'streamArn');
     _s.validateStringLength(
@@ -1933,12 +1837,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1976,8 +1874,8 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the DynamoDB table.
   Future<KinesisStreamingDestinationOutput> enableKinesisStreamingDestination({
-    @_s.required String streamArn,
-    @_s.required String tableName,
+    required String streamArn,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(streamArn, 'streamArn');
     _s.validateStringLength(
@@ -1993,12 +1891,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2047,10 +1939,10 @@ class DynamoDB {
   /// Parameter [parameters] :
   /// The parameters for the PartiQL statement, if any.
   Future<ExecuteStatementOutput> executeStatement({
-    @_s.required String statement,
-    bool consistentRead,
-    String nextToken,
-    List<AttributeValue> parameters,
+    required String statement,
+    bool? consistentRead,
+    String? nextToken,
+    List<AttributeValue>? parameters,
   }) async {
     ArgumentError.checkNotNull(statement, 'statement');
     _s.validateStringLength(
@@ -2105,8 +1997,8 @@ class DynamoDB {
   /// Set this value to get remaining results, if <code>NextToken</code> was
   /// returned in the statement response.
   Future<ExecuteTransactionOutput> executeTransaction({
-    @_s.required List<ParameterizedStatement> transactStatements,
-    String clientRequestToken,
+    required List<ParameterizedStatement> transactStatements,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(transactStatements, 'transactStatements');
     _s.validateStringLength(
@@ -2200,15 +2092,15 @@ class DynamoDB {
   /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where
   /// export data will be stored (if applicable).
   Future<ExportTableToPointInTimeOutput> exportTableToPointInTime({
-    @_s.required String s3Bucket,
-    @_s.required String tableArn,
-    String clientToken,
-    ExportFormat exportFormat,
-    DateTime exportTime,
-    String s3BucketOwner,
-    String s3Prefix,
-    S3SseAlgorithm s3SseAlgorithm,
-    String s3SseKmsKeyId,
+    required String s3Bucket,
+    required String tableArn,
+    String? clientToken,
+    ExportFormat? exportFormat,
+    DateTime? exportTime,
+    String? s3BucketOwner,
+    String? s3Prefix,
+    S3SseAlgorithm? s3SseAlgorithm,
+    String? s3SseKmsKeyId,
   }) async {
     ArgumentError.checkNotNull(s3Bucket, 's3Bucket');
     ArgumentError.checkNotNull(tableArn, 'tableArn');
@@ -2349,13 +2241,13 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Specifying
   /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   Future<GetItemOutput> getItem({
-    @_s.required Map<String, AttributeValue> key,
-    @_s.required String tableName,
-    List<String> attributesToGet,
-    bool consistentRead,
-    Map<String, String> expressionAttributeNames,
-    String projectionExpression,
-    ReturnConsumedCapacity returnConsumedCapacity,
+    required Map<String, AttributeValue> key,
+    required String tableName,
+    List<String>? attributesToGet,
+    bool? consistentRead,
+    Map<String, String>? expressionAttributeNames,
+    String? projectionExpression,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -2364,12 +2256,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2451,12 +2337,12 @@ class DynamoDB {
   /// Only backups created before this time are listed.
   /// <code>TimeRangeUpperBound</code> is exclusive.
   Future<ListBackupsOutput> listBackups({
-    BackupTypeFilter backupType,
-    String exclusiveStartBackupArn,
-    int limit,
-    String tableName,
-    DateTime timeRangeLowerBound,
-    DateTime timeRangeUpperBound,
+    BackupTypeFilter? backupType,
+    String? exclusiveStartBackupArn,
+    int? limit,
+    String? tableName,
+    DateTime? timeRangeLowerBound,
+    DateTime? timeRangeUpperBound,
   }) async {
     _s.validateStringLength(
       'exclusiveStartBackupArn',
@@ -2475,11 +2361,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2522,9 +2403,9 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the table.
   Future<ListContributorInsightsOutput> listContributorInsights({
-    int maxResults,
-    String nextToken,
-    String tableName,
+    int? maxResults,
+    String? nextToken,
+    String? tableName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2537,11 +2418,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -2579,9 +2455,9 @@ class DynamoDB {
   /// Parameter [tableArn] :
   /// The Amazon Resource Name (ARN) associated with the exported table.
   Future<ListExportsOutput> listExports({
-    int maxResults,
-    String nextToken,
-    String tableArn,
+    int? maxResults,
+    String? nextToken,
+    String? tableArn,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2634,20 +2510,15 @@ class DynamoDB {
   /// Parameter [regionName] :
   /// Lists the global tables in a specific Region.
   Future<ListGlobalTablesOutput> listGlobalTables({
-    String exclusiveStartGlobalTableName,
-    int limit,
-    String regionName,
+    String? exclusiveStartGlobalTableName,
+    int? limit,
+    String? regionName,
   }) async {
     _s.validateStringLength(
       'exclusiveStartGlobalTableName',
       exclusiveStartGlobalTableName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartGlobalTableName',
-      exclusiveStartGlobalTableName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -2691,19 +2562,14 @@ class DynamoDB {
   /// A maximum number of table names to return. If this parameter is not
   /// specified, the limit is 100.
   Future<ListTablesOutput> listTables({
-    String exclusiveStartTableName,
-    int limit,
+    String? exclusiveStartTableName,
+    int? limit,
   }) async {
     _s.validateStringLength(
       'exclusiveStartTableName',
       exclusiveStartTableName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartTableName',
-      exclusiveStartTableName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -2750,8 +2616,8 @@ class DynamoDB {
   /// previous call to ListTagOfResource. When provided in this manner, this API
   /// fetches the next page of results.
   Future<ListTagsOfResourceOutput> listTagsOfResource({
-    @_s.required String resourceArn,
-    String nextToken,
+    required String resourceArn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3040,16 +2906,16 @@ class DynamoDB {
   /// other than <code>NONE</code> or <code>ALL_OLD</code>.
   /// </note>
   Future<PutItemOutput> putItem({
-    @_s.required Map<String, AttributeValue> item,
-    @_s.required String tableName,
-    String conditionExpression,
-    ConditionalOperator conditionalOperator,
-    Map<String, ExpectedAttributeValue> expected,
-    Map<String, String> expressionAttributeNames,
-    Map<String, AttributeValue> expressionAttributeValues,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
-    ReturnValue returnValues,
+    required Map<String, AttributeValue> item,
+    required String tableName,
+    String? conditionExpression,
+    ConditionalOperator? conditionalOperator,
+    Map<String, ExpectedAttributeValue>? expected,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, AttributeValue>? expressionAttributeValues,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
+    ReturnValue? returnValues,
   }) async {
     ArgumentError.checkNotNull(item, 'item');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -3058,12 +2924,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3507,23 +3367,23 @@ class DynamoDB {
   /// other value for <code>Select</code> will return an error.
   /// </note>
   Future<QueryOutput> query({
-    @_s.required String tableName,
-    List<String> attributesToGet,
-    ConditionalOperator conditionalOperator,
-    bool consistentRead,
-    Map<String, AttributeValue> exclusiveStartKey,
-    Map<String, String> expressionAttributeNames,
-    Map<String, AttributeValue> expressionAttributeValues,
-    String filterExpression,
-    String indexName,
-    String keyConditionExpression,
-    Map<String, Condition> keyConditions,
-    int limit,
-    String projectionExpression,
-    Map<String, Condition> queryFilter,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    bool scanIndexForward,
-    Select select,
+    required String tableName,
+    List<String>? attributesToGet,
+    ConditionalOperator? conditionalOperator,
+    bool? consistentRead,
+    Map<String, AttributeValue>? exclusiveStartKey,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, AttributeValue>? expressionAttributeValues,
+    String? filterExpression,
+    String? indexName,
+    String? keyConditionExpression,
+    Map<String, Condition>? keyConditions,
+    int? limit,
+    String? projectionExpression,
+    Map<String, Condition>? queryFilter,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    bool? scanIndexForward,
+    Select? select,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -3533,22 +3393,11 @@ class DynamoDB {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'indexName',
       indexName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -3658,13 +3507,13 @@ class DynamoDB {
   /// Parameter [sSESpecificationOverride] :
   /// The new server-side encryption settings for the restored table.
   Future<RestoreTableFromBackupOutput> restoreTableFromBackup({
-    @_s.required String backupArn,
-    @_s.required String targetTableName,
-    BillingMode billingModeOverride,
-    List<GlobalSecondaryIndex> globalSecondaryIndexOverride,
-    List<LocalSecondaryIndex> localSecondaryIndexOverride,
-    ProvisionedThroughput provisionedThroughputOverride,
-    SSESpecification sSESpecificationOverride,
+    required String backupArn,
+    required String targetTableName,
+    BillingMode? billingModeOverride,
+    List<GlobalSecondaryIndex>? globalSecondaryIndexOverride,
+    List<LocalSecondaryIndex>? localSecondaryIndexOverride,
+    ProvisionedThroughput? provisionedThroughputOverride,
+    SSESpecification? sSESpecificationOverride,
   }) async {
     ArgumentError.checkNotNull(backupArn, 'backupArn');
     _s.validateStringLength(
@@ -3680,12 +3529,6 @@ class DynamoDB {
       targetTableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'targetTableName',
-      targetTableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3818,16 +3661,16 @@ class DynamoDB {
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
   /// current time.
   Future<RestoreTableToPointInTimeOutput> restoreTableToPointInTime({
-    @_s.required String targetTableName,
-    BillingMode billingModeOverride,
-    List<GlobalSecondaryIndex> globalSecondaryIndexOverride,
-    List<LocalSecondaryIndex> localSecondaryIndexOverride,
-    ProvisionedThroughput provisionedThroughputOverride,
-    DateTime restoreDateTime,
-    SSESpecification sSESpecificationOverride,
-    String sourceTableArn,
-    String sourceTableName,
-    bool useLatestRestorableTime,
+    required String targetTableName,
+    BillingMode? billingModeOverride,
+    List<GlobalSecondaryIndex>? globalSecondaryIndexOverride,
+    List<LocalSecondaryIndex>? localSecondaryIndexOverride,
+    ProvisionedThroughput? provisionedThroughputOverride,
+    DateTime? restoreDateTime,
+    SSESpecification? sSESpecificationOverride,
+    String? sourceTableArn,
+    String? sourceTableName,
+    bool? useLatestRestorableTime,
   }) async {
     ArgumentError.checkNotNull(targetTableName, 'targetTableName');
     _s.validateStringLength(
@@ -3837,22 +3680,11 @@ class DynamoDB {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'targetTableName',
-      targetTableName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'sourceTableName',
       sourceTableName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'sourceTableName',
-      sourceTableName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4204,22 +4036,22 @@ class DynamoDB {
   /// If you specify <code>TotalSegments</code>, you must also specify
   /// <code>Segment</code>.
   Future<ScanOutput> scan({
-    @_s.required String tableName,
-    List<String> attributesToGet,
-    ConditionalOperator conditionalOperator,
-    bool consistentRead,
-    Map<String, AttributeValue> exclusiveStartKey,
-    Map<String, String> expressionAttributeNames,
-    Map<String, AttributeValue> expressionAttributeValues,
-    String filterExpression,
-    String indexName,
-    int limit,
-    String projectionExpression,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    Map<String, Condition> scanFilter,
-    int segment,
-    Select select,
-    int totalSegments,
+    required String tableName,
+    List<String>? attributesToGet,
+    ConditionalOperator? conditionalOperator,
+    bool? consistentRead,
+    Map<String, AttributeValue>? exclusiveStartKey,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, AttributeValue>? expressionAttributeValues,
+    String? filterExpression,
+    String? indexName,
+    int? limit,
+    String? projectionExpression,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    Map<String, Condition>? scanFilter,
+    int? segment,
+    Select? select,
+    int? totalSegments,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -4229,22 +4061,11 @@ class DynamoDB {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'indexName',
       indexName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -4323,8 +4144,8 @@ class DynamoDB {
   /// Parameter [tags] :
   /// The tags to be assigned to the Amazon DynamoDB resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -4339,7 +4160,7 @@ class DynamoDB {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4396,8 +4217,8 @@ class DynamoDB {
   /// returned, and a value of <code>NONE</code> prevents that information from
   /// being returned. No other value is valid.
   Future<TransactGetItemsOutput> transactGetItems({
-    @_s.required List<TransactGetItem> transactItems,
-    ReturnConsumedCapacity returnConsumedCapacity,
+    required List<TransactGetItem> transactItems,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     ArgumentError.checkNotNull(transactItems, 'transactItems');
     final headers = <String, String>{
@@ -4538,10 +4359,10 @@ class DynamoDB {
   /// response. If set to <code>NONE</code> (the default), no statistics are
   /// returned.
   Future<TransactWriteItemsOutput> transactWriteItems({
-    @_s.required List<TransactWriteItem> transactItems,
-    String clientRequestToken,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+    required List<TransactWriteItem> transactItems,
+    String? clientRequestToken,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
   }) async {
     ArgumentError.checkNotNull(transactItems, 'transactItems');
     _s.validateStringLength(
@@ -4594,8 +4415,8 @@ class DynamoDB {
   /// A list of tag keys. Existing tags of the resource whose keys are members
   /// of this list will be removed from the DynamoDB resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -4610,7 +4431,7 @@ class DynamoDB {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'DynamoDB_20120810.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4650,9 +4471,8 @@ class DynamoDB {
   /// Parameter [tableName] :
   /// The name of the table.
   Future<UpdateContinuousBackupsOutput> updateContinuousBackups({
-    @_s.required
-        PointInTimeRecoverySpecification pointInTimeRecoverySpecification,
-    @_s.required String tableName,
+    required PointInTimeRecoverySpecification pointInTimeRecoverySpecification,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(
         pointInTimeRecoverySpecification, 'pointInTimeRecoverySpecification');
@@ -4662,12 +4482,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4703,9 +4517,9 @@ class DynamoDB {
   /// Parameter [indexName] :
   /// The global secondary index name, if applicable.
   Future<UpdateContributorInsightsOutput> updateContributorInsights({
-    @_s.required ContributorInsightsAction contributorInsightsAction,
-    @_s.required String tableName,
-    String indexName,
+    required ContributorInsightsAction contributorInsightsAction,
+    required String tableName,
+    String? indexName,
   }) async {
     ArgumentError.checkNotNull(
         contributorInsightsAction, 'contributorInsightsAction');
@@ -4717,22 +4531,11 @@ class DynamoDB {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'indexName',
       indexName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -4745,7 +4548,7 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ContributorInsightsAction': contributorInsightsAction?.toValue() ?? '',
+        'ContributorInsightsAction': contributorInsightsAction.toValue(),
         'TableName': tableName,
         if (indexName != null) 'IndexName': indexName,
       },
@@ -4793,8 +4596,8 @@ class DynamoDB {
   /// Parameter [replicaUpdates] :
   /// A list of Regions that should be added or removed from the global table.
   Future<UpdateGlobalTableOutput> updateGlobalTable({
-    @_s.required String globalTableName,
-    @_s.required List<ReplicaUpdate> replicaUpdates,
+    required String globalTableName,
+    required List<ReplicaUpdate> replicaUpdates,
   }) async {
     ArgumentError.checkNotNull(globalTableName, 'globalTableName');
     _s.validateStringLength(
@@ -4802,12 +4605,6 @@ class DynamoDB {
       globalTableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'globalTableName',
-      globalTableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(replicaUpdates, 'replicaUpdates');
@@ -4880,14 +4677,14 @@ class DynamoDB {
   /// Represents the settings for a global table in a Region that will be
   /// modified.
   Future<UpdateGlobalTableSettingsOutput> updateGlobalTableSettings({
-    @_s.required String globalTableName,
-    BillingMode globalTableBillingMode,
-    List<GlobalTableGlobalSecondaryIndexSettingsUpdate>
+    required String globalTableName,
+    BillingMode? globalTableBillingMode,
+    List<GlobalTableGlobalSecondaryIndexSettingsUpdate>?
         globalTableGlobalSecondaryIndexSettingsUpdate,
-    AutoScalingSettingsUpdate
+    AutoScalingSettingsUpdate?
         globalTableProvisionedWriteCapacityAutoScalingSettingsUpdate,
-    int globalTableProvisionedWriteCapacityUnits,
-    List<ReplicaSettingsUpdate> replicaSettingsUpdate,
+    int? globalTableProvisionedWriteCapacityUnits,
+    List<ReplicaSettingsUpdate>? replicaSettingsUpdate,
   }) async {
     ArgumentError.checkNotNull(globalTableName, 'globalTableName');
     _s.validateStringLength(
@@ -4895,12 +4692,6 @@ class DynamoDB {
       globalTableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'globalTableName',
-      globalTableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5234,18 +5025,18 @@ class DynamoDB {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.Modifying.html">Modifying
   /// Items and Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
   Future<UpdateItemOutput> updateItem({
-    @_s.required Map<String, AttributeValue> key,
-    @_s.required String tableName,
-    Map<String, AttributeValueUpdate> attributeUpdates,
-    String conditionExpression,
-    ConditionalOperator conditionalOperator,
-    Map<String, ExpectedAttributeValue> expected,
-    Map<String, String> expressionAttributeNames,
-    Map<String, AttributeValue> expressionAttributeValues,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
-    ReturnValue returnValues,
-    String updateExpression,
+    required Map<String, AttributeValue> key,
+    required String tableName,
+    Map<String, AttributeValueUpdate>? attributeUpdates,
+    String? conditionExpression,
+    ConditionalOperator? conditionalOperator,
+    Map<String, ExpectedAttributeValue>? expected,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, AttributeValue>? expressionAttributeValues,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
+    ReturnValue? returnValues,
+    String? updateExpression,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -5254,12 +5045,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5411,14 +5196,14 @@ class DynamoDB {
   /// stream on a table that doesn't have a stream.
   /// </note>
   Future<UpdateTableOutput> updateTable({
-    @_s.required String tableName,
-    List<AttributeDefinition> attributeDefinitions,
-    BillingMode billingMode,
-    List<GlobalSecondaryIndexUpdate> globalSecondaryIndexUpdates,
-    ProvisionedThroughput provisionedThroughput,
-    List<ReplicationGroupUpdate> replicaUpdates,
-    SSESpecification sSESpecification,
-    StreamSpecification streamSpecification,
+    required String tableName,
+    List<AttributeDefinition>? attributeDefinitions,
+    BillingMode? billingMode,
+    List<GlobalSecondaryIndexUpdate>? globalSecondaryIndexUpdates,
+    ProvisionedThroughput? provisionedThroughput,
+    List<ReplicationGroupUpdate>? replicaUpdates,
+    SSESpecification? sSESpecification,
+    StreamSpecification? streamSpecification,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -5426,12 +5211,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5486,10 +5265,10 @@ class DynamoDB {
   /// Represents the auto scaling settings of replicas of the table that will be
   /// modified.
   Future<UpdateTableReplicaAutoScalingOutput> updateTableReplicaAutoScaling({
-    @_s.required String tableName,
-    List<GlobalSecondaryIndexAutoScalingUpdate> globalSecondaryIndexUpdates,
-    AutoScalingSettingsUpdate provisionedWriteCapacityAutoScalingUpdate,
-    List<ReplicaAutoScalingUpdate> replicaUpdates,
+    required String tableName,
+    List<GlobalSecondaryIndexAutoScalingUpdate>? globalSecondaryIndexUpdates,
+    AutoScalingSettingsUpdate? provisionedWriteCapacityAutoScalingUpdate,
+    List<ReplicaAutoScalingUpdate>? replicaUpdates,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -5497,12 +5276,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5572,8 +5345,8 @@ class DynamoDB {
   /// Represents the settings used to enable or disable Time to Live for the
   /// specified table.
   Future<UpdateTimeToLiveOutput> updateTimeToLive({
-    @_s.required String tableName,
-    @_s.required TimeToLiveSpecification timeToLiveSpecification,
+    required String tableName,
+    required TimeToLiveSpecification timeToLiveSpecification,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -5581,12 +5354,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -5612,23 +5379,15 @@ class DynamoDB {
 }
 
 /// Contains details of a table archival operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArchivalSummary {
   /// The Amazon Resource Name (ARN) of the backup the table was archived to, when
   /// applicable in the archival reason. If you wish to restore this backup to the
   /// same table name, you will need to delete the original table.
-  @_s.JsonKey(name: 'ArchivalBackupArn')
-  final String archivalBackupArn;
+  final String? archivalBackupArn;
 
   /// The date and time when table archival was initiated by DynamoDB, in UNIX
   /// epoch time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ArchivalDateTime')
-  final DateTime archivalDateTime;
+  final DateTime? archivalDateTime;
 
   /// The reason DynamoDB archived the table. Currently, the only possible value
   /// is:
@@ -5640,37 +5399,72 @@ class ArchivalSummary {
   /// An On-Demand backup was created at the archival time.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ArchivalReason')
-  final String archivalReason;
+  final String? archivalReason;
 
   ArchivalSummary({
     this.archivalBackupArn,
     this.archivalDateTime,
     this.archivalReason,
   });
-  factory ArchivalSummary.fromJson(Map<String, dynamic> json) =>
-      _$ArchivalSummaryFromJson(json);
+
+  factory ArchivalSummary.fromJson(Map<String, dynamic> json) {
+    return ArchivalSummary(
+      archivalBackupArn: json['ArchivalBackupArn'] as String?,
+      archivalDateTime: timeStampFromJson(json['ArchivalDateTime']),
+      archivalReason: json['ArchivalReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final archivalBackupArn = this.archivalBackupArn;
+    final archivalDateTime = this.archivalDateTime;
+    final archivalReason = this.archivalReason;
+    return {
+      if (archivalBackupArn != null) 'ArchivalBackupArn': archivalBackupArn,
+      if (archivalDateTime != null)
+        'ArchivalDateTime': unixTimestampToJson(archivalDateTime),
+      if (archivalReason != null) 'ArchivalReason': archivalReason,
+    };
+  }
 }
 
 enum AttributeAction {
-  @_s.JsonValue('ADD')
   add,
-  @_s.JsonValue('PUT')
   put,
-  @_s.JsonValue('DELETE')
   delete,
+}
+
+extension on AttributeAction {
+  String toValue() {
+    switch (this) {
+      case AttributeAction.add:
+        return 'ADD';
+      case AttributeAction.put:
+        return 'PUT';
+      case AttributeAction.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  AttributeAction toAttributeAction() {
+    switch (this) {
+      case 'ADD':
+        return AttributeAction.add;
+      case 'PUT':
+        return AttributeAction.put;
+      case 'DELETE':
+        return AttributeAction.delete;
+    }
+    throw Exception('$this is not known in enum AttributeAction');
+  }
 }
 
 /// Represents an attribute for describing the key schema for the table and
 /// indexes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributeDefinition {
   /// A name for the attribute.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// The data type for the attribute, where:
@@ -5686,17 +5480,28 @@ class AttributeDefinition {
   /// <code>B</code> - the attribute is of type Binary
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'AttributeType')
   final ScalarAttributeType attributeType;
 
   AttributeDefinition({
-    @_s.required this.attributeName,
-    @_s.required this.attributeType,
+    required this.attributeName,
+    required this.attributeType,
   });
-  factory AttributeDefinition.fromJson(Map<String, dynamic> json) =>
-      _$AttributeDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AttributeDefinitionToJson(this);
+  factory AttributeDefinition.fromJson(Map<String, dynamic> json) {
+    return AttributeDefinition(
+      attributeName: json['AttributeName'] as String,
+      attributeType: (json['AttributeType'] as String).toScalarAttributeType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeType = this.attributeType;
+    return {
+      'AttributeName': attributeName,
+      'AttributeType': attributeType.toValue(),
+    };
+  }
 }
 
 /// Represents the data for an attribute.
@@ -5707,43 +5512,31 @@ class AttributeDefinition {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
 /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributeValue {
   /// An attribute of type Binary. For example:
   ///
   /// <code>"B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"</code>
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'B')
-  final Uint8List b;
+  final Uint8List? b;
 
   /// An attribute of type Boolean. For example:
   ///
   /// <code>"BOOL": true</code>
-  @_s.JsonKey(name: 'BOOL')
-  final bool boolValue;
+  final bool? boolValue;
 
   /// An attribute of type Binary Set. For example:
   ///
   /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
-  @Uint8ListListConverter()
-  @_s.JsonKey(name: 'BS')
-  final List<Uint8List> bs;
+  final List<Uint8List>? bs;
 
   /// An attribute of type List. For example:
   ///
   /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code>
-  @_s.JsonKey(name: 'L')
-  final List<AttributeValue> l;
+  final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:
   ///
   /// <code>"M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}</code>
-  @_s.JsonKey(name: 'M')
-  final Map<String, AttributeValue> m;
+  final Map<String, AttributeValue>? m;
 
   /// An attribute of type Number. For example:
   ///
@@ -5752,8 +5545,7 @@ class AttributeValue {
   /// Numbers are sent across the network to DynamoDB as strings, to maximize
   /// compatibility across languages and libraries. However, DynamoDB treats them
   /// as number type attributes for mathematical operations.
-  @_s.JsonKey(name: 'N')
-  final String n;
+  final String? n;
 
   /// An attribute of type Number Set. For example:
   ///
@@ -5762,26 +5554,22 @@ class AttributeValue {
   /// Numbers are sent across the network to DynamoDB as strings, to maximize
   /// compatibility across languages and libraries. However, DynamoDB treats them
   /// as number type attributes for mathematical operations.
-  @_s.JsonKey(name: 'NS')
-  final List<String> ns;
+  final List<String>? ns;
 
   /// An attribute of type Null. For example:
   ///
   /// <code>"NULL": true</code>
-  @_s.JsonKey(name: 'NULL')
-  final bool nullValue;
+  final bool? nullValue;
 
   /// An attribute of type String. For example:
   ///
   /// <code>"S": "Hello"</code>
-  @_s.JsonKey(name: 'S')
-  final String s;
+  final String? s;
 
   /// An attribute of type String Set. For example:
   ///
   /// <code>"SS": ["Giraffe", "Hippo" ,"Zebra"]</code>
-  @_s.JsonKey(name: 'SS')
-  final List<String> ss;
+  final List<String>? ss;
 
   AttributeValue({
     this.b,
@@ -5795,10 +5583,59 @@ class AttributeValue {
     this.s,
     this.ss,
   });
-  factory AttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$AttributeValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AttributeValueToJson(this);
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      b: _s.decodeNullableUint8List(json['B'] as String?),
+      boolValue: json['BOOL'] as bool?,
+      bs: (json['BS'] as List?)
+          ?.whereNotNull()
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+      l: (json['L'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      m: (json['M'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      n: json['N'] as String?,
+      ns: (json['NS'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nullValue: json['NULL'] as bool?,
+      s: json['S'] as String?,
+      ss: (json['SS'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final b = this.b;
+    final boolValue = this.boolValue;
+    final bs = this.bs;
+    final l = this.l;
+    final m = this.m;
+    final n = this.n;
+    final ns = this.ns;
+    final nullValue = this.nullValue;
+    final s = this.s;
+    final ss = this.ss;
+    return {
+      if (b != null) 'B': base64Encode(b),
+      if (boolValue != null) 'BOOL': boolValue,
+      if (bs != null) 'BS': bs.map(base64Encode).toList(),
+      if (l != null) 'L': l,
+      if (m != null) 'M': m,
+      if (n != null) 'N': n,
+      if (ns != null) 'NS': ns,
+      if (nullValue != null) 'NULL': nullValue,
+      if (s != null) 'S': s,
+      if (ss != null) 'SS': ss,
+    };
+  }
 }
 
 /// For the <code>UpdateItem</code> operation, represents the attributes to be
@@ -5812,11 +5649,6 @@ class AttributeValue {
 /// lengths greater than zero; and set type attributes must not be empty.
 /// Requests with empty values will be rejected with a
 /// <code>ValidationException</code> exception.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AttributeValueUpdate {
   /// Specifies how to perform the update. Valid values are <code>PUT</code>
   /// (default), <code>DELETE</code>, and <code>ADD</code>. The behavior depends
@@ -5903,8 +5735,7 @@ class AttributeValueUpdate {
   /// allowed are number and number set; no other data types can be specified.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Action')
-  final AttributeAction action;
+  final AttributeAction? action;
 
   /// Represents the data for an attribute.
   ///
@@ -5914,92 +5745,126 @@ class AttributeValueUpdate {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
   /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'Value')
-  final AttributeValue value;
+  final AttributeValue? value;
 
   AttributeValueUpdate({
     this.action,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$AttributeValueUpdateToJson(this);
+
+  factory AttributeValueUpdate.fromJson(Map<String, dynamic> json) {
+    return AttributeValueUpdate(
+      action: (json['Action'] as String?)?.toAttributeAction(),
+      value: json['Value'] != null
+          ? AttributeValue.fromJson(json['Value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final value = this.value;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Represents the properties of the scaling policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingPolicyDescription {
   /// The name of the scaling policy.
-  @_s.JsonKey(name: 'PolicyName')
-  final String policyName;
+  final String? policyName;
 
   /// Represents a target tracking scaling policy configuration.
-  @_s.JsonKey(name: 'TargetTrackingScalingPolicyConfiguration')
-  final AutoScalingTargetTrackingScalingPolicyConfigurationDescription
+  final AutoScalingTargetTrackingScalingPolicyConfigurationDescription?
       targetTrackingScalingPolicyConfiguration;
 
   AutoScalingPolicyDescription({
     this.policyName,
     this.targetTrackingScalingPolicyConfiguration,
   });
-  factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingPolicyDescriptionFromJson(json);
+
+  factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return AutoScalingPolicyDescription(
+      policyName: json['PolicyName'] as String?,
+      targetTrackingScalingPolicyConfiguration:
+          json['TargetTrackingScalingPolicyConfiguration'] != null
+              ? AutoScalingTargetTrackingScalingPolicyConfigurationDescription
+                  .fromJson(json['TargetTrackingScalingPolicyConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyName = this.policyName;
+    final targetTrackingScalingPolicyConfiguration =
+        this.targetTrackingScalingPolicyConfiguration;
+    return {
+      if (policyName != null) 'PolicyName': policyName,
+      if (targetTrackingScalingPolicyConfiguration != null)
+        'TargetTrackingScalingPolicyConfiguration':
+            targetTrackingScalingPolicyConfiguration,
+    };
+  }
 }
 
 /// Represents the auto scaling policy to be modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AutoScalingPolicyUpdate {
   /// Represents a target tracking scaling policy configuration.
-  @_s.JsonKey(name: 'TargetTrackingScalingPolicyConfiguration')
   final AutoScalingTargetTrackingScalingPolicyConfigurationUpdate
       targetTrackingScalingPolicyConfiguration;
 
   /// The name of the scaling policy.
-  @_s.JsonKey(name: 'PolicyName')
-  final String policyName;
+  final String? policyName;
 
   AutoScalingPolicyUpdate({
-    @_s.required this.targetTrackingScalingPolicyConfiguration,
+    required this.targetTrackingScalingPolicyConfiguration,
     this.policyName,
   });
-  Map<String, dynamic> toJson() => _$AutoScalingPolicyUpdateToJson(this);
+
+  factory AutoScalingPolicyUpdate.fromJson(Map<String, dynamic> json) {
+    return AutoScalingPolicyUpdate(
+      targetTrackingScalingPolicyConfiguration:
+          AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.fromJson(
+              json['TargetTrackingScalingPolicyConfiguration']
+                  as Map<String, dynamic>),
+      policyName: json['PolicyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetTrackingScalingPolicyConfiguration =
+        this.targetTrackingScalingPolicyConfiguration;
+    final policyName = this.policyName;
+    return {
+      'TargetTrackingScalingPolicyConfiguration':
+          targetTrackingScalingPolicyConfiguration,
+      if (policyName != null) 'PolicyName': policyName,
+    };
+  }
 }
 
 /// Represents the auto scaling settings for a global table or global secondary
 /// index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingSettingsDescription {
   /// Disabled auto scaling for this global table or global secondary index.
-  @_s.JsonKey(name: 'AutoScalingDisabled')
-  final bool autoScalingDisabled;
+  final bool? autoScalingDisabled;
 
   /// Role ARN used for configuring the auto scaling policy.
-  @_s.JsonKey(name: 'AutoScalingRoleArn')
-  final String autoScalingRoleArn;
+  final String? autoScalingRoleArn;
 
   /// The maximum capacity units that a global table or global secondary index
   /// should be scaled up to.
-  @_s.JsonKey(name: 'MaximumUnits')
-  final int maximumUnits;
+  final int? maximumUnits;
 
   /// The minimum capacity units that a global table or global secondary index
   /// should be scaled down to.
-  @_s.JsonKey(name: 'MinimumUnits')
-  final int minimumUnits;
+  final int? minimumUnits;
 
   /// Information about the scaling policies.
-  @_s.JsonKey(name: 'ScalingPolicies')
-  final List<AutoScalingPolicyDescription> scalingPolicies;
+  final List<AutoScalingPolicyDescription>? scalingPolicies;
 
   AutoScalingSettingsDescription({
     this.autoScalingDisabled,
@@ -6008,40 +5873,58 @@ class AutoScalingSettingsDescription {
     this.minimumUnits,
     this.scalingPolicies,
   });
-  factory AutoScalingSettingsDescription.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingSettingsDescriptionFromJson(json);
+
+  factory AutoScalingSettingsDescription.fromJson(Map<String, dynamic> json) {
+    return AutoScalingSettingsDescription(
+      autoScalingDisabled: json['AutoScalingDisabled'] as bool?,
+      autoScalingRoleArn: json['AutoScalingRoleArn'] as String?,
+      maximumUnits: json['MaximumUnits'] as int?,
+      minimumUnits: json['MinimumUnits'] as int?,
+      scalingPolicies: (json['ScalingPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AutoScalingPolicyDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingDisabled = this.autoScalingDisabled;
+    final autoScalingRoleArn = this.autoScalingRoleArn;
+    final maximumUnits = this.maximumUnits;
+    final minimumUnits = this.minimumUnits;
+    final scalingPolicies = this.scalingPolicies;
+    return {
+      if (autoScalingDisabled != null)
+        'AutoScalingDisabled': autoScalingDisabled,
+      if (autoScalingRoleArn != null) 'AutoScalingRoleArn': autoScalingRoleArn,
+      if (maximumUnits != null) 'MaximumUnits': maximumUnits,
+      if (minimumUnits != null) 'MinimumUnits': minimumUnits,
+      if (scalingPolicies != null) 'ScalingPolicies': scalingPolicies,
+    };
+  }
 }
 
 /// Represents the auto scaling settings to be modified for a global table or
 /// global secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AutoScalingSettingsUpdate {
   /// Disabled auto scaling for this global table or global secondary index.
-  @_s.JsonKey(name: 'AutoScalingDisabled')
-  final bool autoScalingDisabled;
+  final bool? autoScalingDisabled;
 
   /// Role ARN used for configuring auto scaling policy.
-  @_s.JsonKey(name: 'AutoScalingRoleArn')
-  final String autoScalingRoleArn;
+  final String? autoScalingRoleArn;
 
   /// The maximum capacity units that a global table or global secondary index
   /// should be scaled up to.
-  @_s.JsonKey(name: 'MaximumUnits')
-  final int maximumUnits;
+  final int? maximumUnits;
 
   /// The minimum capacity units that a global table or global secondary index
   /// should be scaled down to.
-  @_s.JsonKey(name: 'MinimumUnits')
-  final int minimumUnits;
+  final int? minimumUnits;
 
   /// The scaling policy to apply for scaling target global table or global
   /// secondary index capacity units.
-  @_s.JsonKey(name: 'ScalingPolicyUpdate')
-  final AutoScalingPolicyUpdate scalingPolicyUpdate;
+  final AutoScalingPolicyUpdate? scalingPolicyUpdate;
 
   AutoScalingSettingsUpdate({
     this.autoScalingDisabled,
@@ -6050,19 +5933,42 @@ class AutoScalingSettingsUpdate {
     this.minimumUnits,
     this.scalingPolicyUpdate,
   });
-  Map<String, dynamic> toJson() => _$AutoScalingSettingsUpdateToJson(this);
+
+  factory AutoScalingSettingsUpdate.fromJson(Map<String, dynamic> json) {
+    return AutoScalingSettingsUpdate(
+      autoScalingDisabled: json['AutoScalingDisabled'] as bool?,
+      autoScalingRoleArn: json['AutoScalingRoleArn'] as String?,
+      maximumUnits: json['MaximumUnits'] as int?,
+      minimumUnits: json['MinimumUnits'] as int?,
+      scalingPolicyUpdate: json['ScalingPolicyUpdate'] != null
+          ? AutoScalingPolicyUpdate.fromJson(
+              json['ScalingPolicyUpdate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingDisabled = this.autoScalingDisabled;
+    final autoScalingRoleArn = this.autoScalingRoleArn;
+    final maximumUnits = this.maximumUnits;
+    final minimumUnits = this.minimumUnits;
+    final scalingPolicyUpdate = this.scalingPolicyUpdate;
+    return {
+      if (autoScalingDisabled != null)
+        'AutoScalingDisabled': autoScalingDisabled,
+      if (autoScalingRoleArn != null) 'AutoScalingRoleArn': autoScalingRoleArn,
+      if (maximumUnits != null) 'MaximumUnits': maximumUnits,
+      if (minimumUnits != null) 'MinimumUnits': minimumUnits,
+      if (scalingPolicyUpdate != null)
+        'ScalingPolicyUpdate': scalingPolicyUpdate,
+    };
+  }
 }
 
 /// Represents the properties of a target tracking scaling policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
   /// (Base 10) or 2e-360 to 2e360 (Base 2).
-  @_s.JsonKey(name: 'TargetValue')
   final double targetValue;
 
   /// Indicates whether scale in by the target tracking policy is disabled. If the
@@ -6070,8 +5976,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   /// remove capacity from the scalable resource. Otherwise, scale in is enabled
   /// and the target tracking policy can remove capacity from the scalable
   /// resource. The default value is false.
-  @_s.JsonKey(name: 'DisableScaleIn')
-  final bool disableScaleIn;
+  final bool? disableScaleIn;
 
   /// The amount of time, in seconds, after a scale in activity completes before
   /// another scale in activity can start. The cooldown period is used to block
@@ -6080,8 +5985,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   /// another alarm triggers a scale out policy during the cooldown period after a
   /// scale-in, application auto scaling scales out your scalable target
   /// immediately.
-  @_s.JsonKey(name: 'ScaleInCooldown')
-  final int scaleInCooldown;
+  final int? scaleInCooldown;
 
   /// The amount of time, in seconds, after a scale out activity completes before
   /// another scale out activity can start. While the cooldown period is in
@@ -6089,32 +5993,44 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
   /// that initiated the cooldown is calculated as part of the desired capacity
   /// for the next scale out. You should continuously (but not excessively) scale
   /// out.
-  @_s.JsonKey(name: 'ScaleOutCooldown')
-  final int scaleOutCooldown;
+  final int? scaleOutCooldown;
 
   AutoScalingTargetTrackingScalingPolicyConfigurationDescription({
-    @_s.required this.targetValue,
+    required this.targetValue,
     this.disableScaleIn,
     this.scaleInCooldown,
     this.scaleOutCooldown,
   });
+
   factory AutoScalingTargetTrackingScalingPolicyConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$AutoScalingTargetTrackingScalingPolicyConfigurationDescriptionFromJson(
-          json);
+      Map<String, dynamic> json) {
+    return AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
+      targetValue: json['TargetValue'] as double,
+      disableScaleIn: json['DisableScaleIn'] as bool?,
+      scaleInCooldown: json['ScaleInCooldown'] as int?,
+      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final disableScaleIn = this.disableScaleIn;
+    final scaleInCooldown = this.scaleInCooldown;
+    final scaleOutCooldown = this.scaleOutCooldown;
+    return {
+      'TargetValue': targetValue,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
+      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
+    };
+  }
 }
 
 /// Represents the settings of a target tracking scaling policy that will be
 /// modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
   /// The target value for the metric. The range is 8.515920e-109 to 1.174271e+108
   /// (Base 10) or 2e-360 to 2e360 (Base 2).
-  @_s.JsonKey(name: 'TargetValue')
   final double targetValue;
 
   /// Indicates whether scale in by the target tracking policy is disabled. If the
@@ -6122,8 +6038,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
   /// remove capacity from the scalable resource. Otherwise, scale in is enabled
   /// and the target tracking policy can remove capacity from the scalable
   /// resource. The default value is false.
-  @_s.JsonKey(name: 'DisableScaleIn')
-  final bool disableScaleIn;
+  final bool? disableScaleIn;
 
   /// The amount of time, in seconds, after a scale in activity completes before
   /// another scale in activity can start. The cooldown period is used to block
@@ -6132,8 +6047,7 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
   /// another alarm triggers a scale out policy during the cooldown period after a
   /// scale-in, application auto scaling scales out your scalable target
   /// immediately.
-  @_s.JsonKey(name: 'ScaleInCooldown')
-  final int scaleInCooldown;
+  final int? scaleInCooldown;
 
   /// The amount of time, in seconds, after a scale out activity completes before
   /// another scale out activity can start. While the cooldown period is in
@@ -6141,71 +6055,100 @@ class AutoScalingTargetTrackingScalingPolicyConfigurationUpdate {
   /// that initiated the cooldown is calculated as part of the desired capacity
   /// for the next scale out. You should continuously (but not excessively) scale
   /// out.
-  @_s.JsonKey(name: 'ScaleOutCooldown')
-  final int scaleOutCooldown;
+  final int? scaleOutCooldown;
 
   AutoScalingTargetTrackingScalingPolicyConfigurationUpdate({
-    @_s.required this.targetValue,
+    required this.targetValue,
     this.disableScaleIn,
     this.scaleInCooldown,
     this.scaleOutCooldown,
   });
-  Map<String, dynamic> toJson() =>
-      _$AutoScalingTargetTrackingScalingPolicyConfigurationUpdateToJson(this);
+
+  factory AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return AutoScalingTargetTrackingScalingPolicyConfigurationUpdate(
+      targetValue: json['TargetValue'] as double,
+      disableScaleIn: json['DisableScaleIn'] as bool?,
+      scaleInCooldown: json['ScaleInCooldown'] as int?,
+      scaleOutCooldown: json['ScaleOutCooldown'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetValue = this.targetValue;
+    final disableScaleIn = this.disableScaleIn;
+    final scaleInCooldown = this.scaleInCooldown;
+    final scaleOutCooldown = this.scaleOutCooldown;
+    return {
+      'TargetValue': targetValue,
+      if (disableScaleIn != null) 'DisableScaleIn': disableScaleIn,
+      if (scaleInCooldown != null) 'ScaleInCooldown': scaleInCooldown,
+      if (scaleOutCooldown != null) 'ScaleOutCooldown': scaleOutCooldown,
+    };
+  }
 }
 
 /// Contains the description of the backup created for the table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupDescription {
   /// Contains the details of the backup created for the table.
-  @_s.JsonKey(name: 'BackupDetails')
-  final BackupDetails backupDetails;
+  final BackupDetails? backupDetails;
 
   /// Contains the details of the table when the backup was created.
-  @_s.JsonKey(name: 'SourceTableDetails')
-  final SourceTableDetails sourceTableDetails;
+  final SourceTableDetails? sourceTableDetails;
 
   /// Contains the details of the features enabled on the table when the backup
   /// was created. For example, LSIs, GSIs, streams, TTL.
-  @_s.JsonKey(name: 'SourceTableFeatureDetails')
-  final SourceTableFeatureDetails sourceTableFeatureDetails;
+  final SourceTableFeatureDetails? sourceTableFeatureDetails;
 
   BackupDescription({
     this.backupDetails,
     this.sourceTableDetails,
     this.sourceTableFeatureDetails,
   });
-  factory BackupDescription.fromJson(Map<String, dynamic> json) =>
-      _$BackupDescriptionFromJson(json);
+
+  factory BackupDescription.fromJson(Map<String, dynamic> json) {
+    return BackupDescription(
+      backupDetails: json['BackupDetails'] != null
+          ? BackupDetails.fromJson(
+              json['BackupDetails'] as Map<String, dynamic>)
+          : null,
+      sourceTableDetails: json['SourceTableDetails'] != null
+          ? SourceTableDetails.fromJson(
+              json['SourceTableDetails'] as Map<String, dynamic>)
+          : null,
+      sourceTableFeatureDetails: json['SourceTableFeatureDetails'] != null
+          ? SourceTableFeatureDetails.fromJson(
+              json['SourceTableFeatureDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupDetails = this.backupDetails;
+    final sourceTableDetails = this.sourceTableDetails;
+    final sourceTableFeatureDetails = this.sourceTableFeatureDetails;
+    return {
+      if (backupDetails != null) 'BackupDetails': backupDetails,
+      if (sourceTableDetails != null) 'SourceTableDetails': sourceTableDetails,
+      if (sourceTableFeatureDetails != null)
+        'SourceTableFeatureDetails': sourceTableFeatureDetails,
+    };
+  }
 }
 
 /// Contains the details of the backup created for the table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupDetails {
   /// ARN associated with the backup.
-  @_s.JsonKey(name: 'BackupArn')
   final String backupArn;
 
   /// Time at which the backup was created. This is the request time of the
   /// backup.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'BackupCreationDateTime')
   final DateTime backupCreationDateTime;
 
   /// Name of the requested backup.
-  @_s.JsonKey(name: 'BackupName')
   final String backupName;
 
   /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
-  @_s.JsonKey(name: 'BackupStatus')
   final BackupStatus backupStatus;
 
   /// BackupType:
@@ -6227,76 +6170,114 @@ class BackupDetails {
   /// service.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'BackupType')
   final BackupType backupType;
 
   /// Time at which the automatic on-demand backup created by DynamoDB will
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'BackupExpiryDateTime')
-  final DateTime backupExpiryDateTime;
+  final DateTime? backupExpiryDateTime;
 
   /// Size of the backup in bytes.
-  @_s.JsonKey(name: 'BackupSizeBytes')
-  final int backupSizeBytes;
+  final int? backupSizeBytes;
 
   BackupDetails({
-    @_s.required this.backupArn,
-    @_s.required this.backupCreationDateTime,
-    @_s.required this.backupName,
-    @_s.required this.backupStatus,
-    @_s.required this.backupType,
+    required this.backupArn,
+    required this.backupCreationDateTime,
+    required this.backupName,
+    required this.backupStatus,
+    required this.backupType,
     this.backupExpiryDateTime,
     this.backupSizeBytes,
   });
-  factory BackupDetails.fromJson(Map<String, dynamic> json) =>
-      _$BackupDetailsFromJson(json);
+
+  factory BackupDetails.fromJson(Map<String, dynamic> json) {
+    return BackupDetails(
+      backupArn: json['BackupArn'] as String,
+      backupCreationDateTime: nonNullableTimeStampFromJson(
+          json['BackupCreationDateTime'] as Object),
+      backupName: json['BackupName'] as String,
+      backupStatus: (json['BackupStatus'] as String).toBackupStatus(),
+      backupType: (json['BackupType'] as String).toBackupType(),
+      backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
+      backupSizeBytes: json['BackupSizeBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupArn = this.backupArn;
+    final backupCreationDateTime = this.backupCreationDateTime;
+    final backupName = this.backupName;
+    final backupStatus = this.backupStatus;
+    final backupType = this.backupType;
+    final backupExpiryDateTime = this.backupExpiryDateTime;
+    final backupSizeBytes = this.backupSizeBytes;
+    return {
+      'BackupArn': backupArn,
+      'BackupCreationDateTime': unixTimestampToJson(backupCreationDateTime),
+      'BackupName': backupName,
+      'BackupStatus': backupStatus.toValue(),
+      'BackupType': backupType.toValue(),
+      if (backupExpiryDateTime != null)
+        'BackupExpiryDateTime': unixTimestampToJson(backupExpiryDateTime),
+      if (backupSizeBytes != null) 'BackupSizeBytes': backupSizeBytes,
+    };
+  }
 }
 
 enum BackupStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('AVAILABLE')
   available,
 }
 
+extension on BackupStatus {
+  String toValue() {
+    switch (this) {
+      case BackupStatus.creating:
+        return 'CREATING';
+      case BackupStatus.deleted:
+        return 'DELETED';
+      case BackupStatus.available:
+        return 'AVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  BackupStatus toBackupStatus() {
+    switch (this) {
+      case 'CREATING':
+        return BackupStatus.creating;
+      case 'DELETED':
+        return BackupStatus.deleted;
+      case 'AVAILABLE':
+        return BackupStatus.available;
+    }
+    throw Exception('$this is not known in enum BackupStatus');
+  }
+}
+
 /// Contains details for the backup.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackupSummary {
   /// ARN associated with the backup.
-  @_s.JsonKey(name: 'BackupArn')
-  final String backupArn;
+  final String? backupArn;
 
   /// Time at which the backup was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'BackupCreationDateTime')
-  final DateTime backupCreationDateTime;
+  final DateTime? backupCreationDateTime;
 
   /// Time at which the automatic on-demand backup created by DynamoDB will
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'BackupExpiryDateTime')
-  final DateTime backupExpiryDateTime;
+  final DateTime? backupExpiryDateTime;
 
   /// Name of the specified backup.
-  @_s.JsonKey(name: 'BackupName')
-  final String backupName;
+  final String? backupName;
 
   /// Size of the backup in bytes.
-  @_s.JsonKey(name: 'BackupSizeBytes')
-  final int backupSizeBytes;
+  final int? backupSizeBytes;
 
   /// Backup can be in one of the following states: CREATING, ACTIVE, DELETED.
-  @_s.JsonKey(name: 'BackupStatus')
-  final BackupStatus backupStatus;
+  final BackupStatus? backupStatus;
 
   /// BackupType:
   ///
@@ -6317,20 +6298,16 @@ class BackupSummary {
   /// service.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'BackupType')
-  final BackupType backupType;
+  final BackupType? backupType;
 
   /// ARN associated with the table.
-  @_s.JsonKey(name: 'TableArn')
-  final String tableArn;
+  final String? tableArn;
 
   /// Unique identifier for the table.
-  @_s.JsonKey(name: 'TableId')
-  final String tableId;
+  final String? tableId;
 
   /// Name of the table.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   BackupSummary({
     this.backupArn,
@@ -6344,27 +6321,87 @@ class BackupSummary {
     this.tableId,
     this.tableName,
   });
-  factory BackupSummary.fromJson(Map<String, dynamic> json) =>
-      _$BackupSummaryFromJson(json);
+
+  factory BackupSummary.fromJson(Map<String, dynamic> json) {
+    return BackupSummary(
+      backupArn: json['BackupArn'] as String?,
+      backupCreationDateTime: timeStampFromJson(json['BackupCreationDateTime']),
+      backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
+      backupName: json['BackupName'] as String?,
+      backupSizeBytes: json['BackupSizeBytes'] as int?,
+      backupStatus: (json['BackupStatus'] as String?)?.toBackupStatus(),
+      backupType: (json['BackupType'] as String?)?.toBackupType(),
+      tableArn: json['TableArn'] as String?,
+      tableId: json['TableId'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupArn = this.backupArn;
+    final backupCreationDateTime = this.backupCreationDateTime;
+    final backupExpiryDateTime = this.backupExpiryDateTime;
+    final backupName = this.backupName;
+    final backupSizeBytes = this.backupSizeBytes;
+    final backupStatus = this.backupStatus;
+    final backupType = this.backupType;
+    final tableArn = this.tableArn;
+    final tableId = this.tableId;
+    final tableName = this.tableName;
+    return {
+      if (backupArn != null) 'BackupArn': backupArn,
+      if (backupCreationDateTime != null)
+        'BackupCreationDateTime': unixTimestampToJson(backupCreationDateTime),
+      if (backupExpiryDateTime != null)
+        'BackupExpiryDateTime': unixTimestampToJson(backupExpiryDateTime),
+      if (backupName != null) 'BackupName': backupName,
+      if (backupSizeBytes != null) 'BackupSizeBytes': backupSizeBytes,
+      if (backupStatus != null) 'BackupStatus': backupStatus.toValue(),
+      if (backupType != null) 'BackupType': backupType.toValue(),
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableId != null) 'TableId': tableId,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
 enum BackupType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('SYSTEM')
   system,
-  @_s.JsonValue('AWS_BACKUP')
   awsBackup,
 }
 
+extension on BackupType {
+  String toValue() {
+    switch (this) {
+      case BackupType.user:
+        return 'USER';
+      case BackupType.system:
+        return 'SYSTEM';
+      case BackupType.awsBackup:
+        return 'AWS_BACKUP';
+    }
+  }
+}
+
+extension on String {
+  BackupType toBackupType() {
+    switch (this) {
+      case 'USER':
+        return BackupType.user;
+      case 'SYSTEM':
+        return BackupType.system;
+      case 'AWS_BACKUP':
+        return BackupType.awsBackup;
+    }
+    throw Exception('$this is not known in enum BackupType');
+  }
+}
+
 enum BackupTypeFilter {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('SYSTEM')
   system,
-  @_s.JsonValue('AWS_BACKUP')
   awsBackup,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -6380,33 +6417,52 @@ extension on BackupTypeFilter {
       case BackupTypeFilter.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  BackupTypeFilter toBackupTypeFilter() {
+    switch (this) {
+      case 'USER':
+        return BackupTypeFilter.user;
+      case 'SYSTEM':
+        return BackupTypeFilter.system;
+      case 'AWS_BACKUP':
+        return BackupTypeFilter.awsBackup;
+      case 'ALL':
+        return BackupTypeFilter.all;
+    }
+    throw Exception('$this is not known in enum BackupTypeFilter');
+  }
+}
+
 class BatchExecuteStatementOutput {
   /// The response to each PartiQL statement in the batch.
-  @_s.JsonKey(name: 'Responses')
-  final List<BatchStatementResponse> responses;
+  final List<BatchStatementResponse>? responses;
 
   BatchExecuteStatementOutput({
     this.responses,
   });
-  factory BatchExecuteStatementOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchExecuteStatementOutputFromJson(json);
+
+  factory BatchExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
+    return BatchExecuteStatementOutput(
+      responses: (json['Responses'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => BatchStatementResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responses = this.responses;
+    return {
+      if (responses != null) 'Responses': responses,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchGetItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetItemOutput {
   /// The read capacity units consumed by the entire <code>BatchGetItem</code>
   /// operation.
@@ -6421,14 +6477,12 @@ class BatchGetItemOutput {
   /// <code>CapacityUnits</code> - The total number of capacity units consumed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final List<ConsumedCapacity> consumedCapacity;
+  final List<ConsumedCapacity>? consumedCapacity;
 
   /// A map of table name to a list of items. Each object in
   /// <code>Responses</code> consists of a table name, along with a map of
   /// attribute data consisting of the data type and attribute value.
-  @_s.JsonKey(name: 'Responses')
-  final Map<String, List<Map<String, AttributeValue>>> responses;
+  final Map<String, List<Map<String, AttributeValue>>>? responses;
 
   /// A map of tables and their respective keys that were not processed with the
   /// current response. The <code>UnprocessedKeys</code> value is in the same form
@@ -6456,127 +6510,231 @@ class BatchGetItemOutput {
   /// </ul>
   /// If there are no unprocessed keys remaining, the response contains an empty
   /// <code>UnprocessedKeys</code> map.
-  @_s.JsonKey(name: 'UnprocessedKeys')
-  final Map<String, KeysAndAttributes> unprocessedKeys;
+  final Map<String, KeysAndAttributes>? unprocessedKeys;
 
   BatchGetItemOutput({
     this.consumedCapacity,
     this.responses,
     this.unprocessedKeys,
   });
-  factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetItemOutputFromJson(json);
+
+  factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetItemOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      responses: (json['Responses'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+                      MapEntry(k,
+                          AttributeValue.fromJson(e as Map<String, dynamic>))))
+                  .toList())),
+      unprocessedKeys: (json['UnprocessedKeys'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k, KeysAndAttributes.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final responses = this.responses;
+    final unprocessedKeys = this.unprocessedKeys;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (responses != null) 'Responses': responses,
+      if (unprocessedKeys != null) 'UnprocessedKeys': unprocessedKeys,
+    };
+  }
 }
 
 /// An error associated with a statement in a PartiQL batch that was run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchStatementError {
   /// The error code associated with the failed PartiQL batch statement.
-  @_s.JsonKey(name: 'Code')
-  final BatchStatementErrorCodeEnum code;
+  final BatchStatementErrorCodeEnum? code;
 
   /// The error message associated with the PartiQL batch resposne.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   BatchStatementError({
     this.code,
     this.message,
   });
-  factory BatchStatementError.fromJson(Map<String, dynamic> json) =>
-      _$BatchStatementErrorFromJson(json);
+
+  factory BatchStatementError.fromJson(Map<String, dynamic> json) {
+    return BatchStatementError(
+      code: (json['Code'] as String?)?.toBatchStatementErrorCodeEnum(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum BatchStatementErrorCodeEnum {
-  @_s.JsonValue('ConditionalCheckFailed')
   conditionalCheckFailed,
-  @_s.JsonValue('ItemCollectionSizeLimitExceeded')
   itemCollectionSizeLimitExceeded,
-  @_s.JsonValue('RequestLimitExceeded')
   requestLimitExceeded,
-  @_s.JsonValue('ValidationError')
   validationError,
-  @_s.JsonValue('ProvisionedThroughputExceeded')
   provisionedThroughputExceeded,
-  @_s.JsonValue('TransactionConflict')
   transactionConflict,
-  @_s.JsonValue('ThrottlingError')
   throttlingError,
-  @_s.JsonValue('InternalServerError')
   internalServerError,
-  @_s.JsonValue('ResourceNotFound')
   resourceNotFound,
-  @_s.JsonValue('AccessDenied')
   accessDenied,
-  @_s.JsonValue('DuplicateItem')
   duplicateItem,
 }
 
+extension on BatchStatementErrorCodeEnum {
+  String toValue() {
+    switch (this) {
+      case BatchStatementErrorCodeEnum.conditionalCheckFailed:
+        return 'ConditionalCheckFailed';
+      case BatchStatementErrorCodeEnum.itemCollectionSizeLimitExceeded:
+        return 'ItemCollectionSizeLimitExceeded';
+      case BatchStatementErrorCodeEnum.requestLimitExceeded:
+        return 'RequestLimitExceeded';
+      case BatchStatementErrorCodeEnum.validationError:
+        return 'ValidationError';
+      case BatchStatementErrorCodeEnum.provisionedThroughputExceeded:
+        return 'ProvisionedThroughputExceeded';
+      case BatchStatementErrorCodeEnum.transactionConflict:
+        return 'TransactionConflict';
+      case BatchStatementErrorCodeEnum.throttlingError:
+        return 'ThrottlingError';
+      case BatchStatementErrorCodeEnum.internalServerError:
+        return 'InternalServerError';
+      case BatchStatementErrorCodeEnum.resourceNotFound:
+        return 'ResourceNotFound';
+      case BatchStatementErrorCodeEnum.accessDenied:
+        return 'AccessDenied';
+      case BatchStatementErrorCodeEnum.duplicateItem:
+        return 'DuplicateItem';
+    }
+  }
+}
+
+extension on String {
+  BatchStatementErrorCodeEnum toBatchStatementErrorCodeEnum() {
+    switch (this) {
+      case 'ConditionalCheckFailed':
+        return BatchStatementErrorCodeEnum.conditionalCheckFailed;
+      case 'ItemCollectionSizeLimitExceeded':
+        return BatchStatementErrorCodeEnum.itemCollectionSizeLimitExceeded;
+      case 'RequestLimitExceeded':
+        return BatchStatementErrorCodeEnum.requestLimitExceeded;
+      case 'ValidationError':
+        return BatchStatementErrorCodeEnum.validationError;
+      case 'ProvisionedThroughputExceeded':
+        return BatchStatementErrorCodeEnum.provisionedThroughputExceeded;
+      case 'TransactionConflict':
+        return BatchStatementErrorCodeEnum.transactionConflict;
+      case 'ThrottlingError':
+        return BatchStatementErrorCodeEnum.throttlingError;
+      case 'InternalServerError':
+        return BatchStatementErrorCodeEnum.internalServerError;
+      case 'ResourceNotFound':
+        return BatchStatementErrorCodeEnum.resourceNotFound;
+      case 'AccessDenied':
+        return BatchStatementErrorCodeEnum.accessDenied;
+      case 'DuplicateItem':
+        return BatchStatementErrorCodeEnum.duplicateItem;
+    }
+    throw Exception('$this is not known in enum BatchStatementErrorCodeEnum');
+  }
+}
+
 /// A PartiQL batch statement request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BatchStatementRequest {
   /// A valid PartiQL statement.
-  @_s.JsonKey(name: 'Statement')
   final String statement;
 
   /// The read consistency of the PartiQL batch request.
-  @_s.JsonKey(name: 'ConsistentRead')
-  final bool consistentRead;
+  final bool? consistentRead;
 
   /// The parameters associated with a PartiQL statement in the batch request.
-  @_s.JsonKey(name: 'Parameters')
-  final List<AttributeValue> parameters;
+  final List<AttributeValue>? parameters;
 
   BatchStatementRequest({
-    @_s.required this.statement,
+    required this.statement,
     this.consistentRead,
     this.parameters,
   });
-  Map<String, dynamic> toJson() => _$BatchStatementRequestToJson(this);
+
+  factory BatchStatementRequest.fromJson(Map<String, dynamic> json) {
+    return BatchStatementRequest(
+      statement: json['Statement'] as String,
+      consistentRead: json['ConsistentRead'] as bool?,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    final consistentRead = this.consistentRead;
+    final parameters = this.parameters;
+    return {
+      'Statement': statement,
+      if (consistentRead != null) 'ConsistentRead': consistentRead,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
 /// A PartiQL batch statement response..
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchStatementResponse {
   /// The error associated with a failed PartiQL batch statement.
-  @_s.JsonKey(name: 'Error')
-  final BatchStatementError error;
+  final BatchStatementError? error;
 
   /// A DynamoDB item associated with a BatchStatementResponse
-  @_s.JsonKey(name: 'Item')
-  final Map<String, AttributeValue> item;
+  final Map<String, AttributeValue>? item;
 
   /// The table name associated with a failed PartiQL batch statement.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   BatchStatementResponse({
     this.error,
     this.item,
     this.tableName,
   });
-  factory BatchStatementResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchStatementResponseFromJson(json);
+
+  factory BatchStatementResponse.fromJson(Map<String, dynamic> json) {
+    return BatchStatementResponse(
+      error: json['Error'] != null
+          ? BatchStatementError.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final item = this.item;
+    final tableName = this.tableName;
+    return {
+      if (error != null) 'Error': error,
+      if (item != null) 'Item': item,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchWriteItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchWriteItemOutput {
   /// The capacity units consumed by the entire <code>BatchWriteItem</code>
   /// operation.
@@ -6591,8 +6749,7 @@ class BatchWriteItemOutput {
   /// <code>CapacityUnits</code> - The total number of capacity units consumed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final List<ConsumedCapacity> consumedCapacity;
+  final List<ConsumedCapacity>? consumedCapacity;
 
   /// A list of tables that were processed by <code>BatchWriteItem</code> and, for
   /// each table, information about any item collections that were affected by
@@ -6617,8 +6774,7 @@ class BatchWriteItemOutput {
   /// precision or accuracy of the estimate.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ItemCollectionMetrics')
-  final Map<String, List<ItemCollectionMetrics>> itemCollectionMetrics;
+  final Map<String, List<ItemCollectionMetrics>>? itemCollectionMetrics;
 
   /// A map of tables and requests against those tables that were not processed.
   /// The <code>UnprocessedItems</code> value is in the same form as
@@ -6665,22 +6821,54 @@ class BatchWriteItemOutput {
   /// </ul>
   /// If there are no unprocessed items remaining, the response contains an empty
   /// <code>UnprocessedItems</code> map.
-  @_s.JsonKey(name: 'UnprocessedItems')
-  final Map<String, List<WriteRequest>> unprocessedItems;
+  final Map<String, List<WriteRequest>>? unprocessedItems;
 
   BatchWriteItemOutput({
     this.consumedCapacity,
     this.itemCollectionMetrics,
     this.unprocessedItems,
   });
-  factory BatchWriteItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchWriteItemOutputFromJson(json);
+
+  factory BatchWriteItemOutput.fromJson(Map<String, dynamic> json) {
+    return BatchWriteItemOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      itemCollectionMetrics: (json['ItemCollectionMetrics']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) =>
+                      ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+      unprocessedItems: (json['UnprocessedItems'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) => WriteRequest.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final itemCollectionMetrics = this.itemCollectionMetrics;
+    final unprocessedItems = this.unprocessedItems;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (itemCollectionMetrics != null)
+        'ItemCollectionMetrics': itemCollectionMetrics,
+      if (unprocessedItems != null) 'UnprocessedItems': unprocessedItems,
+    };
+  }
 }
 
 enum BillingMode {
-  @_s.JsonValue('PROVISIONED')
   provisioned,
-  @_s.JsonValue('PAY_PER_REQUEST')
   payPerRequest,
 }
 
@@ -6692,16 +6880,22 @@ extension on BillingMode {
       case BillingMode.payPerRequest:
         return 'PAY_PER_REQUEST';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BillingMode toBillingMode() {
+    switch (this) {
+      case 'PROVISIONED':
+        return BillingMode.provisioned;
+      case 'PAY_PER_REQUEST':
+        return BillingMode.payPerRequest;
+    }
+    throw Exception('$this is not known in enum BillingMode');
   }
 }
 
 /// Contains the details for the read/write capacity mode.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BillingModeSummary {
   /// Controls how you are charged for read and write throughput and how you
   /// manage capacity. This setting can be changed later.
@@ -6718,79 +6912,157 @@ class BillingModeSummary {
   /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'BillingMode')
-  final BillingMode billingMode;
+  final BillingMode? billingMode;
 
   /// Represents the time when <code>PAY_PER_REQUEST</code> was last set as the
   /// read/write capacity mode.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateToPayPerRequestDateTime')
-  final DateTime lastUpdateToPayPerRequestDateTime;
+  final DateTime? lastUpdateToPayPerRequestDateTime;
 
   BillingModeSummary({
     this.billingMode,
     this.lastUpdateToPayPerRequestDateTime,
   });
-  factory BillingModeSummary.fromJson(Map<String, dynamic> json) =>
-      _$BillingModeSummaryFromJson(json);
+
+  factory BillingModeSummary.fromJson(Map<String, dynamic> json) {
+    return BillingModeSummary(
+      billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
+      lastUpdateToPayPerRequestDateTime:
+          timeStampFromJson(json['LastUpdateToPayPerRequestDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingMode = this.billingMode;
+    final lastUpdateToPayPerRequestDateTime =
+        this.lastUpdateToPayPerRequestDateTime;
+    return {
+      if (billingMode != null) 'BillingMode': billingMode.toValue(),
+      if (lastUpdateToPayPerRequestDateTime != null)
+        'LastUpdateToPayPerRequestDateTime':
+            unixTimestampToJson(lastUpdateToPayPerRequestDateTime),
+    };
+  }
 }
 
 /// Represents the amount of provisioned throughput capacity consumed on a table
 /// or an index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Capacity {
   /// The total number of capacity units consumed on a table or an index.
-  @_s.JsonKey(name: 'CapacityUnits')
-  final double capacityUnits;
+  final double? capacityUnits;
 
   /// The total number of read capacity units consumed on a table or an index.
-  @_s.JsonKey(name: 'ReadCapacityUnits')
-  final double readCapacityUnits;
+  final double? readCapacityUnits;
 
   /// The total number of write capacity units consumed on a table or an index.
-  @_s.JsonKey(name: 'WriteCapacityUnits')
-  final double writeCapacityUnits;
+  final double? writeCapacityUnits;
 
   Capacity({
     this.capacityUnits,
     this.readCapacityUnits,
     this.writeCapacityUnits,
   });
-  factory Capacity.fromJson(Map<String, dynamic> json) =>
-      _$CapacityFromJson(json);
+
+  factory Capacity.fromJson(Map<String, dynamic> json) {
+    return Capacity(
+      capacityUnits: json['CapacityUnits'] as double?,
+      readCapacityUnits: json['ReadCapacityUnits'] as double?,
+      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityUnits = this.capacityUnits;
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
 }
 
 enum ComparisonOperator {
-  @_s.JsonValue('EQ')
   eq,
-  @_s.JsonValue('NE')
   ne,
-  @_s.JsonValue('IN')
   $in,
-  @_s.JsonValue('LE')
   le,
-  @_s.JsonValue('LT')
   lt,
-  @_s.JsonValue('GE')
   ge,
-  @_s.JsonValue('GT')
   gt,
-  @_s.JsonValue('BETWEEN')
   between,
-  @_s.JsonValue('NOT_NULL')
   notNull,
-  @_s.JsonValue('NULL')
   $null,
-  @_s.JsonValue('CONTAINS')
   contains,
-  @_s.JsonValue('NOT_CONTAINS')
   notContains,
-  @_s.JsonValue('BEGINS_WITH')
   beginsWith,
+}
+
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.eq:
+        return 'EQ';
+      case ComparisonOperator.ne:
+        return 'NE';
+      case ComparisonOperator.$in:
+        return 'IN';
+      case ComparisonOperator.le:
+        return 'LE';
+      case ComparisonOperator.lt:
+        return 'LT';
+      case ComparisonOperator.ge:
+        return 'GE';
+      case ComparisonOperator.gt:
+        return 'GT';
+      case ComparisonOperator.between:
+        return 'BETWEEN';
+      case ComparisonOperator.notNull:
+        return 'NOT_NULL';
+      case ComparisonOperator.$null:
+        return 'NULL';
+      case ComparisonOperator.contains:
+        return 'CONTAINS';
+      case ComparisonOperator.notContains:
+        return 'NOT_CONTAINS';
+      case ComparisonOperator.beginsWith:
+        return 'BEGINS_WITH';
+    }
+  }
+}
+
+extension on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'EQ':
+        return ComparisonOperator.eq;
+      case 'NE':
+        return ComparisonOperator.ne;
+      case 'IN':
+        return ComparisonOperator.$in;
+      case 'LE':
+        return ComparisonOperator.le;
+      case 'LT':
+        return ComparisonOperator.lt;
+      case 'GE':
+        return ComparisonOperator.ge;
+      case 'GT':
+        return ComparisonOperator.gt;
+      case 'BETWEEN':
+        return ComparisonOperator.between;
+      case 'NOT_NULL':
+        return ComparisonOperator.notNull;
+      case 'NULL':
+        return ComparisonOperator.$null;
+      case 'CONTAINS':
+        return ComparisonOperator.contains;
+      case 'NOT_CONTAINS':
+        return ComparisonOperator.notContains;
+      case 'BEGINS_WITH':
+        return ComparisonOperator.beginsWith;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
 }
 
 /// Represents the selection criteria for a <code>Query</code> or
@@ -6814,11 +7086,6 @@ enum ComparisonOperator {
 /// the desired values.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Condition {
   /// A comparator for evaluating attributes. For example, equals, greater than,
   /// less than, etc.
@@ -6990,7 +7257,6 @@ class Condition {
   /// <code>ComparisonOperator</code>, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html">Legacy
   /// Conditional Parameters</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ComparisonOperator')
   final ComparisonOperator comparisonOperator;
 
   /// One or more values to evaluate against the supplied attribute. The number of
@@ -7007,68 +7273,114 @@ class Condition {
   ///
   /// For Binary, DynamoDB treats each byte of the binary data as unsigned when it
   /// compares binary values.
-  @_s.JsonKey(name: 'AttributeValueList')
-  final List<AttributeValue> attributeValueList;
+  final List<AttributeValue>? attributeValueList;
 
   Condition({
-    @_s.required this.comparisonOperator,
+    required this.comparisonOperator,
     this.attributeValueList,
   });
-  Map<String, dynamic> toJson() => _$ConditionToJson(this);
+
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String).toComparisonOperator(),
+      attributeValueList: (json['AttributeValueList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final attributeValueList = this.attributeValueList;
+    return {
+      'ComparisonOperator': comparisonOperator.toValue(),
+      if (attributeValueList != null) 'AttributeValueList': attributeValueList,
+    };
+  }
 }
 
 /// Represents a request to perform a check that an item exists or to check the
 /// condition of specific attributes of the item.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConditionCheck {
   /// A condition that must be satisfied in order for a conditional update to
   /// succeed.
-  @_s.JsonKey(name: 'ConditionExpression')
   final String conditionExpression;
 
   /// The primary key of the item to be checked. Each element consists of an
   /// attribute name and a value for that attribute.
-  @_s.JsonKey(name: 'Key')
   final Map<String, AttributeValue> key;
 
   /// Name of the table for the check item request.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// One or more substitution tokens for attribute names in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeNames')
-  final Map<String, String> expressionAttributeNames;
+  final Map<String, String>? expressionAttributeNames;
 
   /// One or more values that can be substituted in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeValues')
-  final Map<String, AttributeValue> expressionAttributeValues;
+  final Map<String, AttributeValue>? expressionAttributeValues;
 
   /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
   /// attributes if the <code>ConditionCheck</code> condition fails. For
   /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
   /// and ALL_OLD.
-  @_s.JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
-  final ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure;
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
 
   ConditionCheck({
-    @_s.required this.conditionExpression,
-    @_s.required this.key,
-    @_s.required this.tableName,
+    required this.conditionExpression,
+    required this.key,
+    required this.tableName,
     this.expressionAttributeNames,
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
-  Map<String, dynamic> toJson() => _$ConditionCheckToJson(this);
+
+  factory ConditionCheck.fromJson(Map<String, dynamic> json) {
+    return ConditionCheck(
+      conditionExpression: json['ConditionExpression'] as String,
+      key: (json['Key'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      tableName: json['TableName'] as String,
+      expressionAttributeNames:
+          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      expressionAttributeValues: (json['ExpressionAttributeValues']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      returnValuesOnConditionCheckFailure:
+          (json['ReturnValuesOnConditionCheckFailure'] as String?)
+              ?.toReturnValuesOnConditionCheckFailure(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditionExpression = this.conditionExpression;
+    final key = this.key;
+    final tableName = this.tableName;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
+    return {
+      'ConditionExpression': conditionExpression,
+      'Key': key,
+      'TableName': tableName,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.toValue(),
+    };
+  }
 }
 
 enum ConditionalOperator {
-  @_s.JsonValue('AND')
   and,
-  @_s.JsonValue('OR')
   or,
 }
 
@@ -7080,7 +7392,18 @@ extension on ConditionalOperator {
       case ConditionalOperator.or:
         return 'OR';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ConditionalOperator toConditionalOperator() {
+    switch (this) {
+      case 'AND':
+        return ConditionalOperator.and;
+      case 'OR':
+        return ConditionalOperator.or;
+    }
+    throw Exception('$this is not known in enum ConditionalOperator');
   }
 }
 
@@ -7090,41 +7413,29 @@ extension on ConditionalOperator {
 /// only returned if the request asked for it. For more information, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
 /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConsumedCapacity {
   /// The total number of capacity units consumed by the operation.
-  @_s.JsonKey(name: 'CapacityUnits')
-  final double capacityUnits;
+  final double? capacityUnits;
 
   /// The amount of throughput consumed on each global index affected by the
   /// operation.
-  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
-  final Map<String, Capacity> globalSecondaryIndexes;
+  final Map<String, Capacity>? globalSecondaryIndexes;
 
   /// The amount of throughput consumed on each local index affected by the
   /// operation.
-  @_s.JsonKey(name: 'LocalSecondaryIndexes')
-  final Map<String, Capacity> localSecondaryIndexes;
+  final Map<String, Capacity>? localSecondaryIndexes;
 
   /// The total number of read capacity units consumed by the operation.
-  @_s.JsonKey(name: 'ReadCapacityUnits')
-  final double readCapacityUnits;
+  final double? readCapacityUnits;
 
   /// The amount of throughput consumed on the table affected by the operation.
-  @_s.JsonKey(name: 'Table')
-  final Capacity table;
+  final Capacity? table;
 
   /// The name of the table that was affected by the operation.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// The total number of write capacity units consumed by the operation.
-  @_s.JsonKey(name: 'WriteCapacityUnits')
-  final double writeCapacityUnits;
+  final double? writeCapacityUnits;
 
   ConsumedCapacity({
     this.capacityUnits,
@@ -7135,46 +7446,117 @@ class ConsumedCapacity {
     this.tableName,
     this.writeCapacityUnits,
   });
-  factory ConsumedCapacity.fromJson(Map<String, dynamic> json) =>
-      _$ConsumedCapacityFromJson(json);
+
+  factory ConsumedCapacity.fromJson(Map<String, dynamic> json) {
+    return ConsumedCapacity(
+      capacityUnits: json['CapacityUnits'] as double?,
+      globalSecondaryIndexes:
+          (json['GlobalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
+      localSecondaryIndexes:
+          (json['LocalSecondaryIndexes'] as Map<String, dynamic>?)?.map(
+              (k, e) =>
+                  MapEntry(k, Capacity.fromJson(e as Map<String, dynamic>))),
+      readCapacityUnits: json['ReadCapacityUnits'] as double?,
+      table: json['Table'] != null
+          ? Capacity.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+      tableName: json['TableName'] as String?,
+      writeCapacityUnits: json['WriteCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityUnits = this.capacityUnits;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final localSecondaryIndexes = this.localSecondaryIndexes;
+    final readCapacityUnits = this.readCapacityUnits;
+    final table = this.table;
+    final tableName = this.tableName;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      if (capacityUnits != null) 'CapacityUnits': capacityUnits,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (localSecondaryIndexes != null)
+        'LocalSecondaryIndexes': localSecondaryIndexes,
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (table != null) 'Table': table,
+      if (tableName != null) 'TableName': tableName,
+      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
 }
 
 /// Represents the continuous backups and point in time recovery settings on the
 /// table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContinuousBackupsDescription {
   /// <code>ContinuousBackupsStatus</code> can be one of the following states:
   /// ENABLED, DISABLED
-  @_s.JsonKey(name: 'ContinuousBackupsStatus')
   final ContinuousBackupsStatus continuousBackupsStatus;
 
   /// The description of the point in time recovery settings applied to the table.
-  @_s.JsonKey(name: 'PointInTimeRecoveryDescription')
-  final PointInTimeRecoveryDescription pointInTimeRecoveryDescription;
+  final PointInTimeRecoveryDescription? pointInTimeRecoveryDescription;
 
   ContinuousBackupsDescription({
-    @_s.required this.continuousBackupsStatus,
+    required this.continuousBackupsStatus,
     this.pointInTimeRecoveryDescription,
   });
-  factory ContinuousBackupsDescription.fromJson(Map<String, dynamic> json) =>
-      _$ContinuousBackupsDescriptionFromJson(json);
+
+  factory ContinuousBackupsDescription.fromJson(Map<String, dynamic> json) {
+    return ContinuousBackupsDescription(
+      continuousBackupsStatus: (json['ContinuousBackupsStatus'] as String)
+          .toContinuousBackupsStatus(),
+      pointInTimeRecoveryDescription: json['PointInTimeRecoveryDescription'] !=
+              null
+          ? PointInTimeRecoveryDescription.fromJson(
+              json['PointInTimeRecoveryDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continuousBackupsStatus = this.continuousBackupsStatus;
+    final pointInTimeRecoveryDescription = this.pointInTimeRecoveryDescription;
+    return {
+      'ContinuousBackupsStatus': continuousBackupsStatus.toValue(),
+      if (pointInTimeRecoveryDescription != null)
+        'PointInTimeRecoveryDescription': pointInTimeRecoveryDescription,
+    };
+  }
 }
 
 enum ContinuousBackupsStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on ContinuousBackupsStatus {
+  String toValue() {
+    switch (this) {
+      case ContinuousBackupsStatus.enabled:
+        return 'ENABLED';
+      case ContinuousBackupsStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ContinuousBackupsStatus toContinuousBackupsStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return ContinuousBackupsStatus.enabled;
+      case 'DISABLED':
+        return ContinuousBackupsStatus.disabled;
+    }
+    throw Exception('$this is not known in enum ContinuousBackupsStatus');
+  }
+}
+
 enum ContributorInsightsAction {
-  @_s.JsonValue('ENABLE')
   enable,
-  @_s.JsonValue('DISABLE')
   disable,
 }
 
@@ -7186,88 +7568,140 @@ extension on ContributorInsightsAction {
       case ContributorInsightsAction.disable:
         return 'DISABLE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContributorInsightsAction toContributorInsightsAction() {
+    switch (this) {
+      case 'ENABLE':
+        return ContributorInsightsAction.enable;
+      case 'DISABLE':
+        return ContributorInsightsAction.disable;
+    }
+    throw Exception('$this is not known in enum ContributorInsightsAction');
   }
 }
 
 enum ContributorInsightsStatus {
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ContributorInsightsStatus {
+  String toValue() {
+    switch (this) {
+      case ContributorInsightsStatus.enabling:
+        return 'ENABLING';
+      case ContributorInsightsStatus.enabled:
+        return 'ENABLED';
+      case ContributorInsightsStatus.disabling:
+        return 'DISABLING';
+      case ContributorInsightsStatus.disabled:
+        return 'DISABLED';
+      case ContributorInsightsStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ContributorInsightsStatus toContributorInsightsStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return ContributorInsightsStatus.enabling;
+      case 'ENABLED':
+        return ContributorInsightsStatus.enabled;
+      case 'DISABLING':
+        return ContributorInsightsStatus.disabling;
+      case 'DISABLED':
+        return ContributorInsightsStatus.disabled;
+      case 'FAILED':
+        return ContributorInsightsStatus.failed;
+    }
+    throw Exception('$this is not known in enum ContributorInsightsStatus');
+  }
+}
+
 /// Represents a Contributor Insights summary entry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContributorInsightsSummary {
   /// Describes the current status for contributor insights for the given table
   /// and index, if applicable.
-  @_s.JsonKey(name: 'ContributorInsightsStatus')
-  final ContributorInsightsStatus contributorInsightsStatus;
+  final ContributorInsightsStatus? contributorInsightsStatus;
 
   /// Name of the index associated with the summary, if any.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// Name of the table associated with the summary.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   ContributorInsightsSummary({
     this.contributorInsightsStatus,
     this.indexName,
     this.tableName,
   });
-  factory ContributorInsightsSummary.fromJson(Map<String, dynamic> json) =>
-      _$ContributorInsightsSummaryFromJson(json);
+
+  factory ContributorInsightsSummary.fromJson(Map<String, dynamic> json) {
+    return ContributorInsightsSummary(
+      contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
+          ?.toContributorInsightsStatus(),
+      indexName: json['IndexName'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributorInsightsStatus = this.contributorInsightsStatus;
+    final indexName = this.indexName;
+    final tableName = this.tableName;
+    return {
+      if (contributorInsightsStatus != null)
+        'ContributorInsightsStatus': contributorInsightsStatus.toValue(),
+      if (indexName != null) 'IndexName': indexName,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackupOutput {
   /// Contains the details of the backup created for the table.
-  @_s.JsonKey(name: 'BackupDetails')
-  final BackupDetails backupDetails;
+  final BackupDetails? backupDetails;
 
   CreateBackupOutput({
     this.backupDetails,
   });
-  factory CreateBackupOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackupOutputFromJson(json);
+
+  factory CreateBackupOutput.fromJson(Map<String, dynamic> json) {
+    return CreateBackupOutput(
+      backupDetails: json['BackupDetails'] != null
+          ? BackupDetails.fromJson(
+              json['BackupDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupDetails = this.backupDetails;
+    return {
+      if (backupDetails != null) 'BackupDetails': backupDetails,
+    };
+  }
 }
 
 /// Represents a new global secondary index to be added to an existing table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateGlobalSecondaryIndexAction {
   /// The name of the global secondary index to be created.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// The key schema for the global secondary index.
-  @_s.JsonKey(name: 'KeySchema')
   final List<KeySchemaElement> keySchema;
 
   /// Represents attributes that are copied (projected) from the table into an
   /// index. These are in addition to the primary key attributes and index key
   /// attributes, which are automatically projected.
-  @_s.JsonKey(name: 'Projection')
   final Projection projection;
 
   /// Represents the provisioned throughput settings for the specified global
@@ -7276,205 +7710,315 @@ class CreateGlobalSecondaryIndexAction {
   /// For current minimum and maximum provisioned throughput values, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
   /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ProvisionedThroughput')
-  final ProvisionedThroughput provisionedThroughput;
+  final ProvisionedThroughput? provisionedThroughput;
 
   CreateGlobalSecondaryIndexAction({
-    @_s.required this.indexName,
-    @_s.required this.keySchema,
-    @_s.required this.projection,
+    required this.indexName,
+    required this.keySchema,
+    required this.projection,
     this.provisionedThroughput,
   });
-  Map<String, dynamic> toJson() =>
-      _$CreateGlobalSecondaryIndexActionToJson(this);
+
+  factory CreateGlobalSecondaryIndexAction.fromJson(Map<String, dynamic> json) {
+    return CreateGlobalSecondaryIndexAction(
+      indexName: json['IndexName'] as String,
+      keySchema: (json['KeySchema'] as List)
+          .whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection:
+          Projection.fromJson(json['Projection'] as Map<String, dynamic>),
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    final provisionedThroughput = this.provisionedThroughput;
+    return {
+      'IndexName': indexName,
+      'KeySchema': keySchema,
+      'Projection': projection,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGlobalTableOutput {
   /// Contains the details of the global table.
-  @_s.JsonKey(name: 'GlobalTableDescription')
-  final GlobalTableDescription globalTableDescription;
+  final GlobalTableDescription? globalTableDescription;
 
   CreateGlobalTableOutput({
     this.globalTableDescription,
   });
-  factory CreateGlobalTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateGlobalTableOutputFromJson(json);
+
+  factory CreateGlobalTableOutput.fromJson(Map<String, dynamic> json) {
+    return CreateGlobalTableOutput(
+      globalTableDescription: json['GlobalTableDescription'] != null
+          ? GlobalTableDescription.fromJson(
+              json['GlobalTableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableDescription = this.globalTableDescription;
+    return {
+      if (globalTableDescription != null)
+        'GlobalTableDescription': globalTableDescription,
+    };
+  }
 }
 
 /// Represents a replica to be added.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateReplicaAction {
   /// The Region of the replica to be added.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   CreateReplicaAction({
-    @_s.required this.regionName,
+    required this.regionName,
   });
-  Map<String, dynamic> toJson() => _$CreateReplicaActionToJson(this);
+
+  factory CreateReplicaAction.fromJson(Map<String, dynamic> json) {
+    return CreateReplicaAction(
+      regionName: json['RegionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
 }
 
 /// Represents a replica to be created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateReplicationGroupMemberAction {
   /// The Region where the new replica will be created.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   /// Replica-specific global secondary index settings.
-  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
-  final List<ReplicaGlobalSecondaryIndex> globalSecondaryIndexes;
+  final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
 
   /// The AWS KMS customer master key (CMK) that should be used for AWS KMS
   /// encryption in the new replica. To specify a CMK, use its key ID, Amazon
   /// Resource Name (ARN), alias name, or alias ARN. Note that you should only
   /// provide this parameter if the key is different from the default DynamoDB KMS
   /// master key alias/aws/dynamodb.
-  @_s.JsonKey(name: 'KMSMasterKeyId')
-  final String kMSMasterKeyId;
+  final String? kMSMasterKeyId;
 
   /// Replica-specific provisioned throughput. If not specified, uses the source
   /// table's provisioned throughput settings.
-  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
-  final ProvisionedThroughputOverride provisionedThroughputOverride;
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
   CreateReplicationGroupMemberAction({
-    @_s.required this.regionName,
+    required this.regionName,
     this.globalSecondaryIndexes,
     this.kMSMasterKeyId,
     this.provisionedThroughputOverride,
   });
-  Map<String, dynamic> toJson() =>
-      _$CreateReplicationGroupMemberActionToJson(this);
+
+  factory CreateReplicationGroupMemberAction.fromJson(
+      Map<String, dynamic> json) {
+    return CreateReplicationGroupMemberAction(
+      regionName: json['RegionName'] as String,
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicaGlobalSecondaryIndex.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
+      provisionedThroughputOverride:
+          json['ProvisionedThroughputOverride'] != null
+              ? ProvisionedThroughputOverride.fromJson(
+                  json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    return {
+      'RegionName': regionName,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+    };
+  }
 }
 
 /// Represents the output of a <code>CreateTable</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTableOutput {
   /// Represents the properties of the table.
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   CreateTableOutput({
     this.tableDescription,
   });
-  factory CreateTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateTableOutputFromJson(json);
+
+  factory CreateTableOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTableOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
 /// Represents a request to perform a <code>DeleteItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Delete {
   /// The primary key of the item to be deleted. Each element consists of an
   /// attribute name and a value for that attribute.
-  @_s.JsonKey(name: 'Key')
   final Map<String, AttributeValue> key;
 
   /// Name of the table in which the item to be deleted resides.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// A condition that must be satisfied in order for a conditional delete to
   /// succeed.
-  @_s.JsonKey(name: 'ConditionExpression')
-  final String conditionExpression;
+  final String? conditionExpression;
 
   /// One or more substitution tokens for attribute names in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeNames')
-  final Map<String, String> expressionAttributeNames;
+  final Map<String, String>? expressionAttributeNames;
 
   /// One or more values that can be substituted in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeValues')
-  final Map<String, AttributeValue> expressionAttributeValues;
+  final Map<String, AttributeValue>? expressionAttributeValues;
 
   /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
   /// attributes if the <code>Delete</code> condition fails. For
   /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
   /// and ALL_OLD.
-  @_s.JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
-  final ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure;
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
 
   Delete({
-    @_s.required this.key,
-    @_s.required this.tableName,
+    required this.key,
+    required this.tableName,
     this.conditionExpression,
     this.expressionAttributeNames,
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
-  Map<String, dynamic> toJson() => _$DeleteToJson(this);
+
+  factory Delete.fromJson(Map<String, dynamic> json) {
+    return Delete(
+      key: (json['Key'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      tableName: json['TableName'] as String,
+      conditionExpression: json['ConditionExpression'] as String?,
+      expressionAttributeNames:
+          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      expressionAttributeValues: (json['ExpressionAttributeValues']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      returnValuesOnConditionCheckFailure:
+          (json['ReturnValuesOnConditionCheckFailure'] as String?)
+              ?.toReturnValuesOnConditionCheckFailure(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final tableName = this.tableName;
+    final conditionExpression = this.conditionExpression;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
+    return {
+      'Key': key,
+      'TableName': tableName,
+      if (conditionExpression != null)
+        'ConditionExpression': conditionExpression,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackupOutput {
   /// Contains the description of the backup created for the table.
-  @_s.JsonKey(name: 'BackupDescription')
-  final BackupDescription backupDescription;
+  final BackupDescription? backupDescription;
 
   DeleteBackupOutput({
     this.backupDescription,
   });
-  factory DeleteBackupOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackupOutputFromJson(json);
+
+  factory DeleteBackupOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteBackupOutput(
+      backupDescription: json['BackupDescription'] != null
+          ? BackupDescription.fromJson(
+              json['BackupDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupDescription = this.backupDescription;
+    return {
+      if (backupDescription != null) 'BackupDescription': backupDescription,
+    };
+  }
 }
 
 /// Represents a global secondary index to be deleted from an existing table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteGlobalSecondaryIndexAction {
   /// The name of the global secondary index to be deleted.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   DeleteGlobalSecondaryIndexAction({
-    @_s.required this.indexName,
+    required this.indexName,
   });
-  Map<String, dynamic> toJson() =>
-      _$DeleteGlobalSecondaryIndexActionToJson(this);
+
+  factory DeleteGlobalSecondaryIndexAction.fromJson(Map<String, dynamic> json) {
+    return DeleteGlobalSecondaryIndexAction(
+      indexName: json['IndexName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    return {
+      'IndexName': indexName,
+    };
+  }
 }
 
 /// Represents the output of a <code>DeleteItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteItemOutput {
   /// A map of attribute names to <code>AttributeValue</code> objects,
   /// representing the item as it appeared before the <code>DeleteItem</code>
   /// operation. This map appears in the response only if
   /// <code>ReturnValues</code> was specified as <code>ALL_OLD</code> in the
   /// request.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, AttributeValue> attributes;
+  final Map<String, AttributeValue>? attributes;
 
   /// The capacity units consumed by the <code>DeleteItem</code> operation. The
   /// data returned includes the total provisioned throughput consumed, along with
@@ -7484,8 +8028,7 @@ class DeleteItemOutput {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
   /// Mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
   /// <code>DeleteItem</code> operation. <code>ItemCollectionMetrics</code> is
@@ -7512,142 +8055,200 @@ class DeleteItemOutput {
   /// precision or accuracy of the estimate.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ItemCollectionMetrics')
-  final ItemCollectionMetrics itemCollectionMetrics;
+  final ItemCollectionMetrics? itemCollectionMetrics;
 
   DeleteItemOutput({
     this.attributes,
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
-  factory DeleteItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteItemOutputFromJson(json);
+
+  factory DeleteItemOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteItemOutput(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      itemCollectionMetrics: json['ItemCollectionMetrics'] != null
+          ? ItemCollectionMetrics.fromJson(
+              json['ItemCollectionMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final consumedCapacity = this.consumedCapacity;
+    final itemCollectionMetrics = this.itemCollectionMetrics;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (itemCollectionMetrics != null)
+        'ItemCollectionMetrics': itemCollectionMetrics,
+    };
+  }
 }
 
 /// Represents a replica to be removed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteReplicaAction {
   /// The Region of the replica to be removed.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   DeleteReplicaAction({
-    @_s.required this.regionName,
+    required this.regionName,
   });
-  Map<String, dynamic> toJson() => _$DeleteReplicaActionToJson(this);
+
+  factory DeleteReplicaAction.fromJson(Map<String, dynamic> json) {
+    return DeleteReplicaAction(
+      regionName: json['RegionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
 }
 
 /// Represents a replica to be deleted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteReplicationGroupMemberAction {
   /// The Region where the replica exists.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   DeleteReplicationGroupMemberAction({
-    @_s.required this.regionName,
+    required this.regionName,
   });
-  Map<String, dynamic> toJson() =>
-      _$DeleteReplicationGroupMemberActionToJson(this);
+
+  factory DeleteReplicationGroupMemberAction.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteReplicationGroupMemberAction(
+      regionName: json['RegionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      'RegionName': regionName,
+    };
+  }
 }
 
 /// Represents a request to perform a <code>DeleteItem</code> operation on an
 /// item.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeleteRequest {
   /// A map of attribute name to attribute values, representing the primary key of
   /// the item to delete. All of the table's primary key attributes must be
   /// specified, and their data types must match those of the table's key schema.
-  @_s.JsonKey(name: 'Key')
   final Map<String, AttributeValue> key;
 
   DeleteRequest({
-    @_s.required this.key,
+    required this.key,
   });
-  factory DeleteRequest.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeleteRequestToJson(this);
+  factory DeleteRequest.fromJson(Map<String, dynamic> json) {
+    return DeleteRequest(
+      key: (json['Key'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    return {
+      'Key': key,
+    };
+  }
 }
 
 /// Represents the output of a <code>DeleteTable</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTableOutput {
   /// Represents the properties of a table.
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   DeleteTableOutput({
     this.tableDescription,
   });
-  factory DeleteTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTableOutputFromJson(json);
+
+  factory DeleteTableOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTableOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBackupOutput {
   /// Contains the description of the backup created for the table.
-  @_s.JsonKey(name: 'BackupDescription')
-  final BackupDescription backupDescription;
+  final BackupDescription? backupDescription;
 
   DescribeBackupOutput({
     this.backupDescription,
   });
-  factory DescribeBackupOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBackupOutputFromJson(json);
+
+  factory DescribeBackupOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeBackupOutput(
+      backupDescription: json['BackupDescription'] != null
+          ? BackupDescription.fromJson(
+              json['BackupDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupDescription = this.backupDescription;
+    return {
+      if (backupDescription != null) 'BackupDescription': backupDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeContinuousBackupsOutput {
   /// Represents the continuous backups and point in time recovery settings on the
   /// table.
-  @_s.JsonKey(name: 'ContinuousBackupsDescription')
-  final ContinuousBackupsDescription continuousBackupsDescription;
+  final ContinuousBackupsDescription? continuousBackupsDescription;
 
   DescribeContinuousBackupsOutput({
     this.continuousBackupsDescription,
   });
-  factory DescribeContinuousBackupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeContinuousBackupsOutputFromJson(json);
+
+  factory DescribeContinuousBackupsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeContinuousBackupsOutput(
+      continuousBackupsDescription: json['ContinuousBackupsDescription'] != null
+          ? ContinuousBackupsDescription.fromJson(
+              json['ContinuousBackupsDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continuousBackupsDescription = this.continuousBackupsDescription;
+    return {
+      if (continuousBackupsDescription != null)
+        'ContinuousBackupsDescription': continuousBackupsDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeContributorInsightsOutput {
   /// List of names of the associated Alpine rules.
-  @_s.JsonKey(name: 'ContributorInsightsRuleList')
-  final List<String> contributorInsightsRuleList;
+  final List<String>? contributorInsightsRuleList;
 
   /// Current Status contributor insights.
-  @_s.JsonKey(name: 'ContributorInsightsStatus')
-  final ContributorInsightsStatus contributorInsightsStatus;
+  final ContributorInsightsStatus? contributorInsightsStatus;
 
   /// Returns information about the last failure that encountered.
   ///
@@ -7672,21 +8273,16 @@ class DescribeContributorInsightsOutput {
   /// Insights rules. Please retry request.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'FailureException')
-  final FailureException failureException;
+  final FailureException? failureException;
 
   /// The name of the global secondary index being described.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// Timestamp of the last time the status was changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateDateTime')
-  final DateTime lastUpdateDateTime;
+  final DateTime? lastUpdateDateTime;
 
   /// The name of the table being described.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   DescribeContributorInsightsOutput({
     this.contributorInsightsRuleList,
@@ -7696,136 +8292,213 @@ class DescribeContributorInsightsOutput {
     this.lastUpdateDateTime,
     this.tableName,
   });
+
   factory DescribeContributorInsightsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeContributorInsightsOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeContributorInsightsOutput(
+      contributorInsightsRuleList:
+          (json['ContributorInsightsRuleList'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
+          ?.toContributorInsightsStatus(),
+      failureException: json['FailureException'] != null
+          ? FailureException.fromJson(
+              json['FailureException'] as Map<String, dynamic>)
+          : null,
+      indexName: json['IndexName'] as String?,
+      lastUpdateDateTime: timeStampFromJson(json['LastUpdateDateTime']),
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributorInsightsRuleList = this.contributorInsightsRuleList;
+    final contributorInsightsStatus = this.contributorInsightsStatus;
+    final failureException = this.failureException;
+    final indexName = this.indexName;
+    final lastUpdateDateTime = this.lastUpdateDateTime;
+    final tableName = this.tableName;
+    return {
+      if (contributorInsightsRuleList != null)
+        'ContributorInsightsRuleList': contributorInsightsRuleList,
+      if (contributorInsightsStatus != null)
+        'ContributorInsightsStatus': contributorInsightsStatus.toValue(),
+      if (failureException != null) 'FailureException': failureException,
+      if (indexName != null) 'IndexName': indexName,
+      if (lastUpdateDateTime != null)
+        'LastUpdateDateTime': unixTimestampToJson(lastUpdateDateTime),
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointsResponse {
   /// List of endpoints.
-  @_s.JsonKey(name: 'Endpoints')
   final List<Endpoint> endpoints;
 
   DescribeEndpointsResponse({
-    @_s.required this.endpoints,
+    required this.endpoints,
   });
-  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointsResponseFromJson(json);
+
+  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointsResponse(
+      endpoints: (json['Endpoints'] as List)
+          .whereNotNull()
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    return {
+      'Endpoints': endpoints,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeExportOutput {
   /// Represents the properties of the export.
-  @_s.JsonKey(name: 'ExportDescription')
-  final ExportDescription exportDescription;
+  final ExportDescription? exportDescription;
 
   DescribeExportOutput({
     this.exportDescription,
   });
-  factory DescribeExportOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeExportOutputFromJson(json);
+
+  factory DescribeExportOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeExportOutput(
+      exportDescription: json['ExportDescription'] != null
+          ? ExportDescription.fromJson(
+              json['ExportDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportDescription = this.exportDescription;
+    return {
+      if (exportDescription != null) 'ExportDescription': exportDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGlobalTableOutput {
   /// Contains the details of the global table.
-  @_s.JsonKey(name: 'GlobalTableDescription')
-  final GlobalTableDescription globalTableDescription;
+  final GlobalTableDescription? globalTableDescription;
 
   DescribeGlobalTableOutput({
     this.globalTableDescription,
   });
-  factory DescribeGlobalTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeGlobalTableOutputFromJson(json);
+
+  factory DescribeGlobalTableOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeGlobalTableOutput(
+      globalTableDescription: json['GlobalTableDescription'] != null
+          ? GlobalTableDescription.fromJson(
+              json['GlobalTableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableDescription = this.globalTableDescription;
+    return {
+      if (globalTableDescription != null)
+        'GlobalTableDescription': globalTableDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGlobalTableSettingsOutput {
   /// The name of the global table.
-  @_s.JsonKey(name: 'GlobalTableName')
-  final String globalTableName;
+  final String? globalTableName;
 
   /// The Region-specific settings for the global table.
-  @_s.JsonKey(name: 'ReplicaSettings')
-  final List<ReplicaSettingsDescription> replicaSettings;
+  final List<ReplicaSettingsDescription>? replicaSettings;
 
   DescribeGlobalTableSettingsOutput({
     this.globalTableName,
     this.replicaSettings,
   });
+
   factory DescribeGlobalTableSettingsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeGlobalTableSettingsOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeGlobalTableSettingsOutput(
+      globalTableName: json['GlobalTableName'] as String?,
+      replicaSettings: (json['ReplicaSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableName = this.globalTableName;
+    final replicaSettings = this.replicaSettings;
+    return {
+      if (globalTableName != null) 'GlobalTableName': globalTableName,
+      if (replicaSettings != null) 'ReplicaSettings': replicaSettings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeKinesisStreamingDestinationOutput {
   /// The list of replica structures for the table being described.
-  @_s.JsonKey(name: 'KinesisDataStreamDestinations')
-  final List<KinesisDataStreamDestination> kinesisDataStreamDestinations;
+  final List<KinesisDataStreamDestination>? kinesisDataStreamDestinations;
 
   /// The name of the table being described.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   DescribeKinesisStreamingDestinationOutput({
     this.kinesisDataStreamDestinations,
     this.tableName,
   });
+
   factory DescribeKinesisStreamingDestinationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeKinesisStreamingDestinationOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeKinesisStreamingDestinationOutput(
+      kinesisDataStreamDestinations: (json['KinesisDataStreamDestinations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              KinesisDataStreamDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kinesisDataStreamDestinations = this.kinesisDataStreamDestinations;
+    final tableName = this.tableName;
+    return {
+      if (kinesisDataStreamDestinations != null)
+        'KinesisDataStreamDestinations': kinesisDataStreamDestinations,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
 /// Represents the output of a <code>DescribeLimits</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLimitsOutput {
   /// The maximum total read capacity units that your account allows you to
   /// provision across all of your tables in this Region.
-  @_s.JsonKey(name: 'AccountMaxReadCapacityUnits')
-  final int accountMaxReadCapacityUnits;
+  final int? accountMaxReadCapacityUnits;
 
   /// The maximum total write capacity units that your account allows you to
   /// provision across all of your tables in this Region.
-  @_s.JsonKey(name: 'AccountMaxWriteCapacityUnits')
-  final int accountMaxWriteCapacityUnits;
+  final int? accountMaxWriteCapacityUnits;
 
   /// The maximum read capacity units that your account allows you to provision
   /// for a new table that you are creating in this Region, including the read
   /// capacity units provisioned for its global secondary indexes (GSIs).
-  @_s.JsonKey(name: 'TableMaxReadCapacityUnits')
-  final int tableMaxReadCapacityUnits;
+  final int? tableMaxReadCapacityUnits;
 
   /// The maximum write capacity units that your account allows you to provision
   /// for a new table that you are creating in this Region, including the write
   /// capacity units provisioned for its global secondary indexes (GSIs).
-  @_s.JsonKey(name: 'TableMaxWriteCapacityUnits')
-  final int tableMaxWriteCapacityUnits;
+  final int? tableMaxWriteCapacityUnits;
 
   DescribeLimitsOutput({
     this.accountMaxReadCapacityUnits,
@@ -7833,140 +8506,246 @@ class DescribeLimitsOutput {
     this.tableMaxReadCapacityUnits,
     this.tableMaxWriteCapacityUnits,
   });
-  factory DescribeLimitsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLimitsOutputFromJson(json);
+
+  factory DescribeLimitsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeLimitsOutput(
+      accountMaxReadCapacityUnits: json['AccountMaxReadCapacityUnits'] as int?,
+      accountMaxWriteCapacityUnits:
+          json['AccountMaxWriteCapacityUnits'] as int?,
+      tableMaxReadCapacityUnits: json['TableMaxReadCapacityUnits'] as int?,
+      tableMaxWriteCapacityUnits: json['TableMaxWriteCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountMaxReadCapacityUnits = this.accountMaxReadCapacityUnits;
+    final accountMaxWriteCapacityUnits = this.accountMaxWriteCapacityUnits;
+    final tableMaxReadCapacityUnits = this.tableMaxReadCapacityUnits;
+    final tableMaxWriteCapacityUnits = this.tableMaxWriteCapacityUnits;
+    return {
+      if (accountMaxReadCapacityUnits != null)
+        'AccountMaxReadCapacityUnits': accountMaxReadCapacityUnits,
+      if (accountMaxWriteCapacityUnits != null)
+        'AccountMaxWriteCapacityUnits': accountMaxWriteCapacityUnits,
+      if (tableMaxReadCapacityUnits != null)
+        'TableMaxReadCapacityUnits': tableMaxReadCapacityUnits,
+      if (tableMaxWriteCapacityUnits != null)
+        'TableMaxWriteCapacityUnits': tableMaxWriteCapacityUnits,
+    };
+  }
 }
 
 /// Represents the output of a <code>DescribeTable</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTableOutput {
   /// The properties of the table.
-  @_s.JsonKey(name: 'Table')
-  final TableDescription table;
+  final TableDescription? table;
 
   DescribeTableOutput({
     this.table,
   });
-  factory DescribeTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTableOutputFromJson(json);
+
+  factory DescribeTableOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTableOutput(
+      table: json['Table'] != null
+          ? TableDescription.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final table = this.table;
+    return {
+      if (table != null) 'Table': table,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTableReplicaAutoScalingOutput {
   /// Represents the auto scaling properties of the table.
-  @_s.JsonKey(name: 'TableAutoScalingDescription')
-  final TableAutoScalingDescription tableAutoScalingDescription;
+  final TableAutoScalingDescription? tableAutoScalingDescription;
 
   DescribeTableReplicaAutoScalingOutput({
     this.tableAutoScalingDescription,
   });
+
   factory DescribeTableReplicaAutoScalingOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTableReplicaAutoScalingOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTableReplicaAutoScalingOutput(
+      tableAutoScalingDescription: json['TableAutoScalingDescription'] != null
+          ? TableAutoScalingDescription.fromJson(
+              json['TableAutoScalingDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableAutoScalingDescription = this.tableAutoScalingDescription;
+    return {
+      if (tableAutoScalingDescription != null)
+        'TableAutoScalingDescription': tableAutoScalingDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTimeToLiveOutput {
   /// <p/>
-  @_s.JsonKey(name: 'TimeToLiveDescription')
-  final TimeToLiveDescription timeToLiveDescription;
+  final TimeToLiveDescription? timeToLiveDescription;
 
   DescribeTimeToLiveOutput({
     this.timeToLiveDescription,
   });
-  factory DescribeTimeToLiveOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTimeToLiveOutputFromJson(json);
+
+  factory DescribeTimeToLiveOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTimeToLiveOutput(
+      timeToLiveDescription: json['TimeToLiveDescription'] != null
+          ? TimeToLiveDescription.fromJson(
+              json['TimeToLiveDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeToLiveDescription = this.timeToLiveDescription;
+    return {
+      if (timeToLiveDescription != null)
+        'TimeToLiveDescription': timeToLiveDescription,
+    };
+  }
 }
 
 enum DestinationStatus {
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('ENABLE_FAILED')
   enableFailed,
 }
 
+extension on DestinationStatus {
+  String toValue() {
+    switch (this) {
+      case DestinationStatus.enabling:
+        return 'ENABLING';
+      case DestinationStatus.active:
+        return 'ACTIVE';
+      case DestinationStatus.disabling:
+        return 'DISABLING';
+      case DestinationStatus.disabled:
+        return 'DISABLED';
+      case DestinationStatus.enableFailed:
+        return 'ENABLE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  DestinationStatus toDestinationStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return DestinationStatus.enabling;
+      case 'ACTIVE':
+        return DestinationStatus.active;
+      case 'DISABLING':
+        return DestinationStatus.disabling;
+      case 'DISABLED':
+        return DestinationStatus.disabled;
+      case 'ENABLE_FAILED':
+        return DestinationStatus.enableFailed;
+    }
+    throw Exception('$this is not known in enum DestinationStatus');
+  }
+}
+
 /// An endpoint information details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Endpoint {
   /// IP address of the endpoint.
-  @_s.JsonKey(name: 'Address')
   final String address;
 
   /// Endpoint cache time to live (TTL) value.
-  @_s.JsonKey(name: 'CachePeriodInMinutes')
   final int cachePeriodInMinutes;
 
   Endpoint({
-    @_s.required this.address,
-    @_s.required this.cachePeriodInMinutes,
+    required this.address,
+    required this.cachePeriodInMinutes,
   });
-  factory Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$EndpointFromJson(json);
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: json['Address'] as String,
+      cachePeriodInMinutes: json['CachePeriodInMinutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final cachePeriodInMinutes = this.cachePeriodInMinutes;
+    return {
+      'Address': address,
+      'CachePeriodInMinutes': cachePeriodInMinutes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecuteStatementOutput {
   /// If a read operation was used, this property will contain the result of the
   /// reade operation; a map of attribute names and their values. For the write
   /// operations this value will be empty.
-  @_s.JsonKey(name: 'Items')
-  final List<Map<String, AttributeValue>> items;
+  final List<Map<String, AttributeValue>>? items;
 
   /// If the response of a read request exceeds the response payload limit
   /// DynamoDB will set this value in the response. If set, you can use that this
   /// value in the subsequent request to get the remaining results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ExecuteStatementOutput({
     this.items,
     this.nextToken,
   });
-  factory ExecuteStatementOutput.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteStatementOutputFromJson(json);
+
+  factory ExecuteStatementOutput.fromJson(Map<String, dynamic> json) {
+    return ExecuteStatementOutput(
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final items = this.items;
+    final nextToken = this.nextToken;
+    return {
+      if (items != null) 'Items': items,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecuteTransactionOutput {
   /// The response to a PartiQL transaction.
-  @_s.JsonKey(name: 'Responses')
-  final List<ItemResponse> responses;
+  final List<ItemResponse>? responses;
 
   ExecuteTransactionOutput({
     this.responses,
   });
-  factory ExecuteTransactionOutput.fromJson(Map<String, dynamic> json) =>
-      _$ExecuteTransactionOutputFromJson(json);
+
+  factory ExecuteTransactionOutput.fromJson(Map<String, dynamic> json) {
+    return ExecuteTransactionOutput(
+      responses: (json['Responses'] as List?)
+          ?.whereNotNull()
+          .map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responses = this.responses;
+    return {
+      if (responses != null) 'Responses': responses,
+    };
+  }
 }
 
 /// Represents a condition to be compared with an attribute value. This
@@ -7995,11 +8774,6 @@ class ExecuteTransactionOutput {
 /// <code>AttributeValueList</code> and <code>ComparisonOperator</code>. Note
 /// that if you use both sets of parameters at once, DynamoDB will return a
 /// <code>ValidationException</code> exception.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExpectedAttributeValue {
   /// One or more values to evaluate against the supplied attribute. The number of
   /// values in the list depends on the <code>ComparisonOperator</code> being
@@ -8019,8 +8793,7 @@ class ExpectedAttributeValue {
   /// For information on specifying data types in JSON, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON
   /// Data Format</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'AttributeValueList')
-  final List<AttributeValue> attributeValueList;
+  final List<AttributeValue>? attributeValueList;
 
   /// A comparator for evaluating attributes in the
   /// <code>AttributeValueList</code>. For example, equals, greater than, less
@@ -8189,8 +8962,7 @@ class ExpectedAttributeValue {
   /// "1"]}</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ComparisonOperator')
-  final ComparisonOperator comparisonOperator;
+  final ComparisonOperator? comparisonOperator;
 
   /// Causes DynamoDB to evaluate the value before attempting a conditional
   /// operation:
@@ -8229,8 +9001,7 @@ class ExpectedAttributeValue {
   /// also expecting it not to exist.)
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Exists')
-  final bool exists;
+  final bool? exists;
 
   /// Represents the data for the expected attribute.
   ///
@@ -8240,8 +9011,7 @@ class ExpectedAttributeValue {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
   /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'Value')
-  final AttributeValue value;
+  final AttributeValue? value;
 
   ExpectedAttributeValue({
     this.attributeValueList,
@@ -8249,78 +9019,85 @@ class ExpectedAttributeValue {
     this.exists,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$ExpectedAttributeValueToJson(this);
+
+  factory ExpectedAttributeValue.fromJson(Map<String, dynamic> json) {
+    return ExpectedAttributeValue(
+      attributeValueList: (json['AttributeValueList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      comparisonOperator:
+          (json['ComparisonOperator'] as String?)?.toComparisonOperator(),
+      exists: json['Exists'] as bool?,
+      value: json['Value'] != null
+          ? AttributeValue.fromJson(json['Value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeValueList = this.attributeValueList;
+    final comparisonOperator = this.comparisonOperator;
+    final exists = this.exists;
+    final value = this.value;
+    return {
+      if (attributeValueList != null) 'AttributeValueList': attributeValueList,
+      if (comparisonOperator != null)
+        'ComparisonOperator': comparisonOperator.toValue(),
+      if (exists != null) 'Exists': exists,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Represents the properties of the exported table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportDescription {
   /// The billable size of the table export.
-  @_s.JsonKey(name: 'BilledSizeBytes')
-  final int billedSizeBytes;
+  final int? billedSizeBytes;
 
   /// The client token that was provided for the export task. A client token makes
   /// calls to <code>ExportTableToPointInTimeInput</code> idempotent, meaning that
   /// multiple identical calls have the same effect as one single call.
-  @_s.JsonKey(name: 'ClientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// The time at which the export task completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The Amazon Resource Name (ARN) of the table export.
-  @_s.JsonKey(name: 'ExportArn')
-  final String exportArn;
+  final String? exportArn;
 
   /// The format of the exported data. Valid values for <code>ExportFormat</code>
   /// are <code>DYNAMODB_JSON</code> or <code>ION</code>.
-  @_s.JsonKey(name: 'ExportFormat')
-  final ExportFormat exportFormat;
+  final ExportFormat? exportFormat;
 
   /// The name of the manifest file for the export task.
-  @_s.JsonKey(name: 'ExportManifest')
-  final String exportManifest;
+  final String? exportManifest;
 
   /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
   /// FAILED.
-  @_s.JsonKey(name: 'ExportStatus')
-  final ExportStatus exportStatus;
+  final ExportStatus? exportStatus;
 
   /// Point in time from which table data was exported.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExportTime')
-  final DateTime exportTime;
+  final DateTime? exportTime;
 
   /// Status code for the result of the failed export.
-  @_s.JsonKey(name: 'FailureCode')
-  final String failureCode;
+  final String? failureCode;
 
   /// Export failure reason description.
-  @_s.JsonKey(name: 'FailureMessage')
-  final String failureMessage;
+  final String? failureMessage;
 
   /// The number of items exported.
-  @_s.JsonKey(name: 'ItemCount')
-  final int itemCount;
+  final int? itemCount;
 
   /// The name of the Amazon S3 bucket containing the export.
-  @_s.JsonKey(name: 'S3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// The ID of the AWS account that owns the bucket containing the export.
-  @_s.JsonKey(name: 'S3BucketOwner')
-  final String s3BucketOwner;
+  final String? s3BucketOwner;
 
   /// The Amazon S3 bucket prefix used as the file name and path of the exported
   /// snapshot.
-  @_s.JsonKey(name: 'S3Prefix')
-  final String s3Prefix;
+  final String? s3Prefix;
 
   /// Type of encryption used on the bucket where export data is stored. Valid
   /// values for <code>S3SseAlgorithm</code> are:
@@ -8333,26 +9110,20 @@ class ExportDescription {
   /// <code>KMS</code> - server-side encryption with AWS KMS managed keys
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'S3SseAlgorithm')
-  final S3SseAlgorithm s3SseAlgorithm;
+  final S3SseAlgorithm? s3SseAlgorithm;
 
   /// The ID of the AWS KMS managed key used to encrypt the S3 bucket where export
   /// data is stored (if applicable).
-  @_s.JsonKey(name: 'S3SseKmsKeyId')
-  final String s3SseKmsKeyId;
+  final String? s3SseKmsKeyId;
 
   /// The time at which the export task began.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The Amazon Resource Name (ARN) of the table that was exported.
-  @_s.JsonKey(name: 'TableArn')
-  final String tableArn;
+  final String? tableArn;
 
   /// Unique ID of the table that was exported.
-  @_s.JsonKey(name: 'TableId')
-  final String tableId;
+  final String? tableId;
 
   ExportDescription({
     this.billedSizeBytes,
@@ -8375,14 +9146,77 @@ class ExportDescription {
     this.tableArn,
     this.tableId,
   });
-  factory ExportDescription.fromJson(Map<String, dynamic> json) =>
-      _$ExportDescriptionFromJson(json);
+
+  factory ExportDescription.fromJson(Map<String, dynamic> json) {
+    return ExportDescription(
+      billedSizeBytes: json['BilledSizeBytes'] as int?,
+      clientToken: json['ClientToken'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      exportArn: json['ExportArn'] as String?,
+      exportFormat: (json['ExportFormat'] as String?)?.toExportFormat(),
+      exportManifest: json['ExportManifest'] as String?,
+      exportStatus: (json['ExportStatus'] as String?)?.toExportStatus(),
+      exportTime: timeStampFromJson(json['ExportTime']),
+      failureCode: json['FailureCode'] as String?,
+      failureMessage: json['FailureMessage'] as String?,
+      itemCount: json['ItemCount'] as int?,
+      s3Bucket: json['S3Bucket'] as String?,
+      s3BucketOwner: json['S3BucketOwner'] as String?,
+      s3Prefix: json['S3Prefix'] as String?,
+      s3SseAlgorithm: (json['S3SseAlgorithm'] as String?)?.toS3SseAlgorithm(),
+      s3SseKmsKeyId: json['S3SseKmsKeyId'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      tableArn: json['TableArn'] as String?,
+      tableId: json['TableId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billedSizeBytes = this.billedSizeBytes;
+    final clientToken = this.clientToken;
+    final endTime = this.endTime;
+    final exportArn = this.exportArn;
+    final exportFormat = this.exportFormat;
+    final exportManifest = this.exportManifest;
+    final exportStatus = this.exportStatus;
+    final exportTime = this.exportTime;
+    final failureCode = this.failureCode;
+    final failureMessage = this.failureMessage;
+    final itemCount = this.itemCount;
+    final s3Bucket = this.s3Bucket;
+    final s3BucketOwner = this.s3BucketOwner;
+    final s3Prefix = this.s3Prefix;
+    final s3SseAlgorithm = this.s3SseAlgorithm;
+    final s3SseKmsKeyId = this.s3SseKmsKeyId;
+    final startTime = this.startTime;
+    final tableArn = this.tableArn;
+    final tableId = this.tableId;
+    return {
+      if (billedSizeBytes != null) 'BilledSizeBytes': billedSizeBytes,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (exportArn != null) 'ExportArn': exportArn,
+      if (exportFormat != null) 'ExportFormat': exportFormat.toValue(),
+      if (exportManifest != null) 'ExportManifest': exportManifest,
+      if (exportStatus != null) 'ExportStatus': exportStatus.toValue(),
+      if (exportTime != null) 'ExportTime': unixTimestampToJson(exportTime),
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3BucketOwner != null) 'S3BucketOwner': s3BucketOwner,
+      if (s3Prefix != null) 'S3Prefix': s3Prefix,
+      if (s3SseAlgorithm != null) 'S3SseAlgorithm': s3SseAlgorithm.toValue(),
+      if (s3SseKmsKeyId != null) 'S3SseKmsKeyId': s3SseKmsKeyId,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableId != null) 'TableId': tableId,
+    };
+  }
 }
 
 enum ExportFormat {
-  @_s.JsonValue('DYNAMODB_JSON')
   dynamodbJson,
-  @_s.JsonValue('ION')
   ion,
 }
 
@@ -8394,128 +9228,198 @@ extension on ExportFormat {
       case ExportFormat.ion:
         return 'ION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExportFormat toExportFormat() {
+    switch (this) {
+      case 'DYNAMODB_JSON':
+        return ExportFormat.dynamodbJson;
+      case 'ION':
+        return ExportFormat.ion;
+    }
+    throw Exception('$this is not known in enum ExportFormat');
   }
 }
 
 enum ExportStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ExportStatus {
+  String toValue() {
+    switch (this) {
+      case ExportStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ExportStatus.completed:
+        return 'COMPLETED';
+      case ExportStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ExportStatus toExportStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ExportStatus.inProgress;
+      case 'COMPLETED':
+        return ExportStatus.completed;
+      case 'FAILED':
+        return ExportStatus.failed;
+    }
+    throw Exception('$this is not known in enum ExportStatus');
+  }
+}
+
 /// Summary information about an export task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportSummary {
   /// The Amazon Resource Name (ARN) of the export.
-  @_s.JsonKey(name: 'ExportArn')
-  final String exportArn;
+  final String? exportArn;
 
   /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or
   /// FAILED.
-  @_s.JsonKey(name: 'ExportStatus')
-  final ExportStatus exportStatus;
+  final ExportStatus? exportStatus;
 
   ExportSummary({
     this.exportArn,
     this.exportStatus,
   });
-  factory ExportSummary.fromJson(Map<String, dynamic> json) =>
-      _$ExportSummaryFromJson(json);
+
+  factory ExportSummary.fromJson(Map<String, dynamic> json) {
+    return ExportSummary(
+      exportArn: json['ExportArn'] as String?,
+      exportStatus: (json['ExportStatus'] as String?)?.toExportStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportArn = this.exportArn;
+    final exportStatus = this.exportStatus;
+    return {
+      if (exportArn != null) 'ExportArn': exportArn,
+      if (exportStatus != null) 'ExportStatus': exportStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportTableToPointInTimeOutput {
   /// Contains a description of the table export.
-  @_s.JsonKey(name: 'ExportDescription')
-  final ExportDescription exportDescription;
+  final ExportDescription? exportDescription;
 
   ExportTableToPointInTimeOutput({
     this.exportDescription,
   });
-  factory ExportTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) =>
-      _$ExportTableToPointInTimeOutputFromJson(json);
+
+  factory ExportTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) {
+    return ExportTableToPointInTimeOutput(
+      exportDescription: json['ExportDescription'] != null
+          ? ExportDescription.fromJson(
+              json['ExportDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportDescription = this.exportDescription;
+    return {
+      if (exportDescription != null) 'ExportDescription': exportDescription,
+    };
+  }
 }
 
 /// Represents a failure a contributor insights operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailureException {
   /// Description of the failure.
-  @_s.JsonKey(name: 'ExceptionDescription')
-  final String exceptionDescription;
+  final String? exceptionDescription;
 
   /// Exception name.
-  @_s.JsonKey(name: 'ExceptionName')
-  final String exceptionName;
+  final String? exceptionName;
 
   FailureException({
     this.exceptionDescription,
     this.exceptionName,
   });
-  factory FailureException.fromJson(Map<String, dynamic> json) =>
-      _$FailureExceptionFromJson(json);
+
+  factory FailureException.fromJson(Map<String, dynamic> json) {
+    return FailureException(
+      exceptionDescription: json['ExceptionDescription'] as String?,
+      exceptionName: json['ExceptionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exceptionDescription = this.exceptionDescription;
+    final exceptionName = this.exceptionName;
+    return {
+      if (exceptionDescription != null)
+        'ExceptionDescription': exceptionDescription,
+      if (exceptionName != null) 'ExceptionName': exceptionName,
+    };
+  }
 }
 
 /// Specifies an item and related attribute values to retrieve in a
 /// <code>TransactGetItem</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Get {
   /// A map of attribute names to <code>AttributeValue</code> objects that
   /// specifies the primary key of the item to retrieve.
-  @_s.JsonKey(name: 'Key')
   final Map<String, AttributeValue> key;
 
   /// The name of the table from which to retrieve the specified item.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// One or more substitution tokens for attribute names in the
   /// ProjectionExpression parameter.
-  @_s.JsonKey(name: 'ExpressionAttributeNames')
-  final Map<String, String> expressionAttributeNames;
+  final Map<String, String>? expressionAttributeNames;
 
   /// A string that identifies one or more attributes of the specified item to
   /// retrieve from the table. The attributes in the expression must be separated
   /// by commas. If no attribute names are specified, then all attributes of the
   /// specified item are returned. If any of the requested attributes are not
   /// found, they do not appear in the result.
-  @_s.JsonKey(name: 'ProjectionExpression')
-  final String projectionExpression;
+  final String? projectionExpression;
 
   Get({
-    @_s.required this.key,
-    @_s.required this.tableName,
+    required this.key,
+    required this.tableName,
     this.expressionAttributeNames,
     this.projectionExpression,
   });
-  Map<String, dynamic> toJson() => _$GetToJson(this);
+
+  factory Get.fromJson(Map<String, dynamic> json) {
+    return Get(
+      key: (json['Key'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      tableName: json['TableName'] as String,
+      expressionAttributeNames:
+          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      projectionExpression: json['ProjectionExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final tableName = this.tableName;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final projectionExpression = this.projectionExpression;
+    return {
+      'Key': key,
+      'TableName': tableName,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (projectionExpression != null)
+        'ProjectionExpression': projectionExpression,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetItemOutput {
   /// The capacity units consumed by the <code>GetItem</code> operation. The data
   /// returned includes the total provisioned throughput consumed, along with
@@ -8525,32 +9429,42 @@ class GetItemOutput {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Read/Write
   /// Capacity Mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
 
   /// A map of attribute names to <code>AttributeValue</code> objects, as
   /// specified by <code>ProjectionExpression</code>.
-  @_s.JsonKey(name: 'Item')
-  final Map<String, AttributeValue> item;
+  final Map<String, AttributeValue>? item;
 
   GetItemOutput({
     this.consumedCapacity,
     this.item,
   });
-  factory GetItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetItemOutputFromJson(json);
+
+  factory GetItemOutput.fromJson(Map<String, dynamic> json) {
+    return GetItemOutput(
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final item = this.item;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (item != null) 'Item': item,
+    };
+  }
 }
 
 /// Represents the properties of a global secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GlobalSecondaryIndex {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// The complete key schema for a global secondary index, which consists of one
@@ -8574,13 +9488,11 @@ class GlobalSecondaryIndex {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeySchema')
   final List<KeySchemaElement> keySchema;
 
   /// Represents attributes that are copied (projected) from the table into the
   /// global secondary index. These are in addition to the primary key attributes
   /// and index key attributes, which are automatically projected.
-  @_s.JsonKey(name: 'Projection')
   final Projection projection;
 
   /// Represents the provisioned throughput settings for the specified global
@@ -8589,46 +9501,85 @@ class GlobalSecondaryIndex {
   /// For current minimum and maximum provisioned throughput values, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
   /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ProvisionedThroughput')
-  final ProvisionedThroughput provisionedThroughput;
+  final ProvisionedThroughput? provisionedThroughput;
 
   GlobalSecondaryIndex({
-    @_s.required this.indexName,
-    @_s.required this.keySchema,
-    @_s.required this.projection,
+    required this.indexName,
+    required this.keySchema,
+    required this.projection,
     this.provisionedThroughput,
   });
-  Map<String, dynamic> toJson() => _$GlobalSecondaryIndexToJson(this);
+
+  factory GlobalSecondaryIndex.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndex(
+      indexName: json['IndexName'] as String,
+      keySchema: (json['KeySchema'] as List)
+          .whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection:
+          Projection.fromJson(json['Projection'] as Map<String, dynamic>),
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    final provisionedThroughput = this.provisionedThroughput;
+    return {
+      'IndexName': indexName,
+      'KeySchema': keySchema,
+      'Projection': projection,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+    };
+  }
 }
 
 /// Represents the auto scaling settings of a global secondary index for a
 /// global table that will be modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GlobalSecondaryIndexAutoScalingUpdate {
   /// The name of the global secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
-  @_s.JsonKey(name: 'ProvisionedWriteCapacityAutoScalingUpdate')
-  final AutoScalingSettingsUpdate provisionedWriteCapacityAutoScalingUpdate;
+  final String? indexName;
+  final AutoScalingSettingsUpdate? provisionedWriteCapacityAutoScalingUpdate;
 
   GlobalSecondaryIndexAutoScalingUpdate({
     this.indexName,
     this.provisionedWriteCapacityAutoScalingUpdate,
   });
-  Map<String, dynamic> toJson() =>
-      _$GlobalSecondaryIndexAutoScalingUpdateToJson(this);
+
+  factory GlobalSecondaryIndexAutoScalingUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return GlobalSecondaryIndexAutoScalingUpdate(
+      indexName: json['IndexName'] as String?,
+      provisionedWriteCapacityAutoScalingUpdate:
+          json['ProvisionedWriteCapacityAutoScalingUpdate'] != null
+              ? AutoScalingSettingsUpdate.fromJson(
+                  json['ProvisionedWriteCapacityAutoScalingUpdate']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedWriteCapacityAutoScalingUpdate =
+        this.provisionedWriteCapacityAutoScalingUpdate;
+    return {
+      if (indexName != null) 'IndexName': indexName,
+      if (provisionedWriteCapacityAutoScalingUpdate != null)
+        'ProvisionedWriteCapacityAutoScalingUpdate':
+            provisionedWriteCapacityAutoScalingUpdate,
+    };
+  }
 }
 
 /// Represents the properties of a global secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GlobalSecondaryIndexDescription {
   /// Indicates whether the index is currently backfilling. <i>Backfilling</i> is
   /// the process of reading items from the table and determining whether they can
@@ -8647,22 +9598,18 @@ class GlobalSecondaryIndexDescription {
   /// the <code>Backfilling</code> attribute does not appear in the
   /// <code>DescribeTable</code> output.
   /// </note>
-  @_s.JsonKey(name: 'Backfilling')
-  final bool backfilling;
+  final bool? backfilling;
 
   /// The Amazon Resource Name (ARN) that uniquely identifies the index.
-  @_s.JsonKey(name: 'IndexArn')
-  final String indexArn;
+  final String? indexArn;
 
   /// The name of the global secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The total size of the specified index, in bytes. DynamoDB updates this value
   /// approximately every six hours. Recent changes might not be reflected in this
   /// value.
-  @_s.JsonKey(name: 'IndexSizeBytes')
-  final int indexSizeBytes;
+  final int? indexSizeBytes;
 
   /// The current state of the global secondary index:
   ///
@@ -8680,14 +9627,12 @@ class GlobalSecondaryIndexDescription {
   /// <code>ACTIVE</code> - The index is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'IndexStatus')
-  final IndexStatus indexStatus;
+  final IndexStatus? indexStatus;
 
   /// The number of items in the specified index. DynamoDB updates this value
   /// approximately every six hours. Recent changes might not be reflected in this
   /// value.
-  @_s.JsonKey(name: 'ItemCount')
-  final int itemCount;
+  final int? itemCount;
 
   /// The complete key schema for a global secondary index, which consists of one
   /// or more pairs of attribute names and key types:
@@ -8710,14 +9655,12 @@ class GlobalSecondaryIndexDescription {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeySchema')
-  final List<KeySchemaElement> keySchema;
+  final List<KeySchemaElement>? keySchema;
 
   /// Represents attributes that are copied (projected) from the table into the
   /// global secondary index. These are in addition to the primary key attributes
   /// and index key attributes, which are automatically projected.
-  @_s.JsonKey(name: 'Projection')
-  final Projection projection;
+  final Projection? projection;
 
   /// Represents the provisioned throughput settings for the specified global
   /// secondary index.
@@ -8725,8 +9668,7 @@ class GlobalSecondaryIndexDescription {
   /// For current minimum and maximum provisioned throughput values, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
   /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ProvisionedThroughput')
-  final ProvisionedThroughputDescription provisionedThroughput;
+  final ProvisionedThroughputDescription? provisionedThroughput;
 
   GlobalSecondaryIndexDescription({
     this.backfilling,
@@ -8739,21 +9681,59 @@ class GlobalSecondaryIndexDescription {
     this.projection,
     this.provisionedThroughput,
   });
-  factory GlobalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) =>
-      _$GlobalSecondaryIndexDescriptionFromJson(json);
+
+  factory GlobalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndexDescription(
+      backfilling: json['Backfilling'] as bool?,
+      indexArn: json['IndexArn'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexSizeBytes: json['IndexSizeBytes'] as int?,
+      indexStatus: (json['IndexStatus'] as String?)?.toIndexStatus(),
+      itemCount: json['ItemCount'] as int?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughputDescription.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backfilling = this.backfilling;
+    final indexArn = this.indexArn;
+    final indexName = this.indexName;
+    final indexSizeBytes = this.indexSizeBytes;
+    final indexStatus = this.indexStatus;
+    final itemCount = this.itemCount;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    final provisionedThroughput = this.provisionedThroughput;
+    return {
+      if (backfilling != null) 'Backfilling': backfilling,
+      if (indexArn != null) 'IndexArn': indexArn,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexSizeBytes != null) 'IndexSizeBytes': indexSizeBytes,
+      if (indexStatus != null) 'IndexStatus': indexStatus.toValue(),
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (projection != null) 'Projection': projection,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+    };
+  }
 }
 
 /// Represents the properties of a global secondary index for the table when the
 /// backup was created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GlobalSecondaryIndexInfo {
   /// The name of the global secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The complete key schema for a global secondary index, which consists of one
   /// or more pairs of attribute names and key types:
@@ -8776,19 +9756,16 @@ class GlobalSecondaryIndexInfo {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeySchema')
-  final List<KeySchemaElement> keySchema;
+  final List<KeySchemaElement>? keySchema;
 
   /// Represents attributes that are copied (projected) from the table into the
   /// global secondary index. These are in addition to the primary key attributes
   /// and index key attributes, which are automatically projected.
-  @_s.JsonKey(name: 'Projection')
-  final Projection projection;
+  final Projection? projection;
 
   /// Represents the provisioned throughput settings for the specified global
   /// secondary index.
-  @_s.JsonKey(name: 'ProvisionedThroughput')
-  final ProvisionedThroughput provisionedThroughput;
+  final ProvisionedThroughput? provisionedThroughput;
 
   GlobalSecondaryIndexInfo({
     this.indexName,
@@ -8796,8 +9773,37 @@ class GlobalSecondaryIndexInfo {
     this.projection,
     this.provisionedThroughput,
   });
-  factory GlobalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) =>
-      _$GlobalSecondaryIndexInfoFromJson(json);
+
+  factory GlobalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndexInfo(
+      indexName: json['IndexName'] as String?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughput.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    final provisionedThroughput = this.provisionedThroughput;
+    return {
+      if (indexName != null) 'IndexName': indexName,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (projection != null) 'Projection': projection,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+    };
+  }
 }
 
 /// Represents one of the following:
@@ -8814,11 +9820,6 @@ class GlobalSecondaryIndexInfo {
 /// An existing global secondary index to be removed from an existing table.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GlobalSecondaryIndexUpdate {
   /// The parameters required for creating a global secondary index on an existing
   /// table:
@@ -8840,68 +9841,93 @@ class GlobalSecondaryIndexUpdate {
   /// <code>ProvisionedThroughput </code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Create')
-  final CreateGlobalSecondaryIndexAction create;
+  final CreateGlobalSecondaryIndexAction? create;
 
   /// The name of an existing global secondary index to be removed.
-  @_s.JsonKey(name: 'Delete')
-  final DeleteGlobalSecondaryIndexAction delete;
+  final DeleteGlobalSecondaryIndexAction? delete;
 
   /// The name of an existing global secondary index, along with new provisioned
   /// throughput settings to be applied to that index.
-  @_s.JsonKey(name: 'Update')
-  final UpdateGlobalSecondaryIndexAction update;
+  final UpdateGlobalSecondaryIndexAction? update;
 
   GlobalSecondaryIndexUpdate({
     this.create,
     this.delete,
     this.update,
   });
-  Map<String, dynamic> toJson() => _$GlobalSecondaryIndexUpdateToJson(this);
+
+  factory GlobalSecondaryIndexUpdate.fromJson(Map<String, dynamic> json) {
+    return GlobalSecondaryIndexUpdate(
+      create: json['Create'] != null
+          ? CreateGlobalSecondaryIndexAction.fromJson(
+              json['Create'] as Map<String, dynamic>)
+          : null,
+      delete: json['Delete'] != null
+          ? DeleteGlobalSecondaryIndexAction.fromJson(
+              json['Delete'] as Map<String, dynamic>)
+          : null,
+      update: json['Update'] != null
+          ? UpdateGlobalSecondaryIndexAction.fromJson(
+              json['Update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final create = this.create;
+    final delete = this.delete;
+    final update = this.update;
+    return {
+      if (create != null) 'Create': create,
+      if (delete != null) 'Delete': delete,
+      if (update != null) 'Update': update,
+    };
+  }
 }
 
 /// Represents the properties of a global table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GlobalTable {
   /// The global table name.
-  @_s.JsonKey(name: 'GlobalTableName')
-  final String globalTableName;
+  final String? globalTableName;
 
   /// The Regions where the global table has replicas.
-  @_s.JsonKey(name: 'ReplicationGroup')
-  final List<Replica> replicationGroup;
+  final List<Replica>? replicationGroup;
 
   GlobalTable({
     this.globalTableName,
     this.replicationGroup,
   });
-  factory GlobalTable.fromJson(Map<String, dynamic> json) =>
-      _$GlobalTableFromJson(json);
+
+  factory GlobalTable.fromJson(Map<String, dynamic> json) {
+    return GlobalTable(
+      globalTableName: json['GlobalTableName'] as String?,
+      replicationGroup: (json['ReplicationGroup'] as List?)
+          ?.whereNotNull()
+          .map((e) => Replica.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableName = this.globalTableName;
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (globalTableName != null) 'GlobalTableName': globalTableName,
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
 }
 
 /// Contains details about the global table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GlobalTableDescription {
   /// The creation time of the global table.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The unique identifier of the global table.
-  @_s.JsonKey(name: 'GlobalTableArn')
-  final String globalTableArn;
+  final String? globalTableArn;
 
   /// The global table name.
-  @_s.JsonKey(name: 'GlobalTableName')
-  final String globalTableName;
+  final String? globalTableName;
 
   /// The current state of the global table:
   ///
@@ -8919,12 +9945,10 @@ class GlobalTableDescription {
   /// <code>ACTIVE</code> - The global table is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'GlobalTableStatus')
-  final GlobalTableStatus globalTableStatus;
+  final GlobalTableStatus? globalTableStatus;
 
   /// The Regions where the global table has replicas.
-  @_s.JsonKey(name: 'ReplicationGroup')
-  final List<ReplicaDescription> replicationGroup;
+  final List<ReplicaDescription>? replicationGroup;
 
   GlobalTableDescription({
     this.creationDateTime,
@@ -8933,79 +9957,176 @@ class GlobalTableDescription {
     this.globalTableStatus,
     this.replicationGroup,
   });
-  factory GlobalTableDescription.fromJson(Map<String, dynamic> json) =>
-      _$GlobalTableDescriptionFromJson(json);
+
+  factory GlobalTableDescription.fromJson(Map<String, dynamic> json) {
+    return GlobalTableDescription(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      globalTableArn: json['GlobalTableArn'] as String?,
+      globalTableName: json['GlobalTableName'] as String?,
+      globalTableStatus:
+          (json['GlobalTableStatus'] as String?)?.toGlobalTableStatus(),
+      replicationGroup: (json['ReplicationGroup'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final globalTableArn = this.globalTableArn;
+    final globalTableName = this.globalTableName;
+    final globalTableStatus = this.globalTableStatus;
+    final replicationGroup = this.replicationGroup;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (globalTableArn != null) 'GlobalTableArn': globalTableArn,
+      if (globalTableName != null) 'GlobalTableName': globalTableName,
+      if (globalTableStatus != null)
+        'GlobalTableStatus': globalTableStatus.toValue(),
+      if (replicationGroup != null) 'ReplicationGroup': replicationGroup,
+    };
+  }
 }
 
 /// Represents the settings of a global secondary index for a global table that
 /// will be modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class GlobalTableGlobalSecondaryIndexSettingsUpdate {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// Auto scaling settings for managing a global secondary index's write capacity
   /// units.
-  @_s.JsonKey(name: 'ProvisionedWriteCapacityAutoScalingSettingsUpdate')
-  final AutoScalingSettingsUpdate
+  final AutoScalingSettingsUpdate?
       provisionedWriteCapacityAutoScalingSettingsUpdate;
 
   /// The maximum number of writes consumed per second before DynamoDB returns a
   /// <code>ThrottlingException.</code>
-  @_s.JsonKey(name: 'ProvisionedWriteCapacityUnits')
-  final int provisionedWriteCapacityUnits;
+  final int? provisionedWriteCapacityUnits;
 
   GlobalTableGlobalSecondaryIndexSettingsUpdate({
-    @_s.required this.indexName,
+    required this.indexName,
     this.provisionedWriteCapacityAutoScalingSettingsUpdate,
     this.provisionedWriteCapacityUnits,
   });
-  Map<String, dynamic> toJson() =>
-      _$GlobalTableGlobalSecondaryIndexSettingsUpdateToJson(this);
+
+  factory GlobalTableGlobalSecondaryIndexSettingsUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return GlobalTableGlobalSecondaryIndexSettingsUpdate(
+      indexName: json['IndexName'] as String,
+      provisionedWriteCapacityAutoScalingSettingsUpdate:
+          json['ProvisionedWriteCapacityAutoScalingSettingsUpdate'] != null
+              ? AutoScalingSettingsUpdate.fromJson(
+                  json['ProvisionedWriteCapacityAutoScalingSettingsUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      provisionedWriteCapacityUnits:
+          json['ProvisionedWriteCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedWriteCapacityAutoScalingSettingsUpdate =
+        this.provisionedWriteCapacityAutoScalingSettingsUpdate;
+    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
+    return {
+      'IndexName': indexName,
+      if (provisionedWriteCapacityAutoScalingSettingsUpdate != null)
+        'ProvisionedWriteCapacityAutoScalingSettingsUpdate':
+            provisionedWriteCapacityAutoScalingSettingsUpdate,
+      if (provisionedWriteCapacityUnits != null)
+        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
+    };
+  }
 }
 
 enum GlobalTableStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on GlobalTableStatus {
+  String toValue() {
+    switch (this) {
+      case GlobalTableStatus.creating:
+        return 'CREATING';
+      case GlobalTableStatus.active:
+        return 'ACTIVE';
+      case GlobalTableStatus.deleting:
+        return 'DELETING';
+      case GlobalTableStatus.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  GlobalTableStatus toGlobalTableStatus() {
+    switch (this) {
+      case 'CREATING':
+        return GlobalTableStatus.creating;
+      case 'ACTIVE':
+        return GlobalTableStatus.active;
+      case 'DELETING':
+        return GlobalTableStatus.deleting;
+      case 'UPDATING':
+        return GlobalTableStatus.updating;
+    }
+    throw Exception('$this is not known in enum GlobalTableStatus');
+  }
+}
+
 enum IndexStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('ACTIVE')
   active,
+}
+
+extension on IndexStatus {
+  String toValue() {
+    switch (this) {
+      case IndexStatus.creating:
+        return 'CREATING';
+      case IndexStatus.updating:
+        return 'UPDATING';
+      case IndexStatus.deleting:
+        return 'DELETING';
+      case IndexStatus.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension on String {
+  IndexStatus toIndexStatus() {
+    switch (this) {
+      case 'CREATING':
+        return IndexStatus.creating;
+      case 'UPDATING':
+        return IndexStatus.updating;
+      case 'DELETING':
+        return IndexStatus.deleting;
+      case 'ACTIVE':
+        return IndexStatus.active;
+    }
+    throw Exception('$this is not known in enum IndexStatus');
+  }
 }
 
 /// Information about item collections, if any, that were affected by the
 /// operation. <code>ItemCollectionMetrics</code> is only returned if the
 /// request asked for it. If the table does not have any local secondary
 /// indexes, this information is not returned in the response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ItemCollectionMetrics {
   /// The partition key value of the item collection. This value is the same as
   /// the partition key value of the item.
-  @_s.JsonKey(name: 'ItemCollectionKey')
-  final Map<String, AttributeValue> itemCollectionKey;
+  final Map<String, AttributeValue>? itemCollectionKey;
 
   /// An estimate of item collection size, in gigabytes. This value is a
   /// two-element array containing a lower bound and an upper bound for the
@@ -9016,33 +10137,58 @@ class ItemCollectionMetrics {
   ///
   /// The estimate is subject to change over time; therefore, do not rely on the
   /// precision or accuracy of the estimate.
-  @_s.JsonKey(name: 'SizeEstimateRangeGB')
-  final List<double> sizeEstimateRangeGB;
+  final List<double>? sizeEstimateRangeGB;
 
   ItemCollectionMetrics({
     this.itemCollectionKey,
     this.sizeEstimateRangeGB,
   });
-  factory ItemCollectionMetrics.fromJson(Map<String, dynamic> json) =>
-      _$ItemCollectionMetricsFromJson(json);
+
+  factory ItemCollectionMetrics.fromJson(Map<String, dynamic> json) {
+    return ItemCollectionMetrics(
+      itemCollectionKey: (json['ItemCollectionKey'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      sizeEstimateRangeGB: (json['SizeEstimateRangeGB'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final itemCollectionKey = this.itemCollectionKey;
+    final sizeEstimateRangeGB = this.sizeEstimateRangeGB;
+    return {
+      if (itemCollectionKey != null) 'ItemCollectionKey': itemCollectionKey,
+      if (sizeEstimateRangeGB != null)
+        'SizeEstimateRangeGB': sizeEstimateRangeGB,
+    };
+  }
 }
 
 /// Details for the requested item.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ItemResponse {
   /// Map of attribute data consisting of the data type and attribute value.
-  @_s.JsonKey(name: 'Item')
-  final Map<String, AttributeValue> item;
+  final Map<String, AttributeValue>? item;
 
   ItemResponse({
     this.item,
   });
-  factory ItemResponse.fromJson(Map<String, dynamic> json) =>
-      _$ItemResponseFromJson(json);
+
+  factory ItemResponse.fromJson(Map<String, dynamic> json) {
+    return ItemResponse(
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final item = this.item;
+    return {
+      if (item != null) 'Item': item,
+    };
+  }
 }
 
 /// Represents <i>a single element</i> of a key schema. A key schema specifies
@@ -9058,14 +10204,8 @@ class ItemResponse {
 /// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
 /// nested attribute). The data type must be one of String, Number, or Binary.
 /// The attribute cannot be nested within a List or a Map.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeySchemaElement {
   /// The name of a key attribute.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// The role that this key attribute will assume:
@@ -9088,24 +10228,56 @@ class KeySchemaElement {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeyType')
   final KeyType keyType;
 
   KeySchemaElement({
-    @_s.required this.attributeName,
-    @_s.required this.keyType,
+    required this.attributeName,
+    required this.keyType,
   });
-  factory KeySchemaElement.fromJson(Map<String, dynamic> json) =>
-      _$KeySchemaElementFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeySchemaElementToJson(this);
+  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
+    return KeySchemaElement(
+      attributeName: json['AttributeName'] as String,
+      keyType: (json['KeyType'] as String).toKeyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final keyType = this.keyType;
+    return {
+      'AttributeName': attributeName,
+      'KeyType': keyType.toValue(),
+    };
+  }
 }
 
 enum KeyType {
-  @_s.JsonValue('HASH')
   hash,
-  @_s.JsonValue('RANGE')
   range,
+}
+
+extension on KeyType {
+  String toValue() {
+    switch (this) {
+      case KeyType.hash:
+        return 'HASH';
+      case KeyType.range:
+        return 'RANGE';
+    }
+  }
+}
+
+extension on String {
+  KeyType toKeyType() {
+    switch (this) {
+      case 'HASH':
+        return KeyType.hash;
+      case 'RANGE':
+        return KeyType.range;
+    }
+    throw Exception('$this is not known in enum KeyType');
+  }
 }
 
 /// Represents a set of primary keys and, for each key, the attributes to
@@ -9115,29 +10287,21 @@ enum KeyType {
 /// example, with a simple primary key, you only need to provide the partition
 /// key. For a composite primary key, you must provide <i>both</i> the partition
 /// key and the sort key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeysAndAttributes {
   /// The primary key attribute values that define the items and the attributes
   /// associated with the items.
-  @_s.JsonKey(name: 'Keys')
   final List<Map<String, AttributeValue>> keys;
 
   /// This is a legacy parameter. Use <code>ProjectionExpression</code> instead.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.html">Legacy
   /// Conditional Parameters</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'AttributesToGet')
-  final List<String> attributesToGet;
+  final List<String>? attributesToGet;
 
   /// The consistency of a read operation. If set to <code>true</code>, then a
   /// strongly consistent read is used; otherwise, an eventually consistent read
   /// is used.
-  @_s.JsonKey(name: 'ConsistentRead')
-  final bool consistentRead;
+  final bool? consistentRead;
 
   /// One or more substitution tokens for attribute names in an expression. The
   /// following are some use cases for using
@@ -9190,8 +10354,7 @@ class KeysAndAttributes {
   /// For more information on expression attribute names, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
   /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ExpressionAttributeNames')
-  final Map<String, String> expressionAttributeNames;
+  final Map<String, String>? expressionAttributeNames;
 
   /// A string that identifies one or more attributes to retrieve from the table.
   /// These attributes can include scalars, sets, or elements of a JSON document.
@@ -9205,87 +10368,136 @@ class KeysAndAttributes {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing
   /// Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ProjectionExpression')
-  final String projectionExpression;
+  final String? projectionExpression;
 
   KeysAndAttributes({
-    @_s.required this.keys,
+    required this.keys,
     this.attributesToGet,
     this.consistentRead,
     this.expressionAttributeNames,
     this.projectionExpression,
   });
-  factory KeysAndAttributes.fromJson(Map<String, dynamic> json) =>
-      _$KeysAndAttributesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeysAndAttributesToJson(this);
+  factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
+    return KeysAndAttributes(
+      keys: (json['Keys'] as List)
+          .whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      attributesToGet: (json['AttributesToGet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      consistentRead: json['ConsistentRead'] as bool?,
+      expressionAttributeNames:
+          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      projectionExpression: json['ProjectionExpression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keys = this.keys;
+    final attributesToGet = this.attributesToGet;
+    final consistentRead = this.consistentRead;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final projectionExpression = this.projectionExpression;
+    return {
+      'Keys': keys,
+      if (attributesToGet != null) 'AttributesToGet': attributesToGet,
+      if (consistentRead != null) 'ConsistentRead': consistentRead,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (projectionExpression != null)
+        'ProjectionExpression': projectionExpression,
+    };
+  }
 }
 
 /// Describes a Kinesis data stream destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KinesisDataStreamDestination {
   /// The current status of replication.
-  @_s.JsonKey(name: 'DestinationStatus')
-  final DestinationStatus destinationStatus;
+  final DestinationStatus? destinationStatus;
 
   /// The human-readable string that corresponds to the replica status.
-  @_s.JsonKey(name: 'DestinationStatusDescription')
-  final String destinationStatusDescription;
+  final String? destinationStatusDescription;
 
   /// The ARN for a specific Kinesis data stream.
-  @_s.JsonKey(name: 'StreamArn')
-  final String streamArn;
+  final String? streamArn;
 
   KinesisDataStreamDestination({
     this.destinationStatus,
     this.destinationStatusDescription,
     this.streamArn,
   });
-  factory KinesisDataStreamDestination.fromJson(Map<String, dynamic> json) =>
-      _$KinesisDataStreamDestinationFromJson(json);
+
+  factory KinesisDataStreamDestination.fromJson(Map<String, dynamic> json) {
+    return KinesisDataStreamDestination(
+      destinationStatus:
+          (json['DestinationStatus'] as String?)?.toDestinationStatus(),
+      destinationStatusDescription:
+          json['DestinationStatusDescription'] as String?,
+      streamArn: json['StreamArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationStatus = this.destinationStatus;
+    final destinationStatusDescription = this.destinationStatusDescription;
+    final streamArn = this.streamArn;
+    return {
+      if (destinationStatus != null)
+        'DestinationStatus': destinationStatus.toValue(),
+      if (destinationStatusDescription != null)
+        'DestinationStatusDescription': destinationStatusDescription,
+      if (streamArn != null) 'StreamArn': streamArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KinesisStreamingDestinationOutput {
   /// The current status of the replication.
-  @_s.JsonKey(name: 'DestinationStatus')
-  final DestinationStatus destinationStatus;
+  final DestinationStatus? destinationStatus;
 
   /// The ARN for the specific Kinesis data stream.
-  @_s.JsonKey(name: 'StreamArn')
-  final String streamArn;
+  final String? streamArn;
 
   /// The name of the table being modified.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   KinesisStreamingDestinationOutput({
     this.destinationStatus,
     this.streamArn,
     this.tableName,
   });
+
   factory KinesisStreamingDestinationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$KinesisStreamingDestinationOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return KinesisStreamingDestinationOutput(
+      destinationStatus:
+          (json['DestinationStatus'] as String?)?.toDestinationStatus(),
+      streamArn: json['StreamArn'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationStatus = this.destinationStatus;
+    final streamArn = this.streamArn;
+    final tableName = this.tableName;
+    return {
+      if (destinationStatus != null)
+        'DestinationStatus': destinationStatus.toValue(),
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackupsOutput {
   /// List of <code>BackupSummary</code> objects.
-  @_s.JsonKey(name: 'BackupSummaries')
-  final List<BackupSummary> backupSummaries;
+  final List<BackupSummary>? backupSummaries;
 
   /// The ARN of the backup last evaluated when the current page of results was
   /// returned, inclusive of the current page of results. This value may be
@@ -9300,91 +10512,138 @@ class ListBackupsOutput {
   /// indicate that there is more data to be returned. All results are guaranteed
   /// to have been returned if and only if no value for
   /// <code>LastEvaluatedBackupArn</code> is returned.
-  @_s.JsonKey(name: 'LastEvaluatedBackupArn')
-  final String lastEvaluatedBackupArn;
+  final String? lastEvaluatedBackupArn;
 
   ListBackupsOutput({
     this.backupSummaries,
     this.lastEvaluatedBackupArn,
   });
-  factory ListBackupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBackupsOutputFromJson(json);
+
+  factory ListBackupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBackupsOutput(
+      backupSummaries: (json['BackupSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastEvaluatedBackupArn: json['LastEvaluatedBackupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupSummaries = this.backupSummaries;
+    final lastEvaluatedBackupArn = this.lastEvaluatedBackupArn;
+    return {
+      if (backupSummaries != null) 'BackupSummaries': backupSummaries,
+      if (lastEvaluatedBackupArn != null)
+        'LastEvaluatedBackupArn': lastEvaluatedBackupArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListContributorInsightsOutput {
   /// A list of ContributorInsightsSummary.
-  @_s.JsonKey(name: 'ContributorInsightsSummaries')
-  final List<ContributorInsightsSummary> contributorInsightsSummaries;
+  final List<ContributorInsightsSummary>? contributorInsightsSummaries;
 
   /// A token to go to the next page if there is one.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListContributorInsightsOutput({
     this.contributorInsightsSummaries,
     this.nextToken,
   });
-  factory ListContributorInsightsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListContributorInsightsOutputFromJson(json);
+
+  factory ListContributorInsightsOutput.fromJson(Map<String, dynamic> json) {
+    return ListContributorInsightsOutput(
+      contributorInsightsSummaries: (json['ContributorInsightsSummaries']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ContributorInsightsSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributorInsightsSummaries = this.contributorInsightsSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (contributorInsightsSummaries != null)
+        'ContributorInsightsSummaries': contributorInsightsSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListExportsOutput {
   /// A list of <code>ExportSummary</code> objects.
-  @_s.JsonKey(name: 'ExportSummaries')
-  final List<ExportSummary> exportSummaries;
+  final List<ExportSummary>? exportSummaries;
 
   /// If this value is returned, there are additional results to be displayed. To
   /// retrieve them, call <code>ListExports</code> again, with
   /// <code>NextToken</code> set to this value.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListExportsOutput({
     this.exportSummaries,
     this.nextToken,
   });
-  factory ListExportsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListExportsOutputFromJson(json);
+
+  factory ListExportsOutput.fromJson(Map<String, dynamic> json) {
+    return ListExportsOutput(
+      exportSummaries: (json['ExportSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExportSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exportSummaries = this.exportSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (exportSummaries != null) 'ExportSummaries': exportSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGlobalTablesOutput {
   /// List of global table names.
-  @_s.JsonKey(name: 'GlobalTables')
-  final List<GlobalTable> globalTables;
+  final List<GlobalTable>? globalTables;
 
   /// Last evaluated global table name.
-  @_s.JsonKey(name: 'LastEvaluatedGlobalTableName')
-  final String lastEvaluatedGlobalTableName;
+  final String? lastEvaluatedGlobalTableName;
 
   ListGlobalTablesOutput({
     this.globalTables,
     this.lastEvaluatedGlobalTableName,
   });
-  factory ListGlobalTablesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListGlobalTablesOutputFromJson(json);
+
+  factory ListGlobalTablesOutput.fromJson(Map<String, dynamic> json) {
+    return ListGlobalTablesOutput(
+      globalTables: (json['GlobalTables'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlobalTable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastEvaluatedGlobalTableName:
+          json['LastEvaluatedGlobalTableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTables = this.globalTables;
+    final lastEvaluatedGlobalTableName = this.lastEvaluatedGlobalTableName;
+    return {
+      if (globalTables != null) 'GlobalTables': globalTables,
+      if (lastEvaluatedGlobalTableName != null)
+        'LastEvaluatedGlobalTableName': lastEvaluatedGlobalTableName,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListTables</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTablesOutput {
   /// The name of the last table in the current page of results. Use this value as
   /// the <code>ExclusiveStartTableName</code> in a new request to obtain the next
@@ -9392,8 +10651,7 @@ class ListTablesOutput {
   ///
   /// If you do not receive a <code>LastEvaluatedTableName</code> value in the
   /// response, this means that there are no more table names to be retrieved.
-  @_s.JsonKey(name: 'LastEvaluatedTableName')
-  final String lastEvaluatedTableName;
+  final String? lastEvaluatedTableName;
 
   /// The names of the tables associated with the current account at the current
   /// endpoint. The maximum size of this array is 100.
@@ -9402,51 +10660,72 @@ class ListTablesOutput {
   /// use this value as the <code>ExclusiveStartTableName</code> parameter in a
   /// subsequent <code>ListTables</code> request and obtain the next page of
   /// results.
-  @_s.JsonKey(name: 'TableNames')
-  final List<String> tableNames;
+  final List<String>? tableNames;
 
   ListTablesOutput({
     this.lastEvaluatedTableName,
     this.tableNames,
   });
-  factory ListTablesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTablesOutputFromJson(json);
+
+  factory ListTablesOutput.fromJson(Map<String, dynamic> json) {
+    return ListTablesOutput(
+      lastEvaluatedTableName: json['LastEvaluatedTableName'] as String?,
+      tableNames: (json['TableNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastEvaluatedTableName = this.lastEvaluatedTableName;
+    final tableNames = this.tableNames;
+    return {
+      if (lastEvaluatedTableName != null)
+        'LastEvaluatedTableName': lastEvaluatedTableName,
+      if (tableNames != null) 'TableNames': tableNames,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsOfResourceOutput {
   /// If this value is returned, there are additional results to be displayed. To
   /// retrieve them, call ListTagsOfResource again, with NextToken set to this
   /// value.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tags currently associated with the Amazon DynamoDB resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsOfResourceOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsOfResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsOfResourceOutputFromJson(json);
+
+  factory ListTagsOfResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsOfResourceOutput(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Represents the properties of a local secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LocalSecondaryIndex {
   /// The name of the local secondary index. The name must be unique among all
   /// other indexes on this table.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// The complete key schema for the local secondary index, consisting of one or
@@ -9470,49 +10749,60 @@ class LocalSecondaryIndex {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeySchema')
   final List<KeySchemaElement> keySchema;
 
   /// Represents attributes that are copied (projected) from the table into the
   /// local secondary index. These are in addition to the primary key attributes
   /// and index key attributes, which are automatically projected.
-  @_s.JsonKey(name: 'Projection')
   final Projection projection;
 
   LocalSecondaryIndex({
-    @_s.required this.indexName,
-    @_s.required this.keySchema,
-    @_s.required this.projection,
+    required this.indexName,
+    required this.keySchema,
+    required this.projection,
   });
-  Map<String, dynamic> toJson() => _$LocalSecondaryIndexToJson(this);
+
+  factory LocalSecondaryIndex.fromJson(Map<String, dynamic> json) {
+    return LocalSecondaryIndex(
+      indexName: json['IndexName'] as String,
+      keySchema: (json['KeySchema'] as List)
+          .whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection:
+          Projection.fromJson(json['Projection'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    return {
+      'IndexName': indexName,
+      'KeySchema': keySchema,
+      'Projection': projection,
+    };
+  }
 }
 
 /// Represents the properties of a local secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LocalSecondaryIndexDescription {
   /// The Amazon Resource Name (ARN) that uniquely identifies the index.
-  @_s.JsonKey(name: 'IndexArn')
-  final String indexArn;
+  final String? indexArn;
 
   /// Represents the name of the local secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The total size of the specified index, in bytes. DynamoDB updates this value
   /// approximately every six hours. Recent changes might not be reflected in this
   /// value.
-  @_s.JsonKey(name: 'IndexSizeBytes')
-  final int indexSizeBytes;
+  final int? indexSizeBytes;
 
   /// The number of items in the specified index. DynamoDB updates this value
   /// approximately every six hours. Recent changes might not be reflected in this
   /// value.
-  @_s.JsonKey(name: 'ItemCount')
-  final int itemCount;
+  final int? itemCount;
 
   /// The complete key schema for the local secondary index, consisting of one or
   /// more pairs of attribute names and key types:
@@ -9535,14 +10825,12 @@ class LocalSecondaryIndexDescription {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeySchema')
-  final List<KeySchemaElement> keySchema;
+  final List<KeySchemaElement>? keySchema;
 
   /// Represents attributes that are copied (projected) from the table into the
   /// global secondary index. These are in addition to the primary key attributes
   /// and index key attributes, which are automatically projected.
-  @_s.JsonKey(name: 'Projection')
-  final Projection projection;
+  final Projection? projection;
 
   LocalSecondaryIndexDescription({
     this.indexArn,
@@ -9552,21 +10840,46 @@ class LocalSecondaryIndexDescription {
     this.keySchema,
     this.projection,
   });
-  factory LocalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) =>
-      _$LocalSecondaryIndexDescriptionFromJson(json);
+
+  factory LocalSecondaryIndexDescription.fromJson(Map<String, dynamic> json) {
+    return LocalSecondaryIndexDescription(
+      indexArn: json['IndexArn'] as String?,
+      indexName: json['IndexName'] as String?,
+      indexSizeBytes: json['IndexSizeBytes'] as int?,
+      itemCount: json['ItemCount'] as int?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexArn = this.indexArn;
+    final indexName = this.indexName;
+    final indexSizeBytes = this.indexSizeBytes;
+    final itemCount = this.itemCount;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    return {
+      if (indexArn != null) 'IndexArn': indexArn,
+      if (indexName != null) 'IndexName': indexName,
+      if (indexSizeBytes != null) 'IndexSizeBytes': indexSizeBytes,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (projection != null) 'Projection': projection,
+    };
+  }
 }
 
 /// Represents the properties of a local secondary index for the table when the
 /// backup was created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LocalSecondaryIndexInfo {
   /// Represents the name of the local secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The complete key schema for a local secondary index, which consists of one
   /// or more pairs of attribute names and key types:
@@ -9589,64 +10902,86 @@ class LocalSecondaryIndexInfo {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeySchema')
-  final List<KeySchemaElement> keySchema;
+  final List<KeySchemaElement>? keySchema;
 
   /// Represents attributes that are copied (projected) from the table into the
   /// global secondary index. These are in addition to the primary key attributes
   /// and index key attributes, which are automatically projected.
-  @_s.JsonKey(name: 'Projection')
-  final Projection projection;
+  final Projection? projection;
 
   LocalSecondaryIndexInfo({
     this.indexName,
     this.keySchema,
     this.projection,
   });
-  factory LocalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) =>
-      _$LocalSecondaryIndexInfoFromJson(json);
+
+  factory LocalSecondaryIndexInfo.fromJson(Map<String, dynamic> json) {
+    return LocalSecondaryIndexInfo(
+      indexName: json['IndexName'] as String?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projection: json['Projection'] != null
+          ? Projection.fromJson(json['Projection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final keySchema = this.keySchema;
+    final projection = this.projection;
+    return {
+      if (indexName != null) 'IndexName': indexName,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (projection != null) 'Projection': projection,
+    };
+  }
 }
 
 /// Represents a PartiQL statment that uses parameters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ParameterizedStatement {
   /// A PartiQL statment that uses parameters.
-  @_s.JsonKey(name: 'Statement')
   final String statement;
 
   /// The parameter values.
-  @_s.JsonKey(name: 'Parameters')
-  final List<AttributeValue> parameters;
+  final List<AttributeValue>? parameters;
 
   ParameterizedStatement({
-    @_s.required this.statement,
+    required this.statement,
     this.parameters,
   });
-  Map<String, dynamic> toJson() => _$ParameterizedStatementToJson(this);
+
+  factory ParameterizedStatement.fromJson(Map<String, dynamic> json) {
+    return ParameterizedStatement(
+      statement: json['Statement'] as String,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    final parameters = this.parameters;
+    return {
+      'Statement': statement,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
 /// The description of the point in time settings applied to the table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PointInTimeRecoveryDescription {
   /// Specifies the earliest point in time you can restore your table to. You can
   /// restore your table to any point in time during the last 35 days.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EarliestRestorableDateTime')
-  final DateTime earliestRestorableDateTime;
+  final DateTime? earliestRestorableDateTime;
 
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
   /// current time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestRestorableDateTime')
-  final DateTime latestRestorableDateTime;
+  final DateTime? latestRestorableDateTime;
 
   /// The current state of point in time recovery:
   ///
@@ -9661,52 +10996,97 @@ class PointInTimeRecoveryDescription {
   /// <code>DISABLED</code> - Point in time recovery is disabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'PointInTimeRecoveryStatus')
-  final PointInTimeRecoveryStatus pointInTimeRecoveryStatus;
+  final PointInTimeRecoveryStatus? pointInTimeRecoveryStatus;
 
   PointInTimeRecoveryDescription({
     this.earliestRestorableDateTime,
     this.latestRestorableDateTime,
     this.pointInTimeRecoveryStatus,
   });
-  factory PointInTimeRecoveryDescription.fromJson(Map<String, dynamic> json) =>
-      _$PointInTimeRecoveryDescriptionFromJson(json);
+
+  factory PointInTimeRecoveryDescription.fromJson(Map<String, dynamic> json) {
+    return PointInTimeRecoveryDescription(
+      earliestRestorableDateTime:
+          timeStampFromJson(json['EarliestRestorableDateTime']),
+      latestRestorableDateTime:
+          timeStampFromJson(json['LatestRestorableDateTime']),
+      pointInTimeRecoveryStatus: (json['PointInTimeRecoveryStatus'] as String?)
+          ?.toPointInTimeRecoveryStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final earliestRestorableDateTime = this.earliestRestorableDateTime;
+    final latestRestorableDateTime = this.latestRestorableDateTime;
+    final pointInTimeRecoveryStatus = this.pointInTimeRecoveryStatus;
+    return {
+      if (earliestRestorableDateTime != null)
+        'EarliestRestorableDateTime':
+            unixTimestampToJson(earliestRestorableDateTime),
+      if (latestRestorableDateTime != null)
+        'LatestRestorableDateTime':
+            unixTimestampToJson(latestRestorableDateTime),
+      if (pointInTimeRecoveryStatus != null)
+        'PointInTimeRecoveryStatus': pointInTimeRecoveryStatus.toValue(),
+    };
+  }
 }
 
 /// Represents the settings used to enable point in time recovery.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PointInTimeRecoverySpecification {
   /// Indicates whether point in time recovery is enabled (true) or disabled
   /// (false) on the table.
-  @_s.JsonKey(name: 'PointInTimeRecoveryEnabled')
   final bool pointInTimeRecoveryEnabled;
 
   PointInTimeRecoverySpecification({
-    @_s.required this.pointInTimeRecoveryEnabled,
+    required this.pointInTimeRecoveryEnabled,
   });
-  Map<String, dynamic> toJson() =>
-      _$PointInTimeRecoverySpecificationToJson(this);
+
+  factory PointInTimeRecoverySpecification.fromJson(Map<String, dynamic> json) {
+    return PointInTimeRecoverySpecification(
+      pointInTimeRecoveryEnabled: json['PointInTimeRecoveryEnabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pointInTimeRecoveryEnabled = this.pointInTimeRecoveryEnabled;
+    return {
+      'PointInTimeRecoveryEnabled': pointInTimeRecoveryEnabled,
+    };
+  }
 }
 
 enum PointInTimeRecoveryStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on PointInTimeRecoveryStatus {
+  String toValue() {
+    switch (this) {
+      case PointInTimeRecoveryStatus.enabled:
+        return 'ENABLED';
+      case PointInTimeRecoveryStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  PointInTimeRecoveryStatus toPointInTimeRecoveryStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return PointInTimeRecoveryStatus.enabled;
+      case 'DISABLED':
+        return PointInTimeRecoveryStatus.disabled;
+    }
+    throw Exception('$this is not known in enum PointInTimeRecoveryStatus');
+  }
 }
 
 /// Represents attributes that are copied (projected) from the table into an
 /// index. These are in addition to the primary key attributes and index key
 /// attributes, which are automatically projected.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Projection {
   /// Represents the non-key attribute names which will be projected into the
   /// index.
@@ -9716,8 +11096,7 @@ class Projection {
   /// indexes, must not exceed 20. If you project the same attribute into two
   /// different indexes, this counts as two distinct attributes when determining
   /// the total.
-  @_s.JsonKey(name: 'NonKeyAttributes')
-  final List<String> nonKeyAttributes;
+  final List<String>? nonKeyAttributes;
 
   /// The set of attributes that are projected into the index:
   ///
@@ -9735,26 +11114,64 @@ class Projection {
   /// <code>ALL</code> - All of the table attributes are projected into the index.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ProjectionType')
-  final ProjectionType projectionType;
+  final ProjectionType? projectionType;
 
   Projection({
     this.nonKeyAttributes,
     this.projectionType,
   });
-  factory Projection.fromJson(Map<String, dynamic> json) =>
-      _$ProjectionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProjectionToJson(this);
+  factory Projection.fromJson(Map<String, dynamic> json) {
+    return Projection(
+      nonKeyAttributes: (json['NonKeyAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      projectionType: (json['ProjectionType'] as String?)?.toProjectionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nonKeyAttributes = this.nonKeyAttributes;
+    final projectionType = this.projectionType;
+    return {
+      if (nonKeyAttributes != null) 'NonKeyAttributes': nonKeyAttributes,
+      if (projectionType != null) 'ProjectionType': projectionType.toValue(),
+    };
+  }
 }
 
 enum ProjectionType {
-  @_s.JsonValue('ALL')
   all,
-  @_s.JsonValue('KEYS_ONLY')
   keysOnly,
-  @_s.JsonValue('INCLUDE')
   include,
+}
+
+extension on ProjectionType {
+  String toValue() {
+    switch (this) {
+      case ProjectionType.all:
+        return 'ALL';
+      case ProjectionType.keysOnly:
+        return 'KEYS_ONLY';
+      case ProjectionType.include:
+        return 'INCLUDE';
+    }
+  }
+}
+
+extension on String {
+  ProjectionType toProjectionType() {
+    switch (this) {
+      case 'ALL':
+        return ProjectionType.all;
+      case 'KEYS_ONLY':
+        return ProjectionType.keysOnly;
+      case 'INCLUDE':
+        return ProjectionType.include;
+    }
+    throw Exception('$this is not known in enum ProjectionType');
+  }
 }
 
 /// Represents the provisioned throughput settings for a specified table or
@@ -9764,11 +11181,6 @@ enum ProjectionType {
 /// For current minimum and maximum provisioned throughput values, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
 /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProvisionedThroughput {
   /// The maximum number of strongly consistent reads consumed per second before
   /// DynamoDB returns a <code>ThrottlingException</code>. For more information,
@@ -9779,7 +11191,6 @@ class ProvisionedThroughput {
   ///
   /// If read/write capacity mode is <code>PAY_PER_REQUEST</code> the value is set
   /// to 0.
-  @_s.JsonKey(name: 'ReadCapacityUnits')
   final int readCapacityUnits;
 
   /// The maximum number of writes consumed per second before DynamoDB returns a
@@ -9790,60 +11201,59 @@ class ProvisionedThroughput {
   ///
   /// If read/write capacity mode is <code>PAY_PER_REQUEST</code> the value is set
   /// to 0.
-  @_s.JsonKey(name: 'WriteCapacityUnits')
   final int writeCapacityUnits;
 
   ProvisionedThroughput({
-    @_s.required this.readCapacityUnits,
-    @_s.required this.writeCapacityUnits,
+    required this.readCapacityUnits,
+    required this.writeCapacityUnits,
   });
-  factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionedThroughputFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProvisionedThroughputToJson(this);
+  factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughput(
+      readCapacityUnits: json['ReadCapacityUnits'] as int,
+      writeCapacityUnits: json['WriteCapacityUnits'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      'ReadCapacityUnits': readCapacityUnits,
+      'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
 }
 
 /// Represents the provisioned throughput settings for the table, consisting of
 /// read and write capacity units, along with data about increases and
 /// decreases.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedThroughputDescription {
   /// The date and time of the last provisioned throughput decrease for this
   /// table.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastDecreaseDateTime')
-  final DateTime lastDecreaseDateTime;
+  final DateTime? lastDecreaseDateTime;
 
   /// The date and time of the last provisioned throughput increase for this
   /// table.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastIncreaseDateTime')
-  final DateTime lastIncreaseDateTime;
+  final DateTime? lastIncreaseDateTime;
 
   /// The number of provisioned throughput decreases for this table during this
   /// UTC calendar day. For current maximums on provisioned throughput decreases,
   /// see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
   /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'NumberOfDecreasesToday')
-  final int numberOfDecreasesToday;
+  final int? numberOfDecreasesToday;
 
   /// The maximum number of strongly consistent reads consumed per second before
   /// DynamoDB returns a <code>ThrottlingException</code>. Eventually consistent
   /// reads require less effort than strongly consistent reads, so a setting of 50
   /// <code>ReadCapacityUnits</code> per second provides 100 eventually consistent
   /// <code>ReadCapacityUnits</code> per second.
-  @_s.JsonKey(name: 'ReadCapacityUnits')
-  final int readCapacityUnits;
+  final int? readCapacityUnits;
 
   /// The maximum number of writes consumed per second before DynamoDB returns a
   /// <code>ThrottlingException</code>.
-  @_s.JsonKey(name: 'WriteCapacityUnits')
-  final int writeCapacityUnits;
+  final int? writeCapacityUnits;
 
   ProvisionedThroughputDescription({
     this.lastDecreaseDateTime,
@@ -9852,39 +11262,62 @@ class ProvisionedThroughputDescription {
     this.readCapacityUnits,
     this.writeCapacityUnits,
   });
-  factory ProvisionedThroughputDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ProvisionedThroughputDescriptionFromJson(json);
+
+  factory ProvisionedThroughputDescription.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughputDescription(
+      lastDecreaseDateTime: timeStampFromJson(json['LastDecreaseDateTime']),
+      lastIncreaseDateTime: timeStampFromJson(json['LastIncreaseDateTime']),
+      numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int?,
+      readCapacityUnits: json['ReadCapacityUnits'] as int?,
+      writeCapacityUnits: json['WriteCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastDecreaseDateTime = this.lastDecreaseDateTime;
+    final lastIncreaseDateTime = this.lastIncreaseDateTime;
+    final numberOfDecreasesToday = this.numberOfDecreasesToday;
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      if (lastDecreaseDateTime != null)
+        'LastDecreaseDateTime': unixTimestampToJson(lastDecreaseDateTime),
+      if (lastIncreaseDateTime != null)
+        'LastIncreaseDateTime': unixTimestampToJson(lastIncreaseDateTime),
+      if (numberOfDecreasesToday != null)
+        'NumberOfDecreasesToday': numberOfDecreasesToday,
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
 }
 
 /// Replica-specific provisioned throughput settings. If not specified, uses the
 /// source table's provisioned throughput settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProvisionedThroughputOverride {
   /// Replica-specific read capacity units. If not specified, uses the source
   /// table's read capacity settings.
-  @_s.JsonKey(name: 'ReadCapacityUnits')
-  final int readCapacityUnits;
+  final int? readCapacityUnits;
 
   ProvisionedThroughputOverride({
     this.readCapacityUnits,
   });
-  factory ProvisionedThroughputOverride.fromJson(Map<String, dynamic> json) =>
-      _$ProvisionedThroughputOverrideFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProvisionedThroughputOverrideToJson(this);
+  factory ProvisionedThroughputOverride.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughputOverride(
+      readCapacityUnits: json['ReadCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readCapacityUnits = this.readCapacityUnits;
+    return {
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+    };
+  }
 }
 
 /// Represents a request to perform a <code>PutItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Put {
   /// A map of attribute name to attribute values, representing the primary key of
   /// the item to be written by <code>PutItem</code>. All of the table's primary
@@ -9892,57 +11325,87 @@ class Put {
   /// the table's key schema. If any attributes are present in the item that are
   /// part of an index key schema for the table, their types must match the index
   /// key schema.
-  @_s.JsonKey(name: 'Item')
   final Map<String, AttributeValue> item;
 
   /// Name of the table in which to write the item.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// A condition that must be satisfied in order for a conditional update to
   /// succeed.
-  @_s.JsonKey(name: 'ConditionExpression')
-  final String conditionExpression;
+  final String? conditionExpression;
 
   /// One or more substitution tokens for attribute names in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeNames')
-  final Map<String, String> expressionAttributeNames;
+  final Map<String, String>? expressionAttributeNames;
 
   /// One or more values that can be substituted in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeValues')
-  final Map<String, AttributeValue> expressionAttributeValues;
+  final Map<String, AttributeValue>? expressionAttributeValues;
 
   /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
   /// attributes if the <code>Put</code> condition fails. For
   /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are: NONE
   /// and ALL_OLD.
-  @_s.JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
-  final ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure;
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
 
   Put({
-    @_s.required this.item,
-    @_s.required this.tableName,
+    required this.item,
+    required this.tableName,
     this.conditionExpression,
     this.expressionAttributeNames,
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
-  Map<String, dynamic> toJson() => _$PutToJson(this);
+
+  factory Put.fromJson(Map<String, dynamic> json) {
+    return Put(
+      item: (json['Item'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      tableName: json['TableName'] as String,
+      conditionExpression: json['ConditionExpression'] as String?,
+      expressionAttributeNames:
+          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      expressionAttributeValues: (json['ExpressionAttributeValues']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      returnValuesOnConditionCheckFailure:
+          (json['ReturnValuesOnConditionCheckFailure'] as String?)
+              ?.toReturnValuesOnConditionCheckFailure(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final item = this.item;
+    final tableName = this.tableName;
+    final conditionExpression = this.conditionExpression;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
+    return {
+      'Item': item,
+      'TableName': tableName,
+      if (conditionExpression != null)
+        'ConditionExpression': conditionExpression,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.toValue(),
+    };
+  }
 }
 
 /// Represents the output of a <code>PutItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutItemOutput {
   /// The attribute values as they appeared before the <code>PutItem</code>
   /// operation, but only if <code>ReturnValues</code> is specified as
   /// <code>ALL_OLD</code> in the request. Each element consists of an attribute
   /// name and an attribute value.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, AttributeValue> attributes;
+  final Map<String, AttributeValue>? attributes;
 
   /// The capacity units consumed by the <code>PutItem</code> operation. The data
   /// returned includes the total provisioned throughput consumed, along with
@@ -9952,8 +11415,7 @@ class PutItemOutput {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Read/Write
   /// Capacity Mode</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
   /// <code>PutItem</code> operation. <code>ItemCollectionMetrics</code> is only
@@ -9980,24 +11442,43 @@ class PutItemOutput {
   /// precision or accuracy of the estimate.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ItemCollectionMetrics')
-  final ItemCollectionMetrics itemCollectionMetrics;
+  final ItemCollectionMetrics? itemCollectionMetrics;
 
   PutItemOutput({
     this.attributes,
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
-  factory PutItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutItemOutputFromJson(json);
+
+  factory PutItemOutput.fromJson(Map<String, dynamic> json) {
+    return PutItemOutput(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      itemCollectionMetrics: json['ItemCollectionMetrics'] != null
+          ? ItemCollectionMetrics.fromJson(
+              json['ItemCollectionMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final consumedCapacity = this.consumedCapacity;
+    final itemCollectionMetrics = this.itemCollectionMetrics;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (itemCollectionMetrics != null)
+        'ItemCollectionMetrics': itemCollectionMetrics,
+    };
+  }
 }
 
 /// Represents a request to perform a <code>PutItem</code> operation on an item.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PutRequest {
   /// A map of attribute name to attribute values, representing the primary key of
   /// an item to be processed by <code>PutItem</code>. All of the table's primary
@@ -10005,24 +11486,28 @@ class PutRequest {
   /// the table's key schema. If any attributes are present in the item that are
   /// part of an index key schema for the table, their types must match the index
   /// key schema.
-  @_s.JsonKey(name: 'Item')
   final Map<String, AttributeValue> item;
 
   PutRequest({
-    @_s.required this.item,
+    required this.item,
   });
-  factory PutRequest.fromJson(Map<String, dynamic> json) =>
-      _$PutRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PutRequestToJson(this);
+  factory PutRequest.fromJson(Map<String, dynamic> json) {
+    return PutRequest(
+      item: (json['Item'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final item = this.item;
+    return {
+      'Item': item,
+    };
+  }
 }
 
 /// Represents the output of a <code>Query</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryOutput {
   /// The capacity units consumed by the <code>Query</code> operation. The data
   /// returned includes the total provisioned throughput consumed, along with
@@ -10032,8 +11517,7 @@ class QueryOutput {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
   /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
 
   /// The number of items in the response.
   ///
@@ -10044,13 +11528,11 @@ class QueryOutput {
   ///
   /// If you did not use a filter in the request, then <code>Count</code> and
   /// <code>ScannedCount</code> are the same.
-  @_s.JsonKey(name: 'Count')
-  final int count;
+  final int? count;
 
   /// An array of item attributes that match the query criteria. Each element in
   /// this array consists of an attribute name and the value for that attribute.
-  @_s.JsonKey(name: 'Items')
-  final List<Map<String, AttributeValue>> items;
+  final List<Map<String, AttributeValue>>? items;
 
   /// The primary key of the item where the operation stopped, inclusive of the
   /// previous result set. Use this value to start a new operation, excluding this
@@ -10063,8 +11545,7 @@ class QueryOutput {
   /// that there is more data in the result set. The only way to know when you
   /// have reached the end of the result set is when <code>LastEvaluatedKey</code>
   /// is empty.
-  @_s.JsonKey(name: 'LastEvaluatedKey')
-  final Map<String, AttributeValue> lastEvaluatedKey;
+  final Map<String, AttributeValue>? lastEvaluatedKey;
 
   /// The number of items evaluated, before any <code>QueryFilter</code> is
   /// applied. A high <code>ScannedCount</code> value with few, or no,
@@ -10075,8 +11556,7 @@ class QueryOutput {
   ///
   /// If you did not use a filter in the request, then <code>ScannedCount</code>
   /// is the same as <code>Count</code>.
-  @_s.JsonKey(name: 'ScannedCount')
-  final int scannedCount;
+  final int? scannedCount;
 
   QueryOutput({
     this.consumedCapacity,
@@ -10085,50 +11565,76 @@ class QueryOutput {
     this.lastEvaluatedKey,
     this.scannedCount,
   });
-  factory QueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$QueryOutputFromJson(json);
+
+  factory QueryOutput.fromJson(Map<String, dynamic> json) {
+    return QueryOutput(
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      count: json['Count'] as int?,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      scannedCount: json['ScannedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final count = this.count;
+    final items = this.items;
+    final lastEvaluatedKey = this.lastEvaluatedKey;
+    final scannedCount = this.scannedCount;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (count != null) 'Count': count,
+      if (items != null) 'Items': items,
+      if (lastEvaluatedKey != null) 'LastEvaluatedKey': lastEvaluatedKey,
+      if (scannedCount != null) 'ScannedCount': scannedCount,
+    };
+  }
 }
 
 /// Represents the properties of a replica.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Replica {
   /// The Region where the replica needs to be created.
-  @_s.JsonKey(name: 'RegionName')
-  final String regionName;
+  final String? regionName;
 
   Replica({
     this.regionName,
   });
-  factory Replica.fromJson(Map<String, dynamic> json) =>
-      _$ReplicaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ReplicaToJson(this);
+  factory Replica.fromJson(Map<String, dynamic> json) {
+    return Replica(
+      regionName: json['RegionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    return {
+      if (regionName != null) 'RegionName': regionName,
+    };
+  }
 }
 
 /// Represents the auto scaling settings of the replica.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicaAutoScalingDescription {
   /// Replica-specific global secondary index auto scaling settings.
-  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
-  final List<ReplicaGlobalSecondaryIndexAutoScalingDescription>
+  final List<ReplicaGlobalSecondaryIndexAutoScalingDescription>?
       globalSecondaryIndexes;
 
   /// The Region where the replica exists.
-  @_s.JsonKey(name: 'RegionName')
-  final String regionName;
-  @_s.JsonKey(name: 'ReplicaProvisionedReadCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final String? regionName;
+  final AutoScalingSettingsDescription?
       replicaProvisionedReadCapacityAutoScalingSettings;
-  @_s.JsonKey(name: 'ReplicaProvisionedWriteCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final AutoScalingSettingsDescription?
       replicaProvisionedWriteCapacityAutoScalingSettings;
 
   /// The current state of the replica:
@@ -10147,8 +11653,7 @@ class ReplicaAutoScalingDescription {
   /// <code>ACTIVE</code> - The replica is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ReplicaStatus')
-  final ReplicaStatus replicaStatus;
+  final ReplicaStatus? replicaStatus;
 
   ReplicaAutoScalingDescription({
     this.globalSecondaryIndexes,
@@ -10157,69 +11662,129 @@ class ReplicaAutoScalingDescription {
     this.replicaProvisionedWriteCapacityAutoScalingSettings,
     this.replicaStatus,
   });
-  factory ReplicaAutoScalingDescription.fromJson(Map<String, dynamic> json) =>
-      _$ReplicaAutoScalingDescriptionFromJson(json);
+
+  factory ReplicaAutoScalingDescription.fromJson(Map<String, dynamic> json) {
+    return ReplicaAutoScalingDescription(
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicaGlobalSecondaryIndexAutoScalingDescription.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+      regionName: json['RegionName'] as String?,
+      replicaProvisionedReadCapacityAutoScalingSettings:
+          json['ReplicaProvisionedReadCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ReplicaProvisionedReadCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      replicaProvisionedWriteCapacityAutoScalingSettings:
+          json['ReplicaProvisionedWriteCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ReplicaProvisionedWriteCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      replicaStatus: (json['ReplicaStatus'] as String?)?.toReplicaStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final regionName = this.regionName;
+    final replicaProvisionedReadCapacityAutoScalingSettings =
+        this.replicaProvisionedReadCapacityAutoScalingSettings;
+    final replicaProvisionedWriteCapacityAutoScalingSettings =
+        this.replicaProvisionedWriteCapacityAutoScalingSettings;
+    final replicaStatus = this.replicaStatus;
+    return {
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (regionName != null) 'RegionName': regionName,
+      if (replicaProvisionedReadCapacityAutoScalingSettings != null)
+        'ReplicaProvisionedReadCapacityAutoScalingSettings':
+            replicaProvisionedReadCapacityAutoScalingSettings,
+      if (replicaProvisionedWriteCapacityAutoScalingSettings != null)
+        'ReplicaProvisionedWriteCapacityAutoScalingSettings':
+            replicaProvisionedWriteCapacityAutoScalingSettings,
+      if (replicaStatus != null) 'ReplicaStatus': replicaStatus.toValue(),
+    };
+  }
 }
 
 /// Represents the auto scaling settings of a replica that will be modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplicaAutoScalingUpdate {
   /// The Region where the replica exists.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   /// Represents the auto scaling settings of global secondary indexes that will
   /// be modified.
-  @_s.JsonKey(name: 'ReplicaGlobalSecondaryIndexUpdates')
-  final List<ReplicaGlobalSecondaryIndexAutoScalingUpdate>
+  final List<ReplicaGlobalSecondaryIndexAutoScalingUpdate>?
       replicaGlobalSecondaryIndexUpdates;
-  @_s.JsonKey(name: 'ReplicaProvisionedReadCapacityAutoScalingUpdate')
-  final AutoScalingSettingsUpdate
+  final AutoScalingSettingsUpdate?
       replicaProvisionedReadCapacityAutoScalingUpdate;
 
   ReplicaAutoScalingUpdate({
-    @_s.required this.regionName,
+    required this.regionName,
     this.replicaGlobalSecondaryIndexUpdates,
     this.replicaProvisionedReadCapacityAutoScalingUpdate,
   });
-  Map<String, dynamic> toJson() => _$ReplicaAutoScalingUpdateToJson(this);
+
+  factory ReplicaAutoScalingUpdate.fromJson(Map<String, dynamic> json) {
+    return ReplicaAutoScalingUpdate(
+      regionName: json['RegionName'] as String,
+      replicaGlobalSecondaryIndexUpdates:
+          (json['ReplicaGlobalSecondaryIndexUpdates'] as List?)
+              ?.whereNotNull()
+              .map((e) => ReplicaGlobalSecondaryIndexAutoScalingUpdate.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      replicaProvisionedReadCapacityAutoScalingUpdate:
+          json['ReplicaProvisionedReadCapacityAutoScalingUpdate'] != null
+              ? AutoScalingSettingsUpdate.fromJson(
+                  json['ReplicaProvisionedReadCapacityAutoScalingUpdate']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final replicaGlobalSecondaryIndexUpdates =
+        this.replicaGlobalSecondaryIndexUpdates;
+    final replicaProvisionedReadCapacityAutoScalingUpdate =
+        this.replicaProvisionedReadCapacityAutoScalingUpdate;
+    return {
+      'RegionName': regionName,
+      if (replicaGlobalSecondaryIndexUpdates != null)
+        'ReplicaGlobalSecondaryIndexUpdates':
+            replicaGlobalSecondaryIndexUpdates,
+      if (replicaProvisionedReadCapacityAutoScalingUpdate != null)
+        'ReplicaProvisionedReadCapacityAutoScalingUpdate':
+            replicaProvisionedReadCapacityAutoScalingUpdate,
+    };
+  }
 }
 
 /// Contains the details of the replica.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicaDescription {
   /// Replica-specific global secondary index settings.
-  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
-  final List<ReplicaGlobalSecondaryIndexDescription> globalSecondaryIndexes;
+  final List<ReplicaGlobalSecondaryIndexDescription>? globalSecondaryIndexes;
 
   /// The AWS KMS customer master key (CMK) of the replica that will be used for
   /// AWS KMS encryption.
-  @_s.JsonKey(name: 'KMSMasterKeyId')
-  final String kMSMasterKeyId;
+  final String? kMSMasterKeyId;
 
   /// Replica-specific provisioned throughput. If not described, uses the source
   /// table's provisioned throughput settings.
-  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
-  final ProvisionedThroughputOverride provisionedThroughputOverride;
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
   /// The name of the Region.
-  @_s.JsonKey(name: 'RegionName')
-  final String regionName;
+  final String? regionName;
 
   /// The time at which the replica was first detected as inaccessible. To
   /// determine cause of inaccessibility check the <code>ReplicaStatus</code>
   /// property.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReplicaInaccessibleDateTime')
-  final DateTime replicaInaccessibleDateTime;
+  final DateTime? replicaInaccessibleDateTime;
 
   /// The current state of the replica:
   ///
@@ -10253,17 +11818,14 @@ class ReplicaDescription {
   /// deleted and replication will stop from and to this region.
   /// </note> </li>
   /// </ul>
-  @_s.JsonKey(name: 'ReplicaStatus')
-  final ReplicaStatus replicaStatus;
+  final ReplicaStatus? replicaStatus;
 
   /// Detailed information about the replica status.
-  @_s.JsonKey(name: 'ReplicaStatusDescription')
-  final String replicaStatusDescription;
+  final String? replicaStatusDescription;
 
   /// Specifies the progress of a Create, Update, or Delete action on the replica
   /// as a percentage.
-  @_s.JsonKey(name: 'ReplicaStatusPercentProgress')
-  final String replicaStatusPercentProgress;
+  final String? replicaStatusPercentProgress;
 
   ReplicaDescription({
     this.globalSecondaryIndexes,
@@ -10275,44 +11837,99 @@ class ReplicaDescription {
     this.replicaStatusDescription,
     this.replicaStatusPercentProgress,
   });
-  factory ReplicaDescription.fromJson(Map<String, dynamic> json) =>
-      _$ReplicaDescriptionFromJson(json);
+
+  factory ReplicaDescription.fromJson(Map<String, dynamic> json) {
+    return ReplicaDescription(
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicaGlobalSecondaryIndexDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
+      provisionedThroughputOverride:
+          json['ProvisionedThroughputOverride'] != null
+              ? ProvisionedThroughputOverride.fromJson(
+                  json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
+              : null,
+      regionName: json['RegionName'] as String?,
+      replicaInaccessibleDateTime:
+          timeStampFromJson(json['ReplicaInaccessibleDateTime']),
+      replicaStatus: (json['ReplicaStatus'] as String?)?.toReplicaStatus(),
+      replicaStatusDescription: json['ReplicaStatusDescription'] as String?,
+      replicaStatusPercentProgress:
+          json['ReplicaStatusPercentProgress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    final regionName = this.regionName;
+    final replicaInaccessibleDateTime = this.replicaInaccessibleDateTime;
+    final replicaStatus = this.replicaStatus;
+    final replicaStatusDescription = this.replicaStatusDescription;
+    final replicaStatusPercentProgress = this.replicaStatusPercentProgress;
+    return {
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+      if (regionName != null) 'RegionName': regionName,
+      if (replicaInaccessibleDateTime != null)
+        'ReplicaInaccessibleDateTime':
+            unixTimestampToJson(replicaInaccessibleDateTime),
+      if (replicaStatus != null) 'ReplicaStatus': replicaStatus.toValue(),
+      if (replicaStatusDescription != null)
+        'ReplicaStatusDescription': replicaStatusDescription,
+      if (replicaStatusPercentProgress != null)
+        'ReplicaStatusPercentProgress': replicaStatusPercentProgress,
+    };
+  }
 }
 
 /// Represents the properties of a replica global secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplicaGlobalSecondaryIndex {
   /// The name of the global secondary index.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// Replica table GSI-specific provisioned throughput. If not specified, uses
   /// the source table GSI's read capacity settings.
-  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
-  final ProvisionedThroughputOverride provisionedThroughputOverride;
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
   ReplicaGlobalSecondaryIndex({
-    @_s.required this.indexName,
+    required this.indexName,
     this.provisionedThroughputOverride,
   });
-  Map<String, dynamic> toJson() => _$ReplicaGlobalSecondaryIndexToJson(this);
+
+  factory ReplicaGlobalSecondaryIndex.fromJson(Map<String, dynamic> json) {
+    return ReplicaGlobalSecondaryIndex(
+      indexName: json['IndexName'] as String,
+      provisionedThroughputOverride:
+          json['ProvisionedThroughputOverride'] != null
+              ? ProvisionedThroughputOverride.fromJson(
+                  json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    return {
+      'IndexName': indexName,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+    };
+  }
 }
 
 /// Represents the auto scaling configuration for a replica global secondary
 /// index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicaGlobalSecondaryIndexAutoScalingDescription {
   /// The name of the global secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The current state of the replica global secondary index:
   ///
@@ -10330,13 +11947,10 @@ class ReplicaGlobalSecondaryIndexAutoScalingDescription {
   /// <code>ACTIVE</code> - The index is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'IndexStatus')
-  final IndexStatus indexStatus;
-  @_s.JsonKey(name: 'ProvisionedReadCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final IndexStatus? indexStatus;
+  final AutoScalingSettingsDescription?
       provisionedReadCapacityAutoScalingSettings;
-  @_s.JsonKey(name: 'ProvisionedWriteCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final AutoScalingSettingsDescription?
       provisionedWriteCapacityAutoScalingSettings;
 
   ReplicaGlobalSecondaryIndexAutoScalingDescription({
@@ -10345,67 +11959,125 @@ class ReplicaGlobalSecondaryIndexAutoScalingDescription {
     this.provisionedReadCapacityAutoScalingSettings,
     this.provisionedWriteCapacityAutoScalingSettings,
   });
+
   factory ReplicaGlobalSecondaryIndexAutoScalingDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReplicaGlobalSecondaryIndexAutoScalingDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ReplicaGlobalSecondaryIndexAutoScalingDescription(
+      indexName: json['IndexName'] as String?,
+      indexStatus: (json['IndexStatus'] as String?)?.toIndexStatus(),
+      provisionedReadCapacityAutoScalingSettings:
+          json['ProvisionedReadCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ProvisionedReadCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      provisionedWriteCapacityAutoScalingSettings:
+          json['ProvisionedWriteCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ProvisionedWriteCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final indexStatus = this.indexStatus;
+    final provisionedReadCapacityAutoScalingSettings =
+        this.provisionedReadCapacityAutoScalingSettings;
+    final provisionedWriteCapacityAutoScalingSettings =
+        this.provisionedWriteCapacityAutoScalingSettings;
+    return {
+      if (indexName != null) 'IndexName': indexName,
+      if (indexStatus != null) 'IndexStatus': indexStatus.toValue(),
+      if (provisionedReadCapacityAutoScalingSettings != null)
+        'ProvisionedReadCapacityAutoScalingSettings':
+            provisionedReadCapacityAutoScalingSettings,
+      if (provisionedWriteCapacityAutoScalingSettings != null)
+        'ProvisionedWriteCapacityAutoScalingSettings':
+            provisionedWriteCapacityAutoScalingSettings,
+    };
+  }
 }
 
 /// Represents the auto scaling settings of a global secondary index for a
 /// replica that will be modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplicaGlobalSecondaryIndexAutoScalingUpdate {
   /// The name of the global secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
-  @_s.JsonKey(name: 'ProvisionedReadCapacityAutoScalingUpdate')
-  final AutoScalingSettingsUpdate provisionedReadCapacityAutoScalingUpdate;
+  final String? indexName;
+  final AutoScalingSettingsUpdate? provisionedReadCapacityAutoScalingUpdate;
 
   ReplicaGlobalSecondaryIndexAutoScalingUpdate({
     this.indexName,
     this.provisionedReadCapacityAutoScalingUpdate,
   });
-  Map<String, dynamic> toJson() =>
-      _$ReplicaGlobalSecondaryIndexAutoScalingUpdateToJson(this);
+
+  factory ReplicaGlobalSecondaryIndexAutoScalingUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicaGlobalSecondaryIndexAutoScalingUpdate(
+      indexName: json['IndexName'] as String?,
+      provisionedReadCapacityAutoScalingUpdate:
+          json['ProvisionedReadCapacityAutoScalingUpdate'] != null
+              ? AutoScalingSettingsUpdate.fromJson(
+                  json['ProvisionedReadCapacityAutoScalingUpdate']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedReadCapacityAutoScalingUpdate =
+        this.provisionedReadCapacityAutoScalingUpdate;
+    return {
+      if (indexName != null) 'IndexName': indexName,
+      if (provisionedReadCapacityAutoScalingUpdate != null)
+        'ProvisionedReadCapacityAutoScalingUpdate':
+            provisionedReadCapacityAutoScalingUpdate,
+    };
+  }
 }
 
 /// Represents the properties of a replica global secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicaGlobalSecondaryIndexDescription {
   /// The name of the global secondary index.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// If not described, uses the source table GSI's read capacity settings.
-  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
-  final ProvisionedThroughputOverride provisionedThroughputOverride;
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
   ReplicaGlobalSecondaryIndexDescription({
     this.indexName,
     this.provisionedThroughputOverride,
   });
+
   factory ReplicaGlobalSecondaryIndexDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReplicaGlobalSecondaryIndexDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ReplicaGlobalSecondaryIndexDescription(
+      indexName: json['IndexName'] as String?,
+      provisionedThroughputOverride:
+          json['ProvisionedThroughputOverride'] != null
+              ? ProvisionedThroughputOverride.fromJson(
+                  json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    return {
+      if (indexName != null) 'IndexName': indexName,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+    };
+  }
 }
 
 /// Represents the properties of a global secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicaGlobalSecondaryIndexSettingsDescription {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// The current status of the global secondary index:
@@ -10424,100 +12096,152 @@ class ReplicaGlobalSecondaryIndexSettingsDescription {
   /// <code>ACTIVE</code> - The global secondary index is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'IndexStatus')
-  final IndexStatus indexStatus;
+  final IndexStatus? indexStatus;
 
   /// Auto scaling settings for a global secondary index replica's read capacity
   /// units.
-  @_s.JsonKey(name: 'ProvisionedReadCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final AutoScalingSettingsDescription?
       provisionedReadCapacityAutoScalingSettings;
 
   /// The maximum number of strongly consistent reads consumed per second before
   /// DynamoDB returns a <code>ThrottlingException</code>.
-  @_s.JsonKey(name: 'ProvisionedReadCapacityUnits')
-  final int provisionedReadCapacityUnits;
+  final int? provisionedReadCapacityUnits;
 
   /// Auto scaling settings for a global secondary index replica's write capacity
   /// units.
-  @_s.JsonKey(name: 'ProvisionedWriteCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final AutoScalingSettingsDescription?
       provisionedWriteCapacityAutoScalingSettings;
 
   /// The maximum number of writes consumed per second before DynamoDB returns a
   /// <code>ThrottlingException</code>.
-  @_s.JsonKey(name: 'ProvisionedWriteCapacityUnits')
-  final int provisionedWriteCapacityUnits;
+  final int? provisionedWriteCapacityUnits;
 
   ReplicaGlobalSecondaryIndexSettingsDescription({
-    @_s.required this.indexName,
+    required this.indexName,
     this.indexStatus,
     this.provisionedReadCapacityAutoScalingSettings,
     this.provisionedReadCapacityUnits,
     this.provisionedWriteCapacityAutoScalingSettings,
     this.provisionedWriteCapacityUnits,
   });
+
   factory ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReplicaGlobalSecondaryIndexSettingsDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ReplicaGlobalSecondaryIndexSettingsDescription(
+      indexName: json['IndexName'] as String,
+      indexStatus: (json['IndexStatus'] as String?)?.toIndexStatus(),
+      provisionedReadCapacityAutoScalingSettings:
+          json['ProvisionedReadCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ProvisionedReadCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      provisionedReadCapacityUnits:
+          json['ProvisionedReadCapacityUnits'] as int?,
+      provisionedWriteCapacityAutoScalingSettings:
+          json['ProvisionedWriteCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ProvisionedWriteCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      provisionedWriteCapacityUnits:
+          json['ProvisionedWriteCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final indexStatus = this.indexStatus;
+    final provisionedReadCapacityAutoScalingSettings =
+        this.provisionedReadCapacityAutoScalingSettings;
+    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
+    final provisionedWriteCapacityAutoScalingSettings =
+        this.provisionedWriteCapacityAutoScalingSettings;
+    final provisionedWriteCapacityUnits = this.provisionedWriteCapacityUnits;
+    return {
+      'IndexName': indexName,
+      if (indexStatus != null) 'IndexStatus': indexStatus.toValue(),
+      if (provisionedReadCapacityAutoScalingSettings != null)
+        'ProvisionedReadCapacityAutoScalingSettings':
+            provisionedReadCapacityAutoScalingSettings,
+      if (provisionedReadCapacityUnits != null)
+        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
+      if (provisionedWriteCapacityAutoScalingSettings != null)
+        'ProvisionedWriteCapacityAutoScalingSettings':
+            provisionedWriteCapacityAutoScalingSettings,
+      if (provisionedWriteCapacityUnits != null)
+        'ProvisionedWriteCapacityUnits': provisionedWriteCapacityUnits,
+    };
+  }
 }
 
 /// Represents the settings of a global secondary index for a global table that
 /// will be modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplicaGlobalSecondaryIndexSettingsUpdate {
   /// The name of the global secondary index. The name must be unique among all
   /// other indexes on this table.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// Auto scaling settings for managing a global secondary index replica's read
   /// capacity units.
-  @_s.JsonKey(name: 'ProvisionedReadCapacityAutoScalingSettingsUpdate')
-  final AutoScalingSettingsUpdate
+  final AutoScalingSettingsUpdate?
       provisionedReadCapacityAutoScalingSettingsUpdate;
 
   /// The maximum number of strongly consistent reads consumed per second before
   /// DynamoDB returns a <code>ThrottlingException</code>.
-  @_s.JsonKey(name: 'ProvisionedReadCapacityUnits')
-  final int provisionedReadCapacityUnits;
+  final int? provisionedReadCapacityUnits;
 
   ReplicaGlobalSecondaryIndexSettingsUpdate({
-    @_s.required this.indexName,
+    required this.indexName,
     this.provisionedReadCapacityAutoScalingSettingsUpdate,
     this.provisionedReadCapacityUnits,
   });
-  Map<String, dynamic> toJson() =>
-      _$ReplicaGlobalSecondaryIndexSettingsUpdateToJson(this);
+
+  factory ReplicaGlobalSecondaryIndexSettingsUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return ReplicaGlobalSecondaryIndexSettingsUpdate(
+      indexName: json['IndexName'] as String,
+      provisionedReadCapacityAutoScalingSettingsUpdate:
+          json['ProvisionedReadCapacityAutoScalingSettingsUpdate'] != null
+              ? AutoScalingSettingsUpdate.fromJson(
+                  json['ProvisionedReadCapacityAutoScalingSettingsUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      provisionedReadCapacityUnits:
+          json['ProvisionedReadCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedReadCapacityAutoScalingSettingsUpdate =
+        this.provisionedReadCapacityAutoScalingSettingsUpdate;
+    final provisionedReadCapacityUnits = this.provisionedReadCapacityUnits;
+    return {
+      'IndexName': indexName,
+      if (provisionedReadCapacityAutoScalingSettingsUpdate != null)
+        'ProvisionedReadCapacityAutoScalingSettingsUpdate':
+            provisionedReadCapacityAutoScalingSettingsUpdate,
+      if (provisionedReadCapacityUnits != null)
+        'ProvisionedReadCapacityUnits': provisionedReadCapacityUnits,
+    };
+  }
 }
 
 /// Represents the properties of a replica.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReplicaSettingsDescription {
   /// The Region name of the replica.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   /// The read/write capacity mode of the replica.
-  @_s.JsonKey(name: 'ReplicaBillingModeSummary')
-  final BillingModeSummary replicaBillingModeSummary;
+  final BillingModeSummary? replicaBillingModeSummary;
 
   /// Replica global secondary index settings for the global table.
-  @_s.JsonKey(name: 'ReplicaGlobalSecondaryIndexSettings')
-  final List<ReplicaGlobalSecondaryIndexSettingsDescription>
+  final List<ReplicaGlobalSecondaryIndexSettingsDescription>?
       replicaGlobalSecondaryIndexSettings;
 
   /// Auto scaling settings for a global table replica's read capacity units.
-  @_s.JsonKey(name: 'ReplicaProvisionedReadCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final AutoScalingSettingsDescription?
       replicaProvisionedReadCapacityAutoScalingSettings;
 
   /// The maximum number of strongly consistent reads consumed per second before
@@ -10526,12 +12250,10 @@ class ReplicaSettingsDescription {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput">Specifying
   /// Read and Write Requirements</a> in the <i>Amazon DynamoDB Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'ReplicaProvisionedReadCapacityUnits')
-  final int replicaProvisionedReadCapacityUnits;
+  final int? replicaProvisionedReadCapacityUnits;
 
   /// Auto scaling settings for a global table replica's write capacity units.
-  @_s.JsonKey(name: 'ReplicaProvisionedWriteCapacityAutoScalingSettings')
-  final AutoScalingSettingsDescription
+  final AutoScalingSettingsDescription?
       replicaProvisionedWriteCapacityAutoScalingSettings;
 
   /// The maximum number of writes consumed per second before DynamoDB returns a
@@ -10539,8 +12261,7 @@ class ReplicaSettingsDescription {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput">Specifying
   /// Read and Write Requirements</a> in the <i>Amazon DynamoDB Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'ReplicaProvisionedWriteCapacityUnits')
-  final int replicaProvisionedWriteCapacityUnits;
+  final int? replicaProvisionedWriteCapacityUnits;
 
   /// The current state of the Region:
   ///
@@ -10558,11 +12279,10 @@ class ReplicaSettingsDescription {
   /// <code>ACTIVE</code> - The Region is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ReplicaStatus')
-  final ReplicaStatus replicaStatus;
+  final ReplicaStatus? replicaStatus;
 
   ReplicaSettingsDescription({
-    @_s.required this.regionName,
+    required this.regionName,
     this.replicaBillingModeSummary,
     this.replicaGlobalSecondaryIndexSettings,
     this.replicaProvisionedReadCapacityAutoScalingSettings,
@@ -10571,32 +12291,93 @@ class ReplicaSettingsDescription {
     this.replicaProvisionedWriteCapacityUnits,
     this.replicaStatus,
   });
-  factory ReplicaSettingsDescription.fromJson(Map<String, dynamic> json) =>
-      _$ReplicaSettingsDescriptionFromJson(json);
+
+  factory ReplicaSettingsDescription.fromJson(Map<String, dynamic> json) {
+    return ReplicaSettingsDescription(
+      regionName: json['RegionName'] as String,
+      replicaBillingModeSummary: json['ReplicaBillingModeSummary'] != null
+          ? BillingModeSummary.fromJson(
+              json['ReplicaBillingModeSummary'] as Map<String, dynamic>)
+          : null,
+      replicaGlobalSecondaryIndexSettings:
+          (json['ReplicaGlobalSecondaryIndexSettings'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  ReplicaGlobalSecondaryIndexSettingsDescription.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+      replicaProvisionedReadCapacityAutoScalingSettings:
+          json['ReplicaProvisionedReadCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ReplicaProvisionedReadCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      replicaProvisionedReadCapacityUnits:
+          json['ReplicaProvisionedReadCapacityUnits'] as int?,
+      replicaProvisionedWriteCapacityAutoScalingSettings:
+          json['ReplicaProvisionedWriteCapacityAutoScalingSettings'] != null
+              ? AutoScalingSettingsDescription.fromJson(
+                  json['ReplicaProvisionedWriteCapacityAutoScalingSettings']
+                      as Map<String, dynamic>)
+              : null,
+      replicaProvisionedWriteCapacityUnits:
+          json['ReplicaProvisionedWriteCapacityUnits'] as int?,
+      replicaStatus: (json['ReplicaStatus'] as String?)?.toReplicaStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final replicaBillingModeSummary = this.replicaBillingModeSummary;
+    final replicaGlobalSecondaryIndexSettings =
+        this.replicaGlobalSecondaryIndexSettings;
+    final replicaProvisionedReadCapacityAutoScalingSettings =
+        this.replicaProvisionedReadCapacityAutoScalingSettings;
+    final replicaProvisionedReadCapacityUnits =
+        this.replicaProvisionedReadCapacityUnits;
+    final replicaProvisionedWriteCapacityAutoScalingSettings =
+        this.replicaProvisionedWriteCapacityAutoScalingSettings;
+    final replicaProvisionedWriteCapacityUnits =
+        this.replicaProvisionedWriteCapacityUnits;
+    final replicaStatus = this.replicaStatus;
+    return {
+      'RegionName': regionName,
+      if (replicaBillingModeSummary != null)
+        'ReplicaBillingModeSummary': replicaBillingModeSummary,
+      if (replicaGlobalSecondaryIndexSettings != null)
+        'ReplicaGlobalSecondaryIndexSettings':
+            replicaGlobalSecondaryIndexSettings,
+      if (replicaProvisionedReadCapacityAutoScalingSettings != null)
+        'ReplicaProvisionedReadCapacityAutoScalingSettings':
+            replicaProvisionedReadCapacityAutoScalingSettings,
+      if (replicaProvisionedReadCapacityUnits != null)
+        'ReplicaProvisionedReadCapacityUnits':
+            replicaProvisionedReadCapacityUnits,
+      if (replicaProvisionedWriteCapacityAutoScalingSettings != null)
+        'ReplicaProvisionedWriteCapacityAutoScalingSettings':
+            replicaProvisionedWriteCapacityAutoScalingSettings,
+      if (replicaProvisionedWriteCapacityUnits != null)
+        'ReplicaProvisionedWriteCapacityUnits':
+            replicaProvisionedWriteCapacityUnits,
+      if (replicaStatus != null) 'ReplicaStatus': replicaStatus.toValue(),
+    };
+  }
 }
 
 /// Represents the settings for a global table in a Region that will be
 /// modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplicaSettingsUpdate {
   /// The Region of the replica to be added.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   /// Represents the settings of a global secondary index for a global table that
   /// will be modified.
-  @_s.JsonKey(name: 'ReplicaGlobalSecondaryIndexSettingsUpdate')
-  final List<ReplicaGlobalSecondaryIndexSettingsUpdate>
+  final List<ReplicaGlobalSecondaryIndexSettingsUpdate>?
       replicaGlobalSecondaryIndexSettingsUpdate;
 
   /// Auto scaling settings for managing a global table replica's read capacity
   /// units.
-  @_s.JsonKey(name: 'ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate')
-  final AutoScalingSettingsUpdate
+  final AutoScalingSettingsUpdate?
       replicaProvisionedReadCapacityAutoScalingSettingsUpdate;
 
   /// The maximum number of strongly consistent reads consumed per second before
@@ -10605,33 +12386,110 @@ class ReplicaSettingsUpdate {
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#ProvisionedThroughput">Specifying
   /// Read and Write Requirements</a> in the <i>Amazon DynamoDB Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'ReplicaProvisionedReadCapacityUnits')
-  final int replicaProvisionedReadCapacityUnits;
+  final int? replicaProvisionedReadCapacityUnits;
 
   ReplicaSettingsUpdate({
-    @_s.required this.regionName,
+    required this.regionName,
     this.replicaGlobalSecondaryIndexSettingsUpdate,
     this.replicaProvisionedReadCapacityAutoScalingSettingsUpdate,
     this.replicaProvisionedReadCapacityUnits,
   });
-  Map<String, dynamic> toJson() => _$ReplicaSettingsUpdateToJson(this);
+
+  factory ReplicaSettingsUpdate.fromJson(Map<String, dynamic> json) {
+    return ReplicaSettingsUpdate(
+      regionName: json['RegionName'] as String,
+      replicaGlobalSecondaryIndexSettingsUpdate:
+          (json['ReplicaGlobalSecondaryIndexSettingsUpdate'] as List?)
+              ?.whereNotNull()
+              .map((e) => ReplicaGlobalSecondaryIndexSettingsUpdate.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      replicaProvisionedReadCapacityAutoScalingSettingsUpdate: json[
+                  'ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate'] !=
+              null
+          ? AutoScalingSettingsUpdate.fromJson(
+              json['ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate']
+                  as Map<String, dynamic>)
+          : null,
+      replicaProvisionedReadCapacityUnits:
+          json['ReplicaProvisionedReadCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final replicaGlobalSecondaryIndexSettingsUpdate =
+        this.replicaGlobalSecondaryIndexSettingsUpdate;
+    final replicaProvisionedReadCapacityAutoScalingSettingsUpdate =
+        this.replicaProvisionedReadCapacityAutoScalingSettingsUpdate;
+    final replicaProvisionedReadCapacityUnits =
+        this.replicaProvisionedReadCapacityUnits;
+    return {
+      'RegionName': regionName,
+      if (replicaGlobalSecondaryIndexSettingsUpdate != null)
+        'ReplicaGlobalSecondaryIndexSettingsUpdate':
+            replicaGlobalSecondaryIndexSettingsUpdate,
+      if (replicaProvisionedReadCapacityAutoScalingSettingsUpdate != null)
+        'ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate':
+            replicaProvisionedReadCapacityAutoScalingSettingsUpdate,
+      if (replicaProvisionedReadCapacityUnits != null)
+        'ReplicaProvisionedReadCapacityUnits':
+            replicaProvisionedReadCapacityUnits,
+    };
+  }
 }
 
 enum ReplicaStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('CREATION_FAILED')
   creationFailed,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('REGION_DISABLED')
   regionDisabled,
-  @_s.JsonValue('INACCESSIBLE_ENCRYPTION_CREDENTIALS')
   inaccessibleEncryptionCredentials,
+}
+
+extension on ReplicaStatus {
+  String toValue() {
+    switch (this) {
+      case ReplicaStatus.creating:
+        return 'CREATING';
+      case ReplicaStatus.creationFailed:
+        return 'CREATION_FAILED';
+      case ReplicaStatus.updating:
+        return 'UPDATING';
+      case ReplicaStatus.deleting:
+        return 'DELETING';
+      case ReplicaStatus.active:
+        return 'ACTIVE';
+      case ReplicaStatus.regionDisabled:
+        return 'REGION_DISABLED';
+      case ReplicaStatus.inaccessibleEncryptionCredentials:
+        return 'INACCESSIBLE_ENCRYPTION_CREDENTIALS';
+    }
+  }
+}
+
+extension on String {
+  ReplicaStatus toReplicaStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ReplicaStatus.creating;
+      case 'CREATION_FAILED':
+        return ReplicaStatus.creationFailed;
+      case 'UPDATING':
+        return ReplicaStatus.updating;
+      case 'DELETING':
+        return ReplicaStatus.deleting;
+      case 'ACTIVE':
+        return ReplicaStatus.active;
+      case 'REGION_DISABLED':
+        return ReplicaStatus.regionDisabled;
+      case 'INACCESSIBLE_ENCRYPTION_CREDENTIALS':
+        return ReplicaStatus.inaccessibleEncryptionCredentials;
+    }
+    throw Exception('$this is not known in enum ReplicaStatus');
+  }
 }
 
 /// Represents one of the following:
@@ -10647,25 +12505,37 @@ enum ReplicaStatus {
 /// An existing replica to be removed from an existing global table.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplicaUpdate {
   /// The parameters required for creating a replica on an existing global table.
-  @_s.JsonKey(name: 'Create')
-  final CreateReplicaAction create;
+  final CreateReplicaAction? create;
 
   /// The name of the existing replica to be removed.
-  @_s.JsonKey(name: 'Delete')
-  final DeleteReplicaAction delete;
+  final DeleteReplicaAction? delete;
 
   ReplicaUpdate({
     this.create,
     this.delete,
   });
-  Map<String, dynamic> toJson() => _$ReplicaUpdateToJson(this);
+
+  factory ReplicaUpdate.fromJson(Map<String, dynamic> json) {
+    return ReplicaUpdate(
+      create: json['Create'] != null
+          ? CreateReplicaAction.fromJson(json['Create'] as Map<String, dynamic>)
+          : null,
+      delete: json['Delete'] != null
+          ? DeleteReplicaAction.fromJson(json['Delete'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final create = this.create;
+    final delete = this.delete;
+    return {
+      if (create != null) 'Create': create,
+      if (delete != null) 'Delete': delete,
+    };
+  }
 }
 
 /// Represents one of the following:
@@ -10686,99 +12556,145 @@ class ReplicaUpdate {
 /// the replica and all if its items in the destination Region.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplicationGroupUpdate {
   /// The parameters required for creating a replica for the table.
-  @_s.JsonKey(name: 'Create')
-  final CreateReplicationGroupMemberAction create;
+  final CreateReplicationGroupMemberAction? create;
 
   /// The parameters required for deleting a replica for the table.
-  @_s.JsonKey(name: 'Delete')
-  final DeleteReplicationGroupMemberAction delete;
+  final DeleteReplicationGroupMemberAction? delete;
 
   /// The parameters required for updating a replica for the table.
-  @_s.JsonKey(name: 'Update')
-  final UpdateReplicationGroupMemberAction update;
+  final UpdateReplicationGroupMemberAction? update;
 
   ReplicationGroupUpdate({
     this.create,
     this.delete,
     this.update,
   });
-  Map<String, dynamic> toJson() => _$ReplicationGroupUpdateToJson(this);
+
+  factory ReplicationGroupUpdate.fromJson(Map<String, dynamic> json) {
+    return ReplicationGroupUpdate(
+      create: json['Create'] != null
+          ? CreateReplicationGroupMemberAction.fromJson(
+              json['Create'] as Map<String, dynamic>)
+          : null,
+      delete: json['Delete'] != null
+          ? DeleteReplicationGroupMemberAction.fromJson(
+              json['Delete'] as Map<String, dynamic>)
+          : null,
+      update: json['Update'] != null
+          ? UpdateReplicationGroupMemberAction.fromJson(
+              json['Update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final create = this.create;
+    final delete = this.delete;
+    final update = this.update;
+    return {
+      if (create != null) 'Create': create,
+      if (delete != null) 'Delete': delete,
+      if (update != null) 'Update': update,
+    };
+  }
 }
 
 /// Contains details for the restore.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreSummary {
   /// Point in time or source backup time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RestoreDateTime')
   final DateTime restoreDateTime;
 
   /// Indicates if a restore is in progress or not.
-  @_s.JsonKey(name: 'RestoreInProgress')
   final bool restoreInProgress;
 
   /// The Amazon Resource Name (ARN) of the backup from which the table was
   /// restored.
-  @_s.JsonKey(name: 'SourceBackupArn')
-  final String sourceBackupArn;
+  final String? sourceBackupArn;
 
   /// The ARN of the source table of the backup that is being restored.
-  @_s.JsonKey(name: 'SourceTableArn')
-  final String sourceTableArn;
+  final String? sourceTableArn;
 
   RestoreSummary({
-    @_s.required this.restoreDateTime,
-    @_s.required this.restoreInProgress,
+    required this.restoreDateTime,
+    required this.restoreInProgress,
     this.sourceBackupArn,
     this.sourceTableArn,
   });
-  factory RestoreSummary.fromJson(Map<String, dynamic> json) =>
-      _$RestoreSummaryFromJson(json);
+
+  factory RestoreSummary.fromJson(Map<String, dynamic> json) {
+    return RestoreSummary(
+      restoreDateTime:
+          nonNullableTimeStampFromJson(json['RestoreDateTime'] as Object),
+      restoreInProgress: json['RestoreInProgress'] as bool,
+      sourceBackupArn: json['SourceBackupArn'] as String?,
+      sourceTableArn: json['SourceTableArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final restoreDateTime = this.restoreDateTime;
+    final restoreInProgress = this.restoreInProgress;
+    final sourceBackupArn = this.sourceBackupArn;
+    final sourceTableArn = this.sourceTableArn;
+    return {
+      'RestoreDateTime': unixTimestampToJson(restoreDateTime),
+      'RestoreInProgress': restoreInProgress,
+      if (sourceBackupArn != null) 'SourceBackupArn': sourceBackupArn,
+      if (sourceTableArn != null) 'SourceTableArn': sourceTableArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreTableFromBackupOutput {
   /// The description of the table created from an existing backup.
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   RestoreTableFromBackupOutput({
     this.tableDescription,
   });
-  factory RestoreTableFromBackupOutput.fromJson(Map<String, dynamic> json) =>
-      _$RestoreTableFromBackupOutputFromJson(json);
+
+  factory RestoreTableFromBackupOutput.fromJson(Map<String, dynamic> json) {
+    return RestoreTableFromBackupOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreTableToPointInTimeOutput {
   /// Represents the properties of a table.
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   RestoreTableToPointInTimeOutput({
     this.tableDescription,
   });
-  factory RestoreTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) =>
-      _$RestoreTableToPointInTimeOutputFromJson(json);
+
+  factory RestoreTableToPointInTimeOutput.fromJson(Map<String, dynamic> json) {
+    return RestoreTableToPointInTimeOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
 /// Determines the level of detail about provisioned throughput consumption that
@@ -10806,11 +12722,8 @@ class RestoreTableToPointInTimeOutput {
 /// </li>
 /// </ul>
 enum ReturnConsumedCapacity {
-  @_s.JsonValue('INDEXES')
   indexes,
-  @_s.JsonValue('TOTAL')
   total,
-  @_s.JsonValue('NONE')
   none,
 }
 
@@ -10824,14 +12737,25 @@ extension on ReturnConsumedCapacity {
       case ReturnConsumedCapacity.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReturnConsumedCapacity toReturnConsumedCapacity() {
+    switch (this) {
+      case 'INDEXES':
+        return ReturnConsumedCapacity.indexes;
+      case 'TOTAL':
+        return ReturnConsumedCapacity.total;
+      case 'NONE':
+        return ReturnConsumedCapacity.none;
+    }
+    throw Exception('$this is not known in enum ReturnConsumedCapacity');
   }
 }
 
 enum ReturnItemCollectionMetrics {
-  @_s.JsonValue('SIZE')
   size,
-  @_s.JsonValue('NONE')
   none,
 }
 
@@ -10843,20 +12767,26 @@ extension on ReturnItemCollectionMetrics {
       case ReturnItemCollectionMetrics.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReturnItemCollectionMetrics toReturnItemCollectionMetrics() {
+    switch (this) {
+      case 'SIZE':
+        return ReturnItemCollectionMetrics.size;
+      case 'NONE':
+        return ReturnItemCollectionMetrics.none;
+    }
+    throw Exception('$this is not known in enum ReturnItemCollectionMetrics');
   }
 }
 
 enum ReturnValue {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('ALL_OLD')
   allOld,
-  @_s.JsonValue('UPDATED_OLD')
   updatedOld,
-  @_s.JsonValue('ALL_NEW')
   allNew,
-  @_s.JsonValue('UPDATED_NEW')
   updatedNew,
 }
 
@@ -10874,21 +12804,58 @@ extension on ReturnValue {
       case ReturnValue.updatedNew:
         return 'UPDATED_NEW';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReturnValue toReturnValue() {
+    switch (this) {
+      case 'NONE':
+        return ReturnValue.none;
+      case 'ALL_OLD':
+        return ReturnValue.allOld;
+      case 'UPDATED_OLD':
+        return ReturnValue.updatedOld;
+      case 'ALL_NEW':
+        return ReturnValue.allNew;
+      case 'UPDATED_NEW':
+        return ReturnValue.updatedNew;
+    }
+    throw Exception('$this is not known in enum ReturnValue');
   }
 }
 
 enum ReturnValuesOnConditionCheckFailure {
-  @_s.JsonValue('ALL_OLD')
   allOld,
-  @_s.JsonValue('NONE')
   none,
 }
 
+extension on ReturnValuesOnConditionCheckFailure {
+  String toValue() {
+    switch (this) {
+      case ReturnValuesOnConditionCheckFailure.allOld:
+        return 'ALL_OLD';
+      case ReturnValuesOnConditionCheckFailure.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  ReturnValuesOnConditionCheckFailure toReturnValuesOnConditionCheckFailure() {
+    switch (this) {
+      case 'ALL_OLD':
+        return ReturnValuesOnConditionCheckFailure.allOld;
+      case 'NONE':
+        return ReturnValuesOnConditionCheckFailure.none;
+    }
+    throw Exception(
+        '$this is not known in enum ReturnValuesOnConditionCheckFailure');
+  }
+}
+
 enum S3SseAlgorithm {
-  @_s.JsonValue('AES256')
   aes256,
-  @_s.JsonValue('KMS')
   kms,
 }
 
@@ -10900,29 +12867,32 @@ extension on S3SseAlgorithm {
       case S3SseAlgorithm.kms:
         return 'KMS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  S3SseAlgorithm toS3SseAlgorithm() {
+    switch (this) {
+      case 'AES256':
+        return S3SseAlgorithm.aes256;
+      case 'KMS':
+        return S3SseAlgorithm.kms;
+    }
+    throw Exception('$this is not known in enum S3SseAlgorithm');
   }
 }
 
 /// The description of the server-side encryption status on the specified table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SSEDescription {
   /// Indicates the time, in UNIX epoch date format, when DynamoDB detected that
   /// the table's AWS KMS key was inaccessible. This attribute will automatically
   /// be cleared when DynamoDB detects that the table's AWS KMS key is accessible
   /// again. DynamoDB will initiate the table archival process when table's AWS
   /// KMS key remains inaccessible for more than seven days from this date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'InaccessibleEncryptionDateTime')
-  final DateTime inaccessibleEncryptionDateTime;
+  final DateTime? inaccessibleEncryptionDateTime;
 
   /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
-  @_s.JsonKey(name: 'KMSMasterKeyArn')
-  final String kMSMasterKeyArn;
+  final String? kMSMasterKeyArn;
 
   /// Server-side encryption type. The only supported value is:
   ///
@@ -10933,8 +12903,7 @@ class SSEDescription {
   /// KMS charges apply).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SSEType')
-  final SSEType sSEType;
+  final SSEType? sSEType;
 
   /// Represents the current state of server-side encryption. The only supported
   /// values are:
@@ -10947,8 +12916,7 @@ class SSEDescription {
   /// <code>UPDATING</code> - Server-side encryption is being updated.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final SSEStatus status;
+  final SSEStatus? status;
 
   SSEDescription({
     this.inaccessibleEncryptionDateTime,
@@ -10956,32 +12924,48 @@ class SSEDescription {
     this.sSEType,
     this.status,
   });
-  factory SSEDescription.fromJson(Map<String, dynamic> json) =>
-      _$SSEDescriptionFromJson(json);
+
+  factory SSEDescription.fromJson(Map<String, dynamic> json) {
+    return SSEDescription(
+      inaccessibleEncryptionDateTime:
+          timeStampFromJson(json['InaccessibleEncryptionDateTime']),
+      kMSMasterKeyArn: json['KMSMasterKeyArn'] as String?,
+      sSEType: (json['SSEType'] as String?)?.toSSEType(),
+      status: (json['Status'] as String?)?.toSSEStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inaccessibleEncryptionDateTime = this.inaccessibleEncryptionDateTime;
+    final kMSMasterKeyArn = this.kMSMasterKeyArn;
+    final sSEType = this.sSEType;
+    final status = this.status;
+    return {
+      if (inaccessibleEncryptionDateTime != null)
+        'InaccessibleEncryptionDateTime':
+            unixTimestampToJson(inaccessibleEncryptionDateTime),
+      if (kMSMasterKeyArn != null) 'KMSMasterKeyArn': kMSMasterKeyArn,
+      if (sSEType != null) 'SSEType': sSEType.toValue(),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Represents the settings used to enable server-side encryption.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SSESpecification {
   /// Indicates whether server-side encryption is done using an AWS managed CMK or
   /// an AWS owned CMK. If enabled (true), server-side encryption type is set to
   /// <code>KMS</code> and an AWS managed CMK is used (AWS KMS charges apply). If
   /// disabled (false) or not specified, server-side encryption is set to AWS
   /// owned CMK.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The AWS KMS customer master key (CMK) that should be used for the AWS KMS
   /// encryption. To specify a CMK, use its key ID, Amazon Resource Name (ARN),
   /// alias name, or alias ARN. Note that you should only provide this parameter
   /// if the key is different from the default DynamoDB customer master key
   /// alias/aws/dynamodb.
-  @_s.JsonKey(name: 'KMSMasterKeyId')
-  final String kMSMasterKeyId;
+  final String? kMSMasterKeyId;
 
   /// Server-side encryption type. The only supported value is:
   ///
@@ -10992,52 +12976,139 @@ class SSESpecification {
   /// KMS charges apply).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SSEType')
-  final SSEType sSEType;
+  final SSEType? sSEType;
 
   SSESpecification({
     this.enabled,
     this.kMSMasterKeyId,
     this.sSEType,
   });
-  Map<String, dynamic> toJson() => _$SSESpecificationToJson(this);
+
+  factory SSESpecification.fromJson(Map<String, dynamic> json) {
+    return SSESpecification(
+      enabled: json['Enabled'] as bool?,
+      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
+      sSEType: (json['SSEType'] as String?)?.toSSEType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final sSEType = this.sSEType;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (sSEType != null) 'SSEType': sSEType.toValue(),
+    };
+  }
 }
 
 enum SSEStatus {
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on SSEStatus {
+  String toValue() {
+    switch (this) {
+      case SSEStatus.enabling:
+        return 'ENABLING';
+      case SSEStatus.enabled:
+        return 'ENABLED';
+      case SSEStatus.disabling:
+        return 'DISABLING';
+      case SSEStatus.disabled:
+        return 'DISABLED';
+      case SSEStatus.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  SSEStatus toSSEStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return SSEStatus.enabling;
+      case 'ENABLED':
+        return SSEStatus.enabled;
+      case 'DISABLING':
+        return SSEStatus.disabling;
+      case 'DISABLED':
+        return SSEStatus.disabled;
+      case 'UPDATING':
+        return SSEStatus.updating;
+    }
+    throw Exception('$this is not known in enum SSEStatus');
+  }
+}
+
 enum SSEType {
-  @_s.JsonValue('AES256')
   aes256,
-  @_s.JsonValue('KMS')
   kms,
 }
 
+extension on SSEType {
+  String toValue() {
+    switch (this) {
+      case SSEType.aes256:
+        return 'AES256';
+      case SSEType.kms:
+        return 'KMS';
+    }
+  }
+}
+
+extension on String {
+  SSEType toSSEType() {
+    switch (this) {
+      case 'AES256':
+        return SSEType.aes256;
+      case 'KMS':
+        return SSEType.kms;
+    }
+    throw Exception('$this is not known in enum SSEType');
+  }
+}
+
 enum ScalarAttributeType {
-  @_s.JsonValue('S')
   s,
-  @_s.JsonValue('N')
   n,
-  @_s.JsonValue('B')
   b,
 }
 
+extension on ScalarAttributeType {
+  String toValue() {
+    switch (this) {
+      case ScalarAttributeType.s:
+        return 'S';
+      case ScalarAttributeType.n:
+        return 'N';
+      case ScalarAttributeType.b:
+        return 'B';
+    }
+  }
+}
+
+extension on String {
+  ScalarAttributeType toScalarAttributeType() {
+    switch (this) {
+      case 'S':
+        return ScalarAttributeType.s;
+      case 'N':
+        return ScalarAttributeType.n;
+      case 'B':
+        return ScalarAttributeType.b;
+    }
+    throw Exception('$this is not known in enum ScalarAttributeType');
+  }
+}
+
 /// Represents the output of a <code>Scan</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScanOutput {
   /// The capacity units consumed by the <code>Scan</code> operation. The data
   /// returned includes the total provisioned throughput consumed, along with
@@ -11047,8 +13118,7 @@ class ScanOutput {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
   /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
 
   /// The number of items in the response.
   ///
@@ -11059,13 +13129,11 @@ class ScanOutput {
   ///
   /// If you did not use a filter in the request, then <code>Count</code> is the
   /// same as <code>ScannedCount</code>.
-  @_s.JsonKey(name: 'Count')
-  final int count;
+  final int? count;
 
   /// An array of item attributes that match the scan criteria. Each element in
   /// this array consists of an attribute name and the value for that attribute.
-  @_s.JsonKey(name: 'Items')
-  final List<Map<String, AttributeValue>> items;
+  final List<Map<String, AttributeValue>>? items;
 
   /// The primary key of the item where the operation stopped, inclusive of the
   /// previous result set. Use this value to start a new operation, excluding this
@@ -11078,8 +13146,7 @@ class ScanOutput {
   /// that there is more data in the result set. The only way to know when you
   /// have reached the end of the result set is when <code>LastEvaluatedKey</code>
   /// is empty.
-  @_s.JsonKey(name: 'LastEvaluatedKey')
-  final Map<String, AttributeValue> lastEvaluatedKey;
+  final Map<String, AttributeValue>? lastEvaluatedKey;
 
   /// The number of items evaluated, before any <code>ScanFilter</code> is
   /// applied. A high <code>ScannedCount</code> value with few, or no,
@@ -11090,8 +13157,7 @@ class ScanOutput {
   ///
   /// If you did not use a filter in the request, then <code>ScannedCount</code>
   /// is the same as <code>Count</code>.
-  @_s.JsonKey(name: 'ScannedCount')
-  final int scannedCount;
+  final int? scannedCount;
 
   ScanOutput({
     this.consumedCapacity,
@@ -11100,18 +13166,46 @@ class ScanOutput {
     this.lastEvaluatedKey,
     this.scannedCount,
   });
-  factory ScanOutput.fromJson(Map<String, dynamic> json) =>
-      _$ScanOutputFromJson(json);
+
+  factory ScanOutput.fromJson(Map<String, dynamic> json) {
+    return ScanOutput(
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      count: json['Count'] as int?,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      lastEvaluatedKey: (json['LastEvaluatedKey'] as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      scannedCount: json['ScannedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final count = this.count;
+    final items = this.items;
+    final lastEvaluatedKey = this.lastEvaluatedKey;
+    final scannedCount = this.scannedCount;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (count != null) 'Count': count,
+      if (items != null) 'Items': items,
+      if (lastEvaluatedKey != null) 'LastEvaluatedKey': lastEvaluatedKey,
+      if (scannedCount != null) 'ScannedCount': scannedCount,
+    };
+  }
 }
 
 enum Select {
-  @_s.JsonValue('ALL_ATTRIBUTES')
   allAttributes,
-  @_s.JsonValue('ALL_PROJECTED_ATTRIBUTES')
   allProjectedAttributes,
-  @_s.JsonValue('SPECIFIC_ATTRIBUTES')
   specificAttributes,
-  @_s.JsonValue('COUNT')
   count,
 }
 
@@ -11127,36 +13221,40 @@ extension on Select {
       case Select.count:
         return 'COUNT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Select toSelect() {
+    switch (this) {
+      case 'ALL_ATTRIBUTES':
+        return Select.allAttributes;
+      case 'ALL_PROJECTED_ATTRIBUTES':
+        return Select.allProjectedAttributes;
+      case 'SPECIFIC_ATTRIBUTES':
+        return Select.specificAttributes;
+      case 'COUNT':
+        return Select.count;
+    }
+    throw Exception('$this is not known in enum Select');
   }
 }
 
 /// Contains the details of the table when the backup was created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SourceTableDetails {
   /// Schema of the table.
-  @_s.JsonKey(name: 'KeySchema')
   final List<KeySchemaElement> keySchema;
 
   /// Read IOPs and Write IOPS on the table when the backup was created.
-  @_s.JsonKey(name: 'ProvisionedThroughput')
   final ProvisionedThroughput provisionedThroughput;
 
   /// Time when the source table was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TableCreationDateTime')
   final DateTime tableCreationDateTime;
 
   /// Unique identifier for the table for which the backup was created.
-  @_s.JsonKey(name: 'TableId')
   final String tableId;
 
   /// The name of the table for which the backup was created.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// Controls how you are charged for read and write throughput and how you
@@ -11174,68 +13272,94 @@ class SourceTableDetails {
   /// <code>PAY_PER_REQUEST</code> for unpredictable workloads.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'BillingMode')
-  final BillingMode billingMode;
+  final BillingMode? billingMode;
 
   /// Number of items in the table. Note that this is an approximate value.
-  @_s.JsonKey(name: 'ItemCount')
-  final int itemCount;
+  final int? itemCount;
 
   /// ARN of the table for which backup was created.
-  @_s.JsonKey(name: 'TableArn')
-  final String tableArn;
+  final String? tableArn;
 
   /// Size of the table in bytes. Note that this is an approximate value.
-  @_s.JsonKey(name: 'TableSizeBytes')
-  final int tableSizeBytes;
+  final int? tableSizeBytes;
 
   SourceTableDetails({
-    @_s.required this.keySchema,
-    @_s.required this.provisionedThroughput,
-    @_s.required this.tableCreationDateTime,
-    @_s.required this.tableId,
-    @_s.required this.tableName,
+    required this.keySchema,
+    required this.provisionedThroughput,
+    required this.tableCreationDateTime,
+    required this.tableId,
+    required this.tableName,
     this.billingMode,
     this.itemCount,
     this.tableArn,
     this.tableSizeBytes,
   });
-  factory SourceTableDetails.fromJson(Map<String, dynamic> json) =>
-      _$SourceTableDetailsFromJson(json);
+
+  factory SourceTableDetails.fromJson(Map<String, dynamic> json) {
+    return SourceTableDetails(
+      keySchema: (json['KeySchema'] as List)
+          .whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      provisionedThroughput: ProvisionedThroughput.fromJson(
+          json['ProvisionedThroughput'] as Map<String, dynamic>),
+      tableCreationDateTime:
+          nonNullableTimeStampFromJson(json['TableCreationDateTime'] as Object),
+      tableId: json['TableId'] as String,
+      tableName: json['TableName'] as String,
+      billingMode: (json['BillingMode'] as String?)?.toBillingMode(),
+      itemCount: json['ItemCount'] as int?,
+      tableArn: json['TableArn'] as String?,
+      tableSizeBytes: json['TableSizeBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keySchema = this.keySchema;
+    final provisionedThroughput = this.provisionedThroughput;
+    final tableCreationDateTime = this.tableCreationDateTime;
+    final tableId = this.tableId;
+    final tableName = this.tableName;
+    final billingMode = this.billingMode;
+    final itemCount = this.itemCount;
+    final tableArn = this.tableArn;
+    final tableSizeBytes = this.tableSizeBytes;
+    return {
+      'KeySchema': keySchema,
+      'ProvisionedThroughput': provisionedThroughput,
+      'TableCreationDateTime': unixTimestampToJson(tableCreationDateTime),
+      'TableId': tableId,
+      'TableName': tableName,
+      if (billingMode != null) 'BillingMode': billingMode.toValue(),
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableSizeBytes != null) 'TableSizeBytes': tableSizeBytes,
+    };
+  }
 }
 
 /// Contains the details of the features enabled on the table when the backup
 /// was created. For example, LSIs, GSIs, streams, TTL.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SourceTableFeatureDetails {
   /// Represents the GSI properties for the table when the backup was created. It
   /// includes the IndexName, KeySchema, Projection, and ProvisionedThroughput for
   /// the GSIs on the table at the time of backup.
-  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
-  final List<GlobalSecondaryIndexInfo> globalSecondaryIndexes;
+  final List<GlobalSecondaryIndexInfo>? globalSecondaryIndexes;
 
   /// Represents the LSI properties for the table when the backup was created. It
   /// includes the IndexName, KeySchema and Projection for the LSIs on the table
   /// at the time of backup.
-  @_s.JsonKey(name: 'LocalSecondaryIndexes')
-  final List<LocalSecondaryIndexInfo> localSecondaryIndexes;
+  final List<LocalSecondaryIndexInfo>? localSecondaryIndexes;
 
   /// The description of the server-side encryption status on the table when the
   /// backup was created.
-  @_s.JsonKey(name: 'SSEDescription')
-  final SSEDescription sSEDescription;
+  final SSEDescription? sSEDescription;
 
   /// Stream settings on the table when the backup was created.
-  @_s.JsonKey(name: 'StreamDescription')
-  final StreamSpecification streamDescription;
+  final StreamSpecification? streamDescription;
 
   /// Time to Live settings on the table when the backup was created.
-  @_s.JsonKey(name: 'TimeToLiveDescription')
-  final TimeToLiveDescription timeToLiveDescription;
+  final TimeToLiveDescription? timeToLiveDescription;
 
   SourceTableFeatureDetails({
     this.globalSecondaryIndexes,
@@ -11244,20 +13368,57 @@ class SourceTableFeatureDetails {
     this.streamDescription,
     this.timeToLiveDescription,
   });
-  factory SourceTableFeatureDetails.fromJson(Map<String, dynamic> json) =>
-      _$SourceTableFeatureDetailsFromJson(json);
+
+  factory SourceTableFeatureDetails.fromJson(Map<String, dynamic> json) {
+    return SourceTableFeatureDetails(
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              GlobalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LocalSecondaryIndexInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sSEDescription: json['SSEDescription'] != null
+          ? SSEDescription.fromJson(
+              json['SSEDescription'] as Map<String, dynamic>)
+          : null,
+      streamDescription: json['StreamDescription'] != null
+          ? StreamSpecification.fromJson(
+              json['StreamDescription'] as Map<String, dynamic>)
+          : null,
+      timeToLiveDescription: json['TimeToLiveDescription'] != null
+          ? TimeToLiveDescription.fromJson(
+              json['TimeToLiveDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final localSecondaryIndexes = this.localSecondaryIndexes;
+    final sSEDescription = this.sSEDescription;
+    final streamDescription = this.streamDescription;
+    final timeToLiveDescription = this.timeToLiveDescription;
+    return {
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (localSecondaryIndexes != null)
+        'LocalSecondaryIndexes': localSecondaryIndexes,
+      if (sSEDescription != null) 'SSEDescription': sSEDescription,
+      if (streamDescription != null) 'StreamDescription': streamDescription,
+      if (timeToLiveDescription != null)
+        'TimeToLiveDescription': timeToLiveDescription,
+    };
+  }
 }
 
 /// Represents the DynamoDB Streams configuration for a table in DynamoDB.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamSpecification {
   /// Indicates whether DynamoDB Streams is enabled (true) or disabled (false) on
   /// the table.
-  @_s.JsonKey(name: 'StreamEnabled')
   final bool streamEnabled;
 
   /// When an item in the table is modified, <code>StreamViewType</code>
@@ -11282,44 +13443,75 @@ class StreamSpecification {
   /// the item are written to the stream.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamViewType')
-  final StreamViewType streamViewType;
+  final StreamViewType? streamViewType;
 
   StreamSpecification({
-    @_s.required this.streamEnabled,
+    required this.streamEnabled,
     this.streamViewType,
   });
-  factory StreamSpecification.fromJson(Map<String, dynamic> json) =>
-      _$StreamSpecificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StreamSpecificationToJson(this);
+  factory StreamSpecification.fromJson(Map<String, dynamic> json) {
+    return StreamSpecification(
+      streamEnabled: json['StreamEnabled'] as bool,
+      streamViewType: (json['StreamViewType'] as String?)?.toStreamViewType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamEnabled = this.streamEnabled;
+    final streamViewType = this.streamViewType;
+    return {
+      'StreamEnabled': streamEnabled,
+      if (streamViewType != null) 'StreamViewType': streamViewType.toValue(),
+    };
+  }
 }
 
 enum StreamViewType {
-  @_s.JsonValue('NEW_IMAGE')
   newImage,
-  @_s.JsonValue('OLD_IMAGE')
   oldImage,
-  @_s.JsonValue('NEW_AND_OLD_IMAGES')
   newAndOldImages,
-  @_s.JsonValue('KEYS_ONLY')
   keysOnly,
 }
 
+extension on StreamViewType {
+  String toValue() {
+    switch (this) {
+      case StreamViewType.newImage:
+        return 'NEW_IMAGE';
+      case StreamViewType.oldImage:
+        return 'OLD_IMAGE';
+      case StreamViewType.newAndOldImages:
+        return 'NEW_AND_OLD_IMAGES';
+      case StreamViewType.keysOnly:
+        return 'KEYS_ONLY';
+    }
+  }
+}
+
+extension on String {
+  StreamViewType toStreamViewType() {
+    switch (this) {
+      case 'NEW_IMAGE':
+        return StreamViewType.newImage;
+      case 'OLD_IMAGE':
+        return StreamViewType.oldImage;
+      case 'NEW_AND_OLD_IMAGES':
+        return StreamViewType.newAndOldImages;
+      case 'KEYS_ONLY':
+        return StreamViewType.keysOnly;
+    }
+    throw Exception('$this is not known in enum StreamViewType');
+  }
+}
+
 /// Represents the auto scaling configuration for a global table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableAutoScalingDescription {
   /// Represents replicas of the global table.
-  @_s.JsonKey(name: 'Replicas')
-  final List<ReplicaAutoScalingDescription> replicas;
+  final List<ReplicaAutoScalingDescription>? replicas;
 
   /// The name of the table.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// The current state of the table:
   ///
@@ -11337,28 +13529,42 @@ class TableAutoScalingDescription {
   /// <code>ACTIVE</code> - The table is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'TableStatus')
-  final TableStatus tableStatus;
+  final TableStatus? tableStatus;
 
   TableAutoScalingDescription({
     this.replicas,
     this.tableName,
     this.tableStatus,
   });
-  factory TableAutoScalingDescription.fromJson(Map<String, dynamic> json) =>
-      _$TableAutoScalingDescriptionFromJson(json);
+
+  factory TableAutoScalingDescription.fromJson(Map<String, dynamic> json) {
+    return TableAutoScalingDescription(
+      replicas: (json['Replicas'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicaAutoScalingDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tableName: json['TableName'] as String?,
+      tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicas = this.replicas;
+    final tableName = this.tableName;
+    final tableStatus = this.tableStatus;
+    return {
+      if (replicas != null) 'Replicas': replicas,
+      if (tableName != null) 'TableName': tableName,
+      if (tableStatus != null) 'TableStatus': tableStatus.toValue(),
+    };
+  }
 }
 
 /// Represents the properties of a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableDescription {
   /// Contains information about the table archive.
-  @_s.JsonKey(name: 'ArchivalSummary')
-  final ArchivalSummary archivalSummary;
+  final ArchivalSummary? archivalSummary;
 
   /// An array of <code>AttributeDefinition</code> objects. Each of these objects
   /// describes one attribute in the table and index key schema.
@@ -11373,18 +13579,14 @@ class TableDescription {
   /// <code>AttributeType</code> - The data type for the attribute.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'AttributeDefinitions')
-  final List<AttributeDefinition> attributeDefinitions;
+  final List<AttributeDefinition>? attributeDefinitions;
 
   /// Contains the details for the read/write capacity mode.
-  @_s.JsonKey(name: 'BillingModeSummary')
-  final BillingModeSummary billingModeSummary;
+  final BillingModeSummary? billingModeSummary;
 
   /// The date and time when the table was created, in <a
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The global secondary indexes, if any, on the table. Each index is scoped to
   /// a given partition key value. Each element is composed of:
@@ -11481,20 +13683,17 @@ class TableDescription {
   /// </ul>
   /// If the table is in the <code>DELETING</code> state, no information about
   /// indexes will be returned.
-  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
-  final List<GlobalSecondaryIndexDescription> globalSecondaryIndexes;
+  final List<GlobalSecondaryIndexDescription>? globalSecondaryIndexes;
 
   /// Represents the version of <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html">global
   /// tables</a> in use, if the table is replicated across AWS Regions.
-  @_s.JsonKey(name: 'GlobalTableVersion')
-  final String globalTableVersion;
+  final String? globalTableVersion;
 
   /// The number of items in the specified table. DynamoDB updates this value
   /// approximately every six hours. Recent changes might not be reflected in this
   /// value.
-  @_s.JsonKey(name: 'ItemCount')
-  final int itemCount;
+  final int? itemCount;
 
   /// The primary key structure for the table. Each <code>KeySchemaElement</code>
   /// consists of:
@@ -11528,13 +13727,11 @@ class TableDescription {
   /// For more information about primary keys, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary
   /// Key</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'KeySchema')
-  final List<KeySchemaElement> keySchema;
+  final List<KeySchemaElement>? keySchema;
 
   /// The Amazon Resource Name (ARN) that uniquely identifies the latest stream
   /// for this table.
-  @_s.JsonKey(name: 'LatestStreamArn')
-  final String latestStreamArn;
+  final String? latestStreamArn;
 
   /// A timestamp, in ISO 8601 format, for this stream.
   ///
@@ -11554,8 +13751,7 @@ class TableDescription {
   /// <code>StreamLabel</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'LatestStreamLabel')
-  final String latestStreamLabel;
+  final String? latestStreamLabel;
 
   /// Represents one or more local secondary indexes on the table. Each index is
   /// scoped to a given partition key value. Tables with one or more local
@@ -11619,47 +13815,37 @@ class TableDescription {
   /// </ul>
   /// If the table is in the <code>DELETING</code> state, no information about
   /// indexes will be returned.
-  @_s.JsonKey(name: 'LocalSecondaryIndexes')
-  final List<LocalSecondaryIndexDescription> localSecondaryIndexes;
+  final List<LocalSecondaryIndexDescription>? localSecondaryIndexes;
 
   /// The provisioned throughput settings for the table, consisting of read and
   /// write capacity units, along with data about increases and decreases.
-  @_s.JsonKey(name: 'ProvisionedThroughput')
-  final ProvisionedThroughputDescription provisionedThroughput;
+  final ProvisionedThroughputDescription? provisionedThroughput;
 
   /// Represents replicas of the table.
-  @_s.JsonKey(name: 'Replicas')
-  final List<ReplicaDescription> replicas;
+  final List<ReplicaDescription>? replicas;
 
   /// Contains details for the restore.
-  @_s.JsonKey(name: 'RestoreSummary')
-  final RestoreSummary restoreSummary;
+  final RestoreSummary? restoreSummary;
 
   /// The description of the server-side encryption status on the specified table.
-  @_s.JsonKey(name: 'SSEDescription')
-  final SSEDescription sSEDescription;
+  final SSEDescription? sSEDescription;
 
   /// The current DynamoDB Streams configuration for the table.
-  @_s.JsonKey(name: 'StreamSpecification')
-  final StreamSpecification streamSpecification;
+  final StreamSpecification? streamSpecification;
 
   /// The Amazon Resource Name (ARN) that uniquely identifies the table.
-  @_s.JsonKey(name: 'TableArn')
-  final String tableArn;
+  final String? tableArn;
 
   /// Unique identifier for the table for which the backup was created.
-  @_s.JsonKey(name: 'TableId')
-  final String tableId;
+  final String? tableId;
 
   /// The name of the table.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// The total size of the specified table, in bytes. DynamoDB updates this value
   /// approximately every six hours. Recent changes might not be reflected in this
   /// value.
-  @_s.JsonKey(name: 'TableSizeBytes')
-  final int tableSizeBytes;
+  final int? tableSizeBytes;
 
   /// The current state of the table:
   ///
@@ -11691,8 +13877,7 @@ class TableDescription {
   /// for more information.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'TableStatus')
-  final TableStatus tableStatus;
+  final TableStatus? tableStatus;
 
   TableDescription({
     this.archivalSummary,
@@ -11717,25 +13902,173 @@ class TableDescription {
     this.tableSizeBytes,
     this.tableStatus,
   });
-  factory TableDescription.fromJson(Map<String, dynamic> json) =>
-      _$TableDescriptionFromJson(json);
+
+  factory TableDescription.fromJson(Map<String, dynamic> json) {
+    return TableDescription(
+      archivalSummary: json['ArchivalSummary'] != null
+          ? ArchivalSummary.fromJson(
+              json['ArchivalSummary'] as Map<String, dynamic>)
+          : null,
+      attributeDefinitions: (json['AttributeDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      billingModeSummary: json['BillingModeSummary'] != null
+          ? BillingModeSummary.fromJson(
+              json['BillingModeSummary'] as Map<String, dynamic>)
+          : null,
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlobalSecondaryIndexDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      globalTableVersion: json['GlobalTableVersion'] as String?,
+      itemCount: json['ItemCount'] as int?,
+      keySchema: (json['KeySchema'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      latestStreamArn: json['LatestStreamArn'] as String?,
+      latestStreamLabel: json['LatestStreamLabel'] as String?,
+      localSecondaryIndexes: (json['LocalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) => LocalSecondaryIndexDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughputDescription.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      replicas: (json['Replicas'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplicaDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      restoreSummary: json['RestoreSummary'] != null
+          ? RestoreSummary.fromJson(
+              json['RestoreSummary'] as Map<String, dynamic>)
+          : null,
+      sSEDescription: json['SSEDescription'] != null
+          ? SSEDescription.fromJson(
+              json['SSEDescription'] as Map<String, dynamic>)
+          : null,
+      streamSpecification: json['StreamSpecification'] != null
+          ? StreamSpecification.fromJson(
+              json['StreamSpecification'] as Map<String, dynamic>)
+          : null,
+      tableArn: json['TableArn'] as String?,
+      tableId: json['TableId'] as String?,
+      tableName: json['TableName'] as String?,
+      tableSizeBytes: json['TableSizeBytes'] as int?,
+      tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final archivalSummary = this.archivalSummary;
+    final attributeDefinitions = this.attributeDefinitions;
+    final billingModeSummary = this.billingModeSummary;
+    final creationDateTime = this.creationDateTime;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final globalTableVersion = this.globalTableVersion;
+    final itemCount = this.itemCount;
+    final keySchema = this.keySchema;
+    final latestStreamArn = this.latestStreamArn;
+    final latestStreamLabel = this.latestStreamLabel;
+    final localSecondaryIndexes = this.localSecondaryIndexes;
+    final provisionedThroughput = this.provisionedThroughput;
+    final replicas = this.replicas;
+    final restoreSummary = this.restoreSummary;
+    final sSEDescription = this.sSEDescription;
+    final streamSpecification = this.streamSpecification;
+    final tableArn = this.tableArn;
+    final tableId = this.tableId;
+    final tableName = this.tableName;
+    final tableSizeBytes = this.tableSizeBytes;
+    final tableStatus = this.tableStatus;
+    return {
+      if (archivalSummary != null) 'ArchivalSummary': archivalSummary,
+      if (attributeDefinitions != null)
+        'AttributeDefinitions': attributeDefinitions,
+      if (billingModeSummary != null) 'BillingModeSummary': billingModeSummary,
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (globalTableVersion != null) 'GlobalTableVersion': globalTableVersion,
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (latestStreamArn != null) 'LatestStreamArn': latestStreamArn,
+      if (latestStreamLabel != null) 'LatestStreamLabel': latestStreamLabel,
+      if (localSecondaryIndexes != null)
+        'LocalSecondaryIndexes': localSecondaryIndexes,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (replicas != null) 'Replicas': replicas,
+      if (restoreSummary != null) 'RestoreSummary': restoreSummary,
+      if (sSEDescription != null) 'SSEDescription': sSEDescription,
+      if (streamSpecification != null)
+        'StreamSpecification': streamSpecification,
+      if (tableArn != null) 'TableArn': tableArn,
+      if (tableId != null) 'TableId': tableId,
+      if (tableName != null) 'TableName': tableName,
+      if (tableSizeBytes != null) 'TableSizeBytes': tableSizeBytes,
+      if (tableStatus != null) 'TableStatus': tableStatus.toValue(),
+    };
+  }
 }
 
 enum TableStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACCESSIBLE_ENCRYPTION_CREDENTIALS')
   inaccessibleEncryptionCredentials,
-  @_s.JsonValue('ARCHIVING')
   archiving,
-  @_s.JsonValue('ARCHIVED')
   archived,
+}
+
+extension on TableStatus {
+  String toValue() {
+    switch (this) {
+      case TableStatus.creating:
+        return 'CREATING';
+      case TableStatus.updating:
+        return 'UPDATING';
+      case TableStatus.deleting:
+        return 'DELETING';
+      case TableStatus.active:
+        return 'ACTIVE';
+      case TableStatus.inaccessibleEncryptionCredentials:
+        return 'INACCESSIBLE_ENCRYPTION_CREDENTIALS';
+      case TableStatus.archiving:
+        return 'ARCHIVING';
+      case TableStatus.archived:
+        return 'ARCHIVED';
+    }
+  }
+}
+
+extension on String {
+  TableStatus toTableStatus() {
+    switch (this) {
+      case 'CREATING':
+        return TableStatus.creating;
+      case 'UPDATING':
+        return TableStatus.updating;
+      case 'DELETING':
+        return TableStatus.deleting;
+      case 'ACTIVE':
+        return TableStatus.active;
+      case 'INACCESSIBLE_ENCRYPTION_CREDENTIALS':
+        return TableStatus.inaccessibleEncryptionCredentials;
+      case 'ARCHIVING':
+        return TableStatus.archiving;
+      case 'ARCHIVED':
+        return TableStatus.archived;
+    }
+    throw Exception('$this is not known in enum TableStatus');
+  }
 }
 
 /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a
@@ -11750,117 +14083,165 @@ enum TableStatus {
 /// For an overview on tagging DynamoDB resources, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html">Tagging
 /// for DynamoDB</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag. Tag keys are case sensitive. Each DynamoDB table can
   /// only have up to one tag with the same key. If you try to add an existing tag
   /// (same key), the existing tag value will be updated to the new value.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag. Tag values are case-sensitive and can be null.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// The description of the Time to Live (TTL) status on the specified table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimeToLiveDescription {
   /// The name of the TTL attribute for items in the table.
-  @_s.JsonKey(name: 'AttributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The TTL status for the table.
-  @_s.JsonKey(name: 'TimeToLiveStatus')
-  final TimeToLiveStatus timeToLiveStatus;
+  final TimeToLiveStatus? timeToLiveStatus;
 
   TimeToLiveDescription({
     this.attributeName,
     this.timeToLiveStatus,
   });
-  factory TimeToLiveDescription.fromJson(Map<String, dynamic> json) =>
-      _$TimeToLiveDescriptionFromJson(json);
+
+  factory TimeToLiveDescription.fromJson(Map<String, dynamic> json) {
+    return TimeToLiveDescription(
+      attributeName: json['AttributeName'] as String?,
+      timeToLiveStatus:
+          (json['TimeToLiveStatus'] as String?)?.toTimeToLiveStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final timeToLiveStatus = this.timeToLiveStatus;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (timeToLiveStatus != null)
+        'TimeToLiveStatus': timeToLiveStatus.toValue(),
+    };
+  }
 }
 
 /// Represents the settings used to enable or disable Time to Live (TTL) for the
 /// specified table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeToLiveSpecification {
   /// The name of the TTL attribute used to store the expiration time for items in
   /// the table.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// Indicates whether TTL is to be enabled (true) or disabled (false) on the
   /// table.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   TimeToLiveSpecification({
-    @_s.required this.attributeName,
-    @_s.required this.enabled,
+    required this.attributeName,
+    required this.enabled,
   });
-  factory TimeToLiveSpecification.fromJson(Map<String, dynamic> json) =>
-      _$TimeToLiveSpecificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimeToLiveSpecificationToJson(this);
+  factory TimeToLiveSpecification.fromJson(Map<String, dynamic> json) {
+    return TimeToLiveSpecification(
+      attributeName: json['AttributeName'] as String,
+      enabled: json['Enabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final enabled = this.enabled;
+    return {
+      'AttributeName': attributeName,
+      'Enabled': enabled,
+    };
+  }
 }
 
 enum TimeToLiveStatus {
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on TimeToLiveStatus {
+  String toValue() {
+    switch (this) {
+      case TimeToLiveStatus.enabling:
+        return 'ENABLING';
+      case TimeToLiveStatus.disabling:
+        return 'DISABLING';
+      case TimeToLiveStatus.enabled:
+        return 'ENABLED';
+      case TimeToLiveStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  TimeToLiveStatus toTimeToLiveStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return TimeToLiveStatus.enabling;
+      case 'DISABLING':
+        return TimeToLiveStatus.disabling;
+      case 'ENABLED':
+        return TimeToLiveStatus.enabled;
+      case 'DISABLED':
+        return TimeToLiveStatus.disabled;
+    }
+    throw Exception('$this is not known in enum TimeToLiveStatus');
+  }
+}
+
 /// Specifies an item to be retrieved as part of the transaction.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TransactGetItem {
   /// Contains the primary key that identifies the item to get, together with the
   /// name of the table that contains the item, and optionally the specific
   /// attributes of the item to retrieve.
-  @_s.JsonKey(name: 'Get')
   final Get get;
 
   TransactGetItem({
-    @_s.required this.get,
+    required this.get,
   });
-  Map<String, dynamic> toJson() => _$TransactGetItemToJson(this);
+
+  factory TransactGetItem.fromJson(Map<String, dynamic> json) {
+    return TransactGetItem(
+      get: Get.fromJson(json['Get'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final get = this.get;
+    return {
+      'Get': get,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransactGetItemsOutput {
   /// If the <i>ReturnConsumedCapacity</i> value was <code>TOTAL</code>, this is
   /// an array of <code>ConsumedCapacity</code> objects, one for each table
@@ -11868,8 +14249,7 @@ class TransactGetItemsOutput {
   /// <i>TransactItems</i> parameter. These <code>ConsumedCapacity</code> objects
   /// report the read-capacity units consumed by the <code>TransactGetItems</code>
   /// call in that table.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final List<ConsumedCapacity> consumedCapacity;
+  final List<ConsumedCapacity>? consumedCapacity;
 
   /// An ordered array of up to 25 <code>ItemResponse</code> objects, each of
   /// which corresponds to the <code>TransactGetItem</code> object in the same
@@ -11881,40 +14261,50 @@ class TransactGetItemsOutput {
   /// <code>ItemResponse</code> object is Null, or if the requested item has no
   /// projected attributes, the corresponding <code>ItemResponse</code> object is
   /// an empty Map.
-  @_s.JsonKey(name: 'Responses')
-  final List<ItemResponse> responses;
+  final List<ItemResponse>? responses;
 
   TransactGetItemsOutput({
     this.consumedCapacity,
     this.responses,
   });
-  factory TransactGetItemsOutput.fromJson(Map<String, dynamic> json) =>
-      _$TransactGetItemsOutputFromJson(json);
+
+  factory TransactGetItemsOutput.fromJson(Map<String, dynamic> json) {
+    return TransactGetItemsOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      responses: (json['Responses'] as List?)
+          ?.whereNotNull()
+          .map((e) => ItemResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final responses = this.responses;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (responses != null) 'Responses': responses,
+    };
+  }
 }
 
 /// A list of requests that can perform update, put, delete, or check operations
 /// on multiple items in one or more tables atomically.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TransactWriteItem {
   /// A request to perform a check item operation.
-  @_s.JsonKey(name: 'ConditionCheck')
-  final ConditionCheck conditionCheck;
+  final ConditionCheck? conditionCheck;
 
   /// A request to perform a <code>DeleteItem</code> operation.
-  @_s.JsonKey(name: 'Delete')
-  final Delete delete;
+  final Delete? delete;
 
   /// A request to perform a <code>PutItem</code> operation.
-  @_s.JsonKey(name: 'Put')
-  final Put put;
+  final Put? put;
 
   /// A request to perform an <code>UpdateItem</code> operation.
-  @_s.JsonKey(name: 'Update')
-  final Update update;
+  final Update? update;
 
   TransactWriteItem({
     this.conditionCheck,
@@ -11922,144 +14312,240 @@ class TransactWriteItem {
     this.put,
     this.update,
   });
-  Map<String, dynamic> toJson() => _$TransactWriteItemToJson(this);
+
+  factory TransactWriteItem.fromJson(Map<String, dynamic> json) {
+    return TransactWriteItem(
+      conditionCheck: json['ConditionCheck'] != null
+          ? ConditionCheck.fromJson(
+              json['ConditionCheck'] as Map<String, dynamic>)
+          : null,
+      delete: json['Delete'] != null
+          ? Delete.fromJson(json['Delete'] as Map<String, dynamic>)
+          : null,
+      put: json['Put'] != null
+          ? Put.fromJson(json['Put'] as Map<String, dynamic>)
+          : null,
+      update: json['Update'] != null
+          ? Update.fromJson(json['Update'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conditionCheck = this.conditionCheck;
+    final delete = this.delete;
+    final put = this.put;
+    final update = this.update;
+    return {
+      if (conditionCheck != null) 'ConditionCheck': conditionCheck,
+      if (delete != null) 'Delete': delete,
+      if (put != null) 'Put': put,
+      if (update != null) 'Update': update,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransactWriteItemsOutput {
   /// The capacity units consumed by the entire <code>TransactWriteItems</code>
   /// operation. The values of the list are ordered according to the ordering of
   /// the <code>TransactItems</code> request parameter.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final List<ConsumedCapacity> consumedCapacity;
+  final List<ConsumedCapacity>? consumedCapacity;
 
   /// A list of tables that were processed by <code>TransactWriteItems</code> and,
   /// for each table, information about any item collections that were affected by
   /// individual <code>UpdateItem</code>, <code>PutItem</code>, or
   /// <code>DeleteItem</code> operations.
-  @_s.JsonKey(name: 'ItemCollectionMetrics')
-  final Map<String, List<ItemCollectionMetrics>> itemCollectionMetrics;
+  final Map<String, List<ItemCollectionMetrics>>? itemCollectionMetrics;
 
   TransactWriteItemsOutput({
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
-  factory TransactWriteItemsOutput.fromJson(Map<String, dynamic> json) =>
-      _$TransactWriteItemsOutputFromJson(json);
+
+  factory TransactWriteItemsOutput.fromJson(Map<String, dynamic> json) {
+    return TransactWriteItemsOutput(
+      consumedCapacity: (json['ConsumedCapacity'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConsumedCapacity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      itemCollectionMetrics: (json['ItemCollectionMetrics']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) =>
+                      ItemCollectionMetrics.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacity = this.consumedCapacity;
+    final itemCollectionMetrics = this.itemCollectionMetrics;
+    return {
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (itemCollectionMetrics != null)
+        'ItemCollectionMetrics': itemCollectionMetrics,
+    };
+  }
 }
 
 /// Represents a request to perform an <code>UpdateItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Update {
   /// The primary key of the item to be updated. Each element consists of an
   /// attribute name and a value for that attribute.
-  @_s.JsonKey(name: 'Key')
   final Map<String, AttributeValue> key;
 
   /// Name of the table for the <code>UpdateItem</code> request.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// An expression that defines one or more attributes to be updated, the action
   /// to be performed on them, and new value(s) for them.
-  @_s.JsonKey(name: 'UpdateExpression')
   final String updateExpression;
 
   /// A condition that must be satisfied in order for a conditional update to
   /// succeed.
-  @_s.JsonKey(name: 'ConditionExpression')
-  final String conditionExpression;
+  final String? conditionExpression;
 
   /// One or more substitution tokens for attribute names in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeNames')
-  final Map<String, String> expressionAttributeNames;
+  final Map<String, String>? expressionAttributeNames;
 
   /// One or more values that can be substituted in an expression.
-  @_s.JsonKey(name: 'ExpressionAttributeValues')
-  final Map<String, AttributeValue> expressionAttributeValues;
+  final Map<String, AttributeValue>? expressionAttributeValues;
 
   /// Use <code>ReturnValuesOnConditionCheckFailure</code> to get the item
   /// attributes if the <code>Update</code> condition fails. For
   /// <code>ReturnValuesOnConditionCheckFailure</code>, the valid values are:
   /// NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW.
-  @_s.JsonKey(name: 'ReturnValuesOnConditionCheckFailure')
-  final ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure;
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
 
   Update({
-    @_s.required this.key,
-    @_s.required this.tableName,
-    @_s.required this.updateExpression,
+    required this.key,
+    required this.tableName,
+    required this.updateExpression,
     this.conditionExpression,
     this.expressionAttributeNames,
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
   });
-  Map<String, dynamic> toJson() => _$UpdateToJson(this);
+
+  factory Update.fromJson(Map<String, dynamic> json) {
+    return Update(
+      key: (json['Key'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      tableName: json['TableName'] as String,
+      updateExpression: json['UpdateExpression'] as String,
+      conditionExpression: json['ConditionExpression'] as String?,
+      expressionAttributeNames:
+          (json['ExpressionAttributeNames'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      expressionAttributeValues: (json['ExpressionAttributeValues']
+              as Map<String, dynamic>?)
+          ?.map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      returnValuesOnConditionCheckFailure:
+          (json['ReturnValuesOnConditionCheckFailure'] as String?)
+              ?.toReturnValuesOnConditionCheckFailure(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final tableName = this.tableName;
+    final updateExpression = this.updateExpression;
+    final conditionExpression = this.conditionExpression;
+    final expressionAttributeNames = this.expressionAttributeNames;
+    final expressionAttributeValues = this.expressionAttributeValues;
+    final returnValuesOnConditionCheckFailure =
+        this.returnValuesOnConditionCheckFailure;
+    return {
+      'Key': key,
+      'TableName': tableName,
+      'UpdateExpression': updateExpression,
+      if (conditionExpression != null)
+        'ConditionExpression': conditionExpression,
+      if (expressionAttributeNames != null)
+        'ExpressionAttributeNames': expressionAttributeNames,
+      if (expressionAttributeValues != null)
+        'ExpressionAttributeValues': expressionAttributeValues,
+      if (returnValuesOnConditionCheckFailure != null)
+        'ReturnValuesOnConditionCheckFailure':
+            returnValuesOnConditionCheckFailure.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateContinuousBackupsOutput {
   /// Represents the continuous backups and point in time recovery settings on the
   /// table.
-  @_s.JsonKey(name: 'ContinuousBackupsDescription')
-  final ContinuousBackupsDescription continuousBackupsDescription;
+  final ContinuousBackupsDescription? continuousBackupsDescription;
 
   UpdateContinuousBackupsOutput({
     this.continuousBackupsDescription,
   });
-  factory UpdateContinuousBackupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateContinuousBackupsOutputFromJson(json);
+
+  factory UpdateContinuousBackupsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateContinuousBackupsOutput(
+      continuousBackupsDescription: json['ContinuousBackupsDescription'] != null
+          ? ContinuousBackupsDescription.fromJson(
+              json['ContinuousBackupsDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continuousBackupsDescription = this.continuousBackupsDescription;
+    return {
+      if (continuousBackupsDescription != null)
+        'ContinuousBackupsDescription': continuousBackupsDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateContributorInsightsOutput {
   /// The status of contributor insights
-  @_s.JsonKey(name: 'ContributorInsightsStatus')
-  final ContributorInsightsStatus contributorInsightsStatus;
+  final ContributorInsightsStatus? contributorInsightsStatus;
 
   /// The name of the global secondary index, if applicable.
-  @_s.JsonKey(name: 'IndexName')
-  final String indexName;
+  final String? indexName;
 
   /// The name of the table.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   UpdateContributorInsightsOutput({
     this.contributorInsightsStatus,
     this.indexName,
     this.tableName,
   });
-  factory UpdateContributorInsightsOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateContributorInsightsOutputFromJson(json);
+
+  factory UpdateContributorInsightsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateContributorInsightsOutput(
+      contributorInsightsStatus: (json['ContributorInsightsStatus'] as String?)
+          ?.toContributorInsightsStatus(),
+      indexName: json['IndexName'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contributorInsightsStatus = this.contributorInsightsStatus;
+    final indexName = this.indexName;
+    final tableName = this.tableName;
+    return {
+      if (contributorInsightsStatus != null)
+        'ContributorInsightsStatus': contributorInsightsStatus.toValue(),
+      if (indexName != null) 'IndexName': indexName,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
 /// Represents the new provisioned throughput settings to be applied to a global
 /// secondary index.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateGlobalSecondaryIndexAction {
   /// The name of the global secondary index to be updated.
-  @_s.JsonKey(name: 'IndexName')
   final String indexName;
 
   /// Represents the provisioned throughput settings for the specified global
@@ -12068,62 +14554,91 @@ class UpdateGlobalSecondaryIndexAction {
   /// For current minimum and maximum provisioned throughput values, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Service,
   /// Account, and Table Quotas</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ProvisionedThroughput')
   final ProvisionedThroughput provisionedThroughput;
 
   UpdateGlobalSecondaryIndexAction({
-    @_s.required this.indexName,
-    @_s.required this.provisionedThroughput,
+    required this.indexName,
+    required this.provisionedThroughput,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateGlobalSecondaryIndexActionToJson(this);
+
+  factory UpdateGlobalSecondaryIndexAction.fromJson(Map<String, dynamic> json) {
+    return UpdateGlobalSecondaryIndexAction(
+      indexName: json['IndexName'] as String,
+      provisionedThroughput: ProvisionedThroughput.fromJson(
+          json['ProvisionedThroughput'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final provisionedThroughput = this.provisionedThroughput;
+    return {
+      'IndexName': indexName,
+      'ProvisionedThroughput': provisionedThroughput,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGlobalTableOutput {
   /// Contains the details of the global table.
-  @_s.JsonKey(name: 'GlobalTableDescription')
-  final GlobalTableDescription globalTableDescription;
+  final GlobalTableDescription? globalTableDescription;
 
   UpdateGlobalTableOutput({
     this.globalTableDescription,
   });
-  factory UpdateGlobalTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGlobalTableOutputFromJson(json);
+
+  factory UpdateGlobalTableOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGlobalTableOutput(
+      globalTableDescription: json['GlobalTableDescription'] != null
+          ? GlobalTableDescription.fromJson(
+              json['GlobalTableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableDescription = this.globalTableDescription;
+    return {
+      if (globalTableDescription != null)
+        'GlobalTableDescription': globalTableDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGlobalTableSettingsOutput {
   /// The name of the global table.
-  @_s.JsonKey(name: 'GlobalTableName')
-  final String globalTableName;
+  final String? globalTableName;
 
   /// The Region-specific settings for the global table.
-  @_s.JsonKey(name: 'ReplicaSettings')
-  final List<ReplicaSettingsDescription> replicaSettings;
+  final List<ReplicaSettingsDescription>? replicaSettings;
 
   UpdateGlobalTableSettingsOutput({
     this.globalTableName,
     this.replicaSettings,
   });
-  factory UpdateGlobalTableSettingsOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGlobalTableSettingsOutputFromJson(json);
+
+  factory UpdateGlobalTableSettingsOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateGlobalTableSettingsOutput(
+      globalTableName: json['GlobalTableName'] as String?,
+      replicaSettings: (json['ReplicaSettings'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicaSettingsDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalTableName = this.globalTableName;
+    final replicaSettings = this.replicaSettings;
+    return {
+      if (globalTableName != null) 'GlobalTableName': globalTableName,
+      if (replicaSettings != null) 'ReplicaSettings': replicaSettings,
+    };
+  }
 }
 
 /// Represents the output of an <code>UpdateItem</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateItemOutput {
   /// A map of attribute values as they appear before or after the
   /// <code>UpdateItem</code> operation, as determined by the
@@ -12132,8 +14647,7 @@ class UpdateItemOutput {
   /// The <code>Attributes</code> map is only present if <code>ReturnValues</code>
   /// was specified as something other than <code>NONE</code> in the request. Each
   /// element represents one attribute.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, AttributeValue> attributes;
+  final Map<String, AttributeValue>? attributes;
 
   /// The capacity units consumed by the <code>UpdateItem</code> operation. The
   /// data returned includes the total provisioned throughput consumed, along with
@@ -12143,8 +14657,7 @@ class UpdateItemOutput {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ProvisionedThroughputIntro.html">Provisioned
   /// Throughput</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-  @_s.JsonKey(name: 'ConsumedCapacity')
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
 
   /// Information about item collections, if any, that were affected by the
   /// <code>UpdateItem</code> operation. <code>ItemCollectionMetrics</code> is
@@ -12171,108 +14684,180 @@ class UpdateItemOutput {
   /// precision or accuracy of the estimate.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ItemCollectionMetrics')
-  final ItemCollectionMetrics itemCollectionMetrics;
+  final ItemCollectionMetrics? itemCollectionMetrics;
 
   UpdateItemOutput({
     this.attributes,
     this.consumedCapacity,
     this.itemCollectionMetrics,
   });
-  factory UpdateItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateItemOutputFromJson(json);
+
+  factory UpdateItemOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateItemOutput(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      consumedCapacity: json['ConsumedCapacity'] != null
+          ? ConsumedCapacity.fromJson(
+              json['ConsumedCapacity'] as Map<String, dynamic>)
+          : null,
+      itemCollectionMetrics: json['ItemCollectionMetrics'] != null
+          ? ItemCollectionMetrics.fromJson(
+              json['ItemCollectionMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final consumedCapacity = this.consumedCapacity;
+    final itemCollectionMetrics = this.itemCollectionMetrics;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (consumedCapacity != null) 'ConsumedCapacity': consumedCapacity,
+      if (itemCollectionMetrics != null)
+        'ItemCollectionMetrics': itemCollectionMetrics,
+    };
+  }
 }
 
 /// Represents a replica to be modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateReplicationGroupMemberAction {
   /// The Region where the replica exists.
-  @_s.JsonKey(name: 'RegionName')
   final String regionName;
 
   /// Replica-specific global secondary index settings.
-  @_s.JsonKey(name: 'GlobalSecondaryIndexes')
-  final List<ReplicaGlobalSecondaryIndex> globalSecondaryIndexes;
+  final List<ReplicaGlobalSecondaryIndex>? globalSecondaryIndexes;
 
   /// The AWS KMS customer master key (CMK) of the replica that should be used for
   /// AWS KMS encryption. To specify a CMK, use its key ID, Amazon Resource Name
   /// (ARN), alias name, or alias ARN. Note that you should only provide this
   /// parameter if the key is different from the default DynamoDB KMS master key
   /// alias/aws/dynamodb.
-  @_s.JsonKey(name: 'KMSMasterKeyId')
-  final String kMSMasterKeyId;
+  final String? kMSMasterKeyId;
 
   /// Replica-specific provisioned throughput. If not specified, uses the source
   /// table's provisioned throughput settings.
-  @_s.JsonKey(name: 'ProvisionedThroughputOverride')
-  final ProvisionedThroughputOverride provisionedThroughputOverride;
+  final ProvisionedThroughputOverride? provisionedThroughputOverride;
 
   UpdateReplicationGroupMemberAction({
-    @_s.required this.regionName,
+    required this.regionName,
     this.globalSecondaryIndexes,
     this.kMSMasterKeyId,
     this.provisionedThroughputOverride,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateReplicationGroupMemberActionToJson(this);
+
+  factory UpdateReplicationGroupMemberAction.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateReplicationGroupMemberAction(
+      regionName: json['RegionName'] as String,
+      globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReplicaGlobalSecondaryIndex.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      kMSMasterKeyId: json['KMSMasterKeyId'] as String?,
+      provisionedThroughputOverride:
+          json['ProvisionedThroughputOverride'] != null
+              ? ProvisionedThroughputOverride.fromJson(
+                  json['ProvisionedThroughputOverride'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final regionName = this.regionName;
+    final globalSecondaryIndexes = this.globalSecondaryIndexes;
+    final kMSMasterKeyId = this.kMSMasterKeyId;
+    final provisionedThroughputOverride = this.provisionedThroughputOverride;
+    return {
+      'RegionName': regionName,
+      if (globalSecondaryIndexes != null)
+        'GlobalSecondaryIndexes': globalSecondaryIndexes,
+      if (kMSMasterKeyId != null) 'KMSMasterKeyId': kMSMasterKeyId,
+      if (provisionedThroughputOverride != null)
+        'ProvisionedThroughputOverride': provisionedThroughputOverride,
+    };
+  }
 }
 
 /// Represents the output of an <code>UpdateTable</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTableOutput {
   /// Represents the properties of the table.
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   UpdateTableOutput({
     this.tableDescription,
   });
-  factory UpdateTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTableOutputFromJson(json);
+
+  factory UpdateTableOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateTableOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTableReplicaAutoScalingOutput {
   /// Returns information about the auto scaling settings of a table with
   /// replicas.
-  @_s.JsonKey(name: 'TableAutoScalingDescription')
-  final TableAutoScalingDescription tableAutoScalingDescription;
+  final TableAutoScalingDescription? tableAutoScalingDescription;
 
   UpdateTableReplicaAutoScalingOutput({
     this.tableAutoScalingDescription,
   });
+
   factory UpdateTableReplicaAutoScalingOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateTableReplicaAutoScalingOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateTableReplicaAutoScalingOutput(
+      tableAutoScalingDescription: json['TableAutoScalingDescription'] != null
+          ? TableAutoScalingDescription.fromJson(
+              json['TableAutoScalingDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableAutoScalingDescription = this.tableAutoScalingDescription;
+    return {
+      if (tableAutoScalingDescription != null)
+        'TableAutoScalingDescription': tableAutoScalingDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTimeToLiveOutput {
   /// Represents the output of an <code>UpdateTimeToLive</code> operation.
-  @_s.JsonKey(name: 'TimeToLiveSpecification')
-  final TimeToLiveSpecification timeToLiveSpecification;
+  final TimeToLiveSpecification? timeToLiveSpecification;
 
   UpdateTimeToLiveOutput({
     this.timeToLiveSpecification,
   });
-  factory UpdateTimeToLiveOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTimeToLiveOutputFromJson(json);
+
+  factory UpdateTimeToLiveOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateTimeToLiveOutput(
+      timeToLiveSpecification: json['TimeToLiveSpecification'] != null
+          ? TimeToLiveSpecification.fromJson(
+              json['TimeToLiveSpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeToLiveSpecification = this.timeToLiveSpecification;
+    return {
+      if (timeToLiveSpecification != null)
+        'TimeToLiveSpecification': timeToLiveSpecification,
+    };
+  }
 }
 
 /// Represents an operation to perform - either <code>DeleteItem</code> or
@@ -12280,42 +14865,52 @@ class UpdateTimeToLiveOutput {
 /// both, in a single <code>WriteRequest</code>. If you do need to perform both
 /// of these operations, you need to provide two separate
 /// <code>WriteRequest</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WriteRequest {
   /// A request to perform a <code>DeleteItem</code> operation.
-  @_s.JsonKey(name: 'DeleteRequest')
-  final DeleteRequest deleteRequest;
+  final DeleteRequest? deleteRequest;
 
   /// A request to perform a <code>PutItem</code> operation.
-  @_s.JsonKey(name: 'PutRequest')
-  final PutRequest putRequest;
+  final PutRequest? putRequest;
 
   WriteRequest({
     this.deleteRequest,
     this.putRequest,
   });
-  factory WriteRequest.fromJson(Map<String, dynamic> json) =>
-      _$WriteRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WriteRequestToJson(this);
+  factory WriteRequest.fromJson(Map<String, dynamic> json) {
+    return WriteRequest(
+      deleteRequest: json['DeleteRequest'] != null
+          ? DeleteRequest.fromJson(
+              json['DeleteRequest'] as Map<String, dynamic>)
+          : null,
+      putRequest: json['PutRequest'] != null
+          ? PutRequest.fromJson(json['PutRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteRequest = this.deleteRequest;
+    final putRequest = this.putRequest;
+    return {
+      if (deleteRequest != null) 'DeleteRequest': deleteRequest,
+      if (putRequest != null) 'PutRequest': putRequest,
+    };
+  }
 }
 
 class BackupInUseException extends _s.GenericAwsException {
-  BackupInUseException({String type, String message})
+  BackupInUseException({String? type, String? message})
       : super(type: type, code: 'BackupInUseException', message: message);
 }
 
 class BackupNotFoundException extends _s.GenericAwsException {
-  BackupNotFoundException({String type, String message})
+  BackupNotFoundException({String? type, String? message})
       : super(type: type, code: 'BackupNotFoundException', message: message);
 }
 
 class ConditionalCheckFailedException extends _s.GenericAwsException {
-  ConditionalCheckFailedException({String type, String message})
+  ConditionalCheckFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'ConditionalCheckFailedException',
@@ -12323,7 +14918,7 @@ class ConditionalCheckFailedException extends _s.GenericAwsException {
 }
 
 class ContinuousBackupsUnavailableException extends _s.GenericAwsException {
-  ContinuousBackupsUnavailableException({String type, String message})
+  ContinuousBackupsUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'ContinuousBackupsUnavailableException',
@@ -12331,22 +14926,22 @@ class ContinuousBackupsUnavailableException extends _s.GenericAwsException {
 }
 
 class DuplicateItemException extends _s.GenericAwsException {
-  DuplicateItemException({String type, String message})
+  DuplicateItemException({String? type, String? message})
       : super(type: type, code: 'DuplicateItemException', message: message);
 }
 
 class ExportConflictException extends _s.GenericAwsException {
-  ExportConflictException({String type, String message})
+  ExportConflictException({String? type, String? message})
       : super(type: type, code: 'ExportConflictException', message: message);
 }
 
 class ExportNotFoundException extends _s.GenericAwsException {
-  ExportNotFoundException({String type, String message})
+  ExportNotFoundException({String? type, String? message})
       : super(type: type, code: 'ExportNotFoundException', message: message);
 }
 
 class GlobalTableAlreadyExistsException extends _s.GenericAwsException {
-  GlobalTableAlreadyExistsException({String type, String message})
+  GlobalTableAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'GlobalTableAlreadyExistsException',
@@ -12354,13 +14949,13 @@ class GlobalTableAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class GlobalTableNotFoundException extends _s.GenericAwsException {
-  GlobalTableNotFoundException({String type, String message})
+  GlobalTableNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'GlobalTableNotFoundException', message: message);
 }
 
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
-  IdempotentParameterMismatchException({String type, String message})
+  IdempotentParameterMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'IdempotentParameterMismatchException',
@@ -12368,28 +14963,28 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
 }
 
 class IndexNotFoundException extends _s.GenericAwsException {
-  IndexNotFoundException({String type, String message})
+  IndexNotFoundException({String? type, String? message})
       : super(type: type, code: 'IndexNotFoundException', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidExportTimeException extends _s.GenericAwsException {
-  InvalidExportTimeException({String type, String message})
+  InvalidExportTimeException({String? type, String? message})
       : super(type: type, code: 'InvalidExportTimeException', message: message);
 }
 
 class InvalidRestoreTimeException extends _s.GenericAwsException {
-  InvalidRestoreTimeException({String type, String message})
+  InvalidRestoreTimeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidRestoreTimeException', message: message);
 }
 
 class ItemCollectionSizeLimitExceededException extends _s.GenericAwsException {
-  ItemCollectionSizeLimitExceededException({String type, String message})
+  ItemCollectionSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ItemCollectionSizeLimitExceededException',
@@ -12397,12 +14992,12 @@ class ItemCollectionSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class PointInTimeRecoveryUnavailableException extends _s.GenericAwsException {
-  PointInTimeRecoveryUnavailableException({String type, String message})
+  PointInTimeRecoveryUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'PointInTimeRecoveryUnavailableException',
@@ -12410,7 +15005,7 @@ class PointInTimeRecoveryUnavailableException extends _s.GenericAwsException {
 }
 
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
-  ProvisionedThroughputExceededException({String type, String message})
+  ProvisionedThroughputExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedThroughputExceededException',
@@ -12418,7 +15013,7 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
 }
 
 class ReplicaAlreadyExistsException extends _s.GenericAwsException {
-  ReplicaAlreadyExistsException({String type, String message})
+  ReplicaAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ReplicaAlreadyExistsException',
@@ -12426,55 +15021,55 @@ class ReplicaAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ReplicaNotFoundException extends _s.GenericAwsException {
-  ReplicaNotFoundException({String type, String message})
+  ReplicaNotFoundException({String? type, String? message})
       : super(type: type, code: 'ReplicaNotFoundException', message: message);
 }
 
 class RequestLimitExceeded extends _s.GenericAwsException {
-  RequestLimitExceeded({String type, String message})
+  RequestLimitExceeded({String? type, String? message})
       : super(type: type, code: 'RequestLimitExceeded', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TableAlreadyExistsException extends _s.GenericAwsException {
-  TableAlreadyExistsException({String type, String message})
+  TableAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'TableAlreadyExistsException', message: message);
 }
 
 class TableInUseException extends _s.GenericAwsException {
-  TableInUseException({String type, String message})
+  TableInUseException({String? type, String? message})
       : super(type: type, code: 'TableInUseException', message: message);
 }
 
 class TableNotFoundException extends _s.GenericAwsException {
-  TableNotFoundException({String type, String message})
+  TableNotFoundException({String? type, String? message})
       : super(type: type, code: 'TableNotFoundException', message: message);
 }
 
 class TransactionCanceledException extends _s.GenericAwsException {
-  TransactionCanceledException({String type, String message})
+  TransactionCanceledException({String? type, String? message})
       : super(
             type: type, code: 'TransactionCanceledException', message: message);
 }
 
 class TransactionConflictException extends _s.GenericAwsException {
-  TransactionConflictException({String type, String message})
+  TransactionConflictException({String? type, String? message})
       : super(
             type: type, code: 'TransactionConflictException', message: message);
 }
 
 class TransactionInProgressException extends _s.GenericAwsException {
-  TransactionInProgressException({String type, String message})
+  TransactionInProgressException({String? type, String? message})
       : super(
             type: type,
             code: 'TransactionInProgressException',

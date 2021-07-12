@@ -31,6 +31,7 @@ class Descriptor {
   @JsonKey(defaultValue: false)
   final bool jsonvalue;
   final String payload;
+  final String pattern;
 
   Descriptor(
     this.shape,
@@ -43,6 +44,7 @@ class Descriptor {
     this.xmlNamespace,
     this.jsonvalue,
     this.payload,
+    this.pattern,
   );
 
   factory Descriptor.fromJson(Map<String, dynamic> json) =>

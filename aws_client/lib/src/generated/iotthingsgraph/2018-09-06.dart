@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-09-06.g.dart';
 
 /// AWS IoT Things Graph provides an integrated set of tools that enable
 /// developers to connect devices and services that use different standards,
@@ -35,10 +28,10 @@ part '2018-09-06.g.dart';
 class IoTThingsGraph {
   final _s.JsonProtocol _protocol;
   IoTThingsGraph({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -74,9 +67,9 @@ class IoTThingsGraph {
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
   Future<void> associateEntityToThing({
-    @_s.required String entityId,
-    @_s.required String thingName,
-    int namespaceVersion,
+    required String entityId,
+    required String thingName,
+    int? namespaceVersion,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -84,12 +77,6 @@ class IoTThingsGraph {
       entityId,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityId',
-      entityId,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(thingName, 'thingName');
@@ -100,17 +87,11 @@ class IoTThingsGraph {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.AssociateEntityToThing'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -122,8 +103,6 @@ class IoTThingsGraph {
         if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
       },
     );
-
-    return AssociateEntityToThingResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates a workflow template. Workflows can be created only in the user's
@@ -146,8 +125,8 @@ class IoTThingsGraph {
   ///
   /// If no value is specified, the latest version is used by default.
   Future<CreateFlowTemplateResponse> createFlowTemplate({
-    @_s.required DefinitionDocument definition,
-    int compatibleNamespaceVersion,
+    required DefinitionDocument definition,
+    int? compatibleNamespaceVersion,
   }) async {
     ArgumentError.checkNotNull(definition, 'definition');
     final headers = <String, String>{
@@ -225,13 +204,13 @@ class IoTThingsGraph {
   /// Metadata, consisting of key-value pairs, that can be used to categorize
   /// your system instances.
   Future<CreateSystemInstanceResponse> createSystemInstance({
-    @_s.required DefinitionDocument definition,
-    @_s.required DeploymentTarget target,
-    String flowActionsRoleArn,
-    String greengrassGroupName,
-    MetricsConfiguration metricsConfiguration,
-    String s3BucketName,
-    List<Tag> tags,
+    required DefinitionDocument definition,
+    required DeploymentTarget target,
+    String? flowActionsRoleArn,
+    String? greengrassGroupName,
+    MetricsConfiguration? metricsConfiguration,
+    String? s3BucketName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(target, 'target');
@@ -253,7 +232,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'definition': definition,
-        'target': target?.toValue() ?? '',
+        'target': target.toValue(),
         if (flowActionsRoleArn != null)
           'flowActionsRoleArn': flowActionsRoleArn,
         if (greengrassGroupName != null)
@@ -285,8 +264,8 @@ class IoTThingsGraph {
   ///
   /// If no value is specified, the latest version is used by default.
   Future<CreateSystemTemplateResponse> createSystemTemplate({
-    @_s.required DefinitionDocument definition,
-    int compatibleNamespaceVersion,
+    required DefinitionDocument definition,
+    int? compatibleNamespaceVersion,
   }) async {
     ArgumentError.checkNotNull(definition, 'definition');
     final headers = <String, String>{
@@ -326,7 +305,7 @@ class IoTThingsGraph {
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
   Future<void> deleteFlowTemplate({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -336,17 +315,11 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeleteFlowTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -356,8 +329,6 @@ class IoTThingsGraph {
         'id': id,
       },
     );
-
-    return DeleteFlowTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified namespace. This action deletes all of the entities
@@ -396,7 +367,7 @@ class IoTThingsGraph {
   /// Parameter [id] :
   /// The ID of the system instance to be deleted.
   Future<void> deleteSystemInstance({
-    String id,
+    String? id,
   }) async {
     _s.validateStringLength(
       'id',
@@ -404,16 +375,11 @@ class IoTThingsGraph {
       0,
       160,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeleteSystemInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -423,8 +389,6 @@ class IoTThingsGraph {
         if (id != null) 'id': id,
       },
     );
-
-    return DeleteSystemInstanceResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a system. New deployments can't contain the system after its
@@ -444,7 +408,7 @@ class IoTThingsGraph {
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
   Future<void> deleteSystemTemplate({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -454,17 +418,11 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeleteSystemTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -474,8 +432,6 @@ class IoTThingsGraph {
         'id': id,
       },
     );
-
-    return DeleteSystemTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// <b>Greengrass and Cloud Deployments</b>
@@ -513,18 +469,13 @@ class IoTThingsGraph {
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
   Future<DeploySystemInstanceResponse> deploySystemInstance({
-    String id,
+    String? id,
   }) async {
     _s.validateStringLength(
       'id',
       id,
       0,
       160,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -560,7 +511,7 @@ class IoTThingsGraph {
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:workflow:WORKFLOWNAME</code>
   Future<void> deprecateFlowTemplate({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -570,17 +521,11 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeprecateFlowTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -590,8 +535,6 @@ class IoTThingsGraph {
         'id': id,
       },
     );
-
-    return DeprecateFlowTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Deprecates the specified system.
@@ -608,7 +551,7 @@ class IoTThingsGraph {
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:system:SYSTEMNAME</code>
   Future<void> deprecateSystemTemplate({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -618,17 +561,11 @@ class IoTThingsGraph {
       160,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DeprecateSystemTemplate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -638,8 +575,6 @@ class IoTThingsGraph {
         'id': id,
       },
     );
-
-    return DeprecateSystemTemplateResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets the latest version of the user's namespace and the public version
@@ -654,7 +589,7 @@ class IoTThingsGraph {
   /// The name of the user's namespace. Set this to <code>aws</code> to get the
   /// public namespace.
   Future<DescribeNamespaceResponse> describeNamespace({
-    String namespaceName,
+    String? namespaceName,
   }) async {
     _s.validateStringLength(
       'namespaceName',
@@ -695,8 +630,8 @@ class IoTThingsGraph {
   /// Parameter [thingName] :
   /// The name of the thing to disassociate.
   Future<void> dissociateEntityFromThing({
-    @_s.required EntityType entityType,
-    @_s.required String thingName,
+    required EntityType entityType,
+    required String thingName,
   }) async {
     ArgumentError.checkNotNull(entityType, 'entityType');
     ArgumentError.checkNotNull(thingName, 'thingName');
@@ -707,29 +642,21 @@ class IoTThingsGraph {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.DissociateEntityFromThing'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityType': entityType?.toValue() ?? '',
+        'entityType': entityType.toValue(),
         'thingName': thingName,
       },
     );
-
-    return DissociateEntityFromThingResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets definitions of the specified entities. Uses the latest version of the
@@ -783,8 +710,8 @@ class IoTThingsGraph {
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
   Future<GetEntitiesResponse> getEntities({
-    @_s.required List<String> ids,
-    int namespaceVersion,
+    required List<String> ids,
+    int? namespaceVersion,
   }) async {
     ArgumentError.checkNotNull(ids, 'ids');
     final headers = <String, String>{
@@ -824,8 +751,8 @@ class IoTThingsGraph {
   /// Parameter [revisionNumber] :
   /// The number of the workflow revision to retrieve.
   Future<GetFlowTemplateResponse> getFlowTemplate({
-    @_s.required String id,
-    int revisionNumber,
+    required String id,
+    int? revisionNumber,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -833,12 +760,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -884,9 +805,9 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<GetFlowTemplateRevisionsResponse> getFlowTemplateRevisions({
-    @_s.required String id,
-    int maxResults,
-    String nextToken,
+    required String id,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -894,12 +815,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -965,7 +880,7 @@ class IoTThingsGraph {
   ///
   /// <code>urn:tdm:REGION/ACCOUNT ID/default:deployment:DEPLOYMENTNAME</code>
   Future<GetSystemInstanceResponse> getSystemInstance({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -973,12 +888,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1016,8 +925,8 @@ class IoTThingsGraph {
   /// Parameter [revisionNumber] :
   /// The number that specifies the revision of the system to get.
   Future<GetSystemTemplateResponse> getSystemTemplate({
-    @_s.required String id,
-    int revisionNumber,
+    required String id,
+    int? revisionNumber,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1025,12 +934,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1076,9 +979,9 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<GetSystemTemplateRevisionsResponse> getSystemTemplateRevisions({
-    @_s.required String id,
-    int maxResults,
-    String nextToken,
+    required String id,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1086,12 +989,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1131,7 +1028,7 @@ class IoTThingsGraph {
   /// The ID of the upload. This value is returned by the
   /// <code>UploadEntityDefinitions</code> action.
   Future<GetUploadStatusResponse> getUploadStatus({
-    @_s.required String uploadId,
+    required String uploadId,
   }) async {
     ArgumentError.checkNotNull(uploadId, 'uploadId');
     _s.validateStringLength(
@@ -1177,9 +1074,9 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<ListFlowExecutionMessagesResponse> listFlowExecutionMessages({
-    @_s.required String flowExecutionId,
-    int maxResults,
-    String nextToken,
+    required String flowExecutionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(flowExecutionId, 'flowExecutionId');
     _s.validateNumRange(
@@ -1225,9 +1122,9 @@ class IoTThingsGraph {
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results to return.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1294,11 +1191,11 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<SearchEntitiesResponse> searchEntities({
-    @_s.required List<EntityType> entityTypes,
-    List<EntityFilter> filters,
-    int maxResults,
-    int namespaceVersion,
-    String nextToken,
+    required List<EntityType> entityTypes,
+    List<EntityFilter>? filters,
+    int? maxResults,
+    int? namespaceVersion,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(entityTypes, 'entityTypes');
     _s.validateNumRange(
@@ -1318,7 +1215,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityTypes': entityTypes?.map((e) => e?.toValue() ?? '')?.toList(),
+        'entityTypes': entityTypes.map((e) => e.toValue()).toList(),
         if (filters != null) 'filters': filters,
         if (maxResults != null) 'maxResults': maxResults,
         if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
@@ -1355,12 +1252,12 @@ class IoTThingsGraph {
   /// Parameter [startTime] :
   /// The date and time of the earliest flow execution to return.
   Future<SearchFlowExecutionsResponse> searchFlowExecutions({
-    @_s.required String systemInstanceId,
-    DateTime endTime,
-    String flowExecutionId,
-    int maxResults,
-    String nextToken,
-    DateTime startTime,
+    required String systemInstanceId,
+    DateTime? endTime,
+    String? flowExecutionId,
+    int? maxResults,
+    String? nextToken,
+    DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(systemInstanceId, 'systemInstanceId');
     _s.validateStringLength(
@@ -1368,12 +1265,6 @@ class IoTThingsGraph {
       systemInstanceId,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'systemInstanceId',
-      systemInstanceId,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1422,9 +1313,9 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<SearchFlowTemplatesResponse> searchFlowTemplates({
-    List<FlowTemplateFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<FlowTemplateFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1473,9 +1364,9 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<SearchSystemInstancesResponse> searchSystemInstances({
-    List<SystemInstanceFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<SystemInstanceFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1522,9 +1413,9 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<SearchSystemTemplatesResponse> searchSystemTemplates({
-    List<SystemTemplateFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<SystemTemplateFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1586,10 +1477,10 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<SearchThingsResponse> searchThings({
-    @_s.required String entityId,
-    int maxResults,
-    int namespaceVersion,
-    String nextToken,
+    required String entityId,
+    int? maxResults,
+    int? namespaceVersion,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -1597,12 +1488,6 @@ class IoTThingsGraph {
       entityId,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityId',
-      entityId,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1645,8 +1530,8 @@ class IoTThingsGraph {
   /// Parameter [tags] :
   /// A list of tags to add to the resource.&gt;
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1661,7 +1546,7 @@ class IoTThingsGraph {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1672,8 +1557,6 @@ class IoTThingsGraph {
         'tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a system instance from its target (Cloud or Greengrass).
@@ -1687,18 +1570,13 @@ class IoTThingsGraph {
   /// Parameter [id] :
   /// The ID of the system instance to remove from its target.
   Future<UndeploySystemInstanceResponse> undeploySystemInstance({
-    String id,
+    String? id,
   }) async {
     _s.validateStringLength(
       'id',
       id,
       0,
       160,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1739,8 +1617,8 @@ class IoTThingsGraph {
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters.html#cli-using-param-json">Using
   /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1755,7 +1633,7 @@ class IoTThingsGraph {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IotThingsGraphFrontEndService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1766,8 +1644,6 @@ class IoTThingsGraph {
         'tagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified workflow. All deployed systems and system instances
@@ -1799,9 +1675,9 @@ class IoTThingsGraph {
   /// <code>GetFlowTemplateRevisions</code> if you want to find earlier
   /// revisions of the flow to update.
   Future<UpdateFlowTemplateResponse> updateFlowTemplate({
-    @_s.required DefinitionDocument definition,
-    @_s.required String id,
-    int compatibleNamespaceVersion,
+    required DefinitionDocument definition,
+    required String id,
+    int? compatibleNamespaceVersion,
   }) async {
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(id, 'id');
@@ -1810,12 +1686,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1865,9 +1735,9 @@ class IoTThingsGraph {
   ///
   /// If no value is specified, the latest version is used by default.
   Future<UpdateSystemTemplateResponse> updateSystemTemplate({
-    @_s.required DefinitionDocument definition,
-    @_s.required String id,
-    int compatibleNamespaceVersion,
+    required DefinitionDocument definition,
+    required String id,
+    int? compatibleNamespaceVersion,
   }) async {
     ArgumentError.checkNotNull(definition, 'definition');
     ArgumentError.checkNotNull(id, 'id');
@@ -1876,12 +1746,6 @@ class IoTThingsGraph {
       id,
       0,
       160,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^urn:tdm:(([a-z]{2}-(gov-)?[a-z]{4,9}-[0-9]{1,3}/[0-9]+/)*[\p{Alnum}_]+(/[\p{Alnum}_]+)*):([\p{Alpha}]*):([\p{Alnum}_]+(/[\p{Alnum}_]+)*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1950,9 +1814,9 @@ class IoTThingsGraph {
   /// the public namespace. If set to <code>true</code>, the upload will create
   /// a new namespace version.
   Future<UploadEntityDefinitionsResponse> uploadEntityDefinitions({
-    bool deprecateExistingEntities,
-    DefinitionDocument document,
-    bool syncWithPublicNamespace,
+    bool? deprecateExistingEntities,
+    DefinitionDocument? document,
+    bool? syncWithPublicNamespace,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1977,205 +1841,277 @@ class IoTThingsGraph {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateEntityToThingResponse {
   AssociateEntityToThingResponse();
-  factory AssociateEntityToThingResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateEntityToThingResponseFromJson(json);
+
+  factory AssociateEntityToThingResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateEntityToThingResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFlowTemplateResponse {
   /// The summary object that describes the created workflow.
-  @_s.JsonKey(name: 'summary')
-  final FlowTemplateSummary summary;
+  final FlowTemplateSummary? summary;
 
   CreateFlowTemplateResponse({
     this.summary,
   });
-  factory CreateFlowTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFlowTemplateResponseFromJson(json);
+
+  factory CreateFlowTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFlowTemplateResponse(
+      summary: json['summary'] != null
+          ? FlowTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summary = this.summary;
+    return {
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSystemInstanceResponse {
   /// The summary object that describes the new system instance.
-  @_s.JsonKey(name: 'summary')
-  final SystemInstanceSummary summary;
+  final SystemInstanceSummary? summary;
 
   CreateSystemInstanceResponse({
     this.summary,
   });
-  factory CreateSystemInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSystemInstanceResponseFromJson(json);
+
+  factory CreateSystemInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSystemInstanceResponse(
+      summary: json['summary'] != null
+          ? SystemInstanceSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summary = this.summary;
+    return {
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSystemTemplateResponse {
   /// The summary object that describes the created system.
-  @_s.JsonKey(name: 'summary')
-  final SystemTemplateSummary summary;
+  final SystemTemplateSummary? summary;
 
   CreateSystemTemplateResponse({
     this.summary,
   });
-  factory CreateSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSystemTemplateResponseFromJson(json);
+
+  factory CreateSystemTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSystemTemplateResponse(
+      summary: json['summary'] != null
+          ? SystemTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summary = this.summary;
+    return {
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
 /// A document that defines an entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DefinitionDocument {
   /// The language used to define the entity. <code>GRAPHQL</code> is the only
   /// valid value.
-  @_s.JsonKey(name: 'language')
   final DefinitionLanguage language;
 
   /// The GraphQL text that defines the entity.
-  @_s.JsonKey(name: 'text')
   final String text;
 
   DefinitionDocument({
-    @_s.required this.language,
-    @_s.required this.text,
+    required this.language,
+    required this.text,
   });
-  factory DefinitionDocument.fromJson(Map<String, dynamic> json) =>
-      _$DefinitionDocumentFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DefinitionDocumentToJson(this);
+  factory DefinitionDocument.fromJson(Map<String, dynamic> json) {
+    return DefinitionDocument(
+      language: (json['language'] as String).toDefinitionLanguage(),
+      text: json['text'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final language = this.language;
+    final text = this.text;
+    return {
+      'language': language.toValue(),
+      'text': text,
+    };
+  }
 }
 
 enum DefinitionLanguage {
-  @_s.JsonValue('GRAPHQL')
   graphql,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DeleteFlowTemplateResponse {
-  DeleteFlowTemplateResponse();
-  factory DeleteFlowTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFlowTemplateResponseFromJson(json);
+extension on DefinitionLanguage {
+  String toValue() {
+    switch (this) {
+      case DefinitionLanguage.graphql:
+        return 'GRAPHQL';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DefinitionLanguage toDefinitionLanguage() {
+    switch (this) {
+      case 'GRAPHQL':
+        return DefinitionLanguage.graphql;
+    }
+    throw Exception('$this is not known in enum DefinitionLanguage');
+  }
+}
+
+class DeleteFlowTemplateResponse {
+  DeleteFlowTemplateResponse();
+
+  factory DeleteFlowTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFlowTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteNamespaceResponse {
   /// The ARN of the namespace to be deleted.
-  @_s.JsonKey(name: 'namespaceArn')
-  final String namespaceArn;
+  final String? namespaceArn;
 
   /// The name of the namespace to be deleted.
-  @_s.JsonKey(name: 'namespaceName')
-  final String namespaceName;
+  final String? namespaceName;
 
   DeleteNamespaceResponse({
     this.namespaceArn,
     this.namespaceName,
   });
-  factory DeleteNamespaceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNamespaceResponseFromJson(json);
+
+  factory DeleteNamespaceResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteNamespaceResponse(
+      namespaceArn: json['namespaceArn'] as String?,
+      namespaceName: json['namespaceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespaceArn = this.namespaceArn;
+    final namespaceName = this.namespaceName;
+    return {
+      if (namespaceArn != null) 'namespaceArn': namespaceArn,
+      if (namespaceName != null) 'namespaceName': namespaceName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSystemInstanceResponse {
   DeleteSystemInstanceResponse();
-  factory DeleteSystemInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSystemInstanceResponseFromJson(json);
+
+  factory DeleteSystemInstanceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSystemInstanceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSystemTemplateResponse {
   DeleteSystemTemplateResponse();
-  factory DeleteSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSystemTemplateResponseFromJson(json);
+
+  factory DeleteSystemTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSystemTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// An object that contains the ID and revision number of a workflow or system
 /// that is part of a deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DependencyRevision {
   /// The ID of the workflow or system.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The revision number of the workflow or system.
-  @_s.JsonKey(name: 'revisionNumber')
-  final int revisionNumber;
+  final int? revisionNumber;
 
   DependencyRevision({
     this.id,
     this.revisionNumber,
   });
-  factory DependencyRevision.fromJson(Map<String, dynamic> json) =>
-      _$DependencyRevisionFromJson(json);
+
+  factory DependencyRevision.fromJson(Map<String, dynamic> json) {
+    return DependencyRevision(
+      id: json['id'] as String?,
+      revisionNumber: json['revisionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final revisionNumber = this.revisionNumber;
+    return {
+      if (id != null) 'id': id,
+      if (revisionNumber != null) 'revisionNumber': revisionNumber,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploySystemInstanceResponse {
   /// An object that contains summary information about a system instance that was
   /// deployed.
-  @_s.JsonKey(name: 'summary')
   final SystemInstanceSummary summary;
 
   /// The ID of the Greengrass deployment used to deploy the system instance.
-  @_s.JsonKey(name: 'greengrassDeploymentId')
-  final String greengrassDeploymentId;
+  final String? greengrassDeploymentId;
 
   DeploySystemInstanceResponse({
-    @_s.required this.summary,
+    required this.summary,
     this.greengrassDeploymentId,
   });
-  factory DeploySystemInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeploySystemInstanceResponseFromJson(json);
+
+  factory DeploySystemInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return DeploySystemInstanceResponse(
+      summary: SystemInstanceSummary.fromJson(
+          json['summary'] as Map<String, dynamic>),
+      greengrassDeploymentId: json['greengrassDeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summary = this.summary;
+    final greengrassDeploymentId = this.greengrassDeploymentId;
+    return {
+      'summary': summary,
+      if (greengrassDeploymentId != null)
+        'greengrassDeploymentId': greengrassDeploymentId,
+    };
+  }
 }
 
 enum DeploymentTarget {
-  @_s.JsonValue('GREENGRASS')
   greengrass,
-  @_s.JsonValue('CLOUD')
   cloud,
 }
 
@@ -2187,58 +2123,61 @@ extension on DeploymentTarget {
       case DeploymentTarget.cloud:
         return 'CLOUD';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DeploymentTarget toDeploymentTarget() {
+    switch (this) {
+      case 'GREENGRASS':
+        return DeploymentTarget.greengrass;
+      case 'CLOUD':
+        return DeploymentTarget.cloud;
+    }
+    throw Exception('$this is not known in enum DeploymentTarget');
+  }
+}
+
 class DeprecateFlowTemplateResponse {
   DeprecateFlowTemplateResponse();
-  factory DeprecateFlowTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeprecateFlowTemplateResponseFromJson(json);
+
+  factory DeprecateFlowTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeprecateFlowTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeprecateSystemTemplateResponse {
   DeprecateSystemTemplateResponse();
-  factory DeprecateSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeprecateSystemTemplateResponseFromJson(json);
+
+  factory DeprecateSystemTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeprecateSystemTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNamespaceResponse {
   /// The ARN of the namespace.
-  @_s.JsonKey(name: 'namespaceArn')
-  final String namespaceArn;
+  final String? namespaceArn;
 
   /// The name of the namespace.
-  @_s.JsonKey(name: 'namespaceName')
-  final String namespaceName;
+  final String? namespaceName;
 
   /// The version of the user's namespace to describe.
-  @_s.JsonKey(name: 'namespaceVersion')
-  final int namespaceVersion;
+  final int? namespaceVersion;
 
   /// The name of the public namespace that the latest namespace version is
   /// tracking.
-  @_s.JsonKey(name: 'trackingNamespaceName')
-  final String trackingNamespaceName;
+  final String? trackingNamespaceName;
 
   /// The version of the public namespace that the latest version is tracking.
-  @_s.JsonKey(name: 'trackingNamespaceVersion')
-  final int trackingNamespaceVersion;
+  final int? trackingNamespaceVersion;
 
   DescribeNamespaceResponse({
     this.namespaceArn,
@@ -2247,49 +2186,63 @@ class DescribeNamespaceResponse {
     this.trackingNamespaceName,
     this.trackingNamespaceVersion,
   });
-  factory DescribeNamespaceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeNamespaceResponseFromJson(json);
+
+  factory DescribeNamespaceResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeNamespaceResponse(
+      namespaceArn: json['namespaceArn'] as String?,
+      namespaceName: json['namespaceName'] as String?,
+      namespaceVersion: json['namespaceVersion'] as int?,
+      trackingNamespaceName: json['trackingNamespaceName'] as String?,
+      trackingNamespaceVersion: json['trackingNamespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespaceArn = this.namespaceArn;
+    final namespaceName = this.namespaceName;
+    final namespaceVersion = this.namespaceVersion;
+    final trackingNamespaceName = this.trackingNamespaceName;
+    final trackingNamespaceVersion = this.trackingNamespaceVersion;
+    return {
+      if (namespaceArn != null) 'namespaceArn': namespaceArn,
+      if (namespaceName != null) 'namespaceName': namespaceName,
+      if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
+      if (trackingNamespaceName != null)
+        'trackingNamespaceName': trackingNamespaceName,
+      if (trackingNamespaceVersion != null)
+        'trackingNamespaceVersion': trackingNamespaceVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DissociateEntityFromThingResponse {
   DissociateEntityFromThingResponse();
-  factory DissociateEntityFromThingResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DissociateEntityFromThingResponseFromJson(json);
+
+  factory DissociateEntityFromThingResponse.fromJson(Map<String, dynamic> _) {
+    return DissociateEntityFromThingResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes the properties of an entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntityDescription {
   /// The entity ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The time at which the entity was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The definition document of the entity.
-  @_s.JsonKey(name: 'definition')
-  final DefinitionDocument definition;
+  final DefinitionDocument? definition;
 
   /// The entity ID.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The entity type.
-  @_s.JsonKey(name: 'type')
-  final EntityType type;
+  final EntityType? type;
 
   EntityDescription({
     this.arn,
@@ -2298,8 +2251,34 @@ class EntityDescription {
     this.id,
     this.type,
   });
-  factory EntityDescription.fromJson(Map<String, dynamic> json) =>
-      _$EntityDescriptionFromJson(json);
+
+  factory EntityDescription.fromJson(Map<String, dynamic> json) {
+    return EntityDescription(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      type: (json['type'] as String?)?.toEntityType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final definition = this.definition;
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (definition != null) 'definition': definition,
+      if (id != null) 'id': id,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 /// An object that filters an entity search. Multiple filters function as OR
@@ -2307,62 +2286,90 @@ class EntityDescription {
 /// <code>NAMESPACE</code> and a <code>REFERENCED_ENTITY_ID</code> filter
 /// searches for entities in the specified namespace that use the entity
 /// specified by the value of <code>REFERENCED_ENTITY_ID</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EntityFilter {
   /// The name of the entity search filter field.
   /// <code>REFERENCED_ENTITY_ID</code> filters on entities that are used by the
   /// entity in the result set. For example, you can filter on the ID of a
   /// property that is used in a state.
-  @_s.JsonKey(name: 'name')
-  final EntityFilterName name;
+  final EntityFilterName? name;
 
   /// An array of string values for the search filter field. Multiple values
   /// function as AND criteria in the search.
-  @_s.JsonKey(name: 'value')
-  final List<String> value;
+  final List<String>? value;
 
   EntityFilter({
     this.name,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$EntityFilterToJson(this);
+
+  factory EntityFilter.fromJson(Map<String, dynamic> json) {
+    return EntityFilter(
+      name: (json['name'] as String?)?.toEntityFilterName(),
+      value: (json['value'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum EntityFilterName {
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('NAMESPACE')
   namespace,
-  @_s.JsonValue('SEMANTIC_TYPE_PATH')
   semanticTypePath,
-  @_s.JsonValue('REFERENCED_ENTITY_ID')
   referencedEntityId,
 }
 
+extension on EntityFilterName {
+  String toValue() {
+    switch (this) {
+      case EntityFilterName.name:
+        return 'NAME';
+      case EntityFilterName.namespace:
+        return 'NAMESPACE';
+      case EntityFilterName.semanticTypePath:
+        return 'SEMANTIC_TYPE_PATH';
+      case EntityFilterName.referencedEntityId:
+        return 'REFERENCED_ENTITY_ID';
+    }
+  }
+}
+
+extension on String {
+  EntityFilterName toEntityFilterName() {
+    switch (this) {
+      case 'NAME':
+        return EntityFilterName.name;
+      case 'NAMESPACE':
+        return EntityFilterName.namespace;
+      case 'SEMANTIC_TYPE_PATH':
+        return EntityFilterName.semanticTypePath;
+      case 'REFERENCED_ENTITY_ID':
+        return EntityFilterName.referencedEntityId;
+    }
+    throw Exception('$this is not known in enum EntityFilterName');
+  }
+}
+
 enum EntityType {
-  @_s.JsonValue('DEVICE')
   device,
-  @_s.JsonValue('SERVICE')
   service,
-  @_s.JsonValue('DEVICE_MODEL')
   deviceModel,
-  @_s.JsonValue('CAPABILITY')
   capability,
-  @_s.JsonValue('STATE')
   state,
-  @_s.JsonValue('ACTION')
   action,
-  @_s.JsonValue('EVENT')
   event,
-  @_s.JsonValue('PROPERTY')
   property,
-  @_s.JsonValue('MAPPING')
   mapping,
-  @_s.JsonValue('ENUM')
   $enum,
 }
 
@@ -2390,70 +2397,153 @@ extension on EntityType {
       case EntityType.$enum:
         return 'ENUM';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EntityType toEntityType() {
+    switch (this) {
+      case 'DEVICE':
+        return EntityType.device;
+      case 'SERVICE':
+        return EntityType.service;
+      case 'DEVICE_MODEL':
+        return EntityType.deviceModel;
+      case 'CAPABILITY':
+        return EntityType.capability;
+      case 'STATE':
+        return EntityType.state;
+      case 'ACTION':
+        return EntityType.action;
+      case 'EVENT':
+        return EntityType.event;
+      case 'PROPERTY':
+        return EntityType.property;
+      case 'MAPPING':
+        return EntityType.mapping;
+      case 'ENUM':
+        return EntityType.$enum;
+    }
+    throw Exception('$this is not known in enum EntityType');
   }
 }
 
 enum FlowExecutionEventType {
-  @_s.JsonValue('EXECUTION_STARTED')
   executionStarted,
-  @_s.JsonValue('EXECUTION_FAILED')
   executionFailed,
-  @_s.JsonValue('EXECUTION_ABORTED')
   executionAborted,
-  @_s.JsonValue('EXECUTION_SUCCEEDED')
   executionSucceeded,
-  @_s.JsonValue('STEP_STARTED')
   stepStarted,
-  @_s.JsonValue('STEP_FAILED')
   stepFailed,
-  @_s.JsonValue('STEP_SUCCEEDED')
   stepSucceeded,
-  @_s.JsonValue('ACTIVITY_SCHEDULED')
   activityScheduled,
-  @_s.JsonValue('ACTIVITY_STARTED')
   activityStarted,
-  @_s.JsonValue('ACTIVITY_FAILED')
   activityFailed,
-  @_s.JsonValue('ACTIVITY_SUCCEEDED')
   activitySucceeded,
-  @_s.JsonValue('START_FLOW_EXECUTION_TASK')
   startFlowExecutionTask,
-  @_s.JsonValue('SCHEDULE_NEXT_READY_STEPS_TASK')
   scheduleNextReadyStepsTask,
-  @_s.JsonValue('THING_ACTION_TASK')
   thingActionTask,
-  @_s.JsonValue('THING_ACTION_TASK_FAILED')
   thingActionTaskFailed,
-  @_s.JsonValue('THING_ACTION_TASK_SUCCEEDED')
   thingActionTaskSucceeded,
-  @_s.JsonValue('ACKNOWLEDGE_TASK_MESSAGE')
   acknowledgeTaskMessage,
 }
 
+extension on FlowExecutionEventType {
+  String toValue() {
+    switch (this) {
+      case FlowExecutionEventType.executionStarted:
+        return 'EXECUTION_STARTED';
+      case FlowExecutionEventType.executionFailed:
+        return 'EXECUTION_FAILED';
+      case FlowExecutionEventType.executionAborted:
+        return 'EXECUTION_ABORTED';
+      case FlowExecutionEventType.executionSucceeded:
+        return 'EXECUTION_SUCCEEDED';
+      case FlowExecutionEventType.stepStarted:
+        return 'STEP_STARTED';
+      case FlowExecutionEventType.stepFailed:
+        return 'STEP_FAILED';
+      case FlowExecutionEventType.stepSucceeded:
+        return 'STEP_SUCCEEDED';
+      case FlowExecutionEventType.activityScheduled:
+        return 'ACTIVITY_SCHEDULED';
+      case FlowExecutionEventType.activityStarted:
+        return 'ACTIVITY_STARTED';
+      case FlowExecutionEventType.activityFailed:
+        return 'ACTIVITY_FAILED';
+      case FlowExecutionEventType.activitySucceeded:
+        return 'ACTIVITY_SUCCEEDED';
+      case FlowExecutionEventType.startFlowExecutionTask:
+        return 'START_FLOW_EXECUTION_TASK';
+      case FlowExecutionEventType.scheduleNextReadyStepsTask:
+        return 'SCHEDULE_NEXT_READY_STEPS_TASK';
+      case FlowExecutionEventType.thingActionTask:
+        return 'THING_ACTION_TASK';
+      case FlowExecutionEventType.thingActionTaskFailed:
+        return 'THING_ACTION_TASK_FAILED';
+      case FlowExecutionEventType.thingActionTaskSucceeded:
+        return 'THING_ACTION_TASK_SUCCEEDED';
+      case FlowExecutionEventType.acknowledgeTaskMessage:
+        return 'ACKNOWLEDGE_TASK_MESSAGE';
+    }
+  }
+}
+
+extension on String {
+  FlowExecutionEventType toFlowExecutionEventType() {
+    switch (this) {
+      case 'EXECUTION_STARTED':
+        return FlowExecutionEventType.executionStarted;
+      case 'EXECUTION_FAILED':
+        return FlowExecutionEventType.executionFailed;
+      case 'EXECUTION_ABORTED':
+        return FlowExecutionEventType.executionAborted;
+      case 'EXECUTION_SUCCEEDED':
+        return FlowExecutionEventType.executionSucceeded;
+      case 'STEP_STARTED':
+        return FlowExecutionEventType.stepStarted;
+      case 'STEP_FAILED':
+        return FlowExecutionEventType.stepFailed;
+      case 'STEP_SUCCEEDED':
+        return FlowExecutionEventType.stepSucceeded;
+      case 'ACTIVITY_SCHEDULED':
+        return FlowExecutionEventType.activityScheduled;
+      case 'ACTIVITY_STARTED':
+        return FlowExecutionEventType.activityStarted;
+      case 'ACTIVITY_FAILED':
+        return FlowExecutionEventType.activityFailed;
+      case 'ACTIVITY_SUCCEEDED':
+        return FlowExecutionEventType.activitySucceeded;
+      case 'START_FLOW_EXECUTION_TASK':
+        return FlowExecutionEventType.startFlowExecutionTask;
+      case 'SCHEDULE_NEXT_READY_STEPS_TASK':
+        return FlowExecutionEventType.scheduleNextReadyStepsTask;
+      case 'THING_ACTION_TASK':
+        return FlowExecutionEventType.thingActionTask;
+      case 'THING_ACTION_TASK_FAILED':
+        return FlowExecutionEventType.thingActionTaskFailed;
+      case 'THING_ACTION_TASK_SUCCEEDED':
+        return FlowExecutionEventType.thingActionTaskSucceeded;
+      case 'ACKNOWLEDGE_TASK_MESSAGE':
+        return FlowExecutionEventType.acknowledgeTaskMessage;
+    }
+    throw Exception('$this is not known in enum FlowExecutionEventType');
+  }
+}
+
 /// An object that contains information about a flow event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FlowExecutionMessage {
   /// The type of flow event .
-  @_s.JsonKey(name: 'eventType')
-  final FlowExecutionEventType eventType;
+  final FlowExecutionEventType? eventType;
 
   /// The unique identifier of the message.
-  @_s.JsonKey(name: 'messageId')
-  final String messageId;
+  final String? messageId;
 
   /// A string containing information about the flow event.
-  @_s.JsonKey(name: 'payload')
-  final String payload;
+  final String? payload;
 
   /// The date and time when the message was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   FlowExecutionMessage({
     this.eventType,
@@ -2461,53 +2551,87 @@ class FlowExecutionMessage {
     this.payload,
     this.timestamp,
   });
-  factory FlowExecutionMessage.fromJson(Map<String, dynamic> json) =>
-      _$FlowExecutionMessageFromJson(json);
+
+  factory FlowExecutionMessage.fromJson(Map<String, dynamic> json) {
+    return FlowExecutionMessage(
+      eventType: (json['eventType'] as String?)?.toFlowExecutionEventType(),
+      messageId: json['messageId'] as String?,
+      payload: json['payload'] as String?,
+      timestamp: timeStampFromJson(json['timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventType = this.eventType;
+    final messageId = this.messageId;
+    final payload = this.payload;
+    final timestamp = this.timestamp;
+    return {
+      if (eventType != null) 'eventType': eventType.toValue(),
+      if (messageId != null) 'messageId': messageId,
+      if (payload != null) 'payload': payload,
+      if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
+    };
+  }
 }
 
 enum FlowExecutionStatus {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('ABORTED')
   aborted,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on FlowExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case FlowExecutionStatus.running:
+        return 'RUNNING';
+      case FlowExecutionStatus.aborted:
+        return 'ABORTED';
+      case FlowExecutionStatus.succeeded:
+        return 'SUCCEEDED';
+      case FlowExecutionStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  FlowExecutionStatus toFlowExecutionStatus() {
+    switch (this) {
+      case 'RUNNING':
+        return FlowExecutionStatus.running;
+      case 'ABORTED':
+        return FlowExecutionStatus.aborted;
+      case 'SUCCEEDED':
+        return FlowExecutionStatus.succeeded;
+      case 'FAILED':
+        return FlowExecutionStatus.failed;
+    }
+    throw Exception('$this is not known in enum FlowExecutionStatus');
+  }
+}
+
 /// An object that contains summary information about a flow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FlowExecutionSummary {
   /// The date and time when the flow execution summary was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The ID of the flow execution.
-  @_s.JsonKey(name: 'flowExecutionId')
-  final String flowExecutionId;
+  final String? flowExecutionId;
 
   /// The ID of the flow.
-  @_s.JsonKey(name: 'flowTemplateId')
-  final String flowTemplateId;
+  final String? flowTemplateId;
 
   /// The current status of the flow execution.
-  @_s.JsonKey(name: 'status')
-  final FlowExecutionStatus status;
+  final FlowExecutionStatus? status;
 
   /// The ID of the system instance that contains the flow.
-  @_s.JsonKey(name: 'systemInstanceId')
-  final String systemInstanceId;
+  final String? systemInstanceId;
 
   /// The date and time when the flow execution summary was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   FlowExecutionSummary({
     this.createdAt,
@@ -2517,90 +2641,151 @@ class FlowExecutionSummary {
     this.systemInstanceId,
     this.updatedAt,
   });
-  factory FlowExecutionSummary.fromJson(Map<String, dynamic> json) =>
-      _$FlowExecutionSummaryFromJson(json);
+
+  factory FlowExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return FlowExecutionSummary(
+      createdAt: timeStampFromJson(json['createdAt']),
+      flowExecutionId: json['flowExecutionId'] as String?,
+      flowTemplateId: json['flowTemplateId'] as String?,
+      status: (json['status'] as String?)?.toFlowExecutionStatus(),
+      systemInstanceId: json['systemInstanceId'] as String?,
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final flowExecutionId = this.flowExecutionId;
+    final flowTemplateId = this.flowTemplateId;
+    final status = this.status;
+    final systemInstanceId = this.systemInstanceId;
+    final updatedAt = this.updatedAt;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (flowExecutionId != null) 'flowExecutionId': flowExecutionId,
+      if (flowTemplateId != null) 'flowTemplateId': flowTemplateId,
+      if (status != null) 'status': status.toValue(),
+      if (systemInstanceId != null) 'systemInstanceId': systemInstanceId,
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
 }
 
 /// An object that contains a workflow's definition and summary information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FlowTemplateDescription {
   /// A workflow's definition document.
-  @_s.JsonKey(name: 'definition')
-  final DefinitionDocument definition;
+  final DefinitionDocument? definition;
 
   /// An object that contains summary information about a workflow.
-  @_s.JsonKey(name: 'summary')
-  final FlowTemplateSummary summary;
+  final FlowTemplateSummary? summary;
 
   /// The version of the user's namespace against which the workflow was
   /// validated. Use this value in your system instance.
-  @_s.JsonKey(name: 'validatedNamespaceVersion')
-  final int validatedNamespaceVersion;
+  final int? validatedNamespaceVersion;
 
   FlowTemplateDescription({
     this.definition,
     this.summary,
     this.validatedNamespaceVersion,
   });
-  factory FlowTemplateDescription.fromJson(Map<String, dynamic> json) =>
-      _$FlowTemplateDescriptionFromJson(json);
+
+  factory FlowTemplateDescription.fromJson(Map<String, dynamic> json) {
+    return FlowTemplateDescription(
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      summary: json['summary'] != null
+          ? FlowTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final summary = this.summary;
+    final validatedNamespaceVersion = this.validatedNamespaceVersion;
+    return {
+      if (definition != null) 'definition': definition,
+      if (summary != null) 'summary': summary,
+      if (validatedNamespaceVersion != null)
+        'validatedNamespaceVersion': validatedNamespaceVersion,
+    };
+  }
 }
 
 /// An object that filters a workflow search.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FlowTemplateFilter {
   /// The name of the search filter field.
-  @_s.JsonKey(name: 'name')
   final FlowTemplateFilterName name;
 
   /// An array of string values for the search filter field. Multiple values
   /// function as AND criteria in the search.
-  @_s.JsonKey(name: 'value')
   final List<String> value;
 
   FlowTemplateFilter({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$FlowTemplateFilterToJson(this);
+
+  factory FlowTemplateFilter.fromJson(Map<String, dynamic> json) {
+    return FlowTemplateFilter(
+      name: (json['name'] as String).toFlowTemplateFilterName(),
+      value: (json['value'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum FlowTemplateFilterName {
-  @_s.JsonValue('DEVICE_MODEL_ID')
   deviceModelId,
 }
 
+extension on FlowTemplateFilterName {
+  String toValue() {
+    switch (this) {
+      case FlowTemplateFilterName.deviceModelId:
+        return 'DEVICE_MODEL_ID';
+    }
+  }
+}
+
+extension on String {
+  FlowTemplateFilterName toFlowTemplateFilterName() {
+    switch (this) {
+      case 'DEVICE_MODEL_ID':
+        return FlowTemplateFilterName.deviceModelId;
+    }
+    throw Exception('$this is not known in enum FlowTemplateFilterName');
+  }
+}
+
 /// An object that contains summary information about a workflow.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FlowTemplateSummary {
   /// The ARN of the workflow.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date when the workflow was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The ID of the workflow.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The revision number of the workflow.
-  @_s.JsonKey(name: 'revisionNumber')
-  final int revisionNumber;
+  final int? revisionNumber;
 
   FlowTemplateSummary({
     this.arn,
@@ -2608,93 +2793,128 @@ class FlowTemplateSummary {
     this.id,
     this.revisionNumber,
   });
-  factory FlowTemplateSummary.fromJson(Map<String, dynamic> json) =>
-      _$FlowTemplateSummaryFromJson(json);
+
+  factory FlowTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return FlowTemplateSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      revisionNumber: json['revisionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final revisionNumber = this.revisionNumber;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (id != null) 'id': id,
+      if (revisionNumber != null) 'revisionNumber': revisionNumber,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEntitiesResponse {
   /// An array of descriptions for the specified entities.
-  @_s.JsonKey(name: 'descriptions')
-  final List<EntityDescription> descriptions;
+  final List<EntityDescription>? descriptions;
 
   GetEntitiesResponse({
     this.descriptions,
   });
-  factory GetEntitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetEntitiesResponseFromJson(json);
+
+  factory GetEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return GetEntitiesResponse(
+      descriptions: (json['descriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntityDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final descriptions = this.descriptions;
+    return {
+      if (descriptions != null) 'descriptions': descriptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFlowTemplateResponse {
   /// The object that describes the specified workflow.
-  @_s.JsonKey(name: 'description')
-  final FlowTemplateDescription description;
+  final FlowTemplateDescription? description;
 
   GetFlowTemplateResponse({
     this.description,
   });
-  factory GetFlowTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFlowTemplateResponseFromJson(json);
+
+  factory GetFlowTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return GetFlowTemplateResponse(
+      description: json['description'] != null
+          ? FlowTemplateDescription.fromJson(
+              json['description'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    return {
+      if (description != null) 'description': description,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFlowTemplateRevisionsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that provide summary data about each revision.
-  @_s.JsonKey(name: 'summaries')
-  final List<FlowTemplateSummary> summaries;
+  final List<FlowTemplateSummary>? summaries;
 
   GetFlowTemplateRevisionsResponse({
     this.nextToken,
     this.summaries,
   });
-  factory GetFlowTemplateRevisionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetFlowTemplateRevisionsResponseFromJson(json);
+
+  factory GetFlowTemplateRevisionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetFlowTemplateRevisionsResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetNamespaceDeletionStatusResponse {
   /// An error code returned by the namespace deletion task.
-  @_s.JsonKey(name: 'errorCode')
-  final NamespaceDeletionStatusErrorCodes errorCode;
+  final NamespaceDeletionStatusErrorCodes? errorCode;
 
   /// An error code returned by the namespace deletion task.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ARN of the namespace that is being deleted.
-  @_s.JsonKey(name: 'namespaceArn')
-  final String namespaceArn;
+  final String? namespaceArn;
 
   /// The name of the namespace that is being deleted.
-  @_s.JsonKey(name: 'namespaceName')
-  final String namespaceName;
+  final String? namespaceName;
 
   /// The status of the deletion request.
-  @_s.JsonKey(name: 'status')
-  final NamespaceDeletionStatus status;
+  final NamespaceDeletionStatus? status;
 
   GetNamespaceDeletionStatusResponse({
     this.errorCode,
@@ -2703,406 +2923,631 @@ class GetNamespaceDeletionStatusResponse {
     this.namespaceName,
     this.status,
   });
+
   factory GetNamespaceDeletionStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetNamespaceDeletionStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetNamespaceDeletionStatusResponse(
+      errorCode:
+          (json['errorCode'] as String?)?.toNamespaceDeletionStatusErrorCodes(),
+      errorMessage: json['errorMessage'] as String?,
+      namespaceArn: json['namespaceArn'] as String?,
+      namespaceName: json['namespaceName'] as String?,
+      status: (json['status'] as String?)?.toNamespaceDeletionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final namespaceArn = this.namespaceArn;
+    final namespaceName = this.namespaceName;
+    final status = this.status;
+    return {
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (namespaceArn != null) 'namespaceArn': namespaceArn,
+      if (namespaceName != null) 'namespaceName': namespaceName,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSystemInstanceResponse {
   /// An object that describes the system instance.
-  @_s.JsonKey(name: 'description')
-  final SystemInstanceDescription description;
+  final SystemInstanceDescription? description;
 
   GetSystemInstanceResponse({
     this.description,
   });
-  factory GetSystemInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSystemInstanceResponseFromJson(json);
+
+  factory GetSystemInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return GetSystemInstanceResponse(
+      description: json['description'] != null
+          ? SystemInstanceDescription.fromJson(
+              json['description'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    return {
+      if (description != null) 'description': description,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSystemTemplateResponse {
   /// An object that contains summary data about the system.
-  @_s.JsonKey(name: 'description')
-  final SystemTemplateDescription description;
+  final SystemTemplateDescription? description;
 
   GetSystemTemplateResponse({
     this.description,
   });
-  factory GetSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSystemTemplateResponseFromJson(json);
+
+  factory GetSystemTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return GetSystemTemplateResponse(
+      description: json['description'] != null
+          ? SystemTemplateDescription.fromJson(
+              json['description'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    return {
+      if (description != null) 'description': description,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSystemTemplateRevisionsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain summary data about the system template
   /// revisions.
-  @_s.JsonKey(name: 'summaries')
-  final List<SystemTemplateSummary> summaries;
+  final List<SystemTemplateSummary>? summaries;
 
   GetSystemTemplateRevisionsResponse({
     this.nextToken,
     this.summaries,
   });
+
   factory GetSystemTemplateRevisionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSystemTemplateRevisionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSystemTemplateRevisionsResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUploadStatusResponse {
   /// The date at which the upload was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The ID of the upload.
-  @_s.JsonKey(name: 'uploadId')
   final String uploadId;
 
   /// The status of the upload. The initial status is <code>IN_PROGRESS</code>.
   /// The response show all validation failures if the upload fails.
-  @_s.JsonKey(name: 'uploadStatus')
   final UploadStatus uploadStatus;
 
   /// The reason for an upload failure.
-  @_s.JsonKey(name: 'failureReason')
-  final List<String> failureReason;
+  final List<String>? failureReason;
 
   /// The ARN of the upload.
-  @_s.JsonKey(name: 'namespaceArn')
-  final String namespaceArn;
+  final String? namespaceArn;
 
   /// The name of the upload's namespace.
-  @_s.JsonKey(name: 'namespaceName')
-  final String namespaceName;
+  final String? namespaceName;
 
   /// The version of the user's namespace. Defaults to the latest version of the
   /// user's namespace.
-  @_s.JsonKey(name: 'namespaceVersion')
-  final int namespaceVersion;
+  final int? namespaceVersion;
 
   GetUploadStatusResponse({
-    @_s.required this.createdDate,
-    @_s.required this.uploadId,
-    @_s.required this.uploadStatus,
+    required this.createdDate,
+    required this.uploadId,
+    required this.uploadStatus,
     this.failureReason,
     this.namespaceArn,
     this.namespaceName,
     this.namespaceVersion,
   });
-  factory GetUploadStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUploadStatusResponseFromJson(json);
+
+  factory GetUploadStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetUploadStatusResponse(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      uploadId: json['uploadId'] as String,
+      uploadStatus: (json['uploadStatus'] as String).toUploadStatus(),
+      failureReason: (json['failureReason'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      namespaceArn: json['namespaceArn'] as String?,
+      namespaceName: json['namespaceName'] as String?,
+      namespaceVersion: json['namespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final uploadId = this.uploadId;
+    final uploadStatus = this.uploadStatus;
+    final failureReason = this.failureReason;
+    final namespaceArn = this.namespaceArn;
+    final namespaceName = this.namespaceName;
+    final namespaceVersion = this.namespaceVersion;
+    return {
+      'createdDate': unixTimestampToJson(createdDate),
+      'uploadId': uploadId,
+      'uploadStatus': uploadStatus.toValue(),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (namespaceArn != null) 'namespaceArn': namespaceArn,
+      if (namespaceName != null) 'namespaceName': namespaceName,
+      if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFlowExecutionMessagesResponse {
   /// A list of objects that contain information about events in the specified
   /// flow execution.
-  @_s.JsonKey(name: 'messages')
-  final List<FlowExecutionMessage> messages;
+  final List<FlowExecutionMessage>? messages;
 
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFlowExecutionMessagesResponse({
     this.messages,
     this.nextToken,
   });
+
   factory ListFlowExecutionMessagesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListFlowExecutionMessagesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListFlowExecutionMessagesResponse(
+      messages: (json['messages'] as List?)
+          ?.whereNotNull()
+          .map((e) => FlowExecutionMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messages = this.messages;
+    final nextToken = this.nextToken;
+    return {
+      if (messages != null) 'messages': messages,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The token that specifies the next page of results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of tags returned by the <code>ListTagsForResource</code> operation.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['nextToken'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// An object that specifies whether cloud metrics are collected in a deployment
 /// and, if so, what role is used to collect metrics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricsConfiguration {
   /// A Boolean that specifies whether cloud metrics are collected.
-  @_s.JsonKey(name: 'cloudMetricEnabled')
-  final bool cloudMetricEnabled;
+  final bool? cloudMetricEnabled;
 
   /// The ARN of the role that is used to collect cloud metrics.
-  @_s.JsonKey(name: 'metricRuleRoleArn')
-  final String metricRuleRoleArn;
+  final String? metricRuleRoleArn;
 
   MetricsConfiguration({
     this.cloudMetricEnabled,
     this.metricRuleRoleArn,
   });
-  factory MetricsConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$MetricsConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetricsConfigurationToJson(this);
+  factory MetricsConfiguration.fromJson(Map<String, dynamic> json) {
+    return MetricsConfiguration(
+      cloudMetricEnabled: json['cloudMetricEnabled'] as bool?,
+      metricRuleRoleArn: json['metricRuleRoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudMetricEnabled = this.cloudMetricEnabled;
+    final metricRuleRoleArn = this.metricRuleRoleArn;
+    return {
+      if (cloudMetricEnabled != null) 'cloudMetricEnabled': cloudMetricEnabled,
+      if (metricRuleRoleArn != null) 'metricRuleRoleArn': metricRuleRoleArn,
+    };
+  }
 }
 
 enum NamespaceDeletionStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on NamespaceDeletionStatus {
+  String toValue() {
+    switch (this) {
+      case NamespaceDeletionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case NamespaceDeletionStatus.succeeded:
+        return 'SUCCEEDED';
+      case NamespaceDeletionStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  NamespaceDeletionStatus toNamespaceDeletionStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return NamespaceDeletionStatus.inProgress;
+      case 'SUCCEEDED':
+        return NamespaceDeletionStatus.succeeded;
+      case 'FAILED':
+        return NamespaceDeletionStatus.failed;
+    }
+    throw Exception('$this is not known in enum NamespaceDeletionStatus');
+  }
+}
+
 enum NamespaceDeletionStatusErrorCodes {
-  @_s.JsonValue('VALIDATION_FAILED')
   validationFailed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on NamespaceDeletionStatusErrorCodes {
+  String toValue() {
+    switch (this) {
+      case NamespaceDeletionStatusErrorCodes.validationFailed:
+        return 'VALIDATION_FAILED';
+    }
+  }
+}
+
+extension on String {
+  NamespaceDeletionStatusErrorCodes toNamespaceDeletionStatusErrorCodes() {
+    switch (this) {
+      case 'VALIDATION_FAILED':
+        return NamespaceDeletionStatusErrorCodes.validationFailed;
+    }
+    throw Exception(
+        '$this is not known in enum NamespaceDeletionStatusErrorCodes');
+  }
+}
+
 class SearchEntitiesResponse {
   /// An array of descriptions for each entity returned in the search result.
-  @_s.JsonKey(name: 'descriptions')
-  final List<EntityDescription> descriptions;
+  final List<EntityDescription>? descriptions;
 
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   SearchEntitiesResponse({
     this.descriptions,
     this.nextToken,
   });
-  factory SearchEntitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchEntitiesResponseFromJson(json);
+
+  factory SearchEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchEntitiesResponse(
+      descriptions: (json['descriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntityDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final descriptions = this.descriptions;
+    final nextToken = this.nextToken;
+    return {
+      if (descriptions != null) 'descriptions': descriptions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchFlowExecutionsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain summary information about each workflow
   /// execution in the result set.
-  @_s.JsonKey(name: 'summaries')
-  final List<FlowExecutionSummary> summaries;
+  final List<FlowExecutionSummary>? summaries;
 
   SearchFlowExecutionsResponse({
     this.nextToken,
     this.summaries,
   });
-  factory SearchFlowExecutionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchFlowExecutionsResponseFromJson(json);
+
+  factory SearchFlowExecutionsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchFlowExecutionsResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => FlowExecutionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchFlowTemplatesResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain summary information about each workflow in
   /// the result set.
-  @_s.JsonKey(name: 'summaries')
-  final List<FlowTemplateSummary> summaries;
+  final List<FlowTemplateSummary>? summaries;
 
   SearchFlowTemplatesResponse({
     this.nextToken,
     this.summaries,
   });
-  factory SearchFlowTemplatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchFlowTemplatesResponseFromJson(json);
+
+  factory SearchFlowTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchFlowTemplatesResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => FlowTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchSystemInstancesResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain summary data abour the system instances in
   /// the result set.
-  @_s.JsonKey(name: 'summaries')
-  final List<SystemInstanceSummary> summaries;
+  final List<SystemInstanceSummary>? summaries;
 
   SearchSystemInstancesResponse({
     this.nextToken,
     this.summaries,
   });
-  factory SearchSystemInstancesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchSystemInstancesResponseFromJson(json);
+
+  factory SearchSystemInstancesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchSystemInstancesResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => SystemInstanceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchSystemTemplatesResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of objects that contain summary information about each system
   /// deployment in the result set.
-  @_s.JsonKey(name: 'summaries')
-  final List<SystemTemplateSummary> summaries;
+  final List<SystemTemplateSummary>? summaries;
 
   SearchSystemTemplatesResponse({
     this.nextToken,
     this.summaries,
   });
-  factory SearchSystemTemplatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchSystemTemplatesResponseFromJson(json);
+
+  factory SearchSystemTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchSystemTemplatesResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => SystemTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchThingsResponse {
   /// The string to specify as <code>nextToken</code> when you request the next
   /// page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of things in the result set.
-  @_s.JsonKey(name: 'things')
-  final List<Thing> things;
+  final List<Thing>? things;
 
   SearchThingsResponse({
     this.nextToken,
     this.things,
   });
-  factory SearchThingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchThingsResponseFromJson(json);
+
+  factory SearchThingsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchThingsResponse(
+      nextToken: json['nextToken'] as String?,
+      things: (json['things'] as List?)
+          ?.whereNotNull()
+          .map((e) => Thing.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final things = this.things;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (things != null) 'things': things,
+    };
+  }
 }
 
 enum SystemInstanceDeploymentStatus {
-  @_s.JsonValue('NOT_DEPLOYED')
   notDeployed,
-  @_s.JsonValue('BOOTSTRAP')
   bootstrap,
-  @_s.JsonValue('DEPLOY_IN_PROGRESS')
   deployInProgress,
-  @_s.JsonValue('DEPLOYED_IN_TARGET')
   deployedInTarget,
-  @_s.JsonValue('UNDEPLOY_IN_PROGRESS')
   undeployInProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('PENDING_DELETE')
   pendingDelete,
-  @_s.JsonValue('DELETED_IN_TARGET')
   deletedInTarget,
+}
+
+extension on SystemInstanceDeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case SystemInstanceDeploymentStatus.notDeployed:
+        return 'NOT_DEPLOYED';
+      case SystemInstanceDeploymentStatus.bootstrap:
+        return 'BOOTSTRAP';
+      case SystemInstanceDeploymentStatus.deployInProgress:
+        return 'DEPLOY_IN_PROGRESS';
+      case SystemInstanceDeploymentStatus.deployedInTarget:
+        return 'DEPLOYED_IN_TARGET';
+      case SystemInstanceDeploymentStatus.undeployInProgress:
+        return 'UNDEPLOY_IN_PROGRESS';
+      case SystemInstanceDeploymentStatus.failed:
+        return 'FAILED';
+      case SystemInstanceDeploymentStatus.pendingDelete:
+        return 'PENDING_DELETE';
+      case SystemInstanceDeploymentStatus.deletedInTarget:
+        return 'DELETED_IN_TARGET';
+    }
+  }
+}
+
+extension on String {
+  SystemInstanceDeploymentStatus toSystemInstanceDeploymentStatus() {
+    switch (this) {
+      case 'NOT_DEPLOYED':
+        return SystemInstanceDeploymentStatus.notDeployed;
+      case 'BOOTSTRAP':
+        return SystemInstanceDeploymentStatus.bootstrap;
+      case 'DEPLOY_IN_PROGRESS':
+        return SystemInstanceDeploymentStatus.deployInProgress;
+      case 'DEPLOYED_IN_TARGET':
+        return SystemInstanceDeploymentStatus.deployedInTarget;
+      case 'UNDEPLOY_IN_PROGRESS':
+        return SystemInstanceDeploymentStatus.undeployInProgress;
+      case 'FAILED':
+        return SystemInstanceDeploymentStatus.failed;
+      case 'PENDING_DELETE':
+        return SystemInstanceDeploymentStatus.pendingDelete;
+      case 'DELETED_IN_TARGET':
+        return SystemInstanceDeploymentStatus.deletedInTarget;
+    }
+    throw Exception(
+        '$this is not known in enum SystemInstanceDeploymentStatus');
+  }
 }
 
 /// An object that contains a system instance definition and summary
 /// information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SystemInstanceDescription {
-  @_s.JsonKey(name: 'definition')
-  final DefinitionDocument definition;
+  final DefinitionDocument? definition;
 
   /// The AWS Identity and Access Management (IAM) role that AWS IoT Things Graph
   /// assumes during flow execution in a cloud deployment. This role must have
   /// read and write permissionss to AWS Lambda and AWS IoT and to any other AWS
   /// services that the flow uses.
-  @_s.JsonKey(name: 'flowActionsRoleArn')
-  final String flowActionsRoleArn;
-  @_s.JsonKey(name: 'metricsConfiguration')
-  final MetricsConfiguration metricsConfiguration;
+  final String? flowActionsRoleArn;
+  final MetricsConfiguration? metricsConfiguration;
 
   /// The Amazon Simple Storage Service bucket where information about a system
   /// instance is stored.
-  @_s.JsonKey(name: 's3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// An object that contains summary information about a system instance.
-  @_s.JsonKey(name: 'summary')
-  final SystemInstanceSummary summary;
+  final SystemInstanceSummary? summary;
 
   /// A list of objects that contain all of the IDs and revision numbers of
   /// workflows and systems that are used in a system instance.
-  @_s.JsonKey(name: 'validatedDependencyRevisions')
-  final List<DependencyRevision> validatedDependencyRevisions;
+  final List<DependencyRevision>? validatedDependencyRevisions;
 
   /// The version of the user's namespace against which the system instance was
   /// validated.
-  @_s.JsonKey(name: 'validatedNamespaceVersion')
-  final int validatedNamespaceVersion;
+  final int? validatedNamespaceVersion;
 
   SystemInstanceDescription({
     this.definition,
@@ -3113,89 +3558,153 @@ class SystemInstanceDescription {
     this.validatedDependencyRevisions,
     this.validatedNamespaceVersion,
   });
-  factory SystemInstanceDescription.fromJson(Map<String, dynamic> json) =>
-      _$SystemInstanceDescriptionFromJson(json);
+
+  factory SystemInstanceDescription.fromJson(Map<String, dynamic> json) {
+    return SystemInstanceDescription(
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      flowActionsRoleArn: json['flowActionsRoleArn'] as String?,
+      metricsConfiguration: json['metricsConfiguration'] != null
+          ? MetricsConfiguration.fromJson(
+              json['metricsConfiguration'] as Map<String, dynamic>)
+          : null,
+      s3BucketName: json['s3BucketName'] as String?,
+      summary: json['summary'] != null
+          ? SystemInstanceSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+      validatedDependencyRevisions: (json['validatedDependencyRevisions']
+              as List?)
+          ?.whereNotNull()
+          .map((e) => DependencyRevision.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final flowActionsRoleArn = this.flowActionsRoleArn;
+    final metricsConfiguration = this.metricsConfiguration;
+    final s3BucketName = this.s3BucketName;
+    final summary = this.summary;
+    final validatedDependencyRevisions = this.validatedDependencyRevisions;
+    final validatedNamespaceVersion = this.validatedNamespaceVersion;
+    return {
+      if (definition != null) 'definition': definition,
+      if (flowActionsRoleArn != null) 'flowActionsRoleArn': flowActionsRoleArn,
+      if (metricsConfiguration != null)
+        'metricsConfiguration': metricsConfiguration,
+      if (s3BucketName != null) 's3BucketName': s3BucketName,
+      if (summary != null) 'summary': summary,
+      if (validatedDependencyRevisions != null)
+        'validatedDependencyRevisions': validatedDependencyRevisions,
+      if (validatedNamespaceVersion != null)
+        'validatedNamespaceVersion': validatedNamespaceVersion,
+    };
+  }
 }
 
 /// An object that filters a system instance search. Multiple filters function
 /// as OR criteria in the search. For example a search that includes a
 /// GREENGRASS_GROUP_NAME and a STATUS filter searches for system instances in
 /// the specified Greengrass group that have the specified status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SystemInstanceFilter {
   /// The name of the search filter field.
-  @_s.JsonKey(name: 'name')
-  final SystemInstanceFilterName name;
+  final SystemInstanceFilterName? name;
 
   /// An array of string values for the search filter field. Multiple values
   /// function as AND criteria in the search.
-  @_s.JsonKey(name: 'value')
-  final List<String> value;
+  final List<String>? value;
 
   SystemInstanceFilter({
     this.name,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$SystemInstanceFilterToJson(this);
+
+  factory SystemInstanceFilter.fromJson(Map<String, dynamic> json) {
+    return SystemInstanceFilter(
+      name: (json['name'] as String?)?.toSystemInstanceFilterName(),
+      value: (json['value'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum SystemInstanceFilterName {
-  @_s.JsonValue('SYSTEM_TEMPLATE_ID')
   systemTemplateId,
-  @_s.JsonValue('STATUS')
   status,
-  @_s.JsonValue('GREENGRASS_GROUP_NAME')
   greengrassGroupName,
 }
 
+extension on SystemInstanceFilterName {
+  String toValue() {
+    switch (this) {
+      case SystemInstanceFilterName.systemTemplateId:
+        return 'SYSTEM_TEMPLATE_ID';
+      case SystemInstanceFilterName.status:
+        return 'STATUS';
+      case SystemInstanceFilterName.greengrassGroupName:
+        return 'GREENGRASS_GROUP_NAME';
+    }
+  }
+}
+
+extension on String {
+  SystemInstanceFilterName toSystemInstanceFilterName() {
+    switch (this) {
+      case 'SYSTEM_TEMPLATE_ID':
+        return SystemInstanceFilterName.systemTemplateId;
+      case 'STATUS':
+        return SystemInstanceFilterName.status;
+      case 'GREENGRASS_GROUP_NAME':
+        return SystemInstanceFilterName.greengrassGroupName;
+    }
+    throw Exception('$this is not known in enum SystemInstanceFilterName');
+  }
+}
+
 /// An object that contains summary information about a system instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SystemInstanceSummary {
   /// The ARN of the system instance.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date when the system instance was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The ID of the Greengrass group where the system instance is deployed.
-  @_s.JsonKey(name: 'greengrassGroupId')
-  final String greengrassGroupId;
+  final String? greengrassGroupId;
 
   /// The ID of the Greengrass group where the system instance is deployed.
-  @_s.JsonKey(name: 'greengrassGroupName')
-  final String greengrassGroupName;
+  final String? greengrassGroupName;
 
   /// The version of the Greengrass group where the system instance is deployed.
-  @_s.JsonKey(name: 'greengrassGroupVersionId')
-  final String greengrassGroupVersionId;
+  final String? greengrassGroupVersionId;
 
   /// The ID of the system instance.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The status of the system instance.
-  @_s.JsonKey(name: 'status')
-  final SystemInstanceDeploymentStatus status;
+  final SystemInstanceDeploymentStatus? status;
 
   /// The target of the system instance.
-  @_s.JsonKey(name: 'target')
-  final DeploymentTarget target;
+  final DeploymentTarget? target;
 
   /// The date and time when the system instance was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedAt')
-  final DateTime updatedAt;
+  final DateTime? updatedAt;
 
   SystemInstanceSummary({
     this.arn,
@@ -3208,91 +3717,163 @@ class SystemInstanceSummary {
     this.target,
     this.updatedAt,
   });
-  factory SystemInstanceSummary.fromJson(Map<String, dynamic> json) =>
-      _$SystemInstanceSummaryFromJson(json);
+
+  factory SystemInstanceSummary.fromJson(Map<String, dynamic> json) {
+    return SystemInstanceSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      greengrassGroupId: json['greengrassGroupId'] as String?,
+      greengrassGroupName: json['greengrassGroupName'] as String?,
+      greengrassGroupVersionId: json['greengrassGroupVersionId'] as String?,
+      id: json['id'] as String?,
+      status: (json['status'] as String?)?.toSystemInstanceDeploymentStatus(),
+      target: (json['target'] as String?)?.toDeploymentTarget(),
+      updatedAt: timeStampFromJson(json['updatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final greengrassGroupId = this.greengrassGroupId;
+    final greengrassGroupName = this.greengrassGroupName;
+    final greengrassGroupVersionId = this.greengrassGroupVersionId;
+    final id = this.id;
+    final status = this.status;
+    final target = this.target;
+    final updatedAt = this.updatedAt;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (greengrassGroupId != null) 'greengrassGroupId': greengrassGroupId,
+      if (greengrassGroupName != null)
+        'greengrassGroupName': greengrassGroupName,
+      if (greengrassGroupVersionId != null)
+        'greengrassGroupVersionId': greengrassGroupVersionId,
+      if (id != null) 'id': id,
+      if (status != null) 'status': status.toValue(),
+      if (target != null) 'target': target.toValue(),
+      if (updatedAt != null) 'updatedAt': unixTimestampToJson(updatedAt),
+    };
+  }
 }
 
 /// An object that contains a system's definition document and summary
 /// information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SystemTemplateDescription {
   /// The definition document of a system.
-  @_s.JsonKey(name: 'definition')
-  final DefinitionDocument definition;
+  final DefinitionDocument? definition;
 
   /// An object that contains summary information about a system.
-  @_s.JsonKey(name: 'summary')
-  final SystemTemplateSummary summary;
+  final SystemTemplateSummary? summary;
 
   /// The namespace version against which the system was validated. Use this value
   /// in your system instance.
-  @_s.JsonKey(name: 'validatedNamespaceVersion')
-  final int validatedNamespaceVersion;
+  final int? validatedNamespaceVersion;
 
   SystemTemplateDescription({
     this.definition,
     this.summary,
     this.validatedNamespaceVersion,
   });
-  factory SystemTemplateDescription.fromJson(Map<String, dynamic> json) =>
-      _$SystemTemplateDescriptionFromJson(json);
+
+  factory SystemTemplateDescription.fromJson(Map<String, dynamic> json) {
+    return SystemTemplateDescription(
+      definition: json['definition'] != null
+          ? DefinitionDocument.fromJson(
+              json['definition'] as Map<String, dynamic>)
+          : null,
+      summary: json['summary'] != null
+          ? SystemTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+      validatedNamespaceVersion: json['validatedNamespaceVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final summary = this.summary;
+    final validatedNamespaceVersion = this.validatedNamespaceVersion;
+    return {
+      if (definition != null) 'definition': definition,
+      if (summary != null) 'summary': summary,
+      if (validatedNamespaceVersion != null)
+        'validatedNamespaceVersion': validatedNamespaceVersion,
+    };
+  }
 }
 
 /// An object that filters a system search.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SystemTemplateFilter {
   /// The name of the system search filter field.
-  @_s.JsonKey(name: 'name')
   final SystemTemplateFilterName name;
 
   /// An array of string values for the search filter field. Multiple values
   /// function as AND criteria in the search.
-  @_s.JsonKey(name: 'value')
   final List<String> value;
 
   SystemTemplateFilter({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$SystemTemplateFilterToJson(this);
+
+  factory SystemTemplateFilter.fromJson(Map<String, dynamic> json) {
+    return SystemTemplateFilter(
+      name: (json['name'] as String).toSystemTemplateFilterName(),
+      value: (json['value'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum SystemTemplateFilterName {
-  @_s.JsonValue('FLOW_TEMPLATE_ID')
   flowTemplateId,
 }
 
+extension on SystemTemplateFilterName {
+  String toValue() {
+    switch (this) {
+      case SystemTemplateFilterName.flowTemplateId:
+        return 'FLOW_TEMPLATE_ID';
+    }
+  }
+}
+
+extension on String {
+  SystemTemplateFilterName toSystemTemplateFilterName() {
+    switch (this) {
+      case 'FLOW_TEMPLATE_ID':
+        return SystemTemplateFilterName.flowTemplateId;
+    }
+    throw Exception('$this is not known in enum SystemTemplateFilterName');
+  }
+}
+
 /// An object that contains information about a system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SystemTemplateSummary {
   /// The ARN of the system.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date when the system was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The ID of the system.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The revision number of the system.
-  @_s.JsonKey(name: 'revisionNumber')
-  final int revisionNumber;
+  final int? revisionNumber;
 
   SystemTemplateSummary({
     this.arn,
@@ -3300,177 +3881,266 @@ class SystemTemplateSummary {
     this.id,
     this.revisionNumber,
   });
-  factory SystemTemplateSummary.fromJson(Map<String, dynamic> json) =>
-      _$SystemTemplateSummaryFromJson(json);
+
+  factory SystemTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return SystemTemplateSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      revisionNumber: json['revisionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final revisionNumber = this.revisionNumber;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (id != null) 'id': id,
+      if (revisionNumber != null) 'revisionNumber': revisionNumber,
+    };
+  }
 }
 
 /// Metadata assigned to an AWS IoT Things Graph resource consisting of a
 /// key-value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The required name of the tag. The string value can be from 1 to 128 Unicode
   /// characters in length.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The optional value of the tag. The string value can be from 1 to 256 Unicode
   /// characters in length.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// An AWS IoT thing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Thing {
   /// The ARN of the thing.
-  @_s.JsonKey(name: 'thingArn')
-  final String thingArn;
+  final String? thingArn;
 
   /// The name of the thing.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   Thing({
     this.thingArn,
     this.thingName,
   });
-  factory Thing.fromJson(Map<String, dynamic> json) => _$ThingFromJson(json);
+
+  factory Thing.fromJson(Map<String, dynamic> json) {
+    return Thing(
+      thingArn: json['thingArn'] as String?,
+      thingName: json['thingName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingArn = this.thingArn;
+    final thingName = this.thingName;
+    return {
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingName != null) 'thingName': thingName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UndeploySystemInstanceResponse {
   /// An object that contains summary information about the system instance that
   /// was removed from its target.
-  @_s.JsonKey(name: 'summary')
-  final SystemInstanceSummary summary;
+  final SystemInstanceSummary? summary;
 
   UndeploySystemInstanceResponse({
     this.summary,
   });
-  factory UndeploySystemInstanceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UndeploySystemInstanceResponseFromJson(json);
+
+  factory UndeploySystemInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return UndeploySystemInstanceResponse(
+      summary: json['summary'] != null
+          ? SystemInstanceSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summary = this.summary;
+    return {
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFlowTemplateResponse {
   /// An object containing summary information about the updated workflow.
-  @_s.JsonKey(name: 'summary')
-  final FlowTemplateSummary summary;
+  final FlowTemplateSummary? summary;
 
   UpdateFlowTemplateResponse({
     this.summary,
   });
-  factory UpdateFlowTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFlowTemplateResponseFromJson(json);
+
+  factory UpdateFlowTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFlowTemplateResponse(
+      summary: json['summary'] != null
+          ? FlowTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summary = this.summary;
+    return {
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSystemTemplateResponse {
   /// An object containing summary information about the updated system.
-  @_s.JsonKey(name: 'summary')
-  final SystemTemplateSummary summary;
+  final SystemTemplateSummary? summary;
 
   UpdateSystemTemplateResponse({
     this.summary,
   });
-  factory UpdateSystemTemplateResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSystemTemplateResponseFromJson(json);
+
+  factory UpdateSystemTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSystemTemplateResponse(
+      summary: json['summary'] != null
+          ? SystemTemplateSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summary = this.summary;
+    return {
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UploadEntityDefinitionsResponse {
   /// The ID that specifies the upload action. You can use this to track the
   /// status of the upload.
-  @_s.JsonKey(name: 'uploadId')
   final String uploadId;
 
   UploadEntityDefinitionsResponse({
-    @_s.required this.uploadId,
+    required this.uploadId,
   });
-  factory UploadEntityDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$UploadEntityDefinitionsResponseFromJson(json);
+
+  factory UploadEntityDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return UploadEntityDefinitionsResponse(
+      uploadId: json['uploadId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uploadId = this.uploadId;
+    return {
+      'uploadId': uploadId,
+    };
+  }
 }
 
 enum UploadStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on UploadStatus {
+  String toValue() {
+    switch (this) {
+      case UploadStatus.inProgress:
+        return 'IN_PROGRESS';
+      case UploadStatus.succeeded:
+        return 'SUCCEEDED';
+      case UploadStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  UploadStatus toUploadStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return UploadStatus.inProgress;
+      case 'SUCCEEDED':
+        return UploadStatus.succeeded;
+      case 'FAILED':
+        return UploadStatus.failed;
+    }
+    throw Exception('$this is not known in enum UploadStatus');
+  }
+}
+
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -3478,17 +4148,17 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 

@@ -17,7 +17,7 @@ void main() {
       expect(
           request.body,
           equalsQuery(
-              r'''Action=OperationName&Version=2014-01-01&FooEnum=foo&ListEnums.member.1=foo&ListEnums.member.2=&ListEnums.member.3=bar'''));
+              r'''Action=OperationName&Version=2014-01-01&FooEnum=foo&ListEnums.member.1=foo&ListEnums.member.2=bar'''));
       expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -33,14 +33,13 @@ void main() {
 
     await service.operationName0(
       fooEnum: EnumType.foo,
-      listEnums: [EnumType.foo, null, EnumType.bar],
+      listEnums: [EnumType.foo, EnumType.bar],
     );
 /*
 {
   "FooEnum": "foo",
   "ListEnums": [
     "foo",
-    "",
     "bar"
   ]
 }

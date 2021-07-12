@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2013-12-02.g.dart';
 
 /// Amazon Kinesis Data Streams is a managed service that scales elastically for
 /// real-time processing of streaming big data.
 class Kinesis {
   final _s.JsonProtocol _protocol;
   Kinesis({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -68,8 +61,8 @@ class Kinesis {
   /// Parameter [tags] :
   /// A set of up to 10 key-value pairs to use to create the tags.
   Future<void> addTagsToStream({
-    @_s.required String streamName,
-    @_s.required Map<String, String> tags,
+    required String streamName,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -79,18 +72,12 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.AddTagsToStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -170,8 +157,8 @@ class Kinesis {
   /// the same name. Two streams in the same AWS account but in two different
   /// Regions can also have the same name.
   Future<void> createStream({
-    @_s.required int shardCount,
-    @_s.required String streamName,
+    required int shardCount,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(shardCount, 'shardCount');
     _s.validateNumRange(
@@ -189,17 +176,11 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.CreateStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -232,8 +213,8 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream to modify.
   Future<void> decreaseStreamRetentionPeriod({
-    @_s.required int retentionPeriodHours,
-    @_s.required String streamName,
+    required int retentionPeriodHours,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(retentionPeriodHours, 'retentionPeriodHours');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -244,17 +225,11 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DecreaseStreamRetentionPeriod'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -304,8 +279,8 @@ class Kinesis {
   /// <code>DeleteStream</code> fails with a
   /// <code>ResourceInUseException</code>.
   Future<void> deleteStream({
-    @_s.required String streamName,
-    bool enforceConsumerDeletion,
+    required String streamName,
+    bool? enforceConsumerDeletion,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -315,17 +290,11 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DeleteStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -370,9 +339,9 @@ class Kinesis {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
   Future<void> deregisterStreamConsumer({
-    String consumerARN,
-    String consumerName,
-    String streamARN,
+    String? consumerARN,
+    String? consumerName,
+    String? streamARN,
   }) async {
     _s.validateStringLength(
       'consumerARN',
@@ -380,21 +349,11 @@ class Kinesis {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'consumerARN',
-      consumerARN,
-      r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
-    );
     _s.validateStringLength(
       'consumerName',
       consumerName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'consumerName',
-      consumerName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateStringLength(
       'streamARN',
@@ -402,16 +361,11 @@ class Kinesis {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.DeregisterStreamConsumer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -485,9 +439,9 @@ class Kinesis {
   /// is 100. If you specify a value greater than 100, at most 100 shards are
   /// returned.
   Future<DescribeStreamOutput> describeStream({
-    @_s.required String streamName,
-    String exclusiveStartShardId,
-    int limit,
+    required String streamName,
+    String? exclusiveStartShardId,
+    int? limit,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -497,22 +451,11 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'exclusiveStartShardId',
       exclusiveStartShardId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -568,9 +511,9 @@ class Kinesis {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
   Future<DescribeStreamConsumerOutput> describeStreamConsumer({
-    String consumerARN,
-    String consumerName,
-    String streamARN,
+    String? consumerARN,
+    String? consumerName,
+    String? streamARN,
   }) async {
     _s.validateStringLength(
       'consumerARN',
@@ -578,32 +521,17 @@ class Kinesis {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'consumerARN',
-      consumerARN,
-      r'''^(arn):aws.*:kinesis:.*:\d{12}:.*stream\/[a-zA-Z0-9_.-]+\/consumer\/[a-zA-Z0-9_.-]+:[0-9]+''',
-    );
     _s.validateStringLength(
       'consumerName',
       consumerName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'consumerName',
-      consumerName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     _s.validateStringLength(
       'streamARN',
       streamARN,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -641,7 +569,7 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream to describe.
   Future<DescribeStreamSummaryOutput> describeStreamSummary({
-    @_s.required String streamName,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -649,12 +577,6 @@ class Kinesis {
       streamName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -723,8 +645,8 @@ class Kinesis {
   /// The name of the Kinesis data stream for which to disable enhanced
   /// monitoring.
   Future<EnhancedMonitoringOutput> disableEnhancedMonitoring({
-    @_s.required List<MetricsName> shardLevelMetrics,
-    @_s.required String streamName,
+    required List<MetricsName> shardLevelMetrics,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(shardLevelMetrics, 'shardLevelMetrics');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -733,12 +655,6 @@ class Kinesis {
       streamName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -752,8 +668,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ShardLevelMetrics':
-            shardLevelMetrics?.map((e) => e?.toValue() ?? '')?.toList(),
+        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.toValue()).toList(),
         'StreamName': streamName,
       },
     );
@@ -808,8 +723,8 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream for which to enable enhanced monitoring.
   Future<EnhancedMonitoringOutput> enableEnhancedMonitoring({
-    @_s.required List<MetricsName> shardLevelMetrics,
-    @_s.required String streamName,
+    required List<MetricsName> shardLevelMetrics,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(shardLevelMetrics, 'shardLevelMetrics');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -818,12 +733,6 @@ class Kinesis {
       streamName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -837,8 +746,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ShardLevelMetrics':
-            shardLevelMetrics?.map((e) => e?.toValue() ?? '')?.toList(),
+        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.toValue()).toList(),
         'StreamName': streamName,
       },
     );
@@ -932,8 +840,8 @@ class Kinesis {
   /// If you specify a value that is greater than 10,000, <a>GetRecords</a>
   /// throws <code>InvalidArgumentException</code>. The default value is 10,000.
   Future<GetRecordsOutput> getRecords({
-    @_s.required String shardIterator,
-    int limit,
+    required String shardIterator,
+    int? limit,
   }) async {
     ArgumentError.checkNotNull(shardIterator, 'shardIterator');
     _s.validateStringLength(
@@ -1070,11 +978,11 @@ class Kinesis {
   /// the current trim horizon, the iterator returned is for the oldest
   /// untrimmed data record (TRIM_HORIZON).
   Future<GetShardIteratorOutput> getShardIterator({
-    @_s.required String shardId,
-    @_s.required ShardIteratorType shardIteratorType,
-    @_s.required String streamName,
-    String startingSequenceNumber,
-    DateTime timestamp,
+    required String shardId,
+    required ShardIteratorType shardIteratorType,
+    required String streamName,
+    String? startingSequenceNumber,
+    DateTime? timestamp,
   }) async {
     ArgumentError.checkNotNull(shardId, 'shardId');
     _s.validateStringLength(
@@ -1082,12 +990,6 @@ class Kinesis {
       shardId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'shardId',
-      shardId,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(shardIteratorType, 'shardIteratorType');
@@ -1098,17 +1000,6 @@ class Kinesis {
       1,
       128,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'startingSequenceNumber',
-      startingSequenceNumber,
-      r'''0|([1-9]\d{0,128})''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1122,7 +1013,7 @@ class Kinesis {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType?.toValue() ?? '',
+        'ShardIteratorType': shardIteratorType.toValue(),
         'StreamName': streamName,
         if (startingSequenceNumber != null)
           'StartingSequenceNumber': startingSequenceNumber,
@@ -1157,8 +1048,8 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream to modify.
   Future<void> increaseStreamRetentionPeriod({
-    @_s.required int retentionPeriodHours,
-    @_s.required String streamName,
+    required int retentionPeriodHours,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(retentionPeriodHours, 'retentionPeriodHours');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -1169,17 +1060,11 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.IncreaseStreamRetentionPeriod'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1274,23 +1159,18 @@ class Kinesis {
   /// You cannot specify this parameter if you specify the
   /// <code>NextToken</code> parameter.
   Future<ListShardsOutput> listShards({
-    String exclusiveStartShardId,
-    int maxResults,
-    String nextToken,
-    ShardFilter shardFilter,
-    DateTime streamCreationTimestamp,
-    String streamName,
+    String? exclusiveStartShardId,
+    int? maxResults,
+    String? nextToken,
+    ShardFilter? shardFilter,
+    DateTime? streamCreationTimestamp,
+    String? streamName,
   }) async {
     _s.validateStringLength(
       'exclusiveStartShardId',
       exclusiveStartShardId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartShardId',
-      exclusiveStartShardId,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -1309,11 +1189,6 @@ class Kinesis {
       streamName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1402,10 +1277,10 @@ class Kinesis {
   ///
   /// You can't specify this parameter if you specify the NextToken parameter.
   Future<ListStreamConsumersOutput> listStreamConsumers({
-    @_s.required String streamARN,
-    int maxResults,
-    String nextToken,
-    DateTime streamCreationTimestamp,
+    required String streamARN,
+    int? maxResults,
+    String? nextToken,
+    DateTime? streamCreationTimestamp,
   }) async {
     ArgumentError.checkNotNull(streamARN, 'streamARN');
     _s.validateStringLength(
@@ -1413,12 +1288,6 @@ class Kinesis {
       streamARN,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1484,19 +1353,14 @@ class Kinesis {
   /// Parameter [limit] :
   /// The maximum number of streams to list.
   Future<ListStreamsOutput> listStreams({
-    String exclusiveStartStreamName,
-    int limit,
+    String? exclusiveStartStreamName,
+    int? limit,
   }) async {
     _s.validateStringLength(
       'exclusiveStartStreamName',
       exclusiveStartStreamName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartStreamName',
-      exclusiveStartStreamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -1545,9 +1409,9 @@ class Kinesis {
   /// <code>true</code>. To list additional tags, set
   /// <code>ExclusiveStartTagKey</code> to the last key in the response.
   Future<ListTagsForStreamOutput> listTagsForStream({
-    @_s.required String streamName,
-    String exclusiveStartTagKey,
-    int limit,
+    required String streamName,
+    String? exclusiveStartTagKey,
+    int? limit,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -1555,12 +1419,6 @@ class Kinesis {
       streamName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1656,9 +1514,9 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream for the merge.
   Future<void> mergeShards({
-    @_s.required String adjacentShardToMerge,
-    @_s.required String shardToMerge,
-    @_s.required String streamName,
+    required String adjacentShardToMerge,
+    required String shardToMerge,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(adjacentShardToMerge, 'adjacentShardToMerge');
     _s.validateStringLength(
@@ -1666,12 +1524,6 @@ class Kinesis {
       adjacentShardToMerge,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'adjacentShardToMerge',
-      adjacentShardToMerge,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(shardToMerge, 'shardToMerge');
@@ -1682,12 +1534,6 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'shardToMerge',
-      shardToMerge,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
       'streamName',
@@ -1696,17 +1542,11 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.MergeShards'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1815,11 +1655,11 @@ class Kinesis {
   /// <i>n-1</i>). If this parameter is not set, records are coarsely ordered
   /// based on arrival time.
   Future<PutRecordOutput> putRecord({
-    @_s.required Uint8List data,
-    @_s.required String partitionKey,
-    @_s.required String streamName,
-    String explicitHashKey,
-    String sequenceNumberForOrdering,
+    required Uint8List data,
+    required String partitionKey,
+    required String streamName,
+    String? explicitHashKey,
+    String? sequenceNumberForOrdering,
   }) async {
     ArgumentError.checkNotNull(data, 'data');
     ArgumentError.checkNotNull(partitionKey, 'partitionKey');
@@ -1838,22 +1678,6 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'explicitHashKey',
-      explicitHashKey,
-      r'''0|([1-9]\d{0,38})''',
-    );
-    _s.validateStringPattern(
-      'sequenceNumberForOrdering',
-      sequenceNumberForOrdering,
-      r'''0|([1-9]\d{0,128})''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.PutRecord'
@@ -1865,7 +1689,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Data': data?.let(base64Encode),
+        'Data': base64Encode(data),
         'PartitionKey': partitionKey,
         'StreamName': streamName,
         if (explicitHashKey != null) 'ExplicitHashKey': explicitHashKey,
@@ -1975,8 +1799,8 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The stream name associated with the request.
   Future<PutRecordsOutput> putRecords({
-    @_s.required List<PutRecordsRequestEntry> records,
-    @_s.required String streamName,
+    required List<PutRecordsRequestEntry> records,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(records, 'records');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -1985,12 +1809,6 @@ class Kinesis {
       streamName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2047,8 +1865,8 @@ class Kinesis {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams">Amazon
   /// Resource Names (ARNs) and AWS Service Namespaces</a>.
   Future<RegisterStreamConsumerOutput> registerStreamConsumer({
-    @_s.required String consumerName,
-    @_s.required String streamARN,
+    required String consumerName,
+    required String streamARN,
   }) async {
     ArgumentError.checkNotNull(consumerName, 'consumerName');
     _s.validateStringLength(
@@ -2058,24 +1876,12 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'consumerName',
-      consumerName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamARN, 'streamARN');
     _s.validateStringLength(
       'streamARN',
       streamARN,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2117,8 +1923,8 @@ class Kinesis {
   /// Parameter [tagKeys] :
   /// A list of tag keys. Each corresponding tag is removed from the stream.
   Future<void> removeTagsFromStream({
-    @_s.required String streamName,
-    @_s.required List<String> tagKeys,
+    required String streamName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -2128,18 +1934,12 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.RemoveTagsFromStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2232,29 +2032,17 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream for the shard split.
   Future<void> splitShard({
-    @_s.required String newStartingHashKey,
-    @_s.required String shardToSplit,
-    @_s.required String streamName,
+    required String newStartingHashKey,
+    required String shardToSplit,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(newStartingHashKey, 'newStartingHashKey');
-    _s.validateStringPattern(
-      'newStartingHashKey',
-      newStartingHashKey,
-      r'''0|([1-9]\d{0,38})''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(shardToSplit, 'shardToSplit');
     _s.validateStringLength(
       'shardToSplit',
       shardToSplit,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'shardToSplit',
-      shardToSplit,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -2265,17 +2053,11 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.SplitShard'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2356,9 +2138,9 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream for which to start encrypting records.
   Future<void> startStreamEncryption({
-    @_s.required EncryptionType encryptionType,
-    @_s.required String keyId,
-    @_s.required String streamName,
+    required EncryptionType encryptionType,
+    required String keyId,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(encryptionType, 'encryptionType');
     ArgumentError.checkNotNull(keyId, 'keyId');
@@ -2377,24 +2159,18 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.StartStreamEncryption'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType?.toValue() ?? '',
+        'EncryptionType': encryptionType.toValue(),
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2461,9 +2237,9 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream on which to stop encrypting records.
   Future<void> stopStreamEncryption({
-    @_s.required EncryptionType encryptionType,
-    @_s.required String keyId,
-    @_s.required String streamName,
+    required EncryptionType encryptionType,
+    required String keyId,
+    required String streamName,
   }) async {
     ArgumentError.checkNotNull(encryptionType, 'encryptionType');
     ArgumentError.checkNotNull(keyId, 'keyId');
@@ -2482,24 +2258,18 @@ class Kinesis {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Kinesis_20131202.StopStreamEncryption'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType?.toValue() ?? '',
+        'EncryptionType': encryptionType.toValue(),
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2593,9 +2363,9 @@ class Kinesis {
   /// </li>
   /// </ul>
   Future<UpdateShardCountOutput> updateShardCount({
-    @_s.required ScalingType scalingType,
-    @_s.required String streamName,
-    @_s.required int targetShardCount,
+    required ScalingType scalingType,
+    required String streamName,
+    required int targetShardCount,
   }) async {
     ArgumentError.checkNotNull(scalingType, 'scalingType');
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -2604,12 +2374,6 @@ class Kinesis {
       streamName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetShardCount, 'targetShardCount');
@@ -2631,7 +2395,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ScalingType': scalingType?.toValue() ?? '',
+        'ScalingType': scalingType.toValue(),
         'StreamName': streamName,
         'TargetShardCount': targetShardCount,
       },
@@ -2641,35 +2405,43 @@ class Kinesis {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChildShard {
-  @_s.JsonKey(name: 'HashKeyRange')
   final HashKeyRange hashKeyRange;
-  @_s.JsonKey(name: 'ParentShards')
   final List<String> parentShards;
-  @_s.JsonKey(name: 'ShardId')
   final String shardId;
 
   ChildShard({
-    @_s.required this.hashKeyRange,
-    @_s.required this.parentShards,
-    @_s.required this.shardId,
+    required this.hashKeyRange,
+    required this.parentShards,
+    required this.shardId,
   });
-  factory ChildShard.fromJson(Map<String, dynamic> json) =>
-      _$ChildShardFromJson(json);
+
+  factory ChildShard.fromJson(Map<String, dynamic> json) {
+    return ChildShard(
+      hashKeyRange:
+          HashKeyRange.fromJson(json['HashKeyRange'] as Map<String, dynamic>),
+      parentShards: (json['ParentShards'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      shardId: json['ShardId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hashKeyRange = this.hashKeyRange;
+    final parentShards = this.parentShards;
+    final shardId = this.shardId;
+    return {
+      'HashKeyRange': hashKeyRange,
+      'ParentShards': parentShards,
+      'ShardId': shardId,
+    };
+  }
 }
 
 /// An object that represents the details of the consumer you registered. This
 /// type of object is returned by <a>RegisterStreamConsumer</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Consumer {
   /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
   /// You need this ARN to be able to call <a>SubscribeToShard</a>.
@@ -2678,41 +2450,53 @@ class Consumer {
   /// won't have the same ARN. That's because consumer ARNs contain the creation
   /// timestamp. This is important to keep in mind if you have IAM policies that
   /// reference consumer ARNs.
-  @_s.JsonKey(name: 'ConsumerARN')
   final String consumerARN;
 
   /// <p/>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ConsumerCreationTimestamp')
   final DateTime consumerCreationTimestamp;
 
   /// The name of the consumer is something you choose when you register the
   /// consumer.
-  @_s.JsonKey(name: 'ConsumerName')
   final String consumerName;
 
   /// A consumer can't read data while in the <code>CREATING</code> or
   /// <code>DELETING</code> states.
-  @_s.JsonKey(name: 'ConsumerStatus')
   final ConsumerStatus consumerStatus;
 
   Consumer({
-    @_s.required this.consumerARN,
-    @_s.required this.consumerCreationTimestamp,
-    @_s.required this.consumerName,
-    @_s.required this.consumerStatus,
+    required this.consumerARN,
+    required this.consumerCreationTimestamp,
+    required this.consumerName,
+    required this.consumerStatus,
   });
-  factory Consumer.fromJson(Map<String, dynamic> json) =>
-      _$ConsumerFromJson(json);
+
+  factory Consumer.fromJson(Map<String, dynamic> json) {
+    return Consumer(
+      consumerARN: json['ConsumerARN'] as String,
+      consumerCreationTimestamp: nonNullableTimeStampFromJson(
+          json['ConsumerCreationTimestamp'] as Object),
+      consumerName: json['ConsumerName'] as String,
+      consumerStatus: (json['ConsumerStatus'] as String).toConsumerStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumerARN = this.consumerARN;
+    final consumerCreationTimestamp = this.consumerCreationTimestamp;
+    final consumerName = this.consumerName;
+    final consumerStatus = this.consumerStatus;
+    return {
+      'ConsumerARN': consumerARN,
+      'ConsumerCreationTimestamp':
+          unixTimestampToJson(consumerCreationTimestamp),
+      'ConsumerName': consumerName,
+      'ConsumerStatus': consumerStatus.toValue(),
+    };
+  }
 }
 
 /// An object that represents the details of a registered consumer. This type of
 /// object is returned by <a>DescribeStreamConsumer</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConsumerDescription {
   /// When you register a consumer, Kinesis Data Streams generates an ARN for it.
   /// You need this ARN to be able to call <a>SubscribeToShard</a>.
@@ -2721,128 +2505,194 @@ class ConsumerDescription {
   /// won't have the same ARN. That's because consumer ARNs contain the creation
   /// timestamp. This is important to keep in mind if you have IAM policies that
   /// reference consumer ARNs.
-  @_s.JsonKey(name: 'ConsumerARN')
   final String consumerARN;
 
   /// <p/>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ConsumerCreationTimestamp')
   final DateTime consumerCreationTimestamp;
 
   /// The name of the consumer is something you choose when you register the
   /// consumer.
-  @_s.JsonKey(name: 'ConsumerName')
   final String consumerName;
 
   /// A consumer can't read data while in the <code>CREATING</code> or
   /// <code>DELETING</code> states.
-  @_s.JsonKey(name: 'ConsumerStatus')
   final ConsumerStatus consumerStatus;
 
   /// The ARN of the stream with which you registered the consumer.
-  @_s.JsonKey(name: 'StreamARN')
   final String streamARN;
 
   ConsumerDescription({
-    @_s.required this.consumerARN,
-    @_s.required this.consumerCreationTimestamp,
-    @_s.required this.consumerName,
-    @_s.required this.consumerStatus,
-    @_s.required this.streamARN,
+    required this.consumerARN,
+    required this.consumerCreationTimestamp,
+    required this.consumerName,
+    required this.consumerStatus,
+    required this.streamARN,
   });
-  factory ConsumerDescription.fromJson(Map<String, dynamic> json) =>
-      _$ConsumerDescriptionFromJson(json);
+
+  factory ConsumerDescription.fromJson(Map<String, dynamic> json) {
+    return ConsumerDescription(
+      consumerARN: json['ConsumerARN'] as String,
+      consumerCreationTimestamp: nonNullableTimeStampFromJson(
+          json['ConsumerCreationTimestamp'] as Object),
+      consumerName: json['ConsumerName'] as String,
+      consumerStatus: (json['ConsumerStatus'] as String).toConsumerStatus(),
+      streamARN: json['StreamARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumerARN = this.consumerARN;
+    final consumerCreationTimestamp = this.consumerCreationTimestamp;
+    final consumerName = this.consumerName;
+    final consumerStatus = this.consumerStatus;
+    final streamARN = this.streamARN;
+    return {
+      'ConsumerARN': consumerARN,
+      'ConsumerCreationTimestamp':
+          unixTimestampToJson(consumerCreationTimestamp),
+      'ConsumerName': consumerName,
+      'ConsumerStatus': consumerStatus.toValue(),
+      'StreamARN': streamARN,
+    };
+  }
 }
 
 enum ConsumerStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('ACTIVE')
   active,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConsumerStatus {
+  String toValue() {
+    switch (this) {
+      case ConsumerStatus.creating:
+        return 'CREATING';
+      case ConsumerStatus.deleting:
+        return 'DELETING';
+      case ConsumerStatus.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension on String {
+  ConsumerStatus toConsumerStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ConsumerStatus.creating;
+      case 'DELETING':
+        return ConsumerStatus.deleting;
+      case 'ACTIVE':
+        return ConsumerStatus.active;
+    }
+    throw Exception('$this is not known in enum ConsumerStatus');
+  }
+}
+
 class DescribeLimitsOutput {
   /// The number of open shards.
-  @_s.JsonKey(name: 'OpenShardCount')
   final int openShardCount;
 
   /// The maximum number of shards.
-  @_s.JsonKey(name: 'ShardLimit')
   final int shardLimit;
 
   DescribeLimitsOutput({
-    @_s.required this.openShardCount,
-    @_s.required this.shardLimit,
+    required this.openShardCount,
+    required this.shardLimit,
   });
-  factory DescribeLimitsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLimitsOutputFromJson(json);
+
+  factory DescribeLimitsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeLimitsOutput(
+      openShardCount: json['OpenShardCount'] as int,
+      shardLimit: json['ShardLimit'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openShardCount = this.openShardCount;
+    final shardLimit = this.shardLimit;
+    return {
+      'OpenShardCount': openShardCount,
+      'ShardLimit': shardLimit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStreamConsumerOutput {
   /// An object that represents the details of the consumer.
-  @_s.JsonKey(name: 'ConsumerDescription')
   final ConsumerDescription consumerDescription;
 
   DescribeStreamConsumerOutput({
-    @_s.required this.consumerDescription,
+    required this.consumerDescription,
   });
-  factory DescribeStreamConsumerOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStreamConsumerOutputFromJson(json);
+
+  factory DescribeStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamConsumerOutput(
+      consumerDescription: ConsumerDescription.fromJson(
+          json['ConsumerDescription'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumerDescription = this.consumerDescription;
+    return {
+      'ConsumerDescription': consumerDescription,
+    };
+  }
 }
 
 /// Represents the output for <code>DescribeStream</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStreamOutput {
   /// The current status of the stream, the stream Amazon Resource Name (ARN), an
   /// array of shard objects that comprise the stream, and whether there are more
   /// shards available.
-  @_s.JsonKey(name: 'StreamDescription')
   final StreamDescription streamDescription;
 
   DescribeStreamOutput({
-    @_s.required this.streamDescription,
+    required this.streamDescription,
   });
-  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStreamOutputFromJson(json);
+
+  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamOutput(
+      streamDescription: StreamDescription.fromJson(
+          json['StreamDescription'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamDescription = this.streamDescription;
+    return {
+      'StreamDescription': streamDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStreamSummaryOutput {
   /// A <a>StreamDescriptionSummary</a> containing information about the stream.
-  @_s.JsonKey(name: 'StreamDescriptionSummary')
   final StreamDescriptionSummary streamDescriptionSummary;
 
   DescribeStreamSummaryOutput({
-    @_s.required this.streamDescriptionSummary,
+    required this.streamDescriptionSummary,
   });
-  factory DescribeStreamSummaryOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStreamSummaryOutputFromJson(json);
+
+  factory DescribeStreamSummaryOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamSummaryOutput(
+      streamDescriptionSummary: StreamDescriptionSummary.fromJson(
+          json['StreamDescriptionSummary'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamDescriptionSummary = this.streamDescriptionSummary;
+    return {
+      'StreamDescriptionSummary': streamDescriptionSummary,
+    };
+  }
 }
 
 enum EncryptionType {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('KMS')
   kms,
 }
 
@@ -2854,16 +2704,22 @@ extension on EncryptionType {
       case EncryptionType.kms:
         return 'KMS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EncryptionType toEncryptionType() {
+    switch (this) {
+      case 'NONE':
+        return EncryptionType.none;
+      case 'KMS':
+        return EncryptionType.kms;
+    }
+    throw Exception('$this is not known in enum EncryptionType');
   }
 }
 
 /// Represents enhanced metrics types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnhancedMetrics {
   /// List of shard-level metrics.
   ///
@@ -2900,132 +2756,189 @@ class EnhancedMetrics {
   /// href="https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
   /// the Amazon Kinesis Data Streams Service with Amazon CloudWatch</a> in the
   /// <i>Amazon Kinesis Data Streams Developer Guide</i>.
-  @_s.JsonKey(name: 'ShardLevelMetrics')
-  final List<MetricsName> shardLevelMetrics;
+  final List<MetricsName>? shardLevelMetrics;
 
   EnhancedMetrics({
     this.shardLevelMetrics,
   });
-  factory EnhancedMetrics.fromJson(Map<String, dynamic> json) =>
-      _$EnhancedMetricsFromJson(json);
+
+  factory EnhancedMetrics.fromJson(Map<String, dynamic> json) {
+    return EnhancedMetrics(
+      shardLevelMetrics: (json['ShardLevelMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMetricsName())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shardLevelMetrics = this.shardLevelMetrics;
+    return {
+      if (shardLevelMetrics != null)
+        'ShardLevelMetrics': shardLevelMetrics.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Represents the output for <a>EnableEnhancedMonitoring</a> and
 /// <a>DisableEnhancedMonitoring</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnhancedMonitoringOutput {
   /// Represents the current state of the metrics that are in the enhanced state
   /// before the operation.
-  @_s.JsonKey(name: 'CurrentShardLevelMetrics')
-  final List<MetricsName> currentShardLevelMetrics;
+  final List<MetricsName>? currentShardLevelMetrics;
 
   /// Represents the list of all the metrics that would be in the enhanced state
   /// after the operation.
-  @_s.JsonKey(name: 'DesiredShardLevelMetrics')
-  final List<MetricsName> desiredShardLevelMetrics;
+  final List<MetricsName>? desiredShardLevelMetrics;
 
   /// The name of the Kinesis data stream.
-  @_s.JsonKey(name: 'StreamName')
-  final String streamName;
+  final String? streamName;
 
   EnhancedMonitoringOutput({
     this.currentShardLevelMetrics,
     this.desiredShardLevelMetrics,
     this.streamName,
   });
-  factory EnhancedMonitoringOutput.fromJson(Map<String, dynamic> json) =>
-      _$EnhancedMonitoringOutputFromJson(json);
+
+  factory EnhancedMonitoringOutput.fromJson(Map<String, dynamic> json) {
+    return EnhancedMonitoringOutput(
+      currentShardLevelMetrics: (json['CurrentShardLevelMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMetricsName())
+          .toList(),
+      desiredShardLevelMetrics: (json['DesiredShardLevelMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMetricsName())
+          .toList(),
+      streamName: json['StreamName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentShardLevelMetrics = this.currentShardLevelMetrics;
+    final desiredShardLevelMetrics = this.desiredShardLevelMetrics;
+    final streamName = this.streamName;
+    return {
+      if (currentShardLevelMetrics != null)
+        'CurrentShardLevelMetrics':
+            currentShardLevelMetrics.map((e) => e.toValue()).toList(),
+      if (desiredShardLevelMetrics != null)
+        'DesiredShardLevelMetrics':
+            desiredShardLevelMetrics.map((e) => e.toValue()).toList(),
+      if (streamName != null) 'StreamName': streamName,
+    };
+  }
 }
 
 /// Represents the output for <a>GetRecords</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRecordsOutput {
   /// The data records retrieved from the shard.
-  @_s.JsonKey(name: 'Records')
   final List<Record> records;
-  @_s.JsonKey(name: 'ChildShards')
-  final List<ChildShard> childShards;
+  final List<ChildShard>? childShards;
 
   /// The number of milliseconds the <a>GetRecords</a> response is from the tip of
   /// the stream, indicating how far behind current time the consumer is. A value
   /// of zero indicates that record processing is caught up, and there are no new
   /// records to process at this moment.
-  @_s.JsonKey(name: 'MillisBehindLatest')
-  final int millisBehindLatest;
+  final int? millisBehindLatest;
 
   /// The next position in the shard from which to start sequentially reading data
   /// records. If set to <code>null</code>, the shard has been closed and the
   /// requested iterator does not return any more data.
-  @_s.JsonKey(name: 'NextShardIterator')
-  final String nextShardIterator;
+  final String? nextShardIterator;
 
   GetRecordsOutput({
-    @_s.required this.records,
+    required this.records,
     this.childShards,
     this.millisBehindLatest,
     this.nextShardIterator,
   });
-  factory GetRecordsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetRecordsOutputFromJson(json);
+
+  factory GetRecordsOutput.fromJson(Map<String, dynamic> json) {
+    return GetRecordsOutput(
+      records: (json['Records'] as List)
+          .whereNotNull()
+          .map((e) => Record.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      childShards: (json['ChildShards'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChildShard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      millisBehindLatest: json['MillisBehindLatest'] as int?,
+      nextShardIterator: json['NextShardIterator'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final records = this.records;
+    final childShards = this.childShards;
+    final millisBehindLatest = this.millisBehindLatest;
+    final nextShardIterator = this.nextShardIterator;
+    return {
+      'Records': records,
+      if (childShards != null) 'ChildShards': childShards,
+      if (millisBehindLatest != null) 'MillisBehindLatest': millisBehindLatest,
+      if (nextShardIterator != null) 'NextShardIterator': nextShardIterator,
+    };
+  }
 }
 
 /// Represents the output for <code>GetShardIterator</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetShardIteratorOutput {
   /// The position in the shard from which to start reading data records
   /// sequentially. A shard iterator specifies this position using the sequence
   /// number of a data record in a shard.
-  @_s.JsonKey(name: 'ShardIterator')
-  final String shardIterator;
+  final String? shardIterator;
 
   GetShardIteratorOutput({
     this.shardIterator,
   });
-  factory GetShardIteratorOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetShardIteratorOutputFromJson(json);
+
+  factory GetShardIteratorOutput.fromJson(Map<String, dynamic> json) {
+    return GetShardIteratorOutput(
+      shardIterator: json['ShardIterator'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shardIterator = this.shardIterator;
+    return {
+      if (shardIterator != null) 'ShardIterator': shardIterator,
+    };
+  }
 }
 
 /// The range of possible hash key values for the shard, which is a set of
 /// ordered contiguous positive integers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HashKeyRange {
   /// The ending hash key of the hash key range.
-  @_s.JsonKey(name: 'EndingHashKey')
   final String endingHashKey;
 
   /// The starting hash key of the hash key range.
-  @_s.JsonKey(name: 'StartingHashKey')
   final String startingHashKey;
 
   HashKeyRange({
-    @_s.required this.endingHashKey,
-    @_s.required this.startingHashKey,
+    required this.endingHashKey,
+    required this.startingHashKey,
   });
-  factory HashKeyRange.fromJson(Map<String, dynamic> json) =>
-      _$HashKeyRangeFromJson(json);
+
+  factory HashKeyRange.fromJson(Map<String, dynamic> json) {
+    return HashKeyRange(
+      endingHashKey: json['EndingHashKey'] as String,
+      startingHashKey: json['StartingHashKey'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endingHashKey = this.endingHashKey;
+    final startingHashKey = this.startingHashKey;
+    return {
+      'EndingHashKey': endingHashKey,
+      'StartingHashKey': startingHashKey,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListShardsOutput {
   /// When the number of shards in the data stream is greater than the default
   /// value for the <code>MaxResults</code> parameter, or if you explicitly
@@ -3042,33 +2955,42 @@ class ListShardsOutput {
   /// call to <code>ListShards</code>, you get
   /// <code>ExpiredNextTokenException</code>.
   /// </important>
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of JSON objects. Each object represents one shard and specifies the
   /// IDs of the shard, the shard's parent, and the shard that's adjacent to the
   /// shard's parent. Each object also contains the starting and ending hash keys
   /// and the starting and ending sequence numbers for the shard.
-  @_s.JsonKey(name: 'Shards')
-  final List<Shard> shards;
+  final List<Shard>? shards;
 
   ListShardsOutput({
     this.nextToken,
     this.shards,
   });
-  factory ListShardsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListShardsOutputFromJson(json);
+
+  factory ListShardsOutput.fromJson(Map<String, dynamic> json) {
+    return ListShardsOutput(
+      nextToken: json['NextToken'] as String?,
+      shards: (json['Shards'] as List?)
+          ?.whereNotNull()
+          .map((e) => Shard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final shards = this.shards;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (shards != null) 'Shards': shards,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStreamConsumersOutput {
   /// An array of JSON objects. Each object represents one registered consumer.
-  @_s.JsonKey(name: 'Consumers')
-  final List<Consumer> consumers;
+  final List<Consumer>? consumers;
 
   /// When the number of consumers that are registered with the data stream is
   /// greater than the default value for the <code>MaxResults</code> parameter, or
@@ -3087,84 +3009,112 @@ class ListStreamConsumersOutput {
   /// you specify an expired token in a call to <code>ListStreamConsumers</code>,
   /// you get <code>ExpiredNextTokenException</code>.
   /// </important>
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListStreamConsumersOutput({
     this.consumers,
     this.nextToken,
   });
-  factory ListStreamConsumersOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListStreamConsumersOutputFromJson(json);
+
+  factory ListStreamConsumersOutput.fromJson(Map<String, dynamic> json) {
+    return ListStreamConsumersOutput(
+      consumers: (json['Consumers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Consumer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumers = this.consumers;
+    final nextToken = this.nextToken;
+    return {
+      if (consumers != null) 'Consumers': consumers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output for <code>ListStreams</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStreamsOutput {
   /// If set to <code>true</code>, there are more streams available to list.
-  @_s.JsonKey(name: 'HasMoreStreams')
   final bool hasMoreStreams;
 
   /// The names of the streams that are associated with the AWS account making the
   /// <code>ListStreams</code> request.
-  @_s.JsonKey(name: 'StreamNames')
   final List<String> streamNames;
 
   ListStreamsOutput({
-    @_s.required this.hasMoreStreams,
-    @_s.required this.streamNames,
+    required this.hasMoreStreams,
+    required this.streamNames,
   });
-  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListStreamsOutputFromJson(json);
+
+  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStreamsOutput(
+      hasMoreStreams: json['HasMoreStreams'] as bool,
+      streamNames: (json['StreamNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hasMoreStreams = this.hasMoreStreams;
+    final streamNames = this.streamNames;
+    return {
+      'HasMoreStreams': hasMoreStreams,
+      'StreamNames': streamNames,
+    };
+  }
 }
 
 /// Represents the output for <code>ListTagsForStream</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForStreamOutput {
   /// If set to <code>true</code>, more tags are available. To request additional
   /// tags, set <code>ExclusiveStartTagKey</code> to the key of the last tag
   /// returned.
-  @_s.JsonKey(name: 'HasMoreTags')
   final bool hasMoreTags;
 
   /// A list of tags associated with <code>StreamName</code>, starting with the
   /// first tag after <code>ExclusiveStartTagKey</code> and up to the specified
   /// <code>Limit</code>.
-  @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
   ListTagsForStreamOutput({
-    @_s.required this.hasMoreTags,
-    @_s.required this.tags,
+    required this.hasMoreTags,
+    required this.tags,
   });
-  factory ListTagsForStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForStreamOutputFromJson(json);
+
+  factory ListTagsForStreamOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForStreamOutput(
+      hasMoreTags: json['HasMoreTags'] as bool,
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hasMoreTags = this.hasMoreTags;
+    final tags = this.tags;
+    return {
+      'HasMoreTags': hasMoreTags,
+      'Tags': tags,
+    };
+  }
 }
 
 enum MetricsName {
-  @_s.JsonValue('IncomingBytes')
   incomingBytes,
-  @_s.JsonValue('IncomingRecords')
   incomingRecords,
-  @_s.JsonValue('OutgoingBytes')
   outgoingBytes,
-  @_s.JsonValue('OutgoingRecords')
   outgoingRecords,
-  @_s.JsonValue('WriteProvisionedThroughputExceeded')
   writeProvisionedThroughputExceeded,
-  @_s.JsonValue('ReadProvisionedThroughputExceeded')
   readProvisionedThroughputExceeded,
-  @_s.JsonValue('IteratorAgeMilliseconds')
   iteratorAgeMilliseconds,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -3188,26 +3138,42 @@ extension on MetricsName {
       case MetricsName.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MetricsName toMetricsName() {
+    switch (this) {
+      case 'IncomingBytes':
+        return MetricsName.incomingBytes;
+      case 'IncomingRecords':
+        return MetricsName.incomingRecords;
+      case 'OutgoingBytes':
+        return MetricsName.outgoingBytes;
+      case 'OutgoingRecords':
+        return MetricsName.outgoingRecords;
+      case 'WriteProvisionedThroughputExceeded':
+        return MetricsName.writeProvisionedThroughputExceeded;
+      case 'ReadProvisionedThroughputExceeded':
+        return MetricsName.readProvisionedThroughputExceeded;
+      case 'IteratorAgeMilliseconds':
+        return MetricsName.iteratorAgeMilliseconds;
+      case 'ALL':
+        return MetricsName.all;
+    }
+    throw Exception('$this is not known in enum MetricsName');
   }
 }
 
 /// Represents the output for <code>PutRecord</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRecordOutput {
   /// The sequence number identifier that was assigned to the put data record. The
   /// sequence number for the record is unique across all records in the stream. A
   /// sequence number is the identifier associated with every record put into the
   /// stream.
-  @_s.JsonKey(name: 'SequenceNumber')
   final String sequenceNumber;
 
   /// The shard ID of the shard where the data record was placed.
-  @_s.JsonKey(name: 'ShardId')
   final String shardId;
 
   /// The encryption type to use on the record. This parameter can be one of the
@@ -3222,24 +3188,35 @@ class PutRecordOutput {
   /// using a customer-managed AWS KMS key.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EncryptionType')
-  final EncryptionType encryptionType;
+  final EncryptionType? encryptionType;
 
   PutRecordOutput({
-    @_s.required this.sequenceNumber,
-    @_s.required this.shardId,
+    required this.sequenceNumber,
+    required this.shardId,
     this.encryptionType,
   });
-  factory PutRecordOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutRecordOutputFromJson(json);
+
+  factory PutRecordOutput.fromJson(Map<String, dynamic> json) {
+    return PutRecordOutput(
+      sequenceNumber: json['SequenceNumber'] as String,
+      shardId: json['ShardId'] as String,
+      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sequenceNumber = this.sequenceNumber;
+    final shardId = this.shardId;
+    final encryptionType = this.encryptionType;
+    return {
+      'SequenceNumber': sequenceNumber,
+      'ShardId': shardId,
+      if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
+    };
+  }
 }
 
 /// <code>PutRecords</code> results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRecordsOutput {
   /// An array of successfully and unsuccessfully processed record results,
   /// correlated with the request by natural ordering. A record that is
@@ -3247,7 +3224,6 @@ class PutRecordsOutput {
   /// <code>ShardId</code> in the result. A record that fails to be added to a
   /// stream includes <code>ErrorCode</code> and <code>ErrorMessage</code> in the
   /// result.
-  @_s.JsonKey(name: 'Records')
   final List<PutRecordsResultEntry> records;
 
   /// The encryption type used on the records. This parameter can be one of the
@@ -3262,36 +3238,47 @@ class PutRecordsOutput {
   /// customer-managed AWS KMS key.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EncryptionType')
-  final EncryptionType encryptionType;
+  final EncryptionType? encryptionType;
 
   /// The number of unsuccessfully processed records in a <code>PutRecords</code>
   /// request.
-  @_s.JsonKey(name: 'FailedRecordCount')
-  final int failedRecordCount;
+  final int? failedRecordCount;
 
   PutRecordsOutput({
-    @_s.required this.records,
+    required this.records,
     this.encryptionType,
     this.failedRecordCount,
   });
-  factory PutRecordsOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutRecordsOutputFromJson(json);
+
+  factory PutRecordsOutput.fromJson(Map<String, dynamic> json) {
+    return PutRecordsOutput(
+      records: (json['Records'] as List)
+          .whereNotNull()
+          .map((e) => PutRecordsResultEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      failedRecordCount: json['FailedRecordCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final records = this.records;
+    final encryptionType = this.encryptionType;
+    final failedRecordCount = this.failedRecordCount;
+    return {
+      'Records': records,
+      if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
+      if (failedRecordCount != null) 'FailedRecordCount': failedRecordCount,
+    };
+  }
 }
 
 /// Represents the output for <code>PutRecords</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PutRecordsRequestEntry {
   /// The data blob to put into the record, which is base64-encoded when the blob
   /// is serialized. When the data blob (the payload before base64-encoding) is
   /// added to the partition key size, the total size must not exceed the maximum
   /// record size (1 MiB).
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Data')
   final Uint8List data;
 
   /// Determines which shard in the stream the data record is assigned to.
@@ -3302,20 +3289,36 @@ class PutRecordsRequestEntry {
   /// partition keys to 128-bit integer values and to map associated data records
   /// to shards. As a result of this hashing mechanism, all data records with the
   /// same partition key map to the same shard within the stream.
-  @_s.JsonKey(name: 'PartitionKey')
   final String partitionKey;
 
   /// The hash value used to determine explicitly the shard that the data record
   /// is assigned to by overriding the partition key hash.
-  @_s.JsonKey(name: 'ExplicitHashKey')
-  final String explicitHashKey;
+  final String? explicitHashKey;
 
   PutRecordsRequestEntry({
-    @_s.required this.data,
-    @_s.required this.partitionKey,
+    required this.data,
+    required this.partitionKey,
     this.explicitHashKey,
   });
-  Map<String, dynamic> toJson() => _$PutRecordsRequestEntryToJson(this);
+
+  factory PutRecordsRequestEntry.fromJson(Map<String, dynamic> json) {
+    return PutRecordsRequestEntry(
+      data: _s.decodeUint8List(json['Data']! as String),
+      partitionKey: json['PartitionKey'] as String,
+      explicitHashKey: json['ExplicitHashKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final partitionKey = this.partitionKey;
+    final explicitHashKey = this.explicitHashKey;
+    return {
+      'Data': base64Encode(data),
+      'PartitionKey': partitionKey,
+      if (explicitHashKey != null) 'ExplicitHashKey': explicitHashKey,
+    };
+  }
 }
 
 /// Represents the result of an individual record from a <code>PutRecords</code>
@@ -3323,33 +3326,24 @@ class PutRecordsRequestEntry {
 /// <code>SequenceNumber</code> and <code>ShardId</code> in the result. A record
 /// that fails to be added to the stream includes <code>ErrorCode</code> and
 /// <code>ErrorMessage</code> in the result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRecordsResultEntry {
   /// The error code for an individual record result. <code>ErrorCodes</code> can
   /// be either <code>ProvisionedThroughputExceededException</code> or
   /// <code>InternalFailure</code>.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message for an individual record result. An <code>ErrorCode</code>
   /// value of <code>ProvisionedThroughputExceededException</code> has an error
   /// message that includes the account ID, stream name, and shard ID. An
   /// <code>ErrorCode</code> value of <code>InternalFailure</code> has the error
   /// message <code>"Internal Service Failure"</code>.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The sequence number for an individual record result.
-  @_s.JsonKey(name: 'SequenceNumber')
-  final String sequenceNumber;
+  final String? sequenceNumber;
 
   /// The shard ID for an individual record result.
-  @_s.JsonKey(name: 'ShardId')
-  final String shardId;
+  final String? shardId;
 
   PutRecordsResultEntry({
     this.errorCode,
@@ -3357,39 +3351,48 @@ class PutRecordsResultEntry {
     this.sequenceNumber,
     this.shardId,
   });
-  factory PutRecordsResultEntry.fromJson(Map<String, dynamic> json) =>
-      _$PutRecordsResultEntryFromJson(json);
+
+  factory PutRecordsResultEntry.fromJson(Map<String, dynamic> json) {
+    return PutRecordsResultEntry(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      sequenceNumber: json['SequenceNumber'] as String?,
+      shardId: json['ShardId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final sequenceNumber = this.sequenceNumber;
+    final shardId = this.shardId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
+      if (shardId != null) 'ShardId': shardId,
+    };
+  }
 }
 
 /// The unit of data of the Kinesis data stream, which is composed of a sequence
 /// number, a partition key, and a data blob.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Record {
   /// The data blob. The data in the blob is both opaque and immutable to Kinesis
   /// Data Streams, which does not inspect, interpret, or change the data in the
   /// blob in any way. When the data blob (the payload before base64-encoding) is
   /// added to the partition key size, the total size must not exceed the maximum
   /// record size (1 MiB).
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Data')
   final Uint8List data;
 
   /// Identifies which shard in the stream the data record is assigned to.
-  @_s.JsonKey(name: 'PartitionKey')
   final String partitionKey;
 
   /// The unique identifier of the record within its shard.
-  @_s.JsonKey(name: 'SequenceNumber')
   final String sequenceNumber;
 
   /// The approximate time that the record was inserted into the stream.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ApproximateArrivalTimestamp')
-  final DateTime approximateArrivalTimestamp;
+  final DateTime? approximateArrivalTimestamp;
 
   /// The encryption type used on the record. This parameter can be one of the
   /// following values:
@@ -3403,40 +3406,70 @@ class Record {
   /// using a customer-managed AWS KMS key.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EncryptionType')
-  final EncryptionType encryptionType;
+  final EncryptionType? encryptionType;
 
   Record({
-    @_s.required this.data,
-    @_s.required this.partitionKey,
-    @_s.required this.sequenceNumber,
+    required this.data,
+    required this.partitionKey,
+    required this.sequenceNumber,
     this.approximateArrivalTimestamp,
     this.encryptionType,
   });
-  factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
+
+  factory Record.fromJson(Map<String, dynamic> json) {
+    return Record(
+      data: _s.decodeUint8List(json['Data']! as String),
+      partitionKey: json['PartitionKey'] as String,
+      sequenceNumber: json['SequenceNumber'] as String,
+      approximateArrivalTimestamp:
+          timeStampFromJson(json['ApproximateArrivalTimestamp']),
+      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final partitionKey = this.partitionKey;
+    final sequenceNumber = this.sequenceNumber;
+    final approximateArrivalTimestamp = this.approximateArrivalTimestamp;
+    final encryptionType = this.encryptionType;
+    return {
+      'Data': base64Encode(data),
+      'PartitionKey': partitionKey,
+      'SequenceNumber': sequenceNumber,
+      if (approximateArrivalTimestamp != null)
+        'ApproximateArrivalTimestamp':
+            unixTimestampToJson(approximateArrivalTimestamp),
+      if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterStreamConsumerOutput {
   /// An object that represents the details of the consumer you registered. When
   /// you register a consumer, it gets an ARN that is generated by Kinesis Data
   /// Streams.
-  @_s.JsonKey(name: 'Consumer')
   final Consumer consumer;
 
   RegisterStreamConsumerOutput({
-    @_s.required this.consumer,
+    required this.consumer,
   });
-  factory RegisterStreamConsumerOutput.fromJson(Map<String, dynamic> json) =>
-      _$RegisterStreamConsumerOutputFromJson(json);
+
+  factory RegisterStreamConsumerOutput.fromJson(Map<String, dynamic> json) {
+    return RegisterStreamConsumerOutput(
+      consumer: Consumer.fromJson(json['Consumer'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumer = this.consumer;
+    return {
+      'Consumer': consumer,
+    };
+  }
 }
 
 enum ScalingType {
-  @_s.JsonValue('UNIFORM_SCALING')
   uniformScaling,
 }
 
@@ -3446,119 +3479,190 @@ extension on ScalingType {
       case ScalingType.uniformScaling:
         return 'UNIFORM_SCALING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ScalingType toScalingType() {
+    switch (this) {
+      case 'UNIFORM_SCALING':
+        return ScalingType.uniformScaling;
+    }
+    throw Exception('$this is not known in enum ScalingType');
   }
 }
 
 /// The range of possible sequence numbers for the shard.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SequenceNumberRange {
   /// The starting sequence number for the range.
-  @_s.JsonKey(name: 'StartingSequenceNumber')
   final String startingSequenceNumber;
 
   /// The ending sequence number for the range. Shards that are in the OPEN state
   /// have an ending sequence number of <code>null</code>.
-  @_s.JsonKey(name: 'EndingSequenceNumber')
-  final String endingSequenceNumber;
+  final String? endingSequenceNumber;
 
   SequenceNumberRange({
-    @_s.required this.startingSequenceNumber,
+    required this.startingSequenceNumber,
     this.endingSequenceNumber,
   });
-  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) =>
-      _$SequenceNumberRangeFromJson(json);
+
+  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
+    return SequenceNumberRange(
+      startingSequenceNumber: json['StartingSequenceNumber'] as String,
+      endingSequenceNumber: json['EndingSequenceNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startingSequenceNumber = this.startingSequenceNumber;
+    final endingSequenceNumber = this.endingSequenceNumber;
+    return {
+      'StartingSequenceNumber': startingSequenceNumber,
+      if (endingSequenceNumber != null)
+        'EndingSequenceNumber': endingSequenceNumber,
+    };
+  }
 }
 
 /// A uniquely identified group of data records in a Kinesis data stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Shard {
   /// The range of possible hash key values for the shard, which is a set of
   /// ordered contiguous positive integers.
-  @_s.JsonKey(name: 'HashKeyRange')
   final HashKeyRange hashKeyRange;
 
   /// The range of possible sequence numbers for the shard.
-  @_s.JsonKey(name: 'SequenceNumberRange')
   final SequenceNumberRange sequenceNumberRange;
 
   /// The unique identifier of the shard within the stream.
-  @_s.JsonKey(name: 'ShardId')
   final String shardId;
 
   /// The shard ID of the shard adjacent to the shard's parent.
-  @_s.JsonKey(name: 'AdjacentParentShardId')
-  final String adjacentParentShardId;
+  final String? adjacentParentShardId;
 
   /// The shard ID of the shard's parent.
-  @_s.JsonKey(name: 'ParentShardId')
-  final String parentShardId;
+  final String? parentShardId;
 
   Shard({
-    @_s.required this.hashKeyRange,
-    @_s.required this.sequenceNumberRange,
-    @_s.required this.shardId,
+    required this.hashKeyRange,
+    required this.sequenceNumberRange,
+    required this.shardId,
     this.adjacentParentShardId,
     this.parentShardId,
   });
-  factory Shard.fromJson(Map<String, dynamic> json) => _$ShardFromJson(json);
+
+  factory Shard.fromJson(Map<String, dynamic> json) {
+    return Shard(
+      hashKeyRange:
+          HashKeyRange.fromJson(json['HashKeyRange'] as Map<String, dynamic>),
+      sequenceNumberRange: SequenceNumberRange.fromJson(
+          json['SequenceNumberRange'] as Map<String, dynamic>),
+      shardId: json['ShardId'] as String,
+      adjacentParentShardId: json['AdjacentParentShardId'] as String?,
+      parentShardId: json['ParentShardId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hashKeyRange = this.hashKeyRange;
+    final sequenceNumberRange = this.sequenceNumberRange;
+    final shardId = this.shardId;
+    final adjacentParentShardId = this.adjacentParentShardId;
+    final parentShardId = this.parentShardId;
+    return {
+      'HashKeyRange': hashKeyRange,
+      'SequenceNumberRange': sequenceNumberRange,
+      'ShardId': shardId,
+      if (adjacentParentShardId != null)
+        'AdjacentParentShardId': adjacentParentShardId,
+      if (parentShardId != null) 'ParentShardId': parentShardId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ShardFilter {
-  @_s.JsonKey(name: 'Type')
   final ShardFilterType type;
-  @_s.JsonKey(name: 'ShardId')
-  final String shardId;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final String? shardId;
+  final DateTime? timestamp;
 
   ShardFilter({
-    @_s.required this.type,
+    required this.type,
     this.shardId,
     this.timestamp,
   });
-  Map<String, dynamic> toJson() => _$ShardFilterToJson(this);
+
+  factory ShardFilter.fromJson(Map<String, dynamic> json) {
+    return ShardFilter(
+      type: (json['Type'] as String).toShardFilterType(),
+      shardId: json['ShardId'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final shardId = this.shardId;
+    final timestamp = this.timestamp;
+    return {
+      'Type': type.toValue(),
+      if (shardId != null) 'ShardId': shardId,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
+  }
 }
 
 enum ShardFilterType {
-  @_s.JsonValue('AFTER_SHARD_ID')
   afterShardId,
-  @_s.JsonValue('AT_TRIM_HORIZON')
   atTrimHorizon,
-  @_s.JsonValue('FROM_TRIM_HORIZON')
   fromTrimHorizon,
-  @_s.JsonValue('AT_LATEST')
   atLatest,
-  @_s.JsonValue('AT_TIMESTAMP')
   atTimestamp,
-  @_s.JsonValue('FROM_TIMESTAMP')
   fromTimestamp,
 }
 
+extension on ShardFilterType {
+  String toValue() {
+    switch (this) {
+      case ShardFilterType.afterShardId:
+        return 'AFTER_SHARD_ID';
+      case ShardFilterType.atTrimHorizon:
+        return 'AT_TRIM_HORIZON';
+      case ShardFilterType.fromTrimHorizon:
+        return 'FROM_TRIM_HORIZON';
+      case ShardFilterType.atLatest:
+        return 'AT_LATEST';
+      case ShardFilterType.atTimestamp:
+        return 'AT_TIMESTAMP';
+      case ShardFilterType.fromTimestamp:
+        return 'FROM_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  ShardFilterType toShardFilterType() {
+    switch (this) {
+      case 'AFTER_SHARD_ID':
+        return ShardFilterType.afterShardId;
+      case 'AT_TRIM_HORIZON':
+        return ShardFilterType.atTrimHorizon;
+      case 'FROM_TRIM_HORIZON':
+        return ShardFilterType.fromTrimHorizon;
+      case 'AT_LATEST':
+        return ShardFilterType.atLatest;
+      case 'AT_TIMESTAMP':
+        return ShardFilterType.atTimestamp;
+      case 'FROM_TIMESTAMP':
+        return ShardFilterType.fromTimestamp;
+    }
+    throw Exception('$this is not known in enum ShardFilterType');
+  }
+}
+
 enum ShardIteratorType {
-  @_s.JsonValue('AT_SEQUENCE_NUMBER')
   atSequenceNumber,
-  @_s.JsonValue('AFTER_SEQUENCE_NUMBER')
   afterSequenceNumber,
-  @_s.JsonValue('TRIM_HORIZON')
   trimHorizon,
-  @_s.JsonValue('LATEST')
   latest,
-  @_s.JsonValue('AT_TIMESTAMP')
   atTimestamp,
 }
 
@@ -3576,46 +3680,50 @@ extension on ShardIteratorType {
       case ShardIteratorType.atTimestamp:
         return 'AT_TIMESTAMP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ShardIteratorType toShardIteratorType() {
+    switch (this) {
+      case 'AT_SEQUENCE_NUMBER':
+        return ShardIteratorType.atSequenceNumber;
+      case 'AFTER_SEQUENCE_NUMBER':
+        return ShardIteratorType.afterSequenceNumber;
+      case 'TRIM_HORIZON':
+        return ShardIteratorType.trimHorizon;
+      case 'LATEST':
+        return ShardIteratorType.latest;
+      case 'AT_TIMESTAMP':
+        return ShardIteratorType.atTimestamp;
+    }
+    throw Exception('$this is not known in enum ShardIteratorType');
   }
 }
 
 /// Represents the output for <a>DescribeStream</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamDescription {
   /// Represents the current enhanced monitoring settings of the stream.
-  @_s.JsonKey(name: 'EnhancedMonitoring')
   final List<EnhancedMetrics> enhancedMonitoring;
 
   /// If set to <code>true</code>, more shards in the stream are available to
   /// describe.
-  @_s.JsonKey(name: 'HasMoreShards')
   final bool hasMoreShards;
 
   /// The current retention period, in hours. Minimum value of 24. Maximum value
   /// of 168.
-  @_s.JsonKey(name: 'RetentionPeriodHours')
   final int retentionPeriodHours;
 
   /// The shards that comprise the stream.
-  @_s.JsonKey(name: 'Shards')
   final List<Shard> shards;
 
   /// The Amazon Resource Name (ARN) for the stream being described.
-  @_s.JsonKey(name: 'StreamARN')
   final String streamARN;
 
   /// The approximate time that the stream was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StreamCreationTimestamp')
   final DateTime streamCreationTimestamp;
 
   /// The name of the stream being described.
-  @_s.JsonKey(name: 'StreamName')
   final String streamName;
 
   /// The current status of the stream being described. The stream status is one
@@ -3643,7 +3751,6 @@ class StreamDescription {
   /// <code>UPDATING</code> state.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamStatus')
   final StreamStatus streamStatus;
 
   /// The server-side encryption type used on the stream. This parameter can be
@@ -3658,8 +3765,7 @@ class StreamDescription {
   /// using a customer-managed AWS KMS key.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EncryptionType')
-  final EncryptionType encryptionType;
+  final EncryptionType? encryptionType;
 
   /// The GUID for the customer-managed AWS KMS key to use for encryption. This
   /// value can be a globally unique identifier, a fully specified ARN to either
@@ -3687,55 +3793,87 @@ class StreamDescription {
   /// Master key owned by Kinesis Data Streams: <code>alias/aws/kinesis</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   StreamDescription({
-    @_s.required this.enhancedMonitoring,
-    @_s.required this.hasMoreShards,
-    @_s.required this.retentionPeriodHours,
-    @_s.required this.shards,
-    @_s.required this.streamARN,
-    @_s.required this.streamCreationTimestamp,
-    @_s.required this.streamName,
-    @_s.required this.streamStatus,
+    required this.enhancedMonitoring,
+    required this.hasMoreShards,
+    required this.retentionPeriodHours,
+    required this.shards,
+    required this.streamARN,
+    required this.streamCreationTimestamp,
+    required this.streamName,
+    required this.streamStatus,
     this.encryptionType,
     this.keyId,
   });
-  factory StreamDescription.fromJson(Map<String, dynamic> json) =>
-      _$StreamDescriptionFromJson(json);
+
+  factory StreamDescription.fromJson(Map<String, dynamic> json) {
+    return StreamDescription(
+      enhancedMonitoring: (json['EnhancedMonitoring'] as List)
+          .whereNotNull()
+          .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hasMoreShards: json['HasMoreShards'] as bool,
+      retentionPeriodHours: json['RetentionPeriodHours'] as int,
+      shards: (json['Shards'] as List)
+          .whereNotNull()
+          .map((e) => Shard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      streamARN: json['StreamARN'] as String,
+      streamCreationTimestamp: nonNullableTimeStampFromJson(
+          json['StreamCreationTimestamp'] as Object),
+      streamName: json['StreamName'] as String,
+      streamStatus: (json['StreamStatus'] as String).toStreamStatus(),
+      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      keyId: json['KeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enhancedMonitoring = this.enhancedMonitoring;
+    final hasMoreShards = this.hasMoreShards;
+    final retentionPeriodHours = this.retentionPeriodHours;
+    final shards = this.shards;
+    final streamARN = this.streamARN;
+    final streamCreationTimestamp = this.streamCreationTimestamp;
+    final streamName = this.streamName;
+    final streamStatus = this.streamStatus;
+    final encryptionType = this.encryptionType;
+    final keyId = this.keyId;
+    return {
+      'EnhancedMonitoring': enhancedMonitoring,
+      'HasMoreShards': hasMoreShards,
+      'RetentionPeriodHours': retentionPeriodHours,
+      'Shards': shards,
+      'StreamARN': streamARN,
+      'StreamCreationTimestamp': unixTimestampToJson(streamCreationTimestamp),
+      'StreamName': streamName,
+      'StreamStatus': streamStatus.toValue(),
+      if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
+      if (keyId != null) 'KeyId': keyId,
+    };
+  }
 }
 
 /// Represents the output for <a>DescribeStreamSummary</a>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamDescriptionSummary {
   /// Represents the current enhanced monitoring settings of the stream.
-  @_s.JsonKey(name: 'EnhancedMonitoring')
   final List<EnhancedMetrics> enhancedMonitoring;
 
   /// The number of open shards in the stream.
-  @_s.JsonKey(name: 'OpenShardCount')
   final int openShardCount;
 
   /// The current retention period, in hours.
-  @_s.JsonKey(name: 'RetentionPeriodHours')
   final int retentionPeriodHours;
 
   /// The Amazon Resource Name (ARN) for the stream being described.
-  @_s.JsonKey(name: 'StreamARN')
   final String streamARN;
 
   /// The approximate time that the stream was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StreamCreationTimestamp')
   final DateTime streamCreationTimestamp;
 
   /// The name of the stream being described.
-  @_s.JsonKey(name: 'StreamName')
   final String streamName;
 
   /// The current status of the stream being described. The stream status is one
@@ -3763,12 +3901,10 @@ class StreamDescriptionSummary {
   /// <code>UPDATING</code> state.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamStatus')
   final StreamStatus streamStatus;
 
   /// The number of enhanced fan-out consumers registered with the stream.
-  @_s.JsonKey(name: 'ConsumerCount')
-  final int consumerCount;
+  final int? consumerCount;
 
   /// The encryption type used. This value is one of the following:
   ///
@@ -3780,8 +3916,7 @@ class StreamDescriptionSummary {
   /// <code>NONE</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'EncryptionType')
-  final EncryptionType encryptionType;
+  final EncryptionType? encryptionType;
 
   /// The GUID for the customer-managed AWS KMS key to use for encryption. This
   /// value can be a globally unique identifier, a fully specified ARN to either
@@ -3809,140 +3944,225 @@ class StreamDescriptionSummary {
   /// Master key owned by Kinesis Data Streams: <code>alias/aws/kinesis</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   StreamDescriptionSummary({
-    @_s.required this.enhancedMonitoring,
-    @_s.required this.openShardCount,
-    @_s.required this.retentionPeriodHours,
-    @_s.required this.streamARN,
-    @_s.required this.streamCreationTimestamp,
-    @_s.required this.streamName,
-    @_s.required this.streamStatus,
+    required this.enhancedMonitoring,
+    required this.openShardCount,
+    required this.retentionPeriodHours,
+    required this.streamARN,
+    required this.streamCreationTimestamp,
+    required this.streamName,
+    required this.streamStatus,
     this.consumerCount,
     this.encryptionType,
     this.keyId,
   });
-  factory StreamDescriptionSummary.fromJson(Map<String, dynamic> json) =>
-      _$StreamDescriptionSummaryFromJson(json);
+
+  factory StreamDescriptionSummary.fromJson(Map<String, dynamic> json) {
+    return StreamDescriptionSummary(
+      enhancedMonitoring: (json['EnhancedMonitoring'] as List)
+          .whereNotNull()
+          .map((e) => EnhancedMetrics.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      openShardCount: json['OpenShardCount'] as int,
+      retentionPeriodHours: json['RetentionPeriodHours'] as int,
+      streamARN: json['StreamARN'] as String,
+      streamCreationTimestamp: nonNullableTimeStampFromJson(
+          json['StreamCreationTimestamp'] as Object),
+      streamName: json['StreamName'] as String,
+      streamStatus: (json['StreamStatus'] as String).toStreamStatus(),
+      consumerCount: json['ConsumerCount'] as int?,
+      encryptionType: (json['EncryptionType'] as String?)?.toEncryptionType(),
+      keyId: json['KeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enhancedMonitoring = this.enhancedMonitoring;
+    final openShardCount = this.openShardCount;
+    final retentionPeriodHours = this.retentionPeriodHours;
+    final streamARN = this.streamARN;
+    final streamCreationTimestamp = this.streamCreationTimestamp;
+    final streamName = this.streamName;
+    final streamStatus = this.streamStatus;
+    final consumerCount = this.consumerCount;
+    final encryptionType = this.encryptionType;
+    final keyId = this.keyId;
+    return {
+      'EnhancedMonitoring': enhancedMonitoring,
+      'OpenShardCount': openShardCount,
+      'RetentionPeriodHours': retentionPeriodHours,
+      'StreamARN': streamARN,
+      'StreamCreationTimestamp': unixTimestampToJson(streamCreationTimestamp),
+      'StreamName': streamName,
+      'StreamStatus': streamStatus.toValue(),
+      if (consumerCount != null) 'ConsumerCount': consumerCount,
+      if (encryptionType != null) 'EncryptionType': encryptionType.toValue(),
+      if (keyId != null) 'KeyId': keyId,
+    };
+  }
 }
 
 enum StreamStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on StreamStatus {
+  String toValue() {
+    switch (this) {
+      case StreamStatus.creating:
+        return 'CREATING';
+      case StreamStatus.deleting:
+        return 'DELETING';
+      case StreamStatus.active:
+        return 'ACTIVE';
+      case StreamStatus.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  StreamStatus toStreamStatus() {
+    switch (this) {
+      case 'CREATING':
+        return StreamStatus.creating;
+      case 'DELETING':
+        return StreamStatus.deleting;
+      case 'ACTIVE':
+        return StreamStatus.active;
+      case 'UPDATING':
+        return StreamStatus.updating;
+    }
+    throw Exception('$this is not known in enum StreamStatus');
+  }
+}
+
 /// Metadata assigned to the stream, consisting of a key-value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Tag {
   /// A unique identifier for the tag. Maximum length: 128 characters. Valid
   /// characters: Unicode letters, digits, white space, _ . / = + - % @
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// An optional string, typically used to describe or define the tag. Maximum
   /// length: 256 characters. Valid characters: Unicode letters, digits, white
   /// space, _ . / = + - % @
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateShardCountOutput {
   /// The current number of shards.
-  @_s.JsonKey(name: 'CurrentShardCount')
-  final int currentShardCount;
+  final int? currentShardCount;
 
   /// The name of the stream.
-  @_s.JsonKey(name: 'StreamName')
-  final String streamName;
+  final String? streamName;
 
   /// The updated number of shards.
-  @_s.JsonKey(name: 'TargetShardCount')
-  final int targetShardCount;
+  final int? targetShardCount;
 
   UpdateShardCountOutput({
     this.currentShardCount,
     this.streamName,
     this.targetShardCount,
   });
-  factory UpdateShardCountOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateShardCountOutputFromJson(json);
+
+  factory UpdateShardCountOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateShardCountOutput(
+      currentShardCount: json['CurrentShardCount'] as int?,
+      streamName: json['StreamName'] as String?,
+      targetShardCount: json['TargetShardCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentShardCount = this.currentShardCount;
+    final streamName = this.streamName;
+    final targetShardCount = this.targetShardCount;
+    return {
+      if (currentShardCount != null) 'CurrentShardCount': currentShardCount,
+      if (streamName != null) 'StreamName': streamName,
+      if (targetShardCount != null) 'TargetShardCount': targetShardCount,
+    };
+  }
 }
 
 class ExpiredIteratorException extends _s.GenericAwsException {
-  ExpiredIteratorException({String type, String message})
+  ExpiredIteratorException({String? type, String? message})
       : super(type: type, code: 'ExpiredIteratorException', message: message);
 }
 
 class ExpiredNextTokenException extends _s.GenericAwsException {
-  ExpiredNextTokenException({String type, String message})
+  ExpiredNextTokenException({String? type, String? message})
       : super(type: type, code: 'ExpiredNextTokenException', message: message);
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class KMSAccessDeniedException extends _s.GenericAwsException {
-  KMSAccessDeniedException({String type, String message})
+  KMSAccessDeniedException({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedException', message: message);
 }
 
 class KMSDisabledException extends _s.GenericAwsException {
-  KMSDisabledException({String type, String message})
+  KMSDisabledException({String? type, String? message})
       : super(type: type, code: 'KMSDisabledException', message: message);
 }
 
 class KMSInvalidStateException extends _s.GenericAwsException {
-  KMSInvalidStateException({String type, String message})
+  KMSInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateException', message: message);
 }
 
 class KMSNotFoundException extends _s.GenericAwsException {
-  KMSNotFoundException({String type, String message})
+  KMSNotFoundException({String? type, String? message})
       : super(type: type, code: 'KMSNotFoundException', message: message);
 }
 
 class KMSOptInRequired extends _s.GenericAwsException {
-  KMSOptInRequired({String type, String message})
+  KMSOptInRequired({String? type, String? message})
       : super(type: type, code: 'KMSOptInRequired', message: message);
 }
 
 class KMSThrottlingException extends _s.GenericAwsException {
-  KMSThrottlingException({String type, String message})
+  KMSThrottlingException({String? type, String? message})
       : super(type: type, code: 'KMSThrottlingException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
-  ProvisionedThroughputExceededException({String type, String message})
+  ProvisionedThroughputExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedThroughputExceededException',
@@ -3950,12 +4170,12 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

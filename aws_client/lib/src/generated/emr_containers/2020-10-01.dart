@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-10-01.g.dart';
 
 /// Amazon EMR on EKS provides a deployment option for Amazon EMR that allows
 /// you to run open-source big data frameworks on Amazon Elastic Kubernetes
@@ -61,10 +54,10 @@ part '2020-10-01.g.dart';
 class EmrContainers {
   final _s.RestJsonProtocol _protocol;
   EmrContainers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -88,8 +81,8 @@ class EmrContainers {
   /// Parameter [virtualClusterId] :
   /// The ID of the virtual cluster for which the job run will be canceled.
   Future<CancelJobRunResponse> cancelJobRun({
-    @_s.required String id,
-    @_s.required String virtualClusterId,
+    required String id,
+    required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -99,24 +92,12 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[0-9a-z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
     _s.validateStringLength(
       'virtualClusterId',
       virtualClusterId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -140,9 +121,6 @@ class EmrContainers {
   /// Parameter [certificateArn] :
   /// The certificate ARN of the managed endpoint.
   ///
-  /// Parameter [clientToken] :
-  /// The client idempotency token for this create call.
-  ///
   /// Parameter [executionRoleArn] :
   /// The ARN of the execution role.
   ///
@@ -158,6 +136,9 @@ class EmrContainers {
   /// Parameter [virtualClusterId] :
   /// The ID of the virtual cluster for which a managed endpoint is created.
   ///
+  /// Parameter [clientToken] :
+  /// The client idempotency token for this create call.
+  ///
   /// Parameter [configurationOverrides] :
   /// The configuration settings that will be used to override existing
   /// configurations.
@@ -165,15 +146,15 @@ class EmrContainers {
   /// Parameter [tags] :
   /// The tags of the managed endpoint.
   Future<CreateManagedEndpointResponse> createManagedEndpoint({
-    @_s.required String certificateArn,
-    @_s.required String clientToken,
-    @_s.required String executionRoleArn,
-    @_s.required String name,
-    @_s.required String releaseLabel,
-    @_s.required String type,
-    @_s.required String virtualClusterId,
-    ConfigurationOverrides configurationOverrides,
-    Map<String, String> tags,
+    required String certificateArn,
+    required String executionRoleArn,
+    required String name,
+    required String releaseLabel,
+    required String type,
+    required String virtualClusterId,
+    String? clientToken,
+    ConfigurationOverrides? configurationOverrides,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(certificateArn, 'certificateArn');
     _s.validateStringLength(
@@ -181,26 +162,6 @@ class EmrContainers {
       certificateArn,
       44,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''^arn:(aws[a-zA-Z0-9-]*):acm:.+:(\d{12}):certificate/.+$''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
@@ -211,24 +172,12 @@ class EmrContainers {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'executionRoleArn',
-      executionRoleArn,
-      r'''^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_/#A-Za-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(releaseLabel, 'releaseLabel');
@@ -239,24 +188,12 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'releaseLabel',
-      releaseLabel,
-      r'''[\.\-_/A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(type, 'type');
     _s.validateStringLength(
       'type',
       type,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'type',
-      type,
-      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
@@ -267,19 +204,19 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
     );
     final $payload = <String, dynamic>{
       'certificateArn': certificateArn,
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'executionRoleArn': executionRoleArn,
       'name': name,
       'releaseLabel': releaseLabel,
       'type': type,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (configurationOverrides != null)
         'configurationOverrides': configurationOverrides,
       if (tags != null) 'tags': tags,
@@ -305,37 +242,23 @@ class EmrContainers {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
-  /// Parameter [clientToken] :
-  /// The client token of the virtual cluster.
-  ///
   /// Parameter [containerProvider] :
   /// The container provider of the virtual cluster.
   ///
   /// Parameter [name] :
   /// The specified name of the virtual cluster.
   ///
+  /// Parameter [clientToken] :
+  /// The client token of the virtual cluster.
+  ///
   /// Parameter [tags] :
   /// The tags assigned to the virtual cluster.
   Future<CreateVirtualClusterResponse> createVirtualCluster({
-    @_s.required String clientToken,
-    @_s.required ContainerProvider containerProvider,
-    @_s.required String name,
-    Map<String, String> tags,
+    required ContainerProvider containerProvider,
+    required String name,
+    String? clientToken,
+    Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(containerProvider, 'containerProvider');
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -345,16 +268,16 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'containerProvider': containerProvider,
       'name': name,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -379,8 +302,8 @@ class EmrContainers {
   /// Parameter [virtualClusterId] :
   /// The ID of the endpoint's virtual cluster.
   Future<DeleteManagedEndpointResponse> deleteManagedEndpoint({
-    @_s.required String id,
-    @_s.required String virtualClusterId,
+    required String id,
+    required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -390,24 +313,12 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[0-9a-z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
     _s.validateStringLength(
       'virtualClusterId',
       virtualClusterId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -433,7 +344,7 @@ class EmrContainers {
   /// Parameter [id] :
   /// The ID of the virtual cluster that will be deleted.
   Future<DeleteVirtualClusterResponse> deleteVirtualCluster({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -441,12 +352,6 @@ class EmrContainers {
       id,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[0-9a-z]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -472,8 +377,8 @@ class EmrContainers {
   /// Parameter [virtualClusterId] :
   /// The ID of the virtual cluster for which the job run is submitted.
   Future<DescribeJobRunResponse> describeJobRun({
-    @_s.required String id,
-    @_s.required String virtualClusterId,
+    required String id,
+    required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -483,24 +388,12 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[0-9a-z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
     _s.validateStringLength(
       'virtualClusterId',
       virtualClusterId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -527,8 +420,8 @@ class EmrContainers {
   /// Parameter [virtualClusterId] :
   /// The ID of the endpoint's virtual cluster.
   Future<DescribeManagedEndpointResponse> describeManagedEndpoint({
-    @_s.required String id,
-    @_s.required String virtualClusterId,
+    required String id,
+    required String virtualClusterId,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -538,24 +431,12 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[0-9a-z]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
     _s.validateStringLength(
       'virtualClusterId',
       virtualClusterId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -583,7 +464,7 @@ class EmrContainers {
   /// Parameter [id] :
   /// The ID of the virtual cluster that will be described.
   Future<DescribeVirtualClusterResponse> describeVirtualCluster({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -591,12 +472,6 @@ class EmrContainers {
       id,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[0-9a-z]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -636,13 +511,13 @@ class EmrContainers {
   /// Parameter [states] :
   /// The states of the job run.
   Future<ListJobRunsResponse> listJobRuns({
-    @_s.required String virtualClusterId,
-    DateTime createdAfter,
-    DateTime createdBefore,
-    int maxResults,
-    String name,
-    String nextToken,
-    List<JobRunState> states,
+    required String virtualClusterId,
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+    List<JobRunState>? states,
   }) async {
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
     _s.validateStringLength(
@@ -652,33 +527,17 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (createdAfter != null)
@@ -688,8 +547,7 @@ class EmrContainers {
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (name != null) 'name': [name],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (states != null)
-        'states': states.map((e) => e?.toValue() ?? '').toList(),
+      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -730,13 +588,13 @@ class EmrContainers {
   /// Parameter [types] :
   /// The types of the managed endpoints.
   Future<ListManagedEndpointsResponse> listManagedEndpoints({
-    @_s.required String virtualClusterId,
-    DateTime createdAfter,
-    DateTime createdBefore,
-    int maxResults,
-    String nextToken,
-    List<EndpointState> states,
-    List<String> types,
+    required String virtualClusterId,
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    int? maxResults,
+    String? nextToken,
+    List<EndpointState>? states,
+    List<String>? types,
   }) async {
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
     _s.validateStringLength(
@@ -746,22 +604,11 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (createdAfter != null)
@@ -770,8 +617,7 @@ class EmrContainers {
         'createdBefore': [_s.iso8601ToJson(createdBefore).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (states != null)
-        'states': states.map((e) => e?.toValue() ?? '').toList(),
+      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
       if (types != null) 'types': types,
     };
     final response = await _protocol.send(
@@ -794,7 +640,7 @@ class EmrContainers {
   /// Parameter [resourceArn] :
   /// The ARN of tagged resources.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -802,12 +648,6 @@ class EmrContainers {
       resourceArn,
       60,
       500,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:(aws[a-zA-Z0-9-]*):emr-containers:.+:(\d{12}):/virtualclusters/.+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -851,13 +691,13 @@ class EmrContainers {
   /// Parameter [states] :
   /// The states of the requested virtual clusters.
   Future<ListVirtualClustersResponse> listVirtualClusters({
-    String containerProviderId,
-    ContainerProviderType containerProviderType,
-    DateTime createdAfter,
-    DateTime createdBefore,
-    int maxResults,
-    String nextToken,
-    List<VirtualClusterState> states,
+    String? containerProviderId,
+    ContainerProviderType? containerProviderType,
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    int? maxResults,
+    String? nextToken,
+    List<VirtualClusterState>? states,
   }) async {
     _s.validateStringLength(
       'containerProviderId',
@@ -865,21 +705,11 @@ class EmrContainers {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'containerProviderId',
-      containerProviderId,
-      r'''.*\S.*''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (containerProviderId != null)
@@ -892,8 +722,7 @@ class EmrContainers {
         'createdBefore': [_s.iso8601ToJson(createdBefore).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
-      if (states != null)
-        'states': states.map((e) => e?.toValue() ?? '').toList(),
+      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -912,9 +741,6 @@ class EmrContainers {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
-  /// Parameter [clientToken] :
-  /// The client idempotency token of the job run request.
-  ///
   /// Parameter [executionRoleArn] :
   /// The execution role ARN for the job run.
   ///
@@ -927,6 +753,9 @@ class EmrContainers {
   /// Parameter [virtualClusterId] :
   /// The virtual cluster ID for which the job run request is submitted.
   ///
+  /// Parameter [clientToken] :
+  /// The client idempotency token of the job run request.
+  ///
   /// Parameter [configurationOverrides] :
   /// The configuration overrides for the job run.
   ///
@@ -936,41 +765,21 @@ class EmrContainers {
   /// Parameter [tags] :
   /// The tags assigned to job runs.
   Future<StartJobRunResponse> startJobRun({
-    @_s.required String clientToken,
-    @_s.required String executionRoleArn,
-    @_s.required JobDriver jobDriver,
-    @_s.required String releaseLabel,
-    @_s.required String virtualClusterId,
-    ConfigurationOverrides configurationOverrides,
-    String name,
-    Map<String, String> tags,
+    required String executionRoleArn,
+    required JobDriver jobDriver,
+    required String releaseLabel,
+    required String virtualClusterId,
+    String? clientToken,
+    ConfigurationOverrides? configurationOverrides,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
     _s.validateStringLength(
       'executionRoleArn',
       executionRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'executionRoleArn',
-      executionRoleArn,
-      r'''^arn:(aws[a-zA-Z0-9-]*):iam::(\d{12})?:(role((\u002F)|(\u002F[\u0021-\u007F]+\u002F))[\w+=,.@-]+)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(jobDriver, 'jobDriver');
@@ -982,12 +791,6 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'releaseLabel',
-      releaseLabel,
-      r'''[\.\-_/A-Za-z0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(virtualClusterId, 'virtualClusterId');
     _s.validateStringLength(
       'virtualClusterId',
@@ -996,11 +799,11 @@ class EmrContainers {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'virtualClusterId',
-      virtualClusterId,
-      r'''[0-9a-z]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
     );
     _s.validateStringLength(
       'name',
@@ -1008,16 +811,11 @@ class EmrContainers {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\.\-_/#A-Za-z0-9]+''',
-    );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'executionRoleArn': executionRoleArn,
       'jobDriver': jobDriver,
       'releaseLabel': releaseLabel,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (configurationOverrides != null)
         'configurationOverrides': configurationOverrides,
       if (name != null) 'name': name,
@@ -1054,8 +852,8 @@ class EmrContainers {
   /// Parameter [tags] :
   /// The tags assigned to resources.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1063,12 +861,6 @@ class EmrContainers {
       resourceArn,
       60,
       500,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:(aws[a-zA-Z0-9-]*):emr-containers:.+:(\d{12}):/virtualclusters/.+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1081,7 +873,6 @@ class EmrContainers {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes tags from resources.
@@ -1096,8 +887,8 @@ class EmrContainers {
   /// Parameter [tagKeys] :
   /// The tag keys of the resources.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1107,15 +898,9 @@ class EmrContainers {
       500,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:(aws[a-zA-Z0-9-]*):emr-containers:.+:(\d{12}):/virtualclusters/.+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1124,59 +909,70 @@ class EmrContainers {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelJobRunResponse {
   /// The output contains the ID of the cancelled job run.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The output contains the virtual cluster ID for which the job run is
   /// cancelled.
-  @_s.JsonKey(name: 'virtualClusterId')
-  final String virtualClusterId;
+  final String? virtualClusterId;
 
   CancelJobRunResponse({
     this.id,
     this.virtualClusterId,
   });
-  factory CancelJobRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelJobRunResponseFromJson(json);
+
+  factory CancelJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return CancelJobRunResponse(
+      id: json['id'] as String?,
+      virtualClusterId: json['virtualClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final virtualClusterId = this.virtualClusterId;
+    return {
+      if (id != null) 'id': id,
+      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
 }
 
 /// A configuration for CloudWatch monitoring. You can configure your jobs to
 /// send log information to CloudWatch Logs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchMonitoringConfiguration {
   /// The name of the log group for log publishing.
-  @_s.JsonKey(name: 'logGroupName')
   final String logGroupName;
 
   /// The specified name prefix for log streams.
-  @_s.JsonKey(name: 'logStreamNamePrefix')
-  final String logStreamNamePrefix;
+  final String? logStreamNamePrefix;
 
   CloudWatchMonitoringConfiguration({
-    @_s.required this.logGroupName,
+    required this.logGroupName,
     this.logStreamNamePrefix,
   });
-  factory CloudWatchMonitoringConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$CloudWatchMonitoringConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CloudWatchMonitoringConfigurationToJson(this);
+  factory CloudWatchMonitoringConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CloudWatchMonitoringConfiguration(
+      logGroupName: json['logGroupName'] as String,
+      logStreamNamePrefix: json['logStreamNamePrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupName = this.logGroupName;
+    final logStreamNamePrefix = this.logStreamNamePrefix;
+    return {
+      'logGroupName': logGroupName,
+      if (logStreamNamePrefix != null)
+        'logStreamNamePrefix': logStreamNamePrefix,
+    };
+  }
 }
 
 /// A configuration specification to be used when provisioning virtual clusters,
@@ -1185,115 +981,152 @@ class CloudWatchMonitoringConfiguration {
 /// and optional nested configurations. A classification refers to an
 /// application-specific configuration file. Properties are the settings you
 /// want to change in that file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Configuration {
   /// The classification within a configuration.
-  @_s.JsonKey(name: 'classification')
   final String classification;
 
   /// A list of additional configurations to apply within a configuration object.
-  @_s.JsonKey(name: 'configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// A set of properties specified within a configuration classification.
-  @_s.JsonKey(name: 'properties')
-  final Map<String, String> properties;
+  final Map<String, String>? properties;
 
   Configuration({
-    @_s.required this.classification,
+    required this.classification,
     this.configurations,
     this.properties,
   });
-  factory Configuration.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationToJson(this);
+  factory Configuration.fromJson(Map<String, dynamic> json) {
+    return Configuration(
+      classification: json['classification'] as String,
+      configurations: (json['configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      properties: (json['properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final classification = this.classification;
+    final configurations = this.configurations;
+    final properties = this.properties;
+    return {
+      'classification': classification,
+      if (configurations != null) 'configurations': configurations,
+      if (properties != null) 'properties': properties,
+    };
+  }
 }
 
 /// A configuration specification to be used to override existing
 /// configurations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConfigurationOverrides {
   /// The configurations for the application running by the job run.
-  @_s.JsonKey(name: 'applicationConfiguration')
-  final List<Configuration> applicationConfiguration;
+  final List<Configuration>? applicationConfiguration;
 
   /// The configurations for monitoring.
-  @_s.JsonKey(name: 'monitoringConfiguration')
-  final MonitoringConfiguration monitoringConfiguration;
+  final MonitoringConfiguration? monitoringConfiguration;
 
   ConfigurationOverrides({
     this.applicationConfiguration,
     this.monitoringConfiguration,
   });
-  factory ConfigurationOverrides.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationOverridesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationOverridesToJson(this);
+  factory ConfigurationOverrides.fromJson(Map<String, dynamic> json) {
+    return ConfigurationOverrides(
+      applicationConfiguration: (json['applicationConfiguration'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      monitoringConfiguration: json['monitoringConfiguration'] != null
+          ? MonitoringConfiguration.fromJson(
+              json['monitoringConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationConfiguration = this.applicationConfiguration;
+    final monitoringConfiguration = this.monitoringConfiguration;
+    return {
+      if (applicationConfiguration != null)
+        'applicationConfiguration': applicationConfiguration,
+      if (monitoringConfiguration != null)
+        'monitoringConfiguration': monitoringConfiguration,
+    };
+  }
 }
 
 /// The information about the container used for a job run or a managed
 /// endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContainerInfo {
   /// The information about the EKS cluster.
-  @_s.JsonKey(name: 'eksInfo')
-  final EksInfo eksInfo;
+  final EksInfo? eksInfo;
 
   ContainerInfo({
     this.eksInfo,
   });
-  factory ContainerInfo.fromJson(Map<String, dynamic> json) =>
-      _$ContainerInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContainerInfoToJson(this);
+  factory ContainerInfo.fromJson(Map<String, dynamic> json) {
+    return ContainerInfo(
+      eksInfo: json['eksInfo'] != null
+          ? EksInfo.fromJson(json['eksInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eksInfo = this.eksInfo;
+    return {
+      if (eksInfo != null) 'eksInfo': eksInfo,
+    };
+  }
 }
 
 /// The information about the container provider.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContainerProvider {
   /// The ID of the container cluster.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The type of the container provider. EKS is the only supported type as of
   /// now.
-  @_s.JsonKey(name: 'type')
   final ContainerProviderType type;
 
   /// The information about the container cluster.
-  @_s.JsonKey(name: 'info')
-  final ContainerInfo info;
+  final ContainerInfo? info;
 
   ContainerProvider({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
     this.info,
   });
-  factory ContainerProvider.fromJson(Map<String, dynamic> json) =>
-      _$ContainerProviderFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContainerProviderToJson(this);
+  factory ContainerProvider.fromJson(Map<String, dynamic> json) {
+    return ContainerProvider(
+      id: json['id'] as String,
+      type: (json['type'] as String).toContainerProviderType(),
+      info: json['info'] != null
+          ? ContainerInfo.fromJson(json['info'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    final info = this.info;
+    return {
+      'id': id,
+      'type': type.toValue(),
+      if (info != null) 'info': info,
+    };
+  }
 }
 
 enum ContainerProviderType {
-  @_s.JsonValue('EKS')
   eks,
 }
 
@@ -1303,31 +1136,31 @@ extension on ContainerProviderType {
       case ContainerProviderType.eks:
         return 'EKS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ContainerProviderType toContainerProviderType() {
+    switch (this) {
+      case 'EKS':
+        return ContainerProviderType.eks;
+    }
+    throw Exception('$this is not known in enum ContainerProviderType');
+  }
+}
+
 class CreateManagedEndpointResponse {
   /// The output contains the ARN of the managed endpoint.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The output contains the ID of the managed endpoint.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The output contains the name of the managed endpoint.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The output contains the ID of the virtual cluster.
-  @_s.JsonKey(name: 'virtualClusterId')
-  final String virtualClusterId;
+  final String? virtualClusterId;
 
   CreateManagedEndpointResponse({
     this.arn,
@@ -1335,215 +1168,260 @@ class CreateManagedEndpointResponse {
     this.name,
     this.virtualClusterId,
   });
-  factory CreateManagedEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateManagedEndpointResponseFromJson(json);
+
+  factory CreateManagedEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return CreateManagedEndpointResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      virtualClusterId: json['virtualClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final virtualClusterId = this.virtualClusterId;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVirtualClusterResponse {
   /// This output contains the ARN of virtual cluster.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// This output contains the virtual cluster ID.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// This output contains the name of the virtual cluster.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   CreateVirtualClusterResponse({
     this.arn,
     this.id,
     this.name,
   });
-  factory CreateVirtualClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateVirtualClusterResponseFromJson(json);
+
+  factory CreateVirtualClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVirtualClusterResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteManagedEndpointResponse {
   /// The output displays the ID of the managed endpoint.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The output displays the ID of the endpoint's virtual cluster.
-  @_s.JsonKey(name: 'virtualClusterId')
-  final String virtualClusterId;
+  final String? virtualClusterId;
 
   DeleteManagedEndpointResponse({
     this.id,
     this.virtualClusterId,
   });
-  factory DeleteManagedEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteManagedEndpointResponseFromJson(json);
+
+  factory DeleteManagedEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteManagedEndpointResponse(
+      id: json['id'] as String?,
+      virtualClusterId: json['virtualClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final virtualClusterId = this.virtualClusterId;
+    return {
+      if (id != null) 'id': id,
+      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualClusterResponse {
   /// This output contains the ID of the virtual cluster that will be deleted.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   DeleteVirtualClusterResponse({
     this.id,
   });
-  factory DeleteVirtualClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualClusterResponseFromJson(json);
+
+  factory DeleteVirtualClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteVirtualClusterResponse(
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'id': id,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobRunResponse {
   /// The output displays information about a job run.
-  @_s.JsonKey(name: 'jobRun')
-  final JobRun jobRun;
+  final JobRun? jobRun;
 
   DescribeJobRunResponse({
     this.jobRun,
   });
-  factory DescribeJobRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobRunResponseFromJson(json);
+
+  factory DescribeJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeJobRunResponse(
+      jobRun: json['jobRun'] != null
+          ? JobRun.fromJson(json['jobRun'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobRun = this.jobRun;
+    return {
+      if (jobRun != null) 'jobRun': jobRun,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeManagedEndpointResponse {
   /// This output displays information about a managed endpoint.
-  @_s.JsonKey(name: 'endpoint')
-  final Endpoint endpoint;
+  final Endpoint? endpoint;
 
   DescribeManagedEndpointResponse({
     this.endpoint,
   });
-  factory DescribeManagedEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeManagedEndpointResponseFromJson(json);
+
+  factory DescribeManagedEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeManagedEndpointResponse(
+      endpoint: json['endpoint'] != null
+          ? Endpoint.fromJson(json['endpoint'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    return {
+      if (endpoint != null) 'endpoint': endpoint,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeVirtualClusterResponse {
   /// This output displays information about the specified virtual cluster.
-  @_s.JsonKey(name: 'virtualCluster')
-  final VirtualCluster virtualCluster;
+  final VirtualCluster? virtualCluster;
 
   DescribeVirtualClusterResponse({
     this.virtualCluster,
   });
-  factory DescribeVirtualClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeVirtualClusterResponseFromJson(json);
+
+  factory DescribeVirtualClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeVirtualClusterResponse(
+      virtualCluster: json['virtualCluster'] != null
+          ? VirtualCluster.fromJson(
+              json['virtualCluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualCluster = this.virtualCluster;
+    return {
+      if (virtualCluster != null) 'virtualCluster': virtualCluster,
+    };
+  }
 }
 
 /// The information about the EKS cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EksInfo {
   /// The namespaces of the EKS cluster.
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   EksInfo({
     this.namespace,
   });
-  factory EksInfo.fromJson(Map<String, dynamic> json) =>
-      _$EksInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EksInfoToJson(this);
+  factory EksInfo.fromJson(Map<String, dynamic> json) {
+    return EksInfo(
+      namespace: json['namespace'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final namespace = this.namespace;
+    return {
+      if (namespace != null) 'namespace': namespace,
+    };
+  }
 }
 
 /// This entity represents the endpoint that is managed by Amazon EMR on EKS.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Endpoint {
   /// The ARN of the endpoint.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The certificate ARN of the endpoint.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The configuration settings that are used to override existing configurations
   /// for endpoints.
-  @_s.JsonKey(name: 'configurationOverrides')
-  final ConfigurationOverrides configurationOverrides;
+  final ConfigurationOverrides? configurationOverrides;
 
   /// The date and time when the endpoint was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The execution role ARN of the endpoint.
-  @_s.JsonKey(name: 'executionRoleArn')
-  final String executionRoleArn;
+  final String? executionRoleArn;
 
   /// The ID of the endpoint.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The name of the endpoint.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The EMR release version to be used for the endpoint.
-  @_s.JsonKey(name: 'releaseLabel')
-  final String releaseLabel;
+  final String? releaseLabel;
 
   /// The security group configuration of the endpoint.
-  @_s.JsonKey(name: 'securityGroup')
-  final String securityGroup;
+  final String? securityGroup;
 
   /// The server URL of the endpoint.
-  @_s.JsonKey(name: 'serverUrl')
-  final String serverUrl;
+  final String? serverUrl;
 
   /// The state of the endpoint.
-  @_s.JsonKey(name: 'state')
-  final EndpointState state;
+  final EndpointState? state;
 
   /// The subnet IDs of the endpoint.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The tags of the endpoint.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The type of the endpoint.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   /// The ID of the endpoint's virtual cluster.
-  @_s.JsonKey(name: 'virtualClusterId')
-  final String virtualClusterId;
+  final String? virtualClusterId;
 
   Endpoint({
     this.arn,
@@ -1562,20 +1440,76 @@ class Endpoint {
     this.type,
     this.virtualClusterId,
   });
-  factory Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$EndpointFromJson(json);
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      arn: json['arn'] as String?,
+      certificateArn: json['certificateArn'] as String?,
+      configurationOverrides: json['configurationOverrides'] != null
+          ? ConfigurationOverrides.fromJson(
+              json['configurationOverrides'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      executionRoleArn: json['executionRoleArn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      releaseLabel: json['releaseLabel'] as String?,
+      securityGroup: json['securityGroup'] as String?,
+      serverUrl: json['serverUrl'] as String?,
+      state: (json['state'] as String?)?.toEndpointState(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: json['type'] as String?,
+      virtualClusterId: json['virtualClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final certificateArn = this.certificateArn;
+    final configurationOverrides = this.configurationOverrides;
+    final createdAt = this.createdAt;
+    final executionRoleArn = this.executionRoleArn;
+    final id = this.id;
+    final name = this.name;
+    final releaseLabel = this.releaseLabel;
+    final securityGroup = this.securityGroup;
+    final serverUrl = this.serverUrl;
+    final state = this.state;
+    final subnetIds = this.subnetIds;
+    final tags = this.tags;
+    final type = this.type;
+    final virtualClusterId = this.virtualClusterId;
+    return {
+      if (arn != null) 'arn': arn,
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (configurationOverrides != null)
+        'configurationOverrides': configurationOverrides,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (releaseLabel != null) 'releaseLabel': releaseLabel,
+      if (securityGroup != null) 'securityGroup': securityGroup,
+      if (serverUrl != null) 'serverUrl': serverUrl,
+      if (state != null) 'state': state.toValue(),
+      if (subnetIds != null) 'subnetIds': subnetIds,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type,
+      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
 }
 
 enum EndpointState {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('TERMINATING')
   terminating,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('TERMINATED_WITH_ERRORS')
   terminatedWithErrors,
 }
 
@@ -1593,115 +1527,143 @@ extension on EndpointState {
       case EndpointState.terminatedWithErrors:
         return 'TERMINATED_WITH_ERRORS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EndpointState toEndpointState() {
+    switch (this) {
+      case 'CREATING':
+        return EndpointState.creating;
+      case 'ACTIVE':
+        return EndpointState.active;
+      case 'TERMINATING':
+        return EndpointState.terminating;
+      case 'TERMINATED':
+        return EndpointState.terminated;
+      case 'TERMINATED_WITH_ERRORS':
+        return EndpointState.terminatedWithErrors;
+    }
+    throw Exception('$this is not known in enum EndpointState');
   }
 }
 
 enum FailureReason {
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('USER_ERROR')
   userError,
-  @_s.JsonValue('VALIDATION_ERROR')
   validationError,
-  @_s.JsonValue('CLUSTER_UNAVAILABLE')
   clusterUnavailable,
 }
 
+extension on FailureReason {
+  String toValue() {
+    switch (this) {
+      case FailureReason.internalError:
+        return 'INTERNAL_ERROR';
+      case FailureReason.userError:
+        return 'USER_ERROR';
+      case FailureReason.validationError:
+        return 'VALIDATION_ERROR';
+      case FailureReason.clusterUnavailable:
+        return 'CLUSTER_UNAVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  FailureReason toFailureReason() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return FailureReason.internalError;
+      case 'USER_ERROR':
+        return FailureReason.userError;
+      case 'VALIDATION_ERROR':
+        return FailureReason.validationError;
+      case 'CLUSTER_UNAVAILABLE':
+        return FailureReason.clusterUnavailable;
+    }
+    throw Exception('$this is not known in enum FailureReason');
+  }
+}
+
 /// Specify the driver that the job runs on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobDriver {
   /// The job driver parameters specified for spark submit.
-  @_s.JsonKey(name: 'sparkSubmitJobDriver')
-  final SparkSubmitJobDriver sparkSubmitJobDriver;
+  final SparkSubmitJobDriver? sparkSubmitJobDriver;
 
   JobDriver({
     this.sparkSubmitJobDriver,
   });
-  factory JobDriver.fromJson(Map<String, dynamic> json) =>
-      _$JobDriverFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JobDriverToJson(this);
+  factory JobDriver.fromJson(Map<String, dynamic> json) {
+    return JobDriver(
+      sparkSubmitJobDriver: json['sparkSubmitJobDriver'] != null
+          ? SparkSubmitJobDriver.fromJson(
+              json['sparkSubmitJobDriver'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sparkSubmitJobDriver = this.sparkSubmitJobDriver;
+    return {
+      if (sparkSubmitJobDriver != null)
+        'sparkSubmitJobDriver': sparkSubmitJobDriver,
+    };
+  }
 }
 
 /// This entity describes a job run. A job run is a unit of work, such as a
 /// Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR
 /// on EKS.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobRun {
   /// The ARN of job run.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The client token used to start a job run.
-  @_s.JsonKey(name: 'clientToken')
-  final String clientToken;
+  final String? clientToken;
 
   /// The configuration settings that are used to override default configuration.
-  @_s.JsonKey(name: 'configurationOverrides')
-  final ConfigurationOverrides configurationOverrides;
+  final ConfigurationOverrides? configurationOverrides;
 
   /// The date and time when the job run was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The user who created the job run.
-  @_s.JsonKey(name: 'createdBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The execution role ARN of the job run.
-  @_s.JsonKey(name: 'executionRoleArn')
-  final String executionRoleArn;
+  final String? executionRoleArn;
 
   /// The reasons why the job run has failed.
-  @_s.JsonKey(name: 'failureReason')
-  final FailureReason failureReason;
+  final FailureReason? failureReason;
 
   /// The date and time when the job run has finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'finishedAt')
-  final DateTime finishedAt;
+  final DateTime? finishedAt;
 
   /// The ID of the job run.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// Parameters of job driver for the job run.
-  @_s.JsonKey(name: 'jobDriver')
-  final JobDriver jobDriver;
+  final JobDriver? jobDriver;
 
   /// The name of the job run.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The release version of Amazon EMR.
-  @_s.JsonKey(name: 'releaseLabel')
-  final String releaseLabel;
+  final String? releaseLabel;
 
   /// The state of the job run.
-  @_s.JsonKey(name: 'state')
-  final JobRunState state;
+  final JobRunState? state;
 
   /// Additional details of the job run state.
-  @_s.JsonKey(name: 'stateDetails')
-  final String stateDetails;
+  final String? stateDetails;
 
   /// The assigned tags of the job run.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The ID of the job run's virtual cluster.
-  @_s.JsonKey(name: 'virtualClusterId')
-  final String virtualClusterId;
+  final String? virtualClusterId;
 
   JobRun({
     this.arn,
@@ -1721,23 +1683,80 @@ class JobRun {
     this.tags,
     this.virtualClusterId,
   });
-  factory JobRun.fromJson(Map<String, dynamic> json) => _$JobRunFromJson(json);
+
+  factory JobRun.fromJson(Map<String, dynamic> json) {
+    return JobRun(
+      arn: json['arn'] as String?,
+      clientToken: json['clientToken'] as String?,
+      configurationOverrides: json['configurationOverrides'] != null
+          ? ConfigurationOverrides.fromJson(
+              json['configurationOverrides'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      createdBy: json['createdBy'] as String?,
+      executionRoleArn: json['executionRoleArn'] as String?,
+      failureReason: (json['failureReason'] as String?)?.toFailureReason(),
+      finishedAt: timeStampFromJson(json['finishedAt']),
+      id: json['id'] as String?,
+      jobDriver: json['jobDriver'] != null
+          ? JobDriver.fromJson(json['jobDriver'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      releaseLabel: json['releaseLabel'] as String?,
+      state: (json['state'] as String?)?.toJobRunState(),
+      stateDetails: json['stateDetails'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      virtualClusterId: json['virtualClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final clientToken = this.clientToken;
+    final configurationOverrides = this.configurationOverrides;
+    final createdAt = this.createdAt;
+    final createdBy = this.createdBy;
+    final executionRoleArn = this.executionRoleArn;
+    final failureReason = this.failureReason;
+    final finishedAt = this.finishedAt;
+    final id = this.id;
+    final jobDriver = this.jobDriver;
+    final name = this.name;
+    final releaseLabel = this.releaseLabel;
+    final state = this.state;
+    final stateDetails = this.stateDetails;
+    final tags = this.tags;
+    final virtualClusterId = this.virtualClusterId;
+    return {
+      if (arn != null) 'arn': arn,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (configurationOverrides != null)
+        'configurationOverrides': configurationOverrides,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (createdBy != null) 'createdBy': createdBy,
+      if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
+      if (failureReason != null) 'failureReason': failureReason.toValue(),
+      if (finishedAt != null) 'finishedAt': iso8601ToJson(finishedAt),
+      if (id != null) 'id': id,
+      if (jobDriver != null) 'jobDriver': jobDriver,
+      if (name != null) 'name': name,
+      if (releaseLabel != null) 'releaseLabel': releaseLabel,
+      if (state != null) 'state': state.toValue(),
+      if (stateDetails != null) 'stateDetails': stateDetails,
+      if (tags != null) 'tags': tags,
+      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
 }
 
 enum JobRunState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('CANCEL_PENDING')
   cancelPending,
-  @_s.JsonValue('COMPLETED')
   completed,
 }
 
@@ -1759,203 +1778,306 @@ extension on JobRunState {
       case JobRunState.completed:
         return 'COMPLETED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  JobRunState toJobRunState() {
+    switch (this) {
+      case 'PENDING':
+        return JobRunState.pending;
+      case 'SUBMITTED':
+        return JobRunState.submitted;
+      case 'RUNNING':
+        return JobRunState.running;
+      case 'FAILED':
+        return JobRunState.failed;
+      case 'CANCELLED':
+        return JobRunState.cancelled;
+      case 'CANCEL_PENDING':
+        return JobRunState.cancelPending;
+      case 'COMPLETED':
+        return JobRunState.completed;
+    }
+    throw Exception('$this is not known in enum JobRunState');
+  }
+}
+
 class ListJobRunsResponse {
   /// This output lists information about the specified job runs.
-  @_s.JsonKey(name: 'jobRuns')
-  final List<JobRun> jobRuns;
+  final List<JobRun>? jobRuns;
 
   /// This output displays the token for the next set of job runs.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobRunsResponse({
     this.jobRuns,
     this.nextToken,
   });
-  factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobRunsResponseFromJson(json);
+
+  factory ListJobRunsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobRunsResponse(
+      jobRuns: (json['jobRuns'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobRun.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobRuns = this.jobRuns;
+    final nextToken = this.nextToken;
+    return {
+      if (jobRuns != null) 'jobRuns': jobRuns,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListManagedEndpointsResponse {
   /// The managed endpoints to be listed.
-  @_s.JsonKey(name: 'endpoints')
-  final List<Endpoint> endpoints;
+  final List<Endpoint>? endpoints;
 
   /// The token for the next set of endpoints to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListManagedEndpointsResponse({
     this.endpoints,
     this.nextToken,
   });
-  factory ListManagedEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListManagedEndpointsResponseFromJson(json);
+
+  factory ListManagedEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return ListManagedEndpointsResponse(
+      endpoints: (json['endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (endpoints != null) 'endpoints': endpoints,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags assigned to resources.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVirtualClustersResponse {
   /// This output displays the token for the next set of virtual clusters.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// This output lists the specified virtual clusters.
-  @_s.JsonKey(name: 'virtualClusters')
-  final List<VirtualCluster> virtualClusters;
+  final List<VirtualCluster>? virtualClusters;
 
   ListVirtualClustersResponse({
     this.nextToken,
     this.virtualClusters,
   });
-  factory ListVirtualClustersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListVirtualClustersResponseFromJson(json);
+
+  factory ListVirtualClustersResponse.fromJson(Map<String, dynamic> json) {
+    return ListVirtualClustersResponse(
+      nextToken: json['nextToken'] as String?,
+      virtualClusters: (json['virtualClusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => VirtualCluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final virtualClusters = this.virtualClusters;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (virtualClusters != null) 'virtualClusters': virtualClusters,
+    };
+  }
 }
 
 /// Configuration setting for monitoring.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MonitoringConfiguration {
   /// Monitoring configurations for CloudWatch.
-  @_s.JsonKey(name: 'cloudWatchMonitoringConfiguration')
-  final CloudWatchMonitoringConfiguration cloudWatchMonitoringConfiguration;
+  final CloudWatchMonitoringConfiguration? cloudWatchMonitoringConfiguration;
 
   /// Monitoring configurations for the persistent application UI.
-  @_s.JsonKey(name: 'persistentAppUI')
-  final PersistentAppUI persistentAppUI;
+  final PersistentAppUI? persistentAppUI;
 
   /// Amazon S3 configuration for monitoring log publishing.
-  @_s.JsonKey(name: 's3MonitoringConfiguration')
-  final S3MonitoringConfiguration s3MonitoringConfiguration;
+  final S3MonitoringConfiguration? s3MonitoringConfiguration;
 
   MonitoringConfiguration({
     this.cloudWatchMonitoringConfiguration,
     this.persistentAppUI,
     this.s3MonitoringConfiguration,
   });
-  factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$MonitoringConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MonitoringConfigurationToJson(this);
+  factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return MonitoringConfiguration(
+      cloudWatchMonitoringConfiguration:
+          json['cloudWatchMonitoringConfiguration'] != null
+              ? CloudWatchMonitoringConfiguration.fromJson(
+                  json['cloudWatchMonitoringConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      persistentAppUI:
+          (json['persistentAppUI'] as String?)?.toPersistentAppUI(),
+      s3MonitoringConfiguration: json['s3MonitoringConfiguration'] != null
+          ? S3MonitoringConfiguration.fromJson(
+              json['s3MonitoringConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchMonitoringConfiguration =
+        this.cloudWatchMonitoringConfiguration;
+    final persistentAppUI = this.persistentAppUI;
+    final s3MonitoringConfiguration = this.s3MonitoringConfiguration;
+    return {
+      if (cloudWatchMonitoringConfiguration != null)
+        'cloudWatchMonitoringConfiguration': cloudWatchMonitoringConfiguration,
+      if (persistentAppUI != null) 'persistentAppUI': persistentAppUI.toValue(),
+      if (s3MonitoringConfiguration != null)
+        's3MonitoringConfiguration': s3MonitoringConfiguration,
+    };
+  }
 }
 
 enum PersistentAppUI {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on PersistentAppUI {
+  String toValue() {
+    switch (this) {
+      case PersistentAppUI.enabled:
+        return 'ENABLED';
+      case PersistentAppUI.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  PersistentAppUI toPersistentAppUI() {
+    switch (this) {
+      case 'ENABLED':
+        return PersistentAppUI.enabled;
+      case 'DISABLED':
+        return PersistentAppUI.disabled;
+    }
+    throw Exception('$this is not known in enum PersistentAppUI');
+  }
 }
 
 /// Amazon S3 configuration for monitoring log publishing. You can configure
 /// your jobs to send log information to Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3MonitoringConfiguration {
   /// Amazon S3 destination URI for log publishing.
-  @_s.JsonKey(name: 'logUri')
   final String logUri;
 
   S3MonitoringConfiguration({
-    @_s.required this.logUri,
+    required this.logUri,
   });
-  factory S3MonitoringConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$S3MonitoringConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3MonitoringConfigurationToJson(this);
+  factory S3MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3MonitoringConfiguration(
+      logUri: json['logUri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logUri = this.logUri;
+    return {
+      'logUri': logUri,
+    };
+  }
 }
 
 /// The information about job driver for Spark submit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SparkSubmitJobDriver {
   /// The entry point of job application.
-  @_s.JsonKey(name: 'entryPoint')
   final String entryPoint;
 
   /// The arguments for job application.
-  @_s.JsonKey(name: 'entryPointArguments')
-  final List<String> entryPointArguments;
+  final List<String>? entryPointArguments;
 
   /// The Spark submit parameters that are used for job runs.
-  @_s.JsonKey(name: 'sparkSubmitParameters')
-  final String sparkSubmitParameters;
+  final String? sparkSubmitParameters;
 
   SparkSubmitJobDriver({
-    @_s.required this.entryPoint,
+    required this.entryPoint,
     this.entryPointArguments,
     this.sparkSubmitParameters,
   });
-  factory SparkSubmitJobDriver.fromJson(Map<String, dynamic> json) =>
-      _$SparkSubmitJobDriverFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SparkSubmitJobDriverToJson(this);
+  factory SparkSubmitJobDriver.fromJson(Map<String, dynamic> json) {
+    return SparkSubmitJobDriver(
+      entryPoint: json['entryPoint'] as String,
+      entryPointArguments: (json['entryPointArguments'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sparkSubmitParameters: json['sparkSubmitParameters'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entryPoint = this.entryPoint;
+    final entryPointArguments = this.entryPointArguments;
+    final sparkSubmitParameters = this.sparkSubmitParameters;
+    return {
+      'entryPoint': entryPoint,
+      if (entryPointArguments != null)
+        'entryPointArguments': entryPointArguments,
+      if (sparkSubmitParameters != null)
+        'sparkSubmitParameters': sparkSubmitParameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartJobRunResponse {
   /// This output lists the ARN of job run.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// This output displays the started job run ID.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// This output displays the name of the started job run.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// This output displays the virtual cluster ID for which the job run was
   /// submitted.
-  @_s.JsonKey(name: 'virtualClusterId')
-  final String virtualClusterId;
+  final String? virtualClusterId;
 
   StartJobRunResponse({
     this.arn,
@@ -1963,30 +2085,52 @@ class StartJobRunResponse {
     this.name,
     this.virtualClusterId,
   });
-  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartJobRunResponseFromJson(json);
+
+  factory StartJobRunResponse.fromJson(Map<String, dynamic> json) {
+    return StartJobRunResponse(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      virtualClusterId: json['virtualClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final virtualClusterId = this.virtualClusterId;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (virtualClusterId != null) 'virtualClusterId': virtualClusterId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// This entity describes a virtual cluster. A virtual cluster is a Kubernetes
@@ -1996,40 +2140,27 @@ class UntagResourceResponse {
 /// one namespace on an EKS cluster. Virtual clusters do not create any active
 /// resources that contribute to your bill or that require lifecycle management
 /// outside the service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualCluster {
   /// The ARN of the virtual cluster.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The container provider of the virtual cluster.
-  @_s.JsonKey(name: 'containerProvider')
-  final ContainerProvider containerProvider;
+  final ContainerProvider? containerProvider;
 
   /// The date and time when the virtual cluster is created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The ID of the virtual cluster.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The name of the virtual cluster.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The state of the virtual cluster.
-  @_s.JsonKey(name: 'state')
-  final VirtualClusterState state;
+  final VirtualClusterState? state;
 
   /// The assigned tags of the virtual cluster.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   VirtualCluster({
     this.arn,
@@ -2040,18 +2171,47 @@ class VirtualCluster {
     this.state,
     this.tags,
   });
-  factory VirtualCluster.fromJson(Map<String, dynamic> json) =>
-      _$VirtualClusterFromJson(json);
+
+  factory VirtualCluster.fromJson(Map<String, dynamic> json) {
+    return VirtualCluster(
+      arn: json['arn'] as String?,
+      containerProvider: json['containerProvider'] != null
+          ? ContainerProvider.fromJson(
+              json['containerProvider'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      state: (json['state'] as String?)?.toVirtualClusterState(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final containerProvider = this.containerProvider;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final name = this.name;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (containerProvider != null) 'containerProvider': containerProvider,
+      if (createdAt != null) 'createdAt': iso8601ToJson(createdAt),
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 enum VirtualClusterState {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('TERMINATING')
   terminating,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('ARRESTED')
   arrested,
 }
 
@@ -2067,22 +2227,37 @@ extension on VirtualClusterState {
       case VirtualClusterState.arrested:
         return 'ARRESTED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  VirtualClusterState toVirtualClusterState() {
+    switch (this) {
+      case 'RUNNING':
+        return VirtualClusterState.running;
+      case 'TERMINATING':
+        return VirtualClusterState.terminating;
+      case 'TERMINATED':
+        return VirtualClusterState.terminated;
+      case 'ARRESTED':
+        return VirtualClusterState.arrested;
+    }
+    throw Exception('$this is not known in enum VirtualClusterState');
   }
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

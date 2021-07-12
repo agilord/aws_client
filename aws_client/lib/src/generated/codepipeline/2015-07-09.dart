@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2015-07-09.g.dart';
 
 /// This is the AWS CodePipeline API Reference. This guide provides descriptions
 /// of the actions and data types for AWS CodePipeline. Some functionality for
@@ -35,10 +28,10 @@ part '2015-07-09.g.dart';
 class CodePipeline {
   final _s.JsonProtocol _protocol;
   CodePipeline({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,16 +58,10 @@ class CodePipeline {
   /// the job is being worked on by only one job worker. Get this number from
   /// the response of the <a>PollForJobs</a> request that returned this job.
   Future<AcknowledgeJobOutput> acknowledgeJob({
-    @_s.required String jobId,
-    @_s.required String nonce,
+    required String jobId,
+    required String nonce,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(nonce, 'nonce');
     _s.validateStringLength(
       'nonce',
@@ -123,9 +110,9 @@ class CodePipeline {
   /// the job is being worked on by only one job worker. Get this number from
   /// the response to a <a>GetThirdPartyJobDetails</a> request.
   Future<AcknowledgeThirdPartyJobOutput> acknowledgeThirdPartyJob({
-    @_s.required String clientToken,
-    @_s.required String jobId,
-    @_s.required String nonce,
+    required String clientToken,
+    required String jobId,
+    required String nonce,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -214,14 +201,14 @@ class CodePipeline {
   /// Parameter [tags] :
   /// The tags for the custom action.
   Future<CreateCustomActionTypeOutput> createCustomActionType({
-    @_s.required ActionCategory category,
-    @_s.required ArtifactDetails inputArtifactDetails,
-    @_s.required ArtifactDetails outputArtifactDetails,
-    @_s.required String provider,
-    @_s.required String version,
-    List<ActionConfigurationProperty> configurationProperties,
-    ActionTypeSettings settings,
-    List<Tag> tags,
+    required ActionCategory category,
+    required ArtifactDetails inputArtifactDetails,
+    required ArtifactDetails outputArtifactDetails,
+    required String provider,
+    required String version,
+    List<ActionConfigurationProperty>? configurationProperties,
+    ActionTypeSettings? settings,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(category, 'category');
     ArgumentError.checkNotNull(inputArtifactDetails, 'inputArtifactDetails');
@@ -231,13 +218,7 @@ class CodePipeline {
       'provider',
       provider,
       1,
-      25,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provider',
-      provider,
-      r'''[0-9A-Za-z_-]+''',
+      35,
       isRequired: true,
     );
     ArgumentError.checkNotNull(version, 'version');
@@ -246,12 +227,6 @@ class CodePipeline {
       version,
       1,
       9,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[0-9A-Za-z_-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -265,7 +240,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
-        'category': category?.toValue() ?? '',
+        'category': category.toValue(),
         'inputArtifactDetails': inputArtifactDetails,
         'outputArtifactDetails': outputArtifactDetails,
         'provider': provider,
@@ -306,8 +281,8 @@ class CodePipeline {
   /// Parameter [tags] :
   /// The tags for the pipeline.
   Future<CreatePipelineOutput> createPipeline({
-    @_s.required PipelineDeclaration pipeline,
-    List<Tag> tags,
+    required PipelineDeclaration pipeline,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(pipeline, 'pipeline');
     final headers = <String, String>{
@@ -354,9 +329,9 @@ class CodePipeline {
   /// Parameter [version] :
   /// The version of the custom action to delete.
   Future<void> deleteCustomActionType({
-    @_s.required ActionCategory category,
-    @_s.required String provider,
-    @_s.required String version,
+    required ActionCategory category,
+    required String provider,
+    required String version,
   }) async {
     ArgumentError.checkNotNull(category, 'category');
     ArgumentError.checkNotNull(provider, 'provider');
@@ -364,13 +339,7 @@ class CodePipeline {
       'provider',
       provider,
       1,
-      25,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'provider',
-      provider,
-      r'''[0-9A-Za-z_-]+''',
+      35,
       isRequired: true,
     );
     ArgumentError.checkNotNull(version, 'version');
@@ -381,24 +350,18 @@ class CodePipeline {
       9,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[0-9A-Za-z_-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeleteCustomActionType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'category': category?.toValue() ?? '',
+        'category': category.toValue(),
         'provider': provider,
         'version': version,
       },
@@ -413,7 +376,7 @@ class CodePipeline {
   /// Parameter [name] :
   /// The name of the pipeline to be deleted.
   Future<void> deletePipeline({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -423,17 +386,11 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeletePipeline'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -457,7 +414,7 @@ class CodePipeline {
   /// Parameter [name] :
   /// The name of the webhook you want to delete.
   Future<void> deleteWebhook({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -467,17 +424,11 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeleteWebhook'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -487,8 +438,6 @@ class CodePipeline {
         'name': name,
       },
     );
-
-    return DeleteWebhookOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes the connection between the webhook that was created by
@@ -501,7 +450,7 @@ class CodePipeline {
   /// Parameter [webhookName] :
   /// The name of the webhook you want to deregister.
   Future<void> deregisterWebhookWithThirdParty({
-    String webhookName,
+    String? webhookName,
   }) async {
     _s.validateStringLength(
       'webhookName',
@@ -509,16 +458,11 @@ class CodePipeline {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'webhookName',
-      webhookName,
-      r'''[A-Za-z0-9.@\-_]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DeregisterWebhookWithThirdParty'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -528,8 +472,6 @@ class CodePipeline {
         if (webhookName != null) 'webhookName': webhookName,
       },
     );
-
-    return DeregisterWebhookWithThirdPartyOutput.fromJson(jsonResponse.body);
   }
 
   /// Prevents artifacts in a pipeline from transitioning to the next stage in
@@ -558,10 +500,10 @@ class CodePipeline {
   /// prevented from transitioning from the stage after they have been processed
   /// by the actions in that stage (outbound).
   Future<void> disableStageTransition({
-    @_s.required String pipelineName,
-    @_s.required String reason,
-    @_s.required String stageName,
-    @_s.required StageTransitionType transitionType,
+    required String pipelineName,
+    required String reason,
+    required String stageName,
+    required StageTransitionType transitionType,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -569,12 +511,6 @@ class CodePipeline {
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(reason, 'reason');
@@ -585,12 +521,6 @@ class CodePipeline {
       300,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'reason',
-      reason,
-      r'''[a-zA-Z0-9!@ \(\)\.\*\?\-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stageName, 'stageName');
     _s.validateStringLength(
       'stageName',
@@ -599,18 +529,12 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'stageName',
-      stageName,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transitionType, 'transitionType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.DisableStageTransition'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -620,7 +544,7 @@ class CodePipeline {
         'pipelineName': pipelineName,
         'reason': reason,
         'stageName': stageName,
-        'transitionType': transitionType?.toValue() ?? '',
+        'transitionType': transitionType.toValue(),
       },
     );
   }
@@ -646,9 +570,9 @@ class CodePipeline {
   /// processed artifacts are allowed to transition to the next stage
   /// (outbound).
   Future<void> enableStageTransition({
-    @_s.required String pipelineName,
-    @_s.required String stageName,
-    @_s.required StageTransitionType transitionType,
+    required String pipelineName,
+    required String stageName,
+    required StageTransitionType transitionType,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -656,12 +580,6 @@ class CodePipeline {
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stageName, 'stageName');
@@ -672,18 +590,12 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'stageName',
-      stageName,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(transitionType, 'transitionType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.EnableStageTransition'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -692,9 +604,97 @@ class CodePipeline {
       payload: {
         'pipelineName': pipelineName,
         'stageName': stageName,
-        'transitionType': transitionType?.toValue() ?? '',
+        'transitionType': transitionType.toValue(),
       },
     );
+  }
+
+  /// Returns information about an action type created for an external provider,
+  /// where the action is to be used by customers of the external provider. The
+  /// action can be created with any supported integration model.
+  ///
+  /// May throw [ActionTypeNotFoundException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [category] :
+  /// Defines what kind of action can be taken in the stage. The following are
+  /// the valid values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Source</code>
+  /// </li>
+  /// <li>
+  /// <code>Build</code>
+  /// </li>
+  /// <li>
+  /// <code>Test</code>
+  /// </li>
+  /// <li>
+  /// <code>Deploy</code>
+  /// </li>
+  /// <li>
+  /// <code>Approval</code>
+  /// </li>
+  /// <li>
+  /// <code>Invoke</code>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [owner] :
+  /// The creator of an action type that was created with any supported
+  /// integration model. There are two valid values: <code>AWS</code> and
+  /// <code>ThirdParty</code>.
+  ///
+  /// Parameter [provider] :
+  /// The provider of the action type being called. The provider name is
+  /// specified when the action type is created.
+  ///
+  /// Parameter [version] :
+  /// A string that describes the action type version.
+  Future<GetActionTypeOutput> getActionType({
+    required ActionCategory category,
+    required String owner,
+    required String provider,
+    required String version,
+  }) async {
+    ArgumentError.checkNotNull(category, 'category');
+    ArgumentError.checkNotNull(owner, 'owner');
+    ArgumentError.checkNotNull(provider, 'provider');
+    _s.validateStringLength(
+      'provider',
+      provider,
+      1,
+      35,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(version, 'version');
+    _s.validateStringLength(
+      'version',
+      version,
+      1,
+      9,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodePipeline_20150709.GetActionType'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'category': category.toValue(),
+        'owner': owner,
+        'provider': provider,
+        'version': version,
+      },
+    );
+
+    return GetActionTypeOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a job. Used for custom actions only.
@@ -711,15 +711,9 @@ class CodePipeline {
   /// Parameter [jobId] :
   /// The unique system-generated ID for the job.
   Future<GetJobDetailsOutput> getJobDetails({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.GetJobDetails'
@@ -755,8 +749,8 @@ class CodePipeline {
   /// The version number of the pipeline. If you do not specify a version,
   /// defaults to the current version.
   Future<GetPipelineOutput> getPipeline({
-    @_s.required String name,
-    int version,
+    required String name,
+    int? version,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -764,12 +758,6 @@ class CodePipeline {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -812,28 +800,16 @@ class CodePipeline {
   /// Parameter [pipelineName] :
   /// The name of the pipeline about which you want to get execution details.
   Future<GetPipelineExecutionOutput> getPipelineExecution({
-    @_s.required String pipelineExecutionId,
-    @_s.required String pipelineName,
+    required String pipelineExecutionId,
+    required String pipelineName,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionId, 'pipelineExecutionId');
-    _s.validateStringPattern(
-      'pipelineExecutionId',
-      pipelineExecutionId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
       'pipelineName',
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -869,7 +845,7 @@ class CodePipeline {
   /// Parameter [name] :
   /// The name of the pipeline about which you want to get information.
   Future<GetPipelineStateOutput> getPipelineState({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -877,12 +853,6 @@ class CodePipeline {
       name,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -925,8 +895,8 @@ class CodePipeline {
   /// Parameter [jobId] :
   /// The unique system-generated ID used for identifying the job.
   Future<GetThirdPartyJobDetailsOutput> getThirdPartyJobDetails({
-    @_s.required String clientToken,
-    @_s.required String jobId,
+    required String clientToken,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -992,10 +962,10 @@ class CodePipeline {
   /// <code>ListActionExecutions</code> call, which can be used to return the
   /// next set of action executions in the list.
   Future<ListActionExecutionsOutput> listActionExecutions({
-    @_s.required String pipelineName,
-    ActionExecutionFilter filter,
-    int maxResults,
-    String nextToken,
+    required String pipelineName,
+    ActionExecutionFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -1003,12 +973,6 @@ class CodePipeline {
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1056,15 +1020,25 @@ class CodePipeline {
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous list action types call,
   /// which can be used to return the next set of action types in the list.
+  ///
+  /// Parameter [regionFilter] :
+  /// The Region to filter on for the list of action types.
   Future<ListActionTypesOutput> listActionTypes({
-    ActionOwner actionOwnerFilter,
-    String nextToken,
+    ActionOwner? actionOwnerFilter,
+    String? nextToken,
+    String? regionFilter,
   }) async {
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       2048,
+    );
+    _s.validateStringLength(
+      'regionFilter',
+      regionFilter,
+      4,
+      30,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1080,6 +1054,7 @@ class CodePipeline {
         if (actionOwnerFilter != null)
           'actionOwnerFilter': actionOwnerFilter.toValue(),
         if (nextToken != null) 'nextToken': nextToken,
+        if (regionFilter != null) 'regionFilter': regionFilter,
       },
     );
 
@@ -1107,9 +1082,9 @@ class CodePipeline {
   /// <code>ListPipelineExecutions</code> call, which can be used to return the
   /// next set of pipeline executions in the list.
   Future<ListPipelineExecutionsOutput> listPipelineExecutions({
-    @_s.required String pipelineName,
-    int maxResults,
-    String nextToken,
+    required String pipelineName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -1117,12 +1092,6 @@ class CodePipeline {
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1162,12 +1131,25 @@ class CodePipeline {
   /// May throw [ValidationException].
   /// May throw [InvalidNextTokenException].
   ///
+  /// Parameter [maxResults] :
+  /// The maximum number of pipelines to return in a single call. To retrieve
+  /// the remaining pipelines, make another call with the returned nextToken
+  /// value. The minimum value you can specify is 1. The maximum accepted value
+  /// is 1000.
+  ///
   /// Parameter [nextToken] :
   /// An identifier that was returned from the previous list pipelines call. It
   /// can be used to return the next set of pipelines in the list.
   Future<ListPipelinesOutput> listPipelines({
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
@@ -1185,6 +1167,7 @@ class CodePipeline {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -1211,17 +1194,11 @@ class CodePipeline {
   /// used to return the next page of the list. The ListTagsforResource call
   /// lists all available tags in one call and does not use pagination.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceArn,
-    int maxResults,
-    String nextToken,
+    required String resourceArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1269,8 +1246,8 @@ class CodePipeline {
   /// The token that was returned from the previous ListWebhooks call, which can
   /// be used to return the next set of webhooks in the list.
   Future<ListWebhooksOutput> listWebhooks({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1330,9 +1307,9 @@ class CodePipeline {
   /// map. Only jobs whose action configuration matches the mapped value are
   /// returned.
   Future<PollForJobsOutput> pollForJobs({
-    @_s.required ActionTypeId actionTypeId,
-    int maxBatchSize,
-    Map<String, String> queryParam,
+    required ActionTypeId actionTypeId,
+    int? maxBatchSize,
+    Map<String, String>? queryParam,
   }) async {
     ArgumentError.checkNotNull(actionTypeId, 'actionTypeId');
     _s.validateNumRange(
@@ -1378,8 +1355,8 @@ class CodePipeline {
   /// Parameter [maxBatchSize] :
   /// The maximum number of jobs to return in a poll for jobs call.
   Future<PollForThirdPartyJobsOutput> pollForThirdPartyJobs({
-    @_s.required ActionTypeId actionTypeId,
-    int maxBatchSize,
+    required ActionTypeId actionTypeId,
+    int? maxBatchSize,
   }) async {
     ArgumentError.checkNotNull(actionTypeId, 'actionTypeId');
     _s.validateNumRange(
@@ -1427,10 +1404,10 @@ class CodePipeline {
   /// Parameter [stageName] :
   /// The name of the stage that contains the action that acts on the revision.
   Future<PutActionRevisionOutput> putActionRevision({
-    @_s.required String actionName,
-    @_s.required ActionRevision actionRevision,
-    @_s.required String pipelineName,
-    @_s.required String stageName,
+    required String actionName,
+    required ActionRevision actionRevision,
+    required String pipelineName,
+    required String stageName,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
     _s.validateStringLength(
@@ -1438,12 +1415,6 @@ class CodePipeline {
       actionName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(actionRevision, 'actionRevision');
@@ -1455,24 +1426,12 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stageName, 'stageName');
     _s.validateStringLength(
       'stageName',
       stageName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'stageName',
-      stageName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1524,11 +1483,11 @@ class CodePipeline {
   /// <a>GetPipelineState</a> action. It is used to validate that the approval
   /// request corresponding to this token is still valid.
   Future<PutApprovalResultOutput> putApprovalResult({
-    @_s.required String actionName,
-    @_s.required String pipelineName,
-    @_s.required ApprovalResult result,
-    @_s.required String stageName,
-    @_s.required String token,
+    required String actionName,
+    required String pipelineName,
+    required ApprovalResult result,
+    required String stageName,
+    required String token,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
     _s.validateStringLength(
@@ -1538,24 +1497,12 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
       'pipelineName',
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(result, 'result');
@@ -1567,19 +1514,7 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'stageName',
-      stageName,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(token, 'token');
-    _s.validateStringPattern(
-      'token',
-      token,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutApprovalResult'
@@ -1616,22 +1551,16 @@ class CodePipeline {
   /// The unique system-generated ID of the job that failed. This is the same ID
   /// returned from <code>PollForJobs</code>.
   Future<void> putJobFailureResult({
-    @_s.required FailureDetails failureDetails,
-    @_s.required String jobId,
+    required FailureDetails failureDetails,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(failureDetails, 'failureDetails');
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutJobFailureResult'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1678,19 +1607,13 @@ class CodePipeline {
   /// <code>outputVariables</code> can be included only when there is no
   /// continuation token on the request.
   Future<void> putJobSuccessResult({
-    @_s.required String jobId,
-    String continuationToken,
-    CurrentRevision currentRevision,
-    ExecutionDetails executionDetails,
-    Map<String, String> outputVariables,
+    required String jobId,
+    String? continuationToken,
+    CurrentRevision? currentRevision,
+    ExecutionDetails? executionDetails,
+    Map<String, String>? outputVariables,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'continuationToken',
       continuationToken,
@@ -1701,7 +1624,7 @@ class CodePipeline {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutJobSuccessResult'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1737,9 +1660,9 @@ class CodePipeline {
   /// The ID of the job that failed. This is the same ID returned from
   /// <code>PollForThirdPartyJobs</code>.
   Future<void> putThirdPartyJobFailureResult({
-    @_s.required String clientToken,
-    @_s.required FailureDetails failureDetails,
-    @_s.required String jobId,
+    required String clientToken,
+    required FailureDetails failureDetails,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -1762,7 +1685,7 @@ class CodePipeline {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutThirdPartyJobFailureResult'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1808,11 +1731,11 @@ class CodePipeline {
   /// The details of the actions taken and results produced on an artifact as it
   /// passes through stages in the pipeline.
   Future<void> putThirdPartyJobSuccessResult({
-    @_s.required String clientToken,
-    @_s.required String jobId,
-    String continuationToken,
-    CurrentRevision currentRevision,
-    ExecutionDetails executionDetails,
+    required String clientToken,
+    required String jobId,
+    String? continuationToken,
+    CurrentRevision? currentRevision,
+    ExecutionDetails? executionDetails,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -1840,7 +1763,7 @@ class CodePipeline {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.PutThirdPartyJobSuccessResult'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1885,8 +1808,8 @@ class CodePipeline {
   /// Parameter [tags] :
   /// The tags for the webhook.
   Future<PutWebhookOutput> putWebhook({
-    @_s.required WebhookDefinition webhook,
-    List<Tag> tags,
+    required WebhookDefinition webhook,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(webhook, 'webhook');
     final headers = <String, String>{
@@ -1918,7 +1841,7 @@ class CodePipeline {
   /// The name of an existing webhook created with PutWebhook to register with a
   /// supported third party.
   Future<void> registerWebhookWithThirdParty({
-    String webhookName,
+    String? webhookName,
   }) async {
     _s.validateStringLength(
       'webhookName',
@@ -1926,16 +1849,11 @@ class CodePipeline {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'webhookName',
-      webhookName,
-      r'''[A-Za-z0-9.@\-_]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.RegisterWebhookWithThirdParty'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1945,8 +1863,6 @@ class CodePipeline {
         if (webhookName != null) 'webhookName': webhookName,
       },
     );
-
-    return RegisterWebhookWithThirdPartyOutput.fromJson(jsonResponse.body);
   }
 
   /// Resumes the pipeline execution by retrying the last failed actions in a
@@ -1976,30 +1892,18 @@ class CodePipeline {
   /// Parameter [stageName] :
   /// The name of the failed stage to be retried.
   Future<RetryStageExecutionOutput> retryStageExecution({
-    @_s.required String pipelineExecutionId,
-    @_s.required String pipelineName,
-    @_s.required StageRetryMode retryMode,
-    @_s.required String stageName,
+    required String pipelineExecutionId,
+    required String pipelineName,
+    required StageRetryMode retryMode,
+    required String stageName,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionId, 'pipelineExecutionId');
-    _s.validateStringPattern(
-      'pipelineExecutionId',
-      pipelineExecutionId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
       'pipelineName',
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(retryMode, 'retryMode');
@@ -2009,12 +1913,6 @@ class CodePipeline {
       stageName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'stageName',
-      stageName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2030,7 +1928,7 @@ class CodePipeline {
       payload: {
         'pipelineExecutionId': pipelineExecutionId,
         'pipelineName': pipelineName,
-        'retryMode': retryMode?.toValue() ?? '',
+        'retryMode': retryMode.toValue(),
         'stageName': stageName,
       },
     );
@@ -2052,8 +1950,8 @@ class CodePipeline {
   /// The system-generated unique ID used to identify a unique execution
   /// request.
   Future<StartPipelineExecutionOutput> startPipelineExecution({
-    @_s.required String name,
-    String clientRequestToken,
+    required String name,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2063,22 +1961,11 @@ class CodePipeline {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9.@\-_]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2132,30 +2019,18 @@ class CodePipeline {
   /// Use this option to enter comments, such as the reason the pipeline was
   /// stopped.
   Future<StopPipelineExecutionOutput> stopPipelineExecution({
-    @_s.required String pipelineExecutionId,
-    @_s.required String pipelineName,
-    bool abandon,
-    String reason,
+    required String pipelineExecutionId,
+    required String pipelineName,
+    bool? abandon,
+    String? reason,
   }) async {
     ArgumentError.checkNotNull(pipelineExecutionId, 'pipelineExecutionId');
-    _s.validateStringPattern(
-      'pipelineExecutionId',
-      pipelineExecutionId,
-      r'''[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
       'pipelineName',
       pipelineName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''[A-Za-z0-9.@\-_]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2201,22 +2076,16 @@ class CodePipeline {
   /// Parameter [tags] :
   /// The tags you want to modify or add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2227,8 +2096,6 @@ class CodePipeline {
         'tags': tags,
       },
     );
-
-    return TagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from an AWS resource.
@@ -2245,22 +2112,16 @@ class CodePipeline {
   /// Parameter [tagKeys] :
   /// The list of keys for the tags to be removed from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:codepipeline:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodePipeline_20150709.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2271,8 +2132,37 @@ class CodePipeline {
         'tagKeys': tagKeys,
       },
     );
+  }
 
-    return UntagResourceOutput.fromJson(jsonResponse.body);
+  /// Updates an action type that was created with any supported integration
+  /// model, where the action type is to be used by customers of the action type
+  /// provider. Use a JSON file with the action definition and
+  /// <code>UpdateActionType</code> to provide the full structure.
+  ///
+  /// May throw [RequestFailedException].
+  /// May throw [ValidationException].
+  /// May throw [ActionTypeNotFoundException].
+  ///
+  /// Parameter [actionType] :
+  /// The action type definition for the action type to be updated.
+  Future<void> updateActionType({
+    required ActionTypeDeclaration actionType,
+  }) async {
+    ArgumentError.checkNotNull(actionType, 'actionType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'CodePipeline_20150709.UpdateActionType'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'actionType': actionType,
+      },
+    );
   }
 
   /// Updates a specified pipeline with edits or changes to its structure. Use a
@@ -2290,7 +2180,7 @@ class CodePipeline {
   /// Parameter [pipeline] :
   /// The name of the pipeline to be updated.
   Future<UpdatePipelineOutput> updatePipeline({
-    @_s.required PipelineDeclaration pipeline,
+    required PipelineDeclaration pipeline,
   }) async {
     ArgumentError.checkNotNull(pipeline, 'pipeline');
     final headers = <String, String>{
@@ -2316,81 +2206,94 @@ class CodePipeline {
 /// temporary credentials that are issued by AWS Secure Token Service (STS).
 /// They can be used to access input and output artifacts in the S3 bucket used
 /// to store artifact for the pipeline in AWS CodePipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AWSSessionCredentials {
   /// The access key for the session.
-  @_s.JsonKey(name: 'accessKeyId')
   final String accessKeyId;
 
   /// The secret access key for the session.
-  @_s.JsonKey(name: 'secretAccessKey')
   final String secretAccessKey;
 
   /// The token for the session.
-  @_s.JsonKey(name: 'sessionToken')
   final String sessionToken;
 
   AWSSessionCredentials({
-    @_s.required this.accessKeyId,
-    @_s.required this.secretAccessKey,
-    @_s.required this.sessionToken,
+    required this.accessKeyId,
+    required this.secretAccessKey,
+    required this.sessionToken,
   });
-  factory AWSSessionCredentials.fromJson(Map<String, dynamic> json) =>
-      _$AWSSessionCredentialsFromJson(json);
+
+  factory AWSSessionCredentials.fromJson(Map<String, dynamic> json) {
+    return AWSSessionCredentials(
+      accessKeyId: json['accessKeyId'] as String,
+      secretAccessKey: json['secretAccessKey'] as String,
+      sessionToken: json['sessionToken'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final secretAccessKey = this.secretAccessKey;
+    final sessionToken = this.sessionToken;
+    return {
+      'accessKeyId': accessKeyId,
+      'secretAccessKey': secretAccessKey,
+      'sessionToken': sessionToken,
+    };
+  }
 }
 
 /// Represents the output of an AcknowledgeJob action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcknowledgeJobOutput {
   /// Whether the job worker has received the specified job.
-  @_s.JsonKey(name: 'status')
-  final JobStatus status;
+  final JobStatus? status;
 
   AcknowledgeJobOutput({
     this.status,
   });
-  factory AcknowledgeJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$AcknowledgeJobOutputFromJson(json);
+
+  factory AcknowledgeJobOutput.fromJson(Map<String, dynamic> json) {
+    return AcknowledgeJobOutput(
+      status: (json['status'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Represents the output of an AcknowledgeThirdPartyJob action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcknowledgeThirdPartyJobOutput {
   /// The status information for the third party job, if any.
-  @_s.JsonKey(name: 'status')
-  final JobStatus status;
+  final JobStatus? status;
 
   AcknowledgeThirdPartyJobOutput({
     this.status,
   });
-  factory AcknowledgeThirdPartyJobOutput.fromJson(Map<String, dynamic> json) =>
-      _$AcknowledgeThirdPartyJobOutputFromJson(json);
+
+  factory AcknowledgeThirdPartyJobOutput.fromJson(Map<String, dynamic> json) {
+    return AcknowledgeThirdPartyJobOutput(
+      status: (json['status'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 enum ActionCategory {
-  @_s.JsonValue('Source')
   source,
-  @_s.JsonValue('Build')
   build,
-  @_s.JsonValue('Deploy')
   deploy,
-  @_s.JsonValue('Test')
   test,
-  @_s.JsonValue('Invoke')
   invoke,
-  @_s.JsonValue('Approval')
   approval,
 }
 
@@ -2410,45 +2313,62 @@ extension on ActionCategory {
       case ActionCategory.approval:
         return 'Approval';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ActionCategory toActionCategory() {
+    switch (this) {
+      case 'Source':
+        return ActionCategory.source;
+      case 'Build':
+        return ActionCategory.build;
+      case 'Deploy':
+        return ActionCategory.deploy;
+      case 'Test':
+        return ActionCategory.test;
+      case 'Invoke':
+        return ActionCategory.invoke;
+      case 'Approval':
+        return ActionCategory.approval;
+    }
+    throw Exception('$this is not known in enum ActionCategory');
   }
 }
 
 /// Represents information about an action configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionConfiguration {
   /// The configuration data for the action.
-  @_s.JsonKey(name: 'configuration')
-  final Map<String, String> configuration;
+  final Map<String, String>? configuration;
 
   ActionConfiguration({
     this.configuration,
   });
-  factory ActionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ActionConfigurationFromJson(json);
+
+  factory ActionConfiguration.fromJson(Map<String, dynamic> json) {
+    return ActionConfiguration(
+      configuration: (json['configuration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    return {
+      if (configuration != null) 'configuration': configuration,
+    };
+  }
 }
 
 /// Represents information about an action configuration property.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActionConfigurationProperty {
   /// Whether the configuration property is a key.
-  @_s.JsonKey(name: 'key')
   final bool key;
 
   /// The name of the action configuration property.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Whether the configuration property is a required value.
-  @_s.JsonKey(name: 'required')
   final bool required;
 
   /// Whether the configuration property is secret. Secrets are hidden from all
@@ -2458,13 +2378,11 @@ class ActionConfigurationProperty {
   ///
   /// When updating a pipeline, passing * * * * * without changing any other
   /// values of the action preserves the previous value of the secret.
-  @_s.JsonKey(name: 'secret')
   final bool secret;
 
   /// The description of the action configuration property that is displayed to
   /// users.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Indicates that the property is used with <code>PollForJobs</code>. When
   /// creating a custom action, an action can have up to one queryable property.
@@ -2475,74 +2393,124 @@ class ActionConfigurationProperty {
   /// subject to other restrictions. The value must be less than or equal to
   /// twenty (20) characters. The value can contain only alphanumeric characters,
   /// underscores, and hyphens.
-  @_s.JsonKey(name: 'queryable')
-  final bool queryable;
+  final bool? queryable;
 
   /// The type of the configuration property.
-  @_s.JsonKey(name: 'type')
-  final ActionConfigurationPropertyType type;
+  final ActionConfigurationPropertyType? type;
 
   ActionConfigurationProperty({
-    @_s.required this.key,
-    @_s.required this.name,
-    @_s.required this.required,
-    @_s.required this.secret,
+    required this.key,
+    required this.name,
+    required this.required,
+    required this.secret,
     this.description,
     this.queryable,
     this.type,
   });
-  factory ActionConfigurationProperty.fromJson(Map<String, dynamic> json) =>
-      _$ActionConfigurationPropertyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActionConfigurationPropertyToJson(this);
+  factory ActionConfigurationProperty.fromJson(Map<String, dynamic> json) {
+    return ActionConfigurationProperty(
+      key: json['key'] as bool,
+      name: json['name'] as String,
+      required: json['required'] as bool,
+      secret: json['secret'] as bool,
+      description: json['description'] as String?,
+      queryable: json['queryable'] as bool?,
+      type: (json['type'] as String?)?.toActionConfigurationPropertyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final name = this.name;
+    final required = this.required;
+    final secret = this.secret;
+    final description = this.description;
+    final queryable = this.queryable;
+    final type = this.type;
+    return {
+      'key': key,
+      'name': name,
+      'required': required,
+      'secret': secret,
+      if (description != null) 'description': description,
+      if (queryable != null) 'queryable': queryable,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum ActionConfigurationPropertyType {
-  @_s.JsonValue('String')
   string,
-  @_s.JsonValue('Number')
   number,
-  @_s.JsonValue('Boolean')
   boolean,
+}
+
+extension on ActionConfigurationPropertyType {
+  String toValue() {
+    switch (this) {
+      case ActionConfigurationPropertyType.string:
+        return 'String';
+      case ActionConfigurationPropertyType.number:
+        return 'Number';
+      case ActionConfigurationPropertyType.boolean:
+        return 'Boolean';
+    }
+  }
+}
+
+extension on String {
+  ActionConfigurationPropertyType toActionConfigurationPropertyType() {
+    switch (this) {
+      case 'String':
+        return ActionConfigurationPropertyType.string;
+      case 'Number':
+        return ActionConfigurationPropertyType.number;
+      case 'Boolean':
+        return ActionConfigurationPropertyType.boolean;
+    }
+    throw Exception(
+        '$this is not known in enum ActionConfigurationPropertyType');
+  }
 }
 
 /// Represents the context of an action in the stage of a pipeline to a job
 /// worker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionContext {
   /// The system-generated unique ID that corresponds to an action's execution.
-  @_s.JsonKey(name: 'actionExecutionId')
-  final String actionExecutionId;
+  final String? actionExecutionId;
 
   /// The name of the action in the context of a job.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   ActionContext({
     this.actionExecutionId,
     this.name,
   });
-  factory ActionContext.fromJson(Map<String, dynamic> json) =>
-      _$ActionContextFromJson(json);
+
+  factory ActionContext.fromJson(Map<String, dynamic> json) {
+    return ActionContext(
+      actionExecutionId: json['actionExecutionId'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionExecutionId = this.actionExecutionId;
+    final name = this.name;
+    return {
+      if (actionExecutionId != null) 'actionExecutionId': actionExecutionId,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Represents information about an action declaration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActionDeclaration {
   /// Specifies the action type and the provider of the action.
-  @_s.JsonKey(name: 'actionTypeId')
   final ActionTypeId actionTypeId;
 
   /// The action declaration's name.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The action's configuration. These are key-value pairs that specify input
@@ -2563,40 +2531,33 @@ class ActionDeclaration {
   /// <i>JSON:</i>
   ///
   /// <code>"Configuration" : { Key : Value },</code>
-  @_s.JsonKey(name: 'configuration')
-  final Map<String, String> configuration;
+  final Map<String, String>? configuration;
 
   /// The name or ID of the artifact consumed by the action, such as a test or
   /// build artifact.
-  @_s.JsonKey(name: 'inputArtifacts')
-  final List<InputArtifact> inputArtifacts;
+  final List<InputArtifact>? inputArtifacts;
 
   /// The variable namespace associated with the action. All variables produced as
   /// output by this action fall under this namespace.
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name or ID of the result of the action declaration, such as a test or
   /// build artifact.
-  @_s.JsonKey(name: 'outputArtifacts')
-  final List<OutputArtifact> outputArtifacts;
+  final List<OutputArtifact>? outputArtifacts;
 
   /// The action declaration's AWS Region, such as us-east-1.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// The ARN of the IAM service role that performs the declared action. This is
   /// assumed through the roleArn for the pipeline.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The order in which actions are run.
-  @_s.JsonKey(name: 'runOrder')
-  final int runOrder;
+  final int? runOrder;
 
   ActionDeclaration({
-    @_s.required this.actionTypeId,
-    @_s.required this.name,
+    required this.actionTypeId,
+    required this.name,
     this.configuration,
     this.inputArtifacts,
     this.namespace,
@@ -2605,18 +2566,54 @@ class ActionDeclaration {
     this.roleArn,
     this.runOrder,
   });
-  factory ActionDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$ActionDeclarationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActionDeclarationToJson(this);
+  factory ActionDeclaration.fromJson(Map<String, dynamic> json) {
+    return ActionDeclaration(
+      actionTypeId:
+          ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      configuration: (json['configuration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      inputArtifacts: (json['inputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      namespace: json['namespace'] as String?,
+      outputArtifacts: (json['outputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutputArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      region: json['region'] as String?,
+      roleArn: json['roleArn'] as String?,
+      runOrder: json['runOrder'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionTypeId = this.actionTypeId;
+    final name = this.name;
+    final configuration = this.configuration;
+    final inputArtifacts = this.inputArtifacts;
+    final namespace = this.namespace;
+    final outputArtifacts = this.outputArtifacts;
+    final region = this.region;
+    final roleArn = this.roleArn;
+    final runOrder = this.runOrder;
+    return {
+      'actionTypeId': actionTypeId,
+      'name': name,
+      if (configuration != null) 'configuration': configuration,
+      if (inputArtifacts != null) 'inputArtifacts': inputArtifacts,
+      if (namespace != null) 'namespace': namespace,
+      if (outputArtifacts != null) 'outputArtifacts': outputArtifacts,
+      if (region != null) 'region': region,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (runOrder != null) 'runOrder': runOrder,
+    };
+  }
 }
 
 /// Represents information about the run of an action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionExecution {
   /// ID of the workflow action execution in the current stage. Use the
   /// <a>GetPipelineState</a> action to retrieve the current action execution
@@ -2625,50 +2622,39 @@ class ActionExecution {
   /// For older executions, this field might be empty. The action execution ID is
   /// available for executions run on or after March 2020.
   /// </note>
-  @_s.JsonKey(name: 'actionExecutionId')
-  final String actionExecutionId;
+  final String? actionExecutionId;
 
   /// The details of an error returned by a URL external to AWS.
-  @_s.JsonKey(name: 'errorDetails')
-  final ErrorDetails errorDetails;
+  final ErrorDetails? errorDetails;
 
   /// The external ID of the run of the action.
-  @_s.JsonKey(name: 'externalExecutionId')
-  final String externalExecutionId;
+  final String? externalExecutionId;
 
   /// The URL of a resource external to AWS that is used when running the action
   /// (for example, an external repository URL).
-  @_s.JsonKey(name: 'externalExecutionUrl')
-  final String externalExecutionUrl;
+  final String? externalExecutionUrl;
 
   /// The last status change of the action.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastStatusChange')
-  final DateTime lastStatusChange;
+  final DateTime? lastStatusChange;
 
   /// The ARN of the user who last changed the pipeline.
-  @_s.JsonKey(name: 'lastUpdatedBy')
-  final String lastUpdatedBy;
+  final String? lastUpdatedBy;
 
   /// A percentage of completeness of the action as it runs.
-  @_s.JsonKey(name: 'percentComplete')
-  final int percentComplete;
+  final int? percentComplete;
 
   /// The status of the action, or for a completed action, the last status of the
   /// action.
-  @_s.JsonKey(name: 'status')
-  final ActionExecutionStatus status;
+  final ActionExecutionStatus? status;
 
   /// A summary of the run of the action.
-  @_s.JsonKey(name: 'summary')
-  final String summary;
+  final String? summary;
 
   /// The system-generated token used to identify a unique approval request. The
   /// token for each open approval request can be obtained using the
   /// <code>GetPipelineState</code> command. It is used to validate that the
   /// approval request corresponding to this token is still valid.
-  @_s.JsonKey(name: 'token')
-  final String token;
+  final String? token;
 
   ActionExecution({
     this.actionExecutionId,
@@ -2682,62 +2668,88 @@ class ActionExecution {
     this.summary,
     this.token,
   });
-  factory ActionExecution.fromJson(Map<String, dynamic> json) =>
-      _$ActionExecutionFromJson(json);
+
+  factory ActionExecution.fromJson(Map<String, dynamic> json) {
+    return ActionExecution(
+      actionExecutionId: json['actionExecutionId'] as String?,
+      errorDetails: json['errorDetails'] != null
+          ? ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>)
+          : null,
+      externalExecutionId: json['externalExecutionId'] as String?,
+      externalExecutionUrl: json['externalExecutionUrl'] as String?,
+      lastStatusChange: timeStampFromJson(json['lastStatusChange']),
+      lastUpdatedBy: json['lastUpdatedBy'] as String?,
+      percentComplete: json['percentComplete'] as int?,
+      status: (json['status'] as String?)?.toActionExecutionStatus(),
+      summary: json['summary'] as String?,
+      token: json['token'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionExecutionId = this.actionExecutionId;
+    final errorDetails = this.errorDetails;
+    final externalExecutionId = this.externalExecutionId;
+    final externalExecutionUrl = this.externalExecutionUrl;
+    final lastStatusChange = this.lastStatusChange;
+    final lastUpdatedBy = this.lastUpdatedBy;
+    final percentComplete = this.percentComplete;
+    final status = this.status;
+    final summary = this.summary;
+    final token = this.token;
+    return {
+      if (actionExecutionId != null) 'actionExecutionId': actionExecutionId,
+      if (errorDetails != null) 'errorDetails': errorDetails,
+      if (externalExecutionId != null)
+        'externalExecutionId': externalExecutionId,
+      if (externalExecutionUrl != null)
+        'externalExecutionUrl': externalExecutionUrl,
+      if (lastStatusChange != null)
+        'lastStatusChange': unixTimestampToJson(lastStatusChange),
+      if (lastUpdatedBy != null) 'lastUpdatedBy': lastUpdatedBy,
+      if (percentComplete != null) 'percentComplete': percentComplete,
+      if (status != null) 'status': status.toValue(),
+      if (summary != null) 'summary': summary,
+      if (token != null) 'token': token,
+    };
+  }
 }
 
 /// Returns information about an execution of an action, including the action
 /// execution ID, and the name, version, and timing of the action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionExecutionDetail {
   /// The action execution ID.
-  @_s.JsonKey(name: 'actionExecutionId')
-  final String actionExecutionId;
+  final String? actionExecutionId;
 
   /// The name of the action.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// Input details for the action execution, such as role ARN, Region, and input
   /// artifacts.
-  @_s.JsonKey(name: 'input')
-  final ActionExecutionInput input;
+  final ActionExecutionInput? input;
 
   /// The last update time of the action execution.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// Output details for the action execution, such as the action execution
   /// result.
-  @_s.JsonKey(name: 'output')
-  final ActionExecutionOutput output;
+  final ActionExecutionOutput? output;
 
   /// The pipeline execution ID for the action execution.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   /// The version of the pipeline where the action was run.
-  @_s.JsonKey(name: 'pipelineVersion')
-  final int pipelineVersion;
+  final int? pipelineVersion;
 
   /// The name of the stage that contains the action.
-  @_s.JsonKey(name: 'stageName')
-  final String stageName;
+  final String? stageName;
 
   /// The start time of the action execution.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the action execution. Status categories are
   /// <code>InProgress</code>, <code>Succeeded</code>, and <code>Failed</code>.
-  @_s.JsonKey(name: 'status')
-  final ActionExecutionStatus status;
+  final ActionExecutionStatus? status;
 
   ActionExecutionDetail({
     this.actionExecutionId,
@@ -2751,64 +2763,104 @@ class ActionExecutionDetail {
     this.startTime,
     this.status,
   });
-  factory ActionExecutionDetail.fromJson(Map<String, dynamic> json) =>
-      _$ActionExecutionDetailFromJson(json);
+
+  factory ActionExecutionDetail.fromJson(Map<String, dynamic> json) {
+    return ActionExecutionDetail(
+      actionExecutionId: json['actionExecutionId'] as String?,
+      actionName: json['actionName'] as String?,
+      input: json['input'] != null
+          ? ActionExecutionInput.fromJson(json['input'] as Map<String, dynamic>)
+          : null,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      output: json['output'] != null
+          ? ActionExecutionOutput.fromJson(
+              json['output'] as Map<String, dynamic>)
+          : null,
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+      pipelineVersion: json['pipelineVersion'] as int?,
+      stageName: json['stageName'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.toActionExecutionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionExecutionId = this.actionExecutionId;
+    final actionName = this.actionName;
+    final input = this.input;
+    final lastUpdateTime = this.lastUpdateTime;
+    final output = this.output;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final pipelineVersion = this.pipelineVersion;
+    final stageName = this.stageName;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      if (actionExecutionId != null) 'actionExecutionId': actionExecutionId,
+      if (actionName != null) 'actionName': actionName,
+      if (input != null) 'input': input,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (output != null) 'output': output,
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+      if (pipelineVersion != null) 'pipelineVersion': pipelineVersion,
+      if (stageName != null) 'stageName': stageName,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Filter values for the action execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ActionExecutionFilter {
   /// The pipeline execution ID used to filter action execution history.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   ActionExecutionFilter({
     this.pipelineExecutionId,
   });
-  Map<String, dynamic> toJson() => _$ActionExecutionFilterToJson(this);
+
+  factory ActionExecutionFilter.fromJson(Map<String, dynamic> json) {
+    return ActionExecutionFilter(
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    return {
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
 }
 
 /// Input information used for an action execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionExecutionInput {
-  @_s.JsonKey(name: 'actionTypeId')
-  final ActionTypeId actionTypeId;
+  final ActionTypeId? actionTypeId;
 
   /// Configuration data for an action execution.
-  @_s.JsonKey(name: 'configuration')
-  final Map<String, String> configuration;
+  final Map<String, String>? configuration;
 
   /// Details of input artifacts of the action that correspond to the action
   /// execution.
-  @_s.JsonKey(name: 'inputArtifacts')
-  final List<ArtifactDetail> inputArtifacts;
+  final List<ArtifactDetail>? inputArtifacts;
 
   /// The variable namespace associated with the action. All variables produced as
   /// output by this action fall under this namespace.
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The AWS Region for the action, such as us-east-1.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// Configuration data for an action execution with all variable references
   /// replaced with their real values for the execution.
-  @_s.JsonKey(name: 'resolvedConfiguration')
-  final Map<String, String> resolvedConfiguration;
+  final Map<String, String>? resolvedConfiguration;
 
   /// The ARN of the IAM service role that performs the declared action. This is
   /// assumed through the roleArn for the pipeline.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   ActionExecutionInput({
     this.actionTypeId,
@@ -2819,88 +2871,178 @@ class ActionExecutionInput {
     this.resolvedConfiguration,
     this.roleArn,
   });
-  factory ActionExecutionInput.fromJson(Map<String, dynamic> json) =>
-      _$ActionExecutionInputFromJson(json);
+
+  factory ActionExecutionInput.fromJson(Map<String, dynamic> json) {
+    return ActionExecutionInput(
+      actionTypeId: json['actionTypeId'] != null
+          ? ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>)
+          : null,
+      configuration: (json['configuration'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      inputArtifacts: (json['inputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ArtifactDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      namespace: json['namespace'] as String?,
+      region: json['region'] as String?,
+      resolvedConfiguration:
+          (json['resolvedConfiguration'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionTypeId = this.actionTypeId;
+    final configuration = this.configuration;
+    final inputArtifacts = this.inputArtifacts;
+    final namespace = this.namespace;
+    final region = this.region;
+    final resolvedConfiguration = this.resolvedConfiguration;
+    final roleArn = this.roleArn;
+    return {
+      if (actionTypeId != null) 'actionTypeId': actionTypeId,
+      if (configuration != null) 'configuration': configuration,
+      if (inputArtifacts != null) 'inputArtifacts': inputArtifacts,
+      if (namespace != null) 'namespace': namespace,
+      if (region != null) 'region': region,
+      if (resolvedConfiguration != null)
+        'resolvedConfiguration': resolvedConfiguration,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 /// Output details listed for an action execution, such as the action execution
 /// result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionExecutionOutput {
   /// Execution result information listed in the output details for an action
   /// execution.
-  @_s.JsonKey(name: 'executionResult')
-  final ActionExecutionResult executionResult;
+  final ActionExecutionResult? executionResult;
 
   /// Details of output artifacts of the action that correspond to the action
   /// execution.
-  @_s.JsonKey(name: 'outputArtifacts')
-  final List<ArtifactDetail> outputArtifacts;
+  final List<ArtifactDetail>? outputArtifacts;
 
   /// The outputVariables field shows the key-value pairs that were output as part
   /// of that execution.
-  @_s.JsonKey(name: 'outputVariables')
-  final Map<String, String> outputVariables;
+  final Map<String, String>? outputVariables;
 
   ActionExecutionOutput({
     this.executionResult,
     this.outputArtifacts,
     this.outputVariables,
   });
-  factory ActionExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$ActionExecutionOutputFromJson(json);
+
+  factory ActionExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return ActionExecutionOutput(
+      executionResult: json['executionResult'] != null
+          ? ActionExecutionResult.fromJson(
+              json['executionResult'] as Map<String, dynamic>)
+          : null,
+      outputArtifacts: (json['outputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ArtifactDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputVariables: (json['outputVariables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionResult = this.executionResult;
+    final outputArtifacts = this.outputArtifacts;
+    final outputVariables = this.outputVariables;
+    return {
+      if (executionResult != null) 'executionResult': executionResult,
+      if (outputArtifacts != null) 'outputArtifacts': outputArtifacts,
+      if (outputVariables != null) 'outputVariables': outputVariables,
+    };
+  }
 }
 
 /// Execution result information, such as the external execution ID.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionExecutionResult {
   /// The action provider's external ID for the action execution.
-  @_s.JsonKey(name: 'externalExecutionId')
-  final String externalExecutionId;
+  final String? externalExecutionId;
 
   /// The action provider's summary for the action execution.
-  @_s.JsonKey(name: 'externalExecutionSummary')
-  final String externalExecutionSummary;
+  final String? externalExecutionSummary;
 
   /// The deepest external link to the external resource (for example, a
   /// repository URL or deployment endpoint) that is used when running the action.
-  @_s.JsonKey(name: 'externalExecutionUrl')
-  final String externalExecutionUrl;
+  final String? externalExecutionUrl;
 
   ActionExecutionResult({
     this.externalExecutionId,
     this.externalExecutionSummary,
     this.externalExecutionUrl,
   });
-  factory ActionExecutionResult.fromJson(Map<String, dynamic> json) =>
-      _$ActionExecutionResultFromJson(json);
+
+  factory ActionExecutionResult.fromJson(Map<String, dynamic> json) {
+    return ActionExecutionResult(
+      externalExecutionId: json['externalExecutionId'] as String?,
+      externalExecutionSummary: json['externalExecutionSummary'] as String?,
+      externalExecutionUrl: json['externalExecutionUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalExecutionId = this.externalExecutionId;
+    final externalExecutionSummary = this.externalExecutionSummary;
+    final externalExecutionUrl = this.externalExecutionUrl;
+    return {
+      if (externalExecutionId != null)
+        'externalExecutionId': externalExecutionId,
+      if (externalExecutionSummary != null)
+        'externalExecutionSummary': externalExecutionSummary,
+      if (externalExecutionUrl != null)
+        'externalExecutionUrl': externalExecutionUrl,
+    };
+  }
 }
 
 enum ActionExecutionStatus {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Abandoned')
   abandoned,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on ActionExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case ActionExecutionStatus.inProgress:
+        return 'InProgress';
+      case ActionExecutionStatus.abandoned:
+        return 'Abandoned';
+      case ActionExecutionStatus.succeeded:
+        return 'Succeeded';
+      case ActionExecutionStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  ActionExecutionStatus toActionExecutionStatus() {
+    switch (this) {
+      case 'InProgress':
+        return ActionExecutionStatus.inProgress;
+      case 'Abandoned':
+        return ActionExecutionStatus.abandoned;
+      case 'Succeeded':
+        return ActionExecutionStatus.succeeded;
+      case 'Failed':
+        return ActionExecutionStatus.failed;
+    }
+    throw Exception('$this is not known in enum ActionExecutionStatus');
+  }
+}
+
 enum ActionOwner {
-  @_s.JsonValue('AWS')
   aws,
-  @_s.JsonValue('ThirdParty')
   thirdParty,
-  @_s.JsonValue('Custom')
   custom,
 }
 
@@ -2914,72 +3056,81 @@ extension on ActionOwner {
       case ActionOwner.custom:
         return 'Custom';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ActionOwner toActionOwner() {
+    switch (this) {
+      case 'AWS':
+        return ActionOwner.aws;
+      case 'ThirdParty':
+        return ActionOwner.thirdParty;
+      case 'Custom':
+        return ActionOwner.custom;
+    }
+    throw Exception('$this is not known in enum ActionOwner');
   }
 }
 
 /// Represents information about the version (or revision) of an action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActionRevision {
   /// The date and time when the most recent version of the action was created, in
   /// timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// The unique identifier of the change that set the state to this revision (for
   /// example, a deployment ID or timestamp).
-  @_s.JsonKey(name: 'revisionChangeId')
   final String revisionChangeId;
 
   /// The system-generated unique ID that identifies the revision number of the
   /// action.
-  @_s.JsonKey(name: 'revisionId')
   final String revisionId;
 
   ActionRevision({
-    @_s.required this.created,
-    @_s.required this.revisionChangeId,
-    @_s.required this.revisionId,
+    required this.created,
+    required this.revisionChangeId,
+    required this.revisionId,
   });
-  factory ActionRevision.fromJson(Map<String, dynamic> json) =>
-      _$ActionRevisionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActionRevisionToJson(this);
+  factory ActionRevision.fromJson(Map<String, dynamic> json) {
+    return ActionRevision(
+      created: nonNullableTimeStampFromJson(json['created'] as Object),
+      revisionChangeId: json['revisionChangeId'] as String,
+      revisionId: json['revisionId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final revisionChangeId = this.revisionChangeId;
+    final revisionId = this.revisionId;
+    return {
+      'created': unixTimestampToJson(created),
+      'revisionChangeId': revisionChangeId,
+      'revisionId': revisionId,
+    };
+  }
 }
 
 /// Represents information about the state of an action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionState {
   /// The name of the action.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// Represents information about the version (or revision) of an action.
-  @_s.JsonKey(name: 'currentRevision')
-  final ActionRevision currentRevision;
+  final ActionRevision? currentRevision;
 
   /// A URL link for more information about the state of the action, such as a
   /// deployment group details page.
-  @_s.JsonKey(name: 'entityUrl')
-  final String entityUrl;
+  final String? entityUrl;
 
   /// Represents information about the run of an action.
-  @_s.JsonKey(name: 'latestExecution')
-  final ActionExecution latestExecution;
+  final ActionExecution? latestExecution;
 
   /// A URL link for more information about the revision, such as a commit details
   /// page.
-  @_s.JsonKey(name: 'revisionUrl')
-  final String revisionUrl;
+  final String? revisionUrl;
 
   ActionState({
     this.actionName,
@@ -2988,54 +3139,287 @@ class ActionState {
     this.latestExecution,
     this.revisionUrl,
   });
-  factory ActionState.fromJson(Map<String, dynamic> json) =>
-      _$ActionStateFromJson(json);
+
+  factory ActionState.fromJson(Map<String, dynamic> json) {
+    return ActionState(
+      actionName: json['actionName'] as String?,
+      currentRevision: json['currentRevision'] != null
+          ? ActionRevision.fromJson(
+              json['currentRevision'] as Map<String, dynamic>)
+          : null,
+      entityUrl: json['entityUrl'] as String?,
+      latestExecution: json['latestExecution'] != null
+          ? ActionExecution.fromJson(
+              json['latestExecution'] as Map<String, dynamic>)
+          : null,
+      revisionUrl: json['revisionUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final currentRevision = this.currentRevision;
+    final entityUrl = this.entityUrl;
+    final latestExecution = this.latestExecution;
+    final revisionUrl = this.revisionUrl;
+    return {
+      if (actionName != null) 'actionName': actionName,
+      if (currentRevision != null) 'currentRevision': currentRevision,
+      if (entityUrl != null) 'entityUrl': entityUrl,
+      if (latestExecution != null) 'latestExecution': latestExecution,
+      if (revisionUrl != null) 'revisionUrl': revisionUrl,
+    };
+  }
 }
 
 /// Returns information about the details of an action type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActionType {
   /// Represents information about an action type.
-  @_s.JsonKey(name: 'id')
   final ActionTypeId id;
 
   /// The details of the input artifact for the action, such as its commit ID.
-  @_s.JsonKey(name: 'inputArtifactDetails')
   final ArtifactDetails inputArtifactDetails;
 
   /// The details of the output artifact of the action, such as its commit ID.
-  @_s.JsonKey(name: 'outputArtifactDetails')
   final ArtifactDetails outputArtifactDetails;
 
   /// The configuration properties for the action type.
-  @_s.JsonKey(name: 'actionConfigurationProperties')
-  final List<ActionConfigurationProperty> actionConfigurationProperties;
+  final List<ActionConfigurationProperty>? actionConfigurationProperties;
 
   /// The settings for the action type.
-  @_s.JsonKey(name: 'settings')
-  final ActionTypeSettings settings;
+  final ActionTypeSettings? settings;
 
   ActionType({
-    @_s.required this.id,
-    @_s.required this.inputArtifactDetails,
-    @_s.required this.outputArtifactDetails,
+    required this.id,
+    required this.inputArtifactDetails,
+    required this.outputArtifactDetails,
     this.actionConfigurationProperties,
     this.settings,
   });
-  factory ActionType.fromJson(Map<String, dynamic> json) =>
-      _$ActionTypeFromJson(json);
+
+  factory ActionType.fromJson(Map<String, dynamic> json) {
+    return ActionType(
+      id: ActionTypeId.fromJson(json['id'] as Map<String, dynamic>),
+      inputArtifactDetails: ArtifactDetails.fromJson(
+          json['inputArtifactDetails'] as Map<String, dynamic>),
+      outputArtifactDetails: ArtifactDetails.fromJson(
+          json['outputArtifactDetails'] as Map<String, dynamic>),
+      actionConfigurationProperties: (json['actionConfigurationProperties']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ActionConfigurationProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      settings: json['settings'] != null
+          ? ActionTypeSettings.fromJson(
+              json['settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final inputArtifactDetails = this.inputArtifactDetails;
+    final outputArtifactDetails = this.outputArtifactDetails;
+    final actionConfigurationProperties = this.actionConfigurationProperties;
+    final settings = this.settings;
+    return {
+      'id': id,
+      'inputArtifactDetails': inputArtifactDetails,
+      'outputArtifactDetails': outputArtifactDetails,
+      if (actionConfigurationProperties != null)
+        'actionConfigurationProperties': actionConfigurationProperties,
+      if (settings != null) 'settings': settings,
+    };
+  }
+}
+
+/// Information about parameters for artifacts associated with the action type,
+/// such as the minimum and maximum artifacts allowed.
+class ActionTypeArtifactDetails {
+  /// The maximum number of artifacts that can be used with the actiontype. For
+  /// example, you should specify a minimum and maximum of zero input artifacts
+  /// for an action type with a category of <code>source</code>.
+  final int maximumCount;
+
+  /// The minimum number of artifacts that can be used with the action type. For
+  /// example, you should specify a minimum and maximum of zero input artifacts
+  /// for an action type with a category of <code>source</code>.
+  final int minimumCount;
+
+  ActionTypeArtifactDetails({
+    required this.maximumCount,
+    required this.minimumCount,
+  });
+
+  factory ActionTypeArtifactDetails.fromJson(Map<String, dynamic> json) {
+    return ActionTypeArtifactDetails(
+      maximumCount: json['maximumCount'] as int,
+      minimumCount: json['minimumCount'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumCount = this.maximumCount;
+    final minimumCount = this.minimumCount;
+    return {
+      'maximumCount': maximumCount,
+      'minimumCount': minimumCount,
+    };
+  }
+}
+
+/// The parameters for the action type definition that are provided when the
+/// action type is created or updated.
+class ActionTypeDeclaration {
+  /// Information about the executor for an action type that was created with any
+  /// supported integration model.
+  final ActionTypeExecutor executor;
+
+  /// The action category, owner, provider, and version of the action type to be
+  /// updated.
+  final ActionTypeIdentifier id;
+
+  /// Details for the artifacts, such as application files, to be worked on by the
+  /// action. For example, the minimum and maximum number of input artifacts
+  /// allowed.
+  final ActionTypeArtifactDetails inputArtifactDetails;
+
+  /// Details for the output artifacts, such as a built application, that are the
+  /// result of the action. For example, the minimum and maximum number of output
+  /// artifacts allowed.
+  final ActionTypeArtifactDetails outputArtifactDetails;
+
+  /// The description for the action type to be updated.
+  final String? description;
+
+  /// Details identifying the accounts with permissions to use the action type.
+  final ActionTypePermissions? permissions;
+
+  /// The properties of the action type to be updated.
+  final List<ActionTypeProperty>? properties;
+
+  /// The links associated with the action type to be updated.
+  final ActionTypeUrls? urls;
+
+  ActionTypeDeclaration({
+    required this.executor,
+    required this.id,
+    required this.inputArtifactDetails,
+    required this.outputArtifactDetails,
+    this.description,
+    this.permissions,
+    this.properties,
+    this.urls,
+  });
+
+  factory ActionTypeDeclaration.fromJson(Map<String, dynamic> json) {
+    return ActionTypeDeclaration(
+      executor:
+          ActionTypeExecutor.fromJson(json['executor'] as Map<String, dynamic>),
+      id: ActionTypeIdentifier.fromJson(json['id'] as Map<String, dynamic>),
+      inputArtifactDetails: ActionTypeArtifactDetails.fromJson(
+          json['inputArtifactDetails'] as Map<String, dynamic>),
+      outputArtifactDetails: ActionTypeArtifactDetails.fromJson(
+          json['outputArtifactDetails'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+      permissions: json['permissions'] != null
+          ? ActionTypePermissions.fromJson(
+              json['permissions'] as Map<String, dynamic>)
+          : null,
+      properties: (json['properties'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActionTypeProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      urls: json['urls'] != null
+          ? ActionTypeUrls.fromJson(json['urls'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executor = this.executor;
+    final id = this.id;
+    final inputArtifactDetails = this.inputArtifactDetails;
+    final outputArtifactDetails = this.outputArtifactDetails;
+    final description = this.description;
+    final permissions = this.permissions;
+    final properties = this.properties;
+    final urls = this.urls;
+    return {
+      'executor': executor,
+      'id': id,
+      'inputArtifactDetails': inputArtifactDetails,
+      'outputArtifactDetails': outputArtifactDetails,
+      if (description != null) 'description': description,
+      if (permissions != null) 'permissions': permissions,
+      if (properties != null) 'properties': properties,
+      if (urls != null) 'urls': urls,
+    };
+  }
+}
+
+/// The action engine, or executor, for an action type created for a provider,
+/// where the action is to be used by customers of the provider. The action
+/// engine is associated with the model used to create and update the action,
+/// such as the Lambda integration model.
+class ActionTypeExecutor {
+  /// The action configuration properties for the action type. These properties
+  /// are specified in the action definition when the action type is created.
+  final ExecutorConfiguration configuration;
+
+  /// The integration model used to create and update the action type,
+  /// <code>Lambda</code> or <code>JobWorker</code>.
+  final ExecutorType type;
+
+  /// The timeout in seconds for the job. An action execution can have multiple
+  /// jobs. This is the timeout for a single job, not the entire action execution.
+  final int? jobTimeout;
+
+  /// The policy statement that specifies the permissions in the CodePipeline
+  /// customer’s account that are needed to successfully run an action.
+  ///
+  /// To grant permission to another account, specify the account ID as the
+  /// Principal, a domain-style identifier defined by the service, for example
+  /// <code>codepipeline.amazonaws.com</code>.
+  /// <note>
+  /// The size of the passed JSON policy document cannot exceed 2048 characters.
+  /// </note>
+  final String? policyStatementsTemplate;
+
+  ActionTypeExecutor({
+    required this.configuration,
+    required this.type,
+    this.jobTimeout,
+    this.policyStatementsTemplate,
+  });
+
+  factory ActionTypeExecutor.fromJson(Map<String, dynamic> json) {
+    return ActionTypeExecutor(
+      configuration: ExecutorConfiguration.fromJson(
+          json['configuration'] as Map<String, dynamic>),
+      type: (json['type'] as String).toExecutorType(),
+      jobTimeout: json['jobTimeout'] as int?,
+      policyStatementsTemplate: json['policyStatementsTemplate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final type = this.type;
+    final jobTimeout = this.jobTimeout;
+    final policyStatementsTemplate = this.policyStatementsTemplate;
+    return {
+      'configuration': configuration,
+      'type': type.toValue(),
+      if (jobTimeout != null) 'jobTimeout': jobTimeout,
+      if (policyStatementsTemplate != null)
+        'policyStatementsTemplate': policyStatementsTemplate,
+    };
+  }
 }
 
 /// Represents information about an action type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActionTypeId {
   /// A category defines what kind of action can be taken in the stage, and
   /// constrains the provider type for the action. Valid categories are limited to
@@ -3061,7 +3445,6 @@ class ActionTypeId {
   /// Approval
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'category')
   final ActionCategory category;
 
   /// The creator of the action being called. There are three valid values for the
@@ -3070,7 +3453,6 @@ class ActionTypeId {
   /// <code>Custom</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers">Valid
   /// Action Types and Providers in CodePipeline</a>.
-  @_s.JsonKey(name: 'owner')
   final ActionOwner owner;
 
   /// The provider of the service being called by the action. Valid providers are
@@ -3079,57 +3461,222 @@ class ActionTypeId {
   /// specified as CodeDeploy. For more information, see <a
   /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#actions-valid-providers">Valid
   /// Action Types and Providers in CodePipeline</a>.
-  @_s.JsonKey(name: 'provider')
   final String provider;
 
   /// A string that describes the action version.
-  @_s.JsonKey(name: 'version')
   final String version;
 
   ActionTypeId({
-    @_s.required this.category,
-    @_s.required this.owner,
-    @_s.required this.provider,
-    @_s.required this.version,
+    required this.category,
+    required this.owner,
+    required this.provider,
+    required this.version,
   });
-  factory ActionTypeId.fromJson(Map<String, dynamic> json) =>
-      _$ActionTypeIdFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActionTypeIdToJson(this);
+  factory ActionTypeId.fromJson(Map<String, dynamic> json) {
+    return ActionTypeId(
+      category: (json['category'] as String).toActionCategory(),
+      owner: (json['owner'] as String).toActionOwner(),
+      provider: json['provider'] as String,
+      version: json['version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final owner = this.owner;
+    final provider = this.provider;
+    final version = this.version;
+    return {
+      'category': category.toValue(),
+      'owner': owner.toValue(),
+      'provider': provider,
+      'version': version,
+    };
+  }
+}
+
+/// Specifies the category, owner, provider, and version of the action type.
+class ActionTypeIdentifier {
+  /// Defines what kind of action can be taken in the stage, one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Source</code>
+  /// </li>
+  /// <li>
+  /// <code>Build</code>
+  /// </li>
+  /// <li>
+  /// <code>Test</code>
+  /// </li>
+  /// <li>
+  /// <code>Deploy</code>
+  /// </li>
+  /// <li>
+  /// <code>Approval</code>
+  /// </li>
+  /// <li>
+  /// <code>Invoke</code>
+  /// </li>
+  /// </ul>
+  final ActionCategory category;
+
+  /// The creator of the action type being called: <code>AWS</code> or
+  /// <code>ThirdParty</code>.
+  final String owner;
+
+  /// The provider of the action type being called. The provider name is supplied
+  /// when the action type is created.
+  final String provider;
+
+  /// A string that describes the action type version.
+  final String version;
+
+  ActionTypeIdentifier({
+    required this.category,
+    required this.owner,
+    required this.provider,
+    required this.version,
+  });
+
+  factory ActionTypeIdentifier.fromJson(Map<String, dynamic> json) {
+    return ActionTypeIdentifier(
+      category: (json['category'] as String).toActionCategory(),
+      owner: json['owner'] as String,
+      provider: json['provider'] as String,
+      version: json['version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final owner = this.owner;
+    final provider = this.provider;
+    final version = this.version;
+    return {
+      'category': category.toValue(),
+      'owner': owner,
+      'provider': provider,
+      'version': version,
+    };
+  }
+}
+
+/// Details identifying the users with permissions to use the action type.
+class ActionTypePermissions {
+  /// A list of AWS account IDs with access to use the action type in their
+  /// pipelines.
+  final List<String> allowedAccounts;
+
+  ActionTypePermissions({
+    required this.allowedAccounts,
+  });
+
+  factory ActionTypePermissions.fromJson(Map<String, dynamic> json) {
+    return ActionTypePermissions(
+      allowedAccounts: (json['allowedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedAccounts = this.allowedAccounts;
+    return {
+      'allowedAccounts': allowedAccounts,
+    };
+  }
+}
+
+/// Represents information about each property specified in the action
+/// configuration, such as the description and key name that display for the
+/// customer using the action type.
+class ActionTypeProperty {
+  /// Whether the configuration property is a key.
+  final bool key;
+
+  /// The property name that is displayed to users.
+  final String name;
+
+  /// Whether to omit the field value entered by the customer in the log. If
+  /// <code>true</code>, the value is not saved in CloudTrail logs for the action
+  /// execution.
+  final bool noEcho;
+
+  /// Whether the configuration property is an optional value.
+  final bool optional;
+
+  /// The description of the property that is displayed to users.
+  final String? description;
+
+  /// Indicates that the property is used with polling. An action type can have up
+  /// to one queryable property. If it has one, that property must be both
+  /// required and not secret.
+  final bool? queryable;
+
+  ActionTypeProperty({
+    required this.key,
+    required this.name,
+    required this.noEcho,
+    required this.optional,
+    this.description,
+    this.queryable,
+  });
+
+  factory ActionTypeProperty.fromJson(Map<String, dynamic> json) {
+    return ActionTypeProperty(
+      key: json['key'] as bool,
+      name: json['name'] as String,
+      noEcho: json['noEcho'] as bool,
+      optional: json['optional'] as bool,
+      description: json['description'] as String?,
+      queryable: json['queryable'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final name = this.name;
+    final noEcho = this.noEcho;
+    final optional = this.optional;
+    final description = this.description;
+    final queryable = this.queryable;
+    return {
+      'key': key,
+      'name': name,
+      'noEcho': noEcho,
+      'optional': optional,
+      if (description != null) 'description': description,
+      if (queryable != null) 'queryable': queryable,
+    };
+  }
 }
 
 /// Returns information about the settings for an action type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActionTypeSettings {
   /// The URL returned to the AWS CodePipeline console that provides a deep link
   /// to the resources of the external system, such as the configuration page for
   /// an AWS CodeDeploy deployment group. This link is provided as part of the
   /// action display in the pipeline.
-  @_s.JsonKey(name: 'entityUrlTemplate')
-  final String entityUrlTemplate;
+  final String? entityUrlTemplate;
 
   /// The URL returned to the AWS CodePipeline console that contains a link to the
   /// top-level landing page for the external system, such as the console page for
   /// AWS CodeDeploy. This link is shown on the pipeline view page in the AWS
   /// CodePipeline console and provides a link to the execution entity of the
   /// external action.
-  @_s.JsonKey(name: 'executionUrlTemplate')
-  final String executionUrlTemplate;
+  final String? executionUrlTemplate;
 
   /// The URL returned to the AWS CodePipeline console that contains a link to the
   /// page where customers can update or change the configuration of the external
   /// action.
-  @_s.JsonKey(name: 'revisionUrlTemplate')
-  final String revisionUrlTemplate;
+  final String? revisionUrlTemplate;
 
   /// The URL of a sign-up page where users can sign up for an external service
   /// and perform initial configuration of the action provided by that service.
-  @_s.JsonKey(name: 'thirdPartyConfigurationUrl')
-  final String thirdPartyConfigurationUrl;
+  final String? thirdPartyConfigurationUrl;
 
   ActionTypeSettings({
     this.entityUrlTemplate,
@@ -3137,187 +3684,333 @@ class ActionTypeSettings {
     this.revisionUrlTemplate,
     this.thirdPartyConfigurationUrl,
   });
-  factory ActionTypeSettings.fromJson(Map<String, dynamic> json) =>
-      _$ActionTypeSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActionTypeSettingsToJson(this);
+  factory ActionTypeSettings.fromJson(Map<String, dynamic> json) {
+    return ActionTypeSettings(
+      entityUrlTemplate: json['entityUrlTemplate'] as String?,
+      executionUrlTemplate: json['executionUrlTemplate'] as String?,
+      revisionUrlTemplate: json['revisionUrlTemplate'] as String?,
+      thirdPartyConfigurationUrl: json['thirdPartyConfigurationUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityUrlTemplate = this.entityUrlTemplate;
+    final executionUrlTemplate = this.executionUrlTemplate;
+    final revisionUrlTemplate = this.revisionUrlTemplate;
+    final thirdPartyConfigurationUrl = this.thirdPartyConfigurationUrl;
+    return {
+      if (entityUrlTemplate != null) 'entityUrlTemplate': entityUrlTemplate,
+      if (executionUrlTemplate != null)
+        'executionUrlTemplate': executionUrlTemplate,
+      if (revisionUrlTemplate != null)
+        'revisionUrlTemplate': revisionUrlTemplate,
+      if (thirdPartyConfigurationUrl != null)
+        'thirdPartyConfigurationUrl': thirdPartyConfigurationUrl,
+    };
+  }
+}
+
+/// Returns information about URLs for web pages that display to customers as
+/// links on the pipeline view, such as an external configuration page for the
+/// action type.
+class ActionTypeUrls {
+  /// The URL returned to the CodePipeline console that contains a link to the
+  /// page where customers can configure the external action.
+  final String? configurationUrl;
+
+  /// The URL returned to the CodePipeline console that provides a deep link to
+  /// the resources of the external system, such as a status page. This link is
+  /// provided as part of the action display in the pipeline.
+  final String? entityUrlTemplate;
+
+  /// The link to an execution page for the action type in progress. For example,
+  /// for a CodeDeploy action, this link is shown on the pipeline view page in the
+  /// CodePipeline console, and it links to a CodeDeploy status page.
+  final String? executionUrlTemplate;
+
+  /// The URL returned to the CodePipeline console that contains a link to the
+  /// page where customers can update or change the configuration of the external
+  /// action.
+  final String? revisionUrlTemplate;
+
+  ActionTypeUrls({
+    this.configurationUrl,
+    this.entityUrlTemplate,
+    this.executionUrlTemplate,
+    this.revisionUrlTemplate,
+  });
+
+  factory ActionTypeUrls.fromJson(Map<String, dynamic> json) {
+    return ActionTypeUrls(
+      configurationUrl: json['configurationUrl'] as String?,
+      entityUrlTemplate: json['entityUrlTemplate'] as String?,
+      executionUrlTemplate: json['executionUrlTemplate'] as String?,
+      revisionUrlTemplate: json['revisionUrlTemplate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationUrl = this.configurationUrl;
+    final entityUrlTemplate = this.entityUrlTemplate;
+    final executionUrlTemplate = this.executionUrlTemplate;
+    final revisionUrlTemplate = this.revisionUrlTemplate;
+    return {
+      if (configurationUrl != null) 'configurationUrl': configurationUrl,
+      if (entityUrlTemplate != null) 'entityUrlTemplate': entityUrlTemplate,
+      if (executionUrlTemplate != null)
+        'executionUrlTemplate': executionUrlTemplate,
+      if (revisionUrlTemplate != null)
+        'revisionUrlTemplate': revisionUrlTemplate,
+    };
+  }
 }
 
 /// Represents information about the result of an approval request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApprovalResult {
   /// The response submitted by a reviewer assigned to an approval action request.
-  @_s.JsonKey(name: 'status')
   final ApprovalStatus status;
 
   /// The summary of the current status of the approval request.
-  @_s.JsonKey(name: 'summary')
   final String summary;
 
   ApprovalResult({
-    @_s.required this.status,
-    @_s.required this.summary,
+    required this.status,
+    required this.summary,
   });
-  Map<String, dynamic> toJson() => _$ApprovalResultToJson(this);
+
+  factory ApprovalResult.fromJson(Map<String, dynamic> json) {
+    return ApprovalResult(
+      status: (json['status'] as String).toApprovalStatus(),
+      summary: json['summary'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final summary = this.summary;
+    return {
+      'status': status.toValue(),
+      'summary': summary,
+    };
+  }
 }
 
 enum ApprovalStatus {
-  @_s.JsonValue('Approved')
   approved,
-  @_s.JsonValue('Rejected')
   rejected,
+}
+
+extension on ApprovalStatus {
+  String toValue() {
+    switch (this) {
+      case ApprovalStatus.approved:
+        return 'Approved';
+      case ApprovalStatus.rejected:
+        return 'Rejected';
+    }
+  }
+}
+
+extension on String {
+  ApprovalStatus toApprovalStatus() {
+    switch (this) {
+      case 'Approved':
+        return ApprovalStatus.approved;
+      case 'Rejected':
+        return ApprovalStatus.rejected;
+    }
+    throw Exception('$this is not known in enum ApprovalStatus');
+  }
 }
 
 /// Represents information about an artifact that is worked on by actions in the
 /// pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Artifact {
   /// The location of an artifact.
-  @_s.JsonKey(name: 'location')
-  final ArtifactLocation location;
+  final ArtifactLocation? location;
 
   /// The artifact's name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The artifact's revision ID. Depending on the type of object, this could be a
   /// commit ID (GitHub) or a revision ID (Amazon S3).
-  @_s.JsonKey(name: 'revision')
-  final String revision;
+  final String? revision;
 
   Artifact({
     this.location,
     this.name,
     this.revision,
   });
-  factory Artifact.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactFromJson(json);
+
+  factory Artifact.fromJson(Map<String, dynamic> json) {
+    return Artifact(
+      location: json['location'] != null
+          ? ArtifactLocation.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      revision: json['revision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final name = this.name;
+    final revision = this.revision;
+    return {
+      if (location != null) 'location': location,
+      if (name != null) 'name': name,
+      if (revision != null) 'revision': revision,
+    };
+  }
 }
 
 /// Artifact details for the action execution, such as the artifact location.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArtifactDetail {
   /// The artifact object name for the action execution.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The Amazon S3 artifact location for the action execution.
-  @_s.JsonKey(name: 's3location')
-  final S3Location s3location;
+  final S3Location? s3location;
 
   ArtifactDetail({
     this.name,
     this.s3location,
   });
-  factory ArtifactDetail.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactDetailFromJson(json);
+
+  factory ArtifactDetail.fromJson(Map<String, dynamic> json) {
+    return ArtifactDetail(
+      name: json['name'] as String?,
+      s3location: json['s3location'] != null
+          ? S3Location.fromJson(json['s3location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final s3location = this.s3location;
+    return {
+      if (name != null) 'name': name,
+      if (s3location != null) 's3location': s3location,
+    };
+  }
 }
 
 /// Returns information about the details of an artifact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ArtifactDetails {
   /// The maximum number of artifacts allowed for the action type.
-  @_s.JsonKey(name: 'maximumCount')
   final int maximumCount;
 
   /// The minimum number of artifacts allowed for the action type.
-  @_s.JsonKey(name: 'minimumCount')
   final int minimumCount;
 
   ArtifactDetails({
-    @_s.required this.maximumCount,
-    @_s.required this.minimumCount,
+    required this.maximumCount,
+    required this.minimumCount,
   });
-  factory ArtifactDetails.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactDetailsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ArtifactDetailsToJson(this);
+  factory ArtifactDetails.fromJson(Map<String, dynamic> json) {
+    return ArtifactDetails(
+      maximumCount: json['maximumCount'] as int,
+      minimumCount: json['minimumCount'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumCount = this.maximumCount;
+    final minimumCount = this.minimumCount;
+    return {
+      'maximumCount': maximumCount,
+      'minimumCount': minimumCount,
+    };
+  }
 }
 
 /// Represents information about the location of an artifact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArtifactLocation {
   /// The S3 bucket that contains the artifact.
-  @_s.JsonKey(name: 's3Location')
-  final S3ArtifactLocation s3Location;
+  final S3ArtifactLocation? s3Location;
 
   /// The type of artifact in the location.
-  @_s.JsonKey(name: 'type')
-  final ArtifactLocationType type;
+  final ArtifactLocationType? type;
 
   ArtifactLocation({
     this.s3Location,
     this.type,
   });
-  factory ArtifactLocation.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactLocationFromJson(json);
+
+  factory ArtifactLocation.fromJson(Map<String, dynamic> json) {
+    return ArtifactLocation(
+      s3Location: json['s3Location'] != null
+          ? S3ArtifactLocation.fromJson(
+              json['s3Location'] as Map<String, dynamic>)
+          : null,
+      type: (json['type'] as String?)?.toArtifactLocationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    final type = this.type;
+    return {
+      if (s3Location != null) 's3Location': s3Location,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum ArtifactLocationType {
-  @_s.JsonValue('S3')
   s3,
 }
 
+extension on ArtifactLocationType {
+  String toValue() {
+    switch (this) {
+      case ArtifactLocationType.s3:
+        return 'S3';
+    }
+  }
+}
+
+extension on String {
+  ArtifactLocationType toArtifactLocationType() {
+    switch (this) {
+      case 'S3':
+        return ArtifactLocationType.s3;
+    }
+    throw Exception('$this is not known in enum ArtifactLocationType');
+  }
+}
+
 /// Represents revision details of an artifact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ArtifactRevision {
   /// The date and time when the most recent revision of the artifact was created,
   /// in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The name of an artifact. This name might be system-generated, such as
   /// "MyApp", or defined by the user when an action is created.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// An additional identifier for a revision, such as a commit date or, for
   /// artifacts stored in Amazon S3 buckets, the ETag value.
-  @_s.JsonKey(name: 'revisionChangeIdentifier')
-  final String revisionChangeIdentifier;
+  final String? revisionChangeIdentifier;
 
   /// The revision ID of the artifact.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// Summary information about the most recent revision of the artifact. For
   /// GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3
   /// buckets or actions, the user-provided content of a
   /// <code>codepipeline-artifact-revision-summary</code> key specified in the
   /// object metadata.
-  @_s.JsonKey(name: 'revisionSummary')
-  final String revisionSummary;
+  final String? revisionSummary;
 
   /// The commit ID for the artifact revision. For artifacts stored in GitHub or
   /// AWS CodeCommit repositories, the commit ID is linked to a commit details
   /// page.
-  @_s.JsonKey(name: 'revisionUrl')
-  final String revisionUrl;
+  final String? revisionUrl;
 
   ArtifactRevision({
     this.created,
@@ -3327,8 +4020,35 @@ class ArtifactRevision {
     this.revisionSummary,
     this.revisionUrl,
   });
-  factory ArtifactRevision.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactRevisionFromJson(json);
+
+  factory ArtifactRevision.fromJson(Map<String, dynamic> json) {
+    return ArtifactRevision(
+      created: timeStampFromJson(json['created']),
+      name: json['name'] as String?,
+      revisionChangeIdentifier: json['revisionChangeIdentifier'] as String?,
+      revisionId: json['revisionId'] as String?,
+      revisionSummary: json['revisionSummary'] as String?,
+      revisionUrl: json['revisionUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final name = this.name;
+    final revisionChangeIdentifier = this.revisionChangeIdentifier;
+    final revisionId = this.revisionId;
+    final revisionSummary = this.revisionSummary;
+    final revisionUrl = this.revisionUrl;
+    return {
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (name != null) 'name': name,
+      if (revisionChangeIdentifier != null)
+        'revisionChangeIdentifier': revisionChangeIdentifier,
+      if (revisionId != null) 'revisionId': revisionId,
+      if (revisionSummary != null) 'revisionSummary': revisionSummary,
+      if (revisionUrl != null) 'revisionUrl': revisionUrl,
+    };
+  }
 }
 
 /// The S3 bucket where artifacts for the pipeline are stored.
@@ -3338,187 +4058,270 @@ class ArtifactRevision {
 /// you create a cross-region action in your pipeline, you must use
 /// <code>artifactStores</code>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ArtifactStore {
   /// The S3 bucket used for storing the artifacts for a pipeline. You can specify
   /// the name of an S3 bucket but not a folder in the bucket. A folder to contain
   /// the pipeline artifacts is created for you based on the name of the pipeline.
   /// You can use any S3 bucket in the same AWS Region as the pipeline to store
   /// your pipeline artifacts.
-  @_s.JsonKey(name: 'location')
   final String location;
 
   /// The type of the artifact store, such as S3.
-  @_s.JsonKey(name: 'type')
   final ArtifactStoreType type;
 
   /// The encryption key used to encrypt the data in the artifact store, such as
   /// an AWS Key Management Service (AWS KMS) key. If this is undefined, the
   /// default key for Amazon S3 is used.
-  @_s.JsonKey(name: 'encryptionKey')
-  final EncryptionKey encryptionKey;
+  final EncryptionKey? encryptionKey;
 
   ArtifactStore({
-    @_s.required this.location,
-    @_s.required this.type,
+    required this.location,
+    required this.type,
     this.encryptionKey,
   });
-  factory ArtifactStore.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactStoreFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ArtifactStoreToJson(this);
+  factory ArtifactStore.fromJson(Map<String, dynamic> json) {
+    return ArtifactStore(
+      location: json['location'] as String,
+      type: (json['type'] as String).toArtifactStoreType(),
+      encryptionKey: json['encryptionKey'] != null
+          ? EncryptionKey.fromJson(
+              json['encryptionKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final type = this.type;
+    final encryptionKey = this.encryptionKey;
+    return {
+      'location': location,
+      'type': type.toValue(),
+      if (encryptionKey != null) 'encryptionKey': encryptionKey,
+    };
+  }
 }
 
 enum ArtifactStoreType {
-  @_s.JsonValue('S3')
   s3,
 }
 
+extension on ArtifactStoreType {
+  String toValue() {
+    switch (this) {
+      case ArtifactStoreType.s3:
+        return 'S3';
+    }
+  }
+}
+
+extension on String {
+  ArtifactStoreType toArtifactStoreType() {
+    switch (this) {
+      case 'S3':
+        return ArtifactStoreType.s3;
+    }
+    throw Exception('$this is not known in enum ArtifactStoreType');
+  }
+}
+
 /// Reserved for future use.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BlockerDeclaration {
   /// Reserved for future use.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'type')
   final BlockerType type;
 
   BlockerDeclaration({
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.name,
+    required this.type,
   });
-  factory BlockerDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$BlockerDeclarationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BlockerDeclarationToJson(this);
+  factory BlockerDeclaration.fromJson(Map<String, dynamic> json) {
+    return BlockerDeclaration(
+      name: json['name'] as String,
+      type: (json['type'] as String).toBlockerType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'name': name,
+      'type': type.toValue(),
+    };
+  }
 }
 
 enum BlockerType {
-  @_s.JsonValue('Schedule')
   schedule,
 }
 
+extension on BlockerType {
+  String toValue() {
+    switch (this) {
+      case BlockerType.schedule:
+        return 'Schedule';
+    }
+  }
+}
+
+extension on String {
+  BlockerType toBlockerType() {
+    switch (this) {
+      case 'Schedule':
+        return BlockerType.schedule;
+    }
+    throw Exception('$this is not known in enum BlockerType');
+  }
+}
+
 /// Represents the output of a <code>CreateCustomActionType</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCustomActionTypeOutput {
   /// Returns information about the details of an action type.
-  @_s.JsonKey(name: 'actionType')
   final ActionType actionType;
 
   /// Specifies the tags applied to the custom action.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   CreateCustomActionTypeOutput({
-    @_s.required this.actionType,
+    required this.actionType,
     this.tags,
   });
-  factory CreateCustomActionTypeOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateCustomActionTypeOutputFromJson(json);
+
+  factory CreateCustomActionTypeOutput.fromJson(Map<String, dynamic> json) {
+    return CreateCustomActionTypeOutput(
+      actionType:
+          ActionType.fromJson(json['actionType'] as Map<String, dynamic>),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionType = this.actionType;
+    final tags = this.tags;
+    return {
+      'actionType': actionType,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Represents the output of a <code>CreatePipeline</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePipelineOutput {
   /// Represents the structure of actions and stages to be performed in the
   /// pipeline.
-  @_s.JsonKey(name: 'pipeline')
-  final PipelineDeclaration pipeline;
+  final PipelineDeclaration? pipeline;
 
   /// Specifies the tags applied to the pipeline.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   CreatePipelineOutput({
     this.pipeline,
     this.tags,
   });
-  factory CreatePipelineOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreatePipelineOutputFromJson(json);
+
+  factory CreatePipelineOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePipelineOutput(
+      pipeline: json['pipeline'] != null
+          ? PipelineDeclaration.fromJson(
+              json['pipeline'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    final tags = this.tags;
+    return {
+      if (pipeline != null) 'pipeline': pipeline,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Represents information about a current revision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CurrentRevision {
   /// The change identifier for the current revision.
-  @_s.JsonKey(name: 'changeIdentifier')
   final String changeIdentifier;
 
   /// The revision ID of the current version of an artifact.
-  @_s.JsonKey(name: 'revision')
   final String revision;
 
   /// The date and time when the most recent revision of the artifact was created,
   /// in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The summary of the most recent revision of the artifact.
-  @_s.JsonKey(name: 'revisionSummary')
-  final String revisionSummary;
+  final String? revisionSummary;
 
   CurrentRevision({
-    @_s.required this.changeIdentifier,
-    @_s.required this.revision,
+    required this.changeIdentifier,
+    required this.revision,
     this.created,
     this.revisionSummary,
   });
-  Map<String, dynamic> toJson() => _$CurrentRevisionToJson(this);
+
+  factory CurrentRevision.fromJson(Map<String, dynamic> json) {
+    return CurrentRevision(
+      changeIdentifier: json['changeIdentifier'] as String,
+      revision: json['revision'] as String,
+      created: timeStampFromJson(json['created']),
+      revisionSummary: json['revisionSummary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeIdentifier = this.changeIdentifier;
+    final revision = this.revision;
+    final created = this.created;
+    final revisionSummary = this.revisionSummary;
+    return {
+      'changeIdentifier': changeIdentifier,
+      'revision': revision,
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (revisionSummary != null) 'revisionSummary': revisionSummary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteWebhookOutput {
   DeleteWebhookOutput();
-  factory DeleteWebhookOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWebhookOutputFromJson(json);
+
+  factory DeleteWebhookOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteWebhookOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterWebhookWithThirdPartyOutput {
   DeregisterWebhookWithThirdPartyOutput();
+
   factory DeregisterWebhookWithThirdPartyOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterWebhookWithThirdPartyOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return DeregisterWebhookWithThirdPartyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Represents information about the key used to encrypt data in the artifact
 /// store, such as an AWS Key Management Service (AWS KMS) key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionKey {
   /// The ID used to identify the key. For an AWS KMS key, you can use the key ID,
   /// the key ARN, or the alias ARN.
@@ -3527,249 +4330,456 @@ class EncryptionKey {
   /// key (CMK). For cross-account actions, you can only use the key ID or key ARN
   /// to identify the key.
   /// </note>
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The type of encryption key, such as an AWS Key Management Service (AWS KMS)
   /// key. When creating or updating a pipeline, the value must be set to 'KMS'.
-  @_s.JsonKey(name: 'type')
   final EncryptionKeyType type;
 
   EncryptionKey({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
   });
-  factory EncryptionKey.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionKeyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionKeyToJson(this);
+  factory EncryptionKey.fromJson(Map<String, dynamic> json) {
+    return EncryptionKey(
+      id: json['id'] as String,
+      type: (json['type'] as String).toEncryptionKeyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'id': id,
+      'type': type.toValue(),
+    };
+  }
 }
 
 enum EncryptionKeyType {
-  @_s.JsonValue('KMS')
   kms,
 }
 
+extension on EncryptionKeyType {
+  String toValue() {
+    switch (this) {
+      case EncryptionKeyType.kms:
+        return 'KMS';
+    }
+  }
+}
+
+extension on String {
+  EncryptionKeyType toEncryptionKeyType() {
+    switch (this) {
+      case 'KMS':
+        return EncryptionKeyType.kms;
+    }
+    throw Exception('$this is not known in enum EncryptionKeyType');
+  }
+}
+
 /// Represents information about an error in AWS CodePipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorDetails {
   /// The system ID or number code of the error.
-  @_s.JsonKey(name: 'code')
-  final String code;
+  final String? code;
 
   /// The text of the error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   ErrorDetails({
     this.code,
     this.message,
   });
-  factory ErrorDetails.fromJson(Map<String, dynamic> json) =>
-      _$ErrorDetailsFromJson(json);
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 /// The details of the actions taken and results produced on an artifact as it
 /// passes through stages in the pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExecutionDetails {
   /// The system-generated unique ID of this action used to identify this job
   /// worker in any external systems, such as AWS CodeDeploy.
-  @_s.JsonKey(name: 'externalExecutionId')
-  final String externalExecutionId;
+  final String? externalExecutionId;
 
   /// The percentage of work completed on the action, represented on a scale of 0
   /// to 100 percent.
-  @_s.JsonKey(name: 'percentComplete')
-  final int percentComplete;
+  final int? percentComplete;
 
   /// The summary of the current status of the actions.
-  @_s.JsonKey(name: 'summary')
-  final String summary;
+  final String? summary;
 
   ExecutionDetails({
     this.externalExecutionId,
     this.percentComplete,
     this.summary,
   });
-  Map<String, dynamic> toJson() => _$ExecutionDetailsToJson(this);
+
+  factory ExecutionDetails.fromJson(Map<String, dynamic> json) {
+    return ExecutionDetails(
+      externalExecutionId: json['externalExecutionId'] as String?,
+      percentComplete: json['percentComplete'] as int?,
+      summary: json['summary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalExecutionId = this.externalExecutionId;
+    final percentComplete = this.percentComplete;
+    final summary = this.summary;
+    return {
+      if (externalExecutionId != null)
+        'externalExecutionId': externalExecutionId,
+      if (percentComplete != null) 'percentComplete': percentComplete,
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
 /// The interaction or event that started a pipeline execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExecutionTrigger {
   /// Detail related to the event that started a pipeline execution, such as the
   /// webhook ARN of the webhook that triggered the pipeline execution or the user
   /// ARN for a user-initiated <code>start-pipeline-execution</code> CLI command.
-  @_s.JsonKey(name: 'triggerDetail')
-  final String triggerDetail;
+  final String? triggerDetail;
 
   /// The type of change-detection method, command, or user interaction that
   /// started a pipeline execution.
-  @_s.JsonKey(name: 'triggerType')
-  final TriggerType triggerType;
+  final TriggerType? triggerType;
 
   ExecutionTrigger({
     this.triggerDetail,
     this.triggerType,
   });
-  factory ExecutionTrigger.fromJson(Map<String, dynamic> json) =>
-      _$ExecutionTriggerFromJson(json);
+
+  factory ExecutionTrigger.fromJson(Map<String, dynamic> json) {
+    return ExecutionTrigger(
+      triggerDetail: json['triggerDetail'] as String?,
+      triggerType: (json['triggerType'] as String?)?.toTriggerType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final triggerDetail = this.triggerDetail;
+    final triggerType = this.triggerType;
+    return {
+      if (triggerDetail != null) 'triggerDetail': triggerDetail,
+      if (triggerType != null) 'triggerType': triggerType.toValue(),
+    };
+  }
+}
+
+/// The action engine, or executor, related to the supported integration model
+/// used to create and update the action type. The available executor types are
+/// <code>Lambda</code> and <code>JobWorker</code>.
+class ExecutorConfiguration {
+  /// Details about the <code>JobWorker</code> executor of the action type.
+  final JobWorkerExecutorConfiguration? jobWorkerExecutorConfiguration;
+
+  /// Details about the <code>Lambda</code> executor of the action type.
+  final LambdaExecutorConfiguration? lambdaExecutorConfiguration;
+
+  ExecutorConfiguration({
+    this.jobWorkerExecutorConfiguration,
+    this.lambdaExecutorConfiguration,
+  });
+
+  factory ExecutorConfiguration.fromJson(Map<String, dynamic> json) {
+    return ExecutorConfiguration(
+      jobWorkerExecutorConfiguration: json['jobWorkerExecutorConfiguration'] !=
+              null
+          ? JobWorkerExecutorConfiguration.fromJson(
+              json['jobWorkerExecutorConfiguration'] as Map<String, dynamic>)
+          : null,
+      lambdaExecutorConfiguration: json['lambdaExecutorConfiguration'] != null
+          ? LambdaExecutorConfiguration.fromJson(
+              json['lambdaExecutorConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobWorkerExecutorConfiguration = this.jobWorkerExecutorConfiguration;
+    final lambdaExecutorConfiguration = this.lambdaExecutorConfiguration;
+    return {
+      if (jobWorkerExecutorConfiguration != null)
+        'jobWorkerExecutorConfiguration': jobWorkerExecutorConfiguration,
+      if (lambdaExecutorConfiguration != null)
+        'lambdaExecutorConfiguration': lambdaExecutorConfiguration,
+    };
+  }
+}
+
+enum ExecutorType {
+  jobWorker,
+  lambda,
+}
+
+extension on ExecutorType {
+  String toValue() {
+    switch (this) {
+      case ExecutorType.jobWorker:
+        return 'JobWorker';
+      case ExecutorType.lambda:
+        return 'Lambda';
+    }
+  }
+}
+
+extension on String {
+  ExecutorType toExecutorType() {
+    switch (this) {
+      case 'JobWorker':
+        return ExecutorType.jobWorker;
+      case 'Lambda':
+        return ExecutorType.lambda;
+    }
+    throw Exception('$this is not known in enum ExecutorType');
+  }
 }
 
 /// Represents information about failure details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FailureDetails {
   /// The message about the failure.
-  @_s.JsonKey(name: 'message')
   final String message;
 
   /// The type of the failure.
-  @_s.JsonKey(name: 'type')
   final FailureType type;
 
   /// The external ID of the run of the action that failed.
-  @_s.JsonKey(name: 'externalExecutionId')
-  final String externalExecutionId;
+  final String? externalExecutionId;
 
   FailureDetails({
-    @_s.required this.message,
-    @_s.required this.type,
+    required this.message,
+    required this.type,
     this.externalExecutionId,
   });
-  Map<String, dynamic> toJson() => _$FailureDetailsToJson(this);
+
+  factory FailureDetails.fromJson(Map<String, dynamic> json) {
+    return FailureDetails(
+      message: json['message'] as String,
+      type: (json['type'] as String).toFailureType(),
+      externalExecutionId: json['externalExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final type = this.type;
+    final externalExecutionId = this.externalExecutionId;
+    return {
+      'message': message,
+      'type': type.toValue(),
+      if (externalExecutionId != null)
+        'externalExecutionId': externalExecutionId,
+    };
+  }
 }
 
 enum FailureType {
-  @_s.JsonValue('JobFailed')
   jobFailed,
-  @_s.JsonValue('ConfigurationError')
   configurationError,
-  @_s.JsonValue('PermissionError')
   permissionError,
-  @_s.JsonValue('RevisionOutOfSync')
   revisionOutOfSync,
-  @_s.JsonValue('RevisionUnavailable')
   revisionUnavailable,
-  @_s.JsonValue('SystemUnavailable')
   systemUnavailable,
 }
 
+extension on FailureType {
+  String toValue() {
+    switch (this) {
+      case FailureType.jobFailed:
+        return 'JobFailed';
+      case FailureType.configurationError:
+        return 'ConfigurationError';
+      case FailureType.permissionError:
+        return 'PermissionError';
+      case FailureType.revisionOutOfSync:
+        return 'RevisionOutOfSync';
+      case FailureType.revisionUnavailable:
+        return 'RevisionUnavailable';
+      case FailureType.systemUnavailable:
+        return 'SystemUnavailable';
+    }
+  }
+}
+
+extension on String {
+  FailureType toFailureType() {
+    switch (this) {
+      case 'JobFailed':
+        return FailureType.jobFailed;
+      case 'ConfigurationError':
+        return FailureType.configurationError;
+      case 'PermissionError':
+        return FailureType.permissionError;
+      case 'RevisionOutOfSync':
+        return FailureType.revisionOutOfSync;
+      case 'RevisionUnavailable':
+        return FailureType.revisionUnavailable;
+      case 'SystemUnavailable':
+        return FailureType.systemUnavailable;
+    }
+    throw Exception('$this is not known in enum FailureType');
+  }
+}
+
+class GetActionTypeOutput {
+  /// The action type information for the requested action type, such as the
+  /// action type ID.
+  final ActionTypeDeclaration? actionType;
+
+  GetActionTypeOutput({
+    this.actionType,
+  });
+
+  factory GetActionTypeOutput.fromJson(Map<String, dynamic> json) {
+    return GetActionTypeOutput(
+      actionType: json['actionType'] != null
+          ? ActionTypeDeclaration.fromJson(
+              json['actionType'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionType = this.actionType;
+    return {
+      if (actionType != null) 'actionType': actionType,
+    };
+  }
+}
+
 /// Represents the output of a <code>GetJobDetails</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobDetailsOutput {
   /// The details of the job.
   /// <note>
   /// If AWSSessionCredentials is used, a long-running job can call
   /// <code>GetJobDetails</code> again to obtain new credentials.
   /// </note>
-  @_s.JsonKey(name: 'jobDetails')
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
 
   GetJobDetailsOutput({
     this.jobDetails,
   });
-  factory GetJobDetailsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetJobDetailsOutputFromJson(json);
+
+  factory GetJobDetailsOutput.fromJson(Map<String, dynamic> json) {
+    return GetJobDetailsOutput(
+      jobDetails: json['jobDetails'] != null
+          ? JobDetails.fromJson(json['jobDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobDetails = this.jobDetails;
+    return {
+      if (jobDetails != null) 'jobDetails': jobDetails,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetPipelineExecution</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPipelineExecutionOutput {
   /// Represents information about the execution of a pipeline.
-  @_s.JsonKey(name: 'pipelineExecution')
-  final PipelineExecution pipelineExecution;
+  final PipelineExecution? pipelineExecution;
 
   GetPipelineExecutionOutput({
     this.pipelineExecution,
   });
-  factory GetPipelineExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetPipelineExecutionOutputFromJson(json);
+
+  factory GetPipelineExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return GetPipelineExecutionOutput(
+      pipelineExecution: json['pipelineExecution'] != null
+          ? PipelineExecution.fromJson(
+              json['pipelineExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecution = this.pipelineExecution;
+    return {
+      if (pipelineExecution != null) 'pipelineExecution': pipelineExecution,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetPipeline</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPipelineOutput {
   /// Represents the pipeline metadata information returned as part of the output
   /// of a <code>GetPipeline</code> action.
-  @_s.JsonKey(name: 'metadata')
-  final PipelineMetadata metadata;
+  final PipelineMetadata? metadata;
 
   /// Represents the structure of actions and stages to be performed in the
   /// pipeline.
-  @_s.JsonKey(name: 'pipeline')
-  final PipelineDeclaration pipeline;
+  final PipelineDeclaration? pipeline;
 
   GetPipelineOutput({
     this.metadata,
     this.pipeline,
   });
-  factory GetPipelineOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetPipelineOutputFromJson(json);
+
+  factory GetPipelineOutput.fromJson(Map<String, dynamic> json) {
+    return GetPipelineOutput(
+      metadata: json['metadata'] != null
+          ? PipelineMetadata.fromJson(json['metadata'] as Map<String, dynamic>)
+          : null,
+      pipeline: json['pipeline'] != null
+          ? PipelineDeclaration.fromJson(
+              json['pipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final pipeline = this.pipeline;
+    return {
+      if (metadata != null) 'metadata': metadata,
+      if (pipeline != null) 'pipeline': pipeline,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetPipelineState</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPipelineStateOutput {
   /// The date and time the pipeline was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The name of the pipeline for which you want to get the state.
-  @_s.JsonKey(name: 'pipelineName')
-  final String pipelineName;
+  final String? pipelineName;
 
   /// The version number of the pipeline.
   /// <note>
   /// A newly created pipeline is always assigned a version number of
   /// <code>1</code>.
   /// </note>
-  @_s.JsonKey(name: 'pipelineVersion')
-  final int pipelineVersion;
+  final int? pipelineVersion;
 
   /// A list of the pipeline stage output information, including stage name,
   /// state, most recent run details, whether the stage is disabled, and other
   /// data.
-  @_s.JsonKey(name: 'stageStates')
-  final List<StageState> stageStates;
+  final List<StageState>? stageStates;
 
   /// The date and time the pipeline was last updated, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updated')
-  final DateTime updated;
+  final DateTime? updated;
 
   GetPipelineStateOutput({
     this.created,
@@ -3778,35 +4788,64 @@ class GetPipelineStateOutput {
     this.stageStates,
     this.updated,
   });
-  factory GetPipelineStateOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetPipelineStateOutputFromJson(json);
+
+  factory GetPipelineStateOutput.fromJson(Map<String, dynamic> json) {
+    return GetPipelineStateOutput(
+      created: timeStampFromJson(json['created']),
+      pipelineName: json['pipelineName'] as String?,
+      pipelineVersion: json['pipelineVersion'] as int?,
+      stageStates: (json['stageStates'] as List?)
+          ?.whereNotNull()
+          .map((e) => StageState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updated: timeStampFromJson(json['updated']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final pipelineName = this.pipelineName;
+    final pipelineVersion = this.pipelineVersion;
+    final stageStates = this.stageStates;
+    final updated = this.updated;
+    return {
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (pipelineName != null) 'pipelineName': pipelineName,
+      if (pipelineVersion != null) 'pipelineVersion': pipelineVersion,
+      if (stageStates != null) 'stageStates': stageStates,
+      if (updated != null) 'updated': unixTimestampToJson(updated),
+    };
+  }
 }
 
 /// Represents the output of a <code>GetThirdPartyJobDetails</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetThirdPartyJobDetailsOutput {
   /// The details of the job, including any protected values defined for the job.
-  @_s.JsonKey(name: 'jobDetails')
-  final ThirdPartyJobDetails jobDetails;
+  final ThirdPartyJobDetails? jobDetails;
 
   GetThirdPartyJobDetailsOutput({
     this.jobDetails,
   });
-  factory GetThirdPartyJobDetailsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetThirdPartyJobDetailsOutputFromJson(json);
+
+  factory GetThirdPartyJobDetailsOutput.fromJson(Map<String, dynamic> json) {
+    return GetThirdPartyJobDetailsOutput(
+      jobDetails: json['jobDetails'] != null
+          ? ThirdPartyJobDetails.fromJson(
+              json['jobDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobDetails = this.jobDetails;
+    return {
+      if (jobDetails != null) 'jobDetails': jobDetails,
+    };
+  }
 }
 
 /// Represents information about an artifact to be worked on, such as a test or
 /// build artifact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputArtifact {
   /// The name of the artifact to be worked on (for example, "My App").
   ///
@@ -3815,42 +4854,41 @@ class InputArtifact {
   /// the next action in strict sequence from the action that provided the output
   /// artifact. Actions in parallel can declare different output artifacts, which
   /// are in turn consumed by different following actions.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   InputArtifact({
-    @_s.required this.name,
+    required this.name,
   });
-  factory InputArtifact.fromJson(Map<String, dynamic> json) =>
-      _$InputArtifactFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InputArtifactToJson(this);
+  factory InputArtifact.fromJson(Map<String, dynamic> json) {
+    return InputArtifact(
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
 }
 
 /// Represents information about a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Job {
   /// The ID of the AWS account to use when performing the job.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// Other data about a job.
-  @_s.JsonKey(name: 'data')
-  final JobData data;
+  final JobData? data;
 
   /// The unique system-generated ID of the job.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// A system-generated random number that AWS CodePipeline uses to ensure that
   /// the job is being worked on by only one job worker. Use this number in an
   /// <a>AcknowledgeJob</a> request.
-  @_s.JsonKey(name: 'nonce')
-  final String nonce;
+  final String? nonce;
 
   Job({
     this.accountId,
@@ -3858,57 +4896,67 @@ class Job {
     this.id,
     this.nonce,
   });
-  factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
+
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      accountId: json['accountId'] as String?,
+      data: json['data'] != null
+          ? JobData.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      nonce: json['nonce'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final data = this.data;
+    final id = this.id;
+    final nonce = this.nonce;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (data != null) 'data': data,
+      if (id != null) 'id': id,
+      if (nonce != null) 'nonce': nonce,
+    };
+  }
 }
 
 /// Represents other information about a job required for a job worker to
 /// complete the job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobData {
   /// Represents information about an action configuration.
-  @_s.JsonKey(name: 'actionConfiguration')
-  final ActionConfiguration actionConfiguration;
+  final ActionConfiguration? actionConfiguration;
 
   /// Represents information about an action type.
-  @_s.JsonKey(name: 'actionTypeId')
-  final ActionTypeId actionTypeId;
+  final ActionTypeId? actionTypeId;
 
   /// Represents an AWS session credentials object. These credentials are
   /// temporary credentials that are issued by AWS Secure Token Service (STS).
   /// They can be used to access input and output artifacts in the S3 bucket used
   /// to store artifacts for the pipeline in AWS CodePipeline.
-  @_s.JsonKey(name: 'artifactCredentials')
-  final AWSSessionCredentials artifactCredentials;
+  final AWSSessionCredentials? artifactCredentials;
 
   /// A system-generated token, such as a AWS CodeDeploy deployment ID, required
   /// by a job to continue the job asynchronously.
-  @_s.JsonKey(name: 'continuationToken')
-  final String continuationToken;
+  final String? continuationToken;
 
   /// Represents information about the key used to encrypt data in the artifact
   /// store, such as an AWS Key Management Service (AWS KMS) key.
-  @_s.JsonKey(name: 'encryptionKey')
-  final EncryptionKey encryptionKey;
+  final EncryptionKey? encryptionKey;
 
   /// The artifact supplied to the job.
-  @_s.JsonKey(name: 'inputArtifacts')
-  final List<Artifact> inputArtifacts;
+  final List<Artifact>? inputArtifacts;
 
   /// The output of the job.
-  @_s.JsonKey(name: 'outputArtifacts')
-  final List<Artifact> outputArtifacts;
+  final List<Artifact>? outputArtifacts;
 
   /// Represents information about a pipeline to a job worker.
   /// <note>
   /// Includes <code>pipelineArn</code> and <code>pipelineExecutionId</code> for
   /// custom jobs.
   /// </note>
-  @_s.JsonKey(name: 'pipelineContext')
-  final PipelineContext pipelineContext;
+  final PipelineContext? pipelineContext;
 
   JobData({
     this.actionConfiguration,
@@ -3920,267 +4968,511 @@ class JobData {
     this.outputArtifacts,
     this.pipelineContext,
   });
-  factory JobData.fromJson(Map<String, dynamic> json) =>
-      _$JobDataFromJson(json);
+
+  factory JobData.fromJson(Map<String, dynamic> json) {
+    return JobData(
+      actionConfiguration: json['actionConfiguration'] != null
+          ? ActionConfiguration.fromJson(
+              json['actionConfiguration'] as Map<String, dynamic>)
+          : null,
+      actionTypeId: json['actionTypeId'] != null
+          ? ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>)
+          : null,
+      artifactCredentials: json['artifactCredentials'] != null
+          ? AWSSessionCredentials.fromJson(
+              json['artifactCredentials'] as Map<String, dynamic>)
+          : null,
+      continuationToken: json['continuationToken'] as String?,
+      encryptionKey: json['encryptionKey'] != null
+          ? EncryptionKey.fromJson(
+              json['encryptionKey'] as Map<String, dynamic>)
+          : null,
+      inputArtifacts: (json['inputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputArtifacts: (json['outputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pipelineContext: json['pipelineContext'] != null
+          ? PipelineContext.fromJson(
+              json['pipelineContext'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionConfiguration = this.actionConfiguration;
+    final actionTypeId = this.actionTypeId;
+    final artifactCredentials = this.artifactCredentials;
+    final continuationToken = this.continuationToken;
+    final encryptionKey = this.encryptionKey;
+    final inputArtifacts = this.inputArtifacts;
+    final outputArtifacts = this.outputArtifacts;
+    final pipelineContext = this.pipelineContext;
+    return {
+      if (actionConfiguration != null)
+        'actionConfiguration': actionConfiguration,
+      if (actionTypeId != null) 'actionTypeId': actionTypeId,
+      if (artifactCredentials != null)
+        'artifactCredentials': artifactCredentials,
+      if (continuationToken != null) 'continuationToken': continuationToken,
+      if (encryptionKey != null) 'encryptionKey': encryptionKey,
+      if (inputArtifacts != null) 'inputArtifacts': inputArtifacts,
+      if (outputArtifacts != null) 'outputArtifacts': outputArtifacts,
+      if (pipelineContext != null) 'pipelineContext': pipelineContext,
+    };
+  }
 }
 
 /// Represents information about the details of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobDetails {
   /// The AWS account ID associated with the job.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// Represents other information about a job required for a job worker to
   /// complete the job.
-  @_s.JsonKey(name: 'data')
-  final JobData data;
+  final JobData? data;
 
   /// The unique system-generated ID of the job.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   JobDetails({
     this.accountId,
     this.data,
     this.id,
   });
-  factory JobDetails.fromJson(Map<String, dynamic> json) =>
-      _$JobDetailsFromJson(json);
+
+  factory JobDetails.fromJson(Map<String, dynamic> json) {
+    return JobDetails(
+      accountId: json['accountId'] as String?,
+      data: json['data'] != null
+          ? JobData.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final data = this.data;
+    final id = this.id;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (data != null) 'data': data,
+      if (id != null) 'id': id,
+    };
+  }
 }
 
 enum JobStatus {
-  @_s.JsonValue('Created')
   created,
-  @_s.JsonValue('Queued')
   queued,
-  @_s.JsonValue('Dispatched')
   dispatched,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.created:
+        return 'Created';
+      case JobStatus.queued:
+        return 'Queued';
+      case JobStatus.dispatched:
+        return 'Dispatched';
+      case JobStatus.inProgress:
+        return 'InProgress';
+      case JobStatus.timedOut:
+        return 'TimedOut';
+      case JobStatus.succeeded:
+        return 'Succeeded';
+      case JobStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'Created':
+        return JobStatus.created;
+      case 'Queued':
+        return JobStatus.queued;
+      case 'Dispatched':
+        return JobStatus.dispatched;
+      case 'InProgress':
+        return JobStatus.inProgress;
+      case 'TimedOut':
+        return JobStatus.timedOut;
+      case 'Succeeded':
+        return JobStatus.succeeded;
+      case 'Failed':
+        return JobStatus.failed;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
+/// Details about the polling configuration for the <code>JobWorker</code>
+/// action engine, or executor.
+class JobWorkerExecutorConfiguration {
+  /// The accounts in which the job worker is configured and might poll for jobs
+  /// as part of the action execution.
+  final List<String>? pollingAccounts;
+
+  /// The service Principals in which the job worker is configured and might poll
+  /// for jobs as part of the action execution.
+  final List<String>? pollingServicePrincipals;
+
+  JobWorkerExecutorConfiguration({
+    this.pollingAccounts,
+    this.pollingServicePrincipals,
+  });
+
+  factory JobWorkerExecutorConfiguration.fromJson(Map<String, dynamic> json) {
+    return JobWorkerExecutorConfiguration(
+      pollingAccounts: (json['pollingAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      pollingServicePrincipals: (json['pollingServicePrincipals'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pollingAccounts = this.pollingAccounts;
+    final pollingServicePrincipals = this.pollingServicePrincipals;
+    return {
+      if (pollingAccounts != null) 'pollingAccounts': pollingAccounts,
+      if (pollingServicePrincipals != null)
+        'pollingServicePrincipals': pollingServicePrincipals,
+    };
+  }
+}
+
+/// Details about the configuration for the <code>Lambda</code> action engine,
+/// or executor.
+class LambdaExecutorConfiguration {
+  /// The ARN of the Lambda function used by the action engine.
+  final String lambdaFunctionArn;
+
+  LambdaExecutorConfiguration({
+    required this.lambdaFunctionArn,
+  });
+
+  factory LambdaExecutorConfiguration.fromJson(Map<String, dynamic> json) {
+    return LambdaExecutorConfiguration(
+      lambdaFunctionArn: json['lambdaFunctionArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lambdaFunctionArn = this.lambdaFunctionArn;
+    return {
+      'lambdaFunctionArn': lambdaFunctionArn,
+    };
+  }
+}
+
 class ListActionExecutionsOutput {
   /// The details for a list of recent executions, such as action execution ID.
-  @_s.JsonKey(name: 'actionExecutionDetails')
-  final List<ActionExecutionDetail> actionExecutionDetails;
+  final List<ActionExecutionDetail>? actionExecutionDetails;
 
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned and can be used in a subsequent
   /// <code>ListActionExecutions</code> call to return the next set of action
   /// executions in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListActionExecutionsOutput({
     this.actionExecutionDetails,
     this.nextToken,
   });
-  factory ListActionExecutionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListActionExecutionsOutputFromJson(json);
+
+  factory ListActionExecutionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListActionExecutionsOutput(
+      actionExecutionDetails: (json['actionExecutionDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActionExecutionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionExecutionDetails = this.actionExecutionDetails;
+    final nextToken = this.nextToken;
+    return {
+      if (actionExecutionDetails != null)
+        'actionExecutionDetails': actionExecutionDetails,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListActionTypes</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListActionTypesOutput {
   /// Provides details of the action types.
-  @_s.JsonKey(name: 'actionTypes')
   final List<ActionType> actionTypes;
 
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned. It can be used in a subsequent list action types call to
   /// return the next set of action types in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListActionTypesOutput({
-    @_s.required this.actionTypes,
+    required this.actionTypes,
     this.nextToken,
   });
-  factory ListActionTypesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListActionTypesOutputFromJson(json);
+
+  factory ListActionTypesOutput.fromJson(Map<String, dynamic> json) {
+    return ListActionTypesOutput(
+      actionTypes: (json['actionTypes'] as List)
+          .whereNotNull()
+          .map((e) => ActionType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionTypes = this.actionTypes;
+    final nextToken = this.nextToken;
+    return {
+      'actionTypes': actionTypes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListPipelineExecutions</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPipelineExecutionsOutput {
   /// A token that can be used in the next <code>ListPipelineExecutions</code>
   /// call. To view all items in the list, continue to call this operation with
   /// each subsequent token until no more nextToken values are returned.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of executions in the history of a pipeline.
-  @_s.JsonKey(name: 'pipelineExecutionSummaries')
-  final List<PipelineExecutionSummary> pipelineExecutionSummaries;
+  final List<PipelineExecutionSummary>? pipelineExecutionSummaries;
 
   ListPipelineExecutionsOutput({
     this.nextToken,
     this.pipelineExecutionSummaries,
   });
-  factory ListPipelineExecutionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPipelineExecutionsOutputFromJson(json);
+
+  factory ListPipelineExecutionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListPipelineExecutionsOutput(
+      nextToken: json['nextToken'] as String?,
+      pipelineExecutionSummaries: (json['pipelineExecutionSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PipelineExecutionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final pipelineExecutionSummaries = this.pipelineExecutionSummaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (pipelineExecutionSummaries != null)
+        'pipelineExecutionSummaries': pipelineExecutionSummaries,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListPipelines</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPipelinesOutput {
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned. It can be used in a subsequent list pipelines call to
   /// return the next set of pipelines in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of pipelines.
-  @_s.JsonKey(name: 'pipelines')
-  final List<PipelineSummary> pipelines;
+  final List<PipelineSummary>? pipelines;
 
   ListPipelinesOutput({
     this.nextToken,
     this.pipelines,
   });
-  factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPipelinesOutputFromJson(json);
+
+  factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) {
+    return ListPipelinesOutput(
+      nextToken: json['nextToken'] as String?,
+      pipelines: (json['pipelines'] as List?)
+          ?.whereNotNull()
+          .map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final pipelines = this.pipelines;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (pipelines != null) 'pipelines': pipelines,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned and can be used in a subsequent API call to return the next
   /// page of the list. The ListTagsforResource call lists all available tags in
   /// one call and does not use pagination.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tags for the resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      nextToken: json['nextToken'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// The detail returned for each webhook after listing webhooks, such as the
 /// webhook URL, the webhook name, and the webhook ARN.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWebhookItem {
   /// The detail returned for each webhook, such as the webhook authentication
   /// type and filter rules.
-  @_s.JsonKey(name: 'definition')
   final WebhookDefinition definition;
 
   /// A unique URL generated by CodePipeline. When a POST request is made to this
   /// URL, the defined pipeline is started as long as the body of the post request
   /// satisfies the defined authentication and filtering conditions. Deleting and
   /// re-creating a webhook makes the old URL invalid and generates a new one.
-  @_s.JsonKey(name: 'url')
   final String url;
 
   /// The Amazon Resource Name (ARN) of the webhook.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The number code of the error.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The text of the error message about the webhook.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The date and time a webhook was last successfully triggered, in timestamp
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastTriggered')
-  final DateTime lastTriggered;
+  final DateTime? lastTriggered;
 
   /// Specifies the tags applied to the webhook.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListWebhookItem({
-    @_s.required this.definition,
-    @_s.required this.url,
+    required this.definition,
+    required this.url,
     this.arn,
     this.errorCode,
     this.errorMessage,
     this.lastTriggered,
     this.tags,
   });
-  factory ListWebhookItem.fromJson(Map<String, dynamic> json) =>
-      _$ListWebhookItemFromJson(json);
+
+  factory ListWebhookItem.fromJson(Map<String, dynamic> json) {
+    return ListWebhookItem(
+      definition: WebhookDefinition.fromJson(
+          json['definition'] as Map<String, dynamic>),
+      url: json['url'] as String,
+      arn: json['arn'] as String?,
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      lastTriggered: timeStampFromJson(json['lastTriggered']),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definition = this.definition;
+    final url = this.url;
+    final arn = this.arn;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final lastTriggered = this.lastTriggered;
+    final tags = this.tags;
+    return {
+      'definition': definition,
+      'url': url,
+      if (arn != null) 'arn': arn,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (lastTriggered != null)
+        'lastTriggered': unixTimestampToJson(lastTriggered),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWebhooksOutput {
   /// If the amount of returned information is significantly large, an identifier
   /// is also returned and can be used in a subsequent ListWebhooks call to return
   /// the next set of webhooks in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The JSON detail returned for each webhook in the list output for the
   /// ListWebhooks call.
-  @_s.JsonKey(name: 'webhooks')
-  final List<ListWebhookItem> webhooks;
+  final List<ListWebhookItem>? webhooks;
 
   ListWebhooksOutput({
     this.nextToken,
     this.webhooks,
   });
-  factory ListWebhooksOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListWebhooksOutputFromJson(json);
+
+  factory ListWebhooksOutput.fromJson(Map<String, dynamic> json) {
+    return ListWebhooksOutput(
+      nextToken: json['NextToken'] as String?,
+      webhooks: (json['webhooks'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListWebhookItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final webhooks = this.webhooks;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (webhooks != null) 'webhooks': webhooks,
+    };
+  }
 }
 
 /// Represents information about the output of an action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputArtifact {
   /// The name of the output of an artifact, such as "My App".
   ///
@@ -4191,16 +5483,24 @@ class OutputArtifact {
   /// are in turn consumed by different following actions.
   ///
   /// Output artifact names must be unique within a pipeline.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   OutputArtifact({
-    @_s.required this.name,
+    required this.name,
   });
-  factory OutputArtifact.fromJson(Map<String, dynamic> json) =>
-      _$OutputArtifactFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OutputArtifactToJson(this);
+  factory OutputArtifact.fromJson(Map<String, dynamic> json) {
+    return OutputArtifact(
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
 }
 
 /// Represents information about a pipeline to a job worker.
@@ -4210,33 +5510,23 @@ class OutputArtifact {
 /// <code>pipelineArn</code> and <code>pipelineExecutionId</code> fields are not
 /// populated for ThirdParty action jobs.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineContext {
   /// The context of an action to a job worker in the stage of a pipeline.
-  @_s.JsonKey(name: 'action')
-  final ActionContext action;
+  final ActionContext? action;
 
   /// The Amazon Resource Name (ARN) of the pipeline.
-  @_s.JsonKey(name: 'pipelineArn')
-  final String pipelineArn;
+  final String? pipelineArn;
 
   /// The execution ID of the pipeline.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   /// The name of the pipeline. This is a user-specified value. Pipeline names
   /// must be unique across all pipeline names under an Amazon Web Services
   /// account.
-  @_s.JsonKey(name: 'pipelineName')
-  final String pipelineName;
+  final String? pipelineName;
 
   /// The stage of the pipeline.
-  @_s.JsonKey(name: 'stage')
-  final StageContext stage;
+  final StageContext? stage;
 
   PipelineContext({
     this.action,
@@ -4245,30 +5535,50 @@ class PipelineContext {
     this.pipelineName,
     this.stage,
   });
-  factory PipelineContext.fromJson(Map<String, dynamic> json) =>
-      _$PipelineContextFromJson(json);
+
+  factory PipelineContext.fromJson(Map<String, dynamic> json) {
+    return PipelineContext(
+      action: json['action'] != null
+          ? ActionContext.fromJson(json['action'] as Map<String, dynamic>)
+          : null,
+      pipelineArn: json['pipelineArn'] as String?,
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+      pipelineName: json['pipelineName'] as String?,
+      stage: json['stage'] != null
+          ? StageContext.fromJson(json['stage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final pipelineArn = this.pipelineArn;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final pipelineName = this.pipelineName;
+    final stage = this.stage;
+    return {
+      if (action != null) 'action': action,
+      if (pipelineArn != null) 'pipelineArn': pipelineArn,
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+      if (pipelineName != null) 'pipelineName': pipelineName,
+      if (stage != null) 'stage': stage,
+    };
+  }
 }
 
 /// Represents the structure of actions and stages to be performed in the
 /// pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PipelineDeclaration {
   /// The name of the pipeline.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The Amazon Resource Name (ARN) for AWS CodePipeline to use to either perform
   /// actions with no <code>actionRoleArn</code>, or to use to assume roles for
   /// actions with an <code>actionRoleArn</code>.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The stage in which to perform the action.
-  @_s.JsonKey(name: 'stages')
   final List<StageDeclaration> stages;
 
   /// Represents information about the S3 bucket where artifacts are stored for
@@ -4279,8 +5589,7 @@ class PipelineDeclaration {
   /// you create a cross-region action in your pipeline, you must use
   /// <code>artifactStores</code>.
   /// </note>
-  @_s.JsonKey(name: 'artifactStore')
-  final ArtifactStore artifactStore;
+  final ArtifactStore? artifactStore;
 
   /// A mapping of <code>artifactStore</code> objects and their corresponding AWS
   /// Regions. There must be an artifact store for the pipeline Region and for
@@ -4291,55 +5600,80 @@ class PipelineDeclaration {
   /// you create a cross-region action in your pipeline, you must use
   /// <code>artifactStores</code>.
   /// </note>
-  @_s.JsonKey(name: 'artifactStores')
-  final Map<String, ArtifactStore> artifactStores;
+  final Map<String, ArtifactStore>? artifactStores;
 
   /// The version number of the pipeline. A new pipeline always has a version
   /// number of 1. This number is incremented when a pipeline is updated.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   PipelineDeclaration({
-    @_s.required this.name,
-    @_s.required this.roleArn,
-    @_s.required this.stages,
+    required this.name,
+    required this.roleArn,
+    required this.stages,
     this.artifactStore,
     this.artifactStores,
     this.version,
   });
-  factory PipelineDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$PipelineDeclarationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PipelineDeclarationToJson(this);
+  factory PipelineDeclaration.fromJson(Map<String, dynamic> json) {
+    return PipelineDeclaration(
+      name: json['name'] as String,
+      roleArn: json['roleArn'] as String,
+      stages: (json['stages'] as List)
+          .whereNotNull()
+          .map((e) => StageDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      artifactStore: json['artifactStore'] != null
+          ? ArtifactStore.fromJson(
+              json['artifactStore'] as Map<String, dynamic>)
+          : null,
+      artifactStores: (json['artifactStores'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, ArtifactStore.fromJson(e as Map<String, dynamic>))),
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final stages = this.stages;
+    final artifactStore = this.artifactStore;
+    final artifactStores = this.artifactStores;
+    final version = this.version;
+    return {
+      'name': name,
+      'roleArn': roleArn,
+      'stages': stages,
+      if (artifactStore != null) 'artifactStore': artifactStore,
+      if (artifactStores != null) 'artifactStores': artifactStores,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// Represents information about an execution of a pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineExecution {
   /// A list of <code>ArtifactRevision</code> objects included in a pipeline
   /// execution.
-  @_s.JsonKey(name: 'artifactRevisions')
-  final List<ArtifactRevision> artifactRevisions;
+  final List<ArtifactRevision>? artifactRevisions;
 
   /// The ID of the pipeline execution.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   /// The name of the pipeline with the specified pipeline execution.
-  @_s.JsonKey(name: 'pipelineName')
-  final String pipelineName;
+  final String? pipelineName;
 
   /// The version number of the pipeline with the specified pipeline execution.
-  @_s.JsonKey(name: 'pipelineVersion')
-  final int pipelineVersion;
+  final int? pipelineVersion;
 
   /// The status of the pipeline execution.
   ///
   /// <ul>
+  /// <li>
+  /// Cancelled: The pipeline’s definition was updated before the pipeline
+  /// execution could be completed.
+  /// </li>
   /// <li>
   /// InProgress: The pipeline execution is currently running.
   /// </li>
@@ -4370,8 +5704,10 @@ class PipelineExecution {
   /// Failed: The pipeline execution was not completed successfully.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final PipelineExecutionStatus status;
+  final PipelineExecutionStatus? status;
+
+  /// A summary that contains a description of the pipeline execution status.
+  final String? statusSummary;
 
   PipelineExecution({
     this.artifactRevisions,
@@ -4379,51 +5715,109 @@ class PipelineExecution {
     this.pipelineName,
     this.pipelineVersion,
     this.status,
+    this.statusSummary,
   });
-  factory PipelineExecution.fromJson(Map<String, dynamic> json) =>
-      _$PipelineExecutionFromJson(json);
+
+  factory PipelineExecution.fromJson(Map<String, dynamic> json) {
+    return PipelineExecution(
+      artifactRevisions: (json['artifactRevisions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ArtifactRevision.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+      pipelineName: json['pipelineName'] as String?,
+      pipelineVersion: json['pipelineVersion'] as int?,
+      status: (json['status'] as String?)?.toPipelineExecutionStatus(),
+      statusSummary: json['statusSummary'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactRevisions = this.artifactRevisions;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final pipelineName = this.pipelineName;
+    final pipelineVersion = this.pipelineVersion;
+    final status = this.status;
+    final statusSummary = this.statusSummary;
+    return {
+      if (artifactRevisions != null) 'artifactRevisions': artifactRevisions,
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+      if (pipelineName != null) 'pipelineName': pipelineName,
+      if (pipelineVersion != null) 'pipelineVersion': pipelineVersion,
+      if (status != null) 'status': status.toValue(),
+      if (statusSummary != null) 'statusSummary': statusSummary,
+    };
+  }
 }
 
 enum PipelineExecutionStatus {
-  @_s.JsonValue('InProgress')
+  cancelled,
   inProgress,
-  @_s.JsonValue('Stopped')
   stopped,
-  @_s.JsonValue('Stopping')
   stopping,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Superseded')
   superseded,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on PipelineExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case PipelineExecutionStatus.cancelled:
+        return 'Cancelled';
+      case PipelineExecutionStatus.inProgress:
+        return 'InProgress';
+      case PipelineExecutionStatus.stopped:
+        return 'Stopped';
+      case PipelineExecutionStatus.stopping:
+        return 'Stopping';
+      case PipelineExecutionStatus.succeeded:
+        return 'Succeeded';
+      case PipelineExecutionStatus.superseded:
+        return 'Superseded';
+      case PipelineExecutionStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  PipelineExecutionStatus toPipelineExecutionStatus() {
+    switch (this) {
+      case 'Cancelled':
+        return PipelineExecutionStatus.cancelled;
+      case 'InProgress':
+        return PipelineExecutionStatus.inProgress;
+      case 'Stopped':
+        return PipelineExecutionStatus.stopped;
+      case 'Stopping':
+        return PipelineExecutionStatus.stopping;
+      case 'Succeeded':
+        return PipelineExecutionStatus.succeeded;
+      case 'Superseded':
+        return PipelineExecutionStatus.superseded;
+      case 'Failed':
+        return PipelineExecutionStatus.failed;
+    }
+    throw Exception('$this is not known in enum PipelineExecutionStatus');
+  }
+}
+
 /// Summary information about a pipeline execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineExecutionSummary {
   /// The date and time of the last change to the pipeline execution, in timestamp
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The ID of the pipeline execution.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   /// A list of the source artifact revisions that initiated a pipeline execution.
-  @_s.JsonKey(name: 'sourceRevisions')
-  final List<SourceRevision> sourceRevisions;
+  final List<SourceRevision>? sourceRevisions;
 
   /// The date and time when the pipeline execution began, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the pipeline execution.
   ///
@@ -4458,18 +5852,15 @@ class PipelineExecutionSummary {
   /// Failed: The pipeline execution was not completed successfully.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final PipelineExecutionStatus status;
+  final PipelineExecutionStatus? status;
 
   /// The interaction that stopped a pipeline execution.
-  @_s.JsonKey(name: 'stopTrigger')
-  final StopExecutionTrigger stopTrigger;
+  final StopExecutionTrigger? stopTrigger;
 
   /// The interaction or event that started a pipeline execution, such as
   /// automated change detection or a <code>StartPipelineExecution</code> API
   /// call.
-  @_s.JsonKey(name: 'trigger')
-  final ExecutionTrigger trigger;
+  final ExecutionTrigger? trigger;
 
   PipelineExecutionSummary({
     this.lastUpdateTime,
@@ -4480,64 +5871,99 @@ class PipelineExecutionSummary {
     this.stopTrigger,
     this.trigger,
   });
-  factory PipelineExecutionSummary.fromJson(Map<String, dynamic> json) =>
-      _$PipelineExecutionSummaryFromJson(json);
+
+  factory PipelineExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return PipelineExecutionSummary(
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+      sourceRevisions: (json['sourceRevisions'] as List?)
+          ?.whereNotNull()
+          .map((e) => SourceRevision.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.toPipelineExecutionStatus(),
+      stopTrigger: json['stopTrigger'] != null
+          ? StopExecutionTrigger.fromJson(
+              json['stopTrigger'] as Map<String, dynamic>)
+          : null,
+      trigger: json['trigger'] != null
+          ? ExecutionTrigger.fromJson(json['trigger'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdateTime = this.lastUpdateTime;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final sourceRevisions = this.sourceRevisions;
+    final startTime = this.startTime;
+    final status = this.status;
+    final stopTrigger = this.stopTrigger;
+    final trigger = this.trigger;
+    return {
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+      if (sourceRevisions != null) 'sourceRevisions': sourceRevisions,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.toValue(),
+      if (stopTrigger != null) 'stopTrigger': stopTrigger,
+      if (trigger != null) 'trigger': trigger,
+    };
+  }
 }
 
 /// Information about a pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineMetadata {
   /// The date and time the pipeline was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The Amazon Resource Name (ARN) of the pipeline.
-  @_s.JsonKey(name: 'pipelineArn')
-  final String pipelineArn;
+  final String? pipelineArn;
 
   /// The date and time the pipeline was last updated, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updated')
-  final DateTime updated;
+  final DateTime? updated;
 
   PipelineMetadata({
     this.created,
     this.pipelineArn,
     this.updated,
   });
-  factory PipelineMetadata.fromJson(Map<String, dynamic> json) =>
-      _$PipelineMetadataFromJson(json);
+
+  factory PipelineMetadata.fromJson(Map<String, dynamic> json) {
+    return PipelineMetadata(
+      created: timeStampFromJson(json['created']),
+      pipelineArn: json['pipelineArn'] as String?,
+      updated: timeStampFromJson(json['updated']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final pipelineArn = this.pipelineArn;
+    final updated = this.updated;
+    return {
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (pipelineArn != null) 'pipelineArn': pipelineArn,
+      if (updated != null) 'updated': unixTimestampToJson(updated),
+    };
+  }
 }
 
 /// Returns a summary of a pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineSummary {
   /// The date and time the pipeline was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The name of the pipeline.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The date and time of the last update to the pipeline, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updated')
-  final DateTime updated;
+  final DateTime? updated;
 
   /// The version number of the pipeline.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   PipelineSummary({
     this.created,
@@ -4545,312 +5971,461 @@ class PipelineSummary {
     this.updated,
     this.version,
   });
-  factory PipelineSummary.fromJson(Map<String, dynamic> json) =>
-      _$PipelineSummaryFromJson(json);
+
+  factory PipelineSummary.fromJson(Map<String, dynamic> json) {
+    return PipelineSummary(
+      created: timeStampFromJson(json['created']),
+      name: json['name'] as String?,
+      updated: timeStampFromJson(json['updated']),
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final name = this.name;
+    final updated = this.updated;
+    final version = this.version;
+    return {
+      if (created != null) 'created': unixTimestampToJson(created),
+      if (name != null) 'name': name,
+      if (updated != null) 'updated': unixTimestampToJson(updated),
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// Represents the output of a <code>PollForJobs</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PollForJobsOutput {
   /// Information about the jobs to take action on.
-  @_s.JsonKey(name: 'jobs')
-  final List<Job> jobs;
+  final List<Job>? jobs;
 
   PollForJobsOutput({
     this.jobs,
   });
-  factory PollForJobsOutput.fromJson(Map<String, dynamic> json) =>
-      _$PollForJobsOutputFromJson(json);
+
+  factory PollForJobsOutput.fromJson(Map<String, dynamic> json) {
+    return PollForJobsOutput(
+      jobs: (json['jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    return {
+      if (jobs != null) 'jobs': jobs,
+    };
+  }
 }
 
 /// Represents the output of a <code>PollForThirdPartyJobs</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PollForThirdPartyJobsOutput {
   /// Information about the jobs to take action on.
-  @_s.JsonKey(name: 'jobs')
-  final List<ThirdPartyJob> jobs;
+  final List<ThirdPartyJob>? jobs;
 
   PollForThirdPartyJobsOutput({
     this.jobs,
   });
-  factory PollForThirdPartyJobsOutput.fromJson(Map<String, dynamic> json) =>
-      _$PollForThirdPartyJobsOutputFromJson(json);
+
+  factory PollForThirdPartyJobsOutput.fromJson(Map<String, dynamic> json) {
+    return PollForThirdPartyJobsOutput(
+      jobs: (json['jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThirdPartyJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    return {
+      if (jobs != null) 'jobs': jobs,
+    };
+  }
 }
 
 /// Represents the output of a <code>PutActionRevision</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutActionRevisionOutput {
   /// Indicates whether the artifact revision was previously used in an execution
   /// of the specified pipeline.
-  @_s.JsonKey(name: 'newRevision')
-  final bool newRevision;
+  final bool? newRevision;
 
   /// The ID of the current workflow state of the pipeline.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   PutActionRevisionOutput({
     this.newRevision,
     this.pipelineExecutionId,
   });
-  factory PutActionRevisionOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutActionRevisionOutputFromJson(json);
+
+  factory PutActionRevisionOutput.fromJson(Map<String, dynamic> json) {
+    return PutActionRevisionOutput(
+      newRevision: json['newRevision'] as bool?,
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final newRevision = this.newRevision;
+    final pipelineExecutionId = this.pipelineExecutionId;
+    return {
+      if (newRevision != null) 'newRevision': newRevision,
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
 }
 
 /// Represents the output of a <code>PutApprovalResult</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutApprovalResultOutput {
   /// The timestamp showing when the approval or rejection was submitted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'approvedAt')
-  final DateTime approvedAt;
+  final DateTime? approvedAt;
 
   PutApprovalResultOutput({
     this.approvedAt,
   });
-  factory PutApprovalResultOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutApprovalResultOutputFromJson(json);
+
+  factory PutApprovalResultOutput.fromJson(Map<String, dynamic> json) {
+    return PutApprovalResultOutput(
+      approvedAt: timeStampFromJson(json['approvedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvedAt = this.approvedAt;
+    return {
+      if (approvedAt != null) 'approvedAt': unixTimestampToJson(approvedAt),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutWebhookOutput {
   /// The detail returned from creating the webhook, such as the webhook name,
   /// webhook URL, and webhook ARN.
-  @_s.JsonKey(name: 'webhook')
-  final ListWebhookItem webhook;
+  final ListWebhookItem? webhook;
 
   PutWebhookOutput({
     this.webhook,
   });
-  factory PutWebhookOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutWebhookOutputFromJson(json);
+
+  factory PutWebhookOutput.fromJson(Map<String, dynamic> json) {
+    return PutWebhookOutput(
+      webhook: json['webhook'] != null
+          ? ListWebhookItem.fromJson(json['webhook'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webhook = this.webhook;
+    return {
+      if (webhook != null) 'webhook': webhook,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterWebhookWithThirdPartyOutput {
   RegisterWebhookWithThirdPartyOutput();
-  factory RegisterWebhookWithThirdPartyOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterWebhookWithThirdPartyOutputFromJson(json);
+
+  factory RegisterWebhookWithThirdPartyOutput.fromJson(Map<String, dynamic> _) {
+    return RegisterWebhookWithThirdPartyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Represents the output of a <code>RetryStageExecution</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RetryStageExecutionOutput {
   /// The ID of the current workflow execution in the failed stage.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   RetryStageExecutionOutput({
     this.pipelineExecutionId,
   });
-  factory RetryStageExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$RetryStageExecutionOutputFromJson(json);
+
+  factory RetryStageExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return RetryStageExecutionOutput(
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    return {
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
 }
 
 /// The location of the S3 bucket that contains a revision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3ArtifactLocation {
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
   /// The key of the object in the S3 bucket, which uniquely identifies the object
   /// in the bucket.
-  @_s.JsonKey(name: 'objectKey')
   final String objectKey;
 
   S3ArtifactLocation({
-    @_s.required this.bucketName,
-    @_s.required this.objectKey,
+    required this.bucketName,
+    required this.objectKey,
   });
-  factory S3ArtifactLocation.fromJson(Map<String, dynamic> json) =>
-      _$S3ArtifactLocationFromJson(json);
+
+  factory S3ArtifactLocation.fromJson(Map<String, dynamic> json) {
+    return S3ArtifactLocation(
+      bucketName: json['bucketName'] as String,
+      objectKey: json['objectKey'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final objectKey = this.objectKey;
+    return {
+      'bucketName': bucketName,
+      'objectKey': objectKey,
+    };
+  }
 }
 
 /// The Amazon S3 artifact location for an action's artifacts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3Location {
   /// The Amazon S3 artifact bucket for an action's artifacts.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The artifact name.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   S3Location({
     this.bucket,
     this.key,
   });
-  factory S3Location.fromJson(Map<String, dynamic> json) =>
-      _$S3LocationFromJson(json);
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: json['bucket'] as String?,
+      key: json['key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (key != null) 'key': key,
+    };
+  }
 }
 
 /// Information about the version (or revision) of a source artifact that
 /// initiated a pipeline execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SourceRevision {
   /// The name of the action that processed the revision to the source artifact.
-  @_s.JsonKey(name: 'actionName')
   final String actionName;
 
   /// The system-generated unique ID that identifies the revision number of the
   /// artifact.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// Summary information about the most recent revision of the artifact. For
   /// GitHub and AWS CodeCommit repositories, the commit message. For Amazon S3
   /// buckets or actions, the user-provided content of a
   /// <code>codepipeline-artifact-revision-summary</code> key specified in the
   /// object metadata.
-  @_s.JsonKey(name: 'revisionSummary')
-  final String revisionSummary;
+  final String? revisionSummary;
 
   /// The commit ID for the artifact revision. For artifacts stored in GitHub or
   /// AWS CodeCommit repositories, the commit ID is linked to a commit details
   /// page.
-  @_s.JsonKey(name: 'revisionUrl')
-  final String revisionUrl;
+  final String? revisionUrl;
 
   SourceRevision({
-    @_s.required this.actionName,
+    required this.actionName,
     this.revisionId,
     this.revisionSummary,
     this.revisionUrl,
   });
-  factory SourceRevision.fromJson(Map<String, dynamic> json) =>
-      _$SourceRevisionFromJson(json);
+
+  factory SourceRevision.fromJson(Map<String, dynamic> json) {
+    return SourceRevision(
+      actionName: json['actionName'] as String,
+      revisionId: json['revisionId'] as String?,
+      revisionSummary: json['revisionSummary'] as String?,
+      revisionUrl: json['revisionUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final revisionId = this.revisionId;
+    final revisionSummary = this.revisionSummary;
+    final revisionUrl = this.revisionUrl;
+    return {
+      'actionName': actionName,
+      if (revisionId != null) 'revisionId': revisionId,
+      if (revisionSummary != null) 'revisionSummary': revisionSummary,
+      if (revisionUrl != null) 'revisionUrl': revisionUrl,
+    };
+  }
 }
 
 /// Represents information about a stage to a job worker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StageContext {
   /// The name of the stage.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   StageContext({
     this.name,
   });
-  factory StageContext.fromJson(Map<String, dynamic> json) =>
-      _$StageContextFromJson(json);
+
+  factory StageContext.fromJson(Map<String, dynamic> json) {
+    return StageContext(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Represents information about a stage and its definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StageDeclaration {
   /// The actions included in a stage.
-  @_s.JsonKey(name: 'actions')
   final List<ActionDeclaration> actions;
 
   /// The name of the stage.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'blockers')
-  final List<BlockerDeclaration> blockers;
+  final List<BlockerDeclaration>? blockers;
 
   StageDeclaration({
-    @_s.required this.actions,
-    @_s.required this.name,
+    required this.actions,
+    required this.name,
     this.blockers,
   });
-  factory StageDeclaration.fromJson(Map<String, dynamic> json) =>
-      _$StageDeclarationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StageDeclarationToJson(this);
+  factory StageDeclaration.fromJson(Map<String, dynamic> json) {
+    return StageDeclaration(
+      actions: (json['actions'] as List)
+          .whereNotNull()
+          .map((e) => ActionDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String,
+      blockers: (json['blockers'] as List?)
+          ?.whereNotNull()
+          .map((e) => BlockerDeclaration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final name = this.name;
+    final blockers = this.blockers;
+    return {
+      'actions': actions,
+      'name': name,
+      if (blockers != null) 'blockers': blockers,
+    };
+  }
 }
 
 /// Represents information about the run of a stage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StageExecution {
   /// The ID of the pipeline execution associated with the stage.
-  @_s.JsonKey(name: 'pipelineExecutionId')
   final String pipelineExecutionId;
 
   /// The status of the stage, or for a completed stage, the last status of the
   /// stage.
-  @_s.JsonKey(name: 'status')
+  /// <note>
+  /// A status of cancelled means that the pipeline’s definition was updated
+  /// before the stage execution could be completed.
+  /// </note>
   final StageExecutionStatus status;
 
   StageExecution({
-    @_s.required this.pipelineExecutionId,
-    @_s.required this.status,
+    required this.pipelineExecutionId,
+    required this.status,
   });
-  factory StageExecution.fromJson(Map<String, dynamic> json) =>
-      _$StageExecutionFromJson(json);
+
+  factory StageExecution.fromJson(Map<String, dynamic> json) {
+    return StageExecution(
+      pipelineExecutionId: json['pipelineExecutionId'] as String,
+      status: (json['status'] as String).toStageExecutionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    final status = this.status;
+    return {
+      'pipelineExecutionId': pipelineExecutionId,
+      'status': status.toValue(),
+    };
+  }
 }
 
 enum StageExecutionStatus {
-  @_s.JsonValue('InProgress')
+  cancelled,
   inProgress,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Stopped')
   stopped,
-  @_s.JsonValue('Stopping')
   stopping,
-  @_s.JsonValue('Succeeded')
   succeeded,
 }
 
+extension on StageExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case StageExecutionStatus.cancelled:
+        return 'Cancelled';
+      case StageExecutionStatus.inProgress:
+        return 'InProgress';
+      case StageExecutionStatus.failed:
+        return 'Failed';
+      case StageExecutionStatus.stopped:
+        return 'Stopped';
+      case StageExecutionStatus.stopping:
+        return 'Stopping';
+      case StageExecutionStatus.succeeded:
+        return 'Succeeded';
+    }
+  }
+}
+
+extension on String {
+  StageExecutionStatus toStageExecutionStatus() {
+    switch (this) {
+      case 'Cancelled':
+        return StageExecutionStatus.cancelled;
+      case 'InProgress':
+        return StageExecutionStatus.inProgress;
+      case 'Failed':
+        return StageExecutionStatus.failed;
+      case 'Stopped':
+        return StageExecutionStatus.stopped;
+      case 'Stopping':
+        return StageExecutionStatus.stopping;
+      case 'Succeeded':
+        return StageExecutionStatus.succeeded;
+    }
+    throw Exception('$this is not known in enum StageExecutionStatus');
+  }
+}
+
 enum StageRetryMode {
-  @_s.JsonValue('FAILED_ACTIONS')
   failedActions,
 }
 
@@ -4860,35 +6435,34 @@ extension on StageRetryMode {
       case StageRetryMode.failedActions:
         return 'FAILED_ACTIONS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StageRetryMode toStageRetryMode() {
+    switch (this) {
+      case 'FAILED_ACTIONS':
+        return StageRetryMode.failedActions;
+    }
+    throw Exception('$this is not known in enum StageRetryMode');
   }
 }
 
 /// Represents information about the state of the stage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StageState {
   /// The state of the stage.
-  @_s.JsonKey(name: 'actionStates')
-  final List<ActionState> actionStates;
-  @_s.JsonKey(name: 'inboundExecution')
-  final StageExecution inboundExecution;
+  final List<ActionState>? actionStates;
+  final StageExecution? inboundExecution;
 
   /// The state of the inbound transition, which is either enabled or disabled.
-  @_s.JsonKey(name: 'inboundTransitionState')
-  final TransitionState inboundTransitionState;
+  final TransitionState? inboundTransitionState;
 
   /// Information about the latest execution in the stage, including its ID and
   /// status.
-  @_s.JsonKey(name: 'latestExecution')
-  final StageExecution latestExecution;
+  final StageExecution? latestExecution;
 
   /// The name of the stage.
-  @_s.JsonKey(name: 'stageName')
-  final String stageName;
+  final String? stageName;
 
   StageState({
     this.actionStates,
@@ -4897,14 +6471,48 @@ class StageState {
     this.latestExecution,
     this.stageName,
   });
-  factory StageState.fromJson(Map<String, dynamic> json) =>
-      _$StageStateFromJson(json);
+
+  factory StageState.fromJson(Map<String, dynamic> json) {
+    return StageState(
+      actionStates: (json['actionStates'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActionState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      inboundExecution: json['inboundExecution'] != null
+          ? StageExecution.fromJson(
+              json['inboundExecution'] as Map<String, dynamic>)
+          : null,
+      inboundTransitionState: json['inboundTransitionState'] != null
+          ? TransitionState.fromJson(
+              json['inboundTransitionState'] as Map<String, dynamic>)
+          : null,
+      latestExecution: json['latestExecution'] != null
+          ? StageExecution.fromJson(
+              json['latestExecution'] as Map<String, dynamic>)
+          : null,
+      stageName: json['stageName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionStates = this.actionStates;
+    final inboundExecution = this.inboundExecution;
+    final inboundTransitionState = this.inboundTransitionState;
+    final latestExecution = this.latestExecution;
+    final stageName = this.stageName;
+    return {
+      if (actionStates != null) 'actionStates': actionStates,
+      if (inboundExecution != null) 'inboundExecution': inboundExecution,
+      if (inboundTransitionState != null)
+        'inboundTransitionState': inboundTransitionState,
+      if (latestExecution != null) 'latestExecution': latestExecution,
+      if (stageName != null) 'stageName': stageName,
+    };
+  }
 }
 
 enum StageTransitionType {
-  @_s.JsonValue('Inbound')
   inbound,
-  @_s.JsonValue('Outbound')
   outbound,
 }
 
@@ -4916,178 +6524,207 @@ extension on StageTransitionType {
       case StageTransitionType.outbound:
         return 'Outbound';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StageTransitionType toStageTransitionType() {
+    switch (this) {
+      case 'Inbound':
+        return StageTransitionType.inbound;
+      case 'Outbound':
+        return StageTransitionType.outbound;
+    }
+    throw Exception('$this is not known in enum StageTransitionType');
   }
 }
 
 /// Represents the output of a <code>StartPipelineExecution</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartPipelineExecutionOutput {
   /// The unique system-generated ID of the pipeline execution that was started.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   StartPipelineExecutionOutput({
     this.pipelineExecutionId,
   });
-  factory StartPipelineExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartPipelineExecutionOutputFromJson(json);
+
+  factory StartPipelineExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StartPipelineExecutionOutput(
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    return {
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
 }
 
 /// The interaction that stopped a pipeline execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopExecutionTrigger {
   /// The user-specified reason the pipeline was stopped.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   StopExecutionTrigger({
     this.reason,
   });
-  factory StopExecutionTrigger.fromJson(Map<String, dynamic> json) =>
-      _$StopExecutionTriggerFromJson(json);
+
+  factory StopExecutionTrigger.fromJson(Map<String, dynamic> json) {
+    return StopExecutionTrigger(
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    return {
+      if (reason != null) 'reason': reason,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopPipelineExecutionOutput {
   /// The unique system-generated ID of the pipeline execution that was stopped.
-  @_s.JsonKey(name: 'pipelineExecutionId')
-  final String pipelineExecutionId;
+  final String? pipelineExecutionId;
 
   StopPipelineExecutionOutput({
     this.pipelineExecutionId,
   });
-  factory StopPipelineExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$StopPipelineExecutionOutputFromJson(json);
+
+  factory StopPipelineExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StopPipelineExecutionOutput(
+      pipelineExecutionId: json['pipelineExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineExecutionId = this.pipelineExecutionId;
+    return {
+      if (pipelineExecutionId != null)
+        'pipelineExecutionId': pipelineExecutionId,
+    };
+  }
 }
 
 /// A tag is a key-value pair that is used to manage the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag's key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The tag's value.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceOutputFromJson(json);
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A response to a <code>PollForThirdPartyJobs</code> request returned by AWS
 /// CodePipeline when there is a job to be worked on by a partner action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThirdPartyJob {
   /// The <code>clientToken</code> portion of the <code>clientId</code> and
   /// <code>clientToken</code> pair used to verify that the calling entity is
   /// allowed access to the job and its details.
-  @_s.JsonKey(name: 'clientId')
-  final String clientId;
+  final String? clientId;
 
   /// The identifier used to identify the job in AWS CodePipeline.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   ThirdPartyJob({
     this.clientId,
     this.jobId,
   });
-  factory ThirdPartyJob.fromJson(Map<String, dynamic> json) =>
-      _$ThirdPartyJobFromJson(json);
+
+  factory ThirdPartyJob.fromJson(Map<String, dynamic> json) {
+    return ThirdPartyJob(
+      clientId: json['clientId'] as String?,
+      jobId: json['jobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final jobId = this.jobId;
+    return {
+      if (clientId != null) 'clientId': clientId,
+      if (jobId != null) 'jobId': jobId,
+    };
+  }
 }
 
 /// Represents information about the job data for a partner action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThirdPartyJobData {
   /// Represents information about an action configuration.
-  @_s.JsonKey(name: 'actionConfiguration')
-  final ActionConfiguration actionConfiguration;
+  final ActionConfiguration? actionConfiguration;
 
   /// Represents information about an action type.
-  @_s.JsonKey(name: 'actionTypeId')
-  final ActionTypeId actionTypeId;
+  final ActionTypeId? actionTypeId;
 
   /// Represents an AWS session credentials object. These credentials are
   /// temporary credentials that are issued by AWS Secure Token Service (STS).
   /// They can be used to access input and output artifacts in the S3 bucket used
   /// to store artifact for the pipeline in AWS CodePipeline.
-  @_s.JsonKey(name: 'artifactCredentials')
-  final AWSSessionCredentials artifactCredentials;
+  final AWSSessionCredentials? artifactCredentials;
 
   /// A system-generated token, such as a AWS CodeDeploy deployment ID, that a job
   /// requires to continue the job asynchronously.
-  @_s.JsonKey(name: 'continuationToken')
-  final String continuationToken;
+  final String? continuationToken;
 
   /// The encryption key used to encrypt and decrypt data in the artifact store
   /// for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This
   /// is optional and might not be present.
-  @_s.JsonKey(name: 'encryptionKey')
-  final EncryptionKey encryptionKey;
+  final EncryptionKey? encryptionKey;
 
   /// The name of the artifact that is worked on by the action, if any. This name
   /// might be system-generated, such as "MyApp", or it might be defined by the
   /// user when the action is created. The input artifact name must match the name
   /// of an output artifact generated by an action in an earlier action or stage
   /// of the pipeline.
-  @_s.JsonKey(name: 'inputArtifacts')
-  final List<Artifact> inputArtifacts;
+  final List<Artifact>? inputArtifacts;
 
   /// The name of the artifact that is the result of the action, if any. This name
   /// might be system-generated, such as "MyBuiltApp", or it might be defined by
   /// the user when the action is created.
-  @_s.JsonKey(name: 'outputArtifacts')
-  final List<Artifact> outputArtifacts;
+  final List<Artifact>? outputArtifacts;
 
   /// Represents information about a pipeline to a job worker.
   /// <note>
   /// Does not include <code>pipelineArn</code> and
   /// <code>pipelineExecutionId</code> for ThirdParty jobs.
   /// </note>
-  @_s.JsonKey(name: 'pipelineContext')
-  final PipelineContext pipelineContext;
+  final PipelineContext? pipelineContext;
 
   ThirdPartyJobData({
     this.actionConfiguration,
@@ -5099,66 +6736,121 @@ class ThirdPartyJobData {
     this.outputArtifacts,
     this.pipelineContext,
   });
-  factory ThirdPartyJobData.fromJson(Map<String, dynamic> json) =>
-      _$ThirdPartyJobDataFromJson(json);
+
+  factory ThirdPartyJobData.fromJson(Map<String, dynamic> json) {
+    return ThirdPartyJobData(
+      actionConfiguration: json['actionConfiguration'] != null
+          ? ActionConfiguration.fromJson(
+              json['actionConfiguration'] as Map<String, dynamic>)
+          : null,
+      actionTypeId: json['actionTypeId'] != null
+          ? ActionTypeId.fromJson(json['actionTypeId'] as Map<String, dynamic>)
+          : null,
+      artifactCredentials: json['artifactCredentials'] != null
+          ? AWSSessionCredentials.fromJson(
+              json['artifactCredentials'] as Map<String, dynamic>)
+          : null,
+      continuationToken: json['continuationToken'] as String?,
+      encryptionKey: json['encryptionKey'] != null
+          ? EncryptionKey.fromJson(
+              json['encryptionKey'] as Map<String, dynamic>)
+          : null,
+      inputArtifacts: (json['inputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputArtifacts: (json['outputArtifacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pipelineContext: json['pipelineContext'] != null
+          ? PipelineContext.fromJson(
+              json['pipelineContext'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionConfiguration = this.actionConfiguration;
+    final actionTypeId = this.actionTypeId;
+    final artifactCredentials = this.artifactCredentials;
+    final continuationToken = this.continuationToken;
+    final encryptionKey = this.encryptionKey;
+    final inputArtifacts = this.inputArtifacts;
+    final outputArtifacts = this.outputArtifacts;
+    final pipelineContext = this.pipelineContext;
+    return {
+      if (actionConfiguration != null)
+        'actionConfiguration': actionConfiguration,
+      if (actionTypeId != null) 'actionTypeId': actionTypeId,
+      if (artifactCredentials != null)
+        'artifactCredentials': artifactCredentials,
+      if (continuationToken != null) 'continuationToken': continuationToken,
+      if (encryptionKey != null) 'encryptionKey': encryptionKey,
+      if (inputArtifacts != null) 'inputArtifacts': inputArtifacts,
+      if (outputArtifacts != null) 'outputArtifacts': outputArtifacts,
+      if (pipelineContext != null) 'pipelineContext': pipelineContext,
+    };
+  }
 }
 
 /// The details of a job sent in response to a
 /// <code>GetThirdPartyJobDetails</code> request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThirdPartyJobDetails {
   /// The data to be returned by the third party job worker.
-  @_s.JsonKey(name: 'data')
-  final ThirdPartyJobData data;
+  final ThirdPartyJobData? data;
 
   /// The identifier used to identify the job details in AWS CodePipeline.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// A system-generated random number that AWS CodePipeline uses to ensure that
   /// the job is being worked on by only one job worker. Use this number in an
   /// <a>AcknowledgeThirdPartyJob</a> request.
-  @_s.JsonKey(name: 'nonce')
-  final String nonce;
+  final String? nonce;
 
   ThirdPartyJobDetails({
     this.data,
     this.id,
     this.nonce,
   });
-  factory ThirdPartyJobDetails.fromJson(Map<String, dynamic> json) =>
-      _$ThirdPartyJobDetailsFromJson(json);
+
+  factory ThirdPartyJobDetails.fromJson(Map<String, dynamic> json) {
+    return ThirdPartyJobDetails(
+      data: json['data'] != null
+          ? ThirdPartyJobData.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      nonce: json['nonce'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final id = this.id;
+    final nonce = this.nonce;
+    return {
+      if (data != null) 'data': data,
+      if (id != null) 'id': id,
+      if (nonce != null) 'nonce': nonce,
+    };
+  }
 }
 
 /// Represents information about the state of transitions between one stage and
 /// another stage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransitionState {
   /// The user-specified reason why the transition between two stages of a
   /// pipeline was disabled.
-  @_s.JsonKey(name: 'disabledReason')
-  final String disabledReason;
+  final String? disabledReason;
 
   /// Whether the transition between stages is enabled (true) or disabled (false).
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The timestamp when the transition state was last changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastChangedAt')
-  final DateTime lastChangedAt;
+  final DateTime? lastChangedAt;
 
   /// The ID of the user who last changed the transition state.
-  @_s.JsonKey(name: 'lastChangedBy')
-  final String lastChangedBy;
+  final String? lastChangedBy;
 
   TransitionState({
     this.disabledReason,
@@ -5166,97 +6858,184 @@ class TransitionState {
     this.lastChangedAt,
     this.lastChangedBy,
   });
-  factory TransitionState.fromJson(Map<String, dynamic> json) =>
-      _$TransitionStateFromJson(json);
+
+  factory TransitionState.fromJson(Map<String, dynamic> json) {
+    return TransitionState(
+      disabledReason: json['disabledReason'] as String?,
+      enabled: json['enabled'] as bool?,
+      lastChangedAt: timeStampFromJson(json['lastChangedAt']),
+      lastChangedBy: json['lastChangedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disabledReason = this.disabledReason;
+    final enabled = this.enabled;
+    final lastChangedAt = this.lastChangedAt;
+    final lastChangedBy = this.lastChangedBy;
+    return {
+      if (disabledReason != null) 'disabledReason': disabledReason,
+      if (enabled != null) 'enabled': enabled,
+      if (lastChangedAt != null)
+        'lastChangedAt': unixTimestampToJson(lastChangedAt),
+      if (lastChangedBy != null) 'lastChangedBy': lastChangedBy,
+    };
+  }
 }
 
 enum TriggerType {
-  @_s.JsonValue('CreatePipeline')
   createPipeline,
-  @_s.JsonValue('StartPipelineExecution')
   startPipelineExecution,
-  @_s.JsonValue('PollForSourceChanges')
   pollForSourceChanges,
-  @_s.JsonValue('Webhook')
   webhook,
-  @_s.JsonValue('CloudWatchEvent')
   cloudWatchEvent,
-  @_s.JsonValue('PutActionRevision')
   putActionRevision,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TriggerType {
+  String toValue() {
+    switch (this) {
+      case TriggerType.createPipeline:
+        return 'CreatePipeline';
+      case TriggerType.startPipelineExecution:
+        return 'StartPipelineExecution';
+      case TriggerType.pollForSourceChanges:
+        return 'PollForSourceChanges';
+      case TriggerType.webhook:
+        return 'Webhook';
+      case TriggerType.cloudWatchEvent:
+        return 'CloudWatchEvent';
+      case TriggerType.putActionRevision:
+        return 'PutActionRevision';
+    }
+  }
+}
+
+extension on String {
+  TriggerType toTriggerType() {
+    switch (this) {
+      case 'CreatePipeline':
+        return TriggerType.createPipeline;
+      case 'StartPipelineExecution':
+        return TriggerType.startPipelineExecution;
+      case 'PollForSourceChanges':
+        return TriggerType.pollForSourceChanges;
+      case 'Webhook':
+        return TriggerType.webhook;
+      case 'CloudWatchEvent':
+        return TriggerType.cloudWatchEvent;
+      case 'PutActionRevision':
+        return TriggerType.putActionRevision;
+    }
+    throw Exception('$this is not known in enum TriggerType');
+  }
+}
+
 class UntagResourceOutput {
   UntagResourceOutput();
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceOutputFromJson(json);
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Represents the output of an <code>UpdatePipeline</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePipelineOutput {
   /// The structure of the updated pipeline.
-  @_s.JsonKey(name: 'pipeline')
-  final PipelineDeclaration pipeline;
+  final PipelineDeclaration? pipeline;
 
   UpdatePipelineOutput({
     this.pipeline,
   });
-  factory UpdatePipelineOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePipelineOutputFromJson(json);
+
+  factory UpdatePipelineOutput.fromJson(Map<String, dynamic> json) {
+    return UpdatePipelineOutput(
+      pipeline: json['pipeline'] != null
+          ? PipelineDeclaration.fromJson(
+              json['pipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    return {
+      if (pipeline != null) 'pipeline': pipeline,
+    };
+  }
 }
 
 /// The authentication applied to incoming webhook trigger requests.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WebhookAuthConfiguration {
   /// The property used to configure acceptance of webhooks in an IP address
   /// range. For IP, only the <code>AllowedIPRange</code> property must be set.
   /// This property must be set to a valid CIDR range.
-  @_s.JsonKey(name: 'AllowedIPRange')
-  final String allowedIPRange;
+  final String? allowedIPRange;
 
   /// The property used to configure GitHub authentication. For GITHUB_HMAC, only
   /// the <code>SecretToken</code> property must be set.
-  @_s.JsonKey(name: 'SecretToken')
-  final String secretToken;
+  final String? secretToken;
 
   WebhookAuthConfiguration({
     this.allowedIPRange,
     this.secretToken,
   });
-  factory WebhookAuthConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$WebhookAuthConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WebhookAuthConfigurationToJson(this);
+  factory WebhookAuthConfiguration.fromJson(Map<String, dynamic> json) {
+    return WebhookAuthConfiguration(
+      allowedIPRange: json['AllowedIPRange'] as String?,
+      secretToken: json['SecretToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedIPRange = this.allowedIPRange;
+    final secretToken = this.secretToken;
+    return {
+      if (allowedIPRange != null) 'AllowedIPRange': allowedIPRange,
+      if (secretToken != null) 'SecretToken': secretToken,
+    };
+  }
 }
 
 enum WebhookAuthenticationType {
-  @_s.JsonValue('GITHUB_HMAC')
   githubHmac,
-  @_s.JsonValue('IP')
   ip,
-  @_s.JsonValue('UNAUTHENTICATED')
   unauthenticated,
 }
 
+extension on WebhookAuthenticationType {
+  String toValue() {
+    switch (this) {
+      case WebhookAuthenticationType.githubHmac:
+        return 'GITHUB_HMAC';
+      case WebhookAuthenticationType.ip:
+        return 'IP';
+      case WebhookAuthenticationType.unauthenticated:
+        return 'UNAUTHENTICATED';
+    }
+  }
+}
+
+extension on String {
+  WebhookAuthenticationType toWebhookAuthenticationType() {
+    switch (this) {
+      case 'GITHUB_HMAC':
+        return WebhookAuthenticationType.githubHmac;
+      case 'IP':
+        return WebhookAuthenticationType.ip;
+      case 'UNAUTHENTICATED':
+        return WebhookAuthenticationType.unauthenticated;
+    }
+    throw Exception('$this is not known in enum WebhookAuthenticationType');
+  }
+}
+
 /// Represents information about a webhook and its definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WebhookDefinition {
   /// Supported options are GITHUB_HMAC, IP, and UNAUTHENTICATED.
   ///
@@ -5274,7 +7053,6 @@ class WebhookDefinition {
   /// UNAUTHENTICATED accepts all webhook trigger requests regardless of origin.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'authentication')
   final WebhookAuthenticationType authentication;
 
   /// Properties that configure the authentication applied to incoming webhook
@@ -5282,49 +7060,68 @@ class WebhookDefinition {
   /// For GITHUB_HMAC, only the <code>SecretToken </code>property must be set. For
   /// IP, only the <code>AllowedIPRange </code>property must be set to a valid
   /// CIDR range. For UNAUTHENTICATED, no properties can be set.
-  @_s.JsonKey(name: 'authenticationConfiguration')
   final WebhookAuthConfiguration authenticationConfiguration;
 
   /// A list of rules applied to the body/payload sent in the POST request to a
   /// webhook URL. All defined rules must pass for the request to be accepted and
   /// the pipeline started.
-  @_s.JsonKey(name: 'filters')
   final List<WebhookFilterRule> filters;
 
   /// The name of the webhook.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The name of the action in a pipeline you want to connect to the webhook. The
   /// action must be from the source (first) stage of the pipeline.
-  @_s.JsonKey(name: 'targetAction')
   final String targetAction;
 
   /// The name of the pipeline you want to connect to the webhook.
-  @_s.JsonKey(name: 'targetPipeline')
   final String targetPipeline;
 
   WebhookDefinition({
-    @_s.required this.authentication,
-    @_s.required this.authenticationConfiguration,
-    @_s.required this.filters,
-    @_s.required this.name,
-    @_s.required this.targetAction,
-    @_s.required this.targetPipeline,
+    required this.authentication,
+    required this.authenticationConfiguration,
+    required this.filters,
+    required this.name,
+    required this.targetAction,
+    required this.targetPipeline,
   });
-  factory WebhookDefinition.fromJson(Map<String, dynamic> json) =>
-      _$WebhookDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WebhookDefinitionToJson(this);
+  factory WebhookDefinition.fromJson(Map<String, dynamic> json) {
+    return WebhookDefinition(
+      authentication:
+          (json['authentication'] as String).toWebhookAuthenticationType(),
+      authenticationConfiguration: WebhookAuthConfiguration.fromJson(
+          json['authenticationConfiguration'] as Map<String, dynamic>),
+      filters: (json['filters'] as List)
+          .whereNotNull()
+          .map((e) => WebhookFilterRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String,
+      targetAction: json['targetAction'] as String,
+      targetPipeline: json['targetPipeline'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authentication = this.authentication;
+    final authenticationConfiguration = this.authenticationConfiguration;
+    final filters = this.filters;
+    final name = this.name;
+    final targetAction = this.targetAction;
+    final targetPipeline = this.targetPipeline;
+    return {
+      'authentication': authentication.toValue(),
+      'authenticationConfiguration': authenticationConfiguration,
+      'filters': filters,
+      'name': name,
+      'targetAction': targetAction,
+      'targetPipeline': targetPipeline,
+    };
+  }
 }
 
 /// The event criteria that specify when a webhook notification is sent to your
 /// URL.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WebhookFilterRule {
   /// A JsonPath expression that is applied to the body/payload of the webhook.
   /// The value selected by the JsonPath expression must match the value specified
@@ -5332,7 +7129,6 @@ class WebhookFilterRule {
   /// For more information, see <a
   /// href="https://github.com/json-path/JsonPath">Java JsonPath
   /// implementation</a> in GitHub.
-  @_s.JsonKey(name: 'jsonPath')
   final String jsonPath;
 
   /// The value selected by the <code>JsonPath</code> expression must match what
@@ -5346,32 +7142,43 @@ class WebhookFilterRule {
   /// list of action configuration properties for built-in action types, see <a
   /// href="https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements">Pipeline
   /// Structure Reference Action Requirements</a>.
-  @_s.JsonKey(name: 'matchEquals')
-  final String matchEquals;
+  final String? matchEquals;
 
   WebhookFilterRule({
-    @_s.required this.jsonPath,
+    required this.jsonPath,
     this.matchEquals,
   });
-  factory WebhookFilterRule.fromJson(Map<String, dynamic> json) =>
-      _$WebhookFilterRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WebhookFilterRuleToJson(this);
+  factory WebhookFilterRule.fromJson(Map<String, dynamic> json) {
+    return WebhookFilterRule(
+      jsonPath: json['jsonPath'] as String,
+      matchEquals: json['matchEquals'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jsonPath = this.jsonPath;
+    final matchEquals = this.matchEquals;
+    return {
+      'jsonPath': jsonPath,
+      if (matchEquals != null) 'matchEquals': matchEquals,
+    };
+  }
 }
 
 class ActionNotFoundException extends _s.GenericAwsException {
-  ActionNotFoundException({String type, String message})
+  ActionNotFoundException({String? type, String? message})
       : super(type: type, code: 'ActionNotFoundException', message: message);
 }
 
 class ActionTypeNotFoundException extends _s.GenericAwsException {
-  ActionTypeNotFoundException({String type, String message})
+  ActionTypeNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'ActionTypeNotFoundException', message: message);
 }
 
 class ApprovalAlreadyCompletedException extends _s.GenericAwsException {
-  ApprovalAlreadyCompletedException({String type, String message})
+  ApprovalAlreadyCompletedException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalAlreadyCompletedException',
@@ -5379,7 +7186,7 @@ class ApprovalAlreadyCompletedException extends _s.GenericAwsException {
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -5387,12 +7194,12 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DuplicatedStopRequestException extends _s.GenericAwsException {
-  DuplicatedStopRequestException({String type, String message})
+  DuplicatedStopRequestException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicatedStopRequestException',
@@ -5400,7 +7207,7 @@ class DuplicatedStopRequestException extends _s.GenericAwsException {
 }
 
 class InvalidActionDeclarationException extends _s.GenericAwsException {
-  InvalidActionDeclarationException({String type, String message})
+  InvalidActionDeclarationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidActionDeclarationException',
@@ -5408,7 +7215,7 @@ class InvalidActionDeclarationException extends _s.GenericAwsException {
 }
 
 class InvalidApprovalTokenException extends _s.GenericAwsException {
-  InvalidApprovalTokenException({String type, String message})
+  InvalidApprovalTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApprovalTokenException',
@@ -5416,12 +7223,12 @@ class InvalidApprovalTokenException extends _s.GenericAwsException {
 }
 
 class InvalidArnException extends _s.GenericAwsException {
-  InvalidArnException({String type, String message})
+  InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
 class InvalidBlockerDeclarationException extends _s.GenericAwsException {
-  InvalidBlockerDeclarationException({String type, String message})
+  InvalidBlockerDeclarationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidBlockerDeclarationException',
@@ -5429,33 +7236,33 @@ class InvalidBlockerDeclarationException extends _s.GenericAwsException {
 }
 
 class InvalidClientTokenException extends _s.GenericAwsException {
-  InvalidClientTokenException({String type, String message})
+  InvalidClientTokenException({String? type, String? message})
       : super(
             type: type, code: 'InvalidClientTokenException', message: message);
 }
 
 class InvalidJobException extends _s.GenericAwsException {
-  InvalidJobException({String type, String message})
+  InvalidJobException({String? type, String? message})
       : super(type: type, code: 'InvalidJobException', message: message);
 }
 
 class InvalidJobStateException extends _s.GenericAwsException {
-  InvalidJobStateException({String type, String message})
+  InvalidJobStateException({String? type, String? message})
       : super(type: type, code: 'InvalidJobStateException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidNonceException extends _s.GenericAwsException {
-  InvalidNonceException({String type, String message})
+  InvalidNonceException({String? type, String? message})
       : super(type: type, code: 'InvalidNonceException', message: message);
 }
 
 class InvalidStageDeclarationException extends _s.GenericAwsException {
-  InvalidStageDeclarationException({String type, String message})
+  InvalidStageDeclarationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidStageDeclarationException',
@@ -5463,18 +7270,19 @@ class InvalidStageDeclarationException extends _s.GenericAwsException {
 }
 
 class InvalidStructureException extends _s.GenericAwsException {
-  InvalidStructureException({String type, String message})
+  InvalidStructureException({String? type, String? message})
       : super(type: type, code: 'InvalidStructureException', message: message);
 }
 
 class InvalidTagsException extends _s.GenericAwsException {
-  InvalidTagsException({String type, String message})
+  InvalidTagsException({String? type, String? message})
       : super(type: type, code: 'InvalidTagsException', message: message);
 }
 
 class InvalidWebhookAuthenticationParametersException
     extends _s.GenericAwsException {
-  InvalidWebhookAuthenticationParametersException({String type, String message})
+  InvalidWebhookAuthenticationParametersException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InvalidWebhookAuthenticationParametersException',
@@ -5482,7 +7290,7 @@ class InvalidWebhookAuthenticationParametersException
 }
 
 class InvalidWebhookFilterPatternException extends _s.GenericAwsException {
-  InvalidWebhookFilterPatternException({String type, String message})
+  InvalidWebhookFilterPatternException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidWebhookFilterPatternException',
@@ -5490,17 +7298,17 @@ class InvalidWebhookFilterPatternException extends _s.GenericAwsException {
 }
 
 class JobNotFoundException extends _s.GenericAwsException {
-  JobNotFoundException({String type, String message})
+  JobNotFoundException({String? type, String? message})
       : super(type: type, code: 'JobNotFoundException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotLatestPipelineExecutionException extends _s.GenericAwsException {
-  NotLatestPipelineExecutionException({String type, String message})
+  NotLatestPipelineExecutionException({String? type, String? message})
       : super(
             type: type,
             code: 'NotLatestPipelineExecutionException',
@@ -5508,7 +7316,7 @@ class NotLatestPipelineExecutionException extends _s.GenericAwsException {
 }
 
 class OutputVariablesSizeExceededException extends _s.GenericAwsException {
-  OutputVariablesSizeExceededException({String type, String message})
+  OutputVariablesSizeExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'OutputVariablesSizeExceededException',
@@ -5516,7 +7324,7 @@ class OutputVariablesSizeExceededException extends _s.GenericAwsException {
 }
 
 class PipelineExecutionNotFoundException extends _s.GenericAwsException {
-  PipelineExecutionNotFoundException({String type, String message})
+  PipelineExecutionNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'PipelineExecutionNotFoundException',
@@ -5524,7 +7332,7 @@ class PipelineExecutionNotFoundException extends _s.GenericAwsException {
 }
 
 class PipelineExecutionNotStoppableException extends _s.GenericAwsException {
-  PipelineExecutionNotStoppableException({String type, String message})
+  PipelineExecutionNotStoppableException({String? type, String? message})
       : super(
             type: type,
             code: 'PipelineExecutionNotStoppableException',
@@ -5532,50 +7340,55 @@ class PipelineExecutionNotStoppableException extends _s.GenericAwsException {
 }
 
 class PipelineNameInUseException extends _s.GenericAwsException {
-  PipelineNameInUseException({String type, String message})
+  PipelineNameInUseException({String? type, String? message})
       : super(type: type, code: 'PipelineNameInUseException', message: message);
 }
 
 class PipelineNotFoundException extends _s.GenericAwsException {
-  PipelineNotFoundException({String type, String message})
+  PipelineNotFoundException({String? type, String? message})
       : super(type: type, code: 'PipelineNotFoundException', message: message);
 }
 
 class PipelineVersionNotFoundException extends _s.GenericAwsException {
-  PipelineVersionNotFoundException({String type, String message})
+  PipelineVersionNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'PipelineVersionNotFoundException',
             message: message);
 }
 
+class RequestFailedException extends _s.GenericAwsException {
+  RequestFailedException({String? type, String? message})
+      : super(type: type, code: 'RequestFailedException', message: message);
+}
+
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class StageNotFoundException extends _s.GenericAwsException {
-  StageNotFoundException({String type, String message})
+  StageNotFoundException({String? type, String? message})
       : super(type: type, code: 'StageNotFoundException', message: message);
 }
 
 class StageNotRetryableException extends _s.GenericAwsException {
-  StageNotRetryableException({String type, String message})
+  StageNotRetryableException({String? type, String? message})
       : super(type: type, code: 'StageNotRetryableException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
 class WebhookNotFoundException extends _s.GenericAwsException {
-  WebhookNotFoundException({String type, String message})
+  WebhookNotFoundException({String? type, String? message})
       : super(type: type, code: 'WebhookNotFoundException', message: message);
 }
 
@@ -5639,6 +7452,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       PipelineNotFoundException(type: type, message: message),
   'PipelineVersionNotFoundException': (type, message) =>
       PipelineVersionNotFoundException(type: type, message: message),
+  'RequestFailedException': (type, message) =>
+      RequestFailedException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'StageNotFoundException': (type, message) =>

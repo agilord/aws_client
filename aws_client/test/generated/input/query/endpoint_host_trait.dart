@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,17 +11,11 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'endpoint_host_trait.meta.dart';
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
@@ -31,9 +26,9 @@ class EndpointHostTrait {
   final Map<String, _s.Shape> shapes;
 
   EndpointHostTrait({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -46,7 +41,7 @@ class EndpointHostTrait {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> staticOp0({
-    String name,
+    String? name,
   }) async {
     final $request = <String, dynamic>{};
     name?.also((arg) => $request['Name'] = arg);
@@ -63,7 +58,7 @@ class EndpointHostTrait {
   }
 
   Future<void> memberRefOp1({
-    String name,
+    String? name,
   }) async {
     final $request = <String, dynamic>{};
     name?.also((arg) => $request['Name'] = arg);

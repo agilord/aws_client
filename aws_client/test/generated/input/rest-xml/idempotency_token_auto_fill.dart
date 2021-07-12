@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +23,10 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 class IdempotencyTokenAutoFill {
   final _s.RestXmlProtocol _protocol;
   IdempotencyTokenAutoFill({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +38,7 @@ class IdempotencyTokenAutoFill {
         );
 
   Future<void> operationName0({
-    String token,
+    String? token,
   }) async {
     token ??= _s.generateIdempotencyToken();
     await _protocol.send(
@@ -44,7 +50,7 @@ class IdempotencyTokenAutoFill {
   }
 
   Future<void> operationName1({
-    String token,
+    String? token,
   }) async {
     token ??= _s.generateIdempotencyToken();
     await _protocol.send(
@@ -57,12 +63,27 @@ class IdempotencyTokenAutoFill {
 }
 
 class InputShape {
-  final String token;
+  final String? token;
 
   InputShape({
     this.token,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory InputShape.fromJson(Map<String, dynamic> json) {
+    return InputShape(
+      token: json['Token'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final token = this.token;
+    return {
+      if (token != null) 'Token': token,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final token = this.token;
     final $children = <_s.XmlNode>[
       if (token != null) _s.encodeXmlStringValue('Token', token),
     ];
@@ -72,7 +93,7 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

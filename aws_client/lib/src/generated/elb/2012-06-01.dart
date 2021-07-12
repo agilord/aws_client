@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,22 +11,14 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import '2012-06-01.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2012-06-01.g.dart';
 
 /// A load balancer can distribute incoming traffic across your EC2 instances.
 /// This enables you to increase the availability of your application. The load
@@ -40,9 +33,9 @@ class ElasticLoadBalancing {
   final Map<String, _s.Shape> shapes;
 
   ElasticLoadBalancing({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,8 +68,8 @@ class ElasticLoadBalancing {
   /// Parameter [tags] :
   /// The tags.
   Future<void> addTags({
-    @_s.required List<String> loadBalancerNames,
-    @_s.required List<Tag> tags,
+    required List<String> loadBalancerNames,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -117,8 +110,8 @@ class ElasticLoadBalancing {
   /// that you cannot specify the name of the security group.
   Future<ApplySecurityGroupsToLoadBalancerOutput>
       applySecurityGroupsToLoadBalancer({
-    @_s.required String loadBalancerName,
-    @_s.required List<String> securityGroups,
+    required String loadBalancerName,
+    required List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(securityGroups, 'securityGroups');
@@ -160,8 +153,8 @@ class ElasticLoadBalancing {
   /// The IDs of the subnets to add. You can add only one subnet per
   /// Availability Zone.
   Future<AttachLoadBalancerToSubnetsOutput> attachLoadBalancerToSubnets({
-    @_s.required String loadBalancerName,
-    @_s.required List<String> subnets,
+    required String loadBalancerName,
+    required List<String> subnets,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(subnets, 'subnets');
@@ -198,8 +191,8 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<ConfigureHealthCheckOutput> configureHealthCheck({
-    @_s.required HealthCheck healthCheck,
-    @_s.required String loadBalancerName,
+    required HealthCheck healthCheck,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(healthCheck, 'healthCheck');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -254,9 +247,9 @@ class ElasticLoadBalancing {
   /// alphanumeric characters and dashes (-). This name must be unique within
   /// the set of policies for this load balancer.
   Future<void> createAppCookieStickinessPolicy({
-    @_s.required String cookieName,
-    @_s.required String loadBalancerName,
-    @_s.required String policyName,
+    required String cookieName,
+    required String loadBalancerName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(cookieName, 'cookieName');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -318,9 +311,9 @@ class ElasticLoadBalancing {
   /// indicates that the sticky session should last for the duration of the
   /// browser session.
   Future<void> createLBCookieStickinessPolicy({
-    @_s.required String loadBalancerName,
-    @_s.required String policyName,
-    int cookieExpirationPeriod,
+    required String loadBalancerName,
+    required String policyName,
+    int? cookieExpirationPeriod,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -424,13 +417,13 @@ class ElasticLoadBalancing {
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html">Tag
   /// Your Classic Load Balancer</a> in the <i>Classic Load Balancers Guide</i>.
   Future<CreateAccessPointOutput> createLoadBalancer({
-    @_s.required List<Listener> listeners,
-    @_s.required String loadBalancerName,
-    List<String> availabilityZones,
-    String scheme,
-    List<String> securityGroups,
-    List<String> subnets,
-    List<Tag> tags,
+    required List<Listener> listeners,
+    required String loadBalancerName,
+    List<String>? availabilityZones,
+    String? scheme,
+    List<String>? securityGroups,
+    List<String>? subnets,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(listeners, 'listeners');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -478,8 +471,8 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<void> createLoadBalancerListeners({
-    @_s.required List<Listener> listeners,
-    @_s.required String loadBalancerName,
+    required List<Listener> listeners,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(listeners, 'listeners');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -526,10 +519,10 @@ class ElasticLoadBalancing {
   /// Parameter [policyAttributes] :
   /// The policy attributes.
   Future<void> createLoadBalancerPolicy({
-    @_s.required String loadBalancerName,
-    @_s.required String policyName,
-    @_s.required String policyTypeName,
-    List<PolicyAttribute> policyAttributes,
+    required String loadBalancerName,
+    required String policyName,
+    required String policyTypeName,
+    List<PolicyAttribute>? policyAttributes,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -566,7 +559,7 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<void> deleteLoadBalancer({
-    @_s.required String loadBalancerName,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
@@ -594,8 +587,8 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerPorts] :
   /// The client port numbers of the listeners.
   Future<void> deleteLoadBalancerListeners({
-    @_s.required String loadBalancerName,
-    @_s.required List<int> loadBalancerPorts,
+    required String loadBalancerName,
+    required List<int> loadBalancerPorts,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(loadBalancerPorts, 'loadBalancerPorts');
@@ -627,8 +620,8 @@ class ElasticLoadBalancing {
   /// Parameter [policyName] :
   /// The name of the policy.
   Future<void> deleteLoadBalancerPolicy({
-    @_s.required String loadBalancerName,
-    @_s.required String policyName,
+    required String loadBalancerName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -669,8 +662,8 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<DeregisterEndPointsOutput> deregisterInstancesFromLoadBalancer({
-    @_s.required List<Instance> instances,
-    @_s.required String loadBalancerName,
+    required List<Instance> instances,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(instances, 'instances');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -706,8 +699,8 @@ class ElasticLoadBalancing {
   /// Parameter [pageSize] :
   /// The maximum number of results to return with this call.
   Future<DescribeAccountLimitsOutput> describeAccountLimits({
-    String marker,
-    int pageSize,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -748,8 +741,8 @@ class ElasticLoadBalancing {
   /// Parameter [instances] :
   /// The IDs of the instances.
   Future<DescribeEndPointStateOutput> describeInstanceHealth({
-    @_s.required String loadBalancerName,
-    List<Instance> instances,
+    required String loadBalancerName,
+    List<Instance>? instances,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
@@ -777,7 +770,7 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<DescribeLoadBalancerAttributesOutput> describeLoadBalancerAttributes({
-    @_s.required String loadBalancerName,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     final $request = <String, dynamic>{};
@@ -815,8 +808,8 @@ class ElasticLoadBalancing {
   /// Parameter [policyNames] :
   /// The names of the policies.
   Future<DescribeLoadBalancerPoliciesOutput> describeLoadBalancerPolicies({
-    String loadBalancerName,
-    List<String> policyNames,
+    String? loadBalancerName,
+    List<String>? policyNames,
   }) async {
     final $request = <String, dynamic>{};
     loadBalancerName?.also((arg) => $request['LoadBalancerName'] = arg);
@@ -855,7 +848,7 @@ class ElasticLoadBalancing {
   /// policy types defined by Elastic Load Balancing.
   Future<DescribeLoadBalancerPolicyTypesOutput>
       describeLoadBalancerPolicyTypes({
-    List<String> policyTypeNames,
+    List<String>? policyTypeNames,
   }) async {
     final $request = <String, dynamic>{};
     policyTypeNames?.also((arg) => $request['PolicyTypeNames'] = arg);
@@ -890,9 +883,9 @@ class ElasticLoadBalancing {
   /// The maximum number of results to return with this call (a number from 1 to
   /// 400). The default is 400.
   Future<DescribeAccessPointsOutput> describeLoadBalancers({
-    List<String> loadBalancerNames,
-    String marker,
-    int pageSize,
+    List<String>? loadBalancerNames,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateNumRange(
       'pageSize',
@@ -925,7 +918,7 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerNames] :
   /// The names of the load balancers.
   Future<DescribeTagsOutput> describeTags({
-    @_s.required List<String> loadBalancerNames,
+    required List<String> loadBalancerNames,
   }) async {
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     final $request = <String, dynamic>{};
@@ -961,8 +954,8 @@ class ElasticLoadBalancing {
   /// Parameter [subnets] :
   /// The IDs of the subnets.
   Future<DetachLoadBalancerFromSubnetsOutput> detachLoadBalancerFromSubnets({
-    @_s.required String loadBalancerName,
-    @_s.required List<String> subnets,
+    required String loadBalancerName,
+    required List<String> subnets,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(subnets, 'subnets');
@@ -1011,8 +1004,8 @@ class ElasticLoadBalancing {
   /// The name of the load balancer.
   Future<RemoveAvailabilityZonesOutput>
       disableAvailabilityZonesForLoadBalancer({
-    @_s.required List<String> availabilityZones,
-    @_s.required String loadBalancerName,
+    required List<String> availabilityZones,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -1054,8 +1047,8 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<AddAvailabilityZonesOutput> enableAvailabilityZonesForLoadBalancer({
-    @_s.required List<String> availabilityZones,
-    @_s.required String loadBalancerName,
+    required List<String> availabilityZones,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(availabilityZones, 'availabilityZones');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -1121,8 +1114,8 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<ModifyLoadBalancerAttributesOutput> modifyLoadBalancerAttributes({
-    @_s.required LoadBalancerAttributes loadBalancerAttributes,
-    @_s.required String loadBalancerName,
+    required LoadBalancerAttributes loadBalancerAttributes,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(
         loadBalancerAttributes, 'loadBalancerAttributes');
@@ -1181,8 +1174,8 @@ class ElasticLoadBalancing {
   /// Parameter [loadBalancerName] :
   /// The name of the load balancer.
   Future<RegisterEndPointsOutput> registerInstancesWithLoadBalancer({
-    @_s.required List<Instance> instances,
-    @_s.required String loadBalancerName,
+    required List<Instance> instances,
+    required String loadBalancerName,
   }) async {
     ArgumentError.checkNotNull(instances, 'instances');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -1214,8 +1207,8 @@ class ElasticLoadBalancing {
   /// Parameter [tags] :
   /// The list of tag keys to remove.
   Future<void> removeTags({
-    @_s.required List<String> loadBalancerNames,
-    @_s.required List<TagKeyOnly> tags,
+    required List<String> loadBalancerNames,
+    required List<TagKeyOnly> tags,
   }) async {
     ArgumentError.checkNotNull(loadBalancerNames, 'loadBalancerNames');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1259,9 +1252,9 @@ class ElasticLoadBalancing {
   /// Parameter [sSLCertificateId] :
   /// The Amazon Resource Name (ARN) of the SSL certificate.
   Future<void> setLoadBalancerListenerSSLCertificate({
-    @_s.required String loadBalancerName,
-    @_s.required int loadBalancerPort,
-    @_s.required String sSLCertificateId,
+    required String loadBalancerName,
+    required int loadBalancerPort,
+    required String sSLCertificateId,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(loadBalancerPort, 'loadBalancerPort');
@@ -1319,9 +1312,9 @@ class ElasticLoadBalancing {
   /// The names of the policies. If the list is empty, then all current polices
   /// are removed from the EC2 instance.
   Future<void> setLoadBalancerPoliciesForBackendServer({
-    @_s.required int instancePort,
-    @_s.required String loadBalancerName,
-    @_s.required List<String> policyNames,
+    required int instancePort,
+    required String loadBalancerName,
+    required List<String> policyNames,
   }) async {
     ArgumentError.checkNotNull(instancePort, 'instancePort');
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
@@ -1373,9 +1366,9 @@ class ElasticLoadBalancing {
   /// enabled. If you omit a policy that is currently enabled, it is disabled.
   /// If the list is empty, all current policies are disabled.
   Future<void> setLoadBalancerPoliciesOfListener({
-    @_s.required String loadBalancerName,
-    @_s.required int loadBalancerPort,
-    @_s.required List<String> policyNames,
+    required String loadBalancerName,
+    required int loadBalancerPort,
+    required List<String> policyNames,
   }) async {
     ArgumentError.checkNotNull(loadBalancerName, 'loadBalancerName');
     ArgumentError.checkNotNull(loadBalancerPort, 'loadBalancerPort');
@@ -1399,59 +1392,81 @@ class ElasticLoadBalancing {
 }
 
 /// Information about the <code>AccessLog</code> attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AccessLog {
   /// Specifies whether access logs are enabled for the load balancer.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// The interval for publishing the access logs. You can specify an interval of
   /// either 5 minutes or 60 minutes.
   ///
   /// Default: 60 minutes
-  @_s.JsonKey(name: 'EmitInterval')
-  final int emitInterval;
+  final int? emitInterval;
 
   /// The name of the Amazon S3 bucket where the access logs are stored.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// The logical hierarchy you created for your Amazon S3 bucket, for example
   /// <code>my-bucket-prefix/prod</code>. If the prefix is not provided, the log
   /// is placed at the root level of the bucket.
-  @_s.JsonKey(name: 'S3BucketPrefix')
-  final String s3BucketPrefix;
+  final String? s3BucketPrefix;
 
   AccessLog({
-    @_s.required this.enabled,
+    required this.enabled,
     this.emitInterval,
     this.s3BucketName,
     this.s3BucketPrefix,
   });
+
+  factory AccessLog.fromJson(Map<String, dynamic> json) {
+    return AccessLog(
+      enabled: json['Enabled'] as bool,
+      emitInterval: json['EmitInterval'] as int?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3BucketPrefix: json['S3BucketPrefix'] as String?,
+    );
+  }
+
   factory AccessLog.fromXml(_s.XmlElement elem) {
     return AccessLog(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       emitInterval: _s.extractXmlIntValue(elem, 'EmitInterval'),
       s3BucketName: _s.extractXmlStringValue(elem, 'S3BucketName'),
       s3BucketPrefix: _s.extractXmlStringValue(elem, 'S3BucketPrefix'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$AccessLogToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final emitInterval = this.emitInterval;
+    final s3BucketName = this.s3BucketName;
+    final s3BucketPrefix = this.s3BucketPrefix;
+    return {
+      'Enabled': enabled,
+      if (emitInterval != null) 'EmitInterval': emitInterval,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3BucketPrefix != null) 'S3BucketPrefix': s3BucketPrefix,
+    };
+  }
 }
 
 /// Contains the output of EnableAvailabilityZonesForLoadBalancer.
 class AddAvailabilityZonesOutput {
   /// The updated list of Availability Zones for the load balancer.
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   AddAvailabilityZonesOutput({
     this.availabilityZones,
   });
+
+  factory AddAvailabilityZonesOutput.fromJson(Map<String, dynamic> json) {
+    return AddAvailabilityZonesOutput(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory AddAvailabilityZonesOutput.fromXml(_s.XmlElement elem) {
     return AddAvailabilityZonesOutput(
       availabilityZones: _s
@@ -1459,24 +1474,35 @@ class AddAvailabilityZonesOutput {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+    };
+  }
 }
 
 /// Contains the output of AddTags.
 class AddTagsOutput {
   AddTagsOutput();
+
+  factory AddTagsOutput.fromJson(Map<String, dynamic> _) {
+    return AddTagsOutput();
+  }
+
   factory AddTagsOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return AddTagsOutput();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about additional load balancer attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AdditionalAttribute {
   /// The name of the attribute.
   ///
@@ -1491,17 +1517,23 @@ class AdditionalAttribute {
   /// <code>defensive</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// This value of the attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   AdditionalAttribute({
     this.key,
     this.value,
   });
+
+  factory AdditionalAttribute.fromJson(Map<String, dynamic> json) {
+    return AdditionalAttribute(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
   factory AdditionalAttribute.fromXml(_s.XmlElement elem) {
     return AdditionalAttribute(
       key: _s.extractXmlStringValue(elem, 'Key'),
@@ -1509,38 +1541,73 @@ class AdditionalAttribute {
     );
   }
 
-  Map<String, dynamic> toJson() => _$AdditionalAttributeToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Information about a policy for application-controlled session stickiness.
 class AppCookieStickinessPolicy {
   /// The name of the application cookie used for stickiness.
-  final String cookieName;
+  final String? cookieName;
 
   /// The mnemonic name for the policy being created. The name must be unique
   /// within a set of policies for this load balancer.
-  final String policyName;
+  final String? policyName;
 
   AppCookieStickinessPolicy({
     this.cookieName,
     this.policyName,
   });
+
+  factory AppCookieStickinessPolicy.fromJson(Map<String, dynamic> json) {
+    return AppCookieStickinessPolicy(
+      cookieName: json['CookieName'] as String?,
+      policyName: json['PolicyName'] as String?,
+    );
+  }
+
   factory AppCookieStickinessPolicy.fromXml(_s.XmlElement elem) {
     return AppCookieStickinessPolicy(
       cookieName: _s.extractXmlStringValue(elem, 'CookieName'),
       policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final cookieName = this.cookieName;
+    final policyName = this.policyName;
+    return {
+      if (cookieName != null) 'CookieName': cookieName,
+      if (policyName != null) 'PolicyName': policyName,
+    };
+  }
 }
 
 /// Contains the output of ApplySecurityGroupsToLoadBalancer.
 class ApplySecurityGroupsToLoadBalancerOutput {
   /// The IDs of the security groups associated with the load balancer.
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   ApplySecurityGroupsToLoadBalancerOutput({
     this.securityGroups,
   });
+
+  factory ApplySecurityGroupsToLoadBalancerOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ApplySecurityGroupsToLoadBalancerOutput(
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory ApplySecurityGroupsToLoadBalancerOutput.fromXml(_s.XmlElement elem) {
     return ApplySecurityGroupsToLoadBalancerOutput(
       securityGroups: _s
@@ -1548,16 +1615,34 @@ class ApplySecurityGroupsToLoadBalancerOutput {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final securityGroups = this.securityGroups;
+    return {
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+    };
+  }
 }
 
 /// Contains the output of AttachLoadBalancerToSubnets.
 class AttachLoadBalancerToSubnetsOutput {
   /// The IDs of the subnets attached to the load balancer.
-  final List<String> subnets;
+  final List<String>? subnets;
 
   AttachLoadBalancerToSubnetsOutput({
     this.subnets,
   });
+
+  factory AttachLoadBalancerToSubnetsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return AttachLoadBalancerToSubnetsOutput(
+      subnets: (json['Subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory AttachLoadBalancerToSubnetsOutput.fromXml(_s.XmlElement elem) {
     return AttachLoadBalancerToSubnetsOutput(
       subnets: _s
@@ -1565,20 +1650,38 @@ class AttachLoadBalancerToSubnetsOutput {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final subnets = this.subnets;
+    return {
+      if (subnets != null) 'Subnets': subnets,
+    };
+  }
 }
 
 /// Information about the configuration of an EC2 instance.
 class BackendServerDescription {
   /// The port on which the EC2 instance is listening.
-  final int instancePort;
+  final int? instancePort;
 
   /// The names of the policies enabled for the EC2 instance.
-  final List<String> policyNames;
+  final List<String>? policyNames;
 
   BackendServerDescription({
     this.instancePort,
     this.policyNames,
   });
+
+  factory BackendServerDescription.fromJson(Map<String, dynamic> json) {
+    return BackendServerDescription(
+      instancePort: json['InstancePort'] as int?,
+      policyNames: (json['PolicyNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory BackendServerDescription.fromXml(_s.XmlElement elem) {
     return BackendServerDescription(
       instancePort: _s.extractXmlIntValue(elem, 'InstancePort'),
@@ -1587,16 +1690,34 @@ class BackendServerDescription {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final instancePort = this.instancePort;
+    final policyNames = this.policyNames;
+    return {
+      if (instancePort != null) 'InstancePort': instancePort,
+      if (policyNames != null) 'PolicyNames': policyNames,
+    };
+  }
 }
 
 /// Contains the output of ConfigureHealthCheck.
 class ConfigureHealthCheckOutput {
   /// The updated health check.
-  final HealthCheck healthCheck;
+  final HealthCheck? healthCheck;
 
   ConfigureHealthCheckOutput({
     this.healthCheck,
   });
+
+  factory ConfigureHealthCheckOutput.fromJson(Map<String, dynamic> json) {
+    return ConfigureHealthCheckOutput(
+      healthCheck: json['HealthCheck'] != null
+          ? HealthCheck.fromJson(json['HealthCheck'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ConfigureHealthCheckOutput.fromXml(_s.XmlElement elem) {
     return ConfigureHealthCheckOutput(
       healthCheck: _s
@@ -1604,200 +1725,335 @@ class ConfigureHealthCheckOutput {
           ?.let((e) => HealthCheck.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final healthCheck = this.healthCheck;
+    return {
+      if (healthCheck != null) 'HealthCheck': healthCheck,
+    };
+  }
 }
 
 /// Information about the <code>ConnectionDraining</code> attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConnectionDraining {
   /// Specifies whether connection draining is enabled for the load balancer.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// The maximum time, in seconds, to keep the existing connections open before
   /// deregistering the instances.
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   ConnectionDraining({
-    @_s.required this.enabled,
+    required this.enabled,
     this.timeout,
   });
+
+  factory ConnectionDraining.fromJson(Map<String, dynamic> json) {
+    return ConnectionDraining(
+      enabled: json['Enabled'] as bool,
+      timeout: json['Timeout'] as int?,
+    );
+  }
+
   factory ConnectionDraining.fromXml(_s.XmlElement elem) {
     return ConnectionDraining(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
       timeout: _s.extractXmlIntValue(elem, 'Timeout'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$ConnectionDrainingToJson(this);
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final timeout = this.timeout;
+    return {
+      'Enabled': enabled,
+      if (timeout != null) 'Timeout': timeout,
+    };
+  }
 }
 
 /// Information about the <code>ConnectionSettings</code> attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConnectionSettings {
   /// The time, in seconds, that the connection is allowed to be idle (no data has
   /// been sent over the connection) before it is closed by the load balancer.
-  @_s.JsonKey(name: 'IdleTimeout')
   final int idleTimeout;
 
   ConnectionSettings({
-    @_s.required this.idleTimeout,
+    required this.idleTimeout,
   });
-  factory ConnectionSettings.fromXml(_s.XmlElement elem) {
+
+  factory ConnectionSettings.fromJson(Map<String, dynamic> json) {
     return ConnectionSettings(
-      idleTimeout: _s.extractXmlIntValue(elem, 'IdleTimeout'),
+      idleTimeout: json['IdleTimeout'] as int,
     );
   }
 
-  Map<String, dynamic> toJson() => _$ConnectionSettingsToJson(this);
+  factory ConnectionSettings.fromXml(_s.XmlElement elem) {
+    return ConnectionSettings(
+      idleTimeout: _s.extractXmlIntValue(elem, 'IdleTimeout')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final idleTimeout = this.idleTimeout;
+    return {
+      'IdleTimeout': idleTimeout,
+    };
+  }
 }
 
 /// Contains the output for CreateLoadBalancer.
 class CreateAccessPointOutput {
   /// The DNS name of the load balancer.
-  final String dNSName;
+  final String? dNSName;
 
   CreateAccessPointOutput({
     this.dNSName,
   });
+
+  factory CreateAccessPointOutput.fromJson(Map<String, dynamic> json) {
+    return CreateAccessPointOutput(
+      dNSName: json['DNSName'] as String?,
+    );
+  }
+
   factory CreateAccessPointOutput.fromXml(_s.XmlElement elem) {
     return CreateAccessPointOutput(
       dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dNSName = this.dNSName;
+    return {
+      if (dNSName != null) 'DNSName': dNSName,
+    };
   }
 }
 
 /// Contains the output for CreateAppCookieStickinessPolicy.
 class CreateAppCookieStickinessPolicyOutput {
   CreateAppCookieStickinessPolicyOutput();
+
+  factory CreateAppCookieStickinessPolicyOutput.fromJson(
+      Map<String, dynamic> _) {
+    return CreateAppCookieStickinessPolicyOutput();
+  }
+
   factory CreateAppCookieStickinessPolicyOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateAppCookieStickinessPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output for CreateLBCookieStickinessPolicy.
 class CreateLBCookieStickinessPolicyOutput {
   CreateLBCookieStickinessPolicyOutput();
+
+  factory CreateLBCookieStickinessPolicyOutput.fromJson(
+      Map<String, dynamic> _) {
+    return CreateLBCookieStickinessPolicyOutput();
+  }
+
   factory CreateLBCookieStickinessPolicyOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateLBCookieStickinessPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the parameters for CreateLoadBalancerListener.
 class CreateLoadBalancerListenerOutput {
   CreateLoadBalancerListenerOutput();
+
+  factory CreateLoadBalancerListenerOutput.fromJson(Map<String, dynamic> _) {
+    return CreateLoadBalancerListenerOutput();
+  }
+
   factory CreateLoadBalancerListenerOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateLoadBalancerListenerOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output of CreateLoadBalancerPolicy.
 class CreateLoadBalancerPolicyOutput {
   CreateLoadBalancerPolicyOutput();
+
+  factory CreateLoadBalancerPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return CreateLoadBalancerPolicyOutput();
+  }
+
   factory CreateLoadBalancerPolicyOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateLoadBalancerPolicyOutput();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about the <code>CrossZoneLoadBalancing</code> attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CrossZoneLoadBalancing {
   /// Specifies whether cross-zone load balancing is enabled for the load
   /// balancer.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   CrossZoneLoadBalancing({
-    @_s.required this.enabled,
+    required this.enabled,
   });
-  factory CrossZoneLoadBalancing.fromXml(_s.XmlElement elem) {
+
+  factory CrossZoneLoadBalancing.fromJson(Map<String, dynamic> json) {
     return CrossZoneLoadBalancing(
-      enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
+      enabled: json['Enabled'] as bool,
     );
   }
 
-  Map<String, dynamic> toJson() => _$CrossZoneLoadBalancingToJson(this);
+  factory CrossZoneLoadBalancing.fromXml(_s.XmlElement elem) {
+    return CrossZoneLoadBalancing(
+      enabled: _s.extractXmlBoolValue(elem, 'Enabled')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled,
+    };
+  }
 }
 
 /// Contains the output of DeleteLoadBalancer.
 class DeleteAccessPointOutput {
   DeleteAccessPointOutput();
+
+  factory DeleteAccessPointOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteAccessPointOutput();
+  }
+
   factory DeleteAccessPointOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteAccessPointOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output of DeleteLoadBalancerListeners.
 class DeleteLoadBalancerListenerOutput {
   DeleteLoadBalancerListenerOutput();
+
+  factory DeleteLoadBalancerListenerOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteLoadBalancerListenerOutput();
+  }
+
   factory DeleteLoadBalancerListenerOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteLoadBalancerListenerOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output of DeleteLoadBalancerPolicy.
 class DeleteLoadBalancerPolicyOutput {
   DeleteLoadBalancerPolicyOutput();
+
+  factory DeleteLoadBalancerPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteLoadBalancerPolicyOutput();
+  }
+
   factory DeleteLoadBalancerPolicyOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteLoadBalancerPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output of DeregisterInstancesFromLoadBalancer.
 class DeregisterEndPointsOutput {
   /// The remaining instances registered with the load balancer.
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   DeregisterEndPointsOutput({
     this.instances,
   });
+
+  factory DeregisterEndPointsOutput.fromJson(Map<String, dynamic> json) {
+    return DeregisterEndPointsOutput(
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DeregisterEndPointsOutput.fromXml(_s.XmlElement elem) {
     return DeregisterEndPointsOutput(
       instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
           elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final instances = this.instances;
+    return {
+      if (instances != null) 'Instances': instances,
+    };
+  }
 }
 
 /// Contains the parameters for DescribeLoadBalancers.
 class DescribeAccessPointsOutput {
   /// Information about the load balancers.
-  final List<LoadBalancerDescription> loadBalancerDescriptions;
+  final List<LoadBalancerDescription>? loadBalancerDescriptions;
 
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeAccessPointsOutput({
     this.loadBalancerDescriptions,
     this.nextMarker,
   });
+
+  factory DescribeAccessPointsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAccessPointsOutput(
+      loadBalancerDescriptions: (json['LoadBalancerDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LoadBalancerDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory DescribeAccessPointsOutput.fromXml(_s.XmlElement elem) {
     return DescribeAccessPointsOutput(
       loadBalancerDescriptions: _s
@@ -1809,20 +2065,41 @@ class DescribeAccessPointsOutput {
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancerDescriptions = this.loadBalancerDescriptions;
+    final nextMarker = this.nextMarker;
+    return {
+      if (loadBalancerDescriptions != null)
+        'LoadBalancerDescriptions': loadBalancerDescriptions,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
 class DescribeAccountLimitsOutput {
   /// Information about the limits.
-  final List<Limit> limits;
+  final List<Limit>? limits;
 
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  final String nextMarker;
+  final String? nextMarker;
 
   DescribeAccountLimitsOutput({
     this.limits,
     this.nextMarker,
   });
+
+  factory DescribeAccountLimitsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeAccountLimitsOutput(
+      limits: (json['Limits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Limit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory DescribeAccountLimitsOutput.fromXml(_s.XmlElement elem) {
     return DescribeAccountLimitsOutput(
       limits: _s.extractXmlChild(elem, 'Limits')?.let((elem) =>
@@ -1830,16 +2107,35 @@ class DescribeAccountLimitsOutput {
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final limits = this.limits;
+    final nextMarker = this.nextMarker;
+    return {
+      if (limits != null) 'Limits': limits,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
 /// Contains the output for DescribeInstanceHealth.
 class DescribeEndPointStateOutput {
   /// Information about the health of the instances.
-  final List<InstanceState> instanceStates;
+  final List<InstanceState>? instanceStates;
 
   DescribeEndPointStateOutput({
     this.instanceStates,
   });
+
+  factory DescribeEndPointStateOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeEndPointStateOutput(
+      instanceStates: (json['InstanceStates'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeEndPointStateOutput.fromXml(_s.XmlElement elem) {
     return DescribeEndPointStateOutput(
       instanceStates: _s.extractXmlChild(elem, 'InstanceStates')?.let((elem) =>
@@ -1849,16 +2145,34 @@ class DescribeEndPointStateOutput {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final instanceStates = this.instanceStates;
+    return {
+      if (instanceStates != null) 'InstanceStates': instanceStates,
+    };
+  }
 }
 
 /// Contains the output of DescribeLoadBalancerAttributes.
 class DescribeLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
-  final LoadBalancerAttributes loadBalancerAttributes;
+  final LoadBalancerAttributes? loadBalancerAttributes;
 
   DescribeLoadBalancerAttributesOutput({
     this.loadBalancerAttributes,
   });
+
+  factory DescribeLoadBalancerAttributesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeLoadBalancerAttributesOutput(
+      loadBalancerAttributes: json['LoadBalancerAttributes'] != null
+          ? LoadBalancerAttributes.fromJson(
+              json['LoadBalancerAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DescribeLoadBalancerAttributesOutput.fromXml(_s.XmlElement elem) {
     return DescribeLoadBalancerAttributesOutput(
       loadBalancerAttributes: _s
@@ -1866,16 +2180,35 @@ class DescribeLoadBalancerAttributesOutput {
           ?.let((e) => LoadBalancerAttributes.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancerAttributes = this.loadBalancerAttributes;
+    return {
+      if (loadBalancerAttributes != null)
+        'LoadBalancerAttributes': loadBalancerAttributes,
+    };
+  }
 }
 
 /// Contains the output of DescribeLoadBalancerPolicies.
 class DescribeLoadBalancerPoliciesOutput {
   /// Information about the policies.
-  final List<PolicyDescription> policyDescriptions;
+  final List<PolicyDescription>? policyDescriptions;
 
   DescribeLoadBalancerPoliciesOutput({
     this.policyDescriptions,
   });
+
+  factory DescribeLoadBalancerPoliciesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeLoadBalancerPoliciesOutput(
+      policyDescriptions: (json['PolicyDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeLoadBalancerPoliciesOutput.fromXml(_s.XmlElement elem) {
     return DescribeLoadBalancerPoliciesOutput(
       policyDescriptions: _s.extractXmlChild(elem, 'PolicyDescriptions')?.let(
@@ -1885,16 +2218,34 @@ class DescribeLoadBalancerPoliciesOutput {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final policyDescriptions = this.policyDescriptions;
+    return {
+      if (policyDescriptions != null) 'PolicyDescriptions': policyDescriptions,
+    };
+  }
 }
 
 /// Contains the output of DescribeLoadBalancerPolicyTypes.
 class DescribeLoadBalancerPolicyTypesOutput {
   /// Information about the policy types.
-  final List<PolicyTypeDescription> policyTypeDescriptions;
+  final List<PolicyTypeDescription>? policyTypeDescriptions;
 
   DescribeLoadBalancerPolicyTypesOutput({
     this.policyTypeDescriptions,
   });
+
+  factory DescribeLoadBalancerPolicyTypesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeLoadBalancerPolicyTypesOutput(
+      policyTypeDescriptions: (json['PolicyTypeDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyTypeDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeLoadBalancerPolicyTypesOutput.fromXml(_s.XmlElement elem) {
     return DescribeLoadBalancerPolicyTypesOutput(
       policyTypeDescriptions: _s
@@ -1905,16 +2256,34 @@ class DescribeLoadBalancerPolicyTypesOutput {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final policyTypeDescriptions = this.policyTypeDescriptions;
+    return {
+      if (policyTypeDescriptions != null)
+        'PolicyTypeDescriptions': policyTypeDescriptions,
+    };
+  }
 }
 
 /// Contains the output for DescribeTags.
 class DescribeTagsOutput {
   /// Information about the tags.
-  final List<TagDescription> tagDescriptions;
+  final List<TagDescription>? tagDescriptions;
 
   DescribeTagsOutput({
     this.tagDescriptions,
   });
+
+  factory DescribeTagsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsOutput(
+      tagDescriptions: (json['TagDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeTagsOutput.fromXml(_s.XmlElement elem) {
     return DescribeTagsOutput(
       tagDescriptions: _s.extractXmlChild(elem, 'TagDescriptions')?.let(
@@ -1924,16 +2293,34 @@ class DescribeTagsOutput {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final tagDescriptions = this.tagDescriptions;
+    return {
+      if (tagDescriptions != null) 'TagDescriptions': tagDescriptions,
+    };
+  }
 }
 
 /// Contains the output of DetachLoadBalancerFromSubnets.
 class DetachLoadBalancerFromSubnetsOutput {
   /// The IDs of the remaining subnets for the load balancer.
-  final List<String> subnets;
+  final List<String>? subnets;
 
   DetachLoadBalancerFromSubnetsOutput({
     this.subnets,
   });
+
+  factory DetachLoadBalancerFromSubnetsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return DetachLoadBalancerFromSubnetsOutput(
+      subnets: (json['Subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory DetachLoadBalancerFromSubnetsOutput.fromXml(_s.XmlElement elem) {
     return DetachLoadBalancerFromSubnetsOutput(
       subnets: _s
@@ -1941,23 +2328,23 @@ class DetachLoadBalancerFromSubnetsOutput {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final subnets = this.subnets;
+    return {
+      if (subnets != null) 'Subnets': subnets,
+    };
+  }
 }
 
 /// Information about a health check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HealthCheck {
   /// The number of consecutive health checks successes required before moving the
   /// instance to the <code>Healthy</code> state.
-  @_s.JsonKey(name: 'HealthyThreshold')
   final int healthyThreshold;
 
   /// The approximate interval, in seconds, between health checks of an individual
   /// instance.
-  @_s.JsonKey(name: 'Interval')
   final int interval;
 
   /// The instance being checked. The protocol is either TCP, HTTP, HTTPS, or SSL.
@@ -1978,62 +2365,89 @@ class HealthCheck {
   ///
   /// The total length of the HTTP ping target must be 1024 16-bit Unicode
   /// characters or less.
-  @_s.JsonKey(name: 'Target')
   final String target;
 
   /// The amount of time, in seconds, during which no response means a failed
   /// health check.
   ///
   /// This value must be less than the <code>Interval</code> value.
-  @_s.JsonKey(name: 'Timeout')
   final int timeout;
 
   /// The number of consecutive health check failures required before moving the
   /// instance to the <code>Unhealthy</code> state.
-  @_s.JsonKey(name: 'UnhealthyThreshold')
   final int unhealthyThreshold;
 
   HealthCheck({
-    @_s.required this.healthyThreshold,
-    @_s.required this.interval,
-    @_s.required this.target,
-    @_s.required this.timeout,
-    @_s.required this.unhealthyThreshold,
+    required this.healthyThreshold,
+    required this.interval,
+    required this.target,
+    required this.timeout,
+    required this.unhealthyThreshold,
   });
-  factory HealthCheck.fromXml(_s.XmlElement elem) {
+
+  factory HealthCheck.fromJson(Map<String, dynamic> json) {
     return HealthCheck(
-      healthyThreshold: _s.extractXmlIntValue(elem, 'HealthyThreshold'),
-      interval: _s.extractXmlIntValue(elem, 'Interval'),
-      target: _s.extractXmlStringValue(elem, 'Target'),
-      timeout: _s.extractXmlIntValue(elem, 'Timeout'),
-      unhealthyThreshold: _s.extractXmlIntValue(elem, 'UnhealthyThreshold'),
+      healthyThreshold: json['HealthyThreshold'] as int,
+      interval: json['Interval'] as int,
+      target: json['Target'] as String,
+      timeout: json['Timeout'] as int,
+      unhealthyThreshold: json['UnhealthyThreshold'] as int,
     );
   }
 
-  Map<String, dynamic> toJson() => _$HealthCheckToJson(this);
+  factory HealthCheck.fromXml(_s.XmlElement elem) {
+    return HealthCheck(
+      healthyThreshold: _s.extractXmlIntValue(elem, 'HealthyThreshold')!,
+      interval: _s.extractXmlIntValue(elem, 'Interval')!,
+      target: _s.extractXmlStringValue(elem, 'Target')!,
+      timeout: _s.extractXmlIntValue(elem, 'Timeout')!,
+      unhealthyThreshold: _s.extractXmlIntValue(elem, 'UnhealthyThreshold')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthyThreshold = this.healthyThreshold;
+    final interval = this.interval;
+    final target = this.target;
+    final timeout = this.timeout;
+    final unhealthyThreshold = this.unhealthyThreshold;
+    return {
+      'HealthyThreshold': healthyThreshold,
+      'Interval': interval,
+      'Target': target,
+      'Timeout': timeout,
+      'UnhealthyThreshold': unhealthyThreshold,
+    };
+  }
 }
 
 /// The ID of an EC2 instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Instance {
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   Instance({
     this.instanceId,
   });
+
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      instanceId: json['InstanceId'] as String?,
+    );
+  }
+
   factory Instance.fromXml(_s.XmlElement elem) {
     return Instance(
       instanceId: _s.extractXmlStringValue(elem, 'InstanceId'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$InstanceToJson(this);
+  Map<String, dynamic> toJson() {
+    final instanceId = this.instanceId;
+    return {
+      if (instanceId != null) 'InstanceId': instanceId,
+    };
+  }
 }
 
 /// Information about the state of an EC2 instance.
@@ -2082,22 +2496,22 @@ class InstanceState {
   /// <code>Instance is in terminated state.</code>
   /// </li>
   /// </ul>
-  final String description;
+  final String? description;
 
   /// The ID of the instance.
-  final String instanceId;
+  final String? instanceId;
 
   /// Information about the cause of <code>OutOfService</code> instances.
   /// Specifically, whether the cause is Elastic Load Balancing or the instance.
   ///
   /// Valid values: <code>ELB</code> | <code>Instance</code> | <code>N/A</code>
-  final String reasonCode;
+  final String? reasonCode;
 
   /// The current state of the instance.
   ///
   /// Valid values: <code>InService</code> | <code>OutOfService</code> |
   /// <code>Unknown</code>
-  final String state;
+  final String? state;
 
   InstanceState({
     this.description,
@@ -2105,6 +2519,16 @@ class InstanceState {
     this.reasonCode,
     this.state,
   });
+
+  factory InstanceState.fromJson(Map<String, dynamic> json) {
+    return InstanceState(
+      description: json['Description'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      reasonCode: json['ReasonCode'] as String?,
+      state: json['State'] as String?,
+    );
+  }
+
   factory InstanceState.fromXml(_s.XmlElement elem) {
     return InstanceState(
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -2113,6 +2537,19 @@ class InstanceState {
       state: _s.extractXmlStringValue(elem, 'State'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final instanceId = this.instanceId;
+    final reasonCode = this.reasonCode;
+    final state = this.state;
+    return {
+      if (description != null) 'Description': description,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (reasonCode != null) 'ReasonCode': reasonCode,
+      if (state != null) 'State': state,
+    };
+  }
 }
 
 /// Information about a policy for duration-based session stickiness.
@@ -2120,16 +2557,24 @@ class LBCookieStickinessPolicy {
   /// The time period, in seconds, after which the cookie should be considered
   /// stale. If this parameter is not specified, the stickiness session lasts for
   /// the duration of the browser session.
-  final int cookieExpirationPeriod;
+  final int? cookieExpirationPeriod;
 
   /// The name of the policy. This name must be unique within the set of policies
   /// for this load balancer.
-  final String policyName;
+  final String? policyName;
 
   LBCookieStickinessPolicy({
     this.cookieExpirationPeriod,
     this.policyName,
   });
+
+  factory LBCookieStickinessPolicy.fromJson(Map<String, dynamic> json) {
+    return LBCookieStickinessPolicy(
+      cookieExpirationPeriod: json['CookieExpirationPeriod'] as int?,
+      policyName: json['PolicyName'] as String?,
+    );
+  }
+
   factory LBCookieStickinessPolicy.fromXml(_s.XmlElement elem) {
     return LBCookieStickinessPolicy(
       cookieExpirationPeriod:
@@ -2137,13 +2582,23 @@ class LBCookieStickinessPolicy {
       policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final cookieExpirationPeriod = this.cookieExpirationPeriod;
+    final policyName = this.policyName;
+    return {
+      if (cookieExpirationPeriod != null)
+        'CookieExpirationPeriod': cookieExpirationPeriod,
+      if (policyName != null) 'PolicyName': policyName,
+    };
+  }
 }
 
 /// Information about an Elastic Load Balancing resource limit for your AWS
 /// account.
 class Limit {
   /// The maximum value of the limit.
-  final String max;
+  final String? max;
 
   /// The name of the limit. The possible values are:
   ///
@@ -2158,17 +2613,34 @@ class Limit {
   /// classic-registered-instances
   /// </li>
   /// </ul>
-  final String name;
+  final String? name;
 
   Limit({
     this.max,
     this.name,
   });
+
+  factory Limit.fromJson(Map<String, dynamic> json) {
+    return Limit(
+      max: json['Max'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
   factory Limit.fromXml(_s.XmlElement elem) {
     return Limit(
       max: _s.extractXmlStringValue(elem, 'Max'),
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final max = this.max;
+    final name = this.name;
+    return {
+      if (max != null) 'Max': max,
+      if (name != null) 'Name': name,
+    };
   }
 }
 
@@ -2179,25 +2651,17 @@ class Limit {
 /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
 /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Listener {
   /// The port on which the instance is listening.
-  @_s.JsonKey(name: 'InstancePort')
   final int instancePort;
 
   /// The port on which the load balancer is listening. On EC2-VPC, you can
   /// specify any port from the range 1-65535. On EC2-Classic, you can specify any
   /// port from the following list: 25, 80, 443, 465, 587, 1024-65535.
-  @_s.JsonKey(name: 'LoadBalancerPort')
   final int loadBalancerPort;
 
   /// The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP,
   /// or SSL.
-  @_s.JsonKey(name: 'Protocol')
   final String protocol;
 
   /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or
@@ -2214,45 +2678,80 @@ class Listener {
   /// If there is another listener with the same <code>InstancePort</code> whose
   /// <code>InstanceProtocol</code> is HTTP or TCP, the listener's
   /// <code>InstanceProtocol</code> must be HTTP or TCP.
-  @_s.JsonKey(name: 'InstanceProtocol')
-  final String instanceProtocol;
+  final String? instanceProtocol;
 
   /// The Amazon Resource Name (ARN) of the server certificate.
-  @_s.JsonKey(name: 'SSLCertificateId')
-  final String sSLCertificateId;
+  final String? sSLCertificateId;
 
   Listener({
-    @_s.required this.instancePort,
-    @_s.required this.loadBalancerPort,
-    @_s.required this.protocol,
+    required this.instancePort,
+    required this.loadBalancerPort,
+    required this.protocol,
     this.instanceProtocol,
     this.sSLCertificateId,
   });
+
+  factory Listener.fromJson(Map<String, dynamic> json) {
+    return Listener(
+      instancePort: json['InstancePort'] as int,
+      loadBalancerPort: json['LoadBalancerPort'] as int,
+      protocol: json['Protocol'] as String,
+      instanceProtocol: json['InstanceProtocol'] as String?,
+      sSLCertificateId: json['SSLCertificateId'] as String?,
+    );
+  }
+
   factory Listener.fromXml(_s.XmlElement elem) {
     return Listener(
-      instancePort: _s.extractXmlIntValue(elem, 'InstancePort'),
-      loadBalancerPort: _s.extractXmlIntValue(elem, 'LoadBalancerPort'),
-      protocol: _s.extractXmlStringValue(elem, 'Protocol'),
+      instancePort: _s.extractXmlIntValue(elem, 'InstancePort')!,
+      loadBalancerPort: _s.extractXmlIntValue(elem, 'LoadBalancerPort')!,
+      protocol: _s.extractXmlStringValue(elem, 'Protocol')!,
       instanceProtocol: _s.extractXmlStringValue(elem, 'InstanceProtocol'),
       sSLCertificateId: _s.extractXmlStringValue(elem, 'SSLCertificateId'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$ListenerToJson(this);
+  Map<String, dynamic> toJson() {
+    final instancePort = this.instancePort;
+    final loadBalancerPort = this.loadBalancerPort;
+    final protocol = this.protocol;
+    final instanceProtocol = this.instanceProtocol;
+    final sSLCertificateId = this.sSLCertificateId;
+    return {
+      'InstancePort': instancePort,
+      'LoadBalancerPort': loadBalancerPort,
+      'Protocol': protocol,
+      if (instanceProtocol != null) 'InstanceProtocol': instanceProtocol,
+      if (sSLCertificateId != null) 'SSLCertificateId': sSLCertificateId,
+    };
+  }
 }
 
 /// The policies enabled for a listener.
 class ListenerDescription {
   /// The listener.
-  final Listener listener;
+  final Listener? listener;
 
   /// The policies. If there are no policies enabled, the list is empty.
-  final List<String> policyNames;
+  final List<String>? policyNames;
 
   ListenerDescription({
     this.listener,
     this.policyNames,
   });
+
+  factory ListenerDescription.fromJson(Map<String, dynamic> json) {
+    return ListenerDescription(
+      listener: json['Listener'] != null
+          ? Listener.fromJson(json['Listener'] as Map<String, dynamic>)
+          : null,
+      policyNames: (json['PolicyNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory ListenerDescription.fromXml(_s.XmlElement elem) {
     return ListenerDescription(
       listener:
@@ -2262,14 +2761,18 @@ class ListenerDescription {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final listener = this.listener;
+    final policyNames = this.policyNames;
+    return {
+      if (listener != null) 'Listener': listener,
+      if (policyNames != null) 'PolicyNames': policyNames,
+    };
+  }
 }
 
 /// The attributes for a load balancer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LoadBalancerAttributes {
   /// If enabled, the load balancer captures detailed information of all requests
   /// and delivers the information to the Amazon S3 bucket that you specify.
@@ -2277,12 +2780,10 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html">Enable
   /// Access Logs</a> in the <i>Classic Load Balancers Guide</i>.
-  @_s.JsonKey(name: 'AccessLog')
-  final AccessLog accessLog;
+  final AccessLog? accessLog;
 
   /// Any additional attributes.
-  @_s.JsonKey(name: 'AdditionalAttributes')
-  final List<AdditionalAttribute> additionalAttributes;
+  final List<AdditionalAttribute>? additionalAttributes;
 
   /// If enabled, the load balancer allows existing requests to complete before
   /// the load balancer shifts traffic away from a deregistered or unhealthy
@@ -2291,8 +2792,7 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html">Configure
   /// Connection Draining</a> in the <i>Classic Load Balancers Guide</i>.
-  @_s.JsonKey(name: 'ConnectionDraining')
-  final ConnectionDraining connectionDraining;
+  final ConnectionDraining? connectionDraining;
 
   /// If enabled, the load balancer allows the connections to remain idle (no data
   /// is sent over the connection) for the specified duration.
@@ -2302,8 +2802,7 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html">Configure
   /// Idle Connection Timeout</a> in the <i>Classic Load Balancers Guide</i>.
-  @_s.JsonKey(name: 'ConnectionSettings')
-  final ConnectionSettings connectionSettings;
+  final ConnectionSettings? connectionSettings;
 
   /// If enabled, the load balancer routes the request traffic evenly across all
   /// instances regardless of the Availability Zones.
@@ -2311,8 +2810,7 @@ class LoadBalancerAttributes {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html">Configure
   /// Cross-Zone Load Balancing</a> in the <i>Classic Load Balancers Guide</i>.
-  @_s.JsonKey(name: 'CrossZoneLoadBalancing')
-  final CrossZoneLoadBalancing crossZoneLoadBalancing;
+  final CrossZoneLoadBalancing? crossZoneLoadBalancing;
 
   LoadBalancerAttributes({
     this.accessLog,
@@ -2321,6 +2819,31 @@ class LoadBalancerAttributes {
     this.connectionSettings,
     this.crossZoneLoadBalancing,
   });
+
+  factory LoadBalancerAttributes.fromJson(Map<String, dynamic> json) {
+    return LoadBalancerAttributes(
+      accessLog: json['AccessLog'] != null
+          ? AccessLog.fromJson(json['AccessLog'] as Map<String, dynamic>)
+          : null,
+      additionalAttributes: (json['AdditionalAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdditionalAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      connectionDraining: json['ConnectionDraining'] != null
+          ? ConnectionDraining.fromJson(
+              json['ConnectionDraining'] as Map<String, dynamic>)
+          : null,
+      connectionSettings: json['ConnectionSettings'] != null
+          ? ConnectionSettings.fromJson(
+              json['ConnectionSettings'] as Map<String, dynamic>)
+          : null,
+      crossZoneLoadBalancing: json['CrossZoneLoadBalancing'] != null
+          ? CrossZoneLoadBalancing.fromJson(
+              json['CrossZoneLoadBalancing'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory LoadBalancerAttributes.fromXml(_s.XmlElement elem) {
     return LoadBalancerAttributes(
       accessLog: _s
@@ -2344,47 +2867,62 @@ class LoadBalancerAttributes {
     );
   }
 
-  Map<String, dynamic> toJson() => _$LoadBalancerAttributesToJson(this);
+  Map<String, dynamic> toJson() {
+    final accessLog = this.accessLog;
+    final additionalAttributes = this.additionalAttributes;
+    final connectionDraining = this.connectionDraining;
+    final connectionSettings = this.connectionSettings;
+    final crossZoneLoadBalancing = this.crossZoneLoadBalancing;
+    return {
+      if (accessLog != null) 'AccessLog': accessLog,
+      if (additionalAttributes != null)
+        'AdditionalAttributes': additionalAttributes,
+      if (connectionDraining != null) 'ConnectionDraining': connectionDraining,
+      if (connectionSettings != null) 'ConnectionSettings': connectionSettings,
+      if (crossZoneLoadBalancing != null)
+        'CrossZoneLoadBalancing': crossZoneLoadBalancing,
+    };
+  }
 }
 
 /// Information about a load balancer.
 class LoadBalancerDescription {
   /// The Availability Zones for the load balancer.
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   /// Information about your EC2 instances.
-  final List<BackendServerDescription> backendServerDescriptions;
+  final List<BackendServerDescription>? backendServerDescriptions;
 
   /// The DNS name of the load balancer.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/using-domain-names-with-elb.html">Configure
   /// a Custom Domain Name</a> in the <i>Classic Load Balancers Guide</i>.
-  final String canonicalHostedZoneName;
+  final String? canonicalHostedZoneName;
 
   /// The ID of the Amazon Route 53 hosted zone for the load balancer.
-  final String canonicalHostedZoneNameID;
+  final String? canonicalHostedZoneNameID;
 
   /// The date and time the load balancer was created.
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The DNS name of the load balancer.
-  final String dNSName;
+  final String? dNSName;
 
   /// Information about the health checks conducted on the load balancer.
-  final HealthCheck healthCheck;
+  final HealthCheck? healthCheck;
 
   /// The IDs of the instances for the load balancer.
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   /// The listeners for the load balancer.
-  final List<ListenerDescription> listenerDescriptions;
+  final List<ListenerDescription>? listenerDescriptions;
 
   /// The name of the load balancer.
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   /// The policies defined for the load balancer.
-  final Policies policies;
+  final Policies? policies;
 
   /// The type of load balancer. Valid only for load balancers in a VPC.
   ///
@@ -2393,23 +2931,23 @@ class LoadBalancerDescription {
   ///
   /// If <code>Scheme</code> is <code>internal</code>, the load balancer has a
   /// public DNS name that resolves to a private IP address.
-  final String scheme;
+  final String? scheme;
 
   /// The security groups for the load balancer. Valid only for load balancers in
   /// a VPC.
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   /// The security group for the load balancer, which you can use as part of your
   /// inbound rules for your registered instances. To only allow traffic from load
   /// balancers, add a security group rule that specifies this source security
   /// group as the inbound source.
-  final SourceSecurityGroup sourceSecurityGroup;
+  final SourceSecurityGroup? sourceSecurityGroup;
 
   /// The IDs of the subnets for the load balancer.
-  final List<String> subnets;
+  final List<String>? subnets;
 
   /// The ID of the VPC for the load balancer.
-  final String vPCId;
+  final String? vPCId;
 
   LoadBalancerDescription({
     this.availabilityZones,
@@ -2429,6 +2967,54 @@ class LoadBalancerDescription {
     this.subnets,
     this.vPCId,
   });
+
+  factory LoadBalancerDescription.fromJson(Map<String, dynamic> json) {
+    return LoadBalancerDescription(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      backendServerDescriptions: (json['BackendServerDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BackendServerDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      canonicalHostedZoneName: json['CanonicalHostedZoneName'] as String?,
+      canonicalHostedZoneNameID: json['CanonicalHostedZoneNameID'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      dNSName: json['DNSName'] as String?,
+      healthCheck: json['HealthCheck'] != null
+          ? HealthCheck.fromJson(json['HealthCheck'] as Map<String, dynamic>)
+          : null,
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      listenerDescriptions: (json['ListenerDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ListenerDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      loadBalancerName: json['LoadBalancerName'] as String?,
+      policies: json['Policies'] != null
+          ? Policies.fromJson(json['Policies'] as Map<String, dynamic>)
+          : null,
+      scheme: json['Scheme'] as String?,
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceSecurityGroup: json['SourceSecurityGroup'] != null
+          ? SourceSecurityGroup.fromJson(
+              json['SourceSecurityGroup'] as Map<String, dynamic>)
+          : null,
+      subnets: (json['Subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vPCId: json['VPCId'] as String?,
+    );
+  }
+
   factory LoadBalancerDescription.fromXml(_s.XmlElement elem) {
     return LoadBalancerDescription(
       availabilityZones: _s
@@ -2473,20 +3059,74 @@ class LoadBalancerDescription {
       vPCId: _s.extractXmlStringValue(elem, 'VPCId'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final backendServerDescriptions = this.backendServerDescriptions;
+    final canonicalHostedZoneName = this.canonicalHostedZoneName;
+    final canonicalHostedZoneNameID = this.canonicalHostedZoneNameID;
+    final createdTime = this.createdTime;
+    final dNSName = this.dNSName;
+    final healthCheck = this.healthCheck;
+    final instances = this.instances;
+    final listenerDescriptions = this.listenerDescriptions;
+    final loadBalancerName = this.loadBalancerName;
+    final policies = this.policies;
+    final scheme = this.scheme;
+    final securityGroups = this.securityGroups;
+    final sourceSecurityGroup = this.sourceSecurityGroup;
+    final subnets = this.subnets;
+    final vPCId = this.vPCId;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+      if (backendServerDescriptions != null)
+        'BackendServerDescriptions': backendServerDescriptions,
+      if (canonicalHostedZoneName != null)
+        'CanonicalHostedZoneName': canonicalHostedZoneName,
+      if (canonicalHostedZoneNameID != null)
+        'CanonicalHostedZoneNameID': canonicalHostedZoneNameID,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (dNSName != null) 'DNSName': dNSName,
+      if (healthCheck != null) 'HealthCheck': healthCheck,
+      if (instances != null) 'Instances': instances,
+      if (listenerDescriptions != null)
+        'ListenerDescriptions': listenerDescriptions,
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+      if (policies != null) 'Policies': policies,
+      if (scheme != null) 'Scheme': scheme,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (sourceSecurityGroup != null)
+        'SourceSecurityGroup': sourceSecurityGroup,
+      if (subnets != null) 'Subnets': subnets,
+      if (vPCId != null) 'VPCId': vPCId,
+    };
+  }
 }
 
 /// Contains the output of ModifyLoadBalancerAttributes.
 class ModifyLoadBalancerAttributesOutput {
   /// Information about the load balancer attributes.
-  final LoadBalancerAttributes loadBalancerAttributes;
+  final LoadBalancerAttributes? loadBalancerAttributes;
 
   /// The name of the load balancer.
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   ModifyLoadBalancerAttributesOutput({
     this.loadBalancerAttributes,
     this.loadBalancerName,
   });
+
+  factory ModifyLoadBalancerAttributesOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ModifyLoadBalancerAttributesOutput(
+      loadBalancerAttributes: json['LoadBalancerAttributes'] != null
+          ? LoadBalancerAttributes.fromJson(
+              json['LoadBalancerAttributes'] as Map<String, dynamic>)
+          : null,
+      loadBalancerName: json['LoadBalancerName'] as String?,
+    );
+  }
+
   factory ModifyLoadBalancerAttributesOutput.fromXml(_s.XmlElement elem) {
     return ModifyLoadBalancerAttributesOutput(
       loadBalancerAttributes: _s
@@ -2495,25 +3135,56 @@ class ModifyLoadBalancerAttributesOutput {
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancerAttributes = this.loadBalancerAttributes;
+    final loadBalancerName = this.loadBalancerName;
+    return {
+      if (loadBalancerAttributes != null)
+        'LoadBalancerAttributes': loadBalancerAttributes,
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+    };
+  }
 }
 
 /// The policies for a load balancer.
 class Policies {
   /// The stickiness policies created using
   /// <a>CreateAppCookieStickinessPolicy</a>.
-  final List<AppCookieStickinessPolicy> appCookieStickinessPolicies;
+  final List<AppCookieStickinessPolicy>? appCookieStickinessPolicies;
 
   /// The stickiness policies created using <a>CreateLBCookieStickinessPolicy</a>.
-  final List<LBCookieStickinessPolicy> lBCookieStickinessPolicies;
+  final List<LBCookieStickinessPolicy>? lBCookieStickinessPolicies;
 
   /// The policies other than the stickiness policies.
-  final List<String> otherPolicies;
+  final List<String>? otherPolicies;
 
   Policies({
     this.appCookieStickinessPolicies,
     this.lBCookieStickinessPolicies,
     this.otherPolicies,
   });
+
+  factory Policies.fromJson(Map<String, dynamic> json) {
+    return Policies(
+      appCookieStickinessPolicies:
+          (json['AppCookieStickinessPolicies'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  AppCookieStickinessPolicy.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      lBCookieStickinessPolicies: (json['LBCookieStickinessPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LBCookieStickinessPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      otherPolicies: (json['OtherPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory Policies.fromXml(_s.XmlElement elem) {
     return Policies(
       appCookieStickinessPolicies: _s
@@ -2533,58 +3204,96 @@ class Policies {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final appCookieStickinessPolicies = this.appCookieStickinessPolicies;
+    final lBCookieStickinessPolicies = this.lBCookieStickinessPolicies;
+    final otherPolicies = this.otherPolicies;
+    return {
+      if (appCookieStickinessPolicies != null)
+        'AppCookieStickinessPolicies': appCookieStickinessPolicies,
+      if (lBCookieStickinessPolicies != null)
+        'LBCookieStickinessPolicies': lBCookieStickinessPolicies,
+      if (otherPolicies != null) 'OtherPolicies': otherPolicies,
+    };
+  }
 }
 
 /// Information about a policy attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PolicyAttribute {
   /// The name of the attribute.
-  @_s.JsonKey(name: 'AttributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The value of the attribute.
-  @_s.JsonKey(name: 'AttributeValue')
-  final String attributeValue;
+  final String? attributeValue;
 
   PolicyAttribute({
     this.attributeName,
     this.attributeValue,
   });
-  Map<String, dynamic> toJson() => _$PolicyAttributeToJson(this);
+
+  factory PolicyAttribute.fromJson(Map<String, dynamic> json) {
+    return PolicyAttribute(
+      attributeName: json['AttributeName'] as String?,
+      attributeValue: json['AttributeValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (attributeValue != null) 'AttributeValue': attributeValue,
+    };
+  }
 }
 
 /// Information about a policy attribute.
 class PolicyAttributeDescription {
   /// The name of the attribute.
-  final String attributeName;
+  final String? attributeName;
 
   /// The value of the attribute.
-  final String attributeValue;
+  final String? attributeValue;
 
   PolicyAttributeDescription({
     this.attributeName,
     this.attributeValue,
   });
+
+  factory PolicyAttributeDescription.fromJson(Map<String, dynamic> json) {
+    return PolicyAttributeDescription(
+      attributeName: json['AttributeName'] as String?,
+      attributeValue: json['AttributeValue'] as String?,
+    );
+  }
+
   factory PolicyAttributeDescription.fromXml(_s.XmlElement elem) {
     return PolicyAttributeDescription(
       attributeName: _s.extractXmlStringValue(elem, 'AttributeName'),
       attributeValue: _s.extractXmlStringValue(elem, 'AttributeValue'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeValue = this.attributeValue;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (attributeValue != null) 'AttributeValue': attributeValue,
+    };
+  }
 }
 
 /// Information about a policy attribute type.
 class PolicyAttributeTypeDescription {
   /// The name of the attribute.
-  final String attributeName;
+  final String? attributeName;
 
   /// The type of the attribute. For example, <code>Boolean</code> or
   /// <code>Integer</code>.
-  final String attributeType;
+  final String? attributeType;
 
   /// The cardinality of the attribute.
   ///
@@ -2604,13 +3313,13 @@ class PolicyAttributeTypeDescription {
   /// ONE_OR_MORE(1..*0) : Required. Multiple values are allowed
   /// </li>
   /// </ul>
-  final String cardinality;
+  final String? cardinality;
 
   /// The default value of the attribute, if applicable.
-  final String defaultValue;
+  final String? defaultValue;
 
   /// A description of the attribute.
-  final String description;
+  final String? description;
 
   PolicyAttributeTypeDescription({
     this.attributeName,
@@ -2619,6 +3328,17 @@ class PolicyAttributeTypeDescription {
     this.defaultValue,
     this.description,
   });
+
+  factory PolicyAttributeTypeDescription.fromJson(Map<String, dynamic> json) {
+    return PolicyAttributeTypeDescription(
+      attributeName: json['AttributeName'] as String?,
+      attributeType: json['AttributeType'] as String?,
+      cardinality: json['Cardinality'] as String?,
+      defaultValue: json['DefaultValue'] as String?,
+      description: json['Description'] as String?,
+    );
+  }
+
   factory PolicyAttributeTypeDescription.fromXml(_s.XmlElement elem) {
     return PolicyAttributeTypeDescription(
       attributeName: _s.extractXmlStringValue(elem, 'AttributeName'),
@@ -2628,24 +3348,53 @@ class PolicyAttributeTypeDescription {
       description: _s.extractXmlStringValue(elem, 'Description'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeType = this.attributeType;
+    final cardinality = this.cardinality;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    return {
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (attributeType != null) 'AttributeType': attributeType,
+      if (cardinality != null) 'Cardinality': cardinality,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
 /// Information about a policy.
 class PolicyDescription {
   /// The policy attributes.
-  final List<PolicyAttributeDescription> policyAttributeDescriptions;
+  final List<PolicyAttributeDescription>? policyAttributeDescriptions;
 
   /// The name of the policy.
-  final String policyName;
+  final String? policyName;
 
   /// The name of the policy type.
-  final String policyTypeName;
+  final String? policyTypeName;
 
   PolicyDescription({
     this.policyAttributeDescriptions,
     this.policyName,
     this.policyTypeName,
   });
+
+  factory PolicyDescription.fromJson(Map<String, dynamic> json) {
+    return PolicyDescription(
+      policyAttributeDescriptions: (json['PolicyAttributeDescriptions']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PolicyAttributeDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      policyName: json['PolicyName'] as String?,
+      policyTypeName: json['PolicyTypeName'] as String?,
+    );
+  }
+
   factory PolicyDescription.fromXml(_s.XmlElement elem) {
     return PolicyDescription(
       policyAttributeDescriptions: _s
@@ -2658,25 +3407,51 @@ class PolicyDescription {
       policyTypeName: _s.extractXmlStringValue(elem, 'PolicyTypeName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final policyAttributeDescriptions = this.policyAttributeDescriptions;
+    final policyName = this.policyName;
+    final policyTypeName = this.policyTypeName;
+    return {
+      if (policyAttributeDescriptions != null)
+        'PolicyAttributeDescriptions': policyAttributeDescriptions,
+      if (policyName != null) 'PolicyName': policyName,
+      if (policyTypeName != null) 'PolicyTypeName': policyTypeName,
+    };
+  }
 }
 
 /// Information about a policy type.
 class PolicyTypeDescription {
   /// A description of the policy type.
-  final String description;
+  final String? description;
 
   /// The description of the policy attributes associated with the policies
   /// defined by Elastic Load Balancing.
-  final List<PolicyAttributeTypeDescription> policyAttributeTypeDescriptions;
+  final List<PolicyAttributeTypeDescription>? policyAttributeTypeDescriptions;
 
   /// The name of the policy type.
-  final String policyTypeName;
+  final String? policyTypeName;
 
   PolicyTypeDescription({
     this.description,
     this.policyAttributeTypeDescriptions,
     this.policyTypeName,
   });
+
+  factory PolicyTypeDescription.fromJson(Map<String, dynamic> json) {
+    return PolicyTypeDescription(
+      description: json['Description'] as String?,
+      policyAttributeTypeDescriptions:
+          (json['PolicyAttributeTypeDescriptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => PolicyAttributeTypeDescription.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      policyTypeName: json['PolicyTypeName'] as String?,
+    );
+  }
+
   factory PolicyTypeDescription.fromXml(_s.XmlElement elem) {
     return PolicyTypeDescription(
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -2689,32 +3464,72 @@ class PolicyTypeDescription {
       policyTypeName: _s.extractXmlStringValue(elem, 'PolicyTypeName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final policyAttributeTypeDescriptions =
+        this.policyAttributeTypeDescriptions;
+    final policyTypeName = this.policyTypeName;
+    return {
+      if (description != null) 'Description': description,
+      if (policyAttributeTypeDescriptions != null)
+        'PolicyAttributeTypeDescriptions': policyAttributeTypeDescriptions,
+      if (policyTypeName != null) 'PolicyTypeName': policyTypeName,
+    };
+  }
 }
 
 /// Contains the output of RegisterInstancesWithLoadBalancer.
 class RegisterEndPointsOutput {
   /// The updated list of instances for the load balancer.
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   RegisterEndPointsOutput({
     this.instances,
   });
+
+  factory RegisterEndPointsOutput.fromJson(Map<String, dynamic> json) {
+    return RegisterEndPointsOutput(
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory RegisterEndPointsOutput.fromXml(_s.XmlElement elem) {
     return RegisterEndPointsOutput(
       instances: _s.extractXmlChild(elem, 'Instances')?.let((elem) =>
           elem.findElements('member').map((c) => Instance.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final instances = this.instances;
+    return {
+      if (instances != null) 'Instances': instances,
+    };
+  }
 }
 
 /// Contains the output for DisableAvailabilityZonesForLoadBalancer.
 class RemoveAvailabilityZonesOutput {
   /// The remaining Availability Zones for the load balancer.
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   RemoveAvailabilityZonesOutput({
     this.availabilityZones,
   });
+
+  factory RemoveAvailabilityZonesOutput.fromJson(Map<String, dynamic> json) {
+    return RemoveAvailabilityZonesOutput(
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory RemoveAvailabilityZonesOutput.fromXml(_s.XmlElement elem) {
     return RemoveAvailabilityZonesOutput(
       availabilityZones: _s
@@ -2722,109 +3537,191 @@ class RemoveAvailabilityZonesOutput {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    return {
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+    };
+  }
 }
 
 /// Contains the output of RemoveTags.
 class RemoveTagsOutput {
   RemoveTagsOutput();
+
+  factory RemoveTagsOutput.fromJson(Map<String, dynamic> _) {
+    return RemoveTagsOutput();
+  }
+
   factory RemoveTagsOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return RemoveTagsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output of SetLoadBalancerListenerSSLCertificate.
 class SetLoadBalancerListenerSSLCertificateOutput {
   SetLoadBalancerListenerSSLCertificateOutput();
+
+  factory SetLoadBalancerListenerSSLCertificateOutput.fromJson(
+      Map<String, dynamic> _) {
+    return SetLoadBalancerListenerSSLCertificateOutput();
+  }
+
   factory SetLoadBalancerListenerSSLCertificateOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetLoadBalancerListenerSSLCertificateOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output of SetLoadBalancerPoliciesForBackendServer.
 class SetLoadBalancerPoliciesForBackendServerOutput {
   SetLoadBalancerPoliciesForBackendServerOutput();
+
+  factory SetLoadBalancerPoliciesForBackendServerOutput.fromJson(
+      Map<String, dynamic> _) {
+    return SetLoadBalancerPoliciesForBackendServerOutput();
+  }
+
   factory SetLoadBalancerPoliciesForBackendServerOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetLoadBalancerPoliciesForBackendServerOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the output of SetLoadBalancePoliciesOfListener.
 class SetLoadBalancerPoliciesOfListenerOutput {
   SetLoadBalancerPoliciesOfListenerOutput();
+
+  factory SetLoadBalancerPoliciesOfListenerOutput.fromJson(
+      Map<String, dynamic> _) {
+    return SetLoadBalancerPoliciesOfListenerOutput();
+  }
+
   factory SetLoadBalancerPoliciesOfListenerOutput.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetLoadBalancerPoliciesOfListenerOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Information about a source security group.
 class SourceSecurityGroup {
   /// The name of the security group.
-  final String groupName;
+  final String? groupName;
 
   /// The owner of the security group.
-  final String ownerAlias;
+  final String? ownerAlias;
 
   SourceSecurityGroup({
     this.groupName,
     this.ownerAlias,
   });
+
+  factory SourceSecurityGroup.fromJson(Map<String, dynamic> json) {
+    return SourceSecurityGroup(
+      groupName: json['GroupName'] as String?,
+      ownerAlias: json['OwnerAlias'] as String?,
+    );
+  }
+
   factory SourceSecurityGroup.fromXml(_s.XmlElement elem) {
     return SourceSecurityGroup(
       groupName: _s.extractXmlStringValue(elem, 'GroupName'),
       ownerAlias: _s.extractXmlStringValue(elem, 'OwnerAlias'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final groupName = this.groupName;
+    final ownerAlias = this.ownerAlias;
+    return {
+      if (groupName != null) 'GroupName': groupName,
+      if (ownerAlias != null) 'OwnerAlias': ownerAlias,
+    };
+  }
 }
 
 /// Information about a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
+      key: _s.extractXmlStringValue(elem, 'Key')!,
       value: _s.extractXmlStringValue(elem, 'Value'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The tags associated with a load balancer.
 class TagDescription {
   /// The name of the load balancer.
-  final String loadBalancerName;
+  final String? loadBalancerName;
 
   /// The tags.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   TagDescription({
     this.loadBalancerName,
     this.tags,
   });
+
+  factory TagDescription.fromJson(Map<String, dynamic> json) {
+    return TagDescription(
+      loadBalancerName: json['LoadBalancerName'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory TagDescription.fromXml(_s.XmlElement elem) {
     return TagDescription(
       loadBalancerName: _s.extractXmlStringValue(elem, 'LoadBalancerName'),
@@ -2832,45 +3729,60 @@ class TagDescription {
           elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final loadBalancerName = this.loadBalancerName;
+    final tags = this.tags;
+    return {
+      if (loadBalancerName != null) 'LoadBalancerName': loadBalancerName,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// The key of a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TagKeyOnly {
   /// The name of the key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   TagKeyOnly({
     this.key,
   });
-  Map<String, dynamic> toJson() => _$TagKeyOnlyToJson(this);
+
+  factory TagKeyOnly.fromJson(Map<String, dynamic> json) {
+    return TagKeyOnly(
+      key: json['Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    return {
+      if (key != null) 'Key': key,
+    };
+  }
 }
 
 class AccessPointNotFoundException extends _s.GenericAwsException {
-  AccessPointNotFoundException({String type, String message})
+  AccessPointNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'AccessPointNotFoundException', message: message);
 }
 
 class CertificateNotFoundException extends _s.GenericAwsException {
-  CertificateNotFoundException({String type, String message})
+  CertificateNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'CertificateNotFoundException', message: message);
 }
 
 class DependencyThrottleException extends _s.GenericAwsException {
-  DependencyThrottleException({String type, String message})
+  DependencyThrottleException({String? type, String? message})
       : super(
             type: type, code: 'DependencyThrottleException', message: message);
 }
 
 class DuplicateAccessPointNameException extends _s.GenericAwsException {
-  DuplicateAccessPointNameException({String type, String message})
+  DuplicateAccessPointNameException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateAccessPointNameException',
@@ -2878,23 +3790,23 @@ class DuplicateAccessPointNameException extends _s.GenericAwsException {
 }
 
 class DuplicateListenerException extends _s.GenericAwsException {
-  DuplicateListenerException({String type, String message})
+  DuplicateListenerException({String? type, String? message})
       : super(type: type, code: 'DuplicateListenerException', message: message);
 }
 
 class DuplicatePolicyNameException extends _s.GenericAwsException {
-  DuplicatePolicyNameException({String type, String message})
+  DuplicatePolicyNameException({String? type, String? message})
       : super(
             type: type, code: 'DuplicatePolicyNameException', message: message);
 }
 
 class DuplicateTagKeysException extends _s.GenericAwsException {
-  DuplicateTagKeysException({String type, String message})
+  DuplicateTagKeysException({String? type, String? message})
       : super(type: type, code: 'DuplicateTagKeysException', message: message);
 }
 
 class InvalidConfigurationRequestException extends _s.GenericAwsException {
-  InvalidConfigurationRequestException({String type, String message})
+  InvalidConfigurationRequestException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidConfigurationRequestException',
@@ -2902,17 +3814,17 @@ class InvalidConfigurationRequestException extends _s.GenericAwsException {
 }
 
 class InvalidEndPointException extends _s.GenericAwsException {
-  InvalidEndPointException({String type, String message})
+  InvalidEndPointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndPointException', message: message);
 }
 
 class InvalidSchemeException extends _s.GenericAwsException {
-  InvalidSchemeException({String type, String message})
+  InvalidSchemeException({String? type, String? message})
       : super(type: type, code: 'InvalidSchemeException', message: message);
 }
 
 class InvalidSecurityGroupException extends _s.GenericAwsException {
-  InvalidSecurityGroupException({String type, String message})
+  InvalidSecurityGroupException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSecurityGroupException',
@@ -2920,17 +3832,17 @@ class InvalidSecurityGroupException extends _s.GenericAwsException {
 }
 
 class InvalidSubnetException extends _s.GenericAwsException {
-  InvalidSubnetException({String type, String message})
+  InvalidSubnetException({String? type, String? message})
       : super(type: type, code: 'InvalidSubnetException', message: message);
 }
 
 class ListenerNotFoundException extends _s.GenericAwsException {
-  ListenerNotFoundException({String type, String message})
+  ListenerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ListenerNotFoundException', message: message);
 }
 
 class LoadBalancerAttributeNotFoundException extends _s.GenericAwsException {
-  LoadBalancerAttributeNotFoundException({String type, String message})
+  LoadBalancerAttributeNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'LoadBalancerAttributeNotFoundException',
@@ -2938,7 +3850,7 @@ class LoadBalancerAttributeNotFoundException extends _s.GenericAwsException {
 }
 
 class OperationNotPermittedException extends _s.GenericAwsException {
-  OperationNotPermittedException({String type, String message})
+  OperationNotPermittedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotPermittedException',
@@ -2946,39 +3858,39 @@ class OperationNotPermittedException extends _s.GenericAwsException {
 }
 
 class PolicyNotFoundException extends _s.GenericAwsException {
-  PolicyNotFoundException({String type, String message})
+  PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);
 }
 
 class PolicyTypeNotFoundException extends _s.GenericAwsException {
-  PolicyTypeNotFoundException({String type, String message})
+  PolicyTypeNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'PolicyTypeNotFoundException', message: message);
 }
 
 class SubnetNotFoundException extends _s.GenericAwsException {
-  SubnetNotFoundException({String type, String message})
+  SubnetNotFoundException({String? type, String? message})
       : super(type: type, code: 'SubnetNotFoundException', message: message);
 }
 
 class TooManyAccessPointsException extends _s.GenericAwsException {
-  TooManyAccessPointsException({String type, String message})
+  TooManyAccessPointsException({String? type, String? message})
       : super(
             type: type, code: 'TooManyAccessPointsException', message: message);
 }
 
 class TooManyPoliciesException extends _s.GenericAwsException {
-  TooManyPoliciesException({String type, String message})
+  TooManyPoliciesException({String? type, String? message})
       : super(type: type, code: 'TooManyPoliciesException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class UnsupportedProtocolException extends _s.GenericAwsException {
-  UnsupportedProtocolException({String type, String message})
+  UnsupportedProtocolException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedProtocolException', message: message);
 }

@@ -9,7 +9,6 @@ import 'package:aws_client.generator/model_thin/api.dart' as thin;
 import 'package:dart_style/dart_style.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path/path.dart' as p;
-import 'package:process_runner/process_runner.dart';
 import 'package:yaml/yaml.dart';
 
 import 'builders/library_builder.dart';
@@ -39,12 +38,6 @@ in the config file, from the downloaded models.''';
         abbr: 'd',
         help: 'Downloads the definitions first before generating',
         defaultsTo: false,
-      )
-      ..addFlag(
-        'build',
-        help: 'Gets dependencies and runs build_runner in all_apis',
-        defaultsTo: true,
-        negatable: true,
       )
       ..addFlag(
         'format',
@@ -186,7 +179,7 @@ export '../../src/generated/${api.directoryName}/${api.fileBasename}.dart';
 
         if (api.usesQueryProtocol) {
           File('$baseDir/${api.fileBasename}.meta.dart')
-            ..writeAsStringSync(metaContents);
+              .writeAsStringSync(metaContents);
         }
 
         serviceFile.writeAsStringSync(serviceText);
@@ -206,10 +199,6 @@ export '../../src/generated/${api.directoryName}/${api.fileBasename}.dart';
     printPercentageInPlace(100, 'Done');
     print('\n');
 
-    if (argResults['build'] == true) {
-      await _runBuildRunner('../aws_client');
-    }
-
     print('\nGenerated APIs:');
 
     (generatedApis.entries.toList()..sort((a, b) => a.value.compareTo(b.value)))
@@ -224,20 +213,6 @@ export '../../src/generated/${api.directoryName}/${api.fileBasename}.dart';
     if (directory.existsSync()) {
       directory.deleteSync(recursive: true);
     }
-  }
-
-  Future<void> _runBuildRunner(String baseDir) async {
-    await ProcessRunner(printOutputDefault: true).runProcess(
-      [
-        'dart',
-        'pub',
-        'run',
-        'build_runner',
-        'build',
-        '--delete-conflicting-outputs'
-      ],
-      workingDirectory: Directory(baseDir),
-    );
   }
 
   final _configDataFile = File('./apis/config/region_config_data.json');
@@ -278,7 +253,13 @@ export '../../src/generated/${api.directoryName}/${api.fileBasename}.dart';
 
           var serviceCode = buildService(api);
 
-          serviceCode = formatter.format(serviceCode);
+          try {
+            serviceCode = formatter.format(serviceCode);
+          } catch (e) {
+            print('Error when formatting type: $type, protocol: $protocol:');
+            print(serviceCode);
+            rethrow;
+          }
 
           final baseDir = '${generatedDir.path}/$type/$protocol';
           if (api.usesQueryProtocol) {
@@ -303,7 +284,6 @@ export '../../src/generated/${api.directoryName}/${api.fileBasename}.dart';
     }
 
     _generateTestAllFile(generatedDir);
-    await _runBuildRunner(sharedLibDir);
   }
 
   // Generates a "test_all.dart" file with an import to all the generated tests.

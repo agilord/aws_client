@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import '../../apis/dynamodb/2012-08-10.dart';
+import 'package:aws_client/apis/dynamodb/2012-08-10.dart';
 
 AttributeValue toAttributeValue(dynamic value) {
   if (value == null) {
@@ -35,7 +35,7 @@ dynamic toDartType(AttributeValue value) {
   if (value.nullValue ?? false) {
     return null;
   } else if (value.n != null) {
-    return double.parse(value.n);
+    return double.parse(value.n!);
   } else if (value.s != null) {
     return value.s;
   } else if (value.boolValue != null) {
@@ -43,30 +43,36 @@ dynamic toDartType(AttributeValue value) {
   } else if (value.b != null) {
     return value.b;
   } else if (value.l != null) {
-    return value.l.map(toDartType).toList();
+    return value.l!.map(toDartType).toList();
   } else if (value.m != null) {
-    return value.m.map((k, v) => MapEntry(k, toDartType(v)));
+    return value.m!.map((k, v) => MapEntry(k, toDartType(v)));
   } else if (value.ns != null) {
-    return value.ns.map(double.parse).toList();
+    return value.ns!.map(double.parse).toList();
   } else if (value.bs != null) {
     return value.bs;
   }
 }
 
-extension AttributeTranslator on Map<String, AttributeValue> {
-  Map<String, dynamic> toJson() {
-    if (this != null) {
-      return map((key, value) => MapEntry(key, toDartType(value)));
-    }
-    return null;
+extension AttributeTranslator on Map<String, AttributeValue>? {
+  Map<String, dynamic>? toJson() {
+    return this?.toJson();
   }
 }
 
-extension DynamicTranslator on Map<String, dynamic> {
+extension AttributeTranslatorNonNullable on Map<String, AttributeValue> {
+  Map<String, dynamic> toJson() {
+    return map((key, value) => MapEntry(key, toDartType(value)));
+  }
+}
+
+extension DynamicTranslator on Map<String, dynamic>? {
+  Map<String, AttributeValue>? fromJsonToAttributeValue() {
+    return this?.fromJsonToAttributeValue();
+  }
+}
+
+extension DynamicTranslatorNonNull on Map<String, dynamic> {
   Map<String, AttributeValue> fromJsonToAttributeValue() {
-    if (this != null) {
-      return map((key, value) => MapEntry(key, toAttributeValue(value)));
-    }
-    return null;
+    return map((key, value) => MapEntry(key, toAttributeValue(value)));
   }
 }

@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-12-01.g.dart';
 
 /// This AWS CodeStar Connections API Reference provides descriptions and usage
 /// examples of the operations and data types for the AWS CodeStar Connections
@@ -33,10 +26,10 @@ part '2019-12-01.g.dart';
 class CodeStarConnections {
   final _s.JsonProtocol _protocol;
   CodeStarConnections({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,10 +65,10 @@ class CodeStarConnections {
   /// Parameter [tags] :
   /// The key-value pair to use when tagging the resource.
   Future<CreateConnectionOutput> createConnection({
-    @_s.required String connectionName,
-    String hostArn,
-    ProviderType providerType,
-    List<Tag> tags,
+    required String connectionName,
+    String? hostArn,
+    ProviderType? providerType,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(connectionName, 'connectionName');
     _s.validateStringLength(
@@ -85,22 +78,11 @@ class CodeStarConnections {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'connectionName',
-      connectionName,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'hostArn',
       hostArn,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -154,10 +136,11 @@ class CodeStarConnections {
   /// configured and the infrastructure to be represented by the host must
   /// already be connected to the VPC.
   Future<CreateHostOutput> createHost({
-    @_s.required String name,
-    @_s.required String providerEndpoint,
-    @_s.required ProviderType providerType,
-    VpcConfiguration vpcConfiguration,
+    required String name,
+    required String providerEndpoint,
+    required ProviderType providerType,
+    List<Tag>? tags,
+    VpcConfiguration? vpcConfiguration,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -167,24 +150,12 @@ class CodeStarConnections {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(providerEndpoint, 'providerEndpoint');
     _s.validateStringLength(
       'providerEndpoint',
       providerEndpoint,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'providerEndpoint',
-      providerEndpoint,
-      r'''.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(providerType, 'providerType');
@@ -202,7 +173,8 @@ class CodeStarConnections {
       payload: {
         'Name': name,
         'ProviderEndpoint': providerEndpoint,
-        'ProviderType': providerType?.toValue() ?? '',
+        'ProviderType': providerType.toValue(),
+        if (tags != null) 'Tags': tags,
         if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
       },
     );
@@ -220,7 +192,7 @@ class CodeStarConnections {
   /// The ARN is never reused if the connection is deleted.
   /// </note>
   Future<void> deleteConnection({
-    @_s.required String connectionArn,
+    required String connectionArn,
   }) async {
     ArgumentError.checkNotNull(connectionArn, 'connectionArn');
     _s.validateStringLength(
@@ -230,18 +202,12 @@ class CodeStarConnections {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'connectionArn',
-      connectionArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
           'com.amazonaws.codestar.connections.CodeStar_connections_20191201.DeleteConnection'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -251,8 +217,6 @@ class CodeStarConnections {
         'ConnectionArn': connectionArn,
       },
     );
-
-    return DeleteConnectionOutput.fromJson(jsonResponse.body);
   }
 
   /// The host to be deleted. Before you delete a host, all connections
@@ -268,7 +232,7 @@ class CodeStarConnections {
   /// Parameter [hostArn] :
   /// The Amazon Resource Name (ARN) of the host to be deleted.
   Future<void> deleteHost({
-    @_s.required String hostArn,
+    required String hostArn,
   }) async {
     ArgumentError.checkNotNull(hostArn, 'hostArn');
     _s.validateStringLength(
@@ -278,18 +242,12 @@ class CodeStarConnections {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
           'com.amazonaws.codestar.connections.CodeStar_connections_20191201.DeleteHost'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -299,8 +257,6 @@ class CodeStarConnections {
         'HostArn': hostArn,
       },
     );
-
-    return DeleteHostOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns the connection ARN and details such as status, owner, and provider
@@ -312,7 +268,7 @@ class CodeStarConnections {
   /// Parameter [connectionArn] :
   /// The Amazon Resource Name (ARN) of a connection.
   Future<GetConnectionOutput> getConnection({
-    @_s.required String connectionArn,
+    required String connectionArn,
   }) async {
     ArgumentError.checkNotNull(connectionArn, 'connectionArn');
     _s.validateStringLength(
@@ -320,12 +276,6 @@ class CodeStarConnections {
       connectionArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'connectionArn',
-      connectionArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -356,7 +306,7 @@ class CodeStarConnections {
   /// Parameter [hostArn] :
   /// The Amazon Resource Name (ARN) of the requested host.
   Future<GetHostOutput> getHost({
-    @_s.required String hostArn,
+    required String hostArn,
   }) async {
     ArgumentError.checkNotNull(hostArn, 'hostArn');
     _s.validateStringLength(
@@ -364,12 +314,6 @@ class CodeStarConnections {
       hostArn,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -409,21 +353,16 @@ class CodeStarConnections {
   /// Filters the list of connections to those associated with a specified
   /// provider, such as Bitbucket.
   Future<ListConnectionsOutput> listConnections({
-    String hostArnFilter,
-    int maxResults,
-    String nextToken,
-    ProviderType providerTypeFilter,
+    String? hostArnFilter,
+    int? maxResults,
+    String? nextToken,
+    ProviderType? providerTypeFilter,
   }) async {
     _s.validateStringLength(
       'hostArnFilter',
       hostArnFilter,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'hostArnFilter',
-      hostArnFilter,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -436,11 +375,6 @@ class CodeStarConnections {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -476,8 +410,8 @@ class CodeStarConnections {
   /// The token that was returned from the previous <code>ListHosts</code> call,
   /// which can be used to return the next set of hosts in the list.
   Future<ListHostsOutput> listHosts({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -490,11 +424,6 @@ class CodeStarConnections {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -525,7 +454,7 @@ class CodeStarConnections {
   /// The Amazon Resource Name (ARN) of the resource for which you want to get
   /// information about tags, if any.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -533,12 +462,6 @@ class CodeStarConnections {
       resourceArn,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -573,8 +496,8 @@ class CodeStarConnections {
   /// Parameter [tags] :
   /// The tags you want to modify or add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -584,19 +507,13 @@ class CodeStarConnections {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
           'com.amazonaws.codestar.connections.CodeStar_connections_20191201.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -607,8 +524,6 @@ class CodeStarConnections {
         'Tags': tags,
       },
     );
-
-    return TagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from an AWS resource.
@@ -621,8 +536,8 @@ class CodeStarConnections {
   /// Parameter [tagKeys] :
   /// The list of keys for the tags to be removed from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -632,19 +547,13 @@ class CodeStarConnections {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws(-[\w]+)*:.+:.+:[0-9]{12}:.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
           'com.amazonaws.codestar.connections.CodeStar_connections_20191201.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -655,8 +564,6 @@ class CodeStarConnections {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Updates a specified host with the provided configurations.
@@ -677,9 +584,9 @@ class CodeStarConnections {
   /// and the infrastructure to be represented by the host must already be
   /// connected to the VPC.
   Future<void> updateHost({
-    @_s.required String hostArn,
-    String providerEndpoint,
-    VpcConfiguration vpcConfiguration,
+    required String hostArn,
+    String? providerEndpoint,
+    VpcConfiguration? vpcConfiguration,
   }) async {
     ArgumentError.checkNotNull(hostArn, 'hostArn');
     _s.validateStringLength(
@@ -689,29 +596,18 @@ class CodeStarConnections {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'hostArn',
-      hostArn,
-      r'''arn:aws(-[\w]+)*:codestar-connections:.+:[0-9]{12}:host\/.+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'providerEndpoint',
       providerEndpoint,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'providerEndpoint',
-      providerEndpoint,
-      r'''.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target':
           'com.amazonaws.codestar.connections.CodeStar_connections_20191201.UpdateHost'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -723,8 +619,6 @@ class CodeStarConnections {
         if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
       },
     );
-
-    return UpdateHostOutput.fromJson(jsonResponse.body);
   }
 }
 
@@ -734,43 +628,32 @@ class CodeStarConnections {
 /// Note: A connection created through CloudFormation, the CLI, or the SDK is in
 /// `PENDING` status by default. You can make its status `AVAILABLE` by updating
 /// the connection in the console.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Connection {
   /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the
   /// connection reference when the connection is shared between AWS services.
   /// <note>
   /// The ARN is never reused if the connection is deleted.
   /// </note>
-  @_s.JsonKey(name: 'ConnectionArn')
-  final String connectionArn;
+  final String? connectionArn;
 
   /// The name of the connection. Connection names must be unique in an AWS user
   /// account.
-  @_s.JsonKey(name: 'ConnectionName')
-  final String connectionName;
+  final String? connectionName;
 
   /// The current status of the connection.
-  @_s.JsonKey(name: 'ConnectionStatus')
-  final ConnectionStatus connectionStatus;
+  final ConnectionStatus? connectionStatus;
 
   /// The Amazon Resource Name (ARN) of the host associated with the connection.
-  @_s.JsonKey(name: 'HostArn')
-  final String hostArn;
+  final String? hostArn;
 
   /// The identifier of the external provider where your third-party code
   /// repository is configured. For Bitbucket, this is the account ID of the owner
   /// of the Bitbucket repository.
-  @_s.JsonKey(name: 'OwnerAccountId')
-  final String ownerAccountId;
+  final String? ownerAccountId;
 
   /// The name of the external provider where your third-party code repository is
   /// configured.
-  @_s.JsonKey(name: 'ProviderType')
-  final ProviderType providerType;
+  final ProviderType? providerType;
 
   Connection({
     this.connectionArn,
@@ -780,24 +663,71 @@ class Connection {
     this.ownerAccountId,
     this.providerType,
   });
-  factory Connection.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionFromJson(json);
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      connectionArn: json['ConnectionArn'] as String?,
+      connectionName: json['ConnectionName'] as String?,
+      connectionStatus:
+          (json['ConnectionStatus'] as String?)?.toConnectionStatus(),
+      hostArn: json['HostArn'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionArn = this.connectionArn;
+    final connectionName = this.connectionName;
+    final connectionStatus = this.connectionStatus;
+    final hostArn = this.hostArn;
+    final ownerAccountId = this.ownerAccountId;
+    final providerType = this.providerType;
+    return {
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (connectionName != null) 'ConnectionName': connectionName,
+      if (connectionStatus != null)
+        'ConnectionStatus': connectionStatus.toValue(),
+      if (hostArn != null) 'HostArn': hostArn,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+    };
+  }
 }
 
 enum ConnectionStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('ERROR')
   error,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectionStatus {
+  String toValue() {
+    switch (this) {
+      case ConnectionStatus.pending:
+        return 'PENDING';
+      case ConnectionStatus.available:
+        return 'AVAILABLE';
+      case ConnectionStatus.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  ConnectionStatus toConnectionStatus() {
+    switch (this) {
+      case 'PENDING':
+        return ConnectionStatus.pending;
+      case 'AVAILABLE':
+        return ConnectionStatus.available;
+      case 'ERROR':
+        return ConnectionStatus.error;
+    }
+    throw Exception('$this is not known in enum ConnectionStatus');
+  }
+}
+
 class CreateConnectionOutput {
   /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is
   /// used as the connection reference when the connection is shared between AWS
@@ -805,102 +735,129 @@ class CreateConnectionOutput {
   /// <note>
   /// The ARN is never reused if the connection is deleted.
   /// </note>
-  @_s.JsonKey(name: 'ConnectionArn')
   final String connectionArn;
 
   /// Specifies the tags applied to the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   CreateConnectionOutput({
-    @_s.required this.connectionArn,
+    required this.connectionArn,
     this.tags,
   });
-  factory CreateConnectionOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateConnectionOutputFromJson(json);
+
+  factory CreateConnectionOutput.fromJson(Map<String, dynamic> json) {
+    return CreateConnectionOutput(
+      connectionArn: json['ConnectionArn'] as String,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionArn = this.connectionArn;
+    final tags = this.tags;
+    return {
+      'ConnectionArn': connectionArn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateHostOutput {
   /// The Amazon Resource Name (ARN) of the host to be created.
-  @_s.JsonKey(name: 'HostArn')
-  final String hostArn;
+  final String? hostArn;
+  final List<Tag>? tags;
 
   CreateHostOutput({
     this.hostArn,
+    this.tags,
   });
-  factory CreateHostOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateHostOutputFromJson(json);
+
+  factory CreateHostOutput.fromJson(Map<String, dynamic> json) {
+    return CreateHostOutput(
+      hostArn: json['HostArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostArn = this.hostArn;
+    final tags = this.tags;
+    return {
+      if (hostArn != null) 'HostArn': hostArn,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConnectionOutput {
   DeleteConnectionOutput();
-  factory DeleteConnectionOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConnectionOutputFromJson(json);
+
+  factory DeleteConnectionOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteConnectionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteHostOutput {
   DeleteHostOutput();
-  factory DeleteHostOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteHostOutputFromJson(json);
+
+  factory DeleteHostOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteHostOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectionOutput {
   /// The connection details, such as status, owner, and provider type.
-  @_s.JsonKey(name: 'Connection')
-  final Connection connection;
+  final Connection? connection;
 
   GetConnectionOutput({
     this.connection,
   });
-  factory GetConnectionOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectionOutputFromJson(json);
+
+  factory GetConnectionOutput.fromJson(Map<String, dynamic> json) {
+    return GetConnectionOutput(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetHostOutput {
   /// The name of the requested host.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The endpoint of the infrastructure represented by the requested host.
-  @_s.JsonKey(name: 'ProviderEndpoint')
-  final String providerEndpoint;
+  final String? providerEndpoint;
 
   /// The provider type of the requested host, such as GitHub Enterprise Server.
-  @_s.JsonKey(name: 'ProviderType')
-  final ProviderType providerType;
+  final ProviderType? providerType;
 
   /// The status of the requested host.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The VPC configuration of the requested host.
-  @_s.JsonKey(name: 'VpcConfiguration')
-  final VpcConfiguration vpcConfiguration;
+  final VpcConfiguration? vpcConfiguration;
 
   GetHostOutput({
     this.name,
@@ -909,8 +866,34 @@ class GetHostOutput {
     this.status,
     this.vpcConfiguration,
   });
-  factory GetHostOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetHostOutputFromJson(json);
+
+  factory GetHostOutput.fromJson(Map<String, dynamic> json) {
+    return GetHostOutput(
+      name: json['Name'] as String?,
+      providerEndpoint: json['ProviderEndpoint'] as String?,
+      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      status: json['Status'] as String?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? VpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final providerEndpoint = this.providerEndpoint;
+    final providerType = this.providerType;
+    final status = this.status;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      if (name != null) 'Name': name,
+      if (providerEndpoint != null) 'ProviderEndpoint': providerEndpoint,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (status != null) 'Status': status,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
 }
 
 /// A resource that represents the infrastructure where a third-party provider
@@ -921,42 +904,30 @@ class GetHostOutput {
 /// A host created through the CLI or the SDK is in `PENDING` status by default.
 /// You can make its status `AVAILABLE` by setting up the host in the console.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Host {
   /// The Amazon Resource Name (ARN) of the host.
-  @_s.JsonKey(name: 'HostArn')
-  final String hostArn;
+  final String? hostArn;
 
   /// The name of the host.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The endpoint of the infrastructure where your provider type is installed.
-  @_s.JsonKey(name: 'ProviderEndpoint')
-  final String providerEndpoint;
+  final String? providerEndpoint;
 
   /// The name of the installed provider to be associated with your connection.
   /// The host resource represents the infrastructure where your provider type is
   /// installed. The valid provider type is GitHub Enterprise Server.
-  @_s.JsonKey(name: 'ProviderType')
-  final ProviderType providerType;
+  final ProviderType? providerType;
 
   /// The status of the host, such as PENDING, AVAILABLE, VPC_CONFIG_DELETING,
   /// VPC_CONFIG_INITIALIZING, and VPC_CONFIG_FAILED_INITIALIZATION.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The status description for the host.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// The VPC configuration provisioned for the host.
-  @_s.JsonKey(name: 'VpcConfiguration')
-  final VpcConfiguration vpcConfiguration;
+  final VpcConfiguration? vpcConfiguration;
 
   Host({
     this.hostArn,
@@ -967,82 +938,140 @@ class Host {
     this.statusMessage,
     this.vpcConfiguration,
   });
-  factory Host.fromJson(Map<String, dynamic> json) => _$HostFromJson(json);
+
+  factory Host.fromJson(Map<String, dynamic> json) {
+    return Host(
+      hostArn: json['HostArn'] as String?,
+      name: json['Name'] as String?,
+      providerEndpoint: json['ProviderEndpoint'] as String?,
+      providerType: (json['ProviderType'] as String?)?.toProviderType(),
+      status: json['Status'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      vpcConfiguration: json['VpcConfiguration'] != null
+          ? VpcConfiguration.fromJson(
+              json['VpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostArn = this.hostArn;
+    final name = this.name;
+    final providerEndpoint = this.providerEndpoint;
+    final providerType = this.providerType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      if (hostArn != null) 'HostArn': hostArn,
+      if (name != null) 'Name': name,
+      if (providerEndpoint != null) 'ProviderEndpoint': providerEndpoint,
+      if (providerType != null) 'ProviderType': providerType.toValue(),
+      if (status != null) 'Status': status,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (vpcConfiguration != null) 'VpcConfiguration': vpcConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConnectionsOutput {
   /// A list of connections and the details for each connection, such as status,
   /// owner, and provider type.
-  @_s.JsonKey(name: 'Connections')
-  final List<Connection> connections;
+  final List<Connection>? connections;
 
   /// A token that can be used in the next <code>ListConnections</code> call. To
   /// view all items in the list, continue to call this operation with each
   /// subsequent token until no more <code>nextToken</code> values are returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConnectionsOutput({
     this.connections,
     this.nextToken,
   });
-  factory ListConnectionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListConnectionsOutputFromJson(json);
+
+  factory ListConnectionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListConnectionsOutput(
+      connections: (json['Connections'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final nextToken = this.nextToken;
+    return {
+      if (connections != null) 'Connections': connections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHostsOutput {
   /// A list of hosts and the details for each host, such as status, endpoint, and
   /// provider type.
-  @_s.JsonKey(name: 'Hosts')
-  final List<Host> hosts;
+  final List<Host>? hosts;
 
   /// A token that can be used in the next <code>ListHosts</code> call. To view
   /// all items in the list, continue to call this operation with each subsequent
   /// token until no more <code>nextToken</code> values are returned.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListHostsOutput({
     this.hosts,
     this.nextToken,
   });
-  factory ListHostsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListHostsOutputFromJson(json);
+
+  factory ListHostsOutput.fromJson(Map<String, dynamic> json) {
+    return ListHostsOutput(
+      hosts: (json['Hosts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Host.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hosts = this.hosts;
+    final nextToken = this.nextToken;
+    return {
+      if (hosts != null) 'Hosts': hosts,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// A list of tag key and value pairs associated with the specified resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceOutput({
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum ProviderType {
-  @_s.JsonValue('Bitbucket')
   bitbucket,
-  @_s.JsonValue('GitHub')
   gitHub,
-  @_s.JsonValue('GitHubEnterpriseServer')
   gitHubEnterpriseServer,
 }
 
@@ -1056,131 +1085,168 @@ extension on ProviderType {
       case ProviderType.gitHubEnterpriseServer:
         return 'GitHubEnterpriseServer';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ProviderType toProviderType() {
+    switch (this) {
+      case 'Bitbucket':
+        return ProviderType.bitbucket;
+      case 'GitHub':
+        return ProviderType.gitHub;
+      case 'GitHubEnterpriseServer':
+        return ProviderType.gitHubEnterpriseServer;
+    }
+    throw Exception('$this is not known in enum ProviderType');
   }
 }
 
 /// A tag is a key-value pair that is used to manage the resource.
 ///
 /// This tag is available for use by AWS services that support tags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag's key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The tag's value.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceOutputFromJson(json);
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceOutputFromJson(json);
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateHostOutput {
   UpdateHostOutput();
-  factory UpdateHostOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateHostOutputFromJson(json);
+
+  factory UpdateHostOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateHostOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The VPC configuration provisioned for the host.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VpcConfiguration {
   /// The ID of the security group or security groups associated with the Amazon
   /// VPC connected to the infrastructure where your provider type is installed.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// The ID of the subnet or subnets associated with the Amazon VPC connected to
   /// the infrastructure where your provider type is installed.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   /// The ID of the Amazon VPC connected to the infrastructure where your provider
   /// type is installed.
-  @_s.JsonKey(name: 'VpcId')
   final String vpcId;
 
   /// The value of the Transport Layer Security (TLS) certificate associated with
   /// the infrastructure where your provider type is installed.
-  @_s.JsonKey(name: 'TlsCertificate')
-  final String tlsCertificate;
+  final String? tlsCertificate;
 
   VpcConfiguration({
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetIds,
-    @_s.required this.vpcId,
+    required this.securityGroupIds,
+    required this.subnetIds,
+    required this.vpcId,
     this.tlsCertificate,
   });
-  factory VpcConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VpcConfigurationToJson(this);
+  factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return VpcConfiguration(
+      securityGroupIds: (json['SecurityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String,
+      tlsCertificate: json['TlsCertificate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    final tlsCertificate = this.tlsCertificate;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+      'VpcId': vpcId,
+      if (tlsCertificate != null) 'TlsCertificate': tlsCertificate,
+    };
+  }
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceUnavailableException extends _s.GenericAwsException {
-  ResourceUnavailableException({String type, String message})
+  ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',

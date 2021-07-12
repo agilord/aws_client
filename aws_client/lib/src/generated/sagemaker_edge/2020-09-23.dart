@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-09-23.g.dart';
 
 /// SageMaker Edge Manager dataplane service for communicating with active
 /// agents.
 class SagemakerEdgeManager {
   final _s.RestJsonProtocol _protocol;
   SagemakerEdgeManager({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -57,8 +50,8 @@ class SagemakerEdgeManager {
   /// The unique name of the device you want to get the registration status
   /// from.
   Future<GetDeviceRegistrationResult> getDeviceRegistration({
-    @_s.required String deviceFleetName,
-    @_s.required String deviceName,
+    required String deviceFleetName,
+    required String deviceName,
   }) async {
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
     _s.validateStringLength(
@@ -68,24 +61,12 @@ class SagemakerEdgeManager {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceName, 'deviceName');
     _s.validateStringLength(
       'deviceName',
       deviceName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -122,11 +103,11 @@ class SagemakerEdgeManager {
   /// Parameter [models] :
   /// Returns a list of models deployed on the the device.
   Future<void> sendHeartbeat({
-    @_s.required String agentVersion,
-    @_s.required String deviceFleetName,
-    @_s.required String deviceName,
-    List<EdgeMetric> agentMetrics,
-    List<Model> models,
+    required String agentVersion,
+    required String deviceFleetName,
+    required String deviceName,
+    List<EdgeMetric>? agentMetrics,
+    List<Model>? models,
   }) async {
     ArgumentError.checkNotNull(agentVersion, 'agentVersion');
     _s.validateStringLength(
@@ -134,12 +115,6 @@ class SagemakerEdgeManager {
       agentVersion,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'agentVersion',
-      agentVersion,
-      r'''[a-zA-Z0-9\ \_\.]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(deviceFleetName, 'deviceFleetName');
@@ -150,24 +125,12 @@ class SagemakerEdgeManager {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceFleetName',
-      deviceFleetName,
-      r'''^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceName, 'deviceName');
     _s.validateStringLength(
       'deviceName',
       deviceName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''^[a-zA-Z0-9](-*_*[a-zA-Z0-9])*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -187,28 +150,18 @@ class SagemakerEdgeManager {
 }
 
 /// Information required for edge device metrics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EdgeMetric {
   /// The dimension of metrics published.
-  @_s.JsonKey(name: 'Dimension')
-  final String dimension;
+  final String? dimension;
 
   /// Returns the name of the metric.
-  @_s.JsonKey(name: 'MetricName')
-  final String metricName;
+  final String? metricName;
 
   /// Timestamp of when the metric was requested.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   /// Returns the value of the metric.
-  @_s.JsonKey(name: 'Value')
-  final double value;
+  final double? value;
 
   EdgeMetric({
     this.dimension,
@@ -216,61 +169,77 @@ class EdgeMetric {
     this.timestamp,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$EdgeMetricToJson(this);
+
+  factory EdgeMetric.fromJson(Map<String, dynamic> json) {
+    return EdgeMetric(
+      dimension: json['Dimension'] as String?,
+      metricName: json['MetricName'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+      value: json['Value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimension = this.dimension;
+    final metricName = this.metricName;
+    final timestamp = this.timestamp;
+    final value = this.value;
+    return {
+      if (dimension != null) 'Dimension': dimension,
+      if (metricName != null) 'MetricName': metricName,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceRegistrationResult {
   /// The amount of time, in seconds, that the registration status is stored on
   /// the device’s cache before it is refreshed.
-  @_s.JsonKey(name: 'CacheTTL')
-  final String cacheTTL;
+  final String? cacheTTL;
 
   /// Describes if the device is currently registered with SageMaker Edge Manager.
-  @_s.JsonKey(name: 'DeviceRegistration')
-  final String deviceRegistration;
+  final String? deviceRegistration;
 
   GetDeviceRegistrationResult({
     this.cacheTTL,
     this.deviceRegistration,
   });
-  factory GetDeviceRegistrationResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceRegistrationResultFromJson(json);
+
+  factory GetDeviceRegistrationResult.fromJson(Map<String, dynamic> json) {
+    return GetDeviceRegistrationResult(
+      cacheTTL: json['CacheTTL'] as String?,
+      deviceRegistration: json['DeviceRegistration'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cacheTTL = this.cacheTTL;
+    final deviceRegistration = this.deviceRegistration;
+    return {
+      if (cacheTTL != null) 'CacheTTL': cacheTTL,
+      if (deviceRegistration != null) 'DeviceRegistration': deviceRegistration,
+    };
+  }
 }
 
 /// Information about a model deployed on an edge device that is registered with
 /// SageMaker Edge Manager.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Model {
   /// The timestamp of the last inference that was made.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestInference')
-  final DateTime latestInference;
+  final DateTime? latestInference;
 
   /// The timestamp of the last data sample taken.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestSampleTime')
-  final DateTime latestSampleTime;
+  final DateTime? latestSampleTime;
 
   /// Information required for model metrics.
-  @_s.JsonKey(name: 'ModelMetrics')
-  final List<EdgeMetric> modelMetrics;
+  final List<EdgeMetric>? modelMetrics;
 
   /// The name of the model.
-  @_s.JsonKey(name: 'ModelName')
-  final String modelName;
+  final String? modelName;
 
   /// The version of the model.
-  @_s.JsonKey(name: 'ModelVersion')
-  final String modelVersion;
+  final String? modelVersion;
 
   Model({
     this.latestInference,
@@ -279,11 +248,40 @@ class Model {
     this.modelName,
     this.modelVersion,
   });
-  Map<String, dynamic> toJson() => _$ModelToJson(this);
+
+  factory Model.fromJson(Map<String, dynamic> json) {
+    return Model(
+      latestInference: timeStampFromJson(json['LatestInference']),
+      latestSampleTime: timeStampFromJson(json['LatestSampleTime']),
+      modelMetrics: (json['ModelMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => EdgeMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      modelName: json['ModelName'] as String?,
+      modelVersion: json['ModelVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latestInference = this.latestInference;
+    final latestSampleTime = this.latestSampleTime;
+    final modelMetrics = this.modelMetrics;
+    final modelName = this.modelName;
+    final modelVersion = this.modelVersion;
+    return {
+      if (latestInference != null)
+        'LatestInference': unixTimestampToJson(latestInference),
+      if (latestSampleTime != null)
+        'LatestSampleTime': unixTimestampToJson(latestSampleTime),
+      if (modelMetrics != null) 'ModelMetrics': modelMetrics,
+      if (modelName != null) 'ModelName': modelName,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+    };
+  }
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 

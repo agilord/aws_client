@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,33 +11,24 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-part '2018-04-02.g.dart';
-
-/// AWS EC2 Connect Service is a service that enables system administrators to
-/// publish temporary SSH keys to their EC2 instances in order to establish
-/// connections to their instances without leaving a permanent authentication
-/// option.
+/// Amazon EC2 Instance Connect enables system administrators to publish
+/// one-time use SSH public keys to EC2, providing users a simple and secure way
+/// to connect to their instances.
 class Ec2InstanceConnect {
   final _s.JsonProtocol _protocol;
   Ec2InstanceConnect({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -47,8 +39,12 @@ class Ec2InstanceConnect {
           endpointUrl: endpointUrl,
         );
 
-  /// Pushes an SSH public key to a particular OS user on a given EC2 instance
-  /// for 60 seconds.
+  /// Pushes an SSH public key to the specified EC2 instance for use by the
+  /// specified user. The key remains for 60 seconds. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect.html">Connect
+  /// to your Linux instance using EC2 Instance Connect</a> in the <i>Amazon EC2
+  /// User Guide</i>.
   ///
   /// May throw [AuthException].
   /// May throw [InvalidArgsException].
@@ -57,23 +53,23 @@ class Ec2InstanceConnect {
   /// May throw [EC2InstanceNotFoundException].
   ///
   /// Parameter [availabilityZone] :
-  /// The availability zone the EC2 instance was launched in.
+  /// The Availability Zone in which the EC2 instance was launched.
   ///
   /// Parameter [instanceId] :
-  /// The EC2 instance you wish to publish the SSH key to.
+  /// The ID of the EC2 instance.
   ///
   /// Parameter [instanceOSUser] :
-  /// The OS user on the EC2 instance whom the key may be used to authenticate
-  /// as.
+  /// The OS user on the EC2 instance for whom the key can be used to
+  /// authenticate.
   ///
   /// Parameter [sSHPublicKey] :
-  /// The public key to be published to the instance. To use it after
-  /// publication you must have the matching private key.
+  /// The public key material. To use the public key, you must have the matching
+  /// private key.
   Future<SendSSHPublicKeyResponse> sendSSHPublicKey({
-    @_s.required String availabilityZone,
-    @_s.required String instanceId,
-    @_s.required String instanceOSUser,
-    @_s.required String sSHPublicKey,
+    required String availabilityZone,
+    required String instanceId,
+    required String instanceOSUser,
+    required String sSHPublicKey,
   }) async {
     ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
     _s.validateStringLength(
@@ -81,12 +77,6 @@ class Ec2InstanceConnect {
       availabilityZone,
       6,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'availabilityZone',
-      availabilityZone,
-      r'''^(\w+-){2,3}\d+\w+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -97,24 +87,12 @@ class Ec2InstanceConnect {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''^i-[a-f0-9]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceOSUser, 'instanceOSUser');
     _s.validateStringLength(
       'instanceOSUser',
       instanceOSUser,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceOSUser',
-      instanceOSUser,
-      r'''^[A-Za-z_][A-Za-z0-9\@\._-]{0,30}[A-Za-z0-9\$_-]?$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sSHPublicKey, 'sSHPublicKey');
@@ -145,54 +123,203 @@ class Ec2InstanceConnect {
 
     return SendSSHPublicKeyResponse.fromJson(jsonResponse.body);
   }
+
+  /// Pushes an SSH public key to the specified EC2 instance. The key remains
+  /// for 60 seconds, which gives you 60 seconds to establish a serial console
+  /// connection to the instance using SSH. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-serial-console.html">EC2
+  /// Serial Console</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// May throw [AuthException].
+  /// May throw [SerialConsoleAccessDisabledException].
+  /// May throw [InvalidArgsException].
+  /// May throw [ServiceException].
+  /// May throw [ThrottlingException].
+  /// May throw [EC2InstanceNotFoundException].
+  /// May throw [EC2InstanceTypeInvalidException].
+  /// May throw [SerialConsoleSessionLimitExceededException].
+  /// May throw [SerialConsoleSessionUnavailableException].
+  ///
+  /// Parameter [instanceId] :
+  /// The ID of the EC2 instance.
+  ///
+  /// Parameter [sSHPublicKey] :
+  /// The public key material. To use the public key, you must have the matching
+  /// private key. For information about the supported key formats and lengths,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws">Requirements
+  /// for key pairs</a> in the <i>Amazon EC2 User Guide</i>.
+  ///
+  /// Parameter [serialPort] :
+  /// The serial port of the EC2 instance. Currently only port 0 is supported.
+  ///
+  /// Default: 0
+  Future<SendSerialConsoleSSHPublicKeyResponse> sendSerialConsoleSSHPublicKey({
+    required String instanceId,
+    required String sSHPublicKey,
+    int? serialPort,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      10,
+      32,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sSHPublicKey, 'sSHPublicKey');
+    _s.validateStringLength(
+      'sSHPublicKey',
+      sSHPublicKey,
+      256,
+      4096,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'serialPort',
+      serialPort,
+      0,
+      0,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSEC2InstanceConnectService.SendSerialConsoleSSHPublicKey'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'InstanceId': instanceId,
+        'SSHPublicKey': sSHPublicKey,
+        if (serialPort != null) 'SerialPort': serialPort,
+      },
+    );
+
+    return SendSerialConsoleSSHPublicKeyResponse.fromJson(jsonResponse.body);
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendSSHPublicKeyResponse {
-  /// The request ID as logged by EC2 Connect. Please provide this when contacting
-  /// AWS Support.
-  @_s.JsonKey(name: 'RequestId')
-  final String requestId;
+  /// The ID of the request. Please provide this ID when contacting AWS Support
+  /// for assistance.
+  final String? requestId;
 
-  /// Indicates request success.
-  @_s.JsonKey(name: 'Success')
-  final bool success;
+  /// Is true if the request succeeds and an error otherwise.
+  final bool? success;
 
   SendSSHPublicKeyResponse({
     this.requestId,
     this.success,
   });
-  factory SendSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendSSHPublicKeyResponseFromJson(json);
+
+  factory SendSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return SendSSHPublicKeyResponse(
+      requestId: json['RequestId'] as String?,
+      success: json['Success'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestId = this.requestId;
+    final success = this.success;
+    return {
+      if (requestId != null) 'RequestId': requestId,
+      if (success != null) 'Success': success,
+    };
+  }
+}
+
+class SendSerialConsoleSSHPublicKeyResponse {
+  /// The ID of the request. Please provide this ID when contacting AWS Support
+  /// for assistance.
+  final String? requestId;
+
+  /// Is true if the request succeeds and an error otherwise.
+  final bool? success;
+
+  SendSerialConsoleSSHPublicKeyResponse({
+    this.requestId,
+    this.success,
+  });
+
+  factory SendSerialConsoleSSHPublicKeyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SendSerialConsoleSSHPublicKeyResponse(
+      requestId: json['RequestId'] as String?,
+      success: json['Success'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestId = this.requestId;
+    final success = this.success;
+    return {
+      if (requestId != null) 'RequestId': requestId,
+      if (success != null) 'Success': success,
+    };
+  }
 }
 
 class AuthException extends _s.GenericAwsException {
-  AuthException({String type, String message})
+  AuthException({String? type, String? message})
       : super(type: type, code: 'AuthException', message: message);
 }
 
 class EC2InstanceNotFoundException extends _s.GenericAwsException {
-  EC2InstanceNotFoundException({String type, String message})
+  EC2InstanceNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'EC2InstanceNotFoundException', message: message);
 }
 
+class EC2InstanceTypeInvalidException extends _s.GenericAwsException {
+  EC2InstanceTypeInvalidException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'EC2InstanceTypeInvalidException',
+            message: message);
+}
+
 class InvalidArgsException extends _s.GenericAwsException {
-  InvalidArgsException({String type, String message})
+  InvalidArgsException({String? type, String? message})
       : super(type: type, code: 'InvalidArgsException', message: message);
 }
 
+class SerialConsoleAccessDisabledException extends _s.GenericAwsException {
+  SerialConsoleAccessDisabledException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SerialConsoleAccessDisabledException',
+            message: message);
+}
+
+class SerialConsoleSessionLimitExceededException
+    extends _s.GenericAwsException {
+  SerialConsoleSessionLimitExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SerialConsoleSessionLimitExceededException',
+            message: message);
+}
+
+class SerialConsoleSessionUnavailableException extends _s.GenericAwsException {
+  SerialConsoleSessionUnavailableException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'SerialConsoleSessionUnavailableException',
+            message: message);
+}
+
 class ServiceException extends _s.GenericAwsException {
-  ServiceException({String type, String message})
+  ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
@@ -201,8 +328,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AuthException(type: type, message: message),
   'EC2InstanceNotFoundException': (type, message) =>
       EC2InstanceNotFoundException(type: type, message: message),
+  'EC2InstanceTypeInvalidException': (type, message) =>
+      EC2InstanceTypeInvalidException(type: type, message: message),
   'InvalidArgsException': (type, message) =>
       InvalidArgsException(type: type, message: message),
+  'SerialConsoleAccessDisabledException': (type, message) =>
+      SerialConsoleAccessDisabledException(type: type, message: message),
+  'SerialConsoleSessionLimitExceededException': (type, message) =>
+      SerialConsoleSessionLimitExceededException(type: type, message: message),
+  'SerialConsoleSessionUnavailableException': (type, message) =>
+      SerialConsoleSessionUnavailableException(type: type, message: message),
   'ServiceException': (type, message) =>
       ServiceException(type: type, message: message),
   'ThrottlingException': (type, message) =>

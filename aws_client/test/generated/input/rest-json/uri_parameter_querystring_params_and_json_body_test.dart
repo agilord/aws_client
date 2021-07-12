@@ -33,13 +33,13 @@ void main() {
     );
 
     await service.operationName0(
+      pipelineId: "foo",
       ascending: "true",
       config: StructType(
         a: "one",
         b: "two",
       ),
       pageToken: "bar",
-      pipelineId: "foo",
     );
 /*
 {

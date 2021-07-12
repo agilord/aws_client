@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +23,10 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 class Enum {
   final _s.RestXmlProtocol _protocol;
   Enum({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,17 +38,19 @@ class Enum {
         );
 
   Future<void> operationName0({
-    EnumType fooEnum,
-    EnumType headerEnum,
-    List<EnumType> listEnums,
-    EnumType uRIFooEnum,
-    List<EnumType> uRIListEnums,
+    required EnumType uRIFooEnum,
+    EnumType? fooEnum,
+    EnumType? headerEnum,
+    List<EnumType>? listEnums,
+    List<EnumType>? uRIListEnums,
   }) async {
-    final headers = <String, String>{};
-    headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
+    ArgumentError.checkNotNull(uRIFooEnum, 'uRIFooEnum');
+    final headers = <String, String>{
+      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+    };
     final $query = <String, List<String>>{
       if (uRIListEnums != null)
-        'ListEnums': uRIListEnums.map((e) => e?.toValue() ?? '').toList(),
+        'ListEnums': uRIListEnums.map((e) => e.toValue()).toList(),
     };
     await _protocol.send(
       method: 'POST',
@@ -50,10 +58,10 @@ class Enum {
       queryParams: $query,
       headers: headers,
       payload: InputShape(
+              uRIFooEnum: uRIFooEnum,
               fooEnum: fooEnum,
               headerEnum: headerEnum,
               listEnums: listEnums,
-              uRIFooEnum: uRIFooEnum,
               uRIListEnums: uRIListEnums)
           .toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
@@ -61,17 +69,19 @@ class Enum {
   }
 
   Future<void> operationName1({
-    EnumType fooEnum,
-    EnumType headerEnum,
-    List<EnumType> listEnums,
-    EnumType uRIFooEnum,
-    List<EnumType> uRIListEnums,
+    required EnumType uRIFooEnum,
+    EnumType? fooEnum,
+    EnumType? headerEnum,
+    List<EnumType>? listEnums,
+    List<EnumType>? uRIListEnums,
   }) async {
-    final headers = <String, String>{};
-    headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
+    ArgumentError.checkNotNull(uRIFooEnum, 'uRIFooEnum');
+    final headers = <String, String>{
+      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+    };
     final $query = <String, List<String>>{
       if (uRIListEnums != null)
-        'ListEnums': uRIListEnums.map((e) => e?.toValue() ?? '').toList(),
+        'ListEnums': uRIListEnums.map((e) => e.toValue()).toList(),
     };
     await _protocol.send(
       method: 'POST',
@@ -79,10 +89,10 @@ class Enum {
       queryParams: $query,
       headers: headers,
       payload: InputShape(
+              uRIFooEnum: uRIFooEnum,
               fooEnum: fooEnum,
               headerEnum: headerEnum,
               listEnums: listEnums,
-              uRIFooEnum: uRIFooEnum,
               uRIListEnums: uRIListEnums)
           .toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
@@ -91,20 +101,55 @@ class Enum {
 }
 
 class InputShape {
-  final EnumType fooEnum;
-  final EnumType headerEnum;
-  final List<EnumType> listEnums;
   final EnumType uRIFooEnum;
-  final List<EnumType> uRIListEnums;
+  final EnumType? fooEnum;
+  final EnumType? headerEnum;
+  final List<EnumType>? listEnums;
+  final List<EnumType>? uRIListEnums;
 
   InputShape({
+    required this.uRIFooEnum,
     this.fooEnum,
     this.headerEnum,
     this.listEnums,
-    this.uRIFooEnum,
     this.uRIListEnums,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory InputShape.fromJson(Map<String, dynamic> json) {
+    return InputShape(
+      uRIFooEnum: (json['URIEnum'] as String).toEnumType(),
+      fooEnum: (json['FooEnum'] as String?)?.toEnumType(),
+      headerEnum: (json['x-amz-enum'] as String?)?.toEnumType(),
+      listEnums: (json['ListEnums'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEnumType())
+          .toList(),
+      uRIListEnums: (json['ListEnums'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEnumType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final uRIFooEnum = this.uRIFooEnum;
+    final fooEnum = this.fooEnum;
+    final headerEnum = this.headerEnum;
+    final listEnums = this.listEnums;
+    final uRIListEnums = this.uRIListEnums;
+    return {
+      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (listEnums != null)
+        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final uRIFooEnum = this.uRIFooEnum;
+    final fooEnum = this.fooEnum;
+    final headerEnum = this.headerEnum;
+    final listEnums = this.listEnums;
+    final uRIListEnums = this.uRIListEnums;
     final $children = <_s.XmlNode>[
       if (fooEnum != null)
         _s.encodeXmlStringValue('FooEnum', fooEnum.toValue()),
@@ -112,8 +157,8 @@ class InputShape {
         _s.XmlElement(
             _s.XmlName('ListEnums'),
             [],
-            listEnums.map(
-                (e) => _s.encodeXmlStringValue('member', e?.toValue() ?? ''))),
+            listEnums
+                .map((e) => _s.encodeXmlStringValue('member', e.toValue()))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -121,7 +166,7 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -148,7 +193,6 @@ extension on EnumType {
       case EnumType.$1:
         return '1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -166,7 +210,7 @@ extension on String {
       case '1':
         return EnumType.$1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EnumType');
   }
 }
 

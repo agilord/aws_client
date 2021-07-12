@@ -108,7 +108,8 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
     'xmlAttribute',
     'eventpayload',
     'tags',
-    'timestampFormat'
+    'timestampFormat',
+    'pattern'
   ]);
   return Member(
     json['shape'] as String,
@@ -132,5 +133,6 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
     json['eventpayload'] as bool ?? false,
     (json['tags'] as List)?.map((e) => e as String)?.toList(),
     json['timestampFormat'] as String,
+    json['pattern'] as String,
   );
 }

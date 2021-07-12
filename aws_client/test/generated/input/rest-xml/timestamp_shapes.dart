@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +23,10 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 class TimestampShapes {
   final _s.RestXmlProtocol _protocol;
   TimestampShapes({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,22 +38,26 @@ class TimestampShapes {
         );
 
   Future<void> operationName0({
-    DateTime timeArg,
-    DateTime timeArgInHeader,
-    DateTime timeArgInQuery,
-    DateTime timeCustom,
-    DateTime timeCustomInHeader,
-    DateTime timeCustomInQuery,
-    DateTime timeFormat,
-    DateTime timeFormatInHeader,
-    DateTime timeFormatInQuery,
+    DateTime? timeArg,
+    DateTime? timeArgInHeader,
+    DateTime? timeArgInQuery,
+    DateTime? timeCustom,
+    DateTime? timeCustomInHeader,
+    DateTime? timeCustomInQuery,
+    DateTime? timeFormat,
+    DateTime? timeFormatInHeader,
+    DateTime? timeFormatInQuery,
   }) async {
-    final headers = <String, String>{};
-    timeArgInHeader?.let((v) => headers['x-amz-timearg'] = _s.rfc822ToJson(v));
-    timeCustomInHeader?.let((v) => headers['x-amz-timecustom-header'] =
-        _s.unixTimestampToJson(v).toString());
-    timeFormatInHeader?.let((v) => headers['x-amz-timeformat-header'] =
-        _s.unixTimestampToJson(v).toString());
+    final headers = <String, String>{
+      if (timeArgInHeader != null)
+        'x-amz-timearg': _s.rfc822ToJson(timeArgInHeader),
+      if (timeCustomInHeader != null)
+        'x-amz-timecustom-header':
+            _s.unixTimestampToJson(timeCustomInHeader).toString(),
+      if (timeFormatInHeader != null)
+        'x-amz-timeformat-header':
+            _s.unixTimestampToJson(timeFormatInHeader).toString(),
+    };
     final $query = <String, List<String>>{
       if (timeArgInQuery != null)
         'TimeQuery': [_s.iso8601ToJson(timeArgInQuery).toString()],
@@ -87,15 +97,15 @@ class TimestampShapes {
 }
 
 class InputShape {
-  final DateTime timeArg;
-  final DateTime timeArgInHeader;
-  final DateTime timeArgInQuery;
-  final DateTime timeCustom;
-  final DateTime timeCustomInHeader;
-  final DateTime timeCustomInQuery;
-  final DateTime timeFormat;
-  final DateTime timeFormatInHeader;
-  final DateTime timeFormatInQuery;
+  final DateTime? timeArg;
+  final DateTime? timeArgInHeader;
+  final DateTime? timeArgInQuery;
+  final DateTime? timeCustom;
+  final DateTime? timeCustomInHeader;
+  final DateTime? timeCustomInQuery;
+  final DateTime? timeFormat;
+  final DateTime? timeFormatInHeader;
+  final DateTime? timeFormatInQuery;
 
   InputShape({
     this.timeArg,
@@ -108,7 +118,48 @@ class InputShape {
     this.timeFormatInHeader,
     this.timeFormatInQuery,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory InputShape.fromJson(Map<String, dynamic> json) {
+    return InputShape(
+      timeArg: timeStampFromJson(json['TimeArg']),
+      timeArgInHeader: timeStampFromJson(json['x-amz-timearg']),
+      timeArgInQuery: timeStampFromJson(json['TimeQuery']),
+      timeCustom: timeStampFromJson(json['TimeCustom']),
+      timeCustomInHeader: timeStampFromJson(json['x-amz-timecustom-header']),
+      timeCustomInQuery: timeStampFromJson(json['TimeCustomQuery']),
+      timeFormat: timeStampFromJson(json['TimeFormat']),
+      timeFormatInHeader: timeStampFromJson(json['x-amz-timeformat-header']),
+      timeFormatInQuery: timeStampFromJson(json['TimeFormatQuery']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeArg = this.timeArg;
+    final timeArgInHeader = this.timeArgInHeader;
+    final timeArgInQuery = this.timeArgInQuery;
+    final timeCustom = this.timeCustom;
+    final timeCustomInHeader = this.timeCustomInHeader;
+    final timeCustomInQuery = this.timeCustomInQuery;
+    final timeFormat = this.timeFormat;
+    final timeFormatInHeader = this.timeFormatInHeader;
+    final timeFormatInQuery = this.timeFormatInQuery;
+    return {
+      if (timeArg != null) 'TimeArg': unixTimestampToJson(timeArg),
+      if (timeCustom != null) 'TimeCustom': rfc822ToJson(timeCustom),
+      if (timeFormat != null) 'TimeFormat': rfc822ToJson(timeFormat),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final timeArg = this.timeArg;
+    final timeArgInHeader = this.timeArgInHeader;
+    final timeArgInQuery = this.timeArgInQuery;
+    final timeCustom = this.timeCustom;
+    final timeCustomInHeader = this.timeCustomInHeader;
+    final timeCustomInQuery = this.timeCustomInQuery;
+    final timeFormat = this.timeFormat;
+    final timeFormatInHeader = this.timeFormatInHeader;
+    final timeFormatInQuery = this.timeFormatInQuery;
     final $children = <_s.XmlNode>[
       if (timeArg != null) _s.encodeXmlDateTimeValue('TimeArg', timeArg),
       if (timeCustom != null)
@@ -124,7 +175,7 @@ class InputShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

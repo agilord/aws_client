@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2012-09-25.g.dart';
 
 /// The AWS Elastic Transcoder Service.
 class ElasticTranscoder {
   final _s.RestJsonProtocol _protocol;
   ElasticTranscoder({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -66,22 +59,15 @@ class ElasticTranscoder {
   /// status of <code>Submitted</code>, use the <a>ListJobsByStatus</a> API
   /// action.
   Future<void> cancelJob({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/2012-09-25/jobs/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
-    return CancelJobResponse.fromJson(response);
   }
 
   /// When you create a job, Elastic Transcoder returns JSON data that includes
@@ -145,22 +131,16 @@ class ElasticTranscoder {
   /// Transcoder does not guarantee that <code>key/value</code> pairs are
   /// returned in the same order in which you specify them.
   Future<CreateJobResponse> createJob({
-    @_s.required String pipelineId,
-    JobInput input,
-    List<JobInput> inputs,
-    CreateJobOutput output,
-    String outputKeyPrefix,
-    List<CreateJobOutput> outputs,
-    List<CreateJobPlaylist> playlists,
-    Map<String, String> userMetadata,
+    required String pipelineId,
+    JobInput? input,
+    List<JobInput>? inputs,
+    CreateJobOutput? output,
+    String? outputKeyPrefix,
+    List<CreateJobOutput>? outputs,
+    List<CreateJobPlaylist>? playlists,
+    Map<String, String>? userMetadata,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'outputKeyPrefix',
       outputKeyPrefix,
@@ -469,22 +449,16 @@ class ElasticTranscoder {
   /// </li>
   /// </ul>
   Future<CreatePipelineResponse> createPipeline({
-    @_s.required String inputBucket,
-    @_s.required String name,
-    @_s.required String role,
-    String awsKmsKeyArn,
-    PipelineOutputConfig contentConfig,
-    Notifications notifications,
-    String outputBucket,
-    PipelineOutputConfig thumbnailConfig,
+    required String inputBucket,
+    required String name,
+    required String role,
+    String? awsKmsKeyArn,
+    PipelineOutputConfig? contentConfig,
+    Notifications? notifications,
+    String? outputBucket,
+    PipelineOutputConfig? thumbnailConfig,
   }) async {
     ArgumentError.checkNotNull(inputBucket, 'inputBucket');
-    _s.validateStringPattern(
-      'inputBucket',
-      inputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -494,22 +468,11 @@ class ElasticTranscoder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:aws:iam::\w{12}:role/.+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'awsKmsKeyArn',
       awsKmsKeyArn,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'outputBucket',
-      outputBucket,
-      r'''^(\w|\.|-){1,255}$''',
     );
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
@@ -579,20 +542,14 @@ class ElasticTranscoder {
   /// Parameter [video] :
   /// A section of the request body that specifies the video parameters.
   Future<CreatePresetResponse> createPreset({
-    @_s.required String container,
-    @_s.required String name,
-    AudioParameters audio,
-    String description,
-    Thumbnails thumbnails,
-    VideoParameters video,
+    required String container,
+    required String name,
+    AudioParameters? audio,
+    String? description,
+    Thumbnails? thumbnails,
+    VideoParameters? video,
   }) async {
     ArgumentError.checkNotNull(container, 'container');
-    _s.validateStringPattern(
-      'container',
-      container,
-      r'''(^mp4$)|(^ts$)|(^webm$)|(^mp3$)|(^flac$)|(^oga$)|(^ogg$)|(^fmp4$)|(^mpg$)|(^flv$)|(^gif$)|(^mxf$)|(^wav$)|(^mp2$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -640,22 +597,15 @@ class ElasticTranscoder {
   /// Parameter [id] :
   /// The identifier of the pipeline that you want to delete.
   Future<void> deletePipeline({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePipelineResponse.fromJson(response);
   }
 
   /// The DeletePreset operation removes a preset that you've added in an AWS
@@ -675,22 +625,15 @@ class ElasticTranscoder {
   /// The identifier of the preset for which you want to get detailed
   /// information.
   Future<void> deletePreset({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/2012-09-25/presets/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePresetResponse.fromJson(response);
   }
 
   /// The ListJobsByPipeline operation gets a list of the jobs currently in a
@@ -719,27 +662,11 @@ class ElasticTranscoder {
   /// <code>pageToken</code> in subsequent <code>GET</code> requests to get each
   /// successive page of results.
   Future<ListJobsByPipelineResponse> listJobsByPipeline({
-    @_s.required String pipelineId,
-    String ascending,
-    String pageToken,
+    required String pipelineId,
+    String? ascending,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -781,27 +708,11 @@ class ElasticTranscoder {
   /// <code>pageToken</code> in subsequent <code>GET</code> requests to get each
   /// successive page of results.
   Future<ListJobsByStatusResponse> listJobsByStatus({
-    @_s.required String status,
-    String ascending,
-    String pageToken,
+    required String status,
+    String? ascending,
+    String? pageToken,
   }) async {
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringPattern(
-      'status',
-      status,
-      r'''(^Submitted$)|(^Progressing$)|(^Complete$)|(^Canceled$)|(^Error$)''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -834,19 +745,9 @@ class ElasticTranscoder {
   /// <code>pageToken</code> in subsequent <code>GET</code> requests to get each
   /// successive page of results.
   Future<ListPipelinesResponse> listPipelines({
-    String ascending,
-    String pageToken,
+    String? ascending,
+    String? pageToken,
   }) async {
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -879,19 +780,9 @@ class ElasticTranscoder {
   /// <code>pageToken</code> in subsequent <code>GET</code> requests to get each
   /// successive page of results.
   Future<ListPresetsResponse> listPresets({
-    String ascending,
-    String pageToken,
+    String? ascending,
+    String? pageToken,
   }) async {
-    _s.validateStringPattern(
-      'ascending',
-      ascending,
-      r'''(^true$)|(^false$)''',
-    );
-    _s.validateStringPattern(
-      'pageToken',
-      pageToken,
-      r'''^\d{13}-\w{6}$''',
-    );
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -917,15 +808,9 @@ class ElasticTranscoder {
   /// Parameter [id] :
   /// The identifier of the job for which you want to get detailed information.
   Future<ReadJobResponse> readJob({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -946,15 +831,9 @@ class ElasticTranscoder {
   /// Parameter [id] :
   /// The identifier of the pipeline to read.
   Future<ReadPipelineResponse> readPipeline({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -976,15 +855,9 @@ class ElasticTranscoder {
   /// The identifier of the preset for which you want to get detailed
   /// information.
   Future<ReadPresetResponse> readPreset({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1026,32 +899,14 @@ class ElasticTranscoder {
   /// topics that you want the action to send a test notification to.
   @Deprecated('Deprecated')
   Future<TestRoleResponse> testRole({
-    @_s.required String inputBucket,
-    @_s.required String outputBucket,
-    @_s.required String role,
-    @_s.required List<String> topics,
+    required String inputBucket,
+    required String outputBucket,
+    required String role,
+    required List<String> topics,
   }) async {
     ArgumentError.checkNotNull(inputBucket, 'inputBucket');
-    _s.validateStringPattern(
-      'inputBucket',
-      inputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(outputBucket, 'outputBucket');
-    _s.validateStringPattern(
-      'outputBucket',
-      outputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:aws:iam::\w{12}:role/.+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(topics, 'topics');
     final $payload = <String, dynamic>{
       'InputBucket': inputBucket,
@@ -1321,43 +1176,27 @@ class ElasticTranscoder {
   /// </li>
   /// </ul>
   Future<UpdatePipelineResponse> updatePipeline({
-    @_s.required String id,
-    String awsKmsKeyArn,
-    PipelineOutputConfig contentConfig,
-    String inputBucket,
-    String name,
-    Notifications notifications,
-    String role,
-    PipelineOutputConfig thumbnailConfig,
+    required String id,
+    String? awsKmsKeyArn,
+    PipelineOutputConfig? contentConfig,
+    String? inputBucket,
+    String? name,
+    Notifications? notifications,
+    String? role,
+    PipelineOutputConfig? thumbnailConfig,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'awsKmsKeyArn',
       awsKmsKeyArn,
       0,
       255,
     );
-    _s.validateStringPattern(
-      'inputBucket',
-      inputBucket,
-      r'''^(\w|\.|-){1,255}$''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''^arn:aws:iam::\w{12}:role/.+$''',
     );
     final $payload = <String, dynamic>{
       if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
@@ -1425,16 +1264,10 @@ class ElasticTranscoder {
   /// </li>
   /// </ul>
   Future<UpdatePipelineNotificationsResponse> updatePipelineNotifications({
-    @_s.required String id,
-    @_s.required Notifications notifications,
+    required String id,
+    required Notifications notifications,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(notifications, 'notifications');
     final $payload = <String, dynamic>{
       'Notifications': notifications,
@@ -1480,23 +1313,11 @@ class ElasticTranscoder {
   /// </li>
   /// </ul>
   Future<UpdatePipelineStatusResponse> updatePipelineStatus({
-    @_s.required String id,
-    @_s.required String status,
+    required String id,
+    required String status,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''^\d{13}-\w{6}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
-    _s.validateStringPattern(
-      'status',
-      status,
-      r'''(^Active$)|(^Paused$)''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Status': status,
     };
@@ -1520,21 +1341,14 @@ class ElasticTranscoder {
 /// To pass through existing artwork unchanged, set the <code>Merge
 /// Policy</code> to "Prepend", "Append", or "Fallback", and use an empty
 /// <code>Artwork</code> array.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Artwork {
   /// The format of album art, if any. Valid formats are <code>.jpg</code> and
   /// <code>.png</code>.
-  @_s.JsonKey(name: 'AlbumArtFormat')
-  final String albumArtFormat;
+  final String? albumArtFormat;
 
   /// The encryption settings, if any, that you want Elastic Transcoder to apply
   /// to your artwork.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The name of the file to be used as album art. To determine which Amazon S3
   /// bucket contains the specified file, Elastic Transcoder checks the pipeline
@@ -1544,30 +1358,26 @@ class Artwork {
   /// If the file name includes a prefix, for example,
   /// <code>cooking/pie.jpg</code>, include the prefix in the key. If the file
   /// isn't in the specified bucket, Elastic Transcoder returns an error.
-  @_s.JsonKey(name: 'InputKey')
-  final String inputKey;
+  final String? inputKey;
 
   /// The maximum height of the output album art in pixels. If you specify
   /// <code>auto</code>, Elastic Transcoder uses 600 as the default value. If you
   /// specify a numeric value, enter an even integer between 32 and 3072,
   /// inclusive.
-  @_s.JsonKey(name: 'MaxHeight')
-  final String maxHeight;
+  final String? maxHeight;
 
   /// The maximum width of the output album art in pixels. If you specify
   /// <code>auto</code>, Elastic Transcoder uses 600 as the default value. If you
   /// specify a numeric value, enter an even integer between 32 and 4096,
   /// inclusive.
-  @_s.JsonKey(name: 'MaxWidth')
-  final String maxWidth;
+  final String? maxWidth;
 
   /// When you set <code>PaddingPolicy</code> to <code>Pad</code>, Elastic
   /// Transcoder may add white bars to the top and bottom and/or left and right
   /// sides of the output album art to make the total size of the output art match
   /// the values that you specified for <code>MaxWidth</code> and
   /// <code>MaxHeight</code>.
-  @_s.JsonKey(name: 'PaddingPolicy')
-  final String paddingPolicy;
+  final String? paddingPolicy;
 
   /// Specify one of the following values to control scaling of the output album
   /// art:
@@ -1612,8 +1422,7 @@ class Artwork {
   /// the art up.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SizingPolicy')
-  final String sizingPolicy;
+  final String? sizingPolicy;
 
   Artwork({
     this.albumArtFormat,
@@ -1624,18 +1433,42 @@ class Artwork {
     this.paddingPolicy,
     this.sizingPolicy,
   });
-  factory Artwork.fromJson(Map<String, dynamic> json) =>
-      _$ArtworkFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ArtworkToJson(this);
+  factory Artwork.fromJson(Map<String, dynamic> json) {
+    return Artwork(
+      albumArtFormat: json['AlbumArtFormat'] as String?,
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      inputKey: json['InputKey'] as String?,
+      maxHeight: json['MaxHeight'] as String?,
+      maxWidth: json['MaxWidth'] as String?,
+      paddingPolicy: json['PaddingPolicy'] as String?,
+      sizingPolicy: json['SizingPolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final albumArtFormat = this.albumArtFormat;
+    final encryption = this.encryption;
+    final inputKey = this.inputKey;
+    final maxHeight = this.maxHeight;
+    final maxWidth = this.maxWidth;
+    final paddingPolicy = this.paddingPolicy;
+    final sizingPolicy = this.sizingPolicy;
+    return {
+      if (albumArtFormat != null) 'AlbumArtFormat': albumArtFormat,
+      if (encryption != null) 'Encryption': encryption,
+      if (inputKey != null) 'InputKey': inputKey,
+      if (maxHeight != null) 'MaxHeight': maxHeight,
+      if (maxWidth != null) 'MaxWidth': maxWidth,
+      if (paddingPolicy != null) 'PaddingPolicy': paddingPolicy,
+      if (sizingPolicy != null) 'SizingPolicy': sizingPolicy,
+    };
+  }
 }
 
 /// Options associated with your audio codec.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AudioCodecOptions {
   /// You can only choose an audio bit depth when you specify <code>flac</code> or
   /// <code>pcm</code> for the value of Audio:Codec.
@@ -1647,8 +1480,7 @@ class AudioCodecOptions {
   /// Valid values are <code>16</code> and <code>24</code>.
   ///
   /// The most common bit depth is <code>24</code>.
-  @_s.JsonKey(name: 'BitDepth')
-  final String bitDepth;
+  final String? bitDepth;
 
   /// You can only choose an audio bit order when you specify <code>pcm</code> for
   /// the value of Audio:Codec.
@@ -1656,8 +1488,7 @@ class AudioCodecOptions {
   /// The order the bits of a PCM sample are stored in.
   ///
   /// The supported value is <code>LittleEndian</code>.
-  @_s.JsonKey(name: 'BitOrder')
-  final String bitOrder;
+  final String? bitOrder;
 
   /// You can only choose an audio profile when you specify AAC for the value of
   /// Audio:Codec.
@@ -1690,8 +1521,7 @@ class AudioCodecOptions {
   /// Transcoder automatically updated your presets to use AAC-LC. You can change
   /// the value as required.
   /// </note>
-  @_s.JsonKey(name: 'Profile')
-  final String profile;
+  final String? profile;
 
   /// You can only choose whether an audio sample is signed when you specify
   /// <code>pcm</code> for the value of Audio:Codec.
@@ -1700,8 +1530,7 @@ class AudioCodecOptions {
   /// (signed) or only positive numbers (unsigned).
   ///
   /// The supported value is <code>Signed</code>.
-  @_s.JsonKey(name: 'Signed')
-  final String signed;
+  final String? signed;
 
   AudioCodecOptions({
     this.bitDepth,
@@ -1709,18 +1538,31 @@ class AudioCodecOptions {
     this.profile,
     this.signed,
   });
-  factory AudioCodecOptions.fromJson(Map<String, dynamic> json) =>
-      _$AudioCodecOptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AudioCodecOptionsToJson(this);
+  factory AudioCodecOptions.fromJson(Map<String, dynamic> json) {
+    return AudioCodecOptions(
+      bitDepth: json['BitDepth'] as String?,
+      bitOrder: json['BitOrder'] as String?,
+      profile: json['Profile'] as String?,
+      signed: json['Signed'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bitDepth = this.bitDepth;
+    final bitOrder = this.bitOrder;
+    final profile = this.profile;
+    final signed = this.signed;
+    return {
+      if (bitDepth != null) 'BitDepth': bitDepth,
+      if (bitOrder != null) 'BitOrder': bitOrder,
+      if (profile != null) 'Profile': profile,
+      if (signed != null) 'Signed': signed,
+    };
+  }
 }
 
 /// Parameters required for transcoding audio.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AudioParameters {
   /// The method of organizing audio channels and tracks. Use
   /// <code>Audio:Channels</code> to specify the number of channels in your
@@ -1871,13 +1713,11 @@ class AudioParameters {
   /// tracks in all
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'AudioPackingMode')
-  final String audioPackingMode;
+  final String? audioPackingMode;
 
   /// The bit rate of the audio stream in the output file, in kilobits/second.
   /// Enter an integer between 64 and 320, inclusive.
-  @_s.JsonKey(name: 'BitRate')
-  final String bitRate;
+  final String? bitRate;
 
   /// The number of audio channels in the output file. The following values are
   /// valid:
@@ -1914,14 +1754,12 @@ class AudioParameters {
   /// </ul>
   /// For more information about how Elastic Transcoder organizes channels and
   /// tracks, see <code>Audio:AudioPackingMode</code>.
-  @_s.JsonKey(name: 'Channels')
-  final String channels;
+  final String? channels;
 
   /// The audio codec for the output file. Valid values include <code>aac</code>,
   /// <code>flac</code>, <code>mp2</code>, <code>mp3</code>, <code>pcm</code>, and
   /// <code>vorbis</code>.
-  @_s.JsonKey(name: 'Codec')
-  final String codec;
+  final String? codec;
 
   /// If you specified <code>AAC</code> for <code>Audio:Codec</code>, this is the
   /// <code>AAC</code> compression profile to use. Valid values include:
@@ -1931,8 +1769,7 @@ class AudioParameters {
   ///
   /// If you specify <code>auto</code>, Elastic Transcoder chooses a profile based
   /// on the bit rate of the output file.
-  @_s.JsonKey(name: 'CodecOptions')
-  final AudioCodecOptions codecOptions;
+  final AudioCodecOptions? codecOptions;
 
   /// The sample rate of the audio stream in the output file, in Hertz. Valid
   /// values include:
@@ -1942,8 +1779,7 @@ class AudioParameters {
   ///
   /// If you specify <code>auto</code>, Elastic Transcoder automatically detects
   /// the sample rate.
-  @_s.JsonKey(name: 'SampleRate')
-  final String sampleRate;
+  final String? sampleRate;
 
   AudioParameters({
     this.audioPackingMode,
@@ -1953,37 +1789,59 @@ class AudioParameters {
     this.codecOptions,
     this.sampleRate,
   });
-  factory AudioParameters.fromJson(Map<String, dynamic> json) =>
-      _$AudioParametersFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AudioParametersToJson(this);
+  factory AudioParameters.fromJson(Map<String, dynamic> json) {
+    return AudioParameters(
+      audioPackingMode: json['AudioPackingMode'] as String?,
+      bitRate: json['BitRate'] as String?,
+      channels: json['Channels'] as String?,
+      codec: json['Codec'] as String?,
+      codecOptions: json['CodecOptions'] != null
+          ? AudioCodecOptions.fromJson(
+              json['CodecOptions'] as Map<String, dynamic>)
+          : null,
+      sampleRate: json['SampleRate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioPackingMode = this.audioPackingMode;
+    final bitRate = this.bitRate;
+    final channels = this.channels;
+    final codec = this.codec;
+    final codecOptions = this.codecOptions;
+    final sampleRate = this.sampleRate;
+    return {
+      if (audioPackingMode != null) 'AudioPackingMode': audioPackingMode,
+      if (bitRate != null) 'BitRate': bitRate,
+      if (channels != null) 'Channels': channels,
+      if (codec != null) 'Codec': codec,
+      if (codecOptions != null) 'CodecOptions': codecOptions,
+      if (sampleRate != null) 'SampleRate': sampleRate,
+    };
+  }
 }
 
 /// The response body contains a JSON object. If the job is successfully
 /// canceled, the value of <code>Success</code> is <code>true</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelJobResponse {
   CancelJobResponse();
-  factory CancelJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelJobResponseFromJson(json);
+
+  factory CancelJobResponse.fromJson(Map<String, dynamic> _) {
+    return CancelJobResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The file format of the output captions. If you leave this value blank,
 /// Elastic Transcoder returns an error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CaptionFormat {
   /// The encryption settings, if any, that you want Elastic Transcoder to apply
   /// to your caption formats.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The format you specify determines whether Elastic Transcoder generates an
   /// embedded or sidecar caption for this output.
@@ -2028,8 +1886,7 @@ class CaptionFormat {
   /// <code>fmp4</code> captions have an extension of <code>.ismt</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// The prefix for caption filenames, in the form
   /// <i>description</i>-<code>{language}</code>, where:
@@ -2052,44 +1909,52 @@ class CaptionFormat {
   /// For example, suppose you're transcoding into srt format. When you enter
   /// "Sydney-{language}-sunrise", and the language of the captions is English
   /// (en), the name of the first caption file is be Sydney-en-sunrise00000.srt.
-  @_s.JsonKey(name: 'Pattern')
-  final String pattern;
+  final String? pattern;
 
   CaptionFormat({
     this.encryption,
     this.format,
     this.pattern,
   });
-  factory CaptionFormat.fromJson(Map<String, dynamic> json) =>
-      _$CaptionFormatFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CaptionFormatToJson(this);
+  factory CaptionFormat.fromJson(Map<String, dynamic> json) {
+    return CaptionFormat(
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      format: json['Format'] as String?,
+      pattern: json['Pattern'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryption = this.encryption;
+    final format = this.format;
+    final pattern = this.pattern;
+    return {
+      if (encryption != null) 'Encryption': encryption,
+      if (format != null) 'Format': format,
+      if (pattern != null) 'Pattern': pattern,
+    };
+  }
 }
 
 /// A source file for the input sidecar captions used during the transcoding
 /// process.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CaptionSource {
   /// The encryption settings, if any, that Elastic Transcoder needs to decyrpt
   /// your caption sources, or that you want Elastic Transcoder to apply to your
   /// caption sources.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The name of the sidecar caption file that you want Elastic Transcoder to
   /// include in the output file.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The label of the caption shown in the player when choosing a language. We
   /// recommend that you put the caption language name here, in the language of
   /// the captions.
-  @_s.JsonKey(name: 'Label')
-  final String label;
+  final String? label;
 
   /// A string that specifies the language of the caption. If you specified
   /// multiple inputs with captions, the caption language must match in order to
@@ -2105,16 +1970,14 @@ class CaptionSource {
   /// </ul>
   /// For more information on ISO language codes and language names, see the List
   /// of ISO 639-1 codes.
-  @_s.JsonKey(name: 'Language')
-  final String language;
+  final String? language;
 
   /// For clip generation or captions that do not start at the same time as the
   /// associated video file, the <code>TimeOffset</code> tells Elastic Transcoder
   /// how much of the video to encode before including captions.
   ///
   /// Specify the TimeOffset in the form [+-]SS.sss or [+-]HH:mm:SS.ss.
-  @_s.JsonKey(name: 'TimeOffset')
-  final String timeOffset;
+  final String? timeOffset;
 
   CaptionSource({
     this.encryption,
@@ -2123,29 +1986,45 @@ class CaptionSource {
     this.language,
     this.timeOffset,
   });
-  factory CaptionSource.fromJson(Map<String, dynamic> json) =>
-      _$CaptionSourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CaptionSourceToJson(this);
+  factory CaptionSource.fromJson(Map<String, dynamic> json) {
+    return CaptionSource(
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      key: json['Key'] as String?,
+      label: json['Label'] as String?,
+      language: json['Language'] as String?,
+      timeOffset: json['TimeOffset'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryption = this.encryption;
+    final key = this.key;
+    final label = this.label;
+    final language = this.language;
+    final timeOffset = this.timeOffset;
+    return {
+      if (encryption != null) 'Encryption': encryption,
+      if (key != null) 'Key': key,
+      if (label != null) 'Label': label,
+      if (language != null) 'Language': language,
+      if (timeOffset != null) 'TimeOffset': timeOffset,
+    };
+  }
 }
 
 /// The captions to be created, if any.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Captions {
   /// The array of file formats for the output captions. If you leave this value
   /// blank, Elastic Transcoder returns an error.
-  @_s.JsonKey(name: 'CaptionFormats')
-  final List<CaptionFormat> captionFormats;
+  final List<CaptionFormat>? captionFormats;
 
   /// Source files for the input sidecar captions used during the transcoding
   /// process. To omit all sidecar captions, leave <code>CaptionSources</code>
   /// blank.
-  @_s.JsonKey(name: 'CaptionSources')
-  final List<CaptionSource> captionSources;
+  final List<CaptionSource>? captionSources;
 
   /// A policy that determines how Elastic Transcoder handles the existence of
   /// multiple captions.
@@ -2171,54 +2050,74 @@ class Captions {
   /// </li>
   /// </ul>
   /// <code>MergePolicy</code> cannot be null.
-  @_s.JsonKey(name: 'MergePolicy')
-  final String mergePolicy;
+  final String? mergePolicy;
 
   Captions({
     this.captionFormats,
     this.captionSources,
     this.mergePolicy,
   });
-  factory Captions.fromJson(Map<String, dynamic> json) =>
-      _$CaptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CaptionsToJson(this);
+  factory Captions.fromJson(Map<String, dynamic> json) {
+    return Captions(
+      captionFormats: (json['CaptionFormats'] as List?)
+          ?.whereNotNull()
+          .map((e) => CaptionFormat.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      captionSources: (json['CaptionSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => CaptionSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mergePolicy: json['MergePolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final captionFormats = this.captionFormats;
+    final captionSources = this.captionSources;
+    final mergePolicy = this.mergePolicy;
+    return {
+      if (captionFormats != null) 'CaptionFormats': captionFormats,
+      if (captionSources != null) 'CaptionSources': captionSources,
+      if (mergePolicy != null) 'MergePolicy': mergePolicy,
+    };
+  }
 }
 
 /// Settings for one clip in a composition. All jobs in a playlist must have the
 /// same clip settings.
 @deprecated
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Clip {
   /// Settings that determine when a clip begins and how long it lasts.
-  @_s.JsonKey(name: 'TimeSpan')
-  final TimeSpan timeSpan;
+  final TimeSpan? timeSpan;
 
   Clip({
     this.timeSpan,
   });
-  factory Clip.fromJson(Map<String, dynamic> json) => _$ClipFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ClipToJson(this);
+  factory Clip.fromJson(Map<String, dynamic> json) {
+    return Clip(
+      timeSpan: json['TimeSpan'] != null
+          ? TimeSpan.fromJson(json['TimeSpan'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeSpan = this.timeSpan;
+    return {
+      if (timeSpan != null) 'TimeSpan': timeSpan,
+    };
+  }
 }
 
 /// The <code>CreateJobOutput</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateJobOutput {
   /// Information about the album art that you want Elastic Transcoder to add to
   /// the file during transcoding. You can specify up to twenty album artworks for
   /// each output. Settings for each artwork must be defined in the job for the
   /// current output.
-  @_s.JsonKey(name: 'AlbumArt')
-  final JobAlbumArt albumArt;
+  final JobAlbumArt? albumArt;
 
   /// You can configure Elastic Transcoder to transcode captions, or subtitles,
   /// from one format to another. All captions must be in UTF-8. Elastic
@@ -2270,44 +2169,38 @@ class CreateJobOutput {
   ///
   /// For more information on sidecar files, see the Extensible Metadata Platform
   /// and Sidecar file Wikipedia pages.
-  @_s.JsonKey(name: 'Captions')
-  final Captions captions;
+  final Captions? captions;
 
   /// You can create an output file that contains an excerpt from the input file.
   /// This excerpt, called a clip, can come from the beginning, middle, or end of
   /// the file. The Composition object contains settings for the clips that make
   /// up an output file. For the current release, you can only specify settings
   /// for a single clip per output file. The Composition object cannot be null.
-  @_s.JsonKey(name: 'Composition')
-  final List<Clip> composition;
+  final List<Clip>? composition;
 
   /// You can specify encryption settings for any output files that you want to
   /// use for a transcoding job. This includes the output file and any watermarks,
   /// thumbnails, album art, or captions that you want to use. You must specify
   /// encryption settings for each file individually.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The name to assign to the transcoded file. Elastic Transcoder saves the file
   /// in the Amazon S3 bucket specified by the <code>OutputBucket</code> object in
   /// the pipeline that is specified by the pipeline ID. If a file with the
   /// specified name already exists in the output bucket, the job fails.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The <code>Id</code> of the preset to use for this job. The preset determines
   /// the audio, video, and thumbnail settings that Elastic Transcoder uses for
   /// transcoding.
-  @_s.JsonKey(name: 'PresetId')
-  final String presetId;
+  final String? presetId;
 
   /// The number of degrees clockwise by which you want Elastic Transcoder to
   /// rotate the output relative to the input. Enter one of the following values:
   /// <code>auto</code>, <code>0</code>, <code>90</code>, <code>180</code>,
   /// <code>270</code>. The value <code>auto</code> generally works only if the
   /// file that you're transcoding contains rotation metadata.
-  @_s.JsonKey(name: 'Rotate')
-  final String rotate;
+  final String? rotate;
 
   /// <important>
   /// (Outputs in Fragmented MP4 or MPEG-TS format only.
@@ -2330,13 +2223,11 @@ class CreateJobOutput {
   /// <code>HLS</code> output that you specify in OutputKeys. To add an output to
   /// the master playlist for this job, include it in the <code>OutputKeys</code>
   /// of the associated playlist.
-  @_s.JsonKey(name: 'SegmentDuration')
-  final String segmentDuration;
+  final String? segmentDuration;
 
   /// The encryption settings, if any, that you want Elastic Transcoder to apply
   /// to your thumbnail.
-  @_s.JsonKey(name: 'ThumbnailEncryption')
-  final Encryption thumbnailEncryption;
+  final Encryption? thumbnailEncryption;
 
   /// Whether you want Elastic Transcoder to create thumbnails for your videos
   /// and, if so, how you want Elastic Transcoder to name the files.
@@ -2376,15 +2267,13 @@ class CreateJobOutput {
   /// in the format (.jpg or .png) that appears in the preset that you specified
   /// in the <code>PresetID</code> value of <code>CreateJobOutput</code>. Elastic
   /// Transcoder also appends the applicable file name extension.
-  @_s.JsonKey(name: 'ThumbnailPattern')
-  final String thumbnailPattern;
+  final String? thumbnailPattern;
 
   /// Information about the watermarks that you want Elastic Transcoder to add to
   /// the video during transcoding. You can specify up to four watermarks for each
   /// output. Settings for each watermark must be defined in the preset for the
   /// current output.
-  @_s.JsonKey(name: 'Watermarks')
-  final List<JobWatermark> watermarks;
+  final List<JobWatermark>? watermarks;
 
   CreateJobOutput({
     this.albumArt,
@@ -2399,25 +2288,76 @@ class CreateJobOutput {
     this.thumbnailPattern,
     this.watermarks,
   });
-  Map<String, dynamic> toJson() => _$CreateJobOutputToJson(this);
+
+  factory CreateJobOutput.fromJson(Map<String, dynamic> json) {
+    return CreateJobOutput(
+      albumArt: json['AlbumArt'] != null
+          ? JobAlbumArt.fromJson(json['AlbumArt'] as Map<String, dynamic>)
+          : null,
+      captions: json['Captions'] != null
+          ? Captions.fromJson(json['Captions'] as Map<String, dynamic>)
+          : null,
+      composition: (json['Composition'] as List?)
+          ?.whereNotNull()
+          .map((e) => Clip.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      key: json['Key'] as String?,
+      presetId: json['PresetId'] as String?,
+      rotate: json['Rotate'] as String?,
+      segmentDuration: json['SegmentDuration'] as String?,
+      thumbnailEncryption: json['ThumbnailEncryption'] != null
+          ? Encryption.fromJson(
+              json['ThumbnailEncryption'] as Map<String, dynamic>)
+          : null,
+      thumbnailPattern: json['ThumbnailPattern'] as String?,
+      watermarks: (json['Watermarks'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobWatermark.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final albumArt = this.albumArt;
+    final captions = this.captions;
+    final composition = this.composition;
+    final encryption = this.encryption;
+    final key = this.key;
+    final presetId = this.presetId;
+    final rotate = this.rotate;
+    final segmentDuration = this.segmentDuration;
+    final thumbnailEncryption = this.thumbnailEncryption;
+    final thumbnailPattern = this.thumbnailPattern;
+    final watermarks = this.watermarks;
+    return {
+      if (albumArt != null) 'AlbumArt': albumArt,
+      if (captions != null) 'Captions': captions,
+      if (composition != null) 'Composition': composition,
+      if (encryption != null) 'Encryption': encryption,
+      if (key != null) 'Key': key,
+      if (presetId != null) 'PresetId': presetId,
+      if (rotate != null) 'Rotate': rotate,
+      if (segmentDuration != null) 'SegmentDuration': segmentDuration,
+      if (thumbnailEncryption != null)
+        'ThumbnailEncryption': thumbnailEncryption,
+      if (thumbnailPattern != null) 'ThumbnailPattern': thumbnailPattern,
+      if (watermarks != null) 'Watermarks': watermarks,
+    };
+  }
 }
 
 /// Information about the master playlist.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateJobPlaylist {
   /// The format of the output playlist. Valid formats include <code>HLSv3</code>,
   /// <code>HLSv4</code>, and <code>Smooth</code>.
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// The HLS content protection settings, if any, that you want Elastic
   /// Transcoder to apply to the output files associated with this playlist.
-  @_s.JsonKey(name: 'HlsContentProtection')
-  final HlsContentProtection hlsContentProtection;
+  final HlsContentProtection? hlsContentProtection;
 
   /// The name that you want Elastic Transcoder to assign to the master playlist,
   /// for example, nyc-vacation.m3u8. If the name includes a <code>/</code>
@@ -2431,8 +2371,7 @@ class CreateJobPlaylist {
   /// <code>Smooth</code> playlists). If you include a file extension in
   /// <code>Name</code>, the file name will have two extensions.
   /// </note>
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// For each output in this job that you want to include in a master playlist,
   /// the value of the <code>Outputs:Key</code> object.
@@ -2480,13 +2419,11 @@ class CreateJobPlaylist {
   /// <code>Audio:Profile</code>, <code>Video:Profile</code>, and
   /// <code>Video:FrameRate</code> to <code>Video:KeyframesMaxDist</code> ratio
   /// must be the same for all outputs.
-  @_s.JsonKey(name: 'OutputKeys')
-  final List<String> outputKeys;
+  final List<String>? outputKeys;
 
   /// The DRM settings, if any, that you want Elastic Transcoder to apply to the
   /// output files associated with this playlist.
-  @_s.JsonKey(name: 'PlayReadyDrm')
-  final PlayReadyDrm playReadyDrm;
+  final PlayReadyDrm? playReadyDrm;
 
   CreateJobPlaylist({
     this.format,
@@ -2495,40 +2432,74 @@ class CreateJobPlaylist {
     this.outputKeys,
     this.playReadyDrm,
   });
-  Map<String, dynamic> toJson() => _$CreateJobPlaylistToJson(this);
+
+  factory CreateJobPlaylist.fromJson(Map<String, dynamic> json) {
+    return CreateJobPlaylist(
+      format: json['Format'] as String?,
+      hlsContentProtection: json['HlsContentProtection'] != null
+          ? HlsContentProtection.fromJson(
+              json['HlsContentProtection'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      outputKeys: (json['OutputKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      playReadyDrm: json['PlayReadyDrm'] != null
+          ? PlayReadyDrm.fromJson(json['PlayReadyDrm'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final hlsContentProtection = this.hlsContentProtection;
+    final name = this.name;
+    final outputKeys = this.outputKeys;
+    final playReadyDrm = this.playReadyDrm;
+    return {
+      if (format != null) 'Format': format,
+      if (hlsContentProtection != null)
+        'HlsContentProtection': hlsContentProtection,
+      if (name != null) 'Name': name,
+      if (outputKeys != null) 'OutputKeys': outputKeys,
+      if (playReadyDrm != null) 'PlayReadyDrm': playReadyDrm,
+    };
+  }
 }
 
 /// The CreateJobResponse structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateJobResponse {
   /// A section of the response body that provides information about the job that
   /// is created.
-  @_s.JsonKey(name: 'Job')
-  final Job job;
+  final Job? job;
 
   CreateJobResponse({
     this.job,
   });
-  factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateJobResponseFromJson(json);
+
+  factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateJobResponse(
+      job: json['Job'] != null
+          ? Job.fromJson(json['Job'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final job = this.job;
+    return {
+      if (job != null) 'Job': job,
+    };
+  }
 }
 
 /// When you create a pipeline, Elastic Transcoder returns the values that you
 /// specified in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePipelineResponse {
   /// A section of the response body that provides information about the pipeline
   /// that is created.
-  @_s.JsonKey(name: 'Pipeline')
-  final Pipeline pipeline;
+  final Pipeline? pipeline;
 
   /// Elastic Transcoder returns a warning if the resources used by your pipeline
   /// are not in the same region as the pipeline.
@@ -2536,95 +2507,114 @@ class CreatePipelineResponse {
   /// Using resources in the same region, such as your Amazon S3 buckets, Amazon
   /// SNS notification topics, and AWS KMS key, reduces processing time and
   /// prevents cross-regional charges.
-  @_s.JsonKey(name: 'Warnings')
-  final List<Warning> warnings;
+  final List<Warning>? warnings;
 
   CreatePipelineResponse({
     this.pipeline,
     this.warnings,
   });
-  factory CreatePipelineResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePipelineResponseFromJson(json);
+
+  factory CreatePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePipelineResponse(
+      pipeline: json['Pipeline'] != null
+          ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
+          : null,
+      warnings: (json['Warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Warning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    final warnings = this.warnings;
+    return {
+      if (pipeline != null) 'Pipeline': pipeline,
+      if (warnings != null) 'Warnings': warnings,
+    };
+  }
 }
 
 /// The <code>CreatePresetResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePresetResponse {
   /// A section of the response body that provides information about the preset
   /// that is created.
-  @_s.JsonKey(name: 'Preset')
-  final Preset preset;
+  final Preset? preset;
 
   /// If the preset settings don't comply with the standards for the video codec
   /// but Elastic Transcoder created the preset, this message explains the reason
   /// the preset settings don't meet the standard. Elastic Transcoder created the
   /// preset because the settings might produce acceptable output.
-  @_s.JsonKey(name: 'Warning')
-  final String warning;
+  final String? warning;
 
   CreatePresetResponse({
     this.preset,
     this.warning,
   });
-  factory CreatePresetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePresetResponseFromJson(json);
+
+  factory CreatePresetResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePresetResponse(
+      preset: json['Preset'] != null
+          ? Preset.fromJson(json['Preset'] as Map<String, dynamic>)
+          : null,
+      warning: json['Warning'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preset = this.preset;
+    final warning = this.warning;
+    return {
+      if (preset != null) 'Preset': preset,
+      if (warning != null) 'Warning': warning,
+    };
+  }
 }
 
 /// The <code>DeletePipelineResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePipelineResponse {
   DeletePipelineResponse();
-  factory DeletePipelineResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePipelineResponseFromJson(json);
+
+  factory DeletePipelineResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePipelineResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The <code>DeletePresetResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePresetResponse {
   DeletePresetResponse();
-  factory DeletePresetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePresetResponseFromJson(json);
+
+  factory DeletePresetResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePresetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The detected properties of the input file. Elastic Transcoder identifies
 /// these values from the input file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DetectedProperties {
   /// The detected duration of the input file, in milliseconds.
-  @_s.JsonKey(name: 'DurationMillis')
-  final int durationMillis;
+  final int? durationMillis;
 
   /// The detected file size of the input file, in bytes.
-  @_s.JsonKey(name: 'FileSize')
-  final int fileSize;
+  final int? fileSize;
 
   /// The detected frame rate of the input file, in frames per second.
-  @_s.JsonKey(name: 'FrameRate')
-  final String frameRate;
+  final String? frameRate;
 
   /// The detected height of the input file, in pixels.
-  @_s.JsonKey(name: 'Height')
-  final int height;
+  final int? height;
 
   /// The detected width of the input file, in pixels.
-  @_s.JsonKey(name: 'Width')
-  final int width;
+  final int? width;
 
   DetectedProperties({
     this.durationMillis,
@@ -2633,10 +2623,31 @@ class DetectedProperties {
     this.height,
     this.width,
   });
-  factory DetectedProperties.fromJson(Map<String, dynamic> json) =>
-      _$DetectedPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DetectedPropertiesToJson(this);
+  factory DetectedProperties.fromJson(Map<String, dynamic> json) {
+    return DetectedProperties(
+      durationMillis: json['DurationMillis'] as int?,
+      fileSize: json['FileSize'] as int?,
+      frameRate: json['FrameRate'] as String?,
+      height: json['Height'] as int?,
+      width: json['Width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationMillis = this.durationMillis;
+    final fileSize = this.fileSize;
+    final frameRate = this.frameRate;
+    final height = this.height;
+    final width = this.width;
+    return {
+      if (durationMillis != null) 'DurationMillis': durationMillis,
+      if (fileSize != null) 'FileSize': fileSize,
+      if (frameRate != null) 'FrameRate': frameRate,
+      if (height != null) 'Height': height,
+      if (width != null) 'Width': width,
+    };
+  }
 }
 
 /// The encryption settings, if any, that are used for decrypting your input
@@ -2644,19 +2655,13 @@ class DetectedProperties {
 /// must specify the mode that Elastic Transcoder uses to decrypt your file,
 /// otherwise you must specify the mode you want Elastic Transcoder to use to
 /// encrypt your output files.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Encryption {
   /// The series of random bits created by a random bit generator, unique for
   /// every encryption operation, that you used to encrypt your input files or
   /// that you want Elastic Transcoder to use to encrypt your output files. The
   /// initialization vector must be base64-encoded, and it must be exactly 16
   /// bytes long before being base64-encoded.
-  @_s.JsonKey(name: 'InitializationVector')
-  final String initializationVector;
+  final String? initializationVector;
 
   /// The data encryption key that you want Elastic Transcoder to use to encrypt
   /// your output file, or that was used to encrypt your input file. The key must
@@ -2666,16 +2671,14 @@ class Encryption {
   /// <code>128</code>, <code>192</code>, or <code>256</code>.
   ///
   /// The key must also be encrypted by using the Amazon Key Management Service.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The MD5 digest of the key that you used to encrypt your input file, or that
   /// you want Elastic Transcoder to use to encrypt your output file. Elastic
   /// Transcoder uses the key digest as a checksum to make sure your key was not
   /// corrupted in transit. The key MD5 must be base64-encoded, and it must be
   /// exactly 16 bytes long before being base64-encoded.
-  @_s.JsonKey(name: 'KeyMd5')
-  final String keyMd5;
+  final String? keyMd5;
 
   /// The specific server-side encryption mode that you want Elastic Transcoder to
   /// use when decrypting your input files or encrypting your output files.
@@ -2724,8 +2727,7 @@ class Encryption {
   /// your encryption keys. If you lose them, you won't be able to unencrypt your
   /// data.
   /// </important>
-  @_s.JsonKey(name: 'Mode')
-  final String mode;
+  final String? mode;
 
   Encryption({
     this.initializationVector,
@@ -2733,19 +2735,33 @@ class Encryption {
     this.keyMd5,
     this.mode,
   });
-  factory Encryption.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionToJson(this);
+  factory Encryption.fromJson(Map<String, dynamic> json) {
+    return Encryption(
+      initializationVector: json['InitializationVector'] as String?,
+      key: json['Key'] as String?,
+      keyMd5: json['KeyMd5'] as String?,
+      mode: json['Mode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initializationVector = this.initializationVector;
+    final key = this.key;
+    final keyMd5 = this.keyMd5;
+    final mode = this.mode;
+    return {
+      if (initializationVector != null)
+        'InitializationVector': initializationVector,
+      if (key != null) 'Key': key,
+      if (keyMd5 != null) 'KeyMd5': keyMd5,
+      if (mode != null) 'Mode': mode,
+    };
+  }
 }
 
 /// The HLS content protection settings, if any, that you want Elastic
 /// Transcoder to apply to your output files.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HlsContentProtection {
   /// If Elastic Transcoder is generating your key for you, you must leave this
   /// field blank.
@@ -2754,8 +2770,7 @@ class HlsContentProtection {
   /// every encryption operation, that you want Elastic Transcoder to use to
   /// encrypt your output files. The initialization vector must be base64-encoded,
   /// and it must be exactly 16 bytes before being base64-encoded.
-  @_s.JsonKey(name: 'InitializationVector')
-  final String initializationVector;
+  final String? initializationVector;
 
   /// If you want Elastic Transcoder to generate a key for you, leave this field
   /// blank.
@@ -2765,8 +2780,7 @@ class HlsContentProtection {
   /// lengths before being base64-encoded:
   ///
   /// <code>128</code>, <code>192</code>, or <code>256</code>.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// If Elastic Transcoder is generating your key for you, you must leave this
   /// field blank.
@@ -2776,29 +2790,25 @@ class HlsContentProtection {
   /// to make sure your key was not corrupted in transit. The key MD5 must be
   /// base64-encoded, and it must be exactly 16 bytes before being base64-
   /// encoded.
-  @_s.JsonKey(name: 'KeyMd5')
-  final String keyMd5;
+  final String? keyMd5;
 
   /// Specify whether you want Elastic Transcoder to write your HLS license key to
   /// an Amazon S3 bucket. If you choose <code>WithVariantPlaylists</code>,
   /// <code>LicenseAcquisitionUrl</code> must be left blank and Elastic Transcoder
   /// writes your data key into the same bucket as the associated playlist.
-  @_s.JsonKey(name: 'KeyStoragePolicy')
-  final String keyStoragePolicy;
+  final String? keyStoragePolicy;
 
   /// The location of the license key required to decrypt your HLS playlist. The
   /// URL must be an absolute path, and is referenced in the URI attribute of the
   /// EXT-X-KEY metadata tag in the playlist file.
-  @_s.JsonKey(name: 'LicenseAcquisitionUrl')
-  final String licenseAcquisitionUrl;
+  final String? licenseAcquisitionUrl;
 
   /// The content protection method for your output. The only valid value is:
   /// <code>aes-128</code>.
   ///
   /// This value is written into the method attribute of the
   /// <code>EXT-X-KEY</code> metadata tag in the output playlist.
-  @_s.JsonKey(name: 'Method')
-  final String method;
+  final String? method;
 
   HlsContentProtection({
     this.initializationVector,
@@ -2808,24 +2818,44 @@ class HlsContentProtection {
     this.licenseAcquisitionUrl,
     this.method,
   });
-  factory HlsContentProtection.fromJson(Map<String, dynamic> json) =>
-      _$HlsContentProtectionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HlsContentProtectionToJson(this);
+  factory HlsContentProtection.fromJson(Map<String, dynamic> json) {
+    return HlsContentProtection(
+      initializationVector: json['InitializationVector'] as String?,
+      key: json['Key'] as String?,
+      keyMd5: json['KeyMd5'] as String?,
+      keyStoragePolicy: json['KeyStoragePolicy'] as String?,
+      licenseAcquisitionUrl: json['LicenseAcquisitionUrl'] as String?,
+      method: json['Method'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initializationVector = this.initializationVector;
+    final key = this.key;
+    final keyMd5 = this.keyMd5;
+    final keyStoragePolicy = this.keyStoragePolicy;
+    final licenseAcquisitionUrl = this.licenseAcquisitionUrl;
+    final method = this.method;
+    return {
+      if (initializationVector != null)
+        'InitializationVector': initializationVector,
+      if (key != null) 'Key': key,
+      if (keyMd5 != null) 'KeyMd5': keyMd5,
+      if (keyStoragePolicy != null) 'KeyStoragePolicy': keyStoragePolicy,
+      if (licenseAcquisitionUrl != null)
+        'LicenseAcquisitionUrl': licenseAcquisitionUrl,
+      if (method != null) 'Method': method,
+    };
+  }
 }
 
 /// The captions to be created, if any.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputCaptions {
   /// Source files for the input sidecar captions used during the transcoding
   /// process. To omit all sidecar captions, leave <code>CaptionSources</code>
   /// blank.
-  @_s.JsonKey(name: 'CaptionSources')
-  final List<CaptionSource> captionSources;
+  final List<CaptionSource>? captionSources;
 
   /// A policy that determines how Elastic Transcoder handles the existence of
   /// multiple captions.
@@ -2851,46 +2881,51 @@ class InputCaptions {
   /// </li>
   /// </ul>
   /// <code>MergePolicy</code> cannot be null.
-  @_s.JsonKey(name: 'MergePolicy')
-  final String mergePolicy;
+  final String? mergePolicy;
 
   InputCaptions({
     this.captionSources,
     this.mergePolicy,
   });
-  factory InputCaptions.fromJson(Map<String, dynamic> json) =>
-      _$InputCaptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InputCaptionsToJson(this);
+  factory InputCaptions.fromJson(Map<String, dynamic> json) {
+    return InputCaptions(
+      captionSources: (json['CaptionSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => CaptionSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mergePolicy: json['MergePolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final captionSources = this.captionSources;
+    final mergePolicy = this.mergePolicy;
+    return {
+      if (captionSources != null) 'CaptionSources': captionSources,
+      if (mergePolicy != null) 'MergePolicy': mergePolicy,
+    };
+  }
 }
 
 /// A section of the response body that provides information about the job that
 /// is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Job {
   /// The Amazon Resource Name (ARN) for the job.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The identifier that Elastic Transcoder assigned to the job. You use this
   /// value to get settings for the job or to delete the job.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// A section of the request or response body that provides information about
   /// the file that is being transcoded.
-  @_s.JsonKey(name: 'Input')
-  final JobInput input;
+  final JobInput? input;
 
   /// Information about the files that you're transcoding. If you specified
   /// multiple files for this job, Elastic Transcoder stitches the files together
   /// to make one output.
-  @_s.JsonKey(name: 'Inputs')
-  final List<JobInput> inputs;
+  final List<JobInput>? inputs;
 
   /// If you specified one output for a job, information about that output. If you
   /// specified multiple outputs for a job, the Output object lists information
@@ -2901,15 +2936,13 @@ class Job {
   /// </important>
   /// A section of the request or response body that provides information about
   /// the transcoded (target) file.
-  @_s.JsonKey(name: 'Output')
-  final JobOutput output;
+  final JobOutput? output;
 
   /// The value, if any, that you want Elastic Transcoder to prepend to the names
   /// of all files that this job creates, including output files, thumbnails, and
   /// playlists. We recommend that you add a / or some other delimiter to the end
   /// of the <code>OutputKeyPrefix</code>.
-  @_s.JsonKey(name: 'OutputKeyPrefix')
-  final String outputKeyPrefix;
+  final String? outputKeyPrefix;
 
   /// Information about the output files. We recommend that you use the
   /// <code>Outputs</code> syntax for all jobs, even when you want Elastic
@@ -2919,15 +2952,13 @@ class Job {
   ///
   /// If you specify more than one output for a job, Elastic Transcoder creates
   /// the files for each output in the order in which you specify them in the job.
-  @_s.JsonKey(name: 'Outputs')
-  final List<JobOutput> outputs;
+  final List<JobOutput>? outputs;
 
   /// The <code>Id</code> of the pipeline that you want Elastic Transcoder to use
   /// for transcoding. The pipeline determines several settings, including the
   /// Amazon S3 bucket from which Elastic Transcoder gets the files to transcode
   /// and the bucket into which Elastic Transcoder puts the transcoded files.
-  @_s.JsonKey(name: 'PipelineId')
-  final String pipelineId;
+  final String? pipelineId;
 
   /// <important>
   /// Outputs in Fragmented MP4 or MPEG-TS format only.
@@ -2938,17 +2969,14 @@ class Job {
   /// you want Elastic Transcoder to create.
   ///
   /// The maximum number of master playlists in a job is 30.
-  @_s.JsonKey(name: 'Playlists')
-  final List<Playlist> playlists;
+  final List<Playlist>? playlists;
 
   /// The status of the job: <code>Submitted</code>, <code>Progressing</code>,
   /// <code>Complete</code>, <code>Canceled</code>, or <code>Error</code>.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// Details about the timing of a job.
-  @_s.JsonKey(name: 'Timing')
-  final Timing timing;
+  final Timing? timing;
 
   /// User-defined metadata that you want to associate with an Elastic Transcoder
   /// job. You specify metadata in <code>key/value</code> pairs, and you can add
@@ -2973,8 +3001,7 @@ class Job {
   /// The following symbols: <code>_.:/=+-%@</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'UserMetadata')
-  final Map<String, String> userMetadata;
+  final Map<String, String>? userMetadata;
 
   Job({
     this.arn,
@@ -2990,21 +3017,76 @@ class Job {
     this.timing,
     this.userMetadata,
   });
-  factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
+
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      input: json['Input'] != null
+          ? JobInput.fromJson(json['Input'] as Map<String, dynamic>)
+          : null,
+      inputs: (json['Inputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobInput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      output: json['Output'] != null
+          ? JobOutput.fromJson(json['Output'] as Map<String, dynamic>)
+          : null,
+      outputKeyPrefix: json['OutputKeyPrefix'] as String?,
+      outputs: (json['Outputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobOutput.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pipelineId: json['PipelineId'] as String?,
+      playlists: (json['Playlists'] as List?)
+          ?.whereNotNull()
+          .map((e) => Playlist.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['Status'] as String?,
+      timing: json['Timing'] != null
+          ? Timing.fromJson(json['Timing'] as Map<String, dynamic>)
+          : null,
+      userMetadata: (json['UserMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final input = this.input;
+    final inputs = this.inputs;
+    final output = this.output;
+    final outputKeyPrefix = this.outputKeyPrefix;
+    final outputs = this.outputs;
+    final pipelineId = this.pipelineId;
+    final playlists = this.playlists;
+    final status = this.status;
+    final timing = this.timing;
+    final userMetadata = this.userMetadata;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (input != null) 'Input': input,
+      if (inputs != null) 'Inputs': inputs,
+      if (output != null) 'Output': output,
+      if (outputKeyPrefix != null) 'OutputKeyPrefix': outputKeyPrefix,
+      if (outputs != null) 'Outputs': outputs,
+      if (pipelineId != null) 'PipelineId': pipelineId,
+      if (playlists != null) 'Playlists': playlists,
+      if (status != null) 'Status': status,
+      if (timing != null) 'Timing': timing,
+      if (userMetadata != null) 'UserMetadata': userMetadata,
+    };
+  }
 }
 
 /// The .jpg or .png file associated with an audio file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobAlbumArt {
   /// The file to be used as album art. There can be multiple artworks associated
   /// with an audio file, to a maximum of 20. Valid formats are <code>.jpg</code>
   /// and <code>.png</code>
-  @_s.JsonKey(name: 'Artwork')
-  final List<Artwork> artwork;
+  final List<Artwork>? artwork;
 
   /// A policy that determines how Elastic Transcoder handles the existence of
   /// multiple album artwork files.
@@ -3028,25 +3110,34 @@ class JobAlbumArt {
   /// contain artwork, Elastic Transcoder uses the specified album art file.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MergePolicy')
-  final String mergePolicy;
+  final String? mergePolicy;
 
   JobAlbumArt({
     this.artwork,
     this.mergePolicy,
   });
-  factory JobAlbumArt.fromJson(Map<String, dynamic> json) =>
-      _$JobAlbumArtFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JobAlbumArtToJson(this);
+  factory JobAlbumArt.fromJson(Map<String, dynamic> json) {
+    return JobAlbumArt(
+      artwork: (json['Artwork'] as List?)
+          ?.whereNotNull()
+          .map((e) => Artwork.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mergePolicy: json['MergePolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artwork = this.artwork;
+    final mergePolicy = this.mergePolicy;
+    return {
+      if (artwork != null) 'Artwork': artwork,
+      if (mergePolicy != null) 'MergePolicy': mergePolicy,
+    };
+  }
 }
 
 /// Information about the file that you're transcoding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobInput {
   /// The aspect ratio of the input file. If you want Elastic Transcoder to
   /// automatically detect the aspect ratio of the input file, specify
@@ -3057,8 +3148,7 @@ class JobInput {
   ///
   /// If you specify a value other than <code>auto</code>, Elastic Transcoder
   /// disables automatic detection of the aspect ratio.
-  @_s.JsonKey(name: 'AspectRatio')
-  final String aspectRatio;
+  final String? aspectRatio;
 
   /// The container type for the input file. If you want Elastic Transcoder to
   /// automatically detect the container type of the input file, specify
@@ -3070,18 +3160,15 @@ class JobInput {
   /// <code>mov</code>, <code>mp3</code>, <code>mp4</code>, <code>mpeg</code>,
   /// <code>mpeg-ps</code>, <code>mpeg-ts</code>, <code>mxf</code>,
   /// <code>ogg</code>, <code>vob</code>, <code>wav</code>, <code>webm</code>
-  @_s.JsonKey(name: 'Container')
-  final String container;
+  final String? container;
 
   /// The detected properties of the input file.
-  @_s.JsonKey(name: 'DetectedProperties')
-  final DetectedProperties detectedProperties;
+  final DetectedProperties? detectedProperties;
 
   /// The encryption settings, if any, that are used for decrypting your input
   /// files. If your input file is encrypted, you must specify the mode that
   /// Elastic Transcoder uses to decrypt your file.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The frame rate of the input file. If you want Elastic Transcoder to
   /// automatically detect the frame rate of the input file, specify
@@ -3093,8 +3180,7 @@ class JobInput {
   ///
   /// If you specify a value other than <code>auto</code>, Elastic Transcoder
   /// disables automatic detection of the frame rate.
-  @_s.JsonKey(name: 'FrameRate')
-  final String frameRate;
+  final String? frameRate;
 
   /// You can configure Elastic Transcoder to transcode captions, or subtitles,
   /// from one format to another. All captions must be in UTF-8. Elastic
@@ -3146,8 +3232,7 @@ class JobInput {
   ///
   /// For more information on sidecar files, see the Extensible Metadata Platform
   /// and Sidecar file Wikipedia pages.
-  @_s.JsonKey(name: 'InputCaptions')
-  final InputCaptions inputCaptions;
+  final InputCaptions? inputCaptions;
 
   /// Whether the input file is interlaced. If you want Elastic Transcoder to
   /// automatically detect whether the input file is interlaced, specify
@@ -3158,8 +3243,7 @@ class JobInput {
   ///
   /// If you specify a value other than <code>auto</code>, Elastic Transcoder
   /// disables automatic detection of interlacing.
-  @_s.JsonKey(name: 'Interlaced')
-  final String interlaced;
+  final String? interlaced;
 
   /// The name of the file to transcode. Elsewhere in the body of the JSON block
   /// is the the ID of the pipeline to use for processing the job. The
@@ -3169,17 +3253,14 @@ class JobInput {
   /// If the file name includes a prefix, such as
   /// <code>cooking/lasagna.mpg</code>, include the prefix in the key. If the file
   /// isn't in the specified bucket, Elastic Transcoder returns an error.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// This value must be <code>auto</code>, which causes Elastic Transcoder to
   /// automatically detect the resolution of the input file.
-  @_s.JsonKey(name: 'Resolution')
-  final String resolution;
+  final String? resolution;
 
   /// Settings for clipping an input. Each input can have different clip settings.
-  @_s.JsonKey(name: 'TimeSpan')
-  final TimeSpan timeSpan;
+  final TimeSpan? timeSpan;
 
   JobInput({
     this.aspectRatio,
@@ -3193,10 +3274,56 @@ class JobInput {
     this.resolution,
     this.timeSpan,
   });
-  factory JobInput.fromJson(Map<String, dynamic> json) =>
-      _$JobInputFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JobInputToJson(this);
+  factory JobInput.fromJson(Map<String, dynamic> json) {
+    return JobInput(
+      aspectRatio: json['AspectRatio'] as String?,
+      container: json['Container'] as String?,
+      detectedProperties: json['DetectedProperties'] != null
+          ? DetectedProperties.fromJson(
+              json['DetectedProperties'] as Map<String, dynamic>)
+          : null,
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      frameRate: json['FrameRate'] as String?,
+      inputCaptions: json['InputCaptions'] != null
+          ? InputCaptions.fromJson(
+              json['InputCaptions'] as Map<String, dynamic>)
+          : null,
+      interlaced: json['Interlaced'] as String?,
+      key: json['Key'] as String?,
+      resolution: json['Resolution'] as String?,
+      timeSpan: json['TimeSpan'] != null
+          ? TimeSpan.fromJson(json['TimeSpan'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aspectRatio = this.aspectRatio;
+    final container = this.container;
+    final detectedProperties = this.detectedProperties;
+    final encryption = this.encryption;
+    final frameRate = this.frameRate;
+    final inputCaptions = this.inputCaptions;
+    final interlaced = this.interlaced;
+    final key = this.key;
+    final resolution = this.resolution;
+    final timeSpan = this.timeSpan;
+    return {
+      if (aspectRatio != null) 'AspectRatio': aspectRatio,
+      if (container != null) 'Container': container,
+      if (detectedProperties != null) 'DetectedProperties': detectedProperties,
+      if (encryption != null) 'Encryption': encryption,
+      if (frameRate != null) 'FrameRate': frameRate,
+      if (inputCaptions != null) 'InputCaptions': inputCaptions,
+      if (interlaced != null) 'Interlaced': interlaced,
+      if (key != null) 'Key': key,
+      if (resolution != null) 'Resolution': resolution,
+      if (timeSpan != null) 'TimeSpan': timeSpan,
+    };
+  }
 }
 
 /// <important>
@@ -3206,23 +3333,16 @@ class JobInput {
 /// specified multiple outputs for a job, the <code>Output</code> object lists
 /// information about the first output. This duplicates the information that is
 /// listed for the first output in the <code>Outputs</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobOutput {
   /// The album art to be associated with the output file, if any.
-  @_s.JsonKey(name: 'AlbumArt')
-  final JobAlbumArt albumArt;
+  final JobAlbumArt? albumArt;
 
   /// If Elastic Transcoder used a preset with a
   /// <code>ColorSpaceConversionMode</code> to transcode the output file, the
   /// <code>AppliedColorSpaceConversion</code> parameter shows the conversion
   /// used. If no <code>ColorSpaceConversionMode</code> was defined in the preset,
   /// this parameter is not be included in the job response.
-  @_s.JsonKey(name: 'AppliedColorSpaceConversion')
-  final String appliedColorSpaceConversion;
+  final String? appliedColorSpaceConversion;
 
   /// You can configure Elastic Transcoder to transcode captions, or subtitles,
   /// from one format to another. All captions must be in UTF-8. Elastic
@@ -3274,54 +3394,44 @@ class JobOutput {
   ///
   /// For more information on sidecar files, see the Extensible Metadata Platform
   /// and Sidecar file Wikipedia pages.
-  @_s.JsonKey(name: 'Captions')
-  final Captions captions;
+  final Captions? captions;
 
   /// You can create an output file that contains an excerpt from the input file.
   /// This excerpt, called a clip, can come from the beginning, middle, or end of
   /// the file. The Composition object contains settings for the clips that make
   /// up an output file. For the current release, you can only specify settings
   /// for a single clip per output file. The Composition object cannot be null.
-  @_s.JsonKey(name: 'Composition')
-  final List<Clip> composition;
+  final List<Clip>? composition;
 
   /// Duration of the output file, in seconds.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// Duration of the output file, in milliseconds.
-  @_s.JsonKey(name: 'DurationMillis')
-  final int durationMillis;
+  final int? durationMillis;
 
   /// The encryption settings, if any, that you want Elastic Transcoder to apply
   /// to your output files. If you choose to use encryption, you must specify a
   /// mode to use. If you choose not to use encryption, Elastic Transcoder writes
   /// an unencrypted file to your Amazon S3 bucket.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// File size of the output file, in bytes.
-  @_s.JsonKey(name: 'FileSize')
-  final int fileSize;
+  final int? fileSize;
 
   /// Frame rate of the output file, in frames per second.
-  @_s.JsonKey(name: 'FrameRate')
-  final String frameRate;
+  final String? frameRate;
 
   /// Height of the output file, in pixels.
-  @_s.JsonKey(name: 'Height')
-  final int height;
+  final int? height;
 
   /// A sequential counter, starting with 1, that identifies an output among the
   /// outputs from the current job. In the Output syntax, this value is always 1.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name to assign to the transcoded file. Elastic Transcoder saves the file
   /// in the Amazon S3 bucket specified by the <code>OutputBucket</code> object in
   /// the pipeline that is specified by the pipeline ID.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the <code>Id</code> object for the preset that you want to use
   /// for this job. The preset determines the audio, video, and thumbnail settings
@@ -3329,8 +3439,7 @@ class JobOutput {
   /// created, specify the preset ID that Elastic Transcoder returned in the
   /// response when you created the preset. You can also use the Elastic
   /// Transcoder system presets, which you can get with <code>ListPresets</code>.
-  @_s.JsonKey(name: 'PresetId')
-  final String presetId;
+  final String? presetId;
 
   /// The number of degrees clockwise by which you want Elastic Transcoder to
   /// rotate the output relative to the input. Enter one of the following values:
@@ -3340,8 +3449,7 @@ class JobOutput {
   ///
   /// The value <code>auto</code> generally works only if the file that you're
   /// transcoding contains rotation metadata.
-  @_s.JsonKey(name: 'Rotate')
-  final String rotate;
+  final String? rotate;
 
   /// <important>
   /// (Outputs in Fragmented MP4 or MPEG-TS format only.
@@ -3365,8 +3473,7 @@ class JobOutput {
   /// <code>HLS</code> output that you specify in OutputKeys. To add an output to
   /// the master playlist for this job, include it in the <code>OutputKeys</code>
   /// of the associated playlist.
-  @_s.JsonKey(name: 'SegmentDuration')
-  final String segmentDuration;
+  final String? segmentDuration;
 
   /// The status of one output in a job. If you specified only one output for the
   /// job, <code>Outputs:Status</code> is always the same as
@@ -3400,17 +3507,14 @@ class JobOutput {
   /// The value of <code>Status</code> is one of the following:
   /// <code>Submitted</code>, <code>Progressing</code>, <code>Complete</code>,
   /// <code>Canceled</code>, or <code>Error</code>.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// Information that further explains <code>Status</code>.
-  @_s.JsonKey(name: 'StatusDetail')
-  final String statusDetail;
+  final String? statusDetail;
 
   /// The encryption settings, if any, that you want Elastic Transcoder to apply
   /// to your thumbnail.
-  @_s.JsonKey(name: 'ThumbnailEncryption')
-  final Encryption thumbnailEncryption;
+  final Encryption? thumbnailEncryption;
 
   /// Whether you want Elastic Transcoder to create thumbnails for your videos
   /// and, if so, how you want Elastic Transcoder to name the files.
@@ -3450,8 +3554,7 @@ class JobOutput {
   /// in the format (.jpg or .png) that appears in the preset that you specified
   /// in the <code>PresetID</code> value of <code>CreateJobOutput</code>. Elastic
   /// Transcoder also appends the applicable file name extension.
-  @_s.JsonKey(name: 'ThumbnailPattern')
-  final String thumbnailPattern;
+  final String? thumbnailPattern;
 
   /// Information about the watermarks that you want Elastic Transcoder to add to
   /// the video during transcoding. You can specify up to four watermarks for each
@@ -3465,12 +3568,10 @@ class JobOutput {
   /// place all watermarks in the same location, the second watermark that you add
   /// covers the first one, the third one covers the second, and the fourth one
   /// covers the third.
-  @_s.JsonKey(name: 'Watermarks')
-  final List<JobWatermark> watermarks;
+  final List<JobWatermark>? watermarks;
 
   /// Specifies the width of the output file in pixels.
-  @_s.JsonKey(name: 'Width')
-  final int width;
+  final int? width;
 
   JobOutput({
     this.albumArt,
@@ -3495,22 +3596,105 @@ class JobOutput {
     this.watermarks,
     this.width,
   });
-  factory JobOutput.fromJson(Map<String, dynamic> json) =>
-      _$JobOutputFromJson(json);
+
+  factory JobOutput.fromJson(Map<String, dynamic> json) {
+    return JobOutput(
+      albumArt: json['AlbumArt'] != null
+          ? JobAlbumArt.fromJson(json['AlbumArt'] as Map<String, dynamic>)
+          : null,
+      appliedColorSpaceConversion:
+          json['AppliedColorSpaceConversion'] as String?,
+      captions: json['Captions'] != null
+          ? Captions.fromJson(json['Captions'] as Map<String, dynamic>)
+          : null,
+      composition: (json['Composition'] as List?)
+          ?.whereNotNull()
+          .map((e) => Clip.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      duration: json['Duration'] as int?,
+      durationMillis: json['DurationMillis'] as int?,
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      fileSize: json['FileSize'] as int?,
+      frameRate: json['FrameRate'] as String?,
+      height: json['Height'] as int?,
+      id: json['Id'] as String?,
+      key: json['Key'] as String?,
+      presetId: json['PresetId'] as String?,
+      rotate: json['Rotate'] as String?,
+      segmentDuration: json['SegmentDuration'] as String?,
+      status: json['Status'] as String?,
+      statusDetail: json['StatusDetail'] as String?,
+      thumbnailEncryption: json['ThumbnailEncryption'] != null
+          ? Encryption.fromJson(
+              json['ThumbnailEncryption'] as Map<String, dynamic>)
+          : null,
+      thumbnailPattern: json['ThumbnailPattern'] as String?,
+      watermarks: (json['Watermarks'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobWatermark.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      width: json['Width'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final albumArt = this.albumArt;
+    final appliedColorSpaceConversion = this.appliedColorSpaceConversion;
+    final captions = this.captions;
+    final composition = this.composition;
+    final duration = this.duration;
+    final durationMillis = this.durationMillis;
+    final encryption = this.encryption;
+    final fileSize = this.fileSize;
+    final frameRate = this.frameRate;
+    final height = this.height;
+    final id = this.id;
+    final key = this.key;
+    final presetId = this.presetId;
+    final rotate = this.rotate;
+    final segmentDuration = this.segmentDuration;
+    final status = this.status;
+    final statusDetail = this.statusDetail;
+    final thumbnailEncryption = this.thumbnailEncryption;
+    final thumbnailPattern = this.thumbnailPattern;
+    final watermarks = this.watermarks;
+    final width = this.width;
+    return {
+      if (albumArt != null) 'AlbumArt': albumArt,
+      if (appliedColorSpaceConversion != null)
+        'AppliedColorSpaceConversion': appliedColorSpaceConversion,
+      if (captions != null) 'Captions': captions,
+      if (composition != null) 'Composition': composition,
+      if (duration != null) 'Duration': duration,
+      if (durationMillis != null) 'DurationMillis': durationMillis,
+      if (encryption != null) 'Encryption': encryption,
+      if (fileSize != null) 'FileSize': fileSize,
+      if (frameRate != null) 'FrameRate': frameRate,
+      if (height != null) 'Height': height,
+      if (id != null) 'Id': id,
+      if (key != null) 'Key': key,
+      if (presetId != null) 'PresetId': presetId,
+      if (rotate != null) 'Rotate': rotate,
+      if (segmentDuration != null) 'SegmentDuration': segmentDuration,
+      if (status != null) 'Status': status,
+      if (statusDetail != null) 'StatusDetail': statusDetail,
+      if (thumbnailEncryption != null)
+        'ThumbnailEncryption': thumbnailEncryption,
+      if (thumbnailPattern != null) 'ThumbnailPattern': thumbnailPattern,
+      if (watermarks != null) 'Watermarks': watermarks,
+      if (width != null) 'Width': width,
+    };
+  }
 }
 
 /// Watermarks can be in .png or .jpg format. If you want to display a watermark
 /// that is not rectangular, use the .png format, which supports transparency.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobWatermark {
   /// The encryption settings, if any, that you want Elastic Transcoder to apply
   /// to your watermarks.
-  @_s.JsonKey(name: 'Encryption')
-  final Encryption encryption;
+  final Encryption? encryption;
 
   /// The name of the .png or .jpg file that you want to use for the watermark. To
   /// determine which Amazon S3 bucket contains the specified file, Elastic
@@ -3520,129 +3704,184 @@ class JobWatermark {
   /// If the file name includes a prefix, for example, <b>logos/128x64.png</b>,
   /// include the prefix in the key. If the file isn't in the specified bucket,
   /// Elastic Transcoder returns an error.
-  @_s.JsonKey(name: 'InputKey')
-  final String inputKey;
+  final String? inputKey;
 
   /// The ID of the watermark settings that Elastic Transcoder uses to add
   /// watermarks to the video during transcoding. The settings are in the preset
   /// specified by Preset for the current output. In that preset, the value of
   /// Watermarks Id tells Elastic Transcoder which settings to use.
-  @_s.JsonKey(name: 'PresetWatermarkId')
-  final String presetWatermarkId;
+  final String? presetWatermarkId;
 
   JobWatermark({
     this.encryption,
     this.inputKey,
     this.presetWatermarkId,
   });
-  factory JobWatermark.fromJson(Map<String, dynamic> json) =>
-      _$JobWatermarkFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JobWatermarkToJson(this);
+  factory JobWatermark.fromJson(Map<String, dynamic> json) {
+    return JobWatermark(
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      inputKey: json['InputKey'] as String?,
+      presetWatermarkId: json['PresetWatermarkId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryption = this.encryption;
+    final inputKey = this.inputKey;
+    final presetWatermarkId = this.presetWatermarkId;
+    return {
+      if (encryption != null) 'Encryption': encryption,
+      if (inputKey != null) 'InputKey': inputKey,
+      if (presetWatermarkId != null) 'PresetWatermarkId': presetWatermarkId,
+    };
+  }
 }
 
 /// The <code>ListJobsByPipelineResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsByPipelineResponse {
   /// An array of <code>Job</code> objects that are in the specified pipeline.
-  @_s.JsonKey(name: 'Jobs')
-  final List<Job> jobs;
+  final List<Job>? jobs;
 
   /// A value that you use to access the second and subsequent pages of results,
   /// if any. When the jobs in the specified pipeline fit on one page or when
   /// you've reached the last page of results, the value of
   /// <code>NextPageToken</code> is <code>null</code>.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   ListJobsByPipelineResponse({
     this.jobs,
     this.nextPageToken,
   });
-  factory ListJobsByPipelineResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsByPipelineResponseFromJson(json);
+
+  factory ListJobsByPipelineResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobsByPipelineResponse(
+      jobs: (json['Jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextPageToken = this.nextPageToken;
+    return {
+      if (jobs != null) 'Jobs': jobs,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
 /// The <code>ListJobsByStatusResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsByStatusResponse {
   /// An array of <code>Job</code> objects that have the specified status.
-  @_s.JsonKey(name: 'Jobs')
-  final List<Job> jobs;
+  final List<Job>? jobs;
 
   /// A value that you use to access the second and subsequent pages of results,
   /// if any. When the jobs in the specified pipeline fit on one page or when
   /// you've reached the last page of results, the value of
   /// <code>NextPageToken</code> is <code>null</code>.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   ListJobsByStatusResponse({
     this.jobs,
     this.nextPageToken,
   });
-  factory ListJobsByStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsByStatusResponseFromJson(json);
+
+  factory ListJobsByStatusResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobsByStatusResponse(
+      jobs: (json['Jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Job.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextPageToken = this.nextPageToken;
+    return {
+      if (jobs != null) 'Jobs': jobs,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
 /// A list of the pipelines associated with the current AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPipelinesResponse {
   /// A value that you use to access the second and subsequent pages of results,
   /// if any. When the pipelines fit on one page or when you've reached the last
   /// page of results, the value of <code>NextPageToken</code> is
   /// <code>null</code>.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// An array of <code>Pipeline</code> objects.
-  @_s.JsonKey(name: 'Pipelines')
-  final List<Pipeline> pipelines;
+  final List<Pipeline>? pipelines;
 
   ListPipelinesResponse({
     this.nextPageToken,
     this.pipelines,
   });
-  factory ListPipelinesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPipelinesResponseFromJson(json);
+
+  factory ListPipelinesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPipelinesResponse(
+      nextPageToken: json['NextPageToken'] as String?,
+      pipelines: (json['Pipelines'] as List?)
+          ?.whereNotNull()
+          .map((e) => Pipeline.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final pipelines = this.pipelines;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (pipelines != null) 'Pipelines': pipelines,
+    };
+  }
 }
 
 /// The <code>ListPresetsResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPresetsResponse {
   /// A value that you use to access the second and subsequent pages of results,
   /// if any. When the presets fit on one page or when you've reached the last
   /// page of results, the value of <code>NextPageToken</code> is
   /// <code>null</code>.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// An array of <code>Preset</code> objects.
-  @_s.JsonKey(name: 'Presets')
-  final List<Preset> presets;
+  final List<Preset>? presets;
 
   ListPresetsResponse({
     this.nextPageToken,
     this.presets,
   });
-  factory ListPresetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPresetsResponseFromJson(json);
+
+  factory ListPresetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPresetsResponse(
+      nextPageToken: json['NextPageToken'] as String?,
+      presets: (json['Presets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Preset.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextPageToken = this.nextPageToken;
+    final presets = this.presets;
+    return {
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (presets != null) 'Presets': presets,
+    };
+  }
 }
 
 /// The Amazon Simple Notification Service (Amazon SNS) topic or topics to
@@ -3651,31 +3890,22 @@ class ListPresetsResponse {
 /// To receive notifications, you must also subscribe to the new topic in the
 /// Amazon SNS console.
 /// </important>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Notifications {
   /// The Amazon SNS topic that you want to notify when Elastic Transcoder has
   /// finished processing the job.
-  @_s.JsonKey(name: 'Completed')
-  final String completed;
+  final String? completed;
 
   /// The Amazon SNS topic that you want to notify when Elastic Transcoder
   /// encounters an error condition.
-  @_s.JsonKey(name: 'Error')
-  final String error;
+  final String? error;
 
   /// The Amazon Simple Notification Service (Amazon SNS) topic that you want to
   /// notify when Elastic Transcoder has started to process the job.
-  @_s.JsonKey(name: 'Progressing')
-  final String progressing;
+  final String? progressing;
 
   /// The Amazon SNS topic that you want to notify when Elastic Transcoder
   /// encounters a warning condition.
-  @_s.JsonKey(name: 'Warning')
-  final String warning;
+  final String? warning;
 
   Notifications({
     this.completed,
@@ -3683,18 +3913,31 @@ class Notifications {
     this.progressing,
     this.warning,
   });
-  factory Notifications.fromJson(Map<String, dynamic> json) =>
-      _$NotificationsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotificationsToJson(this);
+  factory Notifications.fromJson(Map<String, dynamic> json) {
+    return Notifications(
+      completed: json['Completed'] as String?,
+      error: json['Error'] as String?,
+      progressing: json['Progressing'] as String?,
+      warning: json['Warning'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completed = this.completed;
+    final error = this.error;
+    final progressing = this.progressing;
+    final warning = this.warning;
+    return {
+      if (completed != null) 'Completed': completed,
+      if (error != null) 'Error': error,
+      if (progressing != null) 'Progressing': progressing,
+      if (warning != null) 'Warning': warning,
+    };
+  }
 }
 
 /// The <code>Permission</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Permission {
   /// The permission that you want to give to the AWS user that is listed in
   /// Grantee. Valid values include:
@@ -3718,16 +3961,14 @@ class Permission {
   /// bucket.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Access')
-  final List<String> access;
+  final List<String>? access;
 
   /// The AWS user or group that you want to have access to transcoded files and
   /// playlists. To identify the user or group, you can specify the canonical user
   /// ID for an AWS account, an origin access identity for a CloudFront
   /// distribution, the registered email address of an AWS account, or a
   /// predefined Amazon S3 group.
-  @_s.JsonKey(name: 'Grantee')
-  final String grantee;
+  final String? grantee;
 
   /// The type of value that appears in the Grantee object:
   ///
@@ -3747,30 +3988,41 @@ class Permission {
   /// <code>LogDelivery</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'GranteeType')
-  final String granteeType;
+  final String? granteeType;
 
   Permission({
     this.access,
     this.grantee,
     this.granteeType,
   });
-  factory Permission.fromJson(Map<String, dynamic> json) =>
-      _$PermissionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PermissionToJson(this);
+  factory Permission.fromJson(Map<String, dynamic> json) {
+    return Permission(
+      access: (json['Access'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      grantee: json['Grantee'] as String?,
+      granteeType: json['GranteeType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final access = this.access;
+    final grantee = this.grantee;
+    final granteeType = this.granteeType;
+    return {
+      if (access != null) 'Access': access,
+      if (grantee != null) 'Grantee': grantee,
+      if (granteeType != null) 'GranteeType': granteeType,
+    };
+  }
 }
 
 /// The pipeline (queue) that is used to manage jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Pipeline {
   /// The Amazon Resource Name (ARN) for the pipeline.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The AWS Key Management Service (AWS KMS) key that you want to use with this
   /// pipeline.
@@ -3782,8 +4034,7 @@ class Pipeline {
   /// non-default AWS-KMS key, or if you are using an <code>Encryption:Mode</code>
   /// of <code>aes-cbc-pkcs7</code>, <code>aes-ctr</code>, or
   /// <code>aes-gcm</code>.
-  @_s.JsonKey(name: 'AwsKmsKeyArn')
-  final String awsKmsKeyArn;
+  final String? awsKmsKeyArn;
 
   /// Information about the Amazon S3 bucket in which you want Elastic Transcoder
   /// to save transcoded files and playlists. Either you specify both
@@ -3853,27 +4104,23 @@ class Pipeline {
   /// files and playlists that it stores in your Amazon S3 bucket.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ContentConfig')
-  final PipelineOutputConfig contentConfig;
+  final PipelineOutputConfig? contentConfig;
 
   /// The identifier for the pipeline. You use this value to identify the pipeline
   /// in which you want to perform a variety of operations, such as creating a job
   /// or a preset.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The Amazon S3 bucket from which Elastic Transcoder gets media files for
   /// transcoding and the graphics files, if any, that you want to use for
   /// watermarks.
-  @_s.JsonKey(name: 'InputBucket')
-  final String inputBucket;
+  final String? inputBucket;
 
   /// The name of the pipeline. We recommend that the name be unique within the
   /// AWS account, but uniqueness is not enforced.
   ///
   /// Constraints: Maximum 40 characters
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Simple Notification Service (Amazon SNS) topic that you want to
   /// notify to report job status.
@@ -3900,19 +4147,16 @@ class Pipeline {
   /// Elastic Transcoder encounters an error condition.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Notifications')
-  final Notifications notifications;
+  final Notifications? notifications;
 
   /// The Amazon S3 bucket in which you want Elastic Transcoder to save transcoded
   /// files, thumbnails, and playlists. Either you specify this value, or you
   /// specify both <code>ContentConfig</code> and <code>ThumbnailConfig</code>.
-  @_s.JsonKey(name: 'OutputBucket')
-  final String outputBucket;
+  final String? outputBucket;
 
   /// The IAM Amazon Resource Name (ARN) for the role that Elastic Transcoder uses
   /// to transcode jobs for this pipeline.
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// The current status of the pipeline:
   ///
@@ -3924,8 +4168,7 @@ class Pipeline {
   /// <code>Paused</code>: The pipeline is not currently processing jobs.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// Information about the Amazon S3 bucket in which you want Elastic Transcoder
   /// to save thumbnail files. Either you specify both <code>ContentConfig</code>
@@ -3996,8 +4239,7 @@ class Pipeline {
   /// S3 bucket.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ThumbnailConfig')
-  final PipelineOutputConfig thumbnailConfig;
+  final PipelineOutputConfig? thumbnailConfig;
 
   Pipeline({
     this.arn,
@@ -4012,16 +4254,61 @@ class Pipeline {
     this.status,
     this.thumbnailConfig,
   });
-  factory Pipeline.fromJson(Map<String, dynamic> json) =>
-      _$PipelineFromJson(json);
+
+  factory Pipeline.fromJson(Map<String, dynamic> json) {
+    return Pipeline(
+      arn: json['Arn'] as String?,
+      awsKmsKeyArn: json['AwsKmsKeyArn'] as String?,
+      contentConfig: json['ContentConfig'] != null
+          ? PipelineOutputConfig.fromJson(
+              json['ContentConfig'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      inputBucket: json['InputBucket'] as String?,
+      name: json['Name'] as String?,
+      notifications: json['Notifications'] != null
+          ? Notifications.fromJson(
+              json['Notifications'] as Map<String, dynamic>)
+          : null,
+      outputBucket: json['OutputBucket'] as String?,
+      role: json['Role'] as String?,
+      status: json['Status'] as String?,
+      thumbnailConfig: json['ThumbnailConfig'] != null
+          ? PipelineOutputConfig.fromJson(
+              json['ThumbnailConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final awsKmsKeyArn = this.awsKmsKeyArn;
+    final contentConfig = this.contentConfig;
+    final id = this.id;
+    final inputBucket = this.inputBucket;
+    final name = this.name;
+    final notifications = this.notifications;
+    final outputBucket = this.outputBucket;
+    final role = this.role;
+    final status = this.status;
+    final thumbnailConfig = this.thumbnailConfig;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (awsKmsKeyArn != null) 'AwsKmsKeyArn': awsKmsKeyArn,
+      if (contentConfig != null) 'ContentConfig': contentConfig,
+      if (id != null) 'Id': id,
+      if (inputBucket != null) 'InputBucket': inputBucket,
+      if (name != null) 'Name': name,
+      if (notifications != null) 'Notifications': notifications,
+      if (outputBucket != null) 'OutputBucket': outputBucket,
+      if (role != null) 'Role': role,
+      if (status != null) 'Status': status,
+      if (thumbnailConfig != null) 'ThumbnailConfig': thumbnailConfig,
+    };
+  }
 }
 
 /// The <code>PipelineOutputConfig</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PipelineOutputConfig {
   /// The Amazon S3 bucket in which you want Elastic Transcoder to save the
   /// transcoded files. Specify this value when all of the following are true:
@@ -4049,8 +4336,7 @@ class PipelineOutputConfig {
   /// files or the permissions the users have, or change the Amazon S3 storage
   /// class, omit OutputBucket and specify values for <code>ContentConfig</code>
   /// and <code>ThumbnailConfig</code> instead.
-  @_s.JsonKey(name: 'Bucket')
-  final String bucket;
+  final String? bucket;
 
   /// Optional. The <code>Permissions</code> object specifies which users and/or
   /// predefined Amazon S3 groups you want to have access to transcoded files and
@@ -4066,24 +4352,40 @@ class PipelineOutputConfig {
   /// over the transcoded files and playlists to the owner of the role specified
   /// by <code>Role</code>, and grants no other permissions to any other user or
   /// group.
-  @_s.JsonKey(name: 'Permissions')
-  final List<Permission> permissions;
+  final List<Permission>? permissions;
 
   /// The Amazon S3 storage class, <code>Standard</code> or
   /// <code>ReducedRedundancy</code>, that you want Elastic Transcoder to assign
   /// to the video files and playlists that it stores in your Amazon S3 bucket.
-  @_s.JsonKey(name: 'StorageClass')
-  final String storageClass;
+  final String? storageClass;
 
   PipelineOutputConfig({
     this.bucket,
     this.permissions,
     this.storageClass,
   });
-  factory PipelineOutputConfig.fromJson(Map<String, dynamic> json) =>
-      _$PipelineOutputConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PipelineOutputConfigToJson(this);
+  factory PipelineOutputConfig.fromJson(Map<String, dynamic> json) {
+    return PipelineOutputConfig(
+      bucket: json['Bucket'] as String?,
+      permissions: (json['Permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      storageClass: json['StorageClass'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final permissions = this.permissions;
+    final storageClass = this.storageClass;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (permissions != null) 'Permissions': permissions,
+      if (storageClass != null) 'StorageClass': storageClass,
+    };
+  }
 }
 
 /// The PlayReady DRM settings, if any, that you want Elastic Transcoder to
@@ -4094,24 +4396,17 @@ class PipelineOutputConfig {
 ///
 /// If you use DRM for an <code>HLSv3</code> playlist, your outputs must have a
 /// master playlist.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PlayReadyDrm {
   /// The type of DRM, if any, that you want Elastic Transcoder to apply to the
   /// output files associated with this playlist.
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// The series of random bits created by a random bit generator, unique for
   /// every encryption operation, that you want Elastic Transcoder to use to
   /// encrypt your files. The initialization vector must be base64-encoded, and it
   /// must be exactly 8 bytes long before being base64-encoded. If no
   /// initialization vector is provided, Elastic Transcoder generates one for you.
-  @_s.JsonKey(name: 'InitializationVector')
-  final String initializationVector;
+  final String? initializationVector;
 
   /// The DRM key for your file, provided by your DRM license provider. The key
   /// must be base64-encoded, and it must be one of the following bit lengths
@@ -4120,8 +4415,7 @@ class PlayReadyDrm {
   /// <code>128</code>, <code>192</code>, or <code>256</code>.
   ///
   /// The key must also be encrypted by using AWS KMS.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The ID for your DRM key, so that your DRM license provider knows which key
   /// to provide.
@@ -4130,15 +4424,13 @@ class PlayReadyDrm {
   /// it to little endian before inserting it into the PlayReady DRM headers. If
   /// you are unsure whether your license server provides your key ID in big or
   /// little endian, check with your DRM provider.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// The MD5 digest of the key used for DRM on your file, and that you want
   /// Elastic Transcoder to use as a checksum to make sure your key was not
   /// corrupted in transit. The key MD5 must be base64-encoded, and it must be
   /// exactly 16 bytes before being base64-encoded.
-  @_s.JsonKey(name: 'KeyMd5')
-  final String keyMd5;
+  final String? keyMd5;
 
   /// The location of the license key required to play DRM content. The URL must
   /// be an absolute path, and is referenced by the PlayReady header. The
@@ -4146,8 +4438,7 @@ class PlayReadyDrm {
   /// manifest for Smooth Streaming outputs, and in the EXT-X-DXDRM and
   /// EXT-XDXDRMINFO metadata tags for HLS playlist outputs. An example URL looks
   /// like this: <code>https://www.example.com/exampleKey/</code>
-  @_s.JsonKey(name: 'LicenseAcquisitionUrl')
-  final String licenseAcquisitionUrl;
+  final String? licenseAcquisitionUrl;
 
   PlayReadyDrm({
     this.format,
@@ -4157,10 +4448,36 @@ class PlayReadyDrm {
     this.keyMd5,
     this.licenseAcquisitionUrl,
   });
-  factory PlayReadyDrm.fromJson(Map<String, dynamic> json) =>
-      _$PlayReadyDrmFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlayReadyDrmToJson(this);
+  factory PlayReadyDrm.fromJson(Map<String, dynamic> json) {
+    return PlayReadyDrm(
+      format: json['Format'] as String?,
+      initializationVector: json['InitializationVector'] as String?,
+      key: json['Key'] as String?,
+      keyId: json['KeyId'] as String?,
+      keyMd5: json['KeyMd5'] as String?,
+      licenseAcquisitionUrl: json['LicenseAcquisitionUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final initializationVector = this.initializationVector;
+    final key = this.key;
+    final keyId = this.keyId;
+    final keyMd5 = this.keyMd5;
+    final licenseAcquisitionUrl = this.licenseAcquisitionUrl;
+    return {
+      if (format != null) 'Format': format,
+      if (initializationVector != null)
+        'InitializationVector': initializationVector,
+      if (key != null) 'Key': key,
+      if (keyId != null) 'KeyId': keyId,
+      if (keyMd5 != null) 'KeyMd5': keyMd5,
+      if (licenseAcquisitionUrl != null)
+        'LicenseAcquisitionUrl': licenseAcquisitionUrl,
+    };
+  }
 }
 
 /// Use Only for Fragmented MP4 or MPEG-TS Outputs. If you specify a preset for
@@ -4169,21 +4486,14 @@ class PlayReadyDrm {
 /// playlists that you want Elastic Transcoder to create. We recommend that you
 /// create only one master playlist per output format. The maximum number of
 /// master playlists in a job is 30.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Playlist {
   /// The format of the output playlist. Valid formats include <code>HLSv3</code>,
   /// <code>HLSv4</code>, and <code>Smooth</code>.
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// The HLS content protection settings, if any, that you want Elastic
   /// Transcoder to apply to the output files associated with this playlist.
-  @_s.JsonKey(name: 'HlsContentProtection')
-  final HlsContentProtection hlsContentProtection;
+  final HlsContentProtection? hlsContentProtection;
 
   /// The name that you want Elastic Transcoder to assign to the master playlist,
   /// for example, nyc-vacation.m3u8. If the name includes a <code>/</code>
@@ -4197,8 +4507,7 @@ class Playlist {
   /// <code>Smooth</code> playlists). If you include a file extension in
   /// <code>Name</code>, the file name will have two extensions.
   /// </note>
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// For each output in this job that you want to include in a master playlist,
   /// the value of the Outputs:Key object.
@@ -4246,21 +4555,17 @@ class Playlist {
   /// <code>Audio:Profile</code>, <code>Video:Profile</code>, and
   /// <code>Video:FrameRate</code> to <code>Video:KeyframesMaxDist</code> ratio
   /// must be the same for all outputs.
-  @_s.JsonKey(name: 'OutputKeys')
-  final List<String> outputKeys;
+  final List<String>? outputKeys;
 
   /// The DRM settings, if any, that you want Elastic Transcoder to apply to the
   /// output files associated with this playlist.
-  @_s.JsonKey(name: 'PlayReadyDrm')
-  final PlayReadyDrm playReadyDrm;
+  final PlayReadyDrm? playReadyDrm;
 
   /// The status of the job with which the playlist is associated.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// Information that further explains the status.
-  @_s.JsonKey(name: 'StatusDetail')
-  final String statusDetail;
+  final String? statusDetail;
 
   Playlist({
     this.format,
@@ -4271,8 +4576,46 @@ class Playlist {
     this.status,
     this.statusDetail,
   });
-  factory Playlist.fromJson(Map<String, dynamic> json) =>
-      _$PlaylistFromJson(json);
+
+  factory Playlist.fromJson(Map<String, dynamic> json) {
+    return Playlist(
+      format: json['Format'] as String?,
+      hlsContentProtection: json['HlsContentProtection'] != null
+          ? HlsContentProtection.fromJson(
+              json['HlsContentProtection'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      outputKeys: (json['OutputKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      playReadyDrm: json['PlayReadyDrm'] != null
+          ? PlayReadyDrm.fromJson(json['PlayReadyDrm'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as String?,
+      statusDetail: json['StatusDetail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final hlsContentProtection = this.hlsContentProtection;
+    final name = this.name;
+    final outputKeys = this.outputKeys;
+    final playReadyDrm = this.playReadyDrm;
+    final status = this.status;
+    final statusDetail = this.statusDetail;
+    return {
+      if (format != null) 'Format': format,
+      if (hlsContentProtection != null)
+        'HlsContentProtection': hlsContentProtection,
+      if (name != null) 'Name': name,
+      if (outputKeys != null) 'OutputKeys': outputKeys,
+      if (playReadyDrm != null) 'PlayReadyDrm': playReadyDrm,
+      if (status != null) 'Status': status,
+      if (statusDetail != null) 'StatusDetail': statusDetail,
+    };
+  }
 }
 
 /// Presets are templates that contain most of the settings for transcoding
@@ -4281,56 +4624,42 @@ class Playlist {
 /// versions. You can also create your own presets for formats that aren't
 /// included among the default presets. You specify which preset you want to use
 /// when you create a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Preset {
   /// The Amazon Resource Name (ARN) for the preset.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// A section of the response body that provides information about the audio
   /// preset values.
-  @_s.JsonKey(name: 'Audio')
-  final AudioParameters audio;
+  final AudioParameters? audio;
 
   /// The container type for the output file. Valid values include
   /// <code>flac</code>, <code>flv</code>, <code>fmp4</code>, <code>gif</code>,
   /// <code>mp3</code>, <code>mp4</code>, <code>mpg</code>, <code>mxf</code>,
   /// <code>oga</code>, <code>ogg</code>, <code>ts</code>, and <code>webm</code>.
-  @_s.JsonKey(name: 'Container')
-  final String container;
+  final String? container;
 
   /// A description of the preset.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Identifier for the new preset. You use this value to get settings for the
   /// preset or to delete it.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the preset.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A section of the response body that provides information about the thumbnail
   /// preset values, if any.
-  @_s.JsonKey(name: 'Thumbnails')
-  final Thumbnails thumbnails;
+  final Thumbnails? thumbnails;
 
   /// Whether the preset is a default preset provided by Elastic Transcoder
   /// (<code>System</code>) or a preset that you have defined
   /// (<code>Custom</code>).
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// A section of the response body that provides information about the video
   /// preset values.
-  @_s.JsonKey(name: 'Video')
-  final VideoParameters video;
+  final VideoParameters? video;
 
   Preset({
     this.arn,
@@ -4343,7 +4672,49 @@ class Preset {
     this.type,
     this.video,
   });
-  factory Preset.fromJson(Map<String, dynamic> json) => _$PresetFromJson(json);
+
+  factory Preset.fromJson(Map<String, dynamic> json) {
+    return Preset(
+      arn: json['Arn'] as String?,
+      audio: json['Audio'] != null
+          ? AudioParameters.fromJson(json['Audio'] as Map<String, dynamic>)
+          : null,
+      container: json['Container'] as String?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      thumbnails: json['Thumbnails'] != null
+          ? Thumbnails.fromJson(json['Thumbnails'] as Map<String, dynamic>)
+          : null,
+      type: json['Type'] as String?,
+      video: json['Video'] != null
+          ? VideoParameters.fromJson(json['Video'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final audio = this.audio;
+    final container = this.container;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final thumbnails = this.thumbnails;
+    final type = this.type;
+    final video = this.video;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (audio != null) 'Audio': audio,
+      if (container != null) 'Container': container,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (thumbnails != null) 'Thumbnails': thumbnails,
+      if (type != null) 'Type': type,
+      if (video != null) 'Video': video,
+    };
+  }
 }
 
 /// Settings for the size, location, and opacity of graphics that you want
@@ -4360,11 +4731,6 @@ class Preset {
 /// videos. You can specify fewer graphics in the job than you specify watermark
 /// settings in the preset, which allows you to use the same preset for up to
 /// four watermarks that have different dimensions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PresetWatermark {
   /// The horizontal position of the watermark unless you specify a non-zero value
   /// for <code>HorizontalOffset</code>:
@@ -4382,8 +4748,7 @@ class PresetWatermark {
   /// <b>Center</b>: The watermark is centered between the left and right borders.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'HorizontalAlign')
-  final String horizontalAlign;
+  final String? horizontalAlign;
 
   /// The amount by which you want the horizontal position of the watermark to be
   /// offset from the position specified by HorizontalAlign:
@@ -4412,13 +4777,11 @@ class PresetWatermark {
   /// Use the value of <code>Target</code> to specify whether you want to include
   /// the black bars that are added by Elastic Transcoder, if any, in the offset
   /// calculation.
-  @_s.JsonKey(name: 'HorizontalOffset')
-  final String horizontalOffset;
+  final String? horizontalOffset;
 
   /// A unique identifier for the settings for one watermark. The value of
   /// <code>Id</code> can be up to 40 characters long.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The maximum height of the watermark in one of the following formats:
   ///
@@ -4436,8 +4799,7 @@ class PresetWatermark {
   /// </ul>
   /// If you specify the value in pixels, it must be less than or equal to the
   /// value of <code>MaxHeight</code>.
-  @_s.JsonKey(name: 'MaxHeight')
-  final String maxHeight;
+  final String? maxHeight;
 
   /// The maximum width of the watermark in one of the following formats:
   ///
@@ -4456,8 +4818,7 @@ class PresetWatermark {
   /// value of <code>MaxWidth</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'MaxWidth')
-  final String maxWidth;
+  final String? maxWidth;
 
   /// A percentage that indicates how much you want a watermark to obscure the
   /// video in the location where it appears. Valid values are 0 (the watermark is
@@ -4468,8 +4829,7 @@ class PresetWatermark {
   /// transparent .png, the transparent portion of the video appears as if you had
   /// specified a value of 0 for <code>Opacity</code>. The .jpg file format
   /// doesn't support transparency.
-  @_s.JsonKey(name: 'Opacity')
-  final String opacity;
+  final String? opacity;
 
   /// A value that controls scaling of the watermark:
   ///
@@ -4494,8 +4854,7 @@ class PresetWatermark {
   /// watermark up.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SizingPolicy')
-  final String sizingPolicy;
+  final String? sizingPolicy;
 
   /// A value that determines how Elastic Transcoder interprets values that you
   /// specified for <code>HorizontalOffset</code>, <code>VerticalOffset</code>,
@@ -4519,8 +4878,7 @@ class PresetWatermark {
   /// Transcoder, if any.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Target')
-  final String target;
+  final String? target;
 
   /// The vertical position of the watermark unless you specify a non-zero value
   /// for <code>VerticalOffset</code>:
@@ -4538,8 +4896,7 @@ class PresetWatermark {
   /// <b>Center</b>: The watermark is centered between the top and bottom borders.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'VerticalAlign')
-  final String verticalAlign;
+  final String? verticalAlign;
 
   /// <code>VerticalOffset</code>
   ///
@@ -4571,8 +4928,7 @@ class PresetWatermark {
   /// Use the value of <code>Target</code> to specify whether you want Elastic
   /// Transcoder to include the black bars that are added by Elastic Transcoder,
   /// if any, in the offset calculation.
-  @_s.JsonKey(name: 'VerticalOffset')
-  final String verticalOffset;
+  final String? verticalOffset;
 
   PresetWatermark({
     this.horizontalAlign,
@@ -4586,40 +4942,77 @@ class PresetWatermark {
     this.verticalAlign,
     this.verticalOffset,
   });
-  factory PresetWatermark.fromJson(Map<String, dynamic> json) =>
-      _$PresetWatermarkFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PresetWatermarkToJson(this);
+  factory PresetWatermark.fromJson(Map<String, dynamic> json) {
+    return PresetWatermark(
+      horizontalAlign: json['HorizontalAlign'] as String?,
+      horizontalOffset: json['HorizontalOffset'] as String?,
+      id: json['Id'] as String?,
+      maxHeight: json['MaxHeight'] as String?,
+      maxWidth: json['MaxWidth'] as String?,
+      opacity: json['Opacity'] as String?,
+      sizingPolicy: json['SizingPolicy'] as String?,
+      target: json['Target'] as String?,
+      verticalAlign: json['VerticalAlign'] as String?,
+      verticalOffset: json['VerticalOffset'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final horizontalAlign = this.horizontalAlign;
+    final horizontalOffset = this.horizontalOffset;
+    final id = this.id;
+    final maxHeight = this.maxHeight;
+    final maxWidth = this.maxWidth;
+    final opacity = this.opacity;
+    final sizingPolicy = this.sizingPolicy;
+    final target = this.target;
+    final verticalAlign = this.verticalAlign;
+    final verticalOffset = this.verticalOffset;
+    return {
+      if (horizontalAlign != null) 'HorizontalAlign': horizontalAlign,
+      if (horizontalOffset != null) 'HorizontalOffset': horizontalOffset,
+      if (id != null) 'Id': id,
+      if (maxHeight != null) 'MaxHeight': maxHeight,
+      if (maxWidth != null) 'MaxWidth': maxWidth,
+      if (opacity != null) 'Opacity': opacity,
+      if (sizingPolicy != null) 'SizingPolicy': sizingPolicy,
+      if (target != null) 'Target': target,
+      if (verticalAlign != null) 'VerticalAlign': verticalAlign,
+      if (verticalOffset != null) 'VerticalOffset': verticalOffset,
+    };
+  }
 }
 
 /// The <code>ReadJobResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReadJobResponse {
   /// A section of the response body that provides information about the job.
-  @_s.JsonKey(name: 'Job')
-  final Job job;
+  final Job? job;
 
   ReadJobResponse({
     this.job,
   });
-  factory ReadJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$ReadJobResponseFromJson(json);
+
+  factory ReadJobResponse.fromJson(Map<String, dynamic> json) {
+    return ReadJobResponse(
+      job: json['Job'] != null
+          ? Job.fromJson(json['Job'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final job = this.job;
+    return {
+      if (job != null) 'Job': job,
+    };
+  }
 }
 
 /// The <code>ReadPipelineResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReadPipelineResponse {
   /// A section of the response body that provides information about the pipeline.
-  @_s.JsonKey(name: 'Pipeline')
-  final Pipeline pipeline;
+  final Pipeline? pipeline;
 
   /// Elastic Transcoder returns a warning if the resources used by your pipeline
   /// are not in the same region as the pipeline.
@@ -4627,68 +5020,98 @@ class ReadPipelineResponse {
   /// Using resources in the same region, such as your Amazon S3 buckets, Amazon
   /// SNS notification topics, and AWS KMS key, reduces processing time and
   /// prevents cross-regional charges.
-  @_s.JsonKey(name: 'Warnings')
-  final List<Warning> warnings;
+  final List<Warning>? warnings;
 
   ReadPipelineResponse({
     this.pipeline,
     this.warnings,
   });
-  factory ReadPipelineResponse.fromJson(Map<String, dynamic> json) =>
-      _$ReadPipelineResponseFromJson(json);
+
+  factory ReadPipelineResponse.fromJson(Map<String, dynamic> json) {
+    return ReadPipelineResponse(
+      pipeline: json['Pipeline'] != null
+          ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
+          : null,
+      warnings: (json['Warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Warning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    final warnings = this.warnings;
+    return {
+      if (pipeline != null) 'Pipeline': pipeline,
+      if (warnings != null) 'Warnings': warnings,
+    };
+  }
 }
 
 /// The <code>ReadPresetResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReadPresetResponse {
   /// A section of the response body that provides information about the preset.
-  @_s.JsonKey(name: 'Preset')
-  final Preset preset;
+  final Preset? preset;
 
   ReadPresetResponse({
     this.preset,
   });
-  factory ReadPresetResponse.fromJson(Map<String, dynamic> json) =>
-      _$ReadPresetResponseFromJson(json);
+
+  factory ReadPresetResponse.fromJson(Map<String, dynamic> json) {
+    return ReadPresetResponse(
+      preset: json['Preset'] != null
+          ? Preset.fromJson(json['Preset'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preset = this.preset;
+    return {
+      if (preset != null) 'Preset': preset,
+    };
+  }
 }
 
 /// The <code>TestRoleResponse</code> structure.
 @deprecated
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestRoleResponse {
   /// If the <code>Success</code> element contains <code>false</code>, this value
   /// is an array of one or more error messages that were generated during the
   /// test process.
-  @_s.JsonKey(name: 'Messages')
-  final List<String> messages;
+  final List<String>? messages;
 
   /// If the operation is successful, this value is <code>true</code>; otherwise,
   /// the value is <code>false</code>.
-  @_s.JsonKey(name: 'Success')
-  final String success;
+  final String? success;
 
   TestRoleResponse({
     this.messages,
     this.success,
   });
-  factory TestRoleResponse.fromJson(Map<String, dynamic> json) =>
-      _$TestRoleResponseFromJson(json);
+
+  factory TestRoleResponse.fromJson(Map<String, dynamic> json) {
+    return TestRoleResponse(
+      messages: (json['Messages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      success: json['Success'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messages = this.messages;
+    final success = this.success;
+    return {
+      if (messages != null) 'Messages': messages,
+      if (success != null) 'Success': success,
+    };
+  }
 }
 
 /// Thumbnails for videos.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Thumbnails {
   /// <important>
   /// To better control resolution and aspect ratio of thumbnails, we recommend
@@ -4704,41 +5127,35 @@ class Thumbnails {
   ///
   /// If you specify <code>auto</code>, Elastic Transcoder tries to preserve the
   /// aspect ratio of the video in the output file.
-  @_s.JsonKey(name: 'AspectRatio')
-  final String aspectRatio;
+  final String? aspectRatio;
 
   /// The format of thumbnails, if any. Valid values are <code>jpg</code> and
   /// <code>png</code>.
   ///
   /// You specify whether you want Elastic Transcoder to create thumbnails when
   /// you create a job.
-  @_s.JsonKey(name: 'Format')
-  final String format;
+  final String? format;
 
   /// The approximate number of seconds between thumbnails. Specify an integer
   /// value.
-  @_s.JsonKey(name: 'Interval')
-  final String interval;
+  final String? interval;
 
   /// The maximum height of thumbnails in pixels. If you specify auto, Elastic
   /// Transcoder uses 1080 (Full HD) as the default value. If you specify a
   /// numeric value, enter an even integer between 32 and 3072.
-  @_s.JsonKey(name: 'MaxHeight')
-  final String maxHeight;
+  final String? maxHeight;
 
   /// The maximum width of thumbnails in pixels. If you specify auto, Elastic
   /// Transcoder uses 1920 (Full HD) as the default value. If you specify a
   /// numeric value, enter an even integer between 32 and 4096.
-  @_s.JsonKey(name: 'MaxWidth')
-  final String maxWidth;
+  final String? maxWidth;
 
   /// When you set <code>PaddingPolicy</code> to <code>Pad</code>, Elastic
   /// Transcoder may add black bars to the top and bottom and/or left and right
   /// sides of thumbnails to make the total size of the thumbnails match the
   /// values that you specified for thumbnail <code>MaxWidth</code> and
   /// <code>MaxHeight</code> settings.
-  @_s.JsonKey(name: 'PaddingPolicy')
-  final String paddingPolicy;
+  final String? paddingPolicy;
 
   /// <important>
   /// To better control resolution and aspect ratio of thumbnails, we recommend
@@ -4751,8 +5168,7 @@ class Thumbnails {
   /// format <code> <i>width</i> </code> x <code> <i>height</i> </code> where both
   /// values are even integers. The values cannot exceed the width and height that
   /// you specified in the <code>Video:Resolution</code> object.
-  @_s.JsonKey(name: 'Resolution')
-  final String resolution;
+  final String? resolution;
 
   /// Specify one of the following values to control scaling of thumbnails:
   ///
@@ -4796,8 +5212,7 @@ class Thumbnails {
   /// thumbnails up.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SizingPolicy')
-  final String sizingPolicy;
+  final String? sizingPolicy;
 
   Thumbnails({
     this.aspectRatio,
@@ -4809,18 +5224,43 @@ class Thumbnails {
     this.resolution,
     this.sizingPolicy,
   });
-  factory Thumbnails.fromJson(Map<String, dynamic> json) =>
-      _$ThumbnailsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ThumbnailsToJson(this);
+  factory Thumbnails.fromJson(Map<String, dynamic> json) {
+    return Thumbnails(
+      aspectRatio: json['AspectRatio'] as String?,
+      format: json['Format'] as String?,
+      interval: json['Interval'] as String?,
+      maxHeight: json['MaxHeight'] as String?,
+      maxWidth: json['MaxWidth'] as String?,
+      paddingPolicy: json['PaddingPolicy'] as String?,
+      resolution: json['Resolution'] as String?,
+      sizingPolicy: json['SizingPolicy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aspectRatio = this.aspectRatio;
+    final format = this.format;
+    final interval = this.interval;
+    final maxHeight = this.maxHeight;
+    final maxWidth = this.maxWidth;
+    final paddingPolicy = this.paddingPolicy;
+    final resolution = this.resolution;
+    final sizingPolicy = this.sizingPolicy;
+    return {
+      if (aspectRatio != null) 'AspectRatio': aspectRatio,
+      if (format != null) 'Format': format,
+      if (interval != null) 'Interval': interval,
+      if (maxHeight != null) 'MaxHeight': maxHeight,
+      if (maxWidth != null) 'MaxWidth': maxWidth,
+      if (paddingPolicy != null) 'PaddingPolicy': paddingPolicy,
+      if (resolution != null) 'Resolution': resolution,
+      if (sizingPolicy != null) 'SizingPolicy': sizingPolicy,
+    };
+  }
 }
 
 /// Settings that determine when a clip begins and how long it lasts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeSpan {
   /// The duration of the clip. The format can be either HH:mm:ss.SSS (maximum
   /// value: 23:59:59.999; SSS is thousandths of a second) or sssss.SSS (maximum
@@ -4829,84 +5269,105 @@ class TimeSpan {
   ///
   /// If you specify a value longer than the duration of the input file, Elastic
   /// Transcoder transcodes the file and returns a warning message.
-  @_s.JsonKey(name: 'Duration')
-  final String duration;
+  final String? duration;
 
   /// The place in the input file where you want a clip to start. The format can
   /// be either HH:mm:ss.SSS (maximum value: 23:59:59.999; SSS is thousandths of a
   /// second) or sssss.SSS (maximum value: 86399.999). If you don't specify a
   /// value, Elastic Transcoder starts at the beginning of the input file.
-  @_s.JsonKey(name: 'StartTime')
-  final String startTime;
+  final String? startTime;
 
   TimeSpan({
     this.duration,
     this.startTime,
   });
-  factory TimeSpan.fromJson(Map<String, dynamic> json) =>
-      _$TimeSpanFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimeSpanToJson(this);
+  factory TimeSpan.fromJson(Map<String, dynamic> json) {
+    return TimeSpan(
+      duration: json['Duration'] as String?,
+      startTime: json['StartTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final duration = this.duration;
+    final startTime = this.startTime;
+    return {
+      if (duration != null) 'Duration': duration,
+      if (startTime != null) 'StartTime': startTime,
+    };
+  }
 }
 
 /// Details about the timing of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Timing {
   /// The time the job finished transcoding, in epoch milliseconds.
-  @_s.JsonKey(name: 'FinishTimeMillis')
-  final int finishTimeMillis;
+  final int? finishTimeMillis;
 
   /// The time the job began transcoding, in epoch milliseconds.
-  @_s.JsonKey(name: 'StartTimeMillis')
-  final int startTimeMillis;
+  final int? startTimeMillis;
 
   /// The time the job was submitted to Elastic Transcoder, in epoch milliseconds.
-  @_s.JsonKey(name: 'SubmitTimeMillis')
-  final int submitTimeMillis;
+  final int? submitTimeMillis;
 
   Timing({
     this.finishTimeMillis,
     this.startTimeMillis,
     this.submitTimeMillis,
   });
-  factory Timing.fromJson(Map<String, dynamic> json) => _$TimingFromJson(json);
+
+  factory Timing.fromJson(Map<String, dynamic> json) {
+    return Timing(
+      finishTimeMillis: json['FinishTimeMillis'] as int?,
+      startTimeMillis: json['StartTimeMillis'] as int?,
+      submitTimeMillis: json['SubmitTimeMillis'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final finishTimeMillis = this.finishTimeMillis;
+    final startTimeMillis = this.startTimeMillis;
+    final submitTimeMillis = this.submitTimeMillis;
+    return {
+      if (finishTimeMillis != null) 'FinishTimeMillis': finishTimeMillis,
+      if (startTimeMillis != null) 'StartTimeMillis': startTimeMillis,
+      if (submitTimeMillis != null) 'SubmitTimeMillis': submitTimeMillis,
+    };
+  }
 }
 
 /// The <code>UpdatePipelineNotificationsResponse</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePipelineNotificationsResponse {
   /// A section of the response body that provides information about the pipeline
   /// associated with this notification.
-  @_s.JsonKey(name: 'Pipeline')
-  final Pipeline pipeline;
+  final Pipeline? pipeline;
 
   UpdatePipelineNotificationsResponse({
     this.pipeline,
   });
+
   factory UpdatePipelineNotificationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdatePipelineNotificationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdatePipelineNotificationsResponse(
+      pipeline: json['Pipeline'] != null
+          ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    return {
+      if (pipeline != null) 'Pipeline': pipeline,
+    };
+  }
 }
 
 /// When you update a pipeline, Elastic Transcoder returns the values that you
 /// specified in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePipelineResponse {
   /// The pipeline updated by this <code>UpdatePipelineResponse</code> call.
-  @_s.JsonKey(name: 'Pipeline')
-  final Pipeline pipeline;
+  final Pipeline? pipeline;
 
   /// Elastic Transcoder returns a warning if the resources used by your pipeline
   /// are not in the same region as the pipeline.
@@ -4914,42 +5375,62 @@ class UpdatePipelineResponse {
   /// Using resources in the same region, such as your Amazon S3 buckets, Amazon
   /// SNS notification topics, and AWS KMS key, reduces processing time and
   /// prevents cross-regional charges.
-  @_s.JsonKey(name: 'Warnings')
-  final List<Warning> warnings;
+  final List<Warning>? warnings;
 
   UpdatePipelineResponse({
     this.pipeline,
     this.warnings,
   });
-  factory UpdatePipelineResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePipelineResponseFromJson(json);
+
+  factory UpdatePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePipelineResponse(
+      pipeline: json['Pipeline'] != null
+          ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
+          : null,
+      warnings: (json['Warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Warning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    final warnings = this.warnings;
+    return {
+      if (pipeline != null) 'Pipeline': pipeline,
+      if (warnings != null) 'Warnings': warnings,
+    };
+  }
 }
 
 /// When you update status for a pipeline, Elastic Transcoder returns the values
 /// that you specified in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePipelineStatusResponse {
   /// A section of the response body that provides information about the pipeline.
-  @_s.JsonKey(name: 'Pipeline')
-  final Pipeline pipeline;
+  final Pipeline? pipeline;
 
   UpdatePipelineStatusResponse({
     this.pipeline,
   });
-  factory UpdatePipelineStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePipelineStatusResponseFromJson(json);
+
+  factory UpdatePipelineStatusResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePipelineStatusResponse(
+      pipeline: json['Pipeline'] != null
+          ? Pipeline.fromJson(json['Pipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    return {
+      if (pipeline != null) 'Pipeline': pipeline,
+    };
+  }
 }
 
 /// The <code>VideoParameters</code> structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VideoParameters {
   /// <important>
   /// To better control resolution and aspect ratio of output videos, we recommend
@@ -4972,8 +5453,7 @@ class VideoParameters {
   /// ratio of the input file, Elastic Transcoder adds pillarboxing (black bars on
   /// the sides) or letterboxing (black bars on the top and bottom) to maintain
   /// the aspect ratio of the active region of the video.
-  @_s.JsonKey(name: 'AspectRatio')
-  final String aspectRatio;
+  final String? aspectRatio;
 
   /// The bit rate of the video stream in the output file, in kilobits/second.
   /// Valid values depend on the values of <code>Level</code> and
@@ -5021,8 +5501,7 @@ class VideoParameters {
   /// 4.1 - 50000 : 62500
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'BitRate')
-  final String bitRate;
+  final String? bitRate;
 
   /// The video codec for the output file. Valid values include <code>gif</code>,
   /// <code>H.264</code>, <code>mpeg2</code>, <code>vp8</code>, and
@@ -5030,8 +5509,7 @@ class VideoParameters {
   /// when the container type is <code>webm</code>, <code>gif</code> when the
   /// container type is <code>gif</code>, and <code>mpeg2</code> when the
   /// container type is <code>mpg</code>.
-  @_s.JsonKey(name: 'Codec')
-  final String codec;
+  final String? codec;
 
   /// <b>Profile (H.264/VP8/VP9 Only)</b>
   ///
@@ -5216,12 +5694,10 @@ class VideoParameters {
   /// The number of times you want the output gif to loop. Valid values include
   /// <code>Infinite</code> and integers between <code>0</code> and
   /// <code>100</code>, inclusive.
-  @_s.JsonKey(name: 'CodecOptions')
-  final Map<String, String> codecOptions;
+  final Map<String, String>? codecOptions;
 
   /// The value that Elastic Transcoder adds to the metadata in the output file.
-  @_s.JsonKey(name: 'DisplayAspectRatio')
-  final String displayAspectRatio;
+  final String? displayAspectRatio;
 
   /// Applicable only when the value of Video:Codec is one of <code>H.264</code>,
   /// <code>MPEG2</code>, or <code>VP8</code>.
@@ -5242,8 +5718,7 @@ class VideoParameters {
   /// <code>FixedGOP</code> must be set to <code>true</code> for <code>fmp4</code>
   /// containers.
   /// </important>
-  @_s.JsonKey(name: 'FixedGOP')
-  final String fixedGOP;
+  final String? fixedGOP;
 
   /// The frames per second for the video stream in the output file. Valid values
   /// include:
@@ -5316,8 +5791,7 @@ class VideoParameters {
   /// 4.1 - 62914560
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'FrameRate')
-  final String frameRate;
+  final String? frameRate;
 
   /// Applicable only when the value of Video:Codec is one of <code>H.264</code>,
   /// <code>MPEG2</code>, or <code>VP8</code>.
@@ -5342,8 +5816,7 @@ class VideoParameters {
   /// Alternately, this can be achieved by setting <code>FrameRate</code> to auto
   /// and having the same values for <code>MaxFrameRate</code> and
   /// <code>KeyframesMaxDist</code>.
-  @_s.JsonKey(name: 'KeyframesMaxDist')
-  final String keyframesMaxDist;
+  final String? keyframesMaxDist;
 
   /// If you specify <code>auto</code> for <code>FrameRate</code>, Elastic
   /// Transcoder uses the frame rate of the input video for the frame rate of the
@@ -5352,30 +5825,26 @@ class VideoParameters {
   /// desired maximum frame rate of the output video. Valid values include:
   /// <code>10</code>, <code>15</code>, <code>23.97</code>, <code>24</code>,
   /// <code>25</code>, <code>29.97</code>, <code>30</code>, <code>60</code>.
-  @_s.JsonKey(name: 'MaxFrameRate')
-  final String maxFrameRate;
+  final String? maxFrameRate;
 
   /// The maximum height of the output video in pixels. If you specify
   /// <code>auto</code>, Elastic Transcoder uses 1080 (Full HD) as the default
   /// value. If you specify a numeric value, enter an even integer between 96 and
   /// 3072.
-  @_s.JsonKey(name: 'MaxHeight')
-  final String maxHeight;
+  final String? maxHeight;
 
   /// The maximum width of the output video in pixels. If you specify
   /// <code>auto</code>, Elastic Transcoder uses 1920 (Full HD) as the default
   /// value. If you specify a numeric value, enter an even integer between 128 and
   /// 4096.
-  @_s.JsonKey(name: 'MaxWidth')
-  final String maxWidth;
+  final String? maxWidth;
 
   /// When you set <code>PaddingPolicy</code> to <code>Pad</code>, Elastic
   /// Transcoder may add black bars to the top and bottom and/or left and right
   /// sides of the output video to make the total size of the output video match
   /// the values that you specified for <code>MaxWidth</code> and
   /// <code>MaxHeight</code>.
-  @_s.JsonKey(name: 'PaddingPolicy')
-  final String paddingPolicy;
+  final String? paddingPolicy;
 
   /// <important>
   /// To better control resolution and aspect ratio of output videos, we recommend
@@ -5462,8 +5931,7 @@ class VideoParameters {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'Resolution')
-  final String resolution;
+  final String? resolution;
 
   /// Specify one of the following values to control scaling of the output video:
   ///
@@ -5507,8 +5975,7 @@ class VideoParameters {
   /// the video up.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'SizingPolicy')
-  final String sizingPolicy;
+  final String? sizingPolicy;
 
   /// Settings for the size, location, and opacity of graphics that you want
   /// Elastic Transcoder to overlay over videos that are transcoded using this
@@ -5524,8 +5991,7 @@ class VideoParameters {
   /// videos. You can specify fewer graphics in the job than you specify watermark
   /// settings in the preset, which allows you to use the same preset for up to
   /// four watermarks that have different dimensions.
-  @_s.JsonKey(name: 'Watermarks')
-  final List<PresetWatermark> watermarks;
+  final List<PresetWatermark>? watermarks;
 
   VideoParameters({
     this.aspectRatio,
@@ -5544,10 +6010,65 @@ class VideoParameters {
     this.sizingPolicy,
     this.watermarks,
   });
-  factory VideoParameters.fromJson(Map<String, dynamic> json) =>
-      _$VideoParametersFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VideoParametersToJson(this);
+  factory VideoParameters.fromJson(Map<String, dynamic> json) {
+    return VideoParameters(
+      aspectRatio: json['AspectRatio'] as String?,
+      bitRate: json['BitRate'] as String?,
+      codec: json['Codec'] as String?,
+      codecOptions: (json['CodecOptions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      displayAspectRatio: json['DisplayAspectRatio'] as String?,
+      fixedGOP: json['FixedGOP'] as String?,
+      frameRate: json['FrameRate'] as String?,
+      keyframesMaxDist: json['KeyframesMaxDist'] as String?,
+      maxFrameRate: json['MaxFrameRate'] as String?,
+      maxHeight: json['MaxHeight'] as String?,
+      maxWidth: json['MaxWidth'] as String?,
+      paddingPolicy: json['PaddingPolicy'] as String?,
+      resolution: json['Resolution'] as String?,
+      sizingPolicy: json['SizingPolicy'] as String?,
+      watermarks: (json['Watermarks'] as List?)
+          ?.whereNotNull()
+          .map((e) => PresetWatermark.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aspectRatio = this.aspectRatio;
+    final bitRate = this.bitRate;
+    final codec = this.codec;
+    final codecOptions = this.codecOptions;
+    final displayAspectRatio = this.displayAspectRatio;
+    final fixedGOP = this.fixedGOP;
+    final frameRate = this.frameRate;
+    final keyframesMaxDist = this.keyframesMaxDist;
+    final maxFrameRate = this.maxFrameRate;
+    final maxHeight = this.maxHeight;
+    final maxWidth = this.maxWidth;
+    final paddingPolicy = this.paddingPolicy;
+    final resolution = this.resolution;
+    final sizingPolicy = this.sizingPolicy;
+    final watermarks = this.watermarks;
+    return {
+      if (aspectRatio != null) 'AspectRatio': aspectRatio,
+      if (bitRate != null) 'BitRate': bitRate,
+      if (codec != null) 'Codec': codec,
+      if (codecOptions != null) 'CodecOptions': codecOptions,
+      if (displayAspectRatio != null) 'DisplayAspectRatio': displayAspectRatio,
+      if (fixedGOP != null) 'FixedGOP': fixedGOP,
+      if (frameRate != null) 'FrameRate': frameRate,
+      if (keyframesMaxDist != null) 'KeyframesMaxDist': keyframesMaxDist,
+      if (maxFrameRate != null) 'MaxFrameRate': maxFrameRate,
+      if (maxHeight != null) 'MaxHeight': maxHeight,
+      if (maxWidth != null) 'MaxWidth': maxWidth,
+      if (paddingPolicy != null) 'PaddingPolicy': paddingPolicy,
+      if (resolution != null) 'Resolution': resolution,
+      if (sizingPolicy != null) 'SizingPolicy': sizingPolicy,
+      if (watermarks != null) 'Watermarks': watermarks,
+    };
+  }
 }
 
 /// Elastic Transcoder returns a warning if the resources used by your pipeline
@@ -5556,65 +6077,72 @@ class VideoParameters {
 /// Using resources in the same region, such as your Amazon S3 buckets, Amazon
 /// SNS notification topics, and AWS KMS key, reduces processing time and
 /// prevents cross-regional charges.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Warning {
   /// The code of the cross-regional warning.
-  @_s.JsonKey(name: 'Code')
-  final String code;
+  final String? code;
 
   /// The message explaining what resources are in a different region from the
   /// pipeline.
   /// <note>
   /// AWS KMS keys must be in the same region as the pipeline.
   /// </note>
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   Warning({
     this.code,
     this.message,
   });
-  factory Warning.fromJson(Map<String, dynamic> json) =>
-      _$WarningFromJson(json);
+
+  factory Warning.fromJson(Map<String, dynamic> json) {
+    return Warning(
+      code: json['Code'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code,
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class IncompatibleVersionException extends _s.GenericAwsException {
-  IncompatibleVersionException({String type, String message})
+  IncompatibleVersionException({String? type, String? message})
       : super(
             type: type, code: 'IncompatibleVersionException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

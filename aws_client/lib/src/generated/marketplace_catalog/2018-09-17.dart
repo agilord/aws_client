@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-09-17.g.dart';
 
 /// Catalog API actions allow you to manage your entities through list,
 /// describe, and update capabilities. An entity can be a product or an offer on
@@ -37,10 +30,10 @@ part '2018-09-17.g.dart';
 class MarketplaceCatalog {
   final _s.RestJsonProtocol _protocol;
   MarketplaceCatalog({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,8 +65,8 @@ class MarketplaceCatalog {
   /// Required. The unique identifier of the <code>StartChangeSet</code> request
   /// that you want to cancel.
   Future<CancelChangeSetResponse> cancelChangeSet({
-    @_s.required String catalog,
-    @_s.required String changeSetId,
+    required String catalog,
+    required String changeSetId,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
     _s.validateStringLength(
@@ -81,12 +74,6 @@ class MarketplaceCatalog {
       catalog,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(changeSetId, 'changeSetId');
@@ -97,15 +84,9 @@ class MarketplaceCatalog {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeSetId',
-      changeSetId,
-      r'''^[\w\-]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (catalog != null) 'catalog': [catalog],
-      if (changeSetId != null) 'changeSetId': [changeSetId],
+      'catalog': [catalog],
+      'changeSetId': [changeSetId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -133,8 +114,8 @@ class MarketplaceCatalog {
   /// Required. The unique identifier for the <code>StartChangeSet</code>
   /// request that you want to describe the details for.
   Future<DescribeChangeSetResponse> describeChangeSet({
-    @_s.required String catalog,
-    @_s.required String changeSetId,
+    required String catalog,
+    required String changeSetId,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
     _s.validateStringLength(
@@ -142,12 +123,6 @@ class MarketplaceCatalog {
       catalog,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(changeSetId, 'changeSetId');
@@ -158,15 +133,9 @@ class MarketplaceCatalog {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'changeSetId',
-      changeSetId,
-      r'''^[\w\-]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (catalog != null) 'catalog': [catalog],
-      if (changeSetId != null) 'changeSetId': [changeSetId],
+      'catalog': [catalog],
+      'changeSetId': [changeSetId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -194,8 +163,8 @@ class MarketplaceCatalog {
   /// Parameter [entityId] :
   /// Required. The unique ID of the entity to describe.
   Future<DescribeEntityResponse> describeEntity({
-    @_s.required String catalog,
-    @_s.required String entityId,
+    required String catalog,
+    required String entityId,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
     _s.validateStringLength(
@@ -203,12 +172,6 @@ class MarketplaceCatalog {
       catalog,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(entityId, 'entityId');
@@ -219,15 +182,9 @@ class MarketplaceCatalog {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'entityId',
-      entityId,
-      r'''^[\w\-]+$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (catalog != null) 'catalog': [catalog],
-      if (entityId != null) 'entityId': [entityId],
+      'catalog': [catalog],
+      'entityId': [entityId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -273,11 +230,11 @@ class MarketplaceCatalog {
   /// An object that contains two attributes, <code>SortBy</code> and
   /// <code>SortOrder</code>.
   Future<ListChangeSetsResponse> listChangeSets({
-    @_s.required String catalog,
-    List<Filter> filterList,
-    int maxResults,
-    String nextToken,
-    Sort sort,
+    required String catalog,
+    List<Filter>? filterList,
+    int? maxResults,
+    String? nextToken,
+    Sort? sort,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
     _s.validateStringLength(
@@ -285,12 +242,6 @@ class MarketplaceCatalog {
       catalog,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -304,11 +255,6 @@ class MarketplaceCatalog {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w+=.:@\-\/]$''',
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -357,12 +303,12 @@ class MarketplaceCatalog {
   /// An object that contains two attributes, <code>SortBy</code> and
   /// <code>SortOrder</code>.
   Future<ListEntitiesResponse> listEntities({
-    @_s.required String catalog,
-    @_s.required String entityType,
-    List<Filter> filterList,
-    int maxResults,
-    String nextToken,
-    Sort sort,
+    required String catalog,
+    required String entityType,
+    List<Filter>? filterList,
+    int? maxResults,
+    String? nextToken,
+    Sort? sort,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
     _s.validateStringLength(
@@ -372,24 +318,12 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(entityType, 'entityType');
     _s.validateStringLength(
       'entityType',
       entityType,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityType',
-      entityType,
-      r'''^[a-zA-Z]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -403,11 +337,6 @@ class MarketplaceCatalog {
       nextToken,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w+=.:@\-\/]$''',
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -436,9 +365,13 @@ class MarketplaceCatalog {
   ///
   /// For example, you cannot start the ChangeSet described in the <a
   /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples">example</a>
-  /// below because it contains two changes to execute the same change type
-  /// (<code>AddRevisions</code>) against the same entity
+  /// later in this topic, because it contains two changes to execute the same
+  /// change type (<code>AddRevisions</code>) against the same entity
   /// (<code>entity-id@1)</code>.
+  ///
+  /// For more information about working with change sets, see <a
+  /// href="https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets">
+  /// Working with change sets</a>.
   ///
   /// May throw [InternalServiceException].
   /// May throw [AccessDeniedException].
@@ -462,10 +395,10 @@ class MarketplaceCatalog {
   /// Parameter [clientRequestToken] :
   /// A unique token to identify the request to ensure idempotency.
   Future<StartChangeSetResponse> startChangeSet({
-    @_s.required String catalog,
-    @_s.required List<Change> changeSet,
-    String changeSetName,
-    String clientRequestToken,
+    required String catalog,
+    required List<Change> changeSet,
+    String? changeSetName,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(catalog, 'catalog');
     _s.validateStringLength(
@@ -475,12 +408,6 @@ class MarketplaceCatalog {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'catalog',
-      catalog,
-      r'''^[a-zA-Z]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(changeSet, 'changeSet');
     _s.validateStringLength(
       'changeSetName',
@@ -488,21 +415,11 @@ class MarketplaceCatalog {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'changeSetName',
-      changeSetName,
-      r'''^[\w\s+=.:@-]+$''',
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       36,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w\-]+$''',
     );
     final $payload = <String, dynamic>{
       'Catalog': catalog,
@@ -520,107 +437,118 @@ class MarketplaceCatalog {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelChangeSetResponse {
   /// The ARN associated with the change set referenced in this request.
-  @_s.JsonKey(name: 'ChangeSetArn')
-  final String changeSetArn;
+  final String? changeSetArn;
 
   /// The unique identifier for the change set referenced in this request.
-  @_s.JsonKey(name: 'ChangeSetId')
-  final String changeSetId;
+  final String? changeSetId;
 
   CancelChangeSetResponse({
     this.changeSetArn,
     this.changeSetId,
   });
-  factory CancelChangeSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelChangeSetResponseFromJson(json);
+
+  factory CancelChangeSetResponse.fromJson(Map<String, dynamic> json) {
+    return CancelChangeSetResponse(
+      changeSetArn: json['ChangeSetArn'] as String?,
+      changeSetId: json['ChangeSetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeSetArn = this.changeSetArn;
+    final changeSetId = this.changeSetId;
+    return {
+      if (changeSetArn != null) 'ChangeSetArn': changeSetArn,
+      if (changeSetId != null) 'ChangeSetId': changeSetId,
+    };
+  }
 }
 
 /// An object that contains the <code>ChangeType</code>, <code>Details</code>,
 /// and <code>Entity</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Change {
   /// Change types are single string values that describe your intention for the
   /// change. Each change type is unique for each <code>EntityType</code> provided
   /// in the change's scope.
-  @_s.JsonKey(name: 'ChangeType')
   final String changeType;
 
   /// This object contains details specific to the change type of the requested
   /// change.
-  @_s.JsonKey(name: 'Details')
   final String details;
 
   /// The entity to be changed.
-  @_s.JsonKey(name: 'Entity')
   final Entity entity;
 
+  /// Optional name for the change.
+  final String? changeName;
+
   Change({
-    @_s.required this.changeType,
-    @_s.required this.details,
-    @_s.required this.entity,
+    required this.changeType,
+    required this.details,
+    required this.entity,
+    this.changeName,
   });
-  Map<String, dynamic> toJson() => _$ChangeToJson(this);
+
+  factory Change.fromJson(Map<String, dynamic> json) {
+    return Change(
+      changeType: json['ChangeType'] as String,
+      details: json['Details'] as String,
+      entity: Entity.fromJson(json['Entity'] as Map<String, dynamic>),
+      changeName: json['ChangeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeType = this.changeType;
+    final details = this.details;
+    final entity = this.entity;
+    final changeName = this.changeName;
+    return {
+      'ChangeType': changeType,
+      'Details': details,
+      'Entity': entity,
+      if (changeName != null) 'ChangeName': changeName,
+    };
+  }
 }
 
 /// A summary of a change set returned in a list of change sets when the
 /// <code>ListChangeSets</code> action is called.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChangeSetSummaryListItem {
   /// The ARN associated with the unique identifier for the change set referenced
   /// in this request.
-  @_s.JsonKey(name: 'ChangeSetArn')
-  final String changeSetArn;
+  final String? changeSetArn;
 
   /// The unique identifier for a change set.
-  @_s.JsonKey(name: 'ChangeSetId')
-  final String changeSetId;
+  final String? changeSetId;
 
   /// The non-unique name for the change set.
-  @_s.JsonKey(name: 'ChangeSetName')
-  final String changeSetName;
+  final String? changeSetName;
 
   /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was
   /// finished.
-  @_s.JsonKey(name: 'EndTime')
-  final String endTime;
+  final String? endTime;
 
   /// This object is a list of entity IDs (string) that are a part of a change
   /// set. The entity ID list is a maximum of 20 entities. It must contain at
   /// least one entity.
-  @_s.JsonKey(name: 'EntityIdList')
-  final List<String> entityIdList;
+  final List<String>? entityIdList;
 
   /// Returned if the change set is in <code>FAILED</code> status. Can be either
   /// <code>CLIENT_ERROR</code>, which means that there are issues with the
   /// request (see the <code>ErrorDetailList</code> of
   /// <code>DescribeChangeSet</code>), or <code>SERVER_FAULT</code>, which means
   /// that there is a problem in the system, and you should retry your request.
-  @_s.JsonKey(name: 'FailureCode')
-  final FailureCode failureCode;
+  final FailureCode? failureCode;
 
   /// The time, in ISO 8601 format (2018-02-27T13:45:22Z), when the change set was
   /// started.
-  @_s.JsonKey(name: 'StartTime')
-  final String startTime;
+  final String? startTime;
 
   /// The current status of the change set.
-  @_s.JsonKey(name: 'Status')
-  final ChangeStatus status;
+  final ChangeStatus? status;
 
   ChangeSetSummaryListItem({
     this.changeSetArn,
@@ -632,110 +560,184 @@ class ChangeSetSummaryListItem {
     this.startTime,
     this.status,
   });
-  factory ChangeSetSummaryListItem.fromJson(Map<String, dynamic> json) =>
-      _$ChangeSetSummaryListItemFromJson(json);
+
+  factory ChangeSetSummaryListItem.fromJson(Map<String, dynamic> json) {
+    return ChangeSetSummaryListItem(
+      changeSetArn: json['ChangeSetArn'] as String?,
+      changeSetId: json['ChangeSetId'] as String?,
+      changeSetName: json['ChangeSetName'] as String?,
+      endTime: json['EndTime'] as String?,
+      entityIdList: (json['EntityIdList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      failureCode: (json['FailureCode'] as String?)?.toFailureCode(),
+      startTime: json['StartTime'] as String?,
+      status: (json['Status'] as String?)?.toChangeStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeSetArn = this.changeSetArn;
+    final changeSetId = this.changeSetId;
+    final changeSetName = this.changeSetName;
+    final endTime = this.endTime;
+    final entityIdList = this.entityIdList;
+    final failureCode = this.failureCode;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      if (changeSetArn != null) 'ChangeSetArn': changeSetArn,
+      if (changeSetId != null) 'ChangeSetId': changeSetId,
+      if (changeSetName != null) 'ChangeSetName': changeSetName,
+      if (endTime != null) 'EndTime': endTime,
+      if (entityIdList != null) 'EntityIdList': entityIdList,
+      if (failureCode != null) 'FailureCode': failureCode.toValue(),
+      if (startTime != null) 'StartTime': startTime,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum ChangeStatus {
-  @_s.JsonValue('PREPARING')
   preparing,
-  @_s.JsonValue('APPLYING')
   applying,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on ChangeStatus {
+  String toValue() {
+    switch (this) {
+      case ChangeStatus.preparing:
+        return 'PREPARING';
+      case ChangeStatus.applying:
+        return 'APPLYING';
+      case ChangeStatus.succeeded:
+        return 'SUCCEEDED';
+      case ChangeStatus.cancelled:
+        return 'CANCELLED';
+      case ChangeStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ChangeStatus toChangeStatus() {
+    switch (this) {
+      case 'PREPARING':
+        return ChangeStatus.preparing;
+      case 'APPLYING':
+        return ChangeStatus.applying;
+      case 'SUCCEEDED':
+        return ChangeStatus.succeeded;
+      case 'CANCELLED':
+        return ChangeStatus.cancelled;
+      case 'FAILED':
+        return ChangeStatus.failed;
+    }
+    throw Exception('$this is not known in enum ChangeStatus');
+  }
 }
 
 /// This object is a container for common summary information about the change.
 /// The summary doesn't contain the whole change structure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChangeSummary {
+  /// Optional name for the change.
+  final String? changeName;
+
   /// The type of the change.
-  @_s.JsonKey(name: 'ChangeType')
-  final String changeType;
+  final String? changeType;
 
   /// This object contains details specific to the change type of the requested
   /// change.
-  @_s.JsonKey(name: 'Details')
-  final String details;
+  final String? details;
 
   /// The entity to be changed.
-  @_s.JsonKey(name: 'Entity')
-  final Entity entity;
+  final Entity? entity;
 
   /// An array of <code>ErrorDetail</code> objects associated with the change.
-  @_s.JsonKey(name: 'ErrorDetailList')
-  final List<ErrorDetail> errorDetailList;
+  final List<ErrorDetail>? errorDetailList;
 
   ChangeSummary({
+    this.changeName,
     this.changeType,
     this.details,
     this.entity,
     this.errorDetailList,
   });
-  factory ChangeSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChangeSummaryFromJson(json);
+
+  factory ChangeSummary.fromJson(Map<String, dynamic> json) {
+    return ChangeSummary(
+      changeName: json['ChangeName'] as String?,
+      changeType: json['ChangeType'] as String?,
+      details: json['Details'] as String?,
+      entity: json['Entity'] != null
+          ? Entity.fromJson(json['Entity'] as Map<String, dynamic>)
+          : null,
+      errorDetailList: (json['ErrorDetailList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeName = this.changeName;
+    final changeType = this.changeType;
+    final details = this.details;
+    final entity = this.entity;
+    final errorDetailList = this.errorDetailList;
+    return {
+      if (changeName != null) 'ChangeName': changeName,
+      if (changeType != null) 'ChangeType': changeType,
+      if (details != null) 'Details': details,
+      if (entity != null) 'Entity': entity,
+      if (errorDetailList != null) 'ErrorDetailList': errorDetailList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChangeSetResponse {
   /// An array of <code>ChangeSummary</code> objects.
-  @_s.JsonKey(name: 'ChangeSet')
-  final List<ChangeSummary> changeSet;
+  final List<ChangeSummary>? changeSet;
 
   /// The ARN associated with the unique identifier for the change set referenced
   /// in this request.
-  @_s.JsonKey(name: 'ChangeSetArn')
-  final String changeSetArn;
+  final String? changeSetArn;
 
   /// Required. The unique identifier for the change set referenced in this
   /// request.
-  @_s.JsonKey(name: 'ChangeSetId')
-  final String changeSetId;
+  final String? changeSetId;
 
   /// The optional name provided in the <code>StartChangeSet</code> request. If
   /// you do not provide a name, one is set by default.
-  @_s.JsonKey(name: 'ChangeSetName')
-  final String changeSetName;
+  final String? changeSetName;
 
   /// The date and time, in ISO 8601 format (2018-02-27T13:45:22Z), the request
   /// transitioned to a terminal state. The change cannot transition to a
   /// different state. Null if the request is not in a terminal state.
-  @_s.JsonKey(name: 'EndTime')
-  final String endTime;
+  final String? endTime;
 
   /// Returned if the change set is in <code>FAILED</code> status. Can be either
   /// <code>CLIENT_ERROR</code>, which means that there are issues with the
   /// request (see the <code>ErrorDetailList</code>), or
   /// <code>SERVER_FAULT</code>, which means that there is a problem in the
   /// system, and you should retry your request.
-  @_s.JsonKey(name: 'FailureCode')
-  final FailureCode failureCode;
+  final FailureCode? failureCode;
 
   /// Returned if there is a failure on the change set, but that failure is not
   /// related to any of the changes in the request.
-  @_s.JsonKey(name: 'FailureDescription')
-  final String failureDescription;
+  final String? failureDescription;
 
   /// The date and time, in ISO 8601 format (2018-02-27T13:45:22Z), the request
   /// started.
-  @_s.JsonKey(name: 'StartTime')
-  final String startTime;
+  final String? startTime;
 
   /// The status of the change request.
-  @_s.JsonKey(name: 'Status')
-  final ChangeStatus status;
+  final ChangeStatus? status;
 
   DescribeChangeSetResponse({
     this.changeSet,
@@ -748,39 +750,67 @@ class DescribeChangeSetResponse {
     this.startTime,
     this.status,
   });
-  factory DescribeChangeSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeChangeSetResponseFromJson(json);
+
+  factory DescribeChangeSetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeChangeSetResponse(
+      changeSet: (json['ChangeSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChangeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      changeSetArn: json['ChangeSetArn'] as String?,
+      changeSetId: json['ChangeSetId'] as String?,
+      changeSetName: json['ChangeSetName'] as String?,
+      endTime: json['EndTime'] as String?,
+      failureCode: (json['FailureCode'] as String?)?.toFailureCode(),
+      failureDescription: json['FailureDescription'] as String?,
+      startTime: json['StartTime'] as String?,
+      status: (json['Status'] as String?)?.toChangeStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeSet = this.changeSet;
+    final changeSetArn = this.changeSetArn;
+    final changeSetId = this.changeSetId;
+    final changeSetName = this.changeSetName;
+    final endTime = this.endTime;
+    final failureCode = this.failureCode;
+    final failureDescription = this.failureDescription;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      if (changeSet != null) 'ChangeSet': changeSet,
+      if (changeSetArn != null) 'ChangeSetArn': changeSetArn,
+      if (changeSetId != null) 'ChangeSetId': changeSetId,
+      if (changeSetName != null) 'ChangeSetName': changeSetName,
+      if (endTime != null) 'EndTime': endTime,
+      if (failureCode != null) 'FailureCode': failureCode.toValue(),
+      if (failureDescription != null) 'FailureDescription': failureDescription,
+      if (startTime != null) 'StartTime': startTime,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEntityResponse {
   /// This stringified JSON object includes the details of the entity.
-  @_s.JsonKey(name: 'Details')
-  final String details;
+  final String? details;
 
   /// The ARN associated to the unique identifier for the change set referenced in
   /// this request.
-  @_s.JsonKey(name: 'EntityArn')
-  final String entityArn;
+  final String? entityArn;
 
   /// The identifier of the entity, in the format of
   /// <code>EntityId@RevisionId</code>.
-  @_s.JsonKey(name: 'EntityIdentifier')
-  final String entityIdentifier;
+  final String? entityIdentifier;
 
   /// The named type of the entity, in the format of
   /// <code>EntityType@Version</code>.
-  @_s.JsonKey(name: 'EntityType')
-  final String entityType;
+  final String? entityType;
 
   /// The last modified date of the entity, in ISO 8601 format
   /// (2018-02-27T13:45:22Z).
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final String lastModifiedDate;
+  final String? lastModifiedDate;
 
   DescribeEntityResponse({
     this.details,
@@ -789,73 +819,91 @@ class DescribeEntityResponse {
     this.entityType,
     this.lastModifiedDate,
   });
-  factory DescribeEntityResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEntityResponseFromJson(json);
+
+  factory DescribeEntityResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEntityResponse(
+      details: json['Details'] as String?,
+      entityArn: json['EntityArn'] as String?,
+      entityIdentifier: json['EntityIdentifier'] as String?,
+      entityType: json['EntityType'] as String?,
+      lastModifiedDate: json['LastModifiedDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final entityArn = this.entityArn;
+    final entityIdentifier = this.entityIdentifier;
+    final entityType = this.entityType;
+    final lastModifiedDate = this.lastModifiedDate;
+    return {
+      if (details != null) 'Details': details,
+      if (entityArn != null) 'EntityArn': entityArn,
+      if (entityIdentifier != null) 'EntityIdentifier': entityIdentifier,
+      if (entityType != null) 'EntityType': entityType,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+    };
+  }
 }
 
-/// A product entity contains data that describes your product, its supported
-/// features, and how it can be used or launched by your customer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// An entity contains data that describes your product, its supported features,
+/// and how it can be used or launched by your customer.
 class Entity {
   /// The type of entity.
-  @_s.JsonKey(name: 'Type')
   final String type;
 
   /// The identifier for the entity.
-  @_s.JsonKey(name: 'Identifier')
-  final String identifier;
+  final String? identifier;
 
   Entity({
-    @_s.required this.type,
+    required this.type,
     this.identifier,
   });
-  factory Entity.fromJson(Map<String, dynamic> json) => _$EntityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EntityToJson(this);
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    return Entity(
+      type: json['Type'] as String,
+      identifier: json['Identifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final identifier = this.identifier;
+    return {
+      'Type': type,
+      if (identifier != null) 'Identifier': identifier,
+    };
+  }
 }
 
 /// This object is a container for common summary information about the entity.
 /// The summary doesn't contain the whole entity structure, but it does contain
 /// information common across all entities.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntitySummary {
   /// The ARN associated with the unique identifier for the entity.
-  @_s.JsonKey(name: 'EntityArn')
-  final String entityArn;
+  final String? entityArn;
 
   /// The unique identifier for the entity.
-  @_s.JsonKey(name: 'EntityId')
-  final String entityId;
+  final String? entityId;
 
   /// The type of the entity.
-  @_s.JsonKey(name: 'EntityType')
-  final String entityType;
+  final String? entityType;
 
   /// The last time the entity was published, using ISO 8601 format
   /// (2018-02-27T13:45:22Z).
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final String lastModifiedDate;
+  final String? lastModifiedDate;
 
   /// The name for the entity. This value is not unique. It is defined by the
   /// seller.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The visibility status of the entity to buyers. This value can be
   /// <code>Public</code> (everyone can view the entity), <code>Limited</code>
   /// (the entity is visible to limited accounts only), or <code>Restricted</code>
   /// (the entity was published and then unpublished and only existing buyers can
   /// view it).
-  @_s.JsonKey(name: 'Visibility')
-  final String visibility;
+  final String? visibility;
 
   EntitySummary({
     this.entityArn,
@@ -865,54 +913,102 @@ class EntitySummary {
     this.name,
     this.visibility,
   });
-  factory EntitySummary.fromJson(Map<String, dynamic> json) =>
-      _$EntitySummaryFromJson(json);
+
+  factory EntitySummary.fromJson(Map<String, dynamic> json) {
+    return EntitySummary(
+      entityArn: json['EntityArn'] as String?,
+      entityId: json['EntityId'] as String?,
+      entityType: json['EntityType'] as String?,
+      lastModifiedDate: json['LastModifiedDate'] as String?,
+      name: json['Name'] as String?,
+      visibility: json['Visibility'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityArn = this.entityArn;
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final visibility = this.visibility;
+    return {
+      if (entityArn != null) 'EntityArn': entityArn,
+      if (entityId != null) 'EntityId': entityId,
+      if (entityType != null) 'EntityType': entityType,
+      if (lastModifiedDate != null) 'LastModifiedDate': lastModifiedDate,
+      if (name != null) 'Name': name,
+      if (visibility != null) 'Visibility': visibility,
+    };
+  }
 }
 
 /// Details about the error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorDetail {
   /// The error code that identifies the type of error.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The message for the error.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   ErrorDetail({
     this.errorCode,
     this.errorMessage,
   });
-  factory ErrorDetail.fromJson(Map<String, dynamic> json) =>
-      _$ErrorDetailFromJson(json);
+
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+    };
+  }
 }
 
 enum FailureCode {
-  @_s.JsonValue('CLIENT_ERROR')
   clientError,
-  @_s.JsonValue('SERVER_FAULT')
   serverFault,
+}
+
+extension on FailureCode {
+  String toValue() {
+    switch (this) {
+      case FailureCode.clientError:
+        return 'CLIENT_ERROR';
+      case FailureCode.serverFault:
+        return 'SERVER_FAULT';
+    }
+  }
+}
+
+extension on String {
+  FailureCode toFailureCode() {
+    switch (this) {
+      case 'CLIENT_ERROR':
+        return FailureCode.clientError;
+      case 'SERVER_FAULT':
+        return FailureCode.serverFault;
+    }
+    throw Exception('$this is not known in enum FailureCode');
+  }
 }
 
 /// A filter object, used to optionally filter results from calls to the
 /// <code>ListEntities</code> and <code>ListChangeSets</code> actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// For <code>ListEntities</code>, the supported value for this is an
   /// <code>EntityId</code>.
   ///
   /// For <code>ListChangeSets</code>, the supported values are as follows:
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// <code>ListEntities</code> - This is a list of unique <code>EntityId</code>s.
   ///
@@ -950,68 +1046,102 @@ class Filter {
   /// of all change sets that ended after the filter value.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ValueList')
-  final List<String> valueList;
+  final List<String>? valueList;
 
   Filter({
     this.name,
     this.valueList,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      name: json['Name'] as String?,
+      valueList: (json['ValueList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final valueList = this.valueList;
+    return {
+      if (name != null) 'Name': name,
+      if (valueList != null) 'ValueList': valueList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChangeSetsResponse {
   /// Array of <code>ChangeSetSummaryListItem</code> objects.
-  @_s.JsonKey(name: 'ChangeSetSummaryList')
-  final List<ChangeSetSummaryListItem> changeSetSummaryList;
+  final List<ChangeSetSummaryListItem>? changeSetSummaryList;
 
   /// The value of the next token, if it exists. Null if there are no more
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChangeSetsResponse({
     this.changeSetSummaryList,
     this.nextToken,
   });
-  factory ListChangeSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChangeSetsResponseFromJson(json);
+
+  factory ListChangeSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListChangeSetsResponse(
+      changeSetSummaryList: (json['ChangeSetSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ChangeSetSummaryListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeSetSummaryList = this.changeSetSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (changeSetSummaryList != null)
+        'ChangeSetSummaryList': changeSetSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEntitiesResponse {
   /// Array of <code>EntitySummary</code> object.
-  @_s.JsonKey(name: 'EntitySummaryList')
-  final List<EntitySummary> entitySummaryList;
+  final List<EntitySummary>? entitySummaryList;
 
   /// The value of the next token if it exists. Null if there is no more result.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEntitiesResponse({
     this.entitySummaryList,
     this.nextToken,
   });
-  factory ListEntitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEntitiesResponseFromJson(json);
+
+  factory ListEntitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListEntitiesResponse(
+      entitySummaryList: (json['EntitySummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntitySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entitySummaryList = this.entitySummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (entitySummaryList != null) 'EntitySummaryList': entitySummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// An object that contains two attributes, <code>SortBy</code> and
 /// <code>SortOrder</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Sort {
   /// For <code>ListEntities</code>, supported attributes include
   /// <code>LastModifiedDate</code> (default), <code>Visibility</code>,
@@ -1019,72 +1149,113 @@ class Sort {
   ///
   /// For <code>ListChangeSets</code>, supported attributes include
   /// <code>StartTime</code> and <code>EndTime</code>.
-  @_s.JsonKey(name: 'SortBy')
-  final String sortBy;
+  final String? sortBy;
 
   /// The sorting order. Can be <code>ASCENDING</code> or <code>DESCENDING</code>.
   /// The default value is <code>DESCENDING</code>.
-  @_s.JsonKey(name: 'SortOrder')
-  final SortOrder sortOrder;
+  final SortOrder? sortOrder;
 
   Sort({
     this.sortBy,
     this.sortOrder,
   });
-  Map<String, dynamic> toJson() => _$SortToJson(this);
+
+  factory Sort.fromJson(Map<String, dynamic> json) {
+    return Sort(
+      sortBy: json['SortBy'] as String?,
+      sortOrder: (json['SortOrder'] as String?)?.toSortOrder(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sortBy = this.sortBy;
+    final sortOrder = this.sortOrder;
+    return {
+      if (sortBy != null) 'SortBy': sortBy,
+      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+    };
+  }
 }
 
 enum SortOrder {
-  @_s.JsonValue('ASCENDING')
   ascending,
-  @_s.JsonValue('DESCENDING')
   descending,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
 class StartChangeSetResponse {
   /// The ARN associated to the unique identifier generated for the request.
-  @_s.JsonKey(name: 'ChangeSetArn')
-  final String changeSetArn;
+  final String? changeSetArn;
 
   /// Unique identifier generated for the request.
-  @_s.JsonKey(name: 'ChangeSetId')
-  final String changeSetId;
+  final String? changeSetId;
 
   StartChangeSetResponse({
     this.changeSetArn,
     this.changeSetId,
   });
-  factory StartChangeSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartChangeSetResponseFromJson(json);
+
+  factory StartChangeSetResponse.fromJson(Map<String, dynamic> json) {
+    return StartChangeSetResponse(
+      changeSetArn: json['ChangeSetArn'] as String?,
+      changeSetId: json['ChangeSetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeSetArn = this.changeSetArn;
+    final changeSetId = this.changeSetId;
+    return {
+      if (changeSetArn != null) 'ChangeSetArn': changeSetArn,
+      if (changeSetId != null) 'ChangeSetId': changeSetId,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceNotSupportedException extends _s.GenericAwsException {
-  ResourceNotSupportedException({String type, String message})
+  ResourceNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceNotSupportedException',
@@ -1092,7 +1263,7 @@ class ResourceNotSupportedException extends _s.GenericAwsException {
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -1100,12 +1271,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

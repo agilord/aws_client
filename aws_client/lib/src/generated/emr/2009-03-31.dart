@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2009-03-31.g.dart';
 
 /// Amazon EMR is a web service that makes it easier to process large amounts of
 /// data efficiently. Amazon EMR uses Hadoop processing combined with several
@@ -34,10 +27,10 @@ part '2009-03-31.g.dart';
 class Emr {
   final _s.JsonProtocol _protocol;
   Emr({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -63,8 +56,8 @@ class Emr {
   /// Parameter [instanceFleet] :
   /// Specifies the configuration of the instance fleet.
   Future<AddInstanceFleetOutput> addInstanceFleet({
-    @_s.required String clusterId,
-    @_s.required InstanceFleetConfig instanceFleet,
+    required String clusterId,
+    required InstanceFleetConfig instanceFleet,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     _s.validateStringLength(
@@ -72,12 +65,6 @@ class Emr {
       clusterId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(instanceFleet, 'instanceFleet');
@@ -110,8 +97,8 @@ class Emr {
   /// Parameter [jobFlowId] :
   /// Job flow in which to add the instance groups.
   Future<AddInstanceGroupsOutput> addInstanceGroups({
-    @_s.required List<InstanceGroupConfig> instanceGroups,
-    @_s.required String jobFlowId,
+    required List<InstanceGroupConfig> instanceGroups,
+    required String jobFlowId,
   }) async {
     ArgumentError.checkNotNull(instanceGroups, 'instanceGroups');
     ArgumentError.checkNotNull(jobFlowId, 'jobFlowId');
@@ -120,12 +107,6 @@ class Emr {
       jobFlowId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobFlowId',
-      jobFlowId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -184,8 +165,8 @@ class Emr {
   /// Parameter [steps] :
   /// A list of <a>StepConfig</a> to be executed by the job flow.
   Future<AddJobFlowStepsOutput> addJobFlowSteps({
-    @_s.required String jobFlowId,
-    @_s.required List<StepConfig> steps,
+    required String jobFlowId,
+    required List<StepConfig> steps,
   }) async {
     ArgumentError.checkNotNull(jobFlowId, 'jobFlowId');
     _s.validateStringLength(
@@ -193,12 +174,6 @@ class Emr {
       jobFlowId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobFlowId',
-      jobFlowId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(steps, 'steps');
@@ -240,8 +215,8 @@ class Emr {
   /// string with a maximum of 128 characters, and an optional value string with
   /// a maximum of 256 characters.
   Future<void> addTags({
-    @_s.required String resourceId,
-    @_s.required List<Tag> tags,
+    required String resourceId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -249,7 +224,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.AddTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -260,8 +235,6 @@ class Emr {
         'Tags': tags,
       },
     );
-
-    return AddTagsOutput.fromJson(jsonResponse.body);
   }
 
   /// Cancels a pending step or steps in a running cluster. Available only in
@@ -286,9 +259,9 @@ class Emr {
   /// The option to choose to cancel <code>RUNNING</code> steps. By default, the
   /// value is <code>SEND_INTERRUPT</code>.
   Future<CancelStepsOutput> cancelSteps({
-    @_s.required String clusterId,
-    @_s.required List<String> stepIds,
-    StepCancellationOption stepCancellationOption,
+    required String clusterId,
+    required List<String> stepIds,
+    StepCancellationOption? stepCancellationOption,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     _s.validateStringLength(
@@ -296,12 +269,6 @@ class Emr {
       clusterId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stepIds, 'stepIds');
@@ -342,8 +309,8 @@ class Emr {
   /// Security Configurations to Set Up Cluster Security</a> in the <i>Amazon
   /// EMR Management Guide</i>.
   Future<CreateSecurityConfigurationOutput> createSecurityConfiguration({
-    @_s.required String name,
-    @_s.required String securityConfiguration,
+    required String name,
+    required String securityConfiguration,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -351,12 +318,6 @@ class Emr {
       name,
       0,
       10280,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(securityConfiguration, 'securityConfiguration');
@@ -379,10 +340,6 @@ class Emr {
     return CreateSecurityConfigurationOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Creates a new Amazon EMR Studio.
   ///
   /// May throw [InternalServerException].
@@ -392,6 +349,10 @@ class Emr {
   /// Specifies whether the Studio authenticates users using single sign-on
   /// (SSO) or IAM. Amazon EMR Studio currently only supports SSO
   /// authentication.
+  ///
+  /// Parameter [defaultS3Location] :
+  /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and
+  /// notebook files.
   ///
   /// Parameter [engineSecurityGroupId] :
   /// The ID of the Amazon EMR Studio Engine security group. The Engine security
@@ -407,14 +368,15 @@ class Emr {
   /// services.
   ///
   /// Parameter [subnetIds] :
-  /// A list of subnet IDs to associate with the Studio. The subnets must belong
-  /// to the VPC specified by <code>VpcId</code>. Studio users can create a
-  /// Workspace in any of the specified subnets.
+  /// A list of subnet IDs to associate with the Amazon EMR Studio. A Studio can
+  /// have a maximum of 5 subnets. The subnets must belong to the VPC specified
+  /// by <code>VpcId</code>. Studio users can create a Workspace in any of the
+  /// specified subnets.
   ///
   /// Parameter [userRole] :
-  /// The IAM user role that will be assumed by users and groups logged in to a
-  /// Studio. The permissions attached to this IAM role can be scoped down for
-  /// each user or group using session policies.
+  /// The IAM user role that will be assumed by users and groups logged in to an
+  /// Amazon EMR Studio. The permissions attached to this IAM role can be scoped
+  /// down for each user or group using session policies.
   ///
   /// Parameter [vpcId] :
   /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) to associate with
@@ -426,45 +388,42 @@ class Emr {
   /// security group, and it must be in the same VPC specified by
   /// <code>VpcId</code>.
   ///
-  /// Parameter [defaultS3Location] :
-  /// The default Amazon S3 location to back up EMR Studio Workspaces and
-  /// notebook files. A Studio user can select an alternative Amazon S3 location
-  /// when creating a Workspace.
-  ///
   /// Parameter [description] :
-  /// A detailed description of the Studio.
+  /// A detailed description of the Amazon EMR Studio.
   ///
   /// Parameter [tags] :
-  /// A list of tags to associate with the Studio. Tags are user-defined
-  /// key-value pairs that consist of a required key string with a maximum of
-  /// 128 characters, and an optional value string with a maximum of 256
-  /// characters.
+  /// A list of tags to associate with the Amazon EMR Studio. Tags are
+  /// user-defined key-value pairs that consist of a required key string with a
+  /// maximum of 128 characters, and an optional value string with a maximum of
+  /// 256 characters.
   Future<CreateStudioOutput> createStudio({
-    @_s.required AuthMode authMode,
-    @_s.required String engineSecurityGroupId,
-    @_s.required String name,
-    @_s.required String serviceRole,
-    @_s.required List<String> subnetIds,
-    @_s.required String userRole,
-    @_s.required String vpcId,
-    @_s.required String workspaceSecurityGroupId,
-    String defaultS3Location,
-    String description,
-    List<Tag> tags,
+    required AuthMode authMode,
+    required String defaultS3Location,
+    required String engineSecurityGroupId,
+    required String name,
+    required String serviceRole,
+    required List<String> subnetIds,
+    required String userRole,
+    required String vpcId,
+    required String workspaceSecurityGroupId,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(authMode, 'authMode');
+    ArgumentError.checkNotNull(defaultS3Location, 'defaultS3Location');
+    _s.validateStringLength(
+      'defaultS3Location',
+      defaultS3Location,
+      0,
+      10280,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(engineSecurityGroupId, 'engineSecurityGroupId');
     _s.validateStringLength(
       'engineSecurityGroupId',
       engineSecurityGroupId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'engineSecurityGroupId',
-      engineSecurityGroupId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
@@ -475,24 +434,12 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
     _s.validateStringLength(
       'serviceRole',
       serviceRole,
       0,
       10280,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceRole',
-      serviceRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
@@ -504,24 +451,12 @@ class Emr {
       10280,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userRole',
-      userRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(vpcId, 'vpcId');
     _s.validateStringLength(
       'vpcId',
       vpcId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'vpcId',
-      vpcId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -533,33 +468,11 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workspaceSecurityGroupId',
-      workspaceSecurityGroupId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
-    _s.validateStringLength(
-      'defaultS3Location',
-      defaultS3Location,
-      0,
-      10280,
-    );
-    _s.validateStringPattern(
-      'defaultS3Location',
-      defaultS3Location,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -572,7 +485,8 @@ class Emr {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthMode': authMode?.toValue() ?? '',
+        'AuthMode': authMode.toValue(),
+        'DefaultS3Location': defaultS3Location,
         'EngineSecurityGroupId': engineSecurityGroupId,
         'Name': name,
         'ServiceRole': serviceRole,
@@ -580,7 +494,6 @@ class Emr {
         'UserRole': userRole,
         'VpcId': vpcId,
         'WorkspaceSecurityGroupId': workspaceSecurityGroupId,
-        if (defaultS3Location != null) 'DefaultS3Location': defaultS3Location,
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
       },
@@ -589,10 +502,6 @@ class Emr {
     return CreateStudioOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Maps a user or group to the Amazon EMR Studio specified by
   /// <code>StudioId</code>, and applies a session policy to refine Studio
   /// permissions for that user or group.
@@ -601,7 +510,8 @@ class Emr {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [identityType] :
-  /// Specifies whether the identity to map to the Studio is a user or a group.
+  /// Specifies whether the identity to map to the Amazon EMR Studio is a user
+  /// or a group.
   ///
   /// Parameter [sessionPolicyArn] :
   /// The Amazon Resource Name (ARN) for the session policy that will be applied
@@ -622,17 +532,17 @@ class Emr {
   ///
   /// Parameter [identityName] :
   /// The name of the user or group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
   /// in the <i>AWS SSO Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   Future<void> createStudioSessionMapping({
-    @_s.required IdentityType identityType,
-    @_s.required String sessionPolicyArn,
-    @_s.required String studioId,
-    String identityId,
-    String identityName,
+    required IdentityType identityType,
+    required String sessionPolicyArn,
+    required String studioId,
+    String? identityId,
+    String? identityName,
   }) async {
     ArgumentError.checkNotNull(identityType, 'identityType');
     ArgumentError.checkNotNull(sessionPolicyArn, 'sessionPolicyArn');
@@ -643,12 +553,6 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sessionPolicyArn',
-      sessionPolicyArn,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(studioId, 'studioId');
     _s.validateStringLength(
       'studioId',
@@ -657,46 +561,30 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.CreateStudioSessionMapping'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdentityType': identityType?.toValue() ?? '',
+        'IdentityType': identityType.toValue(),
         'SessionPolicyArn': sessionPolicyArn,
         'StudioId': studioId,
         if (identityId != null) 'IdentityId': identityId,
@@ -713,7 +601,7 @@ class Emr {
   /// Parameter [name] :
   /// The name of the security configuration.
   Future<void> deleteSecurityConfiguration({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -723,17 +611,11 @@ class Emr {
       10280,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DeleteSecurityConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -743,14 +625,8 @@ class Emr {
         'Name': name,
       },
     );
-
-    return DeleteSecurityConfigurationOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Removes an Amazon EMR Studio from the Studio metadata store.
   ///
   /// May throw [InternalServerException].
@@ -759,7 +635,7 @@ class Emr {
   /// Parameter [studioId] :
   /// The ID of the Amazon EMR Studio.
   Future<void> deleteStudio({
-    @_s.required String studioId,
+    required String studioId,
   }) async {
     ArgumentError.checkNotNull(studioId, 'studioId');
     _s.validateStringLength(
@@ -769,17 +645,11 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DeleteStudio'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -791,18 +661,14 @@ class Emr {
     );
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Removes a user or group from an Amazon EMR Studio.
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [identityType] :
-  /// Specifies whether the identity to delete from the Studio is a user or a
-  /// group.
+  /// Specifies whether the identity to delete from the Amazon EMR Studio is a
+  /// user or a group.
   ///
   /// Parameter [studioId] :
   /// The ID of the Amazon EMR Studio.
@@ -817,18 +683,18 @@ class Emr {
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   ///
   /// Parameter [identityName] :
-  /// The name of the user name or group to remove from the Studio. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// The name of the user name or group to remove from the Amazon EMR Studio.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
   /// in the <i>AWS SSO Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   Future<void> deleteStudioSessionMapping({
-    @_s.required IdentityType identityType,
-    @_s.required String studioId,
-    String identityId,
-    String identityName,
+    required IdentityType identityType,
+    required String studioId,
+    String? identityId,
+    String? identityName,
   }) async {
     ArgumentError.checkNotNull(identityType, 'identityType');
     ArgumentError.checkNotNull(studioId, 'studioId');
@@ -839,46 +705,30 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.DeleteStudioSessionMapping'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdentityType': identityType?.toValue() ?? '',
+        'IdentityType': identityType.toValue(),
         'StudioId': studioId,
         if (identityId != null) 'IdentityId': identityId,
         if (identityName != null) 'IdentityName': identityName,
@@ -895,7 +745,7 @@ class Emr {
   /// Parameter [clusterId] :
   /// The identifier of the cluster to describe.
   Future<DescribeClusterOutput> describeCluster({
-    @_s.required String clusterId,
+    required String clusterId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -958,10 +808,10 @@ class Emr {
   /// Return only job flows whose state is contained in this list.
   @Deprecated('Deprecated')
   Future<DescribeJobFlowsOutput> describeJobFlows({
-    DateTime createdAfter,
-    DateTime createdBefore,
-    List<String> jobFlowIds,
-    List<JobFlowExecutionState> jobFlowStates,
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    List<String>? jobFlowIds,
+    List<JobFlowExecutionState>? jobFlowStates,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -980,8 +830,7 @@ class Emr {
           'CreatedBefore': unixTimestampToJson(createdBefore),
         if (jobFlowIds != null) 'JobFlowIds': jobFlowIds,
         if (jobFlowStates != null)
-          'JobFlowStates':
-              jobFlowStates.map((e) => e?.toValue() ?? '').toList(),
+          'JobFlowStates': jobFlowStates.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -996,7 +845,7 @@ class Emr {
   /// Parameter [notebookExecutionId] :
   /// The unique identifier of the notebook execution.
   Future<DescribeNotebookExecutionOutput> describeNotebookExecution({
-    @_s.required String notebookExecutionId,
+    required String notebookExecutionId,
   }) async {
     ArgumentError.checkNotNull(notebookExecutionId, 'notebookExecutionId');
     _s.validateStringLength(
@@ -1004,12 +853,6 @@ class Emr {
       notebookExecutionId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'notebookExecutionId',
-      notebookExecutionId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1039,7 +882,7 @@ class Emr {
   /// Parameter [name] :
   /// The name of the security configuration.
   Future<DescribeSecurityConfigurationOutput> describeSecurityConfiguration({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1047,12 +890,6 @@ class Emr {
       name,
       0,
       10280,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1084,8 +921,8 @@ class Emr {
   /// Parameter [stepId] :
   /// The identifier of the step to describe.
   Future<DescribeStepOutput> describeStep({
-    @_s.required String clusterId,
-    @_s.required String stepId,
+    required String clusterId,
+    required String stepId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     ArgumentError.checkNotNull(stepId, 'stepId');
@@ -1108,10 +945,6 @@ class Emr {
     return DescribeStepOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Returns details for the specified Amazon EMR Studio including ID, Name,
   /// VPC, Studio access URL, and so on.
   ///
@@ -1121,7 +954,7 @@ class Emr {
   /// Parameter [studioId] :
   /// The Amazon EMR Studio ID.
   Future<DescribeStudioOutput> describeStudio({
-    @_s.required String studioId,
+    required String studioId,
   }) async {
     ArgumentError.checkNotNull(studioId, 'studioId');
     _s.validateStringLength(
@@ -1129,12 +962,6 @@ class Emr {
       studioId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1186,7 +1013,7 @@ class Emr {
   /// Specifies the ID of the cluster for which the managed scaling policy will
   /// be fetched.
   Future<GetManagedScalingPolicyOutput> getManagedScalingPolicy({
-    @_s.required String clusterId,
+    required String clusterId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -1207,10 +1034,6 @@ class Emr {
     return GetManagedScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Fetches mapping details for the specified Amazon EMR Studio and identity
   /// (user or group).
   ///
@@ -1234,16 +1057,16 @@ class Emr {
   ///
   /// Parameter [identityName] :
   /// The name of the user or group to fetch. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
   /// in the <i>AWS SSO Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   Future<GetStudioSessionMappingOutput> getStudioSessionMapping({
-    @_s.required IdentityType identityType,
-    @_s.required String studioId,
-    String identityId,
-    String identityName,
+    required IdentityType identityType,
+    required String studioId,
+    String? identityId,
+    String? identityName,
   }) async {
     ArgumentError.checkNotNull(identityType, 'identityType');
     ArgumentError.checkNotNull(studioId, 'studioId');
@@ -1254,33 +1077,17 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1293,7 +1100,7 @@ class Emr {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdentityType': identityType?.toValue() ?? '',
+        'IdentityType': identityType.toValue(),
         'StudioId': studioId,
         if (identityId != null) 'IdentityId': identityId,
         if (identityName != null) 'IdentityName': identityName,
@@ -1315,8 +1122,8 @@ class Emr {
   /// Parameter [marker] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListBootstrapActionsOutput> listBootstrapActions({
-    @_s.required String clusterId,
-    String marker,
+    required String clusterId,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -1359,10 +1166,10 @@ class Emr {
   /// Parameter [marker] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListClustersOutput> listClusters({
-    List<ClusterState> clusterStates,
-    DateTime createdAfter,
-    DateTime createdBefore,
-    String marker,
+    List<ClusterState>? clusterStates,
+    DateTime? createdAfter,
+    DateTime? createdBefore,
+    String? marker,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1376,8 +1183,7 @@ class Emr {
       headers: headers,
       payload: {
         if (clusterStates != null)
-          'ClusterStates':
-              clusterStates.map((e) => e?.toValue() ?? '').toList(),
+          'ClusterStates': clusterStates.map((e) => e.toValue()).toList(),
         if (createdAfter != null)
           'CreatedAfter': unixTimestampToJson(createdAfter),
         if (createdBefore != null)
@@ -1404,8 +1210,8 @@ class Emr {
   /// Parameter [marker] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListInstanceFleetsOutput> listInstanceFleets({
-    @_s.required String clusterId,
-    String marker,
+    required String clusterId,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -1438,8 +1244,8 @@ class Emr {
   /// Parameter [marker] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListInstanceGroupsOutput> listInstanceGroups({
-    @_s.required String clusterId,
-    String marker,
+    required String clusterId,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -1491,13 +1297,13 @@ class Emr {
   /// Parameter [marker] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListInstancesOutput> listInstances({
-    @_s.required String clusterId,
-    String instanceFleetId,
-    InstanceFleetType instanceFleetType,
-    String instanceGroupId,
-    List<InstanceGroupType> instanceGroupTypes,
-    List<InstanceState> instanceStates,
-    String marker,
+    required String clusterId,
+    String? instanceFleetId,
+    InstanceFleetType? instanceFleetType,
+    String? instanceGroupId,
+    List<InstanceGroupType>? instanceGroupTypes,
+    List<InstanceState>? instanceStates,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -1518,10 +1324,9 @@ class Emr {
         if (instanceGroupId != null) 'InstanceGroupId': instanceGroupId,
         if (instanceGroupTypes != null)
           'InstanceGroupTypes':
-              instanceGroupTypes.map((e) => e?.toValue() ?? '').toList(),
+              instanceGroupTypes.map((e) => e.toValue()).toList(),
         if (instanceStates != null)
-          'InstanceStates':
-              instanceStates.map((e) => e?.toValue() ?? '').toList(),
+          'InstanceStates': instanceStates.map((e) => e.toValue()).toList(),
         if (marker != null) 'Marker': marker,
       },
     );
@@ -1600,22 +1405,17 @@ class Emr {
   /// The end of time range filter for listing notebook executions. The default
   /// is the current timestamp.
   Future<ListNotebookExecutionsOutput> listNotebookExecutions({
-    String editorId,
-    DateTime from,
-    String marker,
-    NotebookExecutionStatus status,
-    DateTime to,
+    String? editorId,
+    DateTime? from,
+    String? marker,
+    NotebookExecutionStatus? status,
+    DateTime? to,
   }) async {
     _s.validateStringLength(
       'editorId',
       editorId,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'editorId',
-      editorId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1650,7 +1450,7 @@ class Emr {
   /// Parameter [marker] :
   /// The pagination token that indicates the set of results to retrieve.
   Future<ListSecurityConfigurationsOutput> listSecurityConfigurations({
-    String marker,
+    String? marker,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1672,7 +1472,7 @@ class Emr {
 
   /// Provides a list of steps for the cluster in reverse order unless you
   /// specify <code>stepIds</code> with the request of filter by
-  /// <code>StepStates</code>. You can specify a maximum of ten
+  /// <code>StepStates</code>. You can specify a maximum of 10
   /// <code>stepIDs</code>.
   ///
   /// May throw [InternalServerException].
@@ -1692,10 +1492,10 @@ class Emr {
   /// Parameter [stepStates] :
   /// The filter to limit the step list based on certain states.
   Future<ListStepsOutput> listSteps({
-    @_s.required String clusterId,
-    String marker,
-    List<String> stepIds,
-    List<StepState> stepStates,
+    required String clusterId,
+    String? marker,
+    List<String>? stepIds,
+    List<StepState>? stepStates,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -1713,19 +1513,15 @@ class Emr {
         if (marker != null) 'Marker': marker,
         if (stepIds != null) 'StepIds': stepIds,
         if (stepStates != null)
-          'StepStates': stepStates.map((e) => e?.toValue() ?? '').toList(),
+          'StepStates': stepStates.map((e) => e.toValue()).toList(),
       },
     );
 
     return ListStepsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
-  /// Returns a list of all user or group session mappings for the EMR Studio
-  /// specified by <code>StudioId</code>.
+  /// Returns a list of all user or group session mappings for the Amazon EMR
+  /// Studio specified by <code>StudioId</code>.
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidRequestException].
@@ -1741,20 +1537,15 @@ class Emr {
   /// Parameter [studioId] :
   /// The ID of the Amazon EMR Studio.
   Future<ListStudioSessionMappingsOutput> listStudioSessionMappings({
-    IdentityType identityType,
-    String marker,
-    String studioId,
+    IdentityType? identityType,
+    String? marker,
+    String? studioId,
   }) async {
     _s.validateStringLength(
       'studioId',
       studioId,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1776,10 +1567,6 @@ class Emr {
     return ListStudioSessionMappingsOutput.fromJson(jsonResponse.body);
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
   /// Returns a list of all Amazon EMR Studios associated with the AWS account.
   /// The list includes details such as ID, Studio Access URL, and creation time
   /// for each Studio.
@@ -1790,7 +1577,7 @@ class Emr {
   /// Parameter [marker] :
   /// The pagination token that indicates the set of results to retrieve.
   Future<ListStudiosOutput> listStudios({
-    String marker,
+    String? marker,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1821,10 +1608,10 @@ class Emr {
   ///
   /// Parameter [stepConcurrencyLevel] :
   /// The number of steps that can be executed concurrently. You can specify a
-  /// maximum of 256 steps.
+  /// minimum of 1 step and a maximum of 256 steps.
   Future<ModifyClusterOutput> modifyCluster({
-    @_s.required String clusterId,
-    int stepConcurrencyLevel,
+    required String clusterId,
+    int? stepConcurrencyLevel,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
@@ -1864,8 +1651,8 @@ class Emr {
   /// Parameter [instanceFleet] :
   /// The unique identifier of the instance fleet.
   Future<void> modifyInstanceFleet({
-    @_s.required String clusterId,
-    @_s.required InstanceFleetModifyConfig instanceFleet,
+    required String clusterId,
+    required InstanceFleetModifyConfig instanceFleet,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     ArgumentError.checkNotNull(instanceFleet, 'instanceFleet');
@@ -1873,7 +1660,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ModifyInstanceFleet'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1899,14 +1686,14 @@ class Emr {
   /// Parameter [instanceGroups] :
   /// Instance groups to change.
   Future<void> modifyInstanceGroups({
-    String clusterId,
-    List<InstanceGroupModifyConfig> instanceGroups,
+    String? clusterId,
+    List<InstanceGroupModifyConfig>? instanceGroups,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.ModifyInstanceGroups'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1935,9 +1722,9 @@ class Emr {
   /// Specifies the ID of the instance group to which the automatic scaling
   /// policy is applied.
   Future<PutAutoScalingPolicyOutput> putAutoScalingPolicy({
-    @_s.required AutoScalingPolicy autoScalingPolicy,
-    @_s.required String clusterId,
-    @_s.required String instanceGroupId,
+    required AutoScalingPolicy autoScalingPolicy,
+    required String clusterId,
+    required String instanceGroupId,
   }) async {
     ArgumentError.checkNotNull(autoScalingPolicy, 'autoScalingPolicy');
     ArgumentError.checkNotNull(clusterId, 'clusterId');
@@ -1991,7 +1778,7 @@ class Emr {
   /// access is enabled by default in that Region.
   /// </note>
   Future<void> putBlockPublicAccessConfiguration({
-    @_s.required BlockPublicAccessConfiguration blockPublicAccessConfiguration,
+    required BlockPublicAccessConfiguration blockPublicAccessConfiguration,
   }) async {
     ArgumentError.checkNotNull(
         blockPublicAccessConfiguration, 'blockPublicAccessConfiguration');
@@ -1999,7 +1786,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.PutBlockPublicAccessConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2009,8 +1796,6 @@ class Emr {
         'BlockPublicAccessConfiguration': blockPublicAccessConfiguration,
       },
     );
-
-    return PutBlockPublicAccessConfigurationOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates a managed scaling policy for an Amazon EMR cluster. The
@@ -2026,8 +1811,8 @@ class Emr {
   /// Parameter [managedScalingPolicy] :
   /// Specifies the constraints for the managed scaling policy.
   Future<void> putManagedScalingPolicy({
-    @_s.required String clusterId,
-    @_s.required ManagedScalingPolicy managedScalingPolicy,
+    required String clusterId,
+    required ManagedScalingPolicy managedScalingPolicy,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     ArgumentError.checkNotNull(managedScalingPolicy, 'managedScalingPolicy');
@@ -2035,7 +1820,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.PutManagedScalingPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2046,8 +1831,6 @@ class Emr {
         'ManagedScalingPolicy': managedScalingPolicy,
       },
     );
-
-    return PutManagedScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes an automatic scaling policy from a specified instance group within
@@ -2061,8 +1844,8 @@ class Emr {
   /// Specifies the ID of the instance group to which the scaling policy is
   /// applied.
   Future<void> removeAutoScalingPolicy({
-    @_s.required String clusterId,
-    @_s.required String instanceGroupId,
+    required String clusterId,
+    required String instanceGroupId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     ArgumentError.checkNotNull(instanceGroupId, 'instanceGroupId');
@@ -2070,7 +1853,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RemoveAutoScalingPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2081,8 +1864,6 @@ class Emr {
         'InstanceGroupId': instanceGroupId,
       },
     );
-
-    return RemoveAutoScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes a managed scaling policy from a specified EMR cluster.
@@ -2091,14 +1872,14 @@ class Emr {
   /// Specifies the ID of the cluster from which the managed scaling policy will
   /// be removed.
   Future<void> removeManagedScalingPolicy({
-    @_s.required String clusterId,
+    required String clusterId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RemoveManagedScalingPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2108,8 +1889,6 @@ class Emr {
         'ClusterId': clusterId,
       },
     );
-
-    return RemoveManagedScalingPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from an Amazon EMR resource. Tags make it easier to associate
@@ -2131,8 +1910,8 @@ class Emr {
   /// Parameter [tagKeys] :
   /// A list of tag keys to remove from a resource.
   Future<void> removeTags({
-    @_s.required String resourceId,
-    @_s.required List<String> tagKeys,
+    required String resourceId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2140,7 +1919,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.RemoveTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2151,8 +1930,6 @@ class Emr {
         'TagKeys': tagKeys,
       },
     );
-
-    return RemoveTagsOutput.fromJson(jsonResponse.body);
   }
 
   /// RunJobFlow creates and starts running a new cluster (job flow). The
@@ -2304,7 +2081,7 @@ class Emr {
   /// "mapr-m7" - launch the cluster using MapR M7 Edition.
   /// </li>
   /// <li>
-  /// "hunk" - launch the cluster with the Hunk Big Data Analtics Platform.
+  /// "hunk" - launch the cluster with the Hunk Big Data Analytics Platform.
   /// </li>
   /// <li>
   /// "hue"- launch the cluster with Hue installed.
@@ -2398,33 +2175,33 @@ class Emr {
   /// permissions. This is the default. A value of <code>false</code> indicates
   /// that only the IAM user who created the cluster can perform actions.
   Future<RunJobFlowOutput> runJobFlow({
-    @_s.required JobFlowInstancesConfig instances,
-    @_s.required String name,
-    String additionalInfo,
-    String amiVersion,
-    List<Application> applications,
-    String autoScalingRole,
-    List<BootstrapActionConfig> bootstrapActions,
-    List<Configuration> configurations,
-    String customAmiId,
-    int ebsRootVolumeSize,
-    String jobFlowRole,
-    KerberosAttributes kerberosAttributes,
-    String logEncryptionKmsKeyId,
-    String logUri,
-    ManagedScalingPolicy managedScalingPolicy,
-    List<SupportedProductConfig> newSupportedProducts,
-    List<PlacementGroupConfig> placementGroupConfigs,
-    String releaseLabel,
-    RepoUpgradeOnBoot repoUpgradeOnBoot,
-    ScaleDownBehavior scaleDownBehavior,
-    String securityConfiguration,
-    String serviceRole,
-    int stepConcurrencyLevel,
-    List<StepConfig> steps,
-    List<String> supportedProducts,
-    List<Tag> tags,
-    bool visibleToAllUsers,
+    required JobFlowInstancesConfig instances,
+    required String name,
+    String? additionalInfo,
+    String? amiVersion,
+    List<Application>? applications,
+    String? autoScalingRole,
+    List<BootstrapActionConfig>? bootstrapActions,
+    List<Configuration>? configurations,
+    String? customAmiId,
+    int? ebsRootVolumeSize,
+    String? jobFlowRole,
+    KerberosAttributes? kerberosAttributes,
+    String? logEncryptionKmsKeyId,
+    String? logUri,
+    ManagedScalingPolicy? managedScalingPolicy,
+    List<SupportedProductConfig>? newSupportedProducts,
+    List<PlacementGroupConfig>? placementGroupConfigs,
+    String? releaseLabel,
+    RepoUpgradeOnBoot? repoUpgradeOnBoot,
+    ScaleDownBehavior? scaleDownBehavior,
+    String? securityConfiguration,
+    String? serviceRole,
+    int? stepConcurrencyLevel,
+    List<StepConfig>? steps,
+    List<String>? supportedProducts,
+    List<Tag>? tags,
+    bool? visibleToAllUsers,
   }) async {
     ArgumentError.checkNotNull(instances, 'instances');
     ArgumentError.checkNotNull(name, 'name');
@@ -2435,22 +2212,11 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'additionalInfo',
       additionalInfo,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'additionalInfo',
-      additionalInfo,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'amiVersion',
@@ -2458,21 +2224,11 @@ class Emr {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'amiVersion',
-      amiVersion,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'autoScalingRole',
       autoScalingRole,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'autoScalingRole',
-      autoScalingRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'customAmiId',
@@ -2480,21 +2236,11 @@ class Emr {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'customAmiId',
-      customAmiId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'jobFlowRole',
       jobFlowRole,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'jobFlowRole',
-      jobFlowRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'logEncryptionKmsKeyId',
@@ -2502,21 +2248,11 @@ class Emr {
       0,
       10280,
     );
-    _s.validateStringPattern(
-      'logEncryptionKmsKeyId',
-      logEncryptionKmsKeyId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'logUri',
       logUri,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'logUri',
-      logUri,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'releaseLabel',
@@ -2524,32 +2260,17 @@ class Emr {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'releaseLabel',
-      releaseLabel,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'securityConfiguration',
       securityConfiguration,
       0,
       10280,
     );
-    _s.validateStringPattern(
-      'securityConfiguration',
-      securityConfiguration,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'serviceRole',
       serviceRole,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'serviceRole',
-      serviceRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2639,8 +2360,8 @@ class Emr {
   /// Amazon EC2 instances in the cluster from shutting down due to API calls,
   /// user intervention, or job-flow error.
   Future<void> setTerminationProtection({
-    @_s.required List<String> jobFlowIds,
-    @_s.required bool terminationProtected,
+    required List<String> jobFlowIds,
+    required bool terminationProtected,
   }) async {
     ArgumentError.checkNotNull(jobFlowIds, 'jobFlowIds');
     ArgumentError.checkNotNull(terminationProtected, 'terminationProtected');
@@ -2648,7 +2369,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.SetTerminationProtection'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2683,8 +2404,8 @@ class Emr {
   /// permissions. This is the default. A value of <code>false</code> indicates
   /// that only the IAM user who created the cluster can perform actions.
   Future<void> setVisibleToAllUsers({
-    @_s.required List<String> jobFlowIds,
-    @_s.required bool visibleToAllUsers,
+    required List<String> jobFlowIds,
+    required bool visibleToAllUsers,
   }) async {
     ArgumentError.checkNotNull(jobFlowIds, 'jobFlowIds');
     ArgumentError.checkNotNull(visibleToAllUsers, 'visibleToAllUsers');
@@ -2692,7 +2413,7 @@ class Emr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.SetVisibleToAllUsers'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2748,14 +2469,14 @@ class Emr {
   /// 128 characters and an optional value string with a maximum of 256
   /// characters.
   Future<StartNotebookExecutionOutput> startNotebookExecution({
-    @_s.required String editorId,
-    @_s.required ExecutionEngineConfig executionEngine,
-    @_s.required String relativePath,
-    @_s.required String serviceRole,
-    String notebookExecutionName,
-    String notebookInstanceSecurityGroupId,
-    String notebookParams,
-    List<Tag> tags,
+    required String editorId,
+    required ExecutionEngineConfig executionEngine,
+    required String relativePath,
+    required String serviceRole,
+    String? notebookExecutionName,
+    String? notebookInstanceSecurityGroupId,
+    String? notebookParams,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(editorId, 'editorId');
     _s.validateStringLength(
@@ -2763,12 +2484,6 @@ class Emr {
       editorId,
       0,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'editorId',
-      editorId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(executionEngine, 'executionEngine');
@@ -2780,12 +2495,6 @@ class Emr {
       10280,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'relativePath',
-      relativePath,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serviceRole, 'serviceRole');
     _s.validateStringLength(
       'serviceRole',
@@ -2794,44 +2503,23 @@ class Emr {
       10280,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceRole',
-      serviceRole,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'notebookExecutionName',
       notebookExecutionName,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'notebookExecutionName',
-      notebookExecutionName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'notebookInstanceSecurityGroupId',
       notebookInstanceSecurityGroupId,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'notebookInstanceSecurityGroupId',
-      notebookInstanceSecurityGroupId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     _s.validateStringLength(
       'notebookParams',
       notebookParams,
       0,
       10280,
-    );
-    _s.validateStringPattern(
-      'notebookParams',
-      notebookParams,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2868,7 +2556,7 @@ class Emr {
   /// Parameter [notebookExecutionId] :
   /// The unique identifier of the notebook execution.
   Future<void> stopNotebookExecution({
-    @_s.required String notebookExecutionId,
+    required String notebookExecutionId,
   }) async {
     ArgumentError.checkNotNull(notebookExecutionId, 'notebookExecutionId');
     _s.validateStringLength(
@@ -2878,17 +2566,11 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'notebookExecutionId',
-      notebookExecutionId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.StopNotebookExecution'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2917,14 +2599,14 @@ class Emr {
   /// Parameter [jobFlowIds] :
   /// A list of job flows to be shut down.
   Future<void> terminateJobFlows({
-    @_s.required List<String> jobFlowIds,
+    required List<String> jobFlowIds,
   }) async {
     ArgumentError.checkNotNull(jobFlowIds, 'jobFlowIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.TerminateJobFlows'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2936,10 +2618,84 @@ class Emr {
     );
   }
 
-  /// <note>
-  /// The Amazon EMR Studio APIs are in preview release for Amazon EMR and are
-  /// subject to change.
-  /// </note>
+  /// Updates an Amazon EMR Studio configuration, including attributes such as
+  /// name, description, and subnets.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [studioId] :
+  /// The ID of the Amazon EMR Studio to update.
+  ///
+  /// Parameter [defaultS3Location] :
+  /// The Amazon S3 location to back up Workspaces and notebook files for the
+  /// Amazon EMR Studio.
+  ///
+  /// Parameter [description] :
+  /// A detailed description to assign to the Amazon EMR Studio.
+  ///
+  /// Parameter [name] :
+  /// A descriptive name for the Amazon EMR Studio.
+  ///
+  /// Parameter [subnetIds] :
+  /// A list of subnet IDs to associate with the Amazon EMR Studio. The list can
+  /// include new subnet IDs, but must also include all of the subnet IDs
+  /// previously associated with the Studio. The list order does not matter. A
+  /// Studio can have a maximum of 5 subnets. The subnets must belong to the
+  /// same VPC as the Studio.
+  Future<void> updateStudio({
+    required String studioId,
+    String? defaultS3Location,
+    String? description,
+    String? name,
+    List<String>? subnetIds,
+  }) async {
+    ArgumentError.checkNotNull(studioId, 'studioId');
+    _s.validateStringLength(
+      'studioId',
+      studioId,
+      0,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'defaultS3Location',
+      defaultS3Location,
+      0,
+      10280,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      256,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'ElasticMapReduce.UpdateStudio'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'StudioId': studioId,
+        if (defaultS3Location != null) 'DefaultS3Location': defaultS3Location,
+        if (description != null) 'Description': description,
+        if (name != null) 'Name': name,
+        if (subnetIds != null) 'SubnetIds': subnetIds,
+      },
+    );
+  }
+
   /// Updates the session policy attached to the user or group for the specified
   /// Amazon EMR Studio.
   ///
@@ -2954,7 +2710,7 @@ class Emr {
   /// specified user or group.
   ///
   /// Parameter [studioId] :
-  /// The ID of the EMR Studio.
+  /// The ID of the Amazon EMR Studio.
   ///
   /// Parameter [identityId] :
   /// The globally unique identifier (GUID) of the user or group. For more
@@ -2967,17 +2723,17 @@ class Emr {
   ///
   /// Parameter [identityName] :
   /// The name of the user or group to update. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
   /// in the <i>AWS SSO Identity Store API Reference</i>. Either
   /// <code>IdentityName</code> or <code>IdentityId</code> must be specified.
   Future<void> updateStudioSessionMapping({
-    @_s.required IdentityType identityType,
-    @_s.required String sessionPolicyArn,
-    @_s.required String studioId,
-    String identityId,
-    String identityName,
+    required IdentityType identityType,
+    required String sessionPolicyArn,
+    required String studioId,
+    String? identityId,
+    String? identityName,
   }) async {
     ArgumentError.checkNotNull(identityType, 'identityType');
     ArgumentError.checkNotNull(sessionPolicyArn, 'sessionPolicyArn');
@@ -2988,12 +2744,6 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sessionPolicyArn',
-      sessionPolicyArn,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(studioId, 'studioId');
     _s.validateStringLength(
       'studioId',
@@ -3002,46 +2752,30 @@ class Emr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'studioId',
-      studioId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'identityId',
       identityId,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'identityId',
-      identityId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'identityName',
       identityName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'identityName',
-      identityName,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ElasticMapReduce.UpdateStudioSessionMapping'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdentityType': identityType?.toValue() ?? '',
+        'IdentityType': identityType.toValue(),
         'SessionPolicyArn': sessionPolicyArn,
         'StudioId': studioId,
         if (identityId != null) 'IdentityId': identityId,
@@ -3052,108 +2786,189 @@ class Emr {
 }
 
 enum ActionOnFailure {
-  @_s.JsonValue('TERMINATE_JOB_FLOW')
   terminateJobFlow,
-  @_s.JsonValue('TERMINATE_CLUSTER')
   terminateCluster,
-  @_s.JsonValue('CANCEL_AND_WAIT')
   cancelAndWait,
-  @_s.JsonValue('CONTINUE')
   $continue,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ActionOnFailure {
+  String toValue() {
+    switch (this) {
+      case ActionOnFailure.terminateJobFlow:
+        return 'TERMINATE_JOB_FLOW';
+      case ActionOnFailure.terminateCluster:
+        return 'TERMINATE_CLUSTER';
+      case ActionOnFailure.cancelAndWait:
+        return 'CANCEL_AND_WAIT';
+      case ActionOnFailure.$continue:
+        return 'CONTINUE';
+    }
+  }
+}
+
+extension on String {
+  ActionOnFailure toActionOnFailure() {
+    switch (this) {
+      case 'TERMINATE_JOB_FLOW':
+        return ActionOnFailure.terminateJobFlow;
+      case 'TERMINATE_CLUSTER':
+        return ActionOnFailure.terminateCluster;
+      case 'CANCEL_AND_WAIT':
+        return ActionOnFailure.cancelAndWait;
+      case 'CONTINUE':
+        return ActionOnFailure.$continue;
+    }
+    throw Exception('$this is not known in enum ActionOnFailure');
+  }
+}
+
 class AddInstanceFleetOutput {
   /// The Amazon Resource Name of the cluster.
-  @_s.JsonKey(name: 'ClusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// The unique identifier of the cluster.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// The unique identifier of the instance fleet.
-  @_s.JsonKey(name: 'InstanceFleetId')
-  final String instanceFleetId;
+  final String? instanceFleetId;
 
   AddInstanceFleetOutput({
     this.clusterArn,
     this.clusterId,
     this.instanceFleetId,
   });
-  factory AddInstanceFleetOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddInstanceFleetOutputFromJson(json);
+
+  factory AddInstanceFleetOutput.fromJson(Map<String, dynamic> json) {
+    return AddInstanceFleetOutput(
+      clusterArn: json['ClusterArn'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      instanceFleetId: json['InstanceFleetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final clusterId = this.clusterId;
+    final instanceFleetId = this.instanceFleetId;
+    return {
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (instanceFleetId != null) 'InstanceFleetId': instanceFleetId,
+    };
+  }
 }
 
 /// Output from an AddInstanceGroups call.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddInstanceGroupsOutput {
   /// The Amazon Resource Name of the cluster.
-  @_s.JsonKey(name: 'ClusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// Instance group IDs of the newly created instance groups.
-  @_s.JsonKey(name: 'InstanceGroupIds')
-  final List<String> instanceGroupIds;
+  final List<String>? instanceGroupIds;
 
   /// The job flow ID in which the instance groups are added.
-  @_s.JsonKey(name: 'JobFlowId')
-  final String jobFlowId;
+  final String? jobFlowId;
 
   AddInstanceGroupsOutput({
     this.clusterArn,
     this.instanceGroupIds,
     this.jobFlowId,
   });
-  factory AddInstanceGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddInstanceGroupsOutputFromJson(json);
+
+  factory AddInstanceGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return AddInstanceGroupsOutput(
+      clusterArn: json['ClusterArn'] as String?,
+      instanceGroupIds: (json['InstanceGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      jobFlowId: json['JobFlowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final instanceGroupIds = this.instanceGroupIds;
+    final jobFlowId = this.jobFlowId;
+    return {
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (instanceGroupIds != null) 'InstanceGroupIds': instanceGroupIds,
+      if (jobFlowId != null) 'JobFlowId': jobFlowId,
+    };
+  }
 }
 
 /// The output for the <a>AddJobFlowSteps</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddJobFlowStepsOutput {
   /// The identifiers of the list of steps added to the job flow.
-  @_s.JsonKey(name: 'StepIds')
-  final List<String> stepIds;
+  final List<String>? stepIds;
 
   AddJobFlowStepsOutput({
     this.stepIds,
   });
-  factory AddJobFlowStepsOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddJobFlowStepsOutputFromJson(json);
+
+  factory AddJobFlowStepsOutput.fromJson(Map<String, dynamic> json) {
+    return AddJobFlowStepsOutput(
+      stepIds: (json['StepIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepIds = this.stepIds;
+    return {
+      if (stepIds != null) 'StepIds': stepIds,
+    };
+  }
 }
 
 /// This output indicates the result of adding tags to a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsOutput {
   AddTagsOutput();
-  factory AddTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsOutputFromJson(json);
+
+  factory AddTagsOutput.fromJson(Map<String, dynamic> _) {
+    return AddTagsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum AdjustmentType {
-  @_s.JsonValue('CHANGE_IN_CAPACITY')
   changeInCapacity,
-  @_s.JsonValue('PERCENT_CHANGE_IN_CAPACITY')
   percentChangeInCapacity,
-  @_s.JsonValue('EXACT_CAPACITY')
   exactCapacity,
+}
+
+extension on AdjustmentType {
+  String toValue() {
+    switch (this) {
+      case AdjustmentType.changeInCapacity:
+        return 'CHANGE_IN_CAPACITY';
+      case AdjustmentType.percentChangeInCapacity:
+        return 'PERCENT_CHANGE_IN_CAPACITY';
+      case AdjustmentType.exactCapacity:
+        return 'EXACT_CAPACITY';
+    }
+  }
+}
+
+extension on String {
+  AdjustmentType toAdjustmentType() {
+    switch (this) {
+      case 'CHANGE_IN_CAPACITY':
+        return AdjustmentType.changeInCapacity;
+      case 'PERCENT_CHANGE_IN_CAPACITY':
+        return AdjustmentType.percentChangeInCapacity;
+      case 'EXACT_CAPACITY':
+        return AdjustmentType.exactCapacity;
+    }
+    throw Exception('$this is not known in enum AdjustmentType');
+  }
 }
 
 /// With Amazon EMR release version 4.0 and later, the only accepted parameter
@@ -3169,28 +2984,19 @@ enum AdjustmentType {
 /// cluster and accepts a user argument list. Amazon EMR accepts and forwards
 /// the argument list to the corresponding installation script as bootstrap
 /// action argument.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Application {
   /// This option is for advanced users only. This is meta information about
   /// third-party applications that third-party vendors use for testing purposes.
-  @_s.JsonKey(name: 'AdditionalInfo')
-  final Map<String, String> additionalInfo;
+  final Map<String, String>? additionalInfo;
 
   /// Arguments for Amazon EMR to pass to the application.
-  @_s.JsonKey(name: 'Args')
-  final List<String> args;
+  final List<String>? args;
 
   /// The name of the application.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The version of the application.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   Application({
     this.additionalInfo,
@@ -3198,16 +3004,36 @@ class Application {
     this.name,
     this.version,
   });
-  factory Application.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ApplicationToJson(this);
+  factory Application.fromJson(Map<String, dynamic> json) {
+    return Application(
+      additionalInfo: (json['AdditionalInfo'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      args: (json['Args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalInfo = this.additionalInfo;
+    final args = this.args;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (additionalInfo != null) 'AdditionalInfo': additionalInfo,
+      if (args != null) 'Args': args,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum AuthMode {
-  @_s.JsonValue('SSO')
   sso,
-  @_s.JsonValue('IAM')
   iam,
 }
 
@@ -3219,7 +3045,18 @@ extension on AuthMode {
       case AuthMode.iam:
         return 'IAM';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuthMode toAuthMode() {
+    switch (this) {
+      case 'SSO':
+        return AuthMode.sso;
+      case 'IAM':
+        return AuthMode.iam;
+    }
+    throw Exception('$this is not known in enum AuthMode');
   }
 }
 
@@ -3227,136 +3064,243 @@ extension on AuthMode {
 /// in an Amazon EMR cluster. An automatic scaling policy defines how an
 /// instance group dynamically adds and terminates EC2 instances in response to
 /// the value of a CloudWatch metric. See <a>PutAutoScalingPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AutoScalingPolicy {
   /// The upper and lower EC2 instance limits for an automatic scaling policy.
   /// Automatic scaling activity will not cause an instance group to grow above or
   /// below these limits.
-  @_s.JsonKey(name: 'Constraints')
   final ScalingConstraints constraints;
 
   /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-  @_s.JsonKey(name: 'Rules')
   final List<ScalingRule> rules;
 
   AutoScalingPolicy({
-    @_s.required this.constraints,
-    @_s.required this.rules,
+    required this.constraints,
+    required this.rules,
   });
-  Map<String, dynamic> toJson() => _$AutoScalingPolicyToJson(this);
+
+  factory AutoScalingPolicy.fromJson(Map<String, dynamic> json) {
+    return AutoScalingPolicy(
+      constraints: ScalingConstraints.fromJson(
+          json['Constraints'] as Map<String, dynamic>),
+      rules: (json['Rules'] as List)
+          .whereNotNull()
+          .map((e) => ScalingRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraints = this.constraints;
+    final rules = this.rules;
+    return {
+      'Constraints': constraints,
+      'Rules': rules,
+    };
+  }
 }
 
 /// An automatic scaling policy for a core instance group or task instance group
 /// in an Amazon EMR cluster. The automatic scaling policy defines how an
 /// instance group dynamically adds and terminates EC2 instances in response to
 /// the value of a CloudWatch metric. See <a>PutAutoScalingPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingPolicyDescription {
   /// The upper and lower EC2 instance limits for an automatic scaling policy.
   /// Automatic scaling activity will not cause an instance group to grow above or
   /// below these limits.
-  @_s.JsonKey(name: 'Constraints')
-  final ScalingConstraints constraints;
+  final ScalingConstraints? constraints;
 
   /// The scale-in and scale-out rules that comprise the automatic scaling policy.
-  @_s.JsonKey(name: 'Rules')
-  final List<ScalingRule> rules;
+  final List<ScalingRule>? rules;
 
   /// The status of an automatic scaling policy.
-  @_s.JsonKey(name: 'Status')
-  final AutoScalingPolicyStatus status;
+  final AutoScalingPolicyStatus? status;
 
   AutoScalingPolicyDescription({
     this.constraints,
     this.rules,
     this.status,
   });
-  factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingPolicyDescriptionFromJson(json);
+
+  factory AutoScalingPolicyDescription.fromJson(Map<String, dynamic> json) {
+    return AutoScalingPolicyDescription(
+      constraints: json['Constraints'] != null
+          ? ScalingConstraints.fromJson(
+              json['Constraints'] as Map<String, dynamic>)
+          : null,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ScalingRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['Status'] != null
+          ? AutoScalingPolicyStatus.fromJson(
+              json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final constraints = this.constraints;
+    final rules = this.rules;
+    final status = this.status;
+    return {
+      if (constraints != null) 'Constraints': constraints,
+      if (rules != null) 'Rules': rules,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 enum AutoScalingPolicyState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ATTACHING')
   attaching,
-  @_s.JsonValue('ATTACHED')
   attached,
-  @_s.JsonValue('DETACHING')
   detaching,
-  @_s.JsonValue('DETACHED')
   detached,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on AutoScalingPolicyState {
+  String toValue() {
+    switch (this) {
+      case AutoScalingPolicyState.pending:
+        return 'PENDING';
+      case AutoScalingPolicyState.attaching:
+        return 'ATTACHING';
+      case AutoScalingPolicyState.attached:
+        return 'ATTACHED';
+      case AutoScalingPolicyState.detaching:
+        return 'DETACHING';
+      case AutoScalingPolicyState.detached:
+        return 'DETACHED';
+      case AutoScalingPolicyState.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  AutoScalingPolicyState toAutoScalingPolicyState() {
+    switch (this) {
+      case 'PENDING':
+        return AutoScalingPolicyState.pending;
+      case 'ATTACHING':
+        return AutoScalingPolicyState.attaching;
+      case 'ATTACHED':
+        return AutoScalingPolicyState.attached;
+      case 'DETACHING':
+        return AutoScalingPolicyState.detaching;
+      case 'DETACHED':
+        return AutoScalingPolicyState.detached;
+      case 'FAILED':
+        return AutoScalingPolicyState.failed;
+    }
+    throw Exception('$this is not known in enum AutoScalingPolicyState');
+  }
+}
+
 /// The reason for an <a>AutoScalingPolicyStatus</a> change.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingPolicyStateChangeReason {
   /// The code indicating the reason for the change in
   /// status.<code>USER_REQUEST</code> indicates that the scaling policy status
   /// was changed by a user. <code>PROVISION_FAILURE</code> indicates that the
   /// status change was because the policy failed to provision.
   /// <code>CLEANUP_FAILURE</code> indicates an error.
-  @_s.JsonKey(name: 'Code')
-  final AutoScalingPolicyStateChangeReasonCode code;
+  final AutoScalingPolicyStateChangeReasonCode? code;
 
   /// A friendly, more verbose message that accompanies an automatic scaling
   /// policy state change.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   AutoScalingPolicyStateChangeReason({
     this.code,
     this.message,
   });
+
   factory AutoScalingPolicyStateChangeReason.fromJson(
-          Map<String, dynamic> json) =>
-      _$AutoScalingPolicyStateChangeReasonFromJson(json);
+      Map<String, dynamic> json) {
+    return AutoScalingPolicyStateChangeReason(
+      code:
+          (json['Code'] as String?)?.toAutoScalingPolicyStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum AutoScalingPolicyStateChangeReasonCode {
-  @_s.JsonValue('USER_REQUEST')
   userRequest,
-  @_s.JsonValue('PROVISION_FAILURE')
   provisionFailure,
-  @_s.JsonValue('CLEANUP_FAILURE')
   cleanupFailure,
 }
 
+extension on AutoScalingPolicyStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case AutoScalingPolicyStateChangeReasonCode.userRequest:
+        return 'USER_REQUEST';
+      case AutoScalingPolicyStateChangeReasonCode.provisionFailure:
+        return 'PROVISION_FAILURE';
+      case AutoScalingPolicyStateChangeReasonCode.cleanupFailure:
+        return 'CLEANUP_FAILURE';
+    }
+  }
+}
+
+extension on String {
+  AutoScalingPolicyStateChangeReasonCode
+      toAutoScalingPolicyStateChangeReasonCode() {
+    switch (this) {
+      case 'USER_REQUEST':
+        return AutoScalingPolicyStateChangeReasonCode.userRequest;
+      case 'PROVISION_FAILURE':
+        return AutoScalingPolicyStateChangeReasonCode.provisionFailure;
+      case 'CLEANUP_FAILURE':
+        return AutoScalingPolicyStateChangeReasonCode.cleanupFailure;
+    }
+    throw Exception(
+        '$this is not known in enum AutoScalingPolicyStateChangeReasonCode');
+  }
+}
+
 /// The status of an automatic scaling policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingPolicyStatus {
   /// Indicates the status of the automatic scaling policy.
-  @_s.JsonKey(name: 'State')
-  final AutoScalingPolicyState state;
+  final AutoScalingPolicyState? state;
 
   /// The reason for a change in status.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final AutoScalingPolicyStateChangeReason stateChangeReason;
+  final AutoScalingPolicyStateChangeReason? stateChangeReason;
 
   AutoScalingPolicyStatus({
     this.state,
     this.stateChangeReason,
   });
-  factory AutoScalingPolicyStatus.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingPolicyStatusFromJson(json);
+
+  factory AutoScalingPolicyStatus.fromJson(Map<String, dynamic> json) {
+    return AutoScalingPolicyStatus(
+      state: (json['State'] as String?)?.toAutoScalingPolicyState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? AutoScalingPolicyStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    return {
+      if (state != null) 'State': state.toValue(),
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+    };
+  }
 }
 
 /// A configuration for Amazon EMR block public access. When
@@ -3365,18 +3309,12 @@ class AutoScalingPolicyStatus {
 /// has a rule that allows inbound traffic from 0.0.0.0/0 or ::/0 on a port,
 /// unless the port is specified as an exception using
 /// <code>PermittedPublicSecurityGroupRuleRanges</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BlockPublicAccessConfiguration {
   /// Indicates whether Amazon EMR block public access is enabled
   /// (<code>true</code>) or disabled (<code>false</code>). By default, the value
   /// is <code>false</code> for accounts that have created EMR clusters before
   /// July 2019. For accounts created after this, the default is
   /// <code>true</code>.
-  @_s.JsonKey(name: 'BlockPublicSecurityGroupRules')
   final bool blockPublicSecurityGroupRules;
 
   /// Specifies ports and port ranges that are permitted to have security group
@@ -3390,17 +3328,36 @@ class BlockPublicAccessConfiguration {
   /// By default, Port 22, which is used for SSH access to the cluster EC2
   /// instances, is in the list of
   /// <code>PermittedPublicSecurityGroupRuleRanges</code>.
-  @_s.JsonKey(name: 'PermittedPublicSecurityGroupRuleRanges')
-  final List<PortRange> permittedPublicSecurityGroupRuleRanges;
+  final List<PortRange>? permittedPublicSecurityGroupRuleRanges;
 
   BlockPublicAccessConfiguration({
-    @_s.required this.blockPublicSecurityGroupRules,
+    required this.blockPublicSecurityGroupRules,
     this.permittedPublicSecurityGroupRuleRanges,
   });
-  factory BlockPublicAccessConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$BlockPublicAccessConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BlockPublicAccessConfigurationToJson(this);
+  factory BlockPublicAccessConfiguration.fromJson(Map<String, dynamic> json) {
+    return BlockPublicAccessConfiguration(
+      blockPublicSecurityGroupRules:
+          json['BlockPublicSecurityGroupRules'] as bool,
+      permittedPublicSecurityGroupRuleRanges:
+          (json['PermittedPublicSecurityGroupRuleRanges'] as List?)
+              ?.whereNotNull()
+              .map((e) => PortRange.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockPublicSecurityGroupRules = this.blockPublicSecurityGroupRules;
+    final permittedPublicSecurityGroupRuleRanges =
+        this.permittedPublicSecurityGroupRuleRanges;
+    return {
+      'BlockPublicSecurityGroupRules': blockPublicSecurityGroupRules,
+      if (permittedPublicSecurityGroupRuleRanges != null)
+        'PermittedPublicSecurityGroupRuleRanges':
+            permittedPublicSecurityGroupRuleRanges,
+    };
+  }
 }
 
 /// Properties that describe the AWS principal that created the
@@ -3408,250 +3365,320 @@ class BlockPublicAccessConfiguration {
 /// <code>PutBlockPublicAccessConfiguration</code> action as well as the date
 /// and time that the configuration was created. Each time a configuration for
 /// block public access is updated, Amazon EMR updates this metadata.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BlockPublicAccessConfigurationMetadata {
   /// The Amazon Resource Name that created or last modified the configuration.
-  @_s.JsonKey(name: 'CreatedByArn')
   final String createdByArn;
 
   /// The date and time that the configuration was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   BlockPublicAccessConfigurationMetadata({
-    @_s.required this.createdByArn,
-    @_s.required this.creationDateTime,
+    required this.createdByArn,
+    required this.creationDateTime,
   });
+
   factory BlockPublicAccessConfigurationMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$BlockPublicAccessConfigurationMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return BlockPublicAccessConfigurationMetadata(
+      createdByArn: json['CreatedByArn'] as String,
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdByArn = this.createdByArn;
+    final creationDateTime = this.creationDateTime;
+    return {
+      'CreatedByArn': createdByArn,
+      'CreationDateTime': unixTimestampToJson(creationDateTime),
+    };
+  }
 }
 
 /// Configuration of a bootstrap action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BootstrapActionConfig {
   /// The name of the bootstrap action.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The script run by the bootstrap action.
-  @_s.JsonKey(name: 'ScriptBootstrapAction')
   final ScriptBootstrapActionConfig scriptBootstrapAction;
 
   BootstrapActionConfig({
-    @_s.required this.name,
-    @_s.required this.scriptBootstrapAction,
+    required this.name,
+    required this.scriptBootstrapAction,
   });
-  factory BootstrapActionConfig.fromJson(Map<String, dynamic> json) =>
-      _$BootstrapActionConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BootstrapActionConfigToJson(this);
+  factory BootstrapActionConfig.fromJson(Map<String, dynamic> json) {
+    return BootstrapActionConfig(
+      name: json['Name'] as String,
+      scriptBootstrapAction: ScriptBootstrapActionConfig.fromJson(
+          json['ScriptBootstrapAction'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final scriptBootstrapAction = this.scriptBootstrapAction;
+    return {
+      'Name': name,
+      'ScriptBootstrapAction': scriptBootstrapAction,
+    };
+  }
 }
 
 /// Reports the configuration of a bootstrap action in a cluster (job flow).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BootstrapActionDetail {
   /// A description of the bootstrap action.
-  @_s.JsonKey(name: 'BootstrapActionConfig')
-  final BootstrapActionConfig bootstrapActionConfig;
+  final BootstrapActionConfig? bootstrapActionConfig;
 
   BootstrapActionDetail({
     this.bootstrapActionConfig,
   });
-  factory BootstrapActionDetail.fromJson(Map<String, dynamic> json) =>
-      _$BootstrapActionDetailFromJson(json);
+
+  factory BootstrapActionDetail.fromJson(Map<String, dynamic> json) {
+    return BootstrapActionDetail(
+      bootstrapActionConfig: json['BootstrapActionConfig'] != null
+          ? BootstrapActionConfig.fromJson(
+              json['BootstrapActionConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bootstrapActionConfig = this.bootstrapActionConfig;
+    return {
+      if (bootstrapActionConfig != null)
+        'BootstrapActionConfig': bootstrapActionConfig,
+    };
+  }
 }
 
 /// Specification of the status of a CancelSteps request. Available only in
 /// Amazon EMR version 4.8.0 and later, excluding version 5.0.0.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelStepsInfo {
   /// The reason for the failure if the CancelSteps request fails.
-  @_s.JsonKey(name: 'Reason')
-  final String reason;
+  final String? reason;
 
   /// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
-  @_s.JsonKey(name: 'Status')
-  final CancelStepsRequestStatus status;
+  final CancelStepsRequestStatus? status;
 
   /// The encrypted StepId of a step.
-  @_s.JsonKey(name: 'StepId')
-  final String stepId;
+  final String? stepId;
 
   CancelStepsInfo({
     this.reason,
     this.status,
     this.stepId,
   });
-  factory CancelStepsInfo.fromJson(Map<String, dynamic> json) =>
-      _$CancelStepsInfoFromJson(json);
+
+  factory CancelStepsInfo.fromJson(Map<String, dynamic> json) {
+    return CancelStepsInfo(
+      reason: json['Reason'] as String?,
+      status: (json['Status'] as String?)?.toCancelStepsRequestStatus(),
+      stepId: json['StepId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final status = this.status;
+    final stepId = this.stepId;
+    return {
+      if (reason != null) 'Reason': reason,
+      if (status != null) 'Status': status.toValue(),
+      if (stepId != null) 'StepId': stepId,
+    };
+  }
 }
 
 /// The output for the <a>CancelSteps</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelStepsOutput {
   /// A list of <a>CancelStepsInfo</a>, which shows the status of specified cancel
   /// requests for each <code>StepID</code> specified.
-  @_s.JsonKey(name: 'CancelStepsInfoList')
-  final List<CancelStepsInfo> cancelStepsInfoList;
+  final List<CancelStepsInfo>? cancelStepsInfoList;
 
   CancelStepsOutput({
     this.cancelStepsInfoList,
   });
-  factory CancelStepsOutput.fromJson(Map<String, dynamic> json) =>
-      _$CancelStepsOutputFromJson(json);
+
+  factory CancelStepsOutput.fromJson(Map<String, dynamic> json) {
+    return CancelStepsOutput(
+      cancelStepsInfoList: (json['CancelStepsInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => CancelStepsInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelStepsInfoList = this.cancelStepsInfoList;
+    return {
+      if (cancelStepsInfoList != null)
+        'CancelStepsInfoList': cancelStepsInfoList,
+    };
+  }
 }
 
 enum CancelStepsRequestStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on CancelStepsRequestStatus {
+  String toValue() {
+    switch (this) {
+      case CancelStepsRequestStatus.submitted:
+        return 'SUBMITTED';
+      case CancelStepsRequestStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  CancelStepsRequestStatus toCancelStepsRequestStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return CancelStepsRequestStatus.submitted;
+      case 'FAILED':
+        return CancelStepsRequestStatus.failed;
+    }
+    throw Exception('$this is not known in enum CancelStepsRequestStatus');
+  }
 }
 
 /// The definition of a CloudWatch metric alarm, which determines when an
 /// automatic scaling activity is triggered. When the defined alarm conditions
 /// are satisfied, scaling activity begins.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchAlarmDefinition {
   /// Determines how the metric specified by <code>MetricName</code> is compared
   /// to the value specified by <code>Threshold</code>.
-  @_s.JsonKey(name: 'ComparisonOperator')
   final ComparisonOperator comparisonOperator;
 
   /// The name of the CloudWatch metric that is watched to determine an alarm
   /// condition.
-  @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
   /// The period, in seconds, over which the statistic is applied. EMR CloudWatch
   /// metrics are emitted every five minutes (300 seconds), so if an EMR
   /// CloudWatch metric is specified, specify <code>300</code>.
-  @_s.JsonKey(name: 'Period')
   final int period;
 
   /// The value against which the specified statistic is compared.
-  @_s.JsonKey(name: 'Threshold')
   final double threshold;
 
   /// A CloudWatch metric dimension.
-  @_s.JsonKey(name: 'Dimensions')
-  final List<MetricDimension> dimensions;
+  final List<MetricDimension>? dimensions;
 
   /// The number of periods, in five-minute increments, during which the alarm
   /// condition must exist before the alarm triggers automatic scaling activity.
   /// The default value is <code>1</code>.
-  @_s.JsonKey(name: 'EvaluationPeriods')
-  final int evaluationPeriods;
+  final int? evaluationPeriods;
 
   /// The namespace for the CloudWatch metric. The default is
   /// <code>AWS/ElasticMapReduce</code>.
-  @_s.JsonKey(name: 'Namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The statistic to apply to the metric associated with the alarm. The default
   /// is <code>AVERAGE</code>.
-  @_s.JsonKey(name: 'Statistic')
-  final Statistic statistic;
+  final Statistic? statistic;
 
   /// The unit of measure associated with the CloudWatch metric being watched. The
   /// value specified for <code>Unit</code> must correspond to the units specified
   /// in the CloudWatch metric.
-  @_s.JsonKey(name: 'Unit')
-  final Unit unit;
+  final Unit? unit;
 
   CloudWatchAlarmDefinition({
-    @_s.required this.comparisonOperator,
-    @_s.required this.metricName,
-    @_s.required this.period,
-    @_s.required this.threshold,
+    required this.comparisonOperator,
+    required this.metricName,
+    required this.period,
+    required this.threshold,
     this.dimensions,
     this.evaluationPeriods,
     this.namespace,
     this.statistic,
     this.unit,
   });
-  factory CloudWatchAlarmDefinition.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchAlarmDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CloudWatchAlarmDefinitionToJson(this);
+  factory CloudWatchAlarmDefinition.fromJson(Map<String, dynamic> json) {
+    return CloudWatchAlarmDefinition(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String).toComparisonOperator(),
+      metricName: json['MetricName'] as String,
+      period: json['Period'] as int,
+      threshold: json['Threshold'] as double,
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      evaluationPeriods: json['EvaluationPeriods'] as int?,
+      namespace: json['Namespace'] as String?,
+      statistic: (json['Statistic'] as String?)?.toStatistic(),
+      unit: (json['Unit'] as String?)?.toUnit(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final metricName = this.metricName;
+    final period = this.period;
+    final threshold = this.threshold;
+    final dimensions = this.dimensions;
+    final evaluationPeriods = this.evaluationPeriods;
+    final namespace = this.namespace;
+    final statistic = this.statistic;
+    final unit = this.unit;
+    return {
+      'ComparisonOperator': comparisonOperator.toValue(),
+      'MetricName': metricName,
+      'Period': period,
+      'Threshold': threshold,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
+      if (namespace != null) 'Namespace': namespace,
+      if (statistic != null) 'Statistic': statistic.toValue(),
+      if (unit != null) 'Unit': unit.toValue(),
+    };
+  }
 }
 
 /// The detailed description of the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Cluster {
   /// The applications installed on this cluster.
-  @_s.JsonKey(name: 'Applications')
-  final List<Application> applications;
+  final List<Application>? applications;
 
   /// An IAM role for automatic scaling policies. The default role is
   /// <code>EMR_AutoScaling_DefaultRole</code>. The IAM role provides permissions
   /// that the automatic scaling feature requires to launch and terminate EC2
   /// instances in an instance group.
-  @_s.JsonKey(name: 'AutoScalingRole')
-  final String autoScalingRole;
+  final String? autoScalingRole;
 
   /// Specifies whether the cluster should terminate after completing all steps.
-  @_s.JsonKey(name: 'AutoTerminate')
-  final bool autoTerminate;
+  final bool? autoTerminate;
 
   /// The Amazon Resource Name of the cluster.
-  @_s.JsonKey(name: 'ClusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// Applies only to Amazon EMR releases 4.x and later. The list of
   /// Configurations supplied to the EMR cluster.
-  @_s.JsonKey(name: 'Configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
   /// Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
-  @_s.JsonKey(name: 'CustomAmiId')
-  final String customAmiId;
+  final String? customAmiId;
 
   /// The size, in GiB, of the Amazon EBS root device volume of the Linux AMI that
   /// is used for each EC2 instance. Available in Amazon EMR version 4.x and
   /// later.
-  @_s.JsonKey(name: 'EbsRootVolumeSize')
-  final int ebsRootVolumeSize;
+  final int? ebsRootVolumeSize;
 
   /// Provides information about the EC2 instances in a cluster grouped by
   /// category. For example, key name, subnet ID, IAM instance profile, and so on.
-  @_s.JsonKey(name: 'Ec2InstanceAttributes')
-  final Ec2InstanceAttributes ec2InstanceAttributes;
+  final Ec2InstanceAttributes? ec2InstanceAttributes;
 
   /// The unique identifier for the cluster.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// <note>
   /// The instance fleet configuration is available only in Amazon EMR versions
@@ -3661,34 +3688,28 @@ class Cluster {
   /// <code>INSTANCE_GROUP</code> indicates a uniform instance group
   /// configuration. A value of <code>INSTANCE_FLEET</code> indicates an instance
   /// fleets configuration.
-  @_s.JsonKey(name: 'InstanceCollectionType')
-  final InstanceCollectionType instanceCollectionType;
+  final InstanceCollectionType? instanceCollectionType;
 
   /// Attributes for Kerberos configuration when Kerberos authentication is
   /// enabled using a security configuration. For more information see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html">Use
   /// Kerberos Authentication</a> in the <i>Amazon EMR Management Guide</i>.
-  @_s.JsonKey(name: 'KerberosAttributes')
-  final KerberosAttributes kerberosAttributes;
+  final KerberosAttributes? kerberosAttributes;
 
   /// The AWS KMS customer master key (CMK) used for encrypting log files. This
   /// attribute is only available with EMR version 5.30.0 and later, excluding EMR
   /// 6.0.0.
-  @_s.JsonKey(name: 'LogEncryptionKmsKeyId')
-  final String logEncryptionKmsKeyId;
+  final String? logEncryptionKmsKeyId;
 
   /// The path to the Amazon S3 location where logs for this cluster are stored.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The DNS name of the master node. If the cluster is on a private subnet, this
   /// is the private DNS name. On a public subnet, this is the public DNS name.
-  @_s.JsonKey(name: 'MasterPublicDnsName')
-  final String masterPublicDnsName;
+  final String? masterPublicDnsName;
 
   /// The name of the cluster.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An approximation of the cost of the cluster, represented in m1.small/hours.
   /// This value is incremented one time for every hour an m1.small instance runs.
@@ -3696,16 +3717,13 @@ class Cluster {
   /// times more expensive would result in the normalized instance hours being
   /// incremented by four. This result is only an approximation and does not
   /// reflect the actual billing rate.
-  @_s.JsonKey(name: 'NormalizedInstanceHours')
-  final int normalizedInstanceHours;
+  final int? normalizedInstanceHours;
 
   /// The Amazon Resource Name (ARN) of the Outpost where the cluster is launched.
-  @_s.JsonKey(name: 'OutpostArn')
-  final String outpostArn;
+  final String? outpostArn;
 
   /// Placement group configured for an Amazon EMR cluster.
-  @_s.JsonKey(name: 'PlacementGroups')
-  final List<PlacementGroupConfig> placementGroups;
+  final List<PlacementGroupConfig>? placementGroups;
 
   /// The Amazon EMR release label, which determines the version of open-source
   /// application packages installed on the cluster. Release labels are in the
@@ -3715,22 +3733,18 @@ class Cluster {
   /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/">https://docs.aws.amazon.com/emr/latest/ReleaseGuide/</a>.
   /// The release label applies only to Amazon EMR releases version 4.0 and later.
   /// Earlier versions use <code>AmiVersion</code>.
-  @_s.JsonKey(name: 'ReleaseLabel')
-  final String releaseLabel;
+  final String? releaseLabel;
 
   /// Applies only when <code>CustomAmiID</code> is used. Specifies the type of
   /// updates that are applied from the Amazon Linux AMI package repositories when
   /// an instance boots using the AMI.
-  @_s.JsonKey(name: 'RepoUpgradeOnBoot')
-  final RepoUpgradeOnBoot repoUpgradeOnBoot;
+  final RepoUpgradeOnBoot? repoUpgradeOnBoot;
 
   /// The AMI version requested for this cluster.
-  @_s.JsonKey(name: 'RequestedAmiVersion')
-  final String requestedAmiVersion;
+  final String? requestedAmiVersion;
 
   /// The AMI version running on this cluster.
-  @_s.JsonKey(name: 'RunningAmiVersion')
-  final String runningAmiVersion;
+  final String? runningAmiVersion;
 
   /// The way that individual Amazon EC2 instances terminate when an automatic
   /// scale-in activity occurs or an instance group is resized.
@@ -3746,35 +3760,28 @@ class Cluster {
   /// <code>TERMINATE_AT_TASK_COMPLETION</code> is available only in Amazon EMR
   /// version 4.1.0 and later, and is the default for versions of Amazon EMR
   /// earlier than 5.1.0.
-  @_s.JsonKey(name: 'ScaleDownBehavior')
-  final ScaleDownBehavior scaleDownBehavior;
+  final ScaleDownBehavior? scaleDownBehavior;
 
   /// The name of the security configuration applied to the cluster.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   /// The IAM role that will be assumed by the Amazon EMR service to access AWS
   /// resources on your behalf.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// The current status details about the cluster.
-  @_s.JsonKey(name: 'Status')
-  final ClusterStatus status;
+  final ClusterStatus? status;
 
   /// Specifies the number of steps that can be executed concurrently.
-  @_s.JsonKey(name: 'StepConcurrencyLevel')
-  final int stepConcurrencyLevel;
+  final int? stepConcurrencyLevel;
 
   /// A list of tags associated with a cluster.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// Indicates whether Amazon EMR will lock the cluster to prevent the EC2
   /// instances from being terminated by an API call or user intervention, or in
   /// the event of a cluster error.
-  @_s.JsonKey(name: 'TerminationProtected')
-  final bool terminationProtected;
+  final bool? terminationProtected;
 
   /// Indicates whether the cluster is visible to all IAM users of the AWS account
   /// associated with the cluster. The default value, <code>true</code>, indicates
@@ -3785,8 +3792,7 @@ class Cluster {
   /// action. You can override the default value of <code>true</code> when you
   /// create a cluster by using the <code>VisibleToAllUsers</code> parameter of
   /// the <code>RunJobFlow</code> action.
-  @_s.JsonKey(name: 'VisibleToAllUsers')
-  final bool visibleToAllUsers;
+  final bool? visibleToAllUsers;
 
   Cluster({
     this.applications,
@@ -3820,24 +3826,149 @@ class Cluster {
     this.terminationProtected,
     this.visibleToAllUsers,
   });
-  factory Cluster.fromJson(Map<String, dynamic> json) =>
-      _$ClusterFromJson(json);
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      applications: (json['Applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Application.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      autoScalingRole: json['AutoScalingRole'] as String?,
+      autoTerminate: json['AutoTerminate'] as bool?,
+      clusterArn: json['ClusterArn'] as String?,
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customAmiId: json['CustomAmiId'] as String?,
+      ebsRootVolumeSize: json['EbsRootVolumeSize'] as int?,
+      ec2InstanceAttributes: json['Ec2InstanceAttributes'] != null
+          ? Ec2InstanceAttributes.fromJson(
+              json['Ec2InstanceAttributes'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      instanceCollectionType: (json['InstanceCollectionType'] as String?)
+          ?.toInstanceCollectionType(),
+      kerberosAttributes: json['KerberosAttributes'] != null
+          ? KerberosAttributes.fromJson(
+              json['KerberosAttributes'] as Map<String, dynamic>)
+          : null,
+      logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String?,
+      logUri: json['LogUri'] as String?,
+      masterPublicDnsName: json['MasterPublicDnsName'] as String?,
+      name: json['Name'] as String?,
+      normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
+      outpostArn: json['OutpostArn'] as String?,
+      placementGroups: (json['PlacementGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => PlacementGroupConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      releaseLabel: json['ReleaseLabel'] as String?,
+      repoUpgradeOnBoot:
+          (json['RepoUpgradeOnBoot'] as String?)?.toRepoUpgradeOnBoot(),
+      requestedAmiVersion: json['RequestedAmiVersion'] as String?,
+      runningAmiVersion: json['RunningAmiVersion'] as String?,
+      scaleDownBehavior:
+          (json['ScaleDownBehavior'] as String?)?.toScaleDownBehavior(),
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+      serviceRole: json['ServiceRole'] as String?,
+      status: json['Status'] != null
+          ? ClusterStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+      stepConcurrencyLevel: json['StepConcurrencyLevel'] as int?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      terminationProtected: json['TerminationProtected'] as bool?,
+      visibleToAllUsers: json['VisibleToAllUsers'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    final autoScalingRole = this.autoScalingRole;
+    final autoTerminate = this.autoTerminate;
+    final clusterArn = this.clusterArn;
+    final configurations = this.configurations;
+    final customAmiId = this.customAmiId;
+    final ebsRootVolumeSize = this.ebsRootVolumeSize;
+    final ec2InstanceAttributes = this.ec2InstanceAttributes;
+    final id = this.id;
+    final instanceCollectionType = this.instanceCollectionType;
+    final kerberosAttributes = this.kerberosAttributes;
+    final logEncryptionKmsKeyId = this.logEncryptionKmsKeyId;
+    final logUri = this.logUri;
+    final masterPublicDnsName = this.masterPublicDnsName;
+    final name = this.name;
+    final normalizedInstanceHours = this.normalizedInstanceHours;
+    final outpostArn = this.outpostArn;
+    final placementGroups = this.placementGroups;
+    final releaseLabel = this.releaseLabel;
+    final repoUpgradeOnBoot = this.repoUpgradeOnBoot;
+    final requestedAmiVersion = this.requestedAmiVersion;
+    final runningAmiVersion = this.runningAmiVersion;
+    final scaleDownBehavior = this.scaleDownBehavior;
+    final securityConfiguration = this.securityConfiguration;
+    final serviceRole = this.serviceRole;
+    final status = this.status;
+    final stepConcurrencyLevel = this.stepConcurrencyLevel;
+    final tags = this.tags;
+    final terminationProtected = this.terminationProtected;
+    final visibleToAllUsers = this.visibleToAllUsers;
+    return {
+      if (applications != null) 'Applications': applications,
+      if (autoScalingRole != null) 'AutoScalingRole': autoScalingRole,
+      if (autoTerminate != null) 'AutoTerminate': autoTerminate,
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (configurations != null) 'Configurations': configurations,
+      if (customAmiId != null) 'CustomAmiId': customAmiId,
+      if (ebsRootVolumeSize != null) 'EbsRootVolumeSize': ebsRootVolumeSize,
+      if (ec2InstanceAttributes != null)
+        'Ec2InstanceAttributes': ec2InstanceAttributes,
+      if (id != null) 'Id': id,
+      if (instanceCollectionType != null)
+        'InstanceCollectionType': instanceCollectionType.toValue(),
+      if (kerberosAttributes != null) 'KerberosAttributes': kerberosAttributes,
+      if (logEncryptionKmsKeyId != null)
+        'LogEncryptionKmsKeyId': logEncryptionKmsKeyId,
+      if (logUri != null) 'LogUri': logUri,
+      if (masterPublicDnsName != null)
+        'MasterPublicDnsName': masterPublicDnsName,
+      if (name != null) 'Name': name,
+      if (normalizedInstanceHours != null)
+        'NormalizedInstanceHours': normalizedInstanceHours,
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (placementGroups != null) 'PlacementGroups': placementGroups,
+      if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
+      if (repoUpgradeOnBoot != null)
+        'RepoUpgradeOnBoot': repoUpgradeOnBoot.toValue(),
+      if (requestedAmiVersion != null)
+        'RequestedAmiVersion': requestedAmiVersion,
+      if (runningAmiVersion != null) 'RunningAmiVersion': runningAmiVersion,
+      if (scaleDownBehavior != null)
+        'ScaleDownBehavior': scaleDownBehavior.toValue(),
+      if (securityConfiguration != null)
+        'SecurityConfiguration': securityConfiguration,
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (status != null) 'Status': status,
+      if (stepConcurrencyLevel != null)
+        'StepConcurrencyLevel': stepConcurrencyLevel,
+      if (tags != null) 'Tags': tags,
+      if (terminationProtected != null)
+        'TerminationProtected': terminationProtected,
+      if (visibleToAllUsers != null) 'VisibleToAllUsers': visibleToAllUsers,
+    };
+  }
 }
 
 enum ClusterState {
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('BOOTSTRAPPING')
   bootstrapping,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('WAITING')
   waiting,
-  @_s.JsonValue('TERMINATING')
   terminating,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('TERMINATED_WITH_ERRORS')
   terminatedWithErrors,
 }
 
@@ -3859,99 +3990,172 @@ extension on ClusterState {
       case ClusterState.terminatedWithErrors:
         return 'TERMINATED_WITH_ERRORS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ClusterState toClusterState() {
+    switch (this) {
+      case 'STARTING':
+        return ClusterState.starting;
+      case 'BOOTSTRAPPING':
+        return ClusterState.bootstrapping;
+      case 'RUNNING':
+        return ClusterState.running;
+      case 'WAITING':
+        return ClusterState.waiting;
+      case 'TERMINATING':
+        return ClusterState.terminating;
+      case 'TERMINATED':
+        return ClusterState.terminated;
+      case 'TERMINATED_WITH_ERRORS':
+        return ClusterState.terminatedWithErrors;
+    }
+    throw Exception('$this is not known in enum ClusterState');
   }
 }
 
 /// The reason that the cluster changed to its current state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterStateChangeReason {
   /// The programmatic code for the state change reason.
-  @_s.JsonKey(name: 'Code')
-  final ClusterStateChangeReasonCode code;
+  final ClusterStateChangeReasonCode? code;
 
   /// The descriptive message for the state change reason.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ClusterStateChangeReason({
     this.code,
     this.message,
   });
-  factory ClusterStateChangeReason.fromJson(Map<String, dynamic> json) =>
-      _$ClusterStateChangeReasonFromJson(json);
+
+  factory ClusterStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return ClusterStateChangeReason(
+      code: (json['Code'] as String?)?.toClusterStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum ClusterStateChangeReasonCode {
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('VALIDATION_ERROR')
   validationError,
-  @_s.JsonValue('INSTANCE_FAILURE')
   instanceFailure,
-  @_s.JsonValue('INSTANCE_FLEET_TIMEOUT')
   instanceFleetTimeout,
-  @_s.JsonValue('BOOTSTRAP_FAILURE')
   bootstrapFailure,
-  @_s.JsonValue('USER_REQUEST')
   userRequest,
-  @_s.JsonValue('STEP_FAILURE')
   stepFailure,
-  @_s.JsonValue('ALL_STEPS_COMPLETED')
   allStepsCompleted,
 }
 
+extension on ClusterStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case ClusterStateChangeReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+      case ClusterStateChangeReasonCode.validationError:
+        return 'VALIDATION_ERROR';
+      case ClusterStateChangeReasonCode.instanceFailure:
+        return 'INSTANCE_FAILURE';
+      case ClusterStateChangeReasonCode.instanceFleetTimeout:
+        return 'INSTANCE_FLEET_TIMEOUT';
+      case ClusterStateChangeReasonCode.bootstrapFailure:
+        return 'BOOTSTRAP_FAILURE';
+      case ClusterStateChangeReasonCode.userRequest:
+        return 'USER_REQUEST';
+      case ClusterStateChangeReasonCode.stepFailure:
+        return 'STEP_FAILURE';
+      case ClusterStateChangeReasonCode.allStepsCompleted:
+        return 'ALL_STEPS_COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  ClusterStateChangeReasonCode toClusterStateChangeReasonCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return ClusterStateChangeReasonCode.internalError;
+      case 'VALIDATION_ERROR':
+        return ClusterStateChangeReasonCode.validationError;
+      case 'INSTANCE_FAILURE':
+        return ClusterStateChangeReasonCode.instanceFailure;
+      case 'INSTANCE_FLEET_TIMEOUT':
+        return ClusterStateChangeReasonCode.instanceFleetTimeout;
+      case 'BOOTSTRAP_FAILURE':
+        return ClusterStateChangeReasonCode.bootstrapFailure;
+      case 'USER_REQUEST':
+        return ClusterStateChangeReasonCode.userRequest;
+      case 'STEP_FAILURE':
+        return ClusterStateChangeReasonCode.stepFailure;
+      case 'ALL_STEPS_COMPLETED':
+        return ClusterStateChangeReasonCode.allStepsCompleted;
+    }
+    throw Exception('$this is not known in enum ClusterStateChangeReasonCode');
+  }
+}
+
 /// The detailed status of the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterStatus {
   /// The current state of the cluster.
-  @_s.JsonKey(name: 'State')
-  final ClusterState state;
+  final ClusterState? state;
 
   /// The reason for the cluster status change.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final ClusterStateChangeReason stateChangeReason;
+  final ClusterStateChangeReason? stateChangeReason;
 
   /// A timeline that represents the status of a cluster over the lifetime of the
   /// cluster.
-  @_s.JsonKey(name: 'Timeline')
-  final ClusterTimeline timeline;
+  final ClusterTimeline? timeline;
 
   ClusterStatus({
     this.state,
     this.stateChangeReason,
     this.timeline,
   });
-  factory ClusterStatus.fromJson(Map<String, dynamic> json) =>
-      _$ClusterStatusFromJson(json);
+
+  factory ClusterStatus.fromJson(Map<String, dynamic> json) {
+    return ClusterStatus(
+      state: (json['State'] as String?)?.toClusterState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? ClusterStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      timeline: json['Timeline'] != null
+          ? ClusterTimeline.fromJson(json['Timeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final timeline = this.timeline;
+    return {
+      if (state != null) 'State': state.toValue(),
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (timeline != null) 'Timeline': timeline,
+    };
+  }
 }
 
 /// The summary description of the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterSummary {
   /// The Amazon Resource Name of the cluster.
-  @_s.JsonKey(name: 'ClusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
   /// The unique identifier for the cluster.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the cluster.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An approximation of the cost of the cluster, represented in m1.small/hours.
   /// This value is incremented one time for every hour an m1.small instance runs.
@@ -3959,16 +4163,13 @@ class ClusterSummary {
   /// times more expensive would result in the normalized instance hours being
   /// incremented by four. This result is only an approximation and does not
   /// reflect the actual billing rate.
-  @_s.JsonKey(name: 'NormalizedInstanceHours')
-  final int normalizedInstanceHours;
+  final int? normalizedInstanceHours;
 
   /// The Amazon Resource Name (ARN) of the Outpost where the cluster is launched.
-  @_s.JsonKey(name: 'OutpostArn')
-  final String outpostArn;
+  final String? outpostArn;
 
   /// The details about the current status of the cluster.
-  @_s.JsonKey(name: 'Status')
-  final ClusterStatus status;
+  final ClusterStatus? status;
 
   ClusterSummary({
     this.clusterArn,
@@ -3978,96 +4179,166 @@ class ClusterSummary {
     this.outpostArn,
     this.status,
   });
-  factory ClusterSummary.fromJson(Map<String, dynamic> json) =>
-      _$ClusterSummaryFromJson(json);
+
+  factory ClusterSummary.fromJson(Map<String, dynamic> json) {
+    return ClusterSummary(
+      clusterArn: json['ClusterArn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
+      outpostArn: json['OutpostArn'] as String?,
+      status: json['Status'] != null
+          ? ClusterStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final id = this.id;
+    final name = this.name;
+    final normalizedInstanceHours = this.normalizedInstanceHours;
+    final outpostArn = this.outpostArn;
+    final status = this.status;
+    return {
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (normalizedInstanceHours != null)
+        'NormalizedInstanceHours': normalizedInstanceHours,
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Represents the timeline of the cluster's lifecycle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterTimeline {
   /// The creation date and time of the cluster.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time when the cluster was terminated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// The date and time when the cluster was ready to run steps.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReadyDateTime')
-  final DateTime readyDateTime;
+  final DateTime? readyDateTime;
 
   ClusterTimeline({
     this.creationDateTime,
     this.endDateTime,
     this.readyDateTime,
   });
-  factory ClusterTimeline.fromJson(Map<String, dynamic> json) =>
-      _$ClusterTimelineFromJson(json);
+
+  factory ClusterTimeline.fromJson(Map<String, dynamic> json) {
+    return ClusterTimeline(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final endDateTime = this.endDateTime;
+    final readyDateTime = this.readyDateTime;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (readyDateTime != null)
+        'ReadyDateTime': unixTimestampToJson(readyDateTime),
+    };
+  }
 }
 
 /// An entity describing an executable that runs on a cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Command {
   /// Arguments for Amazon EMR to pass to the command for execution.
-  @_s.JsonKey(name: 'Args')
-  final List<String> args;
+  final List<String>? args;
 
   /// The name of the command.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon S3 location of the command script.
-  @_s.JsonKey(name: 'ScriptPath')
-  final String scriptPath;
+  final String? scriptPath;
 
   Command({
     this.args,
     this.name,
     this.scriptPath,
   });
-  factory Command.fromJson(Map<String, dynamic> json) =>
-      _$CommandFromJson(json);
+
+  factory Command.fromJson(Map<String, dynamic> json) {
+    return Command(
+      args: (json['Args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+      scriptPath: json['ScriptPath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final args = this.args;
+    final name = this.name;
+    final scriptPath = this.scriptPath;
+    return {
+      if (args != null) 'Args': args,
+      if (name != null) 'Name': name,
+      if (scriptPath != null) 'ScriptPath': scriptPath,
+    };
+  }
 }
 
 enum ComparisonOperator {
-  @_s.JsonValue('GREATER_THAN_OR_EQUAL')
   greaterThanOrEqual,
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
-  @_s.JsonValue('LESS_THAN')
   lessThan,
-  @_s.JsonValue('LESS_THAN_OR_EQUAL')
   lessThanOrEqual,
+}
+
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.greaterThanOrEqual:
+        return 'GREATER_THAN_OR_EQUAL';
+      case ComparisonOperator.greaterThan:
+        return 'GREATER_THAN';
+      case ComparisonOperator.lessThan:
+        return 'LESS_THAN';
+      case ComparisonOperator.lessThanOrEqual:
+        return 'LESS_THAN_OR_EQUAL';
+    }
+  }
+}
+
+extension on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'GREATER_THAN_OR_EQUAL':
+        return ComparisonOperator.greaterThanOrEqual;
+      case 'GREATER_THAN':
+        return ComparisonOperator.greaterThan;
+      case 'LESS_THAN':
+        return ComparisonOperator.lessThan;
+      case 'LESS_THAN_OR_EQUAL':
+        return ComparisonOperator.lessThanOrEqual;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
 }
 
 /// The EC2 unit limits for a managed scaling policy. The managed scaling
 /// activity of a cluster can not be above or below these limits. The limit only
 /// applies to the core and task nodes. The master node cannot be scaled after
 /// initial configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ComputeLimits {
   /// The upper boundary of EC2 units. It is measured through vCPU cores or
   /// instances for instance groups and measured through units for instance
   /// fleets. Managed scaling activities are not allowed beyond this boundary. The
   /// limit only applies to the core and task nodes. The master node cannot be
   /// scaled after initial configuration.
-  @_s.JsonKey(name: 'MaximumCapacityUnits')
   final int maximumCapacityUnits;
 
   /// The lower boundary of EC2 units. It is measured through vCPU cores or
@@ -4075,11 +4346,9 @@ class ComputeLimits {
   /// fleets. Managed scaling activities are not allowed beyond this boundary. The
   /// limit only applies to the core and task nodes. The master node cannot be
   /// scaled after initial configuration.
-  @_s.JsonKey(name: 'MinimumCapacityUnits')
   final int minimumCapacityUnits;
 
   /// The unit type used for specifying a managed scaling policy.
-  @_s.JsonKey(name: 'UnitType')
   final ComputeLimitsUnitType unitType;
 
   /// The upper boundary of EC2 units for core node type in a cluster. It is
@@ -4087,37 +4356,83 @@ class ComputeLimits {
   /// through units for instance fleets. The core units are not allowed to scale
   /// beyond this boundary. The parameter is used to split capacity allocation
   /// between core and task nodes.
-  @_s.JsonKey(name: 'MaximumCoreCapacityUnits')
-  final int maximumCoreCapacityUnits;
+  final int? maximumCoreCapacityUnits;
 
   /// The upper boundary of On-Demand EC2 units. It is measured through vCPU cores
   /// or instances for instance groups and measured through units for instance
   /// fleets. The On-Demand units are not allowed to scale beyond this boundary.
   /// The parameter is used to split capacity allocation between On-Demand and
   /// Spot Instances.
-  @_s.JsonKey(name: 'MaximumOnDemandCapacityUnits')
-  final int maximumOnDemandCapacityUnits;
+  final int? maximumOnDemandCapacityUnits;
 
   ComputeLimits({
-    @_s.required this.maximumCapacityUnits,
-    @_s.required this.minimumCapacityUnits,
-    @_s.required this.unitType,
+    required this.maximumCapacityUnits,
+    required this.minimumCapacityUnits,
+    required this.unitType,
     this.maximumCoreCapacityUnits,
     this.maximumOnDemandCapacityUnits,
   });
-  factory ComputeLimits.fromJson(Map<String, dynamic> json) =>
-      _$ComputeLimitsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ComputeLimitsToJson(this);
+  factory ComputeLimits.fromJson(Map<String, dynamic> json) {
+    return ComputeLimits(
+      maximumCapacityUnits: json['MaximumCapacityUnits'] as int,
+      minimumCapacityUnits: json['MinimumCapacityUnits'] as int,
+      unitType: (json['UnitType'] as String).toComputeLimitsUnitType(),
+      maximumCoreCapacityUnits: json['MaximumCoreCapacityUnits'] as int?,
+      maximumOnDemandCapacityUnits:
+          json['MaximumOnDemandCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maximumCapacityUnits = this.maximumCapacityUnits;
+    final minimumCapacityUnits = this.minimumCapacityUnits;
+    final unitType = this.unitType;
+    final maximumCoreCapacityUnits = this.maximumCoreCapacityUnits;
+    final maximumOnDemandCapacityUnits = this.maximumOnDemandCapacityUnits;
+    return {
+      'MaximumCapacityUnits': maximumCapacityUnits,
+      'MinimumCapacityUnits': minimumCapacityUnits,
+      'UnitType': unitType.toValue(),
+      if (maximumCoreCapacityUnits != null)
+        'MaximumCoreCapacityUnits': maximumCoreCapacityUnits,
+      if (maximumOnDemandCapacityUnits != null)
+        'MaximumOnDemandCapacityUnits': maximumOnDemandCapacityUnits,
+    };
+  }
 }
 
 enum ComputeLimitsUnitType {
-  @_s.JsonValue('InstanceFleetUnits')
   instanceFleetUnits,
-  @_s.JsonValue('Instances')
   instances,
-  @_s.JsonValue('VCPU')
   vcpu,
+}
+
+extension on ComputeLimitsUnitType {
+  String toValue() {
+    switch (this) {
+      case ComputeLimitsUnitType.instanceFleetUnits:
+        return 'InstanceFleetUnits';
+      case ComputeLimitsUnitType.instances:
+        return 'Instances';
+      case ComputeLimitsUnitType.vcpu:
+        return 'VCPU';
+    }
+  }
+}
+
+extension on String {
+  ComputeLimitsUnitType toComputeLimitsUnitType() {
+    switch (this) {
+      case 'InstanceFleetUnits':
+        return ComputeLimitsUnitType.instanceFleetUnits;
+      case 'Instances':
+        return ComputeLimitsUnitType.instances;
+      case 'VCPU':
+        return ComputeLimitsUnitType.vcpu;
+    }
+    throw Exception('$this is not known in enum ComputeLimitsUnitType');
+  }
 }
 
 /// <note>
@@ -4131,351 +4446,449 @@ enum ComputeLimitsUnitType {
 /// want to change in that file. For more information, see <a
 /// href="https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html">Configuring
 /// Applications</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Configuration {
   /// The classification within a configuration.
-  @_s.JsonKey(name: 'Classification')
-  final String classification;
+  final String? classification;
 
   /// A list of additional configurations to apply within a configuration object.
-  @_s.JsonKey(name: 'Configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// A set of properties specified within a configuration classification.
-  @_s.JsonKey(name: 'Properties')
-  final Map<String, String> properties;
+  final Map<String, String>? properties;
 
   Configuration({
     this.classification,
     this.configurations,
     this.properties,
   });
-  factory Configuration.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationToJson(this);
+  factory Configuration.fromJson(Map<String, dynamic> json) {
+    return Configuration(
+      classification: json['Classification'] as String?,
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      properties: (json['Properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final classification = this.classification;
+    final configurations = this.configurations;
+    final properties = this.properties;
+    return {
+      if (classification != null) 'Classification': classification,
+      if (configurations != null) 'Configurations': configurations,
+      if (properties != null) 'Properties': properties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSecurityConfigurationOutput {
   /// The date and time the security configuration was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The name of the security configuration.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   CreateSecurityConfigurationOutput({
-    @_s.required this.creationDateTime,
-    @_s.required this.name,
+    required this.creationDateTime,
+    required this.name,
   });
+
   factory CreateSecurityConfigurationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSecurityConfigurationOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSecurityConfigurationOutput(
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final name = this.name;
+    return {
+      'CreationDateTime': unixTimestampToJson(creationDateTime),
+      'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStudioOutput {
   /// The ID of the Amazon EMR Studio.
-  @_s.JsonKey(name: 'StudioId')
-  final String studioId;
+  final String? studioId;
 
   /// The unique Studio access URL.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   CreateStudioOutput({
     this.studioId,
     this.url,
   });
-  factory CreateStudioOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateStudioOutputFromJson(json);
+
+  factory CreateStudioOutput.fromJson(Map<String, dynamic> json) {
+    return CreateStudioOutput(
+      studioId: json['StudioId'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final studioId = this.studioId;
+    final url = this.url;
+    return {
+      if (studioId != null) 'StudioId': studioId,
+      if (url != null) 'Url': url,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSecurityConfigurationOutput {
   DeleteSecurityConfigurationOutput();
-  factory DeleteSecurityConfigurationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteSecurityConfigurationOutputFromJson(json);
+
+  factory DeleteSecurityConfigurationOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteSecurityConfigurationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// This output contains the description of the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClusterOutput {
   /// This output contains the details for the requested cluster.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DescribeClusterOutput({
     this.cluster,
   });
-  factory DescribeClusterOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClusterOutputFromJson(json);
+
+  factory DescribeClusterOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterOutput(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
 /// The output for the <a>DescribeJobFlows</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobFlowsOutput {
   /// A list of job flows matching the parameters supplied.
-  @_s.JsonKey(name: 'JobFlows')
-  final List<JobFlowDetail> jobFlows;
+  final List<JobFlowDetail>? jobFlows;
 
   DescribeJobFlowsOutput({
     this.jobFlows,
   });
-  factory DescribeJobFlowsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobFlowsOutputFromJson(json);
+
+  factory DescribeJobFlowsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeJobFlowsOutput(
+      jobFlows: (json['JobFlows'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobFlowDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobFlows = this.jobFlows;
+    return {
+      if (jobFlows != null) 'JobFlows': jobFlows,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNotebookExecutionOutput {
   /// Properties of the notebook execution.
-  @_s.JsonKey(name: 'NotebookExecution')
-  final NotebookExecution notebookExecution;
+  final NotebookExecution? notebookExecution;
 
   DescribeNotebookExecutionOutput({
     this.notebookExecution,
   });
-  factory DescribeNotebookExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeNotebookExecutionOutputFromJson(json);
+
+  factory DescribeNotebookExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeNotebookExecutionOutput(
+      notebookExecution: json['NotebookExecution'] != null
+          ? NotebookExecution.fromJson(
+              json['NotebookExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notebookExecution = this.notebookExecution;
+    return {
+      if (notebookExecution != null) 'NotebookExecution': notebookExecution,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSecurityConfigurationOutput {
   /// The date and time the security configuration was created
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The name of the security configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The security configuration details in JSON format.
-  @_s.JsonKey(name: 'SecurityConfiguration')
-  final String securityConfiguration;
+  final String? securityConfiguration;
 
   DescribeSecurityConfigurationOutput({
     this.creationDateTime,
     this.name,
     this.securityConfiguration,
   });
+
   factory DescribeSecurityConfigurationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeSecurityConfigurationOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeSecurityConfigurationOutput(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      name: json['Name'] as String?,
+      securityConfiguration: json['SecurityConfiguration'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final name = this.name;
+    final securityConfiguration = this.securityConfiguration;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (name != null) 'Name': name,
+      if (securityConfiguration != null)
+        'SecurityConfiguration': securityConfiguration,
+    };
+  }
 }
 
 /// This output contains the description of the cluster step.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStepOutput {
   /// The step details for the requested step identifier.
-  @_s.JsonKey(name: 'Step')
-  final Step step;
+  final Step? step;
 
   DescribeStepOutput({
     this.step,
   });
-  factory DescribeStepOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStepOutputFromJson(json);
+
+  factory DescribeStepOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStepOutput(
+      step: json['Step'] != null
+          ? Step.fromJson(json['Step'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final step = this.step;
+    return {
+      if (step != null) 'Step': step,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStudioOutput {
   /// The Amazon EMR Studio details.
-  @_s.JsonKey(name: 'Studio')
-  final Studio studio;
+  final Studio? studio;
 
   DescribeStudioOutput({
     this.studio,
   });
-  factory DescribeStudioOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStudioOutputFromJson(json);
+
+  factory DescribeStudioOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStudioOutput(
+      studio: json['Studio'] != null
+          ? Studio.fromJson(json['Studio'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final studio = this.studio;
+    return {
+      if (studio != null) 'Studio': studio,
+    };
+  }
 }
 
 /// Configuration of requested EBS block device associated with the instance
 /// group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EbsBlockDevice {
   /// The device name that is exposed to the instance, such as /dev/sdh.
-  @_s.JsonKey(name: 'Device')
-  final String device;
+  final String? device;
 
   /// EBS volume specifications such as volume type, IOPS, and size (GiB) that
   /// will be requested for the EBS volume attached to an EC2 instance in the
   /// cluster.
-  @_s.JsonKey(name: 'VolumeSpecification')
-  final VolumeSpecification volumeSpecification;
+  final VolumeSpecification? volumeSpecification;
 
   EbsBlockDevice({
     this.device,
     this.volumeSpecification,
   });
-  factory EbsBlockDevice.fromJson(Map<String, dynamic> json) =>
-      _$EbsBlockDeviceFromJson(json);
+
+  factory EbsBlockDevice.fromJson(Map<String, dynamic> json) {
+    return EbsBlockDevice(
+      device: json['Device'] as String?,
+      volumeSpecification: json['VolumeSpecification'] != null
+          ? VolumeSpecification.fromJson(
+              json['VolumeSpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    final volumeSpecification = this.volumeSpecification;
+    return {
+      if (device != null) 'Device': device,
+      if (volumeSpecification != null)
+        'VolumeSpecification': volumeSpecification,
+    };
+  }
 }
 
 /// Configuration of requested EBS block device associated with the instance
 /// group with count of volumes that will be associated to every instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EbsBlockDeviceConfig {
   /// EBS volume specifications such as volume type, IOPS, and size (GiB) that
   /// will be requested for the EBS volume attached to an EC2 instance in the
   /// cluster.
-  @_s.JsonKey(name: 'VolumeSpecification')
   final VolumeSpecification volumeSpecification;
 
   /// Number of EBS volumes with a specific volume configuration that will be
   /// associated with every instance in the instance group
-  @_s.JsonKey(name: 'VolumesPerInstance')
-  final int volumesPerInstance;
+  final int? volumesPerInstance;
 
   EbsBlockDeviceConfig({
-    @_s.required this.volumeSpecification,
+    required this.volumeSpecification,
     this.volumesPerInstance,
   });
-  Map<String, dynamic> toJson() => _$EbsBlockDeviceConfigToJson(this);
+
+  factory EbsBlockDeviceConfig.fromJson(Map<String, dynamic> json) {
+    return EbsBlockDeviceConfig(
+      volumeSpecification: VolumeSpecification.fromJson(
+          json['VolumeSpecification'] as Map<String, dynamic>),
+      volumesPerInstance: json['VolumesPerInstance'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final volumeSpecification = this.volumeSpecification;
+    final volumesPerInstance = this.volumesPerInstance;
+    return {
+      'VolumeSpecification': volumeSpecification,
+      if (volumesPerInstance != null) 'VolumesPerInstance': volumesPerInstance,
+    };
+  }
 }
 
 /// The Amazon EBS configuration of a cluster instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EbsConfiguration {
   /// An array of Amazon EBS volume specifications attached to a cluster instance.
-  @_s.JsonKey(name: 'EbsBlockDeviceConfigs')
-  final List<EbsBlockDeviceConfig> ebsBlockDeviceConfigs;
+  final List<EbsBlockDeviceConfig>? ebsBlockDeviceConfigs;
 
   /// Indicates whether an Amazon EBS volume is EBS-optimized.
-  @_s.JsonKey(name: 'EbsOptimized')
-  final bool ebsOptimized;
+  final bool? ebsOptimized;
 
   EbsConfiguration({
     this.ebsBlockDeviceConfigs,
     this.ebsOptimized,
   });
-  Map<String, dynamic> toJson() => _$EbsConfigurationToJson(this);
+
+  factory EbsConfiguration.fromJson(Map<String, dynamic> json) {
+    return EbsConfiguration(
+      ebsBlockDeviceConfigs: (json['EbsBlockDeviceConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => EbsBlockDeviceConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ebsOptimized: json['EbsOptimized'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsBlockDeviceConfigs = this.ebsBlockDeviceConfigs;
+    final ebsOptimized = this.ebsOptimized;
+    return {
+      if (ebsBlockDeviceConfigs != null)
+        'EbsBlockDeviceConfigs': ebsBlockDeviceConfigs,
+      if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+    };
+  }
 }
 
 /// EBS block device that's attached to an EC2 instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EbsVolume {
   /// The device name that is exposed to the instance, such as /dev/sdh.
-  @_s.JsonKey(name: 'Device')
-  final String device;
+  final String? device;
 
   /// The volume identifier of the EBS volume.
-  @_s.JsonKey(name: 'VolumeId')
-  final String volumeId;
+  final String? volumeId;
 
   EbsVolume({
     this.device,
     this.volumeId,
   });
-  factory EbsVolume.fromJson(Map<String, dynamic> json) =>
-      _$EbsVolumeFromJson(json);
+
+  factory EbsVolume.fromJson(Map<String, dynamic> json) {
+    return EbsVolume(
+      device: json['Device'] as String?,
+      volumeId: json['VolumeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    final volumeId = this.volumeId;
+    return {
+      if (device != null) 'Device': device,
+      if (volumeId != null) 'VolumeId': volumeId,
+    };
+  }
 }
 
 /// Provides information about the EC2 instances in a cluster grouped by
 /// category. For example, key name, subnet ID, IAM instance profile, and so on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Ec2InstanceAttributes {
   /// A list of additional Amazon EC2 security group IDs for the master node.
-  @_s.JsonKey(name: 'AdditionalMasterSecurityGroups')
-  final List<String> additionalMasterSecurityGroups;
+  final List<String>? additionalMasterSecurityGroups;
 
   /// A list of additional Amazon EC2 security group IDs for the core and task
   /// nodes.
-  @_s.JsonKey(name: 'AdditionalSlaveSecurityGroups')
-  final List<String> additionalSlaveSecurityGroups;
+  final List<String>? additionalSlaveSecurityGroups;
 
   /// The Availability Zone in which the cluster will run.
-  @_s.JsonKey(name: 'Ec2AvailabilityZone')
-  final String ec2AvailabilityZone;
+  final String? ec2AvailabilityZone;
 
   /// The name of the Amazon EC2 key pair to use when connecting with SSH into the
   /// master node as a user named "hadoop".
-  @_s.JsonKey(name: 'Ec2KeyName')
-  final String ec2KeyName;
+  final String? ec2KeyName;
 
   /// Set this parameter to the identifier of the Amazon VPC subnet where you want
   /// the cluster to launch. If you do not specify this value, and your account
   /// supports EC2-Classic, the cluster launches in EC2-Classic.
-  @_s.JsonKey(name: 'Ec2SubnetId')
-  final String ec2SubnetId;
+  final String? ec2SubnetId;
 
   /// The identifier of the Amazon EC2 security group for the master node.
-  @_s.JsonKey(name: 'EmrManagedMasterSecurityGroup')
-  final String emrManagedMasterSecurityGroup;
+  final String? emrManagedMasterSecurityGroup;
 
   /// The identifier of the Amazon EC2 security group for the core and task nodes.
-  @_s.JsonKey(name: 'EmrManagedSlaveSecurityGroup')
-  final String emrManagedSlaveSecurityGroup;
+  final String? emrManagedSlaveSecurityGroup;
 
   /// The IAM role that was specified when the cluster was launched. The EC2
   /// instances of the cluster assume this role.
-  @_s.JsonKey(name: 'IamInstanceProfile')
-  final String iamInstanceProfile;
+  final String? iamInstanceProfile;
 
   /// Applies to clusters configured with the instance fleets option. Specifies
   /// one or more Availability Zones in which to launch EC2 cluster instances when
@@ -4486,8 +4899,7 @@ class Ec2InstanceAttributes {
   /// Amazon EMR chooses the Availability Zone for you.
   /// <code>RequestedEc2SubnetIDs</code> and
   /// <code>RequestedEc2AvailabilityZones</code> cannot be specified together.
-  @_s.JsonKey(name: 'RequestedEc2AvailabilityZones')
-  final List<String> requestedEc2AvailabilityZones;
+  final List<String>? requestedEc2AvailabilityZones;
 
   /// Applies to clusters configured with the instance fleets option. Specifies
   /// the unique identifier of one or more Amazon EC2 subnets in which to launch
@@ -4501,13 +4913,11 @@ class Ec2InstanceAttributes {
   /// specified, Amazon EMR chooses the subnet for you.
   /// <code>RequestedEc2SubnetIDs</code> and
   /// <code>RequestedEc2AvailabilityZones</code> cannot be specified together.
-  @_s.JsonKey(name: 'RequestedEc2SubnetIds')
-  final List<String> requestedEc2SubnetIds;
+  final List<String>? requestedEc2SubnetIds;
 
   /// The identifier of the Amazon EC2 security group for the Amazon EMR service
   /// to access clusters in VPC private subnets.
-  @_s.JsonKey(name: 'ServiceAccessSecurityGroup')
-  final String serviceAccessSecurityGroup;
+  final String? serviceAccessSecurityGroup;
 
   Ec2InstanceAttributes({
     this.additionalMasterSecurityGroups,
@@ -4522,21 +4932,81 @@ class Ec2InstanceAttributes {
     this.requestedEc2SubnetIds,
     this.serviceAccessSecurityGroup,
   });
-  factory Ec2InstanceAttributes.fromJson(Map<String, dynamic> json) =>
-      _$Ec2InstanceAttributesFromJson(json);
+
+  factory Ec2InstanceAttributes.fromJson(Map<String, dynamic> json) {
+    return Ec2InstanceAttributes(
+      additionalMasterSecurityGroups:
+          (json['AdditionalMasterSecurityGroups'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      additionalSlaveSecurityGroups:
+          (json['AdditionalSlaveSecurityGroups'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      ec2AvailabilityZone: json['Ec2AvailabilityZone'] as String?,
+      ec2KeyName: json['Ec2KeyName'] as String?,
+      ec2SubnetId: json['Ec2SubnetId'] as String?,
+      emrManagedMasterSecurityGroup:
+          json['EmrManagedMasterSecurityGroup'] as String?,
+      emrManagedSlaveSecurityGroup:
+          json['EmrManagedSlaveSecurityGroup'] as String?,
+      iamInstanceProfile: json['IamInstanceProfile'] as String?,
+      requestedEc2AvailabilityZones:
+          (json['RequestedEc2AvailabilityZones'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      requestedEc2SubnetIds: (json['RequestedEc2SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      serviceAccessSecurityGroup: json['ServiceAccessSecurityGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMasterSecurityGroups = this.additionalMasterSecurityGroups;
+    final additionalSlaveSecurityGroups = this.additionalSlaveSecurityGroups;
+    final ec2AvailabilityZone = this.ec2AvailabilityZone;
+    final ec2KeyName = this.ec2KeyName;
+    final ec2SubnetId = this.ec2SubnetId;
+    final emrManagedMasterSecurityGroup = this.emrManagedMasterSecurityGroup;
+    final emrManagedSlaveSecurityGroup = this.emrManagedSlaveSecurityGroup;
+    final iamInstanceProfile = this.iamInstanceProfile;
+    final requestedEc2AvailabilityZones = this.requestedEc2AvailabilityZones;
+    final requestedEc2SubnetIds = this.requestedEc2SubnetIds;
+    final serviceAccessSecurityGroup = this.serviceAccessSecurityGroup;
+    return {
+      if (additionalMasterSecurityGroups != null)
+        'AdditionalMasterSecurityGroups': additionalMasterSecurityGroups,
+      if (additionalSlaveSecurityGroups != null)
+        'AdditionalSlaveSecurityGroups': additionalSlaveSecurityGroups,
+      if (ec2AvailabilityZone != null)
+        'Ec2AvailabilityZone': ec2AvailabilityZone,
+      if (ec2KeyName != null) 'Ec2KeyName': ec2KeyName,
+      if (ec2SubnetId != null) 'Ec2SubnetId': ec2SubnetId,
+      if (emrManagedMasterSecurityGroup != null)
+        'EmrManagedMasterSecurityGroup': emrManagedMasterSecurityGroup,
+      if (emrManagedSlaveSecurityGroup != null)
+        'EmrManagedSlaveSecurityGroup': emrManagedSlaveSecurityGroup,
+      if (iamInstanceProfile != null) 'IamInstanceProfile': iamInstanceProfile,
+      if (requestedEc2AvailabilityZones != null)
+        'RequestedEc2AvailabilityZones': requestedEc2AvailabilityZones,
+      if (requestedEc2SubnetIds != null)
+        'RequestedEc2SubnetIds': requestedEc2SubnetIds,
+      if (serviceAccessSecurityGroup != null)
+        'ServiceAccessSecurityGroup': serviceAccessSecurityGroup,
+    };
+  }
 }
 
 /// Specifies the execution engine (cluster) to run the notebook and perform the
 /// notebook execution, for example, an EMR cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ExecutionEngineConfig {
   /// The unique identifier of the execution engine. For an EMR cluster, this is
   /// the cluster ID.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// An optional unique ID of an EC2 security group to associate with the master
@@ -4545,69 +5015,106 @@ class ExecutionEngineConfig {
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-notebooks-security-groups.html">Specifying
   /// EC2 Security Groups for EMR Notebooks</a> in the <i>EMR Management
   /// Guide</i>.
-  @_s.JsonKey(name: 'MasterInstanceSecurityGroupId')
-  final String masterInstanceSecurityGroupId;
+  final String? masterInstanceSecurityGroupId;
 
   /// The type of execution engine. A value of <code>EMR</code> specifies an EMR
   /// cluster.
-  @_s.JsonKey(name: 'Type')
-  final ExecutionEngineType type;
+  final ExecutionEngineType? type;
 
   ExecutionEngineConfig({
-    @_s.required this.id,
+    required this.id,
     this.masterInstanceSecurityGroupId,
     this.type,
   });
-  factory ExecutionEngineConfig.fromJson(Map<String, dynamic> json) =>
-      _$ExecutionEngineConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExecutionEngineConfigToJson(this);
+  factory ExecutionEngineConfig.fromJson(Map<String, dynamic> json) {
+    return ExecutionEngineConfig(
+      id: json['Id'] as String,
+      masterInstanceSecurityGroupId:
+          json['MasterInstanceSecurityGroupId'] as String?,
+      type: (json['Type'] as String?)?.toExecutionEngineType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final masterInstanceSecurityGroupId = this.masterInstanceSecurityGroupId;
+    final type = this.type;
+    return {
+      'Id': id,
+      if (masterInstanceSecurityGroupId != null)
+        'MasterInstanceSecurityGroupId': masterInstanceSecurityGroupId,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ExecutionEngineType {
-  @_s.JsonValue('EMR')
   emr,
+}
+
+extension on ExecutionEngineType {
+  String toValue() {
+    switch (this) {
+      case ExecutionEngineType.emr:
+        return 'EMR';
+    }
+  }
+}
+
+extension on String {
+  ExecutionEngineType toExecutionEngineType() {
+    switch (this) {
+      case 'EMR':
+        return ExecutionEngineType.emr;
+    }
+    throw Exception('$this is not known in enum ExecutionEngineType');
+  }
 }
 
 /// The details of the step failure. The service attempts to detect the root
 /// cause for many common failures.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailureDetails {
   /// The path to the log file where the step failure root cause was originally
   /// recorded.
-  @_s.JsonKey(name: 'LogFile')
-  final String logFile;
+  final String? logFile;
 
   /// The descriptive message including the error the Amazon EMR service has
   /// identified as the cause of step failure. This is text from an error log that
   /// describes the root cause of the failure.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The reason for the step failure. In the case where the service cannot
   /// successfully determine the root cause of the failure, it returns "Unknown
   /// Error" as a reason.
-  @_s.JsonKey(name: 'Reason')
-  final String reason;
+  final String? reason;
 
   FailureDetails({
     this.logFile,
     this.message,
     this.reason,
   });
-  factory FailureDetails.fromJson(Map<String, dynamic> json) =>
-      _$FailureDetailsFromJson(json);
+
+  factory FailureDetails.fromJson(Map<String, dynamic> json) {
+    return FailureDetails(
+      logFile: json['LogFile'] as String?,
+      message: json['Message'] as String?,
+      reason: json['Reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logFile = this.logFile;
+    final message = this.message;
+    final reason = this.reason;
+    return {
+      if (logFile != null) 'LogFile': logFile,
+      if (message != null) 'Message': message,
+      if (reason != null) 'Reason': reason,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBlockPublicAccessConfigurationOutput {
   /// A configuration for Amazon EMR block public access. The configuration
   /// applies to all clusters created in your account for the current Region. The
@@ -4626,7 +5133,6 @@ class GetBlockPublicAccessConfigurationOutput {
   /// not create an EMR cluster in a Region before this date, block public access
   /// is enabled by default in that Region.
   /// </note>
-  @_s.JsonKey(name: 'BlockPublicAccessConfiguration')
   final BlockPublicAccessConfiguration blockPublicAccessConfiguration;
 
   /// Properties that describe the AWS principal that created the
@@ -4634,122 +5140,164 @@ class GetBlockPublicAccessConfigurationOutput {
   /// <code>PutBlockPublicAccessConfiguration</code> action as well as the date
   /// and time that the configuration was created. Each time a configuration for
   /// block public access is updated, Amazon EMR updates this metadata.
-  @_s.JsonKey(name: 'BlockPublicAccessConfigurationMetadata')
   final BlockPublicAccessConfigurationMetadata
       blockPublicAccessConfigurationMetadata;
 
   GetBlockPublicAccessConfigurationOutput({
-    @_s.required this.blockPublicAccessConfiguration,
-    @_s.required this.blockPublicAccessConfigurationMetadata,
+    required this.blockPublicAccessConfiguration,
+    required this.blockPublicAccessConfigurationMetadata,
   });
+
   factory GetBlockPublicAccessConfigurationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetBlockPublicAccessConfigurationOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetBlockPublicAccessConfigurationOutput(
+      blockPublicAccessConfiguration: BlockPublicAccessConfiguration.fromJson(
+          json['BlockPublicAccessConfiguration'] as Map<String, dynamic>),
+      blockPublicAccessConfigurationMetadata:
+          BlockPublicAccessConfigurationMetadata.fromJson(
+              json['BlockPublicAccessConfigurationMetadata']
+                  as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockPublicAccessConfiguration = this.blockPublicAccessConfiguration;
+    final blockPublicAccessConfigurationMetadata =
+        this.blockPublicAccessConfigurationMetadata;
+    return {
+      'BlockPublicAccessConfiguration': blockPublicAccessConfiguration,
+      'BlockPublicAccessConfigurationMetadata':
+          blockPublicAccessConfigurationMetadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetManagedScalingPolicyOutput {
   /// Specifies the managed scaling policy that is attached to an Amazon EMR
   /// cluster.
-  @_s.JsonKey(name: 'ManagedScalingPolicy')
-  final ManagedScalingPolicy managedScalingPolicy;
+  final ManagedScalingPolicy? managedScalingPolicy;
 
   GetManagedScalingPolicyOutput({
     this.managedScalingPolicy,
   });
-  factory GetManagedScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetManagedScalingPolicyOutputFromJson(json);
+
+  factory GetManagedScalingPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetManagedScalingPolicyOutput(
+      managedScalingPolicy: json['ManagedScalingPolicy'] != null
+          ? ManagedScalingPolicy.fromJson(
+              json['ManagedScalingPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managedScalingPolicy = this.managedScalingPolicy;
+    return {
+      if (managedScalingPolicy != null)
+        'ManagedScalingPolicy': managedScalingPolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetStudioSessionMappingOutput {
   /// The session mapping details for the specified Amazon EMR Studio and
   /// identity, including session policy ARN and creation time.
-  @_s.JsonKey(name: 'SessionMapping')
-  final SessionMappingDetail sessionMapping;
+  final SessionMappingDetail? sessionMapping;
 
   GetStudioSessionMappingOutput({
     this.sessionMapping,
   });
-  factory GetStudioSessionMappingOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetStudioSessionMappingOutputFromJson(json);
+
+  factory GetStudioSessionMappingOutput.fromJson(Map<String, dynamic> json) {
+    return GetStudioSessionMappingOutput(
+      sessionMapping: json['SessionMapping'] != null
+          ? SessionMappingDetail.fromJson(
+              json['SessionMapping'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionMapping = this.sessionMapping;
+    return {
+      if (sessionMapping != null) 'SessionMapping': sessionMapping,
+    };
+  }
 }
 
 /// A job flow step consisting of a JAR file whose main function will be
 /// executed. The main function submits a job for Hadoop to execute and waits
 /// for the job to finish or fail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HadoopJarStepConfig {
   /// A path to a JAR file run during the step.
-  @_s.JsonKey(name: 'Jar')
   final String jar;
 
   /// A list of command line arguments passed to the JAR file's main function when
   /// executed.
-  @_s.JsonKey(name: 'Args')
-  final List<String> args;
+  final List<String>? args;
 
   /// The name of the main class in the specified Java file. If not specified, the
   /// JAR file should specify a Main-Class in its manifest file.
-  @_s.JsonKey(name: 'MainClass')
-  final String mainClass;
+  final String? mainClass;
 
   /// A list of Java properties that are set when the step runs. You can use these
-  /// properties to pass key value pairs to your main function.
-  @_s.JsonKey(name: 'Properties')
-  final List<KeyValue> properties;
+  /// properties to pass key-value pairs to your main function.
+  final List<KeyValue>? properties;
 
   HadoopJarStepConfig({
-    @_s.required this.jar,
+    required this.jar,
     this.args,
     this.mainClass,
     this.properties,
   });
-  factory HadoopJarStepConfig.fromJson(Map<String, dynamic> json) =>
-      _$HadoopJarStepConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HadoopJarStepConfigToJson(this);
+  factory HadoopJarStepConfig.fromJson(Map<String, dynamic> json) {
+    return HadoopJarStepConfig(
+      jar: json['Jar'] as String,
+      args: (json['Args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      mainClass: json['MainClass'] as String?,
+      properties: (json['Properties'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jar = this.jar;
+    final args = this.args;
+    final mainClass = this.mainClass;
+    final properties = this.properties;
+    return {
+      'Jar': jar,
+      if (args != null) 'Args': args,
+      if (mainClass != null) 'MainClass': mainClass,
+      if (properties != null) 'Properties': properties,
+    };
+  }
 }
 
 /// A cluster step consisting of a JAR file whose main function will be
 /// executed. The main function submits a job for Hadoop to execute and waits
 /// for the job to finish or fail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HadoopStepConfig {
   /// The list of command line arguments to pass to the JAR file's main function
   /// for execution.
-  @_s.JsonKey(name: 'Args')
-  final List<String> args;
+  final List<String>? args;
 
   /// The path to the JAR file that runs during the step.
-  @_s.JsonKey(name: 'Jar')
-  final String jar;
+  final String? jar;
 
   /// The name of the main class in the specified Java file. If not specified, the
   /// JAR file should specify a main class in its manifest file.
-  @_s.JsonKey(name: 'MainClass')
-  final String mainClass;
+  final String? mainClass;
 
   /// The list of Java properties that are set when the step runs. You can use
   /// these properties to pass key-value pairs to your main function.
-  @_s.JsonKey(name: 'Properties')
-  final Map<String, String> properties;
+  final Map<String, String>? properties;
 
   HadoopStepConfig({
     this.args,
@@ -4757,14 +5305,36 @@ class HadoopStepConfig {
     this.mainClass,
     this.properties,
   });
-  factory HadoopStepConfig.fromJson(Map<String, dynamic> json) =>
-      _$HadoopStepConfigFromJson(json);
+
+  factory HadoopStepConfig.fromJson(Map<String, dynamic> json) {
+    return HadoopStepConfig(
+      args: (json['Args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      jar: json['Jar'] as String?,
+      mainClass: json['MainClass'] as String?,
+      properties: (json['Properties'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final args = this.args;
+    final jar = this.jar;
+    final mainClass = this.mainClass;
+    final properties = this.properties;
+    return {
+      if (args != null) 'Args': args,
+      if (jar != null) 'Jar': jar,
+      if (mainClass != null) 'MainClass': mainClass,
+      if (properties != null) 'Properties': properties,
+    };
+  }
 }
 
 enum IdentityType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('GROUP')
   group,
 }
 
@@ -4776,66 +5346,60 @@ extension on IdentityType {
       case IdentityType.group:
         return 'GROUP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IdentityType toIdentityType() {
+    switch (this) {
+      case 'USER':
+        return IdentityType.user;
+      case 'GROUP':
+        return IdentityType.group;
+    }
+    throw Exception('$this is not known in enum IdentityType');
   }
 }
 
 /// Represents an EC2 instance provisioned as part of cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Instance {
   /// The list of EBS volumes that are attached to this instance.
-  @_s.JsonKey(name: 'EbsVolumes')
-  final List<EbsVolume> ebsVolumes;
+  final List<EbsVolume>? ebsVolumes;
 
   /// The unique identifier of the instance in Amazon EC2.
-  @_s.JsonKey(name: 'Ec2InstanceId')
-  final String ec2InstanceId;
+  final String? ec2InstanceId;
 
   /// The unique identifier for the instance in Amazon EMR.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The unique identifier of the instance fleet to which an EC2 instance
   /// belongs.
-  @_s.JsonKey(name: 'InstanceFleetId')
-  final String instanceFleetId;
+  final String? instanceFleetId;
 
   /// The identifier of the instance group to which this instance belongs.
-  @_s.JsonKey(name: 'InstanceGroupId')
-  final String instanceGroupId;
+  final String? instanceGroupId;
 
   /// The EC2 instance type, for example <code>m3.xlarge</code>.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The instance purchasing option. Valid values are <code>ON_DEMAND</code> or
   /// <code>SPOT</code>.
-  @_s.JsonKey(name: 'Market')
-  final MarketType market;
+  final MarketType? market;
 
   /// The private DNS name of the instance.
-  @_s.JsonKey(name: 'PrivateDnsName')
-  final String privateDnsName;
+  final String? privateDnsName;
 
   /// The private IP address of the instance.
-  @_s.JsonKey(name: 'PrivateIpAddress')
-  final String privateIpAddress;
+  final String? privateIpAddress;
 
   /// The public DNS name of the instance.
-  @_s.JsonKey(name: 'PublicDnsName')
-  final String publicDnsName;
+  final String? publicDnsName;
 
   /// The public IP address of the instance.
-  @_s.JsonKey(name: 'PublicIpAddress')
-  final String publicIpAddress;
+  final String? publicIpAddress;
 
   /// The current status of the instance.
-  @_s.JsonKey(name: 'Status')
-  final InstanceStatus status;
+  final InstanceStatus? status;
 
   Instance({
     this.ebsVolumes,
@@ -4851,15 +5415,85 @@ class Instance {
     this.publicIpAddress,
     this.status,
   });
-  factory Instance.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFromJson(json);
+
+  factory Instance.fromJson(Map<String, dynamic> json) {
+    return Instance(
+      ebsVolumes: (json['EbsVolumes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EbsVolume.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ec2InstanceId: json['Ec2InstanceId'] as String?,
+      id: json['Id'] as String?,
+      instanceFleetId: json['InstanceFleetId'] as String?,
+      instanceGroupId: json['InstanceGroupId'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      market: (json['Market'] as String?)?.toMarketType(),
+      privateDnsName: json['PrivateDnsName'] as String?,
+      privateIpAddress: json['PrivateIpAddress'] as String?,
+      publicDnsName: json['PublicDnsName'] as String?,
+      publicIpAddress: json['PublicIpAddress'] as String?,
+      status: json['Status'] != null
+          ? InstanceStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsVolumes = this.ebsVolumes;
+    final ec2InstanceId = this.ec2InstanceId;
+    final id = this.id;
+    final instanceFleetId = this.instanceFleetId;
+    final instanceGroupId = this.instanceGroupId;
+    final instanceType = this.instanceType;
+    final market = this.market;
+    final privateDnsName = this.privateDnsName;
+    final privateIpAddress = this.privateIpAddress;
+    final publicDnsName = this.publicDnsName;
+    final publicIpAddress = this.publicIpAddress;
+    final status = this.status;
+    return {
+      if (ebsVolumes != null) 'EbsVolumes': ebsVolumes,
+      if (ec2InstanceId != null) 'Ec2InstanceId': ec2InstanceId,
+      if (id != null) 'Id': id,
+      if (instanceFleetId != null) 'InstanceFleetId': instanceFleetId,
+      if (instanceGroupId != null) 'InstanceGroupId': instanceGroupId,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (market != null) 'Market': market.toValue(),
+      if (privateDnsName != null) 'PrivateDnsName': privateDnsName,
+      if (privateIpAddress != null) 'PrivateIpAddress': privateIpAddress,
+      if (publicDnsName != null) 'PublicDnsName': publicDnsName,
+      if (publicIpAddress != null) 'PublicIpAddress': publicIpAddress,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 enum InstanceCollectionType {
-  @_s.JsonValue('INSTANCE_FLEET')
   instanceFleet,
-  @_s.JsonValue('INSTANCE_GROUP')
   instanceGroup,
+}
+
+extension on InstanceCollectionType {
+  String toValue() {
+    switch (this) {
+      case InstanceCollectionType.instanceFleet:
+        return 'INSTANCE_FLEET';
+      case InstanceCollectionType.instanceGroup:
+        return 'INSTANCE_GROUP';
+    }
+  }
+}
+
+extension on String {
+  InstanceCollectionType toInstanceCollectionType() {
+    switch (this) {
+      case 'INSTANCE_FLEET':
+        return InstanceCollectionType.instanceFleet;
+      case 'INSTANCE_GROUP':
+        return InstanceCollectionType.instanceGroup;
+    }
+    throw Exception('$this is not known in enum InstanceCollectionType');
+  }
 }
 
 /// Describes an instance fleet, which is a group of EC2 instances that host a
@@ -4870,51 +5504,38 @@ enum InstanceCollectionType {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceFleet {
   /// The unique identifier of the instance fleet.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The node type that the instance fleet hosts. Valid values are MASTER, CORE,
   /// or TASK.
-  @_s.JsonKey(name: 'InstanceFleetType')
-  final InstanceFleetType instanceFleetType;
+  final InstanceFleetType? instanceFleetType;
 
   /// The specification for the instance types that comprise an instance fleet. Up
   /// to five unique instance specifications may be defined for each instance
   /// fleet.
-  @_s.JsonKey(name: 'InstanceTypeSpecifications')
-  final List<InstanceTypeSpecification> instanceTypeSpecifications;
+  final List<InstanceTypeSpecification>? instanceTypeSpecifications;
 
   /// Describes the launch specification for an instance fleet.
-  @_s.JsonKey(name: 'LaunchSpecifications')
-  final InstanceFleetProvisioningSpecifications launchSpecifications;
+  final InstanceFleetProvisioningSpecifications? launchSpecifications;
 
   /// A friendly name for the instance fleet.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The number of On-Demand units that have been provisioned for the instance
   /// fleet to fulfill <code>TargetOnDemandCapacity</code>. This provisioned
   /// capacity might be less than or greater than
   /// <code>TargetOnDemandCapacity</code>.
-  @_s.JsonKey(name: 'ProvisionedOnDemandCapacity')
-  final int provisionedOnDemandCapacity;
+  final int? provisionedOnDemandCapacity;
 
   /// The number of Spot units that have been provisioned for this instance fleet
   /// to fulfill <code>TargetSpotCapacity</code>. This provisioned capacity might
   /// be less than or greater than <code>TargetSpotCapacity</code>.
-  @_s.JsonKey(name: 'ProvisionedSpotCapacity')
-  final int provisionedSpotCapacity;
+  final int? provisionedSpotCapacity;
 
   /// The current status of the instance fleet.
-  @_s.JsonKey(name: 'Status')
-  final InstanceFleetStatus status;
+  final InstanceFleetStatus? status;
 
   /// The target capacity of On-Demand units for the instance fleet, which
   /// determines how many On-Demand Instances to provision. When the instance
@@ -4937,12 +5558,11 @@ class InstanceFleet {
   /// <code>TargetSpotCapacity</code> and <code>TargetOnDemandCapacity</code> can
   /// be specified, and its value must be 1.
   /// </note>
-  @_s.JsonKey(name: 'TargetOnDemandCapacity')
-  final int targetOnDemandCapacity;
+  final int? targetOnDemandCapacity;
 
   /// The target capacity of Spot units for the instance fleet, which determines
-  /// how many Spot instances to provision. When the instance fleet launches,
-  /// Amazon EMR tries to provision Spot instances as specified by
+  /// how many Spot Instances to provision. When the instance fleet launches,
+  /// Amazon EMR tries to provision Spot Instances as specified by
   /// <a>InstanceTypeConfig</a>. Each instance configuration has a specified
   /// <code>WeightedCapacity</code>. When a Spot instance is provisioned, the
   /// <code>WeightedCapacity</code> units count toward the target capacity. Amazon
@@ -4954,15 +5574,14 @@ class InstanceFleet {
   /// <a>InstanceFleet$ProvisionedSpotCapacity</a> to determine the Spot capacity
   /// units that have been provisioned for the instance fleet.
   /// <note>
-  /// If not specified or set to 0, only On-Demand instances are provisioned for
+  /// If not specified or set to 0, only On-Demand Instances are provisioned for
   /// the instance fleet. At least one of <code>TargetSpotCapacity</code> and
   /// <code>TargetOnDemandCapacity</code> should be greater than 0. For a master
   /// instance fleet, only one of <code>TargetSpotCapacity</code> and
   /// <code>TargetOnDemandCapacity</code> can be specified, and its value must be
   /// 1.
   /// </note>
-  @_s.JsonKey(name: 'TargetSpotCapacity')
-  final int targetSpotCapacity;
+  final int? targetSpotCapacity;
 
   InstanceFleet({
     this.id,
@@ -4976,8 +5595,62 @@ class InstanceFleet {
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
-  factory InstanceFleet.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFleetFromJson(json);
+
+  factory InstanceFleet.fromJson(Map<String, dynamic> json) {
+    return InstanceFleet(
+      id: json['Id'] as String?,
+      instanceFleetType:
+          (json['InstanceFleetType'] as String?)?.toInstanceFleetType(),
+      instanceTypeSpecifications: (json['InstanceTypeSpecifications'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InstanceTypeSpecification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      launchSpecifications: json['LaunchSpecifications'] != null
+          ? InstanceFleetProvisioningSpecifications.fromJson(
+              json['LaunchSpecifications'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      provisionedOnDemandCapacity: json['ProvisionedOnDemandCapacity'] as int?,
+      provisionedSpotCapacity: json['ProvisionedSpotCapacity'] as int?,
+      status: json['Status'] != null
+          ? InstanceFleetStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+      targetOnDemandCapacity: json['TargetOnDemandCapacity'] as int?,
+      targetSpotCapacity: json['TargetSpotCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final instanceFleetType = this.instanceFleetType;
+    final instanceTypeSpecifications = this.instanceTypeSpecifications;
+    final launchSpecifications = this.launchSpecifications;
+    final name = this.name;
+    final provisionedOnDemandCapacity = this.provisionedOnDemandCapacity;
+    final provisionedSpotCapacity = this.provisionedSpotCapacity;
+    final status = this.status;
+    final targetOnDemandCapacity = this.targetOnDemandCapacity;
+    final targetSpotCapacity = this.targetSpotCapacity;
+    return {
+      if (id != null) 'Id': id,
+      if (instanceFleetType != null)
+        'InstanceFleetType': instanceFleetType.toValue(),
+      if (instanceTypeSpecifications != null)
+        'InstanceTypeSpecifications': instanceTypeSpecifications,
+      if (launchSpecifications != null)
+        'LaunchSpecifications': launchSpecifications,
+      if (name != null) 'Name': name,
+      if (provisionedOnDemandCapacity != null)
+        'ProvisionedOnDemandCapacity': provisionedOnDemandCapacity,
+      if (provisionedSpotCapacity != null)
+        'ProvisionedSpotCapacity': provisionedSpotCapacity,
+      if (status != null) 'Status': status,
+      if (targetOnDemandCapacity != null)
+        'TargetOnDemandCapacity': targetOnDemandCapacity,
+      if (targetSpotCapacity != null) 'TargetSpotCapacity': targetSpotCapacity,
+    };
+  }
 }
 
 /// The configuration that defines an instance fleet.
@@ -4985,29 +5658,20 @@ class InstanceFleet {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceFleetConfig {
-  /// The node type that the instance fleet hosts. Valid values are
-  /// MASTER,CORE,and TASK.
-  @_s.JsonKey(name: 'InstanceFleetType')
+  /// The node type that the instance fleet hosts. Valid values are MASTER, CORE,
+  /// and TASK.
   final InstanceFleetType instanceFleetType;
 
   /// The instance type configurations that define the EC2 instances in the
   /// instance fleet.
-  @_s.JsonKey(name: 'InstanceTypeConfigs')
-  final List<InstanceTypeConfig> instanceTypeConfigs;
+  final List<InstanceTypeConfig>? instanceTypeConfigs;
 
   /// The launch specification for the instance fleet.
-  @_s.JsonKey(name: 'LaunchSpecifications')
-  final InstanceFleetProvisioningSpecifications launchSpecifications;
+  final InstanceFleetProvisioningSpecifications? launchSpecifications;
 
   /// The friendly name of the instance fleet.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The target capacity of On-Demand units for the instance fleet, which
   /// determines how many On-Demand Instances to provision. When the instance
@@ -5028,8 +5692,7 @@ class InstanceFleetConfig {
   /// <code>TargetSpotCapacity</code> and <code>TargetOnDemandCapacity</code> can
   /// be specified, and its value must be 1.
   /// </note>
-  @_s.JsonKey(name: 'TargetOnDemandCapacity')
-  final int targetOnDemandCapacity;
+  final int? targetOnDemandCapacity;
 
   /// The target capacity of Spot units for the instance fleet, which determines
   /// how many Spot Instances to provision. When the instance fleet launches,
@@ -5050,18 +5713,54 @@ class InstanceFleetConfig {
   /// <code>TargetOnDemandCapacity</code> can be specified, and its value must be
   /// 1.
   /// </note>
-  @_s.JsonKey(name: 'TargetSpotCapacity')
-  final int targetSpotCapacity;
+  final int? targetSpotCapacity;
 
   InstanceFleetConfig({
-    @_s.required this.instanceFleetType,
+    required this.instanceFleetType,
     this.instanceTypeConfigs,
     this.launchSpecifications,
     this.name,
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
-  Map<String, dynamic> toJson() => _$InstanceFleetConfigToJson(this);
+
+  factory InstanceFleetConfig.fromJson(Map<String, dynamic> json) {
+    return InstanceFleetConfig(
+      instanceFleetType:
+          (json['InstanceFleetType'] as String).toInstanceFleetType(),
+      instanceTypeConfigs: (json['InstanceTypeConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceTypeConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      launchSpecifications: json['LaunchSpecifications'] != null
+          ? InstanceFleetProvisioningSpecifications.fromJson(
+              json['LaunchSpecifications'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      targetOnDemandCapacity: json['TargetOnDemandCapacity'] as int?,
+      targetSpotCapacity: json['TargetSpotCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceFleetType = this.instanceFleetType;
+    final instanceTypeConfigs = this.instanceTypeConfigs;
+    final launchSpecifications = this.launchSpecifications;
+    final name = this.name;
+    final targetOnDemandCapacity = this.targetOnDemandCapacity;
+    final targetSpotCapacity = this.targetSpotCapacity;
+    return {
+      'InstanceFleetType': instanceFleetType.toValue(),
+      if (instanceTypeConfigs != null)
+        'InstanceTypeConfigs': instanceTypeConfigs,
+      if (launchSpecifications != null)
+        'LaunchSpecifications': launchSpecifications,
+      if (name != null) 'Name': name,
+      if (targetOnDemandCapacity != null)
+        'TargetOnDemandCapacity': targetOnDemandCapacity,
+      if (targetSpotCapacity != null) 'TargetSpotCapacity': targetSpotCapacity,
+    };
+  }
 }
 
 /// Configuration parameters for an instance fleet modification request.
@@ -5069,32 +5768,43 @@ class InstanceFleetConfig {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceFleetModifyConfig {
   /// A unique identifier for the instance fleet.
-  @_s.JsonKey(name: 'InstanceFleetId')
   final String instanceFleetId;
 
   /// The target capacity of On-Demand units for the instance fleet. For more
   /// information see <a>InstanceFleetConfig$TargetOnDemandCapacity</a>.
-  @_s.JsonKey(name: 'TargetOnDemandCapacity')
-  final int targetOnDemandCapacity;
+  final int? targetOnDemandCapacity;
 
   /// The target capacity of Spot units for the instance fleet. For more
   /// information, see <a>InstanceFleetConfig$TargetSpotCapacity</a>.
-  @_s.JsonKey(name: 'TargetSpotCapacity')
-  final int targetSpotCapacity;
+  final int? targetSpotCapacity;
 
   InstanceFleetModifyConfig({
-    @_s.required this.instanceFleetId,
+    required this.instanceFleetId,
     this.targetOnDemandCapacity,
     this.targetSpotCapacity,
   });
-  Map<String, dynamic> toJson() => _$InstanceFleetModifyConfigToJson(this);
+
+  factory InstanceFleetModifyConfig.fromJson(Map<String, dynamic> json) {
+    return InstanceFleetModifyConfig(
+      instanceFleetId: json['InstanceFleetId'] as String,
+      targetOnDemandCapacity: json['TargetOnDemandCapacity'] as int?,
+      targetSpotCapacity: json['TargetSpotCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceFleetId = this.instanceFleetId;
+    final targetOnDemandCapacity = this.targetOnDemandCapacity;
+    final targetSpotCapacity = this.targetSpotCapacity;
+    return {
+      'InstanceFleetId': instanceFleetId,
+      if (targetOnDemandCapacity != null)
+        'TargetOnDemandCapacity': targetOnDemandCapacity,
+      if (targetSpotCapacity != null) 'TargetSpotCapacity': targetSpotCapacity,
+    };
+  }
 }
 
 /// The launch specification for Spot Instances in the fleet, which determines
@@ -5105,11 +5815,6 @@ class InstanceFleetModifyConfig {
 /// 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot Instance
 /// allocation strategies are available in Amazon EMR version 5.12.1 and later.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InstanceFleetProvisioningSpecifications {
   /// The launch specification for On-Demand Instances in the instance fleet,
   /// which determines the allocation strategy.
@@ -5118,42 +5823,94 @@ class InstanceFleetProvisioningSpecifications {
   /// 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation
   /// strategy is available in Amazon EMR version 5.12.1 and later.
   /// </note>
-  @_s.JsonKey(name: 'OnDemandSpecification')
-  final OnDemandProvisioningSpecification onDemandSpecification;
+  final OnDemandProvisioningSpecification? onDemandSpecification;
 
   /// The launch specification for Spot Instances in the fleet, which determines
   /// the defined duration, provisioning timeout behavior, and allocation
   /// strategy.
-  @_s.JsonKey(name: 'SpotSpecification')
-  final SpotProvisioningSpecification spotSpecification;
+  final SpotProvisioningSpecification? spotSpecification;
 
   InstanceFleetProvisioningSpecifications({
     this.onDemandSpecification,
     this.spotSpecification,
   });
-  factory InstanceFleetProvisioningSpecifications.fromJson(
-          Map<String, dynamic> json) =>
-      _$InstanceFleetProvisioningSpecificationsFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$InstanceFleetProvisioningSpecificationsToJson(this);
+  factory InstanceFleetProvisioningSpecifications.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceFleetProvisioningSpecifications(
+      onDemandSpecification: json['OnDemandSpecification'] != null
+          ? OnDemandProvisioningSpecification.fromJson(
+              json['OnDemandSpecification'] as Map<String, dynamic>)
+          : null,
+      spotSpecification: json['SpotSpecification'] != null
+          ? SpotProvisioningSpecification.fromJson(
+              json['SpotSpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onDemandSpecification = this.onDemandSpecification;
+    final spotSpecification = this.spotSpecification;
+    return {
+      if (onDemandSpecification != null)
+        'OnDemandSpecification': onDemandSpecification,
+      if (spotSpecification != null) 'SpotSpecification': spotSpecification,
+    };
+  }
 }
 
 enum InstanceFleetState {
-  @_s.JsonValue('PROVISIONING')
   provisioning,
-  @_s.JsonValue('BOOTSTRAPPING')
   bootstrapping,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('RESIZING')
   resizing,
-  @_s.JsonValue('SUSPENDED')
   suspended,
-  @_s.JsonValue('TERMINATING')
   terminating,
-  @_s.JsonValue('TERMINATED')
   terminated,
+}
+
+extension on InstanceFleetState {
+  String toValue() {
+    switch (this) {
+      case InstanceFleetState.provisioning:
+        return 'PROVISIONING';
+      case InstanceFleetState.bootstrapping:
+        return 'BOOTSTRAPPING';
+      case InstanceFleetState.running:
+        return 'RUNNING';
+      case InstanceFleetState.resizing:
+        return 'RESIZING';
+      case InstanceFleetState.suspended:
+        return 'SUSPENDED';
+      case InstanceFleetState.terminating:
+        return 'TERMINATING';
+      case InstanceFleetState.terminated:
+        return 'TERMINATED';
+    }
+  }
+}
+
+extension on String {
+  InstanceFleetState toInstanceFleetState() {
+    switch (this) {
+      case 'PROVISIONING':
+        return InstanceFleetState.provisioning;
+      case 'BOOTSTRAPPING':
+        return InstanceFleetState.bootstrapping;
+      case 'RUNNING':
+        return InstanceFleetState.running;
+      case 'RESIZING':
+        return InstanceFleetState.resizing;
+      case 'SUSPENDED':
+        return InstanceFleetState.suspended;
+      case 'TERMINATING':
+        return InstanceFleetState.terminating;
+      case 'TERMINATED':
+        return InstanceFleetState.terminated;
+    }
+    throw Exception('$this is not known in enum InstanceFleetState');
+  }
 }
 
 /// Provides status change reason details for the instance fleet.
@@ -5161,37 +5918,72 @@ enum InstanceFleetState {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceFleetStateChangeReason {
   /// A code corresponding to the reason the state change occurred.
-  @_s.JsonKey(name: 'Code')
-  final InstanceFleetStateChangeReasonCode code;
+  final InstanceFleetStateChangeReasonCode? code;
 
   /// An explanatory message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InstanceFleetStateChangeReason({
     this.code,
     this.message,
   });
-  factory InstanceFleetStateChangeReason.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFleetStateChangeReasonFromJson(json);
+
+  factory InstanceFleetStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return InstanceFleetStateChangeReason(
+      code: (json['Code'] as String?)?.toInstanceFleetStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum InstanceFleetStateChangeReasonCode {
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('VALIDATION_ERROR')
   validationError,
-  @_s.JsonValue('INSTANCE_FAILURE')
   instanceFailure,
-  @_s.JsonValue('CLUSTER_TERMINATED')
   clusterTerminated,
+}
+
+extension on InstanceFleetStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case InstanceFleetStateChangeReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+      case InstanceFleetStateChangeReasonCode.validationError:
+        return 'VALIDATION_ERROR';
+      case InstanceFleetStateChangeReasonCode.instanceFailure:
+        return 'INSTANCE_FAILURE';
+      case InstanceFleetStateChangeReasonCode.clusterTerminated:
+        return 'CLUSTER_TERMINATED';
+    }
+  }
+}
+
+extension on String {
+  InstanceFleetStateChangeReasonCode toInstanceFleetStateChangeReasonCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return InstanceFleetStateChangeReasonCode.internalError;
+      case 'VALIDATION_ERROR':
+        return InstanceFleetStateChangeReasonCode.validationError;
+      case 'INSTANCE_FAILURE':
+        return InstanceFleetStateChangeReasonCode.instanceFailure;
+      case 'CLUSTER_TERMINATED':
+        return InstanceFleetStateChangeReasonCode.clusterTerminated;
+    }
+    throw Exception(
+        '$this is not known in enum InstanceFleetStateChangeReasonCode');
+  }
 }
 
 /// The status of the instance fleet.
@@ -5199,11 +5991,6 @@ enum InstanceFleetStateChangeReasonCode {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceFleetStatus {
   /// A code representing the instance fleet status.
   ///
@@ -5237,25 +6024,45 @@ class InstanceFleetStatus {
   /// instances have been terminated.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'State')
-  final InstanceFleetState state;
+  final InstanceFleetState? state;
 
   /// Provides status change reason details for the instance fleet.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final InstanceFleetStateChangeReason stateChangeReason;
+  final InstanceFleetStateChangeReason? stateChangeReason;
 
   /// Provides historical timestamps for the instance fleet, including the time of
   /// creation, the time it became ready to run jobs, and the time of termination.
-  @_s.JsonKey(name: 'Timeline')
-  final InstanceFleetTimeline timeline;
+  final InstanceFleetTimeline? timeline;
 
   InstanceFleetStatus({
     this.state,
     this.stateChangeReason,
     this.timeline,
   });
-  factory InstanceFleetStatus.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFleetStatusFromJson(json);
+
+  factory InstanceFleetStatus.fromJson(Map<String, dynamic> json) {
+    return InstanceFleetStatus(
+      state: (json['State'] as String?)?.toInstanceFleetState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? InstanceFleetStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      timeline: json['Timeline'] != null
+          ? InstanceFleetTimeline.fromJson(
+              json['Timeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final timeline = this.timeline;
+    return {
+      if (state != null) 'State': state.toValue(),
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (timeline != null) 'Timeline': timeline,
+    };
+  }
 }
 
 /// Provides historical timestamps for the instance fleet, including the time of
@@ -5264,42 +6071,47 @@ class InstanceFleetStatus {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceFleetTimeline {
   /// The time and date the instance fleet was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The time and date the instance fleet terminated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// The time and date the instance fleet was ready to run jobs.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReadyDateTime')
-  final DateTime readyDateTime;
+  final DateTime? readyDateTime;
 
   InstanceFleetTimeline({
     this.creationDateTime,
     this.endDateTime,
     this.readyDateTime,
   });
-  factory InstanceFleetTimeline.fromJson(Map<String, dynamic> json) =>
-      _$InstanceFleetTimelineFromJson(json);
+
+  factory InstanceFleetTimeline.fromJson(Map<String, dynamic> json) {
+    return InstanceFleetTimeline(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final endDateTime = this.endDateTime;
+    final readyDateTime = this.readyDateTime;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (readyDateTime != null)
+        'ReadyDateTime': unixTimestampToJson(readyDateTime),
+    };
+  }
 }
 
 enum InstanceFleetType {
-  @_s.JsonValue('MASTER')
   master,
-  @_s.JsonValue('CORE')
   core,
-  @_s.JsonValue('TASK')
   task,
 }
 
@@ -5313,32 +6125,37 @@ extension on InstanceFleetType {
       case InstanceFleetType.task:
         return 'TASK';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InstanceFleetType toInstanceFleetType() {
+    switch (this) {
+      case 'MASTER':
+        return InstanceFleetType.master;
+      case 'CORE':
+        return InstanceFleetType.core;
+      case 'TASK':
+        return InstanceFleetType.task;
+    }
+    throw Exception('$this is not known in enum InstanceFleetType');
   }
 }
 
 /// This entity represents an instance group, which is a group of instances that
 /// have common purpose. For example, CORE instance group is used for HDFS.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceGroup {
   /// An automatic scaling policy for a core instance group or task instance group
   /// in an Amazon EMR cluster. The automatic scaling policy defines how an
   /// instance group dynamically adds and terminates EC2 instances in response to
   /// the value of a CloudWatch metric. See PutAutoScalingPolicy.
-  @_s.JsonKey(name: 'AutoScalingPolicy')
-  final AutoScalingPolicyDescription autoScalingPolicy;
+  final AutoScalingPolicyDescription? autoScalingPolicy;
 
-  /// The bid price for each EC2 Spot Instance type as defined by
-  /// <code>InstanceType</code>. Expressed in USD. If neither
-  /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
-  /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
-  /// 100%.
-  @_s.JsonKey(name: 'BidPrice')
-  final String bidPrice;
+  /// If specified, indicates that the instance group uses Spot Instances. This is
+  /// the maximum price you are willing to pay for Spot Instances. Specify
+  /// <code>OnDemandPrice</code> to set the amount equal to the On-Demand price,
+  /// or specify an amount in USD.
+  final String? bidPrice;
 
   /// <note>
   /// Amazon EMR releases 4.x or later.
@@ -5346,70 +6163,55 @@ class InstanceGroup {
   /// The list of configurations supplied for an EMR cluster instance group. You
   /// can specify a separate configuration for each instance group (master, core,
   /// and task).
-  @_s.JsonKey(name: 'Configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// The version number of the requested configuration specification for this
   /// instance group.
-  @_s.JsonKey(name: 'ConfigurationsVersion')
-  final int configurationsVersion;
+  final int? configurationsVersion;
 
   /// The EBS block devices that are mapped to this instance group.
-  @_s.JsonKey(name: 'EbsBlockDevices')
-  final List<EbsBlockDevice> ebsBlockDevices;
+  final List<EbsBlockDevice>? ebsBlockDevices;
 
   /// If the instance group is EBS-optimized. An Amazon EBS-optimized instance
   /// uses an optimized configuration stack and provides additional, dedicated
   /// capacity for Amazon EBS I/O.
-  @_s.JsonKey(name: 'EbsOptimized')
-  final bool ebsOptimized;
+  final bool? ebsOptimized;
 
   /// The identifier of the instance group.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The type of the instance group. Valid values are MASTER, CORE or TASK.
-  @_s.JsonKey(name: 'InstanceGroupType')
-  final InstanceGroupType instanceGroupType;
+  final InstanceGroupType? instanceGroupType;
 
   /// The EC2 instance type for all instances in the instance group.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// A list of configurations that were successfully applied for an instance
   /// group last time.
-  @_s.JsonKey(name: 'LastSuccessfullyAppliedConfigurations')
-  final List<Configuration> lastSuccessfullyAppliedConfigurations;
+  final List<Configuration>? lastSuccessfullyAppliedConfigurations;
 
   /// The version number of a configuration specification that was successfully
   /// applied for an instance group last time.
-  @_s.JsonKey(name: 'LastSuccessfullyAppliedConfigurationsVersion')
-  final int lastSuccessfullyAppliedConfigurationsVersion;
+  final int? lastSuccessfullyAppliedConfigurationsVersion;
 
   /// The marketplace to provision instances for this group. Valid values are
   /// ON_DEMAND or SPOT.
-  @_s.JsonKey(name: 'Market')
-  final MarketType market;
+  final MarketType? market;
 
   /// The name of the instance group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The target number of instances for the instance group.
-  @_s.JsonKey(name: 'RequestedInstanceCount')
-  final int requestedInstanceCount;
+  final int? requestedInstanceCount;
 
   /// The number of instances currently running in this instance group.
-  @_s.JsonKey(name: 'RunningInstanceCount')
-  final int runningInstanceCount;
+  final int? runningInstanceCount;
 
   /// Policy for customizing shrink operations.
-  @_s.JsonKey(name: 'ShrinkPolicy')
-  final ShrinkPolicy shrinkPolicy;
+  final ShrinkPolicy? shrinkPolicy;
 
   /// The current status of the instance group.
-  @_s.JsonKey(name: 'Status')
-  final InstanceGroupStatus status;
+  final InstanceGroupStatus? status;
 
   InstanceGroup({
     this.autoScalingPolicy,
@@ -5430,43 +6232,120 @@ class InstanceGroup {
     this.shrinkPolicy,
     this.status,
   });
-  factory InstanceGroup.fromJson(Map<String, dynamic> json) =>
-      _$InstanceGroupFromJson(json);
+
+  factory InstanceGroup.fromJson(Map<String, dynamic> json) {
+    return InstanceGroup(
+      autoScalingPolicy: json['AutoScalingPolicy'] != null
+          ? AutoScalingPolicyDescription.fromJson(
+              json['AutoScalingPolicy'] as Map<String, dynamic>)
+          : null,
+      bidPrice: json['BidPrice'] as String?,
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      configurationsVersion: json['ConfigurationsVersion'] as int?,
+      ebsBlockDevices: (json['EbsBlockDevices'] as List?)
+          ?.whereNotNull()
+          .map((e) => EbsBlockDevice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ebsOptimized: json['EbsOptimized'] as bool?,
+      id: json['Id'] as String?,
+      instanceGroupType:
+          (json['InstanceGroupType'] as String?)?.toInstanceGroupType(),
+      instanceType: json['InstanceType'] as String?,
+      lastSuccessfullyAppliedConfigurations:
+          (json['LastSuccessfullyAppliedConfigurations'] as List?)
+              ?.whereNotNull()
+              .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      lastSuccessfullyAppliedConfigurationsVersion:
+          json['LastSuccessfullyAppliedConfigurationsVersion'] as int?,
+      market: (json['Market'] as String?)?.toMarketType(),
+      name: json['Name'] as String?,
+      requestedInstanceCount: json['RequestedInstanceCount'] as int?,
+      runningInstanceCount: json['RunningInstanceCount'] as int?,
+      shrinkPolicy: json['ShrinkPolicy'] != null
+          ? ShrinkPolicy.fromJson(json['ShrinkPolicy'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] != null
+          ? InstanceGroupStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingPolicy = this.autoScalingPolicy;
+    final bidPrice = this.bidPrice;
+    final configurations = this.configurations;
+    final configurationsVersion = this.configurationsVersion;
+    final ebsBlockDevices = this.ebsBlockDevices;
+    final ebsOptimized = this.ebsOptimized;
+    final id = this.id;
+    final instanceGroupType = this.instanceGroupType;
+    final instanceType = this.instanceType;
+    final lastSuccessfullyAppliedConfigurations =
+        this.lastSuccessfullyAppliedConfigurations;
+    final lastSuccessfullyAppliedConfigurationsVersion =
+        this.lastSuccessfullyAppliedConfigurationsVersion;
+    final market = this.market;
+    final name = this.name;
+    final requestedInstanceCount = this.requestedInstanceCount;
+    final runningInstanceCount = this.runningInstanceCount;
+    final shrinkPolicy = this.shrinkPolicy;
+    final status = this.status;
+    return {
+      if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
+      if (bidPrice != null) 'BidPrice': bidPrice,
+      if (configurations != null) 'Configurations': configurations,
+      if (configurationsVersion != null)
+        'ConfigurationsVersion': configurationsVersion,
+      if (ebsBlockDevices != null) 'EbsBlockDevices': ebsBlockDevices,
+      if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+      if (id != null) 'Id': id,
+      if (instanceGroupType != null)
+        'InstanceGroupType': instanceGroupType.toValue(),
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (lastSuccessfullyAppliedConfigurations != null)
+        'LastSuccessfullyAppliedConfigurations':
+            lastSuccessfullyAppliedConfigurations,
+      if (lastSuccessfullyAppliedConfigurationsVersion != null)
+        'LastSuccessfullyAppliedConfigurationsVersion':
+            lastSuccessfullyAppliedConfigurationsVersion,
+      if (market != null) 'Market': market.toValue(),
+      if (name != null) 'Name': name,
+      if (requestedInstanceCount != null)
+        'RequestedInstanceCount': requestedInstanceCount,
+      if (runningInstanceCount != null)
+        'RunningInstanceCount': runningInstanceCount,
+      if (shrinkPolicy != null) 'ShrinkPolicy': shrinkPolicy,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Configuration defining a new instance group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceGroupConfig {
   /// Target number of instances for the instance group.
-  @_s.JsonKey(name: 'InstanceCount')
   final int instanceCount;
 
   /// The role of the instance group in the cluster.
-  @_s.JsonKey(name: 'InstanceRole')
   final InstanceRoleType instanceRole;
 
   /// The EC2 instance type for all instances in the instance group.
-  @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
   /// An automatic scaling policy for a core instance group or task instance group
   /// in an Amazon EMR cluster. The automatic scaling policy defines how an
   /// instance group dynamically adds and terminates EC2 instances in response to
   /// the value of a CloudWatch metric. See <a>PutAutoScalingPolicy</a>.
-  @_s.JsonKey(name: 'AutoScalingPolicy')
-  final AutoScalingPolicy autoScalingPolicy;
+  final AutoScalingPolicy? autoScalingPolicy;
 
-  /// The bid price for each EC2 Spot Instance type as defined by
-  /// <code>InstanceType</code>. Expressed in USD. If neither
-  /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
-  /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
-  /// 100%.
-  @_s.JsonKey(name: 'BidPrice')
-  final String bidPrice;
+  /// If specified, indicates that the instance group uses Spot Instances. This is
+  /// the maximum price you are willing to pay for Spot Instances. Specify
+  /// <code>OnDemandPrice</code> to set the amount equal to the On-Demand price,
+  /// or specify an amount in USD.
+  final String? bidPrice;
 
   /// <note>
   /// Amazon EMR releases 4.x or later.
@@ -5474,26 +6353,22 @@ class InstanceGroupConfig {
   /// The list of configurations supplied for an EMR cluster instance group. You
   /// can specify a separate configuration for each instance group (master, core,
   /// and task).
-  @_s.JsonKey(name: 'Configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// EBS configurations that will be attached to each EC2 instance in the
   /// instance group.
-  @_s.JsonKey(name: 'EbsConfiguration')
-  final EbsConfiguration ebsConfiguration;
+  final EbsConfiguration? ebsConfiguration;
 
   /// Market type of the EC2 instances used to create a cluster node.
-  @_s.JsonKey(name: 'Market')
-  final MarketType market;
+  final MarketType? market;
 
   /// Friendly name given to the instance group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   InstanceGroupConfig({
-    @_s.required this.instanceCount,
-    @_s.required this.instanceRole,
-    @_s.required this.instanceType,
+    required this.instanceCount,
+    required this.instanceRole,
+    required this.instanceType,
     this.autoScalingPolicy,
     this.bidPrice,
     this.configurations,
@@ -5501,89 +6376,110 @@ class InstanceGroupConfig {
     this.market,
     this.name,
   });
-  Map<String, dynamic> toJson() => _$InstanceGroupConfigToJson(this);
+
+  factory InstanceGroupConfig.fromJson(Map<String, dynamic> json) {
+    return InstanceGroupConfig(
+      instanceCount: json['InstanceCount'] as int,
+      instanceRole: (json['InstanceRole'] as String).toInstanceRoleType(),
+      instanceType: json['InstanceType'] as String,
+      autoScalingPolicy: json['AutoScalingPolicy'] != null
+          ? AutoScalingPolicy.fromJson(
+              json['AutoScalingPolicy'] as Map<String, dynamic>)
+          : null,
+      bidPrice: json['BidPrice'] as String?,
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ebsConfiguration: json['EbsConfiguration'] != null
+          ? EbsConfiguration.fromJson(
+              json['EbsConfiguration'] as Map<String, dynamic>)
+          : null,
+      market: (json['Market'] as String?)?.toMarketType(),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceCount = this.instanceCount;
+    final instanceRole = this.instanceRole;
+    final instanceType = this.instanceType;
+    final autoScalingPolicy = this.autoScalingPolicy;
+    final bidPrice = this.bidPrice;
+    final configurations = this.configurations;
+    final ebsConfiguration = this.ebsConfiguration;
+    final market = this.market;
+    final name = this.name;
+    return {
+      'InstanceCount': instanceCount,
+      'InstanceRole': instanceRole.toValue(),
+      'InstanceType': instanceType,
+      if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
+      if (bidPrice != null) 'BidPrice': bidPrice,
+      if (configurations != null) 'Configurations': configurations,
+      if (ebsConfiguration != null) 'EbsConfiguration': ebsConfiguration,
+      if (market != null) 'Market': market.toValue(),
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Detailed information about an instance group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceGroupDetail {
   /// The date/time the instance group was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// Target number of instances to run in the instance group.
-  @_s.JsonKey(name: 'InstanceRequestCount')
   final int instanceRequestCount;
 
   /// Instance group role in the cluster
-  @_s.JsonKey(name: 'InstanceRole')
   final InstanceRoleType instanceRole;
 
   /// Actual count of running instances.
-  @_s.JsonKey(name: 'InstanceRunningCount')
   final int instanceRunningCount;
 
   /// EC2 instance type.
-  @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
   /// Market type of the EC2 instances used to create a cluster node.
-  @_s.JsonKey(name: 'Market')
   final MarketType market;
 
   /// State of instance group. The following values are deprecated: STARTING,
   /// TERMINATED, and FAILED.
-  @_s.JsonKey(name: 'State')
   final InstanceGroupState state;
 
-  /// The bid price for each EC2 Spot Instance type as defined by
-  /// <code>InstanceType</code>. Expressed in USD. If neither
-  /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
-  /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
-  /// 100%.
-  @_s.JsonKey(name: 'BidPrice')
-  final String bidPrice;
+  /// If specified, indicates that the instance group uses Spot Instances. This is
+  /// the maximum price you are willing to pay for Spot Instances. Specify
+  /// <code>OnDemandPrice</code> to set the amount equal to the On-Demand price,
+  /// or specify an amount in USD.
+  final String? bidPrice;
 
   /// The date/time the instance group was terminated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// Unique identifier for the instance group.
-  @_s.JsonKey(name: 'InstanceGroupId')
-  final String instanceGroupId;
+  final String? instanceGroupId;
 
   /// Details regarding the state of the instance group.
-  @_s.JsonKey(name: 'LastStateChangeReason')
-  final String lastStateChangeReason;
+  final String? lastStateChangeReason;
 
   /// Friendly name for the instance group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The date/time the instance group was available to the cluster.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReadyDateTime')
-  final DateTime readyDateTime;
+  final DateTime? readyDateTime;
 
   /// The date/time the instance group was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDateTime')
-  final DateTime startDateTime;
+  final DateTime? startDateTime;
 
   InstanceGroupDetail({
-    @_s.required this.creationDateTime,
-    @_s.required this.instanceRequestCount,
-    @_s.required this.instanceRole,
-    @_s.required this.instanceRunningCount,
-    @_s.required this.instanceType,
-    @_s.required this.market,
-    @_s.required this.state,
+    required this.creationDateTime,
+    required this.instanceRequestCount,
+    required this.instanceRole,
+    required this.instanceRunningCount,
+    required this.instanceType,
+    required this.market,
+    required this.state,
     this.bidPrice,
     this.endDateTime,
     this.instanceGroupId,
@@ -5592,172 +6488,352 @@ class InstanceGroupDetail {
     this.readyDateTime,
     this.startDateTime,
   });
-  factory InstanceGroupDetail.fromJson(Map<String, dynamic> json) =>
-      _$InstanceGroupDetailFromJson(json);
+
+  factory InstanceGroupDetail.fromJson(Map<String, dynamic> json) {
+    return InstanceGroupDetail(
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+      instanceRequestCount: json['InstanceRequestCount'] as int,
+      instanceRole: (json['InstanceRole'] as String).toInstanceRoleType(),
+      instanceRunningCount: json['InstanceRunningCount'] as int,
+      instanceType: json['InstanceType'] as String,
+      market: (json['Market'] as String).toMarketType(),
+      state: (json['State'] as String).toInstanceGroupState(),
+      bidPrice: json['BidPrice'] as String?,
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      instanceGroupId: json['InstanceGroupId'] as String?,
+      lastStateChangeReason: json['LastStateChangeReason'] as String?,
+      name: json['Name'] as String?,
+      readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+      startDateTime: timeStampFromJson(json['StartDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final instanceRequestCount = this.instanceRequestCount;
+    final instanceRole = this.instanceRole;
+    final instanceRunningCount = this.instanceRunningCount;
+    final instanceType = this.instanceType;
+    final market = this.market;
+    final state = this.state;
+    final bidPrice = this.bidPrice;
+    final endDateTime = this.endDateTime;
+    final instanceGroupId = this.instanceGroupId;
+    final lastStateChangeReason = this.lastStateChangeReason;
+    final name = this.name;
+    final readyDateTime = this.readyDateTime;
+    final startDateTime = this.startDateTime;
+    return {
+      'CreationDateTime': unixTimestampToJson(creationDateTime),
+      'InstanceRequestCount': instanceRequestCount,
+      'InstanceRole': instanceRole.toValue(),
+      'InstanceRunningCount': instanceRunningCount,
+      'InstanceType': instanceType,
+      'Market': market.toValue(),
+      'State': state.toValue(),
+      if (bidPrice != null) 'BidPrice': bidPrice,
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (instanceGroupId != null) 'InstanceGroupId': instanceGroupId,
+      if (lastStateChangeReason != null)
+        'LastStateChangeReason': lastStateChangeReason,
+      if (name != null) 'Name': name,
+      if (readyDateTime != null)
+        'ReadyDateTime': unixTimestampToJson(readyDateTime),
+      if (startDateTime != null)
+        'StartDateTime': unixTimestampToJson(startDateTime),
+    };
+  }
 }
 
 /// Modify the size or configurations of an instance group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceGroupModifyConfig {
   /// Unique ID of the instance group to modify.
-  @_s.JsonKey(name: 'InstanceGroupId')
   final String instanceGroupId;
 
   /// A list of new or modified configurations to apply for an instance group.
-  @_s.JsonKey(name: 'Configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// The EC2 InstanceIds to terminate. After you terminate the instances, the
   /// instance group will not return to its original requested size.
-  @_s.JsonKey(name: 'EC2InstanceIdsToTerminate')
-  final List<String> eC2InstanceIdsToTerminate;
+  final List<String>? eC2InstanceIdsToTerminate;
 
   /// Target size for the instance group.
-  @_s.JsonKey(name: 'InstanceCount')
-  final int instanceCount;
+  final int? instanceCount;
 
   /// Policy for customizing shrink operations.
-  @_s.JsonKey(name: 'ShrinkPolicy')
-  final ShrinkPolicy shrinkPolicy;
+  final ShrinkPolicy? shrinkPolicy;
 
   InstanceGroupModifyConfig({
-    @_s.required this.instanceGroupId,
+    required this.instanceGroupId,
     this.configurations,
     this.eC2InstanceIdsToTerminate,
     this.instanceCount,
     this.shrinkPolicy,
   });
-  Map<String, dynamic> toJson() => _$InstanceGroupModifyConfigToJson(this);
+
+  factory InstanceGroupModifyConfig.fromJson(Map<String, dynamic> json) {
+    return InstanceGroupModifyConfig(
+      instanceGroupId: json['InstanceGroupId'] as String,
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      eC2InstanceIdsToTerminate: (json['EC2InstanceIdsToTerminate'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instanceCount: json['InstanceCount'] as int?,
+      shrinkPolicy: json['ShrinkPolicy'] != null
+          ? ShrinkPolicy.fromJson(json['ShrinkPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceGroupId = this.instanceGroupId;
+    final configurations = this.configurations;
+    final eC2InstanceIdsToTerminate = this.eC2InstanceIdsToTerminate;
+    final instanceCount = this.instanceCount;
+    final shrinkPolicy = this.shrinkPolicy;
+    return {
+      'InstanceGroupId': instanceGroupId,
+      if (configurations != null) 'Configurations': configurations,
+      if (eC2InstanceIdsToTerminate != null)
+        'EC2InstanceIdsToTerminate': eC2InstanceIdsToTerminate,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (shrinkPolicy != null) 'ShrinkPolicy': shrinkPolicy,
+    };
+  }
 }
 
 enum InstanceGroupState {
-  @_s.JsonValue('PROVISIONING')
   provisioning,
-  @_s.JsonValue('BOOTSTRAPPING')
   bootstrapping,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('RECONFIGURING')
   reconfiguring,
-  @_s.JsonValue('RESIZING')
   resizing,
-  @_s.JsonValue('SUSPENDED')
   suspended,
-  @_s.JsonValue('TERMINATING')
   terminating,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('ARRESTED')
   arrested,
-  @_s.JsonValue('SHUTTING_DOWN')
   shuttingDown,
-  @_s.JsonValue('ENDED')
   ended,
 }
 
+extension on InstanceGroupState {
+  String toValue() {
+    switch (this) {
+      case InstanceGroupState.provisioning:
+        return 'PROVISIONING';
+      case InstanceGroupState.bootstrapping:
+        return 'BOOTSTRAPPING';
+      case InstanceGroupState.running:
+        return 'RUNNING';
+      case InstanceGroupState.reconfiguring:
+        return 'RECONFIGURING';
+      case InstanceGroupState.resizing:
+        return 'RESIZING';
+      case InstanceGroupState.suspended:
+        return 'SUSPENDED';
+      case InstanceGroupState.terminating:
+        return 'TERMINATING';
+      case InstanceGroupState.terminated:
+        return 'TERMINATED';
+      case InstanceGroupState.arrested:
+        return 'ARRESTED';
+      case InstanceGroupState.shuttingDown:
+        return 'SHUTTING_DOWN';
+      case InstanceGroupState.ended:
+        return 'ENDED';
+    }
+  }
+}
+
+extension on String {
+  InstanceGroupState toInstanceGroupState() {
+    switch (this) {
+      case 'PROVISIONING':
+        return InstanceGroupState.provisioning;
+      case 'BOOTSTRAPPING':
+        return InstanceGroupState.bootstrapping;
+      case 'RUNNING':
+        return InstanceGroupState.running;
+      case 'RECONFIGURING':
+        return InstanceGroupState.reconfiguring;
+      case 'RESIZING':
+        return InstanceGroupState.resizing;
+      case 'SUSPENDED':
+        return InstanceGroupState.suspended;
+      case 'TERMINATING':
+        return InstanceGroupState.terminating;
+      case 'TERMINATED':
+        return InstanceGroupState.terminated;
+      case 'ARRESTED':
+        return InstanceGroupState.arrested;
+      case 'SHUTTING_DOWN':
+        return InstanceGroupState.shuttingDown;
+      case 'ENDED':
+        return InstanceGroupState.ended;
+    }
+    throw Exception('$this is not known in enum InstanceGroupState');
+  }
+}
+
 /// The status change reason details for the instance group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceGroupStateChangeReason {
   /// The programmable code for the state change reason.
-  @_s.JsonKey(name: 'Code')
-  final InstanceGroupStateChangeReasonCode code;
+  final InstanceGroupStateChangeReasonCode? code;
 
   /// The status change reason description.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InstanceGroupStateChangeReason({
     this.code,
     this.message,
   });
-  factory InstanceGroupStateChangeReason.fromJson(Map<String, dynamic> json) =>
-      _$InstanceGroupStateChangeReasonFromJson(json);
+
+  factory InstanceGroupStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return InstanceGroupStateChangeReason(
+      code: (json['Code'] as String?)?.toInstanceGroupStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum InstanceGroupStateChangeReasonCode {
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('VALIDATION_ERROR')
   validationError,
-  @_s.JsonValue('INSTANCE_FAILURE')
   instanceFailure,
-  @_s.JsonValue('CLUSTER_TERMINATED')
   clusterTerminated,
 }
 
+extension on InstanceGroupStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case InstanceGroupStateChangeReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+      case InstanceGroupStateChangeReasonCode.validationError:
+        return 'VALIDATION_ERROR';
+      case InstanceGroupStateChangeReasonCode.instanceFailure:
+        return 'INSTANCE_FAILURE';
+      case InstanceGroupStateChangeReasonCode.clusterTerminated:
+        return 'CLUSTER_TERMINATED';
+    }
+  }
+}
+
+extension on String {
+  InstanceGroupStateChangeReasonCode toInstanceGroupStateChangeReasonCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return InstanceGroupStateChangeReasonCode.internalError;
+      case 'VALIDATION_ERROR':
+        return InstanceGroupStateChangeReasonCode.validationError;
+      case 'INSTANCE_FAILURE':
+        return InstanceGroupStateChangeReasonCode.instanceFailure;
+      case 'CLUSTER_TERMINATED':
+        return InstanceGroupStateChangeReasonCode.clusterTerminated;
+    }
+    throw Exception(
+        '$this is not known in enum InstanceGroupStateChangeReasonCode');
+  }
+}
+
 /// The details of the instance group status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceGroupStatus {
   /// The current state of the instance group.
-  @_s.JsonKey(name: 'State')
-  final InstanceGroupState state;
+  final InstanceGroupState? state;
 
   /// The status change reason details for the instance group.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final InstanceGroupStateChangeReason stateChangeReason;
+  final InstanceGroupStateChangeReason? stateChangeReason;
 
   /// The timeline of the instance group status over time.
-  @_s.JsonKey(name: 'Timeline')
-  final InstanceGroupTimeline timeline;
+  final InstanceGroupTimeline? timeline;
 
   InstanceGroupStatus({
     this.state,
     this.stateChangeReason,
     this.timeline,
   });
-  factory InstanceGroupStatus.fromJson(Map<String, dynamic> json) =>
-      _$InstanceGroupStatusFromJson(json);
+
+  factory InstanceGroupStatus.fromJson(Map<String, dynamic> json) {
+    return InstanceGroupStatus(
+      state: (json['State'] as String?)?.toInstanceGroupState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? InstanceGroupStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      timeline: json['Timeline'] != null
+          ? InstanceGroupTimeline.fromJson(
+              json['Timeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final timeline = this.timeline;
+    return {
+      if (state != null) 'State': state.toValue(),
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (timeline != null) 'Timeline': timeline,
+    };
+  }
 }
 
 /// The timeline of the instance group lifecycle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceGroupTimeline {
   /// The creation date and time of the instance group.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time when the instance group terminated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// The date and time when the instance group became ready to perform tasks.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReadyDateTime')
-  final DateTime readyDateTime;
+  final DateTime? readyDateTime;
 
   InstanceGroupTimeline({
     this.creationDateTime,
     this.endDateTime,
     this.readyDateTime,
   });
-  factory InstanceGroupTimeline.fromJson(Map<String, dynamic> json) =>
-      _$InstanceGroupTimelineFromJson(json);
+
+  factory InstanceGroupTimeline.fromJson(Map<String, dynamic> json) {
+    return InstanceGroupTimeline(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final endDateTime = this.endDateTime;
+    final readyDateTime = this.readyDateTime;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (readyDateTime != null)
+        'ReadyDateTime': unixTimestampToJson(readyDateTime),
+    };
+  }
 }
 
 enum InstanceGroupType {
-  @_s.JsonValue('MASTER')
   master,
-  @_s.JsonValue('CORE')
   core,
-  @_s.JsonValue('TASK')
   task,
 }
 
@@ -5771,62 +6847,109 @@ extension on InstanceGroupType {
       case InstanceGroupType.task:
         return 'TASK';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InstanceGroupType toInstanceGroupType() {
+    switch (this) {
+      case 'MASTER':
+        return InstanceGroupType.master;
+      case 'CORE':
+        return InstanceGroupType.core;
+      case 'TASK':
+        return InstanceGroupType.task;
+    }
+    throw Exception('$this is not known in enum InstanceGroupType');
   }
 }
 
 /// Custom policy for requesting termination protection or termination of
 /// specific instances when shrinking an instance group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InstanceResizePolicy {
   /// Decommissioning timeout override for the specific list of instances to be
   /// terminated.
-  @_s.JsonKey(name: 'InstanceTerminationTimeout')
-  final int instanceTerminationTimeout;
+  final int? instanceTerminationTimeout;
 
   /// Specific list of instances to be protected when shrinking an instance group.
-  @_s.JsonKey(name: 'InstancesToProtect')
-  final List<String> instancesToProtect;
+  final List<String>? instancesToProtect;
 
   /// Specific list of instances to be terminated when shrinking an instance
   /// group.
-  @_s.JsonKey(name: 'InstancesToTerminate')
-  final List<String> instancesToTerminate;
+  final List<String>? instancesToTerminate;
 
   InstanceResizePolicy({
     this.instanceTerminationTimeout,
     this.instancesToProtect,
     this.instancesToTerminate,
   });
-  factory InstanceResizePolicy.fromJson(Map<String, dynamic> json) =>
-      _$InstanceResizePolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InstanceResizePolicyToJson(this);
+  factory InstanceResizePolicy.fromJson(Map<String, dynamic> json) {
+    return InstanceResizePolicy(
+      instanceTerminationTimeout: json['InstanceTerminationTimeout'] as int?,
+      instancesToProtect: (json['InstancesToProtect'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      instancesToTerminate: (json['InstancesToTerminate'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceTerminationTimeout = this.instanceTerminationTimeout;
+    final instancesToProtect = this.instancesToProtect;
+    final instancesToTerminate = this.instancesToTerminate;
+    return {
+      if (instanceTerminationTimeout != null)
+        'InstanceTerminationTimeout': instanceTerminationTimeout,
+      if (instancesToProtect != null) 'InstancesToProtect': instancesToProtect,
+      if (instancesToTerminate != null)
+        'InstancesToTerminate': instancesToTerminate,
+    };
+  }
 }
 
 enum InstanceRoleType {
-  @_s.JsonValue('MASTER')
   master,
-  @_s.JsonValue('CORE')
   core,
-  @_s.JsonValue('TASK')
   task,
 }
 
+extension on InstanceRoleType {
+  String toValue() {
+    switch (this) {
+      case InstanceRoleType.master:
+        return 'MASTER';
+      case InstanceRoleType.core:
+        return 'CORE';
+      case InstanceRoleType.task:
+        return 'TASK';
+    }
+  }
+}
+
+extension on String {
+  InstanceRoleType toInstanceRoleType() {
+    switch (this) {
+      case 'MASTER':
+        return InstanceRoleType.master;
+      case 'CORE':
+        return InstanceRoleType.core;
+      case 'TASK':
+        return InstanceRoleType.task;
+    }
+    throw Exception('$this is not known in enum InstanceRoleType');
+  }
+}
+
 enum InstanceState {
-  @_s.JsonValue('AWAITING_FULFILLMENT')
   awaitingFulfillment,
-  @_s.JsonValue('PROVISIONING')
   provisioning,
-  @_s.JsonValue('BOOTSTRAPPING')
   bootstrapping,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('TERMINATED')
   terminated,
 }
 
@@ -5844,103 +6967,179 @@ extension on InstanceState {
       case InstanceState.terminated:
         return 'TERMINATED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InstanceState toInstanceState() {
+    switch (this) {
+      case 'AWAITING_FULFILLMENT':
+        return InstanceState.awaitingFulfillment;
+      case 'PROVISIONING':
+        return InstanceState.provisioning;
+      case 'BOOTSTRAPPING':
+        return InstanceState.bootstrapping;
+      case 'RUNNING':
+        return InstanceState.running;
+      case 'TERMINATED':
+        return InstanceState.terminated;
+    }
+    throw Exception('$this is not known in enum InstanceState');
   }
 }
 
 /// The details of the status change reason for the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceStateChangeReason {
   /// The programmable code for the state change reason.
-  @_s.JsonKey(name: 'Code')
-  final InstanceStateChangeReasonCode code;
+  final InstanceStateChangeReasonCode? code;
 
   /// The status change reason description.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   InstanceStateChangeReason({
     this.code,
     this.message,
   });
-  factory InstanceStateChangeReason.fromJson(Map<String, dynamic> json) =>
-      _$InstanceStateChangeReasonFromJson(json);
+
+  factory InstanceStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return InstanceStateChangeReason(
+      code: (json['Code'] as String?)?.toInstanceStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum InstanceStateChangeReasonCode {
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('VALIDATION_ERROR')
   validationError,
-  @_s.JsonValue('INSTANCE_FAILURE')
   instanceFailure,
-  @_s.JsonValue('BOOTSTRAP_FAILURE')
   bootstrapFailure,
-  @_s.JsonValue('CLUSTER_TERMINATED')
   clusterTerminated,
 }
 
+extension on InstanceStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case InstanceStateChangeReasonCode.internalError:
+        return 'INTERNAL_ERROR';
+      case InstanceStateChangeReasonCode.validationError:
+        return 'VALIDATION_ERROR';
+      case InstanceStateChangeReasonCode.instanceFailure:
+        return 'INSTANCE_FAILURE';
+      case InstanceStateChangeReasonCode.bootstrapFailure:
+        return 'BOOTSTRAP_FAILURE';
+      case InstanceStateChangeReasonCode.clusterTerminated:
+        return 'CLUSTER_TERMINATED';
+    }
+  }
+}
+
+extension on String {
+  InstanceStateChangeReasonCode toInstanceStateChangeReasonCode() {
+    switch (this) {
+      case 'INTERNAL_ERROR':
+        return InstanceStateChangeReasonCode.internalError;
+      case 'VALIDATION_ERROR':
+        return InstanceStateChangeReasonCode.validationError;
+      case 'INSTANCE_FAILURE':
+        return InstanceStateChangeReasonCode.instanceFailure;
+      case 'BOOTSTRAP_FAILURE':
+        return InstanceStateChangeReasonCode.bootstrapFailure;
+      case 'CLUSTER_TERMINATED':
+        return InstanceStateChangeReasonCode.clusterTerminated;
+    }
+    throw Exception('$this is not known in enum InstanceStateChangeReasonCode');
+  }
+}
+
 /// The instance status details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceStatus {
   /// The current state of the instance.
-  @_s.JsonKey(name: 'State')
-  final InstanceState state;
+  final InstanceState? state;
 
   /// The details of the status change reason for the instance.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final InstanceStateChangeReason stateChangeReason;
+  final InstanceStateChangeReason? stateChangeReason;
 
   /// The timeline of the instance status over time.
-  @_s.JsonKey(name: 'Timeline')
-  final InstanceTimeline timeline;
+  final InstanceTimeline? timeline;
 
   InstanceStatus({
     this.state,
     this.stateChangeReason,
     this.timeline,
   });
-  factory InstanceStatus.fromJson(Map<String, dynamic> json) =>
-      _$InstanceStatusFromJson(json);
+
+  factory InstanceStatus.fromJson(Map<String, dynamic> json) {
+    return InstanceStatus(
+      state: (json['State'] as String?)?.toInstanceState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? InstanceStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      timeline: json['Timeline'] != null
+          ? InstanceTimeline.fromJson(json['Timeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final timeline = this.timeline;
+    return {
+      if (state != null) 'State': state.toValue(),
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (timeline != null) 'Timeline': timeline,
+    };
+  }
 }
 
 /// The timeline of the instance lifecycle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceTimeline {
   /// The creation date and time of the instance.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time when the instance was terminated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// The date and time when the instance was ready to perform tasks.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReadyDateTime')
-  final DateTime readyDateTime;
+  final DateTime? readyDateTime;
 
   InstanceTimeline({
     this.creationDateTime,
     this.endDateTime,
     this.readyDateTime,
   });
-  factory InstanceTimeline.fromJson(Map<String, dynamic> json) =>
-      _$InstanceTimelineFromJson(json);
+
+  factory InstanceTimeline.fromJson(Map<String, dynamic> json) {
+    return InstanceTimeline(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final endDateTime = this.endDateTime;
+    final readyDateTime = this.readyDateTime;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (readyDateTime != null)
+        'ReadyDateTime': unixTimestampToJson(readyDateTime),
+    };
+  }
 }
 
 /// An instance type configuration for each instance type in an instance fleet,
@@ -5951,14 +7150,8 @@ class InstanceTimeline {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceTypeConfig {
   /// An EC2 instance type, such as <code>m3.xlarge</code>.
-  @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
   /// The bid price for each EC2 Spot Instance type as defined by
@@ -5966,44 +7159,76 @@ class InstanceTypeConfig {
   /// <code>BidPrice</code> nor <code>BidPriceAsPercentageOfOnDemandPrice</code>
   /// is provided, <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to
   /// 100%.
-  @_s.JsonKey(name: 'BidPrice')
-  final String bidPrice;
+  final String? bidPrice;
 
   /// The bid price, as a percentage of On-Demand price, for each EC2 Spot
   /// Instance as defined by <code>InstanceType</code>. Expressed as a number (for
   /// example, 20 specifies 20%). If neither <code>BidPrice</code> nor
   /// <code>BidPriceAsPercentageOfOnDemandPrice</code> is provided,
   /// <code>BidPriceAsPercentageOfOnDemandPrice</code> defaults to 100%.
-  @_s.JsonKey(name: 'BidPriceAsPercentageOfOnDemandPrice')
-  final double bidPriceAsPercentageOfOnDemandPrice;
+  final double? bidPriceAsPercentageOfOnDemandPrice;
 
   /// A configuration classification that applies when provisioning cluster
   /// instances, which can include configurations for applications and software
   /// that run on the cluster.
-  @_s.JsonKey(name: 'Configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// The configuration of Amazon Elastic Block Storage (Amazon EBS) attached to
   /// each instance as defined by <code>InstanceType</code>.
-  @_s.JsonKey(name: 'EbsConfiguration')
-  final EbsConfiguration ebsConfiguration;
+  final EbsConfiguration? ebsConfiguration;
 
   /// The number of units that a provisioned instance of this type provides toward
   /// fulfilling the target capacities defined in <a>InstanceFleetConfig</a>. This
   /// value is 1 for a master instance fleet, and must be 1 or greater for core
   /// and task instance fleets. Defaults to 1 if not specified.
-  @_s.JsonKey(name: 'WeightedCapacity')
-  final int weightedCapacity;
+  final int? weightedCapacity;
 
   InstanceTypeConfig({
-    @_s.required this.instanceType,
+    required this.instanceType,
     this.bidPrice,
     this.bidPriceAsPercentageOfOnDemandPrice,
     this.configurations,
     this.ebsConfiguration,
     this.weightedCapacity,
   });
-  Map<String, dynamic> toJson() => _$InstanceTypeConfigToJson(this);
+
+  factory InstanceTypeConfig.fromJson(Map<String, dynamic> json) {
+    return InstanceTypeConfig(
+      instanceType: json['InstanceType'] as String,
+      bidPrice: json['BidPrice'] as String?,
+      bidPriceAsPercentageOfOnDemandPrice:
+          json['BidPriceAsPercentageOfOnDemandPrice'] as double?,
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ebsConfiguration: json['EbsConfiguration'] != null
+          ? EbsConfiguration.fromJson(
+              json['EbsConfiguration'] as Map<String, dynamic>)
+          : null,
+      weightedCapacity: json['WeightedCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceType = this.instanceType;
+    final bidPrice = this.bidPrice;
+    final bidPriceAsPercentageOfOnDemandPrice =
+        this.bidPriceAsPercentageOfOnDemandPrice;
+    final configurations = this.configurations;
+    final ebsConfiguration = this.ebsConfiguration;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      'InstanceType': instanceType,
+      if (bidPrice != null) 'BidPrice': bidPrice,
+      if (bidPriceAsPercentageOfOnDemandPrice != null)
+        'BidPriceAsPercentageOfOnDemandPrice':
+            bidPriceAsPercentageOfOnDemandPrice,
+      if (configurations != null) 'Configurations': configurations,
+      if (ebsConfiguration != null) 'EbsConfiguration': ebsConfiguration,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+    };
+  }
 }
 
 /// The configuration specification for each instance type in an instance fleet.
@@ -6011,49 +7236,37 @@ class InstanceTypeConfig {
 /// The instance fleet configuration is available only in Amazon EMR versions
 /// 4.8.0 and later, excluding 5.0.x versions.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceTypeSpecification {
   /// The bid price for each EC2 Spot Instance type as defined by
   /// <code>InstanceType</code>. Expressed in USD.
-  @_s.JsonKey(name: 'BidPrice')
-  final String bidPrice;
+  final String? bidPrice;
 
   /// The bid price, as a percentage of On-Demand price, for each EC2 Spot
   /// Instance as defined by <code>InstanceType</code>. Expressed as a number (for
   /// example, 20 specifies 20%).
-  @_s.JsonKey(name: 'BidPriceAsPercentageOfOnDemandPrice')
-  final double bidPriceAsPercentageOfOnDemandPrice;
+  final double? bidPriceAsPercentageOfOnDemandPrice;
 
   /// A configuration classification that applies when provisioning cluster
   /// instances, which can include configurations for applications and software
   /// bundled with Amazon EMR.
-  @_s.JsonKey(name: 'Configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// The configuration of Amazon Elastic Block Storage (Amazon EBS) attached to
   /// each instance as defined by <code>InstanceType</code>.
-  @_s.JsonKey(name: 'EbsBlockDevices')
-  final List<EbsBlockDevice> ebsBlockDevices;
+  final List<EbsBlockDevice>? ebsBlockDevices;
 
   /// Evaluates to <code>TRUE</code> when the specified <code>InstanceType</code>
   /// is EBS-optimized.
-  @_s.JsonKey(name: 'EbsOptimized')
-  final bool ebsOptimized;
+  final bool? ebsOptimized;
 
   /// The EC2 instance type, for example <code>m3.xlarge</code>.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The number of units that a provisioned instance of this type provides toward
   /// fulfilling the target capacities defined in <a>InstanceFleetConfig</a>.
   /// Capacity values represent performance characteristics such as vCPUs, memory,
   /// or I/O. If not specified, the default value is 1.
-  @_s.JsonKey(name: 'WeightedCapacity')
-  final int weightedCapacity;
+  final int? weightedCapacity;
 
   InstanceTypeSpecification({
     this.bidPrice,
@@ -6064,64 +7277,88 @@ class InstanceTypeSpecification {
     this.instanceType,
     this.weightedCapacity,
   });
-  factory InstanceTypeSpecification.fromJson(Map<String, dynamic> json) =>
-      _$InstanceTypeSpecificationFromJson(json);
+
+  factory InstanceTypeSpecification.fromJson(Map<String, dynamic> json) {
+    return InstanceTypeSpecification(
+      bidPrice: json['BidPrice'] as String?,
+      bidPriceAsPercentageOfOnDemandPrice:
+          json['BidPriceAsPercentageOfOnDemandPrice'] as double?,
+      configurations: (json['Configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ebsBlockDevices: (json['EbsBlockDevices'] as List?)
+          ?.whereNotNull()
+          .map((e) => EbsBlockDevice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ebsOptimized: json['EbsOptimized'] as bool?,
+      instanceType: json['InstanceType'] as String?,
+      weightedCapacity: json['WeightedCapacity'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bidPrice = this.bidPrice;
+    final bidPriceAsPercentageOfOnDemandPrice =
+        this.bidPriceAsPercentageOfOnDemandPrice;
+    final configurations = this.configurations;
+    final ebsBlockDevices = this.ebsBlockDevices;
+    final ebsOptimized = this.ebsOptimized;
+    final instanceType = this.instanceType;
+    final weightedCapacity = this.weightedCapacity;
+    return {
+      if (bidPrice != null) 'BidPrice': bidPrice,
+      if (bidPriceAsPercentageOfOnDemandPrice != null)
+        'BidPriceAsPercentageOfOnDemandPrice':
+            bidPriceAsPercentageOfOnDemandPrice,
+      if (configurations != null) 'Configurations': configurations,
+      if (ebsBlockDevices != null) 'EbsBlockDevices': ebsBlockDevices,
+      if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (weightedCapacity != null) 'WeightedCapacity': weightedCapacity,
+    };
+  }
 }
 
 /// A description of a cluster (job flow).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobFlowDetail {
   /// Describes the execution status of the job flow.
-  @_s.JsonKey(name: 'ExecutionStatusDetail')
   final JobFlowExecutionStatusDetail executionStatusDetail;
 
   /// Describes the Amazon EC2 instances of the job flow.
-  @_s.JsonKey(name: 'Instances')
   final JobFlowInstancesDetail instances;
 
   /// The job flow identifier.
-  @_s.JsonKey(name: 'JobFlowId')
   final String jobFlowId;
 
   /// The name of the job flow.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Applies only to Amazon EMR AMI versions 3.x and 2.x. For Amazon EMR releases
   /// 4.0 and later, <code>ReleaseLabel</code> is used. To specify a custom AMI,
   /// use <code>CustomAmiID</code>.
-  @_s.JsonKey(name: 'AmiVersion')
-  final String amiVersion;
+  final String? amiVersion;
 
   /// An IAM role for automatic scaling policies. The default role is
   /// <code>EMR_AutoScaling_DefaultRole</code>. The IAM role provides a way for
   /// the automatic scaling feature to get the required permissions it needs to
   /// launch and terminate EC2 instances in an instance group.
-  @_s.JsonKey(name: 'AutoScalingRole')
-  final String autoScalingRole;
+  final String? autoScalingRole;
 
   /// A list of the bootstrap actions run by the job flow.
-  @_s.JsonKey(name: 'BootstrapActions')
-  final List<BootstrapActionDetail> bootstrapActions;
+  final List<BootstrapActionDetail>? bootstrapActions;
 
   /// The IAM role that was specified when the job flow was launched. The EC2
   /// instances of the job flow assume this role.
-  @_s.JsonKey(name: 'JobFlowRole')
-  final String jobFlowRole;
+  final String? jobFlowRole;
 
   /// The AWS KMS customer master key (CMK) used for encrypting log files. This
   /// attribute is only available with EMR version 5.30.0 and later, excluding EMR
   /// 6.0.0.
-  @_s.JsonKey(name: 'LogEncryptionKmsKeyId')
-  final String logEncryptionKmsKeyId;
+  final String? logEncryptionKmsKeyId;
 
   /// The location in Amazon S3 where log files for the job are stored.
-  @_s.JsonKey(name: 'LogUri')
-  final String logUri;
+  final String? logUri;
 
   /// The way that individual Amazon EC2 instances terminate when an automatic
   /// scale-in activity occurs or an instance group is resized.
@@ -6137,23 +7374,19 @@ class JobFlowDetail {
   /// <code>TERMINATE_AT_TASK_COMPLETION</code> available only in Amazon EMR
   /// version 4.1.0 and later, and is the default for versions of Amazon EMR
   /// earlier than 5.1.0.
-  @_s.JsonKey(name: 'ScaleDownBehavior')
-  final ScaleDownBehavior scaleDownBehavior;
+  final ScaleDownBehavior? scaleDownBehavior;
 
   /// The IAM role that is assumed by the Amazon EMR service to access AWS
   /// resources on your behalf.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// A list of steps run by the job flow.
-  @_s.JsonKey(name: 'Steps')
-  final List<StepDetail> steps;
+  final List<StepDetail>? steps;
 
   /// A list of strings set by third-party software when the job flow is launched.
   /// If you are not using third-party software to manage the job flow, this value
   /// is empty.
-  @_s.JsonKey(name: 'SupportedProducts')
-  final List<String> supportedProducts;
+  final List<String>? supportedProducts;
 
   /// Indicates whether the cluster is visible to all IAM users of the AWS account
   /// associated with the cluster. The default value, <code>true</code>, indicates
@@ -6164,14 +7397,13 @@ class JobFlowDetail {
   /// action. You can override the default value of <code>true</code> when you
   /// create a cluster by using the <code>VisibleToAllUsers</code> parameter of
   /// the <code>RunJobFlow</code> action.
-  @_s.JsonKey(name: 'VisibleToAllUsers')
-  final bool visibleToAllUsers;
+  final bool? visibleToAllUsers;
 
   JobFlowDetail({
-    @_s.required this.executionStatusDetail,
-    @_s.required this.instances,
-    @_s.required this.jobFlowId,
-    @_s.required this.name,
+    required this.executionStatusDetail,
+    required this.instances,
+    required this.jobFlowId,
+    required this.name,
     this.amiVersion,
     this.autoScalingRole,
     this.bootstrapActions,
@@ -6184,27 +7416,86 @@ class JobFlowDetail {
     this.supportedProducts,
     this.visibleToAllUsers,
   });
-  factory JobFlowDetail.fromJson(Map<String, dynamic> json) =>
-      _$JobFlowDetailFromJson(json);
+
+  factory JobFlowDetail.fromJson(Map<String, dynamic> json) {
+    return JobFlowDetail(
+      executionStatusDetail: JobFlowExecutionStatusDetail.fromJson(
+          json['ExecutionStatusDetail'] as Map<String, dynamic>),
+      instances: JobFlowInstancesDetail.fromJson(
+          json['Instances'] as Map<String, dynamic>),
+      jobFlowId: json['JobFlowId'] as String,
+      name: json['Name'] as String,
+      amiVersion: json['AmiVersion'] as String?,
+      autoScalingRole: json['AutoScalingRole'] as String?,
+      bootstrapActions: (json['BootstrapActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => BootstrapActionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobFlowRole: json['JobFlowRole'] as String?,
+      logEncryptionKmsKeyId: json['LogEncryptionKmsKeyId'] as String?,
+      logUri: json['LogUri'] as String?,
+      scaleDownBehavior:
+          (json['ScaleDownBehavior'] as String?)?.toScaleDownBehavior(),
+      serviceRole: json['ServiceRole'] as String?,
+      steps: (json['Steps'] as List?)
+          ?.whereNotNull()
+          .map((e) => StepDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      supportedProducts: (json['SupportedProducts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      visibleToAllUsers: json['VisibleToAllUsers'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionStatusDetail = this.executionStatusDetail;
+    final instances = this.instances;
+    final jobFlowId = this.jobFlowId;
+    final name = this.name;
+    final amiVersion = this.amiVersion;
+    final autoScalingRole = this.autoScalingRole;
+    final bootstrapActions = this.bootstrapActions;
+    final jobFlowRole = this.jobFlowRole;
+    final logEncryptionKmsKeyId = this.logEncryptionKmsKeyId;
+    final logUri = this.logUri;
+    final scaleDownBehavior = this.scaleDownBehavior;
+    final serviceRole = this.serviceRole;
+    final steps = this.steps;
+    final supportedProducts = this.supportedProducts;
+    final visibleToAllUsers = this.visibleToAllUsers;
+    return {
+      'ExecutionStatusDetail': executionStatusDetail,
+      'Instances': instances,
+      'JobFlowId': jobFlowId,
+      'Name': name,
+      if (amiVersion != null) 'AmiVersion': amiVersion,
+      if (autoScalingRole != null) 'AutoScalingRole': autoScalingRole,
+      if (bootstrapActions != null) 'BootstrapActions': bootstrapActions,
+      if (jobFlowRole != null) 'JobFlowRole': jobFlowRole,
+      if (logEncryptionKmsKeyId != null)
+        'LogEncryptionKmsKeyId': logEncryptionKmsKeyId,
+      if (logUri != null) 'LogUri': logUri,
+      if (scaleDownBehavior != null)
+        'ScaleDownBehavior': scaleDownBehavior.toValue(),
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (steps != null) 'Steps': steps,
+      if (supportedProducts != null) 'SupportedProducts': supportedProducts,
+      if (visibleToAllUsers != null) 'VisibleToAllUsers': visibleToAllUsers,
+    };
+  }
 }
 
 /// The type of instance.
 enum JobFlowExecutionState {
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('BOOTSTRAPPING')
   bootstrapping,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('WAITING')
   waiting,
-  @_s.JsonValue('SHUTTING_DOWN')
   shuttingDown,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -6228,56 +7519,94 @@ extension on JobFlowExecutionState {
       case JobFlowExecutionState.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JobFlowExecutionState toJobFlowExecutionState() {
+    switch (this) {
+      case 'STARTING':
+        return JobFlowExecutionState.starting;
+      case 'BOOTSTRAPPING':
+        return JobFlowExecutionState.bootstrapping;
+      case 'RUNNING':
+        return JobFlowExecutionState.running;
+      case 'WAITING':
+        return JobFlowExecutionState.waiting;
+      case 'SHUTTING_DOWN':
+        return JobFlowExecutionState.shuttingDown;
+      case 'TERMINATED':
+        return JobFlowExecutionState.terminated;
+      case 'COMPLETED':
+        return JobFlowExecutionState.completed;
+      case 'FAILED':
+        return JobFlowExecutionState.failed;
+    }
+    throw Exception('$this is not known in enum JobFlowExecutionState');
   }
 }
 
 /// Describes the status of the cluster (job flow).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobFlowExecutionStatusDetail {
   /// The creation date and time of the job flow.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The state of the job flow.
-  @_s.JsonKey(name: 'State')
   final JobFlowExecutionState state;
 
   /// The completion date and time of the job flow.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// Description of the job flow last changed state.
-  @_s.JsonKey(name: 'LastStateChangeReason')
-  final String lastStateChangeReason;
+  final String? lastStateChangeReason;
 
   /// The date and time when the job flow was ready to start running bootstrap
   /// actions.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReadyDateTime')
-  final DateTime readyDateTime;
+  final DateTime? readyDateTime;
 
   /// The start date and time of the job flow.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDateTime')
-  final DateTime startDateTime;
+  final DateTime? startDateTime;
 
   JobFlowExecutionStatusDetail({
-    @_s.required this.creationDateTime,
-    @_s.required this.state,
+    required this.creationDateTime,
+    required this.state,
     this.endDateTime,
     this.lastStateChangeReason,
     this.readyDateTime,
     this.startDateTime,
   });
-  factory JobFlowExecutionStatusDetail.fromJson(Map<String, dynamic> json) =>
-      _$JobFlowExecutionStatusDetailFromJson(json);
+
+  factory JobFlowExecutionStatusDetail.fromJson(Map<String, dynamic> json) {
+    return JobFlowExecutionStatusDetail(
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+      state: (json['State'] as String).toJobFlowExecutionState(),
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      lastStateChangeReason: json['LastStateChangeReason'] as String?,
+      readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+      startDateTime: timeStampFromJson(json['StartDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final state = this.state;
+    final endDateTime = this.endDateTime;
+    final lastStateChangeReason = this.lastStateChangeReason;
+    final readyDateTime = this.readyDateTime;
+    final startDateTime = this.startDateTime;
+    return {
+      'CreationDateTime': unixTimestampToJson(creationDateTime),
+      'State': state.toValue(),
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (lastStateChangeReason != null)
+        'LastStateChangeReason': lastStateChangeReason,
+      if (readyDateTime != null)
+        'ReadyDateTime': unixTimestampToJson(readyDateTime),
+      if (startDateTime != null)
+        'StartDateTime': unixTimestampToJson(startDateTime),
+    };
+  }
 }
 
 /// A description of the Amazon EC2 instance on which the cluster (job flow)
@@ -6285,33 +7614,24 @@ class JobFlowExecutionStatusDetail {
 /// InstanceFleets. They cannot be used together. You may also have
 /// MasterInstanceType, SlaveInstanceType, and InstanceCount (all three must be
 /// present), but we don't recommend this configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class JobFlowInstancesConfig {
   /// A list of additional Amazon EC2 security group IDs for the master node.
-  @_s.JsonKey(name: 'AdditionalMasterSecurityGroups')
-  final List<String> additionalMasterSecurityGroups;
+  final List<String>? additionalMasterSecurityGroups;
 
   /// A list of additional Amazon EC2 security group IDs for the core and task
   /// nodes.
-  @_s.JsonKey(name: 'AdditionalSlaveSecurityGroups')
-  final List<String> additionalSlaveSecurityGroups;
+  final List<String>? additionalSlaveSecurityGroups;
 
   /// The name of the EC2 key pair that can be used to connect to the master node
   /// using SSH as the user called "hadoop."
-  @_s.JsonKey(name: 'Ec2KeyName')
-  final String ec2KeyName;
+  final String? ec2KeyName;
 
   /// Applies to clusters that use the uniform instance group configuration. To
   /// launch the cluster in Amazon Virtual Private Cloud (Amazon VPC), set this
   /// parameter to the identifier of the Amazon VPC subnet where you want the
   /// cluster to launch. If you do not specify this value and your account
   /// supports EC2-Classic, the cluster launches in EC2-Classic.
-  @_s.JsonKey(name: 'Ec2SubnetId')
-  final String ec2SubnetId;
+  final String? ec2SubnetId;
 
   /// Applies to clusters that use the instance fleet configuration. When multiple
   /// EC2 subnet IDs are specified, Amazon EMR evaluates them and launches
@@ -6320,16 +7640,13 @@ class JobFlowInstancesConfig {
   /// The instance fleet configuration is available only in Amazon EMR versions
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
-  @_s.JsonKey(name: 'Ec2SubnetIds')
-  final List<String> ec2SubnetIds;
+  final List<String>? ec2SubnetIds;
 
   /// The identifier of the Amazon EC2 security group for the master node.
-  @_s.JsonKey(name: 'EmrManagedMasterSecurityGroup')
-  final String emrManagedMasterSecurityGroup;
+  final String? emrManagedMasterSecurityGroup;
 
   /// The identifier of the Amazon EC2 security group for the core and task nodes.
-  @_s.JsonKey(name: 'EmrManagedSlaveSecurityGroup')
-  final String emrManagedSlaveSecurityGroup;
+  final String? emrManagedSlaveSecurityGroup;
 
   /// Applies only to Amazon EMR release versions earlier than 4.0. The Hadoop
   /// version for the cluster. Valid inputs are "0.18" (no longer maintained),
@@ -6338,12 +7655,10 @@ class JobFlowInstancesConfig {
   /// used, unless the <code>AmiVersion</code> parameter is set in the RunJobFlow
   /// call, in which case the default version of Hadoop for that AMI version is
   /// used.
-  @_s.JsonKey(name: 'HadoopVersion')
-  final String hadoopVersion;
+  final String? hadoopVersion;
 
   /// The number of EC2 instances in the cluster.
-  @_s.JsonKey(name: 'InstanceCount')
-  final int instanceCount;
+  final int? instanceCount;
 
   /// <note>
   /// The instance fleet configuration is available only in Amazon EMR versions
@@ -6351,40 +7666,32 @@ class JobFlowInstancesConfig {
   /// </note>
   /// Describes the EC2 instances and instance configurations for clusters that
   /// use the instance fleet configuration.
-  @_s.JsonKey(name: 'InstanceFleets')
-  final List<InstanceFleetConfig> instanceFleets;
+  final List<InstanceFleetConfig>? instanceFleets;
 
   /// Configuration for the instance groups in a cluster.
-  @_s.JsonKey(name: 'InstanceGroups')
-  final List<InstanceGroupConfig> instanceGroups;
+  final List<InstanceGroupConfig>? instanceGroups;
 
   /// Specifies whether the cluster should remain available after completing all
   /// steps.
-  @_s.JsonKey(name: 'KeepJobFlowAliveWhenNoSteps')
-  final bool keepJobFlowAliveWhenNoSteps;
+  final bool? keepJobFlowAliveWhenNoSteps;
 
   /// The EC2 instance type of the master node.
-  @_s.JsonKey(name: 'MasterInstanceType')
-  final String masterInstanceType;
+  final String? masterInstanceType;
 
   /// The Availability Zone in which the cluster runs.
-  @_s.JsonKey(name: 'Placement')
-  final PlacementType placement;
+  final PlacementType? placement;
 
   /// The identifier of the Amazon EC2 security group for the Amazon EMR service
   /// to access clusters in VPC private subnets.
-  @_s.JsonKey(name: 'ServiceAccessSecurityGroup')
-  final String serviceAccessSecurityGroup;
+  final String? serviceAccessSecurityGroup;
 
   /// The EC2 instance type of the core and task nodes.
-  @_s.JsonKey(name: 'SlaveInstanceType')
-  final String slaveInstanceType;
+  final String? slaveInstanceType;
 
   /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances
   /// from being terminated by API call, user intervention, or in the event of a
   /// job-flow error.
-  @_s.JsonKey(name: 'TerminationProtected')
-  final bool terminationProtected;
+  final bool? terminationProtected;
 
   JobFlowInstancesConfig({
     this.additionalMasterSecurityGroups,
@@ -6405,63 +7712,136 @@ class JobFlowInstancesConfig {
     this.slaveInstanceType,
     this.terminationProtected,
   });
-  Map<String, dynamic> toJson() => _$JobFlowInstancesConfigToJson(this);
+
+  factory JobFlowInstancesConfig.fromJson(Map<String, dynamic> json) {
+    return JobFlowInstancesConfig(
+      additionalMasterSecurityGroups:
+          (json['AdditionalMasterSecurityGroups'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      additionalSlaveSecurityGroups:
+          (json['AdditionalSlaveSecurityGroups'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      ec2KeyName: json['Ec2KeyName'] as String?,
+      ec2SubnetId: json['Ec2SubnetId'] as String?,
+      ec2SubnetIds: (json['Ec2SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      emrManagedMasterSecurityGroup:
+          json['EmrManagedMasterSecurityGroup'] as String?,
+      emrManagedSlaveSecurityGroup:
+          json['EmrManagedSlaveSecurityGroup'] as String?,
+      hadoopVersion: json['HadoopVersion'] as String?,
+      instanceCount: json['InstanceCount'] as int?,
+      instanceFleets: (json['InstanceFleets'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceFleetConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      instanceGroups: (json['InstanceGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceGroupConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      keepJobFlowAliveWhenNoSteps: json['KeepJobFlowAliveWhenNoSteps'] as bool?,
+      masterInstanceType: json['MasterInstanceType'] as String?,
+      placement: json['Placement'] != null
+          ? PlacementType.fromJson(json['Placement'] as Map<String, dynamic>)
+          : null,
+      serviceAccessSecurityGroup: json['ServiceAccessSecurityGroup'] as String?,
+      slaveInstanceType: json['SlaveInstanceType'] as String?,
+      terminationProtected: json['TerminationProtected'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMasterSecurityGroups = this.additionalMasterSecurityGroups;
+    final additionalSlaveSecurityGroups = this.additionalSlaveSecurityGroups;
+    final ec2KeyName = this.ec2KeyName;
+    final ec2SubnetId = this.ec2SubnetId;
+    final ec2SubnetIds = this.ec2SubnetIds;
+    final emrManagedMasterSecurityGroup = this.emrManagedMasterSecurityGroup;
+    final emrManagedSlaveSecurityGroup = this.emrManagedSlaveSecurityGroup;
+    final hadoopVersion = this.hadoopVersion;
+    final instanceCount = this.instanceCount;
+    final instanceFleets = this.instanceFleets;
+    final instanceGroups = this.instanceGroups;
+    final keepJobFlowAliveWhenNoSteps = this.keepJobFlowAliveWhenNoSteps;
+    final masterInstanceType = this.masterInstanceType;
+    final placement = this.placement;
+    final serviceAccessSecurityGroup = this.serviceAccessSecurityGroup;
+    final slaveInstanceType = this.slaveInstanceType;
+    final terminationProtected = this.terminationProtected;
+    return {
+      if (additionalMasterSecurityGroups != null)
+        'AdditionalMasterSecurityGroups': additionalMasterSecurityGroups,
+      if (additionalSlaveSecurityGroups != null)
+        'AdditionalSlaveSecurityGroups': additionalSlaveSecurityGroups,
+      if (ec2KeyName != null) 'Ec2KeyName': ec2KeyName,
+      if (ec2SubnetId != null) 'Ec2SubnetId': ec2SubnetId,
+      if (ec2SubnetIds != null) 'Ec2SubnetIds': ec2SubnetIds,
+      if (emrManagedMasterSecurityGroup != null)
+        'EmrManagedMasterSecurityGroup': emrManagedMasterSecurityGroup,
+      if (emrManagedSlaveSecurityGroup != null)
+        'EmrManagedSlaveSecurityGroup': emrManagedSlaveSecurityGroup,
+      if (hadoopVersion != null) 'HadoopVersion': hadoopVersion,
+      if (instanceCount != null) 'InstanceCount': instanceCount,
+      if (instanceFleets != null) 'InstanceFleets': instanceFleets,
+      if (instanceGroups != null) 'InstanceGroups': instanceGroups,
+      if (keepJobFlowAliveWhenNoSteps != null)
+        'KeepJobFlowAliveWhenNoSteps': keepJobFlowAliveWhenNoSteps,
+      if (masterInstanceType != null) 'MasterInstanceType': masterInstanceType,
+      if (placement != null) 'Placement': placement,
+      if (serviceAccessSecurityGroup != null)
+        'ServiceAccessSecurityGroup': serviceAccessSecurityGroup,
+      if (slaveInstanceType != null) 'SlaveInstanceType': slaveInstanceType,
+      if (terminationProtected != null)
+        'TerminationProtected': terminationProtected,
+    };
+  }
 }
 
 /// Specify the type of Amazon EC2 instances that the cluster (job flow) runs
 /// on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobFlowInstancesDetail {
   /// The number of Amazon EC2 instances in the cluster. If the value is 1, the
   /// same instance serves as both the master and core and task node. If the value
   /// is greater than 1, one instance is the master node and all others are core
   /// and task nodes.
-  @_s.JsonKey(name: 'InstanceCount')
   final int instanceCount;
 
   /// The Amazon EC2 master node instance type.
-  @_s.JsonKey(name: 'MasterInstanceType')
   final String masterInstanceType;
 
   /// The Amazon EC2 core and task node instance type.
-  @_s.JsonKey(name: 'SlaveInstanceType')
   final String slaveInstanceType;
 
   /// The name of an Amazon EC2 key pair that can be used to connect to the master
   /// node using SSH.
-  @_s.JsonKey(name: 'Ec2KeyName')
-  final String ec2KeyName;
+  final String? ec2KeyName;
 
   /// For clusters launched within Amazon Virtual Private Cloud, this is the
   /// identifier of the subnet where the cluster was launched.
-  @_s.JsonKey(name: 'Ec2SubnetId')
-  final String ec2SubnetId;
+  final String? ec2SubnetId;
 
   /// The Hadoop version for the cluster.
-  @_s.JsonKey(name: 'HadoopVersion')
-  final String hadoopVersion;
+  final String? hadoopVersion;
 
   /// Details about the instance groups in a cluster.
-  @_s.JsonKey(name: 'InstanceGroups')
-  final List<InstanceGroupDetail> instanceGroups;
+  final List<InstanceGroupDetail>? instanceGroups;
 
   /// Specifies whether the cluster should remain available after completing all
   /// steps.
-  @_s.JsonKey(name: 'KeepJobFlowAliveWhenNoSteps')
-  final bool keepJobFlowAliveWhenNoSteps;
+  final bool? keepJobFlowAliveWhenNoSteps;
 
   /// The Amazon EC2 instance identifier of the master node.
-  @_s.JsonKey(name: 'MasterInstanceId')
-  final String masterInstanceId;
+  final String? masterInstanceId;
 
   /// The DNS name of the master node. If the cluster is on a private subnet, this
   /// is the private DNS name. On a public subnet, this is the public DNS name.
-  @_s.JsonKey(name: 'MasterPublicDnsName')
-  final String masterPublicDnsName;
+  final String? masterPublicDnsName;
 
   /// An approximation of the cost of the cluster, represented in m1.small/hours.
   /// This value is increased one time for every hour that an m1.small instance
@@ -6469,23 +7849,20 @@ class JobFlowInstancesDetail {
   /// that is roughly four times more expensive would result in the normalized
   /// instance hours being increased incrementally four times. This result is only
   /// an approximation and does not reflect the actual billing rate.
-  @_s.JsonKey(name: 'NormalizedInstanceHours')
-  final int normalizedInstanceHours;
+  final int? normalizedInstanceHours;
 
   /// The Amazon EC2 Availability Zone for the cluster.
-  @_s.JsonKey(name: 'Placement')
-  final PlacementType placement;
+  final PlacementType? placement;
 
   /// Specifies whether the Amazon EC2 instances in the cluster are protected from
   /// termination by API calls, user intervention, or in the event of a job-flow
   /// error.
-  @_s.JsonKey(name: 'TerminationProtected')
-  final bool terminationProtected;
+  final bool? terminationProtected;
 
   JobFlowInstancesDetail({
-    @_s.required this.instanceCount,
-    @_s.required this.masterInstanceType,
-    @_s.required this.slaveInstanceType,
+    required this.instanceCount,
+    required this.masterInstanceType,
+    required this.slaveInstanceType,
     this.ec2KeyName,
     this.ec2SubnetId,
     this.hadoopVersion,
@@ -6497,348 +7874,553 @@ class JobFlowInstancesDetail {
     this.placement,
     this.terminationProtected,
   });
-  factory JobFlowInstancesDetail.fromJson(Map<String, dynamic> json) =>
-      _$JobFlowInstancesDetailFromJson(json);
+
+  factory JobFlowInstancesDetail.fromJson(Map<String, dynamic> json) {
+    return JobFlowInstancesDetail(
+      instanceCount: json['InstanceCount'] as int,
+      masterInstanceType: json['MasterInstanceType'] as String,
+      slaveInstanceType: json['SlaveInstanceType'] as String,
+      ec2KeyName: json['Ec2KeyName'] as String?,
+      ec2SubnetId: json['Ec2SubnetId'] as String?,
+      hadoopVersion: json['HadoopVersion'] as String?,
+      instanceGroups: (json['InstanceGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceGroupDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      keepJobFlowAliveWhenNoSteps: json['KeepJobFlowAliveWhenNoSteps'] as bool?,
+      masterInstanceId: json['MasterInstanceId'] as String?,
+      masterPublicDnsName: json['MasterPublicDnsName'] as String?,
+      normalizedInstanceHours: json['NormalizedInstanceHours'] as int?,
+      placement: json['Placement'] != null
+          ? PlacementType.fromJson(json['Placement'] as Map<String, dynamic>)
+          : null,
+      terminationProtected: json['TerminationProtected'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceCount = this.instanceCount;
+    final masterInstanceType = this.masterInstanceType;
+    final slaveInstanceType = this.slaveInstanceType;
+    final ec2KeyName = this.ec2KeyName;
+    final ec2SubnetId = this.ec2SubnetId;
+    final hadoopVersion = this.hadoopVersion;
+    final instanceGroups = this.instanceGroups;
+    final keepJobFlowAliveWhenNoSteps = this.keepJobFlowAliveWhenNoSteps;
+    final masterInstanceId = this.masterInstanceId;
+    final masterPublicDnsName = this.masterPublicDnsName;
+    final normalizedInstanceHours = this.normalizedInstanceHours;
+    final placement = this.placement;
+    final terminationProtected = this.terminationProtected;
+    return {
+      'InstanceCount': instanceCount,
+      'MasterInstanceType': masterInstanceType,
+      'SlaveInstanceType': slaveInstanceType,
+      if (ec2KeyName != null) 'Ec2KeyName': ec2KeyName,
+      if (ec2SubnetId != null) 'Ec2SubnetId': ec2SubnetId,
+      if (hadoopVersion != null) 'HadoopVersion': hadoopVersion,
+      if (instanceGroups != null) 'InstanceGroups': instanceGroups,
+      if (keepJobFlowAliveWhenNoSteps != null)
+        'KeepJobFlowAliveWhenNoSteps': keepJobFlowAliveWhenNoSteps,
+      if (masterInstanceId != null) 'MasterInstanceId': masterInstanceId,
+      if (masterPublicDnsName != null)
+        'MasterPublicDnsName': masterPublicDnsName,
+      if (normalizedInstanceHours != null)
+        'NormalizedInstanceHours': normalizedInstanceHours,
+      if (placement != null) 'Placement': placement,
+      if (terminationProtected != null)
+        'TerminationProtected': terminationProtected,
+    };
+  }
 }
 
 /// Attributes for Kerberos configuration when Kerberos authentication is
 /// enabled using a security configuration. For more information see <a
 /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html">Use
 /// Kerberos Authentication</a> in the <i>Amazon EMR Management Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KerberosAttributes {
   /// The password used within the cluster for the kadmin service on the
   /// cluster-dedicated KDC, which maintains Kerberos principals, password
   /// policies, and keytabs for the cluster.
-  @_s.JsonKey(name: 'KdcAdminPassword')
   final String kdcAdminPassword;
 
   /// The name of the Kerberos realm to which all nodes in a cluster belong. For
   /// example, <code>EC2.INTERNAL</code>.
-  @_s.JsonKey(name: 'Realm')
   final String realm;
 
   /// The Active Directory password for <code>ADDomainJoinUser</code>.
-  @_s.JsonKey(name: 'ADDomainJoinPassword')
-  final String aDDomainJoinPassword;
+  final String? aDDomainJoinPassword;
 
   /// Required only when establishing a cross-realm trust with an Active Directory
   /// domain. A user with sufficient privileges to join resources to the domain.
-  @_s.JsonKey(name: 'ADDomainJoinUser')
-  final String aDDomainJoinUser;
+  final String? aDDomainJoinUser;
 
   /// Required only when establishing a cross-realm trust with a KDC in a
   /// different realm. The cross-realm principal password, which must be identical
   /// across realms.
-  @_s.JsonKey(name: 'CrossRealmTrustPrincipalPassword')
-  final String crossRealmTrustPrincipalPassword;
+  final String? crossRealmTrustPrincipalPassword;
 
   KerberosAttributes({
-    @_s.required this.kdcAdminPassword,
-    @_s.required this.realm,
+    required this.kdcAdminPassword,
+    required this.realm,
     this.aDDomainJoinPassword,
     this.aDDomainJoinUser,
     this.crossRealmTrustPrincipalPassword,
   });
-  factory KerberosAttributes.fromJson(Map<String, dynamic> json) =>
-      _$KerberosAttributesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KerberosAttributesToJson(this);
+  factory KerberosAttributes.fromJson(Map<String, dynamic> json) {
+    return KerberosAttributes(
+      kdcAdminPassword: json['KdcAdminPassword'] as String,
+      realm: json['Realm'] as String,
+      aDDomainJoinPassword: json['ADDomainJoinPassword'] as String?,
+      aDDomainJoinUser: json['ADDomainJoinUser'] as String?,
+      crossRealmTrustPrincipalPassword:
+          json['CrossRealmTrustPrincipalPassword'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kdcAdminPassword = this.kdcAdminPassword;
+    final realm = this.realm;
+    final aDDomainJoinPassword = this.aDDomainJoinPassword;
+    final aDDomainJoinUser = this.aDDomainJoinUser;
+    final crossRealmTrustPrincipalPassword =
+        this.crossRealmTrustPrincipalPassword;
+    return {
+      'KdcAdminPassword': kdcAdminPassword,
+      'Realm': realm,
+      if (aDDomainJoinPassword != null)
+        'ADDomainJoinPassword': aDDomainJoinPassword,
+      if (aDDomainJoinUser != null) 'ADDomainJoinUser': aDDomainJoinUser,
+      if (crossRealmTrustPrincipalPassword != null)
+        'CrossRealmTrustPrincipalPassword': crossRealmTrustPrincipalPassword,
+    };
+  }
 }
 
 /// A key-value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeyValue {
   /// The unique identifier of a key-value pair.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value part of the identified key.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   KeyValue({
     this.key,
     this.value,
   });
-  factory KeyValue.fromJson(Map<String, dynamic> json) =>
-      _$KeyValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeyValueToJson(this);
+  factory KeyValue.fromJson(Map<String, dynamic> json) {
+    return KeyValue(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// This output contains the bootstrap actions detail.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBootstrapActionsOutput {
   /// The bootstrap actions associated with the cluster.
-  @_s.JsonKey(name: 'BootstrapActions')
-  final List<Command> bootstrapActions;
+  final List<Command>? bootstrapActions;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   ListBootstrapActionsOutput({
     this.bootstrapActions,
     this.marker,
   });
-  factory ListBootstrapActionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBootstrapActionsOutputFromJson(json);
+
+  factory ListBootstrapActionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBootstrapActionsOutput(
+      bootstrapActions: (json['BootstrapActions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Command.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bootstrapActions = this.bootstrapActions;
+    final marker = this.marker;
+    return {
+      if (bootstrapActions != null) 'BootstrapActions': bootstrapActions,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// This contains a ClusterSummaryList with the cluster details; for example,
 /// the cluster IDs, names, and status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListClustersOutput {
   /// The list of clusters for the account based on the given filters.
-  @_s.JsonKey(name: 'Clusters')
-  final List<ClusterSummary> clusters;
+  final List<ClusterSummary>? clusters;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   ListClustersOutput({
     this.clusters,
     this.marker,
   });
-  factory ListClustersOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListClustersOutputFromJson(json);
+
+  factory ListClustersOutput.fromJson(Map<String, dynamic> json) {
+    return ListClustersOutput(
+      clusters: (json['Clusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ClusterSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusters = this.clusters;
+    final marker = this.marker;
+    return {
+      if (clusters != null) 'Clusters': clusters,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstanceFleetsOutput {
   /// The list of instance fleets for the cluster and given filters.
-  @_s.JsonKey(name: 'InstanceFleets')
-  final List<InstanceFleet> instanceFleets;
+  final List<InstanceFleet>? instanceFleets;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   ListInstanceFleetsOutput({
     this.instanceFleets,
     this.marker,
   });
-  factory ListInstanceFleetsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListInstanceFleetsOutputFromJson(json);
+
+  factory ListInstanceFleetsOutput.fromJson(Map<String, dynamic> json) {
+    return ListInstanceFleetsOutput(
+      instanceFleets: (json['InstanceFleets'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceFleet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceFleets = this.instanceFleets;
+    final marker = this.marker;
+    return {
+      if (instanceFleets != null) 'InstanceFleets': instanceFleets,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// This input determines which instance groups to retrieve.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstanceGroupsOutput {
   /// The list of instance groups for the cluster and given filters.
-  @_s.JsonKey(name: 'InstanceGroups')
-  final List<InstanceGroup> instanceGroups;
+  final List<InstanceGroup>? instanceGroups;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   ListInstanceGroupsOutput({
     this.instanceGroups,
     this.marker,
   });
-  factory ListInstanceGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListInstanceGroupsOutputFromJson(json);
+
+  factory ListInstanceGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListInstanceGroupsOutput(
+      instanceGroups: (json['InstanceGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceGroups = this.instanceGroups;
+    final marker = this.marker;
+    return {
+      if (instanceGroups != null) 'InstanceGroups': instanceGroups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// This output contains the list of instances.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInstancesOutput {
   /// The list of instances for the cluster and given filters.
-  @_s.JsonKey(name: 'Instances')
-  final List<Instance> instances;
+  final List<Instance>? instances;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   ListInstancesOutput({
     this.instances,
     this.marker,
   });
-  factory ListInstancesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListInstancesOutputFromJson(json);
+
+  factory ListInstancesOutput.fromJson(Map<String, dynamic> json) {
+    return ListInstancesOutput(
+      instances: (json['Instances'] as List?)
+          ?.whereNotNull()
+          .map((e) => Instance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instances = this.instances;
+    final marker = this.marker;
+    return {
+      if (instances != null) 'Instances': instances,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNotebookExecutionsOutput {
   /// A pagination token that a subsequent <code>ListNotebookExecutions</code> can
   /// use to determine the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// A list of notebook executions.
-  @_s.JsonKey(name: 'NotebookExecutions')
-  final List<NotebookExecutionSummary> notebookExecutions;
+  final List<NotebookExecutionSummary>? notebookExecutions;
 
   ListNotebookExecutionsOutput({
     this.marker,
     this.notebookExecutions,
   });
-  factory ListNotebookExecutionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListNotebookExecutionsOutputFromJson(json);
+
+  factory ListNotebookExecutionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListNotebookExecutionsOutput(
+      marker: json['Marker'] as String?,
+      notebookExecutions: (json['NotebookExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              NotebookExecutionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final notebookExecutions = this.notebookExecutions;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (notebookExecutions != null) 'NotebookExecutions': notebookExecutions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSecurityConfigurationsOutput {
   /// A pagination token that indicates the next set of results to retrieve.
   /// Include the marker in the next ListSecurityConfiguration call to retrieve
   /// the next page of results, if required.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The creation date and time, and name, of each security configuration.
-  @_s.JsonKey(name: 'SecurityConfigurations')
-  final List<SecurityConfigurationSummary> securityConfigurations;
+  final List<SecurityConfigurationSummary>? securityConfigurations;
 
   ListSecurityConfigurationsOutput({
     this.marker,
     this.securityConfigurations,
   });
-  factory ListSecurityConfigurationsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSecurityConfigurationsOutputFromJson(json);
+
+  factory ListSecurityConfigurationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListSecurityConfigurationsOutput(
+      marker: json['Marker'] as String?,
+      securityConfigurations: (json['SecurityConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SecurityConfigurationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final securityConfigurations = this.securityConfigurations;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (securityConfigurations != null)
+        'SecurityConfigurations': securityConfigurations,
+    };
+  }
 }
 
 /// This output contains the list of steps returned in reverse order. This means
 /// that the last step is the first element in the list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStepsOutput {
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The filtered list of steps for the cluster.
-  @_s.JsonKey(name: 'Steps')
-  final List<StepSummary> steps;
+  final List<StepSummary>? steps;
 
   ListStepsOutput({
     this.marker,
     this.steps,
   });
-  factory ListStepsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListStepsOutputFromJson(json);
+
+  factory ListStepsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStepsOutput(
+      marker: json['Marker'] as String?,
+      steps: (json['Steps'] as List?)
+          ?.whereNotNull()
+          .map((e) => StepSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final steps = this.steps;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (steps != null) 'Steps': steps,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStudioSessionMappingsOutput {
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// A list of session mapping summary objects. Each object includes session
   /// mapping details such as creation time, identity type (user or group), and
-  /// Studio ID.
-  @_s.JsonKey(name: 'SessionMappings')
-  final List<SessionMappingSummary> sessionMappings;
+  /// Amazon EMR Studio ID.
+  final List<SessionMappingSummary>? sessionMappings;
 
   ListStudioSessionMappingsOutput({
     this.marker,
     this.sessionMappings,
   });
-  factory ListStudioSessionMappingsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListStudioSessionMappingsOutputFromJson(json);
+
+  factory ListStudioSessionMappingsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStudioSessionMappingsOutput(
+      marker: json['Marker'] as String?,
+      sessionMappings: (json['SessionMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => SessionMappingSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final sessionMappings = this.sessionMappings;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (sessionMappings != null) 'SessionMappings': sessionMappings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStudiosOutput {
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The list of Studio summary objects.
-  @_s.JsonKey(name: 'Studios')
-  final List<StudioSummary> studios;
+  final List<StudioSummary>? studios;
 
   ListStudiosOutput({
     this.marker,
     this.studios,
   });
-  factory ListStudiosOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListStudiosOutputFromJson(json);
+
+  factory ListStudiosOutput.fromJson(Map<String, dynamic> json) {
+    return ListStudiosOutput(
+      marker: json['Marker'] as String?,
+      studios: (json['Studios'] as List?)
+          ?.whereNotNull()
+          .map((e) => StudioSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final studios = this.studios;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (studios != null) 'Studios': studios,
+    };
+  }
 }
 
 /// Managed scaling policy for an Amazon EMR cluster. The policy specifies the
 /// limits for resources that can be added or terminated from a cluster. The
 /// policy only applies to the core and task nodes. The master node cannot be
 /// scaled after initial configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ManagedScalingPolicy {
   /// The EC2 unit limits for a managed scaling policy. The managed scaling
   /// activity of a cluster is not allowed to go above or below these limits. The
   /// limit only applies to the core and task nodes. The master node cannot be
   /// scaled after initial configuration.
-  @_s.JsonKey(name: 'ComputeLimits')
-  final ComputeLimits computeLimits;
+  final ComputeLimits? computeLimits;
 
   ManagedScalingPolicy({
     this.computeLimits,
   });
-  factory ManagedScalingPolicy.fromJson(Map<String, dynamic> json) =>
-      _$ManagedScalingPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ManagedScalingPolicyToJson(this);
+  factory ManagedScalingPolicy.fromJson(Map<String, dynamic> json) {
+    return ManagedScalingPolicy(
+      computeLimits: json['ComputeLimits'] != null
+          ? ComputeLimits.fromJson(
+              json['ComputeLimits'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeLimits = this.computeLimits;
+    return {
+      if (computeLimits != null) 'ComputeLimits': computeLimits,
+    };
+  }
 }
 
 enum MarketType {
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
-  @_s.JsonValue('SPOT')
   spot,
+}
+
+extension on MarketType {
+  String toValue() {
+    switch (this) {
+      case MarketType.onDemand:
+        return 'ON_DEMAND';
+      case MarketType.spot:
+        return 'SPOT';
+    }
+  }
+}
+
+extension on String {
+  MarketType toMarketType() {
+    switch (this) {
+      case 'ON_DEMAND':
+        return MarketType.onDemand;
+      case 'SPOT':
+        return MarketType.spot;
+    }
+    throw Exception('$this is not known in enum MarketType');
+  }
 }
 
 /// A CloudWatch dimension, which is specified using a <code>Key</code> (known
@@ -6847,107 +8429,100 @@ enum MarketType {
 /// <code>JobFlowID</code> and <code>Value</code> is a variable representing the
 /// cluster ID, which is <code>${emr.clusterId}</code>. This enables the rule to
 /// bootstrap when the cluster ID becomes available.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricDimension {
   /// The dimension name.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The dimension value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   MetricDimension({
     this.key,
     this.value,
   });
-  factory MetricDimension.fromJson(Map<String, dynamic> json) =>
-      _$MetricDimensionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetricDimensionToJson(this);
+  factory MetricDimension.fromJson(Map<String, dynamic> json) {
+    return MetricDimension(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyClusterOutput {
   /// The number of steps that can be executed concurrently.
-  @_s.JsonKey(name: 'StepConcurrencyLevel')
-  final int stepConcurrencyLevel;
+  final int? stepConcurrencyLevel;
 
   ModifyClusterOutput({
     this.stepConcurrencyLevel,
   });
-  factory ModifyClusterOutput.fromJson(Map<String, dynamic> json) =>
-      _$ModifyClusterOutputFromJson(json);
+
+  factory ModifyClusterOutput.fromJson(Map<String, dynamic> json) {
+    return ModifyClusterOutput(
+      stepConcurrencyLevel: json['StepConcurrencyLevel'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final stepConcurrencyLevel = this.stepConcurrencyLevel;
+    return {
+      if (stepConcurrencyLevel != null)
+        'StepConcurrencyLevel': stepConcurrencyLevel,
+    };
+  }
 }
 
 /// A notebook execution. An execution is a specific instance that an EMR
 /// Notebook is run using the <code>StartNotebookExecution</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotebookExecution {
   /// The Amazon Resource Name (ARN) of the notebook execution.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The unique identifier of the EMR Notebook that is used for the notebook
   /// execution.
-  @_s.JsonKey(name: 'EditorId')
-  final String editorId;
+  final String? editorId;
 
   /// The timestamp when notebook execution ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The execution engine, such as an EMR cluster, used to run the EMR notebook
   /// and perform the notebook execution.
-  @_s.JsonKey(name: 'ExecutionEngine')
-  final ExecutionEngineConfig executionEngine;
+  final ExecutionEngineConfig? executionEngine;
 
   /// The reason for the latest status change of the notebook execution.
-  @_s.JsonKey(name: 'LastStateChangeReason')
-  final String lastStateChangeReason;
+  final String? lastStateChangeReason;
 
   /// The unique identifier of a notebook execution.
-  @_s.JsonKey(name: 'NotebookExecutionId')
-  final String notebookExecutionId;
+  final String? notebookExecutionId;
 
   /// A name for the notebook execution.
-  @_s.JsonKey(name: 'NotebookExecutionName')
-  final String notebookExecutionName;
+  final String? notebookExecutionName;
 
   /// The unique identifier of the EC2 security group associated with the EMR
   /// Notebook instance. For more information see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-managed-notebooks-security-groups.html">Specifying
   /// EC2 Security Groups for EMR Notebooks</a> in the <i>EMR Management
   /// Guide</i>.
-  @_s.JsonKey(name: 'NotebookInstanceSecurityGroupId')
-  final String notebookInstanceSecurityGroupId;
+  final String? notebookInstanceSecurityGroupId;
 
   /// Input parameters in JSON format passed to the EMR Notebook at runtime for
   /// execution.
-  @_s.JsonKey(name: 'NotebookParams')
-  final String notebookParams;
+  final String? notebookParams;
 
   /// The location of the notebook execution's output file in Amazon S3.
-  @_s.JsonKey(name: 'OutputNotebookURI')
-  final String outputNotebookURI;
+  final String? outputNotebookURI;
 
   /// The timestamp when notebook execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the notebook execution.
   ///
@@ -6993,14 +8568,12 @@ class NotebookExecution {
   /// <code>StopNotebookExecution</code> request.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final NotebookExecutionStatus status;
+  final NotebookExecutionStatus? status;
 
   /// A list of tags associated with a notebook execution. Tags are user-defined
   /// key-value pairs that consist of a required key string with a maximum of 128
   /// characters and an optional value string with a maximum of 256 characters.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   NotebookExecution({
     this.arn,
@@ -7017,30 +8590,79 @@ class NotebookExecution {
     this.status,
     this.tags,
   });
-  factory NotebookExecution.fromJson(Map<String, dynamic> json) =>
-      _$NotebookExecutionFromJson(json);
+
+  factory NotebookExecution.fromJson(Map<String, dynamic> json) {
+    return NotebookExecution(
+      arn: json['Arn'] as String?,
+      editorId: json['EditorId'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      executionEngine: json['ExecutionEngine'] != null
+          ? ExecutionEngineConfig.fromJson(
+              json['ExecutionEngine'] as Map<String, dynamic>)
+          : null,
+      lastStateChangeReason: json['LastStateChangeReason'] as String?,
+      notebookExecutionId: json['NotebookExecutionId'] as String?,
+      notebookExecutionName: json['NotebookExecutionName'] as String?,
+      notebookInstanceSecurityGroupId:
+          json['NotebookInstanceSecurityGroupId'] as String?,
+      notebookParams: json['NotebookParams'] as String?,
+      outputNotebookURI: json['OutputNotebookURI'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toNotebookExecutionStatus(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final editorId = this.editorId;
+    final endTime = this.endTime;
+    final executionEngine = this.executionEngine;
+    final lastStateChangeReason = this.lastStateChangeReason;
+    final notebookExecutionId = this.notebookExecutionId;
+    final notebookExecutionName = this.notebookExecutionName;
+    final notebookInstanceSecurityGroupId =
+        this.notebookInstanceSecurityGroupId;
+    final notebookParams = this.notebookParams;
+    final outputNotebookURI = this.outputNotebookURI;
+    final startTime = this.startTime;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (editorId != null) 'EditorId': editorId,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (executionEngine != null) 'ExecutionEngine': executionEngine,
+      if (lastStateChangeReason != null)
+        'LastStateChangeReason': lastStateChangeReason,
+      if (notebookExecutionId != null)
+        'NotebookExecutionId': notebookExecutionId,
+      if (notebookExecutionName != null)
+        'NotebookExecutionName': notebookExecutionName,
+      if (notebookInstanceSecurityGroupId != null)
+        'NotebookInstanceSecurityGroupId': notebookInstanceSecurityGroupId,
+      if (notebookParams != null) 'NotebookParams': notebookParams,
+      if (outputNotebookURI != null) 'OutputNotebookURI': outputNotebookURI,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum NotebookExecutionStatus {
-  @_s.JsonValue('START_PENDING')
   startPending,
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('FINISHING')
   finishing,
-  @_s.JsonValue('FINISHED')
   finished,
-  @_s.JsonValue('FAILING')
   failing,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOP_PENDING')
   stopPending,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
@@ -7068,38 +8690,53 @@ extension on NotebookExecutionStatus {
       case NotebookExecutionStatus.stopped:
         return 'STOPPED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NotebookExecutionStatus toNotebookExecutionStatus() {
+    switch (this) {
+      case 'START_PENDING':
+        return NotebookExecutionStatus.startPending;
+      case 'STARTING':
+        return NotebookExecutionStatus.starting;
+      case 'RUNNING':
+        return NotebookExecutionStatus.running;
+      case 'FINISHING':
+        return NotebookExecutionStatus.finishing;
+      case 'FINISHED':
+        return NotebookExecutionStatus.finished;
+      case 'FAILING':
+        return NotebookExecutionStatus.failing;
+      case 'FAILED':
+        return NotebookExecutionStatus.failed;
+      case 'STOP_PENDING':
+        return NotebookExecutionStatus.stopPending;
+      case 'STOPPING':
+        return NotebookExecutionStatus.stopping;
+      case 'STOPPED':
+        return NotebookExecutionStatus.stopped;
+    }
+    throw Exception('$this is not known in enum NotebookExecutionStatus');
   }
 }
 
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotebookExecutionSummary {
   /// The unique identifier of the editor associated with the notebook execution.
-  @_s.JsonKey(name: 'EditorId')
-  final String editorId;
+  final String? editorId;
 
   /// The timestamp when notebook execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The unique identifier of the notebook execution.
-  @_s.JsonKey(name: 'NotebookExecutionId')
-  final String notebookExecutionId;
+  final String? notebookExecutionId;
 
   /// The name of the notebook execution.
-  @_s.JsonKey(name: 'NotebookExecutionName')
-  final String notebookExecutionName;
+  final String? notebookExecutionName;
 
   /// The timestamp when notebook execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the notebook execution.
   ///
@@ -7145,8 +8782,7 @@ class NotebookExecutionSummary {
   /// <code>StopNotebookExecution</code> request.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final NotebookExecutionStatus status;
+  final NotebookExecutionStatus? status;
 
   NotebookExecutionSummary({
     this.editorId,
@@ -7156,13 +8792,192 @@ class NotebookExecutionSummary {
     this.startTime,
     this.status,
   });
-  factory NotebookExecutionSummary.fromJson(Map<String, dynamic> json) =>
-      _$NotebookExecutionSummaryFromJson(json);
+
+  factory NotebookExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return NotebookExecutionSummary(
+      editorId: json['EditorId'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      notebookExecutionId: json['NotebookExecutionId'] as String?,
+      notebookExecutionName: json['NotebookExecutionName'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toNotebookExecutionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final editorId = this.editorId;
+    final endTime = this.endTime;
+    final notebookExecutionId = this.notebookExecutionId;
+    final notebookExecutionName = this.notebookExecutionName;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      if (editorId != null) 'EditorId': editorId,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (notebookExecutionId != null)
+        'NotebookExecutionId': notebookExecutionId,
+      if (notebookExecutionName != null)
+        'NotebookExecutionName': notebookExecutionName,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+}
+
+/// Describes the strategy for using unused Capacity Reservations for fulfilling
+/// On-Demand capacity.
+class OnDemandCapacityReservationOptions {
+  /// Indicates the instance's Capacity Reservation preferences. Possible
+  /// preferences include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>open</code> - The instance can run in any open Capacity Reservation
+  /// that has matching attributes (instance type, platform, Availability Zone).
+  /// </li>
+  /// <li>
+  /// <code>none</code> - The instance avoids running in a Capacity Reservation
+  /// even if one is available. The instance runs as an On-Demand Instance.
+  /// </li>
+  /// </ul>
+  final OnDemandCapacityReservationPreference? capacityReservationPreference;
+
+  /// The ARN of the Capacity Reservation resource group in which to run the
+  /// instance.
+  final String? capacityReservationResourceGroupArn;
+
+  /// Indicates whether to use unused Capacity Reservations for fulfilling
+  /// On-Demand capacity.
+  ///
+  /// If you specify <code>use-capacity-reservations-first</code>, the fleet uses
+  /// unused Capacity Reservations to fulfill On-Demand capacity up to the target
+  /// On-Demand capacity. If multiple instance pools have unused Capacity
+  /// Reservations, the On-Demand allocation strategy (<code>lowest-price</code>)
+  /// is applied. If the number of unused Capacity Reservations is less than the
+  /// On-Demand target capacity, the remaining On-Demand target capacity is
+  /// launched according to the On-Demand allocation strategy
+  /// (<code>lowest-price</code>).
+  ///
+  /// If you do not specify a value, the fleet fulfils the On-Demand capacity
+  /// according to the chosen On-Demand allocation strategy.
+  final OnDemandCapacityReservationUsageStrategy? usageStrategy;
+
+  OnDemandCapacityReservationOptions({
+    this.capacityReservationPreference,
+    this.capacityReservationResourceGroupArn,
+    this.usageStrategy,
+  });
+
+  factory OnDemandCapacityReservationOptions.fromJson(
+      Map<String, dynamic> json) {
+    return OnDemandCapacityReservationOptions(
+      capacityReservationPreference:
+          (json['CapacityReservationPreference'] as String?)
+              ?.toOnDemandCapacityReservationPreference(),
+      capacityReservationResourceGroupArn:
+          json['CapacityReservationResourceGroupArn'] as String?,
+      usageStrategy: (json['UsageStrategy'] as String?)
+          ?.toOnDemandCapacityReservationUsageStrategy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacityReservationPreference = this.capacityReservationPreference;
+    final capacityReservationResourceGroupArn =
+        this.capacityReservationResourceGroupArn;
+    final usageStrategy = this.usageStrategy;
+    return {
+      if (capacityReservationPreference != null)
+        'CapacityReservationPreference':
+            capacityReservationPreference.toValue(),
+      if (capacityReservationResourceGroupArn != null)
+        'CapacityReservationResourceGroupArn':
+            capacityReservationResourceGroupArn,
+      if (usageStrategy != null) 'UsageStrategy': usageStrategy.toValue(),
+    };
+  }
+}
+
+enum OnDemandCapacityReservationPreference {
+  open,
+  none,
+}
+
+extension on OnDemandCapacityReservationPreference {
+  String toValue() {
+    switch (this) {
+      case OnDemandCapacityReservationPreference.open:
+        return 'open';
+      case OnDemandCapacityReservationPreference.none:
+        return 'none';
+    }
+  }
+}
+
+extension on String {
+  OnDemandCapacityReservationPreference
+      toOnDemandCapacityReservationPreference() {
+    switch (this) {
+      case 'open':
+        return OnDemandCapacityReservationPreference.open;
+      case 'none':
+        return OnDemandCapacityReservationPreference.none;
+    }
+    throw Exception(
+        '$this is not known in enum OnDemandCapacityReservationPreference');
+  }
+}
+
+enum OnDemandCapacityReservationUsageStrategy {
+  useCapacityReservationsFirst,
+}
+
+extension on OnDemandCapacityReservationUsageStrategy {
+  String toValue() {
+    switch (this) {
+      case OnDemandCapacityReservationUsageStrategy
+          .useCapacityReservationsFirst:
+        return 'use-capacity-reservations-first';
+    }
+  }
+}
+
+extension on String {
+  OnDemandCapacityReservationUsageStrategy
+      toOnDemandCapacityReservationUsageStrategy() {
+    switch (this) {
+      case 'use-capacity-reservations-first':
+        return OnDemandCapacityReservationUsageStrategy
+            .useCapacityReservationsFirst;
+    }
+    throw Exception(
+        '$this is not known in enum OnDemandCapacityReservationUsageStrategy');
+  }
 }
 
 enum OnDemandProvisioningAllocationStrategy {
-  @_s.JsonValue('lowest-price')
   lowestPrice,
+}
+
+extension on OnDemandProvisioningAllocationStrategy {
+  String toValue() {
+    switch (this) {
+      case OnDemandProvisioningAllocationStrategy.lowestPrice:
+        return 'lowest-price';
+    }
+  }
+}
+
+extension on String {
+  OnDemandProvisioningAllocationStrategy
+      toOnDemandProvisioningAllocationStrategy() {
+    switch (this) {
+      case 'lowest-price':
+        return OnDemandProvisioningAllocationStrategy.lowestPrice;
+    }
+    throw Exception(
+        '$this is not known in enum OnDemandProvisioningAllocationStrategy');
+  }
 }
 
 /// The launch specification for On-Demand Instances in the instance fleet,
@@ -7172,27 +8987,42 @@ enum OnDemandProvisioningAllocationStrategy {
 /// 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation
 /// strategy is available in Amazon EMR version 5.12.1 and later.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OnDemandProvisioningSpecification {
-  /// Specifies the strategy to use in launching On-Demand Instance fleets.
-  /// Currently, the only option is lowest-price (the default), which launches the
-  /// lowest price first.
-  @_s.JsonKey(name: 'AllocationStrategy')
+  /// Specifies the strategy to use in launching On-Demand instance fleets.
+  /// Currently, the only option is <code>lowest-price</code> (the default), which
+  /// launches the lowest price first.
   final OnDemandProvisioningAllocationStrategy allocationStrategy;
 
-  OnDemandProvisioningSpecification({
-    @_s.required this.allocationStrategy,
-  });
-  factory OnDemandProvisioningSpecification.fromJson(
-          Map<String, dynamic> json) =>
-      _$OnDemandProvisioningSpecificationFromJson(json);
+  /// The launch specification for On-Demand instances in the instance fleet,
+  /// which determines the allocation strategy.
+  final OnDemandCapacityReservationOptions? capacityReservationOptions;
 
-  Map<String, dynamic> toJson() =>
-      _$OnDemandProvisioningSpecificationToJson(this);
+  OnDemandProvisioningSpecification({
+    required this.allocationStrategy,
+    this.capacityReservationOptions,
+  });
+
+  factory OnDemandProvisioningSpecification.fromJson(
+      Map<String, dynamic> json) {
+    return OnDemandProvisioningSpecification(
+      allocationStrategy: (json['AllocationStrategy'] as String)
+          .toOnDemandProvisioningAllocationStrategy(),
+      capacityReservationOptions: json['CapacityReservationOptions'] != null
+          ? OnDemandCapacityReservationOptions.fromJson(
+              json['CapacityReservationOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocationStrategy = this.allocationStrategy;
+    final capacityReservationOptions = this.capacityReservationOptions;
+    return {
+      'AllocationStrategy': allocationStrategy.toValue(),
+      if (capacityReservationOptions != null)
+        'CapacityReservationOptions': capacityReservationOptions,
+    };
+  }
 }
 
 /// Placement group configuration for an Amazon EMR cluster. The configuration
@@ -7201,59 +9031,87 @@ class OnDemandProvisioningSpecification {
 ///
 /// To use this configuration, consider attaching managed policy
 /// AmazonElasticMapReducePlacementGroupPolicy to the EMR role.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PlacementGroupConfig {
   /// Role of the instance in the cluster.
   ///
   /// Starting with Amazon EMR version 5.23.0, the only supported instance role is
   /// <code>MASTER</code>.
-  @_s.JsonKey(name: 'InstanceRole')
   final InstanceRoleType instanceRole;
 
   /// EC2 Placement Group strategy associated with instance role.
   ///
   /// Starting with Amazon EMR version 5.23.0, the only supported placement
   /// strategy is <code>SPREAD</code> for the <code>MASTER</code> instance role.
-  @_s.JsonKey(name: 'PlacementStrategy')
-  final PlacementGroupStrategy placementStrategy;
+  final PlacementGroupStrategy? placementStrategy;
 
   PlacementGroupConfig({
-    @_s.required this.instanceRole,
+    required this.instanceRole,
     this.placementStrategy,
   });
-  factory PlacementGroupConfig.fromJson(Map<String, dynamic> json) =>
-      _$PlacementGroupConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlacementGroupConfigToJson(this);
+  factory PlacementGroupConfig.fromJson(Map<String, dynamic> json) {
+    return PlacementGroupConfig(
+      instanceRole: (json['InstanceRole'] as String).toInstanceRoleType(),
+      placementStrategy:
+          (json['PlacementStrategy'] as String?)?.toPlacementGroupStrategy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceRole = this.instanceRole;
+    final placementStrategy = this.placementStrategy;
+    return {
+      'InstanceRole': instanceRole.toValue(),
+      if (placementStrategy != null)
+        'PlacementStrategy': placementStrategy.toValue(),
+    };
+  }
 }
 
 enum PlacementGroupStrategy {
-  @_s.JsonValue('SPREAD')
   spread,
-  @_s.JsonValue('PARTITION')
   partition,
-  @_s.JsonValue('CLUSTER')
   cluster,
-  @_s.JsonValue('NONE')
   none,
 }
 
+extension on PlacementGroupStrategy {
+  String toValue() {
+    switch (this) {
+      case PlacementGroupStrategy.spread:
+        return 'SPREAD';
+      case PlacementGroupStrategy.partition:
+        return 'PARTITION';
+      case PlacementGroupStrategy.cluster:
+        return 'CLUSTER';
+      case PlacementGroupStrategy.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  PlacementGroupStrategy toPlacementGroupStrategy() {
+    switch (this) {
+      case 'SPREAD':
+        return PlacementGroupStrategy.spread;
+      case 'PARTITION':
+        return PlacementGroupStrategy.partition;
+      case 'CLUSTER':
+        return PlacementGroupStrategy.cluster;
+      case 'NONE':
+        return PlacementGroupStrategy.none;
+    }
+    throw Exception('$this is not known in enum PlacementGroupStrategy');
+  }
+}
+
 /// The Amazon EC2 Availability Zone configuration of the cluster (job flow).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PlacementType {
   /// The Amazon EC2 Availability Zone for the cluster.
   /// <code>AvailabilityZone</code> is used for uniform instance groups, while
   /// <code>AvailabilityZones</code> (plural) is used for instance fleets.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// When multiple Availability Zones are specified, Amazon EMR evaluates them
   /// and launches instances in the optimal Availability Zone.
@@ -7264,69 +9122,79 @@ class PlacementType {
   /// The instance fleet configuration is available only in Amazon EMR versions
   /// 4.8.0 and later, excluding 5.0.x versions.
   /// </note>
-  @_s.JsonKey(name: 'AvailabilityZones')
-  final List<String> availabilityZones;
+  final List<String>? availabilityZones;
 
   PlacementType({
     this.availabilityZone,
     this.availabilityZones,
   });
-  factory PlacementType.fromJson(Map<String, dynamic> json) =>
-      _$PlacementTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlacementTypeToJson(this);
+  factory PlacementType.fromJson(Map<String, dynamic> json) {
+    return PlacementType(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      availabilityZones: (json['AvailabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final availabilityZones = this.availabilityZones;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+    };
+  }
 }
 
 /// A list of port ranges that are permitted to allow inbound traffic from all
 /// public IP addresses. To specify a single port, use the same value for
 /// <code>MinRange</code> and <code>MaxRange</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PortRange {
   /// The smallest port number in a specified range of port numbers.
-  @_s.JsonKey(name: 'MinRange')
   final int minRange;
 
   /// The smallest port number in a specified range of port numbers.
-  @_s.JsonKey(name: 'MaxRange')
-  final int maxRange;
+  final int? maxRange;
 
   PortRange({
-    @_s.required this.minRange,
+    required this.minRange,
     this.maxRange,
   });
-  factory PortRange.fromJson(Map<String, dynamic> json) =>
-      _$PortRangeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PortRangeToJson(this);
+  factory PortRange.fromJson(Map<String, dynamic> json) {
+    return PortRange(
+      minRange: json['MinRange'] as int,
+      maxRange: json['MaxRange'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final minRange = this.minRange;
+    final maxRange = this.maxRange;
+    return {
+      'MinRange': minRange,
+      if (maxRange != null) 'MaxRange': maxRange,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutAutoScalingPolicyOutput {
   /// The automatic scaling policy definition.
-  @_s.JsonKey(name: 'AutoScalingPolicy')
-  final AutoScalingPolicyDescription autoScalingPolicy;
+  final AutoScalingPolicyDescription? autoScalingPolicy;
 
-  /// The Amazon Resource Name of the cluster.
-  @_s.JsonKey(name: 'ClusterArn')
-  final String clusterArn;
+  /// The Amazon Resource Name (ARN) of the cluster.
+  final String? clusterArn;
 
   /// Specifies the ID of a cluster. The instance group to which the automatic
   /// scaling policy is applied is within this cluster.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// Specifies the ID of the instance group to which the scaling policy is
   /// applied.
-  @_s.JsonKey(name: 'InstanceGroupId')
-  final String instanceGroupId;
+  final String? instanceGroupId;
 
   PutAutoScalingPolicyOutput({
     this.autoScalingPolicy,
@@ -7334,72 +9202,97 @@ class PutAutoScalingPolicyOutput {
     this.clusterId,
     this.instanceGroupId,
   });
-  factory PutAutoScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutAutoScalingPolicyOutputFromJson(json);
+
+  factory PutAutoScalingPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return PutAutoScalingPolicyOutput(
+      autoScalingPolicy: json['AutoScalingPolicy'] != null
+          ? AutoScalingPolicyDescription.fromJson(
+              json['AutoScalingPolicy'] as Map<String, dynamic>)
+          : null,
+      clusterArn: json['ClusterArn'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      instanceGroupId: json['InstanceGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingPolicy = this.autoScalingPolicy;
+    final clusterArn = this.clusterArn;
+    final clusterId = this.clusterId;
+    final instanceGroupId = this.instanceGroupId;
+    return {
+      if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (instanceGroupId != null) 'InstanceGroupId': instanceGroupId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutBlockPublicAccessConfigurationOutput {
   PutBlockPublicAccessConfigurationOutput();
+
   factory PutBlockPublicAccessConfigurationOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutBlockPublicAccessConfigurationOutputFromJson(json);
+      Map<String, dynamic> _) {
+    return PutBlockPublicAccessConfigurationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutManagedScalingPolicyOutput {
   PutManagedScalingPolicyOutput();
-  factory PutManagedScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutManagedScalingPolicyOutputFromJson(json);
+
+  factory PutManagedScalingPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return PutManagedScalingPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveAutoScalingPolicyOutput {
   RemoveAutoScalingPolicyOutput();
-  factory RemoveAutoScalingPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$RemoveAutoScalingPolicyOutputFromJson(json);
+
+  factory RemoveAutoScalingPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return RemoveAutoScalingPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveManagedScalingPolicyOutput {
   RemoveManagedScalingPolicyOutput();
-  factory RemoveManagedScalingPolicyOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$RemoveManagedScalingPolicyOutputFromJson(json);
+
+  factory RemoveManagedScalingPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return RemoveManagedScalingPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// This output indicates the result of removing tags from a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsOutput {
   RemoveTagsOutput();
-  factory RemoveTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsOutputFromJson(json);
+
+  factory RemoveTagsOutput.fromJson(Map<String, dynamic> _) {
+    return RemoveTagsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum RepoUpgradeOnBoot {
-  @_s.JsonValue('SECURITY')
   security,
-  @_s.JsonValue('NONE')
   none,
 }
 
@@ -7411,37 +9304,53 @@ extension on RepoUpgradeOnBoot {
       case RepoUpgradeOnBoot.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RepoUpgradeOnBoot toRepoUpgradeOnBoot() {
+    switch (this) {
+      case 'SECURITY':
+        return RepoUpgradeOnBoot.security;
+      case 'NONE':
+        return RepoUpgradeOnBoot.none;
+    }
+    throw Exception('$this is not known in enum RepoUpgradeOnBoot');
   }
 }
 
 /// The result of the <a>RunJobFlow</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RunJobFlowOutput {
-  /// The Amazon Resource Name of the cluster.
-  @_s.JsonKey(name: 'ClusterArn')
-  final String clusterArn;
+  /// The Amazon Resource Name (ARN) of the cluster.
+  final String? clusterArn;
 
-  /// An unique identifier for the job flow.
-  @_s.JsonKey(name: 'JobFlowId')
-  final String jobFlowId;
+  /// A unique identifier for the job flow.
+  final String? jobFlowId;
 
   RunJobFlowOutput({
     this.clusterArn,
     this.jobFlowId,
   });
-  factory RunJobFlowOutput.fromJson(Map<String, dynamic> json) =>
-      _$RunJobFlowOutputFromJson(json);
+
+  factory RunJobFlowOutput.fromJson(Map<String, dynamic> json) {
+    return RunJobFlowOutput(
+      clusterArn: json['ClusterArn'] as String?,
+      jobFlowId: json['JobFlowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterArn = this.clusterArn;
+    final jobFlowId = this.jobFlowId;
+    return {
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (jobFlowId != null) 'JobFlowId': jobFlowId,
+    };
+  }
 }
 
 enum ScaleDownBehavior {
-  @_s.JsonValue('TERMINATE_AT_INSTANCE_HOUR')
   terminateAtInstanceHour,
-  @_s.JsonValue('TERMINATE_AT_TASK_COMPLETION')
   terminateAtTaskCompletion,
 }
 
@@ -7453,223 +9362,262 @@ extension on ScaleDownBehavior {
       case ScaleDownBehavior.terminateAtTaskCompletion:
         return 'TERMINATE_AT_TASK_COMPLETION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ScaleDownBehavior toScaleDownBehavior() {
+    switch (this) {
+      case 'TERMINATE_AT_INSTANCE_HOUR':
+        return ScaleDownBehavior.terminateAtInstanceHour;
+      case 'TERMINATE_AT_TASK_COMPLETION':
+        return ScaleDownBehavior.terminateAtTaskCompletion;
+    }
+    throw Exception('$this is not known in enum ScaleDownBehavior');
   }
 }
 
 /// The type of adjustment the automatic scaling activity makes when triggered,
 /// and the periodicity of the adjustment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ScalingAction {
   /// The type of adjustment the automatic scaling activity makes when triggered,
   /// and the periodicity of the adjustment.
-  @_s.JsonKey(name: 'SimpleScalingPolicyConfiguration')
   final SimpleScalingPolicyConfiguration simpleScalingPolicyConfiguration;
 
   /// Not available for instance groups. Instance groups use the market type
   /// specified for the group.
-  @_s.JsonKey(name: 'Market')
-  final MarketType market;
+  final MarketType? market;
 
   ScalingAction({
-    @_s.required this.simpleScalingPolicyConfiguration,
+    required this.simpleScalingPolicyConfiguration,
     this.market,
   });
-  factory ScalingAction.fromJson(Map<String, dynamic> json) =>
-      _$ScalingActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ScalingActionToJson(this);
+  factory ScalingAction.fromJson(Map<String, dynamic> json) {
+    return ScalingAction(
+      simpleScalingPolicyConfiguration:
+          SimpleScalingPolicyConfiguration.fromJson(
+              json['SimpleScalingPolicyConfiguration'] as Map<String, dynamic>),
+      market: (json['Market'] as String?)?.toMarketType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final simpleScalingPolicyConfiguration =
+        this.simpleScalingPolicyConfiguration;
+    final market = this.market;
+    return {
+      'SimpleScalingPolicyConfiguration': simpleScalingPolicyConfiguration,
+      if (market != null) 'Market': market.toValue(),
+    };
+  }
 }
 
 /// The upper and lower EC2 instance limits for an automatic scaling policy.
 /// Automatic scaling activities triggered by automatic scaling rules will not
 /// cause an instance group to grow above or below these limits.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ScalingConstraints {
   /// The upper boundary of EC2 instances in an instance group beyond which
   /// scaling activities are not allowed to grow. Scale-out activities will not
   /// add instances beyond this boundary.
-  @_s.JsonKey(name: 'MaxCapacity')
   final int maxCapacity;
 
   /// The lower boundary of EC2 instances in an instance group below which scaling
   /// activities are not allowed to shrink. Scale-in activities will not terminate
   /// instances below this boundary.
-  @_s.JsonKey(name: 'MinCapacity')
   final int minCapacity;
 
   ScalingConstraints({
-    @_s.required this.maxCapacity,
-    @_s.required this.minCapacity,
+    required this.maxCapacity,
+    required this.minCapacity,
   });
-  factory ScalingConstraints.fromJson(Map<String, dynamic> json) =>
-      _$ScalingConstraintsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ScalingConstraintsToJson(this);
+  factory ScalingConstraints.fromJson(Map<String, dynamic> json) {
+    return ScalingConstraints(
+      maxCapacity: json['MaxCapacity'] as int,
+      minCapacity: json['MinCapacity'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxCapacity = this.maxCapacity;
+    final minCapacity = this.minCapacity;
+    return {
+      'MaxCapacity': maxCapacity,
+      'MinCapacity': minCapacity,
+    };
+  }
 }
 
 /// A scale-in or scale-out rule that defines scaling activity, including the
 /// CloudWatch metric alarm that triggers activity, how EC2 instances are added
 /// or removed, and the periodicity of adjustments. The automatic scaling policy
 /// for an instance group can comprise one or more automatic scaling rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ScalingRule {
   /// The conditions that trigger an automatic scaling activity.
-  @_s.JsonKey(name: 'Action')
   final ScalingAction action;
 
   /// The name used to identify an automatic scaling rule. Rule names must be
   /// unique within a scaling policy.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The CloudWatch alarm definition that determines when automatic scaling
   /// activity is triggered.
-  @_s.JsonKey(name: 'Trigger')
   final ScalingTrigger trigger;
 
   /// A friendly, more verbose description of the automatic scaling rule.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   ScalingRule({
-    @_s.required this.action,
-    @_s.required this.name,
-    @_s.required this.trigger,
+    required this.action,
+    required this.name,
+    required this.trigger,
     this.description,
   });
-  factory ScalingRule.fromJson(Map<String, dynamic> json) =>
-      _$ScalingRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ScalingRuleToJson(this);
+  factory ScalingRule.fromJson(Map<String, dynamic> json) {
+    return ScalingRule(
+      action: ScalingAction.fromJson(json['Action'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      trigger: ScalingTrigger.fromJson(json['Trigger'] as Map<String, dynamic>),
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final name = this.name;
+    final trigger = this.trigger;
+    final description = this.description;
+    return {
+      'Action': action,
+      'Name': name,
+      'Trigger': trigger,
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
 /// The conditions that trigger an automatic scaling activity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ScalingTrigger {
   /// The definition of a CloudWatch metric alarm. When the defined alarm
   /// conditions are met along with other trigger parameters, scaling activity
   /// begins.
-  @_s.JsonKey(name: 'CloudWatchAlarmDefinition')
   final CloudWatchAlarmDefinition cloudWatchAlarmDefinition;
 
   ScalingTrigger({
-    @_s.required this.cloudWatchAlarmDefinition,
+    required this.cloudWatchAlarmDefinition,
   });
-  factory ScalingTrigger.fromJson(Map<String, dynamic> json) =>
-      _$ScalingTriggerFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ScalingTriggerToJson(this);
+  factory ScalingTrigger.fromJson(Map<String, dynamic> json) {
+    return ScalingTrigger(
+      cloudWatchAlarmDefinition: CloudWatchAlarmDefinition.fromJson(
+          json['CloudWatchAlarmDefinition'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchAlarmDefinition = this.cloudWatchAlarmDefinition;
+    return {
+      'CloudWatchAlarmDefinition': cloudWatchAlarmDefinition,
+    };
+  }
 }
 
 /// Configuration of the script to run during a bootstrap action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ScriptBootstrapActionConfig {
   /// Location of the script to run during a bootstrap action. Can be either a
   /// location in Amazon S3 or on a local file system.
-  @_s.JsonKey(name: 'Path')
   final String path;
 
   /// A list of command line arguments to pass to the bootstrap action script.
-  @_s.JsonKey(name: 'Args')
-  final List<String> args;
+  final List<String>? args;
 
   ScriptBootstrapActionConfig({
-    @_s.required this.path,
+    required this.path,
     this.args,
   });
-  factory ScriptBootstrapActionConfig.fromJson(Map<String, dynamic> json) =>
-      _$ScriptBootstrapActionConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ScriptBootstrapActionConfigToJson(this);
+  factory ScriptBootstrapActionConfig.fromJson(Map<String, dynamic> json) {
+    return ScriptBootstrapActionConfig(
+      path: json['Path'] as String,
+      args: (json['Args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    final args = this.args;
+    return {
+      'Path': path,
+      if (args != null) 'Args': args,
+    };
+  }
 }
 
 /// The creation date and time, and name, of a security configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityConfigurationSummary {
   /// The date and time the security configuration was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The name of the security configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   SecurityConfigurationSummary({
     this.creationDateTime,
     this.name,
   });
-  factory SecurityConfigurationSummary.fromJson(Map<String, dynamic> json) =>
-      _$SecurityConfigurationSummaryFromJson(json);
+
+  factory SecurityConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return SecurityConfigurationSummary(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final name = this.name;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Details for an Amazon EMR Studio session mapping including creation time,
 /// user or group ID, Studio ID, and so on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SessionMappingDetail {
   /// The time the session mapping was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The globally unique identifier (GUID) of the user or group.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   /// The name of the user or group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
   /// in the <i>AWS SSO Identity Store API Reference</i>.
-  @_s.JsonKey(name: 'IdentityName')
-  final String identityName;
+  final String? identityName;
 
-  /// Specifies whether the identity mapped to the Studio is a user or a group.
-  @_s.JsonKey(name: 'IdentityType')
-  final IdentityType identityType;
+  /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or
+  /// a group.
+  final IdentityType? identityType;
 
   /// The time the session mapping was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of the session policy associated with the
   /// user or group.
-  @_s.JsonKey(name: 'SessionPolicyArn')
-  final String sessionPolicyArn;
+  final String? sessionPolicyArn;
 
   /// The ID of the Amazon EMR Studio.
-  @_s.JsonKey(name: 'StudioId')
-  final String studioId;
+  final String? studioId;
 
   SessionMappingDetail({
     this.creationTime,
@@ -7680,48 +9628,68 @@ class SessionMappingDetail {
     this.sessionPolicyArn,
     this.studioId,
   });
-  factory SessionMappingDetail.fromJson(Map<String, dynamic> json) =>
-      _$SessionMappingDetailFromJson(json);
+
+  factory SessionMappingDetail.fromJson(Map<String, dynamic> json) {
+    return SessionMappingDetail(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      identityId: json['IdentityId'] as String?,
+      identityName: json['IdentityName'] as String?,
+      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      sessionPolicyArn: json['SessionPolicyArn'] as String?,
+      studioId: json['StudioId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final identityId = this.identityId;
+    final identityName = this.identityName;
+    final identityType = this.identityType;
+    final lastModifiedTime = this.lastModifiedTime;
+    final sessionPolicyArn = this.sessionPolicyArn;
+    final studioId = this.studioId;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (identityId != null) 'IdentityId': identityId,
+      if (identityName != null) 'IdentityName': identityName,
+      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (sessionPolicyArn != null) 'SessionPolicyArn': sessionPolicyArn,
+      if (studioId != null) 'StudioId': studioId,
+    };
+  }
 }
 
 /// Details for an Amazon EMR Studio session mapping. The details do not include
 /// the time the session mapping was last modified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SessionMappingSummary {
   /// The time the session mapping was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The globally unique identifier (GUID) of the user or group from the AWS SSO
   /// Identity Store.
-  @_s.JsonKey(name: 'IdentityId')
-  final String identityId;
+  final String? identityId;
 
   /// The name of the user or group. For more information, see <a
-  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserId">UserName</a>
+  /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName">UserName</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName">DisplayName</a>
   /// in the <i>AWS SSO Identity Store API Reference</i>.
-  @_s.JsonKey(name: 'IdentityName')
-  final String identityName;
+  final String? identityName;
 
-  /// Specifies whether the identity mapped to the Studio is a user or a group.
-  @_s.JsonKey(name: 'IdentityType')
-  final IdentityType identityType;
+  /// Specifies whether the identity mapped to the Amazon EMR Studio is a user or
+  /// a group.
+  final IdentityType? identityType;
 
   /// The Amazon Resource Name (ARN) of the session policy associated with the
   /// user or group.
-  @_s.JsonKey(name: 'SessionPolicyArn')
-  final String sessionPolicyArn;
+  final String? sessionPolicyArn;
 
   /// The ID of the Amazon EMR Studio.
-  @_s.JsonKey(name: 'StudioId')
-  final String studioId;
+  final String? studioId;
 
   SessionMappingSummary({
     this.creationTime,
@@ -7731,46 +9699,78 @@ class SessionMappingSummary {
     this.sessionPolicyArn,
     this.studioId,
   });
-  factory SessionMappingSummary.fromJson(Map<String, dynamic> json) =>
-      _$SessionMappingSummaryFromJson(json);
+
+  factory SessionMappingSummary.fromJson(Map<String, dynamic> json) {
+    return SessionMappingSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      identityId: json['IdentityId'] as String?,
+      identityName: json['IdentityName'] as String?,
+      identityType: (json['IdentityType'] as String?)?.toIdentityType(),
+      sessionPolicyArn: json['SessionPolicyArn'] as String?,
+      studioId: json['StudioId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final identityId = this.identityId;
+    final identityName = this.identityName;
+    final identityType = this.identityType;
+    final sessionPolicyArn = this.sessionPolicyArn;
+    final studioId = this.studioId;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (identityId != null) 'IdentityId': identityId,
+      if (identityName != null) 'IdentityName': identityName,
+      if (identityType != null) 'IdentityType': identityType.toValue(),
+      if (sessionPolicyArn != null) 'SessionPolicyArn': sessionPolicyArn,
+      if (studioId != null) 'StudioId': studioId,
+    };
+  }
 }
 
 /// Policy for customizing shrink operations. Allows configuration of
 /// decommissioning timeout and targeted instance shrinking.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ShrinkPolicy {
   /// The desired timeout for decommissioning an instance. Overrides the default
   /// YARN decommissioning timeout.
-  @_s.JsonKey(name: 'DecommissionTimeout')
-  final int decommissionTimeout;
+  final int? decommissionTimeout;
 
   /// Custom policy for requesting termination protection or termination of
   /// specific instances when shrinking an instance group.
-  @_s.JsonKey(name: 'InstanceResizePolicy')
-  final InstanceResizePolicy instanceResizePolicy;
+  final InstanceResizePolicy? instanceResizePolicy;
 
   ShrinkPolicy({
     this.decommissionTimeout,
     this.instanceResizePolicy,
   });
-  factory ShrinkPolicy.fromJson(Map<String, dynamic> json) =>
-      _$ShrinkPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ShrinkPolicyToJson(this);
+  factory ShrinkPolicy.fromJson(Map<String, dynamic> json) {
+    return ShrinkPolicy(
+      decommissionTimeout: json['DecommissionTimeout'] as int?,
+      instanceResizePolicy: json['InstanceResizePolicy'] != null
+          ? InstanceResizePolicy.fromJson(
+              json['InstanceResizePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decommissionTimeout = this.decommissionTimeout;
+    final instanceResizePolicy = this.instanceResizePolicy;
+    return {
+      if (decommissionTimeout != null)
+        'DecommissionTimeout': decommissionTimeout,
+      if (instanceResizePolicy != null)
+        'InstanceResizePolicy': instanceResizePolicy,
+    };
+  }
 }
 
 /// An automatic scaling configuration, which describes how the policy adds or
 /// removes instances, the cooldown period, and the number of EC2 instances that
 /// will be added each time the CloudWatch metric alarm condition is satisfied.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SimpleScalingPolicyConfiguration {
   /// The amount by which to scale in or scale out, based on the specified
   /// <code>AdjustmentType</code>. A positive value adds to the instance group's
@@ -7780,7 +9780,6 @@ class SimpleScalingPolicyConfiguration {
   /// set to <code>PERCENT_CHANGE_IN_CAPACITY</code>, the value should express the
   /// percentage as an integer. For example, -20 indicates a decrease in 20%
   /// increments of cluster capacity.
-  @_s.JsonKey(name: 'ScalingAdjustment')
   final int scalingAdjustment;
 
   /// The way in which EC2 instances are added (if <code>ScalingAdjustment</code>
@@ -7797,31 +9796,61 @@ class SimpleScalingPolicyConfiguration {
   /// instance group with the number of EC2 instances specified by
   /// <code>ScalingAdjustment</code>, which should be expressed as a positive
   /// integer.
-  @_s.JsonKey(name: 'AdjustmentType')
-  final AdjustmentType adjustmentType;
+  final AdjustmentType? adjustmentType;
 
   /// The amount of time, in seconds, after a scaling activity completes before
   /// any further trigger-related scaling activities can start. The default value
   /// is 0.
-  @_s.JsonKey(name: 'CoolDown')
-  final int coolDown;
+  final int? coolDown;
 
   SimpleScalingPolicyConfiguration({
-    @_s.required this.scalingAdjustment,
+    required this.scalingAdjustment,
     this.adjustmentType,
     this.coolDown,
   });
-  factory SimpleScalingPolicyConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$SimpleScalingPolicyConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$SimpleScalingPolicyConfigurationToJson(this);
+  factory SimpleScalingPolicyConfiguration.fromJson(Map<String, dynamic> json) {
+    return SimpleScalingPolicyConfiguration(
+      scalingAdjustment: json['ScalingAdjustment'] as int,
+      adjustmentType: (json['AdjustmentType'] as String?)?.toAdjustmentType(),
+      coolDown: json['CoolDown'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scalingAdjustment = this.scalingAdjustment;
+    final adjustmentType = this.adjustmentType;
+    final coolDown = this.coolDown;
+    return {
+      'ScalingAdjustment': scalingAdjustment,
+      if (adjustmentType != null) 'AdjustmentType': adjustmentType.toValue(),
+      if (coolDown != null) 'CoolDown': coolDown,
+    };
+  }
 }
 
 enum SpotProvisioningAllocationStrategy {
-  @_s.JsonValue('capacity-optimized')
   capacityOptimized,
+}
+
+extension on SpotProvisioningAllocationStrategy {
+  String toValue() {
+    switch (this) {
+      case SpotProvisioningAllocationStrategy.capacityOptimized:
+        return 'capacity-optimized';
+    }
+  }
+}
+
+extension on String {
+  SpotProvisioningAllocationStrategy toSpotProvisioningAllocationStrategy() {
+    switch (this) {
+      case 'capacity-optimized':
+        return SpotProvisioningAllocationStrategy.capacityOptimized;
+    }
+    throw Exception(
+        '$this is not known in enum SpotProvisioningAllocationStrategy');
+  }
 }
 
 /// The launch specification for Spot Instances in the instance fleet, which
@@ -7832,11 +9861,6 @@ enum SpotProvisioningAllocationStrategy {
 /// 4.8.0 and later, excluding 5.0.x versions. Spot Instance allocation strategy
 /// is available in Amazon EMR version 5.12.1 and later.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SpotProvisioningSpecification {
   /// The action to take when <code>TargetSpotCapacity</code> has not been
   /// fulfilled when the <code>TimeoutDurationMinutes</code> has expired; that is,
@@ -7845,112 +9869,177 @@ class SpotProvisioningSpecification {
   /// <code>SWITCH_TO_ON_DEMAND</code>. SWITCH_TO_ON_DEMAND specifies that if no
   /// Spot Instances are available, On-Demand Instances should be provisioned to
   /// fulfill any remaining Spot capacity.
-  @_s.JsonKey(name: 'TimeoutAction')
   final SpotProvisioningTimeoutAction timeoutAction;
 
   /// The spot provisioning timeout period in minutes. If Spot Instances are not
   /// provisioned within this time period, the <code>TimeOutAction</code> is
   /// taken. Minimum value is 5 and maximum value is 1440. The timeout applies
   /// only during initial provisioning, when the cluster is first created.
-  @_s.JsonKey(name: 'TimeoutDurationMinutes')
   final int timeoutDurationMinutes;
 
   /// Specifies the strategy to use in launching Spot Instance fleets. Currently,
   /// the only option is capacity-optimized (the default), which launches
   /// instances from Spot Instance pools with optimal capacity for the number of
   /// instances that are launching.
-  @_s.JsonKey(name: 'AllocationStrategy')
-  final SpotProvisioningAllocationStrategy allocationStrategy;
+  final SpotProvisioningAllocationStrategy? allocationStrategy;
 
   /// The defined duration for Spot Instances (also known as Spot blocks) in
   /// minutes. When specified, the Spot Instance does not terminate before the
-  /// defined duration expires, and defined duration pricing for Spot instances
+  /// defined duration expires, and defined duration pricing for Spot Instances
   /// applies. Valid values are 60, 120, 180, 240, 300, or 360. The duration
   /// period starts as soon as a Spot Instance receives its instance ID. At the
   /// end of the duration, Amazon EC2 marks the Spot Instance for termination and
   /// provides a Spot Instance termination notice, which gives the instance a
   /// two-minute warning before it terminates.
-  @_s.JsonKey(name: 'BlockDurationMinutes')
-  final int blockDurationMinutes;
+  final int? blockDurationMinutes;
 
   SpotProvisioningSpecification({
-    @_s.required this.timeoutAction,
-    @_s.required this.timeoutDurationMinutes,
+    required this.timeoutAction,
+    required this.timeoutDurationMinutes,
     this.allocationStrategy,
     this.blockDurationMinutes,
   });
-  factory SpotProvisioningSpecification.fromJson(Map<String, dynamic> json) =>
-      _$SpotProvisioningSpecificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SpotProvisioningSpecificationToJson(this);
+  factory SpotProvisioningSpecification.fromJson(Map<String, dynamic> json) {
+    return SpotProvisioningSpecification(
+      timeoutAction:
+          (json['TimeoutAction'] as String).toSpotProvisioningTimeoutAction(),
+      timeoutDurationMinutes: json['TimeoutDurationMinutes'] as int,
+      allocationStrategy: (json['AllocationStrategy'] as String?)
+          ?.toSpotProvisioningAllocationStrategy(),
+      blockDurationMinutes: json['BlockDurationMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeoutAction = this.timeoutAction;
+    final timeoutDurationMinutes = this.timeoutDurationMinutes;
+    final allocationStrategy = this.allocationStrategy;
+    final blockDurationMinutes = this.blockDurationMinutes;
+    return {
+      'TimeoutAction': timeoutAction.toValue(),
+      'TimeoutDurationMinutes': timeoutDurationMinutes,
+      if (allocationStrategy != null)
+        'AllocationStrategy': allocationStrategy.toValue(),
+      if (blockDurationMinutes != null)
+        'BlockDurationMinutes': blockDurationMinutes,
+    };
+  }
 }
 
 enum SpotProvisioningTimeoutAction {
-  @_s.JsonValue('SWITCH_TO_ON_DEMAND')
   switchToOnDemand,
-  @_s.JsonValue('TERMINATE_CLUSTER')
   terminateCluster,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SpotProvisioningTimeoutAction {
+  String toValue() {
+    switch (this) {
+      case SpotProvisioningTimeoutAction.switchToOnDemand:
+        return 'SWITCH_TO_ON_DEMAND';
+      case SpotProvisioningTimeoutAction.terminateCluster:
+        return 'TERMINATE_CLUSTER';
+    }
+  }
+}
+
+extension on String {
+  SpotProvisioningTimeoutAction toSpotProvisioningTimeoutAction() {
+    switch (this) {
+      case 'SWITCH_TO_ON_DEMAND':
+        return SpotProvisioningTimeoutAction.switchToOnDemand;
+      case 'TERMINATE_CLUSTER':
+        return SpotProvisioningTimeoutAction.terminateCluster;
+    }
+    throw Exception('$this is not known in enum SpotProvisioningTimeoutAction');
+  }
+}
+
 class StartNotebookExecutionOutput {
   /// The unique identifier of the notebook execution.
-  @_s.JsonKey(name: 'NotebookExecutionId')
-  final String notebookExecutionId;
+  final String? notebookExecutionId;
 
   StartNotebookExecutionOutput({
     this.notebookExecutionId,
   });
-  factory StartNotebookExecutionOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartNotebookExecutionOutputFromJson(json);
+
+  factory StartNotebookExecutionOutput.fromJson(Map<String, dynamic> json) {
+    return StartNotebookExecutionOutput(
+      notebookExecutionId: json['NotebookExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notebookExecutionId = this.notebookExecutionId;
+    return {
+      if (notebookExecutionId != null)
+        'NotebookExecutionId': notebookExecutionId,
+    };
+  }
 }
 
 enum Statistic {
-  @_s.JsonValue('SAMPLE_COUNT')
   sampleCount,
-  @_s.JsonValue('AVERAGE')
   average,
-  @_s.JsonValue('SUM')
   sum,
-  @_s.JsonValue('MINIMUM')
   minimum,
-  @_s.JsonValue('MAXIMUM')
   maximum,
 }
 
+extension on Statistic {
+  String toValue() {
+    switch (this) {
+      case Statistic.sampleCount:
+        return 'SAMPLE_COUNT';
+      case Statistic.average:
+        return 'AVERAGE';
+      case Statistic.sum:
+        return 'SUM';
+      case Statistic.minimum:
+        return 'MINIMUM';
+      case Statistic.maximum:
+        return 'MAXIMUM';
+    }
+  }
+}
+
+extension on String {
+  Statistic toStatistic() {
+    switch (this) {
+      case 'SAMPLE_COUNT':
+        return Statistic.sampleCount;
+      case 'AVERAGE':
+        return Statistic.average;
+      case 'SUM':
+        return Statistic.sum;
+      case 'MINIMUM':
+        return Statistic.minimum;
+      case 'MAXIMUM':
+        return Statistic.maximum;
+    }
+    throw Exception('$this is not known in enum Statistic');
+  }
+}
+
 /// This represents a step in a cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Step {
   /// The action to take when the cluster step fails. Possible values are
   /// TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
   /// provided for backward compatibility. We recommend using TERMINATE_CLUSTER
   /// instead.
-  @_s.JsonKey(name: 'ActionOnFailure')
-  final ActionOnFailure actionOnFailure;
+  final ActionOnFailure? actionOnFailure;
 
   /// The Hadoop job configuration of the cluster step.
-  @_s.JsonKey(name: 'Config')
-  final HadoopStepConfig config;
+  final HadoopStepConfig? config;
 
   /// The identifier of the cluster step.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the cluster step.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current execution status details of the cluster step.
-  @_s.JsonKey(name: 'Status')
-  final StepStatus status;
+  final StepStatus? status;
 
   Step({
     this.actionOnFailure,
@@ -7959,13 +10048,40 @@ class Step {
     this.name,
     this.status,
   });
-  factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
+
+  factory Step.fromJson(Map<String, dynamic> json) {
+    return Step(
+      actionOnFailure:
+          (json['ActionOnFailure'] as String?)?.toActionOnFailure(),
+      config: json['Config'] != null
+          ? HadoopStepConfig.fromJson(json['Config'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: json['Status'] != null
+          ? StepStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionOnFailure = this.actionOnFailure;
+    final config = this.config;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (actionOnFailure != null) 'ActionOnFailure': actionOnFailure.toValue(),
+      if (config != null) 'Config': config,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 enum StepCancellationOption {
-  @_s.JsonValue('SEND_INTERRUPT')
   sendInterrupt,
-  @_s.JsonValue('TERMINATE_PROCESS')
   terminateProcess,
 }
 
@@ -7977,138 +10093,209 @@ extension on StepCancellationOption {
       case StepCancellationOption.terminateProcess:
         return 'TERMINATE_PROCESS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StepCancellationOption toStepCancellationOption() {
+    switch (this) {
+      case 'SEND_INTERRUPT':
+        return StepCancellationOption.sendInterrupt;
+      case 'TERMINATE_PROCESS':
+        return StepCancellationOption.terminateProcess;
+    }
+    throw Exception('$this is not known in enum StepCancellationOption');
   }
 }
 
 /// Specification of a cluster (job flow) step.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StepConfig {
   /// The JAR file used for the step.
-  @_s.JsonKey(name: 'HadoopJarStep')
   final HadoopJarStepConfig hadoopJarStep;
 
   /// The name of the step.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The action to take when the cluster step fails. Possible values are
   /// TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
   /// provided for backward compatibility. We recommend using TERMINATE_CLUSTER
   /// instead.
-  @_s.JsonKey(name: 'ActionOnFailure')
-  final ActionOnFailure actionOnFailure;
+  final ActionOnFailure? actionOnFailure;
 
   StepConfig({
-    @_s.required this.hadoopJarStep,
-    @_s.required this.name,
+    required this.hadoopJarStep,
+    required this.name,
     this.actionOnFailure,
   });
-  factory StepConfig.fromJson(Map<String, dynamic> json) =>
-      _$StepConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StepConfigToJson(this);
+  factory StepConfig.fromJson(Map<String, dynamic> json) {
+    return StepConfig(
+      hadoopJarStep: HadoopJarStepConfig.fromJson(
+          json['HadoopJarStep'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      actionOnFailure:
+          (json['ActionOnFailure'] as String?)?.toActionOnFailure(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hadoopJarStep = this.hadoopJarStep;
+    final name = this.name;
+    final actionOnFailure = this.actionOnFailure;
+    return {
+      'HadoopJarStep': hadoopJarStep,
+      'Name': name,
+      if (actionOnFailure != null) 'ActionOnFailure': actionOnFailure.toValue(),
+    };
+  }
 }
 
 /// Combines the execution state and configuration of a step.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StepDetail {
   /// The description of the step status.
-  @_s.JsonKey(name: 'ExecutionStatusDetail')
   final StepExecutionStatusDetail executionStatusDetail;
 
   /// The step configuration.
-  @_s.JsonKey(name: 'StepConfig')
   final StepConfig stepConfig;
 
   StepDetail({
-    @_s.required this.executionStatusDetail,
-    @_s.required this.stepConfig,
+    required this.executionStatusDetail,
+    required this.stepConfig,
   });
-  factory StepDetail.fromJson(Map<String, dynamic> json) =>
-      _$StepDetailFromJson(json);
+
+  factory StepDetail.fromJson(Map<String, dynamic> json) {
+    return StepDetail(
+      executionStatusDetail: StepExecutionStatusDetail.fromJson(
+          json['ExecutionStatusDetail'] as Map<String, dynamic>),
+      stepConfig:
+          StepConfig.fromJson(json['StepConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionStatusDetail = this.executionStatusDetail;
+    final stepConfig = this.stepConfig;
+    return {
+      'ExecutionStatusDetail': executionStatusDetail,
+      'StepConfig': stepConfig,
+    };
+  }
 }
 
 enum StepExecutionState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('CONTINUE')
   $continue,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('INTERRUPTED')
   interrupted,
 }
 
+extension on StepExecutionState {
+  String toValue() {
+    switch (this) {
+      case StepExecutionState.pending:
+        return 'PENDING';
+      case StepExecutionState.running:
+        return 'RUNNING';
+      case StepExecutionState.$continue:
+        return 'CONTINUE';
+      case StepExecutionState.completed:
+        return 'COMPLETED';
+      case StepExecutionState.cancelled:
+        return 'CANCELLED';
+      case StepExecutionState.failed:
+        return 'FAILED';
+      case StepExecutionState.interrupted:
+        return 'INTERRUPTED';
+    }
+  }
+}
+
+extension on String {
+  StepExecutionState toStepExecutionState() {
+    switch (this) {
+      case 'PENDING':
+        return StepExecutionState.pending;
+      case 'RUNNING':
+        return StepExecutionState.running;
+      case 'CONTINUE':
+        return StepExecutionState.$continue;
+      case 'COMPLETED':
+        return StepExecutionState.completed;
+      case 'CANCELLED':
+        return StepExecutionState.cancelled;
+      case 'FAILED':
+        return StepExecutionState.failed;
+      case 'INTERRUPTED':
+        return StepExecutionState.interrupted;
+    }
+    throw Exception('$this is not known in enum StepExecutionState');
+  }
+}
+
 /// The execution state of a step.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StepExecutionStatusDetail {
   /// The creation date and time of the step.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The state of the step.
-  @_s.JsonKey(name: 'State')
   final StepExecutionState state;
 
   /// The completion date and time of the step.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// A description of the step's current state.
-  @_s.JsonKey(name: 'LastStateChangeReason')
-  final String lastStateChangeReason;
+  final String? lastStateChangeReason;
 
   /// The start date and time of the step.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDateTime')
-  final DateTime startDateTime;
+  final DateTime? startDateTime;
 
   StepExecutionStatusDetail({
-    @_s.required this.creationDateTime,
-    @_s.required this.state,
+    required this.creationDateTime,
+    required this.state,
     this.endDateTime,
     this.lastStateChangeReason,
     this.startDateTime,
   });
-  factory StepExecutionStatusDetail.fromJson(Map<String, dynamic> json) =>
-      _$StepExecutionStatusDetailFromJson(json);
+
+  factory StepExecutionStatusDetail.fromJson(Map<String, dynamic> json) {
+    return StepExecutionStatusDetail(
+      creationDateTime:
+          nonNullableTimeStampFromJson(json['CreationDateTime'] as Object),
+      state: (json['State'] as String).toStepExecutionState(),
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      lastStateChangeReason: json['LastStateChangeReason'] as String?,
+      startDateTime: timeStampFromJson(json['StartDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final state = this.state;
+    final endDateTime = this.endDateTime;
+    final lastStateChangeReason = this.lastStateChangeReason;
+    final startDateTime = this.startDateTime;
+    return {
+      'CreationDateTime': unixTimestampToJson(creationDateTime),
+      'State': state.toValue(),
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (lastStateChangeReason != null)
+        'LastStateChangeReason': lastStateChangeReason,
+      if (startDateTime != null)
+        'StartDateTime': unixTimestampToJson(startDateTime),
+    };
+  }
 }
 
 enum StepState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('CANCEL_PENDING')
   cancelPending,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('INTERRUPTED')
   interrupted,
 }
 
@@ -8130,62 +10317,99 @@ extension on StepState {
       case StepState.interrupted:
         return 'INTERRUPTED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StepState toStepState() {
+    switch (this) {
+      case 'PENDING':
+        return StepState.pending;
+      case 'CANCEL_PENDING':
+        return StepState.cancelPending;
+      case 'RUNNING':
+        return StepState.running;
+      case 'COMPLETED':
+        return StepState.completed;
+      case 'CANCELLED':
+        return StepState.cancelled;
+      case 'FAILED':
+        return StepState.failed;
+      case 'INTERRUPTED':
+        return StepState.interrupted;
+    }
+    throw Exception('$this is not known in enum StepState');
   }
 }
 
 /// The details of the step state change reason.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StepStateChangeReason {
   /// The programmable code for the state change reason. Note: Currently, the
   /// service provides no code for the state change.
-  @_s.JsonKey(name: 'Code')
-  final StepStateChangeReasonCode code;
+  final StepStateChangeReasonCode? code;
 
   /// The descriptive message for the state change reason.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   StepStateChangeReason({
     this.code,
     this.message,
   });
-  factory StepStateChangeReason.fromJson(Map<String, dynamic> json) =>
-      _$StepStateChangeReasonFromJson(json);
+
+  factory StepStateChangeReason.fromJson(Map<String, dynamic> json) {
+    return StepStateChangeReason(
+      code: (json['Code'] as String?)?.toStepStateChangeReasonCode(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 enum StepStateChangeReasonCode {
-  @_s.JsonValue('NONE')
   none,
 }
 
+extension on StepStateChangeReasonCode {
+  String toValue() {
+    switch (this) {
+      case StepStateChangeReasonCode.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  StepStateChangeReasonCode toStepStateChangeReasonCode() {
+    switch (this) {
+      case 'NONE':
+        return StepStateChangeReasonCode.none;
+    }
+    throw Exception('$this is not known in enum StepStateChangeReasonCode');
+  }
+}
+
 /// The execution status details of the cluster step.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StepStatus {
   /// The details for the step failure including reason, message, and log file
   /// path where the root cause was identified.
-  @_s.JsonKey(name: 'FailureDetails')
-  final FailureDetails failureDetails;
+  final FailureDetails? failureDetails;
 
   /// The execution state of the cluster step.
-  @_s.JsonKey(name: 'State')
-  final StepState state;
+  final StepState? state;
 
   /// The reason for the step execution status change.
-  @_s.JsonKey(name: 'StateChangeReason')
-  final StepStateChangeReason stateChangeReason;
+  final StepStateChangeReason? stateChangeReason;
 
   /// The timeline of the cluster step status over time.
-  @_s.JsonKey(name: 'Timeline')
-  final StepTimeline timeline;
+  final StepTimeline? timeline;
 
   StepStatus({
     this.failureDetails,
@@ -8193,39 +10417,57 @@ class StepStatus {
     this.stateChangeReason,
     this.timeline,
   });
-  factory StepStatus.fromJson(Map<String, dynamic> json) =>
-      _$StepStatusFromJson(json);
+
+  factory StepStatus.fromJson(Map<String, dynamic> json) {
+    return StepStatus(
+      failureDetails: json['FailureDetails'] != null
+          ? FailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.toStepState(),
+      stateChangeReason: json['StateChangeReason'] != null
+          ? StepStateChangeReason.fromJson(
+              json['StateChangeReason'] as Map<String, dynamic>)
+          : null,
+      timeline: json['Timeline'] != null
+          ? StepTimeline.fromJson(json['Timeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureDetails = this.failureDetails;
+    final state = this.state;
+    final stateChangeReason = this.stateChangeReason;
+    final timeline = this.timeline;
+    return {
+      if (failureDetails != null) 'FailureDetails': failureDetails,
+      if (state != null) 'State': state.toValue(),
+      if (stateChangeReason != null) 'StateChangeReason': stateChangeReason,
+      if (timeline != null) 'Timeline': timeline,
+    };
+  }
 }
 
 /// The summary of the cluster step.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StepSummary {
   /// The action to take when the cluster step fails. Possible values are
   /// TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE. TERMINATE_JOB_FLOW is
   /// available for backward compatibility. We recommend using TERMINATE_CLUSTER
   /// instead.
-  @_s.JsonKey(name: 'ActionOnFailure')
-  final ActionOnFailure actionOnFailure;
+  final ActionOnFailure? actionOnFailure;
 
   /// The Hadoop job configuration of the cluster step.
-  @_s.JsonKey(name: 'Config')
-  final HadoopStepConfig config;
+  final HadoopStepConfig? config;
 
   /// The identifier of the cluster step.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the cluster step.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current execution status details of the cluster step.
-  @_s.JsonKey(name: 'Status')
-  final StepStatus status;
+  final StepStatus? status;
 
   StepSummary({
     this.actionOnFailure,
@@ -8234,116 +10476,131 @@ class StepSummary {
     this.name,
     this.status,
   });
-  factory StepSummary.fromJson(Map<String, dynamic> json) =>
-      _$StepSummaryFromJson(json);
+
+  factory StepSummary.fromJson(Map<String, dynamic> json) {
+    return StepSummary(
+      actionOnFailure:
+          (json['ActionOnFailure'] as String?)?.toActionOnFailure(),
+      config: json['Config'] != null
+          ? HadoopStepConfig.fromJson(json['Config'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: json['Status'] != null
+          ? StepStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionOnFailure = this.actionOnFailure;
+    final config = this.config;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (actionOnFailure != null) 'ActionOnFailure': actionOnFailure.toValue(),
+      if (config != null) 'Config': config,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// The timeline of the cluster step lifecycle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StepTimeline {
   /// The date and time when the cluster step was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
+  final DateTime? creationDateTime;
 
   /// The date and time when the cluster step execution completed or failed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDateTime')
-  final DateTime endDateTime;
+  final DateTime? endDateTime;
 
   /// The date and time when the cluster step execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDateTime')
-  final DateTime startDateTime;
+  final DateTime? startDateTime;
 
   StepTimeline({
     this.creationDateTime,
     this.endDateTime,
     this.startDateTime,
   });
-  factory StepTimeline.fromJson(Map<String, dynamic> json) =>
-      _$StepTimelineFromJson(json);
+
+  factory StepTimeline.fromJson(Map<String, dynamic> json) {
+    return StepTimeline(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      endDateTime: timeStampFromJson(json['EndDateTime']),
+      startDateTime: timeStampFromJson(json['StartDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final endDateTime = this.endDateTime;
+    final startDateTime = this.startDateTime;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (endDateTime != null) 'EndDateTime': unixTimestampToJson(endDateTime),
+      if (startDateTime != null)
+        'StartDateTime': unixTimestampToJson(startDateTime),
+    };
+  }
 }
 
 /// Details for an Amazon EMR Studio including ID, creation time, name, and so
 /// on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Studio {
-  /// Specifies whether the Studio authenticates users using single sign-on (SSO)
-  /// or IAM.
-  @_s.JsonKey(name: 'AuthMode')
-  final AuthMode authMode;
+  /// Specifies whether the Amazon EMR Studio authenticates users using single
+  /// sign-on (SSO) or IAM.
+  final AuthMode? authMode;
 
   /// The time the Amazon EMR Studio was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
-  /// The default Amazon S3 location to back up Amazon EMR Studio Workspaces and
-  /// notebook files.
-  @_s.JsonKey(name: 'DefaultS3Location')
-  final String defaultS3Location;
+  /// The Amazon S3 location to back up Amazon EMR Studio Workspaces and notebook
+  /// files.
+  final String? defaultS3Location;
 
-  /// The detailed description of the EMR Studio.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  /// The detailed description of the Amazon EMR Studio.
+  final String? description;
 
   /// The ID of the Engine security group associated with the Amazon EMR Studio.
   /// The Engine security group allows inbound network traffic from resources in
   /// the Workspace security group.
-  @_s.JsonKey(name: 'EngineSecurityGroupId')
-  final String engineSecurityGroupId;
+  final String? engineSecurityGroupId;
 
-  /// The name of the EMR Studio.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  /// The name of the Amazon EMR Studio.
+  final String? name;
 
   /// The name of the IAM role assumed by the Amazon EMR Studio.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
-  /// The Amazon Resource Name (ARN) of the EMR Studio.
-  @_s.JsonKey(name: 'StudioArn')
-  final String studioArn;
+  /// The Amazon Resource Name (ARN) of the Amazon EMR Studio.
+  final String? studioArn;
 
-  /// The ID of the EMR Studio.
-  @_s.JsonKey(name: 'StudioId')
-  final String studioId;
+  /// The ID of the Amazon EMR Studio.
+  final String? studioId;
 
   /// The list of IDs of the subnets associated with the Amazon EMR Studio.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// A list of tags associated with the Amazon EMR Studio.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The unique access URL of the Amazon EMR Studio.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   /// The name of the IAM role assumed by users logged in to the Amazon EMR
   /// Studio.
-  @_s.JsonKey(name: 'UserRole')
-  final String userRole;
+  final String? userRole;
 
-  /// The ID of the VPC associated with the EMR Studio.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  /// The ID of the VPC associated with the Amazon EMR Studio.
+  final String? vpcId;
 
   /// The ID of the Workspace security group associated with the Amazon EMR
   /// Studio. The Workspace security group allows outbound network traffic to
   /// resources in the Engine security group and to the internet.
-  @_s.JsonKey(name: 'WorkspaceSecurityGroupId')
-  final String workspaceSecurityGroupId;
+  final String? workspaceSecurityGroupId;
 
   Studio({
     this.authMode,
@@ -8362,43 +10619,94 @@ class Studio {
     this.vpcId,
     this.workspaceSecurityGroupId,
   });
-  factory Studio.fromJson(Map<String, dynamic> json) => _$StudioFromJson(json);
+
+  factory Studio.fromJson(Map<String, dynamic> json) {
+    return Studio(
+      authMode: (json['AuthMode'] as String?)?.toAuthMode(),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      defaultS3Location: json['DefaultS3Location'] as String?,
+      description: json['Description'] as String?,
+      engineSecurityGroupId: json['EngineSecurityGroupId'] as String?,
+      name: json['Name'] as String?,
+      serviceRole: json['ServiceRole'] as String?,
+      studioArn: json['StudioArn'] as String?,
+      studioId: json['StudioId'] as String?,
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      url: json['Url'] as String?,
+      userRole: json['UserRole'] as String?,
+      vpcId: json['VpcId'] as String?,
+      workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authMode = this.authMode;
+    final creationTime = this.creationTime;
+    final defaultS3Location = this.defaultS3Location;
+    final description = this.description;
+    final engineSecurityGroupId = this.engineSecurityGroupId;
+    final name = this.name;
+    final serviceRole = this.serviceRole;
+    final studioArn = this.studioArn;
+    final studioId = this.studioId;
+    final subnetIds = this.subnetIds;
+    final tags = this.tags;
+    final url = this.url;
+    final userRole = this.userRole;
+    final vpcId = this.vpcId;
+    final workspaceSecurityGroupId = this.workspaceSecurityGroupId;
+    return {
+      if (authMode != null) 'AuthMode': authMode.toValue(),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (defaultS3Location != null) 'DefaultS3Location': defaultS3Location,
+      if (description != null) 'Description': description,
+      if (engineSecurityGroupId != null)
+        'EngineSecurityGroupId': engineSecurityGroupId,
+      if (name != null) 'Name': name,
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (studioArn != null) 'StudioArn': studioArn,
+      if (studioId != null) 'StudioId': studioId,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+      if (tags != null) 'Tags': tags,
+      if (url != null) 'Url': url,
+      if (userRole != null) 'UserRole': userRole,
+      if (vpcId != null) 'VpcId': vpcId,
+      if (workspaceSecurityGroupId != null)
+        'WorkspaceSecurityGroupId': workspaceSecurityGroupId,
+    };
+  }
 }
 
 /// Details for an Amazon EMR Studio, including ID, Name, VPC, and Description.
 /// The details do not include subnets, IAM roles, security groups, or tags
 /// associated with the Studio.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StudioSummary {
   /// The time when the Amazon EMR Studio was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
-  /// The detailed description of the EMR Studio.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  /// The detailed description of the Amazon EMR Studio.
+  final String? description;
 
   /// The name of the Amazon EMR Studio.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the Amazon EMR Studio.
-  @_s.JsonKey(name: 'StudioId')
-  final String studioId;
+  final String? studioId;
 
   /// The unique access URL of the Amazon EMR Studio.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   /// The ID of the Virtual Private Cloud (Amazon VPC) associated with the Amazon
   /// EMR Studio.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   StudioSummary({
     this.creationTime,
@@ -8408,32 +10716,70 @@ class StudioSummary {
     this.url,
     this.vpcId,
   });
-  factory StudioSummary.fromJson(Map<String, dynamic> json) =>
-      _$StudioSummaryFromJson(json);
+
+  factory StudioSummary.fromJson(Map<String, dynamic> json) {
+    return StudioSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      studioId: json['StudioId'] as String?,
+      url: json['Url'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final name = this.name;
+    final studioId = this.studioId;
+    final url = this.url;
+    final vpcId = this.vpcId;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (studioId != null) 'StudioId': studioId,
+      if (url != null) 'Url': url,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
 }
 
-/// The list of supported product configurations which allow user-supplied
+/// The list of supported product configurations that allow user-supplied
 /// arguments. EMR accepts these arguments and forwards them to the
 /// corresponding installation script as bootstrap action arguments.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SupportedProductConfig {
   /// The list of user-supplied arguments.
-  @_s.JsonKey(name: 'Args')
-  final List<String> args;
+  final List<String>? args;
 
   /// The name of the product configuration.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   SupportedProductConfig({
     this.args,
     this.name,
   });
-  Map<String, dynamic> toJson() => _$SupportedProductConfigToJson(this);
+
+  factory SupportedProductConfig.fromJson(Map<String, dynamic> json) {
+    return SupportedProductConfig(
+      args: (json['Args'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final args = this.args;
+    final name = this.name;
+    return {
+      if (args != null) 'Args': args,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// A key-value pair containing user-defined metadata that you can associate
@@ -8442,137 +10788,246 @@ class SupportedProductConfig {
 /// allocation costs. For more information, see <a
 /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
 /// Clusters</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A user-defined key, which is the minimum required information for a valid
   /// tag. For more information, see <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
   /// </a>.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// A user-defined value, which is optional in a tag. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html">Tag
   /// Clusters</a>.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum Unit {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('SECONDS')
   seconds,
-  @_s.JsonValue('MICRO_SECONDS')
   microSeconds,
-  @_s.JsonValue('MILLI_SECONDS')
   milliSeconds,
-  @_s.JsonValue('BYTES')
   bytes,
-  @_s.JsonValue('KILO_BYTES')
   kiloBytes,
-  @_s.JsonValue('MEGA_BYTES')
   megaBytes,
-  @_s.JsonValue('GIGA_BYTES')
   gigaBytes,
-  @_s.JsonValue('TERA_BYTES')
   teraBytes,
-  @_s.JsonValue('BITS')
   bits,
-  @_s.JsonValue('KILO_BITS')
   kiloBits,
-  @_s.JsonValue('MEGA_BITS')
   megaBits,
-  @_s.JsonValue('GIGA_BITS')
   gigaBits,
-  @_s.JsonValue('TERA_BITS')
   teraBits,
-  @_s.JsonValue('PERCENT')
   percent,
-  @_s.JsonValue('COUNT')
   count,
-  @_s.JsonValue('BYTES_PER_SECOND')
   bytesPerSecond,
-  @_s.JsonValue('KILO_BYTES_PER_SECOND')
   kiloBytesPerSecond,
-  @_s.JsonValue('MEGA_BYTES_PER_SECOND')
   megaBytesPerSecond,
-  @_s.JsonValue('GIGA_BYTES_PER_SECOND')
   gigaBytesPerSecond,
-  @_s.JsonValue('TERA_BYTES_PER_SECOND')
   teraBytesPerSecond,
-  @_s.JsonValue('BITS_PER_SECOND')
   bitsPerSecond,
-  @_s.JsonValue('KILO_BITS_PER_SECOND')
   kiloBitsPerSecond,
-  @_s.JsonValue('MEGA_BITS_PER_SECOND')
   megaBitsPerSecond,
-  @_s.JsonValue('GIGA_BITS_PER_SECOND')
   gigaBitsPerSecond,
-  @_s.JsonValue('TERA_BITS_PER_SECOND')
   teraBitsPerSecond,
-  @_s.JsonValue('COUNT_PER_SECOND')
   countPerSecond,
+}
+
+extension on Unit {
+  String toValue() {
+    switch (this) {
+      case Unit.none:
+        return 'NONE';
+      case Unit.seconds:
+        return 'SECONDS';
+      case Unit.microSeconds:
+        return 'MICRO_SECONDS';
+      case Unit.milliSeconds:
+        return 'MILLI_SECONDS';
+      case Unit.bytes:
+        return 'BYTES';
+      case Unit.kiloBytes:
+        return 'KILO_BYTES';
+      case Unit.megaBytes:
+        return 'MEGA_BYTES';
+      case Unit.gigaBytes:
+        return 'GIGA_BYTES';
+      case Unit.teraBytes:
+        return 'TERA_BYTES';
+      case Unit.bits:
+        return 'BITS';
+      case Unit.kiloBits:
+        return 'KILO_BITS';
+      case Unit.megaBits:
+        return 'MEGA_BITS';
+      case Unit.gigaBits:
+        return 'GIGA_BITS';
+      case Unit.teraBits:
+        return 'TERA_BITS';
+      case Unit.percent:
+        return 'PERCENT';
+      case Unit.count:
+        return 'COUNT';
+      case Unit.bytesPerSecond:
+        return 'BYTES_PER_SECOND';
+      case Unit.kiloBytesPerSecond:
+        return 'KILO_BYTES_PER_SECOND';
+      case Unit.megaBytesPerSecond:
+        return 'MEGA_BYTES_PER_SECOND';
+      case Unit.gigaBytesPerSecond:
+        return 'GIGA_BYTES_PER_SECOND';
+      case Unit.teraBytesPerSecond:
+        return 'TERA_BYTES_PER_SECOND';
+      case Unit.bitsPerSecond:
+        return 'BITS_PER_SECOND';
+      case Unit.kiloBitsPerSecond:
+        return 'KILO_BITS_PER_SECOND';
+      case Unit.megaBitsPerSecond:
+        return 'MEGA_BITS_PER_SECOND';
+      case Unit.gigaBitsPerSecond:
+        return 'GIGA_BITS_PER_SECOND';
+      case Unit.teraBitsPerSecond:
+        return 'TERA_BITS_PER_SECOND';
+      case Unit.countPerSecond:
+        return 'COUNT_PER_SECOND';
+    }
+  }
+}
+
+extension on String {
+  Unit toUnit() {
+    switch (this) {
+      case 'NONE':
+        return Unit.none;
+      case 'SECONDS':
+        return Unit.seconds;
+      case 'MICRO_SECONDS':
+        return Unit.microSeconds;
+      case 'MILLI_SECONDS':
+        return Unit.milliSeconds;
+      case 'BYTES':
+        return Unit.bytes;
+      case 'KILO_BYTES':
+        return Unit.kiloBytes;
+      case 'MEGA_BYTES':
+        return Unit.megaBytes;
+      case 'GIGA_BYTES':
+        return Unit.gigaBytes;
+      case 'TERA_BYTES':
+        return Unit.teraBytes;
+      case 'BITS':
+        return Unit.bits;
+      case 'KILO_BITS':
+        return Unit.kiloBits;
+      case 'MEGA_BITS':
+        return Unit.megaBits;
+      case 'GIGA_BITS':
+        return Unit.gigaBits;
+      case 'TERA_BITS':
+        return Unit.teraBits;
+      case 'PERCENT':
+        return Unit.percent;
+      case 'COUNT':
+        return Unit.count;
+      case 'BYTES_PER_SECOND':
+        return Unit.bytesPerSecond;
+      case 'KILO_BYTES_PER_SECOND':
+        return Unit.kiloBytesPerSecond;
+      case 'MEGA_BYTES_PER_SECOND':
+        return Unit.megaBytesPerSecond;
+      case 'GIGA_BYTES_PER_SECOND':
+        return Unit.gigaBytesPerSecond;
+      case 'TERA_BYTES_PER_SECOND':
+        return Unit.teraBytesPerSecond;
+      case 'BITS_PER_SECOND':
+        return Unit.bitsPerSecond;
+      case 'KILO_BITS_PER_SECOND':
+        return Unit.kiloBitsPerSecond;
+      case 'MEGA_BITS_PER_SECOND':
+        return Unit.megaBitsPerSecond;
+      case 'GIGA_BITS_PER_SECOND':
+        return Unit.gigaBitsPerSecond;
+      case 'TERA_BITS_PER_SECOND':
+        return Unit.teraBitsPerSecond;
+      case 'COUNT_PER_SECOND':
+        return Unit.countPerSecond;
+    }
+    throw Exception('$this is not known in enum Unit');
+  }
 }
 
 /// EBS volume specifications such as volume type, IOPS, and size (GiB) that
 /// will be requested for the EBS volume attached to an EC2 instance in the
 /// cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VolumeSpecification {
   /// The volume size, in gibibytes (GiB). This can be a number from 1 - 1024. If
   /// the volume type is EBS-optimized, the minimum value is 10.
-  @_s.JsonKey(name: 'SizeInGB')
   final int sizeInGB;
 
   /// The volume type. Volume types supported are gp2, io1, standard.
-  @_s.JsonKey(name: 'VolumeType')
   final String volumeType;
 
   /// The number of I/O operations per second (IOPS) that the volume supports.
-  @_s.JsonKey(name: 'Iops')
-  final int iops;
+  final int? iops;
 
   VolumeSpecification({
-    @_s.required this.sizeInGB,
-    @_s.required this.volumeType,
+    required this.sizeInGB,
+    required this.volumeType,
     this.iops,
   });
-  factory VolumeSpecification.fromJson(Map<String, dynamic> json) =>
-      _$VolumeSpecificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VolumeSpecificationToJson(this);
+  factory VolumeSpecification.fromJson(Map<String, dynamic> json) {
+    return VolumeSpecification(
+      sizeInGB: json['SizeInGB'] as int,
+      volumeType: json['VolumeType'] as String,
+      iops: json['Iops'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sizeInGB = this.sizeInGB;
+    final volumeType = this.volumeType;
+    final iops = this.iops;
+    return {
+      'SizeInGB': sizeInGB,
+      'VolumeType': volumeType,
+      if (iops != null) 'Iops': iops,
+    };
+  }
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 

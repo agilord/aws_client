@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2015-05-28.g.dart';
 
 /// AWS IoT provides secure, bi-directional communication between
 /// Internet-connected devices (such as sensors, actuators, embedded devices, or
@@ -36,10 +29,10 @@ part '2015-05-28.g.dart';
 class IoT {
   final _s.RestJsonProtocol _protocol;
   IoT({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -72,8 +65,8 @@ class IoT {
   /// Parameter [setAsActive] :
   /// Specifies whether the certificate is active.
   Future<void> acceptCertificateTransfer({
-    @_s.required String certificateId,
-    bool setAsActive,
+    required String certificateId,
+    bool? setAsActive,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -81,12 +74,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -121,10 +108,10 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing to be added to the billing group.
   Future<void> addThingToBillingGroup({
-    String billingGroupArn,
-    String billingGroupName,
-    String thingArn,
-    String thingName,
+    String? billingGroupArn,
+    String? billingGroupName,
+    String? thingArn,
+    String? thingName,
   }) async {
     _s.validateStringLength(
       'billingGroupName',
@@ -132,21 +119,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
@@ -160,7 +137,6 @@ class IoT {
       requestUri: '/billing-groups/addThingToBillingGroup',
       exceptionFnMap: _exceptionFns,
     );
-    return AddThingToBillingGroupResponse.fromJson(response);
   }
 
   /// Adds a thing to a thing group.
@@ -188,11 +164,11 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing to add to a group.
   Future<void> addThingToThingGroup({
-    bool overrideDynamicGroups,
-    String thingArn,
-    String thingGroupArn,
-    String thingGroupName,
-    String thingName,
+    bool? overrideDynamicGroups,
+    String? thingArn,
+    String? thingGroupArn,
+    String? thingGroupName,
+    String? thingName,
   }) async {
     _s.validateStringLength(
       'thingGroupName',
@@ -200,21 +176,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)
@@ -230,7 +196,6 @@ class IoT {
       requestUri: '/thing-groups/addThingToThingGroup',
       exceptionFnMap: _exceptionFns,
     );
-    return AddThingToThingGroupResponse.fromJson(response);
   }
 
   /// Associates a group with a continuous job. The following criteria must be
@@ -277,10 +242,10 @@ class IoT {
   /// The <code>namespaceId</code> feature is in public preview.
   /// </note>
   Future<AssociateTargetsWithJobResponse> associateTargetsWithJob({
-    @_s.required String jobId,
-    @_s.required List<String> targets,
-    String comment,
-    String namespaceId,
+    required String jobId,
+    required List<String> targets,
+    String? comment,
+    String? namespaceId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -290,12 +255,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
     _s.validateStringLength(
       'comment',
@@ -303,21 +262,11 @@ class IoT {
       0,
       2028,
     );
-    _s.validateStringPattern(
-      'comment',
-      comment,
-      r'''[^\p{C}]+''',
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -352,10 +301,11 @@ class IoT {
   /// Parameter [target] :
   /// The <a
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/security-iam.html">identity</a>
-  /// to which the policy is attached.
+  /// to which the policy is attached. For example, a thing group or a
+  /// certificate.
   Future<void> attachPolicy({
-    @_s.required String policyName,
-    @_s.required String target,
+    required String policyName,
+    required String target,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -363,12 +313,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
@@ -405,8 +349,8 @@ class IoT {
   /// CreateCertificate operation) or an Amazon Cognito ID.
   @Deprecated('Deprecated')
   Future<void> attachPrincipalPolicy({
-    @_s.required String policyName,
-    @_s.required String principal,
+    required String policyName,
+    required String principal,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -416,15 +360,10 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
-    final headers = <String, String>{};
-    principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
+    final headers = <String, String>{
+      'x-amzn-iot-principal': principal.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -452,8 +391,8 @@ class IoT {
   /// The ARN of the target (thing group) to which the security profile is
   /// attached.
   Future<void> attachSecurityProfile({
-    @_s.required String securityProfileName,
-    @_s.required String securityProfileTargetArn,
+    required String securityProfileName,
+    required String securityProfileTargetArn,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
     _s.validateStringLength(
@@ -463,17 +402,10 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         securityProfileTargetArn, 'securityProfileTargetArn');
     final $query = <String, List<String>>{
-      if (securityProfileTargetArn != null)
-        'securityProfileTargetArn': [securityProfileTargetArn],
+      'securityProfileTargetArn': [securityProfileTargetArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -483,7 +415,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return AttachSecurityProfileResponse.fromJson(response);
   }
 
   /// Attaches the specified principal to the specified thing. A principal can
@@ -504,8 +435,8 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing.
   Future<void> attachThingPrincipal({
-    @_s.required String principal,
-    @_s.required String thingName,
+    required String principal,
+    required String thingName,
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(thingName, 'thingName');
@@ -516,14 +447,9 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
-    final headers = <String, String>{};
-    principal?.let((v) => headers['x-amzn-principal'] = v.toString());
+    final headers = <String, String>{
+      'x-amzn-principal': principal.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -531,7 +457,6 @@ class IoT {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return AttachThingPrincipalResponse.fromJson(response);
   }
 
   /// Cancels a mitigation action task that is in progress. If the task is not
@@ -545,7 +470,7 @@ class IoT {
   /// Parameter [taskId] :
   /// The unique identifier for the task that you want to cancel.
   Future<void> cancelAuditMitigationActionsTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -555,12 +480,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -568,7 +487,6 @@ class IoT {
           '/audit/mitigationactions/tasks/${Uri.encodeComponent(taskId)}/cancel',
       exceptionFnMap: _exceptionFns,
     );
-    return CancelAuditMitigationActionsTaskResponse.fromJson(response);
   }
 
   /// Cancels an audit that is in progress. The audit can be either scheduled or
@@ -584,7 +502,7 @@ class IoT {
   /// The ID of the audit you want to cancel. You can only cancel an audit that
   /// is "IN_PROGRESS".
   Future<void> cancelAuditTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -594,19 +512,12 @@ class IoT {
       40,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9\-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
       requestUri: '/audit/tasks/${Uri.encodeComponent(taskId)}/cancel',
       exceptionFnMap: _exceptionFns,
     );
-    return CancelAuditTaskResponse.fromJson(response);
   }
 
   /// Cancels a pending transfer for the specified certificate.
@@ -633,7 +544,7 @@ class IoT {
   /// The ID of the certificate. (The last part of the certificate ARN contains
   /// the certificate ID.)
   Future<void> cancelCertificateTransfer({
-    @_s.required String certificateId,
+    required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -641,12 +552,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     await _protocol.send(
@@ -668,7 +573,7 @@ class IoT {
   /// Parameter [taskId] :
   /// The unique identifier of the task.
   Future<void> cancelDetectMitigationActionsTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -678,12 +583,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'PUT',
@@ -691,7 +590,6 @@ class IoT {
           '/detect/mitigationactions/tasks/${Uri.encodeComponent(taskId)}/cancel',
       exceptionFnMap: _exceptionFns,
     );
-    return CancelDetectMitigationActionsTaskResponse.fromJson(response);
   }
 
   /// Cancels a job.
@@ -720,10 +618,10 @@ class IoT {
   /// Parameter [reasonCode] :
   /// (Optional)A reason code string that explains why the job was canceled.
   Future<CancelJobResponse> cancelJob({
-    @_s.required String jobId,
-    String comment,
-    bool force,
-    String reasonCode,
+    required String jobId,
+    String? comment,
+    bool? force,
+    String? reasonCode,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -733,33 +631,17 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'comment',
       comment,
       0,
       2028,
     );
-    _s.validateStringPattern(
-      'comment',
-      comment,
-      r'''[^\p{C}]+''',
-    );
     _s.validateStringLength(
       'reasonCode',
       reasonCode,
       0,
       128,
-    );
-    _s.validateStringPattern(
-      'reasonCode',
-      reasonCode,
-      r'''[\p{Upper}\p{Digit}_]+''',
     );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
@@ -819,11 +701,11 @@ class IoT {
   /// execution. If not specified, the statusDetails are unchanged. You can
   /// specify at most 10 name/value pairs.
   Future<void> cancelJobExecution({
-    @_s.required String jobId,
-    @_s.required String thingName,
-    int expectedVersion,
-    bool force,
-    Map<String, String> statusDetails,
+    required String jobId,
+    required String thingName,
+    int? expectedVersion,
+    bool? force,
+    Map<String, String>? statusDetails,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -833,24 +715,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -885,7 +755,6 @@ class IoT {
       requestUri: '/default-authorizer',
       exceptionFnMap: _exceptionFns,
     );
-    return ClearDefaultAuthorizerResponse.fromJson(response);
   }
 
   /// Confirms a topic rule destination. When you create a rule requiring a
@@ -904,7 +773,7 @@ class IoT {
   /// The token used to confirm ownership or access to the topic rule
   /// confirmation URL.
   Future<void> confirmTopicRuleDestination({
-    @_s.required String confirmationToken,
+    required String confirmationToken,
   }) async {
     ArgumentError.checkNotNull(confirmationToken, 'confirmationToken');
     _s.validateStringLength(
@@ -921,7 +790,6 @@ class IoT {
           '/confirmdestination/${confirmationToken.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
-    return ConfirmTopicRuleDestinationResponse.fromJson(response);
   }
 
   /// Creates a Device Defender audit suppression.
@@ -944,44 +812,31 @@ class IoT {
   /// Parameter [suppressIndefinitely] :
   /// Indicates whether a suppression should exist indefinitely or not.
   Future<void> createAuditSuppression({
-    @_s.required String checkName,
-    @_s.required String clientRequestToken,
-    @_s.required ResourceIdentifier resourceIdentifier,
-    String description,
-    DateTime expirationDate,
-    bool suppressIndefinitely,
+    required String checkName,
+    required ResourceIdentifier resourceIdentifier,
+    String? clientRequestToken,
+    String? description,
+    DateTime? expirationDate,
+    bool? suppressIndefinitely,
   }) async {
     ArgumentError.checkNotNull(checkName, 'checkName');
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       64,
-      isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{Graph}\x20]*''',
-    );
     final $payload = <String, dynamic>{
       'checkName': checkName,
-      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'resourceIdentifier': resourceIdentifier,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (expirationDate != null)
         'expirationDate': unixTimestampToJson(expirationDate),
@@ -994,7 +849,6 @@ class IoT {
       requestUri: '/audit/suppressions/create',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateAuditSuppressionResponse.fromJson(response);
   }
 
   /// Creates an authorizer.
@@ -1039,13 +893,13 @@ class IoT {
   /// The public keys used to verify the digital signature returned by your
   /// custom authentication service.
   Future<CreateAuthorizerResponse> createAuthorizer({
-    @_s.required String authorizerFunctionArn,
-    @_s.required String authorizerName,
-    bool signingDisabled,
-    AuthorizerStatus status,
-    List<Tag> tags,
-    String tokenKeyName,
-    Map<String, String> tokenSigningPublicKeys,
+    required String authorizerFunctionArn,
+    required String authorizerName,
+    bool? signingDisabled,
+    AuthorizerStatus? status,
+    List<Tag>? tags,
+    String? tokenKeyName,
+    Map<String, String>? tokenSigningPublicKeys,
   }) async {
     ArgumentError.checkNotNull(authorizerFunctionArn, 'authorizerFunctionArn');
     _s.validateStringLength(
@@ -1063,22 +917,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'tokenKeyName',
       tokenKeyName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'tokenKeyName',
-      tokenKeyName,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
@@ -1114,9 +957,9 @@ class IoT {
   /// Parameter [tags] :
   /// Metadata which can be used to manage the billing group.
   Future<CreateBillingGroupResponse> createBillingGroup({
-    @_s.required String billingGroupName,
-    BillingGroupProperties billingGroupProperties,
-    List<Tag> tags,
+    required String billingGroupName,
+    BillingGroupProperties? billingGroupProperties,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
     _s.validateStringLength(
@@ -1124,12 +967,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1204,8 +1041,8 @@ class IoT {
   /// Parameter [setAsActive] :
   /// Specifies whether the certificate is active.
   Future<CreateCertificateFromCsrResponse> createCertificateFromCsr({
-    @_s.required String certificateSigningRequest,
-    bool setAsActive,
+    required String certificateSigningRequest,
+    bool? setAsActive,
   }) async {
     ArgumentError.checkNotNull(
         certificateSigningRequest, 'certificateSigningRequest');
@@ -1241,12 +1078,6 @@ class IoT {
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
   ///
-  /// Parameter [clientRequestToken] :
-  /// Each custom metric must have a unique client request token. If you try to
-  /// create a new custom metric that already exists with a different token, an
-  /// exception occurs. If you omit this value, AWS SDKs will automatically
-  /// generate a unique client request.
-  ///
   /// Parameter [metricName] :
   /// The name of the custom metric. This will be used in the metric report
   /// submitted from the device/thing. Shouldn't begin with <code>aws:</code>.
@@ -1257,6 +1088,12 @@ class IoT {
   /// <code>ip-address-list</code>, <code>number-list</code>, and
   /// <code>number</code>.
   ///
+  /// Parameter [clientRequestToken] :
+  /// Each custom metric must have a unique client request token. If you try to
+  /// create a new custom metric that already exists with a different token, an
+  /// exception occurs. If you omit this value, AWS SDKs will automatically
+  /// generate a unique client request.
+  ///
   /// Parameter [displayName] :
   /// Field represents a friendly name in the console for the custom metric; it
   /// doesn't have to be unique. Don't use this name as the metric identifier in
@@ -1265,26 +1102,12 @@ class IoT {
   /// Parameter [tags] :
   /// Metadata that can be used to manage the custom metric.
   Future<CreateCustomMetricResponse> createCustomMetric({
-    @_s.required String clientRequestToken,
-    @_s.required String metricName,
-    @_s.required CustomMetricType metricType,
-    String displayName,
-    List<Tag> tags,
+    required String metricName,
+    required CustomMetricType metricType,
+    String? clientRequestToken,
+    String? displayName,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
       'metricName',
@@ -1293,27 +1116,22 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricType, 'metricType');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
     _s.validateStringLength(
       'displayName',
       displayName,
       0,
       128,
     );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''[\p{Graph}\x20]*''',
-    );
     final $payload = <String, dynamic>{
+      'metricType': metricType.toValue(),
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
-      'metricType': metricType?.toValue() ?? '',
       if (displayName != null) 'displayName': displayName,
       if (tags != null) 'tags': tags,
     };
@@ -1338,12 +1156,6 @@ class IoT {
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [ThrottlingException].
   ///
-  /// Parameter [clientRequestToken] :
-  /// Each dimension must have a unique client request token. If you try to
-  /// create a new dimension with the same token as a dimension that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
-  ///
   /// Parameter [name] :
   /// A unique identifier for the dimension. Choose something that describes the
   /// type and value to make it easy to remember what it does.
@@ -1357,29 +1169,21 @@ class IoT {
   /// Specifies the type of dimension. Supported types:
   /// <code>TOPIC_FILTER.</code>
   ///
+  /// Parameter [clientRequestToken] :
+  /// Each dimension must have a unique client request token. If you try to
+  /// create a new dimension with the same token as a dimension that already
+  /// exists, an exception occurs. If you omit this value, AWS SDKs will
+  /// automatically generate a unique client request.
+  ///
   /// Parameter [tags] :
   /// Metadata that can be used to manage the dimension.
   Future<CreateDimensionResponse> createDimension({
-    @_s.required String clientRequestToken,
-    @_s.required String name,
-    @_s.required List<String> stringValues,
-    @_s.required DimensionType type,
-    List<Tag> tags,
+    required String name,
+    required List<String> stringValues,
+    required DimensionType type,
+    String? clientRequestToken,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -1388,18 +1192,18 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
     ArgumentError.checkNotNull(type, 'type');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'stringValues': stringValues,
-      'type': type?.toValue() ?? '',
+      'type': type.toValue(),
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1412,10 +1216,6 @@ class IoT {
   }
 
   /// Creates a domain configuration.
-  /// <note>
-  /// The domain configuration feature is in public preview and is subject to
-  /// change.
-  /// </note>
   ///
   /// May throw [LimitExceededException].
   /// May throw [CertificateValidationException].
@@ -1464,13 +1264,13 @@ class IoT {
   /// name ownership. This certificate must be signed by a public certificate
   /// authority. This value is not required for AWS-managed domains.
   Future<CreateDomainConfigurationResponse> createDomainConfiguration({
-    @_s.required String domainConfigurationName,
-    AuthorizerConfig authorizerConfig,
-    String domainName,
-    List<String> serverCertificateArns,
-    ServiceType serviceType,
-    List<Tag> tags,
-    String validationCertificateArn,
+    required String domainConfigurationName,
+    AuthorizerConfig? authorizerConfig,
+    String? domainName,
+    List<String>? serverCertificateArns,
+    ServiceType? serviceType,
+    List<Tag>? tags,
+    String? validationCertificateArn,
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
@@ -1479,12 +1279,6 @@ class IoT {
       domainConfigurationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1498,11 +1292,6 @@ class IoT {
       validationCertificateArn,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'validationCertificateArn',
-      validationCertificateArn,
-      r'''arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\d{1}:\d{12}:certificate/[a-zA-Z0-9/-]+''',
     );
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
@@ -1563,12 +1352,12 @@ class IoT {
   /// Parameter [thingGroupProperties] :
   /// The dynamic thing group properties.
   Future<CreateDynamicThingGroupResponse> createDynamicThingGroup({
-    @_s.required String queryString,
-    @_s.required String thingGroupName,
-    String indexName,
-    String queryVersion,
-    List<Tag> tags,
-    ThingGroupProperties thingGroupProperties,
+    required String queryString,
+    required String thingGroupName,
+    String? indexName,
+    String? queryVersion,
+    List<Tag>? tags,
+    ThingGroupProperties? thingGroupProperties,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -1586,22 +1375,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'indexName',
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
@@ -1645,7 +1423,12 @@ class IoT {
   /// A short text description of the job.
   ///
   /// Parameter [document] :
-  /// The job document.
+  /// The job document. Required if you don't specify a value for
+  /// <code>documentSource</code>.
+  ///
+  /// Parameter [documentSource] :
+  /// An S3 link to the job document. Required if you don't specify a value for
+  /// <code>document</code>.
   /// <note>
   /// If the job document resides in an S3 bucket, you must use a placeholder
   /// link when specifying the document.
@@ -1658,11 +1441,11 @@ class IoT {
   /// the bucket to which you are linking.
   /// </note>
   ///
-  /// Parameter [documentSource] :
-  /// An S3 link to the job document.
-  ///
   /// Parameter [jobExecutionsRolloutConfig] :
   /// Allows you to create a staged rollout of the job.
+  ///
+  /// Parameter [jobTemplateArn] :
+  /// The ARN of the job template used to create the job.
   ///
   /// Parameter [namespaceId] :
   /// The namespace used to indicate that a job is a customer-managed job.
@@ -1697,18 +1480,19 @@ class IoT {
   /// another terminal state before the time expires, it will be automatically
   /// set to <code>TIMED_OUT</code>.
   Future<CreateJobResponse> createJob({
-    @_s.required String jobId,
-    @_s.required List<String> targets,
-    AbortConfig abortConfig,
-    String description,
-    String document,
-    String documentSource,
-    JobExecutionsRolloutConfig jobExecutionsRolloutConfig,
-    String namespaceId,
-    PresignedUrlConfig presignedUrlConfig,
-    List<Tag> tags,
-    TargetSelection targetSelection,
-    TimeoutConfig timeoutConfig,
+    required String jobId,
+    required List<String> targets,
+    AbortConfig? abortConfig,
+    String? description,
+    String? document,
+    String? documentSource,
+    JobExecutionsRolloutConfig? jobExecutionsRolloutConfig,
+    String? jobTemplateArn,
+    String? namespaceId,
+    PresignedUrlConfig? presignedUrlConfig,
+    List<Tag>? tags,
+    TargetSelection? targetSelection,
+    TimeoutConfig? timeoutConfig,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1718,23 +1502,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
     );
     _s.validateStringLength(
       'document',
@@ -1749,15 +1522,16 @@ class IoT {
       1350,
     );
     _s.validateStringLength(
+      'jobTemplateArn',
+      jobTemplateArn,
+      1,
+      1600,
+    );
+    _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $payload = <String, dynamic>{
       'targets': targets,
@@ -1767,6 +1541,7 @@ class IoT {
       if (documentSource != null) 'documentSource': documentSource,
       if (jobExecutionsRolloutConfig != null)
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (jobTemplateArn != null) 'jobTemplateArn': jobTemplateArn,
       if (namespaceId != null) 'namespaceId': namespaceId,
       if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
       if (tags != null) 'tags': tags,
@@ -1780,6 +1555,107 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return CreateJobResponse.fromJson(response);
+  }
+
+  /// Creates a job template.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ConflictException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [description] :
+  /// A description of the job document.
+  ///
+  /// Parameter [jobTemplateId] :
+  /// A unique identifier for the job template. We recommend using a UUID.
+  /// Alpha-numeric characters, "-", and "_" are valid for use here.
+  ///
+  /// Parameter [document] :
+  /// The job document. Required if you don't specify a value for
+  /// <code>documentSource</code>.
+  ///
+  /// Parameter [documentSource] :
+  /// An S3 link to the job document to use in the template. Required if you
+  /// don't specify a value for <code>document</code>.
+  /// <note>
+  /// If the job document resides in an S3 bucket, you must use a placeholder
+  /// link when specifying the document.
+  ///
+  /// The placeholder link is of the following form:
+  ///
+  /// <code>${aws:iot:s3-presigned-url:https://s3.amazonaws.com/<i>bucket</i>/<i>key</i>}</code>
+  ///
+  /// where <i>bucket</i> is your bucket name and <i>key</i> is the object in
+  /// the bucket to which you are linking.
+  /// </note>
+  ///
+  /// Parameter [jobArn] :
+  /// The ARN of the job to use as the basis for the job template.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the job template.
+  Future<CreateJobTemplateResponse> createJobTemplate({
+    required String description,
+    required String jobTemplateId,
+    AbortConfig? abortConfig,
+    String? document,
+    String? documentSource,
+    String? jobArn,
+    JobExecutionsRolloutConfig? jobExecutionsRolloutConfig,
+    PresignedUrlConfig? presignedUrlConfig,
+    List<Tag>? tags,
+    TimeoutConfig? timeoutConfig,
+  }) async {
+    ArgumentError.checkNotNull(description, 'description');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2028,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(jobTemplateId, 'jobTemplateId');
+    _s.validateStringLength(
+      'jobTemplateId',
+      jobTemplateId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'document',
+      document,
+      0,
+      32768,
+    );
+    _s.validateStringLength(
+      'documentSource',
+      documentSource,
+      1,
+      1350,
+    );
+    final $payload = <String, dynamic>{
+      'description': description,
+      if (abortConfig != null) 'abortConfig': abortConfig,
+      if (document != null) 'document': document,
+      if (documentSource != null) 'documentSource': documentSource,
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobExecutionsRolloutConfig != null)
+        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
+      if (tags != null) 'tags': tags,
+      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/job-templates/${Uri.encodeComponent(jobTemplateId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateJobTemplateResponse.fromJson(response);
   }
 
   /// Creates a 2048-bit RSA key pair and issues an X.509 certificate using the
@@ -1800,7 +1676,7 @@ class IoT {
   /// Parameter [setAsActive] :
   /// Specifies whether the certificate is active.
   Future<CreateKeysAndCertificateResponse> createKeysAndCertificate({
-    bool setAsActive,
+    bool? setAsActive,
   }) async {
     final $query = <String, List<String>>{
       if (setAsActive != null) 'setAsActive': [setAsActive.toString()],
@@ -1840,10 +1716,10 @@ class IoT {
   /// Parameter [tags] :
   /// Metadata that can be used to manage the mitigation action.
   Future<CreateMitigationActionResponse> createMitigationAction({
-    @_s.required String actionName,
-    @_s.required MitigationActionParams actionParams,
-    @_s.required String roleArn,
-    List<Tag> tags,
+    required String actionName,
+    required MitigationActionParams actionParams,
+    required String roleArn,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
     _s.validateStringLength(
@@ -1851,12 +1727,6 @@ class IoT {
       actionName,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(actionParams, 'actionParams');
@@ -1946,19 +1816,19 @@ class IoT {
   /// was completed by all things originally in the group. Valid values:
   /// CONTINUOUS | SNAPSHOT.
   Future<CreateOTAUpdateResponse> createOTAUpdate({
-    @_s.required List<OTAUpdateFile> files,
-    @_s.required String otaUpdateId,
-    @_s.required String roleArn,
-    @_s.required List<String> targets,
-    Map<String, String> additionalParameters,
-    AwsJobAbortConfig awsJobAbortConfig,
-    AwsJobExecutionsRolloutConfig awsJobExecutionsRolloutConfig,
-    AwsJobPresignedUrlConfig awsJobPresignedUrlConfig,
-    AwsJobTimeoutConfig awsJobTimeoutConfig,
-    String description,
-    List<Protocol> protocols,
-    List<Tag> tags,
-    TargetSelection targetSelection,
+    required List<OTAUpdateFile> files,
+    required String otaUpdateId,
+    required String roleArn,
+    required List<String> targets,
+    Map<String, String>? additionalParameters,
+    AwsJobAbortConfig? awsJobAbortConfig,
+    AwsJobExecutionsRolloutConfig? awsJobExecutionsRolloutConfig,
+    AwsJobPresignedUrlConfig? awsJobPresignedUrlConfig,
+    AwsJobTimeoutConfig? awsJobTimeoutConfig,
+    String? description,
+    List<Protocol>? protocols,
+    List<Tag>? tags,
+    TargetSelection? targetSelection,
   }) async {
     ArgumentError.checkNotNull(files, 'files');
     ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
@@ -1967,12 +1837,6 @@ class IoT {
       otaUpdateId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'otaUpdateId',
-      otaUpdateId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -1990,11 +1854,6 @@ class IoT {
       0,
       2028,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
-    );
     final $payload = <String, dynamic>{
       'files': files,
       'roleArn': roleArn,
@@ -2010,7 +1869,7 @@ class IoT {
         'awsJobTimeoutConfig': awsJobTimeoutConfig,
       if (description != null) 'description': description,
       if (protocols != null)
-        'protocols': protocols.map((e) => e?.toValue() ?? '').toList(),
+        'protocols': protocols.map((e) => e.toValue()).toList(),
       if (tags != null) 'tags': tags,
       if (targetSelection != null) 'targetSelection': targetSelection.toValue(),
     };
@@ -2057,9 +1916,9 @@ class IoT {
   /// "key1=value1&amp;key2=value2..."
   /// </note>
   Future<CreatePolicyResponse> createPolicy({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    List<Tag> tags,
+    required String policyDocument,
+    required String policyName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -2068,12 +1927,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -2121,9 +1974,9 @@ class IoT {
   /// (that is, the version that is in effect for the certificates to which the
   /// policy is attached).
   Future<CreatePolicyVersionResponse> createPolicyVersion({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    bool setAsDefault,
+    required String policyDocument,
+    required String policyName,
+    bool? setAsDefault,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -2132,12 +1985,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -2168,7 +2015,7 @@ class IoT {
   /// Parameter [templateName] :
   /// The name of the provisioning template to use.
   Future<CreateProvisioningClaimResponse> createProvisioningClaim({
-    @_s.required String templateName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -2176,12 +2023,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2234,13 +2075,13 @@ class IoT {
   /// "key1=value1&amp;key2=value2..."
   /// </note>
   Future<CreateProvisioningTemplateResponse> createProvisioningTemplate({
-    @_s.required String provisioningRoleArn,
-    @_s.required String templateBody,
-    @_s.required String templateName,
-    String description,
-    bool enabled,
-    ProvisioningHook preProvisioningHook,
-    List<Tag> tags,
+    required String provisioningRoleArn,
+    required String templateBody,
+    required String templateName,
+    String? description,
+    bool? enabled,
+    ProvisioningHook? preProvisioningHook,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(provisioningRoleArn, 'provisioningRoleArn');
     _s.validateStringLength(
@@ -2259,22 +2100,11 @@ class IoT {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       500,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]*''',
     );
     final $payload = <String, dynamic>{
       'provisioningRoleArn': provisioningRoleArn,
@@ -2315,9 +2145,9 @@ class IoT {
   /// Sets a fleet provision template version as the default version.
   Future<CreateProvisioningTemplateVersionResponse>
       createProvisioningTemplateVersion({
-    @_s.required String templateBody,
-    @_s.required String templateName,
-    bool setAsDefault,
+    required String templateBody,
+    required String templateName,
+    bool? setAsDefault,
   }) async {
     ArgumentError.checkNotNull(templateBody, 'templateBody');
     ArgumentError.checkNotNull(templateName, 'templateName');
@@ -2326,12 +2156,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -2383,10 +2207,10 @@ class IoT {
   /// "key1=value1&amp;key2=value2..."
   /// </note>
   Future<CreateRoleAliasResponse> createRoleAlias({
-    @_s.required String roleAlias,
-    @_s.required String roleArn,
-    int credentialDurationSeconds,
-    List<Tag> tags,
+    required String roleAlias,
+    required String roleArn,
+    int? credentialDurationSeconds,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
     _s.validateStringLength(
@@ -2394,12 +2218,6 @@ class IoT {
       roleAlias,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -2472,12 +2290,12 @@ class IoT {
   /// Parameter [tags] :
   /// Metadata that can be used to manage the scheduled audit.
   Future<CreateScheduledAuditResponse> createScheduledAudit({
-    @_s.required AuditFrequency frequency,
-    @_s.required String scheduledAuditName,
-    @_s.required List<String> targetCheckNames,
-    String dayOfMonth,
-    DayOfWeek dayOfWeek,
-    List<Tag> tags,
+    required AuditFrequency frequency,
+    required String scheduledAuditName,
+    required List<String> targetCheckNames,
+    String? dayOfMonth,
+    DayOfWeek? dayOfWeek,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(frequency, 'frequency');
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
@@ -2488,20 +2306,9 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
-    _s.validateStringPattern(
-      'dayOfMonth',
-      dayOfMonth,
-      r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
-    );
     final $payload = <String, dynamic>{
-      'frequency': frequency?.toValue() ?? '',
+      'frequency': frequency.toValue(),
       'targetCheckNames': targetCheckNames,
       if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
       if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
@@ -2558,13 +2365,13 @@ class IoT {
   /// Parameter [tags] :
   /// Metadata that can be used to manage the security profile.
   Future<CreateSecurityProfileResponse> createSecurityProfile({
-    @_s.required String securityProfileName,
-    List<String> additionalMetricsToRetain,
-    List<MetricToRetain> additionalMetricsToRetainV2,
-    Map<AlertTargetType, AlertTarget> alertTargets,
-    List<Behavior> behaviors,
-    String securityProfileDescription,
-    List<Tag> tags,
+    required String securityProfileName,
+    List<String>? additionalMetricsToRetain,
+    List<MetricToRetain>? additionalMetricsToRetainV2,
+    Map<AlertTargetType, AlertTarget>? alertTargets,
+    List<Behavior>? behaviors,
+    String? securityProfileDescription,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
     _s.validateStringLength(
@@ -2574,22 +2381,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'securityProfileDescription',
       securityProfileDescription,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'securityProfileDescription',
-      securityProfileDescription,
-      r'''[\p{Graph}\x20]*''',
     );
     final $payload = <String, dynamic>{
       if (additionalMetricsToRetain != null)
@@ -2643,11 +2439,11 @@ class IoT {
   /// Parameter [tags] :
   /// Metadata which can be used to manage streams.
   Future<CreateStreamResponse> createStream({
-    @_s.required List<StreamFile> files,
-    @_s.required String roleArn,
-    @_s.required String streamId,
-    String description,
-    List<Tag> tags,
+    required List<StreamFile> files,
+    required String roleArn,
+    required String streamId,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(files, 'files');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -2666,22 +2462,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
     );
     final $payload = <String, dynamic>{
       'files': files,
@@ -2735,10 +2520,10 @@ class IoT {
   /// Parameter [thingTypeName] :
   /// The name of the thing type associated with the new thing.
   Future<CreateThingResponse> createThing({
-    @_s.required String thingName,
-    AttributePayload attributePayload,
-    String billingGroupName,
-    String thingTypeName,
+    required String thingName,
+    AttributePayload? attributePayload,
+    String? billingGroupName,
+    String? thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -2748,33 +2533,17 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'billingGroupName',
       billingGroupName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingTypeName',
       thingTypeName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
@@ -2814,10 +2583,10 @@ class IoT {
   /// Parameter [thingGroupProperties] :
   /// The thing group properties.
   Future<CreateThingGroupResponse> createThingGroup({
-    @_s.required String thingGroupName,
-    String parentGroupName,
-    List<Tag> tags,
-    ThingGroupProperties thingGroupProperties,
+    required String thingGroupName,
+    String? parentGroupName,
+    List<Tag>? tags,
+    ThingGroupProperties? thingGroupProperties,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
     _s.validateStringLength(
@@ -2827,22 +2596,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'parentGroupName',
       parentGroupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'parentGroupName',
-      parentGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (parentGroupName != null) 'parentGroupName': parentGroupName,
@@ -2879,9 +2637,9 @@ class IoT {
   /// information about the new thing type including a description, and a list
   /// of searchable thing attribute names.
   Future<CreateThingTypeResponse> createThingType({
-    @_s.required String thingTypeName,
-    List<Tag> tags,
-    ThingTypeProperties thingTypeProperties,
+    required String thingTypeName,
+    List<Tag>? tags,
+    ThingTypeProperties? thingTypeProperties,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
     _s.validateStringLength(
@@ -2889,12 +2647,6 @@ class IoT {
       thingTypeName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -2940,9 +2692,9 @@ class IoT {
   /// "key1=value1&amp;key2=value2..."
   /// </note>
   Future<void> createTopicRule({
-    @_s.required String ruleName,
-    @_s.required TopicRulePayload topicRulePayload,
-    String tags,
+    required String ruleName,
+    required TopicRulePayload topicRulePayload,
+    String? tags,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -2952,15 +2704,10 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
-    final headers = <String, String>{};
-    tags?.let((v) => headers['x-amz-tagging'] = v.toString());
+    final headers = <String, String>{
+      if (tags != null) 'x-amz-tagging': tags.toString(),
+    };
     await _protocol.send(
       payload: topicRulePayload,
       method: 'POST',
@@ -2982,7 +2729,7 @@ class IoT {
   /// Parameter [destinationConfiguration] :
   /// The topic rule destination configuration.
   Future<CreateTopicRuleDestinationResponse> createTopicRuleDestination({
-    @_s.required TopicRuleDestinationConfiguration destinationConfiguration,
+    required TopicRuleDestinationConfiguration destinationConfiguration,
   }) async {
     ArgumentError.checkNotNull(
         destinationConfiguration, 'destinationConfiguration');
@@ -3010,7 +2757,7 @@ class IoT {
   /// Parameter [deleteScheduledAudits] :
   /// If true, all scheduled audits are deleted.
   Future<void> deleteAccountAuditConfiguration({
-    bool deleteScheduledAudits,
+    bool? deleteScheduledAudits,
   }) async {
     final $query = <String, List<String>>{
       if (deleteScheduledAudits != null)
@@ -3023,7 +2770,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAccountAuditConfigurationResponse.fromJson(response);
   }
 
   /// Deletes a Device Defender audit suppression.
@@ -3032,8 +2778,8 @@ class IoT {
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
   Future<void> deleteAuditSuppression({
-    @_s.required String checkName,
-    @_s.required ResourceIdentifier resourceIdentifier,
+    required String checkName,
+    required ResourceIdentifier resourceIdentifier,
   }) async {
     ArgumentError.checkNotNull(checkName, 'checkName');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
@@ -3047,7 +2793,6 @@ class IoT {
       requestUri: '/audit/suppressions/delete',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAuditSuppressionResponse.fromJson(response);
   }
 
   /// Deletes an authorizer.
@@ -3063,7 +2808,7 @@ class IoT {
   /// Parameter [authorizerName] :
   /// The name of the authorizer to delete.
   Future<void> deleteAuthorizer({
-    @_s.required String authorizerName,
+    required String authorizerName,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
     _s.validateStringLength(
@@ -3073,19 +2818,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/authorizer/${Uri.encodeComponent(authorizerName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAuthorizerResponse.fromJson(response);
   }
 
   /// Deletes the billing group.
@@ -3104,8 +2842,8 @@ class IoT {
   /// <code>DeleteBillingGroup</code> request is rejected with a
   /// <code>VersionConflictException</code>.
   Future<void> deleteBillingGroup({
-    @_s.required String billingGroupName,
-    int expectedVersion,
+    required String billingGroupName,
+    int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
     _s.validateStringLength(
@@ -3113,12 +2851,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3132,7 +2864,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteBillingGroupResponse.fromJson(response);
   }
 
   /// Deletes a registered CA certificate.
@@ -3149,7 +2880,7 @@ class IoT {
   /// The ID of the certificate to delete. (The last part of the certificate ARN
   /// contains the certificate ID.)
   Future<void> deleteCACertificate({
-    @_s.required String certificateId,
+    required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -3159,19 +2890,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/cacertificate/${Uri.encodeComponent(certificateId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCACertificateResponse.fromJson(response);
   }
 
   /// Deletes the specified certificate.
@@ -3199,8 +2923,8 @@ class IoT {
   /// Forces the deletion of a certificate if it is inactive and is not attached
   /// to an IoT thing.
   Future<void> deleteCertificate({
-    @_s.required String certificateId,
-    bool forceDelete,
+    required String certificateId,
+    bool? forceDelete,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -3208,12 +2932,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3244,7 +2962,7 @@ class IoT {
   /// Parameter [metricName] :
   /// The name of the custom metric.
   Future<void> deleteCustomMetric({
-    @_s.required String metricName,
+    required String metricName,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
@@ -3254,19 +2972,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/custom-metric/${Uri.encodeComponent(metricName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCustomMetricResponse.fromJson(response);
   }
 
   /// Removes the specified dimension from your AWS account.
@@ -3278,7 +2989,7 @@ class IoT {
   /// Parameter [name] :
   /// The unique identifier for the dimension that you want to delete.
   Future<void> deleteDimension({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -3288,26 +2999,15 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/dimensions/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDimensionResponse.fromJson(response);
   }
 
   /// Deletes the specified domain configuration.
-  /// <note>
-  /// The domain configuration feature is in public preview and is subject to
-  /// change.
-  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -3319,7 +3019,7 @@ class IoT {
   /// Parameter [domainConfigurationName] :
   /// The name of the domain configuration to be deleted.
   Future<void> deleteDomainConfiguration({
-    @_s.required String domainConfigurationName,
+    required String domainConfigurationName,
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
@@ -3330,12 +3030,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3343,7 +3037,6 @@ class IoT {
           '/domainConfigurations/${Uri.encodeComponent(domainConfigurationName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDomainConfigurationResponse.fromJson(response);
   }
 
   /// Deletes a dynamic thing group.
@@ -3359,8 +3052,8 @@ class IoT {
   /// Parameter [expectedVersion] :
   /// The expected version of the dynamic thing group to delete.
   Future<void> deleteDynamicThingGroup({
-    @_s.required String thingGroupName,
-    int expectedVersion,
+    required String thingGroupName,
+    int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
     _s.validateStringLength(
@@ -3368,12 +3061,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3388,7 +3075,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDynamicThingGroupResponse.fromJson(response);
   }
 
   /// Deletes a job and its related job executions.
@@ -3440,9 +3126,9 @@ class IoT {
   /// The <code>namespaceId</code> feature is in public preview.
   /// </note>
   Future<void> deleteJob({
-    @_s.required String jobId,
-    bool force,
-    String namespaceId,
+    required String jobId,
+    bool? force,
+    String? namespaceId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3452,22 +3138,11 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
@@ -3529,11 +3204,11 @@ class IoT {
   /// The <code>namespaceId</code> feature is in public preview.
   /// </note>
   Future<void> deleteJobExecution({
-    @_s.required int executionNumber,
-    @_s.required String jobId,
-    @_s.required String thingName,
-    bool force,
-    String namespaceId,
+    required int executionNumber,
+    required String jobId,
+    required String thingName,
+    bool? force,
+    String? namespaceId,
   }) async {
     ArgumentError.checkNotNull(executionNumber, 'executionNumber');
     ArgumentError.checkNotNull(jobId, 'jobId');
@@ -3544,12 +3219,6 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
@@ -3558,22 +3227,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
@@ -3589,6 +3247,34 @@ class IoT {
     );
   }
 
+  /// Deletes the specified job template.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [jobTemplateId] :
+  /// The unique identifier of the job template to delete.
+  Future<void> deleteJobTemplate({
+    required String jobTemplateId,
+  }) async {
+    ArgumentError.checkNotNull(jobTemplateId, 'jobTemplateId');
+    _s.validateStringLength(
+      'jobTemplateId',
+      jobTemplateId,
+      1,
+      64,
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/job-templates/${Uri.encodeComponent(jobTemplateId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a defined mitigation action from your AWS account.
   ///
   /// May throw [InvalidRequestException].
@@ -3598,7 +3284,7 @@ class IoT {
   /// Parameter [actionName] :
   /// The name of the mitigation action that you want to delete.
   Future<void> deleteMitigationAction({
-    @_s.required String actionName,
+    required String actionName,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
     _s.validateStringLength(
@@ -3608,12 +3294,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3621,7 +3301,6 @@ class IoT {
           '/mitigationactions/actions/${Uri.encodeComponent(actionName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteMitigationActionResponse.fromJson(response);
   }
 
   /// Delete an OTA update.
@@ -3638,16 +3317,18 @@ class IoT {
   /// The ID of the OTA update to delete.
   ///
   /// Parameter [deleteStream] :
-  /// Specifies if the stream associated with an OTA update should be deleted
-  /// when the OTA update is deleted.
+  /// When true, the stream created by the OTAUpdate process is deleted when the
+  /// OTA update is deleted. Ignored if the stream specified in the OTAUpdate is
+  /// supplied by the user.
   ///
   /// Parameter [forceDeleteAWSJob] :
-  /// Specifies if the AWS Job associated with the OTA update should be deleted
-  /// when the OTA update is deleted.
+  /// When true, deletes the AWS job created by the OTAUpdate process even if it
+  /// is "IN_PROGRESS". Otherwise, if the job is not in a terminal state
+  /// ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
   Future<void> deleteOTAUpdate({
-    @_s.required String otaUpdateId,
-    bool deleteStream,
-    bool forceDeleteAWSJob,
+    required String otaUpdateId,
+    bool? deleteStream,
+    bool? forceDeleteAWSJob,
   }) async {
     ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
     _s.validateStringLength(
@@ -3655,12 +3336,6 @@ class IoT {
       otaUpdateId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'otaUpdateId',
-      otaUpdateId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3675,7 +3350,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteOTAUpdateResponse.fromJson(response);
   }
 
   /// Deletes the specified policy.
@@ -3702,7 +3376,7 @@ class IoT {
   /// Parameter [policyName] :
   /// The name of the policy to delete.
   Future<void> deletePolicy({
-    @_s.required String policyName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -3710,12 +3384,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     await _protocol.send(
@@ -3745,8 +3413,8 @@ class IoT {
   /// Parameter [policyVersionId] :
   /// The policy version ID.
   Future<void> deletePolicyVersion({
-    @_s.required String policyName,
-    @_s.required String policyVersionId,
+    required String policyName,
+    required String policyVersionId,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -3756,19 +3424,7 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
-    _s.validateStringPattern(
-      'policyVersionId',
-      policyVersionId,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3791,7 +3447,7 @@ class IoT {
   /// Parameter [templateName] :
   /// The name of the fleet provision template to delete.
   Future<void> deleteProvisioningTemplate({
-    @_s.required String templateName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -3801,12 +3457,6 @@ class IoT {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3814,7 +3464,6 @@ class IoT {
           '/provisioning-templates/${Uri.encodeComponent(templateName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteProvisioningTemplateResponse.fromJson(response);
   }
 
   /// Deletes a fleet provisioning template version.
@@ -3833,8 +3482,8 @@ class IoT {
   /// Parameter [versionId] :
   /// The fleet provisioning template version ID to delete.
   Future<void> deleteProvisioningTemplateVersion({
-    @_s.required String templateName,
-    @_s.required int versionId,
+    required String templateName,
+    required int versionId,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -3842,12 +3491,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
@@ -3858,7 +3501,6 @@ class IoT {
           '/provisioning-templates/${Uri.encodeComponent(templateName)}/versions/${Uri.encodeComponent(versionId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteProvisioningTemplateVersionResponse.fromJson(response);
   }
 
   /// Deletes a CA certificate registration code.
@@ -3875,7 +3517,6 @@ class IoT {
       requestUri: '/registrationcode',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteRegistrationCodeResponse.fromJson(response);
   }
 
   /// Deletes a role alias
@@ -3891,7 +3532,7 @@ class IoT {
   /// Parameter [roleAlias] :
   /// The role alias to delete.
   Future<void> deleteRoleAlias({
-    @_s.required String roleAlias,
+    required String roleAlias,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
     _s.validateStringLength(
@@ -3901,19 +3542,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/role-aliases/${Uri.encodeComponent(roleAlias)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteRoleAliasResponse.fromJson(response);
   }
 
   /// Deletes a scheduled audit.
@@ -3926,7 +3560,7 @@ class IoT {
   /// Parameter [scheduledAuditName] :
   /// The name of the scheduled audit you want to delete.
   Future<void> deleteScheduledAudit({
-    @_s.required String scheduledAuditName,
+    required String scheduledAuditName,
   }) async {
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
     _s.validateStringLength(
@@ -3936,12 +3570,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3949,7 +3577,6 @@ class IoT {
           '/audit/scheduledaudits/${Uri.encodeComponent(scheduledAuditName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteScheduledAuditResponse.fromJson(response);
   }
 
   /// Deletes a Device Defender security profile.
@@ -3968,8 +3595,8 @@ class IoT {
   /// different from the actual version, a <code>VersionConflictException</code>
   /// is thrown.
   Future<void> deleteSecurityProfile({
-    @_s.required String securityProfileName,
-    int expectedVersion,
+    required String securityProfileName,
+    int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
     _s.validateStringLength(
@@ -3977,12 +3604,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -3997,7 +3618,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSecurityProfileResponse.fromJson(response);
   }
 
   /// Deletes a stream.
@@ -4013,7 +3633,7 @@ class IoT {
   /// Parameter [streamId] :
   /// The stream ID.
   Future<void> deleteStream({
-    @_s.required String streamId,
+    required String streamId,
   }) async {
     ArgumentError.checkNotNull(streamId, 'streamId');
     _s.validateStringLength(
@@ -4023,19 +3643,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/streams/${Uri.encodeComponent(streamId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteStreamResponse.fromJson(response);
   }
 
   /// Deletes the specified thing. Returns successfully with no error if the
@@ -4058,8 +3671,8 @@ class IoT {
   /// specified in the request, the <code>DeleteThing</code> request is rejected
   /// with a <code>VersionConflictException</code>.
   Future<void> deleteThing({
-    @_s.required String thingName,
-    int expectedVersion,
+    required String thingName,
+    int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -4067,12 +3680,6 @@ class IoT {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -4086,7 +3693,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteThingResponse.fromJson(response);
   }
 
   /// Deletes a thing group.
@@ -4102,8 +3708,8 @@ class IoT {
   /// Parameter [expectedVersion] :
   /// The expected version of the thing group to delete.
   Future<void> deleteThingGroup({
-    @_s.required String thingGroupName,
-    int expectedVersion,
+    required String thingGroupName,
+    int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
     _s.validateStringLength(
@@ -4111,12 +3717,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -4130,7 +3730,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteThingGroupResponse.fromJson(response);
   }
 
   /// Deletes the specified thing type. You cannot delete a thing type if it has
@@ -4150,7 +3749,7 @@ class IoT {
   /// Parameter [thingTypeName] :
   /// The name of the thing type.
   Future<void> deleteThingType({
-    @_s.required String thingTypeName,
+    required String thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
     _s.validateStringLength(
@@ -4160,19 +3759,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/thing-types/${Uri.encodeComponent(thingTypeName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteThingTypeResponse.fromJson(response);
   }
 
   /// Deletes the rule.
@@ -4186,7 +3778,7 @@ class IoT {
   /// Parameter [ruleName] :
   /// The name of the rule.
   Future<void> deleteTopicRule({
-    @_s.required String ruleName,
+    required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -4194,12 +3786,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -4221,7 +3807,7 @@ class IoT {
   /// Parameter [arn] :
   /// The ARN of the topic rule destination to delete.
   Future<void> deleteTopicRuleDestination({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
@@ -4231,7 +3817,6 @@ class IoT {
           '/destinations/${arn.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteTopicRuleDestinationResponse.fromJson(response);
   }
 
   /// Deletes a logging level.
@@ -4247,14 +3832,14 @@ class IoT {
   /// The type of resource for which you are configuring logging. Must be
   /// <code>THING_Group</code>.
   Future<void> deleteV2LoggingLevel({
-    @_s.required String targetName,
-    @_s.required LogTargetType targetType,
+    required String targetName,
+    required LogTargetType targetType,
   }) async {
     ArgumentError.checkNotNull(targetName, 'targetName');
     ArgumentError.checkNotNull(targetType, 'targetType');
     final $query = <String, List<String>>{
-      if (targetName != null) 'targetName': [targetName],
-      if (targetType != null) 'targetType': [targetType.toValue()],
+      'targetName': [targetName],
+      'targetType': [targetType.toValue()],
     };
     await _protocol.send(
       payload: null,
@@ -4282,8 +3867,8 @@ class IoT {
   /// Whether to undeprecate a deprecated thing type. If <b>true</b>, the thing
   /// type will not be deprecated anymore and you can associate it with things.
   Future<void> deprecateThingType({
-    @_s.required String thingTypeName,
-    bool undoDeprecate,
+    required String thingTypeName,
+    bool? undoDeprecate,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
     _s.validateStringLength(
@@ -4291,12 +3876,6 @@ class IoT {
       thingTypeName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -4309,7 +3888,6 @@ class IoT {
           '/thing-types/${Uri.encodeComponent(thingTypeName)}/deprecate',
       exceptionFnMap: _exceptionFns,
     );
-    return DeprecateThingTypeResponse.fromJson(response);
   }
 
   /// Gets information about the Device Defender audit settings for this
@@ -4342,7 +3920,7 @@ class IoT {
   /// A unique identifier for a single audit finding. You can use this
   /// identifier to apply mitigation actions to the finding.
   Future<DescribeAuditFindingResponse> describeAuditFinding({
-    @_s.required String findingId,
+    required String findingId,
   }) async {
     ArgumentError.checkNotNull(findingId, 'findingId');
     _s.validateStringLength(
@@ -4350,12 +3928,6 @@ class IoT {
       findingId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'findingId',
-      findingId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4381,7 +3953,7 @@ class IoT {
   /// The unique identifier for the audit mitigation task.
   Future<DescribeAuditMitigationActionsTaskResponse>
       describeAuditMitigationActionsTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -4389,12 +3961,6 @@ class IoT {
       taskId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4414,8 +3980,8 @@ class IoT {
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
   Future<DescribeAuditSuppressionResponse> describeAuditSuppression({
-    @_s.required String checkName,
-    @_s.required ResourceIdentifier resourceIdentifier,
+    required String checkName,
+    required ResourceIdentifier resourceIdentifier,
   }) async {
     ArgumentError.checkNotNull(checkName, 'checkName');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
@@ -4442,7 +4008,7 @@ class IoT {
   /// Parameter [taskId] :
   /// The ID of the audit whose information you want to get.
   Future<DescribeAuditTaskResponse> describeAuditTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -4450,12 +4016,6 @@ class IoT {
       taskId,
       1,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9\-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4479,7 +4039,7 @@ class IoT {
   /// Parameter [authorizerName] :
   /// The name of the authorizer to describe.
   Future<DescribeAuthorizerResponse> describeAuthorizer({
-    @_s.required String authorizerName,
+    required String authorizerName,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
     _s.validateStringLength(
@@ -4487,12 +4047,6 @@ class IoT {
       authorizerName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4514,7 +4068,7 @@ class IoT {
   /// Parameter [billingGroupName] :
   /// The name of the billing group.
   Future<DescribeBillingGroupResponse> describeBillingGroup({
-    @_s.required String billingGroupName,
+    required String billingGroupName,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
     _s.validateStringLength(
@@ -4522,12 +4076,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4551,7 +4099,7 @@ class IoT {
   /// Parameter [certificateId] :
   /// The CA certificate identifier.
   Future<DescribeCACertificateResponse> describeCACertificate({
-    @_s.required String certificateId,
+    required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -4559,12 +4107,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4589,7 +4131,7 @@ class IoT {
   /// The ID of the certificate. (The last part of the certificate ARN contains
   /// the certificate ID.)
   Future<DescribeCertificateResponse> describeCertificate({
-    @_s.required String certificateId,
+    required String certificateId,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -4597,12 +4139,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4624,7 +4160,7 @@ class IoT {
   /// Parameter [metricName] :
   /// The name of the custom metric.
   Future<DescribeCustomMetricResponse> describeCustomMetric({
-    @_s.required String metricName,
+    required String metricName,
   }) async {
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
@@ -4632,12 +4168,6 @@ class IoT {
       metricName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4678,7 +4208,7 @@ class IoT {
   /// The unique identifier of the task.
   Future<DescribeDetectMitigationActionsTaskResponse>
       describeDetectMitigationActionsTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -4686,12 +4216,6 @@ class IoT {
       taskId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4714,7 +4238,7 @@ class IoT {
   /// Parameter [name] :
   /// The unique identifier for the dimension.
   Future<DescribeDimensionResponse> describeDimension({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4722,12 +4246,6 @@ class IoT {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4740,10 +4258,6 @@ class IoT {
   }
 
   /// Gets summary information about a domain configuration.
-  /// <note>
-  /// The domain configuration feature is in public preview and is subject to
-  /// change.
-  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -4755,7 +4269,7 @@ class IoT {
   /// Parameter [domainConfigurationName] :
   /// The name of the domain configuration.
   Future<DescribeDomainConfigurationResponse> describeDomainConfiguration({
-    @_s.required String domainConfigurationName,
+    required String domainConfigurationName,
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
@@ -4764,12 +4278,6 @@ class IoT {
       domainConfigurationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.:-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4818,7 +4326,7 @@ class IoT {
   /// <code>iot:Data-ATS</code> endpoint type to avoid issues related to the
   /// widespread distrust of Symantec certificate authorities.
   Future<DescribeEndpointResponse> describeEndpoint({
-    String endpointType,
+    String? endpointType,
   }) async {
     _s.validateStringLength(
       'endpointType',
@@ -4866,7 +4374,7 @@ class IoT {
   /// Parameter [indexName] :
   /// The index name.
   Future<DescribeIndexResponse> describeIndex({
-    @_s.required String indexName,
+    required String indexName,
   }) async {
     ArgumentError.checkNotNull(indexName, 'indexName');
     _s.validateStringLength(
@@ -4874,12 +4382,6 @@ class IoT {
       indexName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4901,7 +4403,7 @@ class IoT {
   /// Parameter [jobId] :
   /// The unique identifier you assigned to this job when it was created.
   Future<DescribeJobResponse> describeJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -4909,12 +4411,6 @@ class IoT {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -4943,9 +4439,9 @@ class IoT {
   /// A string (consisting of the digits "0" through "9" which is used to
   /// specify a particular job execution on a particular device.
   Future<DescribeJobExecutionResponse> describeJobExecution({
-    @_s.required String jobId,
-    @_s.required String thingName,
-    int executionNumber,
+    required String jobId,
+    required String thingName,
+    int? executionNumber,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -4955,24 +4451,12 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -4990,6 +4474,35 @@ class IoT {
     return DescribeJobExecutionResponse.fromJson(response);
   }
 
+  /// Returns information about a job template.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [jobTemplateId] :
+  /// The unique identifier of the job template.
+  Future<DescribeJobTemplateResponse> describeJobTemplate({
+    required String jobTemplateId,
+  }) async {
+    ArgumentError.checkNotNull(jobTemplateId, 'jobTemplateId');
+    _s.validateStringLength(
+      'jobTemplateId',
+      jobTemplateId,
+      1,
+      64,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/job-templates/${Uri.encodeComponent(jobTemplateId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeJobTemplateResponse.fromJson(response);
+  }
+
   /// Gets information about a mitigation action.
   ///
   /// May throw [InvalidRequestException].
@@ -5000,7 +4513,7 @@ class IoT {
   /// Parameter [actionName] :
   /// The friendly name that uniquely identifies the mitigation action.
   Future<DescribeMitigationActionResponse> describeMitigationAction({
-    @_s.required String actionName,
+    required String actionName,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
     _s.validateStringLength(
@@ -5008,12 +4521,6 @@ class IoT {
       actionName,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5037,7 +4544,7 @@ class IoT {
   /// Parameter [templateName] :
   /// The name of the fleet provisioning template.
   Future<DescribeProvisioningTemplateResponse> describeProvisioningTemplate({
-    @_s.required String templateName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -5045,12 +4552,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5078,8 +4579,8 @@ class IoT {
   /// The fleet provisioning template version ID.
   Future<DescribeProvisioningTemplateVersionResponse>
       describeProvisioningTemplateVersion({
-    @_s.required String templateName,
-    @_s.required int versionId,
+    required String templateName,
+    required int versionId,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -5087,12 +4588,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
@@ -5118,7 +4613,7 @@ class IoT {
   /// Parameter [roleAlias] :
   /// The role alias to describe.
   Future<DescribeRoleAliasResponse> describeRoleAlias({
-    @_s.required String roleAlias,
+    required String roleAlias,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
     _s.validateStringLength(
@@ -5126,12 +4621,6 @@ class IoT {
       roleAlias,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5153,7 +4642,7 @@ class IoT {
   /// Parameter [scheduledAuditName] :
   /// The name of the scheduled audit whose information you want to get.
   Future<DescribeScheduledAuditResponse> describeScheduledAudit({
-    @_s.required String scheduledAuditName,
+    required String scheduledAuditName,
   }) async {
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
     _s.validateStringLength(
@@ -5161,12 +4650,6 @@ class IoT {
       scheduledAuditName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5189,7 +4672,7 @@ class IoT {
   /// Parameter [securityProfileName] :
   /// The name of the security profile whose information you want to get.
   Future<DescribeSecurityProfileResponse> describeSecurityProfile({
-    @_s.required String securityProfileName,
+    required String securityProfileName,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
     _s.validateStringLength(
@@ -5197,12 +4680,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5227,7 +4704,7 @@ class IoT {
   /// Parameter [streamId] :
   /// The stream ID.
   Future<DescribeStreamResponse> describeStream({
-    @_s.required String streamId,
+    required String streamId,
   }) async {
     ArgumentError.checkNotNull(streamId, 'streamId');
     _s.validateStringLength(
@@ -5235,12 +4712,6 @@ class IoT {
       streamId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5264,7 +4735,7 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing.
   Future<DescribeThingResponse> describeThing({
-    @_s.required String thingName,
+    required String thingName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -5272,12 +4743,6 @@ class IoT {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5299,7 +4764,7 @@ class IoT {
   /// Parameter [thingGroupName] :
   /// The name of the thing group.
   Future<DescribeThingGroupResponse> describeThingGroup({
-    @_s.required String thingGroupName,
+    required String thingGroupName,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
     _s.validateStringLength(
@@ -5307,12 +4772,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5335,7 +4794,7 @@ class IoT {
   /// Parameter [taskId] :
   /// The task ID.
   Future<DescribeThingRegistrationTaskResponse> describeThingRegistrationTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -5366,7 +4825,7 @@ class IoT {
   /// Parameter [thingTypeName] :
   /// The name of the thing type.
   Future<DescribeThingTypeResponse> describeThingType({
-    @_s.required String thingTypeName,
+    required String thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingTypeName, 'thingTypeName');
     _s.validateStringLength(
@@ -5374,12 +4833,6 @@ class IoT {
       thingTypeName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5406,8 +4859,8 @@ class IoT {
   /// Parameter [target] :
   /// The target from which the policy will be detached.
   Future<void> detachPolicy({
-    @_s.required String policyName,
-    @_s.required String target,
+    required String policyName,
+    required String target,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -5415,12 +4868,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(target, 'target');
@@ -5460,8 +4907,8 @@ class IoT {
   /// and CognitoId (<i>region</i>:<i>id</i>).
   @Deprecated('Deprecated')
   Future<void> detachPrincipalPolicy({
-    @_s.required String policyName,
-    @_s.required String principal,
+    required String policyName,
+    required String principal,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -5471,15 +4918,10 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
-    final headers = <String, String>{};
-    principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
+    final headers = <String, String>{
+      'x-amzn-iot-principal': principal.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -5503,8 +4945,8 @@ class IoT {
   /// Parameter [securityProfileTargetArn] :
   /// The ARN of the thing group from which the security profile is detached.
   Future<void> detachSecurityProfile({
-    @_s.required String securityProfileName,
-    @_s.required String securityProfileTargetArn,
+    required String securityProfileName,
+    required String securityProfileTargetArn,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
     _s.validateStringLength(
@@ -5514,17 +4956,10 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         securityProfileTargetArn, 'securityProfileTargetArn');
     final $query = <String, List<String>>{
-      if (securityProfileTargetArn != null)
-        'securityProfileTargetArn': [securityProfileTargetArn],
+      'securityProfileTargetArn': [securityProfileTargetArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -5534,7 +4969,6 @@ class IoT {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DetachSecurityProfileResponse.fromJson(response);
   }
 
   /// Detaches the specified principal from the specified thing. A principal can
@@ -5560,8 +4994,8 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing.
   Future<void> detachThingPrincipal({
-    @_s.required String principal,
-    @_s.required String thingName,
+    required String principal,
+    required String thingName,
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
     ArgumentError.checkNotNull(thingName, 'thingName');
@@ -5572,14 +5006,9 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
-    final headers = <String, String>{};
-    principal?.let((v) => headers['x-amzn-principal'] = v.toString());
+    final headers = <String, String>{
+      'x-amzn-principal': principal.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -5587,7 +5016,6 @@ class IoT {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DetachThingPrincipalResponse.fromJson(response);
   }
 
   /// Disables the rule.
@@ -5601,7 +5029,7 @@ class IoT {
   /// Parameter [ruleName] :
   /// The name of the rule to disable.
   Future<void> disableTopicRule({
-    @_s.required String ruleName,
+    required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -5609,12 +5037,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -5636,7 +5058,7 @@ class IoT {
   /// Parameter [ruleName] :
   /// The name of the topic rule to enable.
   Future<void> enableTopicRule({
-    @_s.required String ruleName,
+    required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -5644,12 +5066,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -5678,9 +5094,9 @@ class IoT {
   /// The name of the security profile.
   Future<GetBehaviorModelTrainingSummariesResponse>
       getBehaviorModelTrainingSummaries({
-    int maxResults,
-    String nextToken,
-    String securityProfileName,
+    int? maxResults,
+    String? nextToken,
+    String? securityProfileName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -5693,11 +5109,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -5739,10 +5150,10 @@ class IoT {
   /// Parameter [queryVersion] :
   /// The query version.
   Future<GetCardinalityResponse> getCardinality({
-    @_s.required String queryString,
-    String aggregationField,
-    String indexName,
-    String queryVersion,
+    required String queryString,
+    String? aggregationField,
+    String? indexName,
+    String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -5763,11 +5174,6 @@ class IoT {
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
@@ -5809,20 +5215,15 @@ class IoT {
   /// Parameter [thingName] :
   /// The thing name.
   Future<GetEffectivePoliciesResponse> getEffectivePolicies({
-    String cognitoIdentityPoolId,
-    String principal,
-    String thingName,
+    String? cognitoIdentityPoolId,
+    String? principal,
+    String? thingName,
   }) async {
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (thingName != null) 'thingName': [thingName],
@@ -5869,7 +5270,7 @@ class IoT {
   /// Parameter [jobId] :
   /// The unique identifier you assigned to this job when it was created.
   Future<GetJobDocumentResponse> getJobDocument({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -5877,12 +5278,6 @@ class IoT {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5924,7 +5319,7 @@ class IoT {
   /// Parameter [otaUpdateId] :
   /// The OTA update ID.
   Future<GetOTAUpdateResponse> getOTAUpdate({
-    @_s.required String otaUpdateId,
+    required String otaUpdateId,
   }) async {
     ArgumentError.checkNotNull(otaUpdateId, 'otaUpdateId');
     _s.validateStringLength(
@@ -5932,12 +5327,6 @@ class IoT {
       otaUpdateId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'otaUpdateId',
-      otaUpdateId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -5986,11 +5375,11 @@ class IoT {
   /// Parameter [queryVersion] :
   /// The query version.
   Future<GetPercentilesResponse> getPercentiles({
-    @_s.required String queryString,
-    String aggregationField,
-    String indexName,
-    List<double> percents,
-    String queryVersion,
+    required String queryString,
+    String? aggregationField,
+    String? indexName,
+    List<double>? percents,
+    String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -6011,11 +5400,6 @@ class IoT {
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
@@ -6046,7 +5430,7 @@ class IoT {
   /// Parameter [policyName] :
   /// The name of the policy.
   Future<GetPolicyResponse> getPolicy({
-    @_s.required String policyName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -6054,12 +5438,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -6086,8 +5464,8 @@ class IoT {
   /// Parameter [policyVersionId] :
   /// The policy version ID.
   Future<GetPolicyVersionResponse> getPolicyVersion({
-    @_s.required String policyName,
-    @_s.required String policyVersionId,
+    required String policyName,
+    required String policyVersionId,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -6097,19 +5475,7 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
-    _s.validateStringPattern(
-      'policyVersionId',
-      policyVersionId,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -6166,10 +5532,10 @@ class IoT {
   /// Parameter [queryVersion] :
   /// The version of the query used to search.
   Future<GetStatisticsResponse> getStatistics({
-    @_s.required String queryString,
-    String aggregationField,
-    String indexName,
-    String queryVersion,
+    required String queryString,
+    String? aggregationField,
+    String? indexName,
+    String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -6190,11 +5556,6 @@ class IoT {
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       'queryString': queryString,
@@ -6221,7 +5582,7 @@ class IoT {
   /// Parameter [ruleName] :
   /// The name of the rule.
   Future<GetTopicRuleResponse> getTopicRule({
-    @_s.required String ruleName,
+    required String ruleName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -6229,12 +5590,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -6256,7 +5611,7 @@ class IoT {
   /// Parameter [arn] :
   /// The ARN of the topic rule destination.
   Future<GetTopicRuleDestinationResponse> getTopicRuleDestination({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final response = await _protocol.send(
@@ -6310,12 +5665,12 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing whose active violations are listed.
   Future<ListActiveViolationsResponse> listActiveViolations({
-    BehaviorCriteriaType behaviorCriteriaType,
-    bool listSuppressedAlerts,
-    int maxResults,
-    String nextToken,
-    String securityProfileName,
-    String thingName,
+    BehaviorCriteriaType? behaviorCriteriaType,
+    bool? listSuppressedAlerts,
+    int? maxResults,
+    String? nextToken,
+    String? securityProfileName,
+    String? thingName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6328,11 +5683,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     _s.validateStringLength(
       'thingName',
@@ -6388,10 +5738,10 @@ class IoT {
   /// Parameter [recursive] :
   /// When true, recursively list attached policies.
   Future<ListAttachedPoliciesResponse> listAttachedPolicies({
-    @_s.required String target,
-    String marker,
-    int pageSize,
-    bool recursive,
+    required String target,
+    String? marker,
+    int? pageSize,
+    bool? recursive,
   }) async {
     ArgumentError.checkNotNull(target, 'target');
     _s.validateStringLength(
@@ -6399,11 +5749,6 @@ class IoT {
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -6463,14 +5808,14 @@ class IoT {
   /// A filter to limit results to the audit with the specified ID. You must
   /// specify either the taskId or the startTime and endTime, but not both.
   Future<ListAuditFindingsResponse> listAuditFindings({
-    String checkName,
-    DateTime endTime,
-    bool listSuppressedFindings,
-    int maxResults,
-    String nextToken,
-    ResourceIdentifier resourceIdentifier,
-    DateTime startTime,
-    String taskId,
+    String? checkName,
+    DateTime? endTime,
+    bool? listSuppressedFindings,
+    int? maxResults,
+    String? nextToken,
+    ResourceIdentifier? resourceIdentifier,
+    DateTime? startTime,
+    String? taskId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6483,11 +5828,6 @@ class IoT {
       taskId,
       1,
       40,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9\-]+''',
     );
     final $payload = <String, dynamic>{
       if (checkName != null) 'checkName': checkName,
@@ -6533,11 +5873,11 @@ class IoT {
   /// The token for the next set of results.
   Future<ListAuditMitigationActionsExecutionsResponse>
       listAuditMitigationActionsExecutions({
-    @_s.required String findingId,
-    @_s.required String taskId,
-    AuditMitigationActionsExecutionStatus actionStatus,
-    int maxResults,
-    String nextToken,
+    required String findingId,
+    required String taskId,
+    AuditMitigationActionsExecutionStatus? actionStatus,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(findingId, 'findingId');
     _s.validateStringLength(
@@ -6545,12 +5885,6 @@ class IoT {
       findingId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'findingId',
-      findingId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(taskId, 'taskId');
@@ -6561,12 +5895,6 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6574,8 +5902,8 @@ class IoT {
       250,
     );
     final $query = <String, List<String>>{
-      if (findingId != null) 'findingId': [findingId],
-      if (taskId != null) 'taskId': [taskId],
+      'findingId': [findingId],
+      'taskId': [taskId],
       if (actionStatus != null) 'actionStatus': [actionStatus.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -6624,13 +5952,13 @@ class IoT {
   /// state.
   Future<ListAuditMitigationActionsTasksResponse>
       listAuditMitigationActionsTasks({
-    @_s.required DateTime endTime,
-    @_s.required DateTime startTime,
-    String auditTaskId,
-    String findingId,
-    int maxResults,
-    String nextToken,
-    AuditMitigationActionsTaskStatus taskStatus,
+    required DateTime endTime,
+    required DateTime startTime,
+    String? auditTaskId,
+    String? findingId,
+    int? maxResults,
+    String? nextToken,
+    AuditMitigationActionsTaskStatus? taskStatus,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
@@ -6640,21 +5968,11 @@ class IoT {
       1,
       40,
     );
-    _s.validateStringPattern(
-      'auditTaskId',
-      auditTaskId,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'findingId',
       findingId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'findingId',
-      findingId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -6663,9 +5981,8 @@ class IoT {
       250,
     );
     final $query = <String, List<String>>{
-      if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
-      if (startTime != null)
-        'startTime': [_s.iso8601ToJson(startTime).toString()],
+      'endTime': [_s.iso8601ToJson(endTime).toString()],
+      'startTime': [_s.iso8601ToJson(startTime).toString()],
       if (auditTaskId != null) 'auditTaskId': [auditTaskId],
       if (findingId != null) 'findingId': [findingId],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -6699,11 +6016,11 @@ class IoT {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListAuditSuppressionsResponse> listAuditSuppressions({
-    bool ascendingOrder,
-    String checkName,
-    int maxResults,
-    String nextToken,
-    ResourceIdentifier resourceIdentifier,
+    bool? ascendingOrder,
+    String? checkName,
+    int? maxResults,
+    String? nextToken,
+    ResourceIdentifier? resourceIdentifier,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6756,12 +6073,12 @@ class IoT {
   /// A filter to limit the output to the specified type of audit: can be one of
   /// "ON_DEMAND_AUDIT_TASK" or "SCHEDULED__AUDIT_TASK".
   Future<ListAuditTasksResponse> listAuditTasks({
-    @_s.required DateTime endTime,
-    @_s.required DateTime startTime,
-    int maxResults,
-    String nextToken,
-    AuditTaskStatus taskStatus,
-    AuditTaskType taskType,
+    required DateTime endTime,
+    required DateTime startTime,
+    int? maxResults,
+    String? nextToken,
+    AuditTaskStatus? taskStatus,
+    AuditTaskType? taskType,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
@@ -6772,9 +6089,8 @@ class IoT {
       250,
     );
     final $query = <String, List<String>>{
-      if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
-      if (startTime != null)
-        'startTime': [_s.iso8601ToJson(startTime).toString()],
+      'endTime': [_s.iso8601ToJson(endTime).toString()],
+      'startTime': [_s.iso8601ToJson(startTime).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (taskStatus != null) 'taskStatus': [taskStatus.toValue()],
@@ -6810,21 +6126,16 @@ class IoT {
   /// Parameter [status] :
   /// The status of the list authorizers request.
   Future<ListAuthorizersResponse> listAuthorizers({
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
-    AuthorizerStatus status,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
+    AuthorizerStatus? status,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -6867,9 +6178,9 @@ class IoT {
   /// a previous response; otherwise <b>null</b> to receive the first set of
   /// results.
   Future<ListBillingGroupsResponse> listBillingGroups({
-    int maxResults,
-    String namePrefixFilter,
-    String nextToken,
+    int? maxResults,
+    String? namePrefixFilter,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6882,11 +6193,6 @@ class IoT {
       namePrefixFilter,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'namePrefixFilter',
-      namePrefixFilter,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -6923,20 +6229,15 @@ class IoT {
   /// Parameter [pageSize] :
   /// The result page size.
   Future<ListCACertificatesResponse> listCACertificates({
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -6981,20 +6282,15 @@ class IoT {
   /// Parameter [pageSize] :
   /// The result page size.
   Future<ListCertificatesResponse> listCertificates({
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7040,10 +6336,10 @@ class IoT {
   /// Parameter [pageSize] :
   /// The result page size.
   Future<ListCertificatesByCAResponse> listCertificatesByCA({
-    @_s.required String caCertificateId,
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    required String caCertificateId,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(caCertificateId, 'caCertificateId');
     _s.validateStringLength(
@@ -7053,22 +6349,11 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'caCertificateId',
-      caCertificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7104,8 +6389,8 @@ class IoT {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListCustomMetricsResponse> listCustomMetrics({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7158,13 +6443,13 @@ class IoT {
   /// The unique identifier of the violation.
   Future<ListDetectMitigationActionsExecutionsResponse>
       listDetectMitigationActionsExecutions({
-    DateTime endTime,
-    int maxResults,
-    String nextToken,
-    DateTime startTime,
-    String taskId,
-    String thingName,
-    String violationId,
+    DateTime? endTime,
+    int? maxResults,
+    String? nextToken,
+    DateTime? startTime,
+    String? taskId,
+    String? thingName,
+    String? violationId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7178,11 +6463,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
@@ -7194,11 +6474,6 @@ class IoT {
       violationId,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'violationId',
-      violationId,
-      r'''[a-zA-Z0-9\-]+''',
     );
     final $query = <String, List<String>>{
       if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -7241,10 +6516,10 @@ class IoT {
   /// The token for the next set of results.
   Future<ListDetectMitigationActionsTasksResponse>
       listDetectMitigationActionsTasks({
-    @_s.required DateTime endTime,
-    @_s.required DateTime startTime,
-    int maxResults,
-    String nextToken,
+    required DateTime endTime,
+    required DateTime startTime,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
@@ -7255,9 +6530,8 @@ class IoT {
       250,
     );
     final $query = <String, List<String>>{
-      if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
-      if (startTime != null)
-        'startTime': [_s.iso8601ToJson(startTime).toString()],
+      'endTime': [_s.iso8601ToJson(endTime).toString()],
+      'startTime': [_s.iso8601ToJson(startTime).toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -7283,8 +6557,8 @@ class IoT {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListDimensionsResponse> listDimensions({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7308,10 +6582,6 @@ class IoT {
 
   /// Gets a list of domain configurations for the user. This list is sorted
   /// alphabetically by domain configuration name.
-  /// <note>
-  /// The domain configuration feature is in public preview and is subject to
-  /// change.
-  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7328,20 +6598,15 @@ class IoT {
   /// Parameter [serviceType] :
   /// The type of service delivered by the endpoint.
   Future<ListDomainConfigurationsResponse> listDomainConfigurations({
-    String marker,
-    int pageSize,
-    ServiceType serviceType,
+    String? marker,
+    int? pageSize,
+    ServiceType? serviceType,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7379,8 +6644,8 @@ class IoT {
   /// The token used to get the next set of results, or <code>null</code> if
   /// there are no additional results.
   Future<ListIndicesResponse> listIndices({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7421,10 +6686,10 @@ class IoT {
   /// Parameter [status] :
   /// The status of the job.
   Future<ListJobExecutionsForJobResponse> listJobExecutionsForJob({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
-    JobExecutionStatus status,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
+    JobExecutionStatus? status,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -7432,12 +6697,6 @@ class IoT {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -7493,11 +6752,11 @@ class IoT {
   /// An optional filter that lets you search for jobs that have the specified
   /// status.
   Future<ListJobExecutionsForThingResponse> listJobExecutionsForThing({
-    @_s.required String thingName,
-    int maxResults,
-    String namespaceId,
-    String nextToken,
-    JobExecutionStatus status,
+    required String thingName,
+    int? maxResults,
+    String? namespaceId,
+    String? nextToken,
+    JobExecutionStatus? status,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -7505,12 +6764,6 @@ class IoT {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -7524,11 +6777,6 @@ class IoT {
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -7544,6 +6792,41 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return ListJobExecutionsForThingResponse.fromJson(response);
+  }
+
+  /// Returns a list of job templates.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the list.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to return the next set of results in the list.
+  Future<ListJobTemplatesResponse> listJobTemplates({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/job-templates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListJobTemplatesResponse.fromJson(response);
   }
 
   /// Lists jobs.
@@ -7589,13 +6872,13 @@ class IoT {
   /// Parameter [thingGroupName] :
   /// A filter that limits the returned jobs to those for the specified group.
   Future<ListJobsResponse> listJobs({
-    int maxResults,
-    String namespaceId,
-    String nextToken,
-    JobStatus status,
-    TargetSelection targetSelection,
-    String thingGroupId,
-    String thingGroupName,
+    int? maxResults,
+    String? namespaceId,
+    String? nextToken,
+    JobStatus? status,
+    TargetSelection? targetSelection,
+    String? thingGroupId,
+    String? thingGroupName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7609,32 +6892,17 @@ class IoT {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
-    );
     _s.validateStringLength(
       'thingGroupId',
       thingGroupId,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingGroupId',
-      thingGroupId,
-      r'''[a-zA-Z0-9\-]+''',
-    );
     _s.validateStringLength(
       'thingGroupName',
       thingGroupName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -7673,9 +6941,9 @@ class IoT {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListMitigationActionsResponse> listMitigationActions({
-    MitigationActionType actionType,
-    int maxResults,
-    String nextToken,
+    MitigationActionType? actionType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7715,9 +6983,9 @@ class IoT {
   /// Parameter [otaUpdateStatus] :
   /// The OTA update job status.
   Future<ListOTAUpdatesResponse> listOTAUpdates({
-    int maxResults,
-    String nextToken,
-    OTAUpdateStatus otaUpdateStatus,
+    int? maxResults,
+    String? nextToken,
+    OTAUpdateStatus? otaUpdateStatus,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -7759,20 +7027,15 @@ class IoT {
   /// Parameter [pageSize] :
   /// The result page size.
   Future<ListOutgoingCertificatesResponse> listOutgoingCertificates({
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7814,20 +7077,15 @@ class IoT {
   /// Parameter [pageSize] :
   /// The result page size.
   Future<ListPoliciesResponse> listPolicies({
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7877,10 +7135,10 @@ class IoT {
   /// The result page size.
   @Deprecated('Deprecated')
   Future<ListPolicyPrincipalsResponse> listPolicyPrincipals({
-    @_s.required String policyName,
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    required String policyName,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -7890,22 +7148,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -7913,8 +7160,9 @@ class IoT {
       1,
       250,
     );
-    final headers = <String, String>{};
-    policyName?.let((v) => headers['x-amzn-iot-policy'] = v.toString());
+    final headers = <String, String>{
+      'x-amzn-iot-policy': policyName.toString(),
+    };
     final $query = <String, List<String>>{
       if (ascendingOrder != null)
         'isAscendingOrder': [ascendingOrder.toString()],
@@ -7945,7 +7193,7 @@ class IoT {
   /// Parameter [policyName] :
   /// The policy name.
   Future<ListPolicyVersionsResponse> listPolicyVersions({
-    @_s.required String policyName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -7953,12 +7201,6 @@ class IoT {
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -8003,10 +7245,10 @@ class IoT {
   /// The result page size.
   @Deprecated('Deprecated')
   Future<ListPrincipalPoliciesResponse> listPrincipalPolicies({
-    @_s.required String principal,
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    required String principal,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringLength(
@@ -8015,19 +7257,15 @@ class IoT {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
-    );
     _s.validateNumRange(
       'pageSize',
       pageSize,
       1,
       250,
     );
-    final headers = <String, String>{};
-    principal?.let((v) => headers['x-amzn-iot-principal'] = v.toString());
+    final headers = <String, String>{
+      'x-amzn-iot-principal': principal.toString(),
+    };
     final $query = <String, List<String>>{
       if (ascendingOrder != null)
         'isAscendingOrder': [ascendingOrder.toString()],
@@ -8067,9 +7305,9 @@ class IoT {
   /// a previous response; otherwise <b>null</b> to receive the first set of
   /// results.
   Future<ListPrincipalThingsResponse> listPrincipalThings({
-    @_s.required String principal,
-    int maxResults,
-    String nextToken,
+    required String principal,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateNumRange(
@@ -8078,8 +7316,9 @@ class IoT {
       1,
       250,
     );
-    final headers = <String, String>{};
-    principal?.let((v) => headers['x-amzn-principal'] = v.toString());
+    final headers = <String, String>{
+      'x-amzn-principal': principal.toString(),
+    };
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
@@ -8113,9 +7352,9 @@ class IoT {
   /// A token to retrieve the next set of results.
   Future<ListProvisioningTemplateVersionsResponse>
       listProvisioningTemplateVersions({
-    @_s.required String templateName,
-    int maxResults,
-    String nextToken,
+    required String templateName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -8123,12 +7362,6 @@ class IoT {
       templateName,
       1,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8165,8 +7398,8 @@ class IoT {
   /// Parameter [nextToken] :
   /// A token to retrieve the next set of results.
   Future<ListProvisioningTemplatesResponse> listProvisioningTemplates({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8205,20 +7438,15 @@ class IoT {
   /// Parameter [pageSize] :
   /// The maximum number of results to return at one time.
   Future<ListRoleAliasesResponse> listRoleAliases({
-    bool ascendingOrder,
-    String marker,
-    int pageSize,
+    bool? ascendingOrder,
+    String? marker,
+    int? pageSize,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -8254,8 +7482,8 @@ class IoT {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListScheduledAuditsResponse> listScheduledAudits({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8303,21 +7531,16 @@ class IoT {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListSecurityProfilesResponse> listSecurityProfiles({
-    String dimensionName,
-    int maxResults,
-    String metricName,
-    String nextToken,
+    String? dimensionName,
+    int? maxResults,
+    String? metricName,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'dimensionName',
       dimensionName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'dimensionName',
-      dimensionName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -8330,11 +7553,6 @@ class IoT {
       metricName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (dimensionName != null) 'dimensionName': [dimensionName],
@@ -8373,10 +7591,10 @@ class IoT {
   /// Parameter [recursive] :
   /// If true, return child groups too.
   Future<ListSecurityProfilesForTargetResponse> listSecurityProfilesForTarget({
-    @_s.required String securityProfileTargetArn,
-    int maxResults,
-    String nextToken,
-    bool recursive,
+    required String securityProfileTargetArn,
+    int? maxResults,
+    String? nextToken,
+    bool? recursive,
   }) async {
     ArgumentError.checkNotNull(
         securityProfileTargetArn, 'securityProfileTargetArn');
@@ -8387,8 +7605,7 @@ class IoT {
       250,
     );
     final $query = <String, List<String>>{
-      if (securityProfileTargetArn != null)
-        'securityProfileTargetArn': [securityProfileTargetArn],
+      'securityProfileTargetArn': [securityProfileTargetArn],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (recursive != null) 'recursive': [recursive.toString()],
@@ -8420,9 +7637,9 @@ class IoT {
   /// Parameter [nextToken] :
   /// A token used to get the next set of results.
   Future<ListStreamsResponse> listStreams({
-    bool ascendingOrder,
-    int maxResults,
-    String nextToken,
+    bool? ascendingOrder,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8461,12 +7678,12 @@ class IoT {
   /// a previous response; otherwise <b>null</b> to receive the first set of
   /// results.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
-    String nextToken,
+    required String resourceArn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final response = await _protocol.send(
@@ -8498,9 +7715,9 @@ class IoT {
   /// Parameter [pageSize] :
   /// The maximum number of results to return at one time.
   Future<ListTargetsForPolicyResponse> listTargetsForPolicy({
-    @_s.required String policyName,
-    String marker,
-    int pageSize,
+    required String policyName,
+    String? marker,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -8510,22 +7727,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -8564,9 +7770,9 @@ class IoT {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListTargetsForSecurityProfileResponse> listTargetsForSecurityProfile({
-    @_s.required String securityProfileName,
-    int maxResults,
-    String nextToken,
+    required String securityProfileName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
     _s.validateStringLength(
@@ -8574,12 +7780,6 @@ class IoT {
       securityProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8627,11 +7827,11 @@ class IoT {
   /// Parameter [recursive] :
   /// If true, return child groups as well.
   Future<ListThingGroupsResponse> listThingGroups({
-    int maxResults,
-    String namePrefixFilter,
-    String nextToken,
-    String parentGroup,
-    bool recursive,
+    int? maxResults,
+    String? namePrefixFilter,
+    String? nextToken,
+    String? parentGroup,
+    bool? recursive,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8645,21 +7845,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'namePrefixFilter',
-      namePrefixFilter,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'parentGroup',
       parentGroup,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'parentGroup',
-      parentGroup,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -8696,9 +7886,9 @@ class IoT {
   /// a previous response; otherwise <b>null</b> to receive the first set of
   /// results.
   Future<ListThingGroupsForThingResponse> listThingGroupsForThing({
-    @_s.required String thingName,
-    int maxResults,
-    String nextToken,
+    required String thingName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -8706,12 +7896,6 @@ class IoT {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8756,9 +7940,9 @@ class IoT {
   /// a previous response; otherwise <b>null</b> to receive the first set of
   /// results.
   Future<ListThingPrincipalsResponse> listThingPrincipals({
-    @_s.required String thingName,
-    int maxResults,
-    String nextToken,
+    required String thingName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -8766,12 +7950,6 @@ class IoT {
       thingName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -8816,10 +7994,10 @@ class IoT {
   /// results.
   Future<ListThingRegistrationTaskReportsResponse>
       listThingRegistrationTaskReports({
-    @_s.required ReportType reportType,
-    @_s.required String taskId,
-    int maxResults,
-    String nextToken,
+    required ReportType reportType,
+    required String taskId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(reportType, 'reportType');
     ArgumentError.checkNotNull(taskId, 'taskId');
@@ -8837,7 +8015,7 @@ class IoT {
       250,
     );
     final $query = <String, List<String>>{
-      if (reportType != null) 'reportType': [reportType.toValue()],
+      'reportType': [reportType.toValue()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -8870,9 +8048,9 @@ class IoT {
   /// Parameter [status] :
   /// The status of the bulk thing provisioning task.
   Future<ListThingRegistrationTasksResponse> listThingRegistrationTasks({
-    int maxResults,
-    String nextToken,
-    Status status,
+    int? maxResults,
+    String? nextToken,
+    Status? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8914,9 +8092,9 @@ class IoT {
   /// Parameter [thingTypeName] :
   /// The name of the thing type.
   Future<ListThingTypesResponse> listThingTypes({
-    int maxResults,
-    String nextToken,
-    String thingTypeName,
+    int? maxResults,
+    String? nextToken,
+    String? thingTypeName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -8929,11 +8107,6 @@ class IoT {
       thingTypeName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -8984,12 +8157,21 @@ class IoT {
   ///
   /// Parameter [thingTypeName] :
   /// The name of the thing type used to search for things.
+  ///
+  /// Parameter [usePrefixAttributeValue] :
+  /// When <code>true</code>, the action returns the thing resources with
+  /// attribute values that start with the <code>attributeValue</code> provided.
+  ///
+  /// When <code>false</code>, or not present, the action returns only the thing
+  /// resources with attribute values that match the entire
+  /// <code>attributeValue</code> provided.
   Future<ListThingsResponse> listThings({
-    String attributeName,
-    String attributeValue,
-    int maxResults,
-    String nextToken,
-    String thingTypeName,
+    String? attributeName,
+    String? attributeValue,
+    int? maxResults,
+    String? nextToken,
+    String? thingTypeName,
+    bool? usePrefixAttributeValue,
   }) async {
     _s.validateStringLength(
       'attributeName',
@@ -8997,21 +8179,11 @@ class IoT {
       0,
       128,
     );
-    _s.validateStringPattern(
-      'attributeName',
-      attributeName,
-      r'''[a-zA-Z0-9_.,@/:#-]+''',
-    );
     _s.validateStringLength(
       'attributeValue',
       attributeValue,
       0,
       800,
-    );
-    _s.validateStringPattern(
-      'attributeValue',
-      attributeValue,
-      r'''[a-zA-Z0-9_.,@/:#-]*''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -9025,17 +8197,14 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     final $query = <String, List<String>>{
       if (attributeName != null) 'attributeName': [attributeName],
       if (attributeValue != null) 'attributeValue': [attributeValue],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (thingTypeName != null) 'thingTypeName': [thingTypeName],
+      if (usePrefixAttributeValue != null)
+        'usePrefixAttributeValue': [usePrefixAttributeValue.toString()],
     };
     final response = await _protocol.send(
       payload: null,
@@ -9065,9 +8234,9 @@ class IoT {
   /// a previous response; otherwise <b>null</b> to receive the first set of
   /// results.
   Future<ListThingsInBillingGroupResponse> listThingsInBillingGroup({
-    @_s.required String billingGroupName,
-    int maxResults,
-    String nextToken,
+    required String billingGroupName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
     _s.validateStringLength(
@@ -9075,12 +8244,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -9126,10 +8289,10 @@ class IoT {
   /// When true, list things in this thing group and in all child groups as
   /// well.
   Future<ListThingsInThingGroupResponse> listThingsInThingGroup({
-    @_s.required String thingGroupName,
-    int maxResults,
-    String nextToken,
-    bool recursive,
+    required String thingGroupName,
+    int? maxResults,
+    String? nextToken,
+    bool? recursive,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
     _s.validateStringLength(
@@ -9137,12 +8300,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -9181,8 +8338,8 @@ class IoT {
   /// a previous response; otherwise <b>null</b> to receive the first set of
   /// results.
   Future<ListTopicRuleDestinationsResponse> listTopicRuleDestinations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -9224,10 +8381,10 @@ class IoT {
   /// Parameter [topic] :
   /// The topic.
   Future<ListTopicRulesResponse> listTopicRules({
-    int maxResults,
-    String nextToken,
-    bool ruleDisabled,
-    String topic,
+    int? maxResults,
+    String? nextToken,
+    bool? ruleDisabled,
+    String? topic,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -9270,9 +8427,9 @@ class IoT {
   /// The type of resource for which you are configuring logging. Must be
   /// <code>THING_Group</code>.
   Future<ListV2LoggingLevelsResponse> listV2LoggingLevels({
-    int maxResults,
-    String nextToken,
-    LogTargetType targetType,
+    int? maxResults,
+    String? nextToken,
+    LogTargetType? targetType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -9329,14 +8486,14 @@ class IoT {
   /// Parameter [thingName] :
   /// A filter to limit results to those alerts caused by the specified thing.
   Future<ListViolationEventsResponse> listViolationEvents({
-    @_s.required DateTime endTime,
-    @_s.required DateTime startTime,
-    BehaviorCriteriaType behaviorCriteriaType,
-    bool listSuppressedAlerts,
-    int maxResults,
-    String nextToken,
-    String securityProfileName,
-    String thingName,
+    required DateTime endTime,
+    required DateTime startTime,
+    BehaviorCriteriaType? behaviorCriteriaType,
+    bool? listSuppressedAlerts,
+    int? maxResults,
+    String? nextToken,
+    String? securityProfileName,
+    String? thingName,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
@@ -9352,11 +8509,6 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
@@ -9364,9 +8516,8 @@ class IoT {
       128,
     );
     final $query = <String, List<String>>{
-      if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
-      if (startTime != null)
-        'startTime': [_s.iso8601ToJson(startTime).toString()],
+      'endTime': [_s.iso8601ToJson(endTime).toString()],
+      'startTime': [_s.iso8601ToJson(startTime).toString()],
       if (behaviorCriteriaType != null)
         'behaviorCriteriaType': [behaviorCriteriaType.toValue()],
       if (listSuppressedAlerts != null)
@@ -9433,12 +8584,12 @@ class IoT {
   /// "key1=value1&amp;key2=value2..."
   /// </note>
   Future<RegisterCACertificateResponse> registerCACertificate({
-    @_s.required String caCertificate,
-    @_s.required String verificationCertificate,
-    bool allowAutoRegistration,
-    RegistrationConfig registrationConfig,
-    bool setAsActive,
-    List<Tag> tags,
+    required String caCertificate,
+    required String verificationCertificate,
+    bool? allowAutoRegistration,
+    RegistrationConfig? registrationConfig,
+    bool? setAsActive,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(caCertificate, 'caCertificate');
     _s.validateStringLength(
@@ -9504,10 +8655,10 @@ class IoT {
   /// Parameter [status] :
   /// The status of the register certificate request.
   Future<RegisterCertificateResponse> registerCertificate({
-    @_s.required String certificatePem,
-    String caCertificatePem,
-    bool setAsActive,
-    CertificateStatus status,
+    required String certificatePem,
+    String? caCertificatePem,
+    bool? setAsActive,
+    CertificateStatus? status,
   }) async {
     ArgumentError.checkNotNull(certificatePem, 'certificatePem');
     _s.validateStringLength(
@@ -9558,8 +8709,8 @@ class IoT {
   /// Parameter [status] :
   /// The status of the register certificate request.
   Future<RegisterCertificateWithoutCAResponse> registerCertificateWithoutCA({
-    @_s.required String certificatePem,
-    CertificateStatus status,
+    required String certificatePem,
+    CertificateStatus? status,
   }) async {
     ArgumentError.checkNotNull(certificatePem, 'certificatePem');
     _s.validateStringLength(
@@ -9607,8 +8758,8 @@ class IoT {
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html">Provisioning
   /// Templates</a> for more information.
   Future<RegisterThingResponse> registerThing({
-    @_s.required String templateBody,
-    Map<String, String> parameters,
+    required String templateBody,
+    Map<String, String>? parameters,
   }) async {
     ArgumentError.checkNotNull(templateBody, 'templateBody');
     final $payload = <String, dynamic>{
@@ -9650,8 +8801,8 @@ class IoT {
   /// Parameter [rejectReason] :
   /// The reason the certificate transfer was rejected.
   Future<void> rejectCertificateTransfer({
-    @_s.required String certificateId,
-    String rejectReason,
+    required String certificateId,
+    String? rejectReason,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -9659,12 +8810,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -9704,10 +8849,10 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing to be removed from the billing group.
   Future<void> removeThingFromBillingGroup({
-    String billingGroupArn,
-    String billingGroupName,
-    String thingArn,
-    String thingName,
+    String? billingGroupArn,
+    String? billingGroupName,
+    String? thingArn,
+    String? thingName,
   }) async {
     _s.validateStringLength(
       'billingGroupName',
@@ -9715,21 +8860,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
@@ -9743,7 +8878,6 @@ class IoT {
       requestUri: '/billing-groups/removeThingFromBillingGroup',
       exceptionFnMap: _exceptionFns,
     );
-    return RemoveThingFromBillingGroupResponse.fromJson(response);
   }
 
   /// Remove the specified thing from the specified group.
@@ -9770,10 +8904,10 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing to remove from the group.
   Future<void> removeThingFromThingGroup({
-    String thingArn,
-    String thingGroupArn,
-    String thingGroupName,
-    String thingName,
+    String? thingArn,
+    String? thingGroupArn,
+    String? thingGroupName,
+    String? thingName,
   }) async {
     _s.validateStringLength(
       'thingGroupName',
@@ -9781,21 +8915,11 @@ class IoT {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (thingArn != null) 'thingArn': thingArn,
@@ -9809,7 +8933,6 @@ class IoT {
       requestUri: '/thing-groups/removeThingFromThingGroup',
       exceptionFnMap: _exceptionFns,
     );
-    return RemoveThingFromThingGroupResponse.fromJson(response);
   }
 
   /// Replaces the rule. You must specify all parameters for the new rule.
@@ -9830,8 +8953,8 @@ class IoT {
   /// Parameter [topicRulePayload] :
   /// The rule payload.
   Future<void> replaceTopicRule({
-    @_s.required String ruleName,
-    @_s.required TopicRulePayload topicRulePayload,
+    required String ruleName,
+    required TopicRulePayload topicRulePayload,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     _s.validateStringLength(
@@ -9839,12 +8962,6 @@ class IoT {
       ruleName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleName',
-      ruleName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(topicRulePayload, 'topicRulePayload');
@@ -9883,11 +9000,11 @@ class IoT {
   /// Parameter [queryVersion] :
   /// The query version.
   Future<SearchIndexResponse> searchIndex({
-    @_s.required String queryString,
-    String indexName,
-    int maxResults,
-    String nextToken,
-    String queryVersion,
+    required String queryString,
+    String? indexName,
+    int? maxResults,
+    String? nextToken,
+    String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -9902,11 +9019,6 @@ class IoT {
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -9944,7 +9056,7 @@ class IoT {
   /// Parameter [authorizerName] :
   /// The authorizer name.
   Future<SetDefaultAuthorizerResponse> setDefaultAuthorizer({
-    @_s.required String authorizerName,
+    required String authorizerName,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
     _s.validateStringLength(
@@ -9952,12 +9064,6 @@ class IoT {
       authorizerName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -9990,8 +9096,8 @@ class IoT {
   /// Parameter [policyVersionId] :
   /// The policy version ID.
   Future<void> setDefaultPolicyVersion({
-    @_s.required String policyName,
-    @_s.required String policyVersionId,
+    required String policyName,
+    required String policyVersionId,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -10001,19 +9107,7 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyVersionId, 'policyVersionId');
-    _s.validateStringPattern(
-      'policyVersionId',
-      policyVersionId,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
     await _protocol.send(
       payload: null,
       method: 'PATCH',
@@ -10035,7 +9129,7 @@ class IoT {
   /// Parameter [loggingOptionsPayload] :
   /// The logging options payload.
   Future<void> setLoggingOptions({
-    @_s.required LoggingOptionsPayload loggingOptionsPayload,
+    required LoggingOptionsPayload loggingOptionsPayload,
   }) async {
     ArgumentError.checkNotNull(loggingOptionsPayload, 'loggingOptionsPayload');
     await _protocol.send(
@@ -10060,13 +9154,13 @@ class IoT {
   /// Parameter [logTarget] :
   /// The log target.
   Future<void> setV2LoggingLevel({
-    @_s.required LogLevel logLevel,
-    @_s.required LogTarget logTarget,
+    required LogLevel logLevel,
+    required LogTarget logTarget,
   }) async {
     ArgumentError.checkNotNull(logLevel, 'logLevel');
     ArgumentError.checkNotNull(logTarget, 'logTarget');
     final $payload = <String, dynamic>{
-      'logLevel': logLevel?.toValue() ?? '',
+      'logLevel': logLevel.toValue(),
       'logTarget': logTarget,
     };
     await _protocol.send(
@@ -10092,9 +9186,9 @@ class IoT {
   /// Parameter [roleArn] :
   /// The ARN of the role that allows IoT to write to Cloudwatch logs.
   Future<void> setV2LoggingOptions({
-    LogLevel defaultLogLevel,
-    bool disableAllLogs,
-    String roleArn,
+    LogLevel? defaultLogLevel,
+    bool? disableAllLogs,
+    String? roleArn,
   }) async {
     final $payload = <String, dynamic>{
       if (defaultLogLevel != null) 'defaultLogLevel': defaultLogLevel.toValue(),
@@ -10122,12 +9216,6 @@ class IoT {
   /// For an audit check, specifies which mitigation actions to apply. Those
   /// actions must be defined in your AWS account.
   ///
-  /// Parameter [clientRequestToken] :
-  /// Each audit mitigation task must have a unique client request token. If you
-  /// try to start a new task with the same token as a task that already exists,
-  /// an exception occurs. If you omit this value, a unique client request token
-  /// is generated automatically.
-  ///
   /// Parameter [target] :
   /// Specifies the audit findings to which the mitigation actions are applied.
   /// You can apply them to a type of audit check, to all findings from an
@@ -10136,29 +9224,21 @@ class IoT {
   /// Parameter [taskId] :
   /// A unique identifier for the task. You can use this identifier to check the
   /// status of the task or to cancel it.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Each audit mitigation task must have a unique client request token. If you
+  /// try to start a new task with the same token as a task that already exists,
+  /// an exception occurs. If you omit this value, a unique client request token
+  /// is generated automatically.
   Future<StartAuditMitigationActionsTaskResponse>
       startAuditMitigationActionsTask({
-    @_s.required Map<String, List<String>> auditCheckToActionsMapping,
-    @_s.required String clientRequestToken,
-    @_s.required AuditMitigationActionsTaskTarget target,
-    @_s.required String taskId,
+    required Map<String, List<String>> auditCheckToActionsMapping,
+    required AuditMitigationActionsTaskTarget target,
+    required String taskId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(
         auditCheckToActionsMapping, 'auditCheckToActionsMapping');
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -10168,16 +9248,16 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
     );
     final $payload = <String, dynamic>{
       'auditCheckToActionsMapping': auditCheckToActionsMapping,
-      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'target': target,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10200,18 +9280,18 @@ class IoT {
   /// Parameter [actions] :
   /// The actions to be performed when a device has unexpected behavior.
   ///
-  /// Parameter [clientRequestToken] :
-  /// Each mitigation action task must have a unique client request token. If
-  /// you try to create a new task with the same token as a task that already
-  /// exists, an exception occurs. If you omit this value, AWS SDKs will
-  /// automatically generate a unique client request.
-  ///
   /// Parameter [target] :
   /// Specifies the ML Detect findings to which the mitigation actions are
   /// applied.
   ///
   /// Parameter [taskId] :
   /// The unique identifier of the task.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Each mitigation action task must have a unique client request token. If
+  /// you try to create a new task with the same token as a task that already
+  /// exists, an exception occurs. If you omit this value, AWS SDKs will
+  /// automatically generate a unique client request.
   ///
   /// Parameter [includeOnlyActiveViolations] :
   /// Specifies to list only active violations.
@@ -10223,29 +9303,15 @@ class IoT {
   /// Specifies the time period of which violation events occurred between.
   Future<StartDetectMitigationActionsTaskResponse>
       startDetectMitigationActionsTask({
-    @_s.required List<String> actions,
-    @_s.required String clientRequestToken,
-    @_s.required DetectMitigationActionsTaskTarget target,
-    @_s.required String taskId,
-    bool includeOnlyActiveViolations,
-    bool includeSuppressedAlerts,
-    ViolationEventOccurrenceRange violationEventOccurrenceRange,
+    required List<String> actions,
+    required DetectMitigationActionsTaskTarget target,
+    required String taskId,
+    String? clientRequestToken,
+    bool? includeOnlyActiveViolations,
+    bool? includeSuppressedAlerts,
+    ViolationEventOccurrenceRange? violationEventOccurrenceRange,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -10255,16 +9321,16 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
     );
     final $payload = <String, dynamic>{
       'actions': actions,
-      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'target': target,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (includeOnlyActiveViolations != null)
         'includeOnlyActiveViolations': includeOnlyActiveViolations,
       if (includeSuppressedAlerts != null)
@@ -10297,7 +9363,7 @@ class IoT {
   /// <code>UpdateAccountAuditConfiguration</code> to select which checks are
   /// enabled.
   Future<StartOnDemandAuditTaskResponse> startOnDemandAuditTask({
-    @_s.required List<String> targetCheckNames,
+    required List<String> targetCheckNames,
   }) async {
     ArgumentError.checkNotNull(targetCheckNames, 'targetCheckNames');
     final $payload = <String, dynamic>{
@@ -10333,10 +9399,10 @@ class IoT {
   /// Parameter [templateBody] :
   /// The provisioning template.
   Future<StartThingRegistrationTaskResponse> startThingRegistrationTask({
-    @_s.required String inputFileBucket,
-    @_s.required String inputFileKey,
-    @_s.required String roleArn,
-    @_s.required String templateBody,
+    required String inputFileBucket,
+    required String inputFileKey,
+    required String roleArn,
+    required String templateBody,
   }) async {
     ArgumentError.checkNotNull(inputFileBucket, 'inputFileBucket');
     _s.validateStringLength(
@@ -10346,24 +9412,12 @@ class IoT {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'inputFileBucket',
-      inputFileBucket,
-      r'''[a-zA-Z0-9._-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(inputFileKey, 'inputFileKey');
     _s.validateStringLength(
       'inputFileKey',
       inputFileKey,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'inputFileKey',
-      inputFileKey,
-      r'''[a-zA-Z0-9!_.*'()-\/]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -10401,7 +9455,7 @@ class IoT {
   /// Parameter [taskId] :
   /// The bulk thing provisioning task ID.
   Future<void> stopThingRegistrationTask({
-    @_s.required String taskId,
+    required String taskId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -10418,7 +9472,6 @@ class IoT {
           '/thing-registration-tasks/${Uri.encodeComponent(taskId)}/cancel',
       exceptionFnMap: _exceptionFns,
     );
-    return StopThingRegistrationTaskResponse.fromJson(response);
   }
 
   /// Adds to or modifies the tags of the given resource. Tags are metadata
@@ -10436,8 +9489,8 @@ class IoT {
   /// Parameter [tags] :
   /// The new or modified tags for the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -10451,7 +9504,6 @@ class IoT {
       requestUri: '/tags',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Tests if a specified principal is authorized to perform an AWS IoT action
@@ -10491,12 +9543,12 @@ class IoT {
   /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:thinggroup/<i>groupName</i>)
   /// and CognitoId (<i>region</i>:<i>id</i>).
   Future<TestAuthorizationResponse> testAuthorization({
-    @_s.required List<AuthInfo> authInfos,
-    String clientId,
-    String cognitoIdentityPoolId,
-    List<String> policyNamesToAdd,
-    List<String> policyNamesToSkip,
-    String principal,
+    required List<AuthInfo> authInfos,
+    String? clientId,
+    String? cognitoIdentityPoolId,
+    List<String>? policyNamesToAdd,
+    List<String>? policyNamesToSkip,
+    String? principal,
   }) async {
     ArgumentError.checkNotNull(authInfos, 'authInfos');
     final $query = <String, List<String>>{
@@ -10551,12 +9603,12 @@ class IoT {
   /// The signature made with the token and your custom authentication service's
   /// private key. This value must be Base-64-encoded.
   Future<TestInvokeAuthorizerResponse> testInvokeAuthorizer({
-    @_s.required String authorizerName,
-    HttpContext httpContext,
-    MqttContext mqttContext,
-    TlsContext tlsContext,
-    String token,
-    String tokenSignature,
+    required String authorizerName,
+    HttpContext? httpContext,
+    MqttContext? mqttContext,
+    TlsContext? tlsContext,
+    String? token,
+    String? tokenSignature,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
     _s.validateStringLength(
@@ -10564,12 +9616,6 @@ class IoT {
       authorizerName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -10583,11 +9629,6 @@ class IoT {
       tokenSignature,
       1,
       2560,
-    );
-    _s.validateStringPattern(
-      'tokenSignature',
-      tokenSignature,
-      r'''[A-Za-z0-9+/]+={0,2}''',
     );
     final $payload = <String, dynamic>{
       if (httpContext != null) 'httpContext': httpContext,
@@ -10637,9 +9678,9 @@ class IoT {
   /// Parameter [transferMessage] :
   /// The transfer message.
   Future<TransferCertificateResponse> transferCertificate({
-    @_s.required String certificateId,
-    @_s.required String targetAwsAccount,
-    String transferMessage,
+    required String certificateId,
+    required String targetAwsAccount,
+    String? transferMessage,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -10647,12 +9688,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetAwsAccount, 'targetAwsAccount');
@@ -10663,12 +9698,6 @@ class IoT {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'targetAwsAccount',
-      targetAwsAccount,
-      r'''[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'transferMessage',
       transferMessage,
@@ -10676,7 +9705,7 @@ class IoT {
       128,
     );
     final $query = <String, List<String>>{
-      if (targetAwsAccount != null) 'targetAwsAccount': [targetAwsAccount],
+      'targetAwsAccount': [targetAwsAccount],
     };
     final $payload = <String, dynamic>{
       if (transferMessage != null) 'transferMessage': transferMessage,
@@ -10704,8 +9733,8 @@ class IoT {
   /// Parameter [tagKeys] :
   /// A list of the keys of the tags to be removed from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -10719,7 +9748,6 @@ class IoT {
       requestUri: '/untag',
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Configures or reconfigures the Device Defender audit settings for this
@@ -10754,10 +9782,10 @@ class IoT {
   /// IoT to access information about your devices, policies, certificates, and
   /// other items as required when performing an audit.
   Future<void> updateAccountAuditConfiguration({
-    Map<String, AuditCheckConfiguration> auditCheckConfigurations,
-    Map<AuditNotificationType, AuditNotificationTarget>
+    Map<String, AuditCheckConfiguration>? auditCheckConfigurations,
+    Map<AuditNotificationType, AuditNotificationTarget>?
         auditNotificationTargetConfigurations,
-    String roleArn,
+    String? roleArn,
   }) async {
     _s.validateStringLength(
       'roleArn',
@@ -10780,7 +9808,6 @@ class IoT {
       requestUri: '/audit/configuration',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateAccountAuditConfigurationResponse.fromJson(response);
   }
 
   /// Updates a Device Defender audit suppression.
@@ -10800,11 +9827,11 @@ class IoT {
   /// Parameter [suppressIndefinitely] :
   /// Indicates whether a suppression should exist indefinitely or not.
   Future<void> updateAuditSuppression({
-    @_s.required String checkName,
-    @_s.required ResourceIdentifier resourceIdentifier,
-    String description,
-    DateTime expirationDate,
-    bool suppressIndefinitely,
+    required String checkName,
+    required ResourceIdentifier resourceIdentifier,
+    String? description,
+    DateTime? expirationDate,
+    bool? suppressIndefinitely,
   }) async {
     ArgumentError.checkNotNull(checkName, 'checkName');
     ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
@@ -10813,11 +9840,6 @@ class IoT {
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{Graph}\x20]*''',
     );
     final $payload = <String, dynamic>{
       'checkName': checkName,
@@ -10834,7 +9856,6 @@ class IoT {
       requestUri: '/audit/suppressions/update',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateAuditSuppressionResponse.fromJson(response);
   }
 
   /// Updates an authorizer.
@@ -10862,11 +9883,11 @@ class IoT {
   /// Parameter [tokenSigningPublicKeys] :
   /// The public keys used to verify the token signature.
   Future<UpdateAuthorizerResponse> updateAuthorizer({
-    @_s.required String authorizerName,
-    String authorizerFunctionArn,
-    AuthorizerStatus status,
-    String tokenKeyName,
-    Map<String, String> tokenSigningPublicKeys,
+    required String authorizerName,
+    String? authorizerFunctionArn,
+    AuthorizerStatus? status,
+    String? tokenKeyName,
+    Map<String, String>? tokenSigningPublicKeys,
   }) async {
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
     _s.validateStringLength(
@@ -10874,12 +9895,6 @@ class IoT {
       authorizerName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authorizerName',
-      authorizerName,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -10893,11 +9908,6 @@ class IoT {
       tokenKeyName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'tokenKeyName',
-      tokenKeyName,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $payload = <String, dynamic>{
       if (authorizerFunctionArn != null)
@@ -10936,9 +9946,9 @@ class IoT {
   /// <code>UpdateBillingGroup</code> request is rejected with a
   /// <code>VersionConflictException</code>.
   Future<UpdateBillingGroupResponse> updateBillingGroup({
-    @_s.required String billingGroupName,
-    @_s.required BillingGroupProperties billingGroupProperties,
-    int expectedVersion,
+    required String billingGroupName,
+    required BillingGroupProperties billingGroupProperties,
+    int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(billingGroupName, 'billingGroupName');
     _s.validateStringLength(
@@ -10946,12 +9956,6 @@ class IoT {
       billingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'billingGroupName',
-      billingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -10997,11 +10001,11 @@ class IoT {
   /// Parameter [removeAutoRegistration] :
   /// If true, removes auto registration.
   Future<void> updateCACertificate({
-    @_s.required String certificateId,
-    AutoRegistrationStatus newAutoRegistrationStatus,
-    CACertificateStatus newStatus,
-    RegistrationConfig registrationConfig,
-    bool removeAutoRegistration,
+    required String certificateId,
+    AutoRegistrationStatus? newAutoRegistrationStatus,
+    CACertificateStatus? newStatus,
+    RegistrationConfig? registrationConfig,
+    bool? removeAutoRegistration,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -11009,12 +10013,6 @@ class IoT {
       certificateId,
       64,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -11070,8 +10068,8 @@ class IoT {
   /// <b>Note:</b> The status value REGISTER_INACTIVE is deprecated and should
   /// not be used.
   Future<void> updateCertificate({
-    @_s.required String certificateId,
-    @_s.required CertificateStatus newStatus,
+    required String certificateId,
+    required CertificateStatus newStatus,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -11081,15 +10079,9 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''(0x)?[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(newStatus, 'newStatus');
     final $query = <String, List<String>>{
-      if (newStatus != null) 'newStatus': [newStatus.toValue()],
+      'newStatus': [newStatus.toValue()],
     };
     await _protocol.send(
       payload: null,
@@ -11115,8 +10107,8 @@ class IoT {
   /// Parameter [metricName] :
   /// The name of the custom metric. Cannot be updated.
   Future<UpdateCustomMetricResponse> updateCustomMetric({
-    @_s.required String displayName,
-    @_s.required String metricName,
+    required String displayName,
+    required String metricName,
   }) async {
     ArgumentError.checkNotNull(displayName, 'displayName');
     _s.validateStringLength(
@@ -11126,24 +10118,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''[\p{Graph}\x20]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricName, 'metricName');
     _s.validateStringLength(
       'metricName',
       metricName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'metricName',
-      metricName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -11175,8 +10155,8 @@ class IoT {
   /// <code>TOPIC_FILTER</code> dimensions, this is a pattern used to match the
   /// MQTT topic (for example, "admin/#").
   Future<UpdateDimensionResponse> updateDimension({
-    @_s.required String name,
-    @_s.required List<String> stringValues,
+    required String name,
+    required List<String> stringValues,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -11184,12 +10164,6 @@ class IoT {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(stringValues, 'stringValues');
@@ -11207,10 +10181,6 @@ class IoT {
 
   /// Updates values stored in the domain configuration. Domain configurations
   /// for default endpoints can't be updated.
-  /// <note>
-  /// The domain configuration feature is in public preview and is subject to
-  /// change.
-  /// </note>
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [CertificateValidationException].
@@ -11232,10 +10202,10 @@ class IoT {
   /// Parameter [removeAuthorizerConfig] :
   /// Removes the authorization configuration from a domain.
   Future<UpdateDomainConfigurationResponse> updateDomainConfiguration({
-    @_s.required String domainConfigurationName,
-    AuthorizerConfig authorizerConfig,
-    DomainConfigurationStatus domainConfigurationStatus,
-    bool removeAuthorizerConfig,
+    required String domainConfigurationName,
+    AuthorizerConfig? authorizerConfig,
+    DomainConfigurationStatus? domainConfigurationStatus,
+    bool? removeAuthorizerConfig,
   }) async {
     ArgumentError.checkNotNull(
         domainConfigurationName, 'domainConfigurationName');
@@ -11244,12 +10214,6 @@ class IoT {
       domainConfigurationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domainConfigurationName',
-      domainConfigurationName,
-      r'''[\w.:-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -11303,12 +10267,12 @@ class IoT {
   /// the query version defaults to this value.
   /// </note>
   Future<UpdateDynamicThingGroupResponse> updateDynamicThingGroup({
-    @_s.required String thingGroupName,
-    @_s.required ThingGroupProperties thingGroupProperties,
-    int expectedVersion,
-    String indexName,
-    String queryString,
-    String queryVersion,
+    required String thingGroupName,
+    required ThingGroupProperties thingGroupProperties,
+    int? expectedVersion,
+    String? indexName,
+    String? queryString,
+    String? queryVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
     _s.validateStringLength(
@@ -11318,23 +10282,12 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
     _s.validateStringLength(
       'indexName',
       indexName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'indexName',
-      indexName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     _s.validateStringLength(
       'queryString',
@@ -11368,7 +10321,7 @@ class IoT {
   /// Parameter [eventConfigurations] :
   /// The new event configuration values.
   Future<void> updateEventConfigurations({
-    Map<EventType, Configuration> eventConfigurations,
+    Map<EventType, Configuration>? eventConfigurations,
   }) async {
     final $payload = <String, dynamic>{
       if (eventConfigurations != null)
@@ -11381,7 +10334,6 @@ class IoT {
       requestUri: '/event-configurations',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEventConfigurationsResponse.fromJson(response);
   }
 
   /// Updates the search configuration.
@@ -11398,8 +10350,8 @@ class IoT {
   /// Parameter [thingIndexingConfiguration] :
   /// Thing indexing configuration.
   Future<void> updateIndexingConfiguration({
-    ThingGroupIndexingConfiguration thingGroupIndexingConfiguration,
-    ThingIndexingConfiguration thingIndexingConfiguration,
+    ThingGroupIndexingConfiguration? thingGroupIndexingConfiguration,
+    ThingIndexingConfiguration? thingIndexingConfiguration,
   }) async {
     final $payload = <String, dynamic>{
       if (thingGroupIndexingConfiguration != null)
@@ -11413,7 +10365,6 @@ class IoT {
       requestUri: '/indexing/config',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateIndexingConfigurationResponse.fromJson(response);
   }
 
   /// Updates supported fields of the specified job.
@@ -11457,13 +10408,13 @@ class IoT {
   /// another terminal state before the time expires, it will be automatically
   /// set to <code>TIMED_OUT</code>.
   Future<void> updateJob({
-    @_s.required String jobId,
-    AbortConfig abortConfig,
-    String description,
-    JobExecutionsRolloutConfig jobExecutionsRolloutConfig,
-    String namespaceId,
-    PresignedUrlConfig presignedUrlConfig,
-    TimeoutConfig timeoutConfig,
+    required String jobId,
+    AbortConfig? abortConfig,
+    String? description,
+    JobExecutionsRolloutConfig? jobExecutionsRolloutConfig,
+    String? namespaceId,
+    PresignedUrlConfig? presignedUrlConfig,
+    TimeoutConfig? timeoutConfig,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -11473,33 +10424,17 @@ class IoT {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
-    );
     _s.validateStringLength(
       'namespaceId',
       namespaceId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'namespaceId',
-      namespaceId,
-      r'''[a-zA-Z0-9_-]+''',
     );
     final $query = <String, List<String>>{
       if (namespaceId != null) 'namespaceId': [namespaceId],
@@ -11539,9 +10474,9 @@ class IoT {
   /// Parameter [roleArn] :
   /// The ARN of the IAM role that is used to apply the mitigation action.
   Future<UpdateMitigationActionResponse> updateMitigationAction({
-    @_s.required String actionName,
-    MitigationActionParams actionParams,
-    String roleArn,
+    required String actionName,
+    MitigationActionParams? actionParams,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(actionName, 'actionName');
     _s.validateStringLength(
@@ -11549,12 +10484,6 @@ class IoT {
       actionName,
       0,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'actionName',
-      actionName,
-      r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -11607,13 +10536,13 @@ class IoT {
   /// Parameter [removePreProvisioningHook] :
   /// Removes pre-provisioning hook template.
   Future<void> updateProvisioningTemplate({
-    @_s.required String templateName,
-    int defaultVersionId,
-    String description,
-    bool enabled,
-    ProvisioningHook preProvisioningHook,
-    String provisioningRoleArn,
-    bool removePreProvisioningHook,
+    required String templateName,
+    int? defaultVersionId,
+    String? description,
+    bool? enabled,
+    ProvisioningHook? preProvisioningHook,
+    String? provisioningRoleArn,
+    bool? removePreProvisioningHook,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -11623,22 +10552,11 @@ class IoT {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'templateName',
-      templateName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       500,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]*''',
     );
     _s.validateStringLength(
       'provisioningRoleArn',
@@ -11664,7 +10582,6 @@ class IoT {
           '/provisioning-templates/${Uri.encodeComponent(templateName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateProvisioningTemplateResponse.fromJson(response);
   }
 
   /// Updates a role alias.
@@ -11685,9 +10602,9 @@ class IoT {
   /// Parameter [roleArn] :
   /// The role ARN.
   Future<UpdateRoleAliasResponse> updateRoleAlias({
-    @_s.required String roleAlias,
-    int credentialDurationSeconds,
-    String roleArn,
+    required String roleAlias,
+    int? credentialDurationSeconds,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
     _s.validateStringLength(
@@ -11695,12 +10612,6 @@ class IoT {
       roleAlias,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleAlias',
-      roleAlias,
-      r'''[\w=,@-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -11767,11 +10678,11 @@ class IoT {
   /// <code>UpdateAccountAuditConfiguration</code> to select which checks are
   /// enabled.)
   Future<UpdateScheduledAuditResponse> updateScheduledAudit({
-    @_s.required String scheduledAuditName,
-    String dayOfMonth,
-    DayOfWeek dayOfWeek,
-    AuditFrequency frequency,
-    List<String> targetCheckNames,
+    required String scheduledAuditName,
+    String? dayOfMonth,
+    DayOfWeek? dayOfWeek,
+    AuditFrequency? frequency,
+    List<String>? targetCheckNames,
   }) async {
     ArgumentError.checkNotNull(scheduledAuditName, 'scheduledAuditName');
     _s.validateStringLength(
@@ -11780,17 +10691,6 @@ class IoT {
       1,
       128,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'scheduledAuditName',
-      scheduledAuditName,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dayOfMonth',
-      dayOfMonth,
-      r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
     final $payload = <String, dynamic>{
       if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
@@ -11866,16 +10766,16 @@ class IoT {
   /// Parameter [securityProfileDescription] :
   /// A description of the security profile.
   Future<UpdateSecurityProfileResponse> updateSecurityProfile({
-    @_s.required String securityProfileName,
-    List<String> additionalMetricsToRetain,
-    List<MetricToRetain> additionalMetricsToRetainV2,
-    Map<AlertTargetType, AlertTarget> alertTargets,
-    List<Behavior> behaviors,
-    bool deleteAdditionalMetricsToRetain,
-    bool deleteAlertTargets,
-    bool deleteBehaviors,
-    int expectedVersion,
-    String securityProfileDescription,
+    required String securityProfileName,
+    List<String>? additionalMetricsToRetain,
+    List<MetricToRetain>? additionalMetricsToRetainV2,
+    Map<AlertTargetType, AlertTarget>? alertTargets,
+    List<Behavior>? behaviors,
+    bool? deleteAdditionalMetricsToRetain,
+    bool? deleteAlertTargets,
+    bool? deleteBehaviors,
+    int? expectedVersion,
+    String? securityProfileDescription,
   }) async {
     ArgumentError.checkNotNull(securityProfileName, 'securityProfileName');
     _s.validateStringLength(
@@ -11885,22 +10785,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityProfileName',
-      securityProfileName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'securityProfileDescription',
       securityProfileDescription,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'securityProfileDescription',
-      securityProfileDescription,
-      r'''[\p{Graph}\x20]*''',
     );
     final $query = <String, List<String>>{
       if (expectedVersion != null)
@@ -11954,10 +10843,10 @@ class IoT {
   /// An IAM role that allows the IoT service principal assumes to access your
   /// S3 files.
   Future<UpdateStreamResponse> updateStream({
-    @_s.required String streamId,
-    String description,
-    List<StreamFile> files,
-    String roleArn,
+    required String streamId,
+    String? description,
+    List<StreamFile>? files,
+    String? roleArn,
   }) async {
     ArgumentError.checkNotNull(streamId, 'streamId');
     _s.validateStringLength(
@@ -11967,22 +10856,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamId',
-      streamId,
-      r'''[a-zA-Z0-9_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       2028,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]+''',
     );
     _s.validateStringLength(
       'roleArn',
@@ -12041,11 +10919,11 @@ class IoT {
   /// Parameter [thingTypeName] :
   /// The name of the thing type.
   Future<void> updateThing({
-    @_s.required String thingName,
-    AttributePayload attributePayload,
-    int expectedVersion,
-    bool removeThingType,
-    String thingTypeName,
+    required String thingName,
+    AttributePayload? attributePayload,
+    int? expectedVersion,
+    bool? removeThingType,
+    String? thingTypeName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -12055,22 +10933,11 @@ class IoT {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'thingTypeName',
       thingTypeName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingTypeName',
-      thingTypeName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (attributePayload != null) 'attributePayload': attributePayload,
@@ -12084,7 +10951,6 @@ class IoT {
       requestUri: '/things/${Uri.encodeComponent(thingName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateThingResponse.fromJson(response);
   }
 
   /// Update a thing group.
@@ -12105,9 +10971,9 @@ class IoT {
   /// The expected version of the thing group. If this does not match the
   /// version of the thing group being updated, the update will fail.
   Future<UpdateThingGroupResponse> updateThingGroup({
-    @_s.required String thingGroupName,
-    @_s.required ThingGroupProperties thingGroupProperties,
-    int expectedVersion,
+    required String thingGroupName,
+    required ThingGroupProperties thingGroupProperties,
+    int? expectedVersion,
   }) async {
     ArgumentError.checkNotNull(thingGroupName, 'thingGroupName');
     _s.validateStringLength(
@@ -12115,12 +10981,6 @@ class IoT {
       thingGroupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'thingGroupName',
-      thingGroupName,
-      r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(thingGroupProperties, 'thingGroupProperties');
@@ -12159,21 +11019,16 @@ class IoT {
   /// Parameter [thingName] :
   /// The thing whose group memberships will be updated.
   Future<void> updateThingGroupsForThing({
-    bool overrideDynamicGroups,
-    List<String> thingGroupsToAdd,
-    List<String> thingGroupsToRemove,
-    String thingName,
+    bool? overrideDynamicGroups,
+    List<String>? thingGroupsToAdd,
+    List<String>? thingGroupsToRemove,
+    String? thingName,
   }) async {
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final $payload = <String, dynamic>{
       if (overrideDynamicGroups != null)
@@ -12189,7 +11044,6 @@ class IoT {
       requestUri: '/thing-groups/updateThingGroupsForThing',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateThingGroupsForThingResponse.fromJson(response);
   }
 
   /// Updates a topic rule destination. You use this to change the status,
@@ -12229,14 +11083,14 @@ class IoT {
   /// challenge to be sent to your confirmation endpoint.
   /// </dd> </dl>
   Future<void> updateTopicRuleDestination({
-    @_s.required String arn,
-    @_s.required TopicRuleDestinationStatus status,
+    required String arn,
+    required TopicRuleDestinationStatus status,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
       'arn': arn,
-      'status': status?.toValue() ?? '',
+      'status': status.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -12244,7 +11098,6 @@ class IoT {
       requestUri: '/destinations',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateTopicRuleDestinationResponse.fromJson(response);
   }
 
   /// Validates a Device Defender security profile behaviors specification.
@@ -12258,7 +11111,7 @@ class IoT {
   /// alert.
   Future<ValidateSecurityProfileBehaviorsResponse>
       validateSecurityProfileBehaviors({
-    @_s.required List<Behavior> behaviors,
+    required List<Behavior> behaviors,
   }) async {
     ArgumentError.checkNotNull(behaviors, 'behaviors');
     final $payload = <String, dynamic>{
@@ -12275,48 +11128,64 @@ class IoT {
 }
 
 enum AbortAction {
-  @_s.JsonValue('CANCEL')
   cancel,
 }
 
-/// The criteria that determine when and how a job abort takes place.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
-class AbortConfig {
-  /// The list of criteria that determine when and how to abort the job.
-  @_s.JsonKey(name: 'criteriaList')
-  final List<AbortCriteria> criteriaList;
+extension on AbortAction {
+  String toValue() {
+    switch (this) {
+      case AbortAction.cancel:
+        return 'CANCEL';
+    }
+  }
+}
 
-  AbortConfig({
-    @_s.required this.criteriaList,
-  });
-  factory AbortConfig.fromJson(Map<String, dynamic> json) =>
-      _$AbortConfigFromJson(json);
-
-  Map<String, dynamic> toJson() => _$AbortConfigToJson(this);
+extension on String {
+  AbortAction toAbortAction() {
+    switch (this) {
+      case 'CANCEL':
+        return AbortAction.cancel;
+    }
+    throw Exception('$this is not known in enum AbortAction');
+  }
 }
 
 /// The criteria that determine when and how a job abort takes place.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+class AbortConfig {
+  /// The list of criteria that determine when and how to abort the job.
+  final List<AbortCriteria> criteriaList;
+
+  AbortConfig({
+    required this.criteriaList,
+  });
+
+  factory AbortConfig.fromJson(Map<String, dynamic> json) {
+    return AbortConfig(
+      criteriaList: (json['criteriaList'] as List)
+          .whereNotNull()
+          .map((e) => AbortCriteria.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final criteriaList = this.criteriaList;
+    return {
+      'criteriaList': criteriaList,
+    };
+  }
+}
+
+/// The criteria that determine when and how a job abort takes place.
 class AbortCriteria {
   /// The type of job action to take to initiate the job abort.
-  @_s.JsonKey(name: 'action')
   final AbortAction action;
 
   /// The type of job execution failures that can initiate a job abort.
-  @_s.JsonKey(name: 'failureType')
   final JobExecutionFailureType failureType;
 
   /// The minimum number of things which must receive job execution notifications
   /// before the job can be aborted.
-  @_s.JsonKey(name: 'minNumberOfExecutedThings')
   final int minNumberOfExecutedThings;
 
   /// The minimum percentage of job execution failures that must occur to initiate
@@ -12324,118 +11193,109 @@ class AbortCriteria {
   ///
   /// AWS IoT supports up to two digits after the decimal (for example, 10.9 and
   /// 10.99, but not 10.999).
-  @_s.JsonKey(name: 'thresholdPercentage')
   final double thresholdPercentage;
 
   AbortCriteria({
-    @_s.required this.action,
-    @_s.required this.failureType,
-    @_s.required this.minNumberOfExecutedThings,
-    @_s.required this.thresholdPercentage,
+    required this.action,
+    required this.failureType,
+    required this.minNumberOfExecutedThings,
+    required this.thresholdPercentage,
   });
-  factory AbortCriteria.fromJson(Map<String, dynamic> json) =>
-      _$AbortCriteriaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AbortCriteriaToJson(this);
+  factory AbortCriteria.fromJson(Map<String, dynamic> json) {
+    return AbortCriteria(
+      action: (json['action'] as String).toAbortAction(),
+      failureType: (json['failureType'] as String).toJobExecutionFailureType(),
+      minNumberOfExecutedThings: json['minNumberOfExecutedThings'] as int,
+      thresholdPercentage: json['thresholdPercentage'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final failureType = this.failureType;
+    final minNumberOfExecutedThings = this.minNumberOfExecutedThings;
+    final thresholdPercentage = this.thresholdPercentage;
+    return {
+      'action': action.toValue(),
+      'failureType': failureType.toValue(),
+      'minNumberOfExecutedThings': minNumberOfExecutedThings,
+      'thresholdPercentage': thresholdPercentage,
+    };
+  }
 }
 
 /// Describes the actions associated with a rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Action {
   /// Change the state of a CloudWatch alarm.
-  @_s.JsonKey(name: 'cloudwatchAlarm')
-  final CloudwatchAlarmAction cloudwatchAlarm;
+  final CloudwatchAlarmAction? cloudwatchAlarm;
 
   /// Send data to CloudWatch Logs.
-  @_s.JsonKey(name: 'cloudwatchLogs')
-  final CloudwatchLogsAction cloudwatchLogs;
+  final CloudwatchLogsAction? cloudwatchLogs;
 
   /// Capture a CloudWatch metric.
-  @_s.JsonKey(name: 'cloudwatchMetric')
-  final CloudwatchMetricAction cloudwatchMetric;
+  final CloudwatchMetricAction? cloudwatchMetric;
 
   /// Write to a DynamoDB table.
-  @_s.JsonKey(name: 'dynamoDB')
-  final DynamoDBAction dynamoDB;
+  final DynamoDBAction? dynamoDB;
 
   /// Write to a DynamoDB table. This is a new version of the DynamoDB action. It
   /// allows you to write each attribute in an MQTT message payload into a
   /// separate DynamoDB column.
-  @_s.JsonKey(name: 'dynamoDBv2')
-  final DynamoDBv2Action dynamoDBv2;
+  final DynamoDBv2Action? dynamoDBv2;
 
   /// Write data to an Amazon Elasticsearch Service domain.
-  @_s.JsonKey(name: 'elasticsearch')
-  final ElasticsearchAction elasticsearch;
+  final ElasticsearchAction? elasticsearch;
 
   /// Write to an Amazon Kinesis Firehose stream.
-  @_s.JsonKey(name: 'firehose')
-  final FirehoseAction firehose;
+  final FirehoseAction? firehose;
 
   /// Send data to an HTTPS endpoint.
-  @_s.JsonKey(name: 'http')
-  final HttpAction http;
+  final HttpAction? http;
 
   /// Sends message data to an AWS IoT Analytics channel.
-  @_s.JsonKey(name: 'iotAnalytics')
-  final IotAnalyticsAction iotAnalytics;
+  final IotAnalyticsAction? iotAnalytics;
 
   /// Sends an input to an AWS IoT Events detector.
-  @_s.JsonKey(name: 'iotEvents')
-  final IotEventsAction iotEvents;
+  final IotEventsAction? iotEvents;
 
   /// Sends data from the MQTT message that triggered the rule to AWS IoT SiteWise
   /// asset properties.
-  @_s.JsonKey(name: 'iotSiteWise')
-  final IotSiteWiseAction iotSiteWise;
+  final IotSiteWiseAction? iotSiteWise;
 
   /// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK)
   /// or self-managed Apache Kafka cluster.
-  @_s.JsonKey(name: 'kafka')
-  final KafkaAction kafka;
+  final KafkaAction? kafka;
 
   /// Write data to an Amazon Kinesis stream.
-  @_s.JsonKey(name: 'kinesis')
-  final KinesisAction kinesis;
+  final KinesisAction? kinesis;
 
   /// Invoke a Lambda function.
-  @_s.JsonKey(name: 'lambda')
-  final LambdaAction lambda;
+  final LambdaAction? lambda;
 
   /// Publish to another MQTT topic.
-  @_s.JsonKey(name: 'republish')
-  final RepublishAction republish;
+  final RepublishAction? republish;
 
   /// Write to an Amazon S3 bucket.
-  @_s.JsonKey(name: 's3')
-  final S3Action s3;
+  final S3Action? s3;
 
   /// Send a message to a Salesforce IoT Cloud Input Stream.
-  @_s.JsonKey(name: 'salesforce')
-  final SalesforceAction salesforce;
+  final SalesforceAction? salesforce;
 
   /// Publish to an Amazon SNS topic.
-  @_s.JsonKey(name: 'sns')
-  final SnsAction sns;
+  final SnsAction? sns;
 
   /// Publish to an Amazon SQS queue.
-  @_s.JsonKey(name: 'sqs')
-  final SqsAction sqs;
+  final SqsAction? sqs;
 
   /// Starts execution of a Step Functions state machine.
-  @_s.JsonKey(name: 'stepFunctions')
-  final StepFunctionsAction stepFunctions;
+  final StepFunctionsAction? stepFunctions;
 
   /// The Timestream rule action writes attributes (measures) from an MQTT message
   /// into an Amazon Timestream table. For more information, see the <a
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html">Timestream</a>
   /// topic rule action documentation.
-  @_s.JsonKey(name: 'timestream')
-  final TimestreamAction timestream;
+  final TimestreamAction? timestream;
 
   Action({
     this.cloudwatchAlarm,
@@ -12460,64 +11320,198 @@ class Action {
     this.stepFunctions,
     this.timestream,
   });
-  factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActionToJson(this);
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      cloudwatchAlarm: json['cloudwatchAlarm'] != null
+          ? CloudwatchAlarmAction.fromJson(
+              json['cloudwatchAlarm'] as Map<String, dynamic>)
+          : null,
+      cloudwatchLogs: json['cloudwatchLogs'] != null
+          ? CloudwatchLogsAction.fromJson(
+              json['cloudwatchLogs'] as Map<String, dynamic>)
+          : null,
+      cloudwatchMetric: json['cloudwatchMetric'] != null
+          ? CloudwatchMetricAction.fromJson(
+              json['cloudwatchMetric'] as Map<String, dynamic>)
+          : null,
+      dynamoDB: json['dynamoDB'] != null
+          ? DynamoDBAction.fromJson(json['dynamoDB'] as Map<String, dynamic>)
+          : null,
+      dynamoDBv2: json['dynamoDBv2'] != null
+          ? DynamoDBv2Action.fromJson(
+              json['dynamoDBv2'] as Map<String, dynamic>)
+          : null,
+      elasticsearch: json['elasticsearch'] != null
+          ? ElasticsearchAction.fromJson(
+              json['elasticsearch'] as Map<String, dynamic>)
+          : null,
+      firehose: json['firehose'] != null
+          ? FirehoseAction.fromJson(json['firehose'] as Map<String, dynamic>)
+          : null,
+      http: json['http'] != null
+          ? HttpAction.fromJson(json['http'] as Map<String, dynamic>)
+          : null,
+      iotAnalytics: json['iotAnalytics'] != null
+          ? IotAnalyticsAction.fromJson(
+              json['iotAnalytics'] as Map<String, dynamic>)
+          : null,
+      iotEvents: json['iotEvents'] != null
+          ? IotEventsAction.fromJson(json['iotEvents'] as Map<String, dynamic>)
+          : null,
+      iotSiteWise: json['iotSiteWise'] != null
+          ? IotSiteWiseAction.fromJson(
+              json['iotSiteWise'] as Map<String, dynamic>)
+          : null,
+      kafka: json['kafka'] != null
+          ? KafkaAction.fromJson(json['kafka'] as Map<String, dynamic>)
+          : null,
+      kinesis: json['kinesis'] != null
+          ? KinesisAction.fromJson(json['kinesis'] as Map<String, dynamic>)
+          : null,
+      lambda: json['lambda'] != null
+          ? LambdaAction.fromJson(json['lambda'] as Map<String, dynamic>)
+          : null,
+      republish: json['republish'] != null
+          ? RepublishAction.fromJson(json['republish'] as Map<String, dynamic>)
+          : null,
+      s3: json['s3'] != null
+          ? S3Action.fromJson(json['s3'] as Map<String, dynamic>)
+          : null,
+      salesforce: json['salesforce'] != null
+          ? SalesforceAction.fromJson(
+              json['salesforce'] as Map<String, dynamic>)
+          : null,
+      sns: json['sns'] != null
+          ? SnsAction.fromJson(json['sns'] as Map<String, dynamic>)
+          : null,
+      sqs: json['sqs'] != null
+          ? SqsAction.fromJson(json['sqs'] as Map<String, dynamic>)
+          : null,
+      stepFunctions: json['stepFunctions'] != null
+          ? StepFunctionsAction.fromJson(
+              json['stepFunctions'] as Map<String, dynamic>)
+          : null,
+      timestream: json['timestream'] != null
+          ? TimestreamAction.fromJson(
+              json['timestream'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudwatchAlarm = this.cloudwatchAlarm;
+    final cloudwatchLogs = this.cloudwatchLogs;
+    final cloudwatchMetric = this.cloudwatchMetric;
+    final dynamoDB = this.dynamoDB;
+    final dynamoDBv2 = this.dynamoDBv2;
+    final elasticsearch = this.elasticsearch;
+    final firehose = this.firehose;
+    final http = this.http;
+    final iotAnalytics = this.iotAnalytics;
+    final iotEvents = this.iotEvents;
+    final iotSiteWise = this.iotSiteWise;
+    final kafka = this.kafka;
+    final kinesis = this.kinesis;
+    final lambda = this.lambda;
+    final republish = this.republish;
+    final s3 = this.s3;
+    final salesforce = this.salesforce;
+    final sns = this.sns;
+    final sqs = this.sqs;
+    final stepFunctions = this.stepFunctions;
+    final timestream = this.timestream;
+    return {
+      if (cloudwatchAlarm != null) 'cloudwatchAlarm': cloudwatchAlarm,
+      if (cloudwatchLogs != null) 'cloudwatchLogs': cloudwatchLogs,
+      if (cloudwatchMetric != null) 'cloudwatchMetric': cloudwatchMetric,
+      if (dynamoDB != null) 'dynamoDB': dynamoDB,
+      if (dynamoDBv2 != null) 'dynamoDBv2': dynamoDBv2,
+      if (elasticsearch != null) 'elasticsearch': elasticsearch,
+      if (firehose != null) 'firehose': firehose,
+      if (http != null) 'http': http,
+      if (iotAnalytics != null) 'iotAnalytics': iotAnalytics,
+      if (iotEvents != null) 'iotEvents': iotEvents,
+      if (iotSiteWise != null) 'iotSiteWise': iotSiteWise,
+      if (kafka != null) 'kafka': kafka,
+      if (kinesis != null) 'kinesis': kinesis,
+      if (lambda != null) 'lambda': lambda,
+      if (republish != null) 'republish': republish,
+      if (s3 != null) 's3': s3,
+      if (salesforce != null) 'salesforce': salesforce,
+      if (sns != null) 'sns': sns,
+      if (sqs != null) 'sqs': sqs,
+      if (stepFunctions != null) 'stepFunctions': stepFunctions,
+      if (timestream != null) 'timestream': timestream,
+    };
+  }
 }
 
 enum ActionType {
-  @_s.JsonValue('PUBLISH')
   publish,
-  @_s.JsonValue('SUBSCRIBE')
   subscribe,
-  @_s.JsonValue('RECEIVE')
   receive,
-  @_s.JsonValue('CONNECT')
   connect,
+}
+
+extension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.publish:
+        return 'PUBLISH';
+      case ActionType.subscribe:
+        return 'SUBSCRIBE';
+      case ActionType.receive:
+        return 'RECEIVE';
+      case ActionType.connect:
+        return 'CONNECT';
+    }
+  }
+}
+
+extension on String {
+  ActionType toActionType() {
+    switch (this) {
+      case 'PUBLISH':
+        return ActionType.publish;
+      case 'SUBSCRIBE':
+        return ActionType.subscribe;
+      case 'RECEIVE':
+        return ActionType.receive;
+      case 'CONNECT':
+        return ActionType.connect;
+    }
+    throw Exception('$this is not known in enum ActionType');
+  }
 }
 
 /// Information about an active Device Defender security profile behavior
 /// violation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActiveViolation {
   /// The behavior that is being violated.
-  @_s.JsonKey(name: 'behavior')
-  final Behavior behavior;
+  final Behavior? behavior;
 
   /// The time the most recent violation occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastViolationTime')
-  final DateTime lastViolationTime;
+  final DateTime? lastViolationTime;
 
   /// The value of the metric (the measurement) that caused the most recent
   /// violation.
-  @_s.JsonKey(name: 'lastViolationValue')
-  final MetricValue lastViolationValue;
+  final MetricValue? lastViolationValue;
 
   /// The security profile with the behavior is in violation.
-  @_s.JsonKey(name: 'securityProfileName')
-  final String securityProfileName;
+  final String? securityProfileName;
 
   /// The name of the thing responsible for the active violation.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   /// The details of a violation event.
-  @_s.JsonKey(name: 'violationEventAdditionalInfo')
-  final ViolationEventAdditionalInfo violationEventAdditionalInfo;
+  final ViolationEventAdditionalInfo? violationEventAdditionalInfo;
 
   /// The ID of the active violation.
-  @_s.JsonKey(name: 'violationId')
-  final String violationId;
+  final String? violationId;
 
   /// The time the violation started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'violationStartTime')
-  final DateTime violationStartTime;
+  final DateTime? violationStartTime;
 
   ActiveViolation({
     this.behavior,
@@ -12529,91 +11523,150 @@ class ActiveViolation {
     this.violationId,
     this.violationStartTime,
   });
-  factory ActiveViolation.fromJson(Map<String, dynamic> json) =>
-      _$ActiveViolationFromJson(json);
+
+  factory ActiveViolation.fromJson(Map<String, dynamic> json) {
+    return ActiveViolation(
+      behavior: json['behavior'] != null
+          ? Behavior.fromJson(json['behavior'] as Map<String, dynamic>)
+          : null,
+      lastViolationTime: timeStampFromJson(json['lastViolationTime']),
+      lastViolationValue: json['lastViolationValue'] != null
+          ? MetricValue.fromJson(
+              json['lastViolationValue'] as Map<String, dynamic>)
+          : null,
+      securityProfileName: json['securityProfileName'] as String?,
+      thingName: json['thingName'] as String?,
+      violationEventAdditionalInfo: json['violationEventAdditionalInfo'] != null
+          ? ViolationEventAdditionalInfo.fromJson(
+              json['violationEventAdditionalInfo'] as Map<String, dynamic>)
+          : null,
+      violationId: json['violationId'] as String?,
+      violationStartTime: timeStampFromJson(json['violationStartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behavior = this.behavior;
+    final lastViolationTime = this.lastViolationTime;
+    final lastViolationValue = this.lastViolationValue;
+    final securityProfileName = this.securityProfileName;
+    final thingName = this.thingName;
+    final violationEventAdditionalInfo = this.violationEventAdditionalInfo;
+    final violationId = this.violationId;
+    final violationStartTime = this.violationStartTime;
+    return {
+      if (behavior != null) 'behavior': behavior,
+      if (lastViolationTime != null)
+        'lastViolationTime': unixTimestampToJson(lastViolationTime),
+      if (lastViolationValue != null) 'lastViolationValue': lastViolationValue,
+      if (securityProfileName != null)
+        'securityProfileName': securityProfileName,
+      if (thingName != null) 'thingName': thingName,
+      if (violationEventAdditionalInfo != null)
+        'violationEventAdditionalInfo': violationEventAdditionalInfo,
+      if (violationId != null) 'violationId': violationId,
+      if (violationStartTime != null)
+        'violationStartTime': unixTimestampToJson(violationStartTime),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddThingToBillingGroupResponse {
   AddThingToBillingGroupResponse();
-  factory AddThingToBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddThingToBillingGroupResponseFromJson(json);
+
+  factory AddThingToBillingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return AddThingToBillingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddThingToThingGroupResponse {
   AddThingToThingGroupResponse();
-  factory AddThingToThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddThingToThingGroupResponseFromJson(json);
+
+  factory AddThingToThingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return AddThingToThingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Parameters used when defining a mitigation action that move a set of things
 /// to a thing group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AddThingsToThingGroupParams {
   /// The list of groups to which you want to add the things that triggered the
   /// mitigation action. You can add a thing to a maximum of 10 groups, but you
   /// can't add a thing to more than one group in the same hierarchy.
-  @_s.JsonKey(name: 'thingGroupNames')
   final List<String> thingGroupNames;
 
   /// Specifies if this mitigation action can move the things that triggered the
   /// mitigation action even if they are part of one or more dynamic thing groups.
-  @_s.JsonKey(name: 'overrideDynamicGroups')
-  final bool overrideDynamicGroups;
+  final bool? overrideDynamicGroups;
 
   AddThingsToThingGroupParams({
-    @_s.required this.thingGroupNames,
+    required this.thingGroupNames,
     this.overrideDynamicGroups,
   });
-  factory AddThingsToThingGroupParams.fromJson(Map<String, dynamic> json) =>
-      _$AddThingsToThingGroupParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AddThingsToThingGroupParamsToJson(this);
+  factory AddThingsToThingGroupParams.fromJson(Map<String, dynamic> json) {
+    return AddThingsToThingGroupParams(
+      thingGroupNames: (json['thingGroupNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      overrideDynamicGroups: json['overrideDynamicGroups'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingGroupNames = this.thingGroupNames;
+    final overrideDynamicGroups = this.overrideDynamicGroups;
+    return {
+      'thingGroupNames': thingGroupNames,
+      if (overrideDynamicGroups != null)
+        'overrideDynamicGroups': overrideDynamicGroups,
+    };
+  }
 }
 
 /// A structure containing the alert target ARN and the role ARN.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AlertTarget {
   /// The Amazon Resource Name (ARN) of the notification target to which alerts
   /// are sent.
-  @_s.JsonKey(name: 'alertTargetArn')
   final String alertTargetArn;
 
   /// The ARN of the role that grants permission to send alerts to the
   /// notification target.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   AlertTarget({
-    @_s.required this.alertTargetArn,
-    @_s.required this.roleArn,
+    required this.alertTargetArn,
+    required this.roleArn,
   });
-  factory AlertTarget.fromJson(Map<String, dynamic> json) =>
-      _$AlertTargetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AlertTargetToJson(this);
+  factory AlertTarget.fromJson(Map<String, dynamic> json) {
+    return AlertTarget(
+      alertTargetArn: json['alertTargetArn'] as String,
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alertTargetArn = this.alertTargetArn;
+    final roleArn = this.roleArn;
+    return {
+      'alertTargetArn': alertTargetArn,
+      'roleArn': roleArn,
+    };
+  }
 }
 
 /// The type of alert target: one of "SNS".
 enum AlertTargetType {
-  @_s.JsonValue('SNS')
   sns,
 }
 
@@ -12623,113 +11676,135 @@ extension on AlertTargetType {
       case AlertTargetType.sns:
         return 'SNS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AlertTargetType toAlertTargetType() {
+    switch (this) {
+      case 'SNS':
+        return AlertTargetType.sns;
+    }
+    throw Exception('$this is not known in enum AlertTargetType');
   }
 }
 
 /// Contains information that allowed the authorization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Allowed {
   /// A list of policies that allowed the authentication.
-  @_s.JsonKey(name: 'policies')
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   Allowed({
     this.policies,
   });
-  factory Allowed.fromJson(Map<String, dynamic> json) =>
-      _$AllowedFromJson(json);
+
+  factory Allowed.fromJson(Map<String, dynamic> json) {
+    return Allowed(
+      policies: (json['policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Policy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policies = this.policies;
+    return {
+      if (policies != null) 'policies': policies,
+    };
+  }
 }
 
 /// An asset property timestamp entry containing the following information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetPropertyTimestamp {
   /// A string that contains the time in seconds since epoch. Accepts substitution
   /// templates.
-  @_s.JsonKey(name: 'timeInSeconds')
   final String timeInSeconds;
 
   /// Optional. A string that contains the nanosecond time offset. Accepts
   /// substitution templates.
-  @_s.JsonKey(name: 'offsetInNanos')
-  final String offsetInNanos;
+  final String? offsetInNanos;
 
   AssetPropertyTimestamp({
-    @_s.required this.timeInSeconds,
+    required this.timeInSeconds,
     this.offsetInNanos,
   });
-  factory AssetPropertyTimestamp.fromJson(Map<String, dynamic> json) =>
-      _$AssetPropertyTimestampFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AssetPropertyTimestampToJson(this);
+  factory AssetPropertyTimestamp.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyTimestamp(
+      timeInSeconds: json['timeInSeconds'] as String,
+      offsetInNanos: json['offsetInNanos'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeInSeconds = this.timeInSeconds;
+    final offsetInNanos = this.offsetInNanos;
+    return {
+      'timeInSeconds': timeInSeconds,
+      if (offsetInNanos != null) 'offsetInNanos': offsetInNanos,
+    };
+  }
 }
 
 /// An asset property value entry containing the following information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetPropertyValue {
   /// The asset property value timestamp.
-  @_s.JsonKey(name: 'timestamp')
   final AssetPropertyTimestamp timestamp;
 
   /// The value of the asset property.
-  @_s.JsonKey(name: 'value')
   final AssetPropertyVariant value;
 
   /// Optional. A string that describes the quality of the value. Accepts
   /// substitution templates. Must be <code>GOOD</code>, <code>BAD</code>, or
   /// <code>UNCERTAIN</code>.
-  @_s.JsonKey(name: 'quality')
-  final String quality;
+  final String? quality;
 
   AssetPropertyValue({
-    @_s.required this.timestamp,
-    @_s.required this.value,
+    required this.timestamp,
+    required this.value,
     this.quality,
   });
-  factory AssetPropertyValue.fromJson(Map<String, dynamic> json) =>
-      _$AssetPropertyValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AssetPropertyValueToJson(this);
+  factory AssetPropertyValue.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyValue(
+      timestamp: AssetPropertyTimestamp.fromJson(
+          json['timestamp'] as Map<String, dynamic>),
+      value:
+          AssetPropertyVariant.fromJson(json['value'] as Map<String, dynamic>),
+      quality: json['quality'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final value = this.value;
+    final quality = this.quality;
+    return {
+      'timestamp': timestamp,
+      'value': value,
+      if (quality != null) 'quality': quality,
+    };
+  }
 }
 
 /// Contains an asset property value (of a single type).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssetPropertyVariant {
   /// Optional. A string that contains the boolean value (<code>true</code> or
   /// <code>false</code>) of the value entry. Accepts substitution templates.
-  @_s.JsonKey(name: 'booleanValue')
-  final String booleanValue;
+  final String? booleanValue;
 
   /// Optional. A string that contains the double value of the value entry.
   /// Accepts substitution templates.
-  @_s.JsonKey(name: 'doubleValue')
-  final String doubleValue;
+  final String? doubleValue;
 
   /// Optional. A string that contains the integer value of the value entry.
   /// Accepts substitution templates.
-  @_s.JsonKey(name: 'integerValue')
-  final String integerValue;
+  final String? integerValue;
 
   /// Optional. The string value of the value entry. Accepts substitution
   /// templates.
-  @_s.JsonKey(name: 'stringValue')
-  final String stringValue;
+  final String? stringValue;
 
   AssetPropertyVariant({
     this.booleanValue,
@@ -12737,75 +11812,98 @@ class AssetPropertyVariant {
     this.integerValue,
     this.stringValue,
   });
-  factory AssetPropertyVariant.fromJson(Map<String, dynamic> json) =>
-      _$AssetPropertyVariantFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AssetPropertyVariantToJson(this);
+  factory AssetPropertyVariant.fromJson(Map<String, dynamic> json) {
+    return AssetPropertyVariant(
+      booleanValue: json['booleanValue'] as String?,
+      doubleValue: json['doubleValue'] as String?,
+      integerValue: json['integerValue'] as String?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final booleanValue = this.booleanValue;
+    final doubleValue = this.doubleValue;
+    final integerValue = this.integerValue;
+    final stringValue = this.stringValue;
+    return {
+      if (booleanValue != null) 'booleanValue': booleanValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (integerValue != null) 'integerValue': integerValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateTargetsWithJobResponse {
   /// A short text description of the job.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// An ARN identifying the job.
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   /// The unique identifier you assigned to this job when it was created.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   AssociateTargetsWithJobResponse({
     this.description,
     this.jobArn,
     this.jobId,
   });
-  factory AssociateTargetsWithJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateTargetsWithJobResponseFromJson(json);
+
+  factory AssociateTargetsWithJobResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateTargetsWithJobResponse(
+      description: json['description'] as String?,
+      jobArn: json['jobArn'] as String?,
+      jobId: json['jobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final jobArn = this.jobArn;
+    final jobId = this.jobId;
+    return {
+      if (description != null) 'description': description,
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobId != null) 'jobId': jobId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachSecurityProfileResponse {
   AttachSecurityProfileResponse();
-  factory AttachSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$AttachSecurityProfileResponseFromJson(json);
+
+  factory AttachSecurityProfileResponse.fromJson(Map<String, dynamic> _) {
+    return AttachSecurityProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The output from the AttachThingPrincipal operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachThingPrincipalResponse {
   AttachThingPrincipalResponse();
-  factory AttachThingPrincipalResponse.fromJson(Map<String, dynamic> json) =>
-      _$AttachThingPrincipalResponseFromJson(json);
+
+  factory AttachThingPrincipalResponse.fromJson(Map<String, dynamic> _) {
+    return AttachThingPrincipalResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The attribute payload.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributePayload {
   /// A JSON string containing up to three key-value pair in JSON format. For
   /// example:
   ///
   /// <code>{\"attributes\":{\"string1\":\"string2\"}}</code>
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// Specifies whether the list of attributes provided in the
   /// <code>AttributePayload</code> is merged with the attributes stored in the
@@ -12817,78 +11915,81 @@ class AttributePayload {
   /// The <code>merge</code> attribute is only valid when calling
   /// <code>UpdateThing</code> or <code>UpdateThingGroup</code>.
   /// </note>
-  @_s.JsonKey(name: 'merge')
-  final bool merge;
+  final bool? merge;
 
   AttributePayload({
     this.attributes,
     this.merge,
   });
-  factory AttributePayload.fromJson(Map<String, dynamic> json) =>
-      _$AttributePayloadFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AttributePayloadToJson(this);
+  factory AttributePayload.fromJson(Map<String, dynamic> json) {
+    return AttributePayload(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      merge: json['merge'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final merge = this.merge;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (merge != null) 'merge': merge,
+    };
+  }
 }
 
 /// Which audit checks are enabled and disabled for this account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AuditCheckConfiguration {
   /// True if this audit check is enabled for this account.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   AuditCheckConfiguration({
     this.enabled,
   });
-  factory AuditCheckConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AuditCheckConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AuditCheckConfigurationToJson(this);
+  factory AuditCheckConfiguration.fromJson(Map<String, dynamic> json) {
+    return AuditCheckConfiguration(
+      enabled: json['enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'enabled': enabled,
+    };
+  }
 }
 
 /// Information about the audit check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuditCheckDetails {
   /// True if the check is complete and found all resources compliant.
-  @_s.JsonKey(name: 'checkCompliant')
-  final bool checkCompliant;
+  final bool? checkCompliant;
 
   /// The completion status of this check. One of "IN_PROGRESS",
   /// "WAITING_FOR_DATA_COLLECTION", "CANCELED", "COMPLETED_COMPLIANT",
   /// "COMPLETED_NON_COMPLIANT", or "FAILED".
-  @_s.JsonKey(name: 'checkRunStatus')
-  final AuditCheckRunStatus checkRunStatus;
+  final AuditCheckRunStatus? checkRunStatus;
 
   /// The code of any error encountered when this check is performed during this
   /// audit. One of "INSUFFICIENT_PERMISSIONS" or "AUDIT_CHECK_DISABLED".
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The message associated with any error encountered when this check is
   /// performed during this audit.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The number of resources that were found noncompliant during the check.
-  @_s.JsonKey(name: 'nonCompliantResourcesCount')
-  final int nonCompliantResourcesCount;
+  final int? nonCompliantResourcesCount;
 
   /// Describes how many of the non-compliant resources created during the
   /// evaluation of an audit check were marked as suppressed.
-  @_s.JsonKey(name: 'suppressedNonCompliantResourcesCount')
-  final int suppressedNonCompliantResourcesCount;
+  final int? suppressedNonCompliantResourcesCount;
 
   /// The number of resources on which the check was performed.
-  @_s.JsonKey(name: 'totalResourcesCount')
-  final int totalResourcesCount;
+  final int? totalResourcesCount;
 
   AuditCheckDetails({
     this.checkCompliant,
@@ -12899,78 +12000,129 @@ class AuditCheckDetails {
     this.suppressedNonCompliantResourcesCount,
     this.totalResourcesCount,
   });
-  factory AuditCheckDetails.fromJson(Map<String, dynamic> json) =>
-      _$AuditCheckDetailsFromJson(json);
+
+  factory AuditCheckDetails.fromJson(Map<String, dynamic> json) {
+    return AuditCheckDetails(
+      checkCompliant: json['checkCompliant'] as bool?,
+      checkRunStatus:
+          (json['checkRunStatus'] as String?)?.toAuditCheckRunStatus(),
+      errorCode: json['errorCode'] as String?,
+      message: json['message'] as String?,
+      nonCompliantResourcesCount: json['nonCompliantResourcesCount'] as int?,
+      suppressedNonCompliantResourcesCount:
+          json['suppressedNonCompliantResourcesCount'] as int?,
+      totalResourcesCount: json['totalResourcesCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkCompliant = this.checkCompliant;
+    final checkRunStatus = this.checkRunStatus;
+    final errorCode = this.errorCode;
+    final message = this.message;
+    final nonCompliantResourcesCount = this.nonCompliantResourcesCount;
+    final suppressedNonCompliantResourcesCount =
+        this.suppressedNonCompliantResourcesCount;
+    final totalResourcesCount = this.totalResourcesCount;
+    return {
+      if (checkCompliant != null) 'checkCompliant': checkCompliant,
+      if (checkRunStatus != null) 'checkRunStatus': checkRunStatus.toValue(),
+      if (errorCode != null) 'errorCode': errorCode,
+      if (message != null) 'message': message,
+      if (nonCompliantResourcesCount != null)
+        'nonCompliantResourcesCount': nonCompliantResourcesCount,
+      if (suppressedNonCompliantResourcesCount != null)
+        'suppressedNonCompliantResourcesCount':
+            suppressedNonCompliantResourcesCount,
+      if (totalResourcesCount != null)
+        'totalResourcesCount': totalResourcesCount,
+    };
+  }
 }
 
 enum AuditCheckRunStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('WAITING_FOR_DATA_COLLECTION')
   waitingForDataCollection,
-  @_s.JsonValue('CANCELED')
   canceled,
-  @_s.JsonValue('COMPLETED_COMPLIANT')
   completedCompliant,
-  @_s.JsonValue('COMPLETED_NON_COMPLIANT')
   completedNonCompliant,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on AuditCheckRunStatus {
+  String toValue() {
+    switch (this) {
+      case AuditCheckRunStatus.inProgress:
+        return 'IN_PROGRESS';
+      case AuditCheckRunStatus.waitingForDataCollection:
+        return 'WAITING_FOR_DATA_COLLECTION';
+      case AuditCheckRunStatus.canceled:
+        return 'CANCELED';
+      case AuditCheckRunStatus.completedCompliant:
+        return 'COMPLETED_COMPLIANT';
+      case AuditCheckRunStatus.completedNonCompliant:
+        return 'COMPLETED_NON_COMPLIANT';
+      case AuditCheckRunStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  AuditCheckRunStatus toAuditCheckRunStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return AuditCheckRunStatus.inProgress;
+      case 'WAITING_FOR_DATA_COLLECTION':
+        return AuditCheckRunStatus.waitingForDataCollection;
+      case 'CANCELED':
+        return AuditCheckRunStatus.canceled;
+      case 'COMPLETED_COMPLIANT':
+        return AuditCheckRunStatus.completedCompliant;
+      case 'COMPLETED_NON_COMPLIANT':
+        return AuditCheckRunStatus.completedNonCompliant;
+      case 'FAILED':
+        return AuditCheckRunStatus.failed;
+    }
+    throw Exception('$this is not known in enum AuditCheckRunStatus');
+  }
+}
+
 /// The findings (results) of the audit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuditFinding {
   /// The audit check that generated this result.
-  @_s.JsonKey(name: 'checkName')
-  final String checkName;
+  final String? checkName;
 
   /// A unique identifier for this set of audit findings. This identifier is used
   /// to apply mitigation tasks to one or more sets of findings.
-  @_s.JsonKey(name: 'findingId')
-  final String findingId;
+  final String? findingId;
 
   /// The time the result (finding) was discovered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'findingTime')
-  final DateTime findingTime;
+  final DateTime? findingTime;
 
   /// Indicates whether the audit finding was suppressed or not during reporting.
-  @_s.JsonKey(name: 'isSuppressed')
-  final bool isSuppressed;
+  final bool? isSuppressed;
 
   /// The resource that was found to be noncompliant with the audit check.
-  @_s.JsonKey(name: 'nonCompliantResource')
-  final NonCompliantResource nonCompliantResource;
+  final NonCompliantResource? nonCompliantResource;
 
   /// The reason the resource was noncompliant.
-  @_s.JsonKey(name: 'reasonForNonCompliance')
-  final String reasonForNonCompliance;
+  final String? reasonForNonCompliance;
 
   /// A code that indicates the reason that the resource was noncompliant.
-  @_s.JsonKey(name: 'reasonForNonComplianceCode')
-  final String reasonForNonComplianceCode;
+  final String? reasonForNonComplianceCode;
 
   /// The list of related resources.
-  @_s.JsonKey(name: 'relatedResources')
-  final List<RelatedResource> relatedResources;
+  final List<RelatedResource>? relatedResources;
 
   /// The severity of the result (finding).
-  @_s.JsonKey(name: 'severity')
-  final AuditFindingSeverity severity;
+  final AuditFindingSeverity? severity;
 
   /// The ID of the audit that generated this result (finding).
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   /// The time the audit started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'taskStartTime')
-  final DateTime taskStartTime;
+  final DateTime? taskStartTime;
 
   AuditFinding({
     this.checkName,
@@ -12985,29 +12137,103 @@ class AuditFinding {
     this.taskId,
     this.taskStartTime,
   });
-  factory AuditFinding.fromJson(Map<String, dynamic> json) =>
-      _$AuditFindingFromJson(json);
+
+  factory AuditFinding.fromJson(Map<String, dynamic> json) {
+    return AuditFinding(
+      checkName: json['checkName'] as String?,
+      findingId: json['findingId'] as String?,
+      findingTime: timeStampFromJson(json['findingTime']),
+      isSuppressed: json['isSuppressed'] as bool?,
+      nonCompliantResource: json['nonCompliantResource'] != null
+          ? NonCompliantResource.fromJson(
+              json['nonCompliantResource'] as Map<String, dynamic>)
+          : null,
+      reasonForNonCompliance: json['reasonForNonCompliance'] as String?,
+      reasonForNonComplianceCode: json['reasonForNonComplianceCode'] as String?,
+      relatedResources: (json['relatedResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => RelatedResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      severity: (json['severity'] as String?)?.toAuditFindingSeverity(),
+      taskId: json['taskId'] as String?,
+      taskStartTime: timeStampFromJson(json['taskStartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkName = this.checkName;
+    final findingId = this.findingId;
+    final findingTime = this.findingTime;
+    final isSuppressed = this.isSuppressed;
+    final nonCompliantResource = this.nonCompliantResource;
+    final reasonForNonCompliance = this.reasonForNonCompliance;
+    final reasonForNonComplianceCode = this.reasonForNonComplianceCode;
+    final relatedResources = this.relatedResources;
+    final severity = this.severity;
+    final taskId = this.taskId;
+    final taskStartTime = this.taskStartTime;
+    return {
+      if (checkName != null) 'checkName': checkName,
+      if (findingId != null) 'findingId': findingId,
+      if (findingTime != null) 'findingTime': unixTimestampToJson(findingTime),
+      if (isSuppressed != null) 'isSuppressed': isSuppressed,
+      if (nonCompliantResource != null)
+        'nonCompliantResource': nonCompliantResource,
+      if (reasonForNonCompliance != null)
+        'reasonForNonCompliance': reasonForNonCompliance,
+      if (reasonForNonComplianceCode != null)
+        'reasonForNonComplianceCode': reasonForNonComplianceCode,
+      if (relatedResources != null) 'relatedResources': relatedResources,
+      if (severity != null) 'severity': severity.toValue(),
+      if (taskId != null) 'taskId': taskId,
+      if (taskStartTime != null)
+        'taskStartTime': unixTimestampToJson(taskStartTime),
+    };
+  }
 }
 
 enum AuditFindingSeverity {
-  @_s.JsonValue('CRITICAL')
   critical,
-  @_s.JsonValue('HIGH')
   high,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('LOW')
   low,
 }
 
+extension on AuditFindingSeverity {
+  String toValue() {
+    switch (this) {
+      case AuditFindingSeverity.critical:
+        return 'CRITICAL';
+      case AuditFindingSeverity.high:
+        return 'HIGH';
+      case AuditFindingSeverity.medium:
+        return 'MEDIUM';
+      case AuditFindingSeverity.low:
+        return 'LOW';
+    }
+  }
+}
+
+extension on String {
+  AuditFindingSeverity toAuditFindingSeverity() {
+    switch (this) {
+      case 'CRITICAL':
+        return AuditFindingSeverity.critical;
+      case 'HIGH':
+        return AuditFindingSeverity.high;
+      case 'MEDIUM':
+        return AuditFindingSeverity.medium;
+      case 'LOW':
+        return AuditFindingSeverity.low;
+    }
+    throw Exception('$this is not known in enum AuditFindingSeverity');
+  }
+}
+
 enum AuditFrequency {
-  @_s.JsonValue('DAILY')
   daily,
-  @_s.JsonValue('WEEKLY')
   weekly,
-  @_s.JsonValue('BIWEEKLY')
   biweekly,
-  @_s.JsonValue('MONTHLY')
   monthly,
 }
 
@@ -13023,57 +12249,56 @@ extension on AuditFrequency {
       case AuditFrequency.monthly:
         return 'MONTHLY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuditFrequency toAuditFrequency() {
+    switch (this) {
+      case 'DAILY':
+        return AuditFrequency.daily;
+      case 'WEEKLY':
+        return AuditFrequency.weekly;
+      case 'BIWEEKLY':
+        return AuditFrequency.biweekly;
+      case 'MONTHLY':
+        return AuditFrequency.monthly;
+    }
+    throw Exception('$this is not known in enum AuditFrequency');
   }
 }
 
 /// Returned by ListAuditMitigationActionsTask, this object contains information
 /// that describes a mitigation action that has been started.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuditMitigationActionExecutionMetadata {
   /// The unique identifier for the mitigation action being applied by the task.
-  @_s.JsonKey(name: 'actionId')
-  final String actionId;
+  final String? actionId;
 
   /// The friendly name of the mitigation action being applied by the task.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// The date and time when the task was completed or canceled. Blank if the task
   /// is still running.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// If an error occurred, the code that indicates which type of error occurred.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The unique identifier for the findings to which the task and associated
   /// mitigation action are applied.
-  @_s.JsonKey(name: 'findingId')
-  final String findingId;
+  final String? findingId;
 
   /// If an error occurred, a message that describes the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The date and time when the task was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The current status of the task being executed.
-  @_s.JsonKey(name: 'status')
-  final AuditMitigationActionsExecutionStatus status;
+  final AuditMitigationActionsExecutionStatus? status;
 
   /// The unique identifier for the task that applies the mitigation action.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   AuditMitigationActionExecutionMetadata({
     this.actionId,
@@ -13086,23 +12311,53 @@ class AuditMitigationActionExecutionMetadata {
     this.status,
     this.taskId,
   });
+
   factory AuditMitigationActionExecutionMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$AuditMitigationActionExecutionMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return AuditMitigationActionExecutionMetadata(
+      actionId: json['actionId'] as String?,
+      actionName: json['actionName'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      errorCode: json['errorCode'] as String?,
+      findingId: json['findingId'] as String?,
+      message: json['message'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)
+          ?.toAuditMitigationActionsExecutionStatus(),
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionId = this.actionId;
+    final actionName = this.actionName;
+    final endTime = this.endTime;
+    final errorCode = this.errorCode;
+    final findingId = this.findingId;
+    final message = this.message;
+    final startTime = this.startTime;
+    final status = this.status;
+    final taskId = this.taskId;
+    return {
+      if (actionId != null) 'actionId': actionId,
+      if (actionName != null) 'actionName': actionName,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (errorCode != null) 'errorCode': errorCode,
+      if (findingId != null) 'findingId': findingId,
+      if (message != null) 'message': message,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.toValue(),
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
 }
 
 enum AuditMitigationActionsExecutionStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELED')
   canceled,
-  @_s.JsonValue('SKIPPED')
   skipped,
-  @_s.JsonValue('PENDING')
   pending,
 }
 
@@ -13122,49 +12377,75 @@ extension on AuditMitigationActionsExecutionStatus {
       case AuditMitigationActionsExecutionStatus.pending:
         return 'PENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuditMitigationActionsExecutionStatus
+      toAuditMitigationActionsExecutionStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return AuditMitigationActionsExecutionStatus.inProgress;
+      case 'COMPLETED':
+        return AuditMitigationActionsExecutionStatus.completed;
+      case 'FAILED':
+        return AuditMitigationActionsExecutionStatus.failed;
+      case 'CANCELED':
+        return AuditMitigationActionsExecutionStatus.canceled;
+      case 'SKIPPED':
+        return AuditMitigationActionsExecutionStatus.skipped;
+      case 'PENDING':
+        return AuditMitigationActionsExecutionStatus.pending;
+    }
+    throw Exception(
+        '$this is not known in enum AuditMitigationActionsExecutionStatus');
   }
 }
 
 /// Information about an audit mitigation actions task that is returned by
 /// <code>ListAuditMitigationActionsTasks</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuditMitigationActionsTaskMetadata {
   /// The time at which the audit mitigation actions task was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The unique identifier for the task.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   /// The current state of the audit mitigation actions task.
-  @_s.JsonKey(name: 'taskStatus')
-  final AuditMitigationActionsTaskStatus taskStatus;
+  final AuditMitigationActionsTaskStatus? taskStatus;
 
   AuditMitigationActionsTaskMetadata({
     this.startTime,
     this.taskId,
     this.taskStatus,
   });
+
   factory AuditMitigationActionsTaskMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$AuditMitigationActionsTaskMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return AuditMitigationActionsTaskMetadata(
+      startTime: timeStampFromJson(json['startTime']),
+      taskId: json['taskId'] as String?,
+      taskStatus:
+          (json['taskStatus'] as String?)?.toAuditMitigationActionsTaskStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startTime = this.startTime;
+    final taskId = this.taskId;
+    final taskStatus = this.taskStatus;
+    return {
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (taskId != null) 'taskId': taskId,
+      if (taskStatus != null) 'taskStatus': taskStatus.toValue(),
+    };
+  }
 }
 
 enum AuditMitigationActionsTaskStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELED')
   canceled,
 }
 
@@ -13180,81 +12461,115 @@ extension on AuditMitigationActionsTaskStatus {
       case AuditMitigationActionsTaskStatus.canceled:
         return 'CANCELED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuditMitigationActionsTaskStatus toAuditMitigationActionsTaskStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return AuditMitigationActionsTaskStatus.inProgress;
+      case 'COMPLETED':
+        return AuditMitigationActionsTaskStatus.completed;
+      case 'FAILED':
+        return AuditMitigationActionsTaskStatus.failed;
+      case 'CANCELED':
+        return AuditMitigationActionsTaskStatus.canceled;
+    }
+    throw Exception(
+        '$this is not known in enum AuditMitigationActionsTaskStatus');
   }
 }
 
 /// Used in MitigationActionParams, this information identifies the target
 /// findings to which the mitigation actions are applied. Only one entry
 /// appears.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AuditMitigationActionsTaskTarget {
   /// Specifies a filter in the form of an audit check and set of reason codes
   /// that identify the findings from the audit to which the audit mitigation
   /// actions task apply.
-  @_s.JsonKey(name: 'auditCheckToReasonCodeFilter')
-  final Map<String, List<String>> auditCheckToReasonCodeFilter;
+  final Map<String, List<String>>? auditCheckToReasonCodeFilter;
 
   /// If the task will apply a mitigation action to findings from a specific
   /// audit, this value uniquely identifies the audit.
-  @_s.JsonKey(name: 'auditTaskId')
-  final String auditTaskId;
+  final String? auditTaskId;
 
   /// If the task will apply a mitigation action to one or more listed findings,
   /// this value uniquely identifies those findings.
-  @_s.JsonKey(name: 'findingIds')
-  final List<String> findingIds;
+  final List<String>? findingIds;
 
   AuditMitigationActionsTaskTarget({
     this.auditCheckToReasonCodeFilter,
     this.auditTaskId,
     this.findingIds,
   });
-  factory AuditMitigationActionsTaskTarget.fromJson(
-          Map<String, dynamic> json) =>
-      _$AuditMitigationActionsTaskTargetFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$AuditMitigationActionsTaskTargetToJson(this);
+  factory AuditMitigationActionsTaskTarget.fromJson(Map<String, dynamic> json) {
+    return AuditMitigationActionsTaskTarget(
+      auditCheckToReasonCodeFilter: (json['auditCheckToReasonCodeFilter']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      auditTaskId: json['auditTaskId'] as String?,
+      findingIds: (json['findingIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditCheckToReasonCodeFilter = this.auditCheckToReasonCodeFilter;
+    final auditTaskId = this.auditTaskId;
+    final findingIds = this.findingIds;
+    return {
+      if (auditCheckToReasonCodeFilter != null)
+        'auditCheckToReasonCodeFilter': auditCheckToReasonCodeFilter,
+      if (auditTaskId != null) 'auditTaskId': auditTaskId,
+      if (findingIds != null) 'findingIds': findingIds,
+    };
+  }
 }
 
 /// Information about the targets to which audit notifications are sent.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AuditNotificationTarget {
   /// True if notifications to the target are enabled.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The ARN of the role that grants permission to send notifications to the
   /// target.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The ARN of the target (SNS topic) to which audit notifications are sent.
-  @_s.JsonKey(name: 'targetArn')
-  final String targetArn;
+  final String? targetArn;
 
   AuditNotificationTarget({
     this.enabled,
     this.roleArn,
     this.targetArn,
   });
-  factory AuditNotificationTarget.fromJson(Map<String, dynamic> json) =>
-      _$AuditNotificationTargetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AuditNotificationTargetToJson(this);
+  factory AuditNotificationTarget.fromJson(Map<String, dynamic> json) {
+    return AuditNotificationTarget(
+      enabled: json['enabled'] as bool?,
+      roleArn: json['roleArn'] as String?,
+      targetArn: json['targetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final roleArn = this.roleArn;
+    final targetArn = this.targetArn;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (targetArn != null) 'targetArn': targetArn,
+    };
+  }
 }
 
 enum AuditNotificationType {
-  @_s.JsonValue('SNS')
   sns,
 }
 
@@ -13264,85 +12579,114 @@ extension on AuditNotificationType {
       case AuditNotificationType.sns:
         return 'SNS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuditNotificationType toAuditNotificationType() {
+    switch (this) {
+      case 'SNS':
+        return AuditNotificationType.sns;
+    }
+    throw Exception('$this is not known in enum AuditNotificationType');
   }
 }
 
 /// Filters out specific findings of a Device Defender audit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuditSuppression {
-  @_s.JsonKey(name: 'checkName')
   final String checkName;
-  @_s.JsonKey(name: 'resourceIdentifier')
   final ResourceIdentifier resourceIdentifier;
 
   /// The description of the audit suppression.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The expiration date (epoch timestamp in seconds) that you want the
   /// suppression to adhere to.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expirationDate')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   /// Indicates whether a suppression should exist indefinitely or not.
-  @_s.JsonKey(name: 'suppressIndefinitely')
-  final bool suppressIndefinitely;
+  final bool? suppressIndefinitely;
 
   AuditSuppression({
-    @_s.required this.checkName,
-    @_s.required this.resourceIdentifier,
+    required this.checkName,
+    required this.resourceIdentifier,
     this.description,
     this.expirationDate,
     this.suppressIndefinitely,
   });
-  factory AuditSuppression.fromJson(Map<String, dynamic> json) =>
-      _$AuditSuppressionFromJson(json);
+
+  factory AuditSuppression.fromJson(Map<String, dynamic> json) {
+    return AuditSuppression(
+      checkName: json['checkName'] as String,
+      resourceIdentifier: ResourceIdentifier.fromJson(
+          json['resourceIdentifier'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+      expirationDate: timeStampFromJson(json['expirationDate']),
+      suppressIndefinitely: json['suppressIndefinitely'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkName = this.checkName;
+    final resourceIdentifier = this.resourceIdentifier;
+    final description = this.description;
+    final expirationDate = this.expirationDate;
+    final suppressIndefinitely = this.suppressIndefinitely;
+    return {
+      'checkName': checkName,
+      'resourceIdentifier': resourceIdentifier,
+      if (description != null) 'description': description,
+      if (expirationDate != null)
+        'expirationDate': unixTimestampToJson(expirationDate),
+      if (suppressIndefinitely != null)
+        'suppressIndefinitely': suppressIndefinitely,
+    };
+  }
 }
 
 /// The audits that were performed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuditTaskMetadata {
   /// The ID of this audit.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   /// The status of this audit. One of "IN_PROGRESS", "COMPLETED", "FAILED", or
   /// "CANCELED".
-  @_s.JsonKey(name: 'taskStatus')
-  final AuditTaskStatus taskStatus;
+  final AuditTaskStatus? taskStatus;
 
   /// The type of this audit. One of "ON_DEMAND_AUDIT_TASK" or
   /// "SCHEDULED_AUDIT_TASK".
-  @_s.JsonKey(name: 'taskType')
-  final AuditTaskType taskType;
+  final AuditTaskType? taskType;
 
   AuditTaskMetadata({
     this.taskId,
     this.taskStatus,
     this.taskType,
   });
-  factory AuditTaskMetadata.fromJson(Map<String, dynamic> json) =>
-      _$AuditTaskMetadataFromJson(json);
+
+  factory AuditTaskMetadata.fromJson(Map<String, dynamic> json) {
+    return AuditTaskMetadata(
+      taskId: json['taskId'] as String?,
+      taskStatus: (json['taskStatus'] as String?)?.toAuditTaskStatus(),
+      taskType: (json['taskType'] as String?)?.toAuditTaskType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskId = this.taskId;
+    final taskStatus = this.taskStatus;
+    final taskType = this.taskType;
+    return {
+      if (taskId != null) 'taskId': taskId,
+      if (taskStatus != null) 'taskStatus': taskStatus.toValue(),
+      if (taskType != null) 'taskType': taskType.toValue(),
+    };
+  }
 }
 
 enum AuditTaskStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELED')
   canceled,
 }
 
@@ -13358,14 +12702,27 @@ extension on AuditTaskStatus {
       case AuditTaskStatus.canceled:
         return 'CANCELED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuditTaskStatus toAuditTaskStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return AuditTaskStatus.inProgress;
+      case 'COMPLETED':
+        return AuditTaskStatus.completed;
+      case 'FAILED':
+        return AuditTaskStatus.failed;
+      case 'CANCELED':
+        return AuditTaskStatus.canceled;
+    }
+    throw Exception('$this is not known in enum AuditTaskStatus');
   }
 }
 
 enum AuditTaskType {
-  @_s.JsonValue('ON_DEMAND_AUDIT_TASK')
   onDemandAuditTask,
-  @_s.JsonValue('SCHEDULED_AUDIT_TASK')
   scheduledAuditTask,
 }
 
@@ -13377,73 +12734,106 @@ extension on AuditTaskType {
       case AuditTaskType.scheduledAuditTask:
         return 'SCHEDULED_AUDIT_TASK';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuditTaskType toAuditTaskType() {
+    switch (this) {
+      case 'ON_DEMAND_AUDIT_TASK':
+        return AuditTaskType.onDemandAuditTask;
+      case 'SCHEDULED_AUDIT_TASK':
+        return AuditTaskType.scheduledAuditTask;
+    }
+    throw Exception('$this is not known in enum AuditTaskType');
   }
 }
 
 enum AuthDecision {
-  @_s.JsonValue('ALLOWED')
   allowed,
-  @_s.JsonValue('EXPLICIT_DENY')
   explicitDeny,
-  @_s.JsonValue('IMPLICIT_DENY')
   implicitDeny,
 }
 
+extension on AuthDecision {
+  String toValue() {
+    switch (this) {
+      case AuthDecision.allowed:
+        return 'ALLOWED';
+      case AuthDecision.explicitDeny:
+        return 'EXPLICIT_DENY';
+      case AuthDecision.implicitDeny:
+        return 'IMPLICIT_DENY';
+    }
+  }
+}
+
+extension on String {
+  AuthDecision toAuthDecision() {
+    switch (this) {
+      case 'ALLOWED':
+        return AuthDecision.allowed;
+      case 'EXPLICIT_DENY':
+        return AuthDecision.explicitDeny;
+      case 'IMPLICIT_DENY':
+        return AuthDecision.implicitDeny;
+    }
+    throw Exception('$this is not known in enum AuthDecision');
+  }
+}
+
 /// A collection of authorization information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AuthInfo {
   /// The resources for which the principal is being authorized to perform the
   /// specified action.
-  @_s.JsonKey(name: 'resources')
   final List<String> resources;
 
   /// The type of action for which the principal is being authorized.
-  @_s.JsonKey(name: 'actionType')
-  final ActionType actionType;
+  final ActionType? actionType;
 
   AuthInfo({
-    @_s.required this.resources,
+    required this.resources,
     this.actionType,
   });
-  factory AuthInfo.fromJson(Map<String, dynamic> json) =>
-      _$AuthInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AuthInfoToJson(this);
+  factory AuthInfo.fromJson(Map<String, dynamic> json) {
+    return AuthInfo(
+      resources: (json['resources'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      actionType: (json['actionType'] as String?)?.toActionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resources = this.resources;
+    final actionType = this.actionType;
+    return {
+      'resources': resources,
+      if (actionType != null) 'actionType': actionType.toValue(),
+    };
+  }
 }
 
 /// The authorizer result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuthResult {
   /// The policies and statements that allowed the specified action.
-  @_s.JsonKey(name: 'allowed')
-  final Allowed allowed;
+  final Allowed? allowed;
 
   /// The final authorization decision of this scenario. Multiple statements are
   /// taken into account when determining the authorization decision. An explicit
   /// deny statement can override multiple allow statements.
-  @_s.JsonKey(name: 'authDecision')
-  final AuthDecision authDecision;
+  final AuthDecision? authDecision;
 
   /// Authorization information.
-  @_s.JsonKey(name: 'authInfo')
-  final AuthInfo authInfo;
+  final AuthInfo? authInfo;
 
   /// The policies and statements that denied the specified action.
-  @_s.JsonKey(name: 'denied')
-  final Denied denied;
+  final Denied? denied;
 
   /// Contains any missing context values found while evaluating policy.
-  @_s.JsonKey(name: 'missingContextValues')
-  final List<String> missingContextValues;
+  final List<String>? missingContextValues;
 
   AuthResult({
     this.allowed,
@@ -13452,82 +12842,106 @@ class AuthResult {
     this.denied,
     this.missingContextValues,
   });
-  factory AuthResult.fromJson(Map<String, dynamic> json) =>
-      _$AuthResultFromJson(json);
+
+  factory AuthResult.fromJson(Map<String, dynamic> json) {
+    return AuthResult(
+      allowed: json['allowed'] != null
+          ? Allowed.fromJson(json['allowed'] as Map<String, dynamic>)
+          : null,
+      authDecision: (json['authDecision'] as String?)?.toAuthDecision(),
+      authInfo: json['authInfo'] != null
+          ? AuthInfo.fromJson(json['authInfo'] as Map<String, dynamic>)
+          : null,
+      denied: json['denied'] != null
+          ? Denied.fromJson(json['denied'] as Map<String, dynamic>)
+          : null,
+      missingContextValues: (json['missingContextValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowed = this.allowed;
+    final authDecision = this.authDecision;
+    final authInfo = this.authInfo;
+    final denied = this.denied;
+    final missingContextValues = this.missingContextValues;
+    return {
+      if (allowed != null) 'allowed': allowed,
+      if (authDecision != null) 'authDecision': authDecision.toValue(),
+      if (authInfo != null) 'authInfo': authInfo,
+      if (denied != null) 'denied': denied,
+      if (missingContextValues != null)
+        'missingContextValues': missingContextValues,
+    };
+  }
 }
 
 /// An object that specifies the authorization service for a domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AuthorizerConfig {
   /// A Boolean that specifies whether the domain configuration's authorization
   /// service can be overridden.
-  @_s.JsonKey(name: 'allowAuthorizerOverride')
-  final bool allowAuthorizerOverride;
+  final bool? allowAuthorizerOverride;
 
   /// The name of the authorization service for a domain configuration.
-  @_s.JsonKey(name: 'defaultAuthorizerName')
-  final String defaultAuthorizerName;
+  final String? defaultAuthorizerName;
 
   AuthorizerConfig({
     this.allowAuthorizerOverride,
     this.defaultAuthorizerName,
   });
-  factory AuthorizerConfig.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizerConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AuthorizerConfigToJson(this);
+  factory AuthorizerConfig.fromJson(Map<String, dynamic> json) {
+    return AuthorizerConfig(
+      allowAuthorizerOverride: json['allowAuthorizerOverride'] as bool?,
+      defaultAuthorizerName: json['defaultAuthorizerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowAuthorizerOverride = this.allowAuthorizerOverride;
+    final defaultAuthorizerName = this.defaultAuthorizerName;
+    return {
+      if (allowAuthorizerOverride != null)
+        'allowAuthorizerOverride': allowAuthorizerOverride,
+      if (defaultAuthorizerName != null)
+        'defaultAuthorizerName': defaultAuthorizerName,
+    };
+  }
 }
 
 /// The authorizer description.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuthorizerDescription {
   /// The authorizer ARN.
-  @_s.JsonKey(name: 'authorizerArn')
-  final String authorizerArn;
+  final String? authorizerArn;
 
   /// The authorizer's Lambda function ARN.
-  @_s.JsonKey(name: 'authorizerFunctionArn')
-  final String authorizerFunctionArn;
+  final String? authorizerFunctionArn;
 
   /// The authorizer name.
-  @_s.JsonKey(name: 'authorizerName')
-  final String authorizerName;
+  final String? authorizerName;
 
   /// The UNIX timestamp of when the authorizer was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The UNIX timestamp of when the authorizer was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// Specifies whether AWS IoT validates the token signature in an authorization
   /// request.
-  @_s.JsonKey(name: 'signingDisabled')
-  final bool signingDisabled;
+  final bool? signingDisabled;
 
   /// The status of the authorizer.
-  @_s.JsonKey(name: 'status')
-  final AuthorizerStatus status;
+  final AuthorizerStatus? status;
 
   /// The key used to extract the token from the HTTP headers.
-  @_s.JsonKey(name: 'tokenKeyName')
-  final String tokenKeyName;
+  final String? tokenKeyName;
 
   /// The public keys used to validate the token signature returned by your custom
   /// authentication service.
-  @_s.JsonKey(name: 'tokenSigningPublicKeys')
-  final Map<String, String> tokenSigningPublicKeys;
+  final Map<String, String>? tokenSigningPublicKeys;
 
   AuthorizerDescription({
     this.authorizerArn,
@@ -13540,14 +12954,53 @@ class AuthorizerDescription {
     this.tokenKeyName,
     this.tokenSigningPublicKeys,
   });
-  factory AuthorizerDescription.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizerDescriptionFromJson(json);
+
+  factory AuthorizerDescription.fromJson(Map<String, dynamic> json) {
+    return AuthorizerDescription(
+      authorizerArn: json['authorizerArn'] as String?,
+      authorizerFunctionArn: json['authorizerFunctionArn'] as String?,
+      authorizerName: json['authorizerName'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      signingDisabled: json['signingDisabled'] as bool?,
+      status: (json['status'] as String?)?.toAuthorizerStatus(),
+      tokenKeyName: json['tokenKeyName'] as String?,
+      tokenSigningPublicKeys:
+          (json['tokenSigningPublicKeys'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerArn = this.authorizerArn;
+    final authorizerFunctionArn = this.authorizerFunctionArn;
+    final authorizerName = this.authorizerName;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final signingDisabled = this.signingDisabled;
+    final status = this.status;
+    final tokenKeyName = this.tokenKeyName;
+    final tokenSigningPublicKeys = this.tokenSigningPublicKeys;
+    return {
+      if (authorizerArn != null) 'authorizerArn': authorizerArn,
+      if (authorizerFunctionArn != null)
+        'authorizerFunctionArn': authorizerFunctionArn,
+      if (authorizerName != null) 'authorizerName': authorizerName,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (signingDisabled != null) 'signingDisabled': signingDisabled,
+      if (status != null) 'status': status.toValue(),
+      if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
+      if (tokenSigningPublicKeys != null)
+        'tokenSigningPublicKeys': tokenSigningPublicKeys,
+    };
+  }
 }
 
 enum AuthorizerStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
@@ -13559,37 +13012,53 @@ extension on AuthorizerStatus {
       case AuthorizerStatus.inactive:
         return 'INACTIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuthorizerStatus toAuthorizerStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return AuthorizerStatus.active;
+      case 'INACTIVE':
+        return AuthorizerStatus.inactive;
+    }
+    throw Exception('$this is not known in enum AuthorizerStatus');
   }
 }
 
 /// The authorizer summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuthorizerSummary {
   /// The authorizer ARN.
-  @_s.JsonKey(name: 'authorizerArn')
-  final String authorizerArn;
+  final String? authorizerArn;
 
   /// The authorizer name.
-  @_s.JsonKey(name: 'authorizerName')
-  final String authorizerName;
+  final String? authorizerName;
 
   AuthorizerSummary({
     this.authorizerArn,
     this.authorizerName,
   });
-  factory AuthorizerSummary.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizerSummaryFromJson(json);
+
+  factory AuthorizerSummary.fromJson(Map<String, dynamic> json) {
+    return AuthorizerSummary(
+      authorizerArn: json['authorizerArn'] as String?,
+      authorizerName: json['authorizerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerArn = this.authorizerArn;
+    final authorizerName = this.authorizerName;
+    return {
+      if (authorizerArn != null) 'authorizerArn': authorizerArn,
+      if (authorizerName != null) 'authorizerName': authorizerName,
+    };
+  }
 }
 
 enum AutoRegistrationStatus {
-  @_s.JsonValue('ENABLE')
   enable,
-  @_s.JsonValue('DISABLE')
   disable,
 }
 
@@ -13601,45 +13070,57 @@ extension on AutoRegistrationStatus {
       case AutoRegistrationStatus.disable:
         return 'DISABLE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AutoRegistrationStatus toAutoRegistrationStatus() {
+    switch (this) {
+      case 'ENABLE':
+        return AutoRegistrationStatus.enable;
+      case 'DISABLE':
+        return AutoRegistrationStatus.disable;
+    }
+    throw Exception('$this is not known in enum AutoRegistrationStatus');
   }
 }
 
 /// The criteria that determine when and how a job abort takes place.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AwsJobAbortConfig {
   /// The list of criteria that determine when and how to abort the job.
-  @_s.JsonKey(name: 'abortCriteriaList')
   final List<AwsJobAbortCriteria> abortCriteriaList;
 
   AwsJobAbortConfig({
-    @_s.required this.abortCriteriaList,
+    required this.abortCriteriaList,
   });
-  Map<String, dynamic> toJson() => _$AwsJobAbortConfigToJson(this);
+
+  factory AwsJobAbortConfig.fromJson(Map<String, dynamic> json) {
+    return AwsJobAbortConfig(
+      abortCriteriaList: (json['abortCriteriaList'] as List)
+          .whereNotNull()
+          .map((e) => AwsJobAbortCriteria.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abortCriteriaList = this.abortCriteriaList;
+    return {
+      'abortCriteriaList': abortCriteriaList,
+    };
+  }
 }
 
 /// The criteria that determine when and how a job abort takes place.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AwsJobAbortCriteria {
   /// The type of job action to take to initiate the job abort.
-  @_s.JsonKey(name: 'action')
   final AwsJobAbortCriteriaAbortAction action;
 
   /// The type of job execution failures that can initiate a job abort.
-  @_s.JsonKey(name: 'failureType')
   final AwsJobAbortCriteriaFailureType failureType;
 
   /// The minimum number of things which must receive job execution notifications
   /// before the job can be aborted.
-  @_s.JsonKey(name: 'minNumberOfExecutedThings')
   final int minNumberOfExecutedThings;
 
   /// The minimum percentage of job execution failures that must occur to initiate
@@ -13647,145 +13128,239 @@ class AwsJobAbortCriteria {
   ///
   /// AWS IoT supports up to two digits after the decimal (for example, 10.9 and
   /// 10.99, but not 10.999).
-  @_s.JsonKey(name: 'thresholdPercentage')
   final double thresholdPercentage;
 
   AwsJobAbortCriteria({
-    @_s.required this.action,
-    @_s.required this.failureType,
-    @_s.required this.minNumberOfExecutedThings,
-    @_s.required this.thresholdPercentage,
+    required this.action,
+    required this.failureType,
+    required this.minNumberOfExecutedThings,
+    required this.thresholdPercentage,
   });
-  Map<String, dynamic> toJson() => _$AwsJobAbortCriteriaToJson(this);
+
+  factory AwsJobAbortCriteria.fromJson(Map<String, dynamic> json) {
+    return AwsJobAbortCriteria(
+      action: (json['action'] as String).toAwsJobAbortCriteriaAbortAction(),
+      failureType:
+          (json['failureType'] as String).toAwsJobAbortCriteriaFailureType(),
+      minNumberOfExecutedThings: json['minNumberOfExecutedThings'] as int,
+      thresholdPercentage: json['thresholdPercentage'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final failureType = this.failureType;
+    final minNumberOfExecutedThings = this.minNumberOfExecutedThings;
+    final thresholdPercentage = this.thresholdPercentage;
+    return {
+      'action': action.toValue(),
+      'failureType': failureType.toValue(),
+      'minNumberOfExecutedThings': minNumberOfExecutedThings,
+      'thresholdPercentage': thresholdPercentage,
+    };
+  }
 }
 
 enum AwsJobAbortCriteriaAbortAction {
-  @_s.JsonValue('CANCEL')
   cancel,
 }
 
+extension on AwsJobAbortCriteriaAbortAction {
+  String toValue() {
+    switch (this) {
+      case AwsJobAbortCriteriaAbortAction.cancel:
+        return 'CANCEL';
+    }
+  }
+}
+
+extension on String {
+  AwsJobAbortCriteriaAbortAction toAwsJobAbortCriteriaAbortAction() {
+    switch (this) {
+      case 'CANCEL':
+        return AwsJobAbortCriteriaAbortAction.cancel;
+    }
+    throw Exception(
+        '$this is not known in enum AwsJobAbortCriteriaAbortAction');
+  }
+}
+
 enum AwsJobAbortCriteriaFailureType {
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('TIMED_OUT')
   timedOut,
-  @_s.JsonValue('ALL')
   all,
 }
 
+extension on AwsJobAbortCriteriaFailureType {
+  String toValue() {
+    switch (this) {
+      case AwsJobAbortCriteriaFailureType.failed:
+        return 'FAILED';
+      case AwsJobAbortCriteriaFailureType.rejected:
+        return 'REJECTED';
+      case AwsJobAbortCriteriaFailureType.timedOut:
+        return 'TIMED_OUT';
+      case AwsJobAbortCriteriaFailureType.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  AwsJobAbortCriteriaFailureType toAwsJobAbortCriteriaFailureType() {
+    switch (this) {
+      case 'FAILED':
+        return AwsJobAbortCriteriaFailureType.failed;
+      case 'REJECTED':
+        return AwsJobAbortCriteriaFailureType.rejected;
+      case 'TIMED_OUT':
+        return AwsJobAbortCriteriaFailureType.timedOut;
+      case 'ALL':
+        return AwsJobAbortCriteriaFailureType.all;
+    }
+    throw Exception(
+        '$this is not known in enum AwsJobAbortCriteriaFailureType');
+  }
+}
+
 /// Configuration for the rollout of OTA updates.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsJobExecutionsRolloutConfig {
   /// The rate of increase for a job rollout. This parameter allows you to define
   /// an exponential rate increase for a job rollout.
-  @_s.JsonKey(name: 'exponentialRate')
-  final AwsJobExponentialRolloutRate exponentialRate;
+  final AwsJobExponentialRolloutRate? exponentialRate;
 
   /// The maximum number of OTA update job executions started per minute.
-  @_s.JsonKey(name: 'maximumPerMinute')
-  final int maximumPerMinute;
+  final int? maximumPerMinute;
 
   AwsJobExecutionsRolloutConfig({
     this.exponentialRate,
     this.maximumPerMinute,
   });
-  factory AwsJobExecutionsRolloutConfig.fromJson(Map<String, dynamic> json) =>
-      _$AwsJobExecutionsRolloutConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AwsJobExecutionsRolloutConfigToJson(this);
+  factory AwsJobExecutionsRolloutConfig.fromJson(Map<String, dynamic> json) {
+    return AwsJobExecutionsRolloutConfig(
+      exponentialRate: json['exponentialRate'] != null
+          ? AwsJobExponentialRolloutRate.fromJson(
+              json['exponentialRate'] as Map<String, dynamic>)
+          : null,
+      maximumPerMinute: json['maximumPerMinute'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exponentialRate = this.exponentialRate;
+    final maximumPerMinute = this.maximumPerMinute;
+    return {
+      if (exponentialRate != null) 'exponentialRate': exponentialRate,
+      if (maximumPerMinute != null) 'maximumPerMinute': maximumPerMinute,
+    };
+  }
 }
 
 /// The rate of increase for a job rollout. This parameter allows you to define
 /// an exponential rate increase for a job rollout.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsJobExponentialRolloutRate {
   /// The minimum number of things that will be notified of a pending job, per
   /// minute, at the start of the job rollout. This is the initial rate of the
   /// rollout.
-  @_s.JsonKey(name: 'baseRatePerMinute')
   final int baseRatePerMinute;
 
   /// The rate of increase for a job rollout. The number of things notified is
   /// multiplied by this factor.
-  @_s.JsonKey(name: 'incrementFactor')
   final double incrementFactor;
 
   /// The criteria to initiate the increase in rate of rollout for a job.
   ///
   /// AWS IoT supports up to one digit after the decimal (for example, 1.5, but
   /// not 1.55).
-  @_s.JsonKey(name: 'rateIncreaseCriteria')
   final AwsJobRateIncreaseCriteria rateIncreaseCriteria;
 
   AwsJobExponentialRolloutRate({
-    @_s.required this.baseRatePerMinute,
-    @_s.required this.incrementFactor,
-    @_s.required this.rateIncreaseCriteria,
+    required this.baseRatePerMinute,
+    required this.incrementFactor,
+    required this.rateIncreaseCriteria,
   });
-  factory AwsJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) =>
-      _$AwsJobExponentialRolloutRateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AwsJobExponentialRolloutRateToJson(this);
+  factory AwsJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
+    return AwsJobExponentialRolloutRate(
+      baseRatePerMinute: json['baseRatePerMinute'] as int,
+      incrementFactor: json['incrementFactor'] as double,
+      rateIncreaseCriteria: AwsJobRateIncreaseCriteria.fromJson(
+          json['rateIncreaseCriteria'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseRatePerMinute = this.baseRatePerMinute;
+    final incrementFactor = this.incrementFactor;
+    final rateIncreaseCriteria = this.rateIncreaseCriteria;
+    return {
+      'baseRatePerMinute': baseRatePerMinute,
+      'incrementFactor': incrementFactor,
+      'rateIncreaseCriteria': rateIncreaseCriteria,
+    };
+  }
 }
 
 /// Configuration information for pre-signed URLs. Valid when
 /// <code>protocols</code> contains HTTP.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsJobPresignedUrlConfig {
   /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600,
   /// the default value is 1800 seconds. Pre-signed URLs are generated when a
   /// request for the job document is received.
-  @_s.JsonKey(name: 'expiresInSec')
-  final int expiresInSec;
+  final int? expiresInSec;
 
   AwsJobPresignedUrlConfig({
     this.expiresInSec,
   });
-  factory AwsJobPresignedUrlConfig.fromJson(Map<String, dynamic> json) =>
-      _$AwsJobPresignedUrlConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AwsJobPresignedUrlConfigToJson(this);
+  factory AwsJobPresignedUrlConfig.fromJson(Map<String, dynamic> json) {
+    return AwsJobPresignedUrlConfig(
+      expiresInSec: json['expiresInSec'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expiresInSec = this.expiresInSec;
+    return {
+      if (expiresInSec != null) 'expiresInSec': expiresInSec,
+    };
+  }
 }
 
 /// The criteria to initiate the increase in rate of rollout for a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AwsJobRateIncreaseCriteria {
   /// When this number of things have been notified, it will initiate an increase
   /// in the rollout rate.
-  @_s.JsonKey(name: 'numberOfNotifiedThings')
-  final int numberOfNotifiedThings;
+  final int? numberOfNotifiedThings;
 
   /// When this number of things have succeeded in their job execution, it will
   /// initiate an increase in the rollout rate.
-  @_s.JsonKey(name: 'numberOfSucceededThings')
-  final int numberOfSucceededThings;
+  final int? numberOfSucceededThings;
 
   AwsJobRateIncreaseCriteria({
     this.numberOfNotifiedThings,
     this.numberOfSucceededThings,
   });
-  factory AwsJobRateIncreaseCriteria.fromJson(Map<String, dynamic> json) =>
-      _$AwsJobRateIncreaseCriteriaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AwsJobRateIncreaseCriteriaToJson(this);
+  factory AwsJobRateIncreaseCriteria.fromJson(Map<String, dynamic> json) {
+    return AwsJobRateIncreaseCriteria(
+      numberOfNotifiedThings: json['numberOfNotifiedThings'] as int?,
+      numberOfSucceededThings: json['numberOfSucceededThings'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfNotifiedThings = this.numberOfNotifiedThings;
+    final numberOfSucceededThings = this.numberOfSucceededThings;
+    return {
+      if (numberOfNotifiedThings != null)
+        'numberOfNotifiedThings': numberOfNotifiedThings,
+      if (numberOfSucceededThings != null)
+        'numberOfSucceededThings': numberOfSucceededThings,
+    };
+  }
 }
 
 /// Specifies the amount of time each device has to finish its execution of the
@@ -13793,11 +13368,6 @@ class AwsJobRateIncreaseCriteria {
 /// <code>IN_PROGRESS</code>. If the job execution status is not set to another
 /// terminal state before the timer expires, it will be automatically set to
 /// <code>TIMED_OUT</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AwsJobTimeoutConfig {
   /// Specifies the amount of time, in minutes, this device has to finish
   /// execution of this job. The timeout interval can be anywhere between 1 minute
@@ -13806,65 +13376,88 @@ class AwsJobTimeoutConfig {
   /// remains in the IN_PROGRESS status for longer than this interval, the job
   /// execution will fail and switch to the terminal <code>TIMED_OUT</code>
   /// status.
-  @_s.JsonKey(name: 'inProgressTimeoutInMinutes')
-  final int inProgressTimeoutInMinutes;
+  final int? inProgressTimeoutInMinutes;
 
   AwsJobTimeoutConfig({
     this.inProgressTimeoutInMinutes,
   });
-  Map<String, dynamic> toJson() => _$AwsJobTimeoutConfigToJson(this);
+
+  factory AwsJobTimeoutConfig.fromJson(Map<String, dynamic> json) {
+    return AwsJobTimeoutConfig(
+      inProgressTimeoutInMinutes: json['inProgressTimeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inProgressTimeoutInMinutes = this.inProgressTimeoutInMinutes;
+    return {
+      if (inProgressTimeoutInMinutes != null)
+        'inProgressTimeoutInMinutes': inProgressTimeoutInMinutes,
+    };
+  }
 }
 
 /// A Device Defender security profile behavior.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Behavior {
   /// The name you've given to the behavior.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The criteria that determine if a device is behaving normally in regard to
   /// the <code>metric</code>.
-  @_s.JsonKey(name: 'criteria')
-  final BehaviorCriteria criteria;
+  final BehaviorCriteria? criteria;
 
   /// What is measured by the behavior.
-  @_s.JsonKey(name: 'metric')
-  final String metric;
+  final String? metric;
 
   /// The dimension for a metric in your behavior. For example, using a
   /// <code>TOPIC_FILTER</code> dimension, you can narrow down the scope of the
   /// metric to only MQTT topics where the name matches the pattern specified in
   /// the dimension. This can't be used with custom metrics.
-  @_s.JsonKey(name: 'metricDimension')
-  final MetricDimension metricDimension;
+  final MetricDimension? metricDimension;
 
   /// Suppresses alerts.
-  @_s.JsonKey(name: 'suppressAlerts')
-  final bool suppressAlerts;
+  final bool? suppressAlerts;
 
   Behavior({
-    @_s.required this.name,
+    required this.name,
     this.criteria,
     this.metric,
     this.metricDimension,
     this.suppressAlerts,
   });
-  factory Behavior.fromJson(Map<String, dynamic> json) =>
-      _$BehaviorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BehaviorToJson(this);
+  factory Behavior.fromJson(Map<String, dynamic> json) {
+    return Behavior(
+      name: json['name'] as String,
+      criteria: json['criteria'] != null
+          ? BehaviorCriteria.fromJson(json['criteria'] as Map<String, dynamic>)
+          : null,
+      metric: json['metric'] as String?,
+      metricDimension: json['metricDimension'] != null
+          ? MetricDimension.fromJson(
+              json['metricDimension'] as Map<String, dynamic>)
+          : null,
+      suppressAlerts: json['suppressAlerts'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final criteria = this.criteria;
+    final metric = this.metric;
+    final metricDimension = this.metricDimension;
+    final suppressAlerts = this.suppressAlerts;
+    return {
+      'name': name,
+      if (criteria != null) 'criteria': criteria,
+      if (metric != null) 'metric': metric,
+      if (metricDimension != null) 'metricDimension': metricDimension,
+      if (suppressAlerts != null) 'suppressAlerts': suppressAlerts,
+    };
+  }
 }
 
 /// The criteria by which the behavior is determined to be normal.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BehaviorCriteria {
   /// The operator that relates the thing measured (<code>metric</code>) to the
   /// criteria (containing a <code>value</code> or
@@ -13886,19 +13479,16 @@ class BehaviorCriteria {
   /// <code>greater-than</code>, and <code>greater-than-equals</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'comparisonOperator')
-  final ComparisonOperator comparisonOperator;
+  final ComparisonOperator? comparisonOperator;
 
   /// If a device is in violation of the behavior for the specified number of
   /// consecutive datapoints, an alarm occurs. If not specified, the default is 1.
-  @_s.JsonKey(name: 'consecutiveDatapointsToAlarm')
-  final int consecutiveDatapointsToAlarm;
+  final int? consecutiveDatapointsToAlarm;
 
   /// If an alarm has occurred and the offending device is no longer in violation
   /// of the behavior for the specified number of consecutive datapoints, the
   /// alarm is cleared. If not specified, the default is 1.
-  @_s.JsonKey(name: 'consecutiveDatapointsToClear')
-  final int consecutiveDatapointsToClear;
+  final int? consecutiveDatapointsToClear;
 
   /// Use this to specify the time duration over which the behavior is evaluated,
   /// for those criteria that have a time dimension (for example,
@@ -13908,22 +13498,18 @@ class BehaviorCriteria {
   /// measurements from an individual device are also accumulated over this time
   /// duration before being given a percentile rank. Cannot be used with
   /// list-based metric datatypes.
-  @_s.JsonKey(name: 'durationSeconds')
-  final int durationSeconds;
+  final int? durationSeconds;
 
   /// The configuration of an ML Detect
-  @_s.JsonKey(name: 'mlDetectionConfig')
-  final MachineLearningDetectionConfig mlDetectionConfig;
+  final MachineLearningDetectionConfig? mlDetectionConfig;
 
   /// A statistical ranking (percentile)that indicates a threshold value by which
   /// a behavior is determined to be in compliance or in violation of the
   /// behavior.
-  @_s.JsonKey(name: 'statisticalThreshold')
-  final StatisticalThreshold statisticalThreshold;
+  final StatisticalThreshold? statisticalThreshold;
 
   /// The value to be compared with the <code>metric</code>.
-  @_s.JsonKey(name: 'value')
-  final MetricValue value;
+  final MetricValue? value;
 
   BehaviorCriteria({
     this.comparisonOperator,
@@ -13934,18 +13520,57 @@ class BehaviorCriteria {
     this.statisticalThreshold,
     this.value,
   });
-  factory BehaviorCriteria.fromJson(Map<String, dynamic> json) =>
-      _$BehaviorCriteriaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BehaviorCriteriaToJson(this);
+  factory BehaviorCriteria.fromJson(Map<String, dynamic> json) {
+    return BehaviorCriteria(
+      comparisonOperator:
+          (json['comparisonOperator'] as String?)?.toComparisonOperator(),
+      consecutiveDatapointsToAlarm:
+          json['consecutiveDatapointsToAlarm'] as int?,
+      consecutiveDatapointsToClear:
+          json['consecutiveDatapointsToClear'] as int?,
+      durationSeconds: json['durationSeconds'] as int?,
+      mlDetectionConfig: json['mlDetectionConfig'] != null
+          ? MachineLearningDetectionConfig.fromJson(
+              json['mlDetectionConfig'] as Map<String, dynamic>)
+          : null,
+      statisticalThreshold: json['statisticalThreshold'] != null
+          ? StatisticalThreshold.fromJson(
+              json['statisticalThreshold'] as Map<String, dynamic>)
+          : null,
+      value: json['value'] != null
+          ? MetricValue.fromJson(json['value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final consecutiveDatapointsToAlarm = this.consecutiveDatapointsToAlarm;
+    final consecutiveDatapointsToClear = this.consecutiveDatapointsToClear;
+    final durationSeconds = this.durationSeconds;
+    final mlDetectionConfig = this.mlDetectionConfig;
+    final statisticalThreshold = this.statisticalThreshold;
+    final value = this.value;
+    return {
+      if (comparisonOperator != null)
+        'comparisonOperator': comparisonOperator.toValue(),
+      if (consecutiveDatapointsToAlarm != null)
+        'consecutiveDatapointsToAlarm': consecutiveDatapointsToAlarm,
+      if (consecutiveDatapointsToClear != null)
+        'consecutiveDatapointsToClear': consecutiveDatapointsToClear,
+      if (durationSeconds != null) 'durationSeconds': durationSeconds,
+      if (mlDetectionConfig != null) 'mlDetectionConfig': mlDetectionConfig,
+      if (statisticalThreshold != null)
+        'statisticalThreshold': statisticalThreshold,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum BehaviorCriteriaType {
-  @_s.JsonValue('STATIC')
   static,
-  @_s.JsonValue('STATISTICAL')
   statistical,
-  @_s.JsonValue('MACHINE_LEARNING')
   machineLearning,
 }
 
@@ -13959,42 +13584,42 @@ extension on BehaviorCriteriaType {
       case BehaviorCriteriaType.machineLearning:
         return 'MACHINE_LEARNING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BehaviorCriteriaType toBehaviorCriteriaType() {
+    switch (this) {
+      case 'STATIC':
+        return BehaviorCriteriaType.static;
+      case 'STATISTICAL':
+        return BehaviorCriteriaType.statistical;
+      case 'MACHINE_LEARNING':
+        return BehaviorCriteriaType.machineLearning;
+    }
+    throw Exception('$this is not known in enum BehaviorCriteriaType');
   }
 }
 
 /// The summary of an ML Detect behavior model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BehaviorModelTrainingSummary {
   /// The name of the behavior.
-  @_s.JsonKey(name: 'behaviorName')
-  final String behaviorName;
+  final String? behaviorName;
 
   /// The percentage of datapoints collected.
-  @_s.JsonKey(name: 'datapointsCollectionPercentage')
-  final double datapointsCollectionPercentage;
+  final double? datapointsCollectionPercentage;
 
   /// The date the model was last refreshed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModelRefreshDate')
-  final DateTime lastModelRefreshDate;
+  final DateTime? lastModelRefreshDate;
 
   /// The status of the behavior model.
-  @_s.JsonKey(name: 'modelStatus')
-  final ModelStatus modelStatus;
+  final ModelStatus? modelStatus;
 
   /// The name of the security profile.
-  @_s.JsonKey(name: 'securityProfileName')
-  final String securityProfileName;
+  final String? securityProfileName;
 
   /// The date a training model started collecting data.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'trainingDataCollectionStartDate')
-  final DateTime trainingDataCollectionStartDate;
+  final DateTime? trainingDataCollectionStartDate;
 
   BehaviorModelTrainingSummary({
     this.behaviorName,
@@ -14004,74 +13629,107 @@ class BehaviorModelTrainingSummary {
     this.securityProfileName,
     this.trainingDataCollectionStartDate,
   });
-  factory BehaviorModelTrainingSummary.fromJson(Map<String, dynamic> json) =>
-      _$BehaviorModelTrainingSummaryFromJson(json);
+
+  factory BehaviorModelTrainingSummary.fromJson(Map<String, dynamic> json) {
+    return BehaviorModelTrainingSummary(
+      behaviorName: json['behaviorName'] as String?,
+      datapointsCollectionPercentage:
+          json['datapointsCollectionPercentage'] as double?,
+      lastModelRefreshDate: timeStampFromJson(json['lastModelRefreshDate']),
+      modelStatus: (json['modelStatus'] as String?)?.toModelStatus(),
+      securityProfileName: json['securityProfileName'] as String?,
+      trainingDataCollectionStartDate:
+          timeStampFromJson(json['trainingDataCollectionStartDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behaviorName = this.behaviorName;
+    final datapointsCollectionPercentage = this.datapointsCollectionPercentage;
+    final lastModelRefreshDate = this.lastModelRefreshDate;
+    final modelStatus = this.modelStatus;
+    final securityProfileName = this.securityProfileName;
+    final trainingDataCollectionStartDate =
+        this.trainingDataCollectionStartDate;
+    return {
+      if (behaviorName != null) 'behaviorName': behaviorName,
+      if (datapointsCollectionPercentage != null)
+        'datapointsCollectionPercentage': datapointsCollectionPercentage,
+      if (lastModelRefreshDate != null)
+        'lastModelRefreshDate': unixTimestampToJson(lastModelRefreshDate),
+      if (modelStatus != null) 'modelStatus': modelStatus.toValue(),
+      if (securityProfileName != null)
+        'securityProfileName': securityProfileName,
+      if (trainingDataCollectionStartDate != null)
+        'trainingDataCollectionStartDate':
+            unixTimestampToJson(trainingDataCollectionStartDate),
+    };
+  }
 }
 
 /// Additional information about the billing group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BillingGroupMetadata {
   /// The date the billing group was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   BillingGroupMetadata({
     this.creationDate,
   });
-  factory BillingGroupMetadata.fromJson(Map<String, dynamic> json) =>
-      _$BillingGroupMetadataFromJson(json);
+
+  factory BillingGroupMetadata.fromJson(Map<String, dynamic> json) {
+    return BillingGroupMetadata(
+      creationDate: timeStampFromJson(json['creationDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+    };
+  }
 }
 
 /// The properties of a billing group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BillingGroupProperties {
   /// The description of the billing group.
-  @_s.JsonKey(name: 'billingGroupDescription')
-  final String billingGroupDescription;
+  final String? billingGroupDescription;
 
   BillingGroupProperties({
     this.billingGroupDescription,
   });
-  factory BillingGroupProperties.fromJson(Map<String, dynamic> json) =>
-      _$BillingGroupPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BillingGroupPropertiesToJson(this);
+  factory BillingGroupProperties.fromJson(Map<String, dynamic> json) {
+    return BillingGroupProperties(
+      billingGroupDescription: json['billingGroupDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingGroupDescription = this.billingGroupDescription;
+    return {
+      if (billingGroupDescription != null)
+        'billingGroupDescription': billingGroupDescription,
+    };
+  }
 }
 
 /// A CA certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CACertificate {
   /// The ARN of the CA certificate.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The ID of the CA certificate.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The date the CA certificate was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The status of the CA certificate.
   ///
   /// The status value REGISTER_INACTIVE is deprecated and should not be used.
-  @_s.JsonKey(name: 'status')
-  final CACertificateStatus status;
+  final CACertificateStatus? status;
 
   CACertificate({
     this.certificateArn,
@@ -14079,63 +13737,66 @@ class CACertificate {
     this.creationDate,
     this.status,
   });
-  factory CACertificate.fromJson(Map<String, dynamic> json) =>
-      _$CACertificateFromJson(json);
+
+  factory CACertificate.fromJson(Map<String, dynamic> json) {
+    return CACertificate(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      status: (json['status'] as String?)?.toCACertificateStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    final creationDate = this.creationDate;
+    final status = this.status;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Describes a CA certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CACertificateDescription {
   /// Whether the CA certificate configured for auto registration of device
   /// certificates. Valid values are "ENABLE" and "DISABLE"
-  @_s.JsonKey(name: 'autoRegistrationStatus')
-  final AutoRegistrationStatus autoRegistrationStatus;
+  final AutoRegistrationStatus? autoRegistrationStatus;
 
   /// The CA certificate ARN.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The CA certificate ID.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The CA certificate data, in PEM format.
-  @_s.JsonKey(name: 'certificatePem')
-  final String certificatePem;
+  final String? certificatePem;
 
   /// The date the CA certificate was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The customer version of the CA certificate.
-  @_s.JsonKey(name: 'customerVersion')
-  final int customerVersion;
+  final int? customerVersion;
 
   /// The generation ID of the CA certificate.
-  @_s.JsonKey(name: 'generationId')
-  final String generationId;
+  final String? generationId;
 
   /// The date the CA certificate was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The owner of the CA certificate.
-  @_s.JsonKey(name: 'ownedBy')
-  final String ownedBy;
+  final String? ownedBy;
 
   /// The status of a CA certificate.
-  @_s.JsonKey(name: 'status')
-  final CACertificateStatus status;
+  final CACertificateStatus? status;
 
   /// When the CA certificate is valid.
-  @_s.JsonKey(name: 'validity')
-  final CertificateValidity validity;
+  final CertificateValidity? validity;
 
   CACertificateDescription({
     this.autoRegistrationStatus,
@@ -14150,14 +13811,60 @@ class CACertificateDescription {
     this.status,
     this.validity,
   });
-  factory CACertificateDescription.fromJson(Map<String, dynamic> json) =>
-      _$CACertificateDescriptionFromJson(json);
+
+  factory CACertificateDescription.fromJson(Map<String, dynamic> json) {
+    return CACertificateDescription(
+      autoRegistrationStatus: (json['autoRegistrationStatus'] as String?)
+          ?.toAutoRegistrationStatus(),
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+      certificatePem: json['certificatePem'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      customerVersion: json['customerVersion'] as int?,
+      generationId: json['generationId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      ownedBy: json['ownedBy'] as String?,
+      status: (json['status'] as String?)?.toCACertificateStatus(),
+      validity: json['validity'] != null
+          ? CertificateValidity.fromJson(
+              json['validity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoRegistrationStatus = this.autoRegistrationStatus;
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    final certificatePem = this.certificatePem;
+    final creationDate = this.creationDate;
+    final customerVersion = this.customerVersion;
+    final generationId = this.generationId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final ownedBy = this.ownedBy;
+    final status = this.status;
+    final validity = this.validity;
+    return {
+      if (autoRegistrationStatus != null)
+        'autoRegistrationStatus': autoRegistrationStatus.toValue(),
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+      if (certificatePem != null) 'certificatePem': certificatePem,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (customerVersion != null) 'customerVersion': customerVersion,
+      if (generationId != null) 'generationId': generationId,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (ownedBy != null) 'ownedBy': ownedBy,
+      if (status != null) 'status': status.toValue(),
+      if (validity != null) 'validity': validity,
+    };
+  }
 }
 
 enum CACertificateStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
@@ -14169,126 +13876,195 @@ extension on CACertificateStatus {
       case CACertificateStatus.inactive:
         return 'INACTIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CACertificateStatus toCACertificateStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return CACertificateStatus.active;
+      case 'INACTIVE':
+        return CACertificateStatus.inactive;
+    }
+    throw Exception('$this is not known in enum CACertificateStatus');
   }
 }
 
 enum CACertificateUpdateAction {
-  @_s.JsonValue('DEACTIVATE')
   deactivate,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CACertificateUpdateAction {
+  String toValue() {
+    switch (this) {
+      case CACertificateUpdateAction.deactivate:
+        return 'DEACTIVATE';
+    }
+  }
+}
+
+extension on String {
+  CACertificateUpdateAction toCACertificateUpdateAction() {
+    switch (this) {
+      case 'DEACTIVATE':
+        return CACertificateUpdateAction.deactivate;
+    }
+    throw Exception('$this is not known in enum CACertificateUpdateAction');
+  }
+}
+
 class CancelAuditMitigationActionsTaskResponse {
   CancelAuditMitigationActionsTaskResponse();
+
   factory CancelAuditMitigationActionsTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelAuditMitigationActionsTaskResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return CancelAuditMitigationActionsTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelAuditTaskResponse {
   CancelAuditTaskResponse();
-  factory CancelAuditTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelAuditTaskResponseFromJson(json);
+
+  factory CancelAuditTaskResponse.fromJson(Map<String, dynamic> _) {
+    return CancelAuditTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelDetectMitigationActionsTaskResponse {
   CancelDetectMitigationActionsTaskResponse();
+
   factory CancelDetectMitigationActionsTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelDetectMitigationActionsTaskResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return CancelDetectMitigationActionsTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelJobResponse {
   /// A short text description of the job.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The job ARN.
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   /// The unique identifier you assigned to this job when it was created.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   CancelJobResponse({
     this.description,
     this.jobArn,
     this.jobId,
   });
-  factory CancelJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelJobResponseFromJson(json);
+
+  factory CancelJobResponse.fromJson(Map<String, dynamic> json) {
+    return CancelJobResponse(
+      description: json['description'] as String?,
+      jobArn: json['jobArn'] as String?,
+      jobId: json['jobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final jobArn = this.jobArn;
+    final jobId = this.jobId;
+    return {
+      if (description != null) 'description': description,
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobId != null) 'jobId': jobId,
+    };
+  }
 }
 
 enum CannedAccessControlList {
-  @_s.JsonValue('private')
   private,
-  @_s.JsonValue('public-read')
   publicRead,
-  @_s.JsonValue('public-read-write')
   publicReadWrite,
-  @_s.JsonValue('aws-exec-read')
   awsExecRead,
-  @_s.JsonValue('authenticated-read')
   authenticatedRead,
-  @_s.JsonValue('bucket-owner-read')
   bucketOwnerRead,
-  @_s.JsonValue('bucket-owner-full-control')
   bucketOwnerFullControl,
-  @_s.JsonValue('log-delivery-write')
   logDeliveryWrite,
 }
 
+extension on CannedAccessControlList {
+  String toValue() {
+    switch (this) {
+      case CannedAccessControlList.private:
+        return 'private';
+      case CannedAccessControlList.publicRead:
+        return 'public-read';
+      case CannedAccessControlList.publicReadWrite:
+        return 'public-read-write';
+      case CannedAccessControlList.awsExecRead:
+        return 'aws-exec-read';
+      case CannedAccessControlList.authenticatedRead:
+        return 'authenticated-read';
+      case CannedAccessControlList.bucketOwnerRead:
+        return 'bucket-owner-read';
+      case CannedAccessControlList.bucketOwnerFullControl:
+        return 'bucket-owner-full-control';
+      case CannedAccessControlList.logDeliveryWrite:
+        return 'log-delivery-write';
+    }
+  }
+}
+
+extension on String {
+  CannedAccessControlList toCannedAccessControlList() {
+    switch (this) {
+      case 'private':
+        return CannedAccessControlList.private;
+      case 'public-read':
+        return CannedAccessControlList.publicRead;
+      case 'public-read-write':
+        return CannedAccessControlList.publicReadWrite;
+      case 'aws-exec-read':
+        return CannedAccessControlList.awsExecRead;
+      case 'authenticated-read':
+        return CannedAccessControlList.authenticatedRead;
+      case 'bucket-owner-read':
+        return CannedAccessControlList.bucketOwnerRead;
+      case 'bucket-owner-full-control':
+        return CannedAccessControlList.bucketOwnerFullControl;
+      case 'log-delivery-write':
+        return CannedAccessControlList.logDeliveryWrite;
+    }
+    throw Exception('$this is not known in enum CannedAccessControlList');
+  }
+}
+
 /// Information about a certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Certificate {
   /// The ARN of the certificate.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The ID of the certificate. (The last part of the certificate ARN contains
   /// the certificate ID.)
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The mode of the certificate.
-  @_s.JsonKey(name: 'certificateMode')
-  final CertificateMode certificateMode;
+  final CertificateMode? certificateMode;
 
   /// The date and time the certificate was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The status of the certificate.
   ///
   /// The status value REGISTER_INACTIVE is deprecated and should not be used.
-  @_s.JsonKey(name: 'status')
-  final CertificateStatus status;
+  final CertificateStatus? status;
 
   Certificate({
     this.certificateArn,
@@ -14297,74 +14073,78 @@ class Certificate {
     this.creationDate,
     this.status,
   });
-  factory Certificate.fromJson(Map<String, dynamic> json) =>
-      _$CertificateFromJson(json);
+
+  factory Certificate.fromJson(Map<String, dynamic> json) {
+    return Certificate(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+      certificateMode:
+          (json['certificateMode'] as String?)?.toCertificateMode(),
+      creationDate: timeStampFromJson(json['creationDate']),
+      status: (json['status'] as String?)?.toCertificateStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    final certificateMode = this.certificateMode;
+    final creationDate = this.creationDate;
+    final status = this.status;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+      if (certificateMode != null) 'certificateMode': certificateMode.toValue(),
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Describes a certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CertificateDescription {
   /// The certificate ID of the CA certificate used to sign this certificate.
-  @_s.JsonKey(name: 'caCertificateId')
-  final String caCertificateId;
+  final String? caCertificateId;
 
   /// The ARN of the certificate.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The ID of the certificate.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The mode of the certificate.
-  @_s.JsonKey(name: 'certificateMode')
-  final CertificateMode certificateMode;
+  final CertificateMode? certificateMode;
 
   /// The certificate data, in PEM format.
-  @_s.JsonKey(name: 'certificatePem')
-  final String certificatePem;
+  final String? certificatePem;
 
   /// The date and time the certificate was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The customer version of the certificate.
-  @_s.JsonKey(name: 'customerVersion')
-  final int customerVersion;
+  final int? customerVersion;
 
   /// The generation ID of the certificate.
-  @_s.JsonKey(name: 'generationId')
-  final String generationId;
+  final String? generationId;
 
   /// The date and time the certificate was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The ID of the AWS account that owns the certificate.
-  @_s.JsonKey(name: 'ownedBy')
-  final String ownedBy;
+  final String? ownedBy;
 
   /// The ID of the AWS account of the previous owner of the certificate.
-  @_s.JsonKey(name: 'previousOwnedBy')
-  final String previousOwnedBy;
+  final String? previousOwnedBy;
 
   /// The status of the certificate.
-  @_s.JsonKey(name: 'status')
-  final CertificateStatus status;
+  final CertificateStatus? status;
 
   /// The transfer data.
-  @_s.JsonKey(name: 'transferData')
-  final TransferData transferData;
+  final TransferData? transferData;
 
   /// When the certificate is valid.
-  @_s.JsonKey(name: 'validity')
-  final CertificateValidity validity;
+  final CertificateValidity? validity;
 
   CertificateDescription({
     this.caCertificateId,
@@ -14382,29 +14162,102 @@ class CertificateDescription {
     this.transferData,
     this.validity,
   });
-  factory CertificateDescription.fromJson(Map<String, dynamic> json) =>
-      _$CertificateDescriptionFromJson(json);
+
+  factory CertificateDescription.fromJson(Map<String, dynamic> json) {
+    return CertificateDescription(
+      caCertificateId: json['caCertificateId'] as String?,
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+      certificateMode:
+          (json['certificateMode'] as String?)?.toCertificateMode(),
+      certificatePem: json['certificatePem'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      customerVersion: json['customerVersion'] as int?,
+      generationId: json['generationId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      ownedBy: json['ownedBy'] as String?,
+      previousOwnedBy: json['previousOwnedBy'] as String?,
+      status: (json['status'] as String?)?.toCertificateStatus(),
+      transferData: json['transferData'] != null
+          ? TransferData.fromJson(json['transferData'] as Map<String, dynamic>)
+          : null,
+      validity: json['validity'] != null
+          ? CertificateValidity.fromJson(
+              json['validity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final caCertificateId = this.caCertificateId;
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    final certificateMode = this.certificateMode;
+    final certificatePem = this.certificatePem;
+    final creationDate = this.creationDate;
+    final customerVersion = this.customerVersion;
+    final generationId = this.generationId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final ownedBy = this.ownedBy;
+    final previousOwnedBy = this.previousOwnedBy;
+    final status = this.status;
+    final transferData = this.transferData;
+    final validity = this.validity;
+    return {
+      if (caCertificateId != null) 'caCertificateId': caCertificateId,
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+      if (certificateMode != null) 'certificateMode': certificateMode.toValue(),
+      if (certificatePem != null) 'certificatePem': certificatePem,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (customerVersion != null) 'customerVersion': customerVersion,
+      if (generationId != null) 'generationId': generationId,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (ownedBy != null) 'ownedBy': ownedBy,
+      if (previousOwnedBy != null) 'previousOwnedBy': previousOwnedBy,
+      if (status != null) 'status': status.toValue(),
+      if (transferData != null) 'transferData': transferData,
+      if (validity != null) 'validity': validity,
+    };
+  }
 }
 
 enum CertificateMode {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('SNI_ONLY')
   sniOnly,
 }
 
+extension on CertificateMode {
+  String toValue() {
+    switch (this) {
+      case CertificateMode.$default:
+        return 'DEFAULT';
+      case CertificateMode.sniOnly:
+        return 'SNI_ONLY';
+    }
+  }
+}
+
+extension on String {
+  CertificateMode toCertificateMode() {
+    switch (this) {
+      case 'DEFAULT':
+        return CertificateMode.$default;
+      case 'SNI_ONLY':
+        return CertificateMode.sniOnly;
+    }
+    throw Exception('$this is not known in enum CertificateMode');
+  }
+}
+
 enum CertificateStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('REVOKED')
   revoked,
-  @_s.JsonValue('PENDING_TRANSFER')
   pendingTransfer,
-  @_s.JsonValue('REGISTER_INACTIVE')
   registerInactive,
-  @_s.JsonValue('PENDING_ACTIVATION')
   pendingActivation,
 }
 
@@ -14424,486 +14277,670 @@ extension on CertificateStatus {
       case CertificateStatus.pendingActivation:
         return 'PENDING_ACTIVATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CertificateStatus toCertificateStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return CertificateStatus.active;
+      case 'INACTIVE':
+        return CertificateStatus.inactive;
+      case 'REVOKED':
+        return CertificateStatus.revoked;
+      case 'PENDING_TRANSFER':
+        return CertificateStatus.pendingTransfer;
+      case 'REGISTER_INACTIVE':
+        return CertificateStatus.registerInactive;
+      case 'PENDING_ACTIVATION':
+        return CertificateStatus.pendingActivation;
+    }
+    throw Exception('$this is not known in enum CertificateStatus');
   }
 }
 
 /// When the certificate is valid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CertificateValidity {
   /// The certificate is not valid after this date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'notAfter')
-  final DateTime notAfter;
+  final DateTime? notAfter;
 
   /// The certificate is not valid before this date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'notBefore')
-  final DateTime notBefore;
+  final DateTime? notBefore;
 
   CertificateValidity({
     this.notAfter,
     this.notBefore,
   });
-  factory CertificateValidity.fromJson(Map<String, dynamic> json) =>
-      _$CertificateValidityFromJson(json);
+
+  factory CertificateValidity.fromJson(Map<String, dynamic> json) {
+    return CertificateValidity(
+      notAfter: timeStampFromJson(json['notAfter']),
+      notBefore: timeStampFromJson(json['notBefore']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notAfter = this.notAfter;
+    final notBefore = this.notBefore;
+    return {
+      if (notAfter != null) 'notAfter': unixTimestampToJson(notAfter),
+      if (notBefore != null) 'notBefore': unixTimestampToJson(notBefore),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClearDefaultAuthorizerResponse {
   ClearDefaultAuthorizerResponse();
-  factory ClearDefaultAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$ClearDefaultAuthorizerResponseFromJson(json);
+
+  factory ClearDefaultAuthorizerResponse.fromJson(Map<String, dynamic> _) {
+    return ClearDefaultAuthorizerResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes an action that updates a CloudWatch alarm.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudwatchAlarmAction {
   /// The CloudWatch alarm name.
-  @_s.JsonKey(name: 'alarmName')
   final String alarmName;
 
   /// The IAM role that allows access to the CloudWatch alarm.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The reason for the alarm change.
-  @_s.JsonKey(name: 'stateReason')
   final String stateReason;
 
   /// The value of the alarm state. Acceptable values are: OK, ALARM,
   /// INSUFFICIENT_DATA.
-  @_s.JsonKey(name: 'stateValue')
   final String stateValue;
 
   CloudwatchAlarmAction({
-    @_s.required this.alarmName,
-    @_s.required this.roleArn,
-    @_s.required this.stateReason,
-    @_s.required this.stateValue,
+    required this.alarmName,
+    required this.roleArn,
+    required this.stateReason,
+    required this.stateValue,
   });
-  factory CloudwatchAlarmAction.fromJson(Map<String, dynamic> json) =>
-      _$CloudwatchAlarmActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CloudwatchAlarmActionToJson(this);
+  factory CloudwatchAlarmAction.fromJson(Map<String, dynamic> json) {
+    return CloudwatchAlarmAction(
+      alarmName: json['alarmName'] as String,
+      roleArn: json['roleArn'] as String,
+      stateReason: json['stateReason'] as String,
+      stateValue: json['stateValue'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmName = this.alarmName;
+    final roleArn = this.roleArn;
+    final stateReason = this.stateReason;
+    final stateValue = this.stateValue;
+    return {
+      'alarmName': alarmName,
+      'roleArn': roleArn,
+      'stateReason': stateReason,
+      'stateValue': stateValue,
+    };
+  }
 }
 
 /// Describes an action that sends data to CloudWatch Logs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudwatchLogsAction {
   /// The CloudWatch log group to which the action sends data.
-  @_s.JsonKey(name: 'logGroupName')
   final String logGroupName;
 
   /// The IAM role that allows access to the CloudWatch log.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   CloudwatchLogsAction({
-    @_s.required this.logGroupName,
-    @_s.required this.roleArn,
+    required this.logGroupName,
+    required this.roleArn,
   });
-  factory CloudwatchLogsAction.fromJson(Map<String, dynamic> json) =>
-      _$CloudwatchLogsActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CloudwatchLogsActionToJson(this);
+  factory CloudwatchLogsAction.fromJson(Map<String, dynamic> json) {
+    return CloudwatchLogsAction(
+      logGroupName: json['logGroupName'] as String,
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logGroupName = this.logGroupName;
+    final roleArn = this.roleArn;
+    return {
+      'logGroupName': logGroupName,
+      'roleArn': roleArn,
+    };
+  }
 }
 
 /// Describes an action that captures a CloudWatch metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudwatchMetricAction {
   /// The CloudWatch metric name.
-  @_s.JsonKey(name: 'metricName')
   final String metricName;
 
   /// The CloudWatch metric namespace name.
-  @_s.JsonKey(name: 'metricNamespace')
   final String metricNamespace;
 
   /// The <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#Unit">metric
   /// unit</a> supported by CloudWatch.
-  @_s.JsonKey(name: 'metricUnit')
   final String metricUnit;
 
   /// The CloudWatch metric value.
-  @_s.JsonKey(name: 'metricValue')
   final String metricValue;
 
   /// The IAM role that allows access to the CloudWatch metric.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// An optional <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_concepts.html#about_timestamp">Unix
   /// timestamp</a>.
-  @_s.JsonKey(name: 'metricTimestamp')
-  final String metricTimestamp;
+  final String? metricTimestamp;
 
   CloudwatchMetricAction({
-    @_s.required this.metricName,
-    @_s.required this.metricNamespace,
-    @_s.required this.metricUnit,
-    @_s.required this.metricValue,
-    @_s.required this.roleArn,
+    required this.metricName,
+    required this.metricNamespace,
+    required this.metricUnit,
+    required this.metricValue,
+    required this.roleArn,
     this.metricTimestamp,
   });
-  factory CloudwatchMetricAction.fromJson(Map<String, dynamic> json) =>
-      _$CloudwatchMetricActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CloudwatchMetricActionToJson(this);
+  factory CloudwatchMetricAction.fromJson(Map<String, dynamic> json) {
+    return CloudwatchMetricAction(
+      metricName: json['metricName'] as String,
+      metricNamespace: json['metricNamespace'] as String,
+      metricUnit: json['metricUnit'] as String,
+      metricValue: json['metricValue'] as String,
+      roleArn: json['roleArn'] as String,
+      metricTimestamp: json['metricTimestamp'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricName = this.metricName;
+    final metricNamespace = this.metricNamespace;
+    final metricUnit = this.metricUnit;
+    final metricValue = this.metricValue;
+    final roleArn = this.roleArn;
+    final metricTimestamp = this.metricTimestamp;
+    return {
+      'metricName': metricName,
+      'metricNamespace': metricNamespace,
+      'metricUnit': metricUnit,
+      'metricValue': metricValue,
+      'roleArn': roleArn,
+      if (metricTimestamp != null) 'metricTimestamp': metricTimestamp,
+    };
+  }
 }
 
 /// Describes the method to use when code signing a file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CodeSigning {
   /// The ID of the AWSSignerJob which was created to sign the file.
-  @_s.JsonKey(name: 'awsSignerJobId')
-  final String awsSignerJobId;
+  final String? awsSignerJobId;
 
   /// A custom method for code signing a file.
-  @_s.JsonKey(name: 'customCodeSigning')
-  final CustomCodeSigning customCodeSigning;
+  final CustomCodeSigning? customCodeSigning;
 
   /// Describes the code-signing job.
-  @_s.JsonKey(name: 'startSigningJobParameter')
-  final StartSigningJobParameter startSigningJobParameter;
+  final StartSigningJobParameter? startSigningJobParameter;
 
   CodeSigning({
     this.awsSignerJobId,
     this.customCodeSigning,
     this.startSigningJobParameter,
   });
-  factory CodeSigning.fromJson(Map<String, dynamic> json) =>
-      _$CodeSigningFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CodeSigningToJson(this);
+  factory CodeSigning.fromJson(Map<String, dynamic> json) {
+    return CodeSigning(
+      awsSignerJobId: json['awsSignerJobId'] as String?,
+      customCodeSigning: json['customCodeSigning'] != null
+          ? CustomCodeSigning.fromJson(
+              json['customCodeSigning'] as Map<String, dynamic>)
+          : null,
+      startSigningJobParameter: json['startSigningJobParameter'] != null
+          ? StartSigningJobParameter.fromJson(
+              json['startSigningJobParameter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsSignerJobId = this.awsSignerJobId;
+    final customCodeSigning = this.customCodeSigning;
+    final startSigningJobParameter = this.startSigningJobParameter;
+    return {
+      if (awsSignerJobId != null) 'awsSignerJobId': awsSignerJobId,
+      if (customCodeSigning != null) 'customCodeSigning': customCodeSigning,
+      if (startSigningJobParameter != null)
+        'startSigningJobParameter': startSigningJobParameter,
+    };
+  }
 }
 
 /// Describes the certificate chain being used when code signing a file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CodeSigningCertificateChain {
   /// The name of the certificate.
-  @_s.JsonKey(name: 'certificateName')
-  final String certificateName;
+  final String? certificateName;
 
   /// A base64 encoded binary representation of the code signing certificate
   /// chain.
-  @_s.JsonKey(name: 'inlineDocument')
-  final String inlineDocument;
+  final String? inlineDocument;
 
   CodeSigningCertificateChain({
     this.certificateName,
     this.inlineDocument,
   });
-  factory CodeSigningCertificateChain.fromJson(Map<String, dynamic> json) =>
-      _$CodeSigningCertificateChainFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CodeSigningCertificateChainToJson(this);
+  factory CodeSigningCertificateChain.fromJson(Map<String, dynamic> json) {
+    return CodeSigningCertificateChain(
+      certificateName: json['certificateName'] as String?,
+      inlineDocument: json['inlineDocument'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateName = this.certificateName;
+    final inlineDocument = this.inlineDocument;
+    return {
+      if (certificateName != null) 'certificateName': certificateName,
+      if (inlineDocument != null) 'inlineDocument': inlineDocument,
+    };
+  }
 }
 
 /// Describes the signature for a file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CodeSigningSignature {
   /// A base64 encoded binary representation of the code signing signature.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'inlineDocument')
-  final Uint8List inlineDocument;
+  final Uint8List? inlineDocument;
 
   CodeSigningSignature({
     this.inlineDocument,
   });
-  factory CodeSigningSignature.fromJson(Map<String, dynamic> json) =>
-      _$CodeSigningSignatureFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CodeSigningSignatureToJson(this);
+  factory CodeSigningSignature.fromJson(Map<String, dynamic> json) {
+    return CodeSigningSignature(
+      inlineDocument:
+          _s.decodeNullableUint8List(json['inlineDocument'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inlineDocument = this.inlineDocument;
+    return {
+      if (inlineDocument != null)
+        'inlineDocument': base64Encode(inlineDocument),
+    };
+  }
 }
 
 enum ComparisonOperator {
-  @_s.JsonValue('less-than')
   lessThan,
-  @_s.JsonValue('less-than-equals')
   lessThanEquals,
-  @_s.JsonValue('greater-than')
   greaterThan,
-  @_s.JsonValue('greater-than-equals')
   greaterThanEquals,
-  @_s.JsonValue('in-cidr-set')
   inCidrSet,
-  @_s.JsonValue('not-in-cidr-set')
   notInCidrSet,
-  @_s.JsonValue('in-port-set')
   inPortSet,
-  @_s.JsonValue('not-in-port-set')
   notInPortSet,
-  @_s.JsonValue('in-set')
   inSet,
-  @_s.JsonValue('not-in-set')
   notInSet,
 }
 
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.lessThan:
+        return 'less-than';
+      case ComparisonOperator.lessThanEquals:
+        return 'less-than-equals';
+      case ComparisonOperator.greaterThan:
+        return 'greater-than';
+      case ComparisonOperator.greaterThanEquals:
+        return 'greater-than-equals';
+      case ComparisonOperator.inCidrSet:
+        return 'in-cidr-set';
+      case ComparisonOperator.notInCidrSet:
+        return 'not-in-cidr-set';
+      case ComparisonOperator.inPortSet:
+        return 'in-port-set';
+      case ComparisonOperator.notInPortSet:
+        return 'not-in-port-set';
+      case ComparisonOperator.inSet:
+        return 'in-set';
+      case ComparisonOperator.notInSet:
+        return 'not-in-set';
+    }
+  }
+}
+
+extension on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'less-than':
+        return ComparisonOperator.lessThan;
+      case 'less-than-equals':
+        return ComparisonOperator.lessThanEquals;
+      case 'greater-than':
+        return ComparisonOperator.greaterThan;
+      case 'greater-than-equals':
+        return ComparisonOperator.greaterThanEquals;
+      case 'in-cidr-set':
+        return ComparisonOperator.inCidrSet;
+      case 'not-in-cidr-set':
+        return ComparisonOperator.notInCidrSet;
+      case 'in-port-set':
+        return ComparisonOperator.inPortSet;
+      case 'not-in-port-set':
+        return ComparisonOperator.notInPortSet;
+      case 'in-set':
+        return ComparisonOperator.inSet;
+      case 'not-in-set':
+        return ComparisonOperator.notInSet;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
+}
+
 enum ConfidenceLevel {
-  @_s.JsonValue('LOW')
   low,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('HIGH')
   high,
 }
 
+extension on ConfidenceLevel {
+  String toValue() {
+    switch (this) {
+      case ConfidenceLevel.low:
+        return 'LOW';
+      case ConfidenceLevel.medium:
+        return 'MEDIUM';
+      case ConfidenceLevel.high:
+        return 'HIGH';
+    }
+  }
+}
+
+extension on String {
+  ConfidenceLevel toConfidenceLevel() {
+    switch (this) {
+      case 'LOW':
+        return ConfidenceLevel.low;
+      case 'MEDIUM':
+        return ConfidenceLevel.medium;
+      case 'HIGH':
+        return ConfidenceLevel.high;
+    }
+    throw Exception('$this is not known in enum ConfidenceLevel');
+  }
+}
+
 /// Configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Configuration {
   /// True to enable the configuration.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   Configuration({
     this.enabled,
   });
-  factory Configuration.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationToJson(this);
+  factory Configuration.fromJson(Map<String, dynamic> json) {
+    return Configuration(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfirmTopicRuleDestinationResponse {
   ConfirmTopicRuleDestinationResponse();
-  factory ConfirmTopicRuleDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfirmTopicRuleDestinationResponseFromJson(json);
+
+  factory ConfirmTopicRuleDestinationResponse.fromJson(Map<String, dynamic> _) {
+    return ConfirmTopicRuleDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAuditSuppressionResponse {
   CreateAuditSuppressionResponse();
-  factory CreateAuditSuppressionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAuditSuppressionResponseFromJson(json);
+
+  factory CreateAuditSuppressionResponse.fromJson(Map<String, dynamic> _) {
+    return CreateAuditSuppressionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAuthorizerResponse {
   /// The authorizer ARN.
-  @_s.JsonKey(name: 'authorizerArn')
-  final String authorizerArn;
+  final String? authorizerArn;
 
   /// The authorizer's name.
-  @_s.JsonKey(name: 'authorizerName')
-  final String authorizerName;
+  final String? authorizerName;
 
   CreateAuthorizerResponse({
     this.authorizerArn,
     this.authorizerName,
   });
-  factory CreateAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAuthorizerResponseFromJson(json);
+
+  factory CreateAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAuthorizerResponse(
+      authorizerArn: json['authorizerArn'] as String?,
+      authorizerName: json['authorizerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerArn = this.authorizerArn;
+    final authorizerName = this.authorizerName;
+    return {
+      if (authorizerArn != null) 'authorizerArn': authorizerArn,
+      if (authorizerName != null) 'authorizerName': authorizerName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBillingGroupResponse {
   /// The ARN of the billing group.
-  @_s.JsonKey(name: 'billingGroupArn')
-  final String billingGroupArn;
+  final String? billingGroupArn;
 
   /// The ID of the billing group.
-  @_s.JsonKey(name: 'billingGroupId')
-  final String billingGroupId;
+  final String? billingGroupId;
 
   /// The name you gave to the billing group.
-  @_s.JsonKey(name: 'billingGroupName')
-  final String billingGroupName;
+  final String? billingGroupName;
 
   CreateBillingGroupResponse({
     this.billingGroupArn,
     this.billingGroupId,
     this.billingGroupName,
   });
-  factory CreateBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBillingGroupResponseFromJson(json);
+
+  factory CreateBillingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBillingGroupResponse(
+      billingGroupArn: json['billingGroupArn'] as String?,
+      billingGroupId: json['billingGroupId'] as String?,
+      billingGroupName: json['billingGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingGroupArn = this.billingGroupArn;
+    final billingGroupId = this.billingGroupId;
+    final billingGroupName = this.billingGroupName;
+    return {
+      if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
+      if (billingGroupId != null) 'billingGroupId': billingGroupId,
+      if (billingGroupName != null) 'billingGroupName': billingGroupName,
+    };
+  }
 }
 
 /// The output from the CreateCertificateFromCsr operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCertificateFromCsrResponse {
   /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a
   /// principal for policy operations.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The ID of the certificate. Certificate management operations only take a
   /// certificateId.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The certificate data, in PEM format.
-  @_s.JsonKey(name: 'certificatePem')
-  final String certificatePem;
+  final String? certificatePem;
 
   CreateCertificateFromCsrResponse({
     this.certificateArn,
     this.certificateId,
     this.certificatePem,
   });
-  factory CreateCertificateFromCsrResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCertificateFromCsrResponseFromJson(json);
+
+  factory CreateCertificateFromCsrResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCertificateFromCsrResponse(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+      certificatePem: json['certificatePem'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    final certificatePem = this.certificatePem;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+      if (certificatePem != null) 'certificatePem': certificatePem,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCustomMetricResponse {
   /// The Amazon Resource Number (ARN) of the custom metric, e.g.
   /// <code>arn:<i>aws-partition</i>:iot:<i>region</i>:<i>accountId</i>:custommetric/<i>metricName</i>
   /// </code>
-  @_s.JsonKey(name: 'metricArn')
-  final String metricArn;
+  final String? metricArn;
 
   /// The name of the custom metric to be used in the metric report.
-  @_s.JsonKey(name: 'metricName')
-  final String metricName;
+  final String? metricName;
 
   CreateCustomMetricResponse({
     this.metricArn,
     this.metricName,
   });
-  factory CreateCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCustomMetricResponseFromJson(json);
+
+  factory CreateCustomMetricResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCustomMetricResponse(
+      metricArn: json['metricArn'] as String?,
+      metricName: json['metricName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricArn = this.metricArn;
+    final metricName = this.metricName;
+    return {
+      if (metricArn != null) 'metricArn': metricArn,
+      if (metricName != null) 'metricName': metricName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDimensionResponse {
   /// The Amazon Resource Name (ARN) of the created dimension.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// A unique identifier for the dimension.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   CreateDimensionResponse({
     this.arn,
     this.name,
   });
-  factory CreateDimensionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDimensionResponseFromJson(json);
+
+  factory CreateDimensionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDimensionResponse(
+      arn: json['arn'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDomainConfigurationResponse {
   /// The ARN of the domain configuration.
-  @_s.JsonKey(name: 'domainConfigurationArn')
-  final String domainConfigurationArn;
+  final String? domainConfigurationArn;
 
   /// The name of the domain configuration.
-  @_s.JsonKey(name: 'domainConfigurationName')
-  final String domainConfigurationName;
+  final String? domainConfigurationName;
 
   CreateDomainConfigurationResponse({
     this.domainConfigurationArn,
     this.domainConfigurationName,
   });
+
   factory CreateDomainConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDomainConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateDomainConfigurationResponse(
+      domainConfigurationArn: json['domainConfigurationArn'] as String?,
+      domainConfigurationName: json['domainConfigurationName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainConfigurationArn = this.domainConfigurationArn;
+    final domainConfigurationName = this.domainConfigurationName;
+    return {
+      if (domainConfigurationArn != null)
+        'domainConfigurationArn': domainConfigurationArn,
+      if (domainConfigurationName != null)
+        'domainConfigurationName': domainConfigurationName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDynamicThingGroupResponse {
   /// The dynamic thing group index name.
-  @_s.JsonKey(name: 'indexName')
-  final String indexName;
+  final String? indexName;
 
   /// The dynamic thing group search query string.
-  @_s.JsonKey(name: 'queryString')
-  final String queryString;
+  final String? queryString;
 
   /// The dynamic thing group query version.
-  @_s.JsonKey(name: 'queryVersion')
-  final String queryVersion;
+  final String? queryVersion;
 
   /// The dynamic thing group ARN.
-  @_s.JsonKey(name: 'thingGroupArn')
-  final String thingGroupArn;
+  final String? thingGroupArn;
 
   /// The dynamic thing group ID.
-  @_s.JsonKey(name: 'thingGroupId')
-  final String thingGroupId;
+  final String? thingGroupId;
 
   /// The dynamic thing group name.
-  @_s.JsonKey(name: 'thingGroupName')
-  final String thingGroupName;
+  final String? thingGroupName;
 
   CreateDynamicThingGroupResponse({
     this.indexName,
@@ -14913,60 +14950,115 @@ class CreateDynamicThingGroupResponse {
     this.thingGroupId,
     this.thingGroupName,
   });
-  factory CreateDynamicThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDynamicThingGroupResponseFromJson(json);
+
+  factory CreateDynamicThingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDynamicThingGroupResponse(
+      indexName: json['indexName'] as String?,
+      queryString: json['queryString'] as String?,
+      queryVersion: json['queryVersion'] as String?,
+      thingGroupArn: json['thingGroupArn'] as String?,
+      thingGroupId: json['thingGroupId'] as String?,
+      thingGroupName: json['thingGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final queryString = this.queryString;
+    final queryVersion = this.queryVersion;
+    final thingGroupArn = this.thingGroupArn;
+    final thingGroupId = this.thingGroupId;
+    final thingGroupName = this.thingGroupName;
+    return {
+      if (indexName != null) 'indexName': indexName,
+      if (queryString != null) 'queryString': queryString,
+      if (queryVersion != null) 'queryVersion': queryVersion,
+      if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
+      if (thingGroupId != null) 'thingGroupId': thingGroupId,
+      if (thingGroupName != null) 'thingGroupName': thingGroupName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateJobResponse {
   /// The job description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The job ARN.
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   /// The unique identifier you assigned to this job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   CreateJobResponse({
     this.description,
     this.jobArn,
     this.jobId,
   });
-  factory CreateJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateJobResponseFromJson(json);
+
+  factory CreateJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateJobResponse(
+      description: json['description'] as String?,
+      jobArn: json['jobArn'] as String?,
+      jobId: json['jobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final jobArn = this.jobArn;
+    final jobId = this.jobId;
+    return {
+      if (description != null) 'description': description,
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobId != null) 'jobId': jobId,
+    };
+  }
+}
+
+class CreateJobTemplateResponse {
+  /// The ARN of the job template.
+  final String? jobTemplateArn;
+
+  /// The unique identifier of the job template.
+  final String? jobTemplateId;
+
+  CreateJobTemplateResponse({
+    this.jobTemplateArn,
+    this.jobTemplateId,
+  });
+
+  factory CreateJobTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateJobTemplateResponse(
+      jobTemplateArn: json['jobTemplateArn'] as String?,
+      jobTemplateId: json['jobTemplateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobTemplateArn = this.jobTemplateArn;
+    final jobTemplateId = this.jobTemplateId;
+    return {
+      if (jobTemplateArn != null) 'jobTemplateArn': jobTemplateArn,
+      if (jobTemplateId != null) 'jobTemplateId': jobTemplateId,
+    };
+  }
 }
 
 /// The output of the CreateKeysAndCertificate operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateKeysAndCertificateResponse {
   /// The ARN of the certificate.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The ID of the certificate. AWS IoT issues a default subject name for the
   /// certificate (for example, AWS IoT Certificate).
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The certificate data, in PEM format.
-  @_s.JsonKey(name: 'certificatePem')
-  final String certificatePem;
+  final String? certificatePem;
 
   /// The generated key pair.
-  @_s.JsonKey(name: 'keyPair')
-  final KeyPair keyPair;
+  final KeyPair? keyPair;
 
   CreateKeysAndCertificateResponse({
     this.certificateArn,
@@ -14974,58 +15066,76 @@ class CreateKeysAndCertificateResponse {
     this.certificatePem,
     this.keyPair,
   });
-  factory CreateKeysAndCertificateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateKeysAndCertificateResponseFromJson(json);
+
+  factory CreateKeysAndCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateKeysAndCertificateResponse(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+      certificatePem: json['certificatePem'] as String?,
+      keyPair: json['keyPair'] != null
+          ? KeyPair.fromJson(json['keyPair'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    final certificatePem = this.certificatePem;
+    final keyPair = this.keyPair;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+      if (certificatePem != null) 'certificatePem': certificatePem,
+      if (keyPair != null) 'keyPair': keyPair,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMitigationActionResponse {
   /// The ARN for the new mitigation action.
-  @_s.JsonKey(name: 'actionArn')
-  final String actionArn;
+  final String? actionArn;
 
   /// A unique identifier for the new mitigation action.
-  @_s.JsonKey(name: 'actionId')
-  final String actionId;
+  final String? actionId;
 
   CreateMitigationActionResponse({
     this.actionArn,
     this.actionId,
   });
-  factory CreateMitigationActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateMitigationActionResponseFromJson(json);
+
+  factory CreateMitigationActionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMitigationActionResponse(
+      actionArn: json['actionArn'] as String?,
+      actionId: json['actionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionArn = this.actionArn;
+    final actionId = this.actionId;
+    return {
+      if (actionArn != null) 'actionArn': actionArn,
+      if (actionId != null) 'actionId': actionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOTAUpdateResponse {
   /// The AWS IoT job ARN associated with the OTA update.
-  @_s.JsonKey(name: 'awsIotJobArn')
-  final String awsIotJobArn;
+  final String? awsIotJobArn;
 
   /// The AWS IoT job ID associated with the OTA update.
-  @_s.JsonKey(name: 'awsIotJobId')
-  final String awsIotJobId;
+  final String? awsIotJobId;
 
   /// The OTA update ARN.
-  @_s.JsonKey(name: 'otaUpdateArn')
-  final String otaUpdateArn;
+  final String? otaUpdateArn;
 
   /// The OTA update ID.
-  @_s.JsonKey(name: 'otaUpdateId')
-  final String otaUpdateId;
+  final String? otaUpdateId;
 
   /// The OTA update status.
-  @_s.JsonKey(name: 'otaUpdateStatus')
-  final OTAUpdateStatus otaUpdateStatus;
+  final OTAUpdateStatus? otaUpdateStatus;
 
   CreateOTAUpdateResponse({
     this.awsIotJobArn,
@@ -15034,32 +15144,47 @@ class CreateOTAUpdateResponse {
     this.otaUpdateId,
     this.otaUpdateStatus,
   });
-  factory CreateOTAUpdateResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateOTAUpdateResponseFromJson(json);
+
+  factory CreateOTAUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOTAUpdateResponse(
+      awsIotJobArn: json['awsIotJobArn'] as String?,
+      awsIotJobId: json['awsIotJobId'] as String?,
+      otaUpdateArn: json['otaUpdateArn'] as String?,
+      otaUpdateId: json['otaUpdateId'] as String?,
+      otaUpdateStatus:
+          (json['otaUpdateStatus'] as String?)?.toOTAUpdateStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsIotJobArn = this.awsIotJobArn;
+    final awsIotJobId = this.awsIotJobId;
+    final otaUpdateArn = this.otaUpdateArn;
+    final otaUpdateId = this.otaUpdateId;
+    final otaUpdateStatus = this.otaUpdateStatus;
+    return {
+      if (awsIotJobArn != null) 'awsIotJobArn': awsIotJobArn,
+      if (awsIotJobId != null) 'awsIotJobId': awsIotJobId,
+      if (otaUpdateArn != null) 'otaUpdateArn': otaUpdateArn,
+      if (otaUpdateId != null) 'otaUpdateId': otaUpdateId,
+      if (otaUpdateStatus != null) 'otaUpdateStatus': otaUpdateStatus.toValue(),
+    };
+  }
 }
 
 /// The output from the CreatePolicy operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePolicyResponse {
   /// The policy ARN.
-  @_s.JsonKey(name: 'policyArn')
-  final String policyArn;
+  final String? policyArn;
 
   /// The JSON document that describes the policy.
-  @_s.JsonKey(name: 'policyDocument')
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The policy name.
-  @_s.JsonKey(name: 'policyName')
-  final String policyName;
+  final String? policyName;
 
   /// The policy version ID.
-  @_s.JsonKey(name: 'policyVersionId')
-  final String policyVersionId;
+  final String? policyVersionId;
 
   CreatePolicyResponse({
     this.policyArn,
@@ -15067,32 +15192,43 @@ class CreatePolicyResponse {
     this.policyName,
     this.policyVersionId,
   });
-  factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePolicyResponseFromJson(json);
+
+  factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyResponse(
+      policyArn: json['policyArn'] as String?,
+      policyDocument: json['policyDocument'] as String?,
+      policyName: json['policyName'] as String?,
+      policyVersionId: json['policyVersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyArn = this.policyArn;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    final policyVersionId = this.policyVersionId;
+    return {
+      if (policyArn != null) 'policyArn': policyArn,
+      if (policyDocument != null) 'policyDocument': policyDocument,
+      if (policyName != null) 'policyName': policyName,
+      if (policyVersionId != null) 'policyVersionId': policyVersionId,
+    };
+  }
 }
 
 /// The output of the CreatePolicyVersion operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePolicyVersionResponse {
   /// Specifies whether the policy version is the default.
-  @_s.JsonKey(name: 'isDefaultVersion')
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The policy ARN.
-  @_s.JsonKey(name: 'policyArn')
-  final String policyArn;
+  final String? policyArn;
 
   /// The JSON document that describes the policy.
-  @_s.JsonKey(name: 'policyDocument')
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The policy version ID.
-  @_s.JsonKey(name: 'policyVersionId')
-  final String policyVersionId;
+  final String? policyVersionId;
 
   CreatePolicyVersionResponse({
     this.isDefaultVersion,
@@ -15100,32 +15236,42 @@ class CreatePolicyVersionResponse {
     this.policyDocument,
     this.policyVersionId,
   });
-  factory CreatePolicyVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePolicyVersionResponseFromJson(json);
+
+  factory CreatePolicyVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyVersionResponse(
+      isDefaultVersion: json['isDefaultVersion'] as bool?,
+      policyArn: json['policyArn'] as String?,
+      policyDocument: json['policyDocument'] as String?,
+      policyVersionId: json['policyVersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isDefaultVersion = this.isDefaultVersion;
+    final policyArn = this.policyArn;
+    final policyDocument = this.policyDocument;
+    final policyVersionId = this.policyVersionId;
+    return {
+      if (isDefaultVersion != null) 'isDefaultVersion': isDefaultVersion,
+      if (policyArn != null) 'policyArn': policyArn,
+      if (policyDocument != null) 'policyDocument': policyDocument,
+      if (policyVersionId != null) 'policyVersionId': policyVersionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProvisioningClaimResponse {
   /// The ID of the certificate.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The provisioning claim certificate.
-  @_s.JsonKey(name: 'certificatePem')
-  final String certificatePem;
+  final String? certificatePem;
 
   /// The provisioning claim expiration time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expiration')
-  final DateTime expiration;
+  final DateTime? expiration;
 
   /// The provisioning claim key pair.
-  @_s.JsonKey(name: 'keyPair')
-  final KeyPair keyPair;
+  final KeyPair? keyPair;
 
   CreateProvisioningClaimResponse({
     this.certificateId,
@@ -15133,60 +15279,82 @@ class CreateProvisioningClaimResponse {
     this.expiration,
     this.keyPair,
   });
-  factory CreateProvisioningClaimResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProvisioningClaimResponseFromJson(json);
+
+  factory CreateProvisioningClaimResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProvisioningClaimResponse(
+      certificateId: json['certificateId'] as String?,
+      certificatePem: json['certificatePem'] as String?,
+      expiration: timeStampFromJson(json['expiration']),
+      keyPair: json['keyPair'] != null
+          ? KeyPair.fromJson(json['keyPair'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateId = this.certificateId;
+    final certificatePem = this.certificatePem;
+    final expiration = this.expiration;
+    final keyPair = this.keyPair;
+    return {
+      if (certificateId != null) 'certificateId': certificateId,
+      if (certificatePem != null) 'certificatePem': certificatePem,
+      if (expiration != null) 'expiration': unixTimestampToJson(expiration),
+      if (keyPair != null) 'keyPair': keyPair,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProvisioningTemplateResponse {
   /// The default version of the fleet provisioning template.
-  @_s.JsonKey(name: 'defaultVersionId')
-  final int defaultVersionId;
+  final int? defaultVersionId;
 
   /// The ARN that identifies the provisioning template.
-  @_s.JsonKey(name: 'templateArn')
-  final String templateArn;
+  final String? templateArn;
 
   /// The name of the fleet provisioning template.
-  @_s.JsonKey(name: 'templateName')
-  final String templateName;
+  final String? templateName;
 
   CreateProvisioningTemplateResponse({
     this.defaultVersionId,
     this.templateArn,
     this.templateName,
   });
+
   factory CreateProvisioningTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateProvisioningTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateProvisioningTemplateResponse(
+      defaultVersionId: json['defaultVersionId'] as int?,
+      templateArn: json['templateArn'] as String?,
+      templateName: json['templateName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultVersionId = this.defaultVersionId;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    return {
+      if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateName != null) 'templateName': templateName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProvisioningTemplateVersionResponse {
   /// True if the fleet provisioning template version is the default version,
   /// otherwise false.
-  @_s.JsonKey(name: 'isDefaultVersion')
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The ARN that identifies the provisioning template.
-  @_s.JsonKey(name: 'templateArn')
-  final String templateArn;
+  final String? templateArn;
 
   /// The name of the fleet provisioning template.
-  @_s.JsonKey(name: 'templateName')
-  final String templateName;
+  final String? templateName;
 
   /// The version of the fleet provisioning template.
-  @_s.JsonKey(name: 'versionId')
-  final int versionId;
+  final int? versionId;
 
   CreateProvisioningTemplateVersionResponse({
     this.isDefaultVersion,
@@ -15194,93 +15362,124 @@ class CreateProvisioningTemplateVersionResponse {
     this.templateName,
     this.versionId,
   });
+
   factory CreateProvisioningTemplateVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateProvisioningTemplateVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateProvisioningTemplateVersionResponse(
+      isDefaultVersion: json['isDefaultVersion'] as bool?,
+      templateArn: json['templateArn'] as String?,
+      templateName: json['templateName'] as String?,
+      versionId: json['versionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isDefaultVersion = this.isDefaultVersion;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    final versionId = this.versionId;
+    return {
+      if (isDefaultVersion != null) 'isDefaultVersion': isDefaultVersion,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateName != null) 'templateName': templateName,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRoleAliasResponse {
   /// The role alias.
-  @_s.JsonKey(name: 'roleAlias')
-  final String roleAlias;
+  final String? roleAlias;
 
   /// The role alias ARN.
-  @_s.JsonKey(name: 'roleAliasArn')
-  final String roleAliasArn;
+  final String? roleAliasArn;
 
   CreateRoleAliasResponse({
     this.roleAlias,
     this.roleAliasArn,
   });
-  factory CreateRoleAliasResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRoleAliasResponseFromJson(json);
+
+  factory CreateRoleAliasResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRoleAliasResponse(
+      roleAlias: json['roleAlias'] as String?,
+      roleAliasArn: json['roleAliasArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleAlias = this.roleAlias;
+    final roleAliasArn = this.roleAliasArn;
+    return {
+      if (roleAlias != null) 'roleAlias': roleAlias,
+      if (roleAliasArn != null) 'roleAliasArn': roleAliasArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateScheduledAuditResponse {
   /// The ARN of the scheduled audit.
-  @_s.JsonKey(name: 'scheduledAuditArn')
-  final String scheduledAuditArn;
+  final String? scheduledAuditArn;
 
   CreateScheduledAuditResponse({
     this.scheduledAuditArn,
   });
-  factory CreateScheduledAuditResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateScheduledAuditResponseFromJson(json);
+
+  factory CreateScheduledAuditResponse.fromJson(Map<String, dynamic> json) {
+    return CreateScheduledAuditResponse(
+      scheduledAuditArn: json['scheduledAuditArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledAuditArn = this.scheduledAuditArn;
+    return {
+      if (scheduledAuditArn != null) 'scheduledAuditArn': scheduledAuditArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSecurityProfileResponse {
   /// The ARN of the security profile.
-  @_s.JsonKey(name: 'securityProfileArn')
-  final String securityProfileArn;
+  final String? securityProfileArn;
 
   /// The name you gave to the security profile.
-  @_s.JsonKey(name: 'securityProfileName')
-  final String securityProfileName;
+  final String? securityProfileName;
 
   CreateSecurityProfileResponse({
     this.securityProfileArn,
     this.securityProfileName,
   });
-  factory CreateSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSecurityProfileResponseFromJson(json);
+
+  factory CreateSecurityProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSecurityProfileResponse(
+      securityProfileArn: json['securityProfileArn'] as String?,
+      securityProfileName: json['securityProfileName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityProfileArn = this.securityProfileArn;
+    final securityProfileName = this.securityProfileName;
+    return {
+      if (securityProfileArn != null) 'securityProfileArn': securityProfileArn,
+      if (securityProfileName != null)
+        'securityProfileName': securityProfileName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStreamResponse {
   /// A description of the stream.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The stream ARN.
-  @_s.JsonKey(name: 'streamArn')
-  final String streamArn;
+  final String? streamArn;
 
   /// The stream ID.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   /// The version of the stream.
-  @_s.JsonKey(name: 'streamVersion')
-  final int streamVersion;
+  final int? streamVersion;
 
   CreateStreamResponse({
     this.description,
@@ -15288,133 +15487,180 @@ class CreateStreamResponse {
     this.streamId,
     this.streamVersion,
   });
-  factory CreateStreamResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateStreamResponseFromJson(json);
+
+  factory CreateStreamResponse.fromJson(Map<String, dynamic> json) {
+    return CreateStreamResponse(
+      description: json['description'] as String?,
+      streamArn: json['streamArn'] as String?,
+      streamId: json['streamId'] as String?,
+      streamVersion: json['streamVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final streamArn = this.streamArn;
+    final streamId = this.streamId;
+    final streamVersion = this.streamVersion;
+    return {
+      if (description != null) 'description': description,
+      if (streamArn != null) 'streamArn': streamArn,
+      if (streamId != null) 'streamId': streamId,
+      if (streamVersion != null) 'streamVersion': streamVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateThingGroupResponse {
   /// The thing group ARN.
-  @_s.JsonKey(name: 'thingGroupArn')
-  final String thingGroupArn;
+  final String? thingGroupArn;
 
   /// The thing group ID.
-  @_s.JsonKey(name: 'thingGroupId')
-  final String thingGroupId;
+  final String? thingGroupId;
 
   /// The thing group name.
-  @_s.JsonKey(name: 'thingGroupName')
-  final String thingGroupName;
+  final String? thingGroupName;
 
   CreateThingGroupResponse({
     this.thingGroupArn,
     this.thingGroupId,
     this.thingGroupName,
   });
-  factory CreateThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateThingGroupResponseFromJson(json);
+
+  factory CreateThingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateThingGroupResponse(
+      thingGroupArn: json['thingGroupArn'] as String?,
+      thingGroupId: json['thingGroupId'] as String?,
+      thingGroupName: json['thingGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingGroupArn = this.thingGroupArn;
+    final thingGroupId = this.thingGroupId;
+    final thingGroupName = this.thingGroupName;
+    return {
+      if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
+      if (thingGroupId != null) 'thingGroupId': thingGroupId,
+      if (thingGroupName != null) 'thingGroupName': thingGroupName,
+    };
+  }
 }
 
 /// The output of the CreateThing operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateThingResponse {
   /// The ARN of the new thing.
-  @_s.JsonKey(name: 'thingArn')
-  final String thingArn;
+  final String? thingArn;
 
   /// The thing ID.
-  @_s.JsonKey(name: 'thingId')
-  final String thingId;
+  final String? thingId;
 
   /// The name of the new thing.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   CreateThingResponse({
     this.thingArn,
     this.thingId,
     this.thingName,
   });
-  factory CreateThingResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateThingResponseFromJson(json);
+
+  factory CreateThingResponse.fromJson(Map<String, dynamic> json) {
+    return CreateThingResponse(
+      thingArn: json['thingArn'] as String?,
+      thingId: json['thingId'] as String?,
+      thingName: json['thingName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingArn = this.thingArn;
+    final thingId = this.thingId;
+    final thingName = this.thingName;
+    return {
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingId != null) 'thingId': thingId,
+      if (thingName != null) 'thingName': thingName,
+    };
+  }
 }
 
 /// The output of the CreateThingType operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateThingTypeResponse {
   /// The Amazon Resource Name (ARN) of the thing type.
-  @_s.JsonKey(name: 'thingTypeArn')
-  final String thingTypeArn;
+  final String? thingTypeArn;
 
   /// The thing type ID.
-  @_s.JsonKey(name: 'thingTypeId')
-  final String thingTypeId;
+  final String? thingTypeId;
 
   /// The name of the thing type.
-  @_s.JsonKey(name: 'thingTypeName')
-  final String thingTypeName;
+  final String? thingTypeName;
 
   CreateThingTypeResponse({
     this.thingTypeArn,
     this.thingTypeId,
     this.thingTypeName,
   });
-  factory CreateThingTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateThingTypeResponseFromJson(json);
+
+  factory CreateThingTypeResponse.fromJson(Map<String, dynamic> json) {
+    return CreateThingTypeResponse(
+      thingTypeArn: json['thingTypeArn'] as String?,
+      thingTypeId: json['thingTypeId'] as String?,
+      thingTypeName: json['thingTypeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingTypeArn = this.thingTypeArn;
+    final thingTypeId = this.thingTypeId;
+    final thingTypeName = this.thingTypeName;
+    return {
+      if (thingTypeArn != null) 'thingTypeArn': thingTypeArn,
+      if (thingTypeId != null) 'thingTypeId': thingTypeId,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTopicRuleDestinationResponse {
   /// The topic rule destination.
-  @_s.JsonKey(name: 'topicRuleDestination')
-  final TopicRuleDestination topicRuleDestination;
+  final TopicRuleDestination? topicRuleDestination;
 
   CreateTopicRuleDestinationResponse({
     this.topicRuleDestination,
   });
+
   factory CreateTopicRuleDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateTopicRuleDestinationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateTopicRuleDestinationResponse(
+      topicRuleDestination: json['topicRuleDestination'] != null
+          ? TopicRuleDestination.fromJson(
+              json['topicRuleDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicRuleDestination = this.topicRuleDestination;
+    return {
+      if (topicRuleDestination != null)
+        'topicRuleDestination': topicRuleDestination,
+    };
+  }
 }
 
 /// Describes a custom method used to code sign a file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomCodeSigning {
   /// The certificate chain.
-  @_s.JsonKey(name: 'certificateChain')
-  final CodeSigningCertificateChain certificateChain;
+  final CodeSigningCertificateChain? certificateChain;
 
   /// The hash algorithm used to code sign the file.
-  @_s.JsonKey(name: 'hashAlgorithm')
-  final String hashAlgorithm;
+  final String? hashAlgorithm;
 
   /// The signature for the file.
-  @_s.JsonKey(name: 'signature')
-  final CodeSigningSignature signature;
+  final CodeSigningSignature? signature;
 
   /// The signature algorithm used to code sign the file.
-  @_s.JsonKey(name: 'signatureAlgorithm')
-  final String signatureAlgorithm;
+  final String? signatureAlgorithm;
 
   CustomCodeSigning({
     this.certificateChain,
@@ -15422,20 +15668,40 @@ class CustomCodeSigning {
     this.signature,
     this.signatureAlgorithm,
   });
-  factory CustomCodeSigning.fromJson(Map<String, dynamic> json) =>
-      _$CustomCodeSigningFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CustomCodeSigningToJson(this);
+  factory CustomCodeSigning.fromJson(Map<String, dynamic> json) {
+    return CustomCodeSigning(
+      certificateChain: json['certificateChain'] != null
+          ? CodeSigningCertificateChain.fromJson(
+              json['certificateChain'] as Map<String, dynamic>)
+          : null,
+      hashAlgorithm: json['hashAlgorithm'] as String?,
+      signature: json['signature'] != null
+          ? CodeSigningSignature.fromJson(
+              json['signature'] as Map<String, dynamic>)
+          : null,
+      signatureAlgorithm: json['signatureAlgorithm'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateChain = this.certificateChain;
+    final hashAlgorithm = this.hashAlgorithm;
+    final signature = this.signature;
+    final signatureAlgorithm = this.signatureAlgorithm;
+    return {
+      if (certificateChain != null) 'certificateChain': certificateChain,
+      if (hashAlgorithm != null) 'hashAlgorithm': hashAlgorithm,
+      if (signature != null) 'signature': signature,
+      if (signatureAlgorithm != null) 'signatureAlgorithm': signatureAlgorithm,
+    };
+  }
 }
 
 enum CustomMetricType {
-  @_s.JsonValue('string-list')
   stringList,
-  @_s.JsonValue('ip-address-list')
   ipAddressList,
-  @_s.JsonValue('number-list')
   numberList,
-  @_s.JsonValue('number')
   number,
 }
 
@@ -15451,24 +15717,32 @@ extension on CustomMetricType {
       case CustomMetricType.number:
         return 'number';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CustomMetricType toCustomMetricType() {
+    switch (this) {
+      case 'string-list':
+        return CustomMetricType.stringList;
+      case 'ip-address-list':
+        return CustomMetricType.ipAddressList;
+      case 'number-list':
+        return CustomMetricType.numberList;
+      case 'number':
+        return CustomMetricType.number;
+    }
+    throw Exception('$this is not known in enum CustomMetricType');
   }
 }
 
 enum DayOfWeek {
-  @_s.JsonValue('SUN')
   sun,
-  @_s.JsonValue('MON')
   mon,
-  @_s.JsonValue('TUE')
   tue,
-  @_s.JsonValue('WED')
   wed,
-  @_s.JsonValue('THU')
   thu,
-  @_s.JsonValue('FRI')
   fri,
-  @_s.JsonValue('SAT')
   sat,
 }
 
@@ -15490,311 +15764,357 @@ extension on DayOfWeek {
       case DayOfWeek.sat:
         return 'SAT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DayOfWeek toDayOfWeek() {
+    switch (this) {
+      case 'SUN':
+        return DayOfWeek.sun;
+      case 'MON':
+        return DayOfWeek.mon;
+      case 'TUE':
+        return DayOfWeek.tue;
+      case 'WED':
+        return DayOfWeek.wed;
+      case 'THU':
+        return DayOfWeek.thu;
+      case 'FRI':
+        return DayOfWeek.fri;
+      case 'SAT':
+        return DayOfWeek.sat;
+    }
+    throw Exception('$this is not known in enum DayOfWeek');
+  }
+}
+
 class DeleteAccountAuditConfigurationResponse {
   DeleteAccountAuditConfigurationResponse();
+
   factory DeleteAccountAuditConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteAccountAuditConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteAccountAuditConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAuditSuppressionResponse {
   DeleteAuditSuppressionResponse();
-  factory DeleteAuditSuppressionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAuditSuppressionResponseFromJson(json);
+
+  factory DeleteAuditSuppressionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAuditSuppressionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAuthorizerResponse {
   DeleteAuthorizerResponse();
-  factory DeleteAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAuthorizerResponseFromJson(json);
+
+  factory DeleteAuthorizerResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAuthorizerResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBillingGroupResponse {
   DeleteBillingGroupResponse();
-  factory DeleteBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBillingGroupResponseFromJson(json);
+
+  factory DeleteBillingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteBillingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The output for the DeleteCACertificate operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCACertificateResponse {
   DeleteCACertificateResponse();
-  factory DeleteCACertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCACertificateResponseFromJson(json);
+
+  factory DeleteCACertificateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCACertificateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCustomMetricResponse {
   DeleteCustomMetricResponse();
-  factory DeleteCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCustomMetricResponseFromJson(json);
+
+  factory DeleteCustomMetricResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCustomMetricResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDimensionResponse {
   DeleteDimensionResponse();
-  factory DeleteDimensionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDimensionResponseFromJson(json);
+
+  factory DeleteDimensionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDimensionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDomainConfigurationResponse {
   DeleteDomainConfigurationResponse();
-  factory DeleteDomainConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteDomainConfigurationResponseFromJson(json);
+
+  factory DeleteDomainConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDomainConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDynamicThingGroupResponse {
   DeleteDynamicThingGroupResponse();
-  factory DeleteDynamicThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDynamicThingGroupResponseFromJson(json);
+
+  factory DeleteDynamicThingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDynamicThingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMitigationActionResponse {
   DeleteMitigationActionResponse();
-  factory DeleteMitigationActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMitigationActionResponseFromJson(json);
+
+  factory DeleteMitigationActionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteMitigationActionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteOTAUpdateResponse {
   DeleteOTAUpdateResponse();
-  factory DeleteOTAUpdateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteOTAUpdateResponseFromJson(json);
+
+  factory DeleteOTAUpdateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteOTAUpdateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProvisioningTemplateResponse {
   DeleteProvisioningTemplateResponse();
-  factory DeleteProvisioningTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteProvisioningTemplateResponseFromJson(json);
+
+  factory DeleteProvisioningTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProvisioningTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProvisioningTemplateVersionResponse {
   DeleteProvisioningTemplateVersionResponse();
+
   factory DeleteProvisioningTemplateVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteProvisioningTemplateVersionResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteProvisioningTemplateVersionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The output for the DeleteRegistrationCode operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRegistrationCodeResponse {
   DeleteRegistrationCodeResponse();
-  factory DeleteRegistrationCodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRegistrationCodeResponseFromJson(json);
+
+  factory DeleteRegistrationCodeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteRegistrationCodeResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRoleAliasResponse {
   DeleteRoleAliasResponse();
-  factory DeleteRoleAliasResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRoleAliasResponseFromJson(json);
+
+  factory DeleteRoleAliasResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteRoleAliasResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteScheduledAuditResponse {
   DeleteScheduledAuditResponse();
-  factory DeleteScheduledAuditResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteScheduledAuditResponseFromJson(json);
+
+  factory DeleteScheduledAuditResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteScheduledAuditResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSecurityProfileResponse {
   DeleteSecurityProfileResponse();
-  factory DeleteSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSecurityProfileResponseFromJson(json);
+
+  factory DeleteSecurityProfileResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSecurityProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteStreamResponse {
   DeleteStreamResponse();
-  factory DeleteStreamResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteStreamResponseFromJson(json);
+
+  factory DeleteStreamResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteStreamResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteThingGroupResponse {
   DeleteThingGroupResponse();
-  factory DeleteThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteThingGroupResponseFromJson(json);
+
+  factory DeleteThingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteThingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The output of the DeleteThing operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteThingResponse {
   DeleteThingResponse();
-  factory DeleteThingResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteThingResponseFromJson(json);
+
+  factory DeleteThingResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteThingResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The output for the DeleteThingType operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteThingTypeResponse {
   DeleteThingTypeResponse();
-  factory DeleteThingTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteThingTypeResponseFromJson(json);
+
+  factory DeleteThingTypeResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteThingTypeResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTopicRuleDestinationResponse {
   DeleteTopicRuleDestinationResponse();
-  factory DeleteTopicRuleDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteTopicRuleDestinationResponseFromJson(json);
+
+  factory DeleteTopicRuleDestinationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTopicRuleDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains information that denied the authorization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Denied {
   /// Information that explicitly denies the authorization.
-  @_s.JsonKey(name: 'explicitDeny')
-  final ExplicitDeny explicitDeny;
+  final ExplicitDeny? explicitDeny;
 
   /// Information that implicitly denies the authorization. When a policy doesn't
   /// explicitly deny or allow an action on a resource it is considered an
   /// implicit deny.
-  @_s.JsonKey(name: 'implicitDeny')
-  final ImplicitDeny implicitDeny;
+  final ImplicitDeny? implicitDeny;
 
   Denied({
     this.explicitDeny,
     this.implicitDeny,
   });
-  factory Denied.fromJson(Map<String, dynamic> json) => _$DeniedFromJson(json);
+
+  factory Denied.fromJson(Map<String, dynamic> json) {
+    return Denied(
+      explicitDeny: json['explicitDeny'] != null
+          ? ExplicitDeny.fromJson(json['explicitDeny'] as Map<String, dynamic>)
+          : null,
+      implicitDeny: json['implicitDeny'] != null
+          ? ImplicitDeny.fromJson(json['implicitDeny'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final explicitDeny = this.explicitDeny;
+    final implicitDeny = this.implicitDeny;
+    return {
+      if (explicitDeny != null) 'explicitDeny': explicitDeny,
+      if (implicitDeny != null) 'implicitDeny': implicitDeny,
+    };
+  }
 }
 
 /// The output for the DeprecateThingType operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeprecateThingTypeResponse {
   DeprecateThingTypeResponse();
-  factory DeprecateThingTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeprecateThingTypeResponseFromJson(json);
+
+  factory DeprecateThingTypeResponse.fromJson(Map<String, dynamic> _) {
+    return DeprecateThingTypeResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountAuditConfigurationResponse {
   /// Which audit checks are enabled and disabled for this account.
-  @_s.JsonKey(name: 'auditCheckConfigurations')
-  final Map<String, AuditCheckConfiguration> auditCheckConfigurations;
+  final Map<String, AuditCheckConfiguration>? auditCheckConfigurations;
 
   /// Information about the targets to which audit notifications are sent for this
   /// account.
-  @_s.JsonKey(name: 'auditNotificationTargetConfigurations')
-  final Map<AuditNotificationType, AuditNotificationTarget>
+  final Map<AuditNotificationType, AuditNotificationTarget>?
       auditNotificationTargetConfigurations;
 
   /// The ARN of the role that grants permission to AWS IoT to access information
@@ -15803,74 +16123,95 @@ class DescribeAccountAuditConfigurationResponse {
   ///
   /// On the first call to <code>UpdateAccountAuditConfiguration</code>, this
   /// parameter is required.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   DescribeAccountAuditConfigurationResponse({
     this.auditCheckConfigurations,
     this.auditNotificationTargetConfigurations,
     this.roleArn,
   });
+
   factory DescribeAccountAuditConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAccountAuditConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAccountAuditConfigurationResponse(
+      auditCheckConfigurations: (json['auditCheckConfigurations']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, AuditCheckConfiguration.fromJson(e as Map<String, dynamic>))),
+      auditNotificationTargetConfigurations:
+          (json['auditNotificationTargetConfigurations']
+                  as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toAuditNotificationType(),
+                  AuditNotificationTarget.fromJson(e as Map<String, dynamic>))),
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditCheckConfigurations = this.auditCheckConfigurations;
+    final auditNotificationTargetConfigurations =
+        this.auditNotificationTargetConfigurations;
+    final roleArn = this.roleArn;
+    return {
+      if (auditCheckConfigurations != null)
+        'auditCheckConfigurations': auditCheckConfigurations,
+      if (auditNotificationTargetConfigurations != null)
+        'auditNotificationTargetConfigurations':
+            auditNotificationTargetConfigurations
+                .map((k, e) => MapEntry(k.toValue(), e)),
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAuditFindingResponse {
-  @_s.JsonKey(name: 'finding')
-  final AuditFinding finding;
+  final AuditFinding? finding;
 
   DescribeAuditFindingResponse({
     this.finding,
   });
-  factory DescribeAuditFindingResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAuditFindingResponseFromJson(json);
+
+  factory DescribeAuditFindingResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAuditFindingResponse(
+      finding: json['finding'] != null
+          ? AuditFinding.fromJson(json['finding'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final finding = this.finding;
+    return {
+      if (finding != null) 'finding': finding,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAuditMitigationActionsTaskResponse {
   /// Specifies the mitigation actions and their parameters that are applied as
   /// part of this task.
-  @_s.JsonKey(name: 'actionsDefinition')
-  final List<MitigationAction> actionsDefinition;
+  final List<MitigationAction>? actionsDefinition;
 
   /// Specifies the mitigation actions that should be applied to specific audit
   /// checks.
-  @_s.JsonKey(name: 'auditCheckToActionsMapping')
-  final Map<String, List<String>> auditCheckToActionsMapping;
+  final Map<String, List<String>>? auditCheckToActionsMapping;
 
   /// The date and time when the task was completed or canceled.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The date and time when the task was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// Identifies the findings to which the mitigation actions are applied. This
   /// can be by audit checks, by audit task, or a set of findings.
-  @_s.JsonKey(name: 'target')
-  final AuditMitigationActionsTaskTarget target;
+  final AuditMitigationActionsTaskTarget? target;
 
   /// Aggregate counts of the results when the mitigation tasks were applied to
   /// the findings for this audit mitigation actions task.
-  @_s.JsonKey(name: 'taskStatistics')
-  final Map<String, TaskStatisticsForAuditCheck> taskStatistics;
+  final Map<String, TaskStatisticsForAuditCheck>? taskStatistics;
 
   /// The current status of the task.
-  @_s.JsonKey(name: 'taskStatus')
-  final AuditMitigationActionsTaskStatus taskStatus;
+  final AuditMitigationActionsTaskStatus? taskStatus;
 
   DescribeAuditMitigationActionsTaskResponse({
     this.actionsDefinition,
@@ -15881,34 +16222,65 @@ class DescribeAuditMitigationActionsTaskResponse {
     this.taskStatistics,
     this.taskStatus,
   });
+
   factory DescribeAuditMitigationActionsTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAuditMitigationActionsTaskResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAuditMitigationActionsTaskResponse(
+      actionsDefinition: (json['actionsDefinition'] as List?)
+          ?.whereNotNull()
+          .map((e) => MitigationAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      auditCheckToActionsMapping: (json['auditCheckToActionsMapping']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      endTime: timeStampFromJson(json['endTime']),
+      startTime: timeStampFromJson(json['startTime']),
+      target: json['target'] != null
+          ? AuditMitigationActionsTaskTarget.fromJson(
+              json['target'] as Map<String, dynamic>)
+          : null,
+      taskStatistics: (json['taskStatistics'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k,
+              TaskStatisticsForAuditCheck.fromJson(e as Map<String, dynamic>))),
+      taskStatus:
+          (json['taskStatus'] as String?)?.toAuditMitigationActionsTaskStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionsDefinition = this.actionsDefinition;
+    final auditCheckToActionsMapping = this.auditCheckToActionsMapping;
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final target = this.target;
+    final taskStatistics = this.taskStatistics;
+    final taskStatus = this.taskStatus;
+    return {
+      if (actionsDefinition != null) 'actionsDefinition': actionsDefinition,
+      if (auditCheckToActionsMapping != null)
+        'auditCheckToActionsMapping': auditCheckToActionsMapping,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (target != null) 'target': target,
+      if (taskStatistics != null) 'taskStatistics': taskStatistics,
+      if (taskStatus != null) 'taskStatus': taskStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAuditSuppressionResponse {
-  @_s.JsonKey(name: 'checkName')
-  final String checkName;
+  final String? checkName;
 
   /// The description of the audit suppression.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The epoch timestamp in seconds at which this suppression expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expirationDate')
-  final DateTime expirationDate;
-  @_s.JsonKey(name: 'resourceIdentifier')
-  final ResourceIdentifier resourceIdentifier;
+  final DateTime? expirationDate;
+  final ResourceIdentifier? resourceIdentifier;
 
   /// Indicates whether a suppression should exist indefinitely or not.
-  @_s.JsonKey(name: 'suppressIndefinitely')
-  final bool suppressIndefinitely;
+  final bool? suppressIndefinitely;
 
   DescribeAuditSuppressionResponse({
     this.checkName,
@@ -15917,42 +16289,57 @@ class DescribeAuditSuppressionResponse {
     this.resourceIdentifier,
     this.suppressIndefinitely,
   });
-  factory DescribeAuditSuppressionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAuditSuppressionResponseFromJson(json);
+
+  factory DescribeAuditSuppressionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAuditSuppressionResponse(
+      checkName: json['checkName'] as String?,
+      description: json['description'] as String?,
+      expirationDate: timeStampFromJson(json['expirationDate']),
+      resourceIdentifier: json['resourceIdentifier'] != null
+          ? ResourceIdentifier.fromJson(
+              json['resourceIdentifier'] as Map<String, dynamic>)
+          : null,
+      suppressIndefinitely: json['suppressIndefinitely'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkName = this.checkName;
+    final description = this.description;
+    final expirationDate = this.expirationDate;
+    final resourceIdentifier = this.resourceIdentifier;
+    final suppressIndefinitely = this.suppressIndefinitely;
+    return {
+      if (checkName != null) 'checkName': checkName,
+      if (description != null) 'description': description,
+      if (expirationDate != null)
+        'expirationDate': unixTimestampToJson(expirationDate),
+      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
+      if (suppressIndefinitely != null)
+        'suppressIndefinitely': suppressIndefinitely,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAuditTaskResponse {
   /// Detailed information about each check performed during this audit.
-  @_s.JsonKey(name: 'auditDetails')
-  final Map<String, AuditCheckDetails> auditDetails;
+  final Map<String, AuditCheckDetails>? auditDetails;
 
   /// The name of the scheduled audit (only if the audit was a scheduled audit).
-  @_s.JsonKey(name: 'scheduledAuditName')
-  final String scheduledAuditName;
+  final String? scheduledAuditName;
 
   /// The time the audit started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'taskStartTime')
-  final DateTime taskStartTime;
+  final DateTime? taskStartTime;
 
   /// Statistical information about the audit.
-  @_s.JsonKey(name: 'taskStatistics')
-  final TaskStatistics taskStatistics;
+  final TaskStatistics? taskStatistics;
 
   /// The status of the audit: one of "IN_PROGRESS", "COMPLETED", "FAILED", or
   /// "CANCELED".
-  @_s.JsonKey(name: 'taskStatus')
-  final AuditTaskStatus taskStatus;
+  final AuditTaskStatus? taskStatus;
 
   /// The type of audit: "ON_DEMAND_AUDIT_TASK" or "SCHEDULED_AUDIT_TASK".
-  @_s.JsonKey(name: 'taskType')
-  final AuditTaskType taskType;
+  final AuditTaskType? taskType;
 
   DescribeAuditTaskResponse({
     this.auditDetails,
@@ -15962,56 +16349,86 @@ class DescribeAuditTaskResponse {
     this.taskStatus,
     this.taskType,
   });
-  factory DescribeAuditTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAuditTaskResponseFromJson(json);
+
+  factory DescribeAuditTaskResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAuditTaskResponse(
+      auditDetails: (json['auditDetails'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, AuditCheckDetails.fromJson(e as Map<String, dynamic>))),
+      scheduledAuditName: json['scheduledAuditName'] as String?,
+      taskStartTime: timeStampFromJson(json['taskStartTime']),
+      taskStatistics: json['taskStatistics'] != null
+          ? TaskStatistics.fromJson(
+              json['taskStatistics'] as Map<String, dynamic>)
+          : null,
+      taskStatus: (json['taskStatus'] as String?)?.toAuditTaskStatus(),
+      taskType: (json['taskType'] as String?)?.toAuditTaskType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditDetails = this.auditDetails;
+    final scheduledAuditName = this.scheduledAuditName;
+    final taskStartTime = this.taskStartTime;
+    final taskStatistics = this.taskStatistics;
+    final taskStatus = this.taskStatus;
+    final taskType = this.taskType;
+    return {
+      if (auditDetails != null) 'auditDetails': auditDetails,
+      if (scheduledAuditName != null) 'scheduledAuditName': scheduledAuditName,
+      if (taskStartTime != null)
+        'taskStartTime': unixTimestampToJson(taskStartTime),
+      if (taskStatistics != null) 'taskStatistics': taskStatistics,
+      if (taskStatus != null) 'taskStatus': taskStatus.toValue(),
+      if (taskType != null) 'taskType': taskType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAuthorizerResponse {
   /// The authorizer description.
-  @_s.JsonKey(name: 'authorizerDescription')
-  final AuthorizerDescription authorizerDescription;
+  final AuthorizerDescription? authorizerDescription;
 
   DescribeAuthorizerResponse({
     this.authorizerDescription,
   });
-  factory DescribeAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAuthorizerResponseFromJson(json);
+
+  factory DescribeAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAuthorizerResponse(
+      authorizerDescription: json['authorizerDescription'] != null
+          ? AuthorizerDescription.fromJson(
+              json['authorizerDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerDescription = this.authorizerDescription;
+    return {
+      if (authorizerDescription != null)
+        'authorizerDescription': authorizerDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBillingGroupResponse {
   /// The ARN of the billing group.
-  @_s.JsonKey(name: 'billingGroupArn')
-  final String billingGroupArn;
+  final String? billingGroupArn;
 
   /// The ID of the billing group.
-  @_s.JsonKey(name: 'billingGroupId')
-  final String billingGroupId;
+  final String? billingGroupId;
 
   /// Additional information about the billing group.
-  @_s.JsonKey(name: 'billingGroupMetadata')
-  final BillingGroupMetadata billingGroupMetadata;
+  final BillingGroupMetadata? billingGroupMetadata;
 
   /// The name of the billing group.
-  @_s.JsonKey(name: 'billingGroupName')
-  final String billingGroupName;
+  final String? billingGroupName;
 
   /// The properties of the billing group.
-  @_s.JsonKey(name: 'billingGroupProperties')
-  final BillingGroupProperties billingGroupProperties;
+  final BillingGroupProperties? billingGroupProperties;
 
   /// The version of the billing group.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   DescribeBillingGroupResponse({
     this.billingGroupArn,
@@ -16021,86 +16438,130 @@ class DescribeBillingGroupResponse {
     this.billingGroupProperties,
     this.version,
   });
-  factory DescribeBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBillingGroupResponseFromJson(json);
+
+  factory DescribeBillingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBillingGroupResponse(
+      billingGroupArn: json['billingGroupArn'] as String?,
+      billingGroupId: json['billingGroupId'] as String?,
+      billingGroupMetadata: json['billingGroupMetadata'] != null
+          ? BillingGroupMetadata.fromJson(
+              json['billingGroupMetadata'] as Map<String, dynamic>)
+          : null,
+      billingGroupName: json['billingGroupName'] as String?,
+      billingGroupProperties: json['billingGroupProperties'] != null
+          ? BillingGroupProperties.fromJson(
+              json['billingGroupProperties'] as Map<String, dynamic>)
+          : null,
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingGroupArn = this.billingGroupArn;
+    final billingGroupId = this.billingGroupId;
+    final billingGroupMetadata = this.billingGroupMetadata;
+    final billingGroupName = this.billingGroupName;
+    final billingGroupProperties = this.billingGroupProperties;
+    final version = this.version;
+    return {
+      if (billingGroupArn != null) 'billingGroupArn': billingGroupArn,
+      if (billingGroupId != null) 'billingGroupId': billingGroupId,
+      if (billingGroupMetadata != null)
+        'billingGroupMetadata': billingGroupMetadata,
+      if (billingGroupName != null) 'billingGroupName': billingGroupName,
+      if (billingGroupProperties != null)
+        'billingGroupProperties': billingGroupProperties,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// The output from the DescribeCACertificate operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCACertificateResponse {
   /// The CA certificate description.
-  @_s.JsonKey(name: 'certificateDescription')
-  final CACertificateDescription certificateDescription;
+  final CACertificateDescription? certificateDescription;
 
   /// Information about the registration configuration.
-  @_s.JsonKey(name: 'registrationConfig')
-  final RegistrationConfig registrationConfig;
+  final RegistrationConfig? registrationConfig;
 
   DescribeCACertificateResponse({
     this.certificateDescription,
     this.registrationConfig,
   });
-  factory DescribeCACertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCACertificateResponseFromJson(json);
+
+  factory DescribeCACertificateResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCACertificateResponse(
+      certificateDescription: json['certificateDescription'] != null
+          ? CACertificateDescription.fromJson(
+              json['certificateDescription'] as Map<String, dynamic>)
+          : null,
+      registrationConfig: json['registrationConfig'] != null
+          ? RegistrationConfig.fromJson(
+              json['registrationConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateDescription = this.certificateDescription;
+    final registrationConfig = this.registrationConfig;
+    return {
+      if (certificateDescription != null)
+        'certificateDescription': certificateDescription,
+      if (registrationConfig != null) 'registrationConfig': registrationConfig,
+    };
+  }
 }
 
 /// The output of the DescribeCertificate operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCertificateResponse {
   /// The description of the certificate.
-  @_s.JsonKey(name: 'certificateDescription')
-  final CertificateDescription certificateDescription;
+  final CertificateDescription? certificateDescription;
 
   DescribeCertificateResponse({
     this.certificateDescription,
   });
-  factory DescribeCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCertificateResponseFromJson(json);
+
+  factory DescribeCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCertificateResponse(
+      certificateDescription: json['certificateDescription'] != null
+          ? CertificateDescription.fromJson(
+              json['certificateDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateDescription = this.certificateDescription;
+    return {
+      if (certificateDescription != null)
+        'certificateDescription': certificateDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCustomMetricResponse {
   /// The creation date of the custom metric in milliseconds since epoch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Field represents a friendly name in the console for the custom metric;
   /// doesn't have to be unique. Don't use this name as the metric identifier in
   /// the device metric report. Can be updated.
-  @_s.JsonKey(name: 'displayName')
-  final String displayName;
+  final String? displayName;
 
   /// The time the custom metric was last modified in milliseconds since epoch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The Amazon Resource Number (ARN) of the custom metric.
-  @_s.JsonKey(name: 'metricArn')
-  final String metricArn;
+  final String? metricArn;
 
   /// The name of the custom metric.
-  @_s.JsonKey(name: 'metricName')
-  final String metricName;
+  final String? metricName;
 
   /// The type of the custom metric. Types include <code>string-list</code>,
   /// <code>ip-address-list</code>, <code>number-list</code>, and
   /// <code>number</code>.
-  @_s.JsonKey(name: 'metricType')
-  final CustomMetricType metricType;
+  final CustomMetricType? metricType;
 
   DescribeCustomMetricResponse({
     this.creationDate,
@@ -16110,78 +16571,110 @@ class DescribeCustomMetricResponse {
     this.metricName,
     this.metricType,
   });
-  factory DescribeCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCustomMetricResponseFromJson(json);
+
+  factory DescribeCustomMetricResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCustomMetricResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      displayName: json['displayName'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      metricArn: json['metricArn'] as String?,
+      metricName: json['metricName'] as String?,
+      metricType: (json['metricType'] as String?)?.toCustomMetricType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final displayName = this.displayName;
+    final lastModifiedDate = this.lastModifiedDate;
+    final metricArn = this.metricArn;
+    final metricName = this.metricName;
+    final metricType = this.metricType;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (displayName != null) 'displayName': displayName,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (metricArn != null) 'metricArn': metricArn,
+      if (metricName != null) 'metricName': metricName,
+      if (metricType != null) 'metricType': metricType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDefaultAuthorizerResponse {
   /// The default authorizer's description.
-  @_s.JsonKey(name: 'authorizerDescription')
-  final AuthorizerDescription authorizerDescription;
+  final AuthorizerDescription? authorizerDescription;
 
   DescribeDefaultAuthorizerResponse({
     this.authorizerDescription,
   });
+
   factory DescribeDefaultAuthorizerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDefaultAuthorizerResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDefaultAuthorizerResponse(
+      authorizerDescription: json['authorizerDescription'] != null
+          ? AuthorizerDescription.fromJson(
+              json['authorizerDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerDescription = this.authorizerDescription;
+    return {
+      if (authorizerDescription != null)
+        'authorizerDescription': authorizerDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDetectMitigationActionsTaskResponse {
   /// The description of a task.
-  @_s.JsonKey(name: 'taskSummary')
-  final DetectMitigationActionsTaskSummary taskSummary;
+  final DetectMitigationActionsTaskSummary? taskSummary;
 
   DescribeDetectMitigationActionsTaskResponse({
     this.taskSummary,
   });
+
   factory DescribeDetectMitigationActionsTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDetectMitigationActionsTaskResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDetectMitigationActionsTaskResponse(
+      taskSummary: json['taskSummary'] != null
+          ? DetectMitigationActionsTaskSummary.fromJson(
+              json['taskSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskSummary = this.taskSummary;
+    return {
+      if (taskSummary != null) 'taskSummary': taskSummary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDimensionResponse {
   /// The Amazon Resource Name (ARN) for the dimension.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date the dimension was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date the dimension was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The unique identifier for the dimension.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The value or list of values used to scope the dimension. For example, for
   /// topic filters, this is the pattern used to match the MQTT topic name.
-  @_s.JsonKey(name: 'stringValues')
-  final List<String> stringValues;
+  final List<String>? stringValues;
 
   /// The type of the dimension.
-  @_s.JsonKey(name: 'type')
-  final DimensionType type;
+  final DimensionType? type;
 
   DescribeDimensionResponse({
     this.arn,
@@ -16191,54 +16684,70 @@ class DescribeDimensionResponse {
     this.stringValues,
     this.type,
   });
-  factory DescribeDimensionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDimensionResponseFromJson(json);
+
+  factory DescribeDimensionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDimensionResponse(
+      arn: json['arn'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      name: json['name'] as String?,
+      stringValues: (json['stringValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['type'] as String?)?.toDimensionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final stringValues = this.stringValues;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (name != null) 'name': name,
+      if (stringValues != null) 'stringValues': stringValues,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDomainConfigurationResponse {
   /// An object that specifies the authorization service for a domain.
-  @_s.JsonKey(name: 'authorizerConfig')
-  final AuthorizerConfig authorizerConfig;
+  final AuthorizerConfig? authorizerConfig;
 
   /// The ARN of the domain configuration.
-  @_s.JsonKey(name: 'domainConfigurationArn')
-  final String domainConfigurationArn;
+  final String? domainConfigurationArn;
 
   /// The name of the domain configuration.
-  @_s.JsonKey(name: 'domainConfigurationName')
-  final String domainConfigurationName;
+  final String? domainConfigurationName;
 
   /// A Boolean value that specifies the current state of the domain
   /// configuration.
-  @_s.JsonKey(name: 'domainConfigurationStatus')
-  final DomainConfigurationStatus domainConfigurationStatus;
+  final DomainConfigurationStatus? domainConfigurationStatus;
 
   /// The name of the domain.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The type of the domain.
-  @_s.JsonKey(name: 'domainType')
-  final DomainType domainType;
+  final DomainType? domainType;
 
   /// The date and time the domain configuration's status was last changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastStatusChangeDate')
-  final DateTime lastStatusChangeDate;
+  final DateTime? lastStatusChangeDate;
 
   /// A list containing summary information about the server certificate included
   /// in the domain configuration.
-  @_s.JsonKey(name: 'serverCertificates')
-  final List<ServerCertificateSummary> serverCertificates;
+  final List<ServerCertificateSummary>? serverCertificates;
 
   /// The type of service delivered by the endpoint.
-  @_s.JsonKey(name: 'serviceType')
-  final ServiceType serviceType;
+  final ServiceType? serviceType;
 
   DescribeDomainConfigurationResponse({
     this.authorizerConfig,
@@ -16251,73 +16760,132 @@ class DescribeDomainConfigurationResponse {
     this.serverCertificates,
     this.serviceType,
   });
+
   factory DescribeDomainConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDomainConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDomainConfigurationResponse(
+      authorizerConfig: json['authorizerConfig'] != null
+          ? AuthorizerConfig.fromJson(
+              json['authorizerConfig'] as Map<String, dynamic>)
+          : null,
+      domainConfigurationArn: json['domainConfigurationArn'] as String?,
+      domainConfigurationName: json['domainConfigurationName'] as String?,
+      domainConfigurationStatus: (json['domainConfigurationStatus'] as String?)
+          ?.toDomainConfigurationStatus(),
+      domainName: json['domainName'] as String?,
+      domainType: (json['domainType'] as String?)?.toDomainType(),
+      lastStatusChangeDate: timeStampFromJson(json['lastStatusChangeDate']),
+      serverCertificates: (json['serverCertificates'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ServerCertificateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceType: (json['serviceType'] as String?)?.toServiceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerConfig = this.authorizerConfig;
+    final domainConfigurationArn = this.domainConfigurationArn;
+    final domainConfigurationName = this.domainConfigurationName;
+    final domainConfigurationStatus = this.domainConfigurationStatus;
+    final domainName = this.domainName;
+    final domainType = this.domainType;
+    final lastStatusChangeDate = this.lastStatusChangeDate;
+    final serverCertificates = this.serverCertificates;
+    final serviceType = this.serviceType;
+    return {
+      if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
+      if (domainConfigurationArn != null)
+        'domainConfigurationArn': domainConfigurationArn,
+      if (domainConfigurationName != null)
+        'domainConfigurationName': domainConfigurationName,
+      if (domainConfigurationStatus != null)
+        'domainConfigurationStatus': domainConfigurationStatus.toValue(),
+      if (domainName != null) 'domainName': domainName,
+      if (domainType != null) 'domainType': domainType.toValue(),
+      if (lastStatusChangeDate != null)
+        'lastStatusChangeDate': unixTimestampToJson(lastStatusChangeDate),
+      if (serverCertificates != null) 'serverCertificates': serverCertificates,
+      if (serviceType != null) 'serviceType': serviceType.toValue(),
+    };
+  }
 }
 
 /// The output from the DescribeEndpoint operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointResponse {
   /// The endpoint. The format of the endpoint is as follows:
   /// <i>identifier</i>.iot.<i>region</i>.amazonaws.com.
-  @_s.JsonKey(name: 'endpointAddress')
-  final String endpointAddress;
+  final String? endpointAddress;
 
   DescribeEndpointResponse({
     this.endpointAddress,
   });
-  factory DescribeEndpointResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointResponseFromJson(json);
+
+  factory DescribeEndpointResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointResponse(
+      endpointAddress: json['endpointAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointAddress = this.endpointAddress;
+    return {
+      if (endpointAddress != null) 'endpointAddress': endpointAddress,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventConfigurationsResponse {
   /// The creation date of the event configuration.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The event configurations.
-  @_s.JsonKey(name: 'eventConfigurations')
-  final Map<EventType, Configuration> eventConfigurations;
+  final Map<EventType, Configuration>? eventConfigurations;
 
   /// The date the event configurations were last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   DescribeEventConfigurationsResponse({
     this.creationDate,
     this.eventConfigurations,
     this.lastModifiedDate,
   });
+
   factory DescribeEventConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEventConfigurationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEventConfigurationsResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      eventConfigurations:
+          (json['eventConfigurations'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(k.toEventType(),
+                  Configuration.fromJson(e as Map<String, dynamic>))),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final eventConfigurations = this.eventConfigurations;
+    final lastModifiedDate = this.lastModifiedDate;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (eventConfigurations != null)
+        'eventConfigurations':
+            eventConfigurations.map((k, e) => MapEntry(k.toValue(), e)),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeIndexResponse {
   /// The index name.
-  @_s.JsonKey(name: 'indexName')
-  final String indexName;
+  final String? indexName;
 
   /// The index status.
-  @_s.JsonKey(name: 'indexStatus')
-  final IndexStatus indexStatus;
+  final IndexStatus? indexStatus;
 
   /// Contains a value that specifies the type of indexing performed. Valid values
   /// are:
@@ -16339,97 +16907,204 @@ class DescribeIndexResponse {
   /// registry data, shadow data, and thing connectivity status data.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'schema')
-  final String schema;
+  final String? schema;
 
   DescribeIndexResponse({
     this.indexName,
     this.indexStatus,
     this.schema,
   });
-  factory DescribeIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeIndexResponseFromJson(json);
+
+  factory DescribeIndexResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeIndexResponse(
+      indexName: json['indexName'] as String?,
+      indexStatus: (json['indexStatus'] as String?)?.toIndexStatus(),
+      schema: json['schema'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final indexStatus = this.indexStatus;
+    final schema = this.schema;
+    return {
+      if (indexName != null) 'indexName': indexName,
+      if (indexStatus != null) 'indexStatus': indexStatus.toValue(),
+      if (schema != null) 'schema': schema,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobExecutionResponse {
   /// Information about the job execution.
-  @_s.JsonKey(name: 'execution')
-  final JobExecution execution;
+  final JobExecution? execution;
 
   DescribeJobExecutionResponse({
     this.execution,
   });
-  factory DescribeJobExecutionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobExecutionResponseFromJson(json);
+
+  factory DescribeJobExecutionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeJobExecutionResponse(
+      execution: json['execution'] != null
+          ? JobExecution.fromJson(json['execution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final execution = this.execution;
+    return {
+      if (execution != null) 'execution': execution,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobResponse {
   /// An S3 link to the job document.
-  @_s.JsonKey(name: 'documentSource')
-  final String documentSource;
+  final String? documentSource;
 
   /// Information about the job.
-  @_s.JsonKey(name: 'job')
-  final Job job;
+  final Job? job;
 
   DescribeJobResponse({
     this.documentSource,
     this.job,
   });
-  factory DescribeJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobResponseFromJson(json);
+
+  factory DescribeJobResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeJobResponse(
+      documentSource: json['documentSource'] as String?,
+      job: json['job'] != null
+          ? Job.fromJson(json['job'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentSource = this.documentSource;
+    final job = this.job;
+    return {
+      if (documentSource != null) 'documentSource': documentSource,
+      if (job != null) 'job': job,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class DescribeJobTemplateResponse {
+  final AbortConfig? abortConfig;
+
+  /// The time, in seconds since the epoch, when the job template was created.
+  final DateTime? createdAt;
+
+  /// A description of the job template.
+  final String? description;
+
+  /// The job document.
+  final String? document;
+
+  /// An S3 link to the job document.
+  final String? documentSource;
+  final JobExecutionsRolloutConfig? jobExecutionsRolloutConfig;
+
+  /// The ARN of the job template.
+  final String? jobTemplateArn;
+
+  /// The unique identifier of the job template.
+  final String? jobTemplateId;
+  final PresignedUrlConfig? presignedUrlConfig;
+  final TimeoutConfig? timeoutConfig;
+
+  DescribeJobTemplateResponse({
+    this.abortConfig,
+    this.createdAt,
+    this.description,
+    this.document,
+    this.documentSource,
+    this.jobExecutionsRolloutConfig,
+    this.jobTemplateArn,
+    this.jobTemplateId,
+    this.presignedUrlConfig,
+    this.timeoutConfig,
+  });
+
+  factory DescribeJobTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeJobTemplateResponse(
+      abortConfig: json['abortConfig'] != null
+          ? AbortConfig.fromJson(json['abortConfig'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      document: json['document'] as String?,
+      documentSource: json['documentSource'] as String?,
+      jobExecutionsRolloutConfig: json['jobExecutionsRolloutConfig'] != null
+          ? JobExecutionsRolloutConfig.fromJson(
+              json['jobExecutionsRolloutConfig'] as Map<String, dynamic>)
+          : null,
+      jobTemplateArn: json['jobTemplateArn'] as String?,
+      jobTemplateId: json['jobTemplateId'] as String?,
+      presignedUrlConfig: json['presignedUrlConfig'] != null
+          ? PresignedUrlConfig.fromJson(
+              json['presignedUrlConfig'] as Map<String, dynamic>)
+          : null,
+      timeoutConfig: json['timeoutConfig'] != null
+          ? TimeoutConfig.fromJson(
+              json['timeoutConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abortConfig = this.abortConfig;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final document = this.document;
+    final documentSource = this.documentSource;
+    final jobExecutionsRolloutConfig = this.jobExecutionsRolloutConfig;
+    final jobTemplateArn = this.jobTemplateArn;
+    final jobTemplateId = this.jobTemplateId;
+    final presignedUrlConfig = this.presignedUrlConfig;
+    final timeoutConfig = this.timeoutConfig;
+    return {
+      if (abortConfig != null) 'abortConfig': abortConfig,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (document != null) 'document': document,
+      if (documentSource != null) 'documentSource': documentSource,
+      if (jobExecutionsRolloutConfig != null)
+        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (jobTemplateArn != null) 'jobTemplateArn': jobTemplateArn,
+      if (jobTemplateId != null) 'jobTemplateId': jobTemplateId,
+      if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
+      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
+    };
+  }
+}
+
 class DescribeMitigationActionResponse {
   /// The ARN that identifies this migration action.
-  @_s.JsonKey(name: 'actionArn')
-  final String actionArn;
+  final String? actionArn;
 
   /// A unique identifier for this action.
-  @_s.JsonKey(name: 'actionId')
-  final String actionId;
+  final String? actionId;
 
   /// The friendly name that uniquely identifies the mitigation action.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// Parameters that control how the mitigation action is applied, specific to
   /// the type of mitigation action.
-  @_s.JsonKey(name: 'actionParams')
-  final MitigationActionParams actionParams;
+  final MitigationActionParams? actionParams;
 
   /// The type of mitigation action.
-  @_s.JsonKey(name: 'actionType')
-  final MitigationActionType actionType;
+  final MitigationActionType? actionType;
 
   /// The date and time when the mitigation action was added to your AWS account.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date and time when the mitigation action was last changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The ARN of the IAM role used to apply this action.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   DescribeMitigationActionResponse({
     this.actionArn,
@@ -16441,59 +17116,78 @@ class DescribeMitigationActionResponse {
     this.lastModifiedDate,
     this.roleArn,
   });
-  factory DescribeMitigationActionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMitigationActionResponseFromJson(json);
+
+  factory DescribeMitigationActionResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeMitigationActionResponse(
+      actionArn: json['actionArn'] as String?,
+      actionId: json['actionId'] as String?,
+      actionName: json['actionName'] as String?,
+      actionParams: json['actionParams'] != null
+          ? MitigationActionParams.fromJson(
+              json['actionParams'] as Map<String, dynamic>)
+          : null,
+      actionType: (json['actionType'] as String?)?.toMitigationActionType(),
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionArn = this.actionArn;
+    final actionId = this.actionId;
+    final actionName = this.actionName;
+    final actionParams = this.actionParams;
+    final actionType = this.actionType;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final roleArn = this.roleArn;
+    return {
+      if (actionArn != null) 'actionArn': actionArn,
+      if (actionId != null) 'actionId': actionId,
+      if (actionName != null) 'actionName': actionName,
+      if (actionParams != null) 'actionParams': actionParams,
+      if (actionType != null) 'actionType': actionType.toValue(),
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProvisioningTemplateResponse {
   /// The date when the fleet provisioning template was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The default fleet template version ID.
-  @_s.JsonKey(name: 'defaultVersionId')
-  final int defaultVersionId;
+  final int? defaultVersionId;
 
   /// The description of the fleet provisioning template.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// True if the fleet provisioning template is enabled, otherwise false.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The date when the fleet provisioning template was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// Gets information about a pre-provisioned hook.
-  @_s.JsonKey(name: 'preProvisioningHook')
-  final ProvisioningHook preProvisioningHook;
+  final ProvisioningHook? preProvisioningHook;
 
   /// The ARN of the role associated with the provisioning template. This IoT role
   /// grants permission to provision a device.
-  @_s.JsonKey(name: 'provisioningRoleArn')
-  final String provisioningRoleArn;
+  final String? provisioningRoleArn;
 
   /// The ARN of the fleet provisioning template.
-  @_s.JsonKey(name: 'templateArn')
-  final String templateArn;
+  final String? templateArn;
 
   /// The JSON formatted contents of the fleet provisioning template.
-  @_s.JsonKey(name: 'templateBody')
-  final String templateBody;
+  final String? templateBody;
 
   /// The name of the fleet provisioning template.
-  @_s.JsonKey(name: 'templateName')
-  final String templateName;
+  final String? templateName;
 
   DescribeProvisioningTemplateResponse({
     this.creationDate,
@@ -16507,33 +17201,68 @@ class DescribeProvisioningTemplateResponse {
     this.templateBody,
     this.templateName,
   });
+
   factory DescribeProvisioningTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeProvisioningTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeProvisioningTemplateResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      defaultVersionId: json['defaultVersionId'] as int?,
+      description: json['description'] as String?,
+      enabled: json['enabled'] as bool?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      preProvisioningHook: json['preProvisioningHook'] != null
+          ? ProvisioningHook.fromJson(
+              json['preProvisioningHook'] as Map<String, dynamic>)
+          : null,
+      provisioningRoleArn: json['provisioningRoleArn'] as String?,
+      templateArn: json['templateArn'] as String?,
+      templateBody: json['templateBody'] as String?,
+      templateName: json['templateName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final defaultVersionId = this.defaultVersionId;
+    final description = this.description;
+    final enabled = this.enabled;
+    final lastModifiedDate = this.lastModifiedDate;
+    final preProvisioningHook = this.preProvisioningHook;
+    final provisioningRoleArn = this.provisioningRoleArn;
+    final templateArn = this.templateArn;
+    final templateBody = this.templateBody;
+    final templateName = this.templateName;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
+      if (description != null) 'description': description,
+      if (enabled != null) 'enabled': enabled,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (preProvisioningHook != null)
+        'preProvisioningHook': preProvisioningHook,
+      if (provisioningRoleArn != null)
+        'provisioningRoleArn': provisioningRoleArn,
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateBody != null) 'templateBody': templateBody,
+      if (templateName != null) 'templateName': templateName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProvisioningTemplateVersionResponse {
   /// The date when the fleet provisioning template version was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// True if the fleet provisioning template version is the default version.
-  @_s.JsonKey(name: 'isDefaultVersion')
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The JSON formatted contents of the fleet provisioning template version.
-  @_s.JsonKey(name: 'templateBody')
-  final String templateBody;
+  final String? templateBody;
 
   /// The fleet provisioning template version ID.
-  @_s.JsonKey(name: 'versionId')
-  final int versionId;
+  final int? versionId;
 
   DescribeProvisioningTemplateVersionResponse({
     this.creationDate,
@@ -16541,61 +17270,81 @@ class DescribeProvisioningTemplateVersionResponse {
     this.templateBody,
     this.versionId,
   });
+
   factory DescribeProvisioningTemplateVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeProvisioningTemplateVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeProvisioningTemplateVersionResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      isDefaultVersion: json['isDefaultVersion'] as bool?,
+      templateBody: json['templateBody'] as String?,
+      versionId: json['versionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final isDefaultVersion = this.isDefaultVersion;
+    final templateBody = this.templateBody;
+    final versionId = this.versionId;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (isDefaultVersion != null) 'isDefaultVersion': isDefaultVersion,
+      if (templateBody != null) 'templateBody': templateBody,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRoleAliasResponse {
   /// The role alias description.
-  @_s.JsonKey(name: 'roleAliasDescription')
-  final RoleAliasDescription roleAliasDescription;
+  final RoleAliasDescription? roleAliasDescription;
 
   DescribeRoleAliasResponse({
     this.roleAliasDescription,
   });
-  factory DescribeRoleAliasResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRoleAliasResponseFromJson(json);
+
+  factory DescribeRoleAliasResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRoleAliasResponse(
+      roleAliasDescription: json['roleAliasDescription'] != null
+          ? RoleAliasDescription.fromJson(
+              json['roleAliasDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleAliasDescription = this.roleAliasDescription;
+    return {
+      if (roleAliasDescription != null)
+        'roleAliasDescription': roleAliasDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeScheduledAuditResponse {
   /// The day of the month on which the scheduled audit takes place. This is will
   /// be <code>1</code> through <code>31</code> or <code>LAST</code>. If days
   /// <code>29</code>-<code>31</code> are specified, and the month does not have
   /// that many days, the audit takes place on the <code>LAST</code> day of the
   /// month.
-  @_s.JsonKey(name: 'dayOfMonth')
-  final String dayOfMonth;
+  final String? dayOfMonth;
 
   /// The day of the week on which the scheduled audit takes place, either one of
   /// <code>SUN</code>, <code>MON</code>, <code>TUE</code>, <code>WED</code>,
   /// <code>THU</code>, <code>FRI</code>, or <code>SAT</code>.
-  @_s.JsonKey(name: 'dayOfWeek')
-  final DayOfWeek dayOfWeek;
+  final DayOfWeek? dayOfWeek;
 
   /// How often the scheduled audit takes place, either one of <code>DAILY</code>,
   /// <code>WEEKLY</code>, <code>BIWEEKLY</code>, or <code>MONTHLY</code>. The
   /// start time of each audit is determined by the system.
-  @_s.JsonKey(name: 'frequency')
-  final AuditFrequency frequency;
+  final AuditFrequency? frequency;
 
   /// The ARN of the scheduled audit.
-  @_s.JsonKey(name: 'scheduledAuditArn')
-  final String scheduledAuditArn;
+  final String? scheduledAuditArn;
 
   /// The name of the scheduled audit.
-  @_s.JsonKey(name: 'scheduledAuditName')
-  final String scheduledAuditName;
+  final String? scheduledAuditName;
 
   /// Which checks are performed during the scheduled audit. Checks must be
   /// enabled for your account. (Use
@@ -16603,8 +17352,7 @@ class DescribeScheduledAuditResponse {
   /// checks, including those that are enabled or use
   /// <code>UpdateAccountAuditConfiguration</code> to select which checks are
   /// enabled.)
-  @_s.JsonKey(name: 'targetCheckNames')
-  final List<String> targetCheckNames;
+  final List<String>? targetCheckNames;
 
   DescribeScheduledAuditResponse({
     this.dayOfMonth,
@@ -16614,15 +17362,39 @@ class DescribeScheduledAuditResponse {
     this.scheduledAuditName,
     this.targetCheckNames,
   });
-  factory DescribeScheduledAuditResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeScheduledAuditResponseFromJson(json);
+
+  factory DescribeScheduledAuditResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeScheduledAuditResponse(
+      dayOfMonth: json['dayOfMonth'] as String?,
+      dayOfWeek: (json['dayOfWeek'] as String?)?.toDayOfWeek(),
+      frequency: (json['frequency'] as String?)?.toAuditFrequency(),
+      scheduledAuditArn: json['scheduledAuditArn'] as String?,
+      scheduledAuditName: json['scheduledAuditName'] as String?,
+      targetCheckNames: (json['targetCheckNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfMonth = this.dayOfMonth;
+    final dayOfWeek = this.dayOfWeek;
+    final frequency = this.frequency;
+    final scheduledAuditArn = this.scheduledAuditArn;
+    final scheduledAuditName = this.scheduledAuditName;
+    final targetCheckNames = this.targetCheckNames;
+    return {
+      if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
+      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
+      if (frequency != null) 'frequency': frequency.toValue(),
+      if (scheduledAuditArn != null) 'scheduledAuditArn': scheduledAuditArn,
+      if (scheduledAuditName != null) 'scheduledAuditName': scheduledAuditName,
+      if (targetCheckNames != null) 'targetCheckNames': targetCheckNames,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSecurityProfileResponse {
   /// <i>Please use
   /// <a>DescribeSecurityProfileResponse$additionalMetricsToRetainV2</a>
@@ -16631,51 +17403,39 @@ class DescribeSecurityProfileResponse {
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's <code>behaviors</code>, but it
   /// is also retained for any metric specified here.
-  @_s.JsonKey(name: 'additionalMetricsToRetain')
-  final List<String> additionalMetricsToRetain;
+  final List<String>? additionalMetricsToRetain;
 
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's behaviors, but it is also
   /// retained for any metric specified here.
-  @_s.JsonKey(name: 'additionalMetricsToRetainV2')
-  final List<MetricToRetain> additionalMetricsToRetainV2;
+  final List<MetricToRetain>? additionalMetricsToRetainV2;
 
   /// Where the alerts are sent. (Alerts are always sent to the console.)
-  @_s.JsonKey(name: 'alertTargets')
-  final Map<AlertTargetType, AlertTarget> alertTargets;
+  final Map<AlertTargetType, AlertTarget>? alertTargets;
 
   /// Specifies the behaviors that, when violated by a device (thing), cause an
   /// alert.
-  @_s.JsonKey(name: 'behaviors')
-  final List<Behavior> behaviors;
+  final List<Behavior>? behaviors;
 
   /// The time the security profile was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The time the security profile was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The ARN of the security profile.
-  @_s.JsonKey(name: 'securityProfileArn')
-  final String securityProfileArn;
+  final String? securityProfileArn;
 
   /// A description of the security profile (associated with the security profile
   /// when it was created or updated).
-  @_s.JsonKey(name: 'securityProfileDescription')
-  final String securityProfileDescription;
+  final String? securityProfileDescription;
 
   /// The name of the security profile.
-  @_s.JsonKey(name: 'securityProfileName')
-  final String securityProfileName;
+  final String? securityProfileName;
 
   /// The version of the security profile. A new version is generated whenever the
   /// security profile is updated.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   DescribeSecurityProfileResponse({
     this.additionalMetricsToRetain,
@@ -16689,72 +17449,121 @@ class DescribeSecurityProfileResponse {
     this.securityProfileName,
     this.version,
   });
-  factory DescribeSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSecurityProfileResponseFromJson(json);
+
+  factory DescribeSecurityProfileResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSecurityProfileResponse(
+      additionalMetricsToRetain: (json['additionalMetricsToRetain'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      additionalMetricsToRetainV2:
+          (json['additionalMetricsToRetainV2'] as List?)
+              ?.whereNotNull()
+              .map((e) => MetricToRetain.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      alertTargets: (json['alertTargets'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k.toAlertTargetType(),
+              AlertTarget.fromJson(e as Map<String, dynamic>))),
+      behaviors: (json['behaviors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Behavior.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      securityProfileArn: json['securityProfileArn'] as String?,
+      securityProfileDescription: json['securityProfileDescription'] as String?,
+      securityProfileName: json['securityProfileName'] as String?,
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMetricsToRetain = this.additionalMetricsToRetain;
+    final additionalMetricsToRetainV2 = this.additionalMetricsToRetainV2;
+    final alertTargets = this.alertTargets;
+    final behaviors = this.behaviors;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final securityProfileArn = this.securityProfileArn;
+    final securityProfileDescription = this.securityProfileDescription;
+    final securityProfileName = this.securityProfileName;
+    final version = this.version;
+    return {
+      if (additionalMetricsToRetain != null)
+        'additionalMetricsToRetain': additionalMetricsToRetain,
+      if (additionalMetricsToRetainV2 != null)
+        'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
+      if (alertTargets != null)
+        'alertTargets': alertTargets.map((k, e) => MapEntry(k.toValue(), e)),
+      if (behaviors != null) 'behaviors': behaviors,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (securityProfileArn != null) 'securityProfileArn': securityProfileArn,
+      if (securityProfileDescription != null)
+        'securityProfileDescription': securityProfileDescription,
+      if (securityProfileName != null)
+        'securityProfileName': securityProfileName,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStreamResponse {
   /// Information about the stream.
-  @_s.JsonKey(name: 'streamInfo')
-  final StreamInfo streamInfo;
+  final StreamInfo? streamInfo;
 
   DescribeStreamResponse({
     this.streamInfo,
   });
-  factory DescribeStreamResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStreamResponseFromJson(json);
+
+  factory DescribeStreamResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamResponse(
+      streamInfo: json['streamInfo'] != null
+          ? StreamInfo.fromJson(json['streamInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamInfo = this.streamInfo;
+    return {
+      if (streamInfo != null) 'streamInfo': streamInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeThingGroupResponse {
   /// The dynamic thing group index name.
-  @_s.JsonKey(name: 'indexName')
-  final String indexName;
+  final String? indexName;
 
   /// The dynamic thing group search query string.
-  @_s.JsonKey(name: 'queryString')
-  final String queryString;
+  final String? queryString;
 
   /// The dynamic thing group query version.
-  @_s.JsonKey(name: 'queryVersion')
-  final String queryVersion;
+  final String? queryVersion;
 
   /// The dynamic thing group status.
-  @_s.JsonKey(name: 'status')
-  final DynamicGroupStatus status;
+  final DynamicGroupStatus? status;
 
   /// The thing group ARN.
-  @_s.JsonKey(name: 'thingGroupArn')
-  final String thingGroupArn;
+  final String? thingGroupArn;
 
   /// The thing group ID.
-  @_s.JsonKey(name: 'thingGroupId')
-  final String thingGroupId;
+  final String? thingGroupId;
 
   /// Thing group metadata.
-  @_s.JsonKey(name: 'thingGroupMetadata')
-  final ThingGroupMetadata thingGroupMetadata;
+  final ThingGroupMetadata? thingGroupMetadata;
 
   /// The name of the thing group.
-  @_s.JsonKey(name: 'thingGroupName')
-  final String thingGroupName;
+  final String? thingGroupName;
 
   /// The thing group properties.
-  @_s.JsonKey(name: 'thingGroupProperties')
-  final ThingGroupProperties thingGroupProperties;
+  final ThingGroupProperties? thingGroupProperties;
 
   /// The version of the thing group.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   DescribeThingGroupResponse({
     this.indexName,
@@ -16768,65 +17577,91 @@ class DescribeThingGroupResponse {
     this.thingGroupProperties,
     this.version,
   });
-  factory DescribeThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeThingGroupResponseFromJson(json);
+
+  factory DescribeThingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeThingGroupResponse(
+      indexName: json['indexName'] as String?,
+      queryString: json['queryString'] as String?,
+      queryVersion: json['queryVersion'] as String?,
+      status: (json['status'] as String?)?.toDynamicGroupStatus(),
+      thingGroupArn: json['thingGroupArn'] as String?,
+      thingGroupId: json['thingGroupId'] as String?,
+      thingGroupMetadata: json['thingGroupMetadata'] != null
+          ? ThingGroupMetadata.fromJson(
+              json['thingGroupMetadata'] as Map<String, dynamic>)
+          : null,
+      thingGroupName: json['thingGroupName'] as String?,
+      thingGroupProperties: json['thingGroupProperties'] != null
+          ? ThingGroupProperties.fromJson(
+              json['thingGroupProperties'] as Map<String, dynamic>)
+          : null,
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexName = this.indexName;
+    final queryString = this.queryString;
+    final queryVersion = this.queryVersion;
+    final status = this.status;
+    final thingGroupArn = this.thingGroupArn;
+    final thingGroupId = this.thingGroupId;
+    final thingGroupMetadata = this.thingGroupMetadata;
+    final thingGroupName = this.thingGroupName;
+    final thingGroupProperties = this.thingGroupProperties;
+    final version = this.version;
+    return {
+      if (indexName != null) 'indexName': indexName,
+      if (queryString != null) 'queryString': queryString,
+      if (queryVersion != null) 'queryVersion': queryVersion,
+      if (status != null) 'status': status.toValue(),
+      if (thingGroupArn != null) 'thingGroupArn': thingGroupArn,
+      if (thingGroupId != null) 'thingGroupId': thingGroupId,
+      if (thingGroupMetadata != null) 'thingGroupMetadata': thingGroupMetadata,
+      if (thingGroupName != null) 'thingGroupName': thingGroupName,
+      if (thingGroupProperties != null)
+        'thingGroupProperties': thingGroupProperties,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeThingRegistrationTaskResponse {
   /// The task creation date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The number of things that failed to be provisioned.
-  @_s.JsonKey(name: 'failureCount')
-  final int failureCount;
+  final int? failureCount;
 
   /// The S3 bucket that contains the input file.
-  @_s.JsonKey(name: 'inputFileBucket')
-  final String inputFileBucket;
+  final String? inputFileBucket;
 
   /// The input file key.
-  @_s.JsonKey(name: 'inputFileKey')
-  final String inputFileKey;
+  final String? inputFileKey;
 
   /// The date when the task was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The progress of the bulk provisioning task expressed as a percentage.
-  @_s.JsonKey(name: 'percentageProgress')
-  final int percentageProgress;
+  final int? percentageProgress;
 
   /// The role ARN that grants access to the input file bucket.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The status of the bulk thing provisioning task.
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   /// The number of things successfully provisioned.
-  @_s.JsonKey(name: 'successCount')
-  final int successCount;
+  final int? successCount;
 
   /// The task ID.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   /// The task's template.
-  @_s.JsonKey(name: 'templateBody')
-  final String templateBody;
+  final String? templateBody;
 
   DescribeThingRegistrationTaskResponse({
     this.creationDate,
@@ -16842,25 +17677,64 @@ class DescribeThingRegistrationTaskResponse {
     this.taskId,
     this.templateBody,
   });
+
   factory DescribeThingRegistrationTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeThingRegistrationTaskResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeThingRegistrationTaskResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      failureCount: json['failureCount'] as int?,
+      inputFileBucket: json['inputFileBucket'] as String?,
+      inputFileKey: json['inputFileKey'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      message: json['message'] as String?,
+      percentageProgress: json['percentageProgress'] as int?,
+      roleArn: json['roleArn'] as String?,
+      status: (json['status'] as String?)?.toStatus(),
+      successCount: json['successCount'] as int?,
+      taskId: json['taskId'] as String?,
+      templateBody: json['templateBody'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final failureCount = this.failureCount;
+    final inputFileBucket = this.inputFileBucket;
+    final inputFileKey = this.inputFileKey;
+    final lastModifiedDate = this.lastModifiedDate;
+    final message = this.message;
+    final percentageProgress = this.percentageProgress;
+    final roleArn = this.roleArn;
+    final status = this.status;
+    final successCount = this.successCount;
+    final taskId = this.taskId;
+    final templateBody = this.templateBody;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (failureCount != null) 'failureCount': failureCount,
+      if (inputFileBucket != null) 'inputFileBucket': inputFileBucket,
+      if (inputFileKey != null) 'inputFileKey': inputFileKey,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (message != null) 'message': message,
+      if (percentageProgress != null) 'percentageProgress': percentageProgress,
+      if (roleArn != null) 'roleArn': roleArn,
+      if (status != null) 'status': status.toValue(),
+      if (successCount != null) 'successCount': successCount,
+      if (taskId != null) 'taskId': taskId,
+      if (templateBody != null) 'templateBody': templateBody,
+    };
+  }
 }
 
 /// The output from the DescribeThing operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeThingResponse {
   /// The thing attributes.
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The name of the billing group the thing belongs to.
-  @_s.JsonKey(name: 'billingGroupName')
-  final String billingGroupName;
+  final String? billingGroupName;
 
   /// The default MQTT client ID. For a typical device, the thing name is also
   /// used as the default MQTT client ID. Although we don’t require a mapping
@@ -16870,24 +17744,19 @@ class DescribeThingResponse {
   ///
   /// This lets you better organize your AWS IoT fleet without removing the
   /// flexibility of the underlying device certificate model or shadows.
-  @_s.JsonKey(name: 'defaultClientId')
-  final String defaultClientId;
+  final String? defaultClientId;
 
   /// The ARN of the thing to describe.
-  @_s.JsonKey(name: 'thingArn')
-  final String thingArn;
+  final String? thingArn;
 
   /// The ID of the thing to describe.
-  @_s.JsonKey(name: 'thingId')
-  final String thingId;
+  final String? thingId;
 
   /// The name of the thing.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   /// The thing type name.
-  @_s.JsonKey(name: 'thingTypeName')
-  final String thingTypeName;
+  final String? thingTypeName;
 
   /// The current version of the thing record in the registry.
   /// <note>
@@ -16895,8 +17764,7 @@ class DescribeThingResponse {
   /// pass the version information in the <code>expectedVersion</code> parameter
   /// of the <code>UpdateThing</code> and <code>DeleteThing</code> calls.
   /// </note>
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   DescribeThingResponse({
     this.attributes,
@@ -16908,39 +17776,62 @@ class DescribeThingResponse {
     this.thingTypeName,
     this.version,
   });
-  factory DescribeThingResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeThingResponseFromJson(json);
+
+  factory DescribeThingResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeThingResponse(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      billingGroupName: json['billingGroupName'] as String?,
+      defaultClientId: json['defaultClientId'] as String?,
+      thingArn: json['thingArn'] as String?,
+      thingId: json['thingId'] as String?,
+      thingName: json['thingName'] as String?,
+      thingTypeName: json['thingTypeName'] as String?,
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final billingGroupName = this.billingGroupName;
+    final defaultClientId = this.defaultClientId;
+    final thingArn = this.thingArn;
+    final thingId = this.thingId;
+    final thingName = this.thingName;
+    final thingTypeName = this.thingTypeName;
+    final version = this.version;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (billingGroupName != null) 'billingGroupName': billingGroupName,
+      if (defaultClientId != null) 'defaultClientId': defaultClientId,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingId != null) 'thingId': thingId,
+      if (thingName != null) 'thingName': thingName,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// The output for the DescribeThingType operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeThingTypeResponse {
   /// The thing type ARN.
-  @_s.JsonKey(name: 'thingTypeArn')
-  final String thingTypeArn;
+  final String? thingTypeArn;
 
   /// The thing type ID.
-  @_s.JsonKey(name: 'thingTypeId')
-  final String thingTypeId;
+  final String? thingTypeId;
 
   /// The ThingTypeMetadata contains additional information about the thing type
   /// including: creation date and time, a value indicating whether the thing type
   /// is deprecated, and a date and time when it was deprecated.
-  @_s.JsonKey(name: 'thingTypeMetadata')
-  final ThingTypeMetadata thingTypeMetadata;
+  final ThingTypeMetadata? thingTypeMetadata;
 
   /// The name of the thing type.
-  @_s.JsonKey(name: 'thingTypeName')
-  final String thingTypeName;
+  final String? thingTypeName;
 
   /// The ThingTypeProperties contains information about the thing type including
   /// description, and a list of searchable thing attribute names.
-  @_s.JsonKey(name: 'thingTypeProperties')
-  final ThingTypeProperties thingTypeProperties;
+  final ThingTypeProperties? thingTypeProperties;
 
   DescribeThingTypeResponse({
     this.thingTypeArn,
@@ -16949,97 +17840,119 @@ class DescribeThingTypeResponse {
     this.thingTypeName,
     this.thingTypeProperties,
   });
-  factory DescribeThingTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeThingTypeResponseFromJson(json);
+
+  factory DescribeThingTypeResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeThingTypeResponse(
+      thingTypeArn: json['thingTypeArn'] as String?,
+      thingTypeId: json['thingTypeId'] as String?,
+      thingTypeMetadata: json['thingTypeMetadata'] != null
+          ? ThingTypeMetadata.fromJson(
+              json['thingTypeMetadata'] as Map<String, dynamic>)
+          : null,
+      thingTypeName: json['thingTypeName'] as String?,
+      thingTypeProperties: json['thingTypeProperties'] != null
+          ? ThingTypeProperties.fromJson(
+              json['thingTypeProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingTypeArn = this.thingTypeArn;
+    final thingTypeId = this.thingTypeId;
+    final thingTypeMetadata = this.thingTypeMetadata;
+    final thingTypeName = this.thingTypeName;
+    final thingTypeProperties = this.thingTypeProperties;
+    return {
+      if (thingTypeArn != null) 'thingTypeArn': thingTypeArn,
+      if (thingTypeId != null) 'thingTypeId': thingTypeId,
+      if (thingTypeMetadata != null) 'thingTypeMetadata': thingTypeMetadata,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
+      if (thingTypeProperties != null)
+        'thingTypeProperties': thingTypeProperties,
+    };
+  }
 }
 
 /// Describes the location of the updated firmware.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Destination {
   /// Describes the location in S3 of the updated firmware.
-  @_s.JsonKey(name: 's3Destination')
-  final S3Destination s3Destination;
+  final S3Destination? s3Destination;
 
   Destination({
     this.s3Destination,
   });
-  factory Destination.fromJson(Map<String, dynamic> json) =>
-      _$DestinationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DestinationToJson(this);
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      s3Destination: json['s3Destination'] != null
+          ? S3Destination.fromJson(
+              json['s3Destination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Destination = this.s3Destination;
+    return {
+      if (s3Destination != null) 's3Destination': s3Destination,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetachSecurityProfileResponse {
   DetachSecurityProfileResponse();
-  factory DetachSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetachSecurityProfileResponseFromJson(json);
+
+  factory DetachSecurityProfileResponse.fromJson(Map<String, dynamic> _) {
+    return DetachSecurityProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The output from the DetachThingPrincipal operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetachThingPrincipalResponse {
   DetachThingPrincipalResponse();
-  factory DetachThingPrincipalResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetachThingPrincipalResponseFromJson(json);
+
+  factory DetachThingPrincipalResponse.fromJson(Map<String, dynamic> _) {
+    return DetachThingPrincipalResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes which mitigation actions should be executed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectMitigationActionExecution {
   /// The friendly name that uniquely identifies the mitigation action.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// The error code of a mitigation action.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The date a mitigation action ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'executionEndDate')
-  final DateTime executionEndDate;
+  final DateTime? executionEndDate;
 
   /// The date a mitigation action was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'executionStartDate')
-  final DateTime executionStartDate;
+  final DateTime? executionStartDate;
 
   /// The message of a mitigation action.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The status of a mitigation action.
-  @_s.JsonKey(name: 'status')
-  final DetectMitigationActionExecutionStatus status;
+  final DetectMitigationActionExecutionStatus? status;
 
   /// The unique identifier of the task.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   /// The name of the thing.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   /// The unique identifier of the violation.
-  @_s.JsonKey(name: 'violationId')
-  final String violationId;
+  final String? violationId;
 
   DetectMitigationActionExecution({
     this.actionName,
@@ -17052,110 +17965,197 @@ class DetectMitigationActionExecution {
     this.thingName,
     this.violationId,
   });
-  factory DetectMitigationActionExecution.fromJson(Map<String, dynamic> json) =>
-      _$DetectMitigationActionExecutionFromJson(json);
+
+  factory DetectMitigationActionExecution.fromJson(Map<String, dynamic> json) {
+    return DetectMitigationActionExecution(
+      actionName: json['actionName'] as String?,
+      errorCode: json['errorCode'] as String?,
+      executionEndDate: timeStampFromJson(json['executionEndDate']),
+      executionStartDate: timeStampFromJson(json['executionStartDate']),
+      message: json['message'] as String?,
+      status: (json['status'] as String?)
+          ?.toDetectMitigationActionExecutionStatus(),
+      taskId: json['taskId'] as String?,
+      thingName: json['thingName'] as String?,
+      violationId: json['violationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final errorCode = this.errorCode;
+    final executionEndDate = this.executionEndDate;
+    final executionStartDate = this.executionStartDate;
+    final message = this.message;
+    final status = this.status;
+    final taskId = this.taskId;
+    final thingName = this.thingName;
+    final violationId = this.violationId;
+    return {
+      if (actionName != null) 'actionName': actionName,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (executionEndDate != null)
+        'executionEndDate': unixTimestampToJson(executionEndDate),
+      if (executionStartDate != null)
+        'executionStartDate': unixTimestampToJson(executionStartDate),
+      if (message != null) 'message': message,
+      if (status != null) 'status': status.toValue(),
+      if (taskId != null) 'taskId': taskId,
+      if (thingName != null) 'thingName': thingName,
+      if (violationId != null) 'violationId': violationId,
+    };
+  }
 }
 
 enum DetectMitigationActionExecutionStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCESSFUL')
   successful,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SKIPPED')
   skipped,
 }
 
+extension on DetectMitigationActionExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case DetectMitigationActionExecutionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case DetectMitigationActionExecutionStatus.successful:
+        return 'SUCCESSFUL';
+      case DetectMitigationActionExecutionStatus.failed:
+        return 'FAILED';
+      case DetectMitigationActionExecutionStatus.skipped:
+        return 'SKIPPED';
+    }
+  }
+}
+
+extension on String {
+  DetectMitigationActionExecutionStatus
+      toDetectMitigationActionExecutionStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return DetectMitigationActionExecutionStatus.inProgress;
+      case 'SUCCESSFUL':
+        return DetectMitigationActionExecutionStatus.successful;
+      case 'FAILED':
+        return DetectMitigationActionExecutionStatus.failed;
+      case 'SKIPPED':
+        return DetectMitigationActionExecutionStatus.skipped;
+    }
+    throw Exception(
+        '$this is not known in enum DetectMitigationActionExecutionStatus');
+  }
+}
+
 /// The statistics of a mitigation action task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectMitigationActionsTaskStatistics {
   /// The actions that were performed.
-  @_s.JsonKey(name: 'actionsExecuted')
-  final int actionsExecuted;
+  final int? actionsExecuted;
 
   /// The actions that failed.
-  @_s.JsonKey(name: 'actionsFailed')
-  final int actionsFailed;
+  final int? actionsFailed;
 
   /// The actions that were skipped.
-  @_s.JsonKey(name: 'actionsSkipped')
-  final int actionsSkipped;
+  final int? actionsSkipped;
 
   DetectMitigationActionsTaskStatistics({
     this.actionsExecuted,
     this.actionsFailed,
     this.actionsSkipped,
   });
+
   factory DetectMitigationActionsTaskStatistics.fromJson(
-          Map<String, dynamic> json) =>
-      _$DetectMitigationActionsTaskStatisticsFromJson(json);
+      Map<String, dynamic> json) {
+    return DetectMitigationActionsTaskStatistics(
+      actionsExecuted: json['actionsExecuted'] as int?,
+      actionsFailed: json['actionsFailed'] as int?,
+      actionsSkipped: json['actionsSkipped'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionsExecuted = this.actionsExecuted;
+    final actionsFailed = this.actionsFailed;
+    final actionsSkipped = this.actionsSkipped;
+    return {
+      if (actionsExecuted != null) 'actionsExecuted': actionsExecuted,
+      if (actionsFailed != null) 'actionsFailed': actionsFailed,
+      if (actionsSkipped != null) 'actionsSkipped': actionsSkipped,
+    };
+  }
 }
 
 enum DetectMitigationActionsTaskStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCESSFUL')
   successful,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELED')
   canceled,
 }
 
+extension on DetectMitigationActionsTaskStatus {
+  String toValue() {
+    switch (this) {
+      case DetectMitigationActionsTaskStatus.inProgress:
+        return 'IN_PROGRESS';
+      case DetectMitigationActionsTaskStatus.successful:
+        return 'SUCCESSFUL';
+      case DetectMitigationActionsTaskStatus.failed:
+        return 'FAILED';
+      case DetectMitigationActionsTaskStatus.canceled:
+        return 'CANCELED';
+    }
+  }
+}
+
+extension on String {
+  DetectMitigationActionsTaskStatus toDetectMitigationActionsTaskStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return DetectMitigationActionsTaskStatus.inProgress;
+      case 'SUCCESSFUL':
+        return DetectMitigationActionsTaskStatus.successful;
+      case 'FAILED':
+        return DetectMitigationActionsTaskStatus.failed;
+      case 'CANCELED':
+        return DetectMitigationActionsTaskStatus.canceled;
+    }
+    throw Exception(
+        '$this is not known in enum DetectMitigationActionsTaskStatus');
+  }
+}
+
 /// The summary of the mitigation action tasks.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectMitigationActionsTaskSummary {
   /// The definition of the actions.
-  @_s.JsonKey(name: 'actionsDefinition')
-  final List<MitigationAction> actionsDefinition;
+  final List<MitigationAction>? actionsDefinition;
 
   /// Includes only active violations.
-  @_s.JsonKey(name: 'onlyActiveViolationsIncluded')
-  final bool onlyActiveViolationsIncluded;
+  final bool? onlyActiveViolationsIncluded;
 
   /// Includes suppressed alerts.
-  @_s.JsonKey(name: 'suppressedAlertsIncluded')
-  final bool suppressedAlertsIncluded;
+  final bool? suppressedAlertsIncluded;
 
   /// Specifies the ML Detect findings to which the mitigation actions are
   /// applied.
-  @_s.JsonKey(name: 'target')
-  final DetectMitigationActionsTaskTarget target;
+  final DetectMitigationActionsTaskTarget? target;
 
   /// The date the task ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'taskEndTime')
-  final DateTime taskEndTime;
+  final DateTime? taskEndTime;
 
   /// The unique identifier of the task.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   /// The date the task started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'taskStartTime')
-  final DateTime taskStartTime;
+  final DateTime? taskStartTime;
 
   /// The statistics of a mitigation action task.
-  @_s.JsonKey(name: 'taskStatistics')
-  final DetectMitigationActionsTaskStatistics taskStatistics;
+  final DetectMitigationActionsTaskStatistics? taskStatistics;
 
   /// The status of the task.
-  @_s.JsonKey(name: 'taskStatus')
-  final DetectMitigationActionsTaskStatus taskStatus;
+  final DetectMitigationActionsTaskStatus? taskStatus;
 
   /// Specifies the time period of which violation events occurred between.
-  @_s.JsonKey(name: 'violationEventOccurrenceRange')
-  final ViolationEventOccurrenceRange violationEventOccurrenceRange;
+  final ViolationEventOccurrenceRange? violationEventOccurrenceRange;
 
   DetectMitigationActionsTaskSummary({
     this.actionsDefinition,
@@ -17169,50 +18169,134 @@ class DetectMitigationActionsTaskSummary {
     this.taskStatus,
     this.violationEventOccurrenceRange,
   });
+
   factory DetectMitigationActionsTaskSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$DetectMitigationActionsTaskSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return DetectMitigationActionsTaskSummary(
+      actionsDefinition: (json['actionsDefinition'] as List?)
+          ?.whereNotNull()
+          .map((e) => MitigationAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      onlyActiveViolationsIncluded:
+          json['onlyActiveViolationsIncluded'] as bool?,
+      suppressedAlertsIncluded: json['suppressedAlertsIncluded'] as bool?,
+      target: json['target'] != null
+          ? DetectMitigationActionsTaskTarget.fromJson(
+              json['target'] as Map<String, dynamic>)
+          : null,
+      taskEndTime: timeStampFromJson(json['taskEndTime']),
+      taskId: json['taskId'] as String?,
+      taskStartTime: timeStampFromJson(json['taskStartTime']),
+      taskStatistics: json['taskStatistics'] != null
+          ? DetectMitigationActionsTaskStatistics.fromJson(
+              json['taskStatistics'] as Map<String, dynamic>)
+          : null,
+      taskStatus: (json['taskStatus'] as String?)
+          ?.toDetectMitigationActionsTaskStatus(),
+      violationEventOccurrenceRange:
+          json['violationEventOccurrenceRange'] != null
+              ? ViolationEventOccurrenceRange.fromJson(
+                  json['violationEventOccurrenceRange'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionsDefinition = this.actionsDefinition;
+    final onlyActiveViolationsIncluded = this.onlyActiveViolationsIncluded;
+    final suppressedAlertsIncluded = this.suppressedAlertsIncluded;
+    final target = this.target;
+    final taskEndTime = this.taskEndTime;
+    final taskId = this.taskId;
+    final taskStartTime = this.taskStartTime;
+    final taskStatistics = this.taskStatistics;
+    final taskStatus = this.taskStatus;
+    final violationEventOccurrenceRange = this.violationEventOccurrenceRange;
+    return {
+      if (actionsDefinition != null) 'actionsDefinition': actionsDefinition,
+      if (onlyActiveViolationsIncluded != null)
+        'onlyActiveViolationsIncluded': onlyActiveViolationsIncluded,
+      if (suppressedAlertsIncluded != null)
+        'suppressedAlertsIncluded': suppressedAlertsIncluded,
+      if (target != null) 'target': target,
+      if (taskEndTime != null) 'taskEndTime': unixTimestampToJson(taskEndTime),
+      if (taskId != null) 'taskId': taskId,
+      if (taskStartTime != null)
+        'taskStartTime': unixTimestampToJson(taskStartTime),
+      if (taskStatistics != null) 'taskStatistics': taskStatistics,
+      if (taskStatus != null) 'taskStatus': taskStatus.toValue(),
+      if (violationEventOccurrenceRange != null)
+        'violationEventOccurrenceRange': violationEventOccurrenceRange,
+    };
+  }
 }
 
 /// The target of a mitigation action task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DetectMitigationActionsTaskTarget {
   /// The name of the behavior.
-  @_s.JsonKey(name: 'behaviorName')
-  final String behaviorName;
+  final String? behaviorName;
 
   /// The name of the security profile.
-  @_s.JsonKey(name: 'securityProfileName')
-  final String securityProfileName;
+  final String? securityProfileName;
 
   /// The unique identifiers of the violations.
-  @_s.JsonKey(name: 'violationIds')
-  final List<String> violationIds;
+  final List<String>? violationIds;
 
   DetectMitigationActionsTaskTarget({
     this.behaviorName,
     this.securityProfileName,
     this.violationIds,
   });
-  factory DetectMitigationActionsTaskTarget.fromJson(
-          Map<String, dynamic> json) =>
-      _$DetectMitigationActionsTaskTargetFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DetectMitigationActionsTaskTargetToJson(this);
+  factory DetectMitigationActionsTaskTarget.fromJson(
+      Map<String, dynamic> json) {
+    return DetectMitigationActionsTaskTarget(
+      behaviorName: json['behaviorName'] as String?,
+      securityProfileName: json['securityProfileName'] as String?,
+      violationIds: (json['violationIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behaviorName = this.behaviorName;
+    final securityProfileName = this.securityProfileName;
+    final violationIds = this.violationIds;
+    return {
+      if (behaviorName != null) 'behaviorName': behaviorName,
+      if (securityProfileName != null)
+        'securityProfileName': securityProfileName,
+      if (violationIds != null) 'violationIds': violationIds,
+    };
+  }
 }
 
 enum DeviceCertificateUpdateAction {
-  @_s.JsonValue('DEACTIVATE')
   deactivate,
 }
 
+extension on DeviceCertificateUpdateAction {
+  String toValue() {
+    switch (this) {
+      case DeviceCertificateUpdateAction.deactivate:
+        return 'DEACTIVATE';
+    }
+  }
+}
+
+extension on String {
+  DeviceCertificateUpdateAction toDeviceCertificateUpdateAction() {
+    switch (this) {
+      case 'DEACTIVATE':
+        return DeviceCertificateUpdateAction.deactivate;
+    }
+    throw Exception('$this is not known in enum DeviceCertificateUpdateAction');
+  }
+}
+
 enum DimensionType {
-  @_s.JsonValue('TOPIC_FILTER')
   topicFilter,
 }
 
@@ -17222,21 +18306,49 @@ extension on DimensionType {
       case DimensionType.topicFilter:
         return 'TOPIC_FILTER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DimensionType toDimensionType() {
+    switch (this) {
+      case 'TOPIC_FILTER':
+        return DimensionType.topicFilter;
+    }
+    throw Exception('$this is not known in enum DimensionType');
   }
 }
 
 enum DimensionValueOperator {
-  @_s.JsonValue('IN')
   $in,
-  @_s.JsonValue('NOT_IN')
   notIn,
 }
 
+extension on DimensionValueOperator {
+  String toValue() {
+    switch (this) {
+      case DimensionValueOperator.$in:
+        return 'IN';
+      case DimensionValueOperator.notIn:
+        return 'NOT_IN';
+    }
+  }
+}
+
+extension on String {
+  DimensionValueOperator toDimensionValueOperator() {
+    switch (this) {
+      case 'IN':
+        return DimensionValueOperator.$in;
+      case 'NOT_IN':
+        return DimensionValueOperator.notIn;
+    }
+    throw Exception('$this is not known in enum DimensionValueOperator');
+  }
+}
+
 enum DomainConfigurationStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -17248,7 +18360,18 @@ extension on DomainConfigurationStatus {
       case DomainConfigurationStatus.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DomainConfigurationStatus toDomainConfigurationStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return DomainConfigurationStatus.enabled;
+      case 'DISABLED':
+        return DomainConfigurationStatus.disabled;
+    }
+    throw Exception('$this is not known in enum DomainConfigurationStatus');
   }
 }
 
@@ -17268,53 +18391,109 @@ extension on DomainConfigurationStatus {
 /// <li>
 /// CredentialProvider
 /// </li>
-/// </ul> <note>
-/// The domain configuration feature is in public preview and is subject to
-/// change.
-/// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// </ul>
 class DomainConfigurationSummary {
   /// The ARN of the domain configuration.
-  @_s.JsonKey(name: 'domainConfigurationArn')
-  final String domainConfigurationArn;
+  final String? domainConfigurationArn;
 
   /// The name of the domain configuration. This value must be unique to a region.
-  @_s.JsonKey(name: 'domainConfigurationName')
-  final String domainConfigurationName;
+  final String? domainConfigurationName;
 
   /// The type of service delivered by the endpoint.
-  @_s.JsonKey(name: 'serviceType')
-  final ServiceType serviceType;
+  final ServiceType? serviceType;
 
   DomainConfigurationSummary({
     this.domainConfigurationArn,
     this.domainConfigurationName,
     this.serviceType,
   });
-  factory DomainConfigurationSummary.fromJson(Map<String, dynamic> json) =>
-      _$DomainConfigurationSummaryFromJson(json);
+
+  factory DomainConfigurationSummary.fromJson(Map<String, dynamic> json) {
+    return DomainConfigurationSummary(
+      domainConfigurationArn: json['domainConfigurationArn'] as String?,
+      domainConfigurationName: json['domainConfigurationName'] as String?,
+      serviceType: (json['serviceType'] as String?)?.toServiceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainConfigurationArn = this.domainConfigurationArn;
+    final domainConfigurationName = this.domainConfigurationName;
+    final serviceType = this.serviceType;
+    return {
+      if (domainConfigurationArn != null)
+        'domainConfigurationArn': domainConfigurationArn,
+      if (domainConfigurationName != null)
+        'domainConfigurationName': domainConfigurationName,
+      if (serviceType != null) 'serviceType': serviceType.toValue(),
+    };
+  }
 }
 
 enum DomainType {
-  @_s.JsonValue('ENDPOINT')
   endpoint,
-  @_s.JsonValue('AWS_MANAGED')
   awsManaged,
-  @_s.JsonValue('CUSTOMER_MANAGED')
   customerManaged,
 }
 
+extension on DomainType {
+  String toValue() {
+    switch (this) {
+      case DomainType.endpoint:
+        return 'ENDPOINT';
+      case DomainType.awsManaged:
+        return 'AWS_MANAGED';
+      case DomainType.customerManaged:
+        return 'CUSTOMER_MANAGED';
+    }
+  }
+}
+
+extension on String {
+  DomainType toDomainType() {
+    switch (this) {
+      case 'ENDPOINT':
+        return DomainType.endpoint;
+      case 'AWS_MANAGED':
+        return DomainType.awsManaged;
+      case 'CUSTOMER_MANAGED':
+        return DomainType.customerManaged;
+    }
+    throw Exception('$this is not known in enum DomainType');
+  }
+}
+
 enum DynamicGroupStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('BUILDING')
   building,
-  @_s.JsonValue('REBUILDING')
   rebuilding,
+}
+
+extension on DynamicGroupStatus {
+  String toValue() {
+    switch (this) {
+      case DynamicGroupStatus.active:
+        return 'ACTIVE';
+      case DynamicGroupStatus.building:
+        return 'BUILDING';
+      case DynamicGroupStatus.rebuilding:
+        return 'REBUILDING';
+    }
+  }
+}
+
+extension on String {
+  DynamicGroupStatus toDynamicGroupStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return DynamicGroupStatus.active;
+      case 'BUILDING':
+        return DynamicGroupStatus.building;
+      case 'REBUILDING':
+        return DynamicGroupStatus.rebuilding;
+    }
+    throw Exception('$this is not known in enum DynamicGroupStatus');
+  }
 }
 
 /// Describes an action to write to a DynamoDB table.
@@ -17336,60 +18515,45 @@ enum DynamicGroupStatus {
 /// The following field uses the timestamp:
 ///
 /// <code>"rangeKeyValue": "${timestamp()}"</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DynamoDBAction {
   /// The hash key name.
-  @_s.JsonKey(name: 'hashKeyField')
   final String hashKeyField;
 
   /// The hash key value.
-  @_s.JsonKey(name: 'hashKeyValue')
   final String hashKeyValue;
 
   /// The ARN of the IAM role that grants access to the DynamoDB table.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The name of the DynamoDB table.
-  @_s.JsonKey(name: 'tableName')
   final String tableName;
 
   /// The hash key type. Valid values are "STRING" or "NUMBER"
-  @_s.JsonKey(name: 'hashKeyType')
-  final DynamoKeyType hashKeyType;
+  final DynamoKeyType? hashKeyType;
 
   /// The type of operation to be performed. This follows the substitution
   /// template, so it can be <code>${operation}</code>, but the substitution must
   /// result in one of the following: <code>INSERT</code>, <code>UPDATE</code>, or
   /// <code>DELETE</code>.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The action payload. This name can be customized.
-  @_s.JsonKey(name: 'payloadField')
-  final String payloadField;
+  final String? payloadField;
 
   /// The range key name.
-  @_s.JsonKey(name: 'rangeKeyField')
-  final String rangeKeyField;
+  final String? rangeKeyField;
 
   /// The range key type. Valid values are "STRING" or "NUMBER"
-  @_s.JsonKey(name: 'rangeKeyType')
-  final DynamoKeyType rangeKeyType;
+  final DynamoKeyType? rangeKeyType;
 
   /// The range key value.
-  @_s.JsonKey(name: 'rangeKeyValue')
-  final String rangeKeyValue;
+  final String? rangeKeyValue;
 
   DynamoDBAction({
-    @_s.required this.hashKeyField,
-    @_s.required this.hashKeyValue,
-    @_s.required this.roleArn,
-    @_s.required this.tableName,
+    required this.hashKeyField,
+    required this.hashKeyValue,
+    required this.roleArn,
+    required this.tableName,
     this.hashKeyType,
     this.operation,
     this.payloadField,
@@ -17397,21 +18561,52 @@ class DynamoDBAction {
     this.rangeKeyType,
     this.rangeKeyValue,
   });
-  factory DynamoDBAction.fromJson(Map<String, dynamic> json) =>
-      _$DynamoDBActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DynamoDBActionToJson(this);
+  factory DynamoDBAction.fromJson(Map<String, dynamic> json) {
+    return DynamoDBAction(
+      hashKeyField: json['hashKeyField'] as String,
+      hashKeyValue: json['hashKeyValue'] as String,
+      roleArn: json['roleArn'] as String,
+      tableName: json['tableName'] as String,
+      hashKeyType: (json['hashKeyType'] as String?)?.toDynamoKeyType(),
+      operation: json['operation'] as String?,
+      payloadField: json['payloadField'] as String?,
+      rangeKeyField: json['rangeKeyField'] as String?,
+      rangeKeyType: (json['rangeKeyType'] as String?)?.toDynamoKeyType(),
+      rangeKeyValue: json['rangeKeyValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hashKeyField = this.hashKeyField;
+    final hashKeyValue = this.hashKeyValue;
+    final roleArn = this.roleArn;
+    final tableName = this.tableName;
+    final hashKeyType = this.hashKeyType;
+    final operation = this.operation;
+    final payloadField = this.payloadField;
+    final rangeKeyField = this.rangeKeyField;
+    final rangeKeyType = this.rangeKeyType;
+    final rangeKeyValue = this.rangeKeyValue;
+    return {
+      'hashKeyField': hashKeyField,
+      'hashKeyValue': hashKeyValue,
+      'roleArn': roleArn,
+      'tableName': tableName,
+      if (hashKeyType != null) 'hashKeyType': hashKeyType.toValue(),
+      if (operation != null) 'operation': operation,
+      if (payloadField != null) 'payloadField': payloadField,
+      if (rangeKeyField != null) 'rangeKeyField': rangeKeyField,
+      if (rangeKeyType != null) 'rangeKeyType': rangeKeyType.toValue(),
+      if (rangeKeyValue != null) 'rangeKeyValue': rangeKeyValue,
+    };
+  }
 }
 
 /// Describes an action to write to a DynamoDB table.
 ///
 /// This DynamoDB action writes each attribute in the message payload into it's
 /// own column in the DynamoDB table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DynamoDBv2Action {
   /// Specifies the DynamoDB table to which the message data will be written. For
   /// example:
@@ -17421,170 +18616,222 @@ class DynamoDBv2Action {
   ///
   /// Each attribute in the message payload will be written to a separate column
   /// in the DynamoDB database.
-  @_s.JsonKey(name: 'putItem')
   final PutItemInput putItem;
 
   /// The ARN of the IAM role that grants access to the DynamoDB table.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   DynamoDBv2Action({
-    @_s.required this.putItem,
-    @_s.required this.roleArn,
+    required this.putItem,
+    required this.roleArn,
   });
-  factory DynamoDBv2Action.fromJson(Map<String, dynamic> json) =>
-      _$DynamoDBv2ActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DynamoDBv2ActionToJson(this);
+  factory DynamoDBv2Action.fromJson(Map<String, dynamic> json) {
+    return DynamoDBv2Action(
+      putItem: PutItemInput.fromJson(json['putItem'] as Map<String, dynamic>),
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final putItem = this.putItem;
+    final roleArn = this.roleArn;
+    return {
+      'putItem': putItem,
+      'roleArn': roleArn,
+    };
+  }
 }
 
 enum DynamoKeyType {
-  @_s.JsonValue('STRING')
   string,
-  @_s.JsonValue('NUMBER')
   number,
 }
 
+extension on DynamoKeyType {
+  String toValue() {
+    switch (this) {
+      case DynamoKeyType.string:
+        return 'STRING';
+      case DynamoKeyType.number:
+        return 'NUMBER';
+    }
+  }
+}
+
+extension on String {
+  DynamoKeyType toDynamoKeyType() {
+    switch (this) {
+      case 'STRING':
+        return DynamoKeyType.string;
+      case 'NUMBER':
+        return DynamoKeyType.number;
+    }
+    throw Exception('$this is not known in enum DynamoKeyType');
+  }
+}
+
 /// The policy that has the effect on the authorization results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EffectivePolicy {
   /// The policy ARN.
-  @_s.JsonKey(name: 'policyArn')
-  final String policyArn;
+  final String? policyArn;
 
   /// The IAM policy document.
-  @_s.JsonKey(name: 'policyDocument')
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The policy name.
-  @_s.JsonKey(name: 'policyName')
-  final String policyName;
+  final String? policyName;
 
   EffectivePolicy({
     this.policyArn,
     this.policyDocument,
     this.policyName,
   });
-  factory EffectivePolicy.fromJson(Map<String, dynamic> json) =>
-      _$EffectivePolicyFromJson(json);
+
+  factory EffectivePolicy.fromJson(Map<String, dynamic> json) {
+    return EffectivePolicy(
+      policyArn: json['policyArn'] as String?,
+      policyDocument: json['policyDocument'] as String?,
+      policyName: json['policyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyArn = this.policyArn;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    return {
+      if (policyArn != null) 'policyArn': policyArn,
+      if (policyDocument != null) 'policyDocument': policyDocument,
+      if (policyName != null) 'policyName': policyName,
+    };
+  }
 }
 
 /// Describes an action that writes data to an Amazon Elasticsearch Service
 /// domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ElasticsearchAction {
   /// The endpoint of your Elasticsearch domain.
-  @_s.JsonKey(name: 'endpoint')
   final String endpoint;
 
   /// The unique identifier for the document you are storing.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The Elasticsearch index where you want to store your data.
-  @_s.JsonKey(name: 'index')
   final String index;
 
   /// The IAM role ARN that has access to Elasticsearch.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The type of document you are storing.
-  @_s.JsonKey(name: 'type')
   final String type;
 
   ElasticsearchAction({
-    @_s.required this.endpoint,
-    @_s.required this.id,
-    @_s.required this.index,
-    @_s.required this.roleArn,
-    @_s.required this.type,
+    required this.endpoint,
+    required this.id,
+    required this.index,
+    required this.roleArn,
+    required this.type,
   });
-  factory ElasticsearchAction.fromJson(Map<String, dynamic> json) =>
-      _$ElasticsearchActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ElasticsearchActionToJson(this);
+  factory ElasticsearchAction.fromJson(Map<String, dynamic> json) {
+    return ElasticsearchAction(
+      endpoint: json['endpoint'] as String,
+      id: json['id'] as String,
+      index: json['index'] as String,
+      roleArn: json['roleArn'] as String,
+      type: json['type'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoint = this.endpoint;
+    final id = this.id;
+    final index = this.index;
+    final roleArn = this.roleArn;
+    final type = this.type;
+    return {
+      'endpoint': endpoint,
+      'id': id,
+      'index': index,
+      'roleArn': roleArn,
+      'type': type,
+    };
+  }
 }
 
 /// Parameters used when defining a mitigation action that enable AWS IoT
 /// logging.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EnableIoTLoggingParams {
   /// Specifies the type of information to be logged.
-  @_s.JsonKey(name: 'logLevel')
   final LogLevel logLevel;
 
   /// The Amazon Resource Name (ARN) of the IAM role used for logging.
-  @_s.JsonKey(name: 'roleArnForLogging')
   final String roleArnForLogging;
 
   EnableIoTLoggingParams({
-    @_s.required this.logLevel,
-    @_s.required this.roleArnForLogging,
+    required this.logLevel,
+    required this.roleArnForLogging,
   });
-  factory EnableIoTLoggingParams.fromJson(Map<String, dynamic> json) =>
-      _$EnableIoTLoggingParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EnableIoTLoggingParamsToJson(this);
+  factory EnableIoTLoggingParams.fromJson(Map<String, dynamic> json) {
+    return EnableIoTLoggingParams(
+      logLevel: (json['logLevel'] as String).toLogLevel(),
+      roleArnForLogging: json['roleArnForLogging'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logLevel = this.logLevel;
+    final roleArnForLogging = this.roleArnForLogging;
+    return {
+      'logLevel': logLevel.toValue(),
+      'roleArnForLogging': roleArnForLogging,
+    };
+  }
 }
 
 /// Error information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorInfo {
   /// The error code.
-  @_s.JsonKey(name: 'code')
-  final String code;
+  final String? code;
 
   /// The error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   ErrorInfo({
     this.code,
     this.message,
   });
-  factory ErrorInfo.fromJson(Map<String, dynamic> json) =>
-      _$ErrorInfoFromJson(json);
+
+  factory ErrorInfo.fromJson(Map<String, dynamic> json) {
+    return ErrorInfo(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 enum EventType {
-  @_s.JsonValue('THING')
   thing,
-  @_s.JsonValue('THING_GROUP')
   thingGroup,
-  @_s.JsonValue('THING_TYPE')
   thingType,
-  @_s.JsonValue('THING_GROUP_MEMBERSHIP')
   thingGroupMembership,
-  @_s.JsonValue('THING_GROUP_HIERARCHY')
   thingGroupHierarchy,
-  @_s.JsonValue('THING_TYPE_ASSOCIATION')
   thingTypeAssociation,
-  @_s.JsonValue('JOB')
   job,
-  @_s.JsonValue('JOB_EXECUTION')
   jobExecution,
-  @_s.JsonValue('POLICY')
   policy,
-  @_s.JsonValue('CERTIFICATE')
   certificate,
-  @_s.JsonValue('CA_CERTIFICATE')
   caCertificate,
 }
 
@@ -17614,134 +18861,211 @@ extension on EventType {
       case EventType.caCertificate:
         return 'CA_CERTIFICATE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EventType toEventType() {
+    switch (this) {
+      case 'THING':
+        return EventType.thing;
+      case 'THING_GROUP':
+        return EventType.thingGroup;
+      case 'THING_TYPE':
+        return EventType.thingType;
+      case 'THING_GROUP_MEMBERSHIP':
+        return EventType.thingGroupMembership;
+      case 'THING_GROUP_HIERARCHY':
+        return EventType.thingGroupHierarchy;
+      case 'THING_TYPE_ASSOCIATION':
+        return EventType.thingTypeAssociation;
+      case 'JOB':
+        return EventType.job;
+      case 'JOB_EXECUTION':
+        return EventType.jobExecution;
+      case 'POLICY':
+        return EventType.policy;
+      case 'CERTIFICATE':
+        return EventType.certificate;
+      case 'CA_CERTIFICATE':
+        return EventType.caCertificate;
+    }
+    throw Exception('$this is not known in enum EventType');
   }
 }
 
 /// Information that explicitly denies authorization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExplicitDeny {
   /// The policies that denied the authorization.
-  @_s.JsonKey(name: 'policies')
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   ExplicitDeny({
     this.policies,
   });
-  factory ExplicitDeny.fromJson(Map<String, dynamic> json) =>
-      _$ExplicitDenyFromJson(json);
+
+  factory ExplicitDeny.fromJson(Map<String, dynamic> json) {
+    return ExplicitDeny(
+      policies: (json['policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Policy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policies = this.policies;
+    return {
+      if (policies != null) 'policies': policies,
+    };
+  }
 }
 
 /// Allows you to create an exponential rate of rollout for a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ExponentialRolloutRate {
   /// The minimum number of things that will be notified of a pending job, per
   /// minute at the start of job rollout. This parameter allows you to define the
   /// initial rate of rollout.
-  @_s.JsonKey(name: 'baseRatePerMinute')
   final int baseRatePerMinute;
 
   /// The exponential factor to increase the rate of rollout for a job.
   ///
   /// AWS IoT supports up to one digit after the decimal (for example, 1.5, but
   /// not 1.55).
-  @_s.JsonKey(name: 'incrementFactor')
   final double incrementFactor;
 
   /// The criteria to initiate the increase in rate of rollout for a job.
-  @_s.JsonKey(name: 'rateIncreaseCriteria')
   final RateIncreaseCriteria rateIncreaseCriteria;
 
   ExponentialRolloutRate({
-    @_s.required this.baseRatePerMinute,
-    @_s.required this.incrementFactor,
-    @_s.required this.rateIncreaseCriteria,
+    required this.baseRatePerMinute,
+    required this.incrementFactor,
+    required this.rateIncreaseCriteria,
   });
-  factory ExponentialRolloutRate.fromJson(Map<String, dynamic> json) =>
-      _$ExponentialRolloutRateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExponentialRolloutRateToJson(this);
+  factory ExponentialRolloutRate.fromJson(Map<String, dynamic> json) {
+    return ExponentialRolloutRate(
+      baseRatePerMinute: json['baseRatePerMinute'] as int,
+      incrementFactor: json['incrementFactor'] as double,
+      rateIncreaseCriteria: RateIncreaseCriteria.fromJson(
+          json['rateIncreaseCriteria'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseRatePerMinute = this.baseRatePerMinute;
+    final incrementFactor = this.incrementFactor;
+    final rateIncreaseCriteria = this.rateIncreaseCriteria;
+    return {
+      'baseRatePerMinute': baseRatePerMinute,
+      'incrementFactor': incrementFactor,
+      'rateIncreaseCriteria': rateIncreaseCriteria,
+    };
+  }
 }
 
 /// Describes the name and data type at a field.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Field {
   /// The name of the field.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The datatype of the field.
-  @_s.JsonKey(name: 'type')
-  final FieldType type;
+  final FieldType? type;
 
   Field({
     this.name,
     this.type,
   });
-  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FieldToJson(this);
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      name: json['name'] as String?,
+      type: (json['type'] as String?)?.toFieldType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (name != null) 'name': name,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum FieldType {
-  @_s.JsonValue('Number')
   number,
-  @_s.JsonValue('String')
   string,
-  @_s.JsonValue('Boolean')
   boolean,
 }
 
+extension on FieldType {
+  String toValue() {
+    switch (this) {
+      case FieldType.number:
+        return 'Number';
+      case FieldType.string:
+        return 'String';
+      case FieldType.boolean:
+        return 'Boolean';
+    }
+  }
+}
+
+extension on String {
+  FieldType toFieldType() {
+    switch (this) {
+      case 'Number':
+        return FieldType.number;
+      case 'String':
+        return FieldType.string;
+      case 'Boolean':
+        return FieldType.boolean;
+    }
+    throw Exception('$this is not known in enum FieldType');
+  }
+}
+
 /// The location of the OTA update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FileLocation {
   /// The location of the updated firmware in S3.
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   /// The stream that contains the OTA update.
-  @_s.JsonKey(name: 'stream')
-  final Stream stream;
+  final Stream? stream;
 
   FileLocation({
     this.s3Location,
     this.stream,
   });
-  factory FileLocation.fromJson(Map<String, dynamic> json) =>
-      _$FileLocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FileLocationToJson(this);
+  factory FileLocation.fromJson(Map<String, dynamic> json) {
+    return FileLocation(
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+      stream: json['stream'] != null
+          ? Stream.fromJson(json['stream'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    final stream = this.stream;
+    return {
+      if (s3Location != null) 's3Location': s3Location,
+      if (stream != null) 'stream': stream,
+    };
+  }
 }
 
 /// Describes an action that writes data to an Amazon Kinesis Firehose stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FirehoseAction {
   /// The delivery stream name.
-  @_s.JsonKey(name: 'deliveryStreamName')
   final String deliveryStreamName;
 
   /// The IAM role that grants access to the Amazon Kinesis Firehose stream.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Whether to deliver the Kinesis Data Firehose stream as a batch by using <a
@@ -17754,219 +19078,290 @@ class FirehoseAction {
   /// href="https://docs.aws.amazon.com/firehose/latest/APIReference/API_PutRecordBatch.html">
   /// <code>PutRecordBatch</code> </a> request. The resulting array can't have
   /// more than 500 records.
-  @_s.JsonKey(name: 'batchMode')
-  final bool batchMode;
+  final bool? batchMode;
 
   /// A character separator that will be used to separate records written to the
   /// Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n'
   /// (Windows newline), ',' (comma).
-  @_s.JsonKey(name: 'separator')
-  final String separator;
+  final String? separator;
 
   FirehoseAction({
-    @_s.required this.deliveryStreamName,
-    @_s.required this.roleArn,
+    required this.deliveryStreamName,
+    required this.roleArn,
     this.batchMode,
     this.separator,
   });
-  factory FirehoseAction.fromJson(Map<String, dynamic> json) =>
-      _$FirehoseActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FirehoseActionToJson(this);
+  factory FirehoseAction.fromJson(Map<String, dynamic> json) {
+    return FirehoseAction(
+      deliveryStreamName: json['deliveryStreamName'] as String,
+      roleArn: json['roleArn'] as String,
+      batchMode: json['batchMode'] as bool?,
+      separator: json['separator'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamName = this.deliveryStreamName;
+    final roleArn = this.roleArn;
+    final batchMode = this.batchMode;
+    final separator = this.separator;
+    return {
+      'deliveryStreamName': deliveryStreamName,
+      'roleArn': roleArn,
+      if (batchMode != null) 'batchMode': batchMode,
+      if (separator != null) 'separator': separator,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBehaviorModelTrainingSummariesResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of all ML Detect behaviors and their model status for a given
   /// Security Profile.
-  @_s.JsonKey(name: 'summaries')
-  final List<BehaviorModelTrainingSummary> summaries;
+  final List<BehaviorModelTrainingSummary>? summaries;
 
   GetBehaviorModelTrainingSummariesResponse({
     this.nextToken,
     this.summaries,
   });
+
   factory GetBehaviorModelTrainingSummariesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetBehaviorModelTrainingSummariesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetBehaviorModelTrainingSummariesResponse(
+      nextToken: json['nextToken'] as String?,
+      summaries: (json['summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BehaviorModelTrainingSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (summaries != null) 'summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCardinalityResponse {
   /// The approximate count of unique values that match the query.
-  @_s.JsonKey(name: 'cardinality')
-  final int cardinality;
+  final int? cardinality;
 
   GetCardinalityResponse({
     this.cardinality,
   });
-  factory GetCardinalityResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCardinalityResponseFromJson(json);
+
+  factory GetCardinalityResponse.fromJson(Map<String, dynamic> json) {
+    return GetCardinalityResponse(
+      cardinality: json['cardinality'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cardinality = this.cardinality;
+    return {
+      if (cardinality != null) 'cardinality': cardinality,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEffectivePoliciesResponse {
   /// The effective policies.
-  @_s.JsonKey(name: 'effectivePolicies')
-  final List<EffectivePolicy> effectivePolicies;
+  final List<EffectivePolicy>? effectivePolicies;
 
   GetEffectivePoliciesResponse({
     this.effectivePolicies,
   });
-  factory GetEffectivePoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetEffectivePoliciesResponseFromJson(json);
+
+  factory GetEffectivePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return GetEffectivePoliciesResponse(
+      effectivePolicies: (json['effectivePolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => EffectivePolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectivePolicies = this.effectivePolicies;
+    return {
+      if (effectivePolicies != null) 'effectivePolicies': effectivePolicies,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIndexingConfigurationResponse {
   /// The index configuration.
-  @_s.JsonKey(name: 'thingGroupIndexingConfiguration')
-  final ThingGroupIndexingConfiguration thingGroupIndexingConfiguration;
+  final ThingGroupIndexingConfiguration? thingGroupIndexingConfiguration;
 
   /// Thing indexing configuration.
-  @_s.JsonKey(name: 'thingIndexingConfiguration')
-  final ThingIndexingConfiguration thingIndexingConfiguration;
+  final ThingIndexingConfiguration? thingIndexingConfiguration;
 
   GetIndexingConfigurationResponse({
     this.thingGroupIndexingConfiguration,
     this.thingIndexingConfiguration,
   });
-  factory GetIndexingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetIndexingConfigurationResponseFromJson(json);
+
+  factory GetIndexingConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return GetIndexingConfigurationResponse(
+      thingGroupIndexingConfiguration:
+          json['thingGroupIndexingConfiguration'] != null
+              ? ThingGroupIndexingConfiguration.fromJson(
+                  json['thingGroupIndexingConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      thingIndexingConfiguration: json['thingIndexingConfiguration'] != null
+          ? ThingIndexingConfiguration.fromJson(
+              json['thingIndexingConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingGroupIndexingConfiguration =
+        this.thingGroupIndexingConfiguration;
+    final thingIndexingConfiguration = this.thingIndexingConfiguration;
+    return {
+      if (thingGroupIndexingConfiguration != null)
+        'thingGroupIndexingConfiguration': thingGroupIndexingConfiguration,
+      if (thingIndexingConfiguration != null)
+        'thingIndexingConfiguration': thingIndexingConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobDocumentResponse {
   /// The job document content.
-  @_s.JsonKey(name: 'document')
-  final String document;
+  final String? document;
 
   GetJobDocumentResponse({
     this.document,
   });
-  factory GetJobDocumentResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetJobDocumentResponseFromJson(json);
+
+  factory GetJobDocumentResponse.fromJson(Map<String, dynamic> json) {
+    return GetJobDocumentResponse(
+      document: json['document'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    return {
+      if (document != null) 'document': document,
+    };
+  }
 }
 
 /// The output from the GetLoggingOptions operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLoggingOptionsResponse {
   /// The logging level.
-  @_s.JsonKey(name: 'logLevel')
-  final LogLevel logLevel;
+  final LogLevel? logLevel;
 
   /// The ARN of the IAM role that grants access.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   GetLoggingOptionsResponse({
     this.logLevel,
     this.roleArn,
   });
-  factory GetLoggingOptionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLoggingOptionsResponseFromJson(json);
+
+  factory GetLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetLoggingOptionsResponse(
+      logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logLevel = this.logLevel;
+    final roleArn = this.roleArn;
+    return {
+      if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOTAUpdateResponse {
   /// The OTA update info.
-  @_s.JsonKey(name: 'otaUpdateInfo')
-  final OTAUpdateInfo otaUpdateInfo;
+  final OTAUpdateInfo? otaUpdateInfo;
 
   GetOTAUpdateResponse({
     this.otaUpdateInfo,
   });
-  factory GetOTAUpdateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetOTAUpdateResponseFromJson(json);
+
+  factory GetOTAUpdateResponse.fromJson(Map<String, dynamic> json) {
+    return GetOTAUpdateResponse(
+      otaUpdateInfo: json['otaUpdateInfo'] != null
+          ? OTAUpdateInfo.fromJson(
+              json['otaUpdateInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final otaUpdateInfo = this.otaUpdateInfo;
+    return {
+      if (otaUpdateInfo != null) 'otaUpdateInfo': otaUpdateInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPercentilesResponse {
   /// The percentile values of the aggregated fields.
-  @_s.JsonKey(name: 'percentiles')
-  final List<PercentPair> percentiles;
+  final List<PercentPair>? percentiles;
 
   GetPercentilesResponse({
     this.percentiles,
   });
-  factory GetPercentilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPercentilesResponseFromJson(json);
+
+  factory GetPercentilesResponse.fromJson(Map<String, dynamic> json) {
+    return GetPercentilesResponse(
+      percentiles: (json['percentiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => PercentPair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final percentiles = this.percentiles;
+    return {
+      if (percentiles != null) 'percentiles': percentiles,
+    };
+  }
 }
 
 /// The output from the GetPolicy operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPolicyResponse {
   /// The date the policy was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The default policy version ID.
-  @_s.JsonKey(name: 'defaultVersionId')
-  final String defaultVersionId;
+  final String? defaultVersionId;
 
   /// The generation ID of the policy.
-  @_s.JsonKey(name: 'generationId')
-  final String generationId;
+  final String? generationId;
 
   /// The date the policy was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The policy ARN.
-  @_s.JsonKey(name: 'policyArn')
-  final String policyArn;
+  final String? policyArn;
 
   /// The JSON document that describes the policy.
-  @_s.JsonKey(name: 'policyDocument')
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The policy name.
-  @_s.JsonKey(name: 'policyName')
-  final String policyName;
+  final String? policyName;
 
   GetPolicyResponse({
     this.creationDate,
@@ -17977,50 +19372,66 @@ class GetPolicyResponse {
     this.policyDocument,
     this.policyName,
   });
-  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPolicyResponseFromJson(json);
+
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      defaultVersionId: json['defaultVersionId'] as String?,
+      generationId: json['generationId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      policyArn: json['policyArn'] as String?,
+      policyDocument: json['policyDocument'] as String?,
+      policyName: json['policyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final defaultVersionId = this.defaultVersionId;
+    final generationId = this.generationId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final policyArn = this.policyArn;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
+      if (generationId != null) 'generationId': generationId,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (policyArn != null) 'policyArn': policyArn,
+      if (policyDocument != null) 'policyDocument': policyDocument,
+      if (policyName != null) 'policyName': policyName,
+    };
+  }
 }
 
 /// The output from the GetPolicyVersion operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPolicyVersionResponse {
   /// The date the policy was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The generation ID of the policy version.
-  @_s.JsonKey(name: 'generationId')
-  final String generationId;
+  final String? generationId;
 
   /// Specifies whether the policy version is the default.
-  @_s.JsonKey(name: 'isDefaultVersion')
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The date the policy was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The policy ARN.
-  @_s.JsonKey(name: 'policyArn')
-  final String policyArn;
+  final String? policyArn;
 
   /// The JSON document that describes the policy.
-  @_s.JsonKey(name: 'policyDocument')
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The policy name.
-  @_s.JsonKey(name: 'policyName')
-  final String policyName;
+  final String? policyName;
 
   /// The policy version ID.
-  @_s.JsonKey(name: 'policyVersionId')
-  final String policyVersionId;
+  final String? policyVersionId;
 
   GetPolicyVersionResponse({
     this.creationDate,
@@ -18032,152 +19443,225 @@ class GetPolicyVersionResponse {
     this.policyName,
     this.policyVersionId,
   });
-  factory GetPolicyVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPolicyVersionResponseFromJson(json);
+
+  factory GetPolicyVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyVersionResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      generationId: json['generationId'] as String?,
+      isDefaultVersion: json['isDefaultVersion'] as bool?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      policyArn: json['policyArn'] as String?,
+      policyDocument: json['policyDocument'] as String?,
+      policyName: json['policyName'] as String?,
+      policyVersionId: json['policyVersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final generationId = this.generationId;
+    final isDefaultVersion = this.isDefaultVersion;
+    final lastModifiedDate = this.lastModifiedDate;
+    final policyArn = this.policyArn;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    final policyVersionId = this.policyVersionId;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (generationId != null) 'generationId': generationId,
+      if (isDefaultVersion != null) 'isDefaultVersion': isDefaultVersion,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (policyArn != null) 'policyArn': policyArn,
+      if (policyDocument != null) 'policyDocument': policyDocument,
+      if (policyName != null) 'policyName': policyName,
+      if (policyVersionId != null) 'policyVersionId': policyVersionId,
+    };
+  }
 }
 
 /// The output from the GetRegistrationCode operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRegistrationCodeResponse {
   /// The CA certificate registration code.
-  @_s.JsonKey(name: 'registrationCode')
-  final String registrationCode;
+  final String? registrationCode;
 
   GetRegistrationCodeResponse({
     this.registrationCode,
   });
-  factory GetRegistrationCodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRegistrationCodeResponseFromJson(json);
+
+  factory GetRegistrationCodeResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegistrationCodeResponse(
+      registrationCode: json['registrationCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registrationCode = this.registrationCode;
+    return {
+      if (registrationCode != null) 'registrationCode': registrationCode,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetStatisticsResponse {
   /// The statistics returned by the Fleet Indexing service based on the query and
   /// aggregation field.
-  @_s.JsonKey(name: 'statistics')
-  final Statistics statistics;
+  final Statistics? statistics;
 
   GetStatisticsResponse({
     this.statistics,
   });
-  factory GetStatisticsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetStatisticsResponseFromJson(json);
+
+  factory GetStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return GetStatisticsResponse(
+      statistics: json['statistics'] != null
+          ? Statistics.fromJson(json['statistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statistics = this.statistics;
+    return {
+      if (statistics != null) 'statistics': statistics,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTopicRuleDestinationResponse {
   /// The topic rule destination.
-  @_s.JsonKey(name: 'topicRuleDestination')
-  final TopicRuleDestination topicRuleDestination;
+  final TopicRuleDestination? topicRuleDestination;
 
   GetTopicRuleDestinationResponse({
     this.topicRuleDestination,
   });
-  factory GetTopicRuleDestinationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTopicRuleDestinationResponseFromJson(json);
+
+  factory GetTopicRuleDestinationResponse.fromJson(Map<String, dynamic> json) {
+    return GetTopicRuleDestinationResponse(
+      topicRuleDestination: json['topicRuleDestination'] != null
+          ? TopicRuleDestination.fromJson(
+              json['topicRuleDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicRuleDestination = this.topicRuleDestination;
+    return {
+      if (topicRuleDestination != null)
+        'topicRuleDestination': topicRuleDestination,
+    };
+  }
 }
 
 /// The output from the GetTopicRule operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTopicRuleResponse {
   /// The rule.
-  @_s.JsonKey(name: 'rule')
-  final TopicRule rule;
+  final TopicRule? rule;
 
   /// The rule ARN.
-  @_s.JsonKey(name: 'ruleArn')
-  final String ruleArn;
+  final String? ruleArn;
 
   GetTopicRuleResponse({
     this.rule,
     this.ruleArn,
   });
-  factory GetTopicRuleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTopicRuleResponseFromJson(json);
+
+  factory GetTopicRuleResponse.fromJson(Map<String, dynamic> json) {
+    return GetTopicRuleResponse(
+      rule: json['rule'] != null
+          ? TopicRule.fromJson(json['rule'] as Map<String, dynamic>)
+          : null,
+      ruleArn: json['ruleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rule = this.rule;
+    final ruleArn = this.ruleArn;
+    return {
+      if (rule != null) 'rule': rule,
+      if (ruleArn != null) 'ruleArn': ruleArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetV2LoggingOptionsResponse {
   /// The default log level.
-  @_s.JsonKey(name: 'defaultLogLevel')
-  final LogLevel defaultLogLevel;
+  final LogLevel? defaultLogLevel;
 
   /// Disables all logs.
-  @_s.JsonKey(name: 'disableAllLogs')
-  final bool disableAllLogs;
+  final bool? disableAllLogs;
 
   /// The IAM role ARN AWS IoT uses to write to your CloudWatch logs.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   GetV2LoggingOptionsResponse({
     this.defaultLogLevel,
     this.disableAllLogs,
     this.roleArn,
   });
-  factory GetV2LoggingOptionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetV2LoggingOptionsResponseFromJson(json);
+
+  factory GetV2LoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetV2LoggingOptionsResponse(
+      defaultLogLevel: (json['defaultLogLevel'] as String?)?.toLogLevel(),
+      disableAllLogs: json['disableAllLogs'] as bool?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultLogLevel = this.defaultLogLevel;
+    final disableAllLogs = this.disableAllLogs;
+    final roleArn = this.roleArn;
+    return {
+      if (defaultLogLevel != null) 'defaultLogLevel': defaultLogLevel.toValue(),
+      if (disableAllLogs != null) 'disableAllLogs': disableAllLogs,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 /// The name and ARN of a group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupNameAndArn {
   /// The group ARN.
-  @_s.JsonKey(name: 'groupArn')
-  final String groupArn;
+  final String? groupArn;
 
   /// The group name.
-  @_s.JsonKey(name: 'groupName')
-  final String groupName;
+  final String? groupName;
 
   GroupNameAndArn({
     this.groupArn,
     this.groupName,
   });
-  factory GroupNameAndArn.fromJson(Map<String, dynamic> json) =>
-      _$GroupNameAndArnFromJson(json);
+
+  factory GroupNameAndArn.fromJson(Map<String, dynamic> json) {
+    return GroupNameAndArn(
+      groupArn: json['groupArn'] as String?,
+      groupName: json['groupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupArn = this.groupArn;
+    final groupName = this.groupName;
+    return {
+      if (groupArn != null) 'groupArn': groupArn,
+      if (groupName != null) 'groupName': groupName,
+    };
+  }
 }
 
 /// Send data to an HTTPS endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpAction {
   /// The endpoint URL. If substitution templates are used in the URL, you must
   /// also specify a <code>confirmationUrl</code>. If this is a new destination, a
   /// new <code>TopicRuleDestination</code> is created if possible.
-  @_s.JsonKey(name: 'url')
   final String url;
 
   /// The authentication method to use when sending data to an HTTPS endpoint.
-  @_s.JsonKey(name: 'auth')
-  final HttpAuthorization auth;
+  final HttpAuthorization? auth;
 
   /// The URL to which AWS IoT sends a confirmation message. The value of the
   /// confirmation URL must be a prefix of the endpoint URL. If you do not specify
@@ -18185,186 +19669,268 @@ class HttpAction {
   /// you use substitution templates in the confirmationUrl, you must create and
   /// enable topic rule destinations that match each possible value of the
   /// substitution template before traffic is allowed to your endpoint URL.
-  @_s.JsonKey(name: 'confirmationUrl')
-  final String confirmationUrl;
+  final String? confirmationUrl;
 
   /// The HTTP headers to send with the message data.
-  @_s.JsonKey(name: 'headers')
-  final List<HttpActionHeader> headers;
+  final List<HttpActionHeader>? headers;
 
   HttpAction({
-    @_s.required this.url,
+    required this.url,
     this.auth,
     this.confirmationUrl,
     this.headers,
   });
-  factory HttpAction.fromJson(Map<String, dynamic> json) =>
-      _$HttpActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HttpActionToJson(this);
+  factory HttpAction.fromJson(Map<String, dynamic> json) {
+    return HttpAction(
+      url: json['url'] as String,
+      auth: json['auth'] != null
+          ? HttpAuthorization.fromJson(json['auth'] as Map<String, dynamic>)
+          : null,
+      confirmationUrl: json['confirmationUrl'] as String?,
+      headers: (json['headers'] as List?)
+          ?.whereNotNull()
+          .map((e) => HttpActionHeader.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    final auth = this.auth;
+    final confirmationUrl = this.confirmationUrl;
+    final headers = this.headers;
+    return {
+      'url': url,
+      if (auth != null) 'auth': auth,
+      if (confirmationUrl != null) 'confirmationUrl': confirmationUrl,
+      if (headers != null) 'headers': headers,
+    };
+  }
 }
 
 /// The HTTP action header.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpActionHeader {
   /// The HTTP header key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The HTTP header value. Substitution templates are supported.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   HttpActionHeader({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory HttpActionHeader.fromJson(Map<String, dynamic> json) =>
-      _$HttpActionHeaderFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HttpActionHeaderToJson(this);
+  factory HttpActionHeader.fromJson(Map<String, dynamic> json) {
+    return HttpActionHeader(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
 /// The authorization method used to send messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HttpAuthorization {
   /// Use Sig V4 authorization. For more information, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4 Signing Process</a>.
-  @_s.JsonKey(name: 'sigv4')
-  final SigV4Authorization sigv4;
+  final SigV4Authorization? sigv4;
 
   HttpAuthorization({
     this.sigv4,
   });
-  factory HttpAuthorization.fromJson(Map<String, dynamic> json) =>
-      _$HttpAuthorizationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HttpAuthorizationToJson(this);
+  factory HttpAuthorization.fromJson(Map<String, dynamic> json) {
+    return HttpAuthorization(
+      sigv4: json['sigv4'] != null
+          ? SigV4Authorization.fromJson(json['sigv4'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sigv4 = this.sigv4;
+    return {
+      if (sigv4 != null) 'sigv4': sigv4,
+    };
+  }
 }
 
 /// Specifies the HTTP context to use for the test authorizer request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpContext {
   /// The header keys and values in an HTTP authorization request.
-  @_s.JsonKey(name: 'headers')
-  final Map<String, String> headers;
+  final Map<String, String>? headers;
 
   /// The query string keys and values in an HTTP authorization request.
-  @_s.JsonKey(name: 'queryString')
-  final String queryString;
+  final String? queryString;
 
   HttpContext({
     this.headers,
     this.queryString,
   });
-  Map<String, dynamic> toJson() => _$HttpContextToJson(this);
+
+  factory HttpContext.fromJson(Map<String, dynamic> json) {
+    return HttpContext(
+      headers: (json['headers'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      queryString: json['queryString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headers = this.headers;
+    final queryString = this.queryString;
+    return {
+      if (headers != null) 'headers': headers,
+      if (queryString != null) 'queryString': queryString,
+    };
+  }
 }
 
 /// HTTP URL destination configuration used by the topic rule's HTTP action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HttpUrlDestinationConfiguration {
   /// The URL AWS IoT uses to confirm ownership of or access to the topic rule
   /// destination URL.
-  @_s.JsonKey(name: 'confirmationUrl')
   final String confirmationUrl;
 
   HttpUrlDestinationConfiguration({
-    @_s.required this.confirmationUrl,
+    required this.confirmationUrl,
   });
-  Map<String, dynamic> toJson() =>
-      _$HttpUrlDestinationConfigurationToJson(this);
+
+  factory HttpUrlDestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return HttpUrlDestinationConfiguration(
+      confirmationUrl: json['confirmationUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confirmationUrl = this.confirmationUrl;
+    return {
+      'confirmationUrl': confirmationUrl,
+    };
+  }
 }
 
 /// HTTP URL destination properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HttpUrlDestinationProperties {
   /// The URL used to confirm the HTTP topic rule destination URL.
-  @_s.JsonKey(name: 'confirmationUrl')
-  final String confirmationUrl;
+  final String? confirmationUrl;
 
   HttpUrlDestinationProperties({
     this.confirmationUrl,
   });
-  factory HttpUrlDestinationProperties.fromJson(Map<String, dynamic> json) =>
-      _$HttpUrlDestinationPropertiesFromJson(json);
+
+  factory HttpUrlDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return HttpUrlDestinationProperties(
+      confirmationUrl: json['confirmationUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confirmationUrl = this.confirmationUrl;
+    return {
+      if (confirmationUrl != null) 'confirmationUrl': confirmationUrl,
+    };
+  }
 }
 
 /// Information about an HTTP URL destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HttpUrlDestinationSummary {
   /// The URL used to confirm ownership of or access to the HTTP topic rule
   /// destination URL.
-  @_s.JsonKey(name: 'confirmationUrl')
-  final String confirmationUrl;
+  final String? confirmationUrl;
 
   HttpUrlDestinationSummary({
     this.confirmationUrl,
   });
-  factory HttpUrlDestinationSummary.fromJson(Map<String, dynamic> json) =>
-      _$HttpUrlDestinationSummaryFromJson(json);
+
+  factory HttpUrlDestinationSummary.fromJson(Map<String, dynamic> json) {
+    return HttpUrlDestinationSummary(
+      confirmationUrl: json['confirmationUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confirmationUrl = this.confirmationUrl;
+    return {
+      if (confirmationUrl != null) 'confirmationUrl': confirmationUrl,
+    };
+  }
 }
 
 /// Information that implicitly denies authorization. When policy doesn't
 /// explicitly deny or allow an action on a resource it is considered an
 /// implicit deny.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImplicitDeny {
   /// Policies that don't contain a matching allow or deny statement for the
   /// specified action on the specified resource.
-  @_s.JsonKey(name: 'policies')
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   ImplicitDeny({
     this.policies,
   });
-  factory ImplicitDeny.fromJson(Map<String, dynamic> json) =>
-      _$ImplicitDenyFromJson(json);
+
+  factory ImplicitDeny.fromJson(Map<String, dynamic> json) {
+    return ImplicitDeny(
+      policies: (json['policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Policy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policies = this.policies;
+    return {
+      if (policies != null) 'policies': policies,
+    };
+  }
 }
 
 enum IndexStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('BUILDING')
   building,
-  @_s.JsonValue('REBUILDING')
   rebuilding,
 }
 
+extension on IndexStatus {
+  String toValue() {
+    switch (this) {
+      case IndexStatus.active:
+        return 'ACTIVE';
+      case IndexStatus.building:
+        return 'BUILDING';
+      case IndexStatus.rebuilding:
+        return 'REBUILDING';
+    }
+  }
+}
+
+extension on String {
+  IndexStatus toIndexStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return IndexStatus.active;
+      case 'BUILDING':
+        return IndexStatus.building;
+      case 'REBUILDING':
+        return IndexStatus.rebuilding;
+    }
+    throw Exception('$this is not known in enum IndexStatus');
+  }
+}
+
 /// Sends message data to an AWS IoT Analytics channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IotAnalyticsAction {
   /// Whether to process the action as a batch. The default value is
   /// <code>false</code>.
@@ -18375,22 +19941,18 @@ class IotAnalyticsAction {
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_BatchPutMessage.html">
   /// <code>BatchPutMessage</code> </a> to the AWS IoT Analytics channel. The
   /// resulting array can't have more than 100 messages.
-  @_s.JsonKey(name: 'batchMode')
-  final bool batchMode;
+  final bool? batchMode;
 
   /// (deprecated) The ARN of the IoT Analytics channel to which message data will
   /// be sent.
-  @_s.JsonKey(name: 'channelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The name of the IoT Analytics channel to which message data will be sent.
-  @_s.JsonKey(name: 'channelName')
-  final String channelName;
+  final String? channelName;
 
   /// The ARN of the role which has a policy that grants IoT Analytics permission
   /// to send message data via IoT Analytics (iotanalytics:BatchPutMessage).
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   IotAnalyticsAction({
     this.batchMode,
@@ -18398,26 +19960,37 @@ class IotAnalyticsAction {
     this.channelName,
     this.roleArn,
   });
-  factory IotAnalyticsAction.fromJson(Map<String, dynamic> json) =>
-      _$IotAnalyticsActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$IotAnalyticsActionToJson(this);
+  factory IotAnalyticsAction.fromJson(Map<String, dynamic> json) {
+    return IotAnalyticsAction(
+      batchMode: json['batchMode'] as bool?,
+      channelArn: json['channelArn'] as String?,
+      channelName: json['channelName'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchMode = this.batchMode;
+    final channelArn = this.channelArn;
+    final channelName = this.channelName;
+    final roleArn = this.roleArn;
+    return {
+      if (batchMode != null) 'batchMode': batchMode,
+      if (channelArn != null) 'channelArn': channelArn,
+      if (channelName != null) 'channelName': channelName,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 /// Sends an input to an AWS IoT Events detector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IotEventsAction {
   /// The name of the AWS IoT Events input.
-  @_s.JsonKey(name: 'inputName')
   final String inputName;
 
   /// The ARN of the role that grants AWS IoT permission to send an input to an
   /// AWS IoT Events detector. ("Action":"iotevents:BatchPutMessage").
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Whether to process the event actions as a batch. The default value is
@@ -18432,8 +20005,7 @@ class IotEventsAction {
   /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_BatchPutMessage.html">
   /// <code>BatchPutMessage</code> </a>. The resulting array can't have more than
   /// 10 messages.
-  @_s.JsonKey(name: 'batchMode')
-  final bool batchMode;
+  final bool? batchMode;
 
   /// The ID of the message. The default <code>messageId</code> is a new UUID
   /// value.
@@ -18444,105 +20016,116 @@ class IotEventsAction {
   /// Assign a value to this property to ensure that only one input (message) with
   /// a given <code>messageId</code> will be processed by an AWS IoT Events
   /// detector.
-  @_s.JsonKey(name: 'messageId')
-  final String messageId;
+  final String? messageId;
 
   IotEventsAction({
-    @_s.required this.inputName,
-    @_s.required this.roleArn,
+    required this.inputName,
+    required this.roleArn,
     this.batchMode,
     this.messageId,
   });
-  factory IotEventsAction.fromJson(Map<String, dynamic> json) =>
-      _$IotEventsActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$IotEventsActionToJson(this);
+  factory IotEventsAction.fromJson(Map<String, dynamic> json) {
+    return IotEventsAction(
+      inputName: json['inputName'] as String,
+      roleArn: json['roleArn'] as String,
+      batchMode: json['batchMode'] as bool?,
+      messageId: json['messageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputName = this.inputName;
+    final roleArn = this.roleArn;
+    final batchMode = this.batchMode;
+    final messageId = this.messageId;
+    return {
+      'inputName': inputName,
+      'roleArn': roleArn,
+      if (batchMode != null) 'batchMode': batchMode,
+      if (messageId != null) 'messageId': messageId,
+    };
+  }
 }
 
 /// Describes an action to send data from an MQTT message that triggered the
 /// rule to AWS IoT SiteWise asset properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IotSiteWiseAction {
   /// A list of asset property value entries.
-  @_s.JsonKey(name: 'putAssetPropertyValueEntries')
   final List<PutAssetPropertyValueEntry> putAssetPropertyValueEntries;
 
   /// The ARN of the role that grants AWS IoT permission to send an asset property
   /// value to AWS IoTSiteWise. (<code>"Action":
   /// "iotsitewise:BatchPutAssetPropertyValue"</code>). The trust policy can
   /// restrict access to specific asset hierarchy paths.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   IotSiteWiseAction({
-    @_s.required this.putAssetPropertyValueEntries,
-    @_s.required this.roleArn,
+    required this.putAssetPropertyValueEntries,
+    required this.roleArn,
   });
-  factory IotSiteWiseAction.fromJson(Map<String, dynamic> json) =>
-      _$IotSiteWiseActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$IotSiteWiseActionToJson(this);
+  factory IotSiteWiseAction.fromJson(Map<String, dynamic> json) {
+    return IotSiteWiseAction(
+      putAssetPropertyValueEntries: (json['putAssetPropertyValueEntries']
+              as List)
+          .whereNotNull()
+          .map((e) =>
+              PutAssetPropertyValueEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final putAssetPropertyValueEntries = this.putAssetPropertyValueEntries;
+    final roleArn = this.roleArn;
+    return {
+      'putAssetPropertyValueEntries': putAssetPropertyValueEntries,
+      'roleArn': roleArn,
+    };
+  }
 }
 
 /// The <code>Job</code> object contains details about a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Job {
   /// Configuration for criteria to abort the job.
-  @_s.JsonKey(name: 'abortConfig')
-  final AbortConfig abortConfig;
+  final AbortConfig? abortConfig;
 
   /// If the job was updated, describes the reason for the update.
-  @_s.JsonKey(name: 'comment')
-  final String comment;
+  final String? comment;
 
   /// The time, in seconds since the epoch, when the job was completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'completedAt')
-  final DateTime completedAt;
+  final DateTime? completedAt;
 
   /// The time, in seconds since the epoch, when the job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// A short text description of the job.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Will be <code>true</code> if the job was canceled with the optional
   /// <code>force</code> parameter set to <code>true</code>.
-  @_s.JsonKey(name: 'forceCanceled')
-  final bool forceCanceled;
+  final bool? forceCanceled;
 
   /// An ARN identifying the job with format
   /// "arn:aws:iot:region:account:job/jobId".
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   /// Allows you to create a staged rollout of a job.
-  @_s.JsonKey(name: 'jobExecutionsRolloutConfig')
-  final JobExecutionsRolloutConfig jobExecutionsRolloutConfig;
+  final JobExecutionsRolloutConfig? jobExecutionsRolloutConfig;
 
   /// The unique identifier you assigned to this job when it was created.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// Details about the job process.
-  @_s.JsonKey(name: 'jobProcessDetails')
-  final JobProcessDetails jobProcessDetails;
+  final JobProcessDetails? jobProcessDetails;
+
+  /// The ARN of the job template used to create the job.
+  final String? jobTemplateArn;
 
   /// The time, in seconds since the epoch, when the job was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The namespace used to indicate that a job is a customer-managed job.
   ///
@@ -18553,22 +20136,18 @@ class Job {
   /// <note>
   /// The <code>namespaceId</code> feature is in public preview.
   /// </note>
-  @_s.JsonKey(name: 'namespaceId')
-  final String namespaceId;
+  final String? namespaceId;
 
   /// Configuration for pre-signed S3 URLs.
-  @_s.JsonKey(name: 'presignedUrlConfig')
-  final PresignedUrlConfig presignedUrlConfig;
+  final PresignedUrlConfig? presignedUrlConfig;
 
   /// If the job was updated, provides the reason code for the update.
-  @_s.JsonKey(name: 'reasonCode')
-  final String reasonCode;
+  final String? reasonCode;
 
   /// The status of the job, one of <code>IN_PROGRESS</code>,
   /// <code>CANCELED</code>, <code>DELETION_IN_PROGRESS</code> or
   /// <code>COMPLETED</code>.
-  @_s.JsonKey(name: 'status')
-  final JobStatus status;
+  final JobStatus? status;
 
   /// Specifies whether the job will continue to run (CONTINUOUS), or will be
   /// complete after all those things specified as targets have completed the job
@@ -18576,20 +20155,17 @@ class Job {
   /// is detected in a target. For example, a job will run on a device when the
   /// thing representing the device is added to a target group, even after the job
   /// was completed by all things originally in the group.
-  @_s.JsonKey(name: 'targetSelection')
-  final TargetSelection targetSelection;
+  final TargetSelection? targetSelection;
 
   /// A list of IoT things and thing groups to which the job should be sent.
-  @_s.JsonKey(name: 'targets')
-  final List<String> targets;
+  final List<String>? targets;
 
   /// Specifies the amount of time each device has to finish its execution of the
   /// job. A timer is started when the job execution status is set to
   /// <code>IN_PROGRESS</code>. If the job execution status is not set to another
   /// terminal state before the timer expires, it will be automatically set to
   /// <code>TIMED_OUT</code>.
-  @_s.JsonKey(name: 'timeoutConfig')
-  final TimeoutConfig timeoutConfig;
+  final TimeoutConfig? timeoutConfig;
 
   Job({
     this.abortConfig,
@@ -18602,6 +20178,7 @@ class Job {
     this.jobExecutionsRolloutConfig,
     this.jobId,
     this.jobProcessDetails,
+    this.jobTemplateArn,
     this.lastUpdatedAt,
     this.namespaceId,
     this.presignedUrlConfig,
@@ -18611,16 +20188,97 @@ class Job {
     this.targets,
     this.timeoutConfig,
   });
-  factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
+
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      abortConfig: json['abortConfig'] != null
+          ? AbortConfig.fromJson(json['abortConfig'] as Map<String, dynamic>)
+          : null,
+      comment: json['comment'] as String?,
+      completedAt: timeStampFromJson(json['completedAt']),
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      forceCanceled: json['forceCanceled'] as bool?,
+      jobArn: json['jobArn'] as String?,
+      jobExecutionsRolloutConfig: json['jobExecutionsRolloutConfig'] != null
+          ? JobExecutionsRolloutConfig.fromJson(
+              json['jobExecutionsRolloutConfig'] as Map<String, dynamic>)
+          : null,
+      jobId: json['jobId'] as String?,
+      jobProcessDetails: json['jobProcessDetails'] != null
+          ? JobProcessDetails.fromJson(
+              json['jobProcessDetails'] as Map<String, dynamic>)
+          : null,
+      jobTemplateArn: json['jobTemplateArn'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      namespaceId: json['namespaceId'] as String?,
+      presignedUrlConfig: json['presignedUrlConfig'] != null
+          ? PresignedUrlConfig.fromJson(
+              json['presignedUrlConfig'] as Map<String, dynamic>)
+          : null,
+      reasonCode: json['reasonCode'] as String?,
+      status: (json['status'] as String?)?.toJobStatus(),
+      targetSelection:
+          (json['targetSelection'] as String?)?.toTargetSelection(),
+      targets: (json['targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      timeoutConfig: json['timeoutConfig'] != null
+          ? TimeoutConfig.fromJson(
+              json['timeoutConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abortConfig = this.abortConfig;
+    final comment = this.comment;
+    final completedAt = this.completedAt;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final forceCanceled = this.forceCanceled;
+    final jobArn = this.jobArn;
+    final jobExecutionsRolloutConfig = this.jobExecutionsRolloutConfig;
+    final jobId = this.jobId;
+    final jobProcessDetails = this.jobProcessDetails;
+    final jobTemplateArn = this.jobTemplateArn;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final namespaceId = this.namespaceId;
+    final presignedUrlConfig = this.presignedUrlConfig;
+    final reasonCode = this.reasonCode;
+    final status = this.status;
+    final targetSelection = this.targetSelection;
+    final targets = this.targets;
+    final timeoutConfig = this.timeoutConfig;
+    return {
+      if (abortConfig != null) 'abortConfig': abortConfig,
+      if (comment != null) 'comment': comment,
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (forceCanceled != null) 'forceCanceled': forceCanceled,
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobExecutionsRolloutConfig != null)
+        'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (jobId != null) 'jobId': jobId,
+      if (jobProcessDetails != null) 'jobProcessDetails': jobProcessDetails,
+      if (jobTemplateArn != null) 'jobTemplateArn': jobTemplateArn,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (namespaceId != null) 'namespaceId': namespaceId,
+      if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
+      if (reasonCode != null) 'reasonCode': reasonCode,
+      if (status != null) 'status': status.toValue(),
+      if (targetSelection != null) 'targetSelection': targetSelection.toValue(),
+      if (targets != null) 'targets': targets,
+      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
+    };
+  }
 }
 
 /// The job execution object represents the execution of a job on a particular
 /// device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobExecution {
   /// The estimated number of seconds that remain before the job execution status
   /// will be changed to <code>TIMED_OUT</code>. The timeout interval can be
@@ -18628,58 +20286,44 @@ class JobExecution {
   /// execution timeout can occur up to 60 seconds later than the estimated
   /// duration. This value will not be included if the job execution has reached a
   /// terminal status.
-  @_s.JsonKey(name: 'approximateSecondsBeforeTimedOut')
-  final int approximateSecondsBeforeTimedOut;
+  final int? approximateSecondsBeforeTimedOut;
 
   /// A string (consisting of the digits "0" through "9") which identifies this
   /// particular job execution on this particular device. It can be used in
   /// commands which return or update job execution information.
-  @_s.JsonKey(name: 'executionNumber')
-  final int executionNumber;
+  final int? executionNumber;
 
   /// Will be <code>true</code> if the job execution was canceled with the
   /// optional <code>force</code> parameter set to <code>true</code>.
-  @_s.JsonKey(name: 'forceCanceled')
-  final bool forceCanceled;
+  final bool? forceCanceled;
 
   /// The unique identifier you assigned to the job when it was created.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The time, in seconds since the epoch, when the job execution was last
   /// updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The time, in seconds since the epoch, when the job execution was queued.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'queuedAt')
-  final DateTime queuedAt;
+  final DateTime? queuedAt;
 
   /// The time, in seconds since the epoch, when the job execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The status of the job execution (IN_PROGRESS, QUEUED, FAILED, SUCCEEDED,
   /// TIMED_OUT, CANCELED, or REJECTED).
-  @_s.JsonKey(name: 'status')
-  final JobExecutionStatus status;
+  final JobExecutionStatus? status;
 
   /// A collection of name/value pairs that describe the status of the job
   /// execution.
-  @_s.JsonKey(name: 'statusDetails')
-  final JobExecutionStatusDetails statusDetails;
+  final JobExecutionStatusDetails? statusDetails;
 
   /// The ARN of the thing on which the job execution is running.
-  @_s.JsonKey(name: 'thingArn')
-  final String thingArn;
+  final String? thingArn;
 
   /// The version of the job execution. Job execution versions are incremented
   /// each time they are updated by a device.
-  @_s.JsonKey(name: 'versionNumber')
-  final int versionNumber;
+  final int? versionNumber;
 
   JobExecution({
     this.approximateSecondsBeforeTimedOut,
@@ -18694,37 +20338,104 @@ class JobExecution {
     this.thingArn,
     this.versionNumber,
   });
-  factory JobExecution.fromJson(Map<String, dynamic> json) =>
-      _$JobExecutionFromJson(json);
+
+  factory JobExecution.fromJson(Map<String, dynamic> json) {
+    return JobExecution(
+      approximateSecondsBeforeTimedOut:
+          json['approximateSecondsBeforeTimedOut'] as int?,
+      executionNumber: json['executionNumber'] as int?,
+      forceCanceled: json['forceCanceled'] as bool?,
+      jobId: json['jobId'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      queuedAt: timeStampFromJson(json['queuedAt']),
+      startedAt: timeStampFromJson(json['startedAt']),
+      status: (json['status'] as String?)?.toJobExecutionStatus(),
+      statusDetails: json['statusDetails'] != null
+          ? JobExecutionStatusDetails.fromJson(
+              json['statusDetails'] as Map<String, dynamic>)
+          : null,
+      thingArn: json['thingArn'] as String?,
+      versionNumber: json['versionNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateSecondsBeforeTimedOut =
+        this.approximateSecondsBeforeTimedOut;
+    final executionNumber = this.executionNumber;
+    final forceCanceled = this.forceCanceled;
+    final jobId = this.jobId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final queuedAt = this.queuedAt;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final thingArn = this.thingArn;
+    final versionNumber = this.versionNumber;
+    return {
+      if (approximateSecondsBeforeTimedOut != null)
+        'approximateSecondsBeforeTimedOut': approximateSecondsBeforeTimedOut,
+      if (executionNumber != null) 'executionNumber': executionNumber,
+      if (forceCanceled != null) 'forceCanceled': forceCanceled,
+      if (jobId != null) 'jobId': jobId,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (queuedAt != null) 'queuedAt': unixTimestampToJson(queuedAt),
+      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
+      if (status != null) 'status': status.toValue(),
+      if (statusDetails != null) 'statusDetails': statusDetails,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (versionNumber != null) 'versionNumber': versionNumber,
+    };
+  }
 }
 
 enum JobExecutionFailureType {
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('TIMED_OUT')
   timedOut,
-  @_s.JsonValue('ALL')
   all,
 }
 
+extension on JobExecutionFailureType {
+  String toValue() {
+    switch (this) {
+      case JobExecutionFailureType.failed:
+        return 'FAILED';
+      case JobExecutionFailureType.rejected:
+        return 'REJECTED';
+      case JobExecutionFailureType.timedOut:
+        return 'TIMED_OUT';
+      case JobExecutionFailureType.all:
+        return 'ALL';
+    }
+  }
+}
+
+extension on String {
+  JobExecutionFailureType toJobExecutionFailureType() {
+    switch (this) {
+      case 'FAILED':
+        return JobExecutionFailureType.failed;
+      case 'REJECTED':
+        return JobExecutionFailureType.rejected;
+      case 'TIMED_OUT':
+        return JobExecutionFailureType.timedOut;
+      case 'ALL':
+        return JobExecutionFailureType.all;
+    }
+    throw Exception('$this is not known in enum JobExecutionFailureType');
+  }
+}
+
 enum JobExecutionStatus {
-  @_s.JsonValue('QUEUED')
   queued,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('TIMED_OUT')
   timedOut,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('REMOVED')
   removed,
-  @_s.JsonValue('CANCELED')
   canceled,
 }
 
@@ -18748,60 +20459,76 @@ extension on JobExecutionStatus {
       case JobExecutionStatus.canceled:
         return 'CANCELED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JobExecutionStatus toJobExecutionStatus() {
+    switch (this) {
+      case 'QUEUED':
+        return JobExecutionStatus.queued;
+      case 'IN_PROGRESS':
+        return JobExecutionStatus.inProgress;
+      case 'SUCCEEDED':
+        return JobExecutionStatus.succeeded;
+      case 'FAILED':
+        return JobExecutionStatus.failed;
+      case 'TIMED_OUT':
+        return JobExecutionStatus.timedOut;
+      case 'REJECTED':
+        return JobExecutionStatus.rejected;
+      case 'REMOVED':
+        return JobExecutionStatus.removed;
+      case 'CANCELED':
+        return JobExecutionStatus.canceled;
+    }
+    throw Exception('$this is not known in enum JobExecutionStatus');
   }
 }
 
 /// Details of the job execution status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobExecutionStatusDetails {
   /// The job execution status.
-  @_s.JsonKey(name: 'detailsMap')
-  final Map<String, String> detailsMap;
+  final Map<String, String>? detailsMap;
 
   JobExecutionStatusDetails({
     this.detailsMap,
   });
-  factory JobExecutionStatusDetails.fromJson(Map<String, dynamic> json) =>
-      _$JobExecutionStatusDetailsFromJson(json);
+
+  factory JobExecutionStatusDetails.fromJson(Map<String, dynamic> json) {
+    return JobExecutionStatusDetails(
+      detailsMap: (json['detailsMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detailsMap = this.detailsMap;
+    return {
+      if (detailsMap != null) 'detailsMap': detailsMap,
+    };
+  }
 }
 
 /// The job execution summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobExecutionSummary {
   /// A string (consisting of the digits "0" through "9") which identifies this
   /// particular job execution on this particular device. It can be used later in
   /// commands which return or update job execution information.
-  @_s.JsonKey(name: 'executionNumber')
-  final int executionNumber;
+  final int? executionNumber;
 
   /// The time, in seconds since the epoch, when the job execution was last
   /// updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The time, in seconds since the epoch, when the job execution was queued.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'queuedAt')
-  final DateTime queuedAt;
+  final DateTime? queuedAt;
 
   /// The time, in seconds since the epoch, when the job execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startedAt')
-  final DateTime startedAt;
+  final DateTime? startedAt;
 
   /// The status of the job execution.
-  @_s.JsonKey(name: 'status')
-  final JobExecutionStatus status;
+  final JobExecutionStatus? status;
 
   JobExecutionSummary({
     this.executionNumber,
@@ -18810,129 +20537,169 @@ class JobExecutionSummary {
     this.startedAt,
     this.status,
   });
-  factory JobExecutionSummary.fromJson(Map<String, dynamic> json) =>
-      _$JobExecutionSummaryFromJson(json);
+
+  factory JobExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return JobExecutionSummary(
+      executionNumber: json['executionNumber'] as int?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      queuedAt: timeStampFromJson(json['queuedAt']),
+      startedAt: timeStampFromJson(json['startedAt']),
+      status: (json['status'] as String?)?.toJobExecutionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionNumber = this.executionNumber;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final queuedAt = this.queuedAt;
+    final startedAt = this.startedAt;
+    final status = this.status;
+    return {
+      if (executionNumber != null) 'executionNumber': executionNumber,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (queuedAt != null) 'queuedAt': unixTimestampToJson(queuedAt),
+      if (startedAt != null) 'startedAt': unixTimestampToJson(startedAt),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains a summary of information about job executions for a specific job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobExecutionSummaryForJob {
   /// Contains a subset of information about a job execution.
-  @_s.JsonKey(name: 'jobExecutionSummary')
-  final JobExecutionSummary jobExecutionSummary;
+  final JobExecutionSummary? jobExecutionSummary;
 
   /// The ARN of the thing on which the job execution is running.
-  @_s.JsonKey(name: 'thingArn')
-  final String thingArn;
+  final String? thingArn;
 
   JobExecutionSummaryForJob({
     this.jobExecutionSummary,
     this.thingArn,
   });
-  factory JobExecutionSummaryForJob.fromJson(Map<String, dynamic> json) =>
-      _$JobExecutionSummaryForJobFromJson(json);
+
+  factory JobExecutionSummaryForJob.fromJson(Map<String, dynamic> json) {
+    return JobExecutionSummaryForJob(
+      jobExecutionSummary: json['jobExecutionSummary'] != null
+          ? JobExecutionSummary.fromJson(
+              json['jobExecutionSummary'] as Map<String, dynamic>)
+          : null,
+      thingArn: json['thingArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobExecutionSummary = this.jobExecutionSummary;
+    final thingArn = this.thingArn;
+    return {
+      if (jobExecutionSummary != null)
+        'jobExecutionSummary': jobExecutionSummary,
+      if (thingArn != null) 'thingArn': thingArn,
+    };
+  }
 }
 
 /// The job execution summary for a thing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobExecutionSummaryForThing {
   /// Contains a subset of information about a job execution.
-  @_s.JsonKey(name: 'jobExecutionSummary')
-  final JobExecutionSummary jobExecutionSummary;
+  final JobExecutionSummary? jobExecutionSummary;
 
   /// The unique identifier you assigned to this job when it was created.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   JobExecutionSummaryForThing({
     this.jobExecutionSummary,
     this.jobId,
   });
-  factory JobExecutionSummaryForThing.fromJson(Map<String, dynamic> json) =>
-      _$JobExecutionSummaryForThingFromJson(json);
+
+  factory JobExecutionSummaryForThing.fromJson(Map<String, dynamic> json) {
+    return JobExecutionSummaryForThing(
+      jobExecutionSummary: json['jobExecutionSummary'] != null
+          ? JobExecutionSummary.fromJson(
+              json['jobExecutionSummary'] as Map<String, dynamic>)
+          : null,
+      jobId: json['jobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobExecutionSummary = this.jobExecutionSummary;
+    final jobId = this.jobId;
+    return {
+      if (jobExecutionSummary != null)
+        'jobExecutionSummary': jobExecutionSummary,
+      if (jobId != null) 'jobId': jobId,
+    };
+  }
 }
 
 /// Allows you to create a staged rollout of a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobExecutionsRolloutConfig {
   /// The rate of increase for a job rollout. This parameter allows you to define
   /// an exponential rate for a job rollout.
-  @_s.JsonKey(name: 'exponentialRate')
-  final ExponentialRolloutRate exponentialRate;
+  final ExponentialRolloutRate? exponentialRate;
 
   /// The maximum number of things that will be notified of a pending job, per
   /// minute. This parameter allows you to create a staged rollout.
-  @_s.JsonKey(name: 'maximumPerMinute')
-  final int maximumPerMinute;
+  final int? maximumPerMinute;
 
   JobExecutionsRolloutConfig({
     this.exponentialRate,
     this.maximumPerMinute,
   });
-  factory JobExecutionsRolloutConfig.fromJson(Map<String, dynamic> json) =>
-      _$JobExecutionsRolloutConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JobExecutionsRolloutConfigToJson(this);
+  factory JobExecutionsRolloutConfig.fromJson(Map<String, dynamic> json) {
+    return JobExecutionsRolloutConfig(
+      exponentialRate: json['exponentialRate'] != null
+          ? ExponentialRolloutRate.fromJson(
+              json['exponentialRate'] as Map<String, dynamic>)
+          : null,
+      maximumPerMinute: json['maximumPerMinute'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exponentialRate = this.exponentialRate;
+    final maximumPerMinute = this.maximumPerMinute;
+    return {
+      if (exponentialRate != null) 'exponentialRate': exponentialRate,
+      if (maximumPerMinute != null) 'maximumPerMinute': maximumPerMinute,
+    };
+  }
 }
 
 /// The job process details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobProcessDetails {
   /// The number of things that cancelled the job.
-  @_s.JsonKey(name: 'numberOfCanceledThings')
-  final int numberOfCanceledThings;
+  final int? numberOfCanceledThings;
 
   /// The number of things that failed executing the job.
-  @_s.JsonKey(name: 'numberOfFailedThings')
-  final int numberOfFailedThings;
+  final int? numberOfFailedThings;
 
   /// The number of things currently executing the job.
-  @_s.JsonKey(name: 'numberOfInProgressThings')
-  final int numberOfInProgressThings;
+  final int? numberOfInProgressThings;
 
   /// The number of things that are awaiting execution of the job.
-  @_s.JsonKey(name: 'numberOfQueuedThings')
-  final int numberOfQueuedThings;
+  final int? numberOfQueuedThings;
 
   /// The number of things that rejected the job.
-  @_s.JsonKey(name: 'numberOfRejectedThings')
-  final int numberOfRejectedThings;
+  final int? numberOfRejectedThings;
 
   /// The number of things that are no longer scheduled to execute the job because
   /// they have been deleted or have been removed from the group that was a target
   /// of the job.
-  @_s.JsonKey(name: 'numberOfRemovedThings')
-  final int numberOfRemovedThings;
+  final int? numberOfRemovedThings;
 
   /// The number of things which successfully completed the job.
-  @_s.JsonKey(name: 'numberOfSucceededThings')
-  final int numberOfSucceededThings;
+  final int? numberOfSucceededThings;
 
   /// The number of things whose job execution status is <code>TIMED_OUT</code>.
-  @_s.JsonKey(name: 'numberOfTimedOutThings')
-  final int numberOfTimedOutThings;
+  final int? numberOfTimedOutThings;
 
   /// The target devices to which the job execution is being rolled out. This
   /// value will be null after the job execution has finished rolling out to all
   /// the target devices.
-  @_s.JsonKey(name: 'processingTargets')
-  final List<String> processingTargets;
+  final List<String>? processingTargets;
 
   JobProcessDetails({
     this.numberOfCanceledThings,
@@ -18945,18 +20712,60 @@ class JobProcessDetails {
     this.numberOfTimedOutThings,
     this.processingTargets,
   });
-  factory JobProcessDetails.fromJson(Map<String, dynamic> json) =>
-      _$JobProcessDetailsFromJson(json);
+
+  factory JobProcessDetails.fromJson(Map<String, dynamic> json) {
+    return JobProcessDetails(
+      numberOfCanceledThings: json['numberOfCanceledThings'] as int?,
+      numberOfFailedThings: json['numberOfFailedThings'] as int?,
+      numberOfInProgressThings: json['numberOfInProgressThings'] as int?,
+      numberOfQueuedThings: json['numberOfQueuedThings'] as int?,
+      numberOfRejectedThings: json['numberOfRejectedThings'] as int?,
+      numberOfRemovedThings: json['numberOfRemovedThings'] as int?,
+      numberOfSucceededThings: json['numberOfSucceededThings'] as int?,
+      numberOfTimedOutThings: json['numberOfTimedOutThings'] as int?,
+      processingTargets: (json['processingTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfCanceledThings = this.numberOfCanceledThings;
+    final numberOfFailedThings = this.numberOfFailedThings;
+    final numberOfInProgressThings = this.numberOfInProgressThings;
+    final numberOfQueuedThings = this.numberOfQueuedThings;
+    final numberOfRejectedThings = this.numberOfRejectedThings;
+    final numberOfRemovedThings = this.numberOfRemovedThings;
+    final numberOfSucceededThings = this.numberOfSucceededThings;
+    final numberOfTimedOutThings = this.numberOfTimedOutThings;
+    final processingTargets = this.processingTargets;
+    return {
+      if (numberOfCanceledThings != null)
+        'numberOfCanceledThings': numberOfCanceledThings,
+      if (numberOfFailedThings != null)
+        'numberOfFailedThings': numberOfFailedThings,
+      if (numberOfInProgressThings != null)
+        'numberOfInProgressThings': numberOfInProgressThings,
+      if (numberOfQueuedThings != null)
+        'numberOfQueuedThings': numberOfQueuedThings,
+      if (numberOfRejectedThings != null)
+        'numberOfRejectedThings': numberOfRejectedThings,
+      if (numberOfRemovedThings != null)
+        'numberOfRemovedThings': numberOfRemovedThings,
+      if (numberOfSucceededThings != null)
+        'numberOfSucceededThings': numberOfSucceededThings,
+      if (numberOfTimedOutThings != null)
+        'numberOfTimedOutThings': numberOfTimedOutThings,
+      if (processingTargets != null) 'processingTargets': processingTargets,
+    };
+  }
 }
 
 enum JobStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('CANCELED')
   canceled,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('DELETION_IN_PROGRESS')
   deletionInProgress,
 }
 
@@ -18972,43 +20781,44 @@ extension on JobStatus {
       case JobStatus.deletionInProgress:
         return 'DELETION_IN_PROGRESS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return JobStatus.inProgress;
+      case 'CANCELED':
+        return JobStatus.canceled;
+      case 'COMPLETED':
+        return JobStatus.completed;
+      case 'DELETION_IN_PROGRESS':
+        return JobStatus.deletionInProgress;
+    }
+    throw Exception('$this is not known in enum JobStatus');
   }
 }
 
 /// The job summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobSummary {
   /// The time, in seconds since the epoch, when the job completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'completedAt')
-  final DateTime completedAt;
+  final DateTime? completedAt;
 
   /// The time, in seconds since the epoch, when the job was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The job ARN.
-  @_s.JsonKey(name: 'jobArn')
-  final String jobArn;
+  final String? jobArn;
 
   /// The unique identifier you assigned to this job when it was created.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The time, in seconds since the epoch, when the job was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The job summary status.
-  @_s.JsonKey(name: 'status')
-  final JobStatus status;
+  final JobStatus? status;
 
   /// Specifies whether the job will continue to run (CONTINUOUS), or will be
   /// complete after all those things specified as targets have completed the job
@@ -19016,12 +20826,10 @@ class JobSummary {
   /// is detected in a target. For example, a job will run on a thing when the
   /// thing is added to a target group, even after the job was completed by all
   /// things originally in the group.
-  @_s.JsonKey(name: 'targetSelection')
-  final TargetSelection targetSelection;
+  final TargetSelection? targetSelection;
 
   /// The ID of the thing group.
-  @_s.JsonKey(name: 'thingGroupId')
-  final String thingGroupId;
+  final String? thingGroupId;
 
   JobSummary({
     this.completedAt,
@@ -19033,1350 +20841,2025 @@ class JobSummary {
     this.targetSelection,
     this.thingGroupId,
   });
-  factory JobSummary.fromJson(Map<String, dynamic> json) =>
-      _$JobSummaryFromJson(json);
+
+  factory JobSummary.fromJson(Map<String, dynamic> json) {
+    return JobSummary(
+      completedAt: timeStampFromJson(json['completedAt']),
+      createdAt: timeStampFromJson(json['createdAt']),
+      jobArn: json['jobArn'] as String?,
+      jobId: json['jobId'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      status: (json['status'] as String?)?.toJobStatus(),
+      targetSelection:
+          (json['targetSelection'] as String?)?.toTargetSelection(),
+      thingGroupId: json['thingGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completedAt = this.completedAt;
+    final createdAt = this.createdAt;
+    final jobArn = this.jobArn;
+    final jobId = this.jobId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    final targetSelection = this.targetSelection;
+    final thingGroupId = this.thingGroupId;
+    return {
+      if (completedAt != null) 'completedAt': unixTimestampToJson(completedAt),
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (jobArn != null) 'jobArn': jobArn,
+      if (jobId != null) 'jobId': jobId,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'status': status.toValue(),
+      if (targetSelection != null) 'targetSelection': targetSelection.toValue(),
+      if (thingGroupId != null) 'thingGroupId': thingGroupId,
+    };
+  }
+}
+
+/// An object that contains information about the job template.
+class JobTemplateSummary {
+  /// The time, in seconds since the epoch, when the job template was created.
+  final DateTime? createdAt;
+
+  /// A description of the job template.
+  final String? description;
+
+  /// The ARN of the job template.
+  final String? jobTemplateArn;
+
+  /// The unique identifier of the job template.
+  final String? jobTemplateId;
+
+  JobTemplateSummary({
+    this.createdAt,
+    this.description,
+    this.jobTemplateArn,
+    this.jobTemplateId,
+  });
+
+  factory JobTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return JobTemplateSummary(
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      jobTemplateArn: json['jobTemplateArn'] as String?,
+      jobTemplateId: json['jobTemplateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final jobTemplateArn = this.jobTemplateArn;
+    final jobTemplateId = this.jobTemplateId;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (jobTemplateArn != null) 'jobTemplateArn': jobTemplateArn,
+      if (jobTemplateId != null) 'jobTemplateId': jobTemplateId,
+    };
+  }
 }
 
 /// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK)
 /// or self-managed Apache Kafka cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KafkaAction {
   /// Properties of the Apache Kafka producer client.
-  @_s.JsonKey(name: 'clientProperties')
   final Map<String, String> clientProperties;
 
   /// The ARN of Kafka action's VPC <code>TopicRuleDestination</code>.
-  @_s.JsonKey(name: 'destinationArn')
   final String destinationArn;
 
   /// The Kafka topic for messages to be sent to the Kafka broker.
-  @_s.JsonKey(name: 'topic')
   final String topic;
 
   /// The Kafka message key.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The Kafka message partition.
-  @_s.JsonKey(name: 'partition')
-  final String partition;
+  final String? partition;
 
   KafkaAction({
-    @_s.required this.clientProperties,
-    @_s.required this.destinationArn,
-    @_s.required this.topic,
+    required this.clientProperties,
+    required this.destinationArn,
+    required this.topic,
     this.key,
     this.partition,
   });
-  factory KafkaAction.fromJson(Map<String, dynamic> json) =>
-      _$KafkaActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KafkaActionToJson(this);
+  factory KafkaAction.fromJson(Map<String, dynamic> json) {
+    return KafkaAction(
+      clientProperties: (json['clientProperties'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      destinationArn: json['destinationArn'] as String,
+      topic: json['topic'] as String,
+      key: json['key'] as String?,
+      partition: json['partition'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientProperties = this.clientProperties;
+    final destinationArn = this.destinationArn;
+    final topic = this.topic;
+    final key = this.key;
+    final partition = this.partition;
+    return {
+      'clientProperties': clientProperties,
+      'destinationArn': destinationArn,
+      'topic': topic,
+      if (key != null) 'key': key,
+      if (partition != null) 'partition': partition,
+    };
+  }
 }
 
 /// Describes a key pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeyPair {
   /// The private key.
-  @_s.JsonKey(name: 'PrivateKey')
-  final String privateKey;
+  final String? privateKey;
 
   /// The public key.
-  @_s.JsonKey(name: 'PublicKey')
-  final String publicKey;
+  final String? publicKey;
 
   KeyPair({
     this.privateKey,
     this.publicKey,
   });
-  factory KeyPair.fromJson(Map<String, dynamic> json) =>
-      _$KeyPairFromJson(json);
+
+  factory KeyPair.fromJson(Map<String, dynamic> json) {
+    return KeyPair(
+      privateKey: json['PrivateKey'] as String?,
+      publicKey: json['PublicKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final privateKey = this.privateKey;
+    final publicKey = this.publicKey;
+    return {
+      if (privateKey != null) 'PrivateKey': privateKey,
+      if (publicKey != null) 'PublicKey': publicKey,
+    };
+  }
 }
 
 /// Describes an action to write data to an Amazon Kinesis stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KinesisAction {
   /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The name of the Amazon Kinesis stream.
-  @_s.JsonKey(name: 'streamName')
   final String streamName;
 
   /// The partition key.
-  @_s.JsonKey(name: 'partitionKey')
-  final String partitionKey;
+  final String? partitionKey;
 
   KinesisAction({
-    @_s.required this.roleArn,
-    @_s.required this.streamName,
+    required this.roleArn,
+    required this.streamName,
     this.partitionKey,
   });
-  factory KinesisAction.fromJson(Map<String, dynamic> json) =>
-      _$KinesisActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KinesisActionToJson(this);
+  factory KinesisAction.fromJson(Map<String, dynamic> json) {
+    return KinesisAction(
+      roleArn: json['roleArn'] as String,
+      streamName: json['streamName'] as String,
+      partitionKey: json['partitionKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final streamName = this.streamName;
+    final partitionKey = this.partitionKey;
+    return {
+      'roleArn': roleArn,
+      'streamName': streamName,
+      if (partitionKey != null) 'partitionKey': partitionKey,
+    };
+  }
 }
 
 /// Describes an action to invoke a Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LambdaAction {
   /// The ARN of the Lambda function.
-  @_s.JsonKey(name: 'functionArn')
   final String functionArn;
 
   LambdaAction({
-    @_s.required this.functionArn,
+    required this.functionArn,
   });
-  factory LambdaAction.fromJson(Map<String, dynamic> json) =>
-      _$LambdaActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LambdaActionToJson(this);
+  factory LambdaAction.fromJson(Map<String, dynamic> json) {
+    return LambdaAction(
+      functionArn: json['functionArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    return {
+      'functionArn': functionArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListActiveViolationsResponse {
   /// The list of active violations.
-  @_s.JsonKey(name: 'activeViolations')
-  final List<ActiveViolation> activeViolations;
+  final List<ActiveViolation>? activeViolations;
 
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListActiveViolationsResponse({
     this.activeViolations,
     this.nextToken,
   });
-  factory ListActiveViolationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListActiveViolationsResponseFromJson(json);
+
+  factory ListActiveViolationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListActiveViolationsResponse(
+      activeViolations: (json['activeViolations'] as List?)
+          ?.whereNotNull()
+          .map((e) => ActiveViolation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeViolations = this.activeViolations;
+    final nextToken = this.nextToken;
+    return {
+      if (activeViolations != null) 'activeViolations': activeViolations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAttachedPoliciesResponse {
   /// The token to retrieve the next set of results, or ``null`` if there are no
   /// more results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// The policies.
-  @_s.JsonKey(name: 'policies')
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   ListAttachedPoliciesResponse({
     this.nextMarker,
     this.policies,
   });
-  factory ListAttachedPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAttachedPoliciesResponseFromJson(json);
+
+  factory ListAttachedPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttachedPoliciesResponse(
+      nextMarker: json['nextMarker'] as String?,
+      policies: (json['policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Policy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final policies = this.policies;
+    return {
+      if (nextMarker != null) 'nextMarker': nextMarker,
+      if (policies != null) 'policies': policies,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAuditFindingsResponse {
   /// The findings (results) of the audit.
-  @_s.JsonKey(name: 'findings')
-  final List<AuditFinding> findings;
+  final List<AuditFinding>? findings;
 
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAuditFindingsResponse({
     this.findings,
     this.nextToken,
   });
-  factory ListAuditFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAuditFindingsResponseFromJson(json);
+
+  factory ListAuditFindingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAuditFindingsResponse(
+      findings: (json['findings'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuditFinding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findings = this.findings;
+    final nextToken = this.nextToken;
+    return {
+      if (findings != null) 'findings': findings,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAuditMitigationActionsExecutionsResponse {
   /// A set of task execution results based on the input parameters. Details
   /// include the mitigation action applied, start time, and task status.
-  @_s.JsonKey(name: 'actionsExecutions')
-  final List<AuditMitigationActionExecutionMetadata> actionsExecutions;
+  final List<AuditMitigationActionExecutionMetadata>? actionsExecutions;
 
   /// The token for the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAuditMitigationActionsExecutionsResponse({
     this.actionsExecutions,
     this.nextToken,
   });
+
   factory ListAuditMitigationActionsExecutionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAuditMitigationActionsExecutionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAuditMitigationActionsExecutionsResponse(
+      actionsExecutions: (json['actionsExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuditMitigationActionExecutionMetadata.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionsExecutions = this.actionsExecutions;
+    final nextToken = this.nextToken;
+    return {
+      if (actionsExecutions != null) 'actionsExecutions': actionsExecutions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAuditMitigationActionsTasksResponse {
   /// The token for the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The collection of audit mitigation tasks that matched the filter criteria.
-  @_s.JsonKey(name: 'tasks')
-  final List<AuditMitigationActionsTaskMetadata> tasks;
+  final List<AuditMitigationActionsTaskMetadata>? tasks;
 
   ListAuditMitigationActionsTasksResponse({
     this.nextToken,
     this.tasks,
   });
+
   factory ListAuditMitigationActionsTasksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAuditMitigationActionsTasksResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAuditMitigationActionsTasksResponse(
+      nextToken: json['nextToken'] as String?,
+      tasks: (json['tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuditMitigationActionsTaskMetadata.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tasks = this.tasks;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tasks != null) 'tasks': tasks,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAuditSuppressionsResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of audit suppressions.
-  @_s.JsonKey(name: 'suppressions')
-  final List<AuditSuppression> suppressions;
+  final List<AuditSuppression>? suppressions;
 
   ListAuditSuppressionsResponse({
     this.nextToken,
     this.suppressions,
   });
-  factory ListAuditSuppressionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAuditSuppressionsResponseFromJson(json);
+
+  factory ListAuditSuppressionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAuditSuppressionsResponse(
+      nextToken: json['nextToken'] as String?,
+      suppressions: (json['suppressions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuditSuppression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final suppressions = this.suppressions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (suppressions != null) 'suppressions': suppressions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAuditTasksResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The audits that were performed during the specified time period.
-  @_s.JsonKey(name: 'tasks')
-  final List<AuditTaskMetadata> tasks;
+  final List<AuditTaskMetadata>? tasks;
 
   ListAuditTasksResponse({
     this.nextToken,
     this.tasks,
   });
-  factory ListAuditTasksResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAuditTasksResponseFromJson(json);
+
+  factory ListAuditTasksResponse.fromJson(Map<String, dynamic> json) {
+    return ListAuditTasksResponse(
+      nextToken: json['nextToken'] as String?,
+      tasks: (json['tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuditTaskMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tasks = this.tasks;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tasks != null) 'tasks': tasks,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAuthorizersResponse {
   /// The authorizers.
-  @_s.JsonKey(name: 'authorizers')
-  final List<AuthorizerSummary> authorizers;
+  final List<AuthorizerSummary>? authorizers;
 
   /// A marker used to get the next set of results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListAuthorizersResponse({
     this.authorizers,
     this.nextMarker,
   });
-  factory ListAuthorizersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAuthorizersResponseFromJson(json);
+
+  factory ListAuthorizersResponse.fromJson(Map<String, dynamic> json) {
+    return ListAuthorizersResponse(
+      authorizers: (json['authorizers'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuthorizerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['nextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizers = this.authorizers;
+    final nextMarker = this.nextMarker;
+    return {
+      if (authorizers != null) 'authorizers': authorizers,
+      if (nextMarker != null) 'nextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBillingGroupsResponse {
   /// The list of billing groups.
-  @_s.JsonKey(name: 'billingGroups')
-  final List<GroupNameAndArn> billingGroups;
+  final List<GroupNameAndArn>? billingGroups;
 
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBillingGroupsResponse({
     this.billingGroups,
     this.nextToken,
   });
-  factory ListBillingGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListBillingGroupsResponseFromJson(json);
+
+  factory ListBillingGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBillingGroupsResponse(
+      billingGroups: (json['billingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupNameAndArn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingGroups = this.billingGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (billingGroups != null) 'billingGroups': billingGroups,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The output from the ListCACertificates operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCACertificatesResponse {
   /// The CA certificates registered in your AWS account.
-  @_s.JsonKey(name: 'certificates')
-  final List<CACertificate> certificates;
+  final List<CACertificate>? certificates;
 
   /// The current position within the list of CA certificates.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListCACertificatesResponse({
     this.certificates,
     this.nextMarker,
   });
-  factory ListCACertificatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCACertificatesResponseFromJson(json);
+
+  factory ListCACertificatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListCACertificatesResponse(
+      certificates: (json['certificates'] as List?)
+          ?.whereNotNull()
+          .map((e) => CACertificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['nextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final nextMarker = this.nextMarker;
+    return {
+      if (certificates != null) 'certificates': certificates,
+      if (nextMarker != null) 'nextMarker': nextMarker,
+    };
+  }
 }
 
 /// The output of the ListCertificatesByCA operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCertificatesByCAResponse {
   /// The device certificates signed by the specified CA certificate.
-  @_s.JsonKey(name: 'certificates')
-  final List<Certificate> certificates;
+  final List<Certificate>? certificates;
 
   /// The marker for the next set of results, or null if there are no additional
   /// results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListCertificatesByCAResponse({
     this.certificates,
     this.nextMarker,
   });
-  factory ListCertificatesByCAResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCertificatesByCAResponseFromJson(json);
+
+  factory ListCertificatesByCAResponse.fromJson(Map<String, dynamic> json) {
+    return ListCertificatesByCAResponse(
+      certificates: (json['certificates'] as List?)
+          ?.whereNotNull()
+          .map((e) => Certificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['nextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final nextMarker = this.nextMarker;
+    return {
+      if (certificates != null) 'certificates': certificates,
+      if (nextMarker != null) 'nextMarker': nextMarker,
+    };
+  }
 }
 
 /// The output of the ListCertificates operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCertificatesResponse {
   /// The descriptions of the certificates.
-  @_s.JsonKey(name: 'certificates')
-  final List<Certificate> certificates;
+  final List<Certificate>? certificates;
 
   /// The marker for the next set of results, or null if there are no additional
   /// results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListCertificatesResponse({
     this.certificates,
     this.nextMarker,
   });
-  factory ListCertificatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCertificatesResponseFromJson(json);
+
+  factory ListCertificatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListCertificatesResponse(
+      certificates: (json['certificates'] as List?)
+          ?.whereNotNull()
+          .map((e) => Certificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['nextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final nextMarker = this.nextMarker;
+    return {
+      if (certificates != null) 'certificates': certificates,
+      if (nextMarker != null) 'nextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCustomMetricsResponse {
   /// The name of the custom metric.
-  @_s.JsonKey(name: 'metricNames')
-  final List<String> metricNames;
+  final List<String>? metricNames;
 
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCustomMetricsResponse({
     this.metricNames,
     this.nextToken,
   });
-  factory ListCustomMetricsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCustomMetricsResponseFromJson(json);
+
+  factory ListCustomMetricsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCustomMetricsResponse(
+      metricNames: (json['metricNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricNames = this.metricNames;
+    final nextToken = this.nextToken;
+    return {
+      if (metricNames != null) 'metricNames': metricNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDetectMitigationActionsExecutionsResponse {
   /// List of actions executions.
-  @_s.JsonKey(name: 'actionsExecutions')
-  final List<DetectMitigationActionExecution> actionsExecutions;
+  final List<DetectMitigationActionExecution>? actionsExecutions;
 
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDetectMitigationActionsExecutionsResponse({
     this.actionsExecutions,
     this.nextToken,
   });
+
   factory ListDetectMitigationActionsExecutionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDetectMitigationActionsExecutionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDetectMitigationActionsExecutionsResponse(
+      actionsExecutions: (json['actionsExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DetectMitigationActionExecution.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionsExecutions = this.actionsExecutions;
+    final nextToken = this.nextToken;
+    return {
+      if (actionsExecutions != null) 'actionsExecutions': actionsExecutions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDetectMitigationActionsTasksResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The collection of ML Detect mitigation tasks that matched the filter
   /// criteria.
-  @_s.JsonKey(name: 'tasks')
-  final List<DetectMitigationActionsTaskSummary> tasks;
+  final List<DetectMitigationActionsTaskSummary>? tasks;
 
   ListDetectMitigationActionsTasksResponse({
     this.nextToken,
     this.tasks,
   });
+
   factory ListDetectMitigationActionsTasksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDetectMitigationActionsTasksResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDetectMitigationActionsTasksResponse(
+      nextToken: json['nextToken'] as String?,
+      tasks: (json['tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => DetectMitigationActionsTaskSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tasks = this.tasks;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tasks != null) 'tasks': tasks,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDimensionsResponse {
   /// A list of the names of the defined dimensions. Use
   /// <code>DescribeDimension</code> to get details for a dimension.
-  @_s.JsonKey(name: 'dimensionNames')
-  final List<String> dimensionNames;
+  final List<String>? dimensionNames;
 
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDimensionsResponse({
     this.dimensionNames,
     this.nextToken,
   });
-  factory ListDimensionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDimensionsResponseFromJson(json);
+
+  factory ListDimensionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDimensionsResponse(
+      dimensionNames: (json['dimensionNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionNames = this.dimensionNames;
+    final nextToken = this.nextToken;
+    return {
+      if (dimensionNames != null) 'dimensionNames': dimensionNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainConfigurationsResponse {
   /// A list of objects that contain summary information about the user's domain
   /// configurations.
-  @_s.JsonKey(name: 'domainConfigurations')
-  final List<DomainConfigurationSummary> domainConfigurations;
+  final List<DomainConfigurationSummary>? domainConfigurations;
 
   /// The marker for the next set of results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListDomainConfigurationsResponse({
     this.domainConfigurations,
     this.nextMarker,
   });
-  factory ListDomainConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDomainConfigurationsResponseFromJson(json);
+
+  factory ListDomainConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainConfigurationsResponse(
+      domainConfigurations: (json['domainConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DomainConfigurationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['nextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainConfigurations = this.domainConfigurations;
+    final nextMarker = this.nextMarker;
+    return {
+      if (domainConfigurations != null)
+        'domainConfigurations': domainConfigurations,
+      if (nextMarker != null) 'nextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIndicesResponse {
   /// The index names.
-  @_s.JsonKey(name: 'indexNames')
-  final List<String> indexNames;
+  final List<String>? indexNames;
 
   /// The token used to get the next set of results, or <code>null</code> if there
   /// are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIndicesResponse({
     this.indexNames,
     this.nextToken,
   });
-  factory ListIndicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIndicesResponseFromJson(json);
+
+  factory ListIndicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListIndicesResponse(
+      indexNames: (json['indexNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final indexNames = this.indexNames;
+    final nextToken = this.nextToken;
+    return {
+      if (indexNames != null) 'indexNames': indexNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobExecutionsForJobResponse {
   /// A list of job execution summaries.
-  @_s.JsonKey(name: 'executionSummaries')
-  final List<JobExecutionSummaryForJob> executionSummaries;
+  final List<JobExecutionSummaryForJob>? executionSummaries;
 
   /// The token for the next set of results, or <b>null</b> if there are no
   /// additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobExecutionsForJobResponse({
     this.executionSummaries,
     this.nextToken,
   });
-  factory ListJobExecutionsForJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobExecutionsForJobResponseFromJson(json);
+
+  factory ListJobExecutionsForJobResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobExecutionsForJobResponse(
+      executionSummaries: (json['executionSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              JobExecutionSummaryForJob.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionSummaries = this.executionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (executionSummaries != null) 'executionSummaries': executionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobExecutionsForThingResponse {
   /// A list of job execution summaries.
-  @_s.JsonKey(name: 'executionSummaries')
-  final List<JobExecutionSummaryForThing> executionSummaries;
+  final List<JobExecutionSummaryForThing>? executionSummaries;
 
   /// The token for the next set of results, or <b>null</b> if there are no
   /// additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobExecutionsForThingResponse({
     this.executionSummaries,
     this.nextToken,
   });
+
   factory ListJobExecutionsForThingResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListJobExecutionsForThingResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListJobExecutionsForThingResponse(
+      executionSummaries: (json['executionSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              JobExecutionSummaryForThing.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionSummaries = this.executionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (executionSummaries != null) 'executionSummaries': executionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ListJobsResponse {
-  /// A list of jobs.
-  @_s.JsonKey(name: 'jobs')
-  final List<JobSummary> jobs;
+class ListJobTemplatesResponse {
+  /// A list of objects that contain information about the job templates.
+  final List<JobTemplateSummary>? jobTemplates;
 
   /// The token for the next set of results, or <b>null</b> if there are no
   /// additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
+
+  ListJobTemplatesResponse({
+    this.jobTemplates,
+    this.nextToken,
+  });
+
+  factory ListJobTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobTemplatesResponse(
+      jobTemplates: (json['jobTemplates'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobTemplates = this.jobTemplates;
+    final nextToken = this.nextToken;
+    return {
+      if (jobTemplates != null) 'jobTemplates': jobTemplates,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
+class ListJobsResponse {
+  /// A list of jobs.
+  final List<JobSummary>? jobs;
+
+  /// The token for the next set of results, or <b>null</b> if there are no
+  /// additional results.
+  final String? nextToken;
 
   ListJobsResponse({
     this.jobs,
     this.nextToken,
   });
-  factory ListJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsResponseFromJson(json);
+
+  factory ListJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListJobsResponse(
+      jobs: (json['jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextToken = this.nextToken;
+    return {
+      if (jobs != null) 'jobs': jobs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMitigationActionsResponse {
   /// A set of actions that matched the specified filter criteria.
-  @_s.JsonKey(name: 'actionIdentifiers')
-  final List<MitigationActionIdentifier> actionIdentifiers;
+  final List<MitigationActionIdentifier>? actionIdentifiers;
 
   /// The token for the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMitigationActionsResponse({
     this.actionIdentifiers,
     this.nextToken,
   });
-  factory ListMitigationActionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMitigationActionsResponseFromJson(json);
+
+  factory ListMitigationActionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMitigationActionsResponse(
+      actionIdentifiers: (json['actionIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MitigationActionIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionIdentifiers = this.actionIdentifiers;
+    final nextToken = this.nextToken;
+    return {
+      if (actionIdentifiers != null) 'actionIdentifiers': actionIdentifiers,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOTAUpdatesResponse {
   /// A token to use to get the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of OTA update jobs.
-  @_s.JsonKey(name: 'otaUpdates')
-  final List<OTAUpdateSummary> otaUpdates;
+  final List<OTAUpdateSummary>? otaUpdates;
 
   ListOTAUpdatesResponse({
     this.nextToken,
     this.otaUpdates,
   });
-  factory ListOTAUpdatesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListOTAUpdatesResponseFromJson(json);
+
+  factory ListOTAUpdatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListOTAUpdatesResponse(
+      nextToken: json['nextToken'] as String?,
+      otaUpdates: (json['otaUpdates'] as List?)
+          ?.whereNotNull()
+          .map((e) => OTAUpdateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final otaUpdates = this.otaUpdates;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (otaUpdates != null) 'otaUpdates': otaUpdates,
+    };
+  }
 }
 
 /// The output from the ListOutgoingCertificates operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOutgoingCertificatesResponse {
   /// The marker for the next set of results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// The certificates that are being transferred but not yet accepted.
-  @_s.JsonKey(name: 'outgoingCertificates')
-  final List<OutgoingCertificate> outgoingCertificates;
+  final List<OutgoingCertificate>? outgoingCertificates;
 
   ListOutgoingCertificatesResponse({
     this.nextMarker,
     this.outgoingCertificates,
   });
-  factory ListOutgoingCertificatesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListOutgoingCertificatesResponseFromJson(json);
+
+  factory ListOutgoingCertificatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListOutgoingCertificatesResponse(
+      nextMarker: json['nextMarker'] as String?,
+      outgoingCertificates: (json['outgoingCertificates'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutgoingCertificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final outgoingCertificates = this.outgoingCertificates;
+    return {
+      if (nextMarker != null) 'nextMarker': nextMarker,
+      if (outgoingCertificates != null)
+        'outgoingCertificates': outgoingCertificates,
+    };
+  }
 }
 
 /// The output from the ListPolicies operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPoliciesResponse {
   /// The marker for the next set of results, or null if there are no additional
   /// results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// The descriptions of the policies.
-  @_s.JsonKey(name: 'policies')
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   ListPoliciesResponse({
     this.nextMarker,
     this.policies,
   });
-  factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPoliciesResponseFromJson(json);
+
+  factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPoliciesResponse(
+      nextMarker: json['nextMarker'] as String?,
+      policies: (json['policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Policy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final policies = this.policies;
+    return {
+      if (nextMarker != null) 'nextMarker': nextMarker,
+      if (policies != null) 'policies': policies,
+    };
+  }
 }
 
 /// The output from the ListPolicyPrincipals operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPolicyPrincipalsResponse {
   /// The marker for the next set of results, or null if there are no additional
   /// results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// The descriptions of the principals.
-  @_s.JsonKey(name: 'principals')
-  final List<String> principals;
+  final List<String>? principals;
 
   ListPolicyPrincipalsResponse({
     this.nextMarker,
     this.principals,
   });
-  factory ListPolicyPrincipalsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPolicyPrincipalsResponseFromJson(json);
+
+  factory ListPolicyPrincipalsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPolicyPrincipalsResponse(
+      nextMarker: json['nextMarker'] as String?,
+      principals: (json['principals'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final principals = this.principals;
+    return {
+      if (nextMarker != null) 'nextMarker': nextMarker,
+      if (principals != null) 'principals': principals,
+    };
+  }
 }
 
 /// The output from the ListPolicyVersions operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPolicyVersionsResponse {
   /// The policy versions.
-  @_s.JsonKey(name: 'policyVersions')
-  final List<PolicyVersion> policyVersions;
+  final List<PolicyVersion>? policyVersions;
 
   ListPolicyVersionsResponse({
     this.policyVersions,
   });
-  factory ListPolicyVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPolicyVersionsResponseFromJson(json);
+
+  factory ListPolicyVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPolicyVersionsResponse(
+      policyVersions: (json['policyVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyVersions = this.policyVersions;
+    return {
+      if (policyVersions != null) 'policyVersions': policyVersions,
+    };
+  }
 }
 
 /// The output from the ListPrincipalPolicies operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPrincipalPoliciesResponse {
   /// The marker for the next set of results, or null if there are no additional
   /// results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// The policies.
-  @_s.JsonKey(name: 'policies')
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   ListPrincipalPoliciesResponse({
     this.nextMarker,
     this.policies,
   });
-  factory ListPrincipalPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPrincipalPoliciesResponseFromJson(json);
+
+  factory ListPrincipalPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPrincipalPoliciesResponse(
+      nextMarker: json['nextMarker'] as String?,
+      policies: (json['policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Policy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final policies = this.policies;
+    return {
+      if (nextMarker != null) 'nextMarker': nextMarker,
+      if (policies != null) 'policies': policies,
+    };
+  }
 }
 
 /// The output from the ListPrincipalThings operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPrincipalThingsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The things.
-  @_s.JsonKey(name: 'things')
-  final List<String> things;
+  final List<String>? things;
 
   ListPrincipalThingsResponse({
     this.nextToken,
     this.things,
   });
-  factory ListPrincipalThingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPrincipalThingsResponseFromJson(json);
+
+  factory ListPrincipalThingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPrincipalThingsResponse(
+      nextToken: json['nextToken'] as String?,
+      things: (json['things'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final things = this.things;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (things != null) 'things': things,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProvisioningTemplateVersionsResponse {
   /// A token to retrieve the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of fleet provisioning template versions.
-  @_s.JsonKey(name: 'versions')
-  final List<ProvisioningTemplateVersionSummary> versions;
+  final List<ProvisioningTemplateVersionSummary>? versions;
 
   ListProvisioningTemplateVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListProvisioningTemplateVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListProvisioningTemplateVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListProvisioningTemplateVersionsResponse(
+      nextToken: json['nextToken'] as String?,
+      versions: (json['versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProvisioningTemplateVersionSummary.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (versions != null) 'versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProvisioningTemplatesResponse {
   /// A token to retrieve the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of fleet provisioning templates
-  @_s.JsonKey(name: 'templates')
-  final List<ProvisioningTemplateSummary> templates;
+  final List<ProvisioningTemplateSummary>? templates;
 
   ListProvisioningTemplatesResponse({
     this.nextToken,
     this.templates,
   });
+
   factory ListProvisioningTemplatesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListProvisioningTemplatesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListProvisioningTemplatesResponse(
+      nextToken: json['nextToken'] as String?,
+      templates: (json['templates'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProvisioningTemplateSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final templates = this.templates;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (templates != null) 'templates': templates,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRoleAliasesResponse {
   /// A marker used to get the next set of results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// The role aliases.
-  @_s.JsonKey(name: 'roleAliases')
-  final List<String> roleAliases;
+  final List<String>? roleAliases;
 
   ListRoleAliasesResponse({
     this.nextMarker,
     this.roleAliases,
   });
-  factory ListRoleAliasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRoleAliasesResponseFromJson(json);
+
+  factory ListRoleAliasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRoleAliasesResponse(
+      nextMarker: json['nextMarker'] as String?,
+      roleAliases: (json['roleAliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final roleAliases = this.roleAliases;
+    return {
+      if (nextMarker != null) 'nextMarker': nextMarker,
+      if (roleAliases != null) 'roleAliases': roleAliases,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListScheduledAuditsResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of scheduled audits.
-  @_s.JsonKey(name: 'scheduledAudits')
-  final List<ScheduledAuditMetadata> scheduledAudits;
+  final List<ScheduledAuditMetadata>? scheduledAudits;
 
   ListScheduledAuditsResponse({
     this.nextToken,
     this.scheduledAudits,
   });
-  factory ListScheduledAuditsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListScheduledAuditsResponseFromJson(json);
+
+  factory ListScheduledAuditsResponse.fromJson(Map<String, dynamic> json) {
+    return ListScheduledAuditsResponse(
+      nextToken: json['nextToken'] as String?,
+      scheduledAudits: (json['scheduledAudits'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ScheduledAuditMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scheduledAudits = this.scheduledAudits;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (scheduledAudits != null) 'scheduledAudits': scheduledAudits,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSecurityProfilesForTargetResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of security profiles and their associated targets.
-  @_s.JsonKey(name: 'securityProfileTargetMappings')
-  final List<SecurityProfileTargetMapping> securityProfileTargetMappings;
+  final List<SecurityProfileTargetMapping>? securityProfileTargetMappings;
 
   ListSecurityProfilesForTargetResponse({
     this.nextToken,
     this.securityProfileTargetMappings,
   });
+
   factory ListSecurityProfilesForTargetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSecurityProfilesForTargetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListSecurityProfilesForTargetResponse(
+      nextToken: json['nextToken'] as String?,
+      securityProfileTargetMappings: (json['securityProfileTargetMappings']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SecurityProfileTargetMapping.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final securityProfileTargetMappings = this.securityProfileTargetMappings;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (securityProfileTargetMappings != null)
+        'securityProfileTargetMappings': securityProfileTargetMappings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSecurityProfilesResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of security profile identifiers (names and ARNs).
-  @_s.JsonKey(name: 'securityProfileIdentifiers')
-  final List<SecurityProfileIdentifier> securityProfileIdentifiers;
+  final List<SecurityProfileIdentifier>? securityProfileIdentifiers;
 
   ListSecurityProfilesResponse({
     this.nextToken,
     this.securityProfileIdentifiers,
   });
-  factory ListSecurityProfilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSecurityProfilesResponseFromJson(json);
+
+  factory ListSecurityProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSecurityProfilesResponse(
+      nextToken: json['nextToken'] as String?,
+      securityProfileIdentifiers: (json['securityProfileIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SecurityProfileIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final securityProfileIdentifiers = this.securityProfileIdentifiers;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (securityProfileIdentifiers != null)
+        'securityProfileIdentifiers': securityProfileIdentifiers,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStreamsResponse {
   /// A token used to get the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of streams.
-  @_s.JsonKey(name: 'streams')
-  final List<StreamSummary> streams;
+  final List<StreamSummary>? streams;
 
   ListStreamsResponse({
     this.nextToken,
     this.streams,
   });
-  factory ListStreamsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListStreamsResponseFromJson(json);
+
+  factory ListStreamsResponse.fromJson(Map<String, dynamic> json) {
+    return ListStreamsResponse(
+      nextToken: json['nextToken'] as String?,
+      streams: (json['streams'] as List?)
+          ?.whereNotNull()
+          .map((e) => StreamSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final streams = this.streams;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (streams != null) 'streams': streams,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of tags assigned to the resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['nextToken'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTargetsForPolicyResponse {
   /// A marker used to get the next set of results.
-  @_s.JsonKey(name: 'nextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// The policy targets.
-  @_s.JsonKey(name: 'targets')
-  final List<String> targets;
+  final List<String>? targets;
 
   ListTargetsForPolicyResponse({
     this.nextMarker,
     this.targets,
   });
-  factory ListTargetsForPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTargetsForPolicyResponseFromJson(json);
+
+  factory ListTargetsForPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return ListTargetsForPolicyResponse(
+      nextMarker: json['nextMarker'] as String?,
+      targets: (json['targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final targets = this.targets;
+    return {
+      if (nextMarker != null) 'nextMarker': nextMarker,
+      if (targets != null) 'targets': targets,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTargetsForSecurityProfileResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The thing groups to which the security profile is attached.
-  @_s.JsonKey(name: 'securityProfileTargets')
-  final List<SecurityProfileTarget> securityProfileTargets;
+  final List<SecurityProfileTarget>? securityProfileTargets;
 
   ListTargetsForSecurityProfileResponse({
     this.nextToken,
     this.securityProfileTargets,
   });
+
   factory ListTargetsForSecurityProfileResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListTargetsForSecurityProfileResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListTargetsForSecurityProfileResponse(
+      nextToken: json['nextToken'] as String?,
+      securityProfileTargets: (json['securityProfileTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecurityProfileTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final securityProfileTargets = this.securityProfileTargets;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (securityProfileTargets != null)
+        'securityProfileTargets': securityProfileTargets,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingGroupsForThingResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The thing groups.
-  @_s.JsonKey(name: 'thingGroups')
-  final List<GroupNameAndArn> thingGroups;
+  final List<GroupNameAndArn>? thingGroups;
 
   ListThingGroupsForThingResponse({
     this.nextToken,
     this.thingGroups,
   });
-  factory ListThingGroupsForThingResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThingGroupsForThingResponseFromJson(json);
+
+  factory ListThingGroupsForThingResponse.fromJson(Map<String, dynamic> json) {
+    return ListThingGroupsForThingResponse(
+      nextToken: json['nextToken'] as String?,
+      thingGroups: (json['thingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupNameAndArn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final thingGroups = this.thingGroups;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (thingGroups != null) 'thingGroups': thingGroups,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingGroupsResponse {
   /// The token to use to get the next set of results. Will not be returned if
   /// operation has returned all results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The thing groups.
-  @_s.JsonKey(name: 'thingGroups')
-  final List<GroupNameAndArn> thingGroups;
+  final List<GroupNameAndArn>? thingGroups;
 
   ListThingGroupsResponse({
     this.nextToken,
     this.thingGroups,
   });
-  factory ListThingGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThingGroupsResponseFromJson(json);
+
+  factory ListThingGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListThingGroupsResponse(
+      nextToken: json['nextToken'] as String?,
+      thingGroups: (json['thingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupNameAndArn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final thingGroups = this.thingGroups;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (thingGroups != null) 'thingGroups': thingGroups,
+    };
+  }
 }
 
 /// The output from the ListThingPrincipals operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingPrincipalsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The principals associated with the thing.
-  @_s.JsonKey(name: 'principals')
-  final List<String> principals;
+  final List<String>? principals;
 
   ListThingPrincipalsResponse({
     this.nextToken,
     this.principals,
   });
-  factory ListThingPrincipalsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThingPrincipalsResponseFromJson(json);
+
+  factory ListThingPrincipalsResponse.fromJson(Map<String, dynamic> json) {
+    return ListThingPrincipalsResponse(
+      nextToken: json['nextToken'] as String?,
+      principals: (json['principals'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final principals = this.principals;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (principals != null) 'principals': principals,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingRegistrationTaskReportsResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The type of task report.
-  @_s.JsonKey(name: 'reportType')
-  final ReportType reportType;
+  final ReportType? reportType;
 
   /// Links to the task resources.
-  @_s.JsonKey(name: 'resourceLinks')
-  final List<String> resourceLinks;
+  final List<String>? resourceLinks;
 
   ListThingRegistrationTaskReportsResponse({
     this.nextToken,
     this.reportType,
     this.resourceLinks,
   });
+
   factory ListThingRegistrationTaskReportsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListThingRegistrationTaskReportsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListThingRegistrationTaskReportsResponse(
+      nextToken: json['nextToken'] as String?,
+      reportType: (json['reportType'] as String?)?.toReportType(),
+      resourceLinks: (json['resourceLinks'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final reportType = this.reportType;
+    final resourceLinks = this.resourceLinks;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (reportType != null) 'reportType': reportType.toValue(),
+      if (resourceLinks != null) 'resourceLinks': resourceLinks,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingRegistrationTasksResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of bulk thing provisioning task IDs.
-  @_s.JsonKey(name: 'taskIds')
-  final List<String> taskIds;
+  final List<String>? taskIds;
 
   ListThingRegistrationTasksResponse({
     this.nextToken,
     this.taskIds,
   });
+
   factory ListThingRegistrationTasksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListThingRegistrationTasksResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListThingRegistrationTasksResponse(
+      nextToken: json['nextToken'] as String?,
+      taskIds: (json['taskIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final taskIds = this.taskIds;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (taskIds != null) 'taskIds': taskIds,
+    };
+  }
 }
 
 /// The output for the ListThingTypes operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingTypesResponse {
   /// The token for the next set of results. Will not be returned if operation has
   /// returned all results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The thing types.
-  @_s.JsonKey(name: 'thingTypes')
-  final List<ThingTypeDefinition> thingTypes;
+  final List<ThingTypeDefinition>? thingTypes;
 
   ListThingTypesResponse({
     this.nextToken,
     this.thingTypes,
   });
-  factory ListThingTypesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThingTypesResponseFromJson(json);
+
+  factory ListThingTypesResponse.fromJson(Map<String, dynamic> json) {
+    return ListThingTypesResponse(
+      nextToken: json['nextToken'] as String?,
+      thingTypes: (json['thingTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThingTypeDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final thingTypes = this.thingTypes;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (thingTypes != null) 'thingTypes': thingTypes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingsInBillingGroupResponse {
   /// The token to use to get the next set of results. Will not be returned if
   /// operation has returned all results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of things in the billing group.
-  @_s.JsonKey(name: 'things')
-  final List<String> things;
+  final List<String>? things;
 
   ListThingsInBillingGroupResponse({
     this.nextToken,
     this.things,
   });
-  factory ListThingsInBillingGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListThingsInBillingGroupResponseFromJson(json);
+
+  factory ListThingsInBillingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return ListThingsInBillingGroupResponse(
+      nextToken: json['nextToken'] as String?,
+      things: (json['things'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final things = this.things;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (things != null) 'things': things,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingsInThingGroupResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The things in the specified thing group.
-  @_s.JsonKey(name: 'things')
-  final List<String> things;
+  final List<String>? things;
 
   ListThingsInThingGroupResponse({
     this.nextToken,
     this.things,
   });
-  factory ListThingsInThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThingsInThingGroupResponseFromJson(json);
+
+  factory ListThingsInThingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return ListThingsInThingGroupResponse(
+      nextToken: json['nextToken'] as String?,
+      things: (json['things'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final things = this.things;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (things != null) 'things': things,
+    };
+  }
 }
 
 /// The output from the ListThings operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThingsResponse {
   /// The token to use to get the next set of results. Will not be returned if
   /// operation has returned all results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The things.
-  @_s.JsonKey(name: 'things')
-  final List<ThingAttribute> things;
+  final List<ThingAttribute>? things;
 
   ListThingsResponse({
     this.nextToken,
     this.things,
   });
-  factory ListThingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThingsResponseFromJson(json);
+
+  factory ListThingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListThingsResponse(
+      nextToken: json['nextToken'] as String?,
+      things: (json['things'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThingAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final things = this.things;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (things != null) 'things': things,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTopicRuleDestinationsResponse {
   /// Information about a topic rule destination.
-  @_s.JsonKey(name: 'destinationSummaries')
-  final List<TopicRuleDestinationSummary> destinationSummaries;
+  final List<TopicRuleDestinationSummary>? destinationSummaries;
 
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTopicRuleDestinationsResponse({
     this.destinationSummaries,
     this.nextToken,
   });
+
   factory ListTopicRuleDestinationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListTopicRuleDestinationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListTopicRuleDestinationsResponse(
+      destinationSummaries: (json['destinationSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TopicRuleDestinationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationSummaries = this.destinationSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (destinationSummaries != null)
+        'destinationSummaries': destinationSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The output from the ListTopicRules operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTopicRulesResponse {
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The rules.
-  @_s.JsonKey(name: 'rules')
-  final List<TopicRuleListItem> rules;
+  final List<TopicRuleListItem>? rules;
 
   ListTopicRulesResponse({
     this.nextToken,
     this.rules,
   });
-  factory ListTopicRulesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTopicRulesResponseFromJson(json);
+
+  factory ListTopicRulesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTopicRulesResponse(
+      nextToken: json['nextToken'] as String?,
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => TopicRuleListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final rules = this.rules;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (rules != null) 'rules': rules,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListV2LoggingLevelsResponse {
   /// The logging configuration for a target.
-  @_s.JsonKey(name: 'logTargetConfigurations')
-  final List<LogTargetConfiguration> logTargetConfigurations;
+  final List<LogTargetConfiguration>? logTargetConfigurations;
 
   /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListV2LoggingLevelsResponse({
     this.logTargetConfigurations,
     this.nextToken,
   });
-  factory ListV2LoggingLevelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListV2LoggingLevelsResponseFromJson(json);
+
+  factory ListV2LoggingLevelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListV2LoggingLevelsResponse(
+      logTargetConfigurations: (json['logTargetConfigurations'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => LogTargetConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logTargetConfigurations = this.logTargetConfigurations;
+    final nextToken = this.nextToken;
+    return {
+      if (logTargetConfigurations != null)
+        'logTargetConfigurations': logTargetConfigurations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListViolationEventsResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The security profile violation alerts issued for this account during the
   /// given time period, potentially filtered by security profile, behavior
   /// violated, or thing (device) violating.
-  @_s.JsonKey(name: 'violationEvents')
-  final List<ViolationEvent> violationEvents;
+  final List<ViolationEvent>? violationEvents;
 
   ListViolationEventsResponse({
     this.nextToken,
     this.violationEvents,
   });
-  factory ListViolationEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListViolationEventsResponseFromJson(json);
+
+  factory ListViolationEventsResponse.fromJson(Map<String, dynamic> json) {
+    return ListViolationEventsResponse(
+      nextToken: json['nextToken'] as String?,
+      violationEvents: (json['violationEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => ViolationEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final violationEvents = this.violationEvents;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (violationEvents != null) 'violationEvents': violationEvents,
+    };
+  }
 }
 
 enum LogLevel {
-  @_s.JsonValue('DEBUG')
   debug,
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -20394,62 +22877,91 @@ extension on LogLevel {
       case LogLevel.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LogLevel toLogLevel() {
+    switch (this) {
+      case 'DEBUG':
+        return LogLevel.debug;
+      case 'INFO':
+        return LogLevel.info;
+      case 'ERROR':
+        return LogLevel.error;
+      case 'WARN':
+        return LogLevel.warn;
+      case 'DISABLED':
+        return LogLevel.disabled;
+    }
+    throw Exception('$this is not known in enum LogLevel');
   }
 }
 
 /// A log target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogTarget {
   /// The target type.
-  @_s.JsonKey(name: 'targetType')
   final LogTargetType targetType;
 
   /// The target name.
-  @_s.JsonKey(name: 'targetName')
-  final String targetName;
+  final String? targetName;
 
   LogTarget({
-    @_s.required this.targetType,
+    required this.targetType,
     this.targetName,
   });
-  factory LogTarget.fromJson(Map<String, dynamic> json) =>
-      _$LogTargetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LogTargetToJson(this);
+  factory LogTarget.fromJson(Map<String, dynamic> json) {
+    return LogTarget(
+      targetType: (json['targetType'] as String).toLogTargetType(),
+      targetName: json['targetName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetType = this.targetType;
+    final targetName = this.targetName;
+    return {
+      'targetType': targetType.toValue(),
+      if (targetName != null) 'targetName': targetName,
+    };
+  }
 }
 
 /// The target configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogTargetConfiguration {
   /// The logging level.
-  @_s.JsonKey(name: 'logLevel')
-  final LogLevel logLevel;
+  final LogLevel? logLevel;
 
   /// A log target
-  @_s.JsonKey(name: 'logTarget')
-  final LogTarget logTarget;
+  final LogTarget? logTarget;
 
   LogTargetConfiguration({
     this.logLevel,
     this.logTarget,
   });
-  factory LogTargetConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LogTargetConfigurationFromJson(json);
+
+  factory LogTargetConfiguration.fromJson(Map<String, dynamic> json) {
+    return LogTargetConfiguration(
+      logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+      logTarget: json['logTarget'] != null
+          ? LogTarget.fromJson(json['logTarget'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logLevel = this.logLevel;
+    final logTarget = this.logTarget;
+    return {
+      if (logLevel != null) 'logLevel': logLevel.toValue(),
+      if (logTarget != null) 'logTarget': logTarget,
+    };
+  }
 }
 
 enum LogTargetType {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('THING_GROUP')
   thingGroup,
 }
 
@@ -20461,69 +22973,106 @@ extension on LogTargetType {
       case LogTargetType.thingGroup:
         return 'THING_GROUP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LogTargetType toLogTargetType() {
+    switch (this) {
+      case 'DEFAULT':
+        return LogTargetType.$default;
+      case 'THING_GROUP':
+        return LogTargetType.thingGroup;
+    }
+    throw Exception('$this is not known in enum LogTargetType');
   }
 }
 
 /// Describes the logging options payload.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LoggingOptionsPayload {
   /// The ARN of the IAM role that grants access.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The log level.
-  @_s.JsonKey(name: 'logLevel')
-  final LogLevel logLevel;
+  final LogLevel? logLevel;
 
   LoggingOptionsPayload({
-    @_s.required this.roleArn,
+    required this.roleArn,
     this.logLevel,
   });
-  Map<String, dynamic> toJson() => _$LoggingOptionsPayloadToJson(this);
+
+  factory LoggingOptionsPayload.fromJson(Map<String, dynamic> json) {
+    return LoggingOptionsPayload(
+      roleArn: json['roleArn'] as String,
+      logLevel: (json['logLevel'] as String?)?.toLogLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final logLevel = this.logLevel;
+    return {
+      'roleArn': roleArn,
+      if (logLevel != null) 'logLevel': logLevel.toValue(),
+    };
+  }
 }
 
 /// The configuration of an ML Detect Security Profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MachineLearningDetectionConfig {
   /// The sensitivity of anomalous behavior evaluation. Can be <code>Low</code>,
   /// <code>Medium</code>, or <code>High</code>.
-  @_s.JsonKey(name: 'confidenceLevel')
   final ConfidenceLevel confidenceLevel;
 
   MachineLearningDetectionConfig({
-    @_s.required this.confidenceLevel,
+    required this.confidenceLevel,
   });
-  factory MachineLearningDetectionConfig.fromJson(Map<String, dynamic> json) =>
-      _$MachineLearningDetectionConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MachineLearningDetectionConfigToJson(this);
+  factory MachineLearningDetectionConfig.fromJson(Map<String, dynamic> json) {
+    return MachineLearningDetectionConfig(
+      confidenceLevel: (json['confidenceLevel'] as String).toConfidenceLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidenceLevel = this.confidenceLevel;
+    return {
+      'confidenceLevel': confidenceLevel.toValue(),
+    };
+  }
 }
 
 enum MessageFormat {
-  @_s.JsonValue('RAW')
   raw,
-  @_s.JsonValue('JSON')
   json,
 }
 
+extension on MessageFormat {
+  String toValue() {
+    switch (this) {
+      case MessageFormat.raw:
+        return 'RAW';
+      case MessageFormat.json:
+        return 'JSON';
+    }
+  }
+}
+
+extension on String {
+  MessageFormat toMessageFormat() {
+    switch (this) {
+      case 'RAW':
+        return MessageFormat.raw;
+      case 'JSON':
+        return MessageFormat.json;
+    }
+    throw Exception('$this is not known in enum MessageFormat');
+  }
+}
+
 /// The dimension of a metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricDimension {
   /// A unique identifier for the dimension.
-  @_s.JsonKey(name: 'dimensionName')
   final String dimensionName;
 
   /// Defines how the <code>dimensionValues</code> of a dimension are interpreted.
@@ -20533,77 +23082,85 @@ class MetricDimension {
   /// if it doesn't match any of the topic filters. The operator is optional: if
   /// it's not provided (is <code>null</code>), it will be interpreted as
   /// <code>IN</code>.
-  @_s.JsonKey(name: 'operator')
-  final DimensionValueOperator operator;
+  final DimensionValueOperator? operator;
 
   MetricDimension({
-    @_s.required this.dimensionName,
+    required this.dimensionName,
     this.operator,
   });
-  factory MetricDimension.fromJson(Map<String, dynamic> json) =>
-      _$MetricDimensionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetricDimensionToJson(this);
+  factory MetricDimension.fromJson(Map<String, dynamic> json) {
+    return MetricDimension(
+      dimensionName: json['dimensionName'] as String,
+      operator: (json['operator'] as String?)?.toDimensionValueOperator(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionName = this.dimensionName;
+    final operator = this.operator;
+    return {
+      'dimensionName': dimensionName,
+      if (operator != null) 'operator': operator.toValue(),
+    };
+  }
 }
 
 /// The metric you want to retain. Dimensions are optional.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricToRetain {
   /// What is measured by the behavior.
-  @_s.JsonKey(name: 'metric')
   final String metric;
 
   /// The dimension of a metric. This can't be used with custom metrics.
-  @_s.JsonKey(name: 'metricDimension')
-  final MetricDimension metricDimension;
+  final MetricDimension? metricDimension;
 
   MetricToRetain({
-    @_s.required this.metric,
+    required this.metric,
     this.metricDimension,
   });
-  factory MetricToRetain.fromJson(Map<String, dynamic> json) =>
-      _$MetricToRetainFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetricToRetainToJson(this);
+  factory MetricToRetain.fromJson(Map<String, dynamic> json) {
+    return MetricToRetain(
+      metric: json['metric'] as String,
+      metricDimension: json['metricDimension'] != null
+          ? MetricDimension.fromJson(
+              json['metricDimension'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metric = this.metric;
+    final metricDimension = this.metricDimension;
+    return {
+      'metric': metric,
+      if (metricDimension != null) 'metricDimension': metricDimension,
+    };
+  }
 }
 
 /// The value to be compared with the <code>metric</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricValue {
   /// If the <code>comparisonOperator</code> calls for a set of CIDRs, use this to
   /// specify that set to be compared with the <code>metric</code>.
-  @_s.JsonKey(name: 'cidrs')
-  final List<String> cidrs;
+  final List<String>? cidrs;
 
   /// If the <code>comparisonOperator</code> calls for a numeric value, use this
   /// to specify that numeric value to be compared with the <code>metric</code>.
-  @_s.JsonKey(name: 'count')
-  final int count;
+  final int? count;
 
   /// The numeral value of a metric.
-  @_s.JsonKey(name: 'number')
-  final double number;
+  final double? number;
 
   /// The numeral values of a metric.
-  @_s.JsonKey(name: 'numbers')
-  final List<double> numbers;
+  final List<double>? numbers;
 
   /// If the <code>comparisonOperator</code> calls for a set of ports, use this to
   /// specify that set to be compared with the <code>metric</code>.
-  @_s.JsonKey(name: 'ports')
-  final List<int> ports;
+  final List<int>? ports;
 
   /// The string values of a metric.
-  @_s.JsonKey(name: 'strings')
-  final List<String> strings;
+  final List<String>? strings;
 
   MetricValue({
     this.cidrs,
@@ -20613,35 +23170,62 @@ class MetricValue {
     this.ports,
     this.strings,
   });
-  factory MetricValue.fromJson(Map<String, dynamic> json) =>
-      _$MetricValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetricValueToJson(this);
+  factory MetricValue.fromJson(Map<String, dynamic> json) {
+    return MetricValue(
+      cidrs: (json['cidrs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      count: json['count'] as int?,
+      number: json['number'] as double?,
+      numbers: (json['numbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as double)
+          .toList(),
+      ports: (json['ports'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      strings: (json['strings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrs = this.cidrs;
+    final count = this.count;
+    final number = this.number;
+    final numbers = this.numbers;
+    final ports = this.ports;
+    final strings = this.strings;
+    return {
+      if (cidrs != null) 'cidrs': cidrs,
+      if (count != null) 'count': count,
+      if (number != null) 'number': number,
+      if (numbers != null) 'numbers': numbers,
+      if (ports != null) 'ports': ports,
+      if (strings != null) 'strings': strings,
+    };
+  }
 }
 
 /// Describes which changes should be applied as part of a mitigation action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MitigationAction {
   /// The set of parameters for this mitigation action. The parameters vary,
   /// depending on the kind of action you apply.
-  @_s.JsonKey(name: 'actionParams')
-  final MitigationActionParams actionParams;
+  final MitigationActionParams? actionParams;
 
   /// A unique identifier for the mitigation action.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// A user-friendly name for the mitigation action.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The IAM role ARN used to apply this mitigation action.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   MitigationAction({
     this.actionParams,
@@ -20649,80 +23233,101 @@ class MitigationAction {
     this.name,
     this.roleArn,
   });
-  factory MitigationAction.fromJson(Map<String, dynamic> json) =>
-      _$MitigationActionFromJson(json);
+
+  factory MitigationAction.fromJson(Map<String, dynamic> json) {
+    return MitigationAction(
+      actionParams: json['actionParams'] != null
+          ? MitigationActionParams.fromJson(
+              json['actionParams'] as Map<String, dynamic>)
+          : null,
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionParams = this.actionParams;
+    final id = this.id;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    return {
+      if (actionParams != null) 'actionParams': actionParams,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 /// Information that identifies a mitigation action. This information is
 /// returned by ListMitigationActions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MitigationActionIdentifier {
   /// The IAM role ARN used to apply this mitigation action.
-  @_s.JsonKey(name: 'actionArn')
-  final String actionArn;
+  final String? actionArn;
 
   /// The friendly name of the mitigation action.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// The date when this mitigation action was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   MitigationActionIdentifier({
     this.actionArn,
     this.actionName,
     this.creationDate,
   });
-  factory MitigationActionIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$MitigationActionIdentifierFromJson(json);
+
+  factory MitigationActionIdentifier.fromJson(Map<String, dynamic> json) {
+    return MitigationActionIdentifier(
+      actionArn: json['actionArn'] as String?,
+      actionName: json['actionName'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionArn = this.actionArn;
+    final actionName = this.actionName;
+    final creationDate = this.creationDate;
+    return {
+      if (actionArn != null) 'actionArn': actionArn,
+      if (actionName != null) 'actionName': actionName,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+    };
+  }
 }
 
 /// The set of parameters for this mitigation action. You can specify only one
 /// type of parameter (in other words, you can apply only one action for each
 /// defined mitigation action).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MitigationActionParams {
   /// Parameters to define a mitigation action that moves devices associated with
   /// a certificate to one or more specified thing groups, typically for
   /// quarantine.
-  @_s.JsonKey(name: 'addThingsToThingGroupParams')
-  final AddThingsToThingGroupParams addThingsToThingGroupParams;
+  final AddThingsToThingGroupParams? addThingsToThingGroupParams;
 
   /// Parameters to define a mitigation action that enables AWS IoT logging at a
   /// specified level of detail.
-  @_s.JsonKey(name: 'enableIoTLoggingParams')
-  final EnableIoTLoggingParams enableIoTLoggingParams;
+  final EnableIoTLoggingParams? enableIoTLoggingParams;
 
   /// Parameters to define a mitigation action that publishes findings to Amazon
   /// Simple Notification Service (Amazon SNS. You can implement your own custom
   /// actions in response to the Amazon SNS messages.
-  @_s.JsonKey(name: 'publishFindingToSnsParams')
-  final PublishFindingToSnsParams publishFindingToSnsParams;
+  final PublishFindingToSnsParams? publishFindingToSnsParams;
 
   /// Parameters to define a mitigation action that adds a blank policy to
   /// restrict permissions.
-  @_s.JsonKey(name: 'replaceDefaultPolicyVersionParams')
-  final ReplaceDefaultPolicyVersionParams replaceDefaultPolicyVersionParams;
+  final ReplaceDefaultPolicyVersionParams? replaceDefaultPolicyVersionParams;
 
   /// Parameters to define a mitigation action that changes the state of the CA
   /// certificate to inactive.
-  @_s.JsonKey(name: 'updateCACertificateParams')
-  final UpdateCACertificateParams updateCACertificateParams;
+  final UpdateCACertificateParams? updateCACertificateParams;
 
   /// Parameters to define a mitigation action that changes the state of the
   /// device certificate to inactive.
-  @_s.JsonKey(name: 'updateDeviceCertificateParams')
-  final UpdateDeviceCertificateParams updateDeviceCertificateParams;
+  final UpdateDeviceCertificateParams? updateDeviceCertificateParams;
 
   MitigationActionParams({
     this.addThingsToThingGroupParams,
@@ -20732,24 +23337,70 @@ class MitigationActionParams {
     this.updateCACertificateParams,
     this.updateDeviceCertificateParams,
   });
-  factory MitigationActionParams.fromJson(Map<String, dynamic> json) =>
-      _$MitigationActionParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MitigationActionParamsToJson(this);
+  factory MitigationActionParams.fromJson(Map<String, dynamic> json) {
+    return MitigationActionParams(
+      addThingsToThingGroupParams: json['addThingsToThingGroupParams'] != null
+          ? AddThingsToThingGroupParams.fromJson(
+              json['addThingsToThingGroupParams'] as Map<String, dynamic>)
+          : null,
+      enableIoTLoggingParams: json['enableIoTLoggingParams'] != null
+          ? EnableIoTLoggingParams.fromJson(
+              json['enableIoTLoggingParams'] as Map<String, dynamic>)
+          : null,
+      publishFindingToSnsParams: json['publishFindingToSnsParams'] != null
+          ? PublishFindingToSnsParams.fromJson(
+              json['publishFindingToSnsParams'] as Map<String, dynamic>)
+          : null,
+      replaceDefaultPolicyVersionParams:
+          json['replaceDefaultPolicyVersionParams'] != null
+              ? ReplaceDefaultPolicyVersionParams.fromJson(
+                  json['replaceDefaultPolicyVersionParams']
+                      as Map<String, dynamic>)
+              : null,
+      updateCACertificateParams: json['updateCACertificateParams'] != null
+          ? UpdateCACertificateParams.fromJson(
+              json['updateCACertificateParams'] as Map<String, dynamic>)
+          : null,
+      updateDeviceCertificateParams:
+          json['updateDeviceCertificateParams'] != null
+              ? UpdateDeviceCertificateParams.fromJson(
+                  json['updateDeviceCertificateParams'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addThingsToThingGroupParams = this.addThingsToThingGroupParams;
+    final enableIoTLoggingParams = this.enableIoTLoggingParams;
+    final publishFindingToSnsParams = this.publishFindingToSnsParams;
+    final replaceDefaultPolicyVersionParams =
+        this.replaceDefaultPolicyVersionParams;
+    final updateCACertificateParams = this.updateCACertificateParams;
+    final updateDeviceCertificateParams = this.updateDeviceCertificateParams;
+    return {
+      if (addThingsToThingGroupParams != null)
+        'addThingsToThingGroupParams': addThingsToThingGroupParams,
+      if (enableIoTLoggingParams != null)
+        'enableIoTLoggingParams': enableIoTLoggingParams,
+      if (publishFindingToSnsParams != null)
+        'publishFindingToSnsParams': publishFindingToSnsParams,
+      if (replaceDefaultPolicyVersionParams != null)
+        'replaceDefaultPolicyVersionParams': replaceDefaultPolicyVersionParams,
+      if (updateCACertificateParams != null)
+        'updateCACertificateParams': updateCACertificateParams,
+      if (updateDeviceCertificateParams != null)
+        'updateDeviceCertificateParams': updateDeviceCertificateParams,
+    };
+  }
 }
 
 enum MitigationActionType {
-  @_s.JsonValue('UPDATE_DEVICE_CERTIFICATE')
   updateDeviceCertificate,
-  @_s.JsonValue('UPDATE_CA_CERTIFICATE')
   updateCaCertificate,
-  @_s.JsonValue('ADD_THINGS_TO_THING_GROUP')
   addThingsToThingGroup,
-  @_s.JsonValue('REPLACE_DEFAULT_POLICY_VERSION')
   replaceDefaultPolicyVersion,
-  @_s.JsonValue('ENABLE_IOT_LOGGING')
   enableIotLogging,
-  @_s.JsonValue('PUBLISH_FINDING_TO_SNS')
   publishFindingToSns,
 }
 
@@ -20769,106 +23420,160 @@ extension on MitigationActionType {
       case MitigationActionType.publishFindingToSns:
         return 'PUBLISH_FINDING_TO_SNS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MitigationActionType toMitigationActionType() {
+    switch (this) {
+      case 'UPDATE_DEVICE_CERTIFICATE':
+        return MitigationActionType.updateDeviceCertificate;
+      case 'UPDATE_CA_CERTIFICATE':
+        return MitigationActionType.updateCaCertificate;
+      case 'ADD_THINGS_TO_THING_GROUP':
+        return MitigationActionType.addThingsToThingGroup;
+      case 'REPLACE_DEFAULT_POLICY_VERSION':
+        return MitigationActionType.replaceDefaultPolicyVersion;
+      case 'ENABLE_IOT_LOGGING':
+        return MitigationActionType.enableIotLogging;
+      case 'PUBLISH_FINDING_TO_SNS':
+        return MitigationActionType.publishFindingToSns;
+    }
+    throw Exception('$this is not known in enum MitigationActionType');
   }
 }
 
 enum ModelStatus {
-  @_s.JsonValue('PENDING_BUILD')
   pendingBuild,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('EXPIRED')
   expired,
 }
 
+extension on ModelStatus {
+  String toValue() {
+    switch (this) {
+      case ModelStatus.pendingBuild:
+        return 'PENDING_BUILD';
+      case ModelStatus.active:
+        return 'ACTIVE';
+      case ModelStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  ModelStatus toModelStatus() {
+    switch (this) {
+      case 'PENDING_BUILD':
+        return ModelStatus.pendingBuild;
+      case 'ACTIVE':
+        return ModelStatus.active;
+      case 'EXPIRED':
+        return ModelStatus.expired;
+    }
+    throw Exception('$this is not known in enum ModelStatus');
+  }
+}
+
 /// Specifies the MQTT context to use for the test authorizer request
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MqttContext {
   /// The value of the <code>clientId</code> key in an MQTT authorization request.
-  @_s.JsonKey(name: 'clientId')
-  final String clientId;
+  final String? clientId;
 
   /// The value of the <code>password</code> key in an MQTT authorization request.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'password')
-  final Uint8List password;
+  final Uint8List? password;
 
   /// The value of the <code>username</code> key in an MQTT authorization request.
-  @_s.JsonKey(name: 'username')
-  final String username;
+  final String? username;
 
   MqttContext({
     this.clientId,
     this.password,
     this.username,
   });
-  Map<String, dynamic> toJson() => _$MqttContextToJson(this);
+
+  factory MqttContext.fromJson(Map<String, dynamic> json) {
+    return MqttContext(
+      clientId: json['clientId'] as String?,
+      password: _s.decodeNullableUint8List(json['password'] as String?),
+      username: json['username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final password = this.password;
+    final username = this.username;
+    return {
+      if (clientId != null) 'clientId': clientId,
+      if (password != null) 'password': base64Encode(password),
+      if (username != null) 'username': username,
+    };
+  }
 }
 
 /// Information about the resource that was noncompliant with the audit check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NonCompliantResource {
   /// Other information about the noncompliant resource.
-  @_s.JsonKey(name: 'additionalInfo')
-  final Map<String, String> additionalInfo;
+  final Map<String, String>? additionalInfo;
 
   /// Information that identifies the noncompliant resource.
-  @_s.JsonKey(name: 'resourceIdentifier')
-  final ResourceIdentifier resourceIdentifier;
+  final ResourceIdentifier? resourceIdentifier;
 
   /// The type of the noncompliant resource.
-  @_s.JsonKey(name: 'resourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   NonCompliantResource({
     this.additionalInfo,
     this.resourceIdentifier,
     this.resourceType,
   });
-  factory NonCompliantResource.fromJson(Map<String, dynamic> json) =>
-      _$NonCompliantResourceFromJson(json);
+
+  factory NonCompliantResource.fromJson(Map<String, dynamic> json) {
+    return NonCompliantResource(
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceIdentifier: json['resourceIdentifier'] != null
+          ? ResourceIdentifier.fromJson(
+              json['resourceIdentifier'] as Map<String, dynamic>)
+          : null,
+      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalInfo = this.additionalInfo;
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    return {
+      if (additionalInfo != null) 'additionalInfo': additionalInfo,
+      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+    };
+  }
 }
 
 /// Describes a file to be associated with an OTA update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OTAUpdateFile {
   /// A list of name/attribute pairs.
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The code signing method of the file.
-  @_s.JsonKey(name: 'codeSigning')
-  final CodeSigning codeSigning;
+  final CodeSigning? codeSigning;
 
   /// The location of the updated firmware.
-  @_s.JsonKey(name: 'fileLocation')
-  final FileLocation fileLocation;
+  final FileLocation? fileLocation;
 
   /// The name of the file.
-  @_s.JsonKey(name: 'fileName')
-  final String fileName;
+  final String? fileName;
 
   /// An integer value you can include in the job document to allow your devices
   /// to identify the type of file received from the cloud.
-  @_s.JsonKey(name: 'fileType')
-  final int fileType;
+  final int? fileType;
 
   /// The file version.
-  @_s.JsonKey(name: 'fileVersion')
-  final String fileVersion;
+  final String? fileVersion;
 
   OTAUpdateFile({
     this.attributes,
@@ -20878,79 +23583,87 @@ class OTAUpdateFile {
     this.fileType,
     this.fileVersion,
   });
-  factory OTAUpdateFile.fromJson(Map<String, dynamic> json) =>
-      _$OTAUpdateFileFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OTAUpdateFileToJson(this);
+  factory OTAUpdateFile.fromJson(Map<String, dynamic> json) {
+    return OTAUpdateFile(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      codeSigning: json['codeSigning'] != null
+          ? CodeSigning.fromJson(json['codeSigning'] as Map<String, dynamic>)
+          : null,
+      fileLocation: json['fileLocation'] != null
+          ? FileLocation.fromJson(json['fileLocation'] as Map<String, dynamic>)
+          : null,
+      fileName: json['fileName'] as String?,
+      fileType: json['fileType'] as int?,
+      fileVersion: json['fileVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final codeSigning = this.codeSigning;
+    final fileLocation = this.fileLocation;
+    final fileName = this.fileName;
+    final fileType = this.fileType;
+    final fileVersion = this.fileVersion;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (codeSigning != null) 'codeSigning': codeSigning,
+      if (fileLocation != null) 'fileLocation': fileLocation,
+      if (fileName != null) 'fileName': fileName,
+      if (fileType != null) 'fileType': fileType,
+      if (fileVersion != null) 'fileVersion': fileVersion,
+    };
+  }
 }
 
 /// Information about an OTA update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OTAUpdateInfo {
   /// A collection of name/value pairs
-  @_s.JsonKey(name: 'additionalParameters')
-  final Map<String, String> additionalParameters;
+  final Map<String, String>? additionalParameters;
 
   /// The AWS IoT job ARN associated with the OTA update.
-  @_s.JsonKey(name: 'awsIotJobArn')
-  final String awsIotJobArn;
+  final String? awsIotJobArn;
 
   /// The AWS IoT job ID associated with the OTA update.
-  @_s.JsonKey(name: 'awsIotJobId')
-  final String awsIotJobId;
+  final String? awsIotJobId;
 
   /// Configuration for the rollout of OTA updates.
-  @_s.JsonKey(name: 'awsJobExecutionsRolloutConfig')
-  final AwsJobExecutionsRolloutConfig awsJobExecutionsRolloutConfig;
+  final AwsJobExecutionsRolloutConfig? awsJobExecutionsRolloutConfig;
 
   /// Configuration information for pre-signed URLs. Valid when
   /// <code>protocols</code> contains HTTP.
-  @_s.JsonKey(name: 'awsJobPresignedUrlConfig')
-  final AwsJobPresignedUrlConfig awsJobPresignedUrlConfig;
+  final AwsJobPresignedUrlConfig? awsJobPresignedUrlConfig;
 
   /// The date when the OTA update was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A description of the OTA update.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Error information associated with the OTA update.
-  @_s.JsonKey(name: 'errorInfo')
-  final ErrorInfo errorInfo;
+  final ErrorInfo? errorInfo;
 
   /// The date when the OTA update was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The OTA update ARN.
-  @_s.JsonKey(name: 'otaUpdateArn')
-  final String otaUpdateArn;
+  final String? otaUpdateArn;
 
   /// A list of files associated with the OTA update.
-  @_s.JsonKey(name: 'otaUpdateFiles')
-  final List<OTAUpdateFile> otaUpdateFiles;
+  final List<OTAUpdateFile>? otaUpdateFiles;
 
   /// The OTA update ID.
-  @_s.JsonKey(name: 'otaUpdateId')
-  final String otaUpdateId;
+  final String? otaUpdateId;
 
   /// The status of the OTA update.
-  @_s.JsonKey(name: 'otaUpdateStatus')
-  final OTAUpdateStatus otaUpdateStatus;
+  final OTAUpdateStatus? otaUpdateStatus;
 
   /// The protocol used to transfer the OTA update image. Valid values are [HTTP],
   /// [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target
   /// device can choose the protocol.
-  @_s.JsonKey(name: 'protocols')
-  final List<Protocol> protocols;
+  final List<Protocol>? protocols;
 
   /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will
   /// be complete after all those things specified as targets have completed the
@@ -20958,12 +23671,10 @@ class OTAUpdateInfo {
   /// thing when a change is detected in a target. For example, an OTA update will
   /// run on a thing when the thing is added to a target group, even after the OTA
   /// update was completed by all things originally in the group.
-  @_s.JsonKey(name: 'targetSelection')
-  final TargetSelection targetSelection;
+  final TargetSelection? targetSelection;
 
   /// The targets of the OTA update.
-  @_s.JsonKey(name: 'targets')
-  final List<String> targets;
+  final List<String>? targets;
 
   OTAUpdateInfo({
     this.additionalParameters,
@@ -20983,18 +23694,98 @@ class OTAUpdateInfo {
     this.targetSelection,
     this.targets,
   });
-  factory OTAUpdateInfo.fromJson(Map<String, dynamic> json) =>
-      _$OTAUpdateInfoFromJson(json);
+
+  factory OTAUpdateInfo.fromJson(Map<String, dynamic> json) {
+    return OTAUpdateInfo(
+      additionalParameters:
+          (json['additionalParameters'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      awsIotJobArn: json['awsIotJobArn'] as String?,
+      awsIotJobId: json['awsIotJobId'] as String?,
+      awsJobExecutionsRolloutConfig:
+          json['awsJobExecutionsRolloutConfig'] != null
+              ? AwsJobExecutionsRolloutConfig.fromJson(
+                  json['awsJobExecutionsRolloutConfig'] as Map<String, dynamic>)
+              : null,
+      awsJobPresignedUrlConfig: json['awsJobPresignedUrlConfig'] != null
+          ? AwsJobPresignedUrlConfig.fromJson(
+              json['awsJobPresignedUrlConfig'] as Map<String, dynamic>)
+          : null,
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      errorInfo: json['errorInfo'] != null
+          ? ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>)
+          : null,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      otaUpdateArn: json['otaUpdateArn'] as String?,
+      otaUpdateFiles: (json['otaUpdateFiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => OTAUpdateFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      otaUpdateId: json['otaUpdateId'] as String?,
+      otaUpdateStatus:
+          (json['otaUpdateStatus'] as String?)?.toOTAUpdateStatus(),
+      protocols: (json['protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toProtocol())
+          .toList(),
+      targetSelection:
+          (json['targetSelection'] as String?)?.toTargetSelection(),
+      targets: (json['targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalParameters = this.additionalParameters;
+    final awsIotJobArn = this.awsIotJobArn;
+    final awsIotJobId = this.awsIotJobId;
+    final awsJobExecutionsRolloutConfig = this.awsJobExecutionsRolloutConfig;
+    final awsJobPresignedUrlConfig = this.awsJobPresignedUrlConfig;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final errorInfo = this.errorInfo;
+    final lastModifiedDate = this.lastModifiedDate;
+    final otaUpdateArn = this.otaUpdateArn;
+    final otaUpdateFiles = this.otaUpdateFiles;
+    final otaUpdateId = this.otaUpdateId;
+    final otaUpdateStatus = this.otaUpdateStatus;
+    final protocols = this.protocols;
+    final targetSelection = this.targetSelection;
+    final targets = this.targets;
+    return {
+      if (additionalParameters != null)
+        'additionalParameters': additionalParameters,
+      if (awsIotJobArn != null) 'awsIotJobArn': awsIotJobArn,
+      if (awsIotJobId != null) 'awsIotJobId': awsIotJobId,
+      if (awsJobExecutionsRolloutConfig != null)
+        'awsJobExecutionsRolloutConfig': awsJobExecutionsRolloutConfig,
+      if (awsJobPresignedUrlConfig != null)
+        'awsJobPresignedUrlConfig': awsJobPresignedUrlConfig,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (errorInfo != null) 'errorInfo': errorInfo,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (otaUpdateArn != null) 'otaUpdateArn': otaUpdateArn,
+      if (otaUpdateFiles != null) 'otaUpdateFiles': otaUpdateFiles,
+      if (otaUpdateId != null) 'otaUpdateId': otaUpdateId,
+      if (otaUpdateStatus != null) 'otaUpdateStatus': otaUpdateStatus.toValue(),
+      if (protocols != null)
+        'protocols': protocols.map((e) => e.toValue()).toList(),
+      if (targetSelection != null) 'targetSelection': targetSelection.toValue(),
+      if (targets != null) 'targets': targets,
+    };
+  }
 }
 
 enum OTAUpdateStatus {
-  @_s.JsonValue('CREATE_PENDING')
   createPending,
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
 }
 
@@ -21010,71 +23801,82 @@ extension on OTAUpdateStatus {
       case OTAUpdateStatus.createFailed:
         return 'CREATE_FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OTAUpdateStatus toOTAUpdateStatus() {
+    switch (this) {
+      case 'CREATE_PENDING':
+        return OTAUpdateStatus.createPending;
+      case 'CREATE_IN_PROGRESS':
+        return OTAUpdateStatus.createInProgress;
+      case 'CREATE_COMPLETE':
+        return OTAUpdateStatus.createComplete;
+      case 'CREATE_FAILED':
+        return OTAUpdateStatus.createFailed;
+    }
+    throw Exception('$this is not known in enum OTAUpdateStatus');
   }
 }
 
 /// An OTA update summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OTAUpdateSummary {
   /// The date when the OTA update was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The OTA update ARN.
-  @_s.JsonKey(name: 'otaUpdateArn')
-  final String otaUpdateArn;
+  final String? otaUpdateArn;
 
   /// The OTA update ID.
-  @_s.JsonKey(name: 'otaUpdateId')
-  final String otaUpdateId;
+  final String? otaUpdateId;
 
   OTAUpdateSummary({
     this.creationDate,
     this.otaUpdateArn,
     this.otaUpdateId,
   });
-  factory OTAUpdateSummary.fromJson(Map<String, dynamic> json) =>
-      _$OTAUpdateSummaryFromJson(json);
+
+  factory OTAUpdateSummary.fromJson(Map<String, dynamic> json) {
+    return OTAUpdateSummary(
+      creationDate: timeStampFromJson(json['creationDate']),
+      otaUpdateArn: json['otaUpdateArn'] as String?,
+      otaUpdateId: json['otaUpdateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final otaUpdateArn = this.otaUpdateArn;
+    final otaUpdateId = this.otaUpdateId;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (otaUpdateArn != null) 'otaUpdateArn': otaUpdateArn,
+      if (otaUpdateId != null) 'otaUpdateId': otaUpdateId,
+    };
+  }
 }
 
 /// A certificate that has been transferred but not yet accepted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutgoingCertificate {
   /// The certificate ARN.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The certificate ID.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   /// The certificate creation date.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date the transfer was initiated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'transferDate')
-  final DateTime transferDate;
+  final DateTime? transferDate;
 
   /// The transfer message.
-  @_s.JsonKey(name: 'transferMessage')
-  final String transferMessage;
+  final String? transferMessage;
 
   /// The AWS account to which the transfer was made.
-  @_s.JsonKey(name: 'transferredTo')
-  final String transferredTo;
+  final String? transferredTo;
 
   OutgoingCertificate({
     this.certificateArn,
@@ -21084,147 +23886,224 @@ class OutgoingCertificate {
     this.transferMessage,
     this.transferredTo,
   });
-  factory OutgoingCertificate.fromJson(Map<String, dynamic> json) =>
-      _$OutgoingCertificateFromJson(json);
+
+  factory OutgoingCertificate.fromJson(Map<String, dynamic> json) {
+    return OutgoingCertificate(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      transferDate: timeStampFromJson(json['transferDate']),
+      transferMessage: json['transferMessage'] as String?,
+      transferredTo: json['transferredTo'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    final creationDate = this.creationDate;
+    final transferDate = this.transferDate;
+    final transferMessage = this.transferMessage;
+    final transferredTo = this.transferredTo;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (transferDate != null)
+        'transferDate': unixTimestampToJson(transferDate),
+      if (transferMessage != null) 'transferMessage': transferMessage,
+      if (transferredTo != null) 'transferredTo': transferredTo,
+    };
+  }
 }
 
 /// Describes the percentile and percentile value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PercentPair {
   /// The percentile.
-  @_s.JsonKey(name: 'percent')
-  final double percent;
+  final double? percent;
 
   /// The value of the percentile.
-  @_s.JsonKey(name: 'value')
-  final double value;
+  final double? value;
 
   PercentPair({
     this.percent,
     this.value,
   });
-  factory PercentPair.fromJson(Map<String, dynamic> json) =>
-      _$PercentPairFromJson(json);
+
+  factory PercentPair.fromJson(Map<String, dynamic> json) {
+    return PercentPair(
+      percent: json['percent'] as double?,
+      value: json['value'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final percent = this.percent;
+    final value = this.value;
+    return {
+      if (percent != null) 'percent': percent,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// Describes an AWS IoT policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Policy {
   /// The policy ARN.
-  @_s.JsonKey(name: 'policyArn')
-  final String policyArn;
+  final String? policyArn;
 
   /// The policy name.
-  @_s.JsonKey(name: 'policyName')
-  final String policyName;
+  final String? policyName;
 
   Policy({
     this.policyArn,
     this.policyName,
   });
-  factory Policy.fromJson(Map<String, dynamic> json) => _$PolicyFromJson(json);
+
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      policyArn: json['policyArn'] as String?,
+      policyName: json['policyName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyArn = this.policyArn;
+    final policyName = this.policyName;
+    return {
+      if (policyArn != null) 'policyArn': policyArn,
+      if (policyName != null) 'policyName': policyName,
+    };
+  }
 }
 
 enum PolicyTemplateName {
-  @_s.JsonValue('BLANK_POLICY')
   blankPolicy,
 }
 
+extension on PolicyTemplateName {
+  String toValue() {
+    switch (this) {
+      case PolicyTemplateName.blankPolicy:
+        return 'BLANK_POLICY';
+    }
+  }
+}
+
+extension on String {
+  PolicyTemplateName toPolicyTemplateName() {
+    switch (this) {
+      case 'BLANK_POLICY':
+        return PolicyTemplateName.blankPolicy;
+    }
+    throw Exception('$this is not known in enum PolicyTemplateName');
+  }
+}
+
 /// Describes a policy version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicyVersion {
   /// The date and time the policy was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createDate')
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// Specifies whether the policy version is the default.
-  @_s.JsonKey(name: 'isDefaultVersion')
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The policy version ID.
-  @_s.JsonKey(name: 'versionId')
-  final String versionId;
+  final String? versionId;
 
   PolicyVersion({
     this.createDate,
     this.isDefaultVersion,
     this.versionId,
   });
-  factory PolicyVersion.fromJson(Map<String, dynamic> json) =>
-      _$PolicyVersionFromJson(json);
+
+  factory PolicyVersion.fromJson(Map<String, dynamic> json) {
+    return PolicyVersion(
+      createDate: timeStampFromJson(json['createDate']),
+      isDefaultVersion: json['isDefaultVersion'] as bool?,
+      versionId: json['versionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final isDefaultVersion = this.isDefaultVersion;
+    final versionId = this.versionId;
+    return {
+      if (createDate != null) 'createDate': unixTimestampToJson(createDate),
+      if (isDefaultVersion != null) 'isDefaultVersion': isDefaultVersion,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
 }
 
 /// Information about the version of the policy associated with the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PolicyVersionIdentifier {
   /// The name of the policy.
-  @_s.JsonKey(name: 'policyName')
-  final String policyName;
+  final String? policyName;
 
   /// The ID of the version of the policy associated with the resource.
-  @_s.JsonKey(name: 'policyVersionId')
-  final String policyVersionId;
+  final String? policyVersionId;
 
   PolicyVersionIdentifier({
     this.policyName,
     this.policyVersionId,
   });
-  factory PolicyVersionIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$PolicyVersionIdentifierFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PolicyVersionIdentifierToJson(this);
+  factory PolicyVersionIdentifier.fromJson(Map<String, dynamic> json) {
+    return PolicyVersionIdentifier(
+      policyName: json['policyName'] as String?,
+      policyVersionId: json['policyVersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyName = this.policyName;
+    final policyVersionId = this.policyVersionId;
+    return {
+      if (policyName != null) 'policyName': policyName,
+      if (policyVersionId != null) 'policyVersionId': policyVersionId,
+    };
+  }
 }
 
 /// Configuration for pre-signed S3 URLs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PresignedUrlConfig {
   /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600,
   /// the default value is 3600 seconds. Pre-signed URLs are generated when Jobs
   /// receives an MQTT request for the job document.
-  @_s.JsonKey(name: 'expiresInSec')
-  final int expiresInSec;
+  final int? expiresInSec;
 
   /// The ARN of an IAM role that grants grants permission to download files from
   /// the S3 bucket where the job data/updates are stored. The role must also
   /// grant permission for IoT to download the files.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   PresignedUrlConfig({
     this.expiresInSec,
     this.roleArn,
   });
-  factory PresignedUrlConfig.fromJson(Map<String, dynamic> json) =>
-      _$PresignedUrlConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PresignedUrlConfigToJson(this);
+  factory PresignedUrlConfig.fromJson(Map<String, dynamic> json) {
+    return PresignedUrlConfig(
+      expiresInSec: json['expiresInSec'] as int?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expiresInSec = this.expiresInSec;
+    final roleArn = this.roleArn;
+    return {
+      if (expiresInSec != null) 'expiresInSec': expiresInSec,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 enum Protocol {
-  @_s.JsonValue('MQTT')
   mqtt,
-  @_s.JsonValue('HTTP')
   http,
 }
 
@@ -21236,72 +24115,75 @@ extension on Protocol {
       case Protocol.http:
         return 'HTTP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Protocol toProtocol() {
+    switch (this) {
+      case 'MQTT':
+        return Protocol.mqtt;
+      case 'HTTP':
+        return Protocol.http;
+    }
+    throw Exception('$this is not known in enum Protocol');
   }
 }
 
 /// Structure that contains <code>payloadVersion</code> and
 /// <code>targetArn</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProvisioningHook {
   /// The ARN of the target function.
   ///
   /// <i>Note:</i> Only Lambda functions are currently supported.
-  @_s.JsonKey(name: 'targetArn')
   final String targetArn;
 
   /// The payload that was sent to the target function.
   ///
   /// <i>Note:</i> Only Lambda functions are currently supported.
-  @_s.JsonKey(name: 'payloadVersion')
-  final String payloadVersion;
+  final String? payloadVersion;
 
   ProvisioningHook({
-    @_s.required this.targetArn,
+    required this.targetArn,
     this.payloadVersion,
   });
-  factory ProvisioningHook.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningHookFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProvisioningHookToJson(this);
+  factory ProvisioningHook.fromJson(Map<String, dynamic> json) {
+    return ProvisioningHook(
+      targetArn: json['targetArn'] as String,
+      payloadVersion: json['payloadVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetArn = this.targetArn;
+    final payloadVersion = this.payloadVersion;
+    return {
+      'targetArn': targetArn,
+      if (payloadVersion != null) 'payloadVersion': payloadVersion,
+    };
+  }
 }
 
 /// A summary of information about a fleet provisioning template.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningTemplateSummary {
   /// The date when the fleet provisioning template summary was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The description of the fleet provisioning template.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// True if the fleet provision template is enabled, otherwise false.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The date when the fleet provisioning template summary was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The ARN of the fleet provisioning template.
-  @_s.JsonKey(name: 'templateArn')
-  final String templateArn;
+  final String? templateArn;
 
   /// The name of the fleet provisioning template.
-  @_s.JsonKey(name: 'templateName')
-  final String templateName;
+  final String? templateName;
 
   ProvisioningTemplateSummary({
     this.creationDate,
@@ -21311,358 +24193,469 @@ class ProvisioningTemplateSummary {
     this.templateArn,
     this.templateName,
   });
-  factory ProvisioningTemplateSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProvisioningTemplateSummaryFromJson(json);
+
+  factory ProvisioningTemplateSummary.fromJson(Map<String, dynamic> json) {
+    return ProvisioningTemplateSummary(
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      enabled: json['enabled'] as bool?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      templateArn: json['templateArn'] as String?,
+      templateName: json['templateName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final enabled = this.enabled;
+    final lastModifiedDate = this.lastModifiedDate;
+    final templateArn = this.templateArn;
+    final templateName = this.templateName;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (enabled != null) 'enabled': enabled,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (templateArn != null) 'templateArn': templateArn,
+      if (templateName != null) 'templateName': templateName,
+    };
+  }
 }
 
 /// A summary of information about a fleet provision template version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisioningTemplateVersionSummary {
   /// The date when the fleet provisioning template version was created
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// True if the fleet provisioning template version is the default version,
   /// otherwise false.
-  @_s.JsonKey(name: 'isDefaultVersion')
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The ID of the fleet privisioning template version.
-  @_s.JsonKey(name: 'versionId')
-  final int versionId;
+  final int? versionId;
 
   ProvisioningTemplateVersionSummary({
     this.creationDate,
     this.isDefaultVersion,
     this.versionId,
   });
+
   factory ProvisioningTemplateVersionSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$ProvisioningTemplateVersionSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return ProvisioningTemplateVersionSummary(
+      creationDate: timeStampFromJson(json['creationDate']),
+      isDefaultVersion: json['isDefaultVersion'] as bool?,
+      versionId: json['versionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final isDefaultVersion = this.isDefaultVersion;
+    final versionId = this.versionId;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (isDefaultVersion != null) 'isDefaultVersion': isDefaultVersion,
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
 }
 
 /// Parameters to define a mitigation action that publishes findings to Amazon
 /// SNS. You can implement your own custom actions in response to the Amazon SNS
 /// messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PublishFindingToSnsParams {
   /// The ARN of the topic to which you want to publish the findings.
-  @_s.JsonKey(name: 'topicArn')
   final String topicArn;
 
   PublishFindingToSnsParams({
-    @_s.required this.topicArn,
+    required this.topicArn,
   });
-  factory PublishFindingToSnsParams.fromJson(Map<String, dynamic> json) =>
-      _$PublishFindingToSnsParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PublishFindingToSnsParamsToJson(this);
+  factory PublishFindingToSnsParams.fromJson(Map<String, dynamic> json) {
+    return PublishFindingToSnsParams(
+      topicArn: json['topicArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    return {
+      'topicArn': topicArn,
+    };
+  }
 }
 
 /// An asset property value entry containing the following information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PutAssetPropertyValueEntry {
   /// A list of property values to insert that each contain timestamp, quality,
   /// and value (TQV) information.
-  @_s.JsonKey(name: 'propertyValues')
   final List<AssetPropertyValue> propertyValues;
 
   /// The ID of the AWS IoT SiteWise asset. You must specify either a
   /// <code>propertyAlias</code> or both an <code>aliasId</code> and a
   /// <code>propertyId</code>. Accepts substitution templates.
-  @_s.JsonKey(name: 'assetId')
-  final String assetId;
+  final String? assetId;
 
   /// Optional. A unique identifier for this entry that you can define to better
   /// track which message caused an error in case of failure. Accepts substitution
   /// templates. Defaults to a new UUID.
-  @_s.JsonKey(name: 'entryId')
-  final String entryId;
+  final String? entryId;
 
   /// The name of the property alias associated with your asset property. You must
   /// specify either a <code>propertyAlias</code> or both an <code>aliasId</code>
   /// and a <code>propertyId</code>. Accepts substitution templates.
-  @_s.JsonKey(name: 'propertyAlias')
-  final String propertyAlias;
+  final String? propertyAlias;
 
   /// The ID of the asset's property. You must specify either a
   /// <code>propertyAlias</code> or both an <code>aliasId</code> and a
   /// <code>propertyId</code>. Accepts substitution templates.
-  @_s.JsonKey(name: 'propertyId')
-  final String propertyId;
+  final String? propertyId;
 
   PutAssetPropertyValueEntry({
-    @_s.required this.propertyValues,
+    required this.propertyValues,
     this.assetId,
     this.entryId,
     this.propertyAlias,
     this.propertyId,
   });
-  factory PutAssetPropertyValueEntry.fromJson(Map<String, dynamic> json) =>
-      _$PutAssetPropertyValueEntryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PutAssetPropertyValueEntryToJson(this);
+  factory PutAssetPropertyValueEntry.fromJson(Map<String, dynamic> json) {
+    return PutAssetPropertyValueEntry(
+      propertyValues: (json['propertyValues'] as List)
+          .whereNotNull()
+          .map((e) => AssetPropertyValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      assetId: json['assetId'] as String?,
+      entryId: json['entryId'] as String?,
+      propertyAlias: json['propertyAlias'] as String?,
+      propertyId: json['propertyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyValues = this.propertyValues;
+    final assetId = this.assetId;
+    final entryId = this.entryId;
+    final propertyAlias = this.propertyAlias;
+    final propertyId = this.propertyId;
+    return {
+      'propertyValues': propertyValues,
+      if (assetId != null) 'assetId': assetId,
+      if (entryId != null) 'entryId': entryId,
+      if (propertyAlias != null) 'propertyAlias': propertyAlias,
+      if (propertyId != null) 'propertyId': propertyId,
+    };
+  }
 }
 
 /// The input for the DynamoActionVS action that specifies the DynamoDB table to
 /// which the message data will be written.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PutItemInput {
   /// The table where the message data will be written.
-  @_s.JsonKey(name: 'tableName')
   final String tableName;
 
   PutItemInput({
-    @_s.required this.tableName,
+    required this.tableName,
   });
-  factory PutItemInput.fromJson(Map<String, dynamic> json) =>
-      _$PutItemInputFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PutItemInputToJson(this);
+  factory PutItemInput.fromJson(Map<String, dynamic> json) {
+    return PutItemInput(
+      tableName: json['tableName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableName = this.tableName;
+    return {
+      'tableName': tableName,
+    };
+  }
 }
 
 /// Allows you to define a criteria to initiate the increase in rate of rollout
 /// for a job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RateIncreaseCriteria {
   /// The threshold for number of notified things that will initiate the increase
   /// in rate of rollout.
-  @_s.JsonKey(name: 'numberOfNotifiedThings')
-  final int numberOfNotifiedThings;
+  final int? numberOfNotifiedThings;
 
   /// The threshold for number of succeeded things that will initiate the increase
   /// in rate of rollout.
-  @_s.JsonKey(name: 'numberOfSucceededThings')
-  final int numberOfSucceededThings;
+  final int? numberOfSucceededThings;
 
   RateIncreaseCriteria({
     this.numberOfNotifiedThings,
     this.numberOfSucceededThings,
   });
-  factory RateIncreaseCriteria.fromJson(Map<String, dynamic> json) =>
-      _$RateIncreaseCriteriaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RateIncreaseCriteriaToJson(this);
+  factory RateIncreaseCriteria.fromJson(Map<String, dynamic> json) {
+    return RateIncreaseCriteria(
+      numberOfNotifiedThings: json['numberOfNotifiedThings'] as int?,
+      numberOfSucceededThings: json['numberOfSucceededThings'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfNotifiedThings = this.numberOfNotifiedThings;
+    final numberOfSucceededThings = this.numberOfSucceededThings;
+    return {
+      if (numberOfNotifiedThings != null)
+        'numberOfNotifiedThings': numberOfNotifiedThings,
+      if (numberOfSucceededThings != null)
+        'numberOfSucceededThings': numberOfSucceededThings,
+    };
+  }
 }
 
 /// The output from the RegisterCACertificateResponse operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterCACertificateResponse {
   /// The CA certificate ARN.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The CA certificate identifier.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   RegisterCACertificateResponse({
     this.certificateArn,
     this.certificateId,
   });
-  factory RegisterCACertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterCACertificateResponseFromJson(json);
+
+  factory RegisterCACertificateResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterCACertificateResponse(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+    };
+  }
 }
 
 /// The output from the RegisterCertificate operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterCertificateResponse {
   /// The certificate ARN.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The certificate identifier.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   RegisterCertificateResponse({
     this.certificateArn,
     this.certificateId,
   });
-  factory RegisterCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterCertificateResponseFromJson(json);
+
+  factory RegisterCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterCertificateResponse(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterCertificateWithoutCAResponse {
   /// The Amazon Resource Name (ARN) of the registered certificate.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The ID of the registered certificate. (The last part of the certificate ARN
   /// contains the certificate ID.
-  @_s.JsonKey(name: 'certificateId')
-  final String certificateId;
+  final String? certificateId;
 
   RegisterCertificateWithoutCAResponse({
     this.certificateArn,
     this.certificateId,
   });
+
   factory RegisterCertificateWithoutCAResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterCertificateWithoutCAResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RegisterCertificateWithoutCAResponse(
+      certificateArn: json['certificateArn'] as String?,
+      certificateId: json['certificateId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateId = this.certificateId;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificateId != null) 'certificateId': certificateId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterThingResponse {
   /// The certificate data, in PEM format.
-  @_s.JsonKey(name: 'certificatePem')
-  final String certificatePem;
+  final String? certificatePem;
 
   /// ARNs for the generated resources.
-  @_s.JsonKey(name: 'resourceArns')
-  final Map<String, String> resourceArns;
+  final Map<String, String>? resourceArns;
 
   RegisterThingResponse({
     this.certificatePem,
     this.resourceArns,
   });
-  factory RegisterThingResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterThingResponseFromJson(json);
+
+  factory RegisterThingResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterThingResponse(
+      certificatePem: json['certificatePem'] as String?,
+      resourceArns: (json['resourceArns'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificatePem = this.certificatePem;
+    final resourceArns = this.resourceArns;
+    return {
+      if (certificatePem != null) 'certificatePem': certificatePem,
+      if (resourceArns != null) 'resourceArns': resourceArns,
+    };
+  }
 }
 
 /// The registration configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RegistrationConfig {
   /// The ARN of the role.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The template body.
-  @_s.JsonKey(name: 'templateBody')
-  final String templateBody;
+  final String? templateBody;
 
   RegistrationConfig({
     this.roleArn,
     this.templateBody,
   });
-  factory RegistrationConfig.fromJson(Map<String, dynamic> json) =>
-      _$RegistrationConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RegistrationConfigToJson(this);
+  factory RegistrationConfig.fromJson(Map<String, dynamic> json) {
+    return RegistrationConfig(
+      roleArn: json['roleArn'] as String?,
+      templateBody: json['templateBody'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final templateBody = this.templateBody;
+    return {
+      if (roleArn != null) 'roleArn': roleArn,
+      if (templateBody != null) 'templateBody': templateBody,
+    };
+  }
 }
 
 /// Information about a related resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RelatedResource {
   /// Other information about the resource.
-  @_s.JsonKey(name: 'additionalInfo')
-  final Map<String, String> additionalInfo;
+  final Map<String, String>? additionalInfo;
 
   /// Information that identifies the resource.
-  @_s.JsonKey(name: 'resourceIdentifier')
-  final ResourceIdentifier resourceIdentifier;
+  final ResourceIdentifier? resourceIdentifier;
 
   /// The type of resource.
-  @_s.JsonKey(name: 'resourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   RelatedResource({
     this.additionalInfo,
     this.resourceIdentifier,
     this.resourceType,
   });
-  factory RelatedResource.fromJson(Map<String, dynamic> json) =>
-      _$RelatedResourceFromJson(json);
+
+  factory RelatedResource.fromJson(Map<String, dynamic> json) {
+    return RelatedResource(
+      additionalInfo: (json['additionalInfo'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      resourceIdentifier: json['resourceIdentifier'] != null
+          ? ResourceIdentifier.fromJson(
+              json['resourceIdentifier'] as Map<String, dynamic>)
+          : null,
+      resourceType: (json['resourceType'] as String?)?.toResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalInfo = this.additionalInfo;
+    final resourceIdentifier = this.resourceIdentifier;
+    final resourceType = this.resourceType;
+    return {
+      if (additionalInfo != null) 'additionalInfo': additionalInfo,
+      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveThingFromBillingGroupResponse {
   RemoveThingFromBillingGroupResponse();
-  factory RemoveThingFromBillingGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RemoveThingFromBillingGroupResponseFromJson(json);
+
+  factory RemoveThingFromBillingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveThingFromBillingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveThingFromThingGroupResponse {
   RemoveThingFromThingGroupResponse();
-  factory RemoveThingFromThingGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RemoveThingFromThingGroupResponseFromJson(json);
+
+  factory RemoveThingFromThingGroupResponse.fromJson(Map<String, dynamic> _) {
+    return RemoveThingFromThingGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Parameters to define a mitigation action that adds a blank policy to
 /// restrict permissions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReplaceDefaultPolicyVersionParams {
   /// The name of the template to be applied. The only supported value is
   /// <code>BLANK_POLICY</code>.
-  @_s.JsonKey(name: 'templateName')
   final PolicyTemplateName templateName;
 
   ReplaceDefaultPolicyVersionParams({
-    @_s.required this.templateName,
+    required this.templateName,
   });
-  factory ReplaceDefaultPolicyVersionParams.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReplaceDefaultPolicyVersionParamsFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$ReplaceDefaultPolicyVersionParamsToJson(this);
+  factory ReplaceDefaultPolicyVersionParams.fromJson(
+      Map<String, dynamic> json) {
+    return ReplaceDefaultPolicyVersionParams(
+      templateName: (json['templateName'] as String).toPolicyTemplateName(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final templateName = this.templateName;
+    return {
+      'templateName': templateName.toValue(),
+    };
+  }
 }
 
 enum ReportType {
-  @_s.JsonValue('ERRORS')
   errors,
-  @_s.JsonValue('RESULTS')
   results,
 }
 
@@ -21674,79 +24667,84 @@ extension on ReportType {
       case ReportType.results:
         return 'RESULTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReportType toReportType() {
+    switch (this) {
+      case 'ERRORS':
+        return ReportType.errors;
+      case 'RESULTS':
+        return ReportType.results;
+    }
+    throw Exception('$this is not known in enum ReportType');
   }
 }
 
 /// Describes an action to republish to another topic.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RepublishAction {
   /// The ARN of the IAM role that grants access.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The name of the MQTT topic.
-  @_s.JsonKey(name: 'topic')
   final String topic;
 
   /// The Quality of Service (QoS) level to use when republishing messages. The
   /// default value is 0.
-  @_s.JsonKey(name: 'qos')
-  final int qos;
+  final int? qos;
 
   RepublishAction({
-    @_s.required this.roleArn,
-    @_s.required this.topic,
+    required this.roleArn,
+    required this.topic,
     this.qos,
   });
-  factory RepublishAction.fromJson(Map<String, dynamic> json) =>
-      _$RepublishActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RepublishActionToJson(this);
+  factory RepublishAction.fromJson(Map<String, dynamic> json) {
+    return RepublishAction(
+      roleArn: json['roleArn'] as String,
+      topic: json['topic'] as String,
+      qos: json['qos'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final topic = this.topic;
+    final qos = this.qos;
+    return {
+      'roleArn': roleArn,
+      'topic': topic,
+      if (qos != null) 'qos': qos,
+    };
+  }
 }
 
 /// Information that identifies the noncompliant resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceIdentifier {
   /// The account with which the resource is associated.
-  @_s.JsonKey(name: 'account')
-  final String account;
+  final String? account;
 
   /// The ID of the CA certificate used to authorize the certificate.
-  @_s.JsonKey(name: 'caCertificateId')
-  final String caCertificateId;
+  final String? caCertificateId;
 
   /// The client ID.
-  @_s.JsonKey(name: 'clientId')
-  final String clientId;
+  final String? clientId;
 
   /// The ID of the Amazon Cognito identity pool.
-  @_s.JsonKey(name: 'cognitoIdentityPoolId')
-  final String cognitoIdentityPoolId;
+  final String? cognitoIdentityPoolId;
 
   /// The ID of the certificate attached to the resource.
-  @_s.JsonKey(name: 'deviceCertificateId')
-  final String deviceCertificateId;
+  final String? deviceCertificateId;
 
   /// The ARN of the IAM role that has overly permissive actions.
-  @_s.JsonKey(name: 'iamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// The version of the policy associated with the resource.
-  @_s.JsonKey(name: 'policyVersionIdentifier')
-  final PolicyVersionIdentifier policyVersionIdentifier;
+  final PolicyVersionIdentifier? policyVersionIdentifier;
 
   /// The ARN of the role alias that has overly permissive actions.
-  @_s.JsonKey(name: 'roleAliasArn')
-  final String roleAliasArn;
+  final String? roleAliasArn;
 
   ResourceIdentifier({
     this.account,
@@ -21758,67 +24756,128 @@ class ResourceIdentifier {
     this.policyVersionIdentifier,
     this.roleAliasArn,
   });
-  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$ResourceIdentifierFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceIdentifierToJson(this);
+  factory ResourceIdentifier.fromJson(Map<String, dynamic> json) {
+    return ResourceIdentifier(
+      account: json['account'] as String?,
+      caCertificateId: json['caCertificateId'] as String?,
+      clientId: json['clientId'] as String?,
+      cognitoIdentityPoolId: json['cognitoIdentityPoolId'] as String?,
+      deviceCertificateId: json['deviceCertificateId'] as String?,
+      iamRoleArn: json['iamRoleArn'] as String?,
+      policyVersionIdentifier: json['policyVersionIdentifier'] != null
+          ? PolicyVersionIdentifier.fromJson(
+              json['policyVersionIdentifier'] as Map<String, dynamic>)
+          : null,
+      roleAliasArn: json['roleAliasArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    final caCertificateId = this.caCertificateId;
+    final clientId = this.clientId;
+    final cognitoIdentityPoolId = this.cognitoIdentityPoolId;
+    final deviceCertificateId = this.deviceCertificateId;
+    final iamRoleArn = this.iamRoleArn;
+    final policyVersionIdentifier = this.policyVersionIdentifier;
+    final roleAliasArn = this.roleAliasArn;
+    return {
+      if (account != null) 'account': account,
+      if (caCertificateId != null) 'caCertificateId': caCertificateId,
+      if (clientId != null) 'clientId': clientId,
+      if (cognitoIdentityPoolId != null)
+        'cognitoIdentityPoolId': cognitoIdentityPoolId,
+      if (deviceCertificateId != null)
+        'deviceCertificateId': deviceCertificateId,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (policyVersionIdentifier != null)
+        'policyVersionIdentifier': policyVersionIdentifier,
+      if (roleAliasArn != null) 'roleAliasArn': roleAliasArn,
+    };
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('DEVICE_CERTIFICATE')
   deviceCertificate,
-  @_s.JsonValue('CA_CERTIFICATE')
   caCertificate,
-  @_s.JsonValue('IOT_POLICY')
   iotPolicy,
-  @_s.JsonValue('COGNITO_IDENTITY_POOL')
   cognitoIdentityPool,
-  @_s.JsonValue('CLIENT_ID')
   clientId,
-  @_s.JsonValue('ACCOUNT_SETTINGS')
   accountSettings,
-  @_s.JsonValue('ROLE_ALIAS')
   roleAlias,
-  @_s.JsonValue('IAM_ROLE')
   iamRole,
 }
 
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.deviceCertificate:
+        return 'DEVICE_CERTIFICATE';
+      case ResourceType.caCertificate:
+        return 'CA_CERTIFICATE';
+      case ResourceType.iotPolicy:
+        return 'IOT_POLICY';
+      case ResourceType.cognitoIdentityPool:
+        return 'COGNITO_IDENTITY_POOL';
+      case ResourceType.clientId:
+        return 'CLIENT_ID';
+      case ResourceType.accountSettings:
+        return 'ACCOUNT_SETTINGS';
+      case ResourceType.roleAlias:
+        return 'ROLE_ALIAS';
+      case ResourceType.iamRole:
+        return 'IAM_ROLE';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'DEVICE_CERTIFICATE':
+        return ResourceType.deviceCertificate;
+      case 'CA_CERTIFICATE':
+        return ResourceType.caCertificate;
+      case 'IOT_POLICY':
+        return ResourceType.iotPolicy;
+      case 'COGNITO_IDENTITY_POOL':
+        return ResourceType.cognitoIdentityPool;
+      case 'CLIENT_ID':
+        return ResourceType.clientId;
+      case 'ACCOUNT_SETTINGS':
+        return ResourceType.accountSettings;
+      case 'ROLE_ALIAS':
+        return ResourceType.roleAlias;
+      case 'IAM_ROLE':
+        return ResourceType.iamRole;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 /// Role alias description.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoleAliasDescription {
   /// The UNIX timestamp of when the role alias was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The number of seconds for which the credential is valid.
-  @_s.JsonKey(name: 'credentialDurationSeconds')
-  final int credentialDurationSeconds;
+  final int? credentialDurationSeconds;
 
   /// The UNIX timestamp of when the role alias was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The role alias owner.
-  @_s.JsonKey(name: 'owner')
-  final String owner;
+  final String? owner;
 
   /// The role alias.
-  @_s.JsonKey(name: 'roleAlias')
-  final String roleAlias;
+  final String? roleAlias;
 
   /// The ARN of the role alias.
-  @_s.JsonKey(name: 'roleAliasArn')
-  final String roleAliasArn;
+  final String? roleAliasArn;
 
   /// The role ARN.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   RoleAliasDescription({
     this.creationDate,
@@ -21829,165 +24888,213 @@ class RoleAliasDescription {
     this.roleAliasArn,
     this.roleArn,
   });
-  factory RoleAliasDescription.fromJson(Map<String, dynamic> json) =>
-      _$RoleAliasDescriptionFromJson(json);
+
+  factory RoleAliasDescription.fromJson(Map<String, dynamic> json) {
+    return RoleAliasDescription(
+      creationDate: timeStampFromJson(json['creationDate']),
+      credentialDurationSeconds: json['credentialDurationSeconds'] as int?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      owner: json['owner'] as String?,
+      roleAlias: json['roleAlias'] as String?,
+      roleAliasArn: json['roleAliasArn'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final credentialDurationSeconds = this.credentialDurationSeconds;
+    final lastModifiedDate = this.lastModifiedDate;
+    final owner = this.owner;
+    final roleAlias = this.roleAlias;
+    final roleAliasArn = this.roleAliasArn;
+    final roleArn = this.roleArn;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (credentialDurationSeconds != null)
+        'credentialDurationSeconds': credentialDurationSeconds,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (owner != null) 'owner': owner,
+      if (roleAlias != null) 'roleAlias': roleAlias,
+      if (roleAliasArn != null) 'roleAliasArn': roleAliasArn,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 /// Describes an action to write data to an Amazon S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Action {
   /// The Amazon S3 bucket.
-  @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
   /// The object key. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html">Actions,
   /// resources, and condition keys for Amazon S3</a>.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The ARN of the IAM role that grants access.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The Amazon S3 canned ACL that controls access to the object identified by
   /// the object key. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl">S3
   /// canned ACLs</a>.
-  @_s.JsonKey(name: 'cannedAcl')
-  final CannedAccessControlList cannedAcl;
+  final CannedAccessControlList? cannedAcl;
 
   S3Action({
-    @_s.required this.bucketName,
-    @_s.required this.key,
-    @_s.required this.roleArn,
+    required this.bucketName,
+    required this.key,
+    required this.roleArn,
     this.cannedAcl,
   });
-  factory S3Action.fromJson(Map<String, dynamic> json) =>
-      _$S3ActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3ActionToJson(this);
+  factory S3Action.fromJson(Map<String, dynamic> json) {
+    return S3Action(
+      bucketName: json['bucketName'] as String,
+      key: json['key'] as String,
+      roleArn: json['roleArn'] as String,
+      cannedAcl: (json['cannedAcl'] as String?)?.toCannedAccessControlList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final key = this.key;
+    final roleArn = this.roleArn;
+    final cannedAcl = this.cannedAcl;
+    return {
+      'bucketName': bucketName,
+      'key': key,
+      'roleArn': roleArn,
+      if (cannedAcl != null) 'cannedAcl': cannedAcl.toValue(),
+    };
+  }
 }
 
 /// Describes the location of updated firmware in S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Destination {
   /// The S3 bucket that contains the updated firmware.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The S3 prefix.
-  @_s.JsonKey(name: 'prefix')
-  final String prefix;
+  final String? prefix;
 
   S3Destination({
     this.bucket,
     this.prefix,
   });
-  factory S3Destination.fromJson(Map<String, dynamic> json) =>
-      _$S3DestinationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3DestinationToJson(this);
+  factory S3Destination.fromJson(Map<String, dynamic> json) {
+    return S3Destination(
+      bucket: json['bucket'] as String?,
+      prefix: json['prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (prefix != null) 'prefix': prefix,
+    };
+  }
 }
 
 /// The S3 location.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Location {
   /// The S3 bucket.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The S3 key.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The S3 bucket version.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   S3Location({
     this.bucket,
     this.key,
     this.version,
   });
-  factory S3Location.fromJson(Map<String, dynamic> json) =>
-      _$S3LocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: json['bucket'] as String?,
+      key: json['key'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    final version = this.version;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (key != null) 'key': key,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// Describes an action to write a message to a Salesforce IoT Cloud Input
 /// Stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SalesforceAction {
   /// The token used to authenticate access to the Salesforce IoT Cloud Input
   /// Stream. The token is available from the Salesforce IoT Cloud platform after
   /// creation of the Input Stream.
-  @_s.JsonKey(name: 'token')
   final String token;
 
   /// The URL exposed by the Salesforce IoT Cloud Input Stream. The URL is
   /// available from the Salesforce IoT Cloud platform after creation of the Input
   /// Stream.
-  @_s.JsonKey(name: 'url')
   final String url;
 
   SalesforceAction({
-    @_s.required this.token,
-    @_s.required this.url,
+    required this.token,
+    required this.url,
   });
-  factory SalesforceAction.fromJson(Map<String, dynamic> json) =>
-      _$SalesforceActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SalesforceActionToJson(this);
+  factory SalesforceAction.fromJson(Map<String, dynamic> json) {
+    return SalesforceAction(
+      token: json['token'] as String,
+      url: json['url'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final token = this.token;
+    final url = this.url;
+    return {
+      'token': token,
+      'url': url,
+    };
+  }
 }
 
 /// Information about the scheduled audit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScheduledAuditMetadata {
   /// The day of the month on which the scheduled audit is run (if the
   /// <code>frequency</code> is "MONTHLY"). If days 29-31 are specified, and the
   /// month does not have that many days, the audit takes place on the "LAST" day
   /// of the month.
-  @_s.JsonKey(name: 'dayOfMonth')
-  final String dayOfMonth;
+  final String? dayOfMonth;
 
   /// The day of the week on which the scheduled audit is run (if the
   /// <code>frequency</code> is "WEEKLY" or "BIWEEKLY").
-  @_s.JsonKey(name: 'dayOfWeek')
-  final DayOfWeek dayOfWeek;
+  final DayOfWeek? dayOfWeek;
 
   /// How often the scheduled audit occurs.
-  @_s.JsonKey(name: 'frequency')
-  final AuditFrequency frequency;
+  final AuditFrequency? frequency;
 
   /// The ARN of the scheduled audit.
-  @_s.JsonKey(name: 'scheduledAuditArn')
-  final String scheduledAuditArn;
+  final String? scheduledAuditArn;
 
   /// The name of the scheduled audit.
-  @_s.JsonKey(name: 'scheduledAuditName')
-  final String scheduledAuditName;
+  final String? scheduledAuditName;
 
   ScheduledAuditMetadata({
     this.dayOfMonth,
@@ -21996,145 +25103,241 @@ class ScheduledAuditMetadata {
     this.scheduledAuditArn,
     this.scheduledAuditName,
   });
-  factory ScheduledAuditMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ScheduledAuditMetadataFromJson(json);
+
+  factory ScheduledAuditMetadata.fromJson(Map<String, dynamic> json) {
+    return ScheduledAuditMetadata(
+      dayOfMonth: json['dayOfMonth'] as String?,
+      dayOfWeek: (json['dayOfWeek'] as String?)?.toDayOfWeek(),
+      frequency: (json['frequency'] as String?)?.toAuditFrequency(),
+      scheduledAuditArn: json['scheduledAuditArn'] as String?,
+      scheduledAuditName: json['scheduledAuditName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfMonth = this.dayOfMonth;
+    final dayOfWeek = this.dayOfWeek;
+    final frequency = this.frequency;
+    final scheduledAuditArn = this.scheduledAuditArn;
+    final scheduledAuditName = this.scheduledAuditName;
+    return {
+      if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
+      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
+      if (frequency != null) 'frequency': frequency.toValue(),
+      if (scheduledAuditArn != null) 'scheduledAuditArn': scheduledAuditArn,
+      if (scheduledAuditName != null) 'scheduledAuditName': scheduledAuditName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchIndexResponse {
   /// The token used to get the next set of results, or <code>null</code> if there
   /// are no additional results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The thing groups that match the search query.
-  @_s.JsonKey(name: 'thingGroups')
-  final List<ThingGroupDocument> thingGroups;
+  final List<ThingGroupDocument>? thingGroups;
 
   /// The things that match the search query.
-  @_s.JsonKey(name: 'things')
-  final List<ThingDocument> things;
+  final List<ThingDocument>? things;
 
   SearchIndexResponse({
     this.nextToken,
     this.thingGroups,
     this.things,
   });
-  factory SearchIndexResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchIndexResponseFromJson(json);
+
+  factory SearchIndexResponse.fromJson(Map<String, dynamic> json) {
+    return SearchIndexResponse(
+      nextToken: json['nextToken'] as String?,
+      thingGroups: (json['thingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThingGroupDocument.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      things: (json['things'] as List?)
+          ?.whereNotNull()
+          .map((e) => ThingDocument.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final thingGroups = this.thingGroups;
+    final things = this.things;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (thingGroups != null) 'thingGroups': thingGroups,
+      if (things != null) 'things': things,
+    };
+  }
 }
 
 /// Identifying information for a Device Defender security profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityProfileIdentifier {
   /// The ARN of the security profile.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The name you've given to the security profile.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   SecurityProfileIdentifier({
-    @_s.required this.arn,
-    @_s.required this.name,
+    required this.arn,
+    required this.name,
   });
-  factory SecurityProfileIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$SecurityProfileIdentifierFromJson(json);
+
+  factory SecurityProfileIdentifier.fromJson(Map<String, dynamic> json) {
+    return SecurityProfileIdentifier(
+      arn: json['arn'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    return {
+      'arn': arn,
+      'name': name,
+    };
+  }
 }
 
 /// A target to which an alert is sent when a security profile behavior is
 /// violated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityProfileTarget {
   /// The ARN of the security profile.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   SecurityProfileTarget({
-    @_s.required this.arn,
+    required this.arn,
   });
-  factory SecurityProfileTarget.fromJson(Map<String, dynamic> json) =>
-      _$SecurityProfileTargetFromJson(json);
+
+  factory SecurityProfileTarget.fromJson(Map<String, dynamic> json) {
+    return SecurityProfileTarget(
+      arn: json['arn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'arn': arn,
+    };
+  }
 }
 
 /// Information about a security profile and the target associated with it.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityProfileTargetMapping {
   /// Information that identifies the security profile.
-  @_s.JsonKey(name: 'securityProfileIdentifier')
-  final SecurityProfileIdentifier securityProfileIdentifier;
+  final SecurityProfileIdentifier? securityProfileIdentifier;
 
   /// Information about the target (thing group) associated with the security
   /// profile.
-  @_s.JsonKey(name: 'target')
-  final SecurityProfileTarget target;
+  final SecurityProfileTarget? target;
 
   SecurityProfileTargetMapping({
     this.securityProfileIdentifier,
     this.target,
   });
-  factory SecurityProfileTargetMapping.fromJson(Map<String, dynamic> json) =>
-      _$SecurityProfileTargetMappingFromJson(json);
+
+  factory SecurityProfileTargetMapping.fromJson(Map<String, dynamic> json) {
+    return SecurityProfileTargetMapping(
+      securityProfileIdentifier: json['securityProfileIdentifier'] != null
+          ? SecurityProfileIdentifier.fromJson(
+              json['securityProfileIdentifier'] as Map<String, dynamic>)
+          : null,
+      target: json['target'] != null
+          ? SecurityProfileTarget.fromJson(
+              json['target'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityProfileIdentifier = this.securityProfileIdentifier;
+    final target = this.target;
+    return {
+      if (securityProfileIdentifier != null)
+        'securityProfileIdentifier': securityProfileIdentifier,
+      if (target != null) 'target': target,
+    };
+  }
 }
 
 enum ServerCertificateStatus {
-  @_s.JsonValue('INVALID')
   invalid,
-  @_s.JsonValue('VALID')
   valid,
 }
 
+extension on ServerCertificateStatus {
+  String toValue() {
+    switch (this) {
+      case ServerCertificateStatus.invalid:
+        return 'INVALID';
+      case ServerCertificateStatus.valid:
+        return 'VALID';
+    }
+  }
+}
+
+extension on String {
+  ServerCertificateStatus toServerCertificateStatus() {
+    switch (this) {
+      case 'INVALID':
+        return ServerCertificateStatus.invalid;
+      case 'VALID':
+        return ServerCertificateStatus.valid;
+    }
+    throw Exception('$this is not known in enum ServerCertificateStatus');
+  }
+}
+
 /// An object that contains information about a server certificate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServerCertificateSummary {
   /// The ARN of the server certificate.
-  @_s.JsonKey(name: 'serverCertificateArn')
-  final String serverCertificateArn;
+  final String? serverCertificateArn;
 
   /// The status of the server certificate.
-  @_s.JsonKey(name: 'serverCertificateStatus')
-  final ServerCertificateStatus serverCertificateStatus;
+  final ServerCertificateStatus? serverCertificateStatus;
 
   /// Details that explain the status of the server certificate.
-  @_s.JsonKey(name: 'serverCertificateStatusDetail')
-  final String serverCertificateStatusDetail;
+  final String? serverCertificateStatusDetail;
 
   ServerCertificateSummary({
     this.serverCertificateArn,
     this.serverCertificateStatus,
     this.serverCertificateStatusDetail,
   });
-  factory ServerCertificateSummary.fromJson(Map<String, dynamic> json) =>
-      _$ServerCertificateSummaryFromJson(json);
+
+  factory ServerCertificateSummary.fromJson(Map<String, dynamic> json) {
+    return ServerCertificateSummary(
+      serverCertificateArn: json['serverCertificateArn'] as String?,
+      serverCertificateStatus: (json['serverCertificateStatus'] as String?)
+          ?.toServerCertificateStatus(),
+      serverCertificateStatusDetail:
+          json['serverCertificateStatusDetail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverCertificateArn = this.serverCertificateArn;
+    final serverCertificateStatus = this.serverCertificateStatus;
+    final serverCertificateStatusDetail = this.serverCertificateStatusDetail;
+    return {
+      if (serverCertificateArn != null)
+        'serverCertificateArn': serverCertificateArn,
+      if (serverCertificateStatus != null)
+        'serverCertificateStatus': serverCertificateStatus.toValue(),
+      if (serverCertificateStatusDetail != null)
+        'serverCertificateStatusDetail': serverCertificateStatusDetail,
+    };
+  }
 }
 
 enum ServiceType {
-  @_s.JsonValue('DATA')
   data,
-  @_s.JsonValue('CREDENTIAL_PROVIDER')
   credentialProvider,
-  @_s.JsonValue('JOBS')
   jobs,
 }
 
@@ -22148,107 +25351,135 @@ extension on ServiceType {
       case ServiceType.jobs:
         return 'JOBS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ServiceType toServiceType() {
+    switch (this) {
+      case 'DATA':
+        return ServiceType.data;
+      case 'CREDENTIAL_PROVIDER':
+        return ServiceType.credentialProvider;
+      case 'JOBS':
+        return ServiceType.jobs;
+    }
+    throw Exception('$this is not known in enum ServiceType');
+  }
+}
+
 class SetDefaultAuthorizerResponse {
   /// The authorizer ARN.
-  @_s.JsonKey(name: 'authorizerArn')
-  final String authorizerArn;
+  final String? authorizerArn;
 
   /// The authorizer name.
-  @_s.JsonKey(name: 'authorizerName')
-  final String authorizerName;
+  final String? authorizerName;
 
   SetDefaultAuthorizerResponse({
     this.authorizerArn,
     this.authorizerName,
   });
-  factory SetDefaultAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$SetDefaultAuthorizerResponseFromJson(json);
+
+  factory SetDefaultAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return SetDefaultAuthorizerResponse(
+      authorizerArn: json['authorizerArn'] as String?,
+      authorizerName: json['authorizerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerArn = this.authorizerArn;
+    final authorizerName = this.authorizerName;
+    return {
+      if (authorizerArn != null) 'authorizerArn': authorizerArn,
+      if (authorizerName != null) 'authorizerName': authorizerName,
+    };
+  }
 }
 
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
 /// Version 4 signing process</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SigV4Authorization {
   /// The ARN of the signing role.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The service name to use while signing with Sig V4.
-  @_s.JsonKey(name: 'serviceName')
   final String serviceName;
 
   /// The signing region.
-  @_s.JsonKey(name: 'signingRegion')
   final String signingRegion;
 
   SigV4Authorization({
-    @_s.required this.roleArn,
-    @_s.required this.serviceName,
-    @_s.required this.signingRegion,
+    required this.roleArn,
+    required this.serviceName,
+    required this.signingRegion,
   });
-  factory SigV4Authorization.fromJson(Map<String, dynamic> json) =>
-      _$SigV4AuthorizationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SigV4AuthorizationToJson(this);
+  factory SigV4Authorization.fromJson(Map<String, dynamic> json) {
+    return SigV4Authorization(
+      roleArn: json['roleArn'] as String,
+      serviceName: json['serviceName'] as String,
+      signingRegion: json['signingRegion'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final serviceName = this.serviceName;
+    final signingRegion = this.signingRegion;
+    return {
+      'roleArn': roleArn,
+      'serviceName': serviceName,
+      'signingRegion': signingRegion,
+    };
+  }
 }
 
 /// Describes the code-signing profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SigningProfileParameter {
   /// Certificate ARN.
-  @_s.JsonKey(name: 'certificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The location of the code-signing certificate on your device.
-  @_s.JsonKey(name: 'certificatePathOnDevice')
-  final String certificatePathOnDevice;
+  final String? certificatePathOnDevice;
 
   /// The hardware platform of your device.
-  @_s.JsonKey(name: 'platform')
-  final String platform;
+  final String? platform;
 
   SigningProfileParameter({
     this.certificateArn,
     this.certificatePathOnDevice,
     this.platform,
   });
-  factory SigningProfileParameter.fromJson(Map<String, dynamic> json) =>
-      _$SigningProfileParameterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SigningProfileParameterToJson(this);
+  factory SigningProfileParameter.fromJson(Map<String, dynamic> json) {
+    return SigningProfileParameter(
+      certificateArn: json['certificateArn'] as String?,
+      certificatePathOnDevice: json['certificatePathOnDevice'] as String?,
+      platform: json['platform'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificatePathOnDevice = this.certificatePathOnDevice;
+    final platform = this.platform;
+    return {
+      if (certificateArn != null) 'certificateArn': certificateArn,
+      if (certificatePathOnDevice != null)
+        'certificatePathOnDevice': certificatePathOnDevice,
+      if (platform != null) 'platform': platform,
+    };
+  }
 }
 
 /// Describes an action to publish to an Amazon SNS topic.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SnsAction {
   /// The ARN of the IAM role that grants access.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The ARN of the SNS topic.
-  @_s.JsonKey(name: 'targetArn')
   final String targetArn;
 
   /// (Optional) The message format of the message to publish. Accepted values are
@@ -22258,160 +25489,209 @@ class SnsAction {
   /// about SNS message formats, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/json-formats.html">https://docs.aws.amazon.com/sns/latest/dg/json-formats.html</a>
   /// refer to their official documentation.
-  @_s.JsonKey(name: 'messageFormat')
-  final MessageFormat messageFormat;
+  final MessageFormat? messageFormat;
 
   SnsAction({
-    @_s.required this.roleArn,
-    @_s.required this.targetArn,
+    required this.roleArn,
+    required this.targetArn,
     this.messageFormat,
   });
-  factory SnsAction.fromJson(Map<String, dynamic> json) =>
-      _$SnsActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SnsActionToJson(this);
+  factory SnsAction.fromJson(Map<String, dynamic> json) {
+    return SnsAction(
+      roleArn: json['roleArn'] as String,
+      targetArn: json['targetArn'] as String,
+      messageFormat: (json['messageFormat'] as String?)?.toMessageFormat(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final targetArn = this.targetArn;
+    final messageFormat = this.messageFormat;
+    return {
+      'roleArn': roleArn,
+      'targetArn': targetArn,
+      if (messageFormat != null) 'messageFormat': messageFormat.toValue(),
+    };
+  }
 }
 
 /// Describes an action to publish data to an Amazon SQS queue.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SqsAction {
   /// The URL of the Amazon SQS queue.
-  @_s.JsonKey(name: 'queueUrl')
   final String queueUrl;
 
   /// The ARN of the IAM role that grants access.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Specifies whether to use Base64 encoding.
-  @_s.JsonKey(name: 'useBase64')
-  final bool useBase64;
+  final bool? useBase64;
 
   SqsAction({
-    @_s.required this.queueUrl,
-    @_s.required this.roleArn,
+    required this.queueUrl,
+    required this.roleArn,
     this.useBase64,
   });
-  factory SqsAction.fromJson(Map<String, dynamic> json) =>
-      _$SqsActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SqsActionToJson(this);
+  factory SqsAction.fromJson(Map<String, dynamic> json) {
+    return SqsAction(
+      queueUrl: json['queueUrl'] as String,
+      roleArn: json['roleArn'] as String,
+      useBase64: json['useBase64'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queueUrl = this.queueUrl;
+    final roleArn = this.roleArn;
+    final useBase64 = this.useBase64;
+    return {
+      'queueUrl': queueUrl,
+      'roleArn': roleArn,
+      if (useBase64 != null) 'useBase64': useBase64,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartAuditMitigationActionsTaskResponse {
   /// The unique identifier for the audit mitigation task. This matches the
   /// <code>taskId</code> that you specified in the request.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   StartAuditMitigationActionsTaskResponse({
     this.taskId,
   });
+
   factory StartAuditMitigationActionsTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartAuditMitigationActionsTaskResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartAuditMitigationActionsTaskResponse(
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskId = this.taskId;
+    return {
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDetectMitigationActionsTaskResponse {
   /// The unique identifier of the task.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   StartDetectMitigationActionsTaskResponse({
     this.taskId,
   });
+
   factory StartDetectMitigationActionsTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartDetectMitigationActionsTaskResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartDetectMitigationActionsTaskResponse(
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskId = this.taskId;
+    return {
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartOnDemandAuditTaskResponse {
   /// The ID of the on-demand audit you started.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   StartOnDemandAuditTaskResponse({
     this.taskId,
   });
-  factory StartOnDemandAuditTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartOnDemandAuditTaskResponseFromJson(json);
+
+  factory StartOnDemandAuditTaskResponse.fromJson(Map<String, dynamic> json) {
+    return StartOnDemandAuditTaskResponse(
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskId = this.taskId;
+    return {
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
 }
 
 /// Information required to start a signing job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StartSigningJobParameter {
   /// The location to write the code-signed file.
-  @_s.JsonKey(name: 'destination')
-  final Destination destination;
+  final Destination? destination;
 
   /// The code-signing profile name.
-  @_s.JsonKey(name: 'signingProfileName')
-  final String signingProfileName;
+  final String? signingProfileName;
 
   /// Describes the code-signing profile.
-  @_s.JsonKey(name: 'signingProfileParameter')
-  final SigningProfileParameter signingProfileParameter;
+  final SigningProfileParameter? signingProfileParameter;
 
   StartSigningJobParameter({
     this.destination,
     this.signingProfileName,
     this.signingProfileParameter,
   });
-  factory StartSigningJobParameter.fromJson(Map<String, dynamic> json) =>
-      _$StartSigningJobParameterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StartSigningJobParameterToJson(this);
+  factory StartSigningJobParameter.fromJson(Map<String, dynamic> json) {
+    return StartSigningJobParameter(
+      destination: json['destination'] != null
+          ? Destination.fromJson(json['destination'] as Map<String, dynamic>)
+          : null,
+      signingProfileName: json['signingProfileName'] as String?,
+      signingProfileParameter: json['signingProfileParameter'] != null
+          ? SigningProfileParameter.fromJson(
+              json['signingProfileParameter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final signingProfileName = this.signingProfileName;
+    final signingProfileParameter = this.signingProfileParameter;
+    return {
+      if (destination != null) 'destination': destination,
+      if (signingProfileName != null) 'signingProfileName': signingProfileName,
+      if (signingProfileParameter != null)
+        'signingProfileParameter': signingProfileParameter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartThingRegistrationTaskResponse {
   /// The bulk thing provisioning task ID.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   StartThingRegistrationTaskResponse({
     this.taskId,
   });
+
   factory StartThingRegistrationTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartThingRegistrationTaskResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartThingRegistrationTaskResponse(
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskId = this.taskId;
+    return {
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
 }
 
 /// A statistical ranking (percentile) that indicates a threshold value by which
 /// a behavior is determined to be in compliance or in violation of the
 /// behavior.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StatisticalThreshold {
   /// The percentile that resolves to a threshold value by which compliance with a
   /// behavior is determined. Metrics are collected over the specified period
@@ -22421,57 +25701,52 @@ class StatisticalThreshold {
   /// device fall above or below (<code>comparisonOperator</code>) the value
   /// associated with the percentile specified, then the device is considered to
   /// be in compliance with the behavior, otherwise a violation occurs.
-  @_s.JsonKey(name: 'statistic')
-  final String statistic;
+  final String? statistic;
 
   StatisticalThreshold({
     this.statistic,
   });
-  factory StatisticalThreshold.fromJson(Map<String, dynamic> json) =>
-      _$StatisticalThresholdFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StatisticalThresholdToJson(this);
+  factory StatisticalThreshold.fromJson(Map<String, dynamic> json) {
+    return StatisticalThreshold(
+      statistic: json['statistic'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statistic = this.statistic;
+    return {
+      if (statistic != null) 'statistic': statistic,
+    };
+  }
 }
 
 /// A map of key-value pairs for all supported statistics. Currently, only count
 /// is supported.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Statistics {
   /// The average of the aggregated field values.
-  @_s.JsonKey(name: 'average')
-  final double average;
+  final double? average;
 
   /// The count of things that match the query.
-  @_s.JsonKey(name: 'count')
-  final int count;
+  final int? count;
 
   /// The maximum aggregated field value.
-  @_s.JsonKey(name: 'maximum')
-  final double maximum;
+  final double? maximum;
 
   /// The minimum aggregated field value.
-  @_s.JsonKey(name: 'minimum')
-  final double minimum;
+  final double? minimum;
 
   /// The standard deviation of the aggregated field values.
-  @_s.JsonKey(name: 'stdDeviation')
-  final double stdDeviation;
+  final double? stdDeviation;
 
   /// The sum of the aggregated field values.
-  @_s.JsonKey(name: 'sum')
-  final double sum;
+  final double? sum;
 
   /// The sum of the squares of the aggregated field values.
-  @_s.JsonKey(name: 'sumOfSquares')
-  final double sumOfSquares;
+  final double? sumOfSquares;
 
   /// The variance of the aggregated field values.
-  @_s.JsonKey(name: 'variance')
-  final double variance;
+  final double? variance;
 
   Statistics({
     this.average,
@@ -22483,20 +25758,47 @@ class Statistics {
     this.sumOfSquares,
     this.variance,
   });
-  factory Statistics.fromJson(Map<String, dynamic> json) =>
-      _$StatisticsFromJson(json);
+
+  factory Statistics.fromJson(Map<String, dynamic> json) {
+    return Statistics(
+      average: json['average'] as double?,
+      count: json['count'] as int?,
+      maximum: json['maximum'] as double?,
+      minimum: json['minimum'] as double?,
+      stdDeviation: json['stdDeviation'] as double?,
+      sum: json['sum'] as double?,
+      sumOfSquares: json['sumOfSquares'] as double?,
+      variance: json['variance'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final average = this.average;
+    final count = this.count;
+    final maximum = this.maximum;
+    final minimum = this.minimum;
+    final stdDeviation = this.stdDeviation;
+    final sum = this.sum;
+    final sumOfSquares = this.sumOfSquares;
+    final variance = this.variance;
+    return {
+      if (average != null) 'average': average,
+      if (count != null) 'count': count,
+      if (maximum != null) 'maximum': maximum,
+      if (minimum != null) 'minimum': minimum,
+      if (stdDeviation != null) 'stdDeviation': stdDeviation,
+      if (sum != null) 'sum': sum,
+      if (sumOfSquares != null) 'sumOfSquares': sumOfSquares,
+      if (variance != null) 'variance': variance,
+    };
+  }
 }
 
 enum Status {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Cancelling')
   cancelling,
 }
 
@@ -22514,145 +25816,168 @@ extension on Status {
       case Status.cancelling:
         return 'Cancelling';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'InProgress':
+        return Status.inProgress;
+      case 'Completed':
+        return Status.completed;
+      case 'Failed':
+        return Status.failed;
+      case 'Cancelled':
+        return Status.cancelled;
+      case 'Cancelling':
+        return Status.cancelling;
+    }
+    throw Exception('$this is not known in enum Status');
   }
 }
 
 /// Starts execution of a Step Functions state machine.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StepFunctionsAction {
   /// The ARN of the role that grants IoT permission to start execution of a state
   /// machine ("Action":"states:StartExecution").
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The name of the Step Functions state machine whose execution will be
   /// started.
-  @_s.JsonKey(name: 'stateMachineName')
   final String stateMachineName;
 
   /// (Optional) A name will be given to the state machine execution consisting of
   /// this prefix followed by a UUID. Step Functions automatically creates a
   /// unique name for each state machine execution if one is not provided.
-  @_s.JsonKey(name: 'executionNamePrefix')
-  final String executionNamePrefix;
+  final String? executionNamePrefix;
 
   StepFunctionsAction({
-    @_s.required this.roleArn,
-    @_s.required this.stateMachineName,
+    required this.roleArn,
+    required this.stateMachineName,
     this.executionNamePrefix,
   });
-  factory StepFunctionsAction.fromJson(Map<String, dynamic> json) =>
-      _$StepFunctionsActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StepFunctionsActionToJson(this);
+  factory StepFunctionsAction.fromJson(Map<String, dynamic> json) {
+    return StepFunctionsAction(
+      roleArn: json['roleArn'] as String,
+      stateMachineName: json['stateMachineName'] as String,
+      executionNamePrefix: json['executionNamePrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final stateMachineName = this.stateMachineName;
+    final executionNamePrefix = this.executionNamePrefix;
+    return {
+      'roleArn': roleArn,
+      'stateMachineName': stateMachineName,
+      if (executionNamePrefix != null)
+        'executionNamePrefix': executionNamePrefix,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopThingRegistrationTaskResponse {
   StopThingRegistrationTaskResponse();
-  factory StopThingRegistrationTaskResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StopThingRegistrationTaskResponseFromJson(json);
+
+  factory StopThingRegistrationTaskResponse.fromJson(Map<String, dynamic> _) {
+    return StopThingRegistrationTaskResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes a group of files that can be streamed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Stream {
   /// The ID of a file associated with a stream.
-  @_s.JsonKey(name: 'fileId')
-  final int fileId;
+  final int? fileId;
 
   /// The stream ID.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   Stream({
     this.fileId,
     this.streamId,
   });
-  factory Stream.fromJson(Map<String, dynamic> json) => _$StreamFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StreamToJson(this);
+  factory Stream.fromJson(Map<String, dynamic> json) {
+    return Stream(
+      fileId: json['fileId'] as int?,
+      streamId: json['streamId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileId = this.fileId;
+    final streamId = this.streamId;
+    return {
+      if (fileId != null) 'fileId': fileId,
+      if (streamId != null) 'streamId': streamId,
+    };
+  }
 }
 
 /// Represents a file to stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StreamFile {
   /// The file ID.
-  @_s.JsonKey(name: 'fileId')
-  final int fileId;
+  final int? fileId;
 
   /// The location of the file in S3.
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   StreamFile({
     this.fileId,
     this.s3Location,
   });
-  factory StreamFile.fromJson(Map<String, dynamic> json) =>
-      _$StreamFileFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StreamFileToJson(this);
+  factory StreamFile.fromJson(Map<String, dynamic> json) {
+    return StreamFile(
+      fileId: json['fileId'] as int?,
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileId = this.fileId;
+    final s3Location = this.s3Location;
+    return {
+      if (fileId != null) 'fileId': fileId,
+      if (s3Location != null) 's3Location': s3Location,
+    };
+  }
 }
 
 /// Information about a stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamInfo {
   /// The date when the stream was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the stream.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The files to stream.
-  @_s.JsonKey(name: 'files')
-  final List<StreamFile> files;
+  final List<StreamFile>? files;
 
   /// The date when the stream was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// An IAM role AWS IoT assumes to access your S3 files.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The stream ARN.
-  @_s.JsonKey(name: 'streamArn')
-  final String streamArn;
+  final String? streamArn;
 
   /// The stream ID.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   /// The stream version.
-  @_s.JsonKey(name: 'streamVersion')
-  final int streamVersion;
+  final int? streamVersion;
 
   StreamInfo({
     this.createdAt,
@@ -22664,32 +25989,59 @@ class StreamInfo {
     this.streamId,
     this.streamVersion,
   });
-  factory StreamInfo.fromJson(Map<String, dynamic> json) =>
-      _$StreamInfoFromJson(json);
+
+  factory StreamInfo.fromJson(Map<String, dynamic> json) {
+    return StreamInfo(
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      files: (json['files'] as List?)
+          ?.whereNotNull()
+          .map((e) => StreamFile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      roleArn: json['roleArn'] as String?,
+      streamArn: json['streamArn'] as String?,
+      streamId: json['streamId'] as String?,
+      streamVersion: json['streamVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final files = this.files;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final roleArn = this.roleArn;
+    final streamArn = this.streamArn;
+    final streamId = this.streamId;
+    final streamVersion = this.streamVersion;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (files != null) 'files': files,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (roleArn != null) 'roleArn': roleArn,
+      if (streamArn != null) 'streamArn': streamArn,
+      if (streamId != null) 'streamId': streamId,
+      if (streamVersion != null) 'streamVersion': streamVersion,
+    };
+  }
 }
 
 /// A summary of a stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamSummary {
   /// A description of the stream.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The stream ARN.
-  @_s.JsonKey(name: 'streamArn')
-  final String streamArn;
+  final String? streamArn;
 
   /// The stream ID.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   /// The stream version.
-  @_s.JsonKey(name: 'streamVersion')
-  final int streamVersion;
+  final int? streamVersion;
 
   StreamSummary({
     this.description,
@@ -22697,49 +26049,74 @@ class StreamSummary {
     this.streamId,
     this.streamVersion,
   });
-  factory StreamSummary.fromJson(Map<String, dynamic> json) =>
-      _$StreamSummaryFromJson(json);
+
+  factory StreamSummary.fromJson(Map<String, dynamic> json) {
+    return StreamSummary(
+      description: json['description'] as String?,
+      streamArn: json['streamArn'] as String?,
+      streamId: json['streamId'] as String?,
+      streamVersion: json['streamVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final streamArn = this.streamArn;
+    final streamId = this.streamId;
+    final streamVersion = this.streamVersion;
+    return {
+      if (description != null) 'description': description,
+      if (streamArn != null) 'streamArn': streamArn,
+      if (streamId != null) 'streamId': streamId,
+      if (streamVersion != null) 'streamVersion': streamVersion,
+    };
+  }
 }
 
 /// A set of key/value pairs that are used to manage the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag's key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The tag's value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum TargetSelection {
-  @_s.JsonValue('CONTINUOUS')
   continuous,
-  @_s.JsonValue('SNAPSHOT')
   snapshot,
 }
 
@@ -22751,44 +26128,43 @@ extension on TargetSelection {
       case TargetSelection.snapshot:
         return 'SNAPSHOT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TargetSelection toTargetSelection() {
+    switch (this) {
+      case 'CONTINUOUS':
+        return TargetSelection.continuous;
+      case 'SNAPSHOT':
+        return TargetSelection.snapshot;
+    }
+    throw Exception('$this is not known in enum TargetSelection');
   }
 }
 
 /// Statistics for the checks performed during the audit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TaskStatistics {
   /// The number of checks that did not run because the audit was canceled.
-  @_s.JsonKey(name: 'canceledChecks')
-  final int canceledChecks;
+  final int? canceledChecks;
 
   /// The number of checks that found compliant resources.
-  @_s.JsonKey(name: 'compliantChecks')
-  final int compliantChecks;
+  final int? compliantChecks;
 
   /// The number of checks.
-  @_s.JsonKey(name: 'failedChecks')
-  final int failedChecks;
+  final int? failedChecks;
 
   /// The number of checks in progress.
-  @_s.JsonKey(name: 'inProgressChecks')
-  final int inProgressChecks;
+  final int? inProgressChecks;
 
   /// The number of checks that found noncompliant resources.
-  @_s.JsonKey(name: 'nonCompliantChecks')
-  final int nonCompliantChecks;
+  final int? nonCompliantChecks;
 
   /// The number of checks in this audit.
-  @_s.JsonKey(name: 'totalChecks')
-  final int totalChecks;
+  final int? totalChecks;
 
   /// The number of checks waiting for data collection.
-  @_s.JsonKey(name: 'waitingForDataCollectionChecks')
-  final int waitingForDataCollectionChecks;
+  final int? waitingForDataCollectionChecks;
 
   TaskStatistics({
     this.canceledChecks,
@@ -22799,42 +26175,63 @@ class TaskStatistics {
     this.totalChecks,
     this.waitingForDataCollectionChecks,
   });
-  factory TaskStatistics.fromJson(Map<String, dynamic> json) =>
-      _$TaskStatisticsFromJson(json);
+
+  factory TaskStatistics.fromJson(Map<String, dynamic> json) {
+    return TaskStatistics(
+      canceledChecks: json['canceledChecks'] as int?,
+      compliantChecks: json['compliantChecks'] as int?,
+      failedChecks: json['failedChecks'] as int?,
+      inProgressChecks: json['inProgressChecks'] as int?,
+      nonCompliantChecks: json['nonCompliantChecks'] as int?,
+      totalChecks: json['totalChecks'] as int?,
+      waitingForDataCollectionChecks:
+          json['waitingForDataCollectionChecks'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final canceledChecks = this.canceledChecks;
+    final compliantChecks = this.compliantChecks;
+    final failedChecks = this.failedChecks;
+    final inProgressChecks = this.inProgressChecks;
+    final nonCompliantChecks = this.nonCompliantChecks;
+    final totalChecks = this.totalChecks;
+    final waitingForDataCollectionChecks = this.waitingForDataCollectionChecks;
+    return {
+      if (canceledChecks != null) 'canceledChecks': canceledChecks,
+      if (compliantChecks != null) 'compliantChecks': compliantChecks,
+      if (failedChecks != null) 'failedChecks': failedChecks,
+      if (inProgressChecks != null) 'inProgressChecks': inProgressChecks,
+      if (nonCompliantChecks != null) 'nonCompliantChecks': nonCompliantChecks,
+      if (totalChecks != null) 'totalChecks': totalChecks,
+      if (waitingForDataCollectionChecks != null)
+        'waitingForDataCollectionChecks': waitingForDataCollectionChecks,
+    };
+  }
 }
 
 /// Provides summary counts of how many tasks for findings are in a particular
 /// state. This information is included in the response from
 /// DescribeAuditMitigationActionsTask.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TaskStatisticsForAuditCheck {
   /// The number of findings to which the mitigation action task was canceled when
   /// applied.
-  @_s.JsonKey(name: 'canceledFindingsCount')
-  final int canceledFindingsCount;
+  final int? canceledFindingsCount;
 
   /// The number of findings for which at least one of the actions failed when
   /// applied.
-  @_s.JsonKey(name: 'failedFindingsCount')
-  final int failedFindingsCount;
+  final int? failedFindingsCount;
 
   /// The number of findings skipped because of filter conditions provided in the
   /// parameters to the command.
-  @_s.JsonKey(name: 'skippedFindingsCount')
-  final int skippedFindingsCount;
+  final int? skippedFindingsCount;
 
   /// The number of findings for which all mitigation actions succeeded when
   /// applied.
-  @_s.JsonKey(name: 'succeededFindingsCount')
-  final int succeededFindingsCount;
+  final int? succeededFindingsCount;
 
   /// The total number of findings to which a task is being applied.
-  @_s.JsonKey(name: 'totalFindingsCount')
-  final int totalFindingsCount;
+  final int? totalFindingsCount;
 
   TaskStatisticsForAuditCheck({
     this.canceledFindingsCount,
@@ -22843,52 +26240,77 @@ class TaskStatisticsForAuditCheck {
     this.succeededFindingsCount,
     this.totalFindingsCount,
   });
-  factory TaskStatisticsForAuditCheck.fromJson(Map<String, dynamic> json) =>
-      _$TaskStatisticsForAuditCheckFromJson(json);
+
+  factory TaskStatisticsForAuditCheck.fromJson(Map<String, dynamic> json) {
+    return TaskStatisticsForAuditCheck(
+      canceledFindingsCount: json['canceledFindingsCount'] as int?,
+      failedFindingsCount: json['failedFindingsCount'] as int?,
+      skippedFindingsCount: json['skippedFindingsCount'] as int?,
+      succeededFindingsCount: json['succeededFindingsCount'] as int?,
+      totalFindingsCount: json['totalFindingsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final canceledFindingsCount = this.canceledFindingsCount;
+    final failedFindingsCount = this.failedFindingsCount;
+    final skippedFindingsCount = this.skippedFindingsCount;
+    final succeededFindingsCount = this.succeededFindingsCount;
+    final totalFindingsCount = this.totalFindingsCount;
+    return {
+      if (canceledFindingsCount != null)
+        'canceledFindingsCount': canceledFindingsCount,
+      if (failedFindingsCount != null)
+        'failedFindingsCount': failedFindingsCount,
+      if (skippedFindingsCount != null)
+        'skippedFindingsCount': skippedFindingsCount,
+      if (succeededFindingsCount != null)
+        'succeededFindingsCount': succeededFindingsCount,
+      if (totalFindingsCount != null) 'totalFindingsCount': totalFindingsCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestAuthorizationResponse {
   /// The authentication results.
-  @_s.JsonKey(name: 'authResults')
-  final List<AuthResult> authResults;
+  final List<AuthResult>? authResults;
 
   TestAuthorizationResponse({
     this.authResults,
   });
-  factory TestAuthorizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$TestAuthorizationResponseFromJson(json);
+
+  factory TestAuthorizationResponse.fromJson(Map<String, dynamic> json) {
+    return TestAuthorizationResponse(
+      authResults: (json['authResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuthResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authResults = this.authResults;
+    return {
+      if (authResults != null) 'authResults': authResults,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestInvokeAuthorizerResponse {
   /// The number of seconds after which the connection is terminated.
-  @_s.JsonKey(name: 'disconnectAfterInSeconds')
-  final int disconnectAfterInSeconds;
+  final int? disconnectAfterInSeconds;
 
   /// True if the token is authenticated, otherwise false.
-  @_s.JsonKey(name: 'isAuthenticated')
-  final bool isAuthenticated;
+  final bool? isAuthenticated;
 
   /// IAM policy documents.
-  @_s.JsonKey(name: 'policyDocuments')
-  final List<String> policyDocuments;
+  final List<String>? policyDocuments;
 
   /// The principal ID.
-  @_s.JsonKey(name: 'principalId')
-  final String principalId;
+  final String? principalId;
 
   /// The number of seconds after which the temporary credentials are refreshed.
-  @_s.JsonKey(name: 'refreshAfterInSeconds')
-  final int refreshAfterInSeconds;
+  final int? refreshAfterInSeconds;
 
   TestInvokeAuthorizerResponse({
     this.disconnectAfterInSeconds,
@@ -22897,37 +26319,55 @@ class TestInvokeAuthorizerResponse {
     this.principalId,
     this.refreshAfterInSeconds,
   });
-  factory TestInvokeAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$TestInvokeAuthorizerResponseFromJson(json);
+
+  factory TestInvokeAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return TestInvokeAuthorizerResponse(
+      disconnectAfterInSeconds: json['disconnectAfterInSeconds'] as int?,
+      isAuthenticated: json['isAuthenticated'] as bool?,
+      policyDocuments: (json['policyDocuments'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      principalId: json['principalId'] as String?,
+      refreshAfterInSeconds: json['refreshAfterInSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disconnectAfterInSeconds = this.disconnectAfterInSeconds;
+    final isAuthenticated = this.isAuthenticated;
+    final policyDocuments = this.policyDocuments;
+    final principalId = this.principalId;
+    final refreshAfterInSeconds = this.refreshAfterInSeconds;
+    return {
+      if (disconnectAfterInSeconds != null)
+        'disconnectAfterInSeconds': disconnectAfterInSeconds,
+      if (isAuthenticated != null) 'isAuthenticated': isAuthenticated,
+      if (policyDocuments != null) 'policyDocuments': policyDocuments,
+      if (principalId != null) 'principalId': principalId,
+      if (refreshAfterInSeconds != null)
+        'refreshAfterInSeconds': refreshAfterInSeconds,
+    };
+  }
 }
 
 /// The properties of the thing, including thing name, thing type name, and a
 /// list of thing attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThingAttribute {
   /// A list of thing attributes which are name-value pairs.
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The thing ARN.
-  @_s.JsonKey(name: 'thingArn')
-  final String thingArn;
+  final String? thingArn;
 
   /// The name of the thing.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   /// The name of the thing type, if the thing has been associated with a type.
-  @_s.JsonKey(name: 'thingTypeName')
-  final String thingTypeName;
+  final String? thingTypeName;
 
   /// The version of the thing record in the registry.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   ThingAttribute({
     this.attributes,
@@ -22936,77 +26376,117 @@ class ThingAttribute {
     this.thingTypeName,
     this.version,
   });
-  factory ThingAttribute.fromJson(Map<String, dynamic> json) =>
-      _$ThingAttributeFromJson(json);
+
+  factory ThingAttribute.fromJson(Map<String, dynamic> json) {
+    return ThingAttribute(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      thingArn: json['thingArn'] as String?,
+      thingName: json['thingName'] as String?,
+      thingTypeName: json['thingTypeName'] as String?,
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final thingArn = this.thingArn;
+    final thingName = this.thingName;
+    final thingTypeName = this.thingTypeName;
+    final version = this.version;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (thingArn != null) 'thingArn': thingArn,
+      if (thingName != null) 'thingName': thingName,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// The connectivity status of the thing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThingConnectivity {
   /// True if the thing is connected to the AWS IoT service; false if it is not
   /// connected.
-  @_s.JsonKey(name: 'connected')
-  final bool connected;
+  final bool? connected;
 
   /// The epoch time (in milliseconds) when the thing last connected or
   /// disconnected. If the thing has been disconnected for more than a few weeks,
   /// the time value might be missing.
-  @_s.JsonKey(name: 'timestamp')
-  final int timestamp;
+  final int? timestamp;
 
   ThingConnectivity({
     this.connected,
     this.timestamp,
   });
-  factory ThingConnectivity.fromJson(Map<String, dynamic> json) =>
-      _$ThingConnectivityFromJson(json);
+
+  factory ThingConnectivity.fromJson(Map<String, dynamic> json) {
+    return ThingConnectivity(
+      connected: json['connected'] as bool?,
+      timestamp: json['timestamp'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connected = this.connected;
+    final timestamp = this.timestamp;
+    return {
+      if (connected != null) 'connected': connected,
+      if (timestamp != null) 'timestamp': timestamp,
+    };
+  }
 }
 
 enum ThingConnectivityIndexingMode {
-  @_s.JsonValue('OFF')
   off,
-  @_s.JsonValue('STATUS')
   status,
 }
 
+extension on ThingConnectivityIndexingMode {
+  String toValue() {
+    switch (this) {
+      case ThingConnectivityIndexingMode.off:
+        return 'OFF';
+      case ThingConnectivityIndexingMode.status:
+        return 'STATUS';
+    }
+  }
+}
+
+extension on String {
+  ThingConnectivityIndexingMode toThingConnectivityIndexingMode() {
+    switch (this) {
+      case 'OFF':
+        return ThingConnectivityIndexingMode.off;
+      case 'STATUS':
+        return ThingConnectivityIndexingMode.status;
+    }
+    throw Exception('$this is not known in enum ThingConnectivityIndexingMode');
+  }
+}
+
 /// The thing search index document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThingDocument {
   /// The attributes.
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// Indicates whether the thing is connected to the AWS IoT service.
-  @_s.JsonKey(name: 'connectivity')
-  final ThingConnectivity connectivity;
+  final ThingConnectivity? connectivity;
 
   /// The shadow.
-  @_s.JsonKey(name: 'shadow')
-  final String shadow;
+  final String? shadow;
 
   /// Thing group names.
-  @_s.JsonKey(name: 'thingGroupNames')
-  final List<String> thingGroupNames;
+  final List<String>? thingGroupNames;
 
   /// The thing ID.
-  @_s.JsonKey(name: 'thingId')
-  final String thingId;
+  final String? thingId;
 
   /// The thing name.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   /// The thing type name.
-  @_s.JsonKey(name: 'thingTypeName')
-  final String thingTypeName;
+  final String? thingTypeName;
 
   ThingDocument({
     this.attributes,
@@ -23017,36 +26497,62 @@ class ThingDocument {
     this.thingName,
     this.thingTypeName,
   });
-  factory ThingDocument.fromJson(Map<String, dynamic> json) =>
-      _$ThingDocumentFromJson(json);
+
+  factory ThingDocument.fromJson(Map<String, dynamic> json) {
+    return ThingDocument(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      connectivity: json['connectivity'] != null
+          ? ThingConnectivity.fromJson(
+              json['connectivity'] as Map<String, dynamic>)
+          : null,
+      shadow: json['shadow'] as String?,
+      thingGroupNames: (json['thingGroupNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      thingId: json['thingId'] as String?,
+      thingName: json['thingName'] as String?,
+      thingTypeName: json['thingTypeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final connectivity = this.connectivity;
+    final shadow = this.shadow;
+    final thingGroupNames = this.thingGroupNames;
+    final thingId = this.thingId;
+    final thingName = this.thingName;
+    final thingTypeName = this.thingTypeName;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (connectivity != null) 'connectivity': connectivity,
+      if (shadow != null) 'shadow': shadow,
+      if (thingGroupNames != null) 'thingGroupNames': thingGroupNames,
+      if (thingId != null) 'thingId': thingId,
+      if (thingName != null) 'thingName': thingName,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
+    };
+  }
 }
 
 /// The thing group search index document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThingGroupDocument {
   /// The thing group attributes.
-  @_s.JsonKey(name: 'attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// Parent group names.
-  @_s.JsonKey(name: 'parentGroupNames')
-  final List<String> parentGroupNames;
+  final List<String>? parentGroupNames;
 
   /// The thing group description.
-  @_s.JsonKey(name: 'thingGroupDescription')
-  final String thingGroupDescription;
+  final String? thingGroupDescription;
 
   /// The thing group ID.
-  @_s.JsonKey(name: 'thingGroupId')
-  final String thingGroupId;
+  final String? thingGroupId;
 
   /// The thing group name.
-  @_s.JsonKey(name: 'thingGroupName')
-  final String thingGroupName;
+  final String? thingGroupName;
 
   ThingGroupDocument({
     this.attributes,
@@ -23055,19 +26561,41 @@ class ThingGroupDocument {
     this.thingGroupId,
     this.thingGroupName,
   });
-  factory ThingGroupDocument.fromJson(Map<String, dynamic> json) =>
-      _$ThingGroupDocumentFromJson(json);
+
+  factory ThingGroupDocument.fromJson(Map<String, dynamic> json) {
+    return ThingGroupDocument(
+      attributes: (json['attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      parentGroupNames: (json['parentGroupNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      thingGroupDescription: json['thingGroupDescription'] as String?,
+      thingGroupId: json['thingGroupId'] as String?,
+      thingGroupName: json['thingGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final parentGroupNames = this.parentGroupNames;
+    final thingGroupDescription = this.thingGroupDescription;
+    final thingGroupId = this.thingGroupId;
+    final thingGroupName = this.thingGroupName;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (parentGroupNames != null) 'parentGroupNames': parentGroupNames,
+      if (thingGroupDescription != null)
+        'thingGroupDescription': thingGroupDescription,
+      if (thingGroupId != null) 'thingGroupId': thingGroupId,
+      if (thingGroupName != null) 'thingGroupName': thingGroupName,
+    };
+  }
 }
 
 /// Thing group indexing configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ThingGroupIndexingConfiguration {
   /// Thing group indexing mode.
-  @_s.JsonKey(name: 'thingGroupIndexingMode')
   final ThingGroupIndexingMode thingGroupIndexingMode;
 
   /// A list of thing group fields to index. This list cannot contain any managed
@@ -23075,95 +26603,152 @@ class ThingGroupIndexingConfiguration {
   /// fields.
   ///
   /// Contains custom field names and their data type.
-  @_s.JsonKey(name: 'customFields')
-  final List<Field> customFields;
+  final List<Field>? customFields;
 
   /// Contains fields that are indexed and whose types are already known by the
   /// Fleet Indexing service.
-  @_s.JsonKey(name: 'managedFields')
-  final List<Field> managedFields;
+  final List<Field>? managedFields;
 
   ThingGroupIndexingConfiguration({
-    @_s.required this.thingGroupIndexingMode,
+    required this.thingGroupIndexingMode,
     this.customFields,
     this.managedFields,
   });
-  factory ThingGroupIndexingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ThingGroupIndexingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$ThingGroupIndexingConfigurationToJson(this);
+  factory ThingGroupIndexingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ThingGroupIndexingConfiguration(
+      thingGroupIndexingMode:
+          (json['thingGroupIndexingMode'] as String).toThingGroupIndexingMode(),
+      customFields: (json['customFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      managedFields: (json['managedFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingGroupIndexingMode = this.thingGroupIndexingMode;
+    final customFields = this.customFields;
+    final managedFields = this.managedFields;
+    return {
+      'thingGroupIndexingMode': thingGroupIndexingMode.toValue(),
+      if (customFields != null) 'customFields': customFields,
+      if (managedFields != null) 'managedFields': managedFields,
+    };
+  }
 }
 
 enum ThingGroupIndexingMode {
-  @_s.JsonValue('OFF')
   off,
-  @_s.JsonValue('ON')
   on,
 }
 
+extension on ThingGroupIndexingMode {
+  String toValue() {
+    switch (this) {
+      case ThingGroupIndexingMode.off:
+        return 'OFF';
+      case ThingGroupIndexingMode.on:
+        return 'ON';
+    }
+  }
+}
+
+extension on String {
+  ThingGroupIndexingMode toThingGroupIndexingMode() {
+    switch (this) {
+      case 'OFF':
+        return ThingGroupIndexingMode.off;
+      case 'ON':
+        return ThingGroupIndexingMode.on;
+    }
+    throw Exception('$this is not known in enum ThingGroupIndexingMode');
+  }
+}
+
 /// Thing group metadata.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThingGroupMetadata {
   /// The UNIX timestamp of when the thing group was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The parent thing group name.
-  @_s.JsonKey(name: 'parentGroupName')
-  final String parentGroupName;
+  final String? parentGroupName;
 
   /// The root parent thing group.
-  @_s.JsonKey(name: 'rootToParentThingGroups')
-  final List<GroupNameAndArn> rootToParentThingGroups;
+  final List<GroupNameAndArn>? rootToParentThingGroups;
 
   ThingGroupMetadata({
     this.creationDate,
     this.parentGroupName,
     this.rootToParentThingGroups,
   });
-  factory ThingGroupMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ThingGroupMetadataFromJson(json);
+
+  factory ThingGroupMetadata.fromJson(Map<String, dynamic> json) {
+    return ThingGroupMetadata(
+      creationDate: timeStampFromJson(json['creationDate']),
+      parentGroupName: json['parentGroupName'] as String?,
+      rootToParentThingGroups: (json['rootToParentThingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupNameAndArn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final parentGroupName = this.parentGroupName;
+    final rootToParentThingGroups = this.rootToParentThingGroups;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (parentGroupName != null) 'parentGroupName': parentGroupName,
+      if (rootToParentThingGroups != null)
+        'rootToParentThingGroups': rootToParentThingGroups,
+    };
+  }
 }
 
 /// Thing group properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ThingGroupProperties {
   /// The thing group attributes in JSON format.
-  @_s.JsonKey(name: 'attributePayload')
-  final AttributePayload attributePayload;
+  final AttributePayload? attributePayload;
 
   /// The thing group description.
-  @_s.JsonKey(name: 'thingGroupDescription')
-  final String thingGroupDescription;
+  final String? thingGroupDescription;
 
   ThingGroupProperties({
     this.attributePayload,
     this.thingGroupDescription,
   });
-  factory ThingGroupProperties.fromJson(Map<String, dynamic> json) =>
-      _$ThingGroupPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ThingGroupPropertiesToJson(this);
+  factory ThingGroupProperties.fromJson(Map<String, dynamic> json) {
+    return ThingGroupProperties(
+      attributePayload: json['attributePayload'] != null
+          ? AttributePayload.fromJson(
+              json['attributePayload'] as Map<String, dynamic>)
+          : null,
+      thingGroupDescription: json['thingGroupDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributePayload = this.attributePayload;
+    final thingGroupDescription = this.thingGroupDescription;
+    return {
+      if (attributePayload != null) 'attributePayload': attributePayload,
+      if (thingGroupDescription != null)
+        'thingGroupDescription': thingGroupDescription,
+    };
+  }
 }
 
 /// The thing indexing configuration. For more information, see <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/managing-index.html">Managing
 /// Thing Indexing</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ThingIndexingConfiguration {
   /// Thing indexing mode. Valid values are:
   ///
@@ -23178,17 +26763,14 @@ class ThingIndexingConfiguration {
   /// OFF - Thing indexing is disabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'thingIndexingMode')
   final ThingIndexingMode thingIndexingMode;
 
   /// Contains custom field names and their data type.
-  @_s.JsonKey(name: 'customFields')
-  final List<Field> customFields;
+  final List<Field>? customFields;
 
   /// Contains fields that are indexed and whose types are already known by the
   /// Fleet Indexing service.
-  @_s.JsonKey(name: 'managedFields')
-  final List<Field> managedFields;
+  final List<Field>? managedFields;
 
   /// Thing connectivity indexing mode. Valid values are:
   ///
@@ -23201,54 +26783,97 @@ class ThingIndexingConfiguration {
   /// OFF - Thing connectivity status indexing is disabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'thingConnectivityIndexingMode')
-  final ThingConnectivityIndexingMode thingConnectivityIndexingMode;
+  final ThingConnectivityIndexingMode? thingConnectivityIndexingMode;
 
   ThingIndexingConfiguration({
-    @_s.required this.thingIndexingMode,
+    required this.thingIndexingMode,
     this.customFields,
     this.managedFields,
     this.thingConnectivityIndexingMode,
   });
-  factory ThingIndexingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ThingIndexingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ThingIndexingConfigurationToJson(this);
+  factory ThingIndexingConfiguration.fromJson(Map<String, dynamic> json) {
+    return ThingIndexingConfiguration(
+      thingIndexingMode:
+          (json['thingIndexingMode'] as String).toThingIndexingMode(),
+      customFields: (json['customFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      managedFields: (json['managedFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      thingConnectivityIndexingMode:
+          (json['thingConnectivityIndexingMode'] as String?)
+              ?.toThingConnectivityIndexingMode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingIndexingMode = this.thingIndexingMode;
+    final customFields = this.customFields;
+    final managedFields = this.managedFields;
+    final thingConnectivityIndexingMode = this.thingConnectivityIndexingMode;
+    return {
+      'thingIndexingMode': thingIndexingMode.toValue(),
+      if (customFields != null) 'customFields': customFields,
+      if (managedFields != null) 'managedFields': managedFields,
+      if (thingConnectivityIndexingMode != null)
+        'thingConnectivityIndexingMode':
+            thingConnectivityIndexingMode.toValue(),
+    };
+  }
 }
 
 enum ThingIndexingMode {
-  @_s.JsonValue('OFF')
   off,
-  @_s.JsonValue('REGISTRY')
   registry,
-  @_s.JsonValue('REGISTRY_AND_SHADOW')
   registryAndShadow,
 }
 
+extension on ThingIndexingMode {
+  String toValue() {
+    switch (this) {
+      case ThingIndexingMode.off:
+        return 'OFF';
+      case ThingIndexingMode.registry:
+        return 'REGISTRY';
+      case ThingIndexingMode.registryAndShadow:
+        return 'REGISTRY_AND_SHADOW';
+    }
+  }
+}
+
+extension on String {
+  ThingIndexingMode toThingIndexingMode() {
+    switch (this) {
+      case 'OFF':
+        return ThingIndexingMode.off;
+      case 'REGISTRY':
+        return ThingIndexingMode.registry;
+      case 'REGISTRY_AND_SHADOW':
+        return ThingIndexingMode.registryAndShadow;
+    }
+    throw Exception('$this is not known in enum ThingIndexingMode');
+  }
+}
+
 /// The definition of the thing type, including thing type name and description.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThingTypeDefinition {
   /// The thing type ARN.
-  @_s.JsonKey(name: 'thingTypeArn')
-  final String thingTypeArn;
+  final String? thingTypeArn;
 
   /// The ThingTypeMetadata contains additional information about the thing type
   /// including: creation date and time, a value indicating whether the thing type
   /// is deprecated, and a date and time when it was deprecated.
-  @_s.JsonKey(name: 'thingTypeMetadata')
-  final ThingTypeMetadata thingTypeMetadata;
+  final ThingTypeMetadata? thingTypeMetadata;
 
   /// The name of the thing type.
-  @_s.JsonKey(name: 'thingTypeName')
-  final String thingTypeName;
+  final String? thingTypeName;
 
   /// The ThingTypeProperties for the thing type.
-  @_s.JsonKey(name: 'thingTypeProperties')
-  final ThingTypeProperties thingTypeProperties;
+  final ThingTypeProperties? thingTypeProperties;
 
   ThingTypeDefinition({
     this.thingTypeArn,
@@ -23256,67 +26881,113 @@ class ThingTypeDefinition {
     this.thingTypeName,
     this.thingTypeProperties,
   });
-  factory ThingTypeDefinition.fromJson(Map<String, dynamic> json) =>
-      _$ThingTypeDefinitionFromJson(json);
+
+  factory ThingTypeDefinition.fromJson(Map<String, dynamic> json) {
+    return ThingTypeDefinition(
+      thingTypeArn: json['thingTypeArn'] as String?,
+      thingTypeMetadata: json['thingTypeMetadata'] != null
+          ? ThingTypeMetadata.fromJson(
+              json['thingTypeMetadata'] as Map<String, dynamic>)
+          : null,
+      thingTypeName: json['thingTypeName'] as String?,
+      thingTypeProperties: json['thingTypeProperties'] != null
+          ? ThingTypeProperties.fromJson(
+              json['thingTypeProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final thingTypeArn = this.thingTypeArn;
+    final thingTypeMetadata = this.thingTypeMetadata;
+    final thingTypeName = this.thingTypeName;
+    final thingTypeProperties = this.thingTypeProperties;
+    return {
+      if (thingTypeArn != null) 'thingTypeArn': thingTypeArn,
+      if (thingTypeMetadata != null) 'thingTypeMetadata': thingTypeMetadata,
+      if (thingTypeName != null) 'thingTypeName': thingTypeName,
+      if (thingTypeProperties != null)
+        'thingTypeProperties': thingTypeProperties,
+    };
+  }
 }
 
 /// The ThingTypeMetadata contains additional information about the thing type
 /// including: creation date and time, a value indicating whether the thing type
 /// is deprecated, and a date and time when time was deprecated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThingTypeMetadata {
   /// The date and time when the thing type was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Whether the thing type is deprecated. If <b>true</b>, no new things could be
   /// associated with this type.
-  @_s.JsonKey(name: 'deprecated')
-  final bool deprecated;
+  final bool? deprecated;
 
   /// The date and time when the thing type was deprecated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'deprecationDate')
-  final DateTime deprecationDate;
+  final DateTime? deprecationDate;
 
   ThingTypeMetadata({
     this.creationDate,
     this.deprecated,
     this.deprecationDate,
   });
-  factory ThingTypeMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ThingTypeMetadataFromJson(json);
+
+  factory ThingTypeMetadata.fromJson(Map<String, dynamic> json) {
+    return ThingTypeMetadata(
+      creationDate: timeStampFromJson(json['creationDate']),
+      deprecated: json['deprecated'] as bool?,
+      deprecationDate: timeStampFromJson(json['deprecationDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final deprecated = this.deprecated;
+    final deprecationDate = this.deprecationDate;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (deprecated != null) 'deprecated': deprecated,
+      if (deprecationDate != null)
+        'deprecationDate': unixTimestampToJson(deprecationDate),
+    };
+  }
 }
 
 /// The ThingTypeProperties contains information about the thing type including:
 /// a thing type description, and a list of searchable thing attribute names.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ThingTypeProperties {
   /// A list of searchable thing attribute names.
-  @_s.JsonKey(name: 'searchableAttributes')
-  final List<String> searchableAttributes;
+  final List<String>? searchableAttributes;
 
   /// The description of the thing type.
-  @_s.JsonKey(name: 'thingTypeDescription')
-  final String thingTypeDescription;
+  final String? thingTypeDescription;
 
   ThingTypeProperties({
     this.searchableAttributes,
     this.thingTypeDescription,
   });
-  factory ThingTypeProperties.fromJson(Map<String, dynamic> json) =>
-      _$ThingTypePropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ThingTypePropertiesToJson(this);
+  factory ThingTypeProperties.fromJson(Map<String, dynamic> json) {
+    return ThingTypeProperties(
+      searchableAttributes: (json['searchableAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      thingTypeDescription: json['thingTypeDescription'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final searchableAttributes = this.searchableAttributes;
+    final thingTypeDescription = this.thingTypeDescription;
+    return {
+      if (searchableAttributes != null)
+        'searchableAttributes': searchableAttributes,
+      if (thingTypeDescription != null)
+        'thingTypeDescription': thingTypeDescription,
+    };
+  }
 }
 
 /// Specifies the amount of time each device has to finish its execution of the
@@ -23324,11 +26995,6 @@ class ThingTypeProperties {
 /// <code>IN_PROGRESS</code>. If the job execution status is not set to another
 /// terminal state before the timer expires, it will be automatically set to
 /// <code>TIMED_OUT</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeoutConfig {
   /// Specifies the amount of time, in minutes, this device has to finish
   /// execution of this job. The timeout interval can be anywhere between 1 minute
@@ -23337,44 +27003,44 @@ class TimeoutConfig {
   /// remains in the IN_PROGRESS status for longer than this interval, the job
   /// execution will fail and switch to the terminal <code>TIMED_OUT</code>
   /// status.
-  @_s.JsonKey(name: 'inProgressTimeoutInMinutes')
-  final int inProgressTimeoutInMinutes;
+  final int? inProgressTimeoutInMinutes;
 
   TimeoutConfig({
     this.inProgressTimeoutInMinutes,
   });
-  factory TimeoutConfig.fromJson(Map<String, dynamic> json) =>
-      _$TimeoutConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimeoutConfigToJson(this);
+  factory TimeoutConfig.fromJson(Map<String, dynamic> json) {
+    return TimeoutConfig(
+      inProgressTimeoutInMinutes: json['inProgressTimeoutInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inProgressTimeoutInMinutes = this.inProgressTimeoutInMinutes;
+    return {
+      if (inProgressTimeoutInMinutes != null)
+        'inProgressTimeoutInMinutes': inProgressTimeoutInMinutes,
+    };
+  }
 }
 
 /// The Timestream rule action writes attributes (measures) from an MQTT message
 /// into an Amazon Timestream table. For more information, see the <a
 /// href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html">Timestream</a>
 /// topic rule action documentation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimestreamAction {
   /// The name of an Amazon Timestream database.
-  @_s.JsonKey(name: 'databaseName')
   final String databaseName;
 
   /// Metadata attributes of the time series that are written in each measure
   /// record.
-  @_s.JsonKey(name: 'dimensions')
   final List<TimestreamDimension> dimensions;
 
   /// The ARN of the role that grants permission to write to the Amazon Timestream
   /// database table.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The name of the database table into which to write the measure records.
-  @_s.JsonKey(name: 'tableName')
   final String tableName;
 
   /// Specifies an application-defined value to replace the default value assigned
@@ -23386,29 +27052,50 @@ class TimestreamAction {
   ///
   /// If omitted, the topic rule action assigns the timestamp, in milliseconds, at
   /// the time it processed the rule.
-  @_s.JsonKey(name: 'timestamp')
-  final TimestreamTimestamp timestamp;
+  final TimestreamTimestamp? timestamp;
 
   TimestreamAction({
-    @_s.required this.databaseName,
-    @_s.required this.dimensions,
-    @_s.required this.roleArn,
-    @_s.required this.tableName,
+    required this.databaseName,
+    required this.dimensions,
+    required this.roleArn,
+    required this.tableName,
     this.timestamp,
   });
-  factory TimestreamAction.fromJson(Map<String, dynamic> json) =>
-      _$TimestreamActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimestreamActionToJson(this);
+  factory TimestreamAction.fromJson(Map<String, dynamic> json) {
+    return TimestreamAction(
+      databaseName: json['databaseName'] as String,
+      dimensions: (json['dimensions'] as List)
+          .whereNotNull()
+          .map((e) => TimestreamDimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      roleArn: json['roleArn'] as String,
+      tableName: json['tableName'] as String,
+      timestamp: json['timestamp'] != null
+          ? TimestreamTimestamp.fromJson(
+              json['timestamp'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final dimensions = this.dimensions;
+    final roleArn = this.roleArn;
+    final tableName = this.tableName;
+    final timestamp = this.timestamp;
+    return {
+      'databaseName': databaseName,
+      'dimensions': dimensions,
+      'roleArn': roleArn,
+      'tableName': tableName,
+      if (timestamp != null) 'timestamp': timestamp,
+    };
+  }
 }
 
 /// Metadata attributes of the time series that are written in each measure
 /// record.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimestreamDimension {
   /// The metadata dimension name. This is the name of the column in the Amazon
   /// Timestream database table record.
@@ -23418,30 +27105,35 @@ class TimestreamDimension {
   /// Dimension names cannot start with <code>ts_</code> or
   /// <code>measure_value</code> and they cannot contain the colon
   /// (<code>:</code>) character.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The value to write in this column of the database record.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   TimestreamDimension({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  factory TimestreamDimension.fromJson(Map<String, dynamic> json) =>
-      _$TimestreamDimensionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimestreamDimensionToJson(this);
+  factory TimestreamDimension.fromJson(Map<String, dynamic> json) {
+    return TimestreamDimension(
+      name: json['name'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
 }
 
 /// Describes how to interpret an application-defined timestamp value from an
 /// MQTT message payload and the precision of that value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimestreamTimestamp {
   /// The precision of the timestamp value that results from the expression
   /// described in <code>value</code>.
@@ -23449,80 +27141,82 @@ class TimestreamTimestamp {
   /// Valid values: <code>SECONDS</code> | <code>MILLISECONDS</code> |
   /// <code>MICROSECONDS</code> | <code>NANOSECONDS</code>. The default is
   /// <code>MILLISECONDS</code>.
-  @_s.JsonKey(name: 'unit')
   final String unit;
 
   /// An expression that returns a long epoch time value.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   TimestreamTimestamp({
-    @_s.required this.unit,
-    @_s.required this.value,
+    required this.unit,
+    required this.value,
   });
-  factory TimestreamTimestamp.fromJson(Map<String, dynamic> json) =>
-      _$TimestreamTimestampFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimestreamTimestampToJson(this);
+  factory TimestreamTimestamp.fromJson(Map<String, dynamic> json) {
+    return TimestreamTimestamp(
+      unit: json['unit'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unit = this.unit;
+    final value = this.value;
+    return {
+      'unit': unit,
+      'value': value,
+    };
+  }
 }
 
 /// Specifies the TLS context to use for the test authorizer request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TlsContext {
   /// The value of the <code>serverName</code> key in a TLS authorization request.
-  @_s.JsonKey(name: 'serverName')
-  final String serverName;
+  final String? serverName;
 
   TlsContext({
     this.serverName,
   });
-  Map<String, dynamic> toJson() => _$TlsContextToJson(this);
+
+  factory TlsContext.fromJson(Map<String, dynamic> json) {
+    return TlsContext(
+      serverName: json['serverName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverName = this.serverName;
+    return {
+      if (serverName != null) 'serverName': serverName,
+    };
+  }
 }
 
 /// Describes a rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TopicRule {
   /// The actions associated with the rule.
-  @_s.JsonKey(name: 'actions')
-  final List<Action> actions;
+  final List<Action>? actions;
 
   /// The version of the SQL rules engine to use when evaluating the rule.
-  @_s.JsonKey(name: 'awsIotSqlVersion')
-  final String awsIotSqlVersion;
+  final String? awsIotSqlVersion;
 
   /// The date and time the rule was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the rule.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The action to perform when an error occurs.
-  @_s.JsonKey(name: 'errorAction')
-  final Action errorAction;
+  final Action? errorAction;
 
   /// Specifies whether the rule is disabled.
-  @_s.JsonKey(name: 'ruleDisabled')
-  final bool ruleDisabled;
+  final bool? ruleDisabled;
 
   /// The name of the rule.
-  @_s.JsonKey(name: 'ruleName')
-  final String ruleName;
+  final String? ruleName;
 
   /// The SQL statement used to query the topic. When using a SQL query with
   /// multiple lines, be sure to escape the newline characters.
-  @_s.JsonKey(name: 'sql')
-  final String sql;
+  final String? sql;
 
   TopicRule({
     this.actions,
@@ -23534,34 +27228,60 @@ class TopicRule {
     this.ruleName,
     this.sql,
   });
-  factory TopicRule.fromJson(Map<String, dynamic> json) =>
-      _$TopicRuleFromJson(json);
+
+  factory TopicRule.fromJson(Map<String, dynamic> json) {
+    return TopicRule(
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      awsIotSqlVersion: json['awsIotSqlVersion'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      errorAction: json['errorAction'] != null
+          ? Action.fromJson(json['errorAction'] as Map<String, dynamic>)
+          : null,
+      ruleDisabled: json['ruleDisabled'] as bool?,
+      ruleName: json['ruleName'] as String?,
+      sql: json['sql'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final awsIotSqlVersion = this.awsIotSqlVersion;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final errorAction = this.errorAction;
+    final ruleDisabled = this.ruleDisabled;
+    final ruleName = this.ruleName;
+    final sql = this.sql;
+    return {
+      if (actions != null) 'actions': actions,
+      if (awsIotSqlVersion != null) 'awsIotSqlVersion': awsIotSqlVersion,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (errorAction != null) 'errorAction': errorAction,
+      if (ruleDisabled != null) 'ruleDisabled': ruleDisabled,
+      if (ruleName != null) 'ruleName': ruleName,
+      if (sql != null) 'sql': sql,
+    };
+  }
 }
 
 /// A topic rule destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TopicRuleDestination {
   /// The topic rule destination URL.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time when the topic rule destination was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Properties of the HTTP URL.
-  @_s.JsonKey(name: 'httpUrlProperties')
-  final HttpUrlDestinationProperties httpUrlProperties;
+  final HttpUrlDestinationProperties? httpUrlProperties;
 
   /// The date and time when the topic rule destination was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The status of the topic rule destination. Valid values are:
   /// <dl> <dt>IN_PROGRESS</dt> <dd>
@@ -23586,17 +27306,14 @@ class TopicRuleDestination {
   /// <code>UpdateTopicRuleDestination</code> causes a new confirmation challenge
   /// to be sent to your confirmation endpoint.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final TopicRuleDestinationStatus status;
+  final TopicRuleDestinationStatus? status;
 
   /// Additional details or reason why the topic rule destination is in the
   /// current status.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// Properties of the virtual private cloud (VPC) connection.
-  @_s.JsonKey(name: 'vpcProperties')
-  final VpcDestinationProperties vpcProperties;
+  final VpcDestinationProperties? vpcProperties;
 
   TopicRuleDestination({
     this.arn,
@@ -23607,43 +27324,89 @@ class TopicRuleDestination {
     this.statusReason,
     this.vpcProperties,
   });
-  factory TopicRuleDestination.fromJson(Map<String, dynamic> json) =>
-      _$TopicRuleDestinationFromJson(json);
+
+  factory TopicRuleDestination.fromJson(Map<String, dynamic> json) {
+    return TopicRuleDestination(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      httpUrlProperties: json['httpUrlProperties'] != null
+          ? HttpUrlDestinationProperties.fromJson(
+              json['httpUrlProperties'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      status: (json['status'] as String?)?.toTopicRuleDestinationStatus(),
+      statusReason: json['statusReason'] as String?,
+      vpcProperties: json['vpcProperties'] != null
+          ? VpcDestinationProperties.fromJson(
+              json['vpcProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final httpUrlProperties = this.httpUrlProperties;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final vpcProperties = this.vpcProperties;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (httpUrlProperties != null) 'httpUrlProperties': httpUrlProperties,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'status': status.toValue(),
+      if (statusReason != null) 'statusReason': statusReason,
+      if (vpcProperties != null) 'vpcProperties': vpcProperties,
+    };
+  }
 }
 
 /// Configuration of the topic rule destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TopicRuleDestinationConfiguration {
   /// Configuration of the HTTP URL.
-  @_s.JsonKey(name: 'httpUrlConfiguration')
-  final HttpUrlDestinationConfiguration httpUrlConfiguration;
+  final HttpUrlDestinationConfiguration? httpUrlConfiguration;
 
   /// Configuration of the virtual private cloud (VPC) connection.
-  @_s.JsonKey(name: 'vpcConfiguration')
-  final VpcDestinationConfiguration vpcConfiguration;
+  final VpcDestinationConfiguration? vpcConfiguration;
 
   TopicRuleDestinationConfiguration({
     this.httpUrlConfiguration,
     this.vpcConfiguration,
   });
-  Map<String, dynamic> toJson() =>
-      _$TopicRuleDestinationConfigurationToJson(this);
+
+  factory TopicRuleDestinationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return TopicRuleDestinationConfiguration(
+      httpUrlConfiguration: json['httpUrlConfiguration'] != null
+          ? HttpUrlDestinationConfiguration.fromJson(
+              json['httpUrlConfiguration'] as Map<String, dynamic>)
+          : null,
+      vpcConfiguration: json['vpcConfiguration'] != null
+          ? VpcDestinationConfiguration.fromJson(
+              json['vpcConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpUrlConfiguration = this.httpUrlConfiguration;
+    final vpcConfiguration = this.vpcConfiguration;
+    return {
+      if (httpUrlConfiguration != null)
+        'httpUrlConfiguration': httpUrlConfiguration,
+      if (vpcConfiguration != null) 'vpcConfiguration': vpcConfiguration,
+    };
+  }
 }
 
 enum TopicRuleDestinationStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
@@ -23661,34 +27424,40 @@ extension on TopicRuleDestinationStatus {
       case TopicRuleDestinationStatus.deleting:
         return 'DELETING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TopicRuleDestinationStatus toTopicRuleDestinationStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return TopicRuleDestinationStatus.enabled;
+      case 'IN_PROGRESS':
+        return TopicRuleDestinationStatus.inProgress;
+      case 'DISABLED':
+        return TopicRuleDestinationStatus.disabled;
+      case 'ERROR':
+        return TopicRuleDestinationStatus.error;
+      case 'DELETING':
+        return TopicRuleDestinationStatus.deleting;
+    }
+    throw Exception('$this is not known in enum TopicRuleDestinationStatus');
   }
 }
 
 /// Information about the topic rule destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TopicRuleDestinationSummary {
   /// The topic rule destination ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time when the topic rule destination was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Information about the HTTP URL.
-  @_s.JsonKey(name: 'httpUrlSummary')
-  final HttpUrlDestinationSummary httpUrlSummary;
+  final HttpUrlDestinationSummary? httpUrlSummary;
 
   /// The date and time when the topic rule destination was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The status of the topic rule destination. Valid values are:
   /// <dl> <dt>IN_PROGRESS</dt> <dd>
@@ -23713,16 +27482,13 @@ class TopicRuleDestinationSummary {
   /// <code>UpdateTopicRuleDestination</code> causes a new confirmation challenge
   /// to be sent to your confirmation endpoint.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final TopicRuleDestinationStatus status;
+  final TopicRuleDestinationStatus? status;
 
   /// The reason the topic rule destination is in the current status.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// Information about the virtual private cloud (VPC) connection.
-  @_s.JsonKey(name: 'vpcDestinationSummary')
-  final VpcDestinationSummary vpcDestinationSummary;
+  final VpcDestinationSummary? vpcDestinationSummary;
 
   TopicRuleDestinationSummary({
     this.arn,
@@ -23733,37 +27499,63 @@ class TopicRuleDestinationSummary {
     this.statusReason,
     this.vpcDestinationSummary,
   });
-  factory TopicRuleDestinationSummary.fromJson(Map<String, dynamic> json) =>
-      _$TopicRuleDestinationSummaryFromJson(json);
+
+  factory TopicRuleDestinationSummary.fromJson(Map<String, dynamic> json) {
+    return TopicRuleDestinationSummary(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      httpUrlSummary: json['httpUrlSummary'] != null
+          ? HttpUrlDestinationSummary.fromJson(
+              json['httpUrlSummary'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      status: (json['status'] as String?)?.toTopicRuleDestinationStatus(),
+      statusReason: json['statusReason'] as String?,
+      vpcDestinationSummary: json['vpcDestinationSummary'] != null
+          ? VpcDestinationSummary.fromJson(
+              json['vpcDestinationSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final httpUrlSummary = this.httpUrlSummary;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    final vpcDestinationSummary = this.vpcDestinationSummary;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (httpUrlSummary != null) 'httpUrlSummary': httpUrlSummary,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'status': status.toValue(),
+      if (statusReason != null) 'statusReason': statusReason,
+      if (vpcDestinationSummary != null)
+        'vpcDestinationSummary': vpcDestinationSummary,
+    };
+  }
 }
 
 /// Describes a rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TopicRuleListItem {
   /// The date and time the rule was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The rule ARN.
-  @_s.JsonKey(name: 'ruleArn')
-  final String ruleArn;
+  final String? ruleArn;
 
   /// Specifies whether the rule is disabled.
-  @_s.JsonKey(name: 'ruleDisabled')
-  final bool ruleDisabled;
+  final bool? ruleDisabled;
 
   /// The name of the rule.
-  @_s.JsonKey(name: 'ruleName')
-  final String ruleName;
+  final String? ruleName;
 
   /// The pattern for the topic names that apply.
-  @_s.JsonKey(name: 'topicPattern')
-  final String topicPattern;
+  final String? topicPattern;
 
   TopicRuleListItem({
     this.createdAt,
@@ -23772,101 +27564,138 @@ class TopicRuleListItem {
     this.ruleName,
     this.topicPattern,
   });
-  factory TopicRuleListItem.fromJson(Map<String, dynamic> json) =>
-      _$TopicRuleListItemFromJson(json);
+
+  factory TopicRuleListItem.fromJson(Map<String, dynamic> json) {
+    return TopicRuleListItem(
+      createdAt: timeStampFromJson(json['createdAt']),
+      ruleArn: json['ruleArn'] as String?,
+      ruleDisabled: json['ruleDisabled'] as bool?,
+      ruleName: json['ruleName'] as String?,
+      topicPattern: json['topicPattern'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final ruleArn = this.ruleArn;
+    final ruleDisabled = this.ruleDisabled;
+    final ruleName = this.ruleName;
+    final topicPattern = this.topicPattern;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (ruleArn != null) 'ruleArn': ruleArn,
+      if (ruleDisabled != null) 'ruleDisabled': ruleDisabled,
+      if (ruleName != null) 'ruleName': ruleName,
+      if (topicPattern != null) 'topicPattern': topicPattern,
+    };
+  }
 }
 
 /// Describes a rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TopicRulePayload {
   /// The actions associated with the rule.
-  @_s.JsonKey(name: 'actions')
   final List<Action> actions;
 
   /// The SQL statement used to query the topic. For more information, see <a
   /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html">AWS
   /// IoT SQL Reference</a> in the <i>AWS IoT Developer Guide</i>.
-  @_s.JsonKey(name: 'sql')
   final String sql;
 
   /// The version of the SQL rules engine to use when evaluating the rule.
-  @_s.JsonKey(name: 'awsIotSqlVersion')
-  final String awsIotSqlVersion;
+  final String? awsIotSqlVersion;
 
   /// The description of the rule.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The action to take when an error occurs.
-  @_s.JsonKey(name: 'errorAction')
-  final Action errorAction;
+  final Action? errorAction;
 
   /// Specifies whether the rule is disabled.
-  @_s.JsonKey(name: 'ruleDisabled')
-  final bool ruleDisabled;
+  final bool? ruleDisabled;
 
   TopicRulePayload({
-    @_s.required this.actions,
-    @_s.required this.sql,
+    required this.actions,
+    required this.sql,
     this.awsIotSqlVersion,
     this.description,
     this.errorAction,
     this.ruleDisabled,
   });
-  Map<String, dynamic> toJson() => _$TopicRulePayloadToJson(this);
+
+  factory TopicRulePayload.fromJson(Map<String, dynamic> json) {
+    return TopicRulePayload(
+      actions: (json['actions'] as List)
+          .whereNotNull()
+          .map((e) => Action.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sql: json['sql'] as String,
+      awsIotSqlVersion: json['awsIotSqlVersion'] as String?,
+      description: json['description'] as String?,
+      errorAction: json['errorAction'] != null
+          ? Action.fromJson(json['errorAction'] as Map<String, dynamic>)
+          : null,
+      ruleDisabled: json['ruleDisabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final sql = this.sql;
+    final awsIotSqlVersion = this.awsIotSqlVersion;
+    final description = this.description;
+    final errorAction = this.errorAction;
+    final ruleDisabled = this.ruleDisabled;
+    return {
+      'actions': actions,
+      'sql': sql,
+      if (awsIotSqlVersion != null) 'awsIotSqlVersion': awsIotSqlVersion,
+      if (description != null) 'description': description,
+      if (errorAction != null) 'errorAction': errorAction,
+      if (ruleDisabled != null) 'ruleDisabled': ruleDisabled,
+    };
+  }
 }
 
 /// The output from the TransferCertificate operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransferCertificateResponse {
   /// The ARN of the certificate.
-  @_s.JsonKey(name: 'transferredCertificateArn')
-  final String transferredCertificateArn;
+  final String? transferredCertificateArn;
 
   TransferCertificateResponse({
     this.transferredCertificateArn,
   });
-  factory TransferCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$TransferCertificateResponseFromJson(json);
+
+  factory TransferCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return TransferCertificateResponse(
+      transferredCertificateArn: json['transferredCertificateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transferredCertificateArn = this.transferredCertificateArn;
+    return {
+      if (transferredCertificateArn != null)
+        'transferredCertificateArn': transferredCertificateArn,
+    };
+  }
 }
 
 /// Data used to transfer a certificate to an AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransferData {
   /// The date the transfer was accepted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'acceptDate')
-  final DateTime acceptDate;
+  final DateTime? acceptDate;
 
   /// The date the transfer was rejected.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'rejectDate')
-  final DateTime rejectDate;
+  final DateTime? rejectDate;
 
   /// The reason why the transfer was rejected.
-  @_s.JsonKey(name: 'rejectReason')
-  final String rejectReason;
+  final String? rejectReason;
 
   /// The date the transfer took place.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'transferDate')
-  final DateTime transferDate;
+  final DateTime? transferDate;
 
   /// The transfer message.
-  @_s.JsonKey(name: 'transferMessage')
-  final String transferMessage;
+  final String? transferMessage;
 
   TransferData({
     this.acceptDate,
@@ -23875,138 +27704,167 @@ class TransferData {
     this.transferDate,
     this.transferMessage,
   });
-  factory TransferData.fromJson(Map<String, dynamic> json) =>
-      _$TransferDataFromJson(json);
+
+  factory TransferData.fromJson(Map<String, dynamic> json) {
+    return TransferData(
+      acceptDate: timeStampFromJson(json['acceptDate']),
+      rejectDate: timeStampFromJson(json['rejectDate']),
+      rejectReason: json['rejectReason'] as String?,
+      transferDate: timeStampFromJson(json['transferDate']),
+      transferMessage: json['transferMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptDate = this.acceptDate;
+    final rejectDate = this.rejectDate;
+    final rejectReason = this.rejectReason;
+    final transferDate = this.transferDate;
+    final transferMessage = this.transferMessage;
+    return {
+      if (acceptDate != null) 'acceptDate': unixTimestampToJson(acceptDate),
+      if (rejectDate != null) 'rejectDate': unixTimestampToJson(rejectDate),
+      if (rejectReason != null) 'rejectReason': rejectReason,
+      if (transferDate != null)
+        'transferDate': unixTimestampToJson(transferDate),
+      if (transferMessage != null) 'transferMessage': transferMessage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAccountAuditConfigurationResponse {
   UpdateAccountAuditConfigurationResponse();
+
   factory UpdateAccountAuditConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateAccountAuditConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateAccountAuditConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAuditSuppressionResponse {
   UpdateAuditSuppressionResponse();
-  factory UpdateAuditSuppressionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAuditSuppressionResponseFromJson(json);
+
+  factory UpdateAuditSuppressionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateAuditSuppressionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAuthorizerResponse {
   /// The authorizer ARN.
-  @_s.JsonKey(name: 'authorizerArn')
-  final String authorizerArn;
+  final String? authorizerArn;
 
   /// The authorizer name.
-  @_s.JsonKey(name: 'authorizerName')
-  final String authorizerName;
+  final String? authorizerName;
 
   UpdateAuthorizerResponse({
     this.authorizerArn,
     this.authorizerName,
   });
-  factory UpdateAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAuthorizerResponseFromJson(json);
+
+  factory UpdateAuthorizerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAuthorizerResponse(
+      authorizerArn: json['authorizerArn'] as String?,
+      authorizerName: json['authorizerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizerArn = this.authorizerArn;
+    final authorizerName = this.authorizerName;
+    return {
+      if (authorizerArn != null) 'authorizerArn': authorizerArn,
+      if (authorizerName != null) 'authorizerName': authorizerName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBillingGroupResponse {
   /// The latest version of the billing group.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   UpdateBillingGroupResponse({
     this.version,
   });
-  factory UpdateBillingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBillingGroupResponseFromJson(json);
+
+  factory UpdateBillingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBillingGroupResponse(
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// Parameters to define a mitigation action that changes the state of the CA
 /// certificate to inactive.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UpdateCACertificateParams {
   /// The action that you want to apply to the CA certificate. The only supported
   /// value is <code>DEACTIVATE</code>.
-  @_s.JsonKey(name: 'action')
   final CACertificateUpdateAction action;
 
   UpdateCACertificateParams({
-    @_s.required this.action,
+    required this.action,
   });
-  factory UpdateCACertificateParams.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCACertificateParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UpdateCACertificateParamsToJson(this);
+  factory UpdateCACertificateParams.fromJson(Map<String, dynamic> json) {
+    return UpdateCACertificateParams(
+      action: (json['action'] as String).toCACertificateUpdateAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    return {
+      'action': action.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCustomMetricResponse {
   /// The creation date of the custom metric in milliseconds since epoch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A friendly name in the console for the custom metric
-  @_s.JsonKey(name: 'displayName')
-  final String displayName;
+  final String? displayName;
 
   /// The time the custom metric was last modified in milliseconds since epoch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The Amazon Resource Number (ARN) of the custom metric.
-  @_s.JsonKey(name: 'metricArn')
-  final String metricArn;
+  final String? metricArn;
 
   /// The name of the custom metric.
-  @_s.JsonKey(name: 'metricName')
-  final String metricName;
+  final String? metricName;
 
   /// The type of the custom metric. Types include <code>string-list</code>,
   /// <code>ip-address-list</code>, <code>number-list</code>, and
   /// <code>number</code>.
-  @_s.JsonKey(name: 'metricType')
-  final CustomMetricType metricType;
+  final CustomMetricType? metricType;
 
   UpdateCustomMetricResponse({
     this.creationDate,
@@ -24016,66 +27874,84 @@ class UpdateCustomMetricResponse {
     this.metricName,
     this.metricType,
   });
-  factory UpdateCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCustomMetricResponseFromJson(json);
+
+  factory UpdateCustomMetricResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateCustomMetricResponse(
+      creationDate: timeStampFromJson(json['creationDate']),
+      displayName: json['displayName'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      metricArn: json['metricArn'] as String?,
+      metricName: json['metricName'] as String?,
+      metricType: (json['metricType'] as String?)?.toCustomMetricType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final displayName = this.displayName;
+    final lastModifiedDate = this.lastModifiedDate;
+    final metricArn = this.metricArn;
+    final metricName = this.metricName;
+    final metricType = this.metricType;
+    return {
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (displayName != null) 'displayName': displayName,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (metricArn != null) 'metricArn': metricArn,
+      if (metricName != null) 'metricName': metricName,
+      if (metricType != null) 'metricType': metricType.toValue(),
+    };
+  }
 }
 
 /// Parameters to define a mitigation action that changes the state of the
 /// device certificate to inactive.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class UpdateDeviceCertificateParams {
   /// The action that you want to apply to the device certificate. The only
   /// supported value is <code>DEACTIVATE</code>.
-  @_s.JsonKey(name: 'action')
   final DeviceCertificateUpdateAction action;
 
   UpdateDeviceCertificateParams({
-    @_s.required this.action,
+    required this.action,
   });
-  factory UpdateDeviceCertificateParams.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeviceCertificateParamsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UpdateDeviceCertificateParamsToJson(this);
+  factory UpdateDeviceCertificateParams.fromJson(Map<String, dynamic> json) {
+    return UpdateDeviceCertificateParams(
+      action: (json['action'] as String).toDeviceCertificateUpdateAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    return {
+      'action': action.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDimensionResponse {
   /// The Amazon Resource Name (ARN)of the created dimension.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time, in milliseconds since epoch, when the dimension was
   /// initially created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date and time, in milliseconds since epoch, when the dimension was most
   /// recently updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// A unique identifier for the dimension.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The value or list of values used to scope the dimension. For example, for
   /// topic filters, this is the pattern used to match the MQTT topic name.
-  @_s.JsonKey(name: 'stringValues')
-  final List<String> stringValues;
+  final List<String>? stringValues;
 
   /// The type of the dimension.
-  @_s.JsonKey(name: 'type')
-  final DimensionType type;
+  final DimensionType? type;
 
   UpdateDimensionResponse({
     this.arn,
@@ -24085,152 +27961,211 @@ class UpdateDimensionResponse {
     this.stringValues,
     this.type,
   });
-  factory UpdateDimensionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDimensionResponseFromJson(json);
+
+  factory UpdateDimensionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDimensionResponse(
+      arn: json['arn'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      name: json['name'] as String?,
+      stringValues: (json['stringValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['type'] as String?)?.toDimensionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final stringValues = this.stringValues;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (name != null) 'name': name,
+      if (stringValues != null) 'stringValues': stringValues,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDomainConfigurationResponse {
   /// The ARN of the domain configuration that was updated.
-  @_s.JsonKey(name: 'domainConfigurationArn')
-  final String domainConfigurationArn;
+  final String? domainConfigurationArn;
 
   /// The name of the domain configuration that was updated.
-  @_s.JsonKey(name: 'domainConfigurationName')
-  final String domainConfigurationName;
+  final String? domainConfigurationName;
 
   UpdateDomainConfigurationResponse({
     this.domainConfigurationArn,
     this.domainConfigurationName,
   });
+
   factory UpdateDomainConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateDomainConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateDomainConfigurationResponse(
+      domainConfigurationArn: json['domainConfigurationArn'] as String?,
+      domainConfigurationName: json['domainConfigurationName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainConfigurationArn = this.domainConfigurationArn;
+    final domainConfigurationName = this.domainConfigurationName;
+    return {
+      if (domainConfigurationArn != null)
+        'domainConfigurationArn': domainConfigurationArn,
+      if (domainConfigurationName != null)
+        'domainConfigurationName': domainConfigurationName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDynamicThingGroupResponse {
   /// The dynamic thing group version.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   UpdateDynamicThingGroupResponse({
     this.version,
   });
-  factory UpdateDynamicThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDynamicThingGroupResponseFromJson(json);
+
+  factory UpdateDynamicThingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDynamicThingGroupResponse(
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateEventConfigurationsResponse {
   UpdateEventConfigurationsResponse();
-  factory UpdateEventConfigurationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateEventConfigurationsResponseFromJson(json);
+
+  factory UpdateEventConfigurationsResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateEventConfigurationsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateIndexingConfigurationResponse {
   UpdateIndexingConfigurationResponse();
-  factory UpdateIndexingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateIndexingConfigurationResponseFromJson(json);
+
+  factory UpdateIndexingConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateIndexingConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMitigationActionResponse {
   /// The ARN for the new mitigation action.
-  @_s.JsonKey(name: 'actionArn')
-  final String actionArn;
+  final String? actionArn;
 
   /// A unique identifier for the mitigation action.
-  @_s.JsonKey(name: 'actionId')
-  final String actionId;
+  final String? actionId;
 
   UpdateMitigationActionResponse({
     this.actionArn,
     this.actionId,
   });
-  factory UpdateMitigationActionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMitigationActionResponseFromJson(json);
+
+  factory UpdateMitigationActionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMitigationActionResponse(
+      actionArn: json['actionArn'] as String?,
+      actionId: json['actionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionArn = this.actionArn;
+    final actionId = this.actionId;
+    return {
+      if (actionArn != null) 'actionArn': actionArn,
+      if (actionId != null) 'actionId': actionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProvisioningTemplateResponse {
   UpdateProvisioningTemplateResponse();
-  factory UpdateProvisioningTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateProvisioningTemplateResponseFromJson(json);
+
+  factory UpdateProvisioningTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateProvisioningTemplateResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRoleAliasResponse {
   /// The role alias.
-  @_s.JsonKey(name: 'roleAlias')
-  final String roleAlias;
+  final String? roleAlias;
 
   /// The role alias ARN.
-  @_s.JsonKey(name: 'roleAliasArn')
-  final String roleAliasArn;
+  final String? roleAliasArn;
 
   UpdateRoleAliasResponse({
     this.roleAlias,
     this.roleAliasArn,
   });
-  factory UpdateRoleAliasResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRoleAliasResponseFromJson(json);
+
+  factory UpdateRoleAliasResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRoleAliasResponse(
+      roleAlias: json['roleAlias'] as String?,
+      roleAliasArn: json['roleAliasArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleAlias = this.roleAlias;
+    final roleAliasArn = this.roleAliasArn;
+    return {
+      if (roleAlias != null) 'roleAlias': roleAlias,
+      if (roleAliasArn != null) 'roleAliasArn': roleAliasArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateScheduledAuditResponse {
   /// The ARN of the scheduled audit.
-  @_s.JsonKey(name: 'scheduledAuditArn')
-  final String scheduledAuditArn;
+  final String? scheduledAuditArn;
 
   UpdateScheduledAuditResponse({
     this.scheduledAuditArn,
   });
-  factory UpdateScheduledAuditResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateScheduledAuditResponseFromJson(json);
+
+  factory UpdateScheduledAuditResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateScheduledAuditResponse(
+      scheduledAuditArn: json['scheduledAuditArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledAuditArn = this.scheduledAuditArn;
+    return {
+      if (scheduledAuditArn != null) 'scheduledAuditArn': scheduledAuditArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSecurityProfileResponse {
   /// <i>Please use
   /// <a>UpdateSecurityProfileResponse$additionalMetricsToRetainV2</a>
@@ -24240,50 +28175,38 @@ class UpdateSecurityProfileResponse {
   /// retained for any metric used in the security profile's
   /// <code>behaviors</code>, but it is also retained for any metric specified
   /// here.
-  @_s.JsonKey(name: 'additionalMetricsToRetain')
-  final List<String> additionalMetricsToRetain;
+  final List<String>? additionalMetricsToRetain;
 
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's behaviors, but it is also
   /// retained for any metric specified here. Can be used with custom metrics;
   /// cannot be used with dimensions.
-  @_s.JsonKey(name: 'additionalMetricsToRetainV2')
-  final List<MetricToRetain> additionalMetricsToRetainV2;
+  final List<MetricToRetain>? additionalMetricsToRetainV2;
 
   /// Where the alerts are sent. (Alerts are always sent to the console.)
-  @_s.JsonKey(name: 'alertTargets')
-  final Map<AlertTargetType, AlertTarget> alertTargets;
+  final Map<AlertTargetType, AlertTarget>? alertTargets;
 
   /// Specifies the behaviors that, when violated by a device (thing), cause an
   /// alert.
-  @_s.JsonKey(name: 'behaviors')
-  final List<Behavior> behaviors;
+  final List<Behavior>? behaviors;
 
   /// The time the security profile was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The time the security profile was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The ARN of the security profile that was updated.
-  @_s.JsonKey(name: 'securityProfileArn')
-  final String securityProfileArn;
+  final String? securityProfileArn;
 
   /// The description of the security profile.
-  @_s.JsonKey(name: 'securityProfileDescription')
-  final String securityProfileDescription;
+  final String? securityProfileDescription;
 
   /// The name of the security profile that was updated.
-  @_s.JsonKey(name: 'securityProfileName')
-  final String securityProfileName;
+  final String? securityProfileName;
 
   /// The updated version of the security profile.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   UpdateSecurityProfileResponse({
     this.additionalMetricsToRetain,
@@ -24297,31 +28220,79 @@ class UpdateSecurityProfileResponse {
     this.securityProfileName,
     this.version,
   });
-  factory UpdateSecurityProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSecurityProfileResponseFromJson(json);
+
+  factory UpdateSecurityProfileResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSecurityProfileResponse(
+      additionalMetricsToRetain: (json['additionalMetricsToRetain'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      additionalMetricsToRetainV2:
+          (json['additionalMetricsToRetainV2'] as List?)
+              ?.whereNotNull()
+              .map((e) => MetricToRetain.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      alertTargets: (json['alertTargets'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k.toAlertTargetType(),
+              AlertTarget.fromJson(e as Map<String, dynamic>))),
+      behaviors: (json['behaviors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Behavior.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      securityProfileArn: json['securityProfileArn'] as String?,
+      securityProfileDescription: json['securityProfileDescription'] as String?,
+      securityProfileName: json['securityProfileName'] as String?,
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMetricsToRetain = this.additionalMetricsToRetain;
+    final additionalMetricsToRetainV2 = this.additionalMetricsToRetainV2;
+    final alertTargets = this.alertTargets;
+    final behaviors = this.behaviors;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final securityProfileArn = this.securityProfileArn;
+    final securityProfileDescription = this.securityProfileDescription;
+    final securityProfileName = this.securityProfileName;
+    final version = this.version;
+    return {
+      if (additionalMetricsToRetain != null)
+        'additionalMetricsToRetain': additionalMetricsToRetain,
+      if (additionalMetricsToRetainV2 != null)
+        'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
+      if (alertTargets != null)
+        'alertTargets': alertTargets.map((k, e) => MapEntry(k.toValue(), e)),
+      if (behaviors != null) 'behaviors': behaviors,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (securityProfileArn != null) 'securityProfileArn': securityProfileArn,
+      if (securityProfileDescription != null)
+        'securityProfileDescription': securityProfileDescription,
+      if (securityProfileName != null)
+        'securityProfileName': securityProfileName,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateStreamResponse {
   /// A description of the stream.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The stream ARN.
-  @_s.JsonKey(name: 'streamArn')
-  final String streamArn;
+  final String? streamArn;
 
   /// The stream ID.
-  @_s.JsonKey(name: 'streamId')
-  final String streamId;
+  final String? streamId;
 
   /// The stream version.
-  @_s.JsonKey(name: 'streamVersion')
-  final int streamVersion;
+  final int? streamVersion;
 
   UpdateStreamResponse({
     this.description,
@@ -24329,143 +28300,170 @@ class UpdateStreamResponse {
     this.streamId,
     this.streamVersion,
   });
-  factory UpdateStreamResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateStreamResponseFromJson(json);
+
+  factory UpdateStreamResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateStreamResponse(
+      description: json['description'] as String?,
+      streamArn: json['streamArn'] as String?,
+      streamId: json['streamId'] as String?,
+      streamVersion: json['streamVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final streamArn = this.streamArn;
+    final streamId = this.streamId;
+    final streamVersion = this.streamVersion;
+    return {
+      if (description != null) 'description': description,
+      if (streamArn != null) 'streamArn': streamArn,
+      if (streamId != null) 'streamId': streamId,
+      if (streamVersion != null) 'streamVersion': streamVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateThingGroupResponse {
   /// The version of the updated thing group.
-  @_s.JsonKey(name: 'version')
-  final int version;
+  final int? version;
 
   UpdateThingGroupResponse({
     this.version,
   });
-  factory UpdateThingGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateThingGroupResponseFromJson(json);
+
+  factory UpdateThingGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateThingGroupResponse(
+      version: json['version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final version = this.version;
+    return {
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateThingGroupsForThingResponse {
   UpdateThingGroupsForThingResponse();
-  factory UpdateThingGroupsForThingResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateThingGroupsForThingResponseFromJson(json);
+
+  factory UpdateThingGroupsForThingResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateThingGroupsForThingResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The output from the UpdateThing operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateThingResponse {
   UpdateThingResponse();
-  factory UpdateThingResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateThingResponseFromJson(json);
+
+  factory UpdateThingResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateThingResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTopicRuleDestinationResponse {
   UpdateTopicRuleDestinationResponse();
-  factory UpdateTopicRuleDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateTopicRuleDestinationResponseFromJson(json);
+
+  factory UpdateTopicRuleDestinationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTopicRuleDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidateSecurityProfileBehaviorsResponse {
   /// True if the behaviors were valid.
-  @_s.JsonKey(name: 'valid')
-  final bool valid;
+  final bool? valid;
 
   /// The list of any errors found in the behaviors.
-  @_s.JsonKey(name: 'validationErrors')
-  final List<ValidationError> validationErrors;
+  final List<ValidationError>? validationErrors;
 
   ValidateSecurityProfileBehaviorsResponse({
     this.valid,
     this.validationErrors,
   });
+
   factory ValidateSecurityProfileBehaviorsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ValidateSecurityProfileBehaviorsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ValidateSecurityProfileBehaviorsResponse(
+      valid: json['valid'] as bool?,
+      validationErrors: (json['validationErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final valid = this.valid;
+    final validationErrors = this.validationErrors;
+    return {
+      if (valid != null) 'valid': valid,
+      if (validationErrors != null) 'validationErrors': validationErrors,
+    };
+  }
 }
 
 /// Information about an error found in a behavior specification.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidationError {
   /// The description of an error found in the behaviors.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   ValidationError({
     this.errorMessage,
   });
-  factory ValidationError.fromJson(Map<String, dynamic> json) =>
-      _$ValidationErrorFromJson(json);
+
+  factory ValidationError.fromJson(Map<String, dynamic> json) {
+    return ValidationError(
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
 }
 
 /// Information about a Device Defender security profile behavior violation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ViolationEvent {
   /// The behavior that was violated.
-  @_s.JsonKey(name: 'behavior')
-  final Behavior behavior;
+  final Behavior? behavior;
 
   /// The value of the metric (the measurement).
-  @_s.JsonKey(name: 'metricValue')
-  final MetricValue metricValue;
+  final MetricValue? metricValue;
 
   /// The name of the security profile whose behavior was violated.
-  @_s.JsonKey(name: 'securityProfileName')
-  final String securityProfileName;
+  final String? securityProfileName;
 
   /// The name of the thing responsible for the violation event.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   /// The details of a violation event.
-  @_s.JsonKey(name: 'violationEventAdditionalInfo')
-  final ViolationEventAdditionalInfo violationEventAdditionalInfo;
+  final ViolationEventAdditionalInfo? violationEventAdditionalInfo;
 
   /// The time the violation event occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'violationEventTime')
-  final DateTime violationEventTime;
+  final DateTime? violationEventTime;
 
   /// The type of violation event.
-  @_s.JsonKey(name: 'violationEventType')
-  final ViolationEventType violationEventType;
+  final ViolationEventType? violationEventType;
 
   /// The ID of the violation event.
-  @_s.JsonKey(name: 'violationId')
-  final String violationId;
+  final String? violationId;
 
   ViolationEvent({
     this.behavior,
@@ -24477,121 +28475,207 @@ class ViolationEvent {
     this.violationEventType,
     this.violationId,
   });
-  factory ViolationEvent.fromJson(Map<String, dynamic> json) =>
-      _$ViolationEventFromJson(json);
+
+  factory ViolationEvent.fromJson(Map<String, dynamic> json) {
+    return ViolationEvent(
+      behavior: json['behavior'] != null
+          ? Behavior.fromJson(json['behavior'] as Map<String, dynamic>)
+          : null,
+      metricValue: json['metricValue'] != null
+          ? MetricValue.fromJson(json['metricValue'] as Map<String, dynamic>)
+          : null,
+      securityProfileName: json['securityProfileName'] as String?,
+      thingName: json['thingName'] as String?,
+      violationEventAdditionalInfo: json['violationEventAdditionalInfo'] != null
+          ? ViolationEventAdditionalInfo.fromJson(
+              json['violationEventAdditionalInfo'] as Map<String, dynamic>)
+          : null,
+      violationEventTime: timeStampFromJson(json['violationEventTime']),
+      violationEventType:
+          (json['violationEventType'] as String?)?.toViolationEventType(),
+      violationId: json['violationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behavior = this.behavior;
+    final metricValue = this.metricValue;
+    final securityProfileName = this.securityProfileName;
+    final thingName = this.thingName;
+    final violationEventAdditionalInfo = this.violationEventAdditionalInfo;
+    final violationEventTime = this.violationEventTime;
+    final violationEventType = this.violationEventType;
+    final violationId = this.violationId;
+    return {
+      if (behavior != null) 'behavior': behavior,
+      if (metricValue != null) 'metricValue': metricValue,
+      if (securityProfileName != null)
+        'securityProfileName': securityProfileName,
+      if (thingName != null) 'thingName': thingName,
+      if (violationEventAdditionalInfo != null)
+        'violationEventAdditionalInfo': violationEventAdditionalInfo,
+      if (violationEventTime != null)
+        'violationEventTime': unixTimestampToJson(violationEventTime),
+      if (violationEventType != null)
+        'violationEventType': violationEventType.toValue(),
+      if (violationId != null) 'violationId': violationId,
+    };
+  }
 }
 
 /// The details of a violation event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ViolationEventAdditionalInfo {
   /// The sensitivity of anomalous behavior evaluation. Can be <code>Low</code>,
   /// <code>Medium</code>, or <code>High</code>.
-  @_s.JsonKey(name: 'confidenceLevel')
-  final ConfidenceLevel confidenceLevel;
+  final ConfidenceLevel? confidenceLevel;
 
   ViolationEventAdditionalInfo({
     this.confidenceLevel,
   });
-  factory ViolationEventAdditionalInfo.fromJson(Map<String, dynamic> json) =>
-      _$ViolationEventAdditionalInfoFromJson(json);
+
+  factory ViolationEventAdditionalInfo.fromJson(Map<String, dynamic> json) {
+    return ViolationEventAdditionalInfo(
+      confidenceLevel:
+          (json['confidenceLevel'] as String?)?.toConfidenceLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidenceLevel = this.confidenceLevel;
+    return {
+      if (confidenceLevel != null) 'confidenceLevel': confidenceLevel.toValue(),
+    };
+  }
 }
 
 /// Specifies the time period of which violation events occurred between.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ViolationEventOccurrenceRange {
   /// The end date and time of a time period in which violation events occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// The start date and time of a time period in which violation events occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   ViolationEventOccurrenceRange({
-    @_s.required this.endTime,
-    @_s.required this.startTime,
+    required this.endTime,
+    required this.startTime,
   });
-  factory ViolationEventOccurrenceRange.fromJson(Map<String, dynamic> json) =>
-      _$ViolationEventOccurrenceRangeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ViolationEventOccurrenceRangeToJson(this);
+  factory ViolationEventOccurrenceRange.fromJson(Map<String, dynamic> json) {
+    return ViolationEventOccurrenceRange(
+      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    return {
+      'endTime': unixTimestampToJson(endTime),
+      'startTime': unixTimestampToJson(startTime),
+    };
+  }
 }
 
 enum ViolationEventType {
-  @_s.JsonValue('in-alarm')
   inAlarm,
-  @_s.JsonValue('alarm-cleared')
   alarmCleared,
-  @_s.JsonValue('alarm-invalidated')
   alarmInvalidated,
 }
 
+extension on ViolationEventType {
+  String toValue() {
+    switch (this) {
+      case ViolationEventType.inAlarm:
+        return 'in-alarm';
+      case ViolationEventType.alarmCleared:
+        return 'alarm-cleared';
+      case ViolationEventType.alarmInvalidated:
+        return 'alarm-invalidated';
+    }
+  }
+}
+
+extension on String {
+  ViolationEventType toViolationEventType() {
+    switch (this) {
+      case 'in-alarm':
+        return ViolationEventType.inAlarm;
+      case 'alarm-cleared':
+        return ViolationEventType.alarmCleared;
+      case 'alarm-invalidated':
+        return ViolationEventType.alarmInvalidated;
+    }
+    throw Exception('$this is not known in enum ViolationEventType');
+  }
+}
+
 /// The configuration information for a virtual private cloud (VPC) destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VpcDestinationConfiguration {
   /// The ARN of a role that has permission to create and attach to elastic
   /// network interfaces (ENIs).
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The subnet IDs of the VPC destination.
-  @_s.JsonKey(name: 'subnetIds')
   final List<String> subnetIds;
 
   /// The ID of the VPC.
-  @_s.JsonKey(name: 'vpcId')
   final String vpcId;
 
   /// The security groups of the VPC destination.
-  @_s.JsonKey(name: 'securityGroups')
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   VpcDestinationConfiguration({
-    @_s.required this.roleArn,
-    @_s.required this.subnetIds,
-    @_s.required this.vpcId,
+    required this.roleArn,
+    required this.subnetIds,
+    required this.vpcId,
     this.securityGroups,
   });
-  Map<String, dynamic> toJson() => _$VpcDestinationConfigurationToJson(this);
+
+  factory VpcDestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return VpcDestinationConfiguration(
+      roleArn: json['roleArn'] as String,
+      subnetIds: (json['subnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['vpcId'] as String,
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    final securityGroups = this.securityGroups;
+    return {
+      'roleArn': roleArn,
+      'subnetIds': subnetIds,
+      'vpcId': vpcId,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+    };
+  }
 }
 
 /// The properties of a virtual private cloud (VPC) destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcDestinationProperties {
   /// The ARN of a role that has permission to create and attach to elastic
   /// network interfaces (ENIs).
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The security groups of the VPC destination.
-  @_s.JsonKey(name: 'securityGroups')
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   /// The subnet IDs of the VPC destination.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The ID of the VPC.
-  @_s.JsonKey(name: 'vpcId')
-  final String vpcId;
+  final String? vpcId;
 
   VpcDestinationProperties({
     this.roleArn,
@@ -24599,33 +28683,50 @@ class VpcDestinationProperties {
     this.subnetIds,
     this.vpcId,
   });
-  factory VpcDestinationProperties.fromJson(Map<String, dynamic> json) =>
-      _$VpcDestinationPropertiesFromJson(json);
+
+  factory VpcDestinationProperties.fromJson(Map<String, dynamic> json) {
+    return VpcDestinationProperties(
+      roleArn: json['roleArn'] as String?,
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['vpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final securityGroups = this.securityGroups;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    return {
+      if (roleArn != null) 'roleArn': roleArn,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (subnetIds != null) 'subnetIds': subnetIds,
+      if (vpcId != null) 'vpcId': vpcId,
+    };
+  }
 }
 
 /// The summary of a virtual private cloud (VPC) destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcDestinationSummary {
   /// The ARN of a role that has permission to create and attach to elastic
   /// network interfaces (ENIs).
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   /// The security groups of the VPC destination.
-  @_s.JsonKey(name: 'securityGroups')
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   /// The subnet IDs of the VPC destination.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The ID of the VPC.
-  @_s.JsonKey(name: 'vpcId')
-  final String vpcId;
+  final String? vpcId;
 
   VpcDestinationSummary({
     this.roleArn,
@@ -24633,31 +28734,62 @@ class VpcDestinationSummary {
     this.subnetIds,
     this.vpcId,
   });
-  factory VpcDestinationSummary.fromJson(Map<String, dynamic> json) =>
-      _$VpcDestinationSummaryFromJson(json);
+
+  factory VpcDestinationSummary.fromJson(Map<String, dynamic> json) {
+    return VpcDestinationSummary(
+      roleArn: json['roleArn'] as String?,
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['vpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final securityGroups = this.securityGroups;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    return {
+      if (roleArn != null) 'roleArn': roleArn,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (subnetIds != null) 'subnetIds': subnetIds,
+      if (vpcId != null) 'vpcId': vpcId,
+    };
+  }
 }
 
 class CertificateConflictException extends _s.GenericAwsException {
-  CertificateConflictException({String type, String message})
+  CertificateConflictException({String? type, String? message})
       : super(
             type: type, code: 'CertificateConflictException', message: message);
 }
 
 class CertificateStateException extends _s.GenericAwsException {
-  CertificateStateException({String type, String message})
+  CertificateStateException({String? type, String? message})
       : super(type: type, code: 'CertificateStateException', message: message);
 }
 
 class CertificateValidationException extends _s.GenericAwsException {
-  CertificateValidationException({String type, String message})
+  CertificateValidationException({String? type, String? message})
       : super(
             type: type,
             code: 'CertificateValidationException',
             message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class ConflictingResourceUpdateException extends _s.GenericAwsException {
-  ConflictingResourceUpdateException({String type, String message})
+  ConflictingResourceUpdateException({String? type, String? message})
       : super(
             type: type,
             code: 'ConflictingResourceUpdateException',
@@ -24665,48 +28797,48 @@ class ConflictingResourceUpdateException extends _s.GenericAwsException {
 }
 
 class DeleteConflictException extends _s.GenericAwsException {
-  DeleteConflictException({String type, String message})
+  DeleteConflictException({String? type, String? message})
       : super(type: type, code: 'DeleteConflictException', message: message);
 }
 
 class IndexNotReadyException extends _s.GenericAwsException {
-  IndexNotReadyException({String type, String message})
+  IndexNotReadyException({String? type, String? message})
       : super(type: type, code: 'IndexNotReadyException', message: message);
 }
 
 class InternalException extends _s.GenericAwsException {
-  InternalException({String type, String message})
+  InternalException({String? type, String? message})
       : super(type: type, code: 'InternalException', message: message);
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidAggregationException extends _s.GenericAwsException {
-  InvalidAggregationException({String type, String message})
+  InvalidAggregationException({String? type, String? message})
       : super(
             type: type, code: 'InvalidAggregationException', message: message);
 }
 
 class InvalidQueryException extends _s.GenericAwsException {
-  InvalidQueryException({String type, String message})
+  InvalidQueryException({String? type, String? message})
       : super(type: type, code: 'InvalidQueryException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class InvalidResponseException extends _s.GenericAwsException {
-  InvalidResponseException({String type, String message})
+  InvalidResponseException({String? type, String? message})
       : super(type: type, code: 'InvalidResponseException', message: message);
 }
 
 class InvalidStateTransitionException extends _s.GenericAwsException {
-  InvalidStateTransitionException({String type, String message})
+  InvalidStateTransitionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidStateTransitionException',
@@ -24714,22 +28846,22 @@ class InvalidStateTransitionException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MalformedPolicyException extends _s.GenericAwsException {
-  MalformedPolicyException({String type, String message})
+  MalformedPolicyException({String? type, String? message})
       : super(type: type, code: 'MalformedPolicyException', message: message);
 }
 
 class NotConfiguredException extends _s.GenericAwsException {
-  NotConfiguredException({String type, String message})
+  NotConfiguredException({String? type, String? message})
       : super(type: type, code: 'NotConfiguredException', message: message);
 }
 
 class RegistrationCodeValidationException extends _s.GenericAwsException {
-  RegistrationCodeValidationException({String type, String message})
+  RegistrationCodeValidationException({String? type, String? message})
       : super(
             type: type,
             code: 'RegistrationCodeValidationException',
@@ -24737,7 +28869,7 @@ class RegistrationCodeValidationException extends _s.GenericAwsException {
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -24745,12 +28877,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceRegistrationFailureException extends _s.GenericAwsException {
-  ResourceRegistrationFailureException({String type, String message})
+  ResourceRegistrationFailureException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceRegistrationFailureException',
@@ -24758,28 +28890,28 @@ class ResourceRegistrationFailureException extends _s.GenericAwsException {
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class SqlParseException extends _s.GenericAwsException {
-  SqlParseException({String type, String message})
+  SqlParseException({String? type, String? message})
       : super(type: type, code: 'SqlParseException', message: message);
 }
 
 class TaskAlreadyExistsException extends _s.GenericAwsException {
-  TaskAlreadyExistsException({String type, String message})
+  TaskAlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'TaskAlreadyExistsException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TransferAlreadyCompletedException extends _s.GenericAwsException {
-  TransferAlreadyCompletedException({String type, String message})
+  TransferAlreadyCompletedException({String? type, String? message})
       : super(
             type: type,
             code: 'TransferAlreadyCompletedException',
@@ -24787,22 +28919,22 @@ class TransferAlreadyCompletedException extends _s.GenericAwsException {
 }
 
 class TransferConflictException extends _s.GenericAwsException {
-  TransferConflictException({String type, String message})
+  TransferConflictException({String? type, String? message})
       : super(type: type, code: 'TransferConflictException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 
 class VersionConflictException extends _s.GenericAwsException {
-  VersionConflictException({String type, String message})
+  VersionConflictException({String? type, String? message})
       : super(type: type, code: 'VersionConflictException', message: message);
 }
 
 class VersionsLimitExceededException extends _s.GenericAwsException {
-  VersionsLimitExceededException({String type, String message})
+  VersionsLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'VersionsLimitExceededException',
@@ -24816,6 +28948,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CertificateStateException(type: type, message: message),
   'CertificateValidationException': (type, message) =>
       CertificateValidationException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'ConflictingResourceUpdateException': (type, message) =>
       ConflictingResourceUpdateException(type: type, message: message),
   'DeleteConflictException': (type, message) =>

@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-11-27.g.dart';
 
 /// AWS IoT Analytics allows you to collect large amounts of device data,
 /// process messages, and store them. You can then query the data and run
@@ -53,10 +46,10 @@ part '2017-11-27.g.dart';
 class IoTAnalytics {
   final _s.RestJsonProtocol _protocol;
   IoTAnalytics({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -113,8 +106,8 @@ class IoTAnalytics {
   /// {"temp-01": 29}, {"01_temp": 29} or {"__temp_01": 29} are invalid in
   /// message payloads.
   Future<BatchPutMessageResponse> batchPutMessage({
-    @_s.required String channelName,
-    @_s.required List<Message> messages,
+    required String channelName,
+    required List<Message> messages,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     _s.validateStringLength(
@@ -122,12 +115,6 @@ class IoTAnalytics {
       channelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(messages, 'messages');
@@ -159,8 +146,8 @@ class IoTAnalytics {
   /// The ID of the reprocessing task (returned by
   /// <code>StartPipelineReprocessing</code>).
   Future<void> cancelPipelineReprocessing({
-    @_s.required String pipelineName,
-    @_s.required String reprocessingId,
+    required String pipelineName,
+    required String reprocessingId,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -168,12 +155,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(reprocessingId, 'reprocessingId');
@@ -184,7 +165,6 @@ class IoTAnalytics {
           '/pipelines/${Uri.encodeComponent(pipelineName)}/reprocessing/${Uri.encodeComponent(reprocessingId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return CancelPipelineReprocessingResponse.fromJson(response);
   }
 
   /// Creates a channel. A channel collects data from an MQTT topic and archives
@@ -214,10 +194,10 @@ class IoTAnalytics {
   /// Parameter [tags] :
   /// Metadata which can be used to manage the channel.
   Future<CreateChannelResponse> createChannel({
-    @_s.required String channelName,
-    ChannelStorage channelStorage,
-    RetentionPeriod retentionPeriod,
-    List<Tag> tags,
+    required String channelName,
+    ChannelStorage? channelStorage,
+    RetentionPeriod? retentionPeriod,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     _s.validateStringLength(
@@ -225,12 +205,6 @@ class IoTAnalytics {
       channelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -308,14 +282,14 @@ class IoTAnalytics {
   /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
   /// Analytics User Guide</i>.
   Future<CreateDatasetResponse> createDataset({
-    @_s.required List<DatasetAction> actions,
-    @_s.required String datasetName,
-    List<DatasetContentDeliveryRule> contentDeliveryRules,
-    List<LateDataRule> lateDataRules,
-    RetentionPeriod retentionPeriod,
-    List<Tag> tags,
-    List<DatasetTrigger> triggers,
-    VersioningConfiguration versioningConfiguration,
+    required List<DatasetAction> actions,
+    required String datasetName,
+    List<DatasetContentDeliveryRule>? contentDeliveryRules,
+    List<LateDataRule>? lateDataRules,
+    RetentionPeriod? retentionPeriod,
+    List<Tag>? tags,
+    List<DatasetTrigger>? triggers,
+    VersioningConfiguration? versioningConfiguration,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(datasetName, 'datasetName');
@@ -324,12 +298,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -372,8 +340,8 @@ class IoTAnalytics {
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
   /// filter.
   Future<CreateDatasetContentResponse> createDatasetContent({
-    @_s.required String datasetName,
-    String versionId,
+    required String datasetName,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -381,12 +349,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -407,7 +369,9 @@ class IoTAnalytics {
     return CreateDatasetContentResponse.fromJson(response);
   }
 
-  /// Creates a data store, which is a repository for messages.
+  /// Creates a data store, which is a repository for messages. Only data stores
+  /// that are used to save pipeline data can be configured with
+  /// <code>ParquetConfiguration</code>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -418,6 +382,9 @@ class IoTAnalytics {
   ///
   /// Parameter [datastoreName] :
   /// The name of the data store.
+  ///
+  /// Parameter [datastorePartitions] :
+  /// Contains information about the partitions in a data store.
   ///
   /// Parameter [datastoreStorage] :
   /// Where data store data is stored. You can choose one of
@@ -442,11 +409,12 @@ class IoTAnalytics {
   /// Parameter [tags] :
   /// Metadata which can be used to manage the data store.
   Future<CreateDatastoreResponse> createDatastore({
-    @_s.required String datastoreName,
-    DatastoreStorage datastoreStorage,
-    FileFormatConfiguration fileFormatConfiguration,
-    RetentionPeriod retentionPeriod,
-    List<Tag> tags,
+    required String datastoreName,
+    DatastorePartitions? datastorePartitions,
+    DatastoreStorage? datastoreStorage,
+    FileFormatConfiguration? fileFormatConfiguration,
+    RetentionPeriod? retentionPeriod,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
     _s.validateStringLength(
@@ -456,14 +424,10 @@ class IoTAnalytics {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'datastoreName': datastoreName,
+      if (datastorePartitions != null)
+        'datastorePartitions': datastorePartitions,
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
       if (fileFormatConfiguration != null)
         'fileFormatConfiguration': fileFormatConfiguration,
@@ -512,9 +476,9 @@ class IoTAnalytics {
   /// Parameter [tags] :
   /// Metadata which can be used to manage the pipeline.
   Future<CreatePipelineResponse> createPipeline({
-    @_s.required List<PipelineActivity> pipelineActivities,
-    @_s.required String pipelineName,
-    List<Tag> tags,
+    required List<PipelineActivity> pipelineActivities,
+    required String pipelineName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(pipelineActivities, 'pipelineActivities');
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
@@ -523,12 +487,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -556,7 +514,7 @@ class IoTAnalytics {
   /// Parameter [channelName] :
   /// The name of the channel to delete.
   Future<void> deleteChannel({
-    @_s.required String channelName,
+    required String channelName,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     _s.validateStringLength(
@@ -564,12 +522,6 @@ class IoTAnalytics {
       channelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -594,7 +546,7 @@ class IoTAnalytics {
   /// Parameter [datasetName] :
   /// The name of the data set to delete.
   Future<void> deleteDataset({
-    @_s.required String datasetName,
+    required String datasetName,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -602,12 +554,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -635,8 +581,8 @@ class IoTAnalytics {
   /// successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is
   /// the default.
   Future<void> deleteDatasetContent({
-    @_s.required String datasetName,
-    String versionId,
+    required String datasetName,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -644,12 +590,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -681,7 +621,7 @@ class IoTAnalytics {
   /// Parameter [datastoreName] :
   /// The name of the data store to delete.
   Future<void> deleteDatastore({
-    @_s.required String datastoreName,
+    required String datastoreName,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
     _s.validateStringLength(
@@ -689,12 +629,6 @@ class IoTAnalytics {
       datastoreName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -716,7 +650,7 @@ class IoTAnalytics {
   /// Parameter [pipelineName] :
   /// The name of the pipeline to delete.
   Future<void> deletePipeline({
-    @_s.required String pipelineName,
+    required String pipelineName,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -724,12 +658,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     await _protocol.send(
@@ -756,8 +684,8 @@ class IoTAnalytics {
   /// in the response. This feature cannot be used with a channel whose S3
   /// storage is customer-managed.
   Future<DescribeChannelResponse> describeChannel({
-    @_s.required String channelName,
-    bool includeStatistics,
+    required String channelName,
+    bool? includeStatistics,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     _s.validateStringLength(
@@ -765,12 +693,6 @@ class IoTAnalytics {
       channelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -798,7 +720,7 @@ class IoTAnalytics {
   /// Parameter [datasetName] :
   /// The name of the data set whose information is retrieved.
   Future<DescribeDatasetResponse> describeDataset({
-    @_s.required String datasetName,
+    required String datasetName,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -806,12 +728,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -839,8 +755,8 @@ class IoTAnalytics {
   /// included in the response. This feature cannot be used with a data store
   /// whose S3 storage is customer-managed.
   Future<DescribeDatastoreResponse> describeDatastore({
-    @_s.required String datastoreName,
-    bool includeStatistics,
+    required String datastoreName,
+    bool? includeStatistics,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
     _s.validateStringLength(
@@ -848,12 +764,6 @@ class IoTAnalytics {
       datastoreName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -898,7 +808,7 @@ class IoTAnalytics {
   /// Parameter [pipelineName] :
   /// The name of the pipeline whose information is retrieved.
   Future<DescribePipelineResponse> describePipeline({
-    @_s.required String pipelineName,
+    required String pipelineName,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -906,12 +816,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -940,8 +844,8 @@ class IoTAnalytics {
   /// the latest or latest successfully completed data set. If not specified,
   /// "$LATEST_SUCCEEDED" is the default.
   Future<GetDatasetContentResponse> getDatasetContent({
-    @_s.required String datasetName,
-    String versionId,
+    required String datasetName,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -949,12 +853,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -991,8 +889,8 @@ class IoTAnalytics {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListChannelsResponse> listChannels({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1043,11 +941,11 @@ class IoTAnalytics {
   /// <code>triggers.schedule</code> in the <code>CreateDataset</code> request.
   /// (timestamp)
   Future<ListDatasetContentsResponse> listDatasetContents({
-    @_s.required String datasetName,
-    int maxResults,
-    String nextToken,
-    DateTime scheduledBefore,
-    DateTime scheduledOnOrAfter,
+    required String datasetName,
+    int? maxResults,
+    String? nextToken,
+    DateTime? scheduledBefore,
+    DateTime? scheduledOnOrAfter,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -1055,12 +953,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1102,8 +994,8 @@ class IoTAnalytics {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListDatasetsResponse> listDatasets({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1140,8 +1032,8 @@ class IoTAnalytics {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListDatastoresResponse> listDatastores({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1178,8 +1070,8 @@ class IoTAnalytics {
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListPipelinesResponse> listPipelines({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1213,7 +1105,7 @@ class IoTAnalytics {
   /// Parameter [resourceArn] :
   /// The ARN of the resource whose tags you want to list.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1224,7 +1116,7 @@ class IoTAnalytics {
       isRequired: true,
     );
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -1252,7 +1144,7 @@ class IoTAnalytics {
   /// Parameter [loggingOptions] :
   /// The new values of the AWS IoT Analytics logging options.
   Future<void> putLoggingOptions({
-    @_s.required LoggingOptions loggingOptions,
+    required LoggingOptions loggingOptions,
   }) async {
     ArgumentError.checkNotNull(loggingOptions, 'loggingOptions');
     final $payload = <String, dynamic>{
@@ -1284,13 +1176,13 @@ class IoTAnalytics {
   /// functions (those with a timeout of less than 30 seconds or less) can be
   /// used.
   Future<RunPipelineActivityResponse> runPipelineActivity({
-    @_s.required List<Uint8List> payloads,
-    @_s.required PipelineActivity pipelineActivity,
+    required List<Uint8List> payloads,
+    required PipelineActivity pipelineActivity,
   }) async {
     ArgumentError.checkNotNull(payloads, 'payloads');
     ArgumentError.checkNotNull(pipelineActivity, 'pipelineActivity');
     final $payload = <String, dynamic>{
-      'payloads': payloads?.map((e) => e?.let(base64Encode))?.toList(),
+      'payloads': payloads.map(base64Encode).toList(),
       'pipelineActivity': pipelineActivity,
     };
     final response = await _protocol.send(
@@ -1324,10 +1216,10 @@ class IoTAnalytics {
   /// Parameter [startTime] :
   /// The start of the time window from which sample messages are retrieved.
   Future<SampleChannelDataResponse> sampleChannelData({
-    @_s.required String channelName,
-    DateTime endTime,
-    int maxMessages,
-    DateTime startTime,
+    required String channelName,
+    DateTime? endTime,
+    int? maxMessages,
+    DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     _s.validateStringLength(
@@ -1335,12 +1227,6 @@ class IoTAnalytics {
       channelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1395,10 +1281,10 @@ class IoTAnalytics {
   /// If you specify a value for the <code>startTime</code> parameter, you must
   /// not use the <code>channelMessages</code> object.
   Future<StartPipelineReprocessingResponse> startPipelineReprocessing({
-    @_s.required String pipelineName,
-    ChannelMessages channelMessages,
-    DateTime endTime,
-    DateTime startTime,
+    required String pipelineName,
+    ChannelMessages? channelMessages,
+    DateTime? endTime,
+    DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
     _s.validateStringLength(
@@ -1406,12 +1292,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1445,8 +1325,8 @@ class IoTAnalytics {
   /// Parameter [tags] :
   /// The new or modified tags for the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1458,7 +1338,7 @@ class IoTAnalytics {
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -1470,7 +1350,6 @@ class IoTAnalytics {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes the given tags (metadata) from the resource.
@@ -1488,8 +1367,8 @@ class IoTAnalytics {
   /// Parameter [tagKeys] :
   /// The keys of those tags which you want to remove.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1501,8 +1380,8 @@ class IoTAnalytics {
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'resourceArn': [resourceArn],
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1511,7 +1390,6 @@ class IoTAnalytics {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates the settings of a channel.
@@ -1535,9 +1413,9 @@ class IoTAnalytics {
   /// How long, in days, message data is kept for the channel. The retention
   /// period cannot be updated if the channel's S3 storage is customer-managed.
   Future<void> updateChannel({
-    @_s.required String channelName,
-    ChannelStorage channelStorage,
-    RetentionPeriod retentionPeriod,
+    required String channelName,
+    ChannelStorage? channelStorage,
+    RetentionPeriod? retentionPeriod,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     _s.validateStringLength(
@@ -1545,12 +1423,6 @@ class IoTAnalytics {
       channelName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1606,13 +1478,13 @@ class IoTAnalytics {
   /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
   /// Analytics User Guide</i>.
   Future<void> updateDataset({
-    @_s.required List<DatasetAction> actions,
-    @_s.required String datasetName,
-    List<DatasetContentDeliveryRule> contentDeliveryRules,
-    List<LateDataRule> lateDataRules,
-    RetentionPeriod retentionPeriod,
-    List<DatasetTrigger> triggers,
-    VersioningConfiguration versioningConfiguration,
+    required List<DatasetAction> actions,
+    required String datasetName,
+    List<DatasetContentDeliveryRule>? contentDeliveryRules,
+    List<LateDataRule>? lateDataRules,
+    RetentionPeriod? retentionPeriod,
+    List<DatasetTrigger>? triggers,
+    VersioningConfiguration? versioningConfiguration,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(datasetName, 'datasetName');
@@ -1621,12 +1493,6 @@ class IoTAnalytics {
       datasetName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetName',
-      datasetName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1678,10 +1544,10 @@ class IoTAnalytics {
   /// period cannot be updated if the data store's S3 storage is
   /// customer-managed.
   Future<void> updateDatastore({
-    @_s.required String datastoreName,
-    DatastoreStorage datastoreStorage,
-    FileFormatConfiguration fileFormatConfiguration,
-    RetentionPeriod retentionPeriod,
+    required String datastoreName,
+    DatastoreStorage? datastoreStorage,
+    FileFormatConfiguration? fileFormatConfiguration,
+    RetentionPeriod? retentionPeriod,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
     _s.validateStringLength(
@@ -1689,12 +1555,6 @@ class IoTAnalytics {
       datastoreName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datastoreName',
-      datastoreName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1740,8 +1600,8 @@ class IoTAnalytics {
   /// Parameter [pipelineName] :
   /// The name of the pipeline to update.
   Future<void> updatePipeline({
-    @_s.required List<PipelineActivity> pipelineActivities,
-    @_s.required String pipelineName,
+    required List<PipelineActivity> pipelineActivities,
+    required String pipelineName,
   }) async {
     ArgumentError.checkNotNull(pipelineActivities, 'pipelineActivities');
     ArgumentError.checkNotNull(pipelineName, 'pipelineName');
@@ -1750,12 +1610,6 @@ class IoTAnalytics {
       pipelineName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineName',
-      pipelineName,
-      r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1772,11 +1626,6 @@ class IoTAnalytics {
 
 /// An activity that adds other attributes based on existing attributes in the
 /// message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AddAttributesActivity {
   /// A list of 1-50 <code>AttributeNameMapping</code> objects that map an
   /// existing attribute to a new attribute.
@@ -1784,102 +1633,127 @@ class AddAttributesActivity {
   /// The existing attributes remain in the message, so if you want to remove the
   /// originals, use <code>RemoveAttributeActivity</code>.
   /// </note>
-  @_s.JsonKey(name: 'attributes')
   final Map<String, String> attributes;
 
   /// The name of the addAttributes activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   AddAttributesActivity({
-    @_s.required this.attributes,
-    @_s.required this.name,
+    required this.attributes,
+    required this.name,
     this.next,
   });
-  factory AddAttributesActivity.fromJson(Map<String, dynamic> json) =>
-      _$AddAttributesActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AddAttributesActivityToJson(this);
+  factory AddAttributesActivity.fromJson(Map<String, dynamic> json) {
+    return AddAttributesActivity(
+      attributes: (json['attributes'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      name: json['name'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final name = this.name;
+    final next = this.next;
+    return {
+      'attributes': attributes,
+      'name': name,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 /// Contains informations about errors.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchPutMessageErrorEntry {
   /// The code associated with the error.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The message associated with the error.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ID of the message that caused the error. See the value corresponding to
   /// the <code>messageId</code> key in the message object.
-  @_s.JsonKey(name: 'messageId')
-  final String messageId;
+  final String? messageId;
 
   BatchPutMessageErrorEntry({
     this.errorCode,
     this.errorMessage,
     this.messageId,
   });
-  factory BatchPutMessageErrorEntry.fromJson(Map<String, dynamic> json) =>
-      _$BatchPutMessageErrorEntryFromJson(json);
+
+  factory BatchPutMessageErrorEntry.fromJson(Map<String, dynamic> json) {
+    return BatchPutMessageErrorEntry(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      messageId: json['messageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final messageId = this.messageId;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (messageId != null) 'messageId': messageId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchPutMessageResponse {
   /// A list of any errors encountered when sending the messages to the channel.
-  @_s.JsonKey(name: 'batchPutMessageErrorEntries')
-  final List<BatchPutMessageErrorEntry> batchPutMessageErrorEntries;
+  final List<BatchPutMessageErrorEntry>? batchPutMessageErrorEntries;
 
   BatchPutMessageResponse({
     this.batchPutMessageErrorEntries,
   });
-  factory BatchPutMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchPutMessageResponseFromJson(json);
+
+  factory BatchPutMessageResponse.fromJson(Map<String, dynamic> json) {
+    return BatchPutMessageResponse(
+      batchPutMessageErrorEntries:
+          (json['batchPutMessageErrorEntries'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  BatchPutMessageErrorEntry.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchPutMessageErrorEntries = this.batchPutMessageErrorEntries;
+    return {
+      if (batchPutMessageErrorEntries != null)
+        'batchPutMessageErrorEntries': batchPutMessageErrorEntries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelPipelineReprocessingResponse {
   CancelPipelineReprocessingResponse();
-  factory CancelPipelineReprocessingResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelPipelineReprocessingResponseFromJson(json);
+
+  factory CancelPipelineReprocessingResponse.fromJson(Map<String, dynamic> _) {
+    return CancelPipelineReprocessingResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A collection of data from an MQTT topic. Channels archive the raw,
 /// unprocessed messages before publishing the data to a pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Channel {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// When the channel was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The last time when a new message arrived in the channel.
   ///
@@ -1889,33 +1763,25 @@ class Channel {
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastMessageArrivalTime')
-  final DateTime lastMessageArrivalTime;
+  final DateTime? lastMessageArrivalTime;
 
   /// When the channel was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The name of the channel.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// How long, in days, message data is kept for the channel.
-  @_s.JsonKey(name: 'retentionPeriod')
-  final RetentionPeriod retentionPeriod;
+  final RetentionPeriod? retentionPeriod;
 
   /// The status of the channel.
-  @_s.JsonKey(name: 'status')
-  final ChannelStatus status;
+  final ChannelStatus? status;
 
   /// Where channel data is stored. You can choose one of
   /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
   /// not specified, the default is <code>serviceManagedS3</code>. You cannot
   /// change this storage option after the channel is created.
-  @_s.JsonKey(name: 'storage')
-  final ChannelStorage storage;
+  final ChannelStorage? storage;
 
   Channel({
     this.arn,
@@ -1927,160 +1793,267 @@ class Channel {
     this.status,
     this.storage,
   });
-  factory Channel.fromJson(Map<String, dynamic> json) =>
-      _$ChannelFromJson(json);
+
+  factory Channel.fromJson(Map<String, dynamic> json) {
+    return Channel(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastMessageArrivalTime: timeStampFromJson(json['lastMessageArrivalTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      name: json['name'] as String?,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toChannelStatus(),
+      storage: json['storage'] != null
+          ? ChannelStorage.fromJson(json['storage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final lastMessageArrivalTime = this.lastMessageArrivalTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final name = this.name;
+    final retentionPeriod = this.retentionPeriod;
+    final status = this.status;
+    final storage = this.storage;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastMessageArrivalTime != null)
+        'lastMessageArrivalTime': unixTimestampToJson(lastMessageArrivalTime),
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (name != null) 'name': name,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (status != null) 'status': status.toValue(),
+      if (storage != null) 'storage': storage,
+    };
+  }
 }
 
 /// The activity that determines the source of the messages to be processed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ChannelActivity {
   /// The name of the channel from which the messages are processed.
-  @_s.JsonKey(name: 'channelName')
   final String channelName;
 
   /// The name of the channel activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   ChannelActivity({
-    @_s.required this.channelName,
-    @_s.required this.name,
+    required this.channelName,
+    required this.name,
     this.next,
   });
-  factory ChannelActivity.fromJson(Map<String, dynamic> json) =>
-      _$ChannelActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ChannelActivityToJson(this);
+  factory ChannelActivity.fromJson(Map<String, dynamic> json) {
+    return ChannelActivity(
+      channelName: json['channelName'] as String,
+      name: json['name'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelName = this.channelName;
+    final name = this.name;
+    final next = this.next;
+    return {
+      'channelName': channelName,
+      'name': name,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 /// Specifies one or more sets of channel messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ChannelMessages {
   /// Specifies one or more keys that identify the Amazon Simple Storage Service
   /// (Amazon S3) objects that save your channel messages.
-  @_s.JsonKey(name: 's3Paths')
-  final List<String> s3Paths;
+  ///
+  /// You must use the full path for the key.
+  ///
+  /// Example path: <code>channel/mychannel/__dt=2020-02-29
+  /// 00:00:00/1582940490000_1582940520000_123456789012_mychannel_0_2118.0.json.gz</code>
+  final List<String>? s3Paths;
 
   ChannelMessages({
     this.s3Paths,
   });
-  Map<String, dynamic> toJson() => _$ChannelMessagesToJson(this);
+
+  factory ChannelMessages.fromJson(Map<String, dynamic> json) {
+    return ChannelMessages(
+      s3Paths: (json['s3Paths'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Paths = this.s3Paths;
+    return {
+      if (s3Paths != null) 's3Paths': s3Paths,
+    };
+  }
 }
 
 /// Statistics information about the channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChannelStatistics {
   /// The estimated size of the channel.
-  @_s.JsonKey(name: 'size')
-  final EstimatedResourceSize size;
+  final EstimatedResourceSize? size;
 
   ChannelStatistics({
     this.size,
   });
-  factory ChannelStatistics.fromJson(Map<String, dynamic> json) =>
-      _$ChannelStatisticsFromJson(json);
+
+  factory ChannelStatistics.fromJson(Map<String, dynamic> json) {
+    return ChannelStatistics(
+      size: json['size'] != null
+          ? EstimatedResourceSize.fromJson(json['size'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    return {
+      if (size != null) 'size': size,
+    };
+  }
 }
 
 enum ChannelStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on ChannelStatus {
+  String toValue() {
+    switch (this) {
+      case ChannelStatus.creating:
+        return 'CREATING';
+      case ChannelStatus.active:
+        return 'ACTIVE';
+      case ChannelStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ChannelStatus toChannelStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ChannelStatus.creating;
+      case 'ACTIVE':
+        return ChannelStatus.active;
+      case 'DELETING':
+        return ChannelStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ChannelStatus');
+  }
 }
 
 /// Where channel data is stored. You may choose one of
 /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
 /// not specified, the default is <code>serviceManagedS3</code>. This cannot be
 /// changed after creation of the channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ChannelStorage {
   /// Use this to store channel data in an S3 bucket that you manage. If customer
   /// managed storage is selected, the <code>retentionPeriod</code> parameter is
   /// ignored. You cannot change the choice of service-managed or customer-managed
   /// S3 storage after the channel is created.
-  @_s.JsonKey(name: 'customerManagedS3')
-  final CustomerManagedChannelS3Storage customerManagedS3;
+  final CustomerManagedChannelS3Storage? customerManagedS3;
 
   /// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics.
   /// You cannot change the choice of service-managed or customer-managed S3
   /// storage after the channel is created.
-  @_s.JsonKey(name: 'serviceManagedS3')
-  final ServiceManagedChannelS3Storage serviceManagedS3;
+  final ServiceManagedChannelS3Storage? serviceManagedS3;
 
   ChannelStorage({
     this.customerManagedS3,
     this.serviceManagedS3,
   });
-  factory ChannelStorage.fromJson(Map<String, dynamic> json) =>
-      _$ChannelStorageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ChannelStorageToJson(this);
+  factory ChannelStorage.fromJson(Map<String, dynamic> json) {
+    return ChannelStorage(
+      customerManagedS3: json['customerManagedS3'] != null
+          ? CustomerManagedChannelS3Storage.fromJson(
+              json['customerManagedS3'] as Map<String, dynamic>)
+          : null,
+      serviceManagedS3: json['serviceManagedS3'] != null
+          ? ServiceManagedChannelS3Storage.fromJson(
+              json['serviceManagedS3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedS3 = this.customerManagedS3;
+    final serviceManagedS3 = this.serviceManagedS3;
+    return {
+      if (customerManagedS3 != null) 'customerManagedS3': customerManagedS3,
+      if (serviceManagedS3 != null) 'serviceManagedS3': serviceManagedS3,
+    };
+  }
 }
 
 /// Where channel data is stored.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChannelStorageSummary {
   /// Used to store channel data in an S3 bucket that you manage.
-  @_s.JsonKey(name: 'customerManagedS3')
-  final CustomerManagedChannelS3StorageSummary customerManagedS3;
+  final CustomerManagedChannelS3StorageSummary? customerManagedS3;
 
   /// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
-  @_s.JsonKey(name: 'serviceManagedS3')
-  final ServiceManagedChannelS3StorageSummary serviceManagedS3;
+  final ServiceManagedChannelS3StorageSummary? serviceManagedS3;
 
   ChannelStorageSummary({
     this.customerManagedS3,
     this.serviceManagedS3,
   });
-  factory ChannelStorageSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChannelStorageSummaryFromJson(json);
+
+  factory ChannelStorageSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelStorageSummary(
+      customerManagedS3: json['customerManagedS3'] != null
+          ? CustomerManagedChannelS3StorageSummary.fromJson(
+              json['customerManagedS3'] as Map<String, dynamic>)
+          : null,
+      serviceManagedS3: json['serviceManagedS3'] != null
+          ? ServiceManagedChannelS3StorageSummary.fromJson(
+              json['serviceManagedS3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedS3 = this.customerManagedS3;
+    final serviceManagedS3 = this.serviceManagedS3;
+    return {
+      if (customerManagedS3 != null) 'customerManagedS3': customerManagedS3,
+      if (serviceManagedS3 != null) 'serviceManagedS3': serviceManagedS3,
+    };
+  }
 }
 
 /// A summary of information about a channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChannelSummary {
   /// The name of the channel.
-  @_s.JsonKey(name: 'channelName')
-  final String channelName;
+  final String? channelName;
 
   /// Where channel data is stored.
-  @_s.JsonKey(name: 'channelStorage')
-  final ChannelStorageSummary channelStorage;
+  final ChannelStorageSummary? channelStorage;
 
   /// When the channel was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The last time when a new message arrived in the channel.
   ///
@@ -2090,18 +2063,13 @@ class ChannelSummary {
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastMessageArrivalTime')
-  final DateTime lastMessageArrivalTime;
+  final DateTime? lastMessageArrivalTime;
 
   /// The last time the channel was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The status of the channel.
-  @_s.JsonKey(name: 'status')
-  final ChannelStatus status;
+  final ChannelStatus? status;
 
   ChannelSummary({
     this.channelName,
@@ -2111,68 +2079,119 @@ class ChannelSummary {
     this.lastUpdateTime,
     this.status,
   });
-  factory ChannelSummary.fromJson(Map<String, dynamic> json) =>
-      _$ChannelSummaryFromJson(json);
+
+  factory ChannelSummary.fromJson(Map<String, dynamic> json) {
+    return ChannelSummary(
+      channelName: json['channelName'] as String?,
+      channelStorage: json['channelStorage'] != null
+          ? ChannelStorageSummary.fromJson(
+              json['channelStorage'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastMessageArrivalTime: timeStampFromJson(json['lastMessageArrivalTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      status: (json['status'] as String?)?.toChannelStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelName = this.channelName;
+    final channelStorage = this.channelStorage;
+    final creationTime = this.creationTime;
+    final lastMessageArrivalTime = this.lastMessageArrivalTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final status = this.status;
+    return {
+      if (channelName != null) 'channelName': channelName,
+      if (channelStorage != null) 'channelStorage': channelStorage,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastMessageArrivalTime != null)
+        'lastMessageArrivalTime': unixTimestampToJson(lastMessageArrivalTime),
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains information about a column that stores your data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Column {
   /// The name of the column.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The type of data. For more information about the supported data types, see
   /// <a
   /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html">Common
   /// data types</a> in the <i>AWS Glue Developer Guide</i>.
-  @_s.JsonKey(name: 'type')
   final String type;
 
   Column({
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.name,
+    required this.type,
   });
-  factory Column.fromJson(Map<String, dynamic> json) => _$ColumnFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ColumnToJson(this);
+  factory Column.fromJson(Map<String, dynamic> json) {
+    return Column(
+      name: json['name'] as String,
+      type: json['type'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    return {
+      'name': name,
+      'type': type,
+    };
+  }
 }
 
 enum ComputeType {
-  @_s.JsonValue('ACU_1')
   acu_1,
-  @_s.JsonValue('ACU_2')
   acu_2,
+}
+
+extension on ComputeType {
+  String toValue() {
+    switch (this) {
+      case ComputeType.acu_1:
+        return 'ACU_1';
+      case ComputeType.acu_2:
+        return 'ACU_2';
+    }
+  }
+}
+
+extension on String {
+  ComputeType toComputeType() {
+    switch (this) {
+      case 'ACU_1':
+        return ComputeType.acu_1;
+      case 'ACU_2':
+        return ComputeType.acu_2;
+    }
+    throw Exception('$this is not known in enum ComputeType');
+  }
 }
 
 /// Information required to run the <code>containerAction</code> to produce
 /// dataset contents.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContainerDatasetAction {
   /// The ARN of the role that gives permission to the system to access required
   /// resources to run the <code>containerAction</code>. This includes, at
   /// minimum, permission to retrieve the dataset contents that are the input to
   /// the containerized application.
-  @_s.JsonKey(name: 'executionRoleArn')
   final String executionRoleArn;
 
   /// The ARN of the Docker container stored in your account. The Docker container
   /// contains an application and required support libraries and is used to
   /// generate dataset contents.
-  @_s.JsonKey(name: 'image')
   final String image;
 
   /// Configuration of the resource that executes the
   /// <code>containerAction</code>.
-  @_s.JsonKey(name: 'resourceConfiguration')
   final ResourceConfiguration resourceConfiguration;
 
   /// The values of variables used in the context of the execution of the
@@ -2180,339 +2199,421 @@ class ContainerDatasetAction {
   /// Each variable must have a name and a value given by one of
   /// <code>stringValue</code>, <code>datasetContentVersionValue</code>, or
   /// <code>outputFileUriValue</code>.
-  @_s.JsonKey(name: 'variables')
-  final List<Variable> variables;
+  final List<Variable>? variables;
 
   ContainerDatasetAction({
-    @_s.required this.executionRoleArn,
-    @_s.required this.image,
-    @_s.required this.resourceConfiguration,
+    required this.executionRoleArn,
+    required this.image,
+    required this.resourceConfiguration,
     this.variables,
   });
-  factory ContainerDatasetAction.fromJson(Map<String, dynamic> json) =>
-      _$ContainerDatasetActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContainerDatasetActionToJson(this);
+  factory ContainerDatasetAction.fromJson(Map<String, dynamic> json) {
+    return ContainerDatasetAction(
+      executionRoleArn: json['executionRoleArn'] as String,
+      image: json['image'] as String,
+      resourceConfiguration: ResourceConfiguration.fromJson(
+          json['resourceConfiguration'] as Map<String, dynamic>),
+      variables: (json['variables'] as List?)
+          ?.whereNotNull()
+          .map((e) => Variable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionRoleArn = this.executionRoleArn;
+    final image = this.image;
+    final resourceConfiguration = this.resourceConfiguration;
+    final variables = this.variables;
+    return {
+      'executionRoleArn': executionRoleArn,
+      'image': image,
+      'resourceConfiguration': resourceConfiguration,
+      if (variables != null) 'variables': variables,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateChannelResponse {
   /// The ARN of the channel.
-  @_s.JsonKey(name: 'channelArn')
-  final String channelArn;
+  final String? channelArn;
 
   /// The name of the channel.
-  @_s.JsonKey(name: 'channelName')
-  final String channelName;
+  final String? channelName;
 
   /// How long, in days, message data is kept for the channel.
-  @_s.JsonKey(name: 'retentionPeriod')
-  final RetentionPeriod retentionPeriod;
+  final RetentionPeriod? retentionPeriod;
 
   CreateChannelResponse({
     this.channelArn,
     this.channelName,
     this.retentionPeriod,
   });
-  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateChannelResponseFromJson(json);
+
+  factory CreateChannelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateChannelResponse(
+      channelArn: json['channelArn'] as String?,
+      channelName: json['channelName'] as String?,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelArn = this.channelArn;
+    final channelName = this.channelName;
+    final retentionPeriod = this.retentionPeriod;
+    return {
+      if (channelArn != null) 'channelArn': channelArn,
+      if (channelName != null) 'channelName': channelName,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetContentResponse {
   /// The version ID of the dataset contents that are being created.
-  @_s.JsonKey(name: 'versionId')
-  final String versionId;
+  final String? versionId;
 
   CreateDatasetContentResponse({
     this.versionId,
   });
-  factory CreateDatasetContentResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetContentResponseFromJson(json);
+
+  factory CreateDatasetContentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetContentResponse(
+      versionId: json['versionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final versionId = this.versionId;
+    return {
+      if (versionId != null) 'versionId': versionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetResponse {
   /// The ARN of the dataset.
-  @_s.JsonKey(name: 'datasetArn')
-  final String datasetArn;
+  final String? datasetArn;
 
   /// The name of the dataset.
-  @_s.JsonKey(name: 'datasetName')
-  final String datasetName;
+  final String? datasetName;
 
   /// How long, in days, dataset contents are kept for the dataset.
-  @_s.JsonKey(name: 'retentionPeriod')
-  final RetentionPeriod retentionPeriod;
+  final RetentionPeriod? retentionPeriod;
 
   CreateDatasetResponse({
     this.datasetArn,
     this.datasetName,
     this.retentionPeriod,
   });
-  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetResponseFromJson(json);
+
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetArn: json['datasetArn'] as String?,
+      datasetName: json['datasetName'] as String?,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetArn = this.datasetArn;
+    final datasetName = this.datasetName;
+    final retentionPeriod = this.retentionPeriod;
+    return {
+      if (datasetArn != null) 'datasetArn': datasetArn,
+      if (datasetName != null) 'datasetName': datasetName,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatastoreResponse {
   /// The ARN of the data store.
-  @_s.JsonKey(name: 'datastoreArn')
-  final String datastoreArn;
+  final String? datastoreArn;
 
   /// The name of the data store.
-  @_s.JsonKey(name: 'datastoreName')
-  final String datastoreName;
+  final String? datastoreName;
 
   /// How long, in days, message data is kept for the data store.
-  @_s.JsonKey(name: 'retentionPeriod')
-  final RetentionPeriod retentionPeriod;
+  final RetentionPeriod? retentionPeriod;
 
   CreateDatastoreResponse({
     this.datastoreArn,
     this.datastoreName,
     this.retentionPeriod,
   });
-  factory CreateDatastoreResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatastoreResponseFromJson(json);
+
+  factory CreateDatastoreResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatastoreResponse(
+      datastoreArn: json['datastoreArn'] as String?,
+      datastoreName: json['datastoreName'] as String?,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastoreArn = this.datastoreArn;
+    final datastoreName = this.datastoreName;
+    final retentionPeriod = this.retentionPeriod;
+    return {
+      if (datastoreArn != null) 'datastoreArn': datastoreArn,
+      if (datastoreName != null) 'datastoreName': datastoreName,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePipelineResponse {
   /// The ARN of the pipeline.
-  @_s.JsonKey(name: 'pipelineArn')
-  final String pipelineArn;
+  final String? pipelineArn;
 
   /// The name of the pipeline.
-  @_s.JsonKey(name: 'pipelineName')
-  final String pipelineName;
+  final String? pipelineName;
 
   CreatePipelineResponse({
     this.pipelineArn,
     this.pipelineName,
   });
-  factory CreatePipelineResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePipelineResponseFromJson(json);
+
+  factory CreatePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePipelineResponse(
+      pipelineArn: json['pipelineArn'] as String?,
+      pipelineName: json['pipelineName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineArn = this.pipelineArn;
+    final pipelineName = this.pipelineName;
+    return {
+      if (pipelineArn != null) 'pipelineArn': pipelineArn,
+      if (pipelineName != null) 'pipelineName': pipelineName,
+    };
+  }
 }
 
 /// Use this to store channel data in an S3 bucket that you manage. If customer
 /// managed storage is selected, the <code>retentionPeriod</code> parameter is
 /// ignored. You cannot change the choice of service-managed or customer-managed
 /// S3 storage after the channel is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomerManagedChannelS3Storage {
   /// The name of the S3 bucket in which channel data is stored.
-  @_s.JsonKey(name: 'bucket')
   final String bucket;
 
   /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Optional. The prefix used to create the keys of the channel data objects.
   /// Each object in an S3 bucket has a key that is its unique identifier in the
   /// bucket. Each object in a bucket has exactly one key. The prefix must end
   /// with a forward slash (/).
-  @_s.JsonKey(name: 'keyPrefix')
-  final String keyPrefix;
+  final String? keyPrefix;
 
   CustomerManagedChannelS3Storage({
-    @_s.required this.bucket,
-    @_s.required this.roleArn,
+    required this.bucket,
+    required this.roleArn,
     this.keyPrefix,
   });
-  factory CustomerManagedChannelS3Storage.fromJson(Map<String, dynamic> json) =>
-      _$CustomerManagedChannelS3StorageFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CustomerManagedChannelS3StorageToJson(this);
+  factory CustomerManagedChannelS3Storage.fromJson(Map<String, dynamic> json) {
+    return CustomerManagedChannelS3Storage(
+      bucket: json['bucket'] as String,
+      roleArn: json['roleArn'] as String,
+      keyPrefix: json['keyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final roleArn = this.roleArn;
+    final keyPrefix = this.keyPrefix;
+    return {
+      'bucket': bucket,
+      'roleArn': roleArn,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
+    };
+  }
 }
 
 /// Used to store channel data in an S3 bucket that you manage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomerManagedChannelS3StorageSummary {
   /// The name of the S3 bucket in which channel data is stored.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// Optional. The prefix used to create the keys of the channel data objects.
   /// Each object in an S3 bucket has a key that is its unique identifier within
   /// the bucket (each object in a bucket has exactly one key). The prefix must
   /// end with a forward slash (/).
-  @_s.JsonKey(name: 'keyPrefix')
-  final String keyPrefix;
+  final String? keyPrefix;
 
   /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   CustomerManagedChannelS3StorageSummary({
     this.bucket,
     this.keyPrefix,
     this.roleArn,
   });
+
   factory CustomerManagedChannelS3StorageSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomerManagedChannelS3StorageSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return CustomerManagedChannelS3StorageSummary(
+      bucket: json['bucket'] as String?,
+      keyPrefix: json['keyPrefix'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefix = this.keyPrefix;
+    final roleArn = this.roleArn;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 /// Use this to store data store data in an S3 bucket that you manage. When
 /// customer-managed storage is selected, the <code>retentionPeriod</code>
 /// parameter is ignored. You cannot change the choice of service-managed or
 /// customer-managed S3 storage after the data store is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomerManagedDatastoreS3Storage {
   /// The name of the S3 bucket in which data store data is stored.
-  @_s.JsonKey(name: 'bucket')
   final String bucket;
 
   /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Optional. The prefix used to create the keys of the data store data objects.
   /// Each object in an S3 bucket has a key that is its unique identifier in the
   /// bucket. Each object in a bucket has exactly one key. The prefix must end
   /// with a forward slash (/).
-  @_s.JsonKey(name: 'keyPrefix')
-  final String keyPrefix;
+  final String? keyPrefix;
 
   CustomerManagedDatastoreS3Storage({
-    @_s.required this.bucket,
-    @_s.required this.roleArn,
+    required this.bucket,
+    required this.roleArn,
     this.keyPrefix,
   });
-  factory CustomerManagedDatastoreS3Storage.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomerManagedDatastoreS3StorageFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CustomerManagedDatastoreS3StorageToJson(this);
+  factory CustomerManagedDatastoreS3Storage.fromJson(
+      Map<String, dynamic> json) {
+    return CustomerManagedDatastoreS3Storage(
+      bucket: json['bucket'] as String,
+      roleArn: json['roleArn'] as String,
+      keyPrefix: json['keyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final roleArn = this.roleArn;
+    final keyPrefix = this.keyPrefix;
+    return {
+      'bucket': bucket,
+      'roleArn': roleArn,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
+    };
+  }
 }
 
 /// Used to store data store data in an S3 bucket that you manage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomerManagedDatastoreS3StorageSummary {
   /// The name of the S3 bucket in which data store data is stored.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// Optional. The prefix used to create the keys of the data store data objects.
   /// Each object in an S3 bucket has a key that is its unique identifier in the
   /// bucket. Each object in a bucket has exactly one key. The prefix must end
   /// with a forward slash (/).
-  @_s.JsonKey(name: 'keyPrefix')
-  final String keyPrefix;
+  final String? keyPrefix;
 
   /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
-  @_s.JsonKey(name: 'roleArn')
-  final String roleArn;
+  final String? roleArn;
 
   CustomerManagedDatastoreS3StorageSummary({
     this.bucket,
     this.keyPrefix,
     this.roleArn,
   });
+
   factory CustomerManagedDatastoreS3StorageSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$CustomerManagedDatastoreS3StorageSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return CustomerManagedDatastoreS3StorageSummary(
+      bucket: json['bucket'] as String?,
+      keyPrefix: json['keyPrefix'] as String?,
+      roleArn: json['roleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final keyPrefix = this.keyPrefix;
+    final roleArn = this.roleArn;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (keyPrefix != null) 'keyPrefix': keyPrefix,
+      if (roleArn != null) 'roleArn': roleArn,
+    };
+  }
 }
 
 /// Information about a data set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Dataset {
   /// The <code>DatasetAction</code> objects that automatically create the data
   /// set contents.
-  @_s.JsonKey(name: 'actions')
-  final List<DatasetAction> actions;
+  final List<DatasetAction>? actions;
 
   /// The ARN of the data set.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// When dataset contents are created they are delivered to destinations
   /// specified here.
-  @_s.JsonKey(name: 'contentDeliveryRules')
-  final List<DatasetContentDeliveryRule> contentDeliveryRules;
+  final List<DatasetContentDeliveryRule>? contentDeliveryRules;
 
   /// When the data set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The last time the data set was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// A list of data rules that send notifications to Amazon CloudWatch, when data
   /// arrives late. To specify <code>lateDataRules</code>, the dataset must use a
   /// <a
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
   /// filter.
-  @_s.JsonKey(name: 'lateDataRules')
-  final List<LateDataRule> lateDataRules;
+  final List<LateDataRule>? lateDataRules;
 
   /// The name of the data set.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// Optional. How long, in days, message data is kept for the data set.
-  @_s.JsonKey(name: 'retentionPeriod')
-  final RetentionPeriod retentionPeriod;
+  final RetentionPeriod? retentionPeriod;
 
   /// The status of the data set.
-  @_s.JsonKey(name: 'status')
-  final DatasetStatus status;
+  final DatasetStatus? status;
 
   /// The <code>DatasetTrigger</code> objects that specify when the data set is
   /// automatically updated.
-  @_s.JsonKey(name: 'triggers')
-  final List<DatasetTrigger> triggers;
+  final List<DatasetTrigger>? triggers;
 
   /// Optional. How many versions of dataset contents are kept. If not specified
   /// or set to null, only the latest version plus the latest succeeded version
@@ -2521,8 +2622,7 @@ class Dataset {
   /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
   /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
   /// Analytics User Guide</i>.
-  @_s.JsonKey(name: 'versioningConfiguration')
-  final VersioningConfiguration versioningConfiguration;
+  final VersioningConfiguration? versioningConfiguration;
 
   Dataset({
     this.actions,
@@ -2537,193 +2637,337 @@ class Dataset {
     this.triggers,
     this.versioningConfiguration,
   });
-  factory Dataset.fromJson(Map<String, dynamic> json) =>
-      _$DatasetFromJson(json);
+
+  factory Dataset.fromJson(Map<String, dynamic> json) {
+    return Dataset(
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      arn: json['arn'] as String?,
+      contentDeliveryRules: (json['contentDeliveryRules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DatasetContentDeliveryRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      lateDataRules: (json['lateDataRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => LateDataRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toDatasetStatus(),
+      triggers: (json['triggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetTrigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      versioningConfiguration: json['versioningConfiguration'] != null
+          ? VersioningConfiguration.fromJson(
+              json['versioningConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final arn = this.arn;
+    final contentDeliveryRules = this.contentDeliveryRules;
+    final creationTime = this.creationTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final lateDataRules = this.lateDataRules;
+    final name = this.name;
+    final retentionPeriod = this.retentionPeriod;
+    final status = this.status;
+    final triggers = this.triggers;
+    final versioningConfiguration = this.versioningConfiguration;
+    return {
+      if (actions != null) 'actions': actions,
+      if (arn != null) 'arn': arn,
+      if (contentDeliveryRules != null)
+        'contentDeliveryRules': contentDeliveryRules,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (lateDataRules != null) 'lateDataRules': lateDataRules,
+      if (name != null) 'name': name,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (status != null) 'status': status.toValue(),
+      if (triggers != null) 'triggers': triggers,
+      if (versioningConfiguration != null)
+        'versioningConfiguration': versioningConfiguration,
+    };
+  }
 }
 
 /// A <code>DatasetAction</code> object that specifies how data set contents are
 /// automatically created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatasetAction {
   /// The name of the data set action by which data set contents are automatically
   /// created.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// Information that allows the system to run a containerized application to
   /// create the dataset contents. The application must be in a Docker container
   /// along with any required support libraries.
-  @_s.JsonKey(name: 'containerAction')
-  final ContainerDatasetAction containerAction;
+  final ContainerDatasetAction? containerAction;
 
   /// An <code>SqlQueryDatasetAction</code> object that uses an SQL query to
   /// automatically create data set contents.
-  @_s.JsonKey(name: 'queryAction')
-  final SqlQueryDatasetAction queryAction;
+  final SqlQueryDatasetAction? queryAction;
 
   DatasetAction({
     this.actionName,
     this.containerAction,
     this.queryAction,
   });
-  factory DatasetAction.fromJson(Map<String, dynamic> json) =>
-      _$DatasetActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatasetActionToJson(this);
+  factory DatasetAction.fromJson(Map<String, dynamic> json) {
+    return DatasetAction(
+      actionName: json['actionName'] as String?,
+      containerAction: json['containerAction'] != null
+          ? ContainerDatasetAction.fromJson(
+              json['containerAction'] as Map<String, dynamic>)
+          : null,
+      queryAction: json['queryAction'] != null
+          ? SqlQueryDatasetAction.fromJson(
+              json['queryAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final containerAction = this.containerAction;
+    final queryAction = this.queryAction;
+    return {
+      if (actionName != null) 'actionName': actionName,
+      if (containerAction != null) 'containerAction': containerAction,
+      if (queryAction != null) 'queryAction': queryAction,
+    };
+  }
 }
 
 /// Information about the action that automatically creates the dataset's
 /// contents.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetActionSummary {
   /// The name of the action that automatically creates the dataset's contents.
-  @_s.JsonKey(name: 'actionName')
-  final String actionName;
+  final String? actionName;
 
   /// The type of action by which the dataset's contents are automatically
   /// created.
-  @_s.JsonKey(name: 'actionType')
-  final DatasetActionType actionType;
+  final DatasetActionType? actionType;
 
   DatasetActionSummary({
     this.actionName,
     this.actionType,
   });
-  factory DatasetActionSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetActionSummaryFromJson(json);
+
+  factory DatasetActionSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetActionSummary(
+      actionName: json['actionName'] as String?,
+      actionType: (json['actionType'] as String?)?.toDatasetActionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final actionType = this.actionType;
+    return {
+      if (actionName != null) 'actionName': actionName,
+      if (actionType != null) 'actionType': actionType.toValue(),
+    };
+  }
 }
 
 enum DatasetActionType {
-  @_s.JsonValue('QUERY')
   query,
-  @_s.JsonValue('CONTAINER')
   container,
 }
 
+extension on DatasetActionType {
+  String toValue() {
+    switch (this) {
+      case DatasetActionType.query:
+        return 'QUERY';
+      case DatasetActionType.container:
+        return 'CONTAINER';
+    }
+  }
+}
+
+extension on String {
+  DatasetActionType toDatasetActionType() {
+    switch (this) {
+      case 'QUERY':
+        return DatasetActionType.query;
+      case 'CONTAINER':
+        return DatasetActionType.container;
+    }
+    throw Exception('$this is not known in enum DatasetActionType');
+  }
+}
+
 /// The destination to which dataset contents are delivered.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatasetContentDeliveryDestination {
   /// Configuration information for delivery of dataset contents to AWS IoT
   /// Events.
-  @_s.JsonKey(name: 'iotEventsDestinationConfiguration')
-  final IotEventsDestinationConfiguration iotEventsDestinationConfiguration;
+  final IotEventsDestinationConfiguration? iotEventsDestinationConfiguration;
 
   /// Configuration information for delivery of dataset contents to Amazon S3.
-  @_s.JsonKey(name: 's3DestinationConfiguration')
-  final S3DestinationConfiguration s3DestinationConfiguration;
+  final S3DestinationConfiguration? s3DestinationConfiguration;
 
   DatasetContentDeliveryDestination({
     this.iotEventsDestinationConfiguration,
     this.s3DestinationConfiguration,
   });
-  factory DatasetContentDeliveryDestination.fromJson(
-          Map<String, dynamic> json) =>
-      _$DatasetContentDeliveryDestinationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DatasetContentDeliveryDestinationToJson(this);
+  factory DatasetContentDeliveryDestination.fromJson(
+      Map<String, dynamic> json) {
+    return DatasetContentDeliveryDestination(
+      iotEventsDestinationConfiguration:
+          json['iotEventsDestinationConfiguration'] != null
+              ? IotEventsDestinationConfiguration.fromJson(
+                  json['iotEventsDestinationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      s3DestinationConfiguration: json['s3DestinationConfiguration'] != null
+          ? S3DestinationConfiguration.fromJson(
+              json['s3DestinationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iotEventsDestinationConfiguration =
+        this.iotEventsDestinationConfiguration;
+    final s3DestinationConfiguration = this.s3DestinationConfiguration;
+    return {
+      if (iotEventsDestinationConfiguration != null)
+        'iotEventsDestinationConfiguration': iotEventsDestinationConfiguration,
+      if (s3DestinationConfiguration != null)
+        's3DestinationConfiguration': s3DestinationConfiguration,
+    };
+  }
 }
 
 /// When dataset contents are created, they are delivered to destination
 /// specified here.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatasetContentDeliveryRule {
   /// The destination to which dataset contents are delivered.
-  @_s.JsonKey(name: 'destination')
   final DatasetContentDeliveryDestination destination;
 
   /// The name of the dataset content delivery rules entry.
-  @_s.JsonKey(name: 'entryName')
-  final String entryName;
+  final String? entryName;
 
   DatasetContentDeliveryRule({
-    @_s.required this.destination,
+    required this.destination,
     this.entryName,
   });
-  factory DatasetContentDeliveryRule.fromJson(Map<String, dynamic> json) =>
-      _$DatasetContentDeliveryRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatasetContentDeliveryRuleToJson(this);
+  factory DatasetContentDeliveryRule.fromJson(Map<String, dynamic> json) {
+    return DatasetContentDeliveryRule(
+      destination: DatasetContentDeliveryDestination.fromJson(
+          json['destination'] as Map<String, dynamic>),
+      entryName: json['entryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final entryName = this.entryName;
+    return {
+      'destination': destination,
+      if (entryName != null) 'entryName': entryName,
+    };
+  }
 }
 
 enum DatasetContentState {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on DatasetContentState {
+  String toValue() {
+    switch (this) {
+      case DatasetContentState.creating:
+        return 'CREATING';
+      case DatasetContentState.succeeded:
+        return 'SUCCEEDED';
+      case DatasetContentState.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  DatasetContentState toDatasetContentState() {
+    switch (this) {
+      case 'CREATING':
+        return DatasetContentState.creating;
+      case 'SUCCEEDED':
+        return DatasetContentState.succeeded;
+      case 'FAILED':
+        return DatasetContentState.failed;
+    }
+    throw Exception('$this is not known in enum DatasetContentState');
+  }
+}
+
 /// The state of the data set contents and the reason they are in this state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetContentStatus {
   /// The reason the data set contents are in this state.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   /// The state of the data set contents. Can be one of READY, CREATING,
   /// SUCCEEDED, or FAILED.
-  @_s.JsonKey(name: 'state')
-  final DatasetContentState state;
+  final DatasetContentState? state;
 
   DatasetContentStatus({
     this.reason,
     this.state,
   });
-  factory DatasetContentStatus.fromJson(Map<String, dynamic> json) =>
-      _$DatasetContentStatusFromJson(json);
+
+  factory DatasetContentStatus.fromJson(Map<String, dynamic> json) {
+    return DatasetContentStatus(
+      reason: json['reason'] as String?,
+      state: (json['state'] as String?)?.toDatasetContentState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final state = this.state;
+    return {
+      if (reason != null) 'reason': reason,
+      if (state != null) 'state': state.toValue(),
+    };
+  }
 }
 
 /// Summary information about dataset contents.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetContentSummary {
   /// The time the dataset content status was updated to SUCCEEDED or FAILED.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'completionTime')
-  final DateTime completionTime;
+  final DateTime? completionTime;
 
   /// The actual time the creation of the dataset contents was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The time the creation of the dataset contents was scheduled to start.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'scheduleTime')
-  final DateTime scheduleTime;
+  final DateTime? scheduleTime;
 
   /// The status of the data set contents.
-  @_s.JsonKey(name: 'status')
-  final DatasetContentStatus status;
+  final DatasetContentStatus? status;
 
   /// The version of the dataset contents.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   DatasetContentSummary({
     this.completionTime,
@@ -2732,99 +2976,149 @@ class DatasetContentSummary {
     this.status,
     this.version,
   });
-  factory DatasetContentSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetContentSummaryFromJson(json);
+
+  factory DatasetContentSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetContentSummary(
+      completionTime: timeStampFromJson(json['completionTime']),
+      creationTime: timeStampFromJson(json['creationTime']),
+      scheduleTime: timeStampFromJson(json['scheduleTime']),
+      status: json['status'] != null
+          ? DatasetContentStatus.fromJson(
+              json['status'] as Map<String, dynamic>)
+          : null,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final completionTime = this.completionTime;
+    final creationTime = this.creationTime;
+    final scheduleTime = this.scheduleTime;
+    final status = this.status;
+    final version = this.version;
+    return {
+      if (completionTime != null)
+        'completionTime': unixTimestampToJson(completionTime),
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (scheduleTime != null)
+        'scheduleTime': unixTimestampToJson(scheduleTime),
+      if (status != null) 'status': status,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// The dataset whose latest contents are used as input to the notebook or
 /// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatasetContentVersionValue {
   /// The name of the dataset whose latest contents are used as input to the
   /// notebook or application.
-  @_s.JsonKey(name: 'datasetName')
   final String datasetName;
 
   DatasetContentVersionValue({
-    @_s.required this.datasetName,
+    required this.datasetName,
   });
-  factory DatasetContentVersionValue.fromJson(Map<String, dynamic> json) =>
-      _$DatasetContentVersionValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatasetContentVersionValueToJson(this);
+  factory DatasetContentVersionValue.fromJson(Map<String, dynamic> json) {
+    return DatasetContentVersionValue(
+      datasetName: json['datasetName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetName = this.datasetName;
+    return {
+      'datasetName': datasetName,
+    };
+  }
 }
 
 /// The reference to a data set entry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetEntry {
   /// The presigned URI of the data set item.
-  @_s.JsonKey(name: 'dataURI')
-  final String dataURI;
+  final String? dataURI;
 
   /// The name of the data set item.
-  @_s.JsonKey(name: 'entryName')
-  final String entryName;
+  final String? entryName;
 
   DatasetEntry({
     this.dataURI,
     this.entryName,
   });
-  factory DatasetEntry.fromJson(Map<String, dynamic> json) =>
-      _$DatasetEntryFromJson(json);
+
+  factory DatasetEntry.fromJson(Map<String, dynamic> json) {
+    return DatasetEntry(
+      dataURI: json['dataURI'] as String?,
+      entryName: json['entryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataURI = this.dataURI;
+    final entryName = this.entryName;
+    return {
+      if (dataURI != null) 'dataURI': dataURI,
+      if (entryName != null) 'entryName': entryName,
+    };
+  }
 }
 
 enum DatasetStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on DatasetStatus {
+  String toValue() {
+    switch (this) {
+      case DatasetStatus.creating:
+        return 'CREATING';
+      case DatasetStatus.active:
+        return 'ACTIVE';
+      case DatasetStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  DatasetStatus toDatasetStatus() {
+    switch (this) {
+      case 'CREATING':
+        return DatasetStatus.creating;
+      case 'ACTIVE':
+        return DatasetStatus.active;
+      case 'DELETING':
+        return DatasetStatus.deleting;
+    }
+    throw Exception('$this is not known in enum DatasetStatus');
+  }
+}
+
 /// A summary of information about a data set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetSummary {
   /// A list of <code>DataActionSummary</code> objects.
-  @_s.JsonKey(name: 'actions')
-  final List<DatasetActionSummary> actions;
+  final List<DatasetActionSummary>? actions;
 
   /// The time the data set was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the data set.
-  @_s.JsonKey(name: 'datasetName')
-  final String datasetName;
+  final String? datasetName;
 
   /// The last time the data set was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The status of the data set.
-  @_s.JsonKey(name: 'status')
-  final DatasetStatus status;
+  final DatasetStatus? status;
 
   /// A list of triggers. A trigger causes data set content to be populated at a
   /// specified time interval or when another data set is populated. The list of
   /// triggers can be empty or contain up to five <code>DataSetTrigger</code>
   /// objects
-  @_s.JsonKey(name: 'triggers')
-  final List<DatasetTrigger> triggers;
+  final List<DatasetTrigger>? triggers;
 
   DatasetSummary({
     this.actions,
@@ -2834,52 +3128,90 @@ class DatasetSummary {
     this.status,
     this.triggers,
   });
-  factory DatasetSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatasetSummaryFromJson(json);
+
+  factory DatasetSummary.fromJson(Map<String, dynamic> json) {
+    return DatasetSummary(
+      actions: (json['actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetActionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      creationTime: timeStampFromJson(json['creationTime']),
+      datasetName: json['datasetName'] as String?,
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      status: (json['status'] as String?)?.toDatasetStatus(),
+      triggers: (json['triggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetTrigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final creationTime = this.creationTime;
+    final datasetName = this.datasetName;
+    final lastUpdateTime = this.lastUpdateTime;
+    final status = this.status;
+    final triggers = this.triggers;
+    return {
+      if (actions != null) 'actions': actions,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (datasetName != null) 'datasetName': datasetName,
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (status != null) 'status': status.toValue(),
+      if (triggers != null) 'triggers': triggers,
+    };
+  }
 }
 
 /// The <code>DatasetTrigger</code> that specifies when the data set is
 /// automatically updated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatasetTrigger {
   /// The data set whose content creation triggers the creation of this data set's
   /// contents.
-  @_s.JsonKey(name: 'dataset')
-  final TriggeringDataset dataset;
+  final TriggeringDataset? dataset;
 
   /// The Schedule when the trigger is initiated.
-  @_s.JsonKey(name: 'schedule')
-  final Schedule schedule;
+  final Schedule? schedule;
 
   DatasetTrigger({
     this.dataset,
     this.schedule,
   });
-  factory DatasetTrigger.fromJson(Map<String, dynamic> json) =>
-      _$DatasetTriggerFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatasetTriggerToJson(this);
+  factory DatasetTrigger.fromJson(Map<String, dynamic> json) {
+    return DatasetTrigger(
+      dataset: json['dataset'] != null
+          ? TriggeringDataset.fromJson(json['dataset'] as Map<String, dynamic>)
+          : null,
+      schedule: json['schedule'] != null
+          ? Schedule.fromJson(json['schedule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataset = this.dataset;
+    final schedule = this.schedule;
+    return {
+      if (dataset != null) 'dataset': dataset,
+      if (schedule != null) 'schedule': schedule,
+    };
+  }
 }
 
 /// Information about a data store.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Datastore {
   /// The ARN of the data store.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// When the data store was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
+
+  /// Contains information about the partitions in a data store.
+  final DatastorePartitions? datastorePartitions;
 
   /// Contains the configuration information of file formats. AWS IoT Analytics
   /// data stores support JSON and <a
@@ -2888,8 +3220,7 @@ class Datastore {
   /// The default file format is JSON. You can specify only one format.
   ///
   /// You can't change the file format after you create the data store.
-  @_s.JsonKey(name: 'fileFormatConfiguration')
-  final FileFormatConfiguration fileFormatConfiguration;
+  final FileFormatConfiguration? fileFormatConfiguration;
 
   /// The last time when a new message arrived in the data store.
   ///
@@ -2899,24 +3230,18 @@ class Datastore {
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastMessageArrivalTime')
-  final DateTime lastMessageArrivalTime;
+  final DateTime? lastMessageArrivalTime;
 
   /// The last time the data store was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The name of the data store.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// How long, in days, message data is kept for the data store. When
   /// <code>customerManagedS3</code> storage is selected, this parameter is
   /// ignored.
-  @_s.JsonKey(name: 'retentionPeriod')
-  final RetentionPeriod retentionPeriod;
+  final RetentionPeriod? retentionPeriod;
 
   /// The status of a data store:
   /// <dl> <dt>CREATING</dt> <dd>
@@ -2926,19 +3251,18 @@ class Datastore {
   /// </dd> <dt>DELETING</dt> <dd>
   /// The data store is being deleted.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final DatastoreStatus status;
+  final DatastoreStatus? status;
 
   /// Where data store data is stored. You can choose one of
   /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
   /// not specified, the default is <code>serviceManagedS3</code>. You cannot
   /// change this storage option after the data store is created.
-  @_s.JsonKey(name: 'storage')
-  final DatastoreStorage storage;
+  final DatastoreStorage? storage;
 
   Datastore({
     this.arn,
     this.creationTime,
+    this.datastorePartitions,
     this.fileFormatConfiguration,
     this.lastMessageArrivalTime,
     this.lastUpdateTime,
@@ -2947,141 +3271,310 @@ class Datastore {
     this.status,
     this.storage,
   });
-  factory Datastore.fromJson(Map<String, dynamic> json) =>
-      _$DatastoreFromJson(json);
+
+  factory Datastore.fromJson(Map<String, dynamic> json) {
+    return Datastore(
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      datastorePartitions: json['datastorePartitions'] != null
+          ? DatastorePartitions.fromJson(
+              json['datastorePartitions'] as Map<String, dynamic>)
+          : null,
+      fileFormatConfiguration: json['fileFormatConfiguration'] != null
+          ? FileFormatConfiguration.fromJson(
+              json['fileFormatConfiguration'] as Map<String, dynamic>)
+          : null,
+      lastMessageArrivalTime: timeStampFromJson(json['lastMessageArrivalTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      name: json['name'] as String?,
+      retentionPeriod: json['retentionPeriod'] != null
+          ? RetentionPeriod.fromJson(
+              json['retentionPeriod'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toDatastoreStatus(),
+      storage: json['storage'] != null
+          ? DatastoreStorage.fromJson(json['storage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final datastorePartitions = this.datastorePartitions;
+    final fileFormatConfiguration = this.fileFormatConfiguration;
+    final lastMessageArrivalTime = this.lastMessageArrivalTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final name = this.name;
+    final retentionPeriod = this.retentionPeriod;
+    final status = this.status;
+    final storage = this.storage;
+    return {
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (datastorePartitions != null)
+        'datastorePartitions': datastorePartitions,
+      if (fileFormatConfiguration != null)
+        'fileFormatConfiguration': fileFormatConfiguration,
+      if (lastMessageArrivalTime != null)
+        'lastMessageArrivalTime': unixTimestampToJson(lastMessageArrivalTime),
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (name != null) 'name': name,
+      if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
+      if (status != null) 'status': status.toValue(),
+      if (storage != null) 'storage': storage,
+    };
+  }
 }
 
 /// The datastore activity that specifies where to store the processed data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatastoreActivity {
   /// The name of the data store where processed messages are stored.
-  @_s.JsonKey(name: 'datastoreName')
   final String datastoreName;
 
   /// The name of the datastore activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   DatastoreActivity({
-    @_s.required this.datastoreName,
-    @_s.required this.name,
+    required this.datastoreName,
+    required this.name,
   });
-  factory DatastoreActivity.fromJson(Map<String, dynamic> json) =>
-      _$DatastoreActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatastoreActivityToJson(this);
+  factory DatastoreActivity.fromJson(Map<String, dynamic> json) {
+    return DatastoreActivity(
+      datastoreName: json['datastoreName'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastoreName = this.datastoreName;
+    final name = this.name;
+    return {
+      'datastoreName': datastoreName,
+      'name': name,
+    };
+  }
+}
+
+/// A single partition in a data store.
+class DatastorePartition {
+  /// A partition defined by an <code>attributeName</code>.
+  final Partition? attributePartition;
+
+  /// A partition defined by an <code>attributeName</code> and a timestamp format.
+  final TimestampPartition? timestampPartition;
+
+  DatastorePartition({
+    this.attributePartition,
+    this.timestampPartition,
+  });
+
+  factory DatastorePartition.fromJson(Map<String, dynamic> json) {
+    return DatastorePartition(
+      attributePartition: json['attributePartition'] != null
+          ? Partition.fromJson(
+              json['attributePartition'] as Map<String, dynamic>)
+          : null,
+      timestampPartition: json['timestampPartition'] != null
+          ? TimestampPartition.fromJson(
+              json['timestampPartition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributePartition = this.attributePartition;
+    final timestampPartition = this.timestampPartition;
+    return {
+      if (attributePartition != null) 'attributePartition': attributePartition,
+      if (timestampPartition != null) 'timestampPartition': timestampPartition,
+    };
+  }
+}
+
+/// Contains information about partitions in a data store.
+class DatastorePartitions {
+  /// A list of partitions in a data store.
+  final List<DatastorePartition>? partitions;
+
+  DatastorePartitions({
+    this.partitions,
+  });
+
+  factory DatastorePartitions.fromJson(Map<String, dynamic> json) {
+    return DatastorePartitions(
+      partitions: (json['partitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatastorePartition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final partitions = this.partitions;
+    return {
+      if (partitions != null) 'partitions': partitions,
+    };
+  }
 }
 
 /// Statistical information about the data store.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatastoreStatistics {
   /// The estimated size of the data store.
-  @_s.JsonKey(name: 'size')
-  final EstimatedResourceSize size;
+  final EstimatedResourceSize? size;
 
   DatastoreStatistics({
     this.size,
   });
-  factory DatastoreStatistics.fromJson(Map<String, dynamic> json) =>
-      _$DatastoreStatisticsFromJson(json);
+
+  factory DatastoreStatistics.fromJson(Map<String, dynamic> json) {
+    return DatastoreStatistics(
+      size: json['size'] != null
+          ? EstimatedResourceSize.fromJson(json['size'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final size = this.size;
+    return {
+      if (size != null) 'size': size,
+    };
+  }
 }
 
 enum DatastoreStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on DatastoreStatus {
+  String toValue() {
+    switch (this) {
+      case DatastoreStatus.creating:
+        return 'CREATING';
+      case DatastoreStatus.active:
+        return 'ACTIVE';
+      case DatastoreStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  DatastoreStatus toDatastoreStatus() {
+    switch (this) {
+      case 'CREATING':
+        return DatastoreStatus.creating;
+      case 'ACTIVE':
+        return DatastoreStatus.active;
+      case 'DELETING':
+        return DatastoreStatus.deleting;
+    }
+    throw Exception('$this is not known in enum DatastoreStatus');
+  }
 }
 
 /// Where data store data is stored. You can choose one of
 /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
 /// not specified, the default is <code>serviceManagedS3</code>. You cannot
 /// change this storage option after the data store is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DatastoreStorage {
   /// Use this to store data store data in an S3 bucket that you manage. When
   /// customer managed storage is selected, the <code>retentionPeriod</code>
   /// parameter is ignored. The choice of service-managed or customer-managed S3
   /// storage cannot be changed after creation of the data store.
-  @_s.JsonKey(name: 'customerManagedS3')
-  final CustomerManagedDatastoreS3Storage customerManagedS3;
+  final CustomerManagedDatastoreS3Storage? customerManagedS3;
 
   /// Use this to store data store data in an S3 bucket managed by AWS IoT
   /// Analytics. You cannot change the choice of service-managed or
   /// customer-managed S3 storage after the data store is created.
-  @_s.JsonKey(name: 'serviceManagedS3')
-  final ServiceManagedDatastoreS3Storage serviceManagedS3;
+  final ServiceManagedDatastoreS3Storage? serviceManagedS3;
 
   DatastoreStorage({
     this.customerManagedS3,
     this.serviceManagedS3,
   });
-  factory DatastoreStorage.fromJson(Map<String, dynamic> json) =>
-      _$DatastoreStorageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DatastoreStorageToJson(this);
+  factory DatastoreStorage.fromJson(Map<String, dynamic> json) {
+    return DatastoreStorage(
+      customerManagedS3: json['customerManagedS3'] != null
+          ? CustomerManagedDatastoreS3Storage.fromJson(
+              json['customerManagedS3'] as Map<String, dynamic>)
+          : null,
+      serviceManagedS3: json['serviceManagedS3'] != null
+          ? ServiceManagedDatastoreS3Storage.fromJson(
+              json['serviceManagedS3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedS3 = this.customerManagedS3;
+    final serviceManagedS3 = this.serviceManagedS3;
+    return {
+      if (customerManagedS3 != null) 'customerManagedS3': customerManagedS3,
+      if (serviceManagedS3 != null) 'serviceManagedS3': serviceManagedS3,
+    };
+  }
 }
 
 /// Where data store data is stored.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatastoreStorageSummary {
   /// Used to store data store data in an S3 bucket that you manage.
-  @_s.JsonKey(name: 'customerManagedS3')
-  final CustomerManagedDatastoreS3StorageSummary customerManagedS3;
+  final CustomerManagedDatastoreS3StorageSummary? customerManagedS3;
 
   /// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
-  @_s.JsonKey(name: 'serviceManagedS3')
-  final ServiceManagedDatastoreS3StorageSummary serviceManagedS3;
+  final ServiceManagedDatastoreS3StorageSummary? serviceManagedS3;
 
   DatastoreStorageSummary({
     this.customerManagedS3,
     this.serviceManagedS3,
   });
-  factory DatastoreStorageSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatastoreStorageSummaryFromJson(json);
+
+  factory DatastoreStorageSummary.fromJson(Map<String, dynamic> json) {
+    return DatastoreStorageSummary(
+      customerManagedS3: json['customerManagedS3'] != null
+          ? CustomerManagedDatastoreS3StorageSummary.fromJson(
+              json['customerManagedS3'] as Map<String, dynamic>)
+          : null,
+      serviceManagedS3: json['serviceManagedS3'] != null
+          ? ServiceManagedDatastoreS3StorageSummary.fromJson(
+              json['serviceManagedS3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerManagedS3 = this.customerManagedS3;
+    final serviceManagedS3 = this.serviceManagedS3;
+    return {
+      if (customerManagedS3 != null) 'customerManagedS3': customerManagedS3,
+      if (serviceManagedS3 != null) 'serviceManagedS3': serviceManagedS3,
+    };
+  }
 }
 
 /// A summary of information about a data store.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatastoreSummary {
   /// When the data store was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the data store.
-  @_s.JsonKey(name: 'datastoreName')
-  final String datastoreName;
+  final String? datastoreName;
+
+  /// Contains information about the partitions in a data store.
+  final DatastorePartitions? datastorePartitions;
 
   /// Where data store data is stored.
-  @_s.JsonKey(name: 'datastoreStorage')
-  final DatastoreStorageSummary datastoreStorage;
+  final DatastoreStorageSummary? datastoreStorage;
 
   /// The file format of the data in the data store.
-  @_s.JsonKey(name: 'fileFormatType')
-  final FileFormatType fileFormatType;
+  final FileFormatType? fileFormatType;
 
   /// The last time when a new message arrived in the data store.
   ///
@@ -3091,39 +3584,72 @@ class DatastoreSummary {
   ///
   /// This feature only applies to messages that arrived in the data store after
   /// October 23, 2020.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastMessageArrivalTime')
-  final DateTime lastMessageArrivalTime;
+  final DateTime? lastMessageArrivalTime;
 
   /// The last time the data store was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The status of the data store.
-  @_s.JsonKey(name: 'status')
-  final DatastoreStatus status;
+  final DatastoreStatus? status;
 
   DatastoreSummary({
     this.creationTime,
     this.datastoreName,
+    this.datastorePartitions,
     this.datastoreStorage,
     this.fileFormatType,
     this.lastMessageArrivalTime,
     this.lastUpdateTime,
     this.status,
   });
-  factory DatastoreSummary.fromJson(Map<String, dynamic> json) =>
-      _$DatastoreSummaryFromJson(json);
+
+  factory DatastoreSummary.fromJson(Map<String, dynamic> json) {
+    return DatastoreSummary(
+      creationTime: timeStampFromJson(json['creationTime']),
+      datastoreName: json['datastoreName'] as String?,
+      datastorePartitions: json['datastorePartitions'] != null
+          ? DatastorePartitions.fromJson(
+              json['datastorePartitions'] as Map<String, dynamic>)
+          : null,
+      datastoreStorage: json['datastoreStorage'] != null
+          ? DatastoreStorageSummary.fromJson(
+              json['datastoreStorage'] as Map<String, dynamic>)
+          : null,
+      fileFormatType: (json['fileFormatType'] as String?)?.toFileFormatType(),
+      lastMessageArrivalTime: timeStampFromJson(json['lastMessageArrivalTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      status: (json['status'] as String?)?.toDatastoreStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final datastoreName = this.datastoreName;
+    final datastorePartitions = this.datastorePartitions;
+    final datastoreStorage = this.datastoreStorage;
+    final fileFormatType = this.fileFormatType;
+    final lastMessageArrivalTime = this.lastMessageArrivalTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (datastoreName != null) 'datastoreName': datastoreName,
+      if (datastorePartitions != null)
+        'datastorePartitions': datastorePartitions,
+      if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
+      if (fileFormatType != null) 'fileFormatType': fileFormatType.toValue(),
+      if (lastMessageArrivalTime != null)
+        'lastMessageArrivalTime': unixTimestampToJson(lastMessageArrivalTime),
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Used to limit data to that which has arrived since the last execution of the
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeltaTime {
   /// The number of seconds of estimated in-flight lag time of message data. When
   /// you create dataset contents using message data from a specified timeframe,
@@ -3133,23 +3659,33 @@ class DeltaTime {
   /// previous timeframe is included with the next timeframe. Otherwise, missed
   /// message data would be excluded from processing during the next timeframe
   /// too, because its timestamp places it within the previous timeframe.
-  @_s.JsonKey(name: 'offsetSeconds')
   final int offsetSeconds;
 
   /// An expression by which the time of the message data might be determined.
   /// This can be the name of a timestamp field or a SQL expression that is used
   /// to derive the time the message data was generated.
-  @_s.JsonKey(name: 'timeExpression')
   final String timeExpression;
 
   DeltaTime({
-    @_s.required this.offsetSeconds,
-    @_s.required this.timeExpression,
+    required this.offsetSeconds,
+    required this.timeExpression,
   });
-  factory DeltaTime.fromJson(Map<String, dynamic> json) =>
-      _$DeltaTimeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeltaTimeToJson(this);
+  factory DeltaTime.fromJson(Map<String, dynamic> json) {
+    return DeltaTime(
+      offsetSeconds: json['offsetSeconds'] as int,
+      timeExpression: json['timeExpression'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final offsetSeconds = this.offsetSeconds;
+    final timeExpression = this.timeExpression;
+    return {
+      'offsetSeconds': offsetSeconds,
+      'timeExpression': timeExpression,
+    };
+  }
 }
 
 /// A structure that contains the configuration information of a delta time
@@ -3164,11 +3700,6 @@ class DeltaTime {
 /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/automate-create-dataset.html#automate-example6">
 /// Creating a SQL dataset with a delta window (CLI)</a> in the <i>AWS IoT
 /// Analytics User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeltaTimeSessionWindowConfiguration {
   /// A time interval. You can use <code>timeoutInMinutes</code> so that AWS IoT
   /// Analytics can batch up late data notifications that have been generated
@@ -3178,222 +3709,304 @@ class DeltaTimeSessionWindowConfiguration {
   /// For more information about how to write a timestamp expression, see <a
   /// href="https://prestodb.io/docs/0.172/functions/datetime.html">Date and Time
   /// Functions and Operators</a>, in the <i>Presto 0.172 Documentation</i>.
-  @_s.JsonKey(name: 'timeoutInMinutes')
   final int timeoutInMinutes;
 
   DeltaTimeSessionWindowConfiguration({
-    @_s.required this.timeoutInMinutes,
+    required this.timeoutInMinutes,
   });
-  factory DeltaTimeSessionWindowConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeltaTimeSessionWindowConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$DeltaTimeSessionWindowConfigurationToJson(this);
+  factory DeltaTimeSessionWindowConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return DeltaTimeSessionWindowConfiguration(
+      timeoutInMinutes: json['timeoutInMinutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeoutInMinutes = this.timeoutInMinutes;
+    return {
+      'timeoutInMinutes': timeoutInMinutes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeChannelResponse {
   /// An object that contains information about the channel.
-  @_s.JsonKey(name: 'channel')
-  final Channel channel;
+  final Channel? channel;
 
   /// Statistics about the channel. Included if the <code>includeStatistics</code>
   /// parameter is set to <code>true</code> in the request.
-  @_s.JsonKey(name: 'statistics')
-  final ChannelStatistics statistics;
+  final ChannelStatistics? statistics;
 
   DescribeChannelResponse({
     this.channel,
     this.statistics,
   });
-  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeChannelResponseFromJson(json);
+
+  factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeChannelResponse(
+      channel: json['channel'] != null
+          ? Channel.fromJson(json['channel'] as Map<String, dynamic>)
+          : null,
+      statistics: json['statistics'] != null
+          ? ChannelStatistics.fromJson(
+              json['statistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channel = this.channel;
+    final statistics = this.statistics;
+    return {
+      if (channel != null) 'channel': channel,
+      if (statistics != null) 'statistics': statistics,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatasetResponse {
   /// An object that contains information about the data set.
-  @_s.JsonKey(name: 'dataset')
-  final Dataset dataset;
+  final Dataset? dataset;
 
   DescribeDatasetResponse({
     this.dataset,
   });
-  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatasetResponseFromJson(json);
+
+  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetResponse(
+      dataset: json['dataset'] != null
+          ? Dataset.fromJson(json['dataset'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataset = this.dataset;
+    return {
+      if (dataset != null) 'dataset': dataset,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatastoreResponse {
   /// Information about the data store.
-  @_s.JsonKey(name: 'datastore')
-  final Datastore datastore;
+  final Datastore? datastore;
 
   /// Additional statistical information about the data store. Included if the
   /// <code>includeStatistics</code> parameter is set to <code>true</code> in the
   /// request.
-  @_s.JsonKey(name: 'statistics')
-  final DatastoreStatistics statistics;
+  final DatastoreStatistics? statistics;
 
   DescribeDatastoreResponse({
     this.datastore,
     this.statistics,
   });
-  factory DescribeDatastoreResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatastoreResponseFromJson(json);
+
+  factory DescribeDatastoreResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatastoreResponse(
+      datastore: json['datastore'] != null
+          ? Datastore.fromJson(json['datastore'] as Map<String, dynamic>)
+          : null,
+      statistics: json['statistics'] != null
+          ? DatastoreStatistics.fromJson(
+              json['statistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastore = this.datastore;
+    final statistics = this.statistics;
+    return {
+      if (datastore != null) 'datastore': datastore,
+      if (statistics != null) 'statistics': statistics,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLoggingOptionsResponse {
   /// The current settings of the AWS IoT Analytics logging options.
-  @_s.JsonKey(name: 'loggingOptions')
-  final LoggingOptions loggingOptions;
+  final LoggingOptions? loggingOptions;
 
   DescribeLoggingOptionsResponse({
     this.loggingOptions,
   });
-  factory DescribeLoggingOptionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLoggingOptionsResponseFromJson(json);
+
+  factory DescribeLoggingOptionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLoggingOptionsResponse(
+      loggingOptions: json['loggingOptions'] != null
+          ? LoggingOptions.fromJson(
+              json['loggingOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingOptions = this.loggingOptions;
+    return {
+      if (loggingOptions != null) 'loggingOptions': loggingOptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePipelineResponse {
   /// A <code>Pipeline</code> object that contains information about the pipeline.
-  @_s.JsonKey(name: 'pipeline')
-  final Pipeline pipeline;
+  final Pipeline? pipeline;
 
   DescribePipelineResponse({
     this.pipeline,
   });
-  factory DescribePipelineResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePipelineResponseFromJson(json);
+
+  factory DescribePipelineResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePipelineResponse(
+      pipeline: json['pipeline'] != null
+          ? Pipeline.fromJson(json['pipeline'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipeline = this.pipeline;
+    return {
+      if (pipeline != null) 'pipeline': pipeline,
+    };
+  }
 }
 
 /// An activity that adds data from the AWS IoT device registry to your message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceRegistryEnrichActivity {
   /// The name of the attribute that is added to the message.
-  @_s.JsonKey(name: 'attribute')
   final String attribute;
 
   /// The name of the <code>deviceRegistryEnrich</code> activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The ARN of the role that allows access to the device's registry information.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The name of the IoT device whose registry information is added to the
   /// message.
-  @_s.JsonKey(name: 'thingName')
   final String thingName;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   DeviceRegistryEnrichActivity({
-    @_s.required this.attribute,
-    @_s.required this.name,
-    @_s.required this.roleArn,
-    @_s.required this.thingName,
+    required this.attribute,
+    required this.name,
+    required this.roleArn,
+    required this.thingName,
     this.next,
   });
-  factory DeviceRegistryEnrichActivity.fromJson(Map<String, dynamic> json) =>
-      _$DeviceRegistryEnrichActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceRegistryEnrichActivityToJson(this);
+  factory DeviceRegistryEnrichActivity.fromJson(Map<String, dynamic> json) {
+    return DeviceRegistryEnrichActivity(
+      attribute: json['attribute'] as String,
+      name: json['name'] as String,
+      roleArn: json['roleArn'] as String,
+      thingName: json['thingName'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final thingName = this.thingName;
+    final next = this.next;
+    return {
+      'attribute': attribute,
+      'name': name,
+      'roleArn': roleArn,
+      'thingName': thingName,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 /// An activity that adds information from the AWS IoT Device Shadow service to
 /// a message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceShadowEnrichActivity {
   /// The name of the attribute that is added to the message.
-  @_s.JsonKey(name: 'attribute')
   final String attribute;
 
   /// The name of the <code>deviceShadowEnrich</code> activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The ARN of the role that allows access to the device's shadow.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// The name of the IoT device whose shadow information is added to the message.
-  @_s.JsonKey(name: 'thingName')
   final String thingName;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   DeviceShadowEnrichActivity({
-    @_s.required this.attribute,
-    @_s.required this.name,
-    @_s.required this.roleArn,
-    @_s.required this.thingName,
+    required this.attribute,
+    required this.name,
+    required this.roleArn,
+    required this.thingName,
     this.next,
   });
-  factory DeviceShadowEnrichActivity.fromJson(Map<String, dynamic> json) =>
-      _$DeviceShadowEnrichActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceShadowEnrichActivityToJson(this);
+  factory DeviceShadowEnrichActivity.fromJson(Map<String, dynamic> json) {
+    return DeviceShadowEnrichActivity(
+      attribute: json['attribute'] as String,
+      name: json['name'] as String,
+      roleArn: json['roleArn'] as String,
+      thingName: json['thingName'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final name = this.name;
+    final roleArn = this.roleArn;
+    final thingName = this.thingName;
+    final next = this.next;
+    return {
+      'attribute': attribute,
+      'name': name,
+      'roleArn': roleArn,
+      'thingName': thingName,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 /// The estimated size of the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EstimatedResourceSize {
   /// The time when the estimate of the size of the resource was made.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'estimatedOn')
-  final DateTime estimatedOn;
+  final DateTime? estimatedOn;
 
   /// The estimated size of the resource, in bytes.
-  @_s.JsonKey(name: 'estimatedSizeInBytes')
-  final double estimatedSizeInBytes;
+  final double? estimatedSizeInBytes;
 
   EstimatedResourceSize({
     this.estimatedOn,
     this.estimatedSizeInBytes,
   });
-  factory EstimatedResourceSize.fromJson(Map<String, dynamic> json) =>
-      _$EstimatedResourceSizeFromJson(json);
+
+  factory EstimatedResourceSize.fromJson(Map<String, dynamic> json) {
+    return EstimatedResourceSize(
+      estimatedOn: timeStampFromJson(json['estimatedOn']),
+      estimatedSizeInBytes: json['estimatedSizeInBytes'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedOn = this.estimatedOn;
+    final estimatedSizeInBytes = this.estimatedSizeInBytes;
+    return {
+      if (estimatedOn != null) 'estimatedOn': unixTimestampToJson(estimatedOn),
+      if (estimatedSizeInBytes != null)
+        'estimatedSizeInBytes': estimatedSizeInBytes,
+    };
+  }
 }
 
 /// Contains the configuration information of file formats. AWS IoT Analytics
@@ -3403,557 +4016,765 @@ class EstimatedResourceSize {
 /// The default file format is JSON. You can specify only one format.
 ///
 /// You can't change the file format after you create the data store.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FileFormatConfiguration {
   /// Contains the configuration information of the JSON format.
-  @_s.JsonKey(name: 'jsonConfiguration')
-  final JsonConfiguration jsonConfiguration;
+  final JsonConfiguration? jsonConfiguration;
 
   /// Contains the configuration information of the Parquet format.
-  @_s.JsonKey(name: 'parquetConfiguration')
-  final ParquetConfiguration parquetConfiguration;
+  final ParquetConfiguration? parquetConfiguration;
 
   FileFormatConfiguration({
     this.jsonConfiguration,
     this.parquetConfiguration,
   });
-  factory FileFormatConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FileFormatConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FileFormatConfigurationToJson(this);
+  factory FileFormatConfiguration.fromJson(Map<String, dynamic> json) {
+    return FileFormatConfiguration(
+      jsonConfiguration: json['jsonConfiguration'] != null
+          ? JsonConfiguration.fromJson(
+              json['jsonConfiguration'] as Map<String, dynamic>)
+          : null,
+      parquetConfiguration: json['parquetConfiguration'] != null
+          ? ParquetConfiguration.fromJson(
+              json['parquetConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jsonConfiguration = this.jsonConfiguration;
+    final parquetConfiguration = this.parquetConfiguration;
+    return {
+      if (jsonConfiguration != null) 'jsonConfiguration': jsonConfiguration,
+      if (parquetConfiguration != null)
+        'parquetConfiguration': parquetConfiguration,
+    };
+  }
 }
 
 enum FileFormatType {
-  @_s.JsonValue('JSON')
   json,
-  @_s.JsonValue('PARQUET')
   parquet,
 }
 
+extension on FileFormatType {
+  String toValue() {
+    switch (this) {
+      case FileFormatType.json:
+        return 'JSON';
+      case FileFormatType.parquet:
+        return 'PARQUET';
+    }
+  }
+}
+
+extension on String {
+  FileFormatType toFileFormatType() {
+    switch (this) {
+      case 'JSON':
+        return FileFormatType.json;
+      case 'PARQUET':
+        return FileFormatType.parquet;
+    }
+    throw Exception('$this is not known in enum FileFormatType');
+  }
+}
+
 /// An activity that filters a message based on its attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FilterActivity {
   /// An expression that looks like a SQL WHERE clause that must return a Boolean
   /// value. Messages that satisfy the condition are passed to the next activity.
-  @_s.JsonKey(name: 'filter')
   final String filter;
 
   /// The name of the filter activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   FilterActivity({
-    @_s.required this.filter,
-    @_s.required this.name,
+    required this.filter,
+    required this.name,
     this.next,
   });
-  factory FilterActivity.fromJson(Map<String, dynamic> json) =>
-      _$FilterActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FilterActivityToJson(this);
+  factory FilterActivity.fromJson(Map<String, dynamic> json) {
+    return FilterActivity(
+      filter: json['filter'] as String,
+      name: json['name'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filter = this.filter;
+    final name = this.name;
+    final next = this.next;
+    return {
+      'filter': filter,
+      'name': name,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDatasetContentResponse {
   /// A list of <code>DatasetEntry</code> objects.
-  @_s.JsonKey(name: 'entries')
-  final List<DatasetEntry> entries;
+  final List<DatasetEntry>? entries;
 
   /// The status of the data set content.
-  @_s.JsonKey(name: 'status')
-  final DatasetContentStatus status;
+  final DatasetContentStatus? status;
 
   /// The time when the request was made.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   GetDatasetContentResponse({
     this.entries,
     this.status,
     this.timestamp,
   });
-  factory GetDatasetContentResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDatasetContentResponseFromJson(json);
+
+  factory GetDatasetContentResponse.fromJson(Map<String, dynamic> json) {
+    return GetDatasetContentResponse(
+      entries: (json['entries'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['status'] != null
+          ? DatasetContentStatus.fromJson(
+              json['status'] as Map<String, dynamic>)
+          : null,
+      timestamp: timeStampFromJson(json['timestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entries = this.entries;
+    final status = this.status;
+    final timestamp = this.timestamp;
+    return {
+      if (entries != null) 'entries': entries,
+      if (status != null) 'status': status,
+      if (timestamp != null) 'timestamp': unixTimestampToJson(timestamp),
+    };
+  }
 }
 
 /// Configuration information for coordination with AWS Glue, a fully managed
 /// extract, transform and load (ETL) service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GlueConfiguration {
   /// The name of the database in your AWS Glue Data Catalog in which the table is
   /// located. An AWS Glue Data Catalog database contains metadata tables.
-  @_s.JsonKey(name: 'databaseName')
   final String databaseName;
 
   /// The name of the table in your AWS Glue Data Catalog that is used to perform
   /// the ETL operations. An AWS Glue Data Catalog table contains partitioned data
   /// and descriptions of data sources and targets.
-  @_s.JsonKey(name: 'tableName')
   final String tableName;
 
   GlueConfiguration({
-    @_s.required this.databaseName,
-    @_s.required this.tableName,
+    required this.databaseName,
+    required this.tableName,
   });
-  factory GlueConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$GlueConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GlueConfigurationToJson(this);
+  factory GlueConfiguration.fromJson(Map<String, dynamic> json) {
+    return GlueConfiguration(
+      databaseName: json['databaseName'] as String,
+      tableName: json['tableName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseName = this.databaseName;
+    final tableName = this.tableName;
+    return {
+      'databaseName': databaseName,
+      'tableName': tableName,
+    };
+  }
 }
 
 /// Configuration information for delivery of dataset contents to AWS IoT
 /// Events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IotEventsDestinationConfiguration {
   /// The name of the AWS IoT Events input to which dataset contents are
   /// delivered.
-  @_s.JsonKey(name: 'inputName')
   final String inputName;
 
   /// The ARN of the role that grants AWS IoT Analytics permission to deliver
   /// dataset contents to an AWS IoT Events input.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   IotEventsDestinationConfiguration({
-    @_s.required this.inputName,
-    @_s.required this.roleArn,
+    required this.inputName,
+    required this.roleArn,
   });
-  factory IotEventsDestinationConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$IotEventsDestinationConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$IotEventsDestinationConfigurationToJson(this);
+  factory IotEventsDestinationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return IotEventsDestinationConfiguration(
+      inputName: json['inputName'] as String,
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputName = this.inputName;
+    final roleArn = this.roleArn;
+    return {
+      'inputName': inputName,
+      'roleArn': roleArn,
+    };
+  }
 }
 
 /// Contains the configuration information of the JSON format.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JsonConfiguration {
   JsonConfiguration();
-  factory JsonConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$JsonConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JsonConfigurationToJson(this);
+  factory JsonConfiguration.fromJson(Map<String, dynamic> _) {
+    return JsonConfiguration();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// An activity that runs a Lambda function to modify the message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LambdaActivity {
   /// The number of messages passed to the Lambda function for processing.
   ///
   /// The Lambda function must be able to process all of these messages within
   /// five minutes, which is the maximum timeout duration for Lambda functions.
-  @_s.JsonKey(name: 'batchSize')
   final int batchSize;
 
   /// The name of the Lambda function that is run on the message.
-  @_s.JsonKey(name: 'lambdaName')
   final String lambdaName;
 
   /// The name of the lambda activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   LambdaActivity({
-    @_s.required this.batchSize,
-    @_s.required this.lambdaName,
-    @_s.required this.name,
+    required this.batchSize,
+    required this.lambdaName,
+    required this.name,
     this.next,
   });
-  factory LambdaActivity.fromJson(Map<String, dynamic> json) =>
-      _$LambdaActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LambdaActivityToJson(this);
+  factory LambdaActivity.fromJson(Map<String, dynamic> json) {
+    return LambdaActivity(
+      batchSize: json['batchSize'] as int,
+      lambdaName: json['lambdaName'] as String,
+      name: json['name'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchSize = this.batchSize;
+    final lambdaName = this.lambdaName;
+    final name = this.name;
+    final next = this.next;
+    return {
+      'batchSize': batchSize,
+      'lambdaName': lambdaName,
+      'name': name,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 /// A structure that contains the name and configuration information of a late
 /// data rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LateDataRule {
   /// The information needed to configure the late data rule.
-  @_s.JsonKey(name: 'ruleConfiguration')
   final LateDataRuleConfiguration ruleConfiguration;
 
   /// The name of the late data rule.
-  @_s.JsonKey(name: 'ruleName')
-  final String ruleName;
+  final String? ruleName;
 
   LateDataRule({
-    @_s.required this.ruleConfiguration,
+    required this.ruleConfiguration,
     this.ruleName,
   });
-  factory LateDataRule.fromJson(Map<String, dynamic> json) =>
-      _$LateDataRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LateDataRuleToJson(this);
+  factory LateDataRule.fromJson(Map<String, dynamic> json) {
+    return LateDataRule(
+      ruleConfiguration: LateDataRuleConfiguration.fromJson(
+          json['ruleConfiguration'] as Map<String, dynamic>),
+      ruleName: json['ruleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ruleConfiguration = this.ruleConfiguration;
+    final ruleName = this.ruleName;
+    return {
+      'ruleConfiguration': ruleConfiguration,
+      if (ruleName != null) 'ruleName': ruleName,
+    };
+  }
 }
 
 /// The information needed to configure a delta time session window.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LateDataRuleConfiguration {
   /// The information needed to configure a delta time session window.
-  @_s.JsonKey(name: 'deltaTimeSessionWindowConfiguration')
-  final DeltaTimeSessionWindowConfiguration deltaTimeSessionWindowConfiguration;
+  final DeltaTimeSessionWindowConfiguration?
+      deltaTimeSessionWindowConfiguration;
 
   LateDataRuleConfiguration({
     this.deltaTimeSessionWindowConfiguration,
   });
-  factory LateDataRuleConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LateDataRuleConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LateDataRuleConfigurationToJson(this);
+  factory LateDataRuleConfiguration.fromJson(Map<String, dynamic> json) {
+    return LateDataRuleConfiguration(
+      deltaTimeSessionWindowConfiguration:
+          json['deltaTimeSessionWindowConfiguration'] != null
+              ? DeltaTimeSessionWindowConfiguration.fromJson(
+                  json['deltaTimeSessionWindowConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deltaTimeSessionWindowConfiguration =
+        this.deltaTimeSessionWindowConfiguration;
+    return {
+      if (deltaTimeSessionWindowConfiguration != null)
+        'deltaTimeSessionWindowConfiguration':
+            deltaTimeSessionWindowConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChannelsResponse {
   /// A list of <code>ChannelSummary</code> objects.
-  @_s.JsonKey(name: 'channelSummaries')
-  final List<ChannelSummary> channelSummaries;
+  final List<ChannelSummary>? channelSummaries;
 
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChannelsResponse({
     this.channelSummaries,
     this.nextToken,
   });
-  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChannelsResponseFromJson(json);
+
+  factory ListChannelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListChannelsResponse(
+      channelSummaries: (json['channelSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelSummaries = this.channelSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (channelSummaries != null) 'channelSummaries': channelSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetContentsResponse {
   /// Summary information about data set contents that have been created.
-  @_s.JsonKey(name: 'datasetContentSummaries')
-  final List<DatasetContentSummary> datasetContentSummaries;
+  final List<DatasetContentSummary>? datasetContentSummaries;
 
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetContentsResponse({
     this.datasetContentSummaries,
     this.nextToken,
   });
-  factory ListDatasetContentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetContentsResponseFromJson(json);
+
+  factory ListDatasetContentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetContentsResponse(
+      datasetContentSummaries: (json['datasetContentSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetContentSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetContentSummaries = this.datasetContentSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (datasetContentSummaries != null)
+        'datasetContentSummaries': datasetContentSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetsResponse {
   /// A list of <code>DatasetSummary</code> objects.
-  @_s.JsonKey(name: 'datasetSummaries')
-  final List<DatasetSummary> datasetSummaries;
+  final List<DatasetSummary>? datasetSummaries;
 
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetsResponse({
     this.datasetSummaries,
     this.nextToken,
   });
-  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetsResponseFromJson(json);
+
+  factory ListDatasetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetsResponse(
+      datasetSummaries: (json['datasetSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetSummaries = this.datasetSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (datasetSummaries != null) 'datasetSummaries': datasetSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatastoresResponse {
   /// A list of <code>DatastoreSummary</code> objects.
-  @_s.JsonKey(name: 'datastoreSummaries')
-  final List<DatastoreSummary> datastoreSummaries;
+  final List<DatastoreSummary>? datastoreSummaries;
 
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatastoresResponse({
     this.datastoreSummaries,
     this.nextToken,
   });
-  factory ListDatastoresResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatastoresResponseFromJson(json);
+
+  factory ListDatastoresResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatastoresResponse(
+      datastoreSummaries: (json['datastoreSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatastoreSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datastoreSummaries = this.datastoreSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (datastoreSummaries != null) 'datastoreSummaries': datastoreSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPipelinesResponse {
   /// The token to retrieve the next set of results, or <code>null</code> if there
   /// are no more results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of <code>PipelineSummary</code> objects.
-  @_s.JsonKey(name: 'pipelineSummaries')
-  final List<PipelineSummary> pipelineSummaries;
+  final List<PipelineSummary>? pipelineSummaries;
 
   ListPipelinesResponse({
     this.nextToken,
     this.pipelineSummaries,
   });
-  factory ListPipelinesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPipelinesResponseFromJson(json);
+
+  factory ListPipelinesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPipelinesResponse(
+      nextToken: json['nextToken'] as String?,
+      pipelineSummaries: (json['pipelineSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => PipelineSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final pipelineSummaries = this.pipelineSummaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (pipelineSummaries != null) 'pipelineSummaries': pipelineSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags (metadata) that you have assigned to the resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 enum LoggingLevel {
-  @_s.JsonValue('ERROR')
   error,
 }
 
+extension on LoggingLevel {
+  String toValue() {
+    switch (this) {
+      case LoggingLevel.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  LoggingLevel toLoggingLevel() {
+    switch (this) {
+      case 'ERROR':
+        return LoggingLevel.error;
+    }
+    throw Exception('$this is not known in enum LoggingLevel');
+  }
+}
+
 /// Information about logging options.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggingOptions {
   /// If true, logging is enabled for AWS IoT Analytics.
-  @_s.JsonKey(name: 'enabled')
   final bool enabled;
 
   /// The logging level. Currently, only ERROR is supported.
-  @_s.JsonKey(name: 'level')
   final LoggingLevel level;
 
   /// The ARN of the role that grants permission to AWS IoT Analytics to perform
   /// logging.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   LoggingOptions({
-    @_s.required this.enabled,
-    @_s.required this.level,
-    @_s.required this.roleArn,
+    required this.enabled,
+    required this.level,
+    required this.roleArn,
   });
-  factory LoggingOptions.fromJson(Map<String, dynamic> json) =>
-      _$LoggingOptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoggingOptionsToJson(this);
+  factory LoggingOptions.fromJson(Map<String, dynamic> json) {
+    return LoggingOptions(
+      enabled: json['enabled'] as bool,
+      level: (json['level'] as String).toLoggingLevel(),
+      roleArn: json['roleArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final level = this.level;
+    final roleArn = this.roleArn;
+    return {
+      'enabled': enabled,
+      'level': level.toValue(),
+      'roleArn': roleArn,
+    };
+  }
 }
 
 /// An activity that computes an arithmetic expression using the message's
 /// attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MathActivity {
   /// The name of the attribute that contains the result of the math operation.
-  @_s.JsonKey(name: 'attribute')
   final String attribute;
 
   /// An expression that uses one or more existing attributes and must return an
   /// integer value.
-  @_s.JsonKey(name: 'math')
   final String math;
 
   /// The name of the math activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   MathActivity({
-    @_s.required this.attribute,
-    @_s.required this.math,
-    @_s.required this.name,
+    required this.attribute,
+    required this.math,
+    required this.name,
     this.next,
   });
-  factory MathActivity.fromJson(Map<String, dynamic> json) =>
-      _$MathActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MathActivityToJson(this);
+  factory MathActivity.fromJson(Map<String, dynamic> json) {
+    return MathActivity(
+      attribute: json['attribute'] as String,
+      math: json['math'] as String,
+      name: json['name'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attribute = this.attribute;
+    final math = this.math;
+    final name = this.name;
+    final next = this.next;
+    return {
+      'attribute': attribute,
+      'math': math,
+      'name': name,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 /// Information about a message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Message {
   /// The ID you want to assign to the message. Each <code>messageId</code> must
   /// be unique within each batch sent.
-  @_s.JsonKey(name: 'messageId')
   final String messageId;
 
   /// The payload of the message. This can be a JSON string or a base64-encoded
   /// string representing binary data, in which case you must decode it by means
   /// of a pipeline activity.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'payload')
   final Uint8List payload;
 
   Message({
-    @_s.required this.messageId,
-    @_s.required this.payload,
+    required this.messageId,
+    required this.payload,
   });
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      messageId: json['messageId'] as String,
+      payload: _s.decodeUint8List(json['payload']! as String),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    final payload = this.payload;
+    return {
+      'messageId': messageId,
+      'payload': base64Encode(payload),
+    };
+  }
 }
 
 /// The value of the variable as a structure that specifies an output file URI.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputFileUriValue {
   /// The URI of the location where dataset contents are stored, usually the URI
   /// of a file in an S3 bucket.
-  @_s.JsonKey(name: 'fileName')
   final String fileName;
 
   OutputFileUriValue({
-    @_s.required this.fileName,
+    required this.fileName,
   });
-  factory OutputFileUriValue.fromJson(Map<String, dynamic> json) =>
-      _$OutputFileUriValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OutputFileUriValueToJson(this);
+  factory OutputFileUriValue.fromJson(Map<String, dynamic> json) {
+    return OutputFileUriValue(
+      fileName: json['fileName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileName = this.fileName;
+    return {
+      'fileName': fileName,
+    };
+  }
 }
 
 /// Contains the configuration information of the Parquet format.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParquetConfiguration {
   /// Information needed to define a schema.
-  @_s.JsonKey(name: 'schemaDefinition')
-  final SchemaDefinition schemaDefinition;
+  final SchemaDefinition? schemaDefinition;
 
   ParquetConfiguration({
     this.schemaDefinition,
   });
-  factory ParquetConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ParquetConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParquetConfigurationToJson(this);
+  factory ParquetConfiguration.fromJson(Map<String, dynamic> json) {
+    return ParquetConfiguration(
+      schemaDefinition: json['schemaDefinition'] != null
+          ? SchemaDefinition.fromJson(
+              json['schemaDefinition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schemaDefinition = this.schemaDefinition;
+    return {
+      if (schemaDefinition != null) 'schemaDefinition': schemaDefinition,
+    };
+  }
+}
+
+/// A single partition.
+class Partition {
+  /// The attribute name of the partition.
+  final String attributeName;
+
+  Partition({
+    required this.attributeName,
+  });
+
+  factory Partition.fromJson(Map<String, dynamic> json) {
+    return Partition(
+      attributeName: json['attributeName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    return {
+      'attributeName': attributeName,
+    };
+  }
 }
 
 /// Contains information about a pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Pipeline {
   /// The activities that perform transformations on the messages.
-  @_s.JsonKey(name: 'activities')
-  final List<PipelineActivity> activities;
+  final List<PipelineActivity>? activities;
 
   /// The ARN of the pipeline.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// When the pipeline was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The last time the pipeline was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The name of the pipeline.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A summary of information about the pipeline reprocessing.
-  @_s.JsonKey(name: 'reprocessingSummaries')
-  final List<ReprocessingSummary> reprocessingSummaries;
+  final List<ReprocessingSummary>? reprocessingSummaries;
 
   Pipeline({
     this.activities,
@@ -3963,58 +4784,78 @@ class Pipeline {
     this.name,
     this.reprocessingSummaries,
   });
-  factory Pipeline.fromJson(Map<String, dynamic> json) =>
-      _$PipelineFromJson(json);
+
+  factory Pipeline.fromJson(Map<String, dynamic> json) {
+    return Pipeline(
+      activities: (json['activities'] as List?)
+          ?.whereNotNull()
+          .map((e) => PipelineActivity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      arn: json['arn'] as String?,
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      name: json['name'] as String?,
+      reprocessingSummaries: (json['reprocessingSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReprocessingSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activities = this.activities;
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final name = this.name;
+    final reprocessingSummaries = this.reprocessingSummaries;
+    return {
+      if (activities != null) 'activities': activities,
+      if (arn != null) 'arn': arn,
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (name != null) 'name': name,
+      if (reprocessingSummaries != null)
+        'reprocessingSummaries': reprocessingSummaries,
+    };
+  }
 }
 
 /// An activity that performs a transformation on a message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PipelineActivity {
   /// Adds other attributes based on existing attributes in the message.
-  @_s.JsonKey(name: 'addAttributes')
-  final AddAttributesActivity addAttributes;
+  final AddAttributesActivity? addAttributes;
 
   /// Determines the source of the messages to be processed.
-  @_s.JsonKey(name: 'channel')
-  final ChannelActivity channel;
+  final ChannelActivity? channel;
 
   /// Specifies where to store the processed message data.
-  @_s.JsonKey(name: 'datastore')
-  final DatastoreActivity datastore;
+  final DatastoreActivity? datastore;
 
   /// Adds data from the AWS IoT device registry to your message.
-  @_s.JsonKey(name: 'deviceRegistryEnrich')
-  final DeviceRegistryEnrichActivity deviceRegistryEnrich;
+  final DeviceRegistryEnrichActivity? deviceRegistryEnrich;
 
   /// Adds information from the AWS IoT Device Shadow service to a message.
-  @_s.JsonKey(name: 'deviceShadowEnrich')
-  final DeviceShadowEnrichActivity deviceShadowEnrich;
+  final DeviceShadowEnrichActivity? deviceShadowEnrich;
 
   /// Filters a message based on its attributes.
-  @_s.JsonKey(name: 'filter')
-  final FilterActivity filter;
+  final FilterActivity? filter;
 
   /// Runs a Lambda function to modify the message.
-  @_s.JsonKey(name: 'lambda')
-  final LambdaActivity lambda;
+  final LambdaActivity? lambda;
 
   /// Computes an arithmetic expression using the message's attributes and adds it
   /// to the message.
-  @_s.JsonKey(name: 'math')
-  final MathActivity math;
+  final MathActivity? math;
 
   /// Removes attributes from a message.
-  @_s.JsonKey(name: 'removeAttributes')
-  final RemoveAttributesActivity removeAttributes;
+  final RemoveAttributesActivity? removeAttributes;
 
   /// Creates a new message using only the specified attributes from the original
   /// message.
-  @_s.JsonKey(name: 'selectAttributes')
-  final SelectAttributesActivity selectAttributes;
+  final SelectAttributesActivity? selectAttributes;
 
   PipelineActivity({
     this.addAttributes,
@@ -4028,36 +4869,88 @@ class PipelineActivity {
     this.removeAttributes,
     this.selectAttributes,
   });
-  factory PipelineActivity.fromJson(Map<String, dynamic> json) =>
-      _$PipelineActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PipelineActivityToJson(this);
+  factory PipelineActivity.fromJson(Map<String, dynamic> json) {
+    return PipelineActivity(
+      addAttributes: json['addAttributes'] != null
+          ? AddAttributesActivity.fromJson(
+              json['addAttributes'] as Map<String, dynamic>)
+          : null,
+      channel: json['channel'] != null
+          ? ChannelActivity.fromJson(json['channel'] as Map<String, dynamic>)
+          : null,
+      datastore: json['datastore'] != null
+          ? DatastoreActivity.fromJson(
+              json['datastore'] as Map<String, dynamic>)
+          : null,
+      deviceRegistryEnrich: json['deviceRegistryEnrich'] != null
+          ? DeviceRegistryEnrichActivity.fromJson(
+              json['deviceRegistryEnrich'] as Map<String, dynamic>)
+          : null,
+      deviceShadowEnrich: json['deviceShadowEnrich'] != null
+          ? DeviceShadowEnrichActivity.fromJson(
+              json['deviceShadowEnrich'] as Map<String, dynamic>)
+          : null,
+      filter: json['filter'] != null
+          ? FilterActivity.fromJson(json['filter'] as Map<String, dynamic>)
+          : null,
+      lambda: json['lambda'] != null
+          ? LambdaActivity.fromJson(json['lambda'] as Map<String, dynamic>)
+          : null,
+      math: json['math'] != null
+          ? MathActivity.fromJson(json['math'] as Map<String, dynamic>)
+          : null,
+      removeAttributes: json['removeAttributes'] != null
+          ? RemoveAttributesActivity.fromJson(
+              json['removeAttributes'] as Map<String, dynamic>)
+          : null,
+      selectAttributes: json['selectAttributes'] != null
+          ? SelectAttributesActivity.fromJson(
+              json['selectAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addAttributes = this.addAttributes;
+    final channel = this.channel;
+    final datastore = this.datastore;
+    final deviceRegistryEnrich = this.deviceRegistryEnrich;
+    final deviceShadowEnrich = this.deviceShadowEnrich;
+    final filter = this.filter;
+    final lambda = this.lambda;
+    final math = this.math;
+    final removeAttributes = this.removeAttributes;
+    final selectAttributes = this.selectAttributes;
+    return {
+      if (addAttributes != null) 'addAttributes': addAttributes,
+      if (channel != null) 'channel': channel,
+      if (datastore != null) 'datastore': datastore,
+      if (deviceRegistryEnrich != null)
+        'deviceRegistryEnrich': deviceRegistryEnrich,
+      if (deviceShadowEnrich != null) 'deviceShadowEnrich': deviceShadowEnrich,
+      if (filter != null) 'filter': filter,
+      if (lambda != null) 'lambda': lambda,
+      if (math != null) 'math': math,
+      if (removeAttributes != null) 'removeAttributes': removeAttributes,
+      if (selectAttributes != null) 'selectAttributes': selectAttributes,
+    };
+  }
 }
 
 /// A summary of information about a pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineSummary {
   /// When the pipeline was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// When the pipeline was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdateTime')
-  final DateTime lastUpdateTime;
+  final DateTime? lastUpdateTime;
 
   /// The name of the pipeline.
-  @_s.JsonKey(name: 'pipelineName')
-  final String pipelineName;
+  final String? pipelineName;
 
   /// A summary of information about the pipeline reprocessing.
-  @_s.JsonKey(name: 'reprocessingSummaries')
-  final List<ReprocessingSummary> reprocessingSummaries;
+  final List<ReprocessingSummary>? reprocessingSummaries;
 
   PipelineSummary({
     this.creationTime,
@@ -4065,193 +4958,283 @@ class PipelineSummary {
     this.pipelineName,
     this.reprocessingSummaries,
   });
-  factory PipelineSummary.fromJson(Map<String, dynamic> json) =>
-      _$PipelineSummaryFromJson(json);
+
+  factory PipelineSummary.fromJson(Map<String, dynamic> json) {
+    return PipelineSummary(
+      creationTime: timeStampFromJson(json['creationTime']),
+      lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+      pipelineName: json['pipelineName'] as String?,
+      reprocessingSummaries: (json['reprocessingSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReprocessingSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final lastUpdateTime = this.lastUpdateTime;
+    final pipelineName = this.pipelineName;
+    final reprocessingSummaries = this.reprocessingSummaries;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (lastUpdateTime != null)
+        'lastUpdateTime': unixTimestampToJson(lastUpdateTime),
+      if (pipelineName != null) 'pipelineName': pipelineName,
+      if (reprocessingSummaries != null)
+        'reprocessingSummaries': reprocessingSummaries,
+    };
+  }
 }
 
 /// Information that is used to filter message data, to segregate it according
 /// to the timeframe in which it arrives.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class QueryFilter {
   /// Used to limit data to that which has arrived since the last execution of the
   /// action.
-  @_s.JsonKey(name: 'deltaTime')
-  final DeltaTime deltaTime;
+  final DeltaTime? deltaTime;
 
   QueryFilter({
     this.deltaTime,
   });
-  factory QueryFilter.fromJson(Map<String, dynamic> json) =>
-      _$QueryFilterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$QueryFilterToJson(this);
+  factory QueryFilter.fromJson(Map<String, dynamic> json) {
+    return QueryFilter(
+      deltaTime: json['deltaTime'] != null
+          ? DeltaTime.fromJson(json['deltaTime'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deltaTime = this.deltaTime;
+    return {
+      if (deltaTime != null) 'deltaTime': deltaTime,
+    };
+  }
 }
 
 /// An activity that removes attributes from a message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RemoveAttributesActivity {
   /// A list of 1-50 attributes to remove from the message.
-  @_s.JsonKey(name: 'attributes')
   final List<String> attributes;
 
   /// The name of the <code>removeAttributes</code> activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   RemoveAttributesActivity({
-    @_s.required this.attributes,
-    @_s.required this.name,
+    required this.attributes,
+    required this.name,
     this.next,
   });
-  factory RemoveAttributesActivity.fromJson(Map<String, dynamic> json) =>
-      _$RemoveAttributesActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RemoveAttributesActivityToJson(this);
+  factory RemoveAttributesActivity.fromJson(Map<String, dynamic> json) {
+    return RemoveAttributesActivity(
+      attributes: (json['attributes'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final name = this.name;
+    final next = this.next;
+    return {
+      'attributes': attributes,
+      'name': name,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 enum ReprocessingStatus {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on ReprocessingStatus {
+  String toValue() {
+    switch (this) {
+      case ReprocessingStatus.running:
+        return 'RUNNING';
+      case ReprocessingStatus.succeeded:
+        return 'SUCCEEDED';
+      case ReprocessingStatus.cancelled:
+        return 'CANCELLED';
+      case ReprocessingStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ReprocessingStatus toReprocessingStatus() {
+    switch (this) {
+      case 'RUNNING':
+        return ReprocessingStatus.running;
+      case 'SUCCEEDED':
+        return ReprocessingStatus.succeeded;
+      case 'CANCELLED':
+        return ReprocessingStatus.cancelled;
+      case 'FAILED':
+        return ReprocessingStatus.failed;
+    }
+    throw Exception('$this is not known in enum ReprocessingStatus');
+  }
+}
+
 /// Information about pipeline reprocessing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReprocessingSummary {
   /// The time the pipeline reprocessing was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The <code>reprocessingId</code> returned by
   /// <code>StartPipelineReprocessing</code>.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The status of the pipeline reprocessing.
-  @_s.JsonKey(name: 'status')
-  final ReprocessingStatus status;
+  final ReprocessingStatus? status;
 
   ReprocessingSummary({
     this.creationTime,
     this.id,
     this.status,
   });
-  factory ReprocessingSummary.fromJson(Map<String, dynamic> json) =>
-      _$ReprocessingSummaryFromJson(json);
+
+  factory ReprocessingSummary.fromJson(Map<String, dynamic> json) {
+    return ReprocessingSummary(
+      creationTime: timeStampFromJson(json['creationTime']),
+      id: json['id'] as String?,
+      status: (json['status'] as String?)?.toReprocessingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final id = this.id;
+    final status = this.status;
+    return {
+      if (creationTime != null)
+        'creationTime': unixTimestampToJson(creationTime),
+      if (id != null) 'id': id,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// The configuration of the resource used to execute the
 /// <code>containerAction</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceConfiguration {
   /// The type of the compute resource used to execute the
   /// <code>containerAction</code>. Possible values are: <code>ACU_1</code>
   /// (vCPU=4, memory=16 GiB) or <code>ACU_2</code> (vCPU=8, memory=32 GiB).
-  @_s.JsonKey(name: 'computeType')
   final ComputeType computeType;
 
   /// The size, in GB, of the persistent storage available to the resource
   /// instance used to execute the <code>containerAction</code> (min: 1, max: 50).
-  @_s.JsonKey(name: 'volumeSizeInGB')
   final int volumeSizeInGB;
 
   ResourceConfiguration({
-    @_s.required this.computeType,
-    @_s.required this.volumeSizeInGB,
+    required this.computeType,
+    required this.volumeSizeInGB,
   });
-  factory ResourceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ResourceConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceConfigurationToJson(this);
+  factory ResourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return ResourceConfiguration(
+      computeType: (json['computeType'] as String).toComputeType(),
+      volumeSizeInGB: json['volumeSizeInGB'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeType = this.computeType;
+    final volumeSizeInGB = this.volumeSizeInGB;
+    return {
+      'computeType': computeType.toValue(),
+      'volumeSizeInGB': volumeSizeInGB,
+    };
+  }
 }
 
 /// How long, in days, message data is kept.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RetentionPeriod {
   /// The number of days that message data is kept. The <code>unlimited</code>
   /// parameter must be false.
-  @_s.JsonKey(name: 'numberOfDays')
-  final int numberOfDays;
+  final int? numberOfDays;
 
   /// If true, message data is kept indefinitely.
-  @_s.JsonKey(name: 'unlimited')
-  final bool unlimited;
+  final bool? unlimited;
 
   RetentionPeriod({
     this.numberOfDays,
     this.unlimited,
   });
-  factory RetentionPeriod.fromJson(Map<String, dynamic> json) =>
-      _$RetentionPeriodFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RetentionPeriodToJson(this);
+  factory RetentionPeriod.fromJson(Map<String, dynamic> json) {
+    return RetentionPeriod(
+      numberOfDays: json['numberOfDays'] as int?,
+      unlimited: json['unlimited'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numberOfDays = this.numberOfDays;
+    final unlimited = this.unlimited;
+    return {
+      if (numberOfDays != null) 'numberOfDays': numberOfDays,
+      if (unlimited != null) 'unlimited': unlimited,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RunPipelineActivityResponse {
   /// In case the pipeline activity fails, the log message that is generated.
-  @_s.JsonKey(name: 'logResult')
-  final String logResult;
+  final String? logResult;
 
   /// The enriched or transformed sample message payloads as base64-encoded
   /// strings. (The results of running the pipeline activity on each input sample
   /// message payload, encoded in base64.)
-  @Uint8ListListConverter()
-  @_s.JsonKey(name: 'payloads')
-  final List<Uint8List> payloads;
+  final List<Uint8List>? payloads;
 
   RunPipelineActivityResponse({
     this.logResult,
     this.payloads,
   });
-  factory RunPipelineActivityResponse.fromJson(Map<String, dynamic> json) =>
-      _$RunPipelineActivityResponseFromJson(json);
+
+  factory RunPipelineActivityResponse.fromJson(Map<String, dynamic> json) {
+    return RunPipelineActivityResponse(
+      logResult: json['logResult'] as String?,
+      payloads: (json['payloads'] as List?)
+          ?.whereNotNull()
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logResult = this.logResult;
+    final payloads = this.payloads;
+    return {
+      if (logResult != null) 'logResult': logResult,
+      if (payloads != null) 'payloads': payloads.map(base64Encode).toList(),
+    };
+  }
 }
 
 /// Configuration information for delivery of dataset contents to Amazon Simple
 /// Storage Service (Amazon S3).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3DestinationConfiguration {
   /// The name of the S3 bucket to which dataset contents are delivered.
-  @_s.JsonKey(name: 'bucket')
   final String bucket;
 
   /// The key of the dataset contents object in an S3 bucket. Each object has a
@@ -4282,385 +5265,504 @@ class S3DestinationConfiguration {
   /// <code>versionId</code>s. This means that one dataset content overwrites the
   /// other.
   /// </note>
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 and AWS Glue resources.
-  @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
   /// Configuration information for coordination with AWS Glue, a fully managed
   /// extract, transform and load (ETL) service.
-  @_s.JsonKey(name: 'glueConfiguration')
-  final GlueConfiguration glueConfiguration;
+  final GlueConfiguration? glueConfiguration;
 
   S3DestinationConfiguration({
-    @_s.required this.bucket,
-    @_s.required this.key,
-    @_s.required this.roleArn,
+    required this.bucket,
+    required this.key,
+    required this.roleArn,
     this.glueConfiguration,
   });
-  factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$S3DestinationConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3DestinationConfigurationToJson(this);
+  factory S3DestinationConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3DestinationConfiguration(
+      bucket: json['bucket'] as String,
+      key: json['key'] as String,
+      roleArn: json['roleArn'] as String,
+      glueConfiguration: json['glueConfiguration'] != null
+          ? GlueConfiguration.fromJson(
+              json['glueConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    final roleArn = this.roleArn;
+    final glueConfiguration = this.glueConfiguration;
+    return {
+      'bucket': bucket,
+      'key': key,
+      'roleArn': roleArn,
+      if (glueConfiguration != null) 'glueConfiguration': glueConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SampleChannelDataResponse {
   /// The list of message samples. Each sample message is returned as a
   /// base64-encoded string.
-  @Uint8ListListConverter()
-  @_s.JsonKey(name: 'payloads')
-  final List<Uint8List> payloads;
+  final List<Uint8List>? payloads;
 
   SampleChannelDataResponse({
     this.payloads,
   });
-  factory SampleChannelDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$SampleChannelDataResponseFromJson(json);
+
+  factory SampleChannelDataResponse.fromJson(Map<String, dynamic> json) {
+    return SampleChannelDataResponse(
+      payloads: (json['payloads'] as List?)
+          ?.whereNotNull()
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final payloads = this.payloads;
+    return {
+      if (payloads != null) 'payloads': payloads.map(base64Encode).toList(),
+    };
+  }
 }
 
 /// The schedule for when to trigger an update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Schedule {
   /// The expression that defines when to trigger an update. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html">Schedule
   /// Expressions for Rules</a> in the <i>Amazon CloudWatch Events User Guide</i>.
-  @_s.JsonKey(name: 'expression')
-  final String expression;
+  final String? expression;
 
   Schedule({
     this.expression,
   });
-  factory Schedule.fromJson(Map<String, dynamic> json) =>
-      _$ScheduleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ScheduleToJson(this);
+  factory Schedule.fromJson(Map<String, dynamic> json) {
+    return Schedule(
+      expression: json['expression'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    return {
+      if (expression != null) 'expression': expression,
+    };
+  }
 }
 
 /// Information needed to define a schema.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SchemaDefinition {
   /// Specifies one or more columns that store your data.
   ///
   /// Each schema can have up to 100 columns. Each column can have up to 100
-  /// nested types
-  @_s.JsonKey(name: 'columns')
-  final List<Column> columns;
+  /// nested types.
+  final List<Column>? columns;
 
   SchemaDefinition({
     this.columns,
   });
-  factory SchemaDefinition.fromJson(Map<String, dynamic> json) =>
-      _$SchemaDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SchemaDefinitionToJson(this);
+  factory SchemaDefinition.fromJson(Map<String, dynamic> json) {
+    return SchemaDefinition(
+      columns: (json['columns'] as List?)
+          ?.whereNotNull()
+          .map((e) => Column.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columns = this.columns;
+    return {
+      if (columns != null) 'columns': columns,
+    };
+  }
 }
 
 /// Creates a new message using only the specified attributes from the original
 /// message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SelectAttributesActivity {
   /// A list of the attributes to select from the message.
-  @_s.JsonKey(name: 'attributes')
   final List<String> attributes;
 
   /// The name of the <code>selectAttributes</code> activity.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The next activity in the pipeline.
-  @_s.JsonKey(name: 'next')
-  final String next;
+  final String? next;
 
   SelectAttributesActivity({
-    @_s.required this.attributes,
-    @_s.required this.name,
+    required this.attributes,
+    required this.name,
     this.next,
   });
-  factory SelectAttributesActivity.fromJson(Map<String, dynamic> json) =>
-      _$SelectAttributesActivityFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SelectAttributesActivityToJson(this);
+  factory SelectAttributesActivity.fromJson(Map<String, dynamic> json) {
+    return SelectAttributesActivity(
+      attributes: (json['attributes'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String,
+      next: json['next'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final name = this.name;
+    final next = this.next;
+    return {
+      'attributes': attributes,
+      'name': name,
+      if (next != null) 'next': next,
+    };
+  }
 }
 
 /// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics.
 /// You cannot change the choice of service-managed or customer-managed S3
 /// storage after the channel is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceManagedChannelS3Storage {
   ServiceManagedChannelS3Storage();
-  factory ServiceManagedChannelS3Storage.fromJson(Map<String, dynamic> json) =>
-      _$ServiceManagedChannelS3StorageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ServiceManagedChannelS3StorageToJson(this);
+  factory ServiceManagedChannelS3Storage.fromJson(Map<String, dynamic> _) {
+    return ServiceManagedChannelS3Storage();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceManagedChannelS3StorageSummary {
   ServiceManagedChannelS3StorageSummary();
+
   factory ServiceManagedChannelS3StorageSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServiceManagedChannelS3StorageSummaryFromJson(json);
+      Map<String, dynamic> _) {
+    return ServiceManagedChannelS3StorageSummary();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Use this to store data store data in an S3 bucket managed by AWS IoT
 /// Analytics. You cannot change the choice of service-managed or
 /// customer-managed S3 storage after the data store is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceManagedDatastoreS3Storage {
   ServiceManagedDatastoreS3Storage();
-  factory ServiceManagedDatastoreS3Storage.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServiceManagedDatastoreS3StorageFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$ServiceManagedDatastoreS3StorageToJson(this);
+  factory ServiceManagedDatastoreS3Storage.fromJson(Map<String, dynamic> _) {
+    return ServiceManagedDatastoreS3Storage();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceManagedDatastoreS3StorageSummary {
   ServiceManagedDatastoreS3StorageSummary();
+
   factory ServiceManagedDatastoreS3StorageSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$ServiceManagedDatastoreS3StorageSummaryFromJson(json);
+      Map<String, dynamic> _) {
+    return ServiceManagedDatastoreS3StorageSummary();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The SQL query to modify the message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SqlQueryDatasetAction {
   /// A SQL query string.
-  @_s.JsonKey(name: 'sqlQuery')
   final String sqlQuery;
 
   /// Prefilters applied to message data.
-  @_s.JsonKey(name: 'filters')
-  final List<QueryFilter> filters;
+  final List<QueryFilter>? filters;
 
   SqlQueryDatasetAction({
-    @_s.required this.sqlQuery,
+    required this.sqlQuery,
     this.filters,
   });
-  factory SqlQueryDatasetAction.fromJson(Map<String, dynamic> json) =>
-      _$SqlQueryDatasetActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SqlQueryDatasetActionToJson(this);
+  factory SqlQueryDatasetAction.fromJson(Map<String, dynamic> json) {
+    return SqlQueryDatasetAction(
+      sqlQuery: json['sqlQuery'] as String,
+      filters: (json['filters'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueryFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sqlQuery = this.sqlQuery;
+    final filters = this.filters;
+    return {
+      'sqlQuery': sqlQuery,
+      if (filters != null) 'filters': filters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartPipelineReprocessingResponse {
   /// The ID of the pipeline reprocessing activity that was started.
-  @_s.JsonKey(name: 'reprocessingId')
-  final String reprocessingId;
+  final String? reprocessingId;
 
   StartPipelineReprocessingResponse({
     this.reprocessingId,
   });
+
   factory StartPipelineReprocessingResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartPipelineReprocessingResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartPipelineReprocessingResponse(
+      reprocessingId: json['reprocessingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reprocessingId = this.reprocessingId;
+    return {
+      if (reprocessingId != null) 'reprocessingId': reprocessingId,
+    };
+  }
 }
 
 /// A set of key-value pairs that are used to manage the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag's key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The tag's value.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+/// A partition defined by a timestamp.
+class TimestampPartition {
+  /// The attribute name of the partition defined by a timestamp.
+  final String attributeName;
+
+  /// The timestamp format of a partition defined by a timestamp.
+  final String? timestampFormat;
+
+  TimestampPartition({
+    required this.attributeName,
+    this.timestampFormat,
+  });
+
+  factory TimestampPartition.fromJson(Map<String, dynamic> json) {
+    return TimestampPartition(
+      attributeName: json['attributeName'] as String,
+      timestampFormat: json['timestampFormat'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final timestampFormat = this.timestampFormat;
+    return {
+      'attributeName': attributeName,
+      if (timestampFormat != null) 'timestampFormat': timestampFormat,
+    };
+  }
 }
 
 /// Information about the dataset whose content generation triggers the new
 /// dataset content generation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TriggeringDataset {
   /// The name of the dataset whose content generation triggers the new dataset
   /// content generation.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   TriggeringDataset({
-    @_s.required this.name,
+    required this.name,
   });
-  factory TriggeringDataset.fromJson(Map<String, dynamic> json) =>
-      _$TriggeringDatasetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TriggeringDatasetToJson(this);
+  factory TriggeringDataset.fromJson(Map<String, dynamic> json) {
+    return TriggeringDataset(
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// An instance of a variable to be passed to the <code>containerAction</code>
 /// execution. Each variable must have a name and a value given by one of
 /// <code>stringValue</code>, <code>datasetContentVersionValue</code>, or
 /// <code>outputFileUriValue</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Variable {
   /// The name of the variable.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The value of the variable as a structure that specifies a dataset content
   /// version.
-  @_s.JsonKey(name: 'datasetContentVersionValue')
-  final DatasetContentVersionValue datasetContentVersionValue;
+  final DatasetContentVersionValue? datasetContentVersionValue;
 
   /// The value of the variable as a double (numeric).
-  @_s.JsonKey(name: 'doubleValue')
-  final double doubleValue;
+  final double? doubleValue;
 
   /// The value of the variable as a structure that specifies an output file URI.
-  @_s.JsonKey(name: 'outputFileUriValue')
-  final OutputFileUriValue outputFileUriValue;
+  final OutputFileUriValue? outputFileUriValue;
 
   /// The value of the variable as a string.
-  @_s.JsonKey(name: 'stringValue')
-  final String stringValue;
+  final String? stringValue;
 
   Variable({
-    @_s.required this.name,
+    required this.name,
     this.datasetContentVersionValue,
     this.doubleValue,
     this.outputFileUriValue,
     this.stringValue,
   });
-  factory Variable.fromJson(Map<String, dynamic> json) =>
-      _$VariableFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VariableToJson(this);
+  factory Variable.fromJson(Map<String, dynamic> json) {
+    return Variable(
+      name: json['name'] as String,
+      datasetContentVersionValue: json['datasetContentVersionValue'] != null
+          ? DatasetContentVersionValue.fromJson(
+              json['datasetContentVersionValue'] as Map<String, dynamic>)
+          : null,
+      doubleValue: json['doubleValue'] as double?,
+      outputFileUriValue: json['outputFileUriValue'] != null
+          ? OutputFileUriValue.fromJson(
+              json['outputFileUriValue'] as Map<String, dynamic>)
+          : null,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final datasetContentVersionValue = this.datasetContentVersionValue;
+    final doubleValue = this.doubleValue;
+    final outputFileUriValue = this.outputFileUriValue;
+    final stringValue = this.stringValue;
+    return {
+      'name': name,
+      if (datasetContentVersionValue != null)
+        'datasetContentVersionValue': datasetContentVersionValue,
+      if (doubleValue != null) 'doubleValue': doubleValue,
+      if (outputFileUriValue != null) 'outputFileUriValue': outputFileUriValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
 }
 
 /// Information about the versioning of dataset contents.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VersioningConfiguration {
   /// How many versions of dataset contents are kept. The <code>unlimited</code>
   /// parameter must be <code>false</code>.
-  @_s.JsonKey(name: 'maxVersions')
-  final int maxVersions;
+  final int? maxVersions;
 
   /// If true, unlimited versions of dataset contents are kept.
-  @_s.JsonKey(name: 'unlimited')
-  final bool unlimited;
+  final bool? unlimited;
 
   VersioningConfiguration({
     this.maxVersions,
     this.unlimited,
   });
-  factory VersioningConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$VersioningConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VersioningConfigurationToJson(this);
+  factory VersioningConfiguration.fromJson(Map<String, dynamic> json) {
+    return VersioningConfiguration(
+      maxVersions: json['maxVersions'] as int?,
+      unlimited: json['unlimited'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxVersions = this.maxVersions;
+    final unlimited = this.unlimited;
+    return {
+      if (maxVersions != null) 'maxVersions': maxVersions,
+      if (unlimited != null) 'unlimited': unlimited,
+    };
+  }
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -4668,18 +5770,18 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 

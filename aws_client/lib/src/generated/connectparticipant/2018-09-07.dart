@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-09-07.g.dart';
 
 /// Amazon Connect is a cloud-based contact center solution that makes it easy
 /// to set up and manage a customer contact center and provide reliable customer
@@ -37,10 +30,10 @@ part '2018-09-07.g.dart';
 class ConnectParticipant {
   final _s.RestJsonProtocol _protocol;
   ConnectParticipant({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,26 +58,18 @@ class ConnectParticipant {
   /// Parameter [attachmentIds] :
   /// A list of unique identifiers for the attachments.
   ///
+  /// Parameter [connectionToken] :
+  /// The authentication token associated with the participant's connection.
+  ///
   /// Parameter [clientToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
-  ///
-  /// Parameter [connectionToken] :
-  /// The authentication token associated with the participant's connection.
   Future<void> completeAttachmentUpload({
-    @_s.required List<String> attachmentIds,
-    @_s.required String clientToken,
-    @_s.required String connectionToken,
+    required List<String> attachmentIds,
+    required String connectionToken,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(attachmentIds, 'attachmentIds');
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      500,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
     _s.validateStringLength(
       'connectionToken',
@@ -93,8 +78,15 @@ class ConnectParticipant {
       1000,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'AttachmentIds': attachmentIds,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -106,7 +98,6 @@ class ConnectParticipant {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return CompleteAttachmentUploadResponse.fromJson(response);
   }
 
   /// Creates the participant's connection. Note that ParticipantToken is used
@@ -148,8 +139,8 @@ class ConnectParticipant {
   /// Parameter [type] :
   /// Type of connection information required.
   Future<CreateParticipantConnectionResponse> createParticipantConnection({
-    @_s.required String participantToken,
-    @_s.required List<ConnectionType> type,
+    required String participantToken,
+    required List<ConnectionType> type,
   }) async {
     ArgumentError.checkNotNull(participantToken, 'participantToken');
     _s.validateStringLength(
@@ -160,10 +151,11 @@ class ConnectParticipant {
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
-    final headers = <String, String>{};
-    participantToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final headers = <String, String>{
+      'X-Amz-Bearer': participantToken.toString(),
+    };
     final $payload = <String, dynamic>{
-      'Type': type?.map((e) => e?.toValue() ?? '')?.toList(),
+      'Type': type.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -194,8 +186,8 @@ class ConnectParticipant {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   Future<void> disconnectParticipant({
-    @_s.required String connectionToken,
-    String clientToken,
+    required String connectionToken,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
     _s.validateStringLength(
@@ -211,8 +203,9 @@ class ConnectParticipant {
       0,
       500,
     );
-    final headers = <String, String>{};
-    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
@@ -223,7 +216,6 @@ class ConnectParticipant {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DisconnectParticipantResponse.fromJson(response);
   }
 
   /// Provides a pre-signed URL for download of a completed attachment. This is
@@ -240,8 +232,8 @@ class ConnectParticipant {
   /// Parameter [connectionToken] :
   /// The authentication token associated with the participant's connection.
   Future<GetAttachmentResponse> getAttachment({
-    @_s.required String attachmentId,
-    @_s.required String connectionToken,
+    required String attachmentId,
+    required String connectionToken,
   }) async {
     ArgumentError.checkNotNull(attachmentId, 'attachmentId');
     _s.validateStringLength(
@@ -259,8 +251,9 @@ class ConnectParticipant {
       1000,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'AttachmentId': attachmentId,
     };
@@ -311,13 +304,13 @@ class ConnectParticipant {
   /// Parameter [startPosition] :
   /// A filtering option for where to start.
   Future<GetTranscriptResponse> getTranscript({
-    @_s.required String connectionToken,
-    String contactId,
-    int maxResults,
-    String nextToken,
-    ScanDirection scanDirection,
-    SortKey sortOrder,
-    StartPosition startPosition,
+    required String connectionToken,
+    String? contactId,
+    int? maxResults,
+    String? nextToken,
+    ScanDirection? scanDirection,
+    SortKey? sortOrder,
+    StartPosition? startPosition,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
     _s.validateStringLength(
@@ -345,8 +338,9 @@ class ConnectParticipant {
       1,
       1000,
     );
-    final headers = <String, String>{};
-    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (contactId != null) 'ContactId': contactId,
       if (maxResults != null) 'MaxResults': maxResults,
@@ -400,10 +394,10 @@ class ConnectParticipant {
   /// The content of the event to be sent (for example, message text). This is
   /// not yet supported.
   Future<SendEventResponse> sendEvent({
-    @_s.required String connectionToken,
-    @_s.required String contentType,
-    String clientToken,
-    String content,
+    required String connectionToken,
+    required String contentType,
+    String? clientToken,
+    String? content,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
     _s.validateStringLength(
@@ -433,8 +427,9 @@ class ConnectParticipant {
       1,
       1024,
     );
-    final headers = <String, String>{};
-    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'ContentType': contentType,
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -476,10 +471,10 @@ class ConnectParticipant {
   /// A unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request.
   Future<SendMessageResponse> sendMessage({
-    @_s.required String connectionToken,
-    @_s.required String content,
-    @_s.required String contentType,
-    String clientToken,
+    required String connectionToken,
+    required String content,
+    required String contentType,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
     _s.validateStringLength(
@@ -511,8 +506,9 @@ class ConnectParticipant {
       0,
       500,
     );
-    final headers = <String, String>{};
-    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'Content': content,
       'ContentType': contentType,
@@ -543,9 +539,6 @@ class ConnectParticipant {
   /// Parameter [attachmentSizeInBytes] :
   /// The size of the attachment in bytes.
   ///
-  /// Parameter [clientToken] :
-  /// A unique case sensitive identifier to support idempotency of request.
-  ///
   /// Parameter [connectionToken] :
   /// The authentication token associated with the participant's connection.
   ///
@@ -554,12 +547,15 @@ class ConnectParticipant {
   /// file types, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
   /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case sensitive identifier to support idempotency of request.
   Future<StartAttachmentUploadResponse> startAttachmentUpload({
-    @_s.required String attachmentName,
-    @_s.required int attachmentSizeInBytes,
-    @_s.required String clientToken,
-    @_s.required String connectionToken,
-    @_s.required String contentType,
+    required String attachmentName,
+    required int attachmentSizeInBytes,
+    required String connectionToken,
+    required String contentType,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(attachmentName, 'attachmentName');
     _s.validateStringLength(
@@ -575,14 +571,6 @@ class ConnectParticipant {
       attachmentSizeInBytes,
       1,
       1152921504606846976,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      500,
       isRequired: true,
     );
     ArgumentError.checkNotNull(connectionToken, 'connectionToken');
@@ -601,13 +589,20 @@ class ConnectParticipant {
       255,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      500,
+    );
+    final headers = <String, String>{
+      'X-Amz-Bearer': connectionToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'AttachmentName': attachmentName,
       'AttachmentSizeInBytes': attachmentSizeInBytes,
-      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       'ContentType': contentType,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -621,40 +616,55 @@ class ConnectParticipant {
 }
 
 enum ArtifactStatus {
-  @_s.JsonValue('APPROVED')
   approved,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
+}
+
+extension on ArtifactStatus {
+  String toValue() {
+    switch (this) {
+      case ArtifactStatus.approved:
+        return 'APPROVED';
+      case ArtifactStatus.rejected:
+        return 'REJECTED';
+      case ArtifactStatus.inProgress:
+        return 'IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  ArtifactStatus toArtifactStatus() {
+    switch (this) {
+      case 'APPROVED':
+        return ArtifactStatus.approved;
+      case 'REJECTED':
+        return ArtifactStatus.rejected;
+      case 'IN_PROGRESS':
+        return ArtifactStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum ArtifactStatus');
+  }
 }
 
 /// The case-insensitive input to indicate standard MIME type that describes the
 /// format of the file that will be uploaded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachmentItem {
   /// A unique identifier for the attachment.
-  @_s.JsonKey(name: 'AttachmentId')
-  final String attachmentId;
+  final String? attachmentId;
 
   /// A case-sensitive name of the attachment being uploaded.
-  @_s.JsonKey(name: 'AttachmentName')
-  final String attachmentName;
+  final String? attachmentName;
 
   /// Describes the MIME file type of the attachment. For a list of supported file
   /// types, see <a
   /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
   /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
-  @_s.JsonKey(name: 'ContentType')
-  final String contentType;
+  final String? contentType;
 
   /// Status of the attachment.
-  @_s.JsonKey(name: 'Status')
-  final ArtifactStatus status;
+  final ArtifactStatus? status;
 
   AttachmentItem({
     this.attachmentId,
@@ -662,75 +672,145 @@ class AttachmentItem {
     this.contentType,
     this.status,
   });
-  factory AttachmentItem.fromJson(Map<String, dynamic> json) =>
-      _$AttachmentItemFromJson(json);
+
+  factory AttachmentItem.fromJson(Map<String, dynamic> json) {
+    return AttachmentItem(
+      attachmentId: json['AttachmentId'] as String?,
+      attachmentName: json['AttachmentName'] as String?,
+      contentType: json['ContentType'] as String?,
+      status: (json['Status'] as String?)?.toArtifactStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final attachmentName = this.attachmentName;
+    final contentType = this.contentType;
+    final status = this.status;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (attachmentName != null) 'AttachmentName': attachmentName,
+      if (contentType != null) 'ContentType': contentType,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum ChatItemType {
-  @_s.JsonValue('TYPING')
   typing,
-  @_s.JsonValue('PARTICIPANT_JOINED')
   participantJoined,
-  @_s.JsonValue('PARTICIPANT_LEFT')
   participantLeft,
-  @_s.JsonValue('CHAT_ENDED')
   chatEnded,
-  @_s.JsonValue('TRANSFER_SUCCEEDED')
   transferSucceeded,
-  @_s.JsonValue('TRANSFER_FAILED')
   transferFailed,
-  @_s.JsonValue('MESSAGE')
   message,
-  @_s.JsonValue('EVENT')
   event,
-  @_s.JsonValue('ATTACHMENT')
   attachment,
-  @_s.JsonValue('CONNECTION_ACK')
   connectionAck,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ChatItemType {
+  String toValue() {
+    switch (this) {
+      case ChatItemType.typing:
+        return 'TYPING';
+      case ChatItemType.participantJoined:
+        return 'PARTICIPANT_JOINED';
+      case ChatItemType.participantLeft:
+        return 'PARTICIPANT_LEFT';
+      case ChatItemType.chatEnded:
+        return 'CHAT_ENDED';
+      case ChatItemType.transferSucceeded:
+        return 'TRANSFER_SUCCEEDED';
+      case ChatItemType.transferFailed:
+        return 'TRANSFER_FAILED';
+      case ChatItemType.message:
+        return 'MESSAGE';
+      case ChatItemType.event:
+        return 'EVENT';
+      case ChatItemType.attachment:
+        return 'ATTACHMENT';
+      case ChatItemType.connectionAck:
+        return 'CONNECTION_ACK';
+    }
+  }
+}
+
+extension on String {
+  ChatItemType toChatItemType() {
+    switch (this) {
+      case 'TYPING':
+        return ChatItemType.typing;
+      case 'PARTICIPANT_JOINED':
+        return ChatItemType.participantJoined;
+      case 'PARTICIPANT_LEFT':
+        return ChatItemType.participantLeft;
+      case 'CHAT_ENDED':
+        return ChatItemType.chatEnded;
+      case 'TRANSFER_SUCCEEDED':
+        return ChatItemType.transferSucceeded;
+      case 'TRANSFER_FAILED':
+        return ChatItemType.transferFailed;
+      case 'MESSAGE':
+        return ChatItemType.message;
+      case 'EVENT':
+        return ChatItemType.event;
+      case 'ATTACHMENT':
+        return ChatItemType.attachment;
+      case 'CONNECTION_ACK':
+        return ChatItemType.connectionAck;
+    }
+    throw Exception('$this is not known in enum ChatItemType');
+  }
+}
+
 class CompleteAttachmentUploadResponse {
   CompleteAttachmentUploadResponse();
-  factory CompleteAttachmentUploadResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CompleteAttachmentUploadResponseFromJson(json);
+
+  factory CompleteAttachmentUploadResponse.fromJson(Map<String, dynamic> _) {
+    return CompleteAttachmentUploadResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Connection credentials.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConnectionCredentials {
   /// The connection token.
-  @_s.JsonKey(name: 'ConnectionToken')
-  final String connectionToken;
+  final String? connectionToken;
 
   /// The expiration of the token.
   ///
   /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
   /// 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'Expiry')
-  final String expiry;
+  final String? expiry;
 
   ConnectionCredentials({
     this.connectionToken,
     this.expiry,
   });
-  factory ConnectionCredentials.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionCredentialsFromJson(json);
+
+  factory ConnectionCredentials.fromJson(Map<String, dynamic> json) {
+    return ConnectionCredentials(
+      connectionToken: json['ConnectionToken'] as String?,
+      expiry: json['Expiry'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionToken = this.connectionToken;
+    final expiry = this.expiry;
+    return {
+      if (connectionToken != null) 'ConnectionToken': connectionToken,
+      if (expiry != null) 'Expiry': expiry,
+    };
+  }
 }
 
 enum ConnectionType {
-  @_s.JsonValue('WEBSOCKET')
   websocket,
-  @_s.JsonValue('CONNECTION_CREDENTIALS')
   connectionCredentials,
 }
 
@@ -742,142 +822,172 @@ extension on ConnectionType {
       case ConnectionType.connectionCredentials:
         return 'CONNECTION_CREDENTIALS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ConnectionType toConnectionType() {
+    switch (this) {
+      case 'WEBSOCKET':
+        return ConnectionType.websocket;
+      case 'CONNECTION_CREDENTIALS':
+        return ConnectionType.connectionCredentials;
+    }
+    throw Exception('$this is not known in enum ConnectionType');
+  }
+}
+
 class CreateParticipantConnectionResponse {
   /// Creates the participant's connection credentials. The authentication token
   /// associated with the participant's connection.
-  @_s.JsonKey(name: 'ConnectionCredentials')
-  final ConnectionCredentials connectionCredentials;
+  final ConnectionCredentials? connectionCredentials;
 
   /// Creates the participant's websocket connection.
-  @_s.JsonKey(name: 'Websocket')
-  final Websocket websocket;
+  final Websocket? websocket;
 
   CreateParticipantConnectionResponse({
     this.connectionCredentials,
     this.websocket,
   });
+
   factory CreateParticipantConnectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateParticipantConnectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateParticipantConnectionResponse(
+      connectionCredentials: json['ConnectionCredentials'] != null
+          ? ConnectionCredentials.fromJson(
+              json['ConnectionCredentials'] as Map<String, dynamic>)
+          : null,
+      websocket: json['Websocket'] != null
+          ? Websocket.fromJson(json['Websocket'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionCredentials = this.connectionCredentials;
+    final websocket = this.websocket;
+    return {
+      if (connectionCredentials != null)
+        'ConnectionCredentials': connectionCredentials,
+      if (websocket != null) 'Websocket': websocket,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisconnectParticipantResponse {
   DisconnectParticipantResponse();
-  factory DisconnectParticipantResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisconnectParticipantResponseFromJson(json);
+
+  factory DisconnectParticipantResponse.fromJson(Map<String, dynamic> _) {
+    return DisconnectParticipantResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAttachmentResponse {
   /// The pre-signed URL using which file would be downloaded from Amazon S3 by
   /// the API caller.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
   /// format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'UrlExpiry')
-  final String urlExpiry;
+  final String? urlExpiry;
 
   GetAttachmentResponse({
     this.url,
     this.urlExpiry,
   });
-  factory GetAttachmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAttachmentResponseFromJson(json);
+
+  factory GetAttachmentResponse.fromJson(Map<String, dynamic> json) {
+    return GetAttachmentResponse(
+      url: json['Url'] as String?,
+      urlExpiry: json['UrlExpiry'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final url = this.url;
+    final urlExpiry = this.urlExpiry;
+    return {
+      if (url != null) 'Url': url,
+      if (urlExpiry != null) 'UrlExpiry': urlExpiry,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTranscriptResponse {
   /// The initial contact ID for the contact.
-  @_s.JsonKey(name: 'InitialContactId')
-  final String initialContactId;
+  final String? initialContactId;
 
   /// The pagination token. Use the value returned previously in the next
   /// subsequent request to retrieve the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of messages in the session.
-  @_s.JsonKey(name: 'Transcript')
-  final List<Item> transcript;
+  final List<Item>? transcript;
 
   GetTranscriptResponse({
     this.initialContactId,
     this.nextToken,
     this.transcript,
   });
-  factory GetTranscriptResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTranscriptResponseFromJson(json);
+
+  factory GetTranscriptResponse.fromJson(Map<String, dynamic> json) {
+    return GetTranscriptResponse(
+      initialContactId: json['InitialContactId'] as String?,
+      nextToken: json['NextToken'] as String?,
+      transcript: (json['Transcript'] as List?)
+          ?.whereNotNull()
+          .map((e) => Item.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initialContactId = this.initialContactId;
+    final nextToken = this.nextToken;
+    final transcript = this.transcript;
+    return {
+      if (initialContactId != null) 'InitialContactId': initialContactId,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (transcript != null) 'Transcript': transcript,
+    };
+  }
 }
 
 /// An item - message or event - that has been sent.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Item {
   /// The time when the message or event was sent.
   ///
   /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
   /// 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'AbsoluteTime')
-  final String absoluteTime;
+  final String? absoluteTime;
 
   /// Provides information about the attachments.
-  @_s.JsonKey(name: 'Attachments')
-  final List<AttachmentItem> attachments;
+  final List<AttachmentItem>? attachments;
 
   /// The content of the message or event.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// The type of content of the item.
-  @_s.JsonKey(name: 'ContentType')
-  final String contentType;
+  final String? contentType;
 
   /// The chat display name of the sender.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The ID of the item.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the sender in the session.
-  @_s.JsonKey(name: 'ParticipantId')
-  final String participantId;
+  final String? participantId;
 
   /// The role of the sender. For example, is it a customer, agent, or system.
-  @_s.JsonKey(name: 'ParticipantRole')
-  final ParticipantRole participantRole;
+  final ParticipantRole? participantRole;
 
   /// Type of the item: message or event.
-  @_s.JsonKey(name: 'Type')
-  final ChatItemType type;
+  final ChatItemType? type;
 
   Item({
     this.absoluteTime,
@@ -890,22 +1000,84 @@ class Item {
     this.participantRole,
     this.type,
   });
-  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      absoluteTime: json['AbsoluteTime'] as String?,
+      attachments: (json['Attachments'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachmentItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      content: json['Content'] as String?,
+      contentType: json['ContentType'] as String?,
+      displayName: json['DisplayName'] as String?,
+      id: json['Id'] as String?,
+      participantId: json['ParticipantId'] as String?,
+      participantRole:
+          (json['ParticipantRole'] as String?)?.toParticipantRole(),
+      type: (json['Type'] as String?)?.toChatItemType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTime = this.absoluteTime;
+    final attachments = this.attachments;
+    final content = this.content;
+    final contentType = this.contentType;
+    final displayName = this.displayName;
+    final id = this.id;
+    final participantId = this.participantId;
+    final participantRole = this.participantRole;
+    final type = this.type;
+    return {
+      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
+      if (attachments != null) 'Attachments': attachments,
+      if (content != null) 'Content': content,
+      if (contentType != null) 'ContentType': contentType,
+      if (displayName != null) 'DisplayName': displayName,
+      if (id != null) 'Id': id,
+      if (participantId != null) 'ParticipantId': participantId,
+      if (participantRole != null) 'ParticipantRole': participantRole.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ParticipantRole {
-  @_s.JsonValue('AGENT')
   agent,
-  @_s.JsonValue('CUSTOMER')
   customer,
-  @_s.JsonValue('SYSTEM')
   system,
 }
 
+extension on ParticipantRole {
+  String toValue() {
+    switch (this) {
+      case ParticipantRole.agent:
+        return 'AGENT';
+      case ParticipantRole.customer:
+        return 'CUSTOMER';
+      case ParticipantRole.system:
+        return 'SYSTEM';
+    }
+  }
+}
+
+extension on String {
+  ParticipantRole toParticipantRole() {
+    switch (this) {
+      case 'AGENT':
+        return ParticipantRole.agent;
+      case 'CUSTOMER':
+        return ParticipantRole.customer;
+      case 'SYSTEM':
+        return ParticipantRole.system;
+    }
+    throw Exception('$this is not known in enum ParticipantRole');
+  }
+}
+
 enum ScanDirection {
-  @_s.JsonValue('FORWARD')
   forward,
-  @_s.JsonValue('BACKWARD')
   backward,
 }
 
@@ -917,64 +1089,87 @@ extension on ScanDirection {
       case ScanDirection.backward:
         return 'BACKWARD';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ScanDirection toScanDirection() {
+    switch (this) {
+      case 'FORWARD':
+        return ScanDirection.forward;
+      case 'BACKWARD':
+        return ScanDirection.backward;
+    }
+    throw Exception('$this is not known in enum ScanDirection');
+  }
+}
+
 class SendEventResponse {
   /// The time when the event was sent.
   ///
   /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
   /// 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'AbsoluteTime')
-  final String absoluteTime;
+  final String? absoluteTime;
 
   /// The ID of the response.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   SendEventResponse({
     this.absoluteTime,
     this.id,
   });
-  factory SendEventResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendEventResponseFromJson(json);
+
+  factory SendEventResponse.fromJson(Map<String, dynamic> json) {
+    return SendEventResponse(
+      absoluteTime: json['AbsoluteTime'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTime = this.absoluteTime;
+    final id = this.id;
+    return {
+      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
+      if (id != null) 'Id': id,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendMessageResponse {
   /// The time when the message was sent.
   ///
   /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
   /// 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'AbsoluteTime')
-  final String absoluteTime;
+  final String? absoluteTime;
 
   /// The ID of the message.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   SendMessageResponse({
     this.absoluteTime,
     this.id,
   });
-  factory SendMessageResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendMessageResponseFromJson(json);
+
+  factory SendMessageResponse.fromJson(Map<String, dynamic> json) {
+    return SendMessageResponse(
+      absoluteTime: json['AbsoluteTime'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTime = this.absoluteTime;
+    final id = this.id;
+    return {
+      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
+      if (id != null) 'Id': id,
+    };
+  }
 }
 
 enum SortKey {
-  @_s.JsonValue('DESCENDING')
   descending,
-  @_s.JsonValue('ASCENDING')
   ascending,
 }
 
@@ -986,136 +1181,184 @@ extension on SortKey {
       case SortKey.ascending:
         return 'ASCENDING';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SortKey toSortKey() {
+    switch (this) {
+      case 'DESCENDING':
+        return SortKey.descending;
+      case 'ASCENDING':
+        return SortKey.ascending;
+    }
+    throw Exception('$this is not known in enum SortKey');
+  }
+}
+
 class StartAttachmentUploadResponse {
   /// A unique identifier for the attachment.
-  @_s.JsonKey(name: 'AttachmentId')
-  final String attachmentId;
+  final String? attachmentId;
 
   /// Fields to be used while uploading the attachment.
-  @_s.JsonKey(name: 'UploadMetadata')
-  final UploadMetadata uploadMetadata;
+  final UploadMetadata? uploadMetadata;
 
   StartAttachmentUploadResponse({
     this.attachmentId,
     this.uploadMetadata,
   });
-  factory StartAttachmentUploadResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartAttachmentUploadResponseFromJson(json);
+
+  factory StartAttachmentUploadResponse.fromJson(Map<String, dynamic> json) {
+    return StartAttachmentUploadResponse(
+      attachmentId: json['AttachmentId'] as String?,
+      uploadMetadata: json['UploadMetadata'] != null
+          ? UploadMetadata.fromJson(
+              json['UploadMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final uploadMetadata = this.uploadMetadata;
+    return {
+      if (attachmentId != null) 'AttachmentId': attachmentId,
+      if (uploadMetadata != null) 'UploadMetadata': uploadMetadata,
+    };
+  }
 }
 
 /// A filtering option for where to start. For example, if you sent 100
 /// messages, start with message 50.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartPosition {
   /// The time in ISO format where to start.
   ///
   /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
   /// 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'AbsoluteTime')
-  final String absoluteTime;
+  final String? absoluteTime;
 
   /// The ID of the message or event where to start.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The start position of the most recent message where you want to start.
-  @_s.JsonKey(name: 'MostRecent')
-  final int mostRecent;
+  final int? mostRecent;
 
   StartPosition({
     this.absoluteTime,
     this.id,
     this.mostRecent,
   });
-  Map<String, dynamic> toJson() => _$StartPositionToJson(this);
+
+  factory StartPosition.fromJson(Map<String, dynamic> json) {
+    return StartPosition(
+      absoluteTime: json['AbsoluteTime'] as String?,
+      id: json['Id'] as String?,
+      mostRecent: json['MostRecent'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absoluteTime = this.absoluteTime;
+    final id = this.id;
+    final mostRecent = this.mostRecent;
+    return {
+      if (absoluteTime != null) 'AbsoluteTime': absoluteTime,
+      if (id != null) 'Id': id,
+      if (mostRecent != null) 'MostRecent': mostRecent,
+    };
+  }
 }
 
 /// Fields to be used while uploading the attachment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UploadMetadata {
   /// The headers to be provided while uploading the file to the URL.
-  @_s.JsonKey(name: 'HeadersToInclude')
-  final Map<String, String> headersToInclude;
+  final Map<String, String>? headersToInclude;
 
   /// The pre-signed URL using which file would be downloaded from Amazon S3 by
   /// the API caller.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
   /// format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'UrlExpiry')
-  final String urlExpiry;
+  final String? urlExpiry;
 
   UploadMetadata({
     this.headersToInclude,
     this.url,
     this.urlExpiry,
   });
-  factory UploadMetadata.fromJson(Map<String, dynamic> json) =>
-      _$UploadMetadataFromJson(json);
+
+  factory UploadMetadata.fromJson(Map<String, dynamic> json) {
+    return UploadMetadata(
+      headersToInclude: (json['HeadersToInclude'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      url: json['Url'] as String?,
+      urlExpiry: json['UrlExpiry'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headersToInclude = this.headersToInclude;
+    final url = this.url;
+    final urlExpiry = this.urlExpiry;
+    return {
+      if (headersToInclude != null) 'HeadersToInclude': headersToInclude,
+      if (url != null) 'Url': url,
+      if (urlExpiry != null) 'UrlExpiry': urlExpiry,
+    };
+  }
 }
 
 /// The websocket for the participant's connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Websocket {
   /// The URL expiration timestamp in ISO date format.
   ///
   /// It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example,
   /// 2019-11-08T02:41:28.172Z.
-  @_s.JsonKey(name: 'ConnectionExpiry')
-  final String connectionExpiry;
+  final String? connectionExpiry;
 
   /// The URL of the websocket.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   Websocket({
     this.connectionExpiry,
     this.url,
   });
-  factory Websocket.fromJson(Map<String, dynamic> json) =>
-      _$WebsocketFromJson(json);
+
+  factory Websocket.fromJson(Map<String, dynamic> json) {
+    return Websocket(
+      connectionExpiry: json['ConnectionExpiry'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionExpiry = this.connectionExpiry;
+    final url = this.url;
+    return {
+      if (connectionExpiry != null) 'ConnectionExpiry': connectionExpiry,
+      if (url != null) 'Url': url,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -1123,12 +1366,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

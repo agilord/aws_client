@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-09-30.g.dart';
 
 /// <p/>
 class KinesisVideoMedia {
   final _s.RestJsonProtocol _protocol;
   KinesisVideoMedia({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -121,9 +114,9 @@ class KinesisVideoMedia {
   /// content. If you don't specify the <code>streamName</code>, you must
   /// specify the <code>streamARN</code>.
   Future<GetMediaOutput> getMedia({
-    @_s.required StartSelector startSelector,
-    String streamARN,
-    String streamName,
+    required StartSelector startSelector,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(startSelector, 'startSelector');
     _s.validateStringLength(
@@ -132,21 +125,11 @@ class KinesisVideoMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'StartSelector': startSelector,
@@ -167,15 +150,9 @@ class KinesisVideoMedia {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMediaOutput {
   /// The content type of the requested media.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// The payload Kinesis Video Streams returns is a sequence of chunks from the
   /// specified stream. For information about the chunks, see . The chunks that
@@ -249,16 +226,27 @@ class GetMediaOutput {
   /// 5000 - Internal error
   /// </li>
   /// </ul>
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   GetMediaOutput({
     this.contentType,
     this.payload,
   });
-  factory GetMediaOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMediaOutputFromJson(json);
+
+  factory GetMediaOutput.fromJson(Map<String, dynamic> json) {
+    return GetMediaOutput(
+      contentType: json['Content-Type'] as String?,
+      payload: _s.decodeNullableUint8List(json['Payload'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final payload = this.payload;
+    return {
+      if (payload != null) 'Payload': base64Encode(payload),
+    };
+  }
 }
 
 /// Identifies the chunk on the Kinesis video stream where you want the
@@ -281,11 +269,6 @@ class GetMediaOutput {
 /// starting where the last API ended.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartSelector {
   /// Identifies the fragment on the Kinesis video stream where you want to start
   /// getting the data from.
@@ -314,60 +297,112 @@ class StartSelector {
   /// <code>startSelectorType</code>, you don't provide any additional information
   /// in the <code>startSelector</code>.
   /// </note>
-  @_s.JsonKey(name: 'StartSelectorType')
   final StartSelectorType startSelectorType;
 
   /// Specifies the fragment number from where you want the <code>GetMedia</code>
   /// API to start returning the fragments.
-  @_s.JsonKey(name: 'AfterFragmentNumber')
-  final String afterFragmentNumber;
+  final String? afterFragmentNumber;
 
   /// Continuation token that Kinesis Video Streams returned in the previous
   /// <code>GetMedia</code> response. The <code>GetMedia</code> API then starts
   /// with the chunk identified by the continuation token.
-  @_s.JsonKey(name: 'ContinuationToken')
-  final String continuationToken;
+  final String? continuationToken;
 
   /// A timestamp value. This value is required if you choose the
   /// PRODUCER_TIMESTAMP or the SERVER_TIMESTAMP as the
   /// <code>startSelectorType</code>. The <code>GetMedia</code> API then starts
   /// with the chunk containing the fragment that has the specified timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
-  final DateTime startTimestamp;
+  final DateTime? startTimestamp;
 
   StartSelector({
-    @_s.required this.startSelectorType,
+    required this.startSelectorType,
     this.afterFragmentNumber,
     this.continuationToken,
     this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$StartSelectorToJson(this);
+
+  factory StartSelector.fromJson(Map<String, dynamic> json) {
+    return StartSelector(
+      startSelectorType:
+          (json['StartSelectorType'] as String).toStartSelectorType(),
+      afterFragmentNumber: json['AfterFragmentNumber'] as String?,
+      continuationToken: json['ContinuationToken'] as String?,
+      startTimestamp: timeStampFromJson(json['StartTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startSelectorType = this.startSelectorType;
+    final afterFragmentNumber = this.afterFragmentNumber;
+    final continuationToken = this.continuationToken;
+    final startTimestamp = this.startTimestamp;
+    return {
+      'StartSelectorType': startSelectorType.toValue(),
+      if (afterFragmentNumber != null)
+        'AfterFragmentNumber': afterFragmentNumber,
+      if (continuationToken != null) 'ContinuationToken': continuationToken,
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
 enum StartSelectorType {
-  @_s.JsonValue('FRAGMENT_NUMBER')
   fragmentNumber,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('NOW')
   now,
-  @_s.JsonValue('EARLIEST')
   earliest,
-  @_s.JsonValue('CONTINUATION_TOKEN')
   continuationToken,
 }
 
+extension on StartSelectorType {
+  String toValue() {
+    switch (this) {
+      case StartSelectorType.fragmentNumber:
+        return 'FRAGMENT_NUMBER';
+      case StartSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+      case StartSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case StartSelectorType.now:
+        return 'NOW';
+      case StartSelectorType.earliest:
+        return 'EARLIEST';
+      case StartSelectorType.continuationToken:
+        return 'CONTINUATION_TOKEN';
+    }
+  }
+}
+
+extension on String {
+  StartSelectorType toStartSelectorType() {
+    switch (this) {
+      case 'FRAGMENT_NUMBER':
+        return StartSelectorType.fragmentNumber;
+      case 'SERVER_TIMESTAMP':
+        return StartSelectorType.serverTimestamp;
+      case 'PRODUCER_TIMESTAMP':
+        return StartSelectorType.producerTimestamp;
+      case 'NOW':
+        return StartSelectorType.now;
+      case 'EARLIEST':
+        return StartSelectorType.earliest;
+      case 'CONTINUATION_TOKEN':
+        return StartSelectorType.continuationToken;
+    }
+    throw Exception('$this is not known in enum StartSelectorType');
+  }
+}
+
 class ClientLimitExceededException extends _s.GenericAwsException {
-  ClientLimitExceededException({String type, String message})
+  ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
 class ConnectionLimitExceededException extends _s.GenericAwsException {
-  ConnectionLimitExceededException({String type, String message})
+  ConnectionLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ConnectionLimitExceededException',
@@ -375,22 +410,22 @@ class ConnectionLimitExceededException extends _s.GenericAwsException {
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidEndpointException extends _s.GenericAwsException {
-  InvalidEndpointException({String type, String message})
+  InvalidEndpointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointException', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

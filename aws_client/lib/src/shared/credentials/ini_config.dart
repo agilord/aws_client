@@ -3,7 +3,7 @@ import 'dart:convert';
 class Config {
   final Map<String, Map<String, String>> _sections =
       <String, Map<String, String>>{};
-  List<String> _strings;
+  late List<String> _strings;
 
   static final RegExp _blankLinePattern = RegExp(r'^\s*$');
   static final RegExp _commentPattern = RegExp(r'^\s*[;#]');
@@ -50,12 +50,12 @@ class Config {
     for (final current in config._strings) {
       final isSection = _sectionPattern.firstMatch(current);
       if (isSection != null) {
-        section = isSection[1].trim();
+        section = isSection[1]!.trim();
         config.addSection(section);
       } else {
         final isEntry = _entryPattern.firstMatch(current);
         if (isEntry != null) {
-          config.set(section, isEntry[1].trim(), isEntry[2].trim());
+          config.set(section, isEntry[1]!.trim(), isEntry[2]!.trim());
         } else {
           throw Exception('Unrecognized line: "$current"');
         }
@@ -75,14 +75,14 @@ class Config {
 
   bool hasSection(String name) => _sections.containsKey(name);
 
-  Iterable<String> options(String name) => _getSection(name)?.keys;
+  Iterable<String>? options(String name) => _getSection(name)?.keys;
 
   bool hasOption(String name, String option) =>
-      (_getSection(name) ?? {})?.containsKey(option) ?? false;
+      (_getSection(name))?.containsKey(option) ?? false;
 
-  String get(String name, String option) => (_getSection(name) ?? {})[option];
+  String? get(String name, String option) => (_getSection(name) ?? {})[option];
 
-  List<List<String>> items(String name) {
+  List<List<String?>>? items(String name) {
     final s = _getSection(name);
     return s != null
         ? s.keys.map((String key) => [key, s[key]]).toList()
@@ -117,7 +117,7 @@ class Config {
     return false;
   }
 
-  Map<String, String> _getSection(String section) {
+  Map<String, String>? _getSection(String section) {
     if (_sections.containsKey(section)) {
       return _sections[section];
     }

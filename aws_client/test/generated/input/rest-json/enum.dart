@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,17 +11,11 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
@@ -28,10 +23,10 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 class Enum {
   final _s.RestJsonProtocol _protocol;
   Enum({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -43,23 +38,24 @@ class Enum {
         );
 
   Future<void> operationName0({
-    EnumType fooEnum,
-    EnumType headerEnum,
-    List<EnumType> listEnums,
-    EnumType queryFooEnum,
-    List<EnumType> queryListEnums,
+    EnumType? fooEnum,
+    EnumType? headerEnum,
+    List<EnumType>? listEnums,
+    EnumType? queryFooEnum,
+    List<EnumType>? queryListEnums,
   }) async {
-    final headers = <String, String>{};
-    headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
+    final headers = <String, String>{
+      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+    };
     final $query = <String, List<String>>{
       if (queryFooEnum != null) 'Enum': [queryFooEnum.toValue()],
       if (queryListEnums != null)
-        'List': queryListEnums.map((e) => e?.toValue() ?? '').toList(),
+        'List': queryListEnums.map((e) => e.toValue()).toList(),
     };
     final $payload = <String, dynamic>{
       if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
       if (listEnums != null)
-        'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
+        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
     };
     await _protocol.send(
       payload: $payload,
@@ -72,23 +68,24 @@ class Enum {
   }
 
   Future<void> operationName1({
-    EnumType fooEnum,
-    EnumType headerEnum,
-    List<EnumType> listEnums,
-    EnumType queryFooEnum,
-    List<EnumType> queryListEnums,
+    EnumType? fooEnum,
+    EnumType? headerEnum,
+    List<EnumType>? listEnums,
+    EnumType? queryFooEnum,
+    List<EnumType>? queryListEnums,
   }) async {
-    final headers = <String, String>{};
-    headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
+    final headers = <String, String>{
+      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+    };
     final $query = <String, List<String>>{
       if (queryFooEnum != null) 'Enum': [queryFooEnum.toValue()],
       if (queryListEnums != null)
-        'List': queryListEnums.map((e) => e?.toValue() ?? '').toList(),
+        'List': queryListEnums.map((e) => e.toValue()).toList(),
     };
     final $payload = <String, dynamic>{
       if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
       if (listEnums != null)
-        'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
+        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
     };
     await _protocol.send(
       payload: $payload,
@@ -102,15 +99,10 @@ class Enum {
 }
 
 enum EnumType {
-  @_s.JsonValue('foo')
   foo,
-  @_s.JsonValue('bar')
   bar,
-  @_s.JsonValue('baz')
   baz,
-  @_s.JsonValue('0')
   $0,
-  @_s.JsonValue('1')
   $1,
 }
 
@@ -128,7 +120,24 @@ extension on EnumType {
       case EnumType.$1:
         return '1';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EnumType toEnumType() {
+    switch (this) {
+      case 'foo':
+        return EnumType.foo;
+      case 'bar':
+        return EnumType.bar;
+      case 'baz':
+        return EnumType.baz;
+      case '0':
+        return EnumType.$0;
+      case '1':
+        return EnumType.$1;
+    }
+    throw Exception('$this is not known in enum EnumType');
   }
 }
 

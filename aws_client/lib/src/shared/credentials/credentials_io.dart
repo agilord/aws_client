@@ -4,11 +4,11 @@ import '../credentials.dart';
 import 'ini_config.dart';
 
 class CredentialsUtil {
-  static AwsClientCredentials resolve() {
+  static AwsClientCredentials? resolve() {
     return fromEnvironment ?? fromProfileFile;
   }
 
-  static AwsClientCredentials get fromEnvironment {
+  static AwsClientCredentials? get fromEnvironment {
     final environment = Platform.environment;
     final accessKey = environment['AWS_ACCESS_KEY_ID'];
     final secretKey = environment['AWS_SECRET_ACCESS_KEY'];
@@ -25,10 +25,10 @@ class CredentialsUtil {
     );
   }
 
-  static String get userHome =>
+  static String? get userHome =>
       Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
-  static AwsClientCredentials get fromProfileFile {
+  static AwsClientCredentials? get fromProfileFile {
     final environment = Platform.environment;
 
     final credentialsFile = File(

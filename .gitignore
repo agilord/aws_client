@@ -22,6 +22,3 @@ doc/api/
 *.iml
 *.ipr
 *.iws
-
-# Generated directories
-/generator/apis/

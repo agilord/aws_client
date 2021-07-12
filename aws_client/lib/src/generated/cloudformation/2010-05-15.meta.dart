@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_single_quotes
 const Map<String, Map<String, dynamic>> shapesJson = {
+  "AcceptTermsAndConditions": {"type": "boolean", "flattened": false},
   "Account": {"type": "string", "flattened": false},
   "AccountGateResult": {
     "type": "structure",
@@ -29,6 +30,30 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "Account"},
     "flattened": false
   },
+  "AccountsUrl": {"type": "string", "flattened": false},
+  "ActivateTypeInput": {
+    "type": "structure",
+    "members": {
+      "Type": {"shape": "ThirdPartyType", "flattened": false},
+      "PublicTypeArn": {"shape": "ThirdPartyTypeArn", "flattened": false},
+      "PublisherId": {"shape": "PublisherId", "flattened": false},
+      "TypeName": {"shape": "TypeName", "flattened": false},
+      "TypeNameAlias": {"shape": "TypeName", "flattened": false},
+      "AutoUpdate": {"shape": "AutoUpdate", "flattened": false},
+      "LoggingConfig": {"shape": "LoggingConfig", "flattened": false},
+      "ExecutionRoleArn": {"shape": "RoleArn", "flattened": false},
+      "VersionBump": {"shape": "VersionBump", "flattened": false},
+      "MajorVersion": {"shape": "MajorVersion", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ActivateTypeOutput": {
+    "type": "structure",
+    "members": {
+      "Arn": {"shape": "PrivateTypeArn", "flattened": false}
+    },
+    "flattened": false
+  },
   "AllowedValue": {"type": "string", "flattened": false},
   "AllowedValues": {
     "type": "list",
@@ -48,8 +73,55 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "AutoDeploymentNullable": {"type": "boolean", "flattened": false},
+  "AutoUpdate": {"type": "boolean", "flattened": false},
+  "BatchDescribeTypeConfigurationsError": {
+    "type": "structure",
+    "members": {
+      "ErrorCode": {"shape": "ErrorCode", "flattened": false},
+      "ErrorMessage": {"shape": "ErrorMessage", "flattened": false},
+      "TypeConfigurationIdentifier": {
+        "shape": "TypeConfigurationIdentifier",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "BatchDescribeTypeConfigurationsErrors": {
+    "type": "list",
+    "member": {"shape": "BatchDescribeTypeConfigurationsError"},
+    "flattened": false
+  },
+  "BatchDescribeTypeConfigurationsInput": {
+    "type": "structure",
+    "members": {
+      "TypeConfigurationIdentifiers": {
+        "shape": "TypeConfigurationIdentifiers",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "BatchDescribeTypeConfigurationsOutput": {
+    "type": "structure",
+    "members": {
+      "Errors": {
+        "shape": "BatchDescribeTypeConfigurationsErrors",
+        "flattened": false
+      },
+      "UnprocessedTypeConfigurations": {
+        "shape": "UnprocessedTypeConfigurations",
+        "flattened": false
+      },
+      "TypeConfigurations": {
+        "shape": "TypeConfigurationDetailsList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "BoxedInteger": {"type": "integer", "flattened": false},
   "BoxedMaxResults": {"type": "integer", "flattened": false},
+  "CallAs": {"type": "string", "flattened": false},
   "CancelUpdateStackInput": {
     "type": "structure",
     "members": {
@@ -65,6 +137,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "CapabilitiesReason": {"type": "string", "flattened": false},
   "Capability": {"type": "string", "flattened": false},
+  "Category": {"type": "string", "flattened": false},
   "CausingEntity": {"type": "string", "flattened": false},
   "Change": {
     "type": "structure",
@@ -116,6 +189,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "ClientRequestToken": {"type": "string", "flattened": false},
   "ClientToken": {"type": "string", "flattened": false},
+  "ConfigurationSchema": {"type": "string", "flattened": false},
+  "ConnectionArn": {"type": "string", "flattened": false},
   "ContinueUpdateRollbackInput": {
     "type": "structure",
     "members": {
@@ -212,7 +287,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "StackSetOperationPreferences",
         "flattened": false
       },
-      "OperationId": {"shape": "ClientRequestToken", "flattened": false}
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -244,6 +320,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ExecutionRoleName": {"shape": "ExecutionRoleName", "flattened": false},
       "PermissionModel": {"shape": "PermissionModels", "flattened": false},
       "AutoDeployment": {"shape": "AutoDeployment", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false},
       "ClientRequestToken": {"shape": "ClientRequestToken", "flattened": false}
     },
     "flattened": false
@@ -256,6 +333,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "CreationTime": {"type": "timestamp", "flattened": false},
+  "DeactivateTypeInput": {
+    "type": "structure",
+    "members": {
+      "TypeName": {"shape": "TypeName", "flattened": false},
+      "Type": {"shape": "ThirdPartyType", "flattened": false},
+      "Arn": {"shape": "PrivateTypeArn", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeactivateTypeOutput": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
   "DeleteChangeSetInput": {
     "type": "structure",
     "members": {
@@ -291,7 +382,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "RetainStacks": {"shape": "RetainStacks", "flattened": false},
-      "OperationId": {"shape": "ClientRequestToken", "flattened": false}
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -305,7 +397,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DeleteStackSetInput": {
     "type": "structure",
     "members": {
-      "StackSetName": {"shape": "StackSetName", "flattened": false}
+      "StackSetName": {"shape": "StackSetName", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -319,6 +412,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Accounts": {"shape": "AccountList", "flattened": false},
+      "AccountsUrl": {"shape": "AccountsUrl", "flattened": false},
       "OrganizationalUnitIds": {
         "shape": "OrganizationalUnitIdList",
         "flattened": false
@@ -397,6 +491,23 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribePublisherInput": {
+    "type": "structure",
+    "members": {
+      "PublisherId": {"shape": "PublisherId", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribePublisherOutput": {
+    "type": "structure",
+    "members": {
+      "PublisherId": {"shape": "PublisherId", "flattened": false},
+      "PublisherStatus": {"shape": "PublisherStatus", "flattened": false},
+      "IdentityProvider": {"shape": "IdentityProvider", "flattened": false},
+      "PublisherProfile": {"shape": "PublisherProfile", "flattened": false}
+    },
+    "flattened": false
+  },
   "DescribeStackDriftDetectionStatusInput": {
     "type": "structure",
     "members": {
@@ -453,7 +564,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "StackSetName": {"shape": "StackSetName", "flattened": false},
       "StackInstanceAccount": {"shape": "Account", "flattened": false},
-      "StackInstanceRegion": {"shape": "Region", "flattened": false}
+      "StackInstanceRegion": {"shape": "Region", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -525,7 +637,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DescribeStackSetInput": {
     "type": "structure",
     "members": {
-      "StackSetName": {"shape": "StackSetName", "flattened": false}
+      "StackSetName": {"shape": "StackSetName", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -533,7 +646,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "StackSetName": {"shape": "StackSetName", "flattened": false},
-      "OperationId": {"shape": "ClientRequestToken", "flattened": false}
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -573,7 +687,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Type": {"shape": "RegistryType", "flattened": false},
       "TypeName": {"shape": "TypeName", "flattened": false},
       "Arn": {"shape": "TypeArn", "flattened": false},
-      "VersionId": {"shape": "TypeVersionId", "flattened": false}
+      "VersionId": {"shape": "TypeVersionId", "flattened": false},
+      "PublisherId": {"shape": "PublisherId", "flattened": false},
+      "PublicVersionNumber": {
+        "shape": "PublicVersionNumber",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -585,17 +704,43 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "TypeName": {"shape": "TypeName", "flattened": false},
       "DefaultVersionId": {"shape": "TypeVersionId", "flattened": false},
       "IsDefaultVersion": {"shape": "IsDefaultVersion", "flattened": false},
+      "TypeTestsStatus": {"shape": "TypeTestsStatus", "flattened": false},
+      "TypeTestsStatusDescription": {
+        "shape": "TypeTestsStatusDescription",
+        "flattened": false
+      },
       "Description": {"shape": "Description", "flattened": false},
       "Schema": {"shape": "TypeSchema", "flattened": false},
       "ProvisioningType": {"shape": "ProvisioningType", "flattened": false},
       "DeprecatedStatus": {"shape": "DeprecatedStatus", "flattened": false},
       "LoggingConfig": {"shape": "LoggingConfig", "flattened": false},
+      "RequiredActivatedTypes": {
+        "shape": "RequiredActivatedTypes",
+        "flattened": false
+      },
       "ExecutionRoleArn": {"shape": "RoleArn", "flattened": false},
       "Visibility": {"shape": "Visibility", "flattened": false},
       "SourceUrl": {"shape": "OptionalSecureUrl", "flattened": false},
       "DocumentationUrl": {"shape": "OptionalSecureUrl", "flattened": false},
       "LastUpdated": {"shape": "Timestamp", "flattened": false},
-      "TimeCreated": {"shape": "Timestamp", "flattened": false}
+      "TimeCreated": {"shape": "Timestamp", "flattened": false},
+      "ConfigurationSchema": {
+        "shape": "ConfigurationSchema",
+        "flattened": false
+      },
+      "PublisherId": {"shape": "PublisherId", "flattened": false},
+      "OriginalTypeName": {"shape": "TypeName", "flattened": false},
+      "OriginalTypeArn": {"shape": "TypeArn", "flattened": false},
+      "PublicVersionNumber": {
+        "shape": "PublicVersionNumber",
+        "flattened": false
+      },
+      "LatestPublicVersion": {
+        "shape": "PublicVersionNumber",
+        "flattened": false
+      },
+      "IsActivated": {"shape": "IsActivated", "flattened": false},
+      "AutoUpdate": {"shape": "AutoUpdate", "flattened": false}
     },
     "flattened": false
   },
@@ -658,7 +803,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "StackSetOperationPreferences",
         "flattened": false
       },
-      "OperationId": {"shape": "ClientRequestToken", "flattened": false}
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -673,6 +819,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "DisableRollback": {"type": "boolean", "flattened": false},
   "DriftedStackInstancesCount": {"type": "integer", "flattened": false},
   "EnableTerminationProtection": {"type": "boolean", "flattened": false},
+  "ErrorCode": {"type": "string", "flattened": false},
+  "ErrorMessage": {"type": "string", "flattened": false},
   "EstimateTemplateCostInput": {
     "type": "structure",
     "members": {
@@ -763,7 +911,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "TemplateBody": {"shape": "TemplateBody", "flattened": false},
       "TemplateURL": {"shape": "TemplateURL", "flattened": false},
       "StackName": {"shape": "StackNameOrId", "flattened": false},
-      "StackSetName": {"shape": "StackSetNameOrId", "flattened": false}
+      "StackSetName": {"shape": "StackSetNameOrId", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -786,6 +935,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "HandlerErrorCode": {"type": "string", "flattened": false},
+  "IdentityProvider": {"type": "string", "flattened": false},
   "Imports": {
     "type": "list",
     "member": {"shape": "StackName"},
@@ -794,6 +944,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "InProgressStackInstancesCount": {"type": "integer", "flattened": false},
   "InSyncStackInstancesCount": {"type": "integer", "flattened": false},
   "IncludeNestedStacks": {"type": "boolean", "flattened": false},
+  "IsActivated": {"type": "boolean", "flattened": false},
+  "IsDefaultConfiguration": {"type": "boolean", "flattened": false},
   "IsDefaultVersion": {"type": "boolean", "flattened": false},
   "Key": {"type": "string", "flattened": false},
   "LastUpdatedTime": {"type": "timestamp", "flattened": false},
@@ -854,7 +1006,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxResults": {"shape": "MaxResults", "flattened": false},
       "Filters": {"shape": "StackInstanceFilters", "flattened": false},
       "StackInstanceAccount": {"shape": "Account", "flattened": false},
-      "StackInstanceRegion": {"shape": "Region", "flattened": false}
+      "StackInstanceRegion": {"shape": "Region", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -891,7 +1044,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StackSetName": {"shape": "StackSetName", "flattened": false},
       "OperationId": {"shape": "ClientRequestToken", "flattened": false},
       "NextToken": {"shape": "NextToken", "flattened": false},
-      "MaxResults": {"shape": "MaxResults", "flattened": false}
+      "MaxResults": {"shape": "MaxResults", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -911,7 +1065,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "StackSetName": {"shape": "StackSetName", "flattened": false},
       "NextToken": {"shape": "NextToken", "flattened": false},
-      "MaxResults": {"shape": "MaxResults", "flattened": false}
+      "MaxResults": {"shape": "MaxResults", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -928,7 +1083,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "NextToken": {"shape": "NextToken", "flattened": false},
       "MaxResults": {"shape": "MaxResults", "flattened": false},
-      "Status": {"shape": "StackSetStatus", "flattened": false}
+      "Status": {"shape": "StackSetStatus", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -987,10 +1143,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Type": {"shape": "RegistryType", "flattened": false},
       "TypeName": {"shape": "TypeName", "flattened": false},
-      "Arn": {"shape": "PrivateTypeArn", "flattened": false},
+      "Arn": {"shape": "TypeArn", "flattened": false},
       "MaxResults": {"shape": "MaxResults", "flattened": false},
       "NextToken": {"shape": "NextToken", "flattened": false},
-      "DeprecatedStatus": {"shape": "DeprecatedStatus", "flattened": false}
+      "DeprecatedStatus": {"shape": "DeprecatedStatus", "flattened": false},
+      "PublisherId": {"shape": "PublisherId", "flattened": false}
     },
     "flattened": false
   },
@@ -1012,6 +1169,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ProvisioningType": {"shape": "ProvisioningType", "flattened": false},
       "DeprecatedStatus": {"shape": "DeprecatedStatus", "flattened": false},
       "Type": {"shape": "RegistryType", "flattened": false},
+      "Filters": {"shape": "TypeFilters", "flattened": false},
       "MaxResults": {"shape": "MaxResults", "flattened": false},
       "NextToken": {"shape": "NextToken", "flattened": false}
     },
@@ -1041,6 +1199,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "LogicalResourceId"},
     "flattened": false
   },
+  "MajorVersion": {"type": "long", "flattened": false},
   "MaxConcurrentCount": {"type": "integer", "flattened": false},
   "MaxConcurrentPercentage": {"type": "integer", "flattened": false},
   "MaxResults": {"type": "integer", "flattened": false},
@@ -1169,6 +1328,31 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "PropertyPath": {"type": "string", "flattened": false},
   "PropertyValue": {"type": "string", "flattened": false},
   "ProvisioningType": {"type": "string", "flattened": false},
+  "PublicVersionNumber": {"type": "string", "flattened": false},
+  "PublishTypeInput": {
+    "type": "structure",
+    "members": {
+      "Type": {"shape": "ThirdPartyType", "flattened": false},
+      "Arn": {"shape": "PrivateTypeArn", "flattened": false},
+      "TypeName": {"shape": "TypeName", "flattened": false},
+      "PublicVersionNumber": {
+        "shape": "PublicVersionNumber",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PublishTypeOutput": {
+    "type": "structure",
+    "members": {
+      "PublicTypeArn": {"shape": "TypeArn", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PublisherId": {"type": "string", "flattened": false},
+  "PublisherName": {"type": "string", "flattened": false},
+  "PublisherProfile": {"type": "string", "flattened": false},
+  "PublisherStatus": {"type": "string", "flattened": false},
   "Reason": {"type": "string", "flattened": false},
   "RecordHandlerProgressInput": {
     "type": "structure",
@@ -1192,9 +1376,28 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Region": {"type": "string", "flattened": false},
+  "RegionConcurrencyType": {"type": "string", "flattened": false},
   "RegionList": {
     "type": "list",
     "member": {"shape": "Region"},
+    "flattened": false
+  },
+  "RegisterPublisherInput": {
+    "type": "structure",
+    "members": {
+      "AcceptTermsAndConditions": {
+        "shape": "AcceptTermsAndConditions",
+        "flattened": false
+      },
+      "ConnectionArn": {"shape": "ConnectionArn", "flattened": false}
+    },
+    "flattened": false
+  },
+  "RegisterPublisherOutput": {
+    "type": "structure",
+    "members": {
+      "PublisherId": {"shape": "PublisherId", "flattened": false}
+    },
     "flattened": false
   },
   "RegisterTypeInput": {
@@ -1226,6 +1429,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "RegistryType": {"type": "string", "flattened": false},
   "Replacement": {"type": "string", "flattened": false},
   "RequestToken": {"type": "string", "flattened": false},
+  "RequiredActivatedType": {
+    "type": "structure",
+    "members": {
+      "TypeNameAlias": {"shape": "TypeName", "flattened": false},
+      "OriginalTypeName": {"shape": "TypeName", "flattened": false},
+      "PublisherId": {"shape": "PublisherId", "flattened": false},
+      "SupportedMajorVersions": {
+        "shape": "SupportedMajorVersions",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "RequiredActivatedTypes": {
+    "type": "list",
+    "member": {"shape": "RequiredActivatedType"},
+    "flattened": false
+  },
   "RequiresRecreation": {"type": "string", "flattened": false},
   "ResourceAttribute": {"type": "string", "flattened": false},
   "ResourceChange": {
@@ -1369,6 +1590,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "RollbackTrigger"},
     "flattened": false
   },
+  "S3Bucket": {"type": "string", "flattened": false},
   "S3Url": {"type": "string", "flattened": false},
   "Scope": {
     "type": "list",
@@ -1381,6 +1603,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StackName": {"shape": "StackName", "flattened": false},
       "StackPolicyBody": {"shape": "StackPolicyBody", "flattened": false},
       "StackPolicyURL": {"shape": "StackPolicyURL", "flattened": false}
+    },
+    "flattened": false
+  },
+  "SetTypeConfigurationInput": {
+    "type": "structure",
+    "members": {
+      "TypeArn": {"shape": "TypeArn", "flattened": false},
+      "Configuration": {"shape": "TypeConfiguration", "flattened": false},
+      "ConfigurationAlias": {
+        "shape": "TypeConfigurationAlias",
+        "flattened": false
+      },
+      "TypeName": {"shape": "TypeName", "flattened": false},
+      "Type": {"shape": "ThirdPartyType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "SetTypeConfigurationOutput": {
+    "type": "structure",
+    "members": {
+      "ConfigurationArn": {"shape": "TypeConfigurationArn", "flattened": false}
     },
     "flattened": false
   },
@@ -1801,6 +2044,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "StackSetOperationPreferences": {
     "type": "structure",
     "members": {
+      "RegionConcurrencyType": {
+        "shape": "RegionConcurrencyType",
+        "flattened": false
+      },
       "RegionOrder": {"shape": "RegionList", "flattened": false},
       "FailureToleranceCount": {
         "shape": "FailureToleranceCount",
@@ -1926,13 +2173,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "StackSetName": {"shape": "StackSetName", "flattened": false},
-      "OperationId": {"shape": "ClientRequestToken", "flattened": false}
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
   "StopStackSetOperationOutput": {
     "type": "structure",
     "members": {},
+    "flattened": false
+  },
+  "SupportedMajorVersion": {"type": "integer", "flattened": false},
+  "SupportedMajorVersions": {
+    "type": "list",
+    "member": {"shape": "SupportedMajorVersion"},
     "flattened": false
   },
   "Tag": {
@@ -1969,6 +2223,26 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "TemplateStage": {"type": "string", "flattened": false},
   "TemplateURL": {"type": "string", "flattened": false},
+  "TestTypeInput": {
+    "type": "structure",
+    "members": {
+      "Arn": {"shape": "TypeArn", "flattened": false},
+      "Type": {"shape": "ThirdPartyType", "flattened": false},
+      "TypeName": {"shape": "TypeName", "flattened": false},
+      "VersionId": {"shape": "TypeVersionId", "flattened": false},
+      "LogDeliveryBucket": {"shape": "S3Bucket", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TestTypeOutput": {
+    "type": "structure",
+    "members": {
+      "TypeVersionArn": {"shape": "TypeArn", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ThirdPartyType": {"type": "string", "flattened": false},
+  "ThirdPartyTypeArn": {"type": "string", "flattened": false},
   "TimeoutMinutes": {"type": "integer", "flattened": false},
   "Timestamp": {"type": "timestamp", "flattened": false},
   "TotalStackInstancesCount": {"type": "integer", "flattened": false},
@@ -1980,8 +2254,64 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "Type": {"type": "string", "flattened": false},
   "TypeArn": {"type": "string", "flattened": false},
+  "TypeConfiguration": {"type": "string", "flattened": false},
+  "TypeConfigurationAlias": {"type": "string", "flattened": false},
+  "TypeConfigurationArn": {"type": "string", "flattened": false},
+  "TypeConfigurationDetails": {
+    "type": "structure",
+    "members": {
+      "Arn": {"shape": "TypeConfigurationArn", "flattened": false},
+      "Alias": {"shape": "TypeConfigurationAlias", "flattened": false},
+      "Configuration": {"shape": "TypeConfiguration", "flattened": false},
+      "LastUpdated": {"shape": "Timestamp", "flattened": false},
+      "TypeArn": {"shape": "TypeArn", "flattened": false},
+      "TypeName": {"shape": "TypeName", "flattened": false},
+      "IsDefaultConfiguration": {
+        "shape": "IsDefaultConfiguration",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "TypeConfigurationDetailsList": {
+    "type": "list",
+    "member": {"shape": "TypeConfigurationDetails"},
+    "flattened": false
+  },
+  "TypeConfigurationIdentifier": {
+    "type": "structure",
+    "members": {
+      "TypeArn": {"shape": "TypeArn", "flattened": false},
+      "TypeConfigurationAlias": {
+        "shape": "TypeConfigurationAlias",
+        "flattened": false
+      },
+      "TypeConfigurationArn": {
+        "shape": "TypeConfigurationArn",
+        "flattened": false
+      },
+      "Type": {"shape": "ThirdPartyType", "flattened": false},
+      "TypeName": {"shape": "TypeName", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TypeConfigurationIdentifiers": {
+    "type": "list",
+    "member": {"shape": "TypeConfigurationIdentifier"},
+    "flattened": false
+  },
+  "TypeFilters": {
+    "type": "structure",
+    "members": {
+      "Category": {"shape": "Category", "flattened": false},
+      "PublisherId": {"shape": "PublisherId", "flattened": false},
+      "TypeNamePrefix": {"shape": "TypeNamePrefix", "flattened": false}
+    },
+    "flattened": false
+  },
   "TypeHierarchy": {"type": "string", "flattened": false},
   "TypeName": {"type": "string", "flattened": false},
+  "TypeNamePrefix": {"type": "string", "flattened": false},
   "TypeSchema": {"type": "string", "flattened": false},
   "TypeSummaries": {
     "type": "list",
@@ -1996,10 +2326,25 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DefaultVersionId": {"shape": "TypeVersionId", "flattened": false},
       "TypeArn": {"shape": "TypeArn", "flattened": false},
       "LastUpdated": {"shape": "Timestamp", "flattened": false},
-      "Description": {"shape": "Description", "flattened": false}
+      "Description": {"shape": "Description", "flattened": false},
+      "PublisherId": {"shape": "PublisherId", "flattened": false},
+      "OriginalTypeName": {"shape": "TypeName", "flattened": false},
+      "PublicVersionNumber": {
+        "shape": "PublicVersionNumber",
+        "flattened": false
+      },
+      "LatestPublicVersion": {
+        "shape": "PublicVersionNumber",
+        "flattened": false
+      },
+      "PublisherIdentity": {"shape": "IdentityProvider", "flattened": false},
+      "PublisherName": {"shape": "PublisherName", "flattened": false},
+      "IsActivated": {"shape": "IsActivated", "flattened": false}
     },
     "flattened": false
   },
+  "TypeTestsStatus": {"type": "string", "flattened": false},
+  "TypeTestsStatusDescription": {"type": "string", "flattened": false},
   "TypeVersionId": {"type": "string", "flattened": false},
   "TypeVersionSummaries": {
     "type": "list",
@@ -2015,8 +2360,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "IsDefaultVersion": {"shape": "IsDefaultVersion", "flattened": false},
       "Arn": {"shape": "TypeArn", "flattened": false},
       "TimeCreated": {"shape": "Timestamp", "flattened": false},
-      "Description": {"shape": "Description", "flattened": false}
+      "Description": {"shape": "Description", "flattened": false},
+      "PublicVersionNumber": {
+        "shape": "PublicVersionNumber",
+        "flattened": false
+      }
     },
+    "flattened": false
+  },
+  "UnprocessedTypeConfigurations": {
+    "type": "list",
+    "member": {"shape": "TypeConfigurationIdentifier"},
     "flattened": false
   },
   "UpdateStackInput": {
@@ -2065,7 +2419,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "StackSetOperationPreferences",
         "flattened": false
       },
-      "OperationId": {"shape": "ClientRequestToken", "flattened": false}
+      "OperationId": {"shape": "ClientRequestToken", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -2108,7 +2463,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AutoDeployment": {"shape": "AutoDeployment", "flattened": false},
       "OperationId": {"shape": "ClientRequestToken", "flattened": false},
       "Accounts": {"shape": "AccountList", "flattened": false},
-      "Regions": {"shape": "RegionList", "flattened": false}
+      "Regions": {"shape": "RegionList", "flattened": false},
+      "CallAs": {"shape": "CallAs", "flattened": false}
     },
     "flattened": false
   },
@@ -2161,5 +2517,6 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "Value": {"type": "string", "flattened": false},
   "Version": {"type": "string", "flattened": false},
+  "VersionBump": {"type": "string", "flattened": false},
   "Visibility": {"type": "string", "flattened": false}
 };

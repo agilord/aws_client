@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2015-09-21.g.dart';
 
 /// Amazon Elastic Container Registry (Amazon ECR) is a managed container image
 /// registry service. Customers can use the familiar Docker CLI, or their
@@ -36,10 +29,10 @@ part '2015-09-21.g.dart';
 class Ecr {
   final _s.JsonProtocol _protocol;
   Ecr({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -78,9 +71,9 @@ class Ecr {
   /// layers to check. If you do not specify a registry, the default registry is
   /// assumed.
   Future<BatchCheckLayerAvailabilityResponse> batchCheckLayerAvailability({
-    @_s.required List<String> layerDigests,
-    @_s.required String repositoryName,
-    String registryId,
+    required List<String> layerDigests,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(layerDigests, 'layerDigests');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -90,17 +83,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -150,9 +132,9 @@ class Ecr {
   /// The AWS account ID associated with the registry that contains the image to
   /// delete. If you do not specify a registry, the default registry is assumed.
   Future<BatchDeleteImageResponse> batchDeleteImage({
-    @_s.required List<ImageIdentifier> imageIds,
-    @_s.required String repositoryName,
-    String registryId,
+    required List<ImageIdentifier> imageIds,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageIds, 'imageIds');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -162,17 +144,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -225,10 +196,10 @@ class Ecr {
   /// to describe. If you do not specify a registry, the default registry is
   /// assumed.
   Future<BatchGetImageResponse> batchGetImage({
-    @_s.required List<ImageIdentifier> imageIds,
-    @_s.required String repositoryName,
-    List<String> acceptedMediaTypes,
-    String registryId,
+    required List<ImageIdentifier> imageIds,
+    required String repositoryName,
+    List<String>? acceptedMediaTypes,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageIds, 'imageIds');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -238,17 +209,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -309,10 +269,10 @@ class Ecr {
   /// The AWS account ID associated with the registry to which to upload layers.
   /// If you do not specify a registry, the default registry is assumed.
   Future<CompleteLayerUploadResponse> completeLayerUpload({
-    @_s.required List<String> layerDigests,
-    @_s.required String repositoryName,
-    @_s.required String uploadId,
-    String registryId,
+    required List<String> layerDigests,
+    required String repositoryName,
+    required String uploadId,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(layerDigests, 'layerDigests');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -323,24 +283,7 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    _s.validateStringPattern(
-      'uploadId',
-      uploadId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload'
@@ -403,11 +346,11 @@ class Ecr {
   /// which you define. Tag keys can have a maximum character length of 128
   /// characters, and tag values can have a maximum length of 256 characters.
   Future<CreateRepositoryResponse> createRepository({
-    @_s.required String repositoryName,
-    EncryptionConfiguration encryptionConfiguration,
-    ImageScanningConfiguration imageScanningConfiguration,
-    ImageTagMutability imageTagMutability,
-    List<Tag> tags,
+    required String repositoryName,
+    EncryptionConfiguration? encryptionConfiguration,
+    ImageScanningConfiguration? imageScanningConfiguration,
+    ImageTagMutability? imageTagMutability,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -415,12 +358,6 @@ class Ecr {
       repositoryName,
       2,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -463,8 +400,8 @@ class Ecr {
   /// repository. If you do not specify a registry, the default registry is
   /// assumed.
   Future<DeleteLifecyclePolicyResponse> deleteLifecyclePolicy({
-    @_s.required String repositoryName,
-    String registryId,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -473,17 +410,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -548,9 +474,9 @@ class Ecr {
   /// repository to delete. If you do not specify a registry, the default
   /// registry is assumed.
   Future<DeleteRepositoryResponse> deleteRepository({
-    @_s.required String repositoryName,
-    bool force,
-    String registryId,
+    required String repositoryName,
+    bool? force,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -559,17 +485,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -607,8 +522,8 @@ class Ecr {
   /// repository policy to delete. If you do not specify a registry, the default
   /// registry is assumed.
   Future<DeleteRepositoryPolicyResponse> deleteRepositoryPolicy({
-    @_s.required String repositoryName,
-    String registryId,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -617,17 +532,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -686,11 +590,11 @@ class Ecr {
   /// repository in which to describe the image scan findings for. If you do not
   /// specify a registry, the default registry is assumed.
   Future<DescribeImageScanFindingsResponse> describeImageScanFindings({
-    @_s.required ImageIdentifier imageId,
-    @_s.required String repositoryName,
-    int maxResults,
-    String nextToken,
-    String registryId,
+    required ImageIdentifier imageId,
+    required String repositoryName,
+    int? maxResults,
+    String? nextToken,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -701,22 +605,11 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -791,12 +684,12 @@ class Ecr {
   /// repository in which to describe images. If you do not specify a registry,
   /// the default registry is assumed.
   Future<DescribeImagesResponse> describeImages({
-    @_s.required String repositoryName,
-    DescribeImagesFilter filter,
-    List<ImageIdentifier> imageIds,
-    int maxResults,
-    String nextToken,
-    String registryId,
+    required String repositoryName,
+    DescribeImagesFilter? filter,
+    List<ImageIdentifier>? imageIds,
+    int? maxResults,
+    String? nextToken,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -806,22 +699,11 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -911,21 +793,16 @@ class Ecr {
   /// A list of repositories to describe. If this parameter is omitted, then all
   /// repositories in a registry are described.
   Future<DescribeRepositoriesResponse> describeRepositories({
-    int maxResults,
-    String nextToken,
-    String registryId,
-    List<String> repositoryNames,
+    int? maxResults,
+    String? nextToken,
+    String? registryId,
+    List<String>? repositoryNames,
   }) async {
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -971,7 +848,7 @@ class Ecr {
   /// which to get AuthorizationData objects. If you do not specify a registry,
   /// the default registry is assumed.
   Future<GetAuthorizationTokenResponse> getAuthorizationToken({
-    List<String> registryIds,
+    List<String>? registryIds,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1022,17 +899,11 @@ class Ecr {
   /// layer to download. If you do not specify a registry, the default registry
   /// is assumed.
   Future<GetDownloadUrlForLayerResponse> getDownloadUrlForLayer({
-    @_s.required String layerDigest,
-    @_s.required String repositoryName,
-    String registryId,
+    required String layerDigest,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(layerDigest, 'layerDigest');
-    _s.validateStringPattern(
-      'layerDigest',
-      layerDigest,
-      r'''[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
       'repositoryName',
@@ -1040,17 +911,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1088,8 +948,8 @@ class Ecr {
   /// repository. If you do not specify a registry, the default registry is
   /// assumed.
   Future<GetLifecyclePolicyResponse> getLifecyclePolicy({
-    @_s.required String repositoryName,
-    String registryId,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1098,17 +958,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1176,12 +1025,12 @@ class Ecr {
   /// repository. If you do not specify a registry, the default registry is
   /// assumed.
   Future<GetLifecyclePolicyPreviewResponse> getLifecyclePolicyPreview({
-    @_s.required String repositoryName,
-    LifecyclePolicyPreviewFilter filter,
-    List<ImageIdentifier> imageIds,
-    int maxResults,
-    String nextToken,
-    String registryId,
+    required String repositoryName,
+    LifecyclePolicyPreviewFilter? filter,
+    List<ImageIdentifier>? imageIds,
+    int? maxResults,
+    String? nextToken,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1191,22 +1040,11 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1268,8 +1106,8 @@ class Ecr {
   /// repository. If you do not specify a registry, the default registry is
   /// assumed.
   Future<GetRepositoryPolicyResponse> getRepositoryPolicy({
-    @_s.required String repositoryName,
-    String registryId,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1278,17 +1116,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1334,8 +1161,8 @@ class Ecr {
   /// upload layers. If you do not specify a registry, the default registry is
   /// assumed.
   Future<InitiateLayerUploadResponse> initiateLayerUpload({
-    @_s.required String repositoryName,
-    String registryId,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1344,17 +1171,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1424,11 +1240,11 @@ class Ecr {
   /// repository in which to list images. If you do not specify a registry, the
   /// default registry is assumed.
   Future<ListImagesResponse> listImages({
-    @_s.required String repositoryName,
-    ListImagesFilter filter,
-    int maxResults,
-    String nextToken,
-    String registryId,
+    required String repositoryName,
+    ListImagesFilter? filter,
+    int? maxResults,
+    String? nextToken,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1438,22 +1254,11 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       1000,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1488,7 +1293,7 @@ class Ecr {
   /// list the tags. Currently, the only supported resource is an Amazon ECR
   /// repository.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
@@ -1555,12 +1360,12 @@ class Ecr {
   /// repository in which to put the image. If you do not specify a registry,
   /// the default registry is assumed.
   Future<PutImageResponse> putImage({
-    @_s.required String imageManifest,
-    @_s.required String repositoryName,
-    String imageDigest,
-    String imageManifestMediaType,
-    String imageTag,
-    String registryId,
+    required String imageManifest,
+    required String repositoryName,
+    String? imageDigest,
+    String? imageManifestMediaType,
+    String? imageTag,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageManifest, 'imageManifest');
     _s.validateStringLength(
@@ -1578,22 +1383,11 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'imageTag',
       imageTag,
       1,
       300,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1639,9 +1433,9 @@ class Ecr {
   /// repository in which to update the image scanning configuration setting. If
   /// you do not specify a registry, the default registry is assumed.
   Future<PutImageScanningConfigurationResponse> putImageScanningConfiguration({
-    @_s.required ImageScanningConfiguration imageScanningConfiguration,
-    @_s.required String repositoryName,
-    String registryId,
+    required ImageScanningConfiguration imageScanningConfiguration,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(
         imageScanningConfiguration, 'imageScanningConfiguration');
@@ -1652,17 +1446,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1710,9 +1493,9 @@ class Ecr {
   /// repository in which to update the image tag mutability settings. If you do
   /// not specify a registry, the default registry is assumed.
   Future<PutImageTagMutabilityResponse> putImageTagMutability({
-    @_s.required ImageTagMutability imageTagMutability,
-    @_s.required String repositoryName,
-    String registryId,
+    required ImageTagMutability imageTagMutability,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageTagMutability, 'imageTagMutability');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -1722,17 +1505,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1746,7 +1518,7 @@ class Ecr {
       // TODO queryParams
       headers: headers,
       payload: {
-        'imageTagMutability': imageTagMutability?.toValue() ?? '',
+        'imageTagMutability': imageTagMutability.toValue(),
         'repositoryName': repositoryName,
         if (registryId != null) 'registryId': registryId,
       },
@@ -1775,9 +1547,9 @@ class Ecr {
   /// repository. If you do&#x2028; not specify a registry, the default registry
   /// is assumed.
   Future<PutLifecyclePolicyResponse> putLifecyclePolicy({
-    @_s.required String lifecyclePolicyText,
-    @_s.required String repositoryName,
-    String registryId,
+    required String lifecyclePolicyText,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(lifecyclePolicyText, 'lifecyclePolicyText');
     _s.validateStringLength(
@@ -1794,17 +1566,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1845,7 +1606,7 @@ class Ecr {
   /// permissions</a> in the <i>Amazon Elastic Container Registry User
   /// Guide</i>.
   Future<PutRegistryPolicyResponse> putRegistryPolicy({
-    @_s.required String policyText,
+    required String policyText,
   }) async {
     ArgumentError.checkNotNull(policyText, 'policyText');
     _s.validateStringLength(
@@ -1896,7 +1657,7 @@ class Ecr {
   /// Parameter [replicationConfiguration] :
   /// An object representing the replication configuration for a registry.
   Future<PutReplicationConfigurationResponse> putReplicationConfiguration({
-    @_s.required ReplicationConfiguration replicationConfiguration,
+    required ReplicationConfiguration replicationConfiguration,
   }) async {
     ArgumentError.checkNotNull(
         replicationConfiguration, 'replicationConfiguration');
@@ -1950,10 +1711,10 @@ class Ecr {
   /// repository. If you do not specify a registry, the default registry is
   /// assumed.
   Future<SetRepositoryPolicyResponse> setRepositoryPolicy({
-    @_s.required String policyText,
-    @_s.required String repositoryName,
-    bool force,
-    String registryId,
+    required String policyText,
+    required String repositoryName,
+    bool? force,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(policyText, 'policyText');
     _s.validateStringLength(
@@ -1970,17 +1731,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2024,9 +1774,9 @@ class Ecr {
   /// repository in which to start an image scan request. If you do not specify
   /// a registry, the default registry is assumed.
   Future<StartImageScanResponse> startImageScan({
-    @_s.required ImageIdentifier imageId,
-    @_s.required String repositoryName,
-    String registryId,
+    required ImageIdentifier imageId,
+    required String repositoryName,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -2036,17 +1786,6 @@ class Ecr {
       2,
       256,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2090,9 +1829,9 @@ class Ecr {
   /// repository. If you do not specify a registry, the default registry is
   /// assumed.
   Future<StartLifecyclePolicyPreviewResponse> startLifecyclePolicyPreview({
-    @_s.required String repositoryName,
-    String lifecyclePolicyText,
-    String registryId,
+    required String repositoryName,
+    String? lifecyclePolicyText,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -2102,22 +1841,11 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'lifecyclePolicyText',
       lifecyclePolicyText,
       100,
       30720,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2160,8 +1888,8 @@ class Ecr {
   /// keys can have a maximum character length of 128 characters, and tag values
   /// can have a maximum length of 256 characters.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2169,7 +1897,7 @@ class Ecr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2180,8 +1908,6 @@ class Ecr {
         'tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes specified tags from a resource.
@@ -2199,8 +1925,8 @@ class Ecr {
   /// Parameter [tagKeys] :
   /// The keys of the tags to be removed.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2208,7 +1934,7 @@ class Ecr {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2219,8 +1945,6 @@ class Ecr {
         'tagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Uploads an image layer part to Amazon ECR.
@@ -2266,12 +1990,12 @@ class Ecr {
   /// layer parts. If you do not specify a registry, the default registry is
   /// assumed.
   Future<UploadLayerPartResponse> uploadLayerPart({
-    @_s.required Uint8List layerPartBlob,
-    @_s.required int partFirstByte,
-    @_s.required int partLastByte,
-    @_s.required String repositoryName,
-    @_s.required String uploadId,
-    String registryId,
+    required Uint8List layerPartBlob,
+    required int partFirstByte,
+    required int partLastByte,
+    required String repositoryName,
+    required String uploadId,
+    String? registryId,
   }) async {
     ArgumentError.checkNotNull(layerPartBlob, 'layerPartBlob');
     ArgumentError.checkNotNull(partFirstByte, 'partFirstByte');
@@ -2298,24 +2022,7 @@ class Ecr {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    _s.validateStringPattern(
-      'uploadId',
-      uploadId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'registryId',
-      registryId,
-      r'''[0-9]{12}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.UploadLayerPart'
@@ -2327,7 +2034,7 @@ class Ecr {
       // TODO queryParams
       headers: headers,
       payload: {
-        'layerPartBlob': layerPartBlob?.let(base64Encode),
+        'layerPartBlob': base64Encode(layerPartBlob),
         'partFirstByte': partFirstByte,
         'partLastByte': partLastByte,
         'repositoryName': repositoryName,
@@ -2341,154 +2048,199 @@ class Ecr {
 }
 
 /// This data type is used in the <a>ImageScanFinding</a> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Attribute {
   /// The attribute key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The value assigned to the attribute key.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Attribute({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Attribute.fromJson(Map<String, dynamic> json) =>
-      _$AttributeFromJson(json);
+
+  factory Attribute.fromJson(Map<String, dynamic> json) {
+    return Attribute(
+      key: json['key'] as String,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// An object representing authorization data for an Amazon ECR registry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AuthorizationData {
   /// A base64-encoded string that contains authorization data for the specified
   /// Amazon ECR registry. When the string is decoded, it is presented in the
   /// format <code>user:password</code> for private registry authentication using
   /// <code>docker login</code>.
-  @_s.JsonKey(name: 'authorizationToken')
-  final String authorizationToken;
+  final String? authorizationToken;
 
   /// The Unix time in seconds and milliseconds when the authorization token
   /// expires. Authorization tokens are valid for 12 hours.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expiresAt')
-  final DateTime expiresAt;
+  final DateTime? expiresAt;
 
   /// The registry URL to use for this authorization token in a <code>docker
   /// login</code> command. The Amazon ECR registry URL format is
   /// <code>https://aws_account_id.dkr.ecr.region.amazonaws.com</code>. For
   /// example, <code>https://012345678910.dkr.ecr.us-east-1.amazonaws.com</code>..
-  @_s.JsonKey(name: 'proxyEndpoint')
-  final String proxyEndpoint;
+  final String? proxyEndpoint;
 
   AuthorizationData({
     this.authorizationToken,
     this.expiresAt,
     this.proxyEndpoint,
   });
-  factory AuthorizationData.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizationDataFromJson(json);
+
+  factory AuthorizationData.fromJson(Map<String, dynamic> json) {
+    return AuthorizationData(
+      authorizationToken: json['authorizationToken'] as String?,
+      expiresAt: timeStampFromJson(json['expiresAt']),
+      proxyEndpoint: json['proxyEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationToken = this.authorizationToken;
+    final expiresAt = this.expiresAt;
+    final proxyEndpoint = this.proxyEndpoint;
+    return {
+      if (authorizationToken != null) 'authorizationToken': authorizationToken,
+      if (expiresAt != null) 'expiresAt': unixTimestampToJson(expiresAt),
+      if (proxyEndpoint != null) 'proxyEndpoint': proxyEndpoint,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchCheckLayerAvailabilityResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<LayerFailure> failures;
+  final List<LayerFailure>? failures;
 
   /// A list of image layer objects corresponding to the image layer references in
   /// the request.
-  @_s.JsonKey(name: 'layers')
-  final List<Layer> layers;
+  final List<Layer>? layers;
 
   BatchCheckLayerAvailabilityResponse({
     this.failures,
     this.layers,
   });
+
   factory BatchCheckLayerAvailabilityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchCheckLayerAvailabilityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchCheckLayerAvailabilityResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => LayerFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      layers: (json['layers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Layer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    final layers = this.layers;
+    return {
+      if (failures != null) 'failures': failures,
+      if (layers != null) 'layers': layers,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteImageResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<ImageFailure> failures;
+  final List<ImageFailure>? failures;
 
   /// The image IDs of the deleted images.
-  @_s.JsonKey(name: 'imageIds')
-  final List<ImageIdentifier> imageIds;
+  final List<ImageIdentifier>? imageIds;
 
   BatchDeleteImageResponse({
     this.failures,
     this.imageIds,
   });
-  factory BatchDeleteImageResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteImageResponseFromJson(json);
+
+  factory BatchDeleteImageResponse.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteImageResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImageFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      imageIds: (json['imageIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImageIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    final imageIds = this.imageIds;
+    return {
+      if (failures != null) 'failures': failures,
+      if (imageIds != null) 'imageIds': imageIds,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetImageResponse {
   /// Any failures associated with the call.
-  @_s.JsonKey(name: 'failures')
-  final List<ImageFailure> failures;
+  final List<ImageFailure>? failures;
 
   /// A list of image objects corresponding to the image references in the
   /// request.
-  @_s.JsonKey(name: 'images')
-  final List<Image> images;
+  final List<Image>? images;
 
   BatchGetImageResponse({
     this.failures,
     this.images,
   });
-  factory BatchGetImageResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetImageResponseFromJson(json);
+
+  factory BatchGetImageResponse.fromJson(Map<String, dynamic> json) {
+    return BatchGetImageResponse(
+      failures: (json['failures'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImageFailure.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      images: (json['images'] as List?)
+          ?.whereNotNull()
+          .map((e) => Image.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failures = this.failures;
+    final images = this.images;
+    return {
+      if (failures != null) 'failures': failures,
+      if (images != null) 'images': images,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompleteLayerUploadResponse {
   /// The <code>sha256</code> digest of the image layer.
-  @_s.JsonKey(name: 'layerDigest')
-  final String layerDigest;
+  final String? layerDigest;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The upload ID associated with the layer.
-  @_s.JsonKey(name: 'uploadId')
-  final String uploadId;
+  final String? uploadId;
 
   CompleteLayerUploadResponse({
     this.layerDigest,
@@ -2496,49 +2248,66 @@ class CompleteLayerUploadResponse {
     this.repositoryName,
     this.uploadId,
   });
-  factory CompleteLayerUploadResponse.fromJson(Map<String, dynamic> json) =>
-      _$CompleteLayerUploadResponseFromJson(json);
+
+  factory CompleteLayerUploadResponse.fromJson(Map<String, dynamic> json) {
+    return CompleteLayerUploadResponse(
+      layerDigest: json['layerDigest'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      uploadId: json['uploadId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final layerDigest = this.layerDigest;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    final uploadId = this.uploadId;
+    return {
+      if (layerDigest != null) 'layerDigest': layerDigest,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (uploadId != null) 'uploadId': uploadId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRepositoryResponse {
   /// The repository that was created.
-  @_s.JsonKey(name: 'repository')
-  final Repository repository;
+  final Repository? repository;
 
   CreateRepositoryResponse({
     this.repository,
   });
-  factory CreateRepositoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRepositoryResponseFromJson(json);
+
+  factory CreateRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRepositoryResponse(
+      repository: json['repository'] != null
+          ? Repository.fromJson(json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastEvaluatedAt')
-  final DateTime lastEvaluatedAt;
+  final DateTime? lastEvaluatedAt;
 
   /// The JSON lifecycle policy text.
-  @_s.JsonKey(name: 'lifecyclePolicyText')
-  final String lifecyclePolicyText;
+  final String? lifecyclePolicyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   DeleteLifecyclePolicyResponse({
     this.lastEvaluatedAt,
@@ -2546,108 +2315,142 @@ class DeleteLifecyclePolicyResponse {
     this.registryId,
     this.repositoryName,
   });
-  factory DeleteLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLifecyclePolicyResponseFromJson(json);
+
+  factory DeleteLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteLifecyclePolicyResponse(
+      lastEvaluatedAt: timeStampFromJson(json['lastEvaluatedAt']),
+      lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastEvaluatedAt = this.lastEvaluatedAt;
+    final lifecyclePolicyText = this.lifecyclePolicyText;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (lastEvaluatedAt != null)
+        'lastEvaluatedAt': unixTimestampToJson(lastEvaluatedAt),
+      if (lifecyclePolicyText != null)
+        'lifecyclePolicyText': lifecyclePolicyText,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRegistryPolicyResponse {
   /// The contents of the registry permissions policy that was deleted.
-  @_s.JsonKey(name: 'policyText')
-  final String policyText;
+  final String? policyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   DeleteRegistryPolicyResponse({
     this.policyText,
     this.registryId,
   });
-  factory DeleteRegistryPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRegistryPolicyResponseFromJson(json);
+
+  factory DeleteRegistryPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRegistryPolicyResponse(
+      policyText: json['policyText'] as String?,
+      registryId: json['registryId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    final registryId = this.registryId;
+    return {
+      if (policyText != null) 'policyText': policyText,
+      if (registryId != null) 'registryId': registryId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRepositoryPolicyResponse {
   /// The JSON repository policy that was deleted from the repository.
-  @_s.JsonKey(name: 'policyText')
-  final String policyText;
+  final String? policyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   DeleteRepositoryPolicyResponse({
     this.policyText,
     this.registryId,
     this.repositoryName,
   });
-  factory DeleteRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRepositoryPolicyResponseFromJson(json);
+
+  factory DeleteRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRepositoryPolicyResponse(
+      policyText: json['policyText'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (policyText != null) 'policyText': policyText,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRepositoryResponse {
   /// The repository that was deleted.
-  @_s.JsonKey(name: 'repository')
-  final Repository repository;
+  final Repository? repository;
 
   DeleteRepositoryResponse({
     this.repository,
   });
-  factory DeleteRepositoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRepositoryResponseFromJson(json);
+
+  factory DeleteRepositoryResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteRepositoryResponse(
+      repository: json['repository'] != null
+          ? Repository.fromJson(json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeImageScanFindingsResponse {
-  @_s.JsonKey(name: 'imageId')
-  final ImageIdentifier imageId;
+  final ImageIdentifier? imageId;
 
   /// The information contained in the image scan findings.
-  @_s.JsonKey(name: 'imageScanFindings')
-  final ImageScanFindings imageScanFindings;
+  final ImageScanFindings? imageScanFindings;
 
   /// The current state of the scan.
-  @_s.JsonKey(name: 'imageScanStatus')
-  final ImageScanStatus imageScanStatus;
+  final ImageScanStatus? imageScanStatus;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeImageScanFindings</code> request. When the results of a
   /// <code>DescribeImageScanFindings</code> request exceed
   /// <code>maxResults</code>, this value can be used to retrieve the next page of
   /// results. This value is null when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   DescribeImageScanFindingsResponse({
     this.imageId,
@@ -2657,102 +2460,173 @@ class DescribeImageScanFindingsResponse {
     this.registryId,
     this.repositoryName,
   });
+
   factory DescribeImageScanFindingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeImageScanFindingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeImageScanFindingsResponse(
+      imageId: json['imageId'] != null
+          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
+          : null,
+      imageScanFindings: json['imageScanFindings'] != null
+          ? ImageScanFindings.fromJson(
+              json['imageScanFindings'] as Map<String, dynamic>)
+          : null,
+      imageScanStatus: json['imageScanStatus'] != null
+          ? ImageScanStatus.fromJson(
+              json['imageScanStatus'] as Map<String, dynamic>)
+          : null,
+      nextToken: json['nextToken'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    final imageScanFindings = this.imageScanFindings;
+    final imageScanStatus = this.imageScanStatus;
+    final nextToken = this.nextToken;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (imageId != null) 'imageId': imageId,
+      if (imageScanFindings != null) 'imageScanFindings': imageScanFindings,
+      if (imageScanStatus != null) 'imageScanStatus': imageScanStatus,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// An object representing a filter on a <a>DescribeImages</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DescribeImagesFilter {
   /// The tag status with which to filter your <a>DescribeImages</a> results. You
   /// can filter results based on whether they are <code>TAGGED</code> or
   /// <code>UNTAGGED</code>.
-  @_s.JsonKey(name: 'tagStatus')
-  final TagStatus tagStatus;
+  final TagStatus? tagStatus;
 
   DescribeImagesFilter({
     this.tagStatus,
   });
-  Map<String, dynamic> toJson() => _$DescribeImagesFilterToJson(this);
+
+  factory DescribeImagesFilter.fromJson(Map<String, dynamic> json) {
+    return DescribeImagesFilter(
+      tagStatus: (json['tagStatus'] as String?)?.toTagStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagStatus = this.tagStatus;
+    return {
+      if (tagStatus != null) 'tagStatus': tagStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeImagesResponse {
   /// A list of <a>ImageDetail</a> objects that contain data about the image.
-  @_s.JsonKey(name: 'imageDetails')
-  final List<ImageDetail> imageDetails;
+  final List<ImageDetail>? imageDetails;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeImages</code> request. When the results of a
   /// <code>DescribeImages</code> request exceed <code>maxResults</code>, this
   /// value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeImagesResponse({
     this.imageDetails,
     this.nextToken,
   });
-  factory DescribeImagesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeImagesResponseFromJson(json);
+
+  factory DescribeImagesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeImagesResponse(
+      imageDetails: (json['imageDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImageDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageDetails = this.imageDetails;
+    final nextToken = this.nextToken;
+    return {
+      if (imageDetails != null) 'imageDetails': imageDetails,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRegistryResponse {
   /// The ID of the registry.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The replication configuration for the registry.
-  @_s.JsonKey(name: 'replicationConfiguration')
-  final ReplicationConfiguration replicationConfiguration;
+  final ReplicationConfiguration? replicationConfiguration;
 
   DescribeRegistryResponse({
     this.registryId,
     this.replicationConfiguration,
   });
-  factory DescribeRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRegistryResponseFromJson(json);
+
+  factory DescribeRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRegistryResponse(
+      registryId: json['registryId'] as String?,
+      replicationConfiguration: json['replicationConfiguration'] != null
+          ? ReplicationConfiguration.fromJson(
+              json['replicationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registryId = this.registryId;
+    final replicationConfiguration = this.replicationConfiguration;
+    return {
+      if (registryId != null) 'registryId': registryId,
+      if (replicationConfiguration != null)
+        'replicationConfiguration': replicationConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRepositoriesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeRepositories</code> request. When the results of a
   /// <code>DescribeRepositories</code> request exceed <code>maxResults</code>,
   /// this value can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of repository objects corresponding to valid repositories.
-  @_s.JsonKey(name: 'repositories')
-  final List<Repository> repositories;
+  final List<Repository>? repositories;
 
   DescribeRepositoriesResponse({
     this.nextToken,
     this.repositories,
   });
-  factory DescribeRepositoriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRepositoriesResponseFromJson(json);
+
+  factory DescribeRepositoriesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRepositoriesResponse(
+      nextToken: json['nextToken'] as String?,
+      repositories: (json['repositories'] as List?)
+          ?.whereNotNull()
+          .map((e) => Repository.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final repositories = this.repositories;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (repositories != null) 'repositories': repositories,
+    };
+  }
 }
 
 /// The encryption configuration for the repository. This determines how the
@@ -2771,11 +2645,6 @@ class DescribeRepositoriesResponse {
 /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html">Amazon
 /// ECR encryption at rest</a> in the <i>Amazon Elastic Container Registry User
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionConfiguration {
   /// The encryption type to use.
   ///
@@ -2798,97 +2667,170 @@ class EncryptionConfiguration {
   /// Data Using Server-Side Encryption with Amazon S3-Managed Encryption Keys
   /// (SSE-S3)</a> in the <i>Amazon Simple Storage Service Console Developer
   /// Guide.</i>.
-  @_s.JsonKey(name: 'encryptionType')
   final EncryptionType encryptionType;
 
   /// If you use the <code>KMS</code> encryption type, specify the CMK to use for
   /// encryption. The alias, key ID, or full ARN of the CMK can be specified. The
   /// key must exist in the same Region as the repository. If no key is specified,
   /// the default AWS managed CMK for Amazon ECR will be used.
-  @_s.JsonKey(name: 'kmsKey')
-  final String kmsKey;
+  final String? kmsKey;
 
   EncryptionConfiguration({
-    @_s.required this.encryptionType,
+    required this.encryptionType,
     this.kmsKey,
   });
-  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionConfigurationToJson(this);
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      encryptionType: (json['encryptionType'] as String).toEncryptionType(),
+      kmsKey: json['kmsKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final kmsKey = this.kmsKey;
+    return {
+      'encryptionType': encryptionType.toValue(),
+      if (kmsKey != null) 'kmsKey': kmsKey,
+    };
+  }
 }
 
 enum EncryptionType {
-  @_s.JsonValue('AES256')
   aes256,
-  @_s.JsonValue('KMS')
   kms,
 }
 
+extension on EncryptionType {
+  String toValue() {
+    switch (this) {
+      case EncryptionType.aes256:
+        return 'AES256';
+      case EncryptionType.kms:
+        return 'KMS';
+    }
+  }
+}
+
+extension on String {
+  EncryptionType toEncryptionType() {
+    switch (this) {
+      case 'AES256':
+        return EncryptionType.aes256;
+      case 'KMS':
+        return EncryptionType.kms;
+    }
+    throw Exception('$this is not known in enum EncryptionType');
+  }
+}
+
 enum FindingSeverity {
-  @_s.JsonValue('INFORMATIONAL')
   informational,
-  @_s.JsonValue('LOW')
   low,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('HIGH')
   high,
-  @_s.JsonValue('CRITICAL')
   critical,
-  @_s.JsonValue('UNDEFINED')
   undefined,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FindingSeverity {
+  String toValue() {
+    switch (this) {
+      case FindingSeverity.informational:
+        return 'INFORMATIONAL';
+      case FindingSeverity.low:
+        return 'LOW';
+      case FindingSeverity.medium:
+        return 'MEDIUM';
+      case FindingSeverity.high:
+        return 'HIGH';
+      case FindingSeverity.critical:
+        return 'CRITICAL';
+      case FindingSeverity.undefined:
+        return 'UNDEFINED';
+    }
+  }
+}
+
+extension on String {
+  FindingSeverity toFindingSeverity() {
+    switch (this) {
+      case 'INFORMATIONAL':
+        return FindingSeverity.informational;
+      case 'LOW':
+        return FindingSeverity.low;
+      case 'MEDIUM':
+        return FindingSeverity.medium;
+      case 'HIGH':
+        return FindingSeverity.high;
+      case 'CRITICAL':
+        return FindingSeverity.critical;
+      case 'UNDEFINED':
+        return FindingSeverity.undefined;
+    }
+    throw Exception('$this is not known in enum FindingSeverity');
+  }
+}
+
 class GetAuthorizationTokenResponse {
   /// A list of authorization token data objects that correspond to the
   /// <code>registryIds</code> values in the request.
-  @_s.JsonKey(name: 'authorizationData')
-  final List<AuthorizationData> authorizationData;
+  final List<AuthorizationData>? authorizationData;
 
   GetAuthorizationTokenResponse({
     this.authorizationData,
   });
-  factory GetAuthorizationTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAuthorizationTokenResponseFromJson(json);
+
+  factory GetAuthorizationTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetAuthorizationTokenResponse(
+      authorizationData: (json['authorizationData'] as List?)
+          ?.whereNotNull()
+          .map((e) => AuthorizationData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationData = this.authorizationData;
+    return {
+      if (authorizationData != null) 'authorizationData': authorizationData,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDownloadUrlForLayerResponse {
   /// The pre-signed Amazon S3 download URL for the requested layer.
-  @_s.JsonKey(name: 'downloadUrl')
-  final String downloadUrl;
+  final String? downloadUrl;
 
   /// The digest of the image layer to download.
-  @_s.JsonKey(name: 'layerDigest')
-  final String layerDigest;
+  final String? layerDigest;
 
   GetDownloadUrlForLayerResponse({
     this.downloadUrl,
     this.layerDigest,
   });
-  factory GetDownloadUrlForLayerResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDownloadUrlForLayerResponseFromJson(json);
+
+  factory GetDownloadUrlForLayerResponse.fromJson(Map<String, dynamic> json) {
+    return GetDownloadUrlForLayerResponse(
+      downloadUrl: json['downloadUrl'] as String?,
+      layerDigest: json['layerDigest'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final downloadUrl = this.downloadUrl;
+    final layerDigest = this.layerDigest;
+    return {
+      if (downloadUrl != null) 'downloadUrl': downloadUrl,
+      if (layerDigest != null) 'layerDigest': layerDigest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLifecyclePolicyPreviewResponse {
   /// The JSON lifecycle policy text.
-  @_s.JsonKey(name: 'lifecyclePolicyText')
-  final String lifecyclePolicyText;
+  final String? lifecyclePolicyText;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>GetLifecyclePolicyPreview</code> request. When the results of a
@@ -2896,28 +2838,22 @@ class GetLifecyclePolicyPreviewResponse {
   /// <code>maxResults</code>, this value can be used to retrieve the next page of
   /// results. This value is <code>null</code> when there are no more results to
   /// return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The results of the lifecycle policy preview request.
-  @_s.JsonKey(name: 'previewResults')
-  final List<LifecyclePolicyPreviewResult> previewResults;
+  final List<LifecyclePolicyPreviewResult>? previewResults;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The status of the lifecycle policy preview request.
-  @_s.JsonKey(name: 'status')
-  final LifecyclePolicyPreviewStatus status;
+  final LifecyclePolicyPreviewStatus? status;
 
   /// The list of images that is returned as a result of the action.
-  @_s.JsonKey(name: 'summary')
-  final LifecyclePolicyPreviewSummary summary;
+  final LifecyclePolicyPreviewSummary? summary;
 
   GetLifecyclePolicyPreviewResponse({
     this.lifecyclePolicyText,
@@ -2928,33 +2864,60 @@ class GetLifecyclePolicyPreviewResponse {
     this.status,
     this.summary,
   });
+
   factory GetLifecyclePolicyPreviewResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetLifecyclePolicyPreviewResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetLifecyclePolicyPreviewResponse(
+      lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+      nextToken: json['nextToken'] as String?,
+      previewResults: (json['previewResults'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LifecyclePolicyPreviewResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      status: (json['status'] as String?)?.toLifecyclePolicyPreviewStatus(),
+      summary: json['summary'] != null
+          ? LifecyclePolicyPreviewSummary.fromJson(
+              json['summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyText = this.lifecyclePolicyText;
+    final nextToken = this.nextToken;
+    final previewResults = this.previewResults;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    final status = this.status;
+    final summary = this.summary;
+    return {
+      if (lifecyclePolicyText != null)
+        'lifecyclePolicyText': lifecyclePolicyText,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (previewResults != null) 'previewResults': previewResults,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (status != null) 'status': status.toValue(),
+      if (summary != null) 'summary': summary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastEvaluatedAt')
-  final DateTime lastEvaluatedAt;
+  final DateTime? lastEvaluatedAt;
 
   /// The JSON lifecycle policy text.
-  @_s.JsonKey(name: 'lifecyclePolicyText')
-  final String lifecyclePolicyText;
+  final String? lifecyclePolicyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   GetLifecyclePolicyResponse({
     this.lastEvaluatedAt,
@@ -2962,86 +2925,114 @@ class GetLifecyclePolicyResponse {
     this.registryId,
     this.repositoryName,
   });
-  factory GetLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLifecyclePolicyResponseFromJson(json);
+
+  factory GetLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetLifecyclePolicyResponse(
+      lastEvaluatedAt: timeStampFromJson(json['lastEvaluatedAt']),
+      lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastEvaluatedAt = this.lastEvaluatedAt;
+    final lifecyclePolicyText = this.lifecyclePolicyText;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (lastEvaluatedAt != null)
+        'lastEvaluatedAt': unixTimestampToJson(lastEvaluatedAt),
+      if (lifecyclePolicyText != null)
+        'lifecyclePolicyText': lifecyclePolicyText,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRegistryPolicyResponse {
   /// The JSON text of the permissions policy for a registry.
-  @_s.JsonKey(name: 'policyText')
-  final String policyText;
+  final String? policyText;
 
   /// The ID of the registry.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   GetRegistryPolicyResponse({
     this.policyText,
     this.registryId,
   });
-  factory GetRegistryPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRegistryPolicyResponseFromJson(json);
+
+  factory GetRegistryPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetRegistryPolicyResponse(
+      policyText: json['policyText'] as String?,
+      registryId: json['registryId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    final registryId = this.registryId;
+    return {
+      if (policyText != null) 'policyText': policyText,
+      if (registryId != null) 'registryId': registryId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRepositoryPolicyResponse {
   /// The JSON repository policy text associated with the repository.
-  @_s.JsonKey(name: 'policyText')
-  final String policyText;
+  final String? policyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   GetRepositoryPolicyResponse({
     this.policyText,
     this.registryId,
     this.repositoryName,
   });
-  factory GetRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRepositoryPolicyResponseFromJson(json);
+
+  factory GetRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetRepositoryPolicyResponse(
+      policyText: json['policyText'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (policyText != null) 'policyText': policyText,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// An object representing an Amazon ECR image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Image {
   /// An object containing the image tag and image digest associated with an
   /// image.
-  @_s.JsonKey(name: 'imageId')
-  final ImageIdentifier imageId;
+  final ImageIdentifier? imageId;
 
   /// The image manifest associated with the image.
-  @_s.JsonKey(name: 'imageManifest')
-  final String imageManifest;
+  final String? imageManifest;
 
   /// The manifest media type of the image.
-  @_s.JsonKey(name: 'imageManifestMediaType')
-  final String imageManifestMediaType;
+  final String? imageManifestMediaType;
 
   /// The AWS account ID associated with the registry containing the image.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The name of the repository associated with the image.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   Image({
     this.imageId,
@@ -3050,47 +3041,80 @@ class Image {
     this.registryId,
     this.repositoryName,
   });
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+
+  factory Image.fromJson(Map<String, dynamic> json) {
+    return Image(
+      imageId: json['imageId'] != null
+          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
+          : null,
+      imageManifest: json['imageManifest'] as String?,
+      imageManifestMediaType: json['imageManifestMediaType'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    final imageManifest = this.imageManifest;
+    final imageManifestMediaType = this.imageManifestMediaType;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (imageId != null) 'imageId': imageId,
+      if (imageManifest != null) 'imageManifest': imageManifest,
+      if (imageManifestMediaType != null)
+        'imageManifestMediaType': imageManifestMediaType,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 enum ImageActionType {
-  @_s.JsonValue('EXPIRE')
   expire,
+}
+
+extension on ImageActionType {
+  String toValue() {
+    switch (this) {
+      case ImageActionType.expire:
+        return 'EXPIRE';
+    }
+  }
+}
+
+extension on String {
+  ImageActionType toImageActionType() {
+    switch (this) {
+      case 'EXPIRE':
+        return ImageActionType.expire;
+    }
+    throw Exception('$this is not known in enum ImageActionType');
+  }
 }
 
 /// An object that describes an image returned by a <a>DescribeImages</a>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageDetail {
   /// The artifact media type of the image.
-  @_s.JsonKey(name: 'artifactMediaType')
-  final String artifactMediaType;
+  final String? artifactMediaType;
 
   /// The <code>sha256</code> digest of the image manifest.
-  @_s.JsonKey(name: 'imageDigest')
-  final String imageDigest;
+  final String? imageDigest;
 
   /// The media type of the image manifest.
-  @_s.JsonKey(name: 'imageManifestMediaType')
-  final String imageManifestMediaType;
+  final String? imageManifestMediaType;
 
   /// The date and time, expressed in standard JavaScript date format, at which
   /// the current image was pushed to the repository.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'imagePushedAt')
-  final DateTime imagePushedAt;
+  final DateTime? imagePushedAt;
 
   /// A summary of the last completed image scan.
-  @_s.JsonKey(name: 'imageScanFindingsSummary')
-  final ImageScanFindingsSummary imageScanFindingsSummary;
+  final ImageScanFindingsSummary? imageScanFindingsSummary;
 
   /// The current state of the scan.
-  @_s.JsonKey(name: 'imageScanStatus')
-  final ImageScanStatus imageScanStatus;
+  final ImageScanStatus? imageScanStatus;
 
   /// The size, in bytes, of the image in the repository.
   ///
@@ -3102,20 +3126,16 @@ class ImageDetail {
   /// images</code> command shows the uncompressed image size, so it may return a
   /// larger image size than the image sizes returned by <a>DescribeImages</a>.
   /// </note>
-  @_s.JsonKey(name: 'imageSizeInBytes')
-  final int imageSizeInBytes;
+  final int? imageSizeInBytes;
 
   /// The list of tags associated with this image.
-  @_s.JsonKey(name: 'imageTags')
-  final List<String> imageTags;
+  final List<String>? imageTags;
 
   /// The AWS account ID associated with the registry to which this image belongs.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The name of the repository to which this image belongs.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   ImageDetail({
     this.artifactMediaType,
@@ -3129,106 +3149,198 @@ class ImageDetail {
     this.registryId,
     this.repositoryName,
   });
-  factory ImageDetail.fromJson(Map<String, dynamic> json) =>
-      _$ImageDetailFromJson(json);
+
+  factory ImageDetail.fromJson(Map<String, dynamic> json) {
+    return ImageDetail(
+      artifactMediaType: json['artifactMediaType'] as String?,
+      imageDigest: json['imageDigest'] as String?,
+      imageManifestMediaType: json['imageManifestMediaType'] as String?,
+      imagePushedAt: timeStampFromJson(json['imagePushedAt']),
+      imageScanFindingsSummary: json['imageScanFindingsSummary'] != null
+          ? ImageScanFindingsSummary.fromJson(
+              json['imageScanFindingsSummary'] as Map<String, dynamic>)
+          : null,
+      imageScanStatus: json['imageScanStatus'] != null
+          ? ImageScanStatus.fromJson(
+              json['imageScanStatus'] as Map<String, dynamic>)
+          : null,
+      imageSizeInBytes: json['imageSizeInBytes'] as int?,
+      imageTags: (json['imageTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactMediaType = this.artifactMediaType;
+    final imageDigest = this.imageDigest;
+    final imageManifestMediaType = this.imageManifestMediaType;
+    final imagePushedAt = this.imagePushedAt;
+    final imageScanFindingsSummary = this.imageScanFindingsSummary;
+    final imageScanStatus = this.imageScanStatus;
+    final imageSizeInBytes = this.imageSizeInBytes;
+    final imageTags = this.imageTags;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (artifactMediaType != null) 'artifactMediaType': artifactMediaType,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imageManifestMediaType != null)
+        'imageManifestMediaType': imageManifestMediaType,
+      if (imagePushedAt != null)
+        'imagePushedAt': unixTimestampToJson(imagePushedAt),
+      if (imageScanFindingsSummary != null)
+        'imageScanFindingsSummary': imageScanFindingsSummary,
+      if (imageScanStatus != null) 'imageScanStatus': imageScanStatus,
+      if (imageSizeInBytes != null) 'imageSizeInBytes': imageSizeInBytes,
+      if (imageTags != null) 'imageTags': imageTags,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// An object representing an Amazon ECR image failure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageFailure {
   /// The code associated with the failure.
-  @_s.JsonKey(name: 'failureCode')
-  final ImageFailureCode failureCode;
+  final ImageFailureCode? failureCode;
 
   /// The reason for the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The image ID associated with the failure.
-  @_s.JsonKey(name: 'imageId')
-  final ImageIdentifier imageId;
+  final ImageIdentifier? imageId;
 
   ImageFailure({
     this.failureCode,
     this.failureReason,
     this.imageId,
   });
-  factory ImageFailure.fromJson(Map<String, dynamic> json) =>
-      _$ImageFailureFromJson(json);
+
+  factory ImageFailure.fromJson(Map<String, dynamic> json) {
+    return ImageFailure(
+      failureCode: (json['failureCode'] as String?)?.toImageFailureCode(),
+      failureReason: json['failureReason'] as String?,
+      imageId: json['imageId'] != null
+          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    final imageId = this.imageId;
+    return {
+      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (imageId != null) 'imageId': imageId,
+    };
+  }
 }
 
 enum ImageFailureCode {
-  @_s.JsonValue('InvalidImageDigest')
   invalidImageDigest,
-  @_s.JsonValue('InvalidImageTag')
   invalidImageTag,
-  @_s.JsonValue('ImageTagDoesNotMatchDigest')
   imageTagDoesNotMatchDigest,
-  @_s.JsonValue('ImageNotFound')
   imageNotFound,
-  @_s.JsonValue('MissingDigestAndTag')
   missingDigestAndTag,
-  @_s.JsonValue('ImageReferencedByManifestList')
   imageReferencedByManifestList,
-  @_s.JsonValue('KmsError')
   kmsError,
 }
 
+extension on ImageFailureCode {
+  String toValue() {
+    switch (this) {
+      case ImageFailureCode.invalidImageDigest:
+        return 'InvalidImageDigest';
+      case ImageFailureCode.invalidImageTag:
+        return 'InvalidImageTag';
+      case ImageFailureCode.imageTagDoesNotMatchDigest:
+        return 'ImageTagDoesNotMatchDigest';
+      case ImageFailureCode.imageNotFound:
+        return 'ImageNotFound';
+      case ImageFailureCode.missingDigestAndTag:
+        return 'MissingDigestAndTag';
+      case ImageFailureCode.imageReferencedByManifestList:
+        return 'ImageReferencedByManifestList';
+      case ImageFailureCode.kmsError:
+        return 'KmsError';
+    }
+  }
+}
+
+extension on String {
+  ImageFailureCode toImageFailureCode() {
+    switch (this) {
+      case 'InvalidImageDigest':
+        return ImageFailureCode.invalidImageDigest;
+      case 'InvalidImageTag':
+        return ImageFailureCode.invalidImageTag;
+      case 'ImageTagDoesNotMatchDigest':
+        return ImageFailureCode.imageTagDoesNotMatchDigest;
+      case 'ImageNotFound':
+        return ImageFailureCode.imageNotFound;
+      case 'MissingDigestAndTag':
+        return ImageFailureCode.missingDigestAndTag;
+      case 'ImageReferencedByManifestList':
+        return ImageFailureCode.imageReferencedByManifestList;
+      case 'KmsError':
+        return ImageFailureCode.kmsError;
+    }
+    throw Exception('$this is not known in enum ImageFailureCode');
+  }
+}
+
 /// An object with identifying information for an Amazon ECR image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ImageIdentifier {
   /// The <code>sha256</code> digest of the image manifest.
-  @_s.JsonKey(name: 'imageDigest')
-  final String imageDigest;
+  final String? imageDigest;
 
   /// The tag used for the image.
-  @_s.JsonKey(name: 'imageTag')
-  final String imageTag;
+  final String? imageTag;
 
   ImageIdentifier({
     this.imageDigest,
     this.imageTag,
   });
-  factory ImageIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$ImageIdentifierFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImageIdentifierToJson(this);
+  factory ImageIdentifier.fromJson(Map<String, dynamic> json) {
+    return ImageIdentifier(
+      imageDigest: json['imageDigest'] as String?,
+      imageTag: json['imageTag'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageDigest = this.imageDigest;
+    final imageTag = this.imageTag;
+    return {
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imageTag != null) 'imageTag': imageTag,
+    };
+  }
 }
 
 /// Contains information about an image scan finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageScanFinding {
   /// A collection of attributes of the host from which the finding is generated.
-  @_s.JsonKey(name: 'attributes')
-  final List<Attribute> attributes;
+  final List<Attribute>? attributes;
 
   /// The description of the finding.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The name associated with the finding, usually a CVE number.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The finding severity.
-  @_s.JsonKey(name: 'severity')
-  final FindingSeverity severity;
+  final FindingSeverity? severity;
 
   /// A link containing additional details about the security vulnerability.
-  @_s.JsonKey(name: 'uri')
-  final String uri;
+  final String? uri;
 
   ImageScanFinding({
     this.attributes,
@@ -3237,34 +3349,49 @@ class ImageScanFinding {
     this.severity,
     this.uri,
   });
-  factory ImageScanFinding.fromJson(Map<String, dynamic> json) =>
-      _$ImageScanFindingFromJson(json);
+
+  factory ImageScanFinding.fromJson(Map<String, dynamic> json) {
+    return ImageScanFinding(
+      attributes: (json['attributes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Attribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      severity: (json['severity'] as String?)?.toFindingSeverity(),
+      uri: json['uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final description = this.description;
+    final name = this.name;
+    final severity = this.severity;
+    final uri = this.uri;
+    return {
+      if (attributes != null) 'attributes': attributes,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (severity != null) 'severity': severity.toValue(),
+      if (uri != null) 'uri': uri,
+    };
+  }
 }
 
 /// The details of an image scan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageScanFindings {
   /// The image vulnerability counts, sorted by severity.
-  @_s.JsonKey(name: 'findingSeverityCounts')
-  final Map<FindingSeverity, int> findingSeverityCounts;
+  final Map<FindingSeverity, int>? findingSeverityCounts;
 
   /// The findings from the image scan.
-  @_s.JsonKey(name: 'findings')
-  final List<ImageScanFinding> findings;
+  final List<ImageScanFinding>? findings;
 
   /// The time of the last completed image scan.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'imageScanCompletedAt')
-  final DateTime imageScanCompletedAt;
+  final DateTime? imageScanCompletedAt;
 
   /// The time when the vulnerability data was last scanned.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'vulnerabilitySourceUpdatedAt')
-  final DateTime vulnerabilitySourceUpdatedAt;
+  final DateTime? vulnerabilitySourceUpdatedAt;
 
   ImageScanFindings({
     this.findingSeverityCounts,
@@ -3272,91 +3399,145 @@ class ImageScanFindings {
     this.imageScanCompletedAt,
     this.vulnerabilitySourceUpdatedAt,
   });
-  factory ImageScanFindings.fromJson(Map<String, dynamic> json) =>
-      _$ImageScanFindingsFromJson(json);
+
+  factory ImageScanFindings.fromJson(Map<String, dynamic> json) {
+    return ImageScanFindings(
+      findingSeverityCounts:
+          (json['findingSeverityCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toFindingSeverity(), e as int)),
+      findings: (json['findings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImageScanFinding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      imageScanCompletedAt: timeStampFromJson(json['imageScanCompletedAt']),
+      vulnerabilitySourceUpdatedAt:
+          timeStampFromJson(json['vulnerabilitySourceUpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingSeverityCounts = this.findingSeverityCounts;
+    final findings = this.findings;
+    final imageScanCompletedAt = this.imageScanCompletedAt;
+    final vulnerabilitySourceUpdatedAt = this.vulnerabilitySourceUpdatedAt;
+    return {
+      if (findingSeverityCounts != null)
+        'findingSeverityCounts':
+            findingSeverityCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (findings != null) 'findings': findings,
+      if (imageScanCompletedAt != null)
+        'imageScanCompletedAt': unixTimestampToJson(imageScanCompletedAt),
+      if (vulnerabilitySourceUpdatedAt != null)
+        'vulnerabilitySourceUpdatedAt':
+            unixTimestampToJson(vulnerabilitySourceUpdatedAt),
+    };
+  }
 }
 
 /// A summary of the last completed image scan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageScanFindingsSummary {
   /// The image vulnerability counts, sorted by severity.
-  @_s.JsonKey(name: 'findingSeverityCounts')
-  final Map<FindingSeverity, int> findingSeverityCounts;
+  final Map<FindingSeverity, int>? findingSeverityCounts;
 
   /// The time of the last completed image scan.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'imageScanCompletedAt')
-  final DateTime imageScanCompletedAt;
+  final DateTime? imageScanCompletedAt;
 
   /// The time when the vulnerability data was last scanned.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'vulnerabilitySourceUpdatedAt')
-  final DateTime vulnerabilitySourceUpdatedAt;
+  final DateTime? vulnerabilitySourceUpdatedAt;
 
   ImageScanFindingsSummary({
     this.findingSeverityCounts,
     this.imageScanCompletedAt,
     this.vulnerabilitySourceUpdatedAt,
   });
-  factory ImageScanFindingsSummary.fromJson(Map<String, dynamic> json) =>
-      _$ImageScanFindingsSummaryFromJson(json);
+
+  factory ImageScanFindingsSummary.fromJson(Map<String, dynamic> json) {
+    return ImageScanFindingsSummary(
+      findingSeverityCounts:
+          (json['findingSeverityCounts'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k.toFindingSeverity(), e as int)),
+      imageScanCompletedAt: timeStampFromJson(json['imageScanCompletedAt']),
+      vulnerabilitySourceUpdatedAt:
+          timeStampFromJson(json['vulnerabilitySourceUpdatedAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingSeverityCounts = this.findingSeverityCounts;
+    final imageScanCompletedAt = this.imageScanCompletedAt;
+    final vulnerabilitySourceUpdatedAt = this.vulnerabilitySourceUpdatedAt;
+    return {
+      if (findingSeverityCounts != null)
+        'findingSeverityCounts':
+            findingSeverityCounts.map((k, e) => MapEntry(k.toValue(), e)),
+      if (imageScanCompletedAt != null)
+        'imageScanCompletedAt': unixTimestampToJson(imageScanCompletedAt),
+      if (vulnerabilitySourceUpdatedAt != null)
+        'vulnerabilitySourceUpdatedAt':
+            unixTimestampToJson(vulnerabilitySourceUpdatedAt),
+    };
+  }
 }
 
 /// The current status of an image scan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageScanStatus {
   /// The description of the image scan status.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The current state of an image scan.
-  @_s.JsonKey(name: 'status')
-  final ScanStatus status;
+  final ScanStatus? status;
 
   ImageScanStatus({
     this.description,
     this.status,
   });
-  factory ImageScanStatus.fromJson(Map<String, dynamic> json) =>
-      _$ImageScanStatusFromJson(json);
+
+  factory ImageScanStatus.fromJson(Map<String, dynamic> json) {
+    return ImageScanStatus(
+      description: json['description'] as String?,
+      status: (json['status'] as String?)?.toScanStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final status = this.status;
+    return {
+      if (description != null) 'description': description,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// The image scanning configuration for a repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ImageScanningConfiguration {
   /// The setting that determines whether images are scanned after being pushed to
   /// a repository. If set to <code>true</code>, images will be scanned after
   /// being pushed. If this parameter is not specified, it will default to
   /// <code>false</code> and images will not be scanned unless a scan is manually
   /// started with the <a>StartImageScan</a> API.
-  @_s.JsonKey(name: 'scanOnPush')
-  final bool scanOnPush;
+  final bool? scanOnPush;
 
   ImageScanningConfiguration({
     this.scanOnPush,
   });
-  factory ImageScanningConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ImageScanningConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImageScanningConfigurationToJson(this);
+  factory ImageScanningConfiguration.fromJson(Map<String, dynamic> json) {
+    return ImageScanningConfiguration(
+      scanOnPush: json['scanOnPush'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scanOnPush = this.scanOnPush;
+    return {
+      if (scanOnPush != null) 'scanOnPush': scanOnPush,
+    };
+  }
 }
 
 enum ImageTagMutability {
-  @_s.JsonValue('MUTABLE')
   mutable,
-  @_s.JsonValue('IMMUTABLE')
   immutable,
 }
 
@@ -3368,57 +3549,66 @@ extension on ImageTagMutability {
       case ImageTagMutability.immutable:
         return 'IMMUTABLE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ImageTagMutability toImageTagMutability() {
+    switch (this) {
+      case 'MUTABLE':
+        return ImageTagMutability.mutable;
+      case 'IMMUTABLE':
+        return ImageTagMutability.immutable;
+    }
+    throw Exception('$this is not known in enum ImageTagMutability');
+  }
+}
+
 class InitiateLayerUploadResponse {
   /// The size, in bytes, that Amazon ECR expects future layer part uploads to be.
-  @_s.JsonKey(name: 'partSize')
-  final int partSize;
+  final int? partSize;
 
   /// The upload ID for the layer upload. This parameter is passed to further
   /// <a>UploadLayerPart</a> and <a>CompleteLayerUpload</a> operations.
-  @_s.JsonKey(name: 'uploadId')
-  final String uploadId;
+  final String? uploadId;
 
   InitiateLayerUploadResponse({
     this.partSize,
     this.uploadId,
   });
-  factory InitiateLayerUploadResponse.fromJson(Map<String, dynamic> json) =>
-      _$InitiateLayerUploadResponseFromJson(json);
+
+  factory InitiateLayerUploadResponse.fromJson(Map<String, dynamic> json) {
+    return InitiateLayerUploadResponse(
+      partSize: json['partSize'] as int?,
+      uploadId: json['uploadId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final partSize = this.partSize;
+    final uploadId = this.uploadId;
+    return {
+      if (partSize != null) 'partSize': partSize,
+      if (uploadId != null) 'uploadId': uploadId,
+    };
+  }
 }
 
 /// An object representing an Amazon ECR image layer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Layer {
   /// The availability status of the image layer.
-  @_s.JsonKey(name: 'layerAvailability')
-  final LayerAvailability layerAvailability;
+  final LayerAvailability? layerAvailability;
 
   /// The <code>sha256</code> digest of the image layer.
-  @_s.JsonKey(name: 'layerDigest')
-  final String layerDigest;
+  final String? layerDigest;
 
   /// The size, in bytes, of the image layer.
-  @_s.JsonKey(name: 'layerSize')
-  final int layerSize;
+  final int? layerSize;
 
   /// The media type of the layer, such as
   /// <code>application/vnd.docker.image.rootfs.diff.tar.gzip</code> or
   /// <code>application/vnd.oci.image.layer.v1.tar+gzip</code>.
-  @_s.JsonKey(name: 'mediaType')
-  final String mediaType;
+  final String? mediaType;
 
   Layer({
     this.layerAvailability,
@@ -3426,96 +3616,165 @@ class Layer {
     this.layerSize,
     this.mediaType,
   });
-  factory Layer.fromJson(Map<String, dynamic> json) => _$LayerFromJson(json);
+
+  factory Layer.fromJson(Map<String, dynamic> json) {
+    return Layer(
+      layerAvailability:
+          (json['layerAvailability'] as String?)?.toLayerAvailability(),
+      layerDigest: json['layerDigest'] as String?,
+      layerSize: json['layerSize'] as int?,
+      mediaType: json['mediaType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final layerAvailability = this.layerAvailability;
+    final layerDigest = this.layerDigest;
+    final layerSize = this.layerSize;
+    final mediaType = this.mediaType;
+    return {
+      if (layerAvailability != null)
+        'layerAvailability': layerAvailability.toValue(),
+      if (layerDigest != null) 'layerDigest': layerDigest,
+      if (layerSize != null) 'layerSize': layerSize,
+      if (mediaType != null) 'mediaType': mediaType,
+    };
+  }
 }
 
 enum LayerAvailability {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('UNAVAILABLE')
   unavailable,
 }
 
+extension on LayerAvailability {
+  String toValue() {
+    switch (this) {
+      case LayerAvailability.available:
+        return 'AVAILABLE';
+      case LayerAvailability.unavailable:
+        return 'UNAVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  LayerAvailability toLayerAvailability() {
+    switch (this) {
+      case 'AVAILABLE':
+        return LayerAvailability.available;
+      case 'UNAVAILABLE':
+        return LayerAvailability.unavailable;
+    }
+    throw Exception('$this is not known in enum LayerAvailability');
+  }
+}
+
 /// An object representing an Amazon ECR image layer failure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LayerFailure {
   /// The failure code associated with the failure.
-  @_s.JsonKey(name: 'failureCode')
-  final LayerFailureCode failureCode;
+  final LayerFailureCode? failureCode;
 
   /// The reason for the failure.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The layer digest associated with the failure.
-  @_s.JsonKey(name: 'layerDigest')
-  final String layerDigest;
+  final String? layerDigest;
 
   LayerFailure({
     this.failureCode,
     this.failureReason,
     this.layerDigest,
   });
-  factory LayerFailure.fromJson(Map<String, dynamic> json) =>
-      _$LayerFailureFromJson(json);
+
+  factory LayerFailure.fromJson(Map<String, dynamic> json) {
+    return LayerFailure(
+      failureCode: (json['failureCode'] as String?)?.toLayerFailureCode(),
+      failureReason: json['failureReason'] as String?,
+      layerDigest: json['layerDigest'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    final layerDigest = this.layerDigest;
+    return {
+      if (failureCode != null) 'failureCode': failureCode.toValue(),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (layerDigest != null) 'layerDigest': layerDigest,
+    };
+  }
 }
 
 enum LayerFailureCode {
-  @_s.JsonValue('InvalidLayerDigest')
   invalidLayerDigest,
-  @_s.JsonValue('MissingLayerDigest')
   missingLayerDigest,
 }
 
+extension on LayerFailureCode {
+  String toValue() {
+    switch (this) {
+      case LayerFailureCode.invalidLayerDigest:
+        return 'InvalidLayerDigest';
+      case LayerFailureCode.missingLayerDigest:
+        return 'MissingLayerDigest';
+    }
+  }
+}
+
+extension on String {
+  LayerFailureCode toLayerFailureCode() {
+    switch (this) {
+      case 'InvalidLayerDigest':
+        return LayerFailureCode.invalidLayerDigest;
+      case 'MissingLayerDigest':
+        return LayerFailureCode.missingLayerDigest;
+    }
+    throw Exception('$this is not known in enum LayerFailureCode');
+  }
+}
+
 /// The filter for the lifecycle policy preview.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LifecyclePolicyPreviewFilter {
   /// The tag status of the image.
-  @_s.JsonKey(name: 'tagStatus')
-  final TagStatus tagStatus;
+  final TagStatus? tagStatus;
 
   LifecyclePolicyPreviewFilter({
     this.tagStatus,
   });
-  Map<String, dynamic> toJson() => _$LifecyclePolicyPreviewFilterToJson(this);
+
+  factory LifecyclePolicyPreviewFilter.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyPreviewFilter(
+      tagStatus: (json['tagStatus'] as String?)?.toTagStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagStatus = this.tagStatus;
+    return {
+      if (tagStatus != null) 'tagStatus': tagStatus.toValue(),
+    };
+  }
 }
 
 /// The result of the lifecycle policy preview.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LifecyclePolicyPreviewResult {
   /// The type of action to be taken.
-  @_s.JsonKey(name: 'action')
-  final LifecyclePolicyRuleAction action;
+  final LifecyclePolicyRuleAction? action;
 
   /// The priority of the applied rule.
-  @_s.JsonKey(name: 'appliedRulePriority')
-  final int appliedRulePriority;
+  final int? appliedRulePriority;
 
   /// The <code>sha256</code> digest of the image manifest.
-  @_s.JsonKey(name: 'imageDigest')
-  final String imageDigest;
+  final String? imageDigest;
 
   /// The date and time, expressed in standard JavaScript date format, at which
   /// the current image was pushed to the repository.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'imagePushedAt')
-  final DateTime imagePushedAt;
+  final DateTime? imagePushedAt;
 
   /// The list of tags associated with this image.
-  @_s.JsonKey(name: 'imageTags')
-  final List<String> imageTags;
+  final List<String>? imageTags;
 
   LifecyclePolicyPreviewResult({
     this.action,
@@ -3524,373 +3783,527 @@ class LifecyclePolicyPreviewResult {
     this.imagePushedAt,
     this.imageTags,
   });
-  factory LifecyclePolicyPreviewResult.fromJson(Map<String, dynamic> json) =>
-      _$LifecyclePolicyPreviewResultFromJson(json);
+
+  factory LifecyclePolicyPreviewResult.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyPreviewResult(
+      action: json['action'] != null
+          ? LifecyclePolicyRuleAction.fromJson(
+              json['action'] as Map<String, dynamic>)
+          : null,
+      appliedRulePriority: json['appliedRulePriority'] as int?,
+      imageDigest: json['imageDigest'] as String?,
+      imagePushedAt: timeStampFromJson(json['imagePushedAt']),
+      imageTags: (json['imageTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final appliedRulePriority = this.appliedRulePriority;
+    final imageDigest = this.imageDigest;
+    final imagePushedAt = this.imagePushedAt;
+    final imageTags = this.imageTags;
+    return {
+      if (action != null) 'action': action,
+      if (appliedRulePriority != null)
+        'appliedRulePriority': appliedRulePriority,
+      if (imageDigest != null) 'imageDigest': imageDigest,
+      if (imagePushedAt != null)
+        'imagePushedAt': unixTimestampToJson(imagePushedAt),
+      if (imageTags != null) 'imageTags': imageTags,
+    };
+  }
 }
 
 enum LifecyclePolicyPreviewStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('EXPIRED')
   expired,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on LifecyclePolicyPreviewStatus {
+  String toValue() {
+    switch (this) {
+      case LifecyclePolicyPreviewStatus.inProgress:
+        return 'IN_PROGRESS';
+      case LifecyclePolicyPreviewStatus.complete:
+        return 'COMPLETE';
+      case LifecyclePolicyPreviewStatus.expired:
+        return 'EXPIRED';
+      case LifecyclePolicyPreviewStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  LifecyclePolicyPreviewStatus toLifecyclePolicyPreviewStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return LifecyclePolicyPreviewStatus.inProgress;
+      case 'COMPLETE':
+        return LifecyclePolicyPreviewStatus.complete;
+      case 'EXPIRED':
+        return LifecyclePolicyPreviewStatus.expired;
+      case 'FAILED':
+        return LifecyclePolicyPreviewStatus.failed;
+    }
+    throw Exception('$this is not known in enum LifecyclePolicyPreviewStatus');
+  }
+}
+
 /// The summary of the lifecycle policy preview request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LifecyclePolicyPreviewSummary {
   /// The number of expiring images.
-  @_s.JsonKey(name: 'expiringImageTotalCount')
-  final int expiringImageTotalCount;
+  final int? expiringImageTotalCount;
 
   LifecyclePolicyPreviewSummary({
     this.expiringImageTotalCount,
   });
-  factory LifecyclePolicyPreviewSummary.fromJson(Map<String, dynamic> json) =>
-      _$LifecyclePolicyPreviewSummaryFromJson(json);
+
+  factory LifecyclePolicyPreviewSummary.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyPreviewSummary(
+      expiringImageTotalCount: json['expiringImageTotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expiringImageTotalCount = this.expiringImageTotalCount;
+    return {
+      if (expiringImageTotalCount != null)
+        'expiringImageTotalCount': expiringImageTotalCount,
+    };
+  }
 }
 
 /// The type of action to be taken.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LifecyclePolicyRuleAction {
   /// The type of action to be taken.
-  @_s.JsonKey(name: 'type')
-  final ImageActionType type;
+  final ImageActionType? type;
 
   LifecyclePolicyRuleAction({
     this.type,
   });
-  factory LifecyclePolicyRuleAction.fromJson(Map<String, dynamic> json) =>
-      _$LifecyclePolicyRuleActionFromJson(json);
+
+  factory LifecyclePolicyRuleAction.fromJson(Map<String, dynamic> json) {
+    return LifecyclePolicyRuleAction(
+      type: (json['type'] as String?)?.toImageActionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 /// An object representing a filter on a <a>ListImages</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ListImagesFilter {
   /// The tag status with which to filter your <a>ListImages</a> results. You can
   /// filter results based on whether they are <code>TAGGED</code> or
   /// <code>UNTAGGED</code>.
-  @_s.JsonKey(name: 'tagStatus')
-  final TagStatus tagStatus;
+  final TagStatus? tagStatus;
 
   ListImagesFilter({
     this.tagStatus,
   });
-  Map<String, dynamic> toJson() => _$ListImagesFilterToJson(this);
+
+  factory ListImagesFilter.fromJson(Map<String, dynamic> json) {
+    return ListImagesFilter(
+      tagStatus: (json['tagStatus'] as String?)?.toTagStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagStatus = this.tagStatus;
+    return {
+      if (tagStatus != null) 'tagStatus': tagStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListImagesResponse {
   /// The list of image IDs for the requested repository.
-  @_s.JsonKey(name: 'imageIds')
-  final List<ImageIdentifier> imageIds;
+  final List<ImageIdentifier>? imageIds;
 
   /// The <code>nextToken</code> value to include in a future
   /// <code>ListImages</code> request. When the results of a
   /// <code>ListImages</code> request exceed <code>maxResults</code>, this value
   /// can be used to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListImagesResponse({
     this.imageIds,
     this.nextToken,
   });
-  factory ListImagesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListImagesResponseFromJson(json);
+
+  factory ListImagesResponse.fromJson(Map<String, dynamic> json) {
+    return ListImagesResponse(
+      imageIds: (json['imageIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImageIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageIds = this.imageIds;
+    final nextToken = this.nextToken;
+    return {
+      if (imageIds != null) 'imageIds': imageIds,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags for the resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutImageResponse {
   /// Details of the image uploaded.
-  @_s.JsonKey(name: 'image')
-  final Image image;
+  final Image? image;
 
   PutImageResponse({
     this.image,
   });
-  factory PutImageResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutImageResponseFromJson(json);
+
+  factory PutImageResponse.fromJson(Map<String, dynamic> json) {
+    return PutImageResponse(
+      image: json['image'] != null
+          ? Image.fromJson(json['image'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final image = this.image;
+    return {
+      if (image != null) 'image': image,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutImageScanningConfigurationResponse {
   /// The image scanning configuration setting for the repository.
-  @_s.JsonKey(name: 'imageScanningConfiguration')
-  final ImageScanningConfiguration imageScanningConfiguration;
+  final ImageScanningConfiguration? imageScanningConfiguration;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   PutImageScanningConfigurationResponse({
     this.imageScanningConfiguration,
     this.registryId,
     this.repositoryName,
   });
+
   factory PutImageScanningConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutImageScanningConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutImageScanningConfigurationResponse(
+      imageScanningConfiguration: json['imageScanningConfiguration'] != null
+          ? ImageScanningConfiguration.fromJson(
+              json['imageScanningConfiguration'] as Map<String, dynamic>)
+          : null,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageScanningConfiguration = this.imageScanningConfiguration;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (imageScanningConfiguration != null)
+        'imageScanningConfiguration': imageScanningConfiguration,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutImageTagMutabilityResponse {
   /// The image tag mutability setting for the repository.
-  @_s.JsonKey(name: 'imageTagMutability')
-  final ImageTagMutability imageTagMutability;
+  final ImageTagMutability? imageTagMutability;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   PutImageTagMutabilityResponse({
     this.imageTagMutability,
     this.registryId,
     this.repositoryName,
   });
-  factory PutImageTagMutabilityResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutImageTagMutabilityResponseFromJson(json);
+
+  factory PutImageTagMutabilityResponse.fromJson(Map<String, dynamic> json) {
+    return PutImageTagMutabilityResponse(
+      imageTagMutability:
+          (json['imageTagMutability'] as String?)?.toImageTagMutability(),
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageTagMutability = this.imageTagMutability;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (imageTagMutability != null)
+        'imageTagMutability': imageTagMutability.toValue(),
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutLifecyclePolicyResponse {
   /// The JSON repository policy text.
-  @_s.JsonKey(name: 'lifecyclePolicyText')
-  final String lifecyclePolicyText;
+  final String? lifecyclePolicyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   PutLifecyclePolicyResponse({
     this.lifecyclePolicyText,
     this.registryId,
     this.repositoryName,
   });
-  factory PutLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutLifecyclePolicyResponseFromJson(json);
+
+  factory PutLifecyclePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutLifecyclePolicyResponse(
+      lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyText = this.lifecyclePolicyText;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (lifecyclePolicyText != null)
+        'lifecyclePolicyText': lifecyclePolicyText,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRegistryPolicyResponse {
   /// The JSON policy text for your registry.
-  @_s.JsonKey(name: 'policyText')
-  final String policyText;
+  final String? policyText;
 
   /// The registry ID.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   PutRegistryPolicyResponse({
     this.policyText,
     this.registryId,
   });
-  factory PutRegistryPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutRegistryPolicyResponseFromJson(json);
+
+  factory PutRegistryPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutRegistryPolicyResponse(
+      policyText: json['policyText'] as String?,
+      registryId: json['registryId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    final registryId = this.registryId;
+    return {
+      if (policyText != null) 'policyText': policyText,
+      if (registryId != null) 'registryId': registryId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutReplicationConfigurationResponse {
   /// The contents of the replication configuration for the registry.
-  @_s.JsonKey(name: 'replicationConfiguration')
-  final ReplicationConfiguration replicationConfiguration;
+  final ReplicationConfiguration? replicationConfiguration;
 
   PutReplicationConfigurationResponse({
     this.replicationConfiguration,
   });
+
   factory PutReplicationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutReplicationConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutReplicationConfigurationResponse(
+      replicationConfiguration: json['replicationConfiguration'] != null
+          ? ReplicationConfiguration.fromJson(
+              json['replicationConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationConfiguration = this.replicationConfiguration;
+    return {
+      if (replicationConfiguration != null)
+        'replicationConfiguration': replicationConfiguration,
+    };
+  }
 }
 
 /// The replication configuration for a registry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReplicationConfiguration {
   /// An array of objects representing the replication rules for a replication
   /// configuration. A replication configuration may contain only one replication
   /// rule but the rule may contain one or more replication destinations.
-  @_s.JsonKey(name: 'rules')
   final List<ReplicationRule> rules;
 
   ReplicationConfiguration({
-    @_s.required this.rules,
+    required this.rules,
   });
-  factory ReplicationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ReplicationConfigurationToJson(this);
+  factory ReplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ReplicationConfiguration(
+      rules: (json['rules'] as List)
+          .whereNotNull()
+          .map((e) => ReplicationRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      'rules': rules,
+    };
+  }
 }
 
 /// An array of objects representing the details of a replication destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReplicationDestination {
   /// A Region to replicate to.
-  @_s.JsonKey(name: 'region')
   final String region;
 
   /// The account ID of the destination registry to replicate to.
-  @_s.JsonKey(name: 'registryId')
   final String registryId;
 
   ReplicationDestination({
-    @_s.required this.region,
-    @_s.required this.registryId,
+    required this.region,
+    required this.registryId,
   });
-  factory ReplicationDestination.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationDestinationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ReplicationDestinationToJson(this);
+  factory ReplicationDestination.fromJson(Map<String, dynamic> json) {
+    return ReplicationDestination(
+      region: json['region'] as String,
+      registryId: json['registryId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final registryId = this.registryId;
+    return {
+      'region': region,
+      'registryId': registryId,
+    };
+  }
 }
 
 /// An array of objects representing the replication destinations for a
 /// replication configuration. A replication configuration may contain only one
 /// replication rule but the rule may contain one or more replication
 /// destinations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ReplicationRule {
   /// An array of objects representing the details of a replication destination.
-  @_s.JsonKey(name: 'destinations')
   final List<ReplicationDestination> destinations;
 
   ReplicationRule({
-    @_s.required this.destinations,
+    required this.destinations,
   });
-  factory ReplicationRule.fromJson(Map<String, dynamic> json) =>
-      _$ReplicationRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ReplicationRuleToJson(this);
+  factory ReplicationRule.fromJson(Map<String, dynamic> json) {
+    return ReplicationRule(
+      destinations: (json['destinations'] as List)
+          .whereNotNull()
+          .map(
+              (e) => ReplicationDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinations = this.destinations;
+    return {
+      'destinations': destinations,
+    };
+  }
 }
 
 /// An object representing a repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Repository {
   /// The date and time, in JavaScript date format, when the repository was
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The encryption configuration for the repository. This determines how the
   /// contents of your repository are encrypted at rest.
-  @_s.JsonKey(name: 'encryptionConfiguration')
-  final EncryptionConfiguration encryptionConfiguration;
-  @_s.JsonKey(name: 'imageScanningConfiguration')
-  final ImageScanningConfiguration imageScanningConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
+  final ImageScanningConfiguration? imageScanningConfiguration;
 
   /// The tag mutability setting for the repository.
-  @_s.JsonKey(name: 'imageTagMutability')
-  final ImageTagMutability imageTagMutability;
+  final ImageTagMutability? imageTagMutability;
 
   /// The AWS account ID associated with the registry that contains the
   /// repository.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The Amazon Resource Name (ARN) that identifies the repository. The ARN
   /// contains the <code>arn:aws:ecr</code> namespace, followed by the region of
   /// the repository, AWS account ID of the repository owner, repository
   /// namespace, and repository name. For example,
   /// <code>arn:aws:ecr:region:012345678910:repository/test</code>.
-  @_s.JsonKey(name: 'repositoryArn')
-  final String repositoryArn;
+  final String? repositoryArn;
 
   /// The name of the repository.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The URI for the repository. You can use this URI for container image
   /// <code>push</code> and <code>pull</code> operations.
-  @_s.JsonKey(name: 'repositoryUri')
-  final String repositoryUri;
+  final String? repositoryUri;
 
   Repository({
     this.createdAt,
@@ -3902,66 +4315,132 @@ class Repository {
     this.repositoryName,
     this.repositoryUri,
   });
-  factory Repository.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryFromJson(json);
+
+  factory Repository.fromJson(Map<String, dynamic> json) {
+    return Repository(
+      createdAt: timeStampFromJson(json['createdAt']),
+      encryptionConfiguration: json['encryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['encryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      imageScanningConfiguration: json['imageScanningConfiguration'] != null
+          ? ImageScanningConfiguration.fromJson(
+              json['imageScanningConfiguration'] as Map<String, dynamic>)
+          : null,
+      imageTagMutability:
+          (json['imageTagMutability'] as String?)?.toImageTagMutability(),
+      registryId: json['registryId'] as String?,
+      repositoryArn: json['repositoryArn'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      repositoryUri: json['repositoryUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final imageScanningConfiguration = this.imageScanningConfiguration;
+    final imageTagMutability = this.imageTagMutability;
+    final registryId = this.registryId;
+    final repositoryArn = this.repositoryArn;
+    final repositoryName = this.repositoryName;
+    final repositoryUri = this.repositoryUri;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (encryptionConfiguration != null)
+        'encryptionConfiguration': encryptionConfiguration,
+      if (imageScanningConfiguration != null)
+        'imageScanningConfiguration': imageScanningConfiguration,
+      if (imageTagMutability != null)
+        'imageTagMutability': imageTagMutability.toValue(),
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryArn != null) 'repositoryArn': repositoryArn,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (repositoryUri != null) 'repositoryUri': repositoryUri,
+    };
+  }
 }
 
 enum ScanStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ScanStatus {
+  String toValue() {
+    switch (this) {
+      case ScanStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ScanStatus.complete:
+        return 'COMPLETE';
+      case ScanStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ScanStatus toScanStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ScanStatus.inProgress;
+      case 'COMPLETE':
+        return ScanStatus.complete;
+      case 'FAILED':
+        return ScanStatus.failed;
+    }
+    throw Exception('$this is not known in enum ScanStatus');
+  }
+}
+
 class SetRepositoryPolicyResponse {
   /// The JSON repository policy text applied to the repository.
-  @_s.JsonKey(name: 'policyText')
-  final String policyText;
+  final String? policyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   SetRepositoryPolicyResponse({
     this.policyText,
     this.registryId,
     this.repositoryName,
   });
-  factory SetRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$SetRepositoryPolicyResponseFromJson(json);
+
+  factory SetRepositoryPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return SetRepositoryPolicyResponse(
+      policyText: json['policyText'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyText = this.policyText;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (policyText != null) 'policyText': policyText,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartImageScanResponse {
-  @_s.JsonKey(name: 'imageId')
-  final ImageIdentifier imageId;
+  final ImageIdentifier? imageId;
 
   /// The current state of the scan.
-  @_s.JsonKey(name: 'imageScanStatus')
-  final ImageScanStatus imageScanStatus;
+  final ImageScanStatus? imageScanStatus;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   StartImageScanResponse({
     this.imageId,
@@ -3969,31 +4448,47 @@ class StartImageScanResponse {
     this.registryId,
     this.repositoryName,
   });
-  factory StartImageScanResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartImageScanResponseFromJson(json);
+
+  factory StartImageScanResponse.fromJson(Map<String, dynamic> json) {
+    return StartImageScanResponse(
+      imageId: json['imageId'] != null
+          ? ImageIdentifier.fromJson(json['imageId'] as Map<String, dynamic>)
+          : null,
+      imageScanStatus: json['imageScanStatus'] != null
+          ? ImageScanStatus.fromJson(
+              json['imageScanStatus'] as Map<String, dynamic>)
+          : null,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    final imageScanStatus = this.imageScanStatus;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (imageId != null) 'imageId': imageId,
+      if (imageScanStatus != null) 'imageScanStatus': imageScanStatus,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartLifecyclePolicyPreviewResponse {
   /// The JSON repository policy text.
-  @_s.JsonKey(name: 'lifecyclePolicyText')
-  final String lifecyclePolicyText;
+  final String? lifecyclePolicyText;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The status of the lifecycle policy preview request.
-  @_s.JsonKey(name: 'status')
-  final LifecyclePolicyPreviewStatus status;
+  final LifecyclePolicyPreviewStatus? status;
 
   StartLifecyclePolicyPreviewResponse({
     this.lifecyclePolicyText,
@@ -4001,92 +4496,136 @@ class StartLifecyclePolicyPreviewResponse {
     this.repositoryName,
     this.status,
   });
+
   factory StartLifecyclePolicyPreviewResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartLifecyclePolicyPreviewResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartLifecyclePolicyPreviewResponse(
+      lifecyclePolicyText: json['lifecyclePolicyText'] as String?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      status: (json['status'] as String?)?.toLifecyclePolicyPreviewStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicyText = this.lifecyclePolicyText;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    final status = this.status;
+    return {
+      if (lifecyclePolicyText != null)
+        'lifecyclePolicyText': lifecyclePolicyText,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// The metadata that you apply to a resource to help you categorize and
 /// organize them. Each tag consists of a key and an optional value, both of
 /// which you define. Tag keys can have a maximum character length of 128
 /// characters, and tag values can have a maximum length of 256 characters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// One part of a key-value pair that make up a tag. A <code>key</code> is a
   /// general label that acts like a category for more specific tag values.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The optional part of a key-value pair that make up a tag. A
   /// <code>value</code> acts as a descriptor within a tag category (key).
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum TagStatus {
-  @_s.JsonValue('TAGGED')
   tagged,
-  @_s.JsonValue('UNTAGGED')
   untagged,
-  @_s.JsonValue('ANY')
   any,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UntagResourceResponse {
-  UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+extension on TagStatus {
+  String toValue() {
+    switch (this) {
+      case TagStatus.tagged:
+        return 'TAGGED';
+      case TagStatus.untagged:
+        return 'UNTAGGED';
+      case TagStatus.any:
+        return 'ANY';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  TagStatus toTagStatus() {
+    switch (this) {
+      case 'TAGGED':
+        return TagStatus.tagged;
+      case 'UNTAGGED':
+        return TagStatus.untagged;
+      case 'ANY':
+        return TagStatus.any;
+    }
+    throw Exception('$this is not known in enum TagStatus');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UploadLayerPartResponse {
   /// The integer value of the last byte received in the request.
-  @_s.JsonKey(name: 'lastByteReceived')
-  final int lastByteReceived;
+  final int? lastByteReceived;
 
   /// The registry ID associated with the request.
-  @_s.JsonKey(name: 'registryId')
-  final String registryId;
+  final String? registryId;
 
   /// The repository name associated with the request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The upload ID associated with the request.
-  @_s.JsonKey(name: 'uploadId')
-  final String uploadId;
+  final String? uploadId;
 
   UploadLayerPartResponse({
     this.lastByteReceived,
@@ -4094,23 +4633,43 @@ class UploadLayerPartResponse {
     this.repositoryName,
     this.uploadId,
   });
-  factory UploadLayerPartResponse.fromJson(Map<String, dynamic> json) =>
-      _$UploadLayerPartResponseFromJson(json);
+
+  factory UploadLayerPartResponse.fromJson(Map<String, dynamic> json) {
+    return UploadLayerPartResponse(
+      lastByteReceived: json['lastByteReceived'] as int?,
+      registryId: json['registryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      uploadId: json['uploadId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastByteReceived = this.lastByteReceived;
+    final registryId = this.registryId;
+    final repositoryName = this.repositoryName;
+    final uploadId = this.uploadId;
+    return {
+      if (lastByteReceived != null) 'lastByteReceived': lastByteReceived,
+      if (registryId != null) 'registryId': registryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (uploadId != null) 'uploadId': uploadId,
+    };
+  }
 }
 
 class EmptyUploadException extends _s.GenericAwsException {
-  EmptyUploadException({String type, String message})
+  EmptyUploadException({String? type, String? message})
       : super(type: type, code: 'EmptyUploadException', message: message);
 }
 
 class ImageAlreadyExistsException extends _s.GenericAwsException {
-  ImageAlreadyExistsException({String type, String message})
+  ImageAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'ImageAlreadyExistsException', message: message);
 }
 
 class ImageDigestDoesNotMatchException extends _s.GenericAwsException {
-  ImageDigestDoesNotMatchException({String type, String message})
+  ImageDigestDoesNotMatchException({String? type, String? message})
       : super(
             type: type,
             code: 'ImageDigestDoesNotMatchException',
@@ -4118,12 +4677,12 @@ class ImageDigestDoesNotMatchException extends _s.GenericAwsException {
 }
 
 class ImageNotFoundException extends _s.GenericAwsException {
-  ImageNotFoundException({String type, String message})
+  ImageNotFoundException({String? type, String? message})
       : super(type: type, code: 'ImageNotFoundException', message: message);
 }
 
 class ImageTagAlreadyExistsException extends _s.GenericAwsException {
-  ImageTagAlreadyExistsException({String type, String message})
+  ImageTagAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ImageTagAlreadyExistsException',
@@ -4131,54 +4690,54 @@ class ImageTagAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class InvalidLayerException extends _s.GenericAwsException {
-  InvalidLayerException({String type, String message})
+  InvalidLayerException({String? type, String? message})
       : super(type: type, code: 'InvalidLayerException', message: message);
 }
 
 class InvalidLayerPartException extends _s.GenericAwsException {
-  InvalidLayerPartException({String type, String message})
+  InvalidLayerPartException({String? type, String? message})
       : super(type: type, code: 'InvalidLayerPartException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidTagParameterException extends _s.GenericAwsException {
-  InvalidTagParameterException({String type, String message})
+  InvalidTagParameterException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTagParameterException', message: message);
 }
 
 class KmsException extends _s.GenericAwsException {
-  KmsException({String type, String message})
+  KmsException({String? type, String? message})
       : super(type: type, code: 'KmsException', message: message);
 }
 
 class LayerAlreadyExistsException extends _s.GenericAwsException {
-  LayerAlreadyExistsException({String type, String message})
+  LayerAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'LayerAlreadyExistsException', message: message);
 }
 
 class LayerInaccessibleException extends _s.GenericAwsException {
-  LayerInaccessibleException({String type, String message})
+  LayerInaccessibleException({String? type, String? message})
       : super(type: type, code: 'LayerInaccessibleException', message: message);
 }
 
 class LayerPartTooSmallException extends _s.GenericAwsException {
-  LayerPartTooSmallException({String type, String message})
+  LayerPartTooSmallException({String? type, String? message})
       : super(type: type, code: 'LayerPartTooSmallException', message: message);
 }
 
 class LayersNotFoundException extends _s.GenericAwsException {
-  LayersNotFoundException({String type, String message})
+  LayersNotFoundException({String? type, String? message})
       : super(type: type, code: 'LayersNotFoundException', message: message);
 }
 
 class LifecyclePolicyNotFoundException extends _s.GenericAwsException {
-  LifecyclePolicyNotFoundException({String type, String message})
+  LifecyclePolicyNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'LifecyclePolicyNotFoundException',
@@ -4186,7 +4745,7 @@ class LifecyclePolicyNotFoundException extends _s.GenericAwsException {
 }
 
 class LifecyclePolicyPreviewInProgressException extends _s.GenericAwsException {
-  LifecyclePolicyPreviewInProgressException({String type, String message})
+  LifecyclePolicyPreviewInProgressException({String? type, String? message})
       : super(
             type: type,
             code: 'LifecyclePolicyPreviewInProgressException',
@@ -4194,7 +4753,7 @@ class LifecyclePolicyPreviewInProgressException extends _s.GenericAwsException {
 }
 
 class LifecyclePolicyPreviewNotFoundException extends _s.GenericAwsException {
-  LifecyclePolicyPreviewNotFoundException({String type, String message})
+  LifecyclePolicyPreviewNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'LifecyclePolicyPreviewNotFoundException',
@@ -4202,12 +4761,12 @@ class LifecyclePolicyPreviewNotFoundException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ReferencedImagesNotFoundException extends _s.GenericAwsException {
-  ReferencedImagesNotFoundException({String type, String message})
+  ReferencedImagesNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'ReferencedImagesNotFoundException',
@@ -4215,7 +4774,7 @@ class ReferencedImagesNotFoundException extends _s.GenericAwsException {
 }
 
 class RegistryPolicyNotFoundException extends _s.GenericAwsException {
-  RegistryPolicyNotFoundException({String type, String message})
+  RegistryPolicyNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'RegistryPolicyNotFoundException',
@@ -4223,7 +4782,7 @@ class RegistryPolicyNotFoundException extends _s.GenericAwsException {
 }
 
 class RepositoryAlreadyExistsException extends _s.GenericAwsException {
-  RepositoryAlreadyExistsException({String type, String message})
+  RepositoryAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryAlreadyExistsException',
@@ -4231,19 +4790,19 @@ class RepositoryAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class RepositoryNotEmptyException extends _s.GenericAwsException {
-  RepositoryNotEmptyException({String type, String message})
+  RepositoryNotEmptyException({String? type, String? message})
       : super(
             type: type, code: 'RepositoryNotEmptyException', message: message);
 }
 
 class RepositoryNotFoundException extends _s.GenericAwsException {
-  RepositoryNotFoundException({String type, String message})
+  RepositoryNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'RepositoryNotFoundException', message: message);
 }
 
 class RepositoryPolicyNotFoundException extends _s.GenericAwsException {
-  RepositoryPolicyNotFoundException({String type, String message})
+  RepositoryPolicyNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryPolicyNotFoundException',
@@ -4251,22 +4810,22 @@ class RepositoryPolicyNotFoundException extends _s.GenericAwsException {
 }
 
 class ScanNotFoundException extends _s.GenericAwsException {
-  ScanNotFoundException({String type, String message})
+  ScanNotFoundException({String? type, String? message})
       : super(type: type, code: 'ScanNotFoundException', message: message);
 }
 
 class ServerException extends _s.GenericAwsException {
-  ServerException({String type, String message})
+  ServerException({String? type, String? message})
       : super(type: type, code: 'ServerException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class UnsupportedImageTypeException extends _s.GenericAwsException {
-  UnsupportedImageTypeException({String type, String message})
+  UnsupportedImageTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedImageTypeException',
@@ -4274,12 +4833,12 @@ class UnsupportedImageTypeException extends _s.GenericAwsException {
 }
 
 class UploadNotFoundException extends _s.GenericAwsException {
-  UploadNotFoundException({String type, String message})
+  UploadNotFoundException({String? type, String? message})
       : super(type: type, code: 'UploadNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

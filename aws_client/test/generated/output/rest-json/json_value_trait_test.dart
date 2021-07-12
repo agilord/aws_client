@@ -60,7 +60,7 @@ void main() {
 
     final output = await service.operationName1();
     expect(output.bodyField, isNull);
-    expect(output.bodyListField[0], {"Foo": "Bar"});
+    expect(output.bodyListField?[0], {"Foo": "Bar"});
     expect(output.headerField, isNull);
 /*
 {

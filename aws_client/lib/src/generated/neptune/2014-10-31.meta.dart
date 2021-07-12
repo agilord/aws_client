@@ -209,6 +209,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AvailabilityZones": {"shape": "AvailabilityZones", "flattened": false},
       "BackupRetentionPeriod": {"shape": "IntegerOptional", "flattened": false},
       "CharacterSetName": {"shape": "String", "flattened": false},
+      "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false},
       "DatabaseName": {"shape": "String", "flattened": false},
       "DBClusterIdentifier": {"shape": "String", "flattened": false},
       "DBClusterParameterGroupName": {"shape": "String", "flattened": false},
@@ -463,11 +464,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "CloneGroupId": {"shape": "String", "flattened": false},
       "ClusterCreateTime": {"shape": "TStamp", "flattened": false},
+      "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false},
       "EnabledCloudwatchLogsExports": {
         "shape": "LogTypeList",
         "flattened": false
       },
-      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false}
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "CrossAccountClone": {"shape": "BooleanOptional", "flattened": false},
+      "AutomaticRestartTime": {"shape": "TStamp", "flattened": false}
     },
     "flattened": false
   },
@@ -1552,7 +1556,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "EngineVersion": {"shape": "String", "flattened": false},
-      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false}
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
   },
@@ -2011,7 +2016,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "DBClusterParameterGroupName": {"shape": "String", "flattened": false},
-      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false}
+      "DeletionProtection": {"shape": "BooleanOptional", "flattened": false},
+      "CopyTagsToSnapshot": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
   },

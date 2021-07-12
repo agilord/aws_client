@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
-
-part 'enum.g.dart';
 
 /// Enum
 class Enum {
   final _s.RestJsonProtocol _protocol;
   Enum({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -53,10 +46,11 @@ class Enum {
     );
     final $json = await _s.jsonFromResponse(response);
     return OutputShape(
-      fooEnum: ($json['FooEnum'] as String)?.toRESTJSONEnumType(),
-      listEnums: ($json['ListEnums'] as List)
-          ?.map((e) => (e as String)?.toRESTJSONEnumType())
-          ?.toList(),
+      fooEnum: ($json['FooEnum'] as String?)?.toRESTJSONEnumType(),
+      listEnums: ($json['ListEnums'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toRESTJSONEnumType())
+          .toList(),
       headerEnum: _s
           .extractHeaderStringValue(response.headers, 'x-amz-enum')
           ?.toRESTJSONEnumType(),
@@ -64,16 +58,17 @@ class Enum {
   }
 
   Future<void> operationName1({
-    RESTJSONEnumType fooEnum,
-    RESTJSONEnumType headerEnum,
-    List<RESTJSONEnumType> listEnums,
+    RESTJSONEnumType? fooEnum,
+    RESTJSONEnumType? headerEnum,
+    List<RESTJSONEnumType>? listEnums,
   }) async {
-    final headers = <String, String>{};
-    headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
+    final headers = <String, String>{
+      if (headerEnum != null) 'x-amz-enum': headerEnum.toValue(),
+    };
     final $payload = <String, dynamic>{
       if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
       if (listEnums != null)
-        'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
+        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
     };
     await _protocol.send(
       payload: $payload,
@@ -85,38 +80,45 @@ class Enum {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'FooEnum')
-  final RESTJSONEnumType fooEnum;
-  @_s.JsonKey(name: 'x-amz-enum')
-  final RESTJSONEnumType headerEnum;
-  @_s.JsonKey(name: 'ListEnums')
-  final List<RESTJSONEnumType> listEnums;
+  final RESTJSONEnumType? fooEnum;
+  final RESTJSONEnumType? headerEnum;
+  final List<RESTJSONEnumType>? listEnums;
 
   OutputShape({
     this.fooEnum,
     this.headerEnum,
     this.listEnums,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      fooEnum: (json['FooEnum'] as String?)?.toRESTJSONEnumType(),
+      headerEnum: (json['x-amz-enum'] as String?)?.toRESTJSONEnumType(),
+      listEnums: (json['ListEnums'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toRESTJSONEnumType())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fooEnum = this.fooEnum;
+    final headerEnum = this.headerEnum;
+    final listEnums = this.listEnums;
+    return {
+      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (listEnums != null)
+        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum RESTJSONEnumType {
-  @_s.JsonValue('foo')
   foo,
-  @_s.JsonValue('bar')
   bar,
-  @_s.JsonValue('baz')
   baz,
-  @_s.JsonValue('0')
   $0,
-  @_s.JsonValue('1')
   $1,
 }
 
@@ -134,7 +136,6 @@ extension on RESTJSONEnumType {
       case RESTJSONEnumType.$1:
         return '1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -152,7 +153,7 @@ extension on String {
       case '1':
         return RESTJSONEnumType.$1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RESTJSONEnumType');
   }
 }
 

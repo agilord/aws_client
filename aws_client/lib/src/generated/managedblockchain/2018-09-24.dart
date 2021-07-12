@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-09-24.g.dart';
 
 /// <p/>
 /// Amazon Managed Blockchain is a fully managed service for creating and
@@ -46,10 +39,10 @@ part '2018-09-24.g.dart';
 class ManagedBlockchain {
   final _s.RestJsonProtocol _protocol;
   ManagedBlockchain({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -73,13 +66,7 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [ResourceLimitExceededException].
   /// May throw [InternalServiceErrorException].
-  ///
-  /// Parameter [clientRequestToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the operation. An idempotent operation completes no more
-  /// than one time. This identifier is required only if you make a service
-  /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [invitationId] :
   /// The unique identifier of the invitation that is sent to the member to join
@@ -90,20 +77,19 @@ class ManagedBlockchain {
   ///
   /// Parameter [networkId] :
   /// The unique identifier of the network in which the member is created.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more
+  /// than one time. This identifier is required only if you make a service
+  /// request directly using an HTTP client. It is generated automatically if
+  /// you use an AWS SDK or the AWS CLI.
   Future<CreateMemberOutput> createMember({
-    @_s.required String clientRequestToken,
-    @_s.required String invitationId,
-    @_s.required MemberConfiguration memberConfiguration,
-    @_s.required String networkId,
+    required String invitationId,
+    required MemberConfiguration memberConfiguration,
+    required String networkId,
+    String? clientRequestToken,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(invitationId, 'invitationId');
     _s.validateStringLength(
       'invitationId',
@@ -121,10 +107,16 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'InvitationId': invitationId,
       'MemberConfiguration': memberConfiguration,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -145,13 +137,7 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [ResourceLimitExceededException].
   /// May throw [InternalServiceErrorException].
-  ///
-  /// Parameter [clientRequestToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the operation. An idempotent operation completes no more
-  /// than one time. This identifier is required only if you make a service
-  /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [framework] :
   /// The blockchain framework that the network uses.
@@ -169,30 +155,46 @@ class ManagedBlockchain {
   /// The voting rules used by the network to determine if a proposal is
   /// approved.
   ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more
+  /// than one time. This identifier is required only if you make a service
+  /// request directly using an HTTP client. It is generated automatically if
+  /// you use an AWS SDK or the AWS CLI.
+  ///
   /// Parameter [description] :
   /// An optional description for the network.
   ///
   /// Parameter [frameworkConfiguration] :
   /// Configuration properties of the blockchain framework relevant to the
   /// network configuration.
+  ///
+  /// Parameter [tags] :
+  /// Tags to assign to the network. Each tag consists of a key and optional
+  /// value.
+  ///
+  /// When specifying tags during creation, you can specify multiple key-value
+  /// pairs in a single request, with an overall maximum of 50 tags added to
+  /// each resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
   Future<CreateNetworkOutput> createNetwork({
-    @_s.required String clientRequestToken,
-    @_s.required Framework framework,
-    @_s.required String frameworkVersion,
-    @_s.required MemberConfiguration memberConfiguration,
-    @_s.required String name,
-    @_s.required VotingPolicy votingPolicy,
-    String description,
-    NetworkFrameworkConfiguration frameworkConfiguration,
+    required Framework framework,
+    required String frameworkVersion,
+    required MemberConfiguration memberConfiguration,
+    required String name,
+    required VotingPolicy votingPolicy,
+    String? clientRequestToken,
+    String? description,
+    NetworkFrameworkConfiguration? frameworkConfiguration,
+    Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(framework, 'framework');
     ArgumentError.checkNotNull(frameworkVersion, 'frameworkVersion');
     _s.validateStringLength(
@@ -211,13 +213,13 @@ class ManagedBlockchain {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(votingPolicy, 'votingPolicy');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
     _s.validateStringLength(
       'description',
       description,
@@ -225,15 +227,16 @@ class ManagedBlockchain {
       128,
     );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
-      'Framework': framework?.toValue() ?? '',
+      'Framework': framework.toValue(),
       'FrameworkVersion': frameworkVersion,
       'MemberConfiguration': memberConfiguration,
       'Name': name,
       'VotingPolicy': votingPolicy,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
       if (frameworkConfiguration != null)
         'FrameworkConfiguration': frameworkConfiguration,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -256,13 +259,7 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [ResourceLimitExceededException].
   /// May throw [InternalServiceErrorException].
-  ///
-  /// Parameter [clientRequestToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the operation. An idempotent operation completes no more
-  /// than one time. This identifier is required only if you make a service
-  /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [networkId] :
   /// The unique identifier of the network for the node.
@@ -284,24 +281,39 @@ class ManagedBlockchain {
   /// Parameter [nodeConfiguration] :
   /// The properties of a node configuration.
   ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more
+  /// than one time. This identifier is required only if you make a service
+  /// request directly using an HTTP client. It is generated automatically if
+  /// you use an AWS SDK or the AWS CLI.
+  ///
   /// Parameter [memberId] :
   /// The unique identifier of the member that owns this node.
   ///
   /// Applies only to Hyperledger Fabric.
+  ///
+  /// Parameter [tags] :
+  /// Tags to assign to the node. Each tag consists of a key and optional value.
+  ///
+  /// When specifying tags during creation, you can specify multiple key-value
+  /// pairs in a single request, with an overall maximum of 50 tags added to
+  /// each resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
   Future<CreateNodeOutput> createNode({
-    @_s.required String clientRequestToken,
-    @_s.required String networkId,
-    @_s.required NodeConfiguration nodeConfiguration,
-    String memberId,
+    required String networkId,
+    required NodeConfiguration nodeConfiguration,
+    String? clientRequestToken,
+    String? memberId,
+    Map<String, String>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
       'networkId',
@@ -312,15 +324,22 @@ class ManagedBlockchain {
     );
     ArgumentError.checkNotNull(nodeConfiguration, 'nodeConfiguration');
     _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringLength(
       'memberId',
       memberId,
       1,
       32,
     );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'NodeConfiguration': nodeConfiguration,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (memberId != null) 'MemberId': memberId,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -343,19 +362,13 @@ class ManagedBlockchain {
   /// May throw [ResourceNotReadyException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServiceErrorException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [actions] :
   /// The type of actions proposed, such as inviting a member or removing a
   /// member. The types of <code>Actions</code> in a proposal are mutually
   /// exclusive. For example, a proposal with <code>Invitations</code> actions
   /// cannot also contain <code>Removals</code> actions.
-  ///
-  /// Parameter [clientRequestToken] :
-  /// A unique, case-sensitive identifier that you provide to ensure the
-  /// idempotency of the operation. An idempotent operation completes no more
-  /// than one time. This identifier is required only if you make a service
-  /// request directly using an HTTP client. It is generated automatically if
-  /// you use an AWS SDK or the AWS CLI.
   ///
   /// Parameter [memberId] :
   /// The unique identifier of the member that is creating the proposal. This
@@ -365,25 +378,42 @@ class ManagedBlockchain {
   /// Parameter [networkId] :
   /// The unique identifier of the network for which the proposal is made.
   ///
+  /// Parameter [clientRequestToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the operation. An idempotent operation completes no more
+  /// than one time. This identifier is required only if you make a service
+  /// request directly using an HTTP client. It is generated automatically if
+  /// you use an AWS SDK or the AWS CLI.
+  ///
   /// Parameter [description] :
   /// A description for the proposal that is visible to voting members, for
   /// example, "Proposal to add Example Corp. as member."
+  ///
+  /// Parameter [tags] :
+  /// Tags to assign to the proposal. Each tag consists of a key and optional
+  /// value.
+  ///
+  /// When specifying tags during creation, you can specify multiple key-value
+  /// pairs in a single request, with an overall maximum of 50 tags added to
+  /// each resource. If the proposal is for a network invitation, the invitation
+  /// inherits the tags added to the proposal.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
   Future<CreateProposalOutput> createProposal({
-    @_s.required ProposalActions actions,
-    @_s.required String clientRequestToken,
-    @_s.required String memberId,
-    @_s.required String networkId,
-    String description,
+    required ProposalActions actions,
+    required String memberId,
+    required String networkId,
+    String? clientRequestToken,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(memberId, 'memberId');
     _s.validateStringLength(
       'memberId',
@@ -401,6 +431,12 @@ class ManagedBlockchain {
       isRequired: true,
     );
     _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringLength(
       'description',
       description,
       0,
@@ -408,9 +444,10 @@ class ManagedBlockchain {
     );
     final $payload = <String, dynamic>{
       'Actions': actions,
-      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'MemberId': memberId,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -445,8 +482,8 @@ class ManagedBlockchain {
   /// Parameter [networkId] :
   /// The unique identifier of the network from which the member is removed.
   Future<void> deleteMember({
-    @_s.required String memberId,
-    @_s.required String networkId,
+    required String memberId,
+    required String networkId,
   }) async {
     ArgumentError.checkNotNull(memberId, 'memberId');
     _s.validateStringLength(
@@ -471,7 +508,6 @@ class ManagedBlockchain {
           '/networks/${Uri.encodeComponent(networkId)}/members/${Uri.encodeComponent(memberId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteMemberOutput.fromJson(response);
   }
 
   /// Deletes a node that your AWS account owns. All data on the node is lost
@@ -511,9 +547,9 @@ class ManagedBlockchain {
   ///
   /// Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
   Future<void> deleteNode({
-    @_s.required String networkId,
-    @_s.required String nodeId,
-    String memberId,
+    required String networkId,
+    required String nodeId,
+    String? memberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -548,7 +584,6 @@ class ManagedBlockchain {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteNodeOutput.fromJson(response);
   }
 
   /// Returns detailed information about a member.
@@ -567,8 +602,8 @@ class ManagedBlockchain {
   /// Parameter [networkId] :
   /// The unique identifier of the network to which the member belongs.
   Future<GetMemberOutput> getMember({
-    @_s.required String memberId,
-    @_s.required String networkId,
+    required String memberId,
+    required String networkId,
   }) async {
     ArgumentError.checkNotNull(memberId, 'memberId');
     _s.validateStringLength(
@@ -609,7 +644,7 @@ class ManagedBlockchain {
   /// Parameter [networkId] :
   /// The unique identifier of the network to get information about.
   Future<GetNetworkOutput> getNetwork({
-    @_s.required String networkId,
+    required String networkId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -649,9 +684,9 @@ class ManagedBlockchain {
   ///
   /// Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
   Future<GetNodeOutput> getNode({
-    @_s.required String networkId,
-    @_s.required String nodeId,
-    String memberId,
+    required String networkId,
+    required String nodeId,
+    String? memberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -705,8 +740,8 @@ class ManagedBlockchain {
   /// Parameter [proposalId] :
   /// The unique identifier of the proposal.
   Future<GetProposalOutput> getProposal({
-    @_s.required String networkId,
-    @_s.required String proposalId,
+    required String networkId,
+    required String proposalId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -751,8 +786,8 @@ class ManagedBlockchain {
   /// Parameter [nextToken] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListInvitationsOutput> listInvitations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -812,12 +847,12 @@ class ManagedBlockchain {
   /// An optional status specifier. If provided, only members currently in this
   /// status are listed.
   Future<ListMembersOutput> listMembers({
-    @_s.required String networkId,
-    bool isOwned,
-    int maxResults,
-    String name,
-    String nextToken,
-    MemberStatus status,
+    required String networkId,
+    bool? isOwned,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+    MemberStatus? status,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -885,11 +920,11 @@ class ManagedBlockchain {
   ///
   /// Applies only to Hyperledger Fabric.
   Future<ListNetworksOutput> listNetworks({
-    Framework framework,
-    int maxResults,
-    String name,
-    String nextToken,
-    NetworkStatus status,
+    Framework? framework,
+    int? maxResults,
+    String? name,
+    String? nextToken,
+    NetworkStatus? status,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -947,11 +982,11 @@ class ManagedBlockchain {
   /// An optional status specifier. If provided, only nodes currently in this
   /// status are listed.
   Future<ListNodesOutput> listNodes({
-    @_s.required String networkId,
-    int maxResults,
-    String memberId,
-    String nextToken,
-    NodeStatus status,
+    required String networkId,
+    int? maxResults,
+    String? memberId,
+    String? nextToken,
+    NodeStatus? status,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -1017,10 +1052,10 @@ class ManagedBlockchain {
   /// Parameter [nextToken] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListProposalVotesOutput> listProposalVotes({
-    @_s.required String networkId,
-    @_s.required String proposalId,
-    int maxResults,
-    String nextToken,
+    required String networkId,
+    required String proposalId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -1084,9 +1119,9 @@ class ManagedBlockchain {
   /// Parameter [nextToken] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListProposalsOutput> listProposals({
-    @_s.required String networkId,
-    int maxResults,
-    String nextToken,
+    required String networkId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -1122,6 +1157,47 @@ class ManagedBlockchain {
     return ListProposalsOutput.fromJson(response);
   }
 
+  /// Returns a list of tags for the specified resource. Each tag consists of a
+  /// key and optional value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  ///
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceNotReadyException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
   /// Rejects an invitation to join a network. This action can be called by a
   /// principal in an AWS account that has received an invitation to create a
   /// member and join a network.
@@ -1138,7 +1214,7 @@ class ManagedBlockchain {
   /// Parameter [invitationId] :
   /// The unique identifier of the invitation to reject.
   Future<void> rejectInvitation({
-    @_s.required String invitationId,
+    required String invitationId,
   }) async {
     ArgumentError.checkNotNull(invitationId, 'invitationId');
     _s.validateStringLength(
@@ -1154,7 +1230,113 @@ class ManagedBlockchain {
       requestUri: '/invitations/${Uri.encodeComponent(invitationId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return RejectInvitationOutput.fromJson(response);
+  }
+
+  /// Adds or overwrites the specified tags for the specified Amazon Managed
+  /// Blockchain resource. Each tag consists of a key and optional value.
+  ///
+  /// When you specify a tag key that already exists, the tag value is
+  /// overwritten with the new value. Use <code>UntagResource</code> to remove
+  /// tag keys.
+  ///
+  /// A resource can have up to 50 tags. If you try to create more than 50 tags
+  /// for a resource, your request fails and returns an error.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  ///
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
+  /// May throw [ResourceNotReadyException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the specified resource. Tag values can be empty, for
+  /// example, <code>"MyTagKey" : ""</code>. You can specify multiple key-value
+  /// pairs in a single request, with an overall maximum of 50 tags added to
+  /// each resource.
+  Future<void> tagResource({
+    required String resourceArn,
+    required Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes the specified tags from the Amazon Managed Blockchain resource.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  ///
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceNotReadyException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the resource. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Updates a member configuration with new parameters.
@@ -1177,9 +1359,9 @@ class ManagedBlockchain {
   /// Parameter [logPublishingConfiguration] :
   /// Configuration properties for publishing to Amazon CloudWatch Logs.
   Future<void> updateMember({
-    @_s.required String memberId,
-    @_s.required String networkId,
-    MemberLogPublishingConfiguration logPublishingConfiguration,
+    required String memberId,
+    required String networkId,
+    MemberLogPublishingConfiguration? logPublishingConfiguration,
   }) async {
     ArgumentError.checkNotNull(memberId, 'memberId');
     _s.validateStringLength(
@@ -1208,7 +1390,6 @@ class ManagedBlockchain {
           '/networks/${Uri.encodeComponent(networkId)}/members/${Uri.encodeComponent(memberId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateMemberOutput.fromJson(response);
   }
 
   /// Updates a node configuration with new parameters.
@@ -1235,10 +1416,10 @@ class ManagedBlockchain {
   ///
   /// Applies only to Hyperledger Fabric.
   Future<void> updateNode({
-    @_s.required String networkId,
-    @_s.required String nodeId,
-    NodeLogPublishingConfiguration logPublishingConfiguration,
-    String memberId,
+    required String networkId,
+    required String nodeId,
+    NodeLogPublishingConfiguration? logPublishingConfiguration,
+    String? memberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -1274,7 +1455,6 @@ class ManagedBlockchain {
           '/networks/${Uri.encodeComponent(networkId)}/nodes/${Uri.encodeComponent(nodeId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateNodeOutput.fromJson(response);
   }
 
   /// Casts a vote for a specified <code>ProposalId</code> on behalf of a
@@ -1302,10 +1482,10 @@ class ManagedBlockchain {
   /// Parameter [voterMemberId] :
   /// The unique identifier of the member casting the vote.
   Future<void> voteOnProposal({
-    @_s.required String networkId,
-    @_s.required String proposalId,
-    @_s.required VoteValue vote,
-    @_s.required String voterMemberId,
+    required String networkId,
+    required String proposalId,
+    required VoteValue vote,
+    required String voterMemberId,
   }) async {
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
@@ -1333,7 +1513,7 @@ class ManagedBlockchain {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Vote': vote?.toValue() ?? '',
+      'Vote': vote.toValue(),
       'VoterMemberId': voterMemberId,
     };
     final response = await _protocol.send(
@@ -1343,7 +1523,6 @@ class ManagedBlockchain {
           '/networks/${Uri.encodeComponent(networkId)}/proposals/${Uri.encodeComponent(proposalId)}/votes',
       exceptionFnMap: _exceptionFns,
     );
-    return VoteOnProposalOutput.fromJson(response);
   }
 }
 
@@ -1354,25 +1533,18 @@ class ManagedBlockchain {
 /// created.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ApprovalThresholdPolicy {
   /// The duration from the time that a proposal is created until it expires. If
   /// members cast neither the required number of <code>YES</code> votes to
   /// approve the proposal nor the number of <code>NO</code> votes required to
   /// reject it before the duration expires, the proposal is <code>EXPIRED</code>
   /// and <code>ProposalActions</code> are not carried out.
-  @_s.JsonKey(name: 'ProposalDurationInHours')
-  final int proposalDurationInHours;
+  final int? proposalDurationInHours;
 
   /// Determines whether the vote percentage must be greater than the
   /// <code>ThresholdPercentage</code> or must be greater than or equal to the
   /// <code>ThreholdPercentage</code> to be approved.
-  @_s.JsonKey(name: 'ThresholdComparator')
-  final ThresholdComparator thresholdComparator;
+  final ThresholdComparator? thresholdComparator;
 
   /// The percentage of votes among all members that must be <code>YES</code> for
   /// a proposal to be approved. For example, a <code>ThresholdPercentage</code>
@@ -1382,126 +1554,187 @@ class ApprovalThresholdPolicy {
   /// with a <code>ThresholdComparator</code> value of <code>GREATER_THAN</code>,
   /// this indicates that 6 <code>YES</code> votes are required for the proposal
   /// to be approved.
-  @_s.JsonKey(name: 'ThresholdPercentage')
-  final int thresholdPercentage;
+  final int? thresholdPercentage;
 
   ApprovalThresholdPolicy({
     this.proposalDurationInHours,
     this.thresholdComparator,
     this.thresholdPercentage,
   });
-  factory ApprovalThresholdPolicy.fromJson(Map<String, dynamic> json) =>
-      _$ApprovalThresholdPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ApprovalThresholdPolicyToJson(this);
+  factory ApprovalThresholdPolicy.fromJson(Map<String, dynamic> json) {
+    return ApprovalThresholdPolicy(
+      proposalDurationInHours: json['ProposalDurationInHours'] as int?,
+      thresholdComparator:
+          (json['ThresholdComparator'] as String?)?.toThresholdComparator(),
+      thresholdPercentage: json['ThresholdPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proposalDurationInHours = this.proposalDurationInHours;
+    final thresholdComparator = this.thresholdComparator;
+    final thresholdPercentage = this.thresholdPercentage;
+    return {
+      if (proposalDurationInHours != null)
+        'ProposalDurationInHours': proposalDurationInHours,
+      if (thresholdComparator != null)
+        'ThresholdComparator': thresholdComparator.toValue(),
+      if (thresholdPercentage != null)
+        'ThresholdPercentage': thresholdPercentage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMemberOutput {
   /// The unique identifier of the member.
-  @_s.JsonKey(name: 'MemberId')
-  final String memberId;
+  final String? memberId;
 
   CreateMemberOutput({
     this.memberId,
   });
-  factory CreateMemberOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateMemberOutputFromJson(json);
+
+  factory CreateMemberOutput.fromJson(Map<String, dynamic> json) {
+    return CreateMemberOutput(
+      memberId: json['MemberId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberId = this.memberId;
+    return {
+      if (memberId != null) 'MemberId': memberId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNetworkOutput {
   /// The unique identifier for the first member within the network.
-  @_s.JsonKey(name: 'MemberId')
-  final String memberId;
+  final String? memberId;
 
   /// The unique identifier for the network.
-  @_s.JsonKey(name: 'NetworkId')
-  final String networkId;
+  final String? networkId;
 
   CreateNetworkOutput({
     this.memberId,
     this.networkId,
   });
-  factory CreateNetworkOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateNetworkOutputFromJson(json);
+
+  factory CreateNetworkOutput.fromJson(Map<String, dynamic> json) {
+    return CreateNetworkOutput(
+      memberId: json['MemberId'] as String?,
+      networkId: json['NetworkId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberId = this.memberId;
+    final networkId = this.networkId;
+    return {
+      if (memberId != null) 'MemberId': memberId,
+      if (networkId != null) 'NetworkId': networkId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNodeOutput {
   /// The unique identifier of the node.
-  @_s.JsonKey(name: 'NodeId')
-  final String nodeId;
+  final String? nodeId;
 
   CreateNodeOutput({
     this.nodeId,
   });
-  factory CreateNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateNodeOutputFromJson(json);
+
+  factory CreateNodeOutput.fromJson(Map<String, dynamic> json) {
+    return CreateNodeOutput(
+      nodeId: json['NodeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeId = this.nodeId;
+    return {
+      if (nodeId != null) 'NodeId': nodeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProposalOutput {
   /// The unique identifier of the proposal.
-  @_s.JsonKey(name: 'ProposalId')
-  final String proposalId;
+  final String? proposalId;
 
   CreateProposalOutput({
     this.proposalId,
   });
-  factory CreateProposalOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateProposalOutputFromJson(json);
+
+  factory CreateProposalOutput.fromJson(Map<String, dynamic> json) {
+    return CreateProposalOutput(
+      proposalId: json['ProposalId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proposalId = this.proposalId;
+    return {
+      if (proposalId != null) 'ProposalId': proposalId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMemberOutput {
   DeleteMemberOutput();
-  factory DeleteMemberOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMemberOutputFromJson(json);
+
+  factory DeleteMemberOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteMemberOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteNodeOutput {
   DeleteNodeOutput();
-  factory DeleteNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNodeOutputFromJson(json);
+
+  factory DeleteNodeOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteNodeOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum Edition {
-  @_s.JsonValue('STARTER')
   starter,
-  @_s.JsonValue('STANDARD')
   standard,
 }
 
+extension on Edition {
+  String toValue() {
+    switch (this) {
+      case Edition.starter:
+        return 'STARTER';
+      case Edition.standard:
+        return 'STANDARD';
+    }
+  }
+}
+
+extension on String {
+  Edition toEdition() {
+    switch (this) {
+      case 'STARTER':
+        return Edition.starter;
+      case 'STANDARD':
+        return Edition.standard;
+    }
+    throw Exception('$this is not known in enum Edition');
+  }
+}
+
 enum Framework {
-  @_s.JsonValue('HYPERLEDGER_FABRIC')
   hyperledgerFabric,
-  @_s.JsonValue('ETHEREUM')
   ethereum,
 }
 
@@ -1513,106 +1746,140 @@ extension on Framework {
       case Framework.ethereum:
         return 'ETHEREUM';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Framework toFramework() {
+    switch (this) {
+      case 'HYPERLEDGER_FABRIC':
+        return Framework.hyperledgerFabric;
+      case 'ETHEREUM':
+        return Framework.ethereum;
+    }
+    throw Exception('$this is not known in enum Framework');
+  }
+}
+
 class GetMemberOutput {
   /// The properties of a member.
-  @_s.JsonKey(name: 'Member')
-  final Member member;
+  final Member? member;
 
   GetMemberOutput({
     this.member,
   });
-  factory GetMemberOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMemberOutputFromJson(json);
+
+  factory GetMemberOutput.fromJson(Map<String, dynamic> json) {
+    return GetMemberOutput(
+      member: json['Member'] != null
+          ? Member.fromJson(json['Member'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final member = this.member;
+    return {
+      if (member != null) 'Member': member,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetNetworkOutput {
   /// An object containing network configuration parameters.
-  @_s.JsonKey(name: 'Network')
-  final Network network;
+  final Network? network;
 
   GetNetworkOutput({
     this.network,
   });
-  factory GetNetworkOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetNetworkOutputFromJson(json);
+
+  factory GetNetworkOutput.fromJson(Map<String, dynamic> json) {
+    return GetNetworkOutput(
+      network: json['Network'] != null
+          ? Network.fromJson(json['Network'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final network = this.network;
+    return {
+      if (network != null) 'Network': network,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetNodeOutput {
   /// Properties of the node configuration.
-  @_s.JsonKey(name: 'Node')
-  final Node node;
+  final Node? node;
 
   GetNodeOutput({
     this.node,
   });
-  factory GetNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetNodeOutputFromJson(json);
+
+  factory GetNodeOutput.fromJson(Map<String, dynamic> json) {
+    return GetNodeOutput(
+      node: json['Node'] != null
+          ? Node.fromJson(json['Node'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final node = this.node;
+    return {
+      if (node != null) 'Node': node,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProposalOutput {
   /// Information about a proposal.
-  @_s.JsonKey(name: 'Proposal')
-  final Proposal proposal;
+  final Proposal? proposal;
 
   GetProposalOutput({
     this.proposal,
   });
-  factory GetProposalOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetProposalOutputFromJson(json);
+
+  factory GetProposalOutput.fromJson(Map<String, dynamic> json) {
+    return GetProposalOutput(
+      proposal: json['Proposal'] != null
+          ? Proposal.fromJson(json['Proposal'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final proposal = this.proposal;
+    return {
+      if (proposal != null) 'Proposal': proposal,
+    };
+  }
 }
 
 /// An invitation to an AWS account to create a member and join the network.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Invitation {
+  /// The Amazon Resource Name (ARN) of the invitation. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
   /// The date and time that the invitation was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date and time that the invitation expires. This is the
   /// <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that
   /// is specified in the <code>ProposalThresholdPolicy</code>. After this date
   /// and time, the invitee can no longer create a member and join the network
   /// using this <code>InvitationId</code>.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationDate')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   /// The unique identifier for the invitation.
-  @_s.JsonKey(name: 'InvitationId')
-  final String invitationId;
-  @_s.JsonKey(name: 'NetworkSummary')
-  final NetworkSummary networkSummary;
+  final String? invitationId;
+  final NetworkSummary? networkSummary;
 
   /// The status of the invitation:
   ///
@@ -1637,31 +1904,91 @@ class Invitation {
   /// invitation before the <code>ExpirationDate</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final InvitationStatus status;
+  final InvitationStatus? status;
 
   Invitation({
+    this.arn,
     this.creationDate,
     this.expirationDate,
     this.invitationId,
     this.networkSummary,
     this.status,
   });
-  factory Invitation.fromJson(Map<String, dynamic> json) =>
-      _$InvitationFromJson(json);
+
+  factory Invitation.fromJson(Map<String, dynamic> json) {
+    return Invitation(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      invitationId: json['InvitationId'] as String?,
+      networkSummary: json['NetworkSummary'] != null
+          ? NetworkSummary.fromJson(
+              json['NetworkSummary'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toInvitationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final expirationDate = this.expirationDate;
+    final invitationId = this.invitationId;
+    final networkSummary = this.networkSummary;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (expirationDate != null)
+        'ExpirationDate': iso8601ToJson(expirationDate),
+      if (invitationId != null) 'InvitationId': invitationId,
+      if (networkSummary != null) 'NetworkSummary': networkSummary,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum InvitationStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ACCEPTED')
   accepted,
-  @_s.JsonValue('ACCEPTING')
   accepting,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('EXPIRED')
   expired,
+}
+
+extension on InvitationStatus {
+  String toValue() {
+    switch (this) {
+      case InvitationStatus.pending:
+        return 'PENDING';
+      case InvitationStatus.accepted:
+        return 'ACCEPTED';
+      case InvitationStatus.accepting:
+        return 'ACCEPTING';
+      case InvitationStatus.rejected:
+        return 'REJECTED';
+      case InvitationStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  InvitationStatus toInvitationStatus() {
+    switch (this) {
+      case 'PENDING':
+        return InvitationStatus.pending;
+      case 'ACCEPTED':
+        return InvitationStatus.accepted;
+      case 'ACCEPTING':
+        return InvitationStatus.accepting;
+      case 'REJECTED':
+        return InvitationStatus.rejected;
+      case 'EXPIRED':
+        return InvitationStatus.expired;
+    }
+    throw Exception('$this is not known in enum InvitationStatus');
+  }
 }
 
 /// An action to invite a specific AWS account to create a member and join the
@@ -1669,238 +1996,333 @@ enum InvitationStatus {
 /// <code>Proposal</code> is <code>APPROVED</code>.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InviteAction {
   /// The AWS account ID to invite.
-  @_s.JsonKey(name: 'Principal')
   final String principal;
 
   InviteAction({
-    @_s.required this.principal,
+    required this.principal,
   });
-  factory InviteAction.fromJson(Map<String, dynamic> json) =>
-      _$InviteActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InviteActionToJson(this);
+  factory InviteAction.fromJson(Map<String, dynamic> json) {
+    return InviteAction(
+      principal: json['Principal'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final principal = this.principal;
+    return {
+      'Principal': principal,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInvitationsOutput {
   /// The invitations for the network.
-  @_s.JsonKey(name: 'Invitations')
-  final List<Invitation> invitations;
+  final List<Invitation>? invitations;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInvitationsOutput({
     this.invitations,
     this.nextToken,
   });
-  factory ListInvitationsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListInvitationsOutputFromJson(json);
+
+  factory ListInvitationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListInvitationsOutput(
+      invitations: (json['Invitations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Invitation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invitations = this.invitations;
+    final nextToken = this.nextToken;
+    return {
+      if (invitations != null) 'Invitations': invitations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMembersOutput {
   /// An array of <code>MemberSummary</code> objects. Each object contains details
   /// about a network member.
-  @_s.JsonKey(name: 'Members')
-  final List<MemberSummary> members;
+  final List<MemberSummary>? members;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMembersOutput({
     this.members,
     this.nextToken,
   });
-  factory ListMembersOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListMembersOutputFromJson(json);
+
+  factory ListMembersOutput.fromJson(Map<String, dynamic> json) {
+    return ListMembersOutput(
+      members: (json['Members'] as List?)
+          ?.whereNotNull()
+          .map((e) => MemberSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final members = this.members;
+    final nextToken = this.nextToken;
+    return {
+      if (members != null) 'Members': members,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNetworksOutput {
   /// An array of <code>NetworkSummary</code> objects that contain configuration
   /// properties for each network.
-  @_s.JsonKey(name: 'Networks')
-  final List<NetworkSummary> networks;
+  final List<NetworkSummary>? networks;
 
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListNetworksOutput({
     this.networks,
     this.nextToken,
   });
-  factory ListNetworksOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListNetworksOutputFromJson(json);
+
+  factory ListNetworksOutput.fromJson(Map<String, dynamic> json) {
+    return ListNetworksOutput(
+      networks: (json['Networks'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networks = this.networks;
+    final nextToken = this.nextToken;
+    return {
+      if (networks != null) 'Networks': networks,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListNodesOutput {
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>NodeSummary</code> objects that contain configuration
   /// properties for each node.
-  @_s.JsonKey(name: 'Nodes')
-  final List<NodeSummary> nodes;
+  final List<NodeSummary>? nodes;
 
   ListNodesOutput({
     this.nextToken,
     this.nodes,
   });
-  factory ListNodesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListNodesOutputFromJson(json);
+
+  factory ListNodesOutput.fromJson(Map<String, dynamic> json) {
+    return ListNodesOutput(
+      nextToken: json['NextToken'] as String?,
+      nodes: (json['Nodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => NodeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final nodes = this.nodes;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (nodes != null) 'Nodes': nodes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProposalVotesOutput {
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of votes.
-  @_s.JsonKey(name: 'ProposalVotes')
-  final List<VoteSummary> proposalVotes;
+  final List<VoteSummary>? proposalVotes;
 
   ListProposalVotesOutput({
     this.nextToken,
     this.proposalVotes,
   });
-  factory ListProposalVotesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListProposalVotesOutputFromJson(json);
+
+  factory ListProposalVotesOutput.fromJson(Map<String, dynamic> json) {
+    return ListProposalVotesOutput(
+      nextToken: json['NextToken'] as String?,
+      proposalVotes: (json['ProposalVotes'] as List?)
+          ?.whereNotNull()
+          .map((e) => VoteSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final proposalVotes = this.proposalVotes;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (proposalVotes != null) 'ProposalVotes': proposalVotes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProposalsOutput {
   /// The pagination token that indicates the next set of results to retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The summary of each proposal made on the network.
-  @_s.JsonKey(name: 'Proposals')
-  final List<ProposalSummary> proposals;
+  final List<ProposalSummary>? proposals;
 
   ListProposalsOutput({
     this.nextToken,
     this.proposals,
   });
-  factory ListProposalsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListProposalsOutputFromJson(json);
+
+  factory ListProposalsOutput.fromJson(Map<String, dynamic> json) {
+    return ListProposalsOutput(
+      nextToken: json['NextToken'] as String?,
+      proposals: (json['Proposals'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProposalSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final proposals = this.proposals;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (proposals != null) 'Proposals': proposals,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// The tags assigned to the resource.
+  final Map<String, String>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// A configuration for logging events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogConfiguration {
   /// Indicates whether logging is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   LogConfiguration({
     this.enabled,
   });
-  factory LogConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$LogConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LogConfigurationToJson(this);
+  factory LogConfiguration.fromJson(Map<String, dynamic> json) {
+    return LogConfiguration(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// A collection of log configurations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LogConfigurations {
   /// Parameters for publishing logs to Amazon CloudWatch Logs.
-  @_s.JsonKey(name: 'Cloudwatch')
-  final LogConfiguration cloudwatch;
+  final LogConfiguration? cloudwatch;
 
   LogConfigurations({
     this.cloudwatch,
   });
-  factory LogConfigurations.fromJson(Map<String, dynamic> json) =>
-      _$LogConfigurationsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LogConfigurationsToJson(this);
+  factory LogConfigurations.fromJson(Map<String, dynamic> json) {
+    return LogConfigurations(
+      cloudwatch: json['Cloudwatch'] != null
+          ? LogConfiguration.fromJson(
+              json['Cloudwatch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudwatch = this.cloudwatch;
+    return {
+      if (cloudwatch != null) 'Cloudwatch': cloudwatch,
+    };
+  }
 }
 
 /// Member configuration properties.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Member {
+  /// The Amazon Resource Name (ARN) of the member. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
   /// The date and time that the member was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// An optional description for the member.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Attributes relevant to a member for the blockchain framework that the
   /// Managed Blockchain network uses.
-  @_s.JsonKey(name: 'FrameworkAttributes')
-  final MemberFrameworkAttributes frameworkAttributes;
+  final MemberFrameworkAttributes? frameworkAttributes;
 
   /// The unique identifier of the member.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
+
+  /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key
+  /// Management Service (AWS KMS) that the member uses for encryption at rest. If
+  /// the value of this parameter is <code>"AWS Owned KMS Key"</code>, the member
+  /// uses an AWS owned KMS key for encryption. This parameter is inherited by the
+  /// nodes that this member owns.
+  final String? kmsKeyArn;
 
   /// Configuration properties for logging events associated with a member.
-  @_s.JsonKey(name: 'LogPublishingConfiguration')
-  final MemberLogPublishingConfiguration logPublishingConfiguration;
+  final MemberLogPublishingConfiguration? logPublishingConfiguration;
 
   /// The name of the member.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The unique identifier of the network to which the member belongs.
-  @_s.JsonKey(name: 'NetworkId')
-  final String networkId;
+  final String? networkId;
 
   /// The status of a member.
   ///
@@ -1918,6 +2340,9 @@ class Member {
   /// and creation failed.
   /// </li>
   /// <li>
+  /// <code>UPDATING</code> - The member is in the process of being updated.
+  /// </li>
+  /// <li>
   /// <code>DELETING</code> - The member and all associated resources are in the
   /// process of being deleted. Either the AWS account that owns the member
   /// deleted it, or the member is being deleted as the result of an
@@ -1929,89 +2354,226 @@ class Member {
   /// the member deleted it, or the member is being deleted as the result of an
   /// <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.
   /// </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The member is impaired and might
+  /// not function as expected because it cannot access the specified customer
+  /// managed key in AWS KMS for encryption at rest. Either the KMS key was
+  /// disabled or deleted, or the grants on the key were revoked.
+  ///
+  /// The effect of disabling or deleting a key, or revoking a grant is not
+  /// immediate. The member resource might take some time to find that the key is
+  /// inaccessible. When a resource is in this state, we recommend deleting and
+  /// recreating the resource.
+  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final MemberStatus status;
+  final MemberStatus? status;
+
+  /// Tags assigned to the member. Tags consist of a key and optional value. For
+  /// more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
 
   Member({
+    this.arn,
     this.creationDate,
     this.description,
     this.frameworkAttributes,
     this.id,
+    this.kmsKeyArn,
     this.logPublishingConfiguration,
     this.name,
     this.networkId,
     this.status,
+    this.tags,
   });
-  factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+
+  factory Member.fromJson(Map<String, dynamic> json) {
+    return Member(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      frameworkAttributes: json['FrameworkAttributes'] != null
+          ? MemberFrameworkAttributes.fromJson(
+              json['FrameworkAttributes'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      logPublishingConfiguration: json['LogPublishingConfiguration'] != null
+          ? MemberLogPublishingConfiguration.fromJson(
+              json['LogPublishingConfiguration'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      networkId: json['NetworkId'] as String?,
+      status: (json['Status'] as String?)?.toMemberStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final frameworkAttributes = this.frameworkAttributes;
+    final id = this.id;
+    final kmsKeyArn = this.kmsKeyArn;
+    final logPublishingConfiguration = this.logPublishingConfiguration;
+    final name = this.name;
+    final networkId = this.networkId;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (frameworkAttributes != null)
+        'FrameworkAttributes': frameworkAttributes,
+      if (id != null) 'Id': id,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (logPublishingConfiguration != null)
+        'LogPublishingConfiguration': logPublishingConfiguration,
+      if (name != null) 'Name': name,
+      if (networkId != null) 'NetworkId': networkId,
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Configuration properties of the member.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MemberConfiguration {
   /// Configuration properties of the blockchain framework relevant to the member.
-  @_s.JsonKey(name: 'FrameworkConfiguration')
   final MemberFrameworkConfiguration frameworkConfiguration;
 
   /// The name of the member.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An optional description of the member.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
+
+  /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key
+  /// Management Service (AWS KMS) to use for encryption at rest in the member.
+  /// This parameter is inherited by any nodes that this member creates.
+  ///
+  /// Use one of the following options to specify this parameter:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Undefined or empty string</b> - The member uses an AWS owned KMS key for
+  /// encryption by default.
+  /// </li>
+  /// <li>
+  /// <b>A valid symmetric customer managed KMS key</b> - The member uses the
+  /// specified key for encryption.
+  ///
+  /// Amazon Managed Blockchain doesn't support asymmetric keys. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
+  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
+  /// Developer Guide</i>.
+  ///
+  /// The following is an example of a KMS key ARN:
+  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// </li>
+  /// </ul>
+  final String? kmsKeyArn;
 
   /// Configuration properties for logging events associated with a member of a
   /// Managed Blockchain network.
-  @_s.JsonKey(name: 'LogPublishingConfiguration')
-  final MemberLogPublishingConfiguration logPublishingConfiguration;
+  final MemberLogPublishingConfiguration? logPublishingConfiguration;
+
+  /// Tags assigned to the member. Tags consist of a key and optional value. For
+  /// more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  ///
+  /// When specifying tags during creation, you can specify multiple key-value
+  /// pairs in a single request, with an overall maximum of 50 tags added to each
+  /// resource.
+  final Map<String, String>? tags;
 
   MemberConfiguration({
-    @_s.required this.frameworkConfiguration,
-    @_s.required this.name,
+    required this.frameworkConfiguration,
+    required this.name,
     this.description,
+    this.kmsKeyArn,
     this.logPublishingConfiguration,
+    this.tags,
   });
-  Map<String, dynamic> toJson() => _$MemberConfigurationToJson(this);
+
+  factory MemberConfiguration.fromJson(Map<String, dynamic> json) {
+    return MemberConfiguration(
+      frameworkConfiguration: MemberFrameworkConfiguration.fromJson(
+          json['FrameworkConfiguration'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      description: json['Description'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      logPublishingConfiguration: json['LogPublishingConfiguration'] != null
+          ? MemberLogPublishingConfiguration.fromJson(
+              json['LogPublishingConfiguration'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frameworkConfiguration = this.frameworkConfiguration;
+    final name = this.name;
+    final description = this.description;
+    final kmsKeyArn = this.kmsKeyArn;
+    final logPublishingConfiguration = this.logPublishingConfiguration;
+    final tags = this.tags;
+    return {
+      'FrameworkConfiguration': frameworkConfiguration,
+      'Name': name,
+      if (description != null) 'Description': description,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (logPublishingConfiguration != null)
+        'LogPublishingConfiguration': logPublishingConfiguration,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Attributes of Hyperledger Fabric for a member in a Managed Blockchain
 /// network using the Hyperledger Fabric framework.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemberFabricAttributes {
   /// The user name for the initial administrator user for the member.
-  @_s.JsonKey(name: 'AdminUsername')
-  final String adminUsername;
+  final String? adminUsername;
 
   /// The endpoint used to access the member's certificate authority.
-  @_s.JsonKey(name: 'CaEndpoint')
-  final String caEndpoint;
+  final String? caEndpoint;
 
   MemberFabricAttributes({
     this.adminUsername,
     this.caEndpoint,
   });
-  factory MemberFabricAttributes.fromJson(Map<String, dynamic> json) =>
-      _$MemberFabricAttributesFromJson(json);
+
+  factory MemberFabricAttributes.fromJson(Map<String, dynamic> json) {
+    return MemberFabricAttributes(
+      adminUsername: json['AdminUsername'] as String?,
+      caEndpoint: json['CaEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminUsername = this.adminUsername;
+    final caEndpoint = this.caEndpoint;
+    return {
+      if (adminUsername != null) 'AdminUsername': adminUsername,
+      if (caEndpoint != null) 'CaEndpoint': caEndpoint,
+    };
+  }
 }
 
 /// Configuration properties for Hyperledger Fabric for a member in a Managed
 /// Blockchain network using the Hyperledger Fabric framework.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MemberFabricConfiguration {
   /// The password for the member's initial administrative user. The
   /// <code>AdminPassword</code> must be at least eight characters long and no
@@ -2019,121 +2581,154 @@ class MemberFabricConfiguration {
   /// lowercase letter, and one digit. It cannot have a single quotation mark (‘),
   /// a double quotation marks (“), a forward slash(/), a backward slash(\), @, or
   /// a space.
-  @_s.JsonKey(name: 'AdminPassword')
   final String adminPassword;
 
   /// The user name for the member's initial administrative user.
-  @_s.JsonKey(name: 'AdminUsername')
   final String adminUsername;
 
   MemberFabricConfiguration({
-    @_s.required this.adminPassword,
-    @_s.required this.adminUsername,
+    required this.adminPassword,
+    required this.adminUsername,
   });
-  Map<String, dynamic> toJson() => _$MemberFabricConfigurationToJson(this);
+
+  factory MemberFabricConfiguration.fromJson(Map<String, dynamic> json) {
+    return MemberFabricConfiguration(
+      adminPassword: json['AdminPassword'] as String,
+      adminUsername: json['AdminUsername'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminPassword = this.adminPassword;
+    final adminUsername = this.adminUsername;
+    return {
+      'AdminPassword': adminPassword,
+      'AdminUsername': adminUsername,
+    };
+  }
 }
 
 /// Configuration properties for logging events associated with a member of a
 /// Managed Blockchain network using the Hyperledger Fabric framework.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MemberFabricLogPublishingConfiguration {
   /// Configuration properties for logging events associated with a member's
   /// Certificate Authority (CA). CA logs help you determine when a member in your
   /// account joins the network, or when new peers register with a member CA.
-  @_s.JsonKey(name: 'CaLogs')
-  final LogConfigurations caLogs;
+  final LogConfigurations? caLogs;
 
   MemberFabricLogPublishingConfiguration({
     this.caLogs,
   });
-  factory MemberFabricLogPublishingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$MemberFabricLogPublishingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MemberFabricLogPublishingConfigurationToJson(this);
+  factory MemberFabricLogPublishingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return MemberFabricLogPublishingConfiguration(
+      caLogs: json['CaLogs'] != null
+          ? LogConfigurations.fromJson(json['CaLogs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final caLogs = this.caLogs;
+    return {
+      if (caLogs != null) 'CaLogs': caLogs,
+    };
+  }
 }
 
 /// Attributes relevant to a member for the blockchain framework that the
 /// Managed Blockchain network uses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemberFrameworkAttributes {
   /// Attributes of Hyperledger Fabric relevant to a member on a Managed
   /// Blockchain network that uses Hyperledger Fabric.
-  @_s.JsonKey(name: 'Fabric')
-  final MemberFabricAttributes fabric;
+  final MemberFabricAttributes? fabric;
 
   MemberFrameworkAttributes({
     this.fabric,
   });
-  factory MemberFrameworkAttributes.fromJson(Map<String, dynamic> json) =>
-      _$MemberFrameworkAttributesFromJson(json);
+
+  factory MemberFrameworkAttributes.fromJson(Map<String, dynamic> json) {
+    return MemberFrameworkAttributes(
+      fabric: json['Fabric'] != null
+          ? MemberFabricAttributes.fromJson(
+              json['Fabric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fabric = this.fabric;
+    return {
+      if (fabric != null) 'Fabric': fabric,
+    };
+  }
 }
 
 /// Configuration properties relevant to a member for the blockchain framework
 /// that the Managed Blockchain network uses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MemberFrameworkConfiguration {
   /// Attributes of Hyperledger Fabric for a member on a Managed Blockchain
   /// network that uses Hyperledger Fabric.
-  @_s.JsonKey(name: 'Fabric')
-  final MemberFabricConfiguration fabric;
+  final MemberFabricConfiguration? fabric;
 
   MemberFrameworkConfiguration({
     this.fabric,
   });
-  Map<String, dynamic> toJson() => _$MemberFrameworkConfigurationToJson(this);
+
+  factory MemberFrameworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return MemberFrameworkConfiguration(
+      fabric: json['Fabric'] != null
+          ? MemberFabricConfiguration.fromJson(
+              json['Fabric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fabric = this.fabric;
+    return {
+      if (fabric != null) 'Fabric': fabric,
+    };
+  }
 }
 
 /// Configuration properties for logging events associated with a member of a
 /// Managed Blockchain network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MemberLogPublishingConfiguration {
   /// Configuration properties for logging events associated with a member of a
   /// Managed Blockchain network using the Hyperledger Fabric framework.
-  @_s.JsonKey(name: 'Fabric')
-  final MemberFabricLogPublishingConfiguration fabric;
+  final MemberFabricLogPublishingConfiguration? fabric;
 
   MemberLogPublishingConfiguration({
     this.fabric,
   });
-  factory MemberLogPublishingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$MemberLogPublishingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MemberLogPublishingConfigurationToJson(this);
+  factory MemberLogPublishingConfiguration.fromJson(Map<String, dynamic> json) {
+    return MemberLogPublishingConfiguration(
+      fabric: json['Fabric'] != null
+          ? MemberFabricLogPublishingConfiguration.fromJson(
+              json['Fabric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fabric = this.fabric;
+    return {
+      if (fabric != null) 'Fabric': fabric,
+    };
+  }
 }
 
 enum MemberStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
+  inaccessibleEncryptionKey,
 }
 
 extension on MemberStatus {
@@ -2151,41 +2746,59 @@ extension on MemberStatus {
         return 'DELETING';
       case MemberStatus.deleted:
         return 'DELETED';
+      case MemberStatus.inaccessibleEncryptionKey:
+        return 'INACCESSIBLE_ENCRYPTION_KEY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MemberStatus toMemberStatus() {
+    switch (this) {
+      case 'CREATING':
+        return MemberStatus.creating;
+      case 'AVAILABLE':
+        return MemberStatus.available;
+      case 'CREATE_FAILED':
+        return MemberStatus.createFailed;
+      case 'UPDATING':
+        return MemberStatus.updating;
+      case 'DELETING':
+        return MemberStatus.deleting;
+      case 'DELETED':
+        return MemberStatus.deleted;
+      case 'INACCESSIBLE_ENCRYPTION_KEY':
+        return MemberStatus.inaccessibleEncryptionKey;
+    }
+    throw Exception('$this is not known in enum MemberStatus');
   }
 }
 
 /// A summary of configuration properties for a member.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemberSummary {
+  /// The Amazon Resource Name (ARN) of the member. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
   /// The date and time that the member was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// An optional description of the member.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The unique identifier of the member.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// An indicator of whether the member is owned by your AWS account or a
   /// different AWS account.
-  @_s.JsonKey(name: 'IsOwned')
-  final bool isOwned;
+  final bool? isOwned;
 
   /// The name of the member.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the member.
   ///
@@ -2203,6 +2816,9 @@ class MemberSummary {
   /// and creation failed.
   /// </li>
   /// <li>
+  /// <code>UPDATING</code> - The member is in the process of being updated.
+  /// </li>
+  /// <li>
   /// <code>DELETING</code> - The member and all associated resources are in the
   /// process of being deleted. Either the AWS account that owns the member
   /// deleted it, or the member is being deleted as the result of an
@@ -2214,11 +2830,23 @@ class MemberSummary {
   /// the member deleted it, or the member is being deleted as the result of an
   /// <code>APPROVED</code> <code>PROPOSAL</code> to remove the member.
   /// </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The member is impaired and might
+  /// not function as expected because it cannot access the specified customer
+  /// managed key in AWS Key Management Service (AWS KMS) for encryption at rest.
+  /// Either the KMS key was disabled or deleted, or the grants on the key were
+  /// revoked.
+  ///
+  /// The effect of disabling or deleting a key, or revoking a grant is not
+  /// immediate. The member resource might take some time to find that the key is
+  /// inaccessible. When a resource is in this state, we recommend deleting and
+  /// recreating the resource.
+  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final MemberStatus status;
+  final MemberStatus? status;
 
   MemberSummary({
+    this.arn,
     this.creationDate,
     this.description,
     this.id,
@@ -2226,61 +2854,92 @@ class MemberSummary {
     this.name,
     this.status,
   });
-  factory MemberSummary.fromJson(Map<String, dynamic> json) =>
-      _$MemberSummaryFromJson(json);
+
+  factory MemberSummary.fromJson(Map<String, dynamic> json) {
+    return MemberSummary(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      isOwned: json['IsOwned'] as bool?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toMemberStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final id = this.id;
+    final isOwned = this.isOwned;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (isOwned != null) 'IsOwned': isOwned,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Network configuration properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Network {
+  /// The Amazon Resource Name (ARN) of the network. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
   /// The date and time that the network was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Attributes of the blockchain framework for the network.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The blockchain framework that the network uses.
-  @_s.JsonKey(name: 'Framework')
-  final Framework framework;
+  final Framework? framework;
 
   /// Attributes of the blockchain framework that the network uses.
-  @_s.JsonKey(name: 'FrameworkAttributes')
-  final NetworkFrameworkAttributes frameworkAttributes;
+  final NetworkFrameworkAttributes? frameworkAttributes;
 
   /// The version of the blockchain framework that the network uses.
-  @_s.JsonKey(name: 'FrameworkVersion')
-  final String frameworkVersion;
+  final String? frameworkVersion;
 
   /// The unique identifier of the network.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the network.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current status of the network.
-  @_s.JsonKey(name: 'Status')
-  final NetworkStatus status;
+  final NetworkStatus? status;
+
+  /// Tags assigned to the network. Each tag consists of a key and optional value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
 
   /// The voting rules for the network to decide if a proposal is accepted.
-  @_s.JsonKey(name: 'VotingPolicy')
-  final VotingPolicy votingPolicy;
+  final VotingPolicy? votingPolicy;
 
   /// The VPC endpoint service name of the VPC endpoint service of the network.
   /// Members use the VPC endpoint service name to create a VPC endpoint to access
   /// network resources.
-  @_s.JsonKey(name: 'VpcEndpointServiceName')
-  final String vpcEndpointServiceName;
+  final String? vpcEndpointServiceName;
 
   Network({
+    this.arn,
     this.creationDate,
     this.description,
     this.framework,
@@ -2289,19 +2948,67 @@ class Network {
     this.id,
     this.name,
     this.status,
+    this.tags,
     this.votingPolicy,
     this.vpcEndpointServiceName,
   });
-  factory Network.fromJson(Map<String, dynamic> json) =>
-      _$NetworkFromJson(json);
+
+  factory Network.fromJson(Map<String, dynamic> json) {
+    return Network(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      framework: (json['Framework'] as String?)?.toFramework(),
+      frameworkAttributes: json['FrameworkAttributes'] != null
+          ? NetworkFrameworkAttributes.fromJson(
+              json['FrameworkAttributes'] as Map<String, dynamic>)
+          : null,
+      frameworkVersion: json['FrameworkVersion'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toNetworkStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      votingPolicy: json['VotingPolicy'] != null
+          ? VotingPolicy.fromJson(json['VotingPolicy'] as Map<String, dynamic>)
+          : null,
+      vpcEndpointServiceName: json['VpcEndpointServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final framework = this.framework;
+    final frameworkAttributes = this.frameworkAttributes;
+    final frameworkVersion = this.frameworkVersion;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    final votingPolicy = this.votingPolicy;
+    final vpcEndpointServiceName = this.vpcEndpointServiceName;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (framework != null) 'Framework': framework.toValue(),
+      if (frameworkAttributes != null)
+        'FrameworkAttributes': frameworkAttributes,
+      if (frameworkVersion != null) 'FrameworkVersion': frameworkVersion,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (votingPolicy != null) 'VotingPolicy': votingPolicy,
+      if (vpcEndpointServiceName != null)
+        'VpcEndpointServiceName': vpcEndpointServiceName,
+    };
+  }
 }
 
 /// Attributes of Ethereum for a network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkEthereumAttributes {
   /// The Ethereum <code>CHAIN_ID</code> associated with the Ethereum network.
   /// Chain IDs are as follows:
@@ -2317,117 +3024,158 @@ class NetworkEthereumAttributes {
   /// ropsten = <code>3</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ChainId')
-  final String chainId;
+  final String? chainId;
 
   NetworkEthereumAttributes({
     this.chainId,
   });
-  factory NetworkEthereumAttributes.fromJson(Map<String, dynamic> json) =>
-      _$NetworkEthereumAttributesFromJson(json);
+
+  factory NetworkEthereumAttributes.fromJson(Map<String, dynamic> json) {
+    return NetworkEthereumAttributes(
+      chainId: json['ChainId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final chainId = this.chainId;
+    return {
+      if (chainId != null) 'ChainId': chainId,
+    };
+  }
 }
 
 /// Attributes of Hyperledger Fabric for a network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkFabricAttributes {
   /// The edition of Amazon Managed Blockchain that Hyperledger Fabric uses. For
   /// more information, see <a
   /// href="http://aws.amazon.com/managed-blockchain/pricing/">Amazon Managed
   /// Blockchain Pricing</a>.
-  @_s.JsonKey(name: 'Edition')
-  final Edition edition;
+  final Edition? edition;
 
   /// The endpoint of the ordering service for the network.
-  @_s.JsonKey(name: 'OrderingServiceEndpoint')
-  final String orderingServiceEndpoint;
+  final String? orderingServiceEndpoint;
 
   NetworkFabricAttributes({
     this.edition,
     this.orderingServiceEndpoint,
   });
-  factory NetworkFabricAttributes.fromJson(Map<String, dynamic> json) =>
-      _$NetworkFabricAttributesFromJson(json);
+
+  factory NetworkFabricAttributes.fromJson(Map<String, dynamic> json) {
+    return NetworkFabricAttributes(
+      edition: (json['Edition'] as String?)?.toEdition(),
+      orderingServiceEndpoint: json['OrderingServiceEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edition = this.edition;
+    final orderingServiceEndpoint = this.orderingServiceEndpoint;
+    return {
+      if (edition != null) 'Edition': edition.toValue(),
+      if (orderingServiceEndpoint != null)
+        'OrderingServiceEndpoint': orderingServiceEndpoint,
+    };
+  }
 }
 
 /// Hyperledger Fabric configuration properties for the network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NetworkFabricConfiguration {
   /// The edition of Amazon Managed Blockchain that the network uses. For more
   /// information, see <a
   /// href="http://aws.amazon.com/managed-blockchain/pricing/">Amazon Managed
   /// Blockchain Pricing</a>.
-  @_s.JsonKey(name: 'Edition')
   final Edition edition;
 
   NetworkFabricConfiguration({
-    @_s.required this.edition,
+    required this.edition,
   });
-  Map<String, dynamic> toJson() => _$NetworkFabricConfigurationToJson(this);
+
+  factory NetworkFabricConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkFabricConfiguration(
+      edition: (json['Edition'] as String).toEdition(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final edition = this.edition;
+    return {
+      'Edition': edition.toValue(),
+    };
+  }
 }
 
 /// Attributes relevant to the network for the blockchain framework that the
 /// network uses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkFrameworkAttributes {
   /// Attributes of an Ethereum network for Managed Blockchain resources
   /// participating in an Ethereum network.
-  @_s.JsonKey(name: 'Ethereum')
-  final NetworkEthereumAttributes ethereum;
+  final NetworkEthereumAttributes? ethereum;
 
   /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses
   /// Hyperledger Fabric.
-  @_s.JsonKey(name: 'Fabric')
-  final NetworkFabricAttributes fabric;
+  final NetworkFabricAttributes? fabric;
 
   NetworkFrameworkAttributes({
     this.ethereum,
     this.fabric,
   });
-  factory NetworkFrameworkAttributes.fromJson(Map<String, dynamic> json) =>
-      _$NetworkFrameworkAttributesFromJson(json);
+
+  factory NetworkFrameworkAttributes.fromJson(Map<String, dynamic> json) {
+    return NetworkFrameworkAttributes(
+      ethereum: json['Ethereum'] != null
+          ? NetworkEthereumAttributes.fromJson(
+              json['Ethereum'] as Map<String, dynamic>)
+          : null,
+      fabric: json['Fabric'] != null
+          ? NetworkFabricAttributes.fromJson(
+              json['Fabric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ethereum = this.ethereum;
+    final fabric = this.fabric;
+    return {
+      if (ethereum != null) 'Ethereum': ethereum,
+      if (fabric != null) 'Fabric': fabric,
+    };
+  }
 }
 
 /// Configuration properties relevant to the network for the blockchain
 /// framework that the network uses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NetworkFrameworkConfiguration {
   /// Hyperledger Fabric configuration properties for a Managed Blockchain network
   /// that uses Hyperledger Fabric.
-  @_s.JsonKey(name: 'Fabric')
-  final NetworkFabricConfiguration fabric;
+  final NetworkFabricConfiguration? fabric;
 
   NetworkFrameworkConfiguration({
     this.fabric,
   });
-  Map<String, dynamic> toJson() => _$NetworkFrameworkConfigurationToJson(this);
+
+  factory NetworkFrameworkConfiguration.fromJson(Map<String, dynamic> json) {
+    return NetworkFrameworkConfiguration(
+      fabric: json['Fabric'] != null
+          ? NetworkFabricConfiguration.fromJson(
+              json['Fabric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fabric = this.fabric;
+    return {
+      if (fabric != null) 'Fabric': fabric,
+    };
+  }
 }
 
 enum NetworkStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
@@ -2445,47 +3193,58 @@ extension on NetworkStatus {
       case NetworkStatus.deleted:
         return 'DELETED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NetworkStatus toNetworkStatus() {
+    switch (this) {
+      case 'CREATING':
+        return NetworkStatus.creating;
+      case 'AVAILABLE':
+        return NetworkStatus.available;
+      case 'CREATE_FAILED':
+        return NetworkStatus.createFailed;
+      case 'DELETING':
+        return NetworkStatus.deleting;
+      case 'DELETED':
+        return NetworkStatus.deleted;
+    }
+    throw Exception('$this is not known in enum NetworkStatus');
   }
 }
 
 /// A summary of network configuration properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkSummary {
+  /// The Amazon Resource Name (ARN) of the network. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
   /// The date and time that the network was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// An optional description of the network.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The blockchain framework that the network uses.
-  @_s.JsonKey(name: 'Framework')
-  final Framework framework;
+  final Framework? framework;
 
   /// The version of the blockchain framework that the network uses.
-  @_s.JsonKey(name: 'FrameworkVersion')
-  final String frameworkVersion;
+  final String? frameworkVersion;
 
   /// The unique identifier of the network.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the network.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current status of the network.
-  @_s.JsonKey(name: 'Status')
-  final NetworkStatus status;
+  final NetworkStatus? status;
 
   NetworkSummary({
+    this.arn,
     this.creationDate,
     this.description,
     this.framework,
@@ -2494,98 +3253,237 @@ class NetworkSummary {
     this.name,
     this.status,
   });
-  factory NetworkSummary.fromJson(Map<String, dynamic> json) =>
-      _$NetworkSummaryFromJson(json);
+
+  factory NetworkSummary.fromJson(Map<String, dynamic> json) {
+    return NetworkSummary(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      framework: (json['Framework'] as String?)?.toFramework(),
+      frameworkVersion: json['FrameworkVersion'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toNetworkStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final framework = this.framework;
+    final frameworkVersion = this.frameworkVersion;
+    final id = this.id;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (framework != null) 'Framework': framework.toValue(),
+      if (frameworkVersion != null) 'FrameworkVersion': frameworkVersion,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Configuration properties of a node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Node {
-  /// The Availability Zone in which the node exists.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  /// The Amazon Resource Name (ARN) of the node. For more information about ARNs
+  /// and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
+  /// The Availability Zone in which the node exists. Required for Ethereum nodes.
+  final String? availabilityZone;
 
   /// The date and time that the node was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Attributes of the blockchain framework being used.
-  @_s.JsonKey(name: 'FrameworkAttributes')
-  final NodeFrameworkAttributes frameworkAttributes;
+  final NodeFrameworkAttributes? frameworkAttributes;
 
   /// The unique identifier of the node.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The instance type of the node.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
+
+  /// The Amazon Resource Name (ARN) of the customer managed key in AWS Key
+  /// Management Service (AWS KMS) that the node uses for encryption at rest. If
+  /// the value of this parameter is <code>"AWS Owned KMS Key"</code>, the node
+  /// uses an AWS owned KMS key for encryption. The node inherits this parameter
+  /// from the member that it belongs to.
+  ///
+  /// Applies only to Hyperledger Fabric.
+  final String? kmsKeyArn;
 
   /// Configuration properties for logging events associated with a peer node on a
   /// Hyperledger Fabric network on Managed Blockchain.
-  @_s.JsonKey(name: 'LogPublishingConfiguration')
-  final NodeLogPublishingConfiguration logPublishingConfiguration;
+  final NodeLogPublishingConfiguration? logPublishingConfiguration;
 
   /// The unique identifier of the member to which the node belongs.
   ///
   /// Applies only to Hyperledger Fabric.
-  @_s.JsonKey(name: 'MemberId')
-  final String memberId;
+  final String? memberId;
 
   /// The unique identifier of the network that the node is on.
-  @_s.JsonKey(name: 'NetworkId')
-  final String networkId;
+  final String? networkId;
 
   /// The state database that the node uses. Values are <code>LevelDB</code> or
   /// <code>CouchDB</code>.
   ///
   /// Applies only to Hyperledger Fabric.
-  @_s.JsonKey(name: 'StateDB')
-  final StateDBType stateDB;
+  final StateDBType? stateDB;
 
   /// The status of the node.
-  @_s.JsonKey(name: 'Status')
-  final NodeStatus status;
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The AWS account is in the process of creating a
+  /// node.
+  /// </li>
+  /// <li>
+  /// <code>AVAILABLE</code> - The node has been created and can participate in
+  /// the network.
+  /// </li>
+  /// <li>
+  /// <code>UNHEALTHY</code> - The node is impaired and might not function as
+  /// expected. Amazon Managed Blockchain automatically finds nodes in this state
+  /// and tries to recover them. If a node is recoverable, it returns to
+  /// <code>AVAILABLE</code>. Otherwise, it moves to <code>FAILED</code> status.
+  /// </li>
+  /// <li>
+  /// <code>CREATE_FAILED</code> - The AWS account attempted to create a node and
+  /// creation failed.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The node is in the process of being updated.
+  /// </li>
+  /// <li>
+  /// <code>DELETING</code> - The node is in the process of being deleted.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - The node can no longer participate on the network.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - The node is no longer functional, cannot be recovered,
+  /// and must be deleted.
+  /// </li>
+  /// <li>
+  /// <code>INACCESSIBLE_ENCRYPTION_KEY</code> - The node is impaired and might
+  /// not function as expected because it cannot access the specified customer
+  /// managed key in AWS KMS for encryption at rest. Either the KMS key was
+  /// disabled or deleted, or the grants on the key were revoked.
+  ///
+  /// The effect of disabling or deleting a key, or revoking a grant is not
+  /// immediate. The node resource might take some time to find that the key is
+  /// inaccessible. When a resource is in this state, we recommend deleting and
+  /// recreating the resource.
+  /// </li>
+  /// </ul>
+  final NodeStatus? status;
+
+  /// Tags assigned to the node. Each tag consists of a key and optional value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
 
   Node({
+    this.arn,
     this.availabilityZone,
     this.creationDate,
     this.frameworkAttributes,
     this.id,
     this.instanceType,
+    this.kmsKeyArn,
     this.logPublishingConfiguration,
     this.memberId,
     this.networkId,
     this.stateDB,
     this.status,
+    this.tags,
   });
-  factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
+
+  factory Node.fromJson(Map<String, dynamic> json) {
+    return Node(
+      arn: json['Arn'] as String?,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      frameworkAttributes: json['FrameworkAttributes'] != null
+          ? NodeFrameworkAttributes.fromJson(
+              json['FrameworkAttributes'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      logPublishingConfiguration: json['LogPublishingConfiguration'] != null
+          ? NodeLogPublishingConfiguration.fromJson(
+              json['LogPublishingConfiguration'] as Map<String, dynamic>)
+          : null,
+      memberId: json['MemberId'] as String?,
+      networkId: json['NetworkId'] as String?,
+      stateDB: (json['StateDB'] as String?)?.toStateDBType(),
+      status: (json['Status'] as String?)?.toNodeStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
+    final creationDate = this.creationDate;
+    final frameworkAttributes = this.frameworkAttributes;
+    final id = this.id;
+    final instanceType = this.instanceType;
+    final kmsKeyArn = this.kmsKeyArn;
+    final logPublishingConfiguration = this.logPublishingConfiguration;
+    final memberId = this.memberId;
+    final networkId = this.networkId;
+    final stateDB = this.stateDB;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (frameworkAttributes != null)
+        'FrameworkAttributes': frameworkAttributes,
+      if (id != null) 'Id': id,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (logPublishingConfiguration != null)
+        'LogPublishingConfiguration': logPublishingConfiguration,
+      if (memberId != null) 'MemberId': memberId,
+      if (networkId != null) 'NetworkId': networkId,
+      if (stateDB != null) 'StateDB': stateDB.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Configuration properties of a node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NodeConfiguration {
   /// The Amazon Managed Blockchain instance type for the node.
-  @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
-  /// The Availability Zone in which the node exists.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  /// The Availability Zone in which the node exists. Required for Ethereum nodes.
+  final String? availabilityZone;
 
   /// Configuration properties for logging events associated with a peer node on a
   /// Hyperledger Fabric network on Managed Blockchain.
-  @_s.JsonKey(name: 'LogPublishingConfiguration')
-  final NodeLogPublishingConfiguration logPublishingConfiguration;
+  final NodeLogPublishingConfiguration? logPublishingConfiguration;
 
   /// The state database that the node uses. Values are <code>LevelDB</code> or
   /// <code>CouchDB</code>. When using an Amazon Managed Blockchain network with
@@ -2593,24 +3491,43 @@ class NodeConfiguration {
   /// <code>CouchDB</code>.
   ///
   /// Applies only to Hyperledger Fabric.
-  @_s.JsonKey(name: 'StateDB')
-  final StateDBType stateDB;
+  final StateDBType? stateDB;
 
   NodeConfiguration({
-    @_s.required this.instanceType,
+    required this.instanceType,
     this.availabilityZone,
     this.logPublishingConfiguration,
     this.stateDB,
   });
-  Map<String, dynamic> toJson() => _$NodeConfigurationToJson(this);
+
+  factory NodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return NodeConfiguration(
+      instanceType: json['InstanceType'] as String,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      logPublishingConfiguration: json['LogPublishingConfiguration'] != null
+          ? NodeLogPublishingConfiguration.fromJson(
+              json['LogPublishingConfiguration'] as Map<String, dynamic>)
+          : null,
+      stateDB: (json['StateDB'] as String?)?.toStateDBType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceType = this.instanceType;
+    final availabilityZone = this.availabilityZone;
+    final logPublishingConfiguration = this.logPublishingConfiguration;
+    final stateDB = this.stateDB;
+    return {
+      'InstanceType': instanceType,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (logPublishingConfiguration != null)
+        'LogPublishingConfiguration': logPublishingConfiguration,
+      if (stateDB != null) 'StateDB': stateDB.toValue(),
+    };
+  }
 }
 
 /// Attributes of an Ethereum node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeEthereumAttributes {
   /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC
   /// methods over HTTP connections from a client. Use this endpoint in client
@@ -2618,8 +3535,7 @@ class NodeEthereumAttributes {
   /// endpoint are authenticated using <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4</a>.
-  @_s.JsonKey(name: 'HttpEndpoint')
-  final String httpEndpoint;
+  final String? httpEndpoint;
 
   /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC
   /// methods over WebSockets connections from a client. Use this endpoint in
@@ -2627,144 +3543,185 @@ class NodeEthereumAttributes {
   /// Connections to this endpoint are authenticated using <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4</a>.
-  @_s.JsonKey(name: 'WebSocketEndpoint')
-  final String webSocketEndpoint;
+  final String? webSocketEndpoint;
 
   NodeEthereumAttributes({
     this.httpEndpoint,
     this.webSocketEndpoint,
   });
-  factory NodeEthereumAttributes.fromJson(Map<String, dynamic> json) =>
-      _$NodeEthereumAttributesFromJson(json);
+
+  factory NodeEthereumAttributes.fromJson(Map<String, dynamic> json) {
+    return NodeEthereumAttributes(
+      httpEndpoint: json['HttpEndpoint'] as String?,
+      webSocketEndpoint: json['WebSocketEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final httpEndpoint = this.httpEndpoint;
+    final webSocketEndpoint = this.webSocketEndpoint;
+    return {
+      if (httpEndpoint != null) 'HttpEndpoint': httpEndpoint,
+      if (webSocketEndpoint != null) 'WebSocketEndpoint': webSocketEndpoint,
+    };
+  }
 }
 
 /// Attributes of Hyperledger Fabric for a peer node on a Hyperledger Fabric
 /// network on Managed Blockchain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeFabricAttributes {
   /// The endpoint that identifies the peer node for all services except peer
   /// channel-based event services.
-  @_s.JsonKey(name: 'PeerEndpoint')
-  final String peerEndpoint;
+  final String? peerEndpoint;
 
   /// The endpoint that identifies the peer node for peer channel-based event
   /// services.
-  @_s.JsonKey(name: 'PeerEventEndpoint')
-  final String peerEventEndpoint;
+  final String? peerEventEndpoint;
 
   NodeFabricAttributes({
     this.peerEndpoint,
     this.peerEventEndpoint,
   });
-  factory NodeFabricAttributes.fromJson(Map<String, dynamic> json) =>
-      _$NodeFabricAttributesFromJson(json);
+
+  factory NodeFabricAttributes.fromJson(Map<String, dynamic> json) {
+    return NodeFabricAttributes(
+      peerEndpoint: json['PeerEndpoint'] as String?,
+      peerEventEndpoint: json['PeerEventEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final peerEndpoint = this.peerEndpoint;
+    final peerEventEndpoint = this.peerEventEndpoint;
+    return {
+      if (peerEndpoint != null) 'PeerEndpoint': peerEndpoint,
+      if (peerEventEndpoint != null) 'PeerEventEndpoint': peerEventEndpoint,
+    };
+  }
 }
 
 /// Configuration properties for logging events associated with a peer node
 /// owned by a member in a Managed Blockchain network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NodeFabricLogPublishingConfiguration {
   /// Configuration properties for logging events associated with chaincode
   /// execution on a peer node. Chaincode logs contain the results of
   /// instantiating, invoking, and querying the chaincode. A peer can run multiple
   /// instances of chaincode. When enabled, a log stream is created for all
   /// chaincodes, with an individual log stream for each chaincode.
-  @_s.JsonKey(name: 'ChaincodeLogs')
-  final LogConfigurations chaincodeLogs;
+  final LogConfigurations? chaincodeLogs;
 
   /// Configuration properties for a peer node log. Peer node logs contain
   /// messages generated when your client submits transaction proposals to peer
   /// nodes, requests to join channels, enrolls an admin peer, and lists the
   /// chaincode instances on a peer node.
-  @_s.JsonKey(name: 'PeerLogs')
-  final LogConfigurations peerLogs;
+  final LogConfigurations? peerLogs;
 
   NodeFabricLogPublishingConfiguration({
     this.chaincodeLogs,
     this.peerLogs,
   });
-  factory NodeFabricLogPublishingConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$NodeFabricLogPublishingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$NodeFabricLogPublishingConfigurationToJson(this);
+  factory NodeFabricLogPublishingConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return NodeFabricLogPublishingConfiguration(
+      chaincodeLogs: json['ChaincodeLogs'] != null
+          ? LogConfigurations.fromJson(
+              json['ChaincodeLogs'] as Map<String, dynamic>)
+          : null,
+      peerLogs: json['PeerLogs'] != null
+          ? LogConfigurations.fromJson(json['PeerLogs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final chaincodeLogs = this.chaincodeLogs;
+    final peerLogs = this.peerLogs;
+    return {
+      if (chaincodeLogs != null) 'ChaincodeLogs': chaincodeLogs,
+      if (peerLogs != null) 'PeerLogs': peerLogs,
+    };
+  }
 }
 
 /// Attributes relevant to a node on a Managed Blockchain network for the
 /// blockchain framework that the network uses.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeFrameworkAttributes {
   /// Attributes of Ethereum for a node on a Managed Blockchain network that uses
   /// Ethereum.
-  @_s.JsonKey(name: 'Ethereum')
-  final NodeEthereumAttributes ethereum;
+  final NodeEthereumAttributes? ethereum;
 
   /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain
   /// network that uses Hyperledger Fabric.
-  @_s.JsonKey(name: 'Fabric')
-  final NodeFabricAttributes fabric;
+  final NodeFabricAttributes? fabric;
 
   NodeFrameworkAttributes({
     this.ethereum,
     this.fabric,
   });
-  factory NodeFrameworkAttributes.fromJson(Map<String, dynamic> json) =>
-      _$NodeFrameworkAttributesFromJson(json);
+
+  factory NodeFrameworkAttributes.fromJson(Map<String, dynamic> json) {
+    return NodeFrameworkAttributes(
+      ethereum: json['Ethereum'] != null
+          ? NodeEthereumAttributes.fromJson(
+              json['Ethereum'] as Map<String, dynamic>)
+          : null,
+      fabric: json['Fabric'] != null
+          ? NodeFabricAttributes.fromJson(
+              json['Fabric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ethereum = this.ethereum;
+    final fabric = this.fabric;
+    return {
+      if (ethereum != null) 'Ethereum': ethereum,
+      if (fabric != null) 'Fabric': fabric,
+    };
+  }
 }
 
 /// Configuration properties for logging events associated with a peer node on a
 /// Hyperledger Fabric network on Managed Blockchain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NodeLogPublishingConfiguration {
   /// Configuration properties for logging events associated with a node that is
   /// owned by a member of a Managed Blockchain network using the Hyperledger
   /// Fabric framework.
-  @_s.JsonKey(name: 'Fabric')
-  final NodeFabricLogPublishingConfiguration fabric;
+  final NodeFabricLogPublishingConfiguration? fabric;
 
   NodeLogPublishingConfiguration({
     this.fabric,
   });
-  factory NodeLogPublishingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$NodeLogPublishingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NodeLogPublishingConfigurationToJson(this);
+  factory NodeLogPublishingConfiguration.fromJson(Map<String, dynamic> json) {
+    return NodeLogPublishingConfiguration(
+      fabric: json['Fabric'] != null
+          ? NodeFabricLogPublishingConfiguration.fromJson(
+              json['Fabric'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fabric = this.fabric;
+    return {
+      if (fabric != null) 'Fabric': fabric,
+    };
+  }
 }
 
 enum NodeStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('FAILED')
   failed,
+  inaccessibleEncryptionKey,
 }
 
 extension on NodeStatus {
@@ -2786,72 +3743,118 @@ extension on NodeStatus {
         return 'DELETED';
       case NodeStatus.failed:
         return 'FAILED';
+      case NodeStatus.inaccessibleEncryptionKey:
+        return 'INACCESSIBLE_ENCRYPTION_KEY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NodeStatus toNodeStatus() {
+    switch (this) {
+      case 'CREATING':
+        return NodeStatus.creating;
+      case 'AVAILABLE':
+        return NodeStatus.available;
+      case 'UNHEALTHY':
+        return NodeStatus.unhealthy;
+      case 'CREATE_FAILED':
+        return NodeStatus.createFailed;
+      case 'UPDATING':
+        return NodeStatus.updating;
+      case 'DELETING':
+        return NodeStatus.deleting;
+      case 'DELETED':
+        return NodeStatus.deleted;
+      case 'FAILED':
+        return NodeStatus.failed;
+      case 'INACCESSIBLE_ENCRYPTION_KEY':
+        return NodeStatus.inaccessibleEncryptionKey;
+    }
+    throw Exception('$this is not known in enum NodeStatus');
   }
 }
 
 /// A summary of configuration properties for a node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeSummary {
+  /// The Amazon Resource Name (ARN) of the node. For more information about ARNs
+  /// and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
   /// The Availability Zone in which the node exists.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The date and time that the node was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The unique identifier of the node.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The EC2 instance type for the node.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The status of the node.
-  @_s.JsonKey(name: 'Status')
-  final NodeStatus status;
+  final NodeStatus? status;
 
   NodeSummary({
+    this.arn,
     this.availabilityZone,
     this.creationDate,
     this.id,
     this.instanceType,
     this.status,
   });
-  factory NodeSummary.fromJson(Map<String, dynamic> json) =>
-      _$NodeSummaryFromJson(json);
+
+  factory NodeSummary.fromJson(Map<String, dynamic> json) {
+    return NodeSummary(
+      arn: json['Arn'] as String?,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      id: json['Id'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      status: (json['Status'] as String?)?.toNodeStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final availabilityZone = this.availabilityZone;
+    final creationDate = this.creationDate;
+    final id = this.id;
+    final instanceType = this.instanceType;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (id != null) 'Id': id,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Properties of a proposal on a Managed Blockchain network.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Proposal {
   /// The actions to perform on the network if the proposal is
   /// <code>APPROVED</code>.
-  @_s.JsonKey(name: 'Actions')
-  final ProposalActions actions;
+  final ProposalActions? actions;
+
+  /// The Amazon Resource Name (ARN) of the proposal. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
 
   /// The date and time that the proposal was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The description of the proposal.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date and time that the proposal expires. This is the
   /// <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that
@@ -2859,35 +3862,27 @@ class Proposal {
   /// and time, if members have not cast enough votes to determine the outcome
   /// according to the voting policy, the proposal is <code>EXPIRED</code> and
   /// <code>Actions</code> are not carried out.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationDate')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   /// The unique identifier of the network for which the proposal is made.
-  @_s.JsonKey(name: 'NetworkId')
-  final String networkId;
+  final String? networkId;
 
   /// The current total of <code>NO</code> votes cast on the proposal by members.
-  @_s.JsonKey(name: 'NoVoteCount')
-  final int noVoteCount;
+  final int? noVoteCount;
 
   /// The number of votes remaining to be cast on the proposal by members. In
   /// other words, the number of members minus the sum of <code>YES</code> votes
   /// and <code>NO</code> votes.
-  @_s.JsonKey(name: 'OutstandingVoteCount')
-  final int outstandingVoteCount;
+  final int? outstandingVoteCount;
 
   /// The unique identifier of the proposal.
-  @_s.JsonKey(name: 'ProposalId')
-  final String proposalId;
+  final String? proposalId;
 
   /// The unique identifier of the member that created the proposal.
-  @_s.JsonKey(name: 'ProposedByMemberId')
-  final String proposedByMemberId;
+  final String? proposedByMemberId;
 
   /// The name of the member that created the proposal.
-  @_s.JsonKey(name: 'ProposedByMemberName')
-  final String proposedByMemberName;
+  final String? proposedByMemberName;
 
   /// The status of the proposal. Values are as follows:
   ///
@@ -2920,15 +3915,26 @@ class Proposal {
   /// even if only one ProposalAction fails and other actions are successful.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final ProposalStatus status;
+  final ProposalStatus? status;
+
+  /// Tags assigned to the proposal. Each tag consists of a key and optional
+  /// value.
+  ///
+  /// For more information about tags, see <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Ethereum Developer
+  /// Guide</i>, or <a
+  /// href="https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html">Tagging
+  /// Resources</a> in the <i>Amazon Managed Blockchain Hyperledger Fabric
+  /// Developer Guide</i>.
+  final Map<String, String>? tags;
 
   /// The current total of <code>YES</code> votes cast on the proposal by members.
-  @_s.JsonKey(name: 'YesVoteCount')
-  final int yesVoteCount;
+  final int? yesVoteCount;
 
   Proposal({
     this.actions,
+    this.arn,
     this.creationDate,
     this.description,
     this.expirationDate,
@@ -2939,72 +3945,168 @@ class Proposal {
     this.proposedByMemberId,
     this.proposedByMemberName,
     this.status,
+    this.tags,
     this.yesVoteCount,
   });
-  factory Proposal.fromJson(Map<String, dynamic> json) =>
-      _$ProposalFromJson(json);
+
+  factory Proposal.fromJson(Map<String, dynamic> json) {
+    return Proposal(
+      actions: json['Actions'] != null
+          ? ProposalActions.fromJson(json['Actions'] as Map<String, dynamic>)
+          : null,
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      networkId: json['NetworkId'] as String?,
+      noVoteCount: json['NoVoteCount'] as int?,
+      outstandingVoteCount: json['OutstandingVoteCount'] as int?,
+      proposalId: json['ProposalId'] as String?,
+      proposedByMemberId: json['ProposedByMemberId'] as String?,
+      proposedByMemberName: json['ProposedByMemberName'] as String?,
+      status: (json['Status'] as String?)?.toProposalStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      yesVoteCount: json['YesVoteCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final expirationDate = this.expirationDate;
+    final networkId = this.networkId;
+    final noVoteCount = this.noVoteCount;
+    final outstandingVoteCount = this.outstandingVoteCount;
+    final proposalId = this.proposalId;
+    final proposedByMemberId = this.proposedByMemberId;
+    final proposedByMemberName = this.proposedByMemberName;
+    final status = this.status;
+    final tags = this.tags;
+    final yesVoteCount = this.yesVoteCount;
+    return {
+      if (actions != null) 'Actions': actions,
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (expirationDate != null)
+        'ExpirationDate': iso8601ToJson(expirationDate),
+      if (networkId != null) 'NetworkId': networkId,
+      if (noVoteCount != null) 'NoVoteCount': noVoteCount,
+      if (outstandingVoteCount != null)
+        'OutstandingVoteCount': outstandingVoteCount,
+      if (proposalId != null) 'ProposalId': proposalId,
+      if (proposedByMemberId != null) 'ProposedByMemberId': proposedByMemberId,
+      if (proposedByMemberName != null)
+        'ProposedByMemberName': proposedByMemberName,
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (yesVoteCount != null) 'YesVoteCount': yesVoteCount,
+    };
+  }
 }
 
 /// The actions to carry out if a proposal is <code>APPROVED</code>.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ProposalActions {
   /// The actions to perform for an <code>APPROVED</code> proposal to invite an
   /// AWS account to create a member and join the network.
-  @_s.JsonKey(name: 'Invitations')
-  final List<InviteAction> invitations;
+  final List<InviteAction>? invitations;
 
   /// The actions to perform for an <code>APPROVED</code> proposal to remove a
   /// member from the network, which deletes the member and all associated member
   /// resources from the network.
-  @_s.JsonKey(name: 'Removals')
-  final List<RemoveAction> removals;
+  final List<RemoveAction>? removals;
 
   ProposalActions({
     this.invitations,
     this.removals,
   });
-  factory ProposalActions.fromJson(Map<String, dynamic> json) =>
-      _$ProposalActionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ProposalActionsToJson(this);
+  factory ProposalActions.fromJson(Map<String, dynamic> json) {
+    return ProposalActions(
+      invitations: (json['Invitations'] as List?)
+          ?.whereNotNull()
+          .map((e) => InviteAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      removals: (json['Removals'] as List?)
+          ?.whereNotNull()
+          .map((e) => RemoveAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invitations = this.invitations;
+    final removals = this.removals;
+    return {
+      if (invitations != null) 'Invitations': invitations,
+      if (removals != null) 'Removals': removals,
+    };
+  }
 }
 
 enum ProposalStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('APPROVED')
   approved,
-  @_s.JsonValue('REJECTED')
   rejected,
-  @_s.JsonValue('EXPIRED')
   expired,
-  @_s.JsonValue('ACTION_FAILED')
   actionFailed,
+}
+
+extension on ProposalStatus {
+  String toValue() {
+    switch (this) {
+      case ProposalStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ProposalStatus.approved:
+        return 'APPROVED';
+      case ProposalStatus.rejected:
+        return 'REJECTED';
+      case ProposalStatus.expired:
+        return 'EXPIRED';
+      case ProposalStatus.actionFailed:
+        return 'ACTION_FAILED';
+    }
+  }
+}
+
+extension on String {
+  ProposalStatus toProposalStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ProposalStatus.inProgress;
+      case 'APPROVED':
+        return ProposalStatus.approved;
+      case 'REJECTED':
+        return ProposalStatus.rejected;
+      case 'EXPIRED':
+        return ProposalStatus.expired;
+      case 'ACTION_FAILED':
+        return ProposalStatus.actionFailed;
+    }
+    throw Exception('$this is not known in enum ProposalStatus');
+  }
 }
 
 /// Properties of a proposal.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProposalSummary {
+  /// The Amazon Resource Name (ARN) of the proposal. For more information about
+  /// ARNs and their format, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
+  /// Resource Names (ARNs)</a> in the <i>AWS General Reference</i>.
+  final String? arn;
+
   /// The date and time that the proposal was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The description of the proposal.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date and time that the proposal expires. This is the
   /// <code>CreationDate</code> plus the <code>ProposalDurationInHours</code> that
@@ -3012,21 +4114,16 @@ class ProposalSummary {
   /// and time, if members have not cast enough votes to determine the outcome
   /// according to the voting policy, the proposal is <code>EXPIRED</code> and
   /// <code>Actions</code> are not carried out.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationDate')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   /// The unique identifier of the proposal.
-  @_s.JsonKey(name: 'ProposalId')
-  final String proposalId;
+  final String? proposalId;
 
   /// The unique identifier of the member that created the proposal.
-  @_s.JsonKey(name: 'ProposedByMemberId')
-  final String proposedByMemberId;
+  final String? proposedByMemberId;
 
   /// The name of the member that created the proposal.
-  @_s.JsonKey(name: 'ProposedByMemberName')
-  final String proposedByMemberName;
+  final String? proposedByMemberName;
 
   /// The status of the proposal. Values are as follows:
   ///
@@ -3058,10 +4155,10 @@ class ProposalSummary {
   /// completed because of an error.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final ProposalStatus status;
+  final ProposalStatus? status;
 
   ProposalSummary({
+    this.arn,
     this.creationDate,
     this.description,
     this.expirationDate,
@@ -3070,19 +4167,54 @@ class ProposalSummary {
     this.proposedByMemberName,
     this.status,
   });
-  factory ProposalSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProposalSummaryFromJson(json);
+
+  factory ProposalSummary.fromJson(Map<String, dynamic> json) {
+    return ProposalSummary(
+      arn: json['Arn'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      proposalId: json['ProposalId'] as String?,
+      proposedByMemberId: json['ProposedByMemberId'] as String?,
+      proposedByMemberName: json['ProposedByMemberName'] as String?,
+      status: (json['Status'] as String?)?.toProposalStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final expirationDate = this.expirationDate;
+    final proposalId = this.proposalId;
+    final proposedByMemberId = this.proposedByMemberId;
+    final proposedByMemberName = this.proposedByMemberName;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (expirationDate != null)
+        'ExpirationDate': iso8601ToJson(expirationDate),
+      if (proposalId != null) 'ProposalId': proposalId,
+      if (proposedByMemberId != null) 'ProposedByMemberId': proposedByMemberId,
+      if (proposedByMemberName != null)
+        'ProposedByMemberName': proposedByMemberName,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectInvitationOutput {
   RejectInvitationOutput();
-  factory RejectInvitationOutput.fromJson(Map<String, dynamic> json) =>
-      _$RejectInvitationOutputFromJson(json);
+
+  factory RejectInvitationOutput.fromJson(Map<String, dynamic> _) {
+    return RejectInvitationOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// An action to remove a member from a Managed Blockchain network as the result
@@ -3090,106 +4222,185 @@ class RejectInvitationOutput {
 /// associated resources are deleted from the network.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RemoveAction {
   /// The unique identifier of the member to remove.
-  @_s.JsonKey(name: 'MemberId')
   final String memberId;
 
   RemoveAction({
-    @_s.required this.memberId,
+    required this.memberId,
   });
-  factory RemoveAction.fromJson(Map<String, dynamic> json) =>
-      _$RemoveActionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RemoveActionToJson(this);
+  factory RemoveAction.fromJson(Map<String, dynamic> json) {
+    return RemoveAction(
+      memberId: json['MemberId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberId = this.memberId;
+    return {
+      'MemberId': memberId,
+    };
+  }
 }
 
 enum StateDBType {
-  @_s.JsonValue('LevelDB')
   levelDB,
-  @_s.JsonValue('CouchDB')
   couchDB,
 }
 
+extension on StateDBType {
+  String toValue() {
+    switch (this) {
+      case StateDBType.levelDB:
+        return 'LevelDB';
+      case StateDBType.couchDB:
+        return 'CouchDB';
+    }
+  }
+}
+
+extension on String {
+  StateDBType toStateDBType() {
+    switch (this) {
+      case 'LevelDB':
+        return StateDBType.levelDB;
+      case 'CouchDB':
+        return StateDBType.couchDB;
+    }
+    throw Exception('$this is not known in enum StateDBType');
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 enum ThresholdComparator {
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
-  @_s.JsonValue('GREATER_THAN_OR_EQUAL_TO')
   greaterThanOrEqualTo,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ThresholdComparator {
+  String toValue() {
+    switch (this) {
+      case ThresholdComparator.greaterThan:
+        return 'GREATER_THAN';
+      case ThresholdComparator.greaterThanOrEqualTo:
+        return 'GREATER_THAN_OR_EQUAL_TO';
+    }
+  }
+}
+
+extension on String {
+  ThresholdComparator toThresholdComparator() {
+    switch (this) {
+      case 'GREATER_THAN':
+        return ThresholdComparator.greaterThan;
+      case 'GREATER_THAN_OR_EQUAL_TO':
+        return ThresholdComparator.greaterThanOrEqualTo;
+    }
+    throw Exception('$this is not known in enum ThresholdComparator');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateMemberOutput {
   UpdateMemberOutput();
-  factory UpdateMemberOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMemberOutputFromJson(json);
+
+  factory UpdateMemberOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateMemberOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNodeOutput {
   UpdateNodeOutput();
-  factory UpdateNodeOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNodeOutputFromJson(json);
+
+  factory UpdateNodeOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateNodeOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VoteOnProposalOutput {
   VoteOnProposalOutput();
-  factory VoteOnProposalOutput.fromJson(Map<String, dynamic> json) =>
-      _$VoteOnProposalOutputFromJson(json);
+
+  factory VoteOnProposalOutput.fromJson(Map<String, dynamic> _) {
+    return VoteOnProposalOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Properties of an individual vote that a member cast for a proposal.
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VoteSummary {
   /// The unique identifier of the member that cast the vote.
-  @_s.JsonKey(name: 'MemberId')
-  final String memberId;
+  final String? memberId;
 
   /// The name of the member that cast the vote.
-  @_s.JsonKey(name: 'MemberName')
-  final String memberName;
+  final String? memberName;
 
   /// The vote value, either <code>YES</code> or <code>NO</code>.
-  @_s.JsonKey(name: 'Vote')
-  final VoteValue vote;
+  final VoteValue? vote;
 
   VoteSummary({
     this.memberId,
     this.memberName,
     this.vote,
   });
-  factory VoteSummary.fromJson(Map<String, dynamic> json) =>
-      _$VoteSummaryFromJson(json);
+
+  factory VoteSummary.fromJson(Map<String, dynamic> json) {
+    return VoteSummary(
+      memberId: json['MemberId'] as String?,
+      memberName: json['MemberName'] as String?,
+      vote: (json['Vote'] as String?)?.toVoteValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberId = this.memberId;
+    final memberName = this.memberName;
+    final vote = this.vote;
+    return {
+      if (memberId != null) 'MemberId': memberId,
+      if (memberName != null) 'MemberName': memberName,
+      if (vote != null) 'Vote': vote.toValue(),
+    };
+  }
 }
 
 enum VoteValue {
-  @_s.JsonValue('YES')
   yes,
-  @_s.JsonValue('NO')
   no,
 }
 
@@ -3201,47 +4412,65 @@ extension on VoteValue {
       case VoteValue.no:
         return 'NO';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  VoteValue toVoteValue() {
+    switch (this) {
+      case 'YES':
+        return VoteValue.yes;
+      case 'NO':
+        return VoteValue.no;
+    }
+    throw Exception('$this is not known in enum VoteValue');
   }
 }
 
 /// The voting rules for the network to decide if a proposal is accepted
 ///
 /// Applies only to Hyperledger Fabric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class VotingPolicy {
   /// Defines the rules for the network for voting on proposals, such as the
   /// percentage of <code>YES</code> votes required for the proposal to be
   /// approved and the duration of the proposal. The policy applies to all
   /// proposals and is specified when the network is created.
-  @_s.JsonKey(name: 'ApprovalThresholdPolicy')
-  final ApprovalThresholdPolicy approvalThresholdPolicy;
+  final ApprovalThresholdPolicy? approvalThresholdPolicy;
 
   VotingPolicy({
     this.approvalThresholdPolicy,
   });
-  factory VotingPolicy.fromJson(Map<String, dynamic> json) =>
-      _$VotingPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$VotingPolicyToJson(this);
+  factory VotingPolicy.fromJson(Map<String, dynamic> json) {
+    return VotingPolicy(
+      approvalThresholdPolicy: json['ApprovalThresholdPolicy'] != null
+          ? ApprovalThresholdPolicy.fromJson(
+              json['ApprovalThresholdPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalThresholdPolicy = this.approvalThresholdPolicy;
+    return {
+      if (approvalThresholdPolicy != null)
+        'ApprovalThresholdPolicy': approvalThresholdPolicy,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class IllegalActionException extends _s.GenericAwsException {
-  IllegalActionException({String type, String message})
+  IllegalActionException({String? type, String? message})
       : super(type: type, code: 'IllegalActionException', message: message);
 }
 
 class InternalServiceErrorException extends _s.GenericAwsException {
-  InternalServiceErrorException({String type, String message})
+  InternalServiceErrorException({String? type, String? message})
       : super(
             type: type,
             code: 'InternalServiceErrorException',
@@ -3249,12 +4478,12 @@ class InternalServiceErrorException extends _s.GenericAwsException {
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -3262,7 +4491,7 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
-  ResourceLimitExceededException({String type, String message})
+  ResourceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceLimitExceededException',
@@ -3270,18 +4499,23 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceNotReadyException extends _s.GenericAwsException {
-  ResourceNotReadyException({String type, String message})
+  ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
+}
+
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String? type, String? message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -3303,4 +4537,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotReadyException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
 };

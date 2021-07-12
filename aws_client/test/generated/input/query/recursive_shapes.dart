@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,22 +11,14 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'recursive_shapes.meta.dart';
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
-
-part 'recursive_shapes.g.dart';
 
 /// Recursive shapes
 class RecursiveShapes {
@@ -33,9 +26,9 @@ class RecursiveShapes {
   final Map<String, _s.Shape> shapes;
 
   RecursiveShapes({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -48,7 +41,7 @@ class RecursiveShapes {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> operationName0({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $request = <String, dynamic>{};
     recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
@@ -65,7 +58,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName1({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $request = <String, dynamic>{};
     recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
@@ -82,7 +75,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName2({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $request = <String, dynamic>{};
     recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
@@ -99,7 +92,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName3({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $request = <String, dynamic>{};
     recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
@@ -116,7 +109,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName4({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $request = <String, dynamic>{};
     recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
@@ -133,7 +126,7 @@ class RecursiveShapes {
   }
 
   Future<void> operationName5({
-    RecursiveStructType recursiveStruct,
+    RecursiveStructType? recursiveStruct,
   }) async {
     final $request = <String, dynamic>{};
     recursiveStruct?.also((arg) => $request['RecursiveStruct'] = arg);
@@ -150,20 +143,11 @@ class RecursiveShapes {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RecursiveStructType {
-  @_s.JsonKey(name: 'NoRecurse')
-  final String noRecurse;
-  @_s.JsonKey(name: 'RecursiveList')
-  final List<RecursiveStructType> recursiveList;
-  @_s.JsonKey(name: 'RecursiveMap')
-  final Map<String, RecursiveStructType> recursiveMap;
-  @_s.JsonKey(name: 'RecursiveStruct')
-  final RecursiveStructType recursiveStruct;
+  final String? noRecurse;
+  final List<RecursiveStructType>? recursiveList;
+  final Map<String, RecursiveStructType>? recursiveMap;
+  final RecursiveStructType? recursiveStruct;
 
   RecursiveStructType({
     this.noRecurse,
@@ -171,7 +155,36 @@ class RecursiveStructType {
     this.recursiveMap,
     this.recursiveStruct,
   });
-  Map<String, dynamic> toJson() => _$RecursiveStructTypeToJson(this);
+
+  factory RecursiveStructType.fromJson(Map<String, dynamic> json) {
+    return RecursiveStructType(
+      noRecurse: json['NoRecurse'] as String?,
+      recursiveList: (json['RecursiveList'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecursiveStructType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recursiveMap: (json['RecursiveMap'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, RecursiveStructType.fromJson(e as Map<String, dynamic>))),
+      recursiveStruct: json['RecursiveStruct'] != null
+          ? RecursiveStructType.fromJson(
+              json['RecursiveStruct'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final noRecurse = this.noRecurse;
+    final recursiveList = this.recursiveList;
+    final recursiveMap = this.recursiveMap;
+    final recursiveStruct = this.recursiveStruct;
+    return {
+      if (noRecurse != null) 'NoRecurse': noRecurse,
+      if (recursiveList != null) 'RecursiveList': recursiveList,
+      if (recursiveMap != null) 'RecursiveMap': recursiveMap,
+      if (recursiveStruct != null) 'RecursiveStruct': recursiveStruct,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

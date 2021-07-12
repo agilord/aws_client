@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,29 +11,21 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-part '2018-09-22.g.dart';
-
 /// AWS CodeArtifact is a fully managed artifact repository compatible with
 /// language-native package managers and build tools such as npm, Apache Maven,
-/// NuGet, and pip. You can use CodeArtifact to share packages with development
-/// teams and pull packages. Packages can be pulled from both public and
-/// CodeArtifact repositories. You can also create an upstream relationship
-/// between a CodeArtifact repository and another repository, which effectively
-/// merges their contents from the point of view of a package manager client.
+/// and pip. You can use CodeArtifact to share packages with development teams
+/// and pull packages. Packages can be pulled from both public and CodeArtifact
+/// repositories. You can also create an upstream relationship between a
+/// CodeArtifact repository and another repository, which effectively merges
+/// their contents from the point of view of a package manager client.
 ///
 /// <b>AWS CodeArtifact Components</b>
 ///
@@ -46,9 +39,8 @@ part '2018-09-22.g.dart';
 /// versions</a>, each of which maps to a set of assets, or files. Repositories
 /// are polyglot, so a single repository can contain packages of any supported
 /// type. Each repository exposes endpoints for fetching and publishing packages
-/// using tools like the <b> <code>npm</code> </b> CLI, the <b>
-/// <code>NuGet</code> </b> CLI, the Maven CLI (<b> <code>mvn</code> </b>), and
-/// <b> <code>pip</code> </b>.
+/// using tools like the <b> <code>npm</code> </b> CLI, the Maven CLI (<b>
+/// <code>mvn</code> </b>), and <b> <code>pip</code> </b>.
 /// </li>
 /// <li>
 /// <b>Domain</b>: Repositories are aggregated into a higher-level entity known
@@ -77,10 +69,8 @@ part '2018-09-22.g.dart';
 /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-npm.html">npm</a>,
 /// <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-python.html">PyPI</a>,
-/// <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-maven">Maven</a>,
 /// and <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-nuget">NuGet</a>
+/// href="https://docs.aws.amazon.com/codeartifact/latest/ug/using-maven">Maven</a>
 /// package formats.
 ///
 /// In CodeArtifact, a package consists of:
@@ -166,9 +156,9 @@ part '2018-09-22.g.dart';
 /// that contains information about the requested domain.
 /// </li>
 /// <li>
-/// <code>DescribePackageVersion</code>: Returns a <code> <a
+/// <code>DescribePackageVersion</code>: Returns a <a
 /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">PackageVersionDescription</a>
-/// </code> object that contains details about a package version.
+/// object that contains details about a package version.
 /// </li>
 /// <li>
 /// <code>DescribeRepository</code>: Returns a
@@ -217,9 +207,6 @@ part '2018-09-22.g.dart';
 /// <li>
 /// <code>maven</code>
 /// </li>
-/// <li>
-/// <code>nuget</code>
-/// </li>
 /// </ul> </li>
 /// <li>
 /// <code>GetRepositoryPermissionsPolicy</code>: Returns the resource policy
@@ -254,22 +241,12 @@ part '2018-09-22.g.dart';
 /// a domain.
 /// </li>
 /// <li>
-/// <code>ListTagsForResource</code>: Returns a list of the tags associated with
-/// a resource.
-/// </li>
-/// <li>
 /// <code>PutDomainPermissionsPolicy</code>: Attaches a resource policy to a
 /// domain.
 /// </li>
 /// <li>
 /// <code>PutRepositoryPermissionsPolicy</code>: Sets the resource policy on a
 /// repository that specifies permissions to access it.
-/// </li>
-/// <li>
-/// <code>TagResource</code>: Adds or updates tags for a resource.
-/// </li>
-/// <li>
-/// <code>UntagResource</code>: Removes a tag from a resource.
 /// </li>
 /// <li>
 /// <code>UpdatePackageVersionsStatus</code>: Updates the status of one or more
@@ -282,10 +259,10 @@ part '2018-09-22.g.dart';
 class CodeArtifact {
   final _s.RestJsonProtocol _protocol;
   CodeArtifact({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -341,9 +318,6 @@ class CodeArtifact {
   /// <code>public:maven-commonsware</code> - for the CommonsWare Android
   /// repository.
   /// </li>
-  /// <li>
-  /// <code>public:nuget-org</code> - for the NuGet Gallery.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [repository] :
@@ -353,10 +327,10 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<AssociateExternalConnectionResult> associateExternalConnection({
-    @_s.required String domain,
-    @_s.required String externalConnection,
-    @_s.required String repository,
-    String domainOwner,
+    required String domain,
+    required String externalConnection,
+    required String repository,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -366,19 +340,7 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(externalConnection, 'externalConnection');
-    _s.validateStringPattern(
-      'externalConnection',
-      externalConnection,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-:]{1,99}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
     _s.validateStringLength(
       'repository',
@@ -387,28 +349,16 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (externalConnection != null)
-        'external-connection': [externalConnection],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'external-connection': [externalConnection],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -457,9 +407,6 @@ class CodeArtifact {
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
   /// </li>
-  /// <li>
-  /// <code>nuget</code>: A NuGet package.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [package] :
@@ -501,10 +448,6 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [versionRevisions] :
@@ -524,17 +467,17 @@ class CodeArtifact {
   /// You cannot specify both.
   /// </note>
   Future<CopyPackageVersionsResult> copyPackageVersions({
-    @_s.required String destinationRepository,
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String sourceRepository,
-    bool allowOverwrite,
-    String domainOwner,
-    bool includeFromUpstream,
-    String namespace,
-    Map<String, String> versionRevisions,
-    List<String> versions,
+    required String destinationRepository,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String sourceRepository,
+    bool? allowOverwrite,
+    String? domainOwner,
+    bool? includeFromUpstream,
+    String? namespace,
+    Map<String, String>? versionRevisions,
+    List<String>? versions,
   }) async {
     ArgumentError.checkNotNull(destinationRepository, 'destinationRepository');
     _s.validateStringLength(
@@ -544,24 +487,12 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'destinationRepository',
-      destinationRepository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
       'domain',
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -573,12 +504,6 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceRepository, 'sourceRepository');
     _s.validateStringLength(
       'sourceRepository',
@@ -587,22 +512,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sourceRepository',
-      sourceRepository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'namespace',
@@ -610,18 +524,12 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     final $query = <String, List<String>>{
-      if (destinationRepository != null)
-        'destination-repository': [destinationRepository],
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (sourceRepository != null) 'source-repository': [sourceRepository],
+      'destination-repository': [destinationRepository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'source-repository': [sourceRepository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
     };
@@ -690,9 +598,9 @@ class CodeArtifact {
   /// Parameter [tags] :
   /// One or more tag key-value pairs for the domain.
   Future<CreateDomainResult> createDomain({
-    @_s.required String domain,
-    String encryptionKey,
-    List<Tag> tags,
+    required String domain,
+    String? encryptionKey,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -702,25 +610,14 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'encryptionKey',
       encryptionKey,
       1,
       1011,
     );
-    _s.validateStringPattern(
-      'encryptionKey',
-      encryptionKey,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
+      'domain': [domain],
     };
     final $payload = <String, dynamic>{
       if (encryptionKey != null) 'encryptionKey': encryptionKey,
@@ -747,7 +644,7 @@ class CodeArtifact {
   /// May throw [ValidationException].
   ///
   /// Parameter [domain] :
-  /// The domain that contains the created repository.
+  /// The name of the domain that contains the created repository.
   ///
   /// Parameter [repository] :
   /// The name of the repository to create.
@@ -770,12 +667,12 @@ class CodeArtifact {
   /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html">Working
   /// with upstream repositories</a>.
   Future<CreateRepositoryResult> createRepository({
-    @_s.required String domain,
-    @_s.required String repository,
-    String description,
-    String domainOwner,
-    List<Tag> tags,
-    List<UpstreamRepository> upstreams,
+    required String domain,
+    required String repository,
+    String? description,
+    String? domainOwner,
+    List<Tag>? tags,
+    List<UpstreamRepository>? upstreams,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -783,12 +680,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -799,37 +690,21 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''\P{C}+''',
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final $payload = <String, dynamic>{
@@ -864,8 +739,8 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<DeleteDomainResult> deleteDomain({
-    @_s.required String domain,
-    String domainOwner,
+    required String domain,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -875,25 +750,14 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
+      'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -927,9 +791,9 @@ class CodeArtifact {
   /// is used for optimistic locking, which prevents others from overwriting
   /// your changes to the domain's resource policy.
   Future<DeleteDomainPermissionsPolicyResult> deleteDomainPermissionsPolicy({
-    @_s.required String domain,
-    String domainOwner,
-    String policyRevision,
+    required String domain,
+    String? domainOwner,
+    String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -939,22 +803,11 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'policyRevision',
@@ -962,13 +815,8 @@ class CodeArtifact {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'policyRevision',
-      policyRevision,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
+      'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (policyRevision != null) 'policy-revision': [policyRevision],
     };
@@ -987,11 +835,10 @@ class CodeArtifact {
   /// version from your repository and be able to restore it later, set its
   /// status to <code>Archived</code>. Archived packages cannot be downloaded
   /// from a repository and don't show up with list package APIs (for example,
-  /// <code> <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html">ListackageVersions</a>
-  /// </code>), but you can restore them using <code> <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html">UpdatePackageVersionsStatus</a>
-  /// </code>.
+  /// <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html">ListackageVersions</a>),
+  /// but you can restore them using <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html">UpdatePackageVersionsStatus</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -1015,9 +862,6 @@ class CodeArtifact {
   /// </li>
   /// <li>
   /// <code>maven</code>
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>
   /// </li>
   /// </ul>
   ///
@@ -1070,20 +914,16 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   Future<DeletePackageVersionsResult> deletePackageVersions({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String repository,
-    @_s.required List<String> versions,
-    String domainOwner,
-    PackageVersionStatus expectedStatus,
-    String namespace,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String repository,
+    required List<String> versions,
+    String? domainOwner,
+    PackageVersionStatus? expectedStatus,
+    String? namespace,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1091,12 +931,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -1108,24 +942,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
     _s.validateStringLength(
       'repository',
       repository,
       2,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versions, 'versions');
@@ -1135,27 +957,17 @@ class CodeArtifact {
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     _s.validateStringLength(
       'namespace',
       namespace,
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
     };
@@ -1192,9 +1004,9 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<DeleteRepositoryResult> deleteRepository({
-    @_s.required String domain,
-    @_s.required String repository,
-    String domainOwner,
+    required String domain,
+    required String repository,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1202,12 +1014,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -1218,26 +1024,15 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -1285,10 +1080,10 @@ class CodeArtifact {
   /// accidentally overwriting your changes to the repository's resource policy.
   Future<DeleteRepositoryPermissionsPolicyResult>
       deleteRepositoryPermissionsPolicy({
-    @_s.required String domain,
-    @_s.required String repository,
-    String domainOwner,
-    String policyRevision,
+    required String domain,
+    required String repository,
+    String? domainOwner,
+    String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1296,12 +1091,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -1312,22 +1101,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'policyRevision',
@@ -1335,14 +1113,9 @@ class CodeArtifact {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'policyRevision',
-      policyRevision,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (policyRevision != null) 'policy-revision': [policyRevision],
     };
@@ -1357,9 +1130,8 @@ class CodeArtifact {
   }
 
   /// Returns a <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainDescription.html">
-  /// <code>DomainDescription</code> </a> object that contains information about
-  /// the requested domain.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainDescription.html">DomainDescription</a>
+  /// object that contains information about the requested domain.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1374,8 +1146,8 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<DescribeDomainResult> describeDomain({
-    @_s.required String domain,
-    String domainOwner,
+    required String domain,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1385,25 +1157,14 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
+      'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -1417,9 +1178,8 @@ class CodeArtifact {
   }
 
   /// Returns a <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">
-  /// <code>PackageVersionDescription</code> </a> object that contains
-  /// information about the requested package version.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">PackageVersionDescription</a>
+  /// object that contains information about the requested package version.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -1445,9 +1205,6 @@ class CodeArtifact {
   /// </li>
   /// <li>
   /// <code>maven</code>
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>
   /// </li>
   /// </ul>
   ///
@@ -1480,19 +1237,15 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   Future<DescribePackageVersionResult> describePackageVersion({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String packageVersion,
-    @_s.required String repository,
-    String domainOwner,
-    String namespace,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String packageVersion,
+    required String repository,
+    String? domainOwner,
+    String? namespace,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1500,12 +1253,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -1517,24 +1264,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
     _s.validateStringLength(
       'packageVersion',
       packageVersion,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'packageVersion',
-      packageVersion,
-      r'''[^!#/\s]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -1545,22 +1280,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'namespace',
@@ -1568,17 +1292,12 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (packageVersion != null) 'version': [packageVersion],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'version': [packageVersion],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
     };
@@ -1611,9 +1330,9 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<DescribeRepositoryResult> describeRepository({
-    @_s.required String domain,
-    @_s.required String repository,
-    String domainOwner,
+    required String domain,
+    required String repository,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1621,12 +1340,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -1637,26 +1350,15 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -1694,10 +1396,10 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<DisassociateExternalConnectionResult> disassociateExternalConnection({
-    @_s.required String domain,
-    @_s.required String externalConnection,
-    @_s.required String repository,
-    String domainOwner,
+    required String domain,
+    required String externalConnection,
+    required String repository,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1707,19 +1409,7 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(externalConnection, 'externalConnection');
-    _s.validateStringPattern(
-      'externalConnection',
-      externalConnection,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-:]{1,99}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
     _s.validateStringLength(
       'repository',
@@ -1728,28 +1418,16 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (externalConnection != null)
-        'external-connection': [externalConnection],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'external-connection': [externalConnection],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -1767,14 +1445,13 @@ class CodeArtifact {
   /// restored in your repository because its assets are deleted.
   ///
   /// To view all disposed package versions in a repository, use <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html">
-  /// <code>ListPackageVersions</code> </a> and set the <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html#API_ListPackageVersions_RequestSyntax">
-  /// <code>status</code> </a> parameter to <code>Disposed</code>.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html">ListPackageVersions</a>
+  /// and set the <a
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html#API_ListPackageVersions_RequestSyntax">status</a>
+  /// parameter to <code>Disposed</code>.
   ///
   /// To view information about a disposed package version, use <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DescribePackageVersion.html">
-  /// <code>DescribePackageVersion</code> </a>..
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DescribePackageVersion.html">DescribePackageVersion</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [ConflictException].
@@ -1799,9 +1476,6 @@ class CodeArtifact {
   /// </li>
   /// <li>
   /// <code>maven</code>
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>
   /// </li>
   /// </ul>
   ///
@@ -1855,24 +1529,20 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [versionRevisions] :
   /// The revisions of the package versions you want to dispose.
   Future<DisposePackageVersionsResult> disposePackageVersions({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String repository,
-    @_s.required List<String> versions,
-    String domainOwner,
-    PackageVersionStatus expectedStatus,
-    String namespace,
-    Map<String, String> versionRevisions,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String repository,
+    required List<String> versions,
+    String? domainOwner,
+    PackageVersionStatus? expectedStatus,
+    String? namespace,
+    Map<String, String>? versionRevisions,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1880,12 +1550,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -1897,24 +1561,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
     _s.validateStringLength(
       'repository',
       repository,
       2,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versions, 'versions');
@@ -1924,27 +1576,17 @@ class CodeArtifact {
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     _s.validateStringLength(
       'namespace',
       namespace,
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
     };
@@ -2013,9 +1655,9 @@ class CodeArtifact {
   /// will set the expiration of the authorization token to the same expiration
   /// of the user's role's temporary credentials.
   Future<GetAuthorizationTokenResult> getAuthorizationToken({
-    @_s.required String domain,
-    String domainOwner,
-    int durationSeconds,
+    required String domain,
+    String? domainOwner,
+    int? durationSeconds,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2025,22 +1667,11 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateNumRange(
       'durationSeconds',
@@ -2049,7 +1680,7 @@ class CodeArtifact {
       43200,
     );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
+      'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (durationSeconds != null) 'duration': [durationSeconds.toString()],
     };
@@ -2085,8 +1716,8 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<GetDomainPermissionsPolicyResult> getDomainPermissionsPolicy({
-    @_s.required String domain,
-    String domainOwner,
+    required String domain,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2096,25 +1727,14 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
+      'domain': [domain],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -2143,8 +1763,8 @@ class CodeArtifact {
   /// The name of the requested asset.
   ///
   /// Parameter [domain] :
-  /// The domain that contains the repository that contains the package version
-  /// with the requested asset.
+  /// The name of the domain that contains the repository that contains the
+  /// package version with the requested asset.
   ///
   /// Parameter [format] :
   /// A format that specifies the type of the package version with the requested
@@ -2159,9 +1779,6 @@ class CodeArtifact {
   /// </li>
   /// <li>
   /// <code>maven</code>
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>
   /// </li>
   /// </ul>
   ///
@@ -2194,25 +1811,21 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [packageVersionRevision] :
   /// The name of the package version revision that contains the requested
   /// asset.
   Future<GetPackageVersionAssetResult> getPackageVersionAsset({
-    @_s.required String asset,
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String packageVersion,
-    @_s.required String repository,
-    String domainOwner,
-    String namespace,
-    String packageVersionRevision,
+    required String asset,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String packageVersion,
+    required String repository,
+    String? domainOwner,
+    String? namespace,
+    String? packageVersionRevision,
   }) async {
     ArgumentError.checkNotNull(asset, 'asset');
     _s.validateStringLength(
@@ -2222,24 +1835,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'asset',
-      asset,
-      r'''\P{C}+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
       'domain',
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -2251,24 +1852,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
     _s.validateStringLength(
       'packageVersion',
       packageVersion,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'packageVersion',
-      packageVersion,
-      r'''[^!#/\s]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -2279,22 +1868,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'namespace',
@@ -2302,29 +1880,19 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     _s.validateStringLength(
       'packageVersionRevision',
       packageVersionRevision,
       1,
       50,
     );
-    _s.validateStringPattern(
-      'packageVersionRevision',
-      packageVersionRevision,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (asset != null) 'asset': [asset],
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (packageVersion != null) 'version': [packageVersion],
-      if (repository != null) 'repository': [repository],
+      'asset': [asset],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'version': [packageVersion],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
       if (packageVersionRevision != null) 'revision': [packageVersionRevision],
@@ -2379,9 +1947,6 @@ class CodeArtifact {
   /// <li>
   /// <code>maven</code>
   /// </li>
-  /// <li>
-  /// <code>nuget</code>
-  /// </li>
   /// </ul>
   ///
   /// Parameter [package] :
@@ -2413,19 +1978,15 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   Future<GetPackageVersionReadmeResult> getPackageVersionReadme({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String packageVersion,
-    @_s.required String repository,
-    String domainOwner,
-    String namespace,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String packageVersion,
+    required String repository,
+    String? domainOwner,
+    String? namespace,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2433,12 +1994,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -2450,24 +2005,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
     _s.validateStringLength(
       'packageVersion',
       packageVersion,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'packageVersion',
-      packageVersion,
-      r'''[^!#/\s]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -2478,22 +2021,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'namespace',
@@ -2501,17 +2033,12 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (packageVersion != null) 'version': [packageVersion],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'version': [packageVersion],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
     };
@@ -2538,9 +2065,6 @@ class CodeArtifact {
   /// <li>
   /// <code>maven</code>
   /// </li>
-  /// <li>
-  /// <code>nuget</code>
-  /// </li>
   /// </ul>
   ///
   /// May throw [AccessDeniedException].
@@ -2566,9 +2090,6 @@ class CodeArtifact {
   /// <li>
   /// <code>maven</code>
   /// </li>
-  /// <li>
-  /// <code>nuget</code>
-  /// </li>
   /// </ul>
   ///
   /// Parameter [repository] :
@@ -2578,10 +2099,10 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain that
   /// contains the repository. It does not include dashes or spaces.
   Future<GetRepositoryEndpointResult> getRepositoryEndpoint({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String repository,
-    String domainOwner,
+    required String domain,
+    required PackageFormat format,
+    required String repository,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2589,12 +2110,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -2606,27 +2121,16 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -2659,9 +2163,9 @@ class CodeArtifact {
   /// The 12-digit account number of the AWS account that owns the domain. It
   /// does not include dashes or spaces.
   Future<GetRepositoryPermissionsPolicyResult> getRepositoryPermissionsPolicy({
-    @_s.required String domain,
-    @_s.required String repository,
-    String domainOwner,
+    required String domain,
+    required String repository,
+    String? domainOwner,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2669,12 +2173,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -2685,26 +2183,15 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final response = await _protocol.send(
@@ -2717,11 +2204,11 @@ class CodeArtifact {
     return GetRepositoryPermissionsPolicyResult.fromJson(response);
   }
 
-  /// Returns a list of <code> <a
+  /// Returns a list of <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">DomainSummary</a>
-  /// </code> objects for all domains owned by the AWS account that makes this
-  /// call. Each returned <code>DomainSummary</code> object contains information
-  /// about a domain.
+  /// objects for all domains owned by the AWS account that makes this call.
+  /// Each returned <code>DomainSummary</code> object contains information about
+  /// a domain.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2735,8 +2222,8 @@ class CodeArtifact {
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListDomainsResult> listDomains({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2749,11 +2236,6 @@ class CodeArtifact {
       nextToken,
       1,
       2000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\S+''',
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
@@ -2769,8 +2251,8 @@ class CodeArtifact {
   }
 
   /// Returns a list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html">
-  /// <code>AssetSummary</code> </a> objects for assets in a package version.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html">AssetSummary</a>
+  /// objects for assets in a package version.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2796,9 +2278,6 @@ class CodeArtifact {
   /// <li>
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>: A NuGet package.
   /// </li>
   /// </ul>
   ///
@@ -2835,25 +2314,21 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [nextToken] :
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListPackageVersionAssetsResult> listPackageVersionAssets({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String packageVersion,
-    @_s.required String repository,
-    String domainOwner,
-    int maxResults,
-    String namespace,
-    String nextToken,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String packageVersion,
+    required String repository,
+    String? domainOwner,
+    int? maxResults,
+    String? namespace,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2861,12 +2336,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -2878,24 +2347,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
     _s.validateStringLength(
       'packageVersion',
       packageVersion,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'packageVersion',
-      packageVersion,
-      r'''[^!#/\s]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -2906,22 +2363,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -2935,28 +2381,18 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       2000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (packageVersion != null) 'version': [packageVersion],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'version': [packageVersion],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (namespace != null) 'namespace': [namespace],
@@ -2974,13 +2410,12 @@ class CodeArtifact {
 
   /// Returns the direct dependencies for a package version. The dependencies
   /// are returned as <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html">
-  /// <code>PackageDependency</code> </a> objects. CodeArtifact extracts the
-  /// dependencies for a package version from the metadata file for the package
-  /// format (for example, the <code>package.json</code> file for npm packages
-  /// and the <code>pom.xml</code> file for Maven). Any package version
-  /// dependencies that are not listed in the configuration file are not
-  /// returned.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html">PackageDependency</a>
+  /// objects. CodeArtifact extracts the dependencies for a package version from
+  /// the metadata file for the package format (for example, the
+  /// <code>package.json</code> file for npm packages and the
+  /// <code>pom.xml</code> file for Maven). Any package version dependencies
+  /// that are not listed in the configuration file are not returned.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -2989,8 +2424,8 @@ class CodeArtifact {
   /// May throw [ValidationException].
   ///
   /// Parameter [domain] :
-  /// The domain that contains the repository that contains the requested
-  /// package version dependencies.
+  /// The name of the domain that contains the repository that contains the
+  /// requested package version dependencies.
   ///
   /// Parameter [format] :
   /// The format of the package with the requested dependencies. The valid
@@ -3006,9 +2441,6 @@ class CodeArtifact {
   /// <li>
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>: A NuGet package.
   /// </li>
   /// </ul>
   ///
@@ -3041,24 +2473,20 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [nextToken] :
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
   Future<ListPackageVersionDependenciesResult> listPackageVersionDependencies({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String packageVersion,
-    @_s.required String repository,
-    String domainOwner,
-    String namespace,
-    String nextToken,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String packageVersion,
+    required String repository,
+    String? domainOwner,
+    String? namespace,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3066,12 +2494,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -3083,24 +2505,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(packageVersion, 'packageVersion');
     _s.validateStringLength(
       'packageVersion',
       packageVersion,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'packageVersion',
-      packageVersion,
-      r'''[^!#/\s]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -3111,22 +2521,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'namespace',
@@ -3134,28 +2533,18 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       2000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (packageVersion != null) 'version': [packageVersion],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'version': [packageVersion],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
       if (nextToken != null) 'next-token': [nextToken],
@@ -3171,9 +2560,9 @@ class CodeArtifact {
   }
 
   /// Returns a list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html">
-  /// <code>PackageVersionSummary</code> </a> objects for package versions in a
-  /// repository that match the request parameters.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html">PackageVersionSummary</a>
+  /// objects for package versions in a repository that match the request
+  /// parameters.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -3198,9 +2587,6 @@ class CodeArtifact {
   /// <li>
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>: A NuGet package.
   /// </li>
   /// </ul>
   ///
@@ -3231,10 +2617,6 @@ class CodeArtifact {
   /// </li>
   /// <li>
   /// A Python package does not contain a corresponding component, so Python
-  /// packages do not have a namespace.
-  /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
   /// packages do not have a namespace.
   /// </li>
   /// </ul>
@@ -3268,16 +2650,16 @@ class CodeArtifact {
   /// </li>
   /// </ul>
   Future<ListPackageVersionsResult> listPackageVersions({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String repository,
-    String domainOwner,
-    int maxResults,
-    String namespace,
-    String nextToken,
-    PackageVersionSortType sortBy,
-    PackageVersionStatus status,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String repository,
+    String? domainOwner,
+    int? maxResults,
+    String? namespace,
+    String? nextToken,
+    PackageVersionSortType? sortBy,
+    PackageVersionStatus? status,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3285,12 +2667,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -3302,12 +2678,6 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
     _s.validateStringLength(
       'repository',
@@ -3316,22 +2686,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -3345,27 +2704,17 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       2000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (maxResults != null) 'max-results': [maxResults.toString()],
       if (namespace != null) 'namespace': [namespace],
@@ -3384,9 +2733,8 @@ class CodeArtifact {
   }
 
   /// Returns a list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html">
-  /// <code>PackageSummary</code> </a> objects for packages in a repository that
-  /// match the request parameters.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html">PackageSummary</a>
+  /// objects for packages in a repository that match the request parameters.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -3395,8 +2743,8 @@ class CodeArtifact {
   /// May throw [ValidationException].
   ///
   /// Parameter [domain] :
-  /// The domain that contains the repository that contains the requested list
-  /// of packages.
+  /// The name of the domain that contains the repository that contains the
+  /// requested list of packages.
   ///
   /// Parameter [repository] :
   /// The name of the repository from which packages are to be listed.
@@ -3419,9 +2767,6 @@ class CodeArtifact {
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
   /// </li>
-  /// <li>
-  /// <code>nuget</code>: A NuGet package.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [maxResults] :
@@ -3442,10 +2787,6 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [nextToken] :
@@ -3456,14 +2797,14 @@ class CodeArtifact {
   /// A prefix used to filter returned packages. Only packages with names that
   /// start with <code>packagePrefix</code> are returned.
   Future<ListPackagesResult> listPackages({
-    @_s.required String domain,
-    @_s.required String repository,
-    String domainOwner,
-    PackageFormat format,
-    int maxResults,
-    String namespace,
-    String nextToken,
-    String packagePrefix,
+    required String domain,
+    required String repository,
+    String? domainOwner,
+    PackageFormat? format,
+    int? maxResults,
+    String? namespace,
+    String? nextToken,
+    String? packagePrefix,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3471,12 +2812,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -3487,22 +2822,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -3516,21 +2840,11 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       2000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\S+''',
     );
     _s.validateStringLength(
       'packagePrefix',
@@ -3538,14 +2852,9 @@ class CodeArtifact {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'packagePrefix',
-      packagePrefix,
-      r'''[^!#/\s]+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (format != null) 'format': [format.toValue()],
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -3564,10 +2873,10 @@ class CodeArtifact {
   }
 
   /// Returns a list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html">
-  /// <code>RepositorySummary</code> </a> objects. Each
-  /// <code>RepositorySummary</code> contains information about a repository in
-  /// the specified AWS account and that matches the input parameters.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html">RepositorySummary</a>
+  /// objects. Each <code>RepositorySummary</code> contains information about a
+  /// repository in the specified AWS account and that matches the input
+  /// parameters.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -3585,9 +2894,9 @@ class CodeArtifact {
   /// A prefix used to filter returned repositories. Only repositories with
   /// names that start with <code>repositoryPrefix</code> are returned.
   Future<ListRepositoriesResult> listRepositories({
-    int maxResults,
-    String nextToken,
-    String repositoryPrefix,
+    int? maxResults,
+    String? nextToken,
+    String? repositoryPrefix,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3601,21 +2910,11 @@ class CodeArtifact {
       1,
       2000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\S+''',
-    );
     _s.validateStringLength(
       'repositoryPrefix',
       repositoryPrefix,
       2,
       100,
-    );
-    _s.validateStringPattern(
-      'repositoryPrefix',
-      repositoryPrefix,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'max-results': [maxResults.toString()],
@@ -3633,10 +2932,9 @@ class CodeArtifact {
   }
 
   /// Returns a list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html">
-  /// <code>RepositorySummary</code> </a> objects. Each
-  /// <code>RepositorySummary</code> contains information about a repository in
-  /// the specified domain and that matches the input parameters.
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html">RepositorySummary</a>
+  /// objects. Each <code>RepositorySummary</code> contains information about a
+  /// repository in the specified domain and that matches the input parameters.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -3666,12 +2964,12 @@ class CodeArtifact {
   /// A prefix used to filter returned repositories. Only repositories with
   /// names that start with <code>repositoryPrefix</code> are returned.
   Future<ListRepositoriesInDomainResult> listRepositoriesInDomain({
-    @_s.required String domain,
-    String administratorAccount,
-    String domainOwner,
-    int maxResults,
-    String nextToken,
-    String repositoryPrefix,
+    required String domain,
+    String? administratorAccount,
+    String? domainOwner,
+    int? maxResults,
+    String? nextToken,
+    String? repositoryPrefix,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3681,33 +2979,17 @@ class CodeArtifact {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'administratorAccount',
       administratorAccount,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'administratorAccount',
-      administratorAccount,
-      r'''[0-9]{12}''',
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -3721,24 +3003,14 @@ class CodeArtifact {
       1,
       2000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\S+''',
-    );
     _s.validateStringLength(
       'repositoryPrefix',
       repositoryPrefix,
       2,
       100,
     );
-    _s.validateStringPattern(
-      'repositoryPrefix',
-      repositoryPrefix,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
+      'domain': [domain],
       if (administratorAccount != null)
         'administrator-account': [administratorAccount],
       if (domainOwner != null) 'domain-owner': [domainOwner],
@@ -3767,7 +3039,7 @@ class CodeArtifact {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource to get tags for.
   Future<ListTagsForResourceResult> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3777,14 +3049,8 @@ class CodeArtifact {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''\S+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -3828,10 +3094,10 @@ class CodeArtifact {
   /// used for optimistic locking, which prevents others from overwriting your
   /// changes to the domain's resource policy.
   Future<PutDomainPermissionsPolicyResult> putDomainPermissionsPolicy({
-    @_s.required String domain,
-    @_s.required String policyDocument,
-    String domainOwner,
-    String policyRevision,
+    required String domain,
+    required String policyDocument,
+    String? domainOwner,
+    String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3839,12 +3105,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
@@ -3861,21 +3121,11 @@ class CodeArtifact {
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     _s.validateStringLength(
       'policyRevision',
       policyRevision,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'policyRevision',
-      policyRevision,
-      r'''\S+''',
     );
     final $payload = <String, dynamic>{
       'domain': domain,
@@ -3930,11 +3180,11 @@ class CodeArtifact {
   /// prevents others from overwriting your changes to the repository's resource
   /// policy.
   Future<PutRepositoryPermissionsPolicyResult> putRepositoryPermissionsPolicy({
-    @_s.required String domain,
-    @_s.required String policyDocument,
-    @_s.required String repository,
-    String domainOwner,
-    String policyRevision,
+    required String domain,
+    required String policyDocument,
+    required String repository,
+    String? domainOwner,
+    String? policyRevision,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3942,12 +3192,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
@@ -3966,22 +3210,11 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
-    );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
     );
     _s.validateStringLength(
       'policyRevision',
@@ -3989,14 +3222,9 @@ class CodeArtifact {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'policyRevision',
-      policyRevision,
-      r'''\S+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final $payload = <String, dynamic>{
@@ -4028,8 +3256,8 @@ class CodeArtifact {
   /// Parameter [tags] :
   /// The tags you want to modify or add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -4039,15 +3267,9 @@ class CodeArtifact {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''\S+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -4059,7 +3281,6 @@ class CodeArtifact {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResult.fromJson(response);
   }
 
   /// Removes tags from a resource in AWS CodeArtifact.
@@ -4076,8 +3297,8 @@ class CodeArtifact {
   /// Parameter [tagKeys] :
   /// The tag key for each tag that you want to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -4087,15 +3308,9 @@ class CodeArtifact {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''\S+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (resourceArn != null) 'resourceArn': [resourceArn],
+      'resourceArn': [resourceArn],
     };
     final $payload = <String, dynamic>{
       'tagKeys': tagKeys,
@@ -4107,7 +3322,6 @@ class CodeArtifact {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResult.fromJson(response);
   }
 
   /// Updates the status of one or more versions of a package.
@@ -4120,8 +3334,8 @@ class CodeArtifact {
   /// May throw [ValidationException].
   ///
   /// Parameter [domain] :
-  /// The domain that contains the repository that contains the package versions
-  /// with a status to be updated.
+  /// The name of the domain that contains the repository that contains the
+  /// package versions with a status to be updated.
   ///
   /// Parameter [format] :
   /// A format that specifies the type of the package with the statuses to
@@ -4136,9 +3350,6 @@ class CodeArtifact {
   /// </li>
   /// <li>
   /// <code>maven</code>
-  /// </li>
-  /// <li>
-  /// <code>nuget</code>
   /// </li>
   /// </ul>
   ///
@@ -4182,10 +3393,6 @@ class CodeArtifact {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
   ///
   /// Parameter [versionRevisions] :
@@ -4193,16 +3400,16 @@ class CodeArtifact {
   /// <code>key</code> is the package version (for example, <code>3.5.2</code>),
   /// and the map <code>value</code> is the package version revision.
   Future<UpdatePackageVersionsStatusResult> updatePackageVersionsStatus({
-    @_s.required String domain,
-    @_s.required PackageFormat format,
-    @_s.required String package,
-    @_s.required String repository,
-    @_s.required PackageVersionStatus targetStatus,
-    @_s.required List<String> versions,
-    String domainOwner,
-    PackageVersionStatus expectedStatus,
-    String namespace,
-    Map<String, String> versionRevisions,
+    required String domain,
+    required PackageFormat format,
+    required String package,
+    required String repository,
+    required PackageVersionStatus targetStatus,
+    required List<String> versions,
+    String? domainOwner,
+    PackageVersionStatus? expectedStatus,
+    String? namespace,
+    Map<String, String>? versionRevisions,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -4210,12 +3417,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(format, 'format');
@@ -4227,24 +3428,12 @@ class CodeArtifact {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'package',
-      package,
-      r'''[^!#/\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(repository, 'repository');
     _s.validateStringLength(
       'repository',
       repository,
       2,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetStatus, 'targetStatus');
@@ -4255,32 +3444,22 @@ class CodeArtifact {
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     _s.validateStringLength(
       'namespace',
       namespace,
       1,
       255,
     );
-    _s.validateStringPattern(
-      'namespace',
-      namespace,
-      r'''[^!#/\s]+''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (format != null) 'format': [format.toValue()],
-      if (package != null) 'package': [package],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'format': [format.toValue()],
+      'package': [package],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
       if (namespace != null) 'namespace': [namespace],
     };
     final $payload = <String, dynamic>{
-      'targetStatus': targetStatus?.toValue() ?? '',
+      'targetStatus': targetStatus.toValue(),
       'versions': versions,
       if (expectedStatus != null) 'expectedStatus': expectedStatus.toValue(),
       if (versionRevisions != null) 'versionRevisions': versionRevisions,
@@ -4326,11 +3505,11 @@ class CodeArtifact {
   /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html">Working
   /// with upstream repositories</a>.
   Future<UpdateRepositoryResult> updateRepository({
-    @_s.required String domain,
-    @_s.required String repository,
-    String description,
-    String domainOwner,
-    List<UpstreamRepository> upstreams,
+    required String domain,
+    required String repository,
+    String? description,
+    String? domainOwner,
+    List<UpstreamRepository>? upstreams,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -4338,12 +3517,6 @@ class CodeArtifact {
       domain,
       2,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'domain',
-      domain,
-      r'''[a-z][a-z0-9\-]{0,48}[a-z0-9]''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(repository, 'repository');
@@ -4354,37 +3527,21 @@ class CodeArtifact {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repository',
-      repository,
-      r'''[A-Za-z0-9][A-Za-z0-9._\-]{1,99}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''\P{C}+''',
-    );
     _s.validateStringLength(
       'domainOwner',
       domainOwner,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'domainOwner',
-      domainOwner,
-      r'''[0-9]{12}''',
-    );
     final $query = <String, List<String>>{
-      if (domain != null) 'domain': [domain],
-      if (repository != null) 'repository': [repository],
+      'domain': [domain],
+      'repository': [repository],
       if (domainOwner != null) 'domain-owner': [domainOwner],
     };
     final $payload = <String, dynamic>{
@@ -4403,56 +3560,70 @@ class CodeArtifact {
 }
 
 /// Contains details about a package version asset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssetSummary {
   /// The name of the asset.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The hashes of the asset.
-  @_s.JsonKey(name: 'hashes')
-  final Map<HashAlgorithm, String> hashes;
+  final Map<HashAlgorithm, String>? hashes;
 
   /// The size of the asset.
-  @_s.JsonKey(name: 'size')
-  final int size;
+  final int? size;
 
   AssetSummary({
-    @_s.required this.name,
+    required this.name,
     this.hashes,
     this.size,
   });
-  factory AssetSummary.fromJson(Map<String, dynamic> json) =>
-      _$AssetSummaryFromJson(json);
+
+  factory AssetSummary.fromJson(Map<String, dynamic> json) {
+    return AssetSummary(
+      name: json['name'] as String,
+      hashes: (json['hashes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toHashAlgorithm(), e as String)),
+      size: json['size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final hashes = this.hashes;
+    final size = this.size;
+    return {
+      'name': name,
+      if (hashes != null)
+        'hashes': hashes.map((k, e) => MapEntry(k.toValue(), e)),
+      if (size != null) 'size': size,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateExternalConnectionResult {
   /// Information about the connected repository after processing the request.
-  @_s.JsonKey(name: 'repository')
-  final RepositoryDescription repository;
+  final RepositoryDescription? repository;
 
   AssociateExternalConnectionResult({
     this.repository,
   });
+
   factory AssociateExternalConnectionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateExternalConnectionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateExternalConnectionResult(
+      repository: json['repository'] != null
+          ? RepositoryDescription.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CopyPackageVersionsResult {
   /// A map of package versions that failed to copy and their error codes. The
   /// possible error codes are in the <code>PackageVersionError</code> data type.
@@ -4478,96 +3649,138 @@ class CopyPackageVersionsResult {
   /// <code>SKIPPED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'failedVersions')
-  final Map<String, PackageVersionError> failedVersions;
+  final Map<String, PackageVersionError>? failedVersions;
 
   /// A list of the package versions that were successfully copied to your
   /// repository.
-  @_s.JsonKey(name: 'successfulVersions')
-  final Map<String, SuccessfulPackageVersionInfo> successfulVersions;
+  final Map<String, SuccessfulPackageVersionInfo>? successfulVersions;
 
   CopyPackageVersionsResult({
     this.failedVersions,
     this.successfulVersions,
   });
-  factory CopyPackageVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$CopyPackageVersionsResultFromJson(json);
+
+  factory CopyPackageVersionsResult.fromJson(Map<String, dynamic> json) {
+    return CopyPackageVersionsResult(
+      failedVersions: (json['failedVersions'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, PackageVersionError.fromJson(e as Map<String, dynamic>))),
+      successfulVersions: (json['successfulVersions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              SuccessfulPackageVersionInfo.fromJson(
+                  e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedVersions = this.failedVersions;
+    final successfulVersions = this.successfulVersions;
+    return {
+      if (failedVersions != null) 'failedVersions': failedVersions,
+      if (successfulVersions != null) 'successfulVersions': successfulVersions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDomainResult {
   /// Contains information about the created domain after processing the request.
-  @_s.JsonKey(name: 'domain')
-  final DomainDescription domain;
+  final DomainDescription? domain;
 
   CreateDomainResult({
     this.domain,
   });
-  factory CreateDomainResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDomainResultFromJson(json);
+
+  factory CreateDomainResult.fromJson(Map<String, dynamic> json) {
+    return CreateDomainResult(
+      domain: json['domain'] != null
+          ? DomainDescription.fromJson(json['domain'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    return {
+      if (domain != null) 'domain': domain,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRepositoryResult {
   /// Information about the created repository after processing the request.
-  @_s.JsonKey(name: 'repository')
-  final RepositoryDescription repository;
+  final RepositoryDescription? repository;
 
   CreateRepositoryResult({
     this.repository,
   });
-  factory CreateRepositoryResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateRepositoryResultFromJson(json);
+
+  factory CreateRepositoryResult.fromJson(Map<String, dynamic> json) {
+    return CreateRepositoryResult(
+      repository: json['repository'] != null
+          ? RepositoryDescription.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDomainPermissionsPolicyResult {
   /// Information about the deleted resource policy after processing the request.
-  @_s.JsonKey(name: 'policy')
-  final ResourcePolicy policy;
+  final ResourcePolicy? policy;
 
   DeleteDomainPermissionsPolicyResult({
     this.policy,
   });
+
   factory DeleteDomainPermissionsPolicyResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteDomainPermissionsPolicyResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteDomainPermissionsPolicyResult(
+      policy: json['policy'] != null
+          ? ResourcePolicy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDomainResult {
   /// Contains information about the deleted domain after processing the request.
-  @_s.JsonKey(name: 'domain')
-  final DomainDescription domain;
+  final DomainDescription? domain;
 
   DeleteDomainResult({
     this.domain,
   });
-  factory DeleteDomainResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDomainResultFromJson(json);
+
+  factory DeleteDomainResult.fromJson(Map<String, dynamic> json) {
+    return DeleteDomainResult(
+      domain: json['domain'] != null
+          ? DomainDescription.fromJson(json['domain'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    return {
+      if (domain != null) 'domain': domain,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePackageVersionsResult {
   /// A <code>PackageVersionError</code> object that contains a map of errors
   /// codes for the deleted package that failed. The possible error codes are:
@@ -4592,133 +3805,189 @@ class DeletePackageVersionsResult {
   /// <code>SKIPPED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'failedVersions')
-  final Map<String, PackageVersionError> failedVersions;
+  final Map<String, PackageVersionError>? failedVersions;
 
   /// A list of the package versions that were successfully deleted.
-  @_s.JsonKey(name: 'successfulVersions')
-  final Map<String, SuccessfulPackageVersionInfo> successfulVersions;
+  final Map<String, SuccessfulPackageVersionInfo>? successfulVersions;
 
   DeletePackageVersionsResult({
     this.failedVersions,
     this.successfulVersions,
   });
-  factory DeletePackageVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DeletePackageVersionsResultFromJson(json);
+
+  factory DeletePackageVersionsResult.fromJson(Map<String, dynamic> json) {
+    return DeletePackageVersionsResult(
+      failedVersions: (json['failedVersions'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, PackageVersionError.fromJson(e as Map<String, dynamic>))),
+      successfulVersions: (json['successfulVersions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              SuccessfulPackageVersionInfo.fromJson(
+                  e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedVersions = this.failedVersions;
+    final successfulVersions = this.successfulVersions;
+    return {
+      if (failedVersions != null) 'failedVersions': failedVersions,
+      if (successfulVersions != null) 'successfulVersions': successfulVersions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRepositoryPermissionsPolicyResult {
   /// Information about the deleted policy after processing the request.
-  @_s.JsonKey(name: 'policy')
-  final ResourcePolicy policy;
+  final ResourcePolicy? policy;
 
   DeleteRepositoryPermissionsPolicyResult({
     this.policy,
   });
+
   factory DeleteRepositoryPermissionsPolicyResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteRepositoryPermissionsPolicyResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteRepositoryPermissionsPolicyResult(
+      policy: json['policy'] != null
+          ? ResourcePolicy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRepositoryResult {
   /// Information about the deleted repository after processing the request.
-  @_s.JsonKey(name: 'repository')
-  final RepositoryDescription repository;
+  final RepositoryDescription? repository;
 
   DeleteRepositoryResult({
     this.repository,
   });
-  factory DeleteRepositoryResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRepositoryResultFromJson(json);
+
+  factory DeleteRepositoryResult.fromJson(Map<String, dynamic> json) {
+    return DeleteRepositoryResult(
+      repository: json['repository'] != null
+          ? RepositoryDescription.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDomainResult {
-  @_s.JsonKey(name: 'domain')
-  final DomainDescription domain;
+  final DomainDescription? domain;
 
   DescribeDomainResult({
     this.domain,
   });
-  factory DescribeDomainResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDomainResultFromJson(json);
+
+  factory DescribeDomainResult.fromJson(Map<String, dynamic> json) {
+    return DescribeDomainResult(
+      domain: json['domain'] != null
+          ? DomainDescription.fromJson(json['domain'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    return {
+      if (domain != null) 'domain': domain,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePackageVersionResult {
-  /// A <code> <a
+  /// A <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html">PackageVersionDescription</a>
-  /// </code> object that contains information about the requested package
-  /// version.
-  @_s.JsonKey(name: 'packageVersion')
+  /// object that contains information about the requested package version.
   final PackageVersionDescription packageVersion;
 
   DescribePackageVersionResult({
-    @_s.required this.packageVersion,
+    required this.packageVersion,
   });
-  factory DescribePackageVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribePackageVersionResultFromJson(json);
+
+  factory DescribePackageVersionResult.fromJson(Map<String, dynamic> json) {
+    return DescribePackageVersionResult(
+      packageVersion: PackageVersionDescription.fromJson(
+          json['packageVersion'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final packageVersion = this.packageVersion;
+    return {
+      'packageVersion': packageVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRepositoryResult {
   /// A <code>RepositoryDescription</code> object that contains the requested
   /// repository information.
-  @_s.JsonKey(name: 'repository')
-  final RepositoryDescription repository;
+  final RepositoryDescription? repository;
 
   DescribeRepositoryResult({
     this.repository,
   });
-  factory DescribeRepositoryResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRepositoryResultFromJson(json);
+
+  factory DescribeRepositoryResult.fromJson(Map<String, dynamic> json) {
+    return DescribeRepositoryResult(
+      repository: json['repository'] != null
+          ? RepositoryDescription.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateExternalConnectionResult {
   /// The repository associated with the removed external connection.
-  @_s.JsonKey(name: 'repository')
-  final RepositoryDescription repository;
+  final RepositoryDescription? repository;
 
   DisassociateExternalConnectionResult({
     this.repository,
   });
+
   factory DisassociateExternalConnectionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateExternalConnectionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateExternalConnectionResult(
+      repository: json['repository'] != null
+          ? RepositoryDescription.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisposePackageVersionsResult {
   /// A <code>PackageVersionError</code> object that contains a map of errors
   /// codes for the disposed package versions that failed. The possible error
@@ -4744,63 +4013,67 @@ class DisposePackageVersionsResult {
   /// <code>SKIPPED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'failedVersions')
-  final Map<String, PackageVersionError> failedVersions;
+  final Map<String, PackageVersionError>? failedVersions;
 
   /// A list of the package versions that were successfully disposed.
-  @_s.JsonKey(name: 'successfulVersions')
-  final Map<String, SuccessfulPackageVersionInfo> successfulVersions;
+  final Map<String, SuccessfulPackageVersionInfo>? successfulVersions;
 
   DisposePackageVersionsResult({
     this.failedVersions,
     this.successfulVersions,
   });
-  factory DisposePackageVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DisposePackageVersionsResultFromJson(json);
+
+  factory DisposePackageVersionsResult.fromJson(Map<String, dynamic> json) {
+    return DisposePackageVersionsResult(
+      failedVersions: (json['failedVersions'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, PackageVersionError.fromJson(e as Map<String, dynamic>))),
+      successfulVersions: (json['successfulVersions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              SuccessfulPackageVersionInfo.fromJson(
+                  e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedVersions = this.failedVersions;
+    final successfulVersions = this.successfulVersions;
+    return {
+      if (failedVersions != null) 'failedVersions': failedVersions,
+      if (successfulVersions != null) 'successfulVersions': successfulVersions,
+    };
+  }
 }
 
 /// Information about a domain. A domain is a container for repositories. When
 /// you create a domain, it is empty until you add one or more repositories.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainDescription {
   /// The Amazon Resource Name (ARN) of the domain.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The total size of all assets in the domain.
-  @_s.JsonKey(name: 'assetSizeBytes')
-  final int assetSizeBytes;
+  final int? assetSizeBytes;
 
   /// A timestamp that represents the date and time the domain was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The ARN of an AWS Key Management Service (AWS KMS) key associated with a
   /// domain.
-  @_s.JsonKey(name: 'encryptionKey')
-  final String encryptionKey;
+  final String? encryptionKey;
 
   /// The name of the domain.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The AWS account ID that owns the domain.
-  @_s.JsonKey(name: 'owner')
-  final String owner;
+  final String? owner;
 
   /// The number of repositories in the domain.
-  @_s.JsonKey(name: 'repositoryCount')
-  final int repositoryCount;
+  final int? repositoryCount;
 
   /// The Amazon Resource Name (ARN) of the Amazon S3 bucket that is used to store
   /// package assets in the domain.
-  @_s.JsonKey(name: 's3BucketArn')
-  final String s3BucketArn;
+  final String? s3BucketArn;
 
   /// The current status of a domain. The valid values are
   ///
@@ -4812,8 +4085,7 @@ class DomainDescription {
   /// <code>Deleted</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final DomainStatus status;
+  final DomainStatus? status;
 
   DomainDescription({
     this.arn,
@@ -4826,49 +4098,93 @@ class DomainDescription {
     this.s3BucketArn,
     this.status,
   });
-  factory DomainDescription.fromJson(Map<String, dynamic> json) =>
-      _$DomainDescriptionFromJson(json);
+
+  factory DomainDescription.fromJson(Map<String, dynamic> json) {
+    return DomainDescription(
+      arn: json['arn'] as String?,
+      assetSizeBytes: json['assetSizeBytes'] as int?,
+      createdTime: timeStampFromJson(json['createdTime']),
+      encryptionKey: json['encryptionKey'] as String?,
+      name: json['name'] as String?,
+      owner: json['owner'] as String?,
+      repositoryCount: json['repositoryCount'] as int?,
+      s3BucketArn: json['s3BucketArn'] as String?,
+      status: (json['status'] as String?)?.toDomainStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final assetSizeBytes = this.assetSizeBytes;
+    final createdTime = this.createdTime;
+    final encryptionKey = this.encryptionKey;
+    final name = this.name;
+    final owner = this.owner;
+    final repositoryCount = this.repositoryCount;
+    final s3BucketArn = this.s3BucketArn;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (assetSizeBytes != null) 'assetSizeBytes': assetSizeBytes,
+      if (createdTime != null) 'createdTime': unixTimestampToJson(createdTime),
+      if (encryptionKey != null) 'encryptionKey': encryptionKey,
+      if (name != null) 'name': name,
+      if (owner != null) 'owner': owner,
+      if (repositoryCount != null) 'repositoryCount': repositoryCount,
+      if (s3BucketArn != null) 's3BucketArn': s3BucketArn,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 enum DomainStatus {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Deleted')
   deleted,
+}
+
+extension on DomainStatus {
+  String toValue() {
+    switch (this) {
+      case DomainStatus.active:
+        return 'Active';
+      case DomainStatus.deleted:
+        return 'Deleted';
+    }
+  }
+}
+
+extension on String {
+  DomainStatus toDomainStatus() {
+    switch (this) {
+      case 'Active':
+        return DomainStatus.active;
+      case 'Deleted':
+        return DomainStatus.deleted;
+    }
+    throw Exception('$this is not known in enum DomainStatus');
+  }
 }
 
 /// Information about a domain, including its name, Amazon Resource Name (ARN),
 /// and status. The <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListDomains.html">
-/// <code>ListDomains</code> </a> operation returns a list of
-/// <code>DomainSummary</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListDomains.html">ListDomains</a>
+/// operation returns a list of <code>DomainSummary</code> objects.
 class DomainSummary {
   /// The ARN of the domain.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// A timestamp that contains the date and time the domain was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The key used to encrypt the domain.
-  @_s.JsonKey(name: 'encryptionKey')
-  final String encryptionKey;
+  final String? encryptionKey;
 
   /// The name of the domain.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The 12-digit account number of the AWS account that owns the domain. It does
   /// not include dashes or spaces.
-  @_s.JsonKey(name: 'owner')
-  final String owner;
+  final String? owner;
 
   /// A string that contains the status of the domain. The valid values are:
   ///
@@ -4880,8 +4196,7 @@ class DomainSummary {
   /// <code>Deleted</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final DomainStatus status;
+  final DomainStatus? status;
 
   DomainSummary({
     this.arn,
@@ -4891,80 +4206,126 @@ class DomainSummary {
     this.owner,
     this.status,
   });
-  factory DomainSummary.fromJson(Map<String, dynamic> json) =>
-      _$DomainSummaryFromJson(json);
+
+  factory DomainSummary.fromJson(Map<String, dynamic> json) {
+    return DomainSummary(
+      arn: json['arn'] as String?,
+      createdTime: timeStampFromJson(json['createdTime']),
+      encryptionKey: json['encryptionKey'] as String?,
+      name: json['name'] as String?,
+      owner: json['owner'] as String?,
+      status: (json['status'] as String?)?.toDomainStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final encryptionKey = this.encryptionKey;
+    final name = this.name;
+    final owner = this.owner;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': unixTimestampToJson(createdTime),
+      if (encryptionKey != null) 'encryptionKey': encryptionKey,
+      if (name != null) 'name': name,
+      if (owner != null) 'owner': owner,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 enum ExternalConnectionStatus {
-  @_s.JsonValue('Available')
   available,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ExternalConnectionStatus {
+  String toValue() {
+    switch (this) {
+      case ExternalConnectionStatus.available:
+        return 'Available';
+    }
+  }
+}
+
+extension on String {
+  ExternalConnectionStatus toExternalConnectionStatus() {
+    switch (this) {
+      case 'Available':
+        return ExternalConnectionStatus.available;
+    }
+    throw Exception('$this is not known in enum ExternalConnectionStatus');
+  }
+}
+
 class GetAuthorizationTokenResult {
   /// The returned authentication token.
-  @_s.JsonKey(name: 'authorizationToken')
-  final String authorizationToken;
+  final String? authorizationToken;
 
   /// A timestamp that specifies the date and time the authorization token
   /// expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'expiration')
-  final DateTime expiration;
+  final DateTime? expiration;
 
   GetAuthorizationTokenResult({
     this.authorizationToken,
     this.expiration,
   });
-  factory GetAuthorizationTokenResult.fromJson(Map<String, dynamic> json) =>
-      _$GetAuthorizationTokenResultFromJson(json);
+
+  factory GetAuthorizationTokenResult.fromJson(Map<String, dynamic> json) {
+    return GetAuthorizationTokenResult(
+      authorizationToken: json['authorizationToken'] as String?,
+      expiration: timeStampFromJson(json['expiration']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizationToken = this.authorizationToken;
+    final expiration = this.expiration;
+    return {
+      if (authorizationToken != null) 'authorizationToken': authorizationToken,
+      if (expiration != null) 'expiration': unixTimestampToJson(expiration),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainPermissionsPolicyResult {
   /// The returned resource policy.
-  @_s.JsonKey(name: 'policy')
-  final ResourcePolicy policy;
+  final ResourcePolicy? policy;
 
   GetDomainPermissionsPolicyResult({
     this.policy,
   });
-  factory GetDomainPermissionsPolicyResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDomainPermissionsPolicyResultFromJson(json);
+
+  factory GetDomainPermissionsPolicyResult.fromJson(Map<String, dynamic> json) {
+    return GetDomainPermissionsPolicyResult(
+      policy: json['policy'] != null
+          ? ResourcePolicy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPackageVersionAssetResult {
   /// The binary file, or asset, that is downloaded.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'asset')
-  final Uint8List asset;
+  final Uint8List? asset;
 
   /// The name of the asset that is downloaded.
-  @_s.JsonKey(name: 'X-AssetName')
-  final String assetName;
+  final String? assetName;
 
   /// A string that contains the package version (for example,
   /// <code>3.5.2</code>).
-  @_s.JsonKey(name: 'X-PackageVersion')
-  final String packageVersion;
+  final String? packageVersion;
 
   /// The name of the package version revision that contains the downloaded asset.
-  @_s.JsonKey(name: 'X-PackageVersionRevision')
-  final String packageVersionRevision;
+  final String? packageVersionRevision;
 
   GetPackageVersionAssetResult({
     this.asset,
@@ -4972,15 +4333,27 @@ class GetPackageVersionAssetResult {
     this.packageVersion,
     this.packageVersionRevision,
   });
-  factory GetPackageVersionAssetResult.fromJson(Map<String, dynamic> json) =>
-      _$GetPackageVersionAssetResultFromJson(json);
+
+  factory GetPackageVersionAssetResult.fromJson(Map<String, dynamic> json) {
+    return GetPackageVersionAssetResult(
+      asset: _s.decodeNullableUint8List(json['asset'] as String?),
+      assetName: json['X-AssetName'] as String?,
+      packageVersion: json['X-PackageVersion'] as String?,
+      packageVersionRevision: json['X-PackageVersionRevision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asset = this.asset;
+    final assetName = this.assetName;
+    final packageVersion = this.packageVersion;
+    final packageVersionRevision = this.packageVersionRevision;
+    return {
+      if (asset != null) 'asset': base64Encode(asset),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPackageVersionReadmeResult {
   /// The format of the package with the requested readme file. Valid format types
   /// are:
@@ -4995,12 +4368,8 @@ class GetPackageVersionReadmeResult {
   /// <li>
   /// <code>maven</code>
   /// </li>
-  /// <li>
-  /// <code>nuget</code>
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'format')
-  final PackageFormat format;
+  final PackageFormat? format;
 
   /// The namespace of the package. The package component that specifies its
   /// namespace depends on its type. For example:
@@ -5016,29 +4385,20 @@ class GetPackageVersionReadmeResult {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the package that contains the returned readme file.
-  @_s.JsonKey(name: 'package')
-  final String package;
+  final String? package;
 
   /// The text of the returned readme file.
-  @_s.JsonKey(name: 'readme')
-  final String readme;
+  final String? readme;
 
   /// The version of the package with the requested readme file.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The current revision associated with the package version.
-  @_s.JsonKey(name: 'versionRevision')
-  final String versionRevision;
+  final String? versionRevision;
 
   GetPackageVersionReadmeResult({
     this.format,
@@ -5048,119 +4408,194 @@ class GetPackageVersionReadmeResult {
     this.version,
     this.versionRevision,
   });
-  factory GetPackageVersionReadmeResult.fromJson(Map<String, dynamic> json) =>
-      _$GetPackageVersionReadmeResultFromJson(json);
+
+  factory GetPackageVersionReadmeResult.fromJson(Map<String, dynamic> json) {
+    return GetPackageVersionReadmeResult(
+      format: (json['format'] as String?)?.toPackageFormat(),
+      namespace: json['namespace'] as String?,
+      package: json['package'] as String?,
+      readme: json['readme'] as String?,
+      version: json['version'] as String?,
+      versionRevision: json['versionRevision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final namespace = this.namespace;
+    final package = this.package;
+    final readme = this.readme;
+    final version = this.version;
+    final versionRevision = this.versionRevision;
+    return {
+      if (format != null) 'format': format.toValue(),
+      if (namespace != null) 'namespace': namespace,
+      if (package != null) 'package': package,
+      if (readme != null) 'readme': readme,
+      if (version != null) 'version': version,
+      if (versionRevision != null) 'versionRevision': versionRevision,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRepositoryEndpointResult {
   /// A string that specifies the URL of the returned endpoint.
-  @_s.JsonKey(name: 'repositoryEndpoint')
-  final String repositoryEndpoint;
+  final String? repositoryEndpoint;
 
   GetRepositoryEndpointResult({
     this.repositoryEndpoint,
   });
-  factory GetRepositoryEndpointResult.fromJson(Map<String, dynamic> json) =>
-      _$GetRepositoryEndpointResultFromJson(json);
+
+  factory GetRepositoryEndpointResult.fromJson(Map<String, dynamic> json) {
+    return GetRepositoryEndpointResult(
+      repositoryEndpoint: json['repositoryEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryEndpoint = this.repositoryEndpoint;
+    return {
+      if (repositoryEndpoint != null) 'repositoryEndpoint': repositoryEndpoint,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRepositoryPermissionsPolicyResult {
   /// The returned resource policy.
-  @_s.JsonKey(name: 'policy')
-  final ResourcePolicy policy;
+  final ResourcePolicy? policy;
 
   GetRepositoryPermissionsPolicyResult({
     this.policy,
   });
+
   factory GetRepositoryPermissionsPolicyResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetRepositoryPermissionsPolicyResultFromJson(json);
+      Map<String, dynamic> json) {
+    return GetRepositoryPermissionsPolicyResult(
+      policy: json['policy'] != null
+          ? ResourcePolicy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
+    };
+  }
 }
 
 enum HashAlgorithm {
-  @_s.JsonValue('MD5')
   md5,
-  @_s.JsonValue('SHA-1')
   sha_1,
-  @_s.JsonValue('SHA-256')
   sha_256,
-  @_s.JsonValue('SHA-512')
   sha_512,
 }
 
+extension on HashAlgorithm {
+  String toValue() {
+    switch (this) {
+      case HashAlgorithm.md5:
+        return 'MD5';
+      case HashAlgorithm.sha_1:
+        return 'SHA-1';
+      case HashAlgorithm.sha_256:
+        return 'SHA-256';
+      case HashAlgorithm.sha_512:
+        return 'SHA-512';
+    }
+  }
+}
+
+extension on String {
+  HashAlgorithm toHashAlgorithm() {
+    switch (this) {
+      case 'MD5':
+        return HashAlgorithm.md5;
+      case 'SHA-1':
+        return HashAlgorithm.sha_1;
+      case 'SHA-256':
+        return HashAlgorithm.sha_256;
+      case 'SHA-512':
+        return HashAlgorithm.sha_512;
+    }
+    throw Exception('$this is not known in enum HashAlgorithm');
+  }
+}
+
 /// Details of the license data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LicenseInfo {
   /// Name of the license.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The URL for license data.
-  @_s.JsonKey(name: 'url')
-  final String url;
+  final String? url;
 
   LicenseInfo({
     this.name,
     this.url,
   });
-  factory LicenseInfo.fromJson(Map<String, dynamic> json) =>
-      _$LicenseInfoFromJson(json);
+
+  factory LicenseInfo.fromJson(Map<String, dynamic> json) {
+    return LicenseInfo(
+      name: json['name'] as String?,
+      url: json['url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final url = this.url;
+    return {
+      if (name != null) 'name': name,
+      if (url != null) 'url': url,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainsResult {
-  /// The returned list of <code> <a
+  /// The returned list of <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainSummary.html">DomainSummary</a>
-  /// </code> objects.
-  @_s.JsonKey(name: 'domains')
-  final List<DomainSummary> domains;
+  /// objects.
+  final List<DomainSummary>? domains;
 
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDomainsResult({
     this.domains,
     this.nextToken,
   });
-  factory ListDomainsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDomainsResultFromJson(json);
+
+  factory ListDomainsResult.fromJson(Map<String, dynamic> json) {
+    return ListDomainsResult(
+      domains: (json['domains'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domains = this.domains;
+    final nextToken = this.nextToken;
+    return {
+      if (domains != null) 'domains': domains,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPackageVersionAssetsResult {
   /// The returned list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html">
-  /// <code>AssetSummary</code> </a> objects.
-  @_s.JsonKey(name: 'assets')
-  final List<AssetSummary> assets;
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html">AssetSummary</a>
+  /// objects.
+  final List<AssetSummary>? assets;
 
   /// The format of the package that contains the returned package version assets.
-  @_s.JsonKey(name: 'format')
-  final PackageFormat format;
+  final PackageFormat? format;
 
   /// The namespace of the package. The package component that specifies its
   /// namespace depends on its type. For example:
@@ -5176,30 +4611,21 @@ class ListPackageVersionAssetsResult {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The name of the package that contains the returned package version assets.
-  @_s.JsonKey(name: 'package')
-  final String package;
+  final String? package;
 
   /// The version of the package associated with the returned assets.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The current revision associated with the package version.
-  @_s.JsonKey(name: 'versionRevision')
-  final String versionRevision;
+  final String? versionRevision;
 
   ListPackageVersionAssetsResult({
     this.assets,
@@ -5210,21 +4636,47 @@ class ListPackageVersionAssetsResult {
     this.version,
     this.versionRevision,
   });
-  factory ListPackageVersionAssetsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListPackageVersionAssetsResultFromJson(json);
+
+  factory ListPackageVersionAssetsResult.fromJson(Map<String, dynamic> json) {
+    return ListPackageVersionAssetsResult(
+      assets: (json['assets'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      format: (json['format'] as String?)?.toPackageFormat(),
+      namespace: json['namespace'] as String?,
+      nextToken: json['nextToken'] as String?,
+      package: json['package'] as String?,
+      version: json['version'] as String?,
+      versionRevision: json['versionRevision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final assets = this.assets;
+    final format = this.format;
+    final namespace = this.namespace;
+    final nextToken = this.nextToken;
+    final package = this.package;
+    final version = this.version;
+    final versionRevision = this.versionRevision;
+    return {
+      if (assets != null) 'assets': assets,
+      if (format != null) 'format': format.toValue(),
+      if (namespace != null) 'namespace': namespace,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (package != null) 'package': package,
+      if (version != null) 'version': version,
+      if (versionRevision != null) 'versionRevision': versionRevision,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPackageVersionDependenciesResult {
   /// The returned list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html">
-  /// <code>PackageDependency</code> </a> objects.
-  @_s.JsonKey(name: 'dependencies')
-  final List<PackageDependency> dependencies;
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html">PackageDependency</a>
+  /// objects.
+  final List<PackageDependency>? dependencies;
 
   /// A format that specifies the type of the package that contains the returned
   /// dependencies. The valid values are:
@@ -5239,12 +4691,8 @@ class ListPackageVersionDependenciesResult {
   /// <li>
   /// <code>maven</code>
   /// </li>
-  /// <li>
-  /// <code>nuget</code>
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'format')
-  final PackageFormat format;
+  final PackageFormat? format;
 
   /// The namespace of the package. The package component that specifies its
   /// namespace depends on its type. For example:
@@ -5260,31 +4708,22 @@ class ListPackageVersionDependenciesResult {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The token for the next set of results. Use the value returned in the
   /// previous response in the next request to retrieve the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The name of the package that contains the returned package versions
   /// dependencies.
-  @_s.JsonKey(name: 'package')
-  final String package;
+  final String? package;
 
   /// The version of the package that is specified in the request.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   /// The current revision associated with the package version.
-  @_s.JsonKey(name: 'versionRevision')
-  final String versionRevision;
+  final String? versionRevision;
 
   ListPackageVersionDependenciesResult({
     this.dependencies,
@@ -5295,16 +4734,43 @@ class ListPackageVersionDependenciesResult {
     this.version,
     this.versionRevision,
   });
+
   factory ListPackageVersionDependenciesResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPackageVersionDependenciesResultFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPackageVersionDependenciesResult(
+      dependencies: (json['dependencies'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackageDependency.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      format: (json['format'] as String?)?.toPackageFormat(),
+      namespace: json['namespace'] as String?,
+      nextToken: json['nextToken'] as String?,
+      package: json['package'] as String?,
+      version: json['version'] as String?,
+      versionRevision: json['versionRevision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dependencies = this.dependencies;
+    final format = this.format;
+    final namespace = this.namespace;
+    final nextToken = this.nextToken;
+    final package = this.package;
+    final version = this.version;
+    final versionRevision = this.versionRevision;
+    return {
+      if (dependencies != null) 'dependencies': dependencies,
+      if (format != null) 'format': format.toValue(),
+      if (namespace != null) 'namespace': namespace,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (package != null) 'package': package,
+      if (version != null) 'version': version,
+      if (versionRevision != null) 'versionRevision': versionRevision,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPackageVersionsResult {
   /// The default package version to display. This depends on the package format:
   ///
@@ -5319,8 +4785,7 @@ class ListPackageVersionsResult {
   /// published package version.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'defaultDisplayVersion')
-  final String defaultDisplayVersion;
+  final String? defaultDisplayVersion;
 
   /// A format of the package. Valid package format values are:
   ///
@@ -5334,12 +4799,8 @@ class ListPackageVersionsResult {
   /// <li>
   /// <code>maven</code>
   /// </li>
-  /// <li>
-  /// <code>nuget</code>
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'format')
-  final PackageFormat format;
+  final PackageFormat? format;
 
   /// The namespace of the package. The package component that specifies its
   /// namespace depends on its type. For example:
@@ -5355,28 +4816,20 @@ class ListPackageVersionsResult {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The name of the package.
-  @_s.JsonKey(name: 'package')
-  final String package;
+  final String? package;
 
   /// The returned list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html">
-  /// <code>PackageVersionSummary</code> </a> objects.
-  @_s.JsonKey(name: 'versions')
-  final List<PackageVersionSummary> versions;
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html">PackageVersionSummary</a>
+  /// objects.
+  final List<PackageVersionSummary>? versions;
 
   ListPackageVersionsResult({
     this.defaultDisplayVersion,
@@ -5386,113 +4839,175 @@ class ListPackageVersionsResult {
     this.package,
     this.versions,
   });
-  factory ListPackageVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListPackageVersionsResultFromJson(json);
+
+  factory ListPackageVersionsResult.fromJson(Map<String, dynamic> json) {
+    return ListPackageVersionsResult(
+      defaultDisplayVersion: json['defaultDisplayVersion'] as String?,
+      format: (json['format'] as String?)?.toPackageFormat(),
+      namespace: json['namespace'] as String?,
+      nextToken: json['nextToken'] as String?,
+      package: json['package'] as String?,
+      versions: (json['versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackageVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultDisplayVersion = this.defaultDisplayVersion;
+    final format = this.format;
+    final namespace = this.namespace;
+    final nextToken = this.nextToken;
+    final package = this.package;
+    final versions = this.versions;
+    return {
+      if (defaultDisplayVersion != null)
+        'defaultDisplayVersion': defaultDisplayVersion,
+      if (format != null) 'format': format.toValue(),
+      if (namespace != null) 'namespace': namespace,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (package != null) 'package': package,
+      if (versions != null) 'versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPackagesResult {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of returned <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html">
-  /// <code>PackageSummary</code> </a> objects.
-  @_s.JsonKey(name: 'packages')
-  final List<PackageSummary> packages;
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html">PackageSummary</a>
+  /// objects.
+  final List<PackageSummary>? packages;
 
   ListPackagesResult({
     this.nextToken,
     this.packages,
   });
-  factory ListPackagesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListPackagesResultFromJson(json);
+
+  factory ListPackagesResult.fromJson(Map<String, dynamic> json) {
+    return ListPackagesResult(
+      nextToken: json['nextToken'] as String?,
+      packages: (json['packages'] as List?)
+          ?.whereNotNull()
+          .map((e) => PackageSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final packages = this.packages;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (packages != null) 'packages': packages,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRepositoriesInDomainResult {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The returned list of repositories.
-  @_s.JsonKey(name: 'repositories')
-  final List<RepositorySummary> repositories;
+  final List<RepositorySummary>? repositories;
 
   ListRepositoriesInDomainResult({
     this.nextToken,
     this.repositories,
   });
-  factory ListRepositoriesInDomainResult.fromJson(Map<String, dynamic> json) =>
-      _$ListRepositoriesInDomainResultFromJson(json);
+
+  factory ListRepositoriesInDomainResult.fromJson(Map<String, dynamic> json) {
+    return ListRepositoriesInDomainResult(
+      nextToken: json['nextToken'] as String?,
+      repositories: (json['repositories'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositorySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final repositories = this.repositories;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (repositories != null) 'repositories': repositories,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRepositoriesResult {
   /// If there are additional results, this is the token for the next set of
   /// results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The returned list of <a
-  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html">
-  /// <code>RepositorySummary</code> </a> objects.
-  @_s.JsonKey(name: 'repositories')
-  final List<RepositorySummary> repositories;
+  /// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html">RepositorySummary</a>
+  /// objects.
+  final List<RepositorySummary>? repositories;
 
   ListRepositoriesResult({
     this.nextToken,
     this.repositories,
   });
-  factory ListRepositoriesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListRepositoriesResultFromJson(json);
+
+  factory ListRepositoriesResult.fromJson(Map<String, dynamic> json) {
+    return ListRepositoriesResult(
+      nextToken: json['nextToken'] as String?,
+      repositories: (json['repositories'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositorySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final repositories = this.repositories;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (repositories != null) 'repositories': repositories,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResult {
   /// A list of tag key and value pairs associated with the specified resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResult({
     this.tags,
   });
-  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResultFromJson(json);
+
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Details about a package dependency.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PackageDependency {
   /// The type of a package dependency. The possible values depend on the package
   /// type. Example types are <code>compile</code>, <code>runtime</code>, and
   /// <code>test</code> for Maven packages, and <code>dev</code>,
   /// <code>prod</code>, and <code>optional</code> for npm packages.
-  @_s.JsonKey(name: 'dependencyType')
-  final String dependencyType;
+  final String? dependencyType;
 
   /// The namespace of the package. The package component that specifies its
   /// namespace depends on its type. For example:
@@ -5508,24 +5023,17 @@ class PackageDependency {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the package that this package depends on.
-  @_s.JsonKey(name: 'package')
-  final String package;
+  final String? package;
 
   /// The required version, or version range, of the package that this package
   /// depends on. The version format is specific to the package type. For example,
   /// the following are possible valid required versions: <code>1.2.3</code>,
   /// <code>^2.3.4</code>, or <code>4.x</code>.
-  @_s.JsonKey(name: 'versionRequirement')
-  final String versionRequirement;
+  final String? versionRequirement;
 
   PackageDependency({
     this.dependencyType,
@@ -5533,18 +5041,34 @@ class PackageDependency {
     this.package,
     this.versionRequirement,
   });
-  factory PackageDependency.fromJson(Map<String, dynamic> json) =>
-      _$PackageDependencyFromJson(json);
+
+  factory PackageDependency.fromJson(Map<String, dynamic> json) {
+    return PackageDependency(
+      dependencyType: json['dependencyType'] as String?,
+      namespace: json['namespace'] as String?,
+      package: json['package'] as String?,
+      versionRequirement: json['versionRequirement'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dependencyType = this.dependencyType;
+    final namespace = this.namespace;
+    final package = this.package;
+    final versionRequirement = this.versionRequirement;
+    return {
+      if (dependencyType != null) 'dependencyType': dependencyType,
+      if (namespace != null) 'namespace': namespace,
+      if (package != null) 'package': package,
+      if (versionRequirement != null) 'versionRequirement': versionRequirement,
+    };
+  }
 }
 
 enum PackageFormat {
-  @_s.JsonValue('npm')
   npm,
-  @_s.JsonValue('pypi')
   pypi,
-  @_s.JsonValue('maven')
   maven,
-  @_s.JsonValue('nuget')
   nuget,
 }
 
@@ -5560,19 +5084,28 @@ extension on PackageFormat {
       case PackageFormat.nuget:
         return 'nuget';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PackageFormat toPackageFormat() {
+    switch (this) {
+      case 'npm':
+        return PackageFormat.npm;
+      case 'pypi':
+        return PackageFormat.pypi;
+      case 'maven':
+        return PackageFormat.maven;
+      case 'nuget':
+        return PackageFormat.nuget;
+    }
+    throw Exception('$this is not known in enum PackageFormat');
   }
 }
 
 /// Details about a package, including its format, namespace, and name. The <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackages.html">
-/// <code>ListPackages</code> </a> operation returns a list of
-/// <code>PackageSummary</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackages.html">ListPackages</a>
+/// operation returns a list of <code>PackageSummary</code> objects.
 class PackageSummary {
   /// The format of the package. Valid values are:
   ///
@@ -5586,12 +5119,8 @@ class PackageSummary {
   /// <li>
   /// <code>maven</code>
   /// </li>
-  /// <li>
-  /// <code>nuget</code>
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'format')
-  final PackageFormat format;
+  final PackageFormat? format;
 
   /// The namespace of the package. The package component that specifies its
   /// namespace depends on its type. For example:
@@ -5607,41 +5136,46 @@ class PackageSummary {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the package.
-  @_s.JsonKey(name: 'package')
-  final String package;
+  final String? package;
 
   PackageSummary({
     this.format,
     this.namespace,
     this.package,
   });
-  factory PackageSummary.fromJson(Map<String, dynamic> json) =>
-      _$PackageSummaryFromJson(json);
+
+  factory PackageSummary.fromJson(Map<String, dynamic> json) {
+    return PackageSummary(
+      format: (json['format'] as String?)?.toPackageFormat(),
+      namespace: json['namespace'] as String?,
+      package: json['package'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final namespace = this.namespace;
+    final package = this.package;
+    return {
+      if (format != null) 'format': format.toValue(),
+      if (namespace != null) 'namespace': namespace,
+      if (package != null) 'package': package,
+    };
+  }
 }
 
 /// Details about a package version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PackageVersionDescription {
   /// The name of the package that is displayed. The <code>displayName</code>
   /// varies depending on the package version's format. For example, if an npm
   /// package is named <code>ui</code>, is in the namespace <code>vue</code>, and
   /// has the format <code>npm</code>, then the <code>displayName</code> is
   /// <code>@vue/ui</code>.
-  @_s.JsonKey(name: 'displayName')
-  final String displayName;
+  final String? displayName;
 
   /// The format of the package version. The valid package formats are:
   ///
@@ -5656,20 +5190,14 @@ class PackageVersionDescription {
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
   /// </li>
-  /// <li>
-  /// <code>nuget</code>: A NuGet package.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'format')
-  final PackageFormat format;
+  final PackageFormat? format;
 
   /// The homepage associated with the package.
-  @_s.JsonKey(name: 'homePage')
-  final String homePage;
+  final String? homePage;
 
   /// Information about licenses associated with the package version.
-  @_s.JsonKey(name: 'licenses')
-  final List<LicenseInfo> licenses;
+  final List<LicenseInfo>? licenses;
 
   /// The namespace of the package. The package component that specifies its
   /// namespace depends on its type. For example:
@@ -5685,32 +5213,22 @@ class PackageVersionDescription {
   /// A Python package does not contain a corresponding component, so Python
   /// packages do not have a namespace.
   /// </li>
-  /// <li>
-  /// A NuGet package does not contain a corresponding component, so NuGet
-  /// packages do not have a namespace.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'namespace')
-  final String namespace;
+  final String? namespace;
 
   /// The name of the requested package.
-  @_s.JsonKey(name: 'packageName')
-  final String packageName;
+  final String? packageName;
 
   /// A timestamp that contains the date and time the package version was
   /// published.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'publishedTime')
-  final DateTime publishedTime;
+  final DateTime? publishedTime;
 
   /// The revision of the package version.
-  @_s.JsonKey(name: 'revision')
-  final String revision;
+  final String? revision;
 
   /// The repository for the source code in the package version, or the source
   /// code used to build it.
-  @_s.JsonKey(name: 'sourceCodeRepository')
-  final String sourceCodeRepository;
+  final String? sourceCodeRepository;
 
   /// A string that contains the status of the package version. It can be one of
   /// the following:
@@ -5732,18 +5250,15 @@ class PackageVersionDescription {
   /// <code>Disposed</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final PackageVersionStatus status;
+  final PackageVersionStatus? status;
 
   /// A summary of the package version. The summary is extracted from the package.
   /// The information in and detail level of the summary depends on the package
   /// version's format.
-  @_s.JsonKey(name: 'summary')
-  final String summary;
+  final String? summary;
 
   /// The version of the package.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   PackageVersionDescription({
     this.displayName,
@@ -5759,16 +5274,60 @@ class PackageVersionDescription {
     this.summary,
     this.version,
   });
-  factory PackageVersionDescription.fromJson(Map<String, dynamic> json) =>
-      _$PackageVersionDescriptionFromJson(json);
+
+  factory PackageVersionDescription.fromJson(Map<String, dynamic> json) {
+    return PackageVersionDescription(
+      displayName: json['displayName'] as String?,
+      format: (json['format'] as String?)?.toPackageFormat(),
+      homePage: json['homePage'] as String?,
+      licenses: (json['licenses'] as List?)
+          ?.whereNotNull()
+          .map((e) => LicenseInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      namespace: json['namespace'] as String?,
+      packageName: json['packageName'] as String?,
+      publishedTime: timeStampFromJson(json['publishedTime']),
+      revision: json['revision'] as String?,
+      sourceCodeRepository: json['sourceCodeRepository'] as String?,
+      status: (json['status'] as String?)?.toPackageVersionStatus(),
+      summary: json['summary'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    final format = this.format;
+    final homePage = this.homePage;
+    final licenses = this.licenses;
+    final namespace = this.namespace;
+    final packageName = this.packageName;
+    final publishedTime = this.publishedTime;
+    final revision = this.revision;
+    final sourceCodeRepository = this.sourceCodeRepository;
+    final status = this.status;
+    final summary = this.summary;
+    final version = this.version;
+    return {
+      if (displayName != null) 'displayName': displayName,
+      if (format != null) 'format': format.toValue(),
+      if (homePage != null) 'homePage': homePage,
+      if (licenses != null) 'licenses': licenses,
+      if (namespace != null) 'namespace': namespace,
+      if (packageName != null) 'packageName': packageName,
+      if (publishedTime != null)
+        'publishedTime': unixTimestampToJson(publishedTime),
+      if (revision != null) 'revision': revision,
+      if (sourceCodeRepository != null)
+        'sourceCodeRepository': sourceCodeRepository,
+      if (status != null) 'status': status.toValue(),
+      if (summary != null) 'summary': summary,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// An error associated with package.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PackageVersionError {
   /// The error code associated with the error. Valid error codes are:
   ///
@@ -5792,38 +5351,82 @@ class PackageVersionError {
   /// <code>SKIPPED</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'errorCode')
-  final PackageVersionErrorCode errorCode;
+  final PackageVersionErrorCode? errorCode;
 
   /// The error message associated with the error.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   PackageVersionError({
     this.errorCode,
     this.errorMessage,
   });
-  factory PackageVersionError.fromJson(Map<String, dynamic> json) =>
-      _$PackageVersionErrorFromJson(json);
+
+  factory PackageVersionError.fromJson(Map<String, dynamic> json) {
+    return PackageVersionError(
+      errorCode: (json['errorCode'] as String?)?.toPackageVersionErrorCode(),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
 }
 
 enum PackageVersionErrorCode {
-  @_s.JsonValue('ALREADY_EXISTS')
   alreadyExists,
-  @_s.JsonValue('MISMATCHED_REVISION')
   mismatchedRevision,
-  @_s.JsonValue('MISMATCHED_STATUS')
   mismatchedStatus,
-  @_s.JsonValue('NOT_ALLOWED')
   notAllowed,
-  @_s.JsonValue('NOT_FOUND')
   notFound,
-  @_s.JsonValue('SKIPPED')
   skipped,
 }
 
+extension on PackageVersionErrorCode {
+  String toValue() {
+    switch (this) {
+      case PackageVersionErrorCode.alreadyExists:
+        return 'ALREADY_EXISTS';
+      case PackageVersionErrorCode.mismatchedRevision:
+        return 'MISMATCHED_REVISION';
+      case PackageVersionErrorCode.mismatchedStatus:
+        return 'MISMATCHED_STATUS';
+      case PackageVersionErrorCode.notAllowed:
+        return 'NOT_ALLOWED';
+      case PackageVersionErrorCode.notFound:
+        return 'NOT_FOUND';
+      case PackageVersionErrorCode.skipped:
+        return 'SKIPPED';
+    }
+  }
+}
+
+extension on String {
+  PackageVersionErrorCode toPackageVersionErrorCode() {
+    switch (this) {
+      case 'ALREADY_EXISTS':
+        return PackageVersionErrorCode.alreadyExists;
+      case 'MISMATCHED_REVISION':
+        return PackageVersionErrorCode.mismatchedRevision;
+      case 'MISMATCHED_STATUS':
+        return PackageVersionErrorCode.mismatchedStatus;
+      case 'NOT_ALLOWED':
+        return PackageVersionErrorCode.notAllowed;
+      case 'NOT_FOUND':
+        return PackageVersionErrorCode.notFound;
+      case 'SKIPPED':
+        return PackageVersionErrorCode.skipped;
+    }
+    throw Exception('$this is not known in enum PackageVersionErrorCode');
+  }
+}
+
 enum PackageVersionSortType {
-  @_s.JsonValue('PUBLISHED_TIME')
   publishedTime,
 }
 
@@ -5833,22 +5436,25 @@ extension on PackageVersionSortType {
       case PackageVersionSortType.publishedTime:
         return 'PUBLISHED_TIME';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PackageVersionSortType toPackageVersionSortType() {
+    switch (this) {
+      case 'PUBLISHED_TIME':
+        return PackageVersionSortType.publishedTime;
+    }
+    throw Exception('$this is not known in enum PackageVersionSortType');
   }
 }
 
 enum PackageVersionStatus {
-  @_s.JsonValue('Published')
   published,
-  @_s.JsonValue('Unfinished')
   unfinished,
-  @_s.JsonValue('Unlisted')
   unlisted,
-  @_s.JsonValue('Archived')
   archived,
-  @_s.JsonValue('Disposed')
   disposed,
-  @_s.JsonValue('Deleted')
   deleted,
 }
 
@@ -5868,20 +5474,33 @@ extension on PackageVersionStatus {
       case PackageVersionStatus.deleted:
         return 'Deleted';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PackageVersionStatus toPackageVersionStatus() {
+    switch (this) {
+      case 'Published':
+        return PackageVersionStatus.published;
+      case 'Unfinished':
+        return PackageVersionStatus.unfinished;
+      case 'Unlisted':
+        return PackageVersionStatus.unlisted;
+      case 'Archived':
+        return PackageVersionStatus.archived;
+      case 'Disposed':
+        return PackageVersionStatus.disposed;
+      case 'Deleted':
+        return PackageVersionStatus.deleted;
+    }
+    throw Exception('$this is not known in enum PackageVersionStatus');
   }
 }
 
 /// Details about a package version, including its status, version, and
 /// revision. The <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html">
-/// <code>ListPackageVersions</code> </a> operation returns a list of
-/// <code>PackageVersionSummary</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html">ListPackageVersions</a>
+/// operation returns a list of <code>PackageVersionSummary</code> objects.
 class PackageVersionSummary {
   /// A string that contains the status of the package version. It can be one of
   /// the following:
@@ -5903,60 +5522,87 @@ class PackageVersionSummary {
   /// <code>Disposed</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
   final PackageVersionStatus status;
 
   /// Information about a package version.
-  @_s.JsonKey(name: 'version')
   final String version;
 
   /// The revision associated with a package version.
-  @_s.JsonKey(name: 'revision')
-  final String revision;
+  final String? revision;
 
   PackageVersionSummary({
-    @_s.required this.status,
-    @_s.required this.version,
+    required this.status,
+    required this.version,
     this.revision,
   });
-  factory PackageVersionSummary.fromJson(Map<String, dynamic> json) =>
-      _$PackageVersionSummaryFromJson(json);
+
+  factory PackageVersionSummary.fromJson(Map<String, dynamic> json) {
+    return PackageVersionSummary(
+      status: (json['status'] as String).toPackageVersionStatus(),
+      version: json['version'] as String,
+      revision: json['revision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final version = this.version;
+    final revision = this.revision;
+    return {
+      'status': status.toValue(),
+      'version': version,
+      if (revision != null) 'revision': revision,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutDomainPermissionsPolicyResult {
   /// The resource policy that was set after processing the request.
-  @_s.JsonKey(name: 'policy')
-  final ResourcePolicy policy;
+  final ResourcePolicy? policy;
 
   PutDomainPermissionsPolicyResult({
     this.policy,
   });
-  factory PutDomainPermissionsPolicyResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutDomainPermissionsPolicyResultFromJson(json);
+
+  factory PutDomainPermissionsPolicyResult.fromJson(Map<String, dynamic> json) {
+    return PutDomainPermissionsPolicyResult(
+      policy: json['policy'] != null
+          ? ResourcePolicy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRepositoryPermissionsPolicyResult {
   /// The resource policy that was set after processing the request.
-  @_s.JsonKey(name: 'policy')
-  final ResourcePolicy policy;
+  final ResourcePolicy? policy;
 
   PutRepositoryPermissionsPolicyResult({
     this.policy,
   });
+
   factory PutRepositoryPermissionsPolicyResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutRepositoryPermissionsPolicyResultFromJson(json);
+      Map<String, dynamic> json) {
+    return PutRepositoryPermissionsPolicyResult(
+      policy: json['policy'] != null
+          ? ResourcePolicy.fromJson(json['policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'policy': policy,
+    };
+  }
 }
 
 /// The details of a repository stored in AWS CodeArtifact. A CodeArtifact
@@ -5966,40 +5612,28 @@ class PutRepositoryPermissionsPolicyResult {
 /// fetching and publishing packages using tools like the <code>npm</code> CLI,
 /// the Maven CLI (<code>mvn</code>), and <code>pip</code>. You can create up to
 /// 100 repositories per AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RepositoryDescription {
   /// The 12-digit account number of the AWS account that manages the repository.
-  @_s.JsonKey(name: 'administratorAccount')
-  final String administratorAccount;
+  final String? administratorAccount;
 
   /// The Amazon Resource Name (ARN) of the repository.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// A text description of the repository.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The name of the domain that contains the repository.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The 12-digit account number of the AWS account that owns the domain that
   /// contains the repository. It does not include dashes or spaces.
-  @_s.JsonKey(name: 'domainOwner')
-  final String domainOwner;
+  final String? domainOwner;
 
   /// An array of external connections associated with the repository.
-  @_s.JsonKey(name: 'externalConnections')
-  final List<RepositoryExternalConnectionInfo> externalConnections;
+  final List<RepositoryExternalConnectionInfo>? externalConnections;
 
   /// The name of the repository.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A list of upstream repositories to associate with the repository. The order
   /// of the upstream repositories in the list determines their priority order
@@ -6007,8 +5641,7 @@ class RepositoryDescription {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html">Working
   /// with upstream repositories</a>.
-  @_s.JsonKey(name: 'upstreams')
-  final List<UpstreamRepositoryInfo> upstreams;
+  final List<UpstreamRepositoryInfo>? upstreams;
 
   RepositoryDescription({
     this.administratorAccount,
@@ -6020,20 +5653,56 @@ class RepositoryDescription {
     this.name,
     this.upstreams,
   });
-  factory RepositoryDescription.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryDescriptionFromJson(json);
+
+  factory RepositoryDescription.fromJson(Map<String, dynamic> json) {
+    return RepositoryDescription(
+      administratorAccount: json['administratorAccount'] as String?,
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      domainName: json['domainName'] as String?,
+      domainOwner: json['domainOwner'] as String?,
+      externalConnections: (json['externalConnections'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryExternalConnectionInfo.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String?,
+      upstreams: (json['upstreams'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => UpstreamRepositoryInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final administratorAccount = this.administratorAccount;
+    final arn = this.arn;
+    final description = this.description;
+    final domainName = this.domainName;
+    final domainOwner = this.domainOwner;
+    final externalConnections = this.externalConnections;
+    final name = this.name;
+    final upstreams = this.upstreams;
+    return {
+      if (administratorAccount != null)
+        'administratorAccount': administratorAccount,
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (domainName != null) 'domainName': domainName,
+      if (domainOwner != null) 'domainOwner': domainOwner,
+      if (externalConnections != null)
+        'externalConnections': externalConnections,
+      if (name != null) 'name': name,
+      if (upstreams != null) 'upstreams': upstreams,
+    };
+  }
 }
 
 /// Contains information about the external connection of a repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RepositoryExternalConnectionInfo {
   /// The name of the external connection associated with a repository.
-  @_s.JsonKey(name: 'externalConnectionName')
-  final String externalConnectionName;
+  final String? externalConnectionName;
 
   /// The package format associated with a repository's external connection. The
   /// valid package formats are:
@@ -6049,63 +5718,63 @@ class RepositoryExternalConnectionInfo {
   /// <code>maven</code>: A Maven package that contains compiled code in a
   /// distributable format, such as a JAR file.
   /// </li>
-  /// <li>
-  /// <code>nuget</code>: A NuGet package.
-  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'packageFormat')
-  final PackageFormat packageFormat;
+  final PackageFormat? packageFormat;
 
   /// The status of the external connection of a repository. There is one valid
   /// value, <code>Available</code>.
-  @_s.JsonKey(name: 'status')
-  final ExternalConnectionStatus status;
+  final ExternalConnectionStatus? status;
 
   RepositoryExternalConnectionInfo({
     this.externalConnectionName,
     this.packageFormat,
     this.status,
   });
-  factory RepositoryExternalConnectionInfo.fromJson(
-          Map<String, dynamic> json) =>
-      _$RepositoryExternalConnectionInfoFromJson(json);
+
+  factory RepositoryExternalConnectionInfo.fromJson(Map<String, dynamic> json) {
+    return RepositoryExternalConnectionInfo(
+      externalConnectionName: json['externalConnectionName'] as String?,
+      packageFormat: (json['packageFormat'] as String?)?.toPackageFormat(),
+      status: (json['status'] as String?)?.toExternalConnectionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalConnectionName = this.externalConnectionName;
+    final packageFormat = this.packageFormat;
+    final status = this.status;
+    return {
+      if (externalConnectionName != null)
+        'externalConnectionName': externalConnectionName,
+      if (packageFormat != null) 'packageFormat': packageFormat.toValue(),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// Details about a repository, including its Amazon Resource Name (ARN),
 /// description, and domain information. The <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListRepositories.html">
-/// <code>ListRepositories</code> </a> operation returns a list of
-/// <code>RepositorySummary</code> objects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListRepositories.html">ListRepositories</a>
+/// operation returns a list of <code>RepositorySummary</code> objects.
 class RepositorySummary {
   /// The AWS account ID that manages the repository.
-  @_s.JsonKey(name: 'administratorAccount')
-  final String administratorAccount;
+  final String? administratorAccount;
 
   /// The ARN of the repository.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the repository.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The name of the domain that contains the repository.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The 12-digit account number of the AWS account that owns the domain. It does
   /// not include dashes or spaces.
-  @_s.JsonKey(name: 'domainOwner')
-  final String domainOwner;
+  final String? domainOwner;
 
   /// The name of the repository.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   RepositorySummary({
     this.administratorAccount,
@@ -6115,49 +5784,79 @@ class RepositorySummary {
     this.domainOwner,
     this.name,
   });
-  factory RepositorySummary.fromJson(Map<String, dynamic> json) =>
-      _$RepositorySummaryFromJson(json);
+
+  factory RepositorySummary.fromJson(Map<String, dynamic> json) {
+    return RepositorySummary(
+      administratorAccount: json['administratorAccount'] as String?,
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      domainName: json['domainName'] as String?,
+      domainOwner: json['domainOwner'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final administratorAccount = this.administratorAccount;
+    final arn = this.arn;
+    final description = this.description;
+    final domainName = this.domainName;
+    final domainOwner = this.domainOwner;
+    final name = this.name;
+    return {
+      if (administratorAccount != null)
+        'administratorAccount': administratorAccount,
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (domainName != null) 'domainName': domainName,
+      if (domainOwner != null) 'domainOwner': domainOwner,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// An AWS CodeArtifact resource policy that contains a resource ARN, document
 /// details, and a revision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourcePolicy {
   /// The resource policy formatted in JSON.
-  @_s.JsonKey(name: 'document')
-  final String document;
+  final String? document;
 
   /// The ARN of the resource associated with the resource policy
-  @_s.JsonKey(name: 'resourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The current revision of the resource policy.
-  @_s.JsonKey(name: 'revision')
-  final String revision;
+  final String? revision;
 
   ResourcePolicy({
     this.document,
     this.resourceArn,
     this.revision,
   });
-  factory ResourcePolicy.fromJson(Map<String, dynamic> json) =>
-      _$ResourcePolicyFromJson(json);
+
+  factory ResourcePolicy.fromJson(Map<String, dynamic> json) {
+    return ResourcePolicy(
+      document: json['document'] as String?,
+      resourceArn: json['resourceArn'] as String?,
+      revision: json['revision'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final resourceArn = this.resourceArn;
+    final revision = this.revision;
+    return {
+      if (document != null) 'document': document,
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (revision != null) 'revision': revision,
+    };
+  }
 }
 
 /// Contains the revision and status of a package version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SuccessfulPackageVersionInfo {
   /// The revision of a package version.
-  @_s.JsonKey(name: 'revision')
-  final String revision;
+  final String? revision;
 
   /// The status of a package version. Valid statuses are:
   ///
@@ -6178,168 +5877,220 @@ class SuccessfulPackageVersionInfo {
   /// <code>Disposed</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final PackageVersionStatus status;
+  final PackageVersionStatus? status;
 
   SuccessfulPackageVersionInfo({
     this.revision,
     this.status,
   });
-  factory SuccessfulPackageVersionInfo.fromJson(Map<String, dynamic> json) =>
-      _$SuccessfulPackageVersionInfoFromJson(json);
+
+  factory SuccessfulPackageVersionInfo.fromJson(Map<String, dynamic> json) {
+    return SuccessfulPackageVersionInfo(
+      revision: json['revision'] as String?,
+      status: (json['status'] as String?)?.toPackageVersionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revision = this.revision;
+    final status = this.status;
+    return {
+      if (revision != null) 'revision': revision,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// A tag is a key-value pair that can be used to manage, search for, or filter
 /// resources in AWS CodeArtifact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The tag value.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResult {
   TagResourceResult();
-  factory TagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResultFromJson(json);
+
+  factory TagResourceResult.fromJson(Map<String, dynamic> _) {
+    return TagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResult {
   UntagResourceResult();
-  factory UntagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResultFromJson(json);
+
+  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePackageVersionsStatusResult {
   /// A list of <code>SuccessfulPackageVersionInfo</code> objects, one for each
   /// package version with a status that successfully updated.
-  @_s.JsonKey(name: 'failedVersions')
-  final Map<String, PackageVersionError> failedVersions;
+  final Map<String, PackageVersionError>? failedVersions;
 
   /// A list of <code>PackageVersionError</code> objects, one for each package
   /// version with a status that failed to update.
-  @_s.JsonKey(name: 'successfulVersions')
-  final Map<String, SuccessfulPackageVersionInfo> successfulVersions;
+  final Map<String, SuccessfulPackageVersionInfo>? successfulVersions;
 
   UpdatePackageVersionsStatusResult({
     this.failedVersions,
     this.successfulVersions,
   });
+
   factory UpdatePackageVersionsStatusResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdatePackageVersionsStatusResultFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdatePackageVersionsStatusResult(
+      failedVersions: (json['failedVersions'] as Map<String, dynamic>?)?.map((k,
+              e) =>
+          MapEntry(k, PackageVersionError.fromJson(e as Map<String, dynamic>))),
+      successfulVersions: (json['successfulVersions'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              SuccessfulPackageVersionInfo.fromJson(
+                  e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedVersions = this.failedVersions;
+    final successfulVersions = this.successfulVersions;
+    return {
+      if (failedVersions != null) 'failedVersions': failedVersions,
+      if (successfulVersions != null) 'successfulVersions': successfulVersions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRepositoryResult {
   /// The updated repository.
-  @_s.JsonKey(name: 'repository')
-  final RepositoryDescription repository;
+  final RepositoryDescription? repository;
 
   UpdateRepositoryResult({
     this.repository,
   });
-  factory UpdateRepositoryResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRepositoryResultFromJson(json);
+
+  factory UpdateRepositoryResult.fromJson(Map<String, dynamic> json) {
+    return UpdateRepositoryResult(
+      repository: json['repository'] != null
+          ? RepositoryDescription.fromJson(
+              json['repository'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repository = this.repository;
+    return {
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
 /// Information about an upstream repository. A list of
 /// <code>UpstreamRepository</code> objects is an input parameter to <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_CreateRepository.html">
-/// <code>CreateRepository</code> </a> and <a
-/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdateRepository.html">
-/// <code>UpdateRepository</code> </a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_CreateRepository.html">CreateRepository</a>
+/// and <a
+/// href="https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdateRepository.html">UpdateRepository</a>.
 class UpstreamRepository {
   /// The name of an upstream repository.
-  @_s.JsonKey(name: 'repositoryName')
   final String repositoryName;
 
   UpstreamRepository({
-    @_s.required this.repositoryName,
+    required this.repositoryName,
   });
-  Map<String, dynamic> toJson() => _$UpstreamRepositoryToJson(this);
+
+  factory UpstreamRepository.fromJson(Map<String, dynamic> json) {
+    return UpstreamRepository(
+      repositoryName: json['repositoryName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryName = this.repositoryName;
+    return {
+      'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// Information about an upstream repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpstreamRepositoryInfo {
   /// The name of an upstream repository.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   UpstreamRepositoryInfo({
     this.repositoryName,
   });
-  factory UpstreamRepositoryInfo.fromJson(Map<String, dynamic> json) =>
-      _$UpstreamRepositoryInfoFromJson(json);
+
+  factory UpstreamRepositoryInfo.fromJson(Map<String, dynamic> json) {
+    return UpstreamRepositoryInfo(
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryName = this.repositoryName;
+    return {
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -6347,12 +6098,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

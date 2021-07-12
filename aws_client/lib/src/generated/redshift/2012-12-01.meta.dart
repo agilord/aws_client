@@ -47,6 +47,19 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "ActionType": {"type": "string", "flattened": false},
+  "AquaConfiguration": {
+    "type": "structure",
+    "members": {
+      "AquaStatus": {"shape": "AquaStatus", "flattened": false},
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "AquaConfigurationStatus": {"type": "string", "flattened": false},
+  "AquaStatus": {"type": "string", "flattened": false},
   "AssociatedClusterList": {
     "type": "list",
     "member": {
@@ -80,6 +93,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AuthorizationStatus": {"type": "string", "flattened": false},
   "AuthorizeClusterSecurityGroupIngressMessage": {
     "type": "structure",
     "members": {
@@ -97,6 +111,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "ClusterSecurityGroup",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "AuthorizeEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "Account": {"shape": "String", "flattened": false},
+      "VpcIds": {"shape": "VpcIdentifierList", "flattened": false}
     },
     "flattened": false
   },
@@ -284,7 +307,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "String",
         "flattened": false
       },
-      "ClusterNamespaceArn": {"shape": "String", "flattened": false}
+      "ClusterNamespaceArn": {"shape": "String", "flattened": false},
+      "TotalStorageCapacityInMegaBytes": {
+        "shape": "LongOptional",
+        "flattened": false
+      },
+      "AquaConfiguration": {"shape": "AquaConfiguration", "flattened": false}
     },
     "flattened": false
   },
@@ -630,6 +658,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AvailabilityZoneRelocation": {
         "shape": "BooleanOptional",
         "flattened": false
+      },
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
       }
     },
     "flattened": false
@@ -714,6 +746,20 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "ClusterSubnetGroup": {"shape": "ClusterSubnetGroup", "flattened": false}
+    },
+    "flattened": false
+  },
+  "CreateEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "ResourceOwner": {"shape": "String", "flattened": false},
+      "EndpointName": {"shape": "String", "flattened": false},
+      "SubnetGroupName": {"shape": "String", "flattened": false},
+      "VpcSecurityGroupIds": {
+        "shape": "VpcSecurityGroupIdList",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -966,6 +1012,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DeleteEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "EndpointName": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "DeleteEventSubscriptionMessage": {
     "type": "structure",
     "members": {
@@ -1152,6 +1205,29 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "ResourceOwner": {"shape": "String", "flattened": false},
+      "EndpointName": {"shape": "String", "flattened": false},
+      "VpcId": {"shape": "String", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeEndpointAuthorizationMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "Account": {"shape": "String", "flattened": false},
+      "Grantee": {"shape": "BooleanOptional", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
   "DescribeEventCategoriesMessage": {
     "type": "structure",
     "members": {
@@ -1235,6 +1311,35 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "NodeType": {"shape": "String", "flattened": false},
       "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
       "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribePartnersInputMessage": {
+    "type": "structure",
+    "members": {
+      "AccountId": {"shape": "PartnerIntegrationAccountId", "flattened": false},
+      "ClusterIdentifier": {
+        "shape": "PartnerIntegrationClusterIdentifier",
+        "flattened": false
+      },
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "DescribePartnersOutputMessage": {
+    "type": "structure",
+    "members": {
+      "PartnerIntegrationInfoList": {
+        "shape": "PartnerIntegrationInfoList",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1435,11 +1540,71 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Address": {"shape": "String", "flattened": false},
       "Port": {"shape": "Integer", "flattened": false},
-      "VpcEndpoints": {
-        "shape": "SpartaProxyVpcEndpointList",
-        "flattened": false
-      }
+      "VpcEndpoints": {"shape": "VpcEndpointsList", "flattened": false}
     },
+    "flattened": false
+  },
+  "EndpointAccess": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "ResourceOwner": {"shape": "String", "flattened": false},
+      "SubnetGroupName": {"shape": "String", "flattened": false},
+      "EndpointStatus": {"shape": "String", "flattened": false},
+      "EndpointName": {"shape": "String", "flattened": false},
+      "EndpointCreateTime": {"shape": "TStamp", "flattened": false},
+      "Port": {"shape": "Integer", "flattened": false},
+      "Address": {"shape": "String", "flattened": false},
+      "VpcSecurityGroups": {
+        "shape": "VpcSecurityGroupMembershipList",
+        "flattened": false
+      },
+      "VpcEndpoint": {"shape": "VpcEndpoint", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAccessList": {
+    "type": "structure",
+    "members": {
+      "EndpointAccessList": {"shape": "EndpointAccesses", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAccesses": {
+    "type": "list",
+    "member": {"shape": "EndpointAccess"},
+    "flattened": false
+  },
+  "EndpointAuthorization": {
+    "type": "structure",
+    "members": {
+      "Grantor": {"shape": "String", "flattened": false},
+      "Grantee": {"shape": "String", "flattened": false},
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "AuthorizeTime": {"shape": "TStamp", "flattened": false},
+      "ClusterStatus": {"shape": "String", "flattened": false},
+      "Status": {"shape": "AuthorizationStatus", "flattened": false},
+      "AllowedAllVPCs": {"shape": "Boolean", "flattened": false},
+      "AllowedVPCs": {"shape": "VpcIdentifierList", "flattened": false},
+      "EndpointCount": {"shape": "Integer", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAuthorizationList": {
+    "type": "structure",
+    "members": {
+      "EndpointAuthorizationList": {
+        "shape": "EndpointAuthorizations",
+        "flattened": false
+      },
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "EndpointAuthorizations": {
+    "type": "list",
+    "member": {"shape": "EndpointAuthorization"},
     "flattened": false
   },
   "Event": {
@@ -1709,6 +1874,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "Mode": {"type": "string", "flattened": false},
+  "ModifyAquaInputMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "ModifyAquaOutputMessage": {
+    "type": "structure",
+    "members": {
+      "AquaConfiguration": {"shape": "AquaConfiguration", "flattened": false}
+    },
+    "flattened": false
+  },
   "ModifyClusterDbRevisionMessage": {
     "type": "structure",
     "members": {
@@ -1867,6 +2050,17 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ModifyEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "EndpointName": {"shape": "String", "flattened": false},
+      "VpcSecurityGroupIds": {
+        "shape": "VpcSecurityGroupIdList",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "ModifyEventSubscriptionMessage": {
     "type": "structure",
     "members": {
@@ -1935,6 +2129,21 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Amount": {"shape": "LongOptional", "flattened": false},
       "BreachAction": {"shape": "UsageLimitBreachAction", "flattened": false}
     },
+    "flattened": false
+  },
+  "NetworkInterface": {
+    "type": "structure",
+    "members": {
+      "NetworkInterfaceId": {"shape": "String", "flattened": false},
+      "SubnetId": {"shape": "String", "flattened": false},
+      "PrivateIpAddress": {"shape": "String", "flattened": false},
+      "AvailabilityZone": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "NetworkInterfaceList": {
+    "type": "list",
+    "member": {"shape": "NetworkInterface", "locationName": "NetworkInterface"},
     "flattened": false
   },
   "NodeConfigurationOption": {
@@ -2049,6 +2258,74 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "Parameter", "locationName": "Parameter"},
     "flattened": false
   },
+  "PartnerIntegrationAccountId": {"type": "string", "flattened": false},
+  "PartnerIntegrationClusterIdentifier": {"type": "string", "flattened": false},
+  "PartnerIntegrationDatabaseName": {"type": "string", "flattened": false},
+  "PartnerIntegrationInfo": {
+    "type": "structure",
+    "members": {
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      },
+      "Status": {"shape": "PartnerIntegrationStatus", "flattened": false},
+      "StatusMessage": {
+        "shape": "PartnerIntegrationStatusMessage",
+        "flattened": false
+      },
+      "CreatedAt": {"shape": "TStamp", "flattened": false},
+      "UpdatedAt": {"shape": "TStamp", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationInfoList": {
+    "type": "list",
+    "member": {
+      "shape": "PartnerIntegrationInfo",
+      "locationName": "PartnerIntegrationInfo"
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationInputMessage": {
+    "type": "structure",
+    "members": {
+      "AccountId": {"shape": "PartnerIntegrationAccountId", "flattened": false},
+      "ClusterIdentifier": {
+        "shape": "PartnerIntegrationClusterIdentifier",
+        "flattened": false
+      },
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationOutputMessage": {
+    "type": "structure",
+    "members": {
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PartnerIntegrationPartnerName": {"type": "string", "flattened": false},
+  "PartnerIntegrationStatus": {"type": "string", "flattened": false},
+  "PartnerIntegrationStatusMessage": {"type": "string", "flattened": false},
   "PauseClusterMessage": {
     "type": "structure",
     "members": {
@@ -2330,6 +2607,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AvailabilityZoneRelocation": {
         "shape": "BooleanOptional",
         "flattened": false
+      },
+      "AquaConfigurationStatus": {
+        "shape": "AquaConfigurationStatus",
+        "flattened": false
       }
     },
     "flattened": false
@@ -2369,7 +2650,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "SourceTableName": {"shape": "String", "flattened": false},
       "TargetDatabaseName": {"shape": "String", "flattened": false},
       "TargetSchemaName": {"shape": "String", "flattened": false},
-      "NewTableName": {"shape": "String", "flattened": false}
+      "NewTableName": {"shape": "String", "flattened": false},
+      "EnableCaseSensitiveIdentifier": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2425,6 +2710,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "ClusterSecurityGroup",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "RevokeEndpointAccessMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "Account": {"shape": "String", "flattened": false},
+      "VpcIds": {"shape": "VpcIdentifierList", "flattened": false},
+      "Force": {"shape": "Boolean", "flattened": false}
     },
     "flattened": false
   },
@@ -2702,21 +2997,6 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "SourceType": {"type": "string", "flattened": false},
-  "SpartaProxyVpcEndpoint": {
-    "type": "structure",
-    "members": {
-      "VpcEndpointId": {"shape": "String", "flattened": false}
-    },
-    "flattened": false
-  },
-  "SpartaProxyVpcEndpointList": {
-    "type": "list",
-    "member": {
-      "shape": "SpartaProxyVpcEndpoint",
-      "locationName": "SpartaProxyVpcEndpoint"
-    },
-    "flattened": false
-  },
   "String": {"type": "string", "flattened": false},
   "Subnet": {
     "type": "structure",
@@ -2869,6 +3149,30 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "UpdatePartnerStatusInputMessage": {
+    "type": "structure",
+    "members": {
+      "AccountId": {"shape": "PartnerIntegrationAccountId", "flattened": false},
+      "ClusterIdentifier": {
+        "shape": "PartnerIntegrationClusterIdentifier",
+        "flattened": false
+      },
+      "DatabaseName": {
+        "shape": "PartnerIntegrationDatabaseName",
+        "flattened": false
+      },
+      "PartnerName": {
+        "shape": "PartnerIntegrationPartnerName",
+        "flattened": false
+      },
+      "Status": {"shape": "PartnerIntegrationStatus", "flattened": false},
+      "StatusMessage": {
+        "shape": "PartnerIntegrationStatusMessage",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "UpdateTarget": {
     "type": "structure",
     "members": {
@@ -2915,6 +3219,25 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "ValueStringList": {
     "type": "list",
     "member": {"shape": "String", "locationName": "item"},
+    "flattened": false
+  },
+  "VpcEndpoint": {
+    "type": "structure",
+    "members": {
+      "VpcEndpointId": {"shape": "String", "flattened": false},
+      "VpcId": {"shape": "String", "flattened": false},
+      "NetworkInterfaces": {"shape": "NetworkInterfaceList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "VpcEndpointsList": {
+    "type": "list",
+    "member": {"shape": "VpcEndpoint", "locationName": "VpcEndpoint"},
+    "flattened": false
+  },
+  "VpcIdentifierList": {
+    "type": "list",
+    "member": {"shape": "String", "locationName": "VpcIdentifier"},
     "flattened": false
   },
   "VpcSecurityGroupIdList": {

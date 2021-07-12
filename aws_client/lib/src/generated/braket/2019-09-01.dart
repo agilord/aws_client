@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-09-01.g.dart';
 
 /// The Amazon Braket API Reference provides information about the operations
 /// and structures supported in Amazon Braket.
 class Braket {
   final _s.RestJsonProtocol _protocol;
   Braket({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -55,23 +48,15 @@ class Braket {
   /// May throw [InternalServiceException].
   /// May throw [ValidationException].
   ///
-  /// Parameter [clientToken] :
-  /// The client token associated with the request.
-  ///
   /// Parameter [quantumTaskArn] :
   /// The ARN of the task to cancel.
+  ///
+  /// Parameter [clientToken] :
+  /// The client token associated with the request.
   Future<CancelQuantumTaskResponse> cancelQuantumTask({
-    @_s.required String clientToken,
-    @_s.required String quantumTaskArn,
+    required String quantumTaskArn,
+    String? clientToken,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(quantumTaskArn, 'quantumTaskArn');
     _s.validateStringLength(
       'quantumTaskArn',
@@ -79,6 +64,12 @@ class Braket {
       1,
       256,
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
     );
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -104,9 +95,6 @@ class Braket {
   /// Parameter [action] :
   /// The action associated with the task.
   ///
-  /// Parameter [clientToken] :
-  /// The client token associated with the request.
-  ///
   /// Parameter [deviceArn] :
   /// The ARN of the device to run the task on.
   ///
@@ -119,30 +107,25 @@ class Braket {
   /// Parameter [shots] :
   /// The number of shots to use for the task.
   ///
+  /// Parameter [clientToken] :
+  /// The client token associated with the request.
+  ///
   /// Parameter [deviceParameters] :
   /// The parameters for the device to run the task on.
   ///
   /// Parameter [tags] :
   /// Tags to be added to the quantum task you're creating.
   Future<CreateQuantumTaskResponse> createQuantumTask({
-    @_s.required String action,
-    @_s.required String clientToken,
-    @_s.required String deviceArn,
-    @_s.required String outputS3Bucket,
-    @_s.required String outputS3KeyPrefix,
-    @_s.required int shots,
-    String deviceParameters,
-    Map<String, String> tags,
+    required Object action,
+    required String deviceArn,
+    required String outputS3Bucket,
+    required String outputS3KeyPrefix,
+    required int shots,
+    String? clientToken,
+    Object? deviceParameters,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(action, 'action');
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceArn, 'deviceArn');
     _s.validateStringLength(
       'deviceArn',
@@ -176,21 +159,20 @@ class Braket {
       isRequired: true,
     );
     _s.validateStringLength(
-      'deviceParameters',
-      deviceParameters,
+      'clientToken',
+      clientToken,
       1,
-      2048,
+      64,
     );
     final $payload = <String, dynamic>{
-      'action': action == null ? null : jsonEncode(action),
-      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      'action': jsonEncode(action),
       'deviceArn': deviceArn,
       'outputS3Bucket': outputS3Bucket,
       'outputS3KeyPrefix': outputS3KeyPrefix,
       'shots': shots,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (deviceParameters != null)
-        'deviceParameters':
-            deviceParameters == null ? null : jsonEncode(deviceParameters),
+        'deviceParameters': jsonEncode(deviceParameters),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -207,13 +189,15 @@ class Braket {
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [DeviceOfflineException].
+  /// May throw [DeviceRetiredException].
   /// May throw [InternalServiceException].
   /// May throw [ValidationException].
   ///
   /// Parameter [deviceArn] :
   /// The ARN of the device to retrieve.
   Future<GetDeviceResponse> getDevice({
-    @_s.required String deviceArn,
+    required String deviceArn,
   }) async {
     ArgumentError.checkNotNull(deviceArn, 'deviceArn');
     _s.validateStringLength(
@@ -243,7 +227,7 @@ class Braket {
   /// Parameter [quantumTaskArn] :
   /// the ARN of the task to retrieve.
   Future<GetQuantumTaskResponse> getQuantumTask({
-    @_s.required String quantumTaskArn,
+    required String quantumTaskArn,
   }) async {
     ArgumentError.checkNotNull(quantumTaskArn, 'quantumTaskArn');
     _s.validateStringLength(
@@ -272,7 +256,7 @@ class Braket {
   /// Specify the <code>resourceArn</code> for the resource whose tags to
   /// display.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -302,9 +286,9 @@ class Braket {
   /// token returned from the previous request continue results where the
   /// previous request ended.
   Future<SearchDevicesResponse> searchDevices({
-    @_s.required List<SearchDevicesFilter> filters,
-    int maxResults,
-    String nextToken,
+    required List<SearchDevicesFilter> filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(filters, 'filters');
     _s.validateNumRange(
@@ -345,9 +329,9 @@ class Braket {
   /// token returned from the previous request continue results where the
   /// previous request ended.
   Future<SearchQuantumTasksResponse> searchQuantumTasks({
-    @_s.required List<SearchQuantumTasksFilter> filters,
-    int maxResults,
-    String nextToken,
+    required List<SearchQuantumTasksFilter> filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(filters, 'filters');
     _s.validateNumRange(
@@ -383,8 +367,8 @@ class Braket {
   /// Parameter [tags] :
   /// Specify the tags to add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -397,7 +381,6 @@ class Braket {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Remove tags from a resource.
@@ -411,15 +394,15 @@ class Braket {
   /// the tags.
   ///
   /// Parameter [tagKeys] :
-  /// pecify the keys for the tags to remove from the resource.
+  /// Specify the keys for the tags to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -428,476 +411,758 @@ class Braket {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelQuantumTaskResponse {
   /// The status of the cancellation request.
-  @_s.JsonKey(name: 'cancellationStatus')
   final CancellationStatus cancellationStatus;
 
   /// The ARN of the task.
-  @_s.JsonKey(name: 'quantumTaskArn')
   final String quantumTaskArn;
 
   CancelQuantumTaskResponse({
-    @_s.required this.cancellationStatus,
-    @_s.required this.quantumTaskArn,
+    required this.cancellationStatus,
+    required this.quantumTaskArn,
   });
-  factory CancelQuantumTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelQuantumTaskResponseFromJson(json);
+
+  factory CancelQuantumTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CancelQuantumTaskResponse(
+      cancellationStatus:
+          (json['cancellationStatus'] as String).toCancellationStatus(),
+      quantumTaskArn: json['quantumTaskArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancellationStatus = this.cancellationStatus;
+    final quantumTaskArn = this.quantumTaskArn;
+    return {
+      'cancellationStatus': cancellationStatus.toValue(),
+      'quantumTaskArn': quantumTaskArn,
+    };
+  }
 }
 
 enum CancellationStatus {
-  @_s.JsonValue('CANCELLING')
   cancelling,
-  @_s.JsonValue('CANCELLED')
   cancelled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CancellationStatus {
+  String toValue() {
+    switch (this) {
+      case CancellationStatus.cancelling:
+        return 'CANCELLING';
+      case CancellationStatus.cancelled:
+        return 'CANCELLED';
+    }
+  }
+}
+
+extension on String {
+  CancellationStatus toCancellationStatus() {
+    switch (this) {
+      case 'CANCELLING':
+        return CancellationStatus.cancelling;
+      case 'CANCELLED':
+        return CancellationStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum CancellationStatus');
+  }
+}
+
 class CreateQuantumTaskResponse {
   /// The ARN of the task created by the request.
-  @_s.JsonKey(name: 'quantumTaskArn')
   final String quantumTaskArn;
 
   CreateQuantumTaskResponse({
-    @_s.required this.quantumTaskArn,
+    required this.quantumTaskArn,
   });
-  factory CreateQuantumTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateQuantumTaskResponseFromJson(json);
+
+  factory CreateQuantumTaskResponse.fromJson(Map<String, dynamic> json) {
+    return CreateQuantumTaskResponse(
+      quantumTaskArn: json['quantumTaskArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantumTaskArn = this.quantumTaskArn;
+    return {
+      'quantumTaskArn': quantumTaskArn,
+    };
+  }
 }
 
 enum DeviceStatus {
-  @_s.JsonValue('ONLINE')
   online,
-  @_s.JsonValue('OFFLINE')
   offline,
+  retired,
+}
+
+extension on DeviceStatus {
+  String toValue() {
+    switch (this) {
+      case DeviceStatus.online:
+        return 'ONLINE';
+      case DeviceStatus.offline:
+        return 'OFFLINE';
+      case DeviceStatus.retired:
+        return 'RETIRED';
+    }
+  }
+}
+
+extension on String {
+  DeviceStatus toDeviceStatus() {
+    switch (this) {
+      case 'ONLINE':
+        return DeviceStatus.online;
+      case 'OFFLINE':
+        return DeviceStatus.offline;
+      case 'RETIRED':
+        return DeviceStatus.retired;
+    }
+    throw Exception('$this is not known in enum DeviceStatus');
+  }
 }
 
 /// Includes information about the device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceSummary {
   /// The ARN of the device.
-  @_s.JsonKey(name: 'deviceArn')
   final String deviceArn;
 
   /// The name of the device.
-  @_s.JsonKey(name: 'deviceName')
   final String deviceName;
 
   /// The status of the device.
-  @_s.JsonKey(name: 'deviceStatus')
   final DeviceStatus deviceStatus;
 
   /// The type of the device.
-  @_s.JsonKey(name: 'deviceType')
   final DeviceType deviceType;
 
   /// The provider of the device.
-  @_s.JsonKey(name: 'providerName')
   final String providerName;
 
   DeviceSummary({
-    @_s.required this.deviceArn,
-    @_s.required this.deviceName,
-    @_s.required this.deviceStatus,
-    @_s.required this.deviceType,
-    @_s.required this.providerName,
+    required this.deviceArn,
+    required this.deviceName,
+    required this.deviceStatus,
+    required this.deviceType,
+    required this.providerName,
   });
-  factory DeviceSummary.fromJson(Map<String, dynamic> json) =>
-      _$DeviceSummaryFromJson(json);
+
+  factory DeviceSummary.fromJson(Map<String, dynamic> json) {
+    return DeviceSummary(
+      deviceArn: json['deviceArn'] as String,
+      deviceName: json['deviceName'] as String,
+      deviceStatus: (json['deviceStatus'] as String).toDeviceStatus(),
+      deviceType: (json['deviceType'] as String).toDeviceType(),
+      providerName: json['providerName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceArn = this.deviceArn;
+    final deviceName = this.deviceName;
+    final deviceStatus = this.deviceStatus;
+    final deviceType = this.deviceType;
+    final providerName = this.providerName;
+    return {
+      'deviceArn': deviceArn,
+      'deviceName': deviceName,
+      'deviceStatus': deviceStatus.toValue(),
+      'deviceType': deviceType.toValue(),
+      'providerName': providerName,
+    };
+  }
 }
 
 enum DeviceType {
-  @_s.JsonValue('QPU')
   qpu,
-  @_s.JsonValue('SIMULATOR')
   simulator,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DeviceType {
+  String toValue() {
+    switch (this) {
+      case DeviceType.qpu:
+        return 'QPU';
+      case DeviceType.simulator:
+        return 'SIMULATOR';
+    }
+  }
+}
+
+extension on String {
+  DeviceType toDeviceType() {
+    switch (this) {
+      case 'QPU':
+        return DeviceType.qpu;
+      case 'SIMULATOR':
+        return DeviceType.simulator;
+    }
+    throw Exception('$this is not known in enum DeviceType');
+  }
+}
+
 class GetDeviceResponse {
   /// The ARN of the device.
-  @_s.JsonKey(name: 'deviceArn')
   final String deviceArn;
 
   /// Details about the capabilities of the device.
-  @_s.JsonKey(name: 'deviceCapabilities')
   final Object deviceCapabilities;
 
   /// The name of the device.
-  @_s.JsonKey(name: 'deviceName')
   final String deviceName;
 
   /// The status of the device.
-  @_s.JsonKey(name: 'deviceStatus')
   final DeviceStatus deviceStatus;
 
   /// The type of the device.
-  @_s.JsonKey(name: 'deviceType')
   final DeviceType deviceType;
 
   /// The name of the partner company for the device.
-  @_s.JsonKey(name: 'providerName')
   final String providerName;
 
   GetDeviceResponse({
-    @_s.required this.deviceArn,
-    @_s.required this.deviceCapabilities,
-    @_s.required this.deviceName,
-    @_s.required this.deviceStatus,
-    @_s.required this.deviceType,
-    @_s.required this.providerName,
+    required this.deviceArn,
+    required this.deviceCapabilities,
+    required this.deviceName,
+    required this.deviceStatus,
+    required this.deviceType,
+    required this.providerName,
   });
-  factory GetDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceResponseFromJson(json);
+
+  factory GetDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeviceResponse(
+      deviceArn: json['deviceArn'] as String,
+      deviceCapabilities:
+          jsonDecode(json['deviceCapabilities'] as String) as Object,
+      deviceName: json['deviceName'] as String,
+      deviceStatus: (json['deviceStatus'] as String).toDeviceStatus(),
+      deviceType: (json['deviceType'] as String).toDeviceType(),
+      providerName: json['providerName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceArn = this.deviceArn;
+    final deviceCapabilities = this.deviceCapabilities;
+    final deviceName = this.deviceName;
+    final deviceStatus = this.deviceStatus;
+    final deviceType = this.deviceType;
+    final providerName = this.providerName;
+    return {
+      'deviceArn': deviceArn,
+      'deviceCapabilities': jsonEncode(deviceCapabilities),
+      'deviceName': deviceName,
+      'deviceStatus': deviceStatus.toValue(),
+      'deviceType': deviceType.toValue(),
+      'providerName': providerName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetQuantumTaskResponse {
   /// The time at which the task was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ARN of the device the task was run on.
-  @_s.JsonKey(name: 'deviceArn')
   final String deviceArn;
 
   /// The parameters for the device on which the task ran.
-  @_s.JsonKey(name: 'deviceParameters')
   final Object deviceParameters;
 
   /// The S3 bucket where task results are stored.
-  @_s.JsonKey(name: 'outputS3Bucket')
   final String outputS3Bucket;
 
   /// The folder in the S3 bucket where task results are stored.
-  @_s.JsonKey(name: 'outputS3Directory')
   final String outputS3Directory;
 
   /// The ARN of the task.
-  @_s.JsonKey(name: 'quantumTaskArn')
   final String quantumTaskArn;
 
   /// The number of shots used in the task.
-  @_s.JsonKey(name: 'shots')
   final int shots;
 
   /// The status of the task.
-  @_s.JsonKey(name: 'status')
   final QuantumTaskStatus status;
 
   /// The time at which the task ended.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'endedAt')
-  final DateTime endedAt;
+  final DateTime? endedAt;
 
   /// The reason that a task failed.
-  @_s.JsonKey(name: 'failureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The tags that belong to this task.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetQuantumTaskResponse({
-    @_s.required this.createdAt,
-    @_s.required this.deviceArn,
-    @_s.required this.deviceParameters,
-    @_s.required this.outputS3Bucket,
-    @_s.required this.outputS3Directory,
-    @_s.required this.quantumTaskArn,
-    @_s.required this.shots,
-    @_s.required this.status,
+    required this.createdAt,
+    required this.deviceArn,
+    required this.deviceParameters,
+    required this.outputS3Bucket,
+    required this.outputS3Directory,
+    required this.quantumTaskArn,
+    required this.shots,
+    required this.status,
     this.endedAt,
     this.failureReason,
     this.tags,
   });
-  factory GetQuantumTaskResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetQuantumTaskResponseFromJson(json);
+
+  factory GetQuantumTaskResponse.fromJson(Map<String, dynamic> json) {
+    return GetQuantumTaskResponse(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      deviceArn: json['deviceArn'] as String,
+      deviceParameters:
+          jsonDecode(json['deviceParameters'] as String) as Object,
+      outputS3Bucket: json['outputS3Bucket'] as String,
+      outputS3Directory: json['outputS3Directory'] as String,
+      quantumTaskArn: json['quantumTaskArn'] as String,
+      shots: json['shots'] as int,
+      status: (json['status'] as String).toQuantumTaskStatus(),
+      endedAt: timeStampFromJson(json['endedAt']),
+      failureReason: json['failureReason'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final deviceArn = this.deviceArn;
+    final deviceParameters = this.deviceParameters;
+    final outputS3Bucket = this.outputS3Bucket;
+    final outputS3Directory = this.outputS3Directory;
+    final quantumTaskArn = this.quantumTaskArn;
+    final shots = this.shots;
+    final status = this.status;
+    final endedAt = this.endedAt;
+    final failureReason = this.failureReason;
+    final tags = this.tags;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'deviceArn': deviceArn,
+      'deviceParameters': jsonEncode(deviceParameters),
+      'outputS3Bucket': outputS3Bucket,
+      'outputS3Directory': outputS3Directory,
+      'quantumTaskArn': quantumTaskArn,
+      'shots': shots,
+      'status': status.toValue(),
+      if (endedAt != null) 'endedAt': iso8601ToJson(endedAt),
+      if (failureReason != null) 'failureReason': failureReason,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// Displays the key, value pairs of tags associated with this resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 enum QuantumTaskStatus {
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('QUEUED')
   queued,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELLING')
   cancelling,
-  @_s.JsonValue('CANCELLED')
   cancelled,
 }
 
+extension on QuantumTaskStatus {
+  String toValue() {
+    switch (this) {
+      case QuantumTaskStatus.created:
+        return 'CREATED';
+      case QuantumTaskStatus.queued:
+        return 'QUEUED';
+      case QuantumTaskStatus.running:
+        return 'RUNNING';
+      case QuantumTaskStatus.completed:
+        return 'COMPLETED';
+      case QuantumTaskStatus.failed:
+        return 'FAILED';
+      case QuantumTaskStatus.cancelling:
+        return 'CANCELLING';
+      case QuantumTaskStatus.cancelled:
+        return 'CANCELLED';
+    }
+  }
+}
+
+extension on String {
+  QuantumTaskStatus toQuantumTaskStatus() {
+    switch (this) {
+      case 'CREATED':
+        return QuantumTaskStatus.created;
+      case 'QUEUED':
+        return QuantumTaskStatus.queued;
+      case 'RUNNING':
+        return QuantumTaskStatus.running;
+      case 'COMPLETED':
+        return QuantumTaskStatus.completed;
+      case 'FAILED':
+        return QuantumTaskStatus.failed;
+      case 'CANCELLING':
+        return QuantumTaskStatus.cancelling;
+      case 'CANCELLED':
+        return QuantumTaskStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum QuantumTaskStatus');
+  }
+}
+
 /// Includes information about a quantum task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QuantumTaskSummary {
   /// The time at which the task was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ARN of the device the task ran on.
-  @_s.JsonKey(name: 'deviceArn')
   final String deviceArn;
 
   /// The S3 bucket where the task result file is stored..
-  @_s.JsonKey(name: 'outputS3Bucket')
   final String outputS3Bucket;
 
   /// The folder in the S3 bucket where the task result file is stored.
-  @_s.JsonKey(name: 'outputS3Directory')
   final String outputS3Directory;
 
   /// The ARN of the task.
-  @_s.JsonKey(name: 'quantumTaskArn')
   final String quantumTaskArn;
 
   /// The shots used for the task.
-  @_s.JsonKey(name: 'shots')
   final int shots;
 
   /// The status of the task.
-  @_s.JsonKey(name: 'status')
   final QuantumTaskStatus status;
 
   /// The time at which the task finished.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'endedAt')
-  final DateTime endedAt;
+  final DateTime? endedAt;
 
   /// Displays the key, value pairs of tags associated with this quantum task.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   QuantumTaskSummary({
-    @_s.required this.createdAt,
-    @_s.required this.deviceArn,
-    @_s.required this.outputS3Bucket,
-    @_s.required this.outputS3Directory,
-    @_s.required this.quantumTaskArn,
-    @_s.required this.shots,
-    @_s.required this.status,
+    required this.createdAt,
+    required this.deviceArn,
+    required this.outputS3Bucket,
+    required this.outputS3Directory,
+    required this.quantumTaskArn,
+    required this.shots,
+    required this.status,
     this.endedAt,
     this.tags,
   });
-  factory QuantumTaskSummary.fromJson(Map<String, dynamic> json) =>
-      _$QuantumTaskSummaryFromJson(json);
+
+  factory QuantumTaskSummary.fromJson(Map<String, dynamic> json) {
+    return QuantumTaskSummary(
+      createdAt: nonNullableTimeStampFromJson(json['createdAt'] as Object),
+      deviceArn: json['deviceArn'] as String,
+      outputS3Bucket: json['outputS3Bucket'] as String,
+      outputS3Directory: json['outputS3Directory'] as String,
+      quantumTaskArn: json['quantumTaskArn'] as String,
+      shots: json['shots'] as int,
+      status: (json['status'] as String).toQuantumTaskStatus(),
+      endedAt: timeStampFromJson(json['endedAt']),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final deviceArn = this.deviceArn;
+    final outputS3Bucket = this.outputS3Bucket;
+    final outputS3Directory = this.outputS3Directory;
+    final quantumTaskArn = this.quantumTaskArn;
+    final shots = this.shots;
+    final status = this.status;
+    final endedAt = this.endedAt;
+    final tags = this.tags;
+    return {
+      'createdAt': iso8601ToJson(createdAt),
+      'deviceArn': deviceArn,
+      'outputS3Bucket': outputS3Bucket,
+      'outputS3Directory': outputS3Directory,
+      'quantumTaskArn': quantumTaskArn,
+      'shots': shots,
+      'status': status.toValue(),
+      if (endedAt != null) 'endedAt': iso8601ToJson(endedAt),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// The filter to use for searching devices.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SearchDevicesFilter {
   /// The name to use to filter results.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The values to use to filter results.
-  @_s.JsonKey(name: 'values')
   final List<String> values;
 
   SearchDevicesFilter({
-    @_s.required this.name,
-    @_s.required this.values,
+    required this.name,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$SearchDevicesFilterToJson(this);
+
+  factory SearchDevicesFilter.fromJson(Map<String, dynamic> json) {
+    return SearchDevicesFilter(
+      name: json['name'] as String,
+      values: (json['values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      'name': name,
+      'values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchDevicesResponse {
   /// An array of <code>DeviceSummary</code> objects for devices that match the
   /// specified filter values.
-  @_s.JsonKey(name: 'devices')
   final List<DeviceSummary> devices;
 
   /// A token used for pagination of results, or null if there are no additional
   /// results. Use the token value in a subsequent request to continue results
   /// where the previous request ended.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   SearchDevicesResponse({
-    @_s.required this.devices,
+    required this.devices,
     this.nextToken,
   });
-  factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchDevicesResponseFromJson(json);
+
+  factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchDevicesResponse(
+      devices: (json['devices'] as List)
+          .whereNotNull()
+          .map((e) => DeviceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    final nextToken = this.nextToken;
+    return {
+      'devices': devices,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// A filter to use to search for tasks.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SearchQuantumTasksFilter {
   /// The name of the device used for the task.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// An operator to use in the filter.
-  @_s.JsonKey(name: 'operator')
   final SearchQuantumTasksFilterOperator operator;
 
   /// The values to use for the filter.
-  @_s.JsonKey(name: 'values')
   final List<String> values;
 
   SearchQuantumTasksFilter({
-    @_s.required this.name,
-    @_s.required this.operator,
-    @_s.required this.values,
+    required this.name,
+    required this.operator,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$SearchQuantumTasksFilterToJson(this);
+
+  factory SearchQuantumTasksFilter.fromJson(Map<String, dynamic> json) {
+    return SearchQuantumTasksFilter(
+      name: json['name'] as String,
+      operator:
+          (json['operator'] as String).toSearchQuantumTasksFilterOperator(),
+      values: (json['values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'name': name,
+      'operator': operator.toValue(),
+      'values': values,
+    };
+  }
 }
 
 enum SearchQuantumTasksFilterOperator {
-  @_s.JsonValue('LT')
   lt,
-  @_s.JsonValue('LTE')
   lte,
-  @_s.JsonValue('EQUAL')
   equal,
-  @_s.JsonValue('GT')
   gt,
-  @_s.JsonValue('GTE')
   gte,
-  @_s.JsonValue('BETWEEN')
   between,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SearchQuantumTasksFilterOperator {
+  String toValue() {
+    switch (this) {
+      case SearchQuantumTasksFilterOperator.lt:
+        return 'LT';
+      case SearchQuantumTasksFilterOperator.lte:
+        return 'LTE';
+      case SearchQuantumTasksFilterOperator.equal:
+        return 'EQUAL';
+      case SearchQuantumTasksFilterOperator.gt:
+        return 'GT';
+      case SearchQuantumTasksFilterOperator.gte:
+        return 'GTE';
+      case SearchQuantumTasksFilterOperator.between:
+        return 'BETWEEN';
+    }
+  }
+}
+
+extension on String {
+  SearchQuantumTasksFilterOperator toSearchQuantumTasksFilterOperator() {
+    switch (this) {
+      case 'LT':
+        return SearchQuantumTasksFilterOperator.lt;
+      case 'LTE':
+        return SearchQuantumTasksFilterOperator.lte;
+      case 'EQUAL':
+        return SearchQuantumTasksFilterOperator.equal;
+      case 'GT':
+        return SearchQuantumTasksFilterOperator.gt;
+      case 'GTE':
+        return SearchQuantumTasksFilterOperator.gte;
+      case 'BETWEEN':
+        return SearchQuantumTasksFilterOperator.between;
+    }
+    throw Exception(
+        '$this is not known in enum SearchQuantumTasksFilterOperator');
+  }
+}
+
 class SearchQuantumTasksResponse {
   /// An array of <code>QuantumTaskSummary</code> objects for tasks that match the
   /// specified filters.
-  @_s.JsonKey(name: 'quantumTasks')
   final List<QuantumTaskSummary> quantumTasks;
 
   /// A token used for pagination of results, or null if there are no additional
   /// results. Use the token value in a subsequent request to continue results
   /// where the previous request ended.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   SearchQuantumTasksResponse({
-    @_s.required this.quantumTasks,
+    required this.quantumTasks,
     this.nextToken,
   });
-  factory SearchQuantumTasksResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchQuantumTasksResponseFromJson(json);
+
+  factory SearchQuantumTasksResponse.fromJson(Map<String, dynamic> json) {
+    return SearchQuantumTasksResponse(
+      quantumTasks: (json['quantumTasks'] as List)
+          .whereNotNull()
+          .map((e) => QuantumTaskSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final quantumTasks = this.quantumTasks;
+    final nextToken = this.nextToken;
+    return {
+      'quantumTasks': quantumTasks,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DeviceOfflineException extends _s.GenericAwsException {
-  DeviceOfflineException({String type, String message})
+  DeviceOfflineException({String? type, String? message})
       : super(type: type, code: 'DeviceOfflineException', message: message);
 }
 
+class DeviceRetiredException extends _s.GenericAwsException {
+  DeviceRetiredException({String? type, String? message})
+      : super(type: type, code: 'DeviceRetiredException', message: message);
+}
+
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -905,12 +1170,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
@@ -921,6 +1186,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictException(type: type, message: message),
   'DeviceOfflineException': (type, message) =>
       DeviceOfflineException(type: type, message: message),
+  'DeviceRetiredException': (type, message) =>
+      DeviceRetiredException(type: type, message: message),
   'InternalServiceException': (type, message) =>
       InternalServiceException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>

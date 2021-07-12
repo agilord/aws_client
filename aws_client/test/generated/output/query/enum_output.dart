@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,17 +11,11 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'enum_output.meta.dart';
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
@@ -31,9 +26,9 @@ class EnumOutput {
   final Map<String, _s.Shape> shapes;
 
   EnumOutput({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,13 +56,24 @@ class EnumOutput {
 }
 
 class OutputShape {
-  final EC2EnumType fooEnum;
-  final List<EC2EnumType> listEnums;
+  final EC2EnumType? fooEnum;
+  final List<EC2EnumType>? listEnums;
 
   OutputShape({
     this.fooEnum,
     this.listEnums,
   });
+
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      fooEnum: (json['FooEnum'] as String?)?.toEC2EnumType(),
+      listEnums: (json['ListEnums'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEC2EnumType())
+          .toList(),
+    );
+  }
+
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
       fooEnum: _s.extractXmlStringValue(elem, 'FooEnum')?.toEC2EnumType(),
@@ -77,13 +83,32 @@ class OutputShape {
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final fooEnum = this.fooEnum;
+    final listEnums = this.listEnums;
+    return {
+      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (listEnums != null)
+        'ListEnums': listEnums.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum EC2EnumType {
-  @_s.JsonValue('foo')
   foo,
-  @_s.JsonValue('bar')
   bar,
+}
+
+extension on EC2EnumType {
+  String toValue() {
+    switch (this) {
+      case EC2EnumType.foo:
+        return 'foo';
+      case EC2EnumType.bar:
+        return 'bar';
+    }
+  }
 }
 
 extension on String {
@@ -94,7 +119,7 @@ extension on String {
       case 'bar':
         return EC2EnumType.bar;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EC2EnumType');
   }
 }
 

@@ -1,8 +1,8 @@
-import '../../apis/dynamodb/2012-08-10.dart';
+import 'package:aws_client/apis/dynamodb/2012-08-10.dart';
 import '../shared/shared.dart';
 import 'translator.dart';
 
-export '../../apis/dynamodb/2012-08-10.dart';
+export 'package:aws_client/apis/dynamodb/2012-08-10.dart';
 
 /// The document client simplifies working with items in Amazon DynamoDB
 /// by abstracting away the notion of attribute values. This abstraction
@@ -43,11 +43,11 @@ class DocumentClient {
   final DynamoDB dynamoDB;
 
   DocumentClient(
-      {@required String region,
-      DynamoDB dynamoDB,
-      AwsClientCredentials credentials,
-      String endpointUrl,
-      Client client})
+      {required String region,
+      DynamoDB? dynamoDB,
+      AwsClientCredentials? credentials,
+      String? endpointUrl,
+      Client? client})
       : dynamoDB = dynamoDB ??
             DynamoDB(
                 region: region,
@@ -58,13 +58,13 @@ class DocumentClient {
   /// Returns a set of attributes for the item with the given primary key by
   /// delegating to DynamoDB.getItem().
   Future<GetOutput> get({
-    @required String tableName,
-    @required Map<String, dynamic> key,
-    List<String> attributesToGet,
-    bool consistentRead,
-    Map<String, String> expressionAttributeNames,
-    String projectionExpression,
-    ReturnConsumedCapacity returnConsumedCapacity,
+    required String tableName,
+    required Map<String, dynamic> key,
+    List<String>? attributesToGet,
+    bool? consistentRead,
+    Map<String, String>? expressionAttributeNames,
+    String? projectionExpression,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     final getItemOutput = await dynamoDB.getItem(
         key: key.fromJsonToAttributeValue(),
@@ -76,15 +76,15 @@ class DocumentClient {
         returnConsumedCapacity: returnConsumedCapacity);
     return GetOutput(
       getItemOutput.consumedCapacity,
-      getItemOutput.item.toJson(),
+      getItemOutput.item.toJson() ?? {},
     );
   }
 
   /// Returns the attributes of one or more items from one or more tables by
   /// delegating to DynamoDB.batchGetItem().
   Future<BatchGetOutput> batchGet({
-    ReturnConsumedCapacity returnConsumedCapacity,
-    @required Map<String, KeysAndProjection> requestItems,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    required Map<String, KeysAndProjection> requestItems,
   }) async {
     final ri = requestItems.map((k, v) => MapEntry(
         k,
@@ -100,32 +100,34 @@ class DocumentClient {
     );
 
     return BatchGetOutput(
-      response.consumedCapacity,
+      response.consumedCapacity ?? [],
       response.responses?.map(
-        (k, v) => MapEntry(
-          k,
-          v.map((e) => e.toJson()).toList(),
-        ),
-      ),
+            (k, v) => MapEntry(
+              k,
+              v.map((e) => e.toJson()).toList(),
+            ),
+          ) ??
+          {},
       response.unprocessedKeys?.map(
-        (k, v) => MapEntry(
-          k,
-          KeysAndProjection(
-              keys: v.keys.map((e) => e.toJson()).toList(),
-              expressionAttributeNames: v.expressionAttributeNames,
-              consistentRead: v.consistentRead,
-              projectionExpression: v.projectionExpression),
-        ),
-      ),
+            (k, v) => MapEntry(
+              k,
+              KeysAndProjection(
+                  keys: v.keys.map((e) => e.toJson()).toList(),
+                  expressionAttributeNames: v.expressionAttributeNames ?? {},
+                  consistentRead: v.consistentRead ?? false,
+                  projectionExpression: v.projectionExpression ?? ''),
+            ),
+          ) ??
+          {},
     );
   }
 
   /// Puts or deletes multiple items in one or more tables by delegating to
   /// DynamoDB.batchWriteItem().
   Future<BatchWriteOutput> batchWrite({
-    @required Map<String, List<Write>> requestItems,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+    required Map<String, List<Write>> requestItems,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
   }) async {
     final ri = requestItems.map(
       (k, v) => MapEntry(
@@ -151,40 +153,43 @@ class DocumentClient {
     );
 
     return BatchWriteOutput(
-      consumedCapacity: wr.consumedCapacity,
+      consumedCapacity: wr.consumedCapacity ?? [],
       unprocessedItems: wr.unprocessedItems?.map((k, v) => MapEntry(
-            k,
-            v
-                .map((e) => Write(
-                      deleteKey: e.deleteRequest?.let((d) => d.key.toJson()),
-                      putItem: e.putRequest?.let((p) => p.item.toJson()),
-                    ))
-                .toList(),
-          )),
+                k,
+                v
+                    .map((e) => Write(
+                          deleteKey:
+                              e.deleteRequest?.let((d) => d.key.toJson()),
+                          putItem: e.putRequest?.let((p) => p.item.toJson()),
+                        ))
+                    .toList(),
+              )) ??
+          {},
       itemCollectionMetrics: wr.itemCollectionMetrics?.map((k, v) => MapEntry(
-            k,
-            v
-                .map((e) => ItemCollectionMetricsDC(
-                      itemCollectionKey: e.itemCollectionKey.toJson(),
-                      sizeEstimateRangeGB: e.sizeEstimateRangeGB,
-                    ))
-                .toList(),
-          )),
+                k,
+                v
+                    .map((e) => ItemCollectionMetricsDC(
+                          itemCollectionKey: e.itemCollectionKey.toJson() ?? {},
+                          sizeEstimateRangeGB: e.sizeEstimateRangeGB,
+                        ))
+                    .toList(),
+              )) ??
+          {},
     );
   }
 
   /// Deletes a single item in a table by primary key by delegating to DynamoDB.deleteItem().
   Future<OperationOutput> delete({
-    @required Map<String, dynamic> key,
-    @required String tableName,
-    String conditionExpression,
-    ConditionalOperator conditionalOperator,
-    Map<String, ExpectedAttributeValueDC> expected,
-    Map<String, String> expressionAttributeNames,
-    Map<String, dynamic> expressionAttributeValues,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
-    ReturnValue returnValues,
+    required Map<String, dynamic> key,
+    required String tableName,
+    String? conditionExpression,
+    ConditionalOperator? conditionalOperator,
+    Map<String, ExpectedAttributeValueDC>? expected,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, dynamic>? expressionAttributeValues,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
+    ReturnValue? returnValues,
   }) async {
     final dr = await dynamoDB.deleteItem(
       key: key.fromJsonToAttributeValue(),
@@ -195,7 +200,7 @@ class DocumentClient {
           key,
           ExpectedAttributeValue(
             attributeValueList:
-                value.attributeValueList?.map(toAttributeValue)?.toList(),
+                value.attributeValueList.map(toAttributeValue).toList(),
             comparisonOperator: value.comparisonOperator,
             exists: value.exists,
             value: toAttributeValue(value.value),
@@ -209,27 +214,28 @@ class DocumentClient {
     );
 
     return OperationOutput(
-      attributes: dr.attributes.toJson(),
+      attributes: dr.attributes.toJson() ?? {},
       consumedCapacity: dr.consumedCapacity,
       itemCollectionMetrics: ItemCollectionMetricsDC(
-        itemCollectionKey: dr.itemCollectionMetrics.itemCollectionKey?.toJson(),
-        sizeEstimateRangeGB: dr.itemCollectionMetrics.sizeEstimateRangeGB,
+        itemCollectionKey:
+            dr.itemCollectionMetrics?.itemCollectionKey?.toJson() ?? {},
+        sizeEstimateRangeGB: dr.itemCollectionMetrics?.sizeEstimateRangeGB,
       ),
     );
   }
 
   /// Creates a new item, or replaces an old item with a new item by delegating to AWS.DynamoDB.putItem().
   Future<OperationOutput> put({
-    @required Map<String, dynamic> item,
-    @required String tableName,
-    String conditionExpression,
-    ConditionalOperator conditionalOperator,
-    Map<String, ExpectedAttributeValueDC> expected,
-    Map<String, String> expressionAttributeNames,
-    Map<String, dynamic> expressionAttributeValues,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
-    ReturnValue returnValues,
+    required Map<String, dynamic> item,
+    required String tableName,
+    String? conditionExpression,
+    ConditionalOperator? conditionalOperator,
+    Map<String, ExpectedAttributeValueDC>? expected,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, dynamic>? expressionAttributeValues,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
+    ReturnValue? returnValues,
   }) async {
     final pr = await dynamoDB.putItem(
       item: item.fromJsonToAttributeValue(),
@@ -240,7 +246,7 @@ class DocumentClient {
           key,
           ExpectedAttributeValue(
             attributeValueList:
-                value.attributeValueList?.map(toAttributeValue)?.toList(),
+                value.attributeValueList.map(toAttributeValue).toList(),
             comparisonOperator: value.comparisonOperator,
             exists: value.exists,
             value: toAttributeValue(value.value),
@@ -254,11 +260,11 @@ class DocumentClient {
     );
 
     return OperationOutput(
-      attributes: pr.attributes?.toJson(),
+      attributes: pr.attributes?.toJson() ?? {},
       consumedCapacity: pr.consumedCapacity,
       itemCollectionMetrics: ItemCollectionMetricsDC(
         itemCollectionKey:
-            pr.itemCollectionMetrics?.itemCollectionKey?.toJson(),
+            pr.itemCollectionMetrics?.itemCollectionKey?.toJson() ?? {},
         sizeEstimateRangeGB: pr.itemCollectionMetrics?.sizeEstimateRangeGB,
       ),
     );
@@ -266,23 +272,23 @@ class DocumentClient {
 
   /// Directly access items from a table by primary key or a secondary index.
   Future<QueryOutputDC> query({
-    @required String tableName,
-    List<String> attributesToGet,
-    ConditionalOperator conditionalOperator,
-    bool consistentRead,
-    Map<String, dynamic> exclusiveStartKey,
-    Map<String, String> expressionAttributeNames,
-    Map<String, dynamic> expressionAttributeValues,
-    String filterExpression,
-    String indexName,
-    String keyConditionExpression,
-    Map<String, ConditionDC> keyConditions,
-    int limit,
-    String projectionExpression,
-    Map<String, ConditionDC> queryFilter,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    bool scanIndexForward,
-    Select select,
+    required String tableName,
+    List<String>? attributesToGet,
+    ConditionalOperator? conditionalOperator,
+    bool? consistentRead,
+    Map<String, dynamic>? exclusiveStartKey,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, dynamic>? expressionAttributeValues,
+    String? filterExpression,
+    String? indexName,
+    String? keyConditionExpression,
+    Map<String, ConditionDC>? keyConditions,
+    int? limit,
+    String? projectionExpression,
+    Map<String, ConditionDC>? queryFilter,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    bool? scanIndexForward,
+    Select? select,
   }) async {
     final qr = await dynamoDB.query(
       tableName: tableName,
@@ -301,7 +307,7 @@ class DocumentClient {
           Condition(
             comparisonOperator: value.comparisonOperator,
             attributeValueList:
-                value.attributeValueList?.map(toAttributeValue)?.toList(),
+                value.attributeValueList.map(toAttributeValue).toList(),
           ))),
       limit: limit,
       projectionExpression: projectionExpression,
@@ -310,7 +316,7 @@ class DocumentClient {
           Condition(
             comparisonOperator: value.comparisonOperator,
             attributeValueList:
-                value.attributeValueList?.map(toAttributeValue)?.toList(),
+                value.attributeValueList.map(toAttributeValue).toList(),
           ))),
       returnConsumedCapacity: returnConsumedCapacity,
       scanIndexForward: scanIndexForward,
@@ -319,31 +325,31 @@ class DocumentClient {
 
     return QueryOutputDC(
       consumedCapacity: qr.consumedCapacity,
-      count: qr.count,
-      scannedCount: qr.scannedCount,
-      items: qr.items?.map((e) => e.toJson())?.toList(),
-      lastEvaluatedKey: qr.lastEvaluatedKey?.toJson(),
+      count: qr.count ?? 0,
+      scannedCount: qr.scannedCount ?? 0,
+      items: qr.items?.map((e) => e.toJson()).toList() ?? [],
+      lastEvaluatedKey: qr.lastEvaluatedKey?.toJson() ?? {},
     );
   }
 
   /// Returns one or more items and item attributes by accessing every item in a table or a secondary index.
   Future<QueryOutputDC> scan({
-    @required String tableName,
-    List<String> attributesToGet,
-    ConditionalOperator conditionalOperator,
-    bool consistentRead,
-    Map<String, dynamic> exclusiveStartKey,
-    Map<String, String> expressionAttributeNames,
-    Map<String, dynamic> expressionAttributeValues,
-    String filterExpression,
-    String indexName,
-    int limit,
-    String projectionExpression,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    Map<String, ConditionDC> scanFilter,
-    int segment,
-    Select select,
-    int totalSegments,
+    required String tableName,
+    List<String>? attributesToGet,
+    ConditionalOperator? conditionalOperator,
+    bool? consistentRead,
+    Map<String, dynamic>? exclusiveStartKey,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, dynamic>? expressionAttributeValues,
+    String? filterExpression,
+    String? indexName,
+    int? limit,
+    String? projectionExpression,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    Map<String, ConditionDC>? scanFilter,
+    int? segment,
+    Select? select,
+    int? totalSegments,
   }) async {
     final sr = await dynamoDB.scan(
       tableName: tableName,
@@ -364,7 +370,7 @@ class DocumentClient {
           Condition(
             comparisonOperator: value.comparisonOperator,
             attributeValueList:
-                value.attributeValueList?.map(toAttributeValue)?.toList(),
+                value.attributeValueList.map(toAttributeValue).toList(),
           ))),
       segment: segment,
       select: select,
@@ -373,30 +379,30 @@ class DocumentClient {
 
     return QueryOutputDC(
       consumedCapacity: sr.consumedCapacity,
-      count: sr.count,
-      scannedCount: sr.scannedCount,
-      items: sr.items?.map((e) => e.toJson())?.toList(),
-      lastEvaluatedKey: sr.lastEvaluatedKey?.toJson(),
+      count: sr.count ?? 0,
+      scannedCount: sr.scannedCount ?? 0,
+      items: sr.items?.map((e) => e.toJson()).toList() ?? [],
+      lastEvaluatedKey: sr.lastEvaluatedKey?.toJson() ?? {},
     );
   }
 
   /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist by delegating to AWS.DynamoDB.updateItem().
   Future<OperationOutput> update({
-    @required Map<String, dynamic> key,
-    @required String tableName,
-    Map<String, UpdateDC> attributeUpdates,
-    String conditionExpression,
-    ConditionalOperator conditionalOperator,
-    Map<String, ExpectedAttributeValueDC> expected,
-    Map<String, String> expressionAttributeNames,
-    Map<String, dynamic> expressionAttributeValues,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
-    ReturnValue returnValues,
-    String updateExpression,
+    required Map<String, dynamic> key,
+    required String tableName,
+    Map<String, UpdateDC>? attributeUpdates,
+    String? conditionExpression,
+    ConditionalOperator? conditionalOperator,
+    Map<String, ExpectedAttributeValueDC>? expected,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, dynamic>? expressionAttributeValues,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
+    ReturnValue? returnValues,
+    String? updateExpression,
   }) async {
     final ur = await dynamoDB.updateItem(
-      key: key?.fromJsonToAttributeValue(),
+      key: key.fromJsonToAttributeValue(),
       tableName: tableName,
       attributeUpdates: attributeUpdates?.map((key, value) => MapEntry(
           key,
@@ -408,7 +414,7 @@ class DocumentClient {
           key,
           ExpectedAttributeValue(
             attributeValueList:
-                value.attributeValueList?.map(toAttributeValue)?.toList(),
+                value.attributeValueList.map(toAttributeValue).toList(),
             comparisonOperator: value.comparisonOperator,
             exists: value.exists,
             value: toAttributeValue(value.value),
@@ -423,11 +429,11 @@ class DocumentClient {
     );
 
     return OperationOutput(
-      attributes: ur.attributes?.toJson(),
+      attributes: ur.attributes?.toJson() ?? {},
       consumedCapacity: ur.consumedCapacity,
       itemCollectionMetrics: ItemCollectionMetricsDC(
         itemCollectionKey:
-            ur.itemCollectionMetrics?.itemCollectionKey?.toJson(),
+            ur.itemCollectionMetrics?.itemCollectionKey?.toJson() ?? {},
         sizeEstimateRangeGB: ur.itemCollectionMetrics?.sizeEstimateRangeGB,
       ),
     );
@@ -435,8 +441,8 @@ class DocumentClient {
 
   /// Atomically retrieves multiple items from one or more tables (but not from indexes) in a single account and region.
   Future<TransactGetOutput> transactGet({
-    @required List<GetDC> transactItems,
-    ReturnConsumedCapacity returnConsumedCapacity,
+    required List<GetDC> transactItems,
+    ReturnConsumedCapacity? returnConsumedCapacity,
   }) async {
     final tgr = await dynamoDB.transactGetItems(
       transactItems: transactItems
@@ -454,55 +460,56 @@ class DocumentClient {
 
     return TransactGetOutput(
       consumedCapacity: tgr.consumedCapacity,
-      responses: tgr.responses.map((e) => e.item.toJson()).toList(),
+      responses:
+          tgr.responses?.map((e) => e.item.toJson() ?? {}).toList() ?? [],
     );
   }
 
   /// Synchronous write operation that groups up to 10 action requests
   Future<void> transactWrite({
-    @required List<TransactWrite> transactItems,
-    String clientRequestToken,
-    ReturnConsumedCapacity returnConsumedCapacity,
-    ReturnItemCollectionMetrics returnItemCollectionMetrics,
+    required List<TransactWrite> transactItems,
+    String? clientRequestToken,
+    ReturnConsumedCapacity? returnConsumedCapacity,
+    ReturnItemCollectionMetrics? returnItemCollectionMetrics,
   }) async {
     await dynamoDB.transactWriteItems(
       transactItems: transactItems
           .map((e) => TransactWriteItem(
                 conditionCheck: e.conditionCheck?.let((e) => ConditionCheck(
                     tableName: e.tableName,
-                    key: e.value?.fromJsonToAttributeValue(),
+                    key: e.value.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
-                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                        e.expressionAttributeValues.fromJsonToAttributeValue(),
                     returnValuesOnConditionCheckFailure:
                         e.returnValuesOnConditionCheckFailure)),
                 delete: e.delete?.let((e) => Delete(
                     tableName: e.tableName,
-                    key: e.value?.fromJsonToAttributeValue(),
+                    key: e.value.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
-                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                        e.expressionAttributeValues.fromJsonToAttributeValue(),
                     returnValuesOnConditionCheckFailure:
                         e.returnValuesOnConditionCheckFailure)),
                 put: e.put?.let((e) => Put(
                     tableName: e.tableName,
-                    item: e.value?.fromJsonToAttributeValue(),
+                    item: e.value.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
-                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                        e.expressionAttributeValues.fromJsonToAttributeValue(),
                     returnValuesOnConditionCheckFailure:
                         e.returnValuesOnConditionCheckFailure)),
                 update: e.update?.let((e) => Update(
                     tableName: e.tableName,
-                    key: e.value?.fromJsonToAttributeValue(),
+                    key: e.value.fromJsonToAttributeValue(),
                     conditionExpression: e.expression,
                     updateExpression: e.updateExpression,
                     expressionAttributeNames: e.expressionAttributeNames,
                     expressionAttributeValues:
-                        e.expressionAttributeValues?.fromJsonToAttributeValue(),
+                        e.expressionAttributeValues.fromJsonToAttributeValue(),
                     returnValuesOnConditionCheckFailure:
                         e.returnValuesOnConditionCheckFailure)),
               ))
@@ -518,14 +525,15 @@ class Operation {
   final String expression;
   final Map<String, dynamic> value;
   final String tableName;
-  final Map<String, String> expressionAttributeNames;
-  final Map<String, dynamic> expressionAttributeValues;
-  final ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure;
+  final Map<String, String>? expressionAttributeNames;
+  final Map<String, dynamic>? expressionAttributeValues;
+  final ReturnValuesOnConditionCheckFailure?
+      returnValuesOnConditionCheckFailure;
 
   Operation({
-    @required this.value,
-    @required this.tableName,
-    this.expression,
+    required this.value,
+    required this.tableName,
+    required this.expression,
     this.expressionAttributeNames,
     this.expressionAttributeValues,
     this.returnValuesOnConditionCheckFailure,
@@ -536,13 +544,13 @@ class UpdateOperation extends Operation {
   final String updateExpression;
 
   UpdateOperation({
-    @required Map<String, dynamic> value,
-    @required String tableName,
-    String expression,
-    this.updateExpression,
-    Map<String, String> expressionAttributeNames,
-    Map<String, dynamic> expressionAttributeValues,
-    ReturnValuesOnConditionCheckFailure returnValuesOnConditionCheckFailure,
+    required Map<String, dynamic> value,
+    required String tableName,
+    required String expression,
+    required this.updateExpression,
+    Map<String, String>? expressionAttributeNames,
+    Map<String, dynamic>? expressionAttributeValues,
+    ReturnValuesOnConditionCheckFailure? returnValuesOnConditionCheckFailure,
   }) : super(
           tableName: tableName,
           value: value,
@@ -555,10 +563,10 @@ class UpdateOperation extends Operation {
 }
 
 class TransactWrite {
-  final Operation conditionCheck;
-  final Operation delete;
-  final Operation put;
-  final UpdateOperation update;
+  final Operation? conditionCheck;
+  final Operation? delete;
+  final Operation? put;
+  final UpdateOperation? update;
 
   TransactWrite({
     this.conditionCheck,
@@ -576,9 +584,9 @@ class TransactWrite {
 
 class TransactGetOutput {
   final List<Map<String, dynamic>> responses;
-  final List<ConsumedCapacity> consumedCapacity;
+  final List<ConsumedCapacity>? consumedCapacity;
 
-  TransactGetOutput({this.responses, this.consumedCapacity});
+  TransactGetOutput({required this.responses, this.consumedCapacity});
 }
 
 class GetDC {
@@ -588,10 +596,10 @@ class GetDC {
   final String projectionExpression;
 
   GetDC({
-    @required this.key,
-    @required this.tableName,
-    this.expressionAttributeNames,
-    this.projectionExpression,
+    required this.key,
+    required this.tableName,
+    required this.expressionAttributeNames,
+    required this.projectionExpression,
   });
 }
 
@@ -603,18 +611,18 @@ class UpdateDC {
 }
 
 class QueryOutputDC {
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
   final int count;
   final List<Map<String, dynamic>> items;
   final Map<String, dynamic> lastEvaluatedKey;
   final int scannedCount;
 
   QueryOutputDC({
-    this.consumedCapacity,
-    this.count,
-    this.items,
-    this.lastEvaluatedKey,
-    this.scannedCount,
+    required this.consumedCapacity,
+    required this.count,
+    required this.items,
+    required this.lastEvaluatedKey,
+    required this.scannedCount,
   });
 }
 
@@ -623,20 +631,20 @@ class ConditionDC {
   final List<dynamic> attributeValueList;
 
   ConditionDC({
-    @required this.comparisonOperator,
-    this.attributeValueList,
+    required this.comparisonOperator,
+    required this.attributeValueList,
   });
 }
 
 class OperationOutput {
   final Map<String, dynamic> attributes;
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
   final ItemCollectionMetricsDC itemCollectionMetrics;
 
   OperationOutput({
-    this.attributes,
+    required this.attributes,
     this.consumedCapacity,
-    this.itemCollectionMetrics,
+    required this.itemCollectionMetrics,
   });
 }
 
@@ -647,16 +655,16 @@ class ExpectedAttributeValueDC {
   final dynamic value;
 
   ExpectedAttributeValueDC({
-    this.attributeValueList,
-    this.comparisonOperator,
-    this.exists,
+    required this.attributeValueList,
+    required this.comparisonOperator,
+    required this.exists,
     this.value,
   });
 }
 
 class Write {
-  final Map<String, dynamic> putItem;
-  final Map<String, dynamic> deleteKey;
+  final Map<String, dynamic>? putItem;
+  final Map<String, dynamic>? deleteKey;
 
   Write({this.putItem, this.deleteKey}) {
     if (!(putItem == null || deleteKey == null)) {
@@ -676,27 +684,28 @@ class BatchWriteOutput {
   final Map<String, List<Write>> unprocessedItems;
 
   BatchWriteOutput({
-    this.consumedCapacity,
-    this.itemCollectionMetrics,
-    this.unprocessedItems,
+    required this.consumedCapacity,
+    required this.itemCollectionMetrics,
+    required this.unprocessedItems,
   });
 }
 
 class ItemCollectionMetricsDC {
   final Map<String, dynamic> itemCollectionKey;
-  final List<double> sizeEstimateRangeGB;
+  final List<double>? sizeEstimateRangeGB;
 
-  ItemCollectionMetricsDC({this.itemCollectionKey, this.sizeEstimateRangeGB});
+  ItemCollectionMetricsDC(
+      {required this.itemCollectionKey, this.sizeEstimateRangeGB});
 }
 
 class KeysAndProjection {
   final List<Map<String, dynamic>> keys;
-  final bool consistentRead;
-  final Map<String, String> expressionAttributeNames;
-  final String projectionExpression;
+  final bool? consistentRead;
+  final Map<String, String>? expressionAttributeNames;
+  final String? projectionExpression;
 
   KeysAndProjection({
-    @required this.keys,
+    required this.keys,
     this.consistentRead,
     this.expressionAttributeNames,
     this.projectionExpression,
@@ -712,7 +721,7 @@ class BatchGetOutput {
 }
 
 class GetOutput {
-  final ConsumedCapacity consumedCapacity;
+  final ConsumedCapacity? consumedCapacity;
   final Map<String, dynamic> item;
 
   GetOutput(this.consumedCapacity, this.item);

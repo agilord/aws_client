@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-05-14.g.dart';
 
 /// The AWS IoT 1-Click Projects API Reference
 class IoT1ClickProjects {
   final _s.RestJsonProtocol _protocol;
   IoT1ClickProjects({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -67,10 +60,10 @@ class IoT1ClickProjects {
   /// The name of the project containing the placement in which to associate the
   /// device.
   Future<void> associateDeviceWithPlacement({
-    @_s.required String deviceId,
-    @_s.required String deviceTemplateName,
-    @_s.required String placementName,
-    @_s.required String projectName,
+    required String deviceId,
+    required String deviceTemplateName,
+    required String placementName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     _s.validateStringLength(
@@ -88,12 +81,6 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'deviceTemplateName',
-      deviceTemplateName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
       'placementName',
@@ -102,24 +89,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -132,7 +107,6 @@ class IoT1ClickProjects {
           '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}/devices/${Uri.encodeComponent(deviceTemplateName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return AssociateDeviceWithPlacementResponse.fromJson(response);
   }
 
   /// Creates an empty placement.
@@ -152,9 +126,9 @@ class IoT1ClickProjects {
   /// Optional user-defined key/value pairs providing contextual data (such as
   /// location or function) for the placement.
   Future<void> createPlacement({
-    @_s.required String placementName,
-    @_s.required String projectName,
-    Map<String, String> attributes,
+    required String placementName,
+    required String projectName,
+    Map<String, String>? attributes,
   }) async {
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
@@ -164,24 +138,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -194,7 +156,6 @@ class IoT1ClickProjects {
       requestUri: '/projects/${Uri.encodeComponent(projectName)}/placements',
       exceptionFnMap: _exceptionFns,
     );
-    return CreatePlacementResponse.fromJson(response);
   }
 
   /// Creates an empty project with a placement template. A project contains
@@ -225,10 +186,10 @@ class IoT1ClickProjects {
   /// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">AWS
   /// Tagging Strategies</a>.
   Future<void> createProject({
-    @_s.required String projectName,
-    String description,
-    PlacementTemplate placementTemplate,
-    Map<String, String> tags,
+    required String projectName,
+    String? description,
+    PlacementTemplate? placementTemplate,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -236,12 +197,6 @@ class IoT1ClickProjects {
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -262,7 +217,6 @@ class IoT1ClickProjects {
       requestUri: '/projects',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateProjectResponse.fromJson(response);
   }
 
   /// Deletes a placement. To delete a placement, it must not have any devices
@@ -282,8 +236,8 @@ class IoT1ClickProjects {
   /// Parameter [projectName] :
   /// The project containing the empty placement to delete.
   Future<void> deletePlacement({
-    @_s.required String placementName,
-    @_s.required String projectName,
+    required String placementName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
@@ -291,12 +245,6 @@ class IoT1ClickProjects {
       placementName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -307,12 +255,6 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -320,7 +262,6 @@ class IoT1ClickProjects {
           '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePlacementResponse.fromJson(response);
   }
 
   /// Deletes a project. To delete a project, it must not have any placements
@@ -337,7 +278,7 @@ class IoT1ClickProjects {
   /// Parameter [projectName] :
   /// The name of the empty project to delete.
   Future<void> deleteProject({
-    @_s.required String projectName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -347,19 +288,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/projects/${Uri.encodeComponent(projectName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteProjectResponse.fromJson(response);
   }
 
   /// Describes a placement in a project.
@@ -374,8 +308,8 @@ class IoT1ClickProjects {
   /// Parameter [projectName] :
   /// The project containing the placement to be described.
   Future<DescribePlacementResponse> describePlacement({
-    @_s.required String placementName,
-    @_s.required String projectName,
+    required String placementName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
@@ -385,24 +319,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -424,7 +346,7 @@ class IoT1ClickProjects {
   /// Parameter [projectName] :
   /// The name of the project to be described.
   Future<DescribeProjectResponse> describeProject({
-    @_s.required String projectName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -432,12 +354,6 @@ class IoT1ClickProjects {
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -465,9 +381,9 @@ class IoT1ClickProjects {
   /// Parameter [projectName] :
   /// The name of the project that contains the placement.
   Future<void> disassociateDeviceFromPlacement({
-    @_s.required String deviceTemplateName,
-    @_s.required String placementName,
-    @_s.required String projectName,
+    required String deviceTemplateName,
+    required String placementName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(deviceTemplateName, 'deviceTemplateName');
     _s.validateStringLength(
@@ -475,12 +391,6 @@ class IoT1ClickProjects {
       deviceTemplateName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceTemplateName',
-      deviceTemplateName,
-      r'''^[a-zA-Z0-9_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(placementName, 'placementName');
@@ -491,24 +401,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -518,7 +416,6 @@ class IoT1ClickProjects {
           '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}/devices/${Uri.encodeComponent(deviceTemplateName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DisassociateDeviceFromPlacementResponse.fromJson(response);
   }
 
   /// Returns an object enumerating the devices in a placement.
@@ -533,8 +430,8 @@ class IoT1ClickProjects {
   /// Parameter [projectName] :
   /// The name of the project containing the placement.
   Future<GetDevicesInPlacementResponse> getDevicesInPlacement({
-    @_s.required String placementName,
-    @_s.required String projectName,
+    required String placementName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
@@ -544,24 +441,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -590,9 +475,9 @@ class IoT1ClickProjects {
   /// Parameter [nextToken] :
   /// The token to retrieve the next set of results.
   Future<ListPlacementsResponse> listPlacements({
-    @_s.required String projectName,
-    int maxResults,
-    String nextToken,
+    required String projectName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -600,12 +485,6 @@ class IoT1ClickProjects {
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -647,8 +526,8 @@ class IoT1ClickProjects {
   /// Parameter [nextToken] :
   /// The token to retrieve the next set of results.
   Future<ListProjectsResponse> listProjects({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -686,15 +565,9 @@ class IoT1ClickProjects {
   /// Parameter [resourceArn] :
   /// The ARN of the resource whose tags you want to list.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\d+:projects/[0-9A-Za-z_-]{1,128}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -723,16 +596,10 @@ class IoT1ClickProjects {
   /// IoT 1-Click Service Limits</a> for the maximum number of tags allowed per
   /// resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\d+:projects/[0-9A-Za-z_-]{1,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -743,7 +610,6 @@ class IoT1ClickProjects {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes one or more tags (metadata key/value pairs) from a resource.
@@ -758,19 +624,13 @@ class IoT1ClickProjects {
   /// Parameter [tagKeys] :
   /// The keys of those tags which you want to remove.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:iot1click:[A-Za-z0-9_/.-]{0,63}:\d+:projects/[0-9A-Za-z_-]{1,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -779,7 +639,6 @@ class IoT1ClickProjects {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates a placement with the given attributes. To clear an attribute, pass
@@ -800,9 +659,9 @@ class IoT1ClickProjects {
   /// The user-defined object of attributes used to update the placement. The
   /// maximum number of key/value pairs is 50.
   Future<void> updatePlacement({
-    @_s.required String placementName,
-    @_s.required String projectName,
-    Map<String, String> attributes,
+    required String placementName,
+    required String projectName,
+    Map<String, String>? attributes,
   }) async {
     ArgumentError.checkNotNull(placementName, 'placementName');
     _s.validateStringLength(
@@ -812,24 +671,12 @@ class IoT1ClickProjects {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'placementName',
-      placementName,
-      r'''^[a-zA-Z0-9_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -842,7 +689,6 @@ class IoT1ClickProjects {
           '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdatePlacementResponse.fromJson(response);
   }
 
   /// Updates a project associated with your AWS account and region. With the
@@ -868,9 +714,9 @@ class IoT1ClickProjects {
   /// <code>placementTemplate</code>, you can update the associated
   /// <code>callbackOverrides</code> for the device definition using this API.
   Future<void> updateProject({
-    @_s.required String projectName,
-    String description,
-    PlacementTemplate placementTemplate,
+    required String projectName,
+    String? description,
+    PlacementTemplate? placementTemplate,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -878,12 +724,6 @@ class IoT1ClickProjects {
       projectName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -902,489 +742,608 @@ class IoT1ClickProjects {
       requestUri: '/projects/${Uri.encodeComponent(projectName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateProjectResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateDeviceWithPlacementResponse {
   AssociateDeviceWithPlacementResponse();
+
   factory AssociateDeviceWithPlacementResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateDeviceWithPlacementResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateDeviceWithPlacementResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePlacementResponse {
   CreatePlacementResponse();
-  factory CreatePlacementResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePlacementResponseFromJson(json);
+
+  factory CreatePlacementResponse.fromJson(Map<String, dynamic> _) {
+    return CreatePlacementResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProjectResponse {
   CreateProjectResponse();
-  factory CreateProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProjectResponseFromJson(json);
+
+  factory CreateProjectResponse.fromJson(Map<String, dynamic> _) {
+    return CreateProjectResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePlacementResponse {
   DeletePlacementResponse();
-  factory DeletePlacementResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeletePlacementResponseFromJson(json);
+
+  factory DeletePlacementResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePlacementResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProjectResponse {
   DeleteProjectResponse();
-  factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProjectResponseFromJson(json);
+
+  factory DeleteProjectResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProjectResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePlacementResponse {
   /// An object describing the placement.
-  @_s.JsonKey(name: 'placement')
   final PlacementDescription placement;
 
   DescribePlacementResponse({
-    @_s.required this.placement,
+    required this.placement,
   });
-  factory DescribePlacementResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePlacementResponseFromJson(json);
+
+  factory DescribePlacementResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePlacementResponse(
+      placement: PlacementDescription.fromJson(
+          json['placement'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final placement = this.placement;
+    return {
+      'placement': placement,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProjectResponse {
   /// An object describing the project.
-  @_s.JsonKey(name: 'project')
   final ProjectDescription project;
 
   DescribeProjectResponse({
-    @_s.required this.project,
+    required this.project,
   });
-  factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProjectResponseFromJson(json);
+
+  factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProjectResponse(
+      project:
+          ProjectDescription.fromJson(json['project'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final project = this.project;
+    return {
+      'project': project,
+    };
+  }
 }
 
 /// An object representing a device for a placement template (see
 /// <a>PlacementTemplate</a>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceTemplate {
   /// An optional Lambda function to invoke instead of the default Lambda function
   /// provided by the placement template.
-  @_s.JsonKey(name: 'callbackOverrides')
-  final Map<String, String> callbackOverrides;
+  final Map<String, String>? callbackOverrides;
 
   /// The device type, which currently must be <code>"button"</code>.
-  @_s.JsonKey(name: 'deviceType')
-  final String deviceType;
+  final String? deviceType;
 
   DeviceTemplate({
     this.callbackOverrides,
     this.deviceType,
   });
-  factory DeviceTemplate.fromJson(Map<String, dynamic> json) =>
-      _$DeviceTemplateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceTemplateToJson(this);
+  factory DeviceTemplate.fromJson(Map<String, dynamic> json) {
+    return DeviceTemplate(
+      callbackOverrides: (json['callbackOverrides'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      deviceType: json['deviceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callbackOverrides = this.callbackOverrides;
+    final deviceType = this.deviceType;
+    return {
+      if (callbackOverrides != null) 'callbackOverrides': callbackOverrides,
+      if (deviceType != null) 'deviceType': deviceType,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateDeviceFromPlacementResponse {
   DisassociateDeviceFromPlacementResponse();
+
   factory DisassociateDeviceFromPlacementResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateDeviceFromPlacementResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateDeviceFromPlacementResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDevicesInPlacementResponse {
   /// An object containing the devices (zero or more) within the placement.
-  @_s.JsonKey(name: 'devices')
   final Map<String, String> devices;
 
   GetDevicesInPlacementResponse({
-    @_s.required this.devices,
+    required this.devices,
   });
-  factory GetDevicesInPlacementResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDevicesInPlacementResponseFromJson(json);
+
+  factory GetDevicesInPlacementResponse.fromJson(Map<String, dynamic> json) {
+    return GetDevicesInPlacementResponse(
+      devices: (json['devices'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    return {
+      'devices': devices,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPlacementsResponse {
   /// An object listing the requested placements.
-  @_s.JsonKey(name: 'placements')
   final List<PlacementSummary> placements;
 
   /// The token used to retrieve the next set of results - will be effectively
   /// empty if there are no further results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListPlacementsResponse({
-    @_s.required this.placements,
+    required this.placements,
     this.nextToken,
   });
-  factory ListPlacementsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPlacementsResponseFromJson(json);
+
+  factory ListPlacementsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPlacementsResponse(
+      placements: (json['placements'] as List)
+          .whereNotNull()
+          .map((e) => PlacementSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final placements = this.placements;
+    final nextToken = this.nextToken;
+    return {
+      'placements': placements,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProjectsResponse {
   /// An object containing the list of projects.
-  @_s.JsonKey(name: 'projects')
   final List<ProjectSummary> projects;
 
   /// The token used to retrieve the next set of results - will be effectively
   /// empty if there are no further results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListProjectsResponse({
-    @_s.required this.projects,
+    required this.projects,
     this.nextToken,
   });
-  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProjectsResponseFromJson(json);
+
+  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProjectsResponse(
+      projects: (json['projects'] as List)
+          .whereNotNull()
+          .map((e) => ProjectSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projects = this.projects;
+    final nextToken = this.nextToken;
+    return {
+      'projects': projects,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags (metadata key/value pairs) which you have assigned to the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// An object describing a project's placement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PlacementDescription {
   /// The user-defined attributes associated with the placement.
-  @_s.JsonKey(name: 'attributes')
   final Map<String, String> attributes;
 
   /// The date when the placement was initially created, in UNIX epoch time
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the placement.
-  @_s.JsonKey(name: 'placementName')
   final String placementName;
 
   /// The name of the project containing the placement.
-  @_s.JsonKey(name: 'projectName')
   final String projectName;
 
   /// The date when the placement was last updated, in UNIX epoch time format. If
   /// the placement was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   PlacementDescription({
-    @_s.required this.attributes,
-    @_s.required this.createdDate,
-    @_s.required this.placementName,
-    @_s.required this.projectName,
-    @_s.required this.updatedDate,
+    required this.attributes,
+    required this.createdDate,
+    required this.placementName,
+    required this.projectName,
+    required this.updatedDate,
   });
-  factory PlacementDescription.fromJson(Map<String, dynamic> json) =>
-      _$PlacementDescriptionFromJson(json);
+
+  factory PlacementDescription.fromJson(Map<String, dynamic> json) {
+    return PlacementDescription(
+      attributes: (json['attributes'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      placementName: json['placementName'] as String,
+      projectName: json['projectName'] as String,
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final createdDate = this.createdDate;
+    final placementName = this.placementName;
+    final projectName = this.projectName;
+    final updatedDate = this.updatedDate;
+    return {
+      'attributes': attributes,
+      'createdDate': unixTimestampToJson(createdDate),
+      'placementName': placementName,
+      'projectName': projectName,
+      'updatedDate': unixTimestampToJson(updatedDate),
+    };
+  }
 }
 
 /// An object providing summary information for a particular placement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PlacementSummary {
   /// The date when the placement was originally created, in UNIX epoch time
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the placement being summarized.
-  @_s.JsonKey(name: 'placementName')
   final String placementName;
 
   /// The name of the project containing the placement.
-  @_s.JsonKey(name: 'projectName')
   final String projectName;
 
   /// The date when the placement was last updated, in UNIX epoch time format. If
   /// the placement was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   PlacementSummary({
-    @_s.required this.createdDate,
-    @_s.required this.placementName,
-    @_s.required this.projectName,
-    @_s.required this.updatedDate,
+    required this.createdDate,
+    required this.placementName,
+    required this.projectName,
+    required this.updatedDate,
   });
-  factory PlacementSummary.fromJson(Map<String, dynamic> json) =>
-      _$PlacementSummaryFromJson(json);
+
+  factory PlacementSummary.fromJson(Map<String, dynamic> json) {
+    return PlacementSummary(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      placementName: json['placementName'] as String,
+      projectName: json['projectName'] as String,
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final placementName = this.placementName;
+    final projectName = this.projectName;
+    final updatedDate = this.updatedDate;
+    return {
+      'createdDate': unixTimestampToJson(createdDate),
+      'placementName': placementName,
+      'projectName': projectName,
+      'updatedDate': unixTimestampToJson(updatedDate),
+    };
+  }
 }
 
 /// An object defining the template for a placement.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PlacementTemplate {
   /// The default attributes (key/value pairs) to be applied to all placements
   /// using this template.
-  @_s.JsonKey(name: 'defaultAttributes')
-  final Map<String, String> defaultAttributes;
+  final Map<String, String>? defaultAttributes;
 
   /// An object specifying the <a>DeviceTemplate</a> for all placements using this
   /// (<a>PlacementTemplate</a>) template.
-  @_s.JsonKey(name: 'deviceTemplates')
-  final Map<String, DeviceTemplate> deviceTemplates;
+  final Map<String, DeviceTemplate>? deviceTemplates;
 
   PlacementTemplate({
     this.defaultAttributes,
     this.deviceTemplates,
   });
-  factory PlacementTemplate.fromJson(Map<String, dynamic> json) =>
-      _$PlacementTemplateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlacementTemplateToJson(this);
+  factory PlacementTemplate.fromJson(Map<String, dynamic> json) {
+    return PlacementTemplate(
+      defaultAttributes: (json['defaultAttributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      deviceTemplates: (json['deviceTemplates'] as Map<String, dynamic>?)?.map(
+          (k, e) =>
+              MapEntry(k, DeviceTemplate.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultAttributes = this.defaultAttributes;
+    final deviceTemplates = this.deviceTemplates;
+    return {
+      if (defaultAttributes != null) 'defaultAttributes': defaultAttributes,
+      if (deviceTemplates != null) 'deviceTemplates': deviceTemplates,
+    };
+  }
 }
 
 /// An object providing detailed information for a particular project associated
 /// with an AWS account and region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectDescription {
   /// The date when the project was originally created, in UNIX epoch time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the project for which to obtain information from.
-  @_s.JsonKey(name: 'projectName')
   final String projectName;
 
   /// The date when the project was last updated, in UNIX epoch time format. If
   /// the project was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   /// The ARN of the project.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the project.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// An object describing the project's placement specifications.
-  @_s.JsonKey(name: 'placementTemplate')
-  final PlacementTemplate placementTemplate;
+  final PlacementTemplate? placementTemplate;
 
   /// The tags (metadata key/value pairs) associated with the project.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ProjectDescription({
-    @_s.required this.createdDate,
-    @_s.required this.projectName,
-    @_s.required this.updatedDate,
+    required this.createdDate,
+    required this.projectName,
+    required this.updatedDate,
     this.arn,
     this.description,
     this.placementTemplate,
     this.tags,
   });
-  factory ProjectDescription.fromJson(Map<String, dynamic> json) =>
-      _$ProjectDescriptionFromJson(json);
+
+  factory ProjectDescription.fromJson(Map<String, dynamic> json) {
+    return ProjectDescription(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      projectName: json['projectName'] as String,
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+      placementTemplate: json['placementTemplate'] != null
+          ? PlacementTemplate.fromJson(
+              json['placementTemplate'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final projectName = this.projectName;
+    final updatedDate = this.updatedDate;
+    final arn = this.arn;
+    final description = this.description;
+    final placementTemplate = this.placementTemplate;
+    final tags = this.tags;
+    return {
+      'createdDate': unixTimestampToJson(createdDate),
+      'projectName': projectName,
+      'updatedDate': unixTimestampToJson(updatedDate),
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+      if (placementTemplate != null) 'placementTemplate': placementTemplate,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// An object providing summary information for a particular project for an
 /// associated AWS account and region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectSummary {
   /// The date when the project was originally created, in UNIX epoch time format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the project being summarized.
-  @_s.JsonKey(name: 'projectName')
   final String projectName;
 
   /// The date when the project was last updated, in UNIX epoch time format. If
   /// the project was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   /// The ARN of the project.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The tags (metadata key/value pairs) associated with the project.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ProjectSummary({
-    @_s.required this.createdDate,
-    @_s.required this.projectName,
-    @_s.required this.updatedDate,
+    required this.createdDate,
+    required this.projectName,
+    required this.updatedDate,
     this.arn,
     this.tags,
   });
-  factory ProjectSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProjectSummaryFromJson(json);
+
+  factory ProjectSummary.fromJson(Map<String, dynamic> json) {
+    return ProjectSummary(
+      createdDate: nonNullableTimeStampFromJson(json['createdDate'] as Object),
+      projectName: json['projectName'] as String,
+      updatedDate: nonNullableTimeStampFromJson(json['updatedDate'] as Object),
+      arn: json['arn'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final projectName = this.projectName;
+    final updatedDate = this.updatedDate;
+    final arn = this.arn;
+    final tags = this.tags;
+    return {
+      'createdDate': unixTimestampToJson(createdDate),
+      'projectName': projectName,
+      'updatedDate': unixTimestampToJson(updatedDate),
+      if (arn != null) 'arn': arn,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePlacementResponse {
   UpdatePlacementResponse();
-  factory UpdatePlacementResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePlacementResponseFromJson(json);
+
+  factory UpdatePlacementResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePlacementResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProjectResponse {
   UpdateProjectResponse();
-  factory UpdateProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProjectResponseFromJson(json);
+
+  factory UpdateProjectResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateProjectResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ResourceConflictException extends _s.GenericAwsException {
-  ResourceConflictException({String type, String message})
+  ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

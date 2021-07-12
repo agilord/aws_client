@@ -31,8 +31,8 @@ void main() {
 
     final output = await service.operationName0();
     expect(output.fooEnum, EC2EnumType.foo);
-    expect(output.listEnums[0], EC2EnumType.foo);
-    expect(output.listEnums[1], EC2EnumType.bar);
+    expect(output.listEnums?[0], EC2EnumType.foo);
+    expect(output.listEnums?[1], EC2EnumType.bar);
 /*
 {
   "FooEnum": "foo",

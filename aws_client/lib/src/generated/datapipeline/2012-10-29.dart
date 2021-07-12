@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2012-10-29.g.dart';
 
 /// AWS Data Pipeline configures and manages a data-driven workflow called a
 /// pipeline. AWS Data Pipeline handles the details of scheduling and ensuring
@@ -51,10 +44,10 @@ part '2012-10-29.g.dart';
 class DataPipeline {
   final _s.JsonProtocol _protocol;
   DataPipeline({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -90,9 +83,9 @@ class DataPipeline {
   /// The date and time to resume the pipeline. By default, the pipeline resumes
   /// from the last completed execution.
   Future<void> activatePipeline({
-    @_s.required String pipelineId,
-    List<ParameterValue> parameterValues,
-    DateTime startTimestamp,
+    required String pipelineId,
+    List<ParameterValue>? parameterValues,
+    DateTime? startTimestamp,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -102,17 +95,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.ActivatePipeline'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -125,8 +112,6 @@ class DataPipeline {
           'startTimestamp': unixTimestampToJson(startTimestamp),
       },
     );
-
-    return ActivatePipelineOutput.fromJson(jsonResponse.body);
   }
 
   /// Adds or modifies tags for the specified pipeline.
@@ -142,8 +127,8 @@ class DataPipeline {
   /// Parameter [tags] :
   /// The tags to add, as key/value pairs.
   Future<void> addTags({
-    @_s.required String pipelineId,
-    @_s.required List<Tag> tags,
+    required String pipelineId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -153,18 +138,12 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.AddTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -175,8 +154,6 @@ class DataPipeline {
         'tags': tags,
       },
     );
-
-    return AddTagsOutput.fromJson(jsonResponse.body);
   }
 
   /// Creates a new, empty pipeline. Use <a>PutPipelineDefinition</a> to
@@ -215,10 +192,10 @@ class DataPipeline {
   /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
   /// Guide</i>.
   Future<CreatePipelineOutput> createPipeline({
-    @_s.required String name,
-    @_s.required String uniqueId,
-    String description,
-    List<Tag> tags,
+    required String name,
+    required String uniqueId,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -226,12 +203,6 @@ class DataPipeline {
       name,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(uniqueId, 'uniqueId');
@@ -242,22 +213,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'uniqueId',
-      uniqueId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -301,8 +261,8 @@ class DataPipeline {
   /// this value is false, the pipeline is deactivated after all running objects
   /// finish.
   Future<void> deactivatePipeline({
-    @_s.required String pipelineId,
-    bool cancelActive,
+    required String pipelineId,
+    bool? cancelActive,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -312,17 +272,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.DeactivatePipeline'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -333,8 +287,6 @@ class DataPipeline {
         if (cancelActive != null) 'cancelActive': cancelActive,
       },
     );
-
-    return DeactivatePipelineOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes a pipeline, its pipeline definition, and its run history. AWS Data
@@ -354,7 +306,7 @@ class DataPipeline {
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
   Future<void> deletePipeline({
-    @_s.required String pipelineId,
+    required String pipelineId,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -364,17 +316,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.DeletePipeline'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -413,10 +359,10 @@ class DataPipeline {
   /// call <code>DescribeObjects</code> with the marker value from the previous
   /// call to retrieve the next set of results.
   Future<DescribeObjectsOutput> describeObjects({
-    @_s.required List<String> objectIds,
-    @_s.required String pipelineId,
-    bool evaluateExpressions,
-    String marker,
+    required List<String> objectIds,
+    required String pipelineId,
+    bool? evaluateExpressions,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(objectIds, 'objectIds');
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
@@ -427,22 +373,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -487,7 +422,7 @@ class DataPipeline {
   /// identifiers in a single call. To obtain pipeline IDs, call
   /// <a>ListPipelines</a>.
   Future<DescribePipelinesOutput> describePipelines({
-    @_s.required List<String> pipelineIds,
+    required List<String> pipelineIds,
   }) async {
     ArgumentError.checkNotNull(pipelineIds, 'pipelineIds');
     final headers = <String, String>{
@@ -527,9 +462,9 @@ class DataPipeline {
   /// Parameter [pipelineId] :
   /// The ID of the pipeline.
   Future<EvaluateExpressionOutput> evaluateExpression({
-    @_s.required String expression,
-    @_s.required String objectId,
-    @_s.required String pipelineId,
+    required String expression,
+    required String objectId,
+    required String pipelineId,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
     _s.validateStringLength(
@@ -537,12 +472,6 @@ class DataPipeline {
       expression,
       0,
       20971520,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'expression',
-      expression,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(objectId, 'objectId');
@@ -553,24 +482,12 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'objectId',
-      objectId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
       'pipelineId',
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -611,8 +528,8 @@ class DataPipeline {
   /// pipeline or <code>active</code> to use the last definition that was
   /// activated.
   Future<GetPipelineDefinitionOutput> getPipelineDefinition({
-    @_s.required String pipelineId,
-    String version,
+    required String pipelineId,
+    String? version,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -622,22 +539,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'version',
       version,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'version',
-      version,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -670,18 +576,13 @@ class DataPipeline {
   /// call <code>ListPipelines</code> with the marker value from the previous
   /// call to retrieve the next set of results.
   Future<ListPipelinesOutput> listPipelines({
-    String marker,
+    String? marker,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -744,9 +645,9 @@ class DataPipeline {
   /// instance, and ensures the proper AWS Data Pipeline service charges are
   /// applied to your pipeline.
   Future<PollForTaskOutput> pollForTask({
-    @_s.required String workerGroup,
-    String hostname,
-    InstanceIdentity instanceIdentity,
+    required String workerGroup,
+    String? hostname,
+    InstanceIdentity? instanceIdentity,
   }) async {
     ArgumentError.checkNotNull(workerGroup, 'workerGroup');
     _s.validateStringLength(
@@ -756,22 +657,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workerGroup',
-      workerGroup,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'hostname',
       hostname,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'hostname',
-      hostname,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -827,10 +717,10 @@ class DataPipeline {
   /// Parameter [parameterValues] :
   /// The parameter values used with the pipeline.
   Future<PutPipelineDefinitionOutput> putPipelineDefinition({
-    @_s.required String pipelineId,
-    @_s.required List<PipelineObject> pipelineObjects,
-    List<ParameterObject> parameterObjects,
-    List<ParameterValue> parameterValues,
+    required String pipelineId,
+    required List<PipelineObject> pipelineObjects,
+    List<ParameterObject>? parameterObjects,
+    List<ParameterValue>? parameterValues,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -838,12 +728,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(pipelineObjects, 'pipelineObjects');
@@ -900,11 +784,11 @@ class DataPipeline {
   /// are limited to top-level String fields in the object. These filters can be
   /// applied to components, instances, and attempts.
   Future<QueryObjectsOutput> queryObjects({
-    @_s.required String pipelineId,
-    @_s.required String sphere,
-    int limit,
-    String marker,
-    Query query,
+    required String pipelineId,
+    required String sphere,
+    int? limit,
+    String? marker,
+    Query? query,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -912,12 +796,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sphere, 'sphere');
@@ -928,22 +806,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sphere',
-      sphere,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -980,8 +847,8 @@ class DataPipeline {
   /// Parameter [tagKeys] :
   /// The keys of the tags to remove.
   Future<void> removeTags({
-    @_s.required String pipelineId,
-    @_s.required List<String> tagKeys,
+    required String pipelineId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -991,18 +858,12 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.RemoveTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1013,8 +874,6 @@ class DataPipeline {
         'tagKeys': tagKeys,
       },
     );
-
-    return RemoveTagsOutput.fromJson(jsonResponse.body);
   }
 
   /// Task runners call <code>ReportTaskProgress</code> when assigned a task to
@@ -1044,8 +903,8 @@ class DataPipeline {
   /// Key-value pairs that define the properties of the ReportTaskProgressInput
   /// object.
   Future<ReportTaskProgressOutput> reportTaskProgress({
-    @_s.required String taskId,
-    List<Field> fields,
+    required String taskId,
+    List<Field>? fields,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -1053,12 +912,6 @@ class DataPipeline {
       taskId,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1106,9 +959,9 @@ class DataPipeline {
   /// There are no wildcard values permitted in <code>workerGroup</code>; the
   /// string must be an exact, case-sensitive, match.
   Future<ReportTaskRunnerHeartbeatOutput> reportTaskRunnerHeartbeat({
-    @_s.required String taskrunnerId,
-    String hostname,
-    String workerGroup,
+    required String taskrunnerId,
+    String? hostname,
+    String? workerGroup,
   }) async {
     ArgumentError.checkNotNull(taskrunnerId, 'taskrunnerId');
     _s.validateStringLength(
@@ -1118,33 +971,17 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskrunnerId',
-      taskrunnerId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'hostname',
       hostname,
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'hostname',
-      hostname,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'workerGroup',
       workerGroup,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'workerGroup',
-      workerGroup,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1191,9 +1028,9 @@ class DataPipeline {
   /// <code>RESUME</code>. For instances, use <code>TRY_CANCEL</code>,
   /// <code>RERUN</code>, or <code>MARK_FINISHED</code>.
   Future<void> setStatus({
-    @_s.required List<String> objectIds,
-    @_s.required String pipelineId,
-    @_s.required String status,
+    required List<String> objectIds,
+    required String pipelineId,
+    required String status,
   }) async {
     ArgumentError.checkNotNull(objectIds, 'objectIds');
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
@@ -1204,12 +1041,6 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'status',
@@ -1218,17 +1049,11 @@ class DataPipeline {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'status',
-      status,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.SetStatus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1282,11 +1107,11 @@ class DataPipeline {
   /// object. It is used to display error information to the user. The web
   /// service does not parse this value.
   Future<void> setTaskStatus({
-    @_s.required String taskId,
-    @_s.required TaskStatus taskStatus,
-    String errorId,
-    String errorMessage,
-    String errorStackTrace,
+    required String taskId,
+    required TaskStatus taskStatus,
+    String? errorId,
+    String? errorMessage,
+    String? errorStackTrace,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -1296,12 +1121,6 @@ class DataPipeline {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(taskStatus, 'taskStatus');
     _s.validateStringLength(
       'errorId',
@@ -1309,27 +1128,17 @@ class DataPipeline {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'errorId',
-      errorId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     _s.validateStringLength(
       'errorStackTrace',
       errorStackTrace,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'errorStackTrace',
-      errorStackTrace,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'DataPipeline.SetTaskStatus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1337,14 +1146,12 @@ class DataPipeline {
       headers: headers,
       payload: {
         'taskId': taskId,
-        'taskStatus': taskStatus?.toValue() ?? '',
+        'taskStatus': taskStatus.toValue(),
         if (errorId != null) 'errorId': errorId,
         if (errorMessage != null) 'errorMessage': errorMessage,
         if (errorStackTrace != null) 'errorStackTrace': errorStackTrace,
       },
     );
-
-    return SetTaskStatusOutput.fromJson(jsonResponse.body);
   }
 
   /// Validates the specified pipeline definition to ensure that it is well
@@ -1368,10 +1175,10 @@ class DataPipeline {
   /// Parameter [parameterValues] :
   /// The parameter values used with the pipeline.
   Future<ValidatePipelineDefinitionOutput> validatePipelineDefinition({
-    @_s.required String pipelineId,
-    @_s.required List<PipelineObject> pipelineObjects,
-    List<ParameterObject> parameterObjects,
-    List<ParameterValue> parameterValues,
+    required String pipelineId,
+    required List<PipelineObject> pipelineObjects,
+    List<ParameterObject>? parameterObjects,
+    List<ParameterValue>? parameterValues,
   }) async {
     ArgumentError.checkNotNull(pipelineId, 'pipelineId');
     _s.validateStringLength(
@@ -1379,12 +1186,6 @@ class DataPipeline {
       pipelineId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'pipelineId',
-      pipelineId,
-      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\r\n\t]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(pipelineObjects, 'pipelineObjects');
@@ -1411,183 +1212,242 @@ class DataPipeline {
 }
 
 /// Contains the output of ActivatePipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivatePipelineOutput {
   ActivatePipelineOutput();
-  factory ActivatePipelineOutput.fromJson(Map<String, dynamic> json) =>
-      _$ActivatePipelineOutputFromJson(json);
+
+  factory ActivatePipelineOutput.fromJson(Map<String, dynamic> _) {
+    return ActivatePipelineOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains the output of AddTags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsOutput {
   AddTagsOutput();
-  factory AddTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsOutputFromJson(json);
+
+  factory AddTagsOutput.fromJson(Map<String, dynamic> _) {
+    return AddTagsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains the output of CreatePipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePipelineOutput {
   /// The ID that AWS Data Pipeline assigns the newly created pipeline. For
   /// example, <code>df-06372391ZG65EXAMPLE</code>.
-  @_s.JsonKey(name: 'pipelineId')
   final String pipelineId;
 
   CreatePipelineOutput({
-    @_s.required this.pipelineId,
+    required this.pipelineId,
   });
-  factory CreatePipelineOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreatePipelineOutputFromJson(json);
+
+  factory CreatePipelineOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePipelineOutput(
+      pipelineId: json['pipelineId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineId = this.pipelineId;
+    return {
+      'pipelineId': pipelineId,
+    };
+  }
 }
 
 /// Contains the output of DeactivatePipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeactivatePipelineOutput {
   DeactivatePipelineOutput();
-  factory DeactivatePipelineOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeactivatePipelineOutputFromJson(json);
+
+  factory DeactivatePipelineOutput.fromJson(Map<String, dynamic> _) {
+    return DeactivatePipelineOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains the output of DescribeObjects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeObjectsOutput {
   /// An array of object definitions.
-  @_s.JsonKey(name: 'pipelineObjects')
   final List<PipelineObject> pipelineObjects;
 
   /// Indicates whether there are more results to return.
-  @_s.JsonKey(name: 'hasMoreResults')
-  final bool hasMoreResults;
+  final bool? hasMoreResults;
 
   /// The starting point for the next page of results. To view the next page of
   /// results, call <code>DescribeObjects</code> again with this marker value. If
   /// the value is null, there are no more results.
-  @_s.JsonKey(name: 'marker')
-  final String marker;
+  final String? marker;
 
   DescribeObjectsOutput({
-    @_s.required this.pipelineObjects,
+    required this.pipelineObjects,
     this.hasMoreResults,
     this.marker,
   });
-  factory DescribeObjectsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeObjectsOutputFromJson(json);
+
+  factory DescribeObjectsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeObjectsOutput(
+      pipelineObjects: (json['pipelineObjects'] as List)
+          .whereNotNull()
+          .map((e) => PipelineObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hasMoreResults: json['hasMoreResults'] as bool?,
+      marker: json['marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineObjects = this.pipelineObjects;
+    final hasMoreResults = this.hasMoreResults;
+    final marker = this.marker;
+    return {
+      'pipelineObjects': pipelineObjects,
+      if (hasMoreResults != null) 'hasMoreResults': hasMoreResults,
+      if (marker != null) 'marker': marker,
+    };
+  }
 }
 
 /// Contains the output of DescribePipelines.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePipelinesOutput {
   /// An array of descriptions for the specified pipelines.
-  @_s.JsonKey(name: 'pipelineDescriptionList')
   final List<PipelineDescription> pipelineDescriptionList;
 
   DescribePipelinesOutput({
-    @_s.required this.pipelineDescriptionList,
+    required this.pipelineDescriptionList,
   });
-  factory DescribePipelinesOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribePipelinesOutputFromJson(json);
+
+  factory DescribePipelinesOutput.fromJson(Map<String, dynamic> json) {
+    return DescribePipelinesOutput(
+      pipelineDescriptionList: (json['pipelineDescriptionList'] as List)
+          .whereNotNull()
+          .map((e) => PipelineDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineDescriptionList = this.pipelineDescriptionList;
+    return {
+      'pipelineDescriptionList': pipelineDescriptionList,
+    };
+  }
 }
 
 /// Contains the output of EvaluateExpression.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EvaluateExpressionOutput {
   /// The evaluated expression.
-  @_s.JsonKey(name: 'evaluatedExpression')
   final String evaluatedExpression;
 
   EvaluateExpressionOutput({
-    @_s.required this.evaluatedExpression,
+    required this.evaluatedExpression,
   });
-  factory EvaluateExpressionOutput.fromJson(Map<String, dynamic> json) =>
-      _$EvaluateExpressionOutputFromJson(json);
+
+  factory EvaluateExpressionOutput.fromJson(Map<String, dynamic> json) {
+    return EvaluateExpressionOutput(
+      evaluatedExpression: json['evaluatedExpression'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluatedExpression = this.evaluatedExpression;
+    return {
+      'evaluatedExpression': evaluatedExpression,
+    };
+  }
 }
 
 /// A key-value pair that describes a property of a pipeline object. The value
 /// is specified as either a string value (<code>StringValue</code>) or a
 /// reference to another object (<code>RefValue</code>) but not as both.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Field {
   /// The field identifier.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The field value, expressed as the identifier of another object.
-  @_s.JsonKey(name: 'refValue')
-  final String refValue;
+  final String? refValue;
 
   /// The field value, expressed as a String.
-  @_s.JsonKey(name: 'stringValue')
-  final String stringValue;
+  final String? stringValue;
 
   Field({
-    @_s.required this.key,
+    required this.key,
     this.refValue,
     this.stringValue,
   });
-  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FieldToJson(this);
+  factory Field.fromJson(Map<String, dynamic> json) {
+    return Field(
+      key: json['key'] as String,
+      refValue: json['refValue'] as String?,
+      stringValue: json['stringValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final refValue = this.refValue;
+    final stringValue = this.stringValue;
+    return {
+      'key': key,
+      if (refValue != null) 'refValue': refValue,
+      if (stringValue != null) 'stringValue': stringValue,
+    };
+  }
 }
 
 /// Contains the output of GetPipelineDefinition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPipelineDefinitionOutput {
   /// The parameter objects used in the pipeline definition.
-  @_s.JsonKey(name: 'parameterObjects')
-  final List<ParameterObject> parameterObjects;
+  final List<ParameterObject>? parameterObjects;
 
   /// The parameter values used in the pipeline definition.
-  @_s.JsonKey(name: 'parameterValues')
-  final List<ParameterValue> parameterValues;
+  final List<ParameterValue>? parameterValues;
 
   /// The objects defined in the pipeline.
-  @_s.JsonKey(name: 'pipelineObjects')
-  final List<PipelineObject> pipelineObjects;
+  final List<PipelineObject>? pipelineObjects;
 
   GetPipelineDefinitionOutput({
     this.parameterObjects,
     this.parameterValues,
     this.pipelineObjects,
   });
-  factory GetPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetPipelineDefinitionOutputFromJson(json);
+
+  factory GetPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
+    return GetPipelineDefinitionOutput(
+      parameterObjects: (json['parameterObjects'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      parameterValues: (json['parameterValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pipelineObjects: (json['pipelineObjects'] as List?)
+          ?.whereNotNull()
+          .map((e) => PipelineObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterObjects = this.parameterObjects;
+    final parameterValues = this.parameterValues;
+    final pipelineObjects = this.pipelineObjects;
+    return {
+      if (parameterObjects != null) 'parameterObjects': parameterObjects,
+      if (parameterValues != null) 'parameterValues': parameterValues,
+      if (pipelineObjects != null) 'pipelineObjects': pipelineObjects,
+    };
+  }
 }
 
 ///
@@ -1600,108 +1460,85 @@ class GetPipelineDefinitionOutput {
 /// and ensures the proper AWS Data Pipeline service charges are applied to your
 /// pipeline.
 ///
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceIdentity {
   /// A description of an EC2 instance that is generated when the instance is
   /// launched and exposed to the instance via the instance metadata service in
   /// the form of a JSON representation of an object.
-  @_s.JsonKey(name: 'document')
-  final String document;
+  final String? document;
 
   /// A signature which can be used to verify the accuracy and authenticity of the
   /// information provided in the instance identity document.
-  @_s.JsonKey(name: 'signature')
-  final String signature;
+  final String? signature;
 
   InstanceIdentity({
     this.document,
     this.signature,
   });
-  Map<String, dynamic> toJson() => _$InstanceIdentityToJson(this);
-}
 
-/// An internal service error occurred.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InternalServiceError implements _s.AwsException {
-  /// Description of the error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  factory InstanceIdentity.fromJson(Map<String, dynamic> json) {
+    return InstanceIdentity(
+      document: json['document'] as String?,
+      signature: json['signature'] as String?,
+    );
+  }
 
-  InternalServiceError({
-    this.message,
-  });
-  factory InternalServiceError.fromJson(Map<String, dynamic> json) =>
-      _$InternalServiceErrorFromJson(json);
-}
-
-/// The request was not valid. Verify that your request was properly formatted,
-/// that the signature was generated with the correct credentials, and that you
-/// haven't exceeded any of the service limits for your account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InvalidRequestException implements _s.AwsException {
-  /// Description of the error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InvalidRequestException({
-    this.message,
-  });
-  factory InvalidRequestException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidRequestExceptionFromJson(json);
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final signature = this.signature;
+    return {
+      if (document != null) 'document': document,
+      if (signature != null) 'signature': signature,
+    };
+  }
 }
 
 /// Contains the output of ListPipelines.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPipelinesOutput {
   /// The pipeline identifiers. If you require additional information about the
   /// pipelines, you can use these identifiers to call <a>DescribePipelines</a>
   /// and <a>GetPipelineDefinition</a>.
-  @_s.JsonKey(name: 'pipelineIdList')
   final List<PipelineIdName> pipelineIdList;
 
   /// Indicates whether there are more results that can be obtained by a
   /// subsequent call.
-  @_s.JsonKey(name: 'hasMoreResults')
-  final bool hasMoreResults;
+  final bool? hasMoreResults;
 
   /// The starting point for the next page of results. To view the next page of
   /// results, call <code>ListPipelinesOutput</code> again with this marker value.
   /// If the value is null, there are no more results.
-  @_s.JsonKey(name: 'marker')
-  final String marker;
+  final String? marker;
 
   ListPipelinesOutput({
-    @_s.required this.pipelineIdList,
+    required this.pipelineIdList,
     this.hasMoreResults,
     this.marker,
   });
-  factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPipelinesOutputFromJson(json);
+
+  factory ListPipelinesOutput.fromJson(Map<String, dynamic> json) {
+    return ListPipelinesOutput(
+      pipelineIdList: (json['pipelineIdList'] as List)
+          .whereNotNull()
+          .map((e) => PipelineIdName.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hasMoreResults: json['hasMoreResults'] as bool?,
+      marker: json['marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pipelineIdList = this.pipelineIdList;
+    final hasMoreResults = this.hasMoreResults;
+    final marker = this.marker;
+    return {
+      'pipelineIdList': pipelineIdList,
+      if (hasMoreResults != null) 'hasMoreResults': hasMoreResults,
+      if (marker != null) 'marker': marker,
+    };
+  }
 }
 
 /// Contains a logical operation for comparing the value of a field with a
 /// specified value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Operator {
   /// The logical operation to be performed: equal (<code>EQ</code>), equal
   /// reference (<code>REF_EQ</code>), less than or equal (<code>LE</code>),
@@ -1739,431 +1576,559 @@ class Operator {
   /// alpha-numeric values, as symbols may be reserved by AWS Data Pipeline.
   /// User-defined fields that you add to a pipeline should prefix their name with
   /// the string "my".
-  @_s.JsonKey(name: 'type')
-  final OperatorType type;
+  final OperatorType? type;
 
   /// The value that the actual field value will be compared with.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   Operator({
     this.type,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$OperatorToJson(this);
+
+  factory Operator.fromJson(Map<String, dynamic> json) {
+    return Operator(
+      type: (json['type'] as String?)?.toOperatorType(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (type != null) 'type': type.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum OperatorType {
-  @_s.JsonValue('EQ')
   eq,
-  @_s.JsonValue('REF_EQ')
   refEq,
-  @_s.JsonValue('LE')
   le,
-  @_s.JsonValue('GE')
   ge,
-  @_s.JsonValue('BETWEEN')
   between,
 }
 
+extension on OperatorType {
+  String toValue() {
+    switch (this) {
+      case OperatorType.eq:
+        return 'EQ';
+      case OperatorType.refEq:
+        return 'REF_EQ';
+      case OperatorType.le:
+        return 'LE';
+      case OperatorType.ge:
+        return 'GE';
+      case OperatorType.between:
+        return 'BETWEEN';
+    }
+  }
+}
+
+extension on String {
+  OperatorType toOperatorType() {
+    switch (this) {
+      case 'EQ':
+        return OperatorType.eq;
+      case 'REF_EQ':
+        return OperatorType.refEq;
+      case 'LE':
+        return OperatorType.le;
+      case 'GE':
+        return OperatorType.ge;
+      case 'BETWEEN':
+        return OperatorType.between;
+    }
+    throw Exception('$this is not known in enum OperatorType');
+  }
+}
+
 /// The attributes allowed or specified with a parameter object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParameterAttribute {
   /// The field identifier.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The field value, expressed as a String.
-  @_s.JsonKey(name: 'stringValue')
   final String stringValue;
 
   ParameterAttribute({
-    @_s.required this.key,
-    @_s.required this.stringValue,
+    required this.key,
+    required this.stringValue,
   });
-  factory ParameterAttribute.fromJson(Map<String, dynamic> json) =>
-      _$ParameterAttributeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParameterAttributeToJson(this);
+  factory ParameterAttribute.fromJson(Map<String, dynamic> json) {
+    return ParameterAttribute(
+      key: json['key'] as String,
+      stringValue: json['stringValue'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final stringValue = this.stringValue;
+    return {
+      'key': key,
+      'stringValue': stringValue,
+    };
+  }
 }
 
 /// Contains information about a parameter object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParameterObject {
   /// The attributes of the parameter object.
-  @_s.JsonKey(name: 'attributes')
   final List<ParameterAttribute> attributes;
 
   /// The ID of the parameter object.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   ParameterObject({
-    @_s.required this.attributes,
-    @_s.required this.id,
+    required this.attributes,
+    required this.id,
   });
-  factory ParameterObject.fromJson(Map<String, dynamic> json) =>
-      _$ParameterObjectFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParameterObjectToJson(this);
+  factory ParameterObject.fromJson(Map<String, dynamic> json) {
+    return ParameterObject(
+      attributes: (json['attributes'] as List)
+          .whereNotNull()
+          .map((e) => ParameterAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final id = this.id;
+    return {
+      'attributes': attributes,
+      'id': id,
+    };
+  }
 }
 
 /// A value or list of parameter values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParameterValue {
   /// The ID of the parameter value.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The field value, expressed as a String.
-  @_s.JsonKey(name: 'stringValue')
   final String stringValue;
 
   ParameterValue({
-    @_s.required this.id,
-    @_s.required this.stringValue,
+    required this.id,
+    required this.stringValue,
   });
-  factory ParameterValue.fromJson(Map<String, dynamic> json) =>
-      _$ParameterValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParameterValueToJson(this);
-}
+  factory ParameterValue.fromJson(Map<String, dynamic> json) {
+    return ParameterValue(
+      id: json['id'] as String,
+      stringValue: json['stringValue'] as String,
+    );
+  }
 
-/// The specified pipeline has been deleted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class PipelineDeletedException implements _s.AwsException {
-  /// Description of the error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  PipelineDeletedException({
-    this.message,
-  });
-  factory PipelineDeletedException.fromJson(Map<String, dynamic> json) =>
-      _$PipelineDeletedExceptionFromJson(json);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final stringValue = this.stringValue;
+    return {
+      'id': id,
+      'stringValue': stringValue,
+    };
+  }
 }
 
 /// Contains pipeline metadata.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineDescription {
   /// A list of read-only fields that contain metadata about the pipeline:
   /// @userId, @accountId, and @pipelineState.
-  @_s.JsonKey(name: 'fields')
   final List<Field> fields;
 
   /// The name of the pipeline.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The pipeline identifier that was assigned by AWS Data Pipeline. This is a
   /// string of the form <code>df-297EG78HU43EEXAMPLE</code>.
-  @_s.JsonKey(name: 'pipelineId')
   final String pipelineId;
 
   /// Description of the pipeline.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// A list of tags to associated with a pipeline. Tags let you control access to
   /// pipelines. For more information, see <a
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
   /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   PipelineDescription({
-    @_s.required this.fields,
-    @_s.required this.name,
-    @_s.required this.pipelineId,
+    required this.fields,
+    required this.name,
+    required this.pipelineId,
     this.description,
     this.tags,
   });
-  factory PipelineDescription.fromJson(Map<String, dynamic> json) =>
-      _$PipelineDescriptionFromJson(json);
+
+  factory PipelineDescription.fromJson(Map<String, dynamic> json) {
+    return PipelineDescription(
+      fields: (json['fields'] as List)
+          .whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['name'] as String,
+      pipelineId: json['pipelineId'] as String,
+      description: json['description'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final name = this.name;
+    final pipelineId = this.pipelineId;
+    final description = this.description;
+    final tags = this.tags;
+    return {
+      'fields': fields,
+      'name': name,
+      'pipelineId': pipelineId,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Contains the name and identifier of a pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PipelineIdName {
   /// The ID of the pipeline that was assigned by AWS Data Pipeline. This is a
   /// string of the form <code>df-297EG78HU43EEXAMPLE</code>.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The name of the pipeline.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   PipelineIdName({
     this.id,
     this.name,
   });
-  factory PipelineIdName.fromJson(Map<String, dynamic> json) =>
-      _$PipelineIdNameFromJson(json);
-}
 
-/// The specified pipeline was not found. Verify that you used the correct user
-/// and account identifiers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class PipelineNotFoundException implements _s.AwsException {
-  /// Description of the error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  factory PipelineIdName.fromJson(Map<String, dynamic> json) {
+    return PipelineIdName(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+    );
+  }
 
-  PipelineNotFoundException({
-    this.message,
-  });
-  factory PipelineNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$PipelineNotFoundExceptionFromJson(json);
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Contains information about a pipeline object. This can be a logical,
 /// physical, or physical attempt pipeline object. The complete set of
 /// components of a pipeline defines the pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PipelineObject {
   /// Key-value pairs that define the properties of the object.
-  @_s.JsonKey(name: 'fields')
   final List<Field> fields;
 
   /// The ID of the object.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The name of the object.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   PipelineObject({
-    @_s.required this.fields,
-    @_s.required this.id,
-    @_s.required this.name,
+    required this.fields,
+    required this.id,
+    required this.name,
   });
-  factory PipelineObject.fromJson(Map<String, dynamic> json) =>
-      _$PipelineObjectFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PipelineObjectToJson(this);
+  factory PipelineObject.fromJson(Map<String, dynamic> json) {
+    return PipelineObject(
+      fields: (json['fields'] as List)
+          .whereNotNull()
+          .map((e) => Field.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fields = this.fields;
+    final id = this.id;
+    final name = this.name;
+    return {
+      'fields': fields,
+      'id': id,
+      'name': name,
+    };
+  }
 }
 
 /// Contains the output of PollForTask.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PollForTaskOutput {
   /// The information needed to complete the task that is being assigned to the
   /// task runner. One of the fields returned in this object is
   /// <code>taskId</code>, which contains an identifier for the task being
   /// assigned. The calling task runner uses <code>taskId</code> in subsequent
   /// calls to <a>ReportTaskProgress</a> and <a>SetTaskStatus</a>.
-  @_s.JsonKey(name: 'taskObject')
-  final TaskObject taskObject;
+  final TaskObject? taskObject;
 
   PollForTaskOutput({
     this.taskObject,
   });
-  factory PollForTaskOutput.fromJson(Map<String, dynamic> json) =>
-      _$PollForTaskOutputFromJson(json);
+
+  factory PollForTaskOutput.fromJson(Map<String, dynamic> json) {
+    return PollForTaskOutput(
+      taskObject: json['taskObject'] != null
+          ? TaskObject.fromJson(json['taskObject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskObject = this.taskObject;
+    return {
+      if (taskObject != null) 'taskObject': taskObject,
+    };
+  }
 }
 
 /// Contains the output of PutPipelineDefinition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutPipelineDefinitionOutput {
   /// Indicates whether there were validation errors, and the pipeline definition
   /// is stored but cannot be activated until you correct the pipeline and call
   /// <code>PutPipelineDefinition</code> to commit the corrected pipeline.
-  @_s.JsonKey(name: 'errored')
   final bool errored;
 
   /// The validation errors that are associated with the objects defined in
   /// <code>pipelineObjects</code>.
-  @_s.JsonKey(name: 'validationErrors')
-  final List<ValidationError> validationErrors;
+  final List<ValidationError>? validationErrors;
 
   /// The validation warnings that are associated with the objects defined in
   /// <code>pipelineObjects</code>.
-  @_s.JsonKey(name: 'validationWarnings')
-  final List<ValidationWarning> validationWarnings;
+  final List<ValidationWarning>? validationWarnings;
 
   PutPipelineDefinitionOutput({
-    @_s.required this.errored,
+    required this.errored,
     this.validationErrors,
     this.validationWarnings,
   });
-  factory PutPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutPipelineDefinitionOutputFromJson(json);
+
+  factory PutPipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
+    return PutPipelineDefinitionOutput(
+      errored: json['errored'] as bool,
+      validationErrors: (json['validationErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validationWarnings: (json['validationWarnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errored = this.errored;
+    final validationErrors = this.validationErrors;
+    final validationWarnings = this.validationWarnings;
+    return {
+      'errored': errored,
+      if (validationErrors != null) 'validationErrors': validationErrors,
+      if (validationWarnings != null) 'validationWarnings': validationWarnings,
+    };
+  }
 }
 
 /// Defines the query to run against an object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Query {
   /// List of selectors that define the query. An object must satisfy all of the
   /// selectors to match the query.
-  @_s.JsonKey(name: 'selectors')
-  final List<Selector> selectors;
+  final List<Selector>? selectors;
 
   Query({
     this.selectors,
   });
-  Map<String, dynamic> toJson() => _$QueryToJson(this);
+
+  factory Query.fromJson(Map<String, dynamic> json) {
+    return Query(
+      selectors: (json['selectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Selector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final selectors = this.selectors;
+    return {
+      if (selectors != null) 'selectors': selectors,
+    };
+  }
 }
 
 /// Contains the output of QueryObjects.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryObjectsOutput {
   /// Indicates whether there are more results that can be obtained by a
   /// subsequent call.
-  @_s.JsonKey(name: 'hasMoreResults')
-  final bool hasMoreResults;
+  final bool? hasMoreResults;
 
   /// The identifiers that match the query selectors.
-  @_s.JsonKey(name: 'ids')
-  final List<String> ids;
+  final List<String>? ids;
 
   /// The starting point for the next page of results. To view the next page of
   /// results, call <code>QueryObjects</code> again with this marker value. If the
   /// value is null, there are no more results.
-  @_s.JsonKey(name: 'marker')
-  final String marker;
+  final String? marker;
 
   QueryObjectsOutput({
     this.hasMoreResults,
     this.ids,
     this.marker,
   });
-  factory QueryObjectsOutput.fromJson(Map<String, dynamic> json) =>
-      _$QueryObjectsOutputFromJson(json);
+
+  factory QueryObjectsOutput.fromJson(Map<String, dynamic> json) {
+    return QueryObjectsOutput(
+      hasMoreResults: json['hasMoreResults'] as bool?,
+      ids: (json['ids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      marker: json['marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hasMoreResults = this.hasMoreResults;
+    final ids = this.ids;
+    final marker = this.marker;
+    return {
+      if (hasMoreResults != null) 'hasMoreResults': hasMoreResults,
+      if (ids != null) 'ids': ids,
+      if (marker != null) 'marker': marker,
+    };
+  }
 }
 
 /// Contains the output of RemoveTags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsOutput {
   RemoveTagsOutput();
-  factory RemoveTagsOutput.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsOutputFromJson(json);
+
+  factory RemoveTagsOutput.fromJson(Map<String, dynamic> _) {
+    return RemoveTagsOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains the output of ReportTaskProgress.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReportTaskProgressOutput {
   /// If true, the calling task runner should cancel processing of the task. The
   /// task runner does not need to call <a>SetTaskStatus</a> for canceled tasks.
-  @_s.JsonKey(name: 'canceled')
   final bool canceled;
 
   ReportTaskProgressOutput({
-    @_s.required this.canceled,
+    required this.canceled,
   });
-  factory ReportTaskProgressOutput.fromJson(Map<String, dynamic> json) =>
-      _$ReportTaskProgressOutputFromJson(json);
+
+  factory ReportTaskProgressOutput.fromJson(Map<String, dynamic> json) {
+    return ReportTaskProgressOutput(
+      canceled: json['canceled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final canceled = this.canceled;
+    return {
+      'canceled': canceled,
+    };
+  }
 }
 
 /// Contains the output of ReportTaskRunnerHeartbeat.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReportTaskRunnerHeartbeatOutput {
   /// Indicates whether the calling task runner should terminate.
-  @_s.JsonKey(name: 'terminate')
   final bool terminate;
 
   ReportTaskRunnerHeartbeatOutput({
-    @_s.required this.terminate,
+    required this.terminate,
   });
-  factory ReportTaskRunnerHeartbeatOutput.fromJson(Map<String, dynamic> json) =>
-      _$ReportTaskRunnerHeartbeatOutputFromJson(json);
+
+  factory ReportTaskRunnerHeartbeatOutput.fromJson(Map<String, dynamic> json) {
+    return ReportTaskRunnerHeartbeatOutput(
+      terminate: json['terminate'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final terminate = this.terminate;
+    return {
+      'terminate': terminate,
+    };
+  }
 }
 
 /// A comparision that is used to determine whether a query should return this
 /// object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Selector {
   /// The name of the field that the operator will be applied to. The field name
   /// is the "key" portion of the field definition in the pipeline definition
   /// syntax that is used by the AWS Data Pipeline API. If the field is not set on
   /// the object, the condition fails.
-  @_s.JsonKey(name: 'fieldName')
-  final String fieldName;
-  @_s.JsonKey(name: 'operator')
-  final Operator operator;
+  final String? fieldName;
+  final Operator? operator;
 
   Selector({
     this.fieldName,
     this.operator,
   });
-  Map<String, dynamic> toJson() => _$SelectorToJson(this);
+
+  factory Selector.fromJson(Map<String, dynamic> json) {
+    return Selector(
+      fieldName: json['fieldName'] as String?,
+      operator: json['operator'] != null
+          ? Operator.fromJson(json['operator'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldName = this.fieldName;
+    final operator = this.operator;
+    return {
+      if (fieldName != null) 'fieldName': fieldName,
+      if (operator != null) 'operator': operator,
+    };
+  }
 }
 
 /// Contains the output of SetTaskStatus.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SetTaskStatusOutput {
   SetTaskStatusOutput();
-  factory SetTaskStatusOutput.fromJson(Map<String, dynamic> json) =>
-      _$SetTaskStatusOutputFromJson(json);
+
+  factory SetTaskStatusOutput.fromJson(Map<String, dynamic> _) {
+    return SetTaskStatusOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Tags are key/value pairs defined by a user and associated with a pipeline to
@@ -2172,17 +2137,11 @@ class SetTaskStatusOutput {
 /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
 /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
 /// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key name of a tag defined by a user. For more information, see <a
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
   /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The optional value portion of a tag defined by a user. For more information,
@@ -2190,62 +2149,47 @@ class Tag {
   /// href="http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html">Controlling
   /// User Access to Pipelines</a> in the <i>AWS Data Pipeline Developer
   /// Guide</i>.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
-}
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
 
-/// The specified task was not found.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class TaskNotFoundException implements _s.AwsException {
-  /// Description of the error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  TaskNotFoundException({
-    this.message,
-  });
-  factory TaskNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$TaskNotFoundExceptionFromJson(json);
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
 /// Contains information about a pipeline task that is assigned to a task
 /// runner.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TaskObject {
   /// The ID of the pipeline task attempt object. AWS Data Pipeline uses this
   /// value to track how many times a task is attempted.
-  @_s.JsonKey(name: 'attemptId')
-  final String attemptId;
+  final String? attemptId;
 
   /// Connection information for the location where the task runner will publish
   /// the output of the task.
-  @_s.JsonKey(name: 'objects')
-  final Map<String, PipelineObject> objects;
+  final Map<String, PipelineObject>? objects;
 
   /// The ID of the pipeline that provided the task.
-  @_s.JsonKey(name: 'pipelineId')
-  final String pipelineId;
+  final String? pipelineId;
 
   /// An internal identifier for the task. This ID is passed to the
   /// <a>SetTaskStatus</a> and <a>ReportTaskProgress</a> actions.
-  @_s.JsonKey(name: 'taskId')
-  final String taskId;
+  final String? taskId;
 
   TaskObject({
     this.attemptId,
@@ -2253,16 +2197,34 @@ class TaskObject {
     this.pipelineId,
     this.taskId,
   });
-  factory TaskObject.fromJson(Map<String, dynamic> json) =>
-      _$TaskObjectFromJson(json);
+
+  factory TaskObject.fromJson(Map<String, dynamic> json) {
+    return TaskObject(
+      attemptId: json['attemptId'] as String?,
+      objects: (json['objects'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, PipelineObject.fromJson(e as Map<String, dynamic>))),
+      pipelineId: json['pipelineId'] as String?,
+      taskId: json['taskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attemptId = this.attemptId;
+    final objects = this.objects;
+    final pipelineId = this.pipelineId;
+    final taskId = this.taskId;
+    return {
+      if (attemptId != null) 'attemptId': attemptId,
+      if (objects != null) 'objects': objects,
+      if (pipelineId != null) 'pipelineId': pipelineId,
+      if (taskId != null) 'taskId': taskId,
+    };
+  }
 }
 
 enum TaskStatus {
-  @_s.JsonValue('FINISHED')
   finished,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('FALSE')
   $false,
 }
 
@@ -2276,98 +2238,170 @@ extension on TaskStatus {
       case TaskStatus.$false:
         return 'FALSE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TaskStatus toTaskStatus() {
+    switch (this) {
+      case 'FINISHED':
+        return TaskStatus.finished;
+      case 'FAILED':
+        return TaskStatus.failed;
+      case 'FALSE':
+        return TaskStatus.$false;
+    }
+    throw Exception('$this is not known in enum TaskStatus');
   }
 }
 
 /// Contains the output of ValidatePipelineDefinition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidatePipelineDefinitionOutput {
   /// Indicates whether there were validation errors.
-  @_s.JsonKey(name: 'errored')
   final bool errored;
 
   /// Any validation errors that were found.
-  @_s.JsonKey(name: 'validationErrors')
-  final List<ValidationError> validationErrors;
+  final List<ValidationError>? validationErrors;
 
   /// Any validation warnings that were found.
-  @_s.JsonKey(name: 'validationWarnings')
-  final List<ValidationWarning> validationWarnings;
+  final List<ValidationWarning>? validationWarnings;
 
   ValidatePipelineDefinitionOutput({
-    @_s.required this.errored,
+    required this.errored,
     this.validationErrors,
     this.validationWarnings,
   });
-  factory ValidatePipelineDefinitionOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ValidatePipelineDefinitionOutputFromJson(json);
+
+  factory ValidatePipelineDefinitionOutput.fromJson(Map<String, dynamic> json) {
+    return ValidatePipelineDefinitionOutput(
+      errored: json['errored'] as bool,
+      validationErrors: (json['validationErrors'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validationWarnings: (json['validationWarnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => ValidationWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errored = this.errored;
+    final validationErrors = this.validationErrors;
+    final validationWarnings = this.validationWarnings;
+    return {
+      'errored': errored,
+      if (validationErrors != null) 'validationErrors': validationErrors,
+      if (validationWarnings != null) 'validationWarnings': validationWarnings,
+    };
+  }
 }
 
 /// Defines a validation error. Validation errors prevent pipeline activation.
 /// The set of validation errors that can be returned are defined by AWS Data
 /// Pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidationError {
   /// A description of the validation error.
-  @_s.JsonKey(name: 'errors')
-  final List<String> errors;
+  final List<String>? errors;
 
   /// The identifier of the object that contains the validation error.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   ValidationError({
     this.errors,
     this.id,
   });
-  factory ValidationError.fromJson(Map<String, dynamic> json) =>
-      _$ValidationErrorFromJson(json);
+
+  factory ValidationError.fromJson(Map<String, dynamic> json) {
+    return ValidationError(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final id = this.id;
+    return {
+      if (errors != null) 'errors': errors,
+      if (id != null) 'id': id,
+    };
+  }
 }
 
 /// Defines a validation warning. Validation warnings do not prevent pipeline
 /// activation. The set of validation warnings that can be returned are defined
 /// by AWS Data Pipeline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ValidationWarning {
   /// The identifier of the object that contains the validation warning.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// A description of the validation warning.
-  @_s.JsonKey(name: 'warnings')
-  final List<String> warnings;
+  final List<String>? warnings;
 
   ValidationWarning({
     this.id,
     this.warnings,
   });
-  factory ValidationWarning.fromJson(Map<String, dynamic> json) =>
-      _$ValidationWarningFromJson(json);
+
+  factory ValidationWarning.fromJson(Map<String, dynamic> json) {
+    return ValidationWarning(
+      id: json['id'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final warnings = this.warnings;
+    return {
+      if (id != null) 'id': id,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
+}
+
+class InternalServiceError extends _s.GenericAwsException {
+  InternalServiceError({String? type, String? message})
+      : super(type: type, code: 'InternalServiceError', message: message);
+}
+
+class InvalidRequestException extends _s.GenericAwsException {
+  InvalidRequestException({String? type, String? message})
+      : super(type: type, code: 'InvalidRequestException', message: message);
+}
+
+class PipelineDeletedException extends _s.GenericAwsException {
+  PipelineDeletedException({String? type, String? message})
+      : super(type: type, code: 'PipelineDeletedException', message: message);
+}
+
+class PipelineNotFoundException extends _s.GenericAwsException {
+  PipelineNotFoundException({String? type, String? message})
+      : super(type: type, code: 'PipelineNotFoundException', message: message);
+}
+
+class TaskNotFoundException extends _s.GenericAwsException {
+  TaskNotFoundException({String? type, String? message})
+      : super(type: type, code: 'TaskNotFoundException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InternalServiceError': (type, message) =>
-      InternalServiceError(message: message),
+      InternalServiceError(type: type, message: message),
   'InvalidRequestException': (type, message) =>
-      InvalidRequestException(message: message),
+      InvalidRequestException(type: type, message: message),
   'PipelineDeletedException': (type, message) =>
-      PipelineDeletedException(message: message),
+      PipelineDeletedException(type: type, message: message),
   'PipelineNotFoundException': (type, message) =>
-      PipelineNotFoundException(message: message),
+      PipelineNotFoundException(type: type, message: message),
   'TaskNotFoundException': (type, message) =>
-      TaskNotFoundException(message: message),
+      TaskNotFoundException(type: type, message: message),
 };

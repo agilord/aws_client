@@ -30,7 +30,7 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.map['qux'], "bar");
+    expect(output.map?['qux'], "bar");
 /*
 {
   "Map": {

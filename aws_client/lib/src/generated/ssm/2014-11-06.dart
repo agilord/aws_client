@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2014-11-06.g.dart';
 
 /// AWS Systems Manager is a collection of capabilities that helps you automate
 /// management tasks such as collecting system inventory, applying operating
@@ -38,10 +31,10 @@ part '2014-11-06.g.dart';
 class Ssm {
   final _s.JsonProtocol _protocol;
   Ssm({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -92,6 +85,16 @@ class Ssm {
   ///
   /// PatchBaseline: pb-012345abcde
   ///
+  /// OpsMetadata object: <code>ResourceID</code> for tagging is created from
+  /// the Amazon Resource Name (ARN) for the object. Specifically,
+  /// <code>ResourceID</code> is created from the strings that come after the
+  /// word <code>opsmetadata</code> in the ARN. For example, an OpsMetadata
+  /// object with an ARN of
+  /// <code>arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager</code>
+  /// has a <code>ResourceID</code> of either
+  /// <code>aws/ssm/MyGroup/appmanager</code> or
+  /// <code>/aws/ssm/MyGroup/appmanager</code>.
+  ///
   /// For the Document and Parameter values, use the name of the resource.
   /// <note>
   /// The ManagedInstance type for this API action is only for on-premises
@@ -108,16 +111,14 @@ class Ssm {
   /// </note>
   ///
   /// Parameter [tags] :
-  /// One or more tags. The value parameter is required, but if you don't want
-  /// the tag to have a value, specify the parameter with no value, and we set
-  /// the value to an empty string.
+  /// One or more tags. The value parameter is required.
   /// <important>
   /// Do not enter personally identifiable information in this field.
   /// </important>
   Future<void> addTagsToResource({
-    @_s.required String resourceId,
-    @_s.required ResourceTypeForTagging resourceType,
-    @_s.required List<Tag> tags,
+    required String resourceId,
+    required ResourceTypeForTagging resourceType,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(resourceType, 'resourceType');
@@ -126,7 +127,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.AddTagsToResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -134,12 +135,72 @@ class Ssm {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
         'Tags': tags,
       },
     );
+  }
 
-    return AddTagsToResourceResult.fromJson(jsonResponse.body);
+  /// Associates a related resource to a Systems Manager OpsCenter OpsItem. For
+  /// example, you can associate an Incident Manager incident or analysis with
+  /// an OpsItem. Incident Manager is a capability of AWS Systems Manager.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [OpsItemNotFoundException].
+  /// May throw [OpsItemLimitExceededException].
+  /// May throw [OpsItemInvalidParameterException].
+  /// May throw [OpsItemRelatedItemAlreadyExistsException].
+  ///
+  /// Parameter [associationType] :
+  /// The type of association that you want to create between an OpsItem and a
+  /// resource. OpsCenter supports <code>IsParentOf</code> and
+  /// <code>RelatesTo</code> association types.
+  ///
+  /// Parameter [opsItemId] :
+  /// The ID of the OpsItem to which you want to associate a resource as a
+  /// related item.
+  ///
+  /// Parameter [resourceType] :
+  /// The type of resource that you want to associate with an OpsItem. OpsCenter
+  /// supports the following types:
+  ///
+  /// <code>AWS::SSMIncidents::IncidentRecord</code>: an Incident Manager
+  /// incident. Incident Manager is a capability of AWS Systems Manager.
+  ///
+  /// <code>AWS::SSM::Document</code>: a Systems Manager (SSM) document.
+  ///
+  /// Parameter [resourceUri] :
+  /// The Amazon Resource Name (ARN) of the AWS resource that you want to
+  /// associate with the OpsItem.
+  Future<AssociateOpsItemRelatedItemResponse> associateOpsItemRelatedItem({
+    required String associationType,
+    required String opsItemId,
+    required String resourceType,
+    required String resourceUri,
+  }) async {
+    ArgumentError.checkNotNull(associationType, 'associationType');
+    ArgumentError.checkNotNull(opsItemId, 'opsItemId');
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    ArgumentError.checkNotNull(resourceUri, 'resourceUri');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.AssociateOpsItemRelatedItem'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssociationType': associationType,
+        'OpsItemId': opsItemId,
+        'ResourceType': resourceType,
+        'ResourceUri': resourceUri,
+      },
+    );
+
+    return AssociateOpsItemRelatedItemResponse.fromJson(jsonResponse.body);
   }
 
   /// Attempts to cancel the command specified by the Command ID. There is no
@@ -159,8 +220,8 @@ class Ssm {
   /// If not provided, the command is canceled on every instance on which it was
   /// requested.
   Future<void> cancelCommand({
-    @_s.required String commandId,
-    List<String> instanceIds,
+    required String commandId,
+    List<String>? instanceIds,
   }) async {
     ArgumentError.checkNotNull(commandId, 'commandId');
     _s.validateStringLength(
@@ -174,7 +235,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CancelCommand'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -185,8 +246,6 @@ class Ssm {
         if (instanceIds != null) 'InstanceIds': instanceIds,
       },
     );
-
-    return CancelCommandResult.fromJson(jsonResponse.body);
   }
 
   /// Stops a maintenance window execution that is already in progress and
@@ -200,7 +259,7 @@ class Ssm {
   /// The ID of the maintenance window execution to stop.
   Future<CancelMaintenanceWindowExecutionResult>
       cancelMaintenanceWindowExecution({
-    @_s.required String windowExecutionId,
+    required String windowExecutionId,
   }) async {
     ArgumentError.checkNotNull(windowExecutionId, 'windowExecutionId');
     _s.validateStringLength(
@@ -208,12 +267,6 @@ class Ssm {
       windowExecutionId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowExecutionId',
-      windowExecutionId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -277,8 +330,10 @@ class Ssm {
   /// </important>
   ///
   /// Parameter [expirationDate] :
-  /// The date by which this activation request should expire. The default value
-  /// is 24 hours.
+  /// The date by which this activation request should expire, in timestamp
+  /// format, such as "2021-07-07T00:00:00". You can specify a date up to 30
+  /// days in advance. If you don't provide an expiration date, the activation
+  /// code expires in 24 hours.
   ///
   /// Parameter [registrationLimit] :
   /// Specify the maximum number of managed instances you want to register. The
@@ -314,12 +369,12 @@ class Ssm {
   /// remove tags from your managed instances, see
   /// <a>RemoveTagsFromResource</a>.
   Future<CreateActivationResult> createActivation({
-    @_s.required String iamRole,
-    String defaultInstanceName,
-    String description,
-    DateTime expirationDate,
-    int registrationLimit,
-    List<Tag> tags,
+    required String iamRole,
+    String? defaultInstanceName,
+    String? description,
+    DateTime? expirationDate,
+    int? registrationLimit,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(iamRole, 'iamRole');
     _s.validateStringLength(
@@ -334,11 +389,6 @@ class Ssm {
       defaultInstanceName,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'defaultInstanceName',
-      defaultInstanceName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
     );
     _s.validateStringLength(
       'description',
@@ -424,7 +474,7 @@ class Ssm {
   /// <code>AWS-ApplyPatchBaseline</code> or <code>My-Document</code>.
   ///
   /// Parameter [applyOnlyAtCronInterval] :
-  /// By default, when you create a new associations, the system runs it
+  /// By default, when you create a new association, the system runs it
   /// immediately after it is created and then according to the schedule you
   /// specified. Specify this option if you don't want an association to run
   /// immediately after you create it. This parameter is not supported for rate
@@ -437,6 +487,14 @@ class Ssm {
   /// Specify the target for the association. This target is required for
   /// associations that use an Automation document and target resources by using
   /// rate controls.
+  ///
+  /// Parameter [calendarNames] :
+  /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change
+  /// Calendar type documents you want to gate your associations under. The
+  /// associations only run when that Change Calendar is open. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar">AWS
+  /// Systems Manager Change Calendar</a>.
   ///
   /// Parameter [complianceSeverity] :
   /// The severity level to assign to the association.
@@ -526,71 +584,41 @@ class Ssm {
   /// targets and rate controls with State Manager associations</a> in the
   /// <i>AWS Systems Manager User Guide</i>.
   Future<CreateAssociationResult> createAssociation({
-    @_s.required String name,
-    bool applyOnlyAtCronInterval,
-    String associationName,
-    String automationTargetParameterName,
-    AssociationComplianceSeverity complianceSeverity,
-    String documentVersion,
-    String instanceId,
-    String maxConcurrency,
-    String maxErrors,
-    InstanceAssociationOutputLocation outputLocation,
-    Map<String, List<String>> parameters,
-    String scheduleExpression,
-    AssociationSyncCompliance syncCompliance,
-    List<TargetLocation> targetLocations,
-    List<Target> targets,
+    required String name,
+    bool? applyOnlyAtCronInterval,
+    String? associationName,
+    String? automationTargetParameterName,
+    List<String>? calendarNames,
+    AssociationComplianceSeverity? complianceSeverity,
+    String? documentVersion,
+    String? instanceId,
+    String? maxConcurrency,
+    String? maxErrors,
+    InstanceAssociationOutputLocation? outputLocation,
+    Map<String, List<String>>? parameters,
+    String? scheduleExpression,
+    AssociationSyncCompliance? syncCompliance,
+    List<TargetLocation>? targetLocations,
+    List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'associationName',
-      associationName,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
     _s.validateStringLength(
       'automationTargetParameterName',
       automationTargetParameterName,
       1,
       50,
     );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
     _s.validateStringLength(
       'maxConcurrency',
       maxConcurrency,
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'maxErrors',
       maxErrors,
       1,
       7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
     );
     _s.validateStringLength(
       'scheduleExpression',
@@ -615,6 +643,7 @@ class Ssm {
         if (associationName != null) 'AssociationName': associationName,
         if (automationTargetParameterName != null)
           'AutomationTargetParameterName': automationTargetParameterName,
+        if (calendarNames != null) 'CalendarNames': calendarNames,
         if (complianceSeverity != null)
           'ComplianceSeverity': complianceSeverity.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
@@ -660,7 +689,7 @@ class Ssm {
   /// Parameter [entries] :
   /// One or more associations.
   Future<CreateAssociationBatchResult> createAssociationBatch({
-    @_s.required List<CreateAssociationBatchRequestEntry> entries,
+    required List<CreateAssociationBatchRequestEntry> entries,
   }) async {
     ArgumentError.checkNotNull(entries, 'entries');
     final headers = <String, String>{
@@ -744,6 +773,12 @@ class Ssm {
   /// A list of key and value pairs that describe attachments to a version of a
   /// document.
   ///
+  /// Parameter [displayName] :
+  /// An optional field where you can specify a friendly name for the Systems
+  /// Manager document. This value can differ for each version of the document.
+  /// You can update this value at a later time using the <a>UpdateDocument</a>
+  /// action.
+  ///
   /// Parameter [documentFormat] :
   /// Specify the document format for the request. The document format can be
   /// JSON, YAML, or TEXT. JSON is the default format.
@@ -788,7 +823,7 @@ class Ssm {
   /// document can run on all types of resources. If you don't specify a value,
   /// the document can't run on any resources. For a list of valid resource
   /// types, see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
   /// resource and property types reference</a> in the <i>AWS CloudFormation
   /// User Guide</i>.
   ///
@@ -797,15 +832,16 @@ class Ssm {
   /// with the document. For example, "Release 12, Update 6". This value is
   /// unique across all versions of a document, and cannot be changed.
   Future<CreateDocumentResult> createDocument({
-    @_s.required String content,
-    @_s.required String name,
-    List<AttachmentsSource> attachments,
-    DocumentFormat documentFormat,
-    DocumentType documentType,
-    List<DocumentRequires> requires,
-    List<Tag> tags,
-    String targetType,
-    String versionName,
+    required String content,
+    required String name,
+    List<AttachmentsSource>? attachments,
+    String? displayName,
+    DocumentFormat? documentFormat,
+    DocumentType? documentType,
+    List<DocumentRequires>? requires,
+    List<Tag>? tags,
+    String? targetType,
+    String? versionName,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     _s.validateStringLength(
@@ -816,27 +852,17 @@ class Ssm {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      1024,
     );
     _s.validateStringLength(
       'targetType',
       targetType,
       0,
       200,
-    );
-    _s.validateStringPattern(
-      'targetType',
-      targetType,
-      r'''^\/[\w\.\-\:\/]*$''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -852,6 +878,7 @@ class Ssm {
         'Content': content,
         'Name': name,
         if (attachments != null) 'Attachments': attachments,
+        if (displayName != null) 'DisplayName': displayName,
         if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
         if (documentType != null) 'DocumentType': documentType.toValue(),
         if (requires != null) 'Requires': requires,
@@ -962,18 +989,18 @@ class Ssm {
   /// <a>AddTagsToResource</a> action.
   /// </note>
   Future<CreateMaintenanceWindowResult> createMaintenanceWindow({
-    @_s.required bool allowUnassociatedTargets,
-    @_s.required int cutoff,
-    @_s.required int duration,
-    @_s.required String name,
-    @_s.required String schedule,
-    String clientToken,
-    String description,
-    String endDate,
-    int scheduleOffset,
-    String scheduleTimezone,
-    String startDate,
-    List<Tag> tags,
+    required bool allowUnassociatedTargets,
+    required int cutoff,
+    required int duration,
+    required String name,
+    required String schedule,
+    String? clientToken,
+    String? description,
+    String? endDate,
+    int? scheduleOffset,
+    String? scheduleTimezone,
+    String? startDate,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         allowUnassociatedTargets, 'allowUnassociatedTargets');
@@ -999,12 +1026,6 @@ class Ssm {
       name,
       3,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(schedule, 'schedule');
@@ -1174,34 +1195,28 @@ class Ssm {
   /// action.
   /// </note>
   Future<CreateOpsItemResponse> createOpsItem({
-    @_s.required String description,
-    @_s.required String source,
-    @_s.required String title,
-    DateTime actualEndTime,
-    DateTime actualStartTime,
-    String category,
-    List<OpsItemNotification> notifications,
-    Map<String, OpsItemDataValue> operationalData,
-    String opsItemType,
-    DateTime plannedEndTime,
-    DateTime plannedStartTime,
-    int priority,
-    List<RelatedOpsItem> relatedOpsItems,
-    String severity,
-    List<Tag> tags,
+    required String description,
+    required String source,
+    required String title,
+    DateTime? actualEndTime,
+    DateTime? actualStartTime,
+    String? category,
+    List<OpsItemNotification>? notifications,
+    Map<String, OpsItemDataValue>? operationalData,
+    String? opsItemType,
+    DateTime? plannedEndTime,
+    DateTime? plannedStartTime,
+    int? priority,
+    List<RelatedOpsItem>? relatedOpsItems,
+    String? severity,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
       'description',
       description,
       1,
-      1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\s\S]*\S[\s\S]*''',
+      2048,
       isRequired: true,
     );
     ArgumentError.checkNotNull(source, 'source');
@@ -1212,12 +1227,6 @@ class Ssm {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'source',
-      source,
-      r'''^(?!\s*$).+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(title, 'title');
     _s.validateStringLength(
       'title',
@@ -1226,22 +1235,11 @@ class Ssm {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'title',
-      title,
-      r'''^(?!\s*$).+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'category',
       category,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'category',
-      category,
-      r'''^(?!\s*$).+''',
     );
     _s.validateNumRange(
       'priority',
@@ -1254,11 +1252,6 @@ class Ssm {
       severity,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'severity',
-      severity,
-      r'''^(?!\s*$).+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1311,9 +1304,27 @@ class Ssm {
   ///
   /// Parameter [metadata] :
   /// Metadata for a new Application Manager application.
+  ///
+  /// Parameter [tags] :
+  /// Optional metadata that you assign to a resource. You can specify a maximum
+  /// of five tags for an OpsMetadata object. Tags enable you to categorize a
+  /// resource in different ways, such as by purpose, owner, or environment. For
+  /// example, you might want to tag an OpsMetadata object to identify an
+  /// environment or target AWS Region. In this case, you could specify the
+  /// following key-value pairs:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>Key=Environment,Value=Production</code>
+  /// </li>
+  /// <li>
+  /// <code>Key=Region,Value=us-east-2</code>
+  /// </li>
+  /// </ul>
   Future<CreateOpsMetadataResult> createOpsMetadata({
-    @_s.required String resourceId,
-    Map<String, MetadataValue> metadata,
+    required String resourceId,
+    Map<String, MetadataValue>? metadata,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1321,12 +1332,6 @@ class Ssm {
       resourceId,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^(?!\s*$).+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1342,6 +1347,7 @@ class Ssm {
       payload: {
         'ResourceId': resourceId,
         if (metadata != null) 'Metadata': metadata,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -1375,8 +1381,8 @@ class Ssm {
   /// <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [approvedPatchesComplianceLevel] :
-  /// Defines the compliance level for approved patches. This means that if an
-  /// approved patch is reported as missing, this is the severity of the
+  /// Defines the compliance level for approved patches. When an approved patch
+  /// is reported as missing, this value describes the severity of the
   /// compliance violation. The default value is UNSPECIFIED.
   ///
   /// Parameter [approvedPatchesEnableNonSecurity] :
@@ -1452,19 +1458,19 @@ class Ssm {
   /// <a>AddTagsToResource</a> action.
   /// </note>
   Future<CreatePatchBaselineResult> createPatchBaseline({
-    @_s.required String name,
-    PatchRuleGroup approvalRules,
-    List<String> approvedPatches,
-    PatchComplianceLevel approvedPatchesComplianceLevel,
-    bool approvedPatchesEnableNonSecurity,
-    String clientToken,
-    String description,
-    PatchFilterGroup globalFilters,
-    OperatingSystem operatingSystem,
-    List<String> rejectedPatches,
-    PatchAction rejectedPatchesAction,
-    List<PatchSource> sources,
-    List<Tag> tags,
+    required String name,
+    PatchRuleGroup? approvalRules,
+    List<String>? approvedPatches,
+    PatchComplianceLevel? approvedPatchesComplianceLevel,
+    bool? approvedPatchesEnableNonSecurity,
+    String? clientToken,
+    String? description,
+    PatchFilterGroup? globalFilters,
+    OperatingSystem? operatingSystem,
+    List<String>? rejectedPatches,
+    PatchAction? rejectedPatchesAction,
+    List<PatchSource>? sources,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1472,12 +1478,6 @@ class Ssm {
       name,
       3,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1586,10 +1586,10 @@ class Ssm {
   /// <code>SyncSource</code>. The default value is
   /// <code>SyncToDestination</code>.
   Future<void> createResourceDataSync({
-    @_s.required String syncName,
-    ResourceDataSyncS3Destination s3Destination,
-    ResourceDataSyncSource syncSource,
-    String syncType,
+    required String syncName,
+    ResourceDataSyncS3Destination? s3Destination,
+    ResourceDataSyncSource? syncSource,
+    String? syncType,
   }) async {
     ArgumentError.checkNotNull(syncName, 'syncName');
     _s.validateStringLength(
@@ -1609,7 +1609,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.CreateResourceDataSync'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1622,8 +1622,6 @@ class Ssm {
         if (syncType != null) 'SyncType': syncType,
       },
     );
-
-    return CreateResourceDataSyncResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an activation. You are not required to delete an activation. If
@@ -1639,20 +1637,14 @@ class Ssm {
   /// Parameter [activationId] :
   /// The ID of the activation that you want to delete.
   Future<void> deleteActivation({
-    @_s.required String activationId,
+    required String activationId,
   }) async {
     ArgumentError.checkNotNull(activationId, 'activationId');
-    _s.validateStringPattern(
-      'activationId',
-      activationId,
-      r'''^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteActivation'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1662,8 +1654,6 @@ class Ssm {
         'ActivationId': activationId,
       },
     );
-
-    return DeleteActivationResult.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified Systems Manager document from the specified
@@ -1689,30 +1679,15 @@ class Ssm {
   /// Parameter [name] :
   /// The name of the Systems Manager document.
   Future<void> deleteAssociation({
-    String associationId,
-    String instanceId,
-    String name,
+    String? associationId,
+    String? instanceId,
+    String? name,
   }) async {
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteAssociation'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1724,8 +1699,6 @@ class Ssm {
         if (name != null) 'Name': name,
       },
     );
-
-    return DeleteAssociationResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the Systems Manager document and all instance associations to the
@@ -1759,33 +1732,17 @@ class Ssm {
   /// The version name of the document that you want to delete. If not provided,
   /// all versions of the document are deleted.
   Future<void> deleteDocument({
-    @_s.required String name,
-    String documentVersion,
-    bool force,
-    String versionName,
+    required String name,
+    String? documentVersion,
+    bool? force,
+    String? versionName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteDocument'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1798,8 +1755,6 @@ class Ssm {
         if (versionName != null) 'VersionName': versionName,
       },
     );
-
-    return DeleteDocumentResult.fromJson(jsonResponse.body);
   }
 
   /// Delete a custom inventory type or the data associated with a custom
@@ -1840,10 +1795,10 @@ class Ssm {
   /// DeleteSchema: This option deletes the specified custom type from the
   /// Inventory service. You can recreate the schema later, if you want.
   Future<DeleteInventoryResult> deleteInventory({
-    @_s.required String typeName,
-    String clientToken,
-    bool dryRun,
-    InventorySchemaDeleteOption schemaDeleteOption,
+    required String typeName,
+    String? clientToken,
+    bool? dryRun,
+    InventorySchemaDeleteOption? schemaDeleteOption,
   }) async {
     ArgumentError.checkNotNull(typeName, 'typeName');
     _s.validateStringLength(
@@ -1852,17 +1807,6 @@ class Ssm {
       1,
       100,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''^(AWS|Custom):.*$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1893,7 +1837,7 @@ class Ssm {
   /// Parameter [windowId] :
   /// The ID of the maintenance window to delete.
   Future<DeleteMaintenanceWindowResult> deleteMaintenanceWindow({
-    @_s.required String windowId,
+    required String windowId,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -1901,12 +1845,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1936,7 +1874,7 @@ class Ssm {
   /// Parameter [opsMetadataArn] :
   /// The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
   Future<void> deleteOpsMetadata({
-    @_s.required String opsMetadataArn,
+    required String opsMetadataArn,
   }) async {
     ArgumentError.checkNotNull(opsMetadataArn, 'opsMetadataArn');
     _s.validateStringLength(
@@ -1946,17 +1884,11 @@ class Ssm {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'opsMetadataArn',
-      opsMetadataArn,
-      r'''arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteOpsMetadata'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1966,8 +1898,6 @@ class Ssm {
         'OpsMetadataArn': opsMetadataArn,
       },
     );
-
-    return DeleteOpsMetadataResult.fromJson(jsonResponse.body);
   }
 
   /// Delete a parameter from the system.
@@ -1978,7 +1908,7 @@ class Ssm {
   /// Parameter [name] :
   /// The name of the parameter to delete.
   Future<void> deleteParameter({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1992,7 +1922,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteParameter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2002,8 +1932,6 @@ class Ssm {
         'Name': name,
       },
     );
-
-    return DeleteParameterResult.fromJson(jsonResponse.body);
   }
 
   /// Delete a list of parameters.
@@ -2013,7 +1941,7 @@ class Ssm {
   /// Parameter [names] :
   /// The names of the parameters to delete.
   Future<DeleteParametersResult> deleteParameters({
-    @_s.required List<String> names,
+    required List<String> names,
   }) async {
     ArgumentError.checkNotNull(names, 'names');
     final headers = <String, String>{
@@ -2042,7 +1970,7 @@ class Ssm {
   /// Parameter [baselineId] :
   /// The ID of the patch baseline to delete.
   Future<DeletePatchBaselineResult> deletePatchBaseline({
-    @_s.required String baselineId,
+    required String baselineId,
   }) async {
     ArgumentError.checkNotNull(baselineId, 'baselineId');
     _s.validateStringLength(
@@ -2050,12 +1978,6 @@ class Ssm {
       baselineId,
       20,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'baselineId',
-      baselineId,
-      r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2090,8 +2012,8 @@ class Ssm {
   /// Parameter [syncType] :
   /// Specify the type of resource data sync to delete.
   Future<void> deleteResourceDataSync({
-    @_s.required String syncName,
-    String syncType,
+    required String syncName,
+    String? syncType,
   }) async {
     ArgumentError.checkNotNull(syncName, 'syncName');
     _s.validateStringLength(
@@ -2111,7 +2033,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeleteResourceDataSync'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2122,8 +2044,6 @@ class Ssm {
         if (syncType != null) 'SyncType': syncType,
       },
     );
-
-    return DeleteResourceDataSyncResult.fromJson(jsonResponse.body);
   }
 
   /// Removes the server or virtual machine from the list of registered servers.
@@ -2137,20 +2057,14 @@ class Ssm {
   /// The ID assigned to the managed instance when you registered it using the
   /// activation process.
   Future<void> deregisterManagedInstance({
-    @_s.required String instanceId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''^mi-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DeregisterManagedInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2160,8 +2074,6 @@ class Ssm {
         'InstanceId': instanceId,
       },
     );
-
-    return DeregisterManagedInstanceResult.fromJson(jsonResponse.body);
   }
 
   /// Removes a patch group from a patch baseline.
@@ -2177,8 +2089,8 @@ class Ssm {
   /// baseline.
   Future<DeregisterPatchBaselineForPatchGroupResult>
       deregisterPatchBaselineForPatchGroup({
-    @_s.required String baselineId,
-    @_s.required String patchGroup,
+    required String baselineId,
+    required String patchGroup,
   }) async {
     ArgumentError.checkNotNull(baselineId, 'baselineId');
     _s.validateStringLength(
@@ -2188,24 +2100,12 @@ class Ssm {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'baselineId',
-      baselineId,
-      r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(patchGroup, 'patchGroup');
     _s.validateStringLength(
       'patchGroup',
       patchGroup,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patchGroup',
-      patchGroup,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2246,9 +2146,9 @@ class Ssm {
   /// deregister the target from the maintenance window.
   Future<DeregisterTargetFromMaintenanceWindowResult>
       deregisterTargetFromMaintenanceWindow({
-    @_s.required String windowId,
-    @_s.required String windowTargetId,
-    bool safe,
+    required String windowId,
+    required String windowTargetId,
+    bool? safe,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -2258,24 +2158,12 @@ class Ssm {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowTargetId, 'windowTargetId');
     _s.validateStringLength(
       'windowTargetId',
       windowTargetId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowTargetId',
-      windowTargetId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2311,8 +2199,8 @@ class Ssm {
   /// The ID of the task to remove from the maintenance window.
   Future<DeregisterTaskFromMaintenanceWindowResult>
       deregisterTaskFromMaintenanceWindow({
-    @_s.required String windowId,
-    @_s.required String windowTaskId,
+    required String windowId,
+    required String windowTaskId,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -2322,24 +2210,12 @@ class Ssm {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowTaskId, 'windowTaskId');
     _s.validateStringLength(
       'windowTaskId',
       windowTaskId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowTaskId',
-      windowTaskId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2382,9 +2258,9 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<DescribeActivationsResult> describeActivations({
-    List<DescribeActivationsFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<DescribeActivationsFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2441,31 +2317,11 @@ class Ssm {
   /// Parameter [name] :
   /// The name of the Systems Manager document.
   Future<DescribeAssociationResult> describeAssociation({
-    String associationId,
-    String associationVersion,
-    String instanceId,
-    String name,
+    String? associationId,
+    String? associationVersion,
+    String? instanceId,
+    String? name,
   }) async {
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-    );
-    _s.validateStringPattern(
-      'associationVersion',
-      associationVersion,
-      r'''([$]LATEST)|([1-9][0-9]*)''',
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeAssociation'
@@ -2521,26 +2377,14 @@ class Ssm {
   /// A token to start the list. Use this token to get the next set of results.
   Future<DescribeAssociationExecutionTargetsResult>
       describeAssociationExecutionTargets({
-    @_s.required String associationId,
-    @_s.required String executionId,
-    List<AssociationExecutionTargetsFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String associationId,
+    required String executionId,
+    List<AssociationExecutionTargetsFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(executionId, 'executionId');
-    _s.validateStringPattern(
-      'executionId',
-      executionId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2596,18 +2440,12 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<DescribeAssociationExecutionsResult> describeAssociationExecutions({
-    @_s.required String associationId,
-    List<AssociationExecutionFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String associationId,
+    List<AssociationExecutionFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2654,9 +2492,9 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeAutomationExecutionsResult> describeAutomationExecutions({
-    List<AutomationExecutionFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<AutomationExecutionFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2711,15 +2549,15 @@ class Ssm {
   /// from a previous call.)
   ///
   /// Parameter [reverseOrder] :
-  /// A boolean that indicates whether to list step executions in reverse order
-  /// by start time. The default value is false.
+  /// Indicates whether to list step executions in reverse order by start time.
+  /// The default value is 'false'.
   Future<DescribeAutomationStepExecutionsResult>
       describeAutomationStepExecutions({
-    @_s.required String automationExecutionId,
-    List<StepExecutionFilter> filters,
-    int maxResults,
-    String nextToken,
-    bool reverseOrder,
+    required String automationExecutionId,
+    List<StepExecutionFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(automationExecutionId, 'automationExecutionId');
     _s.validateStringLength(
@@ -2771,9 +2609,9 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeAvailablePatchesResult> describeAvailablePatches({
-    List<PatchOrchestratorFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<PatchOrchestratorFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2819,27 +2657,11 @@ class Ssm {
   /// the document. For example, "Release 12, Update 6". This value is unique
   /// across all versions of a document, and cannot be changed.
   Future<DescribeDocumentResult> describeDocument({
-    @_s.required String name,
-    String documentVersion,
-    String versionName,
+    required String name,
+    String? documentVersion,
+    String? versionName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeDocument'
@@ -2867,7 +2689,9 @@ class Ssm {
   ///
   /// May throw [InternalServerError].
   /// May throw [InvalidDocument].
+  /// May throw [InvalidNextToken].
   /// May throw [InvalidPermissionType].
+  /// May throw [InvalidDocumentOperation].
   ///
   /// Parameter [name] :
   /// The name of the document for which you are the owner.
@@ -2875,18 +2699,29 @@ class Ssm {
   /// Parameter [permissionType] :
   /// The permission type for the document. The permission type can be
   /// <i>Share</i>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of items to return. (You received this token
+  /// from a previous call.)
   Future<DescribeDocumentPermissionResponse> describeDocumentPermission({
-    @_s.required String name,
-    @_s.required DocumentPermissionType permissionType,
+    required String name,
+    required DocumentPermissionType permissionType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionType, 'permissionType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      200,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.DescribeDocumentPermission'
@@ -2899,7 +2734,9 @@ class Ssm {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType?.toValue() ?? '',
+        'PermissionType': permissionType.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
       },
     );
 
@@ -2925,17 +2762,11 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeEffectiveInstanceAssociationsResult>
       describeEffectiveInstanceAssociations({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2983,9 +2814,9 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeEffectivePatchesForPatchBaselineResult>
       describeEffectivePatchesForPatchBaseline({
-    @_s.required String baselineId,
-    int maxResults,
-    String nextToken,
+    required String baselineId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(baselineId, 'baselineId');
     _s.validateStringLength(
@@ -2993,12 +2824,6 @@ class Ssm {
       baselineId,
       20,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'baselineId',
-      baselineId,
-      r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3047,17 +2872,11 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeInstanceAssociationsStatusResult>
       describeInstanceAssociationsStatus({
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3129,10 +2948,10 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeInstanceInformationResult> describeInstanceInformation({
-    List<InstanceInformationStringFilter> filters,
-    List<InstanceInformationFilter> instanceInformationFilterList,
-    int maxResults,
-    String nextToken,
+    List<InstanceInformationStringFilter>? filters,
+    List<InstanceInformationFilter>? instanceInformationFilterList,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3177,9 +2996,9 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeInstancePatchStatesResult> describeInstancePatchStates({
-    @_s.required List<String> instanceIds,
-    int maxResults,
-    String nextToken,
+    required List<String> instanceIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceIds, 'instanceIds');
     _s.validateNumRange(
@@ -3236,10 +3055,10 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeInstancePatchStatesForPatchGroupResult>
       describeInstancePatchStatesForPatchGroup({
-    @_s.required String patchGroup,
-    List<InstancePatchStateFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String patchGroup,
+    List<InstancePatchStateFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(patchGroup, 'patchGroup');
     _s.validateStringLength(
@@ -3247,12 +3066,6 @@ class Ssm {
       patchGroup,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patchGroup',
-      patchGroup,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3307,18 +3120,12 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeInstancePatchesResult> describeInstancePatches({
-    @_s.required String instanceId,
-    List<PatchOrchestratorFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    List<PatchOrchestratorFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3364,15 +3171,10 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<DescribeInventoryDeletionsResult> describeInventoryDeletions({
-    String deletionId,
-    int maxResults,
-    String nextToken,
+    String? deletionId,
+    int? maxResults,
+    String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'deletionId',
-      deletionId,
-      r'''[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3427,11 +3229,11 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeMaintenanceWindowExecutionTaskInvocationsResult>
       describeMaintenanceWindowExecutionTaskInvocations({
-    @_s.required String taskId,
-    @_s.required String windowExecutionId,
-    List<MaintenanceWindowFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String taskId,
+    required String windowExecutionId,
+    List<MaintenanceWindowFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -3441,24 +3243,12 @@ class Ssm {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowExecutionId, 'windowExecutionId');
     _s.validateStringLength(
       'windowExecutionId',
       windowExecutionId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowExecutionId',
-      windowExecutionId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3515,10 +3305,10 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeMaintenanceWindowExecutionTasksResult>
       describeMaintenanceWindowExecutionTasks({
-    @_s.required String windowExecutionId,
-    List<MaintenanceWindowFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String windowExecutionId,
+    List<MaintenanceWindowFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(windowExecutionId, 'windowExecutionId');
     _s.validateStringLength(
@@ -3526,12 +3316,6 @@ class Ssm {
       windowExecutionId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowExecutionId',
-      windowExecutionId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3591,10 +3375,10 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeMaintenanceWindowExecutionsResult>
       describeMaintenanceWindowExecutions({
-    @_s.required String windowId,
-    List<MaintenanceWindowFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String windowId,
+    List<MaintenanceWindowFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -3602,12 +3386,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3668,12 +3446,12 @@ class Ssm {
   /// The ID of the maintenance window to retrieve information about.
   Future<DescribeMaintenanceWindowScheduleResult>
       describeMaintenanceWindowSchedule({
-    List<PatchOrchestratorFilter> filters,
-    int maxResults,
-    String nextToken,
-    MaintenanceWindowResourceType resourceType,
-    List<Target> targets,
-    String windowId,
+    List<PatchOrchestratorFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    MaintenanceWindowResourceType? resourceType,
+    List<Target>? targets,
+    String? windowId,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3686,11 +3464,6 @@ class Ssm {
       windowId,
       20,
       20,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3738,10 +3511,10 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeMaintenanceWindowTargetsResult>
       describeMaintenanceWindowTargets({
-    @_s.required String windowId,
-    List<MaintenanceWindowFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String windowId,
+    List<MaintenanceWindowFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -3749,12 +3522,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3812,10 +3579,10 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeMaintenanceWindowTasksResult> describeMaintenanceWindowTasks({
-    @_s.required String windowId,
-    List<MaintenanceWindowFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String windowId,
+    List<MaintenanceWindowFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -3823,12 +3590,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3875,9 +3636,9 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeMaintenanceWindowsResult> describeMaintenanceWindows({
-    List<MaintenanceWindowFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<MaintenanceWindowFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3927,10 +3688,10 @@ class Ssm {
   /// from a previous call.)
   Future<DescribeMaintenanceWindowsForTargetResult>
       describeMaintenanceWindowsForTarget({
-    @_s.required MaintenanceWindowResourceType resourceType,
-    @_s.required List<Target> targets,
-    int maxResults,
-    String nextToken,
+    required MaintenanceWindowResourceType resourceType,
+    required List<Target> targets,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(targets, 'targets');
@@ -3951,7 +3712,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
         'Targets': targets,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4059,9 +3820,9 @@ class Ssm {
   /// a key-value pair by using the following JSON format:
   /// {"key":"key_name","value":"a_value"}
   Future<DescribeOpsItemsResponse> describeOpsItems({
-    int maxResults,
-    String nextToken,
-    List<OpsItemFilter> opsItemFilters,
+    int? maxResults,
+    String? nextToken,
+    List<OpsItemFilter>? opsItemFilters,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4122,10 +3883,10 @@ class Ssm {
   /// Parameter [parameterFilters] :
   /// Filters to limit the request results.
   Future<DescribeParametersResult> describeParameters({
-    List<ParametersFilter> filters,
-    int maxResults,
-    String nextToken,
-    List<ParameterStringFilter> parameterFilters,
+    List<ParametersFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<ParameterStringFilter>? parameterFilters,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4172,9 +3933,9 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribePatchBaselinesResult> describePatchBaselines({
-    List<PatchOrchestratorFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<PatchOrchestratorFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4210,7 +3971,7 @@ class Ssm {
   /// Parameter [patchGroup] :
   /// The name of the patch group whose patch snapshot should be retrieved.
   Future<DescribePatchGroupStateResult> describePatchGroupState({
-    @_s.required String patchGroup,
+    required String patchGroup,
   }) async {
     ArgumentError.checkNotNull(patchGroup, 'patchGroup');
     _s.validateStringLength(
@@ -4218,12 +3979,6 @@ class Ssm {
       patchGroup,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patchGroup',
-      patchGroup,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4285,9 +4040,9 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribePatchGroupsResult> describePatchGroups({
-    List<PatchOrchestratorFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<PatchOrchestratorFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4368,11 +4123,11 @@ class Ssm {
   /// Microsoft applications. Not applicable for the Linux or macOS operating
   /// systems.
   Future<DescribePatchPropertiesResult> describePatchProperties({
-    @_s.required OperatingSystem operatingSystem,
-    @_s.required PatchProperty property,
-    int maxResults,
-    String nextToken,
-    PatchSet patchSet,
+    required OperatingSystem operatingSystem,
+    required PatchProperty property,
+    int? maxResults,
+    String? nextToken,
+    PatchSet? patchSet,
   }) async {
     ArgumentError.checkNotNull(operatingSystem, 'operatingSystem');
     ArgumentError.checkNotNull(property, 'property');
@@ -4393,8 +4148,8 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem?.toValue() ?? '',
-        'Property': property?.toValue() ?? '',
+        'OperatingSystem': operatingSystem.toValue(),
+        'Property': property.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (patchSet != null) 'PatchSet': patchSet.toValue(),
@@ -4427,10 +4182,10 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<DescribeSessionsResponse> describeSessions({
-    @_s.required SessionState state,
-    List<SessionFilter> filters,
-    int maxResults,
-    String nextToken,
+    required SessionState state,
+    List<SessionFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(state, 'state');
     _s.validateNumRange(
@@ -4450,7 +4205,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'State': state?.toValue() ?? '',
+        'State': state.toValue(),
         if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4458,6 +4213,45 @@ class Ssm {
     );
 
     return DescribeSessionsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the association between an OpsItem and a related resource. For
+  /// example, this API action can delete an Incident Manager incident from an
+  /// OpsItem. Incident Manager is a capability of AWS Systems Manager.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [OpsItemRelatedItemAssociationNotFoundException].
+  /// May throw [OpsItemNotFoundException].
+  /// May throw [OpsItemInvalidParameterException].
+  ///
+  /// Parameter [associationId] :
+  /// The ID of the association for which you want to delete an association
+  /// between the OpsItem and a related resource.
+  ///
+  /// Parameter [opsItemId] :
+  /// The ID of the OpsItem for which you want to delete an association between
+  /// the OpsItem and a related resource.
+  Future<void> disassociateOpsItemRelatedItem({
+    required String associationId,
+    required String opsItemId,
+  }) async {
+    ArgumentError.checkNotNull(associationId, 'associationId');
+    ArgumentError.checkNotNull(opsItemId, 'opsItemId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.DisassociateOpsItemRelatedItem'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AssociationId': associationId,
+        'OpsItemId': opsItemId,
+      },
+    );
   }
 
   /// Get detailed information about a particular Automation execution.
@@ -4470,7 +4264,7 @@ class Ssm {
   /// execution ID is returned by StartAutomationExecution when the execution of
   /// an Automation document is initiated.
   Future<GetAutomationExecutionResult> getAutomationExecution({
-    @_s.required String automationExecutionId,
+    required String automationExecutionId,
   }) async {
     ArgumentError.checkNotNull(automationExecutionId, 'automationExecutionId');
     _s.validateStringLength(
@@ -4531,8 +4325,8 @@ class Ssm {
   /// 8601</a> format. If you do not add <code>AtTime</code>, the current time
   /// is assumed.
   Future<GetCalendarStateResponse> getCalendarState({
-    @_s.required List<String> calendarNames,
-    String atTime,
+    required List<String> calendarNames,
+    String? atTime,
   }) async {
     ArgumentError.checkNotNull(calendarNames, 'calendarNames');
     final headers = <String, String>{
@@ -4557,6 +4351,11 @@ class Ssm {
   /// Returns detailed information about command execution for an invocation or
   /// plugin.
   ///
+  /// <code>GetCommandInvocation</code> only gives the execution status of a
+  /// plugin in a document. To get the command execution status on a specific
+  /// instance, use <a>ListCommandInvocations</a>. To get the command execution
+  /// status across instances, use <a>ListCommands</a>.
+  ///
   /// May throw [InternalServerError].
   /// May throw [InvalidCommandId].
   /// May throw [InvalidInstanceId].
@@ -4568,20 +4367,28 @@ class Ssm {
   ///
   /// Parameter [instanceId] :
   /// (Required) The ID of the managed instance targeted by the command. A
-  /// managed instance can be an EC2 instance or an instance in your hybrid
-  /// environment that is configured for Systems Manager.
+  /// managed instance can be an Amazon Elastic Compute Cloud (Amazon EC2)
+  /// instance or an instance in your hybrid environment that is configured for
+  /// AWS Systems Manager.
   ///
   /// Parameter [pluginName] :
-  /// (Optional) The name of the plugin for which you want detailed results. If
-  /// the document contains only one plugin, the name can be omitted and the
-  /// details will be returned.
+  /// The name of the plugin for which you want detailed results. If the
+  /// document contains only one plugin, you can omit the name and details for
+  /// that plugin. If the document contains more than one plugin, you must
+  /// specify the name of the plugin for which you want to view details.
   ///
-  /// Plugin names are also referred to as step names in Systems Manager
-  /// documents.
+  /// Plugin names are also referred to as <i>step names</i> in Systems Manager
+  /// documents. For example, <code>aws:RunShellScript</code> is a plugin.
+  ///
+  /// To find the <code>PluginName</code>, check the document content and find
+  /// the name of the plugin. Alternatively, use <a>ListCommandInvocations</a>
+  /// with the <code>CommandId</code> and <code>Details</code> parameters. The
+  /// <code>PluginName</code> is the <code>Name</code> attribute of the
+  /// <code>CommandPlugin</code> object in the <code>CommandPlugins</code> list.
   Future<GetCommandInvocationResult> getCommandInvocation({
-    @_s.required String commandId,
-    @_s.required String instanceId,
-    String pluginName,
+    required String commandId,
+    required String instanceId,
+    String? pluginName,
   }) async {
     ArgumentError.checkNotNull(commandId, 'commandId');
     _s.validateStringLength(
@@ -4592,12 +4399,6 @@ class Ssm {
       isRequired: true,
     );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'pluginName',
       pluginName,
@@ -4633,7 +4434,7 @@ class Ssm {
   /// Parameter [target] :
   /// The ID of the instance.
   Future<GetConnectionStatusResponse> getConnectionStatus({
-    @_s.required String target,
+    required String target,
   }) async {
     ArgumentError.checkNotNull(target, 'target');
     _s.validateStringLength(
@@ -4673,7 +4474,7 @@ class Ssm {
   /// Parameter [operatingSystem] :
   /// Returns the default patch baseline for the specified operating system.
   Future<GetDefaultPatchBaselineResult> getDefaultPatchBaseline({
-    OperatingSystem operatingSystem,
+    OperatingSystem? operatingSystem,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4708,30 +4509,22 @@ class Ssm {
   ///
   /// Parameter [snapshotId] :
   /// The user-defined snapshot ID.
+  ///
+  /// Parameter [baselineOverride] :
+  /// Defines the basic information about a patch baseline override.
   Future<GetDeployablePatchSnapshotForInstanceResult>
       getDeployablePatchSnapshotForInstance({
-    @_s.required String instanceId,
-    @_s.required String snapshotId,
+    required String instanceId,
+    required String snapshotId,
+    BaselineOverride? baselineOverride,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(snapshotId, 'snapshotId');
     _s.validateStringLength(
       'snapshotId',
       snapshotId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'snapshotId',
-      snapshotId,
-      r'''^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4747,6 +4540,7 @@ class Ssm {
       payload: {
         'InstanceId': instanceId,
         'SnapshotId': snapshotId,
+        if (baselineOverride != null) 'BaselineOverride': baselineOverride,
       },
     );
 
@@ -4775,28 +4569,12 @@ class Ssm {
   /// the document. For example, "Release 12, Update 6". This value is unique
   /// across all versions of a document and can't be changed.
   Future<GetDocumentResult> getDocument({
-    @_s.required String name,
-    DocumentFormat documentFormat,
-    String documentVersion,
-    String versionName,
+    required String name,
+    DocumentFormat? documentFormat,
+    String? documentVersion,
+    String? versionName,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetDocument'
@@ -4851,11 +4629,11 @@ class Ssm {
   /// Parameter [resultAttributes] :
   /// The list of inventory item types to return.
   Future<GetInventoryResult> getInventory({
-    List<InventoryAggregator> aggregators,
-    List<InventoryFilter> filters,
-    int maxResults,
-    String nextToken,
-    List<ResultAttribute> resultAttributes,
+    List<InventoryAggregator>? aggregators,
+    List<InventoryFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<ResultAttribute>? resultAttributes,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4913,11 +4691,11 @@ class Ssm {
   /// Parameter [typeName] :
   /// The type of inventory item to return.
   Future<GetInventorySchemaResult> getInventorySchema({
-    bool aggregator,
-    int maxResults,
-    String nextToken,
-    bool subType,
-    String typeName,
+    bool? aggregator,
+    int? maxResults,
+    String? nextToken,
+    bool? subType,
+    String? typeName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4962,7 +4740,7 @@ class Ssm {
   /// The ID of the maintenance window for which you want to retrieve
   /// information.
   Future<GetMaintenanceWindowResult> getMaintenanceWindow({
-    @_s.required String windowId,
+    required String windowId,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -4970,12 +4748,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5004,7 +4776,7 @@ class Ssm {
   /// Parameter [windowExecutionId] :
   /// The ID of the maintenance window execution that includes the task.
   Future<GetMaintenanceWindowExecutionResult> getMaintenanceWindowExecution({
-    @_s.required String windowExecutionId,
+    required String windowExecutionId,
   }) async {
     ArgumentError.checkNotNull(windowExecutionId, 'windowExecutionId');
     _s.validateStringLength(
@@ -5012,12 +4784,6 @@ class Ssm {
       windowExecutionId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowExecutionId',
-      windowExecutionId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5052,8 +4818,8 @@ class Ssm {
   /// The ID of the maintenance window execution that includes the task.
   Future<GetMaintenanceWindowExecutionTaskResult>
       getMaintenanceWindowExecutionTask({
-    @_s.required String taskId,
-    @_s.required String windowExecutionId,
+    required String taskId,
+    required String windowExecutionId,
   }) async {
     ArgumentError.checkNotNull(taskId, 'taskId');
     _s.validateStringLength(
@@ -5063,24 +4829,12 @@ class Ssm {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowExecutionId, 'windowExecutionId');
     _s.validateStringLength(
       'windowExecutionId',
       windowExecutionId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowExecutionId',
-      windowExecutionId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5118,9 +4872,9 @@ class Ssm {
   /// The ID of the maintenance window execution for which the task is a part.
   Future<GetMaintenanceWindowExecutionTaskInvocationResult>
       getMaintenanceWindowExecutionTaskInvocation({
-    @_s.required String invocationId,
-    @_s.required String taskId,
-    @_s.required String windowExecutionId,
+    required String invocationId,
+    required String taskId,
+    required String windowExecutionId,
   }) async {
     ArgumentError.checkNotNull(invocationId, 'invocationId');
     _s.validateStringLength(
@@ -5128,12 +4882,6 @@ class Ssm {
       invocationId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'invocationId',
-      invocationId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(taskId, 'taskId');
@@ -5144,24 +4892,12 @@ class Ssm {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'taskId',
-      taskId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowExecutionId, 'windowExecutionId');
     _s.validateStringLength(
       'windowExecutionId',
       windowExecutionId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowExecutionId',
-      windowExecutionId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5203,8 +4939,8 @@ class Ssm {
   /// Parameter [windowTaskId] :
   /// The maintenance window task ID to retrieve.
   Future<GetMaintenanceWindowTaskResult> getMaintenanceWindowTask({
-    @_s.required String windowId,
-    @_s.required String windowTaskId,
+    required String windowId,
+    required String windowTaskId,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -5214,24 +4950,12 @@ class Ssm {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowTaskId, 'windowTaskId');
     _s.validateStringLength(
       'windowTaskId',
       windowTaskId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowTaskId',
-      windowTaskId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5272,15 +4996,9 @@ class Ssm {
   /// Parameter [opsItemId] :
   /// The ID of the OpsItem that you want to get.
   Future<GetOpsItemResponse> getOpsItem({
-    @_s.required String opsItemId,
+    required String opsItemId,
   }) async {
     ArgumentError.checkNotNull(opsItemId, 'opsItemId');
-    _s.validateStringPattern(
-      'opsItemId',
-      opsItemId,
-      r'''^(oi)-[0-9a-f]{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.GetOpsItem'
@@ -5317,9 +5035,9 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<GetOpsMetadataResult> getOpsMetadata({
-    @_s.required String opsMetadataArn,
-    int maxResults,
-    String nextToken,
+    required String opsMetadataArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(opsMetadataArn, 'opsMetadataArn');
     _s.validateStringLength(
@@ -5327,12 +5045,6 @@ class Ssm {
       opsMetadataArn,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'opsMetadataArn',
-      opsMetadataArn,
-      r'''arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5391,12 +5103,12 @@ class Ssm {
   /// Parameter [syncName] :
   /// Specify the name of a resource data sync to get.
   Future<GetOpsSummaryResult> getOpsSummary({
-    List<OpsAggregator> aggregators,
-    List<OpsFilter> filters,
-    int maxResults,
-    String nextToken,
-    List<OpsResultAttribute> resultAttributes,
-    String syncName,
+    List<OpsAggregator>? aggregators,
+    List<OpsFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<OpsResultAttribute>? resultAttributes,
+    String? syncName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -5448,8 +5160,8 @@ class Ssm {
   /// Return decrypted values for secure string parameters. This flag is ignored
   /// for String and StringList parameter types.
   Future<GetParameterResult> getParameter({
-    @_s.required String name,
-    bool withDecryption,
+    required String name,
+    bool? withDecryption,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -5501,10 +5213,10 @@ class Ssm {
   /// Return decrypted values for secure string parameters. This flag is ignored
   /// for String and StringList parameter types.
   Future<GetParameterHistoryResult> getParameterHistory({
-    @_s.required String name,
-    int maxResults,
-    String nextToken,
-    bool withDecryption,
+    required String name,
+    int? maxResults,
+    String? nextToken,
+    bool? withDecryption,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -5555,8 +5267,8 @@ class Ssm {
   /// string parameters. This flag is ignored for String and StringList
   /// parameter types.
   Future<GetParametersResult> getParameters({
-    @_s.required List<String> names,
-    bool withDecryption,
+    required List<String> names,
+    bool? withDecryption,
   }) async {
     ArgumentError.checkNotNull(names, 'names');
     final headers = <String, String>{
@@ -5599,9 +5311,11 @@ class Ssm {
   ///
   /// Parameter [path] :
   /// The hierarchy for the parameter. Hierarchies start with a forward slash
-  /// (/) and end with the parameter name. A parameter name hierarchy can have a
-  /// maximum of 15 levels. Here is an example of a hierarchy:
-  /// <code>/Finance/Prod/IAD/WinServ2016/license33</code>
+  /// (/). The hierachy is the parameter name except the last part of the
+  /// parameter. For the API call to succeeed, the last part of the parameter
+  /// name cannot be in the path. A parameter name hierarchy can have a maximum
+  /// of 15 levels. Here is an example of a hierarchy:
+  /// <code>/Finance/Prod/IAD/WinServ2016/license33 </code>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -5637,12 +5351,12 @@ class Ssm {
   /// Parameter [withDecryption] :
   /// Retrieve all parameters in a hierarchy with their value decrypted.
   Future<GetParametersByPathResult> getParametersByPath({
-    @_s.required String path,
-    int maxResults,
-    String nextToken,
-    List<ParameterStringFilter> parameterFilters,
-    bool recursive,
-    bool withDecryption,
+    required String path,
+    int? maxResults,
+    String? nextToken,
+    List<ParameterStringFilter>? parameterFilters,
+    bool? recursive,
+    bool? withDecryption,
   }) async {
     ArgumentError.checkNotNull(path, 'path');
     _s.validateStringLength(
@@ -5690,7 +5404,7 @@ class Ssm {
   /// Parameter [baselineId] :
   /// The ID of the patch baseline to retrieve.
   Future<GetPatchBaselineResult> getPatchBaseline({
-    @_s.required String baselineId,
+    required String baselineId,
   }) async {
     ArgumentError.checkNotNull(baselineId, 'baselineId');
     _s.validateStringLength(
@@ -5698,12 +5412,6 @@ class Ssm {
       baselineId,
       20,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'baselineId',
-      baselineId,
-      r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5736,8 +5444,8 @@ class Ssm {
   /// Returns he operating system rule specified for patch groups using the
   /// patch baseline.
   Future<GetPatchBaselineForPatchGroupResult> getPatchBaselineForPatchGroup({
-    @_s.required String patchGroup,
-    OperatingSystem operatingSystem,
+    required String patchGroup,
+    OperatingSystem? operatingSystem,
   }) async {
     ArgumentError.checkNotNull(patchGroup, 'patchGroup');
     _s.validateStringLength(
@@ -5745,12 +5453,6 @@ class Ssm {
       patchGroup,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patchGroup',
-      patchGroup,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -5796,12 +5498,31 @@ class Ssm {
   /// May throw [ServiceSettingNotFound].
   ///
   /// Parameter [settingId] :
-  /// The ID of the service setting to get. The setting ID can be
-  /// <code>/ssm/parameter-store/default-parameter-tier</code>,
-  /// <code>/ssm/parameter-store/high-throughput-enabled</code>, or
-  /// <code>/ssm/managed-instance/activation-tier</code>.
+  /// The ID of the service setting to get. The setting ID can be one of the
+  /// following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>/ssm/automation/customer-script-log-destination</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/automation/customer-script-log-group-name</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/documents/console/public-sharing-permission</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/parameter-store/default-parameter-tier</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/parameter-store/high-throughput-enabled</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/managed-instance/activation-tier</code>
+  /// </li>
+  /// </ul>
   Future<GetServiceSettingResult> getServiceSetting({
-    @_s.required String settingId,
+    required String settingId,
   }) async {
     ArgumentError.checkNotNull(settingId, 'settingId');
     _s.validateStringLength(
@@ -5854,9 +5575,8 @@ class Ssm {
   /// a label to a specific version of a parameter.
   /// </li>
   /// <li>
-  /// You can't delete a parameter label. If you no longer want to use a
-  /// parameter label, then you must move it to a different version of a
-  /// parameter.
+  /// If you no longer want to use a parameter label, then you can either delete
+  /// it or move it to a different version of a parameter.
   /// </li>
   /// <li>
   /// A label can have a maximum of 100 characters.
@@ -5889,9 +5609,9 @@ class Ssm {
   /// more labels. If no version is specified, the system attaches the label to
   /// the latest version.
   Future<LabelParameterVersionResult> labelParameterVersion({
-    @_s.required List<String> labels,
-    @_s.required String name,
-    int parameterVersion,
+    required List<String> labels,
+    required String name,
+    int? parameterVersion,
   }) async {
     ArgumentError.checkNotNull(labels, 'labels');
     ArgumentError.checkNotNull(name, 'name');
@@ -5939,17 +5659,11 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<ListAssociationVersionsResult> listAssociationVersions({
-    @_s.required String associationId,
-    int maxResults,
-    String nextToken,
+    required String associationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6003,9 +5717,9 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<ListAssociationsResult> listAssociations({
-    List<AssociationFilter> associationFilterList,
-    int maxResults,
-    String nextToken,
+    List<AssociationFilter>? associationFilterList,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6051,7 +5765,7 @@ class Ssm {
   ///
   /// Parameter [details] :
   /// (Optional) If set this returns the response of the command executions and
-  /// any command output. By default this is set to False.
+  /// any command output. The default value is 'false'.
   ///
   /// Parameter [filters] :
   /// (Optional) One or more filters. Use a filter to return a more specific
@@ -6069,23 +5783,18 @@ class Ssm {
   /// (Optional) The token for the next set of items to return. (You received
   /// this token from a previous call.)
   Future<ListCommandInvocationsResult> listCommandInvocations({
-    String commandId,
-    bool details,
-    List<CommandFilter> filters,
-    String instanceId,
-    int maxResults,
-    String nextToken,
+    String? commandId,
+    bool? details,
+    List<CommandFilter>? filters,
+    String? instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'commandId',
       commandId,
       36,
       36,
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -6148,22 +5857,17 @@ class Ssm {
   /// (Optional) The token for the next set of items to return. (You received
   /// this token from a previous call.)
   Future<ListCommandsResult> listCommands({
-    String commandId,
-    List<CommandFilter> filters,
-    String instanceId,
-    int maxResults,
-    String nextToken,
+    String? commandId,
+    List<CommandFilter>? filters,
+    String? instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'commandId',
       commandId,
       36,
       36,
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -6224,11 +5928,11 @@ class Ssm {
   /// The type of resource from which to get compliance information. Currently,
   /// the only supported resource type is <code>ManagedInstance</code>.
   Future<ListComplianceItemsResult> listComplianceItems({
-    List<ComplianceStringFilter> filters,
-    int maxResults,
-    String nextToken,
-    List<String> resourceIds,
-    List<String> resourceTypes,
+    List<ComplianceStringFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? resourceIds,
+    List<String>? resourceTypes,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6279,9 +5983,9 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<ListComplianceSummariesResult> listComplianceSummaries({
-    List<ComplianceStringFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<ComplianceStringFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6335,25 +6039,14 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<ListDocumentMetadataHistoryResponse> listDocumentMetadataHistory({
-    @_s.required DocumentMetadataEnum metadata,
-    @_s.required String name,
-    String documentVersion,
-    int maxResults,
-    String nextToken,
+    required DocumentMetadataEnum metadata,
+    required String name,
+    String? documentVersion,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(metadata, 'metadata');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6371,7 +6064,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Metadata': metadata?.toValue() ?? '',
+        'Metadata': metadata.toValue(),
         'Name': name,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (maxResults != null) 'MaxResults': maxResults,
@@ -6400,17 +6093,11 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<ListDocumentVersionsResult> listDocumentVersions({
-    @_s.required String name,
-    int maxResults,
-    String nextToken,
+    required String name,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -6448,14 +6135,19 @@ class Ssm {
   /// This data type is deprecated. Instead, use <code>Filters</code>.
   ///
   /// Parameter [filters] :
-  /// One or more DocumentKeyValuesFilter objects. Use a filter to return a more
-  /// specific list of results. For keys, you can specify one or more key-value
-  /// pair tags that have been applied to a document. Other valid keys include
-  /// <code>Owner</code>, <code>Name</code>, <code>PlatformTypes</code>,
-  /// <code>DocumentType</code>, and <code>TargetType</code>. For example, to
-  /// return documents you own use <code>Key=Owner,Values=Self</code>. To
-  /// specify a custom key-value pair, use the format
-  /// <code>Key=tag:tagName,Values=valueName</code>.
+  /// One or more <code>DocumentKeyValuesFilter</code> objects. Use a filter to
+  /// return a more specific list of results. For keys, you can specify one or
+  /// more key-value pair tags that have been applied to a document. Other valid
+  /// keys include <code>Owner</code>, <code>Name</code>,
+  /// <code>PlatformTypes</code>, <code>DocumentType</code>, and
+  /// <code>TargetType</code>. For example, to return documents you own use
+  /// <code>Key=Owner,Values=Self</code>. To specify a custom key-value pair,
+  /// use the format <code>Key=tag:tagName,Values=valueName</code>.
+  /// <note>
+  /// This API action only supports filtering documents by using a single tag
+  /// key and one or more tag values. For example:
+  /// <code>Key=tag:tagName,Values=valueName1,valueName2</code>
+  /// </note>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return for this call. The call also returns
@@ -6466,10 +6158,10 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<ListDocumentsResult> listDocuments({
-    List<DocumentFilter> documentFilterList,
-    List<DocumentKeyValuesFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<DocumentFilter>? documentFilterList,
+    List<DocumentKeyValuesFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6526,31 +6218,19 @@ class Ssm {
   /// The token for the next set of items to return. (You received this token
   /// from a previous call.)
   Future<ListInventoryEntriesResult> listInventoryEntries({
-    @_s.required String instanceId,
-    @_s.required String typeName,
-    List<InventoryFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String instanceId,
+    required String typeName,
+    List<InventoryFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(typeName, 'typeName');
     _s.validateStringLength(
       'typeName',
       typeName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'typeName',
-      typeName,
-      r'''^(AWS|Custom):.*$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -6602,9 +6282,9 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<ListOpsItemEventsResponse> listOpsItemEvents({
-    List<OpsItemEventFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<OpsItemEventFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6632,6 +6312,60 @@ class Ssm {
     return ListOpsItemEventsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all related-item resources associated with an OpsItem.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [OpsItemInvalidParameterException].
+  ///
+  /// Parameter [filters] :
+  /// One or more OpsItem filters. Use a filter to return a more specific list
+  /// of results.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return for this call. The call also returns
+  /// a token that you can specify in a subsequent call to get the next set of
+  /// results.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of items to return. (You received this token
+  /// from a previous call.)
+  ///
+  /// Parameter [opsItemId] :
+  /// The ID of the OpsItem for which you want to list all related-item
+  /// resources.
+  Future<ListOpsItemRelatedItemsResponse> listOpsItemRelatedItems({
+    List<OpsItemRelatedItemsFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    String? opsItemId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.ListOpsItemRelatedItems'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filters != null) 'Filters': filters,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (opsItemId != null) 'OpsItemId': opsItemId,
+      },
+    );
+
+    return ListOpsItemRelatedItemsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Systems Manager calls this API action when displaying all Application
   /// Manager OpsMetadata objects or blobs.
   ///
@@ -6650,9 +6384,9 @@ class Ssm {
   /// Parameter [nextToken] :
   /// A token to start the list. Use this token to get the next set of results.
   Future<ListOpsMetadataResult> listOpsMetadata({
-    List<OpsMetadataFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<OpsMetadataFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6701,9 +6435,9 @@ class Ssm {
   /// A token to start the list. Use this token to get the next set of results.
   Future<ListResourceComplianceSummariesResult>
       listResourceComplianceSummaries({
-    List<ComplianceStringFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<ComplianceStringFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6763,9 +6497,9 @@ class Ssm {
   /// <code>SyncFromSource</code> to view resource data syncs from AWS
   /// Organizations or from multiple AWS Regions.
   Future<ListResourceDataSyncResult> listResourceDataSync({
-    int maxResults,
-    String nextToken,
-    String syncType,
+    int? maxResults,
+    String? nextToken,
+    String? syncType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -6811,8 +6545,8 @@ class Ssm {
   /// Parameter [resourceType] :
   /// Returns a list of tags for a specific resource type.
   Future<ListTagsForResourceResult> listTagsForResource({
-    @_s.required String resourceId,
-    @_s.required ResourceTypeForTagging resourceType,
+    required String resourceId,
+    required ResourceTypeForTagging resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(resourceType, 'resourceType');
@@ -6828,7 +6562,7 @@ class Ssm {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
       },
     );
 
@@ -6868,19 +6602,13 @@ class Ssm {
   /// (Optional) The version of the document to share. If it's not specified,
   /// the system choose the <code>Default</code> version to share.
   Future<void> modifyDocumentPermission({
-    @_s.required String name,
-    @_s.required DocumentPermissionType permissionType,
-    List<String> accountIdsToAdd,
-    List<String> accountIdsToRemove,
-    String sharedDocumentVersion,
+    required String name,
+    required DocumentPermissionType permissionType,
+    List<String>? accountIdsToAdd,
+    List<String>? accountIdsToRemove,
+    String? sharedDocumentVersion,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(permissionType, 'permissionType');
     _s.validateStringLength(
       'sharedDocumentVersion',
@@ -6888,16 +6616,11 @@ class Ssm {
       0,
       8,
     );
-    _s.validateStringPattern(
-      'sharedDocumentVersion',
-      sharedDocumentVersion,
-      r'''([$]LATEST|[$]DEFAULT|[$]ALL)''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.ModifyDocumentPermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -6905,7 +6628,7 @@ class Ssm {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType?.toValue() ?? '',
+        'PermissionType': permissionType.toValue(),
         if (accountIdsToAdd != null) 'AccountIdsToAdd': accountIdsToAdd,
         if (accountIdsToRemove != null)
           'AccountIdsToRemove': accountIdsToRemove,
@@ -6913,8 +6636,6 @@ class Ssm {
           'SharedDocumentVersion': sharedDocumentVersion,
       },
     );
-
-    return ModifyDocumentPermissionResponse.fromJson(jsonResponse.body);
   }
 
   /// Registers a compliance type and other compliance details on a designated
@@ -7032,13 +6753,13 @@ class Ssm {
   /// This attribute is only valid for association compliance.
   /// </note>
   Future<void> putComplianceItems({
-    @_s.required String complianceType,
-    @_s.required ComplianceExecutionSummary executionSummary,
-    @_s.required List<ComplianceItemEntry> items,
-    @_s.required String resourceId,
-    @_s.required String resourceType,
-    String itemContentHash,
-    ComplianceUploadType uploadType,
+    required String complianceType,
+    required ComplianceExecutionSummary executionSummary,
+    required List<ComplianceItemEntry> items,
+    required String resourceId,
+    required String resourceType,
+    String? itemContentHash,
+    ComplianceUploadType? uploadType,
   }) async {
     ArgumentError.checkNotNull(complianceType, 'complianceType');
     _s.validateStringLength(
@@ -7046,12 +6767,6 @@ class Ssm {
       complianceType,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'complianceType',
-      complianceType,
-      r'''[A-Za-z0-9_\-]\w+|Custom:[a-zA-Z0-9_\-]\w+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(executionSummary, 'executionSummary');
@@ -7082,7 +6797,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.PutComplianceItems'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -7098,8 +6813,6 @@ class Ssm {
         if (uploadType != null) 'UploadType': uploadType.toValue(),
       },
     );
-
-    return PutComplianceItemsResult.fromJson(jsonResponse.body);
   }
 
   /// Bulk update custom inventory items on one more instance. The request adds
@@ -7125,16 +6838,10 @@ class Ssm {
   /// Parameter [items] :
   /// The inventory items that you want to add or update on instances.
   Future<PutInventoryResult> putInventory({
-    @_s.required String instanceId,
-    @_s.required List<InventoryItem> items,
+    required String instanceId,
+    required List<InventoryItem> items,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(items, 'items');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -7194,7 +6901,11 @@ class Ssm {
   /// </li>
   /// <li>
   /// Parameter names can include only the following symbols and letters:
-  /// <code>a-zA-Z0-9_.-/</code>
+  /// <code>a-zA-Z0-9_.-</code>
+  ///
+  /// In addition, the slash character ( / ) is used to delineate hierarchies in
+  /// parameter names. For example:
+  /// <code>/Dev/Production/East/Project-ABC/MyParameter</code>
   /// </li>
   /// <li>
   /// A parameter name can't include spaces.
@@ -7204,9 +6915,9 @@ class Ssm {
   /// </li>
   /// </ul>
   /// For additional information about valid values for parameter names, see <a
-  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html">About
-  /// requirements and constraints for parameter names</a> in the <i>AWS Systems
-  /// Manager User Guide</i>.
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html">Creating
+  /// Systems Manager parameters</a> in the <i>AWS Systems Manager User
+  /// Guide</i>.
   /// <note>
   /// The maximum length constraint listed below includes capacity for
   /// additional system attributes that are not part of the name. The maximum
@@ -7251,7 +6962,7 @@ class Ssm {
   /// is in the required format, such as <code>ami-12345abcdeEXAMPLE</code>, and
   /// that the specified AMI is available in your AWS account. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html">Native
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html">Native
   /// parameter support for Amazon Machine Image IDs</a> in the <i>AWS Systems
   /// Manager User Guide</i>.
   ///
@@ -7285,8 +6996,7 @@ class Ssm {
   /// </ul>
   ///
   /// Parameter [overwrite] :
-  /// Overwrite an existing parameter. If not specified, will default to
-  /// "false".
+  /// Overwrite an existing parameter. The default value is 'false'.
   ///
   /// Parameter [policies] :
   /// One or more policies to apply to a parameter. This action takes a JSON
@@ -7430,17 +7140,17 @@ class Ssm {
   /// must specify a parameter type when creating a parameter.
   /// </important>
   Future<PutParameterResult> putParameter({
-    @_s.required String name,
-    @_s.required String value,
-    String allowedPattern,
-    String dataType,
-    String description,
-    String keyId,
-    bool overwrite,
-    String policies,
-    List<Tag> tags,
-    ParameterTier tier,
-    ParameterType type,
+    required String name,
+    required String value,
+    String? allowedPattern,
+    String? dataType,
+    String? description,
+    String? keyId,
+    bool? overwrite,
+    String? policies,
+    List<Tag>? tags,
+    ParameterTier? tier,
+    ParameterType? type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -7474,11 +7184,6 @@ class Ssm {
       keyId,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'keyId',
-      keyId,
-      r'''^([a-zA-Z0-9:/_-]+)$''',
     );
     _s.validateStringLength(
       'policies',
@@ -7529,7 +7234,7 @@ class Ssm {
   /// Parameter [baselineId] :
   /// The ID of the patch baseline that should be the default patch baseline.
   Future<RegisterDefaultPatchBaselineResult> registerDefaultPatchBaseline({
-    @_s.required String baselineId,
+    required String baselineId,
   }) async {
     ArgumentError.checkNotNull(baselineId, 'baselineId');
     _s.validateStringLength(
@@ -7537,12 +7242,6 @@ class Ssm {
       baselineId,
       20,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'baselineId',
-      baselineId,
-      r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7579,8 +7278,8 @@ class Ssm {
   /// baseline.
   Future<RegisterPatchBaselineForPatchGroupResult>
       registerPatchBaselineForPatchGroup({
-    @_s.required String baselineId,
-    @_s.required String patchGroup,
+    required String baselineId,
+    required String patchGroup,
   }) async {
     ArgumentError.checkNotNull(baselineId, 'baselineId');
     _s.validateStringLength(
@@ -7590,24 +7289,12 @@ class Ssm {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'baselineId',
-      baselineId,
-      r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(patchGroup, 'patchGroup');
     _s.validateStringLength(
       'patchGroup',
       patchGroup,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'patchGroup',
-      patchGroup,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -7642,7 +7329,12 @@ class Ssm {
   /// Parameter [targets] :
   /// The targets to register with the maintenance window. In other words, the
   /// instances to run commands on when the maintenance window runs.
-  ///
+  /// <note>
+  /// If a single maintenance window task is registered with multiple targets,
+  /// its task invocations occur sequentially and not in parallel. If your task
+  /// must run on multiple targets at the same time, register a task for each
+  /// target individually and assign each task the same priority level.
+  /// </note>
   /// You can specify targets using instance IDs, resource group names, or tags
   /// that have been applied to instances.
   ///
@@ -7698,13 +7390,13 @@ class Ssm {
   /// while running tasks for these targets in this maintenance window.
   Future<RegisterTargetWithMaintenanceWindowResult>
       registerTargetWithMaintenanceWindow({
-    @_s.required MaintenanceWindowResourceType resourceType,
-    @_s.required List<Target> targets,
-    @_s.required String windowId,
-    String clientToken,
-    String description,
-    String name,
-    String ownerInformation,
+    required MaintenanceWindowResourceType resourceType,
+    required List<Target> targets,
+    required String windowId,
+    String? clientToken,
+    String? description,
+    String? name,
+    String? ownerInformation,
   }) async {
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     ArgumentError.checkNotNull(targets, 'targets');
@@ -7714,12 +7406,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -7740,11 +7426,6 @@ class Ssm {
       3,
       128,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
     _s.validateStringLength(
       'ownerInformation',
       ownerInformation,
@@ -7762,7 +7443,7 @@ class Ssm {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
         'Targets': targets,
         'WindowId': windowId,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -7868,7 +7549,7 @@ class Ssm {
   /// Command-type tasks. Depending on the task, targets are optional for other
   /// maintenance window task types (Automation, AWS Lambda, and AWS Step
   /// Functions). For more information about running tasks that do not specify
-  /// targets, see see <a
+  /// targets, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
   /// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
   /// User Guide</i>.
@@ -7897,20 +7578,20 @@ class Ssm {
   /// </note>
   Future<RegisterTaskWithMaintenanceWindowResult>
       registerTaskWithMaintenanceWindow({
-    @_s.required String taskArn,
-    @_s.required MaintenanceWindowTaskType taskType,
-    @_s.required String windowId,
-    String clientToken,
-    String description,
-    LoggingInfo loggingInfo,
-    String maxConcurrency,
-    String maxErrors,
-    String name,
-    int priority,
-    String serviceRoleArn,
-    List<Target> targets,
-    MaintenanceWindowTaskInvocationParameters taskInvocationParameters,
-    Map<String, MaintenanceWindowTaskParameterValueExpression> taskParameters,
+    required String taskArn,
+    required MaintenanceWindowTaskType taskType,
+    required String windowId,
+    String? clientToken,
+    String? description,
+    LoggingInfo? loggingInfo,
+    String? maxConcurrency,
+    String? maxErrors,
+    String? name,
+    int? priority,
+    String? serviceRoleArn,
+    List<Target>? targets,
+    MaintenanceWindowTaskInvocationParameters? taskInvocationParameters,
+    Map<String, MaintenanceWindowTaskParameterValueExpression>? taskParameters,
   }) async {
     ArgumentError.checkNotNull(taskArn, 'taskArn');
     _s.validateStringLength(
@@ -7927,12 +7608,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -7953,32 +7628,17 @@ class Ssm {
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'maxErrors',
       maxErrors,
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'name',
       name,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
     _s.validateNumRange(
       'priority',
@@ -7998,7 +7658,7 @@ class Ssm {
       headers: headers,
       payload: {
         'TaskArn': taskArn,
-        'TaskType': taskType?.toValue() ?? '',
+        'TaskType': taskType.toValue(),
         'WindowId': windowId,
         'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
@@ -8034,6 +7694,16 @@ class Ssm {
   ///
   /// PatchBaseline: pb-012345abcde
   ///
+  /// OpsMetadata object: <code>ResourceID</code> for tagging is created from
+  /// the Amazon Resource Name (ARN) for the object. Specifically,
+  /// <code>ResourceID</code> is created from the strings that come after the
+  /// word <code>opsmetadata</code> in the ARN. For example, an OpsMetadata
+  /// object with an ARN of
+  /// <code>arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager</code>
+  /// has a <code>ResourceID</code> of either
+  /// <code>aws/ssm/MyGroup/appmanager</code> or
+  /// <code>/aws/ssm/MyGroup/appmanager</code>.
+  ///
   /// For the Document and Parameter values, use the name of the resource.
   /// <note>
   /// The ManagedInstance type for this API action is only for on-premises
@@ -8052,9 +7722,9 @@ class Ssm {
   /// Parameter [tagKeys] :
   /// Tag keys that you want to remove from the specified resource.
   Future<void> removeTagsFromResource({
-    @_s.required String resourceId,
-    @_s.required ResourceTypeForTagging resourceType,
-    @_s.required List<String> tagKeys,
+    required String resourceId,
+    required ResourceTypeForTagging resourceType,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(resourceType, 'resourceType');
@@ -8063,7 +7733,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.RemoveTagsFromResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8071,12 +7741,10 @@ class Ssm {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue() ?? '',
+        'ResourceType': resourceType.toValue(),
         'TagKeys': tagKeys,
       },
     );
-
-    return RemoveTagsFromResourceResult.fromJson(jsonResponse.body);
   }
 
   /// <code>ServiceSetting</code> is an account-level setting for an AWS
@@ -8104,13 +7772,30 @@ class Ssm {
   ///
   /// Parameter [settingId] :
   /// The Amazon Resource Name (ARN) of the service setting to reset. The
-  /// setting ID can be
-  /// <code>/ssm/parameter-store/default-parameter-tier</code>,
-  /// <code>/ssm/parameter-store/high-throughput-enabled</code>, or
-  /// <code>/ssm/managed-instance/activation-tier</code>. For example,
-  /// <code>arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled</code>.
+  /// setting ID can be one of the following.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>/ssm/automation/customer-script-log-destination</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/automation/customer-script-log-group-name</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/documents/console/public-sharing-permission</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/parameter-store/default-parameter-tier</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/parameter-store/high-throughput-enabled</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/managed-instance/activation-tier</code>
+  /// </li>
+  /// </ul>
   Future<ResetServiceSettingResult> resetServiceSetting({
-    @_s.required String settingId,
+    required String settingId,
   }) async {
     ArgumentError.checkNotNull(settingId, 'settingId');
     _s.validateStringLength(
@@ -8153,7 +7838,7 @@ class Ssm {
   /// Parameter [sessionId] :
   /// The ID of the disconnected session to resume.
   Future<ResumeSessionResponse> resumeSession({
-    @_s.required String sessionId,
+    required String sessionId,
   }) async {
     ArgumentError.checkNotNull(sessionId, 'sessionId');
     _s.validateStringLength(
@@ -8217,9 +7902,9 @@ class Ssm {
   ///
   /// <code>StepExecutionId="97fff367-fc5a-4299-aed8-0123456789ab"</code>
   Future<void> sendAutomationSignal({
-    @_s.required String automationExecutionId,
-    @_s.required SignalType signalType,
-    Map<String, List<String>> payload,
+    required String automationExecutionId,
+    required SignalType signalType,
+    Map<String, List<String>>? payload,
   }) async {
     ArgumentError.checkNotNull(automationExecutionId, 'automationExecutionId');
     _s.validateStringLength(
@@ -8234,7 +7919,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.SendAutomationSignal'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8242,12 +7927,10 @@ class Ssm {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'SignalType': signalType?.toValue() ?? '',
+        'SignalType': signalType.toValue(),
         if (payload != null) 'Payload': payload,
       },
     );
-
-    return SendAutomationSignalResult.fromJson(jsonResponse.body);
   }
 
   /// Runs commands on one or more managed instances.
@@ -8265,8 +7948,12 @@ class Ssm {
   /// May throw [InvalidNotificationConfig].
   ///
   /// Parameter [documentName] :
-  /// Required. The name of the Systems Manager document to run. This can be a
-  /// public document or a custom document.
+  /// The name of the Systems Manager document to run. This can be a public
+  /// document or a custom document. To run a shared document belonging to
+  /// another account, specify the document ARN. For more information about how
+  /// to use shared documents, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html">Using
+  /// shared SSM documents</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [cloudWatchOutputConfig] :
   /// Enables Systems Manager to send Run Command output to Amazon CloudWatch
@@ -8377,31 +8064,25 @@ class Ssm {
   /// If this time is reached and the command has not already started running,
   /// it will not run.
   Future<SendCommandResult> sendCommand({
-    @_s.required String documentName,
-    CloudWatchOutputConfig cloudWatchOutputConfig,
-    String comment,
-    String documentHash,
-    DocumentHashType documentHashType,
-    String documentVersion,
-    List<String> instanceIds,
-    String maxConcurrency,
-    String maxErrors,
-    NotificationConfig notificationConfig,
-    String outputS3BucketName,
-    String outputS3KeyPrefix,
-    String outputS3Region,
-    Map<String, List<String>> parameters,
-    String serviceRoleArn,
-    List<Target> targets,
-    int timeoutSeconds,
+    required String documentName,
+    CloudWatchOutputConfig? cloudWatchOutputConfig,
+    String? comment,
+    String? documentHash,
+    DocumentHashType? documentHashType,
+    String? documentVersion,
+    List<String>? instanceIds,
+    String? maxConcurrency,
+    String? maxErrors,
+    NotificationConfig? notificationConfig,
+    String? outputS3BucketName,
+    String? outputS3KeyPrefix,
+    String? outputS3Region,
+    Map<String, List<String>>? parameters,
+    String? serviceRoleArn,
+    List<Target>? targets,
+    int? timeoutSeconds,
   }) async {
     ArgumentError.checkNotNull(documentName, 'documentName');
-    _s.validateStringPattern(
-      'documentName',
-      documentName,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'comment',
       comment,
@@ -8414,32 +8095,17 @@ class Ssm {
       0,
       256,
     );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
     _s.validateStringLength(
       'maxConcurrency',
       maxConcurrency,
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'maxErrors',
       maxErrors,
       1,
       7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
     );
     _s.validateStringLength(
       'outputS3BucketName',
@@ -8512,14 +8178,14 @@ class Ssm {
   /// Parameter [associationIds] :
   /// The association IDs that you want to run immediately and only one time.
   Future<void> startAssociationsOnce({
-    @_s.required List<String> associationIds,
+    required List<String> associationIds,
   }) async {
     ArgumentError.checkNotNull(associationIds, 'associationIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.StartAssociationsOnce'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8529,8 +8195,6 @@ class Ssm {
         'AssociationIds': associationIds,
       },
     );
-
-    return StartAssociationsOnceResult.fromJson(jsonResponse.body);
   }
 
   /// Initiates execution of an Automation document.
@@ -8544,7 +8208,12 @@ class Ssm {
   /// May throw [InternalServerError].
   ///
   /// Parameter [documentName] :
-  /// The name of the Automation document to use for this execution.
+  /// The name of the Systems Manager document to run. This can be a public
+  /// document or a custom document. To run a shared document belonging to
+  /// another account, specify the document ARN. For more information about how
+  /// to use shared documents, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html">Using
+  /// shared SSM documents</a> in the <i>AWS Systems Manager User Guide</i>.
   ///
   /// Parameter [clientToken] :
   /// User-provided idempotency token. The token must be unique, is case
@@ -8623,41 +8292,25 @@ class Ssm {
   /// A key-value mapping to target resources. Required if you specify
   /// TargetParameterName.
   Future<StartAutomationExecutionResult> startAutomationExecution({
-    @_s.required String documentName,
-    String clientToken,
-    String documentVersion,
-    String maxConcurrency,
-    String maxErrors,
-    ExecutionMode mode,
-    Map<String, List<String>> parameters,
-    List<Tag> tags,
-    List<TargetLocation> targetLocations,
-    List<Map<String, List<String>>> targetMaps,
-    String targetParameterName,
-    List<Target> targets,
+    required String documentName,
+    String? clientToken,
+    String? documentVersion,
+    String? maxConcurrency,
+    String? maxErrors,
+    ExecutionMode? mode,
+    Map<String, List<String>>? parameters,
+    List<Tag>? tags,
+    List<TargetLocation>? targetLocations,
+    List<Map<String, List<String>>>? targetMaps,
+    String? targetParameterName,
+    List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(documentName, 'documentName');
-    _s.validateStringPattern(
-      'documentName',
-      documentName,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       36,
       36,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}''',
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
     );
     _s.validateStringLength(
       'maxConcurrency',
@@ -8665,21 +8318,11 @@ class Ssm {
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'maxErrors',
       maxErrors,
       1,
       7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
     );
     _s.validateStringLength(
       'targetParameterName',
@@ -8741,6 +8384,11 @@ class Ssm {
   /// all required approvals for the change request have been received.
   /// </note>
   ///
+  /// Parameter [changeDetails] :
+  /// User-provided details about the change. If no details are provided,
+  /// content specified in the <b>Template information</b> section of the
+  /// associated change template is added.
+  ///
   /// Parameter [changeRequestName] :
   /// The name of the change request associated with the runbook workflow to be
   /// run.
@@ -8756,6 +8404,11 @@ class Ssm {
   /// Parameter [parameters] :
   /// A key-value map of parameters that match the declared parameters in the
   /// change template document.
+  ///
+  /// Parameter [scheduledEndTime] :
+  /// The time that the requester expects the runbook workflow related to the
+  /// change request to complete. The time is an estimate only that the
+  /// requester provides for reviewers.
   ///
   /// Parameter [scheduledTime] :
   /// The date and time specified in the change request to run the Automation
@@ -8782,23 +8435,25 @@ class Ssm {
   /// </li>
   /// </ul>
   Future<StartChangeRequestExecutionResult> startChangeRequestExecution({
-    @_s.required String documentName,
-    @_s.required List<Runbook> runbooks,
-    String changeRequestName,
-    String clientToken,
-    String documentVersion,
-    Map<String, List<String>> parameters,
-    DateTime scheduledTime,
-    List<Tag> tags,
+    required String documentName,
+    required List<Runbook> runbooks,
+    String? changeDetails,
+    String? changeRequestName,
+    String? clientToken,
+    String? documentVersion,
+    Map<String, List<String>>? parameters,
+    DateTime? scheduledEndTime,
+    DateTime? scheduledTime,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(documentName, 'documentName');
-    _s.validateStringPattern(
-      'documentName',
-      documentName,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runbooks, 'runbooks');
+    _s.validateStringLength(
+      'changeDetails',
+      changeDetails,
+      1,
+      32768,
+    );
     _s.validateStringLength(
       'changeRequestName',
       changeRequestName,
@@ -8810,16 +8465,6 @@ class Ssm {
       clientToken,
       36,
       36,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}''',
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8834,10 +8479,13 @@ class Ssm {
       payload: {
         'DocumentName': documentName,
         'Runbooks': runbooks,
+        if (changeDetails != null) 'ChangeDetails': changeDetails,
         if (changeRequestName != null) 'ChangeRequestName': changeRequestName,
         if (clientToken != null) 'ClientToken': clientToken,
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (parameters != null) 'Parameters': parameters,
+        if (scheduledEndTime != null)
+          'ScheduledEndTime': unixTimestampToJson(scheduledEndTime),
         if (scheduledTime != null)
           'ScheduledTime': unixTimestampToJson(scheduledTime),
         if (tags != null) 'Tags': tags,
@@ -8879,9 +8527,9 @@ class Ssm {
   /// Parameter [parameters] :
   /// Reserved for future use.
   Future<StartSessionResponse> startSession({
-    @_s.required String target,
-    String documentName,
-    Map<String, List<String>> parameters,
+    required String target,
+    String? documentName,
+    Map<String, List<String>>? parameters,
   }) async {
     ArgumentError.checkNotNull(target, 'target');
     _s.validateStringLength(
@@ -8890,11 +8538,6 @@ class Ssm {
       1,
       400,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentName',
-      documentName,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -8929,8 +8572,8 @@ class Ssm {
   /// The stop request type. Valid types include the following: Cancel and
   /// Complete. The default type is Cancel.
   Future<void> stopAutomationExecution({
-    @_s.required String automationExecutionId,
-    StopType type,
+    required String automationExecutionId,
+    StopType? type,
   }) async {
     ArgumentError.checkNotNull(automationExecutionId, 'automationExecutionId');
     _s.validateStringLength(
@@ -8944,7 +8587,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.StopAutomationExecution'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -8955,8 +8598,6 @@ class Ssm {
         if (type != null) 'Type': type.toValue(),
       },
     );
-
-    return StopAutomationExecutionResult.fromJson(jsonResponse.body);
   }
 
   /// Permanently ends a session and closes the data connection between the
@@ -8969,7 +8610,7 @@ class Ssm {
   /// Parameter [sessionId] :
   /// The ID of the session to terminate.
   Future<TerminateSessionResponse> terminateSession({
-    @_s.required String sessionId,
+    required String sessionId,
   }) async {
     ArgumentError.checkNotNull(sessionId, 'sessionId');
     _s.validateStringLength(
@@ -8995,6 +8636,57 @@ class Ssm {
     );
 
     return TerminateSessionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Remove a label or labels from a parameter.
+  ///
+  /// May throw [InternalServerError].
+  /// May throw [TooManyUpdates].
+  /// May throw [ParameterNotFound].
+  /// May throw [ParameterVersionNotFound].
+  ///
+  /// Parameter [labels] :
+  /// One or more labels to delete from the specified parameter version.
+  ///
+  /// Parameter [name] :
+  /// The parameter name of which you want to delete one or more labels.
+  ///
+  /// Parameter [parameterVersion] :
+  /// The specific version of the parameter which you want to delete one or more
+  /// labels from. If it is not present, the call will fail.
+  Future<UnlabelParameterVersionResult> unlabelParameterVersion({
+    required List<String> labels,
+    required String name,
+    required int parameterVersion,
+  }) async {
+    ArgumentError.checkNotNull(labels, 'labels');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(parameterVersion, 'parameterVersion');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonSSM.UnlabelParameterVersion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Labels': labels,
+        'Name': name,
+        'ParameterVersion': parameterVersion,
+      },
+    );
+
+    return UnlabelParameterVersionResult.fromJson(jsonResponse.body);
   }
 
   /// Updates an association. You can update the association name and version,
@@ -9054,6 +8746,14 @@ class Ssm {
   /// Specify the target for the association. This target is required for
   /// associations that use an Automation document and target resources by using
   /// rate controls.
+  ///
+  /// Parameter [calendarNames] :
+  /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change
+  /// Calendar type documents you want to gate your associations under. The
+  /// associations only run when that Change Calendar is open. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar">AWS
+  /// Systems Manager Change Calendar</a>.
   ///
   /// Parameter [complianceSeverity] :
   /// The severity level to assign to the association.
@@ -9146,77 +8846,42 @@ class Ssm {
   /// Parameter [targets] :
   /// The targets of the association.
   Future<UpdateAssociationResult> updateAssociation({
-    @_s.required String associationId,
-    bool applyOnlyAtCronInterval,
-    String associationName,
-    String associationVersion,
-    String automationTargetParameterName,
-    AssociationComplianceSeverity complianceSeverity,
-    String documentVersion,
-    String maxConcurrency,
-    String maxErrors,
-    String name,
-    InstanceAssociationOutputLocation outputLocation,
-    Map<String, List<String>> parameters,
-    String scheduleExpression,
-    AssociationSyncCompliance syncCompliance,
-    List<TargetLocation> targetLocations,
-    List<Target> targets,
+    required String associationId,
+    bool? applyOnlyAtCronInterval,
+    String? associationName,
+    String? associationVersion,
+    String? automationTargetParameterName,
+    List<String>? calendarNames,
+    AssociationComplianceSeverity? complianceSeverity,
+    String? documentVersion,
+    String? maxConcurrency,
+    String? maxErrors,
+    String? name,
+    InstanceAssociationOutputLocation? outputLocation,
+    Map<String, List<String>>? parameters,
+    String? scheduleExpression,
+    AssociationSyncCompliance? syncCompliance,
+    List<TargetLocation>? targetLocations,
+    List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(associationId, 'associationId');
-    _s.validateStringPattern(
-      'associationId',
-      associationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'associationName',
-      associationName,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-    );
-    _s.validateStringPattern(
-      'associationVersion',
-      associationVersion,
-      r'''([$]LATEST)|([1-9][0-9]*)''',
-    );
     _s.validateStringLength(
       'automationTargetParameterName',
       automationTargetParameterName,
       1,
       50,
     );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
     _s.validateStringLength(
       'maxConcurrency',
       maxConcurrency,
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'maxErrors',
       maxErrors,
       1,
       7,
-    );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
     );
     _s.validateStringLength(
       'scheduleExpression',
@@ -9243,6 +8908,7 @@ class Ssm {
           'AssociationVersion': associationVersion,
         if (automationTargetParameterName != null)
           'AutomationTargetParameterName': automationTargetParameterName,
+        if (calendarNames != null) 'CalendarNames': calendarNames,
         if (complianceSeverity != null)
           'ComplianceSeverity': complianceSeverity.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
@@ -9281,25 +8947,13 @@ class Ssm {
   /// Parameter [name] :
   /// The name of the Systems Manager document.
   Future<UpdateAssociationStatusResult> updateAssociationStatus({
-    @_s.required AssociationStatus associationStatus,
-    @_s.required String instanceId,
-    @_s.required String name,
+    required AssociationStatus associationStatus,
+    required String instanceId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(associationStatus, 'associationStatus');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''(^i-(\w{8}|\w{17})$)|(^mi-\w{17}$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.:/]{3,128}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateAssociationStatus'
@@ -9337,21 +8991,27 @@ class Ssm {
   /// A valid JSON or YAML string.
   ///
   /// Parameter [name] :
-  /// The name of the document that you want to update.
+  /// The name of the Systems Manager document that you want to update.
   ///
   /// Parameter [attachments] :
   /// A list of key and value pairs that describe attachments to a version of a
   /// document.
+  ///
+  /// Parameter [displayName] :
+  /// The friendly name of the Systems Manager document that you want to update.
+  /// This value can differ for each version of the document. If you do not
+  /// specify a value for this parameter in your request, the existing value is
+  /// applied to the new document version.
   ///
   /// Parameter [documentFormat] :
   /// Specify the document format for the new document version. Systems Manager
   /// supports JSON and YAML documents. JSON is the default format.
   ///
   /// Parameter [documentVersion] :
-  /// (Required) The latest version of the document that you want to update. The
-  /// latest document version can be specified using the $LATEST variable or by
-  /// the version number. Updating a previous version of a document is not
-  /// supported.
+  /// The version of the document that you want to update. Currently, Systems
+  /// Manager supports updating only the latest version of the document. You can
+  /// specify the version number of the latest version or use the
+  /// <code>$LATEST</code> variable.
   ///
   /// Parameter [targetType] :
   /// Specify a new target type for the document.
@@ -9361,13 +9021,14 @@ class Ssm {
   /// with the document. For example, "Release 12, Update 6". This value is
   /// unique across all versions of a document, and cannot be changed.
   Future<UpdateDocumentResult> updateDocument({
-    @_s.required String content,
-    @_s.required String name,
-    List<AttachmentsSource> attachments,
-    DocumentFormat documentFormat,
-    String documentVersion,
-    String targetType,
-    String versionName,
+    required String content,
+    required String name,
+    List<AttachmentsSource>? attachments,
+    String? displayName,
+    DocumentFormat? documentFormat,
+    String? documentVersion,
+    String? targetType,
+    String? versionName,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     _s.validateStringLength(
@@ -9378,32 +9039,17 @@ class Ssm {
       isRequired: true,
     );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      1024,
     );
     _s.validateStringLength(
       'targetType',
       targetType,
       0,
       200,
-    );
-    _s.validateStringPattern(
-      'targetType',
-      targetType,
-      r'''^\/[\w\.\-\:\/]*$''',
-    );
-    _s.validateStringPattern(
-      'versionName',
-      versionName,
-      r'''^[a-zA-Z0-9_\-.]{1,128}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -9419,6 +9065,7 @@ class Ssm {
         'Content': content,
         'Name': name,
         if (attachments != null) 'Attachments': attachments,
+        if (displayName != null) 'DisplayName': displayName,
         if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (targetType != null) 'TargetType': targetType,
@@ -9443,23 +9090,11 @@ class Ssm {
   /// Parameter [name] :
   /// The name of a custom document that you want to set as the default version.
   Future<UpdateDocumentDefaultVersionResult> updateDocumentDefaultVersion({
-    @_s.required String documentVersion,
-    @_s.required String name,
+    required String documentVersion,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(documentVersion, 'documentVersion');
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''(^[1-9][0-9]*$)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateDocumentDefaultVersion'
@@ -9496,28 +9131,17 @@ class Ssm {
   /// Parameter [documentVersion] :
   /// The version of a document to update.
   Future<void> updateDocumentMetadata({
-    @_s.required DocumentReviews documentReviews,
-    @_s.required String name,
-    String documentVersion,
+    required DocumentReviews documentReviews,
+    required String name,
+    String? documentVersion,
   }) async {
     ArgumentError.checkNotNull(documentReviews, 'documentReviews');
     ArgumentError.checkNotNull(name, 'name');
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentVersion',
-      documentVersion,
-      r'''([$]LATEST|[$]DEFAULT|^[1-9][0-9]*$)''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateDocumentMetadata'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -9529,8 +9153,6 @@ class Ssm {
         if (documentVersion != null) 'DocumentVersion': documentVersion,
       },
     );
-
-    return UpdateDocumentMetadataResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing maintenance window. Only specified parameters are
@@ -9611,19 +9233,19 @@ class Ssm {
   /// the <a href="https://www.iana.org/time-zones">Time Zone Database</a> on
   /// the IANA website.
   Future<UpdateMaintenanceWindowResult> updateMaintenanceWindow({
-    @_s.required String windowId,
-    bool allowUnassociatedTargets,
-    int cutoff,
-    String description,
-    int duration,
-    bool enabled,
-    String endDate,
-    String name,
-    bool replace,
-    String schedule,
-    int scheduleOffset,
-    String scheduleTimezone,
-    String startDate,
+    required String windowId,
+    bool? allowUnassociatedTargets,
+    int? cutoff,
+    String? description,
+    int? duration,
+    bool? enabled,
+    String? endDate,
+    String? name,
+    bool? replace,
+    String? schedule,
+    int? scheduleOffset,
+    String? scheduleTimezone,
+    String? startDate,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -9631,12 +9253,6 @@ class Ssm {
       windowId,
       20,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -9662,11 +9278,6 @@ class Ssm {
       name,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
     _s.validateStringLength(
       'schedule',
@@ -9766,13 +9377,13 @@ class Ssm {
   /// Parameter [targets] :
   /// The targets to add or replace.
   Future<UpdateMaintenanceWindowTargetResult> updateMaintenanceWindowTarget({
-    @_s.required String windowId,
-    @_s.required String windowTargetId,
-    String description,
-    String name,
-    String ownerInformation,
-    bool replace,
-    List<Target> targets,
+    required String windowId,
+    required String windowTargetId,
+    String? description,
+    String? name,
+    String? ownerInformation,
+    bool? replace,
+    List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -9782,24 +9393,12 @@ class Ssm {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowTargetId, 'windowTargetId');
     _s.validateStringLength(
       'windowTargetId',
       windowTargetId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowTargetId',
-      windowTargetId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -9813,11 +9412,6 @@ class Ssm {
       name,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
     _s.validateStringLength(
       'ownerInformation',
@@ -9877,7 +9471,7 @@ class Ssm {
   /// Command-type tasks. Depending on the task, targets are optional for other
   /// maintenance window task types (Automation, AWS Lambda, and AWS Step
   /// Functions). For more information about running tasks that do not specify
-  /// targets, see see <a
+  /// targets, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
   /// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
   /// User Guide</i>.
@@ -9990,7 +9584,7 @@ class Ssm {
   /// Command-type tasks. Depending on the task, targets are optional for other
   /// maintenance window task types (Automation, AWS Lambda, and AWS Step
   /// Functions). For more information about running tasks that do not specify
-  /// targets, see see <a
+  /// targets, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
   /// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
   /// User Guide</i>.
@@ -10031,20 +9625,20 @@ class Ssm {
   ///
   /// Value: an array of strings, each string is between 1 and 255 characters
   Future<UpdateMaintenanceWindowTaskResult> updateMaintenanceWindowTask({
-    @_s.required String windowId,
-    @_s.required String windowTaskId,
-    String description,
-    LoggingInfo loggingInfo,
-    String maxConcurrency,
-    String maxErrors,
-    String name,
-    int priority,
-    bool replace,
-    String serviceRoleArn,
-    List<Target> targets,
-    String taskArn,
-    MaintenanceWindowTaskInvocationParameters taskInvocationParameters,
-    Map<String, MaintenanceWindowTaskParameterValueExpression> taskParameters,
+    required String windowId,
+    required String windowTaskId,
+    String? description,
+    LoggingInfo? loggingInfo,
+    String? maxConcurrency,
+    String? maxErrors,
+    String? name,
+    int? priority,
+    bool? replace,
+    String? serviceRoleArn,
+    List<Target>? targets,
+    String? taskArn,
+    MaintenanceWindowTaskInvocationParameters? taskInvocationParameters,
+    Map<String, MaintenanceWindowTaskParameterValueExpression>? taskParameters,
   }) async {
     ArgumentError.checkNotNull(windowId, 'windowId');
     _s.validateStringLength(
@@ -10054,24 +9648,12 @@ class Ssm {
       20,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'windowId',
-      windowId,
-      r'''^mw-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(windowTaskId, 'windowTaskId');
     _s.validateStringLength(
       'windowTaskId',
       windowTaskId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'windowTaskId',
-      windowTaskId,
-      r'''^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -10086,32 +9668,17 @@ class Ssm {
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxConcurrency',
-      maxConcurrency,
-      r'''^([1-9][0-9]*|[1-9][0-9]%|[1-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'maxErrors',
       maxErrors,
       1,
       7,
     );
-    _s.validateStringPattern(
-      'maxErrors',
-      maxErrors,
-      r'''^([1-9][0-9]*|[0]|[1-9][0-9]%|[0-9]%|100%)$''',
-    );
     _s.validateStringLength(
       'name',
       name,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
     _s.validateNumRange(
       'priority',
@@ -10171,8 +9738,8 @@ class Ssm {
   /// Parameter [instanceId] :
   /// The ID of the managed instance where you want to update the role.
   Future<void> updateManagedInstanceRole({
-    @_s.required String iamRole,
-    @_s.required String instanceId,
+    required String iamRole,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(iamRole, 'iamRole');
     _s.validateStringLength(
@@ -10183,17 +9750,11 @@ class Ssm {
       isRequired: true,
     );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''^mi-[0-9a-f]{17}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateManagedInstanceRole'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10204,8 +9765,6 @@ class Ssm {
         'InstanceId': instanceId,
       },
     );
-
-    return UpdateManagedInstanceRoleResult.fromJson(jsonResponse.body);
   }
 
   /// Edit or change an OpsItem. You must have permission in AWS Identity and
@@ -10311,50 +9870,34 @@ class Ssm {
   /// A short heading that describes the nature of the OpsItem and the impacted
   /// resource.
   Future<void> updateOpsItem({
-    @_s.required String opsItemId,
-    DateTime actualEndTime,
-    DateTime actualStartTime,
-    String category,
-    String description,
-    List<OpsItemNotification> notifications,
-    Map<String, OpsItemDataValue> operationalData,
-    List<String> operationalDataToDelete,
-    DateTime plannedEndTime,
-    DateTime plannedStartTime,
-    int priority,
-    List<RelatedOpsItem> relatedOpsItems,
-    String severity,
-    OpsItemStatus status,
-    String title,
+    required String opsItemId,
+    DateTime? actualEndTime,
+    DateTime? actualStartTime,
+    String? category,
+    String? description,
+    List<OpsItemNotification>? notifications,
+    Map<String, OpsItemDataValue>? operationalData,
+    List<String>? operationalDataToDelete,
+    DateTime? plannedEndTime,
+    DateTime? plannedStartTime,
+    int? priority,
+    List<RelatedOpsItem>? relatedOpsItems,
+    String? severity,
+    OpsItemStatus? status,
+    String? title,
   }) async {
     ArgumentError.checkNotNull(opsItemId, 'opsItemId');
-    _s.validateStringPattern(
-      'opsItemId',
-      opsItemId,
-      r'''^(oi)-[0-9a-f]{12}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'category',
       category,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'category',
-      category,
-      r'''^(?!\s*$).+''',
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
-      1024,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\s\S]*\S[\s\S]*''',
+      2048,
     );
     _s.validateNumRange(
       'priority',
@@ -10368,27 +9911,17 @@ class Ssm {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'severity',
-      severity,
-      r'''^(?!\s*$).+''',
-    );
     _s.validateStringLength(
       'title',
       title,
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'title',
-      title,
-      r'''^(?!\s*$).+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateOpsItem'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10417,8 +9950,6 @@ class Ssm {
         if (title != null) 'Title': title,
       },
     );
-
-    return UpdateOpsItemResponse.fromJson(jsonResponse.body);
   }
 
   /// Systems Manager calls this API action when you edit OpsMetadata in
@@ -10439,9 +9970,9 @@ class Ssm {
   /// Parameter [metadataToUpdate] :
   /// Metadata to add to an OpsMetadata object.
   Future<UpdateOpsMetadataResult> updateOpsMetadata({
-    @_s.required String opsMetadataArn,
-    List<String> keysToDelete,
-    Map<String, MetadataValue> metadataToUpdate,
+    required String opsMetadataArn,
+    List<String>? keysToDelete,
+    Map<String, MetadataValue>? metadataToUpdate,
   }) async {
     ArgumentError.checkNotNull(opsMetadataArn, 'opsMetadataArn');
     _s.validateStringLength(
@@ -10449,12 +9980,6 @@ class Ssm {
       opsMetadataArn,
       1,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'opsMetadataArn',
-      opsMetadataArn,
-      r'''arn:(aws[a-zA-Z-]*)?:ssm:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:opsmetadata\/([a-zA-Z0-9-_\.\/]*)''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -10560,18 +10085,18 @@ class Ssm {
   /// target operating systems and source repositories. Applies to Linux
   /// instances only.
   Future<UpdatePatchBaselineResult> updatePatchBaseline({
-    @_s.required String baselineId,
-    PatchRuleGroup approvalRules,
-    List<String> approvedPatches,
-    PatchComplianceLevel approvedPatchesComplianceLevel,
-    bool approvedPatchesEnableNonSecurity,
-    String description,
-    PatchFilterGroup globalFilters,
-    String name,
-    List<String> rejectedPatches,
-    PatchAction rejectedPatchesAction,
-    bool replace,
-    List<PatchSource> sources,
+    required String baselineId,
+    PatchRuleGroup? approvalRules,
+    List<String>? approvedPatches,
+    PatchComplianceLevel? approvedPatchesComplianceLevel,
+    bool? approvedPatchesEnableNonSecurity,
+    String? description,
+    PatchFilterGroup? globalFilters,
+    String? name,
+    List<String>? rejectedPatches,
+    PatchAction? rejectedPatchesAction,
+    bool? replace,
+    List<PatchSource>? sources,
   }) async {
     ArgumentError.checkNotNull(baselineId, 'baselineId');
     _s.validateStringLength(
@@ -10579,12 +10104,6 @@ class Ssm {
       baselineId,
       20,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'baselineId',
-      baselineId,
-      r'''^[a-zA-Z0-9_\-:/]{20,128}$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -10598,11 +10117,6 @@ class Ssm {
       name,
       3,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_\-.]{3,128}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -10664,9 +10178,9 @@ class Ssm {
   /// The type of resource data sync. The supported <code>SyncType</code> is
   /// SyncFromSource.
   Future<void> updateResourceDataSync({
-    @_s.required String syncName,
-    @_s.required ResourceDataSyncSource syncSource,
-    @_s.required String syncType,
+    required String syncName,
+    required ResourceDataSyncSource syncSource,
+    required String syncType,
   }) async {
     ArgumentError.checkNotNull(syncName, 'syncName');
     _s.validateStringLength(
@@ -10689,7 +10203,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateResourceDataSync'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10701,8 +10215,6 @@ class Ssm {
         'SyncType': syncType,
       },
     );
-
-    return UpdateResourceDataSyncResult.fromJson(jsonResponse.body);
   }
 
   /// <code>ServiceSetting</code> is an account-level setting for an AWS
@@ -10735,6 +10247,15 @@ class Ssm {
   ///
   /// <ul>
   /// <li>
+  /// <code>/ssm/automation/customer-script-log-destination</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/automation/customer-script-log-group-name</code>
+  /// </li>
+  /// <li>
+  /// <code>/ssm/documents/console/public-sharing-permission</code>
+  /// </li>
+  /// <li>
   /// <code>/ssm/parameter-store/default-parameter-tier</code>
   /// </li>
   /// <li>
@@ -10764,9 +10285,19 @@ class Ssm {
   /// For the <code>/ssm/parameter-store/high-throughput-enabled</code>, and
   /// <code>/ssm/managed-instance/activation-tier</code> setting IDs, the
   /// setting value can be true or false.
+  ///
+  /// For the <code>/ssm/automation/customer-script-log-destination</code>
+  /// setting ID, the setting value can be CloudWatch.
+  ///
+  /// For the <code>/ssm/automation/customer-script-log-group-name</code>
+  /// setting ID, the setting value can be the name of a CloudWatch Logs log
+  /// group.
+  ///
+  /// For the <code>/ssm/documents/console/public-sharing-permission</code>
+  /// setting ID, the setting value can be Enable or Disable.
   Future<void> updateServiceSetting({
-    @_s.required String settingId,
-    @_s.required String settingValue,
+    required String settingId,
+    required String settingValue,
   }) async {
     ArgumentError.checkNotNull(settingId, 'settingId');
     _s.validateStringLength(
@@ -10788,7 +10319,7 @@ class Ssm {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AmazonSSM.UpdateServiceSetting'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -10799,89 +10330,78 @@ class Ssm {
         'SettingValue': settingValue,
       },
     );
-
-    return UpdateServiceSettingResult.fromJson(jsonResponse.body);
   }
 }
 
 /// Information includes the AWS account ID where the current document is shared
 /// and the version shared with that account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountSharingInfo {
   /// The AWS account ID where the current document is shared.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The version of the current document shared with the account.
-  @_s.JsonKey(name: 'SharedDocumentVersion')
-  final String sharedDocumentVersion;
+  final String? sharedDocumentVersion;
 
   AccountSharingInfo({
     this.accountId,
     this.sharedDocumentVersion,
   });
-  factory AccountSharingInfo.fromJson(Map<String, dynamic> json) =>
-      _$AccountSharingInfoFromJson(json);
+
+  factory AccountSharingInfo.fromJson(Map<String, dynamic> json) {
+    return AccountSharingInfo(
+      accountId: json['AccountId'] as String?,
+      sharedDocumentVersion: json['SharedDocumentVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final sharedDocumentVersion = this.sharedDocumentVersion;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (sharedDocumentVersion != null)
+        'SharedDocumentVersion': sharedDocumentVersion,
+    };
+  }
 }
 
 /// An activation registers one or more on-premises servers or virtual machines
 /// (VMs) with AWS so that you can configure those servers or VMs using Run
 /// Command. A server or VM that has been registered with AWS is called a
 /// managed instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Activation {
   /// The ID created by Systems Manager when you submitted the activation.
-  @_s.JsonKey(name: 'ActivationId')
-  final String activationId;
+  final String? activationId;
 
   /// The date the activation was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// A name for the managed instance when it is created.
-  @_s.JsonKey(name: 'DefaultInstanceName')
-  final String defaultInstanceName;
+  final String? defaultInstanceName;
 
   /// A user defined description of the activation.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date when this activation can no longer be used to register managed
   /// instances.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationDate')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   /// Whether or not the activation is expired.
-  @_s.JsonKey(name: 'Expired')
-  final bool expired;
+  final bool? expired;
 
   /// The Amazon Identity and Access Management (IAM) role to assign to the
   /// managed instance.
-  @_s.JsonKey(name: 'IamRole')
-  final String iamRole;
+  final String? iamRole;
 
   /// The maximum number of managed instances that can be registered using this
   /// activation.
-  @_s.JsonKey(name: 'RegistrationLimit')
-  final int registrationLimit;
+  final int? registrationLimit;
 
   /// The number of managed instances already registered with this activation.
-  @_s.JsonKey(name: 'RegistrationsCount')
-  final int registrationsCount;
+  final int? registrationsCount;
 
   /// Tags assigned to the activation.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Activation({
     this.activationId,
@@ -10895,69 +10415,121 @@ class Activation {
     this.registrationsCount,
     this.tags,
   });
-  factory Activation.fromJson(Map<String, dynamic> json) =>
-      _$ActivationFromJson(json);
+
+  factory Activation.fromJson(Map<String, dynamic> json) {
+    return Activation(
+      activationId: json['ActivationId'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      defaultInstanceName: json['DefaultInstanceName'] as String?,
+      description: json['Description'] as String?,
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      expired: json['Expired'] as bool?,
+      iamRole: json['IamRole'] as String?,
+      registrationLimit: json['RegistrationLimit'] as int?,
+      registrationsCount: json['RegistrationsCount'] as int?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationId = this.activationId;
+    final createdDate = this.createdDate;
+    final defaultInstanceName = this.defaultInstanceName;
+    final description = this.description;
+    final expirationDate = this.expirationDate;
+    final expired = this.expired;
+    final iamRole = this.iamRole;
+    final registrationLimit = this.registrationLimit;
+    final registrationsCount = this.registrationsCount;
+    final tags = this.tags;
+    return {
+      if (activationId != null) 'ActivationId': activationId,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (defaultInstanceName != null)
+        'DefaultInstanceName': defaultInstanceName,
+      if (description != null) 'Description': description,
+      if (expirationDate != null)
+        'ExpirationDate': unixTimestampToJson(expirationDate),
+      if (expired != null) 'Expired': expired,
+      if (iamRole != null) 'IamRole': iamRole,
+      if (registrationLimit != null) 'RegistrationLimit': registrationLimit,
+      if (registrationsCount != null) 'RegistrationsCount': registrationsCount,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsToResourceResult {
   AddTagsToResourceResult();
-  factory AddTagsToResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsToResourceResultFromJson(json);
+
+  factory AddTagsToResourceResult.fromJson(Map<String, dynamic> _) {
+    return AddTagsToResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class AssociateOpsItemRelatedItemResponse {
+  /// The association ID.
+  final String? associationId;
+
+  AssociateOpsItemRelatedItemResponse({
+    this.associationId,
+  });
+
+  factory AssociateOpsItemRelatedItemResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateOpsItemRelatedItemResponse(
+      associationId: json['AssociationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+    };
+  }
 }
 
 /// Describes an association of a Systems Manager document and an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Association {
   /// The ID created by the system when you create an association. An association
   /// is a binding between a document and a set of targets with a schedule.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The association name.
-  @_s.JsonKey(name: 'AssociationName')
-  final String associationName;
+  final String? associationName;
 
   /// The association version.
-  @_s.JsonKey(name: 'AssociationVersion')
-  final String associationVersion;
+  final String? associationVersion;
 
   /// The version of the document used in the association.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The ID of the instance.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The date on which the association was last run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastExecutionDate')
-  final DateTime lastExecutionDate;
+  final DateTime? lastExecutionDate;
 
   /// The name of the Systems Manager document.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Information about the association.
-  @_s.JsonKey(name: 'Overview')
-  final AssociationOverview overview;
+  final AssociationOverview? overview;
 
-  /// A cron expression that specifies a schedule when the association runs.
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  /// A cron expression that specifies a schedule when the association runs. The
+  /// schedule runs in Coordinated Universal Time (UTC).
+  final String? scheduleExpression;
 
   /// The instances targeted by the request to create an association.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   Association({
     this.associationId,
@@ -10971,20 +10543,60 @@ class Association {
     this.scheduleExpression,
     this.targets,
   });
-  factory Association.fromJson(Map<String, dynamic> json) =>
-      _$AssociationFromJson(json);
+
+  factory Association.fromJson(Map<String, dynamic> json) {
+    return Association(
+      associationId: json['AssociationId'] as String?,
+      associationName: json['AssociationName'] as String?,
+      associationVersion: json['AssociationVersion'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
+      name: json['Name'] as String?,
+      overview: json['Overview'] != null
+          ? AssociationOverview.fromJson(
+              json['Overview'] as Map<String, dynamic>)
+          : null,
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final associationName = this.associationName;
+    final associationVersion = this.associationVersion;
+    final documentVersion = this.documentVersion;
+    final instanceId = this.instanceId;
+    final lastExecutionDate = this.lastExecutionDate;
+    final name = this.name;
+    final overview = this.overview;
+    final scheduleExpression = this.scheduleExpression;
+    final targets = this.targets;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationName != null) 'AssociationName': associationName,
+      if (associationVersion != null) 'AssociationVersion': associationVersion,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (lastExecutionDate != null)
+        'LastExecutionDate': unixTimestampToJson(lastExecutionDate),
+      if (name != null) 'Name': name,
+      if (overview != null) 'Overview': overview,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 enum AssociationComplianceSeverity {
-  @_s.JsonValue('CRITICAL')
   critical,
-  @_s.JsonValue('HIGH')
   high,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('LOW')
   low,
-  @_s.JsonValue('UNSPECIFIED')
   unspecified,
 }
 
@@ -11002,74 +10614,77 @@ extension on AssociationComplianceSeverity {
       case AssociationComplianceSeverity.unspecified:
         return 'UNSPECIFIED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AssociationComplianceSeverity toAssociationComplianceSeverity() {
+    switch (this) {
+      case 'CRITICAL':
+        return AssociationComplianceSeverity.critical;
+      case 'HIGH':
+        return AssociationComplianceSeverity.high;
+      case 'MEDIUM':
+        return AssociationComplianceSeverity.medium;
+      case 'LOW':
+        return AssociationComplianceSeverity.low;
+      case 'UNSPECIFIED':
+        return AssociationComplianceSeverity.unspecified;
+    }
+    throw Exception('$this is not known in enum AssociationComplianceSeverity');
   }
 }
 
 /// Describes the parameters for a document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociationDescription {
   /// By default, when you create a new associations, the system runs it
   /// immediately after it is created and then according to the schedule you
   /// specified. Specify this option if you don't want an association to run
   /// immediately after you create it. This parameter is not supported for rate
   /// expressions.
-  @_s.JsonKey(name: 'ApplyOnlyAtCronInterval')
-  final bool applyOnlyAtCronInterval;
+  final bool? applyOnlyAtCronInterval;
 
   /// The association ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The association name.
-  @_s.JsonKey(name: 'AssociationName')
-  final String associationName;
+  final String? associationName;
 
   /// The association version.
-  @_s.JsonKey(name: 'AssociationVersion')
-  final String associationVersion;
+  final String? associationVersion;
 
   /// Specify the target for the association. This target is required for
   /// associations that use an Automation document and target resources by using
   /// rate controls.
-  @_s.JsonKey(name: 'AutomationTargetParameterName')
-  final String automationTargetParameterName;
+  final String? automationTargetParameterName;
+
+  /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change
+  /// Calendar type documents your associations are gated under. The associations
+  /// only run when that Change Calendar is open. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar">AWS
+  /// Systems Manager Change Calendar</a>.
+  final List<String>? calendarNames;
 
   /// The severity level that is assigned to the association.
-  @_s.JsonKey(name: 'ComplianceSeverity')
-  final AssociationComplianceSeverity complianceSeverity;
+  final AssociationComplianceSeverity? complianceSeverity;
 
   /// The date when the association was made.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Date')
-  final DateTime date;
+  final DateTime? date;
 
   /// The document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The ID of the instance.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The date on which the association was last run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastExecutionDate')
-  final DateTime lastExecutionDate;
+  final DateTime? lastExecutionDate;
 
   /// The last date on which the association was successfully run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastSuccessfulExecutionDate')
-  final DateTime lastSuccessfulExecutionDate;
+  final DateTime? lastSuccessfulExecutionDate;
 
   /// The date when the association was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateAssociationDate')
-  final DateTime lastUpdateAssociationDate;
+  final DateTime? lastUpdateAssociationDate;
 
   /// The maximum number of targets allowed to run the association at the same
   /// time. You can specify a number, for example 10, or a percentage of the
@@ -11080,8 +10695,7 @@ class AssociationDescription {
   /// Manager is running MaxConcurrency associations, the association is allowed
   /// to run. During the next association interval, the new instance will process
   /// its association within the limit specified for MaxConcurrency.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The number of errors that are allowed before the system stops sending
   /// requests to run the association on additional targets. You can specify
@@ -11097,32 +10711,25 @@ class AssociationDescription {
   /// you need to ensure that there won't be more than max-errors failed
   /// executions, set MaxConcurrency to 1 so that executions proceed one at a
   /// time.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The name of the Systems Manager document.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// An S3 bucket where you want to store the output details of the request.
-  @_s.JsonKey(name: 'OutputLocation')
-  final InstanceAssociationOutputLocation outputLocation;
+  final InstanceAssociationOutputLocation? outputLocation;
 
   /// Information about the association.
-  @_s.JsonKey(name: 'Overview')
-  final AssociationOverview overview;
+  final AssociationOverview? overview;
 
   /// A description of the parameters for a document.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   /// A cron expression that specifies a schedule when the association runs.
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// The association status.
-  @_s.JsonKey(name: 'Status')
-  final AssociationStatus status;
+  final AssociationStatus? status;
 
   /// The mode for generating association compliance. You can specify
   /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
@@ -11137,17 +10744,14 @@ class AssociationDescription {
   /// direct call to the <a>PutComplianceItems</a> API action.
   ///
   /// By default, all associations use <code>AUTO</code> mode.
-  @_s.JsonKey(name: 'SyncCompliance')
-  final AssociationSyncCompliance syncCompliance;
+  final AssociationSyncCompliance? syncCompliance;
 
   /// The combination of AWS Regions and AWS accounts where you want to run the
   /// association.
-  @_s.JsonKey(name: 'TargetLocations')
-  final List<TargetLocation> targetLocations;
+  final List<TargetLocation>? targetLocations;
 
   /// The instances targeted by the request.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   AssociationDescription({
     this.applyOnlyAtCronInterval,
@@ -11155,6 +10759,7 @@ class AssociationDescription {
     this.associationName,
     this.associationVersion,
     this.automationTargetParameterName,
+    this.calendarNames,
     this.complianceSeverity,
     this.date,
     this.documentVersion,
@@ -11174,51 +10779,148 @@ class AssociationDescription {
     this.targetLocations,
     this.targets,
   });
-  factory AssociationDescription.fromJson(Map<String, dynamic> json) =>
-      _$AssociationDescriptionFromJson(json);
+
+  factory AssociationDescription.fromJson(Map<String, dynamic> json) {
+    return AssociationDescription(
+      applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool?,
+      associationId: json['AssociationId'] as String?,
+      associationName: json['AssociationName'] as String?,
+      associationVersion: json['AssociationVersion'] as String?,
+      automationTargetParameterName:
+          json['AutomationTargetParameterName'] as String?,
+      calendarNames: (json['CalendarNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      complianceSeverity: (json['ComplianceSeverity'] as String?)
+          ?.toAssociationComplianceSeverity(),
+      date: timeStampFromJson(json['Date']),
+      documentVersion: json['DocumentVersion'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
+      lastSuccessfulExecutionDate:
+          timeStampFromJson(json['LastSuccessfulExecutionDate']),
+      lastUpdateAssociationDate:
+          timeStampFromJson(json['LastUpdateAssociationDate']),
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      name: json['Name'] as String?,
+      outputLocation: json['OutputLocation'] != null
+          ? InstanceAssociationOutputLocation.fromJson(
+              json['OutputLocation'] as Map<String, dynamic>)
+          : null,
+      overview: json['Overview'] != null
+          ? AssociationOverview.fromJson(
+              json['Overview'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      status: json['Status'] != null
+          ? AssociationStatus.fromJson(json['Status'] as Map<String, dynamic>)
+          : null,
+      syncCompliance:
+          (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
+      targetLocations: (json['TargetLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applyOnlyAtCronInterval = this.applyOnlyAtCronInterval;
+    final associationId = this.associationId;
+    final associationName = this.associationName;
+    final associationVersion = this.associationVersion;
+    final automationTargetParameterName = this.automationTargetParameterName;
+    final calendarNames = this.calendarNames;
+    final complianceSeverity = this.complianceSeverity;
+    final date = this.date;
+    final documentVersion = this.documentVersion;
+    final instanceId = this.instanceId;
+    final lastExecutionDate = this.lastExecutionDate;
+    final lastSuccessfulExecutionDate = this.lastSuccessfulExecutionDate;
+    final lastUpdateAssociationDate = this.lastUpdateAssociationDate;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final name = this.name;
+    final outputLocation = this.outputLocation;
+    final overview = this.overview;
+    final parameters = this.parameters;
+    final scheduleExpression = this.scheduleExpression;
+    final status = this.status;
+    final syncCompliance = this.syncCompliance;
+    final targetLocations = this.targetLocations;
+    final targets = this.targets;
+    return {
+      if (applyOnlyAtCronInterval != null)
+        'ApplyOnlyAtCronInterval': applyOnlyAtCronInterval,
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationName != null) 'AssociationName': associationName,
+      if (associationVersion != null) 'AssociationVersion': associationVersion,
+      if (automationTargetParameterName != null)
+        'AutomationTargetParameterName': automationTargetParameterName,
+      if (calendarNames != null) 'CalendarNames': calendarNames,
+      if (complianceSeverity != null)
+        'ComplianceSeverity': complianceSeverity.toValue(),
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (lastExecutionDate != null)
+        'LastExecutionDate': unixTimestampToJson(lastExecutionDate),
+      if (lastSuccessfulExecutionDate != null)
+        'LastSuccessfulExecutionDate':
+            unixTimestampToJson(lastSuccessfulExecutionDate),
+      if (lastUpdateAssociationDate != null)
+        'LastUpdateAssociationDate':
+            unixTimestampToJson(lastUpdateAssociationDate),
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (name != null) 'Name': name,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+      if (overview != null) 'Overview': overview,
+      if (parameters != null) 'Parameters': parameters,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (status != null) 'Status': status,
+      if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+      if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 /// Includes information about the specified association.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociationExecution {
   /// The association ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The association version.
-  @_s.JsonKey(name: 'AssociationVersion')
-  final String associationVersion;
+  final String? associationVersion;
 
   /// The time the execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// Detailed status information about the execution.
-  @_s.JsonKey(name: 'DetailedStatus')
-  final String detailedStatus;
+  final String? detailedStatus;
 
   /// The execution ID for the association.
-  @_s.JsonKey(name: 'ExecutionId')
-  final String executionId;
+  final String? executionId;
 
   /// The date of the last execution.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastExecutionDate')
-  final DateTime lastExecutionDate;
+  final DateTime? lastExecutionDate;
 
   /// An aggregate status of the resources in the execution based on the status
   /// type.
-  @_s.JsonKey(name: 'ResourceCountByStatus')
-  final String resourceCountByStatus;
+  final String? resourceCountByStatus;
 
   /// The status of the association execution.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   AssociationExecution({
     this.associationId,
@@ -11230,89 +10932,142 @@ class AssociationExecution {
     this.resourceCountByStatus,
     this.status,
   });
-  factory AssociationExecution.fromJson(Map<String, dynamic> json) =>
-      _$AssociationExecutionFromJson(json);
+
+  factory AssociationExecution.fromJson(Map<String, dynamic> json) {
+    return AssociationExecution(
+      associationId: json['AssociationId'] as String?,
+      associationVersion: json['AssociationVersion'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      detailedStatus: json['DetailedStatus'] as String?,
+      executionId: json['ExecutionId'] as String?,
+      lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
+      resourceCountByStatus: json['ResourceCountByStatus'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final associationVersion = this.associationVersion;
+    final createdTime = this.createdTime;
+    final detailedStatus = this.detailedStatus;
+    final executionId = this.executionId;
+    final lastExecutionDate = this.lastExecutionDate;
+    final resourceCountByStatus = this.resourceCountByStatus;
+    final status = this.status;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationVersion != null) 'AssociationVersion': associationVersion,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus,
+      if (executionId != null) 'ExecutionId': executionId,
+      if (lastExecutionDate != null)
+        'LastExecutionDate': unixTimestampToJson(lastExecutionDate),
+      if (resourceCountByStatus != null)
+        'ResourceCountByStatus': resourceCountByStatus,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Filters used in the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AssociationExecutionFilter {
   /// The key value used in the request.
-  @_s.JsonKey(name: 'Key')
   final AssociationExecutionFilterKey key;
 
   /// The filter type specified in the request.
-  @_s.JsonKey(name: 'Type')
   final AssociationFilterOperatorType type;
 
   /// The value specified for the key.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   AssociationExecutionFilter({
-    @_s.required this.key,
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.key,
+    required this.type,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$AssociationExecutionFilterToJson(this);
+
+  factory AssociationExecutionFilter.fromJson(Map<String, dynamic> json) {
+    return AssociationExecutionFilter(
+      key: (json['Key'] as String).toAssociationExecutionFilterKey(),
+      type: (json['Type'] as String).toAssociationFilterOperatorType(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Key': key.toValue(),
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum AssociationExecutionFilterKey {
-  @_s.JsonValue('ExecutionId')
   executionId,
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('CreatedTime')
   createdTime,
 }
 
+extension on AssociationExecutionFilterKey {
+  String toValue() {
+    switch (this) {
+      case AssociationExecutionFilterKey.executionId:
+        return 'ExecutionId';
+      case AssociationExecutionFilterKey.status:
+        return 'Status';
+      case AssociationExecutionFilterKey.createdTime:
+        return 'CreatedTime';
+    }
+  }
+}
+
+extension on String {
+  AssociationExecutionFilterKey toAssociationExecutionFilterKey() {
+    switch (this) {
+      case 'ExecutionId':
+        return AssociationExecutionFilterKey.executionId;
+      case 'Status':
+        return AssociationExecutionFilterKey.status;
+      case 'CreatedTime':
+        return AssociationExecutionFilterKey.createdTime;
+    }
+    throw Exception('$this is not known in enum AssociationExecutionFilterKey');
+  }
+}
+
 /// Includes information about the specified association execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociationExecutionTarget {
   /// The association ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The association version.
-  @_s.JsonKey(name: 'AssociationVersion')
-  final String associationVersion;
+  final String? associationVersion;
 
   /// Detailed information about the execution status.
-  @_s.JsonKey(name: 'DetailedStatus')
-  final String detailedStatus;
+  final String? detailedStatus;
 
   /// The execution ID.
-  @_s.JsonKey(name: 'ExecutionId')
-  final String executionId;
+  final String? executionId;
 
   /// The date of the last execution.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastExecutionDate')
-  final DateTime lastExecutionDate;
+  final DateTime? lastExecutionDate;
 
   /// The location where the association details are saved.
-  @_s.JsonKey(name: 'OutputSource')
-  final OutputSource outputSource;
+  final OutputSource? outputSource;
 
   /// The resource ID, for example, the instance ID where the association ran.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The resource type, for example, instance.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The association execution status.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   AssociationExecutionTarget({
     this.associationId,
@@ -11325,174 +11080,360 @@ class AssociationExecutionTarget {
     this.resourceType,
     this.status,
   });
-  factory AssociationExecutionTarget.fromJson(Map<String, dynamic> json) =>
-      _$AssociationExecutionTargetFromJson(json);
+
+  factory AssociationExecutionTarget.fromJson(Map<String, dynamic> json) {
+    return AssociationExecutionTarget(
+      associationId: json['AssociationId'] as String?,
+      associationVersion: json['AssociationVersion'] as String?,
+      detailedStatus: json['DetailedStatus'] as String?,
+      executionId: json['ExecutionId'] as String?,
+      lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
+      outputSource: json['OutputSource'] != null
+          ? OutputSource.fromJson(json['OutputSource'] as Map<String, dynamic>)
+          : null,
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final associationVersion = this.associationVersion;
+    final detailedStatus = this.detailedStatus;
+    final executionId = this.executionId;
+    final lastExecutionDate = this.lastExecutionDate;
+    final outputSource = this.outputSource;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationVersion != null) 'AssociationVersion': associationVersion,
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus,
+      if (executionId != null) 'ExecutionId': executionId,
+      if (lastExecutionDate != null)
+        'LastExecutionDate': unixTimestampToJson(lastExecutionDate),
+      if (outputSource != null) 'OutputSource': outputSource,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Filters for the association execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AssociationExecutionTargetsFilter {
   /// The key value used in the request.
-  @_s.JsonKey(name: 'Key')
   final AssociationExecutionTargetsFilterKey key;
 
   /// The value specified for the key.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   AssociationExecutionTargetsFilter({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() =>
-      _$AssociationExecutionTargetsFilterToJson(this);
+
+  factory AssociationExecutionTargetsFilter.fromJson(
+      Map<String, dynamic> json) {
+    return AssociationExecutionTargetsFilter(
+      key: (json['Key'] as String).toAssociationExecutionTargetsFilterKey(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum AssociationExecutionTargetsFilterKey {
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('ResourceId')
   resourceId,
-  @_s.JsonValue('ResourceType')
   resourceType,
 }
 
+extension on AssociationExecutionTargetsFilterKey {
+  String toValue() {
+    switch (this) {
+      case AssociationExecutionTargetsFilterKey.status:
+        return 'Status';
+      case AssociationExecutionTargetsFilterKey.resourceId:
+        return 'ResourceId';
+      case AssociationExecutionTargetsFilterKey.resourceType:
+        return 'ResourceType';
+    }
+  }
+}
+
+extension on String {
+  AssociationExecutionTargetsFilterKey
+      toAssociationExecutionTargetsFilterKey() {
+    switch (this) {
+      case 'Status':
+        return AssociationExecutionTargetsFilterKey.status;
+      case 'ResourceId':
+        return AssociationExecutionTargetsFilterKey.resourceId;
+      case 'ResourceType':
+        return AssociationExecutionTargetsFilterKey.resourceType;
+    }
+    throw Exception(
+        '$this is not known in enum AssociationExecutionTargetsFilterKey');
+  }
+}
+
 /// Describes a filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AssociationFilter {
   /// The name of the filter.
   /// <note>
   /// <code>InstanceId</code> has been deprecated.
   /// </note>
-  @_s.JsonKey(name: 'key')
   final AssociationFilterKey key;
 
   /// The filter value.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   AssociationFilter({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$AssociationFilterToJson(this);
+
+  factory AssociationFilter.fromJson(Map<String, dynamic> json) {
+    return AssociationFilter(
+      key: (json['key'] as String).toAssociationFilterKey(),
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum AssociationFilterKey {
-  @_s.JsonValue('InstanceId')
   instanceId,
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('AssociationId')
   associationId,
-  @_s.JsonValue('AssociationStatusName')
   associationStatusName,
-  @_s.JsonValue('LastExecutedBefore')
   lastExecutedBefore,
-  @_s.JsonValue('LastExecutedAfter')
   lastExecutedAfter,
-  @_s.JsonValue('AssociationName')
   associationName,
-  @_s.JsonValue('ResourceGroupName')
   resourceGroupName,
 }
 
+extension on AssociationFilterKey {
+  String toValue() {
+    switch (this) {
+      case AssociationFilterKey.instanceId:
+        return 'InstanceId';
+      case AssociationFilterKey.name:
+        return 'Name';
+      case AssociationFilterKey.associationId:
+        return 'AssociationId';
+      case AssociationFilterKey.associationStatusName:
+        return 'AssociationStatusName';
+      case AssociationFilterKey.lastExecutedBefore:
+        return 'LastExecutedBefore';
+      case AssociationFilterKey.lastExecutedAfter:
+        return 'LastExecutedAfter';
+      case AssociationFilterKey.associationName:
+        return 'AssociationName';
+      case AssociationFilterKey.resourceGroupName:
+        return 'ResourceGroupName';
+    }
+  }
+}
+
+extension on String {
+  AssociationFilterKey toAssociationFilterKey() {
+    switch (this) {
+      case 'InstanceId':
+        return AssociationFilterKey.instanceId;
+      case 'Name':
+        return AssociationFilterKey.name;
+      case 'AssociationId':
+        return AssociationFilterKey.associationId;
+      case 'AssociationStatusName':
+        return AssociationFilterKey.associationStatusName;
+      case 'LastExecutedBefore':
+        return AssociationFilterKey.lastExecutedBefore;
+      case 'LastExecutedAfter':
+        return AssociationFilterKey.lastExecutedAfter;
+      case 'AssociationName':
+        return AssociationFilterKey.associationName;
+      case 'ResourceGroupName':
+        return AssociationFilterKey.resourceGroupName;
+    }
+    throw Exception('$this is not known in enum AssociationFilterKey');
+  }
+}
+
 enum AssociationFilterOperatorType {
-  @_s.JsonValue('EQUAL')
   equal,
-  @_s.JsonValue('LESS_THAN')
   lessThan,
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
 }
 
+extension on AssociationFilterOperatorType {
+  String toValue() {
+    switch (this) {
+      case AssociationFilterOperatorType.equal:
+        return 'EQUAL';
+      case AssociationFilterOperatorType.lessThan:
+        return 'LESS_THAN';
+      case AssociationFilterOperatorType.greaterThan:
+        return 'GREATER_THAN';
+    }
+  }
+}
+
+extension on String {
+  AssociationFilterOperatorType toAssociationFilterOperatorType() {
+    switch (this) {
+      case 'EQUAL':
+        return AssociationFilterOperatorType.equal;
+      case 'LESS_THAN':
+        return AssociationFilterOperatorType.lessThan;
+      case 'GREATER_THAN':
+        return AssociationFilterOperatorType.greaterThan;
+    }
+    throw Exception('$this is not known in enum AssociationFilterOperatorType');
+  }
+}
+
 /// Information about the association.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociationOverview {
   /// Returns the number of targets for the association status. For example, if
   /// you created an association with two instances, and one of them was
   /// successful, this would return the count of instances by status.
-  @_s.JsonKey(name: 'AssociationStatusAggregatedCount')
-  final Map<String, int> associationStatusAggregatedCount;
+  final Map<String, int>? associationStatusAggregatedCount;
 
   /// A detailed status of the association.
-  @_s.JsonKey(name: 'DetailedStatus')
-  final String detailedStatus;
+  final String? detailedStatus;
 
   /// The status of the association. Status can be: Pending, Success, or Failed.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   AssociationOverview({
     this.associationStatusAggregatedCount,
     this.detailedStatus,
     this.status,
   });
-  factory AssociationOverview.fromJson(Map<String, dynamic> json) =>
-      _$AssociationOverviewFromJson(json);
+
+  factory AssociationOverview.fromJson(Map<String, dynamic> json) {
+    return AssociationOverview(
+      associationStatusAggregatedCount:
+          (json['AssociationStatusAggregatedCount'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as int)),
+      detailedStatus: json['DetailedStatus'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationStatusAggregatedCount =
+        this.associationStatusAggregatedCount;
+    final detailedStatus = this.detailedStatus;
+    final status = this.status;
+    return {
+      if (associationStatusAggregatedCount != null)
+        'AssociationStatusAggregatedCount': associationStatusAggregatedCount,
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Describes an association status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AssociationStatus {
   /// The date when the status changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Date')
   final DateTime date;
 
   /// The reason for the status.
-  @_s.JsonKey(name: 'Message')
   final String message;
 
   /// The status.
-  @_s.JsonKey(name: 'Name')
   final AssociationStatusName name;
 
   /// A user-defined string.
-  @_s.JsonKey(name: 'AdditionalInfo')
-  final String additionalInfo;
+  final String? additionalInfo;
 
   AssociationStatus({
-    @_s.required this.date,
-    @_s.required this.message,
-    @_s.required this.name,
+    required this.date,
+    required this.message,
+    required this.name,
     this.additionalInfo,
   });
-  factory AssociationStatus.fromJson(Map<String, dynamic> json) =>
-      _$AssociationStatusFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AssociationStatusToJson(this);
+  factory AssociationStatus.fromJson(Map<String, dynamic> json) {
+    return AssociationStatus(
+      date: nonNullableTimeStampFromJson(json['Date'] as Object),
+      message: json['Message'] as String,
+      name: (json['Name'] as String).toAssociationStatusName(),
+      additionalInfo: json['AdditionalInfo'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final message = this.message;
+    final name = this.name;
+    final additionalInfo = this.additionalInfo;
+    return {
+      'Date': unixTimestampToJson(date),
+      'Message': message,
+      'Name': name.toValue(),
+      if (additionalInfo != null) 'AdditionalInfo': additionalInfo,
+    };
+  }
 }
 
 enum AssociationStatusName {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on AssociationStatusName {
+  String toValue() {
+    switch (this) {
+      case AssociationStatusName.pending:
+        return 'Pending';
+      case AssociationStatusName.success:
+        return 'Success';
+      case AssociationStatusName.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  AssociationStatusName toAssociationStatusName() {
+    switch (this) {
+      case 'Pending':
+        return AssociationStatusName.pending;
+      case 'Success':
+        return AssociationStatusName.success;
+      case 'Failed':
+        return AssociationStatusName.failed;
+    }
+    throw Exception('$this is not known in enum AssociationStatusName');
+  }
+}
+
 enum AssociationSyncCompliance {
-  @_s.JsonValue('AUTO')
   auto,
-  @_s.JsonValue('MANUAL')
   manual,
 }
 
@@ -11504,51 +11445,57 @@ extension on AssociationSyncCompliance {
       case AssociationSyncCompliance.manual:
         return 'MANUAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AssociationSyncCompliance toAssociationSyncCompliance() {
+    switch (this) {
+      case 'AUTO':
+        return AssociationSyncCompliance.auto;
+      case 'MANUAL':
+        return AssociationSyncCompliance.manual;
+    }
+    throw Exception('$this is not known in enum AssociationSyncCompliance');
   }
 }
 
 /// Information about the association version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociationVersionInfo {
   /// By default, when you create a new associations, the system runs it
   /// immediately after it is created and then according to the schedule you
   /// specified. Specify this option if you don't want an association to run
   /// immediately after you create it. This parameter is not supported for rate
   /// expressions.
-  @_s.JsonKey(name: 'ApplyOnlyAtCronInterval')
-  final bool applyOnlyAtCronInterval;
+  final bool? applyOnlyAtCronInterval;
 
   /// The ID created by the system when the association was created.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The name specified for the association version when the association version
   /// was created.
-  @_s.JsonKey(name: 'AssociationName')
-  final String associationName;
+  final String? associationName;
 
   /// The association version.
-  @_s.JsonKey(name: 'AssociationVersion')
-  final String associationVersion;
+  final String? associationVersion;
+
+  /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change
+  /// Calendar type documents your associations are gated under. The associations
+  /// for this version only run when that Change Calendar is open. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar">AWS
+  /// Systems Manager Change Calendar</a>.
+  final List<String>? calendarNames;
 
   /// The severity level that is assigned to the association.
-  @_s.JsonKey(name: 'ComplianceSeverity')
-  final AssociationComplianceSeverity complianceSeverity;
+  final AssociationComplianceSeverity? complianceSeverity;
 
   /// The date the association version was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The version of a Systems Manager document used when the association version
   /// was created.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The maximum number of targets allowed to run the association at the same
   /// time. You can specify a number, for example 10, or a percentage of the
@@ -11559,8 +11506,7 @@ class AssociationVersionInfo {
   /// Manager is running MaxConcurrency associations, the association is allowed
   /// to run. During the next association interval, the new instance will process
   /// its association within the limit specified for MaxConcurrency.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The number of errors that are allowed before the system stops sending
   /// requests to run the association on additional targets. You can specify
@@ -11576,26 +11522,21 @@ class AssociationVersionInfo {
   /// you need to ensure that there won't be more than max-errors failed
   /// executions, set MaxConcurrency to 1 so that executions proceed one at a
   /// time.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The name specified when the association was created.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The location in Amazon S3 specified for the association when the association
   /// version was created.
-  @_s.JsonKey(name: 'OutputLocation')
-  final InstanceAssociationOutputLocation outputLocation;
+  final InstanceAssociationOutputLocation? outputLocation;
 
   /// Parameters specified when the association version was created.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   /// The cron or rate schedule specified for the association when the association
   /// version was created.
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// The mode for generating association compliance. You can specify
   /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
@@ -11610,24 +11551,22 @@ class AssociationVersionInfo {
   /// direct call to the <a>PutComplianceItems</a> API action.
   ///
   /// By default, all associations use <code>AUTO</code> mode.
-  @_s.JsonKey(name: 'SyncCompliance')
-  final AssociationSyncCompliance syncCompliance;
+  final AssociationSyncCompliance? syncCompliance;
 
   /// The combination of AWS Regions and AWS accounts where you wanted to run the
   /// association when this association version was created.
-  @_s.JsonKey(name: 'TargetLocations')
-  final List<TargetLocation> targetLocations;
+  final List<TargetLocation>? targetLocations;
 
   /// The targets specified for the association when the association version was
   /// created.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   AssociationVersionInfo({
     this.applyOnlyAtCronInterval,
     this.associationId,
     this.associationName,
     this.associationVersion,
+    this.calendarNames,
     this.complianceSeverity,
     this.createdDate,
     this.documentVersion,
@@ -11641,36 +11580,103 @@ class AssociationVersionInfo {
     this.targetLocations,
     this.targets,
   });
-  factory AssociationVersionInfo.fromJson(Map<String, dynamic> json) =>
-      _$AssociationVersionInfoFromJson(json);
+
+  factory AssociationVersionInfo.fromJson(Map<String, dynamic> json) {
+    return AssociationVersionInfo(
+      applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool?,
+      associationId: json['AssociationId'] as String?,
+      associationName: json['AssociationName'] as String?,
+      associationVersion: json['AssociationVersion'] as String?,
+      calendarNames: (json['CalendarNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      complianceSeverity: (json['ComplianceSeverity'] as String?)
+          ?.toAssociationComplianceSeverity(),
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      documentVersion: json['DocumentVersion'] as String?,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      name: json['Name'] as String?,
+      outputLocation: json['OutputLocation'] != null
+          ? InstanceAssociationOutputLocation.fromJson(
+              json['OutputLocation'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      syncCompliance:
+          (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
+      targetLocations: (json['TargetLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applyOnlyAtCronInterval = this.applyOnlyAtCronInterval;
+    final associationId = this.associationId;
+    final associationName = this.associationName;
+    final associationVersion = this.associationVersion;
+    final calendarNames = this.calendarNames;
+    final complianceSeverity = this.complianceSeverity;
+    final createdDate = this.createdDate;
+    final documentVersion = this.documentVersion;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final name = this.name;
+    final outputLocation = this.outputLocation;
+    final parameters = this.parameters;
+    final scheduleExpression = this.scheduleExpression;
+    final syncCompliance = this.syncCompliance;
+    final targetLocations = this.targetLocations;
+    final targets = this.targets;
+    return {
+      if (applyOnlyAtCronInterval != null)
+        'ApplyOnlyAtCronInterval': applyOnlyAtCronInterval,
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationName != null) 'AssociationName': associationName,
+      if (associationVersion != null) 'AssociationVersion': associationVersion,
+      if (calendarNames != null) 'CalendarNames': calendarNames,
+      if (complianceSeverity != null)
+        'ComplianceSeverity': complianceSeverity.toValue(),
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (name != null) 'Name': name,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+      if (parameters != null) 'Parameters': parameters,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+      if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 /// A structure that includes attributes that describe a document attachment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachmentContent {
   /// The cryptographic hash value of the document content.
-  @_s.JsonKey(name: 'Hash')
-  final String hash;
+  final String? hash;
 
   /// The hash algorithm used to calculate the hash value.
-  @_s.JsonKey(name: 'HashType')
-  final AttachmentHashType hashType;
+  final AttachmentHashType? hashType;
 
   /// The name of an attachment.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The size of an attachment in bytes.
-  @_s.JsonKey(name: 'Size')
-  final int size;
+  final int? size;
 
   /// The URL location of the attachment content.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   AttachmentContent({
     this.hash,
@@ -11679,50 +11685,89 @@ class AttachmentContent {
     this.size,
     this.url,
   });
-  factory AttachmentContent.fromJson(Map<String, dynamic> json) =>
-      _$AttachmentContentFromJson(json);
+
+  factory AttachmentContent.fromJson(Map<String, dynamic> json) {
+    return AttachmentContent(
+      hash: json['Hash'] as String?,
+      hashType: (json['HashType'] as String?)?.toAttachmentHashType(),
+      name: json['Name'] as String?,
+      size: json['Size'] as int?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hash = this.hash;
+    final hashType = this.hashType;
+    final name = this.name;
+    final size = this.size;
+    final url = this.url;
+    return {
+      if (hash != null) 'Hash': hash,
+      if (hashType != null) 'HashType': hashType.toValue(),
+      if (name != null) 'Name': name,
+      if (size != null) 'Size': size,
+      if (url != null) 'Url': url,
+    };
+  }
 }
 
 enum AttachmentHashType {
-  @_s.JsonValue('Sha256')
   sha256,
 }
 
+extension on AttachmentHashType {
+  String toValue() {
+    switch (this) {
+      case AttachmentHashType.sha256:
+        return 'Sha256';
+    }
+  }
+}
+
+extension on String {
+  AttachmentHashType toAttachmentHashType() {
+    switch (this) {
+      case 'Sha256':
+        return AttachmentHashType.sha256;
+    }
+    throw Exception('$this is not known in enum AttachmentHashType');
+  }
+}
+
 /// An attribute of an attachment, such as the attachment name.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachmentInformation {
   /// The name of the attachment.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   AttachmentInformation({
     this.name,
   });
-  factory AttachmentInformation.fromJson(Map<String, dynamic> json) =>
-      _$AttachmentInformationFromJson(json);
+
+  factory AttachmentInformation.fromJson(Map<String, dynamic> json) {
+    return AttachmentInformation(
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Identifying information about a document attachment, including the file name
 /// and a key-value pair that identifies the location of an attachment to a
 /// document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AttachmentsSource {
   /// The key of a key-value pair that identifies the location of an attachment to
   /// a document.
-  @_s.JsonKey(name: 'Key')
-  final AttachmentsSourceKey key;
+  final AttachmentsSourceKey? key;
 
   /// The name of the document attachment file.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The value of a key-value pair that identifies the location of an attachment
   /// to a document. The format for <b>Value</b> depends on the type of key you
@@ -11758,128 +11803,143 @@ class AttachmentsSource {
   /// ]</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   AttachmentsSource({
     this.key,
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$AttachmentsSourceToJson(this);
+
+  factory AttachmentsSource.fromJson(Map<String, dynamic> json) {
+    return AttachmentsSource(
+      key: (json['Key'] as String?)?.toAttachmentsSourceKey(),
+      name: json['Name'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key.toValue(),
+      if (name != null) 'Name': name,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum AttachmentsSourceKey {
-  @_s.JsonValue('SourceUrl')
   sourceUrl,
-  @_s.JsonValue('S3FileUrl')
   s3FileUrl,
-  @_s.JsonValue('AttachmentReference')
   attachmentReference,
+}
+
+extension on AttachmentsSourceKey {
+  String toValue() {
+    switch (this) {
+      case AttachmentsSourceKey.sourceUrl:
+        return 'SourceUrl';
+      case AttachmentsSourceKey.s3FileUrl:
+        return 'S3FileUrl';
+      case AttachmentsSourceKey.attachmentReference:
+        return 'AttachmentReference';
+    }
+  }
+}
+
+extension on String {
+  AttachmentsSourceKey toAttachmentsSourceKey() {
+    switch (this) {
+      case 'SourceUrl':
+        return AttachmentsSourceKey.sourceUrl;
+      case 'S3FileUrl':
+        return AttachmentsSourceKey.s3FileUrl;
+      case 'AttachmentReference':
+        return AttachmentsSourceKey.attachmentReference;
+    }
+    throw Exception('$this is not known in enum AttachmentsSourceKey');
+  }
 }
 
 /// Detailed information about the current state of an individual Automation
 /// execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutomationExecution {
   /// The ID of a State Manager association used in the Automation operation.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The execution ID.
-  @_s.JsonKey(name: 'AutomationExecutionId')
-  final String automationExecutionId;
+  final String? automationExecutionId;
 
   /// The execution status of the Automation.
-  @_s.JsonKey(name: 'AutomationExecutionStatus')
-  final AutomationExecutionStatus automationExecutionStatus;
+  final AutomationExecutionStatus? automationExecutionStatus;
 
   /// The subtype of the Automation operation. Currently, the only supported value
   /// is <code>ChangeRequest</code>.
-  @_s.JsonKey(name: 'AutomationSubtype')
-  final AutomationSubtype automationSubtype;
+  final AutomationSubtype? automationSubtype;
 
   /// The name of the Change Manager change request.
-  @_s.JsonKey(name: 'ChangeRequestName')
-  final String changeRequestName;
+  final String? changeRequestName;
 
   /// The action of the step that is currently running.
-  @_s.JsonKey(name: 'CurrentAction')
-  final String currentAction;
+  final String? currentAction;
 
   /// The name of the step that is currently running.
-  @_s.JsonKey(name: 'CurrentStepName')
-  final String currentStepName;
+  final String? currentStepName;
 
   /// The name of the Automation document used during the execution.
-  @_s.JsonKey(name: 'DocumentName')
-  final String documentName;
+  final String? documentName;
 
   /// The version of the document to use during execution.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The Amazon Resource Name (ARN) of the user who ran the automation.
-  @_s.JsonKey(name: 'ExecutedBy')
-  final String executedBy;
+  final String? executedBy;
 
   /// The time the execution finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionEndTime')
-  final DateTime executionEndTime;
+  final DateTime? executionEndTime;
 
   /// The time the execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionStartTime')
-  final DateTime executionStartTime;
+  final DateTime? executionStartTime;
 
   /// A message describing why an execution has failed, if the status is set to
   /// Failed.
-  @_s.JsonKey(name: 'FailureMessage')
-  final String failureMessage;
+  final String? failureMessage;
 
   /// The MaxConcurrency value specified by the user when the execution started.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The MaxErrors value specified by the user when the execution started.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The automation execution mode.
-  @_s.JsonKey(name: 'Mode')
-  final ExecutionMode mode;
+  final ExecutionMode? mode;
 
   /// The ID of an OpsItem that is created to represent a Change Manager change
   /// request.
-  @_s.JsonKey(name: 'OpsItemId')
-  final String opsItemId;
+  final String? opsItemId;
 
   /// The list of execution outputs as defined in the automation document.
-  @_s.JsonKey(name: 'Outputs')
-  final Map<String, List<String>> outputs;
+  final Map<String, List<String>>? outputs;
 
   /// The key-value map of execution parameters, which were supplied when calling
   /// StartAutomationExecution.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   /// The AutomationExecutionId of the parent automation.
-  @_s.JsonKey(name: 'ParentAutomationExecutionId')
-  final String parentAutomationExecutionId;
+  final String? parentAutomationExecutionId;
 
   /// An aggregate of step execution statuses displayed in the AWS Console for a
   /// multi-Region and multi-account Automation execution.
-  @_s.JsonKey(name: 'ProgressCounters')
-  final ProgressCounters progressCounters;
+  final ProgressCounters? progressCounters;
 
   /// A list of resolved targets in the rate control execution.
-  @_s.JsonKey(name: 'ResolvedTargets')
-  final ResolvedTargets resolvedTargets;
+  final ResolvedTargets? resolvedTargets;
 
   /// Information about the Automation runbooks (Automation documents) that are
   /// run as part of a runbook workflow.
@@ -11887,47 +11947,37 @@ class AutomationExecution {
   /// The Automation runbooks specified for the runbook workflow can't run until
   /// all required approvals for the change request have been received.
   /// </note>
-  @_s.JsonKey(name: 'Runbooks')
-  final List<Runbook> runbooks;
+  final List<Runbook>? runbooks;
 
   /// The date and time the Automation operation is scheduled to start.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ScheduledTime')
-  final DateTime scheduledTime;
+  final DateTime? scheduledTime;
 
   /// A list of details about the current state of all steps that comprise an
   /// execution. An Automation document contains a list of steps that are run in
   /// order.
-  @_s.JsonKey(name: 'StepExecutions')
-  final List<StepExecution> stepExecutions;
+  final List<StepExecution>? stepExecutions;
 
   /// A boolean value that indicates if the response contains the full list of the
   /// Automation step executions. If true, use the
   /// DescribeAutomationStepExecutions API action to get the full list of step
   /// executions.
-  @_s.JsonKey(name: 'StepExecutionsTruncated')
-  final bool stepExecutionsTruncated;
+  final bool? stepExecutionsTruncated;
 
   /// The target of the execution.
-  @_s.JsonKey(name: 'Target')
-  final String target;
+  final String? target;
 
   /// The combination of AWS Regions and/or AWS accounts where you want to run the
   /// Automation.
-  @_s.JsonKey(name: 'TargetLocations')
-  final List<TargetLocation> targetLocations;
+  final List<TargetLocation>? targetLocations;
 
   /// The specified key-value mapping of document parameters to target resources.
-  @_s.JsonKey(name: 'TargetMaps')
-  final List<Map<String, List<String>>> targetMaps;
+  final List<Map<String, List<String>>>? targetMaps;
 
   /// The parameter name.
-  @_s.JsonKey(name: 'TargetParameterName')
-  final String targetParameterName;
+  final String? targetParameterName;
 
   /// The specified targets.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   AutomationExecution({
     this.associationId,
@@ -11962,87 +12012,276 @@ class AutomationExecution {
     this.targetParameterName,
     this.targets,
   });
-  factory AutomationExecution.fromJson(Map<String, dynamic> json) =>
-      _$AutomationExecutionFromJson(json);
+
+  factory AutomationExecution.fromJson(Map<String, dynamic> json) {
+    return AutomationExecution(
+      associationId: json['AssociationId'] as String?,
+      automationExecutionId: json['AutomationExecutionId'] as String?,
+      automationExecutionStatus: (json['AutomationExecutionStatus'] as String?)
+          ?.toAutomationExecutionStatus(),
+      automationSubtype:
+          (json['AutomationSubtype'] as String?)?.toAutomationSubtype(),
+      changeRequestName: json['ChangeRequestName'] as String?,
+      currentAction: json['CurrentAction'] as String?,
+      currentStepName: json['CurrentStepName'] as String?,
+      documentName: json['DocumentName'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      executedBy: json['ExecutedBy'] as String?,
+      executionEndTime: timeStampFromJson(json['ExecutionEndTime']),
+      executionStartTime: timeStampFromJson(json['ExecutionStartTime']),
+      failureMessage: json['FailureMessage'] as String?,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      mode: (json['Mode'] as String?)?.toExecutionMode(),
+      opsItemId: json['OpsItemId'] as String?,
+      outputs: (json['Outputs'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      parentAutomationExecutionId:
+          json['ParentAutomationExecutionId'] as String?,
+      progressCounters: json['ProgressCounters'] != null
+          ? ProgressCounters.fromJson(
+              json['ProgressCounters'] as Map<String, dynamic>)
+          : null,
+      resolvedTargets: json['ResolvedTargets'] != null
+          ? ResolvedTargets.fromJson(
+              json['ResolvedTargets'] as Map<String, dynamic>)
+          : null,
+      runbooks: (json['Runbooks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Runbook.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scheduledTime: timeStampFromJson(json['ScheduledTime']),
+      stepExecutions: (json['StepExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => StepExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      stepExecutionsTruncated: json['StepExecutionsTruncated'] as bool?,
+      target: json['Target'] as String?,
+      targetLocations: (json['TargetLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetMaps: (json['TargetMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())))
+          .toList(),
+      targetParameterName: json['TargetParameterName'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final automationExecutionId = this.automationExecutionId;
+    final automationExecutionStatus = this.automationExecutionStatus;
+    final automationSubtype = this.automationSubtype;
+    final changeRequestName = this.changeRequestName;
+    final currentAction = this.currentAction;
+    final currentStepName = this.currentStepName;
+    final documentName = this.documentName;
+    final documentVersion = this.documentVersion;
+    final executedBy = this.executedBy;
+    final executionEndTime = this.executionEndTime;
+    final executionStartTime = this.executionStartTime;
+    final failureMessage = this.failureMessage;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final mode = this.mode;
+    final opsItemId = this.opsItemId;
+    final outputs = this.outputs;
+    final parameters = this.parameters;
+    final parentAutomationExecutionId = this.parentAutomationExecutionId;
+    final progressCounters = this.progressCounters;
+    final resolvedTargets = this.resolvedTargets;
+    final runbooks = this.runbooks;
+    final scheduledTime = this.scheduledTime;
+    final stepExecutions = this.stepExecutions;
+    final stepExecutionsTruncated = this.stepExecutionsTruncated;
+    final target = this.target;
+    final targetLocations = this.targetLocations;
+    final targetMaps = this.targetMaps;
+    final targetParameterName = this.targetParameterName;
+    final targets = this.targets;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (automationExecutionId != null)
+        'AutomationExecutionId': automationExecutionId,
+      if (automationExecutionStatus != null)
+        'AutomationExecutionStatus': automationExecutionStatus.toValue(),
+      if (automationSubtype != null)
+        'AutomationSubtype': automationSubtype.toValue(),
+      if (changeRequestName != null) 'ChangeRequestName': changeRequestName,
+      if (currentAction != null) 'CurrentAction': currentAction,
+      if (currentStepName != null) 'CurrentStepName': currentStepName,
+      if (documentName != null) 'DocumentName': documentName,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (executedBy != null) 'ExecutedBy': executedBy,
+      if (executionEndTime != null)
+        'ExecutionEndTime': unixTimestampToJson(executionEndTime),
+      if (executionStartTime != null)
+        'ExecutionStartTime': unixTimestampToJson(executionStartTime),
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (opsItemId != null) 'OpsItemId': opsItemId,
+      if (outputs != null) 'Outputs': outputs,
+      if (parameters != null) 'Parameters': parameters,
+      if (parentAutomationExecutionId != null)
+        'ParentAutomationExecutionId': parentAutomationExecutionId,
+      if (progressCounters != null) 'ProgressCounters': progressCounters,
+      if (resolvedTargets != null) 'ResolvedTargets': resolvedTargets,
+      if (runbooks != null) 'Runbooks': runbooks,
+      if (scheduledTime != null)
+        'ScheduledTime': unixTimestampToJson(scheduledTime),
+      if (stepExecutions != null) 'StepExecutions': stepExecutions,
+      if (stepExecutionsTruncated != null)
+        'StepExecutionsTruncated': stepExecutionsTruncated,
+      if (target != null) 'Target': target,
+      if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targetMaps != null) 'TargetMaps': targetMaps,
+      if (targetParameterName != null)
+        'TargetParameterName': targetParameterName,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 /// A filter used to match specific automation executions. This is used to limit
 /// the scope of Automation execution information returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AutomationExecutionFilter {
-  /// One or more keys to limit the results. Valid filter keys include the
-  /// following: DocumentNamePrefix, ExecutionStatus, ExecutionId,
-  /// ParentExecutionId, CurrentAction, StartTimeBefore, StartTimeAfter,
-  /// TargetResourceGroup.
-  @_s.JsonKey(name: 'Key')
+  /// One or more keys to limit the results.
   final AutomationExecutionFilterKey key;
 
   /// The values used to limit the execution information associated with the
   /// filter's key.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   AutomationExecutionFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$AutomationExecutionFilterToJson(this);
+
+  factory AutomationExecutionFilter.fromJson(Map<String, dynamic> json) {
+    return AutomationExecutionFilter(
+      key: (json['Key'] as String).toAutomationExecutionFilterKey(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum AutomationExecutionFilterKey {
-  @_s.JsonValue('DocumentNamePrefix')
   documentNamePrefix,
-  @_s.JsonValue('ExecutionStatus')
   executionStatus,
-  @_s.JsonValue('ExecutionId')
   executionId,
-  @_s.JsonValue('ParentExecutionId')
   parentExecutionId,
-  @_s.JsonValue('CurrentAction')
   currentAction,
-  @_s.JsonValue('StartTimeBefore')
   startTimeBefore,
-  @_s.JsonValue('StartTimeAfter')
   startTimeAfter,
-  @_s.JsonValue('AutomationType')
   automationType,
-  @_s.JsonValue('TagKey')
   tagKey,
-  @_s.JsonValue('TargetResourceGroup')
   targetResourceGroup,
-  @_s.JsonValue('AutomationSubtype')
   automationSubtype,
-  @_s.JsonValue('OpsItemId')
   opsItemId,
 }
 
+extension on AutomationExecutionFilterKey {
+  String toValue() {
+    switch (this) {
+      case AutomationExecutionFilterKey.documentNamePrefix:
+        return 'DocumentNamePrefix';
+      case AutomationExecutionFilterKey.executionStatus:
+        return 'ExecutionStatus';
+      case AutomationExecutionFilterKey.executionId:
+        return 'ExecutionId';
+      case AutomationExecutionFilterKey.parentExecutionId:
+        return 'ParentExecutionId';
+      case AutomationExecutionFilterKey.currentAction:
+        return 'CurrentAction';
+      case AutomationExecutionFilterKey.startTimeBefore:
+        return 'StartTimeBefore';
+      case AutomationExecutionFilterKey.startTimeAfter:
+        return 'StartTimeAfter';
+      case AutomationExecutionFilterKey.automationType:
+        return 'AutomationType';
+      case AutomationExecutionFilterKey.tagKey:
+        return 'TagKey';
+      case AutomationExecutionFilterKey.targetResourceGroup:
+        return 'TargetResourceGroup';
+      case AutomationExecutionFilterKey.automationSubtype:
+        return 'AutomationSubtype';
+      case AutomationExecutionFilterKey.opsItemId:
+        return 'OpsItemId';
+    }
+  }
+}
+
+extension on String {
+  AutomationExecutionFilterKey toAutomationExecutionFilterKey() {
+    switch (this) {
+      case 'DocumentNamePrefix':
+        return AutomationExecutionFilterKey.documentNamePrefix;
+      case 'ExecutionStatus':
+        return AutomationExecutionFilterKey.executionStatus;
+      case 'ExecutionId':
+        return AutomationExecutionFilterKey.executionId;
+      case 'ParentExecutionId':
+        return AutomationExecutionFilterKey.parentExecutionId;
+      case 'CurrentAction':
+        return AutomationExecutionFilterKey.currentAction;
+      case 'StartTimeBefore':
+        return AutomationExecutionFilterKey.startTimeBefore;
+      case 'StartTimeAfter':
+        return AutomationExecutionFilterKey.startTimeAfter;
+      case 'AutomationType':
+        return AutomationExecutionFilterKey.automationType;
+      case 'TagKey':
+        return AutomationExecutionFilterKey.tagKey;
+      case 'TargetResourceGroup':
+        return AutomationExecutionFilterKey.targetResourceGroup;
+      case 'AutomationSubtype':
+        return AutomationExecutionFilterKey.automationSubtype;
+      case 'OpsItemId':
+        return AutomationExecutionFilterKey.opsItemId;
+    }
+    throw Exception('$this is not known in enum AutomationExecutionFilterKey');
+  }
+}
+
 /// Details about a specific Automation execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutomationExecutionMetadata {
   /// The ID of a State Manager association used in the Automation operation.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The execution ID.
-  @_s.JsonKey(name: 'AutomationExecutionId')
-  final String automationExecutionId;
+  final String? automationExecutionId;
 
   /// The status of the execution.
-  @_s.JsonKey(name: 'AutomationExecutionStatus')
-  final AutomationExecutionStatus automationExecutionStatus;
+  final AutomationExecutionStatus? automationExecutionStatus;
 
   /// The subtype of the Automation operation. Currently, the only supported value
   /// is <code>ChangeRequest</code>.
-  @_s.JsonKey(name: 'AutomationSubtype')
-  final AutomationSubtype automationSubtype;
+  final AutomationSubtype? automationSubtype;
 
   /// Use this filter with <a>DescribeAutomationExecutions</a>. Specify either
   /// Local or CrossAccount. CrossAccount is an Automation that runs in multiple
@@ -12050,80 +12289,60 @@ class AutomationExecutionMetadata {
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-automation-multiple-accounts-and-regions.html">Running
   /// Automation workflows in multiple AWS Regions and accounts</a> in the <i>AWS
   /// Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'AutomationType')
-  final AutomationType automationType;
+  final AutomationType? automationType;
 
   /// The name of the Change Manager change request.
-  @_s.JsonKey(name: 'ChangeRequestName')
-  final String changeRequestName;
+  final String? changeRequestName;
 
   /// The action of the step that is currently running.
-  @_s.JsonKey(name: 'CurrentAction')
-  final String currentAction;
+  final String? currentAction;
 
   /// The name of the step that is currently running.
-  @_s.JsonKey(name: 'CurrentStepName')
-  final String currentStepName;
+  final String? currentStepName;
 
   /// The name of the Automation document used during execution.
-  @_s.JsonKey(name: 'DocumentName')
-  final String documentName;
+  final String? documentName;
 
   /// The document version used during the execution.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The IAM role ARN of the user who ran the Automation.
-  @_s.JsonKey(name: 'ExecutedBy')
-  final String executedBy;
+  final String? executedBy;
 
   /// The time the execution finished. This is not populated if the execution is
   /// still in progress.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionEndTime')
-  final DateTime executionEndTime;
+  final DateTime? executionEndTime;
 
   /// The time the execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionStartTime')
-  final DateTime executionStartTime;
+  final DateTime? executionStartTime;
 
   /// The list of execution outputs as defined in the Automation document.
-  @_s.JsonKey(name: 'FailureMessage')
-  final String failureMessage;
+  final String? failureMessage;
 
   /// An S3 bucket where execution information is stored.
-  @_s.JsonKey(name: 'LogFile')
-  final String logFile;
+  final String? logFile;
 
   /// The MaxConcurrency value specified by the user when starting the Automation.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The MaxErrors value specified by the user when starting the Automation.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The Automation execution mode.
-  @_s.JsonKey(name: 'Mode')
-  final ExecutionMode mode;
+  final ExecutionMode? mode;
 
   /// The ID of an OpsItem that is created to represent a Change Manager change
   /// request.
-  @_s.JsonKey(name: 'OpsItemId')
-  final String opsItemId;
+  final String? opsItemId;
 
   /// The list of execution outputs as defined in the Automation document.
-  @_s.JsonKey(name: 'Outputs')
-  final Map<String, List<String>> outputs;
+  final Map<String, List<String>>? outputs;
 
   /// The ExecutionId of the parent Automation.
-  @_s.JsonKey(name: 'ParentAutomationExecutionId')
-  final String parentAutomationExecutionId;
+  final String? parentAutomationExecutionId;
 
   /// A list of targets that resolved during the execution.
-  @_s.JsonKey(name: 'ResolvedTargets')
-  final ResolvedTargets resolvedTargets;
+  final ResolvedTargets? resolvedTargets;
 
   /// Information about the Automation runbooks (Automation documents) that are
   /// run during a runbook workflow in Change Manager.
@@ -12131,29 +12350,22 @@ class AutomationExecutionMetadata {
   /// The Automation runbooks specified for the runbook workflow can't run until
   /// all required approvals for the change request have been received.
   /// </note>
-  @_s.JsonKey(name: 'Runbooks')
-  final List<Runbook> runbooks;
+  final List<Runbook>? runbooks;
 
   /// The date and time the Automation operation is scheduled to start.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ScheduledTime')
-  final DateTime scheduledTime;
+  final DateTime? scheduledTime;
 
   /// The list of execution outputs as defined in the Automation document.
-  @_s.JsonKey(name: 'Target')
-  final String target;
+  final String? target;
 
   /// The specified key-value mapping of document parameters to target resources.
-  @_s.JsonKey(name: 'TargetMaps')
-  final List<Map<String, List<String>>> targetMaps;
+  final List<Map<String, List<String>>>? targetMaps;
 
   /// The list of execution outputs as defined in the Automation document.
-  @_s.JsonKey(name: 'TargetParameterName')
-  final String targetParameterName;
+  final String? targetParameterName;
 
   /// The targets defined by the user when starting the Automation.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   AutomationExecutionMetadata({
     this.associationId,
@@ -12185,180 +12397,546 @@ class AutomationExecutionMetadata {
     this.targetParameterName,
     this.targets,
   });
-  factory AutomationExecutionMetadata.fromJson(Map<String, dynamic> json) =>
-      _$AutomationExecutionMetadataFromJson(json);
+
+  factory AutomationExecutionMetadata.fromJson(Map<String, dynamic> json) {
+    return AutomationExecutionMetadata(
+      associationId: json['AssociationId'] as String?,
+      automationExecutionId: json['AutomationExecutionId'] as String?,
+      automationExecutionStatus: (json['AutomationExecutionStatus'] as String?)
+          ?.toAutomationExecutionStatus(),
+      automationSubtype:
+          (json['AutomationSubtype'] as String?)?.toAutomationSubtype(),
+      automationType: (json['AutomationType'] as String?)?.toAutomationType(),
+      changeRequestName: json['ChangeRequestName'] as String?,
+      currentAction: json['CurrentAction'] as String?,
+      currentStepName: json['CurrentStepName'] as String?,
+      documentName: json['DocumentName'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      executedBy: json['ExecutedBy'] as String?,
+      executionEndTime: timeStampFromJson(json['ExecutionEndTime']),
+      executionStartTime: timeStampFromJson(json['ExecutionStartTime']),
+      failureMessage: json['FailureMessage'] as String?,
+      logFile: json['LogFile'] as String?,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      mode: (json['Mode'] as String?)?.toExecutionMode(),
+      opsItemId: json['OpsItemId'] as String?,
+      outputs: (json['Outputs'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      parentAutomationExecutionId:
+          json['ParentAutomationExecutionId'] as String?,
+      resolvedTargets: json['ResolvedTargets'] != null
+          ? ResolvedTargets.fromJson(
+              json['ResolvedTargets'] as Map<String, dynamic>)
+          : null,
+      runbooks: (json['Runbooks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Runbook.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scheduledTime: timeStampFromJson(json['ScheduledTime']),
+      target: json['Target'] as String?,
+      targetMaps: (json['TargetMaps'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())))
+          .toList(),
+      targetParameterName: json['TargetParameterName'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final automationExecutionId = this.automationExecutionId;
+    final automationExecutionStatus = this.automationExecutionStatus;
+    final automationSubtype = this.automationSubtype;
+    final automationType = this.automationType;
+    final changeRequestName = this.changeRequestName;
+    final currentAction = this.currentAction;
+    final currentStepName = this.currentStepName;
+    final documentName = this.documentName;
+    final documentVersion = this.documentVersion;
+    final executedBy = this.executedBy;
+    final executionEndTime = this.executionEndTime;
+    final executionStartTime = this.executionStartTime;
+    final failureMessage = this.failureMessage;
+    final logFile = this.logFile;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final mode = this.mode;
+    final opsItemId = this.opsItemId;
+    final outputs = this.outputs;
+    final parentAutomationExecutionId = this.parentAutomationExecutionId;
+    final resolvedTargets = this.resolvedTargets;
+    final runbooks = this.runbooks;
+    final scheduledTime = this.scheduledTime;
+    final target = this.target;
+    final targetMaps = this.targetMaps;
+    final targetParameterName = this.targetParameterName;
+    final targets = this.targets;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (automationExecutionId != null)
+        'AutomationExecutionId': automationExecutionId,
+      if (automationExecutionStatus != null)
+        'AutomationExecutionStatus': automationExecutionStatus.toValue(),
+      if (automationSubtype != null)
+        'AutomationSubtype': automationSubtype.toValue(),
+      if (automationType != null) 'AutomationType': automationType.toValue(),
+      if (changeRequestName != null) 'ChangeRequestName': changeRequestName,
+      if (currentAction != null) 'CurrentAction': currentAction,
+      if (currentStepName != null) 'CurrentStepName': currentStepName,
+      if (documentName != null) 'DocumentName': documentName,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (executedBy != null) 'ExecutedBy': executedBy,
+      if (executionEndTime != null)
+        'ExecutionEndTime': unixTimestampToJson(executionEndTime),
+      if (executionStartTime != null)
+        'ExecutionStartTime': unixTimestampToJson(executionStartTime),
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+      if (logFile != null) 'LogFile': logFile,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (opsItemId != null) 'OpsItemId': opsItemId,
+      if (outputs != null) 'Outputs': outputs,
+      if (parentAutomationExecutionId != null)
+        'ParentAutomationExecutionId': parentAutomationExecutionId,
+      if (resolvedTargets != null) 'ResolvedTargets': resolvedTargets,
+      if (runbooks != null) 'Runbooks': runbooks,
+      if (scheduledTime != null)
+        'ScheduledTime': unixTimestampToJson(scheduledTime),
+      if (target != null) 'Target': target,
+      if (targetMaps != null) 'TargetMaps': targetMaps,
+      if (targetParameterName != null)
+        'TargetParameterName': targetParameterName,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 enum AutomationExecutionStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Waiting')
   waiting,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Cancelling')
   cancelling,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('PendingApproval')
   pendingApproval,
-  @_s.JsonValue('Approved')
   approved,
-  @_s.JsonValue('Rejected')
   rejected,
-  @_s.JsonValue('Scheduled')
   scheduled,
-  @_s.JsonValue('RunbookInProgress')
   runbookInProgress,
-  @_s.JsonValue('PendingChangeCalendarOverride')
   pendingChangeCalendarOverride,
-  @_s.JsonValue('ChangeCalendarOverrideApproved')
   changeCalendarOverrideApproved,
-  @_s.JsonValue('ChangeCalendarOverrideRejected')
   changeCalendarOverrideRejected,
-  @_s.JsonValue('CompletedWithSuccess')
   completedWithSuccess,
-  @_s.JsonValue('CompletedWithFailure')
   completedWithFailure,
 }
 
+extension on AutomationExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case AutomationExecutionStatus.pending:
+        return 'Pending';
+      case AutomationExecutionStatus.inProgress:
+        return 'InProgress';
+      case AutomationExecutionStatus.waiting:
+        return 'Waiting';
+      case AutomationExecutionStatus.success:
+        return 'Success';
+      case AutomationExecutionStatus.timedOut:
+        return 'TimedOut';
+      case AutomationExecutionStatus.cancelling:
+        return 'Cancelling';
+      case AutomationExecutionStatus.cancelled:
+        return 'Cancelled';
+      case AutomationExecutionStatus.failed:
+        return 'Failed';
+      case AutomationExecutionStatus.pendingApproval:
+        return 'PendingApproval';
+      case AutomationExecutionStatus.approved:
+        return 'Approved';
+      case AutomationExecutionStatus.rejected:
+        return 'Rejected';
+      case AutomationExecutionStatus.scheduled:
+        return 'Scheduled';
+      case AutomationExecutionStatus.runbookInProgress:
+        return 'RunbookInProgress';
+      case AutomationExecutionStatus.pendingChangeCalendarOverride:
+        return 'PendingChangeCalendarOverride';
+      case AutomationExecutionStatus.changeCalendarOverrideApproved:
+        return 'ChangeCalendarOverrideApproved';
+      case AutomationExecutionStatus.changeCalendarOverrideRejected:
+        return 'ChangeCalendarOverrideRejected';
+      case AutomationExecutionStatus.completedWithSuccess:
+        return 'CompletedWithSuccess';
+      case AutomationExecutionStatus.completedWithFailure:
+        return 'CompletedWithFailure';
+    }
+  }
+}
+
+extension on String {
+  AutomationExecutionStatus toAutomationExecutionStatus() {
+    switch (this) {
+      case 'Pending':
+        return AutomationExecutionStatus.pending;
+      case 'InProgress':
+        return AutomationExecutionStatus.inProgress;
+      case 'Waiting':
+        return AutomationExecutionStatus.waiting;
+      case 'Success':
+        return AutomationExecutionStatus.success;
+      case 'TimedOut':
+        return AutomationExecutionStatus.timedOut;
+      case 'Cancelling':
+        return AutomationExecutionStatus.cancelling;
+      case 'Cancelled':
+        return AutomationExecutionStatus.cancelled;
+      case 'Failed':
+        return AutomationExecutionStatus.failed;
+      case 'PendingApproval':
+        return AutomationExecutionStatus.pendingApproval;
+      case 'Approved':
+        return AutomationExecutionStatus.approved;
+      case 'Rejected':
+        return AutomationExecutionStatus.rejected;
+      case 'Scheduled':
+        return AutomationExecutionStatus.scheduled;
+      case 'RunbookInProgress':
+        return AutomationExecutionStatus.runbookInProgress;
+      case 'PendingChangeCalendarOverride':
+        return AutomationExecutionStatus.pendingChangeCalendarOverride;
+      case 'ChangeCalendarOverrideApproved':
+        return AutomationExecutionStatus.changeCalendarOverrideApproved;
+      case 'ChangeCalendarOverrideRejected':
+        return AutomationExecutionStatus.changeCalendarOverrideRejected;
+      case 'CompletedWithSuccess':
+        return AutomationExecutionStatus.completedWithSuccess;
+      case 'CompletedWithFailure':
+        return AutomationExecutionStatus.completedWithFailure;
+    }
+    throw Exception('$this is not known in enum AutomationExecutionStatus');
+  }
+}
+
 enum AutomationSubtype {
-  @_s.JsonValue('ChangeRequest')
   changeRequest,
 }
 
+extension on AutomationSubtype {
+  String toValue() {
+    switch (this) {
+      case AutomationSubtype.changeRequest:
+        return 'ChangeRequest';
+    }
+  }
+}
+
+extension on String {
+  AutomationSubtype toAutomationSubtype() {
+    switch (this) {
+      case 'ChangeRequest':
+        return AutomationSubtype.changeRequest;
+    }
+    throw Exception('$this is not known in enum AutomationSubtype');
+  }
+}
+
 enum AutomationType {
-  @_s.JsonValue('CrossAccount')
   crossAccount,
-  @_s.JsonValue('Local')
   local,
 }
 
+extension on AutomationType {
+  String toValue() {
+    switch (this) {
+      case AutomationType.crossAccount:
+        return 'CrossAccount';
+      case AutomationType.local:
+        return 'Local';
+    }
+  }
+}
+
+extension on String {
+  AutomationType toAutomationType() {
+    switch (this) {
+      case 'CrossAccount':
+        return AutomationType.crossAccount;
+      case 'Local':
+        return AutomationType.local;
+    }
+    throw Exception('$this is not known in enum AutomationType');
+  }
+}
+
+/// Defines the basic information about a patch baseline override.
+class BaselineOverride {
+  final PatchRuleGroup? approvalRules;
+
+  /// A list of explicitly approved patches for the baseline.
+  ///
+  /// For information about accepted formats for lists of approved patches and
+  /// rejected patches, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">About
+  /// package name formats for approved and rejected patch lists</a> in the <i>AWS
+  /// Systems Manager User Guide</i>.
+  final List<String>? approvedPatches;
+
+  /// Defines the compliance level for approved patches. When an approved patch is
+  /// reported as missing, this value describes the severity of the compliance
+  /// violation.
+  final PatchComplianceLevel? approvedPatchesComplianceLevel;
+
+  /// Indicates whether the list of approved patches includes non-security updates
+  /// that should be applied to the instances. The default value is 'false'.
+  /// Applies to Linux instances only.
+  final bool? approvedPatchesEnableNonSecurity;
+  final PatchFilterGroup? globalFilters;
+
+  /// The operating system rule used by the patch baseline override.
+  final OperatingSystem? operatingSystem;
+
+  /// A list of explicitly rejected patches for the baseline.
+  ///
+  /// For information about accepted formats for lists of approved patches and
+  /// rejected patches, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html">About
+  /// package name formats for approved and rejected patch lists</a> in the <i>AWS
+  /// Systems Manager User Guide</i>.
+  final List<String>? rejectedPatches;
+
+  /// The action for Patch Manager to take on patches included in the
+  /// RejectedPackages list. A patch can be allowed only if it is a dependency of
+  /// another package, or blocked entirely along with packages that include it as
+  /// a dependency.
+  final PatchAction? rejectedPatchesAction;
+
+  /// Information about the patches to use to update the instances, including
+  /// target operating systems and source repositories. Applies to Linux instances
+  /// only.
+  final List<PatchSource>? sources;
+
+  BaselineOverride({
+    this.approvalRules,
+    this.approvedPatches,
+    this.approvedPatchesComplianceLevel,
+    this.approvedPatchesEnableNonSecurity,
+    this.globalFilters,
+    this.operatingSystem,
+    this.rejectedPatches,
+    this.rejectedPatchesAction,
+    this.sources,
+  });
+
+  factory BaselineOverride.fromJson(Map<String, dynamic> json) {
+    return BaselineOverride(
+      approvalRules: json['ApprovalRules'] != null
+          ? PatchRuleGroup.fromJson(
+              json['ApprovalRules'] as Map<String, dynamic>)
+          : null,
+      approvedPatches: (json['ApprovedPatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      approvedPatchesComplianceLevel:
+          (json['ApprovedPatchesComplianceLevel'] as String?)
+              ?.toPatchComplianceLevel(),
+      approvedPatchesEnableNonSecurity:
+          json['ApprovedPatchesEnableNonSecurity'] as bool?,
+      globalFilters: json['GlobalFilters'] != null
+          ? PatchFilterGroup.fromJson(
+              json['GlobalFilters'] as Map<String, dynamic>)
+          : null,
+      operatingSystem:
+          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+      rejectedPatches: (json['RejectedPatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rejectedPatchesAction:
+          (json['RejectedPatchesAction'] as String?)?.toPatchAction(),
+      sources: (json['Sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => PatchSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRules = this.approvalRules;
+    final approvedPatches = this.approvedPatches;
+    final approvedPatchesComplianceLevel = this.approvedPatchesComplianceLevel;
+    final approvedPatchesEnableNonSecurity =
+        this.approvedPatchesEnableNonSecurity;
+    final globalFilters = this.globalFilters;
+    final operatingSystem = this.operatingSystem;
+    final rejectedPatches = this.rejectedPatches;
+    final rejectedPatchesAction = this.rejectedPatchesAction;
+    final sources = this.sources;
+    return {
+      if (approvalRules != null) 'ApprovalRules': approvalRules,
+      if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
+      if (approvedPatchesComplianceLevel != null)
+        'ApprovedPatchesComplianceLevel':
+            approvedPatchesComplianceLevel.toValue(),
+      if (approvedPatchesEnableNonSecurity != null)
+        'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
+      if (globalFilters != null) 'GlobalFilters': globalFilters,
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
+      if (rejectedPatchesAction != null)
+        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+      if (sources != null) 'Sources': sources,
+    };
+  }
+}
+
 enum CalendarState {
-  @_s.JsonValue('OPEN')
   open,
-  @_s.JsonValue('CLOSED')
   closed,
+}
+
+extension on CalendarState {
+  String toValue() {
+    switch (this) {
+      case CalendarState.open:
+        return 'OPEN';
+      case CalendarState.closed:
+        return 'CLOSED';
+    }
+  }
+}
+
+extension on String {
+  CalendarState toCalendarState() {
+    switch (this) {
+      case 'OPEN':
+        return CalendarState.open;
+      case 'CLOSED':
+        return CalendarState.closed;
+    }
+    throw Exception('$this is not known in enum CalendarState');
+  }
 }
 
 /// Whether or not the command was successfully canceled. There is no guarantee
 /// that a request can be canceled.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelCommandResult {
   CancelCommandResult();
-  factory CancelCommandResult.fromJson(Map<String, dynamic> json) =>
-      _$CancelCommandResultFromJson(json);
+
+  factory CancelCommandResult.fromJson(Map<String, dynamic> _) {
+    return CancelCommandResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelMaintenanceWindowExecutionResult {
   /// The ID of the maintenance window execution that has been stopped.
-  @_s.JsonKey(name: 'WindowExecutionId')
-  final String windowExecutionId;
+  final String? windowExecutionId;
 
   CancelMaintenanceWindowExecutionResult({
     this.windowExecutionId,
   });
+
   factory CancelMaintenanceWindowExecutionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelMaintenanceWindowExecutionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return CancelMaintenanceWindowExecutionResult(
+      windowExecutionId: json['WindowExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final windowExecutionId = this.windowExecutionId;
+    return {
+      if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
+    };
+  }
 }
 
 /// Configuration options for sending command output to CloudWatch Logs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CloudWatchOutputConfig {
   /// The name of the CloudWatch log group where you want to send command output.
   /// If you don't specify a group name, Systems Manager automatically creates a
   /// log group for you. The log group uses the following naming format:
   /// aws/ssm/<i>SystemsManagerDocumentName</i>.
-  @_s.JsonKey(name: 'CloudWatchLogGroupName')
-  final String cloudWatchLogGroupName;
+  final String? cloudWatchLogGroupName;
 
   /// Enables Systems Manager to send command output to CloudWatch Logs.
-  @_s.JsonKey(name: 'CloudWatchOutputEnabled')
-  final bool cloudWatchOutputEnabled;
+  final bool? cloudWatchOutputEnabled;
 
   CloudWatchOutputConfig({
     this.cloudWatchLogGroupName,
     this.cloudWatchOutputEnabled,
   });
-  factory CloudWatchOutputConfig.fromJson(Map<String, dynamic> json) =>
-      _$CloudWatchOutputConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CloudWatchOutputConfigToJson(this);
+  factory CloudWatchOutputConfig.fromJson(Map<String, dynamic> json) {
+    return CloudWatchOutputConfig(
+      cloudWatchLogGroupName: json['CloudWatchLogGroupName'] as String?,
+      cloudWatchOutputEnabled: json['CloudWatchOutputEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogGroupName = this.cloudWatchLogGroupName;
+    final cloudWatchOutputEnabled = this.cloudWatchOutputEnabled;
+    return {
+      if (cloudWatchLogGroupName != null)
+        'CloudWatchLogGroupName': cloudWatchLogGroupName,
+      if (cloudWatchOutputEnabled != null)
+        'CloudWatchOutputEnabled': cloudWatchOutputEnabled,
+    };
+  }
 }
 
 /// Describes a command request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Command {
   /// CloudWatch Logs information where you want Systems Manager to send the
   /// command output.
-  @_s.JsonKey(name: 'CloudWatchOutputConfig')
-  final CloudWatchOutputConfig cloudWatchOutputConfig;
+  final CloudWatchOutputConfig? cloudWatchOutputConfig;
 
   /// A unique identifier for this command.
-  @_s.JsonKey(name: 'CommandId')
-  final String commandId;
+  final String? commandId;
 
   /// User-specified information about the command, such as a brief description of
   /// what the command should do.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// The number of targets for which the command invocation reached a terminal
   /// state. Terminal states include the following: Success, Failed, Execution
   /// Timed Out, Delivery Timed Out, Canceled, Terminated, or Undeliverable.
-  @_s.JsonKey(name: 'CompletedCount')
-  final int completedCount;
+  final int? completedCount;
 
   /// The number of targets for which the status is Delivery Timed Out.
-  @_s.JsonKey(name: 'DeliveryTimedOutCount')
-  final int deliveryTimedOutCount;
+  final int? deliveryTimedOutCount;
 
   /// The name of the document requested for execution.
-  @_s.JsonKey(name: 'DocumentName')
-  final String documentName;
+  final String? documentName;
 
   /// The SSM document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The number of targets for which the status is Failed or Execution Timed Out.
-  @_s.JsonKey(name: 'ErrorCount')
-  final int errorCount;
+  final int? errorCount;
 
   /// If this time is reached and the command has not already started running, it
   /// will not run. Calculated based on the ExpiresAfter user input provided as
   /// part of the SendCommand API.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpiresAfter')
-  final DateTime expiresAfter;
+  final DateTime? expiresAfter;
 
   /// The instance IDs against which this command was requested.
-  @_s.JsonKey(name: 'InstanceIds')
-  final List<String> instanceIds;
+  final List<String>? instanceIds;
 
   /// The maximum number of instances that are allowed to run the command at the
   /// same time. You can specify a number of instances, such as 10, or a
@@ -12367,8 +12945,7 @@ class Command {
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
   /// commands using Systems Manager Run Command</a> in the <i>AWS Systems Manager
   /// User Guide</i>.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The maximum number of errors allowed before the system stops sending the
   /// command to additional targets. You can specify a number of errors, such as
@@ -12377,47 +12954,37 @@ class Command {
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html">Running
   /// commands using Systems Manager Run Command</a> in the <i>AWS Systems Manager
   /// User Guide</i>.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// Configurations for sending notifications about command status changes.
-  @_s.JsonKey(name: 'NotificationConfig')
-  final NotificationConfig notificationConfig;
+  final NotificationConfig? notificationConfig;
 
   /// The S3 bucket where the responses to the command executions should be
   /// stored. This was requested when issuing the command.
-  @_s.JsonKey(name: 'OutputS3BucketName')
-  final String outputS3BucketName;
+  final String? outputS3BucketName;
 
   /// The S3 directory path inside the bucket where the responses to the command
   /// executions should be stored. This was requested when issuing the command.
-  @_s.JsonKey(name: 'OutputS3KeyPrefix')
-  final String outputS3KeyPrefix;
+  final String? outputS3KeyPrefix;
 
   /// (Deprecated) You can no longer specify this parameter. The system ignores
   /// it. Instead, Systems Manager automatically determines the Region of the S3
   /// bucket.
-  @_s.JsonKey(name: 'OutputS3Region')
-  final String outputS3Region;
+  final String? outputS3Region;
 
   /// The parameter values to be inserted in the document when running the
   /// command.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   /// The date and time the command was requested.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RequestedDateTime')
-  final DateTime requestedDateTime;
+  final DateTime? requestedDateTime;
 
   /// The IAM service role that Run Command uses to act on your behalf when
   /// sending notifications about command status changes.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// The status of the command.
-  @_s.JsonKey(name: 'Status')
-  final CommandStatus status;
+  final CommandStatus? status;
 
   /// A detailed status of the command execution. StatusDetails includes more
   /// information than Status because it includes states resulting from error and
@@ -12466,22 +13033,18 @@ class Command {
   /// before running it on any instance. This is a terminal state.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The number of targets for the command.
-  @_s.JsonKey(name: 'TargetCount')
-  final int targetCount;
+  final int? targetCount;
 
   /// An array of search criteria that targets instances using a Key,Value
   /// combination that you specify. Targets is required if you don't provide one
   /// or more instance IDs in the call.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   /// The <code>TimeoutSeconds</code> value specified for a command.
-  @_s.JsonKey(name: 'TimeoutSeconds')
-  final int timeoutSeconds;
+  final int? timeoutSeconds;
 
   Command({
     this.cloudWatchOutputConfig,
@@ -12509,8 +13072,106 @@ class Command {
     this.targets,
     this.timeoutSeconds,
   });
-  factory Command.fromJson(Map<String, dynamic> json) =>
-      _$CommandFromJson(json);
+
+  factory Command.fromJson(Map<String, dynamic> json) {
+    return Command(
+      cloudWatchOutputConfig: json['CloudWatchOutputConfig'] != null
+          ? CloudWatchOutputConfig.fromJson(
+              json['CloudWatchOutputConfig'] as Map<String, dynamic>)
+          : null,
+      commandId: json['CommandId'] as String?,
+      comment: json['Comment'] as String?,
+      completedCount: json['CompletedCount'] as int?,
+      deliveryTimedOutCount: json['DeliveryTimedOutCount'] as int?,
+      documentName: json['DocumentName'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      errorCount: json['ErrorCount'] as int?,
+      expiresAfter: timeStampFromJson(json['ExpiresAfter']),
+      instanceIds: (json['InstanceIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      notificationConfig: json['NotificationConfig'] != null
+          ? NotificationConfig.fromJson(
+              json['NotificationConfig'] as Map<String, dynamic>)
+          : null,
+      outputS3BucketName: json['OutputS3BucketName'] as String?,
+      outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+      outputS3Region: json['OutputS3Region'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      requestedDateTime: timeStampFromJson(json['RequestedDateTime']),
+      serviceRole: json['ServiceRole'] as String?,
+      status: (json['Status'] as String?)?.toCommandStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      targetCount: json['TargetCount'] as int?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeoutSeconds: json['TimeoutSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchOutputConfig = this.cloudWatchOutputConfig;
+    final commandId = this.commandId;
+    final comment = this.comment;
+    final completedCount = this.completedCount;
+    final deliveryTimedOutCount = this.deliveryTimedOutCount;
+    final documentName = this.documentName;
+    final documentVersion = this.documentVersion;
+    final errorCount = this.errorCount;
+    final expiresAfter = this.expiresAfter;
+    final instanceIds = this.instanceIds;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final notificationConfig = this.notificationConfig;
+    final outputS3BucketName = this.outputS3BucketName;
+    final outputS3KeyPrefix = this.outputS3KeyPrefix;
+    final outputS3Region = this.outputS3Region;
+    final parameters = this.parameters;
+    final requestedDateTime = this.requestedDateTime;
+    final serviceRole = this.serviceRole;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final targetCount = this.targetCount;
+    final targets = this.targets;
+    final timeoutSeconds = this.timeoutSeconds;
+    return {
+      if (cloudWatchOutputConfig != null)
+        'CloudWatchOutputConfig': cloudWatchOutputConfig,
+      if (commandId != null) 'CommandId': commandId,
+      if (comment != null) 'Comment': comment,
+      if (completedCount != null) 'CompletedCount': completedCount,
+      if (deliveryTimedOutCount != null)
+        'DeliveryTimedOutCount': deliveryTimedOutCount,
+      if (documentName != null) 'DocumentName': documentName,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (errorCount != null) 'ErrorCount': errorCount,
+      if (expiresAfter != null)
+        'ExpiresAfter': unixTimestampToJson(expiresAfter),
+      if (instanceIds != null) 'InstanceIds': instanceIds,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (notificationConfig != null) 'NotificationConfig': notificationConfig,
+      if (outputS3BucketName != null) 'OutputS3BucketName': outputS3BucketName,
+      if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
+      if (outputS3Region != null) 'OutputS3Region': outputS3Region,
+      if (parameters != null) 'Parameters': parameters,
+      if (requestedDateTime != null)
+        'RequestedDateTime': unixTimestampToJson(requestedDateTime),
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (targetCount != null) 'TargetCount': targetCount,
+      if (targets != null) 'Targets': targets,
+      if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
+    };
+  }
 }
 
 /// Describes a command filter.
@@ -12518,14 +13179,8 @@ class Command {
 /// An instance ID can't be specified when a command status is
 /// <code>Pending</code> because the command hasn't run on the instance yet.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CommandFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'key')
   final CommandFilterKey key;
 
   /// The filter value. Valid values for each filter key are as follows:
@@ -12588,27 +13243,71 @@ class CommandFilter {
   /// </li>
   /// </ul> </li>
   /// </ul>
-  @_s.JsonKey(name: 'value')
   final String value;
 
   CommandFilter({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$CommandFilterToJson(this);
+
+  factory CommandFilter.fromJson(Map<String, dynamic> json) {
+    return CommandFilter(
+      key: (json['key'] as String).toCommandFilterKey(),
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum CommandFilterKey {
-  @_s.JsonValue('InvokedAfter')
   invokedAfter,
-  @_s.JsonValue('InvokedBefore')
   invokedBefore,
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('ExecutionStage')
   executionStage,
-  @_s.JsonValue('DocumentName')
   documentName,
+}
+
+extension on CommandFilterKey {
+  String toValue() {
+    switch (this) {
+      case CommandFilterKey.invokedAfter:
+        return 'InvokedAfter';
+      case CommandFilterKey.invokedBefore:
+        return 'InvokedBefore';
+      case CommandFilterKey.status:
+        return 'Status';
+      case CommandFilterKey.executionStage:
+        return 'ExecutionStage';
+      case CommandFilterKey.documentName:
+        return 'DocumentName';
+    }
+  }
+}
+
+extension on String {
+  CommandFilterKey toCommandFilterKey() {
+    switch (this) {
+      case 'InvokedAfter':
+        return CommandFilterKey.invokedAfter;
+      case 'InvokedBefore':
+        return CommandFilterKey.invokedBefore;
+      case 'Status':
+        return CommandFilterKey.status;
+      case 'ExecutionStage':
+        return CommandFilterKey.executionStage;
+      case 'DocumentName':
+        return CommandFilterKey.documentName;
+    }
+    throw Exception('$this is not known in enum CommandFilterKey');
+  }
 }
 
 /// An invocation is copy of a command sent to a specific instance. A command
@@ -12617,78 +13316,60 @@ enum CommandFilterKey {
 /// then a command invocation is created for each requested instance ID. A
 /// command invocation returns status and detail information about a command you
 /// ran.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CommandInvocation {
   /// CloudWatch Logs information where you want Systems Manager to send the
   /// command output.
-  @_s.JsonKey(name: 'CloudWatchOutputConfig')
-  final CloudWatchOutputConfig cloudWatchOutputConfig;
+  final CloudWatchOutputConfig? cloudWatchOutputConfig;
 
   /// The command against which this invocation was requested.
-  @_s.JsonKey(name: 'CommandId')
-  final String commandId;
-  @_s.JsonKey(name: 'CommandPlugins')
-  final List<CommandPlugin> commandPlugins;
+  final String? commandId;
+
+  /// Plugins processed by the command.
+  final List<CommandPlugin>? commandPlugins;
 
   /// User-specified information about the command, such as a brief description of
   /// what the command should do.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// The document name that was requested for execution.
-  @_s.JsonKey(name: 'DocumentName')
-  final String documentName;
+  final String? documentName;
 
   /// The SSM document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The instance ID in which this invocation was requested.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The name of the invocation target. For EC2 instances this is the value for
   /// the aws:Name tag. For on-premises instances, this is the name of the
   /// instance.
-  @_s.JsonKey(name: 'InstanceName')
-  final String instanceName;
+  final String? instanceName;
 
   /// Configurations for sending notifications about command status changes on a
   /// per instance basis.
-  @_s.JsonKey(name: 'NotificationConfig')
-  final NotificationConfig notificationConfig;
+  final NotificationConfig? notificationConfig;
 
   /// The time and date the request was sent to this instance.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RequestedDateTime')
-  final DateTime requestedDateTime;
+  final DateTime? requestedDateTime;
 
   /// The IAM service role that Run Command uses to act on your behalf when
   /// sending notifications about command status changes on a per instance basis.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// The URL to the plugin's StdErr file in Amazon S3, if the S3 bucket was
   /// defined for the parent command. For an invocation, StandardErrorUrl is
   /// populated if there is just one plugin defined for the command, and the S3
   /// bucket was defined for the command.
-  @_s.JsonKey(name: 'StandardErrorUrl')
-  final String standardErrorUrl;
+  final String? standardErrorUrl;
 
   /// The URL to the plugin's StdOut file in Amazon S3, if the S3 bucket was
   /// defined for the parent command. For an invocation, StandardOutputUrl is
   /// populated if there is just one plugin defined for the command, and the S3
   /// bucket was defined for the command.
-  @_s.JsonKey(name: 'StandardOutputUrl')
-  final String standardOutputUrl;
+  final String? standardOutputUrl;
 
   /// Whether or not the invocation succeeded, failed, or is pending.
-  @_s.JsonKey(name: 'Status')
-  final CommandInvocationStatus status;
+  final CommandInvocationStatus? status;
 
   /// A detailed status of the command execution for each invocation (each
   /// instance targeted by the command). StatusDetails includes more information
@@ -12746,12 +13427,10 @@ class CommandInvocation {
   /// command invocations were canceled by the system. This is a terminal state.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// Gets the trace output sent by the agent.
-  @_s.JsonKey(name: 'TraceOutput')
-  final String traceOutput;
+  final String? traceOutput;
 
   CommandInvocation({
     this.cloudWatchOutputConfig,
@@ -12771,45 +13450,144 @@ class CommandInvocation {
     this.statusDetails,
     this.traceOutput,
   });
-  factory CommandInvocation.fromJson(Map<String, dynamic> json) =>
-      _$CommandInvocationFromJson(json);
+
+  factory CommandInvocation.fromJson(Map<String, dynamic> json) {
+    return CommandInvocation(
+      cloudWatchOutputConfig: json['CloudWatchOutputConfig'] != null
+          ? CloudWatchOutputConfig.fromJson(
+              json['CloudWatchOutputConfig'] as Map<String, dynamic>)
+          : null,
+      commandId: json['CommandId'] as String?,
+      commandPlugins: (json['CommandPlugins'] as List?)
+          ?.whereNotNull()
+          .map((e) => CommandPlugin.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      comment: json['Comment'] as String?,
+      documentName: json['DocumentName'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      instanceName: json['InstanceName'] as String?,
+      notificationConfig: json['NotificationConfig'] != null
+          ? NotificationConfig.fromJson(
+              json['NotificationConfig'] as Map<String, dynamic>)
+          : null,
+      requestedDateTime: timeStampFromJson(json['RequestedDateTime']),
+      serviceRole: json['ServiceRole'] as String?,
+      standardErrorUrl: json['StandardErrorUrl'] as String?,
+      standardOutputUrl: json['StandardOutputUrl'] as String?,
+      status: (json['Status'] as String?)?.toCommandInvocationStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      traceOutput: json['TraceOutput'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchOutputConfig = this.cloudWatchOutputConfig;
+    final commandId = this.commandId;
+    final commandPlugins = this.commandPlugins;
+    final comment = this.comment;
+    final documentName = this.documentName;
+    final documentVersion = this.documentVersion;
+    final instanceId = this.instanceId;
+    final instanceName = this.instanceName;
+    final notificationConfig = this.notificationConfig;
+    final requestedDateTime = this.requestedDateTime;
+    final serviceRole = this.serviceRole;
+    final standardErrorUrl = this.standardErrorUrl;
+    final standardOutputUrl = this.standardOutputUrl;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final traceOutput = this.traceOutput;
+    return {
+      if (cloudWatchOutputConfig != null)
+        'CloudWatchOutputConfig': cloudWatchOutputConfig,
+      if (commandId != null) 'CommandId': commandId,
+      if (commandPlugins != null) 'CommandPlugins': commandPlugins,
+      if (comment != null) 'Comment': comment,
+      if (documentName != null) 'DocumentName': documentName,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (instanceName != null) 'InstanceName': instanceName,
+      if (notificationConfig != null) 'NotificationConfig': notificationConfig,
+      if (requestedDateTime != null)
+        'RequestedDateTime': unixTimestampToJson(requestedDateTime),
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (standardErrorUrl != null) 'StandardErrorUrl': standardErrorUrl,
+      if (standardOutputUrl != null) 'StandardOutputUrl': standardOutputUrl,
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (traceOutput != null) 'TraceOutput': traceOutput,
+    };
+  }
 }
 
 enum CommandInvocationStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Delayed')
   delayed,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Cancelling')
   cancelling,
 }
 
+extension on CommandInvocationStatus {
+  String toValue() {
+    switch (this) {
+      case CommandInvocationStatus.pending:
+        return 'Pending';
+      case CommandInvocationStatus.inProgress:
+        return 'InProgress';
+      case CommandInvocationStatus.delayed:
+        return 'Delayed';
+      case CommandInvocationStatus.success:
+        return 'Success';
+      case CommandInvocationStatus.cancelled:
+        return 'Cancelled';
+      case CommandInvocationStatus.timedOut:
+        return 'TimedOut';
+      case CommandInvocationStatus.failed:
+        return 'Failed';
+      case CommandInvocationStatus.cancelling:
+        return 'Cancelling';
+    }
+  }
+}
+
+extension on String {
+  CommandInvocationStatus toCommandInvocationStatus() {
+    switch (this) {
+      case 'Pending':
+        return CommandInvocationStatus.pending;
+      case 'InProgress':
+        return CommandInvocationStatus.inProgress;
+      case 'Delayed':
+        return CommandInvocationStatus.delayed;
+      case 'Success':
+        return CommandInvocationStatus.success;
+      case 'Cancelled':
+        return CommandInvocationStatus.cancelled;
+      case 'TimedOut':
+        return CommandInvocationStatus.timedOut;
+      case 'Failed':
+        return CommandInvocationStatus.failed;
+      case 'Cancelling':
+        return CommandInvocationStatus.cancelling;
+    }
+    throw Exception('$this is not known in enum CommandInvocationStatus');
+  }
+}
+
 /// Describes plugin details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CommandPlugin {
   /// The name of the plugin. Must be one of the following: aws:updateAgent,
   /// aws:domainjoin, aws:applications, aws:runPowerShellScript, aws:psmodule,
   /// aws:cloudWatch, aws:runShellScript, or aws:updateSSMAgent.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Output of the plugin execution.
-  @_s.JsonKey(name: 'Output')
-  final String output;
+  final String? output;
 
   /// The S3 bucket where the responses to the command executions should be
   /// stored. This was requested when issuing the command. For example, in the
@@ -12824,8 +13602,7 @@ class CommandPlugin {
   /// i-02573cafcfEXAMPLE is the instance ID;
   ///
   /// awsrunShellScript is the name of the plugin.
-  @_s.JsonKey(name: 'OutputS3BucketName')
-  final String outputS3BucketName;
+  final String? outputS3BucketName;
 
   /// The S3 directory path inside the bucket where the responses to the command
   /// executions should be stored. This was requested when issuing the command.
@@ -12840,43 +13617,33 @@ class CommandPlugin {
   /// i-02573cafcfEXAMPLE is the instance ID;
   ///
   /// awsrunShellScript is the name of the plugin.
-  @_s.JsonKey(name: 'OutputS3KeyPrefix')
-  final String outputS3KeyPrefix;
+  final String? outputS3KeyPrefix;
 
   /// (Deprecated) You can no longer specify this parameter. The system ignores
   /// it. Instead, Systems Manager automatically determines the S3 bucket region.
-  @_s.JsonKey(name: 'OutputS3Region')
-  final String outputS3Region;
+  final String? outputS3Region;
 
   /// A numeric response code generated after running the plugin.
-  @_s.JsonKey(name: 'ResponseCode')
-  final int responseCode;
+  final int? responseCode;
 
   /// The time the plugin stopped running. Could stop prematurely if, for example,
   /// a cancel command was sent.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ResponseFinishDateTime')
-  final DateTime responseFinishDateTime;
+  final DateTime? responseFinishDateTime;
 
   /// The time the plugin started running.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ResponseStartDateTime')
-  final DateTime responseStartDateTime;
+  final DateTime? responseStartDateTime;
 
   /// The URL for the complete text written by the plugin to stderr. If execution
   /// is not yet complete, then this string is empty.
-  @_s.JsonKey(name: 'StandardErrorUrl')
-  final String standardErrorUrl;
+  final String? standardErrorUrl;
 
   /// The URL for the complete text written by the plugin to stdout in Amazon S3.
   /// If the S3 bucket for the command was not specified, then this string is
   /// empty.
-  @_s.JsonKey(name: 'StandardOutputUrl')
-  final String standardOutputUrl;
+  final String? standardOutputUrl;
 
   /// The status of this plugin. You can run a document with multiple plugins.
-  @_s.JsonKey(name: 'Status')
-  final CommandPluginStatus status;
+  final CommandPluginStatus? status;
 
   /// A detailed status of the plugin execution. StatusDetails includes more
   /// information than Status because it includes states resulting from error and
@@ -12933,8 +13700,7 @@ class CommandPlugin {
   /// command invocations were canceled by the system. This is a terminal state.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   CommandPlugin({
     this.name,
@@ -12950,135 +13716,243 @@ class CommandPlugin {
     this.status,
     this.statusDetails,
   });
-  factory CommandPlugin.fromJson(Map<String, dynamic> json) =>
-      _$CommandPluginFromJson(json);
+
+  factory CommandPlugin.fromJson(Map<String, dynamic> json) {
+    return CommandPlugin(
+      name: json['Name'] as String?,
+      output: json['Output'] as String?,
+      outputS3BucketName: json['OutputS3BucketName'] as String?,
+      outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+      outputS3Region: json['OutputS3Region'] as String?,
+      responseCode: json['ResponseCode'] as int?,
+      responseFinishDateTime: timeStampFromJson(json['ResponseFinishDateTime']),
+      responseStartDateTime: timeStampFromJson(json['ResponseStartDateTime']),
+      standardErrorUrl: json['StandardErrorUrl'] as String?,
+      standardOutputUrl: json['StandardOutputUrl'] as String?,
+      status: (json['Status'] as String?)?.toCommandPluginStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final output = this.output;
+    final outputS3BucketName = this.outputS3BucketName;
+    final outputS3KeyPrefix = this.outputS3KeyPrefix;
+    final outputS3Region = this.outputS3Region;
+    final responseCode = this.responseCode;
+    final responseFinishDateTime = this.responseFinishDateTime;
+    final responseStartDateTime = this.responseStartDateTime;
+    final standardErrorUrl = this.standardErrorUrl;
+    final standardOutputUrl = this.standardOutputUrl;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    return {
+      if (name != null) 'Name': name,
+      if (output != null) 'Output': output,
+      if (outputS3BucketName != null) 'OutputS3BucketName': outputS3BucketName,
+      if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
+      if (outputS3Region != null) 'OutputS3Region': outputS3Region,
+      if (responseCode != null) 'ResponseCode': responseCode,
+      if (responseFinishDateTime != null)
+        'ResponseFinishDateTime': unixTimestampToJson(responseFinishDateTime),
+      if (responseStartDateTime != null)
+        'ResponseStartDateTime': unixTimestampToJson(responseStartDateTime),
+      if (standardErrorUrl != null) 'StandardErrorUrl': standardErrorUrl,
+      if (standardOutputUrl != null) 'StandardOutputUrl': standardOutputUrl,
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+    };
+  }
 }
 
 enum CommandPluginStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on CommandPluginStatus {
+  String toValue() {
+    switch (this) {
+      case CommandPluginStatus.pending:
+        return 'Pending';
+      case CommandPluginStatus.inProgress:
+        return 'InProgress';
+      case CommandPluginStatus.success:
+        return 'Success';
+      case CommandPluginStatus.timedOut:
+        return 'TimedOut';
+      case CommandPluginStatus.cancelled:
+        return 'Cancelled';
+      case CommandPluginStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  CommandPluginStatus toCommandPluginStatus() {
+    switch (this) {
+      case 'Pending':
+        return CommandPluginStatus.pending;
+      case 'InProgress':
+        return CommandPluginStatus.inProgress;
+      case 'Success':
+        return CommandPluginStatus.success;
+      case 'TimedOut':
+        return CommandPluginStatus.timedOut;
+      case 'Cancelled':
+        return CommandPluginStatus.cancelled;
+      case 'Failed':
+        return CommandPluginStatus.failed;
+    }
+    throw Exception('$this is not known in enum CommandPluginStatus');
+  }
+}
+
 enum CommandStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Cancelling')
   cancelling,
+}
+
+extension on CommandStatus {
+  String toValue() {
+    switch (this) {
+      case CommandStatus.pending:
+        return 'Pending';
+      case CommandStatus.inProgress:
+        return 'InProgress';
+      case CommandStatus.success:
+        return 'Success';
+      case CommandStatus.cancelled:
+        return 'Cancelled';
+      case CommandStatus.failed:
+        return 'Failed';
+      case CommandStatus.timedOut:
+        return 'TimedOut';
+      case CommandStatus.cancelling:
+        return 'Cancelling';
+    }
+  }
+}
+
+extension on String {
+  CommandStatus toCommandStatus() {
+    switch (this) {
+      case 'Pending':
+        return CommandStatus.pending;
+      case 'InProgress':
+        return CommandStatus.inProgress;
+      case 'Success':
+        return CommandStatus.success;
+      case 'Cancelled':
+        return CommandStatus.cancelled;
+      case 'Failed':
+        return CommandStatus.failed;
+      case 'TimedOut':
+        return CommandStatus.timedOut;
+      case 'Cancelling':
+        return CommandStatus.cancelling;
+    }
+    throw Exception('$this is not known in enum CommandStatus');
+  }
 }
 
 /// A summary of the call execution that includes an execution ID, the type of
 /// execution (for example, <code>Command</code>), and the date/time of the
 /// execution using a datetime object that is saved in the following format:
 /// yyyy-MM-dd'T'HH:mm:ss'Z'.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ComplianceExecutionSummary {
   /// The time the execution ran as a datetime object that is saved in the
   /// following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionTime')
   final DateTime executionTime;
 
   /// An ID created by the system when <code>PutComplianceItems</code> was called.
   /// For example, <code>CommandID</code> is a valid execution ID. You can use
   /// this ID in subsequent calls.
-  @_s.JsonKey(name: 'ExecutionId')
-  final String executionId;
+  final String? executionId;
 
   /// The type of execution. For example, <code>Command</code> is a valid
   /// execution type.
-  @_s.JsonKey(name: 'ExecutionType')
-  final String executionType;
+  final String? executionType;
 
   ComplianceExecutionSummary({
-    @_s.required this.executionTime,
+    required this.executionTime,
     this.executionId,
     this.executionType,
   });
-  factory ComplianceExecutionSummary.fromJson(Map<String, dynamic> json) =>
-      _$ComplianceExecutionSummaryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ComplianceExecutionSummaryToJson(this);
+  factory ComplianceExecutionSummary.fromJson(Map<String, dynamic> json) {
+    return ComplianceExecutionSummary(
+      executionTime:
+          nonNullableTimeStampFromJson(json['ExecutionTime'] as Object),
+      executionId: json['ExecutionId'] as String?,
+      executionType: json['ExecutionType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionTime = this.executionTime;
+    final executionId = this.executionId;
+    final executionType = this.executionType;
+    return {
+      'ExecutionTime': unixTimestampToJson(executionTime),
+      if (executionId != null) 'ExecutionId': executionId,
+      if (executionType != null) 'ExecutionType': executionType,
+    };
+  }
 }
 
 /// Information about the compliance as defined by the resource type. For
 /// example, for a patch resource type, <code>Items</code> includes information
 /// about the PatchSeverity, Classification, and so on.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComplianceItem {
   /// The compliance type. For example, Association (for a State Manager
   /// association), Patch, or Custom:<code>string</code> are all valid compliance
   /// types.
-  @_s.JsonKey(name: 'ComplianceType')
-  final String complianceType;
+  final String? complianceType;
 
   /// A "Key": "Value" tag combination for the compliance item.
-  @_s.JsonKey(name: 'Details')
-  final Map<String, String> details;
+  final Map<String, String>? details;
 
   /// A summary for the compliance item. The summary includes an execution ID, the
   /// execution type (for example, command), and the execution time.
-  @_s.JsonKey(name: 'ExecutionSummary')
-  final ComplianceExecutionSummary executionSummary;
+  final ComplianceExecutionSummary? executionSummary;
 
   /// An ID for the compliance item. For example, if the compliance item is a
   /// Windows patch, the ID could be the number of the KB article; for example:
   /// KB4010320.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// An ID for the resource. For a managed instance, this is the instance ID.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of resource. <code>ManagedInstance</code> is currently the only
   /// supported resource type.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The severity of the compliance status. Severity can be one of the following:
   /// Critical, High, Medium, Low, Informational, Unspecified.
-  @_s.JsonKey(name: 'Severity')
-  final ComplianceSeverity severity;
+  final ComplianceSeverity? severity;
 
   /// The status of the compliance item. An item is either COMPLIANT,
   /// NON_COMPLIANT, or an empty string (for Windows patches that aren't
   /// applicable).
-  @_s.JsonKey(name: 'Status')
-  final ComplianceStatus status;
+  final ComplianceStatus? status;
 
   /// A title for the compliance item. For example, if the compliance item is a
   /// Windows patch, the title could be the title of the KB article for the patch;
   /// for example: Security Update for Active Directory Federation Services.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   ComplianceItem({
     this.complianceType,
@@ -13091,148 +13965,313 @@ class ComplianceItem {
     this.status,
     this.title,
   });
-  factory ComplianceItem.fromJson(Map<String, dynamic> json) =>
-      _$ComplianceItemFromJson(json);
+
+  factory ComplianceItem.fromJson(Map<String, dynamic> json) {
+    return ComplianceItem(
+      complianceType: json['ComplianceType'] as String?,
+      details: (json['Details'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      executionSummary: json['ExecutionSummary'] != null
+          ? ComplianceExecutionSummary.fromJson(
+              json['ExecutionSummary'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      severity: (json['Severity'] as String?)?.toComplianceSeverity(),
+      status: (json['Status'] as String?)?.toComplianceStatus(),
+      title: json['Title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final details = this.details;
+    final executionSummary = this.executionSummary;
+    final id = this.id;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final severity = this.severity;
+    final status = this.status;
+    final title = this.title;
+    return {
+      if (complianceType != null) 'ComplianceType': complianceType,
+      if (details != null) 'Details': details,
+      if (executionSummary != null) 'ExecutionSummary': executionSummary,
+      if (id != null) 'Id': id,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (severity != null) 'Severity': severity.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (title != null) 'Title': title,
+    };
+  }
 }
 
 /// Information about a compliance item.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ComplianceItemEntry {
   /// The severity of the compliance status. Severity can be one of the following:
   /// Critical, High, Medium, Low, Informational, Unspecified.
-  @_s.JsonKey(name: 'Severity')
   final ComplianceSeverity severity;
 
   /// The status of the compliance item. An item is either COMPLIANT or
   /// NON_COMPLIANT.
-  @_s.JsonKey(name: 'Status')
   final ComplianceStatus status;
 
   /// A "Key": "Value" tag combination for the compliance item.
-  @_s.JsonKey(name: 'Details')
-  final Map<String, String> details;
+  final Map<String, String>? details;
 
   /// The compliance item ID. For example, if the compliance item is a Windows
   /// patch, the ID could be the number of the KB article.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The title of the compliance item. For example, if the compliance item is a
   /// Windows patch, the title could be the title of the KB article for the patch;
   /// for example: Security Update for Active Directory Federation Services.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   ComplianceItemEntry({
-    @_s.required this.severity,
-    @_s.required this.status,
+    required this.severity,
+    required this.status,
     this.details,
     this.id,
     this.title,
   });
-  Map<String, dynamic> toJson() => _$ComplianceItemEntryToJson(this);
+
+  factory ComplianceItemEntry.fromJson(Map<String, dynamic> json) {
+    return ComplianceItemEntry(
+      severity: (json['Severity'] as String).toComplianceSeverity(),
+      status: (json['Status'] as String).toComplianceStatus(),
+      details: (json['Details'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      id: json['Id'] as String?,
+      title: json['Title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final severity = this.severity;
+    final status = this.status;
+    final details = this.details;
+    final id = this.id;
+    final title = this.title;
+    return {
+      'Severity': severity.toValue(),
+      'Status': status.toValue(),
+      if (details != null) 'Details': details,
+      if (id != null) 'Id': id,
+      if (title != null) 'Title': title,
+    };
+  }
 }
 
 enum ComplianceQueryOperatorType {
-  @_s.JsonValue('EQUAL')
   equal,
-  @_s.JsonValue('NOT_EQUAL')
   notEqual,
-  @_s.JsonValue('BEGIN_WITH')
   beginWith,
-  @_s.JsonValue('LESS_THAN')
   lessThan,
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
 }
 
+extension on ComplianceQueryOperatorType {
+  String toValue() {
+    switch (this) {
+      case ComplianceQueryOperatorType.equal:
+        return 'EQUAL';
+      case ComplianceQueryOperatorType.notEqual:
+        return 'NOT_EQUAL';
+      case ComplianceQueryOperatorType.beginWith:
+        return 'BEGIN_WITH';
+      case ComplianceQueryOperatorType.lessThan:
+        return 'LESS_THAN';
+      case ComplianceQueryOperatorType.greaterThan:
+        return 'GREATER_THAN';
+    }
+  }
+}
+
+extension on String {
+  ComplianceQueryOperatorType toComplianceQueryOperatorType() {
+    switch (this) {
+      case 'EQUAL':
+        return ComplianceQueryOperatorType.equal;
+      case 'NOT_EQUAL':
+        return ComplianceQueryOperatorType.notEqual;
+      case 'BEGIN_WITH':
+        return ComplianceQueryOperatorType.beginWith;
+      case 'LESS_THAN':
+        return ComplianceQueryOperatorType.lessThan;
+      case 'GREATER_THAN':
+        return ComplianceQueryOperatorType.greaterThan;
+    }
+    throw Exception('$this is not known in enum ComplianceQueryOperatorType');
+  }
+}
+
 enum ComplianceSeverity {
-  @_s.JsonValue('CRITICAL')
   critical,
-  @_s.JsonValue('HIGH')
   high,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('LOW')
   low,
-  @_s.JsonValue('INFORMATIONAL')
   informational,
-  @_s.JsonValue('UNSPECIFIED')
   unspecified,
 }
 
+extension on ComplianceSeverity {
+  String toValue() {
+    switch (this) {
+      case ComplianceSeverity.critical:
+        return 'CRITICAL';
+      case ComplianceSeverity.high:
+        return 'HIGH';
+      case ComplianceSeverity.medium:
+        return 'MEDIUM';
+      case ComplianceSeverity.low:
+        return 'LOW';
+      case ComplianceSeverity.informational:
+        return 'INFORMATIONAL';
+      case ComplianceSeverity.unspecified:
+        return 'UNSPECIFIED';
+    }
+  }
+}
+
+extension on String {
+  ComplianceSeverity toComplianceSeverity() {
+    switch (this) {
+      case 'CRITICAL':
+        return ComplianceSeverity.critical;
+      case 'HIGH':
+        return ComplianceSeverity.high;
+      case 'MEDIUM':
+        return ComplianceSeverity.medium;
+      case 'LOW':
+        return ComplianceSeverity.low;
+      case 'INFORMATIONAL':
+        return ComplianceSeverity.informational;
+      case 'UNSPECIFIED':
+        return ComplianceSeverity.unspecified;
+    }
+    throw Exception('$this is not known in enum ComplianceSeverity');
+  }
+}
+
 enum ComplianceStatus {
-  @_s.JsonValue('COMPLIANT')
   compliant,
-  @_s.JsonValue('NON_COMPLIANT')
   nonCompliant,
 }
 
+extension on ComplianceStatus {
+  String toValue() {
+    switch (this) {
+      case ComplianceStatus.compliant:
+        return 'COMPLIANT';
+      case ComplianceStatus.nonCompliant:
+        return 'NON_COMPLIANT';
+    }
+  }
+}
+
+extension on String {
+  ComplianceStatus toComplianceStatus() {
+    switch (this) {
+      case 'COMPLIANT':
+        return ComplianceStatus.compliant;
+      case 'NON_COMPLIANT':
+        return ComplianceStatus.nonCompliant;
+    }
+    throw Exception('$this is not known in enum ComplianceStatus');
+  }
+}
+
 /// One or more filters. Use a filter to return a more specific list of results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ComplianceStringFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The type of comparison that should be performed for the value: Equal,
   /// NotEqual, BeginWith, LessThan, or GreaterThan.
-  @_s.JsonKey(name: 'Type')
-  final ComplianceQueryOperatorType type;
+  final ComplianceQueryOperatorType? type;
 
   /// The value for which to search.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   ComplianceStringFilter({
     this.key,
     this.type,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$ComplianceStringFilterToJson(this);
+
+  factory ComplianceStringFilter.fromJson(Map<String, dynamic> json) {
+    return ComplianceStringFilter(
+      key: json['Key'] as String?,
+      type: (json['Type'] as String?)?.toComplianceQueryOperatorType(),
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (type != null) 'Type': type.toValue(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// A summary of compliance information by compliance type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ComplianceSummaryItem {
   /// The type of compliance item. For example, the compliance type can be
   /// Association, Patch, or Custom:string.
-  @_s.JsonKey(name: 'ComplianceType')
-  final String complianceType;
+  final String? complianceType;
 
   /// A list of COMPLIANT items for the specified compliance type.
-  @_s.JsonKey(name: 'CompliantSummary')
-  final CompliantSummary compliantSummary;
+  final CompliantSummary? compliantSummary;
 
   /// A list of NON_COMPLIANT items for the specified compliance type.
-  @_s.JsonKey(name: 'NonCompliantSummary')
-  final NonCompliantSummary nonCompliantSummary;
+  final NonCompliantSummary? nonCompliantSummary;
 
   ComplianceSummaryItem({
     this.complianceType,
     this.compliantSummary,
     this.nonCompliantSummary,
   });
-  factory ComplianceSummaryItem.fromJson(Map<String, dynamic> json) =>
-      _$ComplianceSummaryItemFromJson(json);
+
+  factory ComplianceSummaryItem.fromJson(Map<String, dynamic> json) {
+    return ComplianceSummaryItem(
+      complianceType: json['ComplianceType'] as String?,
+      compliantSummary: json['CompliantSummary'] != null
+          ? CompliantSummary.fromJson(
+              json['CompliantSummary'] as Map<String, dynamic>)
+          : null,
+      nonCompliantSummary: json['NonCompliantSummary'] != null
+          ? NonCompliantSummary.fromJson(
+              json['NonCompliantSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final compliantSummary = this.compliantSummary;
+    final nonCompliantSummary = this.nonCompliantSummary;
+    return {
+      if (complianceType != null) 'ComplianceType': complianceType,
+      if (compliantSummary != null) 'CompliantSummary': compliantSummary,
+      if (nonCompliantSummary != null)
+        'NonCompliantSummary': nonCompliantSummary,
+    };
+  }
 }
 
 enum ComplianceUploadType {
-  @_s.JsonValue('COMPLETE')
   complete,
-  @_s.JsonValue('PARTIAL')
   partial,
 }
 
@@ -13244,71 +14283,115 @@ extension on ComplianceUploadType {
       case ComplianceUploadType.partial:
         return 'PARTIAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ComplianceUploadType toComplianceUploadType() {
+    switch (this) {
+      case 'COMPLETE':
+        return ComplianceUploadType.complete;
+      case 'PARTIAL':
+        return ComplianceUploadType.partial;
+    }
+    throw Exception('$this is not known in enum ComplianceUploadType');
   }
 }
 
 /// A summary of resources that are compliant. The summary is organized
 /// according to the resource count for each compliance type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompliantSummary {
   /// The total number of resources that are compliant.
-  @_s.JsonKey(name: 'CompliantCount')
-  final int compliantCount;
+  final int? compliantCount;
 
   /// A summary of the compliance severity by compliance type.
-  @_s.JsonKey(name: 'SeveritySummary')
-  final SeveritySummary severitySummary;
+  final SeveritySummary? severitySummary;
 
   CompliantSummary({
     this.compliantCount,
     this.severitySummary,
   });
-  factory CompliantSummary.fromJson(Map<String, dynamic> json) =>
-      _$CompliantSummaryFromJson(json);
+
+  factory CompliantSummary.fromJson(Map<String, dynamic> json) {
+    return CompliantSummary(
+      compliantCount: json['CompliantCount'] as int?,
+      severitySummary: json['SeveritySummary'] != null
+          ? SeveritySummary.fromJson(
+              json['SeveritySummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compliantCount = this.compliantCount;
+    final severitySummary = this.severitySummary;
+    return {
+      if (compliantCount != null) 'CompliantCount': compliantCount,
+      if (severitySummary != null) 'SeveritySummary': severitySummary,
+    };
+  }
 }
 
 enum ConnectionStatus {
-  @_s.JsonValue('Connected')
   connected,
-  @_s.JsonValue('NotConnected')
   notConnected,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectionStatus {
+  String toValue() {
+    switch (this) {
+      case ConnectionStatus.connected:
+        return 'Connected';
+      case ConnectionStatus.notConnected:
+        return 'NotConnected';
+    }
+  }
+}
+
+extension on String {
+  ConnectionStatus toConnectionStatus() {
+    switch (this) {
+      case 'Connected':
+        return ConnectionStatus.connected;
+      case 'NotConnected':
+        return ConnectionStatus.notConnected;
+    }
+    throw Exception('$this is not known in enum ConnectionStatus');
+  }
+}
+
 class CreateActivationResult {
   /// The code the system generates when it processes the activation. The
   /// activation code functions like a password to validate the activation ID.
-  @_s.JsonKey(name: 'ActivationCode')
-  final String activationCode;
+  final String? activationCode;
 
   /// The ID number generated by the system when it processed the activation. The
   /// activation ID functions like a user name.
-  @_s.JsonKey(name: 'ActivationId')
-  final String activationId;
+  final String? activationId;
 
   CreateActivationResult({
     this.activationCode,
     this.activationId,
   });
-  factory CreateActivationResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateActivationResultFromJson(json);
+
+  factory CreateActivationResult.fromJson(Map<String, dynamic> json) {
+    return CreateActivationResult(
+      activationCode: json['ActivationCode'] as String?,
+      activationId: json['ActivationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationCode = this.activationCode;
+    final activationId = this.activationId;
+    return {
+      if (activationCode != null) 'ActivationCode': activationCode,
+      if (activationId != null) 'ActivationId': activationId,
+    };
+  }
 }
 
 /// Describes the association of a Systems Manager SSM document and an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreateAssociationBatchRequestEntry {
   /// The name of the SSM document that contains the configuration information for
   /// the instance. You can specify Command or Automation documents.
@@ -13329,7 +14412,6 @@ class CreateAssociationBatchRequestEntry {
   /// For AWS-predefined documents and SSM documents you created in your account,
   /// you only need to specify the document name. For example,
   /// <code>AWS-ApplyPatchBaseline</code> or <code>My-Document</code>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// By default, when you create a new associations, the system runs it
@@ -13337,30 +14419,31 @@ class CreateAssociationBatchRequestEntry {
   /// specified. Specify this option if you don't want an association to run
   /// immediately after you create it. This parameter is not supported for rate
   /// expressions.
-  @_s.JsonKey(name: 'ApplyOnlyAtCronInterval')
-  final bool applyOnlyAtCronInterval;
+  final bool? applyOnlyAtCronInterval;
 
   /// Specify a descriptive name for the association.
-  @_s.JsonKey(name: 'AssociationName')
-  final String associationName;
+  final String? associationName;
 
   /// Specify the target for the association. This target is required for
   /// associations that use an Automation document and target resources by using
   /// rate controls.
-  @_s.JsonKey(name: 'AutomationTargetParameterName')
-  final String automationTargetParameterName;
+  final String? automationTargetParameterName;
+
+  /// The names or Amazon Resource Names (ARNs) of the Systems Manager Change
+  /// Calendar type documents your associations are gated under. The associations
+  /// only run when that Change Calendar is open. For more information, see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar">AWS
+  /// Systems Manager Change Calendar</a>.
+  final List<String>? calendarNames;
 
   /// The severity level to assign to the association.
-  @_s.JsonKey(name: 'ComplianceSeverity')
-  final AssociationComplianceSeverity complianceSeverity;
+  final AssociationComplianceSeverity? complianceSeverity;
 
   /// The document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The ID of the instance.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The maximum number of targets allowed to run the association at the same
   /// time. You can specify a number, for example 10, or a percentage of the
@@ -13371,8 +14454,7 @@ class CreateAssociationBatchRequestEntry {
   /// Manager is running MaxConcurrency associations, the association is allowed
   /// to run. During the next association interval, the new instance will process
   /// its association within the limit specified for MaxConcurrency.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The number of errors that are allowed before the system stops sending
   /// requests to run the association on additional targets. You can specify
@@ -13388,20 +14470,16 @@ class CreateAssociationBatchRequestEntry {
   /// you need to ensure that there won't be more than max-errors failed
   /// executions, set MaxConcurrency to 1 so that executions proceed one at a
   /// time.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// An S3 bucket where you want to store the results of this request.
-  @_s.JsonKey(name: 'OutputLocation')
-  final InstanceAssociationOutputLocation outputLocation;
+  final InstanceAssociationOutputLocation? outputLocation;
 
   /// A description of the parameters for a document.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   /// A cron expression that specifies a schedule when the association runs.
-  @_s.JsonKey(name: 'ScheduleExpression')
-  final String scheduleExpression;
+  final String? scheduleExpression;
 
   /// The mode for generating association compliance. You can specify
   /// <code>AUTO</code> or <code>MANUAL</code>. In <code>AUTO</code> mode, the
@@ -13416,23 +14494,21 @@ class CreateAssociationBatchRequestEntry {
   /// direct call to the <a>PutComplianceItems</a> API action.
   ///
   /// By default, all associations use <code>AUTO</code> mode.
-  @_s.JsonKey(name: 'SyncCompliance')
-  final AssociationSyncCompliance syncCompliance;
+  final AssociationSyncCompliance? syncCompliance;
 
   /// Use this action to create an association in multiple Regions and multiple
   /// accounts.
-  @_s.JsonKey(name: 'TargetLocations')
-  final List<TargetLocation> targetLocations;
+  final List<TargetLocation>? targetLocations;
 
   /// The instances targeted by the request.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   CreateAssociationBatchRequestEntry({
-    @_s.required this.name,
+    required this.name,
     this.applyOnlyAtCronInterval,
     this.associationName,
     this.automationTargetParameterName,
+    this.calendarNames,
     this.complianceSeverity,
     this.documentVersion,
     this.instanceId,
@@ -13445,774 +14521,1167 @@ class CreateAssociationBatchRequestEntry {
     this.targetLocations,
     this.targets,
   });
-  factory CreateAssociationBatchRequestEntry.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateAssociationBatchRequestEntryFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CreateAssociationBatchRequestEntryToJson(this);
+  factory CreateAssociationBatchRequestEntry.fromJson(
+      Map<String, dynamic> json) {
+    return CreateAssociationBatchRequestEntry(
+      name: json['Name'] as String,
+      applyOnlyAtCronInterval: json['ApplyOnlyAtCronInterval'] as bool?,
+      associationName: json['AssociationName'] as String?,
+      automationTargetParameterName:
+          json['AutomationTargetParameterName'] as String?,
+      calendarNames: (json['CalendarNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      complianceSeverity: (json['ComplianceSeverity'] as String?)
+          ?.toAssociationComplianceSeverity(),
+      documentVersion: json['DocumentVersion'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      outputLocation: json['OutputLocation'] != null
+          ? InstanceAssociationOutputLocation.fromJson(
+              json['OutputLocation'] as Map<String, dynamic>)
+          : null,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      scheduleExpression: json['ScheduleExpression'] as String?,
+      syncCompliance:
+          (json['SyncCompliance'] as String?)?.toAssociationSyncCompliance(),
+      targetLocations: (json['TargetLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final applyOnlyAtCronInterval = this.applyOnlyAtCronInterval;
+    final associationName = this.associationName;
+    final automationTargetParameterName = this.automationTargetParameterName;
+    final calendarNames = this.calendarNames;
+    final complianceSeverity = this.complianceSeverity;
+    final documentVersion = this.documentVersion;
+    final instanceId = this.instanceId;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final outputLocation = this.outputLocation;
+    final parameters = this.parameters;
+    final scheduleExpression = this.scheduleExpression;
+    final syncCompliance = this.syncCompliance;
+    final targetLocations = this.targetLocations;
+    final targets = this.targets;
+    return {
+      'Name': name,
+      if (applyOnlyAtCronInterval != null)
+        'ApplyOnlyAtCronInterval': applyOnlyAtCronInterval,
+      if (associationName != null) 'AssociationName': associationName,
+      if (automationTargetParameterName != null)
+        'AutomationTargetParameterName': automationTargetParameterName,
+      if (calendarNames != null) 'CalendarNames': calendarNames,
+      if (complianceSeverity != null)
+        'ComplianceSeverity': complianceSeverity.toValue(),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+      if (parameters != null) 'Parameters': parameters,
+      if (scheduleExpression != null) 'ScheduleExpression': scheduleExpression,
+      if (syncCompliance != null) 'SyncCompliance': syncCompliance.toValue(),
+      if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAssociationBatchResult {
   /// Information about the associations that failed.
-  @_s.JsonKey(name: 'Failed')
-  final List<FailedCreateAssociation> failed;
+  final List<FailedCreateAssociation>? failed;
 
   /// Information about the associations that succeeded.
-  @_s.JsonKey(name: 'Successful')
-  final List<AssociationDescription> successful;
+  final List<AssociationDescription>? successful;
 
   CreateAssociationBatchResult({
     this.failed,
     this.successful,
   });
-  factory CreateAssociationBatchResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateAssociationBatchResultFromJson(json);
+
+  factory CreateAssociationBatchResult.fromJson(Map<String, dynamic> json) {
+    return CreateAssociationBatchResult(
+      failed: (json['Failed'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedCreateAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      successful: (json['Successful'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AssociationDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failed = this.failed;
+    final successful = this.successful;
+    return {
+      if (failed != null) 'Failed': failed,
+      if (successful != null) 'Successful': successful,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAssociationResult {
   /// Information about the association.
-  @_s.JsonKey(name: 'AssociationDescription')
-  final AssociationDescription associationDescription;
+  final AssociationDescription? associationDescription;
 
   CreateAssociationResult({
     this.associationDescription,
   });
-  factory CreateAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateAssociationResultFromJson(json);
+
+  factory CreateAssociationResult.fromJson(Map<String, dynamic> json) {
+    return CreateAssociationResult(
+      associationDescription: json['AssociationDescription'] != null
+          ? AssociationDescription.fromJson(
+              json['AssociationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationDescription = this.associationDescription;
+    return {
+      if (associationDescription != null)
+        'AssociationDescription': associationDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDocumentResult {
   /// Information about the Systems Manager document.
-  @_s.JsonKey(name: 'DocumentDescription')
-  final DocumentDescription documentDescription;
+  final DocumentDescription? documentDescription;
 
   CreateDocumentResult({
     this.documentDescription,
   });
-  factory CreateDocumentResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDocumentResultFromJson(json);
+
+  factory CreateDocumentResult.fromJson(Map<String, dynamic> json) {
+    return CreateDocumentResult(
+      documentDescription: json['DocumentDescription'] != null
+          ? DocumentDescription.fromJson(
+              json['DocumentDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentDescription = this.documentDescription;
+    return {
+      if (documentDescription != null)
+        'DocumentDescription': documentDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMaintenanceWindowResult {
   /// The ID of the created maintenance window.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   CreateMaintenanceWindowResult({
     this.windowId,
   });
-  factory CreateMaintenanceWindowResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateMaintenanceWindowResultFromJson(json);
+
+  factory CreateMaintenanceWindowResult.fromJson(Map<String, dynamic> json) {
+    return CreateMaintenanceWindowResult(
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final windowId = this.windowId;
+    return {
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOpsItemResponse {
   /// The ID of the OpsItem.
-  @_s.JsonKey(name: 'OpsItemId')
-  final String opsItemId;
+  final String? opsItemId;
 
   CreateOpsItemResponse({
     this.opsItemId,
   });
-  factory CreateOpsItemResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateOpsItemResponseFromJson(json);
+
+  factory CreateOpsItemResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOpsItemResponse(
+      opsItemId: json['OpsItemId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final opsItemId = this.opsItemId;
+    return {
+      if (opsItemId != null) 'OpsItemId': opsItemId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOpsMetadataResult {
   /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob created by
   /// the call.
-  @_s.JsonKey(name: 'OpsMetadataArn')
-  final String opsMetadataArn;
+  final String? opsMetadataArn;
 
   CreateOpsMetadataResult({
     this.opsMetadataArn,
   });
-  factory CreateOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateOpsMetadataResultFromJson(json);
+
+  factory CreateOpsMetadataResult.fromJson(Map<String, dynamic> json) {
+    return CreateOpsMetadataResult(
+      opsMetadataArn: json['OpsMetadataArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final opsMetadataArn = this.opsMetadataArn;
+    return {
+      if (opsMetadataArn != null) 'OpsMetadataArn': opsMetadataArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePatchBaselineResult {
   /// The ID of the created patch baseline.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   CreatePatchBaselineResult({
     this.baselineId,
   });
-  factory CreatePatchBaselineResult.fromJson(Map<String, dynamic> json) =>
-      _$CreatePatchBaselineResultFromJson(json);
+
+  factory CreatePatchBaselineResult.fromJson(Map<String, dynamic> json) {
+    return CreatePatchBaselineResult(
+      baselineId: json['BaselineId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    return {
+      if (baselineId != null) 'BaselineId': baselineId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResourceDataSyncResult {
   CreateResourceDataSyncResult();
-  factory CreateResourceDataSyncResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateResourceDataSyncResultFromJson(json);
+
+  factory CreateResourceDataSyncResult.fromJson(Map<String, dynamic> _) {
+    return CreateResourceDataSyncResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteActivationResult {
   DeleteActivationResult();
-  factory DeleteActivationResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteActivationResultFromJson(json);
+
+  factory DeleteActivationResult.fromJson(Map<String, dynamic> _) {
+    return DeleteActivationResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAssociationResult {
   DeleteAssociationResult();
-  factory DeleteAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAssociationResultFromJson(json);
+
+  factory DeleteAssociationResult.fromJson(Map<String, dynamic> _) {
+    return DeleteAssociationResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDocumentResult {
   DeleteDocumentResult();
-  factory DeleteDocumentResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDocumentResultFromJson(json);
+
+  factory DeleteDocumentResult.fromJson(Map<String, dynamic> _) {
+    return DeleteDocumentResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInventoryResult {
   /// Every <code>DeleteInventory</code> action is assigned a unique ID. This
   /// option returns a unique ID. You can use this ID to query the status of a
   /// delete operation. This option is useful for ensuring that a delete operation
   /// has completed before you begin other actions.
-  @_s.JsonKey(name: 'DeletionId')
-  final String deletionId;
+  final String? deletionId;
 
   /// A summary of the delete operation. For more information about this summary,
   /// see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete-summary">Deleting
   /// custom inventory</a> in the <i>AWS Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'DeletionSummary')
-  final InventoryDeletionSummary deletionSummary;
+  final InventoryDeletionSummary? deletionSummary;
 
   /// The name of the inventory data type specified in the request.
-  @_s.JsonKey(name: 'TypeName')
-  final String typeName;
+  final String? typeName;
 
   DeleteInventoryResult({
     this.deletionId,
     this.deletionSummary,
     this.typeName,
   });
-  factory DeleteInventoryResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteInventoryResultFromJson(json);
+
+  factory DeleteInventoryResult.fromJson(Map<String, dynamic> json) {
+    return DeleteInventoryResult(
+      deletionId: json['DeletionId'] as String?,
+      deletionSummary: json['DeletionSummary'] != null
+          ? InventoryDeletionSummary.fromJson(
+              json['DeletionSummary'] as Map<String, dynamic>)
+          : null,
+      typeName: json['TypeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionId = this.deletionId;
+    final deletionSummary = this.deletionSummary;
+    final typeName = this.typeName;
+    return {
+      if (deletionId != null) 'DeletionId': deletionId,
+      if (deletionSummary != null) 'DeletionSummary': deletionSummary,
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMaintenanceWindowResult {
   /// The ID of the deleted maintenance window.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   DeleteMaintenanceWindowResult({
     this.windowId,
   });
-  factory DeleteMaintenanceWindowResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMaintenanceWindowResultFromJson(json);
+
+  factory DeleteMaintenanceWindowResult.fromJson(Map<String, dynamic> json) {
+    return DeleteMaintenanceWindowResult(
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final windowId = this.windowId;
+    return {
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteOpsMetadataResult {
   DeleteOpsMetadataResult();
-  factory DeleteOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteOpsMetadataResultFromJson(json);
+
+  factory DeleteOpsMetadataResult.fromJson(Map<String, dynamic> _) {
+    return DeleteOpsMetadataResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteParameterResult {
   DeleteParameterResult();
-  factory DeleteParameterResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteParameterResultFromJson(json);
+
+  factory DeleteParameterResult.fromJson(Map<String, dynamic> _) {
+    return DeleteParameterResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteParametersResult {
   /// The names of the deleted parameters.
-  @_s.JsonKey(name: 'DeletedParameters')
-  final List<String> deletedParameters;
+  final List<String>? deletedParameters;
 
   /// The names of parameters that weren't deleted because the parameters are not
   /// valid.
-  @_s.JsonKey(name: 'InvalidParameters')
-  final List<String> invalidParameters;
+  final List<String>? invalidParameters;
 
   DeleteParametersResult({
     this.deletedParameters,
     this.invalidParameters,
   });
-  factory DeleteParametersResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteParametersResultFromJson(json);
+
+  factory DeleteParametersResult.fromJson(Map<String, dynamic> json) {
+    return DeleteParametersResult(
+      deletedParameters: (json['DeletedParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      invalidParameters: (json['InvalidParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletedParameters = this.deletedParameters;
+    final invalidParameters = this.invalidParameters;
+    return {
+      if (deletedParameters != null) 'DeletedParameters': deletedParameters,
+      if (invalidParameters != null) 'InvalidParameters': invalidParameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePatchBaselineResult {
   /// The ID of the deleted patch baseline.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   DeletePatchBaselineResult({
     this.baselineId,
   });
-  factory DeletePatchBaselineResult.fromJson(Map<String, dynamic> json) =>
-      _$DeletePatchBaselineResultFromJson(json);
+
+  factory DeletePatchBaselineResult.fromJson(Map<String, dynamic> json) {
+    return DeletePatchBaselineResult(
+      baselineId: json['BaselineId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    return {
+      if (baselineId != null) 'BaselineId': baselineId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourceDataSyncResult {
   DeleteResourceDataSyncResult();
-  factory DeleteResourceDataSyncResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteResourceDataSyncResultFromJson(json);
+
+  factory DeleteResourceDataSyncResult.fromJson(Map<String, dynamic> _) {
+    return DeleteResourceDataSyncResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterManagedInstanceResult {
   DeregisterManagedInstanceResult();
-  factory DeregisterManagedInstanceResult.fromJson(Map<String, dynamic> json) =>
-      _$DeregisterManagedInstanceResultFromJson(json);
+
+  factory DeregisterManagedInstanceResult.fromJson(Map<String, dynamic> _) {
+    return DeregisterManagedInstanceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterPatchBaselineForPatchGroupResult {
   /// The ID of the patch baseline the patch group was deregistered from.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   /// The name of the patch group deregistered from the patch baseline.
-  @_s.JsonKey(name: 'PatchGroup')
-  final String patchGroup;
+  final String? patchGroup;
 
   DeregisterPatchBaselineForPatchGroupResult({
     this.baselineId,
     this.patchGroup,
   });
+
   factory DeregisterPatchBaselineForPatchGroupResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterPatchBaselineForPatchGroupResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DeregisterPatchBaselineForPatchGroupResult(
+      baselineId: json['BaselineId'] as String?,
+      patchGroup: json['PatchGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    final patchGroup = this.patchGroup;
+    return {
+      if (baselineId != null) 'BaselineId': baselineId,
+      if (patchGroup != null) 'PatchGroup': patchGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterTargetFromMaintenanceWindowResult {
   /// The ID of the maintenance window the target was removed from.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   /// The ID of the removed target definition.
-  @_s.JsonKey(name: 'WindowTargetId')
-  final String windowTargetId;
+  final String? windowTargetId;
 
   DeregisterTargetFromMaintenanceWindowResult({
     this.windowId,
     this.windowTargetId,
   });
+
   factory DeregisterTargetFromMaintenanceWindowResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterTargetFromMaintenanceWindowResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DeregisterTargetFromMaintenanceWindowResult(
+      windowId: json['WindowId'] as String?,
+      windowTargetId: json['WindowTargetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final windowId = this.windowId;
+    final windowTargetId = this.windowTargetId;
+    return {
+      if (windowId != null) 'WindowId': windowId,
+      if (windowTargetId != null) 'WindowTargetId': windowTargetId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterTaskFromMaintenanceWindowResult {
   /// The ID of the maintenance window the task was removed from.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   /// The ID of the task removed from the maintenance window.
-  @_s.JsonKey(name: 'WindowTaskId')
-  final String windowTaskId;
+  final String? windowTaskId;
 
   DeregisterTaskFromMaintenanceWindowResult({
     this.windowId,
     this.windowTaskId,
   });
+
   factory DeregisterTaskFromMaintenanceWindowResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterTaskFromMaintenanceWindowResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DeregisterTaskFromMaintenanceWindowResult(
+      windowId: json['WindowId'] as String?,
+      windowTaskId: json['WindowTaskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final windowId = this.windowId;
+    final windowTaskId = this.windowTaskId;
+    return {
+      if (windowId != null) 'WindowId': windowId,
+      if (windowTaskId != null) 'WindowTaskId': windowTaskId,
+    };
+  }
 }
 
 /// Filter for the DescribeActivation API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DescribeActivationsFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'FilterKey')
-  final DescribeActivationsFilterKeys filterKey;
+  final DescribeActivationsFilterKeys? filterKey;
 
   /// The filter values.
-  @_s.JsonKey(name: 'FilterValues')
-  final List<String> filterValues;
+  final List<String>? filterValues;
 
   DescribeActivationsFilter({
     this.filterKey,
     this.filterValues,
   });
-  Map<String, dynamic> toJson() => _$DescribeActivationsFilterToJson(this);
+
+  factory DescribeActivationsFilter.fromJson(Map<String, dynamic> json) {
+    return DescribeActivationsFilter(
+      filterKey:
+          (json['FilterKey'] as String?)?.toDescribeActivationsFilterKeys(),
+      filterValues: (json['FilterValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterKey = this.filterKey;
+    final filterValues = this.filterValues;
+    return {
+      if (filterKey != null) 'FilterKey': filterKey.toValue(),
+      if (filterValues != null) 'FilterValues': filterValues,
+    };
+  }
 }
 
 enum DescribeActivationsFilterKeys {
-  @_s.JsonValue('ActivationIds')
   activationIds,
-  @_s.JsonValue('DefaultInstanceName')
   defaultInstanceName,
-  @_s.JsonValue('IamRole')
   iamRole,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DescribeActivationsFilterKeys {
+  String toValue() {
+    switch (this) {
+      case DescribeActivationsFilterKeys.activationIds:
+        return 'ActivationIds';
+      case DescribeActivationsFilterKeys.defaultInstanceName:
+        return 'DefaultInstanceName';
+      case DescribeActivationsFilterKeys.iamRole:
+        return 'IamRole';
+    }
+  }
+}
+
+extension on String {
+  DescribeActivationsFilterKeys toDescribeActivationsFilterKeys() {
+    switch (this) {
+      case 'ActivationIds':
+        return DescribeActivationsFilterKeys.activationIds;
+      case 'DefaultInstanceName':
+        return DescribeActivationsFilterKeys.defaultInstanceName;
+      case 'IamRole':
+        return DescribeActivationsFilterKeys.iamRole;
+    }
+    throw Exception('$this is not known in enum DescribeActivationsFilterKeys');
+  }
+}
+
 class DescribeActivationsResult {
   /// A list of activations for your AWS account.
-  @_s.JsonKey(name: 'ActivationList')
-  final List<Activation> activationList;
+  final List<Activation>? activationList;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeActivationsResult({
     this.activationList,
     this.nextToken,
   });
-  factory DescribeActivationsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeActivationsResultFromJson(json);
+
+  factory DescribeActivationsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeActivationsResult(
+      activationList: (json['ActivationList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Activation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationList = this.activationList;
+    final nextToken = this.nextToken;
+    return {
+      if (activationList != null) 'ActivationList': activationList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAssociationExecutionTargetsResult {
   /// Information about the execution.
-  @_s.JsonKey(name: 'AssociationExecutionTargets')
-  final List<AssociationExecutionTarget> associationExecutionTargets;
+  final List<AssociationExecutionTarget>? associationExecutionTargets;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAssociationExecutionTargetsResult({
     this.associationExecutionTargets,
     this.nextToken,
   });
+
   factory DescribeAssociationExecutionTargetsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAssociationExecutionTargetsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAssociationExecutionTargetsResult(
+      associationExecutionTargets: (json['AssociationExecutionTargets']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AssociationExecutionTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationExecutionTargets = this.associationExecutionTargets;
+    final nextToken = this.nextToken;
+    return {
+      if (associationExecutionTargets != null)
+        'AssociationExecutionTargets': associationExecutionTargets,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAssociationExecutionsResult {
   /// A list of the executions for the specified association ID.
-  @_s.JsonKey(name: 'AssociationExecutions')
-  final List<AssociationExecution> associationExecutions;
+  final List<AssociationExecution>? associationExecutions;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAssociationExecutionsResult({
     this.associationExecutions,
     this.nextToken,
   });
+
   factory DescribeAssociationExecutionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAssociationExecutionsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAssociationExecutionsResult(
+      associationExecutions: (json['AssociationExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => AssociationExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationExecutions = this.associationExecutions;
+    final nextToken = this.nextToken;
+    return {
+      if (associationExecutions != null)
+        'AssociationExecutions': associationExecutions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAssociationResult {
   /// Information about the association.
-  @_s.JsonKey(name: 'AssociationDescription')
-  final AssociationDescription associationDescription;
+  final AssociationDescription? associationDescription;
 
   DescribeAssociationResult({
     this.associationDescription,
   });
-  factory DescribeAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAssociationResultFromJson(json);
+
+  factory DescribeAssociationResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAssociationResult(
+      associationDescription: json['AssociationDescription'] != null
+          ? AssociationDescription.fromJson(
+              json['AssociationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationDescription = this.associationDescription;
+    return {
+      if (associationDescription != null)
+        'AssociationDescription': associationDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAutomationExecutionsResult {
   /// The list of details about each automation execution which has occurred which
   /// matches the filter specification, if any.
-  @_s.JsonKey(name: 'AutomationExecutionMetadataList')
-  final List<AutomationExecutionMetadata> automationExecutionMetadataList;
+  final List<AutomationExecutionMetadata>? automationExecutionMetadataList;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAutomationExecutionsResult({
     this.automationExecutionMetadataList,
     this.nextToken,
   });
+
   factory DescribeAutomationExecutionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAutomationExecutionsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAutomationExecutionsResult(
+      automationExecutionMetadataList: (json['AutomationExecutionMetadataList']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              AutomationExecutionMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automationExecutionMetadataList =
+        this.automationExecutionMetadataList;
+    final nextToken = this.nextToken;
+    return {
+      if (automationExecutionMetadataList != null)
+        'AutomationExecutionMetadataList': automationExecutionMetadataList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAutomationStepExecutionsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of details about the current state of all steps that make up an
   /// execution.
-  @_s.JsonKey(name: 'StepExecutions')
-  final List<StepExecution> stepExecutions;
+  final List<StepExecution>? stepExecutions;
 
   DescribeAutomationStepExecutionsResult({
     this.nextToken,
     this.stepExecutions,
   });
+
   factory DescribeAutomationStepExecutionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAutomationStepExecutionsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAutomationStepExecutionsResult(
+      nextToken: json['NextToken'] as String?,
+      stepExecutions: (json['StepExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => StepExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final stepExecutions = this.stepExecutions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (stepExecutions != null) 'StepExecutions': stepExecutions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAvailablePatchesResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of patches. Each entry in the array is a patch structure.
-  @_s.JsonKey(name: 'Patches')
-  final List<Patch> patches;
+  final List<Patch>? patches;
 
   DescribeAvailablePatchesResult({
     this.nextToken,
     this.patches,
   });
-  factory DescribeAvailablePatchesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAvailablePatchesResultFromJson(json);
+
+  factory DescribeAvailablePatchesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAvailablePatchesResult(
+      nextToken: json['NextToken'] as String?,
+      patches: (json['Patches'] as List?)
+          ?.whereNotNull()
+          .map((e) => Patch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final patches = this.patches;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (patches != null) 'Patches': patches,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDocumentPermissionResponse {
   /// The account IDs that have permission to use this document. The ID can be
   /// either an AWS account or <i>All</i>.
-  @_s.JsonKey(name: 'AccountIds')
-  final List<String> accountIds;
+  final List<String>? accountIds;
 
   /// A list of AWS accounts where the current document is shared and the version
   /// shared with each account.
-  @_s.JsonKey(name: 'AccountSharingInfoList')
-  final List<AccountSharingInfo> accountSharingInfoList;
+  final List<AccountSharingInfo>? accountSharingInfoList;
+
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
 
   DescribeDocumentPermissionResponse({
     this.accountIds,
     this.accountSharingInfoList,
+    this.nextToken,
   });
+
   factory DescribeDocumentPermissionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDocumentPermissionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDocumentPermissionResponse(
+      accountIds: (json['AccountIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      accountSharingInfoList: (json['AccountSharingInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountSharingInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountIds = this.accountIds;
+    final accountSharingInfoList = this.accountSharingInfoList;
+    final nextToken = this.nextToken;
+    return {
+      if (accountIds != null) 'AccountIds': accountIds,
+      if (accountSharingInfoList != null)
+        'AccountSharingInfoList': accountSharingInfoList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDocumentResult {
   /// Information about the Systems Manager document.
-  @_s.JsonKey(name: 'Document')
-  final DocumentDescription document;
+  final DocumentDescription? document;
 
   DescribeDocumentResult({
     this.document,
   });
-  factory DescribeDocumentResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDocumentResultFromJson(json);
+
+  factory DescribeDocumentResult.fromJson(Map<String, dynamic> json) {
+    return DescribeDocumentResult(
+      document: json['Document'] != null
+          ? DocumentDescription.fromJson(
+              json['Document'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    return {
+      if (document != null) 'Document': document,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEffectiveInstanceAssociationsResult {
   /// The associations for the requested instance.
-  @_s.JsonKey(name: 'Associations')
-  final List<InstanceAssociation> associations;
+  final List<InstanceAssociation>? associations;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeEffectiveInstanceAssociationsResult({
     this.associations,
     this.nextToken,
   });
+
   factory DescribeEffectiveInstanceAssociationsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEffectiveInstanceAssociationsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEffectiveInstanceAssociationsResult(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final nextToken = this.nextToken;
+    return {
+      if (associations != null) 'Associations': associations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEffectivePatchesForPatchBaselineResult {
   /// An array of patches and patch status.
-  @_s.JsonKey(name: 'EffectivePatches')
-  final List<EffectivePatch> effectivePatches;
+  final List<EffectivePatch>? effectivePatches;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeEffectivePatchesForPatchBaselineResult({
     this.effectivePatches,
     this.nextToken,
   });
+
   factory DescribeEffectivePatchesForPatchBaselineResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeEffectivePatchesForPatchBaselineResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeEffectivePatchesForPatchBaselineResult(
+      effectivePatches: (json['EffectivePatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => EffectivePatch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectivePatches = this.effectivePatches;
+    final nextToken = this.nextToken;
+    return {
+      if (effectivePatches != null) 'EffectivePatches': effectivePatches,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstanceAssociationsStatusResult {
   /// Status information about the association.
-  @_s.JsonKey(name: 'InstanceAssociationStatusInfos')
-  final List<InstanceAssociationStatusInfo> instanceAssociationStatusInfos;
+  final List<InstanceAssociationStatusInfo>? instanceAssociationStatusInfos;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInstanceAssociationsStatusResult({
     this.instanceAssociationStatusInfos,
     this.nextToken,
   });
+
   factory DescribeInstanceAssociationsStatusResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInstanceAssociationsStatusResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeInstanceAssociationsStatusResult(
+      instanceAssociationStatusInfos: (json['InstanceAssociationStatusInfos']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InstanceAssociationStatusInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceAssociationStatusInfos = this.instanceAssociationStatusInfos;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceAssociationStatusInfos != null)
+        'InstanceAssociationStatusInfos': instanceAssociationStatusInfos,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstanceInformationResult {
   /// The instance information list.
-  @_s.JsonKey(name: 'InstanceInformationList')
-  final List<InstanceInformation> instanceInformationList;
+  final List<InstanceInformation>? instanceInformationList;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInstanceInformationResult({
     this.instanceInformationList,
     this.nextToken,
   });
+
   factory DescribeInstanceInformationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInstanceInformationResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeInstanceInformationResult(
+      instanceInformationList: (json['InstanceInformationList'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceInformationList = this.instanceInformationList;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceInformationList != null)
+        'InstanceInformationList': instanceInformationList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstancePatchStatesForPatchGroupResult {
   /// The high-level patch state for the requested instances.
-  @_s.JsonKey(name: 'InstancePatchStates')
-  final List<InstancePatchState> instancePatchStates;
+  final List<InstancePatchState>? instancePatchStates;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInstancePatchStatesForPatchGroupResult({
     this.instancePatchStates,
     this.nextToken,
   });
+
   factory DescribeInstancePatchStatesForPatchGroupResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInstancePatchStatesForPatchGroupResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeInstancePatchStatesForPatchGroupResult(
+      instancePatchStates: (json['InstancePatchStates'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstancePatchState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancePatchStates = this.instancePatchStates;
+    final nextToken = this.nextToken;
+    return {
+      if (instancePatchStates != null)
+        'InstancePatchStates': instancePatchStates,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstancePatchStatesResult {
   /// The high-level patch state for the requested instances.
-  @_s.JsonKey(name: 'InstancePatchStates')
-  final List<InstancePatchState> instancePatchStates;
+  final List<InstancePatchState>? instancePatchStates;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInstancePatchStatesResult({
     this.instancePatchStates,
     this.nextToken,
   });
+
   factory DescribeInstancePatchStatesResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInstancePatchStatesResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeInstancePatchStatesResult(
+      instancePatchStates: (json['InstancePatchStates'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstancePatchState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancePatchStates = this.instancePatchStates;
+    final nextToken = this.nextToken;
+    return {
+      if (instancePatchStates != null)
+        'InstancePatchStates': instancePatchStates,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInstancePatchesResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Each entry in the array is a structure containing:
   ///
@@ -14229,334 +15698,481 @@ class DescribeInstancePatchesResult {
   /// InstalledTime (DateTime)
   ///
   /// InstalledBy (string)
-  @_s.JsonKey(name: 'Patches')
-  final List<PatchComplianceData> patches;
+  final List<PatchComplianceData>? patches;
 
   DescribeInstancePatchesResult({
     this.nextToken,
     this.patches,
   });
-  factory DescribeInstancePatchesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeInstancePatchesResultFromJson(json);
+
+  factory DescribeInstancePatchesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeInstancePatchesResult(
+      nextToken: json['NextToken'] as String?,
+      patches: (json['Patches'] as List?)
+          ?.whereNotNull()
+          .map((e) => PatchComplianceData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final patches = this.patches;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (patches != null) 'Patches': patches,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInventoryDeletionsResult {
   /// A list of status items for deleted inventory.
-  @_s.JsonKey(name: 'InventoryDeletions')
-  final List<InventoryDeletionStatusItem> inventoryDeletions;
+  final List<InventoryDeletionStatusItem>? inventoryDeletions;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeInventoryDeletionsResult({
     this.inventoryDeletions,
     this.nextToken,
   });
-  factory DescribeInventoryDeletionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeInventoryDeletionsResultFromJson(json);
+
+  factory DescribeInventoryDeletionsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeInventoryDeletionsResult(
+      inventoryDeletions: (json['InventoryDeletions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InventoryDeletionStatusItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inventoryDeletions = this.inventoryDeletions;
+    final nextToken = this.nextToken;
+    return {
+      if (inventoryDeletions != null) 'InventoryDeletions': inventoryDeletions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowExecutionTaskInvocationsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the task invocation results per invocation.
-  @_s.JsonKey(name: 'WindowExecutionTaskInvocationIdentities')
-  final List<MaintenanceWindowExecutionTaskInvocationIdentity>
+  final List<MaintenanceWindowExecutionTaskInvocationIdentity>?
       windowExecutionTaskInvocationIdentities;
 
   DescribeMaintenanceWindowExecutionTaskInvocationsResult({
     this.nextToken,
     this.windowExecutionTaskInvocationIdentities,
   });
+
   factory DescribeMaintenanceWindowExecutionTaskInvocationsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowExecutionTaskInvocationsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowExecutionTaskInvocationsResult(
+      nextToken: json['NextToken'] as String?,
+      windowExecutionTaskInvocationIdentities:
+          (json['WindowExecutionTaskInvocationIdentities'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  MaintenanceWindowExecutionTaskInvocationIdentity.fromJson(
+                      e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final windowExecutionTaskInvocationIdentities =
+        this.windowExecutionTaskInvocationIdentities;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (windowExecutionTaskInvocationIdentities != null)
+        'WindowExecutionTaskInvocationIdentities':
+            windowExecutionTaskInvocationIdentities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowExecutionTasksResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the task executions.
-  @_s.JsonKey(name: 'WindowExecutionTaskIdentities')
-  final List<MaintenanceWindowExecutionTaskIdentity>
+  final List<MaintenanceWindowExecutionTaskIdentity>?
       windowExecutionTaskIdentities;
 
   DescribeMaintenanceWindowExecutionTasksResult({
     this.nextToken,
     this.windowExecutionTaskIdentities,
   });
+
   factory DescribeMaintenanceWindowExecutionTasksResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowExecutionTasksResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowExecutionTasksResult(
+      nextToken: json['NextToken'] as String?,
+      windowExecutionTaskIdentities:
+          (json['WindowExecutionTaskIdentities'] as List?)
+              ?.whereNotNull()
+              .map((e) => MaintenanceWindowExecutionTaskIdentity.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final windowExecutionTaskIdentities = this.windowExecutionTaskIdentities;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (windowExecutionTaskIdentities != null)
+        'WindowExecutionTaskIdentities': windowExecutionTaskIdentities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowExecutionsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the maintenance window executions.
-  @_s.JsonKey(name: 'WindowExecutions')
-  final List<MaintenanceWindowExecution> windowExecutions;
+  final List<MaintenanceWindowExecution>? windowExecutions;
 
   DescribeMaintenanceWindowExecutionsResult({
     this.nextToken,
     this.windowExecutions,
   });
+
   factory DescribeMaintenanceWindowExecutionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowExecutionsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowExecutionsResult(
+      nextToken: json['NextToken'] as String?,
+      windowExecutions: (json['WindowExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MaintenanceWindowExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final windowExecutions = this.windowExecutions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (windowExecutions != null) 'WindowExecutions': windowExecutions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowScheduleResult {
   /// The token for the next set of items to return. (You use this token in the
   /// next call.)
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about maintenance window executions scheduled for the specified
   /// time range.
-  @_s.JsonKey(name: 'ScheduledWindowExecutions')
-  final List<ScheduledWindowExecution> scheduledWindowExecutions;
+  final List<ScheduledWindowExecution>? scheduledWindowExecutions;
 
   DescribeMaintenanceWindowScheduleResult({
     this.nextToken,
     this.scheduledWindowExecutions,
   });
+
   factory DescribeMaintenanceWindowScheduleResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowScheduleResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowScheduleResult(
+      nextToken: json['NextToken'] as String?,
+      scheduledWindowExecutions: (json['ScheduledWindowExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ScheduledWindowExecution.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final scheduledWindowExecutions = this.scheduledWindowExecutions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (scheduledWindowExecutions != null)
+        'ScheduledWindowExecutions': scheduledWindowExecutions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowTargetsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the targets in the maintenance window.
-  @_s.JsonKey(name: 'Targets')
-  final List<MaintenanceWindowTarget> targets;
+  final List<MaintenanceWindowTarget>? targets;
 
   DescribeMaintenanceWindowTargetsResult({
     this.nextToken,
     this.targets,
   });
+
   factory DescribeMaintenanceWindowTargetsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowTargetsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowTargetsResult(
+      nextToken: json['NextToken'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MaintenanceWindowTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final targets = this.targets;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowTasksResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the tasks in the maintenance window.
-  @_s.JsonKey(name: 'Tasks')
-  final List<MaintenanceWindowTask> tasks;
+  final List<MaintenanceWindowTask>? tasks;
 
   DescribeMaintenanceWindowTasksResult({
     this.nextToken,
     this.tasks,
   });
+
   factory DescribeMaintenanceWindowTasksResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowTasksResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowTasksResult(
+      nextToken: json['NextToken'] as String?,
+      tasks: (json['Tasks'] as List?)
+          ?.whereNotNull()
+          .map((e) => MaintenanceWindowTask.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tasks = this.tasks;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tasks != null) 'Tasks': tasks,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowsForTargetResult {
   /// The token for the next set of items to return. (You use this token in the
   /// next call.)
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the maintenance window targets and tasks an instance is
   /// associated with.
-  @_s.JsonKey(name: 'WindowIdentities')
-  final List<MaintenanceWindowIdentityForTarget> windowIdentities;
+  final List<MaintenanceWindowIdentityForTarget>? windowIdentities;
 
   DescribeMaintenanceWindowsForTargetResult({
     this.nextToken,
     this.windowIdentities,
   });
+
   factory DescribeMaintenanceWindowsForTargetResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowsForTargetResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowsForTargetResult(
+      nextToken: json['NextToken'] as String?,
+      windowIdentities: (json['WindowIdentities'] as List?)
+          ?.whereNotNull()
+          .map((e) => MaintenanceWindowIdentityForTarget.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final windowIdentities = this.windowIdentities;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (windowIdentities != null) 'WindowIdentities': windowIdentities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMaintenanceWindowsResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the maintenance windows.
-  @_s.JsonKey(name: 'WindowIdentities')
-  final List<MaintenanceWindowIdentity> windowIdentities;
+  final List<MaintenanceWindowIdentity>? windowIdentities;
 
   DescribeMaintenanceWindowsResult({
     this.nextToken,
     this.windowIdentities,
   });
-  factory DescribeMaintenanceWindowsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeMaintenanceWindowsResultFromJson(json);
+
+  factory DescribeMaintenanceWindowsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeMaintenanceWindowsResult(
+      nextToken: json['NextToken'] as String?,
+      windowIdentities: (json['WindowIdentities'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              MaintenanceWindowIdentity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final windowIdentities = this.windowIdentities;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (windowIdentities != null) 'WindowIdentities': windowIdentities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOpsItemsResponse {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of OpsItems.
-  @_s.JsonKey(name: 'OpsItemSummaries')
-  final List<OpsItemSummary> opsItemSummaries;
+  final List<OpsItemSummary>? opsItemSummaries;
 
   DescribeOpsItemsResponse({
     this.nextToken,
     this.opsItemSummaries,
   });
-  factory DescribeOpsItemsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeOpsItemsResponseFromJson(json);
+
+  factory DescribeOpsItemsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeOpsItemsResponse(
+      nextToken: json['NextToken'] as String?,
+      opsItemSummaries: (json['OpsItemSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpsItemSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final opsItemSummaries = this.opsItemSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (opsItemSummaries != null) 'OpsItemSummaries': opsItemSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeParametersResult {
   /// The token to use when requesting the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Parameters returned by the request.
-  @_s.JsonKey(name: 'Parameters')
-  final List<ParameterMetadata> parameters;
+  final List<ParameterMetadata>? parameters;
 
   DescribeParametersResult({
     this.nextToken,
     this.parameters,
   });
-  factory DescribeParametersResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeParametersResultFromJson(json);
+
+  factory DescribeParametersResult.fromJson(Map<String, dynamic> json) {
+    return DescribeParametersResult(
+      nextToken: json['NextToken'] as String?,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parameters = this.parameters;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePatchBaselinesResult {
   /// An array of PatchBaselineIdentity elements.
-  @_s.JsonKey(name: 'BaselineIdentities')
-  final List<PatchBaselineIdentity> baselineIdentities;
+  final List<PatchBaselineIdentity>? baselineIdentities;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribePatchBaselinesResult({
     this.baselineIdentities,
     this.nextToken,
   });
-  factory DescribePatchBaselinesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribePatchBaselinesResultFromJson(json);
+
+  factory DescribePatchBaselinesResult.fromJson(Map<String, dynamic> json) {
+    return DescribePatchBaselinesResult(
+      baselineIdentities: (json['BaselineIdentities'] as List?)
+          ?.whereNotNull()
+          .map((e) => PatchBaselineIdentity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineIdentities = this.baselineIdentities;
+    final nextToken = this.nextToken;
+    return {
+      if (baselineIdentities != null) 'BaselineIdentities': baselineIdentities,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePatchGroupStateResult {
   /// The number of instances in the patch group.
-  @_s.JsonKey(name: 'Instances')
-  final int instances;
+  final int? instances;
+
+  /// The number of instances where patches that are specified as "Critical" for
+  /// compliance reporting in the patch baseline are not installed. These patches
+  /// might be missing, have failed installation, were rejected, or were installed
+  /// but awaiting a required instance reboot. The status of these instances is
+  /// <code>NON_COMPLIANT</code>.
+  final int? instancesWithCriticalNonCompliantPatches;
 
   /// The number of instances with patches from the patch baseline that failed to
   /// install.
-  @_s.JsonKey(name: 'InstancesWithFailedPatches')
-  final int instancesWithFailedPatches;
+  final int? instancesWithFailedPatches;
 
   /// The number of instances with patches installed that aren't defined in the
   /// patch baseline.
-  @_s.JsonKey(name: 'InstancesWithInstalledOtherPatches')
-  final int instancesWithInstalledOtherPatches;
+  final int? instancesWithInstalledOtherPatches;
 
   /// The number of instances with installed patches.
-  @_s.JsonKey(name: 'InstancesWithInstalledPatches')
-  final int instancesWithInstalledPatches;
+  final int? instancesWithInstalledPatches;
 
   /// The number of instances with patches installed by Patch Manager that have
   /// not been rebooted after the patch installation. The status of these
   /// instances is NON_COMPLIANT.
-  @_s.JsonKey(name: 'InstancesWithInstalledPendingRebootPatches')
-  final int instancesWithInstalledPendingRebootPatches;
+  final int? instancesWithInstalledPendingRebootPatches;
 
   /// The number of instances with patches installed that are specified in a
   /// RejectedPatches list. Patches with a status of <i>INSTALLED_REJECTED</i>
@@ -14565,25 +16181,34 @@ class DescribePatchGroupStateResult {
   /// If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction,
   /// the value of InstancesWithInstalledRejectedPatches will always be 0 (zero).
   /// </note>
-  @_s.JsonKey(name: 'InstancesWithInstalledRejectedPatches')
-  final int instancesWithInstalledRejectedPatches;
+  final int? instancesWithInstalledRejectedPatches;
 
   /// The number of instances with missing patches from the patch baseline.
-  @_s.JsonKey(name: 'InstancesWithMissingPatches')
-  final int instancesWithMissingPatches;
+  final int? instancesWithMissingPatches;
 
   /// The number of instances with patches that aren't applicable.
-  @_s.JsonKey(name: 'InstancesWithNotApplicablePatches')
-  final int instancesWithNotApplicablePatches;
+  final int? instancesWithNotApplicablePatches;
+
+  /// The number of instances with patches installed that are specified as other
+  /// than "Critical" or "Security" but are not compliant with the patch baseline.
+  /// The status of these instances is NON_COMPLIANT.
+  final int? instancesWithOtherNonCompliantPatches;
+
+  /// The number of instances where patches that are specified as "Security" in a
+  /// patch advisory are not installed. These patches might be missing, have
+  /// failed installation, were rejected, or were installed but awaiting a
+  /// required instance reboot. The status of these instances is
+  /// <code>NON_COMPLIANT</code>.
+  final int? instancesWithSecurityNonCompliantPatches;
 
   /// The number of instances with <code>NotApplicable</code> patches beyond the
   /// supported limit, which are not reported by name to Systems Manager
   /// Inventory.
-  @_s.JsonKey(name: 'InstancesWithUnreportedNotApplicablePatches')
-  final int instancesWithUnreportedNotApplicablePatches;
+  final int? instancesWithUnreportedNotApplicablePatches;
 
   DescribePatchGroupStateResult({
     this.instances,
+    this.instancesWithCriticalNonCompliantPatches,
     this.instancesWithFailedPatches,
     this.instancesWithInstalledOtherPatches,
     this.instancesWithInstalledPatches,
@@ -14591,17 +16216,93 @@ class DescribePatchGroupStateResult {
     this.instancesWithInstalledRejectedPatches,
     this.instancesWithMissingPatches,
     this.instancesWithNotApplicablePatches,
+    this.instancesWithOtherNonCompliantPatches,
+    this.instancesWithSecurityNonCompliantPatches,
     this.instancesWithUnreportedNotApplicablePatches,
   });
-  factory DescribePatchGroupStateResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribePatchGroupStateResultFromJson(json);
+
+  factory DescribePatchGroupStateResult.fromJson(Map<String, dynamic> json) {
+    return DescribePatchGroupStateResult(
+      instances: json['Instances'] as int?,
+      instancesWithCriticalNonCompliantPatches:
+          json['InstancesWithCriticalNonCompliantPatches'] as int?,
+      instancesWithFailedPatches: json['InstancesWithFailedPatches'] as int?,
+      instancesWithInstalledOtherPatches:
+          json['InstancesWithInstalledOtherPatches'] as int?,
+      instancesWithInstalledPatches:
+          json['InstancesWithInstalledPatches'] as int?,
+      instancesWithInstalledPendingRebootPatches:
+          json['InstancesWithInstalledPendingRebootPatches'] as int?,
+      instancesWithInstalledRejectedPatches:
+          json['InstancesWithInstalledRejectedPatches'] as int?,
+      instancesWithMissingPatches: json['InstancesWithMissingPatches'] as int?,
+      instancesWithNotApplicablePatches:
+          json['InstancesWithNotApplicablePatches'] as int?,
+      instancesWithOtherNonCompliantPatches:
+          json['InstancesWithOtherNonCompliantPatches'] as int?,
+      instancesWithSecurityNonCompliantPatches:
+          json['InstancesWithSecurityNonCompliantPatches'] as int?,
+      instancesWithUnreportedNotApplicablePatches:
+          json['InstancesWithUnreportedNotApplicablePatches'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instances = this.instances;
+    final instancesWithCriticalNonCompliantPatches =
+        this.instancesWithCriticalNonCompliantPatches;
+    final instancesWithFailedPatches = this.instancesWithFailedPatches;
+    final instancesWithInstalledOtherPatches =
+        this.instancesWithInstalledOtherPatches;
+    final instancesWithInstalledPatches = this.instancesWithInstalledPatches;
+    final instancesWithInstalledPendingRebootPatches =
+        this.instancesWithInstalledPendingRebootPatches;
+    final instancesWithInstalledRejectedPatches =
+        this.instancesWithInstalledRejectedPatches;
+    final instancesWithMissingPatches = this.instancesWithMissingPatches;
+    final instancesWithNotApplicablePatches =
+        this.instancesWithNotApplicablePatches;
+    final instancesWithOtherNonCompliantPatches =
+        this.instancesWithOtherNonCompliantPatches;
+    final instancesWithSecurityNonCompliantPatches =
+        this.instancesWithSecurityNonCompliantPatches;
+    final instancesWithUnreportedNotApplicablePatches =
+        this.instancesWithUnreportedNotApplicablePatches;
+    return {
+      if (instances != null) 'Instances': instances,
+      if (instancesWithCriticalNonCompliantPatches != null)
+        'InstancesWithCriticalNonCompliantPatches':
+            instancesWithCriticalNonCompliantPatches,
+      if (instancesWithFailedPatches != null)
+        'InstancesWithFailedPatches': instancesWithFailedPatches,
+      if (instancesWithInstalledOtherPatches != null)
+        'InstancesWithInstalledOtherPatches':
+            instancesWithInstalledOtherPatches,
+      if (instancesWithInstalledPatches != null)
+        'InstancesWithInstalledPatches': instancesWithInstalledPatches,
+      if (instancesWithInstalledPendingRebootPatches != null)
+        'InstancesWithInstalledPendingRebootPatches':
+            instancesWithInstalledPendingRebootPatches,
+      if (instancesWithInstalledRejectedPatches != null)
+        'InstancesWithInstalledRejectedPatches':
+            instancesWithInstalledRejectedPatches,
+      if (instancesWithMissingPatches != null)
+        'InstancesWithMissingPatches': instancesWithMissingPatches,
+      if (instancesWithNotApplicablePatches != null)
+        'InstancesWithNotApplicablePatches': instancesWithNotApplicablePatches,
+      if (instancesWithOtherNonCompliantPatches != null)
+        'InstancesWithOtherNonCompliantPatches':
+            instancesWithOtherNonCompliantPatches,
+      if (instancesWithSecurityNonCompliantPatches != null)
+        'InstancesWithSecurityNonCompliantPatches':
+            instancesWithSecurityNonCompliantPatches,
+      if (instancesWithUnreportedNotApplicablePatches != null)
+        'InstancesWithUnreportedNotApplicablePatches':
+            instancesWithUnreportedNotApplicablePatches,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePatchGroupsResult {
   /// Each entry in the array contains:
   ///
@@ -14609,230 +16310,261 @@ class DescribePatchGroupsResult {
   /// ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)
   ///
   /// PatchBaselineIdentity: A PatchBaselineIdentity element.
-  @_s.JsonKey(name: 'Mappings')
-  final List<PatchGroupPatchBaselineMapping> mappings;
+  final List<PatchGroupPatchBaselineMapping>? mappings;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribePatchGroupsResult({
     this.mappings,
     this.nextToken,
   });
-  factory DescribePatchGroupsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribePatchGroupsResultFromJson(json);
+
+  factory DescribePatchGroupsResult.fromJson(Map<String, dynamic> json) {
+    return DescribePatchGroupsResult(
+      mappings: (json['Mappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => PatchGroupPatchBaselineMapping.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mappings = this.mappings;
+    final nextToken = this.nextToken;
+    return {
+      if (mappings != null) 'Mappings': mappings,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePatchPropertiesResult {
   /// The token for the next set of items to return. (You use this token in the
   /// next call.)
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of the properties for patches matching the filter request parameters.
-  @_s.JsonKey(name: 'Properties')
-  final List<Map<String, String>> properties;
+  final List<Map<String, String>>? properties;
 
   DescribePatchPropertiesResult({
     this.nextToken,
     this.properties,
   });
-  factory DescribePatchPropertiesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribePatchPropertiesResultFromJson(json);
+
+  factory DescribePatchPropertiesResult.fromJson(Map<String, dynamic> json) {
+    return DescribePatchPropertiesResult(
+      nextToken: json['NextToken'] as String?,
+      properties: (json['Properties'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final properties = this.properties;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (properties != null) 'Properties': properties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSessionsResponse {
   /// The token for the next set of items to return. (You received this token from
   /// a previous call.)
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of sessions meeting the request parameters.
-  @_s.JsonKey(name: 'Sessions')
-  final List<Session> sessions;
+  final List<Session>? sessions;
 
   DescribeSessionsResponse({
     this.nextToken,
     this.sessions,
   });
-  factory DescribeSessionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSessionsResponseFromJson(json);
+
+  factory DescribeSessionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSessionsResponse(
+      nextToken: json['NextToken'] as String?,
+      sessions: (json['Sessions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Session.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sessions = this.sessions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sessions != null) 'Sessions': sessions,
+    };
+  }
+}
+
+class DisassociateOpsItemRelatedItemResponse {
+  DisassociateOpsItemRelatedItemResponse();
+
+  factory DisassociateOpsItemRelatedItemResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DisassociateOpsItemRelatedItemResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A default version of a document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentDefaultVersionDescription {
   /// The default version of the document.
-  @_s.JsonKey(name: 'DefaultVersion')
-  final String defaultVersion;
+  final String? defaultVersion;
 
   /// The default version of the artifact associated with the document.
-  @_s.JsonKey(name: 'DefaultVersionName')
-  final String defaultVersionName;
+  final String? defaultVersionName;
 
   /// The name of the document.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   DocumentDefaultVersionDescription({
     this.defaultVersion,
     this.defaultVersionName,
     this.name,
   });
+
   factory DocumentDefaultVersionDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$DocumentDefaultVersionDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return DocumentDefaultVersionDescription(
+      defaultVersion: json['DefaultVersion'] as String?,
+      defaultVersionName: json['DefaultVersionName'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultVersion = this.defaultVersion;
+    final defaultVersionName = this.defaultVersionName;
+    final name = this.name;
+    return {
+      if (defaultVersion != null) 'DefaultVersion': defaultVersion,
+      if (defaultVersionName != null) 'DefaultVersionName': defaultVersionName,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Describes a Systems Manager document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentDescription {
   /// The version of the document currently approved for use in the organization.
-  @_s.JsonKey(name: 'ApprovedVersion')
-  final String approvedVersion;
+  final String? approvedVersion;
 
   /// Details about the document attachments, including names, locations, sizes,
   /// and so on.
-  @_s.JsonKey(name: 'AttachmentsInformation')
-  final List<AttachmentInformation> attachmentsInformation;
+  final List<AttachmentInformation>? attachmentsInformation;
 
   /// The user in your organization who created the document.
-  @_s.JsonKey(name: 'Author')
-  final String author;
+  final String? author;
 
   /// The date when the document was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The default version.
-  @_s.JsonKey(name: 'DefaultVersion')
-  final String defaultVersion;
+  final String? defaultVersion;
 
   /// A description of the document.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
+
+  /// The friendly name of the Systems Manager document. This value can differ for
+  /// each version of the document. If you want to update this value, see
+  /// <a>UpdateDocument</a>.
+  final String? displayName;
 
   /// The document format, either JSON or YAML.
-  @_s.JsonKey(name: 'DocumentFormat')
-  final DocumentFormat documentFormat;
+  final DocumentFormat? documentFormat;
 
   /// The type of document.
-  @_s.JsonKey(name: 'DocumentType')
-  final DocumentType documentType;
+  final DocumentType? documentType;
 
   /// The document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The Sha256 or Sha1 hash created by the system when the document was created.
   /// <note>
   /// Sha1 hashes have been deprecated.
   /// </note>
-  @_s.JsonKey(name: 'Hash')
-  final String hash;
+  final String? hash;
 
   /// The hash type of the document. Valid values include <code>Sha256</code> or
   /// <code>Sha1</code>.
   /// <note>
   /// Sha1 hashes have been deprecated.
   /// </note>
-  @_s.JsonKey(name: 'HashType')
-  final DocumentHashType hashType;
+  final DocumentHashType? hashType;
 
   /// The latest version of the document.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The name of the Systems Manager document.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The AWS user account that created the document.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// A description of the parameters for a document.
-  @_s.JsonKey(name: 'Parameters')
-  final List<DocumentParameter> parameters;
+  final List<DocumentParameter>? parameters;
 
   /// The version of the document that is currently under review.
-  @_s.JsonKey(name: 'PendingReviewVersion')
-  final String pendingReviewVersion;
+  final String? pendingReviewVersion;
 
   /// The list of OS platforms compatible with this Systems Manager document.
-  @_s.JsonKey(name: 'PlatformTypes')
-  final List<PlatformType> platformTypes;
+  final List<PlatformType>? platformTypes;
 
   /// A list of SSM documents required by a document. For example, an
   /// <code>ApplicationConfiguration</code> document requires an
   /// <code>ApplicationConfigurationSchema</code> document.
-  @_s.JsonKey(name: 'Requires')
-  final List<DocumentRequires> requires;
+  final List<DocumentRequires>? requires;
 
   /// Details about the review of a document.
-  @_s.JsonKey(name: 'ReviewInformation')
-  final List<ReviewInformation> reviewInformation;
+  final List<ReviewInformation>? reviewInformation;
 
   /// The current status of the review.
-  @_s.JsonKey(name: 'ReviewStatus')
-  final ReviewStatus reviewStatus;
+  final ReviewStatus? reviewStatus;
 
   /// The schema version.
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// The SHA1 hash of the document, which you can use for verification.
-  @_s.JsonKey(name: 'Sha1')
-  final String sha1;
+  final String? sha1;
 
   /// The status of the Systems Manager document.
-  @_s.JsonKey(name: 'Status')
-  final DocumentStatus status;
+  final DocumentStatus? status;
 
   /// A message returned by AWS Systems Manager that explains the
   /// <code>Status</code> value. For example, a <code>Failed</code> status might
   /// be explained by the <code>StatusInformation</code> message, "The specified
   /// S3 bucket does not exist. Verify that the URL of the S3 bucket is correct."
-  @_s.JsonKey(name: 'StatusInformation')
-  final String statusInformation;
+  final String? statusInformation;
 
   /// The tags, or metadata, that have been applied to the document.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The target type which defines the kinds of resources the document can run
   /// on. For example, /AWS::EC2::Instance. For a list of valid resource types,
   /// see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
   /// resource and property types reference</a> in the <i>AWS CloudFormation User
   /// Guide</i>.
-  @_s.JsonKey(name: 'TargetType')
-  final String targetType;
+  final String? targetType;
 
   /// The version of the artifact associated with the document.
-  @_s.JsonKey(name: 'VersionName')
-  final String versionName;
+  final String? versionName;
 
   DocumentDescription({
     this.approvedVersion,
@@ -14841,6 +16573,7 @@ class DocumentDescription {
     this.createdDate,
     this.defaultVersion,
     this.description,
+    this.displayName,
     this.documentFormat,
     this.documentType,
     this.documentVersion,
@@ -14863,49 +16596,194 @@ class DocumentDescription {
     this.targetType,
     this.versionName,
   });
-  factory DocumentDescription.fromJson(Map<String, dynamic> json) =>
-      _$DocumentDescriptionFromJson(json);
+
+  factory DocumentDescription.fromJson(Map<String, dynamic> json) {
+    return DocumentDescription(
+      approvedVersion: json['ApprovedVersion'] as String?,
+      attachmentsInformation: (json['AttachmentsInformation'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachmentInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      author: json['Author'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      defaultVersion: json['DefaultVersion'] as String?,
+      description: json['Description'] as String?,
+      displayName: json['DisplayName'] as String?,
+      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
+      documentType: (json['DocumentType'] as String?)?.toDocumentType(),
+      documentVersion: json['DocumentVersion'] as String?,
+      hash: json['Hash'] as String?,
+      hashType: (json['HashType'] as String?)?.toDocumentHashType(),
+      latestVersion: json['LatestVersion'] as String?,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pendingReviewVersion: json['PendingReviewVersion'] as String?,
+      platformTypes: (json['PlatformTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPlatformType())
+          .toList(),
+      requires: (json['Requires'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reviewInformation: (json['ReviewInformation'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReviewInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      schemaVersion: json['SchemaVersion'] as String?,
+      sha1: json['Sha1'] as String?,
+      status: (json['Status'] as String?)?.toDocumentStatus(),
+      statusInformation: json['StatusInformation'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetType: json['TargetType'] as String?,
+      versionName: json['VersionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvedVersion = this.approvedVersion;
+    final attachmentsInformation = this.attachmentsInformation;
+    final author = this.author;
+    final createdDate = this.createdDate;
+    final defaultVersion = this.defaultVersion;
+    final description = this.description;
+    final displayName = this.displayName;
+    final documentFormat = this.documentFormat;
+    final documentType = this.documentType;
+    final documentVersion = this.documentVersion;
+    final hash = this.hash;
+    final hashType = this.hashType;
+    final latestVersion = this.latestVersion;
+    final name = this.name;
+    final owner = this.owner;
+    final parameters = this.parameters;
+    final pendingReviewVersion = this.pendingReviewVersion;
+    final platformTypes = this.platformTypes;
+    final requires = this.requires;
+    final reviewInformation = this.reviewInformation;
+    final reviewStatus = this.reviewStatus;
+    final schemaVersion = this.schemaVersion;
+    final sha1 = this.sha1;
+    final status = this.status;
+    final statusInformation = this.statusInformation;
+    final tags = this.tags;
+    final targetType = this.targetType;
+    final versionName = this.versionName;
+    return {
+      if (approvedVersion != null) 'ApprovedVersion': approvedVersion,
+      if (attachmentsInformation != null)
+        'AttachmentsInformation': attachmentsInformation,
+      if (author != null) 'Author': author,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (defaultVersion != null) 'DefaultVersion': defaultVersion,
+      if (description != null) 'Description': description,
+      if (displayName != null) 'DisplayName': displayName,
+      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (hash != null) 'Hash': hash,
+      if (hashType != null) 'HashType': hashType.toValue(),
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (parameters != null) 'Parameters': parameters,
+      if (pendingReviewVersion != null)
+        'PendingReviewVersion': pendingReviewVersion,
+      if (platformTypes != null)
+        'PlatformTypes': platformTypes.map((e) => e.toValue()).toList(),
+      if (requires != null) 'Requires': requires,
+      if (reviewInformation != null) 'ReviewInformation': reviewInformation,
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (sha1 != null) 'Sha1': sha1,
+      if (status != null) 'Status': status.toValue(),
+      if (statusInformation != null) 'StatusInformation': statusInformation,
+      if (tags != null) 'Tags': tags,
+      if (targetType != null) 'TargetType': targetType,
+      if (versionName != null) 'VersionName': versionName,
+    };
+  }
 }
 
 /// This data type is deprecated. Instead, use <a>DocumentKeyValuesFilter</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DocumentFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'key')
   final DocumentFilterKey key;
 
   /// The value of the filter.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   DocumentFilter({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$DocumentFilterToJson(this);
+
+  factory DocumentFilter.fromJson(Map<String, dynamic> json) {
+    return DocumentFilter(
+      key: (json['key'] as String).toDocumentFilterKey(),
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum DocumentFilterKey {
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('Owner')
   owner,
-  @_s.JsonValue('PlatformTypes')
   platformTypes,
-  @_s.JsonValue('DocumentType')
   documentType,
 }
 
+extension on DocumentFilterKey {
+  String toValue() {
+    switch (this) {
+      case DocumentFilterKey.name:
+        return 'Name';
+      case DocumentFilterKey.owner:
+        return 'Owner';
+      case DocumentFilterKey.platformTypes:
+        return 'PlatformTypes';
+      case DocumentFilterKey.documentType:
+        return 'DocumentType';
+    }
+  }
+}
+
+extension on String {
+  DocumentFilterKey toDocumentFilterKey() {
+    switch (this) {
+      case 'Name':
+        return DocumentFilterKey.name;
+      case 'Owner':
+        return DocumentFilterKey.owner;
+      case 'PlatformTypes':
+        return DocumentFilterKey.platformTypes;
+      case 'DocumentType':
+        return DocumentFilterKey.documentType;
+    }
+    throw Exception('$this is not known in enum DocumentFilterKey');
+  }
+}
+
 enum DocumentFormat {
-  @_s.JsonValue('YAML')
   yaml,
-  @_s.JsonValue('JSON')
   json,
-  @_s.JsonValue('TEXT')
   text,
 }
 
@@ -14919,14 +16797,25 @@ extension on DocumentFormat {
       case DocumentFormat.text:
         return 'TEXT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DocumentFormat toDocumentFormat() {
+    switch (this) {
+      case 'YAML':
+        return DocumentFormat.yaml;
+      case 'JSON':
+        return DocumentFormat.json;
+      case 'TEXT':
+        return DocumentFormat.text;
+    }
+    throw Exception('$this is not known in enum DocumentFormat');
   }
 }
 
 enum DocumentHashType {
-  @_s.JsonValue('Sha256')
   sha256,
-  @_s.JsonValue('Sha1')
   sha1,
 }
 
@@ -14938,80 +16827,83 @@ extension on DocumentHashType {
       case DocumentHashType.sha1:
         return 'Sha1';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DocumentHashType toDocumentHashType() {
+    switch (this) {
+      case 'Sha256':
+        return DocumentHashType.sha256;
+      case 'Sha1':
+        return DocumentHashType.sha1;
+    }
+    throw Exception('$this is not known in enum DocumentHashType');
   }
 }
 
 /// Describes the name of a Systems Manager document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentIdentifier {
   /// The user in your organization who created the document.
-  @_s.JsonKey(name: 'Author')
-  final String author;
+  final String? author;
+
+  /// The date the Systems Manager document was created.
+  final DateTime? createdDate;
+
+  /// An optional field where you can specify a friendly name for the Systems
+  /// Manager document. This value can differ for each version of the document. If
+  /// you want to update this value, see <a>UpdateDocument</a>.
+  final String? displayName;
 
   /// The document format, either JSON or YAML.
-  @_s.JsonKey(name: 'DocumentFormat')
-  final DocumentFormat documentFormat;
+  final DocumentFormat? documentFormat;
 
   /// The document type.
-  @_s.JsonKey(name: 'DocumentType')
-  final DocumentType documentType;
+  final DocumentType? documentType;
 
   /// The document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The name of the Systems Manager document.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The AWS user account that created the document.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// The operating system platform.
-  @_s.JsonKey(name: 'PlatformTypes')
-  final List<PlatformType> platformTypes;
+  final List<PlatformType>? platformTypes;
 
   /// A list of SSM documents required by a document. For example, an
   /// <code>ApplicationConfiguration</code> document requires an
   /// <code>ApplicationConfigurationSchema</code> document.
-  @_s.JsonKey(name: 'Requires')
-  final List<DocumentRequires> requires;
+  final List<DocumentRequires>? requires;
 
   /// The current status of a document review.
-  @_s.JsonKey(name: 'ReviewStatus')
-  final ReviewStatus reviewStatus;
+  final ReviewStatus? reviewStatus;
 
   /// The schema version.
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// The tags, or metadata, that have been applied to the document.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The target type which defines the kinds of resources the document can run
   /// on. For example, /AWS::EC2::Instance. For a list of valid resource types,
   /// see <a
-  /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
   /// resource and property types reference</a> in the <i>AWS CloudFormation User
   /// Guide</i>.
-  @_s.JsonKey(name: 'TargetType')
-  final String targetType;
+  final String? targetType;
 
   /// An optional field specifying the version of the artifact associated with the
   /// document. For example, "Release 12, Update 6". This value is unique across
   /// all versions of a document, and cannot be changed.
-  @_s.JsonKey(name: 'VersionName')
-  final String versionName;
+  final String? versionName;
 
   DocumentIdentifier({
     this.author,
+    this.createdDate,
+    this.displayName,
     this.documentFormat,
     this.documentType,
     this.documentVersion,
@@ -15025,8 +16917,71 @@ class DocumentIdentifier {
     this.targetType,
     this.versionName,
   });
-  factory DocumentIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$DocumentIdentifierFromJson(json);
+
+  factory DocumentIdentifier.fromJson(Map<String, dynamic> json) {
+    return DocumentIdentifier(
+      author: json['Author'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      displayName: json['DisplayName'] as String?,
+      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
+      documentType: (json['DocumentType'] as String?)?.toDocumentType(),
+      documentVersion: json['DocumentVersion'] as String?,
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      platformTypes: (json['PlatformTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPlatformType())
+          .toList(),
+      requires: (json['Requires'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      schemaVersion: json['SchemaVersion'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetType: json['TargetType'] as String?,
+      versionName: json['VersionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final author = this.author;
+    final createdDate = this.createdDate;
+    final displayName = this.displayName;
+    final documentFormat = this.documentFormat;
+    final documentType = this.documentType;
+    final documentVersion = this.documentVersion;
+    final name = this.name;
+    final owner = this.owner;
+    final platformTypes = this.platformTypes;
+    final requires = this.requires;
+    final reviewStatus = this.reviewStatus;
+    final schemaVersion = this.schemaVersion;
+    final tags = this.tags;
+    final targetType = this.targetType;
+    final versionName = this.versionName;
+    return {
+      if (author != null) 'Author': author,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (displayName != null) 'DisplayName': displayName,
+      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (platformTypes != null)
+        'PlatformTypes': platformTypes.map((e) => e.toValue()).toList(),
+      if (requires != null) 'Requires': requires,
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (tags != null) 'Tags': tags,
+      if (targetType != null) 'TargetType': targetType,
+      if (versionName != null) 'VersionName': versionName,
+    };
+  }
 }
 
 /// One or more filters. Use a filter to return a more specific list of
@@ -15104,7 +17059,7 @@ class DocumentIdentifier {
 ///
 /// You can also use the <code>TargetType</code> AWS-provided key. For a list of
 /// valid resource type values that can be used with this key, see <a
-/// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
+/// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">AWS
 /// resource and property types reference</a> in the <i>AWS CloudFormation User
 /// Guide</i>.
 ///
@@ -15121,29 +17076,39 @@ class DocumentIdentifier {
 ///
 /// <code>aws ssm list-documents --filters Key=tag:region,Values=east,west
 /// Key=Owner,Values=Self</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DocumentKeyValuesFilter {
   /// The name of the filter key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value for the filter key.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   DocumentKeyValuesFilter({
     this.key,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$DocumentKeyValuesFilterToJson(this);
+
+  factory DocumentKeyValuesFilter.fromJson(Map<String, dynamic> json) {
+    return DocumentKeyValuesFilter(
+      key: json['Key'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum DocumentMetadataEnum {
-  @_s.JsonValue('DocumentReviews')
   documentReviews,
 }
 
@@ -15153,53 +17118,62 @@ extension on DocumentMetadataEnum {
       case DocumentMetadataEnum.documentReviews:
         return 'DocumentReviews';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DocumentMetadataEnum toDocumentMetadataEnum() {
+    switch (this) {
+      case 'DocumentReviews':
+        return DocumentMetadataEnum.documentReviews;
+    }
+    throw Exception('$this is not known in enum DocumentMetadataEnum');
   }
 }
 
 /// Details about the response to a document review request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentMetadataResponseInfo {
   /// Details about a reviewer's response to a document review request.
-  @_s.JsonKey(name: 'ReviewerResponse')
-  final List<DocumentReviewerResponseSource> reviewerResponse;
+  final List<DocumentReviewerResponseSource>? reviewerResponse;
 
   DocumentMetadataResponseInfo({
     this.reviewerResponse,
   });
-  factory DocumentMetadataResponseInfo.fromJson(Map<String, dynamic> json) =>
-      _$DocumentMetadataResponseInfoFromJson(json);
+
+  factory DocumentMetadataResponseInfo.fromJson(Map<String, dynamic> json) {
+    return DocumentMetadataResponseInfo(
+      reviewerResponse: (json['ReviewerResponse'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentReviewerResponseSource.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reviewerResponse = this.reviewerResponse;
+    return {
+      if (reviewerResponse != null) 'ReviewerResponse': reviewerResponse,
+    };
+  }
 }
 
 /// Parameters specified in a System Manager document that run on the server
 /// when the command is run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentParameter {
   /// If specified, the default values for the parameters. Parameters without a
   /// default value are required. Parameters with a default value are optional.
-  @_s.JsonKey(name: 'DefaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// A description of what the parameter does, how to use it, the default value,
   /// and whether or not the parameter is optional.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the parameter.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of parameter. The type can be either String or StringList.
-  @_s.JsonKey(name: 'Type')
-  final DocumentParameterType type;
+  final DocumentParameterType? type;
 
   DocumentParameter({
     this.defaultValue,
@@ -15207,19 +17181,59 @@ class DocumentParameter {
     this.name,
     this.type,
   });
-  factory DocumentParameter.fromJson(Map<String, dynamic> json) =>
-      _$DocumentParameterFromJson(json);
+
+  factory DocumentParameter.fromJson(Map<String, dynamic> json) {
+    return DocumentParameter(
+      defaultValue: json['DefaultValue'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toDocumentParameterType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum DocumentParameterType {
-  @_s.JsonValue('String')
   string,
-  @_s.JsonValue('StringList')
   stringList,
 }
 
+extension on DocumentParameterType {
+  String toValue() {
+    switch (this) {
+      case DocumentParameterType.string:
+        return 'String';
+      case DocumentParameterType.stringList:
+        return 'StringList';
+    }
+  }
+}
+
+extension on String {
+  DocumentParameterType toDocumentParameterType() {
+    switch (this) {
+      case 'String':
+        return DocumentParameterType.string;
+      case 'StringList':
+        return DocumentParameterType.stringList;
+    }
+    throw Exception('$this is not known in enum DocumentParameterType');
+  }
+}
+
 enum DocumentPermissionType {
-  @_s.JsonValue('Share')
   share,
 }
 
@@ -15229,95 +17243,151 @@ extension on DocumentPermissionType {
       case DocumentPermissionType.share:
         return 'Share';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DocumentPermissionType toDocumentPermissionType() {
+    switch (this) {
+      case 'Share':
+        return DocumentPermissionType.share;
+    }
+    throw Exception('$this is not known in enum DocumentPermissionType');
   }
 }
 
 /// An SSM document required by the current document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentRequires {
   /// The name of the required SSM document. The name can be an Amazon Resource
   /// Name (ARN).
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The document version required by the current document.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   DocumentRequires({
-    @_s.required this.name,
+    required this.name,
     this.version,
   });
-  factory DocumentRequires.fromJson(Map<String, dynamic> json) =>
-      _$DocumentRequiresFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DocumentRequiresToJson(this);
+  factory DocumentRequires.fromJson(Map<String, dynamic> json) {
+    return DocumentRequires(
+      name: json['Name'] as String,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum DocumentReviewAction {
-  @_s.JsonValue('SendForReview')
   sendForReview,
-  @_s.JsonValue('UpdateReview')
   updateReview,
-  @_s.JsonValue('Approve')
   approve,
-  @_s.JsonValue('Reject')
   reject,
 }
 
+extension on DocumentReviewAction {
+  String toValue() {
+    switch (this) {
+      case DocumentReviewAction.sendForReview:
+        return 'SendForReview';
+      case DocumentReviewAction.updateReview:
+        return 'UpdateReview';
+      case DocumentReviewAction.approve:
+        return 'Approve';
+      case DocumentReviewAction.reject:
+        return 'Reject';
+    }
+  }
+}
+
+extension on String {
+  DocumentReviewAction toDocumentReviewAction() {
+    switch (this) {
+      case 'SendForReview':
+        return DocumentReviewAction.sendForReview;
+      case 'UpdateReview':
+        return DocumentReviewAction.updateReview;
+      case 'Approve':
+        return DocumentReviewAction.approve;
+      case 'Reject':
+        return DocumentReviewAction.reject;
+    }
+    throw Exception('$this is not known in enum DocumentReviewAction');
+  }
+}
+
 /// Information about comments added to a document review request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DocumentReviewCommentSource {
   /// The content of a comment entered by a user who requests a review of a new
   /// document version, or who reviews the new version.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// The type of information added to a review request. Currently, only the value
   /// <code>Comment</code> is supported.
-  @_s.JsonKey(name: 'Type')
-  final DocumentReviewCommentType type;
+  final DocumentReviewCommentType? type;
 
   DocumentReviewCommentSource({
     this.content,
     this.type,
   });
-  factory DocumentReviewCommentSource.fromJson(Map<String, dynamic> json) =>
-      _$DocumentReviewCommentSourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DocumentReviewCommentSourceToJson(this);
+  factory DocumentReviewCommentSource.fromJson(Map<String, dynamic> json) {
+    return DocumentReviewCommentSource(
+      content: json['Content'] as String?,
+      type: (json['Type'] as String?)?.toDocumentReviewCommentType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final type = this.type;
+    return {
+      if (content != null) 'Content': content,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum DocumentReviewCommentType {
-  @_s.JsonValue('Comment')
   comment,
 }
 
+extension on DocumentReviewCommentType {
+  String toValue() {
+    switch (this) {
+      case DocumentReviewCommentType.comment:
+        return 'Comment';
+    }
+  }
+}
+
+extension on String {
+  DocumentReviewCommentType toDocumentReviewCommentType() {
+    switch (this) {
+      case 'Comment':
+        return DocumentReviewCommentType.comment;
+    }
+    throw Exception('$this is not known in enum DocumentReviewCommentType');
+  }
+}
+
 /// Information about a reviewer's response to a document review request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentReviewerResponseSource {
   /// The comment entered by a reviewer as part of their document review response.
-  @_s.JsonKey(name: 'Comment')
-  final List<DocumentReviewCommentSource> comment;
+  final List<DocumentReviewCommentSource>? comment;
 
   /// The date and time that a reviewer entered a response to a document review
   /// request.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The current review status of a new custom SSM document created by a member
   /// of your organization, or of the latest version of an existing SSM document.
@@ -15327,18 +17397,14 @@ class DocumentReviewerResponseSource {
   /// REJECTED.
   ///
   /// Only one version of a document can be in review, or PENDING, at a time.
-  @_s.JsonKey(name: 'ReviewStatus')
-  final ReviewStatus reviewStatus;
+  final ReviewStatus? reviewStatus;
 
   /// The user in your organization assigned to review a document request.
-  @_s.JsonKey(name: 'Reviewer')
-  final String reviewer;
+  final String? reviewer;
 
   /// The date and time that a reviewer last updated a response to a document
   /// review request.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedTime')
-  final DateTime updatedTime;
+  final DateTime? updatedTime;
 
   DocumentReviewerResponseSource({
     this.comment,
@@ -15347,68 +17413,129 @@ class DocumentReviewerResponseSource {
     this.reviewer,
     this.updatedTime,
   });
-  factory DocumentReviewerResponseSource.fromJson(Map<String, dynamic> json) =>
-      _$DocumentReviewerResponseSourceFromJson(json);
+
+  factory DocumentReviewerResponseSource.fromJson(Map<String, dynamic> json) {
+    return DocumentReviewerResponseSource(
+      comment: (json['Comment'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DocumentReviewCommentSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createTime: timeStampFromJson(json['CreateTime']),
+      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      reviewer: json['Reviewer'] as String?,
+      updatedTime: timeStampFromJson(json['UpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final createTime = this.createTime;
+    final reviewStatus = this.reviewStatus;
+    final reviewer = this.reviewer;
+    final updatedTime = this.updatedTime;
+    return {
+      if (comment != null) 'Comment': comment,
+      if (createTime != null) 'CreateTime': unixTimestampToJson(createTime),
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (reviewer != null) 'Reviewer': reviewer,
+      if (updatedTime != null) 'UpdatedTime': unixTimestampToJson(updatedTime),
+    };
+  }
 }
 
 /// Information about a document approval review.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DocumentReviews {
   /// The action to take on a document approval review request.
-  @_s.JsonKey(name: 'Action')
   final DocumentReviewAction action;
 
   /// A comment entered by a user in your organization about the document review
   /// request.
-  @_s.JsonKey(name: 'Comment')
-  final List<DocumentReviewCommentSource> comment;
+  final List<DocumentReviewCommentSource>? comment;
 
   DocumentReviews({
-    @_s.required this.action,
+    required this.action,
     this.comment,
   });
-  Map<String, dynamic> toJson() => _$DocumentReviewsToJson(this);
+
+  factory DocumentReviews.fromJson(Map<String, dynamic> json) {
+    return DocumentReviews(
+      action: (json['Action'] as String).toDocumentReviewAction(),
+      comment: (json['Comment'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DocumentReviewCommentSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final comment = this.comment;
+    return {
+      'Action': action.toValue(),
+      if (comment != null) 'Comment': comment,
+    };
+  }
 }
 
 /// The status of a document.
 enum DocumentStatus {
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Updating')
   updating,
-  @_s.JsonValue('Deleting')
   deleting,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on DocumentStatus {
+  String toValue() {
+    switch (this) {
+      case DocumentStatus.creating:
+        return 'Creating';
+      case DocumentStatus.active:
+        return 'Active';
+      case DocumentStatus.updating:
+        return 'Updating';
+      case DocumentStatus.deleting:
+        return 'Deleting';
+      case DocumentStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  DocumentStatus toDocumentStatus() {
+    switch (this) {
+      case 'Creating':
+        return DocumentStatus.creating;
+      case 'Active':
+        return DocumentStatus.active;
+      case 'Updating':
+        return DocumentStatus.updating;
+      case 'Deleting':
+        return DocumentStatus.deleting;
+      case 'Failed':
+        return DocumentStatus.failed;
+    }
+    throw Exception('$this is not known in enum DocumentStatus');
+  }
+}
+
 enum DocumentType {
-  @_s.JsonValue('Command')
   command,
-  @_s.JsonValue('Policy')
   policy,
-  @_s.JsonValue('Automation')
   automation,
-  @_s.JsonValue('Session')
   session,
-  @_s.JsonValue('Package')
   package,
-  @_s.JsonValue('ApplicationConfiguration')
   applicationConfiguration,
-  @_s.JsonValue('ApplicationConfigurationSchema')
   applicationConfigurationSchema,
-  @_s.JsonValue('DeploymentStrategy')
   deploymentStrategy,
-  @_s.JsonValue('ChangeCalendar')
   changeCalendar,
-  @_s.JsonValue('Automation.ChangeTemplate')
   automationChangeTemplate,
+  problemAnalysis,
+  problemAnalysisTemplate,
 }
 
 extension on DocumentType {
@@ -15434,64 +17561,90 @@ extension on DocumentType {
         return 'ChangeCalendar';
       case DocumentType.automationChangeTemplate:
         return 'Automation.ChangeTemplate';
+      case DocumentType.problemAnalysis:
+        return 'ProblemAnalysis';
+      case DocumentType.problemAnalysisTemplate:
+        return 'ProblemAnalysisTemplate';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DocumentType toDocumentType() {
+    switch (this) {
+      case 'Command':
+        return DocumentType.command;
+      case 'Policy':
+        return DocumentType.policy;
+      case 'Automation':
+        return DocumentType.automation;
+      case 'Session':
+        return DocumentType.session;
+      case 'Package':
+        return DocumentType.package;
+      case 'ApplicationConfiguration':
+        return DocumentType.applicationConfiguration;
+      case 'ApplicationConfigurationSchema':
+        return DocumentType.applicationConfigurationSchema;
+      case 'DeploymentStrategy':
+        return DocumentType.deploymentStrategy;
+      case 'ChangeCalendar':
+        return DocumentType.changeCalendar;
+      case 'Automation.ChangeTemplate':
+        return DocumentType.automationChangeTemplate;
+      case 'ProblemAnalysis':
+        return DocumentType.problemAnalysis;
+      case 'ProblemAnalysisTemplate':
+        return DocumentType.problemAnalysisTemplate;
+    }
+    throw Exception('$this is not known in enum DocumentType');
   }
 }
 
 /// Version information about the document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentVersionInfo {
   /// The date the document was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
+
+  /// The friendly name of the Systems Manager document. This value can differ for
+  /// each version of the document. If you want to update this value, see
+  /// <a>UpdateDocument</a>.
+  final String? displayName;
 
   /// The document format, either JSON or YAML.
-  @_s.JsonKey(name: 'DocumentFormat')
-  final DocumentFormat documentFormat;
+  final DocumentFormat? documentFormat;
 
   /// The document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// An identifier for the default version of the document.
-  @_s.JsonKey(name: 'IsDefaultVersion')
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The document name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The current status of the approval review for the latest version of the
   /// document.
-  @_s.JsonKey(name: 'ReviewStatus')
-  final ReviewStatus reviewStatus;
+  final ReviewStatus? reviewStatus;
 
   /// The status of the Systems Manager document, such as <code>Creating</code>,
   /// <code>Active</code>, <code>Failed</code>, and <code>Deleting</code>.
-  @_s.JsonKey(name: 'Status')
-  final DocumentStatus status;
+  final DocumentStatus? status;
 
   /// A message returned by AWS Systems Manager that explains the
   /// <code>Status</code> value. For example, a <code>Failed</code> status might
   /// be explained by the <code>StatusInformation</code> message, "The specified
   /// S3 bucket does not exist. Verify that the URL of the S3 bucket is correct."
-  @_s.JsonKey(name: 'StatusInformation')
-  final String statusInformation;
+  final String? statusInformation;
 
   /// The version of the artifact associated with the document. For example,
   /// "Release 12, Update 6". This value is unique across all versions of a
   /// document, and cannot be changed.
-  @_s.JsonKey(name: 'VersionName')
-  final String versionName;
+  final String? versionName;
 
   DocumentVersionInfo({
     this.createdDate,
+    this.displayName,
     this.documentFormat,
     this.documentVersion,
     this.isDefaultVersion,
@@ -15501,8 +17654,46 @@ class DocumentVersionInfo {
     this.statusInformation,
     this.versionName,
   });
-  factory DocumentVersionInfo.fromJson(Map<String, dynamic> json) =>
-      _$DocumentVersionInfoFromJson(json);
+
+  factory DocumentVersionInfo.fromJson(Map<String, dynamic> json) {
+    return DocumentVersionInfo(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      displayName: json['DisplayName'] as String?,
+      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
+      documentVersion: json['DocumentVersion'] as String?,
+      isDefaultVersion: json['IsDefaultVersion'] as bool?,
+      name: json['Name'] as String?,
+      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      status: (json['Status'] as String?)?.toDocumentStatus(),
+      statusInformation: json['StatusInformation'] as String?,
+      versionName: json['VersionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final displayName = this.displayName;
+    final documentFormat = this.documentFormat;
+    final documentVersion = this.documentVersion;
+    final isDefaultVersion = this.isDefaultVersion;
+    final name = this.name;
+    final reviewStatus = this.reviewStatus;
+    final status = this.status;
+    final statusInformation = this.statusInformation;
+    final versionName = this.versionName;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (displayName != null) 'DisplayName': displayName,
+      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (isDefaultVersion != null) 'IsDefaultVersion': isDefaultVersion,
+      if (name != null) 'Name': name,
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (statusInformation != null) 'StatusInformation': statusInformation,
+      if (versionName != null) 'VersionName': versionName,
+    };
+  }
 }
 
 /// The EffectivePatch structure defines metadata about a patch along with the
@@ -15510,37 +17701,46 @@ class DocumentVersionInfo {
 /// state includes information about whether the patch is currently approved,
 /// due to be approved by a rule, explicitly approved, or explicitly rejected
 /// and the date the patch was or will be approved.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EffectivePatch {
   /// Provides metadata for a patch, including information such as the KB ID,
   /// severity, classification and a URL for where more information can be
   /// obtained about the patch.
-  @_s.JsonKey(name: 'Patch')
-  final Patch patch;
+  final Patch? patch;
 
   /// The status of the patch in a patch baseline. This includes information about
   /// whether the patch is currently approved, due to be approved by a rule,
   /// explicitly approved, or explicitly rejected and the date the patch was or
   /// will be approved.
-  @_s.JsonKey(name: 'PatchStatus')
-  final PatchStatus patchStatus;
+  final PatchStatus? patchStatus;
 
   EffectivePatch({
     this.patch,
     this.patchStatus,
   });
-  factory EffectivePatch.fromJson(Map<String, dynamic> json) =>
-      _$EffectivePatchFromJson(json);
+
+  factory EffectivePatch.fromJson(Map<String, dynamic> json) {
+    return EffectivePatch(
+      patch: json['Patch'] != null
+          ? Patch.fromJson(json['Patch'] as Map<String, dynamic>)
+          : null,
+      patchStatus: json['PatchStatus'] != null
+          ? PatchStatus.fromJson(json['PatchStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final patch = this.patch;
+    final patchStatus = this.patchStatus;
+    return {
+      if (patch != null) 'Patch': patch,
+      if (patchStatus != null) 'PatchStatus': patchStatus,
+    };
+  }
 }
 
 enum ExecutionMode {
-  @_s.JsonValue('Auto')
   auto,
-  @_s.JsonValue('Interactive')
   interactive,
 }
 
@@ -15552,171 +17752,235 @@ extension on ExecutionMode {
       case ExecutionMode.interactive:
         return 'Interactive';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ExecutionMode toExecutionMode() {
+    switch (this) {
+      case 'Auto':
+        return ExecutionMode.auto;
+      case 'Interactive':
+        return ExecutionMode.interactive;
+    }
+    throw Exception('$this is not known in enum ExecutionMode');
   }
 }
 
 /// Describes a failed association.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedCreateAssociation {
   /// The association.
-  @_s.JsonKey(name: 'Entry')
-  final CreateAssociationBatchRequestEntry entry;
+  final CreateAssociationBatchRequestEntry? entry;
 
   /// The source of the failure.
-  @_s.JsonKey(name: 'Fault')
-  final Fault fault;
+  final Fault? fault;
 
   /// A description of the failure.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   FailedCreateAssociation({
     this.entry,
     this.fault,
     this.message,
   });
-  factory FailedCreateAssociation.fromJson(Map<String, dynamic> json) =>
-      _$FailedCreateAssociationFromJson(json);
+
+  factory FailedCreateAssociation.fromJson(Map<String, dynamic> json) {
+    return FailedCreateAssociation(
+      entry: json['Entry'] != null
+          ? CreateAssociationBatchRequestEntry.fromJson(
+              json['Entry'] as Map<String, dynamic>)
+          : null,
+      fault: (json['Fault'] as String?)?.toFault(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entry = this.entry;
+    final fault = this.fault;
+    final message = this.message;
+    return {
+      if (entry != null) 'Entry': entry,
+      if (fault != null) 'Fault': fault.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 /// Information about an Automation failure.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailureDetails {
   /// Detailed information about the Automation step failure.
-  @_s.JsonKey(name: 'Details')
-  final Map<String, List<String>> details;
+  final Map<String, List<String>>? details;
 
   /// The stage of the Automation execution when the failure occurred. The stages
   /// include the following: InputValidation, PreVerification, Invocation,
   /// PostVerification.
-  @_s.JsonKey(name: 'FailureStage')
-  final String failureStage;
+  final String? failureStage;
 
   /// The type of Automation failure. Failure types include the following: Action,
   /// Permission, Throttling, Verification, Internal.
-  @_s.JsonKey(name: 'FailureType')
-  final String failureType;
+  final String? failureType;
 
   FailureDetails({
     this.details,
     this.failureStage,
     this.failureType,
   });
-  factory FailureDetails.fromJson(Map<String, dynamic> json) =>
-      _$FailureDetailsFromJson(json);
+
+  factory FailureDetails.fromJson(Map<String, dynamic> json) {
+    return FailureDetails(
+      details: (json['Details'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      failureStage: json['FailureStage'] as String?,
+      failureType: json['FailureType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final failureStage = this.failureStage;
+    final failureType = this.failureType;
+    return {
+      if (details != null) 'Details': details,
+      if (failureStage != null) 'FailureStage': failureStage,
+      if (failureType != null) 'FailureType': failureType,
+    };
+  }
 }
 
 enum Fault {
-  @_s.JsonValue('Client')
   client,
-  @_s.JsonValue('Server')
   server,
-  @_s.JsonValue('Unknown')
   unknown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Fault {
+  String toValue() {
+    switch (this) {
+      case Fault.client:
+        return 'Client';
+      case Fault.server:
+        return 'Server';
+      case Fault.unknown:
+        return 'Unknown';
+    }
+  }
+}
+
+extension on String {
+  Fault toFault() {
+    switch (this) {
+      case 'Client':
+        return Fault.client;
+      case 'Server':
+        return Fault.server;
+      case 'Unknown':
+        return Fault.unknown;
+    }
+    throw Exception('$this is not known in enum Fault');
+  }
+}
+
 class GetAutomationExecutionResult {
   /// Detailed information about the current state of an automation execution.
-  @_s.JsonKey(name: 'AutomationExecution')
-  final AutomationExecution automationExecution;
+  final AutomationExecution? automationExecution;
 
   GetAutomationExecutionResult({
     this.automationExecution,
   });
-  factory GetAutomationExecutionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetAutomationExecutionResultFromJson(json);
+
+  factory GetAutomationExecutionResult.fromJson(Map<String, dynamic> json) {
+    return GetAutomationExecutionResult(
+      automationExecution: json['AutomationExecution'] != null
+          ? AutomationExecution.fromJson(
+              json['AutomationExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automationExecution = this.automationExecution;
+    return {
+      if (automationExecution != null)
+        'AutomationExecution': automationExecution,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCalendarStateResponse {
   /// The time, as an <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO
   /// 8601</a> string, that you specified in your command. If you did not specify
   /// a time, <code>GetCalendarState</code> uses the current time.
-  @_s.JsonKey(name: 'AtTime')
-  final String atTime;
+  final String? atTime;
 
   /// The time, as an <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO
   /// 8601</a> string, that the calendar state will change. If the current
   /// calendar state is <code>OPEN</code>, <code>NextTransitionTime</code>
   /// indicates when the calendar state changes to <code>CLOSED</code>, and
   /// vice-versa.
-  @_s.JsonKey(name: 'NextTransitionTime')
-  final String nextTransitionTime;
+  final String? nextTransitionTime;
 
   /// The state of the calendar. An <code>OPEN</code> calendar indicates that
   /// actions are allowed to proceed, and a <code>CLOSED</code> calendar indicates
   /// that actions are not allowed to proceed.
-  @_s.JsonKey(name: 'State')
-  final CalendarState state;
+  final CalendarState? state;
 
   GetCalendarStateResponse({
     this.atTime,
     this.nextTransitionTime,
     this.state,
   });
-  factory GetCalendarStateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCalendarStateResponseFromJson(json);
+
+  factory GetCalendarStateResponse.fromJson(Map<String, dynamic> json) {
+    return GetCalendarStateResponse(
+      atTime: json['AtTime'] as String?,
+      nextTransitionTime: json['NextTransitionTime'] as String?,
+      state: (json['State'] as String?)?.toCalendarState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final atTime = this.atTime;
+    final nextTransitionTime = this.nextTransitionTime;
+    final state = this.state;
+    return {
+      if (atTime != null) 'AtTime': atTime,
+      if (nextTransitionTime != null) 'NextTransitionTime': nextTransitionTime,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCommandInvocationResult {
   /// CloudWatch Logs information where Systems Manager sent the command output.
-  @_s.JsonKey(name: 'CloudWatchOutputConfig')
-  final CloudWatchOutputConfig cloudWatchOutputConfig;
+  final CloudWatchOutputConfig? cloudWatchOutputConfig;
 
   /// The parent command ID of the invocation plugin.
-  @_s.JsonKey(name: 'CommandId')
-  final String commandId;
+  final String? commandId;
 
   /// The comment text for the command.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
-  /// The name of the document that was run. For example, AWS-RunShellScript.
-  @_s.JsonKey(name: 'DocumentName')
-  final String documentName;
+  /// The name of the document that was run. For example,
+  /// <code>AWS-RunShellScript</code>.
+  final String? documentName;
 
   /// The SSM document version used in the request.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
-  /// Duration since ExecutionStartDateTime.
-  @_s.JsonKey(name: 'ExecutionElapsedTime')
-  final String executionElapsedTime;
+  /// Duration since <code>ExecutionStartDateTime</code>.
+  final String? executionElapsedTime;
 
-  /// The date and time the plugin was finished running. Date and time are written
-  /// in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7.
-  /// The following sample AWS CLI command uses the <code>InvokedAfter</code>
-  /// filter.
+  /// The date and time the plugin finished running. Date and time are written in
+  /// ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The
+  /// following sample AWS CLI command uses the <code>InvokedAfter</code> filter.
   ///
   /// <code>aws ssm list-commands --filters
   /// key=InvokedAfter,value=2017-06-07T00:00:00Z</code>
   ///
   /// If the plugin has not started to run, the string is empty.
-  @_s.JsonKey(name: 'ExecutionEndDateTime')
-  final String executionEndDateTime;
+  final String? executionEndDateTime;
 
   /// The date and time the plugin started running. Date and time are written in
   /// ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The
@@ -15726,60 +17990,53 @@ class GetCommandInvocationResult {
   /// key=InvokedBefore,value=2017-06-07T00:00:00Z</code>
   ///
   /// If the plugin has not started to run, the string is empty.
-  @_s.JsonKey(name: 'ExecutionStartDateTime')
-  final String executionStartDateTime;
+  final String? executionStartDateTime;
 
   /// The ID of the managed instance targeted by the command. A managed instance
   /// can be an EC2 instance or an instance in your hybrid environment that is
   /// configured for Systems Manager.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
-  /// The name of the plugin for which you want detailed results. For example,
-  /// aws:RunShellScript is a plugin.
-  @_s.JsonKey(name: 'PluginName')
-  final String pluginName;
+  /// The name of the plugin, or <i>step name</i>, for which details are reported.
+  /// For example, <code>aws:RunShellScript</code> is a plugin.
+  final String? pluginName;
 
   /// The error level response code for the plugin script. If the response code is
-  /// -1, then the command has not started running on the instance, or it was not
-  /// received by the instance.
-  @_s.JsonKey(name: 'ResponseCode')
-  final int responseCode;
+  /// <code>-1</code>, then the command has not started running on the instance,
+  /// or it was not received by the instance.
+  final int? responseCode;
 
-  /// The first 8,000 characters written by the plugin to stderr. If the command
-  /// has not finished running, then this string is empty.
-  @_s.JsonKey(name: 'StandardErrorContent')
-  final String standardErrorContent;
+  /// The first 8,000 characters written by the plugin to <code>stderr</code>. If
+  /// the command has not finished running, then this string is empty.
+  final String? standardErrorContent;
 
-  /// The URL for the complete text written by the plugin to stderr. If the
-  /// command has not finished running, then this string is empty.
-  @_s.JsonKey(name: 'StandardErrorUrl')
-  final String standardErrorUrl;
+  /// The URL for the complete text written by the plugin to <code>stderr</code>.
+  /// If the command has not finished running, then this string is empty.
+  final String? standardErrorUrl;
 
-  /// The first 24,000 characters written by the plugin to stdout. If the command
-  /// has not finished running, if ExecutionStatus is neither Succeeded nor
-  /// Failed, then this string is empty.
-  @_s.JsonKey(name: 'StandardOutputContent')
-  final String standardOutputContent;
+  /// The first 24,000 characters written by the plugin to <code>stdout</code>. If
+  /// the command has not finished running, if <code>ExecutionStatus</code> is
+  /// neither Succeeded nor Failed, then this string is empty.
+  final String? standardOutputContent;
 
-  /// The URL for the complete text written by the plugin to stdout in Amazon S3.
-  /// If an S3 bucket was not specified, then this string is empty.
-  @_s.JsonKey(name: 'StandardOutputUrl')
-  final String standardOutputUrl;
+  /// The URL for the complete text written by the plugin to <code>stdout</code>
+  /// in Amazon Simple Storage Service (Amazon S3). If an S3 bucket was not
+  /// specified, then this string is empty.
+  final String? standardOutputUrl;
 
   /// The status of this invocation plugin. This status can be different than
-  /// StatusDetails.
-  @_s.JsonKey(name: 'Status')
-  final CommandInvocationStatus status;
+  /// <code>StatusDetails</code>.
+  final CommandInvocationStatus? status;
 
-  /// A detailed status of the command execution for an invocation. StatusDetails
-  /// includes more information than Status because it includes states resulting
-  /// from error and concurrency control parameters. StatusDetails can show
-  /// different results than Status. For more information about these statuses,
-  /// see <a
+  /// A detailed status of the command execution for an invocation.
+  /// <code>StatusDetails</code> includes more information than
+  /// <code>Status</code> because it includes states resulting from error and
+  /// concurrency control parameters. <code>StatusDetails</code> can show
+  /// different results than <code>Status</code>. For more information about these
+  /// statuses, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html">Understanding
   /// command statuses</a> in the <i>AWS Systems Manager User Guide</i>.
-  /// StatusDetails can be one of the following values:
+  /// <code>StatusDetails</code> can be one of the following values:
   ///
   /// <ul>
   /// <li>
@@ -15801,21 +18058,22 @@ class GetCommandInvocationResult {
   /// <li>
   /// Delivery Timed Out: The command was not delivered to the instance before the
   /// delivery timeout expired. Delivery timeouts do not count against the parent
-  /// command's MaxErrors limit, but they do contribute to whether the parent
-  /// command status is Success or Incomplete. This is a terminal state.
+  /// command's <code>MaxErrors</code> limit, but they do contribute to whether
+  /// the parent command status is Success or Incomplete. This is a terminal
+  /// state.
   /// </li>
   /// <li>
   /// Execution Timed Out: The command started to run on the instance, but the
   /// execution was not complete before the timeout expired. Execution timeouts
-  /// count against the MaxErrors limit of the parent command. This is a terminal
-  /// state.
+  /// count against the <code>MaxErrors</code> limit of the parent command. This
+  /// is a terminal state.
   /// </li>
   /// <li>
   /// Failed: The command wasn't run successfully on the instance. For a plugin,
   /// this indicates that the result code was not zero. For a command invocation,
   /// this indicates that the result code for one or more plugins was not zero.
-  /// Invocation failures count against the MaxErrors limit of the parent command.
-  /// This is a terminal state.
+  /// Invocation failures count against the <code>MaxErrors</code> limit of the
+  /// parent command. This is a terminal state.
   /// </li>
   /// <li>
   /// Canceled: The command was terminated before it was completed. This is a
@@ -15824,17 +18082,17 @@ class GetCommandInvocationResult {
   /// <li>
   /// Undeliverable: The command can't be delivered to the instance. The instance
   /// might not exist or might not be responding. Undeliverable invocations don't
-  /// count against the parent command's MaxErrors limit and don't contribute to
-  /// whether the parent command status is Success or Incomplete. This is a
-  /// terminal state.
+  /// count against the parent command's <code>MaxErrors</code> limit and don't
+  /// contribute to whether the parent command status is Success or Incomplete.
+  /// This is a terminal state.
   /// </li>
   /// <li>
-  /// Terminated: The parent command exceeded its MaxErrors limit and subsequent
-  /// command invocations were canceled by the system. This is a terminal state.
+  /// Terminated: The parent command exceeded its <code>MaxErrors</code> limit and
+  /// subsequent command invocations were canceled by the system. This is a
+  /// terminal state.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   GetCommandInvocationResult({
     this.cloudWatchOutputConfig,
@@ -15855,77 +18113,151 @@ class GetCommandInvocationResult {
     this.status,
     this.statusDetails,
   });
-  factory GetCommandInvocationResult.fromJson(Map<String, dynamic> json) =>
-      _$GetCommandInvocationResultFromJson(json);
+
+  factory GetCommandInvocationResult.fromJson(Map<String, dynamic> json) {
+    return GetCommandInvocationResult(
+      cloudWatchOutputConfig: json['CloudWatchOutputConfig'] != null
+          ? CloudWatchOutputConfig.fromJson(
+              json['CloudWatchOutputConfig'] as Map<String, dynamic>)
+          : null,
+      commandId: json['CommandId'] as String?,
+      comment: json['Comment'] as String?,
+      documentName: json['DocumentName'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      executionElapsedTime: json['ExecutionElapsedTime'] as String?,
+      executionEndDateTime: json['ExecutionEndDateTime'] as String?,
+      executionStartDateTime: json['ExecutionStartDateTime'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      pluginName: json['PluginName'] as String?,
+      responseCode: json['ResponseCode'] as int?,
+      standardErrorContent: json['StandardErrorContent'] as String?,
+      standardErrorUrl: json['StandardErrorUrl'] as String?,
+      standardOutputContent: json['StandardOutputContent'] as String?,
+      standardOutputUrl: json['StandardOutputUrl'] as String?,
+      status: (json['Status'] as String?)?.toCommandInvocationStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchOutputConfig = this.cloudWatchOutputConfig;
+    final commandId = this.commandId;
+    final comment = this.comment;
+    final documentName = this.documentName;
+    final documentVersion = this.documentVersion;
+    final executionElapsedTime = this.executionElapsedTime;
+    final executionEndDateTime = this.executionEndDateTime;
+    final executionStartDateTime = this.executionStartDateTime;
+    final instanceId = this.instanceId;
+    final pluginName = this.pluginName;
+    final responseCode = this.responseCode;
+    final standardErrorContent = this.standardErrorContent;
+    final standardErrorUrl = this.standardErrorUrl;
+    final standardOutputContent = this.standardOutputContent;
+    final standardOutputUrl = this.standardOutputUrl;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    return {
+      if (cloudWatchOutputConfig != null)
+        'CloudWatchOutputConfig': cloudWatchOutputConfig,
+      if (commandId != null) 'CommandId': commandId,
+      if (comment != null) 'Comment': comment,
+      if (documentName != null) 'DocumentName': documentName,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (executionElapsedTime != null)
+        'ExecutionElapsedTime': executionElapsedTime,
+      if (executionEndDateTime != null)
+        'ExecutionEndDateTime': executionEndDateTime,
+      if (executionStartDateTime != null)
+        'ExecutionStartDateTime': executionStartDateTime,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (pluginName != null) 'PluginName': pluginName,
+      if (responseCode != null) 'ResponseCode': responseCode,
+      if (standardErrorContent != null)
+        'StandardErrorContent': standardErrorContent,
+      if (standardErrorUrl != null) 'StandardErrorUrl': standardErrorUrl,
+      if (standardOutputContent != null)
+        'StandardOutputContent': standardOutputContent,
+      if (standardOutputUrl != null) 'StandardOutputUrl': standardOutputUrl,
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectionStatusResponse {
   /// The status of the connection to the instance. For example, 'Connected' or
   /// 'Not Connected'.
-  @_s.JsonKey(name: 'Status')
-  final ConnectionStatus status;
+  final ConnectionStatus? status;
 
   /// The ID of the instance to check connection status.
-  @_s.JsonKey(name: 'Target')
-  final String target;
+  final String? target;
 
   GetConnectionStatusResponse({
     this.status,
     this.target,
   });
-  factory GetConnectionStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectionStatusResponseFromJson(json);
+
+  factory GetConnectionStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionStatusResponse(
+      status: (json['Status'] as String?)?.toConnectionStatus(),
+      target: json['Target'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final target = this.target;
+    return {
+      if (status != null) 'Status': status.toValue(),
+      if (target != null) 'Target': target,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDefaultPatchBaselineResult {
   /// The ID of the default patch baseline.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   /// The operating system for the returned patch baseline.
-  @_s.JsonKey(name: 'OperatingSystem')
-  final OperatingSystem operatingSystem;
+  final OperatingSystem? operatingSystem;
 
   GetDefaultPatchBaselineResult({
     this.baselineId,
     this.operatingSystem,
   });
-  factory GetDefaultPatchBaselineResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDefaultPatchBaselineResultFromJson(json);
+
+  factory GetDefaultPatchBaselineResult.fromJson(Map<String, dynamic> json) {
+    return GetDefaultPatchBaselineResult(
+      baselineId: json['BaselineId'] as String?,
+      operatingSystem:
+          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    final operatingSystem = this.operatingSystem;
+    return {
+      if (baselineId != null) 'BaselineId': baselineId,
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeployablePatchSnapshotForInstanceResult {
   /// The ID of the instance.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// Returns the specific operating system (for example Windows Server 2012 or
   /// Amazon Linux 2015.09) on the instance for the specified patch snapshot.
-  @_s.JsonKey(name: 'Product')
-  final String product;
+  final String? product;
 
   /// A pre-signed Amazon S3 URL that can be used to download the patch snapshot.
-  @_s.JsonKey(name: 'SnapshotDownloadUrl')
-  final String snapshotDownloadUrl;
+  final String? snapshotDownloadUrl;
 
   /// The user-defined snapshot ID.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   GetDeployablePatchSnapshotForInstanceResult({
     this.instanceId,
@@ -15933,47 +18265,64 @@ class GetDeployablePatchSnapshotForInstanceResult {
     this.snapshotDownloadUrl,
     this.snapshotId,
   });
+
   factory GetDeployablePatchSnapshotForInstanceResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDeployablePatchSnapshotForInstanceResultFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDeployablePatchSnapshotForInstanceResult(
+      instanceId: json['InstanceId'] as String?,
+      product: json['Product'] as String?,
+      snapshotDownloadUrl: json['SnapshotDownloadUrl'] as String?,
+      snapshotId: json['SnapshotId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceId = this.instanceId;
+    final product = this.product;
+    final snapshotDownloadUrl = this.snapshotDownloadUrl;
+    final snapshotId = this.snapshotId;
+    return {
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (product != null) 'Product': product,
+      if (snapshotDownloadUrl != null)
+        'SnapshotDownloadUrl': snapshotDownloadUrl,
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDocumentResult {
   /// A description of the document attachments, including names, locations,
   /// sizes, and so on.
-  @_s.JsonKey(name: 'AttachmentsContent')
-  final List<AttachmentContent> attachmentsContent;
+  final List<AttachmentContent>? attachmentsContent;
 
   /// The contents of the Systems Manager document.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
+
+  /// The date the Systems Manager document was created.
+  final DateTime? createdDate;
+
+  /// The friendly name of the Systems Manager document. This value can differ for
+  /// each version of the document. If you want to update this value, see
+  /// <a>UpdateDocument</a>.
+  final String? displayName;
 
   /// The document format, either JSON or YAML.
-  @_s.JsonKey(name: 'DocumentFormat')
-  final DocumentFormat documentFormat;
+  final DocumentFormat? documentFormat;
 
   /// The document type.
-  @_s.JsonKey(name: 'DocumentType')
-  final DocumentType documentType;
+  final DocumentType? documentType;
 
   /// The document version.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The name of the Systems Manager document.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A list of SSM documents required by a document. For example, an
   /// <code>ApplicationConfiguration</code> document requires an
   /// <code>ApplicationConfigurationSchema</code> document.
-  @_s.JsonKey(name: 'Requires')
-  final List<DocumentRequires> requires;
+  final List<DocumentRequires>? requires;
 
   /// The current review status of a new custom Systems Manager document (SSM
   /// document) created by a member of your organization, or of the latest version
@@ -15984,31 +18333,29 @@ class GetDocumentResult {
   /// to REJECTED.
   ///
   /// Only one version of an SSM document can be in review, or PENDING, at a time.
-  @_s.JsonKey(name: 'ReviewStatus')
-  final ReviewStatus reviewStatus;
+  final ReviewStatus? reviewStatus;
 
   /// The status of the Systems Manager document, such as <code>Creating</code>,
   /// <code>Active</code>, <code>Updating</code>, <code>Failed</code>, and
   /// <code>Deleting</code>.
-  @_s.JsonKey(name: 'Status')
-  final DocumentStatus status;
+  final DocumentStatus? status;
 
   /// A message returned by AWS Systems Manager that explains the
   /// <code>Status</code> value. For example, a <code>Failed</code> status might
   /// be explained by the <code>StatusInformation</code> message, "The specified
   /// S3 bucket does not exist. Verify that the URL of the S3 bucket is correct."
-  @_s.JsonKey(name: 'StatusInformation')
-  final String statusInformation;
+  final String? statusInformation;
 
   /// The version of the artifact associated with the document. For example,
   /// "Release 12, Update 6". This value is unique across all versions of a
   /// document, and cannot be changed.
-  @_s.JsonKey(name: 'VersionName')
-  final String versionName;
+  final String? versionName;
 
   GetDocumentResult({
     this.attachmentsContent,
     this.content,
+    this.createdDate,
+    this.displayName,
     this.documentFormat,
     this.documentType,
     this.documentVersion,
@@ -16019,87 +18366,147 @@ class GetDocumentResult {
     this.statusInformation,
     this.versionName,
   });
-  factory GetDocumentResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDocumentResultFromJson(json);
+
+  factory GetDocumentResult.fromJson(Map<String, dynamic> json) {
+    return GetDocumentResult(
+      attachmentsContent: (json['AttachmentsContent'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachmentContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      content: json['Content'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      displayName: json['DisplayName'] as String?,
+      documentFormat: (json['DocumentFormat'] as String?)?.toDocumentFormat(),
+      documentType: (json['DocumentType'] as String?)?.toDocumentType(),
+      documentVersion: json['DocumentVersion'] as String?,
+      name: json['Name'] as String?,
+      requires: (json['Requires'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentRequires.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reviewStatus: (json['ReviewStatus'] as String?)?.toReviewStatus(),
+      status: (json['Status'] as String?)?.toDocumentStatus(),
+      statusInformation: json['StatusInformation'] as String?,
+      versionName: json['VersionName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentsContent = this.attachmentsContent;
+    final content = this.content;
+    final createdDate = this.createdDate;
+    final displayName = this.displayName;
+    final documentFormat = this.documentFormat;
+    final documentType = this.documentType;
+    final documentVersion = this.documentVersion;
+    final name = this.name;
+    final requires = this.requires;
+    final reviewStatus = this.reviewStatus;
+    final status = this.status;
+    final statusInformation = this.statusInformation;
+    final versionName = this.versionName;
+    return {
+      if (attachmentsContent != null) 'AttachmentsContent': attachmentsContent,
+      if (content != null) 'Content': content,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (displayName != null) 'DisplayName': displayName,
+      if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+      if (documentType != null) 'DocumentType': documentType.toValue(),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (name != null) 'Name': name,
+      if (requires != null) 'Requires': requires,
+      if (reviewStatus != null) 'ReviewStatus': reviewStatus.toValue(),
+      if (status != null) 'Status': status.toValue(),
+      if (statusInformation != null) 'StatusInformation': statusInformation,
+      if (versionName != null) 'VersionName': versionName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetInventoryResult {
   /// Collection of inventory entities such as a collection of instance inventory.
-  @_s.JsonKey(name: 'Entities')
-  final List<InventoryResultEntity> entities;
+  final List<InventoryResultEntity>? entities;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetInventoryResult({
     this.entities,
     this.nextToken,
   });
-  factory GetInventoryResult.fromJson(Map<String, dynamic> json) =>
-      _$GetInventoryResultFromJson(json);
+
+  factory GetInventoryResult.fromJson(Map<String, dynamic> json) {
+    return GetInventoryResult(
+      entities: (json['Entities'] as List?)
+          ?.whereNotNull()
+          .map((e) => InventoryResultEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      if (entities != null) 'Entities': entities,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetInventorySchemaResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Inventory schemas returned by the request.
-  @_s.JsonKey(name: 'Schemas')
-  final List<InventoryItemSchema> schemas;
+  final List<InventoryItemSchema>? schemas;
 
   GetInventorySchemaResult({
     this.nextToken,
     this.schemas,
   });
-  factory GetInventorySchemaResult.fromJson(Map<String, dynamic> json) =>
-      _$GetInventorySchemaResultFromJson(json);
+
+  factory GetInventorySchemaResult.fromJson(Map<String, dynamic> json) {
+    return GetInventorySchemaResult(
+      nextToken: json['NextToken'] as String?,
+      schemas: (json['Schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => InventoryItemSchema.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final schemas = this.schemas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemas != null) 'Schemas': schemas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMaintenanceWindowExecutionResult {
   /// The time the maintenance window finished running.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The time the maintenance window started running.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the maintenance window execution.
-  @_s.JsonKey(name: 'Status')
-  final MaintenanceWindowExecutionStatus status;
+  final MaintenanceWindowExecutionStatus? status;
 
   /// The details explaining the Status. Only available for certain status values.
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The ID of the task executions from the maintenance window execution.
-  @_s.JsonKey(name: 'TaskIds')
-  final List<String> taskIds;
+  final List<String>? taskIds;
 
   /// The ID of the maintenance window execution.
-  @_s.JsonKey(name: 'WindowExecutionId')
-  final String windowExecutionId;
+  final String? windowExecutionId;
 
   GetMaintenanceWindowExecutionResult({
     this.endTime,
@@ -16109,69 +18516,79 @@ class GetMaintenanceWindowExecutionResult {
     this.taskIds,
     this.windowExecutionId,
   });
+
   factory GetMaintenanceWindowExecutionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMaintenanceWindowExecutionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return GetMaintenanceWindowExecutionResult(
+      endTime: timeStampFromJson(json['EndTime']),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      taskIds: (json['TaskIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      windowExecutionId: json['WindowExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final taskIds = this.taskIds;
+    final windowExecutionId = this.windowExecutionId;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (taskIds != null) 'TaskIds': taskIds,
+      if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMaintenanceWindowExecutionTaskInvocationResult {
   /// The time that the task finished running on the target.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The execution ID.
-  @_s.JsonKey(name: 'ExecutionId')
-  final String executionId;
+  final String? executionId;
 
   /// The invocation ID.
-  @_s.JsonKey(name: 'InvocationId')
-  final String invocationId;
+  final String? invocationId;
 
   /// User-provided value to be included in any CloudWatch events raised while
   /// running tasks for these targets in this maintenance window.
-  @_s.JsonKey(name: 'OwnerInformation')
-  final String ownerInformation;
+  final String? ownerInformation;
 
   /// The parameters used at the time that the task ran.
-  @_s.JsonKey(name: 'Parameters')
-  final String parameters;
+  final String? parameters;
 
   /// The time that the task started running on the target.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The task status for an invocation.
-  @_s.JsonKey(name: 'Status')
-  final MaintenanceWindowExecutionStatus status;
+  final MaintenanceWindowExecutionStatus? status;
 
   /// The details explaining the status. Details are only available for certain
   /// status values.
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The task execution ID.
-  @_s.JsonKey(name: 'TaskExecutionId')
-  final String taskExecutionId;
+  final String? taskExecutionId;
 
   /// Retrieves the task type for a maintenance window. Task types include the
   /// following: LAMBDA, STEP_FUNCTIONS, AUTOMATION, RUN_COMMAND.
-  @_s.JsonKey(name: 'TaskType')
-  final MaintenanceWindowTaskType taskType;
+  final MaintenanceWindowTaskType? taskType;
 
   /// The maintenance window execution ID.
-  @_s.JsonKey(name: 'WindowExecutionId')
-  final String windowExecutionId;
+  final String? windowExecutionId;
 
   /// The maintenance window target ID.
-  @_s.JsonKey(name: 'WindowTargetId')
-  final String windowTargetId;
+  final String? windowTargetId;
 
   GetMaintenanceWindowExecutionTaskInvocationResult({
     this.endTime,
@@ -16187,60 +18604,87 @@ class GetMaintenanceWindowExecutionTaskInvocationResult {
     this.windowExecutionId,
     this.windowTargetId,
   });
+
   factory GetMaintenanceWindowExecutionTaskInvocationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMaintenanceWindowExecutionTaskInvocationResultFromJson(json);
+      Map<String, dynamic> json) {
+    return GetMaintenanceWindowExecutionTaskInvocationResult(
+      endTime: timeStampFromJson(json['EndTime']),
+      executionId: json['ExecutionId'] as String?,
+      invocationId: json['InvocationId'] as String?,
+      ownerInformation: json['OwnerInformation'] as String?,
+      parameters: json['Parameters'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      taskExecutionId: json['TaskExecutionId'] as String?,
+      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      windowExecutionId: json['WindowExecutionId'] as String?,
+      windowTargetId: json['WindowTargetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final executionId = this.executionId;
+    final invocationId = this.invocationId;
+    final ownerInformation = this.ownerInformation;
+    final parameters = this.parameters;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final taskExecutionId = this.taskExecutionId;
+    final taskType = this.taskType;
+    final windowExecutionId = this.windowExecutionId;
+    final windowTargetId = this.windowTargetId;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (executionId != null) 'ExecutionId': executionId,
+      if (invocationId != null) 'InvocationId': invocationId,
+      if (ownerInformation != null) 'OwnerInformation': ownerInformation,
+      if (parameters != null) 'Parameters': parameters,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
+      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
+      if (windowTargetId != null) 'WindowTargetId': windowTargetId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMaintenanceWindowExecutionTaskResult {
   /// The time the task execution completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The defined maximum number of task executions that could be run in parallel.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The defined maximum number of task execution errors allowed before
   /// scheduling of the task execution would have been stopped.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The priority of the task.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The role that was assumed when running the task.
-  @_s.JsonKey(name: 'ServiceRole')
-  final String serviceRole;
+  final String? serviceRole;
 
   /// The time the task execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the task.
-  @_s.JsonKey(name: 'Status')
-  final MaintenanceWindowExecutionStatus status;
+  final MaintenanceWindowExecutionStatus? status;
 
   /// The details explaining the Status. Only available for certain status values.
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The ARN of the task that ran.
-  @_s.JsonKey(name: 'TaskArn')
-  final String taskArn;
+  final String? taskArn;
 
   /// The ID of the specific task execution in the maintenance window task that
   /// was retrieved.
-  @_s.JsonKey(name: 'TaskExecutionId')
-  final String taskExecutionId;
+  final String? taskExecutionId;
 
   /// The parameters passed to the task when it was run.
   /// <note>
@@ -16256,17 +18700,14 @@ class GetMaintenanceWindowExecutionTaskResult {
   /// Key: string, between 1 and 255 characters
   ///
   /// Value: an array of strings, each string is between 1 and 255 characters
-  @_s.JsonKey(name: 'TaskParameters')
-  final List<Map<String, MaintenanceWindowTaskParameterValueExpression>>
+  final List<Map<String, MaintenanceWindowTaskParameterValueExpression>>?
       taskParameters;
 
   /// The type of task that was run.
-  @_s.JsonKey(name: 'Type')
-  final MaintenanceWindowTaskType type;
+  final MaintenanceWindowTaskType? type;
 
   /// The ID of the maintenance window execution that includes the task.
-  @_s.JsonKey(name: 'WindowExecutionId')
-  final String windowExecutionId;
+  final String? windowExecutionId;
 
   GetMaintenanceWindowExecutionTaskResult({
     this.endTime,
@@ -16283,91 +18724,122 @@ class GetMaintenanceWindowExecutionTaskResult {
     this.type,
     this.windowExecutionId,
   });
+
   factory GetMaintenanceWindowExecutionTaskResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetMaintenanceWindowExecutionTaskResultFromJson(json);
+      Map<String, dynamic> json) {
+    return GetMaintenanceWindowExecutionTaskResult(
+      endTime: timeStampFromJson(json['EndTime']),
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      priority: json['Priority'] as int?,
+      serviceRole: json['ServiceRole'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      taskArn: json['TaskArn'] as String?,
+      taskExecutionId: json['TaskExecutionId'] as String?,
+      taskParameters: (json['TaskParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) => MapEntry(
+              k,
+              MaintenanceWindowTaskParameterValueExpression.fromJson(
+                  e as Map<String, dynamic>))))
+          .toList(),
+      type: (json['Type'] as String?)?.toMaintenanceWindowTaskType(),
+      windowExecutionId: json['WindowExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final priority = this.priority;
+    final serviceRole = this.serviceRole;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final taskArn = this.taskArn;
+    final taskExecutionId = this.taskExecutionId;
+    final taskParameters = this.taskParameters;
+    final type = this.type;
+    final windowExecutionId = this.windowExecutionId;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (priority != null) 'Priority': priority,
+      if (serviceRole != null) 'ServiceRole': serviceRole,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
+      if (taskParameters != null) 'TaskParameters': taskParameters,
+      if (type != null) 'Type': type.toValue(),
+      if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMaintenanceWindowResult {
   /// Whether targets must be registered with the maintenance window before tasks
   /// can be defined for those targets.
-  @_s.JsonKey(name: 'AllowUnassociatedTargets')
-  final bool allowUnassociatedTargets;
+  final bool? allowUnassociatedTargets;
 
   /// The date the maintenance window was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The number of hours before the end of the maintenance window that Systems
   /// Manager stops scheduling new tasks for execution.
-  @_s.JsonKey(name: 'Cutoff')
-  final int cutoff;
+  final int? cutoff;
 
   /// The description of the maintenance window.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The duration of the maintenance window in hours.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// Indicates whether the maintenance window is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The date and time, in ISO-8601 Extended format, for when the maintenance
   /// window is scheduled to become inactive. The maintenance window will not run
   /// after this specified time.
-  @_s.JsonKey(name: 'EndDate')
-  final String endDate;
+  final String? endDate;
 
   /// The date the maintenance window was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ModifiedDate')
-  final DateTime modifiedDate;
+  final DateTime? modifiedDate;
 
   /// The name of the maintenance window.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The next time the maintenance window will actually run, taking into account
   /// any specified times for the maintenance window to become active or inactive.
-  @_s.JsonKey(name: 'NextExecutionTime')
-  final String nextExecutionTime;
+  final String? nextExecutionTime;
 
   /// The schedule of the maintenance window in the form of a cron or rate
   /// expression.
-  @_s.JsonKey(name: 'Schedule')
-  final String schedule;
+  final String? schedule;
 
   /// The number of days to wait to run a maintenance window after the scheduled
   /// CRON expression date and time.
-  @_s.JsonKey(name: 'ScheduleOffset')
-  final int scheduleOffset;
+  final int? scheduleOffset;
 
   /// The time zone that the scheduled maintenance window executions are based on,
   /// in Internet Assigned Numbers Authority (IANA) format. For example:
   /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the
   /// <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the IANA
   /// website.
-  @_s.JsonKey(name: 'ScheduleTimezone')
-  final String scheduleTimezone;
+  final String? scheduleTimezone;
 
   /// The date and time, in ISO-8601 Extended format, for when the maintenance
   /// window is scheduled to become active. The maintenance window will not run
   /// before this specified time.
-  @_s.JsonKey(name: 'StartDate')
-  final String startDate;
+  final String? startDate;
 
   /// The ID of the created maintenance window.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   GetMaintenanceWindowResult({
     this.allowUnassociatedTargets,
@@ -16386,19 +18858,68 @@ class GetMaintenanceWindowResult {
     this.startDate,
     this.windowId,
   });
-  factory GetMaintenanceWindowResult.fromJson(Map<String, dynamic> json) =>
-      _$GetMaintenanceWindowResultFromJson(json);
+
+  factory GetMaintenanceWindowResult.fromJson(Map<String, dynamic> json) {
+    return GetMaintenanceWindowResult(
+      allowUnassociatedTargets: json['AllowUnassociatedTargets'] as bool?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      cutoff: json['Cutoff'] as int?,
+      description: json['Description'] as String?,
+      duration: json['Duration'] as int?,
+      enabled: json['Enabled'] as bool?,
+      endDate: json['EndDate'] as String?,
+      modifiedDate: timeStampFromJson(json['ModifiedDate']),
+      name: json['Name'] as String?,
+      nextExecutionTime: json['NextExecutionTime'] as String?,
+      schedule: json['Schedule'] as String?,
+      scheduleOffset: json['ScheduleOffset'] as int?,
+      scheduleTimezone: json['ScheduleTimezone'] as String?,
+      startDate: json['StartDate'] as String?,
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowUnassociatedTargets = this.allowUnassociatedTargets;
+    final createdDate = this.createdDate;
+    final cutoff = this.cutoff;
+    final description = this.description;
+    final duration = this.duration;
+    final enabled = this.enabled;
+    final endDate = this.endDate;
+    final modifiedDate = this.modifiedDate;
+    final name = this.name;
+    final nextExecutionTime = this.nextExecutionTime;
+    final schedule = this.schedule;
+    final scheduleOffset = this.scheduleOffset;
+    final scheduleTimezone = this.scheduleTimezone;
+    final startDate = this.startDate;
+    final windowId = this.windowId;
+    return {
+      if (allowUnassociatedTargets != null)
+        'AllowUnassociatedTargets': allowUnassociatedTargets,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (cutoff != null) 'Cutoff': cutoff,
+      if (description != null) 'Description': description,
+      if (duration != null) 'Duration': duration,
+      if (enabled != null) 'Enabled': enabled,
+      if (endDate != null) 'EndDate': endDate,
+      if (modifiedDate != null)
+        'ModifiedDate': unixTimestampToJson(modifiedDate),
+      if (name != null) 'Name': name,
+      if (nextExecutionTime != null) 'NextExecutionTime': nextExecutionTime,
+      if (schedule != null) 'Schedule': schedule,
+      if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
+      if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
+      if (startDate != null) 'StartDate': startDate,
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMaintenanceWindowTaskResult {
   /// The retrieved task description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The location in Amazon S3 where the task results are logged.
   /// <note>
@@ -16409,8 +18930,7 @@ class GetMaintenanceWindowTaskResult {
   /// Systems Manager handles these options for the supported maintenance window
   /// task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
   /// </note>
-  @_s.JsonKey(name: 'LoggingInfo')
-  final LoggingInfo loggingInfo;
+  final LoggingInfo? loggingInfo;
 
   /// The maximum number of targets allowed to run this task in parallel.
   /// <note>
@@ -16419,8 +18939,7 @@ class GetMaintenanceWindowTaskResult {
   /// <code>1</code>, which may be reported in the response to this command. This
   /// value does not affect the running of your task and can be ignored.
   /// </note>
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The maximum number of errors allowed before the task stops being scheduled.
   /// <note>
@@ -16429,37 +18948,30 @@ class GetMaintenanceWindowTaskResult {
   /// <code>1</code>, which may be reported in the response to this command. This
   /// value does not affect the running of your task and can be ignored.
   /// </note>
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The retrieved task name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The priority of the task when it runs. The lower the number, the higher the
   /// priority. Tasks that have the same priority are scheduled in parallel.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The ARN of the IAM service role to use to publish Amazon Simple Notification
   /// Service (Amazon SNS) notifications for maintenance window Run Command tasks.
-  @_s.JsonKey(name: 'ServiceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// The targets where the task should run.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   /// The resource that the task used during execution. For RUN_COMMAND and
   /// AUTOMATION task types, the TaskArn is the Systems Manager Document name/ARN.
   /// For LAMBDA tasks, the value is the function name/ARN. For STEP_FUNCTIONS
   /// tasks, the value is the state machine ARN.
-  @_s.JsonKey(name: 'TaskArn')
-  final String taskArn;
+  final String? taskArn;
 
   /// The parameters to pass to the task when it runs.
-  @_s.JsonKey(name: 'TaskInvocationParameters')
-  final MaintenanceWindowTaskInvocationParameters taskInvocationParameters;
+  final MaintenanceWindowTaskInvocationParameters? taskInvocationParameters;
 
   /// The parameters to pass to the task when it runs.
   /// <note>
@@ -16470,21 +18982,17 @@ class GetMaintenanceWindowTaskResult {
   /// maintenance window task types, see
   /// <a>MaintenanceWindowTaskInvocationParameters</a>.
   /// </note>
-  @_s.JsonKey(name: 'TaskParameters')
-  final Map<String, MaintenanceWindowTaskParameterValueExpression>
+  final Map<String, MaintenanceWindowTaskParameterValueExpression>?
       taskParameters;
 
   /// The type of task to run.
-  @_s.JsonKey(name: 'TaskType')
-  final MaintenanceWindowTaskType taskType;
+  final MaintenanceWindowTaskType? taskType;
 
   /// The retrieved maintenance window ID.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   /// The retrieved maintenance window task ID.
-  @_s.JsonKey(name: 'WindowTaskId')
-  final String windowTaskId;
+  final String? windowTaskId;
 
   GetMaintenanceWindowTaskResult({
     this.description,
@@ -16502,267 +19010,385 @@ class GetMaintenanceWindowTaskResult {
     this.windowId,
     this.windowTaskId,
   });
-  factory GetMaintenanceWindowTaskResult.fromJson(Map<String, dynamic> json) =>
-      _$GetMaintenanceWindowTaskResultFromJson(json);
+
+  factory GetMaintenanceWindowTaskResult.fromJson(Map<String, dynamic> json) {
+    return GetMaintenanceWindowTaskResult(
+      description: json['Description'] as String?,
+      loggingInfo: json['LoggingInfo'] != null
+          ? LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>)
+          : null,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      name: json['Name'] as String?,
+      priority: json['Priority'] as int?,
+      serviceRoleArn: json['ServiceRoleArn'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskArn: json['TaskArn'] as String?,
+      taskInvocationParameters: json['TaskInvocationParameters'] != null
+          ? MaintenanceWindowTaskInvocationParameters.fromJson(
+              json['TaskInvocationParameters'] as Map<String, dynamic>)
+          : null,
+      taskParameters: (json['TaskParameters'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k,
+              MaintenanceWindowTaskParameterValueExpression.fromJson(
+                  e as Map<String, dynamic>))),
+      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      windowId: json['WindowId'] as String?,
+      windowTaskId: json['WindowTaskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final loggingInfo = this.loggingInfo;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final name = this.name;
+    final priority = this.priority;
+    final serviceRoleArn = this.serviceRoleArn;
+    final targets = this.targets;
+    final taskArn = this.taskArn;
+    final taskInvocationParameters = this.taskInvocationParameters;
+    final taskParameters = this.taskParameters;
+    final taskType = this.taskType;
+    final windowId = this.windowId;
+    final windowTaskId = this.windowTaskId;
+    return {
+      if (description != null) 'Description': description,
+      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (name != null) 'Name': name,
+      if (priority != null) 'Priority': priority,
+      if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+      if (targets != null) 'Targets': targets,
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskInvocationParameters != null)
+        'TaskInvocationParameters': taskInvocationParameters,
+      if (taskParameters != null) 'TaskParameters': taskParameters,
+      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (windowId != null) 'WindowId': windowId,
+      if (windowTaskId != null) 'WindowTaskId': windowTaskId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOpsItemResponse {
   /// The OpsItem.
-  @_s.JsonKey(name: 'OpsItem')
-  final OpsItem opsItem;
+  final OpsItem? opsItem;
 
   GetOpsItemResponse({
     this.opsItem,
   });
-  factory GetOpsItemResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetOpsItemResponseFromJson(json);
+
+  factory GetOpsItemResponse.fromJson(Map<String, dynamic> json) {
+    return GetOpsItemResponse(
+      opsItem: json['OpsItem'] != null
+          ? OpsItem.fromJson(json['OpsItem'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final opsItem = this.opsItem;
+    return {
+      if (opsItem != null) 'OpsItem': opsItem,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOpsMetadataResult {
   /// OpsMetadata for an Application Manager application.
-  @_s.JsonKey(name: 'Metadata')
-  final Map<String, MetadataValue> metadata;
+  final Map<String, MetadataValue>? metadata;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The resource ID of the Application Manager application.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   GetOpsMetadataResult({
     this.metadata,
     this.nextToken,
     this.resourceId,
   });
-  factory GetOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
-      _$GetOpsMetadataResultFromJson(json);
+
+  factory GetOpsMetadataResult.fromJson(Map<String, dynamic> json) {
+    return GetOpsMetadataResult(
+      metadata: (json['Metadata'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, MetadataValue.fromJson(e as Map<String, dynamic>))),
+      nextToken: json['NextToken'] as String?,
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final nextToken = this.nextToken;
+    final resourceId = this.resourceId;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceId != null) 'ResourceId': resourceId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOpsSummaryResult {
   /// The list of aggregated and filtered OpsItems.
-  @_s.JsonKey(name: 'Entities')
-  final List<OpsEntity> entities;
+  final List<OpsEntity>? entities;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetOpsSummaryResult({
     this.entities,
     this.nextToken,
   });
-  factory GetOpsSummaryResult.fromJson(Map<String, dynamic> json) =>
-      _$GetOpsSummaryResultFromJson(json);
+
+  factory GetOpsSummaryResult.fromJson(Map<String, dynamic> json) {
+    return GetOpsSummaryResult(
+      entities: (json['Entities'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpsEntity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entities = this.entities;
+    final nextToken = this.nextToken;
+    return {
+      if (entities != null) 'Entities': entities,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetParameterHistoryResult {
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of parameters returned by the request.
-  @_s.JsonKey(name: 'Parameters')
-  final List<ParameterHistory> parameters;
+  final List<ParameterHistory>? parameters;
 
   GetParameterHistoryResult({
     this.nextToken,
     this.parameters,
   });
-  factory GetParameterHistoryResult.fromJson(Map<String, dynamic> json) =>
-      _$GetParameterHistoryResultFromJson(json);
+
+  factory GetParameterHistoryResult.fromJson(Map<String, dynamic> json) {
+    return GetParameterHistoryResult(
+      nextToken: json['NextToken'] as String?,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parameters = this.parameters;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetParameterResult {
   /// Information about a parameter.
-  @_s.JsonKey(name: 'Parameter')
-  final Parameter parameter;
+  final Parameter? parameter;
 
   GetParameterResult({
     this.parameter,
   });
-  factory GetParameterResult.fromJson(Map<String, dynamic> json) =>
-      _$GetParameterResultFromJson(json);
+
+  factory GetParameterResult.fromJson(Map<String, dynamic> json) {
+    return GetParameterResult(
+      parameter: json['Parameter'] != null
+          ? Parameter.fromJson(json['Parameter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameter = this.parameter;
+    return {
+      if (parameter != null) 'Parameter': parameter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetParametersByPathResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of parameters found in the specified hierarchy.
-  @_s.JsonKey(name: 'Parameters')
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   GetParametersByPathResult({
     this.nextToken,
     this.parameters,
   });
-  factory GetParametersByPathResult.fromJson(Map<String, dynamic> json) =>
-      _$GetParametersByPathResultFromJson(json);
+
+  factory GetParametersByPathResult.fromJson(Map<String, dynamic> json) {
+    return GetParametersByPathResult(
+      nextToken: json['NextToken'] as String?,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parameters = this.parameters;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetParametersResult {
   /// A list of parameters that are not formatted correctly or do not run during
   /// an execution.
-  @_s.JsonKey(name: 'InvalidParameters')
-  final List<String> invalidParameters;
+  final List<String>? invalidParameters;
 
   /// A list of details for a parameter.
-  @_s.JsonKey(name: 'Parameters')
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   GetParametersResult({
     this.invalidParameters,
     this.parameters,
   });
-  factory GetParametersResult.fromJson(Map<String, dynamic> json) =>
-      _$GetParametersResultFromJson(json);
+
+  factory GetParametersResult.fromJson(Map<String, dynamic> json) {
+    return GetParametersResult(
+      invalidParameters: (json['InvalidParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidParameters = this.invalidParameters;
+    final parameters = this.parameters;
+    return {
+      if (invalidParameters != null) 'InvalidParameters': invalidParameters,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPatchBaselineForPatchGroupResult {
   /// The ID of the patch baseline that should be used for the patch group.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   /// The operating system rule specified for patch groups using the patch
   /// baseline.
-  @_s.JsonKey(name: 'OperatingSystem')
-  final OperatingSystem operatingSystem;
+  final OperatingSystem? operatingSystem;
 
   /// The name of the patch group.
-  @_s.JsonKey(name: 'PatchGroup')
-  final String patchGroup;
+  final String? patchGroup;
 
   GetPatchBaselineForPatchGroupResult({
     this.baselineId,
     this.operatingSystem,
     this.patchGroup,
   });
+
   factory GetPatchBaselineForPatchGroupResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPatchBaselineForPatchGroupResultFromJson(json);
+      Map<String, dynamic> json) {
+    return GetPatchBaselineForPatchGroupResult(
+      baselineId: json['BaselineId'] as String?,
+      operatingSystem:
+          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+      patchGroup: json['PatchGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    final operatingSystem = this.operatingSystem;
+    final patchGroup = this.patchGroup;
+    return {
+      if (baselineId != null) 'BaselineId': baselineId,
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (patchGroup != null) 'PatchGroup': patchGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPatchBaselineResult {
   /// A set of rules used to include patches in the baseline.
-  @_s.JsonKey(name: 'ApprovalRules')
-  final PatchRuleGroup approvalRules;
+  final PatchRuleGroup? approvalRules;
 
   /// A list of explicitly approved patches for the baseline.
-  @_s.JsonKey(name: 'ApprovedPatches')
-  final List<String> approvedPatches;
+  final List<String>? approvedPatches;
 
   /// Returns the specified compliance severity level for approved patches in the
   /// patch baseline.
-  @_s.JsonKey(name: 'ApprovedPatchesComplianceLevel')
-  final PatchComplianceLevel approvedPatchesComplianceLevel;
+  final PatchComplianceLevel? approvedPatchesComplianceLevel;
 
   /// Indicates whether the list of approved patches includes non-security updates
   /// that should be applied to the instances. The default value is 'false'.
   /// Applies to Linux instances only.
-  @_s.JsonKey(name: 'ApprovedPatchesEnableNonSecurity')
-  final bool approvedPatchesEnableNonSecurity;
+  final bool? approvedPatchesEnableNonSecurity;
 
   /// The ID of the retrieved patch baseline.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   /// The date the patch baseline was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// A description of the patch baseline.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// A set of global filters used to exclude patches from the baseline.
-  @_s.JsonKey(name: 'GlobalFilters')
-  final PatchFilterGroup globalFilters;
+  final PatchFilterGroup? globalFilters;
 
   /// The date the patch baseline was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ModifiedDate')
-  final DateTime modifiedDate;
+  final DateTime? modifiedDate;
 
   /// The name of the patch baseline.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Returns the operating system specified for the patch baseline.
-  @_s.JsonKey(name: 'OperatingSystem')
-  final OperatingSystem operatingSystem;
+  final OperatingSystem? operatingSystem;
 
   /// Patch groups included in the patch baseline.
-  @_s.JsonKey(name: 'PatchGroups')
-  final List<String> patchGroups;
+  final List<String>? patchGroups;
 
   /// A list of explicitly rejected patches for the baseline.
-  @_s.JsonKey(name: 'RejectedPatches')
-  final List<String> rejectedPatches;
+  final List<String>? rejectedPatches;
 
   /// The action specified to take on patches included in the RejectedPatches
   /// list. A patch can be allowed only if it is a dependency of another package,
   /// or blocked entirely along with packages that include it as a dependency.
-  @_s.JsonKey(name: 'RejectedPatchesAction')
-  final PatchAction rejectedPatchesAction;
+  final PatchAction? rejectedPatchesAction;
 
   /// Information about the patches to use to update the instances, including
   /// target operating systems and source repositories. Applies to Linux instances
   /// only.
-  @_s.JsonKey(name: 'Sources')
-  final List<PatchSource> sources;
+  final List<PatchSource>? sources;
 
   GetPatchBaselineResult({
     this.approvalRules,
@@ -16781,74 +19407,168 @@ class GetPatchBaselineResult {
     this.rejectedPatchesAction,
     this.sources,
   });
-  factory GetPatchBaselineResult.fromJson(Map<String, dynamic> json) =>
-      _$GetPatchBaselineResultFromJson(json);
+
+  factory GetPatchBaselineResult.fromJson(Map<String, dynamic> json) {
+    return GetPatchBaselineResult(
+      approvalRules: json['ApprovalRules'] != null
+          ? PatchRuleGroup.fromJson(
+              json['ApprovalRules'] as Map<String, dynamic>)
+          : null,
+      approvedPatches: (json['ApprovedPatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      approvedPatchesComplianceLevel:
+          (json['ApprovedPatchesComplianceLevel'] as String?)
+              ?.toPatchComplianceLevel(),
+      approvedPatchesEnableNonSecurity:
+          json['ApprovedPatchesEnableNonSecurity'] as bool?,
+      baselineId: json['BaselineId'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      description: json['Description'] as String?,
+      globalFilters: json['GlobalFilters'] != null
+          ? PatchFilterGroup.fromJson(
+              json['GlobalFilters'] as Map<String, dynamic>)
+          : null,
+      modifiedDate: timeStampFromJson(json['ModifiedDate']),
+      name: json['Name'] as String?,
+      operatingSystem:
+          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+      patchGroups: (json['PatchGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rejectedPatches: (json['RejectedPatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rejectedPatchesAction:
+          (json['RejectedPatchesAction'] as String?)?.toPatchAction(),
+      sources: (json['Sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => PatchSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRules = this.approvalRules;
+    final approvedPatches = this.approvedPatches;
+    final approvedPatchesComplianceLevel = this.approvedPatchesComplianceLevel;
+    final approvedPatchesEnableNonSecurity =
+        this.approvedPatchesEnableNonSecurity;
+    final baselineId = this.baselineId;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final globalFilters = this.globalFilters;
+    final modifiedDate = this.modifiedDate;
+    final name = this.name;
+    final operatingSystem = this.operatingSystem;
+    final patchGroups = this.patchGroups;
+    final rejectedPatches = this.rejectedPatches;
+    final rejectedPatchesAction = this.rejectedPatchesAction;
+    final sources = this.sources;
+    return {
+      if (approvalRules != null) 'ApprovalRules': approvalRules,
+      if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
+      if (approvedPatchesComplianceLevel != null)
+        'ApprovedPatchesComplianceLevel':
+            approvedPatchesComplianceLevel.toValue(),
+      if (approvedPatchesEnableNonSecurity != null)
+        'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
+      if (baselineId != null) 'BaselineId': baselineId,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (description != null) 'Description': description,
+      if (globalFilters != null) 'GlobalFilters': globalFilters,
+      if (modifiedDate != null)
+        'ModifiedDate': unixTimestampToJson(modifiedDate),
+      if (name != null) 'Name': name,
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (patchGroups != null) 'PatchGroups': patchGroups,
+      if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
+      if (rejectedPatchesAction != null)
+        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+      if (sources != null) 'Sources': sources,
+    };
+  }
 }
 
 /// The query result body of the GetServiceSetting API action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetServiceSettingResult {
   /// The query result of the current service setting.
-  @_s.JsonKey(name: 'ServiceSetting')
-  final ServiceSetting serviceSetting;
+  final ServiceSetting? serviceSetting;
 
   GetServiceSettingResult({
     this.serviceSetting,
   });
-  factory GetServiceSettingResult.fromJson(Map<String, dynamic> json) =>
-      _$GetServiceSettingResultFromJson(json);
+
+  factory GetServiceSettingResult.fromJson(Map<String, dynamic> json) {
+    return GetServiceSettingResult(
+      serviceSetting: json['ServiceSetting'] != null
+          ? ServiceSetting.fromJson(
+              json['ServiceSetting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSetting = this.serviceSetting;
+    return {
+      if (serviceSetting != null) 'ServiceSetting': serviceSetting,
+    };
+  }
 }
 
 /// Status information about the aggregated associations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceAggregatedAssociationOverview {
   /// Detailed status information about the aggregated associations.
-  @_s.JsonKey(name: 'DetailedStatus')
-  final String detailedStatus;
+  final String? detailedStatus;
 
   /// The number of associations for the instance(s).
-  @_s.JsonKey(name: 'InstanceAssociationStatusAggregatedCount')
-  final Map<String, int> instanceAssociationStatusAggregatedCount;
+  final Map<String, int>? instanceAssociationStatusAggregatedCount;
 
   InstanceAggregatedAssociationOverview({
     this.detailedStatus,
     this.instanceAssociationStatusAggregatedCount,
   });
+
   factory InstanceAggregatedAssociationOverview.fromJson(
-          Map<String, dynamic> json) =>
-      _$InstanceAggregatedAssociationOverviewFromJson(json);
+      Map<String, dynamic> json) {
+    return InstanceAggregatedAssociationOverview(
+      detailedStatus: json['DetailedStatus'] as String?,
+      instanceAssociationStatusAggregatedCount:
+          (json['InstanceAssociationStatusAggregatedCount']
+                  as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detailedStatus = this.detailedStatus;
+    final instanceAssociationStatusAggregatedCount =
+        this.instanceAssociationStatusAggregatedCount;
+    return {
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus,
+      if (instanceAssociationStatusAggregatedCount != null)
+        'InstanceAssociationStatusAggregatedCount':
+            instanceAssociationStatusAggregatedCount,
+    };
+  }
 }
 
 /// One or more association documents on the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceAssociation {
   /// The association ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// Version information for the association on the instance.
-  @_s.JsonKey(name: 'AssociationVersion')
-  final String associationVersion;
+  final String? associationVersion;
 
   /// The content of the association document for the instance(s).
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   InstanceAssociation({
     this.associationId,
@@ -16856,105 +19576,124 @@ class InstanceAssociation {
     this.content,
     this.instanceId,
   });
-  factory InstanceAssociation.fromJson(Map<String, dynamic> json) =>
-      _$InstanceAssociationFromJson(json);
+
+  factory InstanceAssociation.fromJson(Map<String, dynamic> json) {
+    return InstanceAssociation(
+      associationId: json['AssociationId'] as String?,
+      associationVersion: json['AssociationVersion'] as String?,
+      content: json['Content'] as String?,
+      instanceId: json['InstanceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final associationVersion = this.associationVersion;
+    final content = this.content;
+    final instanceId = this.instanceId;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationVersion != null) 'AssociationVersion': associationVersion,
+      if (content != null) 'Content': content,
+      if (instanceId != null) 'InstanceId': instanceId,
+    };
+  }
 }
 
 /// An S3 bucket where you want to store the results of this request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+///
+/// For the minimal permissions required to enable Amazon S3 output for an
+/// association, see <a
+/// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-state-assoc.html">Creating
+/// associations</a> in the <i>Systems Manager User Guide</i>.
 class InstanceAssociationOutputLocation {
   /// An S3 bucket where you want to store the results of this request.
-  @_s.JsonKey(name: 'S3Location')
-  final S3OutputLocation s3Location;
+  final S3OutputLocation? s3Location;
 
   InstanceAssociationOutputLocation({
     this.s3Location,
   });
-  factory InstanceAssociationOutputLocation.fromJson(
-          Map<String, dynamic> json) =>
-      _$InstanceAssociationOutputLocationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$InstanceAssociationOutputLocationToJson(this);
+  factory InstanceAssociationOutputLocation.fromJson(
+      Map<String, dynamic> json) {
+    return InstanceAssociationOutputLocation(
+      s3Location: json['S3Location'] != null
+          ? S3OutputLocation.fromJson(
+              json['S3Location'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      if (s3Location != null) 'S3Location': s3Location,
+    };
+  }
 }
 
 /// The URL of S3 bucket where you want to store the results of this request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceAssociationOutputUrl {
   /// The URL of S3 bucket where you want to store the results of this request.
-  @_s.JsonKey(name: 'S3OutputUrl')
-  final S3OutputUrl s3OutputUrl;
+  final S3OutputUrl? s3OutputUrl;
 
   InstanceAssociationOutputUrl({
     this.s3OutputUrl,
   });
-  factory InstanceAssociationOutputUrl.fromJson(Map<String, dynamic> json) =>
-      _$InstanceAssociationOutputUrlFromJson(json);
+
+  factory InstanceAssociationOutputUrl.fromJson(Map<String, dynamic> json) {
+    return InstanceAssociationOutputUrl(
+      s3OutputUrl: json['S3OutputUrl'] != null
+          ? S3OutputUrl.fromJson(json['S3OutputUrl'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3OutputUrl = this.s3OutputUrl;
+    return {
+      if (s3OutputUrl != null) 'S3OutputUrl': s3OutputUrl,
+    };
+  }
 }
 
 /// Status information about the instance association.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceAssociationStatusInfo {
   /// The association ID.
-  @_s.JsonKey(name: 'AssociationId')
-  final String associationId;
+  final String? associationId;
 
   /// The name of the association applied to the instance.
-  @_s.JsonKey(name: 'AssociationName')
-  final String associationName;
+  final String? associationName;
 
   /// The version of the association applied to the instance.
-  @_s.JsonKey(name: 'AssociationVersion')
-  final String associationVersion;
+  final String? associationVersion;
 
   /// Detailed status information about the instance association.
-  @_s.JsonKey(name: 'DetailedStatus')
-  final String detailedStatus;
+  final String? detailedStatus;
 
   /// The association document versions.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// An error code returned by the request to create the association.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The date the instance association ran.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionDate')
-  final DateTime executionDate;
+  final DateTime? executionDate;
 
   /// Summary information about association execution.
-  @_s.JsonKey(name: 'ExecutionSummary')
-  final String executionSummary;
+  final String? executionSummary;
 
   /// The instance ID where the association was created.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The name of the association.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A URL for an S3 bucket where you want to store the results of this request.
-  @_s.JsonKey(name: 'OutputUrl')
-  final InstanceAssociationOutputUrl outputUrl;
+  final InstanceAssociationOutputUrl? outputUrl;
 
   /// Status information about the instance association.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   InstanceAssociationStatusInfo({
     this.associationId,
@@ -16970,80 +19709,108 @@ class InstanceAssociationStatusInfo {
     this.outputUrl,
     this.status,
   });
-  factory InstanceAssociationStatusInfo.fromJson(Map<String, dynamic> json) =>
-      _$InstanceAssociationStatusInfoFromJson(json);
+
+  factory InstanceAssociationStatusInfo.fromJson(Map<String, dynamic> json) {
+    return InstanceAssociationStatusInfo(
+      associationId: json['AssociationId'] as String?,
+      associationName: json['AssociationName'] as String?,
+      associationVersion: json['AssociationVersion'] as String?,
+      detailedStatus: json['DetailedStatus'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      errorCode: json['ErrorCode'] as String?,
+      executionDate: timeStampFromJson(json['ExecutionDate']),
+      executionSummary: json['ExecutionSummary'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      name: json['Name'] as String?,
+      outputUrl: json['OutputUrl'] != null
+          ? InstanceAssociationOutputUrl.fromJson(
+              json['OutputUrl'] as Map<String, dynamic>)
+          : null,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final associationName = this.associationName;
+    final associationVersion = this.associationVersion;
+    final detailedStatus = this.detailedStatus;
+    final documentVersion = this.documentVersion;
+    final errorCode = this.errorCode;
+    final executionDate = this.executionDate;
+    final executionSummary = this.executionSummary;
+    final instanceId = this.instanceId;
+    final name = this.name;
+    final outputUrl = this.outputUrl;
+    final status = this.status;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationName != null) 'AssociationName': associationName,
+      if (associationVersion != null) 'AssociationVersion': associationVersion,
+      if (detailedStatus != null) 'DetailedStatus': detailedStatus,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (executionDate != null)
+        'ExecutionDate': unixTimestampToJson(executionDate),
+      if (executionSummary != null) 'ExecutionSummary': executionSummary,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (name != null) 'Name': name,
+      if (outputUrl != null) 'OutputUrl': outputUrl,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Describes a filter for a specific list of instances.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceInformation {
   /// The activation ID created by Systems Manager when the server or VM was
   /// registered.
-  @_s.JsonKey(name: 'ActivationId')
-  final String activationId;
+  final String? activationId;
 
   /// The version of SSM Agent running on your Linux instance.
-  @_s.JsonKey(name: 'AgentVersion')
-  final String agentVersion;
+  final String? agentVersion;
 
   /// Information about the association.
-  @_s.JsonKey(name: 'AssociationOverview')
-  final InstanceAggregatedAssociationOverview associationOverview;
+  final InstanceAggregatedAssociationOverview? associationOverview;
 
   /// The status of the association.
-  @_s.JsonKey(name: 'AssociationStatus')
-  final String associationStatus;
+  final String? associationStatus;
 
   /// The fully qualified host name of the managed instance.
-  @_s.JsonKey(name: 'ComputerName')
-  final String computerName;
+  final String? computerName;
 
   /// The IP address of the managed instance.
-  @_s.JsonKey(name: 'IPAddress')
-  final String iPAddress;
+  final String? iPAddress;
 
   /// The Amazon Identity and Access Management (IAM) role assigned to the
   /// on-premises Systems Manager managed instance. This call does not return the
   /// IAM role for EC2 instances. To retrieve the IAM role for an EC2 instance,
   /// use the Amazon EC2 <code>DescribeInstances</code> action. For information,
   /// see <a
-  /// href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
   /// in the <i>Amazon EC2 API Reference</i> or <a
-  /// href="http://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html">describe-instances</a>
+  /// href="https://docs.aws.amazon.com/cli/latest/ec2/describe-instances.html">describe-instances</a>
   /// in the <i>AWS CLI Command Reference</i>.
-  @_s.JsonKey(name: 'IamRole')
-  final String iamRole;
+  final String? iamRole;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// Indicates whether the latest version of SSM Agent is running on your Linux
   /// Managed Instance. This field does not indicate whether or not the latest
   /// version is installed on Windows managed instances, because some older
   /// versions of Windows Server use the EC2Config service to process SSM
   /// requests.
-  @_s.JsonKey(name: 'IsLatestVersion')
-  final bool isLatestVersion;
+  final bool? isLatestVersion;
 
   /// The date the association was last run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastAssociationExecutionDate')
-  final DateTime lastAssociationExecutionDate;
+  final DateTime? lastAssociationExecutionDate;
 
   /// The date and time when the agent last pinged the Systems Manager service.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastPingDateTime')
-  final DateTime lastPingDateTime;
+  final DateTime? lastPingDateTime;
 
   /// The last date the association was successfully run.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastSuccessfulAssociationExecutionDate')
-  final DateTime lastSuccessfulAssociationExecutionDate;
+  final DateTime? lastSuccessfulAssociationExecutionDate;
 
   /// The name assigned to an on-premises server or virtual machine (VM) when it
   /// is activated as a Systems Manager managed instance. The name is specified as
@@ -17051,48 +19818,40 @@ class InstanceInformation {
   /// <a>CreateActivation</a> command. It is applied to the managed instance by
   /// specifying the Activation Code and Activation ID when you install SSM Agent
   /// on the instance, as explained in <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html">Install
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html">Install
   /// SSM Agent for a hybrid environment (Linux)</a> and <a
-  /// href="http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-win.html">Install
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-win.html">Install
   /// SSM Agent for a hybrid environment (Windows)</a>. To retrieve the Name tag
   /// of an EC2 instance, use the Amazon EC2 <code>DescribeInstances</code>
   /// action. For information, see <a
-  /// href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html">DescribeInstances</a>
   /// in the <i>Amazon EC2 API Reference</i> or <a
-  /// href="http://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html">describe-instances</a>
+  /// href="https://docs.aws.amazon.com/cli/latest/ec2/describe-instances.html">describe-instances</a>
   /// in the <i>AWS CLI Command Reference</i>.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Connection status of SSM Agent.
   /// <note>
   /// The status <code>Inactive</code> has been deprecated and is no longer in
   /// use.
   /// </note>
-  @_s.JsonKey(name: 'PingStatus')
-  final PingStatus pingStatus;
+  final PingStatus? pingStatus;
 
   /// The name of the operating system platform running on your instance.
-  @_s.JsonKey(name: 'PlatformName')
-  final String platformName;
+  final String? platformName;
 
   /// The operating system platform type.
-  @_s.JsonKey(name: 'PlatformType')
-  final PlatformType platformType;
+  final PlatformType? platformType;
 
   /// The version of the OS platform running on your instance.
-  @_s.JsonKey(name: 'PlatformVersion')
-  final String platformVersion;
+  final String? platformVersion;
 
   /// The date the server or VM was registered with AWS as a managed instance.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RegistrationDate')
-  final DateTime registrationDate;
+  final DateTime? registrationDate;
 
   /// The type of instance. Instances are either EC2 instances or managed
   /// instances.
-  @_s.JsonKey(name: 'ResourceType')
-  final ResourceType resourceType;
+  final ResourceType? resourceType;
 
   InstanceInformation({
     this.activationId,
@@ -17115,8 +19874,86 @@ class InstanceInformation {
     this.registrationDate,
     this.resourceType,
   });
-  factory InstanceInformation.fromJson(Map<String, dynamic> json) =>
-      _$InstanceInformationFromJson(json);
+
+  factory InstanceInformation.fromJson(Map<String, dynamic> json) {
+    return InstanceInformation(
+      activationId: json['ActivationId'] as String?,
+      agentVersion: json['AgentVersion'] as String?,
+      associationOverview: json['AssociationOverview'] != null
+          ? InstanceAggregatedAssociationOverview.fromJson(
+              json['AssociationOverview'] as Map<String, dynamic>)
+          : null,
+      associationStatus: json['AssociationStatus'] as String?,
+      computerName: json['ComputerName'] as String?,
+      iPAddress: json['IPAddress'] as String?,
+      iamRole: json['IamRole'] as String?,
+      instanceId: json['InstanceId'] as String?,
+      isLatestVersion: json['IsLatestVersion'] as bool?,
+      lastAssociationExecutionDate:
+          timeStampFromJson(json['LastAssociationExecutionDate']),
+      lastPingDateTime: timeStampFromJson(json['LastPingDateTime']),
+      lastSuccessfulAssociationExecutionDate:
+          timeStampFromJson(json['LastSuccessfulAssociationExecutionDate']),
+      name: json['Name'] as String?,
+      pingStatus: (json['PingStatus'] as String?)?.toPingStatus(),
+      platformName: json['PlatformName'] as String?,
+      platformType: (json['PlatformType'] as String?)?.toPlatformType(),
+      platformVersion: json['PlatformVersion'] as String?,
+      registrationDate: timeStampFromJson(json['RegistrationDate']),
+      resourceType: (json['ResourceType'] as String?)?.toResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activationId = this.activationId;
+    final agentVersion = this.agentVersion;
+    final associationOverview = this.associationOverview;
+    final associationStatus = this.associationStatus;
+    final computerName = this.computerName;
+    final iPAddress = this.iPAddress;
+    final iamRole = this.iamRole;
+    final instanceId = this.instanceId;
+    final isLatestVersion = this.isLatestVersion;
+    final lastAssociationExecutionDate = this.lastAssociationExecutionDate;
+    final lastPingDateTime = this.lastPingDateTime;
+    final lastSuccessfulAssociationExecutionDate =
+        this.lastSuccessfulAssociationExecutionDate;
+    final name = this.name;
+    final pingStatus = this.pingStatus;
+    final platformName = this.platformName;
+    final platformType = this.platformType;
+    final platformVersion = this.platformVersion;
+    final registrationDate = this.registrationDate;
+    final resourceType = this.resourceType;
+    return {
+      if (activationId != null) 'ActivationId': activationId,
+      if (agentVersion != null) 'AgentVersion': agentVersion,
+      if (associationOverview != null)
+        'AssociationOverview': associationOverview,
+      if (associationStatus != null) 'AssociationStatus': associationStatus,
+      if (computerName != null) 'ComputerName': computerName,
+      if (iPAddress != null) 'IPAddress': iPAddress,
+      if (iamRole != null) 'IamRole': iamRole,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (isLatestVersion != null) 'IsLatestVersion': isLatestVersion,
+      if (lastAssociationExecutionDate != null)
+        'LastAssociationExecutionDate':
+            unixTimestampToJson(lastAssociationExecutionDate),
+      if (lastPingDateTime != null)
+        'LastPingDateTime': unixTimestampToJson(lastPingDateTime),
+      if (lastSuccessfulAssociationExecutionDate != null)
+        'LastSuccessfulAssociationExecutionDate':
+            unixTimestampToJson(lastSuccessfulAssociationExecutionDate),
+      if (name != null) 'Name': name,
+      if (pingStatus != null) 'PingStatus': pingStatus.toValue(),
+      if (platformName != null) 'PlatformName': platformName,
+      if (platformType != null) 'PlatformType': platformType.toValue(),
+      if (platformVersion != null) 'PlatformVersion': platformVersion,
+      if (registrationDate != null)
+        'RegistrationDate': unixTimestampToJson(registrationDate),
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+    };
+  }
 }
 
 /// Describes a filter for a specific list of instances. You can filter
@@ -17127,114 +19964,173 @@ class InstanceInformation {
 /// <a>DescribeInstanceInformationRequest$InstanceInformationFilterList</a>
 /// method. The <code>InstanceInformationFilterList</code> method is a legacy
 /// method and does not support tags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceInformationFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'key')
   final InstanceInformationFilterKey key;
 
   /// The filter values.
-  @_s.JsonKey(name: 'valueSet')
   final List<String> valueSet;
 
   InstanceInformationFilter({
-    @_s.required this.key,
-    @_s.required this.valueSet,
+    required this.key,
+    required this.valueSet,
   });
-  Map<String, dynamic> toJson() => _$InstanceInformationFilterToJson(this);
+
+  factory InstanceInformationFilter.fromJson(Map<String, dynamic> json) {
+    return InstanceInformationFilter(
+      key: (json['key'] as String).toInstanceInformationFilterKey(),
+      valueSet: (json['valueSet'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final valueSet = this.valueSet;
+    return {
+      'key': key.toValue(),
+      'valueSet': valueSet,
+    };
+  }
 }
 
 enum InstanceInformationFilterKey {
-  @_s.JsonValue('InstanceIds')
   instanceIds,
-  @_s.JsonValue('AgentVersion')
   agentVersion,
-  @_s.JsonValue('PingStatus')
   pingStatus,
-  @_s.JsonValue('PlatformTypes')
   platformTypes,
-  @_s.JsonValue('ActivationIds')
   activationIds,
-  @_s.JsonValue('IamRole')
   iamRole,
-  @_s.JsonValue('ResourceType')
   resourceType,
-  @_s.JsonValue('AssociationStatus')
   associationStatus,
 }
 
+extension on InstanceInformationFilterKey {
+  String toValue() {
+    switch (this) {
+      case InstanceInformationFilterKey.instanceIds:
+        return 'InstanceIds';
+      case InstanceInformationFilterKey.agentVersion:
+        return 'AgentVersion';
+      case InstanceInformationFilterKey.pingStatus:
+        return 'PingStatus';
+      case InstanceInformationFilterKey.platformTypes:
+        return 'PlatformTypes';
+      case InstanceInformationFilterKey.activationIds:
+        return 'ActivationIds';
+      case InstanceInformationFilterKey.iamRole:
+        return 'IamRole';
+      case InstanceInformationFilterKey.resourceType:
+        return 'ResourceType';
+      case InstanceInformationFilterKey.associationStatus:
+        return 'AssociationStatus';
+    }
+  }
+}
+
+extension on String {
+  InstanceInformationFilterKey toInstanceInformationFilterKey() {
+    switch (this) {
+      case 'InstanceIds':
+        return InstanceInformationFilterKey.instanceIds;
+      case 'AgentVersion':
+        return InstanceInformationFilterKey.agentVersion;
+      case 'PingStatus':
+        return InstanceInformationFilterKey.pingStatus;
+      case 'PlatformTypes':
+        return InstanceInformationFilterKey.platformTypes;
+      case 'ActivationIds':
+        return InstanceInformationFilterKey.activationIds;
+      case 'IamRole':
+        return InstanceInformationFilterKey.iamRole;
+      case 'ResourceType':
+        return InstanceInformationFilterKey.resourceType;
+      case 'AssociationStatus':
+        return InstanceInformationFilterKey.associationStatus;
+    }
+    throw Exception('$this is not known in enum InstanceInformationFilterKey');
+  }
+}
+
 /// The filters to describe or get information about your managed instances.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstanceInformationStringFilter {
   /// The filter key name to describe your instances. For example:
   ///
   /// "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag
   /// Key"
-  @_s.JsonKey(name: 'Key')
+  /// <important>
+  /// <code>Tag key</code> is not a valid filter. You must specify either
+  /// <code>tag-key</code> or <code>tag:keyname</code> and a string. Here are some
+  /// valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some
+  /// <i>invalid</i> examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
+  /// </important>
   final String key;
 
   /// The filter values.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   InstanceInformationStringFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  Map<String, dynamic> toJson() =>
-      _$InstanceInformationStringFilterToJson(this);
+
+  factory InstanceInformationStringFilter.fromJson(Map<String, dynamic> json) {
+    return InstanceInformationStringFilter(
+      key: json['Key'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key,
+      'Values': values,
+    };
+  }
 }
 
 /// Defines the high-level patch compliance state for a managed instance,
 /// providing information about the number of installed, missing, not
 /// applicable, and failed patches along with metadata about the operation when
 /// this information was gathered for the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstancePatchState {
   /// The ID of the patch baseline used to patch the instance.
-  @_s.JsonKey(name: 'BaselineId')
   final String baselineId;
 
   /// The ID of the managed instance the high-level patch compliance information
   /// was collected for.
-  @_s.JsonKey(name: 'InstanceId')
   final String instanceId;
 
   /// The type of patching operation that was performed: <code>SCAN</code> (assess
   /// patch compliance state) or <code>INSTALL</code> (install missing patches).
-  @_s.JsonKey(name: 'Operation')
   final PatchOperationType operation;
 
   /// The time the most recent patching operation completed on the instance.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'OperationEndTime')
   final DateTime operationEndTime;
 
   /// The time the most recent patching operation was started on the instance.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'OperationStartTime')
   final DateTime operationStartTime;
 
   /// The name of the patch group the managed instance belongs to.
-  @_s.JsonKey(name: 'PatchGroup')
   final String patchGroup;
+
+  /// The number of instances where patches that are specified as "Critical" for
+  /// compliance reporting in the patch baseline are not installed. These patches
+  /// might be missing, have failed installation, were rejected, or were installed
+  /// but awaiting a required instance reboot. The status of these instances is
+  /// <code>NON_COMPLIANT</code>.
+  final int? criticalNonCompliantCount;
 
   /// The number of patches from the patch baseline that were attempted to be
   /// installed during the last patching operation, but failed to install.
-  @_s.JsonKey(name: 'FailedCount')
-  final int failedCount;
+  final int? failedCount;
 
   /// An https URL or an Amazon S3 path-style URL to a list of patches to be
   /// installed. This patch installation list, which you maintain in an S3 bucket
@@ -17247,23 +20143,19 @@ class InstancePatchState {
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-about-aws-runpatchbaseline.html">About
   /// the SSM document AWS-RunPatchBaseline</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
-  @_s.JsonKey(name: 'InstallOverrideList')
-  final String installOverrideList;
+  final String? installOverrideList;
 
   /// The number of patches from the patch baseline that are installed on the
   /// instance.
-  @_s.JsonKey(name: 'InstalledCount')
-  final int installedCount;
+  final int? installedCount;
 
   /// The number of patches not specified in the patch baseline that are installed
   /// on the instance.
-  @_s.JsonKey(name: 'InstalledOtherCount')
-  final int installedOtherCount;
+  final int? installedOtherCount;
 
   /// The number of patches installed by Patch Manager since the last time the
   /// instance was rebooted.
-  @_s.JsonKey(name: 'InstalledPendingRebootCount')
-  final int installedPendingRebootCount;
+  final int? installedPendingRebootCount;
 
   /// The number of patches installed on an instance that are specified in a
   /// <code>RejectedPatches</code> list. Patches with a status of
@@ -17274,31 +20166,30 @@ class InstancePatchState {
   /// <code>RejectedPatchesAction</code>, the value of
   /// <code>InstalledRejectedCount</code> will always be <code>0</code> (zero).
   /// </note>
-  @_s.JsonKey(name: 'InstalledRejectedCount')
-  final int installedRejectedCount;
+  final int? installedRejectedCount;
 
   /// The time of the last attempt to patch the instance with
   /// <code>NoReboot</code> specified as the reboot option.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastNoRebootInstallOperationTime')
-  final DateTime lastNoRebootInstallOperationTime;
+  final DateTime? lastNoRebootInstallOperationTime;
 
   /// The number of patches from the patch baseline that are applicable for the
   /// instance but aren't currently installed.
-  @_s.JsonKey(name: 'MissingCount')
-  final int missingCount;
+  final int? missingCount;
 
   /// The number of patches from the patch baseline that aren't applicable for the
   /// instance and therefore aren't installed on the instance. This number may be
   /// truncated if the list of patch names is very large. The number of patches
   /// beyond this limit are reported in <code>UnreportedNotApplicableCount</code>.
-  @_s.JsonKey(name: 'NotApplicableCount')
-  final int notApplicableCount;
+  final int? notApplicableCount;
+
+  /// The number of instances with patches installed that are specified as other
+  /// than "Critical" or "Security" but are not compliant with the patch baseline.
+  /// The status of these instances is NON_COMPLIANT.
+  final int? otherNonCompliantCount;
 
   /// Placeholder information. This field will always be empty in the current
   /// release of the service.
-  @_s.JsonKey(name: 'OwnerInformation')
-  final String ownerInformation;
+  final String? ownerInformation;
 
   /// Indicates the reboot option specified in the patch baseline.
   /// <note>
@@ -17318,27 +20209,32 @@ class InstancePatchState {
   /// in effect until a reboot is performed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'RebootOption')
-  final RebootOption rebootOption;
+  final RebootOption? rebootOption;
+
+  /// The number of instances where patches that are specified as "Security" in a
+  /// patch advisory are not installed. These patches might be missing, have
+  /// failed installation, were rejected, or were installed but awaiting a
+  /// required instance reboot. The status of these instances is
+  /// <code>NON_COMPLIANT</code>.
+  final int? securityNonCompliantCount;
 
   /// The ID of the patch baseline snapshot used during the patching operation
   /// when this compliance data was collected.
-  @_s.JsonKey(name: 'SnapshotId')
-  final String snapshotId;
+  final String? snapshotId;
 
   /// The number of patches beyond the supported limit of
   /// <code>NotApplicableCount</code> that are not reported by name to Systems
   /// Manager Inventory.
-  @_s.JsonKey(name: 'UnreportedNotApplicableCount')
-  final int unreportedNotApplicableCount;
+  final int? unreportedNotApplicableCount;
 
   InstancePatchState({
-    @_s.required this.baselineId,
-    @_s.required this.instanceId,
-    @_s.required this.operation,
-    @_s.required this.operationEndTime,
-    @_s.required this.operationStartTime,
-    @_s.required this.patchGroup,
+    required this.baselineId,
+    required this.instanceId,
+    required this.operation,
+    required this.operationEndTime,
+    required this.operationStartTime,
+    required this.patchGroup,
+    this.criticalNonCompliantCount,
     this.failedCount,
     this.installOverrideList,
     this.installedCount,
@@ -17348,139 +20244,315 @@ class InstancePatchState {
     this.lastNoRebootInstallOperationTime,
     this.missingCount,
     this.notApplicableCount,
+    this.otherNonCompliantCount,
     this.ownerInformation,
     this.rebootOption,
+    this.securityNonCompliantCount,
     this.snapshotId,
     this.unreportedNotApplicableCount,
   });
-  factory InstancePatchState.fromJson(Map<String, dynamic> json) =>
-      _$InstancePatchStateFromJson(json);
+
+  factory InstancePatchState.fromJson(Map<String, dynamic> json) {
+    return InstancePatchState(
+      baselineId: json['BaselineId'] as String,
+      instanceId: json['InstanceId'] as String,
+      operation: (json['Operation'] as String).toPatchOperationType(),
+      operationEndTime:
+          nonNullableTimeStampFromJson(json['OperationEndTime'] as Object),
+      operationStartTime:
+          nonNullableTimeStampFromJson(json['OperationStartTime'] as Object),
+      patchGroup: json['PatchGroup'] as String,
+      criticalNonCompliantCount: json['CriticalNonCompliantCount'] as int?,
+      failedCount: json['FailedCount'] as int?,
+      installOverrideList: json['InstallOverrideList'] as String?,
+      installedCount: json['InstalledCount'] as int?,
+      installedOtherCount: json['InstalledOtherCount'] as int?,
+      installedPendingRebootCount: json['InstalledPendingRebootCount'] as int?,
+      installedRejectedCount: json['InstalledRejectedCount'] as int?,
+      lastNoRebootInstallOperationTime:
+          timeStampFromJson(json['LastNoRebootInstallOperationTime']),
+      missingCount: json['MissingCount'] as int?,
+      notApplicableCount: json['NotApplicableCount'] as int?,
+      otherNonCompliantCount: json['OtherNonCompliantCount'] as int?,
+      ownerInformation: json['OwnerInformation'] as String?,
+      rebootOption: (json['RebootOption'] as String?)?.toRebootOption(),
+      securityNonCompliantCount: json['SecurityNonCompliantCount'] as int?,
+      snapshotId: json['SnapshotId'] as String?,
+      unreportedNotApplicableCount:
+          json['UnreportedNotApplicableCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    final instanceId = this.instanceId;
+    final operation = this.operation;
+    final operationEndTime = this.operationEndTime;
+    final operationStartTime = this.operationStartTime;
+    final patchGroup = this.patchGroup;
+    final criticalNonCompliantCount = this.criticalNonCompliantCount;
+    final failedCount = this.failedCount;
+    final installOverrideList = this.installOverrideList;
+    final installedCount = this.installedCount;
+    final installedOtherCount = this.installedOtherCount;
+    final installedPendingRebootCount = this.installedPendingRebootCount;
+    final installedRejectedCount = this.installedRejectedCount;
+    final lastNoRebootInstallOperationTime =
+        this.lastNoRebootInstallOperationTime;
+    final missingCount = this.missingCount;
+    final notApplicableCount = this.notApplicableCount;
+    final otherNonCompliantCount = this.otherNonCompliantCount;
+    final ownerInformation = this.ownerInformation;
+    final rebootOption = this.rebootOption;
+    final securityNonCompliantCount = this.securityNonCompliantCount;
+    final snapshotId = this.snapshotId;
+    final unreportedNotApplicableCount = this.unreportedNotApplicableCount;
+    return {
+      'BaselineId': baselineId,
+      'InstanceId': instanceId,
+      'Operation': operation.toValue(),
+      'OperationEndTime': unixTimestampToJson(operationEndTime),
+      'OperationStartTime': unixTimestampToJson(operationStartTime),
+      'PatchGroup': patchGroup,
+      if (criticalNonCompliantCount != null)
+        'CriticalNonCompliantCount': criticalNonCompliantCount,
+      if (failedCount != null) 'FailedCount': failedCount,
+      if (installOverrideList != null)
+        'InstallOverrideList': installOverrideList,
+      if (installedCount != null) 'InstalledCount': installedCount,
+      if (installedOtherCount != null)
+        'InstalledOtherCount': installedOtherCount,
+      if (installedPendingRebootCount != null)
+        'InstalledPendingRebootCount': installedPendingRebootCount,
+      if (installedRejectedCount != null)
+        'InstalledRejectedCount': installedRejectedCount,
+      if (lastNoRebootInstallOperationTime != null)
+        'LastNoRebootInstallOperationTime':
+            unixTimestampToJson(lastNoRebootInstallOperationTime),
+      if (missingCount != null) 'MissingCount': missingCount,
+      if (notApplicableCount != null) 'NotApplicableCount': notApplicableCount,
+      if (otherNonCompliantCount != null)
+        'OtherNonCompliantCount': otherNonCompliantCount,
+      if (ownerInformation != null) 'OwnerInformation': ownerInformation,
+      if (rebootOption != null) 'RebootOption': rebootOption.toValue(),
+      if (securityNonCompliantCount != null)
+        'SecurityNonCompliantCount': securityNonCompliantCount,
+      if (snapshotId != null) 'SnapshotId': snapshotId,
+      if (unreportedNotApplicableCount != null)
+        'UnreportedNotApplicableCount': unreportedNotApplicableCount,
+    };
+  }
 }
 
 /// Defines a filter used in <a>DescribeInstancePatchStatesForPatchGroup</a>
 /// used to scope down the information returned by the API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InstancePatchStateFilter {
   /// The key for the filter. Supported values are FailedCount, InstalledCount,
   /// InstalledOtherCount, MissingCount and NotApplicableCount.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The type of comparison that should be performed for the value: Equal,
   /// NotEqual, LessThan or GreaterThan.
-  @_s.JsonKey(name: 'Type')
   final InstancePatchStateOperatorType type;
 
   /// The value for the filter, must be an integer greater than or equal to 0.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   InstancePatchStateFilter({
-    @_s.required this.key,
-    @_s.required this.type,
-    @_s.required this.values,
+    required this.key,
+    required this.type,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$InstancePatchStateFilterToJson(this);
+
+  factory InstancePatchStateFilter.fromJson(Map<String, dynamic> json) {
+    return InstancePatchStateFilter(
+      key: json['Key'] as String,
+      type: (json['Type'] as String).toInstancePatchStateOperatorType(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final values = this.values;
+    return {
+      'Key': key,
+      'Type': type.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum InstancePatchStateOperatorType {
-  @_s.JsonValue('Equal')
   equal,
-  @_s.JsonValue('NotEqual')
   notEqual,
-  @_s.JsonValue('LessThan')
   lessThan,
-  @_s.JsonValue('GreaterThan')
   greaterThan,
 }
 
+extension on InstancePatchStateOperatorType {
+  String toValue() {
+    switch (this) {
+      case InstancePatchStateOperatorType.equal:
+        return 'Equal';
+      case InstancePatchStateOperatorType.notEqual:
+        return 'NotEqual';
+      case InstancePatchStateOperatorType.lessThan:
+        return 'LessThan';
+      case InstancePatchStateOperatorType.greaterThan:
+        return 'GreaterThan';
+    }
+  }
+}
+
+extension on String {
+  InstancePatchStateOperatorType toInstancePatchStateOperatorType() {
+    switch (this) {
+      case 'Equal':
+        return InstancePatchStateOperatorType.equal;
+      case 'NotEqual':
+        return InstancePatchStateOperatorType.notEqual;
+      case 'LessThan':
+        return InstancePatchStateOperatorType.lessThan;
+      case 'GreaterThan':
+        return InstancePatchStateOperatorType.greaterThan;
+    }
+    throw Exception(
+        '$this is not known in enum InstancePatchStateOperatorType');
+  }
+}
+
 /// Specifies the inventory type and attribute for the aggregation execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InventoryAggregator {
   /// Nested aggregators to further refine aggregation for an inventory type.
-  @_s.JsonKey(name: 'Aggregators')
-  final List<InventoryAggregator> aggregators;
+  final List<InventoryAggregator>? aggregators;
 
   /// The inventory type and attribute name for aggregation.
-  @_s.JsonKey(name: 'Expression')
-  final String expression;
+  final String? expression;
 
   /// A user-defined set of one or more filters on which to aggregate inventory
   /// data. Groups return a count of resources that match and don't match the
   /// specified criteria.
-  @_s.JsonKey(name: 'Groups')
-  final List<InventoryGroup> groups;
+  final List<InventoryGroup>? groups;
 
   InventoryAggregator({
     this.aggregators,
     this.expression,
     this.groups,
   });
-  Map<String, dynamic> toJson() => _$InventoryAggregatorToJson(this);
+
+  factory InventoryAggregator.fromJson(Map<String, dynamic> json) {
+    return InventoryAggregator(
+      aggregators: (json['Aggregators'] as List?)
+          ?.whereNotNull()
+          .map((e) => InventoryAggregator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      expression: json['Expression'] as String?,
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => InventoryGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregators = this.aggregators;
+    final expression = this.expression;
+    final groups = this.groups;
+    return {
+      if (aggregators != null) 'Aggregators': aggregators,
+      if (expression != null) 'Expression': expression,
+      if (groups != null) 'Groups': groups,
+    };
+  }
 }
 
 enum InventoryAttributeDataType {
-  @_s.JsonValue('string')
   string,
-  @_s.JsonValue('number')
   number,
 }
 
+extension on InventoryAttributeDataType {
+  String toValue() {
+    switch (this) {
+      case InventoryAttributeDataType.string:
+        return 'string';
+      case InventoryAttributeDataType.number:
+        return 'number';
+    }
+  }
+}
+
+extension on String {
+  InventoryAttributeDataType toInventoryAttributeDataType() {
+    switch (this) {
+      case 'string':
+        return InventoryAttributeDataType.string;
+      case 'number':
+        return InventoryAttributeDataType.number;
+    }
+    throw Exception('$this is not known in enum InventoryAttributeDataType');
+  }
+}
+
 enum InventoryDeletionStatus {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Complete')
   complete,
 }
 
+extension on InventoryDeletionStatus {
+  String toValue() {
+    switch (this) {
+      case InventoryDeletionStatus.inProgress:
+        return 'InProgress';
+      case InventoryDeletionStatus.complete:
+        return 'Complete';
+    }
+  }
+}
+
+extension on String {
+  InventoryDeletionStatus toInventoryDeletionStatus() {
+    switch (this) {
+      case 'InProgress':
+        return InventoryDeletionStatus.inProgress;
+      case 'Complete':
+        return InventoryDeletionStatus.complete;
+    }
+    throw Exception('$this is not known in enum InventoryDeletionStatus');
+  }
+}
+
 /// Status information returned by the <code>DeleteInventory</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryDeletionStatusItem {
   /// The deletion ID returned by the <code>DeleteInventory</code> action.
-  @_s.JsonKey(name: 'DeletionId')
-  final String deletionId;
+  final String? deletionId;
 
   /// The UTC timestamp when the delete operation started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeletionStartTime')
-  final DateTime deletionStartTime;
+  final DateTime? deletionStartTime;
 
   /// Information about the delete operation. For more information about this
   /// summary, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete">Understanding
   /// the delete inventory summary</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
-  @_s.JsonKey(name: 'DeletionSummary')
-  final InventoryDeletionSummary deletionSummary;
+  final InventoryDeletionSummary? deletionSummary;
 
   /// The status of the operation. Possible values are InProgress and Complete.
-  @_s.JsonKey(name: 'LastStatus')
-  final InventoryDeletionStatus lastStatus;
+  final InventoryDeletionStatus? lastStatus;
 
   /// Information about the status.
-  @_s.JsonKey(name: 'LastStatusMessage')
-  final String lastStatusMessage;
+  final String? lastStatusMessage;
 
   /// The UTC timestamp of when the last status report.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastStatusUpdateTime')
-  final DateTime lastStatusUpdateTime;
+  final DateTime? lastStatusUpdateTime;
 
   /// The name of the inventory data type.
-  @_s.JsonKey(name: 'TypeName')
-  final String typeName;
+  final String? typeName;
 
   InventoryDeletionStatusItem({
     this.deletionId,
@@ -17491,83 +20563,132 @@ class InventoryDeletionStatusItem {
     this.lastStatusUpdateTime,
     this.typeName,
   });
-  factory InventoryDeletionStatusItem.fromJson(Map<String, dynamic> json) =>
-      _$InventoryDeletionStatusItemFromJson(json);
+
+  factory InventoryDeletionStatusItem.fromJson(Map<String, dynamic> json) {
+    return InventoryDeletionStatusItem(
+      deletionId: json['DeletionId'] as String?,
+      deletionStartTime: timeStampFromJson(json['DeletionStartTime']),
+      deletionSummary: json['DeletionSummary'] != null
+          ? InventoryDeletionSummary.fromJson(
+              json['DeletionSummary'] as Map<String, dynamic>)
+          : null,
+      lastStatus: (json['LastStatus'] as String?)?.toInventoryDeletionStatus(),
+      lastStatusMessage: json['LastStatusMessage'] as String?,
+      lastStatusUpdateTime: timeStampFromJson(json['LastStatusUpdateTime']),
+      typeName: json['TypeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionId = this.deletionId;
+    final deletionStartTime = this.deletionStartTime;
+    final deletionSummary = this.deletionSummary;
+    final lastStatus = this.lastStatus;
+    final lastStatusMessage = this.lastStatusMessage;
+    final lastStatusUpdateTime = this.lastStatusUpdateTime;
+    final typeName = this.typeName;
+    return {
+      if (deletionId != null) 'DeletionId': deletionId,
+      if (deletionStartTime != null)
+        'DeletionStartTime': unixTimestampToJson(deletionStartTime),
+      if (deletionSummary != null) 'DeletionSummary': deletionSummary,
+      if (lastStatus != null) 'LastStatus': lastStatus.toValue(),
+      if (lastStatusMessage != null) 'LastStatusMessage': lastStatusMessage,
+      if (lastStatusUpdateTime != null)
+        'LastStatusUpdateTime': unixTimestampToJson(lastStatusUpdateTime),
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
 }
 
 /// Information about the delete operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryDeletionSummary {
   /// Remaining number of items to delete.
-  @_s.JsonKey(name: 'RemainingCount')
-  final int remainingCount;
+  final int? remainingCount;
 
   /// A list of counts and versions for deleted items.
-  @_s.JsonKey(name: 'SummaryItems')
-  final List<InventoryDeletionSummaryItem> summaryItems;
+  final List<InventoryDeletionSummaryItem>? summaryItems;
 
   /// The total number of items to delete. This count does not change during the
   /// delete operation.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   InventoryDeletionSummary({
     this.remainingCount,
     this.summaryItems,
     this.totalCount,
   });
-  factory InventoryDeletionSummary.fromJson(Map<String, dynamic> json) =>
-      _$InventoryDeletionSummaryFromJson(json);
+
+  factory InventoryDeletionSummary.fromJson(Map<String, dynamic> json) {
+    return InventoryDeletionSummary(
+      remainingCount: json['RemainingCount'] as int?,
+      summaryItems: (json['SummaryItems'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              InventoryDeletionSummaryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final remainingCount = this.remainingCount;
+    final summaryItems = this.summaryItems;
+    final totalCount = this.totalCount;
+    return {
+      if (remainingCount != null) 'RemainingCount': remainingCount,
+      if (summaryItems != null) 'SummaryItems': summaryItems,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
 /// Either a count, remaining count, or a version number in a delete inventory
 /// summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryDeletionSummaryItem {
   /// A count of the number of deleted items.
-  @_s.JsonKey(name: 'Count')
-  final int count;
+  final int? count;
 
   /// The remaining number of items to delete.
-  @_s.JsonKey(name: 'RemainingCount')
-  final int remainingCount;
+  final int? remainingCount;
 
   /// The inventory type version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   InventoryDeletionSummaryItem({
     this.count,
     this.remainingCount,
     this.version,
   });
-  factory InventoryDeletionSummaryItem.fromJson(Map<String, dynamic> json) =>
-      _$InventoryDeletionSummaryItemFromJson(json);
+
+  factory InventoryDeletionSummaryItem.fromJson(Map<String, dynamic> json) {
+    return InventoryDeletionSummaryItem(
+      count: json['Count'] as int?,
+      remainingCount: json['RemainingCount'] as int?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final remainingCount = this.remainingCount;
+    final version = this.version;
+    return {
+      if (count != null) 'Count': count,
+      if (remainingCount != null) 'RemainingCount': remainingCount,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// One or more filters. Use a filter to return a more specific list of results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InventoryFilter {
   /// The name of the filter key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Inventory filter values. Example: inventory filter where instance IDs are
   /// specified as values Key=AWS:InstanceInformation.InstanceId,Values=
   /// i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   /// The type of filter.
@@ -17577,245 +20698,375 @@ class InventoryFilter {
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-aggregate.html">Aggregating
   /// inventory data</a> in the <i>AWS Systems Manager User Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'Type')
-  final InventoryQueryOperatorType type;
+  final InventoryQueryOperatorType? type;
 
   InventoryFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
     this.type,
   });
-  Map<String, dynamic> toJson() => _$InventoryFilterToJson(this);
+
+  factory InventoryFilter.fromJson(Map<String, dynamic> json) {
+    return InventoryFilter(
+      key: json['Key'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['Type'] as String?)?.toInventoryQueryOperatorType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    final type = this.type;
+    return {
+      'Key': key,
+      'Values': values,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// A user-defined set of one or more filters on which to aggregate inventory
 /// data. Groups return a count of resources that match and don't match the
 /// specified criteria.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InventoryGroup {
   /// Filters define the criteria for the group. The <code>matchingCount</code>
   /// field displays the number of resources that match the criteria. The
   /// <code>notMatchingCount</code> field displays the number of resources that
   /// don't match the criteria.
-  @_s.JsonKey(name: 'Filters')
   final List<InventoryFilter> filters;
 
   /// The name of the group.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   InventoryGroup({
-    @_s.required this.filters,
-    @_s.required this.name,
+    required this.filters,
+    required this.name,
   });
-  Map<String, dynamic> toJson() => _$InventoryGroupToJson(this);
+
+  factory InventoryGroup.fromJson(Map<String, dynamic> json) {
+    return InventoryGroup(
+      filters: (json['Filters'] as List)
+          .whereNotNull()
+          .map((e) => InventoryFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    final name = this.name;
+    return {
+      'Filters': filters,
+      'Name': name,
+    };
+  }
 }
 
 /// Information collected from managed instances based on your inventory policy
 /// document
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InventoryItem {
   /// The time the inventory information was collected.
-  @_s.JsonKey(name: 'CaptureTime')
   final String captureTime;
 
   /// The schema version for the inventory item.
-  @_s.JsonKey(name: 'SchemaVersion')
   final String schemaVersion;
 
   /// The name of the inventory type. Default inventory item type names start with
   /// AWS. Custom inventory type names will start with Custom. Default inventory
   /// item types include the following: AWS:AWSComponent, AWS:Application,
   /// AWS:InstanceInformation, AWS:Network, and AWS:WindowsUpdate.
-  @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
   /// The inventory data of the inventory type.
-  @_s.JsonKey(name: 'Content')
-  final List<Map<String, String>> content;
+  final List<Map<String, String>>? content;
 
   /// MD5 hash of the inventory item type contents. The content hash is used to
   /// determine whether to update inventory information. The PutInventory API does
   /// not update the inventory item type contents if the MD5 hash has not changed
   /// since last update.
-  @_s.JsonKey(name: 'ContentHash')
-  final String contentHash;
+  final String? contentHash;
 
   /// A map of associated properties for a specified inventory type. For example,
   /// with this attribute, you can specify the <code>ExecutionId</code>,
   /// <code>ExecutionType</code>, <code>ComplianceType</code> properties of the
   /// <code>AWS:ComplianceItem</code> type.
-  @_s.JsonKey(name: 'Context')
-  final Map<String, String> context;
+  final Map<String, String>? context;
 
   InventoryItem({
-    @_s.required this.captureTime,
-    @_s.required this.schemaVersion,
-    @_s.required this.typeName,
+    required this.captureTime,
+    required this.schemaVersion,
+    required this.typeName,
     this.content,
     this.contentHash,
     this.context,
   });
-  Map<String, dynamic> toJson() => _$InventoryItemToJson(this);
+
+  factory InventoryItem.fromJson(Map<String, dynamic> json) {
+    return InventoryItem(
+      captureTime: json['CaptureTime'] as String,
+      schemaVersion: json['SchemaVersion'] as String,
+      typeName: json['TypeName'] as String,
+      content: (json['Content'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      contentHash: json['ContentHash'] as String?,
+      context: (json['Context'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final captureTime = this.captureTime;
+    final schemaVersion = this.schemaVersion;
+    final typeName = this.typeName;
+    final content = this.content;
+    final contentHash = this.contentHash;
+    final context = this.context;
+    return {
+      'CaptureTime': captureTime,
+      'SchemaVersion': schemaVersion,
+      'TypeName': typeName,
+      if (content != null) 'Content': content,
+      if (contentHash != null) 'ContentHash': contentHash,
+      if (context != null) 'Context': context,
+    };
+  }
 }
 
 /// Attributes are the entries within the inventory item content. It contains
 /// name and value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryItemAttribute {
   /// The data type of the inventory item attribute.
-  @_s.JsonKey(name: 'DataType')
   final InventoryAttributeDataType dataType;
 
   /// Name of the inventory item attribute.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   InventoryItemAttribute({
-    @_s.required this.dataType,
-    @_s.required this.name,
+    required this.dataType,
+    required this.name,
   });
-  factory InventoryItemAttribute.fromJson(Map<String, dynamic> json) =>
-      _$InventoryItemAttributeFromJson(json);
+
+  factory InventoryItemAttribute.fromJson(Map<String, dynamic> json) {
+    return InventoryItemAttribute(
+      dataType: (json['DataType'] as String).toInventoryAttributeDataType(),
+      name: json['Name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataType = this.dataType;
+    final name = this.name;
+    return {
+      'DataType': dataType.toValue(),
+      'Name': name,
+    };
+  }
 }
 
 /// The inventory item schema definition. Users can use this to compose
 /// inventory query filters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryItemSchema {
   /// The schema attributes for inventory. This contains data type and attribute
   /// name.
-  @_s.JsonKey(name: 'Attributes')
   final List<InventoryItemAttribute> attributes;
 
   /// The name of the inventory type. Default inventory item type names start with
   /// AWS. Custom inventory type names will start with Custom. Default inventory
   /// item types include the following: AWS:AWSComponent, AWS:Application,
   /// AWS:InstanceInformation, AWS:Network, and AWS:WindowsUpdate.
-  @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
   /// The alias name of the inventory type. The alias name is used for display
   /// purposes.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The schema version for the inventory item.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   InventoryItemSchema({
-    @_s.required this.attributes,
-    @_s.required this.typeName,
+    required this.attributes,
+    required this.typeName,
     this.displayName,
     this.version,
   });
-  factory InventoryItemSchema.fromJson(Map<String, dynamic> json) =>
-      _$InventoryItemSchemaFromJson(json);
+
+  factory InventoryItemSchema.fromJson(Map<String, dynamic> json) {
+    return InventoryItemSchema(
+      attributes: (json['Attributes'] as List)
+          .whereNotNull()
+          .map(
+              (e) => InventoryItemAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      typeName: json['TypeName'] as String,
+      displayName: json['DisplayName'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final typeName = this.typeName;
+    final displayName = this.displayName;
+    final version = this.version;
+    return {
+      'Attributes': attributes,
+      'TypeName': typeName,
+      if (displayName != null) 'DisplayName': displayName,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum InventoryQueryOperatorType {
-  @_s.JsonValue('Equal')
   equal,
-  @_s.JsonValue('NotEqual')
   notEqual,
-  @_s.JsonValue('BeginWith')
   beginWith,
-  @_s.JsonValue('LessThan')
   lessThan,
-  @_s.JsonValue('GreaterThan')
   greaterThan,
-  @_s.JsonValue('Exists')
   exists,
 }
 
+extension on InventoryQueryOperatorType {
+  String toValue() {
+    switch (this) {
+      case InventoryQueryOperatorType.equal:
+        return 'Equal';
+      case InventoryQueryOperatorType.notEqual:
+        return 'NotEqual';
+      case InventoryQueryOperatorType.beginWith:
+        return 'BeginWith';
+      case InventoryQueryOperatorType.lessThan:
+        return 'LessThan';
+      case InventoryQueryOperatorType.greaterThan:
+        return 'GreaterThan';
+      case InventoryQueryOperatorType.exists:
+        return 'Exists';
+    }
+  }
+}
+
+extension on String {
+  InventoryQueryOperatorType toInventoryQueryOperatorType() {
+    switch (this) {
+      case 'Equal':
+        return InventoryQueryOperatorType.equal;
+      case 'NotEqual':
+        return InventoryQueryOperatorType.notEqual;
+      case 'BeginWith':
+        return InventoryQueryOperatorType.beginWith;
+      case 'LessThan':
+        return InventoryQueryOperatorType.lessThan;
+      case 'GreaterThan':
+        return InventoryQueryOperatorType.greaterThan;
+      case 'Exists':
+        return InventoryQueryOperatorType.exists;
+    }
+    throw Exception('$this is not known in enum InventoryQueryOperatorType');
+  }
+}
+
 /// Inventory query results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryResultEntity {
   /// The data section in the inventory result entity JSON.
-  @_s.JsonKey(name: 'Data')
-  final Map<String, InventoryResultItem> data;
+  final Map<String, InventoryResultItem>? data;
 
   /// ID of the inventory result entity. For example, for managed instance
   /// inventory the result will be the managed instance ID. For EC2 instance
   /// inventory, the result will be the instance ID.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   InventoryResultEntity({
     this.data,
     this.id,
   });
-  factory InventoryResultEntity.fromJson(Map<String, dynamic> json) =>
-      _$InventoryResultEntityFromJson(json);
+
+  factory InventoryResultEntity.fromJson(Map<String, dynamic> json) {
+    return InventoryResultEntity(
+      data: (json['Data'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, InventoryResultItem.fromJson(e as Map<String, dynamic>))),
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final id = this.id;
+    return {
+      if (data != null) 'Data': data,
+      if (id != null) 'Id': id,
+    };
+  }
 }
 
 /// The inventory result item.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InventoryResultItem {
   /// Contains all the inventory data of the item type. Results include attribute
   /// names and values.
-  @_s.JsonKey(name: 'Content')
   final List<Map<String, String>> content;
 
   /// The schema version for the inventory result item/
-  @_s.JsonKey(name: 'SchemaVersion')
   final String schemaVersion;
 
   /// The name of the inventory result item type.
-  @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
   /// The time inventory item data was captured.
-  @_s.JsonKey(name: 'CaptureTime')
-  final String captureTime;
+  final String? captureTime;
 
   /// MD5 hash of the inventory item type contents. The content hash is used to
   /// determine whether to update inventory information. The PutInventory API does
   /// not update the inventory item type contents if the MD5 hash has not changed
   /// since last update.
-  @_s.JsonKey(name: 'ContentHash')
-  final String contentHash;
+  final String? contentHash;
 
   InventoryResultItem({
-    @_s.required this.content,
-    @_s.required this.schemaVersion,
-    @_s.required this.typeName,
+    required this.content,
+    required this.schemaVersion,
+    required this.typeName,
     this.captureTime,
     this.contentHash,
   });
-  factory InventoryResultItem.fromJson(Map<String, dynamic> json) =>
-      _$InventoryResultItemFromJson(json);
+
+  factory InventoryResultItem.fromJson(Map<String, dynamic> json) {
+    return InventoryResultItem(
+      content: (json['Content'] as List)
+          .whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      schemaVersion: json['SchemaVersion'] as String,
+      typeName: json['TypeName'] as String,
+      captureTime: json['CaptureTime'] as String?,
+      contentHash: json['ContentHash'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final schemaVersion = this.schemaVersion;
+    final typeName = this.typeName;
+    final captureTime = this.captureTime;
+    final contentHash = this.contentHash;
+    return {
+      'Content': content,
+      'SchemaVersion': schemaVersion,
+      'TypeName': typeName,
+      if (captureTime != null) 'CaptureTime': captureTime,
+      if (contentHash != null) 'ContentHash': contentHash,
+    };
+  }
 }
 
 enum InventorySchemaDeleteOption {
-  @_s.JsonValue('DisableSchema')
   disableSchema,
-  @_s.JsonValue('DeleteSchema')
   deleteSchema,
 }
 
@@ -17827,214 +21078,312 @@ extension on InventorySchemaDeleteOption {
       case InventorySchemaDeleteOption.deleteSchema:
         return 'DeleteSchema';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  InventorySchemaDeleteOption toInventorySchemaDeleteOption() {
+    switch (this) {
+      case 'DisableSchema':
+        return InventorySchemaDeleteOption.disableSchema;
+      case 'DeleteSchema':
+        return InventorySchemaDeleteOption.deleteSchema;
+    }
+    throw Exception('$this is not known in enum InventorySchemaDeleteOption');
+  }
+}
+
 class LabelParameterVersionResult {
   /// The label does not meet the requirements. For information about parameter
   /// label requirements, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html">Labeling
   /// parameters</a> in the <i>AWS Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'InvalidLabels')
-  final List<String> invalidLabels;
+  final List<String>? invalidLabels;
 
   /// The version of the parameter that has been labeled.
-  @_s.JsonKey(name: 'ParameterVersion')
-  final int parameterVersion;
+  final int? parameterVersion;
 
   LabelParameterVersionResult({
     this.invalidLabels,
     this.parameterVersion,
   });
-  factory LabelParameterVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$LabelParameterVersionResultFromJson(json);
+
+  factory LabelParameterVersionResult.fromJson(Map<String, dynamic> json) {
+    return LabelParameterVersionResult(
+      invalidLabels: (json['InvalidLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      parameterVersion: json['ParameterVersion'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidLabels = this.invalidLabels;
+    final parameterVersion = this.parameterVersion;
+    return {
+      if (invalidLabels != null) 'InvalidLabels': invalidLabels,
+      if (parameterVersion != null) 'ParameterVersion': parameterVersion,
+    };
+  }
 }
 
 enum LastResourceDataSyncStatus {
-  @_s.JsonValue('Successful')
   successful,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('InProgress')
   inProgress,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LastResourceDataSyncStatus {
+  String toValue() {
+    switch (this) {
+      case LastResourceDataSyncStatus.successful:
+        return 'Successful';
+      case LastResourceDataSyncStatus.failed:
+        return 'Failed';
+      case LastResourceDataSyncStatus.inProgress:
+        return 'InProgress';
+    }
+  }
+}
+
+extension on String {
+  LastResourceDataSyncStatus toLastResourceDataSyncStatus() {
+    switch (this) {
+      case 'Successful':
+        return LastResourceDataSyncStatus.successful;
+      case 'Failed':
+        return LastResourceDataSyncStatus.failed;
+      case 'InProgress':
+        return LastResourceDataSyncStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum LastResourceDataSyncStatus');
+  }
+}
+
 class ListAssociationVersionsResult {
   /// Information about all versions of the association for the specified
   /// association ID.
-  @_s.JsonKey(name: 'AssociationVersions')
-  final List<AssociationVersionInfo> associationVersions;
+  final List<AssociationVersionInfo>? associationVersions;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssociationVersionsResult({
     this.associationVersions,
     this.nextToken,
   });
-  factory ListAssociationVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListAssociationVersionsResultFromJson(json);
+
+  factory ListAssociationVersionsResult.fromJson(Map<String, dynamic> json) {
+    return ListAssociationVersionsResult(
+      associationVersions: (json['AssociationVersions'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AssociationVersionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationVersions = this.associationVersions;
+    final nextToken = this.nextToken;
+    return {
+      if (associationVersions != null)
+        'AssociationVersions': associationVersions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssociationsResult {
   /// The associations.
-  @_s.JsonKey(name: 'Associations')
-  final List<Association> associations;
+  final List<Association>? associations;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssociationsResult({
     this.associations,
     this.nextToken,
   });
-  factory ListAssociationsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListAssociationsResultFromJson(json);
+
+  factory ListAssociationsResult.fromJson(Map<String, dynamic> json) {
+    return ListAssociationsResult(
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Association.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associations = this.associations;
+    final nextToken = this.nextToken;
+    return {
+      if (associations != null) 'Associations': associations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCommandInvocationsResult {
   /// (Optional) A list of all invocations.
-  @_s.JsonKey(name: 'CommandInvocations')
-  final List<CommandInvocation> commandInvocations;
+  final List<CommandInvocation>? commandInvocations;
 
   /// (Optional) The token for the next set of items to return. (You received this
   /// token from a previous call.)
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCommandInvocationsResult({
     this.commandInvocations,
     this.nextToken,
   });
-  factory ListCommandInvocationsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListCommandInvocationsResultFromJson(json);
+
+  factory ListCommandInvocationsResult.fromJson(Map<String, dynamic> json) {
+    return ListCommandInvocationsResult(
+      commandInvocations: (json['CommandInvocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => CommandInvocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commandInvocations = this.commandInvocations;
+    final nextToken = this.nextToken;
+    return {
+      if (commandInvocations != null) 'CommandInvocations': commandInvocations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCommandsResult {
   /// (Optional) The list of commands requested by the user.
-  @_s.JsonKey(name: 'Commands')
-  final List<Command> commands;
+  final List<Command>? commands;
 
   /// (Optional) The token for the next set of items to return. (You received this
   /// token from a previous call.)
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCommandsResult({
     this.commands,
     this.nextToken,
   });
-  factory ListCommandsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListCommandsResultFromJson(json);
+
+  factory ListCommandsResult.fromJson(Map<String, dynamic> json) {
+    return ListCommandsResult(
+      commands: (json['Commands'] as List?)
+          ?.whereNotNull()
+          .map((e) => Command.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commands = this.commands;
+    final nextToken = this.nextToken;
+    return {
+      if (commands != null) 'Commands': commands,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListComplianceItemsResult {
   /// A list of compliance information for the specified resource ID.
-  @_s.JsonKey(name: 'ComplianceItems')
-  final List<ComplianceItem> complianceItems;
+  final List<ComplianceItem>? complianceItems;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListComplianceItemsResult({
     this.complianceItems,
     this.nextToken,
   });
-  factory ListComplianceItemsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListComplianceItemsResultFromJson(json);
+
+  factory ListComplianceItemsResult.fromJson(Map<String, dynamic> json) {
+    return ListComplianceItemsResult(
+      complianceItems: (json['ComplianceItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => ComplianceItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceItems = this.complianceItems;
+    final nextToken = this.nextToken;
+    return {
+      if (complianceItems != null) 'ComplianceItems': complianceItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListComplianceSummariesResult {
   /// A list of compliant and non-compliant summary counts based on compliance
   /// types. For example, this call returns State Manager associations, patches,
   /// or custom compliance types according to the filter criteria that you
   /// specified.
-  @_s.JsonKey(name: 'ComplianceSummaryItems')
-  final List<ComplianceSummaryItem> complianceSummaryItems;
+  final List<ComplianceSummaryItem>? complianceSummaryItems;
 
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListComplianceSummariesResult({
     this.complianceSummaryItems,
     this.nextToken,
   });
-  factory ListComplianceSummariesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListComplianceSummariesResultFromJson(json);
+
+  factory ListComplianceSummariesResult.fromJson(Map<String, dynamic> json) {
+    return ListComplianceSummariesResult(
+      complianceSummaryItems: (json['ComplianceSummaryItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => ComplianceSummaryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceSummaryItems = this.complianceSummaryItems;
+    final nextToken = this.nextToken;
+    return {
+      if (complianceSummaryItems != null)
+        'ComplianceSummaryItems': complianceSummaryItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDocumentMetadataHistoryResponse {
   /// The user ID of the person in the organization who requested the document
   /// review.
-  @_s.JsonKey(name: 'Author')
-  final String author;
+  final String? author;
 
   /// The version of the document.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// Information about the response to the document approval request.
-  @_s.JsonKey(name: 'Metadata')
-  final DocumentMetadataResponseInfo metadata;
+  final DocumentMetadataResponseInfo? metadata;
 
   /// The name of the document.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The maximum number of items to return for this call. The call also returns a
   /// token that you can specify in a subsequent call to get the next set of
   /// results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDocumentMetadataHistoryResponse({
     this.author,
@@ -18043,87 +21392,123 @@ class ListDocumentMetadataHistoryResponse {
     this.name,
     this.nextToken,
   });
+
   factory ListDocumentMetadataHistoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDocumentMetadataHistoryResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDocumentMetadataHistoryResponse(
+      author: json['Author'] as String?,
+      documentVersion: json['DocumentVersion'] as String?,
+      metadata: json['Metadata'] != null
+          ? DocumentMetadataResponseInfo.fromJson(
+              json['Metadata'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final author = this.author;
+    final documentVersion = this.documentVersion;
+    final metadata = this.metadata;
+    final name = this.name;
+    final nextToken = this.nextToken;
+    return {
+      if (author != null) 'Author': author,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (metadata != null) 'Metadata': metadata,
+      if (name != null) 'Name': name,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDocumentVersionsResult {
   /// The document versions.
-  @_s.JsonKey(name: 'DocumentVersions')
-  final List<DocumentVersionInfo> documentVersions;
+  final List<DocumentVersionInfo>? documentVersions;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDocumentVersionsResult({
     this.documentVersions,
     this.nextToken,
   });
-  factory ListDocumentVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDocumentVersionsResultFromJson(json);
+
+  factory ListDocumentVersionsResult.fromJson(Map<String, dynamic> json) {
+    return ListDocumentVersionsResult(
+      documentVersions: (json['DocumentVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentVersionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentVersions = this.documentVersions;
+    final nextToken = this.nextToken;
+    return {
+      if (documentVersions != null) 'DocumentVersions': documentVersions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDocumentsResult {
   /// The names of the Systems Manager documents.
-  @_s.JsonKey(name: 'DocumentIdentifiers')
-  final List<DocumentIdentifier> documentIdentifiers;
+  final List<DocumentIdentifier>? documentIdentifiers;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDocumentsResult({
     this.documentIdentifiers,
     this.nextToken,
   });
-  factory ListDocumentsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDocumentsResultFromJson(json);
+
+  factory ListDocumentsResult.fromJson(Map<String, dynamic> json) {
+    return ListDocumentsResult(
+      documentIdentifiers: (json['DocumentIdentifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentIdentifiers = this.documentIdentifiers;
+    final nextToken = this.nextToken;
+    return {
+      if (documentIdentifiers != null)
+        'DocumentIdentifiers': documentIdentifiers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInventoryEntriesResult {
   /// The time that inventory information was collected for the instance(s).
-  @_s.JsonKey(name: 'CaptureTime')
-  final String captureTime;
+  final String? captureTime;
 
   /// A list of inventory items on the instance(s).
-  @_s.JsonKey(name: 'Entries')
-  final List<Map<String, String>> entries;
+  final List<Map<String, String>>? entries;
 
   /// The instance ID targeted by the request to query inventory information.
-  @_s.JsonKey(name: 'InstanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The token to use when requesting the next set of items. If there are no
   /// additional items to return, the string is empty.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The inventory schema version used by the instance(s).
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// The type of inventory item returned by the request.
-  @_s.JsonKey(name: 'TypeName')
-  final String typeName;
+  final String? typeName;
 
   ListInventoryEntriesResult({
     this.captureTime,
@@ -18133,121 +21518,237 @@ class ListInventoryEntriesResult {
     this.schemaVersion,
     this.typeName,
   });
-  factory ListInventoryEntriesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListInventoryEntriesResultFromJson(json);
+
+  factory ListInventoryEntriesResult.fromJson(Map<String, dynamic> json) {
+    return ListInventoryEntriesResult(
+      captureTime: json['CaptureTime'] as String?,
+      entries: (json['Entries'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+      instanceId: json['InstanceId'] as String?,
+      nextToken: json['NextToken'] as String?,
+      schemaVersion: json['SchemaVersion'] as String?,
+      typeName: json['TypeName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final captureTime = this.captureTime;
+    final entries = this.entries;
+    final instanceId = this.instanceId;
+    final nextToken = this.nextToken;
+    final schemaVersion = this.schemaVersion;
+    final typeName = this.typeName;
+    return {
+      if (captureTime != null) 'CaptureTime': captureTime,
+      if (entries != null) 'Entries': entries,
+      if (instanceId != null) 'InstanceId': instanceId,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (typeName != null) 'TypeName': typeName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOpsItemEventsResponse {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of event information for the specified OpsItems.
-  @_s.JsonKey(name: 'Summaries')
-  final List<OpsItemEventSummary> summaries;
+  final List<OpsItemEventSummary>? summaries;
 
   ListOpsItemEventsResponse({
     this.nextToken,
     this.summaries,
   });
-  factory ListOpsItemEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListOpsItemEventsResponseFromJson(json);
+
+  factory ListOpsItemEventsResponse.fromJson(Map<String, dynamic> json) {
+    return ListOpsItemEventsResponse(
+      nextToken: json['NextToken'] as String?,
+      summaries: (json['Summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpsItemEventSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (summaries != null) 'Summaries': summaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class ListOpsItemRelatedItemsResponse {
+  /// The token for the next set of items to return. Use this token to get the
+  /// next set of results.
+  final String? nextToken;
+
+  /// A list of related-item resources for the specified OpsItem.
+  final List<OpsItemRelatedItemSummary>? summaries;
+
+  ListOpsItemRelatedItemsResponse({
+    this.nextToken,
+    this.summaries,
+  });
+
+  factory ListOpsItemRelatedItemsResponse.fromJson(Map<String, dynamic> json) {
+    return ListOpsItemRelatedItemsResponse(
+      nextToken: json['NextToken'] as String?,
+      summaries: (json['Summaries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              OpsItemRelatedItemSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final summaries = this.summaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (summaries != null) 'Summaries': summaries,
+    };
+  }
+}
+
 class ListOpsMetadataResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns a list of OpsMetadata objects.
-  @_s.JsonKey(name: 'OpsMetadataList')
-  final List<OpsMetadata> opsMetadataList;
+  final List<OpsMetadata>? opsMetadataList;
 
   ListOpsMetadataResult({
     this.nextToken,
     this.opsMetadataList,
   });
-  factory ListOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
-      _$ListOpsMetadataResultFromJson(json);
+
+  factory ListOpsMetadataResult.fromJson(Map<String, dynamic> json) {
+    return ListOpsMetadataResult(
+      nextToken: json['NextToken'] as String?,
+      opsMetadataList: (json['OpsMetadataList'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpsMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final opsMetadataList = this.opsMetadataList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (opsMetadataList != null) 'OpsMetadataList': opsMetadataList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceComplianceSummariesResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A summary count for specified or targeted managed instances. Summary count
   /// includes information about compliant and non-compliant State Manager
   /// associations, patch status, or custom items according to the filter criteria
   /// that you specify.
-  @_s.JsonKey(name: 'ResourceComplianceSummaryItems')
-  final List<ResourceComplianceSummaryItem> resourceComplianceSummaryItems;
+  final List<ResourceComplianceSummaryItem>? resourceComplianceSummaryItems;
 
   ListResourceComplianceSummariesResult({
     this.nextToken,
     this.resourceComplianceSummaryItems,
   });
+
   factory ListResourceComplianceSummariesResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResourceComplianceSummariesResultFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResourceComplianceSummariesResult(
+      nextToken: json['NextToken'] as String?,
+      resourceComplianceSummaryItems: (json['ResourceComplianceSummaryItems']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceComplianceSummaryItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final resourceComplianceSummaryItems = this.resourceComplianceSummaryItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceComplianceSummaryItems != null)
+        'ResourceComplianceSummaryItems': resourceComplianceSummaryItems,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceDataSyncResult {
   /// The token for the next set of items to return. Use this token to get the
   /// next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of your current Resource Data Sync configurations and their statuses.
-  @_s.JsonKey(name: 'ResourceDataSyncItems')
-  final List<ResourceDataSyncItem> resourceDataSyncItems;
+  final List<ResourceDataSyncItem>? resourceDataSyncItems;
 
   ListResourceDataSyncResult({
     this.nextToken,
     this.resourceDataSyncItems,
   });
-  factory ListResourceDataSyncResult.fromJson(Map<String, dynamic> json) =>
-      _$ListResourceDataSyncResultFromJson(json);
+
+  factory ListResourceDataSyncResult.fromJson(Map<String, dynamic> json) {
+    return ListResourceDataSyncResult(
+      nextToken: json['NextToken'] as String?,
+      resourceDataSyncItems: (json['ResourceDataSyncItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceDataSyncItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final resourceDataSyncItems = this.resourceDataSyncItems;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (resourceDataSyncItems != null)
+        'ResourceDataSyncItems': resourceDataSyncItems,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResult {
   /// A list of tags.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   ListTagsForResourceResult({
     this.tagList,
   });
-  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResultFromJson(json);
+
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
 }
 
 /// Information about an S3 bucket to write instance-level logs to.
@@ -18259,45 +21760,46 @@ class ListTagsForResourceResult {
 /// Systems Manager handles these options for the supported maintenance window
 /// task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggingInfo {
   /// The name of an S3 bucket where execution logs are stored .
-  @_s.JsonKey(name: 'S3BucketName')
   final String s3BucketName;
 
   /// The Region where the S3 bucket is located.
-  @_s.JsonKey(name: 'S3Region')
   final String s3Region;
 
   /// (Optional) The S3 bucket subfolder.
-  @_s.JsonKey(name: 'S3KeyPrefix')
-  final String s3KeyPrefix;
+  final String? s3KeyPrefix;
 
   LoggingInfo({
-    @_s.required this.s3BucketName,
-    @_s.required this.s3Region,
+    required this.s3BucketName,
+    required this.s3Region,
     this.s3KeyPrefix,
   });
-  factory LoggingInfo.fromJson(Map<String, dynamic> json) =>
-      _$LoggingInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoggingInfoToJson(this);
+  factory LoggingInfo.fromJson(Map<String, dynamic> json) {
+    return LoggingInfo(
+      s3BucketName: json['S3BucketName'] as String,
+      s3Region: json['S3Region'] as String,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketName = this.s3BucketName;
+    final s3Region = this.s3Region;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    return {
+      'S3BucketName': s3BucketName,
+      'S3Region': s3Region,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+    };
+  }
 }
 
 /// The parameters for an AUTOMATION task type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MaintenanceWindowAutomationParameters {
   /// The version of an Automation document to use during task execution.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The parameters for the AUTOMATION task.
   ///
@@ -18322,53 +21824,52 @@ class MaintenanceWindowAutomationParameters {
   /// For AUTOMATION task types, Systems Manager ignores any values specified for
   /// these parameters.
   /// </note>
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   MaintenanceWindowAutomationParameters({
     this.documentVersion,
     this.parameters,
   });
-  factory MaintenanceWindowAutomationParameters.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowAutomationParametersFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MaintenanceWindowAutomationParametersToJson(this);
+  factory MaintenanceWindowAutomationParameters.fromJson(
+      Map<String, dynamic> json) {
+    return MaintenanceWindowAutomationParameters(
+      documentVersion: json['DocumentVersion'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentVersion = this.documentVersion;
+    final parameters = this.parameters;
+    return {
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
 /// Describes the information about an execution of a maintenance window.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MaintenanceWindowExecution {
   /// The time the execution finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The time the execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the execution.
-  @_s.JsonKey(name: 'Status')
-  final MaintenanceWindowExecutionStatus status;
+  final MaintenanceWindowExecutionStatus? status;
 
   /// The details explaining the Status. Only available for certain status values.
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The ID of the maintenance window execution.
-  @_s.JsonKey(name: 'WindowExecutionId')
-  final String windowExecutionId;
+  final String? windowExecutionId;
 
   /// The ID of the maintenance window.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   MaintenanceWindowExecution({
     this.endTime,
@@ -18378,71 +21879,122 @@ class MaintenanceWindowExecution {
     this.windowExecutionId,
     this.windowId,
   });
-  factory MaintenanceWindowExecution.fromJson(Map<String, dynamic> json) =>
-      _$MaintenanceWindowExecutionFromJson(json);
+
+  factory MaintenanceWindowExecution.fromJson(Map<String, dynamic> json) {
+    return MaintenanceWindowExecution(
+      endTime: timeStampFromJson(json['EndTime']),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      windowExecutionId: json['WindowExecutionId'] as String?,
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final windowExecutionId = this.windowExecutionId;
+    final windowId = this.windowId;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
 enum MaintenanceWindowExecutionStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('TIMED_OUT')
   timedOut,
-  @_s.JsonValue('CANCELLING')
   cancelling,
-  @_s.JsonValue('CANCELLED')
   cancelled,
-  @_s.JsonValue('SKIPPED_OVERLAPPING')
   skippedOverlapping,
+}
+
+extension on MaintenanceWindowExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case MaintenanceWindowExecutionStatus.pending:
+        return 'PENDING';
+      case MaintenanceWindowExecutionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case MaintenanceWindowExecutionStatus.success:
+        return 'SUCCESS';
+      case MaintenanceWindowExecutionStatus.failed:
+        return 'FAILED';
+      case MaintenanceWindowExecutionStatus.timedOut:
+        return 'TIMED_OUT';
+      case MaintenanceWindowExecutionStatus.cancelling:
+        return 'CANCELLING';
+      case MaintenanceWindowExecutionStatus.cancelled:
+        return 'CANCELLED';
+      case MaintenanceWindowExecutionStatus.skippedOverlapping:
+        return 'SKIPPED_OVERLAPPING';
+    }
+  }
+}
+
+extension on String {
+  MaintenanceWindowExecutionStatus toMaintenanceWindowExecutionStatus() {
+    switch (this) {
+      case 'PENDING':
+        return MaintenanceWindowExecutionStatus.pending;
+      case 'IN_PROGRESS':
+        return MaintenanceWindowExecutionStatus.inProgress;
+      case 'SUCCESS':
+        return MaintenanceWindowExecutionStatus.success;
+      case 'FAILED':
+        return MaintenanceWindowExecutionStatus.failed;
+      case 'TIMED_OUT':
+        return MaintenanceWindowExecutionStatus.timedOut;
+      case 'CANCELLING':
+        return MaintenanceWindowExecutionStatus.cancelling;
+      case 'CANCELLED':
+        return MaintenanceWindowExecutionStatus.cancelled;
+      case 'SKIPPED_OVERLAPPING':
+        return MaintenanceWindowExecutionStatus.skippedOverlapping;
+    }
+    throw Exception(
+        '$this is not known in enum MaintenanceWindowExecutionStatus');
+  }
 }
 
 /// Information about a task execution performed as part of a maintenance window
 /// execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MaintenanceWindowExecutionTaskIdentity {
   /// The time the task execution finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The time the task execution started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the task execution.
-  @_s.JsonKey(name: 'Status')
-  final MaintenanceWindowExecutionStatus status;
+  final MaintenanceWindowExecutionStatus? status;
 
   /// The details explaining the status of the task execution. Only available for
   /// certain status values.
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The ARN of the task that ran.
-  @_s.JsonKey(name: 'TaskArn')
-  final String taskArn;
+  final String? taskArn;
 
   /// The ID of the specific task execution in the maintenance window execution.
-  @_s.JsonKey(name: 'TaskExecutionId')
-  final String taskExecutionId;
+  final String? taskExecutionId;
 
   /// The type of task that ran.
-  @_s.JsonKey(name: 'TaskType')
-  final MaintenanceWindowTaskType taskType;
+  final MaintenanceWindowTaskType? taskType;
 
   /// The ID of the maintenance window execution that ran the task.
-  @_s.JsonKey(name: 'WindowExecutionId')
-  final String windowExecutionId;
+  final String? windowExecutionId;
 
   MaintenanceWindowExecutionTaskIdentity({
     this.endTime,
@@ -18454,74 +22006,87 @@ class MaintenanceWindowExecutionTaskIdentity {
     this.taskType,
     this.windowExecutionId,
   });
+
   factory MaintenanceWindowExecutionTaskIdentity.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowExecutionTaskIdentityFromJson(json);
+      Map<String, dynamic> json) {
+    return MaintenanceWindowExecutionTaskIdentity(
+      endTime: timeStampFromJson(json['EndTime']),
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      taskArn: json['TaskArn'] as String?,
+      taskExecutionId: json['TaskExecutionId'] as String?,
+      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      windowExecutionId: json['WindowExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final taskArn = this.taskArn;
+    final taskExecutionId = this.taskExecutionId;
+    final taskType = this.taskType;
+    final windowExecutionId = this.windowExecutionId;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
+      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
+    };
+  }
 }
 
 /// Describes the information about a task invocation for a particular target as
 /// part of a task execution performed as part of a maintenance window
 /// execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MaintenanceWindowExecutionTaskInvocationIdentity {
   /// The time the invocation finished.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The ID of the action performed in the service that actually handled the task
   /// invocation. If the task type is RUN_COMMAND, this value is the command ID.
-  @_s.JsonKey(name: 'ExecutionId')
-  final String executionId;
+  final String? executionId;
 
   /// The ID of the task invocation.
-  @_s.JsonKey(name: 'InvocationId')
-  final String invocationId;
+  final String? invocationId;
 
   /// User-provided value that was specified when the target was registered with
   /// the maintenance window. This was also included in any CloudWatch events
   /// raised during the task invocation.
-  @_s.JsonKey(name: 'OwnerInformation')
-  final String ownerInformation;
+  final String? ownerInformation;
 
   /// The parameters that were provided for the invocation when it was run.
-  @_s.JsonKey(name: 'Parameters')
-  final String parameters;
+  final String? parameters;
 
   /// The time the invocation started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the task invocation.
-  @_s.JsonKey(name: 'Status')
-  final MaintenanceWindowExecutionStatus status;
+  final MaintenanceWindowExecutionStatus? status;
 
   /// The details explaining the status of the task invocation. Only available for
   /// certain Status values.
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The ID of the specific task execution in the maintenance window execution.
-  @_s.JsonKey(name: 'TaskExecutionId')
-  final String taskExecutionId;
+  final String? taskExecutionId;
 
   /// The task type.
-  @_s.JsonKey(name: 'TaskType')
-  final MaintenanceWindowTaskType taskType;
+  final MaintenanceWindowTaskType? taskType;
 
   /// The ID of the maintenance window execution that ran the task.
-  @_s.JsonKey(name: 'WindowExecutionId')
-  final String windowExecutionId;
+  final String? windowExecutionId;
 
   /// The ID of the target definition in this maintenance window the invocation
   /// was performed for.
-  @_s.JsonKey(name: 'WindowTargetId')
-  final String windowTargetId;
+  final String? windowTargetId;
 
   MaintenanceWindowExecutionTaskInvocationIdentity({
     this.endTime,
@@ -18537,94 +22102,132 @@ class MaintenanceWindowExecutionTaskInvocationIdentity {
     this.windowExecutionId,
     this.windowTargetId,
   });
+
   factory MaintenanceWindowExecutionTaskInvocationIdentity.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowExecutionTaskInvocationIdentityFromJson(json);
+      Map<String, dynamic> json) {
+    return MaintenanceWindowExecutionTaskInvocationIdentity(
+      endTime: timeStampFromJson(json['EndTime']),
+      executionId: json['ExecutionId'] as String?,
+      invocationId: json['InvocationId'] as String?,
+      ownerInformation: json['OwnerInformation'] as String?,
+      parameters: json['Parameters'] as String?,
+      startTime: timeStampFromJson(json['StartTime']),
+      status: (json['Status'] as String?)?.toMaintenanceWindowExecutionStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      taskExecutionId: json['TaskExecutionId'] as String?,
+      taskType: (json['TaskType'] as String?)?.toMaintenanceWindowTaskType(),
+      windowExecutionId: json['WindowExecutionId'] as String?,
+      windowTargetId: json['WindowTargetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final executionId = this.executionId;
+    final invocationId = this.invocationId;
+    final ownerInformation = this.ownerInformation;
+    final parameters = this.parameters;
+    final startTime = this.startTime;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final taskExecutionId = this.taskExecutionId;
+    final taskType = this.taskType;
+    final windowExecutionId = this.windowExecutionId;
+    final windowTargetId = this.windowTargetId;
+    return {
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (executionId != null) 'ExecutionId': executionId,
+      if (invocationId != null) 'InvocationId': invocationId,
+      if (ownerInformation != null) 'OwnerInformation': ownerInformation,
+      if (parameters != null) 'Parameters': parameters,
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (taskExecutionId != null) 'TaskExecutionId': taskExecutionId,
+      if (taskType != null) 'TaskType': taskType.toValue(),
+      if (windowExecutionId != null) 'WindowExecutionId': windowExecutionId,
+      if (windowTargetId != null) 'WindowTargetId': windowTargetId,
+    };
+  }
 }
 
 /// Filter used in the request. Supported filter keys are Name and Enabled.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MaintenanceWindowFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The filter values.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   MaintenanceWindowFilter({
     this.key,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$MaintenanceWindowFilterToJson(this);
+
+  factory MaintenanceWindowFilter.fromJson(Map<String, dynamic> json) {
+    return MaintenanceWindowFilter(
+      key: json['Key'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Information about the maintenance window.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MaintenanceWindowIdentity {
   /// The number of hours before the end of the maintenance window that Systems
   /// Manager stops scheduling new tasks for execution.
-  @_s.JsonKey(name: 'Cutoff')
-  final int cutoff;
+  final int? cutoff;
 
   /// A description of the maintenance window.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The duration of the maintenance window in hours.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// Indicates whether the maintenance window is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The date and time, in ISO-8601 Extended format, for when the maintenance
   /// window is scheduled to become inactive.
-  @_s.JsonKey(name: 'EndDate')
-  final String endDate;
+  final String? endDate;
 
   /// The name of the maintenance window.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The next time the maintenance window will actually run, taking into account
   /// any specified times for the maintenance window to become active or inactive.
-  @_s.JsonKey(name: 'NextExecutionTime')
-  final String nextExecutionTime;
+  final String? nextExecutionTime;
 
   /// The schedule of the maintenance window in the form of a cron or rate
   /// expression.
-  @_s.JsonKey(name: 'Schedule')
-  final String schedule;
+  final String? schedule;
 
   /// The number of days to wait to run a maintenance window after the scheduled
   /// CRON expression date and time.
-  @_s.JsonKey(name: 'ScheduleOffset')
-  final int scheduleOffset;
+  final int? scheduleOffset;
 
   /// The time zone that the scheduled maintenance window executions are based on,
   /// in Internet Assigned Numbers Authority (IANA) format.
-  @_s.JsonKey(name: 'ScheduleTimezone')
-  final String scheduleTimezone;
+  final String? scheduleTimezone;
 
   /// The date and time, in ISO-8601 Extended format, for when the maintenance
   /// window is scheduled to become active.
-  @_s.JsonKey(name: 'StartDate')
-  final String startDate;
+  final String? startDate;
 
   /// The ID of the maintenance window.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   MaintenanceWindowIdentity({
     this.cutoff,
@@ -18640,32 +22243,83 @@ class MaintenanceWindowIdentity {
     this.startDate,
     this.windowId,
   });
-  factory MaintenanceWindowIdentity.fromJson(Map<String, dynamic> json) =>
-      _$MaintenanceWindowIdentityFromJson(json);
+
+  factory MaintenanceWindowIdentity.fromJson(Map<String, dynamic> json) {
+    return MaintenanceWindowIdentity(
+      cutoff: json['Cutoff'] as int?,
+      description: json['Description'] as String?,
+      duration: json['Duration'] as int?,
+      enabled: json['Enabled'] as bool?,
+      endDate: json['EndDate'] as String?,
+      name: json['Name'] as String?,
+      nextExecutionTime: json['NextExecutionTime'] as String?,
+      schedule: json['Schedule'] as String?,
+      scheduleOffset: json['ScheduleOffset'] as int?,
+      scheduleTimezone: json['ScheduleTimezone'] as String?,
+      startDate: json['StartDate'] as String?,
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cutoff = this.cutoff;
+    final description = this.description;
+    final duration = this.duration;
+    final enabled = this.enabled;
+    final endDate = this.endDate;
+    final name = this.name;
+    final nextExecutionTime = this.nextExecutionTime;
+    final schedule = this.schedule;
+    final scheduleOffset = this.scheduleOffset;
+    final scheduleTimezone = this.scheduleTimezone;
+    final startDate = this.startDate;
+    final windowId = this.windowId;
+    return {
+      if (cutoff != null) 'Cutoff': cutoff,
+      if (description != null) 'Description': description,
+      if (duration != null) 'Duration': duration,
+      if (enabled != null) 'Enabled': enabled,
+      if (endDate != null) 'EndDate': endDate,
+      if (name != null) 'Name': name,
+      if (nextExecutionTime != null) 'NextExecutionTime': nextExecutionTime,
+      if (schedule != null) 'Schedule': schedule,
+      if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
+      if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
+      if (startDate != null) 'StartDate': startDate,
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
 /// The maintenance window to which the specified target belongs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MaintenanceWindowIdentityForTarget {
   /// The name of the maintenance window.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the maintenance window.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   MaintenanceWindowIdentityForTarget({
     this.name,
     this.windowId,
   });
+
   factory MaintenanceWindowIdentityForTarget.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowIdentityForTargetFromJson(json);
+      Map<String, dynamic> json) {
+    return MaintenanceWindowIdentityForTarget(
+      name: json['Name'] as String?,
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final windowId = this.windowId;
+    return {
+      if (name != null) 'Name': name,
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
 /// The parameters for a LAMBDA task type.
@@ -18691,47 +22345,50 @@ class MaintenanceWindowIdentityForTarget {
 /// For Lambda tasks, Systems Manager ignores any values specified for
 /// TaskParameters and LoggingInfo.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MaintenanceWindowLambdaParameters {
   /// Pass client-specific information to the Lambda function that you are
   /// invoking. You can then process the client information in your Lambda
   /// function as you choose through the context variable.
-  @_s.JsonKey(name: 'ClientContext')
-  final String clientContext;
+  final String? clientContext;
 
   /// JSON to provide to your Lambda function as input.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   /// (Optional) Specify a Lambda function version or alias name. If you specify a
   /// function version, the action uses the qualified function ARN to invoke a
   /// specific Lambda function. If you specify an alias name, the action uses the
   /// alias ARN to invoke the Lambda function version to which the alias points.
-  @_s.JsonKey(name: 'Qualifier')
-  final String qualifier;
+  final String? qualifier;
 
   MaintenanceWindowLambdaParameters({
     this.clientContext,
     this.payload,
     this.qualifier,
   });
-  factory MaintenanceWindowLambdaParameters.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowLambdaParametersFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MaintenanceWindowLambdaParametersToJson(this);
+  factory MaintenanceWindowLambdaParameters.fromJson(
+      Map<String, dynamic> json) {
+    return MaintenanceWindowLambdaParameters(
+      clientContext: json['ClientContext'] as String?,
+      payload: _s.decodeNullableUint8List(json['Payload'] as String?),
+      qualifier: json['Qualifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientContext = this.clientContext;
+    final payload = this.payload;
+    final qualifier = this.qualifier;
+    return {
+      if (clientContext != null) 'ClientContext': clientContext,
+      if (payload != null) 'Payload': base64Encode(payload),
+      if (qualifier != null) 'Qualifier': qualifier,
+    };
+  }
 }
 
 enum MaintenanceWindowResourceType {
-  @_s.JsonValue('INSTANCE')
   instance,
-  @_s.JsonValue('RESOURCE_GROUP')
   resourceGroup,
 }
 
@@ -18743,7 +22400,18 @@ extension on MaintenanceWindowResourceType {
       case MaintenanceWindowResourceType.resourceGroup:
         return 'RESOURCE_GROUP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MaintenanceWindowResourceType toMaintenanceWindowResourceType() {
+    switch (this) {
+      case 'INSTANCE':
+        return MaintenanceWindowResourceType.instance;
+      case 'RESOURCE_GROUP':
+        return MaintenanceWindowResourceType.resourceGroup;
+    }
+    throw Exception('$this is not known in enum MaintenanceWindowResourceType');
   }
 }
 
@@ -18771,27 +22439,18 @@ extension on MaintenanceWindowResourceType {
 /// <code>TaskParameters</code> and <code>LoggingInfo</code> only if no values
 /// are specified for <code>TaskInvocationParameters</code>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MaintenanceWindowRunCommandParameters {
-  @_s.JsonKey(name: 'CloudWatchOutputConfig')
-  final CloudWatchOutputConfig cloudWatchOutputConfig;
+  final CloudWatchOutputConfig? cloudWatchOutputConfig;
 
   /// Information about the commands to run.
-  @_s.JsonKey(name: 'Comment')
-  final String comment;
+  final String? comment;
 
   /// The SHA-256 or SHA-1 hash created by the system when the document was
   /// created. SHA-1 hashes have been deprecated.
-  @_s.JsonKey(name: 'DocumentHash')
-  final String documentHash;
+  final String? documentHash;
 
   /// SHA-256 or SHA-1. SHA-1 hashes have been deprecated.
-  @_s.JsonKey(name: 'DocumentHashType')
-  final DocumentHashType documentHashType;
+  final DocumentHashType? documentHashType;
 
   /// The SSM document version to use in the request. You can specify $DEFAULT,
   /// $LATEST, or a specific version number. If you run commands by using the AWS
@@ -18804,35 +22463,28 @@ class MaintenanceWindowRunCommandParameters {
   /// --document-version "\$LATEST"
   ///
   /// --document-version "3"
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// Configurations for sending notifications about command status changes on a
   /// per-instance basis.
-  @_s.JsonKey(name: 'NotificationConfig')
-  final NotificationConfig notificationConfig;
+  final NotificationConfig? notificationConfig;
 
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'OutputS3BucketName')
-  final String outputS3BucketName;
+  final String? outputS3BucketName;
 
   /// The S3 bucket subfolder.
-  @_s.JsonKey(name: 'OutputS3KeyPrefix')
-  final String outputS3KeyPrefix;
+  final String? outputS3KeyPrefix;
 
   /// The parameters for the RUN_COMMAND task execution.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   /// The ARN of the IAM service role to use to publish Amazon Simple Notification
   /// Service (Amazon SNS) notifications for maintenance window Run Command tasks.
-  @_s.JsonKey(name: 'ServiceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// If this time is reached and the command has not already started running, it
   /// doesn't run.
-  @_s.JsonKey(name: 'TimeoutSeconds')
-  final int timeoutSeconds;
+  final int? timeoutSeconds;
 
   MaintenanceWindowRunCommandParameters({
     this.cloudWatchOutputConfig,
@@ -18847,12 +22499,61 @@ class MaintenanceWindowRunCommandParameters {
     this.serviceRoleArn,
     this.timeoutSeconds,
   });
-  factory MaintenanceWindowRunCommandParameters.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowRunCommandParametersFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MaintenanceWindowRunCommandParametersToJson(this);
+  factory MaintenanceWindowRunCommandParameters.fromJson(
+      Map<String, dynamic> json) {
+    return MaintenanceWindowRunCommandParameters(
+      cloudWatchOutputConfig: json['CloudWatchOutputConfig'] != null
+          ? CloudWatchOutputConfig.fromJson(
+              json['CloudWatchOutputConfig'] as Map<String, dynamic>)
+          : null,
+      comment: json['Comment'] as String?,
+      documentHash: json['DocumentHash'] as String?,
+      documentHashType:
+          (json['DocumentHashType'] as String?)?.toDocumentHashType(),
+      documentVersion: json['DocumentVersion'] as String?,
+      notificationConfig: json['NotificationConfig'] != null
+          ? NotificationConfig.fromJson(
+              json['NotificationConfig'] as Map<String, dynamic>)
+          : null,
+      outputS3BucketName: json['OutputS3BucketName'] as String?,
+      outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      serviceRoleArn: json['ServiceRoleArn'] as String?,
+      timeoutSeconds: json['TimeoutSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchOutputConfig = this.cloudWatchOutputConfig;
+    final comment = this.comment;
+    final documentHash = this.documentHash;
+    final documentHashType = this.documentHashType;
+    final documentVersion = this.documentVersion;
+    final notificationConfig = this.notificationConfig;
+    final outputS3BucketName = this.outputS3BucketName;
+    final outputS3KeyPrefix = this.outputS3KeyPrefix;
+    final parameters = this.parameters;
+    final serviceRoleArn = this.serviceRoleArn;
+    final timeoutSeconds = this.timeoutSeconds;
+    return {
+      if (cloudWatchOutputConfig != null)
+        'CloudWatchOutputConfig': cloudWatchOutputConfig,
+      if (comment != null) 'Comment': comment,
+      if (documentHash != null) 'DocumentHash': documentHash,
+      if (documentHashType != null)
+        'DocumentHashType': documentHashType.toValue(),
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (notificationConfig != null) 'NotificationConfig': notificationConfig,
+      if (outputS3BucketName != null) 'OutputS3BucketName': outputS3BucketName,
+      if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
+      if (parameters != null) 'Parameters': parameters,
+      if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+      if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
+    };
+  }
 }
 
 /// The parameters for a STEP_FUNCTIONS task.
@@ -18878,55 +22579,50 @@ class MaintenanceWindowRunCommandParameters {
 /// For Step Functions tasks, Systems Manager ignores any values specified for
 /// <code>TaskParameters</code> and <code>LoggingInfo</code>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MaintenanceWindowStepFunctionsParameters {
   /// The inputs for the STEP_FUNCTIONS task.
-  @_s.JsonKey(name: 'Input')
-  final String input;
+  final String? input;
 
   /// The name of the STEP_FUNCTIONS task.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   MaintenanceWindowStepFunctionsParameters({
     this.input,
     this.name,
   });
-  factory MaintenanceWindowStepFunctionsParameters.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowStepFunctionsParametersFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MaintenanceWindowStepFunctionsParametersToJson(this);
+  factory MaintenanceWindowStepFunctionsParameters.fromJson(
+      Map<String, dynamic> json) {
+    return MaintenanceWindowStepFunctionsParameters(
+      input: json['Input'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final input = this.input;
+    final name = this.name;
+    return {
+      if (input != null) 'Input': input,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// The target registered with the maintenance window.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MaintenanceWindowTarget {
   /// A description for the target.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name for the maintenance window target.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A user-provided value that will be included in any CloudWatch events that
   /// are raised while running tasks for these targets in this maintenance window.
-  @_s.JsonKey(name: 'OwnerInformation')
-  final String ownerInformation;
+  final String? ownerInformation;
 
   /// The type of target that is being registered with the maintenance window.
-  @_s.JsonKey(name: 'ResourceType')
-  final MaintenanceWindowResourceType resourceType;
+  final MaintenanceWindowResourceType? resourceType;
 
   /// The targets, either instances or tags.
   ///
@@ -18937,16 +22633,13 @@ class MaintenanceWindowTarget {
   /// Tags are specified using the following format:
   ///
   /// <code>Key=&lt;tag name&gt;,Values=&lt;tag value&gt;</code>.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   /// The ID of the maintenance window to register the target with.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   /// The ID of the target.
-  @_s.JsonKey(name: 'WindowTargetId')
-  final String windowTargetId;
+  final String? windowTargetId;
 
   MaintenanceWindowTarget({
     this.description,
@@ -18957,20 +22650,47 @@ class MaintenanceWindowTarget {
     this.windowId,
     this.windowTargetId,
   });
-  factory MaintenanceWindowTarget.fromJson(Map<String, dynamic> json) =>
-      _$MaintenanceWindowTargetFromJson(json);
+
+  factory MaintenanceWindowTarget.fromJson(Map<String, dynamic> json) {
+    return MaintenanceWindowTarget(
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      ownerInformation: json['OwnerInformation'] as String?,
+      resourceType:
+          (json['ResourceType'] as String?)?.toMaintenanceWindowResourceType(),
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      windowId: json['WindowId'] as String?,
+      windowTargetId: json['WindowTargetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final name = this.name;
+    final ownerInformation = this.ownerInformation;
+    final resourceType = this.resourceType;
+    final targets = this.targets;
+    final windowId = this.windowId;
+    final windowTargetId = this.windowTargetId;
+    return {
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (ownerInformation != null) 'OwnerInformation': ownerInformation,
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (targets != null) 'Targets': targets,
+      if (windowId != null) 'WindowId': windowId,
+      if (windowTargetId != null) 'WindowTargetId': windowTargetId,
+    };
+  }
 }
 
 /// Information about a task defined for a maintenance window.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MaintenanceWindowTask {
   /// A description of the task.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Information about an S3 bucket to write task-level logs to.
   /// <note>
@@ -18981,44 +22701,36 @@ class MaintenanceWindowTask {
   /// Systems Manager handles these options for the supported maintenance window
   /// task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
   /// </note>
-  @_s.JsonKey(name: 'LoggingInfo')
-  final LoggingInfo loggingInfo;
+  final LoggingInfo? loggingInfo;
 
   /// The maximum number of targets this task can be run for, in parallel.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The maximum number of errors allowed before this task stops being scheduled.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The task name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The priority of the task in the maintenance window. The lower the number,
   /// the higher the priority. Tasks that have the same priority are scheduled in
   /// parallel.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The ARN of the IAM service role to use to publish Amazon Simple Notification
   /// Service (Amazon SNS) notifications for maintenance window Run Command tasks.
-  @_s.JsonKey(name: 'ServiceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// The targets (either instances or tags). Instances are specified using
   /// Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are
   /// specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   /// The resource that the task uses during execution. For RUN_COMMAND and
   /// AUTOMATION task types, <code>TaskArn</code> is the Systems Manager document
   /// name or ARN. For LAMBDA tasks, it's the function name or ARN. For
   /// STEP_FUNCTIONS tasks, it's the state machine ARN.
-  @_s.JsonKey(name: 'TaskArn')
-  final String taskArn;
+  final String? taskArn;
 
   /// The parameters that should be passed to the task when it is run.
   /// <note>
@@ -19029,22 +22741,18 @@ class MaintenanceWindowTask {
   /// maintenance window task types, see
   /// <a>MaintenanceWindowTaskInvocationParameters</a>.
   /// </note>
-  @_s.JsonKey(name: 'TaskParameters')
-  final Map<String, MaintenanceWindowTaskParameterValueExpression>
+  final Map<String, MaintenanceWindowTaskParameterValueExpression>?
       taskParameters;
 
   /// The type of task. The type can be one of the following: RUN_COMMAND,
   /// AUTOMATION, LAMBDA, or STEP_FUNCTIONS.
-  @_s.JsonKey(name: 'Type')
-  final MaintenanceWindowTaskType type;
+  final MaintenanceWindowTaskType? type;
 
   /// The ID of the maintenance window where the task is registered.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   /// The task ID.
-  @_s.JsonKey(name: 'WindowTaskId')
-  final String windowTaskId;
+  final String? windowTaskId;
 
   MaintenanceWindowTask({
     this.description,
@@ -19061,32 +22769,79 @@ class MaintenanceWindowTask {
     this.windowId,
     this.windowTaskId,
   });
-  factory MaintenanceWindowTask.fromJson(Map<String, dynamic> json) =>
-      _$MaintenanceWindowTaskFromJson(json);
+
+  factory MaintenanceWindowTask.fromJson(Map<String, dynamic> json) {
+    return MaintenanceWindowTask(
+      description: json['Description'] as String?,
+      loggingInfo: json['LoggingInfo'] != null
+          ? LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>)
+          : null,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      name: json['Name'] as String?,
+      priority: json['Priority'] as int?,
+      serviceRoleArn: json['ServiceRoleArn'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskArn: json['TaskArn'] as String?,
+      taskParameters: (json['TaskParameters'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k,
+              MaintenanceWindowTaskParameterValueExpression.fromJson(
+                  e as Map<String, dynamic>))),
+      type: (json['Type'] as String?)?.toMaintenanceWindowTaskType(),
+      windowId: json['WindowId'] as String?,
+      windowTaskId: json['WindowTaskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final loggingInfo = this.loggingInfo;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final name = this.name;
+    final priority = this.priority;
+    final serviceRoleArn = this.serviceRoleArn;
+    final targets = this.targets;
+    final taskArn = this.taskArn;
+    final taskParameters = this.taskParameters;
+    final type = this.type;
+    final windowId = this.windowId;
+    final windowTaskId = this.windowTaskId;
+    return {
+      if (description != null) 'Description': description,
+      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (name != null) 'Name': name,
+      if (priority != null) 'Priority': priority,
+      if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+      if (targets != null) 'Targets': targets,
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskParameters != null) 'TaskParameters': taskParameters,
+      if (type != null) 'Type': type.toValue(),
+      if (windowId != null) 'WindowId': windowId,
+      if (windowTaskId != null) 'WindowTaskId': windowTaskId,
+    };
+  }
 }
 
 /// The parameters for task execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MaintenanceWindowTaskInvocationParameters {
   /// The parameters for an AUTOMATION task type.
-  @_s.JsonKey(name: 'Automation')
-  final MaintenanceWindowAutomationParameters automation;
+  final MaintenanceWindowAutomationParameters? automation;
 
   /// The parameters for a LAMBDA task type.
-  @_s.JsonKey(name: 'Lambda')
-  final MaintenanceWindowLambdaParameters lambda;
+  final MaintenanceWindowLambdaParameters? lambda;
 
   /// The parameters for a RUN_COMMAND task type.
-  @_s.JsonKey(name: 'RunCommand')
-  final MaintenanceWindowRunCommandParameters runCommand;
+  final MaintenanceWindowRunCommandParameters? runCommand;
 
   /// The parameters for a STEP_FUNCTIONS task type.
-  @_s.JsonKey(name: 'StepFunctions')
-  final MaintenanceWindowStepFunctionsParameters stepFunctions;
+  final MaintenanceWindowStepFunctionsParameters? stepFunctions;
 
   MaintenanceWindowTaskInvocationParameters({
     this.automation,
@@ -19094,45 +22849,75 @@ class MaintenanceWindowTaskInvocationParameters {
     this.runCommand,
     this.stepFunctions,
   });
-  factory MaintenanceWindowTaskInvocationParameters.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowTaskInvocationParametersFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MaintenanceWindowTaskInvocationParametersToJson(this);
+  factory MaintenanceWindowTaskInvocationParameters.fromJson(
+      Map<String, dynamic> json) {
+    return MaintenanceWindowTaskInvocationParameters(
+      automation: json['Automation'] != null
+          ? MaintenanceWindowAutomationParameters.fromJson(
+              json['Automation'] as Map<String, dynamic>)
+          : null,
+      lambda: json['Lambda'] != null
+          ? MaintenanceWindowLambdaParameters.fromJson(
+              json['Lambda'] as Map<String, dynamic>)
+          : null,
+      runCommand: json['RunCommand'] != null
+          ? MaintenanceWindowRunCommandParameters.fromJson(
+              json['RunCommand'] as Map<String, dynamic>)
+          : null,
+      stepFunctions: json['StepFunctions'] != null
+          ? MaintenanceWindowStepFunctionsParameters.fromJson(
+              json['StepFunctions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automation = this.automation;
+    final lambda = this.lambda;
+    final runCommand = this.runCommand;
+    final stepFunctions = this.stepFunctions;
+    return {
+      if (automation != null) 'Automation': automation,
+      if (lambda != null) 'Lambda': lambda,
+      if (runCommand != null) 'RunCommand': runCommand,
+      if (stepFunctions != null) 'StepFunctions': stepFunctions,
+    };
+  }
 }
 
 /// Defines the values for a task parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MaintenanceWindowTaskParameterValueExpression {
   /// This field contains an array of 0 or more strings, each 1 to 255 characters
   /// in length.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   MaintenanceWindowTaskParameterValueExpression({
     this.values,
   });
-  factory MaintenanceWindowTaskParameterValueExpression.fromJson(
-          Map<String, dynamic> json) =>
-      _$MaintenanceWindowTaskParameterValueExpressionFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$MaintenanceWindowTaskParameterValueExpressionToJson(this);
+  factory MaintenanceWindowTaskParameterValueExpression.fromJson(
+      Map<String, dynamic> json) {
+    return MaintenanceWindowTaskParameterValueExpression(
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final values = this.values;
+    return {
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum MaintenanceWindowTaskType {
-  @_s.JsonValue('RUN_COMMAND')
   runCommand,
-  @_s.JsonValue('AUTOMATION')
   automation,
-  @_s.JsonValue('STEP_FUNCTIONS')
   stepFunctions,
-  @_s.JsonValue('LAMBDA')
   lambda,
 }
 
@@ -19148,78 +22933,100 @@ extension on MaintenanceWindowTaskType {
       case MaintenanceWindowTaskType.lambda:
         return 'LAMBDA';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MaintenanceWindowTaskType toMaintenanceWindowTaskType() {
+    switch (this) {
+      case 'RUN_COMMAND':
+        return MaintenanceWindowTaskType.runCommand;
+      case 'AUTOMATION':
+        return MaintenanceWindowTaskType.automation;
+      case 'STEP_FUNCTIONS':
+        return MaintenanceWindowTaskType.stepFunctions;
+      case 'LAMBDA':
+        return MaintenanceWindowTaskType.lambda;
+    }
+    throw Exception('$this is not known in enum MaintenanceWindowTaskType');
   }
 }
 
 /// Metadata to assign to an Application Manager application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetadataValue {
   /// Metadata value to assign to an Application Manager application.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   MetadataValue({
     this.value,
   });
-  factory MetadataValue.fromJson(Map<String, dynamic> json) =>
-      _$MetadataValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetadataValueToJson(this);
+  factory MetadataValue.fromJson(Map<String, dynamic> json) {
+    return MetadataValue(
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyDocumentPermissionResponse {
   ModifyDocumentPermissionResponse();
-  factory ModifyDocumentPermissionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModifyDocumentPermissionResponseFromJson(json);
+
+  factory ModifyDocumentPermissionResponse.fromJson(Map<String, dynamic> _) {
+    return ModifyDocumentPermissionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A summary of resources that are not compliant. The summary is organized
 /// according to resource type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NonCompliantSummary {
   /// The total number of compliance items that are not compliant.
-  @_s.JsonKey(name: 'NonCompliantCount')
-  final int nonCompliantCount;
+  final int? nonCompliantCount;
 
   /// A summary of the non-compliance severity by compliance type
-  @_s.JsonKey(name: 'SeveritySummary')
-  final SeveritySummary severitySummary;
+  final SeveritySummary? severitySummary;
 
   NonCompliantSummary({
     this.nonCompliantCount,
     this.severitySummary,
   });
-  factory NonCompliantSummary.fromJson(Map<String, dynamic> json) =>
-      _$NonCompliantSummaryFromJson(json);
+
+  factory NonCompliantSummary.fromJson(Map<String, dynamic> json) {
+    return NonCompliantSummary(
+      nonCompliantCount: json['NonCompliantCount'] as int?,
+      severitySummary: json['SeveritySummary'] != null
+          ? SeveritySummary.fromJson(
+              json['SeveritySummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nonCompliantCount = this.nonCompliantCount;
+    final severitySummary = this.severitySummary;
+    return {
+      if (nonCompliantCount != null) 'NonCompliantCount': nonCompliantCount,
+      if (severitySummary != null) 'SeveritySummary': severitySummary,
+    };
+  }
 }
 
 /// Configurations for sending notifications.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class NotificationConfig {
   /// An Amazon Resource Name (ARN) for an Amazon Simple Notification Service
   /// (Amazon SNS) topic. Run Command pushes notifications about command status
   /// changes to this topic.
-  @_s.JsonKey(name: 'NotificationArn')
-  final String notificationArn;
+  final String? notificationArn;
 
   /// The different events for which you can receive notifications. These events
   /// include the following: All (events), InProgress, Success, TimedOut,
@@ -19227,68 +23034,132 @@ class NotificationConfig {
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html">Monitoring
   /// Systems Manager status changes using Amazon SNS notifications</a> in the
   /// <i>AWS Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'NotificationEvents')
-  final List<NotificationEvent> notificationEvents;
+  final List<NotificationEvent>? notificationEvents;
 
   /// Command: Receive notification when the status of a command changes.
   /// Invocation: For commands sent to multiple instances, receive notification on
   /// a per-instance basis when the status of a command changes.
-  @_s.JsonKey(name: 'NotificationType')
-  final NotificationType notificationType;
+  final NotificationType? notificationType;
 
   NotificationConfig({
     this.notificationArn,
     this.notificationEvents,
     this.notificationType,
   });
-  factory NotificationConfig.fromJson(Map<String, dynamic> json) =>
-      _$NotificationConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotificationConfigToJson(this);
+  factory NotificationConfig.fromJson(Map<String, dynamic> json) {
+    return NotificationConfig(
+      notificationArn: json['NotificationArn'] as String?,
+      notificationEvents: (json['NotificationEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toNotificationEvent())
+          .toList(),
+      notificationType:
+          (json['NotificationType'] as String?)?.toNotificationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notificationArn = this.notificationArn;
+    final notificationEvents = this.notificationEvents;
+    final notificationType = this.notificationType;
+    return {
+      if (notificationArn != null) 'NotificationArn': notificationArn,
+      if (notificationEvents != null)
+        'NotificationEvents':
+            notificationEvents.map((e) => e.toValue()).toList(),
+      if (notificationType != null)
+        'NotificationType': notificationType.toValue(),
+    };
+  }
 }
 
 enum NotificationEvent {
-  @_s.JsonValue('All')
   all,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on NotificationEvent {
+  String toValue() {
+    switch (this) {
+      case NotificationEvent.all:
+        return 'All';
+      case NotificationEvent.inProgress:
+        return 'InProgress';
+      case NotificationEvent.success:
+        return 'Success';
+      case NotificationEvent.timedOut:
+        return 'TimedOut';
+      case NotificationEvent.cancelled:
+        return 'Cancelled';
+      case NotificationEvent.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  NotificationEvent toNotificationEvent() {
+    switch (this) {
+      case 'All':
+        return NotificationEvent.all;
+      case 'InProgress':
+        return NotificationEvent.inProgress;
+      case 'Success':
+        return NotificationEvent.success;
+      case 'TimedOut':
+        return NotificationEvent.timedOut;
+      case 'Cancelled':
+        return NotificationEvent.cancelled;
+      case 'Failed':
+        return NotificationEvent.failed;
+    }
+    throw Exception('$this is not known in enum NotificationEvent');
+  }
+}
+
 enum NotificationType {
-  @_s.JsonValue('Command')
   command,
-  @_s.JsonValue('Invocation')
   invocation,
 }
 
+extension on NotificationType {
+  String toValue() {
+    switch (this) {
+      case NotificationType.command:
+        return 'Command';
+      case NotificationType.invocation:
+        return 'Invocation';
+    }
+  }
+}
+
+extension on String {
+  NotificationType toNotificationType() {
+    switch (this) {
+      case 'Command':
+        return NotificationType.command;
+      case 'Invocation':
+        return NotificationType.invocation;
+    }
+    throw Exception('$this is not known in enum NotificationType');
+  }
+}
+
 enum OperatingSystem {
-  @_s.JsonValue('WINDOWS')
   windows,
-  @_s.JsonValue('AMAZON_LINUX')
   amazonLinux,
-  @_s.JsonValue('AMAZON_LINUX_2')
   amazonLinux_2,
-  @_s.JsonValue('UBUNTU')
   ubuntu,
-  @_s.JsonValue('REDHAT_ENTERPRISE_LINUX')
   redhatEnterpriseLinux,
-  @_s.JsonValue('SUSE')
   suse,
-  @_s.JsonValue('CENTOS')
   centos,
-  @_s.JsonValue('ORACLE_LINUX')
   oracleLinux,
-  @_s.JsonValue('DEBIAN')
   debian,
-  @_s.JsonValue('MACOS')
   macos,
 }
 
@@ -19316,42 +23187,58 @@ extension on OperatingSystem {
       case OperatingSystem.macos:
         return 'MACOS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OperatingSystem toOperatingSystem() {
+    switch (this) {
+      case 'WINDOWS':
+        return OperatingSystem.windows;
+      case 'AMAZON_LINUX':
+        return OperatingSystem.amazonLinux;
+      case 'AMAZON_LINUX_2':
+        return OperatingSystem.amazonLinux_2;
+      case 'UBUNTU':
+        return OperatingSystem.ubuntu;
+      case 'REDHAT_ENTERPRISE_LINUX':
+        return OperatingSystem.redhatEnterpriseLinux;
+      case 'SUSE':
+        return OperatingSystem.suse;
+      case 'CENTOS':
+        return OperatingSystem.centos;
+      case 'ORACLE_LINUX':
+        return OperatingSystem.oracleLinux;
+      case 'DEBIAN':
+        return OperatingSystem.debian;
+      case 'MACOS':
+        return OperatingSystem.macos;
+    }
+    throw Exception('$this is not known in enum OperatingSystem');
   }
 }
 
 /// One or more aggregators for viewing counts of OpsItems using different
 /// dimensions such as <code>Source</code>, <code>CreatedTime</code>, or
 /// <code>Source and CreatedTime</code>, to name a few.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OpsAggregator {
   /// Either a Range or Count aggregator for limiting an OpsItem summary.
-  @_s.JsonKey(name: 'AggregatorType')
-  final String aggregatorType;
+  final String? aggregatorType;
 
   /// A nested aggregator for viewing counts of OpsItems.
-  @_s.JsonKey(name: 'Aggregators')
-  final List<OpsAggregator> aggregators;
+  final List<OpsAggregator>? aggregators;
 
   /// The name of an OpsItem attribute on which to limit the count of OpsItems.
-  @_s.JsonKey(name: 'AttributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The aggregator filters.
-  @_s.JsonKey(name: 'Filters')
-  final List<OpsFilter> filters;
+  final List<OpsFilter>? filters;
 
   /// The data type name to use for viewing counts of OpsItems.
-  @_s.JsonKey(name: 'TypeName')
-  final String typeName;
+  final String? typeName;
 
   /// The aggregator value.
-  @_s.JsonKey(name: 'Values')
-  final Map<String, String> values;
+  final Map<String, String>? values;
 
   OpsAggregator({
     this.aggregatorType,
@@ -19361,95 +23248,194 @@ class OpsAggregator {
     this.typeName,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$OpsAggregatorToJson(this);
+
+  factory OpsAggregator.fromJson(Map<String, dynamic> json) {
+    return OpsAggregator(
+      aggregatorType: json['AggregatorType'] as String?,
+      aggregators: (json['Aggregators'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpsAggregator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attributeName: json['AttributeName'] as String?,
+      filters: (json['Filters'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpsFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      typeName: json['TypeName'] as String?,
+      values: (json['Values'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aggregatorType = this.aggregatorType;
+    final aggregators = this.aggregators;
+    final attributeName = this.attributeName;
+    final filters = this.filters;
+    final typeName = this.typeName;
+    final values = this.values;
+    return {
+      if (aggregatorType != null) 'AggregatorType': aggregatorType,
+      if (aggregators != null) 'Aggregators': aggregators,
+      if (attributeName != null) 'AttributeName': attributeName,
+      if (filters != null) 'Filters': filters,
+      if (typeName != null) 'TypeName': typeName,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// The result of the query.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpsEntity {
   /// The data returned by the query.
-  @_s.JsonKey(name: 'Data')
-  final Map<String, OpsEntityItem> data;
+  final Map<String, OpsEntityItem>? data;
 
   /// The query ID.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   OpsEntity({
     this.data,
     this.id,
   });
-  factory OpsEntity.fromJson(Map<String, dynamic> json) =>
-      _$OpsEntityFromJson(json);
+
+  factory OpsEntity.fromJson(Map<String, dynamic> json) {
+    return OpsEntity(
+      data: (json['Data'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, OpsEntityItem.fromJson(e as Map<String, dynamic>))),
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final id = this.id;
+    return {
+      if (data != null) 'Data': data,
+      if (id != null) 'Id': id,
+    };
+  }
 }
 
 /// The OpsItem summaries result item.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpsEntityItem {
   /// The time OpsItem data was captured.
-  @_s.JsonKey(name: 'CaptureTime')
-  final String captureTime;
+  final String? captureTime;
 
   /// The detailed data content for an OpsItem summaries result item.
-  @_s.JsonKey(name: 'Content')
-  final List<Map<String, String>> content;
+  final List<Map<String, String>>? content;
 
   OpsEntityItem({
     this.captureTime,
     this.content,
   });
-  factory OpsEntityItem.fromJson(Map<String, dynamic> json) =>
-      _$OpsEntityItemFromJson(json);
+
+  factory OpsEntityItem.fromJson(Map<String, dynamic> json) {
+    return OpsEntityItem(
+      captureTime: json['CaptureTime'] as String?,
+      content: (json['Content'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final captureTime = this.captureTime;
+    final content = this.content;
+    return {
+      if (captureTime != null) 'CaptureTime': captureTime,
+      if (content != null) 'Content': content,
+    };
+  }
 }
 
 /// A filter for viewing OpsItem summaries.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OpsFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The filter value.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   /// The type of filter.
-  @_s.JsonKey(name: 'Type')
-  final OpsFilterOperatorType type;
+  final OpsFilterOperatorType? type;
 
   OpsFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
     this.type,
   });
-  Map<String, dynamic> toJson() => _$OpsFilterToJson(this);
+
+  factory OpsFilter.fromJson(Map<String, dynamic> json) {
+    return OpsFilter(
+      key: json['Key'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['Type'] as String?)?.toOpsFilterOperatorType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    final type = this.type;
+    return {
+      'Key': key,
+      'Values': values,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum OpsFilterOperatorType {
-  @_s.JsonValue('Equal')
   equal,
-  @_s.JsonValue('NotEqual')
   notEqual,
-  @_s.JsonValue('BeginWith')
   beginWith,
-  @_s.JsonValue('LessThan')
   lessThan,
-  @_s.JsonValue('GreaterThan')
   greaterThan,
-  @_s.JsonValue('Exists')
   exists,
+}
+
+extension on OpsFilterOperatorType {
+  String toValue() {
+    switch (this) {
+      case OpsFilterOperatorType.equal:
+        return 'Equal';
+      case OpsFilterOperatorType.notEqual:
+        return 'NotEqual';
+      case OpsFilterOperatorType.beginWith:
+        return 'BeginWith';
+      case OpsFilterOperatorType.lessThan:
+        return 'LessThan';
+      case OpsFilterOperatorType.greaterThan:
+        return 'GreaterThan';
+      case OpsFilterOperatorType.exists:
+        return 'Exists';
+    }
+  }
+}
+
+extension on String {
+  OpsFilterOperatorType toOpsFilterOperatorType() {
+    switch (this) {
+      case 'Equal':
+        return OpsFilterOperatorType.equal;
+      case 'NotEqual':
+        return OpsFilterOperatorType.notEqual;
+      case 'BeginWith':
+        return OpsFilterOperatorType.beginWith;
+      case 'LessThan':
+        return OpsFilterOperatorType.lessThan;
+      case 'GreaterThan':
+        return OpsFilterOperatorType.greaterThan;
+      case 'Exists':
+        return OpsFilterOperatorType.exists;
+    }
+    throw Exception('$this is not known in enum OpsFilterOperatorType');
+  }
 }
 
 /// Operations engineers and IT professionals use OpsCenter to view,
@@ -19457,55 +23443,37 @@ enum OpsFilterOperatorType {
 /// health of their AWS resources. For more information, see <a
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html">AWS
 /// Systems Manager OpsCenter</a> in the <i>AWS Systems Manager User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpsItem {
   /// The time a runbook workflow ended. Currently reported only for the OpsItem
   /// type <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ActualEndTime')
-  final DateTime actualEndTime;
+  final DateTime? actualEndTime;
 
   /// The time a runbook workflow started. Currently reported only for the OpsItem
   /// type <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ActualStartTime')
-  final DateTime actualStartTime;
+  final DateTime? actualStartTime;
 
   /// An OpsItem category. Category options include: Availability, Cost,
   /// Performance, Recovery, Security.
-  @_s.JsonKey(name: 'Category')
-  final String category;
+  final String? category;
 
   /// The ARN of the AWS account that created the OpsItem.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The date and time the OpsItem was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The OpsItem description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the AWS account that last updated the OpsItem.
-  @_s.JsonKey(name: 'LastModifiedBy')
-  final String lastModifiedBy;
+  final String? lastModifiedBy;
 
   /// The date and time the OpsItem was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent
   /// when this OpsItem is edited or changed.
-  @_s.JsonKey(name: 'Notifications')
-  final List<OpsItemNotification> notifications;
+  final List<OpsItemNotification>? notifications;
 
   /// Operational data is custom data that provides useful reference details about
   /// the OpsItem. For example, you can specify log files, error strings, license
@@ -19530,67 +23498,53 @@ class OpsItem {
   /// view AWS CLI example commands that use these keys, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems">Creating
   /// OpsItems manually</a> in the <i>AWS Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'OperationalData')
-  final Map<String, OpsItemDataValue> operationalData;
+  final Map<String, OpsItemDataValue>? operationalData;
 
   /// The ID of the OpsItem.
-  @_s.JsonKey(name: 'OpsItemId')
-  final String opsItemId;
+  final String? opsItemId;
 
   /// The type of OpsItem. Currently, the only valid values are
   /// <code>/aws/changerequest</code> and <code>/aws/issue</code>.
-  @_s.JsonKey(name: 'OpsItemType')
-  final String opsItemType;
+  final String? opsItemType;
 
   /// The time specified in a change request for a runbook workflow to end.
   /// Currently supported only for the OpsItem type
   /// <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PlannedEndTime')
-  final DateTime plannedEndTime;
+  final DateTime? plannedEndTime;
 
   /// The time specified in a change request for a runbook workflow to start.
   /// Currently supported only for the OpsItem type
   /// <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PlannedStartTime')
-  final DateTime plannedStartTime;
+  final DateTime? plannedStartTime;
 
   /// The importance of this OpsItem in relation to other OpsItems in the system.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// One or more OpsItems that share something in common with the current
   /// OpsItem. For example, related OpsItems can include OpsItems with similar
   /// error messages, impacted resources, or statuses for the impacted resource.
-  @_s.JsonKey(name: 'RelatedOpsItems')
-  final List<RelatedOpsItem> relatedOpsItems;
+  final List<RelatedOpsItem>? relatedOpsItems;
 
   /// The severity of the OpsItem. Severity options range from 1 to 4.
-  @_s.JsonKey(name: 'Severity')
-  final String severity;
+  final String? severity;
 
   /// The origin of the OpsItem, such as Amazon EC2 or Systems Manager. The
   /// impacted resource is a subset of source.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   /// The OpsItem status. Status can be <code>Open</code>, <code>In
   /// Progress</code>, or <code>Resolved</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html">Editing
   /// OpsItem details</a> in the <i>AWS Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'Status')
-  final OpsItemStatus status;
+  final OpsItemStatus? status;
 
   /// A short heading that describes the nature of the OpsItem and the impacted
   /// resource.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   /// The version of this OpsItem. Each time the OpsItem is edited the version
   /// number increments by one.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   OpsItem({
     this.actualEndTime,
@@ -19615,120 +23569,267 @@ class OpsItem {
     this.title,
     this.version,
   });
-  factory OpsItem.fromJson(Map<String, dynamic> json) =>
-      _$OpsItemFromJson(json);
+
+  factory OpsItem.fromJson(Map<String, dynamic> json) {
+    return OpsItem(
+      actualEndTime: timeStampFromJson(json['ActualEndTime']),
+      actualStartTime: timeStampFromJson(json['ActualStartTime']),
+      category: json['Category'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      description: json['Description'] as String?,
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      notifications: (json['Notifications'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpsItemNotification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      operationalData: (json['OperationalData'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k, OpsItemDataValue.fromJson(e as Map<String, dynamic>))),
+      opsItemId: json['OpsItemId'] as String?,
+      opsItemType: json['OpsItemType'] as String?,
+      plannedEndTime: timeStampFromJson(json['PlannedEndTime']),
+      plannedStartTime: timeStampFromJson(json['PlannedStartTime']),
+      priority: json['Priority'] as int?,
+      relatedOpsItems: (json['RelatedOpsItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => RelatedOpsItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      severity: json['Severity'] as String?,
+      source: json['Source'] as String?,
+      status: (json['Status'] as String?)?.toOpsItemStatus(),
+      title: json['Title'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actualEndTime = this.actualEndTime;
+    final actualStartTime = this.actualStartTime;
+    final category = this.category;
+    final createdBy = this.createdBy;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedTime = this.lastModifiedTime;
+    final notifications = this.notifications;
+    final operationalData = this.operationalData;
+    final opsItemId = this.opsItemId;
+    final opsItemType = this.opsItemType;
+    final plannedEndTime = this.plannedEndTime;
+    final plannedStartTime = this.plannedStartTime;
+    final priority = this.priority;
+    final relatedOpsItems = this.relatedOpsItems;
+    final severity = this.severity;
+    final source = this.source;
+    final status = this.status;
+    final title = this.title;
+    final version = this.version;
+    return {
+      if (actualEndTime != null)
+        'ActualEndTime': unixTimestampToJson(actualEndTime),
+      if (actualStartTime != null)
+        'ActualStartTime': unixTimestampToJson(actualStartTime),
+      if (category != null) 'Category': category,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (description != null) 'Description': description,
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (notifications != null) 'Notifications': notifications,
+      if (operationalData != null) 'OperationalData': operationalData,
+      if (opsItemId != null) 'OpsItemId': opsItemId,
+      if (opsItemType != null) 'OpsItemType': opsItemType,
+      if (plannedEndTime != null)
+        'PlannedEndTime': unixTimestampToJson(plannedEndTime),
+      if (plannedStartTime != null)
+        'PlannedStartTime': unixTimestampToJson(plannedStartTime),
+      if (priority != null) 'Priority': priority,
+      if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
+      if (severity != null) 'Severity': severity,
+      if (source != null) 'Source': source,
+      if (status != null) 'Status': status.toValue(),
+      if (title != null) 'Title': title,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum OpsItemDataType {
-  @_s.JsonValue('SearchableString')
   searchableString,
-  @_s.JsonValue('String')
   string,
+}
+
+extension on OpsItemDataType {
+  String toValue() {
+    switch (this) {
+      case OpsItemDataType.searchableString:
+        return 'SearchableString';
+      case OpsItemDataType.string:
+        return 'String';
+    }
+  }
+}
+
+extension on String {
+  OpsItemDataType toOpsItemDataType() {
+    switch (this) {
+      case 'SearchableString':
+        return OpsItemDataType.searchableString;
+      case 'String':
+        return OpsItemDataType.string;
+    }
+    throw Exception('$this is not known in enum OpsItemDataType');
+  }
 }
 
 /// An object that defines the value of the key and its type in the
 /// OperationalData map.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OpsItemDataValue {
   /// The type of key-value pair. Valid types include
   /// <code>SearchableString</code> and <code>String</code>.
-  @_s.JsonKey(name: 'Type')
-  final OpsItemDataType type;
+  final OpsItemDataType? type;
 
   /// The value of the OperationalData key.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   OpsItemDataValue({
     this.type,
     this.value,
   });
-  factory OpsItemDataValue.fromJson(Map<String, dynamic> json) =>
-      _$OpsItemDataValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OpsItemDataValueToJson(this);
+  factory OpsItemDataValue.fromJson(Map<String, dynamic> json) {
+    return OpsItemDataValue(
+      type: (json['Type'] as String?)?.toOpsItemDataType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Describes a filter for a specific list of OpsItem events. You can filter
 /// event information by using tags. You specify tags by using a key-value pair
 /// mapping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OpsItemEventFilter {
   /// The name of the filter key. Currently, the only supported value is
   /// <code>OpsItemId</code>.
-  @_s.JsonKey(name: 'Key')
   final OpsItemEventFilterKey key;
 
   /// The operator used by the filter call. Currently, the only supported value is
   /// <code>Equal</code>.
-  @_s.JsonKey(name: 'Operator')
   final OpsItemEventFilterOperator operator;
 
   /// The values for the filter, consisting of one or more OpsItem IDs.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   OpsItemEventFilter({
-    @_s.required this.key,
-    @_s.required this.operator,
-    @_s.required this.values,
+    required this.key,
+    required this.operator,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$OpsItemEventFilterToJson(this);
+
+  factory OpsItemEventFilter.fromJson(Map<String, dynamic> json) {
+    return OpsItemEventFilter(
+      key: (json['Key'] as String).toOpsItemEventFilterKey(),
+      operator: (json['Operator'] as String).toOpsItemEventFilterOperator(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Key': key.toValue(),
+      'Operator': operator.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum OpsItemEventFilterKey {
-  @_s.JsonValue('OpsItemId')
   opsItemId,
 }
 
+extension on OpsItemEventFilterKey {
+  String toValue() {
+    switch (this) {
+      case OpsItemEventFilterKey.opsItemId:
+        return 'OpsItemId';
+    }
+  }
+}
+
+extension on String {
+  OpsItemEventFilterKey toOpsItemEventFilterKey() {
+    switch (this) {
+      case 'OpsItemId':
+        return OpsItemEventFilterKey.opsItemId;
+    }
+    throw Exception('$this is not known in enum OpsItemEventFilterKey');
+  }
+}
+
 enum OpsItemEventFilterOperator {
-  @_s.JsonValue('Equal')
   equal,
 }
 
-/// Summary information about an OpsItem event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on OpsItemEventFilterOperator {
+  String toValue() {
+    switch (this) {
+      case OpsItemEventFilterOperator.equal:
+        return 'Equal';
+    }
+  }
+}
+
+extension on String {
+  OpsItemEventFilterOperator toOpsItemEventFilterOperator() {
+    switch (this) {
+      case 'Equal':
+        return OpsItemEventFilterOperator.equal;
+    }
+    throw Exception('$this is not known in enum OpsItemEventFilterOperator');
+  }
+}
+
+/// Summary information about an OpsItem event or that associated an OpsItem
+/// with a related item.
 class OpsItemEventSummary {
   /// Information about the user or resource that created the OpsItem event.
-  @_s.JsonKey(name: 'CreatedBy')
-  final OpsItemIdentity createdBy;
+  final OpsItemIdentity? createdBy;
 
   /// The date and time the OpsItem event was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// Specific information about the OpsItem event.
-  @_s.JsonKey(name: 'Detail')
-  final String detail;
+  final String? detail;
 
   /// The type of information provided as a detail.
-  @_s.JsonKey(name: 'DetailType')
-  final String detailType;
+  final String? detailType;
 
   /// The ID of the OpsItem event.
-  @_s.JsonKey(name: 'EventId')
-  final String eventId;
+  final String? eventId;
 
   /// The ID of the OpsItem.
-  @_s.JsonKey(name: 'OpsItemId')
-  final String opsItemId;
+  final String? opsItemId;
 
   /// The source of the OpsItem event.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   OpsItemEventSummary({
     this.createdBy,
@@ -19739,179 +23840,515 @@ class OpsItemEventSummary {
     this.opsItemId,
     this.source,
   });
-  factory OpsItemEventSummary.fromJson(Map<String, dynamic> json) =>
-      _$OpsItemEventSummaryFromJson(json);
+
+  factory OpsItemEventSummary.fromJson(Map<String, dynamic> json) {
+    return OpsItemEventSummary(
+      createdBy: json['CreatedBy'] != null
+          ? OpsItemIdentity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      detail: json['Detail'] as String?,
+      detailType: json['DetailType'] as String?,
+      eventId: json['EventId'] as String?,
+      opsItemId: json['OpsItemId'] as String?,
+      source: json['Source'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdBy = this.createdBy;
+    final createdTime = this.createdTime;
+    final detail = this.detail;
+    final detailType = this.detailType;
+    final eventId = this.eventId;
+    final opsItemId = this.opsItemId;
+    final source = this.source;
+    return {
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (detail != null) 'Detail': detail,
+      if (detailType != null) 'DetailType': detailType,
+      if (eventId != null) 'EventId': eventId,
+      if (opsItemId != null) 'OpsItemId': opsItemId,
+      if (source != null) 'Source': source,
+    };
+  }
 }
 
 /// Describes an OpsItem filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OpsItemFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'Key')
   final OpsItemFilterKey key;
 
   /// The operator used by the filter call.
-  @_s.JsonKey(name: 'Operator')
   final OpsItemFilterOperator operator;
 
   /// The filter value.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   OpsItemFilter({
-    @_s.required this.key,
-    @_s.required this.operator,
-    @_s.required this.values,
+    required this.key,
+    required this.operator,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$OpsItemFilterToJson(this);
+
+  factory OpsItemFilter.fromJson(Map<String, dynamic> json) {
+    return OpsItemFilter(
+      key: (json['Key'] as String).toOpsItemFilterKey(),
+      operator: (json['Operator'] as String).toOpsItemFilterOperator(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Key': key.toValue(),
+      'Operator': operator.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum OpsItemFilterKey {
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('CreatedBy')
   createdBy,
-  @_s.JsonValue('Source')
   source,
-  @_s.JsonValue('Priority')
   priority,
-  @_s.JsonValue('Title')
   title,
-  @_s.JsonValue('OpsItemId')
   opsItemId,
-  @_s.JsonValue('CreatedTime')
   createdTime,
-  @_s.JsonValue('LastModifiedTime')
   lastModifiedTime,
-  @_s.JsonValue('ActualStartTime')
   actualStartTime,
-  @_s.JsonValue('ActualEndTime')
   actualEndTime,
-  @_s.JsonValue('PlannedStartTime')
   plannedStartTime,
-  @_s.JsonValue('PlannedEndTime')
   plannedEndTime,
-  @_s.JsonValue('OperationalData')
   operationalData,
-  @_s.JsonValue('OperationalDataKey')
   operationalDataKey,
-  @_s.JsonValue('OperationalDataValue')
   operationalDataValue,
-  @_s.JsonValue('ResourceId')
   resourceId,
-  @_s.JsonValue('AutomationId')
   automationId,
-  @_s.JsonValue('Category')
   category,
-  @_s.JsonValue('Severity')
   severity,
-  @_s.JsonValue('OpsItemType')
   opsItemType,
-  @_s.JsonValue('ChangeRequestByRequesterArn')
   changeRequestByRequesterArn,
-  @_s.JsonValue('ChangeRequestByRequesterName')
   changeRequestByRequesterName,
-  @_s.JsonValue('ChangeRequestByApproverArn')
   changeRequestByApproverArn,
-  @_s.JsonValue('ChangeRequestByApproverName')
   changeRequestByApproverName,
-  @_s.JsonValue('ChangeRequestByTemplate')
   changeRequestByTemplate,
-  @_s.JsonValue('ChangeRequestByTargetsResourceGroup')
   changeRequestByTargetsResourceGroup,
 }
 
+extension on OpsItemFilterKey {
+  String toValue() {
+    switch (this) {
+      case OpsItemFilterKey.status:
+        return 'Status';
+      case OpsItemFilterKey.createdBy:
+        return 'CreatedBy';
+      case OpsItemFilterKey.source:
+        return 'Source';
+      case OpsItemFilterKey.priority:
+        return 'Priority';
+      case OpsItemFilterKey.title:
+        return 'Title';
+      case OpsItemFilterKey.opsItemId:
+        return 'OpsItemId';
+      case OpsItemFilterKey.createdTime:
+        return 'CreatedTime';
+      case OpsItemFilterKey.lastModifiedTime:
+        return 'LastModifiedTime';
+      case OpsItemFilterKey.actualStartTime:
+        return 'ActualStartTime';
+      case OpsItemFilterKey.actualEndTime:
+        return 'ActualEndTime';
+      case OpsItemFilterKey.plannedStartTime:
+        return 'PlannedStartTime';
+      case OpsItemFilterKey.plannedEndTime:
+        return 'PlannedEndTime';
+      case OpsItemFilterKey.operationalData:
+        return 'OperationalData';
+      case OpsItemFilterKey.operationalDataKey:
+        return 'OperationalDataKey';
+      case OpsItemFilterKey.operationalDataValue:
+        return 'OperationalDataValue';
+      case OpsItemFilterKey.resourceId:
+        return 'ResourceId';
+      case OpsItemFilterKey.automationId:
+        return 'AutomationId';
+      case OpsItemFilterKey.category:
+        return 'Category';
+      case OpsItemFilterKey.severity:
+        return 'Severity';
+      case OpsItemFilterKey.opsItemType:
+        return 'OpsItemType';
+      case OpsItemFilterKey.changeRequestByRequesterArn:
+        return 'ChangeRequestByRequesterArn';
+      case OpsItemFilterKey.changeRequestByRequesterName:
+        return 'ChangeRequestByRequesterName';
+      case OpsItemFilterKey.changeRequestByApproverArn:
+        return 'ChangeRequestByApproverArn';
+      case OpsItemFilterKey.changeRequestByApproverName:
+        return 'ChangeRequestByApproverName';
+      case OpsItemFilterKey.changeRequestByTemplate:
+        return 'ChangeRequestByTemplate';
+      case OpsItemFilterKey.changeRequestByTargetsResourceGroup:
+        return 'ChangeRequestByTargetsResourceGroup';
+    }
+  }
+}
+
+extension on String {
+  OpsItemFilterKey toOpsItemFilterKey() {
+    switch (this) {
+      case 'Status':
+        return OpsItemFilterKey.status;
+      case 'CreatedBy':
+        return OpsItemFilterKey.createdBy;
+      case 'Source':
+        return OpsItemFilterKey.source;
+      case 'Priority':
+        return OpsItemFilterKey.priority;
+      case 'Title':
+        return OpsItemFilterKey.title;
+      case 'OpsItemId':
+        return OpsItemFilterKey.opsItemId;
+      case 'CreatedTime':
+        return OpsItemFilterKey.createdTime;
+      case 'LastModifiedTime':
+        return OpsItemFilterKey.lastModifiedTime;
+      case 'ActualStartTime':
+        return OpsItemFilterKey.actualStartTime;
+      case 'ActualEndTime':
+        return OpsItemFilterKey.actualEndTime;
+      case 'PlannedStartTime':
+        return OpsItemFilterKey.plannedStartTime;
+      case 'PlannedEndTime':
+        return OpsItemFilterKey.plannedEndTime;
+      case 'OperationalData':
+        return OpsItemFilterKey.operationalData;
+      case 'OperationalDataKey':
+        return OpsItemFilterKey.operationalDataKey;
+      case 'OperationalDataValue':
+        return OpsItemFilterKey.operationalDataValue;
+      case 'ResourceId':
+        return OpsItemFilterKey.resourceId;
+      case 'AutomationId':
+        return OpsItemFilterKey.automationId;
+      case 'Category':
+        return OpsItemFilterKey.category;
+      case 'Severity':
+        return OpsItemFilterKey.severity;
+      case 'OpsItemType':
+        return OpsItemFilterKey.opsItemType;
+      case 'ChangeRequestByRequesterArn':
+        return OpsItemFilterKey.changeRequestByRequesterArn;
+      case 'ChangeRequestByRequesterName':
+        return OpsItemFilterKey.changeRequestByRequesterName;
+      case 'ChangeRequestByApproverArn':
+        return OpsItemFilterKey.changeRequestByApproverArn;
+      case 'ChangeRequestByApproverName':
+        return OpsItemFilterKey.changeRequestByApproverName;
+      case 'ChangeRequestByTemplate':
+        return OpsItemFilterKey.changeRequestByTemplate;
+      case 'ChangeRequestByTargetsResourceGroup':
+        return OpsItemFilterKey.changeRequestByTargetsResourceGroup;
+    }
+    throw Exception('$this is not known in enum OpsItemFilterKey');
+  }
+}
+
 enum OpsItemFilterOperator {
-  @_s.JsonValue('Equal')
   equal,
-  @_s.JsonValue('Contains')
   contains,
-  @_s.JsonValue('GreaterThan')
   greaterThan,
-  @_s.JsonValue('LessThan')
   lessThan,
 }
 
+extension on OpsItemFilterOperator {
+  String toValue() {
+    switch (this) {
+      case OpsItemFilterOperator.equal:
+        return 'Equal';
+      case OpsItemFilterOperator.contains:
+        return 'Contains';
+      case OpsItemFilterOperator.greaterThan:
+        return 'GreaterThan';
+      case OpsItemFilterOperator.lessThan:
+        return 'LessThan';
+    }
+  }
+}
+
+extension on String {
+  OpsItemFilterOperator toOpsItemFilterOperator() {
+    switch (this) {
+      case 'Equal':
+        return OpsItemFilterOperator.equal;
+      case 'Contains':
+        return OpsItemFilterOperator.contains;
+      case 'GreaterThan':
+        return OpsItemFilterOperator.greaterThan;
+      case 'LessThan':
+        return OpsItemFilterOperator.lessThan;
+    }
+    throw Exception('$this is not known in enum OpsItemFilterOperator');
+  }
+}
+
 /// Information about the user or resource that created an OpsItem event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpsItemIdentity {
   /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem
   /// event.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   OpsItemIdentity({
     this.arn,
   });
-  factory OpsItemIdentity.fromJson(Map<String, dynamic> json) =>
-      _$OpsItemIdentityFromJson(json);
+
+  factory OpsItemIdentity.fromJson(Map<String, dynamic> json) {
+    return OpsItemIdentity(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
 }
 
 /// A notification about the OpsItem.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OpsItemNotification {
   /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent
   /// when this OpsItem is edited or changed.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   OpsItemNotification({
     this.arn,
   });
-  factory OpsItemNotification.fromJson(Map<String, dynamic> json) =>
-      _$OpsItemNotificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OpsItemNotificationToJson(this);
+  factory OpsItemNotification.fromJson(Map<String, dynamic> json) {
+    return OpsItemNotification(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
+}
+
+/// Summary information about related-item resources for an OpsItem.
+class OpsItemRelatedItemSummary {
+  /// The association ID.
+  final String? associationId;
+
+  /// The association type.
+  final String? associationType;
+  final OpsItemIdentity? createdBy;
+
+  /// The time the related-item association was created.
+  final DateTime? createdTime;
+  final OpsItemIdentity? lastModifiedBy;
+
+  /// The time the related-item association was last updated.
+  final DateTime? lastModifiedTime;
+
+  /// The OpsItem ID.
+  final String? opsItemId;
+
+  /// The resource type.
+  final String? resourceType;
+
+  /// The Amazon Resource Name (ARN) of the related-item resource.
+  final String? resourceUri;
+
+  OpsItemRelatedItemSummary({
+    this.associationId,
+    this.associationType,
+    this.createdBy,
+    this.createdTime,
+    this.lastModifiedBy,
+    this.lastModifiedTime,
+    this.opsItemId,
+    this.resourceType,
+    this.resourceUri,
+  });
+
+  factory OpsItemRelatedItemSummary.fromJson(Map<String, dynamic> json) {
+    return OpsItemRelatedItemSummary(
+      associationId: json['AssociationId'] as String?,
+      associationType: json['AssociationType'] as String?,
+      createdBy: json['CreatedBy'] != null
+          ? OpsItemIdentity.fromJson(json['CreatedBy'] as Map<String, dynamic>)
+          : null,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      lastModifiedBy: json['LastModifiedBy'] != null
+          ? OpsItemIdentity.fromJson(
+              json['LastModifiedBy'] as Map<String, dynamic>)
+          : null,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      opsItemId: json['OpsItemId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      resourceUri: json['ResourceUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationId = this.associationId;
+    final associationType = this.associationType;
+    final createdBy = this.createdBy;
+    final createdTime = this.createdTime;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedTime = this.lastModifiedTime;
+    final opsItemId = this.opsItemId;
+    final resourceType = this.resourceType;
+    final resourceUri = this.resourceUri;
+    return {
+      if (associationId != null) 'AssociationId': associationId,
+      if (associationType != null) 'AssociationType': associationType,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (opsItemId != null) 'OpsItemId': opsItemId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (resourceUri != null) 'ResourceUri': resourceUri,
+    };
+  }
+}
+
+/// Describes a filter for a specific list of related-item resources.
+class OpsItemRelatedItemsFilter {
+  /// The name of the filter key. Supported values include
+  /// <code>ResourceUri</code>, <code>ResourceType</code>, or
+  /// <code>AssociationId</code>.
+  final OpsItemRelatedItemsFilterKey key;
+
+  /// The operator used by the filter call. The only supported operator is
+  /// <code>EQUAL</code>.
+  final OpsItemRelatedItemsFilterOperator operator;
+
+  /// The values for the filter.
+  final List<String> values;
+
+  OpsItemRelatedItemsFilter({
+    required this.key,
+    required this.operator,
+    required this.values,
+  });
+
+  factory OpsItemRelatedItemsFilter.fromJson(Map<String, dynamic> json) {
+    return OpsItemRelatedItemsFilter(
+      key: (json['Key'] as String).toOpsItemRelatedItemsFilterKey(),
+      operator:
+          (json['Operator'] as String).toOpsItemRelatedItemsFilterOperator(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final operator = this.operator;
+    final values = this.values;
+    return {
+      'Key': key.toValue(),
+      'Operator': operator.toValue(),
+      'Values': values,
+    };
+  }
+}
+
+enum OpsItemRelatedItemsFilterKey {
+  resourceType,
+  associationId,
+  resourceUri,
+}
+
+extension on OpsItemRelatedItemsFilterKey {
+  String toValue() {
+    switch (this) {
+      case OpsItemRelatedItemsFilterKey.resourceType:
+        return 'ResourceType';
+      case OpsItemRelatedItemsFilterKey.associationId:
+        return 'AssociationId';
+      case OpsItemRelatedItemsFilterKey.resourceUri:
+        return 'ResourceUri';
+    }
+  }
+}
+
+extension on String {
+  OpsItemRelatedItemsFilterKey toOpsItemRelatedItemsFilterKey() {
+    switch (this) {
+      case 'ResourceType':
+        return OpsItemRelatedItemsFilterKey.resourceType;
+      case 'AssociationId':
+        return OpsItemRelatedItemsFilterKey.associationId;
+      case 'ResourceUri':
+        return OpsItemRelatedItemsFilterKey.resourceUri;
+    }
+    throw Exception('$this is not known in enum OpsItemRelatedItemsFilterKey');
+  }
+}
+
+enum OpsItemRelatedItemsFilterOperator {
+  equal,
+}
+
+extension on OpsItemRelatedItemsFilterOperator {
+  String toValue() {
+    switch (this) {
+      case OpsItemRelatedItemsFilterOperator.equal:
+        return 'Equal';
+    }
+  }
+}
+
+extension on String {
+  OpsItemRelatedItemsFilterOperator toOpsItemRelatedItemsFilterOperator() {
+    switch (this) {
+      case 'Equal':
+        return OpsItemRelatedItemsFilterOperator.equal;
+    }
+    throw Exception(
+        '$this is not known in enum OpsItemRelatedItemsFilterOperator');
+  }
 }
 
 enum OpsItemStatus {
-  @_s.JsonValue('Open')
   open,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Resolved')
   resolved,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Cancelling')
   cancelling,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('CompletedWithSuccess')
   completedWithSuccess,
-  @_s.JsonValue('CompletedWithFailure')
   completedWithFailure,
-  @_s.JsonValue('Scheduled')
   scheduled,
-  @_s.JsonValue('RunbookInProgress')
   runbookInProgress,
-  @_s.JsonValue('PendingChangeCalendarOverride')
   pendingChangeCalendarOverride,
-  @_s.JsonValue('ChangeCalendarOverrideApproved')
   changeCalendarOverrideApproved,
-  @_s.JsonValue('ChangeCalendarOverrideRejected')
   changeCalendarOverrideRejected,
-  @_s.JsonValue('PendingApproval')
   pendingApproval,
-  @_s.JsonValue('Approved')
   approved,
-  @_s.JsonValue('Rejected')
   rejected,
 }
 
@@ -19955,100 +24392,115 @@ extension on OpsItemStatus {
       case OpsItemStatus.rejected:
         return 'Rejected';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OpsItemStatus toOpsItemStatus() {
+    switch (this) {
+      case 'Open':
+        return OpsItemStatus.open;
+      case 'InProgress':
+        return OpsItemStatus.inProgress;
+      case 'Resolved':
+        return OpsItemStatus.resolved;
+      case 'Pending':
+        return OpsItemStatus.pending;
+      case 'TimedOut':
+        return OpsItemStatus.timedOut;
+      case 'Cancelling':
+        return OpsItemStatus.cancelling;
+      case 'Cancelled':
+        return OpsItemStatus.cancelled;
+      case 'Failed':
+        return OpsItemStatus.failed;
+      case 'CompletedWithSuccess':
+        return OpsItemStatus.completedWithSuccess;
+      case 'CompletedWithFailure':
+        return OpsItemStatus.completedWithFailure;
+      case 'Scheduled':
+        return OpsItemStatus.scheduled;
+      case 'RunbookInProgress':
+        return OpsItemStatus.runbookInProgress;
+      case 'PendingChangeCalendarOverride':
+        return OpsItemStatus.pendingChangeCalendarOverride;
+      case 'ChangeCalendarOverrideApproved':
+        return OpsItemStatus.changeCalendarOverrideApproved;
+      case 'ChangeCalendarOverrideRejected':
+        return OpsItemStatus.changeCalendarOverrideRejected;
+      case 'PendingApproval':
+        return OpsItemStatus.pendingApproval;
+      case 'Approved':
+        return OpsItemStatus.approved;
+      case 'Rejected':
+        return OpsItemStatus.rejected;
+    }
+    throw Exception('$this is not known in enum OpsItemStatus');
   }
 }
 
 /// A count of OpsItems.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpsItemSummary {
   /// The time a runbook workflow ended. Currently reported only for the OpsItem
   /// type <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ActualEndTime')
-  final DateTime actualEndTime;
+  final DateTime? actualEndTime;
 
   /// The time a runbook workflow started. Currently reported only for the OpsItem
   /// type <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ActualStartTime')
-  final DateTime actualStartTime;
+  final DateTime? actualStartTime;
 
   /// A list of OpsItems by category.
-  @_s.JsonKey(name: 'Category')
-  final String category;
+  final String? category;
 
   /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The date and time the OpsItem was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem.
-  @_s.JsonKey(name: 'LastModifiedBy')
-  final String lastModifiedBy;
+  final String? lastModifiedBy;
 
   /// The date and time the OpsItem was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTime')
-  final DateTime lastModifiedTime;
+  final DateTime? lastModifiedTime;
 
   /// Operational data is custom data that provides useful reference details about
   /// the OpsItem.
-  @_s.JsonKey(name: 'OperationalData')
-  final Map<String, OpsItemDataValue> operationalData;
+  final Map<String, OpsItemDataValue>? operationalData;
 
   /// The ID of the OpsItem.
-  @_s.JsonKey(name: 'OpsItemId')
-  final String opsItemId;
+  final String? opsItemId;
 
   /// The type of OpsItem. Currently, the only valid values are
   /// <code>/aws/changerequest</code> and <code>/aws/issue</code>.
-  @_s.JsonKey(name: 'OpsItemType')
-  final String opsItemType;
+  final String? opsItemType;
 
   /// The time specified in a change request for a runbook workflow to end.
   /// Currently supported only for the OpsItem type
   /// <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PlannedEndTime')
-  final DateTime plannedEndTime;
+  final DateTime? plannedEndTime;
 
   /// The time specified in a change request for a runbook workflow to start.
   /// Currently supported only for the OpsItem type
   /// <code>/aws/changerequest</code>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'PlannedStartTime')
-  final DateTime plannedStartTime;
+  final DateTime? plannedStartTime;
 
   /// The importance of this OpsItem in relation to other OpsItems in the system.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// A list of OpsItems by severity.
-  @_s.JsonKey(name: 'Severity')
-  final String severity;
+  final String? severity;
 
   /// The impacted AWS resource.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   /// The OpsItem status. Status can be <code>Open</code>, <code>In
   /// Progress</code>, or <code>Resolved</code>.
-  @_s.JsonKey(name: 'Status')
-  final OpsItemStatus status;
+  final OpsItemStatus? status;
 
   /// A short heading that describes the nature of the OpsItem and the impacted
   /// resource.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   OpsItemSummary({
     this.actualEndTime,
@@ -20069,38 +24521,92 @@ class OpsItemSummary {
     this.status,
     this.title,
   });
-  factory OpsItemSummary.fromJson(Map<String, dynamic> json) =>
-      _$OpsItemSummaryFromJson(json);
+
+  factory OpsItemSummary.fromJson(Map<String, dynamic> json) {
+    return OpsItemSummary(
+      actualEndTime: timeStampFromJson(json['ActualEndTime']),
+      actualStartTime: timeStampFromJson(json['ActualStartTime']),
+      category: json['Category'] as String?,
+      createdBy: json['CreatedBy'] as String?,
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      lastModifiedBy: json['LastModifiedBy'] as String?,
+      lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+      operationalData: (json['OperationalData'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k, OpsItemDataValue.fromJson(e as Map<String, dynamic>))),
+      opsItemId: json['OpsItemId'] as String?,
+      opsItemType: json['OpsItemType'] as String?,
+      plannedEndTime: timeStampFromJson(json['PlannedEndTime']),
+      plannedStartTime: timeStampFromJson(json['PlannedStartTime']),
+      priority: json['Priority'] as int?,
+      severity: json['Severity'] as String?,
+      source: json['Source'] as String?,
+      status: (json['Status'] as String?)?.toOpsItemStatus(),
+      title: json['Title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actualEndTime = this.actualEndTime;
+    final actualStartTime = this.actualStartTime;
+    final category = this.category;
+    final createdBy = this.createdBy;
+    final createdTime = this.createdTime;
+    final lastModifiedBy = this.lastModifiedBy;
+    final lastModifiedTime = this.lastModifiedTime;
+    final operationalData = this.operationalData;
+    final opsItemId = this.opsItemId;
+    final opsItemType = this.opsItemType;
+    final plannedEndTime = this.plannedEndTime;
+    final plannedStartTime = this.plannedStartTime;
+    final priority = this.priority;
+    final severity = this.severity;
+    final source = this.source;
+    final status = this.status;
+    final title = this.title;
+    return {
+      if (actualEndTime != null)
+        'ActualEndTime': unixTimestampToJson(actualEndTime),
+      if (actualStartTime != null)
+        'ActualStartTime': unixTimestampToJson(actualStartTime),
+      if (category != null) 'Category': category,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (lastModifiedBy != null) 'LastModifiedBy': lastModifiedBy,
+      if (lastModifiedTime != null)
+        'LastModifiedTime': unixTimestampToJson(lastModifiedTime),
+      if (operationalData != null) 'OperationalData': operationalData,
+      if (opsItemId != null) 'OpsItemId': opsItemId,
+      if (opsItemType != null) 'OpsItemType': opsItemType,
+      if (plannedEndTime != null)
+        'PlannedEndTime': unixTimestampToJson(plannedEndTime),
+      if (plannedStartTime != null)
+        'PlannedStartTime': unixTimestampToJson(plannedStartTime),
+      if (priority != null) 'Priority': priority,
+      if (severity != null) 'Severity': severity,
+      if (source != null) 'Source': source,
+      if (status != null) 'Status': status.toValue(),
+      if (title != null) 'Title': title,
+    };
+  }
 }
 
 /// Operational metadata for an application in Application Manager.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpsMetadata {
   /// The date the OpsMetadata objects was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date the OpsMetadata object was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The user name who last updated the OpsMetadata object.
-  @_s.JsonKey(name: 'LastModifiedUser')
-  final String lastModifiedUser;
+  final String? lastModifiedUser;
 
   /// The Amazon Resource Name (ARN) of the OpsMetadata Object or blob.
-  @_s.JsonKey(name: 'OpsMetadataArn')
-  final String opsMetadataArn;
+  final String? opsMetadataArn;
 
   /// The ID of the Application Manager application.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   OpsMetadata({
     this.creationDate,
@@ -20109,100 +24615,139 @@ class OpsMetadata {
     this.opsMetadataArn,
     this.resourceId,
   });
-  factory OpsMetadata.fromJson(Map<String, dynamic> json) =>
-      _$OpsMetadataFromJson(json);
+
+  factory OpsMetadata.fromJson(Map<String, dynamic> json) {
+    return OpsMetadata(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      lastModifiedUser: json['LastModifiedUser'] as String?,
+      opsMetadataArn: json['OpsMetadataArn'] as String?,
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final opsMetadataArn = this.opsMetadataArn;
+    final resourceId = this.resourceId;
+    return {
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'LastModifiedUser': lastModifiedUser,
+      if (opsMetadataArn != null) 'OpsMetadataArn': opsMetadataArn,
+      if (resourceId != null) 'ResourceId': resourceId,
+    };
+  }
 }
 
 /// A filter to limit the number of OpsMetadata objects displayed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OpsMetadataFilter {
   /// A filter key.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// A filter value.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   OpsMetadataFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$OpsMetadataFilterToJson(this);
+
+  factory OpsMetadataFilter.fromJson(Map<String, dynamic> json) {
+    return OpsMetadataFilter(
+      key: json['Key'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key,
+      'Values': values,
+    };
+  }
 }
 
 /// The OpsItem data type to return.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OpsResultAttribute {
   /// Name of the data type. Valid value: AWS:OpsItem, AWS:EC2InstanceInformation,
   /// AWS:OpsItemTrendline, or AWS:ComplianceSummary.
-  @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
   OpsResultAttribute({
-    @_s.required this.typeName,
+    required this.typeName,
   });
-  Map<String, dynamic> toJson() => _$OpsResultAttributeToJson(this);
+
+  factory OpsResultAttribute.fromJson(Map<String, dynamic> json) {
+    return OpsResultAttribute(
+      typeName: json['TypeName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typeName = this.typeName;
+    return {
+      'TypeName': typeName,
+    };
+  }
 }
 
 /// Information about the source where the association execution details are
 /// stored.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputSource {
   /// The ID of the output source, for example the URL of an S3 bucket.
-  @_s.JsonKey(name: 'OutputSourceId')
-  final String outputSourceId;
+  final String? outputSourceId;
 
   /// The type of source where the association execution details are stored, for
   /// example, Amazon S3.
-  @_s.JsonKey(name: 'OutputSourceType')
-  final String outputSourceType;
+  final String? outputSourceType;
 
   OutputSource({
     this.outputSourceId,
     this.outputSourceType,
   });
-  factory OutputSource.fromJson(Map<String, dynamic> json) =>
-      _$OutputSourceFromJson(json);
+
+  factory OutputSource.fromJson(Map<String, dynamic> json) {
+    return OutputSource(
+      outputSourceId: json['OutputSourceId'] as String?,
+      outputSourceType: json['OutputSourceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputSourceId = this.outputSourceId;
+    final outputSourceType = this.outputSourceType;
+    return {
+      if (outputSourceId != null) 'OutputSourceId': outputSourceId,
+      if (outputSourceType != null) 'OutputSourceType': outputSourceType,
+    };
+  }
 }
 
 /// An Systems Manager parameter in Parameter Store.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Parameter {
   /// The Amazon Resource Name (ARN) of the parameter.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The data type of the parameter, such as <code>text</code> or
   /// <code>aws:ec2:image</code>. The default is <code>text</code>.
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// Date the parameter was last changed or updated and the parameter version was
   /// created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The name of the parameter.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Either the version number or the label used to retrieve the parameter value.
   /// Specify selectors by using one of the following formats:
@@ -20210,26 +24755,21 @@ class Parameter {
   /// parameter_name:version
   ///
   /// parameter_name:label
-  @_s.JsonKey(name: 'Selector')
-  final String selector;
+  final String? selector;
 
   /// Applies to parameters that reference information in other AWS services.
   /// SourceResult is the raw result or response from the source.
-  @_s.JsonKey(name: 'SourceResult')
-  final String sourceResult;
+  final String? sourceResult;
 
   /// The type of parameter. Valid values include the following:
   /// <code>String</code>, <code>StringList</code>, and <code>SecureString</code>.
-  @_s.JsonKey(name: 'Type')
-  final ParameterType type;
+  final ParameterType? type;
 
   /// The parameter value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   /// The parameter version.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   Parameter({
     this.arn,
@@ -20242,76 +24782,93 @@ class Parameter {
     this.value,
     this.version,
   });
-  factory Parameter.fromJson(Map<String, dynamic> json) =>
-      _$ParameterFromJson(json);
+
+  factory Parameter.fromJson(Map<String, dynamic> json) {
+    return Parameter(
+      arn: json['ARN'] as String?,
+      dataType: json['DataType'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      name: json['Name'] as String?,
+      selector: json['Selector'] as String?,
+      sourceResult: json['SourceResult'] as String?,
+      type: (json['Type'] as String?)?.toParameterType(),
+      value: json['Value'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final dataType = this.dataType;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final selector = this.selector;
+    final sourceResult = this.sourceResult;
+    final type = this.type;
+    final value = this.value;
+    final version = this.version;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (dataType != null) 'DataType': dataType,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (name != null) 'Name': name,
+      if (selector != null) 'Selector': selector,
+      if (sourceResult != null) 'SourceResult': sourceResult,
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Information about parameter usage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParameterHistory {
   /// Parameter names can include the following letters and symbols.
   ///
   /// a-zA-Z0-9_.-
-  @_s.JsonKey(name: 'AllowedPattern')
-  final String allowedPattern;
+  final String? allowedPattern;
 
   /// The data type of the parameter, such as <code>text</code> or
   /// <code>aws:ec2:image</code>. The default is <code>text</code>.
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// Information about the parameter.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ID of the query key used for this parameter.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// Labels assigned to the parameter version.
-  @_s.JsonKey(name: 'Labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// Date the parameter was last changed or updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// Amazon Resource Name (ARN) of the AWS user who last changed the parameter.
-  @_s.JsonKey(name: 'LastModifiedUser')
-  final String lastModifiedUser;
+  final String? lastModifiedUser;
 
   /// The name of the parameter.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Information about the policies assigned to a parameter.
   ///
   /// <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-policies.html">Assigning
   /// parameter policies</a> in the <i>AWS Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'Policies')
-  final List<ParameterInlinePolicy> policies;
+  final List<ParameterInlinePolicy>? policies;
 
   /// The parameter tier.
-  @_s.JsonKey(name: 'Tier')
-  final ParameterTier tier;
+  final ParameterTier? tier;
 
   /// The type of parameter used.
-  @_s.JsonKey(name: 'Type')
-  final ParameterType type;
+  final ParameterType? type;
 
   /// The parameter value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   /// The parameter version.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   ParameterHistory({
     this.allowedPattern,
@@ -20328,98 +24885,144 @@ class ParameterHistory {
     this.value,
     this.version,
   });
-  factory ParameterHistory.fromJson(Map<String, dynamic> json) =>
-      _$ParameterHistoryFromJson(json);
+
+  factory ParameterHistory.fromJson(Map<String, dynamic> json) {
+    return ParameterHistory(
+      allowedPattern: json['AllowedPattern'] as String?,
+      dataType: json['DataType'] as String?,
+      description: json['Description'] as String?,
+      keyId: json['KeyId'] as String?,
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      lastModifiedUser: json['LastModifiedUser'] as String?,
+      name: json['Name'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tier: (json['Tier'] as String?)?.toParameterTier(),
+      type: (json['Type'] as String?)?.toParameterType(),
+      value: json['Value'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedPattern = this.allowedPattern;
+    final dataType = this.dataType;
+    final description = this.description;
+    final keyId = this.keyId;
+    final labels = this.labels;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final name = this.name;
+    final policies = this.policies;
+    final tier = this.tier;
+    final type = this.type;
+    final value = this.value;
+    final version = this.version;
+    return {
+      if (allowedPattern != null) 'AllowedPattern': allowedPattern,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (keyId != null) 'KeyId': keyId,
+      if (labels != null) 'Labels': labels,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'LastModifiedUser': lastModifiedUser,
+      if (name != null) 'Name': name,
+      if (policies != null) 'Policies': policies,
+      if (tier != null) 'Tier': tier.toValue(),
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// One or more policies assigned to a parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParameterInlinePolicy {
   /// The status of the policy. Policies report the following statuses: Pending
   /// (the policy has not been enforced or applied yet), Finished (the policy was
   /// applied), Failed (the policy was not applied), or InProgress (the policy is
   /// being applied now).
-  @_s.JsonKey(name: 'PolicyStatus')
-  final String policyStatus;
+  final String? policyStatus;
 
   /// The JSON text of the policy.
-  @_s.JsonKey(name: 'PolicyText')
-  final String policyText;
+  final String? policyText;
 
   /// The type of policy. Parameter Store supports the following policy types:
   /// Expiration, ExpirationNotification, and NoChangeNotification.
-  @_s.JsonKey(name: 'PolicyType')
-  final String policyType;
+  final String? policyType;
 
   ParameterInlinePolicy({
     this.policyStatus,
     this.policyText,
     this.policyType,
   });
-  factory ParameterInlinePolicy.fromJson(Map<String, dynamic> json) =>
-      _$ParameterInlinePolicyFromJson(json);
+
+  factory ParameterInlinePolicy.fromJson(Map<String, dynamic> json) {
+    return ParameterInlinePolicy(
+      policyStatus: json['PolicyStatus'] as String?,
+      policyText: json['PolicyText'] as String?,
+      policyType: json['PolicyType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyStatus = this.policyStatus;
+    final policyText = this.policyText;
+    final policyType = this.policyType;
+    return {
+      if (policyStatus != null) 'PolicyStatus': policyStatus,
+      if (policyText != null) 'PolicyText': policyText,
+      if (policyType != null) 'PolicyType': policyType,
+    };
+  }
 }
 
 /// Metadata includes information like the ARN of the last user and the
 /// date/time the parameter was last used.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParameterMetadata {
   /// A parameter name can include only the following letters and symbols.
   ///
   /// a-zA-Z0-9_.-
-  @_s.JsonKey(name: 'AllowedPattern')
-  final String allowedPattern;
+  final String? allowedPattern;
 
   /// The data type of the parameter, such as <code>text</code> or
   /// <code>aws:ec2:image</code>. The default is <code>text</code>.
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// Description of the parameter actions.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ID of the query key used for this parameter.
-  @_s.JsonKey(name: 'KeyId')
-  final String keyId;
+  final String? keyId;
 
   /// Date the parameter was last changed or updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// Amazon Resource Name (ARN) of the AWS user who last changed the parameter.
-  @_s.JsonKey(name: 'LastModifiedUser')
-  final String lastModifiedUser;
+  final String? lastModifiedUser;
 
   /// The parameter name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A list of policies associated with a parameter.
-  @_s.JsonKey(name: 'Policies')
-  final List<ParameterInlinePolicy> policies;
+  final List<ParameterInlinePolicy>? policies;
 
   /// The parameter tier.
-  @_s.JsonKey(name: 'Tier')
-  final ParameterTier tier;
+  final ParameterTier? tier;
 
   /// The type of parameter. Valid parameter types include the following:
   /// <code>String</code>, <code>StringList</code>, and <code>SecureString</code>.
-  @_s.JsonKey(name: 'Type')
-  final ParameterType type;
+  final ParameterType? type;
 
   /// The parameter version.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   ParameterMetadata({
     this.allowedPattern,
@@ -20434,16 +25037,56 @@ class ParameterMetadata {
     this.type,
     this.version,
   });
-  factory ParameterMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ParameterMetadataFromJson(json);
+
+  factory ParameterMetadata.fromJson(Map<String, dynamic> json) {
+    return ParameterMetadata(
+      allowedPattern: json['AllowedPattern'] as String?,
+      dataType: json['DataType'] as String?,
+      description: json['Description'] as String?,
+      keyId: json['KeyId'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      lastModifiedUser: json['LastModifiedUser'] as String?,
+      name: json['Name'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterInlinePolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tier: (json['Tier'] as String?)?.toParameterTier(),
+      type: (json['Type'] as String?)?.toParameterType(),
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedPattern = this.allowedPattern;
+    final dataType = this.dataType;
+    final description = this.description;
+    final keyId = this.keyId;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final name = this.name;
+    final policies = this.policies;
+    final tier = this.tier;
+    final type = this.type;
+    final version = this.version;
+    return {
+      if (allowedPattern != null) 'AllowedPattern': allowedPattern,
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (keyId != null) 'KeyId': keyId,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'LastModifiedUser': lastModifiedUser,
+      if (name != null) 'Name': name,
+      if (policies != null) 'Policies': policies,
+      if (tier != null) 'Tier': tier.toValue(),
+      if (type != null) 'Type': type.toValue(),
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// One or more filters. Use a filter to return a more specific list of results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ParameterStringFilter {
   /// The name of the filter.
   /// <note>
@@ -20465,7 +25108,6 @@ class ParameterStringFilter {
   /// for Systems Manager parameters</a> in the <i>AWS Systems Manager User
   /// Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// For all filters used with <a>DescribeParameters</a>, valid options include
@@ -20478,27 +25120,43 @@ class ParameterStringFilter {
   /// <code>Equals</code> and <code>BeginsWith</code>. (Exception: For filters
   /// using <code>Label</code> as the Key name, the only valid option is
   /// <code>Equals</code>.)
-  @_s.JsonKey(name: 'Option')
-  final String option;
+  final String? option;
 
   /// The value you want to search for.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   ParameterStringFilter({
-    @_s.required this.key,
+    required this.key,
     this.option,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$ParameterStringFilterToJson(this);
+
+  factory ParameterStringFilter.fromJson(Map<String, dynamic> json) {
+    return ParameterStringFilter(
+      key: json['Key'] as String,
+      option: json['Option'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final option = this.option;
+    final values = this.values;
+    return {
+      'Key': key,
+      if (option != null) 'Option': option,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum ParameterTier {
-  @_s.JsonValue('Standard')
   standard,
-  @_s.JsonValue('Advanced')
   advanced,
-  @_s.JsonValue('Intelligent-Tiering')
   intelligentTiering,
 }
 
@@ -20512,16 +25170,26 @@ extension on ParameterTier {
       case ParameterTier.intelligentTiering:
         return 'Intelligent-Tiering';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ParameterTier toParameterTier() {
+    switch (this) {
+      case 'Standard':
+        return ParameterTier.standard;
+      case 'Advanced':
+        return ParameterTier.advanced;
+      case 'Intelligent-Tiering':
+        return ParameterTier.intelligentTiering;
+    }
+    throw Exception('$this is not known in enum ParameterTier');
   }
 }
 
 enum ParameterType {
-  @_s.JsonValue('String')
   string,
-  @_s.JsonValue('StringList')
   stringList,
-  @_s.JsonValue('SecureString')
   secureString,
 }
 
@@ -20535,166 +25203,185 @@ extension on ParameterType {
       case ParameterType.secureString:
         return 'SecureString';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ParameterType toParameterType() {
+    switch (this) {
+      case 'String':
+        return ParameterType.string;
+      case 'StringList':
+        return ParameterType.stringList;
+      case 'SecureString':
+        return ParameterType.secureString;
+    }
+    throw Exception('$this is not known in enum ParameterType');
   }
 }
 
 /// This data type is deprecated. Instead, use <a>ParameterStringFilter</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ParametersFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'Key')
   final ParametersFilterKey key;
 
   /// The filter values.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   ParametersFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$ParametersFilterToJson(this);
+
+  factory ParametersFilter.fromJson(Map<String, dynamic> json) {
+    return ParametersFilter(
+      key: (json['Key'] as String).toParametersFilterKey(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum ParametersFilterKey {
-  @_s.JsonValue('Name')
   name,
-  @_s.JsonValue('Type')
   type,
-  @_s.JsonValue('KeyId')
   keyId,
 }
 
+extension on ParametersFilterKey {
+  String toValue() {
+    switch (this) {
+      case ParametersFilterKey.name:
+        return 'Name';
+      case ParametersFilterKey.type:
+        return 'Type';
+      case ParametersFilterKey.keyId:
+        return 'KeyId';
+    }
+  }
+}
+
+extension on String {
+  ParametersFilterKey toParametersFilterKey() {
+    switch (this) {
+      case 'Name':
+        return ParametersFilterKey.name;
+      case 'Type':
+        return ParametersFilterKey.type;
+      case 'KeyId':
+        return ParametersFilterKey.keyId;
+    }
+    throw Exception('$this is not known in enum ParametersFilterKey');
+  }
+}
+
 /// Represents metadata about a patch.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Patch {
   /// The Advisory ID of the patch. For example, <code>RHSA-2020:3779</code>.
   /// Applies to Linux-based instances only.
-  @_s.JsonKey(name: 'AdvisoryIds')
-  final List<String> advisoryIds;
+  final List<String>? advisoryIds;
 
   /// The architecture of the patch. For example, in
   /// <code>example-pkg-0.710.10-2.7.abcd.x86_64</code>, the architecture is
   /// indicated by <code>x86_64</code>. Applies to Linux-based instances only.
-  @_s.JsonKey(name: 'Arch')
-  final String arch;
+  final String? arch;
 
   /// The Bugzilla ID of the patch. For example, <code>1600646</code>. Applies to
   /// Linux-based instances only.
-  @_s.JsonKey(name: 'BugzillaIds')
-  final List<String> bugzillaIds;
+  final List<String>? bugzillaIds;
 
   /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example,
   /// <code>CVE-2011-3192</code>. Applies to Linux-based instances only.
-  @_s.JsonKey(name: 'CVEIds')
-  final List<String> cVEIds;
+  final List<String>? cVEIds;
 
   /// The classification of the patch. For example, <code>SecurityUpdates</code>,
   /// <code>Updates</code>, or <code>CriticalUpdates</code>.
-  @_s.JsonKey(name: 'Classification')
-  final String classification;
+  final String? classification;
 
   /// The URL where more information can be obtained about the patch.
-  @_s.JsonKey(name: 'ContentUrl')
-  final String contentUrl;
+  final String? contentUrl;
 
   /// The description of the patch.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The epoch of the patch. For example in
   /// <code>pkg-example-EE-20180914-2.2.amzn1.noarch</code>, the epoch value is
   /// <code>20180914-2</code>. Applies to Linux-based instances only.
-  @_s.JsonKey(name: 'Epoch')
-  final int epoch;
+  final int? epoch;
 
   /// The ID of the patch. Applies to Windows patches only.
   /// <note>
   /// This ID is not the same as the Microsoft Knowledge Base ID.
   /// </note>
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The Microsoft Knowledge Base ID of the patch. Applies to Windows patches
   /// only.
-  @_s.JsonKey(name: 'KbNumber')
-  final String kbNumber;
+  final String? kbNumber;
 
   /// The language of the patch if it's language-specific.
-  @_s.JsonKey(name: 'Language')
-  final String language;
+  final String? language;
 
   /// The ID of the Microsoft Security Response Center (MSRC) bulletin the patch
   /// is related to. For example, <code>MS14-045</code>. Applies to Windows
   /// patches only.
-  @_s.JsonKey(name: 'MsrcNumber')
-  final String msrcNumber;
+  final String? msrcNumber;
 
   /// The severity of the patch, such as <code>Critical</code>,
   /// <code>Important</code>, or <code>Moderate</code>. Applies to Windows patches
   /// only.
-  @_s.JsonKey(name: 'MsrcSeverity')
-  final String msrcSeverity;
+  final String? msrcSeverity;
 
   /// The name of the patch. Applies to Linux-based instances only.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The specific product the patch is applicable for. For example,
   /// <code>WindowsServer2016</code> or <code>AmazonLinux2018.03</code>.
-  @_s.JsonKey(name: 'Product')
-  final String product;
+  final String? product;
 
   /// The product family the patch is applicable for. For example,
   /// <code>Windows</code> or <code>Amazon Linux 2</code>.
-  @_s.JsonKey(name: 'ProductFamily')
-  final String productFamily;
+  final String? productFamily;
 
   /// The particular release of a patch. For example, in
   /// <code>pkg-example-EE-20180914-2.2.amzn1.noarch</code>, the release is
   /// <code>2.amaz1</code>. Applies to Linux-based instances only.
-  @_s.JsonKey(name: 'Release')
-  final String release;
+  final String? release;
 
   /// The date the patch was released.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReleaseDate')
-  final DateTime releaseDate;
+  final DateTime? releaseDate;
 
   /// The source patch repository for the operating system and version, such as
   /// <code>trusty-security</code> for Ubuntu Server 14.04 LTE and
   /// <code>focal-security</code> for Ubuntu Server 20.04 LTE. Applies to
   /// Linux-based instances only.
-  @_s.JsonKey(name: 'Repository')
-  final String repository;
+  final String? repository;
 
   /// The severity level of the patch. For example, <code>CRITICAL</code> or
   /// <code>MODERATE</code>.
-  @_s.JsonKey(name: 'Severity')
-  final String severity;
+  final String? severity;
 
   /// The title of the patch.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   /// The name of the vendor providing the patch.
-  @_s.JsonKey(name: 'Vendor')
-  final String vendor;
+  final String? vendor;
 
   /// The version number of the patch. For example, in
   /// <code>example-pkg-1.710.10-2.7.abcd.x86_64</code>, the version number is
   /// indicated by <code>-1</code>. Applies to Linux-based instances only.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   Patch({
     this.advisoryIds,
@@ -20721,13 +25408,98 @@ class Patch {
     this.vendor,
     this.version,
   });
-  factory Patch.fromJson(Map<String, dynamic> json) => _$PatchFromJson(json);
+
+  factory Patch.fromJson(Map<String, dynamic> json) {
+    return Patch(
+      advisoryIds: (json['AdvisoryIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      arch: json['Arch'] as String?,
+      bugzillaIds: (json['BugzillaIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      cVEIds: (json['CVEIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      classification: json['Classification'] as String?,
+      contentUrl: json['ContentUrl'] as String?,
+      description: json['Description'] as String?,
+      epoch: json['Epoch'] as int?,
+      id: json['Id'] as String?,
+      kbNumber: json['KbNumber'] as String?,
+      language: json['Language'] as String?,
+      msrcNumber: json['MsrcNumber'] as String?,
+      msrcSeverity: json['MsrcSeverity'] as String?,
+      name: json['Name'] as String?,
+      product: json['Product'] as String?,
+      productFamily: json['ProductFamily'] as String?,
+      release: json['Release'] as String?,
+      releaseDate: timeStampFromJson(json['ReleaseDate']),
+      repository: json['Repository'] as String?,
+      severity: json['Severity'] as String?,
+      title: json['Title'] as String?,
+      vendor: json['Vendor'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final advisoryIds = this.advisoryIds;
+    final arch = this.arch;
+    final bugzillaIds = this.bugzillaIds;
+    final cVEIds = this.cVEIds;
+    final classification = this.classification;
+    final contentUrl = this.contentUrl;
+    final description = this.description;
+    final epoch = this.epoch;
+    final id = this.id;
+    final kbNumber = this.kbNumber;
+    final language = this.language;
+    final msrcNumber = this.msrcNumber;
+    final msrcSeverity = this.msrcSeverity;
+    final name = this.name;
+    final product = this.product;
+    final productFamily = this.productFamily;
+    final release = this.release;
+    final releaseDate = this.releaseDate;
+    final repository = this.repository;
+    final severity = this.severity;
+    final title = this.title;
+    final vendor = this.vendor;
+    final version = this.version;
+    return {
+      if (advisoryIds != null) 'AdvisoryIds': advisoryIds,
+      if (arch != null) 'Arch': arch,
+      if (bugzillaIds != null) 'BugzillaIds': bugzillaIds,
+      if (cVEIds != null) 'CVEIds': cVEIds,
+      if (classification != null) 'Classification': classification,
+      if (contentUrl != null) 'ContentUrl': contentUrl,
+      if (description != null) 'Description': description,
+      if (epoch != null) 'Epoch': epoch,
+      if (id != null) 'Id': id,
+      if (kbNumber != null) 'KbNumber': kbNumber,
+      if (language != null) 'Language': language,
+      if (msrcNumber != null) 'MsrcNumber': msrcNumber,
+      if (msrcSeverity != null) 'MsrcSeverity': msrcSeverity,
+      if (name != null) 'Name': name,
+      if (product != null) 'Product': product,
+      if (productFamily != null) 'ProductFamily': productFamily,
+      if (release != null) 'Release': release,
+      if (releaseDate != null) 'ReleaseDate': unixTimestampToJson(releaseDate),
+      if (repository != null) 'Repository': repository,
+      if (severity != null) 'Severity': severity,
+      if (title != null) 'Title': title,
+      if (vendor != null) 'Vendor': vendor,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum PatchAction {
-  @_s.JsonValue('ALLOW_AS_DEPENDENCY')
   allowAsDependency,
-  @_s.JsonValue('BLOCK')
   block,
 }
 
@@ -20739,39 +25511,40 @@ extension on PatchAction {
       case PatchAction.block:
         return 'BLOCK';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PatchAction toPatchAction() {
+    switch (this) {
+      case 'ALLOW_AS_DEPENDENCY':
+        return PatchAction.allowAsDependency;
+      case 'BLOCK':
+        return PatchAction.block;
+    }
+    throw Exception('$this is not known in enum PatchAction');
   }
 }
 
 /// Defines the basic information about a patch baseline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PatchBaselineIdentity {
   /// The description of the patch baseline.
-  @_s.JsonKey(name: 'BaselineDescription')
-  final String baselineDescription;
+  final String? baselineDescription;
 
   /// The ID of the patch baseline.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   /// The name of the patch baseline.
-  @_s.JsonKey(name: 'BaselineName')
-  final String baselineName;
+  final String? baselineName;
 
   /// Whether this is the default baseline. Note that Systems Manager supports
   /// creating multiple default patch baselines. For example, you can create a
   /// default patch baseline for each operating system.
-  @_s.JsonKey(name: 'DefaultBaseline')
-  final bool defaultBaseline;
+  final bool? defaultBaseline;
 
   /// Defines the operating system the patch baseline applies to. The Default
   /// value is WINDOWS.
-  @_s.JsonKey(name: 'OperatingSystem')
-  final OperatingSystem operatingSystem;
+  final OperatingSystem? operatingSystem;
 
   PatchBaselineIdentity({
     this.baselineDescription,
@@ -20780,35 +25553,50 @@ class PatchBaselineIdentity {
     this.defaultBaseline,
     this.operatingSystem,
   });
-  factory PatchBaselineIdentity.fromJson(Map<String, dynamic> json) =>
-      _$PatchBaselineIdentityFromJson(json);
+
+  factory PatchBaselineIdentity.fromJson(Map<String, dynamic> json) {
+    return PatchBaselineIdentity(
+      baselineDescription: json['BaselineDescription'] as String?,
+      baselineId: json['BaselineId'] as String?,
+      baselineName: json['BaselineName'] as String?,
+      defaultBaseline: json['DefaultBaseline'] as bool?,
+      operatingSystem:
+          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineDescription = this.baselineDescription;
+    final baselineId = this.baselineId;
+    final baselineName = this.baselineName;
+    final defaultBaseline = this.defaultBaseline;
+    final operatingSystem = this.operatingSystem;
+    return {
+      if (baselineDescription != null)
+        'BaselineDescription': baselineDescription,
+      if (baselineId != null) 'BaselineId': baselineId,
+      if (baselineName != null) 'BaselineName': baselineName,
+      if (defaultBaseline != null) 'DefaultBaseline': defaultBaseline,
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+    };
+  }
 }
 
 /// Information about the state of a patch on a particular instance as it
 /// relates to the patch baseline used to patch the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PatchComplianceData {
   /// The classification of the patch (for example, SecurityUpdates, Updates,
   /// CriticalUpdates).
-  @_s.JsonKey(name: 'Classification')
   final String classification;
 
   /// The date/time the patch was installed on the instance. Note that not all
   /// operating systems provide this level of information.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'InstalledTime')
   final DateTime installedTime;
 
   /// The operating system-specific ID of the patch.
-  @_s.JsonKey(name: 'KBId')
   final String kBId;
 
   /// The severity of the patch (for example, Critical, Important, Moderate).
-  @_s.JsonKey(name: 'Severity')
   final String severity;
 
   /// The state of the patch on the instance, such as INSTALLED or FAILED.
@@ -20816,60 +25604,117 @@ class PatchComplianceData {
   /// For descriptions of each patch state, see <a
   /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-compliance-about.html#sysman-compliance-monitor-patch">About
   /// patch compliance</a> in the <i>AWS Systems Manager User Guide</i>.
-  @_s.JsonKey(name: 'State')
   final PatchComplianceDataState state;
 
   /// The title of the patch.
-  @_s.JsonKey(name: 'Title')
   final String title;
 
   /// The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues that
   /// are resolved by the patch.
-  @_s.JsonKey(name: 'CVEIds')
-  final String cVEIds;
+  final String? cVEIds;
 
   PatchComplianceData({
-    @_s.required this.classification,
-    @_s.required this.installedTime,
-    @_s.required this.kBId,
-    @_s.required this.severity,
-    @_s.required this.state,
-    @_s.required this.title,
+    required this.classification,
+    required this.installedTime,
+    required this.kBId,
+    required this.severity,
+    required this.state,
+    required this.title,
     this.cVEIds,
   });
-  factory PatchComplianceData.fromJson(Map<String, dynamic> json) =>
-      _$PatchComplianceDataFromJson(json);
+
+  factory PatchComplianceData.fromJson(Map<String, dynamic> json) {
+    return PatchComplianceData(
+      classification: json['Classification'] as String,
+      installedTime:
+          nonNullableTimeStampFromJson(json['InstalledTime'] as Object),
+      kBId: json['KBId'] as String,
+      severity: json['Severity'] as String,
+      state: (json['State'] as String).toPatchComplianceDataState(),
+      title: json['Title'] as String,
+      cVEIds: json['CVEIds'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final classification = this.classification;
+    final installedTime = this.installedTime;
+    final kBId = this.kBId;
+    final severity = this.severity;
+    final state = this.state;
+    final title = this.title;
+    final cVEIds = this.cVEIds;
+    return {
+      'Classification': classification,
+      'InstalledTime': unixTimestampToJson(installedTime),
+      'KBId': kBId,
+      'Severity': severity,
+      'State': state.toValue(),
+      'Title': title,
+      if (cVEIds != null) 'CVEIds': cVEIds,
+    };
+  }
 }
 
 enum PatchComplianceDataState {
-  @_s.JsonValue('INSTALLED')
   installed,
-  @_s.JsonValue('INSTALLED_OTHER')
   installedOther,
-  @_s.JsonValue('INSTALLED_PENDING_REBOOT')
   installedPendingReboot,
-  @_s.JsonValue('INSTALLED_REJECTED')
   installedRejected,
-  @_s.JsonValue('MISSING')
   missing,
-  @_s.JsonValue('NOT_APPLICABLE')
   notApplicable,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on PatchComplianceDataState {
+  String toValue() {
+    switch (this) {
+      case PatchComplianceDataState.installed:
+        return 'INSTALLED';
+      case PatchComplianceDataState.installedOther:
+        return 'INSTALLED_OTHER';
+      case PatchComplianceDataState.installedPendingReboot:
+        return 'INSTALLED_PENDING_REBOOT';
+      case PatchComplianceDataState.installedRejected:
+        return 'INSTALLED_REJECTED';
+      case PatchComplianceDataState.missing:
+        return 'MISSING';
+      case PatchComplianceDataState.notApplicable:
+        return 'NOT_APPLICABLE';
+      case PatchComplianceDataState.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  PatchComplianceDataState toPatchComplianceDataState() {
+    switch (this) {
+      case 'INSTALLED':
+        return PatchComplianceDataState.installed;
+      case 'INSTALLED_OTHER':
+        return PatchComplianceDataState.installedOther;
+      case 'INSTALLED_PENDING_REBOOT':
+        return PatchComplianceDataState.installedPendingReboot;
+      case 'INSTALLED_REJECTED':
+        return PatchComplianceDataState.installedRejected;
+      case 'MISSING':
+        return PatchComplianceDataState.missing;
+      case 'NOT_APPLICABLE':
+        return PatchComplianceDataState.notApplicable;
+      case 'FAILED':
+        return PatchComplianceDataState.failed;
+    }
+    throw Exception('$this is not known in enum PatchComplianceDataState');
+  }
+}
+
 enum PatchComplianceLevel {
-  @_s.JsonValue('CRITICAL')
   critical,
-  @_s.JsonValue('HIGH')
   high,
-  @_s.JsonValue('MEDIUM')
   medium,
-  @_s.JsonValue('LOW')
   low,
-  @_s.JsonValue('INFORMATIONAL')
   informational,
-  @_s.JsonValue('UNSPECIFIED')
   unspecified,
 }
 
@@ -20889,19 +25734,65 @@ extension on PatchComplianceLevel {
       case PatchComplianceLevel.unspecified:
         return 'UNSPECIFIED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PatchComplianceLevel toPatchComplianceLevel() {
+    switch (this) {
+      case 'CRITICAL':
+        return PatchComplianceLevel.critical;
+      case 'HIGH':
+        return PatchComplianceLevel.high;
+      case 'MEDIUM':
+        return PatchComplianceLevel.medium;
+      case 'LOW':
+        return PatchComplianceLevel.low;
+      case 'INFORMATIONAL':
+        return PatchComplianceLevel.informational;
+      case 'UNSPECIFIED':
+        return PatchComplianceLevel.unspecified;
+    }
+    throw Exception('$this is not known in enum PatchComplianceLevel');
   }
 }
 
 enum PatchDeploymentStatus {
-  @_s.JsonValue('APPROVED')
   approved,
-  @_s.JsonValue('PENDING_APPROVAL')
   pendingApproval,
-  @_s.JsonValue('EXPLICIT_APPROVED')
   explicitApproved,
-  @_s.JsonValue('EXPLICIT_REJECTED')
   explicitRejected,
+}
+
+extension on PatchDeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case PatchDeploymentStatus.approved:
+        return 'APPROVED';
+      case PatchDeploymentStatus.pendingApproval:
+        return 'PENDING_APPROVAL';
+      case PatchDeploymentStatus.explicitApproved:
+        return 'EXPLICIT_APPROVED';
+      case PatchDeploymentStatus.explicitRejected:
+        return 'EXPLICIT_REJECTED';
+    }
+  }
+}
+
+extension on String {
+  PatchDeploymentStatus toPatchDeploymentStatus() {
+    switch (this) {
+      case 'APPROVED':
+        return PatchDeploymentStatus.approved;
+      case 'PENDING_APPROVAL':
+        return PatchDeploymentStatus.pendingApproval;
+      case 'EXPLICIT_APPROVED':
+        return PatchDeploymentStatus.explicitApproved;
+      case 'EXPLICIT_REJECTED':
+        return PatchDeploymentStatus.explicitRejected;
+    }
+    throw Exception('$this is not known in enum PatchDeploymentStatus');
+  }
 }
 
 /// Defines which patches should be included in a patch baseline.
@@ -20920,162 +25811,284 @@ enum PatchDeploymentStatus {
 /// <code>DescribePatchProperties</code> command. For information about which
 /// patch properties can be used with each major operating system, see
 /// <a>DescribePatchProperties</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PatchFilter {
   /// The key for the filter.
   ///
   /// Run the <a>DescribePatchProperties</a> command to view lists of valid keys
   /// for each operating system type.
-  @_s.JsonKey(name: 'Key')
   final PatchFilterKey key;
 
   /// The value for the filter key.
   ///
   /// Run the <a>DescribePatchProperties</a> command to view lists of valid values
   /// for each key based on operating system type.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   PatchFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  factory PatchFilter.fromJson(Map<String, dynamic> json) =>
-      _$PatchFilterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchFilterToJson(this);
+  factory PatchFilter.fromJson(Map<String, dynamic> json) {
+    return PatchFilter(
+      key: (json['Key'] as String).toPatchFilterKey(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 /// A set of patch filters, typically used for approval rules.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PatchFilterGroup {
   /// The set of patch filters that make up the group.
-  @_s.JsonKey(name: 'PatchFilters')
   final List<PatchFilter> patchFilters;
 
   PatchFilterGroup({
-    @_s.required this.patchFilters,
+    required this.patchFilters,
   });
-  factory PatchFilterGroup.fromJson(Map<String, dynamic> json) =>
-      _$PatchFilterGroupFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchFilterGroupToJson(this);
+  factory PatchFilterGroup.fromJson(Map<String, dynamic> json) {
+    return PatchFilterGroup(
+      patchFilters: (json['PatchFilters'] as List)
+          .whereNotNull()
+          .map((e) => PatchFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final patchFilters = this.patchFilters;
+    return {
+      'PatchFilters': patchFilters,
+    };
+  }
 }
 
 enum PatchFilterKey {
-  @_s.JsonValue('ARCH')
   arch,
-  @_s.JsonValue('ADVISORY_ID')
   advisoryId,
-  @_s.JsonValue('BUGZILLA_ID')
   bugzillaId,
-  @_s.JsonValue('PATCH_SET')
   patchSet,
-  @_s.JsonValue('PRODUCT')
   product,
-  @_s.JsonValue('PRODUCT_FAMILY')
   productFamily,
-  @_s.JsonValue('CLASSIFICATION')
   classification,
-  @_s.JsonValue('CVE_ID')
   cveId,
-  @_s.JsonValue('EPOCH')
   epoch,
-  @_s.JsonValue('MSRC_SEVERITY')
   msrcSeverity,
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('PATCH_ID')
   patchId,
-  @_s.JsonValue('SECTION')
   section,
-  @_s.JsonValue('PRIORITY')
   priority,
-  @_s.JsonValue('REPOSITORY')
   repository,
-  @_s.JsonValue('RELEASE')
   release,
-  @_s.JsonValue('SEVERITY')
   severity,
-  @_s.JsonValue('SECURITY')
   security,
-  @_s.JsonValue('VERSION')
   version,
+}
+
+extension on PatchFilterKey {
+  String toValue() {
+    switch (this) {
+      case PatchFilterKey.arch:
+        return 'ARCH';
+      case PatchFilterKey.advisoryId:
+        return 'ADVISORY_ID';
+      case PatchFilterKey.bugzillaId:
+        return 'BUGZILLA_ID';
+      case PatchFilterKey.patchSet:
+        return 'PATCH_SET';
+      case PatchFilterKey.product:
+        return 'PRODUCT';
+      case PatchFilterKey.productFamily:
+        return 'PRODUCT_FAMILY';
+      case PatchFilterKey.classification:
+        return 'CLASSIFICATION';
+      case PatchFilterKey.cveId:
+        return 'CVE_ID';
+      case PatchFilterKey.epoch:
+        return 'EPOCH';
+      case PatchFilterKey.msrcSeverity:
+        return 'MSRC_SEVERITY';
+      case PatchFilterKey.name:
+        return 'NAME';
+      case PatchFilterKey.patchId:
+        return 'PATCH_ID';
+      case PatchFilterKey.section:
+        return 'SECTION';
+      case PatchFilterKey.priority:
+        return 'PRIORITY';
+      case PatchFilterKey.repository:
+        return 'REPOSITORY';
+      case PatchFilterKey.release:
+        return 'RELEASE';
+      case PatchFilterKey.severity:
+        return 'SEVERITY';
+      case PatchFilterKey.security:
+        return 'SECURITY';
+      case PatchFilterKey.version:
+        return 'VERSION';
+    }
+  }
+}
+
+extension on String {
+  PatchFilterKey toPatchFilterKey() {
+    switch (this) {
+      case 'ARCH':
+        return PatchFilterKey.arch;
+      case 'ADVISORY_ID':
+        return PatchFilterKey.advisoryId;
+      case 'BUGZILLA_ID':
+        return PatchFilterKey.bugzillaId;
+      case 'PATCH_SET':
+        return PatchFilterKey.patchSet;
+      case 'PRODUCT':
+        return PatchFilterKey.product;
+      case 'PRODUCT_FAMILY':
+        return PatchFilterKey.productFamily;
+      case 'CLASSIFICATION':
+        return PatchFilterKey.classification;
+      case 'CVE_ID':
+        return PatchFilterKey.cveId;
+      case 'EPOCH':
+        return PatchFilterKey.epoch;
+      case 'MSRC_SEVERITY':
+        return PatchFilterKey.msrcSeverity;
+      case 'NAME':
+        return PatchFilterKey.name;
+      case 'PATCH_ID':
+        return PatchFilterKey.patchId;
+      case 'SECTION':
+        return PatchFilterKey.section;
+      case 'PRIORITY':
+        return PatchFilterKey.priority;
+      case 'REPOSITORY':
+        return PatchFilterKey.repository;
+      case 'RELEASE':
+        return PatchFilterKey.release;
+      case 'SEVERITY':
+        return PatchFilterKey.severity;
+      case 'SECURITY':
+        return PatchFilterKey.security;
+      case 'VERSION':
+        return PatchFilterKey.version;
+    }
+    throw Exception('$this is not known in enum PatchFilterKey');
+  }
 }
 
 /// The mapping between a patch group and the patch baseline the patch group is
 /// registered with.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PatchGroupPatchBaselineMapping {
   /// The patch baseline the patch group is registered with.
-  @_s.JsonKey(name: 'BaselineIdentity')
-  final PatchBaselineIdentity baselineIdentity;
+  final PatchBaselineIdentity? baselineIdentity;
 
   /// The name of the patch group registered with the patch baseline.
-  @_s.JsonKey(name: 'PatchGroup')
-  final String patchGroup;
+  final String? patchGroup;
 
   PatchGroupPatchBaselineMapping({
     this.baselineIdentity,
     this.patchGroup,
   });
-  factory PatchGroupPatchBaselineMapping.fromJson(Map<String, dynamic> json) =>
-      _$PatchGroupPatchBaselineMappingFromJson(json);
+
+  factory PatchGroupPatchBaselineMapping.fromJson(Map<String, dynamic> json) {
+    return PatchGroupPatchBaselineMapping(
+      baselineIdentity: json['BaselineIdentity'] != null
+          ? PatchBaselineIdentity.fromJson(
+              json['BaselineIdentity'] as Map<String, dynamic>)
+          : null,
+      patchGroup: json['PatchGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineIdentity = this.baselineIdentity;
+    final patchGroup = this.patchGroup;
+    return {
+      if (baselineIdentity != null) 'BaselineIdentity': baselineIdentity,
+      if (patchGroup != null) 'PatchGroup': patchGroup,
+    };
+  }
 }
 
 enum PatchOperationType {
-  @_s.JsonValue('Scan')
   scan,
-  @_s.JsonValue('Install')
   install,
 }
 
+extension on PatchOperationType {
+  String toValue() {
+    switch (this) {
+      case PatchOperationType.scan:
+        return 'Scan';
+      case PatchOperationType.install:
+        return 'Install';
+    }
+  }
+}
+
+extension on String {
+  PatchOperationType toPatchOperationType() {
+    switch (this) {
+      case 'Scan':
+        return PatchOperationType.scan;
+      case 'Install':
+        return PatchOperationType.install;
+    }
+    throw Exception('$this is not known in enum PatchOperationType');
+  }
+}
+
 /// Defines a filter used in Patch Manager APIs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PatchOrchestratorFilter {
   /// The key for the filter.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value for the filter.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   PatchOrchestratorFilter({
     this.key,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$PatchOrchestratorFilterToJson(this);
+
+  factory PatchOrchestratorFilter.fromJson(Map<String, dynamic> json) {
+    return PatchOrchestratorFilter(
+      key: json['Key'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 enum PatchProperty {
-  @_s.JsonValue('PRODUCT')
   product,
-  @_s.JsonValue('PRODUCT_FAMILY')
   productFamily,
-  @_s.JsonValue('CLASSIFICATION')
   classification,
-  @_s.JsonValue('MSRC_SEVERITY')
   msrcSeverity,
-  @_s.JsonValue('PRIORITY')
   priority,
-  @_s.JsonValue('SEVERITY')
   severity,
 }
 
@@ -21095,84 +26108,120 @@ extension on PatchProperty {
       case PatchProperty.severity:
         return 'SEVERITY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PatchProperty toPatchProperty() {
+    switch (this) {
+      case 'PRODUCT':
+        return PatchProperty.product;
+      case 'PRODUCT_FAMILY':
+        return PatchProperty.productFamily;
+      case 'CLASSIFICATION':
+        return PatchProperty.classification;
+      case 'MSRC_SEVERITY':
+        return PatchProperty.msrcSeverity;
+      case 'PRIORITY':
+        return PatchProperty.priority;
+      case 'SEVERITY':
+        return PatchProperty.severity;
+    }
+    throw Exception('$this is not known in enum PatchProperty');
   }
 }
 
 /// Defines an approval rule for a patch baseline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PatchRule {
   /// The patch filter group that defines the criteria for the rule.
-  @_s.JsonKey(name: 'PatchFilterGroup')
   final PatchFilterGroup patchFilterGroup;
 
   /// The number of days after the release date of each patch matched by the rule
   /// that the patch is marked as approved in the patch baseline. For example, a
   /// value of <code>7</code> means that patches are approved seven days after
-  /// they are released. Not supported on Ubuntu Server.
-  @_s.JsonKey(name: 'ApproveAfterDays')
-  final int approveAfterDays;
+  /// they are released. Not supported on Debian Server or Ubuntu Server.
+  final int? approveAfterDays;
 
   /// The cutoff date for auto approval of released patches. Any patches released
-  /// on or before this date are installed automatically. Not supported on Ubuntu
-  /// Server.
+  /// on or before this date are installed automatically. Not supported on Debian
+  /// Server or Ubuntu Server.
   ///
   /// Enter dates in the format <code>YYYY-MM-DD</code>. For example,
   /// <code>2020-12-31</code>.
-  @_s.JsonKey(name: 'ApproveUntilDate')
-  final String approveUntilDate;
+  final String? approveUntilDate;
 
   /// A compliance severity level for all approved patches in a patch baseline.
-  @_s.JsonKey(name: 'ComplianceLevel')
-  final PatchComplianceLevel complianceLevel;
+  final PatchComplianceLevel? complianceLevel;
 
   /// For instances identified by the approval rule filters, enables a patch
   /// baseline to apply non-security updates available in the specified
   /// repository. The default value is 'false'. Applies to Linux instances only.
-  @_s.JsonKey(name: 'EnableNonSecurity')
-  final bool enableNonSecurity;
+  final bool? enableNonSecurity;
 
   PatchRule({
-    @_s.required this.patchFilterGroup,
+    required this.patchFilterGroup,
     this.approveAfterDays,
     this.approveUntilDate,
     this.complianceLevel,
     this.enableNonSecurity,
   });
-  factory PatchRule.fromJson(Map<String, dynamic> json) =>
-      _$PatchRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchRuleToJson(this);
+  factory PatchRule.fromJson(Map<String, dynamic> json) {
+    return PatchRule(
+      patchFilterGroup: PatchFilterGroup.fromJson(
+          json['PatchFilterGroup'] as Map<String, dynamic>),
+      approveAfterDays: json['ApproveAfterDays'] as int?,
+      approveUntilDate: json['ApproveUntilDate'] as String?,
+      complianceLevel:
+          (json['ComplianceLevel'] as String?)?.toPatchComplianceLevel(),
+      enableNonSecurity: json['EnableNonSecurity'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final patchFilterGroup = this.patchFilterGroup;
+    final approveAfterDays = this.approveAfterDays;
+    final approveUntilDate = this.approveUntilDate;
+    final complianceLevel = this.complianceLevel;
+    final enableNonSecurity = this.enableNonSecurity;
+    return {
+      'PatchFilterGroup': patchFilterGroup,
+      if (approveAfterDays != null) 'ApproveAfterDays': approveAfterDays,
+      if (approveUntilDate != null) 'ApproveUntilDate': approveUntilDate,
+      if (complianceLevel != null) 'ComplianceLevel': complianceLevel.toValue(),
+      if (enableNonSecurity != null) 'EnableNonSecurity': enableNonSecurity,
+    };
+  }
 }
 
 /// A set of rules defining the approval rules for a patch baseline.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PatchRuleGroup {
   /// The rules that make up the rule group.
-  @_s.JsonKey(name: 'PatchRules')
   final List<PatchRule> patchRules;
 
   PatchRuleGroup({
-    @_s.required this.patchRules,
+    required this.patchRules,
   });
-  factory PatchRuleGroup.fromJson(Map<String, dynamic> json) =>
-      _$PatchRuleGroupFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchRuleGroupToJson(this);
+  factory PatchRuleGroup.fromJson(Map<String, dynamic> json) {
+    return PatchRuleGroup(
+      patchRules: (json['PatchRules'] as List)
+          .whereNotNull()
+          .map((e) => PatchRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final patchRules = this.patchRules;
+    return {
+      'PatchRules': patchRules,
+    };
+  }
 }
 
 enum PatchSet {
-  @_s.JsonValue('OS')
   os,
-  @_s.JsonValue('APPLICATION')
   application,
 }
 
@@ -21184,131 +26233,204 @@ extension on PatchSet {
       case PatchSet.application:
         return 'APPLICATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PatchSet toPatchSet() {
+    switch (this) {
+      case 'OS':
+        return PatchSet.os;
+      case 'APPLICATION':
+        return PatchSet.application;
+    }
+    throw Exception('$this is not known in enum PatchSet');
   }
 }
 
 /// Information about the patches to use to update the instances, including
 /// target operating systems and source repository. Applies to Linux instances
 /// only.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PatchSource {
   /// The value of the yum repo configuration. For example:
   ///
   /// <code>[main]</code>
   ///
-  /// <code>cachedir=/var/cache/yum/$basesearch$releasever</code>
+  /// <code>name=MyCustomRepository</code>
   ///
-  /// <code>keepcache=0</code>
+  /// <code>baseurl=https://my-custom-repository</code>
   ///
-  /// <code>debuglevel=2</code>
-  @_s.JsonKey(name: 'Configuration')
+  /// <code>enabled=1</code>
+  /// <note>
+  /// For information about other options available for your yum repository
+  /// configuration, see <a
+  /// href="https://man7.org/linux/man-pages/man5/dnf.conf.5.html">dnf.conf(5)</a>.
+  /// </note>
   final String configuration;
 
   /// The name specified to identify the patch source.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The specific operating system versions a patch repository applies to, such
   /// as "Ubuntu16.04", "AmazonLinux2016.09", "RedhatEnterpriseLinux7.2" or
   /// "Suse12.7". For lists of supported product values, see <a>PatchFilter</a>.
-  @_s.JsonKey(name: 'Products')
   final List<String> products;
 
   PatchSource({
-    @_s.required this.configuration,
-    @_s.required this.name,
-    @_s.required this.products,
+    required this.configuration,
+    required this.name,
+    required this.products,
   });
-  factory PatchSource.fromJson(Map<String, dynamic> json) =>
-      _$PatchSourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PatchSourceToJson(this);
+  factory PatchSource.fromJson(Map<String, dynamic> json) {
+    return PatchSource(
+      configuration: json['Configuration'] as String,
+      name: json['Name'] as String,
+      products: (json['Products'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final name = this.name;
+    final products = this.products;
+    return {
+      'Configuration': configuration,
+      'Name': name,
+      'Products': products,
+    };
+  }
 }
 
 /// Information about the approval status of a patch.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PatchStatus {
   /// The date the patch was approved (or will be approved if the status is
   /// PENDING_APPROVAL).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ApprovalDate')
-  final DateTime approvalDate;
+  final DateTime? approvalDate;
 
   /// The compliance severity level for a patch.
-  @_s.JsonKey(name: 'ComplianceLevel')
-  final PatchComplianceLevel complianceLevel;
+  final PatchComplianceLevel? complianceLevel;
 
   /// The approval status of a patch (APPROVED, PENDING_APPROVAL,
   /// EXPLICIT_APPROVED, EXPLICIT_REJECTED).
-  @_s.JsonKey(name: 'DeploymentStatus')
-  final PatchDeploymentStatus deploymentStatus;
+  final PatchDeploymentStatus? deploymentStatus;
 
   PatchStatus({
     this.approvalDate,
     this.complianceLevel,
     this.deploymentStatus,
   });
-  factory PatchStatus.fromJson(Map<String, dynamic> json) =>
-      _$PatchStatusFromJson(json);
+
+  factory PatchStatus.fromJson(Map<String, dynamic> json) {
+    return PatchStatus(
+      approvalDate: timeStampFromJson(json['ApprovalDate']),
+      complianceLevel:
+          (json['ComplianceLevel'] as String?)?.toPatchComplianceLevel(),
+      deploymentStatus:
+          (json['DeploymentStatus'] as String?)?.toPatchDeploymentStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalDate = this.approvalDate;
+    final complianceLevel = this.complianceLevel;
+    final deploymentStatus = this.deploymentStatus;
+    return {
+      if (approvalDate != null)
+        'ApprovalDate': unixTimestampToJson(approvalDate),
+      if (complianceLevel != null) 'ComplianceLevel': complianceLevel.toValue(),
+      if (deploymentStatus != null)
+        'DeploymentStatus': deploymentStatus.toValue(),
+    };
+  }
 }
 
 enum PingStatus {
-  @_s.JsonValue('Online')
   online,
-  @_s.JsonValue('ConnectionLost')
   connectionLost,
-  @_s.JsonValue('Inactive')
   inactive,
 }
 
+extension on PingStatus {
+  String toValue() {
+    switch (this) {
+      case PingStatus.online:
+        return 'Online';
+      case PingStatus.connectionLost:
+        return 'ConnectionLost';
+      case PingStatus.inactive:
+        return 'Inactive';
+    }
+  }
+}
+
+extension on String {
+  PingStatus toPingStatus() {
+    switch (this) {
+      case 'Online':
+        return PingStatus.online;
+      case 'ConnectionLost':
+        return PingStatus.connectionLost;
+      case 'Inactive':
+        return PingStatus.inactive;
+    }
+    throw Exception('$this is not known in enum PingStatus');
+  }
+}
+
 enum PlatformType {
-  @_s.JsonValue('Windows')
   windows,
-  @_s.JsonValue('Linux')
   linux,
+}
+
+extension on PlatformType {
+  String toValue() {
+    switch (this) {
+      case PlatformType.windows:
+        return 'Windows';
+      case PlatformType.linux:
+        return 'Linux';
+    }
+  }
+}
+
+extension on String {
+  PlatformType toPlatformType() {
+    switch (this) {
+      case 'Windows':
+        return PlatformType.windows;
+      case 'Linux':
+        return PlatformType.linux;
+    }
+    throw Exception('$this is not known in enum PlatformType');
+  }
 }
 
 /// An aggregate of step execution statuses displayed in the AWS Console for a
 /// multi-Region and multi-account Automation execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProgressCounters {
   /// The total number of steps that the system cancelled in all specified AWS
   /// Regions and accounts for the current Automation execution.
-  @_s.JsonKey(name: 'CancelledSteps')
-  final int cancelledSteps;
+  final int? cancelledSteps;
 
   /// The total number of steps that failed to run in all specified AWS Regions
   /// and accounts for the current Automation execution.
-  @_s.JsonKey(name: 'FailedSteps')
-  final int failedSteps;
+  final int? failedSteps;
 
   /// The total number of steps that successfully completed in all specified AWS
   /// Regions and accounts for the current Automation execution.
-  @_s.JsonKey(name: 'SuccessSteps')
-  final int successSteps;
+  final int? successSteps;
 
   /// The total number of steps that timed out in all specified AWS Regions and
   /// accounts for the current Automation execution.
-  @_s.JsonKey(name: 'TimedOutSteps')
-  final int timedOutSteps;
+  final int? timedOutSteps;
 
   /// The total number of steps run in all specified AWS Regions and accounts for
   /// the current Automation execution.
-  @_s.JsonKey(name: 'TotalSteps')
-  final int totalSteps;
+  final int? totalSteps;
 
   ProgressCounters({
     this.cancelledSteps,
@@ -21317,47 +26439,70 @@ class ProgressCounters {
     this.timedOutSteps,
     this.totalSteps,
   });
-  factory ProgressCounters.fromJson(Map<String, dynamic> json) =>
-      _$ProgressCountersFromJson(json);
+
+  factory ProgressCounters.fromJson(Map<String, dynamic> json) {
+    return ProgressCounters(
+      cancelledSteps: json['CancelledSteps'] as int?,
+      failedSteps: json['FailedSteps'] as int?,
+      successSteps: json['SuccessSteps'] as int?,
+      timedOutSteps: json['TimedOutSteps'] as int?,
+      totalSteps: json['TotalSteps'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelledSteps = this.cancelledSteps;
+    final failedSteps = this.failedSteps;
+    final successSteps = this.successSteps;
+    final timedOutSteps = this.timedOutSteps;
+    final totalSteps = this.totalSteps;
+    return {
+      if (cancelledSteps != null) 'CancelledSteps': cancelledSteps,
+      if (failedSteps != null) 'FailedSteps': failedSteps,
+      if (successSteps != null) 'SuccessSteps': successSteps,
+      if (timedOutSteps != null) 'TimedOutSteps': timedOutSteps,
+      if (totalSteps != null) 'TotalSteps': totalSteps,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutComplianceItemsResult {
   PutComplianceItemsResult();
-  factory PutComplianceItemsResult.fromJson(Map<String, dynamic> json) =>
-      _$PutComplianceItemsResultFromJson(json);
+
+  factory PutComplianceItemsResult.fromJson(Map<String, dynamic> _) {
+    return PutComplianceItemsResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutInventoryResult {
   /// Information about the request.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   PutInventoryResult({
     this.message,
   });
-  factory PutInventoryResult.fromJson(Map<String, dynamic> json) =>
-      _$PutInventoryResultFromJson(json);
+
+  factory PutInventoryResult.fromJson(Map<String, dynamic> json) {
+    return PutInventoryResult(
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    return {
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutParameterResult {
   /// The tier assigned to the parameter.
-  @_s.JsonKey(name: 'Tier')
-  final ParameterTier tier;
+  final ParameterTier? tier;
 
   /// The new version number of a parameter. If you edit a parameter value,
   /// Parameter Store automatically creates a new version and assigns this new
@@ -21365,216 +26510,281 @@ class PutParameterResult {
   /// or in Systems Manager documents (SSM documents). By default, if you don't
   /// specify a specific version, the system returns the latest parameter value
   /// when a parameter is called.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   PutParameterResult({
     this.tier,
     this.version,
   });
-  factory PutParameterResult.fromJson(Map<String, dynamic> json) =>
-      _$PutParameterResultFromJson(json);
+
+  factory PutParameterResult.fromJson(Map<String, dynamic> json) {
+    return PutParameterResult(
+      tier: (json['Tier'] as String?)?.toParameterTier(),
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tier = this.tier;
+    final version = this.version;
+    return {
+      if (tier != null) 'Tier': tier.toValue(),
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum RebootOption {
-  @_s.JsonValue('RebootIfNeeded')
   rebootIfNeeded,
-  @_s.JsonValue('NoReboot')
   noReboot,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RebootOption {
+  String toValue() {
+    switch (this) {
+      case RebootOption.rebootIfNeeded:
+        return 'RebootIfNeeded';
+      case RebootOption.noReboot:
+        return 'NoReboot';
+    }
+  }
+}
+
+extension on String {
+  RebootOption toRebootOption() {
+    switch (this) {
+      case 'RebootIfNeeded':
+        return RebootOption.rebootIfNeeded;
+      case 'NoReboot':
+        return RebootOption.noReboot;
+    }
+    throw Exception('$this is not known in enum RebootOption');
+  }
+}
+
 class RegisterDefaultPatchBaselineResult {
   /// The ID of the default patch baseline.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   RegisterDefaultPatchBaselineResult({
     this.baselineId,
   });
+
   factory RegisterDefaultPatchBaselineResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterDefaultPatchBaselineResultFromJson(json);
+      Map<String, dynamic> json) {
+    return RegisterDefaultPatchBaselineResult(
+      baselineId: json['BaselineId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    return {
+      if (baselineId != null) 'BaselineId': baselineId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterPatchBaselineForPatchGroupResult {
   /// The ID of the patch baseline the patch group was registered with.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   /// The name of the patch group registered with the patch baseline.
-  @_s.JsonKey(name: 'PatchGroup')
-  final String patchGroup;
+  final String? patchGroup;
 
   RegisterPatchBaselineForPatchGroupResult({
     this.baselineId,
     this.patchGroup,
   });
+
   factory RegisterPatchBaselineForPatchGroupResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterPatchBaselineForPatchGroupResultFromJson(json);
+      Map<String, dynamic> json) {
+    return RegisterPatchBaselineForPatchGroupResult(
+      baselineId: json['BaselineId'] as String?,
+      patchGroup: json['PatchGroup'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baselineId = this.baselineId;
+    final patchGroup = this.patchGroup;
+    return {
+      if (baselineId != null) 'BaselineId': baselineId,
+      if (patchGroup != null) 'PatchGroup': patchGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterTargetWithMaintenanceWindowResult {
   /// The ID of the target definition in this maintenance window.
-  @_s.JsonKey(name: 'WindowTargetId')
-  final String windowTargetId;
+  final String? windowTargetId;
 
   RegisterTargetWithMaintenanceWindowResult({
     this.windowTargetId,
   });
+
   factory RegisterTargetWithMaintenanceWindowResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterTargetWithMaintenanceWindowResultFromJson(json);
+      Map<String, dynamic> json) {
+    return RegisterTargetWithMaintenanceWindowResult(
+      windowTargetId: json['WindowTargetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final windowTargetId = this.windowTargetId;
+    return {
+      if (windowTargetId != null) 'WindowTargetId': windowTargetId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterTaskWithMaintenanceWindowResult {
   /// The ID of the task in the maintenance window.
-  @_s.JsonKey(name: 'WindowTaskId')
-  final String windowTaskId;
+  final String? windowTaskId;
 
   RegisterTaskWithMaintenanceWindowResult({
     this.windowTaskId,
   });
+
   factory RegisterTaskWithMaintenanceWindowResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterTaskWithMaintenanceWindowResultFromJson(json);
+      Map<String, dynamic> json) {
+    return RegisterTaskWithMaintenanceWindowResult(
+      windowTaskId: json['WindowTaskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final windowTaskId = this.windowTaskId;
+    return {
+      if (windowTaskId != null) 'WindowTaskId': windowTaskId,
+    };
+  }
 }
 
 /// An OpsItems that shares something in common with the current OpsItem. For
 /// example, related OpsItems can include OpsItems with similar error messages,
 /// impacted resources, or statuses for the impacted resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RelatedOpsItem {
   /// The ID of an OpsItem related to the current OpsItem.
-  @_s.JsonKey(name: 'OpsItemId')
   final String opsItemId;
 
   RelatedOpsItem({
-    @_s.required this.opsItemId,
+    required this.opsItemId,
   });
-  factory RelatedOpsItem.fromJson(Map<String, dynamic> json) =>
-      _$RelatedOpsItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RelatedOpsItemToJson(this);
+  factory RelatedOpsItem.fromJson(Map<String, dynamic> json) {
+    return RelatedOpsItem(
+      opsItemId: json['OpsItemId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final opsItemId = this.opsItemId;
+    return {
+      'OpsItemId': opsItemId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsFromResourceResult {
   RemoveTagsFromResourceResult();
-  factory RemoveTagsFromResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsFromResourceResultFromJson(json);
+
+  factory RemoveTagsFromResourceResult.fromJson(Map<String, dynamic> _) {
+    return RemoveTagsFromResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The result body of the ResetServiceSetting API action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResetServiceSettingResult {
   /// The current, effective service setting after calling the ResetServiceSetting
   /// API action.
-  @_s.JsonKey(name: 'ServiceSetting')
-  final ServiceSetting serviceSetting;
+  final ServiceSetting? serviceSetting;
 
   ResetServiceSettingResult({
     this.serviceSetting,
   });
-  factory ResetServiceSettingResult.fromJson(Map<String, dynamic> json) =>
-      _$ResetServiceSettingResultFromJson(json);
+
+  factory ResetServiceSettingResult.fromJson(Map<String, dynamic> json) {
+    return ResetServiceSettingResult(
+      serviceSetting: json['ServiceSetting'] != null
+          ? ServiceSetting.fromJson(
+              json['ServiceSetting'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSetting = this.serviceSetting;
+    return {
+      if (serviceSetting != null) 'ServiceSetting': serviceSetting,
+    };
+  }
 }
 
 /// Information about targets that resolved during the Automation execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolvedTargets {
   /// A list of parameter values sent to targets that resolved during the
   /// Automation execution.
-  @_s.JsonKey(name: 'ParameterValues')
-  final List<String> parameterValues;
+  final List<String>? parameterValues;
 
   /// A boolean value indicating whether the resolved target list is truncated.
-  @_s.JsonKey(name: 'Truncated')
-  final bool truncated;
+  final bool? truncated;
 
   ResolvedTargets({
     this.parameterValues,
     this.truncated,
   });
-  factory ResolvedTargets.fromJson(Map<String, dynamic> json) =>
-      _$ResolvedTargetsFromJson(json);
+
+  factory ResolvedTargets.fromJson(Map<String, dynamic> json) {
+    return ResolvedTargets(
+      parameterValues: (json['ParameterValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      truncated: json['Truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterValues = this.parameterValues;
+    final truncated = this.truncated;
+    return {
+      if (parameterValues != null) 'ParameterValues': parameterValues,
+      if (truncated != null) 'Truncated': truncated,
+    };
+  }
 }
 
 /// Compliance summary information for a specific resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceComplianceSummaryItem {
   /// The compliance type.
-  @_s.JsonKey(name: 'ComplianceType')
-  final String complianceType;
+  final String? complianceType;
 
   /// A list of items that are compliant for the resource.
-  @_s.JsonKey(name: 'CompliantSummary')
-  final CompliantSummary compliantSummary;
+  final CompliantSummary? compliantSummary;
 
   /// Information about the execution.
-  @_s.JsonKey(name: 'ExecutionSummary')
-  final ComplianceExecutionSummary executionSummary;
+  final ComplianceExecutionSummary? executionSummary;
 
   /// A list of items that aren't compliant for the resource.
-  @_s.JsonKey(name: 'NonCompliantSummary')
-  final NonCompliantSummary nonCompliantSummary;
+  final NonCompliantSummary? nonCompliantSummary;
 
   /// The highest severity item found for the resource. The resource is compliant
   /// for this item.
-  @_s.JsonKey(name: 'OverallSeverity')
-  final ComplianceSeverity overallSeverity;
+  final ComplianceSeverity? overallSeverity;
 
   /// The resource ID.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// The resource type.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The compliance status for the resource.
-  @_s.JsonKey(name: 'Status')
-  final ComplianceStatus status;
+  final ComplianceStatus? status;
 
   ResourceComplianceSummaryItem({
     this.complianceType,
@@ -21586,124 +26796,160 @@ class ResourceComplianceSummaryItem {
     this.resourceType,
     this.status,
   });
-  factory ResourceComplianceSummaryItem.fromJson(Map<String, dynamic> json) =>
-      _$ResourceComplianceSummaryItemFromJson(json);
+
+  factory ResourceComplianceSummaryItem.fromJson(Map<String, dynamic> json) {
+    return ResourceComplianceSummaryItem(
+      complianceType: json['ComplianceType'] as String?,
+      compliantSummary: json['CompliantSummary'] != null
+          ? CompliantSummary.fromJson(
+              json['CompliantSummary'] as Map<String, dynamic>)
+          : null,
+      executionSummary: json['ExecutionSummary'] != null
+          ? ComplianceExecutionSummary.fromJson(
+              json['ExecutionSummary'] as Map<String, dynamic>)
+          : null,
+      nonCompliantSummary: json['NonCompliantSummary'] != null
+          ? NonCompliantSummary.fromJson(
+              json['NonCompliantSummary'] as Map<String, dynamic>)
+          : null,
+      overallSeverity:
+          (json['OverallSeverity'] as String?)?.toComplianceSeverity(),
+      resourceId: json['ResourceId'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      status: (json['Status'] as String?)?.toComplianceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final complianceType = this.complianceType;
+    final compliantSummary = this.compliantSummary;
+    final executionSummary = this.executionSummary;
+    final nonCompliantSummary = this.nonCompliantSummary;
+    final overallSeverity = this.overallSeverity;
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    return {
+      if (complianceType != null) 'ComplianceType': complianceType,
+      if (compliantSummary != null) 'CompliantSummary': compliantSummary,
+      if (executionSummary != null) 'ExecutionSummary': executionSummary,
+      if (nonCompliantSummary != null)
+        'NonCompliantSummary': nonCompliantSummary,
+      if (overallSeverity != null) 'OverallSeverity': overallSeverity.toValue(),
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Information about the AwsOrganizationsSource resource data sync source. A
 /// sync source of this type can synchronize data from AWS Organizations or, if
 /// an AWS Organization is not present, from multiple AWS Regions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceDataSyncAwsOrganizationsSource {
   /// If an AWS Organization is present, this is either
   /// <code>OrganizationalUnits</code> or <code>EntireOrganization</code>. For
   /// <code>OrganizationalUnits</code>, the data is aggregated from a set of
   /// organization units. For <code>EntireOrganization</code>, the data is
   /// aggregated from the entire AWS Organization.
-  @_s.JsonKey(name: 'OrganizationSourceType')
   final String organizationSourceType;
 
   /// The AWS Organizations organization units included in the sync.
-  @_s.JsonKey(name: 'OrganizationalUnits')
-  final List<ResourceDataSyncOrganizationalUnit> organizationalUnits;
+  final List<ResourceDataSyncOrganizationalUnit>? organizationalUnits;
 
   ResourceDataSyncAwsOrganizationsSource({
-    @_s.required this.organizationSourceType,
+    required this.organizationSourceType,
     this.organizationalUnits,
   });
-  factory ResourceDataSyncAwsOrganizationsSource.fromJson(
-          Map<String, dynamic> json) =>
-      _$ResourceDataSyncAwsOrganizationsSourceFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$ResourceDataSyncAwsOrganizationsSourceToJson(this);
+  factory ResourceDataSyncAwsOrganizationsSource.fromJson(
+      Map<String, dynamic> json) {
+    return ResourceDataSyncAwsOrganizationsSource(
+      organizationSourceType: json['OrganizationSourceType'] as String,
+      organizationalUnits: (json['OrganizationalUnits'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceDataSyncOrganizationalUnit.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationSourceType = this.organizationSourceType;
+    final organizationalUnits = this.organizationalUnits;
+    return {
+      'OrganizationSourceType': organizationSourceType,
+      if (organizationalUnits != null)
+        'OrganizationalUnits': organizationalUnits,
+    };
+  }
 }
 
 /// Synchronize Systems Manager Inventory data from multiple AWS accounts
 /// defined in AWS Organizations to a centralized S3 bucket. Data is
 /// synchronized to individual key prefixes in the central bucket. Each key
 /// prefix represents a different AWS account ID.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceDataSyncDestinationDataSharing {
   /// The sharing data type. Only <code>Organization</code> is supported.
-  @_s.JsonKey(name: 'DestinationDataSharingType')
-  final String destinationDataSharingType;
+  final String? destinationDataSharingType;
 
   ResourceDataSyncDestinationDataSharing({
     this.destinationDataSharingType,
   });
-  factory ResourceDataSyncDestinationDataSharing.fromJson(
-          Map<String, dynamic> json) =>
-      _$ResourceDataSyncDestinationDataSharingFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$ResourceDataSyncDestinationDataSharingToJson(this);
+  factory ResourceDataSyncDestinationDataSharing.fromJson(
+      Map<String, dynamic> json) {
+    return ResourceDataSyncDestinationDataSharing(
+      destinationDataSharingType: json['DestinationDataSharingType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationDataSharingType = this.destinationDataSharingType;
+    return {
+      if (destinationDataSharingType != null)
+        'DestinationDataSharingType': destinationDataSharingType,
+    };
+  }
 }
 
 /// Information about a Resource Data Sync configuration, including its current
 /// status and last successful sync.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceDataSyncItem {
   /// The status reported by the last sync.
-  @_s.JsonKey(name: 'LastStatus')
-  final LastResourceDataSyncStatus lastStatus;
+  final LastResourceDataSyncStatus? lastStatus;
 
   /// The last time the sync operations returned a status of
   /// <code>SUCCESSFUL</code> (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastSuccessfulSyncTime')
-  final DateTime lastSuccessfulSyncTime;
+  final DateTime? lastSuccessfulSyncTime;
 
   /// The status message details reported by the last sync.
-  @_s.JsonKey(name: 'LastSyncStatusMessage')
-  final String lastSyncStatusMessage;
+  final String? lastSyncStatusMessage;
 
   /// The last time the configuration attempted to sync (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastSyncTime')
-  final DateTime lastSyncTime;
+  final DateTime? lastSyncTime;
 
   /// Configuration information for the target S3 bucket.
-  @_s.JsonKey(name: 'S3Destination')
-  final ResourceDataSyncS3Destination s3Destination;
+  final ResourceDataSyncS3Destination? s3Destination;
 
   /// The date and time the configuration was created (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SyncCreatedTime')
-  final DateTime syncCreatedTime;
+  final DateTime? syncCreatedTime;
 
   /// The date and time the resource data sync was changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SyncLastModifiedTime')
-  final DateTime syncLastModifiedTime;
+  final DateTime? syncLastModifiedTime;
 
   /// The name of the Resource Data Sync.
-  @_s.JsonKey(name: 'SyncName')
-  final String syncName;
+  final String? syncName;
 
   /// Information about the source where the data was synchronized.
-  @_s.JsonKey(name: 'SyncSource')
-  final ResourceDataSyncSourceWithState syncSource;
+  final ResourceDataSyncSourceWithState? syncSource;
 
   /// The type of resource data sync. If <code>SyncType</code> is
   /// <code>SyncToDestination</code>, then the resource data sync synchronizes
   /// data to an S3 bucket. If the <code>SyncType</code> is
   /// <code>SyncFromSource</code> then the resource data sync synchronizes data
   /// from AWS Organizations or from multiple AWS Regions.
-  @_s.JsonKey(name: 'SyncType')
-  final String syncType;
+  final String? syncType;
 
   ResourceDataSyncItem({
     this.lastStatus,
@@ -21717,119 +26963,242 @@ class ResourceDataSyncItem {
     this.syncSource,
     this.syncType,
   });
-  factory ResourceDataSyncItem.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDataSyncItemFromJson(json);
+
+  factory ResourceDataSyncItem.fromJson(Map<String, dynamic> json) {
+    return ResourceDataSyncItem(
+      lastStatus:
+          (json['LastStatus'] as String?)?.toLastResourceDataSyncStatus(),
+      lastSuccessfulSyncTime: timeStampFromJson(json['LastSuccessfulSyncTime']),
+      lastSyncStatusMessage: json['LastSyncStatusMessage'] as String?,
+      lastSyncTime: timeStampFromJson(json['LastSyncTime']),
+      s3Destination: json['S3Destination'] != null
+          ? ResourceDataSyncS3Destination.fromJson(
+              json['S3Destination'] as Map<String, dynamic>)
+          : null,
+      syncCreatedTime: timeStampFromJson(json['SyncCreatedTime']),
+      syncLastModifiedTime: timeStampFromJson(json['SyncLastModifiedTime']),
+      syncName: json['SyncName'] as String?,
+      syncSource: json['SyncSource'] != null
+          ? ResourceDataSyncSourceWithState.fromJson(
+              json['SyncSource'] as Map<String, dynamic>)
+          : null,
+      syncType: json['SyncType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastStatus = this.lastStatus;
+    final lastSuccessfulSyncTime = this.lastSuccessfulSyncTime;
+    final lastSyncStatusMessage = this.lastSyncStatusMessage;
+    final lastSyncTime = this.lastSyncTime;
+    final s3Destination = this.s3Destination;
+    final syncCreatedTime = this.syncCreatedTime;
+    final syncLastModifiedTime = this.syncLastModifiedTime;
+    final syncName = this.syncName;
+    final syncSource = this.syncSource;
+    final syncType = this.syncType;
+    return {
+      if (lastStatus != null) 'LastStatus': lastStatus.toValue(),
+      if (lastSuccessfulSyncTime != null)
+        'LastSuccessfulSyncTime': unixTimestampToJson(lastSuccessfulSyncTime),
+      if (lastSyncStatusMessage != null)
+        'LastSyncStatusMessage': lastSyncStatusMessage,
+      if (lastSyncTime != null)
+        'LastSyncTime': unixTimestampToJson(lastSyncTime),
+      if (s3Destination != null) 'S3Destination': s3Destination,
+      if (syncCreatedTime != null)
+        'SyncCreatedTime': unixTimestampToJson(syncCreatedTime),
+      if (syncLastModifiedTime != null)
+        'SyncLastModifiedTime': unixTimestampToJson(syncLastModifiedTime),
+      if (syncName != null) 'SyncName': syncName,
+      if (syncSource != null) 'SyncSource': syncSource,
+      if (syncType != null) 'SyncType': syncType,
+    };
+  }
 }
 
 /// The AWS Organizations organizational unit data source for the sync.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceDataSyncOrganizationalUnit {
   /// The AWS Organization unit ID data source for the sync.
-  @_s.JsonKey(name: 'OrganizationalUnitId')
-  final String organizationalUnitId;
+  final String? organizationalUnitId;
 
   ResourceDataSyncOrganizationalUnit({
     this.organizationalUnitId,
   });
-  factory ResourceDataSyncOrganizationalUnit.fromJson(
-          Map<String, dynamic> json) =>
-      _$ResourceDataSyncOrganizationalUnitFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$ResourceDataSyncOrganizationalUnitToJson(this);
+  factory ResourceDataSyncOrganizationalUnit.fromJson(
+      Map<String, dynamic> json) {
+    return ResourceDataSyncOrganizationalUnit(
+      organizationalUnitId: json['OrganizationalUnitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationalUnitId = this.organizationalUnitId;
+    return {
+      if (organizationalUnitId != null)
+        'OrganizationalUnitId': organizationalUnitId,
+    };
+  }
 }
 
 /// Information about the target S3 bucket for the Resource Data Sync.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceDataSyncS3Destination {
   /// The name of the S3 bucket where the aggregated data is stored.
-  @_s.JsonKey(name: 'BucketName')
   final String bucketName;
 
   /// The AWS Region with the S3 bucket targeted by the Resource Data Sync.
-  @_s.JsonKey(name: 'Region')
   final String region;
 
   /// A supported sync format. The following format is currently supported:
   /// JsonSerDe
-  @_s.JsonKey(name: 'SyncFormat')
   final ResourceDataSyncS3Format syncFormat;
 
   /// The ARN of an encryption key for a destination in Amazon S3. Must belong to
   /// the same Region as the destination S3 bucket.
-  @_s.JsonKey(name: 'AWSKMSKeyARN')
-  final String awsKMSKeyARN;
+  final String? awsKMSKeyARN;
 
   /// Enables destination data sharing. By default, this field is
   /// <code>null</code>.
-  @_s.JsonKey(name: 'DestinationDataSharing')
-  final ResourceDataSyncDestinationDataSharing destinationDataSharing;
+  final ResourceDataSyncDestinationDataSharing? destinationDataSharing;
 
   /// An Amazon S3 prefix for the bucket.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  final String? prefix;
 
   ResourceDataSyncS3Destination({
-    @_s.required this.bucketName,
-    @_s.required this.region,
-    @_s.required this.syncFormat,
+    required this.bucketName,
+    required this.region,
+    required this.syncFormat,
     this.awsKMSKeyARN,
     this.destinationDataSharing,
     this.prefix,
   });
-  factory ResourceDataSyncS3Destination.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDataSyncS3DestinationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceDataSyncS3DestinationToJson(this);
+  factory ResourceDataSyncS3Destination.fromJson(Map<String, dynamic> json) {
+    return ResourceDataSyncS3Destination(
+      bucketName: json['BucketName'] as String,
+      region: json['Region'] as String,
+      syncFormat: (json['SyncFormat'] as String).toResourceDataSyncS3Format(),
+      awsKMSKeyARN: json['AWSKMSKeyARN'] as String?,
+      destinationDataSharing: json['DestinationDataSharing'] != null
+          ? ResourceDataSyncDestinationDataSharing.fromJson(
+              json['DestinationDataSharing'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final region = this.region;
+    final syncFormat = this.syncFormat;
+    final awsKMSKeyARN = this.awsKMSKeyARN;
+    final destinationDataSharing = this.destinationDataSharing;
+    final prefix = this.prefix;
+    return {
+      'BucketName': bucketName,
+      'Region': region,
+      'SyncFormat': syncFormat.toValue(),
+      if (awsKMSKeyARN != null) 'AWSKMSKeyARN': awsKMSKeyARN,
+      if (destinationDataSharing != null)
+        'DestinationDataSharing': destinationDataSharing,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
 }
 
 enum ResourceDataSyncS3Format {
-  @_s.JsonValue('JsonSerDe')
   jsonSerDe,
 }
 
+extension on ResourceDataSyncS3Format {
+  String toValue() {
+    switch (this) {
+      case ResourceDataSyncS3Format.jsonSerDe:
+        return 'JsonSerDe';
+    }
+  }
+}
+
+extension on String {
+  ResourceDataSyncS3Format toResourceDataSyncS3Format() {
+    switch (this) {
+      case 'JsonSerDe':
+        return ResourceDataSyncS3Format.jsonSerDe;
+    }
+    throw Exception('$this is not known in enum ResourceDataSyncS3Format');
+  }
+}
+
 /// Information about the source of the data included in the resource data sync.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResourceDataSyncSource {
   /// The <code>SyncSource</code> AWS Regions included in the resource data sync.
-  @_s.JsonKey(name: 'SourceRegions')
   final List<String> sourceRegions;
 
   /// The type of data source for the resource data sync. <code>SourceType</code>
   /// is either <code>AwsOrganizations</code> (if an organization is present in
-  /// AWS Organizations) or <code>singleAccountMultiRegions</code>.
-  @_s.JsonKey(name: 'SourceType')
+  /// AWS Organizations) or <code>SingleAccountMultiRegions</code>.
   final String sourceType;
 
   /// Information about the AwsOrganizationsSource resource data sync source. A
   /// sync source of this type can synchronize data from AWS Organizations.
-  @_s.JsonKey(name: 'AwsOrganizationsSource')
-  final ResourceDataSyncAwsOrganizationsSource awsOrganizationsSource;
+  final ResourceDataSyncAwsOrganizationsSource? awsOrganizationsSource;
+
+  /// When you create a resource data sync, if you choose one of the AWS
+  /// Organizations options, then Systems Manager automatically enables all
+  /// OpsData sources in the selected AWS Regions for all AWS accounts in your
+  /// organization (or in the selected organization units). For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resouce-data-sync-multiple-accounts-and-regions.html">About
+  /// multiple account and Region resource data syncs</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  final bool? enableAllOpsDataSources;
 
   /// Whether to automatically synchronize and aggregate data from new AWS Regions
   /// when those Regions come online.
-  @_s.JsonKey(name: 'IncludeFutureRegions')
-  final bool includeFutureRegions;
+  final bool? includeFutureRegions;
 
   ResourceDataSyncSource({
-    @_s.required this.sourceRegions,
-    @_s.required this.sourceType,
+    required this.sourceRegions,
+    required this.sourceType,
     this.awsOrganizationsSource,
+    this.enableAllOpsDataSources,
     this.includeFutureRegions,
   });
-  Map<String, dynamic> toJson() => _$ResourceDataSyncSourceToJson(this);
+
+  factory ResourceDataSyncSource.fromJson(Map<String, dynamic> json) {
+    return ResourceDataSyncSource(
+      sourceRegions: (json['SourceRegions'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceType: json['SourceType'] as String,
+      awsOrganizationsSource: json['AwsOrganizationsSource'] != null
+          ? ResourceDataSyncAwsOrganizationsSource.fromJson(
+              json['AwsOrganizationsSource'] as Map<String, dynamic>)
+          : null,
+      enableAllOpsDataSources: json['EnableAllOpsDataSources'] as bool?,
+      includeFutureRegions: json['IncludeFutureRegions'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceRegions = this.sourceRegions;
+    final sourceType = this.sourceType;
+    final awsOrganizationsSource = this.awsOrganizationsSource;
+    final enableAllOpsDataSources = this.enableAllOpsDataSources;
+    final includeFutureRegions = this.includeFutureRegions;
+    return {
+      'SourceRegions': sourceRegions,
+      'SourceType': sourceType,
+      if (awsOrganizationsSource != null)
+        'AwsOrganizationsSource': awsOrganizationsSource,
+      if (enableAllOpsDataSources != null)
+        'EnableAllOpsDataSources': enableAllOpsDataSources,
+      if (includeFutureRegions != null)
+        'IncludeFutureRegions': includeFutureRegions,
+    };
+  }
 }
 
 /// The data type name for including resource data sync state. There are four
@@ -21846,31 +27215,32 @@ class ResourceDataSyncSource {
 ///
 /// <code>TrustedAccessDisabled</code> (You disabled Systems Manager access in
 /// the organization in AWS Organizations.)
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceDataSyncSourceWithState {
   /// The field name in <code>SyncSource</code> for the
   /// <code>ResourceDataSyncAwsOrganizationsSource</code> type.
-  @_s.JsonKey(name: 'AwsOrganizationsSource')
-  final ResourceDataSyncAwsOrganizationsSource awsOrganizationsSource;
+  final ResourceDataSyncAwsOrganizationsSource? awsOrganizationsSource;
+
+  /// When you create a resource data sync, if you choose one of the AWS
+  /// Organizations options, then Systems Manager automatically enables all
+  /// OpsData sources in the selected AWS Regions for all AWS accounts in your
+  /// organization (or in the selected organization units). For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resouce-data-sync-multiple-accounts-and-regions.html">About
+  /// multiple account and Region resource data syncs</a> in the <i>AWS Systems
+  /// Manager User Guide</i>.
+  final bool? enableAllOpsDataSources;
 
   /// Whether to automatically synchronize and aggregate data from new AWS Regions
   /// when those Regions come online.
-  @_s.JsonKey(name: 'IncludeFutureRegions')
-  final bool includeFutureRegions;
+  final bool? includeFutureRegions;
 
   /// The <code>SyncSource</code> AWS Regions included in the resource data sync.
-  @_s.JsonKey(name: 'SourceRegions')
-  final List<String> sourceRegions;
+  final List<String>? sourceRegions;
 
   /// The type of data source for the resource data sync. <code>SourceType</code>
   /// is either <code>AwsOrganizations</code> (if an organization is present in
   /// AWS Organizations) or <code>singleAccountMultiRegions</code>.
-  @_s.JsonKey(name: 'SourceType')
-  final String sourceType;
+  final String? sourceType;
 
   /// The data type name for including resource data sync state. There are four
   /// sync states:
@@ -21886,42 +27256,96 @@ class ResourceDataSyncSourceWithState {
   ///
   /// <code>TrustedAccessDisabled</code>: You disabled Systems Manager access in
   /// the organization in AWS Organizations.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   ResourceDataSyncSourceWithState({
     this.awsOrganizationsSource,
+    this.enableAllOpsDataSources,
     this.includeFutureRegions,
     this.sourceRegions,
     this.sourceType,
     this.state,
   });
-  factory ResourceDataSyncSourceWithState.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDataSyncSourceWithStateFromJson(json);
+
+  factory ResourceDataSyncSourceWithState.fromJson(Map<String, dynamic> json) {
+    return ResourceDataSyncSourceWithState(
+      awsOrganizationsSource: json['AwsOrganizationsSource'] != null
+          ? ResourceDataSyncAwsOrganizationsSource.fromJson(
+              json['AwsOrganizationsSource'] as Map<String, dynamic>)
+          : null,
+      enableAllOpsDataSources: json['EnableAllOpsDataSources'] as bool?,
+      includeFutureRegions: json['IncludeFutureRegions'] as bool?,
+      sourceRegions: (json['SourceRegions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceType: json['SourceType'] as String?,
+      state: json['State'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsOrganizationsSource = this.awsOrganizationsSource;
+    final enableAllOpsDataSources = this.enableAllOpsDataSources;
+    final includeFutureRegions = this.includeFutureRegions;
+    final sourceRegions = this.sourceRegions;
+    final sourceType = this.sourceType;
+    final state = this.state;
+    return {
+      if (awsOrganizationsSource != null)
+        'AwsOrganizationsSource': awsOrganizationsSource,
+      if (enableAllOpsDataSources != null)
+        'EnableAllOpsDataSources': enableAllOpsDataSources,
+      if (includeFutureRegions != null)
+        'IncludeFutureRegions': includeFutureRegions,
+      if (sourceRegions != null) 'SourceRegions': sourceRegions,
+      if (sourceType != null) 'SourceType': sourceType,
+      if (state != null) 'State': state,
+    };
+  }
 }
 
 enum ResourceType {
-  @_s.JsonValue('ManagedInstance')
   managedInstance,
-  @_s.JsonValue('Document')
   document,
-  @_s.JsonValue('EC2Instance')
   eC2Instance,
 }
 
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.managedInstance:
+        return 'ManagedInstance';
+      case ResourceType.document:
+        return 'Document';
+      case ResourceType.eC2Instance:
+        return 'EC2Instance';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'ManagedInstance':
+        return ResourceType.managedInstance;
+      case 'Document':
+        return ResourceType.document;
+      case 'EC2Instance':
+        return ResourceType.eC2Instance;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 enum ResourceTypeForTagging {
-  @_s.JsonValue('Document')
   document,
-  @_s.JsonValue('ManagedInstance')
   managedInstance,
-  @_s.JsonValue('MaintenanceWindow')
   maintenanceWindow,
-  @_s.JsonValue('Parameter')
   parameter,
-  @_s.JsonValue('PatchBaseline')
   patchBaseline,
-  @_s.JsonValue('OpsItem')
   opsItem,
+  opsMetadata,
 }
 
 extension on ResourceTypeForTagging {
@@ -21939,38 +27363,61 @@ extension on ResourceTypeForTagging {
         return 'PatchBaseline';
       case ResourceTypeForTagging.opsItem:
         return 'OpsItem';
+      case ResourceTypeForTagging.opsMetadata:
+        return 'OpsMetadata';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceTypeForTagging toResourceTypeForTagging() {
+    switch (this) {
+      case 'Document':
+        return ResourceTypeForTagging.document;
+      case 'ManagedInstance':
+        return ResourceTypeForTagging.managedInstance;
+      case 'MaintenanceWindow':
+        return ResourceTypeForTagging.maintenanceWindow;
+      case 'Parameter':
+        return ResourceTypeForTagging.parameter;
+      case 'PatchBaseline':
+        return ResourceTypeForTagging.patchBaseline;
+      case 'OpsItem':
+        return ResourceTypeForTagging.opsItem;
+      case 'OpsMetadata':
+        return ResourceTypeForTagging.opsMetadata;
+    }
+    throw Exception('$this is not known in enum ResourceTypeForTagging');
   }
 }
 
 /// The inventory item result attribute.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResultAttribute {
   /// Name of the inventory item type. Valid value: AWS:InstanceInformation.
   /// Default Value: AWS:InstanceInformation.
-  @_s.JsonKey(name: 'TypeName')
   final String typeName;
 
   ResultAttribute({
-    @_s.required this.typeName,
+    required this.typeName,
   });
-  Map<String, dynamic> toJson() => _$ResultAttributeToJson(this);
+
+  factory ResultAttribute.fromJson(Map<String, dynamic> json) {
+    return ResultAttribute(
+      typeName: json['TypeName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typeName = this.typeName;
+    return {
+      'TypeName': typeName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResumeSessionResponse {
   /// The ID of the session.
-  @_s.JsonKey(name: 'SessionId')
-  final String sessionId;
+  final String? sessionId;
 
   /// A URL back to SSM Agent on the instance that the Session Manager client uses
   /// to send commands and receive output from the instance. Format:
@@ -21985,61 +27432,112 @@ class ResumeSessionResponse {
   ///
   /// <b>session-id</b> represents the ID of a Session Manager session, such as
   /// <code>1a2b3c4dEXAMPLE</code>.
-  @_s.JsonKey(name: 'StreamUrl')
-  final String streamUrl;
+  final String? streamUrl;
 
   /// An encrypted token value containing session and caller information. Used to
   /// authenticate the connection to the instance.
-  @_s.JsonKey(name: 'TokenValue')
-  final String tokenValue;
+  final String? tokenValue;
 
   ResumeSessionResponse({
     this.sessionId,
     this.streamUrl,
     this.tokenValue,
   });
-  factory ResumeSessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResumeSessionResponseFromJson(json);
+
+  factory ResumeSessionResponse.fromJson(Map<String, dynamic> json) {
+    return ResumeSessionResponse(
+      sessionId: json['SessionId'] as String?,
+      streamUrl: json['StreamUrl'] as String?,
+      tokenValue: json['TokenValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionId = this.sessionId;
+    final streamUrl = this.streamUrl;
+    final tokenValue = this.tokenValue;
+    return {
+      if (sessionId != null) 'SessionId': sessionId,
+      if (streamUrl != null) 'StreamUrl': streamUrl,
+      if (tokenValue != null) 'TokenValue': tokenValue,
+    };
+  }
 }
 
 /// Information about the result of a document review request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReviewInformation {
   /// The time that the reviewer took action on the document review request.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ReviewedTime')
-  final DateTime reviewedTime;
+  final DateTime? reviewedTime;
 
   /// The reviewer assigned to take action on the document review request.
-  @_s.JsonKey(name: 'Reviewer')
-  final String reviewer;
+  final String? reviewer;
 
   /// The current status of the document review request.
-  @_s.JsonKey(name: 'Status')
-  final ReviewStatus status;
+  final ReviewStatus? status;
 
   ReviewInformation({
     this.reviewedTime,
     this.reviewer,
     this.status,
   });
-  factory ReviewInformation.fromJson(Map<String, dynamic> json) =>
-      _$ReviewInformationFromJson(json);
+
+  factory ReviewInformation.fromJson(Map<String, dynamic> json) {
+    return ReviewInformation(
+      reviewedTime: timeStampFromJson(json['ReviewedTime']),
+      reviewer: json['Reviewer'] as String?,
+      status: (json['Status'] as String?)?.toReviewStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reviewedTime = this.reviewedTime;
+    final reviewer = this.reviewer;
+    final status = this.status;
+    return {
+      if (reviewedTime != null)
+        'ReviewedTime': unixTimestampToJson(reviewedTime),
+      if (reviewer != null) 'Reviewer': reviewer,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum ReviewStatus {
-  @_s.JsonValue('APPROVED')
   approved,
-  @_s.JsonValue('NOT_REVIEWED')
   notReviewed,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('REJECTED')
   rejected,
+}
+
+extension on ReviewStatus {
+  String toValue() {
+    switch (this) {
+      case ReviewStatus.approved:
+        return 'APPROVED';
+      case ReviewStatus.notReviewed:
+        return 'NOT_REVIEWED';
+      case ReviewStatus.pending:
+        return 'PENDING';
+      case ReviewStatus.rejected:
+        return 'REJECTED';
+    }
+  }
+}
+
+extension on String {
+  ReviewStatus toReviewStatus() {
+    switch (this) {
+      case 'APPROVED':
+        return ReviewStatus.approved;
+      case 'NOT_REVIEWED':
+        return ReviewStatus.notReviewed;
+      case 'PENDING':
+        return ReviewStatus.pending;
+      case 'REJECTED':
+        return ReviewStatus.rejected;
+    }
+    throw Exception('$this is not known in enum ReviewStatus');
+  }
 }
 
 /// Information about an Automation runbook (Automation document) used in a
@@ -22048,57 +27546,44 @@ enum ReviewStatus {
 /// The Automation runbooks specified for the runbook workflow can't run until
 /// all required approvals for the change request have been received.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Runbook {
   /// The name of the Automation runbook (Automation document) used in a runbook
   /// workflow.
-  @_s.JsonKey(name: 'DocumentName')
   final String documentName;
 
   /// The version of the Automation runbook (Automation document) used in a
   /// runbook workflow.
-  @_s.JsonKey(name: 'DocumentVersion')
-  final String documentVersion;
+  final String? documentVersion;
 
   /// The <code>MaxConcurrency</code> value specified by the user when the
   /// operation started, indicating the maximum number of resources that the
   /// runbook operation can run on at the same time.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The <code>MaxErrors</code> value specified by the user when the execution
   /// started, indicating the maximum number of errors that can occur during the
   /// operation before the updates are stopped or rolled back.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The key-value map of execution parameters, which were supplied when calling
   /// <code>StartChangeRequestExecution</code>.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, List<String>> parameters;
+  final Map<String, List<String>>? parameters;
 
   /// Information about the AWS Regions and accounts targeted by the current
   /// Runbook operation.
-  @_s.JsonKey(name: 'TargetLocations')
-  final List<TargetLocation> targetLocations;
+  final List<TargetLocation>? targetLocations;
 
   /// The name of the parameter used as the target resource for the
   /// rate-controlled runbook workflow. Required if you specify
   /// <code>Targets</code>.
-  @_s.JsonKey(name: 'TargetParameterName')
-  final String targetParameterName;
+  final String? targetParameterName;
 
   /// A key-value mapping to target resources that the Runbook operation performs
   /// tasks on. Required if you specify <code>TargetParameterName</code>.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   Runbook({
-    @_s.required this.documentName,
+    required this.documentName,
     this.documentVersion,
     this.maxConcurrency,
     this.maxErrors,
@@ -22107,118 +27592,186 @@ class Runbook {
     this.targetParameterName,
     this.targets,
   });
-  factory Runbook.fromJson(Map<String, dynamic> json) =>
-      _$RunbookFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RunbookToJson(this);
+  factory Runbook.fromJson(Map<String, dynamic> json) {
+    return Runbook(
+      documentName: json['DocumentName'] as String,
+      documentVersion: json['DocumentVersion'] as String?,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      targetLocations: (json['TargetLocations'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetParameterName: json['TargetParameterName'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentName = this.documentName;
+    final documentVersion = this.documentVersion;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final parameters = this.parameters;
+    final targetLocations = this.targetLocations;
+    final targetParameterName = this.targetParameterName;
+    final targets = this.targets;
+    return {
+      'DocumentName': documentName,
+      if (documentVersion != null) 'DocumentVersion': documentVersion,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (parameters != null) 'Parameters': parameters,
+      if (targetLocations != null) 'TargetLocations': targetLocations,
+      if (targetParameterName != null)
+        'TargetParameterName': targetParameterName,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 /// An S3 bucket where you want to store the results of this request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3OutputLocation {
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'OutputS3BucketName')
-  final String outputS3BucketName;
+  final String? outputS3BucketName;
 
   /// The S3 bucket subfolder.
-  @_s.JsonKey(name: 'OutputS3KeyPrefix')
-  final String outputS3KeyPrefix;
+  final String? outputS3KeyPrefix;
 
   /// (Deprecated) You can no longer specify this parameter. The system ignores
   /// it. Instead, Systems Manager automatically determines the Region of the S3
   /// bucket.
-  @_s.JsonKey(name: 'OutputS3Region')
-  final String outputS3Region;
+  final String? outputS3Region;
 
   S3OutputLocation({
     this.outputS3BucketName,
     this.outputS3KeyPrefix,
     this.outputS3Region,
   });
-  factory S3OutputLocation.fromJson(Map<String, dynamic> json) =>
-      _$S3OutputLocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3OutputLocationToJson(this);
+  factory S3OutputLocation.fromJson(Map<String, dynamic> json) {
+    return S3OutputLocation(
+      outputS3BucketName: json['OutputS3BucketName'] as String?,
+      outputS3KeyPrefix: json['OutputS3KeyPrefix'] as String?,
+      outputS3Region: json['OutputS3Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputS3BucketName = this.outputS3BucketName;
+    final outputS3KeyPrefix = this.outputS3KeyPrefix;
+    final outputS3Region = this.outputS3Region;
+    return {
+      if (outputS3BucketName != null) 'OutputS3BucketName': outputS3BucketName,
+      if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
+      if (outputS3Region != null) 'OutputS3Region': outputS3Region,
+    };
+  }
 }
 
 /// A URL for the S3 bucket where you want to store the results of this request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3OutputUrl {
   /// A URL for an S3 bucket where you want to store the results of this request.
-  @_s.JsonKey(name: 'OutputUrl')
-  final String outputUrl;
+  final String? outputUrl;
 
   S3OutputUrl({
     this.outputUrl,
   });
-  factory S3OutputUrl.fromJson(Map<String, dynamic> json) =>
-      _$S3OutputUrlFromJson(json);
+
+  factory S3OutputUrl.fromJson(Map<String, dynamic> json) {
+    return S3OutputUrl(
+      outputUrl: json['OutputUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputUrl = this.outputUrl;
+    return {
+      if (outputUrl != null) 'OutputUrl': outputUrl,
+    };
+  }
 }
 
 /// Information about a scheduled execution for a maintenance window.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScheduledWindowExecution {
   /// The time, in ISO-8601 Extended format, that the maintenance window is
   /// scheduled to be run.
-  @_s.JsonKey(name: 'ExecutionTime')
-  final String executionTime;
+  final String? executionTime;
 
   /// The name of the maintenance window to be run.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the maintenance window to be run.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   ScheduledWindowExecution({
     this.executionTime,
     this.name,
     this.windowId,
   });
-  factory ScheduledWindowExecution.fromJson(Map<String, dynamic> json) =>
-      _$ScheduledWindowExecutionFromJson(json);
+
+  factory ScheduledWindowExecution.fromJson(Map<String, dynamic> json) {
+    return ScheduledWindowExecution(
+      executionTime: json['ExecutionTime'] as String?,
+      name: json['Name'] as String?,
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionTime = this.executionTime;
+    final name = this.name;
+    final windowId = this.windowId;
+    return {
+      if (executionTime != null) 'ExecutionTime': executionTime,
+      if (name != null) 'Name': name,
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendAutomationSignalResult {
   SendAutomationSignalResult();
-  factory SendAutomationSignalResult.fromJson(Map<String, dynamic> json) =>
-      _$SendAutomationSignalResultFromJson(json);
+
+  factory SendAutomationSignalResult.fromJson(Map<String, dynamic> _) {
+    return SendAutomationSignalResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendCommandResult {
   /// The request as it was received by Systems Manager. Also provides the command
   /// ID which can be used future references to this request.
-  @_s.JsonKey(name: 'Command')
-  final Command command;
+  final Command? command;
 
   SendCommandResult({
     this.command,
   });
-  factory SendCommandResult.fromJson(Map<String, dynamic> json) =>
-      _$SendCommandResultFromJson(json);
+
+  factory SendCommandResult.fromJson(Map<String, dynamic> json) {
+    return SendCommandResult(
+      command: json['Command'] != null
+          ? Command.fromJson(json['Command'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    return {
+      if (command != null) 'Command': command,
+    };
+  }
 }
 
 /// The service setting data structure.
@@ -22238,33 +27791,22 @@ class SendCommandResult {
 /// the setting. Use the <a>UpdateServiceSetting</a> API action to change the
 /// default setting. Or, use the <a>ResetServiceSetting</a> to change the value
 /// back to the original value defined by the AWS service team.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceSetting {
   /// The ARN of the service setting.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The last time the service setting was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The ARN of the last modified user. This field is populated only if the
   /// setting value was overwritten.
-  @_s.JsonKey(name: 'LastModifiedUser')
-  final String lastModifiedUser;
+  final String? lastModifiedUser;
 
   /// The ID of the service setting.
-  @_s.JsonKey(name: 'SettingId')
-  final String settingId;
+  final String? settingId;
 
   /// The value of the service setting.
-  @_s.JsonKey(name: 'SettingValue')
-  final String settingValue;
+  final String? settingValue;
 
   /// The status of the service setting. The value can be Default, Customized or
   /// PendingUpdate.
@@ -22283,8 +27825,7 @@ class ServiceSetting {
   /// setting change request is pending approval.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   ServiceSetting({
     this.arn,
@@ -22294,57 +27835,68 @@ class ServiceSetting {
     this.settingValue,
     this.status,
   });
-  factory ServiceSetting.fromJson(Map<String, dynamic> json) =>
-      _$ServiceSettingFromJson(json);
+
+  factory ServiceSetting.fromJson(Map<String, dynamic> json) {
+    return ServiceSetting(
+      arn: json['ARN'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      lastModifiedUser: json['LastModifiedUser'] as String?,
+      settingId: json['SettingId'] as String?,
+      settingValue: json['SettingValue'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final settingId = this.settingId;
+    final settingValue = this.settingValue;
+    final status = this.status;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'LastModifiedUser': lastModifiedUser,
+      if (settingId != null) 'SettingId': settingId,
+      if (settingValue != null) 'SettingValue': settingValue,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 /// Information about a Session Manager connection to an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Session {
   /// Reserved for future use.
-  @_s.JsonKey(name: 'Details')
-  final String details;
+  final String? details;
 
   /// The name of the Session Manager SSM document used to define the parameters
   /// and plugin settings for the session. For example,
   /// <code>SSM-SessionManagerRunShell</code>.
-  @_s.JsonKey(name: 'DocumentName')
-  final String documentName;
+  final String? documentName;
 
   /// The date and time, in ISO-8601 Extended format, when the session was
   /// terminated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndDate')
-  final DateTime endDate;
+  final DateTime? endDate;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'OutputUrl')
-  final SessionManagerOutputUrl outputUrl;
+  final SessionManagerOutputUrl? outputUrl;
 
   /// The ID of the AWS user account that started the session.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// The ID of the session.
-  @_s.JsonKey(name: 'SessionId')
-  final String sessionId;
+  final String? sessionId;
 
   /// The date and time, in ISO-8601 Extended format, when the session began.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartDate')
-  final DateTime startDate;
+  final DateTime? startDate;
 
   /// The status of the session. For example, "Connected" or "Terminated".
-  @_s.JsonKey(name: 'Status')
-  final SessionStatus status;
+  final SessionStatus? status;
 
   /// The instance that the Session Manager session connected to.
-  @_s.JsonKey(name: 'Target')
-  final String target;
+  final String? target;
 
   Session({
     this.details,
@@ -22357,19 +27909,51 @@ class Session {
     this.status,
     this.target,
   });
-  factory Session.fromJson(Map<String, dynamic> json) =>
-      _$SessionFromJson(json);
+
+  factory Session.fromJson(Map<String, dynamic> json) {
+    return Session(
+      details: json['Details'] as String?,
+      documentName: json['DocumentName'] as String?,
+      endDate: timeStampFromJson(json['EndDate']),
+      outputUrl: json['OutputUrl'] != null
+          ? SessionManagerOutputUrl.fromJson(
+              json['OutputUrl'] as Map<String, dynamic>)
+          : null,
+      owner: json['Owner'] as String?,
+      sessionId: json['SessionId'] as String?,
+      startDate: timeStampFromJson(json['StartDate']),
+      status: (json['Status'] as String?)?.toSessionStatus(),
+      target: json['Target'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final documentName = this.documentName;
+    final endDate = this.endDate;
+    final outputUrl = this.outputUrl;
+    final owner = this.owner;
+    final sessionId = this.sessionId;
+    final startDate = this.startDate;
+    final status = this.status;
+    final target = this.target;
+    return {
+      if (details != null) 'Details': details,
+      if (documentName != null) 'DocumentName': documentName,
+      if (endDate != null) 'EndDate': unixTimestampToJson(endDate),
+      if (outputUrl != null) 'OutputUrl': outputUrl,
+      if (owner != null) 'Owner': owner,
+      if (sessionId != null) 'SessionId': sessionId,
+      if (startDate != null) 'StartDate': unixTimestampToJson(startDate),
+      if (status != null) 'Status': status.toValue(),
+      if (target != null) 'Target': target,
+    };
+  }
 }
 
 /// Describes a filter for Session Manager information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SessionFilter {
   /// The name of the filter.
-  @_s.JsonKey(name: 'key')
   final SessionFilterKey key;
 
   /// The filter value. Valid values for each filter key are as follows:
@@ -22420,58 +28004,111 @@ class SessionFilter {
   /// SessionId: Specify a session ID to return details about the session.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'value')
   final String value;
 
   SessionFilter({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$SessionFilterToJson(this);
+
+  factory SessionFilter.fromJson(Map<String, dynamic> json) {
+    return SessionFilter(
+      key: (json['key'] as String).toSessionFilterKey(),
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key.toValue(),
+      'value': value,
+    };
+  }
 }
 
 enum SessionFilterKey {
-  @_s.JsonValue('InvokedAfter')
   invokedAfter,
-  @_s.JsonValue('InvokedBefore')
   invokedBefore,
-  @_s.JsonValue('Target')
   target,
-  @_s.JsonValue('Owner')
   owner,
-  @_s.JsonValue('Status')
   status,
-  @_s.JsonValue('SessionId')
   sessionId,
 }
 
+extension on SessionFilterKey {
+  String toValue() {
+    switch (this) {
+      case SessionFilterKey.invokedAfter:
+        return 'InvokedAfter';
+      case SessionFilterKey.invokedBefore:
+        return 'InvokedBefore';
+      case SessionFilterKey.target:
+        return 'Target';
+      case SessionFilterKey.owner:
+        return 'Owner';
+      case SessionFilterKey.status:
+        return 'Status';
+      case SessionFilterKey.sessionId:
+        return 'SessionId';
+    }
+  }
+}
+
+extension on String {
+  SessionFilterKey toSessionFilterKey() {
+    switch (this) {
+      case 'InvokedAfter':
+        return SessionFilterKey.invokedAfter;
+      case 'InvokedBefore':
+        return SessionFilterKey.invokedBefore;
+      case 'Target':
+        return SessionFilterKey.target;
+      case 'Owner':
+        return SessionFilterKey.owner;
+      case 'Status':
+        return SessionFilterKey.status;
+      case 'SessionId':
+        return SessionFilterKey.sessionId;
+    }
+    throw Exception('$this is not known in enum SessionFilterKey');
+  }
+}
+
 /// Reserved for future use.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SessionManagerOutputUrl {
   /// Reserved for future use.
-  @_s.JsonKey(name: 'CloudWatchOutputUrl')
-  final String cloudWatchOutputUrl;
+  final String? cloudWatchOutputUrl;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'S3OutputUrl')
-  final String s3OutputUrl;
+  final String? s3OutputUrl;
 
   SessionManagerOutputUrl({
     this.cloudWatchOutputUrl,
     this.s3OutputUrl,
   });
-  factory SessionManagerOutputUrl.fromJson(Map<String, dynamic> json) =>
-      _$SessionManagerOutputUrlFromJson(json);
+
+  factory SessionManagerOutputUrl.fromJson(Map<String, dynamic> json) {
+    return SessionManagerOutputUrl(
+      cloudWatchOutputUrl: json['CloudWatchOutputUrl'] as String?,
+      s3OutputUrl: json['S3OutputUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchOutputUrl = this.cloudWatchOutputUrl;
+    final s3OutputUrl = this.s3OutputUrl;
+    return {
+      if (cloudWatchOutputUrl != null)
+        'CloudWatchOutputUrl': cloudWatchOutputUrl,
+      if (s3OutputUrl != null) 'S3OutputUrl': s3OutputUrl,
+    };
+  }
 }
 
 enum SessionState {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('History')
   history,
 }
 
@@ -22483,68 +28120,101 @@ extension on SessionState {
       case SessionState.history:
         return 'History';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SessionState toSessionState() {
+    switch (this) {
+      case 'Active':
+        return SessionState.active;
+      case 'History':
+        return SessionState.history;
+    }
+    throw Exception('$this is not known in enum SessionState');
   }
 }
 
 enum SessionStatus {
-  @_s.JsonValue('Connected')
   connected,
-  @_s.JsonValue('Connecting')
   connecting,
-  @_s.JsonValue('Disconnected')
   disconnected,
-  @_s.JsonValue('Terminated')
   terminated,
-  @_s.JsonValue('Terminating')
   terminating,
-  @_s.JsonValue('Failed')
   failed,
+}
+
+extension on SessionStatus {
+  String toValue() {
+    switch (this) {
+      case SessionStatus.connected:
+        return 'Connected';
+      case SessionStatus.connecting:
+        return 'Connecting';
+      case SessionStatus.disconnected:
+        return 'Disconnected';
+      case SessionStatus.terminated:
+        return 'Terminated';
+      case SessionStatus.terminating:
+        return 'Terminating';
+      case SessionStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  SessionStatus toSessionStatus() {
+    switch (this) {
+      case 'Connected':
+        return SessionStatus.connected;
+      case 'Connecting':
+        return SessionStatus.connecting;
+      case 'Disconnected':
+        return SessionStatus.disconnected;
+      case 'Terminated':
+        return SessionStatus.terminated;
+      case 'Terminating':
+        return SessionStatus.terminating;
+      case 'Failed':
+        return SessionStatus.failed;
+    }
+    throw Exception('$this is not known in enum SessionStatus');
+  }
 }
 
 /// The number of managed instances found for each patch severity level defined
 /// in the request filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SeveritySummary {
   /// The total number of resources or compliance items that have a severity level
   /// of critical. Critical severity is determined by the organization that
   /// published the compliance items.
-  @_s.JsonKey(name: 'CriticalCount')
-  final int criticalCount;
+  final int? criticalCount;
 
   /// The total number of resources or compliance items that have a severity level
   /// of high. High severity is determined by the organization that published the
   /// compliance items.
-  @_s.JsonKey(name: 'HighCount')
-  final int highCount;
+  final int? highCount;
 
   /// The total number of resources or compliance items that have a severity level
   /// of informational. Informational severity is determined by the organization
   /// that published the compliance items.
-  @_s.JsonKey(name: 'InformationalCount')
-  final int informationalCount;
+  final int? informationalCount;
 
   /// The total number of resources or compliance items that have a severity level
   /// of low. Low severity is determined by the organization that published the
   /// compliance items.
-  @_s.JsonKey(name: 'LowCount')
-  final int lowCount;
+  final int? lowCount;
 
   /// The total number of resources or compliance items that have a severity level
   /// of medium. Medium severity is determined by the organization that published
   /// the compliance items.
-  @_s.JsonKey(name: 'MediumCount')
-  final int mediumCount;
+  final int? mediumCount;
 
   /// The total number of resources or compliance items that have a severity level
   /// of unspecified. Unspecified severity is determined by the organization that
   /// published the compliance items.
-  @_s.JsonKey(name: 'UnspecifiedCount')
-  final int unspecifiedCount;
+  final int? unspecifiedCount;
 
   SeveritySummary({
     this.criticalCount,
@@ -22554,20 +28224,41 @@ class SeveritySummary {
     this.mediumCount,
     this.unspecifiedCount,
   });
-  factory SeveritySummary.fromJson(Map<String, dynamic> json) =>
-      _$SeveritySummaryFromJson(json);
+
+  factory SeveritySummary.fromJson(Map<String, dynamic> json) {
+    return SeveritySummary(
+      criticalCount: json['CriticalCount'] as int?,
+      highCount: json['HighCount'] as int?,
+      informationalCount: json['InformationalCount'] as int?,
+      lowCount: json['LowCount'] as int?,
+      mediumCount: json['MediumCount'] as int?,
+      unspecifiedCount: json['UnspecifiedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final criticalCount = this.criticalCount;
+    final highCount = this.highCount;
+    final informationalCount = this.informationalCount;
+    final lowCount = this.lowCount;
+    final mediumCount = this.mediumCount;
+    final unspecifiedCount = this.unspecifiedCount;
+    return {
+      if (criticalCount != null) 'CriticalCount': criticalCount,
+      if (highCount != null) 'HighCount': highCount,
+      if (informationalCount != null) 'InformationalCount': informationalCount,
+      if (lowCount != null) 'LowCount': lowCount,
+      if (mediumCount != null) 'MediumCount': mediumCount,
+      if (unspecifiedCount != null) 'UnspecifiedCount': unspecifiedCount,
+    };
+  }
 }
 
 enum SignalType {
-  @_s.JsonValue('Approve')
   approve,
-  @_s.JsonValue('Reject')
   reject,
-  @_s.JsonValue('StartStep')
   startStep,
-  @_s.JsonValue('StopStep')
   stopStep,
-  @_s.JsonValue('Resume')
   resume,
 }
 
@@ -22585,66 +28276,90 @@ extension on SignalType {
       case SignalType.resume:
         return 'Resume';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class StartAssociationsOnceResult {
-  StartAssociationsOnceResult();
-  factory StartAssociationsOnceResult.fromJson(Map<String, dynamic> json) =>
-      _$StartAssociationsOnceResultFromJson(json);
+extension on String {
+  SignalType toSignalType() {
+    switch (this) {
+      case 'Approve':
+        return SignalType.approve;
+      case 'Reject':
+        return SignalType.reject;
+      case 'StartStep':
+        return SignalType.startStep;
+      case 'StopStep':
+        return SignalType.stopStep;
+      case 'Resume':
+        return SignalType.resume;
+    }
+    throw Exception('$this is not known in enum SignalType');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class StartAssociationsOnceResult {
+  StartAssociationsOnceResult();
+
+  factory StartAssociationsOnceResult.fromJson(Map<String, dynamic> _) {
+    return StartAssociationsOnceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class StartAutomationExecutionResult {
   /// The unique ID of a newly scheduled automation execution.
-  @_s.JsonKey(name: 'AutomationExecutionId')
-  final String automationExecutionId;
+  final String? automationExecutionId;
 
   StartAutomationExecutionResult({
     this.automationExecutionId,
   });
-  factory StartAutomationExecutionResult.fromJson(Map<String, dynamic> json) =>
-      _$StartAutomationExecutionResultFromJson(json);
+
+  factory StartAutomationExecutionResult.fromJson(Map<String, dynamic> json) {
+    return StartAutomationExecutionResult(
+      automationExecutionId: json['AutomationExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automationExecutionId = this.automationExecutionId;
+    return {
+      if (automationExecutionId != null)
+        'AutomationExecutionId': automationExecutionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartChangeRequestExecutionResult {
   /// The unique ID of a runbook workflow operation. (A runbook workflow is a type
   /// of Automation operation.)
-  @_s.JsonKey(name: 'AutomationExecutionId')
-  final String automationExecutionId;
+  final String? automationExecutionId;
 
   StartChangeRequestExecutionResult({
     this.automationExecutionId,
   });
+
   factory StartChangeRequestExecutionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartChangeRequestExecutionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return StartChangeRequestExecutionResult(
+      automationExecutionId: json['AutomationExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final automationExecutionId = this.automationExecutionId;
+    return {
+      if (automationExecutionId != null)
+        'AutomationExecutionId': automationExecutionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartSessionResponse {
   /// The ID of the session.
-  @_s.JsonKey(name: 'SessionId')
-  final String sessionId;
+  final String? sessionId;
 
   /// A URL back to SSM Agent on the instance that the Session Manager client uses
   /// to send commands and receive output from the instance. Format:
@@ -22659,130 +28374,116 @@ class StartSessionResponse {
   ///
   /// <b>session-id</b> represents the ID of a Session Manager session, such as
   /// <code>1a2b3c4dEXAMPLE</code>.
-  @_s.JsonKey(name: 'StreamUrl')
-  final String streamUrl;
+  final String? streamUrl;
 
   /// An encrypted token value containing session and caller information. Used to
   /// authenticate the connection to the instance.
-  @_s.JsonKey(name: 'TokenValue')
-  final String tokenValue;
+  final String? tokenValue;
 
   StartSessionResponse({
     this.sessionId,
     this.streamUrl,
     this.tokenValue,
   });
-  factory StartSessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartSessionResponseFromJson(json);
+
+  factory StartSessionResponse.fromJson(Map<String, dynamic> json) {
+    return StartSessionResponse(
+      sessionId: json['SessionId'] as String?,
+      streamUrl: json['StreamUrl'] as String?,
+      tokenValue: json['TokenValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionId = this.sessionId;
+    final streamUrl = this.streamUrl;
+    final tokenValue = this.tokenValue;
+    return {
+      if (sessionId != null) 'SessionId': sessionId,
+      if (streamUrl != null) 'StreamUrl': streamUrl,
+      if (tokenValue != null) 'TokenValue': tokenValue,
+    };
+  }
 }
 
 /// Detailed information about an the execution state of an Automation step.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StepExecution {
   /// The action this step performs. The action determines the behavior of the
   /// step.
-  @_s.JsonKey(name: 'Action')
-  final String action;
+  final String? action;
 
   /// If a step has finished execution, this contains the time the execution
   /// ended. If the step has not yet concluded, this field is not populated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionEndTime')
-  final DateTime executionEndTime;
+  final DateTime? executionEndTime;
 
   /// If a step has begun execution, this contains the time the step started. If
   /// the step is in Pending status, this field is not populated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExecutionStartTime')
-  final DateTime executionStartTime;
+  final DateTime? executionStartTime;
 
   /// Information about the Automation failure.
-  @_s.JsonKey(name: 'FailureDetails')
-  final FailureDetails failureDetails;
+  final FailureDetails? failureDetails;
 
   /// If a step failed, this message explains why the execution failed.
-  @_s.JsonKey(name: 'FailureMessage')
-  final String failureMessage;
+  final String? failureMessage;
 
   /// Fully-resolved values passed into the step before execution.
-  @_s.JsonKey(name: 'Inputs')
-  final Map<String, String> inputs;
+  final Map<String, String>? inputs;
 
   /// The flag which can be used to help decide whether the failure of current
   /// step leads to the Automation failure.
-  @_s.JsonKey(name: 'IsCritical')
-  final bool isCritical;
+  final bool? isCritical;
 
   /// The flag which can be used to end automation no matter whether the step
   /// succeeds or fails.
-  @_s.JsonKey(name: 'IsEnd')
-  final bool isEnd;
+  final bool? isEnd;
 
   /// The maximum number of tries to run the action of the step. The default value
   /// is 1.
-  @_s.JsonKey(name: 'MaxAttempts')
-  final int maxAttempts;
+  final int? maxAttempts;
 
   /// The next step after the step succeeds.
-  @_s.JsonKey(name: 'NextStep')
-  final String nextStep;
+  final String? nextStep;
 
   /// The action to take if the step fails. The default value is Abort.
-  @_s.JsonKey(name: 'OnFailure')
-  final String onFailure;
+  final String? onFailure;
 
   /// Returned values from the execution of the step.
-  @_s.JsonKey(name: 'Outputs')
-  final Map<String, List<String>> outputs;
+  final Map<String, List<String>>? outputs;
 
   /// A user-specified list of parameters to override when running a step.
-  @_s.JsonKey(name: 'OverriddenParameters')
-  final Map<String, List<String>> overriddenParameters;
+  final Map<String, List<String>>? overriddenParameters;
 
   /// A message associated with the response code for an execution.
-  @_s.JsonKey(name: 'Response')
-  final String response;
+  final String? response;
 
   /// The response code returned by the execution of the step.
-  @_s.JsonKey(name: 'ResponseCode')
-  final String responseCode;
+  final String? responseCode;
 
   /// The unique ID of a step execution.
-  @_s.JsonKey(name: 'StepExecutionId')
-  final String stepExecutionId;
+  final String? stepExecutionId;
 
   /// The name of this execution step.
-  @_s.JsonKey(name: 'StepName')
-  final String stepName;
+  final String? stepName;
 
   /// The execution status for this step.
-  @_s.JsonKey(name: 'StepStatus')
-  final AutomationExecutionStatus stepStatus;
+  final AutomationExecutionStatus? stepStatus;
 
   /// The combination of AWS Regions and accounts targeted by the current
   /// Automation execution.
-  @_s.JsonKey(name: 'TargetLocation')
-  final TargetLocation targetLocation;
+  final TargetLocation? targetLocation;
 
   /// The targets for the step execution.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   /// The timeout seconds of the step.
-  @_s.JsonKey(name: 'TimeoutSeconds')
-  final int timeoutSeconds;
+  final int? timeoutSeconds;
 
   /// Strategies used when step fails, we support Continue and Abort. Abort will
   /// fail the automation when the step fails. Continue will ignore the failure of
   /// current step and allow automation to run the next step. With conditional
   /// branching, we add step:stepName to support the automation to go to another
   /// specific step.
-  @_s.JsonKey(name: 'ValidNextSteps')
-  final List<String> validNextSteps;
+  final List<String>? validNextSteps;
 
   StepExecution({
     this.action,
@@ -22808,65 +28509,204 @@ class StepExecution {
     this.timeoutSeconds,
     this.validNextSteps,
   });
-  factory StepExecution.fromJson(Map<String, dynamic> json) =>
-      _$StepExecutionFromJson(json);
+
+  factory StepExecution.fromJson(Map<String, dynamic> json) {
+    return StepExecution(
+      action: json['Action'] as String?,
+      executionEndTime: timeStampFromJson(json['ExecutionEndTime']),
+      executionStartTime: timeStampFromJson(json['ExecutionStartTime']),
+      failureDetails: json['FailureDetails'] != null
+          ? FailureDetails.fromJson(
+              json['FailureDetails'] as Map<String, dynamic>)
+          : null,
+      failureMessage: json['FailureMessage'] as String?,
+      inputs: (json['Inputs'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      isCritical: json['IsCritical'] as bool?,
+      isEnd: json['IsEnd'] as bool?,
+      maxAttempts: json['MaxAttempts'] as int?,
+      nextStep: json['NextStep'] as String?,
+      onFailure: json['OnFailure'] as String?,
+      outputs: (json['Outputs'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      overriddenParameters: (json['OverriddenParameters']
+              as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+      response: json['Response'] as String?,
+      responseCode: json['ResponseCode'] as String?,
+      stepExecutionId: json['StepExecutionId'] as String?,
+      stepName: json['StepName'] as String?,
+      stepStatus:
+          (json['StepStatus'] as String?)?.toAutomationExecutionStatus(),
+      targetLocation: json['TargetLocation'] != null
+          ? TargetLocation.fromJson(
+              json['TargetLocation'] as Map<String, dynamic>)
+          : null,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeoutSeconds: json['TimeoutSeconds'] as int?,
+      validNextSteps: (json['ValidNextSteps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final executionEndTime = this.executionEndTime;
+    final executionStartTime = this.executionStartTime;
+    final failureDetails = this.failureDetails;
+    final failureMessage = this.failureMessage;
+    final inputs = this.inputs;
+    final isCritical = this.isCritical;
+    final isEnd = this.isEnd;
+    final maxAttempts = this.maxAttempts;
+    final nextStep = this.nextStep;
+    final onFailure = this.onFailure;
+    final outputs = this.outputs;
+    final overriddenParameters = this.overriddenParameters;
+    final response = this.response;
+    final responseCode = this.responseCode;
+    final stepExecutionId = this.stepExecutionId;
+    final stepName = this.stepName;
+    final stepStatus = this.stepStatus;
+    final targetLocation = this.targetLocation;
+    final targets = this.targets;
+    final timeoutSeconds = this.timeoutSeconds;
+    final validNextSteps = this.validNextSteps;
+    return {
+      if (action != null) 'Action': action,
+      if (executionEndTime != null)
+        'ExecutionEndTime': unixTimestampToJson(executionEndTime),
+      if (executionStartTime != null)
+        'ExecutionStartTime': unixTimestampToJson(executionStartTime),
+      if (failureDetails != null) 'FailureDetails': failureDetails,
+      if (failureMessage != null) 'FailureMessage': failureMessage,
+      if (inputs != null) 'Inputs': inputs,
+      if (isCritical != null) 'IsCritical': isCritical,
+      if (isEnd != null) 'IsEnd': isEnd,
+      if (maxAttempts != null) 'MaxAttempts': maxAttempts,
+      if (nextStep != null) 'NextStep': nextStep,
+      if (onFailure != null) 'OnFailure': onFailure,
+      if (outputs != null) 'Outputs': outputs,
+      if (overriddenParameters != null)
+        'OverriddenParameters': overriddenParameters,
+      if (response != null) 'Response': response,
+      if (responseCode != null) 'ResponseCode': responseCode,
+      if (stepExecutionId != null) 'StepExecutionId': stepExecutionId,
+      if (stepName != null) 'StepName': stepName,
+      if (stepStatus != null) 'StepStatus': stepStatus.toValue(),
+      if (targetLocation != null) 'TargetLocation': targetLocation,
+      if (targets != null) 'Targets': targets,
+      if (timeoutSeconds != null) 'TimeoutSeconds': timeoutSeconds,
+      if (validNextSteps != null) 'ValidNextSteps': validNextSteps,
+    };
+  }
 }
 
 /// A filter to limit the amount of step execution information returned by the
 /// call.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StepExecutionFilter {
   /// One or more keys to limit the results. Valid filter keys include the
   /// following: StepName, Action, StepExecutionId, StepExecutionStatus,
   /// StartTimeBefore, StartTimeAfter.
-  @_s.JsonKey(name: 'Key')
   final StepExecutionFilterKey key;
 
   /// The values of the filter key.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   StepExecutionFilter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$StepExecutionFilterToJson(this);
+
+  factory StepExecutionFilter.fromJson(Map<String, dynamic> json) {
+    return StepExecutionFilter(
+      key: (json['Key'] as String).toStepExecutionFilterKey(),
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key.toValue(),
+      'Values': values,
+    };
+  }
 }
 
 enum StepExecutionFilterKey {
-  @_s.JsonValue('StartTimeBefore')
   startTimeBefore,
-  @_s.JsonValue('StartTimeAfter')
   startTimeAfter,
-  @_s.JsonValue('StepExecutionStatus')
   stepExecutionStatus,
-  @_s.JsonValue('StepExecutionId')
   stepExecutionId,
-  @_s.JsonValue('StepName')
   stepName,
-  @_s.JsonValue('Action')
   action,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on StepExecutionFilterKey {
+  String toValue() {
+    switch (this) {
+      case StepExecutionFilterKey.startTimeBefore:
+        return 'StartTimeBefore';
+      case StepExecutionFilterKey.startTimeAfter:
+        return 'StartTimeAfter';
+      case StepExecutionFilterKey.stepExecutionStatus:
+        return 'StepExecutionStatus';
+      case StepExecutionFilterKey.stepExecutionId:
+        return 'StepExecutionId';
+      case StepExecutionFilterKey.stepName:
+        return 'StepName';
+      case StepExecutionFilterKey.action:
+        return 'Action';
+    }
+  }
+}
+
+extension on String {
+  StepExecutionFilterKey toStepExecutionFilterKey() {
+    switch (this) {
+      case 'StartTimeBefore':
+        return StepExecutionFilterKey.startTimeBefore;
+      case 'StartTimeAfter':
+        return StepExecutionFilterKey.startTimeAfter;
+      case 'StepExecutionStatus':
+        return StepExecutionFilterKey.stepExecutionStatus;
+      case 'StepExecutionId':
+        return StepExecutionFilterKey.stepExecutionId;
+      case 'StepName':
+        return StepExecutionFilterKey.stepName;
+      case 'Action':
+        return StepExecutionFilterKey.action;
+    }
+    throw Exception('$this is not known in enum StepExecutionFilterKey');
+  }
+}
+
 class StopAutomationExecutionResult {
   StopAutomationExecutionResult();
-  factory StopAutomationExecutionResult.fromJson(Map<String, dynamic> json) =>
-      _$StopAutomationExecutionResultFromJson(json);
+
+  factory StopAutomationExecutionResult.fromJson(Map<String, dynamic> _) {
+    return StopAutomationExecutionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum StopType {
-  @_s.JsonValue('Complete')
   complete,
-  @_s.JsonValue('Cancel')
   cancel,
 }
 
@@ -22878,7 +28718,18 @@ extension on StopType {
       case StopType.cancel:
         return 'Cancel';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  StopType toStopType() {
+    switch (this) {
+      case 'Complete':
+        return StopType.complete;
+      case 'Cancel':
+        return StopType.cancel;
+    }
+    throw Exception('$this is not known in enum StopType');
   }
 }
 
@@ -22887,27 +28738,33 @@ extension on StopType {
 /// or environment. In Systems Manager, you can apply tags to documents, managed
 /// instances, maintenance windows, Parameter Store parameters, and patch
 /// baselines.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The name of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// An array of search criteria that targets instances using a Key,Value
@@ -22917,7 +28774,7 @@ class Tag {
 /// Command-type tasks. Depending on the task, targets are optional for other
 /// maintenance window task types (Automation, AWS Lambda, and AWS Step
 /// Functions). For more information about running tasks that do not specify
-/// targets, see see <a
+/// targets, see <a
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html">Registering
 /// maintenance window tasks without targets</a> in the <i>AWS Systems Manager
 /// User Guide</i>.
@@ -22993,64 +28850,66 @@ class Tag {
 /// <code>Key,Value</code> parameters, see <a
 /// href="https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting">Targeting
 /// multiple instances</a> in the <i>AWS Systems Manager User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Target {
   /// User-defined criteria for sending commands that target instances that meet
   /// the criteria.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// User-defined criteria that maps to <code>Key</code>. For example, if you
   /// specified <code>tag:ServerRole</code>, you could specify
   /// <code>value:WebServer</code> to run a command on instances that include EC2
   /// tags of <code>ServerRole,WebServer</code>.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  ///
+  /// Depending on the type of <code>Target</code>, the maximum number of values
+  /// for a <code>Key</code> might be lower than the global maximum of 50.
+  final List<String>? values;
 
   Target({
     this.key,
     this.values,
   });
-  factory Target.fromJson(Map<String, dynamic> json) => _$TargetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TargetToJson(this);
+  factory Target.fromJson(Map<String, dynamic> json) {
+    return Target(
+      key: json['Key'] as String?,
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// The combination of AWS Regions and accounts targeted by the current
 /// Automation execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TargetLocation {
   /// The AWS accounts targeted by the current Automation execution.
-  @_s.JsonKey(name: 'Accounts')
-  final List<String> accounts;
+  final List<String>? accounts;
 
   /// The Automation execution role used by the currently running Automation. If
   /// not specified, the default value is
   /// <code>AWS-SystemsManager-AutomationExecutionRole</code>.
-  @_s.JsonKey(name: 'ExecutionRoleName')
-  final String executionRoleName;
+  final String? executionRoleName;
 
   /// The AWS Regions targeted by the current Automation execution.
-  @_s.JsonKey(name: 'Regions')
-  final List<String> regions;
+  final List<String>? regions;
 
   /// The maximum number of AWS accounts and AWS regions allowed to run the
   /// Automation concurrently.
-  @_s.JsonKey(name: 'TargetLocationMaxConcurrency')
-  final String targetLocationMaxConcurrency;
+  final String? targetLocationMaxConcurrency;
 
   /// The maximum number of errors allowed before the system stops queueing
   /// additional Automation executions for the currently running Automation.
-  @_s.JsonKey(name: 'TargetLocationMaxErrors')
-  final String targetLocationMaxErrors;
+  final String? targetLocationMaxErrors;
 
   TargetLocation({
     this.accounts,
@@ -23059,175 +28918,264 @@ class TargetLocation {
     this.targetLocationMaxConcurrency,
     this.targetLocationMaxErrors,
   });
-  factory TargetLocation.fromJson(Map<String, dynamic> json) =>
-      _$TargetLocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TargetLocationToJson(this);
+  factory TargetLocation.fromJson(Map<String, dynamic> json) {
+    return TargetLocation(
+      accounts: (json['Accounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      executionRoleName: json['ExecutionRoleName'] as String?,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      targetLocationMaxConcurrency:
+          json['TargetLocationMaxConcurrency'] as String?,
+      targetLocationMaxErrors: json['TargetLocationMaxErrors'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final executionRoleName = this.executionRoleName;
+    final regions = this.regions;
+    final targetLocationMaxConcurrency = this.targetLocationMaxConcurrency;
+    final targetLocationMaxErrors = this.targetLocationMaxErrors;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (executionRoleName != null) 'ExecutionRoleName': executionRoleName,
+      if (regions != null) 'Regions': regions,
+      if (targetLocationMaxConcurrency != null)
+        'TargetLocationMaxConcurrency': targetLocationMaxConcurrency,
+      if (targetLocationMaxErrors != null)
+        'TargetLocationMaxErrors': targetLocationMaxErrors,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminateSessionResponse {
   /// The ID of the session that has been terminated.
-  @_s.JsonKey(name: 'SessionId')
-  final String sessionId;
+  final String? sessionId;
 
   TerminateSessionResponse({
     this.sessionId,
   });
-  factory TerminateSessionResponse.fromJson(Map<String, dynamic> json) =>
-      _$TerminateSessionResponseFromJson(json);
+
+  factory TerminateSessionResponse.fromJson(Map<String, dynamic> json) {
+    return TerminateSessionResponse(
+      sessionId: json['SessionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sessionId = this.sessionId;
+    return {
+      if (sessionId != null) 'SessionId': sessionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class UnlabelParameterVersionResult {
+  /// The labels that are not attached to the given parameter version.
+  final List<String>? invalidLabels;
+
+  /// A list of all labels deleted from the parameter.
+  final List<String>? removedLabels;
+
+  UnlabelParameterVersionResult({
+    this.invalidLabels,
+    this.removedLabels,
+  });
+
+  factory UnlabelParameterVersionResult.fromJson(Map<String, dynamic> json) {
+    return UnlabelParameterVersionResult(
+      invalidLabels: (json['InvalidLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      removedLabels: (json['RemovedLabels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidLabels = this.invalidLabels;
+    final removedLabels = this.removedLabels;
+    return {
+      if (invalidLabels != null) 'InvalidLabels': invalidLabels,
+      if (removedLabels != null) 'RemovedLabels': removedLabels,
+    };
+  }
+}
+
 class UpdateAssociationResult {
   /// The description of the association that was updated.
-  @_s.JsonKey(name: 'AssociationDescription')
-  final AssociationDescription associationDescription;
+  final AssociationDescription? associationDescription;
 
   UpdateAssociationResult({
     this.associationDescription,
   });
-  factory UpdateAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAssociationResultFromJson(json);
+
+  factory UpdateAssociationResult.fromJson(Map<String, dynamic> json) {
+    return UpdateAssociationResult(
+      associationDescription: json['AssociationDescription'] != null
+          ? AssociationDescription.fromJson(
+              json['AssociationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationDescription = this.associationDescription;
+    return {
+      if (associationDescription != null)
+        'AssociationDescription': associationDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAssociationStatusResult {
   /// Information about the association.
-  @_s.JsonKey(name: 'AssociationDescription')
-  final AssociationDescription associationDescription;
+  final AssociationDescription? associationDescription;
 
   UpdateAssociationStatusResult({
     this.associationDescription,
   });
-  factory UpdateAssociationStatusResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAssociationStatusResultFromJson(json);
+
+  factory UpdateAssociationStatusResult.fromJson(Map<String, dynamic> json) {
+    return UpdateAssociationStatusResult(
+      associationDescription: json['AssociationDescription'] != null
+          ? AssociationDescription.fromJson(
+              json['AssociationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associationDescription = this.associationDescription;
+    return {
+      if (associationDescription != null)
+        'AssociationDescription': associationDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDocumentDefaultVersionResult {
   /// The description of a custom document that you want to set as the default
   /// version.
-  @_s.JsonKey(name: 'Description')
-  final DocumentDefaultVersionDescription description;
+  final DocumentDefaultVersionDescription? description;
 
   UpdateDocumentDefaultVersionResult({
     this.description,
   });
+
   factory UpdateDocumentDefaultVersionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateDocumentDefaultVersionResultFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateDocumentDefaultVersionResult(
+      description: json['Description'] != null
+          ? DocumentDefaultVersionDescription.fromJson(
+              json['Description'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    return {
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDocumentMetadataResponse {
   UpdateDocumentMetadataResponse();
-  factory UpdateDocumentMetadataResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDocumentMetadataResponseFromJson(json);
+
+  factory UpdateDocumentMetadataResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDocumentMetadataResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDocumentResult {
   /// A description of the document that was updated.
-  @_s.JsonKey(name: 'DocumentDescription')
-  final DocumentDescription documentDescription;
+  final DocumentDescription? documentDescription;
 
   UpdateDocumentResult({
     this.documentDescription,
   });
-  factory UpdateDocumentResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDocumentResultFromJson(json);
+
+  factory UpdateDocumentResult.fromJson(Map<String, dynamic> json) {
+    return UpdateDocumentResult(
+      documentDescription: json['DocumentDescription'] != null
+          ? DocumentDescription.fromJson(
+              json['DocumentDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentDescription = this.documentDescription;
+    return {
+      if (documentDescription != null)
+        'DocumentDescription': documentDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMaintenanceWindowResult {
   /// Whether targets must be registered with the maintenance window before tasks
   /// can be defined for those targets.
-  @_s.JsonKey(name: 'AllowUnassociatedTargets')
-  final bool allowUnassociatedTargets;
+  final bool? allowUnassociatedTargets;
 
   /// The number of hours before the end of the maintenance window that Systems
   /// Manager stops scheduling new tasks for execution.
-  @_s.JsonKey(name: 'Cutoff')
-  final int cutoff;
+  final int? cutoff;
 
   /// An optional description of the update.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The duration of the maintenance window in hours.
-  @_s.JsonKey(name: 'Duration')
-  final int duration;
+  final int? duration;
 
   /// Whether the maintenance window is enabled.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The date and time, in ISO-8601 Extended format, for when the maintenance
   /// window is scheduled to become inactive. The maintenance window will not run
   /// after this specified time.
-  @_s.JsonKey(name: 'EndDate')
-  final String endDate;
+  final String? endDate;
 
   /// The name of the maintenance window.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The schedule of the maintenance window in the form of a cron or rate
   /// expression.
-  @_s.JsonKey(name: 'Schedule')
-  final String schedule;
+  final String? schedule;
 
   /// The number of days to wait to run a maintenance window after the scheduled
   /// CRON expression date and time.
-  @_s.JsonKey(name: 'ScheduleOffset')
-  final int scheduleOffset;
+  final int? scheduleOffset;
 
   /// The time zone that the scheduled maintenance window executions are based on,
   /// in Internet Assigned Numbers Authority (IANA) format. For example:
   /// "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the
   /// <a href="https://www.iana.org/time-zones">Time Zone Database</a> on the IANA
   /// website.
-  @_s.JsonKey(name: 'ScheduleTimezone')
-  final String scheduleTimezone;
+  final String? scheduleTimezone;
 
   /// The date and time, in ISO-8601 Extended format, for when the maintenance
   /// window is scheduled to become active. The maintenance window will not run
   /// before this specified time.
-  @_s.JsonKey(name: 'StartDate')
-  final String startDate;
+  final String? startDate;
 
   /// The ID of the created maintenance window.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   UpdateMaintenanceWindowResult({
     this.allowUnassociatedTargets,
@@ -23243,39 +29191,73 @@ class UpdateMaintenanceWindowResult {
     this.startDate,
     this.windowId,
   });
-  factory UpdateMaintenanceWindowResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMaintenanceWindowResultFromJson(json);
+
+  factory UpdateMaintenanceWindowResult.fromJson(Map<String, dynamic> json) {
+    return UpdateMaintenanceWindowResult(
+      allowUnassociatedTargets: json['AllowUnassociatedTargets'] as bool?,
+      cutoff: json['Cutoff'] as int?,
+      description: json['Description'] as String?,
+      duration: json['Duration'] as int?,
+      enabled: json['Enabled'] as bool?,
+      endDate: json['EndDate'] as String?,
+      name: json['Name'] as String?,
+      schedule: json['Schedule'] as String?,
+      scheduleOffset: json['ScheduleOffset'] as int?,
+      scheduleTimezone: json['ScheduleTimezone'] as String?,
+      startDate: json['StartDate'] as String?,
+      windowId: json['WindowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowUnassociatedTargets = this.allowUnassociatedTargets;
+    final cutoff = this.cutoff;
+    final description = this.description;
+    final duration = this.duration;
+    final enabled = this.enabled;
+    final endDate = this.endDate;
+    final name = this.name;
+    final schedule = this.schedule;
+    final scheduleOffset = this.scheduleOffset;
+    final scheduleTimezone = this.scheduleTimezone;
+    final startDate = this.startDate;
+    final windowId = this.windowId;
+    return {
+      if (allowUnassociatedTargets != null)
+        'AllowUnassociatedTargets': allowUnassociatedTargets,
+      if (cutoff != null) 'Cutoff': cutoff,
+      if (description != null) 'Description': description,
+      if (duration != null) 'Duration': duration,
+      if (enabled != null) 'Enabled': enabled,
+      if (endDate != null) 'EndDate': endDate,
+      if (name != null) 'Name': name,
+      if (schedule != null) 'Schedule': schedule,
+      if (scheduleOffset != null) 'ScheduleOffset': scheduleOffset,
+      if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
+      if (startDate != null) 'StartDate': startDate,
+      if (windowId != null) 'WindowId': windowId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMaintenanceWindowTargetResult {
   /// The updated description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The updated name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The updated owner.
-  @_s.JsonKey(name: 'OwnerInformation')
-  final String ownerInformation;
+  final String? ownerInformation;
 
   /// The updated targets.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   /// The maintenance window ID specified in the update request.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   /// The target ID specified in the update request.
-  @_s.JsonKey(name: 'WindowTargetId')
-  final String windowTargetId;
+  final String? windowTargetId;
 
   UpdateMaintenanceWindowTargetResult({
     this.description,
@@ -23285,20 +29267,43 @@ class UpdateMaintenanceWindowTargetResult {
     this.windowId,
     this.windowTargetId,
   });
+
   factory UpdateMaintenanceWindowTargetResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateMaintenanceWindowTargetResultFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateMaintenanceWindowTargetResult(
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      ownerInformation: json['OwnerInformation'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      windowId: json['WindowId'] as String?,
+      windowTargetId: json['WindowTargetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final name = this.name;
+    final ownerInformation = this.ownerInformation;
+    final targets = this.targets;
+    final windowId = this.windowId;
+    final windowTargetId = this.windowTargetId;
+    return {
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (ownerInformation != null) 'OwnerInformation': ownerInformation,
+      if (targets != null) 'Targets': targets,
+      if (windowId != null) 'WindowId': windowId,
+      if (windowTargetId != null) 'WindowTargetId': windowTargetId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMaintenanceWindowTaskResult {
   /// The updated task description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The updated logging information in Amazon S3.
   /// <note>
@@ -23309,41 +29314,32 @@ class UpdateMaintenanceWindowTaskResult {
   /// Systems Manager handles these options for the supported maintenance window
   /// task types, see <a>MaintenanceWindowTaskInvocationParameters</a>.
   /// </note>
-  @_s.JsonKey(name: 'LoggingInfo')
-  final LoggingInfo loggingInfo;
+  final LoggingInfo? loggingInfo;
 
   /// The updated MaxConcurrency value.
-  @_s.JsonKey(name: 'MaxConcurrency')
-  final String maxConcurrency;
+  final String? maxConcurrency;
 
   /// The updated MaxErrors value.
-  @_s.JsonKey(name: 'MaxErrors')
-  final String maxErrors;
+  final String? maxErrors;
 
   /// The updated task name.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The updated priority value.
-  @_s.JsonKey(name: 'Priority')
-  final int priority;
+  final int? priority;
 
   /// The ARN of the IAM service role to use to publish Amazon Simple Notification
   /// Service (Amazon SNS) notifications for maintenance window Run Command tasks.
-  @_s.JsonKey(name: 'ServiceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// The updated target values.
-  @_s.JsonKey(name: 'Targets')
-  final List<Target> targets;
+  final List<Target>? targets;
 
   /// The updated task ARN value.
-  @_s.JsonKey(name: 'TaskArn')
-  final String taskArn;
+  final String? taskArn;
 
   /// The updated parameter values.
-  @_s.JsonKey(name: 'TaskInvocationParameters')
-  final MaintenanceWindowTaskInvocationParameters taskInvocationParameters;
+  final MaintenanceWindowTaskInvocationParameters? taskInvocationParameters;
 
   /// The updated parameter values.
   /// <note>
@@ -23354,17 +29350,14 @@ class UpdateMaintenanceWindowTaskResult {
   /// maintenance window task types, see
   /// <a>MaintenanceWindowTaskInvocationParameters</a>.
   /// </note>
-  @_s.JsonKey(name: 'TaskParameters')
-  final Map<String, MaintenanceWindowTaskParameterValueExpression>
+  final Map<String, MaintenanceWindowTaskParameterValueExpression>?
       taskParameters;
 
   /// The ID of the maintenance window that was updated.
-  @_s.JsonKey(name: 'WindowId')
-  final String windowId;
+  final String? windowId;
 
   /// The task ID of the maintenance window that was updated.
-  @_s.JsonKey(name: 'WindowTaskId')
-  final String windowTaskId;
+  final String? windowTaskId;
 
   UpdateMaintenanceWindowTaskResult({
     this.description,
@@ -23381,120 +29374,166 @@ class UpdateMaintenanceWindowTaskResult {
     this.windowId,
     this.windowTaskId,
   });
+
   factory UpdateMaintenanceWindowTaskResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateMaintenanceWindowTaskResultFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateMaintenanceWindowTaskResult(
+      description: json['Description'] as String?,
+      loggingInfo: json['LoggingInfo'] != null
+          ? LoggingInfo.fromJson(json['LoggingInfo'] as Map<String, dynamic>)
+          : null,
+      maxConcurrency: json['MaxConcurrency'] as String?,
+      maxErrors: json['MaxErrors'] as String?,
+      name: json['Name'] as String?,
+      priority: json['Priority'] as int?,
+      serviceRoleArn: json['ServiceRoleArn'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Target.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      taskArn: json['TaskArn'] as String?,
+      taskInvocationParameters: json['TaskInvocationParameters'] != null
+          ? MaintenanceWindowTaskInvocationParameters.fromJson(
+              json['TaskInvocationParameters'] as Map<String, dynamic>)
+          : null,
+      taskParameters: (json['TaskParameters'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k,
+              MaintenanceWindowTaskParameterValueExpression.fromJson(
+                  e as Map<String, dynamic>))),
+      windowId: json['WindowId'] as String?,
+      windowTaskId: json['WindowTaskId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final loggingInfo = this.loggingInfo;
+    final maxConcurrency = this.maxConcurrency;
+    final maxErrors = this.maxErrors;
+    final name = this.name;
+    final priority = this.priority;
+    final serviceRoleArn = this.serviceRoleArn;
+    final targets = this.targets;
+    final taskArn = this.taskArn;
+    final taskInvocationParameters = this.taskInvocationParameters;
+    final taskParameters = this.taskParameters;
+    final windowId = this.windowId;
+    final windowTaskId = this.windowTaskId;
+    return {
+      if (description != null) 'Description': description,
+      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
+      if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
+      if (maxErrors != null) 'MaxErrors': maxErrors,
+      if (name != null) 'Name': name,
+      if (priority != null) 'Priority': priority,
+      if (serviceRoleArn != null) 'ServiceRoleArn': serviceRoleArn,
+      if (targets != null) 'Targets': targets,
+      if (taskArn != null) 'TaskArn': taskArn,
+      if (taskInvocationParameters != null)
+        'TaskInvocationParameters': taskInvocationParameters,
+      if (taskParameters != null) 'TaskParameters': taskParameters,
+      if (windowId != null) 'WindowId': windowId,
+      if (windowTaskId != null) 'WindowTaskId': windowTaskId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateManagedInstanceRoleResult {
   UpdateManagedInstanceRoleResult();
-  factory UpdateManagedInstanceRoleResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateManagedInstanceRoleResultFromJson(json);
+
+  factory UpdateManagedInstanceRoleResult.fromJson(Map<String, dynamic> _) {
+    return UpdateManagedInstanceRoleResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateOpsItemResponse {
   UpdateOpsItemResponse();
-  factory UpdateOpsItemResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateOpsItemResponseFromJson(json);
+
+  factory UpdateOpsItemResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateOpsItemResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateOpsMetadataResult {
   /// The Amazon Resource Name (ARN) of the OpsMetadata Object that was updated.
-  @_s.JsonKey(name: 'OpsMetadataArn')
-  final String opsMetadataArn;
+  final String? opsMetadataArn;
 
   UpdateOpsMetadataResult({
     this.opsMetadataArn,
   });
-  factory UpdateOpsMetadataResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateOpsMetadataResultFromJson(json);
+
+  factory UpdateOpsMetadataResult.fromJson(Map<String, dynamic> json) {
+    return UpdateOpsMetadataResult(
+      opsMetadataArn: json['OpsMetadataArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final opsMetadataArn = this.opsMetadataArn;
+    return {
+      if (opsMetadataArn != null) 'OpsMetadataArn': opsMetadataArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePatchBaselineResult {
   /// A set of rules used to include patches in the baseline.
-  @_s.JsonKey(name: 'ApprovalRules')
-  final PatchRuleGroup approvalRules;
+  final PatchRuleGroup? approvalRules;
 
   /// A list of explicitly approved patches for the baseline.
-  @_s.JsonKey(name: 'ApprovedPatches')
-  final List<String> approvedPatches;
+  final List<String>? approvedPatches;
 
   /// The compliance severity level assigned to the patch baseline after the
   /// update completed.
-  @_s.JsonKey(name: 'ApprovedPatchesComplianceLevel')
-  final PatchComplianceLevel approvedPatchesComplianceLevel;
+  final PatchComplianceLevel? approvedPatchesComplianceLevel;
 
   /// Indicates whether the list of approved patches includes non-security updates
   /// that should be applied to the instances. The default value is 'false'.
   /// Applies to Linux instances only.
-  @_s.JsonKey(name: 'ApprovedPatchesEnableNonSecurity')
-  final bool approvedPatchesEnableNonSecurity;
+  final bool? approvedPatchesEnableNonSecurity;
 
   /// The ID of the deleted patch baseline.
-  @_s.JsonKey(name: 'BaselineId')
-  final String baselineId;
+  final String? baselineId;
 
   /// The date when the patch baseline was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// A description of the Patch Baseline.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// A set of global filters used to exclude patches from the baseline.
-  @_s.JsonKey(name: 'GlobalFilters')
-  final PatchFilterGroup globalFilters;
+  final PatchFilterGroup? globalFilters;
 
   /// The date when the patch baseline was last modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ModifiedDate')
-  final DateTime modifiedDate;
+  final DateTime? modifiedDate;
 
   /// The name of the patch baseline.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The operating system rule used by the updated patch baseline.
-  @_s.JsonKey(name: 'OperatingSystem')
-  final OperatingSystem operatingSystem;
+  final OperatingSystem? operatingSystem;
 
   /// A list of explicitly rejected patches for the baseline.
-  @_s.JsonKey(name: 'RejectedPatches')
-  final List<String> rejectedPatches;
+  final List<String>? rejectedPatches;
 
   /// The action specified to take on patches included in the RejectedPatches
   /// list. A patch can be allowed only if it is a dependency of another package,
   /// or blocked entirely along with packages that include it as a dependency.
-  @_s.JsonKey(name: 'RejectedPatchesAction')
-  final PatchAction rejectedPatchesAction;
+  final PatchAction? rejectedPatchesAction;
 
   /// Information about the patches to use to update the instances, including
   /// target operating systems and source repositories. Applies to Linux instances
   /// only.
-  @_s.JsonKey(name: 'Sources')
-  final List<PatchSource> sources;
+  final List<PatchSource>? sources;
 
   UpdatePatchBaselineResult({
     this.approvalRules,
@@ -23512,55 +29551,133 @@ class UpdatePatchBaselineResult {
     this.rejectedPatchesAction,
     this.sources,
   });
-  factory UpdatePatchBaselineResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePatchBaselineResultFromJson(json);
+
+  factory UpdatePatchBaselineResult.fromJson(Map<String, dynamic> json) {
+    return UpdatePatchBaselineResult(
+      approvalRules: json['ApprovalRules'] != null
+          ? PatchRuleGroup.fromJson(
+              json['ApprovalRules'] as Map<String, dynamic>)
+          : null,
+      approvedPatches: (json['ApprovedPatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      approvedPatchesComplianceLevel:
+          (json['ApprovedPatchesComplianceLevel'] as String?)
+              ?.toPatchComplianceLevel(),
+      approvedPatchesEnableNonSecurity:
+          json['ApprovedPatchesEnableNonSecurity'] as bool?,
+      baselineId: json['BaselineId'] as String?,
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      description: json['Description'] as String?,
+      globalFilters: json['GlobalFilters'] != null
+          ? PatchFilterGroup.fromJson(
+              json['GlobalFilters'] as Map<String, dynamic>)
+          : null,
+      modifiedDate: timeStampFromJson(json['ModifiedDate']),
+      name: json['Name'] as String?,
+      operatingSystem:
+          (json['OperatingSystem'] as String?)?.toOperatingSystem(),
+      rejectedPatches: (json['RejectedPatches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rejectedPatchesAction:
+          (json['RejectedPatchesAction'] as String?)?.toPatchAction(),
+      sources: (json['Sources'] as List?)
+          ?.whereNotNull()
+          .map((e) => PatchSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRules = this.approvalRules;
+    final approvedPatches = this.approvedPatches;
+    final approvedPatchesComplianceLevel = this.approvedPatchesComplianceLevel;
+    final approvedPatchesEnableNonSecurity =
+        this.approvedPatchesEnableNonSecurity;
+    final baselineId = this.baselineId;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final globalFilters = this.globalFilters;
+    final modifiedDate = this.modifiedDate;
+    final name = this.name;
+    final operatingSystem = this.operatingSystem;
+    final rejectedPatches = this.rejectedPatches;
+    final rejectedPatchesAction = this.rejectedPatchesAction;
+    final sources = this.sources;
+    return {
+      if (approvalRules != null) 'ApprovalRules': approvalRules,
+      if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
+      if (approvedPatchesComplianceLevel != null)
+        'ApprovedPatchesComplianceLevel':
+            approvedPatchesComplianceLevel.toValue(),
+      if (approvedPatchesEnableNonSecurity != null)
+        'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
+      if (baselineId != null) 'BaselineId': baselineId,
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (description != null) 'Description': description,
+      if (globalFilters != null) 'GlobalFilters': globalFilters,
+      if (modifiedDate != null)
+        'ModifiedDate': unixTimestampToJson(modifiedDate),
+      if (name != null) 'Name': name,
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem.toValue(),
+      if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
+      if (rejectedPatchesAction != null)
+        'RejectedPatchesAction': rejectedPatchesAction.toValue(),
+      if (sources != null) 'Sources': sources,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResourceDataSyncResult {
   UpdateResourceDataSyncResult();
-  factory UpdateResourceDataSyncResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateResourceDataSyncResultFromJson(json);
+
+  factory UpdateResourceDataSyncResult.fromJson(Map<String, dynamic> _) {
+    return UpdateResourceDataSyncResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The result body of the UpdateServiceSetting API action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateServiceSettingResult {
   UpdateServiceSettingResult();
-  factory UpdateServiceSettingResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateServiceSettingResultFromJson(json);
+
+  factory UpdateServiceSettingResult.fromJson(Map<String, dynamic> _) {
+    return UpdateServiceSettingResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class AssociatedInstances extends _s.GenericAwsException {
-  AssociatedInstances({String type, String message})
+  AssociatedInstances({String? type, String? message})
       : super(type: type, code: 'AssociatedInstances', message: message);
 }
 
 class AssociationAlreadyExists extends _s.GenericAwsException {
-  AssociationAlreadyExists({String type, String message})
+  AssociationAlreadyExists({String? type, String? message})
       : super(type: type, code: 'AssociationAlreadyExists', message: message);
 }
 
 class AssociationDoesNotExist extends _s.GenericAwsException {
-  AssociationDoesNotExist({String type, String message})
+  AssociationDoesNotExist({String? type, String? message})
       : super(type: type, code: 'AssociationDoesNotExist', message: message);
 }
 
 class AssociationExecutionDoesNotExist extends _s.GenericAwsException {
-  AssociationExecutionDoesNotExist({String type, String message})
+  AssociationExecutionDoesNotExist({String? type, String? message})
       : super(
             type: type,
             code: 'AssociationExecutionDoesNotExist',
@@ -23568,12 +29685,12 @@ class AssociationExecutionDoesNotExist extends _s.GenericAwsException {
 }
 
 class AssociationLimitExceeded extends _s.GenericAwsException {
-  AssociationLimitExceeded({String type, String message})
+  AssociationLimitExceeded({String? type, String? message})
       : super(type: type, code: 'AssociationLimitExceeded', message: message);
 }
 
 class AssociationVersionLimitExceeded extends _s.GenericAwsException {
-  AssociationVersionLimitExceeded({String type, String message})
+  AssociationVersionLimitExceeded({String? type, String? message})
       : super(
             type: type,
             code: 'AssociationVersionLimitExceeded',
@@ -23581,7 +29698,7 @@ class AssociationVersionLimitExceeded extends _s.GenericAwsException {
 }
 
 class AutomationDefinitionNotApprovedException extends _s.GenericAwsException {
-  AutomationDefinitionNotApprovedException({String type, String message})
+  AutomationDefinitionNotApprovedException({String? type, String? message})
       : super(
             type: type,
             code: 'AutomationDefinitionNotApprovedException',
@@ -23589,7 +29706,7 @@ class AutomationDefinitionNotApprovedException extends _s.GenericAwsException {
 }
 
 class AutomationDefinitionNotFoundException extends _s.GenericAwsException {
-  AutomationDefinitionNotFoundException({String type, String message})
+  AutomationDefinitionNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'AutomationDefinitionNotFoundException',
@@ -23598,7 +29715,7 @@ class AutomationDefinitionNotFoundException extends _s.GenericAwsException {
 
 class AutomationDefinitionVersionNotFoundException
     extends _s.GenericAwsException {
-  AutomationDefinitionVersionNotFoundException({String type, String message})
+  AutomationDefinitionVersionNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'AutomationDefinitionVersionNotFoundException',
@@ -23606,7 +29723,7 @@ class AutomationDefinitionVersionNotFoundException
 }
 
 class AutomationExecutionLimitExceededException extends _s.GenericAwsException {
-  AutomationExecutionLimitExceededException({String type, String message})
+  AutomationExecutionLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'AutomationExecutionLimitExceededException',
@@ -23614,7 +29731,7 @@ class AutomationExecutionLimitExceededException extends _s.GenericAwsException {
 }
 
 class AutomationExecutionNotFoundException extends _s.GenericAwsException {
-  AutomationExecutionNotFoundException({String type, String message})
+  AutomationExecutionNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'AutomationExecutionNotFoundException',
@@ -23622,7 +29739,7 @@ class AutomationExecutionNotFoundException extends _s.GenericAwsException {
 }
 
 class AutomationStepNotFoundException extends _s.GenericAwsException {
-  AutomationStepNotFoundException({String type, String message})
+  AutomationStepNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'AutomationStepNotFoundException',
@@ -23630,7 +29747,7 @@ class AutomationStepNotFoundException extends _s.GenericAwsException {
 }
 
 class ComplianceTypeCountLimitExceededException extends _s.GenericAwsException {
-  ComplianceTypeCountLimitExceededException({String type, String message})
+  ComplianceTypeCountLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ComplianceTypeCountLimitExceededException',
@@ -23638,7 +29755,7 @@ class ComplianceTypeCountLimitExceededException extends _s.GenericAwsException {
 }
 
 class CustomSchemaCountLimitExceededException extends _s.GenericAwsException {
-  CustomSchemaCountLimitExceededException({String type, String message})
+  CustomSchemaCountLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'CustomSchemaCountLimitExceededException',
@@ -23646,55 +29763,55 @@ class CustomSchemaCountLimitExceededException extends _s.GenericAwsException {
 }
 
 class DocumentAlreadyExists extends _s.GenericAwsException {
-  DocumentAlreadyExists({String type, String message})
+  DocumentAlreadyExists({String? type, String? message})
       : super(type: type, code: 'DocumentAlreadyExists', message: message);
 }
 
 class DocumentLimitExceeded extends _s.GenericAwsException {
-  DocumentLimitExceeded({String type, String message})
+  DocumentLimitExceeded({String? type, String? message})
       : super(type: type, code: 'DocumentLimitExceeded', message: message);
 }
 
 class DocumentPermissionLimit extends _s.GenericAwsException {
-  DocumentPermissionLimit({String type, String message})
+  DocumentPermissionLimit({String? type, String? message})
       : super(type: type, code: 'DocumentPermissionLimit', message: message);
 }
 
 class DocumentVersionLimitExceeded extends _s.GenericAwsException {
-  DocumentVersionLimitExceeded({String type, String message})
+  DocumentVersionLimitExceeded({String? type, String? message})
       : super(
             type: type, code: 'DocumentVersionLimitExceeded', message: message);
 }
 
 class DoesNotExistException extends _s.GenericAwsException {
-  DoesNotExistException({String type, String message})
+  DoesNotExistException({String? type, String? message})
       : super(type: type, code: 'DoesNotExistException', message: message);
 }
 
 class DuplicateDocumentContent extends _s.GenericAwsException {
-  DuplicateDocumentContent({String type, String message})
+  DuplicateDocumentContent({String? type, String? message})
       : super(type: type, code: 'DuplicateDocumentContent', message: message);
 }
 
 class DuplicateDocumentVersionName extends _s.GenericAwsException {
-  DuplicateDocumentVersionName({String type, String message})
+  DuplicateDocumentVersionName({String? type, String? message})
       : super(
             type: type, code: 'DuplicateDocumentVersionName', message: message);
 }
 
 class DuplicateInstanceId extends _s.GenericAwsException {
-  DuplicateInstanceId({String type, String message})
+  DuplicateInstanceId({String? type, String? message})
       : super(type: type, code: 'DuplicateInstanceId', message: message);
 }
 
 class FeatureNotAvailableException extends _s.GenericAwsException {
-  FeatureNotAvailableException({String type, String message})
+  FeatureNotAvailableException({String? type, String? message})
       : super(
             type: type, code: 'FeatureNotAvailableException', message: message);
 }
 
 class HierarchyLevelLimitExceededException extends _s.GenericAwsException {
-  HierarchyLevelLimitExceededException({String type, String message})
+  HierarchyLevelLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'HierarchyLevelLimitExceededException',
@@ -23702,7 +29819,7 @@ class HierarchyLevelLimitExceededException extends _s.GenericAwsException {
 }
 
 class HierarchyTypeMismatchException extends _s.GenericAwsException {
-  HierarchyTypeMismatchException({String type, String message})
+  HierarchyTypeMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'HierarchyTypeMismatchException',
@@ -23710,39 +29827,39 @@ class HierarchyTypeMismatchException extends _s.GenericAwsException {
 }
 
 class IdempotentParameterMismatch extends _s.GenericAwsException {
-  IdempotentParameterMismatch({String type, String message})
+  IdempotentParameterMismatch({String? type, String? message})
       : super(
             type: type, code: 'IdempotentParameterMismatch', message: message);
 }
 
 class IncompatiblePolicyException extends _s.GenericAwsException {
-  IncompatiblePolicyException({String type, String message})
+  IncompatiblePolicyException({String? type, String? message})
       : super(
             type: type, code: 'IncompatiblePolicyException', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidActivation extends _s.GenericAwsException {
-  InvalidActivation({String type, String message})
+  InvalidActivation({String? type, String? message})
       : super(type: type, code: 'InvalidActivation', message: message);
 }
 
 class InvalidActivationId extends _s.GenericAwsException {
-  InvalidActivationId({String type, String message})
+  InvalidActivationId({String? type, String? message})
       : super(type: type, code: 'InvalidActivationId', message: message);
 }
 
 class InvalidAggregatorException extends _s.GenericAwsException {
-  InvalidAggregatorException({String type, String message})
+  InvalidAggregatorException({String? type, String? message})
       : super(type: type, code: 'InvalidAggregatorException', message: message);
 }
 
 class InvalidAllowedPatternException extends _s.GenericAwsException {
-  InvalidAllowedPatternException({String type, String message})
+  InvalidAllowedPatternException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAllowedPatternException',
@@ -23750,18 +29867,18 @@ class InvalidAllowedPatternException extends _s.GenericAwsException {
 }
 
 class InvalidAssociation extends _s.GenericAwsException {
-  InvalidAssociation({String type, String message})
+  InvalidAssociation({String? type, String? message})
       : super(type: type, code: 'InvalidAssociation', message: message);
 }
 
 class InvalidAssociationVersion extends _s.GenericAwsException {
-  InvalidAssociationVersion({String type, String message})
+  InvalidAssociationVersion({String? type, String? message})
       : super(type: type, code: 'InvalidAssociationVersion', message: message);
 }
 
 class InvalidAutomationExecutionParametersException
     extends _s.GenericAwsException {
-  InvalidAutomationExecutionParametersException({String type, String message})
+  InvalidAutomationExecutionParametersException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAutomationExecutionParametersException',
@@ -23769,7 +29886,7 @@ class InvalidAutomationExecutionParametersException
 }
 
 class InvalidAutomationSignalException extends _s.GenericAwsException {
-  InvalidAutomationSignalException({String type, String message})
+  InvalidAutomationSignalException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAutomationSignalException',
@@ -23777,7 +29894,7 @@ class InvalidAutomationSignalException extends _s.GenericAwsException {
 }
 
 class InvalidAutomationStatusUpdateException extends _s.GenericAwsException {
-  InvalidAutomationStatusUpdateException({String type, String message})
+  InvalidAutomationStatusUpdateException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAutomationStatusUpdateException',
@@ -23785,12 +29902,12 @@ class InvalidAutomationStatusUpdateException extends _s.GenericAwsException {
 }
 
 class InvalidCommandId extends _s.GenericAwsException {
-  InvalidCommandId({String type, String message})
+  InvalidCommandId({String? type, String? message})
       : super(type: type, code: 'InvalidCommandId', message: message);
 }
 
 class InvalidDeleteInventoryParametersException extends _s.GenericAwsException {
-  InvalidDeleteInventoryParametersException({String type, String message})
+  InvalidDeleteInventoryParametersException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeleteInventoryParametersException',
@@ -23798,68 +29915,68 @@ class InvalidDeleteInventoryParametersException extends _s.GenericAwsException {
 }
 
 class InvalidDeletionIdException extends _s.GenericAwsException {
-  InvalidDeletionIdException({String type, String message})
+  InvalidDeletionIdException({String? type, String? message})
       : super(type: type, code: 'InvalidDeletionIdException', message: message);
 }
 
 class InvalidDocument extends _s.GenericAwsException {
-  InvalidDocument({String type, String message})
+  InvalidDocument({String? type, String? message})
       : super(type: type, code: 'InvalidDocument', message: message);
 }
 
 class InvalidDocumentContent extends _s.GenericAwsException {
-  InvalidDocumentContent({String type, String message})
+  InvalidDocumentContent({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentContent', message: message);
 }
 
 class InvalidDocumentOperation extends _s.GenericAwsException {
-  InvalidDocumentOperation({String type, String message})
+  InvalidDocumentOperation({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentOperation', message: message);
 }
 
 class InvalidDocumentSchemaVersion extends _s.GenericAwsException {
-  InvalidDocumentSchemaVersion({String type, String message})
+  InvalidDocumentSchemaVersion({String? type, String? message})
       : super(
             type: type, code: 'InvalidDocumentSchemaVersion', message: message);
 }
 
 class InvalidDocumentType extends _s.GenericAwsException {
-  InvalidDocumentType({String type, String message})
+  InvalidDocumentType({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentType', message: message);
 }
 
 class InvalidDocumentVersion extends _s.GenericAwsException {
-  InvalidDocumentVersion({String type, String message})
+  InvalidDocumentVersion({String? type, String? message})
       : super(type: type, code: 'InvalidDocumentVersion', message: message);
 }
 
 class InvalidFilter extends _s.GenericAwsException {
-  InvalidFilter({String type, String message})
+  InvalidFilter({String? type, String? message})
       : super(type: type, code: 'InvalidFilter', message: message);
 }
 
 class InvalidFilterKey extends _s.GenericAwsException {
-  InvalidFilterKey({String type, String message})
+  InvalidFilterKey({String? type, String? message})
       : super(type: type, code: 'InvalidFilterKey', message: message);
 }
 
 class InvalidFilterOption extends _s.GenericAwsException {
-  InvalidFilterOption({String type, String message})
+  InvalidFilterOption({String? type, String? message})
       : super(type: type, code: 'InvalidFilterOption', message: message);
 }
 
 class InvalidFilterValue extends _s.GenericAwsException {
-  InvalidFilterValue({String type, String message})
+  InvalidFilterValue({String? type, String? message})
       : super(type: type, code: 'InvalidFilterValue', message: message);
 }
 
 class InvalidInstanceId extends _s.GenericAwsException {
-  InvalidInstanceId({String type, String message})
+  InvalidInstanceId({String? type, String? message})
       : super(type: type, code: 'InvalidInstanceId', message: message);
 }
 
 class InvalidInstanceInformationFilterValue extends _s.GenericAwsException {
-  InvalidInstanceInformationFilterValue({String type, String message})
+  InvalidInstanceInformationFilterValue({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidInstanceInformationFilterValue',
@@ -23867,7 +29984,7 @@ class InvalidInstanceInformationFilterValue extends _s.GenericAwsException {
 }
 
 class InvalidInventoryGroupException extends _s.GenericAwsException {
-  InvalidInventoryGroupException({String type, String message})
+  InvalidInventoryGroupException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidInventoryGroupException',
@@ -23875,7 +29992,7 @@ class InvalidInventoryGroupException extends _s.GenericAwsException {
 }
 
 class InvalidInventoryItemContextException extends _s.GenericAwsException {
-  InvalidInventoryItemContextException({String type, String message})
+  InvalidInventoryItemContextException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidInventoryItemContextException',
@@ -23883,7 +30000,7 @@ class InvalidInventoryItemContextException extends _s.GenericAwsException {
 }
 
 class InvalidInventoryRequestException extends _s.GenericAwsException {
-  InvalidInventoryRequestException({String type, String message})
+  InvalidInventoryRequestException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidInventoryRequestException',
@@ -23891,58 +30008,58 @@ class InvalidInventoryRequestException extends _s.GenericAwsException {
 }
 
 class InvalidItemContentException extends _s.GenericAwsException {
-  InvalidItemContentException({String type, String message})
+  InvalidItemContentException({String? type, String? message})
       : super(
             type: type, code: 'InvalidItemContentException', message: message);
 }
 
 class InvalidKeyId extends _s.GenericAwsException {
-  InvalidKeyId({String type, String message})
+  InvalidKeyId({String? type, String? message})
       : super(type: type, code: 'InvalidKeyId', message: message);
 }
 
 class InvalidNextToken extends _s.GenericAwsException {
-  InvalidNextToken({String type, String message})
+  InvalidNextToken({String? type, String? message})
       : super(type: type, code: 'InvalidNextToken', message: message);
 }
 
 class InvalidNotificationConfig extends _s.GenericAwsException {
-  InvalidNotificationConfig({String type, String message})
+  InvalidNotificationConfig({String? type, String? message})
       : super(type: type, code: 'InvalidNotificationConfig', message: message);
 }
 
 class InvalidOptionException extends _s.GenericAwsException {
-  InvalidOptionException({String type, String message})
+  InvalidOptionException({String? type, String? message})
       : super(type: type, code: 'InvalidOptionException', message: message);
 }
 
 class InvalidOutputFolder extends _s.GenericAwsException {
-  InvalidOutputFolder({String type, String message})
+  InvalidOutputFolder({String? type, String? message})
       : super(type: type, code: 'InvalidOutputFolder', message: message);
 }
 
 class InvalidOutputLocation extends _s.GenericAwsException {
-  InvalidOutputLocation({String type, String message})
+  InvalidOutputLocation({String? type, String? message})
       : super(type: type, code: 'InvalidOutputLocation', message: message);
 }
 
 class InvalidParameters extends _s.GenericAwsException {
-  InvalidParameters({String type, String message})
+  InvalidParameters({String? type, String? message})
       : super(type: type, code: 'InvalidParameters', message: message);
 }
 
 class InvalidPermissionType extends _s.GenericAwsException {
-  InvalidPermissionType({String type, String message})
+  InvalidPermissionType({String? type, String? message})
       : super(type: type, code: 'InvalidPermissionType', message: message);
 }
 
 class InvalidPluginName extends _s.GenericAwsException {
-  InvalidPluginName({String type, String message})
+  InvalidPluginName({String? type, String? message})
       : super(type: type, code: 'InvalidPluginName', message: message);
 }
 
 class InvalidPolicyAttributeException extends _s.GenericAwsException {
-  InvalidPolicyAttributeException({String type, String message})
+  InvalidPolicyAttributeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPolicyAttributeException',
@@ -23950,22 +30067,22 @@ class InvalidPolicyAttributeException extends _s.GenericAwsException {
 }
 
 class InvalidPolicyTypeException extends _s.GenericAwsException {
-  InvalidPolicyTypeException({String type, String message})
+  InvalidPolicyTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyTypeException', message: message);
 }
 
 class InvalidResourceId extends _s.GenericAwsException {
-  InvalidResourceId({String type, String message})
+  InvalidResourceId({String? type, String? message})
       : super(type: type, code: 'InvalidResourceId', message: message);
 }
 
 class InvalidResourceType extends _s.GenericAwsException {
-  InvalidResourceType({String type, String message})
+  InvalidResourceType({String? type, String? message})
       : super(type: type, code: 'InvalidResourceType', message: message);
 }
 
 class InvalidResultAttributeException extends _s.GenericAwsException {
-  InvalidResultAttributeException({String type, String message})
+  InvalidResultAttributeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidResultAttributeException',
@@ -23973,43 +30090,43 @@ class InvalidResultAttributeException extends _s.GenericAwsException {
 }
 
 class InvalidRole extends _s.GenericAwsException {
-  InvalidRole({String type, String message})
+  InvalidRole({String? type, String? message})
       : super(type: type, code: 'InvalidRole', message: message);
 }
 
 class InvalidSchedule extends _s.GenericAwsException {
-  InvalidSchedule({String type, String message})
+  InvalidSchedule({String? type, String? message})
       : super(type: type, code: 'InvalidSchedule', message: message);
 }
 
 class InvalidTarget extends _s.GenericAwsException {
-  InvalidTarget({String type, String message})
+  InvalidTarget({String? type, String? message})
       : super(type: type, code: 'InvalidTarget', message: message);
 }
 
 class InvalidTypeNameException extends _s.GenericAwsException {
-  InvalidTypeNameException({String type, String message})
+  InvalidTypeNameException({String? type, String? message})
       : super(type: type, code: 'InvalidTypeNameException', message: message);
 }
 
 class InvalidUpdate extends _s.GenericAwsException {
-  InvalidUpdate({String type, String message})
+  InvalidUpdate({String? type, String? message})
       : super(type: type, code: 'InvalidUpdate', message: message);
 }
 
 class InvocationDoesNotExist extends _s.GenericAwsException {
-  InvocationDoesNotExist({String type, String message})
+  InvocationDoesNotExist({String? type, String? message})
       : super(type: type, code: 'InvocationDoesNotExist', message: message);
 }
 
 class ItemContentMismatchException extends _s.GenericAwsException {
-  ItemContentMismatchException({String type, String message})
+  ItemContentMismatchException({String? type, String? message})
       : super(
             type: type, code: 'ItemContentMismatchException', message: message);
 }
 
 class ItemSizeLimitExceededException extends _s.GenericAwsException {
-  ItemSizeLimitExceededException({String type, String message})
+  ItemSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ItemSizeLimitExceededException',
@@ -24017,12 +30134,12 @@ class ItemSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class MaxDocumentSizeExceeded extends _s.GenericAwsException {
-  MaxDocumentSizeExceeded({String type, String message})
+  MaxDocumentSizeExceeded({String? type, String? message})
       : super(type: type, code: 'MaxDocumentSizeExceeded', message: message);
 }
 
 class OpsItemAlreadyExistsException extends _s.GenericAwsException {
-  OpsItemAlreadyExistsException({String type, String message})
+  OpsItemAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsItemAlreadyExistsException',
@@ -24030,7 +30147,7 @@ class OpsItemAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class OpsItemInvalidParameterException extends _s.GenericAwsException {
-  OpsItemInvalidParameterException({String type, String message})
+  OpsItemInvalidParameterException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsItemInvalidParameterException',
@@ -24038,7 +30155,7 @@ class OpsItemInvalidParameterException extends _s.GenericAwsException {
 }
 
 class OpsItemLimitExceededException extends _s.GenericAwsException {
-  OpsItemLimitExceededException({String type, String message})
+  OpsItemLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsItemLimitExceededException',
@@ -24046,12 +30163,30 @@ class OpsItemLimitExceededException extends _s.GenericAwsException {
 }
 
 class OpsItemNotFoundException extends _s.GenericAwsException {
-  OpsItemNotFoundException({String type, String message})
+  OpsItemNotFoundException({String? type, String? message})
       : super(type: type, code: 'OpsItemNotFoundException', message: message);
 }
 
+class OpsItemRelatedItemAlreadyExistsException extends _s.GenericAwsException {
+  OpsItemRelatedItemAlreadyExistsException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'OpsItemRelatedItemAlreadyExistsException',
+            message: message);
+}
+
+class OpsItemRelatedItemAssociationNotFoundException
+    extends _s.GenericAwsException {
+  OpsItemRelatedItemAssociationNotFoundException(
+      {String? type, String? message})
+      : super(
+            type: type,
+            code: 'OpsItemRelatedItemAssociationNotFoundException',
+            message: message);
+}
+
 class OpsMetadataAlreadyExistsException extends _s.GenericAwsException {
-  OpsMetadataAlreadyExistsException({String type, String message})
+  OpsMetadataAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsMetadataAlreadyExistsException',
@@ -24059,7 +30194,7 @@ class OpsMetadataAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class OpsMetadataInvalidArgumentException extends _s.GenericAwsException {
-  OpsMetadataInvalidArgumentException({String type, String message})
+  OpsMetadataInvalidArgumentException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsMetadataInvalidArgumentException',
@@ -24067,7 +30202,7 @@ class OpsMetadataInvalidArgumentException extends _s.GenericAwsException {
 }
 
 class OpsMetadataKeyLimitExceededException extends _s.GenericAwsException {
-  OpsMetadataKeyLimitExceededException({String type, String message})
+  OpsMetadataKeyLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsMetadataKeyLimitExceededException',
@@ -24075,7 +30210,7 @@ class OpsMetadataKeyLimitExceededException extends _s.GenericAwsException {
 }
 
 class OpsMetadataLimitExceededException extends _s.GenericAwsException {
-  OpsMetadataLimitExceededException({String type, String message})
+  OpsMetadataLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsMetadataLimitExceededException',
@@ -24083,13 +30218,13 @@ class OpsMetadataLimitExceededException extends _s.GenericAwsException {
 }
 
 class OpsMetadataNotFoundException extends _s.GenericAwsException {
-  OpsMetadataNotFoundException({String type, String message})
+  OpsMetadataNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'OpsMetadataNotFoundException', message: message);
 }
 
 class OpsMetadataTooManyUpdatesException extends _s.GenericAwsException {
-  OpsMetadataTooManyUpdatesException({String type, String message})
+  OpsMetadataTooManyUpdatesException({String? type, String? message})
       : super(
             type: type,
             code: 'OpsMetadataTooManyUpdatesException',
@@ -24097,17 +30232,17 @@ class OpsMetadataTooManyUpdatesException extends _s.GenericAwsException {
 }
 
 class ParameterAlreadyExists extends _s.GenericAwsException {
-  ParameterAlreadyExists({String type, String message})
+  ParameterAlreadyExists({String? type, String? message})
       : super(type: type, code: 'ParameterAlreadyExists', message: message);
 }
 
 class ParameterLimitExceeded extends _s.GenericAwsException {
-  ParameterLimitExceeded({String type, String message})
+  ParameterLimitExceeded({String? type, String? message})
       : super(type: type, code: 'ParameterLimitExceeded', message: message);
 }
 
 class ParameterMaxVersionLimitExceeded extends _s.GenericAwsException {
-  ParameterMaxVersionLimitExceeded({String type, String message})
+  ParameterMaxVersionLimitExceeded({String? type, String? message})
       : super(
             type: type,
             code: 'ParameterMaxVersionLimitExceeded',
@@ -24115,12 +30250,12 @@ class ParameterMaxVersionLimitExceeded extends _s.GenericAwsException {
 }
 
 class ParameterNotFound extends _s.GenericAwsException {
-  ParameterNotFound({String type, String message})
+  ParameterNotFound({String? type, String? message})
       : super(type: type, code: 'ParameterNotFound', message: message);
 }
 
 class ParameterPatternMismatchException extends _s.GenericAwsException {
-  ParameterPatternMismatchException({String type, String message})
+  ParameterPatternMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'ParameterPatternMismatchException',
@@ -24128,7 +30263,7 @@ class ParameterPatternMismatchException extends _s.GenericAwsException {
 }
 
 class ParameterVersionLabelLimitExceeded extends _s.GenericAwsException {
-  ParameterVersionLabelLimitExceeded({String type, String message})
+  ParameterVersionLabelLimitExceeded({String? type, String? message})
       : super(
             type: type,
             code: 'ParameterVersionLabelLimitExceeded',
@@ -24136,12 +30271,12 @@ class ParameterVersionLabelLimitExceeded extends _s.GenericAwsException {
 }
 
 class ParameterVersionNotFound extends _s.GenericAwsException {
-  ParameterVersionNotFound({String type, String message})
+  ParameterVersionNotFound({String? type, String? message})
       : super(type: type, code: 'ParameterVersionNotFound', message: message);
 }
 
 class PoliciesLimitExceededException extends _s.GenericAwsException {
-  PoliciesLimitExceededException({String type, String message})
+  PoliciesLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'PoliciesLimitExceededException',
@@ -24149,7 +30284,7 @@ class PoliciesLimitExceededException extends _s.GenericAwsException {
 }
 
 class ResourceDataSyncAlreadyExistsException extends _s.GenericAwsException {
-  ResourceDataSyncAlreadyExistsException({String type, String message})
+  ResourceDataSyncAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceDataSyncAlreadyExistsException',
@@ -24157,7 +30292,7 @@ class ResourceDataSyncAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceDataSyncConflictException extends _s.GenericAwsException {
-  ResourceDataSyncConflictException({String type, String message})
+  ResourceDataSyncConflictException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceDataSyncConflictException',
@@ -24165,7 +30300,7 @@ class ResourceDataSyncConflictException extends _s.GenericAwsException {
 }
 
 class ResourceDataSyncCountExceededException extends _s.GenericAwsException {
-  ResourceDataSyncCountExceededException({String type, String message})
+  ResourceDataSyncCountExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceDataSyncCountExceededException',
@@ -24174,7 +30309,7 @@ class ResourceDataSyncCountExceededException extends _s.GenericAwsException {
 
 class ResourceDataSyncInvalidConfigurationException
     extends _s.GenericAwsException {
-  ResourceDataSyncInvalidConfigurationException({String type, String message})
+  ResourceDataSyncInvalidConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceDataSyncInvalidConfigurationException',
@@ -24182,7 +30317,7 @@ class ResourceDataSyncInvalidConfigurationException
 }
 
 class ResourceDataSyncNotFoundException extends _s.GenericAwsException {
-  ResourceDataSyncNotFoundException({String type, String message})
+  ResourceDataSyncNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceDataSyncNotFoundException',
@@ -24190,12 +30325,12 @@ class ResourceDataSyncNotFoundException extends _s.GenericAwsException {
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
-  ResourceLimitExceededException({String type, String message})
+  ResourceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceLimitExceededException',
@@ -24203,17 +30338,17 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ServiceSettingNotFound extends _s.GenericAwsException {
-  ServiceSettingNotFound({String type, String message})
+  ServiceSettingNotFound({String? type, String? message})
       : super(type: type, code: 'ServiceSettingNotFound', message: message);
 }
 
 class StatusUnchanged extends _s.GenericAwsException {
-  StatusUnchanged({String type, String message})
+  StatusUnchanged({String? type, String? message})
       : super(type: type, code: 'StatusUnchanged', message: message);
 }
 
 class SubTypeCountLimitExceededException extends _s.GenericAwsException {
-  SubTypeCountLimitExceededException({String type, String message})
+  SubTypeCountLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'SubTypeCountLimitExceededException',
@@ -24221,27 +30356,27 @@ class SubTypeCountLimitExceededException extends _s.GenericAwsException {
 }
 
 class TargetInUseException extends _s.GenericAwsException {
-  TargetInUseException({String type, String message})
+  TargetInUseException({String? type, String? message})
       : super(type: type, code: 'TargetInUseException', message: message);
 }
 
 class TargetNotConnected extends _s.GenericAwsException {
-  TargetNotConnected({String type, String message})
+  TargetNotConnected({String? type, String? message})
       : super(type: type, code: 'TargetNotConnected', message: message);
 }
 
 class TooManyTagsError extends _s.GenericAwsException {
-  TooManyTagsError({String type, String message})
+  TooManyTagsError({String? type, String? message})
       : super(type: type, code: 'TooManyTagsError', message: message);
 }
 
 class TooManyUpdates extends _s.GenericAwsException {
-  TooManyUpdates({String type, String message})
+  TooManyUpdates({String? type, String? message})
       : super(type: type, code: 'TooManyUpdates', message: message);
 }
 
 class TotalSizeLimitExceededException extends _s.GenericAwsException {
-  TotalSizeLimitExceededException({String type, String message})
+  TotalSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'TotalSizeLimitExceededException',
@@ -24249,13 +30384,13 @@ class TotalSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class UnsupportedCalendarException extends _s.GenericAwsException {
-  UnsupportedCalendarException({String type, String message})
+  UnsupportedCalendarException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedCalendarException', message: message);
 }
 
 class UnsupportedFeatureRequiredException extends _s.GenericAwsException {
-  UnsupportedFeatureRequiredException({String type, String message})
+  UnsupportedFeatureRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedFeatureRequiredException',
@@ -24263,7 +30398,7 @@ class UnsupportedFeatureRequiredException extends _s.GenericAwsException {
 }
 
 class UnsupportedInventoryItemContextException extends _s.GenericAwsException {
-  UnsupportedInventoryItemContextException({String type, String message})
+  UnsupportedInventoryItemContextException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedInventoryItemContextException',
@@ -24272,7 +30407,7 @@ class UnsupportedInventoryItemContextException extends _s.GenericAwsException {
 
 class UnsupportedInventorySchemaVersionException
     extends _s.GenericAwsException {
-  UnsupportedInventorySchemaVersionException({String type, String message})
+  UnsupportedInventorySchemaVersionException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedInventorySchemaVersionException',
@@ -24280,17 +30415,17 @@ class UnsupportedInventorySchemaVersionException
 }
 
 class UnsupportedOperatingSystem extends _s.GenericAwsException {
-  UnsupportedOperatingSystem({String type, String message})
+  UnsupportedOperatingSystem({String? type, String? message})
       : super(type: type, code: 'UnsupportedOperatingSystem', message: message);
 }
 
 class UnsupportedParameterType extends _s.GenericAwsException {
-  UnsupportedParameterType({String type, String message})
+  UnsupportedParameterType({String? type, String? message})
       : super(type: type, code: 'UnsupportedParameterType', message: message);
 }
 
 class UnsupportedPlatformType extends _s.GenericAwsException {
-  UnsupportedPlatformType({String type, String message})
+  UnsupportedPlatformType({String? type, String? message})
       : super(type: type, code: 'UnsupportedPlatformType', message: message);
 }
 
@@ -24463,6 +30598,11 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       OpsItemLimitExceededException(type: type, message: message),
   'OpsItemNotFoundException': (type, message) =>
       OpsItemNotFoundException(type: type, message: message),
+  'OpsItemRelatedItemAlreadyExistsException': (type, message) =>
+      OpsItemRelatedItemAlreadyExistsException(type: type, message: message),
+  'OpsItemRelatedItemAssociationNotFoundException': (type, message) =>
+      OpsItemRelatedItemAssociationNotFoundException(
+          type: type, message: message),
   'OpsMetadataAlreadyExistsException': (type, message) =>
       OpsMetadataAlreadyExistsException(type: type, message: message),
   'OpsMetadataInvalidArgumentException': (type, message) =>

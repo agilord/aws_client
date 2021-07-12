@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,26 +11,14 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-part '2019-11-07.g.dart';
-
-/// <important>
-/// Amazon Augmented AI is in preview release and is subject to change. We do
-/// not recommend using this product in production environments.
-/// </important>
 /// Amazon Augmented AI (Amazon A2I) adds the benefit of human judgment to any
 /// machine learning application. When an AI application can't evaluate data
 /// with a high degree of confidence, human reviewers can take over. This human
@@ -74,10 +63,10 @@ part '2019-11-07.g.dart';
 class AugmentedAIRuntime {
   final _s.RestJsonProtocol _protocol;
   AugmentedAIRuntime({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -91,6 +80,9 @@ class AugmentedAIRuntime {
 
   /// Deletes the specified human loop for a flow definition.
   ///
+  /// If the human loop was deleted, this operation will return a
+  /// <code>ResourceNotFoundException</code>.
+  ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
@@ -99,7 +91,7 @@ class AugmentedAIRuntime {
   /// Parameter [humanLoopName] :
   /// The name of the human loop that you want to delete.
   Future<void> deleteHumanLoop({
-    @_s.required String humanLoopName,
+    required String humanLoopName,
   }) async {
     ArgumentError.checkNotNull(humanLoopName, 'humanLoopName');
     _s.validateStringLength(
@@ -109,22 +101,17 @@ class AugmentedAIRuntime {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/human-loops/${Uri.encodeComponent(humanLoopName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteHumanLoopResponse.fromJson(response);
   }
 
-  /// Returns information about the specified human loop.
+  /// Returns information about the specified human loop. If the human loop was
+  /// deleted, this operation will return a
+  /// <code>ResourceNotFoundException</code> error.
   ///
   /// May throw [ValidationException].
   /// May throw [ResourceNotFoundException].
@@ -134,7 +121,7 @@ class AugmentedAIRuntime {
   /// Parameter [humanLoopName] :
   /// The name of the human loop that you want information about.
   Future<DescribeHumanLoopResponse> describeHumanLoop({
-    @_s.required String humanLoopName,
+    required String humanLoopName,
   }) async {
     ArgumentError.checkNotNull(humanLoopName, 'humanLoopName');
     _s.validateStringLength(
@@ -142,12 +129,6 @@ class AugmentedAIRuntime {
       humanLoopName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -191,12 +172,12 @@ class AugmentedAIRuntime {
   /// Optional. The order for displaying results. Valid values:
   /// <code>Ascending</code> and <code>Descending</code>.
   Future<ListHumanLoopsResponse> listHumanLoops({
-    @_s.required String flowDefinitionArn,
-    DateTime creationTimeAfter,
-    DateTime creationTimeBefore,
-    int maxResults,
-    String nextToken,
-    SortOrder sortOrder,
+    required String flowDefinitionArn,
+    DateTime? creationTimeAfter,
+    DateTime? creationTimeBefore,
+    int? maxResults,
+    String? nextToken,
+    SortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(flowDefinitionArn, 'flowDefinitionArn');
     _s.validateStringLength(
@@ -204,12 +185,6 @@ class AugmentedAIRuntime {
       flowDefinitionArn,
       0,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'flowDefinitionArn',
-      flowDefinitionArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-definition/.*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -224,13 +199,8 @@ class AugmentedAIRuntime {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
-    );
     final $query = <String, List<String>>{
-      if (flowDefinitionArn != null) 'FlowDefinitionArn': [flowDefinitionArn],
+      'FlowDefinitionArn': [flowDefinitionArn],
       if (creationTimeAfter != null)
         'CreationTimeAfter': [_s.iso8601ToJson(creationTimeAfter).toString()],
       if (creationTimeBefore != null)
@@ -273,10 +243,10 @@ class AugmentedAIRuntime {
   /// specify if your data is free of personally identifiable information and/or
   /// free of adult content.
   Future<StartHumanLoopResponse> startHumanLoop({
-    @_s.required String flowDefinitionArn,
-    @_s.required HumanLoopInput humanLoopInput,
-    @_s.required String humanLoopName,
-    HumanLoopDataAttributes dataAttributes,
+    required String flowDefinitionArn,
+    required HumanLoopInput humanLoopInput,
+    required String humanLoopName,
+    HumanLoopDataAttributes? dataAttributes,
   }) async {
     ArgumentError.checkNotNull(flowDefinitionArn, 'flowDefinitionArn');
     _s.validateStringLength(
@@ -286,12 +256,6 @@ class AugmentedAIRuntime {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'flowDefinitionArn',
-      flowDefinitionArn,
-      r'''arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:flow-definition/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(humanLoopInput, 'humanLoopInput');
     ArgumentError.checkNotNull(humanLoopName, 'humanLoopName');
     _s.validateStringLength(
@@ -299,12 +263,6 @@ class AugmentedAIRuntime {
       humanLoopName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -332,7 +290,7 @@ class AugmentedAIRuntime {
   /// Parameter [humanLoopName] :
   /// The name of the human loop that you want to stop.
   Future<void> stopHumanLoop({
-    @_s.required String humanLoopName,
+    required String humanLoopName,
   }) async {
     ArgumentError.checkNotNull(humanLoopName, 'humanLoopName');
     _s.validateStringLength(
@@ -340,12 +298,6 @@ class AugmentedAIRuntime {
       humanLoopName,
       1,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'humanLoopName',
-      humanLoopName,
-      r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -357,185 +309,270 @@ class AugmentedAIRuntime {
       requestUri: '/human-loops/stop',
       exceptionFnMap: _exceptionFns,
     );
-    return StopHumanLoopResponse.fromJson(response);
   }
 }
 
 enum ContentClassifier {
-  @_s.JsonValue('FreeOfPersonallyIdentifiableInformation')
   freeOfPersonallyIdentifiableInformation,
-  @_s.JsonValue('FreeOfAdultContent')
   freeOfAdultContent,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DeleteHumanLoopResponse {
-  DeleteHumanLoopResponse();
-  factory DeleteHumanLoopResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteHumanLoopResponseFromJson(json);
+extension on ContentClassifier {
+  String toValue() {
+    switch (this) {
+      case ContentClassifier.freeOfPersonallyIdentifiableInformation:
+        return 'FreeOfPersonallyIdentifiableInformation';
+      case ContentClassifier.freeOfAdultContent:
+        return 'FreeOfAdultContent';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ContentClassifier toContentClassifier() {
+    switch (this) {
+      case 'FreeOfPersonallyIdentifiableInformation':
+        return ContentClassifier.freeOfPersonallyIdentifiableInformation;
+      case 'FreeOfAdultContent':
+        return ContentClassifier.freeOfAdultContent;
+    }
+    throw Exception('$this is not known in enum ContentClassifier');
+  }
+}
+
+class DeleteHumanLoopResponse {
+  DeleteHumanLoopResponse();
+
+  factory DeleteHumanLoopResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteHumanLoopResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DescribeHumanLoopResponse {
   /// The creation time when Amazon Augmented AI created the human loop.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the flow definition.
-  @_s.JsonKey(name: 'FlowDefinitionArn')
   final String flowDefinitionArn;
 
   /// The Amazon Resource Name (ARN) of the human loop.
-  @_s.JsonKey(name: 'HumanLoopArn')
   final String humanLoopArn;
 
   /// The name of the human loop. The name must be lowercase, unique within the
   /// Region in your account, and can have up to 63 characters. Valid characters:
   /// a-z, 0-9, and - (hyphen).
-  @_s.JsonKey(name: 'HumanLoopName')
   final String humanLoopName;
 
   /// The status of the human loop.
-  @_s.JsonKey(name: 'HumanLoopStatus')
   final HumanLoopStatus humanLoopStatus;
 
   /// A failure code that identifies the type of failure.
-  @_s.JsonKey(name: 'FailureCode')
-  final String failureCode;
+  ///
+  /// Possible values: <code>ValidationError</code>, <code>Expired</code>,
+  /// <code>InternalError</code>
+  final String? failureCode;
 
   /// The reason why a human loop failed. The failure reason is returned when the
   /// status of the human loop is <code>Failed</code>.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// An object that contains information about the output of the human loop.
-  @_s.JsonKey(name: 'HumanLoopOutput')
-  final HumanLoopOutput humanLoopOutput;
+  final HumanLoopOutput? humanLoopOutput;
 
   DescribeHumanLoopResponse({
-    @_s.required this.creationTime,
-    @_s.required this.flowDefinitionArn,
-    @_s.required this.humanLoopArn,
-    @_s.required this.humanLoopName,
-    @_s.required this.humanLoopStatus,
+    required this.creationTime,
+    required this.flowDefinitionArn,
+    required this.humanLoopArn,
+    required this.humanLoopName,
+    required this.humanLoopStatus,
     this.failureCode,
     this.failureReason,
     this.humanLoopOutput,
   });
-  factory DescribeHumanLoopResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeHumanLoopResponseFromJson(json);
+
+  factory DescribeHumanLoopResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeHumanLoopResponse(
+      creationTime:
+          nonNullableTimeStampFromJson(json['CreationTime'] as Object),
+      flowDefinitionArn: json['FlowDefinitionArn'] as String,
+      humanLoopArn: json['HumanLoopArn'] as String,
+      humanLoopName: json['HumanLoopName'] as String,
+      humanLoopStatus: (json['HumanLoopStatus'] as String).toHumanLoopStatus(),
+      failureCode: json['FailureCode'] as String?,
+      failureReason: json['FailureReason'] as String?,
+      humanLoopOutput: json['HumanLoopOutput'] != null
+          ? HumanLoopOutput.fromJson(
+              json['HumanLoopOutput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final flowDefinitionArn = this.flowDefinitionArn;
+    final humanLoopArn = this.humanLoopArn;
+    final humanLoopName = this.humanLoopName;
+    final humanLoopStatus = this.humanLoopStatus;
+    final failureCode = this.failureCode;
+    final failureReason = this.failureReason;
+    final humanLoopOutput = this.humanLoopOutput;
+    return {
+      'CreationTime': unixTimestampToJson(creationTime),
+      'FlowDefinitionArn': flowDefinitionArn,
+      'HumanLoopArn': humanLoopArn,
+      'HumanLoopName': humanLoopName,
+      'HumanLoopStatus': humanLoopStatus.toValue(),
+      if (failureCode != null) 'FailureCode': failureCode,
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (humanLoopOutput != null) 'HumanLoopOutput': humanLoopOutput,
+    };
+  }
 }
 
 /// Attributes of the data specified by the customer. Use these to describe the
 /// data to be labeled.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HumanLoopDataAttributes {
   /// Declares that your content is free of personally identifiable information or
   /// adult content.
   ///
   /// Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can
   /// view your task based on this information.
-  @_s.JsonKey(name: 'ContentClassifiers')
   final List<ContentClassifier> contentClassifiers;
 
   HumanLoopDataAttributes({
-    @_s.required this.contentClassifiers,
+    required this.contentClassifiers,
   });
-  Map<String, dynamic> toJson() => _$HumanLoopDataAttributesToJson(this);
+
+  factory HumanLoopDataAttributes.fromJson(Map<String, dynamic> json) {
+    return HumanLoopDataAttributes(
+      contentClassifiers: (json['ContentClassifiers'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toContentClassifier())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentClassifiers = this.contentClassifiers;
+    return {
+      'ContentClassifiers': contentClassifiers.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// An object containing the human loop input in JSON format.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HumanLoopInput {
   /// Serialized input from the human loop. The input must be a string
   /// representation of a file in JSON format.
-  @_s.JsonKey(name: 'InputContent')
   final String inputContent;
 
   HumanLoopInput({
-    @_s.required this.inputContent,
+    required this.inputContent,
   });
-  Map<String, dynamic> toJson() => _$HumanLoopInputToJson(this);
+
+  factory HumanLoopInput.fromJson(Map<String, dynamic> json) {
+    return HumanLoopInput(
+      inputContent: json['InputContent'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputContent = this.inputContent;
+    return {
+      'InputContent': inputContent,
+    };
+  }
 }
 
 /// Information about where the human output will be stored.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HumanLoopOutput {
   /// The location of the Amazon S3 object where Amazon Augmented AI stores your
   /// human loop output.
-  @_s.JsonKey(name: 'OutputS3Uri')
   final String outputS3Uri;
 
   HumanLoopOutput({
-    @_s.required this.outputS3Uri,
+    required this.outputS3Uri,
   });
-  factory HumanLoopOutput.fromJson(Map<String, dynamic> json) =>
-      _$HumanLoopOutputFromJson(json);
+
+  factory HumanLoopOutput.fromJson(Map<String, dynamic> json) {
+    return HumanLoopOutput(
+      outputS3Uri: json['OutputS3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputS3Uri = this.outputS3Uri;
+    return {
+      'OutputS3Uri': outputS3Uri,
+    };
+  }
 }
 
 enum HumanLoopStatus {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Stopped')
   stopped,
-  @_s.JsonValue('Stopping')
   stopping,
 }
 
+extension on HumanLoopStatus {
+  String toValue() {
+    switch (this) {
+      case HumanLoopStatus.inProgress:
+        return 'InProgress';
+      case HumanLoopStatus.failed:
+        return 'Failed';
+      case HumanLoopStatus.completed:
+        return 'Completed';
+      case HumanLoopStatus.stopped:
+        return 'Stopped';
+      case HumanLoopStatus.stopping:
+        return 'Stopping';
+    }
+  }
+}
+
+extension on String {
+  HumanLoopStatus toHumanLoopStatus() {
+    switch (this) {
+      case 'InProgress':
+        return HumanLoopStatus.inProgress;
+      case 'Failed':
+        return HumanLoopStatus.failed;
+      case 'Completed':
+        return HumanLoopStatus.completed;
+      case 'Stopped':
+        return HumanLoopStatus.stopped;
+      case 'Stopping':
+        return HumanLoopStatus.stopping;
+    }
+    throw Exception('$this is not known in enum HumanLoopStatus');
+  }
+}
+
 /// Summary information about the human loop.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HumanLoopSummary {
   /// When Amazon Augmented AI created the human loop.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The reason why the human loop failed. A failure reason is returned when the
   /// status of the human loop is <code>Failed</code>.
-  @_s.JsonKey(name: 'FailureReason')
-  final String failureReason;
+  final String? failureReason;
 
   /// The Amazon Resource Name (ARN) of the flow definition used to configure the
   /// human loop.
-  @_s.JsonKey(name: 'FlowDefinitionArn')
-  final String flowDefinitionArn;
+  final String? flowDefinitionArn;
 
   /// The name of the human loop.
-  @_s.JsonKey(name: 'HumanLoopName')
-  final String humanLoopName;
+  final String? humanLoopName;
 
   /// The status of the human loop.
-  @_s.JsonKey(name: 'HumanLoopStatus')
-  final HumanLoopStatus humanLoopStatus;
+  final HumanLoopStatus? humanLoopStatus;
 
   HumanLoopSummary({
     this.creationTime,
@@ -544,36 +581,69 @@ class HumanLoopSummary {
     this.humanLoopName,
     this.humanLoopStatus,
   });
-  factory HumanLoopSummary.fromJson(Map<String, dynamic> json) =>
-      _$HumanLoopSummaryFromJson(json);
+
+  factory HumanLoopSummary.fromJson(Map<String, dynamic> json) {
+    return HumanLoopSummary(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      failureReason: json['FailureReason'] as String?,
+      flowDefinitionArn: json['FlowDefinitionArn'] as String?,
+      humanLoopName: json['HumanLoopName'] as String?,
+      humanLoopStatus:
+          (json['HumanLoopStatus'] as String?)?.toHumanLoopStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final failureReason = this.failureReason;
+    final flowDefinitionArn = this.flowDefinitionArn;
+    final humanLoopName = this.humanLoopName;
+    final humanLoopStatus = this.humanLoopStatus;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (failureReason != null) 'FailureReason': failureReason,
+      if (flowDefinitionArn != null) 'FlowDefinitionArn': flowDefinitionArn,
+      if (humanLoopName != null) 'HumanLoopName': humanLoopName,
+      if (humanLoopStatus != null) 'HumanLoopStatus': humanLoopStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHumanLoopsResponse {
   /// An array of objects that contain information about the human loops.
-  @_s.JsonKey(name: 'HumanLoopSummaries')
   final List<HumanLoopSummary> humanLoopSummaries;
 
   /// A token to display the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListHumanLoopsResponse({
-    @_s.required this.humanLoopSummaries,
+    required this.humanLoopSummaries,
     this.nextToken,
   });
-  factory ListHumanLoopsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListHumanLoopsResponseFromJson(json);
+
+  factory ListHumanLoopsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHumanLoopsResponse(
+      humanLoopSummaries: (json['HumanLoopSummaries'] as List)
+          .whereNotNull()
+          .map((e) => HumanLoopSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final humanLoopSummaries = this.humanLoopSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'HumanLoopSummaries': humanLoopSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 enum SortOrder {
-  @_s.JsonValue('Ascending')
   ascending,
-  @_s.JsonValue('Descending')
   descending,
 }
 
@@ -585,55 +655,72 @@ extension on SortOrder {
       case SortOrder.descending:
         return 'Descending';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'Ascending':
+        return SortOrder.ascending;
+      case 'Descending':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
+}
+
 class StartHumanLoopResponse {
   /// The Amazon Resource Name (ARN) of the human loop.
-  @_s.JsonKey(name: 'HumanLoopArn')
-  final String humanLoopArn;
+  final String? humanLoopArn;
 
   StartHumanLoopResponse({
     this.humanLoopArn,
   });
-  factory StartHumanLoopResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartHumanLoopResponseFromJson(json);
+
+  factory StartHumanLoopResponse.fromJson(Map<String, dynamic> json) {
+    return StartHumanLoopResponse(
+      humanLoopArn: json['HumanLoopArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final humanLoopArn = this.humanLoopArn;
+    return {
+      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopHumanLoopResponse {
   StopHumanLoopResponse();
-  factory StopHumanLoopResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopHumanLoopResponseFromJson(json);
+
+  factory StopHumanLoopResponse.fromJson(Map<String, dynamic> _) {
+    return StopHumanLoopResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -641,12 +728,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

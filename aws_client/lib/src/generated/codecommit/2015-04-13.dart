@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2015-04-13.g.dart';
 
 /// This is the <i>AWS CodeCommit API Reference</i>. This reference provides
 /// descriptions of the operations and data types for AWS CodeCommit API along
@@ -32,10 +25,10 @@ part '2015-04-13.g.dart';
 class CodeCommit {
   final _s.JsonProtocol _protocol;
   CodeCommit({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -74,8 +67,8 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository that you want to associate with the template.
   Future<void> associateApprovalRuleTemplateWithRepository({
-    @_s.required String approvalRuleTemplateName,
-    @_s.required String repositoryName,
+    required String approvalRuleTemplateName,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -94,18 +87,12 @@ class CodeCommit {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'CodeCommit_20150413.AssociateApprovalRuleTemplateWithRepository'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -144,8 +131,8 @@ class CodeCommit {
   /// </note>
   Future<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput>
       batchAssociateApprovalRuleTemplateWithRepositories({
-    @_s.required String approvalRuleTemplateName,
-    @_s.required List<String> repositoryNames,
+    required String approvalRuleTemplateName,
+    required List<String> repositoryNames,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -246,16 +233,16 @@ class CodeCommit {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<BatchDescribeMergeConflictsOutput> batchDescribeMergeConflicts({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required MergeOptionTypeEnum mergeOption,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    List<String> filePaths,
-    int maxConflictFiles,
-    int maxMergeHunks,
-    String nextToken,
+    required String destinationCommitSpecifier,
+    required MergeOptionTypeEnum mergeOption,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    List<String>? filePaths,
+    int? maxConflictFiles,
+    int? maxMergeHunks,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -266,12 +253,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -287,7 +268,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption?.toValue() ?? '',
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
@@ -331,8 +312,8 @@ class CodeCommit {
   /// </note>
   Future<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput>
       batchDisassociateApprovalRuleTemplateFromRepositories({
-    @_s.required String approvalRuleTemplateName,
-    @_s.required List<String> repositoryNames,
+    required String approvalRuleTemplateName,
+    required List<String> repositoryNames,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -389,8 +370,8 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository that contains the commits.
   Future<BatchGetCommitsOutput> batchGetCommits({
-    @_s.required List<String> commitIds,
-    @_s.required String repositoryName,
+    required List<String> commitIds,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(commitIds, 'commitIds');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -399,12 +380,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -452,7 +427,7 @@ class CodeCommit {
   /// itself can be empty.
   /// </note>
   Future<BatchGetRepositoriesOutput> batchGetRepositories({
-    @_s.required List<String> repositoryNames,
+    required List<String> repositoryNames,
   }) async {
     ArgumentError.checkNotNull(repositoryNames, 'repositoryNames');
     final headers = <String, String>{
@@ -542,9 +517,9 @@ class CodeCommit {
   /// description that explains what this template does and when it might be
   /// appropriate to associate it with repositories.
   Future<CreateApprovalRuleTemplateOutput> createApprovalRuleTemplate({
-    @_s.required String approvalRuleTemplateContent,
-    @_s.required String approvalRuleTemplateName,
-    String approvalRuleTemplateDescription,
+    required String approvalRuleTemplateContent,
+    required String approvalRuleTemplateName,
+    String? approvalRuleTemplateDescription,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateContent, 'approvalRuleTemplateContent');
@@ -621,9 +596,9 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository in which you want to create the new branch.
   Future<void> createBranch({
-    @_s.required String branchName,
-    @_s.required String commitId,
-    @_s.required String repositoryName,
+    required String branchName,
+    required String commitId,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
@@ -642,17 +617,11 @@ class CodeCommit {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.CreateBranch'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -743,16 +712,16 @@ class CodeCommit {
   /// Parameter [setFileModes] :
   /// The file modes to update for files in this commit.
   Future<CreateCommitOutput> createCommit({
-    @_s.required String branchName,
-    @_s.required String repositoryName,
-    String authorName,
-    String commitMessage,
-    List<DeleteFileEntry> deleteFiles,
-    String email,
-    bool keepEmptyFolders,
-    String parentCommitId,
-    List<PutFileEntry> putFiles,
-    List<SetFileModeEntry> setFileModes,
+    required String branchName,
+    required String repositoryName,
+    String? authorName,
+    String? commitMessage,
+    List<DeleteFileEntry>? deleteFiles,
+    String? email,
+    bool? keepEmptyFolders,
+    String? parentCommitId,
+    List<PutFileEntry>? putFiles,
+    List<SetFileModeEntry>? setFileModes,
   }) async {
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
@@ -768,12 +737,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -855,10 +818,10 @@ class CodeCommit {
   /// Parameter [description] :
   /// A description of the pull request.
   Future<CreatePullRequestOutput> createPullRequest({
-    @_s.required List<Target> targets,
-    @_s.required String title,
-    String clientRequestToken,
-    String description,
+    required List<Target> targets,
+    required String title,
+    String? clientRequestToken,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(targets, 'targets');
     ArgumentError.checkNotNull(title, 'title');
@@ -964,9 +927,9 @@ class CodeCommit {
   /// The system-generated ID of the pull request for which you want to create
   /// the approval rule.
   Future<CreatePullRequestApprovalRuleOutput> createPullRequestApprovalRule({
-    @_s.required String approvalRuleContent,
-    @_s.required String approvalRuleName,
-    @_s.required String pullRequestId,
+    required String approvalRuleContent,
+    required String approvalRuleName,
+    required String pullRequestId,
   }) async {
     ArgumentError.checkNotNull(approvalRuleContent, 'approvalRuleContent');
     _s.validateStringLength(
@@ -1047,9 +1010,9 @@ class CodeCommit {
   /// Parameter [tags] :
   /// One or more tag key-value pairs to use when tagging this repository.
   Future<CreateRepositoryOutput> createRepository({
-    @_s.required String repositoryName,
-    String repositoryDescription,
-    Map<String, String> tags,
+    required String repositoryName,
+    String? repositoryDescription,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1057,12 +1020,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1187,17 +1144,17 @@ class CodeCommit {
   /// structure if the changes leave the folders empty. If this is specified as
   /// true, a .gitkeep file is created for empty folders. The default is false.
   Future<CreateUnreferencedMergeCommitOutput> createUnreferencedMergeCommit({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required MergeOptionTypeEnum mergeOption,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    String authorName,
-    String commitMessage,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolution conflictResolution,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    String email,
-    bool keepEmptyFolders,
+    required String destinationCommitSpecifier,
+    required MergeOptionTypeEnum mergeOption,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    String? authorName,
+    String? commitMessage,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolution? conflictResolution,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    String? email,
+    bool? keepEmptyFolders,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -1208,12 +1165,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -1229,7 +1180,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption?.toValue() ?? '',
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (authorName != null) 'authorName': authorName,
@@ -1258,7 +1209,7 @@ class CodeCommit {
   /// Parameter [approvalRuleTemplateName] :
   /// The name of the approval rule template to delete.
   Future<DeleteApprovalRuleTemplateOutput> deleteApprovalRuleTemplate({
-    @_s.required String approvalRuleTemplateName,
+    required String approvalRuleTemplateName,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -1308,8 +1259,8 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository that contains the branch to be deleted.
   Future<DeleteBranchOutput> deleteBranch({
-    @_s.required String branchName,
-    @_s.required String repositoryName,
+    required String branchName,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
@@ -1325,12 +1276,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1364,7 +1309,7 @@ class CodeCommit {
   /// The unique, system-generated ID of the comment. To get this ID, use
   /// <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
   Future<DeleteCommentContentOutput> deleteCommentContent({
-    @_s.required String commentId,
+    required String commentId,
   }) async {
     ArgumentError.checkNotNull(commentId, 'commentId');
     final headers = <String, String>{
@@ -1450,14 +1395,14 @@ class CodeCommit {
   /// The name of the author of the commit that deletes the file. If no name is
   /// specified, the user's ARN is used as the author name and committer name.
   Future<DeleteFileOutput> deleteFile({
-    @_s.required String branchName,
-    @_s.required String filePath,
-    @_s.required String parentCommitId,
-    @_s.required String repositoryName,
-    String commitMessage,
-    String email,
-    bool keepEmptyFolders,
-    String name,
+    required String branchName,
+    required String filePath,
+    required String parentCommitId,
+    required String repositoryName,
+    String? commitMessage,
+    String? email,
+    bool? keepEmptyFolders,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
@@ -1475,12 +1420,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1535,8 +1474,8 @@ class CodeCommit {
   /// The system-generated ID of the pull request that contains the approval
   /// rule you want to delete.
   Future<DeletePullRequestApprovalRuleOutput> deletePullRequestApprovalRule({
-    @_s.required String approvalRuleName,
-    @_s.required String pullRequestId,
+    required String approvalRuleName,
+    required String pullRequestId,
   }) async {
     ArgumentError.checkNotNull(approvalRuleName, 'approvalRuleName');
     _s.validateStringLength(
@@ -1585,7 +1524,7 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository to delete.
   Future<DeleteRepositoryOutput> deleteRepository({
-    @_s.required String repositoryName,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -1593,12 +1532,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1686,15 +1619,15 @@ class CodeCommit {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<DescribeMergeConflictsOutput> describeMergeConflicts({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required String filePath,
-    @_s.required MergeOptionTypeEnum mergeOption,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    int maxMergeHunks,
-    String nextToken,
+    required String destinationCommitSpecifier,
+    required String filePath,
+    required MergeOptionTypeEnum mergeOption,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    int? maxMergeHunks,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -1706,12 +1639,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -1728,7 +1655,7 @@ class CodeCommit {
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
         'filePath': filePath,
-        'mergeOption': mergeOption?.toValue() ?? '',
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
@@ -1781,11 +1708,11 @@ class CodeCommit {
   /// Optional. The pull request event type about which you want to return
   /// information.
   Future<DescribePullRequestEventsOutput> describePullRequestEvents({
-    @_s.required String pullRequestId,
-    String actorArn,
-    int maxResults,
-    String nextToken,
-    PullRequestEventType pullRequestEventType,
+    required String pullRequestId,
+    String? actorArn,
+    int? maxResults,
+    String? nextToken,
+    PullRequestEventType? pullRequestEventType,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     final headers = <String, String>{
@@ -1836,8 +1763,8 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository you want to disassociate from the template.
   Future<void> disassociateApprovalRuleTemplateFromRepository({
-    @_s.required String approvalRuleTemplateName,
-    @_s.required String repositoryName,
+    required String approvalRuleTemplateName,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -1856,18 +1783,12 @@ class CodeCommit {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'CodeCommit_20150413.DisassociateApprovalRuleTemplateFromRepository'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1903,8 +1824,8 @@ class CodeCommit {
   /// most recent revision ID for a pull request, use <a>GetPullRequest</a>.
   Future<EvaluatePullRequestApprovalRulesOutput>
       evaluatePullRequestApprovalRules({
-    @_s.required String pullRequestId,
-    @_s.required String revisionId,
+    required String pullRequestId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
@@ -1937,7 +1858,7 @@ class CodeCommit {
   /// The name of the approval rule template for which you want to get
   /// information.
   Future<GetApprovalRuleTemplateOutput> getApprovalRuleTemplate({
-    @_s.required String approvalRuleTemplateName,
+    required String approvalRuleTemplateName,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -1987,8 +1908,8 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository that contains the blob.
   Future<GetBlobOutput> getBlob({
-    @_s.required String blobId,
-    @_s.required String repositoryName,
+    required String blobId,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(blobId, 'blobId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -1997,12 +1918,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2046,8 +1961,8 @@ class CodeCommit {
   /// The name of the repository that contains the branch for which you want to
   /// retrieve information.
   Future<GetBranchOutput> getBranch({
-    String branchName,
-    String repositoryName,
+    String? branchName,
+    String? repositoryName,
   }) async {
     _s.validateStringLength(
       'branchName',
@@ -2060,11 +1975,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2107,7 +2017,7 @@ class CodeCommit {
   /// The unique, system-generated ID of the comment. To get this ID, use
   /// <a>GetCommentsForComparedCommit</a> or <a>GetCommentsForPullRequest</a>.
   Future<GetCommentOutput> getComment({
-    @_s.required String commentId,
+    required String commentId,
   }) async {
     ArgumentError.checkNotNull(commentId, 'commentId');
     final headers = <String, String>{
@@ -2154,10 +2064,10 @@ class CodeCommit {
   /// Optional. The Amazon Resource Name (ARN) of the user or identity for which
   /// you want to get reaction information.
   Future<GetCommentReactionsOutput> getCommentReactions({
-    @_s.required String commentId,
-    int maxResults,
-    String nextToken,
-    String reactionUserArn,
+    required String commentId,
+    int? maxResults,
+    String? nextToken,
+    String? reactionUserArn,
   }) async {
     ArgumentError.checkNotNull(commentId, 'commentId');
     final headers = <String, String>{
@@ -2222,11 +2132,11 @@ class CodeCommit {
   /// An enumeration token that when provided in a request, returns the next
   /// batch of the results.
   Future<GetCommentsForComparedCommitOutput> getCommentsForComparedCommit({
-    @_s.required String afterCommitId,
-    @_s.required String repositoryName,
-    String beforeCommitId,
-    int maxResults,
-    String nextToken,
+    required String afterCommitId,
+    required String repositoryName,
+    String? beforeCommitId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(afterCommitId, 'afterCommitId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -2235,12 +2145,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2314,12 +2218,12 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository that contains the pull request.
   Future<GetCommentsForPullRequestOutput> getCommentsForPullRequest({
-    @_s.required String pullRequestId,
-    String afterCommitId,
-    String beforeCommitId,
-    int maxResults,
-    String nextToken,
-    String repositoryName,
+    required String pullRequestId,
+    String? afterCommitId,
+    String? beforeCommitId,
+    int? maxResults,
+    String? nextToken,
+    String? repositoryName,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     _s.validateStringLength(
@@ -2327,11 +2231,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2377,8 +2276,8 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository to which the commit was made.
   Future<GetCommitOutput> getCommit({
-    @_s.required String commitId,
-    @_s.required String repositoryName,
+    required String commitId,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(commitId, 'commitId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -2387,12 +2286,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2469,13 +2362,13 @@ class CodeCommit {
   /// folder. If <code>beforePath</code> and <code>afterPath</code> are not
   /// specified, differences are shown for all paths.
   Future<GetDifferencesOutput> getDifferences({
-    @_s.required String afterCommitSpecifier,
-    @_s.required String repositoryName,
-    int maxResults,
-    String nextToken,
-    String afterPath,
-    String beforeCommitSpecifier,
-    String beforePath,
+    required String afterCommitSpecifier,
+    required String repositoryName,
+    int? maxResults,
+    String? nextToken,
+    String? afterPath,
+    String? beforeCommitSpecifier,
+    String? beforePath,
   }) async {
     ArgumentError.checkNotNull(afterCommitSpecifier, 'afterCommitSpecifier');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -2484,12 +2377,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2548,9 +2435,9 @@ class CodeCommit {
   /// or a reference such as refs/heads/master. If none is provided, the head
   /// commit is used.
   Future<GetFileOutput> getFile({
-    @_s.required String filePath,
-    @_s.required String repositoryName,
-    String commitSpecifier,
+    required String filePath,
+    required String repositoryName,
+    String? commitSpecifier,
   }) async {
     ArgumentError.checkNotNull(filePath, 'filePath');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -2559,12 +2446,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2619,9 +2500,9 @@ class CodeCommit {
   /// specifier is provided, the folder content is returned as it exists in the
   /// HEAD commit.
   Future<GetFolderOutput> getFolder({
-    @_s.required String folderPath,
-    @_s.required String repositoryName,
-    String commitSpecifier,
+    required String folderPath,
+    required String repositoryName,
+    String? commitSpecifier,
   }) async {
     ArgumentError.checkNotNull(folderPath, 'folderPath');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -2630,12 +2511,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2699,11 +2574,11 @@ class CodeCommit {
   /// which requires any conflicts to be resolved manually before the merge
   /// operation is successful.
   Future<GetMergeCommitOutput> getMergeCommit({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
+    required String destinationCommitSpecifier,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -2713,12 +2588,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -2806,14 +2675,14 @@ class CodeCommit {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<GetMergeConflictsOutput> getMergeConflicts({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required MergeOptionTypeEnum mergeOption,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    int maxConflictFiles,
-    String nextToken,
+    required String destinationCommitSpecifier,
+    required MergeOptionTypeEnum mergeOption,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    int? maxConflictFiles,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -2824,12 +2693,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -2845,7 +2708,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'destinationCommitSpecifier': destinationCommitSpecifier,
-        'mergeOption': mergeOption?.toValue() ?? '',
+        'mergeOption': mergeOption.toValue(),
         'repositoryName': repositoryName,
         'sourceCommitSpecifier': sourceCommitSpecifier,
         if (conflictDetailLevel != null)
@@ -2906,11 +2769,11 @@ class CodeCommit {
   /// which requires any conflicts to be resolved manually before the merge
   /// operation is successful.
   Future<GetMergeOptionsOutput> getMergeOptions({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
+    required String destinationCommitSpecifier,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -2920,12 +2783,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -2968,7 +2825,7 @@ class CodeCommit {
   /// The system-generated ID of the pull request. To get this ID, use
   /// <a>ListPullRequests</a>.
   Future<GetPullRequestOutput> getPullRequest({
-    @_s.required String pullRequestId,
+    required String pullRequestId,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     final headers = <String, String>{
@@ -3010,8 +2867,8 @@ class CodeCommit {
   /// Parameter [revisionId] :
   /// The system-generated ID for the pull request revision.
   Future<GetPullRequestApprovalStatesOutput> getPullRequestApprovalStates({
-    @_s.required String pullRequestId,
-    @_s.required String revisionId,
+    required String pullRequestId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
@@ -3058,8 +2915,8 @@ class CodeCommit {
   /// The system-generated ID of the revision for the pull request. To retrieve
   /// the most recent revision ID, use <a>GetPullRequest</a>.
   Future<GetPullRequestOverrideStateOutput> getPullRequestOverrideState({
-    @_s.required String pullRequestId,
-    @_s.required String revisionId,
+    required String pullRequestId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
@@ -3104,7 +2961,7 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository to get information about.
   Future<GetRepositoryOutput> getRepository({
-    @_s.required String repositoryName,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -3112,12 +2969,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3152,7 +3003,7 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository for which the trigger is configured.
   Future<GetRepositoryTriggersOutput> getRepositoryTriggers({
-    @_s.required String repositoryName,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -3160,12 +3011,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3201,8 +3046,8 @@ class CodeCommit {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<ListApprovalRuleTemplatesOutput> listApprovalRuleTemplates({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3250,9 +3095,9 @@ class CodeCommit {
   /// batch of the results.
   Future<ListAssociatedApprovalRuleTemplatesForRepositoryOutput>
       listAssociatedApprovalRuleTemplatesForRepository({
-    @_s.required String repositoryName,
-    int maxResults,
-    String nextToken,
+    required String repositoryName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -3260,12 +3105,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3308,8 +3147,8 @@ class CodeCommit {
   /// Parameter [nextToken] :
   /// An enumeration token that allows the operation to batch the results.
   Future<ListBranchesOutput> listBranches({
-    @_s.required String repositoryName,
-    String nextToken,
+    required String repositoryName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -3317,12 +3156,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3381,11 +3214,11 @@ class CodeCommit {
   /// Optional. The status of the pull request. If used, this refines the
   /// results to the pull requests that match the specified status.
   Future<ListPullRequestsOutput> listPullRequests({
-    @_s.required String repositoryName,
-    String authorArn,
-    int maxResults,
-    String nextToken,
-    PullRequestStatusEnum pullRequestStatus,
+    required String repositoryName,
+    String? authorArn,
+    int? maxResults,
+    String? nextToken,
+    PullRequestStatusEnum? pullRequestStatus,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -3393,12 +3226,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3442,9 +3269,9 @@ class CodeCommit {
   /// Parameter [sortBy] :
   /// The criteria used to sort the results of a list repositories operation.
   Future<ListRepositoriesOutput> listRepositories({
-    String nextToken,
-    OrderEnum order,
-    SortByEnum sortBy,
+    String? nextToken,
+    OrderEnum? order,
+    SortByEnum? sortBy,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3493,9 +3320,9 @@ class CodeCommit {
   /// batch of the results.
   Future<ListRepositoriesForApprovalRuleTemplateOutput>
       listRepositoriesForApprovalRuleTemplate({
-    @_s.required String approvalRuleTemplateName,
-    int maxResults,
-    String nextToken,
+    required String approvalRuleTemplateName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -3546,8 +3373,8 @@ class CodeCommit {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceArn,
-    String nextToken,
+    required String resourceArn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final headers = <String, String>{
@@ -3605,10 +3432,10 @@ class CodeCommit {
   /// Parameter [targetBranch] :
   /// The branch where the merge is applied.
   Future<MergeBranchesByFastForwardOutput> mergeBranchesByFastForward({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    String targetBranch,
+    required String destinationCommitSpecifier,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    String? targetBranch,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -3618,12 +3445,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -3743,17 +3564,17 @@ class CodeCommit {
   /// Parameter [targetBranch] :
   /// The branch where the merge is applied.
   Future<MergeBranchesBySquashOutput> mergeBranchesBySquash({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    String authorName,
-    String commitMessage,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolution conflictResolution,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    String email,
-    bool keepEmptyFolders,
-    String targetBranch,
+    required String destinationCommitSpecifier,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    String? authorName,
+    String? commitMessage,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolution? conflictResolution,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    String? email,
+    bool? keepEmptyFolders,
+    String? targetBranch,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -3763,12 +3584,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -3898,17 +3713,17 @@ class CodeCommit {
   /// Parameter [targetBranch] :
   /// The branch where the merge is applied.
   Future<MergeBranchesByThreeWayOutput> mergeBranchesByThreeWay({
-    @_s.required String destinationCommitSpecifier,
-    @_s.required String repositoryName,
-    @_s.required String sourceCommitSpecifier,
-    String authorName,
-    String commitMessage,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolution conflictResolution,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    String email,
-    bool keepEmptyFolders,
-    String targetBranch,
+    required String destinationCommitSpecifier,
+    required String repositoryName,
+    required String sourceCommitSpecifier,
+    String? authorName,
+    String? commitMessage,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolution? conflictResolution,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    String? email,
+    bool? keepEmptyFolders,
+    String? targetBranch,
   }) async {
     ArgumentError.checkNotNull(
         destinationCommitSpecifier, 'destinationCommitSpecifier');
@@ -3918,12 +3733,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sourceCommitSpecifier, 'sourceCommitSpecifier');
@@ -4002,9 +3811,9 @@ class CodeCommit {
   /// current commit ID of the tip of the source branch does not match this
   /// commit ID.
   Future<MergePullRequestByFastForwardOutput> mergePullRequestByFastForward({
-    @_s.required String pullRequestId,
-    @_s.required String repositoryName,
-    String sourceCommitId,
+    required String pullRequestId,
+    required String repositoryName,
+    String? sourceCommitId,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -4013,12 +3822,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4131,16 +3934,16 @@ class CodeCommit {
   /// current commit ID of the tip of the source branch does not match this
   /// commit ID.
   Future<MergePullRequestBySquashOutput> mergePullRequestBySquash({
-    @_s.required String pullRequestId,
-    @_s.required String repositoryName,
-    String authorName,
-    String commitMessage,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolution conflictResolution,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    String email,
-    bool keepEmptyFolders,
-    String sourceCommitId,
+    required String pullRequestId,
+    required String repositoryName,
+    String? authorName,
+    String? commitMessage,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolution? conflictResolution,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    String? email,
+    bool? keepEmptyFolders,
+    String? sourceCommitId,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -4149,12 +3952,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4277,16 +4074,16 @@ class CodeCommit {
   /// current commit ID of the tip of the source branch does not match this
   /// commit ID.
   Future<MergePullRequestByThreeWayOutput> mergePullRequestByThreeWay({
-    @_s.required String pullRequestId,
-    @_s.required String repositoryName,
-    String authorName,
-    String commitMessage,
-    ConflictDetailLevelTypeEnum conflictDetailLevel,
-    ConflictResolution conflictResolution,
-    ConflictResolutionStrategyTypeEnum conflictResolutionStrategy,
-    String email,
-    bool keepEmptyFolders,
-    String sourceCommitId,
+    required String pullRequestId,
+    required String repositoryName,
+    String? authorName,
+    String? commitMessage,
+    ConflictDetailLevelTypeEnum? conflictDetailLevel,
+    ConflictResolution? conflictResolution,
+    ConflictResolutionStrategyTypeEnum? conflictResolutionStrategy,
+    String? email,
+    bool? keepEmptyFolders,
+    String? sourceCommitId,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
@@ -4295,12 +4092,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4367,9 +4158,9 @@ class CodeCommit {
   /// You cannot override approval rules for anything but the most recent
   /// revision of a pull request. To get the revision ID, use GetPullRequest.
   Future<void> overridePullRequestApprovalRules({
-    @_s.required OverrideStatus overrideStatus,
-    @_s.required String pullRequestId,
-    @_s.required String revisionId,
+    required OverrideStatus overrideStatus,
+    required String pullRequestId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(overrideStatus, 'overrideStatus');
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
@@ -4378,14 +4169,14 @@ class CodeCommit {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.OverridePullRequestApprovalRules'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'overrideStatus': overrideStatus?.toValue() ?? '',
+        'overrideStatus': overrideStatus.toValue(),
         'pullRequestId': pullRequestId,
         'revisionId': revisionId,
       },
@@ -4445,12 +4236,12 @@ class CodeCommit {
   /// Parameter [location] :
   /// The location of the comparison where you want to comment.
   Future<PostCommentForComparedCommitOutput> postCommentForComparedCommit({
-    @_s.required String afterCommitId,
-    @_s.required String content,
-    @_s.required String repositoryName,
-    String beforeCommitId,
-    String clientRequestToken,
-    Location location,
+    required String afterCommitId,
+    required String content,
+    required String repositoryName,
+    String? beforeCommitId,
+    String? clientRequestToken,
+    Location? location,
   }) async {
     ArgumentError.checkNotNull(afterCommitId, 'afterCommitId');
     ArgumentError.checkNotNull(content, 'content');
@@ -4460,12 +4251,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4555,13 +4340,13 @@ class CodeCommit {
   /// pull request difference between the before commit ID and the after commit
   /// ID.
   Future<PostCommentForPullRequestOutput> postCommentForPullRequest({
-    @_s.required String afterCommitId,
-    @_s.required String beforeCommitId,
-    @_s.required String content,
-    @_s.required String pullRequestId,
-    @_s.required String repositoryName,
-    String clientRequestToken,
-    Location location,
+    required String afterCommitId,
+    required String beforeCommitId,
+    required String content,
+    required String pullRequestId,
+    required String repositoryName,
+    String? clientRequestToken,
+    Location? location,
   }) async {
     ArgumentError.checkNotNull(afterCommitId, 'afterCommitId');
     ArgumentError.checkNotNull(beforeCommitId, 'beforeCommitId');
@@ -4573,12 +4358,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -4633,9 +4412,9 @@ class CodeCommit {
   /// the request returns information about the initial request that used that
   /// token.
   Future<PostCommentReplyOutput> postCommentReply({
-    @_s.required String content,
-    @_s.required String inReplyTo,
-    String clientRequestToken,
+    required String content,
+    required String inReplyTo,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(inReplyTo, 'inReplyTo');
@@ -4684,8 +4463,8 @@ class CodeCommit {
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-commit-comment.html#emoji-reaction-table">AWS
   /// CodeCommit User Guide</a>.
   Future<void> putCommentReaction({
-    @_s.required String commentId,
-    @_s.required String reactionValue,
+    required String commentId,
+    required String reactionValue,
   }) async {
     ArgumentError.checkNotNull(commentId, 'commentId');
     ArgumentError.checkNotNull(reactionValue, 'reactionValue');
@@ -4693,7 +4472,7 @@ class CodeCommit {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.PutCommentReaction'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4783,15 +4562,15 @@ class CodeCommit {
   /// operation. Otherwise, an error occurs, and the file is not added or
   /// updated.
   Future<PutFileOutput> putFile({
-    @_s.required String branchName,
-    @_s.required Uint8List fileContent,
-    @_s.required String filePath,
-    @_s.required String repositoryName,
-    String commitMessage,
-    String email,
-    FileModeTypeEnum fileMode,
-    String name,
-    String parentCommitId,
+    required String branchName,
+    required Uint8List fileContent,
+    required String filePath,
+    required String repositoryName,
+    String? commitMessage,
+    String? email,
+    FileModeTypeEnum? fileMode,
+    String? name,
+    String? parentCommitId,
   }) async {
     ArgumentError.checkNotNull(branchName, 'branchName');
     _s.validateStringLength(
@@ -4811,12 +4590,6 @@ class CodeCommit {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.PutFile'
@@ -4829,7 +4602,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'branchName': branchName,
-        'fileContent': fileContent?.let(base64Encode),
+        'fileContent': base64Encode(fileContent),
         'filePath': filePath,
         'repositoryName': repositoryName,
         if (commitMessage != null) 'commitMessage': commitMessage,
@@ -4873,8 +4646,8 @@ class CodeCommit {
   /// Parameter [triggers] :
   /// The JSON block of configuration information for each trigger.
   Future<PutRepositoryTriggersOutput> putRepositoryTriggers({
-    @_s.required String repositoryName,
-    @_s.required List<RepositoryTrigger> triggers,
+    required String repositoryName,
+    required List<RepositoryTrigger> triggers,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -4882,12 +4655,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(triggers, 'triggers');
@@ -4932,8 +4699,8 @@ class CodeCommit {
   /// Parameter [tags] :
   /// The key-value pair to use when tagging this repository.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -4941,7 +4708,7 @@ class CodeCommit {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4987,8 +4754,8 @@ class CodeCommit {
   /// Parameter [triggers] :
   /// The list of triggers to test.
   Future<TestRepositoryTriggersOutput> testRepositoryTriggers({
-    @_s.required String repositoryName,
-    @_s.required List<RepositoryTrigger> triggers,
+    required String repositoryName,
+    required List<RepositoryTrigger> triggers,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -4996,12 +4763,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(triggers, 'triggers');
@@ -5046,8 +4807,8 @@ class CodeCommit {
   /// Parameter [tagKeys] :
   /// The tag key for each tag that you want to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -5055,7 +4816,7 @@ class CodeCommit {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5092,9 +4853,9 @@ class CodeCommit {
   /// retrieve this information by using <a>GetPullRequest</a>.
   Future<UpdateApprovalRuleTemplateContentOutput>
       updateApprovalRuleTemplateContent({
-    @_s.required String approvalRuleTemplateName,
-    @_s.required String newRuleContent,
-    String existingRuleContentSha256,
+    required String approvalRuleTemplateName,
+    required String newRuleContent,
+    String? existingRuleContentSha256,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateName, 'approvalRuleTemplateName');
@@ -5148,8 +4909,8 @@ class CodeCommit {
   /// The name of the template for which you want to update the description.
   Future<UpdateApprovalRuleTemplateDescriptionOutput>
       updateApprovalRuleTemplateDescription({
-    @_s.required String approvalRuleTemplateDescription,
-    @_s.required String approvalRuleTemplateName,
+    required String approvalRuleTemplateDescription,
+    required String approvalRuleTemplateName,
   }) async {
     ArgumentError.checkNotNull(
         approvalRuleTemplateDescription, 'approvalRuleTemplateDescription');
@@ -5203,8 +4964,8 @@ class CodeCommit {
   /// Parameter [oldApprovalRuleTemplateName] :
   /// The current name of the approval rule template.
   Future<UpdateApprovalRuleTemplateNameOutput> updateApprovalRuleTemplateName({
-    @_s.required String newApprovalRuleTemplateName,
-    @_s.required String oldApprovalRuleTemplateName,
+    required String newApprovalRuleTemplateName,
+    required String oldApprovalRuleTemplateName,
   }) async {
     ArgumentError.checkNotNull(
         newApprovalRuleTemplateName, 'newApprovalRuleTemplateName');
@@ -5261,8 +5022,8 @@ class CodeCommit {
   /// Parameter [content] :
   /// The updated content to replace the existing content of the comment.
   Future<UpdateCommentOutput> updateComment({
-    @_s.required String commentId,
-    @_s.required String content,
+    required String commentId,
+    required String content,
   }) async {
     ArgumentError.checkNotNull(commentId, 'commentId');
     ArgumentError.checkNotNull(content, 'content');
@@ -5310,8 +5071,8 @@ class CodeCommit {
   /// Parameter [repositoryName] :
   /// The name of the repository to set or change the default branch for.
   Future<void> updateDefaultBranch({
-    @_s.required String defaultBranchName,
-    @_s.required String repositoryName,
+    required String defaultBranchName,
+    required String repositoryName,
   }) async {
     ArgumentError.checkNotNull(defaultBranchName, 'defaultBranchName');
     _s.validateStringLength(
@@ -5329,17 +5090,11 @@ class CodeCommit {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.UpdateDefaultBranch'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5424,10 +5179,10 @@ class CodeCommit {
   /// retrieve this information by using <a>GetPullRequest</a>.
   Future<UpdatePullRequestApprovalRuleContentOutput>
       updatePullRequestApprovalRuleContent({
-    @_s.required String approvalRuleName,
-    @_s.required String newRuleContent,
-    @_s.required String pullRequestId,
-    String existingRuleContentSha256,
+    required String approvalRuleName,
+    required String newRuleContent,
+    required String pullRequestId,
+    String? existingRuleContentSha256,
   }) async {
     ArgumentError.checkNotNull(approvalRuleName, 'approvalRuleName');
     _s.validateStringLength(
@@ -5498,9 +5253,9 @@ class CodeCommit {
   /// Parameter [revisionId] :
   /// The system-generated ID of the revision.
   Future<void> updatePullRequestApprovalState({
-    @_s.required ApprovalState approvalState,
-    @_s.required String pullRequestId,
-    @_s.required String revisionId,
+    required ApprovalState approvalState,
+    required String pullRequestId,
+    required String revisionId,
   }) async {
     ArgumentError.checkNotNull(approvalState, 'approvalState');
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
@@ -5509,14 +5264,14 @@ class CodeCommit {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.UpdatePullRequestApprovalState'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'approvalState': approvalState?.toValue() ?? '',
+        'approvalState': approvalState.toValue(),
         'pullRequestId': pullRequestId,
         'revisionId': revisionId,
       },
@@ -5539,8 +5294,8 @@ class CodeCommit {
   /// The system-generated ID of the pull request. To get this ID, use
   /// <a>ListPullRequests</a>.
   Future<UpdatePullRequestDescriptionOutput> updatePullRequestDescription({
-    @_s.required String description,
-    @_s.required String pullRequestId,
+    required String description,
+    required String pullRequestId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -5593,8 +5348,8 @@ class CodeCommit {
   /// the status from <code>OPEN</code> to <code>OPEN</code>, <code>OPEN</code>
   /// to <code>CLOSED</code> or from <code>CLOSED</code> to <code>CLOSED</code>.
   Future<UpdatePullRequestStatusOutput> updatePullRequestStatus({
-    @_s.required String pullRequestId,
-    @_s.required PullRequestStatusEnum pullRequestStatus,
+    required String pullRequestId,
+    required PullRequestStatusEnum pullRequestStatus,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(pullRequestStatus, 'pullRequestStatus');
@@ -5610,7 +5365,7 @@ class CodeCommit {
       headers: headers,
       payload: {
         'pullRequestId': pullRequestId,
-        'pullRequestStatus': pullRequestStatus?.toValue() ?? '',
+        'pullRequestStatus': pullRequestStatus.toValue(),
       },
     );
 
@@ -5633,8 +5388,8 @@ class CodeCommit {
   /// Parameter [title] :
   /// The updated title of the pull request. This replaces the existing title.
   Future<UpdatePullRequestTitleOutput> updatePullRequestTitle({
-    @_s.required String pullRequestId,
-    @_s.required String title,
+    required String pullRequestId,
+    required String title,
   }) async {
     ArgumentError.checkNotNull(pullRequestId, 'pullRequestId');
     ArgumentError.checkNotNull(title, 'title');
@@ -5692,8 +5447,8 @@ class CodeCommit {
   /// The new comment or description for the specified repository. Repository
   /// descriptions are limited to 1,000 characters.
   Future<void> updateRepositoryDescription({
-    @_s.required String repositoryName,
-    String repositoryDescription,
+    required String repositoryName,
+    String? repositoryDescription,
   }) async {
     ArgumentError.checkNotNull(repositoryName, 'repositoryName');
     _s.validateStringLength(
@@ -5701,12 +5456,6 @@ class CodeCommit {
       repositoryName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'repositoryName',
-      repositoryName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -5719,7 +5468,7 @@ class CodeCommit {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.UpdateRepositoryDescription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5752,8 +5501,8 @@ class CodeCommit {
   /// Parameter [oldName] :
   /// The current name of the repository.
   Future<void> updateRepositoryName({
-    @_s.required String newName,
-    @_s.required String oldName,
+    required String newName,
+    required String oldName,
   }) async {
     ArgumentError.checkNotNull(newName, 'newName');
     _s.validateStringLength(
@@ -5761,12 +5510,6 @@ class CodeCommit {
       newName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'newName',
-      newName,
-      r'''[\w\.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(oldName, 'oldName');
@@ -5777,17 +5520,11 @@ class CodeCommit {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'oldName',
-      oldName,
-      r'''[\w\.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeCommit_20150413.UpdateRepositoryName'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5802,69 +5539,61 @@ class CodeCommit {
 }
 
 /// Returns information about a specific approval on a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Approval {
   /// The state of the approval, APPROVE or REVOKE. REVOKE states are not stored.
-  @_s.JsonKey(name: 'approvalState')
-  final ApprovalState approvalState;
+  final ApprovalState? approvalState;
 
   /// The Amazon Resource Name (ARN) of the user.
-  @_s.JsonKey(name: 'userArn')
-  final String userArn;
+  final String? userArn;
 
   Approval({
     this.approvalState,
     this.userArn,
   });
-  factory Approval.fromJson(Map<String, dynamic> json) =>
-      _$ApprovalFromJson(json);
+
+  factory Approval.fromJson(Map<String, dynamic> json) {
+    return Approval(
+      approvalState: (json['approvalState'] as String?)?.toApprovalState(),
+      userArn: json['userArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalState = this.approvalState;
+    final userArn = this.userArn;
+    return {
+      if (approvalState != null) 'approvalState': approvalState.toValue(),
+      if (userArn != null) 'userArn': userArn,
+    };
+  }
 }
 
 /// Returns information about an approval rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApprovalRule {
   /// The content of the approval rule.
-  @_s.JsonKey(name: 'approvalRuleContent')
-  final String approvalRuleContent;
+  final String? approvalRuleContent;
 
   /// The system-generated ID of the approval rule.
-  @_s.JsonKey(name: 'approvalRuleId')
-  final String approvalRuleId;
+  final String? approvalRuleId;
 
   /// The name of the approval rule.
-  @_s.JsonKey(name: 'approvalRuleName')
-  final String approvalRuleName;
+  final String? approvalRuleName;
 
   /// The date the approval rule was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date the approval rule was most recently changed, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The Amazon Resource Name (ARN) of the user who made the most recent changes
   /// to the approval rule.
-  @_s.JsonKey(name: 'lastModifiedUser')
-  final String lastModifiedUser;
+  final String? lastModifiedUser;
 
   /// The approval rule template used to create the rule.
-  @_s.JsonKey(name: 'originApprovalRuleTemplate')
-  final OriginApprovalRuleTemplate originApprovalRuleTemplate;
+  final OriginApprovalRuleTemplate? originApprovalRuleTemplate;
 
   /// The SHA-256 hash signature for the content of the approval rule.
-  @_s.JsonKey(name: 'ruleContentSha256')
-  final String ruleContentSha256;
+  final String? ruleContentSha256;
 
   ApprovalRule({
     this.approvalRuleContent,
@@ -5876,105 +5605,146 @@ class ApprovalRule {
     this.originApprovalRuleTemplate,
     this.ruleContentSha256,
   });
-  factory ApprovalRule.fromJson(Map<String, dynamic> json) =>
-      _$ApprovalRuleFromJson(json);
+
+  factory ApprovalRule.fromJson(Map<String, dynamic> json) {
+    return ApprovalRule(
+      approvalRuleContent: json['approvalRuleContent'] as String?,
+      approvalRuleId: json['approvalRuleId'] as String?,
+      approvalRuleName: json['approvalRuleName'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      lastModifiedUser: json['lastModifiedUser'] as String?,
+      originApprovalRuleTemplate: json['originApprovalRuleTemplate'] != null
+          ? OriginApprovalRuleTemplate.fromJson(
+              json['originApprovalRuleTemplate'] as Map<String, dynamic>)
+          : null,
+      ruleContentSha256: json['ruleContentSha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleContent = this.approvalRuleContent;
+    final approvalRuleId = this.approvalRuleId;
+    final approvalRuleName = this.approvalRuleName;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final originApprovalRuleTemplate = this.originApprovalRuleTemplate;
+    final ruleContentSha256 = this.ruleContentSha256;
+    return {
+      if (approvalRuleContent != null)
+        'approvalRuleContent': approvalRuleContent,
+      if (approvalRuleId != null) 'approvalRuleId': approvalRuleId,
+      if (approvalRuleName != null) 'approvalRuleName': approvalRuleName,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'lastModifiedUser': lastModifiedUser,
+      if (originApprovalRuleTemplate != null)
+        'originApprovalRuleTemplate': originApprovalRuleTemplate,
+      if (ruleContentSha256 != null) 'ruleContentSha256': ruleContentSha256,
+    };
+  }
 }
 
 /// Returns information about an event for an approval rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApprovalRuleEventMetadata {
   /// The content of the approval rule.
-  @_s.JsonKey(name: 'approvalRuleContent')
-  final String approvalRuleContent;
+  final String? approvalRuleContent;
 
   /// The system-generated ID of the approval rule.
-  @_s.JsonKey(name: 'approvalRuleId')
-  final String approvalRuleId;
+  final String? approvalRuleId;
 
   /// The name of the approval rule.
-  @_s.JsonKey(name: 'approvalRuleName')
-  final String approvalRuleName;
+  final String? approvalRuleName;
 
   ApprovalRuleEventMetadata({
     this.approvalRuleContent,
     this.approvalRuleId,
     this.approvalRuleName,
   });
-  factory ApprovalRuleEventMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ApprovalRuleEventMetadataFromJson(json);
+
+  factory ApprovalRuleEventMetadata.fromJson(Map<String, dynamic> json) {
+    return ApprovalRuleEventMetadata(
+      approvalRuleContent: json['approvalRuleContent'] as String?,
+      approvalRuleId: json['approvalRuleId'] as String?,
+      approvalRuleName: json['approvalRuleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleContent = this.approvalRuleContent;
+    final approvalRuleId = this.approvalRuleId;
+    final approvalRuleName = this.approvalRuleName;
+    return {
+      if (approvalRuleContent != null)
+        'approvalRuleContent': approvalRuleContent,
+      if (approvalRuleId != null) 'approvalRuleId': approvalRuleId,
+      if (approvalRuleName != null) 'approvalRuleName': approvalRuleName,
+    };
+  }
 }
 
 /// Returns information about an override event for approval rules for a pull
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApprovalRuleOverriddenEventMetadata {
   /// The status of the override event.
-  @_s.JsonKey(name: 'overrideStatus')
-  final OverrideStatus overrideStatus;
+  final OverrideStatus? overrideStatus;
 
   /// The revision ID of the pull request when the override event occurred.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   ApprovalRuleOverriddenEventMetadata({
     this.overrideStatus,
     this.revisionId,
   });
+
   factory ApprovalRuleOverriddenEventMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$ApprovalRuleOverriddenEventMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return ApprovalRuleOverriddenEventMetadata(
+      overrideStatus: (json['overrideStatus'] as String?)?.toOverrideStatus(),
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final overrideStatus = this.overrideStatus;
+    final revisionId = this.revisionId;
+    return {
+      if (overrideStatus != null) 'overrideStatus': overrideStatus.toValue(),
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
 }
 
 /// Returns information about an approval rule template.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApprovalRuleTemplate {
   /// The content of the approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplateContent')
-  final String approvalRuleTemplateContent;
+  final String? approvalRuleTemplateContent;
 
   /// The description of the approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplateDescription')
-  final String approvalRuleTemplateDescription;
+  final String? approvalRuleTemplateDescription;
 
   /// The system-generated ID of the approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplateId')
-  final String approvalRuleTemplateId;
+  final String? approvalRuleTemplateId;
 
   /// The name of the approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplateName')
-  final String approvalRuleTemplateName;
+  final String? approvalRuleTemplateName;
 
   /// The date the approval rule template was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date the approval rule template was most recently changed, in timestamp
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// The Amazon Resource Name (ARN) of the user who made the most recent changes
   /// to the approval rule template.
-  @_s.JsonKey(name: 'lastModifiedUser')
-  final String lastModifiedUser;
+  final String? lastModifiedUser;
 
   /// The SHA-256 hash signature for the content of the approval rule template.
-  @_s.JsonKey(name: 'ruleContentSha256')
-  final String ruleContentSha256;
+  final String? ruleContentSha256;
 
   ApprovalRuleTemplate({
     this.approvalRuleTemplateContent,
@@ -5986,14 +5756,53 @@ class ApprovalRuleTemplate {
     this.lastModifiedUser,
     this.ruleContentSha256,
   });
-  factory ApprovalRuleTemplate.fromJson(Map<String, dynamic> json) =>
-      _$ApprovalRuleTemplateFromJson(json);
+
+  factory ApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
+    return ApprovalRuleTemplate(
+      approvalRuleTemplateContent:
+          json['approvalRuleTemplateContent'] as String?,
+      approvalRuleTemplateDescription:
+          json['approvalRuleTemplateDescription'] as String?,
+      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String?,
+      approvalRuleTemplateName: json['approvalRuleTemplateName'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      lastModifiedUser: json['lastModifiedUser'] as String?,
+      ruleContentSha256: json['ruleContentSha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplateContent = this.approvalRuleTemplateContent;
+    final approvalRuleTemplateDescription =
+        this.approvalRuleTemplateDescription;
+    final approvalRuleTemplateId = this.approvalRuleTemplateId;
+    final approvalRuleTemplateName = this.approvalRuleTemplateName;
+    final creationDate = this.creationDate;
+    final lastModifiedDate = this.lastModifiedDate;
+    final lastModifiedUser = this.lastModifiedUser;
+    final ruleContentSha256 = this.ruleContentSha256;
+    return {
+      if (approvalRuleTemplateContent != null)
+        'approvalRuleTemplateContent': approvalRuleTemplateContent,
+      if (approvalRuleTemplateDescription != null)
+        'approvalRuleTemplateDescription': approvalRuleTemplateDescription,
+      if (approvalRuleTemplateId != null)
+        'approvalRuleTemplateId': approvalRuleTemplateId,
+      if (approvalRuleTemplateName != null)
+        'approvalRuleTemplateName': approvalRuleTemplateName,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (lastModifiedUser != null) 'lastModifiedUser': lastModifiedUser,
+      if (ruleContentSha256 != null) 'ruleContentSha256': ruleContentSha256,
+    };
+  }
 }
 
 enum ApprovalState {
-  @_s.JsonValue('APPROVE')
   approve,
-  @_s.JsonValue('REVOKE')
   revoke,
 }
 
@@ -6005,317 +5814,441 @@ extension on ApprovalState {
       case ApprovalState.revoke:
         return 'REVOKE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ApprovalState toApprovalState() {
+    switch (this) {
+      case 'APPROVE':
+        return ApprovalState.approve;
+      case 'REVOKE':
+        return ApprovalState.revoke;
+    }
+    throw Exception('$this is not known in enum ApprovalState');
   }
 }
 
 /// Returns information about a change in the approval state for a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApprovalStateChangedEventMetadata {
   /// The approval status for the pull request.
-  @_s.JsonKey(name: 'approvalStatus')
-  final ApprovalState approvalStatus;
+  final ApprovalState? approvalStatus;
 
   /// The revision ID of the pull request when the approval state changed.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   ApprovalStateChangedEventMetadata({
     this.approvalStatus,
     this.revisionId,
   });
+
   factory ApprovalStateChangedEventMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$ApprovalStateChangedEventMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return ApprovalStateChangedEventMetadata(
+      approvalStatus: (json['approvalStatus'] as String?)?.toApprovalState(),
+      revisionId: json['revisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalStatus = this.approvalStatus;
+    final revisionId = this.revisionId;
+    return {
+      if (approvalStatus != null) 'approvalStatus': approvalStatus.toValue(),
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+  }
 }
 
 /// Returns information about errors in a
 /// BatchAssociateApprovalRuleTemplateWithRepositories operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAssociateApprovalRuleTemplateWithRepositoriesError {
   /// An error code that specifies whether the repository name was not valid or
   /// not found.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// An error message that provides details about why the repository name was not
   /// found or not valid.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The name of the repository where the association was not made.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   BatchAssociateApprovalRuleTemplateWithRepositoriesError({
     this.errorCode,
     this.errorMessage,
     this.repositoryName,
   });
+
   factory BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchAssociateApprovalRuleTemplateWithRepositoriesErrorFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchAssociateApprovalRuleTemplateWithRepositoriesError(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final repositoryName = this.repositoryName;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchAssociateApprovalRuleTemplateWithRepositoriesOutput {
   /// A list of names of the repositories that have been associated with the
   /// template.
-  @_s.JsonKey(name: 'associatedRepositoryNames')
   final List<String> associatedRepositoryNames;
 
   /// A list of any errors that might have occurred while attempting to create the
   /// association between the template and the repositories.
-  @_s.JsonKey(name: 'errors')
   final List<BatchAssociateApprovalRuleTemplateWithRepositoriesError> errors;
 
   BatchAssociateApprovalRuleTemplateWithRepositoriesOutput({
-    @_s.required this.associatedRepositoryNames,
-    @_s.required this.errors,
+    required this.associatedRepositoryNames,
+    required this.errors,
   });
+
   factory BatchAssociateApprovalRuleTemplateWithRepositoriesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchAssociateApprovalRuleTemplateWithRepositoriesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchAssociateApprovalRuleTemplateWithRepositoriesOutput(
+      associatedRepositoryNames: (json['associatedRepositoryNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      errors: (json['errors'] as List)
+          .whereNotNull()
+          .map((e) =>
+              BatchAssociateApprovalRuleTemplateWithRepositoriesError.fromJson(
+                  e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedRepositoryNames = this.associatedRepositoryNames;
+    final errors = this.errors;
+    return {
+      'associatedRepositoryNames': associatedRepositoryNames,
+      'errors': errors,
+    };
+  }
 }
 
 /// Returns information about errors in a BatchDescribeMergeConflicts operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDescribeMergeConflictsError {
   /// The name of the exception.
-  @_s.JsonKey(name: 'exceptionName')
   final String exceptionName;
 
   /// The path to the file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   /// The message provided by the exception.
-  @_s.JsonKey(name: 'message')
   final String message;
 
   BatchDescribeMergeConflictsError({
-    @_s.required this.exceptionName,
-    @_s.required this.filePath,
-    @_s.required this.message,
+    required this.exceptionName,
+    required this.filePath,
+    required this.message,
   });
-  factory BatchDescribeMergeConflictsError.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDescribeMergeConflictsErrorFromJson(json);
+
+  factory BatchDescribeMergeConflictsError.fromJson(Map<String, dynamic> json) {
+    return BatchDescribeMergeConflictsError(
+      exceptionName: json['exceptionName'] as String,
+      filePath: json['filePath'] as String,
+      message: json['message'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exceptionName = this.exceptionName;
+    final filePath = this.filePath;
+    final message = this.message;
+    return {
+      'exceptionName': exceptionName,
+      'filePath': filePath,
+      'message': message,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDescribeMergeConflictsOutput {
   /// A list of conflicts for each file, including the conflict metadata and the
   /// hunks of the differences between the files.
-  @_s.JsonKey(name: 'conflicts')
   final List<Conflict> conflicts;
 
   /// The commit ID of the destination commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'destinationCommitId')
   final String destinationCommitId;
 
   /// The commit ID of the source commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'sourceCommitId')
   final String sourceCommitId;
 
   /// The commit ID of the merge base.
-  @_s.JsonKey(name: 'baseCommitId')
-  final String baseCommitId;
+  final String? baseCommitId;
 
   /// A list of any errors returned while describing the merge conflicts for each
   /// file.
-  @_s.JsonKey(name: 'errors')
-  final List<BatchDescribeMergeConflictsError> errors;
+  final List<BatchDescribeMergeConflictsError>? errors;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   BatchDescribeMergeConflictsOutput({
-    @_s.required this.conflicts,
-    @_s.required this.destinationCommitId,
-    @_s.required this.sourceCommitId,
+    required this.conflicts,
+    required this.destinationCommitId,
+    required this.sourceCommitId,
     this.baseCommitId,
     this.errors,
     this.nextToken,
   });
+
   factory BatchDescribeMergeConflictsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDescribeMergeConflictsOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchDescribeMergeConflictsOutput(
+      conflicts: (json['conflicts'] as List)
+          .whereNotNull()
+          .map((e) => Conflict.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      destinationCommitId: json['destinationCommitId'] as String,
+      sourceCommitId: json['sourceCommitId'] as String,
+      baseCommitId: json['baseCommitId'] as String?,
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchDescribeMergeConflictsError.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conflicts = this.conflicts;
+    final destinationCommitId = this.destinationCommitId;
+    final sourceCommitId = this.sourceCommitId;
+    final baseCommitId = this.baseCommitId;
+    final errors = this.errors;
+    final nextToken = this.nextToken;
+    return {
+      'conflicts': conflicts,
+      'destinationCommitId': destinationCommitId,
+      'sourceCommitId': sourceCommitId,
+      if (baseCommitId != null) 'baseCommitId': baseCommitId,
+      if (errors != null) 'errors': errors,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Returns information about errors in a
 /// BatchDisassociateApprovalRuleTemplateFromRepositories operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDisassociateApprovalRuleTemplateFromRepositoriesError {
   /// An error code that specifies whether the repository name was not valid or
   /// not found.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// An error message that provides details about why the repository name was
   /// either not found or not valid.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The name of the repository where the association with the template was not
   /// able to be removed.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   BatchDisassociateApprovalRuleTemplateFromRepositoriesError({
     this.errorCode,
     this.errorMessage,
     this.repositoryName,
   });
+
   factory BatchDisassociateApprovalRuleTemplateFromRepositoriesError.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDisassociateApprovalRuleTemplateFromRepositoriesErrorFromJson(
-          json);
+      Map<String, dynamic> json) {
+    return BatchDisassociateApprovalRuleTemplateFromRepositoriesError(
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final repositoryName = this.repositoryName;
+    return {
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput {
   /// A list of repository names that have had their association with the template
   /// removed.
-  @_s.JsonKey(name: 'disassociatedRepositoryNames')
   final List<String> disassociatedRepositoryNames;
 
   /// A list of any errors that might have occurred while attempting to remove the
   /// association between the template and the repositories.
-  @_s.JsonKey(name: 'errors')
   final List<BatchDisassociateApprovalRuleTemplateFromRepositoriesError> errors;
 
   BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput({
-    @_s.required this.disassociatedRepositoryNames,
-    @_s.required this.errors,
+    required this.disassociatedRepositoryNames,
+    required this.errors,
   });
+
   factory BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputFromJson(
-          json);
+      Map<String, dynamic> json) {
+    return BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput(
+      disassociatedRepositoryNames:
+          (json['disassociatedRepositoryNames'] as List)
+              .whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      errors: (json['errors'] as List)
+          .whereNotNull()
+          .map((e) => BatchDisassociateApprovalRuleTemplateFromRepositoriesError
+              .fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disassociatedRepositoryNames = this.disassociatedRepositoryNames;
+    final errors = this.errors;
+    return {
+      'disassociatedRepositoryNames': disassociatedRepositoryNames,
+      'errors': errors,
+    };
+  }
 }
 
 /// Returns information about errors in a BatchGetCommits operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetCommitsError {
   /// A commit ID that either could not be found or was not in a valid format.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// An error code that specifies whether the commit ID was not valid or not
   /// found.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// An error message that provides detail about why the commit ID either was not
   /// found or was not valid.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   BatchGetCommitsError({
     this.commitId,
     this.errorCode,
     this.errorMessage,
   });
-  factory BatchGetCommitsError.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetCommitsErrorFromJson(json);
+
+  factory BatchGetCommitsError.fromJson(Map<String, dynamic> json) {
+    return BatchGetCommitsError(
+      commitId: json['commitId'] as String?,
+      errorCode: json['errorCode'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetCommitsOutput {
   /// An array of commit data type objects, each of which contains information
   /// about a specified commit.
-  @_s.JsonKey(name: 'commits')
-  final List<Commit> commits;
+  final List<Commit>? commits;
 
   /// Returns any commit IDs for which information could not be found. For
   /// example, if one of the commit IDs was a shortened SHA ID or that commit was
   /// not found in the specified repository, the ID returns an error object with
   /// more information.
-  @_s.JsonKey(name: 'errors')
-  final List<BatchGetCommitsError> errors;
+  final List<BatchGetCommitsError>? errors;
 
   BatchGetCommitsOutput({
     this.commits,
     this.errors,
   });
-  factory BatchGetCommitsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetCommitsOutputFromJson(json);
+
+  factory BatchGetCommitsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetCommitsOutput(
+      commits: (json['commits'] as List?)
+          ?.whereNotNull()
+          .map((e) => Commit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchGetCommitsError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commits = this.commits;
+    final errors = this.errors;
+    return {
+      if (commits != null) 'commits': commits,
+      if (errors != null) 'errors': errors,
+    };
+  }
 }
 
 /// Represents the output of a batch get repositories operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetRepositoriesOutput {
   /// A list of repositories returned by the batch get repositories operation.
-  @_s.JsonKey(name: 'repositories')
-  final List<RepositoryMetadata> repositories;
+  final List<RepositoryMetadata>? repositories;
 
   /// Returns a list of repository names for which information could not be found.
-  @_s.JsonKey(name: 'repositoriesNotFound')
-  final List<String> repositoriesNotFound;
+  final List<String>? repositoriesNotFound;
 
   BatchGetRepositoriesOutput({
     this.repositories,
     this.repositoriesNotFound,
   });
-  factory BatchGetRepositoriesOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetRepositoriesOutputFromJson(json);
+
+  factory BatchGetRepositoriesOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetRepositoriesOutput(
+      repositories: (json['repositories'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      repositoriesNotFound: (json['repositoriesNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositories = this.repositories;
+    final repositoriesNotFound = this.repositoriesNotFound;
+    return {
+      if (repositories != null) 'repositories': repositories,
+      if (repositoriesNotFound != null)
+        'repositoriesNotFound': repositoriesNotFound,
+    };
+  }
 }
 
 /// Returns information about a specific Git blob object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BlobMetadata {
   /// The full ID of the blob.
-  @_s.JsonKey(name: 'blobId')
-  final String blobId;
+  final String? blobId;
 
   /// The file mode permissions of the blob. File mode permission codes include:
   ///
@@ -6333,108 +6266,137 @@ class BlobMetadata {
   /// <code>120000</code> indicates a symlink
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'mode')
-  final String mode;
+  final String? mode;
 
   /// The path to the blob and associated file name, if any.
-  @_s.JsonKey(name: 'path')
-  final String path;
+  final String? path;
 
   BlobMetadata({
     this.blobId,
     this.mode,
     this.path,
   });
-  factory BlobMetadata.fromJson(Map<String, dynamic> json) =>
-      _$BlobMetadataFromJson(json);
+
+  factory BlobMetadata.fromJson(Map<String, dynamic> json) {
+    return BlobMetadata(
+      blobId: json['blobId'] as String?,
+      mode: json['mode'] as String?,
+      path: json['path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobId = this.blobId;
+    final mode = this.mode;
+    final path = this.path;
+    return {
+      if (blobId != null) 'blobId': blobId,
+      if (mode != null) 'mode': mode,
+      if (path != null) 'path': path,
+    };
+  }
 }
 
 /// Returns information about a branch.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BranchInfo {
   /// The name of the branch.
-  @_s.JsonKey(name: 'branchName')
-  final String branchName;
+  final String? branchName;
 
   /// The ID of the last commit made to the branch.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   BranchInfo({
     this.branchName,
     this.commitId,
   });
-  factory BranchInfo.fromJson(Map<String, dynamic> json) =>
-      _$BranchInfoFromJson(json);
+
+  factory BranchInfo.fromJson(Map<String, dynamic> json) {
+    return BranchInfo(
+      branchName: json['branchName'] as String?,
+      commitId: json['commitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branchName = this.branchName;
+    final commitId = this.commitId;
+    return {
+      if (branchName != null) 'branchName': branchName,
+      if (commitId != null) 'commitId': commitId,
+    };
+  }
 }
 
 enum ChangeTypeEnum {
-  @_s.JsonValue('A')
   a,
-  @_s.JsonValue('M')
   m,
-  @_s.JsonValue('D')
   d,
 }
 
+extension on ChangeTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ChangeTypeEnum.a:
+        return 'A';
+      case ChangeTypeEnum.m:
+        return 'M';
+      case ChangeTypeEnum.d:
+        return 'D';
+    }
+  }
+}
+
+extension on String {
+  ChangeTypeEnum toChangeTypeEnum() {
+    switch (this) {
+      case 'A':
+        return ChangeTypeEnum.a;
+      case 'M':
+        return ChangeTypeEnum.m;
+      case 'D':
+        return ChangeTypeEnum.d;
+    }
+    throw Exception('$this is not known in enum ChangeTypeEnum');
+  }
+}
+
 /// Returns information about a specific comment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Comment {
   /// The Amazon Resource Name (ARN) of the person who posted the comment.
-  @_s.JsonKey(name: 'authorArn')
-  final String authorArn;
+  final String? authorArn;
 
   /// The emoji reactions to a comment, if any, submitted by the user whose
   /// credentials are associated with the call to the API.
-  @_s.JsonKey(name: 'callerReactions')
-  final List<String> callerReactions;
+  final List<String>? callerReactions;
 
   /// A unique, client-generated idempotency token that, when provided in a
   /// request, ensures the request cannot be repeated with a changed parameter. If
   /// a request is received with the same parameters and a token is included, the
   /// request returns information about the initial request that used that token.
-  @_s.JsonKey(name: 'clientRequestToken')
-  final String clientRequestToken;
+  final String? clientRequestToken;
 
   /// The system-generated comment ID.
-  @_s.JsonKey(name: 'commentId')
-  final String commentId;
+  final String? commentId;
 
   /// The content of the comment.
-  @_s.JsonKey(name: 'content')
-  final String content;
+  final String? content;
 
   /// The date and time the comment was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A Boolean value indicating whether the comment has been deleted.
-  @_s.JsonKey(name: 'deleted')
-  final bool deleted;
+  final bool? deleted;
 
   /// The ID of the comment for which this comment is a reply, if any.
-  @_s.JsonKey(name: 'inReplyTo')
-  final String inReplyTo;
+  final String? inReplyTo;
 
   /// The date and time the comment was most recently modified, in timestamp
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// A string to integer map that represents the number of individual users who
   /// have responded to a comment with the specified reactions.
-  @_s.JsonKey(name: 'reactionCounts')
-  final Map<String, int> reactionCounts;
+  final Map<String, int>? reactionCounts;
 
   Comment({
     this.authorArn,
@@ -6448,51 +6410,83 @@ class Comment {
     this.lastModifiedDate,
     this.reactionCounts,
   });
-  factory Comment.fromJson(Map<String, dynamic> json) =>
-      _$CommentFromJson(json);
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      authorArn: json['authorArn'] as String?,
+      callerReactions: (json['callerReactions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      clientRequestToken: json['clientRequestToken'] as String?,
+      commentId: json['commentId'] as String?,
+      content: json['content'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      deleted: json['deleted'] as bool?,
+      inReplyTo: json['inReplyTo'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      reactionCounts: (json['reactionCounts'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorArn = this.authorArn;
+    final callerReactions = this.callerReactions;
+    final clientRequestToken = this.clientRequestToken;
+    final commentId = this.commentId;
+    final content = this.content;
+    final creationDate = this.creationDate;
+    final deleted = this.deleted;
+    final inReplyTo = this.inReplyTo;
+    final lastModifiedDate = this.lastModifiedDate;
+    final reactionCounts = this.reactionCounts;
+    return {
+      if (authorArn != null) 'authorArn': authorArn,
+      if (callerReactions != null) 'callerReactions': callerReactions,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (commentId != null) 'commentId': commentId,
+      if (content != null) 'content': content,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (deleted != null) 'deleted': deleted,
+      if (inReplyTo != null) 'inReplyTo': inReplyTo,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (reactionCounts != null) 'reactionCounts': reactionCounts,
+    };
+  }
 }
 
 /// Returns information about comments on the comparison between two commits.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CommentsForComparedCommit {
   /// The full blob ID of the commit used to establish the after of the
   /// comparison.
-  @_s.JsonKey(name: 'afterBlobId')
-  final String afterBlobId;
+  final String? afterBlobId;
 
   /// The full commit ID of the commit used to establish the after of the
   /// comparison.
-  @_s.JsonKey(name: 'afterCommitId')
-  final String afterCommitId;
+  final String? afterCommitId;
 
   /// The full blob ID of the commit used to establish the before of the
   /// comparison.
-  @_s.JsonKey(name: 'beforeBlobId')
-  final String beforeBlobId;
+  final String? beforeBlobId;
 
   /// The full commit ID of the commit used to establish the before of the
   /// comparison.
-  @_s.JsonKey(name: 'beforeCommitId')
-  final String beforeCommitId;
+  final String? beforeCommitId;
 
   /// An array of comment objects. Each comment object contains information about
   /// a comment on the comparison between commits.
-  @_s.JsonKey(name: 'comments')
-  final List<Comment> comments;
+  final List<Comment>? comments;
 
   /// Location information about the comment on the comparison, including the file
   /// name, line number, and whether the version of the file where the comment was
   /// made is BEFORE or AFTER.
-  @_s.JsonKey(name: 'location')
-  final Location location;
+  final Location? location;
 
   /// The name of the repository that contains the compared commits.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   CommentsForComparedCommit({
     this.afterBlobId,
@@ -6503,57 +6497,78 @@ class CommentsForComparedCommit {
     this.location,
     this.repositoryName,
   });
-  factory CommentsForComparedCommit.fromJson(Map<String, dynamic> json) =>
-      _$CommentsForComparedCommitFromJson(json);
+
+  factory CommentsForComparedCommit.fromJson(Map<String, dynamic> json) {
+    return CommentsForComparedCommit(
+      afterBlobId: json['afterBlobId'] as String?,
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeBlobId: json['beforeBlobId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      comments: (json['comments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlobId = this.afterBlobId;
+    final afterCommitId = this.afterCommitId;
+    final beforeBlobId = this.beforeBlobId;
+    final beforeCommitId = this.beforeCommitId;
+    final comments = this.comments;
+    final location = this.location;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterBlobId != null) 'afterBlobId': afterBlobId,
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (comments != null) 'comments': comments,
+      if (location != null) 'location': location,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// Returns information about comments on a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CommentsForPullRequest {
   /// The full blob ID of the file on which you want to comment on the source
   /// commit.
-  @_s.JsonKey(name: 'afterBlobId')
-  final String afterBlobId;
+  final String? afterBlobId;
 
   /// The full commit ID of the commit that was the tip of the source branch at
   /// the time the comment was made.
-  @_s.JsonKey(name: 'afterCommitId')
-  final String afterCommitId;
+  final String? afterCommitId;
 
   /// The full blob ID of the file on which you want to comment on the destination
   /// commit.
-  @_s.JsonKey(name: 'beforeBlobId')
-  final String beforeBlobId;
+  final String? beforeBlobId;
 
   /// The full commit ID of the commit that was the tip of the destination branch
   /// when the pull request was created. This commit is superceded by the after
   /// commit in the source branch when and if you merge the source branch into the
   /// destination branch.
-  @_s.JsonKey(name: 'beforeCommitId')
-  final String beforeCommitId;
+  final String? beforeCommitId;
 
   /// An array of comment objects. Each comment object contains information about
   /// a comment on the pull request.
-  @_s.JsonKey(name: 'comments')
-  final List<Comment> comments;
+  final List<Comment>? comments;
 
   /// Location information about the comment on the pull request, including the
   /// file name, line number, and whether the version of the file where the
   /// comment was made is BEFORE (destination branch) or AFTER (source branch).
-  @_s.JsonKey(name: 'location')
-  final Location location;
+  final Location? location;
 
   /// The system-generated ID of the pull request.
-  @_s.JsonKey(name: 'pullRequestId')
-  final String pullRequestId;
+  final String? pullRequestId;
 
   /// The name of the repository that contains the pull request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   CommentsForPullRequest({
     this.afterBlobId,
@@ -6565,30 +6580,59 @@ class CommentsForPullRequest {
     this.pullRequestId,
     this.repositoryName,
   });
-  factory CommentsForPullRequest.fromJson(Map<String, dynamic> json) =>
-      _$CommentsForPullRequestFromJson(json);
+
+  factory CommentsForPullRequest.fromJson(Map<String, dynamic> json) {
+    return CommentsForPullRequest(
+      afterBlobId: json['afterBlobId'] as String?,
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeBlobId: json['beforeBlobId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      comments: (json['comments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      pullRequestId: json['pullRequestId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlobId = this.afterBlobId;
+    final afterCommitId = this.afterCommitId;
+    final beforeBlobId = this.beforeBlobId;
+    final beforeCommitId = this.beforeCommitId;
+    final comments = this.comments;
+    final location = this.location;
+    final pullRequestId = this.pullRequestId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterBlobId != null) 'afterBlobId': afterBlobId,
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (comments != null) 'comments': comments,
+      if (location != null) 'location': location,
+      if (pullRequestId != null) 'pullRequestId': pullRequestId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// Returns information about a specific commit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Commit {
   /// Any other data associated with the specified commit.
-  @_s.JsonKey(name: 'additionalData')
-  final String additionalData;
+  final String? additionalData;
 
   /// Information about the author of the specified commit. Information includes
   /// the date in timestamp format with GMT offset, the name of the author, and
   /// the email address for the author, as configured in Git.
-  @_s.JsonKey(name: 'author')
-  final UserInfo author;
+  final UserInfo? author;
 
   /// The full SHA ID of the specified commit.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// Information about the person who committed the specified commit, also known
   /// as the committer. Information includes the date in timestamp format with GMT
@@ -6598,21 +6642,17 @@ class Commit {
   /// For more information about the difference between an author and a committer
   /// in Git, see <a href="http://git-scm.com/book/ch2-3.html">Viewing the Commit
   /// History</a> in Pro Git by Scott Chacon and Ben Straub.
-  @_s.JsonKey(name: 'committer')
-  final UserInfo committer;
+  final UserInfo? committer;
 
   /// The commit message associated with the specified commit.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// A list of parent commits for the specified commit. Each parent commit ID is
   /// the full commit ID.
-  @_s.JsonKey(name: 'parents')
-  final List<String> parents;
+  final List<String>? parents;
 
   /// Tree information for the specified commit.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   Commit({
     this.additionalData,
@@ -6623,37 +6663,85 @@ class Commit {
     this.parents,
     this.treeId,
   });
-  factory Commit.fromJson(Map<String, dynamic> json) => _$CommitFromJson(json);
+
+  factory Commit.fromJson(Map<String, dynamic> json) {
+    return Commit(
+      additionalData: json['additionalData'] as String?,
+      author: json['author'] != null
+          ? UserInfo.fromJson(json['author'] as Map<String, dynamic>)
+          : null,
+      commitId: json['commitId'] as String?,
+      committer: json['committer'] != null
+          ? UserInfo.fromJson(json['committer'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+      parents: (json['parents'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalData = this.additionalData;
+    final author = this.author;
+    final commitId = this.commitId;
+    final committer = this.committer;
+    final message = this.message;
+    final parents = this.parents;
+    final treeId = this.treeId;
+    return {
+      if (additionalData != null) 'additionalData': additionalData,
+      if (author != null) 'author': author,
+      if (commitId != null) 'commitId': commitId,
+      if (committer != null) 'committer': committer,
+      if (message != null) 'message': message,
+      if (parents != null) 'parents': parents,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
 /// Information about conflicts in a merge operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Conflict {
   /// Metadata about a conflict in a merge operation.
-  @_s.JsonKey(name: 'conflictMetadata')
-  final ConflictMetadata conflictMetadata;
+  final ConflictMetadata? conflictMetadata;
 
   /// A list of hunks that contain the differences between files or lines causing
   /// the conflict.
-  @_s.JsonKey(name: 'mergeHunks')
-  final List<MergeHunk> mergeHunks;
+  final List<MergeHunk>? mergeHunks;
 
   Conflict({
     this.conflictMetadata,
     this.mergeHunks,
   });
-  factory Conflict.fromJson(Map<String, dynamic> json) =>
-      _$ConflictFromJson(json);
+
+  factory Conflict.fromJson(Map<String, dynamic> json) {
+    return Conflict(
+      conflictMetadata: json['conflictMetadata'] != null
+          ? ConflictMetadata.fromJson(
+              json['conflictMetadata'] as Map<String, dynamic>)
+          : null,
+      mergeHunks: (json['mergeHunks'] as List?)
+          ?.whereNotNull()
+          .map((e) => MergeHunk.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conflictMetadata = this.conflictMetadata;
+    final mergeHunks = this.mergeHunks;
+    return {
+      if (conflictMetadata != null) 'conflictMetadata': conflictMetadata,
+      if (mergeHunks != null) 'mergeHunks': mergeHunks,
+    };
+  }
 }
 
 enum ConflictDetailLevelTypeEnum {
-  @_s.JsonValue('FILE_LEVEL')
   fileLevel,
-  @_s.JsonValue('LINE_LEVEL')
   lineLevel,
 }
 
@@ -6665,64 +6753,60 @@ extension on ConflictDetailLevelTypeEnum {
       case ConflictDetailLevelTypeEnum.lineLevel:
         return 'LINE_LEVEL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ConflictDetailLevelTypeEnum toConflictDetailLevelTypeEnum() {
+    switch (this) {
+      case 'FILE_LEVEL':
+        return ConflictDetailLevelTypeEnum.fileLevel;
+      case 'LINE_LEVEL':
+        return ConflictDetailLevelTypeEnum.lineLevel;
+    }
+    throw Exception('$this is not known in enum ConflictDetailLevelTypeEnum');
   }
 }
 
 /// Information about the metadata for a conflict in a merge operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConflictMetadata {
   /// A boolean value indicating whether there are conflicts in the content of a
   /// file.
-  @_s.JsonKey(name: 'contentConflict')
-  final bool contentConflict;
+  final bool? contentConflict;
 
   /// A boolean value indicating whether there are conflicts in the file mode of a
   /// file.
-  @_s.JsonKey(name: 'fileModeConflict')
-  final bool fileModeConflict;
+  final bool? fileModeConflict;
 
   /// The file modes of the file in the source, destination, and base of the
   /// merge.
-  @_s.JsonKey(name: 'fileModes')
-  final FileModes fileModes;
+  final FileModes? fileModes;
 
   /// The path of the file that contains conflicts.
-  @_s.JsonKey(name: 'filePath')
-  final String filePath;
+  final String? filePath;
 
   /// The file sizes of the file in the source, destination, and base of the
   /// merge.
-  @_s.JsonKey(name: 'fileSizes')
-  final FileSizes fileSizes;
+  final FileSizes? fileSizes;
 
   /// A boolean value (true or false) indicating whether the file is binary or
   /// textual in the source, destination, and base of the merge.
-  @_s.JsonKey(name: 'isBinaryFile')
-  final IsBinaryFile isBinaryFile;
+  final IsBinaryFile? isBinaryFile;
 
   /// Whether an add, modify, or delete operation caused the conflict between the
   /// source and destination of the merge.
-  @_s.JsonKey(name: 'mergeOperations')
-  final MergeOperations mergeOperations;
+  final MergeOperations? mergeOperations;
 
   /// The number of conflicts, including both hunk conflicts and metadata
   /// conflicts.
-  @_s.JsonKey(name: 'numberOfConflicts')
-  final int numberOfConflicts;
+  final int? numberOfConflicts;
 
   /// A boolean value (true or false) indicating whether there are conflicts
   /// between the branches in the object type of a file, folder, or submodule.
-  @_s.JsonKey(name: 'objectTypeConflict')
-  final bool objectTypeConflict;
+  final bool? objectTypeConflict;
 
   /// Information about any object type conflicts in a merge operation.
-  @_s.JsonKey(name: 'objectTypes')
-  final ObjectTypes objectTypes;
+  final ObjectTypes? objectTypes;
 
   ConflictMetadata({
     this.contentConflict,
@@ -6736,46 +6820,110 @@ class ConflictMetadata {
     this.objectTypeConflict,
     this.objectTypes,
   });
-  factory ConflictMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ConflictMetadataFromJson(json);
+
+  factory ConflictMetadata.fromJson(Map<String, dynamic> json) {
+    return ConflictMetadata(
+      contentConflict: json['contentConflict'] as bool?,
+      fileModeConflict: json['fileModeConflict'] as bool?,
+      fileModes: json['fileModes'] != null
+          ? FileModes.fromJson(json['fileModes'] as Map<String, dynamic>)
+          : null,
+      filePath: json['filePath'] as String?,
+      fileSizes: json['fileSizes'] != null
+          ? FileSizes.fromJson(json['fileSizes'] as Map<String, dynamic>)
+          : null,
+      isBinaryFile: json['isBinaryFile'] != null
+          ? IsBinaryFile.fromJson(json['isBinaryFile'] as Map<String, dynamic>)
+          : null,
+      mergeOperations: json['mergeOperations'] != null
+          ? MergeOperations.fromJson(
+              json['mergeOperations'] as Map<String, dynamic>)
+          : null,
+      numberOfConflicts: json['numberOfConflicts'] as int?,
+      objectTypeConflict: json['objectTypeConflict'] as bool?,
+      objectTypes: json['objectTypes'] != null
+          ? ObjectTypes.fromJson(json['objectTypes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentConflict = this.contentConflict;
+    final fileModeConflict = this.fileModeConflict;
+    final fileModes = this.fileModes;
+    final filePath = this.filePath;
+    final fileSizes = this.fileSizes;
+    final isBinaryFile = this.isBinaryFile;
+    final mergeOperations = this.mergeOperations;
+    final numberOfConflicts = this.numberOfConflicts;
+    final objectTypeConflict = this.objectTypeConflict;
+    final objectTypes = this.objectTypes;
+    return {
+      if (contentConflict != null) 'contentConflict': contentConflict,
+      if (fileModeConflict != null) 'fileModeConflict': fileModeConflict,
+      if (fileModes != null) 'fileModes': fileModes,
+      if (filePath != null) 'filePath': filePath,
+      if (fileSizes != null) 'fileSizes': fileSizes,
+      if (isBinaryFile != null) 'isBinaryFile': isBinaryFile,
+      if (mergeOperations != null) 'mergeOperations': mergeOperations,
+      if (numberOfConflicts != null) 'numberOfConflicts': numberOfConflicts,
+      if (objectTypeConflict != null) 'objectTypeConflict': objectTypeConflict,
+      if (objectTypes != null) 'objectTypes': objectTypes,
+    };
+  }
 }
 
 /// If AUTOMERGE is the conflict resolution strategy, a list of inputs to use
 /// when resolving conflicts during a merge.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConflictResolution {
   /// Files to be deleted as part of the merge conflict resolution.
-  @_s.JsonKey(name: 'deleteFiles')
-  final List<DeleteFileEntry> deleteFiles;
+  final List<DeleteFileEntry>? deleteFiles;
 
   /// Files to have content replaced as part of the merge conflict resolution.
-  @_s.JsonKey(name: 'replaceContents')
-  final List<ReplaceContentEntry> replaceContents;
+  final List<ReplaceContentEntry>? replaceContents;
 
   /// File modes that are set as part of the merge conflict resolution.
-  @_s.JsonKey(name: 'setFileModes')
-  final List<SetFileModeEntry> setFileModes;
+  final List<SetFileModeEntry>? setFileModes;
 
   ConflictResolution({
     this.deleteFiles,
     this.replaceContents,
     this.setFileModes,
   });
-  Map<String, dynamic> toJson() => _$ConflictResolutionToJson(this);
+
+  factory ConflictResolution.fromJson(Map<String, dynamic> json) {
+    return ConflictResolution(
+      deleteFiles: (json['deleteFiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeleteFileEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      replaceContents: (json['replaceContents'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReplaceContentEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      setFileModes: (json['setFileModes'] as List?)
+          ?.whereNotNull()
+          .map((e) => SetFileModeEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteFiles = this.deleteFiles;
+    final replaceContents = this.replaceContents;
+    final setFileModes = this.setFileModes;
+    return {
+      if (deleteFiles != null) 'deleteFiles': deleteFiles,
+      if (replaceContents != null) 'replaceContents': replaceContents,
+      if (setFileModes != null) 'setFileModes': setFileModes,
+    };
+  }
 }
 
 enum ConflictResolutionStrategyTypeEnum {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('ACCEPT_SOURCE')
   acceptSource,
-  @_s.JsonValue('ACCEPT_DESTINATION')
   acceptDestination,
-  @_s.JsonValue('AUTOMERGE')
   automerge,
 }
 
@@ -6791,54 +6939,65 @@ extension on ConflictResolutionStrategyTypeEnum {
       case ConflictResolutionStrategyTypeEnum.automerge:
         return 'AUTOMERGE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ConflictResolutionStrategyTypeEnum toConflictResolutionStrategyTypeEnum() {
+    switch (this) {
+      case 'NONE':
+        return ConflictResolutionStrategyTypeEnum.none;
+      case 'ACCEPT_SOURCE':
+        return ConflictResolutionStrategyTypeEnum.acceptSource;
+      case 'ACCEPT_DESTINATION':
+        return ConflictResolutionStrategyTypeEnum.acceptDestination;
+      case 'AUTOMERGE':
+        return ConflictResolutionStrategyTypeEnum.automerge;
+    }
+    throw Exception(
+        '$this is not known in enum ConflictResolutionStrategyTypeEnum');
+  }
+}
+
 class CreateApprovalRuleTemplateOutput {
   /// The content and structure of the created approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplate')
   final ApprovalRuleTemplate approvalRuleTemplate;
 
   CreateApprovalRuleTemplateOutput({
-    @_s.required this.approvalRuleTemplate,
+    required this.approvalRuleTemplate,
   });
-  factory CreateApprovalRuleTemplateOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateApprovalRuleTemplateOutputFromJson(json);
+
+  factory CreateApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return CreateApprovalRuleTemplateOutput(
+      approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
+          json['approvalRuleTemplate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplate = this.approvalRuleTemplate;
+    return {
+      'approvalRuleTemplate': approvalRuleTemplate,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCommitOutput {
   /// The full commit ID of the commit that contains your committed file changes.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// The files added as part of the committed file changes.
-  @_s.JsonKey(name: 'filesAdded')
-  final List<FileMetadata> filesAdded;
+  final List<FileMetadata>? filesAdded;
 
   /// The files deleted as part of the committed file changes.
-  @_s.JsonKey(name: 'filesDeleted')
-  final List<FileMetadata> filesDeleted;
+  final List<FileMetadata>? filesDeleted;
 
   /// The files updated as part of the commited file changes.
-  @_s.JsonKey(name: 'filesUpdated')
-  final List<FileMetadata> filesUpdated;
+  final List<FileMetadata>? filesUpdated;
 
   /// The full SHA-1 pointer of the tree information for the commit that contains
   /// the commited file changes.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   CreateCommitOutput({
     this.commitId,
@@ -6847,379 +7006,522 @@ class CreateCommitOutput {
     this.filesUpdated,
     this.treeId,
   });
-  factory CreateCommitOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateCommitOutputFromJson(json);
+
+  factory CreateCommitOutput.fromJson(Map<String, dynamic> json) {
+    return CreateCommitOutput(
+      commitId: json['commitId'] as String?,
+      filesAdded: (json['filesAdded'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      filesDeleted: (json['filesDeleted'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      filesUpdated: (json['filesUpdated'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final filesAdded = this.filesAdded;
+    final filesDeleted = this.filesDeleted;
+    final filesUpdated = this.filesUpdated;
+    final treeId = this.treeId;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (filesAdded != null) 'filesAdded': filesAdded,
+      if (filesDeleted != null) 'filesDeleted': filesDeleted,
+      if (filesUpdated != null) 'filesUpdated': filesUpdated,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePullRequestApprovalRuleOutput {
   /// Information about the created approval rule.
-  @_s.JsonKey(name: 'approvalRule')
   final ApprovalRule approvalRule;
 
   CreatePullRequestApprovalRuleOutput({
-    @_s.required this.approvalRule,
+    required this.approvalRule,
   });
+
   factory CreatePullRequestApprovalRuleOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreatePullRequestApprovalRuleOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return CreatePullRequestApprovalRuleOutput(
+      approvalRule:
+          ApprovalRule.fromJson(json['approvalRule'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRule = this.approvalRule;
+    return {
+      'approvalRule': approvalRule,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePullRequestOutput {
   /// Information about the newly created pull request.
-  @_s.JsonKey(name: 'pullRequest')
   final PullRequest pullRequest;
 
   CreatePullRequestOutput({
-    @_s.required this.pullRequest,
+    required this.pullRequest,
   });
-  factory CreatePullRequestOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreatePullRequestOutputFromJson(json);
+
+  factory CreatePullRequestOutput.fromJson(Map<String, dynamic> json) {
+    return CreatePullRequestOutput(
+      pullRequest:
+          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      'pullRequest': pullRequest,
+    };
+  }
 }
 
 /// Represents the output of a create repository operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRepositoryOutput {
   /// Information about the newly created repository.
-  @_s.JsonKey(name: 'repositoryMetadata')
-  final RepositoryMetadata repositoryMetadata;
+  final RepositoryMetadata? repositoryMetadata;
 
   CreateRepositoryOutput({
     this.repositoryMetadata,
   });
-  factory CreateRepositoryOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateRepositoryOutputFromJson(json);
+
+  factory CreateRepositoryOutput.fromJson(Map<String, dynamic> json) {
+    return CreateRepositoryOutput(
+      repositoryMetadata: json['repositoryMetadata'] != null
+          ? RepositoryMetadata.fromJson(
+              json['repositoryMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryMetadata = this.repositoryMetadata;
+    return {
+      if (repositoryMetadata != null) 'repositoryMetadata': repositoryMetadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUnreferencedMergeCommitOutput {
   /// The full commit ID of the commit that contains your merge results.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// The full SHA-1 pointer of the tree information for the commit that contains
   /// the merge results.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   CreateUnreferencedMergeCommitOutput({
     this.commitId,
     this.treeId,
   });
+
   factory CreateUnreferencedMergeCommitOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateUnreferencedMergeCommitOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateUnreferencedMergeCommitOutput(
+      commitId: json['commitId'] as String?,
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final treeId = this.treeId;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApprovalRuleTemplateOutput {
   /// The system-generated ID of the deleted approval rule template. If the
   /// template has been previously deleted, the only response is a 200 OK.
-  @_s.JsonKey(name: 'approvalRuleTemplateId')
   final String approvalRuleTemplateId;
 
   DeleteApprovalRuleTemplateOutput({
-    @_s.required this.approvalRuleTemplateId,
+    required this.approvalRuleTemplateId,
   });
-  factory DeleteApprovalRuleTemplateOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteApprovalRuleTemplateOutputFromJson(json);
+
+  factory DeleteApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteApprovalRuleTemplateOutput(
+      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplateId = this.approvalRuleTemplateId;
+    return {
+      'approvalRuleTemplateId': approvalRuleTemplateId,
+    };
+  }
 }
 
 /// Represents the output of a delete branch operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBranchOutput {
   /// Information about the branch deleted by the operation, including the branch
   /// name and the commit ID that was the tip of the branch.
-  @_s.JsonKey(name: 'deletedBranch')
-  final BranchInfo deletedBranch;
+  final BranchInfo? deletedBranch;
 
   DeleteBranchOutput({
     this.deletedBranch,
   });
-  factory DeleteBranchOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBranchOutputFromJson(json);
+
+  factory DeleteBranchOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteBranchOutput(
+      deletedBranch: json['deletedBranch'] != null
+          ? BranchInfo.fromJson(json['deletedBranch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletedBranch = this.deletedBranch;
+    return {
+      if (deletedBranch != null) 'deletedBranch': deletedBranch,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCommentContentOutput {
   /// Information about the comment you just deleted.
-  @_s.JsonKey(name: 'comment')
-  final Comment comment;
+  final Comment? comment;
 
   DeleteCommentContentOutput({
     this.comment,
   });
-  factory DeleteCommentContentOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCommentContentOutputFromJson(json);
+
+  factory DeleteCommentContentOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteCommentContentOutput(
+      comment: json['comment'] != null
+          ? Comment.fromJson(json['comment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    return {
+      if (comment != null) 'comment': comment,
+    };
+  }
 }
 
 /// A file that is deleted as part of a commit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeleteFileEntry {
   /// The full path of the file to be deleted, including the name of the file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   DeleteFileEntry({
-    @_s.required this.filePath,
+    required this.filePath,
   });
-  Map<String, dynamic> toJson() => _$DeleteFileEntryToJson(this);
+
+  factory DeleteFileEntry.fromJson(Map<String, dynamic> json) {
+    return DeleteFileEntry(
+      filePath: json['filePath'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    return {
+      'filePath': filePath,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFileOutput {
   /// The blob ID removed from the tree as part of deleting the file.
-  @_s.JsonKey(name: 'blobId')
   final String blobId;
 
   /// The full commit ID of the commit that contains the change that deletes the
   /// file.
-  @_s.JsonKey(name: 'commitId')
   final String commitId;
 
   /// The fully qualified path to the file to be deleted, including the full name
   /// and extension of that file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   /// The full SHA-1 pointer of the tree information for the commit that contains
   /// the delete file change.
-  @_s.JsonKey(name: 'treeId')
   final String treeId;
 
   DeleteFileOutput({
-    @_s.required this.blobId,
-    @_s.required this.commitId,
-    @_s.required this.filePath,
-    @_s.required this.treeId,
+    required this.blobId,
+    required this.commitId,
+    required this.filePath,
+    required this.treeId,
   });
-  factory DeleteFileOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFileOutputFromJson(json);
+
+  factory DeleteFileOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteFileOutput(
+      blobId: json['blobId'] as String,
+      commitId: json['commitId'] as String,
+      filePath: json['filePath'] as String,
+      treeId: json['treeId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobId = this.blobId;
+    final commitId = this.commitId;
+    final filePath = this.filePath;
+    final treeId = this.treeId;
+    return {
+      'blobId': blobId,
+      'commitId': commitId,
+      'filePath': filePath,
+      'treeId': treeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePullRequestApprovalRuleOutput {
   /// The ID of the deleted approval rule.
   /// <note>
   /// If the approval rule was deleted in an earlier API call, the response is 200
   /// OK without content.
   /// </note>
-  @_s.JsonKey(name: 'approvalRuleId')
   final String approvalRuleId;
 
   DeletePullRequestApprovalRuleOutput({
-    @_s.required this.approvalRuleId,
+    required this.approvalRuleId,
   });
+
   factory DeletePullRequestApprovalRuleOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeletePullRequestApprovalRuleOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return DeletePullRequestApprovalRuleOutput(
+      approvalRuleId: json['approvalRuleId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleId = this.approvalRuleId;
+    return {
+      'approvalRuleId': approvalRuleId,
+    };
+  }
 }
 
 /// Represents the output of a delete repository operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRepositoryOutput {
   /// The ID of the repository that was deleted.
-  @_s.JsonKey(name: 'repositoryId')
-  final String repositoryId;
+  final String? repositoryId;
 
   DeleteRepositoryOutput({
     this.repositoryId,
   });
-  factory DeleteRepositoryOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRepositoryOutputFromJson(json);
+
+  factory DeleteRepositoryOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteRepositoryOutput(
+      repositoryId: json['repositoryId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryId = this.repositoryId;
+    return {
+      if (repositoryId != null) 'repositoryId': repositoryId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMergeConflictsOutput {
   /// Contains metadata about the conflicts found in the merge.
-  @_s.JsonKey(name: 'conflictMetadata')
   final ConflictMetadata conflictMetadata;
 
   /// The commit ID of the destination commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'destinationCommitId')
   final String destinationCommitId;
 
   /// A list of merge hunks of the differences between the files or lines.
-  @_s.JsonKey(name: 'mergeHunks')
   final List<MergeHunk> mergeHunks;
 
   /// The commit ID of the source commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'sourceCommitId')
   final String sourceCommitId;
 
   /// The commit ID of the merge base.
-  @_s.JsonKey(name: 'baseCommitId')
-  final String baseCommitId;
+  final String? baseCommitId;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeMergeConflictsOutput({
-    @_s.required this.conflictMetadata,
-    @_s.required this.destinationCommitId,
-    @_s.required this.mergeHunks,
-    @_s.required this.sourceCommitId,
+    required this.conflictMetadata,
+    required this.destinationCommitId,
+    required this.mergeHunks,
+    required this.sourceCommitId,
     this.baseCommitId,
     this.nextToken,
   });
-  factory DescribeMergeConflictsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMergeConflictsOutputFromJson(json);
+
+  factory DescribeMergeConflictsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeMergeConflictsOutput(
+      conflictMetadata: ConflictMetadata.fromJson(
+          json['conflictMetadata'] as Map<String, dynamic>),
+      destinationCommitId: json['destinationCommitId'] as String,
+      mergeHunks: (json['mergeHunks'] as List)
+          .whereNotNull()
+          .map((e) => MergeHunk.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sourceCommitId: json['sourceCommitId'] as String,
+      baseCommitId: json['baseCommitId'] as String?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conflictMetadata = this.conflictMetadata;
+    final destinationCommitId = this.destinationCommitId;
+    final mergeHunks = this.mergeHunks;
+    final sourceCommitId = this.sourceCommitId;
+    final baseCommitId = this.baseCommitId;
+    final nextToken = this.nextToken;
+    return {
+      'conflictMetadata': conflictMetadata,
+      'destinationCommitId': destinationCommitId,
+      'mergeHunks': mergeHunks,
+      'sourceCommitId': sourceCommitId,
+      if (baseCommitId != null) 'baseCommitId': baseCommitId,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePullRequestEventsOutput {
   /// Information about the pull request events.
-  @_s.JsonKey(name: 'pullRequestEvents')
   final List<PullRequestEvent> pullRequestEvents;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribePullRequestEventsOutput({
-    @_s.required this.pullRequestEvents,
+    required this.pullRequestEvents,
     this.nextToken,
   });
-  factory DescribePullRequestEventsOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribePullRequestEventsOutputFromJson(json);
+
+  factory DescribePullRequestEventsOutput.fromJson(Map<String, dynamic> json) {
+    return DescribePullRequestEventsOutput(
+      pullRequestEvents: (json['pullRequestEvents'] as List)
+          .whereNotNull()
+          .map((e) => PullRequestEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequestEvents = this.pullRequestEvents;
+    final nextToken = this.nextToken;
+    return {
+      'pullRequestEvents': pullRequestEvents,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Returns information about a set of differences for a commit specifier.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Difference {
   /// Information about an <code>afterBlob</code> data type object, including the
   /// ID, the file mode permission code, and the path.
-  @_s.JsonKey(name: 'afterBlob')
-  final BlobMetadata afterBlob;
+  final BlobMetadata? afterBlob;
 
   /// Information about a <code>beforeBlob</code> data type object, including the
   /// ID, the file mode permission code, and the path.
-  @_s.JsonKey(name: 'beforeBlob')
-  final BlobMetadata beforeBlob;
+  final BlobMetadata? beforeBlob;
 
   /// Whether the change type of the difference is an addition (A), deletion (D),
   /// or modification (M).
-  @_s.JsonKey(name: 'changeType')
-  final ChangeTypeEnum changeType;
+  final ChangeTypeEnum? changeType;
 
   Difference({
     this.afterBlob,
     this.beforeBlob,
     this.changeType,
   });
-  factory Difference.fromJson(Map<String, dynamic> json) =>
-      _$DifferenceFromJson(json);
+
+  factory Difference.fromJson(Map<String, dynamic> json) {
+    return Difference(
+      afterBlob: json['afterBlob'] != null
+          ? BlobMetadata.fromJson(json['afterBlob'] as Map<String, dynamic>)
+          : null,
+      beforeBlob: json['beforeBlob'] != null
+          ? BlobMetadata.fromJson(json['beforeBlob'] as Map<String, dynamic>)
+          : null,
+      changeType: (json['changeType'] as String?)?.toChangeTypeEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlob = this.afterBlob;
+    final beforeBlob = this.beforeBlob;
+    final changeType = this.changeType;
+    return {
+      if (afterBlob != null) 'afterBlob': afterBlob,
+      if (beforeBlob != null) 'beforeBlob': beforeBlob,
+      if (changeType != null) 'changeType': changeType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EvaluatePullRequestApprovalRulesOutput {
   /// The result of the evaluation, including the names of the rules whose
   /// conditions have been met (if any), the names of the rules whose conditions
   /// have not been met (if any), whether the pull request is in the approved
   /// state, and whether the pull request approval rule has been set aside by an
   /// override.
-  @_s.JsonKey(name: 'evaluation')
   final Evaluation evaluation;
 
   EvaluatePullRequestApprovalRulesOutput({
-    @_s.required this.evaluation,
+    required this.evaluation,
   });
+
   factory EvaluatePullRequestApprovalRulesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$EvaluatePullRequestApprovalRulesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return EvaluatePullRequestApprovalRulesOutput(
+      evaluation:
+          Evaluation.fromJson(json['evaluation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final evaluation = this.evaluation;
+    return {
+      'evaluation': evaluation,
+    };
+  }
 }
 
 /// Returns information about the approval rules applied to a pull request and
 /// whether conditions have been met.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Evaluation {
   /// The names of the approval rules that have not had their conditions met.
-  @_s.JsonKey(name: 'approvalRulesNotSatisfied')
-  final List<String> approvalRulesNotSatisfied;
+  final List<String>? approvalRulesNotSatisfied;
 
   /// The names of the approval rules that have had their conditions met.
-  @_s.JsonKey(name: 'approvalRulesSatisfied')
-  final List<String> approvalRulesSatisfied;
+  final List<String>? approvalRulesSatisfied;
 
   /// Whether the state of the pull request is approved.
-  @_s.JsonKey(name: 'approved')
-  final bool approved;
+  final bool? approved;
 
   /// Whether the approval rule requirements for the pull request have been
   /// overridden and no longer need to be met.
-  @_s.JsonKey(name: 'overridden')
-  final bool overridden;
+  final bool? overridden;
 
   Evaluation({
     this.approvalRulesNotSatisfied,
@@ -7227,33 +7529,52 @@ class Evaluation {
     this.approved,
     this.overridden,
   });
-  factory Evaluation.fromJson(Map<String, dynamic> json) =>
-      _$EvaluationFromJson(json);
+
+  factory Evaluation.fromJson(Map<String, dynamic> json) {
+    return Evaluation(
+      approvalRulesNotSatisfied: (json['approvalRulesNotSatisfied'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      approvalRulesSatisfied: (json['approvalRulesSatisfied'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      approved: json['approved'] as bool?,
+      overridden: json['overridden'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRulesNotSatisfied = this.approvalRulesNotSatisfied;
+    final approvalRulesSatisfied = this.approvalRulesSatisfied;
+    final approved = this.approved;
+    final overridden = this.overridden;
+    return {
+      if (approvalRulesNotSatisfied != null)
+        'approvalRulesNotSatisfied': approvalRulesNotSatisfied,
+      if (approvalRulesSatisfied != null)
+        'approvalRulesSatisfied': approvalRulesSatisfied,
+      if (approved != null) 'approved': approved,
+      if (overridden != null) 'overridden': overridden,
+    };
+  }
 }
 
 /// Returns information about a file in a repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class File {
   /// The fully qualified path to the file in the repository.
-  @_s.JsonKey(name: 'absolutePath')
-  final String absolutePath;
+  final String? absolutePath;
 
   /// The blob ID that contains the file information.
-  @_s.JsonKey(name: 'blobId')
-  final String blobId;
+  final String? blobId;
 
   /// The extrapolated file mode permissions for the file. Valid values include
   /// EXECUTABLE and NORMAL.
-  @_s.JsonKey(name: 'fileMode')
-  final FileModeTypeEnum fileMode;
+  final FileModeTypeEnum? fileMode;
 
   /// The relative path of the file from the folder where the query originated.
-  @_s.JsonKey(name: 'relativePath')
-  final String relativePath;
+  final String? relativePath;
 
   File({
     this.absolutePath,
@@ -7261,45 +7582,72 @@ class File {
     this.fileMode,
     this.relativePath,
   });
-  factory File.fromJson(Map<String, dynamic> json) => _$FileFromJson(json);
+
+  factory File.fromJson(Map<String, dynamic> json) {
+    return File(
+      absolutePath: json['absolutePath'] as String?,
+      blobId: json['blobId'] as String?,
+      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+      relativePath: json['relativePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final blobId = this.blobId;
+    final fileMode = this.fileMode;
+    final relativePath = this.relativePath;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (blobId != null) 'blobId': blobId,
+      if (fileMode != null) 'fileMode': fileMode.toValue(),
+      if (relativePath != null) 'relativePath': relativePath,
+    };
+  }
 }
 
 /// A file to be added, updated, or deleted as part of a commit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileMetadata {
   /// The full path to the file to be added or updated, including the name of the
   /// file.
-  @_s.JsonKey(name: 'absolutePath')
-  final String absolutePath;
+  final String? absolutePath;
 
   /// The blob ID that contains the file information.
-  @_s.JsonKey(name: 'blobId')
-  final String blobId;
+  final String? blobId;
 
   /// The extrapolated file mode permissions for the file. Valid values include
   /// EXECUTABLE and NORMAL.
-  @_s.JsonKey(name: 'fileMode')
-  final FileModeTypeEnum fileMode;
+  final FileModeTypeEnum? fileMode;
 
   FileMetadata({
     this.absolutePath,
     this.blobId,
     this.fileMode,
   });
-  factory FileMetadata.fromJson(Map<String, dynamic> json) =>
-      _$FileMetadataFromJson(json);
+
+  factory FileMetadata.fromJson(Map<String, dynamic> json) {
+    return FileMetadata(
+      absolutePath: json['absolutePath'] as String?,
+      blobId: json['blobId'] as String?,
+      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final blobId = this.blobId;
+    final fileMode = this.fileMode;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (blobId != null) 'blobId': blobId,
+      if (fileMode != null) 'fileMode': fileMode.toValue(),
+    };
+  }
 }
 
 enum FileModeTypeEnum {
-  @_s.JsonValue('EXECUTABLE')
   executable,
-  @_s.JsonValue('NORMAL')
   normal,
-  @_s.JsonValue('SYMLINK')
   symlink,
 }
 
@@ -7313,298 +7661,404 @@ extension on FileModeTypeEnum {
       case FileModeTypeEnum.symlink:
         return 'SYMLINK';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FileModeTypeEnum toFileModeTypeEnum() {
+    switch (this) {
+      case 'EXECUTABLE':
+        return FileModeTypeEnum.executable;
+      case 'NORMAL':
+        return FileModeTypeEnum.normal;
+      case 'SYMLINK':
+        return FileModeTypeEnum.symlink;
+    }
+    throw Exception('$this is not known in enum FileModeTypeEnum');
   }
 }
 
 /// Information about file modes in a merge or pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileModes {
   /// The file mode of a file in the base of a merge or pull request.
-  @_s.JsonKey(name: 'base')
-  final FileModeTypeEnum base;
+  final FileModeTypeEnum? base;
 
   /// The file mode of a file in the destination of a merge or pull request.
-  @_s.JsonKey(name: 'destination')
-  final FileModeTypeEnum destination;
+  final FileModeTypeEnum? destination;
 
   /// The file mode of a file in the source of a merge or pull request.
-  @_s.JsonKey(name: 'source')
-  final FileModeTypeEnum source;
+  final FileModeTypeEnum? source;
 
   FileModes({
     this.base,
     this.destination,
     this.source,
   });
-  factory FileModes.fromJson(Map<String, dynamic> json) =>
-      _$FileModesFromJson(json);
+
+  factory FileModes.fromJson(Map<String, dynamic> json) {
+    return FileModes(
+      base: (json['base'] as String?)?.toFileModeTypeEnum(),
+      destination: (json['destination'] as String?)?.toFileModeTypeEnum(),
+      source: (json['source'] as String?)?.toFileModeTypeEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base.toValue(),
+      if (destination != null) 'destination': destination.toValue(),
+      if (source != null) 'source': source.toValue(),
+    };
+  }
 }
 
 /// Information about the size of files in a merge or pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileSizes {
   /// The size of a file in the base of a merge or pull request.
-  @_s.JsonKey(name: 'base')
-  final int base;
+  final int? base;
 
   /// The size of a file in the destination of a merge or pull request.
-  @_s.JsonKey(name: 'destination')
-  final int destination;
+  final int? destination;
 
   /// The size of a file in the source of a merge or pull request.
-  @_s.JsonKey(name: 'source')
-  final int source;
+  final int? source;
 
   FileSizes({
     this.base,
     this.destination,
     this.source,
   });
-  factory FileSizes.fromJson(Map<String, dynamic> json) =>
-      _$FileSizesFromJson(json);
+
+  factory FileSizes.fromJson(Map<String, dynamic> json) {
+    return FileSizes(
+      base: json['base'] as int?,
+      destination: json['destination'] as int?,
+      source: json['source'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base,
+      if (destination != null) 'destination': destination,
+      if (source != null) 'source': source,
+    };
+  }
 }
 
 /// Returns information about a folder in a repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Folder {
   /// The fully qualified path of the folder in the repository.
-  @_s.JsonKey(name: 'absolutePath')
-  final String absolutePath;
+  final String? absolutePath;
 
   /// The relative path of the specified folder from the folder where the query
   /// originated.
-  @_s.JsonKey(name: 'relativePath')
-  final String relativePath;
+  final String? relativePath;
 
   /// The full SHA-1 pointer of the tree information for the commit that contains
   /// the folder.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   Folder({
     this.absolutePath,
     this.relativePath,
     this.treeId,
   });
-  factory Folder.fromJson(Map<String, dynamic> json) => _$FolderFromJson(json);
+
+  factory Folder.fromJson(Map<String, dynamic> json) {
+    return Folder(
+      absolutePath: json['absolutePath'] as String?,
+      relativePath: json['relativePath'] as String?,
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final relativePath = this.relativePath;
+    final treeId = this.treeId;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (relativePath != null) 'relativePath': relativePath,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApprovalRuleTemplateOutput {
   /// The content and structure of the approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplate')
   final ApprovalRuleTemplate approvalRuleTemplate;
 
   GetApprovalRuleTemplateOutput({
-    @_s.required this.approvalRuleTemplate,
+    required this.approvalRuleTemplate,
   });
-  factory GetApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetApprovalRuleTemplateOutputFromJson(json);
+
+  factory GetApprovalRuleTemplateOutput.fromJson(Map<String, dynamic> json) {
+    return GetApprovalRuleTemplateOutput(
+      approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
+          json['approvalRuleTemplate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplate = this.approvalRuleTemplate;
+    return {
+      'approvalRuleTemplate': approvalRuleTemplate,
+    };
+  }
 }
 
 /// Represents the output of a get blob operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBlobOutput {
   /// The content of the blob, usually a file.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'content')
   final Uint8List content;
 
   GetBlobOutput({
-    @_s.required this.content,
+    required this.content,
   });
-  factory GetBlobOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetBlobOutputFromJson(json);
+
+  factory GetBlobOutput.fromJson(Map<String, dynamic> json) {
+    return GetBlobOutput(
+      content: _s.decodeUint8List(json['content']! as String),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    return {
+      'content': base64Encode(content),
+    };
+  }
 }
 
 /// Represents the output of a get branch operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBranchOutput {
   /// The name of the branch.
-  @_s.JsonKey(name: 'branch')
-  final BranchInfo branch;
+  final BranchInfo? branch;
 
   GetBranchOutput({
     this.branch,
   });
-  factory GetBranchOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetBranchOutputFromJson(json);
+
+  factory GetBranchOutput.fromJson(Map<String, dynamic> json) {
+    return GetBranchOutput(
+      branch: json['branch'] != null
+          ? BranchInfo.fromJson(json['branch'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    return {
+      if (branch != null) 'branch': branch,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCommentOutput {
   /// The contents of the comment.
-  @_s.JsonKey(name: 'comment')
-  final Comment comment;
+  final Comment? comment;
 
   GetCommentOutput({
     this.comment,
   });
-  factory GetCommentOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetCommentOutputFromJson(json);
+
+  factory GetCommentOutput.fromJson(Map<String, dynamic> json) {
+    return GetCommentOutput(
+      comment: json['comment'] != null
+          ? Comment.fromJson(json['comment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    return {
+      if (comment != null) 'comment': comment,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCommentReactionsOutput {
   /// An array of reactions to the specified comment.
-  @_s.JsonKey(name: 'reactionsForComment')
   final List<ReactionForComment> reactionsForComment;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetCommentReactionsOutput({
-    @_s.required this.reactionsForComment,
+    required this.reactionsForComment,
     this.nextToken,
   });
-  factory GetCommentReactionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetCommentReactionsOutputFromJson(json);
+
+  factory GetCommentReactionsOutput.fromJson(Map<String, dynamic> json) {
+    return GetCommentReactionsOutput(
+      reactionsForComment: (json['reactionsForComment'] as List)
+          .whereNotNull()
+          .map((e) => ReactionForComment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reactionsForComment = this.reactionsForComment;
+    final nextToken = this.nextToken;
+    return {
+      'reactionsForComment': reactionsForComment,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCommentsForComparedCommitOutput {
   /// A list of comment objects on the compared commit.
-  @_s.JsonKey(name: 'commentsForComparedCommitData')
-  final List<CommentsForComparedCommit> commentsForComparedCommitData;
+  final List<CommentsForComparedCommit>? commentsForComparedCommitData;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetCommentsForComparedCommitOutput({
     this.commentsForComparedCommitData,
     this.nextToken,
   });
+
   factory GetCommentsForComparedCommitOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCommentsForComparedCommitOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCommentsForComparedCommitOutput(
+      commentsForComparedCommitData:
+          (json['commentsForComparedCommitData'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  CommentsForComparedCommit.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentsForComparedCommitData = this.commentsForComparedCommitData;
+    final nextToken = this.nextToken;
+    return {
+      if (commentsForComparedCommitData != null)
+        'commentsForComparedCommitData': commentsForComparedCommitData,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCommentsForPullRequestOutput {
   /// An array of comment objects on the pull request.
-  @_s.JsonKey(name: 'commentsForPullRequestData')
-  final List<CommentsForPullRequest> commentsForPullRequestData;
+  final List<CommentsForPullRequest>? commentsForPullRequestData;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetCommentsForPullRequestOutput({
     this.commentsForPullRequestData,
     this.nextToken,
   });
-  factory GetCommentsForPullRequestOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetCommentsForPullRequestOutputFromJson(json);
+
+  factory GetCommentsForPullRequestOutput.fromJson(Map<String, dynamic> json) {
+    return GetCommentsForPullRequestOutput(
+      commentsForPullRequestData: (json['commentsForPullRequestData'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => CommentsForPullRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentsForPullRequestData = this.commentsForPullRequestData;
+    final nextToken = this.nextToken;
+    return {
+      if (commentsForPullRequestData != null)
+        'commentsForPullRequestData': commentsForPullRequestData,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a get commit operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCommitOutput {
   /// A commit data type object that contains information about the specified
   /// commit.
-  @_s.JsonKey(name: 'commit')
   final Commit commit;
 
   GetCommitOutput({
-    @_s.required this.commit,
+    required this.commit,
   });
-  factory GetCommitOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetCommitOutputFromJson(json);
+
+  factory GetCommitOutput.fromJson(Map<String, dynamic> json) {
+    return GetCommitOutput(
+      commit: Commit.fromJson(json['commit'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commit = this.commit;
+    return {
+      'commit': commit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDifferencesOutput {
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A data type object that contains information about the differences,
   /// including whether the difference is added, modified, or deleted (A, D, M).
-  @_s.JsonKey(name: 'differences')
-  final List<Difference> differences;
+  final List<Difference>? differences;
 
   GetDifferencesOutput({
     this.nextToken,
     this.differences,
   });
-  factory GetDifferencesOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDifferencesOutputFromJson(json);
+
+  factory GetDifferencesOutput.fromJson(Map<String, dynamic> json) {
+    return GetDifferencesOutput(
+      nextToken: json['NextToken'] as String?,
+      differences: (json['differences'] as List?)
+          ?.whereNotNull()
+          .map((e) => Difference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final differences = this.differences;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (differences != null) 'differences': differences,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFileOutput {
   /// The blob ID of the object that represents the file content.
-  @_s.JsonKey(name: 'blobId')
   final String blobId;
 
   /// The full commit ID of the commit that contains the content returned by
   /// GetFile.
-  @_s.JsonKey(name: 'commitId')
   final String commitId;
 
   /// The base-64 encoded binary data object that represents the content of the
   /// file.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'fileContent')
   final Uint8List fileContent;
 
   /// The extrapolated file mode permissions of the blob. Valid values include
@@ -7614,105 +8068,148 @@ class GetFileOutput {
   /// mode permission values, such as 100644, but rather extrapolated values. See
   /// the supported return values.
   /// </note>
-  @_s.JsonKey(name: 'fileMode')
   final FileModeTypeEnum fileMode;
 
   /// The fully qualified path to the specified file. Returns the name and
   /// extension of the file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   /// The size of the contents of the file, in bytes.
-  @_s.JsonKey(name: 'fileSize')
   final int fileSize;
 
   GetFileOutput({
-    @_s.required this.blobId,
-    @_s.required this.commitId,
-    @_s.required this.fileContent,
-    @_s.required this.fileMode,
-    @_s.required this.filePath,
-    @_s.required this.fileSize,
+    required this.blobId,
+    required this.commitId,
+    required this.fileContent,
+    required this.fileMode,
+    required this.filePath,
+    required this.fileSize,
   });
-  factory GetFileOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetFileOutputFromJson(json);
+
+  factory GetFileOutput.fromJson(Map<String, dynamic> json) {
+    return GetFileOutput(
+      blobId: json['blobId'] as String,
+      commitId: json['commitId'] as String,
+      fileContent: _s.decodeUint8List(json['fileContent']! as String),
+      fileMode: (json['fileMode'] as String).toFileModeTypeEnum(),
+      filePath: json['filePath'] as String,
+      fileSize: json['fileSize'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobId = this.blobId;
+    final commitId = this.commitId;
+    final fileContent = this.fileContent;
+    final fileMode = this.fileMode;
+    final filePath = this.filePath;
+    final fileSize = this.fileSize;
+    return {
+      'blobId': blobId,
+      'commitId': commitId,
+      'fileContent': base64Encode(fileContent),
+      'fileMode': fileMode.toValue(),
+      'filePath': filePath,
+      'fileSize': fileSize,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFolderOutput {
   /// The full commit ID used as a reference for the returned version of the
   /// folder content.
-  @_s.JsonKey(name: 'commitId')
   final String commitId;
 
   /// The fully qualified path of the folder whose contents are returned.
-  @_s.JsonKey(name: 'folderPath')
   final String folderPath;
 
   /// The list of files in the specified folder, if any.
-  @_s.JsonKey(name: 'files')
-  final List<File> files;
+  final List<File>? files;
 
   /// The list of folders that exist under the specified folder, if any.
-  @_s.JsonKey(name: 'subFolders')
-  final List<Folder> subFolders;
+  final List<Folder>? subFolders;
 
   /// The list of submodules in the specified folder, if any.
-  @_s.JsonKey(name: 'subModules')
-  final List<SubModule> subModules;
+  final List<SubModule>? subModules;
 
   /// The list of symbolic links to other files and folders in the specified
   /// folder, if any.
-  @_s.JsonKey(name: 'symbolicLinks')
-  final List<SymbolicLink> symbolicLinks;
+  final List<SymbolicLink>? symbolicLinks;
 
   /// The full SHA-1 pointer of the tree information for the commit that contains
   /// the folder.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   GetFolderOutput({
-    @_s.required this.commitId,
-    @_s.required this.folderPath,
+    required this.commitId,
+    required this.folderPath,
     this.files,
     this.subFolders,
     this.subModules,
     this.symbolicLinks,
     this.treeId,
   });
-  factory GetFolderOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetFolderOutputFromJson(json);
+
+  factory GetFolderOutput.fromJson(Map<String, dynamic> json) {
+    return GetFolderOutput(
+      commitId: json['commitId'] as String,
+      folderPath: json['folderPath'] as String,
+      files: (json['files'] as List?)
+          ?.whereNotNull()
+          .map((e) => File.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subFolders: (json['subFolders'] as List?)
+          ?.whereNotNull()
+          .map((e) => Folder.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subModules: (json['subModules'] as List?)
+          ?.whereNotNull()
+          .map((e) => SubModule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      symbolicLinks: (json['symbolicLinks'] as List?)
+          ?.whereNotNull()
+          .map((e) => SymbolicLink.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final folderPath = this.folderPath;
+    final files = this.files;
+    final subFolders = this.subFolders;
+    final subModules = this.subModules;
+    final symbolicLinks = this.symbolicLinks;
+    final treeId = this.treeId;
+    return {
+      'commitId': commitId,
+      'folderPath': folderPath,
+      if (files != null) 'files': files,
+      if (subFolders != null) 'subFolders': subFolders,
+      if (subModules != null) 'subModules': subModules,
+      if (symbolicLinks != null) 'symbolicLinks': symbolicLinks,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMergeCommitOutput {
   /// The commit ID of the merge base.
-  @_s.JsonKey(name: 'baseCommitId')
-  final String baseCommitId;
+  final String? baseCommitId;
 
   /// The commit ID of the destination commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'destinationCommitId')
-  final String destinationCommitId;
+  final String? destinationCommitId;
 
   /// The commit ID for the merge commit created when the source branch was merged
   /// into the destination branch. If the fast-forward merge strategy was used,
   /// there is no merge commit.
-  @_s.JsonKey(name: 'mergedCommitId')
-  final String mergedCommitId;
+  final String? mergedCommitId;
 
   /// The commit ID of the source commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'sourceCommitId')
-  final String sourceCommitId;
+  final String? sourceCommitId;
 
   GetMergeCommitOutput({
     this.baseCommitId,
@@ -7720,507 +8217,700 @@ class GetMergeCommitOutput {
     this.mergedCommitId,
     this.sourceCommitId,
   });
-  factory GetMergeCommitOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMergeCommitOutputFromJson(json);
+
+  factory GetMergeCommitOutput.fromJson(Map<String, dynamic> json) {
+    return GetMergeCommitOutput(
+      baseCommitId: json['baseCommitId'] as String?,
+      destinationCommitId: json['destinationCommitId'] as String?,
+      mergedCommitId: json['mergedCommitId'] as String?,
+      sourceCommitId: json['sourceCommitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseCommitId = this.baseCommitId;
+    final destinationCommitId = this.destinationCommitId;
+    final mergedCommitId = this.mergedCommitId;
+    final sourceCommitId = this.sourceCommitId;
+    return {
+      if (baseCommitId != null) 'baseCommitId': baseCommitId,
+      if (destinationCommitId != null)
+        'destinationCommitId': destinationCommitId,
+      if (mergedCommitId != null) 'mergedCommitId': mergedCommitId,
+      if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMergeConflictsOutput {
   /// A list of metadata for any conflicting files. If the specified merge
   /// strategy is FAST_FORWARD_MERGE, this list is always empty.
-  @_s.JsonKey(name: 'conflictMetadataList')
   final List<ConflictMetadata> conflictMetadataList;
 
   /// The commit ID of the destination commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'destinationCommitId')
   final String destinationCommitId;
 
   /// A Boolean value that indicates whether the code is mergeable by the
   /// specified merge option.
-  @_s.JsonKey(name: 'mergeable')
   final bool mergeable;
 
   /// The commit ID of the source commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'sourceCommitId')
   final String sourceCommitId;
 
   /// The commit ID of the merge base.
-  @_s.JsonKey(name: 'baseCommitId')
-  final String baseCommitId;
+  final String? baseCommitId;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetMergeConflictsOutput({
-    @_s.required this.conflictMetadataList,
-    @_s.required this.destinationCommitId,
-    @_s.required this.mergeable,
-    @_s.required this.sourceCommitId,
+    required this.conflictMetadataList,
+    required this.destinationCommitId,
+    required this.mergeable,
+    required this.sourceCommitId,
     this.baseCommitId,
     this.nextToken,
   });
-  factory GetMergeConflictsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMergeConflictsOutputFromJson(json);
+
+  factory GetMergeConflictsOutput.fromJson(Map<String, dynamic> json) {
+    return GetMergeConflictsOutput(
+      conflictMetadataList: (json['conflictMetadataList'] as List)
+          .whereNotNull()
+          .map((e) => ConflictMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      destinationCommitId: json['destinationCommitId'] as String,
+      mergeable: json['mergeable'] as bool,
+      sourceCommitId: json['sourceCommitId'] as String,
+      baseCommitId: json['baseCommitId'] as String?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conflictMetadataList = this.conflictMetadataList;
+    final destinationCommitId = this.destinationCommitId;
+    final mergeable = this.mergeable;
+    final sourceCommitId = this.sourceCommitId;
+    final baseCommitId = this.baseCommitId;
+    final nextToken = this.nextToken;
+    return {
+      'conflictMetadataList': conflictMetadataList,
+      'destinationCommitId': destinationCommitId,
+      'mergeable': mergeable,
+      'sourceCommitId': sourceCommitId,
+      if (baseCommitId != null) 'baseCommitId': baseCommitId,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMergeOptionsOutput {
   /// The commit ID of the merge base.
-  @_s.JsonKey(name: 'baseCommitId')
   final String baseCommitId;
 
   /// The commit ID of the destination commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'destinationCommitId')
   final String destinationCommitId;
 
   /// The merge option or strategy used to merge the code.
-  @_s.JsonKey(name: 'mergeOptions')
   final List<MergeOptionTypeEnum> mergeOptions;
 
   /// The commit ID of the source commit specifier that was used in the merge
   /// evaluation.
-  @_s.JsonKey(name: 'sourceCommitId')
   final String sourceCommitId;
 
   GetMergeOptionsOutput({
-    @_s.required this.baseCommitId,
-    @_s.required this.destinationCommitId,
-    @_s.required this.mergeOptions,
-    @_s.required this.sourceCommitId,
+    required this.baseCommitId,
+    required this.destinationCommitId,
+    required this.mergeOptions,
+    required this.sourceCommitId,
   });
-  factory GetMergeOptionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMergeOptionsOutputFromJson(json);
+
+  factory GetMergeOptionsOutput.fromJson(Map<String, dynamic> json) {
+    return GetMergeOptionsOutput(
+      baseCommitId: json['baseCommitId'] as String,
+      destinationCommitId: json['destinationCommitId'] as String,
+      mergeOptions: (json['mergeOptions'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toMergeOptionTypeEnum())
+          .toList(),
+      sourceCommitId: json['sourceCommitId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baseCommitId = this.baseCommitId;
+    final destinationCommitId = this.destinationCommitId;
+    final mergeOptions = this.mergeOptions;
+    final sourceCommitId = this.sourceCommitId;
+    return {
+      'baseCommitId': baseCommitId,
+      'destinationCommitId': destinationCommitId,
+      'mergeOptions': mergeOptions.map((e) => e.toValue()).toList(),
+      'sourceCommitId': sourceCommitId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPullRequestApprovalStatesOutput {
   /// Information about users who have approved the pull request.
-  @_s.JsonKey(name: 'approvals')
-  final List<Approval> approvals;
+  final List<Approval>? approvals;
 
   GetPullRequestApprovalStatesOutput({
     this.approvals,
   });
+
   factory GetPullRequestApprovalStatesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullRequestApprovalStatesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetPullRequestApprovalStatesOutput(
+      approvals: (json['approvals'] as List?)
+          ?.whereNotNull()
+          .map((e) => Approval.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvals = this.approvals;
+    return {
+      if (approvals != null) 'approvals': approvals,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPullRequestOutput {
   /// Information about the specified pull request.
-  @_s.JsonKey(name: 'pullRequest')
   final PullRequest pullRequest;
 
   GetPullRequestOutput({
-    @_s.required this.pullRequest,
+    required this.pullRequest,
   });
-  factory GetPullRequestOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetPullRequestOutputFromJson(json);
+
+  factory GetPullRequestOutput.fromJson(Map<String, dynamic> json) {
+    return GetPullRequestOutput(
+      pullRequest:
+          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      'pullRequest': pullRequest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPullRequestOverrideStateOutput {
   /// A Boolean value that indicates whether a pull request has had its rules set
   /// aside (TRUE) or whether all approval rules still apply (FALSE).
-  @_s.JsonKey(name: 'overridden')
-  final bool overridden;
+  final bool? overridden;
 
   /// The Amazon Resource Name (ARN) of the user or identity that overrode the
   /// rules and their requirements for the pull request.
-  @_s.JsonKey(name: 'overrider')
-  final String overrider;
+  final String? overrider;
 
   GetPullRequestOverrideStateOutput({
     this.overridden,
     this.overrider,
   });
+
   factory GetPullRequestOverrideStateOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetPullRequestOverrideStateOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetPullRequestOverrideStateOutput(
+      overridden: json['overridden'] as bool?,
+      overrider: json['overrider'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final overridden = this.overridden;
+    final overrider = this.overrider;
+    return {
+      if (overridden != null) 'overridden': overridden,
+      if (overrider != null) 'overrider': overrider,
+    };
+  }
 }
 
 /// Represents the output of a get repository operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRepositoryOutput {
   /// Information about the repository.
-  @_s.JsonKey(name: 'repositoryMetadata')
-  final RepositoryMetadata repositoryMetadata;
+  final RepositoryMetadata? repositoryMetadata;
 
   GetRepositoryOutput({
     this.repositoryMetadata,
   });
-  factory GetRepositoryOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetRepositoryOutputFromJson(json);
+
+  factory GetRepositoryOutput.fromJson(Map<String, dynamic> json) {
+    return GetRepositoryOutput(
+      repositoryMetadata: json['repositoryMetadata'] != null
+          ? RepositoryMetadata.fromJson(
+              json['repositoryMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryMetadata = this.repositoryMetadata;
+    return {
+      if (repositoryMetadata != null) 'repositoryMetadata': repositoryMetadata,
+    };
+  }
 }
 
 /// Represents the output of a get repository triggers operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRepositoryTriggersOutput {
   /// The system-generated unique ID for the trigger.
-  @_s.JsonKey(name: 'configurationId')
-  final String configurationId;
+  final String? configurationId;
 
   /// The JSON block of configuration information for each trigger.
-  @_s.JsonKey(name: 'triggers')
-  final List<RepositoryTrigger> triggers;
+  final List<RepositoryTrigger>? triggers;
 
   GetRepositoryTriggersOutput({
     this.configurationId,
     this.triggers,
   });
-  factory GetRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetRepositoryTriggersOutputFromJson(json);
+
+  factory GetRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) {
+    return GetRepositoryTriggersOutput(
+      configurationId: json['configurationId'] as String?,
+      triggers: (json['triggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryTrigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationId = this.configurationId;
+    final triggers = this.triggers;
+    return {
+      if (configurationId != null) 'configurationId': configurationId,
+      if (triggers != null) 'triggers': triggers,
+    };
+  }
 }
 
 /// Information about whether a file is binary or textual in a merge or pull
 /// request operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IsBinaryFile {
   /// The binary or non-binary status of a file in the base of a merge or pull
   /// request.
-  @_s.JsonKey(name: 'base')
-  final bool base;
+  final bool? base;
 
   /// The binary or non-binary status of a file in the destination of a merge or
   /// pull request.
-  @_s.JsonKey(name: 'destination')
-  final bool destination;
+  final bool? destination;
 
   /// The binary or non-binary status of file in the source of a merge or pull
   /// request.
-  @_s.JsonKey(name: 'source')
-  final bool source;
+  final bool? source;
 
   IsBinaryFile({
     this.base,
     this.destination,
     this.source,
   });
-  factory IsBinaryFile.fromJson(Map<String, dynamic> json) =>
-      _$IsBinaryFileFromJson(json);
+
+  factory IsBinaryFile.fromJson(Map<String, dynamic> json) {
+    return IsBinaryFile(
+      base: json['base'] as bool?,
+      destination: json['destination'] as bool?,
+      source: json['source'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base,
+      if (destination != null) 'destination': destination,
+      if (source != null) 'source': source,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApprovalRuleTemplatesOutput {
   /// The names of all the approval rule templates found in the AWS Region for
   /// your AWS account.
-  @_s.JsonKey(name: 'approvalRuleTemplateNames')
-  final List<String> approvalRuleTemplateNames;
+  final List<String>? approvalRuleTemplateNames;
 
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApprovalRuleTemplatesOutput({
     this.approvalRuleTemplateNames,
     this.nextToken,
   });
-  factory ListApprovalRuleTemplatesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListApprovalRuleTemplatesOutputFromJson(json);
+
+  factory ListApprovalRuleTemplatesOutput.fromJson(Map<String, dynamic> json) {
+    return ListApprovalRuleTemplatesOutput(
+      approvalRuleTemplateNames: (json['approvalRuleTemplateNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplateNames = this.approvalRuleTemplateNames;
+    final nextToken = this.nextToken;
+    return {
+      if (approvalRuleTemplateNames != null)
+        'approvalRuleTemplateNames': approvalRuleTemplateNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAssociatedApprovalRuleTemplatesForRepositoryOutput {
   /// The names of all approval rule templates associated with the repository.
-  @_s.JsonKey(name: 'approvalRuleTemplateNames')
-  final List<String> approvalRuleTemplateNames;
+  final List<String>? approvalRuleTemplateNames;
 
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAssociatedApprovalRuleTemplatesForRepositoryOutput({
     this.approvalRuleTemplateNames,
     this.nextToken,
   });
+
   factory ListAssociatedApprovalRuleTemplatesForRepositoryOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAssociatedApprovalRuleTemplatesForRepositoryOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAssociatedApprovalRuleTemplatesForRepositoryOutput(
+      approvalRuleTemplateNames: (json['approvalRuleTemplateNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplateNames = this.approvalRuleTemplateNames;
+    final nextToken = this.nextToken;
+    return {
+      if (approvalRuleTemplateNames != null)
+        'approvalRuleTemplateNames': approvalRuleTemplateNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a list branches operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBranchesOutput {
   /// The list of branch names.
-  @_s.JsonKey(name: 'branches')
-  final List<String> branches;
+  final List<String>? branches;
 
   /// An enumeration token that returns the batch of the results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBranchesOutput({
     this.branches,
     this.nextToken,
   });
-  factory ListBranchesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListBranchesOutputFromJson(json);
+
+  factory ListBranchesOutput.fromJson(Map<String, dynamic> json) {
+    return ListBranchesOutput(
+      branches: (json['branches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branches = this.branches;
+    final nextToken = this.nextToken;
+    return {
+      if (branches != null) 'branches': branches,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPullRequestsOutput {
   /// The system-generated IDs of the pull requests.
-  @_s.JsonKey(name: 'pullRequestIds')
   final List<String> pullRequestIds;
 
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListPullRequestsOutput({
-    @_s.required this.pullRequestIds,
+    required this.pullRequestIds,
     this.nextToken,
   });
-  factory ListPullRequestsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListPullRequestsOutputFromJson(json);
+
+  factory ListPullRequestsOutput.fromJson(Map<String, dynamic> json) {
+    return ListPullRequestsOutput(
+      pullRequestIds: (json['pullRequestIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequestIds = this.pullRequestIds;
+    final nextToken = this.nextToken;
+    return {
+      'pullRequestIds': pullRequestIds,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRepositoriesForApprovalRuleTemplateOutput {
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of repository names that are associated with the specified approval
   /// rule template.
-  @_s.JsonKey(name: 'repositoryNames')
-  final List<String> repositoryNames;
+  final List<String>? repositoryNames;
 
   ListRepositoriesForApprovalRuleTemplateOutput({
     this.nextToken,
     this.repositoryNames,
   });
+
   factory ListRepositoriesForApprovalRuleTemplateOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRepositoriesForApprovalRuleTemplateOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRepositoriesForApprovalRuleTemplateOutput(
+      nextToken: json['nextToken'] as String?,
+      repositoryNames: (json['repositoryNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final repositoryNames = this.repositoryNames;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (repositoryNames != null) 'repositoryNames': repositoryNames,
+    };
+  }
 }
 
 /// Represents the output of a list repositories operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRepositoriesOutput {
   /// An enumeration token that allows the operation to batch the results of the
   /// operation. Batch sizes are 1,000 for list repository operations. When the
   /// client sends the token back to AWS CodeCommit, another page of 1,000 records
   /// is retrieved.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Lists the repositories called by the list repositories operation.
-  @_s.JsonKey(name: 'repositories')
-  final List<RepositoryNameIdPair> repositories;
+  final List<RepositoryNameIdPair>? repositories;
 
   ListRepositoriesOutput({
     this.nextToken,
     this.repositories,
   });
-  factory ListRepositoriesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListRepositoriesOutputFromJson(json);
+
+  factory ListRepositoriesOutput.fromJson(Map<String, dynamic> json) {
+    return ListRepositoriesOutput(
+      nextToken: json['nextToken'] as String?,
+      repositories: (json['repositories'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryNameIdPair.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final repositories = this.repositories;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (repositories != null) 'repositories': repositories,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// An enumeration token that allows the operation to batch the next results of
   /// the operation.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of tag key and value pairs associated with the specified resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      nextToken: json['nextToken'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Returns information about the location of a change or comment in the
 /// comparison between two commits or a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Location {
   /// The name of the file being compared, including its extension and
   /// subdirectory, if any.
-  @_s.JsonKey(name: 'filePath')
-  final String filePath;
+  final String? filePath;
 
   /// The position of a change in a compared file, in line number format.
-  @_s.JsonKey(name: 'filePosition')
-  final int filePosition;
+  final int? filePosition;
 
   /// In a comparison of commits or a pull request, whether the change is in the
   /// before or after of that comparison.
-  @_s.JsonKey(name: 'relativeFileVersion')
-  final RelativeFileVersionEnum relativeFileVersion;
+  final RelativeFileVersionEnum? relativeFileVersion;
 
   Location({
     this.filePath,
     this.filePosition,
     this.relativeFileVersion,
   });
-  factory Location.fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LocationToJson(this);
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      filePath: json['filePath'] as String?,
+      filePosition: json['filePosition'] as int?,
+      relativeFileVersion:
+          (json['relativeFileVersion'] as String?)?.toRelativeFileVersionEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final filePosition = this.filePosition;
+    final relativeFileVersion = this.relativeFileVersion;
+    return {
+      if (filePath != null) 'filePath': filePath,
+      if (filePosition != null) 'filePosition': filePosition,
+      if (relativeFileVersion != null)
+        'relativeFileVersion': relativeFileVersion.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeBranchesByFastForwardOutput {
   /// The commit ID of the merge in the destination or target branch.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// The tree ID of the merge in the destination or target branch.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   MergeBranchesByFastForwardOutput({
     this.commitId,
     this.treeId,
   });
-  factory MergeBranchesByFastForwardOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$MergeBranchesByFastForwardOutputFromJson(json);
+
+  factory MergeBranchesByFastForwardOutput.fromJson(Map<String, dynamic> json) {
+    return MergeBranchesByFastForwardOutput(
+      commitId: json['commitId'] as String?,
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final treeId = this.treeId;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeBranchesBySquashOutput {
   /// The commit ID of the merge in the destination or target branch.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// The tree ID of the merge in the destination or target branch.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   MergeBranchesBySquashOutput({
     this.commitId,
     this.treeId,
   });
-  factory MergeBranchesBySquashOutput.fromJson(Map<String, dynamic> json) =>
-      _$MergeBranchesBySquashOutputFromJson(json);
+
+  factory MergeBranchesBySquashOutput.fromJson(Map<String, dynamic> json) {
+    return MergeBranchesBySquashOutput(
+      commitId: json['commitId'] as String?,
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final treeId = this.treeId;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeBranchesByThreeWayOutput {
   /// The commit ID of the merge in the destination or target branch.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// The tree ID of the merge in the destination or target branch.
-  @_s.JsonKey(name: 'treeId')
-  final String treeId;
+  final String? treeId;
 
   MergeBranchesByThreeWayOutput({
     this.commitId,
     this.treeId,
   });
-  factory MergeBranchesByThreeWayOutput.fromJson(Map<String, dynamic> json) =>
-      _$MergeBranchesByThreeWayOutputFromJson(json);
+
+  factory MergeBranchesByThreeWayOutput.fromJson(Map<String, dynamic> json) {
+    return MergeBranchesByThreeWayOutput(
+      commitId: json['commitId'] as String?,
+      treeId: json['treeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final treeId = this.treeId;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (treeId != null) 'treeId': treeId,
+    };
+  }
 }
 
 /// Information about merge hunks in a merge or pull request operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeHunk {
   /// Information about the merge hunk in the base of a merge or pull request.
-  @_s.JsonKey(name: 'base')
-  final MergeHunkDetail base;
+  final MergeHunkDetail? base;
 
   /// Information about the merge hunk in the destination of a merge or pull
   /// request.
-  @_s.JsonKey(name: 'destination')
-  final MergeHunkDetail destination;
+  final MergeHunkDetail? destination;
 
   /// A Boolean value indicating whether a combination of hunks contains a
   /// conflict. Conflicts occur when the same file or the same lines in a file
@@ -8228,12 +8918,10 @@ class MergeHunk {
   /// Valid values include true, false, and null. True when the hunk represents a
   /// conflict and one or more files contains a line conflict. File mode conflicts
   /// in a merge do not set this to true.
-  @_s.JsonKey(name: 'isConflict')
-  final bool isConflict;
+  final bool? isConflict;
 
   /// Information about the merge hunk in the source of a merge or pull request.
-  @_s.JsonKey(name: 'source')
-  final MergeHunkDetail source;
+  final MergeHunkDetail? source;
 
   MergeHunk({
     this.base,
@@ -8241,63 +8929,90 @@ class MergeHunk {
     this.isConflict,
     this.source,
   });
-  factory MergeHunk.fromJson(Map<String, dynamic> json) =>
-      _$MergeHunkFromJson(json);
+
+  factory MergeHunk.fromJson(Map<String, dynamic> json) {
+    return MergeHunk(
+      base: json['base'] != null
+          ? MergeHunkDetail.fromJson(json['base'] as Map<String, dynamic>)
+          : null,
+      destination: json['destination'] != null
+          ? MergeHunkDetail.fromJson(
+              json['destination'] as Map<String, dynamic>)
+          : null,
+      isConflict: json['isConflict'] as bool?,
+      source: json['source'] != null
+          ? MergeHunkDetail.fromJson(json['source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final isConflict = this.isConflict;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base,
+      if (destination != null) 'destination': destination,
+      if (isConflict != null) 'isConflict': isConflict,
+      if (source != null) 'source': source,
+    };
+  }
 }
 
 /// Information about the details of a merge hunk that contains a conflict in a
 /// merge or pull request operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeHunkDetail {
   /// The end position of the hunk in the merge result.
-  @_s.JsonKey(name: 'endLine')
-  final int endLine;
+  final int? endLine;
 
   /// The base-64 encoded content of the hunk merged region that might contain a
   /// conflict.
-  @_s.JsonKey(name: 'hunkContent')
-  final String hunkContent;
+  final String? hunkContent;
 
   /// The start position of the hunk in the merge result.
-  @_s.JsonKey(name: 'startLine')
-  final int startLine;
+  final int? startLine;
 
   MergeHunkDetail({
     this.endLine,
     this.hunkContent,
     this.startLine,
   });
-  factory MergeHunkDetail.fromJson(Map<String, dynamic> json) =>
-      _$MergeHunkDetailFromJson(json);
+
+  factory MergeHunkDetail.fromJson(Map<String, dynamic> json) {
+    return MergeHunkDetail(
+      endLine: json['endLine'] as int?,
+      hunkContent: json['hunkContent'] as String?,
+      startLine: json['startLine'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endLine = this.endLine;
+    final hunkContent = this.hunkContent;
+    final startLine = this.startLine;
+    return {
+      if (endLine != null) 'endLine': endLine,
+      if (hunkContent != null) 'hunkContent': hunkContent,
+      if (startLine != null) 'startLine': startLine,
+    };
+  }
 }
 
 /// Returns information about a merge or potential merge between a source
 /// reference and a destination reference in a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeMetadata {
   /// A Boolean value indicating whether the merge has been made.
-  @_s.JsonKey(name: 'isMerged')
-  final bool isMerged;
+  final bool? isMerged;
 
   /// The commit ID for the merge commit, if any.
-  @_s.JsonKey(name: 'mergeCommitId')
-  final String mergeCommitId;
+  final String? mergeCommitId;
 
   /// The merge strategy used in the merge.
-  @_s.JsonKey(name: 'mergeOption')
-  final MergeOptionTypeEnum mergeOption;
+  final MergeOptionTypeEnum? mergeOption;
 
   /// The Amazon Resource Name (ARN) of the user who merged the branches.
-  @_s.JsonKey(name: 'mergedBy')
-  final String mergedBy;
+  final String? mergedBy;
 
   MergeMetadata({
     this.isMerged,
@@ -8305,40 +9020,64 @@ class MergeMetadata {
     this.mergeOption,
     this.mergedBy,
   });
-  factory MergeMetadata.fromJson(Map<String, dynamic> json) =>
-      _$MergeMetadataFromJson(json);
+
+  factory MergeMetadata.fromJson(Map<String, dynamic> json) {
+    return MergeMetadata(
+      isMerged: json['isMerged'] as bool?,
+      mergeCommitId: json['mergeCommitId'] as String?,
+      mergeOption: (json['mergeOption'] as String?)?.toMergeOptionTypeEnum(),
+      mergedBy: json['mergedBy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isMerged = this.isMerged;
+    final mergeCommitId = this.mergeCommitId;
+    final mergeOption = this.mergeOption;
+    final mergedBy = this.mergedBy;
+    return {
+      if (isMerged != null) 'isMerged': isMerged,
+      if (mergeCommitId != null) 'mergeCommitId': mergeCommitId,
+      if (mergeOption != null) 'mergeOption': mergeOption.toValue(),
+      if (mergedBy != null) 'mergedBy': mergedBy,
+    };
+  }
 }
 
 /// Information about the file operation conflicts in a merge operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergeOperations {
   /// The operation on a file in the destination of a merge or pull request.
-  @_s.JsonKey(name: 'destination')
-  final ChangeTypeEnum destination;
+  final ChangeTypeEnum? destination;
 
   /// The operation (add, modify, or delete) on a file in the source of a merge or
   /// pull request.
-  @_s.JsonKey(name: 'source')
-  final ChangeTypeEnum source;
+  final ChangeTypeEnum? source;
 
   MergeOperations({
     this.destination,
     this.source,
   });
-  factory MergeOperations.fromJson(Map<String, dynamic> json) =>
-      _$MergeOperationsFromJson(json);
+
+  factory MergeOperations.fromJson(Map<String, dynamic> json) {
+    return MergeOperations(
+      destination: (json['destination'] as String?)?.toChangeTypeEnum(),
+      source: (json['source'] as String?)?.toChangeTypeEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (destination != null) 'destination': destination.toValue(),
+      if (source != null) 'source': source.toValue(),
+    };
+  }
 }
 
 enum MergeOptionTypeEnum {
-  @_s.JsonValue('FAST_FORWARD_MERGE')
   fastForwardMerge,
-  @_s.JsonValue('SQUASH_MERGE')
   squashMerge,
-  @_s.JsonValue('THREE_WAY_MERGE')
   threeWayMerge,
 }
 
@@ -8352,104 +9091,171 @@ extension on MergeOptionTypeEnum {
       case MergeOptionTypeEnum.threeWayMerge:
         return 'THREE_WAY_MERGE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  MergeOptionTypeEnum toMergeOptionTypeEnum() {
+    switch (this) {
+      case 'FAST_FORWARD_MERGE':
+        return MergeOptionTypeEnum.fastForwardMerge;
+      case 'SQUASH_MERGE':
+        return MergeOptionTypeEnum.squashMerge;
+      case 'THREE_WAY_MERGE':
+        return MergeOptionTypeEnum.threeWayMerge;
+    }
+    throw Exception('$this is not known in enum MergeOptionTypeEnum');
+  }
+}
+
 class MergePullRequestByFastForwardOutput {
   /// Information about the specified pull request, including the merge.
-  @_s.JsonKey(name: 'pullRequest')
-  final PullRequest pullRequest;
+  final PullRequest? pullRequest;
 
   MergePullRequestByFastForwardOutput({
     this.pullRequest,
   });
+
   factory MergePullRequestByFastForwardOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$MergePullRequestByFastForwardOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return MergePullRequestByFastForwardOutput(
+      pullRequest: json['pullRequest'] != null
+          ? PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      if (pullRequest != null) 'pullRequest': pullRequest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergePullRequestBySquashOutput {
-  @_s.JsonKey(name: 'pullRequest')
-  final PullRequest pullRequest;
+  final PullRequest? pullRequest;
 
   MergePullRequestBySquashOutput({
     this.pullRequest,
   });
-  factory MergePullRequestBySquashOutput.fromJson(Map<String, dynamic> json) =>
-      _$MergePullRequestBySquashOutputFromJson(json);
+
+  factory MergePullRequestBySquashOutput.fromJson(Map<String, dynamic> json) {
+    return MergePullRequestBySquashOutput(
+      pullRequest: json['pullRequest'] != null
+          ? PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      if (pullRequest != null) 'pullRequest': pullRequest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MergePullRequestByThreeWayOutput {
-  @_s.JsonKey(name: 'pullRequest')
-  final PullRequest pullRequest;
+  final PullRequest? pullRequest;
 
   MergePullRequestByThreeWayOutput({
     this.pullRequest,
   });
-  factory MergePullRequestByThreeWayOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$MergePullRequestByThreeWayOutputFromJson(json);
+
+  factory MergePullRequestByThreeWayOutput.fromJson(Map<String, dynamic> json) {
+    return MergePullRequestByThreeWayOutput(
+      pullRequest: json['pullRequest'] != null
+          ? PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      if (pullRequest != null) 'pullRequest': pullRequest,
+    };
+  }
 }
 
 enum ObjectTypeEnum {
-  @_s.JsonValue('FILE')
   file,
-  @_s.JsonValue('DIRECTORY')
   directory,
-  @_s.JsonValue('GIT_LINK')
   gitLink,
-  @_s.JsonValue('SYMBOLIC_LINK')
   symbolicLink,
 }
 
+extension on ObjectTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ObjectTypeEnum.file:
+        return 'FILE';
+      case ObjectTypeEnum.directory:
+        return 'DIRECTORY';
+      case ObjectTypeEnum.gitLink:
+        return 'GIT_LINK';
+      case ObjectTypeEnum.symbolicLink:
+        return 'SYMBOLIC_LINK';
+    }
+  }
+}
+
+extension on String {
+  ObjectTypeEnum toObjectTypeEnum() {
+    switch (this) {
+      case 'FILE':
+        return ObjectTypeEnum.file;
+      case 'DIRECTORY':
+        return ObjectTypeEnum.directory;
+      case 'GIT_LINK':
+        return ObjectTypeEnum.gitLink;
+      case 'SYMBOLIC_LINK':
+        return ObjectTypeEnum.symbolicLink;
+    }
+    throw Exception('$this is not known in enum ObjectTypeEnum');
+  }
+}
+
 /// Information about the type of an object in a merge operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ObjectTypes {
   /// The type of the object in the base commit of the merge.
-  @_s.JsonKey(name: 'base')
-  final ObjectTypeEnum base;
+  final ObjectTypeEnum? base;
 
   /// The type of the object in the destination branch.
-  @_s.JsonKey(name: 'destination')
-  final ObjectTypeEnum destination;
+  final ObjectTypeEnum? destination;
 
   /// The type of the object in the source branch.
-  @_s.JsonKey(name: 'source')
-  final ObjectTypeEnum source;
+  final ObjectTypeEnum? source;
 
   ObjectTypes({
     this.base,
     this.destination,
     this.source,
   });
-  factory ObjectTypes.fromJson(Map<String, dynamic> json) =>
-      _$ObjectTypesFromJson(json);
+
+  factory ObjectTypes.fromJson(Map<String, dynamic> json) {
+    return ObjectTypes(
+      base: (json['base'] as String?)?.toObjectTypeEnum(),
+      destination: (json['destination'] as String?)?.toObjectTypeEnum(),
+      source: (json['source'] as String?)?.toObjectTypeEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final base = this.base;
+    final destination = this.destination;
+    final source = this.source;
+    return {
+      if (base != null) 'base': base.toValue(),
+      if (destination != null) 'destination': destination.toValue(),
+      if (source != null) 'source': source.toValue(),
+    };
+  }
 }
 
 enum OrderEnum {
-  @_s.JsonValue('ascending')
   ascending,
-  @_s.JsonValue('descending')
   descending,
 }
 
@@ -8461,38 +9267,56 @@ extension on OrderEnum {
       case OrderEnum.descending:
         return 'descending';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OrderEnum toOrderEnum() {
+    switch (this) {
+      case 'ascending':
+        return OrderEnum.ascending;
+      case 'descending':
+        return OrderEnum.descending;
+    }
+    throw Exception('$this is not known in enum OrderEnum');
   }
 }
 
 /// Returns information about the template that created the approval rule for a
 /// pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OriginApprovalRuleTemplate {
   /// The ID of the template that created the approval rule.
-  @_s.JsonKey(name: 'approvalRuleTemplateId')
-  final String approvalRuleTemplateId;
+  final String? approvalRuleTemplateId;
 
   /// The name of the template that created the approval rule.
-  @_s.JsonKey(name: 'approvalRuleTemplateName')
-  final String approvalRuleTemplateName;
+  final String? approvalRuleTemplateName;
 
   OriginApprovalRuleTemplate({
     this.approvalRuleTemplateId,
     this.approvalRuleTemplateName,
   });
-  factory OriginApprovalRuleTemplate.fromJson(Map<String, dynamic> json) =>
-      _$OriginApprovalRuleTemplateFromJson(json);
+
+  factory OriginApprovalRuleTemplate.fromJson(Map<String, dynamic> json) {
+    return OriginApprovalRuleTemplate(
+      approvalRuleTemplateId: json['approvalRuleTemplateId'] as String?,
+      approvalRuleTemplateName: json['approvalRuleTemplateName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplateId = this.approvalRuleTemplateId;
+    final approvalRuleTemplateName = this.approvalRuleTemplateName;
+    return {
+      if (approvalRuleTemplateId != null)
+        'approvalRuleTemplateId': approvalRuleTemplateId,
+      if (approvalRuleTemplateName != null)
+        'approvalRuleTemplateName': approvalRuleTemplateName,
+    };
+  }
 }
 
 enum OverrideStatus {
-  @_s.JsonValue('OVERRIDE')
   override,
-  @_s.JsonValue('REVOKE')
   revoke,
 }
 
@@ -8504,46 +9328,45 @@ extension on OverrideStatus {
       case OverrideStatus.revoke:
         return 'REVOKE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  OverrideStatus toOverrideStatus() {
+    switch (this) {
+      case 'OVERRIDE':
+        return OverrideStatus.override;
+      case 'REVOKE':
+        return OverrideStatus.revoke;
+    }
+    throw Exception('$this is not known in enum OverrideStatus');
+  }
+}
+
 class PostCommentForComparedCommitOutput {
   /// In the directionality you established, the blob ID of the after blob.
-  @_s.JsonKey(name: 'afterBlobId')
-  final String afterBlobId;
+  final String? afterBlobId;
 
   /// In the directionality you established, the full commit ID of the after
   /// commit.
-  @_s.JsonKey(name: 'afterCommitId')
-  final String afterCommitId;
+  final String? afterCommitId;
 
   /// In the directionality you established, the blob ID of the before blob.
-  @_s.JsonKey(name: 'beforeBlobId')
-  final String beforeBlobId;
+  final String? beforeBlobId;
 
   /// In the directionality you established, the full commit ID of the before
   /// commit.
-  @_s.JsonKey(name: 'beforeCommitId')
-  final String beforeCommitId;
+  final String? beforeCommitId;
 
   /// The content of the comment you posted.
-  @_s.JsonKey(name: 'comment')
-  final Comment comment;
+  final Comment? comment;
 
   /// The location of the comment in the comparison between the two commits.
-  @_s.JsonKey(name: 'location')
-  final Location location;
+  final Location? location;
 
   /// The name of the repository where you posted a comment on the comparison
   /// between commits.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   PostCommentForComparedCommitOutput({
     this.afterBlobId,
@@ -8554,51 +9377,71 @@ class PostCommentForComparedCommitOutput {
     this.location,
     this.repositoryName,
   });
+
   factory PostCommentForComparedCommitOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$PostCommentForComparedCommitOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return PostCommentForComparedCommitOutput(
+      afterBlobId: json['afterBlobId'] as String?,
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeBlobId: json['beforeBlobId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      comment: json['comment'] != null
+          ? Comment.fromJson(json['comment'] as Map<String, dynamic>)
+          : null,
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlobId = this.afterBlobId;
+    final afterCommitId = this.afterCommitId;
+    final beforeBlobId = this.beforeBlobId;
+    final beforeCommitId = this.beforeCommitId;
+    final comment = this.comment;
+    final location = this.location;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterBlobId != null) 'afterBlobId': afterBlobId,
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (comment != null) 'comment': comment,
+      if (location != null) 'location': location,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PostCommentForPullRequestOutput {
   /// In the directionality of the pull request, the blob ID of the after blob.
-  @_s.JsonKey(name: 'afterBlobId')
-  final String afterBlobId;
+  final String? afterBlobId;
 
   /// The full commit ID of the commit in the destination branch where the pull
   /// request is merged.
-  @_s.JsonKey(name: 'afterCommitId')
-  final String afterCommitId;
+  final String? afterCommitId;
 
   /// In the directionality of the pull request, the blob ID of the before blob.
-  @_s.JsonKey(name: 'beforeBlobId')
-  final String beforeBlobId;
+  final String? beforeBlobId;
 
   /// The full commit ID of the commit in the source branch used to create the
   /// pull request, or in the case of an updated pull request, the full commit ID
   /// of the commit used to update the pull request.
-  @_s.JsonKey(name: 'beforeCommitId')
-  final String beforeCommitId;
+  final String? beforeCommitId;
 
   /// The content of the comment you posted.
-  @_s.JsonKey(name: 'comment')
-  final Comment comment;
+  final Comment? comment;
 
   /// The location of the change where you posted your comment.
-  @_s.JsonKey(name: 'location')
-  final Location location;
+  final Location? location;
 
   /// The system-generated ID of the pull request.
-  @_s.JsonKey(name: 'pullRequestId')
-  final String pullRequestId;
+  final String? pullRequestId;
 
   /// The name of the repository where you posted a comment on a pull request.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   PostCommentForPullRequestOutput({
     this.afterBlobId,
@@ -8610,88 +9453,113 @@ class PostCommentForPullRequestOutput {
     this.pullRequestId,
     this.repositoryName,
   });
-  factory PostCommentForPullRequestOutput.fromJson(Map<String, dynamic> json) =>
-      _$PostCommentForPullRequestOutputFromJson(json);
+
+  factory PostCommentForPullRequestOutput.fromJson(Map<String, dynamic> json) {
+    return PostCommentForPullRequestOutput(
+      afterBlobId: json['afterBlobId'] as String?,
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeBlobId: json['beforeBlobId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      comment: json['comment'] != null
+          ? Comment.fromJson(json['comment'] as Map<String, dynamic>)
+          : null,
+      location: json['location'] != null
+          ? Location.fromJson(json['location'] as Map<String, dynamic>)
+          : null,
+      pullRequestId: json['pullRequestId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterBlobId = this.afterBlobId;
+    final afterCommitId = this.afterCommitId;
+    final beforeBlobId = this.beforeBlobId;
+    final beforeCommitId = this.beforeCommitId;
+    final comment = this.comment;
+    final location = this.location;
+    final pullRequestId = this.pullRequestId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterBlobId != null) 'afterBlobId': afterBlobId,
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeBlobId != null) 'beforeBlobId': beforeBlobId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (comment != null) 'comment': comment,
+      if (location != null) 'location': location,
+      if (pullRequestId != null) 'pullRequestId': pullRequestId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PostCommentReplyOutput {
   /// Information about the reply to a comment.
-  @_s.JsonKey(name: 'comment')
-  final Comment comment;
+  final Comment? comment;
 
   PostCommentReplyOutput({
     this.comment,
   });
-  factory PostCommentReplyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PostCommentReplyOutputFromJson(json);
+
+  factory PostCommentReplyOutput.fromJson(Map<String, dynamic> json) {
+    return PostCommentReplyOutput(
+      comment: json['comment'] != null
+          ? Comment.fromJson(json['comment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    return {
+      if (comment != null) 'comment': comment,
+    };
+  }
 }
 
 /// Returns information about a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PullRequest {
   /// The approval rules applied to the pull request.
-  @_s.JsonKey(name: 'approvalRules')
-  final List<ApprovalRule> approvalRules;
+  final List<ApprovalRule>? approvalRules;
 
   /// The Amazon Resource Name (ARN) of the user who created the pull request.
-  @_s.JsonKey(name: 'authorArn')
-  final String authorArn;
+  final String? authorArn;
 
   /// A unique, client-generated idempotency token that, when provided in a
   /// request, ensures the request cannot be repeated with a changed parameter. If
   /// a request is received with the same parameters and a token is included, the
   /// request returns information about the initial request that used that token.
-  @_s.JsonKey(name: 'clientRequestToken')
-  final String clientRequestToken;
+  final String? clientRequestToken;
 
   /// The date and time the pull request was originally created, in timestamp
   /// format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The user-defined description of the pull request. This description can be
   /// used to clarify what should be reviewed and other details of the request.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The day and time of the last user or system activity on the pull request, in
   /// timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastActivityDate')
-  final DateTime lastActivityDate;
+  final DateTime? lastActivityDate;
 
   /// The system-generated ID of the pull request.
-  @_s.JsonKey(name: 'pullRequestId')
-  final String pullRequestId;
+  final String? pullRequestId;
 
   /// The status of the pull request. Pull request status can only change from
   /// <code>OPEN</code> to <code>CLOSED</code>.
-  @_s.JsonKey(name: 'pullRequestStatus')
-  final PullRequestStatusEnum pullRequestStatus;
+  final PullRequestStatusEnum? pullRequestStatus;
 
   /// The targets of the pull request, including the source branch and destination
   /// branch for the pull request.
-  @_s.JsonKey(name: 'pullRequestTargets')
-  final List<PullRequestTarget> pullRequestTargets;
+  final List<PullRequestTarget>? pullRequestTargets;
 
   /// The system-generated revision ID for the pull request.
-  @_s.JsonKey(name: 'revisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// The user-defined title of the pull request. This title is displayed in the
   /// list of pull requests to other repository users.
-  @_s.JsonKey(name: 'title')
-  final String title;
+  final String? title;
 
   PullRequest({
     this.approvalRules,
@@ -8706,35 +9574,77 @@ class PullRequest {
     this.revisionId,
     this.title,
   });
-  factory PullRequest.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestFromJson(json);
+
+  factory PullRequest.fromJson(Map<String, dynamic> json) {
+    return PullRequest(
+      approvalRules: (json['approvalRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApprovalRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      authorArn: json['authorArn'] as String?,
+      clientRequestToken: json['clientRequestToken'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      description: json['description'] as String?,
+      lastActivityDate: timeStampFromJson(json['lastActivityDate']),
+      pullRequestId: json['pullRequestId'] as String?,
+      pullRequestStatus:
+          (json['pullRequestStatus'] as String?)?.toPullRequestStatusEnum(),
+      pullRequestTargets: (json['pullRequestTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => PullRequestTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      revisionId: json['revisionId'] as String?,
+      title: json['title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRules = this.approvalRules;
+    final authorArn = this.authorArn;
+    final clientRequestToken = this.clientRequestToken;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final lastActivityDate = this.lastActivityDate;
+    final pullRequestId = this.pullRequestId;
+    final pullRequestStatus = this.pullRequestStatus;
+    final pullRequestTargets = this.pullRequestTargets;
+    final revisionId = this.revisionId;
+    final title = this.title;
+    return {
+      if (approvalRules != null) 'approvalRules': approvalRules,
+      if (authorArn != null) 'authorArn': authorArn,
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'description': description,
+      if (lastActivityDate != null)
+        'lastActivityDate': unixTimestampToJson(lastActivityDate),
+      if (pullRequestId != null) 'pullRequestId': pullRequestId,
+      if (pullRequestStatus != null)
+        'pullRequestStatus': pullRequestStatus.toValue(),
+      if (pullRequestTargets != null) 'pullRequestTargets': pullRequestTargets,
+      if (revisionId != null) 'revisionId': revisionId,
+      if (title != null) 'title': title,
+    };
+  }
 }
 
 /// Metadata about the pull request that is used when comparing the pull request
 /// source with its destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PullRequestCreatedEventMetadata {
   /// The commit ID of the tip of the branch specified as the destination branch
   /// when the pull request was created.
-  @_s.JsonKey(name: 'destinationCommitId')
-  final String destinationCommitId;
+  final String? destinationCommitId;
 
   /// The commit ID of the most recent commit that the source branch and the
   /// destination branch have in common.
-  @_s.JsonKey(name: 'mergeBase')
-  final String mergeBase;
+  final String? mergeBase;
 
   /// The name of the repository where the pull request was created.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The commit ID on the source branch used when the pull request was created.
-  @_s.JsonKey(name: 'sourceCommitId')
-  final String sourceCommitId;
+  final String? sourceCommitId;
 
   PullRequestCreatedEventMetadata({
     this.destinationCommitId,
@@ -8742,68 +9652,73 @@ class PullRequestCreatedEventMetadata {
     this.repositoryName,
     this.sourceCommitId,
   });
-  factory PullRequestCreatedEventMetadata.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestCreatedEventMetadataFromJson(json);
+
+  factory PullRequestCreatedEventMetadata.fromJson(Map<String, dynamic> json) {
+    return PullRequestCreatedEventMetadata(
+      destinationCommitId: json['destinationCommitId'] as String?,
+      mergeBase: json['mergeBase'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+      sourceCommitId: json['sourceCommitId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCommitId = this.destinationCommitId;
+    final mergeBase = this.mergeBase;
+    final repositoryName = this.repositoryName;
+    final sourceCommitId = this.sourceCommitId;
+    return {
+      if (destinationCommitId != null)
+        'destinationCommitId': destinationCommitId,
+      if (mergeBase != null) 'mergeBase': mergeBase,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (sourceCommitId != null) 'sourceCommitId': sourceCommitId,
+    };
+  }
 }
 
 /// Returns information about a pull request event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PullRequestEvent {
   /// The Amazon Resource Name (ARN) of the user whose actions resulted in the
   /// event. Examples include updating the pull request with more commits or
   /// changing the status of a pull request.
-  @_s.JsonKey(name: 'actorArn')
-  final String actorArn;
+  final String? actorArn;
 
   /// Information about a pull request event.
-  @_s.JsonKey(name: 'approvalRuleEventMetadata')
-  final ApprovalRuleEventMetadata approvalRuleEventMetadata;
+  final ApprovalRuleEventMetadata? approvalRuleEventMetadata;
 
   /// Information about an approval rule override event for a pull request.
-  @_s.JsonKey(name: 'approvalRuleOverriddenEventMetadata')
-  final ApprovalRuleOverriddenEventMetadata approvalRuleOverriddenEventMetadata;
+  final ApprovalRuleOverriddenEventMetadata?
+      approvalRuleOverriddenEventMetadata;
 
   /// Information about an approval state change for a pull request.
-  @_s.JsonKey(name: 'approvalStateChangedEventMetadata')
-  final ApprovalStateChangedEventMetadata approvalStateChangedEventMetadata;
+  final ApprovalStateChangedEventMetadata? approvalStateChangedEventMetadata;
 
   /// The day and time of the pull request event, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'eventDate')
-  final DateTime eventDate;
+  final DateTime? eventDate;
 
   /// Information about the source and destination branches for the pull request.
-  @_s.JsonKey(name: 'pullRequestCreatedEventMetadata')
-  final PullRequestCreatedEventMetadata pullRequestCreatedEventMetadata;
+  final PullRequestCreatedEventMetadata? pullRequestCreatedEventMetadata;
 
   /// The type of the pull request event (for example, a status change event
   /// (PULL_REQUEST_STATUS_CHANGED) or update event
   /// (PULL_REQUEST_SOURCE_REFERENCE_UPDATED)).
-  @_s.JsonKey(name: 'pullRequestEventType')
-  final PullRequestEventType pullRequestEventType;
+  final PullRequestEventType? pullRequestEventType;
 
   /// The system-generated ID of the pull request.
-  @_s.JsonKey(name: 'pullRequestId')
-  final String pullRequestId;
+  final String? pullRequestId;
 
   /// Information about the change in mergability state for the pull request
   /// event.
-  @_s.JsonKey(name: 'pullRequestMergedStateChangedEventMetadata')
-  final PullRequestMergedStateChangedEventMetadata
+  final PullRequestMergedStateChangedEventMetadata?
       pullRequestMergedStateChangedEventMetadata;
 
   /// Information about the updated source branch for the pull request event.
-  @_s.JsonKey(name: 'pullRequestSourceReferenceUpdatedEventMetadata')
-  final PullRequestSourceReferenceUpdatedEventMetadata
+  final PullRequestSourceReferenceUpdatedEventMetadata?
       pullRequestSourceReferenceUpdatedEventMetadata;
 
   /// Information about the change in status for the pull request event.
-  @_s.JsonKey(name: 'pullRequestStatusChangedEventMetadata')
-  final PullRequestStatusChangedEventMetadata
+  final PullRequestStatusChangedEventMetadata?
       pullRequestStatusChangedEventMetadata;
 
   PullRequestEvent({
@@ -8819,28 +9734,112 @@ class PullRequestEvent {
     this.pullRequestSourceReferenceUpdatedEventMetadata,
     this.pullRequestStatusChangedEventMetadata,
   });
-  factory PullRequestEvent.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestEventFromJson(json);
+
+  factory PullRequestEvent.fromJson(Map<String, dynamic> json) {
+    return PullRequestEvent(
+      actorArn: json['actorArn'] as String?,
+      approvalRuleEventMetadata: json['approvalRuleEventMetadata'] != null
+          ? ApprovalRuleEventMetadata.fromJson(
+              json['approvalRuleEventMetadata'] as Map<String, dynamic>)
+          : null,
+      approvalRuleOverriddenEventMetadata:
+          json['approvalRuleOverriddenEventMetadata'] != null
+              ? ApprovalRuleOverriddenEventMetadata.fromJson(
+                  json['approvalRuleOverriddenEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      approvalStateChangedEventMetadata:
+          json['approvalStateChangedEventMetadata'] != null
+              ? ApprovalStateChangedEventMetadata.fromJson(
+                  json['approvalStateChangedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      eventDate: timeStampFromJson(json['eventDate']),
+      pullRequestCreatedEventMetadata:
+          json['pullRequestCreatedEventMetadata'] != null
+              ? PullRequestCreatedEventMetadata.fromJson(
+                  json['pullRequestCreatedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      pullRequestEventType:
+          (json['pullRequestEventType'] as String?)?.toPullRequestEventType(),
+      pullRequestId: json['pullRequestId'] as String?,
+      pullRequestMergedStateChangedEventMetadata:
+          json['pullRequestMergedStateChangedEventMetadata'] != null
+              ? PullRequestMergedStateChangedEventMetadata.fromJson(
+                  json['pullRequestMergedStateChangedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      pullRequestSourceReferenceUpdatedEventMetadata:
+          json['pullRequestSourceReferenceUpdatedEventMetadata'] != null
+              ? PullRequestSourceReferenceUpdatedEventMetadata.fromJson(
+                  json['pullRequestSourceReferenceUpdatedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+      pullRequestStatusChangedEventMetadata:
+          json['pullRequestStatusChangedEventMetadata'] != null
+              ? PullRequestStatusChangedEventMetadata.fromJson(
+                  json['pullRequestStatusChangedEventMetadata']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actorArn = this.actorArn;
+    final approvalRuleEventMetadata = this.approvalRuleEventMetadata;
+    final approvalRuleOverriddenEventMetadata =
+        this.approvalRuleOverriddenEventMetadata;
+    final approvalStateChangedEventMetadata =
+        this.approvalStateChangedEventMetadata;
+    final eventDate = this.eventDate;
+    final pullRequestCreatedEventMetadata =
+        this.pullRequestCreatedEventMetadata;
+    final pullRequestEventType = this.pullRequestEventType;
+    final pullRequestId = this.pullRequestId;
+    final pullRequestMergedStateChangedEventMetadata =
+        this.pullRequestMergedStateChangedEventMetadata;
+    final pullRequestSourceReferenceUpdatedEventMetadata =
+        this.pullRequestSourceReferenceUpdatedEventMetadata;
+    final pullRequestStatusChangedEventMetadata =
+        this.pullRequestStatusChangedEventMetadata;
+    return {
+      if (actorArn != null) 'actorArn': actorArn,
+      if (approvalRuleEventMetadata != null)
+        'approvalRuleEventMetadata': approvalRuleEventMetadata,
+      if (approvalRuleOverriddenEventMetadata != null)
+        'approvalRuleOverriddenEventMetadata':
+            approvalRuleOverriddenEventMetadata,
+      if (approvalStateChangedEventMetadata != null)
+        'approvalStateChangedEventMetadata': approvalStateChangedEventMetadata,
+      if (eventDate != null) 'eventDate': unixTimestampToJson(eventDate),
+      if (pullRequestCreatedEventMetadata != null)
+        'pullRequestCreatedEventMetadata': pullRequestCreatedEventMetadata,
+      if (pullRequestEventType != null)
+        'pullRequestEventType': pullRequestEventType.toValue(),
+      if (pullRequestId != null) 'pullRequestId': pullRequestId,
+      if (pullRequestMergedStateChangedEventMetadata != null)
+        'pullRequestMergedStateChangedEventMetadata':
+            pullRequestMergedStateChangedEventMetadata,
+      if (pullRequestSourceReferenceUpdatedEventMetadata != null)
+        'pullRequestSourceReferenceUpdatedEventMetadata':
+            pullRequestSourceReferenceUpdatedEventMetadata,
+      if (pullRequestStatusChangedEventMetadata != null)
+        'pullRequestStatusChangedEventMetadata':
+            pullRequestStatusChangedEventMetadata,
+    };
+  }
 }
 
 enum PullRequestEventType {
-  @_s.JsonValue('PULL_REQUEST_CREATED')
   pullRequestCreated,
-  @_s.JsonValue('PULL_REQUEST_STATUS_CHANGED')
   pullRequestStatusChanged,
-  @_s.JsonValue('PULL_REQUEST_SOURCE_REFERENCE_UPDATED')
   pullRequestSourceReferenceUpdated,
-  @_s.JsonValue('PULL_REQUEST_MERGE_STATE_CHANGED')
   pullRequestMergeStateChanged,
-  @_s.JsonValue('PULL_REQUEST_APPROVAL_RULE_CREATED')
   pullRequestApprovalRuleCreated,
-  @_s.JsonValue('PULL_REQUEST_APPROVAL_RULE_UPDATED')
   pullRequestApprovalRuleUpdated,
-  @_s.JsonValue('PULL_REQUEST_APPROVAL_RULE_DELETED')
   pullRequestApprovalRuleDeleted,
-  @_s.JsonValue('PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN')
   pullRequestApprovalRuleOverridden,
-  @_s.JsonValue('PULL_REQUEST_APPROVAL_STATE_CHANGED')
   pullRequestApprovalStateChanged,
 }
 
@@ -8866,65 +9865,94 @@ extension on PullRequestEventType {
       case PullRequestEventType.pullRequestApprovalStateChanged:
         return 'PULL_REQUEST_APPROVAL_STATE_CHANGED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PullRequestEventType toPullRequestEventType() {
+    switch (this) {
+      case 'PULL_REQUEST_CREATED':
+        return PullRequestEventType.pullRequestCreated;
+      case 'PULL_REQUEST_STATUS_CHANGED':
+        return PullRequestEventType.pullRequestStatusChanged;
+      case 'PULL_REQUEST_SOURCE_REFERENCE_UPDATED':
+        return PullRequestEventType.pullRequestSourceReferenceUpdated;
+      case 'PULL_REQUEST_MERGE_STATE_CHANGED':
+        return PullRequestEventType.pullRequestMergeStateChanged;
+      case 'PULL_REQUEST_APPROVAL_RULE_CREATED':
+        return PullRequestEventType.pullRequestApprovalRuleCreated;
+      case 'PULL_REQUEST_APPROVAL_RULE_UPDATED':
+        return PullRequestEventType.pullRequestApprovalRuleUpdated;
+      case 'PULL_REQUEST_APPROVAL_RULE_DELETED':
+        return PullRequestEventType.pullRequestApprovalRuleDeleted;
+      case 'PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN':
+        return PullRequestEventType.pullRequestApprovalRuleOverridden;
+      case 'PULL_REQUEST_APPROVAL_STATE_CHANGED':
+        return PullRequestEventType.pullRequestApprovalStateChanged;
+    }
+    throw Exception('$this is not known in enum PullRequestEventType');
   }
 }
 
 /// Returns information about the change in the merge state for a pull request
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PullRequestMergedStateChangedEventMetadata {
   /// The name of the branch that the pull request is merged into.
-  @_s.JsonKey(name: 'destinationReference')
-  final String destinationReference;
+  final String? destinationReference;
 
   /// Information about the merge state change event.
-  @_s.JsonKey(name: 'mergeMetadata')
-  final MergeMetadata mergeMetadata;
+  final MergeMetadata? mergeMetadata;
 
   /// The name of the repository where the pull request was created.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   PullRequestMergedStateChangedEventMetadata({
     this.destinationReference,
     this.mergeMetadata,
     this.repositoryName,
   });
+
   factory PullRequestMergedStateChangedEventMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestMergedStateChangedEventMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return PullRequestMergedStateChangedEventMetadata(
+      destinationReference: json['destinationReference'] as String?,
+      mergeMetadata: json['mergeMetadata'] != null
+          ? MergeMetadata.fromJson(
+              json['mergeMetadata'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationReference = this.destinationReference;
+    final mergeMetadata = this.mergeMetadata;
+    final repositoryName = this.repositoryName;
+    return {
+      if (destinationReference != null)
+        'destinationReference': destinationReference,
+      if (mergeMetadata != null) 'mergeMetadata': mergeMetadata,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// Information about an update to the source branch of a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PullRequestSourceReferenceUpdatedEventMetadata {
   /// The full commit ID of the commit in the source branch that was the tip of
   /// the branch at the time the pull request was updated.
-  @_s.JsonKey(name: 'afterCommitId')
-  final String afterCommitId;
+  final String? afterCommitId;
 
   /// The full commit ID of the commit in the destination branch that was the tip
   /// of the branch at the time the pull request was updated.
-  @_s.JsonKey(name: 'beforeCommitId')
-  final String beforeCommitId;
+  final String? beforeCommitId;
 
   /// The commit ID of the most recent commit that the source branch and the
   /// destination branch have in common.
-  @_s.JsonKey(name: 'mergeBase')
-  final String mergeBase;
+  final String? mergeBase;
 
   /// The name of the repository where the pull request was updated.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   PullRequestSourceReferenceUpdatedEventMetadata({
     this.afterCommitId,
@@ -8932,34 +9960,59 @@ class PullRequestSourceReferenceUpdatedEventMetadata {
     this.mergeBase,
     this.repositoryName,
   });
+
   factory PullRequestSourceReferenceUpdatedEventMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestSourceReferenceUpdatedEventMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return PullRequestSourceReferenceUpdatedEventMetadata(
+      afterCommitId: json['afterCommitId'] as String?,
+      beforeCommitId: json['beforeCommitId'] as String?,
+      mergeBase: json['mergeBase'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final afterCommitId = this.afterCommitId;
+    final beforeCommitId = this.beforeCommitId;
+    final mergeBase = this.mergeBase;
+    final repositoryName = this.repositoryName;
+    return {
+      if (afterCommitId != null) 'afterCommitId': afterCommitId,
+      if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
+      if (mergeBase != null) 'mergeBase': mergeBase,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// Information about a change to the status of a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PullRequestStatusChangedEventMetadata {
   /// The changed status of the pull request.
-  @_s.JsonKey(name: 'pullRequestStatus')
-  final PullRequestStatusEnum pullRequestStatus;
+  final PullRequestStatusEnum? pullRequestStatus;
 
   PullRequestStatusChangedEventMetadata({
     this.pullRequestStatus,
   });
+
   factory PullRequestStatusChangedEventMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$PullRequestStatusChangedEventMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return PullRequestStatusChangedEventMetadata(
+      pullRequestStatus:
+          (json['pullRequestStatus'] as String?)?.toPullRequestStatusEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequestStatus = this.pullRequestStatus;
+    return {
+      if (pullRequestStatus != null)
+        'pullRequestStatus': pullRequestStatus.toValue(),
+    };
+  }
 }
 
 enum PullRequestStatusEnum {
-  @_s.JsonValue('OPEN')
   open,
-  @_s.JsonValue('CLOSED')
   closed,
 }
 
@@ -8971,52 +10024,51 @@ extension on PullRequestStatusEnum {
       case PullRequestStatusEnum.closed:
         return 'CLOSED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PullRequestStatusEnum toPullRequestStatusEnum() {
+    switch (this) {
+      case 'OPEN':
+        return PullRequestStatusEnum.open;
+      case 'CLOSED':
+        return PullRequestStatusEnum.closed;
+    }
+    throw Exception('$this is not known in enum PullRequestStatusEnum');
   }
 }
 
 /// Returns information about a pull request target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PullRequestTarget {
   /// The full commit ID that is the tip of the destination branch. This is the
   /// commit where the pull request was or will be merged.
-  @_s.JsonKey(name: 'destinationCommit')
-  final String destinationCommit;
+  final String? destinationCommit;
 
   /// The branch of the repository where the pull request changes are merged. Also
   /// known as the destination branch.
-  @_s.JsonKey(name: 'destinationReference')
-  final String destinationReference;
+  final String? destinationReference;
 
   /// The commit ID of the most recent commit that the source branch and the
   /// destination branch have in common.
-  @_s.JsonKey(name: 'mergeBase')
-  final String mergeBase;
+  final String? mergeBase;
 
   /// Returns metadata about the state of the merge, including whether the merge
   /// has been made.
-  @_s.JsonKey(name: 'mergeMetadata')
-  final MergeMetadata mergeMetadata;
+  final MergeMetadata? mergeMetadata;
 
   /// The name of the repository that contains the pull request source and
   /// destination branches.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   /// The full commit ID of the tip of the source branch used to create the pull
   /// request. If the pull request branch is updated by a push while the pull
   /// request is open, the commit ID changes to reflect the new tip of the branch.
-  @_s.JsonKey(name: 'sourceCommit')
-  final String sourceCommit;
+  final String? sourceCommit;
 
   /// The branch of the repository that contains the changes for the pull request.
   /// Also known as the source branch.
-  @_s.JsonKey(name: 'sourceReference')
-  final String sourceReference;
+  final String? sourceReference;
 
   PullRequestTarget({
     this.destinationCommit,
@@ -9027,256 +10079,386 @@ class PullRequestTarget {
     this.sourceCommit,
     this.sourceReference,
   });
-  factory PullRequestTarget.fromJson(Map<String, dynamic> json) =>
-      _$PullRequestTargetFromJson(json);
+
+  factory PullRequestTarget.fromJson(Map<String, dynamic> json) {
+    return PullRequestTarget(
+      destinationCommit: json['destinationCommit'] as String?,
+      destinationReference: json['destinationReference'] as String?,
+      mergeBase: json['mergeBase'] as String?,
+      mergeMetadata: json['mergeMetadata'] != null
+          ? MergeMetadata.fromJson(
+              json['mergeMetadata'] as Map<String, dynamic>)
+          : null,
+      repositoryName: json['repositoryName'] as String?,
+      sourceCommit: json['sourceCommit'] as String?,
+      sourceReference: json['sourceReference'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationCommit = this.destinationCommit;
+    final destinationReference = this.destinationReference;
+    final mergeBase = this.mergeBase;
+    final mergeMetadata = this.mergeMetadata;
+    final repositoryName = this.repositoryName;
+    final sourceCommit = this.sourceCommit;
+    final sourceReference = this.sourceReference;
+    return {
+      if (destinationCommit != null) 'destinationCommit': destinationCommit,
+      if (destinationReference != null)
+        'destinationReference': destinationReference,
+      if (mergeBase != null) 'mergeBase': mergeBase,
+      if (mergeMetadata != null) 'mergeMetadata': mergeMetadata,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+      if (sourceCommit != null) 'sourceCommit': sourceCommit,
+      if (sourceReference != null) 'sourceReference': sourceReference,
+    };
+  }
 }
 
 /// Information about a file added or updated as part of a commit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class PutFileEntry {
   /// The full path to the file in the repository, including the name of the file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   /// The content of the file, if a source file is not specified.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'fileContent')
-  final Uint8List fileContent;
+  final Uint8List? fileContent;
 
   /// The extrapolated file mode permissions for the file. Valid values include
   /// EXECUTABLE and NORMAL.
-  @_s.JsonKey(name: 'fileMode')
-  final FileModeTypeEnum fileMode;
+  final FileModeTypeEnum? fileMode;
 
   /// The name and full path of the file that contains the changes you want to
   /// make as part of the commit, if you are not providing the file content
   /// directly.
-  @_s.JsonKey(name: 'sourceFile')
-  final SourceFileSpecifier sourceFile;
+  final SourceFileSpecifier? sourceFile;
 
   PutFileEntry({
-    @_s.required this.filePath,
+    required this.filePath,
     this.fileContent,
     this.fileMode,
     this.sourceFile,
   });
-  Map<String, dynamic> toJson() => _$PutFileEntryToJson(this);
+
+  factory PutFileEntry.fromJson(Map<String, dynamic> json) {
+    return PutFileEntry(
+      filePath: json['filePath'] as String,
+      fileContent: _s.decodeNullableUint8List(json['fileContent'] as String?),
+      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+      sourceFile: json['sourceFile'] != null
+          ? SourceFileSpecifier.fromJson(
+              json['sourceFile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final fileContent = this.fileContent;
+    final fileMode = this.fileMode;
+    final sourceFile = this.sourceFile;
+    return {
+      'filePath': filePath,
+      if (fileContent != null) 'fileContent': base64Encode(fileContent),
+      if (fileMode != null) 'fileMode': fileMode.toValue(),
+      if (sourceFile != null) 'sourceFile': sourceFile,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutFileOutput {
   /// The ID of the blob, which is its SHA-1 pointer.
-  @_s.JsonKey(name: 'blobId')
   final String blobId;
 
   /// The full SHA ID of the commit that contains this file change.
-  @_s.JsonKey(name: 'commitId')
   final String commitId;
 
   /// The full SHA-1 pointer of the tree information for the commit that contains
   /// this file change.
-  @_s.JsonKey(name: 'treeId')
   final String treeId;
 
   PutFileOutput({
-    @_s.required this.blobId,
-    @_s.required this.commitId,
-    @_s.required this.treeId,
+    required this.blobId,
+    required this.commitId,
+    required this.treeId,
   });
-  factory PutFileOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutFileOutputFromJson(json);
+
+  factory PutFileOutput.fromJson(Map<String, dynamic> json) {
+    return PutFileOutput(
+      blobId: json['blobId'] as String,
+      commitId: json['commitId'] as String,
+      treeId: json['treeId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blobId = this.blobId;
+    final commitId = this.commitId;
+    final treeId = this.treeId;
+    return {
+      'blobId': blobId,
+      'commitId': commitId,
+      'treeId': treeId,
+    };
+  }
 }
 
 /// Represents the output of a put repository triggers operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRepositoryTriggersOutput {
   /// The system-generated unique ID for the create or update operation.
-  @_s.JsonKey(name: 'configurationId')
-  final String configurationId;
+  final String? configurationId;
 
   PutRepositoryTriggersOutput({
     this.configurationId,
   });
-  factory PutRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutRepositoryTriggersOutputFromJson(json);
+
+  factory PutRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) {
+    return PutRepositoryTriggersOutput(
+      configurationId: json['configurationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationId = this.configurationId;
+    return {
+      if (configurationId != null) 'configurationId': configurationId,
+    };
+  }
 }
 
 /// Information about the reaction values provided by users on a comment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReactionForComment {
   /// The reaction for a specified comment.
-  @_s.JsonKey(name: 'reaction')
-  final ReactionValueFormats reaction;
+  final ReactionValueFormats? reaction;
 
   /// The Amazon Resource Names (ARNs) of users who have provided reactions to the
   /// comment.
-  @_s.JsonKey(name: 'reactionUsers')
-  final List<String> reactionUsers;
+  final List<String>? reactionUsers;
 
   /// A numerical count of users who reacted with the specified emoji whose
   /// identities have been subsequently deleted from IAM. While these IAM users or
   /// roles no longer exist, the reactions might still appear in total reaction
   /// counts.
-  @_s.JsonKey(name: 'reactionsFromDeletedUsersCount')
-  final int reactionsFromDeletedUsersCount;
+  final int? reactionsFromDeletedUsersCount;
 
   ReactionForComment({
     this.reaction,
     this.reactionUsers,
     this.reactionsFromDeletedUsersCount,
   });
-  factory ReactionForComment.fromJson(Map<String, dynamic> json) =>
-      _$ReactionForCommentFromJson(json);
+
+  factory ReactionForComment.fromJson(Map<String, dynamic> json) {
+    return ReactionForComment(
+      reaction: json['reaction'] != null
+          ? ReactionValueFormats.fromJson(
+              json['reaction'] as Map<String, dynamic>)
+          : null,
+      reactionUsers: (json['reactionUsers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      reactionsFromDeletedUsersCount:
+          json['reactionsFromDeletedUsersCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reaction = this.reaction;
+    final reactionUsers = this.reactionUsers;
+    final reactionsFromDeletedUsersCount = this.reactionsFromDeletedUsersCount;
+    return {
+      if (reaction != null) 'reaction': reaction,
+      if (reactionUsers != null) 'reactionUsers': reactionUsers,
+      if (reactionsFromDeletedUsersCount != null)
+        'reactionsFromDeletedUsersCount': reactionsFromDeletedUsersCount,
+    };
+  }
 }
 
 /// Information about the values for reactions to a comment. AWS CodeCommit
 /// supports a limited set of reactions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReactionValueFormats {
   /// The Emoji Version 1.0 graphic of the reaction. These graphics are
   /// interpreted slightly differently on different operating systems.
-  @_s.JsonKey(name: 'emoji')
-  final String emoji;
+  final String? emoji;
 
   /// The emoji short code for the reaction. Short codes are interpreted slightly
   /// differently on different operating systems.
-  @_s.JsonKey(name: 'shortCode')
-  final String shortCode;
+  final String? shortCode;
 
   /// The Unicode codepoint for the reaction.
-  @_s.JsonKey(name: 'unicode')
-  final String unicode;
+  final String? unicode;
 
   ReactionValueFormats({
     this.emoji,
     this.shortCode,
     this.unicode,
   });
-  factory ReactionValueFormats.fromJson(Map<String, dynamic> json) =>
-      _$ReactionValueFormatsFromJson(json);
+
+  factory ReactionValueFormats.fromJson(Map<String, dynamic> json) {
+    return ReactionValueFormats(
+      emoji: json['emoji'] as String?,
+      shortCode: json['shortCode'] as String?,
+      unicode: json['unicode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emoji = this.emoji;
+    final shortCode = this.shortCode;
+    final unicode = this.unicode;
+    return {
+      if (emoji != null) 'emoji': emoji,
+      if (shortCode != null) 'shortCode': shortCode,
+      if (unicode != null) 'unicode': unicode,
+    };
+  }
 }
 
 enum RelativeFileVersionEnum {
-  @_s.JsonValue('BEFORE')
   before,
-  @_s.JsonValue('AFTER')
   after,
+}
+
+extension on RelativeFileVersionEnum {
+  String toValue() {
+    switch (this) {
+      case RelativeFileVersionEnum.before:
+        return 'BEFORE';
+      case RelativeFileVersionEnum.after:
+        return 'AFTER';
+    }
+  }
+}
+
+extension on String {
+  RelativeFileVersionEnum toRelativeFileVersionEnum() {
+    switch (this) {
+      case 'BEFORE':
+        return RelativeFileVersionEnum.before;
+      case 'AFTER':
+        return RelativeFileVersionEnum.after;
+    }
+    throw Exception('$this is not known in enum RelativeFileVersionEnum');
+  }
 }
 
 /// Information about a replacement content entry in the conflict of a merge or
 /// pull request operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReplaceContentEntry {
   /// The path of the conflicting file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   /// The replacement type to use when determining how to resolve the conflict.
-  @_s.JsonKey(name: 'replacementType')
   final ReplacementTypeEnum replacementType;
 
   /// The base-64 encoded content to use when the replacement type is
   /// USE_NEW_CONTENT.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'content')
-  final Uint8List content;
+  final Uint8List? content;
 
   /// The file mode to apply during conflict resoltion.
-  @_s.JsonKey(name: 'fileMode')
-  final FileModeTypeEnum fileMode;
+  final FileModeTypeEnum? fileMode;
 
   ReplaceContentEntry({
-    @_s.required this.filePath,
-    @_s.required this.replacementType,
+    required this.filePath,
+    required this.replacementType,
     this.content,
     this.fileMode,
   });
-  Map<String, dynamic> toJson() => _$ReplaceContentEntryToJson(this);
+
+  factory ReplaceContentEntry.fromJson(Map<String, dynamic> json) {
+    return ReplaceContentEntry(
+      filePath: json['filePath'] as String,
+      replacementType:
+          (json['replacementType'] as String).toReplacementTypeEnum(),
+      content: _s.decodeNullableUint8List(json['content'] as String?),
+      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final replacementType = this.replacementType;
+    final content = this.content;
+    final fileMode = this.fileMode;
+    return {
+      'filePath': filePath,
+      'replacementType': replacementType.toValue(),
+      if (content != null) 'content': base64Encode(content),
+      if (fileMode != null) 'fileMode': fileMode.toValue(),
+    };
+  }
 }
 
 enum ReplacementTypeEnum {
-  @_s.JsonValue('KEEP_BASE')
   keepBase,
-  @_s.JsonValue('KEEP_SOURCE')
   keepSource,
-  @_s.JsonValue('KEEP_DESTINATION')
   keepDestination,
-  @_s.JsonValue('USE_NEW_CONTENT')
   useNewContent,
 }
 
+extension on ReplacementTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ReplacementTypeEnum.keepBase:
+        return 'KEEP_BASE';
+      case ReplacementTypeEnum.keepSource:
+        return 'KEEP_SOURCE';
+      case ReplacementTypeEnum.keepDestination:
+        return 'KEEP_DESTINATION';
+      case ReplacementTypeEnum.useNewContent:
+        return 'USE_NEW_CONTENT';
+    }
+  }
+}
+
+extension on String {
+  ReplacementTypeEnum toReplacementTypeEnum() {
+    switch (this) {
+      case 'KEEP_BASE':
+        return ReplacementTypeEnum.keepBase;
+      case 'KEEP_SOURCE':
+        return ReplacementTypeEnum.keepSource;
+      case 'KEEP_DESTINATION':
+        return ReplacementTypeEnum.keepDestination;
+      case 'USE_NEW_CONTENT':
+        return ReplacementTypeEnum.useNewContent;
+    }
+    throw Exception('$this is not known in enum ReplacementTypeEnum');
+  }
+}
+
 /// Information about a repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RepositoryMetadata {
   /// The Amazon Resource Name (ARN) of the repository.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The ID of the AWS account associated with the repository.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The URL to use for cloning the repository over HTTPS.
-  @_s.JsonKey(name: 'cloneUrlHttp')
-  final String cloneUrlHttp;
+  final String? cloneUrlHttp;
 
   /// The URL to use for cloning the repository over SSH.
-  @_s.JsonKey(name: 'cloneUrlSsh')
-  final String cloneUrlSsh;
+  final String? cloneUrlSsh;
 
   /// The date and time the repository was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The repository's default branch name.
-  @_s.JsonKey(name: 'defaultBranch')
-  final String defaultBranch;
+  final String? defaultBranch;
 
   /// The date and time the repository was last modified, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastModifiedDate')
-  final DateTime lastModifiedDate;
+  final DateTime? lastModifiedDate;
 
   /// A comment or description about the repository.
-  @_s.JsonKey(name: 'repositoryDescription')
-  final String repositoryDescription;
+  final String? repositoryDescription;
 
   /// The ID of the repository.
-  @_s.JsonKey(name: 'repositoryId')
-  final String repositoryId;
+  final String? repositoryId;
 
   /// The repository's name.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   RepositoryMetadata({
     this.arn,
@@ -9290,43 +10472,85 @@ class RepositoryMetadata {
     this.repositoryId,
     this.repositoryName,
   });
-  factory RepositoryMetadata.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryMetadataFromJson(json);
+
+  factory RepositoryMetadata.fromJson(Map<String, dynamic> json) {
+    return RepositoryMetadata(
+      arn: json['Arn'] as String?,
+      accountId: json['accountId'] as String?,
+      cloneUrlHttp: json['cloneUrlHttp'] as String?,
+      cloneUrlSsh: json['cloneUrlSsh'] as String?,
+      creationDate: timeStampFromJson(json['creationDate']),
+      defaultBranch: json['defaultBranch'] as String?,
+      lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+      repositoryDescription: json['repositoryDescription'] as String?,
+      repositoryId: json['repositoryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final accountId = this.accountId;
+    final cloneUrlHttp = this.cloneUrlHttp;
+    final cloneUrlSsh = this.cloneUrlSsh;
+    final creationDate = this.creationDate;
+    final defaultBranch = this.defaultBranch;
+    final lastModifiedDate = this.lastModifiedDate;
+    final repositoryDescription = this.repositoryDescription;
+    final repositoryId = this.repositoryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (accountId != null) 'accountId': accountId,
+      if (cloneUrlHttp != null) 'cloneUrlHttp': cloneUrlHttp,
+      if (cloneUrlSsh != null) 'cloneUrlSsh': cloneUrlSsh,
+      if (creationDate != null)
+        'creationDate': unixTimestampToJson(creationDate),
+      if (defaultBranch != null) 'defaultBranch': defaultBranch,
+      if (lastModifiedDate != null)
+        'lastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (repositoryDescription != null)
+        'repositoryDescription': repositoryDescription,
+      if (repositoryId != null) 'repositoryId': repositoryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// Information about a repository name and ID.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RepositoryNameIdPair {
   /// The ID associated with the repository.
-  @_s.JsonKey(name: 'repositoryId')
-  final String repositoryId;
+  final String? repositoryId;
 
   /// The name associated with the repository.
-  @_s.JsonKey(name: 'repositoryName')
-  final String repositoryName;
+  final String? repositoryName;
 
   RepositoryNameIdPair({
     this.repositoryId,
     this.repositoryName,
   });
-  factory RepositoryNameIdPair.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryNameIdPairFromJson(json);
+
+  factory RepositoryNameIdPair.fromJson(Map<String, dynamic> json) {
+    return RepositoryNameIdPair(
+      repositoryId: json['repositoryId'] as String?,
+      repositoryName: json['repositoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryId = this.repositoryId;
+    final repositoryName = this.repositoryName;
+    return {
+      if (repositoryId != null) 'repositoryId': repositoryId,
+      if (repositoryName != null) 'repositoryName': repositoryName,
+    };
+  }
 }
 
 /// Information about a trigger for a repository.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RepositoryTrigger {
   /// The ARN of the resource that is the target for a trigger (for example, the
   /// ARN of a topic in Amazon SNS).
-  @_s.JsonKey(name: 'destinationArn')
   final String destinationArn;
 
   /// The repository events that cause the trigger to run actions in another
@@ -9334,11 +10558,9 @@ class RepositoryTrigger {
   /// <note>
   /// The valid value "all" cannot be used with any other values.
   /// </note>
-  @_s.JsonKey(name: 'events')
   final List<RepositoryTriggerEventEnum> events;
 
   /// The name of the trigger.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The branches to be included in the trigger configuration. If you specify an
@@ -9347,88 +10569,153 @@ class RepositoryTrigger {
   /// Although no content is required in the array, you must include the array
   /// itself.
   /// </note>
-  @_s.JsonKey(name: 'branches')
-  final List<String> branches;
+  final List<String>? branches;
 
   /// Any custom data associated with the trigger to be included in the
   /// information sent to the target of the trigger.
-  @_s.JsonKey(name: 'customData')
-  final String customData;
+  final String? customData;
 
   RepositoryTrigger({
-    @_s.required this.destinationArn,
-    @_s.required this.events,
-    @_s.required this.name,
+    required this.destinationArn,
+    required this.events,
+    required this.name,
     this.branches,
     this.customData,
   });
-  factory RepositoryTrigger.fromJson(Map<String, dynamic> json) =>
-      _$RepositoryTriggerFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RepositoryTriggerToJson(this);
+  factory RepositoryTrigger.fromJson(Map<String, dynamic> json) {
+    return RepositoryTrigger(
+      destinationArn: json['destinationArn'] as String,
+      events: (json['events'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toRepositoryTriggerEventEnum())
+          .toList(),
+      name: json['name'] as String,
+      branches: (json['branches'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      customData: json['customData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationArn = this.destinationArn;
+    final events = this.events;
+    final name = this.name;
+    final branches = this.branches;
+    final customData = this.customData;
+    return {
+      'destinationArn': destinationArn,
+      'events': events.map((e) => e.toValue()).toList(),
+      'name': name,
+      if (branches != null) 'branches': branches,
+      if (customData != null) 'customData': customData,
+    };
+  }
 }
 
 enum RepositoryTriggerEventEnum {
-  @_s.JsonValue('all')
   all,
-  @_s.JsonValue('updateReference')
   updateReference,
-  @_s.JsonValue('createReference')
   createReference,
-  @_s.JsonValue('deleteReference')
   deleteReference,
 }
 
+extension on RepositoryTriggerEventEnum {
+  String toValue() {
+    switch (this) {
+      case RepositoryTriggerEventEnum.all:
+        return 'all';
+      case RepositoryTriggerEventEnum.updateReference:
+        return 'updateReference';
+      case RepositoryTriggerEventEnum.createReference:
+        return 'createReference';
+      case RepositoryTriggerEventEnum.deleteReference:
+        return 'deleteReference';
+    }
+  }
+}
+
+extension on String {
+  RepositoryTriggerEventEnum toRepositoryTriggerEventEnum() {
+    switch (this) {
+      case 'all':
+        return RepositoryTriggerEventEnum.all;
+      case 'updateReference':
+        return RepositoryTriggerEventEnum.updateReference;
+      case 'createReference':
+        return RepositoryTriggerEventEnum.createReference;
+      case 'deleteReference':
+        return RepositoryTriggerEventEnum.deleteReference;
+    }
+    throw Exception('$this is not known in enum RepositoryTriggerEventEnum');
+  }
+}
+
 /// A trigger failed to run.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RepositoryTriggerExecutionFailure {
   /// Message information about the trigger that did not run.
-  @_s.JsonKey(name: 'failureMessage')
-  final String failureMessage;
+  final String? failureMessage;
 
   /// The name of the trigger that did not run.
-  @_s.JsonKey(name: 'trigger')
-  final String trigger;
+  final String? trigger;
 
   RepositoryTriggerExecutionFailure({
     this.failureMessage,
     this.trigger,
   });
+
   factory RepositoryTriggerExecutionFailure.fromJson(
-          Map<String, dynamic> json) =>
-      _$RepositoryTriggerExecutionFailureFromJson(json);
+      Map<String, dynamic> json) {
+    return RepositoryTriggerExecutionFailure(
+      failureMessage: json['failureMessage'] as String?,
+      trigger: json['trigger'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failureMessage = this.failureMessage;
+    final trigger = this.trigger;
+    return {
+      if (failureMessage != null) 'failureMessage': failureMessage,
+      if (trigger != null) 'trigger': trigger,
+    };
+  }
 }
 
 /// Information about the file mode changes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SetFileModeEntry {
   /// The file mode for the file.
-  @_s.JsonKey(name: 'fileMode')
   final FileModeTypeEnum fileMode;
 
   /// The full path to the file, including the name of the file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   SetFileModeEntry({
-    @_s.required this.fileMode,
-    @_s.required this.filePath,
+    required this.fileMode,
+    required this.filePath,
   });
-  Map<String, dynamic> toJson() => _$SetFileModeEntryToJson(this);
+
+  factory SetFileModeEntry.fromJson(Map<String, dynamic> json) {
+    return SetFileModeEntry(
+      fileMode: (json['fileMode'] as String).toFileModeTypeEnum(),
+      filePath: json['filePath'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileMode = this.fileMode;
+    final filePath = this.filePath;
+    return {
+      'fileMode': fileMode.toValue(),
+      'filePath': filePath,
+    };
+  }
 }
 
 enum SortByEnum {
-  @_s.JsonValue('repositoryName')
   repositoryName,
-  @_s.JsonValue('lastModifiedDate')
   lastModifiedDate,
 }
 
@@ -9440,86 +10727,105 @@ extension on SortByEnum {
       case SortByEnum.lastModifiedDate:
         return 'lastModifiedDate';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortByEnum toSortByEnum() {
+    switch (this) {
+      case 'repositoryName':
+        return SortByEnum.repositoryName;
+      case 'lastModifiedDate':
+        return SortByEnum.lastModifiedDate;
+    }
+    throw Exception('$this is not known in enum SortByEnum');
   }
 }
 
 /// Information about a source file that is part of changes made in a commit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SourceFileSpecifier {
   /// The full path to the file, including the name of the file.
-  @_s.JsonKey(name: 'filePath')
   final String filePath;
 
   /// Whether to remove the source file from the parent commit.
-  @_s.JsonKey(name: 'isMove')
-  final bool isMove;
+  final bool? isMove;
 
   SourceFileSpecifier({
-    @_s.required this.filePath,
+    required this.filePath,
     this.isMove,
   });
-  Map<String, dynamic> toJson() => _$SourceFileSpecifierToJson(this);
+
+  factory SourceFileSpecifier.fromJson(Map<String, dynamic> json) {
+    return SourceFileSpecifier(
+      filePath: json['filePath'] as String,
+      isMove: json['isMove'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filePath = this.filePath;
+    final isMove = this.isMove;
+    return {
+      'filePath': filePath,
+      if (isMove != null) 'isMove': isMove,
+    };
+  }
 }
 
 /// Returns information about a submodule reference in a repository folder.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubModule {
   /// The fully qualified path to the folder that contains the reference to the
   /// submodule.
-  @_s.JsonKey(name: 'absolutePath')
-  final String absolutePath;
+  final String? absolutePath;
 
   /// The commit ID that contains the reference to the submodule.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// The relative path of the submodule from the folder where the query
   /// originated.
-  @_s.JsonKey(name: 'relativePath')
-  final String relativePath;
+  final String? relativePath;
 
   SubModule({
     this.absolutePath,
     this.commitId,
     this.relativePath,
   });
-  factory SubModule.fromJson(Map<String, dynamic> json) =>
-      _$SubModuleFromJson(json);
+
+  factory SubModule.fromJson(Map<String, dynamic> json) {
+    return SubModule(
+      absolutePath: json['absolutePath'] as String?,
+      commitId: json['commitId'] as String?,
+      relativePath: json['relativePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final commitId = this.commitId;
+    final relativePath = this.relativePath;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (commitId != null) 'commitId': commitId,
+      if (relativePath != null) 'relativePath': relativePath,
+    };
+  }
 }
 
 /// Returns information about a symbolic link in a repository folder.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SymbolicLink {
   /// The fully qualified path to the folder that contains the symbolic link.
-  @_s.JsonKey(name: 'absolutePath')
-  final String absolutePath;
+  final String? absolutePath;
 
   /// The blob ID that contains the information about the symbolic link.
-  @_s.JsonKey(name: 'blobId')
-  final String blobId;
+  final String? blobId;
 
   /// The file mode permissions of the blob that cotains information about the
   /// symbolic link.
-  @_s.JsonKey(name: 'fileMode')
-  final FileModeTypeEnum fileMode;
+  final FileModeTypeEnum? fileMode;
 
   /// The relative path of the symbolic link from the folder where the query
   /// originated.
-  @_s.JsonKey(name: 'relativePath')
-  final String relativePath;
+  final String? relativePath;
 
   SymbolicLink({
     this.absolutePath,
@@ -9527,240 +10833,344 @@ class SymbolicLink {
     this.fileMode,
     this.relativePath,
   });
-  factory SymbolicLink.fromJson(Map<String, dynamic> json) =>
-      _$SymbolicLinkFromJson(json);
+
+  factory SymbolicLink.fromJson(Map<String, dynamic> json) {
+    return SymbolicLink(
+      absolutePath: json['absolutePath'] as String?,
+      blobId: json['blobId'] as String?,
+      fileMode: (json['fileMode'] as String?)?.toFileModeTypeEnum(),
+      relativePath: json['relativePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final absolutePath = this.absolutePath;
+    final blobId = this.blobId;
+    final fileMode = this.fileMode;
+    final relativePath = this.relativePath;
+    return {
+      if (absolutePath != null) 'absolutePath': absolutePath,
+      if (blobId != null) 'blobId': blobId,
+      if (fileMode != null) 'fileMode': fileMode.toValue(),
+      if (relativePath != null) 'relativePath': relativePath,
+    };
+  }
 }
 
 /// Returns information about a target for a pull request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Target {
   /// The name of the repository that contains the pull request.
-  @_s.JsonKey(name: 'repositoryName')
   final String repositoryName;
 
   /// The branch of the repository that contains the changes for the pull request.
   /// Also known as the source branch.
-  @_s.JsonKey(name: 'sourceReference')
   final String sourceReference;
 
   /// The branch of the repository where the pull request changes are merged. Also
   /// known as the destination branch.
-  @_s.JsonKey(name: 'destinationReference')
-  final String destinationReference;
+  final String? destinationReference;
 
   Target({
-    @_s.required this.repositoryName,
-    @_s.required this.sourceReference,
+    required this.repositoryName,
+    required this.sourceReference,
     this.destinationReference,
   });
-  Map<String, dynamic> toJson() => _$TargetToJson(this);
+
+  factory Target.fromJson(Map<String, dynamic> json) {
+    return Target(
+      repositoryName: json['repositoryName'] as String,
+      sourceReference: json['sourceReference'] as String,
+      destinationReference: json['destinationReference'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final repositoryName = this.repositoryName;
+    final sourceReference = this.sourceReference;
+    final destinationReference = this.destinationReference;
+    return {
+      'repositoryName': repositoryName,
+      'sourceReference': sourceReference,
+      if (destinationReference != null)
+        'destinationReference': destinationReference,
+    };
+  }
 }
 
 /// Represents the output of a test repository triggers operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TestRepositoryTriggersOutput {
   /// The list of triggers that were not tested. This list provides the names of
   /// the triggers that could not be tested, separated by commas.
-  @_s.JsonKey(name: 'failedExecutions')
-  final List<RepositoryTriggerExecutionFailure> failedExecutions;
+  final List<RepositoryTriggerExecutionFailure>? failedExecutions;
 
   /// The list of triggers that were successfully tested. This list provides the
   /// names of the triggers that were successfully tested, separated by commas.
-  @_s.JsonKey(name: 'successfulExecutions')
-  final List<String> successfulExecutions;
+  final List<String>? successfulExecutions;
 
   TestRepositoryTriggersOutput({
     this.failedExecutions,
     this.successfulExecutions,
   });
-  factory TestRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) =>
-      _$TestRepositoryTriggersOutputFromJson(json);
+
+  factory TestRepositoryTriggersOutput.fromJson(Map<String, dynamic> json) {
+    return TestRepositoryTriggersOutput(
+      failedExecutions: (json['failedExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RepositoryTriggerExecutionFailure.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      successfulExecutions: (json['successfulExecutions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedExecutions = this.failedExecutions;
+    final successfulExecutions = this.successfulExecutions;
+    return {
+      if (failedExecutions != null) 'failedExecutions': failedExecutions,
+      if (successfulExecutions != null)
+        'successfulExecutions': successfulExecutions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApprovalRuleTemplateContentOutput {
-  @_s.JsonKey(name: 'approvalRuleTemplate')
   final ApprovalRuleTemplate approvalRuleTemplate;
 
   UpdateApprovalRuleTemplateContentOutput({
-    @_s.required this.approvalRuleTemplate,
+    required this.approvalRuleTemplate,
   });
+
   factory UpdateApprovalRuleTemplateContentOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateApprovalRuleTemplateContentOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateApprovalRuleTemplateContentOutput(
+      approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
+          json['approvalRuleTemplate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplate = this.approvalRuleTemplate;
+    return {
+      'approvalRuleTemplate': approvalRuleTemplate,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApprovalRuleTemplateDescriptionOutput {
   /// The structure and content of the updated approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplate')
   final ApprovalRuleTemplate approvalRuleTemplate;
 
   UpdateApprovalRuleTemplateDescriptionOutput({
-    @_s.required this.approvalRuleTemplate,
+    required this.approvalRuleTemplate,
   });
+
   factory UpdateApprovalRuleTemplateDescriptionOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateApprovalRuleTemplateDescriptionOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateApprovalRuleTemplateDescriptionOutput(
+      approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
+          json['approvalRuleTemplate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplate = this.approvalRuleTemplate;
+    return {
+      'approvalRuleTemplate': approvalRuleTemplate,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApprovalRuleTemplateNameOutput {
   /// The structure and content of the updated approval rule template.
-  @_s.JsonKey(name: 'approvalRuleTemplate')
   final ApprovalRuleTemplate approvalRuleTemplate;
 
   UpdateApprovalRuleTemplateNameOutput({
-    @_s.required this.approvalRuleTemplate,
+    required this.approvalRuleTemplate,
   });
+
   factory UpdateApprovalRuleTemplateNameOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateApprovalRuleTemplateNameOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateApprovalRuleTemplateNameOutput(
+      approvalRuleTemplate: ApprovalRuleTemplate.fromJson(
+          json['approvalRuleTemplate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRuleTemplate = this.approvalRuleTemplate;
+    return {
+      'approvalRuleTemplate': approvalRuleTemplate,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCommentOutput {
   /// Information about the updated comment.
-  @_s.JsonKey(name: 'comment')
-  final Comment comment;
+  final Comment? comment;
 
   UpdateCommentOutput({
     this.comment,
   });
-  factory UpdateCommentOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCommentOutputFromJson(json);
+
+  factory UpdateCommentOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateCommentOutput(
+      comment: json['comment'] != null
+          ? Comment.fromJson(json['comment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    return {
+      if (comment != null) 'comment': comment,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePullRequestApprovalRuleContentOutput {
   /// Information about the updated approval rule.
-  @_s.JsonKey(name: 'approvalRule')
   final ApprovalRule approvalRule;
 
   UpdatePullRequestApprovalRuleContentOutput({
-    @_s.required this.approvalRule,
+    required this.approvalRule,
   });
+
   factory UpdatePullRequestApprovalRuleContentOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdatePullRequestApprovalRuleContentOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdatePullRequestApprovalRuleContentOutput(
+      approvalRule:
+          ApprovalRule.fromJson(json['approvalRule'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approvalRule = this.approvalRule;
+    return {
+      'approvalRule': approvalRule,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePullRequestDescriptionOutput {
   /// Information about the updated pull request.
-  @_s.JsonKey(name: 'pullRequest')
   final PullRequest pullRequest;
 
   UpdatePullRequestDescriptionOutput({
-    @_s.required this.pullRequest,
+    required this.pullRequest,
   });
+
   factory UpdatePullRequestDescriptionOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdatePullRequestDescriptionOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdatePullRequestDescriptionOutput(
+      pullRequest:
+          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      'pullRequest': pullRequest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePullRequestStatusOutput {
   /// Information about the pull request.
-  @_s.JsonKey(name: 'pullRequest')
   final PullRequest pullRequest;
 
   UpdatePullRequestStatusOutput({
-    @_s.required this.pullRequest,
+    required this.pullRequest,
   });
-  factory UpdatePullRequestStatusOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePullRequestStatusOutputFromJson(json);
+
+  factory UpdatePullRequestStatusOutput.fromJson(Map<String, dynamic> json) {
+    return UpdatePullRequestStatusOutput(
+      pullRequest:
+          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      'pullRequest': pullRequest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePullRequestTitleOutput {
   /// Information about the updated pull request.
-  @_s.JsonKey(name: 'pullRequest')
   final PullRequest pullRequest;
 
   UpdatePullRequestTitleOutput({
-    @_s.required this.pullRequest,
+    required this.pullRequest,
   });
-  factory UpdatePullRequestTitleOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePullRequestTitleOutputFromJson(json);
+
+  factory UpdatePullRequestTitleOutput.fromJson(Map<String, dynamic> json) {
+    return UpdatePullRequestTitleOutput(
+      pullRequest:
+          PullRequest.fromJson(json['pullRequest'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pullRequest = this.pullRequest;
+    return {
+      'pullRequest': pullRequest,
+    };
+  }
 }
 
 /// Information about the user who made a specified commit.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserInfo {
   /// The date when the specified commit was commited, in timestamp format with
   /// GMT offset.
-  @_s.JsonKey(name: 'date')
-  final String date;
+  final String? date;
 
   /// The email address associated with the user who made the commit, if any.
-  @_s.JsonKey(name: 'email')
-  final String email;
+  final String? email;
 
   /// The name of the user who made the specified commit.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   UserInfo({
     this.date,
     this.email,
     this.name,
   });
-  factory UserInfo.fromJson(Map<String, dynamic> json) =>
-      _$UserInfoFromJson(json);
+
+  factory UserInfo.fromJson(Map<String, dynamic> json) {
+    return UserInfo(
+      date: json['date'] as String?,
+      email: json['email'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final email = this.email;
+    final name = this.name;
+    return {
+      if (date != null) 'date': date,
+      if (email != null) 'email': email,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 class ActorDoesNotExistException extends _s.GenericAwsException {
-  ActorDoesNotExistException({String type, String message})
+  ActorDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'ActorDoesNotExistException', message: message);
 }
 
 class ApprovalRuleContentRequiredException extends _s.GenericAwsException {
-  ApprovalRuleContentRequiredException({String type, String message})
+  ApprovalRuleContentRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleContentRequiredException',
@@ -9768,7 +11178,7 @@ class ApprovalRuleContentRequiredException extends _s.GenericAwsException {
 }
 
 class ApprovalRuleDoesNotExistException extends _s.GenericAwsException {
-  ApprovalRuleDoesNotExistException({String type, String message})
+  ApprovalRuleDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleDoesNotExistException',
@@ -9776,7 +11186,7 @@ class ApprovalRuleDoesNotExistException extends _s.GenericAwsException {
 }
 
 class ApprovalRuleNameAlreadyExistsException extends _s.GenericAwsException {
-  ApprovalRuleNameAlreadyExistsException({String type, String message})
+  ApprovalRuleNameAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleNameAlreadyExistsException',
@@ -9784,7 +11194,7 @@ class ApprovalRuleNameAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ApprovalRuleNameRequiredException extends _s.GenericAwsException {
-  ApprovalRuleNameRequiredException({String type, String message})
+  ApprovalRuleNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleNameRequiredException',
@@ -9793,7 +11203,7 @@ class ApprovalRuleNameRequiredException extends _s.GenericAwsException {
 
 class ApprovalRuleTemplateContentRequiredException
     extends _s.GenericAwsException {
-  ApprovalRuleTemplateContentRequiredException({String type, String message})
+  ApprovalRuleTemplateContentRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleTemplateContentRequiredException',
@@ -9801,7 +11211,7 @@ class ApprovalRuleTemplateContentRequiredException
 }
 
 class ApprovalRuleTemplateDoesNotExistException extends _s.GenericAwsException {
-  ApprovalRuleTemplateDoesNotExistException({String type, String message})
+  ApprovalRuleTemplateDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleTemplateDoesNotExistException',
@@ -9809,7 +11219,7 @@ class ApprovalRuleTemplateDoesNotExistException extends _s.GenericAwsException {
 }
 
 class ApprovalRuleTemplateInUseException extends _s.GenericAwsException {
-  ApprovalRuleTemplateInUseException({String type, String message})
+  ApprovalRuleTemplateInUseException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleTemplateInUseException',
@@ -9818,7 +11228,8 @@ class ApprovalRuleTemplateInUseException extends _s.GenericAwsException {
 
 class ApprovalRuleTemplateNameAlreadyExistsException
     extends _s.GenericAwsException {
-  ApprovalRuleTemplateNameAlreadyExistsException({String type, String message})
+  ApprovalRuleTemplateNameAlreadyExistsException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleTemplateNameAlreadyExistsException',
@@ -9826,7 +11237,7 @@ class ApprovalRuleTemplateNameAlreadyExistsException
 }
 
 class ApprovalRuleTemplateNameRequiredException extends _s.GenericAwsException {
-  ApprovalRuleTemplateNameRequiredException({String type, String message})
+  ApprovalRuleTemplateNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalRuleTemplateNameRequiredException',
@@ -9834,7 +11245,7 @@ class ApprovalRuleTemplateNameRequiredException extends _s.GenericAwsException {
 }
 
 class ApprovalStateRequiredException extends _s.GenericAwsException {
-  ApprovalStateRequiredException({String type, String message})
+  ApprovalStateRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ApprovalStateRequiredException',
@@ -9842,14 +11253,15 @@ class ApprovalStateRequiredException extends _s.GenericAwsException {
 }
 
 class AuthorDoesNotExistException extends _s.GenericAwsException {
-  AuthorDoesNotExistException({String type, String message})
+  AuthorDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'AuthorDoesNotExistException', message: message);
 }
 
 class BeforeCommitIdAndAfterCommitIdAreSameException
     extends _s.GenericAwsException {
-  BeforeCommitIdAndAfterCommitIdAreSameException({String type, String message})
+  BeforeCommitIdAndAfterCommitIdAreSameException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'BeforeCommitIdAndAfterCommitIdAreSameException',
@@ -9857,42 +11269,42 @@ class BeforeCommitIdAndAfterCommitIdAreSameException
 }
 
 class BlobIdDoesNotExistException extends _s.GenericAwsException {
-  BlobIdDoesNotExistException({String type, String message})
+  BlobIdDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'BlobIdDoesNotExistException', message: message);
 }
 
 class BlobIdRequiredException extends _s.GenericAwsException {
-  BlobIdRequiredException({String type, String message})
+  BlobIdRequiredException({String? type, String? message})
       : super(type: type, code: 'BlobIdRequiredException', message: message);
 }
 
 class BranchDoesNotExistException extends _s.GenericAwsException {
-  BranchDoesNotExistException({String type, String message})
+  BranchDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'BranchDoesNotExistException', message: message);
 }
 
 class BranchNameExistsException extends _s.GenericAwsException {
-  BranchNameExistsException({String type, String message})
+  BranchNameExistsException({String? type, String? message})
       : super(type: type, code: 'BranchNameExistsException', message: message);
 }
 
 class BranchNameIsTagNameException extends _s.GenericAwsException {
-  BranchNameIsTagNameException({String type, String message})
+  BranchNameIsTagNameException({String? type, String? message})
       : super(
             type: type, code: 'BranchNameIsTagNameException', message: message);
 }
 
 class BranchNameRequiredException extends _s.GenericAwsException {
-  BranchNameRequiredException({String type, String message})
+  BranchNameRequiredException({String? type, String? message})
       : super(
             type: type, code: 'BranchNameRequiredException', message: message);
 }
 
 class CannotDeleteApprovalRuleFromTemplateException
     extends _s.GenericAwsException {
-  CannotDeleteApprovalRuleFromTemplateException({String type, String message})
+  CannotDeleteApprovalRuleFromTemplateException({String? type, String? message})
       : super(
             type: type,
             code: 'CannotDeleteApprovalRuleFromTemplateException',
@@ -9901,7 +11313,7 @@ class CannotDeleteApprovalRuleFromTemplateException
 
 class CannotModifyApprovalRuleFromTemplateException
     extends _s.GenericAwsException {
-  CannotModifyApprovalRuleFromTemplateException({String type, String message})
+  CannotModifyApprovalRuleFromTemplateException({String? type, String? message})
       : super(
             type: type,
             code: 'CannotModifyApprovalRuleFromTemplateException',
@@ -9909,7 +11321,7 @@ class CannotModifyApprovalRuleFromTemplateException
 }
 
 class ClientRequestTokenRequiredException extends _s.GenericAwsException {
-  ClientRequestTokenRequiredException({String type, String message})
+  ClientRequestTokenRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ClientRequestTokenRequiredException',
@@ -9917,7 +11329,7 @@ class ClientRequestTokenRequiredException extends _s.GenericAwsException {
 }
 
 class CommentContentRequiredException extends _s.GenericAwsException {
-  CommentContentRequiredException({String type, String message})
+  CommentContentRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'CommentContentRequiredException',
@@ -9925,7 +11337,7 @@ class CommentContentRequiredException extends _s.GenericAwsException {
 }
 
 class CommentContentSizeLimitExceededException extends _s.GenericAwsException {
-  CommentContentSizeLimitExceededException({String type, String message})
+  CommentContentSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'CommentContentSizeLimitExceededException',
@@ -9933,23 +11345,23 @@ class CommentContentSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class CommentDeletedException extends _s.GenericAwsException {
-  CommentDeletedException({String type, String message})
+  CommentDeletedException({String? type, String? message})
       : super(type: type, code: 'CommentDeletedException', message: message);
 }
 
 class CommentDoesNotExistException extends _s.GenericAwsException {
-  CommentDoesNotExistException({String type, String message})
+  CommentDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'CommentDoesNotExistException', message: message);
 }
 
 class CommentIdRequiredException extends _s.GenericAwsException {
-  CommentIdRequiredException({String type, String message})
+  CommentIdRequiredException({String? type, String? message})
       : super(type: type, code: 'CommentIdRequiredException', message: message);
 }
 
 class CommentNotCreatedByCallerException extends _s.GenericAwsException {
-  CommentNotCreatedByCallerException({String type, String message})
+  CommentNotCreatedByCallerException({String? type, String? message})
       : super(
             type: type,
             code: 'CommentNotCreatedByCallerException',
@@ -9957,13 +11369,13 @@ class CommentNotCreatedByCallerException extends _s.GenericAwsException {
 }
 
 class CommitDoesNotExistException extends _s.GenericAwsException {
-  CommitDoesNotExistException({String type, String message})
+  CommitDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'CommitDoesNotExistException', message: message);
 }
 
 class CommitIdDoesNotExistException extends _s.GenericAwsException {
-  CommitIdDoesNotExistException({String type, String message})
+  CommitIdDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'CommitIdDoesNotExistException',
@@ -9971,12 +11383,12 @@ class CommitIdDoesNotExistException extends _s.GenericAwsException {
 }
 
 class CommitIdRequiredException extends _s.GenericAwsException {
-  CommitIdRequiredException({String type, String message})
+  CommitIdRequiredException({String? type, String? message})
       : super(type: type, code: 'CommitIdRequiredException', message: message);
 }
 
 class CommitIdsLimitExceededException extends _s.GenericAwsException {
-  CommitIdsLimitExceededException({String type, String message})
+  CommitIdsLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'CommitIdsLimitExceededException',
@@ -9984,7 +11396,7 @@ class CommitIdsLimitExceededException extends _s.GenericAwsException {
 }
 
 class CommitIdsListRequiredException extends _s.GenericAwsException {
-  CommitIdsListRequiredException({String type, String message})
+  CommitIdsListRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'CommitIdsListRequiredException',
@@ -9992,7 +11404,7 @@ class CommitIdsListRequiredException extends _s.GenericAwsException {
 }
 
 class CommitMessageLengthExceededException extends _s.GenericAwsException {
-  CommitMessageLengthExceededException({String type, String message})
+  CommitMessageLengthExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'CommitMessageLengthExceededException',
@@ -10000,12 +11412,12 @@ class CommitMessageLengthExceededException extends _s.GenericAwsException {
 }
 
 class CommitRequiredException extends _s.GenericAwsException {
-  CommitRequiredException({String type, String message})
+  CommitRequiredException({String? type, String? message})
       : super(type: type, code: 'CommitRequiredException', message: message);
 }
 
 class ConcurrentReferenceUpdateException extends _s.GenericAwsException {
-  ConcurrentReferenceUpdateException({String type, String message})
+  ConcurrentReferenceUpdateException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentReferenceUpdateException',
@@ -10013,7 +11425,7 @@ class ConcurrentReferenceUpdateException extends _s.GenericAwsException {
 }
 
 class DefaultBranchCannotBeDeletedException extends _s.GenericAwsException {
-  DefaultBranchCannotBeDeletedException({String type, String message})
+  DefaultBranchCannotBeDeletedException({String? type, String? message})
       : super(
             type: type,
             code: 'DefaultBranchCannotBeDeletedException',
@@ -10022,7 +11434,7 @@ class DefaultBranchCannotBeDeletedException extends _s.GenericAwsException {
 
 class DirectoryNameConflictsWithFileNameException
     extends _s.GenericAwsException {
-  DirectoryNameConflictsWithFileNameException({String type, String message})
+  DirectoryNameConflictsWithFileNameException({String? type, String? message})
       : super(
             type: type,
             code: 'DirectoryNameConflictsWithFileNameException',
@@ -10030,7 +11442,7 @@ class DirectoryNameConflictsWithFileNameException
 }
 
 class EncryptionIntegrityChecksFailedException extends _s.GenericAwsException {
-  EncryptionIntegrityChecksFailedException({String type, String message})
+  EncryptionIntegrityChecksFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'EncryptionIntegrityChecksFailedException',
@@ -10038,7 +11450,7 @@ class EncryptionIntegrityChecksFailedException extends _s.GenericAwsException {
 }
 
 class EncryptionKeyAccessDeniedException extends _s.GenericAwsException {
-  EncryptionKeyAccessDeniedException({String type, String message})
+  EncryptionKeyAccessDeniedException({String? type, String? message})
       : super(
             type: type,
             code: 'EncryptionKeyAccessDeniedException',
@@ -10046,7 +11458,7 @@ class EncryptionKeyAccessDeniedException extends _s.GenericAwsException {
 }
 
 class EncryptionKeyDisabledException extends _s.GenericAwsException {
-  EncryptionKeyDisabledException({String type, String message})
+  EncryptionKeyDisabledException({String? type, String? message})
       : super(
             type: type,
             code: 'EncryptionKeyDisabledException',
@@ -10054,7 +11466,7 @@ class EncryptionKeyDisabledException extends _s.GenericAwsException {
 }
 
 class EncryptionKeyNotFoundException extends _s.GenericAwsException {
-  EncryptionKeyNotFoundException({String type, String message})
+  EncryptionKeyNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'EncryptionKeyNotFoundException',
@@ -10062,7 +11474,7 @@ class EncryptionKeyNotFoundException extends _s.GenericAwsException {
 }
 
 class EncryptionKeyUnavailableException extends _s.GenericAwsException {
-  EncryptionKeyUnavailableException({String type, String message})
+  EncryptionKeyUnavailableException({String? type, String? message})
       : super(
             type: type,
             code: 'EncryptionKeyUnavailableException',
@@ -10071,7 +11483,7 @@ class EncryptionKeyUnavailableException extends _s.GenericAwsException {
 
 class FileContentAndSourceFileSpecifiedException
     extends _s.GenericAwsException {
-  FileContentAndSourceFileSpecifiedException({String type, String message})
+  FileContentAndSourceFileSpecifiedException({String? type, String? message})
       : super(
             type: type,
             code: 'FileContentAndSourceFileSpecifiedException',
@@ -10079,13 +11491,13 @@ class FileContentAndSourceFileSpecifiedException
 }
 
 class FileContentRequiredException extends _s.GenericAwsException {
-  FileContentRequiredException({String type, String message})
+  FileContentRequiredException({String? type, String? message})
       : super(
             type: type, code: 'FileContentRequiredException', message: message);
 }
 
 class FileContentSizeLimitExceededException extends _s.GenericAwsException {
-  FileContentSizeLimitExceededException({String type, String message})
+  FileContentSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'FileContentSizeLimitExceededException',
@@ -10093,23 +11505,23 @@ class FileContentSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class FileDoesNotExistException extends _s.GenericAwsException {
-  FileDoesNotExistException({String type, String message})
+  FileDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'FileDoesNotExistException', message: message);
 }
 
 class FileEntryRequiredException extends _s.GenericAwsException {
-  FileEntryRequiredException({String type, String message})
+  FileEntryRequiredException({String? type, String? message})
       : super(type: type, code: 'FileEntryRequiredException', message: message);
 }
 
 class FileModeRequiredException extends _s.GenericAwsException {
-  FileModeRequiredException({String type, String message})
+  FileModeRequiredException({String? type, String? message})
       : super(type: type, code: 'FileModeRequiredException', message: message);
 }
 
 class FileNameConflictsWithDirectoryNameException
     extends _s.GenericAwsException {
-  FileNameConflictsWithDirectoryNameException({String type, String message})
+  FileNameConflictsWithDirectoryNameException({String? type, String? message})
       : super(
             type: type,
             code: 'FileNameConflictsWithDirectoryNameException',
@@ -10118,7 +11530,7 @@ class FileNameConflictsWithDirectoryNameException
 
 class FilePathConflictsWithSubmodulePathException
     extends _s.GenericAwsException {
-  FilePathConflictsWithSubmodulePathException({String type, String message})
+  FilePathConflictsWithSubmodulePathException({String? type, String? message})
       : super(
             type: type,
             code: 'FilePathConflictsWithSubmodulePathException',
@@ -10126,12 +11538,12 @@ class FilePathConflictsWithSubmodulePathException
 }
 
 class FileTooLargeException extends _s.GenericAwsException {
-  FileTooLargeException({String type, String message})
+  FileTooLargeException({String? type, String? message})
       : super(type: type, code: 'FileTooLargeException', message: message);
 }
 
 class FolderContentSizeLimitExceededException extends _s.GenericAwsException {
-  FolderContentSizeLimitExceededException({String type, String message})
+  FolderContentSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'FolderContentSizeLimitExceededException',
@@ -10139,13 +11551,13 @@ class FolderContentSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class FolderDoesNotExistException extends _s.GenericAwsException {
-  FolderDoesNotExistException({String type, String message})
+  FolderDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'FolderDoesNotExistException', message: message);
 }
 
 class IdempotencyParameterMismatchException extends _s.GenericAwsException {
-  IdempotencyParameterMismatchException({String type, String message})
+  IdempotencyParameterMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'IdempotencyParameterMismatchException',
@@ -10153,12 +11565,12 @@ class IdempotencyParameterMismatchException extends _s.GenericAwsException {
 }
 
 class InvalidActorArnException extends _s.GenericAwsException {
-  InvalidActorArnException({String type, String message})
+  InvalidActorArnException({String? type, String? message})
       : super(type: type, code: 'InvalidActorArnException', message: message);
 }
 
 class InvalidApprovalRuleContentException extends _s.GenericAwsException {
-  InvalidApprovalRuleContentException({String type, String message})
+  InvalidApprovalRuleContentException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApprovalRuleContentException',
@@ -10166,7 +11578,7 @@ class InvalidApprovalRuleContentException extends _s.GenericAwsException {
 }
 
 class InvalidApprovalRuleNameException extends _s.GenericAwsException {
-  InvalidApprovalRuleNameException({String type, String message})
+  InvalidApprovalRuleNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApprovalRuleNameException',
@@ -10175,7 +11587,7 @@ class InvalidApprovalRuleNameException extends _s.GenericAwsException {
 
 class InvalidApprovalRuleTemplateContentException
     extends _s.GenericAwsException {
-  InvalidApprovalRuleTemplateContentException({String type, String message})
+  InvalidApprovalRuleTemplateContentException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApprovalRuleTemplateContentException',
@@ -10184,7 +11596,8 @@ class InvalidApprovalRuleTemplateContentException
 
 class InvalidApprovalRuleTemplateDescriptionException
     extends _s.GenericAwsException {
-  InvalidApprovalRuleTemplateDescriptionException({String type, String message})
+  InvalidApprovalRuleTemplateDescriptionException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApprovalRuleTemplateDescriptionException',
@@ -10192,7 +11605,7 @@ class InvalidApprovalRuleTemplateDescriptionException
 }
 
 class InvalidApprovalRuleTemplateNameException extends _s.GenericAwsException {
-  InvalidApprovalRuleTemplateNameException({String type, String message})
+  InvalidApprovalRuleTemplateNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApprovalRuleTemplateNameException',
@@ -10200,7 +11613,7 @@ class InvalidApprovalRuleTemplateNameException extends _s.GenericAwsException {
 }
 
 class InvalidApprovalStateException extends _s.GenericAwsException {
-  InvalidApprovalStateException({String type, String message})
+  InvalidApprovalStateException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApprovalStateException',
@@ -10208,22 +11621,22 @@ class InvalidApprovalStateException extends _s.GenericAwsException {
 }
 
 class InvalidAuthorArnException extends _s.GenericAwsException {
-  InvalidAuthorArnException({String type, String message})
+  InvalidAuthorArnException({String? type, String? message})
       : super(type: type, code: 'InvalidAuthorArnException', message: message);
 }
 
 class InvalidBlobIdException extends _s.GenericAwsException {
-  InvalidBlobIdException({String type, String message})
+  InvalidBlobIdException({String? type, String? message})
       : super(type: type, code: 'InvalidBlobIdException', message: message);
 }
 
 class InvalidBranchNameException extends _s.GenericAwsException {
-  InvalidBranchNameException({String type, String message})
+  InvalidBranchNameException({String? type, String? message})
       : super(type: type, code: 'InvalidBranchNameException', message: message);
 }
 
 class InvalidClientRequestTokenException extends _s.GenericAwsException {
-  InvalidClientRequestTokenException({String type, String message})
+  InvalidClientRequestTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidClientRequestTokenException',
@@ -10231,22 +11644,22 @@ class InvalidClientRequestTokenException extends _s.GenericAwsException {
 }
 
 class InvalidCommentIdException extends _s.GenericAwsException {
-  InvalidCommentIdException({String type, String message})
+  InvalidCommentIdException({String? type, String? message})
       : super(type: type, code: 'InvalidCommentIdException', message: message);
 }
 
 class InvalidCommitException extends _s.GenericAwsException {
-  InvalidCommitException({String type, String message})
+  InvalidCommitException({String? type, String? message})
       : super(type: type, code: 'InvalidCommitException', message: message);
 }
 
 class InvalidCommitIdException extends _s.GenericAwsException {
-  InvalidCommitIdException({String type, String message})
+  InvalidCommitIdException({String? type, String? message})
       : super(type: type, code: 'InvalidCommitIdException', message: message);
 }
 
 class InvalidConflictDetailLevelException extends _s.GenericAwsException {
-  InvalidConflictDetailLevelException({String type, String message})
+  InvalidConflictDetailLevelException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidConflictDetailLevelException',
@@ -10254,7 +11667,7 @@ class InvalidConflictDetailLevelException extends _s.GenericAwsException {
 }
 
 class InvalidConflictResolutionException extends _s.GenericAwsException {
-  InvalidConflictResolutionException({String type, String message})
+  InvalidConflictResolutionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidConflictResolutionException',
@@ -10263,7 +11676,7 @@ class InvalidConflictResolutionException extends _s.GenericAwsException {
 
 class InvalidConflictResolutionStrategyException
     extends _s.GenericAwsException {
-  InvalidConflictResolutionStrategyException({String type, String message})
+  InvalidConflictResolutionStrategyException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidConflictResolutionStrategyException',
@@ -10271,7 +11684,7 @@ class InvalidConflictResolutionStrategyException
 }
 
 class InvalidContinuationTokenException extends _s.GenericAwsException {
-  InvalidContinuationTokenException({String type, String message})
+  InvalidContinuationTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidContinuationTokenException',
@@ -10279,7 +11692,7 @@ class InvalidContinuationTokenException extends _s.GenericAwsException {
 }
 
 class InvalidDeletionParameterException extends _s.GenericAwsException {
-  InvalidDeletionParameterException({String type, String message})
+  InvalidDeletionParameterException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeletionParameterException',
@@ -10287,14 +11700,14 @@ class InvalidDeletionParameterException extends _s.GenericAwsException {
 }
 
 class InvalidDescriptionException extends _s.GenericAwsException {
-  InvalidDescriptionException({String type, String message})
+  InvalidDescriptionException({String? type, String? message})
       : super(
             type: type, code: 'InvalidDescriptionException', message: message);
 }
 
 class InvalidDestinationCommitSpecifierException
     extends _s.GenericAwsException {
-  InvalidDestinationCommitSpecifierException({String type, String message})
+  InvalidDestinationCommitSpecifierException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDestinationCommitSpecifierException',
@@ -10302,29 +11715,29 @@ class InvalidDestinationCommitSpecifierException
 }
 
 class InvalidEmailException extends _s.GenericAwsException {
-  InvalidEmailException({String type, String message})
+  InvalidEmailException({String? type, String? message})
       : super(type: type, code: 'InvalidEmailException', message: message);
 }
 
 class InvalidFileLocationException extends _s.GenericAwsException {
-  InvalidFileLocationException({String type, String message})
+  InvalidFileLocationException({String? type, String? message})
       : super(
             type: type, code: 'InvalidFileLocationException', message: message);
 }
 
 class InvalidFileModeException extends _s.GenericAwsException {
-  InvalidFileModeException({String type, String message})
+  InvalidFileModeException({String? type, String? message})
       : super(type: type, code: 'InvalidFileModeException', message: message);
 }
 
 class InvalidFilePositionException extends _s.GenericAwsException {
-  InvalidFilePositionException({String type, String message})
+  InvalidFilePositionException({String? type, String? message})
       : super(
             type: type, code: 'InvalidFilePositionException', message: message);
 }
 
 class InvalidMaxConflictFilesException extends _s.GenericAwsException {
-  InvalidMaxConflictFilesException({String type, String message})
+  InvalidMaxConflictFilesException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidMaxConflictFilesException',
@@ -10332,7 +11745,7 @@ class InvalidMaxConflictFilesException extends _s.GenericAwsException {
 }
 
 class InvalidMaxMergeHunksException extends _s.GenericAwsException {
-  InvalidMaxMergeHunksException({String type, String message})
+  InvalidMaxMergeHunksException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidMaxMergeHunksException',
@@ -10340,23 +11753,23 @@ class InvalidMaxMergeHunksException extends _s.GenericAwsException {
 }
 
 class InvalidMaxResultsException extends _s.GenericAwsException {
-  InvalidMaxResultsException({String type, String message})
+  InvalidMaxResultsException({String? type, String? message})
       : super(type: type, code: 'InvalidMaxResultsException', message: message);
 }
 
 class InvalidMergeOptionException extends _s.GenericAwsException {
-  InvalidMergeOptionException({String type, String message})
+  InvalidMergeOptionException({String? type, String? message})
       : super(
             type: type, code: 'InvalidMergeOptionException', message: message);
 }
 
 class InvalidOrderException extends _s.GenericAwsException {
-  InvalidOrderException({String type, String message})
+  InvalidOrderException({String? type, String? message})
       : super(type: type, code: 'InvalidOrderException', message: message);
 }
 
 class InvalidOverrideStatusException extends _s.GenericAwsException {
-  InvalidOverrideStatusException({String type, String message})
+  InvalidOverrideStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidOverrideStatusException',
@@ -10364,7 +11777,7 @@ class InvalidOverrideStatusException extends _s.GenericAwsException {
 }
 
 class InvalidParentCommitIdException extends _s.GenericAwsException {
-  InvalidParentCommitIdException({String type, String message})
+  InvalidParentCommitIdException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParentCommitIdException',
@@ -10372,12 +11785,12 @@ class InvalidParentCommitIdException extends _s.GenericAwsException {
 }
 
 class InvalidPathException extends _s.GenericAwsException {
-  InvalidPathException({String type, String message})
+  InvalidPathException({String? type, String? message})
       : super(type: type, code: 'InvalidPathException', message: message);
 }
 
 class InvalidPullRequestEventTypeException extends _s.GenericAwsException {
-  InvalidPullRequestEventTypeException({String type, String message})
+  InvalidPullRequestEventTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPullRequestEventTypeException',
@@ -10385,7 +11798,7 @@ class InvalidPullRequestEventTypeException extends _s.GenericAwsException {
 }
 
 class InvalidPullRequestIdException extends _s.GenericAwsException {
-  InvalidPullRequestIdException({String type, String message})
+  InvalidPullRequestIdException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPullRequestIdException',
@@ -10393,7 +11806,7 @@ class InvalidPullRequestIdException extends _s.GenericAwsException {
 }
 
 class InvalidPullRequestStatusException extends _s.GenericAwsException {
-  InvalidPullRequestStatusException({String type, String message})
+  InvalidPullRequestStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPullRequestStatusException',
@@ -10401,7 +11814,7 @@ class InvalidPullRequestStatusException extends _s.GenericAwsException {
 }
 
 class InvalidPullRequestStatusUpdateException extends _s.GenericAwsException {
-  InvalidPullRequestStatusUpdateException({String type, String message})
+  InvalidPullRequestStatusUpdateException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidPullRequestStatusUpdateException',
@@ -10409,7 +11822,7 @@ class InvalidPullRequestStatusUpdateException extends _s.GenericAwsException {
 }
 
 class InvalidReactionUserArnException extends _s.GenericAwsException {
-  InvalidReactionUserArnException({String type, String message})
+  InvalidReactionUserArnException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidReactionUserArnException',
@@ -10417,7 +11830,7 @@ class InvalidReactionUserArnException extends _s.GenericAwsException {
 }
 
 class InvalidReactionValueException extends _s.GenericAwsException {
-  InvalidReactionValueException({String type, String message})
+  InvalidReactionValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidReactionValueException',
@@ -10425,7 +11838,7 @@ class InvalidReactionValueException extends _s.GenericAwsException {
 }
 
 class InvalidReferenceNameException extends _s.GenericAwsException {
-  InvalidReferenceNameException({String type, String message})
+  InvalidReferenceNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidReferenceNameException',
@@ -10433,7 +11846,7 @@ class InvalidReferenceNameException extends _s.GenericAwsException {
 }
 
 class InvalidRelativeFileVersionEnumException extends _s.GenericAwsException {
-  InvalidRelativeFileVersionEnumException({String type, String message})
+  InvalidRelativeFileVersionEnumException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRelativeFileVersionEnumException',
@@ -10441,7 +11854,7 @@ class InvalidRelativeFileVersionEnumException extends _s.GenericAwsException {
 }
 
 class InvalidReplacementContentException extends _s.GenericAwsException {
-  InvalidReplacementContentException({String type, String message})
+  InvalidReplacementContentException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidReplacementContentException',
@@ -10449,7 +11862,7 @@ class InvalidReplacementContentException extends _s.GenericAwsException {
 }
 
 class InvalidReplacementTypeException extends _s.GenericAwsException {
-  InvalidReplacementTypeException({String type, String message})
+  InvalidReplacementTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidReplacementTypeException',
@@ -10457,7 +11870,7 @@ class InvalidReplacementTypeException extends _s.GenericAwsException {
 }
 
 class InvalidRepositoryDescriptionException extends _s.GenericAwsException {
-  InvalidRepositoryDescriptionException({String type, String message})
+  InvalidRepositoryDescriptionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryDescriptionException',
@@ -10465,7 +11878,7 @@ class InvalidRepositoryDescriptionException extends _s.GenericAwsException {
 }
 
 class InvalidRepositoryNameException extends _s.GenericAwsException {
-  InvalidRepositoryNameException({String type, String message})
+  InvalidRepositoryNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryNameException',
@@ -10474,7 +11887,7 @@ class InvalidRepositoryNameException extends _s.GenericAwsException {
 
 class InvalidRepositoryTriggerBranchNameException
     extends _s.GenericAwsException {
-  InvalidRepositoryTriggerBranchNameException({String type, String message})
+  InvalidRepositoryTriggerBranchNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryTriggerBranchNameException',
@@ -10483,7 +11896,7 @@ class InvalidRepositoryTriggerBranchNameException
 
 class InvalidRepositoryTriggerCustomDataException
     extends _s.GenericAwsException {
-  InvalidRepositoryTriggerCustomDataException({String type, String message})
+  InvalidRepositoryTriggerCustomDataException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryTriggerCustomDataException',
@@ -10492,7 +11905,8 @@ class InvalidRepositoryTriggerCustomDataException
 
 class InvalidRepositoryTriggerDestinationArnException
     extends _s.GenericAwsException {
-  InvalidRepositoryTriggerDestinationArnException({String type, String message})
+  InvalidRepositoryTriggerDestinationArnException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryTriggerDestinationArnException',
@@ -10500,7 +11914,7 @@ class InvalidRepositoryTriggerDestinationArnException
 }
 
 class InvalidRepositoryTriggerEventsException extends _s.GenericAwsException {
-  InvalidRepositoryTriggerEventsException({String type, String message})
+  InvalidRepositoryTriggerEventsException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryTriggerEventsException',
@@ -10508,7 +11922,7 @@ class InvalidRepositoryTriggerEventsException extends _s.GenericAwsException {
 }
 
 class InvalidRepositoryTriggerNameException extends _s.GenericAwsException {
-  InvalidRepositoryTriggerNameException({String type, String message})
+  InvalidRepositoryTriggerNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryTriggerNameException',
@@ -10516,7 +11930,7 @@ class InvalidRepositoryTriggerNameException extends _s.GenericAwsException {
 }
 
 class InvalidRepositoryTriggerRegionException extends _s.GenericAwsException {
-  InvalidRepositoryTriggerRegionException({String type, String message})
+  InvalidRepositoryTriggerRegionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRepositoryTriggerRegionException',
@@ -10524,18 +11938,18 @@ class InvalidRepositoryTriggerRegionException extends _s.GenericAwsException {
 }
 
 class InvalidResourceArnException extends _s.GenericAwsException {
-  InvalidResourceArnException({String type, String message})
+  InvalidResourceArnException({String? type, String? message})
       : super(
             type: type, code: 'InvalidResourceArnException', message: message);
 }
 
 class InvalidRevisionIdException extends _s.GenericAwsException {
-  InvalidRevisionIdException({String type, String message})
+  InvalidRevisionIdException({String? type, String? message})
       : super(type: type, code: 'InvalidRevisionIdException', message: message);
 }
 
 class InvalidRuleContentSha256Exception extends _s.GenericAwsException {
-  InvalidRuleContentSha256Exception({String type, String message})
+  InvalidRuleContentSha256Exception({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRuleContentSha256Exception',
@@ -10543,12 +11957,12 @@ class InvalidRuleContentSha256Exception extends _s.GenericAwsException {
 }
 
 class InvalidSortByException extends _s.GenericAwsException {
-  InvalidSortByException({String type, String message})
+  InvalidSortByException({String? type, String? message})
       : super(type: type, code: 'InvalidSortByException', message: message);
 }
 
 class InvalidSourceCommitSpecifierException extends _s.GenericAwsException {
-  InvalidSourceCommitSpecifierException({String type, String message})
+  InvalidSourceCommitSpecifierException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSourceCommitSpecifierException',
@@ -10556,7 +11970,7 @@ class InvalidSourceCommitSpecifierException extends _s.GenericAwsException {
 }
 
 class InvalidSystemTagUsageException extends _s.GenericAwsException {
-  InvalidSystemTagUsageException({String type, String message})
+  InvalidSystemTagUsageException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSystemTagUsageException',
@@ -10564,45 +11978,45 @@ class InvalidSystemTagUsageException extends _s.GenericAwsException {
 }
 
 class InvalidTagKeysListException extends _s.GenericAwsException {
-  InvalidTagKeysListException({String type, String message})
+  InvalidTagKeysListException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTagKeysListException', message: message);
 }
 
 class InvalidTagsMapException extends _s.GenericAwsException {
-  InvalidTagsMapException({String type, String message})
+  InvalidTagsMapException({String? type, String? message})
       : super(type: type, code: 'InvalidTagsMapException', message: message);
 }
 
 class InvalidTargetBranchException extends _s.GenericAwsException {
-  InvalidTargetBranchException({String type, String message})
+  InvalidTargetBranchException({String? type, String? message})
       : super(
             type: type, code: 'InvalidTargetBranchException', message: message);
 }
 
 class InvalidTargetException extends _s.GenericAwsException {
-  InvalidTargetException({String type, String message})
+  InvalidTargetException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetException', message: message);
 }
 
 class InvalidTargetsException extends _s.GenericAwsException {
-  InvalidTargetsException({String type, String message})
+  InvalidTargetsException({String? type, String? message})
       : super(type: type, code: 'InvalidTargetsException', message: message);
 }
 
 class InvalidTitleException extends _s.GenericAwsException {
-  InvalidTitleException({String type, String message})
+  InvalidTitleException({String? type, String? message})
       : super(type: type, code: 'InvalidTitleException', message: message);
 }
 
 class ManualMergeRequiredException extends _s.GenericAwsException {
-  ManualMergeRequiredException({String type, String message})
+  ManualMergeRequiredException({String? type, String? message})
       : super(
             type: type, code: 'ManualMergeRequiredException', message: message);
 }
 
 class MaximumBranchesExceededException extends _s.GenericAwsException {
-  MaximumBranchesExceededException({String type, String message})
+  MaximumBranchesExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumBranchesExceededException',
@@ -10612,7 +12026,7 @@ class MaximumBranchesExceededException extends _s.GenericAwsException {
 class MaximumConflictResolutionEntriesExceededException
     extends _s.GenericAwsException {
   MaximumConflictResolutionEntriesExceededException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'MaximumConflictResolutionEntriesExceededException',
@@ -10620,7 +12034,7 @@ class MaximumConflictResolutionEntriesExceededException
 }
 
 class MaximumFileContentToLoadExceededException extends _s.GenericAwsException {
-  MaximumFileContentToLoadExceededException({String type, String message})
+  MaximumFileContentToLoadExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumFileContentToLoadExceededException',
@@ -10628,7 +12042,7 @@ class MaximumFileContentToLoadExceededException extends _s.GenericAwsException {
 }
 
 class MaximumFileEntriesExceededException extends _s.GenericAwsException {
-  MaximumFileEntriesExceededException({String type, String message})
+  MaximumFileEntriesExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumFileEntriesExceededException',
@@ -10636,7 +12050,7 @@ class MaximumFileEntriesExceededException extends _s.GenericAwsException {
 }
 
 class MaximumItemsToCompareExceededException extends _s.GenericAwsException {
-  MaximumItemsToCompareExceededException({String type, String message})
+  MaximumItemsToCompareExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumItemsToCompareExceededException',
@@ -10644,7 +12058,7 @@ class MaximumItemsToCompareExceededException extends _s.GenericAwsException {
 }
 
 class MaximumNumberOfApprovalsExceededException extends _s.GenericAwsException {
-  MaximumNumberOfApprovalsExceededException({String type, String message})
+  MaximumNumberOfApprovalsExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumNumberOfApprovalsExceededException',
@@ -10652,7 +12066,7 @@ class MaximumNumberOfApprovalsExceededException extends _s.GenericAwsException {
 }
 
 class MaximumOpenPullRequestsExceededException extends _s.GenericAwsException {
-  MaximumOpenPullRequestsExceededException({String type, String message})
+  MaximumOpenPullRequestsExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumOpenPullRequestsExceededException',
@@ -10660,7 +12074,7 @@ class MaximumOpenPullRequestsExceededException extends _s.GenericAwsException {
 }
 
 class MaximumRepositoryNamesExceededException extends _s.GenericAwsException {
-  MaximumRepositoryNamesExceededException({String type, String message})
+  MaximumRepositoryNamesExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumRepositoryNamesExceededException',
@@ -10669,7 +12083,7 @@ class MaximumRepositoryNamesExceededException extends _s.GenericAwsException {
 
 class MaximumRepositoryTriggersExceededException
     extends _s.GenericAwsException {
-  MaximumRepositoryTriggersExceededException({String type, String message})
+  MaximumRepositoryTriggersExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'MaximumRepositoryTriggersExceededException',
@@ -10679,7 +12093,7 @@ class MaximumRepositoryTriggersExceededException
 class MaximumRuleTemplatesAssociatedWithRepositoryException
     extends _s.GenericAwsException {
   MaximumRuleTemplatesAssociatedWithRepositoryException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'MaximumRuleTemplatesAssociatedWithRepositoryException',
@@ -10687,14 +12101,14 @@ class MaximumRuleTemplatesAssociatedWithRepositoryException
 }
 
 class MergeOptionRequiredException extends _s.GenericAwsException {
-  MergeOptionRequiredException({String type, String message})
+  MergeOptionRequiredException({String? type, String? message})
       : super(
             type: type, code: 'MergeOptionRequiredException', message: message);
 }
 
 class MultipleConflictResolutionEntriesException
     extends _s.GenericAwsException {
-  MultipleConflictResolutionEntriesException({String type, String message})
+  MultipleConflictResolutionEntriesException({String? type, String? message})
       : super(
             type: type,
             code: 'MultipleConflictResolutionEntriesException',
@@ -10703,7 +12117,7 @@ class MultipleConflictResolutionEntriesException
 
 class MultipleRepositoriesInPullRequestException
     extends _s.GenericAwsException {
-  MultipleRepositoriesInPullRequestException({String type, String message})
+  MultipleRepositoriesInPullRequestException({String? type, String? message})
       : super(
             type: type,
             code: 'MultipleRepositoriesInPullRequestException',
@@ -10711,18 +12125,18 @@ class MultipleRepositoriesInPullRequestException
 }
 
 class NameLengthExceededException extends _s.GenericAwsException {
-  NameLengthExceededException({String type, String message})
+  NameLengthExceededException({String? type, String? message})
       : super(
             type: type, code: 'NameLengthExceededException', message: message);
 }
 
 class NoChangeException extends _s.GenericAwsException {
-  NoChangeException({String type, String message})
+  NoChangeException({String? type, String? message})
       : super(type: type, code: 'NoChangeException', message: message);
 }
 
 class NumberOfRuleTemplatesExceededException extends _s.GenericAwsException {
-  NumberOfRuleTemplatesExceededException({String type, String message})
+  NumberOfRuleTemplatesExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'NumberOfRuleTemplatesExceededException',
@@ -10730,7 +12144,7 @@ class NumberOfRuleTemplatesExceededException extends _s.GenericAwsException {
 }
 
 class NumberOfRulesExceededException extends _s.GenericAwsException {
-  NumberOfRulesExceededException({String type, String message})
+  NumberOfRulesExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'NumberOfRulesExceededException',
@@ -10738,13 +12152,13 @@ class NumberOfRulesExceededException extends _s.GenericAwsException {
 }
 
 class OverrideAlreadySetException extends _s.GenericAwsException {
-  OverrideAlreadySetException({String type, String message})
+  OverrideAlreadySetException({String? type, String? message})
       : super(
             type: type, code: 'OverrideAlreadySetException', message: message);
 }
 
 class OverrideStatusRequiredException extends _s.GenericAwsException {
-  OverrideStatusRequiredException({String type, String message})
+  OverrideStatusRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'OverrideStatusRequiredException',
@@ -10752,7 +12166,7 @@ class OverrideStatusRequiredException extends _s.GenericAwsException {
 }
 
 class ParentCommitDoesNotExistException extends _s.GenericAwsException {
-  ParentCommitDoesNotExistException({String type, String message})
+  ParentCommitDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'ParentCommitDoesNotExistException',
@@ -10760,7 +12174,7 @@ class ParentCommitDoesNotExistException extends _s.GenericAwsException {
 }
 
 class ParentCommitIdOutdatedException extends _s.GenericAwsException {
-  ParentCommitIdOutdatedException({String type, String message})
+  ParentCommitIdOutdatedException({String? type, String? message})
       : super(
             type: type,
             code: 'ParentCommitIdOutdatedException',
@@ -10768,7 +12182,7 @@ class ParentCommitIdOutdatedException extends _s.GenericAwsException {
 }
 
 class ParentCommitIdRequiredException extends _s.GenericAwsException {
-  ParentCommitIdRequiredException({String type, String message})
+  ParentCommitIdRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ParentCommitIdRequiredException',
@@ -10776,17 +12190,17 @@ class ParentCommitIdRequiredException extends _s.GenericAwsException {
 }
 
 class PathDoesNotExistException extends _s.GenericAwsException {
-  PathDoesNotExistException({String type, String message})
+  PathDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'PathDoesNotExistException', message: message);
 }
 
 class PathRequiredException extends _s.GenericAwsException {
-  PathRequiredException({String type, String message})
+  PathRequiredException({String? type, String? message})
       : super(type: type, code: 'PathRequiredException', message: message);
 }
 
 class PullRequestAlreadyClosedException extends _s.GenericAwsException {
-  PullRequestAlreadyClosedException({String type, String message})
+  PullRequestAlreadyClosedException({String? type, String? message})
       : super(
             type: type,
             code: 'PullRequestAlreadyClosedException',
@@ -10795,7 +12209,7 @@ class PullRequestAlreadyClosedException extends _s.GenericAwsException {
 
 class PullRequestApprovalRulesNotSatisfiedException
     extends _s.GenericAwsException {
-  PullRequestApprovalRulesNotSatisfiedException({String type, String message})
+  PullRequestApprovalRulesNotSatisfiedException({String? type, String? message})
       : super(
             type: type,
             code: 'PullRequestApprovalRulesNotSatisfiedException',
@@ -10804,7 +12218,7 @@ class PullRequestApprovalRulesNotSatisfiedException
 
 class PullRequestCannotBeApprovedByAuthorException
     extends _s.GenericAwsException {
-  PullRequestCannotBeApprovedByAuthorException({String type, String message})
+  PullRequestCannotBeApprovedByAuthorException({String? type, String? message})
       : super(
             type: type,
             code: 'PullRequestCannotBeApprovedByAuthorException',
@@ -10812,7 +12226,7 @@ class PullRequestCannotBeApprovedByAuthorException
 }
 
 class PullRequestDoesNotExistException extends _s.GenericAwsException {
-  PullRequestDoesNotExistException({String type, String message})
+  PullRequestDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'PullRequestDoesNotExistException',
@@ -10820,7 +12234,7 @@ class PullRequestDoesNotExistException extends _s.GenericAwsException {
 }
 
 class PullRequestIdRequiredException extends _s.GenericAwsException {
-  PullRequestIdRequiredException({String type, String message})
+  PullRequestIdRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'PullRequestIdRequiredException',
@@ -10828,7 +12242,7 @@ class PullRequestIdRequiredException extends _s.GenericAwsException {
 }
 
 class PullRequestStatusRequiredException extends _s.GenericAwsException {
-  PullRequestStatusRequiredException({String type, String message})
+  PullRequestStatusRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'PullRequestStatusRequiredException',
@@ -10836,7 +12250,7 @@ class PullRequestStatusRequiredException extends _s.GenericAwsException {
 }
 
 class PutFileEntryConflictException extends _s.GenericAwsException {
-  PutFileEntryConflictException({String type, String message})
+  PutFileEntryConflictException({String? type, String? message})
       : super(
             type: type,
             code: 'PutFileEntryConflictException',
@@ -10844,7 +12258,7 @@ class PutFileEntryConflictException extends _s.GenericAwsException {
 }
 
 class ReactionLimitExceededException extends _s.GenericAwsException {
-  ReactionLimitExceededException({String type, String message})
+  ReactionLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ReactionLimitExceededException',
@@ -10852,7 +12266,7 @@ class ReactionLimitExceededException extends _s.GenericAwsException {
 }
 
 class ReactionValueRequiredException extends _s.GenericAwsException {
-  ReactionValueRequiredException({String type, String message})
+  ReactionValueRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ReactionValueRequiredException',
@@ -10860,7 +12274,7 @@ class ReactionValueRequiredException extends _s.GenericAwsException {
 }
 
 class ReferenceDoesNotExistException extends _s.GenericAwsException {
-  ReferenceDoesNotExistException({String type, String message})
+  ReferenceDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'ReferenceDoesNotExistException',
@@ -10868,7 +12282,7 @@ class ReferenceDoesNotExistException extends _s.GenericAwsException {
 }
 
 class ReferenceNameRequiredException extends _s.GenericAwsException {
-  ReferenceNameRequiredException({String type, String message})
+  ReferenceNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ReferenceNameRequiredException',
@@ -10876,7 +12290,7 @@ class ReferenceNameRequiredException extends _s.GenericAwsException {
 }
 
 class ReferenceTypeNotSupportedException extends _s.GenericAwsException {
-  ReferenceTypeNotSupportedException({String type, String message})
+  ReferenceTypeNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'ReferenceTypeNotSupportedException',
@@ -10884,7 +12298,7 @@ class ReferenceTypeNotSupportedException extends _s.GenericAwsException {
 }
 
 class ReplacementContentRequiredException extends _s.GenericAwsException {
-  ReplacementContentRequiredException({String type, String message})
+  ReplacementContentRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ReplacementContentRequiredException',
@@ -10892,7 +12306,7 @@ class ReplacementContentRequiredException extends _s.GenericAwsException {
 }
 
 class ReplacementTypeRequiredException extends _s.GenericAwsException {
-  ReplacementTypeRequiredException({String type, String message})
+  ReplacementTypeRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ReplacementTypeRequiredException',
@@ -10900,7 +12314,7 @@ class ReplacementTypeRequiredException extends _s.GenericAwsException {
 }
 
 class RepositoryDoesNotExistException extends _s.GenericAwsException {
-  RepositoryDoesNotExistException({String type, String message})
+  RepositoryDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryDoesNotExistException',
@@ -10908,7 +12322,7 @@ class RepositoryDoesNotExistException extends _s.GenericAwsException {
 }
 
 class RepositoryLimitExceededException extends _s.GenericAwsException {
-  RepositoryLimitExceededException({String type, String message})
+  RepositoryLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryLimitExceededException',
@@ -10916,7 +12330,7 @@ class RepositoryLimitExceededException extends _s.GenericAwsException {
 }
 
 class RepositoryNameExistsException extends _s.GenericAwsException {
-  RepositoryNameExistsException({String type, String message})
+  RepositoryNameExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryNameExistsException',
@@ -10924,7 +12338,7 @@ class RepositoryNameExistsException extends _s.GenericAwsException {
 }
 
 class RepositoryNameRequiredException extends _s.GenericAwsException {
-  RepositoryNameRequiredException({String type, String message})
+  RepositoryNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryNameRequiredException',
@@ -10932,7 +12346,7 @@ class RepositoryNameRequiredException extends _s.GenericAwsException {
 }
 
 class RepositoryNamesRequiredException extends _s.GenericAwsException {
-  RepositoryNamesRequiredException({String type, String message})
+  RepositoryNamesRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryNamesRequiredException',
@@ -10941,7 +12355,8 @@ class RepositoryNamesRequiredException extends _s.GenericAwsException {
 
 class RepositoryNotAssociatedWithPullRequestException
     extends _s.GenericAwsException {
-  RepositoryNotAssociatedWithPullRequestException({String type, String message})
+  RepositoryNotAssociatedWithPullRequestException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryNotAssociatedWithPullRequestException',
@@ -10951,7 +12366,7 @@ class RepositoryNotAssociatedWithPullRequestException
 class RepositoryTriggerBranchNameListRequiredException
     extends _s.GenericAwsException {
   RepositoryTriggerBranchNameListRequiredException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryTriggerBranchNameListRequiredException',
@@ -10961,7 +12376,7 @@ class RepositoryTriggerBranchNameListRequiredException
 class RepositoryTriggerDestinationArnRequiredException
     extends _s.GenericAwsException {
   RepositoryTriggerDestinationArnRequiredException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryTriggerDestinationArnRequiredException',
@@ -10970,7 +12385,7 @@ class RepositoryTriggerDestinationArnRequiredException
 
 class RepositoryTriggerEventsListRequiredException
     extends _s.GenericAwsException {
-  RepositoryTriggerEventsListRequiredException({String type, String message})
+  RepositoryTriggerEventsListRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryTriggerEventsListRequiredException',
@@ -10978,7 +12393,7 @@ class RepositoryTriggerEventsListRequiredException
 }
 
 class RepositoryTriggerNameRequiredException extends _s.GenericAwsException {
-  RepositoryTriggerNameRequiredException({String type, String message})
+  RepositoryTriggerNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryTriggerNameRequiredException',
@@ -10986,7 +12401,7 @@ class RepositoryTriggerNameRequiredException extends _s.GenericAwsException {
 }
 
 class RepositoryTriggersListRequiredException extends _s.GenericAwsException {
-  RepositoryTriggersListRequiredException({String type, String message})
+  RepositoryTriggersListRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'RepositoryTriggersListRequiredException',
@@ -10994,13 +12409,13 @@ class RepositoryTriggersListRequiredException extends _s.GenericAwsException {
 }
 
 class ResourceArnRequiredException extends _s.GenericAwsException {
-  ResourceArnRequiredException({String type, String message})
+  ResourceArnRequiredException({String? type, String? message})
       : super(
             type: type, code: 'ResourceArnRequiredException', message: message);
 }
 
 class RestrictedSourceFileException extends _s.GenericAwsException {
-  RestrictedSourceFileException({String type, String message})
+  RestrictedSourceFileException({String? type, String? message})
       : super(
             type: type,
             code: 'RestrictedSourceFileException',
@@ -11008,29 +12423,29 @@ class RestrictedSourceFileException extends _s.GenericAwsException {
 }
 
 class RevisionIdRequiredException extends _s.GenericAwsException {
-  RevisionIdRequiredException({String type, String message})
+  RevisionIdRequiredException({String? type, String? message})
       : super(
             type: type, code: 'RevisionIdRequiredException', message: message);
 }
 
 class RevisionNotCurrentException extends _s.GenericAwsException {
-  RevisionNotCurrentException({String type, String message})
+  RevisionNotCurrentException({String? type, String? message})
       : super(
             type: type, code: 'RevisionNotCurrentException', message: message);
 }
 
 class SameFileContentException extends _s.GenericAwsException {
-  SameFileContentException({String type, String message})
+  SameFileContentException({String? type, String? message})
       : super(type: type, code: 'SameFileContentException', message: message);
 }
 
 class SamePathRequestException extends _s.GenericAwsException {
-  SamePathRequestException({String type, String message})
+  SamePathRequestException({String? type, String? message})
       : super(type: type, code: 'SamePathRequestException', message: message);
 }
 
 class SourceAndDestinationAreSameException extends _s.GenericAwsException {
-  SourceAndDestinationAreSameException({String type, String message})
+  SourceAndDestinationAreSameException({String? type, String? message})
       : super(
             type: type,
             code: 'SourceAndDestinationAreSameException',
@@ -11038,7 +12453,7 @@ class SourceAndDestinationAreSameException extends _s.GenericAwsException {
 }
 
 class SourceFileOrContentRequiredException extends _s.GenericAwsException {
-  SourceFileOrContentRequiredException({String type, String message})
+  SourceFileOrContentRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'SourceFileOrContentRequiredException',
@@ -11046,33 +12461,33 @@ class SourceFileOrContentRequiredException extends _s.GenericAwsException {
 }
 
 class TagKeysListRequiredException extends _s.GenericAwsException {
-  TagKeysListRequiredException({String type, String message})
+  TagKeysListRequiredException({String? type, String? message})
       : super(
             type: type, code: 'TagKeysListRequiredException', message: message);
 }
 
 class TagPolicyException extends _s.GenericAwsException {
-  TagPolicyException({String type, String message})
+  TagPolicyException({String? type, String? message})
       : super(type: type, code: 'TagPolicyException', message: message);
 }
 
 class TagsMapRequiredException extends _s.GenericAwsException {
-  TagsMapRequiredException({String type, String message})
+  TagsMapRequiredException({String? type, String? message})
       : super(type: type, code: 'TagsMapRequiredException', message: message);
 }
 
 class TargetRequiredException extends _s.GenericAwsException {
-  TargetRequiredException({String type, String message})
+  TargetRequiredException({String? type, String? message})
       : super(type: type, code: 'TargetRequiredException', message: message);
 }
 
 class TargetsRequiredException extends _s.GenericAwsException {
-  TargetsRequiredException({String type, String message})
+  TargetsRequiredException({String? type, String? message})
       : super(type: type, code: 'TargetsRequiredException', message: message);
 }
 
 class TipOfSourceReferenceIsDifferentException extends _s.GenericAwsException {
-  TipOfSourceReferenceIsDifferentException({String type, String message})
+  TipOfSourceReferenceIsDifferentException({String? type, String? message})
       : super(
             type: type,
             code: 'TipOfSourceReferenceIsDifferentException',
@@ -11080,7 +12495,7 @@ class TipOfSourceReferenceIsDifferentException extends _s.GenericAwsException {
 }
 
 class TipsDivergenceExceededException extends _s.GenericAwsException {
-  TipsDivergenceExceededException({String type, String message})
+  TipsDivergenceExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'TipsDivergenceExceededException',
@@ -11088,12 +12503,12 @@ class TipsDivergenceExceededException extends _s.GenericAwsException {
 }
 
 class TitleRequiredException extends _s.GenericAwsException {
-  TitleRequiredException({String type, String message})
+  TitleRequiredException({String? type, String? message})
       : super(type: type, code: 'TitleRequiredException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

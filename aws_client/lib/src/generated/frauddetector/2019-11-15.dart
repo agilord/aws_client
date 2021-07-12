@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-11-15.g.dart';
 
 /// This is the Amazon Fraud Detector API Reference. This guide is for
 /// developers who need detailed information about Amazon Fraud Detector API
@@ -35,10 +28,10 @@ part '2019-11-15.g.dart';
 class FraudDetector {
   final _s.JsonProtocol _protocol;
   FraudDetector({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,8 +55,8 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<BatchCreateVariableResult> batchCreateVariable({
-    @_s.required List<VariableEntry> variableEntries,
-    List<Tag> tags,
+    required List<VariableEntry> variableEntries,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(variableEntries, 'variableEntries');
     final headers = <String, String>{
@@ -95,7 +88,7 @@ class FraudDetector {
   /// Parameter [names] :
   /// The list of variable names to get.
   Future<BatchGetVariableResult> batchGetVariable({
-    @_s.required List<String> names,
+    required List<String> names,
   }) async {
     ArgumentError.checkNotNull(names, 'names');
     final headers = <String, String>{
@@ -114,6 +107,159 @@ class FraudDetector {
     );
 
     return BatchGetVariableResult.fromJson(jsonResponse.body);
+  }
+
+  /// Cancels the specified batch prediction job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch prediction job to cancel.
+  Future<void> cancelBatchPredictionJob({
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      64,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CancelBatchPredictionJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
+  }
+
+  /// Creates a batch prediction job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [detectorName] :
+  /// The name of the detector.
+  ///
+  /// Parameter [eventTypeName] :
+  /// The name of the event type.
+  ///
+  /// Parameter [iamRoleArn] :
+  /// The ARN of the IAM role to use for this job request.
+  ///
+  /// Parameter [inputPath] :
+  /// The Amazon S3 location of your training file.
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch prediction job.
+  ///
+  /// Parameter [outputPath] :
+  /// The Amazon S3 location of your output file.
+  ///
+  /// Parameter [detectorVersion] :
+  /// The detector version.
+  ///
+  /// Parameter [tags] :
+  /// A collection of key and value pairs.
+  Future<void> createBatchPredictionJob({
+    required String detectorName,
+    required String eventTypeName,
+    required String iamRoleArn,
+    required String inputPath,
+    required String jobId,
+    required String outputPath,
+    String? detectorVersion,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(detectorName, 'detectorName');
+    _s.validateStringLength(
+      'detectorName',
+      detectorName,
+      1,
+      64,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
+    _s.validateStringLength(
+      'eventTypeName',
+      eventTypeName,
+      1,
+      64,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
+    _s.validateStringLength(
+      'iamRoleArn',
+      iamRoleArn,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(inputPath, 'inputPath');
+    _s.validateStringLength(
+      'inputPath',
+      inputPath,
+      1,
+      512,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      64,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(outputPath, 'outputPath');
+    _s.validateStringLength(
+      'outputPath',
+      outputPath,
+      1,
+      512,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'detectorVersion',
+      detectorVersion,
+      1,
+      5,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateBatchPredictionJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'detectorName': detectorName,
+        'eventTypeName': eventTypeName,
+        'iamRoleArn': iamRoleArn,
+        'inputPath': inputPath,
+        'jobId': jobId,
+        'outputPath': outputPath,
+        if (detectorVersion != null) 'detectorVersion': detectorVersion,
+        if (tags != null) 'tags': tags,
+      },
+    );
   }
 
   /// Creates a detector version. The detector version starts in a
@@ -158,13 +304,13 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<CreateDetectorVersionResult> createDetectorVersion({
-    @_s.required String detectorId,
-    @_s.required List<Rule> rules,
-    String description,
-    List<String> externalModelEndpoints,
-    List<ModelVersion> modelVersions,
-    RuleExecutionMode ruleExecutionMode,
-    List<Tag> tags,
+    required String detectorId,
+    required List<Rule> rules,
+    String? description,
+    List<String>? externalModelEndpoints,
+    List<ModelVersion>? modelVersions,
+    RuleExecutionMode? ruleExecutionMode,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -172,12 +318,6 @@ class FraudDetector {
       detectorId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(rules, 'rules');
@@ -234,11 +374,11 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<void> createModel({
-    @_s.required String eventTypeName,
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    String description,
-    List<Tag> tags,
+    required String eventTypeName,
+    required String modelId,
+    required ModelTypeEnum modelType,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
     ArgumentError.checkNotNull(modelId, 'modelId');
@@ -247,12 +387,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -266,7 +400,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateModel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -275,13 +409,11 @@ class FraudDetector {
       payload: {
         'eventTypeName': eventTypeName,
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
         if (description != null) 'description': description,
         if (tags != null) 'tags': tags,
       },
     );
-
-    return CreateModelResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a version of the model using the specified model type and model
@@ -312,12 +444,12 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<CreateModelVersionResult> createModelVersion({
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    @_s.required TrainingDataSchema trainingDataSchema,
-    @_s.required TrainingDataSourceEnum trainingDataSource,
-    ExternalEventsDetail externalEventsDetail,
-    List<Tag> tags,
+    required String modelId,
+    required ModelTypeEnum modelType,
+    required TrainingDataSchema trainingDataSchema,
+    required TrainingDataSourceEnum trainingDataSource,
+    ExternalEventsDetail? externalEventsDetail,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
@@ -325,12 +457,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -348,9 +474,9 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
         'trainingDataSchema': trainingDataSchema,
-        'trainingDataSource': trainingDataSource?.toValue() ?? '',
+        'trainingDataSource': trainingDataSource.toValue(),
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
         if (tags != null) 'tags': tags,
@@ -388,13 +514,13 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<CreateRuleResult> createRule({
-    @_s.required String detectorId,
-    @_s.required String expression,
-    @_s.required Language language,
-    @_s.required List<String> outcomes,
-    @_s.required String ruleId,
-    String description,
-    List<Tag> tags,
+    required String detectorId,
+    required String expression,
+    required Language language,
+    required List<String> outcomes,
+    required String ruleId,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -402,12 +528,6 @@ class FraudDetector {
       detectorId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(expression, 'expression');
@@ -426,12 +546,6 @@ class FraudDetector {
       ruleId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -453,7 +567,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'expression': expression,
-        'language': language?.toValue() ?? '',
+        'language': language.toValue(),
         'outcomes': outcomes,
         'ruleId': ruleId,
         if (description != null) 'description': description,
@@ -503,13 +617,13 @@ class FraudDetector {
   /// SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE |
   /// SHIPPING_STATE | SHIPPING_ZIP | USERAGENT</code>
   Future<void> createVariable({
-    @_s.required DataSource dataSource,
-    @_s.required DataType dataType,
-    @_s.required String defaultValue,
-    @_s.required String name,
-    String description,
-    List<Tag> tags,
-    String variableType,
+    required DataSource dataSource,
+    required DataType dataType,
+    required String defaultValue,
+    required String name,
+    String? description,
+    List<Tag>? tags,
+    String? variableType,
   }) async {
     ArgumentError.checkNotNull(dataSource, 'dataSource');
     ArgumentError.checkNotNull(dataType, 'dataType');
@@ -519,15 +633,15 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.CreateVariable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSource': dataSource?.toValue() ?? '',
-        'dataType': dataType?.toValue() ?? '',
+        'dataSource': dataSource.toValue(),
+        'dataType': dataType.toValue(),
         'defaultValue': defaultValue,
         'name': name,
         if (description != null) 'description': description,
@@ -535,8 +649,42 @@ class FraudDetector {
         if (variableType != null) 'variableType': variableType,
       },
     );
+  }
 
-    return CreateVariableResult.fromJson(jsonResponse.body);
+  /// Deletes a batch prediction job.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the batch prediction job to delete.
+  Future<void> deleteBatchPredictionJob({
+    required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      64,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteBatchPredictionJob'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'jobId': jobId,
+      },
+    );
   }
 
   /// Deletes the detector. Before deleting a detector, you must first delete
@@ -554,7 +702,7 @@ class FraudDetector {
   /// Parameter [detectorId] :
   /// The ID of the detector to delete.
   Future<void> deleteDetector({
-    @_s.required String detectorId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -564,17 +712,11 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteDetector'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -584,8 +726,6 @@ class FraudDetector {
         'detectorId': detectorId,
       },
     );
-
-    return DeleteDetectorResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the detector version. You cannot delete detector versions that are
@@ -608,8 +748,8 @@ class FraudDetector {
   /// Parameter [detectorVersionId] :
   /// The ID of the detector version to delete.
   Future<void> deleteDetectorVersion({
-    @_s.required String detectorId,
-    @_s.required String detectorVersionId,
+    required String detectorId,
+    required String detectorVersionId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -617,12 +757,6 @@ class FraudDetector {
       detectorId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
@@ -633,17 +767,11 @@ class FraudDetector {
       5,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteDetectorVersion'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -654,8 +782,6 @@ class FraudDetector {
         'detectorVersionId': detectorVersionId,
       },
     );
-
-    return DeleteDetectorVersionResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an entity type.
@@ -663,8 +789,8 @@ class FraudDetector {
   /// You cannot delete an entity type that is included in an event type.
   ///
   /// When you delete an entity type, Amazon Fraud Detector permanently deletes
-  /// that entity type from the evaluation history, and the data is no longer
-  /// stored in Amazon Fraud Detector.
+  /// that entity type and the data is no longer stored in Amazon Fraud
+  /// Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -674,7 +800,7 @@ class FraudDetector {
   /// Parameter [name] :
   /// The name of the entity type to delete.
   Future<void> deleteEntityType({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -684,17 +810,11 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEntityType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -704,15 +824,12 @@ class FraudDetector {
         'name': name,
       },
     );
-
-    return DeleteEntityTypeResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified event.
   ///
   /// When you delete an event, Amazon Fraud Detector permanently deletes that
-  /// event from the evaluation history, and the event data is no longer stored
-  /// in Amazon Fraud Detector.
+  /// event and the event data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -725,8 +842,8 @@ class FraudDetector {
   /// Parameter [eventTypeName] :
   /// The name of the event type.
   Future<void> deleteEvent({
-    @_s.required String eventId,
-    @_s.required String eventTypeName,
+    required String eventId,
+    required String eventTypeName,
   }) async {
     ArgumentError.checkNotNull(eventId, 'eventId');
     _s.validateStringLength(
@@ -734,12 +851,6 @@ class FraudDetector {
       eventId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eventId',
-      eventId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
@@ -750,17 +861,11 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'eventTypeName',
-      eventTypeName,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEvent'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -771,8 +876,6 @@ class FraudDetector {
         'eventTypeName': eventTypeName,
       },
     );
-
-    return DeleteEventResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an event type.
@@ -780,8 +883,8 @@ class FraudDetector {
   /// You cannot delete an event type that is used in a detector or a model.
   ///
   /// When you delete an entity type, Amazon Fraud Detector permanently deletes
-  /// that entity type from the evaluation history, and the data is no longer
-  /// stored in Amazon Fraud Detector.
+  /// that entity type and the data is no longer stored in Amazon Fraud
+  /// Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
@@ -791,7 +894,7 @@ class FraudDetector {
   /// Parameter [name] :
   /// The name of the event type to delete.
   Future<void> deleteEventType({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -801,17 +904,11 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteEventType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -821,8 +918,6 @@ class FraudDetector {
         'name': name,
       },
     );
-
-    return DeleteEventTypeResult.fromJson(jsonResponse.body);
   }
 
   /// Removes a SageMaker model from Amazon Fraud Detector.
@@ -840,7 +935,7 @@ class FraudDetector {
   /// Parameter [modelEndpoint] :
   /// The endpoint of the Amazon Sagemaker model to delete.
   Future<void> deleteExternalModel({
-    @_s.required String modelEndpoint,
+    required String modelEndpoint,
   }) async {
     ArgumentError.checkNotNull(modelEndpoint, 'modelEndpoint');
     _s.validateStringLength(
@@ -850,17 +945,11 @@ class FraudDetector {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelEndpoint',
-      modelEndpoint,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteExternalModel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -870,8 +959,6 @@ class FraudDetector {
         'modelEndpoint': modelEndpoint,
       },
     );
-
-    return DeleteExternalModelResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a label.
@@ -883,8 +970,7 @@ class FraudDetector {
   /// the relevant event ID.
   ///
   /// When you delete a label, Amazon Fraud Detector permanently deletes that
-  /// label from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// label and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -893,7 +979,7 @@ class FraudDetector {
   /// Parameter [name] :
   /// The name of the label to delete.
   Future<void> deleteLabel({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -903,17 +989,11 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteLabel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -923,8 +1003,6 @@ class FraudDetector {
         'name': name,
       },
     );
-
-    return DeleteLabelResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a model.
@@ -933,8 +1011,7 @@ class FraudDetector {
   /// provided that they are not associated with a detector version.
   ///
   /// When you delete a model, Amazon Fraud Detector permanently deletes that
-  /// model from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// model and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
@@ -947,8 +1024,8 @@ class FraudDetector {
   /// Parameter [modelType] :
   /// The model type of the model to delete.
   Future<void> deleteModel({
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
+    required String modelId,
+    required ModelTypeEnum modelType,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
@@ -958,18 +1035,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteModel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -977,11 +1048,9 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
       },
     );
-
-    return DeleteModelResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a model version.
@@ -990,8 +1059,8 @@ class FraudDetector {
   /// provided that they are not associated with a detector version.
   ///
   /// When you delete a model version, Amazon Fraud Detector permanently deletes
-  /// that model version from the evaluation history, and the data is no longer
-  /// stored in Amazon Fraud Detector.
+  /// that model version and the data is no longer stored in Amazon Fraud
+  /// Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1007,9 +1076,9 @@ class FraudDetector {
   /// Parameter [modelVersionNumber] :
   /// The model version number of the model version to delete.
   Future<void> deleteModelVersion({
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    @_s.required String modelVersionNumber,
+    required String modelId,
+    required ModelTypeEnum modelType,
+    required String modelVersionNumber,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
@@ -1017,12 +1086,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -1034,17 +1097,11 @@ class FraudDetector {
       7,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteModelVersion'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1052,12 +1109,10 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
         'modelVersionNumber': modelVersionNumber,
       },
     );
-
-    return DeleteModelVersionResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes an outcome.
@@ -1065,8 +1120,7 @@ class FraudDetector {
   /// You cannot delete an outcome that is used in a rule version.
   ///
   /// When you delete an outcome, Amazon Fraud Detector permanently deletes that
-  /// outcome from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// outcome and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
@@ -1077,7 +1131,7 @@ class FraudDetector {
   /// Parameter [name] :
   /// The name of the outcome to delete.
   Future<void> deleteOutcome({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1087,17 +1141,11 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteOutcome'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1107,16 +1155,13 @@ class FraudDetector {
         'name': name,
       },
     );
-
-    return DeleteOutcomeResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the rule. You cannot delete a rule if it is used by an
   /// <code>ACTIVE</code> or <code>INACTIVE</code> detector version.
   ///
   /// When you delete a rule, Amazon Fraud Detector permanently deletes that
-  /// rule from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// rule and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ConflictException].
   /// May throw [ValidationException].
@@ -1124,14 +1169,14 @@ class FraudDetector {
   /// May throw [ThrottlingException].
   /// May throw [AccessDeniedException].
   Future<void> deleteRule({
-    @_s.required Rule rule,
+    required Rule rule,
   }) async {
     ArgumentError.checkNotNull(rule, 'rule');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteRule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1141,8 +1186,6 @@ class FraudDetector {
         'rule': rule,
       },
     );
-
-    return DeleteRuleResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a variable.
@@ -1155,8 +1198,7 @@ class FraudDetector {
   /// delete these variables manually.
   ///
   /// When you delete a variable, Amazon Fraud Detector permanently deletes that
-  /// variable from the evaluation history, and the data is no longer stored in
-  /// Amazon Fraud Detector.
+  /// variable and the data is no longer stored in Amazon Fraud Detector.
   ///
   /// May throw [ValidationException].
   /// May throw [ConflictException].
@@ -1167,14 +1209,14 @@ class FraudDetector {
   /// Parameter [name] :
   /// The name of the variable to delete.
   Future<void> deleteVariable({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.DeleteVariable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1184,8 +1226,6 @@ class FraudDetector {
         'name': name,
       },
     );
-
-    return DeleteVariableResult.fromJson(jsonResponse.body);
   }
 
   /// Gets all versions for a specified detector.
@@ -1205,9 +1245,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token from the previous response.
   Future<DescribeDetectorResult> describeDetector({
-    @_s.required String detectorId,
-    int maxResults,
-    String nextToken,
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1215,12 +1255,6 @@ class FraudDetector {
       detectorId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1273,11 +1307,11 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token from the previous results.
   Future<DescribeModelVersionsResult> describeModelVersions({
-    int maxResults,
-    String modelId,
-    ModelTypeEnum modelType,
-    String modelVersionNumber,
-    String nextToken,
+    int? maxResults,
+    String? modelId,
+    ModelTypeEnum? modelType,
+    String? modelVersionNumber,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1291,21 +1325,11 @@ class FraudDetector {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-    );
     _s.validateStringLength(
       'modelVersionNumber',
       modelVersionNumber,
       3,
       7,
-    );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1330,6 +1354,64 @@ class FraudDetector {
     return DescribeModelVersionsResult.fromJson(jsonResponse.body);
   }
 
+  /// Gets all batch prediction jobs or a specific job if you specify a job ID.
+  /// This is a paginated API. If you provide a null maxResults, this action
+  /// retrieves a maximum of 50 records per page. If you provide a maxResults,
+  /// the value must be between 1 and 50. To get the next page results, provide
+  /// the pagination token from the GetBatchPredictionJobsResponse as part of
+  /// your request. A null pagination token fetches the records from the
+  /// beginning.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServerException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [jobId] :
+  /// The batch prediction job for which to get the details.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects to return for the request.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token from the previous request.
+  Future<GetBatchPredictionJobsResult> getBatchPredictionJobs({
+    String? jobId,
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      64,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSHawksNestServiceFacade.GetBatchPredictionJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (jobId != null) 'jobId': jobId,
+        if (maxResults != null) 'maxResults': maxResults,
+        if (nextToken != null) 'nextToken': nextToken,
+      },
+    );
+
+    return GetBatchPredictionJobsResult.fromJson(jsonResponse.body);
+  }
+
   /// Gets a particular detector version.
   ///
   /// May throw [ValidationException].
@@ -1344,8 +1426,8 @@ class FraudDetector {
   /// Parameter [detectorVersionId] :
   /// The detector version ID.
   Future<GetDetectorVersionResult> getDetectorVersion({
-    @_s.required String detectorId,
-    @_s.required String detectorVersionId,
+    required String detectorId,
+    required String detectorVersionId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1355,24 +1437,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
       detectorVersionId,
       1,
       5,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1417,20 +1487,15 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token for the subsequent request.
   Future<GetDetectorsResult> getDetectors({
-    String detectorId,
-    int maxResults,
-    String nextToken,
+    String? detectorId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'detectorId',
       detectorId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -1480,9 +1545,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token for the subsequent request.
   Future<GetEntityTypesResult> getEntityTypes({
-    int maxResults,
-    String name,
-    String nextToken,
+    int? maxResults,
+    String? name,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1495,11 +1560,6 @@ class FraudDetector {
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1552,6 +1612,34 @@ class FraudDetector {
   /// Names of the event type's variables you defined in Amazon Fraud Detector
   /// to represent data elements and their corresponding values for the event
   /// you are sending for evaluation.
+  /// <important>
+  /// <ul>
+  /// <li>
+  /// You must provide at least one eventVariable
+  /// </li>
+  /// <li>
+  /// If detectorVersion is associated with a modelVersion, you must provide at
+  /// least one associated eventVariable
+  /// </li>
+  /// </ul> </important>
+  /// To ensure highest possible fraud prediction and to simplify your data
+  /// preparation, Amazon Fraud Detector will replace all missing variables or
+  /// values as follows:
+  ///
+  /// <b>For Amazon Fraud Detector trained models:</b>
+  ///
+  /// If a null value is provided explicitly for a variable or if a variable is
+  /// missing, model will replace the null value or the missing variable (no
+  /// variable name in the eventVariables map) with calculated default
+  /// mean/medians for numeric variables and with special values for categorical
+  /// variables.
+  ///
+  /// <b>For External models ( for example, imported SageMaker):</b>
+  ///
+  /// If a null value is provided explicitly for a variable, the model and rules
+  /// will use “null” as the value. If a variable is not provided (no variable
+  /// name in the eventVariables map), model and rules will use the default
+  /// value that is provided for the variable.
   ///
   /// Parameter [detectorVersionId] :
   /// The detector version ID.
@@ -1559,14 +1647,14 @@ class FraudDetector {
   /// Parameter [externalModelEndpointDataBlobs] :
   /// The Amazon SageMaker model endpoint input data blobs.
   Future<GetEventPredictionResult> getEventPrediction({
-    @_s.required String detectorId,
-    @_s.required List<Entity> entities,
-    @_s.required String eventId,
-    @_s.required String eventTimestamp,
-    @_s.required String eventTypeName,
-    @_s.required Map<String, String> eventVariables,
-    String detectorVersionId,
-    Map<String, ModelEndpointDataBlob> externalModelEndpointDataBlobs,
+    required String detectorId,
+    required List<Entity> entities,
+    required String eventId,
+    required String eventTimestamp,
+    required String eventTypeName,
+    required Map<String, String> eventVariables,
+    String? detectorVersionId,
+    Map<String, ModelEndpointDataBlob>? externalModelEndpointDataBlobs,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     ArgumentError.checkNotNull(entities, 'entities');
@@ -1579,11 +1667,6 @@ class FraudDetector {
       detectorVersionId,
       1,
       5,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1633,9 +1716,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token for the subsequent request.
   Future<GetEventTypesResult> getEventTypes({
-    int maxResults,
-    String name,
-    String nextToken,
+    int? maxResults,
+    String? name,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1648,11 +1731,6 @@ class FraudDetector {
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1697,9 +1775,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next page token for the request.
   Future<GetExternalModelsResult> getExternalModels({
-    int maxResults,
-    String modelEndpoint,
-    String nextToken,
+    int? maxResults,
+    String? modelEndpoint,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1772,9 +1850,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token for the subsequent request.
   Future<GetLabelsResult> getLabels({
-    int maxResults,
-    String name,
-    String nextToken,
+    int? maxResults,
+    String? name,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1787,11 +1865,6 @@ class FraudDetector {
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1829,9 +1902,9 @@ class FraudDetector {
   /// Parameter [modelVersionNumber] :
   /// The model version number.
   Future<GetModelVersionResult> getModelVersion({
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    @_s.required String modelVersionNumber,
+    required String modelId,
+    required ModelTypeEnum modelType,
+    required String modelVersionNumber,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
@@ -1841,12 +1914,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelType, 'modelType');
     ArgumentError.checkNotNull(modelVersionNumber, 'modelVersionNumber');
     _s.validateStringLength(
@@ -1854,12 +1921,6 @@ class FraudDetector {
       modelVersionNumber,
       3,
       7,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1874,7 +1935,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
         'modelVersionNumber': modelVersionNumber,
       },
     );
@@ -1911,10 +1972,10 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token for the subsequent request.
   Future<GetModelsResult> getModels({
-    int maxResults,
-    String modelId,
-    ModelTypeEnum modelType,
-    String nextToken,
+    int? maxResults,
+    String? modelId,
+    ModelTypeEnum? modelType,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1927,11 +1988,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1976,9 +2032,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next page token for the request.
   Future<GetOutcomesResult> getOutcomes({
-    int maxResults,
-    String name,
-    String nextToken,
+    int? maxResults,
+    String? name,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1991,11 +2047,6 @@ class FraudDetector {
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2050,11 +2101,11 @@ class FraudDetector {
   /// Parameter [ruleVersion] :
   /// The rule version.
   Future<GetRulesResult> getRules({
-    @_s.required String detectorId,
-    int maxResults,
-    String nextToken,
-    String ruleId,
-    String ruleVersion,
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
+    String? ruleId,
+    String? ruleVersion,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2062,12 +2113,6 @@ class FraudDetector {
       detectorId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2082,21 +2127,11 @@ class FraudDetector {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'ruleId',
-      ruleId,
-      r'''^[0-9a-z_-]+$''',
-    );
     _s.validateStringLength(
       'ruleVersion',
       ruleVersion,
       1,
       5,
-    );
-    _s.validateStringPattern(
-      'ruleVersion',
-      ruleVersion,
-      r'''^([1-9][0-9]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2143,9 +2178,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next page token of the get variable request.
   Future<GetVariablesResult> getVariables({
-    int maxResults,
-    String name,
-    String nextToken,
+    int? maxResults,
+    String? name,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2191,9 +2226,9 @@ class FraudDetector {
   /// Parameter [nextToken] :
   /// The next token from the previous results.
   Future<ListTagsForResourceResult> listTagsForResource({
-    @_s.required String resourceARN,
-    int maxResults,
-    String nextToken,
+    required String resourceARN,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2201,12 +2236,6 @@ class FraudDetector {
       resourceARN,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2254,10 +2283,10 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<void> putDetector({
-    @_s.required String detectorId,
-    @_s.required String eventTypeName,
-    String description,
-    List<Tag> tags,
+    required String detectorId,
+    required String eventTypeName,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2267,24 +2296,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(eventTypeName, 'eventTypeName');
     _s.validateStringLength(
       'eventTypeName',
       eventTypeName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eventTypeName',
-      eventTypeName,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2297,7 +2314,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutDetector'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2310,8 +2327,6 @@ class FraudDetector {
         if (tags != null) 'tags': tags,
       },
     );
-
-    return PutDetectorResult.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates an entity type. An entity represents who is performing
@@ -2333,9 +2348,9 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<void> putEntityType({
-    @_s.required String name,
-    String description,
-    List<Tag> tags,
+    required String name,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2343,12 +2358,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2361,7 +2370,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEntityType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2373,8 +2382,6 @@ class FraudDetector {
         if (tags != null) 'tags': tags,
       },
     );
-
-    return PutEntityTypeResult.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates an event type. An event is a business activity that is
@@ -2408,12 +2415,12 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<void> putEventType({
-    @_s.required List<String> entityTypes,
-    @_s.required List<String> eventVariables,
-    @_s.required String name,
-    String description,
-    List<String> labels,
-    List<Tag> tags,
+    required List<String> entityTypes,
+    required List<String> eventVariables,
+    required String name,
+    String? description,
+    List<String>? labels,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(entityTypes, 'entityTypes');
     ArgumentError.checkNotNull(eventVariables, 'eventVariables');
@@ -2423,12 +2430,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2441,7 +2442,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutEventType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2456,8 +2457,6 @@ class FraudDetector {
         if (tags != null) 'tags': tags,
       },
     );
-
-    return PutEventTypeResult.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates an Amazon SageMaker model endpoint. You can also use
@@ -2490,13 +2489,13 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<void> putExternalModel({
-    @_s.required ModelInputConfiguration inputConfiguration,
-    @_s.required String invokeModelEndpointRoleArn,
-    @_s.required String modelEndpoint,
-    @_s.required ModelEndpointStatus modelEndpointStatus,
-    @_s.required ModelSource modelSource,
-    @_s.required ModelOutputConfiguration outputConfiguration,
-    List<Tag> tags,
+    required ModelInputConfiguration inputConfiguration,
+    required String invokeModelEndpointRoleArn,
+    required String modelEndpoint,
+    required ModelEndpointStatus modelEndpointStatus,
+    required ModelSource modelSource,
+    required ModelOutputConfiguration outputConfiguration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(inputConfiguration, 'inputConfiguration');
     ArgumentError.checkNotNull(
@@ -2509,12 +2508,6 @@ class FraudDetector {
       63,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelEndpoint',
-      modelEndpoint,
-      r'''^[0-9A-Za-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelEndpointStatus, 'modelEndpointStatus');
     ArgumentError.checkNotNull(modelSource, 'modelSource');
     ArgumentError.checkNotNull(outputConfiguration, 'outputConfiguration');
@@ -2522,7 +2515,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutExternalModel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2532,14 +2525,12 @@ class FraudDetector {
         'inputConfiguration': inputConfiguration,
         'invokeModelEndpointRoleArn': invokeModelEndpointRoleArn,
         'modelEndpoint': modelEndpoint,
-        'modelEndpointStatus': modelEndpointStatus?.toValue() ?? '',
-        'modelSource': modelSource?.toValue() ?? '',
+        'modelEndpointStatus': modelEndpointStatus.toValue(),
+        'modelSource': modelSource.toValue(),
         'outputConfiguration': outputConfiguration,
         if (tags != null) 'tags': tags,
       },
     );
-
-    return PutExternalModelResult.fromJson(jsonResponse.body);
   }
 
   /// Specifies the Key Management Service (KMS) customer master key (CMK) to be
@@ -2553,7 +2544,7 @@ class FraudDetector {
   /// Parameter [kmsEncryptionKeyArn] :
   /// The KMS encryption key ARN.
   Future<void> putKMSEncryptionKey({
-    @_s.required String kmsEncryptionKeyArn,
+    required String kmsEncryptionKeyArn,
   }) async {
     ArgumentError.checkNotNull(kmsEncryptionKeyArn, 'kmsEncryptionKeyArn');
     _s.validateStringLength(
@@ -2563,17 +2554,11 @@ class FraudDetector {
       90,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'kmsEncryptionKeyArn',
-      kmsEncryptionKeyArn,
-      r'''^DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\d{12}:key\/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutKMSEncryptionKey'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2583,8 +2568,6 @@ class FraudDetector {
         'kmsEncryptionKeyArn': kmsEncryptionKeyArn,
       },
     );
-
-    return PutKMSEncryptionKeyResult.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates label. A label classifies an event as fraudulent or
@@ -2604,9 +2587,9 @@ class FraudDetector {
   /// Parameter [tags] :
   /// <p/>
   Future<void> putLabel({
-    @_s.required String name,
-    String description,
-    List<Tag> tags,
+    required String name,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2614,12 +2597,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2632,7 +2609,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutLabel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2644,8 +2621,6 @@ class FraudDetector {
         if (tags != null) 'tags': tags,
       },
     );
-
-    return PutLabelResult.fromJson(jsonResponse.body);
   }
 
   /// Creates or updates an outcome.
@@ -2664,9 +2639,9 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<void> putOutcome({
-    @_s.required String name,
-    String description,
-    List<Tag> tags,
+    required String name,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2674,12 +2649,6 @@ class FraudDetector {
       name,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2692,7 +2661,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.PutOutcome'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2704,8 +2673,6 @@ class FraudDetector {
         if (tags != null) 'tags': tags,
       },
     );
-
-    return PutOutcomeResult.fromJson(jsonResponse.body);
   }
 
   /// Assigns tags to a resource.
@@ -2720,8 +2687,8 @@ class FraudDetector {
   /// Parameter [tags] :
   /// The tags to assign to the resource.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2731,18 +2698,12 @@ class FraudDetector {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2753,8 +2714,6 @@ class FraudDetector {
         'tags': tags,
       },
     );
-
-    return TagResourceResult.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from a resource.
@@ -2769,8 +2728,8 @@ class FraudDetector {
   /// Parameter [tagKeys] :
   /// The resource ARN.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -2780,18 +2739,12 @@ class FraudDetector {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''^arn\:aws[a-z-]{0,15}\:frauddetector\:[a-z0-9-]{3,20}\:[0-9]{12}\:[^\s]{2,128}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2802,8 +2755,6 @@ class FraudDetector {
         'tagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResult.fromJson(jsonResponse.body);
   }
 
   /// Updates a detector version. The detector version attributes that you can
@@ -2849,13 +2800,13 @@ class FraudDetector {
   ///
   /// The default behavior is <code>FIRST_MATCHED</code>.
   Future<void> updateDetectorVersion({
-    @_s.required String detectorId,
-    @_s.required String detectorVersionId,
-    @_s.required List<String> externalModelEndpoints,
-    @_s.required List<Rule> rules,
-    String description,
-    List<ModelVersion> modelVersions,
-    RuleExecutionMode ruleExecutionMode,
+    required String detectorId,
+    required String detectorVersionId,
+    required List<String> externalModelEndpoints,
+    required List<Rule> rules,
+    String? description,
+    List<ModelVersion>? modelVersions,
+    RuleExecutionMode? ruleExecutionMode,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2865,24 +2816,12 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
       detectorVersionId,
       1,
       5,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -2898,7 +2837,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersion'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2915,8 +2854,6 @@ class FraudDetector {
           'ruleExecutionMode': ruleExecutionMode.toValue(),
       },
     );
-
-    return UpdateDetectorVersionResult.fromJson(jsonResponse.body);
   }
 
   /// Updates the detector version's description. You can update the metadata
@@ -2937,9 +2874,9 @@ class FraudDetector {
   /// Parameter [detectorVersionId] :
   /// The detector version ID.
   Future<void> updateDetectorVersionMetadata({
-    @_s.required String description,
-    @_s.required String detectorId,
-    @_s.required String detectorVersionId,
+    required String description,
+    required String detectorId,
+    required String detectorVersionId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -2957,12 +2894,6 @@ class FraudDetector {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
     _s.validateStringLength(
       'detectorVersionId',
@@ -2971,17 +2902,11 @@ class FraudDetector {
       5,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersionMetadata'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2993,8 +2918,6 @@ class FraudDetector {
         'detectorVersionId': detectorVersionId,
       },
     );
-
-    return UpdateDetectorVersionMetadataResult.fromJson(jsonResponse.body);
   }
 
   /// Updates the detector version’s status. You can perform the following
@@ -3017,9 +2940,9 @@ class FraudDetector {
   /// Parameter [status] :
   /// The new status.
   Future<void> updateDetectorVersionStatus({
-    @_s.required String detectorId,
-    @_s.required String detectorVersionId,
-    @_s.required DetectorVersionStatus status,
+    required String detectorId,
+    required String detectorVersionId,
+    required DetectorVersionStatus status,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -3027,12 +2950,6 @@ class FraudDetector {
       detectorId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'detectorId',
-      detectorId,
-      r'''^[0-9a-z_-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(detectorVersionId, 'detectorVersionId');
@@ -3043,18 +2960,12 @@ class FraudDetector {
       5,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'detectorVersionId',
-      detectorVersionId,
-      r'''^([1-9][0-9]*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateDetectorVersionStatus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3063,11 +2974,9 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'detectorVersionId': detectorVersionId,
-        'status': status?.toValue() ?? '',
+        'status': status.toValue(),
       },
     );
-
-    return UpdateDetectorVersionStatusResult.fromJson(jsonResponse.body);
   }
 
   /// Updates a model. You can update the description attribute using this
@@ -3087,9 +2996,9 @@ class FraudDetector {
   /// Parameter [description] :
   /// The new model description.
   Future<void> updateModel({
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    String description,
+    required String modelId,
+    required ModelTypeEnum modelType,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
@@ -3097,12 +3006,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -3116,7 +3019,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3124,12 +3027,10 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
         if (description != null) 'description': description,
       },
     );
-
-    return UpdateModelResult.fromJson(jsonResponse.body);
   }
 
   /// Updates a model version. Updating a model version retrains an existing
@@ -3158,11 +3059,11 @@ class FraudDetector {
   /// Parameter [tags] :
   /// A collection of key and value pairs.
   Future<UpdateModelVersionResult> updateModelVersion({
-    @_s.required String majorVersionNumber,
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    ExternalEventsDetail externalEventsDetail,
-    List<Tag> tags,
+    required String majorVersionNumber,
+    required String modelId,
+    required ModelTypeEnum modelType,
+    ExternalEventsDetail? externalEventsDetail,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(majorVersionNumber, 'majorVersionNumber');
     _s.validateStringLength(
@@ -3172,24 +3073,12 @@ class FraudDetector {
       5,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'majorVersionNumber',
-      majorVersionNumber,
-      r'''^([1-9][0-9]*)$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
       'modelId',
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -3206,7 +3095,7 @@ class FraudDetector {
       payload: {
         'majorVersionNumber': majorVersionNumber,
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
         if (externalEventsDetail != null)
           'externalEventsDetail': externalEventsDetail,
         if (tags != null) 'tags': tags,
@@ -3244,10 +3133,10 @@ class FraudDetector {
   /// Parameter [status] :
   /// The model version status.
   Future<void> updateModelVersionStatus({
-    @_s.required String modelId,
-    @_s.required ModelTypeEnum modelType,
-    @_s.required String modelVersionNumber,
-    @_s.required ModelVersionStatus status,
+    required String modelId,
+    required ModelTypeEnum modelType,
+    required String modelVersionNumber,
+    required ModelVersionStatus status,
   }) async {
     ArgumentError.checkNotNull(modelId, 'modelId');
     _s.validateStringLength(
@@ -3255,12 +3144,6 @@ class FraudDetector {
       modelId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelId',
-      modelId,
-      r'''^[0-9a-z_]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(modelType, 'modelType');
@@ -3272,18 +3155,12 @@ class FraudDetector {
       7,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelVersionNumber',
-      modelVersionNumber,
-      r'''^[1-9][0-9]{0,3}\.[0-9]{1,2}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateModelVersionStatus'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3291,13 +3168,11 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue() ?? '',
+        'modelType': modelType.toValue(),
         'modelVersionNumber': modelVersionNumber,
-        'status': status?.toValue() ?? '',
+        'status': status.toValue(),
       },
     );
-
-    return UpdateModelVersionStatusResult.fromJson(jsonResponse.body);
   }
 
   /// Updates a rule's metadata. The description attribute can be updated.
@@ -3314,8 +3189,8 @@ class FraudDetector {
   /// Parameter [rule] :
   /// The rule to update.
   Future<void> updateRuleMetadata({
-    @_s.required String description,
-    @_s.required Rule rule,
+    required String description,
+    required Rule rule,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -3330,7 +3205,7 @@ class FraudDetector {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateRuleMetadata'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3341,8 +3216,6 @@ class FraudDetector {
         'rule': rule,
       },
     );
-
-    return UpdateRuleMetadataResult.fromJson(jsonResponse.body);
   }
 
   /// Updates a rule version resulting in a new rule version. Updates a rule
@@ -3372,12 +3245,12 @@ class FraudDetector {
   /// Parameter [tags] :
   /// The tags to assign to the rule version.
   Future<UpdateRuleVersionResult> updateRuleVersion({
-    @_s.required String expression,
-    @_s.required Language language,
-    @_s.required List<String> outcomes,
-    @_s.required Rule rule,
-    String description,
-    List<Tag> tags,
+    required String expression,
+    required Language language,
+    required List<String> outcomes,
+    required Rule rule,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(expression, 'expression');
     _s.validateStringLength(
@@ -3408,7 +3281,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'expression': expression,
-        'language': language?.toValue() ?? '',
+        'language': language.toValue(),
         'outcomes': outcomes,
         'rule': rule,
         if (description != null) 'description': description,
@@ -3441,17 +3314,17 @@ class FraudDetector {
   /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
   /// types</a>.
   Future<void> updateVariable({
-    @_s.required String name,
-    String defaultValue,
-    String description,
-    String variableType,
+    required String name,
+    String? defaultValue,
+    String? description,
+    String? variableType,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSHawksNestServiceFacade.UpdateVariable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3464,165 +3337,399 @@ class FraudDetector {
         if (variableType != null) 'variableType': variableType,
       },
     );
+  }
+}
 
-    return UpdateVariableResult.fromJson(jsonResponse.body);
+enum AsyncJobStatus {
+  inProgressInitializing,
+  inProgress,
+  cancelInProgress,
+  canceled,
+  complete,
+  failed,
+}
+
+extension on AsyncJobStatus {
+  String toValue() {
+    switch (this) {
+      case AsyncJobStatus.inProgressInitializing:
+        return 'IN_PROGRESS_INITIALIZING';
+      case AsyncJobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case AsyncJobStatus.cancelInProgress:
+        return 'CANCEL_IN_PROGRESS';
+      case AsyncJobStatus.canceled:
+        return 'CANCELED';
+      case AsyncJobStatus.complete:
+        return 'COMPLETE';
+      case AsyncJobStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  AsyncJobStatus toAsyncJobStatus() {
+    switch (this) {
+      case 'IN_PROGRESS_INITIALIZING':
+        return AsyncJobStatus.inProgressInitializing;
+      case 'IN_PROGRESS':
+        return AsyncJobStatus.inProgress;
+      case 'CANCEL_IN_PROGRESS':
+        return AsyncJobStatus.cancelInProgress;
+      case 'CANCELED':
+        return AsyncJobStatus.canceled;
+      case 'COMPLETE':
+        return AsyncJobStatus.complete;
+      case 'FAILED':
+        return AsyncJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum AsyncJobStatus');
   }
 }
 
 /// Provides the error of the batch create variable API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchCreateVariableError {
   /// The error code.
-  @_s.JsonKey(name: 'code')
-  final int code;
+  final int? code;
 
   /// The error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   BatchCreateVariableError({
     this.code,
     this.message,
     this.name,
   });
-  factory BatchCreateVariableError.fromJson(Map<String, dynamic> json) =>
-      _$BatchCreateVariableErrorFromJson(json);
+
+  factory BatchCreateVariableError.fromJson(Map<String, dynamic> json) {
+    return BatchCreateVariableError(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final name = this.name;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchCreateVariableResult {
   /// Provides the errors for the <code>BatchCreateVariable</code> request.
-  @_s.JsonKey(name: 'errors')
-  final List<BatchCreateVariableError> errors;
+  final List<BatchCreateVariableError>? errors;
 
   BatchCreateVariableResult({
     this.errors,
   });
-  factory BatchCreateVariableResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchCreateVariableResultFromJson(json);
+
+  factory BatchCreateVariableResult.fromJson(Map<String, dynamic> json) {
+    return BatchCreateVariableResult(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              BatchCreateVariableError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    return {
+      if (errors != null) 'errors': errors,
+    };
+  }
 }
 
 /// Provides the error of the batch get variable API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetVariableError {
   /// The error code.
-  @_s.JsonKey(name: 'code')
-  final int code;
+  final int? code;
 
   /// The error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The error name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   BatchGetVariableError({
     this.code,
     this.message,
     this.name,
   });
-  factory BatchGetVariableError.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetVariableErrorFromJson(json);
+
+  factory BatchGetVariableError.fromJson(Map<String, dynamic> json) {
+    return BatchGetVariableError(
+      code: json['code'] as int?,
+      message: json['message'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    final name = this.name;
+    return {
+      if (code != null) 'code': code,
+      if (message != null) 'message': message,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetVariableResult {
   /// The errors from the request.
-  @_s.JsonKey(name: 'errors')
-  final List<BatchGetVariableError> errors;
+  final List<BatchGetVariableError>? errors;
 
   /// The returned variables.
-  @_s.JsonKey(name: 'variables')
-  final List<Variable> variables;
+  final List<Variable>? variables;
 
   BatchGetVariableResult({
     this.errors,
     this.variables,
   });
-  factory BatchGetVariableResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetVariableResultFromJson(json);
+
+  factory BatchGetVariableResult.fromJson(Map<String, dynamic> json) {
+    return BatchGetVariableResult(
+      errors: (json['errors'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchGetVariableError.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      variables: (json['variables'] as List?)
+          ?.whereNotNull()
+          .map((e) => Variable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errors = this.errors;
+    final variables = this.variables;
+    return {
+      if (errors != null) 'errors': errors,
+      if (variables != null) 'variables': variables,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The batch prediction details.
+class BatchPrediction {
+  /// The ARN of batch prediction job.
+  final String? arn;
+
+  /// Timestamp of when the batch prediction job comleted.
+  final String? completionTime;
+
+  /// The name of the detector.
+  final String? detectorName;
+
+  /// The detector version.
+  final String? detectorVersion;
+
+  /// The name of the event type.
+  final String? eventTypeName;
+
+  /// The reason a batch prediction job failed.
+  final String? failureReason;
+
+  /// The ARN of the IAM role to use for this job request.
+  final String? iamRoleArn;
+
+  /// The Amazon S3 location of your training file.
+  final String? inputPath;
+
+  /// The job ID for the batch prediction.
+  final String? jobId;
+
+  /// Timestamp of most recent heartbeat indicating the batch prediction job was
+  /// making progress.
+  final String? lastHeartbeatTime;
+
+  /// The Amazon S3 location of your output file.
+  final String? outputPath;
+
+  /// The number of records processed by the batch prediction job.
+  final int? processedRecordsCount;
+
+  /// Timestamp of when the batch prediction job started.
+  final String? startTime;
+
+  /// The batch prediction status.
+  final AsyncJobStatus? status;
+
+  /// The total number of records in the batch prediction job.
+  final int? totalRecordsCount;
+
+  BatchPrediction({
+    this.arn,
+    this.completionTime,
+    this.detectorName,
+    this.detectorVersion,
+    this.eventTypeName,
+    this.failureReason,
+    this.iamRoleArn,
+    this.inputPath,
+    this.jobId,
+    this.lastHeartbeatTime,
+    this.outputPath,
+    this.processedRecordsCount,
+    this.startTime,
+    this.status,
+    this.totalRecordsCount,
+  });
+
+  factory BatchPrediction.fromJson(Map<String, dynamic> json) {
+    return BatchPrediction(
+      arn: json['arn'] as String?,
+      completionTime: json['completionTime'] as String?,
+      detectorName: json['detectorName'] as String?,
+      detectorVersion: json['detectorVersion'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      failureReason: json['failureReason'] as String?,
+      iamRoleArn: json['iamRoleArn'] as String?,
+      inputPath: json['inputPath'] as String?,
+      jobId: json['jobId'] as String?,
+      lastHeartbeatTime: json['lastHeartbeatTime'] as String?,
+      outputPath: json['outputPath'] as String?,
+      processedRecordsCount: json['processedRecordsCount'] as int?,
+      startTime: json['startTime'] as String?,
+      status: (json['status'] as String?)?.toAsyncJobStatus(),
+      totalRecordsCount: json['totalRecordsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final completionTime = this.completionTime;
+    final detectorName = this.detectorName;
+    final detectorVersion = this.detectorVersion;
+    final eventTypeName = this.eventTypeName;
+    final failureReason = this.failureReason;
+    final iamRoleArn = this.iamRoleArn;
+    final inputPath = this.inputPath;
+    final jobId = this.jobId;
+    final lastHeartbeatTime = this.lastHeartbeatTime;
+    final outputPath = this.outputPath;
+    final processedRecordsCount = this.processedRecordsCount;
+    final startTime = this.startTime;
+    final status = this.status;
+    final totalRecordsCount = this.totalRecordsCount;
+    return {
+      if (arn != null) 'arn': arn,
+      if (completionTime != null) 'completionTime': completionTime,
+      if (detectorName != null) 'detectorName': detectorName,
+      if (detectorVersion != null) 'detectorVersion': detectorVersion,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (failureReason != null) 'failureReason': failureReason,
+      if (iamRoleArn != null) 'iamRoleArn': iamRoleArn,
+      if (inputPath != null) 'inputPath': inputPath,
+      if (jobId != null) 'jobId': jobId,
+      if (lastHeartbeatTime != null) 'lastHeartbeatTime': lastHeartbeatTime,
+      if (outputPath != null) 'outputPath': outputPath,
+      if (processedRecordsCount != null)
+        'processedRecordsCount': processedRecordsCount,
+      if (startTime != null) 'startTime': startTime,
+      if (status != null) 'status': status.toValue(),
+      if (totalRecordsCount != null) 'totalRecordsCount': totalRecordsCount,
+    };
+  }
+}
+
+class CancelBatchPredictionJobResult {
+  CancelBatchPredictionJobResult();
+
+  factory CancelBatchPredictionJobResult.fromJson(Map<String, dynamic> _) {
+    return CancelBatchPredictionJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class CreateBatchPredictionJobResult {
+  CreateBatchPredictionJobResult();
+
+  factory CreateBatchPredictionJobResult.fromJson(Map<String, dynamic> _) {
+    return CreateBatchPredictionJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class CreateDetectorVersionResult {
   /// The ID for the created version's parent detector.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   /// The ID for the created detector.
-  @_s.JsonKey(name: 'detectorVersionId')
-  final String detectorVersionId;
+  final String? detectorVersionId;
 
   /// The status of the detector version.
-  @_s.JsonKey(name: 'status')
-  final DetectorVersionStatus status;
+  final DetectorVersionStatus? status;
 
   CreateDetectorVersionResult({
     this.detectorId,
     this.detectorVersionId,
     this.status,
   });
-  factory CreateDetectorVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDetectorVersionResultFromJson(json);
+
+  factory CreateDetectorVersionResult.fromJson(Map<String, dynamic> json) {
+    return CreateDetectorVersionResult(
+      detectorId: json['detectorId'] as String?,
+      detectorVersionId: json['detectorVersionId'] as String?,
+      status: (json['status'] as String?)?.toDetectorVersionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectorId = this.detectorId;
+    final detectorVersionId = this.detectorVersionId;
+    final status = this.status;
+    return {
+      if (detectorId != null) 'detectorId': detectorId,
+      if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateModelResult {
   CreateModelResult();
-  factory CreateModelResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateModelResultFromJson(json);
+
+  factory CreateModelResult.fromJson(Map<String, dynamic> _) {
+    return CreateModelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateModelVersionResult {
   /// The model ID.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The model type.
-  @_s.JsonKey(name: 'modelType')
-  final ModelTypeEnum modelType;
+  final ModelTypeEnum? modelType;
 
   /// The model version number of the model version created.
-  @_s.JsonKey(name: 'modelVersionNumber')
-  final String modelVersionNumber;
+  final String? modelVersionNumber;
 
   /// The model version status.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CreateModelVersionResult({
     this.modelId,
@@ -3630,44 +3737,69 @@ class CreateModelVersionResult {
     this.modelVersionNumber,
     this.status,
   });
-  factory CreateModelVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateModelVersionResultFromJson(json);
+
+  factory CreateModelVersionResult.fromJson(Map<String, dynamic> json) {
+    return CreateModelVersionResult(
+      modelId: json['modelId'] as String?,
+      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelVersionNumber: json['modelVersionNumber'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelId = this.modelId;
+    final modelType = this.modelType;
+    final modelVersionNumber = this.modelVersionNumber;
+    final status = this.status;
+    return {
+      if (modelId != null) 'modelId': modelId,
+      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRuleResult {
   /// The created rule.
-  @_s.JsonKey(name: 'rule')
-  final Rule rule;
+  final Rule? rule;
 
   CreateRuleResult({
     this.rule,
   });
-  factory CreateRuleResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateRuleResultFromJson(json);
+
+  factory CreateRuleResult.fromJson(Map<String, dynamic> json) {
+    return CreateRuleResult(
+      rule: json['rule'] != null
+          ? Rule.fromJson(json['rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rule = this.rule;
+    return {
+      if (rule != null) 'rule': rule,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateVariableResult {
   CreateVariableResult();
-  factory CreateVariableResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateVariableResultFromJson(json);
+
+  factory CreateVariableResult.fromJson(Map<String, dynamic> _) {
+    return CreateVariableResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum DataSource {
-  @_s.JsonValue('EVENT')
   event,
-  @_s.JsonValue('MODEL_SCORE')
   modelScore,
-  @_s.JsonValue('EXTERNAL_MODEL_SCORE')
   externalModelScore,
 }
 
@@ -3681,18 +3813,27 @@ extension on DataSource {
       case DataSource.externalModelScore:
         return 'EXTERNAL_MODEL_SCORE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataSource toDataSource() {
+    switch (this) {
+      case 'EVENT':
+        return DataSource.event;
+      case 'MODEL_SCORE':
+        return DataSource.modelScore;
+      case 'EXTERNAL_MODEL_SCORE':
+        return DataSource.externalModelScore;
+    }
+    throw Exception('$this is not known in enum DataSource');
   }
 }
 
 enum DataType {
-  @_s.JsonValue('STRING')
   string,
-  @_s.JsonValue('INTEGER')
   integer,
-  @_s.JsonValue('FLOAT')
   float,
-  @_s.JsonValue('BOOLEAN')
   boolean,
 }
 
@@ -3708,186 +3849,230 @@ extension on DataType {
       case DataType.boolean:
         return 'BOOLEAN';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataType toDataType() {
+    switch (this) {
+      case 'STRING':
+        return DataType.string;
+      case 'INTEGER':
+        return DataType.integer;
+      case 'FLOAT':
+        return DataType.float;
+      case 'BOOLEAN':
+        return DataType.boolean;
+    }
+    throw Exception('$this is not known in enum DataType');
   }
 }
 
 /// The model training validation messages.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataValidationMetrics {
   /// The field-specific model training validation messages.
-  @_s.JsonKey(name: 'fieldLevelMessages')
-  final List<FieldValidationMessage> fieldLevelMessages;
+  final List<FieldValidationMessage>? fieldLevelMessages;
 
   /// The file-specific model training validation messages.
-  @_s.JsonKey(name: 'fileLevelMessages')
-  final List<FileValidationMessage> fileLevelMessages;
+  final List<FileValidationMessage>? fileLevelMessages;
 
   DataValidationMetrics({
     this.fieldLevelMessages,
     this.fileLevelMessages,
   });
-  factory DataValidationMetrics.fromJson(Map<String, dynamic> json) =>
-      _$DataValidationMetricsFromJson(json);
+
+  factory DataValidationMetrics.fromJson(Map<String, dynamic> json) {
+    return DataValidationMetrics(
+      fieldLevelMessages: (json['fieldLevelMessages'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => FieldValidationMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fileLevelMessages: (json['fileLevelMessages'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileValidationMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldLevelMessages = this.fieldLevelMessages;
+    final fileLevelMessages = this.fileLevelMessages;
+    return {
+      if (fieldLevelMessages != null) 'fieldLevelMessages': fieldLevelMessages,
+      if (fileLevelMessages != null) 'fileLevelMessages': fileLevelMessages,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class DeleteBatchPredictionJobResult {
+  DeleteBatchPredictionJobResult();
+
+  factory DeleteBatchPredictionJobResult.fromJson(Map<String, dynamic> _) {
+    return DeleteBatchPredictionJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteDetectorResult {
   DeleteDetectorResult();
-  factory DeleteDetectorResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDetectorResultFromJson(json);
+
+  factory DeleteDetectorResult.fromJson(Map<String, dynamic> _) {
+    return DeleteDetectorResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDetectorVersionResult {
   DeleteDetectorVersionResult();
-  factory DeleteDetectorVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDetectorVersionResultFromJson(json);
+
+  factory DeleteDetectorVersionResult.fromJson(Map<String, dynamic> _) {
+    return DeleteDetectorVersionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEntityTypeResult {
   DeleteEntityTypeResult();
-  factory DeleteEntityTypeResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEntityTypeResultFromJson(json);
+
+  factory DeleteEntityTypeResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEntityTypeResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEventResult {
   DeleteEventResult();
-  factory DeleteEventResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEventResultFromJson(json);
+
+  factory DeleteEventResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEventResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteEventTypeResult {
   DeleteEventTypeResult();
-  factory DeleteEventTypeResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteEventTypeResultFromJson(json);
+
+  factory DeleteEventTypeResult.fromJson(Map<String, dynamic> _) {
+    return DeleteEventTypeResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteExternalModelResult {
   DeleteExternalModelResult();
-  factory DeleteExternalModelResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteExternalModelResultFromJson(json);
+
+  factory DeleteExternalModelResult.fromJson(Map<String, dynamic> _) {
+    return DeleteExternalModelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLabelResult {
   DeleteLabelResult();
-  factory DeleteLabelResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLabelResultFromJson(json);
+
+  factory DeleteLabelResult.fromJson(Map<String, dynamic> _) {
+    return DeleteLabelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteModelResult {
   DeleteModelResult();
-  factory DeleteModelResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteModelResultFromJson(json);
+
+  factory DeleteModelResult.fromJson(Map<String, dynamic> _) {
+    return DeleteModelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteModelVersionResult {
   DeleteModelVersionResult();
-  factory DeleteModelVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteModelVersionResultFromJson(json);
+
+  factory DeleteModelVersionResult.fromJson(Map<String, dynamic> _) {
+    return DeleteModelVersionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteOutcomeResult {
   DeleteOutcomeResult();
-  factory DeleteOutcomeResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteOutcomeResultFromJson(json);
+
+  factory DeleteOutcomeResult.fromJson(Map<String, dynamic> _) {
+    return DeleteOutcomeResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRuleResult {
   DeleteRuleResult();
-  factory DeleteRuleResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRuleResultFromJson(json);
+
+  factory DeleteRuleResult.fromJson(Map<String, dynamic> _) {
+    return DeleteRuleResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVariableResult {
   DeleteVariableResult();
-  factory DeleteVariableResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVariableResultFromJson(json);
+
+  factory DeleteVariableResult.fromJson(Map<String, dynamic> _) {
+    return DeleteVariableResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDetectorResult {
   /// The detector ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The detector ID.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   /// The status and description for each detector version.
-  @_s.JsonKey(name: 'detectorVersionSummaries')
-  final List<DetectorVersionSummary> detectorVersionSummaries;
+  final List<DetectorVersionSummary>? detectorVersionSummaries;
 
   /// The next token to be used for subsequent requests.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDetectorResult({
     this.arn,
@@ -3895,62 +4080,87 @@ class DescribeDetectorResult {
     this.detectorVersionSummaries,
     this.nextToken,
   });
-  factory DescribeDetectorResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDetectorResultFromJson(json);
+
+  factory DescribeDetectorResult.fromJson(Map<String, dynamic> json) {
+    return DescribeDetectorResult(
+      arn: json['arn'] as String?,
+      detectorId: json['detectorId'] as String?,
+      detectorVersionSummaries: (json['detectorVersionSummaries'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => DetectorVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final detectorId = this.detectorId;
+    final detectorVersionSummaries = this.detectorVersionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (arn != null) 'arn': arn,
+      if (detectorId != null) 'detectorId': detectorId,
+      if (detectorVersionSummaries != null)
+        'detectorVersionSummaries': detectorVersionSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeModelVersionsResult {
   /// The model version details.
-  @_s.JsonKey(name: 'modelVersionDetails')
-  final List<ModelVersionDetail> modelVersionDetails;
+  final List<ModelVersionDetail>? modelVersionDetails;
 
   /// The next token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeModelVersionsResult({
     this.modelVersionDetails,
     this.nextToken,
   });
-  factory DescribeModelVersionsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeModelVersionsResultFromJson(json);
+
+  factory DescribeModelVersionsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeModelVersionsResult(
+      modelVersionDetails: (json['modelVersionDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModelVersionDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelVersionDetails = this.modelVersionDetails;
+    final nextToken = this.nextToken;
+    return {
+      if (modelVersionDetails != null)
+        'modelVersionDetails': modelVersionDetails,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The detector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Detector {
   /// The detector ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Timestamp of when the detector was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The detector description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The detector ID.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   /// The name of the event type.
-  @_s.JsonKey(name: 'eventTypeName')
-  final String eventTypeName;
+  final String? eventTypeName;
 
   /// Timestamp of when the detector was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   Detector({
     this.arn,
@@ -3960,16 +4170,39 @@ class Detector {
     this.eventTypeName,
     this.lastUpdatedTime,
   });
-  factory Detector.fromJson(Map<String, dynamic> json) =>
-      _$DetectorFromJson(json);
+
+  factory Detector.fromJson(Map<String, dynamic> json) {
+    return Detector(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      detectorId: json['detectorId'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final detectorId = this.detectorId;
+    final eventTypeName = this.eventTypeName;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (detectorId != null) 'detectorId': detectorId,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+    };
+  }
 }
 
 enum DetectorVersionStatus {
-  @_s.JsonValue('DRAFT')
   draft,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
 }
 
@@ -3983,32 +4216,36 @@ extension on DetectorVersionStatus {
       case DetectorVersionStatus.inactive:
         return 'INACTIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DetectorVersionStatus toDetectorVersionStatus() {
+    switch (this) {
+      case 'DRAFT':
+        return DetectorVersionStatus.draft;
+      case 'ACTIVE':
+        return DetectorVersionStatus.active;
+      case 'INACTIVE':
+        return DetectorVersionStatus.inactive;
+    }
+    throw Exception('$this is not known in enum DetectorVersionStatus');
   }
 }
 
 /// The summary of the detector version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectorVersionSummary {
   /// The detector version description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The detector version ID.
-  @_s.JsonKey(name: 'detectorVersionId')
-  final String detectorVersionId;
+  final String? detectorVersionId;
 
   /// Timestamp of when the detector version was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The detector version status.
-  @_s.JsonKey(name: 'status')
-  final DetectorVersionStatus status;
+  final DetectorVersionStatus? status;
 
   DetectorVersionSummary({
     this.description,
@@ -4016,59 +4253,77 @@ class DetectorVersionSummary {
     this.lastUpdatedTime,
     this.status,
   });
-  factory DetectorVersionSummary.fromJson(Map<String, dynamic> json) =>
-      _$DetectorVersionSummaryFromJson(json);
+
+  factory DetectorVersionSummary.fromJson(Map<String, dynamic> json) {
+    return DetectorVersionSummary(
+      description: json['description'] as String?,
+      detectorVersionId: json['detectorVersionId'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      status: (json['status'] as String?)?.toDetectorVersionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final detectorVersionId = this.detectorVersionId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final status = this.status;
+    return {
+      if (description != null) 'description': description,
+      if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// The entity details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Entity {
   /// The entity ID. If you do not know the <code>entityId</code>, you can pass
   /// <code>unknown</code>, which is areserved string literal.
-  @_s.JsonKey(name: 'entityId')
   final String entityId;
 
   /// The entity type.
-  @_s.JsonKey(name: 'entityType')
   final String entityType;
 
   Entity({
-    @_s.required this.entityId,
-    @_s.required this.entityType,
+    required this.entityId,
+    required this.entityType,
   });
-  Map<String, dynamic> toJson() => _$EntityToJson(this);
+
+  factory Entity.fromJson(Map<String, dynamic> json) {
+    return Entity(
+      entityId: json['entityId'] as String,
+      entityType: json['entityType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityId = this.entityId;
+    final entityType = this.entityType;
+    return {
+      'entityId': entityId,
+      'entityType': entityType,
+    };
+  }
 }
 
 /// The entity type details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EntityType {
   /// The entity type ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Timestamp of when the entity type was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The entity type description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Timestamp of when the entity type was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The entity type name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   EntityType({
     this.arn,
@@ -4077,48 +4332,58 @@ class EntityType {
     this.lastUpdatedTime,
     this.name,
   });
-  factory EntityType.fromJson(Map<String, dynamic> json) =>
-      _$EntityTypeFromJson(json);
+
+  factory EntityType.fromJson(Map<String, dynamic> json) {
+    return EntityType(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// The event type details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventType {
   /// The entity type ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Timestamp of when the event type was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The event type description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The event type entity types.
-  @_s.JsonKey(name: 'entityTypes')
-  final List<String> entityTypes;
+  final List<String>? entityTypes;
 
   /// The event type event variables.
-  @_s.JsonKey(name: 'eventVariables')
-  final List<String> eventVariables;
+  final List<String>? eventVariables;
 
   /// The event type labels.
-  @_s.JsonKey(name: 'labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// Timestamp of when the event type was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The event type name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   EventType({
     this.arn,
@@ -4130,78 +4395,110 @@ class EventType {
     this.lastUpdatedTime,
     this.name,
   });
-  factory EventType.fromJson(Map<String, dynamic> json) =>
-      _$EventTypeFromJson(json);
+
+  factory EventType.fromJson(Map<String, dynamic> json) {
+    return EventType(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      entityTypes: (json['entityTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      eventVariables: (json['eventVariables'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      labels: (json['labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final entityTypes = this.entityTypes;
+    final eventVariables = this.eventVariables;
+    final labels = this.labels;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (entityTypes != null) 'entityTypes': entityTypes,
+      if (eventVariables != null) 'eventVariables': eventVariables,
+      if (labels != null) 'labels': labels,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Details for the external events data used for model version training.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ExternalEventsDetail {
   /// The ARN of the role that provides Amazon Fraud Detector access to the data
   /// location.
-  @_s.JsonKey(name: 'dataAccessRoleArn')
   final String dataAccessRoleArn;
 
   /// The Amazon S3 bucket location for the data.
-  @_s.JsonKey(name: 'dataLocation')
   final String dataLocation;
 
   ExternalEventsDetail({
-    @_s.required this.dataAccessRoleArn,
-    @_s.required this.dataLocation,
+    required this.dataAccessRoleArn,
+    required this.dataLocation,
   });
-  factory ExternalEventsDetail.fromJson(Map<String, dynamic> json) =>
-      _$ExternalEventsDetailFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExternalEventsDetailToJson(this);
+  factory ExternalEventsDetail.fromJson(Map<String, dynamic> json) {
+    return ExternalEventsDetail(
+      dataAccessRoleArn: json['dataAccessRoleArn'] as String,
+      dataLocation: json['dataLocation'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final dataLocation = this.dataLocation;
+    return {
+      'dataAccessRoleArn': dataAccessRoleArn,
+      'dataLocation': dataLocation,
+    };
+  }
 }
 
 /// The Amazon SageMaker model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExternalModel {
   /// The model ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Timestamp of when the model was last created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The input configuration.
-  @_s.JsonKey(name: 'inputConfiguration')
-  final ModelInputConfiguration inputConfiguration;
+  final ModelInputConfiguration? inputConfiguration;
 
   /// The role used to invoke the model.
-  @_s.JsonKey(name: 'invokeModelEndpointRoleArn')
-  final String invokeModelEndpointRoleArn;
+  final String? invokeModelEndpointRoleArn;
 
   /// Timestamp of when the model was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The Amazon SageMaker model endpoints.
-  @_s.JsonKey(name: 'modelEndpoint')
-  final String modelEndpoint;
+  final String? modelEndpoint;
 
   /// The Amazon Fraud Detector status for the external model endpoint
-  @_s.JsonKey(name: 'modelEndpointStatus')
-  final ModelEndpointStatus modelEndpointStatus;
+  final ModelEndpointStatus? modelEndpointStatus;
 
   /// The source of the model.
-  @_s.JsonKey(name: 'modelSource')
-  final ModelSource modelSource;
+  final ModelSource? modelSource;
 
   /// The output configuration.
-  @_s.JsonKey(name: 'outputConfiguration')
-  final ModelOutputConfiguration outputConfiguration;
+  final ModelOutputConfiguration? outputConfiguration;
 
   ExternalModel({
     this.arn,
@@ -4214,36 +4511,71 @@ class ExternalModel {
     this.modelSource,
     this.outputConfiguration,
   });
-  factory ExternalModel.fromJson(Map<String, dynamic> json) =>
-      _$ExternalModelFromJson(json);
+
+  factory ExternalModel.fromJson(Map<String, dynamic> json) {
+    return ExternalModel(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      inputConfiguration: json['inputConfiguration'] != null
+          ? ModelInputConfiguration.fromJson(
+              json['inputConfiguration'] as Map<String, dynamic>)
+          : null,
+      invokeModelEndpointRoleArn: json['invokeModelEndpointRoleArn'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      modelEndpoint: json['modelEndpoint'] as String?,
+      modelEndpointStatus:
+          (json['modelEndpointStatus'] as String?)?.toModelEndpointStatus(),
+      modelSource: (json['modelSource'] as String?)?.toModelSource(),
+      outputConfiguration: json['outputConfiguration'] != null
+          ? ModelOutputConfiguration.fromJson(
+              json['outputConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final inputConfiguration = this.inputConfiguration;
+    final invokeModelEndpointRoleArn = this.invokeModelEndpointRoleArn;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final modelEndpoint = this.modelEndpoint;
+    final modelEndpointStatus = this.modelEndpointStatus;
+    final modelSource = this.modelSource;
+    final outputConfiguration = this.outputConfiguration;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (inputConfiguration != null) 'inputConfiguration': inputConfiguration,
+      if (invokeModelEndpointRoleArn != null)
+        'invokeModelEndpointRoleArn': invokeModelEndpointRoleArn,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (modelEndpoint != null) 'modelEndpoint': modelEndpoint,
+      if (modelEndpointStatus != null)
+        'modelEndpointStatus': modelEndpointStatus.toValue(),
+      if (modelSource != null) 'modelSource': modelSource.toValue(),
+      if (outputConfiguration != null)
+        'outputConfiguration': outputConfiguration,
+    };
+  }
 }
 
 /// The message details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FieldValidationMessage {
   /// The message content.
-  @_s.JsonKey(name: 'content')
-  final String content;
+  final String? content;
 
   /// The field name.
-  @_s.JsonKey(name: 'fieldName')
-  final String fieldName;
+  final String? fieldName;
 
   /// The message ID.
-  @_s.JsonKey(name: 'identifier')
-  final String identifier;
+  final String? identifier;
 
   /// The message title.
-  @_s.JsonKey(name: 'title')
-  final String title;
+  final String? title;
 
   /// The message type.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   FieldValidationMessage({
     this.content,
@@ -4252,75 +4584,126 @@ class FieldValidationMessage {
     this.title,
     this.type,
   });
-  factory FieldValidationMessage.fromJson(Map<String, dynamic> json) =>
-      _$FieldValidationMessageFromJson(json);
+
+  factory FieldValidationMessage.fromJson(Map<String, dynamic> json) {
+    return FieldValidationMessage(
+      content: json['content'] as String?,
+      fieldName: json['fieldName'] as String?,
+      identifier: json['identifier'] as String?,
+      title: json['title'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final fieldName = this.fieldName;
+    final identifier = this.identifier;
+    final title = this.title;
+    final type = this.type;
+    return {
+      if (content != null) 'content': content,
+      if (fieldName != null) 'fieldName': fieldName,
+      if (identifier != null) 'identifier': identifier,
+      if (title != null) 'title': title,
+      if (type != null) 'type': type,
+    };
+  }
 }
 
 /// The message details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FileValidationMessage {
   /// The message content.
-  @_s.JsonKey(name: 'content')
-  final String content;
+  final String? content;
 
   /// The message title.
-  @_s.JsonKey(name: 'title')
-  final String title;
+  final String? title;
 
   /// The message type.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   FileValidationMessage({
     this.content,
     this.title,
     this.type,
   });
-  factory FileValidationMessage.fromJson(Map<String, dynamic> json) =>
-      _$FileValidationMessageFromJson(json);
+
+  factory FileValidationMessage.fromJson(Map<String, dynamic> json) {
+    return FileValidationMessage(
+      content: json['content'] as String?,
+      title: json['title'] as String?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final title = this.title;
+    final type = this.type;
+    return {
+      if (content != null) 'content': content,
+      if (title != null) 'title': title,
+      if (type != null) 'type': type,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class GetBatchPredictionJobsResult {
+  /// An array containing the details of each batch prediction job.
+  final List<BatchPrediction>? batchPredictions;
+
+  /// The next token for the subsequent request.
+  final String? nextToken;
+
+  GetBatchPredictionJobsResult({
+    this.batchPredictions,
+    this.nextToken,
+  });
+
+  factory GetBatchPredictionJobsResult.fromJson(Map<String, dynamic> json) {
+    return GetBatchPredictionJobsResult(
+      batchPredictions: (json['batchPredictions'] as List?)
+          ?.whereNotNull()
+          .map((e) => BatchPrediction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchPredictions = this.batchPredictions;
+    final nextToken = this.nextToken;
+    return {
+      if (batchPredictions != null) 'batchPredictions': batchPredictions,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
+}
+
 class GetDetectorVersionResult {
   /// The detector version ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The timestamp when the detector version was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The detector version description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The detector ID.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   /// The detector version ID.
-  @_s.JsonKey(name: 'detectorVersionId')
-  final String detectorVersionId;
+  final String? detectorVersionId;
 
   /// The Amazon SageMaker model endpoints included in the detector version.
-  @_s.JsonKey(name: 'externalModelEndpoints')
-  final List<String> externalModelEndpoints;
+  final List<String>? externalModelEndpoints;
 
   /// The timestamp when the detector version was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The model versions included in the detector version.
-  @_s.JsonKey(name: 'modelVersions')
-  final List<ModelVersion> modelVersions;
+  final List<ModelVersion>? modelVersions;
 
   /// The execution mode of the rule in the dectector
   ///
@@ -4332,16 +4715,13 @@ class GetDetectorVersionResult {
   /// rules and returns the outcomes for all matched rules. You can define and
   /// edit the rule mode at the detector version level, when it is in draft
   /// status.
-  @_s.JsonKey(name: 'ruleExecutionMode')
-  final RuleExecutionMode ruleExecutionMode;
+  final RuleExecutionMode? ruleExecutionMode;
 
   /// The rules included in the detector version.
-  @_s.JsonKey(name: 'rules')
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   /// The status of the detector version.
-  @_s.JsonKey(name: 'status')
-  final DetectorVersionStatus status;
+  final DetectorVersionStatus? status;
 
   GetDetectorVersionResult({
     this.arn,
@@ -4356,188 +4736,301 @@ class GetDetectorVersionResult {
     this.rules,
     this.status,
   });
-  factory GetDetectorVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDetectorVersionResultFromJson(json);
+
+  factory GetDetectorVersionResult.fromJson(Map<String, dynamic> json) {
+    return GetDetectorVersionResult(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      detectorId: json['detectorId'] as String?,
+      detectorVersionId: json['detectorVersionId'] as String?,
+      externalModelEndpoints: (json['externalModelEndpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      modelVersions: (json['modelVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModelVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ruleExecutionMode:
+          (json['ruleExecutionMode'] as String?)?.toRuleExecutionMode(),
+      rules: (json['rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.toDetectorVersionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final detectorId = this.detectorId;
+    final detectorVersionId = this.detectorVersionId;
+    final externalModelEndpoints = this.externalModelEndpoints;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final modelVersions = this.modelVersions;
+    final ruleExecutionMode = this.ruleExecutionMode;
+    final rules = this.rules;
+    final status = this.status;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (detectorId != null) 'detectorId': detectorId,
+      if (detectorVersionId != null) 'detectorVersionId': detectorVersionId,
+      if (externalModelEndpoints != null)
+        'externalModelEndpoints': externalModelEndpoints,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (modelVersions != null) 'modelVersions': modelVersions,
+      if (ruleExecutionMode != null)
+        'ruleExecutionMode': ruleExecutionMode.toValue(),
+      if (rules != null) 'rules': rules,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDetectorsResult {
   /// The detectors.
-  @_s.JsonKey(name: 'detectors')
-  final List<Detector> detectors;
+  final List<Detector>? detectors;
 
   /// The next page token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetDetectorsResult({
     this.detectors,
     this.nextToken,
   });
-  factory GetDetectorsResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDetectorsResultFromJson(json);
+
+  factory GetDetectorsResult.fromJson(Map<String, dynamic> json) {
+    return GetDetectorsResult(
+      detectors: (json['detectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Detector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectors = this.detectors;
+    final nextToken = this.nextToken;
+    return {
+      if (detectors != null) 'detectors': detectors,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEntityTypesResult {
   /// An array of entity types.
-  @_s.JsonKey(name: 'entityTypes')
-  final List<EntityType> entityTypes;
+  final List<EntityType>? entityTypes;
 
   /// The next page token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetEntityTypesResult({
     this.entityTypes,
     this.nextToken,
   });
-  factory GetEntityTypesResult.fromJson(Map<String, dynamic> json) =>
-      _$GetEntityTypesResultFromJson(json);
+
+  factory GetEntityTypesResult.fromJson(Map<String, dynamic> json) {
+    return GetEntityTypesResult(
+      entityTypes: (json['entityTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EntityType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityTypes = this.entityTypes;
+    final nextToken = this.nextToken;
+    return {
+      if (entityTypes != null) 'entityTypes': entityTypes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEventPredictionResult {
   /// The model scores. Amazon Fraud Detector generates model scores between 0 and
   /// 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores
   /// are directly related to the false positive rate (FPR). For example, a score
   /// of 600 corresponds to an estimated 10% false positive rate whereas a score
   /// of 900 corresponds to an estimated 2% false positive rate.
-  @_s.JsonKey(name: 'modelScores')
-  final List<ModelScores> modelScores;
+  final List<ModelScores>? modelScores;
 
   /// The results.
-  @_s.JsonKey(name: 'ruleResults')
-  final List<RuleResult> ruleResults;
+  final List<RuleResult>? ruleResults;
 
   GetEventPredictionResult({
     this.modelScores,
     this.ruleResults,
   });
-  factory GetEventPredictionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetEventPredictionResultFromJson(json);
+
+  factory GetEventPredictionResult.fromJson(Map<String, dynamic> json) {
+    return GetEventPredictionResult(
+      modelScores: (json['modelScores'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModelScores.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ruleResults: (json['ruleResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelScores = this.modelScores;
+    final ruleResults = this.ruleResults;
+    return {
+      if (modelScores != null) 'modelScores': modelScores,
+      if (ruleResults != null) 'ruleResults': ruleResults,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetEventTypesResult {
   /// An array of event types.
-  @_s.JsonKey(name: 'eventTypes')
-  final List<EventType> eventTypes;
+  final List<EventType>? eventTypes;
 
   /// The next page token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetEventTypesResult({
     this.eventTypes,
     this.nextToken,
   });
-  factory GetEventTypesResult.fromJson(Map<String, dynamic> json) =>
-      _$GetEventTypesResultFromJson(json);
+
+  factory GetEventTypesResult.fromJson(Map<String, dynamic> json) {
+    return GetEventTypesResult(
+      eventTypes: (json['eventTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTypes = this.eventTypes;
+    final nextToken = this.nextToken;
+    return {
+      if (eventTypes != null) 'eventTypes': eventTypes,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetExternalModelsResult {
   /// Gets the Amazon SageMaker models.
-  @_s.JsonKey(name: 'externalModels')
-  final List<ExternalModel> externalModels;
+  final List<ExternalModel>? externalModels;
 
   /// The next page token to be used in subsequent requests.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetExternalModelsResult({
     this.externalModels,
     this.nextToken,
   });
-  factory GetExternalModelsResult.fromJson(Map<String, dynamic> json) =>
-      _$GetExternalModelsResultFromJson(json);
+
+  factory GetExternalModelsResult.fromJson(Map<String, dynamic> json) {
+    return GetExternalModelsResult(
+      externalModels: (json['externalModels'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExternalModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final externalModels = this.externalModels;
+    final nextToken = this.nextToken;
+    return {
+      if (externalModels != null) 'externalModels': externalModels,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetKMSEncryptionKeyResult {
   /// The KMS encryption key.
-  @_s.JsonKey(name: 'kmsKey')
-  final KMSKey kmsKey;
+  final KMSKey? kmsKey;
 
   GetKMSEncryptionKeyResult({
     this.kmsKey,
   });
-  factory GetKMSEncryptionKeyResult.fromJson(Map<String, dynamic> json) =>
-      _$GetKMSEncryptionKeyResultFromJson(json);
+
+  factory GetKMSEncryptionKeyResult.fromJson(Map<String, dynamic> json) {
+    return GetKMSEncryptionKeyResult(
+      kmsKey: json['kmsKey'] != null
+          ? KMSKey.fromJson(json['kmsKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsKey = this.kmsKey;
+    return {
+      if (kmsKey != null) 'kmsKey': kmsKey,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLabelsResult {
   /// An array of labels.
-  @_s.JsonKey(name: 'labels')
-  final List<Label> labels;
+  final List<Label>? labels;
 
   /// The next page token.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetLabelsResult({
     this.labels,
     this.nextToken,
   });
-  factory GetLabelsResult.fromJson(Map<String, dynamic> json) =>
-      _$GetLabelsResultFromJson(json);
+
+  factory GetLabelsResult.fromJson(Map<String, dynamic> json) {
+    return GetLabelsResult(
+      labels: (json['labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => Label.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labels = this.labels;
+    final nextToken = this.nextToken;
+    return {
+      if (labels != null) 'labels': labels,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetModelVersionResult {
   /// The model version ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The event details.
-  @_s.JsonKey(name: 'externalEventsDetail')
-  final ExternalEventsDetail externalEventsDetail;
+  final ExternalEventsDetail? externalEventsDetail;
 
   /// The model ID.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The model type.
-  @_s.JsonKey(name: 'modelType')
-  final ModelTypeEnum modelType;
+  final ModelTypeEnum? modelType;
 
   /// The model version number.
-  @_s.JsonKey(name: 'modelVersionNumber')
-  final String modelVersionNumber;
+  final String? modelVersionNumber;
 
   /// The model version status.
   ///
@@ -4572,16 +5065,13 @@ class GetModelVersionResult {
   /// <code>ERROR</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The training data schema.
-  @_s.JsonKey(name: 'trainingDataSchema')
-  final TrainingDataSchema trainingDataSchema;
+  final TrainingDataSchema? trainingDataSchema;
 
   /// The training data source.
-  @_s.JsonKey(name: 'trainingDataSource')
-  final TrainingDataSourceEnum trainingDataSource;
+  final TrainingDataSourceEnum? trainingDataSource;
 
   GetModelVersionResult({
     this.arn,
@@ -4593,141 +5083,219 @@ class GetModelVersionResult {
     this.trainingDataSchema,
     this.trainingDataSource,
   });
-  factory GetModelVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$GetModelVersionResultFromJson(json);
+
+  factory GetModelVersionResult.fromJson(Map<String, dynamic> json) {
+    return GetModelVersionResult(
+      arn: json['arn'] as String?,
+      externalEventsDetail: json['externalEventsDetail'] != null
+          ? ExternalEventsDetail.fromJson(
+              json['externalEventsDetail'] as Map<String, dynamic>)
+          : null,
+      modelId: json['modelId'] as String?,
+      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelVersionNumber: json['modelVersionNumber'] as String?,
+      status: json['status'] as String?,
+      trainingDataSchema: json['trainingDataSchema'] != null
+          ? TrainingDataSchema.fromJson(
+              json['trainingDataSchema'] as Map<String, dynamic>)
+          : null,
+      trainingDataSource:
+          (json['trainingDataSource'] as String?)?.toTrainingDataSourceEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final externalEventsDetail = this.externalEventsDetail;
+    final modelId = this.modelId;
+    final modelType = this.modelType;
+    final modelVersionNumber = this.modelVersionNumber;
+    final status = this.status;
+    final trainingDataSchema = this.trainingDataSchema;
+    final trainingDataSource = this.trainingDataSource;
+    return {
+      if (arn != null) 'arn': arn,
+      if (externalEventsDetail != null)
+        'externalEventsDetail': externalEventsDetail,
+      if (modelId != null) 'modelId': modelId,
+      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
+      if (status != null) 'status': status,
+      if (trainingDataSchema != null) 'trainingDataSchema': trainingDataSchema,
+      if (trainingDataSource != null)
+        'trainingDataSource': trainingDataSource.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetModelsResult {
   /// The array of models.
-  @_s.JsonKey(name: 'models')
-  final List<Model> models;
+  final List<Model>? models;
 
   /// The next page token to be used in subsequent requests.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetModelsResult({
     this.models,
     this.nextToken,
   });
-  factory GetModelsResult.fromJson(Map<String, dynamic> json) =>
-      _$GetModelsResultFromJson(json);
+
+  factory GetModelsResult.fromJson(Map<String, dynamic> json) {
+    return GetModelsResult(
+      models: (json['models'] as List?)
+          ?.whereNotNull()
+          .map((e) => Model.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final models = this.models;
+    final nextToken = this.nextToken;
+    return {
+      if (models != null) 'models': models,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOutcomesResult {
   /// The next page token for subsequent requests.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The outcomes.
-  @_s.JsonKey(name: 'outcomes')
-  final List<Outcome> outcomes;
+  final List<Outcome>? outcomes;
 
   GetOutcomesResult({
     this.nextToken,
     this.outcomes,
   });
-  factory GetOutcomesResult.fromJson(Map<String, dynamic> json) =>
-      _$GetOutcomesResultFromJson(json);
+
+  factory GetOutcomesResult.fromJson(Map<String, dynamic> json) {
+    return GetOutcomesResult(
+      nextToken: json['nextToken'] as String?,
+      outcomes: (json['outcomes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Outcome.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final outcomes = this.outcomes;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (outcomes != null) 'outcomes': outcomes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRulesResult {
   /// The next page token to be used in subsequent requests.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The details of the requested rule.
-  @_s.JsonKey(name: 'ruleDetails')
-  final List<RuleDetail> ruleDetails;
+  final List<RuleDetail>? ruleDetails;
 
   GetRulesResult({
     this.nextToken,
     this.ruleDetails,
   });
-  factory GetRulesResult.fromJson(Map<String, dynamic> json) =>
-      _$GetRulesResultFromJson(json);
+
+  factory GetRulesResult.fromJson(Map<String, dynamic> json) {
+    return GetRulesResult(
+      nextToken: json['nextToken'] as String?,
+      ruleDetails: (json['ruleDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => RuleDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final ruleDetails = this.ruleDetails;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (ruleDetails != null) 'ruleDetails': ruleDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetVariablesResult {
   /// The next page token to be used in subsequent requests.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The names of the variables returned.
-  @_s.JsonKey(name: 'variables')
-  final List<Variable> variables;
+  final List<Variable>? variables;
 
   GetVariablesResult({
     this.nextToken,
     this.variables,
   });
-  factory GetVariablesResult.fromJson(Map<String, dynamic> json) =>
-      _$GetVariablesResultFromJson(json);
+
+  factory GetVariablesResult.fromJson(Map<String, dynamic> json) {
+    return GetVariablesResult(
+      nextToken: json['nextToken'] as String?,
+      variables: (json['variables'] as List?)
+          ?.whereNotNull()
+          .map((e) => Variable.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final variables = this.variables;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (variables != null) 'variables': variables,
+    };
+  }
 }
 
 /// The KMS key details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KMSKey {
   /// The encryption key ARN.
-  @_s.JsonKey(name: 'kmsEncryptionKeyArn')
-  final String kmsEncryptionKeyArn;
+  final String? kmsEncryptionKeyArn;
 
   KMSKey({
     this.kmsEncryptionKeyArn,
   });
-  factory KMSKey.fromJson(Map<String, dynamic> json) => _$KMSKeyFromJson(json);
+
+  factory KMSKey.fromJson(Map<String, dynamic> json) {
+    return KMSKey(
+      kmsEncryptionKeyArn: json['kmsEncryptionKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final kmsEncryptionKeyArn = this.kmsEncryptionKeyArn;
+    return {
+      if (kmsEncryptionKeyArn != null)
+        'kmsEncryptionKeyArn': kmsEncryptionKeyArn,
+    };
+  }
 }
 
 /// The label details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Label {
   /// The label ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Timestamp of when the event type was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The label description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Timestamp of when the label was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The label name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Label({
     this.arn,
@@ -4736,15 +5304,34 @@ class Label {
     this.lastUpdatedTime,
     this.name,
   });
-  factory Label.fromJson(Map<String, dynamic> json) => _$LabelFromJson(json);
+
+  factory Label.fromJson(Map<String, dynamic> json) {
+    return Label(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// The label schema.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LabelSchema {
   /// The label mapper maps the Amazon Fraud Detector supported model
   /// classification labels (<code>FRAUD</code>, <code>LEGIT</code>) to the
@@ -4756,20 +5343,29 @@ class LabelSchema {
   /// <code>"LEGIT" =&gt; ["legit", "safe"]}</code>. The value part of the mapper
   /// is a list, because you may have multiple label variants from your event type
   /// for a single Amazon Fraud Detector label.
-  @_s.JsonKey(name: 'labelMapper')
   final Map<String, List<String>> labelMapper;
 
   LabelSchema({
-    @_s.required this.labelMapper,
+    required this.labelMapper,
   });
-  factory LabelSchema.fromJson(Map<String, dynamic> json) =>
-      _$LabelSchemaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LabelSchemaToJson(this);
+  factory LabelSchema.fromJson(Map<String, dynamic> json) {
+    return LabelSchema(
+      labelMapper: (json['labelMapper'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(
+              k, (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labelMapper = this.labelMapper;
+    return {
+      'labelMapper': labelMapper,
+    };
+  }
 }
 
 enum Language {
-  @_s.JsonValue('DETECTORPL')
   detectorpl,
 }
 
@@ -4779,59 +5375,106 @@ extension on Language {
       case Language.detectorpl:
         return 'DETECTORPL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Language toLanguage() {
+    switch (this) {
+      case 'DETECTORPL':
+        return Language.detectorpl;
+    }
+    throw Exception('$this is not known in enum Language');
+  }
+}
+
 class ListTagsForResourceResult {
   /// The next token for subsequent requests.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A collection of key and value pairs.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResult({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResultFromJson(json);
+
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      nextToken: json['nextToken'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tags != null) 'tags': tags,
+    };
+  }
+}
+
+/// The logit metric details.
+class LogitMetric {
+  /// The relative importance of the variable.
+  final double variableImportance;
+
+  /// The name of the variable.
+  final String variableName;
+
+  /// The type of variable.
+  final String variableType;
+
+  LogitMetric({
+    required this.variableImportance,
+    required this.variableName,
+    required this.variableType,
+  });
+
+  factory LogitMetric.fromJson(Map<String, dynamic> json) {
+    return LogitMetric(
+      variableImportance: json['variableImportance'] as double,
+      variableName: json['variableName'] as String,
+      variableType: json['variableType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final variableImportance = this.variableImportance;
+    final variableName = this.variableName;
+    final variableType = this.variableType;
+    return {
+      'variableImportance': variableImportance,
+      'variableName': variableName,
+      'variableType': variableType,
+    };
+  }
 }
 
 /// Model performance metrics data points.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetricDataPoint {
   /// The false positive rate. This is the percentage of total legitimate events
   /// that are incorrectly predicted as fraud.
-  @_s.JsonKey(name: 'fpr')
-  final double fpr;
+  final double? fpr;
 
   /// The percentage of fraud events correctly predicted as fraudulent as compared
   /// to all events predicted as fraudulent.
-  @_s.JsonKey(name: 'precision')
-  final double precision;
+  final double? precision;
 
   /// The model threshold that specifies an acceptable fraud capture rate. For
   /// example, a threshold of 500 means any model score 500 or above is labeled as
   /// fraud.
-  @_s.JsonKey(name: 'threshold')
-  final double threshold;
+  final double? threshold;
 
   /// The true positive rate. This is the percentage of total fraud the model
   /// detects. Also known as capture rate.
-  @_s.JsonKey(name: 'tpr')
-  final double tpr;
+  final double? tpr;
 
   MetricDataPoint({
     this.fpr,
@@ -4839,44 +5482,52 @@ class MetricDataPoint {
     this.threshold,
     this.tpr,
   });
-  factory MetricDataPoint.fromJson(Map<String, dynamic> json) =>
-      _$MetricDataPointFromJson(json);
+
+  factory MetricDataPoint.fromJson(Map<String, dynamic> json) {
+    return MetricDataPoint(
+      fpr: json['fpr'] as double?,
+      precision: json['precision'] as double?,
+      threshold: json['threshold'] as double?,
+      tpr: json['tpr'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fpr = this.fpr;
+    final precision = this.precision;
+    final threshold = this.threshold;
+    final tpr = this.tpr;
+    return {
+      if (fpr != null) 'fpr': fpr,
+      if (precision != null) 'precision': precision,
+      if (threshold != null) 'threshold': threshold,
+      if (tpr != null) 'tpr': tpr,
+    };
+  }
 }
 
 /// The model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Model {
   /// The ARN of the model.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Timestamp of when the model was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The model description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The name of the event type.
-  @_s.JsonKey(name: 'eventTypeName')
-  final String eventTypeName;
+  final String? eventTypeName;
 
   /// Timestamp of last time the model was updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The model ID.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The model type.
-  @_s.JsonKey(name: 'modelType')
-  final ModelTypeEnum modelType;
+  final ModelTypeEnum? modelType;
 
   Model({
     this.arn,
@@ -4887,38 +5538,73 @@ class Model {
     this.modelId,
     this.modelType,
   });
-  factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
+
+  factory Model.fromJson(Map<String, dynamic> json) {
+    return Model(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      modelId: json['modelId'] as String?,
+      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final eventTypeName = this.eventTypeName;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final modelId = this.modelId;
+    final modelType = this.modelType;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (modelId != null) 'modelId': modelId,
+      if (modelType != null) 'modelType': modelType.toValue(),
+    };
+  }
 }
 
 /// A pre-formed Amazon SageMaker model input you can include if your detector
 /// version includes an imported Amazon SageMaker model endpoint with
 /// pass-through input configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ModelEndpointDataBlob {
   /// The byte buffer of the Amazon SageMaker model endpoint input data blob.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'byteBuffer')
-  final Uint8List byteBuffer;
+  final Uint8List? byteBuffer;
 
   /// The content type of the Amazon SageMaker model endpoint input data blob.
-  @_s.JsonKey(name: 'contentType')
-  final String contentType;
+  final String? contentType;
 
   ModelEndpointDataBlob({
     this.byteBuffer,
     this.contentType,
   });
-  Map<String, dynamic> toJson() => _$ModelEndpointDataBlobToJson(this);
+
+  factory ModelEndpointDataBlob.fromJson(Map<String, dynamic> json) {
+    return ModelEndpointDataBlob(
+      byteBuffer: _s.decodeNullableUint8List(json['byteBuffer'] as String?),
+      contentType: json['contentType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final byteBuffer = this.byteBuffer;
+    final contentType = this.contentType;
+    return {
+      if (byteBuffer != null) 'byteBuffer': base64Encode(byteBuffer),
+      if (contentType != null) 'contentType': contentType,
+    };
+  }
 }
 
 enum ModelEndpointStatus {
-  @_s.JsonValue('ASSOCIATED')
   associated,
-  @_s.JsonValue('DISSOCIATED')
   dissociated,
 }
 
@@ -4930,127 +5616,213 @@ extension on ModelEndpointStatus {
       case ModelEndpointStatus.dissociated:
         return 'DISSOCIATED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ModelEndpointStatus toModelEndpointStatus() {
+    switch (this) {
+      case 'ASSOCIATED':
+        return ModelEndpointStatus.associated;
+      case 'DISSOCIATED':
+        return ModelEndpointStatus.dissociated;
+    }
+    throw Exception('$this is not known in enum ModelEndpointStatus');
   }
 }
 
 /// The Amazon SageMaker model input configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ModelInputConfiguration {
   /// The event variables.
-  @_s.JsonKey(name: 'useEventVariables')
   final bool useEventVariables;
 
   /// Template for constructing the CSV input-data sent to SageMaker. At
   /// event-evaluation, the placeholders for variable-names in the template will
   /// be replaced with the variable values before being sent to SageMaker.
-  @_s.JsonKey(name: 'csvInputTemplate')
-  final String csvInputTemplate;
+  final String? csvInputTemplate;
 
   /// The event type name.
-  @_s.JsonKey(name: 'eventTypeName')
-  final String eventTypeName;
+  final String? eventTypeName;
 
   /// The format of the model input configuration. The format differs depending on
   /// if it is passed through to SageMaker or constructed by Amazon Fraud
   /// Detector.
-  @_s.JsonKey(name: 'format')
-  final ModelInputDataFormat format;
+  final ModelInputDataFormat? format;
 
   /// Template for constructing the JSON input-data sent to SageMaker. At
   /// event-evaluation, the placeholders for variable names in the template will
   /// be replaced with the variable values before being sent to SageMaker.
-  @_s.JsonKey(name: 'jsonInputTemplate')
-  final String jsonInputTemplate;
+  final String? jsonInputTemplate;
 
   ModelInputConfiguration({
-    @_s.required this.useEventVariables,
+    required this.useEventVariables,
     this.csvInputTemplate,
     this.eventTypeName,
     this.format,
     this.jsonInputTemplate,
   });
-  factory ModelInputConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ModelInputConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ModelInputConfigurationToJson(this);
+  factory ModelInputConfiguration.fromJson(Map<String, dynamic> json) {
+    return ModelInputConfiguration(
+      useEventVariables: json['useEventVariables'] as bool,
+      csvInputTemplate: json['csvInputTemplate'] as String?,
+      eventTypeName: json['eventTypeName'] as String?,
+      format: (json['format'] as String?)?.toModelInputDataFormat(),
+      jsonInputTemplate: json['jsonInputTemplate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final useEventVariables = this.useEventVariables;
+    final csvInputTemplate = this.csvInputTemplate;
+    final eventTypeName = this.eventTypeName;
+    final format = this.format;
+    final jsonInputTemplate = this.jsonInputTemplate;
+    return {
+      'useEventVariables': useEventVariables,
+      if (csvInputTemplate != null) 'csvInputTemplate': csvInputTemplate,
+      if (eventTypeName != null) 'eventTypeName': eventTypeName,
+      if (format != null) 'format': format.toValue(),
+      if (jsonInputTemplate != null) 'jsonInputTemplate': jsonInputTemplate,
+    };
+  }
 }
 
 enum ModelInputDataFormat {
-  @_s.JsonValue('TEXT_CSV')
   textCsv,
-  @_s.JsonValue('APPLICATION_JSON')
   applicationJson,
 }
 
+extension on ModelInputDataFormat {
+  String toValue() {
+    switch (this) {
+      case ModelInputDataFormat.textCsv:
+        return 'TEXT_CSV';
+      case ModelInputDataFormat.applicationJson:
+        return 'APPLICATION_JSON';
+    }
+  }
+}
+
+extension on String {
+  ModelInputDataFormat toModelInputDataFormat() {
+    switch (this) {
+      case 'TEXT_CSV':
+        return ModelInputDataFormat.textCsv;
+      case 'APPLICATION_JSON':
+        return ModelInputDataFormat.applicationJson;
+    }
+    throw Exception('$this is not known in enum ModelInputDataFormat');
+  }
+}
+
 /// Provides the Amazon Sagemaker model output configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ModelOutputConfiguration {
   /// The format of the model output configuration.
-  @_s.JsonKey(name: 'format')
   final ModelOutputDataFormat format;
 
   /// A map of CSV index values in the SageMaker response to the Amazon Fraud
   /// Detector variables.
-  @_s.JsonKey(name: 'csvIndexToVariableMap')
-  final Map<String, String> csvIndexToVariableMap;
+  final Map<String, String>? csvIndexToVariableMap;
 
   /// A map of JSON keys in response from SageMaker to the Amazon Fraud Detector
   /// variables.
-  @_s.JsonKey(name: 'jsonKeyToVariableMap')
-  final Map<String, String> jsonKeyToVariableMap;
+  final Map<String, String>? jsonKeyToVariableMap;
 
   ModelOutputConfiguration({
-    @_s.required this.format,
+    required this.format,
     this.csvIndexToVariableMap,
     this.jsonKeyToVariableMap,
   });
-  factory ModelOutputConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ModelOutputConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ModelOutputConfigurationToJson(this);
+  factory ModelOutputConfiguration.fromJson(Map<String, dynamic> json) {
+    return ModelOutputConfiguration(
+      format: (json['format'] as String).toModelOutputDataFormat(),
+      csvIndexToVariableMap:
+          (json['csvIndexToVariableMap'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      jsonKeyToVariableMap:
+          (json['jsonKeyToVariableMap'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final csvIndexToVariableMap = this.csvIndexToVariableMap;
+    final jsonKeyToVariableMap = this.jsonKeyToVariableMap;
+    return {
+      'format': format.toValue(),
+      if (csvIndexToVariableMap != null)
+        'csvIndexToVariableMap': csvIndexToVariableMap,
+      if (jsonKeyToVariableMap != null)
+        'jsonKeyToVariableMap': jsonKeyToVariableMap,
+    };
+  }
 }
 
 enum ModelOutputDataFormat {
-  @_s.JsonValue('TEXT_CSV')
   textCsv,
-  @_s.JsonValue('APPLICATION_JSONLINES')
   applicationJsonlines,
 }
 
+extension on ModelOutputDataFormat {
+  String toValue() {
+    switch (this) {
+      case ModelOutputDataFormat.textCsv:
+        return 'TEXT_CSV';
+      case ModelOutputDataFormat.applicationJsonlines:
+        return 'APPLICATION_JSONLINES';
+    }
+  }
+}
+
+extension on String {
+  ModelOutputDataFormat toModelOutputDataFormat() {
+    switch (this) {
+      case 'TEXT_CSV':
+        return ModelOutputDataFormat.textCsv;
+      case 'APPLICATION_JSONLINES':
+        return ModelOutputDataFormat.applicationJsonlines;
+    }
+    throw Exception('$this is not known in enum ModelOutputDataFormat');
+  }
+}
+
 /// The fraud prediction scores.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModelScores {
   /// The model version.
-  @_s.JsonKey(name: 'modelVersion')
-  final ModelVersion modelVersion;
+  final ModelVersion? modelVersion;
 
   /// The model's fraud prediction scores.
-  @_s.JsonKey(name: 'scores')
-  final Map<String, double> scores;
+  final Map<String, double>? scores;
 
   ModelScores({
     this.modelVersion,
     this.scores,
   });
-  factory ModelScores.fromJson(Map<String, dynamic> json) =>
-      _$ModelScoresFromJson(json);
+
+  factory ModelScores.fromJson(Map<String, dynamic> json) {
+    return ModelScores(
+      modelVersion: json['modelVersion'] != null
+          ? ModelVersion.fromJson(json['modelVersion'] as Map<String, dynamic>)
+          : null,
+      scores: (json['scores'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as double)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelVersion = this.modelVersion;
+    final scores = this.scores;
+    return {
+      if (modelVersion != null) 'modelVersion': modelVersion,
+      if (scores != null) 'scores': scores,
+    };
+  }
 }
 
 enum ModelSource {
-  @_s.JsonValue('SAGEMAKER')
   sagemaker,
 }
 
@@ -5060,12 +5832,20 @@ extension on ModelSource {
       case ModelSource.sagemaker:
         return 'SAGEMAKER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ModelSource toModelSource() {
+    switch (this) {
+      case 'SAGEMAKER':
+        return ModelSource.sagemaker;
+    }
+    throw Exception('$this is not known in enum ModelSource');
   }
 }
 
 enum ModelTypeEnum {
-  @_s.JsonValue('ONLINE_FRAUD_INSIGHTS')
   onlineFraudInsights,
 }
 
@@ -5075,95 +5855,97 @@ extension on ModelTypeEnum {
       case ModelTypeEnum.onlineFraudInsights:
         return 'ONLINE_FRAUD_INSIGHTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ModelTypeEnum toModelTypeEnum() {
+    switch (this) {
+      case 'ONLINE_FRAUD_INSIGHTS':
+        return ModelTypeEnum.onlineFraudInsights;
+    }
+    throw Exception('$this is not known in enum ModelTypeEnum');
   }
 }
 
 /// The model version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ModelVersion {
   /// The model ID.
-  @_s.JsonKey(name: 'modelId')
   final String modelId;
 
   /// The model type.
-  @_s.JsonKey(name: 'modelType')
   final ModelTypeEnum modelType;
 
   /// The model version number.
-  @_s.JsonKey(name: 'modelVersionNumber')
   final String modelVersionNumber;
 
   /// The model version ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   ModelVersion({
-    @_s.required this.modelId,
-    @_s.required this.modelType,
-    @_s.required this.modelVersionNumber,
+    required this.modelId,
+    required this.modelType,
+    required this.modelVersionNumber,
     this.arn,
   });
-  factory ModelVersion.fromJson(Map<String, dynamic> json) =>
-      _$ModelVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ModelVersionToJson(this);
+  factory ModelVersion.fromJson(Map<String, dynamic> json) {
+    return ModelVersion(
+      modelId: json['modelId'] as String,
+      modelType: (json['modelType'] as String).toModelTypeEnum(),
+      modelVersionNumber: json['modelVersionNumber'] as String,
+      arn: json['arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelId = this.modelId;
+    final modelType = this.modelType;
+    final modelVersionNumber = this.modelVersionNumber;
+    final arn = this.arn;
+    return {
+      'modelId': modelId,
+      'modelType': modelType.toValue(),
+      'modelVersionNumber': modelVersionNumber,
+      if (arn != null) 'arn': arn,
+    };
+  }
 }
 
 /// The details of the model version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModelVersionDetail {
   /// The model version ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The timestamp when the model was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The event details.
-  @_s.JsonKey(name: 'externalEventsDetail')
-  final ExternalEventsDetail externalEventsDetail;
+  final ExternalEventsDetail? externalEventsDetail;
 
   /// The timestamp when the model was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The model ID.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The model type.
-  @_s.JsonKey(name: 'modelType')
-  final ModelTypeEnum modelType;
+  final ModelTypeEnum? modelType;
 
   /// The model version number.
-  @_s.JsonKey(name: 'modelVersionNumber')
-  final String modelVersionNumber;
+  final String? modelVersionNumber;
 
   /// The status of the model version.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The training data schema.
-  @_s.JsonKey(name: 'trainingDataSchema')
-  final TrainingDataSchema trainingDataSchema;
+  final TrainingDataSchema? trainingDataSchema;
 
   /// The model version training data source.
-  @_s.JsonKey(name: 'trainingDataSource')
-  final TrainingDataSourceEnum trainingDataSource;
+  final TrainingDataSourceEnum? trainingDataSource;
 
   /// The training results.
-  @_s.JsonKey(name: 'trainingResult')
-  final TrainingResult trainingResult;
+  final TrainingResult? trainingResult;
 
   ModelVersionDetail({
     this.arn,
@@ -5178,15 +5960,67 @@ class ModelVersionDetail {
     this.trainingDataSource,
     this.trainingResult,
   });
-  factory ModelVersionDetail.fromJson(Map<String, dynamic> json) =>
-      _$ModelVersionDetailFromJson(json);
+
+  factory ModelVersionDetail.fromJson(Map<String, dynamic> json) {
+    return ModelVersionDetail(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      externalEventsDetail: json['externalEventsDetail'] != null
+          ? ExternalEventsDetail.fromJson(
+              json['externalEventsDetail'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      modelId: json['modelId'] as String?,
+      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelVersionNumber: json['modelVersionNumber'] as String?,
+      status: json['status'] as String?,
+      trainingDataSchema: json['trainingDataSchema'] != null
+          ? TrainingDataSchema.fromJson(
+              json['trainingDataSchema'] as Map<String, dynamic>)
+          : null,
+      trainingDataSource:
+          (json['trainingDataSource'] as String?)?.toTrainingDataSourceEnum(),
+      trainingResult: json['trainingResult'] != null
+          ? TrainingResult.fromJson(
+              json['trainingResult'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final externalEventsDetail = this.externalEventsDetail;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final modelId = this.modelId;
+    final modelType = this.modelType;
+    final modelVersionNumber = this.modelVersionNumber;
+    final status = this.status;
+    final trainingDataSchema = this.trainingDataSchema;
+    final trainingDataSource = this.trainingDataSource;
+    final trainingResult = this.trainingResult;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (externalEventsDetail != null)
+        'externalEventsDetail': externalEventsDetail,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (modelId != null) 'modelId': modelId,
+      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
+      if (status != null) 'status': status,
+      if (trainingDataSchema != null) 'trainingDataSchema': trainingDataSchema,
+      if (trainingDataSource != null)
+        'trainingDataSource': trainingDataSource.toValue(),
+      if (trainingResult != null) 'trainingResult': trainingResult,
+    };
+  }
 }
 
 enum ModelVersionStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
+  trainingCancelled,
 }
 
 extension on ModelVersionStatus {
@@ -5196,37 +6030,42 @@ extension on ModelVersionStatus {
         return 'ACTIVE';
       case ModelVersionStatus.inactive:
         return 'INACTIVE';
+      case ModelVersionStatus.trainingCancelled:
+        return 'TRAINING_CANCELLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ModelVersionStatus toModelVersionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return ModelVersionStatus.active;
+      case 'INACTIVE':
+        return ModelVersionStatus.inactive;
+      case 'TRAINING_CANCELLED':
+        return ModelVersionStatus.trainingCancelled;
+    }
+    throw Exception('$this is not known in enum ModelVersionStatus');
   }
 }
 
 /// The outcome.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Outcome {
   /// The outcome ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The timestamp when the outcome was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The outcome description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The timestamp when the outcome was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The outcome name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Outcome({
     this.arn,
@@ -5235,162 +6074,185 @@ class Outcome {
     this.lastUpdatedTime,
     this.name,
   });
-  factory Outcome.fromJson(Map<String, dynamic> json) =>
-      _$OutcomeFromJson(json);
+
+  factory Outcome.fromJson(Map<String, dynamic> json) {
+    return Outcome(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutDetectorResult {
   PutDetectorResult();
-  factory PutDetectorResult.fromJson(Map<String, dynamic> json) =>
-      _$PutDetectorResultFromJson(json);
+
+  factory PutDetectorResult.fromJson(Map<String, dynamic> _) {
+    return PutDetectorResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEntityTypeResult {
   PutEntityTypeResult();
-  factory PutEntityTypeResult.fromJson(Map<String, dynamic> json) =>
-      _$PutEntityTypeResultFromJson(json);
+
+  factory PutEntityTypeResult.fromJson(Map<String, dynamic> _) {
+    return PutEntityTypeResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutEventTypeResult {
   PutEventTypeResult();
-  factory PutEventTypeResult.fromJson(Map<String, dynamic> json) =>
-      _$PutEventTypeResultFromJson(json);
+
+  factory PutEventTypeResult.fromJson(Map<String, dynamic> _) {
+    return PutEventTypeResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutExternalModelResult {
   PutExternalModelResult();
-  factory PutExternalModelResult.fromJson(Map<String, dynamic> json) =>
-      _$PutExternalModelResultFromJson(json);
+
+  factory PutExternalModelResult.fromJson(Map<String, dynamic> _) {
+    return PutExternalModelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutKMSEncryptionKeyResult {
   PutKMSEncryptionKeyResult();
-  factory PutKMSEncryptionKeyResult.fromJson(Map<String, dynamic> json) =>
-      _$PutKMSEncryptionKeyResultFromJson(json);
+
+  factory PutKMSEncryptionKeyResult.fromJson(Map<String, dynamic> _) {
+    return PutKMSEncryptionKeyResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutLabelResult {
   PutLabelResult();
-  factory PutLabelResult.fromJson(Map<String, dynamic> json) =>
-      _$PutLabelResultFromJson(json);
+
+  factory PutLabelResult.fromJson(Map<String, dynamic> _) {
+    return PutLabelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutOutcomeResult {
   PutOutcomeResult();
-  factory PutOutcomeResult.fromJson(Map<String, dynamic> json) =>
-      _$PutOutcomeResultFromJson(json);
+
+  factory PutOutcomeResult.fromJson(Map<String, dynamic> _) {
+    return PutOutcomeResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Rule {
   /// The detector for which the rule is associated.
-  @_s.JsonKey(name: 'detectorId')
   final String detectorId;
 
   /// The rule ID.
-  @_s.JsonKey(name: 'ruleId')
   final String ruleId;
 
   /// The rule version.
-  @_s.JsonKey(name: 'ruleVersion')
   final String ruleVersion;
 
   Rule({
-    @_s.required this.detectorId,
-    @_s.required this.ruleId,
-    @_s.required this.ruleVersion,
+    required this.detectorId,
+    required this.ruleId,
+    required this.ruleVersion,
   });
-  factory Rule.fromJson(Map<String, dynamic> json) => _$RuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RuleToJson(this);
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      detectorId: json['detectorId'] as String,
+      ruleId: json['ruleId'] as String,
+      ruleVersion: json['ruleVersion'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectorId = this.detectorId;
+    final ruleId = this.ruleId;
+    final ruleVersion = this.ruleVersion;
+    return {
+      'detectorId': detectorId,
+      'ruleId': ruleId,
+      'ruleVersion': ruleVersion,
+    };
+  }
 }
 
 /// The details of the rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuleDetail {
   /// The rule ARN.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The timestamp of when the rule was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The rule description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The detector for which the rule is associated.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   /// The rule expression.
-  @_s.JsonKey(name: 'expression')
-  final String expression;
+  final String? expression;
 
   /// The rule language.
-  @_s.JsonKey(name: 'language')
-  final Language language;
+  final Language? language;
 
   /// Timestamp of the last time the rule was updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The rule outcomes.
-  @_s.JsonKey(name: 'outcomes')
-  final List<String> outcomes;
+  final List<String>? outcomes;
 
   /// The rule ID.
-  @_s.JsonKey(name: 'ruleId')
-  final String ruleId;
+  final String? ruleId;
 
   /// The rule version.
-  @_s.JsonKey(name: 'ruleVersion')
-  final String ruleVersion;
+  final String? ruleVersion;
 
   RuleDetail({
     this.arn,
@@ -5404,14 +6266,53 @@ class RuleDetail {
     this.ruleId,
     this.ruleVersion,
   });
-  factory RuleDetail.fromJson(Map<String, dynamic> json) =>
-      _$RuleDetailFromJson(json);
+
+  factory RuleDetail.fromJson(Map<String, dynamic> json) {
+    return RuleDetail(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      description: json['description'] as String?,
+      detectorId: json['detectorId'] as String?,
+      expression: json['expression'] as String?,
+      language: (json['language'] as String?)?.toLanguage(),
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      outcomes: (json['outcomes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ruleId: json['ruleId'] as String?,
+      ruleVersion: json['ruleVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final description = this.description;
+    final detectorId = this.detectorId;
+    final expression = this.expression;
+    final language = this.language;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final outcomes = this.outcomes;
+    final ruleId = this.ruleId;
+    final ruleVersion = this.ruleVersion;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (description != null) 'description': description,
+      if (detectorId != null) 'detectorId': detectorId,
+      if (expression != null) 'expression': expression,
+      if (language != null) 'language': language.toValue(),
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (outcomes != null) 'outcomes': outcomes,
+      if (ruleId != null) 'ruleId': ruleId,
+      if (ruleVersion != null) 'ruleVersion': ruleVersion,
+    };
+  }
 }
 
 enum RuleExecutionMode {
-  @_s.JsonValue('ALL_MATCHED')
   allMatched,
-  @_s.JsonValue('FIRST_MATCHED')
   firstMatched,
 }
 
@@ -5423,94 +6324,130 @@ extension on RuleExecutionMode {
       case RuleExecutionMode.firstMatched:
         return 'FIRST_MATCHED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RuleExecutionMode toRuleExecutionMode() {
+    switch (this) {
+      case 'ALL_MATCHED':
+        return RuleExecutionMode.allMatched;
+      case 'FIRST_MATCHED':
+        return RuleExecutionMode.firstMatched;
+    }
+    throw Exception('$this is not known in enum RuleExecutionMode');
   }
 }
 
 /// The rule results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuleResult {
   /// The outcomes of the matched rule, based on the rule execution mode.
-  @_s.JsonKey(name: 'outcomes')
-  final List<String> outcomes;
+  final List<String>? outcomes;
 
   /// The rule ID that was matched, based on the rule execution mode.
-  @_s.JsonKey(name: 'ruleId')
-  final String ruleId;
+  final String? ruleId;
 
   RuleResult({
     this.outcomes,
     this.ruleId,
   });
-  factory RuleResult.fromJson(Map<String, dynamic> json) =>
-      _$RuleResultFromJson(json);
+
+  factory RuleResult.fromJson(Map<String, dynamic> json) {
+    return RuleResult(
+      outcomes: (json['outcomes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ruleId: json['ruleId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outcomes = this.outcomes;
+    final ruleId = this.ruleId;
+    return {
+      if (outcomes != null) 'outcomes': outcomes,
+      if (ruleId != null) 'ruleId': ruleId,
+    };
+  }
 }
 
 /// A key and value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// A tag key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// A value assigned to a tag key.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResult {
   TagResourceResult();
-  factory TagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResultFromJson(json);
+
+  factory TagResourceResult.fromJson(Map<String, dynamic> _) {
+    return TagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The training data schema.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TrainingDataSchema {
-  @_s.JsonKey(name: 'labelSchema')
   final LabelSchema labelSchema;
 
   /// The training data schema variables.
-  @_s.JsonKey(name: 'modelVariables')
   final List<String> modelVariables;
 
   TrainingDataSchema({
-    @_s.required this.labelSchema,
-    @_s.required this.modelVariables,
+    required this.labelSchema,
+    required this.modelVariables,
   });
-  factory TrainingDataSchema.fromJson(Map<String, dynamic> json) =>
-      _$TrainingDataSchemaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TrainingDataSchemaToJson(this);
+  factory TrainingDataSchema.fromJson(Map<String, dynamic> json) {
+    return TrainingDataSchema(
+      labelSchema:
+          LabelSchema.fromJson(json['labelSchema'] as Map<String, dynamic>),
+      modelVariables: (json['modelVariables'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final labelSchema = this.labelSchema;
+    final modelVariables = this.modelVariables;
+    return {
+      'labelSchema': labelSchema,
+      'modelVariables': modelVariables,
+    };
+  }
 }
 
 enum TrainingDataSourceEnum {
-  @_s.JsonValue('EXTERNAL_EVENTS')
   externalEvents,
 }
 
@@ -5520,137 +6457,175 @@ extension on TrainingDataSourceEnum {
       case TrainingDataSourceEnum.externalEvents:
         return 'EXTERNAL_EVENTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TrainingDataSourceEnum toTrainingDataSourceEnum() {
+    switch (this) {
+      case 'EXTERNAL_EVENTS':
+        return TrainingDataSourceEnum.externalEvents;
+    }
+    throw Exception('$this is not known in enum TrainingDataSourceEnum');
   }
 }
 
 /// The training metric details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrainingMetrics {
   /// The area under the curve. This summarizes true positive rate (TPR) and false
   /// positive rate (FPR) across all possible model score thresholds. A model with
   /// no predictive power has an AUC of 0.5, whereas a perfect model has a score
   /// of 1.0.
-  @_s.JsonKey(name: 'auc')
-  final double auc;
+  final double? auc;
 
   /// The data points details.
-  @_s.JsonKey(name: 'metricDataPoints')
-  final List<MetricDataPoint> metricDataPoints;
+  final List<MetricDataPoint>? metricDataPoints;
 
   TrainingMetrics({
     this.auc,
     this.metricDataPoints,
   });
-  factory TrainingMetrics.fromJson(Map<String, dynamic> json) =>
-      _$TrainingMetricsFromJson(json);
+
+  factory TrainingMetrics.fromJson(Map<String, dynamic> json) {
+    return TrainingMetrics(
+      auc: json['auc'] as double?,
+      metricDataPoints: (json['metricDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auc = this.auc;
+    final metricDataPoints = this.metricDataPoints;
+    return {
+      if (auc != null) 'auc': auc,
+      if (metricDataPoints != null) 'metricDataPoints': metricDataPoints,
+    };
+  }
 }
 
 /// The training result details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrainingResult {
   /// The validation metrics.
-  @_s.JsonKey(name: 'dataValidationMetrics')
-  final DataValidationMetrics dataValidationMetrics;
+  final DataValidationMetrics? dataValidationMetrics;
 
   /// The training metric details.
-  @_s.JsonKey(name: 'trainingMetrics')
-  final TrainingMetrics trainingMetrics;
+  final TrainingMetrics? trainingMetrics;
+
+  /// The variable importance metrics.
+  final VariableImportanceMetrics? variableImportanceMetrics;
 
   TrainingResult({
     this.dataValidationMetrics,
     this.trainingMetrics,
+    this.variableImportanceMetrics,
   });
-  factory TrainingResult.fromJson(Map<String, dynamic> json) =>
-      _$TrainingResultFromJson(json);
+
+  factory TrainingResult.fromJson(Map<String, dynamic> json) {
+    return TrainingResult(
+      dataValidationMetrics: json['dataValidationMetrics'] != null
+          ? DataValidationMetrics.fromJson(
+              json['dataValidationMetrics'] as Map<String, dynamic>)
+          : null,
+      trainingMetrics: json['trainingMetrics'] != null
+          ? TrainingMetrics.fromJson(
+              json['trainingMetrics'] as Map<String, dynamic>)
+          : null,
+      variableImportanceMetrics: json['variableImportanceMetrics'] != null
+          ? VariableImportanceMetrics.fromJson(
+              json['variableImportanceMetrics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataValidationMetrics = this.dataValidationMetrics;
+    final trainingMetrics = this.trainingMetrics;
+    final variableImportanceMetrics = this.variableImportanceMetrics;
+    return {
+      if (dataValidationMetrics != null)
+        'dataValidationMetrics': dataValidationMetrics,
+      if (trainingMetrics != null) 'trainingMetrics': trainingMetrics,
+      if (variableImportanceMetrics != null)
+        'variableImportanceMetrics': variableImportanceMetrics,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResult {
   UntagResourceResult();
-  factory UntagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResultFromJson(json);
+
+  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDetectorVersionMetadataResult {
   UpdateDetectorVersionMetadataResult();
-  factory UpdateDetectorVersionMetadataResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateDetectorVersionMetadataResultFromJson(json);
+
+  factory UpdateDetectorVersionMetadataResult.fromJson(Map<String, dynamic> _) {
+    return UpdateDetectorVersionMetadataResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDetectorVersionResult {
   UpdateDetectorVersionResult();
-  factory UpdateDetectorVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDetectorVersionResultFromJson(json);
+
+  factory UpdateDetectorVersionResult.fromJson(Map<String, dynamic> _) {
+    return UpdateDetectorVersionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDetectorVersionStatusResult {
   UpdateDetectorVersionStatusResult();
-  factory UpdateDetectorVersionStatusResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateDetectorVersionStatusResultFromJson(json);
+
+  factory UpdateDetectorVersionStatusResult.fromJson(Map<String, dynamic> _) {
+    return UpdateDetectorVersionStatusResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateModelResult {
   UpdateModelResult();
-  factory UpdateModelResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateModelResultFromJson(json);
+
+  factory UpdateModelResult.fromJson(Map<String, dynamic> _) {
+    return UpdateModelResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateModelVersionResult {
   /// The model ID.
-  @_s.JsonKey(name: 'modelId')
-  final String modelId;
+  final String? modelId;
 
   /// The model type.
-  @_s.JsonKey(name: 'modelType')
-  final ModelTypeEnum modelType;
+  final ModelTypeEnum? modelType;
 
   /// The model version number of the model version updated.
-  @_s.JsonKey(name: 'modelVersionNumber')
-  final String modelVersionNumber;
+  final String? modelVersionNumber;
 
   /// The status of the updated model version.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   UpdateModelVersionResult({
     this.modelId,
@@ -5658,100 +6633,117 @@ class UpdateModelVersionResult {
     this.modelVersionNumber,
     this.status,
   });
-  factory UpdateModelVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateModelVersionResultFromJson(json);
+
+  factory UpdateModelVersionResult.fromJson(Map<String, dynamic> json) {
+    return UpdateModelVersionResult(
+      modelId: json['modelId'] as String?,
+      modelType: (json['modelType'] as String?)?.toModelTypeEnum(),
+      modelVersionNumber: json['modelVersionNumber'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelId = this.modelId;
+    final modelType = this.modelType;
+    final modelVersionNumber = this.modelVersionNumber;
+    final status = this.status;
+    return {
+      if (modelId != null) 'modelId': modelId,
+      if (modelType != null) 'modelType': modelType.toValue(),
+      if (modelVersionNumber != null) 'modelVersionNumber': modelVersionNumber,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateModelVersionStatusResult {
   UpdateModelVersionStatusResult();
-  factory UpdateModelVersionStatusResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateModelVersionStatusResultFromJson(json);
+
+  factory UpdateModelVersionStatusResult.fromJson(Map<String, dynamic> _) {
+    return UpdateModelVersionStatusResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRuleMetadataResult {
   UpdateRuleMetadataResult();
-  factory UpdateRuleMetadataResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRuleMetadataResultFromJson(json);
+
+  factory UpdateRuleMetadataResult.fromJson(Map<String, dynamic> _) {
+    return UpdateRuleMetadataResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRuleVersionResult {
   /// The new rule version that was created.
-  @_s.JsonKey(name: 'rule')
-  final Rule rule;
+  final Rule? rule;
 
   UpdateRuleVersionResult({
     this.rule,
   });
-  factory UpdateRuleVersionResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRuleVersionResultFromJson(json);
+
+  factory UpdateRuleVersionResult.fromJson(Map<String, dynamic> json) {
+    return UpdateRuleVersionResult(
+      rule: json['rule'] != null
+          ? Rule.fromJson(json['rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rule = this.rule;
+    return {
+      if (rule != null) 'rule': rule,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateVariableResult {
   UpdateVariableResult();
-  factory UpdateVariableResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateVariableResultFromJson(json);
+
+  factory UpdateVariableResult.fromJson(Map<String, dynamic> _) {
+    return UpdateVariableResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The variable.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Variable {
   /// The ARN of the variable.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The time when the variable was created.
-  @_s.JsonKey(name: 'createdTime')
-  final String createdTime;
+  final String? createdTime;
 
   /// The data source of the variable.
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   /// The data type of the variable. For more information see <a
   /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
   /// types</a>.
-  @_s.JsonKey(name: 'dataType')
-  final DataType dataType;
+  final DataType? dataType;
 
   /// The default value of the variable.
-  @_s.JsonKey(name: 'defaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// The description of the variable.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The time when variable was last updated.
-  @_s.JsonKey(name: 'lastUpdatedTime')
-  final String lastUpdatedTime;
+  final String? lastUpdatedTime;
 
   /// The name of the variable.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The variable type of the variable.
   ///
@@ -5763,8 +6755,7 @@ class Variable {
   /// PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY
   /// | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE |
   /// SHIPPING_ZIP | USERAGENT </code>
-  @_s.JsonKey(name: 'variableType')
-  final String variableType;
+  final String? variableType;
 
   Variable({
     this.arn,
@@ -5777,36 +6768,61 @@ class Variable {
     this.name,
     this.variableType,
   });
-  factory Variable.fromJson(Map<String, dynamic> json) =>
-      _$VariableFromJson(json);
+
+  factory Variable.fromJson(Map<String, dynamic> json) {
+    return Variable(
+      arn: json['arn'] as String?,
+      createdTime: json['createdTime'] as String?,
+      dataSource: (json['dataSource'] as String?)?.toDataSource(),
+      dataType: (json['dataType'] as String?)?.toDataType(),
+      defaultValue: json['defaultValue'] as String?,
+      description: json['description'] as String?,
+      lastUpdatedTime: json['lastUpdatedTime'] as String?,
+      name: json['name'] as String?,
+      variableType: json['variableType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdTime = this.createdTime;
+    final dataSource = this.dataSource;
+    final dataType = this.dataType;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final variableType = this.variableType;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdTime != null) 'createdTime': createdTime,
+      if (dataSource != null) 'dataSource': dataSource.toValue(),
+      if (dataType != null) 'dataType': dataType.toValue(),
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+      if (lastUpdatedTime != null) 'lastUpdatedTime': lastUpdatedTime,
+      if (name != null) 'name': name,
+      if (variableType != null) 'variableType': variableType,
+    };
+  }
 }
 
 /// A variable in the list of variables for the batch create variable request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VariableEntry {
   /// The data source of the variable.
-  @_s.JsonKey(name: 'dataSource')
-  final String dataSource;
+  final String? dataSource;
 
   /// The data type of the variable.
-  @_s.JsonKey(name: 'dataType')
-  final String dataType;
+  final String? dataType;
 
   /// The default value of the variable.
-  @_s.JsonKey(name: 'defaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// The description of the variable.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The name of the variable.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The type of the variable. For more information see <a
   /// href="https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types">Variable
@@ -5820,8 +6836,7 @@ class VariableEntry {
   /// PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY
   /// | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE |
   /// SHIPPING_ZIP | USERAGENT </code>
-  @_s.JsonKey(name: 'variableType')
-  final String variableType;
+  final String? variableType;
 
   VariableEntry({
     this.dataSource,
@@ -5831,36 +6846,89 @@ class VariableEntry {
     this.name,
     this.variableType,
   });
-  Map<String, dynamic> toJson() => _$VariableEntryToJson(this);
+
+  factory VariableEntry.fromJson(Map<String, dynamic> json) {
+    return VariableEntry(
+      dataSource: json['dataSource'] as String?,
+      dataType: json['dataType'] as String?,
+      defaultValue: json['defaultValue'] as String?,
+      description: json['description'] as String?,
+      name: json['name'] as String?,
+      variableType: json['variableType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final dataType = this.dataType;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final name = this.name;
+    final variableType = this.variableType;
+    return {
+      if (dataSource != null) 'dataSource': dataSource,
+      if (dataType != null) 'dataType': dataType,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+      if (name != null) 'name': name,
+      if (variableType != null) 'variableType': variableType,
+    };
+  }
+}
+
+/// The variable importance metrics details.
+class VariableImportanceMetrics {
+  /// List of variable metrics.
+  final List<LogitMetric>? logitMetrics;
+
+  VariableImportanceMetrics({
+    this.logitMetrics,
+  });
+
+  factory VariableImportanceMetrics.fromJson(Map<String, dynamic> json) {
+    return VariableImportanceMetrics(
+      logitMetrics: (json['LogitMetrics'] as List?)
+          ?.whereNotNull()
+          .map((e) => LogitMetric.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logitMetrics = this.logitMetrics;
+    return {
+      if (logitMetrics != null) 'LogitMetrics': logitMetrics,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

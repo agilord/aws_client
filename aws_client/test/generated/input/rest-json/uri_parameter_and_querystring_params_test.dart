@@ -32,9 +32,9 @@ void main() {
     );
 
     await service.operationName0(
+      pipelineId: "foo",
       ascending: "true",
       pageToken: "bar",
-      pipelineId: "foo",
     );
 /*
 {

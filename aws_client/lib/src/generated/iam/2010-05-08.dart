@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,39 +11,31 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import '2010-05-08.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-part '2010-05-08.g.dart';
-
-/// AWS Identity and Access Management (IAM) is a web service for securely
-/// controlling access to AWS services. With IAM, you can centrally manage
-/// users, security credentials such as access keys, and permissions that
-/// control which AWS resources users and applications can access. For more
-/// information about IAM, see <a href="http://aws.amazon.com/iam/">AWS Identity
-/// and Access Management (IAM)</a> and the <a
-/// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS Identity and
-/// Access Management User Guide</a>.
+/// Identity and Access Management (IAM) is a web service for securely
+/// controlling access to Amazon Web Services services. With IAM, you can
+/// centrally manage users, security credentials such as access keys, and
+/// permissions that control which Amazon Web Services resources users and
+/// applications can access. For more information about IAM, see <a
+/// href="http://aws.amazon.com/iam/">Identity and Access Management (IAM)</a>
+/// and the <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/">Identity
+/// and Access Management User Guide</a>.
 class Iam {
   final _s.QueryProtocol _protocol;
   final Map<String, _s.Shape> shapes;
 
   Iam({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,8 +68,8 @@ class Iam {
   /// resource to add the client ID to. You can get a list of OIDC provider ARNs
   /// by using the <a>ListOpenIDConnectProviders</a> operation.
   Future<void> addClientIDToOpenIDConnectProvider({
-    @_s.required String clientID,
-    @_s.required String openIDConnectProviderArn,
+    required String clientID,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(clientID, 'clientID');
     _s.validateStringLength(
@@ -111,12 +104,10 @@ class Iam {
   }
 
   /// Adds the specified IAM role to the specified instance profile. An instance
-  /// profile can contain only one role. (The number and size of IAM resources
-  /// in an AWS account are limited. For more information, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.) You can remove the
-  /// existing role and then add a different role to an instance profile. You
-  /// must then wait for the change to appear across all of AWS because of <a
+  /// profile can contain only one role, and this quota cannot be increased. You
+  /// can remove the existing role and then add a different role to an instance
+  /// profile. You must then wait for the change to appear across all of Amazon
+  /// Web Services because of <a
   /// href="https://en.wikipedia.org/wiki/Eventual_consistency">eventual
   /// consistency</a>. To force the change, you must <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html">disassociate
@@ -125,14 +116,14 @@ class Iam {
   /// the instance profile</a>, or you can stop your instance and then restart
   /// it.
   /// <note>
-  /// The caller of this API must be granted the <code>PassRole</code>
+  /// The caller of this operation must be granted the <code>PassRole</code>
   /// permission on the IAM role by a permissions policy.
   /// </note>
-  /// For more information about roles, go to <a
+  /// For more information about roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with Roles</a>. For more information about instance profiles, go to <a
+  /// with roles</a>. For more information about instance profiles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// Instance Profiles</a>.
+  /// instance profiles</a>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [EntityAlreadyExistsException].
@@ -156,8 +147,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> addRoleToInstanceProfile({
-    @_s.required String instanceProfileName,
-    @_s.required String roleName,
+    required String instanceProfileName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -167,24 +158,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -224,8 +203,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> addUserToGroup({
-    @_s.required String groupName,
-    @_s.required String userName,
+    required String groupName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -235,24 +214,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -272,12 +239,17 @@ class Iam {
 
   /// Attaches the specified managed policy to the specified IAM group.
   ///
-  /// You use this API to attach a managed policy to a group. To embed an inline
-  /// policy in a group, use <a>PutGroupPolicy</a>.
+  /// You use this operation to attach a managed policy to a group. To embed an
+  /// inline policy in a group, use <a>PutGroupPolicy</a>.
+  ///
+  /// As a best practice, you can validate your IAM policies. To learn more, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html">Validating
+  /// IAM policies</a> in the <i>IAM User Guide</i>.
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -298,11 +270,11 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<void> attachGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyArn,
+    required String groupName,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -310,12 +282,6 @@ class Iam {
       groupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
@@ -350,11 +316,16 @@ class Iam {
   /// <a>CreateRole</a>. You can update a role's trust policy using
   /// <a>UpdateAssumeRolePolicy</a>.
   /// </note>
-  /// Use this API to attach a <i>managed</i> policy to a role. To embed an
-  /// inline policy in a role, use <a>PutRolePolicy</a>. For more information
+  /// Use this operation to attach a <i>managed</i> policy to a role. To embed
+  /// an inline policy in a role, use <a>PutRolePolicy</a>. For more information
   /// about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+  ///
+  /// As a best practice, you can validate your IAM policies. To learn more, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html">Validating
+  /// IAM policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -368,7 +339,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [roleName] :
@@ -379,8 +350,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> attachRolePolicy({
-    @_s.required String policyArn,
-    @_s.required String roleName,
+    required String policyArn,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -396,12 +367,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -421,12 +386,17 @@ class Iam {
 
   /// Attaches the specified managed policy to the specified user.
   ///
-  /// You use this API to attach a <i>managed</i> policy to a user. To embed an
-  /// inline policy in a user, use <a>PutUserPolicy</a>.
+  /// You use this operation to attach a <i>managed</i> policy to a user. To
+  /// embed an inline policy in a user, use <a>PutUserPolicy</a>.
+  ///
+  /// As a best practice, you can validate your IAM policies. To learn more, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html">Validating
+  /// IAM policies</a> in the <i>IAM User Guide</i>.
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -439,7 +409,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [userName] :
@@ -450,8 +420,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> attachUserPolicy({
-    @_s.required String policyArn,
-    @_s.required String userName,
+    required String policyArn,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -469,12 +439,6 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['UserName'] = userName;
@@ -490,14 +454,16 @@ class Iam {
     );
   }
 
-  /// Changes the password of the IAM user who is calling this operation. The
-  /// AWS account root user password is not affected by this operation.
+  /// Changes the password of the IAM user who is calling this operation. This
+  /// operation can be performed using the CLI, the Amazon Web Services API, or
+  /// the <b>My Security Credentials</b> page in the Management Console. The
+  /// account root user password is not affected by this operation.
   ///
-  /// To change the password for a different user, see
-  /// <a>UpdateLoginProfile</a>. For more information about modifying passwords,
-  /// see <a
+  /// Use <a>UpdateLoginProfile</a> to use the CLI, the Amazon Web Services API,
+  /// or the <b>Users</b> page in the IAM console to change the password for any
+  /// IAM user. For more information about modifying passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
-  /// Passwords</a> in the <i>IAM User Guide</i>.
+  /// passwords</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidUserTypeException].
@@ -507,8 +473,8 @@ class Iam {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [newPassword] :
-  /// The new password. The new password must conform to the AWS account's
-  /// password policy, if one exists.
+  /// The new password. The new password must conform to the account's password
+  /// policy, if one exists.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is
   /// used to validate this parameter is a string of characters. That string can
@@ -517,15 +483,14 @@ class Iam {
   /// (<code>\u00FF</code>). You can also include the tab (<code>\u0009</code>),
   /// line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// characters. Any of these characters are valid in a password. However, many
-  /// tools, such as the AWS Management Console, might restrict the ability to
-  /// type certain characters because they have special meaning within that
-  /// tool.
+  /// tools, such as the Management Console, might restrict the ability to type
+  /// certain characters because they have special meaning within that tool.
   ///
   /// Parameter [oldPassword] :
   /// The IAM user's current password.
   Future<void> changePassword({
-    @_s.required String newPassword,
-    @_s.required String oldPassword,
+    required String newPassword,
+    required String oldPassword,
   }) async {
     ArgumentError.checkNotNull(newPassword, 'newPassword');
     _s.validateStringLength(
@@ -535,24 +500,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'newPassword',
-      newPassword,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(oldPassword, 'oldPassword');
     _s.validateStringLength(
       'oldPassword',
       oldPassword,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'oldPassword',
-      oldPassword,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -570,22 +523,21 @@ class Iam {
     );
   }
 
-  /// Creates a new AWS secret access key and corresponding AWS access key ID
-  /// for the specified user. The default status for new keys is
-  /// <code>Active</code>.
+  /// Creates a new Amazon Web Services secret access key and corresponding
+  /// Amazon Web Services access key ID for the specified user. The default
+  /// status for new keys is <code>Active</code>.
   ///
   /// If you do not specify a user name, IAM determines the user name implicitly
-  /// based on the AWS access key ID signing the request. This operation works
-  /// for access keys under the AWS account. Consequently, you can use this
-  /// operation to manage AWS account root user credentials. This is true even
-  /// if the AWS account has no associated users.
+  /// based on the Amazon Web Services access key ID signing the request. This
+  /// operation works for access keys under the account. Consequently, you can
+  /// use this operation to manage account root user credentials. This is true
+  /// even if the account has no associated users.
   ///
-  /// The number and size of IAM resources in an AWS account are limited. For
-  /// more information, see <a
+  /// For information about quotas on the number of keys you can create, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   /// <important>
-  /// To ensure the security of your AWS account, the secret access key is
+  /// To ensure the security of your account, the secret access key is
   /// accessible only during key and user creation. You must save the key (for
   /// example, in a text file) if you want to be able to access it again. If a
   /// secret key is lost, you can delete the access keys for the associated user
@@ -604,18 +556,13 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<CreateAccessKeyResponse> createAccessKey({
-    String userName,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
@@ -633,10 +580,10 @@ class Iam {
     return CreateAccessKeyResponse.fromXml($result);
   }
 
-  /// Creates an alias for your AWS account. For information about using an AWS
-  /// account alias, see <a
+  /// Creates an alias for your account. For information about using an account
+  /// alias, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
+  /// an alias for your account ID</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
@@ -650,7 +597,7 @@ class Iam {
   /// characters consisting of lowercase letters, digits, and dashes. You cannot
   /// start or finish with a dash, nor can you have two dashes in a row.
   Future<void> createAccountAlias({
-    @_s.required String accountAlias,
+    required String accountAlias,
   }) async {
     ArgumentError.checkNotNull(accountAlias, 'accountAlias');
     _s.validateStringLength(
@@ -658,12 +605,6 @@ class Iam {
       accountAlias,
       3,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountAlias',
-      accountAlias,
-      r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -682,10 +623,9 @@ class Iam {
 
   /// Creates a new group.
   ///
-  /// The number and size of IAM resources in an AWS account are limited. For
-  /// more information, see <a
+  /// For information about the number of groups you can create, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [EntityAlreadyExistsException].
@@ -702,7 +642,7 @@ class Iam {
   /// Parameter [path] :
   /// The path to the group. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   ///
   /// This parameter is optional. If it is not included, it defaults to a slash
   /// (/).
@@ -715,8 +655,8 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<CreateGroupResponse> createGroup({
-    @_s.required String groupName,
-    String path,
+    required String groupName,
+    String? path,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -726,22 +666,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -761,17 +690,22 @@ class Iam {
   }
 
   /// Creates a new instance profile. For information about instance profiles,
-  /// go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// Instance Profiles</a>.
+  /// see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html">Using
+  /// roles for applications on Amazon EC2</a> in the <i>IAM User Guide</i>, and
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html#ec2-instance-profile">Instance
+  /// profiles</a> in the <i>Amazon EC2 User Guide</i>.
   ///
-  /// The number and size of IAM resources in an AWS account are limited. For
-  /// more information, see <a
+  /// For information about the number of instance profiles you can create, see
+  /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
+  /// object quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [EntityAlreadyExistsException].
+  /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [instanceProfileName] :
@@ -797,9 +731,22 @@ class Iam {
   /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the newly created IAM instance
+  /// profile. Each tag consists of a key name and an associated value. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
+  /// </note>
   Future<CreateInstanceProfileResponse> createInstanceProfile({
-    @_s.required String instanceProfileName,
-    String path,
+    required String instanceProfileName,
+    String? path,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -809,26 +756,16 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
     final $request = <String, dynamic>{};
     $request['InstanceProfileName'] = instanceProfileName;
     path?.also((arg) => $request['Path'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateInstanceProfile',
@@ -843,11 +780,18 @@ class Iam {
     return CreateInstanceProfileResponse.fromXml($result);
   }
 
-  /// Creates a password for the specified user, giving the user the ability to
-  /// access AWS services through the AWS Management Console. For more
-  /// information about managing passwords, see <a
+  /// Creates a password for the specified IAM user. A password allows an IAM
+  /// user to access Amazon Web Services services through the Management
+  /// Console.
+  ///
+  /// You can use the CLI, the Amazon Web Services API, or the <b>Users</b> page
+  /// in the IAM console to create a password for any IAM user. Use
+  /// <a>ChangePassword</a> to update your own existing password in the <b>My
+  /// Security Credentials</b> page in the Management Console.
+  ///
+  /// For more information about managing passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
-  /// Passwords</a> in the <i>IAM User Guide</i>.
+  /// passwords</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [EntityAlreadyExistsException].
   /// May throw [NoSuchEntityException].
@@ -865,9 +809,8 @@ class Iam {
   /// (<code>\u00FF</code>). You can also include the tab (<code>\u0009</code>),
   /// line feed (<code>\u000A</code>), and carriage return (<code>\u000D</code>)
   /// characters. Any of these characters are valid in a password. However, many
-  /// tools, such as the AWS Management Console, might restrict the ability to
-  /// type certain characters because they have special meaning within that
-  /// tool.
+  /// tools, such as the Management Console, might restrict the ability to type
+  /// certain characters because they have special meaning within that tool.
   ///
   /// Parameter [userName] :
   /// The name of the IAM user to create a password for. The user must already
@@ -882,9 +825,9 @@ class Iam {
   /// Specifies whether the user is required to set a new password on next
   /// sign-in.
   Future<CreateLoginProfileResponse> createLoginProfile({
-    @_s.required String password,
-    @_s.required String userName,
-    bool passwordResetRequired,
+    required String password,
+    required String userName,
+    bool? passwordResetRequired,
   }) async {
     ArgumentError.checkNotNull(password, 'password');
     _s.validateStringLength(
@@ -894,24 +837,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -938,7 +869,16 @@ class Iam {
   ///
   /// The OIDC provider that you create with this operation can be used as a
   /// principal in a role's trust policy. Such a policy establishes a trust
-  /// relationship between AWS and the OIDC provider.
+  /// relationship between Amazon Web Services and the OIDC provider.
+  ///
+  /// If you are using an OIDC identity provider from Google, Facebook, or
+  /// Amazon Cognito, you don't need to create a separate IAM identity provider.
+  /// These OIDC identity providers are already built-in to Amazon Web Services
+  /// and are available for your use. Instead, you can move directly to creating
+  /// new roles using your identity provider. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_oidc.html">Creating
+  /// a role for web identity or OpenID connect federation</a> in the <i>IAM
+  /// User Guide</i>.
   ///
   /// When you create the IAM OIDC provider, you specify the following:
   ///
@@ -948,15 +888,15 @@ class Iam {
   /// </li>
   /// <li>
   /// A list of client IDs (also known as audiences) that identify the
-  /// application or applications that are allowed to authenticate using the
-  /// OIDC provider
+  /// application or applications allowed to authenticate using the OIDC
+  /// provider
   /// </li>
   /// <li>
   /// A list of thumbprints of one or more server certificates that the IdP uses
   /// </li>
   /// </ul>
   /// You get all of this information from the OIDC IdP that you want to use to
-  /// access AWS.
+  /// access Amazon Web Services.
   /// <note>
   /// The trust for the OIDC provider is derived from the IAM provider that this
   /// operation creates. Therefore, it is best to limit access to the
@@ -966,6 +906,7 @@ class Iam {
   /// May throw [InvalidInputException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [thumbprintList] :
@@ -989,7 +930,7 @@ class Iam {
   /// For more information about obtaining the OIDC provider's thumbprint, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html">Obtaining
-  /// the Thumbprint for an OpenID Connect Provider</a> in the <i>IAM User
+  /// the thumbprint for an OpenID Connect provider</a> in the <i>IAM User
   /// Guide</i>.
   ///
   /// Parameter [url] :
@@ -1000,9 +941,9 @@ class Iam {
   /// consists of only a hostname, like <code>https://server.example.org</code>
   /// or <code>https://example.com</code>.
   ///
-  /// You cannot register the same provider multiple times in a single AWS
-  /// account. If you try to submit a URL that has already been used for an
-  /// OpenID Connect provider in the AWS account, you will get an error.
+  /// You cannot register the same provider multiple times in a single account.
+  /// If you try to submit a URL that has already been used for an OpenID
+  /// Connect provider in the account, you will get an error.
   ///
   /// Parameter [clientIDList] :
   /// A list of client IDs (also known as audiences). When a mobile or web app
@@ -1017,10 +958,23 @@ class Iam {
   /// There is no defined format for a client ID. The
   /// <code>CreateOpenIDConnectProviderRequest</code> operation accepts client
   /// IDs up to 255 characters long.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the new IAM OpenID Connect
+  /// (OIDC) provider. Each tag consists of a key name and an associated value.
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
+  /// </note>
   Future<CreateOpenIDConnectProviderResponse> createOpenIDConnectProvider({
-    @_s.required List<String> thumbprintList,
-    @_s.required String url,
-    List<String> clientIDList,
+    required List<String> thumbprintList,
+    required String url,
+    List<String>? clientIDList,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(thumbprintList, 'thumbprintList');
     ArgumentError.checkNotNull(url, 'url');
@@ -1035,6 +989,7 @@ class Iam {
     $request['ThumbprintList'] = thumbprintList;
     $request['Url'] = url;
     clientIDList?.also((arg) => $request['ClientIDList'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateOpenIDConnectProvider',
@@ -1049,32 +1004,48 @@ class Iam {
     return CreateOpenIDConnectProviderResponse.fromXml($result);
   }
 
-  /// Creates a new managed policy for your AWS account.
+  /// Creates a new managed policy for your account.
   ///
   /// This operation creates a policy version with a version identifier of
   /// <code>v1</code> and sets v1 as the policy's default version. For more
   /// information about policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
+  ///
+  /// As a best practice, you can validate your IAM policies. To learn more, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html">Validating
+  /// IAM policies</a> in the <i>IAM User Guide</i>.
   ///
   /// For more information about managed policies in general, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [MalformedPolicyDocumentException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [policyDocument] :
   /// The JSON policy document that you want to use as the content for the new
   /// policy.
   ///
-  /// You must provide policies in JSON format in IAM. However, for AWS
+  /// You must provide policies in JSON format in IAM. However, for
   /// CloudFormation templates formatted in YAML, you can provide the policy in
-  /// JSON or YAML format. AWS CloudFormation always converts a YAML policy to
-  /// JSON format before submitting it to IAM.
+  /// JSON or YAML format. CloudFormation always converts a YAML policy to JSON
+  /// format before submitting it to IAM.
+  ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
+  ///
+  /// To learn more about JSON policy grammar, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_grammar.html">Grammar
+  /// of the IAM JSON policy language</a> in the <i>IAM User Guide</i>.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -1116,7 +1087,7 @@ class Iam {
   ///
   /// For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   ///
   /// This parameter is optional. If it is not included, it defaults to a slash
   /// (/).
@@ -1128,11 +1099,24 @@ class Iam {
   /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the new IAM customer managed
+  /// policy. Each tag consists of a key name and an associated value. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
+  /// </note>
   Future<CreatePolicyResponse> createPolicy({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    String description,
-    String path,
+    required String policyDocument,
+    required String policyName,
+    String? description,
+    String? path,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -1142,24 +1126,12 @@ class Iam {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1174,16 +1146,12 @@ class Iam {
       1,
       512,
     );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
-    );
     final $request = <String, dynamic>{};
     $request['PolicyDocument'] = policyDocument;
     $request['PolicyName'] = policyName;
     description?.also((arg) => $request['Description'] = arg);
     path?.also((arg) => $request['Path'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreatePolicy',
@@ -1210,7 +1178,7 @@ class Iam {
   ///
   /// For more information about managed policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [MalformedPolicyDocumentException].
@@ -1224,17 +1192,23 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [policyDocument] :
   /// The JSON policy document that you want to use as the content for this new
   /// version of the policy.
   ///
-  /// You must provide policies in JSON format in IAM. However, for AWS
+  /// You must provide policies in JSON format in IAM. However, for
   /// CloudFormation templates formatted in YAML, you can provide the policy in
-  /// JSON or YAML format. AWS CloudFormation always converts a YAML policy to
-  /// JSON format before submitting it to IAM.
+  /// JSON or YAML format. CloudFormation always converts a YAML policy to JSON
+  /// format before submitting it to IAM.
+  ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -1264,11 +1238,11 @@ class Iam {
   ///
   /// For more information about managed policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
   Future<CreatePolicyVersionResponse> createPolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String policyDocument,
-    bool setAsDefault,
+    required String policyArn,
+    required String policyDocument,
+    bool? setAsDefault,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -1284,12 +1258,6 @@ class Iam {
       policyDocument,
       1,
       131072,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1310,13 +1278,13 @@ class Iam {
     return CreatePolicyVersionResponse.fromXml($result);
   }
 
-  /// Creates a new role for your AWS account. For more information about roles,
-  /// go to <a
+  /// Creates a new role for your account. For more information about roles, see
+  /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">IAM
-  /// Roles</a>. The number and size of IAM resources in an AWS account are
-  /// limited. For more information, see <a
+  /// roles</a>. For information about quotas for role names and the number of
+  /// roles you can create, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [InvalidInputException].
@@ -1330,9 +1298,9 @@ class Iam {
   /// assume the role.
   ///
   /// In IAM, you must provide a JSON policy that has been converted to a
-  /// string. However, for AWS CloudFormation templates formatted in YAML, you
-  /// can provide the policy in JSON or YAML format. AWS CloudFormation always
-  /// converts a YAML policy to JSON format before submitting it to IAM.
+  /// string. However, for CloudFormation templates formatted in YAML, you can
+  /// provide the policy in JSON or YAML format. CloudFormation always converts
+  /// a YAML policy to JSON format before submitting it to IAM.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -1370,7 +1338,7 @@ class Iam {
   /// default maximum of one hour is applied. This setting can have a value from
   /// 1 hour to 12 hours.
   ///
-  /// Anyone who assumes the role from the AWS CLI or API can use the
+  /// Anyone who assumes the role from the or API can use the
   /// <code>DurationSeconds</code> API parameter or the
   /// <code>duration-seconds</code> CLI parameter to request a longer session.
   /// The <code>MaxSessionDuration</code> setting determines the maximum
@@ -1382,7 +1350,7 @@ class Iam {
   /// CLI operations but does not apply when you use those operations to create
   /// a console URL. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html">Using
-  /// IAM Roles</a> in the <i>IAM User Guide</i>.
+  /// IAM roles</a> in the <i>IAM User Guide</i>.
   ///
   /// Parameter [path] :
   /// The path to the role. For more information about paths, see <a
@@ -1405,23 +1373,24 @@ class Iam {
   /// role.
   ///
   /// Parameter [tags] :
-  /// A list of tags that you want to attach to the newly created role. Each tag
-  /// consists of a key name and an associated value. For more information about
-  /// tagging, see <a
+  /// A list of tags that you want to attach to the new role. Each tag consists
+  /// of a key name and an associated value. For more information about tagging,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   /// <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
-  /// tags per role, then the entire request fails and the role is not created.
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
   /// </note>
   Future<CreateRoleResponse> createRole({
-    @_s.required String assumeRolePolicyDocument,
-    @_s.required String roleName,
-    String description,
-    int maxSessionDuration,
-    String path,
-    String permissionsBoundary,
-    List<Tag> tags,
+    required String assumeRolePolicyDocument,
+    required String roleName,
+    String? description,
+    int? maxSessionDuration,
+    String? path,
+    String? permissionsBoundary,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         assumeRolePolicyDocument, 'assumeRolePolicyDocument');
@@ -1432,12 +1401,6 @@ class Iam {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'assumeRolePolicyDocument',
-      assumeRolePolicyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
@@ -1446,22 +1409,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateNumRange(
       'maxSessionDuration',
@@ -1474,11 +1426,6 @@ class Iam {
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'permissionsBoundary',
@@ -1514,8 +1461,8 @@ class Iam {
   /// The SAML provider resource that you create with this operation can be used
   /// as a principal in an IAM role's trust policy. Such a policy can enable
   /// federated users who sign in using the SAML IdP to assume the role. You can
-  /// create an IAM role that supports Web-based single sign-on (SSO) to the AWS
-  /// Management Console or one that supports API access to AWS.
+  /// create an IAM role that supports Web-based single sign-on (SSO) to the
+  /// Management Console or one that supports API access to Amazon Web Services.
   ///
   /// When you create the SAML provider resource, you upload a SAML metadata
   /// document that you get from your IdP. That document includes the issuer's
@@ -1530,13 +1477,14 @@ class Iam {
   /// </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html">Enabling
-  /// SAML 2.0 Federated Users to Access the AWS Management Console</a> and <a
+  /// SAML 2.0 federated users to access the Management Console</a> and <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
-  /// SAML 2.0-based Federation</a> in the <i>IAM User Guide</i>.
+  /// SAML 2.0-based federation</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [InvalidInputException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [name] :
@@ -1557,10 +1505,23 @@ class Iam {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
-  /// SAML 2.0-based Federation</a> in the <i>IAM User Guide</i>
+  /// SAML 2.0-based federation</a> in the <i>IAM User Guide</i>
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the new IAM SAML provider. Each
+  /// tag consists of a key name and an associated value. For more information
+  /// about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
+  /// </note>
   Future<CreateSAMLProviderResponse> createSAMLProvider({
-    @_s.required String name,
-    @_s.required String sAMLMetadataDocument,
+    required String name,
+    required String sAMLMetadataDocument,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1568,12 +1529,6 @@ class Iam {
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\w._-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
@@ -1587,6 +1542,7 @@ class Iam {
     final $request = <String, dynamic>{};
     $request['Name'] = name;
     $request['SAMLMetadataDocument'] = sAMLMetadataDocument;
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateSAMLProvider',
@@ -1601,18 +1557,18 @@ class Iam {
     return CreateSAMLProviderResponse.fromXml($result);
   }
 
-  /// Creates an IAM role that is linked to a specific AWS service. The service
-  /// controls the attached policies and when the role can be deleted. This
-  /// helps ensure that the service is not broken by an unexpectedly changed or
-  /// deleted role, which could put your AWS resources into an unknown state.
-  /// Allowing the service to control the role helps improve service stability
-  /// and proper cleanup when a service and its role are no longer needed. For
-  /// more information, see <a
+  /// Creates an IAM role that is linked to a specific Amazon Web Services
+  /// service. The service controls the attached policies and when the role can
+  /// be deleted. This helps ensure that the service is not broken by an
+  /// unexpectedly changed or deleted role, which could put your Amazon Web
+  /// Services resources into an unknown state. Allowing the service to control
+  /// the role helps improve service stability and proper cleanup when a service
+  /// and its role are no longer needed. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html">Using
-  /// Service-Linked Roles</a> in the <i>IAM User Guide</i>.
+  /// service-linked roles</a> in the <i>IAM User Guide</i>.
   ///
   /// To attach a policy to this service-linked role, you must make the request
-  /// using the AWS service that depends on this role.
+  /// using the Amazon Web Services service that depends on this role.
   ///
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
@@ -1620,17 +1576,18 @@ class Iam {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [awsServiceName] :
-  /// The service principal for the AWS service to which this role is attached.
-  /// You use a string similar to a URL but without the http:// in front. For
-  /// example: <code>elasticbeanstalk.amazonaws.com</code>.
+  /// The service principal for the Amazon Web Services service to which this
+  /// role is attached. You use a string similar to a URL but without the
+  /// http:// in front. For example:
+  /// <code>elasticbeanstalk.amazonaws.com</code>.
   ///
   /// Service principals are unique and case-sensitive. To find the exact
   /// service principal for your service-linked role, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html">AWS
-  /// Services That Work with IAM</a> in the <i>IAM User Guide</i>. Look for the
-  /// services that have <b>Yes </b>in the <b>Service-Linked Role</b> column.
-  /// Choose the <b>Yes</b> link to view the service-linked role documentation
-  /// for that service.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html">Amazon
+  /// Web Services services that work with IAM</a> in the <i>IAM User Guide</i>.
+  /// Look for the services that have <b>Yes </b>in the <b>Service-Linked
+  /// Role</b> column. Choose the <b>Yes</b> link to view the service-linked
+  /// role documentation for that service.
   ///
   /// Parameter [customSuffix] :
   /// <p/>
@@ -1648,9 +1605,9 @@ class Iam {
   /// Parameter [description] :
   /// The description of the role.
   Future<CreateServiceLinkedRoleResponse> createServiceLinkedRole({
-    @_s.required String awsServiceName,
-    String customSuffix,
-    String description,
+    required String awsServiceName,
+    String? customSuffix,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(awsServiceName, 'awsServiceName');
     _s.validateStringLength(
@@ -1660,33 +1617,17 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'awsServiceName',
-      awsServiceName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'customSuffix',
       customSuffix,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'customSuffix',
-      customSuffix,
-      r'''[\w+=,.@-]+''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     final $request = <String, dynamic>{};
     $request['AWSServiceName'] = awsServiceName;
@@ -1714,24 +1655,25 @@ class Iam {
   /// You can have a maximum of two sets of service-specific credentials for
   /// each supported service per user.
   ///
-  /// The only supported service at this time is AWS CodeCommit.
+  /// You can create service-specific credentials for CodeCommit and Amazon
+  /// Keyspaces (for Apache Cassandra).
   ///
   /// You can reset the password to a new service-generated value by calling
   /// <a>ResetServiceSpecificCredential</a>.
   ///
   /// For more information about service-specific credentials, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_ssh-keys.html">Using
-  /// IAM with AWS CodeCommit: Git Credentials, SSH Keys, and AWS Access
-  /// Keys</a> in the <i>IAM User Guide</i>.
+  /// IAM with CodeCommit: Git credentials, SSH keys, and Amazon Web Services
+  /// access keys</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceNotSupportedException].
   ///
   /// Parameter [serviceName] :
-  /// The name of the AWS service that is to be associated with the credentials.
-  /// The service you specify here is the only service that can be accessed
-  /// using these credentials.
+  /// The name of the Amazon Web Services service that is to be associated with
+  /// the credentials. The service you specify here is the only service that can
+  /// be accessed using these credentials.
   ///
   /// Parameter [userName] :
   /// The name of the IAM user that is to be associated with the credentials.
@@ -1745,8 +1687,8 @@ class Iam {
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<CreateServiceSpecificCredentialResponse>
       createServiceSpecificCredential({
-    @_s.required String serviceName,
-    @_s.required String userName,
+    required String serviceName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(serviceName, 'serviceName');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -1755,12 +1697,6 @@ class Iam {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -1780,12 +1716,12 @@ class Iam {
     return CreateServiceSpecificCredentialResponse.fromXml($result);
   }
 
-  /// Creates a new IAM user for your AWS account.
+  /// Creates a new IAM user for your account.
   ///
-  /// The number and size of IAM resources in an AWS account are limited. For
-  /// more information, see <a
+  /// For information about quotas for the number of IAM users you can create,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [EntityAlreadyExistsException].
@@ -1804,7 +1740,7 @@ class Iam {
   /// Parameter [path] :
   /// The path for the user name. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   ///
   /// This parameter is optional. If it is not included, it defaults to a slash
   /// (/).
@@ -1822,20 +1758,21 @@ class Iam {
   /// user.
   ///
   /// Parameter [tags] :
-  /// A list of tags that you want to attach to the newly created user. Each tag
-  /// consists of a key name and an associated value. For more information about
-  /// tagging, see <a
+  /// A list of tags that you want to attach to the new user. Each tag consists
+  /// of a key name and an associated value. For more information about tagging,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   /// <note>
-  /// If any one of the tags is invalid or if you exceed the allowed number of
-  /// tags per user, then the entire request fails and the user is not created.
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
   /// </note>
   Future<CreateUserResponse> createUser({
-    @_s.required String userName,
-    String path,
-    String permissionsBoundary,
-    List<Tag> tags,
+    required String userName,
+    String? path,
+    String? permissionsBoundary,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -1845,22 +1782,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     _s.validateStringLength(
       'permissionsBoundary',
@@ -1887,27 +1813,30 @@ class Iam {
     return CreateUserResponse.fromXml($result);
   }
 
-  /// Creates a new virtual MFA device for the AWS account. After creating the
+  /// Creates a new virtual MFA device for the account. After creating the
   /// virtual MFA, use <a>EnableMFADevice</a> to attach the MFA device to an IAM
   /// user. For more information about creating and working with virtual MFA
-  /// devices, go to <a
+  /// devices, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
-  /// a Virtual MFA Device</a> in the <i>IAM User Guide</i>.
+  /// a virtual MFA device</a> in the <i>IAM User Guide</i>.
   ///
-  /// The number and size of IAM resources in an AWS account are limited. For
-  /// more information, see <a
+  /// For information about the maximum number of MFA devices you can create,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   /// <important>
   /// The seed information contained in the QR code and the Base32 string should
   /// be treated like any other secret access information. In other words,
-  /// protect the seed information as you would your AWS access keys or your
-  /// passwords. After you provision your virtual device, you should ensure that
-  /// the information is destroyed following secure procedures.
+  /// protect the seed information as you would your Amazon Web Services access
+  /// keys or your passwords. After you provision your virtual device, you
+  /// should ensure that the information is destroyed following secure
+  /// procedures.
   /// </important>
   ///
   /// May throw [LimitExceededException].
+  /// May throw [InvalidInputException].
   /// May throw [EntityAlreadyExistsException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [virtualMFADeviceName] :
@@ -1923,7 +1852,7 @@ class Iam {
   /// The path for the virtual MFA device. For more information about paths, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   ///
   /// This parameter is optional. If it is not included, it defaults to a slash
   /// (/).
@@ -1935,9 +1864,22 @@ class Iam {
   /// any ASCII character from the ! (<code>\u0021</code>) through the DEL
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the new IAM virtual MFA device.
+  /// Each tag consists of a key name and an associated value. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
+  /// </note>
   Future<CreateVirtualMFADeviceResponse> createVirtualMFADevice({
-    @_s.required String virtualMFADeviceName,
-    String path,
+    required String virtualMFADeviceName,
+    String? path,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(virtualMFADeviceName, 'virtualMFADeviceName');
     _s.validateStringLength(
@@ -1947,26 +1889,16 @@ class Iam {
       1152921504606846976,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'virtualMFADeviceName',
-      virtualMFADeviceName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'path',
       path,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
     final $request = <String, dynamic>{};
     $request['VirtualMFADeviceName'] = virtualMFADeviceName;
     path?.also((arg) => $request['Path'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateVirtualMFADevice',
@@ -1985,9 +1917,9 @@ class Iam {
   /// the user name for which it was originally enabled.
   ///
   /// For more information about creating and working with virtual MFA devices,
-  /// go to <a
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Enabling
-  /// a Virtual Multi-factor Authentication (MFA) Device</a> in the <i>IAM User
+  /// a virtual multi-factor authentication (MFA) device</a> in the <i>IAM User
   /// Guide</i>.
   ///
   /// May throw [EntityTemporarilyUnmodifiableException].
@@ -2012,8 +1944,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deactivateMFADevice({
-    @_s.required String serialNumber,
-    @_s.required String userName,
+    required String serialNumber,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -2023,24 +1955,12 @@ class Iam {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2061,9 +1981,9 @@ class Iam {
   /// Deletes the access key pair associated with the specified IAM user.
   ///
   /// If you do not specify a user name, IAM determines the user name implicitly
-  /// based on the AWS access key ID signing the request. This operation works
-  /// for access keys under the AWS account. Consequently, you can use this
-  /// operation to manage AWS account root user credentials even if the AWS
+  /// based on the Amazon Web Services access key ID signing the request. This
+  /// operation works for access keys under the account. Consequently, you can
+  /// use this operation to manage account root user credentials even if the
   /// account has no associated users.
   ///
   /// May throw [NoSuchEntityException].
@@ -2086,8 +2006,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteAccessKey({
-    @_s.required String accessKeyId,
-    String userName,
+    required String accessKeyId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
     _s.validateStringLength(
@@ -2097,22 +2017,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accessKeyId',
-      accessKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
@@ -2129,10 +2038,10 @@ class Iam {
     );
   }
 
-  /// Deletes the specified AWS account alias. For information about using an
-  /// AWS account alias, see <a
+  /// Deletes the specified account alias. For information about using an Amazon
+  /// Web Services account alias, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
+  /// an alias for your account ID</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2146,7 +2055,7 @@ class Iam {
   /// characters consisting of lowercase letters, digits, and dashes. You cannot
   /// start or finish with a dash, nor can you have two dashes in a row.
   Future<void> deleteAccountAlias({
-    @_s.required String accountAlias,
+    required String accountAlias,
   }) async {
     ArgumentError.checkNotNull(accountAlias, 'accountAlias');
     _s.validateStringLength(
@@ -2154,12 +2063,6 @@ class Iam {
       accountAlias,
       3,
       63,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountAlias',
-      accountAlias,
-      r'''^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2176,7 +2079,7 @@ class Iam {
     );
   }
 
-  /// Deletes the password policy for the AWS account. There are no parameters.
+  /// Deletes the password policy for the account. There are no parameters.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2210,7 +2113,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteGroup({
-    @_s.required String groupName,
+    required String groupName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -2218,12 +2121,6 @@ class Iam {
       groupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2247,7 +2144,7 @@ class Iam {
   /// policy from a group, use <a>DetachGroupPolicy</a>. For more information
   /// about policies, refer to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2270,8 +2167,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyName,
+    required String groupName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -2281,24 +2178,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2324,9 +2209,9 @@ class Iam {
   /// profile that is associated with a running instance will break any
   /// applications running on the instance.
   /// </important>
-  /// For more information about instance profiles, go to <a
+  /// For more information about instance profiles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// Instance Profiles</a>.
+  /// instance profiles</a>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [DeleteConflictException].
@@ -2341,7 +2226,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteInstanceProfile({
-    @_s.required String instanceProfileName,
+    required String instanceProfileName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -2349,12 +2234,6 @@ class Iam {
       instanceProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2372,13 +2251,19 @@ class Iam {
   }
 
   /// Deletes the password for the specified IAM user, which terminates the
-  /// user's ability to access AWS services through the AWS Management Console.
+  /// user's ability to access Amazon Web Services services through the
+  /// Management Console.
+  ///
+  /// You can use the CLI, the Amazon Web Services API, or the <b>Users</b> page
+  /// in the IAM console to delete a password for any IAM user. You can use
+  /// <a>ChangePassword</a> to update, but not delete, your own password in the
+  /// <b>My Security Credentials</b> page in the Management Console.
   /// <important>
-  /// Deleting a user's password does not prevent a user from accessing AWS
-  /// through the command line interface or the API. To prevent all user access,
-  /// you must also either make any access keys inactive or delete them. For
-  /// more information about making keys inactive or deleting them, see
-  /// <a>UpdateAccessKey</a> and <a>DeleteAccessKey</a>.
+  /// Deleting a user's password does not prevent a user from accessing Amazon
+  /// Web Services through the command line interface or the API. To prevent all
+  /// user access, you must also either make any access keys inactive or delete
+  /// them. For more information about making keys inactive or deleting them,
+  /// see <a>UpdateAccessKey</a> and <a>DeleteAccessKey</a>.
   /// </important>
   ///
   /// May throw [EntityTemporarilyUnmodifiableException].
@@ -2394,7 +2279,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteLoginProfile({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -2402,12 +2287,6 @@ class Iam {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2442,7 +2321,7 @@ class Iam {
   /// object to delete. You can get a list of OpenID Connect provider resource
   /// ARNs by using the <a>ListOpenIDConnectProviders</a> operation.
   Future<void> deleteOpenIDConnectProvider({
-    @_s.required String openIDConnectProviderArn,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -2477,9 +2356,9 @@ class Iam {
   /// <ul>
   /// <li>
   /// Detach the policy from all users, groups, and roles that the policy is
-  /// attached to, using the <a>DetachUserPolicy</a>, <a>DetachGroupPolicy</a>,
-  /// or <a>DetachRolePolicy</a> API operations. To list all the users, groups,
-  /// and roles that a policy is attached to, use <a>ListEntitiesForPolicy</a>.
+  /// attached to, using <a>DetachUserPolicy</a>, <a>DetachGroupPolicy</a>, or
+  /// <a>DetachRolePolicy</a>. To list all the users, groups, and roles that a
+  /// policy is attached to, use <a>ListEntitiesForPolicy</a>.
   /// </li>
   /// <li>
   /// Delete all versions of the policy using <a>DeletePolicyVersion</a>. To
@@ -2490,12 +2369,12 @@ class Iam {
   /// </li>
   /// <li>
   /// Delete the policy (this automatically deletes the policy's default
-  /// version) using this API.
+  /// version) using this operation.
   /// </li>
   /// </ul>
   /// For information about managed policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2508,10 +2387,10 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<void> deletePolicy({
-    @_s.required String policyArn,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -2537,14 +2416,14 @@ class Iam {
 
   /// Deletes the specified version from the specified managed policy.
   ///
-  /// You cannot delete the default version from a policy using this API. To
-  /// delete the default version from a policy, use <a>DeletePolicy</a>. To find
-  /// out which version of a policy is marked as the default version, use
+  /// You cannot delete the default version from a policy using this operation.
+  /// To delete the default version from a policy, use <a>DeletePolicy</a>. To
+  /// find out which version of a policy is marked as the default version, use
   /// <a>ListPolicyVersions</a>.
   ///
   /// For information about versions for managed policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2558,7 +2437,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [versionId] :
@@ -2572,10 +2451,10 @@ class Iam {
   ///
   /// For more information about managed policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
   Future<void> deletePolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String versionId,
+    required String policyArn,
+    required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -2586,12 +2465,6 @@ class Iam {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -2608,9 +2481,9 @@ class Iam {
   }
 
   /// Deletes the specified role. The role must not have any policies attached.
-  /// For more information about roles, go to <a
+  /// For more information about roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with Roles</a>.
+  /// with roles</a>.
   /// <important>
   /// Make sure that you do not have any Amazon EC2 instances running with the
   /// role you are about to delete. Deleting a role or instance profile that is
@@ -2633,7 +2506,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteRole({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -2641,12 +2514,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2678,7 +2545,7 @@ class Iam {
   /// The name (friendly name, not ARN) of the IAM role from which you want to
   /// remove the permissions boundary.
   Future<void> deleteRolePermissionsBoundary({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -2686,12 +2553,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2715,7 +2576,7 @@ class Iam {
   /// policy from a role, use <a>DetachRolePolicy</a>. For more information
   /// about policies, refer to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2739,8 +2600,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteRolePolicy({
-    @_s.required String policyName,
-    @_s.required String roleName,
+    required String policyName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -2750,24 +2611,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2805,7 +2654,7 @@ class Iam {
   /// Parameter [sAMLProviderArn] :
   /// The Amazon Resource Name (ARN) of the SAML provider to delete.
   Future<void> deleteSAMLProvider({
-    @_s.required String sAMLProviderArn,
+    required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
     _s.validateStringLength(
@@ -2832,12 +2681,11 @@ class Iam {
   /// Deletes the specified SSH public key.
   ///
   /// The SSH public key deleted by this operation is used only for
-  /// authenticating the associated IAM user to an AWS CodeCommit repository.
-  /// For more information about using SSH keys to authenticate to an AWS
-  /// CodeCommit repository, see <a
+  /// authenticating the associated IAM user to an CodeCommit repository. For
+  /// more information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User
-  /// Guide</i>.
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   ///
@@ -2856,8 +2704,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteSSHPublicKey({
-    @_s.required String sSHPublicKeyId,
-    @_s.required String userName,
+    required String sSHPublicKeyId,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
     _s.validateStringLength(
@@ -2867,24 +2715,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2906,9 +2742,9 @@ class Iam {
   ///
   /// For more information about working with server certificates, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
-  /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also
-  /// includes a list of AWS services that can use the server certificates that
-  /// you manage with IAM.
+  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic also
+  /// includes a list of Amazon Web Services services that can use the server
+  /// certificates that you manage with IAM.
   /// <important>
   /// If you are using a server certificate with Elastic Load Balancing,
   /// deleting the certificate could have implications for your application. If
@@ -2916,7 +2752,7 @@ class Iam {
   /// it may continue to use the certificates. This could cause Elastic Load
   /// Balancing to stop accepting traffic. We recommend that you remove the
   /// reference to the certificate from Elastic Load Balancing before using this
-  /// command to delete the certificate. For more information, go to <a
+  /// command to delete the certificate. For more information, see <a
   /// href="https://docs.aws.amazon.com/ElasticLoadBalancing/latest/APIReference/API_DeleteLoadBalancerListeners.html">DeleteLoadBalancerListeners</a>
   /// in the <i>Elastic Load Balancing API Reference</i>.
   /// </important>
@@ -2934,7 +2770,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteServerCertificate({
-    @_s.required String serverCertificateName,
+    required String serverCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -2942,12 +2778,6 @@ class Iam {
       serverCertificateName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -2974,18 +2804,19 @@ class Iam {
   ///
   /// If you submit a deletion request for a service-linked role whose linked
   /// service is still accessing a resource, then the deletion task fails. If it
-  /// fails, the <a>GetServiceLinkedRoleDeletionStatus</a> API operation returns
-  /// the reason for the failure, usually including the resources that must be
+  /// fails, the <a>GetServiceLinkedRoleDeletionStatus</a> operation returns the
+  /// reason for the failure, usually including the resources that must be
   /// deleted. To delete the service-linked role, you must first remove those
   /// resources from the linked service and then submit the deletion request
   /// again. Resources are specific to the service that is linked to the role.
   /// For more information about removing resources from a service, see the <a
-  /// href="http://docs.aws.amazon.com/">AWS documentation</a> for your service.
+  /// href="http://docs.aws.amazon.com/">Amazon Web Services documentation</a>
+  /// for your service.
   ///
   /// For more information about service-linked roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">Roles
-  /// Terms and Concepts: AWS Service-Linked Role</a> in the <i>IAM User
-  /// Guide</i>.
+  /// terms and concepts: Amazon Web Services service-linked role</a> in the
+  /// <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -2994,7 +2825,7 @@ class Iam {
   /// Parameter [roleName] :
   /// The name of the service-linked role to be deleted.
   Future<DeleteServiceLinkedRoleResponse> deleteServiceLinkedRole({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -3002,12 +2833,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3048,8 +2873,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteServiceSpecificCredential({
-    @_s.required String serviceSpecificCredentialId,
-    String userName,
+    required String serviceSpecificCredentialId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
@@ -3060,22 +2885,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
@@ -3095,9 +2909,9 @@ class Iam {
   /// Deletes a signing certificate associated with the specified IAM user.
   ///
   /// If you do not specify a user name, IAM determines the user name implicitly
-  /// based on the AWS access key ID signing the request. This operation works
-  /// for access keys under the AWS account. Consequently, you can use this
-  /// operation to manage AWS account root user credentials even if the AWS
+  /// based on the Amazon Web Services access key ID signing the request. This
+  /// operation works for access keys under the account. Consequently, you can
+  /// use this operation to manage account root user credentials even if the
   /// account has no associated IAM users.
   ///
   /// May throw [NoSuchEntityException].
@@ -3119,8 +2933,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteSigningCertificate({
-    @_s.required String certificateId,
-    String userName,
+    required String certificateId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -3130,22 +2944,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
@@ -3162,11 +2965,11 @@ class Iam {
     );
   }
 
-  /// Deletes the specified IAM user. Unlike the AWS Management Console, when
-  /// you delete a user programmatically, you must delete the items attached to
-  /// the user manually, or the deletion fails. For more information, see <a
+  /// Deletes the specified IAM user. Unlike the Management Console, when you
+  /// delete a user programmatically, you must delete the items attached to the
+  /// user manually, or the deletion fails. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_deleting_cli">Deleting
-  /// an IAM User</a>. Before attempting to delete a user, remove the following
+  /// an IAM user</a>. Before attempting to delete a user, remove the following
   /// items:
   ///
   /// <ul>
@@ -3214,7 +3017,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteUser({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3222,12 +3025,6 @@ class Iam {
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3258,7 +3055,7 @@ class Iam {
   /// The name (friendly name, not ARN) of the IAM user from which you want to
   /// remove the permissions boundary.
   Future<void> deleteUserPermissionsBoundary({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -3266,12 +3063,6 @@ class Iam {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3295,7 +3086,7 @@ class Iam {
   /// policy from a user, use <a>DetachUserPolicy</a>. For more information
   /// about policies, refer to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -3318,8 +3109,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> deleteUserPolicy({
-    @_s.required String policyName,
-    @_s.required String userName,
+    required String policyName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -3329,24 +3120,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3385,7 +3164,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: =,.@:/-
   Future<void> deleteVirtualMFADevice({
-    @_s.required String serialNumber,
+    required String serialNumber,
   }) async {
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
@@ -3393,12 +3172,6 @@ class Iam {
       serialNumber,
       9,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3418,10 +3191,10 @@ class Iam {
   /// Removes the specified managed policy from the specified IAM group.
   ///
   /// A group can also have inline policies embedded with it. To delete an
-  /// inline policy, use the <a>DeleteGroupPolicy</a> API. For information about
+  /// inline policy, use <a>DeleteGroupPolicy</a>. For information about
   /// policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -3442,11 +3215,11 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<void> detachGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyArn,
+    required String groupName,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -3454,12 +3227,6 @@ class Iam {
       groupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyArn, 'policyArn');
@@ -3488,10 +3255,10 @@ class Iam {
   /// Removes the specified managed policy from the specified role.
   ///
   /// A role can also have inline policies embedded with it. To delete an inline
-  /// policy, use the <a>DeleteRolePolicy</a> API. For information about
-  /// policies, see <a
+  /// policy, use <a>DeleteRolePolicy</a>. For information about policies, see
+  /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -3504,7 +3271,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [roleName] :
@@ -3516,8 +3283,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> detachRolePolicy({
-    @_s.required String policyArn,
-    @_s.required String roleName,
+    required String policyArn,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -3533,12 +3300,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3559,10 +3320,10 @@ class Iam {
   /// Removes the specified managed policy from the specified user.
   ///
   /// A user can also have inline policies embedded with it. To delete an inline
-  /// policy, use the <a>DeleteUserPolicy</a> API. For information about
-  /// policies, see <a
+  /// policy, use <a>DeleteUserPolicy</a>. For information about policies, see
+  /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -3574,7 +3335,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [userName] :
@@ -3586,8 +3347,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> detachUserPolicy({
-    @_s.required String policyArn,
-    @_s.required String userName,
+    required String policyArn,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -3603,12 +3364,6 @@ class Iam {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3682,10 +3437,10 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> enableMFADevice({
-    @_s.required String authenticationCode1,
-    @_s.required String authenticationCode2,
-    @_s.required String serialNumber,
-    @_s.required String userName,
+    required String authenticationCode1,
+    required String authenticationCode2,
+    required String serialNumber,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
     _s.validateStringLength(
@@ -3693,12 +3448,6 @@ class Iam {
       authenticationCode1,
       6,
       6,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authenticationCode1',
-      authenticationCode1,
-      r'''[\d]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
@@ -3709,12 +3458,6 @@ class Iam {
       6,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authenticationCode2',
-      authenticationCode2,
-      r'''[\d]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
       'serialNumber',
@@ -3723,24 +3466,12 @@ class Iam {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -3760,10 +3491,10 @@ class Iam {
     );
   }
 
-  /// Generates a credential report for the AWS account. For more information
-  /// about the credential report, see <a
+  /// Generates a credential report for the account. For more information about
+  /// the credential report, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
-  /// Credential Reports</a> in the <i>IAM User Guide</i>.
+  /// credential reports</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [ServiceFailureException].
@@ -3782,17 +3513,17 @@ class Iam {
     return GenerateCredentialReportResponse.fromXml($result);
   }
 
-  /// Generates a report for service last accessed data for AWS Organizations.
-  /// You can generate a report for any entities (organization root,
-  /// organizational unit, or account) or policies in your organization.
+  /// Generates a report for service last accessed data for Organizations. You
+  /// can generate a report for any entities (organization root, organizational
+  /// unit, or account) or policies in your organization.
   ///
-  /// To call this operation, you must be signed in using your AWS Organizations
-  /// master account credentials. You can use your long-term IAM user or root
-  /// user credentials, or temporary credentials from assuming an IAM role. SCPs
-  /// must be enabled for your organization root. You must have the required IAM
-  /// and AWS Organizations permissions. For more information, see <a
+  /// To call this operation, you must be signed in using your Organizations
+  /// management account credentials. You can use your long-term IAM user or
+  /// root user credentials, or temporary credentials from assuming an IAM role.
+  /// SCPs must be enabled for your organization root. You must have the
+  /// required IAM and Organizations permissions. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Refining
-  /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User
+  /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   ///
   /// You can generate a service last accessed data report for entities by
@@ -3801,9 +3532,8 @@ class Iam {
   /// entity.
   ///
   /// You can generate a service last accessed data report for a policy by
-  /// specifying an entity's path and an optional AWS Organizations policy ID.
-  /// This data includes a list of services that are allowed by the specified
-  /// SCP.
+  /// specifying an entity's path and an optional Organizations policy ID. This
+  /// data includes a list of services that are allowed by the specified SCP.
   ///
   /// For each service in both report types, the data includes the most recent
   /// account activity that the policy allows to account principals in the
@@ -3811,19 +3541,19 @@ class Iam {
   /// reporting period, permissions required, troubleshooting, and supported
   /// Regions see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
-  /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User
+  /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   /// <important>
-  /// The data includes all attempts to access AWS, not just the successful
-  /// ones. This includes all attempts that were made using the AWS Management
-  /// Console, the AWS API through any of the SDKs, or any of the command line
-  /// tools. An unexpected entry in the service last accessed data does not mean
-  /// that an account has been compromised, because the request might have been
-  /// denied. Refer to your CloudTrail logs as the authoritative source for
-  /// information about all API calls and whether they were successful or denied
-  /// access. For more information, see <a
+  /// The data includes all attempts to access Amazon Web Services, not just the
+  /// successful ones. This includes all attempts that were made using the
+  /// Management Console, the Amazon Web Services API through any of the SDKs,
+  /// or any of the command line tools. An unexpected entry in the service last
+  /// accessed data does not mean that an account has been compromised, because
+  /// the request might have been denied. Refer to your CloudTrail logs as the
+  /// authoritative source for information about all API calls and whether they
+  /// were successful or denied access. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
-  /// IAM Events with CloudTrail</a> in the <i>IAM User Guide</i>.
+  /// IAM events with CloudTrail</a> in the <i>IAM User Guide</i>.
   /// </important>
   /// This operation returns a <code>JobId</code>. Use this parameter in the
   /// <code> <a>GetOrganizationsAccessReport</a> </code> operation to check the
@@ -3834,8 +3564,8 @@ class Iam {
   /// can retrieve the report.
   ///
   /// To generate a service last accessed data report for entities, specify an
-  /// entity path without specifying the optional AWS Organizations policy ID.
-  /// The type of entity that you specify determines the data returned in the
+  /// entity path without specifying the optional Organizations policy ID. The
+  /// type of entity that you specify determines the data returned in the
   /// report.
   ///
   /// <ul>
@@ -3843,21 +3573,21 @@ class Iam {
   /// <b>Root</b> – When you specify the organizations root as the entity, the
   /// resulting report lists all of the services allowed by SCPs that are
   /// attached to your root. For each service, the report includes data for all
-  /// accounts in your organization except the master account, because the
-  /// master account is not limited by SCPs.
+  /// accounts in your organization except the management account, because the
+  /// management account is not limited by SCPs.
   /// </li>
   /// <li>
   /// <b>OU</b> – When you specify an organizational unit (OU) as the entity,
   /// the resulting report lists all of the services allowed by SCPs that are
   /// attached to the OU and its parents. For each service, the report includes
   /// data for all accounts in the OU or its children. This data excludes the
-  /// master account, because the master account is not limited by SCPs.
+  /// management account, because the management account is not limited by SCPs.
   /// </li>
   /// <li>
-  /// <b>Master account</b> – When you specify the master account, the resulting
-  /// report lists all AWS services, because the master account is not limited
-  /// by SCPs. For each service, the report includes data for only the master
-  /// account.
+  /// <b>management account</b> – When you specify the management account, the
+  /// resulting report lists all Amazon Web Services services, because the
+  /// management account is not limited by SCPs. For each service, the report
+  /// includes data for only the management account.
   /// </li>
   /// <li>
   /// <b>Account</b> – When you specify another account as the entity, the
@@ -3867,8 +3597,8 @@ class Iam {
   /// </li>
   /// </ul>
   /// To generate a service last accessed data report for policies, specify an
-  /// entity path and the optional AWS Organizations policy ID. The type of
-  /// entity that you specify determines the data returned for each service.
+  /// entity path and the optional Organizations policy ID. The type of entity
+  /// that you specify determines the data returned for each service.
   ///
   /// <ul>
   /// <li>
@@ -3876,9 +3606,9 @@ class Iam {
   /// resulting report lists all of the services that are allowed by the
   /// specified SCP. For each service, the report includes data for all accounts
   /// in your organization to which the SCP applies. This data excludes the
-  /// master account, because the master account is not limited by SCPs. If the
-  /// SCP is not attached to any entities in the organization, then the report
-  /// will return a list of services with no data.
+  /// management account, because the management account is not limited by SCPs.
+  /// If the SCP is not attached to any entities in the organization, then the
+  /// report will return a list of services with no data.
   /// </li>
   /// <li>
   /// <b>OU</b> – When you specify an OU entity and a policy ID, the resulting
@@ -3886,16 +3616,17 @@ class Iam {
   /// For each service, the report includes data for all accounts in the OU or
   /// its children to which the SCP applies. This means that other accounts
   /// outside the OU that are affected by the SCP might not be included in the
-  /// data. This data excludes the master account, because the master account is
-  /// not limited by SCPs. If the SCP is not attached to the OU or one of its
-  /// children, the report will return a list of services with no data.
+  /// data. This data excludes the management account, because the management
+  /// account is not limited by SCPs. If the SCP is not attached to the OU or
+  /// one of its children, the report will return a list of services with no
+  /// data.
   /// </li>
   /// <li>
-  /// <b>Master account</b> – When you specify the master account, the resulting
-  /// report lists all AWS services, because the master account is not limited
-  /// by SCPs. If you specify a policy ID in the CLI or API, the policy is
-  /// ignored. For each service, the report includes data for only the master
-  /// account.
+  /// <b>management account</b> – When you specify the management account, the
+  /// resulting report lists all Amazon Web Services services, because the
+  /// management account is not limited by SCPs. If you specify a policy ID in
+  /// the CLI or API, the policy is ignored. For each service, the report
+  /// includes data for only the management account.
   /// </li>
   /// <li>
   /// <b>Account</b> – When you specify another account entity and a policy ID,
@@ -3914,17 +3645,17 @@ class Iam {
   /// It only applies SCP logic. For more about the evaluation of policy types,
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
-  /// Policies</a> in the <i>IAM User Guide</i>.
+  /// policies</a> in the <i>IAM User Guide</i>.
   /// </note>
   /// For more information about service last accessed data, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
-  /// Policy Scope by Viewing User Activity</a> in the <i>IAM User Guide</i>.
+  /// policy scope by viewing user activity</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [ReportGenerationLimitExceededException].
   ///
   /// Parameter [entityPath] :
-  /// The path of the AWS Organizations entity (root, OU, or account). You can
-  /// build an entity path using the known structure of your organization. For
+  /// The path of the Organizations entity (root, OU, or account). You can build
+  /// an entity path using the known structure of your organization. For
   /// example, assume that your account ID is <code>123456789012</code> and its
   /// parent OU ID is <code>ou-rge0-awsabcde</code>. The organization root ID is
   /// <code>r-f6g7h8i9j0example</code> and your organization ID is
@@ -3932,15 +3663,16 @@ class Iam {
   /// <code>o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012</code>.
   ///
   /// Parameter [organizationsPolicyId] :
-  /// The identifier of the AWS Organizations service control policy (SCP). This
+  /// The identifier of the Organizations service control policy (SCP). This
   /// parameter is optional.
   ///
   /// This ID is used to generate information about when an account principal
-  /// that is limited by the SCP attempted to access an AWS service.
+  /// that is limited by the SCP attempted to access an Amazon Web Services
+  /// service.
   Future<GenerateOrganizationsAccessReportResponse>
       generateOrganizationsAccessReport({
-    @_s.required String entityPath,
-    String organizationsPolicyId,
+    required String entityPath,
+    String? organizationsPolicyId,
   }) async {
     ArgumentError.checkNotNull(entityPath, 'entityPath');
     _s.validateStringLength(
@@ -3949,17 +3681,6 @@ class Iam {
       19,
       427,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'entityPath',
-      entityPath,
-      r'''^o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'organizationsPolicyId',
-      organizationsPolicyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
     );
     final $request = <String, dynamic>{};
     $request['EntityPath'] = entityPath;
@@ -3980,24 +3701,24 @@ class Iam {
   }
 
   /// Generates a report that includes details about when an IAM resource (user,
-  /// group, role, or policy) was last used in an attempt to access AWS
-  /// services. Recent activity usually appears within four hours. IAM reports
-  /// activity for the last 365 days, or less if your Region began supporting
-  /// this feature within the last year. For more information, see <a
+  /// group, role, or policy) was last used in an attempt to access Amazon Web
+  /// Services services. Recent activity usually appears within four hours. IAM
+  /// reports activity for the last 365 days, or less if your Region began
+  /// supporting this feature within the last year. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-  /// Where Data Is Tracked</a>.
+  /// where data is tracked</a>.
   /// <important>
-  /// The service last accessed data includes all attempts to access an AWS API,
-  /// not just the successful ones. This includes all attempts that were made
-  /// using the AWS Management Console, the AWS API through any of the SDKs, or
-  /// any of the command line tools. An unexpected entry in the service last
-  /// accessed data does not mean that your account has been compromised,
-  /// because the request might have been denied. Refer to your CloudTrail logs
-  /// as the authoritative source for information about all API calls and
-  /// whether they were successful or denied access. For more information,
-  /// see <a
+  /// The service last accessed data includes all attempts to access an Amazon
+  /// Web Services API, not just the successful ones. This includes all attempts
+  /// that were made using the Management Console, the Amazon Web Services API
+  /// through any of the SDKs, or any of the command line tools. An unexpected
+  /// entry in the service last accessed data does not mean that your account
+  /// has been compromised, because the request might have been denied. Refer to
+  /// your CloudTrail logs as the authoritative source for information about all
+  /// API calls and whether they were successful or denied access. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html">Logging
-  /// IAM Events with CloudTrail</a> in the <i>IAM User Guide</i>.
+  /// IAM events with CloudTrail</a> in the <i>IAM User Guide</i>.
   /// </important>
   /// The <code>GenerateServiceLastAccessedDetails</code> operation returns a
   /// <code>JobId</code>. Use this parameter in the following operations to
@@ -4006,9 +3727,9 @@ class Iam {
   /// <ul>
   /// <li>
   /// <a>GetServiceLastAccessedDetails</a> – Use this operation for users,
-  /// groups, roles, or policies to list every AWS service that the resource
-  /// could access using permissions policies. For each service, the response
-  /// includes information about the most recent access attempt.
+  /// groups, roles, or policies to list every Amazon Web Services service that
+  /// the resource could access using permissions policies. For each service,
+  /// the response includes information about the most recent access attempt.
   ///
   /// The <code>JobId</code> returned by
   /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same
@@ -4018,7 +3739,8 @@ class Iam {
   /// <li>
   /// <a>GetServiceLastAccessedDetailsWithEntities</a> – Use this operation for
   /// groups and policies to list information about the associated entities
-  /// (users or roles) that attempted to access a specific AWS service.
+  /// (users or roles) that attempted to access a specific Amazon Web Services
+  /// service.
   /// </li>
   /// </ul>
   /// To check the status of the <code>GenerateServiceLastAccessedDetails</code>
@@ -4031,16 +3753,16 @@ class Iam {
   /// <note>
   /// Service last accessed data does not use other policy types when
   /// determining whether a resource could access a service. These other policy
-  /// types include resource-based policies, access control lists, AWS
-  /// Organizations policies, IAM permissions boundaries, and AWS STS assume
-  /// role policies. It only applies permissions policy logic. For more about
-  /// the evaluation of policy types, see <a
+  /// types include resource-based policies, access control lists, Organizations
+  /// policies, IAM permissions boundaries, and STS assume role policies. It
+  /// only applies permissions policy logic. For more about the evaluation of
+  /// policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
-  /// Policies</a> in the <i>IAM User Guide</i>.
+  /// policies</a> in the <i>IAM User Guide</i>.
   /// </note>
   /// For more information about service and action last accessed data, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
-  /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User
+  /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
@@ -4049,7 +3771,7 @@ class Iam {
   /// Parameter [arn] :
   /// The ARN of the IAM resource (user, group, role, or managed policy) used to
   /// generate information about when the resource was last used in an attempt
-  /// to access an AWS service.
+  /// to access an Amazon Web Services service.
   ///
   /// Parameter [granularity] :
   /// The level of detail that you want to generate. You can specify whether you
@@ -4060,8 +3782,8 @@ class Iam {
   /// parameter, the operation generates service data.
   Future<GenerateServiceLastAccessedDetailsResponse>
       generateServiceLastAccessedDetails({
-    @_s.required String arn,
-    AccessAdvisorUsageGranularityType granularity,
+    required String arn,
+    AccessAdvisorUsageGranularityType? granularity,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -4089,9 +3811,11 @@ class Iam {
   }
 
   /// Retrieves information about when the specified access key was last used.
-  /// The information includes the date and time of last use, along with the AWS
-  /// service and Region that were specified in the last request made with that
-  /// key.
+  /// The information includes the date and time of last use, along with the
+  /// Amazon Web Services service and Region that were specified in the last
+  /// request made with that key.
+  ///
+  /// May throw [NoSuchEntityException].
   ///
   /// Parameter [accessKeyId] :
   /// The identifier of an access key.
@@ -4100,7 +3824,7 @@ class Iam {
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters that can consist of any upper or lowercased letter or digit.
   Future<GetAccessKeyLastUsedResponse> getAccessKeyLastUsed({
-    @_s.required String accessKeyId,
+    required String accessKeyId,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
     _s.validateStringLength(
@@ -4108,12 +3832,6 @@ class Iam {
       accessKeyId,
       16,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accessKeyId',
-      accessKeyId,
-      r'''[\w]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -4133,11 +3851,11 @@ class Iam {
   }
 
   /// Retrieves information about all IAM users, groups, roles, and policies in
-  /// your AWS account, including their relationships to one another. Use this
-  /// API to obtain a snapshot of the configuration of IAM permissions (users,
-  /// groups, roles, and policies) in your account.
+  /// your Amazon Web Services account, including their relationships to one
+  /// another. Use this operation to obtain a snapshot of the configuration of
+  /// IAM permissions (users, groups, roles, and policies) in your account.
   /// <note>
-  /// Policies returned by this API are URL-encoded compliant with <a
+  /// Policies returned by this operation are URL-encoded compliant with <a
   /// href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
@@ -4179,20 +3897,15 @@ class Iam {
   /// from.
   Future<GetAccountAuthorizationDetailsResponse>
       getAccountAuthorizationDetails({
-    List<EntityType> filter,
-    String marker,
-    int maxItems,
+    List<EntityType>? filter,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4201,8 +3914,8 @@ class Iam {
       1000,
     );
     final $request = <String, dynamic>{};
-    filter?.also((arg) =>
-        $request['Filter'] = arg.map((e) => e?.toValue() ?? '').toList());
+    filter?.also(
+        (arg) => $request['Filter'] = arg.map((e) => e.toValue()).toList());
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     final $result = await _protocol.send(
@@ -4219,10 +3932,12 @@ class Iam {
     return GetAccountAuthorizationDetailsResponse.fromXml($result);
   }
 
-  /// Retrieves the password policy for the AWS account. For more information
-  /// about using a password policy, go to <a
+  /// Retrieves the password policy for the account. This tells you the
+  /// complexity requirements and mandatory rotation periods for the IAM user
+  /// passwords in your account. For more information about using a password
+  /// policy, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
-  /// an IAM Password Policy</a>.
+  /// an IAM password policy</a>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -4241,13 +3956,12 @@ class Iam {
     return GetAccountPasswordPolicyResponse.fromXml($result);
   }
 
-  /// Retrieves information about IAM entity usage and IAM quotas in the AWS
-  /// account.
+  /// Retrieves information about IAM entity usage and IAM quotas in the Amazon
+  /// Web Services account.
   ///
-  /// The number and size of IAM resources in an AWS account are limited. For
-  /// more information, see <a
+  /// For information about IAM quotas, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
-  /// and STS Quotas</a> in the <i>IAM User Guide</i>.
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [ServiceFailureException].
   Future<GetAccountSummaryResponse> getAccountSummary() async {
@@ -4270,13 +3984,14 @@ class Iam {
   /// context keys from policies associated with an IAM user, group, or role,
   /// use <a>GetContextKeysForPrincipalPolicy</a>.
   ///
-  /// Context keys are variables maintained by AWS and its services that provide
-  /// details about the context of an API query request. Context keys can be
-  /// evaluated by testing against a value specified in an IAM policy. Use
-  /// <code>GetContextKeysForCustomPolicy</code> to understand what key names
-  /// and values you must supply when you call <a>SimulateCustomPolicy</a>. Note
-  /// that all parameters are shown in unencoded form here for clarity but must
-  /// be URL encoded to be included as a part of a real HTML request.
+  /// Context keys are variables maintained by Amazon Web Services and its
+  /// services that provide details about the context of an API query request.
+  /// Context keys can be evaluated by testing against a value specified in an
+  /// IAM policy. Use <code>GetContextKeysForCustomPolicy</code> to understand
+  /// what key names and values you must supply when you call
+  /// <a>SimulateCustomPolicy</a>. Note that all parameters are shown in
+  /// unencoded form here for clarity but must be URL encoded to be included as
+  /// a part of a real HTML request.
   ///
   /// May throw [InvalidInputException].
   ///
@@ -4304,7 +4019,7 @@ class Iam {
   /// </li>
   /// </ul>
   Future<GetContextKeysForPolicyResponse> getContextKeysForCustomPolicy({
-    @_s.required List<String> policyInputList,
+    required List<String> policyInputList,
   }) async {
     ArgumentError.checkNotNull(policyInputList, 'policyInputList');
     final $request = <String, dynamic>{};
@@ -4333,16 +4048,16 @@ class Iam {
   /// specified as strings. If you want to include <i>only</i> a list of
   /// policies by string, use <a>GetContextKeysForCustomPolicy</a> instead.
   ///
-  /// <b>Note:</b> This API discloses information about the permissions granted
-  /// to other users. If you do not want users to see other user's permissions,
-  /// then consider allowing them to use <a>GetContextKeysForCustomPolicy</a>
-  /// instead.
+  /// <b>Note:</b> This operation discloses information about the permissions
+  /// granted to other users. If you do not want users to see other user's
+  /// permissions, then consider allowing them to use
+  /// <a>GetContextKeysForCustomPolicy</a> instead.
   ///
-  /// Context keys are variables maintained by AWS and its services that provide
-  /// details about the context of an API query request. Context keys can be
-  /// evaluated by testing against a value in an IAM policy. Use
-  /// <a>GetContextKeysForPrincipalPolicy</a> to understand what key names and
-  /// values you must supply when you call <a>SimulatePrincipalPolicy</a>.
+  /// Context keys are variables maintained by Amazon Web Services and its
+  /// services that provide details about the context of an API query request.
+  /// Context keys can be evaluated by testing against a value in an IAM policy.
+  /// Use <a>GetContextKeysForPrincipalPolicy</a> to understand what key names
+  /// and values you must supply when you call <a>SimulatePrincipalPolicy</a>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -4359,7 +4074,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [policyInputList] :
@@ -4385,8 +4100,8 @@ class Iam {
   /// </li>
   /// </ul>
   Future<GetContextKeysForPolicyResponse> getContextKeysForPrincipalPolicy({
-    @_s.required String policySourceArn,
-    List<String> policyInputList,
+    required String policySourceArn,
+    List<String>? policyInputList,
   }) async {
     ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
     _s.validateStringLength(
@@ -4413,10 +4128,10 @@ class Iam {
     return GetContextKeysForPolicyResponse.fromXml($result);
   }
 
-  /// Retrieves a credential report for the AWS account. For more information
-  /// about the credential report, see <a
+  /// Retrieves a credential report for the account. For more information about
+  /// the credential report, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Getting
-  /// Credential Reports</a> in the <i>IAM User Guide</i>.
+  /// credential reports</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [CredentialReportNotPresentException].
   /// May throw [CredentialReportExpiredException].
@@ -4471,9 +4186,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<GetGroupResponse> getGroup({
-    @_s.required String groupName,
-    String marker,
-    int maxItems,
+    required String groupName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -4483,22 +4198,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4527,7 +4231,7 @@ class Iam {
   /// Retrieves the specified inline policy document that is embedded in the
   /// specified IAM group.
   /// <note>
-  /// Policies returned by this API are URL-encoded compliant with <a
+  /// Policies returned by this operation are URL-encoded compliant with <a
   /// href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
@@ -4541,7 +4245,7 @@ class Iam {
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -4562,8 +4266,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetGroupPolicyResponse> getGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyName,
+    required String groupName,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -4573,24 +4277,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -4614,7 +4306,7 @@ class Iam {
   /// instance profile's path, GUID, ARN, and role. For more information about
   /// instance profiles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// Instance Profiles</a> in the <i>IAM User Guide</i>.
+  /// instance profiles</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -4627,7 +4319,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetInstanceProfileResponse> getInstanceProfile({
-    @_s.required String instanceProfileName,
+    required String instanceProfileName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -4635,12 +4327,6 @@ class Iam {
       instanceProfileName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -4659,9 +4345,20 @@ class Iam {
     return GetInstanceProfileResponse.fromXml($result);
   }
 
-  /// Retrieves the user name and password-creation date for the specified IAM
-  /// user. If the user has not been assigned a password, the operation returns
-  /// a 404 (<code>NoSuchEntity</code>) error.
+  /// Retrieves the user name for the specified IAM user. A login profile is
+  /// created when you create a password for the user to access the Management
+  /// Console. If the user does not exist or does not have a password, the
+  /// operation returns a 404 (<code>NoSuchEntity</code>) error.
+  ///
+  /// If you create an IAM user with access to the console, the
+  /// <code>CreateDate</code> reflects the date you created the initial password
+  /// for the user.
+  ///
+  /// If you create an IAM user with programmatic access, and then later add a
+  /// password for the user to access the Management Console, the
+  /// <code>CreateDate</code> reflects the initial password creation date. A
+  /// user with programmatic access does not have a login profile unless you
+  /// create a password for the user to access the Management Console.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -4674,7 +4371,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetLoginProfileResponse> getLoginProfile({
-    @_s.required String userName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -4682,12 +4379,6 @@ class Iam {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -4720,10 +4411,10 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<GetOpenIDConnectProviderResponse> getOpenIDConnectProvider({
-    @_s.required String openIDConnectProviderArn,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -4750,8 +4441,8 @@ class Iam {
     return GetOpenIDConnectProviderResponse.fromXml($result);
   }
 
-  /// Retrieves the service last accessed data report for AWS Organizations that
-  /// was previously generated using the <code>
+  /// Retrieves the service last accessed data report for Organizations that was
+  /// previously generated using the <code>
   /// <a>GenerateOrganizationsAccessReport</a> </code> operation. This operation
   /// retrieves the status of your report job and the report contents.
   ///
@@ -4759,12 +4450,12 @@ class Iam {
   /// the data returned could include different information. For details, see
   /// <a>GenerateOrganizationsAccessReport</a>.
   ///
-  /// To call this operation, you must be signed in to the master account in
+  /// To call this operation, you must be signed in to the management account in
   /// your organization. SCPs must be enabled for your organization root. You
   /// must have permissions to perform this operation. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Refining
-  /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User
+  /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   ///
   /// For each service that principals in an account (root users, IAM users, or
@@ -4805,10 +4496,10 @@ class Iam {
   /// the results are returned in alphabetical order. If you choose the time
   /// key, the results are sorted numerically by the date and time.
   Future<GetOrganizationsAccessReportResponse> getOrganizationsAccessReport({
-    @_s.required String jobId,
-    String marker,
-    int maxItems,
-    SortKeyType sortKey,
+    required String jobId,
+    String? marker,
+    int? maxItems,
+    SortKeyType? sortKey,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -4823,11 +4514,6 @@ class Iam {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -4857,19 +4543,19 @@ class Iam {
   /// Retrieves information about the specified managed policy, including the
   /// policy's default version and the total number of IAM users, groups, and
   /// roles to which the policy is attached. To retrieve the list of the
-  /// specific users, groups, and roles that the policy is attached to, use the
-  /// <a>ListEntitiesForPolicy</a> API. This API returns metadata about the
+  /// specific users, groups, and roles that the policy is attached to, use
+  /// <a>ListEntitiesForPolicy</a>. This operation returns metadata about the
   /// policy. To retrieve the actual policy document for a specific version of
   /// the policy, use <a>GetPolicyVersion</a>.
   ///
-  /// This API retrieves information about managed policies. To retrieve
+  /// This operation retrieves information about managed policies. To retrieve
   /// information about an inline policy that is embedded with an IAM user,
-  /// group, or role, use the <a>GetUserPolicy</a>, <a>GetGroupPolicy</a>, or
-  /// <a>GetRolePolicy</a> API.
+  /// group, or role, use <a>GetUserPolicy</a>, <a>GetGroupPolicy</a>, or
+  /// <a>GetRolePolicy</a>.
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -4881,10 +4567,10 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<GetPolicyResponse> getPolicy({
-    @_s.required String policyArn,
+    required String policyArn,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -4913,7 +4599,7 @@ class Iam {
   /// Retrieves information about the specified version of the specified managed
   /// policy, including the policy document.
   /// <note>
-  /// Policies returned by this API are URL-encoded compliant with <a
+  /// Policies returned by this operation are URL-encoded compliant with <a
   /// href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
@@ -4923,18 +4609,18 @@ class Iam {
   /// To list the available versions for a policy, use
   /// <a>ListPolicyVersions</a>.
   ///
-  /// This API retrieves information about managed policies. To retrieve
+  /// This operation retrieves information about managed policies. To retrieve
   /// information about an inline policy that is embedded in a user, group, or
-  /// role, use the <a>GetUserPolicy</a>, <a>GetGroupPolicy</a>, or
-  /// <a>GetRolePolicy</a> API.
+  /// role, use <a>GetUserPolicy</a>, <a>GetGroupPolicy</a>, or
+  /// <a>GetRolePolicy</a>.
   ///
   /// For more information about the types of policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// For more information about managed policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -4946,7 +4632,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [versionId] :
@@ -4958,8 +4644,8 @@ class Iam {
   /// two digits, and optionally followed by a period '.' and a string of
   /// letters and digits.
   Future<GetPolicyVersionResponse> getPolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String versionId,
+    required String policyArn,
+    required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -4970,12 +4656,6 @@ class Iam {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -4997,9 +4677,9 @@ class Iam {
   /// GUID, ARN, and the role's trust policy that grants permission to assume
   /// the role. For more information about roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with Roles</a>.
+  /// with roles</a>.
   /// <note>
-  /// Policies returned by this API are URL-encoded compliant with <a
+  /// Policies returned by this operation are URL-encoded compliant with <a
   /// href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
@@ -5018,7 +4698,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetRoleResponse> getRole({
-    @_s.required String roleName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -5026,12 +4706,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5053,7 +4727,7 @@ class Iam {
   /// Retrieves the specified inline policy document that is embedded with the
   /// specified IAM role.
   /// <note>
-  /// Policies returned by this API are URL-encoded compliant with <a
+  /// Policies returned by this operation are URL-encoded compliant with <a
   /// href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
@@ -5067,11 +4741,11 @@ class Iam {
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// For more information about roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
-  /// Roles to Delegate Permissions and Federate Identities</a>.
+  /// roles to delegate permissions and federate identities</a>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -5092,8 +4766,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetRolePolicyResponse> getRolePolicy({
-    @_s.required String policyName,
-    @_s.required String roleName,
+    required String policyName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -5103,24 +4777,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5158,10 +4820,10 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<GetSAMLProviderResponse> getSAMLProvider({
-    @_s.required String sAMLProviderArn,
+    required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
     _s.validateStringLength(
@@ -5190,12 +4852,11 @@ class Iam {
   /// Retrieves the specified SSH public key, including metadata about the key.
   ///
   /// The SSH public key retrieved by this operation is used only for
-  /// authenticating the associated IAM user to an AWS CodeCommit repository.
-  /// For more information about using SSH keys to authenticate to an AWS
-  /// CodeCommit repository, see <a
+  /// authenticating the associated IAM user to an CodeCommit repository. For
+  /// more information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User
-  /// Guide</i>.
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [UnrecognizedPublicKeyEncodingException].
@@ -5220,9 +4881,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetSSHPublicKeyResponse> getSSHPublicKey({
-    @_s.required EncodingType encoding,
-    @_s.required String sSHPublicKeyId,
-    @_s.required String userName,
+    required EncodingType encoding,
+    required String sSHPublicKeyId,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(encoding, 'encoding');
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
@@ -5233,24 +4894,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5276,9 +4925,9 @@ class Iam {
   ///
   /// For more information about working with server certificates, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
-  /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic
-  /// includes a list of AWS services that can use the server certificates that
-  /// you manage with IAM.
+  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic
+  /// includes a list of Amazon Web Services services that can use the server
+  /// certificates that you manage with IAM.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -5291,7 +4940,7 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetServerCertificateResponse> getServerCertificate({
-    @_s.required String serverCertificateName,
+    required String serverCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -5299,12 +4948,6 @@ class Iam {
       serverCertificateName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5327,18 +4970,18 @@ class Iam {
   /// <code>GenerateServiceLastAccessedDetails</code> operation. You can use the
   /// <code>JobId</code> parameter in <code>GetServiceLastAccessedDetails</code>
   /// to retrieve the status of your report job. When the report is complete,
-  /// you can retrieve the generated report. The report includes a list of AWS
-  /// services that the resource (user, group, role, or managed policy) can
-  /// access.
+  /// you can retrieve the generated report. The report includes a list of
+  /// Amazon Web Services services that the resource (user, group, role, or
+  /// managed policy) can access.
   /// <note>
   /// Service last accessed data does not use other policy types when
   /// determining whether a resource could access a service. These other policy
-  /// types include resource-based policies, access control lists, AWS
-  /// Organizations policies, IAM permissions boundaries, and AWS STS assume
-  /// role policies. It only applies permissions policy logic. For more about
-  /// the evaluation of policy types, see <a
+  /// types include resource-based policies, access control lists, Organizations
+  /// policies, IAM permissions boundaries, and STS assume role policies. It
+  /// only applies permissions policy logic. For more about the evaluation of
+  /// policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
-  /// Policies</a> in the <i>IAM User Guide</i>.
+  /// policies</a> in the <i>IAM User Guide</i>.
   /// </note>
   /// For each service that the resource could access using permissions
   /// policies, the operation returns details about the most recent access
@@ -5378,7 +5021,7 @@ class Iam {
   ///
   /// For more information about service and action last accessed data, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html">Reducing
-  /// Permissions Using Service Last Accessed Data</a> in the <i>IAM User
+  /// permissions using service last accessed data</a> in the <i>IAM User
   /// Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
@@ -5411,9 +5054,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<GetServiceLastAccessedDetailsResponse> getServiceLastAccessedDetails({
-    @_s.required String jobId,
-    String marker,
-    int maxItems,
+    required String jobId,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -5428,11 +5071,6 @@ class Iam {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5495,18 +5133,20 @@ class Iam {
   /// <code>GenerateServiceLastAccessedDetails</code> operation.
   ///
   /// Parameter [serviceNamespace] :
-  /// The service namespace for an AWS service. Provide the service namespace to
-  /// learn when the IAM entity last attempted to access the specified service.
+  /// The service namespace for an Amazon Web Services service. Provide the
+  /// service namespace to learn when the IAM entity last attempted to access
+  /// the specified service.
   ///
-  /// To learn the service namespace for a service, go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">Actions,
-  /// Resources, and Condition Keys for AWS Services</a> in the <i>IAM User
-  /// Guide</i>. Choose the name of the service to view details for that
-  /// service. In the first paragraph, find the service prefix. For example,
-  /// <code>(service prefix: a4b)</code>. For more information about service
-  /// namespaces, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// To learn the service namespace for a service, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
+  /// resources, and condition keys for Amazon Web Services services</a> in the
+  /// <i>IAM User Guide</i>. Choose the name of the service to view details for
+  /// that service. In the first paragraph, find the service prefix. For
+  /// example, <code>(service prefix: a4b)</code>. For more information about
+  /// service namespaces, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// Parameter [marker] :
   /// Use this parameter only when paginating results and only after you receive
@@ -5528,10 +5168,10 @@ class Iam {
   /// from.
   Future<GetServiceLastAccessedDetailsWithEntitiesResponse>
       getServiceLastAccessedDetailsWithEntities({
-    @_s.required String jobId,
-    @_s.required String serviceNamespace,
-    String marker,
-    int maxItems,
+    required String jobId,
+    required String serviceNamespace,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -5549,22 +5189,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceNamespace',
-      serviceNamespace,
-      r'''[\w-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5592,9 +5221,8 @@ class Iam {
   }
 
   /// Retrieves the status of your service-linked role deletion. After you use
-  /// the <a>DeleteServiceLinkedRole</a> API operation to submit a
-  /// service-linked role for deletion, you can use the
-  /// <code>DeletionTaskId</code> parameter in
+  /// <a>DeleteServiceLinkedRole</a> to submit a service-linked role for
+  /// deletion, you can use the <code>DeletionTaskId</code> parameter in
   /// <code>GetServiceLinkedRoleDeletionStatus</code> to check the status of the
   /// deletion. If the deletion fails, this operation returns the reason that it
   /// failed, if that information is returned by the service.
@@ -5609,7 +5237,7 @@ class Iam {
   /// <code>task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;</code>.
   Future<GetServiceLinkedRoleDeletionStatusResponse>
       getServiceLinkedRoleDeletionStatus({
-    @_s.required String deletionTaskId,
+    required String deletionTaskId,
   }) async {
     ArgumentError.checkNotNull(deletionTaskId, 'deletionTaskId');
     _s.validateStringLength(
@@ -5639,7 +5267,8 @@ class Iam {
   /// creation date, path, unique ID, and ARN.
   ///
   /// If you do not specify a user name, IAM determines the user name implicitly
-  /// based on the AWS access key ID used to sign the request to this API.
+  /// based on the Amazon Web Services access key ID used to sign the request to
+  /// this operation.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -5653,18 +5282,13 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetUserResponse> getUser({
-    String userName,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     userName?.also((arg) => $request['UserName'] = arg);
@@ -5685,7 +5309,7 @@ class Iam {
   /// Retrieves the specified inline policy document that is embedded in the
   /// specified IAM user.
   /// <note>
-  /// Policies returned by this API are URL-encoded compliant with <a
+  /// Policies returned by this operation are URL-encoded compliant with <a
   /// href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>. You can use a URL
   /// decoding method to convert the policy back to plain JSON text. For
   /// example, if you use Java, you can use the <code>decode</code> method of
@@ -5699,7 +5323,7 @@ class Iam {
   ///
   /// For more information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -5720,8 +5344,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<GetUserPolicyResponse> getUserPolicy({
-    @_s.required String policyName,
-    @_s.required String userName,
+    required String policyName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
@@ -5731,24 +5355,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -5776,12 +5388,12 @@ class Iam {
   /// <code>Marker</code> parameters.
   ///
   /// If the <code>UserName</code> field is not specified, the user name is
-  /// determined implicitly based on the AWS access key ID used to sign the
-  /// request. This operation works for access keys under the AWS account.
-  /// Consequently, you can use this operation to manage AWS account root user
-  /// credentials even if the AWS account has no associated users.
+  /// determined implicitly based on the Amazon Web Services access key ID used
+  /// to sign the request. This operation works for access keys under the
+  /// account. Consequently, you can use this operation to manage account root
+  /// user credentials even if the account has no associated users.
   /// <note>
-  /// To ensure the security of your AWS account, the secret access key is
+  /// To ensure the security of your account, the secret access key is
   /// accessible only during key and user creation.
   /// </note>
   ///
@@ -5815,20 +5427,15 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListAccessKeysResponse> listAccessKeys({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5841,11 +5448,6 @@ class Iam {
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -5865,10 +5467,10 @@ class Iam {
     return ListAccessKeysResponse.fromXml($result);
   }
 
-  /// Lists the account alias associated with the AWS account (Note: you can
-  /// have only one). For information about using an AWS account alias, see <a
+  /// Lists the account alias associated with the account (Note: you can have
+  /// only one). For information about using an account alias, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html">Using
-  /// an Alias for Your AWS Account ID</a> in the <i>IAM User Guide</i>.
+  /// an alias for your account ID</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [ServiceFailureException].
   ///
@@ -5891,19 +5493,14 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListAccountAliasesResponse> listAccountAliases({
-    String marker,
-    int maxItems,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -5931,10 +5528,10 @@ class Iam {
   /// Lists all managed policies that are attached to the specified IAM group.
   ///
   /// An IAM group can also have inline policies embedded with it. To list the
-  /// inline policies for a group, use the <a>ListGroupPolicies</a> API. For
-  /// information about policies, see <a
+  /// inline policies for a group, use <a>ListGroupPolicies</a>. For information
+  /// about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters. You can use the <code>PathPrefix</code>
@@ -5987,10 +5584,10 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListAttachedGroupPoliciesResponse> listAttachedGroupPolicies({
-    @_s.required String groupName,
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    required String groupName,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -6000,22 +5597,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6028,11 +5614,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -6056,10 +5637,10 @@ class Iam {
   /// Lists all managed policies that are attached to the specified IAM role.
   ///
   /// An IAM role can also have inline policies embedded with it. To list the
-  /// inline policies for a role, use the <a>ListRolePolicies</a> API. For
-  /// information about policies, see <a
+  /// inline policies for a role, use <a>ListRolePolicies</a>. For information
+  /// about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters. You can use the <code>PathPrefix</code>
@@ -6112,10 +5693,10 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListAttachedRolePoliciesResponse> listAttachedRolePolicies({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    required String roleName,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -6125,22 +5706,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6153,11 +5723,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     $request['RoleName'] = roleName;
@@ -6181,10 +5746,10 @@ class Iam {
   /// Lists all managed policies that are attached to the specified IAM user.
   ///
   /// An IAM user can also have inline policies embedded with it. To list the
-  /// inline policies for a user, use the <a>ListUserPolicies</a> API. For
-  /// information about policies, see <a
+  /// inline policies for a user, use <a>ListUserPolicies</a>. For information
+  /// about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters. You can use the <code>PathPrefix</code>
@@ -6237,10 +5802,10 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListAttachedUserPoliciesResponse> listAttachedUserPolicies({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    required String userName,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -6250,22 +5815,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6278,11 +5832,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -6324,7 +5873,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [entityFilter] :
@@ -6378,12 +5927,12 @@ class Iam {
   /// This parameter is optional. If it is not included, all policies are
   /// returned.
   Future<ListEntitiesForPolicyResponse> listEntitiesForPolicy({
-    @_s.required String policyArn,
-    EntityType entityFilter,
-    String marker,
-    int maxItems,
-    String pathPrefix,
-    PolicyUsageType policyUsageFilter,
+    required String policyArn,
+    EntityType? entityFilter,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
+    PolicyUsageType? policyUsageFilter,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -6399,11 +5948,6 @@ class Iam {
       1,
       320,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -6415,11 +5959,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
@@ -6451,7 +5990,7 @@ class Iam {
   /// <a>ListAttachedGroupPolicies</a>. For more information about policies, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters. If there are no inline policies embedded
@@ -6487,9 +6026,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListGroupPoliciesResponse> listGroupPolicies({
-    @_s.required String groupName,
-    String marker,
-    int maxItems,
+    required String groupName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -6499,22 +6038,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6580,20 +6108,15 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListGroupsResponse> listGroups({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6606,11 +6129,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6665,9 +6183,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListGroupsForUserResponse> listGroupsForUser({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
+    required String userName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -6677,22 +6195,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6718,12 +6225,96 @@ class Iam {
     return ListGroupsForUserResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified IAM instance profile.
+  /// The returned list of tags is sorted by tag key. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [instanceProfileName] :
+  /// The name of the IAM instance profile whose tags you want to see.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListInstanceProfileTagsResponse> listInstanceProfileTags({
+    required String instanceProfileName,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
+    _s.validateStringLength(
+      'instanceProfileName',
+      instanceProfileName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      320,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, dynamic>{};
+    $request['InstanceProfileName'] = instanceProfileName;
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxItems?.also((arg) => $request['MaxItems'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListInstanceProfileTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListInstanceProfileTagsRequest'],
+      shapes: shapes,
+      resultWrapper: 'ListInstanceProfileTagsResult',
+    );
+    return ListInstanceProfileTagsResponse.fromXml($result);
+  }
+
   /// Lists the instance profiles that have the specified path prefix. If there
   /// are none, the operation returns an empty list. For more information about
-  /// instance profiles, go to <a
+  /// instance profiles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// Instance Profiles</a>.
-  ///
+  /// instance profiles</a>.
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for an instance profile, see
+  /// <a>GetInstanceProfile</a>.
+  /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
   ///
@@ -6762,20 +6353,15 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListInstanceProfilesResponse> listInstanceProfiles({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6788,11 +6374,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6816,7 +6397,7 @@ class Iam {
   /// If there are none, the operation returns an empty list. For more
   /// information about instance profiles, go to <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// Instance Profiles</a>.
+  /// instance profiles</a>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -6851,9 +6432,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListInstanceProfilesForRoleResponse> listInstanceProfilesForRole({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
+    required String roleName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -6863,22 +6444,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6904,11 +6474,91 @@ class Iam {
     return ListInstanceProfilesForRoleResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified IAM virtual multi-factor
+  /// authentication (MFA) device. The returned list of tags is sorted by tag
+  /// key. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serialNumber] :
+  /// The unique identifier for the IAM virtual MFA device whose tags you want
+  /// to see. For virtual MFA devices, the serial number is the same as the ARN.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListMFADeviceTagsResponse> listMFADeviceTags({
+    required String serialNumber,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(serialNumber, 'serialNumber');
+    _s.validateStringLength(
+      'serialNumber',
+      serialNumber,
+      9,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      320,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, dynamic>{};
+    $request['SerialNumber'] = serialNumber;
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxItems?.also((arg) => $request['MaxItems'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListMFADeviceTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListMFADeviceTagsRequest'],
+      shapes: shapes,
+      resultWrapper: 'ListMFADeviceTagsResult',
+    );
+    return ListMFADeviceTagsResponse.fromXml($result);
+  }
+
   /// Lists the MFA devices for an IAM user. If the request includes a IAM user
   /// name, then this operation lists all the MFA devices associated with the
   /// specified user. If you do not specify a user name, IAM determines the user
-  /// name implicitly based on the AWS access key ID signing the request for
-  /// this API.
+  /// name implicitly based on the Amazon Web Services access key ID signing the
+  /// request for this operation.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
@@ -6943,20 +6593,15 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListMFADevicesResponse> listMFADevices({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -6969,11 +6614,6 @@ class Iam {
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -6993,8 +6633,100 @@ class Iam {
     return ListMFADevicesResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified OpenID Connect
+  /// (OIDC)-compatible identity provider. The returned list of tags is sorted
+  /// by tag key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html">About
+  /// web identity federation</a>.
+  ///
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [openIDConnectProviderArn] :
+  /// The ARN of the OpenID Connect (OIDC) identity provider whose tags you want
+  /// to see.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListOpenIDConnectProviderTagsResponse> listOpenIDConnectProviderTags({
+    required String openIDConnectProviderArn,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(
+        openIDConnectProviderArn, 'openIDConnectProviderArn');
+    _s.validateStringLength(
+      'openIDConnectProviderArn',
+      openIDConnectProviderArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      320,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, dynamic>{};
+    $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxItems?.also((arg) => $request['MaxItems'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListOpenIDConnectProviderTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListOpenIDConnectProviderTagsRequest'],
+      shapes: shapes,
+      resultWrapper: 'ListOpenIDConnectProviderTagsResult',
+    );
+    return ListOpenIDConnectProviderTagsResponse.fromXml($result);
+  }
+
   /// Lists information about the IAM OpenID Connect (OIDC) provider resource
-  /// objects defined in the AWS account.
+  /// objects defined in the account.
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for an OIDC provider, see
+  /// <a>GetOpenIDConnectProvider</a>.
+  /// </note>
   ///
   /// May throw [ServiceFailureException].
   Future<ListOpenIDConnectProvidersResponse>
@@ -7014,22 +6746,29 @@ class Iam {
     return ListOpenIDConnectProvidersResponse.fromXml($result);
   }
 
-  /// Lists all the managed policies that are available in your AWS account,
-  /// including your own customer-defined managed policies and all AWS managed
-  /// policies.
+  /// Lists all the managed policies that are available in your account,
+  /// including your own customer-defined managed policies and all Amazon Web
+  /// Services managed policies.
   ///
   /// You can filter the list of policies that is returned using the optional
   /// <code>OnlyAttached</code>, <code>Scope</code>, and <code>PathPrefix</code>
   /// parameters. For example, to list only the customer managed policies in
-  /// your AWS account, set <code>Scope</code> to <code>Local</code>. To list
-  /// only AWS managed policies, set <code>Scope</code> to <code>AWS</code>.
+  /// your Amazon Web Services account, set <code>Scope</code> to
+  /// <code>Local</code>. To list only Amazon Web Services managed policies, set
+  /// <code>Scope</code> to <code>AWS</code>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
   ///
   /// For more information about managed policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for a customer manged policy, see <a>GetPolicy</a>.
+  /// </note>
   ///
   /// May throw [ServiceFailureException].
   ///
@@ -7085,30 +6824,25 @@ class Iam {
   /// Parameter [scope] :
   /// The scope to use for filtering the results.
   ///
-  /// To list only AWS managed policies, set <code>Scope</code> to
-  /// <code>AWS</code>. To list only the customer managed policies in your AWS
+  /// To list only Amazon Web Services managed policies, set <code>Scope</code>
+  /// to <code>AWS</code>. To list only the customer managed policies in your
   /// account, set <code>Scope</code> to <code>Local</code>.
   ///
   /// This parameter is optional. If it is not included, or if it is set to
   /// <code>All</code>, all policies are returned.
   Future<ListPoliciesResponse> listPolicies({
-    String marker,
-    int maxItems,
-    bool onlyAttached,
-    String pathPrefix,
-    PolicyUsageType policyUsageFilter,
-    PolicyScopeType scope,
+    String? marker,
+    int? maxItems,
+    bool? onlyAttached,
+    String? pathPrefix,
+    PolicyUsageType? policyUsageFilter,
+    PolicyScopeType? scope,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7121,11 +6855,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''((/[A-Za-z0-9\.,\+@=_-]+)*)/''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7154,12 +6883,12 @@ class Iam {
   /// <note>
   /// This operation does not use other policy types when determining whether a
   /// resource could access a service. These other policy types include
-  /// resource-based policies, access control lists, AWS Organizations policies,
-  /// IAM permissions boundaries, and AWS STS assume role policies. It only
-  /// applies permissions policy logic. For more about the evaluation of policy
-  /// types, see <a
+  /// resource-based policies, access control lists, Organizations policies, IAM
+  /// permissions boundaries, and STS assume role policies. It only applies
+  /// permissions policy logic. For more about the evaluation of policy types,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
-  /// Policies</a> in the <i>IAM User Guide</i>.
+  /// policies</a> in the <i>IAM User Guide</i>.
   /// </note>
   /// The list of policies returned by the operation depends on the ARN of the
   /// identity that you provide.
@@ -7186,7 +6915,7 @@ class Iam {
   /// it is attached. Inline policies do not have an ARN. For more information
   /// about these policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// Policies that are attached to users and roles as permissions boundaries
   /// are not returned. To view which managed policy is currently used to set
@@ -7201,18 +6930,19 @@ class Iam {
   /// to list.
   ///
   /// Parameter [serviceNamespaces] :
-  /// The service namespace for the AWS services whose policies you want to
-  /// list.
+  /// The service namespace for the Amazon Web Services services whose policies
+  /// you want to list.
   ///
-  /// To learn the service namespace for a service, go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">Actions,
-  /// Resources, and Condition Keys for AWS Services</a> in the <i>IAM User
-  /// Guide</i>. Choose the name of the service to view details for that
-  /// service. In the first paragraph, find the service prefix. For example,
-  /// <code>(service prefix: a4b)</code>. For more information about service
-  /// namespaces, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// To learn the service namespace for a service, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
+  /// resources, and condition keys for Amazon Web Services services</a> in the
+  /// <i>IAM User Guide</i>. Choose the name of the service to view details for
+  /// that service. In the first paragraph, find the service prefix. For
+  /// example, <code>(service prefix: a4b)</code>. For more information about
+  /// service namespaces, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   ///
   /// Parameter [marker] :
   /// Use this parameter only when paginating results and only after you receive
@@ -7221,9 +6951,9 @@ class Iam {
   /// indicate where the next call should start.
   Future<ListPoliciesGrantingServiceAccessResponse>
       listPoliciesGrantingServiceAccess({
-    @_s.required String arn,
-    @_s.required List<String> serviceNamespaces,
-    String marker,
+    required String arn,
+    required List<String> serviceNamespaces,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -7239,11 +6969,6 @@ class Iam {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{};
     $request['Arn'] = arn;
@@ -7263,13 +6988,92 @@ class Iam {
     return ListPoliciesGrantingServiceAccessResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified IAM customer managed
+  /// policy. The returned list of tags is sorted by tag key. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [policyArn] :
+  /// The ARN of the IAM customer managed policy whose tags you want to see.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListPolicyTagsResponse> listPolicyTags({
+    required String policyArn,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(policyArn, 'policyArn');
+    _s.validateStringLength(
+      'policyArn',
+      policyArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      320,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, dynamic>{};
+    $request['PolicyArn'] = policyArn;
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxItems?.also((arg) => $request['MaxItems'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListPolicyTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListPolicyTagsRequest'],
+      shapes: shapes,
+      resultWrapper: 'ListPolicyTagsResult',
+    );
+    return ListPolicyTagsResponse.fromXml($result);
+  }
+
   /// Lists information about the versions of the specified managed policy,
   /// including the version that is currently set as the policy's default
   /// version.
   ///
   /// For more information about managed policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -7281,7 +7085,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [marker] :
@@ -7303,9 +7107,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListPolicyVersionsResponse> listPolicyVersions({
-    @_s.required String policyArn,
-    String marker,
-    int maxItems,
+    required String policyArn,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -7320,11 +7124,6 @@ class Iam {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7358,7 +7157,7 @@ class Iam {
   /// <a>ListAttachedRolePolicies</a>. For more information about policies, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters. If there are no inline policies embedded
@@ -7394,9 +7193,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListRolePoliciesResponse> listRolePolicies({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
+    required String roleName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -7406,22 +7205,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7450,7 +7238,7 @@ class Iam {
   /// Lists the tags that are attached to the specified role. The returned list
   /// of tags is sorted by tag key. For more information about tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -7471,20 +7259,21 @@ class Iam {
   /// indicate where the next call should start.
   ///
   /// Parameter [maxItems] :
-  /// (Optional) Use this only when paginating results to indicate the maximum
-  /// number of items that you want in the response. If additional items exist
-  /// beyond the maximum that you specify, the <code>IsTruncated</code> response
-  /// element is <code>true</code>.
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
   ///
-  /// If you do not include this parameter, it defaults to 100. Note that IAM
-  /// might return fewer results, even when more results are available. In that
-  /// case, the <code>IsTruncated</code> response element returns
-  /// <code>true</code>, and <code>Marker</code> contains a value to include in
-  /// the subsequent call that tells the service where to continue from.
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
   Future<ListRoleTagsResponse> listRoleTags({
-    @_s.required String roleName,
-    String marker,
-    int maxItems,
+    required String roleName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -7494,22 +7283,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7537,10 +7315,15 @@ class Iam {
 
   /// Lists the IAM roles that have the specified path prefix. If there are
   /// none, the operation returns an empty list. For more information about
-  /// roles, go to <a
+  /// roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with Roles</a>.
-  ///
+  /// with roles</a>.
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for a role, see <a>GetRole</a>.
+  /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
   ///
@@ -7579,20 +7362,15 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListRolesResponse> listRoles({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7605,11 +7383,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7629,12 +7402,100 @@ class Iam {
     return ListRolesResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified Security Assertion
+  /// Markup Language (SAML) identity provider. The returned list of tags is
+  /// sorted by tag key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
+  /// SAML 2.0-based federation</a>.
+  ///
+  /// For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  /// May throw [InvalidInputException].
+  ///
+  /// Parameter [sAMLProviderArn] :
+  /// The ARN of the Security Assertion Markup Language (SAML) identity provider
+  /// whose tags you want to see.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListSAMLProviderTagsResponse> listSAMLProviderTags({
+    required String sAMLProviderArn,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
+    _s.validateStringLength(
+      'sAMLProviderArn',
+      sAMLProviderArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      320,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, dynamic>{};
+    $request['SAMLProviderArn'] = sAMLProviderArn;
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxItems?.also((arg) => $request['MaxItems'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListSAMLProviderTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListSAMLProviderTagsRequest'],
+      shapes: shapes,
+      resultWrapper: 'ListSAMLProviderTagsResult',
+    );
+    return ListSAMLProviderTagsResponse.fromXml($result);
+  }
+
   /// Lists the SAML provider resource objects defined in IAM in the account.
-  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for a SAML provider, see <a>GetSAMLProvider</a>.
+  /// <important>
   /// This operation requires <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
   /// Version 4</a>.
-  /// </note>
+  /// </important>
   ///
   /// May throw [ServiceFailureException].
   Future<ListSAMLProvidersResponse> listSAMLProviders() async {
@@ -7657,12 +7518,11 @@ class Iam {
   /// specified IAM user. If none exists, the operation returns an empty list.
   ///
   /// The SSH public keys returned by this operation are used only for
-  /// authenticating the IAM user to an AWS CodeCommit repository. For more
-  /// information about using SSH keys to authenticate to an AWS CodeCommit
+  /// authenticating the IAM user to an CodeCommit repository. For more
+  /// information about using SSH keys to authenticate to an CodeCommit
   /// repository, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User
-  /// Guide</i>.
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
   ///
   /// Although each user is limited to a small number of keys, you can still
   /// paginate the results using the <code>MaxItems</code> and
@@ -7692,27 +7552,22 @@ class Iam {
   /// Parameter [userName] :
   /// The name of the IAM user to list SSH public keys for. If none is
   /// specified, the <code>UserName</code> field is determined implicitly based
-  /// on the AWS access key used to sign the request.
+  /// on the Amazon Web Services access key used to sign the request.
   ///
   /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListSSHPublicKeysResponse> listSSHPublicKeys({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7725,11 +7580,6 @@ class Iam {
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7749,6 +7599,92 @@ class Iam {
     return ListSSHPublicKeysResponse.fromXml($result);
   }
 
+  /// Lists the tags that are attached to the specified IAM server certificate.
+  /// The returned list of tags is sorted by tag key. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// For certificates in a Region supported by Certificate Manager (ACM), we
+  /// recommend that you don't use IAM server certificates. Instead, use ACM to
+  /// provision, manage, and deploy your server certificates. For more
+  /// information about IAM server certificates, <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+  /// with server certificates</a> in the <i>IAM User Guide</i>.
+  /// </note>
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serverCertificateName] :
+  /// The name of the IAM server certificate whose tags you want to see.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [marker] :
+  /// Use this parameter only when paginating results and only after you receive
+  /// a response indicating that the results are truncated. Set it to the value
+  /// of the <code>Marker</code> element in the response that you received to
+  /// indicate where the next call should start.
+  ///
+  /// Parameter [maxItems] :
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
+  ///
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
+  Future<ListServerCertificateTagsResponse> listServerCertificateTags({
+    required String serverCertificateName,
+    String? marker,
+    int? maxItems,
+  }) async {
+    ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
+    _s.validateStringLength(
+      'serverCertificateName',
+      serverCertificateName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      320,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      1000,
+    );
+    final $request = <String, dynamic>{};
+    $request['ServerCertificateName'] = serverCertificateName;
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxItems?.also((arg) => $request['MaxItems'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ListServerCertificateTags',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ListServerCertificateTagsRequest'],
+      shapes: shapes,
+      resultWrapper: 'ListServerCertificateTagsResult',
+    );
+    return ListServerCertificateTagsResponse.fromXml($result);
+  }
+
   /// Lists the server certificates stored in IAM that have the specified path
   /// prefix. If none exist, the operation returns an empty list.
   ///
@@ -7757,9 +7693,16 @@ class Iam {
   ///
   /// For more information about working with server certificates, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
-  /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also
-  /// includes a list of AWS services that can use the server certificates that
-  /// you manage with IAM.
+  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic also
+  /// includes a list of Amazon Web Services services that can use the server
+  /// certificates that you manage with IAM.
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for a servercertificate, see
+  /// <a>GetServerCertificate</a>.
+  /// </note>
   ///
   /// May throw [ServiceFailureException].
   ///
@@ -7796,20 +7739,15 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListServerCertificatesResponse> listServerCertificates({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7822,11 +7760,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -7851,17 +7784,17 @@ class Iam {
   /// list. The service-specific credentials returned by this operation are used
   /// only for authenticating the IAM user to a specific service. For more
   /// information about using service-specific credentials to authenticate to an
-  /// AWS service, see <a
+  /// Amazon Web Services service, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">Set
-  /// Up service-specific credentials</a> in the AWS CodeCommit User Guide.
+  /// up service-specific credentials</a> in the CodeCommit User Guide.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceNotSupportedException].
   ///
   /// Parameter [serviceName] :
-  /// Filters the returned results to only those for the specified AWS service.
-  /// If not specified, then AWS returns service-specific credentials for all
-  /// services.
+  /// Filters the returned results to only those for the specified Amazon Web
+  /// Services service. If not specified, then Amazon Web Services returns
+  /// service-specific credentials for all services.
   ///
   /// Parameter [userName] :
   /// The name of the user whose service-specific credentials you want
@@ -7874,19 +7807,14 @@ class Iam {
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListServiceSpecificCredentialsResponse>
       listServiceSpecificCredentials({
-    String serviceName,
-    String userName,
+    String? serviceName,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     serviceName?.also((arg) => $request['ServiceName'] = arg);
@@ -7913,10 +7841,10 @@ class Iam {
   /// <code>Marker</code> parameters.
   ///
   /// If the <code>UserName</code> field is not specified, the user name is
-  /// determined implicitly based on the AWS access key ID used to sign the
-  /// request for this API. This operation works for access keys under the AWS
-  /// account. Consequently, you can use this operation to manage AWS account
-  /// root user credentials even if the AWS account has no associated users.
+  /// determined implicitly based on the Amazon Web Services access key ID used
+  /// to sign the request for this operation. This operation works for access
+  /// keys under the account. Consequently, you can use this operation to manage
+  /// account root user credentials even if the account has no associated users.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -7948,20 +7876,15 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ListSigningCertificatesResponse> listSigningCertificates({
-    String marker,
-    int maxItems,
-    String userName,
+    String? marker,
+    int? maxItems,
+    String? userName,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -7974,11 +7897,6 @@ class Iam {
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -8005,7 +7923,7 @@ class Iam {
   /// <a>ListAttachedUserPolicies</a>. For more information about policies, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters. If there are no inline policies embedded
@@ -8041,9 +7959,9 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListUserPoliciesResponse> listUserPolicies({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
+    required String userName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8053,22 +7971,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8094,10 +8001,11 @@ class Iam {
     return ListUserPoliciesResponse.fromXml($result);
   }
 
-  /// Lists the tags that are attached to the specified user. The returned list
-  /// of tags is sorted by tag key. For more information about tagging, see <a
+  /// Lists the tags that are attached to the specified IAM user. The returned
+  /// list of tags is sorted by tag key. For more information about tagging, see
+  /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ServiceFailureException].
@@ -8105,11 +8013,10 @@ class Iam {
   /// Parameter [userName] :
   /// The name of the IAM user whose tags you want to see.
   ///
-  /// This parameter accepts (through its <a
+  /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters that consist of upper and lowercase alphanumeric characters
-  /// with no spaces. You can also include any of the following characters:
-  /// =,.@-
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
   ///
   /// Parameter [marker] :
   /// Use this parameter only when paginating results and only after you receive
@@ -8118,20 +8025,21 @@ class Iam {
   /// indicate where the next call should start.
   ///
   /// Parameter [maxItems] :
-  /// (Optional) Use this only when paginating results to indicate the maximum
-  /// number of items that you want in the response. If additional items exist
-  /// beyond the maximum that you specify, the <code>IsTruncated</code> response
-  /// element is <code>true</code>.
+  /// Use this only when paginating results to indicate the maximum number of
+  /// items you want in the response. If additional items exist beyond the
+  /// maximum you specify, the <code>IsTruncated</code> response element is
+  /// <code>true</code>.
   ///
-  /// If you do not include this parameter, it defaults to 100. Note that IAM
-  /// might return fewer results, even when more results are available. In that
-  /// case, the <code>IsTruncated</code> response element returns
-  /// <code>true</code>, and <code>Marker</code> contains a value to include in
-  /// the subsequent call that tells the service where to continue from.
+  /// If you do not include this parameter, the number of items defaults to 100.
+  /// Note that IAM might return fewer results, even when there are more results
+  /// available. In that case, the <code>IsTruncated</code> response element
+  /// returns <code>true</code>, and <code>Marker</code> contains a value to
+  /// include in the subsequent call that tells the service where to continue
+  /// from.
   Future<ListUserTagsResponse> listUserTags({
-    @_s.required String userName,
-    String marker,
-    int maxItems,
+    required String userName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -8141,22 +8049,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8183,9 +8080,14 @@ class Iam {
   }
 
   /// Lists the IAM users that have the specified path prefix. If no path prefix
-  /// is specified, the operation returns all users in the AWS account. If there
-  /// are none, the operation returns an empty list.
-  ///
+  /// is specified, the operation returns all users in the account. If there are
+  /// none, the operation returns an empty list.
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for a user, see <a>GetUser</a>.
+  /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
   ///
@@ -8224,20 +8126,15 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<ListUsersResponse> listUsers({
-    String marker,
-    int maxItems,
-    String pathPrefix,
+    String? marker,
+    int? maxItems,
+    String? pathPrefix,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8250,11 +8147,6 @@ class Iam {
       pathPrefix,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'pathPrefix',
-      pathPrefix,
-      r'''\u002F[\u0021-\u007F]*''',
     );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -8274,11 +8166,17 @@ class Iam {
     return ListUsersResponse.fromXml($result);
   }
 
-  /// Lists the virtual MFA devices defined in the AWS account by assignment
-  /// status. If you do not specify an assignment status, the operation returns
-  /// a list of all virtual MFA devices. Assignment status can be
+  /// Lists the virtual MFA devices defined in the account by assignment status.
+  /// If you do not specify an assignment status, the operation returns a list
+  /// of all virtual MFA devices. Assignment status can be
   /// <code>Assigned</code>, <code>Unassigned</code>, or <code>Any</code>.
-  ///
+  /// <note>
+  /// IAM resource-listing operations return a subset of the available
+  /// attributes for the resource. For example, this operation does not return
+  /// tags, even though they are an attribute of the returned object. To view
+  /// all of the information for a virtual MFA device, see
+  /// <a>ListVirtualMFADevices</a>.
+  /// </note>
   /// You can paginate the results using the <code>MaxItems</code> and
   /// <code>Marker</code> parameters.
   ///
@@ -8307,20 +8205,15 @@ class Iam {
   /// include in the subsequent call that tells the service where to continue
   /// from.
   Future<ListVirtualMFADevicesResponse> listVirtualMFADevices({
-    AssignmentStatusType assignmentStatus,
-    String marker,
-    int maxItems,
+    AssignmentStatusType? assignmentStatus,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -8354,18 +8247,18 @@ class Iam {
   /// policy to a group, use <a>AttachGroupPolicy</a>. To create a new managed
   /// policy, use <a>CreatePolicy</a>. For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// For information about limits on the number of inline policies that you can
+  /// For information about the maximum number of inline policies that you can
   /// embed in a group, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// Because policy documents can be large, you should use POST rather than GET
   /// when calling <code>PutGroupPolicy</code>. For general information about
-  /// using the Query API with IAM, go to <a
+  /// using the Query API with IAM, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
-  /// Query Requests</a> in the <i>IAM User Guide</i>.
+  /// query requests</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
   /// May throw [LimitExceededException].
@@ -8384,10 +8277,10 @@ class Iam {
   /// Parameter [policyDocument] :
   /// The policy document.
   ///
-  /// You must provide policies in JSON format in IAM. However, for AWS
+  /// You must provide policies in JSON format in IAM. However, for
   /// CloudFormation templates formatted in YAML, you can provide the policy in
-  /// JSON or YAML format. AWS CloudFormation always converts a YAML policy to
-  /// JSON format before submitting it to IAM.
+  /// JSON or YAML format. CloudFormation always converts a YAML policy to JSON
+  /// format before submitting it to = IAM.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -8416,9 +8309,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> putGroupPolicy({
-    @_s.required String groupName,
-    @_s.required String policyDocument,
-    @_s.required String policyName,
+    required String groupName,
+    required String policyDocument,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -8426,12 +8319,6 @@ class Iam {
       groupName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
@@ -8442,24 +8329,12 @@ class Iam {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(policyName, 'policyName');
     _s.validateStringLength(
       'policyName',
       policyName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8479,10 +8354,11 @@ class Iam {
   }
 
   /// Adds or updates the policy that is specified as the IAM role's permissions
-  /// boundary. You can use an AWS managed policy or a customer managed policy
-  /// to set the boundary for a role. Use the boundary to control the maximum
-  /// permissions that the role can have. Setting a permissions boundary is an
-  /// advanced feature that can affect the permissions for the role.
+  /// boundary. You can use an Amazon Web Services managed policy or a customer
+  /// managed policy to set the boundary for a role. Use the boundary to control
+  /// the maximum permissions that the role can have. Setting a permissions
+  /// boundary is an advanced feature that can affect the permissions for the
+  /// role.
   ///
   /// You cannot set the boundary for a service-linked role.
   /// <important>
@@ -8490,7 +8366,7 @@ class Iam {
   /// must also attach a permissions policy to the role. To learn how the
   /// effective permissions for a role are evaluated, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
-  /// JSON Policy Evaluation Logic</a> in the IAM User Guide.
+  /// JSON policy evaluation logic</a> in the IAM User Guide.
   /// </important>
   ///
   /// May throw [NoSuchEntityException].
@@ -8507,8 +8383,8 @@ class Iam {
   /// The name (friendly name, not ARN) of the IAM role for which you want to
   /// set the permissions boundary.
   Future<void> putRolePermissionsBoundary({
-    @_s.required String permissionsBoundary,
-    @_s.required String roleName,
+    required String permissionsBoundary,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
     _s.validateStringLength(
@@ -8524,12 +8400,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8554,26 +8424,26 @@ class Iam {
   /// part of the role's access (permissions) policy. The role's trust policy is
   /// created at the same time as the role, using <a>CreateRole</a>. You can
   /// update a role's trust policy using <a>UpdateAssumeRolePolicy</a>. For more
-  /// information about IAM roles, go to <a
+  /// information about IAM roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
-  /// Roles to Delegate Permissions and Federate Identities</a>.
+  /// roles to delegate permissions and federate identities</a>.
   ///
   /// A role can also have a managed policy attached to it. To attach a managed
   /// policy to a role, use <a>AttachRolePolicy</a>. To create a new managed
   /// policy, use <a>CreatePolicy</a>. For information about policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// For information about limits on the number of inline policies that you can
+  /// For information about the maximum number of inline policies that you can
   /// embed with a role, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// Because policy documents can be large, you should use POST rather than GET
   /// when calling <code>PutRolePolicy</code>. For general information about
-  /// using the Query API with IAM, go to <a
+  /// using the Query API with IAM, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
-  /// Query Requests</a> in the <i>IAM User Guide</i>.
+  /// query requests</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
   /// May throw [LimitExceededException].
@@ -8585,10 +8455,10 @@ class Iam {
   /// Parameter [policyDocument] :
   /// The policy document.
   ///
-  /// You must provide policies in JSON format in IAM. However, for AWS
+  /// You must provide policies in JSON format in IAM. However, for
   /// CloudFormation templates formatted in YAML, you can provide the policy in
-  /// JSON or YAML format. AWS CloudFormation always converts a YAML policy to
-  /// JSON format before submitting it to IAM.
+  /// JSON or YAML format. CloudFormation always converts a YAML policy to JSON
+  /// format before submitting it to IAM.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -8625,9 +8495,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> putRolePolicy({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    @_s.required String roleName,
+    required String policyDocument,
+    required String policyName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -8635,12 +8505,6 @@ class Iam {
       policyDocument,
       1,
       131072,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -8651,24 +8515,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8688,16 +8540,17 @@ class Iam {
   }
 
   /// Adds or updates the policy that is specified as the IAM user's permissions
-  /// boundary. You can use an AWS managed policy or a customer managed policy
-  /// to set the boundary for a user. Use the boundary to control the maximum
-  /// permissions that the user can have. Setting a permissions boundary is an
-  /// advanced feature that can affect the permissions for the user.
+  /// boundary. You can use an Amazon Web Services managed policy or a customer
+  /// managed policy to set the boundary for a user. Use the boundary to control
+  /// the maximum permissions that the user can have. Setting a permissions
+  /// boundary is an advanced feature that can affect the permissions for the
+  /// user.
   /// <important>
   /// Policies that are used as permissions boundaries do not provide
   /// permissions. You must also attach a permissions policy to the user. To
   /// learn how the effective permissions for a user are evaluated, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html">IAM
-  /// JSON Policy Evaluation Logic</a> in the IAM User Guide.
+  /// JSON policy evaluation logic</a> in the IAM User Guide.
   /// </important>
   ///
   /// May throw [NoSuchEntityException].
@@ -8713,8 +8566,8 @@ class Iam {
   /// The name (friendly name, not ARN) of the IAM user for which you want to
   /// set the permissions boundary.
   Future<void> putUserPermissionsBoundary({
-    @_s.required String permissionsBoundary,
-    @_s.required String userName,
+    required String permissionsBoundary,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(permissionsBoundary, 'permissionsBoundary');
     _s.validateStringLength(
@@ -8730,12 +8583,6 @@ class Iam {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8761,18 +8608,18 @@ class Iam {
   /// managed policy, use <a>CreatePolicy</a>. For information about policies,
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
-  /// For information about limits on the number of inline policies that you can
+  /// For information about the maximum number of inline policies that you can
   /// embed in a user, see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html">Limitations
-  /// on IAM Entities</a> in the <i>IAM User Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// Because policy documents can be large, you should use POST rather than GET
   /// when calling <code>PutUserPolicy</code>. For general information about
-  /// using the Query API with IAM, go to <a
+  /// using the Query API with IAM, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
-  /// Query Requests</a> in the <i>IAM User Guide</i>.
+  /// query requests</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
   /// May throw [LimitExceededException].
@@ -8783,10 +8630,10 @@ class Iam {
   /// Parameter [policyDocument] :
   /// The policy document.
   ///
-  /// You must provide policies in JSON format in IAM. However, for AWS
+  /// You must provide policies in JSON format in IAM. However, for
   /// CloudFormation templates formatted in YAML, you can provide the policy in
-  /// JSON or YAML format. AWS CloudFormation always converts a YAML policy to
-  /// JSON format before submitting it to IAM.
+  /// JSON or YAML format. CloudFormation always converts a YAML policy to JSON
+  /// format before submitting it to IAM.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -8823,9 +8670,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> putUserPolicy({
-    @_s.required String policyDocument,
-    @_s.required String policyName,
-    @_s.required String userName,
+    required String policyDocument,
+    required String policyName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -8833,12 +8680,6 @@ class Iam {
       policyDocument,
       1,
       131072,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -8849,24 +8690,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyName',
-      policyName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -8908,11 +8737,11 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<void> removeClientIDFromOpenIDConnectProvider({
-    @_s.required String clientID,
-    @_s.required String openIDConnectProviderArn,
+    required String clientID,
+    required String openIDConnectProviderArn,
   }) async {
     ArgumentError.checkNotNull(clientID, 'clientID');
     _s.validateStringLength(
@@ -8953,11 +8782,11 @@ class Iam {
   /// from an instance profile that is associated with a running instance might
   /// break any applications running on the instance.
   /// </important>
-  /// For more information about IAM roles, go to <a
+  /// For more information about IAM roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Working
-  /// with Roles</a>. For more information about instance profiles, go to <a
+  /// with roles</a>. For more information about instance profiles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html">About
-  /// Instance Profiles</a>.
+  /// instance profiles</a>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -8980,8 +8809,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> removeRoleFromInstanceProfile({
-    @_s.required String instanceProfileName,
-    @_s.required String roleName,
+    required String instanceProfileName,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
     _s.validateStringLength(
@@ -8991,24 +8820,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'instanceProfileName',
-      instanceProfileName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -9048,8 +8865,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> removeUserFromGroup({
-    @_s.required String groupName,
-    @_s.required String userName,
+    required String groupName,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -9059,24 +8876,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -9095,9 +8900,9 @@ class Iam {
   }
 
   /// Resets the password for a service-specific credential. The new password is
-  /// AWS generated and cryptographically strong. It cannot be configured by the
-  /// user. Resetting the password immediately invalidates the previous password
-  /// associated with this user.
+  /// Amazon Web Services generated and cryptographically strong. It cannot be
+  /// configured by the user. Resetting the password immediately invalidates the
+  /// previous password associated with this user.
   ///
   /// May throw [NoSuchEntityException].
   ///
@@ -9119,8 +8924,8 @@ class Iam {
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<ResetServiceSpecificCredentialResponse>
       resetServiceSpecificCredential({
-    @_s.required String serviceSpecificCredentialId,
-    String userName,
+    required String serviceSpecificCredentialId,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
@@ -9131,22 +8936,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
@@ -9166,12 +8960,12 @@ class Iam {
   }
 
   /// Synchronizes the specified MFA device with its IAM resource object on the
-  /// AWS servers.
+  /// Amazon Web Services servers.
   ///
   /// For more information about creating and working with virtual MFA devices,
-  /// go to <a
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html">Using
-  /// a Virtual MFA Device</a> in the <i>IAM User Guide</i>.
+  /// a virtual MFA device</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [InvalidAuthenticationCodeException].
   /// May throw [NoSuchEntityException].
@@ -9204,10 +8998,10 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> resyncMFADevice({
-    @_s.required String authenticationCode1,
-    @_s.required String authenticationCode2,
-    @_s.required String serialNumber,
-    @_s.required String userName,
+    required String authenticationCode1,
+    required String authenticationCode2,
+    required String serialNumber,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(authenticationCode1, 'authenticationCode1');
     _s.validateStringLength(
@@ -9215,12 +9009,6 @@ class Iam {
       authenticationCode1,
       6,
       6,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'authenticationCode1',
-      authenticationCode1,
-      r'''[\d]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(authenticationCode2, 'authenticationCode2');
@@ -9231,12 +9019,6 @@ class Iam {
       6,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'authenticationCode2',
-      authenticationCode2,
-      r'''[\d]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serialNumber, 'serialNumber');
     _s.validateStringLength(
       'serialNumber',
@@ -9245,24 +9027,12 @@ class Iam {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serialNumber',
-      serialNumber,
-      r'''[\w+=/:,.@-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -9287,11 +9057,11 @@ class Iam {
   ///
   /// This operation affects all users, groups, and roles that the policy is
   /// attached to. To list the users, groups, and roles that the policy is
-  /// attached to, use the <a>ListEntitiesForPolicy</a> API.
+  /// attached to, use <a>ListEntitiesForPolicy</a>.
   ///
   /// For information about managed policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -9304,7 +9074,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [versionId] :
@@ -9312,10 +9082,10 @@ class Iam {
   ///
   /// For more information about managed policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
   Future<void> setDefaultPolicyVersion({
-    @_s.required String policyArn,
-    @_s.required String versionId,
+    required String policyArn,
+    required String versionId,
   }) async {
     ArgumentError.checkNotNull(policyArn, 'policyArn');
     _s.validateStringLength(
@@ -9326,12 +9096,6 @@ class Iam {
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''v[1-9][0-9]*(\.[A-Za-z0-9-]*)?''',
-      isRequired: true,
-    );
     final $request = <String, dynamic>{};
     $request['PolicyArn'] = policyArn;
     $request['VersionId'] = versionId;
@@ -9348,27 +9112,28 @@ class Iam {
   }
 
   /// Sets the specified version of the global endpoint token as the token
-  /// version used for the AWS account.
+  /// version used for the account.
   ///
-  /// By default, AWS Security Token Service (STS) is available as a global
-  /// service, and all STS requests go to a single endpoint at
-  /// <code>https://sts.amazonaws.com</code>. AWS recommends using Regional STS
-  /// endpoints to reduce latency, build in redundancy, and increase session
-  /// token availability. For information about Regional endpoints for STS, see
-  /// <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#sts_region">AWS
-  /// Regions and Endpoints</a> in the <i>AWS General Reference</i>.
+  /// By default, Security Token Service (STS) is available as a global service,
+  /// and all STS requests go to a single endpoint at
+  /// <code>https://sts.amazonaws.com</code>. Amazon Web Services recommends
+  /// using Regional STS endpoints to reduce latency, build in redundancy, and
+  /// increase session token availability. For information about Regional
+  /// endpoints for STS, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/sts.html">Security
+  /// Token Service endpoints and quotas</a> in the <i>Amazon Web Services
+  /// General Reference</i>.
   ///
   /// If you make an STS call to the global endpoint, the resulting session
   /// tokens might be valid in some Regions but not others. It depends on the
   /// version that is set in this operation. Version 1 tokens are valid only in
-  /// AWS Regions that are available by default. These tokens do not work in
+  /// Regions that are available by default. These tokens do not work in
   /// manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2
   /// tokens are valid in all Regions. However, version 2 tokens are longer and
   /// might affect systems where you temporarily store tokens. For information,
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and Deactivating STS in an AWS Region</a> in the <i>IAM User Guide</i>.
+  /// and deactivating STS in an Region</a> in the <i>IAM User Guide</i>.
   ///
   /// To view the current session token version, see the
   /// <code>GlobalEndpointTokenVersion</code> entry in the response of the
@@ -9378,16 +9143,16 @@ class Iam {
   ///
   /// Parameter [globalEndpointTokenVersion] :
   /// The version of the global endpoint token. Version 1 tokens are valid only
-  /// in AWS Regions that are available by default. These tokens do not work in
+  /// in Regions that are available by default. These tokens do not work in
   /// manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2
   /// tokens are valid in all Regions. However, version 2 tokens are longer and
   /// might affect systems where you temporarily store tokens.
   ///
   /// For information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html">Activating
-  /// and Deactivating STS in an AWS Region</a> in the <i>IAM User Guide</i>.
+  /// and deactivating STS in an Region</a> in the <i>IAM User Guide</i>.
   Future<void> setSecurityTokenServicePreferences({
-    @_s.required GlobalEndpointTokenVersion globalEndpointTokenVersion,
+    required GlobalEndpointTokenVersion globalEndpointTokenVersion,
   }) async {
     ArgumentError.checkNotNull(
         globalEndpointTokenVersion, 'globalEndpointTokenVersion');
@@ -9407,24 +9172,31 @@ class Iam {
   }
 
   /// Simulate how a set of IAM policies and optionally a resource-based policy
-  /// works with a list of API operations and AWS resources to determine the
-  /// policies' effective permissions. The policies are provided as strings.
+  /// works with a list of API operations and Amazon Web Services resources to
+  /// determine the policies' effective permissions. The policies are provided
+  /// as strings.
   ///
   /// The simulation does not perform the API operations; it only checks the
   /// authorization to determine if the simulated policies allow or deny the
-  /// operations.
+  /// operations. You can simulate resources that don't exist in your account.
   ///
   /// If you want to simulate existing policies that are attached to an IAM
   /// user, group, or role, use <a>SimulatePrincipalPolicy</a> instead.
   ///
-  /// Context keys are variables that are maintained by AWS and its services and
-  /// which provide details about the context of an API query request. You can
-  /// use the <code>Condition</code> element of an IAM policy to evaluate
-  /// context keys. To get the list of context keys that the policies require
-  /// for correct simulation, use <a>GetContextKeysForCustomPolicy</a>.
+  /// Context keys are variables that are maintained by Amazon Web Services and
+  /// its services and which provide details about the context of an API query
+  /// request. You can use the <code>Condition</code> element of an IAM policy
+  /// to evaluate context keys. To get the list of context keys that the
+  /// policies require for correct simulation, use
+  /// <a>GetContextKeysForCustomPolicy</a>.
   ///
   /// If the output is long, you can use <code>MaxItems</code> and
   /// <code>Marker</code> parameters to paginate the results.
+  ///
+  /// For more information about using the policy simulator, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html">Testing
+  /// IAM policies with the IAM policy simulator </a>in the <i>IAM User
+  /// Guide</i>.
   ///
   /// May throw [InvalidInputException].
   /// May throw [PolicyEvaluationException].
@@ -9447,6 +9219,12 @@ class Iam {
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_AssumeRole.html">AssumeRole</a>
   /// API operations. In other words, do not use policies designed to restrict
   /// what a user can do while using the temporary credentials.
+  ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -9506,9 +9284,15 @@ class Iam {
   /// only one permissions boundary when you pass a policy to this operation.
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Entities</a> in the <i>IAM User Guide</i>. The policy
+  /// boundaries for IAM entities</a> in the <i>IAM User Guide</i>. The policy
   /// input is specified as a string that contains the complete, valid JSON text
   /// of a permissions boundary policy.
+  ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -9530,12 +9314,13 @@ class Iam {
   /// </ul>
   ///
   /// Parameter [resourceArns] :
-  /// A list of ARNs of AWS resources to include in the simulation. If this
-  /// parameter is not provided, then the value defaults to <code>*</code> (all
-  /// resources). Each API in the <code>ActionNames</code> parameter is
-  /// evaluated for each resource in this list. The simulation determines the
-  /// access result (allowed or denied) of each combination and reports it in
-  /// the response.
+  /// A list of ARNs of Amazon Web Services resources to include in the
+  /// simulation. If this parameter is not provided, then the value defaults to
+  /// <code>*</code> (all resources). Each API in the <code>ActionNames</code>
+  /// parameter is evaluated for each resource in this list. The simulation
+  /// determines the access result (allowed or denied) of each combination and
+  /// reports it in the response. You can simulate resources that don't exist in
+  /// your account.
   ///
   /// The simulation does not automatically retrieve policies for the specified
   /// resources. If you want to include a resource policy in the simulation,
@@ -9548,7 +9333,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [resourceHandlingOption] :
@@ -9568,7 +9353,7 @@ class Iam {
   /// an IP subnet, then you must specify the subnet resource. For more
   /// information on the EC2 scenario options, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
-  /// Platforms</a> in the <i>Amazon EC2 User Guide</i>.
+  /// platforms</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// <ul>
   /// <li>
@@ -9604,7 +9389,7 @@ class Iam {
   /// </ul>
   ///
   /// Parameter [resourceOwner] :
-  /// An ARN representing the AWS account ID that specifies the owner of any
+  /// An ARN representing the account ID that specifies the owner of any
   /// simulated resource that does not identify its owner in the resource ARN.
   /// Examples of resource ARNs include an S3 bucket or object. If
   /// <code>ResourceOwner</code> is specified, it is also used as the account
@@ -9626,6 +9411,12 @@ class Iam {
   /// Each resource in the simulation is treated as if it had this policy
   /// attached. You can include only one resource-based policy in a simulation.
   ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
+  ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
   /// following:
@@ -9645,17 +9436,17 @@ class Iam {
   /// </li>
   /// </ul>
   Future<SimulatePolicyResponse> simulateCustomPolicy({
-    @_s.required List<String> actionNames,
-    @_s.required List<String> policyInputList,
-    String callerArn,
-    List<ContextEntry> contextEntries,
-    String marker,
-    int maxItems,
-    List<String> permissionsBoundaryPolicyInputList,
-    List<String> resourceArns,
-    String resourceHandlingOption,
-    String resourceOwner,
-    String resourcePolicy,
+    required List<String> actionNames,
+    required List<String> policyInputList,
+    String? callerArn,
+    List<ContextEntry>? contextEntries,
+    String? marker,
+    int? maxItems,
+    List<String>? permissionsBoundaryPolicyInputList,
+    List<String>? resourceArns,
+    String? resourceHandlingOption,
+    String? resourceOwner,
+    String? resourcePolicy,
   }) async {
     ArgumentError.checkNotNull(actionNames, 'actionNames');
     ArgumentError.checkNotNull(policyInputList, 'policyInputList');
@@ -9670,11 +9461,6 @@ class Iam {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -9699,11 +9485,6 @@ class Iam {
       resourcePolicy,
       1,
       131072,
-    );
-    _s.validateStringPattern(
-      'resourcePolicy',
-      resourcePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -9734,10 +9515,11 @@ class Iam {
   }
 
   /// Simulate how a set of IAM policies attached to an IAM entity works with a
-  /// list of API operations and AWS resources to determine the policies'
-  /// effective permissions. The entity can be an IAM user, group, or role. If
-  /// you specify a user, then the simulation also includes all of the policies
-  /// that are attached to groups that the user belongs to.
+  /// list of API operations and Amazon Web Services resources to determine the
+  /// policies' effective permissions. The entity can be an IAM user, group, or
+  /// role. If you specify a user, then the simulation also includes all of the
+  /// policies that are attached to groups that the user belongs to. You can
+  /// simulate resources that don't exist in your account.
   ///
   /// You can optionally include a list of one or more additional policies
   /// specified as strings to include in the simulation. If you want to simulate
@@ -9751,18 +9533,25 @@ class Iam {
   /// authorization to determine if the simulated policies allow or deny the
   /// operations.
   ///
-  /// <b>Note:</b> This API discloses information about the permissions granted
-  /// to other users. If you do not want users to see other user's permissions,
-  /// then consider allowing them to use <a>SimulateCustomPolicy</a> instead.
+  /// <b>Note:</b> This operation discloses information about the permissions
+  /// granted to other users. If you do not want users to see other user's
+  /// permissions, then consider allowing them to use
+  /// <a>SimulateCustomPolicy</a> instead.
   ///
-  /// Context keys are variables maintained by AWS and its services that provide
-  /// details about the context of an API query request. You can use the
-  /// <code>Condition</code> element of an IAM policy to evaluate context keys.
-  /// To get the list of context keys that the policies require for correct
-  /// simulation, use <a>GetContextKeysForPrincipalPolicy</a>.
+  /// Context keys are variables maintained by Amazon Web Services and its
+  /// services that provide details about the context of an API query request.
+  /// You can use the <code>Condition</code> element of an IAM policy to
+  /// evaluate context keys. To get the list of context keys that the policies
+  /// require for correct simulation, use
+  /// <a>GetContextKeysForPrincipalPolicy</a>.
   ///
   /// If the output is long, you can use the <code>MaxItems</code> and
   /// <code>Marker</code> parameters to paginate the results.
+  ///
+  /// For more information about using the policy simulator, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_testing-policies.html">Testing
+  /// IAM policies with the IAM policy simulator </a>in the <i>IAM User
+  /// Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [InvalidInputException].
@@ -9780,9 +9569,15 @@ class Iam {
   /// entity. If you specify a user, the simulation also includes all policies
   /// that are attached to any groups the user belongs to.
   ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
+  ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [callerArn] :
@@ -9808,7 +9603,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [contextEntries] :
@@ -9845,9 +9640,15 @@ class Iam {
   /// new permissions boundary policy is used for the simulation. For more
   /// information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Entities</a> in the <i>IAM User Guide</i>. The policy
+  /// boundaries for IAM entities</a> in the <i>IAM User Guide</i>. The policy
   /// input is specified as a string containing the complete, valid JSON text of
   /// a permissions boundary policy.
+  ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -9893,12 +9694,13 @@ class Iam {
   /// </ul>
   ///
   /// Parameter [resourceArns] :
-  /// A list of ARNs of AWS resources to include in the simulation. If this
-  /// parameter is not provided, then the value defaults to <code>*</code> (all
-  /// resources). Each API in the <code>ActionNames</code> parameter is
-  /// evaluated for each resource in this list. The simulation determines the
-  /// access result (allowed or denied) of each combination and reports it in
-  /// the response.
+  /// A list of ARNs of Amazon Web Services resources to include in the
+  /// simulation. If this parameter is not provided, then the value defaults to
+  /// <code>*</code> (all resources). Each API in the <code>ActionNames</code>
+  /// parameter is evaluated for each resource in this list. The simulation
+  /// determines the access result (allowed or denied) of each combination and
+  /// reports it in the response. You can simulate resources that don't exist in
+  /// your account.
   ///
   /// The simulation does not automatically retrieve policies for the specified
   /// resources. If you want to include a resource policy in the simulation,
@@ -9907,7 +9709,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [resourceHandlingOption] :
@@ -9927,7 +9729,7 @@ class Iam {
   /// an IP subnet, then you must specify the subnet resource. For more
   /// information on the EC2 scenario options, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html">Supported
-  /// Platforms</a> in the <i>Amazon EC2 User Guide</i>.
+  /// platforms</a> in the <i>Amazon EC2 User Guide</i>.
   ///
   /// <ul>
   /// <li>
@@ -9963,8 +9765,8 @@ class Iam {
   /// </ul>
   ///
   /// Parameter [resourceOwner] :
-  /// An AWS account ID that specifies the owner of any simulated resource that
-  /// does not identify its owner in the resource ARN. Examples of resource ARNs
+  /// An account ID that specifies the owner of any simulated resource that does
+  /// not identify its owner in the resource ARN. Examples of resource ARNs
   /// include an S3 bucket or object. If <code>ResourceOwner</code> is
   /// specified, it is also used as the account owner of any
   /// <code>ResourcePolicy</code> included in the simulation. If the
@@ -9979,6 +9781,12 @@ class Iam {
   /// A resource-based policy to include in the simulation provided as a string.
   /// Each resource in the simulation is treated as if it had this policy
   /// attached. You can include only one resource-based policy in a simulation.
+  ///
+  /// The maximum length of the policy document that you can pass in this
+  /// operation, including whitespace, is listed below. To view the maximum
+  /// character counts of a managed policy with no whitespaces, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length">IAM
+  /// and STS character quotas</a>.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -9999,18 +9807,18 @@ class Iam {
   /// </li>
   /// </ul>
   Future<SimulatePolicyResponse> simulatePrincipalPolicy({
-    @_s.required List<String> actionNames,
-    @_s.required String policySourceArn,
-    String callerArn,
-    List<ContextEntry> contextEntries,
-    String marker,
-    int maxItems,
-    List<String> permissionsBoundaryPolicyInputList,
-    List<String> policyInputList,
-    List<String> resourceArns,
-    String resourceHandlingOption,
-    String resourceOwner,
-    String resourcePolicy,
+    required List<String> actionNames,
+    required String policySourceArn,
+    String? callerArn,
+    List<ContextEntry>? contextEntries,
+    String? marker,
+    int? maxItems,
+    List<String>? permissionsBoundaryPolicyInputList,
+    List<String>? policyInputList,
+    List<String>? resourceArns,
+    String? resourceHandlingOption,
+    String? resourceOwner,
+    String? resourcePolicy,
   }) async {
     ArgumentError.checkNotNull(actionNames, 'actionNames');
     ArgumentError.checkNotNull(policySourceArn, 'policySourceArn');
@@ -10032,11 +9840,6 @@ class Iam {
       marker,
       1,
       320,
-    );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0020-\u00FF]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -10061,11 +9864,6 @@ class Iam {
       resourcePolicy,
       1,
       131072,
-    );
-    _s.validateStringPattern(
-      'resourcePolicy',
-      resourcePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{};
     $request['ActionNames'] = actionNames;
@@ -10096,6 +9894,351 @@ class Iam {
     return SimulatePolicyResponse.fromXml($result);
   }
 
+  /// Adds one or more tags to an IAM instance profile. If a tag with the same
+  /// key name already exists, then that tag is overwritten with the new value.
+  ///
+  /// Each tag consists of a key name and an associated value. By assigning tags
+  /// to your resources, you can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Administrative grouping and discovery</b> - Attach tags to resources to
+  /// aid in organization and search. For example, you could search for all
+  /// resources with the key name <i>Project</i> and the value
+  /// <i>MyImportantProject</i>. Or search for all resources with the key name
+  /// <i>Cost Center</i> and the value <i>41200</i>.
+  /// </li>
+  /// <li>
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only an IAM instance
+  /// profile that has a specified tag attached. For examples of policies that
+  /// show how to use tags to control access, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// </ul> <note>
+  /// <ul>
+  /// <li>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [instanceProfileName] :
+  /// The name of the IAM instance profile to which you want to add tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tags] :
+  /// The list of tags that you want to attach to the IAM instance profile. Each
+  /// tag consists of a key name and an associated value.
+  Future<void> tagInstanceProfile({
+    required String instanceProfileName,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
+    _s.validateStringLength(
+      'instanceProfileName',
+      instanceProfileName,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $request = <String, dynamic>{};
+    $request['InstanceProfileName'] = instanceProfileName;
+    $request['Tags'] = tags;
+    await _protocol.send(
+      $request,
+      action: 'TagInstanceProfile',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['TagInstanceProfileRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Adds one or more tags to an IAM virtual multi-factor authentication (MFA)
+  /// device. If a tag with the same key name already exists, then that tag is
+  /// overwritten with the new value.
+  ///
+  /// A tag consists of a key name and an associated value. By assigning tags to
+  /// your resources, you can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Administrative grouping and discovery</b> - Attach tags to resources to
+  /// aid in organization and search. For example, you could search for all
+  /// resources with the key name <i>Project</i> and the value
+  /// <i>MyImportantProject</i>. Or search for all resources with the key name
+  /// <i>Cost Center</i> and the value <i>41200</i>.
+  /// </li>
+  /// <li>
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only an IAM virtual MFA
+  /// device that has a specified tag attached. For examples of policies that
+  /// show how to use tags to control access, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// </ul> <note>
+  /// <ul>
+  /// <li>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [InvalidInputException].
+  /// May throw [NoSuchEntityException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serialNumber] :
+  /// The unique identifier for the IAM virtual MFA device to which you want to
+  /// add tags. For virtual MFA devices, the serial number is the same as the
+  /// ARN.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tags] :
+  /// The list of tags that you want to attach to the IAM virtual MFA device.
+  /// Each tag consists of a key name and an associated value.
+  Future<void> tagMFADevice({
+    required String serialNumber,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(serialNumber, 'serialNumber');
+    _s.validateStringLength(
+      'serialNumber',
+      serialNumber,
+      9,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $request = <String, dynamic>{};
+    $request['SerialNumber'] = serialNumber;
+    $request['Tags'] = tags;
+    await _protocol.send(
+      $request,
+      action: 'TagMFADevice',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['TagMFADeviceRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Adds one or more tags to an OpenID Connect (OIDC)-compatible identity
+  /// provider. For more information about these providers, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html">About
+  /// web identity federation</a>. If a tag with the same key name already
+  /// exists, then that tag is overwritten with the new value.
+  ///
+  /// A tag consists of a key name and an associated value. By assigning tags to
+  /// your resources, you can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Administrative grouping and discovery</b> - Attach tags to resources to
+  /// aid in organization and search. For example, you could search for all
+  /// resources with the key name <i>Project</i> and the value
+  /// <i>MyImportantProject</i>. Or search for all resources with the key name
+  /// <i>Cost Center</i> and the value <i>41200</i>.
+  /// </li>
+  /// <li>
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only an OIDC provider
+  /// that has a specified tag attached. For examples of policies that show how
+  /// to use tags to control access, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// </ul> <note>
+  /// <ul>
+  /// <li>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [openIDConnectProviderArn] :
+  /// The ARN of the OIDC identity provider in IAM to which you want to add
+  /// tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tags] :
+  /// The list of tags that you want to attach to the OIDC identity provider in
+  /// IAM. Each tag consists of a key name and an associated value.
+  Future<void> tagOpenIDConnectProvider({
+    required String openIDConnectProviderArn,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(
+        openIDConnectProviderArn, 'openIDConnectProviderArn');
+    _s.validateStringLength(
+      'openIDConnectProviderArn',
+      openIDConnectProviderArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $request = <String, dynamic>{};
+    $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
+    $request['Tags'] = tags;
+    await _protocol.send(
+      $request,
+      action: 'TagOpenIDConnectProvider',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['TagOpenIDConnectProviderRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Adds one or more tags to an IAM customer managed policy. If a tag with the
+  /// same key name already exists, then that tag is overwritten with the new
+  /// value.
+  ///
+  /// A tag consists of a key name and an associated value. By assigning tags to
+  /// your resources, you can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Administrative grouping and discovery</b> - Attach tags to resources to
+  /// aid in organization and search. For example, you could search for all
+  /// resources with the key name <i>Project</i> and the value
+  /// <i>MyImportantProject</i>. Or search for all resources with the key name
+  /// <i>Cost Center</i> and the value <i>41200</i>.
+  /// </li>
+  /// <li>
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only an IAM customer
+  /// managed policy that has a specified tag attached. For examples of policies
+  /// that show how to use tags to control access, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// </ul> <note>
+  /// <ul>
+  /// <li>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [policyArn] :
+  /// The ARN of the IAM customer managed policy to which you want to add tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tags] :
+  /// The list of tags that you want to attach to the IAM customer managed
+  /// policy. Each tag consists of a key name and an associated value.
+  Future<void> tagPolicy({
+    required String policyArn,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(policyArn, 'policyArn');
+    _s.validateStringLength(
+      'policyArn',
+      policyArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $request = <String, dynamic>{};
+    $request['PolicyArn'] = policyArn;
+    $request['Tags'] = tags;
+    await _protocol.send(
+      $request,
+      action: 'TagPolicy',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['TagPolicyRequest'],
+      shapes: shapes,
+    );
+  }
+
   /// Adds one or more tags to an IAM role. The role can be a regular role or a
   /// service-linked role. If a tag with the same key name already exists, then
   /// that tag is overwritten with the new value.
@@ -10112,34 +10255,37 @@ class Iam {
   /// <i>Cost Center</i> and the value <i>41200</i>.
   /// </li>
   /// <li>
-  /// <b>Access control</b> - Reference tags in IAM user-based and
-  /// resource-based policies. You can use tags to restrict access to only an
-  /// IAM user or role that has a specified tag attached. You can also restrict
-  /// access to only those resources that have a certain tag attached. For
-  /// examples of policies that show how to use tags to control access, see <a
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only an IAM role that has
+  /// a specified tag attached. You can also restrict access to only those
+  /// resources that have a certain tag attached. For examples of policies that
+  /// show how to use tags to control access, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
-  /// Access Using IAM Tags</a> in the <i>IAM User Guide</i>.
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
   /// </li>
   /// <li>
   /// <b>Cost allocation</b> - Use tags to help track which individuals and
-  /// teams are using which AWS resources.
+  /// teams are using which Amazon Web Services resources.
   /// </li>
   /// </ul> <note>
   /// <ul>
   /// <li>
-  /// Make sure that you have no invalid tags and that you do not exceed the
-  /// allowed number of tags per role. In either case, the entire request fails
-  /// and <i>no</i> tags are added to the role.
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   /// </li>
   /// <li>
-  /// AWS always interprets the tag <code>Value</code> as a single string. If
-  /// you need to store an array, you can store comma-separated values in the
-  /// string. However, you must interpret the value in your code.
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
   /// </li>
   /// </ul> </note>
   /// For more information about tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM identities</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -10148,7 +10294,7 @@ class Iam {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [roleName] :
-  /// The name of the role that you want to add tags to.
+  /// The name of the IAM role to which you want to add tags.
   ///
   /// This parameter accepts (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
@@ -10157,12 +10303,11 @@ class Iam {
   /// _+=,.@-
   ///
   /// Parameter [tags] :
-  /// The list of tags that you want to attach to the role. Each tag consists of
-  /// a key name and an associated value. You can specify this with a JSON
-  /// string.
+  /// The list of tags that you want to attach to the IAM role. Each tag
+  /// consists of a key name and an associated value.
   Future<void> tagRole({
-    @_s.required String roleName,
-    @_s.required List<Tag> tags,
+    required String roleName,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10170,12 +10315,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -10190,6 +10329,189 @@ class Iam {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       shape: shapes['TagRoleRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Adds one or more tags to a Security Assertion Markup Language (SAML)
+  /// identity provider. For more information about these providers, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_saml.html">About
+  /// SAML 2.0-based federation </a>. If a tag with the same key name already
+  /// exists, then that tag is overwritten with the new value.
+  ///
+  /// A tag consists of a key name and an associated value. By assigning tags to
+  /// your resources, you can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Administrative grouping and discovery</b> - Attach tags to resources to
+  /// aid in organization and search. For example, you could search for all
+  /// resources with the key name <i>Project</i> and the value
+  /// <i>MyImportantProject</i>. Or search for all resources with the key name
+  /// <i>Cost Center</i> and the value <i>41200</i>.
+  /// </li>
+  /// <li>
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only a SAML identity
+  /// provider that has a specified tag attached. For examples of policies that
+  /// show how to use tags to control access, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// </ul> <note>
+  /// <ul>
+  /// <li>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sAMLProviderArn] :
+  /// The ARN of the SAML identity provider in IAM to which you want to add
+  /// tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tags] :
+  /// The list of tags that you want to attach to the SAML identity provider in
+  /// IAM. Each tag consists of a key name and an associated value.
+  Future<void> tagSAMLProvider({
+    required String sAMLProviderArn,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
+    _s.validateStringLength(
+      'sAMLProviderArn',
+      sAMLProviderArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $request = <String, dynamic>{};
+    $request['SAMLProviderArn'] = sAMLProviderArn;
+    $request['Tags'] = tags;
+    await _protocol.send(
+      $request,
+      action: 'TagSAMLProvider',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['TagSAMLProviderRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Adds one or more tags to an IAM server certificate. If a tag with the same
+  /// key name already exists, then that tag is overwritten with the new value.
+  /// <note>
+  /// For certificates in a Region supported by Certificate Manager (ACM), we
+  /// recommend that you don't use IAM server certificates. Instead, use ACM to
+  /// provision, manage, and deploy your server certificates. For more
+  /// information about IAM server certificates, <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+  /// with server certificates</a> in the <i>IAM User Guide</i>.
+  /// </note>
+  /// A tag consists of a key name and an associated value. By assigning tags to
+  /// your resources, you can do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Administrative grouping and discovery</b> - Attach tags to resources to
+  /// aid in organization and search. For example, you could search for all
+  /// resources with the key name <i>Project</i> and the value
+  /// <i>MyImportantProject</i>. Or search for all resources with the key name
+  /// <i>Cost Center</i> and the value <i>41200</i>.
+  /// </li>
+  /// <li>
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only a server certificate
+  /// that has a specified tag attached. For examples of policies that show how
+  /// to use tags to control access, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// <b>Cost allocation</b> - Use tags to help track which individuals and
+  /// teams are using which Amazon Web Services resources.
+  /// </li>
+  /// </ul> <note>
+  /// <ul>
+  /// <li>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// </li>
+  /// <li>
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [LimitExceededException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serverCertificateName] :
+  /// The name of the IAM server certificate to which you want to add tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tags] :
+  /// The list of tags that you want to attach to the IAM server certificate.
+  /// Each tag consists of a key name and an associated value.
+  Future<void> tagServerCertificate({
+    required String serverCertificateName,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
+    _s.validateStringLength(
+      'serverCertificateName',
+      serverCertificateName,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $request = <String, dynamic>{};
+    $request['ServerCertificateName'] = serverCertificateName;
+    $request['Tags'] = tags;
+    await _protocol.send(
+      $request,
+      action: 'TagServerCertificate',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['TagServerCertificateRequest'],
       shapes: shapes,
     );
   }
@@ -10209,35 +10531,37 @@ class Iam {
   /// <i>Cost Center</i> and the value <i>41200</i>.
   /// </li>
   /// <li>
-  /// <b>Access control</b> - Reference tags in IAM user-based and
-  /// resource-based policies. You can use tags to restrict access to only an
-  /// IAM requesting user or to a role that has a specified tag attached. You
-  /// can also restrict access to only those resources that have a certain tag
-  /// attached. For examples of policies that show how to use tags to control
-  /// access, see <a
+  /// <b>Access control</b> - Include tags in IAM user-based and resource-based
+  /// policies. You can use tags to restrict access to only an IAM requesting
+  /// user that has a specified tag attached. You can also restrict access to
+  /// only those resources that have a certain tag attached. For examples of
+  /// policies that show how to use tags to control access, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html">Control
-  /// Access Using IAM Tags</a> in the <i>IAM User Guide</i>.
+  /// access using IAM tags</a> in the <i>IAM User Guide</i>.
   /// </li>
   /// <li>
   /// <b>Cost allocation</b> - Use tags to help track which individuals and
-  /// teams are using which AWS resources.
+  /// teams are using which Amazon Web Services resources.
   /// </li>
   /// </ul> <note>
   /// <ul>
   /// <li>
-  /// Make sure that you have no invalid tags and that you do not exceed the
-  /// allowed number of tags per role. In either case, the entire request fails
-  /// and <i>no</i> tags are added to the role.
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   /// </li>
   /// <li>
-  /// AWS always interprets the tag <code>Value</code> as a single string. If
-  /// you need to store an array, you can store comma-separated values in the
-  /// string. However, you must interpret the value in your code.
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a
+  /// single string. If you need to store an array, you can store
+  /// comma-separated values in the string. However, you must interpret the
+  /// value in your code.
   /// </li>
   /// </ul> </note>
   /// For more information about tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM identities</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -10246,20 +10570,19 @@ class Iam {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [tags] :
-  /// The list of tags that you want to attach to the user. Each tag consists of
-  /// a key name and an associated value.
+  /// The list of tags that you want to attach to the IAM user. Each tag
+  /// consists of a key name and an associated value.
   ///
   /// Parameter [userName] :
-  /// The name of the user that you want to add tags to.
+  /// The name of the IAM user to which you want to add tags.
   ///
-  /// This parameter accepts (through its <a
+  /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters that consist of upper and lowercase alphanumeric characters
-  /// with no spaces. You can also include any of the following characters:
-  /// =,.@-
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> tagUser({
-    @_s.required List<Tag> tags,
-    @_s.required String userName,
+    required List<Tag> tags,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -10268,12 +10591,6 @@ class Iam {
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -10291,10 +10608,213 @@ class Iam {
     );
   }
 
+  /// Removes the specified tags from the IAM instance profile. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [instanceProfileName] :
+  /// The name of the IAM instance profile from which you want to remove tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of key names as a simple array of strings. The tags with matching
+  /// keys are removed from the specified instance profile.
+  Future<void> untagInstanceProfile({
+    required String instanceProfileName,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(instanceProfileName, 'instanceProfileName');
+    _s.validateStringLength(
+      'instanceProfileName',
+      instanceProfileName,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $request = <String, dynamic>{};
+    $request['InstanceProfileName'] = instanceProfileName;
+    $request['TagKeys'] = tagKeys;
+    await _protocol.send(
+      $request,
+      action: 'UntagInstanceProfile',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagInstanceProfileRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Removes the specified tags from the IAM virtual multi-factor
+  /// authentication (MFA) device. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serialNumber] :
+  /// The unique identifier for the IAM virtual MFA device from which you want
+  /// to remove tags. For virtual MFA devices, the serial number is the same as
+  /// the ARN.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of key names as a simple array of strings. The tags with matching
+  /// keys are removed from the specified instance profile.
+  Future<void> untagMFADevice({
+    required String serialNumber,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(serialNumber, 'serialNumber');
+    _s.validateStringLength(
+      'serialNumber',
+      serialNumber,
+      9,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $request = <String, dynamic>{};
+    $request['SerialNumber'] = serialNumber;
+    $request['TagKeys'] = tagKeys;
+    await _protocol.send(
+      $request,
+      action: 'UntagMFADevice',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagMFADeviceRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Removes the specified tags from the specified OpenID Connect
+  /// (OIDC)-compatible identity provider in IAM. For more information about
+  /// OIDC providers, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html">About
+  /// web identity federation</a>. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [openIDConnectProviderArn] :
+  /// The ARN of the OIDC provider in IAM from which you want to remove tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of key names as a simple array of strings. The tags with matching
+  /// keys are removed from the specified OIDC provider.
+  Future<void> untagOpenIDConnectProvider({
+    required String openIDConnectProviderArn,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(
+        openIDConnectProviderArn, 'openIDConnectProviderArn');
+    _s.validateStringLength(
+      'openIDConnectProviderArn',
+      openIDConnectProviderArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $request = <String, dynamic>{};
+    $request['OpenIDConnectProviderArn'] = openIDConnectProviderArn;
+    $request['TagKeys'] = tagKeys;
+    await _protocol.send(
+      $request,
+      action: 'UntagOpenIDConnectProvider',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagOpenIDConnectProviderRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Removes the specified tags from the customer managed policy. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [policyArn] :
+  /// The ARN of the IAM customer managed policy from which you want to remove
+  /// tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of key names as a simple array of strings. The tags with matching
+  /// keys are removed from the specified policy.
+  Future<void> untagPolicy({
+    required String policyArn,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(policyArn, 'policyArn');
+    _s.validateStringLength(
+      'policyArn',
+      policyArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $request = <String, dynamic>{};
+    $request['PolicyArn'] = policyArn;
+    $request['TagKeys'] = tagKeys;
+    await _protocol.send(
+      $request,
+      action: 'UntagPolicy',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagPolicyRequest'],
+      shapes: shapes,
+    );
+  }
+
   /// Removes the specified tags from the role. For more information about
   /// tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ConcurrentModificationException].
@@ -10313,8 +10833,8 @@ class Iam {
   /// A list of key names as a simple array of strings. The tags with matching
   /// keys are removed from the specified role.
   Future<void> untagRole({
-    @_s.required String roleName,
-    @_s.required List<String> tagKeys,
+    required String roleName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -10322,12 +10842,6 @@ class Iam {
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -10346,10 +10860,120 @@ class Iam {
     );
   }
 
+  /// Removes the specified tags from the specified Security Assertion Markup
+  /// Language (SAML) identity provider in IAM. For more information about these
+  /// providers, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_oidc.html">About
+  /// web identity federation</a>. For more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [sAMLProviderArn] :
+  /// The ARN of the SAML identity provider in IAM from which you want to remove
+  /// tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of key names as a simple array of strings. The tags with matching
+  /// keys are removed from the specified SAML identity provider.
+  Future<void> untagSAMLProvider({
+    required String sAMLProviderArn,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(sAMLProviderArn, 'sAMLProviderArn');
+    _s.validateStringLength(
+      'sAMLProviderArn',
+      sAMLProviderArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $request = <String, dynamic>{};
+    $request['SAMLProviderArn'] = sAMLProviderArn;
+    $request['TagKeys'] = tagKeys;
+    await _protocol.send(
+      $request,
+      action: 'UntagSAMLProvider',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagSAMLProviderRequest'],
+      shapes: shapes,
+    );
+  }
+
+  /// Removes the specified tags from the IAM server certificate. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// For certificates in a Region supported by Certificate Manager (ACM), we
+  /// recommend that you don't use IAM server certificates. Instead, use ACM to
+  /// provision, manage, and deploy your server certificates. For more
+  /// information about IAM server certificates, <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
+  /// with server certificates</a> in the <i>IAM User Guide</i>.
+  /// </note>
+  ///
+  /// May throw [NoSuchEntityException].
+  /// May throw [InvalidInputException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [ServiceFailureException].
+  ///
+  /// Parameter [serverCertificateName] :
+  /// The name of the IAM server certificate from which you want to remove tags.
+  ///
+  /// This parameter allows (through its <a
+  /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of key names as a simple array of strings. The tags with matching
+  /// keys are removed from the specified IAM server certificate.
+  Future<void> untagServerCertificate({
+    required String serverCertificateName,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
+    _s.validateStringLength(
+      'serverCertificateName',
+      serverCertificateName,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $request = <String, dynamic>{};
+    $request['ServerCertificateName'] = serverCertificateName;
+    $request['TagKeys'] = tagKeys;
+    await _protocol.send(
+      $request,
+      action: 'UntagServerCertificate',
+      version: '2010-05-08',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['UntagServerCertificateRequest'],
+      shapes: shapes,
+    );
+  }
+
   /// Removes the specified tags from the user. For more information about
   /// tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [ConcurrentModificationException].
@@ -10362,14 +10986,13 @@ class Iam {
   /// Parameter [userName] :
   /// The name of the IAM user from which you want to remove tags.
   ///
-  /// This parameter accepts (through its <a
+  /// This parameter allows (through its <a
   /// href="http://wikipedia.org/wiki/regex">regex pattern</a>) a string of
-  /// characters that consist of upper and lowercase alphanumeric characters
-  /// with no spaces. You can also include any of the following characters:
-  /// =,.@-
+  /// characters consisting of upper and lowercase alphanumeric characters with
+  /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> untagUser({
-    @_s.required List<String> tagKeys,
-    @_s.required String userName,
+    required List<String> tagKeys,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     ArgumentError.checkNotNull(userName, 'userName');
@@ -10378,12 +11001,6 @@ class Iam {
       userName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -10406,14 +11023,14 @@ class Iam {
   /// a key rotation workflow.
   ///
   /// If the <code>UserName</code> is not specified, the user name is determined
-  /// implicitly based on the AWS access key ID used to sign the request. This
-  /// operation works for access keys under the AWS account. Consequently, you
-  /// can use this operation to manage AWS account root user credentials even if
-  /// the AWS account has no associated users.
+  /// implicitly based on the Amazon Web Services access key ID used to sign the
+  /// request. This operation works for access keys under the account.
+  /// Consequently, you can use this operation to manage account root user
+  /// credentials even if the account has no associated users.
   ///
   /// For information about rotating keys, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html">Managing
-  /// Keys and Certificates</a> in the <i>IAM User Guide</i>.
+  /// keys and certificates</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -10428,8 +11045,9 @@ class Iam {
   ///
   /// Parameter [status] :
   /// The status you want to assign to the secret access key.
-  /// <code>Active</code> means that the key can be used for API calls to AWS,
-  /// while <code>Inactive</code> means that the key cannot be used.
+  /// <code>Active</code> means that the key can be used for programmatic calls
+  /// to Amazon Web Services, while <code>Inactive</code> means that the key
+  /// cannot be used.
   ///
   /// Parameter [userName] :
   /// The name of the user whose key you want to update.
@@ -10439,9 +11057,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateAccessKey({
-    @_s.required String accessKeyId,
-    @_s.required StatusType status,
-    String userName,
+    required String accessKeyId,
+    required StatusType status,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(accessKeyId, 'accessKeyId');
     _s.validateStringLength(
@@ -10451,23 +11069,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accessKeyId',
-      accessKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['AccessKeyId'] = accessKeyId;
@@ -10485,7 +11092,7 @@ class Iam {
     );
   }
 
-  /// Updates the password policy settings for the AWS account.
+  /// Updates the password policy settings for the account.
   /// <note>
   /// <ul>
   /// <li>
@@ -10500,7 +11107,7 @@ class Iam {
   /// </ul> </note>
   /// For more information about using a password policy, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html">Managing
-  /// an IAM Password Policy</a> in the <i>IAM User Guide</i>.
+  /// an IAM password policy</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [MalformedPolicyDocumentException].
@@ -10508,10 +11115,10 @@ class Iam {
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [allowUsersToChangePassword] :
-  /// Allows all IAM users in your account to use the AWS Management Console to
+  /// Allows all IAM users in your account to use the Management Console to
   /// change their own passwords. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/HowToPwdIAMUser.html">Letting
-  /// IAM Users Change Their Own Passwords</a> in the <i>IAM User Guide</i>.
+  /// IAM users change their own passwords</a> in the <i>IAM User Guide</i>.
   ///
   /// If you do not specify a value for this parameter, then the operation uses
   /// the default value of <code>false</code>. The result is that IAM users in
@@ -10583,15 +11190,15 @@ class Iam {
   /// the default value of <code>false</code>. The result is that passwords do
   /// not require at least one uppercase character.
   Future<void> updateAccountPasswordPolicy({
-    bool allowUsersToChangePassword,
-    bool hardExpiry,
-    int maxPasswordAge,
-    int minimumPasswordLength,
-    int passwordReusePrevention,
-    bool requireLowercaseCharacters,
-    bool requireNumbers,
-    bool requireSymbols,
-    bool requireUppercaseCharacters,
+    bool? allowUsersToChangePassword,
+    bool? hardExpiry,
+    int? maxPasswordAge,
+    int? minimumPasswordLength,
+    int? passwordReusePrevention,
+    bool? requireLowercaseCharacters,
+    bool? requireNumbers,
+    bool? requireSymbols,
+    bool? requireUppercaseCharacters,
   }) async {
     _s.validateNumRange(
       'maxPasswordAge',
@@ -10640,9 +11247,9 @@ class Iam {
 
   /// Updates the policy that grants an IAM entity permission to assume a role.
   /// This is typically referred to as the "role trust policy". For more
-  /// information about roles, go to <a
+  /// information about roles, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">Using
-  /// Roles to Delegate Permissions and Federate Identities</a>.
+  /// roles to delegate permissions and federate identities</a>.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [MalformedPolicyDocumentException].
@@ -10653,10 +11260,10 @@ class Iam {
   /// Parameter [policyDocument] :
   /// The policy that grants an entity permission to assume the role.
   ///
-  /// You must provide policies in JSON format in IAM. However, for AWS
+  /// You must provide policies in JSON format in IAM. However, for
   /// CloudFormation templates formatted in YAML, you can provide the policy in
-  /// JSON or YAML format. AWS CloudFormation always converts a YAML policy to
-  /// JSON format before submitting it to IAM.
+  /// JSON or YAML format. CloudFormation always converts a YAML policy to JSON
+  /// format before submitting it to IAM.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> used to
   /// validate this parameter is a string of characters consisting of the
@@ -10685,8 +11292,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateAssumeRolePolicy({
-    @_s.required String policyDocument,
-    @_s.required String roleName,
+    required String policyDocument,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     _s.validateStringLength(
@@ -10696,24 +11303,12 @@ class Iam {
       131072,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyDocument',
-      policyDocument,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -10736,7 +11331,7 @@ class Iam {
   /// You should understand the implications of changing a group's path or name.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html">Renaming
-  /// Users and Groups</a> in the <i>IAM User Guide</i>.
+  /// users and groups</a> in the <i>IAM User Guide</i>.
   /// </important> <note>
   /// The person making the request (the principal), must have permission to
   /// change the role group with the old name and the new name. For example, to
@@ -10746,7 +11341,7 @@ class Iam {
   /// but not the <code>MGRs</code> group, then the update fails. For more
   /// information about permissions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-  /// Management</a>.
+  /// management</a>.
   /// </note>
   ///
   /// May throw [NoSuchEntityException].
@@ -10783,9 +11378,9 @@ class Iam {
   /// character (<code>\u007F</code>), including most punctuation characters,
   /// digits, and upper and lowercased letters.
   Future<void> updateGroup({
-    @_s.required String groupName,
-    String newGroupName,
-    String newPath,
+    required String groupName,
+    String? newGroupName,
+    String? newPath,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     _s.validateStringLength(
@@ -10795,33 +11390,17 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'groupName',
-      groupName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'newGroupName',
       newGroupName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'newGroupName',
-      newGroupName,
-      r'''[\w+=,.@-]+''',
-    );
     _s.validateStringLength(
       'newPath',
       newPath,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
     );
     final $request = <String, dynamic>{};
     $request['GroupName'] = groupName;
@@ -10839,12 +11418,15 @@ class Iam {
     );
   }
 
-  /// Changes the password for the specified IAM user.
+  /// Changes the password for the specified IAM user. You can use the CLI, the
+  /// Amazon Web Services API, or the <b>Users</b> page in the IAM console to
+  /// change the password for any IAM user. Use <a>ChangePassword</a> to change
+  /// your own password in the <b>My Security Credentials</b> page in the
+  /// Management Console.
   ///
-  /// IAM users can change their own passwords by calling <a>ChangePassword</a>.
   /// For more information about modifying passwords, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html">Managing
-  /// Passwords</a> in the <i>IAM User Guide</i>.
+  /// passwords</a> in the <i>IAM User Guide</i>.
   ///
   /// May throw [EntityTemporarilyUnmodifiableException].
   /// May throw [NoSuchEntityException].
@@ -10882,16 +11464,16 @@ class Iam {
   /// </li>
   /// </ul>
   /// However, the format can be further restricted by the account administrator
-  /// by setting a password policy on the AWS account. For more information, see
+  /// by setting a password policy on the account. For more information, see
   /// <a>UpdateAccountPasswordPolicy</a>.
   ///
   /// Parameter [passwordResetRequired] :
   /// Allows this new password to be used only once by requiring the specified
   /// IAM user to set a new password on next sign-in.
   Future<void> updateLoginProfile({
-    @_s.required String userName,
-    String password,
-    bool passwordResetRequired,
+    required String userName,
+    String? password,
+    bool? passwordResetRequired,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -10901,22 +11483,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'password',
       password,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -10965,7 +11536,7 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   ///
   /// Parameter [thumbprintList] :
@@ -10973,8 +11544,8 @@ class Iam {
   /// IAM OpenID Connect provider. For more information, see
   /// <a>CreateOpenIDConnectProvider</a>.
   Future<void> updateOpenIDConnectProviderThumbprint({
-    @_s.required String openIDConnectProviderArn,
-    @_s.required List<String> thumbprintList,
+    required String openIDConnectProviderArn,
+    required List<String> thumbprintList,
   }) async {
     ArgumentError.checkNotNull(
         openIDConnectProviderArn, 'openIDConnectProviderArn');
@@ -11019,7 +11590,7 @@ class Iam {
   /// default maximum of one hour is applied. This setting can have a value from
   /// 1 hour to 12 hours.
   ///
-  /// Anyone who assumes the role from the AWS CLI or API can use the
+  /// Anyone who assumes the role from the CLI or API can use the
   /// <code>DurationSeconds</code> API parameter or the
   /// <code>duration-seconds</code> CLI parameter to request a longer session.
   /// The <code>MaxSessionDuration</code> setting determines the maximum
@@ -11031,11 +11602,11 @@ class Iam {
   /// CLI operations but does not apply when you use those operations to create
   /// a console URL. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html">Using
-  /// IAM Roles</a> in the <i>IAM User Guide</i>.
+  /// IAM roles</a> in the <i>IAM User Guide</i>.
   Future<void> updateRole({
-    @_s.required String roleName,
-    String description,
-    int maxSessionDuration,
+    required String roleName,
+    String? description,
+    int? maxSessionDuration,
   }) async {
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
@@ -11045,22 +11616,11 @@ class Iam {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
     );
     _s.validateNumRange(
       'maxSessionDuration',
@@ -11101,8 +11661,8 @@ class Iam {
   /// Parameter [roleName] :
   /// The name of the role that you want to modify.
   Future<UpdateRoleDescriptionResponse> updateRoleDescription({
-    @_s.required String description,
-    @_s.required String roleName,
+    required String description,
+    required String roleName,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
     _s.validateStringLength(
@@ -11112,24 +11672,12 @@ class Iam {
       1000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\p{L}\p{M}\p{Z}\p{S}\p{N}\p{P}]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(roleName, 'roleName');
     _s.validateStringLength(
       'roleName',
       roleName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -11175,11 +11723,11 @@ class Iam {
   ///
   /// For more information about ARNs, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">Amazon
-  /// Resource Names (ARNs) and AWS Service Namespaces</a> in the <i>AWS General
+  /// Resource Names (ARNs)</a> in the <i>Amazon Web Services General
   /// Reference</i>.
   Future<UpdateSAMLProviderResponse> updateSAMLProvider({
-    @_s.required String sAMLMetadataDocument,
-    @_s.required String sAMLProviderArn,
+    required String sAMLMetadataDocument,
+    required String sAMLProviderArn,
   }) async {
     ArgumentError.checkNotNull(sAMLMetadataDocument, 'sAMLMetadataDocument');
     _s.validateStringLength(
@@ -11220,12 +11768,11 @@ class Iam {
   /// rotation work flow.
   ///
   /// The SSH public key affected by this operation is used only for
-  /// authenticating the associated IAM user to an AWS CodeCommit repository.
-  /// For more information about using SSH keys to authenticate to an AWS
-  /// CodeCommit repository, see <a
+  /// authenticating the associated IAM user to an CodeCommit repository. For
+  /// more information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User
-  /// Guide</i>.
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
   ///
   /// May throw [NoSuchEntityException].
   ///
@@ -11238,7 +11785,7 @@ class Iam {
   ///
   /// Parameter [status] :
   /// The status to assign to the SSH public key. <code>Active</code> means that
-  /// the key can be used for authentication with an AWS CodeCommit repository.
+  /// the key can be used for authentication with an CodeCommit repository.
   /// <code>Inactive</code> means that the key cannot be used.
   ///
   /// Parameter [userName] :
@@ -11249,9 +11796,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateSSHPublicKey({
-    @_s.required String sSHPublicKeyId,
-    @_s.required StatusType status,
-    @_s.required String userName,
+    required String sSHPublicKeyId,
+    required StatusType status,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyId, 'sSHPublicKeyId');
     _s.validateStringLength(
@@ -11261,12 +11808,6 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyId',
-      sSHPublicKeyId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -11274,12 +11815,6 @@ class Iam {
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -11303,14 +11838,14 @@ class Iam {
   ///
   /// For more information about working with server certificates, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
-  /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic also
-  /// includes a list of AWS services that can use the server certificates that
-  /// you manage with IAM.
+  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic also
+  /// includes a list of Amazon Web Services services that can use the server
+  /// certificates that you manage with IAM.
   /// <important>
   /// You should understand the implications of changing a server certificate's
   /// path or name. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts">Renaming
-  /// a Server Certificate</a> in the <i>IAM User Guide</i>.
+  /// a server certificate</a> in the <i>IAM User Guide</i>.
   /// </important> <note>
   /// The person making the request (the principal), must have permission to
   /// change the server certificate with the old name and the new name. For
@@ -11321,7 +11856,7 @@ class Iam {
   /// certificate, then the update fails. For more information about
   /// permissions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html">Access
-  /// Management</a> in the <i>IAM User Guide</i>.
+  /// management</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
   /// May throw [NoSuchEntityException].
@@ -11359,9 +11894,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateServerCertificate({
-    @_s.required String serverCertificateName,
-    String newPath,
-    String newServerCertificateName,
+    required String serverCertificateName,
+    String? newPath,
+    String? newServerCertificateName,
   }) async {
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
@@ -11371,33 +11906,17 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'newPath',
       newPath,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
     _s.validateStringLength(
       'newServerCertificateName',
       newServerCertificateName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'newServerCertificateName',
-      newServerCertificateName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServerCertificateName'] = serverCertificateName;
@@ -11444,9 +11963,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateServiceSpecificCredential({
-    @_s.required String serviceSpecificCredentialId,
-    @_s.required StatusType status,
-    String userName,
+    required String serviceSpecificCredentialId,
+    required StatusType status,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(
         serviceSpecificCredentialId, 'serviceSpecificCredentialId');
@@ -11457,23 +11976,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceSpecificCredentialId',
-      serviceSpecificCredentialId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['ServiceSpecificCredentialId'] = serviceSpecificCredentialId;
@@ -11496,10 +12004,10 @@ class Iam {
   /// user's signing certificate as part of a certificate rotation work flow.
   ///
   /// If the <code>UserName</code> field is not specified, the user name is
-  /// determined implicitly based on the AWS access key ID used to sign the
-  /// request. This operation works for access keys under the AWS account.
-  /// Consequently, you can use this operation to manage AWS account root user
-  /// credentials even if the AWS account has no associated users.
+  /// determined implicitly based on the Amazon Web Services access key ID used
+  /// to sign the request. This operation works for access keys under the
+  /// account. Consequently, you can use this operation to manage account root
+  /// user credentials even if the account has no associated users.
   ///
   /// May throw [NoSuchEntityException].
   /// May throw [LimitExceededException].
@@ -11514,8 +12022,9 @@ class Iam {
   ///
   /// Parameter [status] :
   /// The status you want to assign to the certificate. <code>Active</code>
-  /// means that the certificate can be used for API calls to AWS
-  /// <code>Inactive</code> means that the certificate cannot be used.
+  /// means that the certificate can be used for programmatic calls to Amazon
+  /// Web Services <code>Inactive</code> means that the certificate cannot be
+  /// used.
   ///
   /// Parameter [userName] :
   /// The name of the IAM user the signing certificate belongs to.
@@ -11525,9 +12034,9 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<void> updateSigningCertificate({
-    @_s.required String certificateId,
-    @_s.required StatusType status,
-    String userName,
+    required String certificateId,
+    required StatusType status,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateId, 'certificateId');
     _s.validateStringLength(
@@ -11537,23 +12046,12 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateId',
-      certificateId,
-      r'''[\w]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['CertificateId'] = certificateId;
@@ -11576,9 +12074,9 @@ class Iam {
   /// You should understand the implications of changing an IAM user's path or
   /// name. For more information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_manage.html#id_users_renaming">Renaming
-  /// an IAM User</a> and <a
+  /// an IAM user</a> and <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html">Renaming
-  /// an IAM Group</a> in the <i>IAM User Guide</i>.
+  /// an IAM group</a> in the <i>IAM User Guide</i>.
   /// </important> <note>
   /// To change a user name, the requester must have appropriate permissions on
   /// both the source object and the target object. For example, to change Bob
@@ -11586,7 +12084,7 @@ class Iam {
   /// Robert, or must have permission on all (*). For more information about
   /// permissions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html">Permissions
-  /// and Policies</a>.
+  /// and policies</a>.
   /// </note>
   ///
   /// May throw [NoSuchEntityException].
@@ -11625,9 +12123,9 @@ class Iam {
   /// Names are not distinguished by case. For example, you cannot create
   /// resources named both "MyResource" and "myresource".
   Future<void> updateUser({
-    @_s.required String userName,
-    String newPath,
-    String newUserName,
+    required String userName,
+    String? newPath,
+    String? newUserName,
   }) async {
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
@@ -11637,33 +12135,17 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'newPath',
       newPath,
       1,
       512,
     );
-    _s.validateStringPattern(
-      'newPath',
-      newPath,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
     _s.validateStringLength(
       'newUserName',
       newUserName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'newUserName',
-      newUserName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['UserName'] = userName;
@@ -11684,12 +12166,11 @@ class Iam {
   /// Uploads an SSH public key and associates it with the specified IAM user.
   ///
   /// The SSH public key uploaded by this operation can be used only for
-  /// authenticating the associated IAM user to an AWS CodeCommit repository.
-  /// For more information about using SSH keys to authenticate to an AWS
-  /// CodeCommit repository, see <a
+  /// authenticating the associated IAM user to an CodeCommit repository. For
+  /// more information about using SSH keys to authenticate to an CodeCommit
+  /// repository, see <a
   /// href="https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html">Set
-  /// up AWS CodeCommit for SSH Connections</a> in the <i>AWS CodeCommit User
-  /// Guide</i>.
+  /// up CodeCommit for SSH connections</a> in the <i>CodeCommit User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [NoSuchEntityException].
@@ -11730,8 +12211,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<UploadSSHPublicKeyResponse> uploadSSHPublicKey({
-    @_s.required String sSHPublicKeyBody,
-    @_s.required String userName,
+    required String sSHPublicKeyBody,
+    required String userName,
   }) async {
     ArgumentError.checkNotNull(sSHPublicKeyBody, 'sSHPublicKeyBody');
     _s.validateStringLength(
@@ -11741,24 +12222,12 @@ class Iam {
       16384,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sSHPublicKeyBody',
-      sSHPublicKeyBody,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userName, 'userName');
     _s.validateStringLength(
       'userName',
       userName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
       isRequired: true,
     );
     final $request = <String, dynamic>{};
@@ -11778,44 +12247,48 @@ class Iam {
     return UploadSSHPublicKeyResponse.fromXml($result);
   }
 
-  /// Uploads a server certificate entity for the AWS account. The server
+  /// Uploads a server certificate entity for the account. The server
   /// certificate entity includes a public key certificate, a private key, and
   /// an optional certificate chain, which should all be PEM-encoded.
   ///
-  /// We recommend that you use <a href="https://docs.aws.amazon.com/acm/">AWS
-  /// Certificate Manager</a> to provision, manage, and deploy your server
-  /// certificates. With ACM you can request a certificate, deploy it to AWS
-  /// resources, and let ACM handle certificate renewals for you. Certificates
-  /// provided by ACM are free. For more information about using ACM, see the <a
-  /// href="https://docs.aws.amazon.com/acm/latest/userguide/">AWS Certificate
+  /// We recommend that you use <a
+  /// href="https://docs.aws.amazon.com/acm/">Certificate Manager</a> to
+  /// provision, manage, and deploy your server certificates. With ACM you can
+  /// request a certificate, deploy it to Amazon Web Services resources, and let
+  /// ACM handle certificate renewals for you. Certificates provided by ACM are
+  /// free. For more information about using ACM, see the <a
+  /// href="https://docs.aws.amazon.com/acm/latest/userguide/">Certificate
   /// Manager User Guide</a>.
   ///
   /// For more information about working with server certificates, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Working
-  /// with Server Certificates</a> in the <i>IAM User Guide</i>. This topic
-  /// includes a list of AWS services that can use the server certificates that
-  /// you manage with IAM.
+  /// with server certificates</a> in the <i>IAM User Guide</i>. This topic
+  /// includes a list of Amazon Web Services services that can use the server
+  /// certificates that you manage with IAM.
   ///
   /// For information about the number of server certificates you can upload,
   /// see <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html">Limitations
-  /// on IAM Entities and Objects</a> in the <i>IAM User Guide</i>.
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html">IAM
+  /// and STS quotas</a> in the <i>IAM User Guide</i>.
   /// <note>
   /// Because the body of the public key certificate, private key, and the
   /// certificate chain can be large, you should use POST rather than GET when
   /// calling <code>UploadServerCertificate</code>. For information about
-  /// setting up signatures and authorization through the API, go to <a
+  /// setting up signatures and authorization through the API, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
-  /// AWS API Requests</a> in the <i>AWS General Reference</i>. For general
-  /// information about using the Query API with IAM, go to <a
+  /// Amazon Web Services API requests</a> in the <i>Amazon Web Services General
+  /// Reference</i>. For general information about using the Query API with IAM,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/programming.html">Calling
-  /// the API by Making HTTP Query Requests</a> in the <i>IAM User Guide</i>.
+  /// the API by making HTTP query requests</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
   /// May throw [LimitExceededException].
+  /// May throw [InvalidInputException].
   /// May throw [EntityAlreadyExistsException].
   /// May throw [MalformedCertificateException].
   /// May throw [KeyPairMismatchException].
+  /// May throw [ConcurrentModificationException].
   /// May throw [ServiceFailureException].
   ///
   /// Parameter [certificateBody] :
@@ -11898,7 +12371,7 @@ class Iam {
   /// The path for the server certificate. For more information about paths, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   ///
   /// This parameter is optional. If it is not included, it defaults to a slash
   /// (/). This parameter allows (through its <a
@@ -11915,12 +12388,25 @@ class Iam {
   /// <code>/cloudfront</code> and must include a trailing slash (for example,
   /// <code>/cloudfront/test/</code>).
   /// </note>
+  ///
+  /// Parameter [tags] :
+  /// A list of tags that you want to attach to the new IAM server certificate
+  /// resource. Each tag consists of a key name and an associated value. For
+  /// more information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  /// <note>
+  /// If any one of the tags is invalid or if you exceed the allowed maximum
+  /// number of tags, then the entire request fails and the resource is not
+  /// created.
+  /// </note>
   Future<UploadServerCertificateResponse> uploadServerCertificate({
-    @_s.required String certificateBody,
-    @_s.required String privateKey,
-    @_s.required String serverCertificateName,
-    String certificateChain,
-    String path,
+    required String certificateBody,
+    required String privateKey,
+    required String serverCertificateName,
+    String? certificateChain,
+    String? path,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(certificateBody, 'certificateBody');
     _s.validateStringLength(
@@ -11928,12 +12414,6 @@ class Iam {
       certificateBody,
       1,
       16384,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateBody',
-      certificateBody,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(privateKey, 'privateKey');
@@ -11944,12 +12424,6 @@ class Iam {
       16384,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'privateKey',
-      privateKey,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(serverCertificateName, 'serverCertificateName');
     _s.validateStringLength(
       'serverCertificateName',
@@ -11958,22 +12432,11 @@ class Iam {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serverCertificateName',
-      serverCertificateName,
-      r'''[\w+=,.@-]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'certificateChain',
       certificateChain,
       1,
       2097152,
-    );
-    _s.validateStringPattern(
-      'certificateChain',
-      certificateChain,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
     );
     _s.validateStringLength(
       'path',
@@ -11981,17 +12444,13 @@ class Iam {
       1,
       512,
     );
-    _s.validateStringPattern(
-      'path',
-      path,
-      r'''(\u002F)|(\u002F[\u0021-\u007F]+\u002F)''',
-    );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;
     $request['PrivateKey'] = privateKey;
     $request['ServerCertificateName'] = serverCertificateName;
     certificateChain?.also((arg) => $request['CertificateChain'] = arg);
     path?.also((arg) => $request['Path'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'UploadServerCertificate',
@@ -12007,25 +12466,32 @@ class Iam {
   }
 
   /// Uploads an X.509 signing certificate and associates it with the specified
-  /// IAM user. Some AWS services use X.509 signing certificates to validate
-  /// requests that are signed with a corresponding private key. When you upload
-  /// the certificate, its default status is <code>Active</code>.
+  /// IAM user. Some Amazon Web Services services require you to use
+  /// certificates to validate requests that are signed with a corresponding
+  /// private key. When you upload the certificate, its default status is
+  /// <code>Active</code>.
+  ///
+  /// For information about when you would use an X.509 signing certificate, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html">Managing
+  /// server certificates in IAM</a> in the <i>IAM User Guide</i>.
   ///
   /// If the <code>UserName</code> is not specified, the IAM user name is
-  /// determined implicitly based on the AWS access key ID used to sign the
-  /// request. This operation works for access keys under the AWS account.
-  /// Consequently, you can use this operation to manage AWS account root user
-  /// credentials even if the AWS account has no associated users.
+  /// determined implicitly based on the Amazon Web Services access key ID used
+  /// to sign the request. This operation works for access keys under the
+  /// account. Consequently, you can use this operation to manage account root
+  /// user credentials even if the account has no associated users.
   /// <note>
   /// Because the body of an X.509 certificate can be large, you should use POST
   /// rather than GET when calling <code>UploadSigningCertificate</code>. For
   /// information about setting up signatures and authorization through the API,
-  /// go to <a
+  /// see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html">Signing
-  /// AWS API Requests</a> in the <i>AWS General Reference</i>. For general
-  /// information about using the Query API with IAM, go to <a
+  /// Amazon Web Services API requests</a> in the <i>Amazon Web Services General
+  /// Reference</i>. For general information about using the Query API with IAM,
+  /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html">Making
-  /// Query Requests</a> in the <i>IAM User Guide</i>.
+  /// query requests</a> in the <i>IAM User Guide</i>.
   /// </note>
   ///
   /// May throw [LimitExceededException].
@@ -12066,8 +12532,8 @@ class Iam {
   /// characters consisting of upper and lowercase alphanumeric characters with
   /// no spaces. You can also include any of the following characters: _+=,.@-
   Future<UploadSigningCertificateResponse> uploadSigningCertificate({
-    @_s.required String certificateBody,
-    String userName,
+    required String certificateBody,
+    String? userName,
   }) async {
     ArgumentError.checkNotNull(certificateBody, 'certificateBody');
     _s.validateStringLength(
@@ -12077,22 +12543,11 @@ class Iam {
       16384,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateBody',
-      certificateBody,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'userName',
       userName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'userName',
-      userName,
-      r'''[\w+=,.@-]+''',
     );
     final $request = <String, dynamic>{};
     $request['CertificateBody'] = certificateBody;
@@ -12113,9 +12568,7 @@ class Iam {
 }
 
 enum AccessAdvisorUsageGranularityType {
-  @_s.JsonValue('SERVICE_LEVEL')
   serviceLevel,
-  @_s.JsonValue('ACTION_LEVEL')
   actionLevel,
 }
 
@@ -12127,7 +12580,6 @@ extension on AccessAdvisorUsageGranularityType {
       case AccessAdvisorUsageGranularityType.actionLevel:
         return 'ACTION_LEVEL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12139,14 +12591,15 @@ extension on String {
       case 'ACTION_LEVEL':
         return AccessAdvisorUsageGranularityType.actionLevel;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum AccessAdvisorUsageGranularityType');
   }
 }
 
-/// An object that contains details about when a principal in the reported AWS
-/// Organizations entity last attempted to access an AWS service. A principal
-/// can be an IAM user, an IAM role, or the AWS account root user within the
-/// reported Organizations entity.
+/// An object that contains details about when a principal in the reported
+/// Organizations entity last attempted to access an Amazon Web Services
+/// service. A principal can be an IAM user, an IAM role, or the Amazon Web
+/// Services account root user within the reported Organizations entity.
 ///
 /// This data type is a response element in the
 /// <a>GetOrganizationsAccessReport</a> operation.
@@ -12156,37 +12609,39 @@ class AccessDetail {
 
   /// The namespace of the service in which access was attempted.
   ///
-  /// To learn the service namespace of a service, go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">Actions,
-  /// Resources, and Condition Keys for AWS Services</a> in the <i>IAM User
-  /// Guide</i>. Choose the name of the service to view details for that service.
-  /// In the first paragraph, find the service prefix. For example, <code>(service
-  /// prefix: a4b)</code>. For more information about service namespaces, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// To learn the service namespace of a service, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
+  /// resources, and condition keys for Amazon Web Services services</a> in the
+  /// <i>Service Authorization Reference</i>. Choose the name of the service to
+  /// view details for that service. In the first paragraph, find the service
+  /// prefix. For example, <code>(service prefix: a4b)</code>. For more
+  /// information about service namespaces, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   final String serviceNamespace;
 
   /// The path of the Organizations entity (root, organizational unit, or account)
   /// from which an authenticated principal last attempted to access the service.
-  /// AWS does not report unauthenticated requests.
+  /// Amazon Web Services does not report unauthenticated requests.
   ///
   /// This field is null if no principals (IAM users, IAM roles, or root users) in
   /// the reported Organizations entity attempted to access the service within the
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String entityPath;
+  final String? entityPath;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when an authenticated principal most recently
-  /// attempted to access the service. AWS does not report unauthenticated
-  /// requests.
+  /// attempted to access the service. Amazon Web Services does not report
+  /// unauthenticated requests.
   ///
   /// This field is null if no principals in the reported Organizations entity
   /// attempted to access the service within the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAuthenticatedTime;
+  final DateTime? lastAuthenticatedTime;
 
   /// The Region where the last service access attempt occurred.
   ///
@@ -12194,24 +12649,36 @@ class AccessDetail {
   /// attempted to access the service within the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String region;
+  final String? region;
 
   /// The number of accounts with authenticated principals (root users, IAM users,
   /// and IAM roles) that attempted to access the service in the reporting period.
-  final int totalAuthenticatedEntities;
+  final int? totalAuthenticatedEntities;
 
   AccessDetail({
-    @_s.required this.serviceName,
-    @_s.required this.serviceNamespace,
+    required this.serviceName,
+    required this.serviceNamespace,
     this.entityPath,
     this.lastAuthenticatedTime,
     this.region,
     this.totalAuthenticatedEntities,
   });
+
+  factory AccessDetail.fromJson(Map<String, dynamic> json) {
+    return AccessDetail(
+      serviceName: json['ServiceName'] as String,
+      serviceNamespace: json['ServiceNamespace'] as String,
+      entityPath: json['EntityPath'] as String?,
+      lastAuthenticatedTime: timeStampFromJson(json['LastAuthenticatedTime']),
+      region: json['Region'] as String?,
+      totalAuthenticatedEntities: json['TotalAuthenticatedEntities'] as int?,
+    );
+  }
+
   factory AccessDetail.fromXml(_s.XmlElement elem) {
     return AccessDetail(
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
-      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
       entityPath: _s.extractXmlStringValue(elem, 'EntityPath'),
       lastAuthenticatedTime:
           _s.extractXmlDateTimeValue(elem, 'LastAuthenticatedTime'),
@@ -12220,9 +12687,28 @@ class AccessDetail {
           _s.extractXmlIntValue(elem, 'TotalAuthenticatedEntities'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final serviceNamespace = this.serviceNamespace;
+    final entityPath = this.entityPath;
+    final lastAuthenticatedTime = this.lastAuthenticatedTime;
+    final region = this.region;
+    final totalAuthenticatedEntities = this.totalAuthenticatedEntities;
+    return {
+      'ServiceName': serviceName,
+      'ServiceNamespace': serviceNamespace,
+      if (entityPath != null) 'EntityPath': entityPath,
+      if (lastAuthenticatedTime != null)
+        'LastAuthenticatedTime': unixTimestampToJson(lastAuthenticatedTime),
+      if (region != null) 'Region': region,
+      if (totalAuthenticatedEntities != null)
+        'TotalAuthenticatedEntities': totalAuthenticatedEntities,
+    };
+  }
 }
 
-/// Contains information about an AWS access key.
+/// Contains information about an Amazon Web Services access key.
 ///
 /// This data type is used as a response element in the <a>CreateAccessKey</a>
 /// and <a>ListAccessKeys</a> operations.
@@ -12247,28 +12733,54 @@ class AccessKey {
   final String userName;
 
   /// The date when the access key was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   AccessKey({
-    @_s.required this.accessKeyId,
-    @_s.required this.secretAccessKey,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.accessKeyId,
+    required this.secretAccessKey,
+    required this.status,
+    required this.userName,
     this.createDate,
   });
+
+  factory AccessKey.fromJson(Map<String, dynamic> json) {
+    return AccessKey(
+      accessKeyId: json['AccessKeyId'] as String,
+      secretAccessKey: json['SecretAccessKey'] as String,
+      status: (json['Status'] as String).toStatusType(),
+      userName: json['UserName'] as String,
+      createDate: timeStampFromJson(json['CreateDate']),
+    );
+  }
+
   factory AccessKey.fromXml(_s.XmlElement elem) {
     return AccessKey(
-      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
-      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId')!,
+      secretAccessKey: _s.extractXmlStringValue(elem, 'SecretAccessKey')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final secretAccessKey = this.secretAccessKey;
+    final status = this.status;
+    final userName = this.userName;
+    final createDate = this.createDate;
+    return {
+      'AccessKeyId': accessKeyId,
+      'SecretAccessKey': secretAccessKey,
+      'Status': status.toValue(),
+      'UserName': userName,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+    };
+  }
 }
 
-/// Contains information about the last time an AWS access key was used since
-/// IAM began tracking this information on April 22, 2015.
+/// Contains information about the last time an Amazon Web Services access key
+/// was used since IAM began tracking this information on April 22, 2015.
 ///
 /// This data type is used as a response element in the
 /// <a>GetAccessKeyLastUsed</a> operation.
@@ -12291,8 +12803,8 @@ class AccessKeyLastUsed {
   /// </ul>
   final DateTime lastUsedDate;
 
-  /// The AWS Region where this access key was most recently used. The value for
-  /// this field is "N/A" in the following situations:
+  /// The Region where this access key was most recently used. The value for this
+  /// field is "N/A" in the following situations:
   ///
   /// <ul>
   /// <li>
@@ -12306,13 +12818,14 @@ class AccessKeyLastUsed {
   /// There is no sign-in data associated with the user.
   /// </li>
   /// </ul>
-  /// For more information about AWS Regions, see <a
+  /// For more information about Regions, see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions and
-  /// Endpoints</a> in the Amazon Web Services General Reference.
+  /// endpoints</a> in the Amazon Web Services General Reference.
   final String region;
 
-  /// The name of the AWS service with which this access key was most recently
-  /// used. The value of this field is "N/A" in the following situations:
+  /// The name of the Amazon Web Services service with which this access key was
+  /// most recently used. The value of this field is "N/A" in the following
+  /// situations:
   ///
   /// <ul>
   /// <li>
@@ -12329,36 +12842,58 @@ class AccessKeyLastUsed {
   final String serviceName;
 
   AccessKeyLastUsed({
-    @_s.required this.lastUsedDate,
-    @_s.required this.region,
-    @_s.required this.serviceName,
+    required this.lastUsedDate,
+    required this.region,
+    required this.serviceName,
   });
+
+  factory AccessKeyLastUsed.fromJson(Map<String, dynamic> json) {
+    return AccessKeyLastUsed(
+      lastUsedDate:
+          nonNullableTimeStampFromJson(json['LastUsedDate'] as Object),
+      region: json['Region'] as String,
+      serviceName: json['ServiceName'] as String,
+    );
+  }
+
   factory AccessKeyLastUsed.fromXml(_s.XmlElement elem) {
     return AccessKeyLastUsed(
-      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
-      region: _s.extractXmlStringValue(elem, 'Region'),
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
+      lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate')!,
+      region: _s.extractXmlStringValue(elem, 'Region')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUsedDate = this.lastUsedDate;
+    final region = this.region;
+    final serviceName = this.serviceName;
+    return {
+      'LastUsedDate': unixTimestampToJson(lastUsedDate),
+      'Region': region,
+      'ServiceName': serviceName,
+    };
   }
 }
 
-/// Contains information about an AWS access key, without its secret key.
+/// Contains information about an Amazon Web Services access key, without its
+/// secret key.
 ///
 /// This data type is used as a response element in the <a>ListAccessKeys</a>
 /// operation.
 class AccessKeyMetadata {
   /// The ID for this access key.
-  final String accessKeyId;
+  final String? accessKeyId;
 
   /// The date when the access key was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The status of the access key. <code>Active</code> means that the key is
   /// valid for API calls; <code>Inactive</code> means it is not.
-  final StatusType status;
+  final StatusType? status;
 
   /// The name of the IAM user that the key is associated with.
-  final String userName;
+  final String? userName;
 
   AccessKeyMetadata({
     this.accessKeyId,
@@ -12366,6 +12901,16 @@ class AccessKeyMetadata {
     this.status,
     this.userName,
   });
+
+  factory AccessKeyMetadata.fromJson(Map<String, dynamic> json) {
+    return AccessKeyMetadata(
+      accessKeyId: json['AccessKeyId'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      status: (json['Status'] as String?)?.toStatusType(),
+      userName: json['UserName'] as String?,
+    );
+  }
+
   factory AccessKeyMetadata.fromXml(_s.XmlElement elem) {
     return AccessKeyMetadata(
       accessKeyId: _s.extractXmlStringValue(elem, 'AccessKeyId'),
@@ -12373,6 +12918,19 @@ class AccessKeyMetadata {
       status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
       userName: _s.extractXmlStringValue(elem, 'UserName'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final createDate = this.createDate;
+    final status = this.status;
+    final userName = this.userName;
+    return {
+      if (accessKeyId != null) 'AccessKeyId': accessKeyId,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (status != null) 'Status': status.toValue(),
+      if (userName != null) 'UserName': userName,
+    };
   }
 }
 
@@ -12383,21 +12941,30 @@ class AccessKeyMetadata {
 ///
 /// For more information about permissions boundaries, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-/// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
+/// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
 class AttachedPermissionsBoundary {
   /// The ARN of the policy used to set the permissions boundary for the user or
   /// role.
-  final String permissionsBoundaryArn;
+  final String? permissionsBoundaryArn;
 
   /// The permissions boundary usage type that indicates what type of IAM resource
   /// is used as the permissions boundary for an entity. This data type can only
   /// have a value of <code>Policy</code>.
-  final PermissionsBoundaryAttachmentType permissionsBoundaryType;
+  final PermissionsBoundaryAttachmentType? permissionsBoundaryType;
 
   AttachedPermissionsBoundary({
     this.permissionsBoundaryArn,
     this.permissionsBoundaryType,
   });
+
+  factory AttachedPermissionsBoundary.fromJson(Map<String, dynamic> json) {
+    return AttachedPermissionsBoundary(
+      permissionsBoundaryArn: json['PermissionsBoundaryArn'] as String?,
+      permissionsBoundaryType: (json['PermissionsBoundaryType'] as String?)
+          ?.toPermissionsBoundaryAttachmentType(),
+    );
+  }
+
   factory AttachedPermissionsBoundary.fromXml(_s.XmlElement elem) {
     return AttachedPermissionsBoundary(
       permissionsBoundaryArn:
@@ -12406,6 +12973,17 @@ class AttachedPermissionsBoundary {
           .extractXmlStringValue(elem, 'PermissionsBoundaryType')
           ?.toPermissionsBoundaryAttachmentType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final permissionsBoundaryArn = this.permissionsBoundaryArn;
+    final permissionsBoundaryType = this.permissionsBoundaryType;
+    return {
+      if (permissionsBoundaryArn != null)
+        'PermissionsBoundaryArn': permissionsBoundaryArn,
+      if (permissionsBoundaryType != null)
+        'PermissionsBoundaryType': permissionsBoundaryType.toValue(),
+    };
   }
 }
 
@@ -12419,22 +12997,39 @@ class AttachedPermissionsBoundary {
 ///
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
 class AttachedPolicy {
-  final String policyArn;
+  final String? policyArn;
 
   /// The friendly name of the attached policy.
-  final String policyName;
+  final String? policyName;
 
   AttachedPolicy({
     this.policyArn,
     this.policyName,
   });
+
+  factory AttachedPolicy.fromJson(Map<String, dynamic> json) {
+    return AttachedPolicy(
+      policyArn: json['PolicyArn'] as String?,
+      policyName: json['PolicyName'] as String?,
+    );
+  }
+
   factory AttachedPolicy.fromXml(_s.XmlElement elem) {
     return AttachedPolicy(
       policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
       policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyArn = this.policyArn;
+    final policyName = this.policyName;
+    return {
+      if (policyArn != null) 'PolicyArn': policyArn,
+      if (policyName != null) 'PolicyName': policyName,
+    };
   }
 }
 
@@ -12445,61 +13040,94 @@ class AttachedPolicy {
 ///
 /// This data type is used as an input parameter to <a>SimulateCustomPolicy</a>
 /// and <a>SimulatePrincipalPolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ContextEntry {
   /// The full name of a condition context key, including the service prefix. For
   /// example, <code>aws:SourceIp</code> or <code>s3:VersionId</code>.
-  @_s.JsonKey(name: 'ContextKeyName')
-  final String contextKeyName;
+  final String? contextKeyName;
 
   /// The data type of the value (or values) specified in the
   /// <code>ContextKeyValues</code> parameter.
-  @_s.JsonKey(name: 'ContextKeyType')
-  final ContextKeyTypeEnum contextKeyType;
+  final ContextKeyTypeEnum? contextKeyType;
 
   /// The value (or values, if the condition context key supports multiple values)
   /// to provide to the simulation when the key is referenced by a
   /// <code>Condition</code> element in an input policy.
-  @_s.JsonKey(name: 'ContextKeyValues')
-  final List<String> contextKeyValues;
+  final List<String>? contextKeyValues;
 
   ContextEntry({
     this.contextKeyName,
     this.contextKeyType,
     this.contextKeyValues,
   });
-  Map<String, dynamic> toJson() => _$ContextEntryToJson(this);
+
+  factory ContextEntry.fromJson(Map<String, dynamic> json) {
+    return ContextEntry(
+      contextKeyName: json['ContextKeyName'] as String?,
+      contextKeyType:
+          (json['ContextKeyType'] as String?)?.toContextKeyTypeEnum(),
+      contextKeyValues: (json['ContextKeyValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contextKeyName = this.contextKeyName;
+    final contextKeyType = this.contextKeyType;
+    final contextKeyValues = this.contextKeyValues;
+    return {
+      if (contextKeyName != null) 'ContextKeyName': contextKeyName,
+      if (contextKeyType != null) 'ContextKeyType': contextKeyType.toValue(),
+      if (contextKeyValues != null) 'ContextKeyValues': contextKeyValues,
+    };
+  }
 }
 
 enum ContextKeyTypeEnum {
-  @_s.JsonValue('string')
   string,
-  @_s.JsonValue('stringList')
   stringList,
-  @_s.JsonValue('numeric')
   numeric,
-  @_s.JsonValue('numericList')
   numericList,
-  @_s.JsonValue('boolean')
   boolean,
-  @_s.JsonValue('booleanList')
   booleanList,
-  @_s.JsonValue('ip')
   ip,
-  @_s.JsonValue('ipList')
   ipList,
-  @_s.JsonValue('binary')
   binary,
-  @_s.JsonValue('binaryList')
   binaryList,
-  @_s.JsonValue('date')
   date,
-  @_s.JsonValue('dateList')
   dateList,
+}
+
+extension on ContextKeyTypeEnum {
+  String toValue() {
+    switch (this) {
+      case ContextKeyTypeEnum.string:
+        return 'string';
+      case ContextKeyTypeEnum.stringList:
+        return 'stringList';
+      case ContextKeyTypeEnum.numeric:
+        return 'numeric';
+      case ContextKeyTypeEnum.numericList:
+        return 'numericList';
+      case ContextKeyTypeEnum.boolean:
+        return 'boolean';
+      case ContextKeyTypeEnum.booleanList:
+        return 'booleanList';
+      case ContextKeyTypeEnum.ip:
+        return 'ip';
+      case ContextKeyTypeEnum.ipList:
+        return 'ipList';
+      case ContextKeyTypeEnum.binary:
+        return 'binary';
+      case ContextKeyTypeEnum.binaryList:
+        return 'binaryList';
+      case ContextKeyTypeEnum.date:
+        return 'date';
+      case ContextKeyTypeEnum.dateList:
+        return 'dateList';
+    }
+  }
 }
 
 extension on String {
@@ -12530,7 +13158,7 @@ extension on String {
       case 'dateList':
         return ContextKeyTypeEnum.dateList;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ContextKeyTypeEnum');
   }
 }
 
@@ -12540,14 +13168,26 @@ class CreateAccessKeyResponse {
   final AccessKey accessKey;
 
   CreateAccessKeyResponse({
-    @_s.required this.accessKey,
+    required this.accessKey,
   });
+
+  factory CreateAccessKeyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAccessKeyResponse(
+      accessKey: AccessKey.fromJson(json['AccessKey'] as Map<String, dynamic>),
+    );
+  }
+
   factory CreateAccessKeyResponse.fromXml(_s.XmlElement elem) {
     return CreateAccessKeyResponse(
-      accessKey: _s
-          .extractXmlChild(elem, 'AccessKey')
-          ?.let((e) => AccessKey.fromXml(e)),
+      accessKey: AccessKey.fromXml(_s.extractXmlChild(elem, 'AccessKey')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKey = this.accessKey;
+    return {
+      'AccessKey': accessKey,
+    };
   }
 }
 
@@ -12557,12 +13197,26 @@ class CreateGroupResponse {
   final Group group;
 
   CreateGroupResponse({
-    @_s.required this.group,
+    required this.group,
   });
+
+  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGroupResponse(
+      group: Group.fromJson(json['Group'] as Map<String, dynamic>),
+    );
+  }
+
   factory CreateGroupResponse.fromXml(_s.XmlElement elem) {
     return CreateGroupResponse(
-      group: _s.extractXmlChild(elem, 'Group')?.let((e) => Group.fromXml(e)),
+      group: Group.fromXml(_s.extractXmlChild(elem, 'Group')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    return {
+      'Group': group,
+    };
   }
 }
 
@@ -12572,14 +13226,28 @@ class CreateInstanceProfileResponse {
   final InstanceProfile instanceProfile;
 
   CreateInstanceProfileResponse({
-    @_s.required this.instanceProfile,
+    required this.instanceProfile,
   });
+
+  factory CreateInstanceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateInstanceProfileResponse(
+      instanceProfile: InstanceProfile.fromJson(
+          json['InstanceProfile'] as Map<String, dynamic>),
+    );
+  }
+
   factory CreateInstanceProfileResponse.fromXml(_s.XmlElement elem) {
     return CreateInstanceProfileResponse(
-      instanceProfile: _s
-          .extractXmlChild(elem, 'InstanceProfile')
-          ?.let((e) => InstanceProfile.fromXml(e)),
+      instanceProfile:
+          InstanceProfile.fromXml(_s.extractXmlChild(elem, 'InstanceProfile')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfile = this.instanceProfile;
+    return {
+      'InstanceProfile': instanceProfile,
+    };
   }
 }
 
@@ -12589,14 +13257,28 @@ class CreateLoginProfileResponse {
   final LoginProfile loginProfile;
 
   CreateLoginProfileResponse({
-    @_s.required this.loginProfile,
+    required this.loginProfile,
   });
+
+  factory CreateLoginProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLoginProfileResponse(
+      loginProfile:
+          LoginProfile.fromJson(json['LoginProfile'] as Map<String, dynamic>),
+    );
+  }
+
   factory CreateLoginProfileResponse.fromXml(_s.XmlElement elem) {
     return CreateLoginProfileResponse(
-      loginProfile: _s
-          .extractXmlChild(elem, 'LoginProfile')
-          ?.let((e) => LoginProfile.fromXml(e)),
+      loginProfile:
+          LoginProfile.fromXml(_s.extractXmlChild(elem, 'LoginProfile')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loginProfile = this.loginProfile;
+    return {
+      'LoginProfile': loginProfile,
+    };
   }
 }
 
@@ -12605,48 +13287,113 @@ class CreateLoginProfileResponse {
 class CreateOpenIDConnectProviderResponse {
   /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that
   /// is created. For more information, see <a>OpenIDConnectProviderListEntry</a>.
-  final String openIDConnectProviderArn;
+  final String? openIDConnectProviderArn;
+
+  /// A list of tags that are attached to the new IAM OIDC provider. The returned
+  /// list of tags is sorted by tag key. For more information about tagging, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   CreateOpenIDConnectProviderResponse({
     this.openIDConnectProviderArn,
+    this.tags,
   });
+
+  factory CreateOpenIDConnectProviderResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateOpenIDConnectProviderResponse(
+      openIDConnectProviderArn: json['OpenIDConnectProviderArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory CreateOpenIDConnectProviderResponse.fromXml(_s.XmlElement elem) {
     return CreateOpenIDConnectProviderResponse(
       openIDConnectProviderArn:
           _s.extractXmlStringValue(elem, 'OpenIDConnectProviderArn'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openIDConnectProviderArn = this.openIDConnectProviderArn;
+    final tags = this.tags;
+    return {
+      if (openIDConnectProviderArn != null)
+        'OpenIDConnectProviderArn': openIDConnectProviderArn,
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
 /// Contains the response to a successful <a>CreatePolicy</a> request.
 class CreatePolicyResponse {
   /// A structure containing details about the new policy.
-  final Policy policy;
+  final Policy? policy;
 
   CreatePolicyResponse({
     this.policy,
   });
+
+  factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreatePolicyResponse.fromXml(_s.XmlElement elem) {
     return CreatePolicyResponse(
       policy: _s.extractXmlChild(elem, 'Policy')?.let((e) => Policy.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
   }
 }
 
 /// Contains the response to a successful <a>CreatePolicyVersion</a> request.
 class CreatePolicyVersionResponse {
   /// A structure containing details about the new policy version.
-  final PolicyVersion policyVersion;
+  final PolicyVersion? policyVersion;
 
   CreatePolicyVersionResponse({
     this.policyVersion,
   });
+
+  factory CreatePolicyVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyVersionResponse(
+      policyVersion: json['PolicyVersion'] != null
+          ? PolicyVersion.fromJson(
+              json['PolicyVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreatePolicyVersionResponse.fromXml(_s.XmlElement elem) {
     return CreatePolicyVersionResponse(
       policyVersion: _s
           .extractXmlChild(elem, 'PolicyVersion')
           ?.let((e) => PolicyVersion.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyVersion = this.policyVersion;
+    return {
+      if (policyVersion != null) 'PolicyVersion': policyVersion,
+    };
   }
 }
 
@@ -12656,41 +13403,101 @@ class CreateRoleResponse {
   final Role role;
 
   CreateRoleResponse({
-    @_s.required this.role,
+    required this.role,
   });
+
+  factory CreateRoleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRoleResponse(
+      role: Role.fromJson(json['Role'] as Map<String, dynamic>),
+    );
+  }
+
   factory CreateRoleResponse.fromXml(_s.XmlElement elem) {
     return CreateRoleResponse(
-      role: _s.extractXmlChild(elem, 'Role')?.let((e) => Role.fromXml(e)),
+      role: Role.fromXml(_s.extractXmlChild(elem, 'Role')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    return {
+      'Role': role,
+    };
   }
 }
 
 /// Contains the response to a successful <a>CreateSAMLProvider</a> request.
 class CreateSAMLProviderResponse {
   /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
-  final String sAMLProviderArn;
+  final String? sAMLProviderArn;
+
+  /// A list of tags that are attached to the new IAM SAML provider. The returned
+  /// list of tags is sorted by tag key. For more information about tagging, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   CreateSAMLProviderResponse({
     this.sAMLProviderArn,
+    this.tags,
   });
+
+  factory CreateSAMLProviderResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSAMLProviderResponse(
+      sAMLProviderArn: json['SAMLProviderArn'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory CreateSAMLProviderResponse.fromXml(_s.XmlElement elem) {
     return CreateSAMLProviderResponse(
       sAMLProviderArn: _s.extractXmlStringValue(elem, 'SAMLProviderArn'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sAMLProviderArn = this.sAMLProviderArn;
+    final tags = this.tags;
+    return {
+      if (sAMLProviderArn != null) 'SAMLProviderArn': sAMLProviderArn,
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
 class CreateServiceLinkedRoleResponse {
   /// A <a>Role</a> object that contains details about the newly created role.
-  final Role role;
+  final Role? role;
 
   CreateServiceLinkedRoleResponse({
     this.role,
   });
+
+  factory CreateServiceLinkedRoleResponse.fromJson(Map<String, dynamic> json) {
+    return CreateServiceLinkedRoleResponse(
+      role: json['Role'] != null
+          ? Role.fromJson(json['Role'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreateServiceLinkedRoleResponse.fromXml(_s.XmlElement elem) {
     return CreateServiceLinkedRoleResponse(
       role: _s.extractXmlChild(elem, 'Role')?.let((e) => Role.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    return {
+      if (role != null) 'Role': role,
+    };
   }
 }
 
@@ -12702,11 +13509,22 @@ class CreateServiceSpecificCredentialResponse {
   /// available. It cannot be recovered later. Instead, you must reset the
   /// password with <a>ResetServiceSpecificCredential</a>.
   /// </important>
-  final ServiceSpecificCredential serviceSpecificCredential;
+  final ServiceSpecificCredential? serviceSpecificCredential;
 
   CreateServiceSpecificCredentialResponse({
     this.serviceSpecificCredential,
   });
+
+  factory CreateServiceSpecificCredentialResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateServiceSpecificCredentialResponse(
+      serviceSpecificCredential: json['ServiceSpecificCredential'] != null
+          ? ServiceSpecificCredential.fromJson(
+              json['ServiceSpecificCredential'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreateServiceSpecificCredentialResponse.fromXml(_s.XmlElement elem) {
     return CreateServiceSpecificCredentialResponse(
       serviceSpecificCredential: _s
@@ -12714,20 +13532,44 @@ class CreateServiceSpecificCredentialResponse {
           ?.let((e) => ServiceSpecificCredential.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final serviceSpecificCredential = this.serviceSpecificCredential;
+    return {
+      if (serviceSpecificCredential != null)
+        'ServiceSpecificCredential': serviceSpecificCredential,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>CreateUser</a> request.
 class CreateUserResponse {
   /// A structure with details about the new IAM user.
-  final User user;
+  final User? user;
 
   CreateUserResponse({
     this.user,
   });
+
+  factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory CreateUserResponse.fromXml(_s.XmlElement elem) {
     return CreateUserResponse(
       user: _s.extractXmlChild(elem, 'User')?.let((e) => User.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
   }
 }
 
@@ -12737,14 +13579,28 @@ class CreateVirtualMFADeviceResponse {
   final VirtualMFADevice virtualMFADevice;
 
   CreateVirtualMFADeviceResponse({
-    @_s.required this.virtualMFADevice,
+    required this.virtualMFADevice,
   });
+
+  factory CreateVirtualMFADeviceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateVirtualMFADeviceResponse(
+      virtualMFADevice: VirtualMFADevice.fromJson(
+          json['VirtualMFADevice'] as Map<String, dynamic>),
+    );
+  }
+
   factory CreateVirtualMFADeviceResponse.fromXml(_s.XmlElement elem) {
     return CreateVirtualMFADeviceResponse(
-      virtualMFADevice: _s
-          .extractXmlChild(elem, 'VirtualMFADevice')
-          ?.let((e) => VirtualMFADevice.fromXml(e)),
+      virtualMFADevice: VirtualMFADevice.fromXml(
+          _s.extractXmlChild(elem, 'VirtualMFADevice')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualMFADevice = this.virtualMFADevice;
+    return {
+      'VirtualMFADevice': virtualMFADevice,
+    };
   }
 }
 
@@ -12755,12 +13611,26 @@ class DeleteServiceLinkedRoleResponse {
   final String deletionTaskId;
 
   DeleteServiceLinkedRoleResponse({
-    @_s.required this.deletionTaskId,
+    required this.deletionTaskId,
   });
+
+  factory DeleteServiceLinkedRoleResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteServiceLinkedRoleResponse(
+      deletionTaskId: json['DeletionTaskId'] as String,
+    );
+  }
+
   factory DeleteServiceLinkedRoleResponse.fromXml(_s.XmlElement elem) {
     return DeleteServiceLinkedRoleResponse(
-      deletionTaskId: _s.extractXmlStringValue(elem, 'DeletionTaskId'),
+      deletionTaskId: _s.extractXmlStringValue(elem, 'DeletionTaskId')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionTaskId = this.deletionTaskId;
+    return {
+      'DeletionTaskId': deletionTaskId,
+    };
   }
 }
 
@@ -12771,7 +13641,7 @@ class DeleteServiceLinkedRoleResponse {
 class DeletionTaskFailureReasonType {
   /// A short description of the reason that the service-linked role deletion
   /// failed.
-  final String reason;
+  final String? reason;
 
   /// A list of objects that contains details about the service-linked role
   /// deletion failure, if that information is returned by the service. If the
@@ -12779,12 +13649,23 @@ class DeletionTaskFailureReasonType {
   /// by the role have not been deleted from the linked service, the role can't be
   /// deleted. This parameter includes a list of the resources that are associated
   /// with the role and the Region in which the resources are being used.
-  final List<RoleUsageType> roleUsageList;
+  final List<RoleUsageType>? roleUsageList;
 
   DeletionTaskFailureReasonType({
     this.reason,
     this.roleUsageList,
   });
+
+  factory DeletionTaskFailureReasonType.fromJson(Map<String, dynamic> json) {
+    return DeletionTaskFailureReasonType(
+      reason: json['Reason'] as String?,
+      roleUsageList: (json['RoleUsageList'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoleUsageType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DeletionTaskFailureReasonType.fromXml(_s.XmlElement elem) {
     return DeletionTaskFailureReasonType(
       reason: _s.extractXmlStringValue(elem, 'Reason'),
@@ -12795,17 +13676,37 @@ class DeletionTaskFailureReasonType {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final roleUsageList = this.roleUsageList;
+    return {
+      if (reason != null) 'Reason': reason,
+      if (roleUsageList != null) 'RoleUsageList': roleUsageList,
+    };
+  }
 }
 
 enum DeletionTaskStatusType {
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('NOT_STARTED')
   notStarted,
+}
+
+extension on DeletionTaskStatusType {
+  String toValue() {
+    switch (this) {
+      case DeletionTaskStatusType.succeeded:
+        return 'SUCCEEDED';
+      case DeletionTaskStatusType.inProgress:
+        return 'IN_PROGRESS';
+      case DeletionTaskStatusType.failed:
+        return 'FAILED';
+      case DeletionTaskStatusType.notStarted:
+        return 'NOT_STARTED';
+    }
+  }
 }
 
 extension on String {
@@ -12820,12 +13721,13 @@ extension on String {
       case 'NOT_STARTED':
         return DeletionTaskStatusType.notStarted;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DeletionTaskStatusType');
   }
 }
 
 /// An object that contains details about when the IAM entities (users or roles)
-/// were last used in an attempt to access the specified AWS service.
+/// were last used in an attempt to access the specified Amazon Web Services
+/// service.
 ///
 /// This data type is a response element in the
 /// <a>GetServiceLastAccessedDetailsWithEntities</a> operation.
@@ -12836,25 +13738,43 @@ class EntityDetails {
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the authenticated entity last attempted to access
-  /// AWS. AWS does not report unauthenticated requests.
+  /// Amazon Web Services. Amazon Web Services does not report unauthenticated
+  /// requests.
   ///
   /// This field is null if no IAM entities attempted to access the service within
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAuthenticated;
+  final DateTime? lastAuthenticated;
 
   EntityDetails({
-    @_s.required this.entityInfo,
+    required this.entityInfo,
     this.lastAuthenticated,
   });
+
+  factory EntityDetails.fromJson(Map<String, dynamic> json) {
+    return EntityDetails(
+      entityInfo:
+          EntityInfo.fromJson(json['EntityInfo'] as Map<String, dynamic>),
+      lastAuthenticated: timeStampFromJson(json['LastAuthenticated']),
+    );
+  }
+
   factory EntityDetails.fromXml(_s.XmlElement elem) {
     return EntityDetails(
-      entityInfo: _s
-          .extractXmlChild(elem, 'EntityInfo')
-          ?.let((e) => EntityInfo.fromXml(e)),
+      entityInfo: EntityInfo.fromXml(_s.extractXmlChild(elem, 'EntityInfo')!),
       lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityInfo = this.entityInfo;
+    final lastAuthenticated = this.lastAuthenticated;
+    return {
+      'EntityInfo': entityInfo,
+      if (lastAuthenticated != null)
+        'LastAuthenticated': unixTimestampToJson(lastAuthenticated),
+    };
   }
 }
 
@@ -12876,37 +13796,58 @@ class EntityInfo {
   /// The path to the entity (user or role). For more information about paths, see
   /// <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
 
   EntityInfo({
-    @_s.required this.arn,
-    @_s.required this.id,
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.arn,
+    required this.id,
+    required this.name,
+    required this.type,
     this.path,
   });
+
+  factory EntityInfo.fromJson(Map<String, dynamic> json) {
+    return EntityInfo(
+      arn: json['Arn'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      type: (json['Type'] as String).toPolicyOwnerEntityType(),
+      path: json['Path'] as String?,
+    );
+  }
+
   factory EntityInfo.fromXml(_s.XmlElement elem) {
     return EntityInfo(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toPolicyOwnerEntityType(),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!.toPolicyOwnerEntityType(),
       path: _s.extractXmlStringValue(elem, 'Path'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    final path = this.path;
+    return {
+      'Arn': arn,
+      'Id': id,
+      'Name': name,
+      'Type': type.toValue(),
+      if (path != null) 'Path': path,
+    };
   }
 }
 
 enum EntityType {
-  @_s.JsonValue('User')
   user,
-  @_s.JsonValue('Role')
   role,
-  @_s.JsonValue('Group')
   group,
-  @_s.JsonValue('LocalManagedPolicy')
   localManagedPolicy,
-  @_s.JsonValue('AWSManagedPolicy')
   awsManagedPolicy,
 }
 
@@ -12924,7 +13865,6 @@ extension on EntityType {
       case EntityType.awsManagedPolicy:
         return 'AWSManagedPolicy';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12942,7 +13882,7 @@ extension on String {
       case 'AWSManagedPolicy':
         return EntityType.awsManagedPolicy;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EntityType');
   }
 }
 
@@ -12959,14 +13899,31 @@ class ErrorDetails {
   final String message;
 
   ErrorDetails({
-    @_s.required this.code,
-    @_s.required this.message,
+    required this.code,
+    required this.message,
   });
+
+  factory ErrorDetails.fromJson(Map<String, dynamic> json) {
+    return ErrorDetails(
+      code: json['Code'] as String,
+      message: json['Message'] as String,
+    );
+  }
+
   factory ErrorDetails.fromXml(_s.XmlElement elem) {
     return ErrorDetails(
-      code: _s.extractXmlStringValue(elem, 'Code'),
-      message: _s.extractXmlStringValue(elem, 'Message'),
+      code: _s.extractXmlStringValue(elem, 'Code')!,
+      message: _s.extractXmlStringValue(elem, 'Message')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      'Code': code,
+      'Message': message,
+    };
   }
 }
 
@@ -12992,27 +13949,27 @@ class EvaluationResult {
   /// the simulation evaluates policies within the same account and specifies all
   /// resources (<code>*</code>), then the parameter is not returned.
   ///
-  /// When you make a cross-account request, AWS evaluates the request in the
-  /// trusting account and the trusted account. The request is allowed only if
-  /// both evaluations return <code>true</code>. For more information about how
-  /// policies are evaluated, see <a
+  /// When you make a cross-account request, Amazon Web Services evaluates the
+  /// request in the trusting account and the trusted account. The request is
+  /// allowed only if both evaluations return <code>true</code>. For more
+  /// information about how policies are evaluated, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics">Evaluating
-  /// Policies Within a Single Account</a>.
+  /// policies within a single account</a>.
   ///
-  /// If an AWS Organizations SCP included in the evaluation denies access, the
+  /// If an Organizations SCP included in the evaluation denies access, the
   /// simulation ends. In this case, policy evaluation does not proceed any
   /// further and this parameter is not returned.
-  final Map<String, PolicyEvaluationDecisionType> evalDecisionDetails;
+  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
 
   /// The ARN of the resource that the indicated API operation was tested on.
-  final String evalResourceName;
+  final String? evalResourceName;
 
   /// A list of the statements in the input policies that determine the result for
   /// this scenario. Remember that even if multiple statements allow the operation
   /// on the resource, if only one statement denies that operation, then the
   /// explicit deny overrides any allow. In addition, the deny statement is the
   /// only entry included in the result.
-  final List<Statement> matchedStatements;
+  final List<Statement>? matchedStatements;
 
   /// A list of context keys that are required by the included input policies but
   /// that were not provided by one of the input parameters. This list is used
@@ -13022,24 +13979,24 @@ class EvaluationResult {
   /// <code>ResourceSpecificResults</code> section. To discover the context keys
   /// used by a set of policies, you can call <a>GetContextKeysForCustomPolicy</a>
   /// or <a>GetContextKeysForPrincipalPolicy</a>.
-  final List<String> missingContextValues;
+  final List<String>? missingContextValues;
 
   /// A structure that details how Organizations and its service control policies
   /// affect the results of the simulation. Only applies if the simulated user's
   /// account is part of an organization.
-  final OrganizationsDecisionDetail organizationsDecisionDetail;
+  final OrganizationsDecisionDetail? organizationsDecisionDetail;
 
   /// Contains information about the effect that a permissions boundary has on a
   /// policy simulation when the boundary is applied to an IAM entity.
-  final PermissionsBoundaryDecisionDetail permissionsBoundaryDecisionDetail;
+  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
 
   /// The individual results of the simulation of the API operation specified in
   /// EvalActionName on each resource.
-  final List<ResourceSpecificResult> resourceSpecificResults;
+  final List<ResourceSpecificResult>? resourceSpecificResults;
 
   EvaluationResult({
-    @_s.required this.evalActionName,
-    @_s.required this.evalDecision,
+    required this.evalActionName,
+    required this.evalDecision,
     this.evalDecisionDetails,
     this.evalResourceName,
     this.matchedStatements,
@@ -13048,21 +14005,58 @@ class EvaluationResult {
     this.permissionsBoundaryDecisionDetail,
     this.resourceSpecificResults,
   });
+
+  factory EvaluationResult.fromJson(Map<String, dynamic> json) {
+    return EvaluationResult(
+      evalActionName: json['EvalActionName'] as String,
+      evalDecision:
+          (json['EvalDecision'] as String).toPolicyEvaluationDecisionType(),
+      evalDecisionDetails:
+          (json['EvalDecisionDetails'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(k, (e as String).toPolicyEvaluationDecisionType())),
+      evalResourceName: json['EvalResourceName'] as String?,
+      matchedStatements: (json['MatchedStatements'] as List?)
+          ?.whereNotNull()
+          .map((e) => Statement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      missingContextValues: (json['MissingContextValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      organizationsDecisionDetail: json['OrganizationsDecisionDetail'] != null
+          ? OrganizationsDecisionDetail.fromJson(
+              json['OrganizationsDecisionDetail'] as Map<String, dynamic>)
+          : null,
+      permissionsBoundaryDecisionDetail:
+          json['PermissionsBoundaryDecisionDetail'] != null
+              ? PermissionsBoundaryDecisionDetail.fromJson(
+                  json['PermissionsBoundaryDecisionDetail']
+                      as Map<String, dynamic>)
+              : null,
+      resourceSpecificResults: (json['ResourceSpecificResults'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ResourceSpecificResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory EvaluationResult.fromXml(_s.XmlElement elem) {
     return EvaluationResult(
-      evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName'),
+      evalActionName: _s.extractXmlStringValue(elem, 'EvalActionName')!,
       evalDecision: _s
-          .extractXmlStringValue(elem, 'EvalDecision')
-          ?.toPolicyEvaluationDecisionType(),
+          .extractXmlStringValue(elem, 'EvalDecision')!
+          .toPolicyEvaluationDecisionType(),
       evalDecisionDetails: Map.fromEntries(
-        elem.getElement('EvalDecisionDetails').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlStringValue(c, 'value')
-                    ?.toPolicyEvaluationDecisionType(),
-              ),
-            ),
+        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .toPolicyEvaluationDecisionType(),
+                  ),
+                ) ??
+            {},
       ),
       evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName'),
       matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
@@ -13087,42 +14081,104 @@ class EvaluationResult {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final evalActionName = this.evalActionName;
+    final evalDecision = this.evalDecision;
+    final evalDecisionDetails = this.evalDecisionDetails;
+    final evalResourceName = this.evalResourceName;
+    final matchedStatements = this.matchedStatements;
+    final missingContextValues = this.missingContextValues;
+    final organizationsDecisionDetail = this.organizationsDecisionDetail;
+    final permissionsBoundaryDecisionDetail =
+        this.permissionsBoundaryDecisionDetail;
+    final resourceSpecificResults = this.resourceSpecificResults;
+    return {
+      'EvalActionName': evalActionName,
+      'EvalDecision': evalDecision.toValue(),
+      if (evalDecisionDetails != null)
+        'EvalDecisionDetails':
+            evalDecisionDetails.map((k, e) => MapEntry(k, e.toValue())),
+      if (evalResourceName != null) 'EvalResourceName': evalResourceName,
+      if (matchedStatements != null) 'MatchedStatements': matchedStatements,
+      if (missingContextValues != null)
+        'MissingContextValues': missingContextValues,
+      if (organizationsDecisionDetail != null)
+        'OrganizationsDecisionDetail': organizationsDecisionDetail,
+      if (permissionsBoundaryDecisionDetail != null)
+        'PermissionsBoundaryDecisionDetail': permissionsBoundaryDecisionDetail,
+      if (resourceSpecificResults != null)
+        'ResourceSpecificResults': resourceSpecificResults,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>GenerateCredentialReport</a>
 /// request.
 class GenerateCredentialReportResponse {
   /// Information about the credential report.
-  final String description;
+  final String? description;
 
   /// Information about the state of the credential report.
-  final ReportStateType state;
+  final ReportStateType? state;
 
   GenerateCredentialReportResponse({
     this.description,
     this.state,
   });
+
+  factory GenerateCredentialReportResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateCredentialReportResponse(
+      description: json['Description'] as String?,
+      state: (json['State'] as String?)?.toReportStateType(),
+    );
+  }
+
   factory GenerateCredentialReportResponse.fromXml(_s.XmlElement elem) {
     return GenerateCredentialReportResponse(
       description: _s.extractXmlStringValue(elem, 'Description'),
       state: _s.extractXmlStringValue(elem, 'State')?.toReportStateType(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final state = this.state;
+    return {
+      if (description != null) 'Description': description,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 class GenerateOrganizationsAccessReportResponse {
   /// The job identifier that you can use in the
   /// <a>GetOrganizationsAccessReport</a> operation.
-  final String jobId;
+  final String? jobId;
 
   GenerateOrganizationsAccessReportResponse({
     this.jobId,
   });
+
+  factory GenerateOrganizationsAccessReportResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GenerateOrganizationsAccessReportResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
   factory GenerateOrganizationsAccessReportResponse.fromXml(
       _s.XmlElement elem) {
     return GenerateOrganizationsAccessReportResponse(
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
   }
 }
 
@@ -13134,16 +14190,31 @@ class GenerateServiceLastAccessedDetailsResponse {
   /// <code>GenerateServiceLastAccessedDetail</code> must be used by the same role
   /// within a session, or by the same user when used to call
   /// <code>GetServiceLastAccessedDetail</code>.
-  final String jobId;
+  final String? jobId;
 
   GenerateServiceLastAccessedDetailsResponse({
     this.jobId,
   });
+
+  factory GenerateServiceLastAccessedDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GenerateServiceLastAccessedDetailsResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
   factory GenerateServiceLastAccessedDetailsResponse.fromXml(
       _s.XmlElement elem) {
     return GenerateServiceLastAccessedDetailsResponse(
       jobId: _s.extractXmlStringValue(elem, 'JobId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
   }
 }
 
@@ -13152,16 +14223,27 @@ class GenerateServiceLastAccessedDetailsResponse {
 /// returned by the <a>ListAccessKeys</a> action.
 class GetAccessKeyLastUsedResponse {
   /// Contains information about the last time the access key was used.
-  final AccessKeyLastUsed accessKeyLastUsed;
+  final AccessKeyLastUsed? accessKeyLastUsed;
 
-  /// The name of the AWS IAM user that owns this access key.
+  /// The name of the IAM user that owns this access key.
   /// <p/>
-  final String userName;
+  final String? userName;
 
   GetAccessKeyLastUsedResponse({
     this.accessKeyLastUsed,
     this.userName,
   });
+
+  factory GetAccessKeyLastUsedResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccessKeyLastUsedResponse(
+      accessKeyLastUsed: json['AccessKeyLastUsed'] != null
+          ? AccessKeyLastUsed.fromJson(
+              json['AccessKeyLastUsed'] as Map<String, dynamic>)
+          : null,
+      userName: json['UserName'] as String?,
+    );
+  }
+
   factory GetAccessKeyLastUsedResponse.fromXml(_s.XmlElement elem) {
     return GetAccessKeyLastUsedResponse(
       accessKeyLastUsed: _s
@@ -13170,13 +14252,22 @@ class GetAccessKeyLastUsedResponse {
       userName: _s.extractXmlStringValue(elem, 'UserName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyLastUsed = this.accessKeyLastUsed;
+    final userName = this.userName;
+    return {
+      if (accessKeyLastUsed != null) 'AccessKeyLastUsed': accessKeyLastUsed,
+      if (userName != null) 'UserName': userName,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>GetAccountAuthorizationDetails</a>
 /// request.
 class GetAccountAuthorizationDetailsResponse {
   /// A list containing information about IAM groups.
-  final List<GroupDetail> groupDetailList;
+  final List<GroupDetail>? groupDetailList;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13185,21 +14276,21 @@ class GetAccountAuthorizationDetailsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list containing information about managed policies.
-  final List<ManagedPolicyDetail> policies;
+  final List<ManagedPolicyDetail>? policies;
 
   /// A list containing information about IAM roles.
-  final List<RoleDetail> roleDetailList;
+  final List<RoleDetail>? roleDetailList;
 
   /// A list containing information about IAM users.
-  final List<UserDetail> userDetailList;
+  final List<UserDetail>? userDetailList;
 
   GetAccountAuthorizationDetailsResponse({
     this.groupDetailList,
@@ -13209,6 +14300,31 @@ class GetAccountAuthorizationDetailsResponse {
     this.roleDetailList,
     this.userDetailList,
   });
+
+  factory GetAccountAuthorizationDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetAccountAuthorizationDetailsResponse(
+      groupDetailList: (json['GroupDetailList'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ManagedPolicyDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      roleDetailList: (json['RoleDetailList'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoleDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userDetailList: (json['UserDetailList'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetAccountAuthorizationDetailsResponse.fromXml(_s.XmlElement elem) {
     return GetAccountAuthorizationDetailsResponse(
       groupDetailList: _s.extractXmlChild(elem, 'GroupDetailList')?.let(
@@ -13234,6 +14350,23 @@ class GetAccountAuthorizationDetailsResponse {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final groupDetailList = this.groupDetailList;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final policies = this.policies;
+    final roleDetailList = this.roleDetailList;
+    final userDetailList = this.userDetailList;
+    return {
+      if (groupDetailList != null) 'GroupDetailList': groupDetailList,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (policies != null) 'Policies': policies,
+      if (roleDetailList != null) 'RoleDetailList': roleDetailList,
+      if (userDetailList != null) 'UserDetailList': userDetailList,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>GetAccountPasswordPolicy</a>
@@ -13243,14 +14376,28 @@ class GetAccountPasswordPolicyResponse {
   final PasswordPolicy passwordPolicy;
 
   GetAccountPasswordPolicyResponse({
-    @_s.required this.passwordPolicy,
+    required this.passwordPolicy,
   });
+
+  factory GetAccountPasswordPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountPasswordPolicyResponse(
+      passwordPolicy: PasswordPolicy.fromJson(
+          json['PasswordPolicy'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetAccountPasswordPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetAccountPasswordPolicyResponse(
-      passwordPolicy: _s
-          .extractXmlChild(elem, 'PasswordPolicy')
-          ?.let((e) => PasswordPolicy.fromXml(e)),
+      passwordPolicy:
+          PasswordPolicy.fromXml(_s.extractXmlChild(elem, 'PasswordPolicy')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final passwordPolicy = this.passwordPolicy;
+    return {
+      'PasswordPolicy': passwordPolicy,
+    };
   }
 }
 
@@ -13258,22 +14405,39 @@ class GetAccountPasswordPolicyResponse {
 class GetAccountSummaryResponse {
   /// A set of key–value pairs containing information about IAM entity usage and
   /// IAM quotas.
-  final Map<SummaryKeyType, int> summaryMap;
+  final Map<SummaryKeyType, int>? summaryMap;
 
   GetAccountSummaryResponse({
     this.summaryMap,
   });
+
+  factory GetAccountSummaryResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountSummaryResponse(
+      summaryMap: (json['SummaryMap'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toSummaryKeyType(), e as int)),
+    );
+  }
+
   factory GetAccountSummaryResponse.fromXml(_s.XmlElement elem) {
     return GetAccountSummaryResponse(
       summaryMap: Map.fromEntries(
-        elem.getElement('SummaryMap').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key')?.toSummaryKeyType(),
-                _s.extractXmlIntValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('SummaryMap')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!.toSummaryKeyType(),
+                    _s.extractXmlIntValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summaryMap = this.summaryMap;
+    return {
+      if (summaryMap != null)
+        'SummaryMap': summaryMap.map((k, e) => MapEntry(k.toValue(), e)),
+    };
   }
 }
 
@@ -13282,11 +14446,21 @@ class GetAccountSummaryResponse {
 /// <a>GetContextKeysForCustomPolicy</a> request.
 class GetContextKeysForPolicyResponse {
   /// The list of context keys that are referenced in the input policies.
-  final List<String> contextKeyNames;
+  final List<String>? contextKeyNames;
 
   GetContextKeysForPolicyResponse({
     this.contextKeyNames,
   });
+
+  factory GetContextKeysForPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetContextKeysForPolicyResponse(
+      contextKeyNames: (json['ContextKeyNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory GetContextKeysForPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetContextKeysForPolicyResponse(
       contextKeyNames: _s
@@ -13294,25 +14468,41 @@ class GetContextKeysForPolicyResponse {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final contextKeyNames = this.contextKeyNames;
+    return {
+      if (contextKeyNames != null) 'ContextKeyNames': contextKeyNames,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>GetCredentialReport</a> request.
 class GetCredentialReportResponse {
   /// Contains the credential report. The report is Base64-encoded.
-  final Uint8List content;
+  final Uint8List? content;
 
   /// The date and time when the credential report was created, in <a
   /// href="http://www.iso.org/iso/iso8601">ISO 8601 date-time format</a>.
-  final DateTime generatedTime;
+  final DateTime? generatedTime;
 
   /// The format (MIME type) of the credential report.
-  final ReportFormatType reportFormat;
+  final ReportFormatType? reportFormat;
 
   GetCredentialReportResponse({
     this.content,
     this.generatedTime,
     this.reportFormat,
   });
+
+  factory GetCredentialReportResponse.fromJson(Map<String, dynamic> json) {
+    return GetCredentialReportResponse(
+      content: _s.decodeNullableUint8List(json['Content'] as String?),
+      generatedTime: timeStampFromJson(json['GeneratedTime']),
+      reportFormat: (json['ReportFormat'] as String?)?.toReportFormatType(),
+    );
+  }
+
   factory GetCredentialReportResponse.fromXml(_s.XmlElement elem) {
     return GetCredentialReportResponse(
       content: _s.extractXmlUint8ListValue(elem, 'Content'),
@@ -13320,6 +14510,18 @@ class GetCredentialReportResponse {
       reportFormat:
           _s.extractXmlStringValue(elem, 'ReportFormat')?.toReportFormatType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final generatedTime = this.generatedTime;
+    final reportFormat = this.reportFormat;
+    return {
+      if (content != null) 'Content': base64Encode(content),
+      if (generatedTime != null)
+        'GeneratedTime': unixTimestampToJson(generatedTime),
+      if (reportFormat != null) 'ReportFormat': reportFormat.toValue(),
+    };
   }
 }
 
@@ -13331,25 +14533,44 @@ class GetGroupPolicyResponse {
   /// The policy document.
   ///
   /// IAM stores policies in JSON format. However, resources that were created
-  /// using AWS CloudFormation templates can be formatted in YAML. AWS
-  /// CloudFormation always converts a YAML policy to JSON format before
-  /// submitting it to IAM.
+  /// using CloudFormation templates can be formatted in YAML. CloudFormation
+  /// always converts a YAML policy to JSON format before submitting it to IAM.
   final String policyDocument;
 
   /// The name of the policy.
   final String policyName;
 
   GetGroupPolicyResponse({
-    @_s.required this.groupName,
-    @_s.required this.policyDocument,
-    @_s.required this.policyName,
+    required this.groupName,
+    required this.policyDocument,
+    required this.policyName,
   });
+
+  factory GetGroupPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetGroupPolicyResponse(
+      groupName: json['GroupName'] as String,
+      policyDocument: json['PolicyDocument'] as String,
+      policyName: json['PolicyName'] as String,
+    );
+  }
+
   factory GetGroupPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetGroupPolicyResponse(
-      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
+      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupName = this.groupName;
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    return {
+      'GroupName': groupName,
+      'PolicyDocument': policyDocument,
+      'PolicyName': policyName,
+    };
   }
 }
 
@@ -13368,27 +14589,56 @@ class GetGroupResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   GetGroupResponse({
-    @_s.required this.group,
-    @_s.required this.users,
+    required this.group,
+    required this.users,
     this.isTruncated,
     this.marker,
   });
+
+  factory GetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetGroupResponse(
+      group: Group.fromJson(json['Group'] as Map<String, dynamic>),
+      users: (json['Users'] as List)
+          .whereNotNull()
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory GetGroupResponse.fromXml(_s.XmlElement elem) {
     return GetGroupResponse(
-      group: _s.extractXmlChild(elem, 'Group')?.let((e) => Group.fromXml(e)),
-      users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
-          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
+      group: Group.fromXml(_s.extractXmlChild(elem, 'Group')!),
+      users: _s
+          .extractXmlChild(elem, 'Users')!
+          .findElements('member')
+          .map((c) => User.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final group = this.group;
+    final users = this.users;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Group': group,
+      'Users': users,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -13398,31 +14648,60 @@ class GetInstanceProfileResponse {
   final InstanceProfile instanceProfile;
 
   GetInstanceProfileResponse({
-    @_s.required this.instanceProfile,
+    required this.instanceProfile,
   });
+
+  factory GetInstanceProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetInstanceProfileResponse(
+      instanceProfile: InstanceProfile.fromJson(
+          json['InstanceProfile'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetInstanceProfileResponse.fromXml(_s.XmlElement elem) {
     return GetInstanceProfileResponse(
-      instanceProfile: _s
-          .extractXmlChild(elem, 'InstanceProfile')
-          ?.let((e) => InstanceProfile.fromXml(e)),
+      instanceProfile:
+          InstanceProfile.fromXml(_s.extractXmlChild(elem, 'InstanceProfile')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfile = this.instanceProfile;
+    return {
+      'InstanceProfile': instanceProfile,
+    };
   }
 }
 
 /// Contains the response to a successful <a>GetLoginProfile</a> request.
 class GetLoginProfileResponse {
-  /// A structure containing the user name and password create date for the user.
+  /// A structure containing the user name and the profile creation date for the
+  /// user.
   final LoginProfile loginProfile;
 
   GetLoginProfileResponse({
-    @_s.required this.loginProfile,
+    required this.loginProfile,
   });
+
+  factory GetLoginProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetLoginProfileResponse(
+      loginProfile:
+          LoginProfile.fromJson(json['LoginProfile'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetLoginProfileResponse.fromXml(_s.XmlElement elem) {
     return GetLoginProfileResponse(
-      loginProfile: _s
-          .extractXmlChild(elem, 'LoginProfile')
-          ?.let((e) => LoginProfile.fromXml(e)),
+      loginProfile:
+          LoginProfile.fromXml(_s.extractXmlChild(elem, 'LoginProfile')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loginProfile = this.loginProfile;
+    return {
+      'LoginProfile': loginProfile,
+    };
   }
 }
 
@@ -13432,38 +14711,83 @@ class GetOpenIDConnectProviderResponse {
   /// A list of client IDs (also known as audiences) that are associated with the
   /// specified IAM OIDC provider resource object. For more information, see
   /// <a>CreateOpenIDConnectProvider</a>.
-  final List<String> clientIDList;
+  final List<String>? clientIDList;
 
   /// The date and time when the IAM OIDC provider resource object was created in
-  /// the AWS account.
-  final DateTime createDate;
+  /// the account.
+  final DateTime? createDate;
+
+  /// A list of tags that are attached to the specified IAM OIDC provider. The
+  /// returned list of tags is sorted by tag key. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   /// A list of certificate thumbprints that are associated with the specified IAM
   /// OIDC provider resource object. For more information, see
   /// <a>CreateOpenIDConnectProvider</a>.
-  final List<String> thumbprintList;
+  final List<String>? thumbprintList;
 
   /// The URL that the IAM OIDC provider resource object is associated with. For
   /// more information, see <a>CreateOpenIDConnectProvider</a>.
-  final String url;
+  final String? url;
 
   GetOpenIDConnectProviderResponse({
     this.clientIDList,
     this.createDate,
+    this.tags,
     this.thumbprintList,
     this.url,
   });
+
+  factory GetOpenIDConnectProviderResponse.fromJson(Map<String, dynamic> json) {
+    return GetOpenIDConnectProviderResponse(
+      clientIDList: (json['ClientIDList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      createDate: timeStampFromJson(json['CreateDate']),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      thumbprintList: (json['ThumbprintList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      url: json['Url'] as String?,
+    );
+  }
+
   factory GetOpenIDConnectProviderResponse.fromXml(_s.XmlElement elem) {
     return GetOpenIDConnectProviderResponse(
       clientIDList: _s
           .extractXmlChild(elem, 'ClientIDList')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       thumbprintList: _s
           .extractXmlChild(elem, 'ThumbprintList')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       url: _s.extractXmlStringValue(elem, 'Url'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientIDList = this.clientIDList;
+    final createDate = this.createDate;
+    final tags = this.tags;
+    final thumbprintList = this.thumbprintList;
+    final url = this.url;
+    return {
+      if (clientIDList != null) 'ClientIDList': clientIDList,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (tags != null) 'Tags': tags,
+      if (thumbprintList != null) 'ThumbprintList': thumbprintList,
+      if (url != null) 'Url': url,
+    };
   }
 }
 
@@ -13477,8 +14801,8 @@ class GetOrganizationsAccessReportResponse {
 
   /// An object that contains details about the most recent attempt to access the
   /// service.
-  final List<AccessDetail> accessDetails;
-  final ErrorDetails errorDetails;
+  final List<AccessDetail>? accessDetails;
+  final ErrorDetails? errorDetails;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13487,31 +14811,31 @@ class GetOrganizationsAccessReportResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the generated report job was completed or failed.
   ///
   /// This field is null if the job is still in progress, as indicated by a job
   /// status value of <code>IN_PROGRESS</code>.
-  final DateTime jobCompletionDate;
+  final DateTime? jobCompletionDate;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// The number of services that the applicable SCPs allow account principals to
   /// access.
-  final int numberOfServicesAccessible;
+  final int? numberOfServicesAccessible;
 
   /// The number of services that account principals are allowed but did not
   /// attempt to access.
-  final int numberOfServicesNotAccessed;
+  final int? numberOfServicesNotAccessed;
 
   GetOrganizationsAccessReportResponse({
-    @_s.required this.jobCreationDate,
-    @_s.required this.jobStatus,
+    required this.jobCreationDate,
+    required this.jobStatus,
     this.accessDetails,
     this.errorDetails,
     this.isTruncated,
@@ -13520,10 +14844,32 @@ class GetOrganizationsAccessReportResponse {
     this.numberOfServicesAccessible,
     this.numberOfServicesNotAccessed,
   });
+
+  factory GetOrganizationsAccessReportResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetOrganizationsAccessReportResponse(
+      jobCreationDate:
+          nonNullableTimeStampFromJson(json['JobCreationDate'] as Object),
+      jobStatus: (json['JobStatus'] as String).toJobStatusType(),
+      accessDetails: (json['AccessDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errorDetails: json['ErrorDetails'] != null
+          ? ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>)
+          : null,
+      isTruncated: json['IsTruncated'] as bool?,
+      jobCompletionDate: timeStampFromJson(json['JobCompletionDate']),
+      marker: json['Marker'] as String?,
+      numberOfServicesAccessible: json['NumberOfServicesAccessible'] as int?,
+      numberOfServicesNotAccessed: json['NumberOfServicesNotAccessed'] as int?,
+    );
+  }
+
   factory GetOrganizationsAccessReportResponse.fromXml(_s.XmlElement elem) {
     return GetOrganizationsAccessReportResponse(
-      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate'),
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')?.toJobStatusType(),
+      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
+      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
       accessDetails: _s.extractXmlChild(elem, 'AccessDetails')?.let((elem) =>
           elem
               .findElements('member')
@@ -13541,37 +14887,96 @@ class GetOrganizationsAccessReportResponse {
           _s.extractXmlIntValue(elem, 'NumberOfServicesNotAccessed'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final jobCreationDate = this.jobCreationDate;
+    final jobStatus = this.jobStatus;
+    final accessDetails = this.accessDetails;
+    final errorDetails = this.errorDetails;
+    final isTruncated = this.isTruncated;
+    final jobCompletionDate = this.jobCompletionDate;
+    final marker = this.marker;
+    final numberOfServicesAccessible = this.numberOfServicesAccessible;
+    final numberOfServicesNotAccessed = this.numberOfServicesNotAccessed;
+    return {
+      'JobCreationDate': unixTimestampToJson(jobCreationDate),
+      'JobStatus': jobStatus.toValue(),
+      if (accessDetails != null) 'AccessDetails': accessDetails,
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (jobCompletionDate != null)
+        'JobCompletionDate': unixTimestampToJson(jobCompletionDate),
+      if (marker != null) 'Marker': marker,
+      if (numberOfServicesAccessible != null)
+        'NumberOfServicesAccessible': numberOfServicesAccessible,
+      if (numberOfServicesNotAccessed != null)
+        'NumberOfServicesNotAccessed': numberOfServicesNotAccessed,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>GetPolicy</a> request.
 class GetPolicyResponse {
   /// A structure containing details about the policy.
-  final Policy policy;
+  final Policy? policy;
 
   GetPolicyResponse({
     this.policy,
   });
+
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetPolicyResponse(
       policy: _s.extractXmlChild(elem, 'Policy')?.let((e) => Policy.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
   }
 }
 
 /// Contains the response to a successful <a>GetPolicyVersion</a> request.
 class GetPolicyVersionResponse {
   /// A structure containing details about the policy version.
-  final PolicyVersion policyVersion;
+  final PolicyVersion? policyVersion;
 
   GetPolicyVersionResponse({
     this.policyVersion,
   });
+
+  factory GetPolicyVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyVersionResponse(
+      policyVersion: json['PolicyVersion'] != null
+          ? PolicyVersion.fromJson(
+              json['PolicyVersion'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetPolicyVersionResponse.fromXml(_s.XmlElement elem) {
     return GetPolicyVersionResponse(
       policyVersion: _s
           .extractXmlChild(elem, 'PolicyVersion')
           ?.let((e) => PolicyVersion.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyVersion = this.policyVersion;
+    return {
+      if (policyVersion != null) 'PolicyVersion': policyVersion,
+    };
   }
 }
 
@@ -13580,9 +14985,8 @@ class GetRolePolicyResponse {
   /// The policy document.
   ///
   /// IAM stores policies in JSON format. However, resources that were created
-  /// using AWS CloudFormation templates can be formatted in YAML. AWS
-  /// CloudFormation always converts a YAML policy to JSON format before
-  /// submitting it to IAM.
+  /// using CloudFormation templates can be formatted in YAML. CloudFormation
+  /// always converts a YAML policy to JSON format before submitting it to IAM.
   final String policyDocument;
 
   /// The name of the policy.
@@ -13592,16 +14996,36 @@ class GetRolePolicyResponse {
   final String roleName;
 
   GetRolePolicyResponse({
-    @_s.required this.policyDocument,
-    @_s.required this.policyName,
-    @_s.required this.roleName,
+    required this.policyDocument,
+    required this.policyName,
+    required this.roleName,
   });
+
+  factory GetRolePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetRolePolicyResponse(
+      policyDocument: json['PolicyDocument'] as String,
+      policyName: json['PolicyName'] as String,
+      roleName: json['RoleName'] as String,
+    );
+  }
+
   factory GetRolePolicyResponse.fromXml(_s.XmlElement elem) {
     return GetRolePolicyResponse(
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-      roleName: _s.extractXmlStringValue(elem, 'RoleName'),
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      roleName: _s.extractXmlStringValue(elem, 'RoleName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    final roleName = this.roleName;
+    return {
+      'PolicyDocument': policyDocument,
+      'PolicyName': policyName,
+      'RoleName': roleName,
+    };
   }
 }
 
@@ -13611,56 +15035,123 @@ class GetRoleResponse {
   final Role role;
 
   GetRoleResponse({
-    @_s.required this.role,
+    required this.role,
   });
+
+  factory GetRoleResponse.fromJson(Map<String, dynamic> json) {
+    return GetRoleResponse(
+      role: Role.fromJson(json['Role'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetRoleResponse.fromXml(_s.XmlElement elem) {
     return GetRoleResponse(
-      role: _s.extractXmlChild(elem, 'Role')?.let((e) => Role.fromXml(e)),
+      role: Role.fromXml(_s.extractXmlChild(elem, 'Role')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    return {
+      'Role': role,
+    };
   }
 }
 
 /// Contains the response to a successful <a>GetSAMLProvider</a> request.
 class GetSAMLProviderResponse {
   /// The date and time when the SAML provider was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The XML metadata document that includes information about an identity
   /// provider.
-  final String sAMLMetadataDocument;
+  final String? sAMLMetadataDocument;
+
+  /// A list of tags that are attached to the specified IAM SAML provider. The
+  /// returned list of tags is sorted by tag key. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   /// The expiration date and time for the SAML provider.
-  final DateTime validUntil;
+  final DateTime? validUntil;
 
   GetSAMLProviderResponse({
     this.createDate,
     this.sAMLMetadataDocument,
+    this.tags,
     this.validUntil,
   });
+
+  factory GetSAMLProviderResponse.fromJson(Map<String, dynamic> json) {
+    return GetSAMLProviderResponse(
+      createDate: timeStampFromJson(json['CreateDate']),
+      sAMLMetadataDocument: json['SAMLMetadataDocument'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      validUntil: timeStampFromJson(json['ValidUntil']),
+    );
+  }
+
   factory GetSAMLProviderResponse.fromXml(_s.XmlElement elem) {
     return GetSAMLProviderResponse(
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
       sAMLMetadataDocument:
           _s.extractXmlStringValue(elem, 'SAMLMetadataDocument'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       validUntil: _s.extractXmlDateTimeValue(elem, 'ValidUntil'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final sAMLMetadataDocument = this.sAMLMetadataDocument;
+    final tags = this.tags;
+    final validUntil = this.validUntil;
+    return {
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (sAMLMetadataDocument != null)
+        'SAMLMetadataDocument': sAMLMetadataDocument,
+      if (tags != null) 'Tags': tags,
+      if (validUntil != null) 'ValidUntil': unixTimestampToJson(validUntil),
+    };
   }
 }
 
 /// Contains the response to a successful <a>GetSSHPublicKey</a> request.
 class GetSSHPublicKeyResponse {
   /// A structure containing details about the SSH public key.
-  final SSHPublicKey sSHPublicKey;
+  final SSHPublicKey? sSHPublicKey;
 
   GetSSHPublicKeyResponse({
     this.sSHPublicKey,
   });
+
+  factory GetSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return GetSSHPublicKeyResponse(
+      sSHPublicKey: json['SSHPublicKey'] != null
+          ? SSHPublicKey.fromJson(json['SSHPublicKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetSSHPublicKeyResponse.fromXml(_s.XmlElement elem) {
     return GetSSHPublicKeyResponse(
       sSHPublicKey: _s
           .extractXmlChild(elem, 'SSHPublicKey')
           ?.let((e) => SSHPublicKey.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sSHPublicKey = this.sSHPublicKey;
+    return {
+      if (sSHPublicKey != null) 'SSHPublicKey': sSHPublicKey,
+    };
   }
 }
 
@@ -13670,14 +15161,28 @@ class GetServerCertificateResponse {
   final ServerCertificate serverCertificate;
 
   GetServerCertificateResponse({
-    @_s.required this.serverCertificate,
+    required this.serverCertificate,
   });
+
+  factory GetServerCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return GetServerCertificateResponse(
+      serverCertificate: ServerCertificate.fromJson(
+          json['ServerCertificate'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetServerCertificateResponse.fromXml(_s.XmlElement elem) {
     return GetServerCertificateResponse(
-      serverCertificate: _s
-          .extractXmlChild(elem, 'ServerCertificate')
-          ?.let((e) => ServerCertificate.fromXml(e)),
+      serverCertificate: ServerCertificate.fromXml(
+          _s.extractXmlChild(elem, 'ServerCertificate')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverCertificate = this.serverCertificate;
+    return {
+      'ServerCertificate': serverCertificate,
+    };
   }
 }
 
@@ -13701,7 +15206,7 @@ class GetServiceLastAccessedDetailsResponse {
   final List<ServiceLastAccessed> servicesLastAccessed;
 
   /// An object that contains details about the reason the operation failed.
-  final ErrorDetails error;
+  final ErrorDetails? error;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13710,39 +15215,61 @@ class GetServiceLastAccessedDetailsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The type of job. Service jobs return information about when each service was
   /// last accessed. Action jobs also include information about when tracked
   /// actions within the service were last accessed.
-  final AccessAdvisorUsageGranularityType jobType;
+  final AccessAdvisorUsageGranularityType? jobType;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   GetServiceLastAccessedDetailsResponse({
-    @_s.required this.jobCompletionDate,
-    @_s.required this.jobCreationDate,
-    @_s.required this.jobStatus,
-    @_s.required this.servicesLastAccessed,
+    required this.jobCompletionDate,
+    required this.jobCreationDate,
+    required this.jobStatus,
+    required this.servicesLastAccessed,
     this.error,
     this.isTruncated,
     this.jobType,
     this.marker,
   });
+
+  factory GetServiceLastAccessedDetailsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetServiceLastAccessedDetailsResponse(
+      jobCompletionDate:
+          nonNullableTimeStampFromJson(json['JobCompletionDate'] as Object),
+      jobCreationDate:
+          nonNullableTimeStampFromJson(json['JobCreationDate'] as Object),
+      jobStatus: (json['JobStatus'] as String).toJobStatusType(),
+      servicesLastAccessed: (json['ServicesLastAccessed'] as List)
+          .whereNotNull()
+          .map((e) => ServiceLastAccessed.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      error: json['Error'] != null
+          ? ErrorDetails.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      isTruncated: json['IsTruncated'] as bool?,
+      jobType:
+          (json['JobType'] as String?)?.toAccessAdvisorUsageGranularityType(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory GetServiceLastAccessedDetailsResponse.fromXml(_s.XmlElement elem) {
     return GetServiceLastAccessedDetailsResponse(
-      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate'),
-      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate'),
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')?.toJobStatusType(),
+      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate')!,
+      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
+      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
       servicesLastAccessed: _s
-          .extractXmlChild(elem, 'ServicesLastAccessed')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => ServiceLastAccessed.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'ServicesLastAccessed')!
+          .findElements('member')
+          .map((c) => ServiceLastAccessed.fromXml(c))
+          .toList(),
       error: _s
           .extractXmlChild(elem, 'Error')
           ?.let((e) => ErrorDetails.fromXml(e)),
@@ -13753,12 +15280,33 @@ class GetServiceLastAccessedDetailsResponse {
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final jobCompletionDate = this.jobCompletionDate;
+    final jobCreationDate = this.jobCreationDate;
+    final jobStatus = this.jobStatus;
+    final servicesLastAccessed = this.servicesLastAccessed;
+    final error = this.error;
+    final isTruncated = this.isTruncated;
+    final jobType = this.jobType;
+    final marker = this.marker;
+    return {
+      'JobCompletionDate': unixTimestampToJson(jobCompletionDate),
+      'JobCreationDate': unixTimestampToJson(jobCreationDate),
+      'JobStatus': jobStatus.toValue(),
+      'ServicesLastAccessed': servicesLastAccessed,
+      if (error != null) 'Error': error,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (jobType != null) 'JobType': jobType.toValue(),
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 class GetServiceLastAccessedDetailsWithEntitiesResponse {
   /// An <code>EntityDetailsList</code> object that contains details about when an
   /// IAM entity (user or role) used group or policy permissions in an attempt to
-  /// access the specified AWS service.
+  /// access the specified Amazon Web Services service.
   final List<EntityDetails> entityDetailsList;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
@@ -13776,7 +15324,7 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
   final JobStatusType jobStatus;
 
   /// An object that contains details about the reason the operation failed.
-  final ErrorDetails error;
+  final ErrorDetails? error;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -13785,39 +15333,79 @@ class GetServiceLastAccessedDetailsWithEntitiesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   GetServiceLastAccessedDetailsWithEntitiesResponse({
-    @_s.required this.entityDetailsList,
-    @_s.required this.jobCompletionDate,
-    @_s.required this.jobCreationDate,
-    @_s.required this.jobStatus,
+    required this.entityDetailsList,
+    required this.jobCompletionDate,
+    required this.jobCreationDate,
+    required this.jobStatus,
     this.error,
     this.isTruncated,
     this.marker,
   });
+
+  factory GetServiceLastAccessedDetailsWithEntitiesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetServiceLastAccessedDetailsWithEntitiesResponse(
+      entityDetailsList: (json['EntityDetailsList'] as List)
+          .whereNotNull()
+          .map((e) => EntityDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      jobCompletionDate:
+          nonNullableTimeStampFromJson(json['JobCompletionDate'] as Object),
+      jobCreationDate:
+          nonNullableTimeStampFromJson(json['JobCreationDate'] as Object),
+      jobStatus: (json['JobStatus'] as String).toJobStatusType(),
+      error: json['Error'] != null
+          ? ErrorDetails.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory GetServiceLastAccessedDetailsWithEntitiesResponse.fromXml(
       _s.XmlElement elem) {
     return GetServiceLastAccessedDetailsWithEntitiesResponse(
-      entityDetailsList: _s.extractXmlChild(elem, 'EntityDetailsList')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => EntityDetails.fromXml(c))
-              .toList()),
-      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate'),
-      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate'),
-      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')?.toJobStatusType(),
+      entityDetailsList: _s
+          .extractXmlChild(elem, 'EntityDetailsList')!
+          .findElements('member')
+          .map((c) => EntityDetails.fromXml(c))
+          .toList(),
+      jobCompletionDate: _s.extractXmlDateTimeValue(elem, 'JobCompletionDate')!,
+      jobCreationDate: _s.extractXmlDateTimeValue(elem, 'JobCreationDate')!,
+      jobStatus: _s.extractXmlStringValue(elem, 'JobStatus')!.toJobStatusType(),
       error: _s
           .extractXmlChild(elem, 'Error')
           ?.let((e) => ErrorDetails.fromXml(e)),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final entityDetailsList = this.entityDetailsList;
+    final jobCompletionDate = this.jobCompletionDate;
+    final jobCreationDate = this.jobCreationDate;
+    final jobStatus = this.jobStatus;
+    final error = this.error;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'EntityDetailsList': entityDetailsList,
+      'JobCompletionDate': unixTimestampToJson(jobCompletionDate),
+      'JobCreationDate': unixTimestampToJson(jobCreationDate),
+      'JobStatus': jobStatus.toValue(),
+      if (error != null) 'Error': error,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -13826,21 +15414,42 @@ class GetServiceLinkedRoleDeletionStatusResponse {
   final DeletionTaskStatusType status;
 
   /// An object that contains details about the reason the deletion failed.
-  final DeletionTaskFailureReasonType reason;
+  final DeletionTaskFailureReasonType? reason;
 
   GetServiceLinkedRoleDeletionStatusResponse({
-    @_s.required this.status,
+    required this.status,
     this.reason,
   });
+
+  factory GetServiceLinkedRoleDeletionStatusResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetServiceLinkedRoleDeletionStatusResponse(
+      status: (json['Status'] as String).toDeletionTaskStatusType(),
+      reason: json['Reason'] != null
+          ? DeletionTaskFailureReasonType.fromJson(
+              json['Reason'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetServiceLinkedRoleDeletionStatusResponse.fromXml(
       _s.XmlElement elem) {
     return GetServiceLinkedRoleDeletionStatusResponse(
       status:
-          _s.extractXmlStringValue(elem, 'Status')?.toDeletionTaskStatusType(),
+          _s.extractXmlStringValue(elem, 'Status')!.toDeletionTaskStatusType(),
       reason: _s
           .extractXmlChild(elem, 'Reason')
           ?.let((e) => DeletionTaskFailureReasonType.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final reason = this.reason;
+    return {
+      'Status': status.toValue(),
+      if (reason != null) 'Reason': reason,
+    };
   }
 }
 
@@ -13849,9 +15458,8 @@ class GetUserPolicyResponse {
   /// The policy document.
   ///
   /// IAM stores policies in JSON format. However, resources that were created
-  /// using AWS CloudFormation templates can be formatted in YAML. AWS
-  /// CloudFormation always converts a YAML policy to JSON format before
-  /// submitting it to IAM.
+  /// using CloudFormation templates can be formatted in YAML. CloudFormation
+  /// always converts a YAML policy to JSON format before submitting it to IAM.
   final String policyDocument;
 
   /// The name of the policy.
@@ -13861,16 +15469,36 @@ class GetUserPolicyResponse {
   final String userName;
 
   GetUserPolicyResponse({
-    @_s.required this.policyDocument,
-    @_s.required this.policyName,
-    @_s.required this.userName,
+    required this.policyDocument,
+    required this.policyName,
+    required this.userName,
   });
+
+  factory GetUserPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserPolicyResponse(
+      policyDocument: json['PolicyDocument'] as String,
+      policyName: json['PolicyName'] as String,
+      userName: json['UserName'] as String,
+    );
+  }
+
   factory GetUserPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetUserPolicyResponse(
-      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument')!,
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    final userName = this.userName;
+    return {
+      'PolicyDocument': policyDocument,
+      'PolicyName': policyName,
+      'UserName': userName,
+    };
   }
 }
 
@@ -13884,28 +15512,43 @@ class GetUserResponse {
   /// sign-in</a> dates shown in the IAM console and password last used dates in
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html">IAM
-  /// credential report</a>, and returned by this GetUser API. If users signed in
+  /// credential report</a>, and returned by this operation. If users signed in
   /// during the affected time, the password last used date that is returned is
   /// the date the user last signed in before May 3, 2018. For users that signed
   /// in after May 23, 2018 14:08 PDT, the returned password last used date is
   /// accurate.
   ///
   /// You can use password last used information to identify unused credentials
-  /// for deletion. For example, you might delete users who did not sign in to AWS
-  /// in the last 90 days. In cases like this, we recommend that you adjust your
-  /// evaluation window to include dates after May 23, 2018. Alternatively, if
-  /// your users use access keys to access AWS programmatically you can refer to
-  /// access key last used information because it is accurate for all dates.
+  /// for deletion. For example, you might delete users who did not sign in to
+  /// Amazon Web Services in the last 90 days. In cases like this, we recommend
+  /// that you adjust your evaluation window to include dates after May 23, 2018.
+  /// Alternatively, if your users use access keys to access Amazon Web Services
+  /// programmatically you can refer to access key last used information because
+  /// it is accurate for all dates.
   /// </important>
   final User user;
 
   GetUserResponse({
-    @_s.required this.user,
+    required this.user,
   });
+
+  factory GetUserResponse.fromJson(Map<String, dynamic> json) {
+    return GetUserResponse(
+      user: User.fromJson(json['User'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetUserResponse.fromXml(_s.XmlElement elem) {
     return GetUserResponse(
-      user: _s.extractXmlChild(elem, 'User')?.let((e) => User.fromXml(e)),
+      user: User.fromXml(_s.extractXmlChild(elem, 'User')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      'User': user,
+    };
   }
 }
 
@@ -13928,7 +15571,7 @@ class Group {
   /// The Amazon Resource Name (ARN) specifying the group. For more information
   /// about ARNs and how to use them in policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String arn;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
@@ -13938,7 +15581,7 @@ class Group {
   /// The stable and unique string identifying the group. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String groupId;
 
   /// The friendly name that identifies the group.
@@ -13946,24 +15589,50 @@ class Group {
 
   /// The path to the group. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String path;
 
   Group({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.groupId,
-    @_s.required this.groupName,
-    @_s.required this.path,
+    required this.arn,
+    required this.createDate,
+    required this.groupId,
+    required this.groupName,
+    required this.path,
   });
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      arn: json['Arn'] as String,
+      createDate: nonNullableTimeStampFromJson(json['CreateDate'] as Object),
+      groupId: json['GroupId'] as String,
+      groupName: json['GroupName'] as String,
+      path: json['Path'] as String,
+    );
+  }
+
   factory Group.fromXml(_s.XmlElement elem) {
     return Group(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      groupId: _s.extractXmlStringValue(elem, 'GroupId'),
-      groupName: _s.extractXmlStringValue(elem, 'GroupName'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      groupId: _s.extractXmlStringValue(elem, 'GroupId')!,
+      groupName: _s.extractXmlStringValue(elem, 'GroupName')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    final path = this.path;
+    return {
+      'Arn': arn,
+      'CreateDate': unixTimestampToJson(createDate),
+      'GroupId': groupId,
+      'GroupName': groupName,
+      'Path': path,
+    };
   }
 }
 
@@ -13973,31 +15642,31 @@ class Group {
 /// This data type is used as a response element in the
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class GroupDetail {
-  final String arn;
+  final String? arn;
 
   /// A list of the managed policies attached to the group.
-  final List<AttachedPolicy> attachedManagedPolicies;
+  final List<AttachedPolicy>? attachedManagedPolicies;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the group was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The stable and unique string identifying the group. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String groupId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? groupId;
 
   /// The friendly name that identifies the group.
-  final String groupName;
+  final String? groupName;
 
   /// A list of the inline policies embedded in the group.
-  final List<PolicyDetail> groupPolicyList;
+  final List<PolicyDetail>? groupPolicyList;
 
   /// The path to the group. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
 
   GroupDetail({
     this.arn,
@@ -14008,6 +15677,25 @@ class GroupDetail {
     this.groupPolicyList,
     this.path,
   });
+
+  factory GroupDetail.fromJson(Map<String, dynamic> json) {
+    return GroupDetail(
+      arn: json['Arn'] as String?,
+      attachedManagedPolicies: (json['AttachedManagedPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createDate: timeStampFromJson(json['CreateDate']),
+      groupId: json['GroupId'] as String?,
+      groupName: json['GroupName'] as String?,
+      groupPolicyList: (json['GroupPolicyList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      path: json['Path'] as String?,
+    );
+  }
+
   factory GroupDetail.fromXml(_s.XmlElement elem) {
     return GroupDetail(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
@@ -14027,6 +15715,26 @@ class GroupDetail {
               .toList()),
       path: _s.extractXmlStringValue(elem, 'Path'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attachedManagedPolicies = this.attachedManagedPolicies;
+    final createDate = this.createDate;
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    final groupPolicyList = this.groupPolicyList;
+    final path = this.path;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (attachedManagedPolicies != null)
+        'AttachedManagedPolicies': attachedManagedPolicies,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (groupId != null) 'GroupId': groupId,
+      if (groupName != null) 'GroupName': groupName,
+      if (groupPolicyList != null) 'GroupPolicyList': groupPolicyList,
+      if (path != null) 'Path': path,
+    };
   }
 }
 
@@ -14052,7 +15760,7 @@ class InstanceProfile {
   /// The Amazon Resource Name (ARN) specifying the instance profile. For more
   /// information about ARNs and how to use them in policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String arn;
 
   /// The date when the instance profile was created.
@@ -14061,7 +15769,7 @@ class InstanceProfile {
   /// The stable and unique string identifying the instance profile. For more
   /// information about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String instanceProfileId;
 
   /// The name identifying the instance profile.
@@ -14069,31 +15777,81 @@ class InstanceProfile {
 
   /// The path to the instance profile. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String path;
 
   /// The role associated with the instance profile.
   final List<Role> roles;
 
+  /// A list of tags that are attached to the instance profile. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
+
   InstanceProfile({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.instanceProfileId,
-    @_s.required this.instanceProfileName,
-    @_s.required this.path,
-    @_s.required this.roles,
+    required this.arn,
+    required this.createDate,
+    required this.instanceProfileId,
+    required this.instanceProfileName,
+    required this.path,
+    required this.roles,
+    this.tags,
   });
+
+  factory InstanceProfile.fromJson(Map<String, dynamic> json) {
+    return InstanceProfile(
+      arn: json['Arn'] as String,
+      createDate: nonNullableTimeStampFromJson(json['CreateDate'] as Object),
+      instanceProfileId: json['InstanceProfileId'] as String,
+      instanceProfileName: json['InstanceProfileName'] as String,
+      path: json['Path'] as String,
+      roles: (json['Roles'] as List)
+          .whereNotNull()
+          .map((e) => Role.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory InstanceProfile.fromXml(_s.XmlElement elem) {
     return InstanceProfile(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      instanceProfileId: _s.extractXmlStringValue(elem, 'InstanceProfileId'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      instanceProfileId: _s.extractXmlStringValue(elem, 'InstanceProfileId')!,
       instanceProfileName:
-          _s.extractXmlStringValue(elem, 'InstanceProfileName'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      roles: _s.extractXmlChild(elem, 'Roles')?.let((elem) =>
-          elem.findElements('member').map((c) => Role.fromXml(c)).toList()),
+          _s.extractXmlStringValue(elem, 'InstanceProfileName')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      roles: _s
+          .extractXmlChild(elem, 'Roles')!
+          .findElements('member')
+          .map((c) => Role.fromXml(c))
+          .toList(),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final instanceProfileId = this.instanceProfileId;
+    final instanceProfileName = this.instanceProfileName;
+    final path = this.path;
+    final roles = this.roles;
+    final tags = this.tags;
+    return {
+      'Arn': arn,
+      'CreateDate': unixTimestampToJson(createDate),
+      'InstanceProfileId': instanceProfileId,
+      'InstanceProfileName': instanceProfileName,
+      'Path': path,
+      'Roles': roles,
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
@@ -14109,35 +15867,58 @@ class ListAccessKeysResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAccessKeysResponse({
-    @_s.required this.accessKeyMetadata,
+    required this.accessKeyMetadata,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListAccessKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccessKeysResponse(
+      accessKeyMetadata: (json['AccessKeyMetadata'] as List)
+          .whereNotNull()
+          .map((e) => AccessKeyMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListAccessKeysResponse.fromXml(_s.XmlElement elem) {
     return ListAccessKeysResponse(
-      accessKeyMetadata: _s.extractXmlChild(elem, 'AccessKeyMetadata')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => AccessKeyMetadata.fromXml(c))
-              .toList()),
+      accessKeyMetadata: _s
+          .extractXmlChild(elem, 'AccessKeyMetadata')!
+          .findElements('member')
+          .map((c) => AccessKeyMetadata.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyMetadata = this.accessKeyMetadata;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'AccessKeyMetadata': accessKeyMetadata,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
 /// Contains the response to a successful <a>ListAccountAliases</a> request.
 class ListAccountAliasesResponse {
-  /// A list of aliases associated with the account. AWS supports only one alias
-  /// per account.
+  /// A list of aliases associated with the account. Amazon Web Services supports
+  /// only one alias per account.
   final List<String> accountAliases;
 
   /// A flag that indicates whether there are more items to return. If your
@@ -14147,26 +15928,48 @@ class ListAccountAliasesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAccountAliasesResponse({
-    @_s.required this.accountAliases,
+    required this.accountAliases,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListAccountAliasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountAliasesResponse(
+      accountAliases: (json['AccountAliases'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListAccountAliasesResponse.fromXml(_s.XmlElement elem) {
     return ListAccountAliasesResponse(
-      accountAliases: _s
-          .extractXmlChild(elem, 'AccountAliases')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      accountAliases: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'AccountAliases')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountAliases = this.accountAliases;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'AccountAliases': accountAliases,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14174,7 +15977,7 @@ class ListAccountAliasesResponse {
 /// request.
 class ListAttachedGroupPoliciesResponse {
   /// A list of the attached policies.
-  final List<AttachedPolicy> attachedPolicies;
+  final List<AttachedPolicy>? attachedPolicies;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14183,18 +15986,31 @@ class ListAttachedGroupPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAttachedGroupPoliciesResponse({
     this.attachedPolicies,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListAttachedGroupPoliciesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListAttachedGroupPoliciesResponse(
+      attachedPolicies: (json['AttachedPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListAttachedGroupPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListAttachedGroupPoliciesResponse(
       attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
@@ -14206,13 +16022,24 @@ class ListAttachedGroupPoliciesResponse {
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final attachedPolicies = this.attachedPolicies;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>ListAttachedRolePolicies</a>
 /// request.
 class ListAttachedRolePoliciesResponse {
   /// A list of the attached policies.
-  final List<AttachedPolicy> attachedPolicies;
+  final List<AttachedPolicy>? attachedPolicies;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14221,18 +16048,30 @@ class ListAttachedRolePoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAttachedRolePoliciesResponse({
     this.attachedPolicies,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListAttachedRolePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttachedRolePoliciesResponse(
+      attachedPolicies: (json['AttachedPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListAttachedRolePoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListAttachedRolePoliciesResponse(
       attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
@@ -14244,13 +16083,24 @@ class ListAttachedRolePoliciesResponse {
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final attachedPolicies = this.attachedPolicies;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// Contains the response to a successful <a>ListAttachedUserPolicies</a>
 /// request.
 class ListAttachedUserPoliciesResponse {
   /// A list of the attached policies.
-  final List<AttachedPolicy> attachedPolicies;
+  final List<AttachedPolicy>? attachedPolicies;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -14259,18 +16109,30 @@ class ListAttachedUserPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListAttachedUserPoliciesResponse({
     this.attachedPolicies,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListAttachedUserPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAttachedUserPoliciesResponse(
+      attachedPolicies: (json['AttachedPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListAttachedUserPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListAttachedUserPoliciesResponse(
       attachedPolicies: _s.extractXmlChild(elem, 'AttachedPolicies')?.let(
@@ -14281,6 +16143,17 @@ class ListAttachedUserPoliciesResponse {
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachedPolicies = this.attachedPolicies;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (attachedPolicies != null) 'AttachedPolicies': attachedPolicies,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14293,21 +16166,21 @@ class ListEntitiesForPolicyResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of IAM groups that the policy is attached to.
-  final List<PolicyGroup> policyGroups;
+  final List<PolicyGroup>? policyGroups;
 
   /// A list of IAM roles that the policy is attached to.
-  final List<PolicyRole> policyRoles;
+  final List<PolicyRole>? policyRoles;
 
   /// A list of IAM users that the policy is attached to.
-  final List<PolicyUser> policyUsers;
+  final List<PolicyUser>? policyUsers;
 
   ListEntitiesForPolicyResponse({
     this.isTruncated,
@@ -14316,6 +16189,26 @@ class ListEntitiesForPolicyResponse {
     this.policyRoles,
     this.policyUsers,
   });
+
+  factory ListEntitiesForPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return ListEntitiesForPolicyResponse(
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+      policyGroups: (json['PolicyGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      policyRoles: (json['PolicyRoles'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyRole.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      policyUsers: (json['PolicyUsers'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyUser.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListEntitiesForPolicyResponse.fromXml(_s.XmlElement elem) {
     return ListEntitiesForPolicyResponse(
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14333,6 +16226,21 @@ class ListEntitiesForPolicyResponse {
           .map((c) => PolicyUser.fromXml(c))
           .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final policyGroups = this.policyGroups;
+    final policyRoles = this.policyRoles;
+    final policyUsers = this.policyUsers;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (policyGroups != null) 'PolicyGroups': policyGroups,
+      if (policyRoles != null) 'PolicyRoles': policyRoles,
+      if (policyUsers != null) 'PolicyUsers': policyUsers,
+    };
   }
 }
 
@@ -14353,26 +16261,48 @@ class ListGroupPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListGroupPoliciesResponse({
-    @_s.required this.policyNames,
+    required this.policyNames,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListGroupPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupPoliciesResponse(
+      policyNames: (json['PolicyNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListGroupPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListGroupPoliciesResponse(
-      policyNames: _s
-          .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyNames = this.policyNames;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PolicyNames': policyNames,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14388,25 +16318,51 @@ class ListGroupsForUserResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListGroupsForUserResponse({
-    @_s.required this.groups,
+    required this.groups,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListGroupsForUserResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsForUserResponse(
+      groups: (json['Groups'] as List)
+          .whereNotNull()
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListGroupsForUserResponse.fromXml(_s.XmlElement elem) {
     return ListGroupsForUserResponse(
-      groups: _s.extractXmlChild(elem, 'Groups')?.let((elem) =>
-          elem.findElements('member').map((c) => Group.fromXml(c)).toList()),
+      groups: _s
+          .extractXmlChild(elem, 'Groups')!
+          .findElements('member')
+          .map((c) => Group.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Groups': groups,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14422,25 +16378,112 @@ class ListGroupsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListGroupsResponse({
-    @_s.required this.groups,
+    required this.groups,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsResponse(
+      groups: (json['Groups'] as List)
+          .whereNotNull()
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListGroupsResponse.fromXml(_s.XmlElement elem) {
     return ListGroupsResponse(
-      groups: _s.extractXmlChild(elem, 'Groups')?.let((elem) =>
-          elem.findElements('member').map((c) => Group.fromXml(c)).toList()),
+      groups: _s
+          .extractXmlChild(elem, 'Groups')!
+          .findElements('member')
+          .map((c) => Group.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Groups': groups,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListInstanceProfileTagsResponse {
+  /// The list of tags that are currently attached to the IAM instance profile.
+  /// Each tag consists of a key name and an associated value. If no tags are
+  /// attached to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListInstanceProfileTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+
+  factory ListInstanceProfileTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListInstanceProfileTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  factory ListInstanceProfileTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListInstanceProfileTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14457,28 +16500,52 @@ class ListInstanceProfilesForRoleResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListInstanceProfilesForRoleResponse({
-    @_s.required this.instanceProfiles,
+    required this.instanceProfiles,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListInstanceProfilesForRoleResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListInstanceProfilesForRoleResponse(
+      instanceProfiles: (json['InstanceProfiles'] as List)
+          .whereNotNull()
+          .map((e) => InstanceProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListInstanceProfilesForRoleResponse.fromXml(_s.XmlElement elem) {
     return ListInstanceProfilesForRoleResponse(
-      instanceProfiles: _s.extractXmlChild(elem, 'InstanceProfiles')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => InstanceProfile.fromXml(c))
-              .toList()),
+      instanceProfiles: _s
+          .extractXmlChild(elem, 'InstanceProfiles')!
+          .findElements('member')
+          .map((c) => InstanceProfile.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfiles = this.instanceProfiles;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'InstanceProfiles': instanceProfiles,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14494,28 +16561,112 @@ class ListInstanceProfilesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListInstanceProfilesResponse({
-    @_s.required this.instanceProfiles,
+    required this.instanceProfiles,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListInstanceProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return ListInstanceProfilesResponse(
+      instanceProfiles: (json['InstanceProfiles'] as List)
+          .whereNotNull()
+          .map((e) => InstanceProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListInstanceProfilesResponse.fromXml(_s.XmlElement elem) {
     return ListInstanceProfilesResponse(
-      instanceProfiles: _s.extractXmlChild(elem, 'InstanceProfiles')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => InstanceProfile.fromXml(c))
-              .toList()),
+      instanceProfiles: _s
+          .extractXmlChild(elem, 'InstanceProfiles')!
+          .findElements('member')
+          .map((c) => InstanceProfile.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceProfiles = this.instanceProfiles;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'InstanceProfiles': instanceProfiles,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListMFADeviceTagsResponse {
+  /// The list of tags that are currently attached to the virtual MFA device. Each
+  /// tag consists of a key name and an associated value. If no tags are attached
+  /// to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListMFADeviceTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+
+  factory ListMFADeviceTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListMFADeviceTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  factory ListMFADeviceTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListMFADeviceTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14531,39 +16682,138 @@ class ListMFADevicesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListMFADevicesResponse({
-    @_s.required this.mFADevices,
+    required this.mFADevices,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListMFADevicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListMFADevicesResponse(
+      mFADevices: (json['MFADevices'] as List)
+          .whereNotNull()
+          .map((e) => MFADevice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListMFADevicesResponse.fromXml(_s.XmlElement elem) {
     return ListMFADevicesResponse(
-      mFADevices: _s.extractXmlChild(elem, 'MFADevices')?.let((elem) => elem
+      mFADevices: _s
+          .extractXmlChild(elem, 'MFADevices')!
           .findElements('member')
           .map((c) => MFADevice.fromXml(c))
-          .toList()),
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mFADevices = this.mFADevices;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'MFADevices': mFADevices,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListOpenIDConnectProviderTagsResponse {
+  /// The list of tags that are currently attached to the OpenID Connect (OIDC)
+  /// identity provider. Each tag consists of a key name and an associated value.
+  /// If no tags are attached to the specified resource, the response contains an
+  /// empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListOpenIDConnectProviderTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+
+  factory ListOpenIDConnectProviderTagsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListOpenIDConnectProviderTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  factory ListOpenIDConnectProviderTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListOpenIDConnectProviderTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
 /// Contains the response to a successful <a>ListOpenIDConnectProviders</a>
 /// request.
 class ListOpenIDConnectProvidersResponse {
-  /// The list of IAM OIDC provider resource objects defined in the AWS account.
-  final List<OpenIDConnectProviderListEntry> openIDConnectProviderList;
+  /// The list of IAM OIDC provider resource objects defined in the account.
+  final List<OpenIDConnectProviderListEntry>? openIDConnectProviderList;
 
   ListOpenIDConnectProvidersResponse({
     this.openIDConnectProviderList,
   });
+
+  factory ListOpenIDConnectProvidersResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListOpenIDConnectProvidersResponse(
+      openIDConnectProviderList: (json['OpenIDConnectProviderList'] as List?)
+          ?.whereNotNull()
+          .map((e) => OpenIDConnectProviderListEntry.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListOpenIDConnectProvidersResponse.fromXml(_s.XmlElement elem) {
     return ListOpenIDConnectProvidersResponse(
       openIDConnectProviderList: _s
@@ -14573,6 +16823,14 @@ class ListOpenIDConnectProvidersResponse {
               .map((c) => OpenIDConnectProviderListEntry.fromXml(c))
               .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openIDConnectProviderList = this.openIDConnectProviderList;
+    return {
+      if (openIDConnectProviderList != null)
+        'OpenIDConnectProviderList': openIDConnectProviderList,
+    };
   }
 }
 
@@ -14584,24 +16842,39 @@ class ListOpenIDConnectProvidersResponse {
 class ListPoliciesGrantingServiceAccessEntry {
   /// The <code>PoliciesGrantingServiceAccess</code> object that contains details
   /// about the policy.
-  final List<PolicyGrantingServiceAccess> policies;
+  final List<PolicyGrantingServiceAccess>? policies;
 
   /// The namespace of the service that was accessed.
   ///
-  /// To learn the service namespace of a service, go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">Actions,
-  /// Resources, and Condition Keys for AWS Services</a> in the <i>IAM User
-  /// Guide</i>. Choose the name of the service to view details for that service.
-  /// In the first paragraph, find the service prefix. For example, <code>(service
-  /// prefix: a4b)</code>. For more information about service namespaces, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>AWS General Reference</i>.
-  final String serviceNamespace;
+  /// To learn the service namespace of a service, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
+  /// resources, and condition keys for Amazon Web Services services</a> in the
+  /// <i>Service Authorization Reference</i>. Choose the name of the service to
+  /// view details for that service. In the first paragraph, find the service
+  /// prefix. For example, <code>(service prefix: a4b)</code>. For more
+  /// information about service namespaces, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services service namespaces</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
+  final String? serviceNamespace;
 
   ListPoliciesGrantingServiceAccessEntry({
     this.policies,
     this.serviceNamespace,
   });
+
+  factory ListPoliciesGrantingServiceAccessEntry.fromJson(
+      Map<String, dynamic> json) {
+    return ListPoliciesGrantingServiceAccessEntry(
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PolicyGrantingServiceAccess.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceNamespace: json['ServiceNamespace'] as String?,
+    );
+  }
+
   factory ListPoliciesGrantingServiceAccessEntry.fromXml(_s.XmlElement elem) {
     return ListPoliciesGrantingServiceAccessEntry(
       policies: _s.extractXmlChild(elem, 'Policies')?.let((elem) => elem
@@ -14610,6 +16883,15 @@ class ListPoliciesGrantingServiceAccessEntry {
           .toList()),
       serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policies = this.policies;
+    final serviceNamespace = this.serviceNamespace;
+    return {
+      if (policies != null) 'Policies': policies,
+      if (serviceNamespace != null) 'ServiceNamespace': serviceNamespace,
+    };
   }
 }
 
@@ -14625,30 +16907,55 @@ class ListPoliciesGrantingServiceAccessResponse {
   /// the <code>Marker</code> request parameter to retrieve more items. We
   /// recommend that you check <code>IsTruncated</code> after every call to ensure
   /// that you receive all your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListPoliciesGrantingServiceAccessResponse({
-    @_s.required this.policiesGrantingServiceAccess,
+    required this.policiesGrantingServiceAccess,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListPoliciesGrantingServiceAccessResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListPoliciesGrantingServiceAccessResponse(
+      policiesGrantingServiceAccess:
+          (json['PoliciesGrantingServiceAccess'] as List)
+              .whereNotNull()
+              .map((e) => ListPoliciesGrantingServiceAccessEntry.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListPoliciesGrantingServiceAccessResponse.fromXml(
       _s.XmlElement elem) {
     return ListPoliciesGrantingServiceAccessResponse(
       policiesGrantingServiceAccess: _s
-          .extractXmlChild(elem, 'PoliciesGrantingServiceAccess')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => ListPoliciesGrantingServiceAccessEntry.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'PoliciesGrantingServiceAccess')!
+          .findElements('member')
+          .map((c) => ListPoliciesGrantingServiceAccessEntry.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policiesGrantingServiceAccess = this.policiesGrantingServiceAccess;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PoliciesGrantingServiceAccess': policiesGrantingServiceAccess,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14661,21 +16968,33 @@ class ListPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of policies.
-  final List<Policy> policies;
+  final List<Policy>? policies;
 
   ListPoliciesResponse({
     this.isTruncated,
     this.marker,
     this.policies,
   });
+
+  factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPoliciesResponse(
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => Policy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListPoliciesResponse(
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14683,6 +17002,78 @@ class ListPoliciesResponse {
       policies: _s.extractXmlChild(elem, 'Policies')?.let((elem) =>
           elem.findElements('member').map((c) => Policy.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final policies = this.policies;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (policies != null) 'Policies': policies,
+    };
+  }
+}
+
+class ListPolicyTagsResponse {
+  /// The list of tags that are currently attached to the IAM customer managed
+  /// policy. Each tag consists of a key name and an associated value. If no tags
+  /// are attached to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListPolicyTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+
+  factory ListPolicyTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPolicyTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  factory ListPolicyTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListPolicyTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14695,25 +17086,37 @@ class ListPolicyVersionsResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of policy versions.
   ///
   /// For more information about managed policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
-  final List<PolicyVersion> versions;
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
+  final List<PolicyVersion>? versions;
 
   ListPolicyVersionsResponse({
     this.isTruncated,
     this.marker,
     this.versions,
   });
+
+  factory ListPolicyVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPolicyVersionsResponse(
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListPolicyVersionsResponse.fromXml(_s.XmlElement elem) {
     return ListPolicyVersionsResponse(
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14723,6 +17126,17 @@ class ListPolicyVersionsResponse {
           .map((c) => PolicyVersion.fromXml(c))
           .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final versions = this.versions;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (versions != null) 'Versions': versions,
+    };
   }
 }
 
@@ -14738,60 +17152,109 @@ class ListRolePoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListRolePoliciesResponse({
-    @_s.required this.policyNames,
+    required this.policyNames,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListRolePoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRolePoliciesResponse(
+      policyNames: (json['PolicyNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListRolePoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListRolePoliciesResponse(
-      policyNames: _s
-          .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final policyNames = this.policyNames;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PolicyNames': policyNames,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 class ListRoleTagsResponse {
-  /// The list of tags currently that is attached to the role. Each tag consists
+  /// The list of tags that are currently attached to the role. Each tag consists
   /// of a key name and an associated value. If no tags are attached to the
-  /// specified role, the response contains an empty list.
+  /// specified resource, the response contains an empty list.
   final List<Tag> tags;
 
   /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can use the <code>Marker</code> request
-  /// parameter to make a subsequent pagination request that retrieves more items.
-  /// Note that IAM might return fewer than the <code>MaxItems</code> number of
-  /// results even when more results are available. Check <code>IsTruncated</code>
-  /// after every call to ensure that you receive all of your results.
-  final bool isTruncated;
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListRoleTagsResponse({
-    @_s.required this.tags,
+    required this.tags,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListRoleTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRoleTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListRoleTagsResponse.fromXml(_s.XmlElement elem) {
     return ListRoleTagsResponse(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14807,37 +17270,135 @@ class ListRolesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListRolesResponse({
-    @_s.required this.roles,
+    required this.roles,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListRolesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRolesResponse(
+      roles: (json['Roles'] as List)
+          .whereNotNull()
+          .map((e) => Role.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListRolesResponse.fromXml(_s.XmlElement elem) {
     return ListRolesResponse(
-      roles: _s.extractXmlChild(elem, 'Roles')?.let((elem) =>
-          elem.findElements('member').map((c) => Role.fromXml(c)).toList()),
+      roles: _s
+          .extractXmlChild(elem, 'Roles')!
+          .findElements('member')
+          .map((c) => Role.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roles = this.roles;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Roles': roles,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
+}
+
+class ListSAMLProviderTagsResponse {
+  /// The list of tags that are currently attached to the Security Assertion
+  /// Markup Language (SAML) identity provider. Each tag consists of a key name
+  /// and an associated value. If no tags are attached to the specified resource,
+  /// the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListSAMLProviderTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+
+  factory ListSAMLProviderTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSAMLProviderTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  factory ListSAMLProviderTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListSAMLProviderTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
 /// Contains the response to a successful <a>ListSAMLProviders</a> request.
 class ListSAMLProvidersResponse {
-  /// The list of SAML provider resource objects defined in IAM for this AWS
-  /// account.
-  final List<SAMLProviderListEntry> sAMLProviderList;
+  /// The list of SAML provider resource objects defined in IAM for this Amazon
+  /// Web Services account.
+  final List<SAMLProviderListEntry>? sAMLProviderList;
 
   ListSAMLProvidersResponse({
     this.sAMLProviderList,
   });
+
+  factory ListSAMLProvidersResponse.fromJson(Map<String, dynamic> json) {
+    return ListSAMLProvidersResponse(
+      sAMLProviderList: (json['SAMLProviderList'] as List?)
+          ?.whereNotNull()
+          .map((e) => SAMLProviderListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListSAMLProvidersResponse.fromXml(_s.XmlElement elem) {
     return ListSAMLProvidersResponse(
       sAMLProviderList: _s.extractXmlChild(elem, 'SAMLProviderList')?.let(
@@ -14846,6 +17407,13 @@ class ListSAMLProvidersResponse {
               .map((c) => SAMLProviderListEntry.fromXml(c))
               .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sAMLProviderList = this.sAMLProviderList;
+    return {
+      if (sAMLProviderList != null) 'SAMLProviderList': sAMLProviderList,
+    };
   }
 }
 
@@ -14858,21 +17426,33 @@ class ListSSHPublicKeysResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   /// A list of the SSH public keys assigned to IAM user.
-  final List<SSHPublicKeyMetadata> sSHPublicKeys;
+  final List<SSHPublicKeyMetadata>? sSHPublicKeys;
 
   ListSSHPublicKeysResponse({
     this.isTruncated,
     this.marker,
     this.sSHPublicKeys,
   });
+
+  factory ListSSHPublicKeysResponse.fromJson(Map<String, dynamic> json) {
+    return ListSSHPublicKeysResponse(
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+      sSHPublicKeys: (json['SSHPublicKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => SSHPublicKeyMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListSSHPublicKeysResponse.fromXml(_s.XmlElement elem) {
     return ListSSHPublicKeysResponse(
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
@@ -14883,6 +17463,79 @@ class ListSSHPublicKeysResponse {
               .map((c) => SSHPublicKeyMetadata.fromXml(c))
               .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final sSHPublicKeys = this.sSHPublicKeys;
+    return {
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (sSHPublicKeys != null) 'SSHPublicKeys': sSHPublicKeys,
+    };
+  }
+}
+
+class ListServerCertificateTagsResponse {
+  /// The list of tags that are currently attached to the IAM server certificate.
+  /// Each tag consists of a key name and an associated value. If no tags are
+  /// attached to the specified resource, the response contains an empty list.
+  final List<Tag> tags;
+
+  /// A flag that indicates whether there are more items to return. If your
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
+
+  /// When <code>IsTruncated</code> is <code>true</code>, this element is present
+  /// and contains the value to use for the <code>Marker</code> parameter in a
+  /// subsequent pagination request.
+  final String? marker;
+
+  ListServerCertificateTagsResponse({
+    required this.tags,
+    this.isTruncated,
+    this.marker,
+  });
+
+  factory ListServerCertificateTagsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListServerCertificateTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  factory ListServerCertificateTagsResponse.fromXml(_s.XmlElement elem) {
+    return ListServerCertificateTagsResponse(
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14898,40 +17551,76 @@ class ListServerCertificatesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListServerCertificatesResponse({
-    @_s.required this.serverCertificateMetadataList,
+    required this.serverCertificateMetadataList,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListServerCertificatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListServerCertificatesResponse(
+      serverCertificateMetadataList:
+          (json['ServerCertificateMetadataList'] as List)
+              .whereNotNull()
+              .map((e) =>
+                  ServerCertificateMetadata.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListServerCertificatesResponse.fromXml(_s.XmlElement elem) {
     return ListServerCertificatesResponse(
       serverCertificateMetadataList: _s
-          .extractXmlChild(elem, 'ServerCertificateMetadataList')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => ServerCertificateMetadata.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'ServerCertificateMetadataList')!
+          .findElements('member')
+          .map((c) => ServerCertificateMetadata.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverCertificateMetadataList = this.serverCertificateMetadataList;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'ServerCertificateMetadataList': serverCertificateMetadataList,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
 class ListServiceSpecificCredentialsResponse {
   /// A list of structures that each contain details about a service-specific
   /// credential.
-  final List<ServiceSpecificCredentialMetadata> serviceSpecificCredentials;
+  final List<ServiceSpecificCredentialMetadata>? serviceSpecificCredentials;
 
   ListServiceSpecificCredentialsResponse({
     this.serviceSpecificCredentials,
   });
+
+  factory ListServiceSpecificCredentialsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListServiceSpecificCredentialsResponse(
+      serviceSpecificCredentials: (json['ServiceSpecificCredentials'] as List?)
+          ?.whereNotNull()
+          .map((e) => ServiceSpecificCredentialMetadata.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListServiceSpecificCredentialsResponse.fromXml(_s.XmlElement elem) {
     return ListServiceSpecificCredentialsResponse(
       serviceSpecificCredentials: _s
@@ -14941,6 +17630,14 @@ class ListServiceSpecificCredentialsResponse {
               .map((c) => ServiceSpecificCredentialMetadata.fromXml(c))
               .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSpecificCredentials = this.serviceSpecificCredentials;
+    return {
+      if (serviceSpecificCredentials != null)
+        'ServiceSpecificCredentials': serviceSpecificCredentials,
+    };
   }
 }
 
@@ -14957,27 +17654,51 @@ class ListSigningCertificatesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListSigningCertificatesResponse({
-    @_s.required this.certificates,
+    required this.certificates,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListSigningCertificatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSigningCertificatesResponse(
+      certificates: (json['Certificates'] as List)
+          .whereNotNull()
+          .map((e) => SigningCertificate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListSigningCertificatesResponse.fromXml(_s.XmlElement elem) {
     return ListSigningCertificatesResponse(
-      certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
+      certificates: _s
+          .extractXmlChild(elem, 'Certificates')!
           .findElements('member')
           .map((c) => SigningCertificate.fromXml(c))
-          .toList()),
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificates = this.certificates;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Certificates': certificates,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -14993,60 +17714,109 @@ class ListUserPoliciesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListUserPoliciesResponse({
-    @_s.required this.policyNames,
+    required this.policyNames,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListUserPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListUserPoliciesResponse(
+      policyNames: (json['PolicyNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListUserPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListUserPoliciesResponse(
-      policyNames: _s
-          .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyNames = this.policyNames;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'PolicyNames': policyNames,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
 class ListUserTagsResponse {
   /// The list of tags that are currently attached to the user. Each tag consists
   /// of a key name and an associated value. If no tags are attached to the
-  /// specified user, the response contains an empty list.
+  /// specified resource, the response contains an empty list.
   final List<Tag> tags;
 
   /// A flag that indicates whether there are more items to return. If your
-  /// results were truncated, you can use the <code>Marker</code> request
-  /// parameter to make a subsequent pagination request that retrieves more items.
-  /// Note that IAM might return fewer than the <code>MaxItems</code> number of
-  /// results even when more results are available. Check <code>IsTruncated</code>
-  /// after every call to ensure that you receive all of your results.
-  final bool isTruncated;
+  /// results were truncated, you can make a subsequent pagination request using
+  /// the <code>Marker</code> request parameter to retrieve more items. Note that
+  /// IAM might return fewer than the <code>MaxItems</code> number of results even
+  /// when there are more results available. We recommend that you check
+  /// <code>IsTruncated</code> after every call to ensure that you receive all
+  /// your results.
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListUserTagsResponse({
-    @_s.required this.tags,
+    required this.tags,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListUserTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListUserTagsResponse(
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListUserTagsResponse.fromXml(_s.XmlElement elem) {
     return ListUserTagsResponse(
-      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
-          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
+      tags: _s
+          .extractXmlChild(elem, 'Tags')!
+          .findElements('member')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Tags': tags,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -15062,25 +17832,51 @@ class ListUsersResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListUsersResponse({
-    @_s.required this.users,
+    required this.users,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
+      users: (json['Users'] as List)
+          .whereNotNull()
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListUsersResponse.fromXml(_s.XmlElement elem) {
     return ListUsersResponse(
-      users: _s.extractXmlChild(elem, 'Users')?.let((elem) =>
-          elem.findElements('member').map((c) => User.fromXml(c)).toList()),
+      users: _s
+          .extractXmlChild(elem, 'Users')!
+          .findElements('member')
+          .map((c) => User.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final users = this.users;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'Users': users,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -15097,28 +17893,51 @@ class ListVirtualMFADevicesResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   ListVirtualMFADevicesResponse({
-    @_s.required this.virtualMFADevices,
+    required this.virtualMFADevices,
     this.isTruncated,
     this.marker,
   });
+
+  factory ListVirtualMFADevicesResponse.fromJson(Map<String, dynamic> json) {
+    return ListVirtualMFADevicesResponse(
+      virtualMFADevices: (json['VirtualMFADevices'] as List)
+          .whereNotNull()
+          .map((e) => VirtualMFADevice.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory ListVirtualMFADevicesResponse.fromXml(_s.XmlElement elem) {
     return ListVirtualMFADevicesResponse(
-      virtualMFADevices: _s.extractXmlChild(elem, 'VirtualMFADevices')?.let(
-          (elem) => elem
-              .findElements('member')
-              .map((c) => VirtualMFADevice.fromXml(c))
-              .toList()),
+      virtualMFADevices: _s
+          .extractXmlChild(elem, 'VirtualMFADevices')!
+          .findElements('member')
+          .map((c) => VirtualMFADevice.fromXml(c))
+          .toList(),
       isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualMFADevices = this.virtualMFADevices;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      'VirtualMFADevices': virtualMFADevices,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
   }
 }
 
@@ -15130,26 +17949,47 @@ class LoginProfile {
   /// The date when the password for the user was created.
   final DateTime createDate;
 
-  /// The name of the user, which can be used for signing in to the AWS Management
+  /// The name of the user, which can be used for signing in to the Management
   /// Console.
   final String userName;
 
   /// Specifies whether the user is required to set a new password on next
   /// sign-in.
-  final bool passwordResetRequired;
+  final bool? passwordResetRequired;
 
   LoginProfile({
-    @_s.required this.createDate,
-    @_s.required this.userName,
+    required this.createDate,
+    required this.userName,
     this.passwordResetRequired,
   });
+
+  factory LoginProfile.fromJson(Map<String, dynamic> json) {
+    return LoginProfile(
+      createDate: nonNullableTimeStampFromJson(json['CreateDate'] as Object),
+      userName: json['UserName'] as String,
+      passwordResetRequired: json['PasswordResetRequired'] as bool?,
+    );
+  }
+
   factory LoginProfile.fromXml(_s.XmlElement elem) {
     return LoginProfile(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       passwordResetRequired:
           _s.extractXmlBoolValue(elem, 'PasswordResetRequired'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final userName = this.userName;
+    final passwordResetRequired = this.passwordResetRequired;
+    return {
+      'CreateDate': unixTimestampToJson(createDate),
+      'UserName': userName,
+      if (passwordResetRequired != null)
+        'PasswordResetRequired': passwordResetRequired,
+    };
   }
 }
 
@@ -15169,16 +18009,36 @@ class MFADevice {
   final String userName;
 
   MFADevice({
-    @_s.required this.enableDate,
-    @_s.required this.serialNumber,
-    @_s.required this.userName,
+    required this.enableDate,
+    required this.serialNumber,
+    required this.userName,
   });
+
+  factory MFADevice.fromJson(Map<String, dynamic> json) {
+    return MFADevice(
+      enableDate: nonNullableTimeStampFromJson(json['EnableDate'] as Object),
+      serialNumber: json['SerialNumber'] as String,
+      userName: json['UserName'] as String,
+    );
+  }
+
   factory MFADevice.fromXml(_s.XmlElement elem) {
     return MFADevice(
-      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
-      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate')!,
+      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enableDate = this.enableDate;
+    final serialNumber = this.serialNumber;
+    final userName = this.userName;
+    return {
+      'EnableDate': unixTimestampToJson(enableDate),
+      'SerialNumber': serialNumber,
+      'UserName': userName,
+    };
   }
 }
 
@@ -15191,59 +18051,59 @@ class MFADevice {
 ///
 /// For more information about managed policies, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
 class ManagedPolicyDetail {
-  final String arn;
+  final String? arn;
 
   /// The number of principal entities (users, groups, and roles) that the policy
   /// is attached to.
-  final int attachmentCount;
+  final int? attachmentCount;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The identifier for the version of the policy that is set as the default
   /// (operative) version.
   ///
   /// For more information about policy versions, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html">Versioning
-  /// for Managed Policies</a> in the <i>IAM User Guide</i>.
-  final String defaultVersionId;
+  /// for managed policies</a> in the <i>IAM User Guide</i>.
+  final String? defaultVersionId;
 
   /// A friendly description of the policy.
-  final String description;
+  final String? description;
 
   /// Specifies whether the policy can be attached to an IAM user, group, or role.
-  final bool isAttachable;
+  final bool? isAttachable;
 
   /// The path to the policy.
   ///
   /// For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
 
   /// The number of entities (users and roles) for which the policy is used as the
   /// permissions boundary.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final int permissionsBoundaryUsageCount;
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final int? permissionsBoundaryUsageCount;
 
   /// The stable and unique string identifying the policy.
   ///
   /// For more information about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String policyId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? policyId;
 
   /// The friendly name (not ARN) identifying the policy.
-  final String policyName;
+  final String? policyName;
 
   /// A list containing information about the versions of the policy.
-  final List<PolicyVersion> policyVersionList;
+  final List<PolicyVersion>? policyVersionList;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was last updated.
@@ -15252,7 +18112,7 @@ class ManagedPolicyDetail {
   /// when the policy was created. When a policy has more than one version, this
   /// field contains the date and time when the most recent policy version was
   /// created.
-  final DateTime updateDate;
+  final DateTime? updateDate;
 
   ManagedPolicyDetail({
     this.arn,
@@ -15268,6 +18128,28 @@ class ManagedPolicyDetail {
     this.policyVersionList,
     this.updateDate,
   });
+
+  factory ManagedPolicyDetail.fromJson(Map<String, dynamic> json) {
+    return ManagedPolicyDetail(
+      arn: json['Arn'] as String?,
+      attachmentCount: json['AttachmentCount'] as int?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      defaultVersionId: json['DefaultVersionId'] as String?,
+      description: json['Description'] as String?,
+      isAttachable: json['IsAttachable'] as bool?,
+      path: json['Path'] as String?,
+      permissionsBoundaryUsageCount:
+          json['PermissionsBoundaryUsageCount'] as int?,
+      policyId: json['PolicyId'] as String?,
+      policyName: json['PolicyName'] as String?,
+      policyVersionList: (json['PolicyVersionList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updateDate: timeStampFromJson(json['UpdateDate']),
+    );
+  }
+
   factory ManagedPolicyDetail.fromXml(_s.XmlElement elem) {
     return ManagedPolicyDetail(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
@@ -15289,19 +18171,63 @@ class ManagedPolicyDetail {
       updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attachmentCount = this.attachmentCount;
+    final createDate = this.createDate;
+    final defaultVersionId = this.defaultVersionId;
+    final description = this.description;
+    final isAttachable = this.isAttachable;
+    final path = this.path;
+    final permissionsBoundaryUsageCount = this.permissionsBoundaryUsageCount;
+    final policyId = this.policyId;
+    final policyName = this.policyName;
+    final policyVersionList = this.policyVersionList;
+    final updateDate = this.updateDate;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (attachmentCount != null) 'AttachmentCount': attachmentCount,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (defaultVersionId != null) 'DefaultVersionId': defaultVersionId,
+      if (description != null) 'Description': description,
+      if (isAttachable != null) 'IsAttachable': isAttachable,
+      if (path != null) 'Path': path,
+      if (permissionsBoundaryUsageCount != null)
+        'PermissionsBoundaryUsageCount': permissionsBoundaryUsageCount,
+      if (policyId != null) 'PolicyId': policyId,
+      if (policyName != null) 'PolicyName': policyName,
+      if (policyVersionList != null) 'PolicyVersionList': policyVersionList,
+      if (updateDate != null) 'UpdateDate': unixTimestampToJson(updateDate),
+    };
+  }
 }
 
 /// Contains the Amazon Resource Name (ARN) for an IAM OpenID Connect provider.
 class OpenIDConnectProviderListEntry {
-  final String arn;
+  final String? arn;
 
   OpenIDConnectProviderListEntry({
     this.arn,
   });
+
+  factory OpenIDConnectProviderListEntry.fromJson(Map<String, dynamic> json) {
+    return OpenIDConnectProviderListEntry(
+      arn: json['Arn'] as String?,
+    );
+  }
+
   factory OpenIDConnectProviderListEntry.fromXml(_s.XmlElement elem) {
     return OpenIDConnectProviderListEntry(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
   }
 }
 
@@ -15310,16 +18236,31 @@ class OpenIDConnectProviderListEntry {
 class OrganizationsDecisionDetail {
   /// Specifies whether the simulated operation is allowed by the Organizations
   /// service control policies that impact the simulated user's account.
-  final bool allowedByOrganizations;
+  final bool? allowedByOrganizations;
 
   OrganizationsDecisionDetail({
     this.allowedByOrganizations,
   });
+
+  factory OrganizationsDecisionDetail.fromJson(Map<String, dynamic> json) {
+    return OrganizationsDecisionDetail(
+      allowedByOrganizations: json['AllowedByOrganizations'] as bool?,
+    );
+  }
+
   factory OrganizationsDecisionDetail.fromXml(_s.XmlElement elem) {
     return OrganizationsDecisionDetail(
       allowedByOrganizations:
           _s.extractXmlBoolValue(elem, 'AllowedByOrganizations'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedByOrganizations = this.allowedByOrganizations;
+    return {
+      if (allowedByOrganizations != null)
+        'AllowedByOrganizations': allowedByOrganizations,
+    };
   }
 }
 
@@ -15329,38 +18270,44 @@ class OrganizationsDecisionDetail {
 /// <a>GetAccountPasswordPolicy</a> operation.
 class PasswordPolicy {
   /// Specifies whether IAM users are allowed to change their own password.
-  final bool allowUsersToChangePassword;
+  final bool? allowUsersToChangePassword;
 
   /// Indicates whether passwords in the account expire. Returns true if
   /// <code>MaxPasswordAge</code> contains a value greater than 0. Returns false
   /// if MaxPasswordAge is 0 or not present.
-  final bool expirePasswords;
+  final bool? expirePasswords;
 
   /// Specifies whether IAM users are prevented from setting a new password after
   /// their password has expired.
-  final bool hardExpiry;
+  final bool? hardExpiry;
 
   /// The number of days that an IAM user password is valid.
-  final int maxPasswordAge;
+  final int? maxPasswordAge;
 
   /// Minimum length to require for IAM user passwords.
-  final int minimumPasswordLength;
+  final int? minimumPasswordLength;
 
   /// Specifies the number of previous passwords that IAM users are prevented from
   /// reusing.
-  final int passwordReusePrevention;
+  final int? passwordReusePrevention;
 
-  /// Specifies whether to require lowercase characters for IAM user passwords.
-  final bool requireLowercaseCharacters;
+  /// Specifies whether IAM user passwords must contain at least one lowercase
+  /// character (a to z).
+  final bool? requireLowercaseCharacters;
 
-  /// Specifies whether to require numbers for IAM user passwords.
-  final bool requireNumbers;
+  /// Specifies whether IAM user passwords must contain at least one numeric
+  /// character (0 to 9).
+  final bool? requireNumbers;
 
-  /// Specifies whether to require symbols for IAM user passwords.
-  final bool requireSymbols;
+  /// Specifies whether IAM user passwords must contain at least one of the
+  /// following symbols:
+  ///
+  /// ! @ # $ % ^ &amp; * ( ) _ + - = [ ] { } | '
+  final bool? requireSymbols;
 
-  /// Specifies whether to require uppercase characters for IAM user passwords.
-  final bool requireUppercaseCharacters;
+  /// Specifies whether IAM user passwords must contain at least one uppercase
+  /// character (A to Z).
+  final bool? requireUppercaseCharacters;
 
   PasswordPolicy({
     this.allowUsersToChangePassword,
@@ -15374,6 +18321,22 @@ class PasswordPolicy {
     this.requireSymbols,
     this.requireUppercaseCharacters,
   });
+
+  factory PasswordPolicy.fromJson(Map<String, dynamic> json) {
+    return PasswordPolicy(
+      allowUsersToChangePassword: json['AllowUsersToChangePassword'] as bool?,
+      expirePasswords: json['ExpirePasswords'] as bool?,
+      hardExpiry: json['HardExpiry'] as bool?,
+      maxPasswordAge: json['MaxPasswordAge'] as int?,
+      minimumPasswordLength: json['MinimumPasswordLength'] as int?,
+      passwordReusePrevention: json['PasswordReusePrevention'] as int?,
+      requireLowercaseCharacters: json['RequireLowercaseCharacters'] as bool?,
+      requireNumbers: json['RequireNumbers'] as bool?,
+      requireSymbols: json['RequireSymbols'] as bool?,
+      requireUppercaseCharacters: json['RequireUppercaseCharacters'] as bool?,
+    );
+  }
+
   factory PasswordPolicy.fromXml(_s.XmlElement elem) {
     return PasswordPolicy(
       allowUsersToChangePassword:
@@ -15393,11 +18356,49 @@ class PasswordPolicy {
           _s.extractXmlBoolValue(elem, 'RequireUppercaseCharacters'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final allowUsersToChangePassword = this.allowUsersToChangePassword;
+    final expirePasswords = this.expirePasswords;
+    final hardExpiry = this.hardExpiry;
+    final maxPasswordAge = this.maxPasswordAge;
+    final minimumPasswordLength = this.minimumPasswordLength;
+    final passwordReusePrevention = this.passwordReusePrevention;
+    final requireLowercaseCharacters = this.requireLowercaseCharacters;
+    final requireNumbers = this.requireNumbers;
+    final requireSymbols = this.requireSymbols;
+    final requireUppercaseCharacters = this.requireUppercaseCharacters;
+    return {
+      if (allowUsersToChangePassword != null)
+        'AllowUsersToChangePassword': allowUsersToChangePassword,
+      if (expirePasswords != null) 'ExpirePasswords': expirePasswords,
+      if (hardExpiry != null) 'HardExpiry': hardExpiry,
+      if (maxPasswordAge != null) 'MaxPasswordAge': maxPasswordAge,
+      if (minimumPasswordLength != null)
+        'MinimumPasswordLength': minimumPasswordLength,
+      if (passwordReusePrevention != null)
+        'PasswordReusePrevention': passwordReusePrevention,
+      if (requireLowercaseCharacters != null)
+        'RequireLowercaseCharacters': requireLowercaseCharacters,
+      if (requireNumbers != null) 'RequireNumbers': requireNumbers,
+      if (requireSymbols != null) 'RequireSymbols': requireSymbols,
+      if (requireUppercaseCharacters != null)
+        'RequireUppercaseCharacters': requireUppercaseCharacters,
+    };
+  }
 }
 
 enum PermissionsBoundaryAttachmentType {
-  @_s.JsonValue('PermissionsBoundaryPolicy')
   permissionsBoundaryPolicy,
+}
+
+extension on PermissionsBoundaryAttachmentType {
+  String toValue() {
+    switch (this) {
+      case PermissionsBoundaryAttachmentType.permissionsBoundaryPolicy:
+        return 'PermissionsBoundaryPolicy';
+    }
+  }
 }
 
 extension on String {
@@ -15406,7 +18407,8 @@ extension on String {
       case 'PermissionsBoundaryPolicy':
         return PermissionsBoundaryAttachmentType.permissionsBoundaryPolicy;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum PermissionsBoundaryAttachmentType');
   }
 }
 
@@ -15422,16 +18424,33 @@ class PermissionsBoundaryDecisionDetail {
   /// action is not allowed (implicitly denied) or that the action is explicitly
   /// denied by the permissions boundary. In both of these cases, the action is
   /// not allowed, regardless of the identity-based policy.
-  final bool allowedByPermissionsBoundary;
+  final bool? allowedByPermissionsBoundary;
 
   PermissionsBoundaryDecisionDetail({
     this.allowedByPermissionsBoundary,
   });
+
+  factory PermissionsBoundaryDecisionDetail.fromJson(
+      Map<String, dynamic> json) {
+    return PermissionsBoundaryDecisionDetail(
+      allowedByPermissionsBoundary:
+          json['AllowedByPermissionsBoundary'] as bool?,
+    );
+  }
+
   factory PermissionsBoundaryDecisionDetail.fromXml(_s.XmlElement elem) {
     return PermissionsBoundaryDecisionDetail(
       allowedByPermissionsBoundary:
           _s.extractXmlBoolValue(elem, 'AllowedByPermissionsBoundary'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedByPermissionsBoundary = this.allowedByPermissionsBoundary;
+    return {
+      if (allowedByPermissionsBoundary != null)
+        'AllowedByPermissionsBoundary': allowedByPermissionsBoundary,
+    };
   }
 }
 
@@ -15442,55 +18461,61 @@ class PermissionsBoundaryDecisionDetail {
 ///
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
 class Policy {
-  final String arn;
+  final String? arn;
 
   /// The number of entities (users, groups, and roles) that the policy is
   /// attached to.
-  final int attachmentCount;
+  final int? attachmentCount;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The identifier for the version of the policy that is set as the default
   /// version.
-  final String defaultVersionId;
+  final String? defaultVersionId;
 
   /// A friendly description of the policy.
   ///
   /// This element is included in the response to the <a>GetPolicy</a> operation.
   /// It is not included in the response to the <a>ListPolicies</a> operation.
-  final String description;
+  final String? description;
 
   /// Specifies whether the policy can be attached to an IAM user, group, or role.
-  final bool isAttachable;
+  final bool? isAttachable;
 
   /// The path to the policy.
   ///
   /// For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
 
   /// The number of entities (users and roles) for which the policy is used to set
   /// the permissions boundary.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final int permissionsBoundaryUsageCount;
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final int? permissionsBoundaryUsageCount;
 
   /// The stable and unique string identifying the policy.
   ///
   /// For more information about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String policyId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? policyId;
 
   /// The friendly name (not ARN) identifying the policy.
-  final String policyName;
+  final String? policyName;
+
+  /// A list of tags that are attached to the instance profile. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy was last updated.
@@ -15499,7 +18524,7 @@ class Policy {
   /// when the policy was created. When a policy has more than one version, this
   /// field contains the date and time when the most recent policy version was
   /// created.
-  final DateTime updateDate;
+  final DateTime? updateDate;
 
   Policy({
     this.arn,
@@ -15512,8 +18537,31 @@ class Policy {
     this.permissionsBoundaryUsageCount,
     this.policyId,
     this.policyName,
+    this.tags,
     this.updateDate,
   });
+
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      arn: json['Arn'] as String?,
+      attachmentCount: json['AttachmentCount'] as int?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      defaultVersionId: json['DefaultVersionId'] as String?,
+      description: json['Description'] as String?,
+      isAttachable: json['IsAttachable'] as bool?,
+      path: json['Path'] as String?,
+      permissionsBoundaryUsageCount:
+          json['PermissionsBoundaryUsageCount'] as int?,
+      policyId: json['PolicyId'] as String?,
+      policyName: json['PolicyName'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      updateDate: timeStampFromJson(json['UpdateDate']),
+    );
+  }
+
   factory Policy.fromXml(_s.XmlElement elem) {
     return Policy(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
@@ -15527,8 +18575,40 @@ class Policy {
           _s.extractXmlIntValue(elem, 'PermissionsBoundaryUsageCount'),
       policyId: _s.extractXmlStringValue(elem, 'PolicyId'),
       policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       updateDate: _s.extractXmlDateTimeValue(elem, 'UpdateDate'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attachmentCount = this.attachmentCount;
+    final createDate = this.createDate;
+    final defaultVersionId = this.defaultVersionId;
+    final description = this.description;
+    final isAttachable = this.isAttachable;
+    final path = this.path;
+    final permissionsBoundaryUsageCount = this.permissionsBoundaryUsageCount;
+    final policyId = this.policyId;
+    final policyName = this.policyName;
+    final tags = this.tags;
+    final updateDate = this.updateDate;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (attachmentCount != null) 'AttachmentCount': attachmentCount,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (defaultVersionId != null) 'DefaultVersionId': defaultVersionId,
+      if (description != null) 'Description': description,
+      if (isAttachable != null) 'IsAttachable': isAttachable,
+      if (path != null) 'Path': path,
+      if (permissionsBoundaryUsageCount != null)
+        'PermissionsBoundaryUsageCount': permissionsBoundaryUsageCount,
+      if (policyId != null) 'PolicyId': policyId,
+      if (policyName != null) 'PolicyName': policyName,
+      if (tags != null) 'Tags': tags,
+      if (updateDate != null) 'UpdateDate': unixTimestampToJson(updateDate),
+    };
   }
 }
 
@@ -15538,30 +18618,57 @@ class Policy {
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class PolicyDetail {
   /// The policy document.
-  final String policyDocument;
+  final String? policyDocument;
 
   /// The name of the policy.
-  final String policyName;
+  final String? policyName;
 
   PolicyDetail({
     this.policyDocument,
     this.policyName,
   });
+
+  factory PolicyDetail.fromJson(Map<String, dynamic> json) {
+    return PolicyDetail(
+      policyDocument: json['PolicyDocument'] as String?,
+      policyName: json['PolicyName'] as String?,
+    );
+  }
+
   factory PolicyDetail.fromXml(_s.XmlElement elem) {
     return PolicyDetail(
       policyDocument: _s.extractXmlStringValue(elem, 'PolicyDocument'),
       policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final policyDocument = this.policyDocument;
+    final policyName = this.policyName;
+    return {
+      if (policyDocument != null) 'PolicyDocument': policyDocument,
+      if (policyName != null) 'PolicyName': policyName,
+    };
+  }
 }
 
 enum PolicyEvaluationDecisionType {
-  @_s.JsonValue('allowed')
   allowed,
-  @_s.JsonValue('explicitDeny')
   explicitDeny,
-  @_s.JsonValue('implicitDeny')
   implicitDeny,
+}
+
+extension on PolicyEvaluationDecisionType {
+  String toValue() {
+    switch (this) {
+      case PolicyEvaluationDecisionType.allowed:
+        return 'allowed';
+      case PolicyEvaluationDecisionType.explicitDeny:
+        return 'explicitDeny';
+      case PolicyEvaluationDecisionType.implicitDeny:
+        return 'implicitDeny';
+    }
+  }
 }
 
 extension on String {
@@ -15574,7 +18681,7 @@ extension on String {
       case 'implicitDeny':
         return PolicyEvaluationDecisionType.implicitDeny;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyEvaluationDecisionType');
   }
 }
 
@@ -15589,7 +18696,7 @@ class PolicyGrantingServiceAccess {
 
   /// The policy type. For more information about these policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
   final PolicyType policyType;
 
   /// The name of the entity (user or role) to which the inline policy is
@@ -15598,8 +18705,8 @@ class PolicyGrantingServiceAccess {
   /// This field is null for managed policies. For more information about these
   /// policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
-  final String entityName;
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+  final String? entityName;
 
   /// The type of entity (user or role) that used the policy to access the service
   /// to which the inline policy is attached.
@@ -15607,27 +18714,53 @@ class PolicyGrantingServiceAccess {
   /// This field is null for managed policies. For more information about these
   /// policy types, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">Managed
-  /// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
-  final PolicyOwnerEntityType entityType;
-  final String policyArn;
+  /// policies and inline policies</a> in the <i>IAM User Guide</i>.
+  final PolicyOwnerEntityType? entityType;
+  final String? policyArn;
 
   PolicyGrantingServiceAccess({
-    @_s.required this.policyName,
-    @_s.required this.policyType,
+    required this.policyName,
+    required this.policyType,
     this.entityName,
     this.entityType,
     this.policyArn,
   });
+
+  factory PolicyGrantingServiceAccess.fromJson(Map<String, dynamic> json) {
+    return PolicyGrantingServiceAccess(
+      policyName: json['PolicyName'] as String,
+      policyType: (json['PolicyType'] as String).toPolicyType(),
+      entityName: json['EntityName'] as String?,
+      entityType: (json['EntityType'] as String?)?.toPolicyOwnerEntityType(),
+      policyArn: json['PolicyArn'] as String?,
+    );
+  }
+
   factory PolicyGrantingServiceAccess.fromXml(_s.XmlElement elem) {
     return PolicyGrantingServiceAccess(
-      policyName: _s.extractXmlStringValue(elem, 'PolicyName'),
-      policyType: _s.extractXmlStringValue(elem, 'PolicyType')?.toPolicyType(),
+      policyName: _s.extractXmlStringValue(elem, 'PolicyName')!,
+      policyType: _s.extractXmlStringValue(elem, 'PolicyType')!.toPolicyType(),
       entityName: _s.extractXmlStringValue(elem, 'EntityName'),
       entityType: _s
           .extractXmlStringValue(elem, 'EntityType')
           ?.toPolicyOwnerEntityType(),
       policyArn: _s.extractXmlStringValue(elem, 'PolicyArn'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyName = this.policyName;
+    final policyType = this.policyType;
+    final entityName = this.entityName;
+    final entityType = this.entityType;
+    final policyArn = this.policyArn;
+    return {
+      'PolicyName': policyName,
+      'PolicyType': policyType.toValue(),
+      if (entityName != null) 'EntityName': entityName,
+      if (entityType != null) 'EntityType': entityType.toValue(),
+      if (policyArn != null) 'PolicyArn': policyArn,
+    };
   }
 }
 
@@ -15638,26 +18771,43 @@ class PolicyGrantingServiceAccess {
 ///
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
 class PolicyGroup {
   /// The stable and unique string identifying the group. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String groupId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? groupId;
 
   /// The name (friendly name, not ARN) identifying the group.
-  final String groupName;
+  final String? groupName;
 
   PolicyGroup({
     this.groupId,
     this.groupName,
   });
+
+  factory PolicyGroup.fromJson(Map<String, dynamic> json) {
+    return PolicyGroup(
+      groupId: json['GroupId'] as String?,
+      groupName: json['GroupName'] as String?,
+    );
+  }
+
   factory PolicyGroup.fromXml(_s.XmlElement elem) {
     return PolicyGroup(
       groupId: _s.extractXmlStringValue(elem, 'GroupId'),
       groupName: _s.extractXmlStringValue(elem, 'GroupName'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    return {
+      if (groupId != null) 'GroupId': groupId,
+      if (groupName != null) 'GroupName': groupName,
+    };
   }
 }
 
@@ -15668,44 +18818,75 @@ class PolicyGroup {
 ///
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
 class PolicyRole {
   /// The stable and unique string identifying the role. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String roleId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? roleId;
 
   /// The name (friendly name, not ARN) identifying the role.
-  final String roleName;
+  final String? roleName;
 
   PolicyRole({
     this.roleId,
     this.roleName,
   });
+
+  factory PolicyRole.fromJson(Map<String, dynamic> json) {
+    return PolicyRole(
+      roleId: json['RoleId'] as String?,
+      roleName: json['RoleName'] as String?,
+    );
+  }
+
   factory PolicyRole.fromXml(_s.XmlElement elem) {
     return PolicyRole(
       roleId: _s.extractXmlStringValue(elem, 'RoleId'),
       roleName: _s.extractXmlStringValue(elem, 'RoleName'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final roleId = this.roleId;
+    final roleName = this.roleName;
+    return {
+      if (roleId != null) 'RoleId': roleId,
+      if (roleName != null) 'RoleName': roleName,
+    };
+  }
 }
 
 enum PolicySourceType {
-  @_s.JsonValue('user')
   user,
-  @_s.JsonValue('group')
   group,
-  @_s.JsonValue('role')
   role,
-  @_s.JsonValue('aws-managed')
   awsManaged,
-  @_s.JsonValue('user-managed')
   userManaged,
-  @_s.JsonValue('resource')
   resource,
-  @_s.JsonValue('none')
   none,
+}
+
+extension on PolicySourceType {
+  String toValue() {
+    switch (this) {
+      case PolicySourceType.user:
+        return 'user';
+      case PolicySourceType.group:
+        return 'group';
+      case PolicySourceType.role:
+        return 'role';
+      case PolicySourceType.awsManaged:
+        return 'aws-managed';
+      case PolicySourceType.userManaged:
+        return 'user-managed';
+      case PolicySourceType.resource:
+        return 'resource';
+      case PolicySourceType.none:
+        return 'none';
+    }
+  }
 }
 
 extension on String {
@@ -15726,7 +18907,7 @@ extension on String {
       case 'none':
         return PolicySourceType.none;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicySourceType');
   }
 }
 
@@ -15735,11 +18916,9 @@ extension on String {
 ///
 /// For more information about permissions boundaries, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-/// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
+/// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
 enum PolicyUsageType {
-  @_s.JsonValue('PermissionsPolicy')
   permissionsPolicy,
-  @_s.JsonValue('PermissionsBoundary')
   permissionsBoundary,
 }
 
@@ -15751,7 +18930,6 @@ extension on PolicyUsageType {
       case PolicyUsageType.permissionsBoundary:
         return 'PermissionsBoundary';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -15763,7 +18941,7 @@ extension on String {
       case 'PermissionsBoundary':
         return PolicyUsageType.permissionsBoundary;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyUsageType');
   }
 }
 
@@ -15774,26 +18952,43 @@ extension on String {
 ///
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
 class PolicyUser {
   /// The stable and unique string identifying the user. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String userId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? userId;
 
   /// The name (friendly name, not ARN) identifying the user.
-  final String userName;
+  final String? userName;
 
   PolicyUser({
     this.userId,
     this.userName,
   });
+
+  factory PolicyUser.fromJson(Map<String, dynamic> json) {
+    return PolicyUser(
+      userId: json['UserId'] as String?,
+      userName: json['UserName'] as String?,
+    );
+  }
+
   factory PolicyUser.fromXml(_s.XmlElement elem) {
     return PolicyUser(
       userId: _s.extractXmlStringValue(elem, 'UserId'),
       userName: _s.extractXmlStringValue(elem, 'UserName'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userId = this.userId;
+    final userName = this.userName;
+    return {
+      if (userId != null) 'UserId': userId,
+      if (userName != null) 'UserName': userName,
+    };
   }
 }
 
@@ -15806,11 +19001,11 @@ class PolicyUser {
 ///
 /// For more information about managed policies, refer to <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html">Managed
-/// Policies and Inline Policies</a> in the <i>IAM User Guide</i>.
+/// policies and inline policies</a> in the <i>IAM User Guide</i>.
 class PolicyVersion {
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the policy version was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The policy document.
   ///
@@ -15825,17 +19020,17 @@ class PolicyVersion {
   /// example, if you use Java, you can use the <code>decode</code> method of the
   /// <code>java.net.URLDecoder</code> utility class in the Java SDK. Other
   /// languages and SDKs provide similar functionality.
-  final String document;
+  final String? document;
 
   /// Specifies whether the policy version is set as the policy's default version.
-  final bool isDefaultVersion;
+  final bool? isDefaultVersion;
 
   /// The identifier for the policy version.
   ///
   /// Policy version identifiers always begin with <code>v</code> (always
   /// lowercase). When a policy is created, the first policy version is
   /// <code>v1</code>.
-  final String versionId;
+  final String? versionId;
 
   PolicyVersion({
     this.createDate,
@@ -15843,6 +19038,16 @@ class PolicyVersion {
     this.isDefaultVersion,
     this.versionId,
   });
+
+  factory PolicyVersion.fromJson(Map<String, dynamic> json) {
+    return PolicyVersion(
+      createDate: timeStampFromJson(json['CreateDate']),
+      document: json['Document'] as String?,
+      isDefaultVersion: json['IsDefaultVersion'] as bool?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
   factory PolicyVersion.fromXml(_s.XmlElement elem) {
     return PolicyVersion(
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
@@ -15850,6 +19055,19 @@ class PolicyVersion {
       isDefaultVersion: _s.extractXmlBoolValue(elem, 'IsDefaultVersion'),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final document = this.document;
+    final isDefaultVersion = this.isDefaultVersion;
+    final versionId = this.versionId;
+    return {
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (document != null) 'Document': document,
+      if (isDefaultVersion != null) 'IsDefaultVersion': isDefaultVersion,
+      if (versionId != null) 'VersionId': versionId,
+    };
   }
 }
 
@@ -15860,26 +19078,51 @@ class PolicyVersion {
 /// type.
 class Position {
   /// The column in the line containing the specified position in the document.
-  final int column;
+  final int? column;
 
   /// The line containing the specified position in the document.
-  final int line;
+  final int? line;
 
   Position({
     this.column,
     this.line,
   });
+
+  factory Position.fromJson(Map<String, dynamic> json) {
+    return Position(
+      column: json['Column'] as int?,
+      line: json['Line'] as int?,
+    );
+  }
+
   factory Position.fromXml(_s.XmlElement elem) {
     return Position(
       column: _s.extractXmlIntValue(elem, 'Column'),
       line: _s.extractXmlIntValue(elem, 'Line'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final column = this.column;
+    final line = this.line;
+    return {
+      if (column != null) 'Column': column,
+      if (line != null) 'Line': line,
+    };
+  }
 }
 
 enum ReportFormatType {
-  @_s.JsonValue('text/csv')
   textCsv,
+}
+
+extension on ReportFormatType {
+  String toValue() {
+    switch (this) {
+      case ReportFormatType.textCsv:
+        return 'text/csv';
+    }
+  }
 }
 
 extension on String {
@@ -15888,17 +19131,27 @@ extension on String {
       case 'text/csv':
         return ReportFormatType.textCsv;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReportFormatType');
   }
 }
 
 enum ReportStateType {
-  @_s.JsonValue('STARTED')
   started,
-  @_s.JsonValue('INPROGRESS')
   inprogress,
-  @_s.JsonValue('COMPLETE')
   complete,
+}
+
+extension on ReportStateType {
+  String toValue() {
+    switch (this) {
+      case ReportStateType.started:
+        return 'STARTED';
+      case ReportStateType.inprogress:
+        return 'INPROGRESS';
+      case ReportStateType.complete:
+        return 'COMPLETE';
+    }
+  }
 }
 
 extension on String {
@@ -15911,7 +19164,7 @@ extension on String {
       case 'COMPLETE':
         return ReportStateType.complete;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReportStateType');
   }
 }
 
@@ -15922,17 +19175,36 @@ class ResetServiceSpecificCredentialResponse {
   /// This is the <b>only</b> time that you can access the password. You cannot
   /// recover the password later, but you can reset it again.
   /// </important>
-  final ServiceSpecificCredential serviceSpecificCredential;
+  final ServiceSpecificCredential? serviceSpecificCredential;
 
   ResetServiceSpecificCredentialResponse({
     this.serviceSpecificCredential,
   });
+
+  factory ResetServiceSpecificCredentialResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ResetServiceSpecificCredentialResponse(
+      serviceSpecificCredential: json['ServiceSpecificCredential'] != null
+          ? ServiceSpecificCredential.fromJson(
+              json['ServiceSpecificCredential'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ResetServiceSpecificCredentialResponse.fromXml(_s.XmlElement elem) {
     return ResetServiceSpecificCredentialResponse(
       serviceSpecificCredential: _s
           .extractXmlChild(elem, 'ServiceSpecificCredential')
           ?.let((e) => ServiceSpecificCredential.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceSpecificCredential = this.serviceSpecificCredential;
+    return {
+      if (serviceSpecificCredential != null)
+        'ServiceSpecificCredential': serviceSpecificCredential,
+    };
   }
 }
 
@@ -15952,14 +19224,14 @@ class ResourceSpecificResult {
   /// resource. This parameter is returned only for cross-account simulations.
   /// This parameter explains how each policy type contributes to the
   /// resource-specific evaluation decision.
-  final Map<String, PolicyEvaluationDecisionType> evalDecisionDetails;
+  final Map<String, PolicyEvaluationDecisionType>? evalDecisionDetails;
 
   /// A list of the statements in the input policies that determine the result for
   /// this part of the simulation. Remember that even if multiple statements allow
   /// the operation on the resource, if <i>any</i> statement denies that
   /// operation, then the explicit deny overrides any allow. In addition, the deny
   /// statement is the only entry included in the result.
-  final List<Statement> matchedStatements;
+  final List<Statement>? matchedStatements;
 
   /// A list of context keys that are required by the included input policies but
   /// that were not provided by one of the input parameters. This list is used
@@ -15971,35 +19243,62 @@ class ResourceSpecificResult {
   /// discover the context keys used by a set of policies, you can call
   /// <a>GetContextKeysForCustomPolicy</a> or
   /// <a>GetContextKeysForPrincipalPolicy</a>.
-  final List<String> missingContextValues;
+  final List<String>? missingContextValues;
 
   /// Contains information about the effect that a permissions boundary has on a
   /// policy simulation when that boundary is applied to an IAM entity.
-  final PermissionsBoundaryDecisionDetail permissionsBoundaryDecisionDetail;
+  final PermissionsBoundaryDecisionDetail? permissionsBoundaryDecisionDetail;
 
   ResourceSpecificResult({
-    @_s.required this.evalResourceDecision,
-    @_s.required this.evalResourceName,
+    required this.evalResourceDecision,
+    required this.evalResourceName,
     this.evalDecisionDetails,
     this.matchedStatements,
     this.missingContextValues,
     this.permissionsBoundaryDecisionDetail,
   });
+
+  factory ResourceSpecificResult.fromJson(Map<String, dynamic> json) {
+    return ResourceSpecificResult(
+      evalResourceDecision: (json['EvalResourceDecision'] as String)
+          .toPolicyEvaluationDecisionType(),
+      evalResourceName: json['EvalResourceName'] as String,
+      evalDecisionDetails:
+          (json['EvalDecisionDetails'] as Map<String, dynamic>?)?.map((k, e) =>
+              MapEntry(k, (e as String).toPolicyEvaluationDecisionType())),
+      matchedStatements: (json['MatchedStatements'] as List?)
+          ?.whereNotNull()
+          .map((e) => Statement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      missingContextValues: (json['MissingContextValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      permissionsBoundaryDecisionDetail:
+          json['PermissionsBoundaryDecisionDetail'] != null
+              ? PermissionsBoundaryDecisionDetail.fromJson(
+                  json['PermissionsBoundaryDecisionDetail']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
   factory ResourceSpecificResult.fromXml(_s.XmlElement elem) {
     return ResourceSpecificResult(
       evalResourceDecision: _s
-          .extractXmlStringValue(elem, 'EvalResourceDecision')
-          ?.toPolicyEvaluationDecisionType(),
-      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName'),
+          .extractXmlStringValue(elem, 'EvalResourceDecision')!
+          .toPolicyEvaluationDecisionType(),
+      evalResourceName: _s.extractXmlStringValue(elem, 'EvalResourceName')!,
       evalDecisionDetails: Map.fromEntries(
-        elem.getElement('EvalDecisionDetails').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlStringValue(c, 'value')
-                    ?.toPolicyEvaluationDecisionType(),
-              ),
-            ),
+        elem.getElement('EvalDecisionDetails')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s
+                        .extractXmlStringValue(c, 'value')!
+                        .toPolicyEvaluationDecisionType(),
+                  ),
+                ) ??
+            {},
       ),
       matchedStatements: _s.extractXmlChild(elem, 'MatchedStatements')?.let(
           (elem) => elem
@@ -16014,6 +19313,28 @@ class ResourceSpecificResult {
           ?.let((e) => PermissionsBoundaryDecisionDetail.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final evalResourceDecision = this.evalResourceDecision;
+    final evalResourceName = this.evalResourceName;
+    final evalDecisionDetails = this.evalDecisionDetails;
+    final matchedStatements = this.matchedStatements;
+    final missingContextValues = this.missingContextValues;
+    final permissionsBoundaryDecisionDetail =
+        this.permissionsBoundaryDecisionDetail;
+    return {
+      'EvalResourceDecision': evalResourceDecision.toValue(),
+      'EvalResourceName': evalResourceName,
+      if (evalDecisionDetails != null)
+        'EvalDecisionDetails':
+            evalDecisionDetails.map((k, e) => MapEntry(k, e.toValue())),
+      if (matchedStatements != null) 'MatchedStatements': matchedStatements,
+      if (missingContextValues != null)
+        'MissingContextValues': missingContextValues,
+      if (permissionsBoundaryDecisionDetail != null)
+        'PermissionsBoundaryDecisionDetail': permissionsBoundaryDecisionDetail,
+    };
+  }
 }
 
 /// Contains information about an IAM role. This structure is returned as a
@@ -16022,7 +19343,7 @@ class Role {
   /// The Amazon Resource Name (ARN) specifying the role. For more information
   /// about ARNs and how to use them in policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i> guide.
+  /// identifiers</a> in the <i>IAM User Guide</i> guide.
   final String arn;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
@@ -16031,36 +19352,36 @@ class Role {
 
   /// The path to the role. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String path;
 
   /// The stable and unique string identifying the role. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String roleId;
 
   /// The friendly name that identifies the role.
   final String roleName;
 
   /// The policy that grants an entity permission to assume the role.
-  final String assumeRolePolicyDocument;
+  final String? assumeRolePolicyDocument;
 
   /// A description of the role that you provide.
-  final String description;
+  final String? description;
 
   /// The maximum session duration (in seconds) for the specified role. Anyone who
-  /// uses the AWS CLI, or API to assume the role can specify the duration using
-  /// the optional <code>DurationSeconds</code> API parameter or
+  /// uses the CLI, or API to assume the role can specify the duration using the
+  /// optional <code>DurationSeconds</code> API parameter or
   /// <code>duration-seconds</code> CLI parameter.
-  final int maxSessionDuration;
+  final int? maxSessionDuration;
 
   /// The ARN of the policy used to set the permissions boundary for the role.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
   /// Contains information about the last time that an IAM role was used. This
   /// includes the date and time and the Region in which the role was last used.
@@ -16069,21 +19390,21 @@ class Role {
   /// The role might have been used more than 400 days ago. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-  /// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
-  final RoleLastUsed roleLastUsed;
+  /// where data is tracked</a> in the <i>IAM User Guide</i>.
+  final RoleLastUsed? roleLastUsed;
 
-  /// A list of tags that are attached to the specified role. For more information
-  /// about tagging, see <a
+  /// A list of tags that are attached to the role. For more information about
+  /// tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   Role({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.path,
-    @_s.required this.roleId,
-    @_s.required this.roleName,
+    required this.arn,
+    required this.createDate,
+    required this.path,
+    required this.roleId,
+    required this.roleName,
     this.assumeRolePolicyDocument,
     this.description,
     this.maxSessionDuration,
@@ -16091,13 +19412,38 @@ class Role {
     this.roleLastUsed,
     this.tags,
   });
+
+  factory Role.fromJson(Map<String, dynamic> json) {
+    return Role(
+      arn: json['Arn'] as String,
+      createDate: nonNullableTimeStampFromJson(json['CreateDate'] as Object),
+      path: json['Path'] as String,
+      roleId: json['RoleId'] as String,
+      roleName: json['RoleName'] as String,
+      assumeRolePolicyDocument: json['AssumeRolePolicyDocument'] as String?,
+      description: json['Description'] as String?,
+      maxSessionDuration: json['MaxSessionDuration'] as int?,
+      permissionsBoundary: json['PermissionsBoundary'] != null
+          ? AttachedPermissionsBoundary.fromJson(
+              json['PermissionsBoundary'] as Map<String, dynamic>)
+          : null,
+      roleLastUsed: json['RoleLastUsed'] != null
+          ? RoleLastUsed.fromJson(json['RoleLastUsed'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory Role.fromXml(_s.XmlElement elem) {
     return Role(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      roleId: _s.extractXmlStringValue(elem, 'RoleId'),
-      roleName: _s.extractXmlStringValue(elem, 'RoleName'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      roleId: _s.extractXmlStringValue(elem, 'RoleId')!,
+      roleName: _s.extractXmlStringValue(elem, 'RoleName')!,
       assumeRolePolicyDocument:
           _s.extractXmlStringValue(elem, 'AssumeRolePolicyDocument'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -16112,6 +19458,35 @@ class Role {
           elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final path = this.path;
+    final roleId = this.roleId;
+    final roleName = this.roleName;
+    final assumeRolePolicyDocument = this.assumeRolePolicyDocument;
+    final description = this.description;
+    final maxSessionDuration = this.maxSessionDuration;
+    final permissionsBoundary = this.permissionsBoundary;
+    final roleLastUsed = this.roleLastUsed;
+    final tags = this.tags;
+    return {
+      'Arn': arn,
+      'CreateDate': unixTimestampToJson(createDate),
+      'Path': path,
+      'RoleId': roleId,
+      'RoleName': roleName,
+      if (assumeRolePolicyDocument != null)
+        'AssumeRolePolicyDocument': assumeRolePolicyDocument,
+      if (description != null) 'Description': description,
+      if (maxSessionDuration != null) 'MaxSessionDuration': maxSessionDuration,
+      if (permissionsBoundary != null)
+        'PermissionsBoundary': permissionsBoundary,
+      if (roleLastUsed != null) 'RoleLastUsed': roleLastUsed,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Contains information about an IAM role, including all of the role's
@@ -16120,39 +19495,39 @@ class Role {
 /// This data type is used as a response element in the
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class RoleDetail {
-  final String arn;
+  final String? arn;
 
   /// The trust policy that grants permission to assume the role.
-  final String assumeRolePolicyDocument;
+  final String? assumeRolePolicyDocument;
 
   /// A list of managed policies attached to the role. These policies are the
   /// role's access (permissions) policies.
-  final List<AttachedPolicy> attachedManagedPolicies;
+  final List<AttachedPolicy>? attachedManagedPolicies;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the role was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// A list of instance profiles that contain this role.
-  final List<InstanceProfile> instanceProfileList;
+  final List<InstanceProfile>? instanceProfileList;
 
   /// The path to the role. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
 
   /// The ARN of the policy used to set the permissions boundary for the role.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
   /// The stable and unique string identifying the role. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String roleId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? roleId;
 
   /// Contains information about the last time that an IAM role was used. This
   /// includes the date and time and the Region in which the role was last used.
@@ -16161,21 +19536,21 @@ class RoleDetail {
   /// The role might have been used more than 400 days ago. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-  /// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
-  final RoleLastUsed roleLastUsed;
+  /// where data is tracked</a> in the <i>IAM User Guide</i>.
+  final RoleLastUsed? roleLastUsed;
 
   /// The friendly name that identifies the role.
-  final String roleName;
+  final String? roleName;
 
   /// A list of inline policies embedded in the role. These policies are the
   /// role's access (permissions) policies.
-  final List<PolicyDetail> rolePolicyList;
+  final List<PolicyDetail>? rolePolicyList;
 
-  /// A list of tags that are attached to the specified role. For more information
-  /// about tagging, see <a
+  /// A list of tags that are attached to the role. For more information about
+  /// tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   RoleDetail({
     this.arn,
@@ -16191,6 +19566,41 @@ class RoleDetail {
     this.rolePolicyList,
     this.tags,
   });
+
+  factory RoleDetail.fromJson(Map<String, dynamic> json) {
+    return RoleDetail(
+      arn: json['Arn'] as String?,
+      assumeRolePolicyDocument: json['AssumeRolePolicyDocument'] as String?,
+      attachedManagedPolicies: (json['AttachedManagedPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createDate: timeStampFromJson(json['CreateDate']),
+      instanceProfileList: (json['InstanceProfileList'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceProfile.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      path: json['Path'] as String?,
+      permissionsBoundary: json['PermissionsBoundary'] != null
+          ? AttachedPermissionsBoundary.fromJson(
+              json['PermissionsBoundary'] as Map<String, dynamic>)
+          : null,
+      roleId: json['RoleId'] as String?,
+      roleLastUsed: json['RoleLastUsed'] != null
+          ? RoleLastUsed.fromJson(json['RoleLastUsed'] as Map<String, dynamic>)
+          : null,
+      roleName: json['RoleName'] as String?,
+      rolePolicyList: (json['RolePolicyList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory RoleDetail.fromXml(_s.XmlElement elem) {
     return RoleDetail(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
@@ -16226,6 +19636,39 @@ class RoleDetail {
           elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final assumeRolePolicyDocument = this.assumeRolePolicyDocument;
+    final attachedManagedPolicies = this.attachedManagedPolicies;
+    final createDate = this.createDate;
+    final instanceProfileList = this.instanceProfileList;
+    final path = this.path;
+    final permissionsBoundary = this.permissionsBoundary;
+    final roleId = this.roleId;
+    final roleLastUsed = this.roleLastUsed;
+    final roleName = this.roleName;
+    final rolePolicyList = this.rolePolicyList;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (assumeRolePolicyDocument != null)
+        'AssumeRolePolicyDocument': assumeRolePolicyDocument,
+      if (attachedManagedPolicies != null)
+        'AttachedManagedPolicies': attachedManagedPolicies,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (instanceProfileList != null)
+        'InstanceProfileList': instanceProfileList,
+      if (path != null) 'Path': path,
+      if (permissionsBoundary != null)
+        'PermissionsBoundary': permissionsBoundary,
+      if (roleId != null) 'RoleId': roleId,
+      if (roleLastUsed != null) 'RoleLastUsed': roleLastUsed,
+      if (roleName != null) 'RoleName': roleName,
+      if (rolePolicyList != null) 'RolePolicyList': rolePolicyList,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Contains information about the last time that an IAM role was used. This
@@ -16235,7 +19678,7 @@ class RoleDetail {
 /// The role might have been used more than 400 days ago. For more information,
 /// see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-/// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
+/// where data is tracked</a> in the <i>IAM User Guide</i>.
 ///
 /// This data type is returned as a response element in the <a>GetRole</a> and
 /// <a>GetAccountAuthorizationDetails</a> operations.
@@ -16246,21 +19689,39 @@ class RoleLastUsed {
   /// This field is null if the role has not been used within the IAM tracking
   /// period. For more information about the tracking period, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period">Regions
-  /// Where Data Is Tracked</a> in the <i>IAM User Guide</i>.
-  final DateTime lastUsedDate;
+  /// where data is tracked</a> in the <i>IAM User Guide</i>.
+  final DateTime? lastUsedDate;
 
-  /// The name of the AWS Region in which the role was last used.
-  final String region;
+  /// The name of the Region in which the role was last used.
+  final String? region;
 
   RoleLastUsed({
     this.lastUsedDate,
     this.region,
   });
+
+  factory RoleLastUsed.fromJson(Map<String, dynamic> json) {
+    return RoleLastUsed(
+      lastUsedDate: timeStampFromJson(json['LastUsedDate']),
+      region: json['Region'] as String?,
+    );
+  }
+
   factory RoleLastUsed.fromXml(_s.XmlElement elem) {
     return RoleLastUsed(
       lastUsedDate: _s.extractXmlDateTimeValue(elem, 'LastUsedDate'),
       region: _s.extractXmlStringValue(elem, 'Region'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUsedDate = this.lastUsedDate;
+    final region = this.region;
+    return {
+      if (lastUsedDate != null)
+        'LastUsedDate': unixTimestampToJson(lastUsedDate),
+      if (region != null) 'Region': region,
+    };
   }
 }
 
@@ -16271,15 +19732,26 @@ class RoleLastUsed {
 /// <a>GetServiceLinkedRoleDeletionStatus</a> operation.
 class RoleUsageType {
   /// The name of the Region where the service-linked role is being used.
-  final String region;
+  final String? region;
 
   /// The name of the resource that is using the service-linked role.
-  final List<String> resources;
+  final List<String>? resources;
 
   RoleUsageType({
     this.region,
     this.resources,
   });
+
+  factory RoleUsageType.fromJson(Map<String, dynamic> json) {
+    return RoleUsageType(
+      region: json['Region'] as String?,
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory RoleUsageType.fromXml(_s.XmlElement elem) {
     return RoleUsageType(
       region: _s.extractXmlStringValue(elem, 'Region'),
@@ -16288,30 +19760,59 @@ class RoleUsageType {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final region = this.region;
+    final resources = this.resources;
+    return {
+      if (region != null) 'Region': region,
+      if (resources != null) 'Resources': resources,
+    };
+  }
 }
 
 /// Contains the list of SAML providers for this account.
 class SAMLProviderListEntry {
   /// The Amazon Resource Name (ARN) of the SAML provider.
-  final String arn;
+  final String? arn;
 
   /// The date and time when the SAML provider was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// The expiration date and time for the SAML provider.
-  final DateTime validUntil;
+  final DateTime? validUntil;
 
   SAMLProviderListEntry({
     this.arn,
     this.createDate,
     this.validUntil,
   });
+
+  factory SAMLProviderListEntry.fromJson(Map<String, dynamic> json) {
+    return SAMLProviderListEntry(
+      arn: json['Arn'] as String?,
+      createDate: timeStampFromJson(json['CreateDate']),
+      validUntil: timeStampFromJson(json['ValidUntil']),
+    );
+  }
+
   factory SAMLProviderListEntry.fromXml(_s.XmlElement elem) {
     return SAMLProviderListEntry(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
       createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
       validUntil: _s.extractXmlDateTimeValue(elem, 'ValidUntil'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final validUntil = this.validUntil;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (validUntil != null) 'ValidUntil': unixTimestampToJson(validUntil),
+    };
   }
 }
 
@@ -16330,7 +19831,7 @@ class SSHPublicKey {
   final String sSHPublicKeyId;
 
   /// The status of the SSH public key. <code>Active</code> means that the key can
-  /// be used for authentication with an AWS CodeCommit repository.
+  /// be used for authentication with an CodeCommit repository.
   /// <code>Inactive</code> means that the key cannot be used.
   final StatusType status;
 
@@ -16339,25 +19840,54 @@ class SSHPublicKey {
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the SSH public key was uploaded.
-  final DateTime uploadDate;
+  final DateTime? uploadDate;
 
   SSHPublicKey({
-    @_s.required this.fingerprint,
-    @_s.required this.sSHPublicKeyBody,
-    @_s.required this.sSHPublicKeyId,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.fingerprint,
+    required this.sSHPublicKeyBody,
+    required this.sSHPublicKeyId,
+    required this.status,
+    required this.userName,
     this.uploadDate,
   });
+
+  factory SSHPublicKey.fromJson(Map<String, dynamic> json) {
+    return SSHPublicKey(
+      fingerprint: json['Fingerprint'] as String,
+      sSHPublicKeyBody: json['SSHPublicKeyBody'] as String,
+      sSHPublicKeyId: json['SSHPublicKeyId'] as String,
+      status: (json['Status'] as String).toStatusType(),
+      userName: json['UserName'] as String,
+      uploadDate: timeStampFromJson(json['UploadDate']),
+    );
+  }
+
   factory SSHPublicKey.fromXml(_s.XmlElement elem) {
     return SSHPublicKey(
-      fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint'),
-      sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody'),
-      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      fingerprint: _s.extractXmlStringValue(elem, 'Fingerprint')!,
+      sSHPublicKeyBody: _s.extractXmlStringValue(elem, 'SSHPublicKeyBody')!,
+      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fingerprint = this.fingerprint;
+    final sSHPublicKeyBody = this.sSHPublicKeyBody;
+    final sSHPublicKeyId = this.sSHPublicKeyId;
+    final status = this.status;
+    final userName = this.userName;
+    final uploadDate = this.uploadDate;
+    return {
+      'Fingerprint': fingerprint,
+      'SSHPublicKeyBody': sSHPublicKeyBody,
+      'SSHPublicKeyId': sSHPublicKeyId,
+      'Status': status.toValue(),
+      'UserName': userName,
+      if (uploadDate != null) 'UploadDate': unixTimestampToJson(uploadDate),
+    };
   }
 }
 
@@ -16371,7 +19901,7 @@ class SSHPublicKeyMetadata {
   final String sSHPublicKeyId;
 
   /// The status of the SSH public key. <code>Active</code> means that the key can
-  /// be used for authentication with an AWS CodeCommit repository.
+  /// be used for authentication with an CodeCommit repository.
   /// <code>Inactive</code> means that the key cannot be used.
   final StatusType status;
 
@@ -16383,18 +19913,41 @@ class SSHPublicKeyMetadata {
   final String userName;
 
   SSHPublicKeyMetadata({
-    @_s.required this.sSHPublicKeyId,
-    @_s.required this.status,
-    @_s.required this.uploadDate,
-    @_s.required this.userName,
+    required this.sSHPublicKeyId,
+    required this.status,
+    required this.uploadDate,
+    required this.userName,
   });
+
+  factory SSHPublicKeyMetadata.fromJson(Map<String, dynamic> json) {
+    return SSHPublicKeyMetadata(
+      sSHPublicKeyId: json['SSHPublicKeyId'] as String,
+      status: (json['Status'] as String).toStatusType(),
+      uploadDate: nonNullableTimeStampFromJson(json['UploadDate'] as Object),
+      userName: json['UserName'] as String,
+    );
+  }
+
   factory SSHPublicKeyMetadata.fromXml(_s.XmlElement elem) {
     return SSHPublicKeyMetadata(
-      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      sSHPublicKeyId: _s.extractXmlStringValue(elem, 'SSHPublicKeyId')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sSHPublicKeyId = this.sSHPublicKeyId;
+    final status = this.status;
+    final uploadDate = this.uploadDate;
+    final userName = this.userName;
+    return {
+      'SSHPublicKeyId': sSHPublicKeyId,
+      'Status': status.toValue(),
+      'UploadDate': unixTimestampToJson(uploadDate),
+      'UserName': userName,
+    };
   }
 }
 
@@ -16411,21 +19964,56 @@ class ServerCertificate {
   final ServerCertificateMetadata serverCertificateMetadata;
 
   /// The contents of the public key certificate chain.
-  final String certificateChain;
+  final String? certificateChain;
+
+  /// A list of tags that are attached to the server certificate. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   ServerCertificate({
-    @_s.required this.certificateBody,
-    @_s.required this.serverCertificateMetadata,
+    required this.certificateBody,
+    required this.serverCertificateMetadata,
     this.certificateChain,
+    this.tags,
   });
+
+  factory ServerCertificate.fromJson(Map<String, dynamic> json) {
+    return ServerCertificate(
+      certificateBody: json['CertificateBody'] as String,
+      serverCertificateMetadata: ServerCertificateMetadata.fromJson(
+          json['ServerCertificateMetadata'] as Map<String, dynamic>),
+      certificateChain: json['CertificateChain'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ServerCertificate.fromXml(_s.XmlElement elem) {
     return ServerCertificate(
-      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody'),
-      serverCertificateMetadata: _s
-          .extractXmlChild(elem, 'ServerCertificateMetadata')
-          ?.let((e) => ServerCertificateMetadata.fromXml(e)),
+      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
+      serverCertificateMetadata: ServerCertificateMetadata.fromXml(
+          _s.extractXmlChild(elem, 'ServerCertificateMetadata')!),
       certificateChain: _s.extractXmlStringValue(elem, 'CertificateChain'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateBody = this.certificateBody;
+    final serverCertificateMetadata = this.serverCertificateMetadata;
+    final certificateChain = this.certificateChain;
+    final tags = this.tags;
+    return {
+      'CertificateBody': certificateBody,
+      'ServerCertificateMetadata': serverCertificateMetadata,
+      if (certificateChain != null) 'CertificateChain': certificateChain,
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
@@ -16438,48 +20026,77 @@ class ServerCertificateMetadata {
   /// The Amazon Resource Name (ARN) specifying the server certificate. For more
   /// information about ARNs and how to use them in policies, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String arn;
 
   /// The path to the server certificate. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String path;
 
   /// The stable and unique string identifying the server certificate. For more
   /// information about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String serverCertificateId;
 
   /// The name that identifies the server certificate.
   final String serverCertificateName;
 
   /// The date on which the certificate is set to expire.
-  final DateTime expiration;
+  final DateTime? expiration;
 
   /// The date when the server certificate was uploaded.
-  final DateTime uploadDate;
+  final DateTime? uploadDate;
 
   ServerCertificateMetadata({
-    @_s.required this.arn,
-    @_s.required this.path,
-    @_s.required this.serverCertificateId,
-    @_s.required this.serverCertificateName,
+    required this.arn,
+    required this.path,
+    required this.serverCertificateId,
+    required this.serverCertificateName,
     this.expiration,
     this.uploadDate,
   });
+
+  factory ServerCertificateMetadata.fromJson(Map<String, dynamic> json) {
+    return ServerCertificateMetadata(
+      arn: json['Arn'] as String,
+      path: json['Path'] as String,
+      serverCertificateId: json['ServerCertificateId'] as String,
+      serverCertificateName: json['ServerCertificateName'] as String,
+      expiration: timeStampFromJson(json['Expiration']),
+      uploadDate: timeStampFromJson(json['UploadDate']),
+    );
+  }
+
   factory ServerCertificateMetadata.fromXml(_s.XmlElement elem) {
     return ServerCertificateMetadata(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
       serverCertificateId:
-          _s.extractXmlStringValue(elem, 'ServerCertificateId'),
+          _s.extractXmlStringValue(elem, 'ServerCertificateId')!,
       serverCertificateName:
-          _s.extractXmlStringValue(elem, 'ServerCertificateName'),
+          _s.extractXmlStringValue(elem, 'ServerCertificateName')!,
       expiration: _s.extractXmlDateTimeValue(elem, 'Expiration'),
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final path = this.path;
+    final serverCertificateId = this.serverCertificateId;
+    final serverCertificateName = this.serverCertificateName;
+    final expiration = this.expiration;
+    final uploadDate = this.uploadDate;
+    return {
+      'Arn': arn,
+      'Path': path,
+      'ServerCertificateId': serverCertificateId,
+      'ServerCertificateName': serverCertificateName,
+      if (expiration != null) 'Expiration': unixTimestampToJson(expiration),
+      if (uploadDate != null) 'UploadDate': unixTimestampToJson(uploadDate),
+    };
   }
 }
 
@@ -16493,43 +20110,48 @@ class ServiceLastAccessed {
 
   /// The namespace of the service in which access was attempted.
   ///
-  /// To learn the service namespace of a service, go to <a
-  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_actions-resources-contextkeys.html">Actions,
-  /// Resources, and Condition Keys for AWS Services</a> in the <i>IAM User
-  /// Guide</i>. Choose the name of the service to view details for that service.
-  /// In the first paragraph, find the service prefix. For example, <code>(service
-  /// prefix: a4b)</code>. For more information about service namespaces, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">AWS
-  /// Service Namespaces</a> in the <i>AWS General Reference</i>.
+  /// To learn the service namespace of a service, see <a
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html">Actions,
+  /// resources, and condition keys for Amazon Web Services services</a> in the
+  /// <i>Service Authorization Reference</i>. Choose the name of the service to
+  /// view details for that service. In the first paragraph, find the service
+  /// prefix. For example, <code>(service prefix: a4b)</code>. For more
+  /// information about service namespaces, see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#genref-aws-service-namespaces">Amazon
+  /// Web Services Service Namespaces</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   final String serviceNamespace;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when an authenticated entity most recently attempted
-  /// to access the service. AWS does not report unauthenticated requests.
+  /// to access the service. Amazon Web Services does not report unauthenticated
+  /// requests.
   ///
   /// This field is null if no IAM entities attempted to access the service within
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAuthenticated;
+  final DateTime? lastAuthenticated;
 
   /// The ARN of the authenticated entity (user or role) that last attempted to
-  /// access the service. AWS does not report unauthenticated requests.
+  /// access the service. Amazon Web Services does not report unauthenticated
+  /// requests.
   ///
   /// This field is null if no IAM entities attempted to access the service within
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String lastAuthenticatedEntity;
+  final String? lastAuthenticatedEntity;
 
   /// The Region from which the authenticated entity (user or role) last attempted
-  /// to access the service. AWS does not report unauthenticated requests.
+  /// to access the service. Amazon Web Services does not report unauthenticated
+  /// requests.
   ///
   /// This field is null if no IAM entities attempted to access the service within
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String lastAuthenticatedRegion;
+  final String? lastAuthenticatedRegion;
 
   /// The total number of authenticated principals (root user, IAM users, or IAM
   /// roles) that have attempted to access the service.
@@ -16538,7 +20160,7 @@ class ServiceLastAccessed {
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final int totalAuthenticatedEntities;
+  final int? totalAuthenticatedEntities;
 
   /// An object that contains details about the most recent attempt to access a
   /// tracked action within the service.
@@ -16549,21 +20171,38 @@ class ServiceLastAccessed {
   /// period</a>. This field is also null if the report was generated at the
   /// service level and not the action level. For more information, see the
   /// <code>Granularity</code> field in <a>GenerateServiceLastAccessedDetails</a>.
-  final List<TrackedActionLastAccessed> trackedActionsLastAccessed;
+  final List<TrackedActionLastAccessed>? trackedActionsLastAccessed;
 
   ServiceLastAccessed({
-    @_s.required this.serviceName,
-    @_s.required this.serviceNamespace,
+    required this.serviceName,
+    required this.serviceNamespace,
     this.lastAuthenticated,
     this.lastAuthenticatedEntity,
     this.lastAuthenticatedRegion,
     this.totalAuthenticatedEntities,
     this.trackedActionsLastAccessed,
   });
+
+  factory ServiceLastAccessed.fromJson(Map<String, dynamic> json) {
+    return ServiceLastAccessed(
+      serviceName: json['ServiceName'] as String,
+      serviceNamespace: json['ServiceNamespace'] as String,
+      lastAuthenticated: timeStampFromJson(json['LastAuthenticated']),
+      lastAuthenticatedEntity: json['LastAuthenticatedEntity'] as String?,
+      lastAuthenticatedRegion: json['LastAuthenticatedRegion'] as String?,
+      totalAuthenticatedEntities: json['TotalAuthenticatedEntities'] as int?,
+      trackedActionsLastAccessed: (json['TrackedActionsLastAccessed'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TrackedActionLastAccessed.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ServiceLastAccessed.fromXml(_s.XmlElement elem) {
     return ServiceLastAccessed(
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
-      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace'),
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      serviceNamespace: _s.extractXmlStringValue(elem, 'ServiceNamespace')!,
       lastAuthenticated: _s.extractXmlDateTimeValue(elem, 'LastAuthenticated'),
       lastAuthenticatedEntity:
           _s.extractXmlStringValue(elem, 'LastAuthenticatedEntity'),
@@ -16578,6 +20217,30 @@ class ServiceLastAccessed {
               .map((c) => TrackedActionLastAccessed.fromXml(c))
               .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final serviceNamespace = this.serviceNamespace;
+    final lastAuthenticated = this.lastAuthenticated;
+    final lastAuthenticatedEntity = this.lastAuthenticatedEntity;
+    final lastAuthenticatedRegion = this.lastAuthenticatedRegion;
+    final totalAuthenticatedEntities = this.totalAuthenticatedEntities;
+    final trackedActionsLastAccessed = this.trackedActionsLastAccessed;
+    return {
+      'ServiceName': serviceName,
+      'ServiceNamespace': serviceNamespace,
+      if (lastAuthenticated != null)
+        'LastAuthenticated': unixTimestampToJson(lastAuthenticated),
+      if (lastAuthenticatedEntity != null)
+        'LastAuthenticatedEntity': lastAuthenticatedEntity,
+      if (lastAuthenticatedRegion != null)
+        'LastAuthenticatedRegion': lastAuthenticatedRegion,
+      if (totalAuthenticatedEntities != null)
+        'TotalAuthenticatedEntities': totalAuthenticatedEntities,
+      if (trackedActionsLastAccessed != null)
+        'TrackedActionsLastAccessed': trackedActionsLastAccessed,
+    };
   }
 }
 
@@ -16598,8 +20261,8 @@ class ServiceSpecificCredential {
 
   /// The generated user name for the service-specific credential. This value is
   /// generated by combining the IAM user's name combined with the ID number of
-  /// the AWS account, as in <code>jane-at-123456789012</code>, for example. This
-  /// value cannot be configured by the user.
+  /// the Amazon Web Services account, as in <code>jane-at-123456789012</code>,
+  /// for example. This value cannot be configured by the user.
   final String serviceUserName;
 
   /// The status of the service-specific credential. <code>Active</code> means
@@ -16611,25 +20274,58 @@ class ServiceSpecificCredential {
   final String userName;
 
   ServiceSpecificCredential({
-    @_s.required this.createDate,
-    @_s.required this.serviceName,
-    @_s.required this.servicePassword,
-    @_s.required this.serviceSpecificCredentialId,
-    @_s.required this.serviceUserName,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.createDate,
+    required this.serviceName,
+    required this.servicePassword,
+    required this.serviceSpecificCredentialId,
+    required this.serviceUserName,
+    required this.status,
+    required this.userName,
   });
+
+  factory ServiceSpecificCredential.fromJson(Map<String, dynamic> json) {
+    return ServiceSpecificCredential(
+      createDate: nonNullableTimeStampFromJson(json['CreateDate'] as Object),
+      serviceName: json['ServiceName'] as String,
+      servicePassword: json['ServicePassword'] as String,
+      serviceSpecificCredentialId:
+          json['ServiceSpecificCredentialId'] as String,
+      serviceUserName: json['ServiceUserName'] as String,
+      status: (json['Status'] as String).toStatusType(),
+      userName: json['UserName'] as String,
+    );
+  }
+
   factory ServiceSpecificCredential.fromXml(_s.XmlElement elem) {
     return ServiceSpecificCredential(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
-      servicePassword: _s.extractXmlStringValue(elem, 'ServicePassword'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
+      servicePassword: _s.extractXmlStringValue(elem, 'ServicePassword')!,
       serviceSpecificCredentialId:
-          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId'),
-      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
+      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final serviceName = this.serviceName;
+    final servicePassword = this.servicePassword;
+    final serviceSpecificCredentialId = this.serviceSpecificCredentialId;
+    final serviceUserName = this.serviceUserName;
+    final status = this.status;
+    final userName = this.userName;
+    return {
+      'CreateDate': unixTimestampToJson(createDate),
+      'ServiceName': serviceName,
+      'ServicePassword': servicePassword,
+      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
+      'ServiceUserName': serviceUserName,
+      'Status': status.toValue(),
+      'UserName': userName,
+    };
   }
 }
 
@@ -16657,23 +20353,54 @@ class ServiceSpecificCredentialMetadata {
   final String userName;
 
   ServiceSpecificCredentialMetadata({
-    @_s.required this.createDate,
-    @_s.required this.serviceName,
-    @_s.required this.serviceSpecificCredentialId,
-    @_s.required this.serviceUserName,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.createDate,
+    required this.serviceName,
+    required this.serviceSpecificCredentialId,
+    required this.serviceUserName,
+    required this.status,
+    required this.userName,
   });
+
+  factory ServiceSpecificCredentialMetadata.fromJson(
+      Map<String, dynamic> json) {
+    return ServiceSpecificCredentialMetadata(
+      createDate: nonNullableTimeStampFromJson(json['CreateDate'] as Object),
+      serviceName: json['ServiceName'] as String,
+      serviceSpecificCredentialId:
+          json['ServiceSpecificCredentialId'] as String,
+      serviceUserName: json['ServiceUserName'] as String,
+      status: (json['Status'] as String).toStatusType(),
+      userName: json['UserName'] as String,
+    );
+  }
+
   factory ServiceSpecificCredentialMetadata.fromXml(_s.XmlElement elem) {
     return ServiceSpecificCredentialMetadata(
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      serviceName: _s.extractXmlStringValue(elem, 'ServiceName'),
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      serviceName: _s.extractXmlStringValue(elem, 'ServiceName')!,
       serviceSpecificCredentialId:
-          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId'),
-      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+          _s.extractXmlStringValue(elem, 'ServiceSpecificCredentialId')!,
+      serviceUserName: _s.extractXmlStringValue(elem, 'ServiceUserName')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createDate = this.createDate;
+    final serviceName = this.serviceName;
+    final serviceSpecificCredentialId = this.serviceSpecificCredentialId;
+    final serviceUserName = this.serviceUserName;
+    final status = this.status;
+    final userName = this.userName;
+    return {
+      'CreateDate': unixTimestampToJson(createDate),
+      'ServiceName': serviceName,
+      'ServiceSpecificCredentialId': serviceSpecificCredentialId,
+      'ServiceUserName': serviceUserName,
+      'Status': status.toValue(),
+      'UserName': userName,
+    };
   }
 }
 
@@ -16697,23 +20424,49 @@ class SigningCertificate {
   final String userName;
 
   /// The date when the signing certificate was uploaded.
-  final DateTime uploadDate;
+  final DateTime? uploadDate;
 
   SigningCertificate({
-    @_s.required this.certificateBody,
-    @_s.required this.certificateId,
-    @_s.required this.status,
-    @_s.required this.userName,
+    required this.certificateBody,
+    required this.certificateId,
+    required this.status,
+    required this.userName,
     this.uploadDate,
   });
+
+  factory SigningCertificate.fromJson(Map<String, dynamic> json) {
+    return SigningCertificate(
+      certificateBody: json['CertificateBody'] as String,
+      certificateId: json['CertificateId'] as String,
+      status: (json['Status'] as String).toStatusType(),
+      userName: json['UserName'] as String,
+      uploadDate: timeStampFromJson(json['UploadDate']),
+    );
+  }
+
   factory SigningCertificate.fromXml(_s.XmlElement elem) {
     return SigningCertificate(
-      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody'),
-      certificateId: _s.extractXmlStringValue(elem, 'CertificateId'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toStatusType(),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      certificateBody: _s.extractXmlStringValue(elem, 'CertificateBody')!,
+      certificateId: _s.extractXmlStringValue(elem, 'CertificateId')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toStatusType(),
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       uploadDate: _s.extractXmlDateTimeValue(elem, 'UploadDate'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateBody = this.certificateBody;
+    final certificateId = this.certificateId;
+    final status = this.status;
+    final userName = this.userName;
+    final uploadDate = this.uploadDate;
+    return {
+      'CertificateBody': certificateBody,
+      'CertificateId': certificateId,
+      'Status': status.toValue(),
+      'UserName': userName,
+      if (uploadDate != null) 'UploadDate': unixTimestampToJson(uploadDate),
+    };
   }
 }
 
@@ -16721,7 +20474,7 @@ class SigningCertificate {
 /// <a>SimulateCustomPolicy</a> request.
 class SimulatePolicyResponse {
   /// The results of the simulation.
-  final List<EvaluationResult> evaluationResults;
+  final List<EvaluationResult>? evaluationResults;
 
   /// A flag that indicates whether there are more items to return. If your
   /// results were truncated, you can make a subsequent pagination request using
@@ -16730,18 +20483,30 @@ class SimulatePolicyResponse {
   /// when there are more results available. We recommend that you check
   /// <code>IsTruncated</code> after every call to ensure that you receive all
   /// your results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// When <code>IsTruncated</code> is <code>true</code>, this element is present
   /// and contains the value to use for the <code>Marker</code> parameter in a
   /// subsequent pagination request.
-  final String marker;
+  final String? marker;
 
   SimulatePolicyResponse({
     this.evaluationResults,
     this.isTruncated,
     this.marker,
   });
+
+  factory SimulatePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return SimulatePolicyResponse(
+      evaluationResults: (json['EvaluationResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => EvaluationResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+    );
+  }
+
   factory SimulatePolicyResponse.fromXml(_s.XmlElement elem) {
     return SimulatePolicyResponse(
       evaluationResults: _s.extractXmlChild(elem, 'EvaluationResults')?.let(
@@ -16753,6 +20518,17 @@ class SimulatePolicyResponse {
       marker: _s.extractXmlStringValue(elem, 'Marker'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final evaluationResults = this.evaluationResults;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    return {
+      if (evaluationResults != null) 'EvaluationResults': evaluationResults,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// Contains a reference to a <code>Statement</code> element in a policy
@@ -16762,17 +20538,17 @@ class SimulatePolicyResponse {
 /// <code> <a>EvaluationResult</a> </code> type.
 class Statement {
   /// The row and column of the end of a <code>Statement</code> in an IAM policy.
-  final Position endPosition;
+  final Position? endPosition;
 
   /// The identifier of the policy that was provided as an input.
-  final String sourcePolicyId;
+  final String? sourcePolicyId;
 
   /// The type of the policy.
-  final PolicySourceType sourcePolicyType;
+  final PolicySourceType? sourcePolicyType;
 
   /// The row and column of the beginning of the <code>Statement</code> in an IAM
   /// policy.
-  final Position startPosition;
+  final Position? startPosition;
 
   Statement({
     this.endPosition,
@@ -16780,6 +20556,21 @@ class Statement {
     this.sourcePolicyType,
     this.startPosition,
   });
+
+  factory Statement.fromJson(Map<String, dynamic> json) {
+    return Statement(
+      endPosition: json['EndPosition'] != null
+          ? Position.fromJson(json['EndPosition'] as Map<String, dynamic>)
+          : null,
+      sourcePolicyId: json['SourcePolicyId'] as String?,
+      sourcePolicyType:
+          (json['SourcePolicyType'] as String?)?.toPolicySourceType(),
+      startPosition: json['StartPosition'] != null
+          ? Position.fromJson(json['StartPosition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory Statement.fromXml(_s.XmlElement elem) {
     return Statement(
       endPosition: _s
@@ -16794,23 +20585,30 @@ class Statement {
           ?.let((e) => Position.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final endPosition = this.endPosition;
+    final sourcePolicyId = this.sourcePolicyId;
+    final sourcePolicyType = this.sourcePolicyType;
+    final startPosition = this.startPosition;
+    return {
+      if (endPosition != null) 'EndPosition': endPosition,
+      if (sourcePolicyId != null) 'SourcePolicyId': sourcePolicyId,
+      if (sourcePolicyType != null)
+        'SourcePolicyType': sourcePolicyType.toValue(),
+      if (startPosition != null) 'StartPosition': startPosition,
+    };
+  }
 }
 
 /// A structure that represents user-provided metadata that can be associated
-/// with a resource such as an IAM user or role. For more information about
-/// tagging, see <a
+/// with an IAM resource. For more information about tagging, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-/// IAM Identities</a> in the <i>IAM User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// IAM resources</a> in the <i>IAM User Guide</i>.
 class Tag {
   /// The key name that can be used to look up or retrieve the associated value.
   /// For example, <code>Department</code> or <code>Cost Center</code> are common
   /// choices.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value associated with this tag. For example, tags with a key name of
@@ -16821,25 +20619,39 @@ class Tag {
   /// Typically, many resources have tags with the same key name but with
   /// different values.
   /// <note>
-  /// AWS always interprets the tag <code>Value</code> as a single string. If you
-  /// need to store an array, you can store comma-separated values in the string.
-  /// However, you must interpret the value in your code.
+  /// Amazon Web Services always interprets the tag <code>Value</code> as a single
+  /// string. If you need to store an array, you can store comma-separated values
+  /// in the string. However, you must interpret the value in your code.
   /// </note>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromXml(_s.XmlElement elem) {
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: json['Key'] as String,
+      value: json['Value'] as String,
     );
   }
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 /// Contains details about the most recent attempt to access an action within
@@ -16850,27 +20662,29 @@ class Tag {
 class TrackedActionLastAccessed {
   /// The name of the tracked action to which access was attempted. Tracked
   /// actions are actions that report activity to IAM.
-  final String actionName;
-  final String lastAccessedEntity;
+  final String? actionName;
+  final String? lastAccessedEntity;
 
   /// The Region from which the authenticated entity (user or role) last attempted
-  /// to access the tracked action. AWS does not report unauthenticated requests.
+  /// to access the tracked action. Amazon Web Services does not report
+  /// unauthenticated requests.
   ///
   /// This field is null if no IAM entities attempted to access the service within
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final String lastAccessedRegion;
+  final String? lastAccessedRegion;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when an authenticated entity most recently attempted
-  /// to access the tracked service. AWS does not report unauthenticated requests.
+  /// to access the tracked service. Amazon Web Services does not report
+  /// unauthenticated requests.
   ///
   /// This field is null if no IAM entities attempted to access the service within
   /// the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period">reporting
   /// period</a>.
-  final DateTime lastAccessedTime;
+  final DateTime? lastAccessedTime;
 
   TrackedActionLastAccessed({
     this.actionName,
@@ -16878,6 +20692,16 @@ class TrackedActionLastAccessed {
     this.lastAccessedRegion,
     this.lastAccessedTime,
   });
+
+  factory TrackedActionLastAccessed.fromJson(Map<String, dynamic> json) {
+    return TrackedActionLastAccessed(
+      actionName: json['ActionName'] as String?,
+      lastAccessedEntity: json['LastAccessedEntity'] as String?,
+      lastAccessedRegion: json['LastAccessedRegion'] as String?,
+      lastAccessedTime: timeStampFromJson(json['LastAccessedTime']),
+    );
+  }
+
   factory TrackedActionLastAccessed.fromXml(_s.XmlElement elem) {
     return TrackedActionLastAccessed(
       actionName: _s.extractXmlStringValue(elem, 'ActionName'),
@@ -16886,60 +20710,129 @@ class TrackedActionLastAccessed {
       lastAccessedTime: _s.extractXmlDateTimeValue(elem, 'LastAccessedTime'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final actionName = this.actionName;
+    final lastAccessedEntity = this.lastAccessedEntity;
+    final lastAccessedRegion = this.lastAccessedRegion;
+    final lastAccessedTime = this.lastAccessedTime;
+    return {
+      if (actionName != null) 'ActionName': actionName,
+      if (lastAccessedEntity != null) 'LastAccessedEntity': lastAccessedEntity,
+      if (lastAccessedRegion != null) 'LastAccessedRegion': lastAccessedRegion,
+      if (lastAccessedTime != null)
+        'LastAccessedTime': unixTimestampToJson(lastAccessedTime),
+    };
+  }
 }
 
 class UpdateRoleDescriptionResponse {
   /// A structure that contains details about the modified role.
-  final Role role;
+  final Role? role;
 
   UpdateRoleDescriptionResponse({
     this.role,
   });
+
+  factory UpdateRoleDescriptionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRoleDescriptionResponse(
+      role: json['Role'] != null
+          ? Role.fromJson(json['Role'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory UpdateRoleDescriptionResponse.fromXml(_s.XmlElement elem) {
     return UpdateRoleDescriptionResponse(
       role: _s.extractXmlChild(elem, 'Role')?.let((e) => Role.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    return {
+      if (role != null) 'Role': role,
+    };
+  }
 }
 
 class UpdateRoleResponse {
   UpdateRoleResponse();
+
+  factory UpdateRoleResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateRoleResponse();
+  }
+
   factory UpdateRoleResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return UpdateRoleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// Contains the response to a successful <a>UpdateSAMLProvider</a> request.
 class UpdateSAMLProviderResponse {
   /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
-  final String sAMLProviderArn;
+  final String? sAMLProviderArn;
 
   UpdateSAMLProviderResponse({
     this.sAMLProviderArn,
   });
+
+  factory UpdateSAMLProviderResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSAMLProviderResponse(
+      sAMLProviderArn: json['SAMLProviderArn'] as String?,
+    );
+  }
+
   factory UpdateSAMLProviderResponse.fromXml(_s.XmlElement elem) {
     return UpdateSAMLProviderResponse(
       sAMLProviderArn: _s.extractXmlStringValue(elem, 'SAMLProviderArn'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sAMLProviderArn = this.sAMLProviderArn;
+    return {
+      if (sAMLProviderArn != null) 'SAMLProviderArn': sAMLProviderArn,
+    };
   }
 }
 
 /// Contains the response to a successful <a>UploadSSHPublicKey</a> request.
 class UploadSSHPublicKeyResponse {
   /// Contains information about the SSH public key.
-  final SSHPublicKey sSHPublicKey;
+  final SSHPublicKey? sSHPublicKey;
 
   UploadSSHPublicKeyResponse({
     this.sSHPublicKey,
   });
+
+  factory UploadSSHPublicKeyResponse.fromJson(Map<String, dynamic> json) {
+    return UploadSSHPublicKeyResponse(
+      sSHPublicKey: json['SSHPublicKey'] != null
+          ? SSHPublicKey.fromJson(json['SSHPublicKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory UploadSSHPublicKeyResponse.fromXml(_s.XmlElement elem) {
     return UploadSSHPublicKeyResponse(
       sSHPublicKey: _s
           .extractXmlChild(elem, 'SSHPublicKey')
           ?.let((e) => SSHPublicKey.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sSHPublicKey = this.sSHPublicKey;
+    return {
+      if (sSHPublicKey != null) 'SSHPublicKey': sSHPublicKey,
+    };
   }
 }
 
@@ -16948,17 +20841,51 @@ class UploadSSHPublicKeyResponse {
 class UploadServerCertificateResponse {
   /// The meta information of the uploaded server certificate without its
   /// certificate body, certificate chain, and private key.
-  final ServerCertificateMetadata serverCertificateMetadata;
+  final ServerCertificateMetadata? serverCertificateMetadata;
+
+  /// A list of tags that are attached to the new IAM server certificate. The
+  /// returned list of tags is sorted by tag key. For more information about
+  /// tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   UploadServerCertificateResponse({
     this.serverCertificateMetadata,
+    this.tags,
   });
+
+  factory UploadServerCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return UploadServerCertificateResponse(
+      serverCertificateMetadata: json['ServerCertificateMetadata'] != null
+          ? ServerCertificateMetadata.fromJson(
+              json['ServerCertificateMetadata'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory UploadServerCertificateResponse.fromXml(_s.XmlElement elem) {
     return UploadServerCertificateResponse(
       serverCertificateMetadata: _s
           .extractXmlChild(elem, 'ServerCertificateMetadata')
           ?.let((e) => ServerCertificateMetadata.fromXml(e)),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverCertificateMetadata = this.serverCertificateMetadata;
+    final tags = this.tags;
+    return {
+      if (serverCertificateMetadata != null)
+        'ServerCertificateMetadata': serverCertificateMetadata,
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
@@ -16969,14 +20896,28 @@ class UploadSigningCertificateResponse {
   final SigningCertificate certificate;
 
   UploadSigningCertificateResponse({
-    @_s.required this.certificate,
+    required this.certificate,
   });
+
+  factory UploadSigningCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return UploadSigningCertificateResponse(
+      certificate: SigningCertificate.fromJson(
+          json['Certificate'] as Map<String, dynamic>),
+    );
+  }
+
   factory UploadSigningCertificateResponse.fromXml(_s.XmlElement elem) {
     return UploadSigningCertificateResponse(
-      certificate: _s
-          .extractXmlChild(elem, 'Certificate')
-          ?.let((e) => SigningCertificate.fromXml(e)),
+      certificate:
+          SigningCertificate.fromXml(_s.extractXmlChild(elem, 'Certificate')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    return {
+      'Certificate': certificate,
+    };
   }
 }
 
@@ -17008,13 +20949,15 @@ class User {
 
   /// The path to the user. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  ///
+  /// The ARN of the policy used to set the permissions boundary for the user.
   final String path;
 
   /// The stable and unique string identifying the user. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
+  /// identifiers</a> in the <i>IAM User Guide</i>.
   final String userId;
 
   /// The friendly name identifying the user.
@@ -17022,10 +20965,10 @@ class User {
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the user's password was last used to sign in to
-  /// an AWS website. For a list of AWS websites that capture a user's last
-  /// sign-in time, see the <a
+  /// an Amazon Web Services website. For a list of Amazon Web Services websites
+  /// that capture a user's last sign-in time, see the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html">Credential
-  /// Reports</a> topic in the <i>IAM User Guide</i>. If a password is used more
+  /// reports</a> topic in the <i>IAM User Guide</i>. If a password is used more
   /// than once in a five-minute span, only the first use is returned in this
   /// field. If the field is null (no value), then it indicates that they never
   /// signed in with a password. This can be because:
@@ -17045,38 +20988,56 @@ class User {
   ///
   /// This value is returned only in the <a>GetUser</a> and <a>ListUsers</a>
   /// operations.
-  final DateTime passwordLastUsed;
+  final DateTime? passwordLastUsed;
 
-  /// The ARN of the policy used to set the permissions boundary for the user.
-  ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
-  /// A list of tags that are associated with the specified user. For more
-  /// information about tagging, see <a
+  /// A list of tags that are associated with the user. For more information about
+  /// tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   User({
-    @_s.required this.arn,
-    @_s.required this.createDate,
-    @_s.required this.path,
-    @_s.required this.userId,
-    @_s.required this.userName,
+    required this.arn,
+    required this.createDate,
+    required this.path,
+    required this.userId,
+    required this.userName,
     this.passwordLastUsed,
     this.permissionsBoundary,
     this.tags,
   });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      arn: json['Arn'] as String,
+      createDate: nonNullableTimeStampFromJson(json['CreateDate'] as Object),
+      path: json['Path'] as String,
+      userId: json['UserId'] as String,
+      userName: json['UserName'] as String,
+      passwordLastUsed: timeStampFromJson(json['PasswordLastUsed']),
+      permissionsBoundary: json['PermissionsBoundary'] != null
+          ? AttachedPermissionsBoundary.fromJson(
+              json['PermissionsBoundary'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory User.fromXml(_s.XmlElement elem) {
     return User(
-      arn: _s.extractXmlStringValue(elem, 'Arn'),
-      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate'),
-      path: _s.extractXmlStringValue(elem, 'Path'),
-      userId: _s.extractXmlStringValue(elem, 'UserId'),
-      userName: _s.extractXmlStringValue(elem, 'UserName'),
+      arn: _s.extractXmlStringValue(elem, 'Arn')!,
+      createDate: _s.extractXmlDateTimeValue(elem, 'CreateDate')!,
+      path: _s.extractXmlStringValue(elem, 'Path')!,
+      userId: _s.extractXmlStringValue(elem, 'UserId')!,
+      userName: _s.extractXmlStringValue(elem, 'UserName')!,
       passwordLastUsed: _s.extractXmlDateTimeValue(elem, 'PasswordLastUsed'),
       permissionsBoundary: _s
           .extractXmlChild(elem, 'PermissionsBoundary')
@@ -17084,6 +21045,29 @@ class User {
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
           elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createDate = this.createDate;
+    final path = this.path;
+    final userId = this.userId;
+    final userName = this.userName;
+    final passwordLastUsed = this.passwordLastUsed;
+    final permissionsBoundary = this.permissionsBoundary;
+    final tags = this.tags;
+    return {
+      'Arn': arn,
+      'CreateDate': unixTimestampToJson(createDate),
+      'Path': path,
+      'UserId': userId,
+      'UserName': userName,
+      if (passwordLastUsed != null)
+        'PasswordLastUsed': unixTimestampToJson(passwordLastUsed),
+      if (permissionsBoundary != null)
+        'PermissionsBoundary': permissionsBoundary,
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
@@ -17093,47 +21077,47 @@ class User {
 /// This data type is used as a response element in the
 /// <a>GetAccountAuthorizationDetails</a> operation.
 class UserDetail {
-  final String arn;
+  final String? arn;
 
   /// A list of the managed policies attached to the user.
-  final List<AttachedPolicy> attachedManagedPolicies;
+  final List<AttachedPolicy>? attachedManagedPolicies;
 
   /// The date and time, in <a href="http://www.iso.org/iso/iso8601">ISO 8601
   /// date-time format</a>, when the user was created.
-  final DateTime createDate;
+  final DateTime? createDate;
 
   /// A list of IAM groups that the user is in.
-  final List<String> groupList;
+  final List<String>? groupList;
 
   /// The path to the user. For more information about paths, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String path;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? path;
 
   /// The ARN of the policy used to set the permissions boundary for the user.
   ///
   /// For more information about permissions boundaries, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html">Permissions
-  /// Boundaries for IAM Identities </a> in the <i>IAM User Guide</i>.
-  final AttachedPermissionsBoundary permissionsBoundary;
+  /// boundaries for IAM identities </a> in the <i>IAM User Guide</i>.
+  final AttachedPermissionsBoundary? permissionsBoundary;
 
-  /// A list of tags that are associated with the specified user. For more
-  /// information about tagging, see <a
+  /// A list of tags that are associated with the user. For more information about
+  /// tagging, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
-  /// IAM Identities</a> in the <i>IAM User Guide</i>.
-  final List<Tag> tags;
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   /// The stable and unique string identifying the user. For more information
   /// about IDs, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html">IAM
-  /// Identifiers</a> in the <i>IAM User Guide</i>.
-  final String userId;
+  /// identifiers</a> in the <i>IAM User Guide</i>.
+  final String? userId;
 
   /// The friendly name identifying the user.
-  final String userName;
+  final String? userName;
 
   /// A list of the inline policies embedded in the user.
-  final List<PolicyDetail> userPolicyList;
+  final List<PolicyDetail>? userPolicyList;
 
   UserDetail({
     this.arn,
@@ -17147,6 +21131,37 @@ class UserDetail {
     this.userName,
     this.userPolicyList,
   });
+
+  factory UserDetail.fromJson(Map<String, dynamic> json) {
+    return UserDetail(
+      arn: json['Arn'] as String?,
+      attachedManagedPolicies: (json['AttachedManagedPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachedPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createDate: timeStampFromJson(json['CreateDate']),
+      groupList: (json['GroupList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      path: json['Path'] as String?,
+      permissionsBoundary: json['PermissionsBoundary'] != null
+          ? AttachedPermissionsBoundary.fromJson(
+              json['PermissionsBoundary'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userId: json['UserId'] as String?,
+      userName: json['UserName'] as String?,
+      userPolicyList: (json['UserPolicyList'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory UserDetail.fromXml(_s.XmlElement elem) {
     return UserDetail(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
@@ -17175,6 +21190,33 @@ class UserDetail {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final attachedManagedPolicies = this.attachedManagedPolicies;
+    final createDate = this.createDate;
+    final groupList = this.groupList;
+    final path = this.path;
+    final permissionsBoundary = this.permissionsBoundary;
+    final tags = this.tags;
+    final userId = this.userId;
+    final userName = this.userName;
+    final userPolicyList = this.userPolicyList;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (attachedManagedPolicies != null)
+        'AttachedManagedPolicies': attachedManagedPolicies,
+      if (createDate != null) 'CreateDate': unixTimestampToJson(createDate),
+      if (groupList != null) 'GroupList': groupList,
+      if (path != null) 'Path': path,
+      if (permissionsBoundary != null)
+        'PermissionsBoundary': permissionsBoundary,
+      if (tags != null) 'Tags': tags,
+      if (userId != null) 'UserId': userId,
+      if (userName != null) 'UserName': userName,
+      if (userPolicyList != null) 'UserPolicyList': userPolicyList,
+    };
+  }
 }
 
 /// Contains information about a virtual MFA device.
@@ -17185,10 +21227,10 @@ class VirtualMFADevice {
   /// The base32 seed defined as specified in <a
   /// href="https://tools.ietf.org/html/rfc3548.txt">RFC3548</a>. The
   /// <code>Base32StringSeed</code> is base64-encoded.
-  final Uint8List base32StringSeed;
+  final Uint8List? base32StringSeed;
 
   /// The date and time on which the virtual MFA device was enabled.
-  final DateTime enableDate;
+  final DateTime? enableDate;
 
   /// A QR code PNG image that encodes
   /// <code>otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String</code>
@@ -17196,35 +21238,77 @@ class VirtualMFADevice {
   /// arguments. <code>AccountName</code> is the user name if set (otherwise, the
   /// account ID otherwise), and <code>Base32String</code> is the seed in base32
   /// format. The <code>Base32String</code> value is base64-encoded.
-  final Uint8List qRCodePNG;
+  final Uint8List? qRCodePNG;
+
+  /// A list of tags that are attached to the virtual MFA device. For more
+  /// information about tagging, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html">Tagging
+  /// IAM resources</a> in the <i>IAM User Guide</i>.
+  final List<Tag>? tags;
 
   /// The IAM user associated with this virtual MFA device.
-  final User user;
+  final User? user;
 
   VirtualMFADevice({
-    @_s.required this.serialNumber,
+    required this.serialNumber,
     this.base32StringSeed,
     this.enableDate,
     this.qRCodePNG,
+    this.tags,
     this.user,
   });
+
+  factory VirtualMFADevice.fromJson(Map<String, dynamic> json) {
+    return VirtualMFADevice(
+      serialNumber: json['SerialNumber'] as String,
+      base32StringSeed:
+          _s.decodeNullableUint8List(json['Base32StringSeed'] as String?),
+      enableDate: timeStampFromJson(json['EnableDate']),
+      qRCodePNG: _s.decodeNullableUint8List(json['QRCodePNG'] as String?),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory VirtualMFADevice.fromXml(_s.XmlElement elem) {
     return VirtualMFADevice(
-      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber'),
+      serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber')!,
       base32StringSeed: _s.extractXmlUint8ListValue(elem, 'Base32StringSeed'),
       enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
       qRCodePNG: _s.extractXmlUint8ListValue(elem, 'QRCodePNG'),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('member').map((c) => Tag.fromXml(c)).toList()),
       user: _s.extractXmlChild(elem, 'User')?.let((e) => User.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serialNumber = this.serialNumber;
+    final base32StringSeed = this.base32StringSeed;
+    final enableDate = this.enableDate;
+    final qRCodePNG = this.qRCodePNG;
+    final tags = this.tags;
+    final user = this.user;
+    return {
+      'SerialNumber': serialNumber,
+      if (base32StringSeed != null)
+        'Base32StringSeed': base64Encode(base32StringSeed),
+      if (enableDate != null) 'EnableDate': unixTimestampToJson(enableDate),
+      if (qRCodePNG != null) 'QRCodePNG': base64Encode(qRCodePNG),
+      if (tags != null) 'Tags': tags,
+      if (user != null) 'User': user,
+    };
   }
 }
 
 enum AssignmentStatusType {
-  @_s.JsonValue('Assigned')
   assigned,
-  @_s.JsonValue('Unassigned')
   unassigned,
-  @_s.JsonValue('Any')
   any,
 }
 
@@ -17238,7 +21322,6 @@ extension on AssignmentStatusType {
       case AssignmentStatusType.any:
         return 'Any';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17252,14 +21335,12 @@ extension on String {
       case 'Any':
         return AssignmentStatusType.any;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AssignmentStatusType');
   }
 }
 
 enum EncodingType {
-  @_s.JsonValue('SSH')
   ssh,
-  @_s.JsonValue('PEM')
   pem,
 }
 
@@ -17271,7 +21352,6 @@ extension on EncodingType {
       case EncodingType.pem:
         return 'PEM';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17283,14 +21363,12 @@ extension on String {
       case 'PEM':
         return EncodingType.pem;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EncodingType');
   }
 }
 
 enum GlobalEndpointTokenVersion {
-  @_s.JsonValue('v1Token')
   v1Token,
-  @_s.JsonValue('v2Token')
   v2Token,
 }
 
@@ -17302,7 +21380,6 @@ extension on GlobalEndpointTokenVersion {
       case GlobalEndpointTokenVersion.v2Token:
         return 'v2Token';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17314,17 +21391,27 @@ extension on String {
       case 'v2Token':
         return GlobalEndpointTokenVersion.v2Token;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum GlobalEndpointTokenVersion');
   }
 }
 
 enum JobStatusType {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on JobStatusType {
+  String toValue() {
+    switch (this) {
+      case JobStatusType.inProgress:
+        return 'IN_PROGRESS';
+      case JobStatusType.completed:
+        return 'COMPLETED';
+      case JobStatusType.failed:
+        return 'FAILED';
+    }
+  }
 }
 
 extension on String {
@@ -17337,17 +21424,27 @@ extension on String {
       case 'FAILED':
         return JobStatusType.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JobStatusType');
   }
 }
 
 enum PolicyOwnerEntityType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('ROLE')
   role,
-  @_s.JsonValue('GROUP')
   group,
+}
+
+extension on PolicyOwnerEntityType {
+  String toValue() {
+    switch (this) {
+      case PolicyOwnerEntityType.user:
+        return 'USER';
+      case PolicyOwnerEntityType.role:
+        return 'ROLE';
+      case PolicyOwnerEntityType.group:
+        return 'GROUP';
+    }
+  }
 }
 
 extension on String {
@@ -17360,16 +21457,13 @@ extension on String {
       case 'GROUP':
         return PolicyOwnerEntityType.group;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyOwnerEntityType');
   }
 }
 
 enum PolicyScopeType {
-  @_s.JsonValue('All')
   all,
-  @_s.JsonValue('AWS')
   aws,
-  @_s.JsonValue('Local')
   local,
 }
 
@@ -17383,7 +21477,6 @@ extension on PolicyScopeType {
       case PolicyScopeType.local:
         return 'Local';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17397,15 +21490,24 @@ extension on String {
       case 'Local':
         return PolicyScopeType.local;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyScopeType');
   }
 }
 
 enum PolicyType {
-  @_s.JsonValue('INLINE')
   inline,
-  @_s.JsonValue('MANAGED')
   managed,
+}
+
+extension on PolicyType {
+  String toValue() {
+    switch (this) {
+      case PolicyType.inline:
+        return 'INLINE';
+      case PolicyType.managed:
+        return 'MANAGED';
+    }
+  }
 }
 
 extension on String {
@@ -17416,18 +21518,14 @@ extension on String {
       case 'MANAGED':
         return PolicyType.managed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum PolicyType');
   }
 }
 
 enum SortKeyType {
-  @_s.JsonValue('SERVICE_NAMESPACE_ASCENDING')
   serviceNamespaceAscending,
-  @_s.JsonValue('SERVICE_NAMESPACE_DESCENDING')
   serviceNamespaceDescending,
-  @_s.JsonValue('LAST_AUTHENTICATED_TIME_ASCENDING')
   lastAuthenticatedTimeAscending,
-  @_s.JsonValue('LAST_AUTHENTICATED_TIME_DESCENDING')
   lastAuthenticatedTimeDescending,
 }
 
@@ -17443,7 +21541,6 @@ extension on SortKeyType {
       case SortKeyType.lastAuthenticatedTimeDescending:
         return 'LAST_AUTHENTICATED_TIME_DESCENDING';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17459,14 +21556,12 @@ extension on String {
       case 'LAST_AUTHENTICATED_TIME_DESCENDING':
         return SortKeyType.lastAuthenticatedTimeDescending;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SortKeyType');
   }
 }
 
 enum StatusType {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Inactive')
   inactive,
 }
 
@@ -17478,7 +21573,6 @@ extension on StatusType {
       case StatusType.inactive:
         return 'Inactive';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17490,63 +21584,96 @@ extension on String {
       case 'Inactive':
         return StatusType.inactive;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StatusType');
   }
 }
 
 enum SummaryKeyType {
-  @_s.JsonValue('Users')
   users,
-  @_s.JsonValue('UsersQuota')
   usersQuota,
-  @_s.JsonValue('Groups')
   groups,
-  @_s.JsonValue('GroupsQuota')
   groupsQuota,
-  @_s.JsonValue('ServerCertificates')
   serverCertificates,
-  @_s.JsonValue('ServerCertificatesQuota')
   serverCertificatesQuota,
-  @_s.JsonValue('UserPolicySizeQuota')
   userPolicySizeQuota,
-  @_s.JsonValue('GroupPolicySizeQuota')
   groupPolicySizeQuota,
-  @_s.JsonValue('GroupsPerUserQuota')
   groupsPerUserQuota,
-  @_s.JsonValue('SigningCertificatesPerUserQuota')
   signingCertificatesPerUserQuota,
-  @_s.JsonValue('AccessKeysPerUserQuota')
   accessKeysPerUserQuota,
-  @_s.JsonValue('MFADevices')
   mFADevices,
-  @_s.JsonValue('MFADevicesInUse')
   mFADevicesInUse,
-  @_s.JsonValue('AccountMFAEnabled')
   accountMFAEnabled,
-  @_s.JsonValue('AccountAccessKeysPresent')
   accountAccessKeysPresent,
-  @_s.JsonValue('AccountSigningCertificatesPresent')
   accountSigningCertificatesPresent,
-  @_s.JsonValue('AttachedPoliciesPerGroupQuota')
   attachedPoliciesPerGroupQuota,
-  @_s.JsonValue('AttachedPoliciesPerRoleQuota')
   attachedPoliciesPerRoleQuota,
-  @_s.JsonValue('AttachedPoliciesPerUserQuota')
   attachedPoliciesPerUserQuota,
-  @_s.JsonValue('Policies')
   policies,
-  @_s.JsonValue('PoliciesQuota')
   policiesQuota,
-  @_s.JsonValue('PolicySizeQuota')
   policySizeQuota,
-  @_s.JsonValue('PolicyVersionsInUse')
   policyVersionsInUse,
-  @_s.JsonValue('PolicyVersionsInUseQuota')
   policyVersionsInUseQuota,
-  @_s.JsonValue('VersionsPerPolicyQuota')
   versionsPerPolicyQuota,
-  @_s.JsonValue('GlobalEndpointTokenVersion')
   globalEndpointTokenVersion,
+}
+
+extension on SummaryKeyType {
+  String toValue() {
+    switch (this) {
+      case SummaryKeyType.users:
+        return 'Users';
+      case SummaryKeyType.usersQuota:
+        return 'UsersQuota';
+      case SummaryKeyType.groups:
+        return 'Groups';
+      case SummaryKeyType.groupsQuota:
+        return 'GroupsQuota';
+      case SummaryKeyType.serverCertificates:
+        return 'ServerCertificates';
+      case SummaryKeyType.serverCertificatesQuota:
+        return 'ServerCertificatesQuota';
+      case SummaryKeyType.userPolicySizeQuota:
+        return 'UserPolicySizeQuota';
+      case SummaryKeyType.groupPolicySizeQuota:
+        return 'GroupPolicySizeQuota';
+      case SummaryKeyType.groupsPerUserQuota:
+        return 'GroupsPerUserQuota';
+      case SummaryKeyType.signingCertificatesPerUserQuota:
+        return 'SigningCertificatesPerUserQuota';
+      case SummaryKeyType.accessKeysPerUserQuota:
+        return 'AccessKeysPerUserQuota';
+      case SummaryKeyType.mFADevices:
+        return 'MFADevices';
+      case SummaryKeyType.mFADevicesInUse:
+        return 'MFADevicesInUse';
+      case SummaryKeyType.accountMFAEnabled:
+        return 'AccountMFAEnabled';
+      case SummaryKeyType.accountAccessKeysPresent:
+        return 'AccountAccessKeysPresent';
+      case SummaryKeyType.accountSigningCertificatesPresent:
+        return 'AccountSigningCertificatesPresent';
+      case SummaryKeyType.attachedPoliciesPerGroupQuota:
+        return 'AttachedPoliciesPerGroupQuota';
+      case SummaryKeyType.attachedPoliciesPerRoleQuota:
+        return 'AttachedPoliciesPerRoleQuota';
+      case SummaryKeyType.attachedPoliciesPerUserQuota:
+        return 'AttachedPoliciesPerUserQuota';
+      case SummaryKeyType.policies:
+        return 'Policies';
+      case SummaryKeyType.policiesQuota:
+        return 'PoliciesQuota';
+      case SummaryKeyType.policySizeQuota:
+        return 'PolicySizeQuota';
+      case SummaryKeyType.policyVersionsInUse:
+        return 'PolicyVersionsInUse';
+      case SummaryKeyType.policyVersionsInUseQuota:
+        return 'PolicyVersionsInUseQuota';
+      case SummaryKeyType.versionsPerPolicyQuota:
+        return 'VersionsPerPolicyQuota';
+      case SummaryKeyType.globalEndpointTokenVersion:
+        return 'GlobalEndpointTokenVersion';
+    }
+  }
 }
 
 extension on String {
@@ -17605,12 +21732,12 @@ extension on String {
       case 'GlobalEndpointTokenVersion':
         return SummaryKeyType.globalEndpointTokenVersion;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SummaryKeyType');
   }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -17618,7 +21745,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class CredentialReportExpiredException extends _s.GenericAwsException {
-  CredentialReportExpiredException({String type, String message})
+  CredentialReportExpiredException({String? type, String? message})
       : super(
             type: type,
             code: 'CredentialReportExpiredException',
@@ -17626,7 +21753,7 @@ class CredentialReportExpiredException extends _s.GenericAwsException {
 }
 
 class CredentialReportNotPresentException extends _s.GenericAwsException {
-  CredentialReportNotPresentException({String type, String message})
+  CredentialReportNotPresentException({String? type, String? message})
       : super(
             type: type,
             code: 'CredentialReportNotPresentException',
@@ -17634,7 +21761,7 @@ class CredentialReportNotPresentException extends _s.GenericAwsException {
 }
 
 class CredentialReportNotReadyException extends _s.GenericAwsException {
-  CredentialReportNotReadyException({String type, String message})
+  CredentialReportNotReadyException({String? type, String? message})
       : super(
             type: type,
             code: 'CredentialReportNotReadyException',
@@ -17642,12 +21769,12 @@ class CredentialReportNotReadyException extends _s.GenericAwsException {
 }
 
 class DeleteConflictException extends _s.GenericAwsException {
-  DeleteConflictException({String type, String message})
+  DeleteConflictException({String? type, String? message})
       : super(type: type, code: 'DeleteConflictException', message: message);
 }
 
 class DuplicateCertificateException extends _s.GenericAwsException {
-  DuplicateCertificateException({String type, String message})
+  DuplicateCertificateException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateCertificateException',
@@ -17655,7 +21782,7 @@ class DuplicateCertificateException extends _s.GenericAwsException {
 }
 
 class DuplicateSSHPublicKeyException extends _s.GenericAwsException {
-  DuplicateSSHPublicKeyException({String type, String message})
+  DuplicateSSHPublicKeyException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateSSHPublicKeyException',
@@ -17663,13 +21790,13 @@ class DuplicateSSHPublicKeyException extends _s.GenericAwsException {
 }
 
 class EntityAlreadyExistsException extends _s.GenericAwsException {
-  EntityAlreadyExistsException({String type, String message})
+  EntityAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'EntityAlreadyExistsException', message: message);
 }
 
 class EntityTemporarilyUnmodifiableException extends _s.GenericAwsException {
-  EntityTemporarilyUnmodifiableException({String type, String message})
+  EntityTemporarilyUnmodifiableException({String? type, String? message})
       : super(
             type: type,
             code: 'EntityTemporarilyUnmodifiableException',
@@ -17677,7 +21804,7 @@ class EntityTemporarilyUnmodifiableException extends _s.GenericAwsException {
 }
 
 class InvalidAuthenticationCodeException extends _s.GenericAwsException {
-  InvalidAuthenticationCodeException({String type, String message})
+  InvalidAuthenticationCodeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAuthenticationCodeException',
@@ -17685,38 +21812,38 @@ class InvalidAuthenticationCodeException extends _s.GenericAwsException {
 }
 
 class InvalidCertificateException extends _s.GenericAwsException {
-  InvalidCertificateException({String type, String message})
+  InvalidCertificateException({String? type, String? message})
       : super(
             type: type, code: 'InvalidCertificateException', message: message);
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class InvalidPublicKeyException extends _s.GenericAwsException {
-  InvalidPublicKeyException({String type, String message})
+  InvalidPublicKeyException({String? type, String? message})
       : super(type: type, code: 'InvalidPublicKeyException', message: message);
 }
 
 class InvalidUserTypeException extends _s.GenericAwsException {
-  InvalidUserTypeException({String type, String message})
+  InvalidUserTypeException({String? type, String? message})
       : super(type: type, code: 'InvalidUserTypeException', message: message);
 }
 
 class KeyPairMismatchException extends _s.GenericAwsException {
-  KeyPairMismatchException({String type, String message})
+  KeyPairMismatchException({String? type, String? message})
       : super(type: type, code: 'KeyPairMismatchException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MalformedCertificateException extends _s.GenericAwsException {
-  MalformedCertificateException({String type, String message})
+  MalformedCertificateException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedCertificateException',
@@ -17724,7 +21851,7 @@ class MalformedCertificateException extends _s.GenericAwsException {
 }
 
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
-  MalformedPolicyDocumentException({String type, String message})
+  MalformedPolicyDocumentException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedPolicyDocumentException',
@@ -17732,12 +21859,12 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
 }
 
 class NoSuchEntityException extends _s.GenericAwsException {
-  NoSuchEntityException({String type, String message})
+  NoSuchEntityException({String? type, String? message})
       : super(type: type, code: 'NoSuchEntityException', message: message);
 }
 
 class PasswordPolicyViolationException extends _s.GenericAwsException {
-  PasswordPolicyViolationException({String type, String message})
+  PasswordPolicyViolationException({String? type, String? message})
       : super(
             type: type,
             code: 'PasswordPolicyViolationException',
@@ -17745,18 +21872,18 @@ class PasswordPolicyViolationException extends _s.GenericAwsException {
 }
 
 class PolicyEvaluationException extends _s.GenericAwsException {
-  PolicyEvaluationException({String type, String message})
+  PolicyEvaluationException({String? type, String? message})
       : super(type: type, code: 'PolicyEvaluationException', message: message);
 }
 
 class PolicyNotAttachableException extends _s.GenericAwsException {
-  PolicyNotAttachableException({String type, String message})
+  PolicyNotAttachableException({String? type, String? message})
       : super(
             type: type, code: 'PolicyNotAttachableException', message: message);
 }
 
 class ReportGenerationLimitExceededException extends _s.GenericAwsException {
-  ReportGenerationLimitExceededException({String type, String message})
+  ReportGenerationLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ReportGenerationLimitExceededException',
@@ -17764,24 +21891,24 @@ class ReportGenerationLimitExceededException extends _s.GenericAwsException {
 }
 
 class ServiceFailureException extends _s.GenericAwsException {
-  ServiceFailureException({String type, String message})
+  ServiceFailureException({String? type, String? message})
       : super(type: type, code: 'ServiceFailureException', message: message);
 }
 
 class ServiceNotSupportedException extends _s.GenericAwsException {
-  ServiceNotSupportedException({String type, String message})
+  ServiceNotSupportedException({String? type, String? message})
       : super(
             type: type, code: 'ServiceNotSupportedException', message: message);
 }
 
 class UnmodifiableEntityException extends _s.GenericAwsException {
-  UnmodifiableEntityException({String type, String message})
+  UnmodifiableEntityException({String? type, String? message})
       : super(
             type: type, code: 'UnmodifiableEntityException', message: message);
 }
 
 class UnrecognizedPublicKeyEncodingException extends _s.GenericAwsException {
-  UnrecognizedPublicKeyEncodingException({String type, String message})
+  UnrecognizedPublicKeyEncodingException({String? type, String? message})
       : super(
             type: type,
             code: 'UnrecognizedPublicKeyEncodingException',

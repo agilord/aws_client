@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2016-05-01.g.dart';
 
 /// The WorkDocs API is designed for the following use cases:
 ///
@@ -64,10 +57,10 @@ part '2016-05-01.g.dart';
 class WorkDocs {
   final _s.RestJsonProtocol _protocol;
   WorkDocs({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -100,9 +93,9 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> abortDocumentVersionUpload({
-    @_s.required String documentId,
-    @_s.required String versionId,
-    String authenticationToken,
+    required String documentId,
+    required String versionId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -110,12 +103,6 @@ class WorkDocs {
       documentId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
@@ -126,20 +113,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -166,8 +149,8 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<ActivateUserResponse> activateUser({
-    @_s.required String userId,
-    String authenticationToken,
+    required String userId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
@@ -177,20 +160,16 @@ class WorkDocs {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[&\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -223,10 +202,10 @@ class WorkDocs {
   /// Parameter [notificationOptions] :
   /// The notification options.
   Future<AddResourcePermissionsResponse> addResourcePermissions({
-    @_s.required List<SharePrincipal> principals,
-    @_s.required String resourceId,
-    String authenticationToken,
-    NotificationOptions notificationOptions,
+    required List<SharePrincipal> principals,
+    required String resourceId,
+    String? authenticationToken,
+    NotificationOptions? notificationOptions,
   }) async {
     ArgumentError.checkNotNull(principals, 'principals');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -237,20 +216,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'Principals': principals,
       if (notificationOptions != null)
@@ -307,14 +282,14 @@ class WorkDocs {
   /// co-owners, or PUBLIC, where the comment is visible to document owners,
   /// co-owners, and contributors.
   Future<CreateCommentResponse> createComment({
-    @_s.required String documentId,
-    @_s.required String text,
-    @_s.required String versionId,
-    String authenticationToken,
-    bool notifyCollaborators,
-    String parentId,
-    String threadId,
-    CommentVisibilityType visibility,
+    required String documentId,
+    required String text,
+    required String versionId,
+    String? authenticationToken,
+    bool? notifyCollaborators,
+    String? parentId,
+    String? threadId,
+    CommentVisibilityType? visibility,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -322,12 +297,6 @@ class WorkDocs {
       documentId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(text, 'text');
@@ -346,12 +315,6 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
@@ -364,24 +327,16 @@ class WorkDocs {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''[\w+-.@]+''',
-    );
     _s.validateStringLength(
       'threadId',
       threadId,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'threadId',
-      threadId,
-      r'''[\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'Text': text,
       if (notifyCollaborators != null)
@@ -426,10 +381,10 @@ class WorkDocs {
   /// The ID of the version, if the custom metadata is being added to a document
   /// version.
   Future<void> createCustomMetadata({
-    @_s.required Map<String, String> customMetadata,
-    @_s.required String resourceId,
-    String authenticationToken,
-    String versionId,
+    required Map<String, String> customMetadata,
+    required String resourceId,
+    String? authenticationToken,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(customMetadata, 'customMetadata');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -438,12 +393,6 @@ class WorkDocs {
       resourceId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -458,13 +407,10 @@ class WorkDocs {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionid': [versionId],
     };
@@ -480,7 +426,6 @@ class WorkDocs {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return CreateCustomMetadataResponse.fromJson(response);
   }
 
   /// Creates a folder with the specified name and parent folder.
@@ -505,9 +450,9 @@ class WorkDocs {
   /// Parameter [name] :
   /// The name of the new folder.
   Future<CreateFolderResponse> createFolder({
-    @_s.required String parentFolderId,
-    String authenticationToken,
-    String name,
+    required String parentFolderId,
+    String? authenticationToken,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(parentFolderId, 'parentFolderId');
     _s.validateStringLength(
@@ -515,12 +460,6 @@ class WorkDocs {
       parentFolderId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'parentFolderId',
-      parentFolderId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -535,13 +474,10 @@ class WorkDocs {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u202D\u202F-\uFFFF]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'ParentFolderId': parentFolderId,
       if (name != null) 'Name': name,
@@ -576,9 +512,9 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> createLabels({
-    @_s.required List<String> labels,
-    @_s.required String resourceId,
-    String authenticationToken,
+    required List<String> labels,
+    required String resourceId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(labels, 'labels');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -589,20 +525,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'Labels': labels,
     };
@@ -613,7 +545,6 @@ class WorkDocs {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return CreateLabelsResponse.fromJson(response);
   }
 
   /// Configure Amazon WorkDocs to use Amazon SNS notifications. The endpoint
@@ -642,10 +573,10 @@ class WorkDocs {
   /// The notification type.
   Future<CreateNotificationSubscriptionResponse>
       createNotificationSubscription({
-    @_s.required String endpoint,
-    @_s.required String organizationId,
-    @_s.required SubscriptionProtocolType protocol,
-    @_s.required SubscriptionType subscriptionType,
+    required String endpoint,
+    required String organizationId,
+    required SubscriptionProtocolType protocol,
+    required SubscriptionType subscriptionType,
   }) async {
     ArgumentError.checkNotNull(endpoint, 'endpoint');
     _s.validateStringLength(
@@ -663,18 +594,12 @@ class WorkDocs {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''[&\w+-.@]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(subscriptionType, 'subscriptionType');
     final $payload = <String, dynamic>{
       'Endpoint': endpoint,
-      'Protocol': protocol?.toValue() ?? '',
-      'SubscriptionType': subscriptionType?.toValue() ?? '',
+      'Protocol': protocol.toValue(),
+      'SubscriptionType': subscriptionType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -723,15 +648,15 @@ class WorkDocs {
   /// Parameter [timeZoneId] :
   /// The time zone ID of the user.
   Future<CreateUserResponse> createUser({
-    @_s.required String givenName,
-    @_s.required String password,
-    @_s.required String surname,
-    @_s.required String username,
-    String authenticationToken,
-    String emailAddress,
-    String organizationId,
-    StorageRuleType storageRule,
-    String timeZoneId,
+    required String givenName,
+    required String password,
+    required String surname,
+    required String username,
+    String? authenticationToken,
+    String? emailAddress,
+    String? organizationId,
+    StorageRuleType? storageRule,
+    String? timeZoneId,
   }) async {
     ArgumentError.checkNotNull(givenName, 'givenName');
     _s.validateStringLength(
@@ -747,12 +672,6 @@ class WorkDocs {
       password,
       4,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'password',
-      password,
-      r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(surname, 'surname');
@@ -771,12 +690,6 @@ class WorkDocs {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[\w\-+.]+(@[a-zA-Z0-9.\-]+\.[a-zA-Z]+)?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
@@ -789,21 +702,11 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'emailAddress',
-      emailAddress,
-      r'''[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}''',
-    );
     _s.validateStringLength(
       'organizationId',
       organizationId,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''[&\w+-.@]+''',
     );
     _s.validateStringLength(
       'timeZoneId',
@@ -811,8 +714,10 @@ class WorkDocs {
       1,
       256,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'GivenName': givenName,
       'Password': password,
@@ -849,8 +754,8 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> deactivateUser({
-    @_s.required String userId,
-    String authenticationToken,
+    required String userId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
@@ -860,20 +765,16 @@ class WorkDocs {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[&\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -906,10 +807,10 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> deleteComment({
-    @_s.required String commentId,
-    @_s.required String documentId,
-    @_s.required String versionId,
-    String authenticationToken,
+    required String commentId,
+    required String documentId,
+    required String versionId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(commentId, 'commentId');
     _s.validateStringLength(
@@ -917,12 +818,6 @@ class WorkDocs {
       commentId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'commentId',
-      commentId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(documentId, 'documentId');
@@ -933,12 +828,6 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     _s.validateStringLength(
       'versionId',
@@ -947,20 +836,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -998,11 +883,11 @@ class WorkDocs {
   /// The ID of the version, if the custom metadata is being deleted from a
   /// document version.
   Future<void> deleteCustomMetadata({
-    @_s.required String resourceId,
-    String authenticationToken,
-    bool deleteAll,
-    List<String> keys,
-    String versionId,
+    required String resourceId,
+    String? authenticationToken,
+    bool? deleteAll,
+    List<String>? keys,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1010,12 +895,6 @@ class WorkDocs {
       resourceId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1030,13 +909,10 @@ class WorkDocs {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (deleteAll != null) 'deleteAll': [deleteAll.toString()],
       if (keys != null) 'keys': keys,
@@ -1051,7 +927,6 @@ class WorkDocs {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCustomMetadataResponse.fromJson(response);
   }
 
   /// Permanently deletes the specified document and its associated metadata.
@@ -1072,8 +947,8 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> deleteDocument({
-    @_s.required String documentId,
-    String authenticationToken,
+    required String documentId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -1083,20 +958,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1124,8 +995,8 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> deleteFolder({
-    @_s.required String folderId,
-    String authenticationToken,
+    required String folderId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
     _s.validateStringLength(
@@ -1135,20 +1006,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'folderId',
-      folderId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1175,8 +1042,8 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> deleteFolderContents({
-    @_s.required String folderId,
-    String authenticationToken,
+    required String folderId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
     _s.validateStringLength(
@@ -1186,20 +1053,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'folderId',
-      folderId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1230,10 +1093,10 @@ class WorkDocs {
   /// Parameter [labels] :
   /// List of labels to delete from the resource.
   Future<void> deleteLabels({
-    @_s.required String resourceId,
-    String authenticationToken,
-    bool deleteAll,
-    List<String> labels,
+    required String resourceId,
+    String? authenticationToken,
+    bool? deleteAll,
+    List<String>? labels,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1243,20 +1106,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (deleteAll != null) 'deleteAll': [deleteAll.toString()],
       if (labels != null) 'labels': labels,
@@ -1269,7 +1128,6 @@ class WorkDocs {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteLabelsResponse.fromJson(response);
   }
 
   /// Deletes the specified subscription from the specified organization.
@@ -1285,8 +1143,8 @@ class WorkDocs {
   /// Parameter [subscriptionId] :
   /// The ID of the subscription.
   Future<void> deleteNotificationSubscription({
-    @_s.required String organizationId,
-    @_s.required String subscriptionId,
+    required String organizationId,
+    required String subscriptionId,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1296,24 +1154,12 @@ class WorkDocs {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''[&\w+-.@]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subscriptionId, 'subscriptionId');
     _s.validateStringLength(
       'subscriptionId',
       subscriptionId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'subscriptionId',
-      subscriptionId,
-      r'''[&\w+-.@]+''',
       isRequired: true,
     );
     await _protocol.send(
@@ -1340,8 +1186,8 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Do not set this field when using
   /// administrative API actions, as in accessing the API using AWS credentials.
   Future<void> deleteUser({
-    @_s.required String userId,
-    String authenticationToken,
+    required String userId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
@@ -1351,20 +1197,16 @@ class WorkDocs {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[&\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1422,27 +1264,22 @@ class WorkDocs {
   /// activities pertaining to this user. This is an optional parameter and is
   /// only applicable for administrative API (SigV4) requests.
   Future<DescribeActivitiesResponse> describeActivities({
-    String activityTypes,
-    String authenticationToken,
-    DateTime endTime,
-    bool includeIndirectActivities,
-    int limit,
-    String marker,
-    String organizationId,
-    String resourceId,
-    DateTime startTime,
-    String userId,
+    String? activityTypes,
+    String? authenticationToken,
+    DateTime? endTime,
+    bool? includeIndirectActivities,
+    int? limit,
+    String? marker,
+    String? organizationId,
+    String? resourceId,
+    DateTime? startTime,
+    String? userId,
   }) async {
     _s.validateStringLength(
       'activityTypes',
       activityTypes,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'activityTypes',
-      activityTypes,
-      r'''[\w,]+''',
     );
     _s.validateStringLength(
       'authenticationToken',
@@ -1462,21 +1299,11 @@ class WorkDocs {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0000-\u00FF]+''',
-    );
     _s.validateStringLength(
       'organizationId',
       organizationId,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''[&\w+-.@]+''',
     );
     _s.validateStringLength(
       'resourceId',
@@ -1484,24 +1311,16 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[&\w+-.@]+''',
-    );
     _s.validateStringLength(
       'userId',
       userId,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[&\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (activityTypes != null) 'activityTypes': [activityTypes],
       if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
@@ -1552,11 +1371,11 @@ class WorkDocs {
   /// The marker for the next set of results. This marker was received from a
   /// previous call.
   Future<DescribeCommentsResponse> describeComments({
-    @_s.required String documentId,
-    @_s.required String versionId,
-    String authenticationToken,
-    int limit,
-    String marker,
+    required String documentId,
+    required String versionId,
+    String? authenticationToken,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -1566,24 +1385,12 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     _s.validateStringLength(
       'versionId',
       versionId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1604,13 +1411,10 @@ class WorkDocs {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0000-\u00FF]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (marker != null) 'marker': [marker],
@@ -1661,12 +1465,12 @@ class WorkDocs {
   /// The marker for the next set of results. (You received this marker from a
   /// previous call.)
   Future<DescribeDocumentVersionsResponse> describeDocumentVersions({
-    @_s.required String documentId,
-    String authenticationToken,
-    String fields,
-    String include,
-    int limit,
-    String marker,
+    required String documentId,
+    String? authenticationToken,
+    String? fields,
+    String? include,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -1674,12 +1478,6 @@ class WorkDocs {
       documentId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1694,21 +1492,11 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'fields',
-      fields,
-      r'''[\w,]+''',
-    );
     _s.validateStringLength(
       'include',
       include,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'include',
-      include,
-      r'''[\w,]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -1722,8 +1510,10 @@ class WorkDocs {
       1,
       2048,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (fields != null) 'fields': [fields],
       if (include != null) 'include': [include],
@@ -1784,14 +1574,14 @@ class WorkDocs {
   /// Parameter [type] :
   /// The type of items.
   Future<DescribeFolderContentsResponse> describeFolderContents({
-    @_s.required String folderId,
-    String authenticationToken,
-    String include,
-    int limit,
-    String marker,
-    OrderType order,
-    ResourceSortType sort,
-    FolderContentType type,
+    required String folderId,
+    String? authenticationToken,
+    String? include,
+    int? limit,
+    String? marker,
+    OrderType? order,
+    ResourceSortType? sort,
+    FolderContentType? type,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
     _s.validateStringLength(
@@ -1799,12 +1589,6 @@ class WorkDocs {
       folderId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'folderId',
-      folderId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1819,11 +1603,6 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'include',
-      include,
-      r'''[\w,]+''',
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -1836,8 +1615,10 @@ class WorkDocs {
       1,
       2048,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (include != null) 'include': [include],
       if (limit != null) 'limit': [limit.toString()],
@@ -1882,11 +1663,11 @@ class WorkDocs {
   /// Parameter [organizationId] :
   /// The ID of the organization.
   Future<DescribeGroupsResponse> describeGroups({
-    @_s.required String searchQuery,
-    String authenticationToken,
-    int limit,
-    String marker,
-    String organizationId,
+    required String searchQuery,
+    String? authenticationToken,
+    int? limit,
+    String? marker,
+    String? organizationId,
   }) async {
     ArgumentError.checkNotNull(searchQuery, 'searchQuery');
     _s.validateStringLength(
@@ -1894,12 +1675,6 @@ class WorkDocs {
       searchQuery,
       1,
       512,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'searchQuery',
-      searchQuery,
-      r'''[\u0020-\uFFFF]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1920,26 +1695,18 @@ class WorkDocs {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'marker',
-      marker,
-      r'''[\u0000-\u00FF]+''',
-    );
     _s.validateStringLength(
       'organizationId',
       organizationId,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''[&\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
-      if (searchQuery != null) 'searchQuery': [searchQuery],
+      'searchQuery': [searchQuery],
       if (limit != null) 'limit': [limit.toString()],
       if (marker != null) 'marker': [marker],
       if (organizationId != null) 'organizationId': [organizationId],
@@ -1972,9 +1739,9 @@ class WorkDocs {
   /// previous call.)
   Future<DescribeNotificationSubscriptionsResponse>
       describeNotificationSubscriptions({
-    @_s.required String organizationId,
-    int limit,
-    String marker,
+    required String organizationId,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     _s.validateStringLength(
@@ -1982,12 +1749,6 @@ class WorkDocs {
       organizationId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''[&\w+-.@]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2041,11 +1802,11 @@ class WorkDocs {
   /// Parameter [principalId] :
   /// The ID of the principal to filter permissions by.
   Future<DescribeResourcePermissionsResponse> describeResourcePermissions({
-    @_s.required String resourceId,
-    String authenticationToken,
-    int limit,
-    String marker,
-    String principalId,
+    required String resourceId,
+    String? authenticationToken,
+    int? limit,
+    String? marker,
+    String? principalId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -2053,12 +1814,6 @@ class WorkDocs {
       resourceId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2085,13 +1840,10 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'principalId',
-      principalId,
-      r'''[&\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (marker != null) 'marker': [marker],
@@ -2138,9 +1890,9 @@ class WorkDocs {
   /// The marker for the next set of results. (You received this marker from a
   /// previous call.)
   Future<DescribeRootFoldersResponse> describeRootFolders({
-    @_s.required String authenticationToken,
-    int limit,
-    String marker,
+    required String authenticationToken,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(authenticationToken, 'authenticationToken');
     _s.validateStringLength(
@@ -2162,8 +1914,9 @@ class WorkDocs {
       1,
       2048,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
       if (marker != null) 'marker': [marker],
@@ -2227,16 +1980,16 @@ class WorkDocs {
   /// Parameter [userIds] :
   /// The IDs of the users.
   Future<DescribeUsersResponse> describeUsers({
-    String authenticationToken,
-    String fields,
-    UserFilterType include,
-    int limit,
-    String marker,
-    OrderType order,
-    String organizationId,
-    String query,
-    UserSortType sort,
-    String userIds,
+    String? authenticationToken,
+    String? fields,
+    UserFilterType? include,
+    int? limit,
+    String? marker,
+    OrderType? order,
+    String? organizationId,
+    String? query,
+    UserSortType? sort,
+    String? userIds,
   }) async {
     _s.validateStringLength(
       'authenticationToken',
@@ -2249,11 +2002,6 @@ class WorkDocs {
       fields,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'fields',
-      fields,
-      r'''[\w,]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -2273,21 +2021,11 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'organizationId',
-      organizationId,
-      r'''[&\w+-.@]+''',
-    );
     _s.validateStringLength(
       'query',
       query,
       1,
       512,
-    );
-    _s.validateStringPattern(
-      'query',
-      query,
-      r'''[\u0020-\uFFFF]+''',
     );
     _s.validateStringLength(
       'userIds',
@@ -2295,13 +2033,10 @@ class WorkDocs {
       1,
       2000,
     );
-    _s.validateStringPattern(
-      'userIds',
-      userIds,
-      r'''[&\w+-.@, ]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (fields != null) 'fields': [fields],
       if (include != null) 'include': [include.toValue()],
@@ -2344,7 +2079,7 @@ class WorkDocs {
   /// Parameter [authenticationToken] :
   /// Amazon WorkDocs authentication token.
   Future<GetCurrentUserResponse> getCurrentUser({
-    @_s.required String authenticationToken,
+    required String authenticationToken,
   }) async {
     ArgumentError.checkNotNull(authenticationToken, 'authenticationToken');
     _s.validateStringLength(
@@ -2354,8 +2089,9 @@ class WorkDocs {
       8199,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      'Authentication': authenticationToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2386,9 +2122,9 @@ class WorkDocs {
   /// Parameter [includeCustomMetadata] :
   /// Set this to <code>TRUE</code> to include custom metadata in the response.
   Future<GetDocumentResponse> getDocument({
-    @_s.required String documentId,
-    String authenticationToken,
-    bool includeCustomMetadata,
+    required String documentId,
+    String? authenticationToken,
+    bool? includeCustomMetadata,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -2398,20 +2134,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (includeCustomMetadata != null)
         'includeCustomMetadata': [includeCustomMetadata.toString()],
@@ -2458,11 +2190,11 @@ class WorkDocs {
   /// Parameter [marker] :
   /// This value is not supported.
   Future<GetDocumentPathResponse> getDocumentPath({
-    @_s.required String documentId,
-    String authenticationToken,
-    String fields,
-    int limit,
-    String marker,
+    required String documentId,
+    String? authenticationToken,
+    String? fields,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -2470,12 +2202,6 @@ class WorkDocs {
       documentId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[&\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2490,11 +2216,6 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'fields',
-      fields,
-      r'''[\w,]+''',
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2507,8 +2228,10 @@ class WorkDocs {
       1,
       2048,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (fields != null) 'fields': [fields],
       if (limit != null) 'limit': [limit.toString()],
@@ -2552,11 +2275,11 @@ class WorkDocs {
   /// Parameter [includeCustomMetadata] :
   /// Set this to TRUE to include custom metadata in the response.
   Future<GetDocumentVersionResponse> getDocumentVersion({
-    @_s.required String documentId,
-    @_s.required String versionId,
-    String authenticationToken,
-    String fields,
-    bool includeCustomMetadata,
+    required String documentId,
+    required String versionId,
+    String? authenticationToken,
+    String? fields,
+    bool? includeCustomMetadata,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -2566,24 +2289,12 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionId, 'versionId');
     _s.validateStringLength(
       'versionId',
       versionId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2598,13 +2309,10 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'fields',
-      fields,
-      r'''[\w,]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (fields != null) 'fields': [fields],
       if (includeCustomMetadata != null)
@@ -2642,9 +2350,9 @@ class WorkDocs {
   /// Parameter [includeCustomMetadata] :
   /// Set to TRUE to include custom metadata in the response.
   Future<GetFolderResponse> getFolder({
-    @_s.required String folderId,
-    String authenticationToken,
-    bool includeCustomMetadata,
+    required String folderId,
+    String? authenticationToken,
+    bool? includeCustomMetadata,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
     _s.validateStringLength(
@@ -2654,20 +2362,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'folderId',
-      folderId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (includeCustomMetadata != null)
         'includeCustomMetadata': [includeCustomMetadata.toString()],
@@ -2714,11 +2418,11 @@ class WorkDocs {
   /// Parameter [marker] :
   /// This value is not supported.
   Future<GetFolderPathResponse> getFolderPath({
-    @_s.required String folderId,
-    String authenticationToken,
-    String fields,
-    int limit,
-    String marker,
+    required String folderId,
+    String? authenticationToken,
+    String? fields,
+    int? limit,
+    String? marker,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
     _s.validateStringLength(
@@ -2726,12 +2430,6 @@ class WorkDocs {
       folderId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'folderId',
-      folderId,
-      r'''[&\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2746,11 +2444,6 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'fields',
-      fields,
-      r'''[\w,]+''',
-    );
     _s.validateNumRange(
       'limit',
       limit,
@@ -2763,8 +2456,10 @@ class WorkDocs {
       1,
       2048,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (fields != null) 'fields': [fields],
       if (limit != null) 'limit': [limit.toString()],
@@ -2808,11 +2503,11 @@ class WorkDocs {
   /// The user ID for the resource collection. This is a required field for
   /// accessing the API operation using IAM credentials.
   Future<GetResourcesResponse> getResources({
-    String authenticationToken,
-    ResourceCollectionType collectionType,
-    int limit,
-    String marker,
-    String userId,
+    String? authenticationToken,
+    ResourceCollectionType? collectionType,
+    int? limit,
+    String? marker,
+    String? userId,
   }) async {
     _s.validateStringLength(
       'authenticationToken',
@@ -2838,13 +2533,10 @@ class WorkDocs {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[&\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (collectionType != null) 'collectionType': [collectionType.toValue()],
       if (limit != null) 'limit': [limit.toString()],
@@ -2909,14 +2601,14 @@ class WorkDocs {
   /// Parameter [name] :
   /// The name of the document.
   Future<InitiateDocumentVersionUploadResponse> initiateDocumentVersionUpload({
-    @_s.required String parentFolderId,
-    String authenticationToken,
-    DateTime contentCreatedTimestamp,
-    DateTime contentModifiedTimestamp,
-    String contentType,
-    int documentSizeInBytes,
-    String id,
-    String name,
+    required String parentFolderId,
+    String? authenticationToken,
+    DateTime? contentCreatedTimestamp,
+    DateTime? contentModifiedTimestamp,
+    String? contentType,
+    int? documentSizeInBytes,
+    String? id,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(parentFolderId, 'parentFolderId');
     _s.validateStringLength(
@@ -2924,12 +2616,6 @@ class WorkDocs {
       parentFolderId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'parentFolderId',
-      parentFolderId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2950,24 +2636,16 @@ class WorkDocs {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'id',
-      id,
-      r'''[\w+-.@]+''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       255,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u202D\u202F-\uFFFF]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'ParentFolderId': parentFolderId,
       if (contentCreatedTimestamp != null)
@@ -3005,8 +2683,8 @@ class WorkDocs {
   /// Amazon WorkDocs authentication token. Not required when using AWS
   /// administrator credentials to access the API.
   Future<void> removeAllResourcePermissions({
-    @_s.required String resourceId,
-    String authenticationToken,
+    required String resourceId,
+    String? authenticationToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -3016,20 +2694,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -3061,10 +2735,10 @@ class WorkDocs {
   /// Parameter [principalType] :
   /// The principal type of the resource.
   Future<void> removeResourcePermission({
-    @_s.required String principalId,
-    @_s.required String resourceId,
-    String authenticationToken,
-    PrincipalType principalType,
+    required String principalId,
+    required String resourceId,
+    String? authenticationToken,
+    PrincipalType? principalType,
   }) async {
     ArgumentError.checkNotNull(principalId, 'principalId');
     _s.validateStringLength(
@@ -3072,12 +2746,6 @@ class WorkDocs {
       principalId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'principalId',
-      principalId,
-      r'''[&\w+-.@]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -3088,20 +2756,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $query = <String, List<String>>{
       if (principalType != null) 'type': [principalType.toValue()],
     };
@@ -3147,11 +2811,11 @@ class WorkDocs {
   /// The resource state of the document. Only ACTIVE and RECYCLED are
   /// supported.
   Future<void> updateDocument({
-    @_s.required String documentId,
-    String authenticationToken,
-    String name,
-    String parentFolderId,
-    ResourceStateType resourceState,
+    required String documentId,
+    String? authenticationToken,
+    String? name,
+    String? parentFolderId,
+    ResourceStateType? resourceState,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -3159,12 +2823,6 @@ class WorkDocs {
       documentId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3179,24 +2837,16 @@ class WorkDocs {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u202D\u202F-\uFFFF]+''',
-    );
     _s.validateStringLength(
       'parentFolderId',
       parentFolderId,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'parentFolderId',
-      parentFolderId,
-      r'''[\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
       if (parentFolderId != null) 'ParentFolderId': parentFolderId,
@@ -3239,10 +2889,10 @@ class WorkDocs {
   /// Parameter [versionStatus] :
   /// The status of the version.
   Future<void> updateDocumentVersion({
-    @_s.required String documentId,
-    @_s.required String versionId,
-    String authenticationToken,
-    DocumentVersionStatus versionStatus,
+    required String documentId,
+    required String versionId,
+    String? authenticationToken,
+    DocumentVersionStatus? versionStatus,
   }) async {
     ArgumentError.checkNotNull(documentId, 'documentId');
     _s.validateStringLength(
@@ -3250,12 +2900,6 @@ class WorkDocs {
       documentId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'documentId',
-      documentId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionId, 'versionId');
@@ -3266,20 +2910,16 @@ class WorkDocs {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'versionId',
-      versionId,
-      r'''[\w+-.@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'authenticationToken',
       authenticationToken,
       1,
       8199,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (versionStatus != null) 'VersionStatus': versionStatus.toValue(),
     };
@@ -3324,11 +2964,11 @@ class WorkDocs {
   /// The resource state of the folder. Only ACTIVE and RECYCLED are accepted
   /// values from the API.
   Future<void> updateFolder({
-    @_s.required String folderId,
-    String authenticationToken,
-    String name,
-    String parentFolderId,
-    ResourceStateType resourceState,
+    required String folderId,
+    String? authenticationToken,
+    String? name,
+    String? parentFolderId,
+    ResourceStateType? resourceState,
   }) async {
     ArgumentError.checkNotNull(folderId, 'folderId');
     _s.validateStringLength(
@@ -3336,12 +2976,6 @@ class WorkDocs {
       folderId,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'folderId',
-      folderId,
-      r'''[\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3356,24 +2990,16 @@ class WorkDocs {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0020-\u202D\u202F-\uFFFF]+''',
-    );
     _s.validateStringLength(
       'parentFolderId',
       parentFolderId,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'parentFolderId',
-      parentFolderId,
-      r'''[\w+-.@]+''',
-    );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (name != null) 'Name': name,
       if (parentFolderId != null) 'ParentFolderId': parentFolderId,
@@ -3429,15 +3055,15 @@ class WorkDocs {
   /// Parameter [type] :
   /// The type of the user.
   Future<UpdateUserResponse> updateUser({
-    @_s.required String userId,
-    String authenticationToken,
-    String givenName,
-    BooleanEnumType grantPoweruserPrivileges,
-    LocaleType locale,
-    StorageRuleType storageRule,
-    String surname,
-    String timeZoneId,
-    UserType type,
+    required String userId,
+    String? authenticationToken,
+    String? givenName,
+    BooleanEnumType? grantPoweruserPrivileges,
+    LocaleType? locale,
+    StorageRuleType? storageRule,
+    String? surname,
+    String? timeZoneId,
+    UserType? type,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
@@ -3445,12 +3071,6 @@ class WorkDocs {
       userId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[&\w+-.@]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3477,8 +3097,10 @@ class WorkDocs {
       1,
       256,
     );
-    final headers = <String, String>{};
-    authenticationToken?.let((v) => headers['Authentication'] = v.toString());
+    final headers = <String, String>{
+      if (authenticationToken != null)
+        'Authentication': authenticationToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (givenName != null) 'GivenName': givenName,
       if (grantPoweruserPrivileges != null)
@@ -3500,73 +3122,65 @@ class WorkDocs {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivateUserResponse {
   /// The user information.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   ActivateUserResponse({
     this.user,
   });
-  factory ActivateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$ActivateUserResponseFromJson(json);
+
+  factory ActivateUserResponse.fromJson(Map<String, dynamic> json) {
+    return ActivateUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
 /// Describes the activity information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Activity {
   /// Metadata of the commenting activity. This is an optional field and is filled
   /// for commenting activities.
-  @_s.JsonKey(name: 'CommentMetadata')
-  final CommentMetadata commentMetadata;
+  final CommentMetadata? commentMetadata;
 
   /// The user who performed the action.
-  @_s.JsonKey(name: 'Initiator')
-  final UserMetadata initiator;
+  final UserMetadata? initiator;
 
   /// Indicates whether an activity is indirect or direct. An indirect activity
   /// results from a direct activity performed on a parent resource. For example,
   /// sharing a parent folder (the direct activity) shares all of the subfolders
   /// and documents within the parent folder (the indirect activity).
-  @_s.JsonKey(name: 'IsIndirectActivity')
-  final bool isIndirectActivity;
+  final bool? isIndirectActivity;
 
   /// The ID of the organization.
-  @_s.JsonKey(name: 'OrganizationId')
-  final String organizationId;
+  final String? organizationId;
 
   /// The original parent of the resource. This is an optional field and is filled
   /// for move activities.
-  @_s.JsonKey(name: 'OriginalParent')
-  final ResourceMetadata originalParent;
+  final ResourceMetadata? originalParent;
 
   /// The list of users or groups impacted by this action. This is an optional
   /// field and is filled for the following sharing activities: DOCUMENT_SHARED,
   /// DOCUMENT_SHARED, DOCUMENT_UNSHARED, FOLDER_SHARED, FOLDER_UNSHARED.
-  @_s.JsonKey(name: 'Participants')
-  final Participants participants;
+  final Participants? participants;
 
   /// The metadata of the resource involved in the user action.
-  @_s.JsonKey(name: 'ResourceMetadata')
-  final ResourceMetadata resourceMetadata;
+  final ResourceMetadata? resourceMetadata;
 
   /// The timestamp when the action was performed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'TimeStamp')
-  final DateTime timeStamp;
+  final DateTime? timeStamp;
 
   /// The activity type.
-  @_s.JsonKey(name: 'Type')
-  final ActivityType type;
+  final ActivityType? type;
 
   Activity({
     this.commentMetadata,
@@ -3579,100 +3193,268 @@ class Activity {
     this.timeStamp,
     this.type,
   });
-  factory Activity.fromJson(Map<String, dynamic> json) =>
-      _$ActivityFromJson(json);
+
+  factory Activity.fromJson(Map<String, dynamic> json) {
+    return Activity(
+      commentMetadata: json['CommentMetadata'] != null
+          ? CommentMetadata.fromJson(
+              json['CommentMetadata'] as Map<String, dynamic>)
+          : null,
+      initiator: json['Initiator'] != null
+          ? UserMetadata.fromJson(json['Initiator'] as Map<String, dynamic>)
+          : null,
+      isIndirectActivity: json['IsIndirectActivity'] as bool?,
+      organizationId: json['OrganizationId'] as String?,
+      originalParent: json['OriginalParent'] != null
+          ? ResourceMetadata.fromJson(
+              json['OriginalParent'] as Map<String, dynamic>)
+          : null,
+      participants: json['Participants'] != null
+          ? Participants.fromJson(json['Participants'] as Map<String, dynamic>)
+          : null,
+      resourceMetadata: json['ResourceMetadata'] != null
+          ? ResourceMetadata.fromJson(
+              json['ResourceMetadata'] as Map<String, dynamic>)
+          : null,
+      timeStamp: timeStampFromJson(json['TimeStamp']),
+      type: (json['Type'] as String?)?.toActivityType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentMetadata = this.commentMetadata;
+    final initiator = this.initiator;
+    final isIndirectActivity = this.isIndirectActivity;
+    final organizationId = this.organizationId;
+    final originalParent = this.originalParent;
+    final participants = this.participants;
+    final resourceMetadata = this.resourceMetadata;
+    final timeStamp = this.timeStamp;
+    final type = this.type;
+    return {
+      if (commentMetadata != null) 'CommentMetadata': commentMetadata,
+      if (initiator != null) 'Initiator': initiator,
+      if (isIndirectActivity != null) 'IsIndirectActivity': isIndirectActivity,
+      if (organizationId != null) 'OrganizationId': organizationId,
+      if (originalParent != null) 'OriginalParent': originalParent,
+      if (participants != null) 'Participants': participants,
+      if (resourceMetadata != null) 'ResourceMetadata': resourceMetadata,
+      if (timeStamp != null) 'TimeStamp': unixTimestampToJson(timeStamp),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ActivityType {
-  @_s.JsonValue('DOCUMENT_CHECKED_IN')
   documentCheckedIn,
-  @_s.JsonValue('DOCUMENT_CHECKED_OUT')
   documentCheckedOut,
-  @_s.JsonValue('DOCUMENT_RENAMED')
   documentRenamed,
-  @_s.JsonValue('DOCUMENT_VERSION_UPLOADED')
   documentVersionUploaded,
-  @_s.JsonValue('DOCUMENT_VERSION_DELETED')
   documentVersionDeleted,
-  @_s.JsonValue('DOCUMENT_VERSION_VIEWED')
   documentVersionViewed,
-  @_s.JsonValue('DOCUMENT_VERSION_DOWNLOADED')
   documentVersionDownloaded,
-  @_s.JsonValue('DOCUMENT_RECYCLED')
   documentRecycled,
-  @_s.JsonValue('DOCUMENT_RESTORED')
   documentRestored,
-  @_s.JsonValue('DOCUMENT_REVERTED')
   documentReverted,
-  @_s.JsonValue('DOCUMENT_SHARED')
   documentShared,
-  @_s.JsonValue('DOCUMENT_UNSHARED')
   documentUnshared,
-  @_s.JsonValue('DOCUMENT_SHARE_PERMISSION_CHANGED')
   documentSharePermissionChanged,
-  @_s.JsonValue('DOCUMENT_SHAREABLE_LINK_CREATED')
   documentShareableLinkCreated,
-  @_s.JsonValue('DOCUMENT_SHAREABLE_LINK_REMOVED')
   documentShareableLinkRemoved,
-  @_s.JsonValue('DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED')
   documentShareableLinkPermissionChanged,
-  @_s.JsonValue('DOCUMENT_MOVED')
   documentMoved,
-  @_s.JsonValue('DOCUMENT_COMMENT_ADDED')
   documentCommentAdded,
-  @_s.JsonValue('DOCUMENT_COMMENT_DELETED')
   documentCommentDeleted,
-  @_s.JsonValue('DOCUMENT_ANNOTATION_ADDED')
   documentAnnotationAdded,
-  @_s.JsonValue('DOCUMENT_ANNOTATION_DELETED')
   documentAnnotationDeleted,
-  @_s.JsonValue('FOLDER_CREATED')
   folderCreated,
-  @_s.JsonValue('FOLDER_DELETED')
   folderDeleted,
-  @_s.JsonValue('FOLDER_RENAMED')
   folderRenamed,
-  @_s.JsonValue('FOLDER_RECYCLED')
   folderRecycled,
-  @_s.JsonValue('FOLDER_RESTORED')
   folderRestored,
-  @_s.JsonValue('FOLDER_SHARED')
   folderShared,
-  @_s.JsonValue('FOLDER_UNSHARED')
   folderUnshared,
-  @_s.JsonValue('FOLDER_SHARE_PERMISSION_CHANGED')
   folderSharePermissionChanged,
-  @_s.JsonValue('FOLDER_SHAREABLE_LINK_CREATED')
   folderShareableLinkCreated,
-  @_s.JsonValue('FOLDER_SHAREABLE_LINK_REMOVED')
   folderShareableLinkRemoved,
-  @_s.JsonValue('FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED')
   folderShareableLinkPermissionChanged,
-  @_s.JsonValue('FOLDER_MOVED')
   folderMoved,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ActivityType {
+  String toValue() {
+    switch (this) {
+      case ActivityType.documentCheckedIn:
+        return 'DOCUMENT_CHECKED_IN';
+      case ActivityType.documentCheckedOut:
+        return 'DOCUMENT_CHECKED_OUT';
+      case ActivityType.documentRenamed:
+        return 'DOCUMENT_RENAMED';
+      case ActivityType.documentVersionUploaded:
+        return 'DOCUMENT_VERSION_UPLOADED';
+      case ActivityType.documentVersionDeleted:
+        return 'DOCUMENT_VERSION_DELETED';
+      case ActivityType.documentVersionViewed:
+        return 'DOCUMENT_VERSION_VIEWED';
+      case ActivityType.documentVersionDownloaded:
+        return 'DOCUMENT_VERSION_DOWNLOADED';
+      case ActivityType.documentRecycled:
+        return 'DOCUMENT_RECYCLED';
+      case ActivityType.documentRestored:
+        return 'DOCUMENT_RESTORED';
+      case ActivityType.documentReverted:
+        return 'DOCUMENT_REVERTED';
+      case ActivityType.documentShared:
+        return 'DOCUMENT_SHARED';
+      case ActivityType.documentUnshared:
+        return 'DOCUMENT_UNSHARED';
+      case ActivityType.documentSharePermissionChanged:
+        return 'DOCUMENT_SHARE_PERMISSION_CHANGED';
+      case ActivityType.documentShareableLinkCreated:
+        return 'DOCUMENT_SHAREABLE_LINK_CREATED';
+      case ActivityType.documentShareableLinkRemoved:
+        return 'DOCUMENT_SHAREABLE_LINK_REMOVED';
+      case ActivityType.documentShareableLinkPermissionChanged:
+        return 'DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED';
+      case ActivityType.documentMoved:
+        return 'DOCUMENT_MOVED';
+      case ActivityType.documentCommentAdded:
+        return 'DOCUMENT_COMMENT_ADDED';
+      case ActivityType.documentCommentDeleted:
+        return 'DOCUMENT_COMMENT_DELETED';
+      case ActivityType.documentAnnotationAdded:
+        return 'DOCUMENT_ANNOTATION_ADDED';
+      case ActivityType.documentAnnotationDeleted:
+        return 'DOCUMENT_ANNOTATION_DELETED';
+      case ActivityType.folderCreated:
+        return 'FOLDER_CREATED';
+      case ActivityType.folderDeleted:
+        return 'FOLDER_DELETED';
+      case ActivityType.folderRenamed:
+        return 'FOLDER_RENAMED';
+      case ActivityType.folderRecycled:
+        return 'FOLDER_RECYCLED';
+      case ActivityType.folderRestored:
+        return 'FOLDER_RESTORED';
+      case ActivityType.folderShared:
+        return 'FOLDER_SHARED';
+      case ActivityType.folderUnshared:
+        return 'FOLDER_UNSHARED';
+      case ActivityType.folderSharePermissionChanged:
+        return 'FOLDER_SHARE_PERMISSION_CHANGED';
+      case ActivityType.folderShareableLinkCreated:
+        return 'FOLDER_SHAREABLE_LINK_CREATED';
+      case ActivityType.folderShareableLinkRemoved:
+        return 'FOLDER_SHAREABLE_LINK_REMOVED';
+      case ActivityType.folderShareableLinkPermissionChanged:
+        return 'FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED';
+      case ActivityType.folderMoved:
+        return 'FOLDER_MOVED';
+    }
+  }
+}
+
+extension on String {
+  ActivityType toActivityType() {
+    switch (this) {
+      case 'DOCUMENT_CHECKED_IN':
+        return ActivityType.documentCheckedIn;
+      case 'DOCUMENT_CHECKED_OUT':
+        return ActivityType.documentCheckedOut;
+      case 'DOCUMENT_RENAMED':
+        return ActivityType.documentRenamed;
+      case 'DOCUMENT_VERSION_UPLOADED':
+        return ActivityType.documentVersionUploaded;
+      case 'DOCUMENT_VERSION_DELETED':
+        return ActivityType.documentVersionDeleted;
+      case 'DOCUMENT_VERSION_VIEWED':
+        return ActivityType.documentVersionViewed;
+      case 'DOCUMENT_VERSION_DOWNLOADED':
+        return ActivityType.documentVersionDownloaded;
+      case 'DOCUMENT_RECYCLED':
+        return ActivityType.documentRecycled;
+      case 'DOCUMENT_RESTORED':
+        return ActivityType.documentRestored;
+      case 'DOCUMENT_REVERTED':
+        return ActivityType.documentReverted;
+      case 'DOCUMENT_SHARED':
+        return ActivityType.documentShared;
+      case 'DOCUMENT_UNSHARED':
+        return ActivityType.documentUnshared;
+      case 'DOCUMENT_SHARE_PERMISSION_CHANGED':
+        return ActivityType.documentSharePermissionChanged;
+      case 'DOCUMENT_SHAREABLE_LINK_CREATED':
+        return ActivityType.documentShareableLinkCreated;
+      case 'DOCUMENT_SHAREABLE_LINK_REMOVED':
+        return ActivityType.documentShareableLinkRemoved;
+      case 'DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED':
+        return ActivityType.documentShareableLinkPermissionChanged;
+      case 'DOCUMENT_MOVED':
+        return ActivityType.documentMoved;
+      case 'DOCUMENT_COMMENT_ADDED':
+        return ActivityType.documentCommentAdded;
+      case 'DOCUMENT_COMMENT_DELETED':
+        return ActivityType.documentCommentDeleted;
+      case 'DOCUMENT_ANNOTATION_ADDED':
+        return ActivityType.documentAnnotationAdded;
+      case 'DOCUMENT_ANNOTATION_DELETED':
+        return ActivityType.documentAnnotationDeleted;
+      case 'FOLDER_CREATED':
+        return ActivityType.folderCreated;
+      case 'FOLDER_DELETED':
+        return ActivityType.folderDeleted;
+      case 'FOLDER_RENAMED':
+        return ActivityType.folderRenamed;
+      case 'FOLDER_RECYCLED':
+        return ActivityType.folderRecycled;
+      case 'FOLDER_RESTORED':
+        return ActivityType.folderRestored;
+      case 'FOLDER_SHARED':
+        return ActivityType.folderShared;
+      case 'FOLDER_UNSHARED':
+        return ActivityType.folderUnshared;
+      case 'FOLDER_SHARE_PERMISSION_CHANGED':
+        return ActivityType.folderSharePermissionChanged;
+      case 'FOLDER_SHAREABLE_LINK_CREATED':
+        return ActivityType.folderShareableLinkCreated;
+      case 'FOLDER_SHAREABLE_LINK_REMOVED':
+        return ActivityType.folderShareableLinkRemoved;
+      case 'FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED':
+        return ActivityType.folderShareableLinkPermissionChanged;
+      case 'FOLDER_MOVED':
+        return ActivityType.folderMoved;
+    }
+    throw Exception('$this is not known in enum ActivityType');
+  }
+}
+
 class AddResourcePermissionsResponse {
   /// The share results.
-  @_s.JsonKey(name: 'ShareResults')
-  final List<ShareResult> shareResults;
+  final List<ShareResult>? shareResults;
 
   AddResourcePermissionsResponse({
     this.shareResults,
   });
-  factory AddResourcePermissionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddResourcePermissionsResponseFromJson(json);
+
+  factory AddResourcePermissionsResponse.fromJson(Map<String, dynamic> json) {
+    return AddResourcePermissionsResponse(
+      shareResults: (json['ShareResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => ShareResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shareResults = this.shareResults;
+    return {
+      if (shareResults != null) 'ShareResults': shareResults,
+    };
+  }
 }
 
 enum BooleanEnumType {
-  @_s.JsonValue('TRUE')
   $true,
-  @_s.JsonValue('FALSE')
   $false,
 }
 
@@ -3684,60 +3466,56 @@ extension on BooleanEnumType {
       case BooleanEnumType.$false:
         return 'FALSE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BooleanEnumType toBooleanEnumType() {
+    switch (this) {
+      case 'TRUE':
+        return BooleanEnumType.$true;
+      case 'FALSE':
+        return BooleanEnumType.$false;
+    }
+    throw Exception('$this is not known in enum BooleanEnumType');
   }
 }
 
 /// Describes a comment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Comment {
   /// The ID of the comment.
-  @_s.JsonKey(name: 'CommentId')
   final String commentId;
 
   /// The details of the user who made the comment.
-  @_s.JsonKey(name: 'Contributor')
-  final User contributor;
+  final User? contributor;
 
   /// The time that the comment was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The ID of the parent comment.
-  @_s.JsonKey(name: 'ParentId')
-  final String parentId;
+  final String? parentId;
 
   /// If the comment is a reply to another user's comment, this field contains the
   /// user ID of the user being replied to.
-  @_s.JsonKey(name: 'RecipientId')
-  final String recipientId;
+  final String? recipientId;
 
   /// The status of the comment.
-  @_s.JsonKey(name: 'Status')
-  final CommentStatusType status;
+  final CommentStatusType? status;
 
   /// The text of the comment.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// The ID of the root comment in the thread.
-  @_s.JsonKey(name: 'ThreadId')
-  final String threadId;
+  final String? threadId;
 
   /// The visibility of the comment. Options are either PRIVATE, where the comment
   /// is visible only to the comment author and document owner and co-owners, or
   /// PUBLIC, where the comment is visible to document owners, co-owners, and
   /// contributors.
-  @_s.JsonKey(name: 'Visibility')
-  final CommentVisibilityType visibility;
+  final CommentVisibilityType? visibility;
 
   Comment({
-    @_s.required this.commentId,
+    required this.commentId,
     this.contributor,
     this.createdTimestamp,
     this.parentId,
@@ -3747,37 +3525,64 @@ class Comment {
     this.threadId,
     this.visibility,
   });
-  factory Comment.fromJson(Map<String, dynamic> json) =>
-      _$CommentFromJson(json);
+
+  factory Comment.fromJson(Map<String, dynamic> json) {
+    return Comment(
+      commentId: json['CommentId'] as String,
+      contributor: json['Contributor'] != null
+          ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      parentId: json['ParentId'] as String?,
+      recipientId: json['RecipientId'] as String?,
+      status: (json['Status'] as String?)?.toCommentStatusType(),
+      text: json['Text'] as String?,
+      threadId: json['ThreadId'] as String?,
+      visibility: (json['Visibility'] as String?)?.toCommentVisibilityType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentId = this.commentId;
+    final contributor = this.contributor;
+    final createdTimestamp = this.createdTimestamp;
+    final parentId = this.parentId;
+    final recipientId = this.recipientId;
+    final status = this.status;
+    final text = this.text;
+    final threadId = this.threadId;
+    final visibility = this.visibility;
+    return {
+      'CommentId': commentId,
+      if (contributor != null) 'Contributor': contributor,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (parentId != null) 'ParentId': parentId,
+      if (recipientId != null) 'RecipientId': recipientId,
+      if (status != null) 'Status': status.toValue(),
+      if (text != null) 'Text': text,
+      if (threadId != null) 'ThreadId': threadId,
+      if (visibility != null) 'Visibility': visibility.toValue(),
+    };
+  }
 }
 
 /// Describes the metadata of a comment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CommentMetadata {
   /// The ID of the comment.
-  @_s.JsonKey(name: 'CommentId')
-  final String commentId;
+  final String? commentId;
 
   /// The status of the comment.
-  @_s.JsonKey(name: 'CommentStatus')
-  final CommentStatusType commentStatus;
+  final CommentStatusType? commentStatus;
 
   /// The user who made the comment.
-  @_s.JsonKey(name: 'Contributor')
-  final User contributor;
+  final User? contributor;
 
   /// The timestamp that the comment was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The ID of the user being replied to.
-  @_s.JsonKey(name: 'RecipientId')
-  final String recipientId;
+  final String? recipientId;
 
   CommentMetadata({
     this.commentId,
@@ -3786,23 +3591,71 @@ class CommentMetadata {
     this.createdTimestamp,
     this.recipientId,
   });
-  factory CommentMetadata.fromJson(Map<String, dynamic> json) =>
-      _$CommentMetadataFromJson(json);
+
+  factory CommentMetadata.fromJson(Map<String, dynamic> json) {
+    return CommentMetadata(
+      commentId: json['CommentId'] as String?,
+      commentStatus: (json['CommentStatus'] as String?)?.toCommentStatusType(),
+      contributor: json['Contributor'] != null
+          ? User.fromJson(json['Contributor'] as Map<String, dynamic>)
+          : null,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      recipientId: json['RecipientId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commentId = this.commentId;
+    final commentStatus = this.commentStatus;
+    final contributor = this.contributor;
+    final createdTimestamp = this.createdTimestamp;
+    final recipientId = this.recipientId;
+    return {
+      if (commentId != null) 'CommentId': commentId,
+      if (commentStatus != null) 'CommentStatus': commentStatus.toValue(),
+      if (contributor != null) 'Contributor': contributor,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (recipientId != null) 'RecipientId': recipientId,
+    };
+  }
 }
 
 enum CommentStatusType {
-  @_s.JsonValue('DRAFT')
   draft,
-  @_s.JsonValue('PUBLISHED')
   published,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on CommentStatusType {
+  String toValue() {
+    switch (this) {
+      case CommentStatusType.draft:
+        return 'DRAFT';
+      case CommentStatusType.published:
+        return 'PUBLISHED';
+      case CommentStatusType.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  CommentStatusType toCommentStatusType() {
+    switch (this) {
+      case 'DRAFT':
+        return CommentStatusType.draft;
+      case 'PUBLISHED':
+        return CommentStatusType.published;
+      case 'DELETED':
+        return CommentStatusType.deleted;
+    }
+    throw Exception('$this is not known in enum CommentStatusType');
+  }
+}
+
 enum CommentVisibilityType {
-  @_s.JsonValue('PUBLIC')
   public,
-  @_s.JsonValue('PRIVATE')
   private,
 }
 
@@ -3814,381 +3667,506 @@ extension on CommentVisibilityType {
       case CommentVisibilityType.private:
         return 'PRIVATE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  CommentVisibilityType toCommentVisibilityType() {
+    switch (this) {
+      case 'PUBLIC':
+        return CommentVisibilityType.public;
+      case 'PRIVATE':
+        return CommentVisibilityType.private;
+    }
+    throw Exception('$this is not known in enum CommentVisibilityType');
+  }
+}
+
 class CreateCommentResponse {
   /// The comment that has been created.
-  @_s.JsonKey(name: 'Comment')
-  final Comment comment;
+  final Comment? comment;
 
   CreateCommentResponse({
     this.comment,
   });
-  factory CreateCommentResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCommentResponseFromJson(json);
+
+  factory CreateCommentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCommentResponse(
+      comment: json['Comment'] != null
+          ? Comment.fromJson(json['Comment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    return {
+      if (comment != null) 'Comment': comment,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCustomMetadataResponse {
   CreateCustomMetadataResponse();
-  factory CreateCustomMetadataResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCustomMetadataResponseFromJson(json);
+
+  factory CreateCustomMetadataResponse.fromJson(Map<String, dynamic> _) {
+    return CreateCustomMetadataResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFolderResponse {
   /// The metadata of the folder.
-  @_s.JsonKey(name: 'Metadata')
-  final FolderMetadata metadata;
+  final FolderMetadata? metadata;
 
   CreateFolderResponse({
     this.metadata,
   });
-  factory CreateFolderResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFolderResponseFromJson(json);
+
+  factory CreateFolderResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFolderResponse(
+      metadata: json['Metadata'] != null
+          ? FolderMetadata.fromJson(json['Metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLabelsResponse {
   CreateLabelsResponse();
-  factory CreateLabelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLabelsResponseFromJson(json);
+
+  factory CreateLabelsResponse.fromJson(Map<String, dynamic> _) {
+    return CreateLabelsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNotificationSubscriptionResponse {
   /// The subscription.
-  @_s.JsonKey(name: 'Subscription')
-  final Subscription subscription;
+  final Subscription? subscription;
 
   CreateNotificationSubscriptionResponse({
     this.subscription,
   });
+
   factory CreateNotificationSubscriptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateNotificationSubscriptionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateNotificationSubscriptionResponse(
+      subscription: json['Subscription'] != null
+          ? Subscription.fromJson(json['Subscription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscription = this.subscription;
+    return {
+      if (subscription != null) 'Subscription': subscription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserResponse {
   /// The user information.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   CreateUserResponse({
     this.user,
   });
-  factory CreateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserResponseFromJson(json);
+
+  factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCustomMetadataResponse {
   DeleteCustomMetadataResponse();
-  factory DeleteCustomMetadataResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCustomMetadataResponseFromJson(json);
+
+  factory DeleteCustomMetadataResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCustomMetadataResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLabelsResponse {
   DeleteLabelsResponse();
-  factory DeleteLabelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLabelsResponseFromJson(json);
+
+  factory DeleteLabelsResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteLabelsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeActivitiesResponse {
   /// The marker for the next set of results.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The list of activities for the specified user and time period.
-  @_s.JsonKey(name: 'UserActivities')
-  final List<Activity> userActivities;
+  final List<Activity>? userActivities;
 
   DescribeActivitiesResponse({
     this.marker,
     this.userActivities,
   });
-  factory DescribeActivitiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeActivitiesResponseFromJson(json);
+
+  factory DescribeActivitiesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeActivitiesResponse(
+      marker: json['Marker'] as String?,
+      userActivities: (json['UserActivities'] as List?)
+          ?.whereNotNull()
+          .map((e) => Activity.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final userActivities = this.userActivities;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (userActivities != null) 'UserActivities': userActivities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCommentsResponse {
   /// The list of comments for the specified document version.
-  @_s.JsonKey(name: 'Comments')
-  final List<Comment> comments;
+  final List<Comment>? comments;
 
   /// The marker for the next set of results. This marker was received from a
   /// previous call.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeCommentsResponse({
     this.comments,
     this.marker,
   });
-  factory DescribeCommentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCommentsResponseFromJson(json);
+
+  factory DescribeCommentsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCommentsResponse(
+      comments: (json['Comments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comments = this.comments;
+    final marker = this.marker;
+    return {
+      if (comments != null) 'Comments': comments,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDocumentVersionsResponse {
   /// The document versions.
-  @_s.JsonKey(name: 'DocumentVersions')
-  final List<DocumentVersionMetadata> documentVersions;
+  final List<DocumentVersionMetadata>? documentVersions;
 
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeDocumentVersionsResponse({
     this.documentVersions,
     this.marker,
   });
-  factory DescribeDocumentVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDocumentVersionsResponseFromJson(json);
+
+  factory DescribeDocumentVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDocumentVersionsResponse(
+      documentVersions: (json['DocumentVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DocumentVersionMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentVersions = this.documentVersions;
+    final marker = this.marker;
+    return {
+      if (documentVersions != null) 'DocumentVersions': documentVersions,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeFolderContentsResponse {
   /// The documents in the specified folder.
-  @_s.JsonKey(name: 'Documents')
-  final List<DocumentMetadata> documents;
+  final List<DocumentMetadata>? documents;
 
   /// The subfolders in the specified folder.
-  @_s.JsonKey(name: 'Folders')
-  final List<FolderMetadata> folders;
+  final List<FolderMetadata>? folders;
 
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeFolderContentsResponse({
     this.documents,
     this.folders,
     this.marker,
   });
-  factory DescribeFolderContentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeFolderContentsResponseFromJson(json);
+
+  factory DescribeFolderContentsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeFolderContentsResponse(
+      documents: (json['Documents'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      folders: (json['Folders'] as List?)
+          ?.whereNotNull()
+          .map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documents = this.documents;
+    final folders = this.folders;
+    final marker = this.marker;
+    return {
+      if (documents != null) 'Documents': documents,
+      if (folders != null) 'Folders': folders,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGroupsResponse {
   /// The list of groups.
-  @_s.JsonKey(name: 'Groups')
-  final List<GroupMetadata> groups;
+  final List<GroupMetadata>? groups;
 
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeGroupsResponse({
     this.groups,
     this.marker,
   });
-  factory DescribeGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeGroupsResponseFromJson(json);
+
+  factory DescribeGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGroupsResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final marker = this.marker;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNotificationSubscriptionsResponse {
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The subscriptions.
-  @_s.JsonKey(name: 'Subscriptions')
-  final List<Subscription> subscriptions;
+  final List<Subscription>? subscriptions;
 
   DescribeNotificationSubscriptionsResponse({
     this.marker,
     this.subscriptions,
   });
+
   factory DescribeNotificationSubscriptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeNotificationSubscriptionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeNotificationSubscriptionsResponse(
+      marker: json['Marker'] as String?,
+      subscriptions: (json['Subscriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final subscriptions = this.subscriptions;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (subscriptions != null) 'Subscriptions': subscriptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeResourcePermissionsResponse {
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The principals.
-  @_s.JsonKey(name: 'Principals')
-  final List<Principal> principals;
+  final List<Principal>? principals;
 
   DescribeResourcePermissionsResponse({
     this.marker,
     this.principals,
   });
+
   factory DescribeResourcePermissionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeResourcePermissionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeResourcePermissionsResponse(
+      marker: json['Marker'] as String?,
+      principals: (json['Principals'] as List?)
+          ?.whereNotNull()
+          .map((e) => Principal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final principals = this.principals;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (principals != null) 'Principals': principals,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRootFoldersResponse {
   /// The user's special folders.
-  @_s.JsonKey(name: 'Folders')
-  final List<FolderMetadata> folders;
+  final List<FolderMetadata>? folders;
 
   /// The marker for the next set of results.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   DescribeRootFoldersResponse({
     this.folders,
     this.marker,
   });
-  factory DescribeRootFoldersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRootFoldersResponseFromJson(json);
+
+  factory DescribeRootFoldersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRootFoldersResponse(
+      folders: (json['Folders'] as List?)
+          ?.whereNotNull()
+          .map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final folders = this.folders;
+    final marker = this.marker;
+    return {
+      if (folders != null) 'Folders': folders,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUsersResponse {
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   /// The total number of users included in the results.
-  @_s.JsonKey(name: 'TotalNumberOfUsers')
-  final int totalNumberOfUsers;
+  final int? totalNumberOfUsers;
 
   /// The users.
-  @_s.JsonKey(name: 'Users')
-  final List<User> users;
+  final List<User>? users;
 
   DescribeUsersResponse({
     this.marker,
     this.totalNumberOfUsers,
     this.users,
   });
-  factory DescribeUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUsersResponseFromJson(json);
+
+  factory DescribeUsersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUsersResponse(
+      marker: json['Marker'] as String?,
+      totalNumberOfUsers: json['TotalNumberOfUsers'] as int?,
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final marker = this.marker;
+    final totalNumberOfUsers = this.totalNumberOfUsers;
+    final users = this.users;
+    return {
+      if (marker != null) 'Marker': marker,
+      if (totalNumberOfUsers != null) 'TotalNumberOfUsers': totalNumberOfUsers,
+      if (users != null) 'Users': users,
+    };
+  }
 }
 
 /// Describes the document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentMetadata {
   /// The time when the document was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The ID of the creator.
-  @_s.JsonKey(name: 'CreatorId')
-  final String creatorId;
+  final String? creatorId;
 
   /// The ID of the document.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// List of labels on the document.
-  @_s.JsonKey(name: 'Labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// The latest version of the document.
-  @_s.JsonKey(name: 'LatestVersionMetadata')
-  final DocumentVersionMetadata latestVersionMetadata;
+  final DocumentVersionMetadata? latestVersionMetadata;
 
   /// The time when the document was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ModifiedTimestamp')
-  final DateTime modifiedTimestamp;
+  final DateTime? modifiedTimestamp;
 
   /// The ID of the parent folder.
-  @_s.JsonKey(name: 'ParentFolderId')
-  final String parentFolderId;
+  final String? parentFolderId;
 
   /// The resource state.
-  @_s.JsonKey(name: 'ResourceState')
-  final ResourceStateType resourceState;
+  final ResourceStateType? resourceState;
 
   DocumentMetadata({
     this.createdTimestamp,
@@ -4200,95 +4178,180 @@ class DocumentMetadata {
     this.parentFolderId,
     this.resourceState,
   });
-  factory DocumentMetadata.fromJson(Map<String, dynamic> json) =>
-      _$DocumentMetadataFromJson(json);
+
+  factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
+    return DocumentMetadata(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      creatorId: json['CreatorId'] as String?,
+      id: json['Id'] as String?,
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      latestVersionMetadata: json['LatestVersionMetadata'] != null
+          ? DocumentVersionMetadata.fromJson(
+              json['LatestVersionMetadata'] as Map<String, dynamic>)
+          : null,
+      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+      parentFolderId: json['ParentFolderId'] as String?,
+      resourceState: (json['ResourceState'] as String?)?.toResourceStateType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final creatorId = this.creatorId;
+    final id = this.id;
+    final labels = this.labels;
+    final latestVersionMetadata = this.latestVersionMetadata;
+    final modifiedTimestamp = this.modifiedTimestamp;
+    final parentFolderId = this.parentFolderId;
+    final resourceState = this.resourceState;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (creatorId != null) 'CreatorId': creatorId,
+      if (id != null) 'Id': id,
+      if (labels != null) 'Labels': labels,
+      if (latestVersionMetadata != null)
+        'LatestVersionMetadata': latestVersionMetadata,
+      if (modifiedTimestamp != null)
+        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
+      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
+      if (resourceState != null) 'ResourceState': resourceState.toValue(),
+    };
+  }
 }
 
 enum DocumentSourceType {
-  @_s.JsonValue('ORIGINAL')
   original,
-  @_s.JsonValue('WITH_COMMENTS')
   withComments,
 }
 
+extension on DocumentSourceType {
+  String toValue() {
+    switch (this) {
+      case DocumentSourceType.original:
+        return 'ORIGINAL';
+      case DocumentSourceType.withComments:
+        return 'WITH_COMMENTS';
+    }
+  }
+}
+
+extension on String {
+  DocumentSourceType toDocumentSourceType() {
+    switch (this) {
+      case 'ORIGINAL':
+        return DocumentSourceType.original;
+      case 'WITH_COMMENTS':
+        return DocumentSourceType.withComments;
+    }
+    throw Exception('$this is not known in enum DocumentSourceType');
+  }
+}
+
 enum DocumentStatusType {
-  @_s.JsonValue('INITIALIZED')
   initialized,
-  @_s.JsonValue('ACTIVE')
   active,
 }
 
+extension on DocumentStatusType {
+  String toValue() {
+    switch (this) {
+      case DocumentStatusType.initialized:
+        return 'INITIALIZED';
+      case DocumentStatusType.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension on String {
+  DocumentStatusType toDocumentStatusType() {
+    switch (this) {
+      case 'INITIALIZED':
+        return DocumentStatusType.initialized;
+      case 'ACTIVE':
+        return DocumentStatusType.active;
+    }
+    throw Exception('$this is not known in enum DocumentStatusType');
+  }
+}
+
 enum DocumentThumbnailType {
-  @_s.JsonValue('SMALL')
   small,
-  @_s.JsonValue('SMALL_HQ')
   smallHq,
-  @_s.JsonValue('LARGE')
   large,
 }
 
+extension on DocumentThumbnailType {
+  String toValue() {
+    switch (this) {
+      case DocumentThumbnailType.small:
+        return 'SMALL';
+      case DocumentThumbnailType.smallHq:
+        return 'SMALL_HQ';
+      case DocumentThumbnailType.large:
+        return 'LARGE';
+    }
+  }
+}
+
+extension on String {
+  DocumentThumbnailType toDocumentThumbnailType() {
+    switch (this) {
+      case 'SMALL':
+        return DocumentThumbnailType.small;
+      case 'SMALL_HQ':
+        return DocumentThumbnailType.smallHq;
+      case 'LARGE':
+        return DocumentThumbnailType.large;
+    }
+    throw Exception('$this is not known in enum DocumentThumbnailType');
+  }
+}
+
 /// Describes a version of a document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentVersionMetadata {
   /// The timestamp when the content of the document was originally created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ContentCreatedTimestamp')
-  final DateTime contentCreatedTimestamp;
+  final DateTime? contentCreatedTimestamp;
 
   /// The timestamp when the content of the document was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ContentModifiedTimestamp')
-  final DateTime contentModifiedTimestamp;
+  final DateTime? contentModifiedTimestamp;
 
   /// The content type of the document.
-  @_s.JsonKey(name: 'ContentType')
-  final String contentType;
+  final String? contentType;
 
   /// The timestamp when the document was first uploaded.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The ID of the creator.
-  @_s.JsonKey(name: 'CreatorId')
-  final String creatorId;
+  final String? creatorId;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The timestamp when the document was last uploaded.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ModifiedTimestamp')
-  final DateTime modifiedTimestamp;
+  final DateTime? modifiedTimestamp;
 
   /// The name of the version.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The signature of the document.
-  @_s.JsonKey(name: 'Signature')
-  final String signature;
+  final String? signature;
 
   /// The size of the document, in bytes.
-  @_s.JsonKey(name: 'Size')
-  final int size;
+  final int? size;
 
   /// The source of the document.
-  @_s.JsonKey(name: 'Source')
-  final Map<DocumentSourceType, String> source;
+  final Map<DocumentSourceType, String>? source;
 
   /// The status of the document.
-  @_s.JsonKey(name: 'Status')
-  final DocumentStatusType status;
+  final DocumentStatusType? status;
 
   /// The thumbnail of the document.
-  @_s.JsonKey(name: 'Thumbnail')
-  final Map<DocumentThumbnailType, String> thumbnail;
+  final Map<DocumentThumbnailType, String>? thumbnail;
 
   DocumentVersionMetadata({
     this.contentCreatedTimestamp,
@@ -4305,12 +4368,69 @@ class DocumentVersionMetadata {
     this.status,
     this.thumbnail,
   });
-  factory DocumentVersionMetadata.fromJson(Map<String, dynamic> json) =>
-      _$DocumentVersionMetadataFromJson(json);
+
+  factory DocumentVersionMetadata.fromJson(Map<String, dynamic> json) {
+    return DocumentVersionMetadata(
+      contentCreatedTimestamp:
+          timeStampFromJson(json['ContentCreatedTimestamp']),
+      contentModifiedTimestamp:
+          timeStampFromJson(json['ContentModifiedTimestamp']),
+      contentType: json['ContentType'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      creatorId: json['CreatorId'] as String?,
+      id: json['Id'] as String?,
+      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+      name: json['Name'] as String?,
+      signature: json['Signature'] as String?,
+      size: json['Size'] as int?,
+      source: (json['Source'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDocumentSourceType(), e as String)),
+      status: (json['Status'] as String?)?.toDocumentStatusType(),
+      thumbnail: (json['Thumbnail'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k.toDocumentThumbnailType(), e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentCreatedTimestamp = this.contentCreatedTimestamp;
+    final contentModifiedTimestamp = this.contentModifiedTimestamp;
+    final contentType = this.contentType;
+    final createdTimestamp = this.createdTimestamp;
+    final creatorId = this.creatorId;
+    final id = this.id;
+    final modifiedTimestamp = this.modifiedTimestamp;
+    final name = this.name;
+    final signature = this.signature;
+    final size = this.size;
+    final source = this.source;
+    final status = this.status;
+    final thumbnail = this.thumbnail;
+    return {
+      if (contentCreatedTimestamp != null)
+        'ContentCreatedTimestamp': unixTimestampToJson(contentCreatedTimestamp),
+      if (contentModifiedTimestamp != null)
+        'ContentModifiedTimestamp':
+            unixTimestampToJson(contentModifiedTimestamp),
+      if (contentType != null) 'ContentType': contentType,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (creatorId != null) 'CreatorId': creatorId,
+      if (id != null) 'Id': id,
+      if (modifiedTimestamp != null)
+        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
+      if (name != null) 'Name': name,
+      if (signature != null) 'Signature': signature,
+      if (size != null) 'Size': size,
+      if (source != null)
+        'Source': source.map((k, e) => MapEntry(k.toValue(), e)),
+      if (status != null) 'Status': status.toValue(),
+      if (thumbnail != null)
+        'Thumbnail': thumbnail.map((k, e) => MapEntry(k.toValue(), e)),
+    };
+  }
 }
 
 enum DocumentVersionStatus {
-  @_s.JsonValue('ACTIVE')
   active,
 }
 
@@ -4320,16 +4440,22 @@ extension on DocumentVersionStatus {
       case DocumentVersionStatus.active:
         return 'ACTIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DocumentVersionStatus toDocumentVersionStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return DocumentVersionStatus.active;
+    }
+    throw Exception('$this is not known in enum DocumentVersionStatus');
   }
 }
 
 enum FolderContentType {
-  @_s.JsonValue('ALL')
   all,
-  @_s.JsonValue('DOCUMENT')
   document,
-  @_s.JsonValue('FOLDER')
   folder,
 }
 
@@ -4343,63 +4469,58 @@ extension on FolderContentType {
       case FolderContentType.folder:
         return 'FOLDER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FolderContentType toFolderContentType() {
+    switch (this) {
+      case 'ALL':
+        return FolderContentType.all;
+      case 'DOCUMENT':
+        return FolderContentType.document;
+      case 'FOLDER':
+        return FolderContentType.folder;
+    }
+    throw Exception('$this is not known in enum FolderContentType');
   }
 }
 
 /// Describes a folder.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FolderMetadata {
   /// The time when the folder was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The ID of the creator.
-  @_s.JsonKey(name: 'CreatorId')
-  final String creatorId;
+  final String? creatorId;
 
   /// The ID of the folder.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// List of labels on the folder.
-  @_s.JsonKey(name: 'Labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// The size of the latest version of the folder metadata.
-  @_s.JsonKey(name: 'LatestVersionSize')
-  final int latestVersionSize;
+  final int? latestVersionSize;
 
   /// The time when the folder was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ModifiedTimestamp')
-  final DateTime modifiedTimestamp;
+  final DateTime? modifiedTimestamp;
 
   /// The name of the folder.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The ID of the parent folder.
-  @_s.JsonKey(name: 'ParentFolderId')
-  final String parentFolderId;
+  final String? parentFolderId;
 
   /// The resource state of the folder.
-  @_s.JsonKey(name: 'ResourceState')
-  final ResourceStateType resourceState;
+  final ResourceStateType? resourceState;
 
   /// The unique identifier created from the subfolders and documents of the
   /// folder.
-  @_s.JsonKey(name: 'Signature')
-  final String signature;
+  final String? signature;
 
   /// The size of the folder metadata.
-  @_s.JsonKey(name: 'Size')
-  final int size;
+  final int? size;
 
   FolderMetadata({
     this.createdTimestamp,
@@ -4414,223 +4535,344 @@ class FolderMetadata {
     this.signature,
     this.size,
   });
-  factory FolderMetadata.fromJson(Map<String, dynamic> json) =>
-      _$FolderMetadataFromJson(json);
+
+  factory FolderMetadata.fromJson(Map<String, dynamic> json) {
+    return FolderMetadata(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      creatorId: json['CreatorId'] as String?,
+      id: json['Id'] as String?,
+      labels: (json['Labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      latestVersionSize: json['LatestVersionSize'] as int?,
+      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+      name: json['Name'] as String?,
+      parentFolderId: json['ParentFolderId'] as String?,
+      resourceState: (json['ResourceState'] as String?)?.toResourceStateType(),
+      signature: json['Signature'] as String?,
+      size: json['Size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final creatorId = this.creatorId;
+    final id = this.id;
+    final labels = this.labels;
+    final latestVersionSize = this.latestVersionSize;
+    final modifiedTimestamp = this.modifiedTimestamp;
+    final name = this.name;
+    final parentFolderId = this.parentFolderId;
+    final resourceState = this.resourceState;
+    final signature = this.signature;
+    final size = this.size;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (creatorId != null) 'CreatorId': creatorId,
+      if (id != null) 'Id': id,
+      if (labels != null) 'Labels': labels,
+      if (latestVersionSize != null) 'LatestVersionSize': latestVersionSize,
+      if (modifiedTimestamp != null)
+        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
+      if (name != null) 'Name': name,
+      if (parentFolderId != null) 'ParentFolderId': parentFolderId,
+      if (resourceState != null) 'ResourceState': resourceState.toValue(),
+      if (signature != null) 'Signature': signature,
+      if (size != null) 'Size': size,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCurrentUserResponse {
   /// Metadata of the user.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   GetCurrentUserResponse({
     this.user,
   });
-  factory GetCurrentUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCurrentUserResponseFromJson(json);
+
+  factory GetCurrentUserResponse.fromJson(Map<String, dynamic> json) {
+    return GetCurrentUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDocumentPathResponse {
   /// The path information.
-  @_s.JsonKey(name: 'Path')
-  final ResourcePath path;
+  final ResourcePath? path;
 
   GetDocumentPathResponse({
     this.path,
   });
-  factory GetDocumentPathResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDocumentPathResponseFromJson(json);
+
+  factory GetDocumentPathResponse.fromJson(Map<String, dynamic> json) {
+    return GetDocumentPathResponse(
+      path: json['Path'] != null
+          ? ResourcePath.fromJson(json['Path'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      if (path != null) 'Path': path,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDocumentResponse {
   /// The custom metadata on the document.
-  @_s.JsonKey(name: 'CustomMetadata')
-  final Map<String, String> customMetadata;
+  final Map<String, String>? customMetadata;
 
   /// The metadata details of the document.
-  @_s.JsonKey(name: 'Metadata')
-  final DocumentMetadata metadata;
+  final DocumentMetadata? metadata;
 
   GetDocumentResponse({
     this.customMetadata,
     this.metadata,
   });
-  factory GetDocumentResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDocumentResponseFromJson(json);
+
+  factory GetDocumentResponse.fromJson(Map<String, dynamic> json) {
+    return GetDocumentResponse(
+      customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      metadata: json['Metadata'] != null
+          ? DocumentMetadata.fromJson(json['Metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customMetadata = this.customMetadata;
+    final metadata = this.metadata;
+    return {
+      if (customMetadata != null) 'CustomMetadata': customMetadata,
+      if (metadata != null) 'Metadata': metadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDocumentVersionResponse {
   /// The custom metadata on the document version.
-  @_s.JsonKey(name: 'CustomMetadata')
-  final Map<String, String> customMetadata;
+  final Map<String, String>? customMetadata;
 
   /// The version metadata.
-  @_s.JsonKey(name: 'Metadata')
-  final DocumentVersionMetadata metadata;
+  final DocumentVersionMetadata? metadata;
 
   GetDocumentVersionResponse({
     this.customMetadata,
     this.metadata,
   });
-  factory GetDocumentVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDocumentVersionResponseFromJson(json);
+
+  factory GetDocumentVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetDocumentVersionResponse(
+      customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      metadata: json['Metadata'] != null
+          ? DocumentVersionMetadata.fromJson(
+              json['Metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customMetadata = this.customMetadata;
+    final metadata = this.metadata;
+    return {
+      if (customMetadata != null) 'CustomMetadata': customMetadata,
+      if (metadata != null) 'Metadata': metadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFolderPathResponse {
   /// The path information.
-  @_s.JsonKey(name: 'Path')
-  final ResourcePath path;
+  final ResourcePath? path;
 
   GetFolderPathResponse({
     this.path,
   });
-  factory GetFolderPathResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFolderPathResponseFromJson(json);
+
+  factory GetFolderPathResponse.fromJson(Map<String, dynamic> json) {
+    return GetFolderPathResponse(
+      path: json['Path'] != null
+          ? ResourcePath.fromJson(json['Path'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final path = this.path;
+    return {
+      if (path != null) 'Path': path,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFolderResponse {
   /// The custom metadata on the folder.
-  @_s.JsonKey(name: 'CustomMetadata')
-  final Map<String, String> customMetadata;
+  final Map<String, String>? customMetadata;
 
   /// The metadata of the folder.
-  @_s.JsonKey(name: 'Metadata')
-  final FolderMetadata metadata;
+  final FolderMetadata? metadata;
 
   GetFolderResponse({
     this.customMetadata,
     this.metadata,
   });
-  factory GetFolderResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFolderResponseFromJson(json);
+
+  factory GetFolderResponse.fromJson(Map<String, dynamic> json) {
+    return GetFolderResponse(
+      customMetadata: (json['CustomMetadata'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      metadata: json['Metadata'] != null
+          ? FolderMetadata.fromJson(json['Metadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customMetadata = this.customMetadata;
+    final metadata = this.metadata;
+    return {
+      if (customMetadata != null) 'CustomMetadata': customMetadata,
+      if (metadata != null) 'Metadata': metadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcesResponse {
   /// The documents in the specified collection.
-  @_s.JsonKey(name: 'Documents')
-  final List<DocumentMetadata> documents;
+  final List<DocumentMetadata>? documents;
 
   /// The folders in the specified folder.
-  @_s.JsonKey(name: 'Folders')
-  final List<FolderMetadata> folders;
+  final List<FolderMetadata>? folders;
 
   /// The marker to use when requesting the next set of results. If there are no
   /// additional results, the string is empty.
-  @_s.JsonKey(name: 'Marker')
-  final String marker;
+  final String? marker;
 
   GetResourcesResponse({
     this.documents,
     this.folders,
     this.marker,
   });
-  factory GetResourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcesResponseFromJson(json);
+
+  factory GetResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcesResponse(
+      documents: (json['Documents'] as List?)
+          ?.whereNotNull()
+          .map((e) => DocumentMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      folders: (json['Folders'] as List?)
+          ?.whereNotNull()
+          .map((e) => FolderMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      marker: json['Marker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documents = this.documents;
+    final folders = this.folders;
+    final marker = this.marker;
+    return {
+      if (documents != null) 'Documents': documents,
+      if (folders != null) 'Folders': folders,
+      if (marker != null) 'Marker': marker,
+    };
+  }
 }
 
 /// Describes the metadata of a user group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupMetadata {
   /// The ID of the user group.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   GroupMetadata({
     this.id,
     this.name,
   });
-  factory GroupMetadata.fromJson(Map<String, dynamic> json) =>
-      _$GroupMetadataFromJson(json);
+
+  factory GroupMetadata.fromJson(Map<String, dynamic> json) {
+    return GroupMetadata(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InitiateDocumentVersionUploadResponse {
   /// The document metadata.
-  @_s.JsonKey(name: 'Metadata')
-  final DocumentMetadata metadata;
+  final DocumentMetadata? metadata;
 
   /// The upload metadata.
-  @_s.JsonKey(name: 'UploadMetadata')
-  final UploadMetadata uploadMetadata;
+  final UploadMetadata? uploadMetadata;
 
   InitiateDocumentVersionUploadResponse({
     this.metadata,
     this.uploadMetadata,
   });
+
   factory InitiateDocumentVersionUploadResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$InitiateDocumentVersionUploadResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return InitiateDocumentVersionUploadResponse(
+      metadata: json['Metadata'] != null
+          ? DocumentMetadata.fromJson(json['Metadata'] as Map<String, dynamic>)
+          : null,
+      uploadMetadata: json['UploadMetadata'] != null
+          ? UploadMetadata.fromJson(
+              json['UploadMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final uploadMetadata = this.uploadMetadata;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+      if (uploadMetadata != null) 'UploadMetadata': uploadMetadata,
+    };
+  }
 }
 
 enum LocaleType {
-  @_s.JsonValue('en')
   en,
-  @_s.JsonValue('fr')
   fr,
-  @_s.JsonValue('ko')
   ko,
-  @_s.JsonValue('de')
   de,
-  @_s.JsonValue('es')
   es,
-  @_s.JsonValue('ja')
   ja,
-  @_s.JsonValue('ru')
   ru,
-  @_s.JsonValue('zh_CN')
   zhCn,
-  @_s.JsonValue('zh_TW')
   zhTw,
-  @_s.JsonValue('pt_BR')
   ptBr,
-  @_s.JsonValue('default')
   $default,
 }
 
@@ -4660,37 +4902,72 @@ extension on LocaleType {
       case LocaleType.$default:
         return 'default';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LocaleType toLocaleType() {
+    switch (this) {
+      case 'en':
+        return LocaleType.en;
+      case 'fr':
+        return LocaleType.fr;
+      case 'ko':
+        return LocaleType.ko;
+      case 'de':
+        return LocaleType.de;
+      case 'es':
+        return LocaleType.es;
+      case 'ja':
+        return LocaleType.ja;
+      case 'ru':
+        return LocaleType.ru;
+      case 'zh_CN':
+        return LocaleType.zhCn;
+      case 'zh_TW':
+        return LocaleType.zhTw;
+      case 'pt_BR':
+        return LocaleType.ptBr;
+      case 'default':
+        return LocaleType.$default;
+    }
+    throw Exception('$this is not known in enum LocaleType');
   }
 }
 
 /// Set of options which defines notification preferences of given action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NotificationOptions {
   /// Text value to be included in the email body.
-  @_s.JsonKey(name: 'EmailMessage')
-  final String emailMessage;
+  final String? emailMessage;
 
   /// Boolean value to indicate an email notification should be sent to the
   /// receipients.
-  @_s.JsonKey(name: 'SendEmail')
-  final bool sendEmail;
+  final bool? sendEmail;
 
   NotificationOptions({
     this.emailMessage,
     this.sendEmail,
   });
-  Map<String, dynamic> toJson() => _$NotificationOptionsToJson(this);
+
+  factory NotificationOptions.fromJson(Map<String, dynamic> json) {
+    return NotificationOptions(
+      emailMessage: json['EmailMessage'] as String?,
+      sendEmail: json['SendEmail'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailMessage = this.emailMessage;
+    final sendEmail = this.sendEmail;
+    return {
+      if (emailMessage != null) 'EmailMessage': emailMessage,
+      if (sendEmail != null) 'SendEmail': sendEmail,
+    };
+  }
 }
 
 enum OrderType {
-  @_s.JsonValue('ASCENDING')
   ascending,
-  @_s.JsonValue('DESCENDING')
   descending,
 }
 
@@ -4702,94 +4979,132 @@ extension on OrderType {
       case OrderType.descending:
         return 'DESCENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OrderType toOrderType() {
+    switch (this) {
+      case 'ASCENDING':
+        return OrderType.ascending;
+      case 'DESCENDING':
+        return OrderType.descending;
+    }
+    throw Exception('$this is not known in enum OrderType');
   }
 }
 
 /// Describes the users or user groups.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Participants {
   /// The list of user groups.
-  @_s.JsonKey(name: 'Groups')
-  final List<GroupMetadata> groups;
+  final List<GroupMetadata>? groups;
 
   /// The list of users.
-  @_s.JsonKey(name: 'Users')
-  final List<UserMetadata> users;
+  final List<UserMetadata>? users;
 
   Participants({
     this.groups,
     this.users,
   });
-  factory Participants.fromJson(Map<String, dynamic> json) =>
-      _$ParticipantsFromJson(json);
+
+  factory Participants.fromJson(Map<String, dynamic> json) {
+    return Participants(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final users = this.users;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (users != null) 'Users': users,
+    };
+  }
 }
 
 /// Describes the permissions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PermissionInfo {
   /// The role of the user.
-  @_s.JsonKey(name: 'Role')
-  final RoleType role;
+  final RoleType? role;
 
   /// The type of permissions.
-  @_s.JsonKey(name: 'Type')
-  final RolePermissionType type;
+  final RolePermissionType? type;
 
   PermissionInfo({
     this.role,
     this.type,
   });
-  factory PermissionInfo.fromJson(Map<String, dynamic> json) =>
-      _$PermissionInfoFromJson(json);
+
+  factory PermissionInfo.fromJson(Map<String, dynamic> json) {
+    return PermissionInfo(
+      role: (json['Role'] as String?)?.toRoleType(),
+      type: (json['Type'] as String?)?.toRolePermissionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    final type = this.type;
+    return {
+      if (role != null) 'Role': role.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// Describes a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Principal {
   /// The ID of the resource.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The permission information for the resource.
-  @_s.JsonKey(name: 'Roles')
-  final List<PermissionInfo> roles;
+  final List<PermissionInfo>? roles;
 
   /// The type of resource.
-  @_s.JsonKey(name: 'Type')
-  final PrincipalType type;
+  final PrincipalType? type;
 
   Principal({
     this.id,
     this.roles,
     this.type,
   });
-  factory Principal.fromJson(Map<String, dynamic> json) =>
-      _$PrincipalFromJson(json);
+
+  factory Principal.fromJson(Map<String, dynamic> json) {
+    return Principal(
+      id: json['Id'] as String?,
+      roles: (json['Roles'] as List?)
+          ?.whereNotNull()
+          .map((e) => PermissionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toPrincipalType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final roles = this.roles;
+    final type = this.type;
+    return {
+      if (id != null) 'Id': id,
+      if (roles != null) 'Roles': roles,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum PrincipalType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('GROUP')
   group,
-  @_s.JsonValue('INVITE')
   invite,
-  @_s.JsonValue('ANONYMOUS')
   anonymous,
-  @_s.JsonValue('ORGANIZATION')
   organization,
 }
 
@@ -4807,12 +5122,28 @@ extension on PrincipalType {
       case PrincipalType.organization:
         return 'ORGANIZATION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PrincipalType toPrincipalType() {
+    switch (this) {
+      case 'USER':
+        return PrincipalType.user;
+      case 'GROUP':
+        return PrincipalType.group;
+      case 'INVITE':
+        return PrincipalType.invite;
+      case 'ANONYMOUS':
+        return PrincipalType.anonymous;
+      case 'ORGANIZATION':
+        return PrincipalType.organization;
+    }
+    throw Exception('$this is not known in enum PrincipalType');
   }
 }
 
 enum ResourceCollectionType {
-  @_s.JsonValue('SHARED_WITH_ME')
   sharedWithMe,
 }
 
@@ -4822,45 +5153,42 @@ extension on ResourceCollectionType {
       case ResourceCollectionType.sharedWithMe:
         return 'SHARED_WITH_ME';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceCollectionType toResourceCollectionType() {
+    switch (this) {
+      case 'SHARED_WITH_ME':
+        return ResourceCollectionType.sharedWithMe;
+    }
+    throw Exception('$this is not known in enum ResourceCollectionType');
   }
 }
 
 /// Describes the metadata of a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceMetadata {
   /// The ID of the resource.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the resource.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The original name of the resource before a rename operation.
-  @_s.JsonKey(name: 'OriginalName')
-  final String originalName;
+  final String? originalName;
 
   /// The owner of the resource.
-  @_s.JsonKey(name: 'Owner')
-  final UserMetadata owner;
+  final UserMetadata? owner;
 
   /// The parent ID of the resource before a rename operation.
-  @_s.JsonKey(name: 'ParentId')
-  final String parentId;
+  final String? parentId;
 
   /// The type of resource.
-  @_s.JsonKey(name: 'Type')
-  final ResourceType type;
+  final ResourceType? type;
 
   /// The version ID of the resource. This is an optional field and is filled for
   /// action on document version.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   ResourceMetadata({
     this.id,
@@ -4871,55 +5199,99 @@ class ResourceMetadata {
     this.type,
     this.versionId,
   });
-  factory ResourceMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ResourceMetadataFromJson(json);
+
+  factory ResourceMetadata.fromJson(Map<String, dynamic> json) {
+    return ResourceMetadata(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      originalName: json['OriginalName'] as String?,
+      owner: json['Owner'] != null
+          ? UserMetadata.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      parentId: json['ParentId'] as String?,
+      type: (json['Type'] as String?)?.toResourceType(),
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final originalName = this.originalName;
+    final owner = this.owner;
+    final parentId = this.parentId;
+    final type = this.type;
+    final versionId = this.versionId;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (originalName != null) 'OriginalName': originalName,
+      if (owner != null) 'Owner': owner,
+      if (parentId != null) 'ParentId': parentId,
+      if (type != null) 'Type': type.toValue(),
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
 }
 
 /// Describes the path information of a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourcePath {
   /// The components of the resource path.
-  @_s.JsonKey(name: 'Components')
-  final List<ResourcePathComponent> components;
+  final List<ResourcePathComponent>? components;
 
   ResourcePath({
     this.components,
   });
-  factory ResourcePath.fromJson(Map<String, dynamic> json) =>
-      _$ResourcePathFromJson(json);
+
+  factory ResourcePath.fromJson(Map<String, dynamic> json) {
+    return ResourcePath(
+      components: (json['Components'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourcePathComponent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final components = this.components;
+    return {
+      if (components != null) 'Components': components,
+    };
+  }
 }
 
 /// Describes the resource path.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourcePathComponent {
   /// The ID of the resource path.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The name of the resource path.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   ResourcePathComponent({
     this.id,
     this.name,
   });
-  factory ResourcePathComponent.fromJson(Map<String, dynamic> json) =>
-      _$ResourcePathComponentFromJson(json);
+
+  factory ResourcePathComponent.fromJson(Map<String, dynamic> json) {
+    return ResourcePathComponent(
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 enum ResourceSortType {
-  @_s.JsonValue('DATE')
   date,
-  @_s.JsonValue('NAME')
   name,
 }
 
@@ -4931,18 +5303,25 @@ extension on ResourceSortType {
       case ResourceSortType.name:
         return 'NAME';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceSortType toResourceSortType() {
+    switch (this) {
+      case 'DATE':
+        return ResourceSortType.date;
+      case 'NAME':
+        return ResourceSortType.name;
+    }
+    throw Exception('$this is not known in enum ResourceSortType');
   }
 }
 
 enum ResourceStateType {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('RESTORING')
   restoring,
-  @_s.JsonValue('RECYCLING')
   recycling,
-  @_s.JsonValue('RECYCLED')
   recycled,
 }
 
@@ -4958,92 +5337,175 @@ extension on ResourceStateType {
       case ResourceStateType.recycled:
         return 'RECYCLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceStateType toResourceStateType() {
+    switch (this) {
+      case 'ACTIVE':
+        return ResourceStateType.active;
+      case 'RESTORING':
+        return ResourceStateType.restoring;
+      case 'RECYCLING':
+        return ResourceStateType.recycling;
+      case 'RECYCLED':
+        return ResourceStateType.recycled;
+    }
+    throw Exception('$this is not known in enum ResourceStateType');
   }
 }
 
 enum ResourceType {
-  @_s.JsonValue('FOLDER')
   folder,
-  @_s.JsonValue('DOCUMENT')
   document,
 }
 
+extension on ResourceType {
+  String toValue() {
+    switch (this) {
+      case ResourceType.folder:
+        return 'FOLDER';
+      case ResourceType.document:
+        return 'DOCUMENT';
+    }
+  }
+}
+
+extension on String {
+  ResourceType toResourceType() {
+    switch (this) {
+      case 'FOLDER':
+        return ResourceType.folder;
+      case 'DOCUMENT':
+        return ResourceType.document;
+    }
+    throw Exception('$this is not known in enum ResourceType');
+  }
+}
+
 enum RolePermissionType {
-  @_s.JsonValue('DIRECT')
   direct,
-  @_s.JsonValue('INHERITED')
   inherited,
 }
 
+extension on RolePermissionType {
+  String toValue() {
+    switch (this) {
+      case RolePermissionType.direct:
+        return 'DIRECT';
+      case RolePermissionType.inherited:
+        return 'INHERITED';
+    }
+  }
+}
+
+extension on String {
+  RolePermissionType toRolePermissionType() {
+    switch (this) {
+      case 'DIRECT':
+        return RolePermissionType.direct;
+      case 'INHERITED':
+        return RolePermissionType.inherited;
+    }
+    throw Exception('$this is not known in enum RolePermissionType');
+  }
+}
+
 enum RoleType {
-  @_s.JsonValue('VIEWER')
   viewer,
-  @_s.JsonValue('CONTRIBUTOR')
   contributor,
-  @_s.JsonValue('OWNER')
   owner,
-  @_s.JsonValue('COOWNER')
   coowner,
 }
 
+extension on RoleType {
+  String toValue() {
+    switch (this) {
+      case RoleType.viewer:
+        return 'VIEWER';
+      case RoleType.contributor:
+        return 'CONTRIBUTOR';
+      case RoleType.owner:
+        return 'OWNER';
+      case RoleType.coowner:
+        return 'COOWNER';
+    }
+  }
+}
+
+extension on String {
+  RoleType toRoleType() {
+    switch (this) {
+      case 'VIEWER':
+        return RoleType.viewer;
+      case 'CONTRIBUTOR':
+        return RoleType.contributor;
+      case 'OWNER':
+        return RoleType.owner;
+      case 'COOWNER':
+        return RoleType.coowner;
+    }
+    throw Exception('$this is not known in enum RoleType');
+  }
+}
+
 /// Describes the recipient type and ID, if available.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SharePrincipal {
   /// The ID of the recipient.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The role of the recipient.
-  @_s.JsonKey(name: 'Role')
   final RoleType role;
 
   /// The type of the recipient.
-  @_s.JsonKey(name: 'Type')
   final PrincipalType type;
 
   SharePrincipal({
-    @_s.required this.id,
-    @_s.required this.role,
-    @_s.required this.type,
+    required this.id,
+    required this.role,
+    required this.type,
   });
-  Map<String, dynamic> toJson() => _$SharePrincipalToJson(this);
+
+  factory SharePrincipal.fromJson(Map<String, dynamic> json) {
+    return SharePrincipal(
+      id: json['Id'] as String,
+      role: (json['Role'] as String).toRoleType(),
+      type: (json['Type'] as String).toPrincipalType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final role = this.role;
+    final type = this.type;
+    return {
+      'Id': id,
+      'Role': role.toValue(),
+      'Type': type.toValue(),
+    };
+  }
 }
 
 /// Describes the share results of a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ShareResult {
   /// The ID of the invited user.
-  @_s.JsonKey(name: 'InviteePrincipalId')
-  final String inviteePrincipalId;
+  final String? inviteePrincipalId;
 
   /// The ID of the principal.
-  @_s.JsonKey(name: 'PrincipalId')
-  final String principalId;
+  final String? principalId;
 
   /// The role.
-  @_s.JsonKey(name: 'Role')
-  final RoleType role;
+  final RoleType? role;
 
   /// The ID of the resource that was shared.
-  @_s.JsonKey(name: 'ShareId')
-  final String shareId;
+  final String? shareId;
 
   /// The status.
-  @_s.JsonKey(name: 'Status')
-  final ShareStatusType status;
+  final ShareStatusType? status;
 
   /// The status message.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   ShareResult({
     this.inviteePrincipalId,
@@ -5053,79 +5515,161 @@ class ShareResult {
     this.status,
     this.statusMessage,
   });
-  factory ShareResult.fromJson(Map<String, dynamic> json) =>
-      _$ShareResultFromJson(json);
+
+  factory ShareResult.fromJson(Map<String, dynamic> json) {
+    return ShareResult(
+      inviteePrincipalId: json['InviteePrincipalId'] as String?,
+      principalId: json['PrincipalId'] as String?,
+      role: (json['Role'] as String?)?.toRoleType(),
+      shareId: json['ShareId'] as String?,
+      status: (json['Status'] as String?)?.toShareStatusType(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inviteePrincipalId = this.inviteePrincipalId;
+    final principalId = this.principalId;
+    final role = this.role;
+    final shareId = this.shareId;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (inviteePrincipalId != null) 'InviteePrincipalId': inviteePrincipalId,
+      if (principalId != null) 'PrincipalId': principalId,
+      if (role != null) 'Role': role.toValue(),
+      if (shareId != null) 'ShareId': shareId,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
 }
 
 enum ShareStatusType {
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILURE')
   failure,
 }
 
+extension on ShareStatusType {
+  String toValue() {
+    switch (this) {
+      case ShareStatusType.success:
+        return 'SUCCESS';
+      case ShareStatusType.failure:
+        return 'FAILURE';
+    }
+  }
+}
+
+extension on String {
+  ShareStatusType toShareStatusType() {
+    switch (this) {
+      case 'SUCCESS':
+        return ShareStatusType.success;
+      case 'FAILURE':
+        return ShareStatusType.failure;
+    }
+    throw Exception('$this is not known in enum ShareStatusType');
+  }
+}
+
 /// Describes the storage for a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class StorageRuleType {
   /// The amount of storage allocated, in bytes.
-  @_s.JsonKey(name: 'StorageAllocatedInBytes')
-  final int storageAllocatedInBytes;
+  final int? storageAllocatedInBytes;
 
   /// The type of storage.
-  @_s.JsonKey(name: 'StorageType')
-  final StorageType storageType;
+  final StorageType? storageType;
 
   StorageRuleType({
     this.storageAllocatedInBytes,
     this.storageType,
   });
-  factory StorageRuleType.fromJson(Map<String, dynamic> json) =>
-      _$StorageRuleTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StorageRuleTypeToJson(this);
+  factory StorageRuleType.fromJson(Map<String, dynamic> json) {
+    return StorageRuleType(
+      storageAllocatedInBytes: json['StorageAllocatedInBytes'] as int?,
+      storageType: (json['StorageType'] as String?)?.toStorageType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageAllocatedInBytes = this.storageAllocatedInBytes;
+    final storageType = this.storageType;
+    return {
+      if (storageAllocatedInBytes != null)
+        'StorageAllocatedInBytes': storageAllocatedInBytes,
+      if (storageType != null) 'StorageType': storageType.toValue(),
+    };
+  }
 }
 
 enum StorageType {
-  @_s.JsonValue('UNLIMITED')
   unlimited,
-  @_s.JsonValue('QUOTA')
   quota,
 }
 
+extension on StorageType {
+  String toValue() {
+    switch (this) {
+      case StorageType.unlimited:
+        return 'UNLIMITED';
+      case StorageType.quota:
+        return 'QUOTA';
+    }
+  }
+}
+
+extension on String {
+  StorageType toStorageType() {
+    switch (this) {
+      case 'UNLIMITED':
+        return StorageType.unlimited;
+      case 'QUOTA':
+        return StorageType.quota;
+    }
+    throw Exception('$this is not known in enum StorageType');
+  }
+}
+
 /// Describes a subscription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Subscription {
   /// The endpoint of the subscription.
-  @_s.JsonKey(name: 'EndPoint')
-  final String endPoint;
+  final String? endPoint;
 
   /// The protocol of the subscription.
-  @_s.JsonKey(name: 'Protocol')
-  final SubscriptionProtocolType protocol;
+  final SubscriptionProtocolType? protocol;
 
   /// The ID of the subscription.
-  @_s.JsonKey(name: 'SubscriptionId')
-  final String subscriptionId;
+  final String? subscriptionId;
 
   Subscription({
     this.endPoint,
     this.protocol,
     this.subscriptionId,
   });
-  factory Subscription.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionFromJson(json);
+
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      endPoint: json['EndPoint'] as String?,
+      protocol: (json['Protocol'] as String?)?.toSubscriptionProtocolType(),
+      subscriptionId: json['SubscriptionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endPoint = this.endPoint;
+    final protocol = this.protocol;
+    final subscriptionId = this.subscriptionId;
+    return {
+      if (endPoint != null) 'EndPoint': endPoint,
+      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (subscriptionId != null) 'SubscriptionId': subscriptionId,
+    };
+  }
 }
 
 enum SubscriptionProtocolType {
-  @_s.JsonValue('HTTPS')
   https,
 }
 
@@ -5135,12 +5679,20 @@ extension on SubscriptionProtocolType {
       case SubscriptionProtocolType.https:
         return 'HTTPS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SubscriptionProtocolType toSubscriptionProtocolType() {
+    switch (this) {
+      case 'HTTPS':
+        return SubscriptionProtocolType.https;
+    }
+    throw Exception('$this is not known in enum SubscriptionProtocolType');
   }
 }
 
 enum SubscriptionType {
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -5150,118 +5702,120 @@ extension on SubscriptionType {
       case SubscriptionType.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SubscriptionType toSubscriptionType() {
+    switch (this) {
+      case 'ALL':
+        return SubscriptionType.all;
+    }
+    throw Exception('$this is not known in enum SubscriptionType');
+  }
+}
+
 class UpdateUserResponse {
   /// The user information.
-  @_s.JsonKey(name: 'User')
-  final User user;
+  final User? user;
 
   UpdateUserResponse({
     this.user,
   });
-  factory UpdateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserResponseFromJson(json);
+
+  factory UpdateUserResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateUserResponse(
+      user: json['User'] != null
+          ? User.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final user = this.user;
+    return {
+      if (user != null) 'User': user,
+    };
+  }
 }
 
 /// Describes the upload.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UploadMetadata {
   /// The signed headers.
-  @_s.JsonKey(name: 'SignedHeaders')
-  final Map<String, String> signedHeaders;
+  final Map<String, String>? signedHeaders;
 
   /// The URL of the upload.
-  @_s.JsonKey(name: 'UploadUrl')
-  final String uploadUrl;
+  final String? uploadUrl;
 
   UploadMetadata({
     this.signedHeaders,
     this.uploadUrl,
   });
-  factory UploadMetadata.fromJson(Map<String, dynamic> json) =>
-      _$UploadMetadataFromJson(json);
+
+  factory UploadMetadata.fromJson(Map<String, dynamic> json) {
+    return UploadMetadata(
+      signedHeaders: (json['SignedHeaders'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      uploadUrl: json['UploadUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signedHeaders = this.signedHeaders;
+    final uploadUrl = this.uploadUrl;
+    return {
+      if (signedHeaders != null) 'SignedHeaders': signedHeaders,
+      if (uploadUrl != null) 'UploadUrl': uploadUrl,
+    };
+  }
 }
 
 /// Describes a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class User {
   /// The time when the user was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The email address of the user.
-  @_s.JsonKey(name: 'EmailAddress')
-  final String emailAddress;
+  final String? emailAddress;
 
   /// The given name of the user.
-  @_s.JsonKey(name: 'GivenName')
-  final String givenName;
+  final String? givenName;
 
   /// The ID of the user.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The locale of the user.
-  @_s.JsonKey(name: 'Locale')
-  final LocaleType locale;
+  final LocaleType? locale;
 
   /// The time when the user was modified.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ModifiedTimestamp')
-  final DateTime modifiedTimestamp;
+  final DateTime? modifiedTimestamp;
 
   /// The ID of the organization.
-  @_s.JsonKey(name: 'OrganizationId')
-  final String organizationId;
+  final String? organizationId;
 
   /// The ID of the recycle bin folder.
-  @_s.JsonKey(name: 'RecycleBinFolderId')
-  final String recycleBinFolderId;
+  final String? recycleBinFolderId;
 
   /// The ID of the root folder.
-  @_s.JsonKey(name: 'RootFolderId')
-  final String rootFolderId;
+  final String? rootFolderId;
 
   /// The status of the user.
-  @_s.JsonKey(name: 'Status')
-  final UserStatusType status;
+  final UserStatusType? status;
 
   /// The storage for the user.
-  @_s.JsonKey(name: 'Storage')
-  final UserStorageMetadata storage;
+  final UserStorageMetadata? storage;
 
   /// The surname of the user.
-  @_s.JsonKey(name: 'Surname')
-  final String surname;
+  final String? surname;
 
   /// The time zone ID of the user.
-  @_s.JsonKey(name: 'TimeZoneId')
-  final String timeZoneId;
+  final String? timeZoneId;
 
   /// The type of user.
-  @_s.JsonKey(name: 'Type')
-  final UserType type;
+  final UserType? type;
 
   /// The login name of the user.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   User({
     this.createdTimestamp,
@@ -5280,13 +5834,70 @@ class User {
     this.type,
     this.username,
   });
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      emailAddress: json['EmailAddress'] as String?,
+      givenName: json['GivenName'] as String?,
+      id: json['Id'] as String?,
+      locale: (json['Locale'] as String?)?.toLocaleType(),
+      modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+      organizationId: json['OrganizationId'] as String?,
+      recycleBinFolderId: json['RecycleBinFolderId'] as String?,
+      rootFolderId: json['RootFolderId'] as String?,
+      status: (json['Status'] as String?)?.toUserStatusType(),
+      storage: json['Storage'] != null
+          ? UserStorageMetadata.fromJson(
+              json['Storage'] as Map<String, dynamic>)
+          : null,
+      surname: json['Surname'] as String?,
+      timeZoneId: json['TimeZoneId'] as String?,
+      type: (json['Type'] as String?)?.toUserType(),
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final emailAddress = this.emailAddress;
+    final givenName = this.givenName;
+    final id = this.id;
+    final locale = this.locale;
+    final modifiedTimestamp = this.modifiedTimestamp;
+    final organizationId = this.organizationId;
+    final recycleBinFolderId = this.recycleBinFolderId;
+    final rootFolderId = this.rootFolderId;
+    final status = this.status;
+    final storage = this.storage;
+    final surname = this.surname;
+    final timeZoneId = this.timeZoneId;
+    final type = this.type;
+    final username = this.username;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (givenName != null) 'GivenName': givenName,
+      if (id != null) 'Id': id,
+      if (locale != null) 'Locale': locale.toValue(),
+      if (modifiedTimestamp != null)
+        'ModifiedTimestamp': unixTimestampToJson(modifiedTimestamp),
+      if (organizationId != null) 'OrganizationId': organizationId,
+      if (recycleBinFolderId != null) 'RecycleBinFolderId': recycleBinFolderId,
+      if (rootFolderId != null) 'RootFolderId': rootFolderId,
+      if (status != null) 'Status': status.toValue(),
+      if (storage != null) 'Storage': storage,
+      if (surname != null) 'Surname': surname,
+      if (timeZoneId != null) 'TimeZoneId': timeZoneId,
+      if (type != null) 'Type': type.toValue(),
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 enum UserFilterType {
-  @_s.JsonValue('ALL')
   all,
-  @_s.JsonValue('ACTIVE_PENDING')
   activePending,
 }
 
@@ -5298,36 +5909,37 @@ extension on UserFilterType {
       case UserFilterType.activePending:
         return 'ACTIVE_PENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UserFilterType toUserFilterType() {
+    switch (this) {
+      case 'ALL':
+        return UserFilterType.all;
+      case 'ACTIVE_PENDING':
+        return UserFilterType.activePending;
+    }
+    throw Exception('$this is not known in enum UserFilterType');
   }
 }
 
 /// Describes the metadata of the user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserMetadata {
   /// The email address of the user.
-  @_s.JsonKey(name: 'EmailAddress')
-  final String emailAddress;
+  final String? emailAddress;
 
   /// The given name of the user before a rename operation.
-  @_s.JsonKey(name: 'GivenName')
-  final String givenName;
+  final String? givenName;
 
   /// The ID of the user.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The surname of the user.
-  @_s.JsonKey(name: 'Surname')
-  final String surname;
+  final String? surname;
 
   /// The name of the user.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   UserMetadata({
     this.emailAddress,
@@ -5336,20 +5948,38 @@ class UserMetadata {
     this.surname,
     this.username,
   });
-  factory UserMetadata.fromJson(Map<String, dynamic> json) =>
-      _$UserMetadataFromJson(json);
+
+  factory UserMetadata.fromJson(Map<String, dynamic> json) {
+    return UserMetadata(
+      emailAddress: json['EmailAddress'] as String?,
+      givenName: json['GivenName'] as String?,
+      id: json['Id'] as String?,
+      surname: json['Surname'] as String?,
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailAddress = this.emailAddress;
+    final givenName = this.givenName;
+    final id = this.id;
+    final surname = this.surname;
+    final username = this.username;
+    return {
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (givenName != null) 'GivenName': givenName,
+      if (id != null) 'Id': id,
+      if (surname != null) 'Surname': surname,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
 enum UserSortType {
-  @_s.JsonValue('USER_NAME')
   userName,
-  @_s.JsonValue('FULL_NAME')
   fullName,
-  @_s.JsonValue('STORAGE_LIMIT')
   storageLimit,
-  @_s.JsonValue('USER_STATUS')
   userStatus,
-  @_s.JsonValue('STORAGE_USED')
   storageUsed,
 }
 
@@ -5367,52 +5997,99 @@ extension on UserSortType {
       case UserSortType.storageUsed:
         return 'STORAGE_USED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UserSortType toUserSortType() {
+    switch (this) {
+      case 'USER_NAME':
+        return UserSortType.userName;
+      case 'FULL_NAME':
+        return UserSortType.fullName;
+      case 'STORAGE_LIMIT':
+        return UserSortType.storageLimit;
+      case 'USER_STATUS':
+        return UserSortType.userStatus;
+      case 'STORAGE_USED':
+        return UserSortType.storageUsed;
+    }
+    throw Exception('$this is not known in enum UserSortType');
   }
 }
 
 enum UserStatusType {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('PENDING')
   pending,
 }
 
+extension on UserStatusType {
+  String toValue() {
+    switch (this) {
+      case UserStatusType.active:
+        return 'ACTIVE';
+      case UserStatusType.inactive:
+        return 'INACTIVE';
+      case UserStatusType.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  UserStatusType toUserStatusType() {
+    switch (this) {
+      case 'ACTIVE':
+        return UserStatusType.active;
+      case 'INACTIVE':
+        return UserStatusType.inactive;
+      case 'PENDING':
+        return UserStatusType.pending;
+    }
+    throw Exception('$this is not known in enum UserStatusType');
+  }
+}
+
 /// Describes the storage for a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserStorageMetadata {
   /// The storage for a user.
-  @_s.JsonKey(name: 'StorageRule')
-  final StorageRuleType storageRule;
+  final StorageRuleType? storageRule;
 
   /// The amount of storage used, in bytes.
-  @_s.JsonKey(name: 'StorageUtilizedInBytes')
-  final int storageUtilizedInBytes;
+  final int? storageUtilizedInBytes;
 
   UserStorageMetadata({
     this.storageRule,
     this.storageUtilizedInBytes,
   });
-  factory UserStorageMetadata.fromJson(Map<String, dynamic> json) =>
-      _$UserStorageMetadataFromJson(json);
+
+  factory UserStorageMetadata.fromJson(Map<String, dynamic> json) {
+    return UserStorageMetadata(
+      storageRule: json['StorageRule'] != null
+          ? StorageRuleType.fromJson(
+              json['StorageRule'] as Map<String, dynamic>)
+          : null,
+      storageUtilizedInBytes: json['StorageUtilizedInBytes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageRule = this.storageRule;
+    final storageUtilizedInBytes = this.storageUtilizedInBytes;
+    return {
+      if (storageRule != null) 'StorageRule': storageRule,
+      if (storageUtilizedInBytes != null)
+        'StorageUtilizedInBytes': storageUtilizedInBytes,
+    };
+  }
 }
 
 enum UserType {
-  @_s.JsonValue('USER')
   user,
-  @_s.JsonValue('ADMIN')
   admin,
-  @_s.JsonValue('POWERUSER')
   poweruser,
-  @_s.JsonValue('MINIMALUSER')
   minimaluser,
-  @_s.JsonValue('WORKSPACESUSER')
   workspacesuser,
 }
 
@@ -5430,12 +6107,29 @@ extension on UserType {
       case UserType.workspacesuser:
         return 'WORKSPACESUSER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UserType toUserType() {
+    switch (this) {
+      case 'USER':
+        return UserType.user;
+      case 'ADMIN':
+        return UserType.admin;
+      case 'POWERUSER':
+        return UserType.poweruser;
+      case 'MINIMALUSER':
+        return UserType.minimaluser;
+      case 'WORKSPACESUSER':
+        return UserType.workspacesuser;
+    }
+    throw Exception('$this is not known in enum UserType');
   }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -5443,7 +6137,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class ConflictingOperationException extends _s.GenericAwsException {
-  ConflictingOperationException({String type, String message})
+  ConflictingOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConflictingOperationException',
@@ -5451,7 +6145,7 @@ class ConflictingOperationException extends _s.GenericAwsException {
 }
 
 class CustomMetadataLimitExceededException extends _s.GenericAwsException {
-  CustomMetadataLimitExceededException({String type, String message})
+  CustomMetadataLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'CustomMetadataLimitExceededException',
@@ -5459,7 +6153,7 @@ class CustomMetadataLimitExceededException extends _s.GenericAwsException {
 }
 
 class DeactivatingLastSystemUserException extends _s.GenericAwsException {
-  DeactivatingLastSystemUserException({String type, String message})
+  DeactivatingLastSystemUserException({String? type, String? message})
       : super(
             type: type,
             code: 'DeactivatingLastSystemUserException',
@@ -5467,7 +6161,7 @@ class DeactivatingLastSystemUserException extends _s.GenericAwsException {
 }
 
 class DocumentLockedForCommentsException extends _s.GenericAwsException {
-  DocumentLockedForCommentsException({String type, String message})
+  DocumentLockedForCommentsException({String? type, String? message})
       : super(
             type: type,
             code: 'DocumentLockedForCommentsException',
@@ -5475,7 +6169,7 @@ class DocumentLockedForCommentsException extends _s.GenericAwsException {
 }
 
 class DraftUploadOutOfSyncException extends _s.GenericAwsException {
-  DraftUploadOutOfSyncException({String type, String message})
+  DraftUploadOutOfSyncException({String? type, String? message})
       : super(
             type: type,
             code: 'DraftUploadOutOfSyncException',
@@ -5483,33 +6177,33 @@ class DraftUploadOutOfSyncException extends _s.GenericAwsException {
 }
 
 class EntityAlreadyExistsException extends _s.GenericAwsException {
-  EntityAlreadyExistsException({String type, String message})
+  EntityAlreadyExistsException({String? type, String? message})
       : super(
             type: type, code: 'EntityAlreadyExistsException', message: message);
 }
 
 class EntityNotExistsException extends _s.GenericAwsException {
-  EntityNotExistsException({String type, String message})
+  EntityNotExistsException({String? type, String? message})
       : super(type: type, code: 'EntityNotExistsException', message: message);
 }
 
 class FailedDependencyException extends _s.GenericAwsException {
-  FailedDependencyException({String type, String message})
+  FailedDependencyException({String? type, String? message})
       : super(type: type, code: 'FailedDependencyException', message: message);
 }
 
 class IllegalUserStateException extends _s.GenericAwsException {
-  IllegalUserStateException({String type, String message})
+  IllegalUserStateException({String? type, String? message})
       : super(type: type, code: 'IllegalUserStateException', message: message);
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidCommentOperationException extends _s.GenericAwsException {
-  InvalidCommentOperationException({String type, String message})
+  InvalidCommentOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCommentOperationException',
@@ -5517,27 +6211,27 @@ class InvalidCommentOperationException extends _s.GenericAwsException {
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class InvalidPasswordException extends _s.GenericAwsException {
-  InvalidPasswordException({String type, String message})
+  InvalidPasswordException({String? type, String? message})
       : super(type: type, code: 'InvalidPasswordException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ProhibitedStateException extends _s.GenericAwsException {
-  ProhibitedStateException({String type, String message})
+  ProhibitedStateException({String? type, String? message})
       : super(type: type, code: 'ProhibitedStateException', message: message);
 }
 
 class RequestedEntityTooLargeException extends _s.GenericAwsException {
-  RequestedEntityTooLargeException({String type, String message})
+  RequestedEntityTooLargeException({String? type, String? message})
       : super(
             type: type,
             code: 'RequestedEntityTooLargeException',
@@ -5545,7 +6239,7 @@ class RequestedEntityTooLargeException extends _s.GenericAwsException {
 }
 
 class ResourceAlreadyCheckedOutException extends _s.GenericAwsException {
-  ResourceAlreadyCheckedOutException({String type, String message})
+  ResourceAlreadyCheckedOutException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyCheckedOutException',
@@ -5553,13 +6247,13 @@ class ResourceAlreadyCheckedOutException extends _s.GenericAwsException {
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class StorageLimitExceededException extends _s.GenericAwsException {
-  StorageLimitExceededException({String type, String message})
+  StorageLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'StorageLimitExceededException',
@@ -5567,7 +6261,7 @@ class StorageLimitExceededException extends _s.GenericAwsException {
 }
 
 class StorageLimitWillExceedException extends _s.GenericAwsException {
-  StorageLimitWillExceedException({String type, String message})
+  StorageLimitWillExceedException({String? type, String? message})
       : super(
             type: type,
             code: 'StorageLimitWillExceedException',
@@ -5575,12 +6269,12 @@ class StorageLimitWillExceedException extends _s.GenericAwsException {
 }
 
 class TooManyLabelsException extends _s.GenericAwsException {
-  TooManyLabelsException({String type, String message})
+  TooManyLabelsException({String? type, String? message})
       : super(type: type, code: 'TooManyLabelsException', message: message);
 }
 
 class TooManySubscriptionsException extends _s.GenericAwsException {
-  TooManySubscriptionsException({String type, String message})
+  TooManySubscriptionsException({String? type, String? message})
       : super(
             type: type,
             code: 'TooManySubscriptionsException',
@@ -5588,7 +6282,7 @@ class TooManySubscriptionsException extends _s.GenericAwsException {
 }
 
 class UnauthorizedOperationException extends _s.GenericAwsException {
-  UnauthorizedOperationException({String type, String message})
+  UnauthorizedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnauthorizedOperationException',
@@ -5596,7 +6290,7 @@ class UnauthorizedOperationException extends _s.GenericAwsException {
 }
 
 class UnauthorizedResourceAccessException extends _s.GenericAwsException {
-  UnauthorizedResourceAccessException({String type, String message})
+  UnauthorizedResourceAccessException({String? type, String? message})
       : super(
             type: type,
             code: 'UnauthorizedResourceAccessException',

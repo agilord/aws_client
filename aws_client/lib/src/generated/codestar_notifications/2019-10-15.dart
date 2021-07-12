@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-10-15.g.dart';
 
 /// This AWS CodeStar Notifications API Reference provides descriptions and
 /// usage examples of the operations and data types for the AWS CodeStar
@@ -101,10 +94,10 @@ part '2019-10-15.g.dart';
 class CodeStarNotifications {
   final _s.RestJsonProtocol _protocol;
   CodeStarNotifications({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -172,14 +165,14 @@ class CodeStarNotifications {
   /// A list of tags to apply to this notification rule. Key names cannot start
   /// with "aws".
   Future<CreateNotificationRuleResult> createNotificationRule({
-    @_s.required DetailType detailType,
-    @_s.required List<String> eventTypeIds,
-    @_s.required String name,
-    @_s.required String resource,
-    @_s.required List<Target> targets,
-    String clientRequestToken,
-    NotificationRuleStatus status,
-    Map<String, String> tags,
+    required DetailType detailType,
+    required List<String> eventTypeIds,
+    required String name,
+    required String resource,
+    required List<Target> targets,
+    String? clientRequestToken,
+    NotificationRuleStatus? status,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(detailType, 'detailType');
     ArgumentError.checkNotNull(eventTypeIds, 'eventTypeIds');
@@ -191,19 +184,7 @@ class CodeStarNotifications {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9\-_ ]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''^arn:aws[^:\s]*:[^:\s]*:[^:\s]*:[0-9]{12}:[^\s]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targets, 'targets');
     _s.validateStringLength(
       'clientRequestToken',
@@ -211,13 +192,8 @@ class CodeStarNotifications {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w:/-]+$''',
-    );
     final $payload = <String, dynamic>{
-      'DetailType': detailType?.toValue() ?? '',
+      'DetailType': detailType.toValue(),
       'EventTypeIds': eventTypeIds,
       'Name': name,
       'Resource': resource,
@@ -245,15 +221,9 @@ class CodeStarNotifications {
   /// The Amazon Resource Name (ARN) of the notification rule you want to
   /// delete.
   Future<DeleteNotificationRuleResult> deleteNotificationRule({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -279,8 +249,8 @@ class CodeStarNotifications {
   /// between that target and every notification rule in your AWS account are
   /// deleted.
   Future<void> deleteTarget({
-    @_s.required String targetAddress,
-    bool forceUnsubscribeAll,
+    required String targetAddress,
+    bool? forceUnsubscribeAll,
   }) async {
     ArgumentError.checkNotNull(targetAddress, 'targetAddress');
     _s.validateStringLength(
@@ -301,7 +271,6 @@ class CodeStarNotifications {
       requestUri: '/deleteTarget',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteTargetResult.fromJson(response);
   }
 
   /// Returns information about a specified notification rule.
@@ -312,15 +281,9 @@ class CodeStarNotifications {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) of the notification rule.
   Future<DescribeNotificationRuleResult> describeNotificationRule({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -351,20 +314,15 @@ class CodeStarNotifications {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<ListEventTypesResult> listEventTypes({
-    List<ListEventTypesFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<ListEventTypesFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
@@ -402,20 +360,15 @@ class CodeStarNotifications {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<ListNotificationRulesResult> listNotificationRules({
-    List<ListNotificationRulesFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<ListNotificationRulesFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
@@ -439,15 +392,9 @@ class CodeStarNotifications {
   /// Parameter [arn] :
   /// The Amazon Resource Name (ARN) for the notification rule.
   Future<ListTagsForResourceResult> listTagsForResource({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'Arn': arn,
     };
@@ -482,20 +429,15 @@ class CodeStarNotifications {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<ListTargetsResult> listTargets({
-    List<ListTargetsFilter> filters,
-    int maxResults,
-    String nextToken,
+    List<ListTargetsFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
       maxResults,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[\w/+=]+$''',
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
@@ -526,28 +468,17 @@ class CodeStarNotifications {
   /// An enumeration token that, when provided in a request, returns the next
   /// batch of the results.
   Future<SubscribeResult> subscribe({
-    @_s.required String arn,
-    @_s.required Target target,
-    String clientRequestToken,
+    required String arn,
+    required Target target,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(target, 'target');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[\w:/-]+$''',
     );
     final $payload = <String, dynamic>{
       'Arn': arn,
@@ -576,16 +507,10 @@ class CodeStarNotifications {
   /// The list of tags to associate with the resource. Tag key names cannot
   /// start with "aws".
   Future<TagResourceResult> tagResource({
-    @_s.required String arn,
-    @_s.required Map<String, String> tags,
+    required String arn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Arn': arn,
@@ -612,16 +537,10 @@ class CodeStarNotifications {
   /// Parameter [targetAddress] :
   /// The ARN of the SNS topic to unsubscribe from the notification rule.
   Future<UnsubscribeResult> unsubscribe({
-    @_s.required String arn,
-    @_s.required String targetAddress,
+    required String arn,
+    required String targetAddress,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(targetAddress, 'targetAddress');
     _s.validateStringLength(
       'targetAddress',
@@ -657,16 +576,10 @@ class CodeStarNotifications {
   /// Parameter [tagKeys] :
   /// The key names of the tags to remove.
   Future<void> untagResource({
-    @_s.required String arn,
-    @_s.required List<String> tagKeys,
+    required String arn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'Arn': arn,
@@ -678,7 +591,6 @@ class CodeStarNotifications {
       requestUri: '/untagResource',
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResult.fromJson(response);
   }
 
   /// Updates a notification rule for a resource. You can change the events that
@@ -716,30 +628,19 @@ class CodeStarNotifications {
   /// The address and type of the targets to receive notifications from this
   /// notification rule.
   Future<void> updateNotificationRule({
-    @_s.required String arn,
-    DetailType detailType,
-    List<String> eventTypeIds,
-    String name,
-    NotificationRuleStatus status,
-    List<Target> targets,
+    required String arn,
+    DetailType? detailType,
+    List<String>? eventTypeIds,
+    String? name,
+    NotificationRuleStatus? status,
+    List<Target>? targets,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''^arn:aws[^:\s]*:codestar-notifications:[^:\s]+:\d{12}:notificationrule\/(.*\S)?$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[A-Za-z0-9\-_ ]+$''',
     );
     final $payload = <String, dynamic>{
       'Arn': arn,
@@ -755,116 +656,108 @@ class CodeStarNotifications {
       requestUri: '/updateNotificationRule',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateNotificationRuleResult.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNotificationRuleResult {
   /// The Amazon Resource Name (ARN) of the notification rule.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   CreateNotificationRuleResult({
     this.arn,
   });
-  factory CreateNotificationRuleResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateNotificationRuleResultFromJson(json);
+
+  factory CreateNotificationRuleResult.fromJson(Map<String, dynamic> json) {
+    return CreateNotificationRuleResult(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteNotificationRuleResult {
   /// The Amazon Resource Name (ARN) of the deleted notification rule.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   DeleteNotificationRuleResult({
     this.arn,
   });
-  factory DeleteNotificationRuleResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNotificationRuleResultFromJson(json);
+
+  factory DeleteNotificationRuleResult.fromJson(Map<String, dynamic> json) {
+    return DeleteNotificationRuleResult(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTargetResult {
   DeleteTargetResult();
-  factory DeleteTargetResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTargetResultFromJson(json);
+
+  factory DeleteTargetResult.fromJson(Map<String, dynamic> _) {
+    return DeleteTargetResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeNotificationRuleResult {
   /// The Amazon Resource Name (ARN) of the notification rule.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The name or email alias of the person who created the notification rule.
-  @_s.JsonKey(name: 'CreatedBy')
-  final String createdBy;
+  final String? createdBy;
 
   /// The date and time the notification rule was created, in timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTimestamp')
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The level of detail included in the notifications for this resource. BASIC
   /// will include only the contents of the event as it would appear in AWS
   /// CloudWatch. FULL will include any supplemental information provided by AWS
   /// CodeStar Notifications and/or the service for the resource for which the
   /// notification is created.
-  @_s.JsonKey(name: 'DetailType')
-  final DetailType detailType;
+  final DetailType? detailType;
 
   /// A list of the event types associated with the notification rule.
-  @_s.JsonKey(name: 'EventTypes')
-  final List<EventTypeSummary> eventTypes;
+  final List<EventTypeSummary>? eventTypes;
 
   /// The date and time the notification rule was most recently updated, in
   /// timestamp format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModifiedTimestamp')
-  final DateTime lastModifiedTimestamp;
+  final DateTime? lastModifiedTimestamp;
 
   /// The name of the notification rule.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The Amazon Resource Name (ARN) of the resource associated with the
   /// notification rule.
-  @_s.JsonKey(name: 'Resource')
-  final String resource;
+  final String? resource;
 
   /// The status of the notification rule. Valid statuses are on (sending
   /// notifications) or off (not sending notifications).
-  @_s.JsonKey(name: 'Status')
-  final NotificationRuleStatus status;
+  final NotificationRuleStatus? status;
 
   /// The tags associated with the notification rule.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// A list of the SNS topics associated with the notification rule.
-  @_s.JsonKey(name: 'Targets')
-  final List<TargetSummary> targets;
+  final List<TargetSummary>? targets;
 
   DescribeNotificationRuleResult({
-    @_s.required this.arn,
+    required this.arn,
     this.createdBy,
     this.createdTimestamp,
     this.detailType,
@@ -876,14 +769,62 @@ class DescribeNotificationRuleResult {
     this.tags,
     this.targets,
   });
-  factory DescribeNotificationRuleResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeNotificationRuleResultFromJson(json);
+
+  factory DescribeNotificationRuleResult.fromJson(Map<String, dynamic> json) {
+    return DescribeNotificationRuleResult(
+      arn: json['Arn'] as String,
+      createdBy: json['CreatedBy'] as String?,
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      detailType: (json['DetailType'] as String?)?.toDetailType(),
+      eventTypes: (json['EventTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastModifiedTimestamp: timeStampFromJson(json['LastModifiedTimestamp']),
+      name: json['Name'] as String?,
+      resource: json['Resource'] as String?,
+      status: (json['Status'] as String?)?.toNotificationRuleStatus(),
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdBy = this.createdBy;
+    final createdTimestamp = this.createdTimestamp;
+    final detailType = this.detailType;
+    final eventTypes = this.eventTypes;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    final name = this.name;
+    final resource = this.resource;
+    final status = this.status;
+    final tags = this.tags;
+    final targets = this.targets;
+    return {
+      'Arn': arn,
+      if (createdBy != null) 'CreatedBy': createdBy,
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (detailType != null) 'DetailType': detailType.toValue(),
+      if (eventTypes != null) 'EventTypes': eventTypes,
+      if (lastModifiedTimestamp != null)
+        'LastModifiedTimestamp': unixTimestampToJson(lastModifiedTimestamp),
+      if (name != null) 'Name': name,
+      if (resource != null) 'Resource': resource,
+      if (status != null) 'Status': status.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 enum DetailType {
-  @_s.JsonValue('BASIC')
   basic,
-  @_s.JsonValue('FULL')
   full,
 }
 
@@ -895,32 +836,34 @@ extension on DetailType {
       case DetailType.full:
         return 'FULL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DetailType toDetailType() {
+    switch (this) {
+      case 'BASIC':
+        return DetailType.basic;
+      case 'FULL':
+        return DetailType.full;
+    }
+    throw Exception('$this is not known in enum DetailType');
   }
 }
 
 /// Returns information about an event that has triggered a notification rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventTypeSummary {
   /// The system-generated ID of the event.
-  @_s.JsonKey(name: 'EventTypeId')
-  final String eventTypeId;
+  final String? eventTypeId;
 
   /// The name of the event.
-  @_s.JsonKey(name: 'EventTypeName')
-  final String eventTypeName;
+  final String? eventTypeName;
 
   /// The resource type of the event.
-  @_s.JsonKey(name: 'ResourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The name of the service for which the event applies.
-  @_s.JsonKey(name: 'ServiceName')
-  final String serviceName;
+  final String? serviceName;
 
   EventTypeSummary({
     this.eventTypeId,
@@ -928,142 +871,254 @@ class EventTypeSummary {
     this.resourceType,
     this.serviceName,
   });
-  factory EventTypeSummary.fromJson(Map<String, dynamic> json) =>
-      _$EventTypeSummaryFromJson(json);
+
+  factory EventTypeSummary.fromJson(Map<String, dynamic> json) {
+    return EventTypeSummary(
+      eventTypeId: json['EventTypeId'] as String?,
+      eventTypeName: json['EventTypeName'] as String?,
+      resourceType: json['ResourceType'] as String?,
+      serviceName: json['ServiceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTypeId = this.eventTypeId;
+    final eventTypeName = this.eventTypeName;
+    final resourceType = this.resourceType;
+    final serviceName = this.serviceName;
+    return {
+      if (eventTypeId != null) 'EventTypeId': eventTypeId,
+      if (eventTypeName != null) 'EventTypeName': eventTypeName,
+      if (resourceType != null) 'ResourceType': resourceType,
+      if (serviceName != null) 'ServiceName': serviceName,
+    };
+  }
 }
 
 /// Information about a filter to apply to the list of returned event types. You
 /// can filter by resource type or service name.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ListEventTypesFilter {
   /// The system-generated name of the filter type you want to filter by.
-  @_s.JsonKey(name: 'Name')
   final ListEventTypesFilterName name;
 
   /// The name of the resource type (for example, pipeline) or service name (for
   /// example, CodePipeline) that you want to filter by.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   ListEventTypesFilter({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ListEventTypesFilterToJson(this);
+
+  factory ListEventTypesFilter.fromJson(Map<String, dynamic> json) {
+    return ListEventTypesFilter(
+      name: (json['Name'] as String).toListEventTypesFilterName(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum ListEventTypesFilterName {
-  @_s.JsonValue('RESOURCE_TYPE')
   resourceType,
-  @_s.JsonValue('SERVICE_NAME')
   serviceName,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ListEventTypesFilterName {
+  String toValue() {
+    switch (this) {
+      case ListEventTypesFilterName.resourceType:
+        return 'RESOURCE_TYPE';
+      case ListEventTypesFilterName.serviceName:
+        return 'SERVICE_NAME';
+    }
+  }
+}
+
+extension on String {
+  ListEventTypesFilterName toListEventTypesFilterName() {
+    switch (this) {
+      case 'RESOURCE_TYPE':
+        return ListEventTypesFilterName.resourceType;
+      case 'SERVICE_NAME':
+        return ListEventTypesFilterName.serviceName;
+    }
+    throw Exception('$this is not known in enum ListEventTypesFilterName');
+  }
+}
+
 class ListEventTypesResult {
   /// Information about each event, including service name, resource type, event
   /// ID, and event name.
-  @_s.JsonKey(name: 'EventTypes')
-  final List<EventTypeSummary> eventTypes;
+  final List<EventTypeSummary>? eventTypes;
 
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEventTypesResult({
     this.eventTypes,
     this.nextToken,
   });
-  factory ListEventTypesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListEventTypesResultFromJson(json);
+
+  factory ListEventTypesResult.fromJson(Map<String, dynamic> json) {
+    return ListEventTypesResult(
+      eventTypes: (json['EventTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventTypeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTypes = this.eventTypes;
+    final nextToken = this.nextToken;
+    return {
+      if (eventTypes != null) 'EventTypes': eventTypes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Information about a filter to apply to the list of returned notification
 /// rules. You can filter by event type, owner, resource, or target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ListNotificationRulesFilter {
   /// The name of the attribute you want to use to filter the returned
   /// notification rules.
-  @_s.JsonKey(name: 'Name')
   final ListNotificationRulesFilterName name;
 
   /// The value of the attribute you want to use to filter the returned
   /// notification rules. For example, if you specify filtering by <i>RESOURCE</i>
   /// in Name, you might specify the ARN of a pipeline in AWS CodePipeline for the
   /// value.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   ListNotificationRulesFilter({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ListNotificationRulesFilterToJson(this);
+
+  factory ListNotificationRulesFilter.fromJson(Map<String, dynamic> json) {
+    return ListNotificationRulesFilter(
+      name: (json['Name'] as String).toListNotificationRulesFilterName(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum ListNotificationRulesFilterName {
-  @_s.JsonValue('EVENT_TYPE_ID')
   eventTypeId,
-  @_s.JsonValue('CREATED_BY')
   createdBy,
-  @_s.JsonValue('RESOURCE')
   resource,
-  @_s.JsonValue('TARGET_ADDRESS')
   targetAddress,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ListNotificationRulesFilterName {
+  String toValue() {
+    switch (this) {
+      case ListNotificationRulesFilterName.eventTypeId:
+        return 'EVENT_TYPE_ID';
+      case ListNotificationRulesFilterName.createdBy:
+        return 'CREATED_BY';
+      case ListNotificationRulesFilterName.resource:
+        return 'RESOURCE';
+      case ListNotificationRulesFilterName.targetAddress:
+        return 'TARGET_ADDRESS';
+    }
+  }
+}
+
+extension on String {
+  ListNotificationRulesFilterName toListNotificationRulesFilterName() {
+    switch (this) {
+      case 'EVENT_TYPE_ID':
+        return ListNotificationRulesFilterName.eventTypeId;
+      case 'CREATED_BY':
+        return ListNotificationRulesFilterName.createdBy;
+      case 'RESOURCE':
+        return ListNotificationRulesFilterName.resource;
+      case 'TARGET_ADDRESS':
+        return ListNotificationRulesFilterName.targetAddress;
+    }
+    throw Exception(
+        '$this is not known in enum ListNotificationRulesFilterName');
+  }
+}
+
 class ListNotificationRulesResult {
   /// An enumeration token that can be used in a request to return the next batch
   /// of the results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of notification rules for the AWS account, by Amazon Resource Name
   /// (ARN) and ID.
-  @_s.JsonKey(name: 'NotificationRules')
-  final List<NotificationRuleSummary> notificationRules;
+  final List<NotificationRuleSummary>? notificationRules;
 
   ListNotificationRulesResult({
     this.nextToken,
     this.notificationRules,
   });
-  factory ListNotificationRulesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListNotificationRulesResultFromJson(json);
+
+  factory ListNotificationRulesResult.fromJson(Map<String, dynamic> json) {
+    return ListNotificationRulesResult(
+      nextToken: json['NextToken'] as String?,
+      notificationRules: (json['NotificationRules'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              NotificationRuleSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final notificationRules = this.notificationRules;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (notificationRules != null) 'NotificationRules': notificationRules,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResult {
   /// The tags associated with the notification rule.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResult({
     this.tags,
   });
-  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResultFromJson(json);
+
+  factory ListTagsForResourceResult.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResult(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Information about a filter to apply to the list of returned targets. You can
@@ -1071,65 +1126,105 @@ class ListTagsForResourceResult {
 /// notification rules that have active Amazon SNS topics as targets, you could
 /// specify a ListTargetsFilter Name as TargetType and a Value of SNS, and a
 /// Name of TARGET_STATUS and a Value of ACTIVE.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ListTargetsFilter {
   /// The name of the attribute you want to use to filter the returned targets.
-  @_s.JsonKey(name: 'Name')
   final ListTargetsFilterName name;
 
   /// The value of the attribute you want to use to filter the returned targets.
   /// For example, if you specify <i>SNS</i> for the Target type, you could
   /// specify an Amazon Resource Name (ARN) for a topic as the value.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   ListTargetsFilter({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ListTargetsFilterToJson(this);
+
+  factory ListTargetsFilter.fromJson(Map<String, dynamic> json) {
+    return ListTargetsFilter(
+      name: (json['Name'] as String).toListTargetsFilterName(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum ListTargetsFilterName {
-  @_s.JsonValue('TARGET_TYPE')
   targetType,
-  @_s.JsonValue('TARGET_ADDRESS')
   targetAddress,
-  @_s.JsonValue('TARGET_STATUS')
   targetStatus,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ListTargetsFilterName {
+  String toValue() {
+    switch (this) {
+      case ListTargetsFilterName.targetType:
+        return 'TARGET_TYPE';
+      case ListTargetsFilterName.targetAddress:
+        return 'TARGET_ADDRESS';
+      case ListTargetsFilterName.targetStatus:
+        return 'TARGET_STATUS';
+    }
+  }
+}
+
+extension on String {
+  ListTargetsFilterName toListTargetsFilterName() {
+    switch (this) {
+      case 'TARGET_TYPE':
+        return ListTargetsFilterName.targetType;
+      case 'TARGET_ADDRESS':
+        return ListTargetsFilterName.targetAddress;
+      case 'TARGET_STATUS':
+        return ListTargetsFilterName.targetStatus;
+    }
+    throw Exception('$this is not known in enum ListTargetsFilterName');
+  }
+}
+
 class ListTargetsResult {
   /// An enumeration token that can be used in a request to return the next batch
   /// of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of notification rule targets.
-  @_s.JsonKey(name: 'Targets')
-  final List<TargetSummary> targets;
+  final List<TargetSummary>? targets;
 
   ListTargetsResult({
     this.nextToken,
     this.targets,
   });
-  factory ListTargetsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTargetsResultFromJson(json);
+
+  factory ListTargetsResult.fromJson(Map<String, dynamic> json) {
+    return ListTargetsResult(
+      nextToken: json['NextToken'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final targets = this.targets;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 enum NotificationRuleStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
@@ -1141,178 +1236,261 @@ extension on NotificationRuleStatus {
       case NotificationRuleStatus.disabled:
         return 'DISABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NotificationRuleStatus toNotificationRuleStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return NotificationRuleStatus.enabled;
+      case 'DISABLED':
+        return NotificationRuleStatus.disabled;
+    }
+    throw Exception('$this is not known in enum NotificationRuleStatus');
   }
 }
 
 /// Information about a specified notification rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotificationRuleSummary {
   /// The Amazon Resource Name (ARN) of the notification rule.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The unique ID of the notification rule.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   NotificationRuleSummary({
     this.arn,
     this.id,
   });
-  factory NotificationRuleSummary.fromJson(Map<String, dynamic> json) =>
-      _$NotificationRuleSummaryFromJson(json);
+
+  factory NotificationRuleSummary.fromJson(Map<String, dynamic> json) {
+    return NotificationRuleSummary(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubscribeResult {
   /// The Amazon Resource Name (ARN) of the notification rule for which you have
   /// created assocations.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   SubscribeResult({
     this.arn,
   });
-  factory SubscribeResult.fromJson(Map<String, dynamic> json) =>
-      _$SubscribeResultFromJson(json);
+
+  factory SubscribeResult.fromJson(Map<String, dynamic> json) {
+    return SubscribeResult(
+      arn: json['Arn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      if (arn != null) 'Arn': arn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResult {
   /// The list of tags associated with the resource.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   TagResourceResult({
     this.tags,
   });
-  factory TagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResultFromJson(json);
+
+  factory TagResourceResult.fromJson(Map<String, dynamic> json) {
+    return TagResourceResult(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Information about the SNS topics associated with a notification rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Target {
   /// The Amazon Resource Name (ARN) of the SNS topic.
-  @_s.JsonKey(name: 'TargetAddress')
-  final String targetAddress;
+  final String? targetAddress;
 
   /// The target type. Can be an Amazon SNS topic.
-  @_s.JsonKey(name: 'TargetType')
-  final String targetType;
+  final String? targetType;
 
   Target({
     this.targetAddress,
     this.targetType,
   });
-  Map<String, dynamic> toJson() => _$TargetToJson(this);
+
+  factory Target.fromJson(Map<String, dynamic> json) {
+    return Target(
+      targetAddress: json['TargetAddress'] as String?,
+      targetType: json['TargetType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetAddress = this.targetAddress;
+    final targetType = this.targetType;
+    return {
+      if (targetAddress != null) 'TargetAddress': targetAddress,
+      if (targetType != null) 'TargetType': targetType,
+    };
+  }
 }
 
 enum TargetStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('UNREACHABLE')
   unreachable,
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('DEACTIVATED')
   deactivated,
 }
 
+extension on TargetStatus {
+  String toValue() {
+    switch (this) {
+      case TargetStatus.pending:
+        return 'PENDING';
+      case TargetStatus.active:
+        return 'ACTIVE';
+      case TargetStatus.unreachable:
+        return 'UNREACHABLE';
+      case TargetStatus.inactive:
+        return 'INACTIVE';
+      case TargetStatus.deactivated:
+        return 'DEACTIVATED';
+    }
+  }
+}
+
+extension on String {
+  TargetStatus toTargetStatus() {
+    switch (this) {
+      case 'PENDING':
+        return TargetStatus.pending;
+      case 'ACTIVE':
+        return TargetStatus.active;
+      case 'UNREACHABLE':
+        return TargetStatus.unreachable;
+      case 'INACTIVE':
+        return TargetStatus.inactive;
+      case 'DEACTIVATED':
+        return TargetStatus.deactivated;
+    }
+    throw Exception('$this is not known in enum TargetStatus');
+  }
+}
+
 /// Information about the targets specified for a notification rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TargetSummary {
   /// The Amazon Resource Name (ARN) of the SNS topic.
-  @_s.JsonKey(name: 'TargetAddress')
-  final String targetAddress;
+  final String? targetAddress;
 
   /// The status of the target.
-  @_s.JsonKey(name: 'TargetStatus')
-  final TargetStatus targetStatus;
+  final TargetStatus? targetStatus;
 
   /// The type of the target (for example, SNS).
-  @_s.JsonKey(name: 'TargetType')
-  final String targetType;
+  final String? targetType;
 
   TargetSummary({
     this.targetAddress,
     this.targetStatus,
     this.targetType,
   });
-  factory TargetSummary.fromJson(Map<String, dynamic> json) =>
-      _$TargetSummaryFromJson(json);
+
+  factory TargetSummary.fromJson(Map<String, dynamic> json) {
+    return TargetSummary(
+      targetAddress: json['TargetAddress'] as String?,
+      targetStatus: (json['TargetStatus'] as String?)?.toTargetStatus(),
+      targetType: json['TargetType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetAddress = this.targetAddress;
+    final targetStatus = this.targetStatus;
+    final targetType = this.targetType;
+    return {
+      if (targetAddress != null) 'TargetAddress': targetAddress,
+      if (targetStatus != null) 'TargetStatus': targetStatus.toValue(),
+      if (targetType != null) 'TargetType': targetType,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnsubscribeResult {
   /// The Amazon Resource Name (ARN) of the the notification rule from which you
   /// have removed a subscription.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   UnsubscribeResult({
-    @_s.required this.arn,
+    required this.arn,
   });
-  factory UnsubscribeResult.fromJson(Map<String, dynamic> json) =>
-      _$UnsubscribeResultFromJson(json);
+
+  factory UnsubscribeResult.fromJson(Map<String, dynamic> json) {
+    return UnsubscribeResult(
+      arn: json['Arn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    return {
+      'Arn': arn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResult {
   UntagResourceResult();
-  factory UntagResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResultFromJson(json);
+
+  factory UntagResourceResult.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNotificationRuleResult {
   UpdateNotificationRuleResult();
-  factory UpdateNotificationRuleResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNotificationRuleResultFromJson(json);
+
+  factory UpdateNotificationRuleResult.fromJson(Map<String, dynamic> _) {
+    return UpdateNotificationRuleResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -1320,22 +1498,22 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class ConfigurationException extends _s.GenericAwsException {
-  ConfigurationException({String type, String message})
+  ConfigurationException({String? type, String? message})
       : super(type: type, code: 'ConfigurationException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -1343,12 +1521,12 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-06-28.g.dart';
 
 /// Savings Plans are a pricing model that offer significant savings on AWS
 /// usage (for example, on Amazon EC2 instances). You commit to a consistent
@@ -35,10 +28,10 @@ part '2019-06-28.g.dart';
 class SavingsPlans {
   final _s.RestJsonProtocol _protocol;
   SavingsPlans({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -80,12 +73,12 @@ class SavingsPlans {
   /// percent of the total value of the Savings Plan. This parameter is
   /// supported only if the payment option is <code>Partial Upfront</code>.
   Future<CreateSavingsPlanResponse> createSavingsPlan({
-    @_s.required String commitment,
-    @_s.required String savingsPlanOfferingId,
-    String clientToken,
-    DateTime purchaseTime,
-    Map<String, String> tags,
-    String upfrontPaymentAmount,
+    required String commitment,
+    required String savingsPlanOfferingId,
+    String? clientToken,
+    DateTime? purchaseTime,
+    Map<String, String>? tags,
+    String? upfrontPaymentAmount,
   }) async {
     ArgumentError.checkNotNull(commitment, 'commitment');
     ArgumentError.checkNotNull(savingsPlanOfferingId, 'savingsPlanOfferingId');
@@ -118,7 +111,7 @@ class SavingsPlans {
   /// Parameter [savingsPlanId] :
   /// The ID of the Savings Plan.
   Future<void> deleteQueuedSavingsPlan({
-    @_s.required String savingsPlanId,
+    required String savingsPlanId,
   }) async {
     ArgumentError.checkNotNull(savingsPlanId, 'savingsPlanId');
     final $payload = <String, dynamic>{
@@ -130,7 +123,6 @@ class SavingsPlans {
       requestUri: '/DeleteQueuedSavingsPlan',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteQueuedSavingsPlanResponse.fromJson(response);
   }
 
   /// Describes the specified Savings Plans rates.
@@ -151,10 +143,10 @@ class SavingsPlans {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<DescribeSavingsPlanRatesResponse> describeSavingsPlanRates({
-    @_s.required String savingsPlanId,
-    List<SavingsPlanRateFilter> filters,
-    int maxResults,
-    String nextToken,
+    required String savingsPlanId,
+    List<SavingsPlanRateFilter>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(savingsPlanId, 'savingsPlanId');
     _s.validateNumRange(
@@ -168,11 +160,6 @@ class SavingsPlans {
       nextToken,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
     );
     final $payload = <String, dynamic>{
       'savingsPlanId': savingsPlanId,
@@ -213,12 +200,12 @@ class SavingsPlans {
   /// Parameter [states] :
   /// The states.
   Future<DescribeSavingsPlansResponse> describeSavingsPlans({
-    List<SavingsPlanFilter> filters,
-    int maxResults,
-    String nextToken,
-    List<String> savingsPlanArns,
-    List<String> savingsPlanIds,
-    List<SavingsPlanState> states,
+    List<SavingsPlanFilter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? savingsPlanArns,
+    List<String>? savingsPlanIds,
+    List<SavingsPlanState>? states,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -232,19 +219,13 @@ class SavingsPlans {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (savingsPlanArns != null) 'savingsPlanArns': savingsPlanArns,
       if (savingsPlanIds != null) 'savingsPlanIds': savingsPlanIds,
-      if (states != null)
-        'states': states.map((e) => e?.toValue() ?? '').toList(),
+      if (states != null) 'states': states.map((e) => e.toValue()).toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -292,16 +273,16 @@ class SavingsPlans {
   /// The usage details of the line item in the billing report.
   Future<DescribeSavingsPlansOfferingRatesResponse>
       describeSavingsPlansOfferingRates({
-    List<SavingsPlanOfferingRateFilterElement> filters,
-    int maxResults,
-    String nextToken,
-    List<String> operations,
-    List<SavingsPlanProductType> products,
-    List<String> savingsPlanOfferingIds,
-    List<SavingsPlanPaymentOption> savingsPlanPaymentOptions,
-    List<SavingsPlanType> savingsPlanTypes,
-    List<SavingsPlanRateServiceCode> serviceCodes,
-    List<String> usageTypes,
+    List<SavingsPlanOfferingRateFilterElement>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? operations,
+    List<SavingsPlanProductType>? products,
+    List<String>? savingsPlanOfferingIds,
+    List<SavingsPlanPaymentOption>? savingsPlanPaymentOptions,
+    List<SavingsPlanType>? savingsPlanTypes,
+    List<SavingsPlanRateServiceCode>? serviceCodes,
+    List<String>? usageTypes,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -315,28 +296,22 @@ class SavingsPlans {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
-    );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (operations != null) 'operations': operations,
       if (products != null)
-        'products': products.map((e) => e?.toValue() ?? '').toList(),
+        'products': products.map((e) => e.toValue()).toList(),
       if (savingsPlanOfferingIds != null)
         'savingsPlanOfferingIds': savingsPlanOfferingIds,
       if (savingsPlanPaymentOptions != null)
         'savingsPlanPaymentOptions':
-            savingsPlanPaymentOptions.map((e) => e?.toValue() ?? '').toList(),
+            savingsPlanPaymentOptions.map((e) => e.toValue()).toList(),
       if (savingsPlanTypes != null)
-        'savingsPlanTypes':
-            savingsPlanTypes.map((e) => e?.toValue() ?? '').toList(),
+        'savingsPlanTypes': savingsPlanTypes.map((e) => e.toValue()).toList(),
       if (serviceCodes != null)
-        'serviceCodes': serviceCodes.map((e) => e?.toValue() ?? '').toList(),
+        'serviceCodes': serviceCodes.map((e) => e.toValue()).toList(),
       if (usageTypes != null) 'usageTypes': usageTypes,
     };
     final response = await _protocol.send(
@@ -393,19 +368,19 @@ class SavingsPlans {
   /// Parameter [usageTypes] :
   /// The usage details of the line item in the billing report.
   Future<DescribeSavingsPlansOfferingsResponse> describeSavingsPlansOfferings({
-    List<CurrencyCode> currencies,
-    List<String> descriptions,
-    List<int> durations,
-    List<SavingsPlanOfferingFilterElement> filters,
-    int maxResults,
-    String nextToken,
-    List<String> offeringIds,
-    List<String> operations,
-    List<SavingsPlanPaymentOption> paymentOptions,
-    List<SavingsPlanType> planTypes,
-    SavingsPlanProductType productType,
-    List<String> serviceCodes,
-    List<String> usageTypes,
+    List<CurrencyCode>? currencies,
+    List<String>? descriptions,
+    List<int>? durations,
+    List<SavingsPlanOfferingFilterElement>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<String>? offeringIds,
+    List<String>? operations,
+    List<SavingsPlanPaymentOption>? paymentOptions,
+    List<SavingsPlanType>? planTypes,
+    SavingsPlanProductType? productType,
+    List<String>? serviceCodes,
+    List<String>? usageTypes,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -419,14 +394,9 @@ class SavingsPlans {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9/=\+]+$''',
-    );
     final $payload = <String, dynamic>{
       if (currencies != null)
-        'currencies': currencies.map((e) => e?.toValue() ?? '').toList(),
+        'currencies': currencies.map((e) => e.toValue()).toList(),
       if (descriptions != null) 'descriptions': descriptions,
       if (durations != null) 'durations': durations,
       if (filters != null) 'filters': filters,
@@ -435,10 +405,9 @@ class SavingsPlans {
       if (offeringIds != null) 'offeringIds': offeringIds,
       if (operations != null) 'operations': operations,
       if (paymentOptions != null)
-        'paymentOptions':
-            paymentOptions.map((e) => e?.toValue() ?? '').toList(),
+        'paymentOptions': paymentOptions.map((e) => e.toValue()).toList(),
       if (planTypes != null)
-        'planTypes': planTypes.map((e) => e?.toValue() ?? '').toList(),
+        'planTypes': planTypes.map((e) => e.toValue()).toList(),
       if (productType != null) 'productType': productType.toValue(),
       if (serviceCodes != null) 'serviceCodes': serviceCodes,
       if (usageTypes != null) 'usageTypes': usageTypes,
@@ -461,15 +430,9 @@ class SavingsPlans {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
     };
@@ -496,16 +459,10 @@ class SavingsPlans {
   /// One or more tags. For example, { "tags": {"key1":"value1",
   /// "key2":"value2"} }.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
@@ -517,7 +474,6 @@ class SavingsPlans {
       requestUri: '/TagResource',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes the specified tags from the specified resource.
@@ -532,16 +488,10 @@ class SavingsPlans {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:aws:[a-z]+:([a-z]{2}-[a-z]+-\d{1}|):(\d{12}):savingsplan\/([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'resourceArn': resourceArn,
@@ -553,31 +503,33 @@ class SavingsPlans {
       requestUri: '/UntagResource',
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSavingsPlanResponse {
   /// The ID of the Savings Plan.
-  @_s.JsonKey(name: 'savingsPlanId')
-  final String savingsPlanId;
+  final String? savingsPlanId;
 
   CreateSavingsPlanResponse({
     this.savingsPlanId,
   });
-  factory CreateSavingsPlanResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSavingsPlanResponseFromJson(json);
+
+  factory CreateSavingsPlanResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSavingsPlanResponse(
+      savingsPlanId: json['savingsPlanId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final savingsPlanId = this.savingsPlanId;
+    return {
+      if (savingsPlanId != null) 'savingsPlanId': savingsPlanId,
+    };
+  }
 }
 
 enum CurrencyCode {
-  @_s.JsonValue('CNY')
   cny,
-  @_s.JsonValue('USD')
   usd,
 }
 
@@ -589,168 +541,217 @@ extension on CurrencyCode {
       case CurrencyCode.usd:
         return 'USD';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DeleteQueuedSavingsPlanResponse {
-  DeleteQueuedSavingsPlanResponse();
-  factory DeleteQueuedSavingsPlanResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteQueuedSavingsPlanResponseFromJson(json);
+extension on String {
+  CurrencyCode toCurrencyCode() {
+    switch (this) {
+      case 'CNY':
+        return CurrencyCode.cny;
+      case 'USD':
+        return CurrencyCode.usd;
+    }
+    throw Exception('$this is not known in enum CurrencyCode');
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class DeleteQueuedSavingsPlanResponse {
+  DeleteQueuedSavingsPlanResponse();
+
+  factory DeleteQueuedSavingsPlanResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteQueuedSavingsPlanResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DescribeSavingsPlanRatesResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The ID of the Savings Plan.
-  @_s.JsonKey(name: 'savingsPlanId')
-  final String savingsPlanId;
+  final String? savingsPlanId;
 
   /// Information about the Savings Plans rates.
-  @_s.JsonKey(name: 'searchResults')
-  final List<SavingsPlanRate> searchResults;
+  final List<SavingsPlanRate>? searchResults;
 
   DescribeSavingsPlanRatesResponse({
     this.nextToken,
     this.savingsPlanId,
     this.searchResults,
   });
-  factory DescribeSavingsPlanRatesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeSavingsPlanRatesResponseFromJson(json);
+
+  factory DescribeSavingsPlanRatesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSavingsPlanRatesResponse(
+      nextToken: json['nextToken'] as String?,
+      savingsPlanId: json['savingsPlanId'] as String?,
+      searchResults: (json['searchResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => SavingsPlanRate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final savingsPlanId = this.savingsPlanId;
+    final searchResults = this.searchResults;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (savingsPlanId != null) 'savingsPlanId': savingsPlanId,
+      if (searchResults != null) 'searchResults': searchResults,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSavingsPlansOfferingRatesResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the Savings Plans offering rates.
-  @_s.JsonKey(name: 'searchResults')
-  final List<SavingsPlanOfferingRate> searchResults;
+  final List<SavingsPlanOfferingRate>? searchResults;
 
   DescribeSavingsPlansOfferingRatesResponse({
     this.nextToken,
     this.searchResults,
   });
+
   factory DescribeSavingsPlansOfferingRatesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeSavingsPlansOfferingRatesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeSavingsPlansOfferingRatesResponse(
+      nextToken: json['nextToken'] as String?,
+      searchResults: (json['searchResults'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SavingsPlanOfferingRate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final searchResults = this.searchResults;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (searchResults != null) 'searchResults': searchResults,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSavingsPlansOfferingsResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the Savings Plans offerings.
-  @_s.JsonKey(name: 'searchResults')
-  final List<SavingsPlanOffering> searchResults;
+  final List<SavingsPlanOffering>? searchResults;
 
   DescribeSavingsPlansOfferingsResponse({
     this.nextToken,
     this.searchResults,
   });
+
   factory DescribeSavingsPlansOfferingsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeSavingsPlansOfferingsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeSavingsPlansOfferingsResponse(
+      nextToken: json['nextToken'] as String?,
+      searchResults: (json['searchResults'] as List?)
+          ?.whereNotNull()
+          .map((e) => SavingsPlanOffering.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final searchResults = this.searchResults;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (searchResults != null) 'searchResults': searchResults,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSavingsPlansResponse {
   /// The token to use to retrieve the next page of results. This value is null
   /// when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the Savings Plans.
-  @_s.JsonKey(name: 'savingsPlans')
-  final List<SavingsPlan> savingsPlans;
+  final List<SavingsPlan>? savingsPlans;
 
   DescribeSavingsPlansResponse({
     this.nextToken,
     this.savingsPlans,
   });
-  factory DescribeSavingsPlansResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSavingsPlansResponseFromJson(json);
+
+  factory DescribeSavingsPlansResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSavingsPlansResponse(
+      nextToken: json['nextToken'] as String?,
+      savingsPlans: (json['savingsPlans'] as List?)
+          ?.whereNotNull()
+          .map((e) => SavingsPlan.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final savingsPlans = this.savingsPlans;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (savingsPlans != null) 'savingsPlans': savingsPlans,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// Information about the tags.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Information about a Savings Plan offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParentSavingsPlanOffering {
   /// The currency.
-  @_s.JsonKey(name: 'currency')
-  final CurrencyCode currency;
+  final CurrencyCode? currency;
 
   /// The duration, in seconds.
-  @_s.JsonKey(name: 'durationSeconds')
-  final int durationSeconds;
+  final int? durationSeconds;
 
   /// The ID of the offering.
-  @_s.JsonKey(name: 'offeringId')
-  final String offeringId;
+  final String? offeringId;
 
   /// The payment option.
-  @_s.JsonKey(name: 'paymentOption')
-  final SavingsPlanPaymentOption paymentOption;
+  final SavingsPlanPaymentOption? paymentOption;
 
   /// The description.
-  @_s.JsonKey(name: 'planDescription')
-  final String planDescription;
+  final String? planDescription;
 
   /// The plan type.
-  @_s.JsonKey(name: 'planType')
-  final SavingsPlanType planType;
+  final SavingsPlanType? planType;
 
   ParentSavingsPlanOffering({
     this.currency,
@@ -760,88 +761,92 @@ class ParentSavingsPlanOffering {
     this.planDescription,
     this.planType,
   });
-  factory ParentSavingsPlanOffering.fromJson(Map<String, dynamic> json) =>
-      _$ParentSavingsPlanOfferingFromJson(json);
+
+  factory ParentSavingsPlanOffering.fromJson(Map<String, dynamic> json) {
+    return ParentSavingsPlanOffering(
+      currency: (json['currency'] as String?)?.toCurrencyCode(),
+      durationSeconds: json['durationSeconds'] as int?,
+      offeringId: json['offeringId'] as String?,
+      paymentOption:
+          (json['paymentOption'] as String?)?.toSavingsPlanPaymentOption(),
+      planDescription: json['planDescription'] as String?,
+      planType: (json['planType'] as String?)?.toSavingsPlanType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final durationSeconds = this.durationSeconds;
+    final offeringId = this.offeringId;
+    final paymentOption = this.paymentOption;
+    final planDescription = this.planDescription;
+    final planType = this.planType;
+    return {
+      if (currency != null) 'currency': currency.toValue(),
+      if (durationSeconds != null) 'durationSeconds': durationSeconds,
+      if (offeringId != null) 'offeringId': offeringId,
+      if (paymentOption != null) 'paymentOption': paymentOption.toValue(),
+      if (planDescription != null) 'planDescription': planDescription,
+      if (planType != null) 'planType': planType.toValue(),
+    };
+  }
 }
 
 /// Information about a Savings Plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlan {
   /// The hourly commitment, in USD.
-  @_s.JsonKey(name: 'commitment')
-  final String commitment;
+  final String? commitment;
 
   /// The currency.
-  @_s.JsonKey(name: 'currency')
-  final CurrencyCode currency;
+  final CurrencyCode? currency;
 
   /// The description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The EC2 instance family.
-  @_s.JsonKey(name: 'ec2InstanceFamily')
-  final String ec2InstanceFamily;
+  final String? ec2InstanceFamily;
 
   /// The end time.
-  @_s.JsonKey(name: 'end')
-  final String end;
+  final String? end;
 
   /// The ID of the offering.
-  @_s.JsonKey(name: 'offeringId')
-  final String offeringId;
+  final String? offeringId;
 
   /// The payment option.
-  @_s.JsonKey(name: 'paymentOption')
-  final SavingsPlanPaymentOption paymentOption;
+  final SavingsPlanPaymentOption? paymentOption;
 
   /// The product types.
-  @_s.JsonKey(name: 'productTypes')
-  final List<SavingsPlanProductType> productTypes;
+  final List<SavingsPlanProductType>? productTypes;
 
   /// The recurring payment amount.
-  @_s.JsonKey(name: 'recurringPaymentAmount')
-  final String recurringPaymentAmount;
+  final String? recurringPaymentAmount;
 
   /// The AWS Region.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// The Amazon Resource Name (ARN) of the Savings Plan.
-  @_s.JsonKey(name: 'savingsPlanArn')
-  final String savingsPlanArn;
+  final String? savingsPlanArn;
 
   /// The ID of the Savings Plan.
-  @_s.JsonKey(name: 'savingsPlanId')
-  final String savingsPlanId;
+  final String? savingsPlanId;
 
   /// The plan type.
-  @_s.JsonKey(name: 'savingsPlanType')
-  final SavingsPlanType savingsPlanType;
+  final SavingsPlanType? savingsPlanType;
 
   /// The start time.
-  @_s.JsonKey(name: 'start')
-  final String start;
+  final String? start;
 
   /// The state.
-  @_s.JsonKey(name: 'state')
-  final SavingsPlanState state;
+  final SavingsPlanState? state;
 
   /// One or more tags.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The duration of the term, in seconds.
-  @_s.JsonKey(name: 'termDurationInSeconds')
-  final int termDurationInSeconds;
+  final int? termDurationInSeconds;
 
   /// The up-front payment amount.
-  @_s.JsonKey(name: 'upfrontPaymentAmount')
-  final String upfrontPaymentAmount;
+  final String? upfrontPaymentAmount;
 
   SavingsPlan({
     this.commitment,
@@ -863,82 +868,149 @@ class SavingsPlan {
     this.termDurationInSeconds,
     this.upfrontPaymentAmount,
   });
-  factory SavingsPlan.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlanFromJson(json);
+
+  factory SavingsPlan.fromJson(Map<String, dynamic> json) {
+    return SavingsPlan(
+      commitment: json['commitment'] as String?,
+      currency: (json['currency'] as String?)?.toCurrencyCode(),
+      description: json['description'] as String?,
+      ec2InstanceFamily: json['ec2InstanceFamily'] as String?,
+      end: json['end'] as String?,
+      offeringId: json['offeringId'] as String?,
+      paymentOption:
+          (json['paymentOption'] as String?)?.toSavingsPlanPaymentOption(),
+      productTypes: (json['productTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSavingsPlanProductType())
+          .toList(),
+      recurringPaymentAmount: json['recurringPaymentAmount'] as String?,
+      region: json['region'] as String?,
+      savingsPlanArn: json['savingsPlanArn'] as String?,
+      savingsPlanId: json['savingsPlanId'] as String?,
+      savingsPlanType:
+          (json['savingsPlanType'] as String?)?.toSavingsPlanType(),
+      start: json['start'] as String?,
+      state: (json['state'] as String?)?.toSavingsPlanState(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      termDurationInSeconds: json['termDurationInSeconds'] as int?,
+      upfrontPaymentAmount: json['upfrontPaymentAmount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitment = this.commitment;
+    final currency = this.currency;
+    final description = this.description;
+    final ec2InstanceFamily = this.ec2InstanceFamily;
+    final end = this.end;
+    final offeringId = this.offeringId;
+    final paymentOption = this.paymentOption;
+    final productTypes = this.productTypes;
+    final recurringPaymentAmount = this.recurringPaymentAmount;
+    final region = this.region;
+    final savingsPlanArn = this.savingsPlanArn;
+    final savingsPlanId = this.savingsPlanId;
+    final savingsPlanType = this.savingsPlanType;
+    final start = this.start;
+    final state = this.state;
+    final tags = this.tags;
+    final termDurationInSeconds = this.termDurationInSeconds;
+    final upfrontPaymentAmount = this.upfrontPaymentAmount;
+    return {
+      if (commitment != null) 'commitment': commitment,
+      if (currency != null) 'currency': currency.toValue(),
+      if (description != null) 'description': description,
+      if (ec2InstanceFamily != null) 'ec2InstanceFamily': ec2InstanceFamily,
+      if (end != null) 'end': end,
+      if (offeringId != null) 'offeringId': offeringId,
+      if (paymentOption != null) 'paymentOption': paymentOption.toValue(),
+      if (productTypes != null)
+        'productTypes': productTypes.map((e) => e.toValue()).toList(),
+      if (recurringPaymentAmount != null)
+        'recurringPaymentAmount': recurringPaymentAmount,
+      if (region != null) 'region': region,
+      if (savingsPlanArn != null) 'savingsPlanArn': savingsPlanArn,
+      if (savingsPlanId != null) 'savingsPlanId': savingsPlanId,
+      if (savingsPlanType != null) 'savingsPlanType': savingsPlanType.toValue(),
+      if (start != null) 'start': start,
+      if (state != null) 'state': state.toValue(),
+      if (tags != null) 'tags': tags,
+      if (termDurationInSeconds != null)
+        'termDurationInSeconds': termDurationInSeconds,
+      if (upfrontPaymentAmount != null)
+        'upfrontPaymentAmount': upfrontPaymentAmount,
+    };
+  }
 }
 
 /// Information about a filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SavingsPlanFilter {
   /// The filter name.
-  @_s.JsonKey(name: 'name')
-  final SavingsPlansFilterName name;
+  final SavingsPlansFilterName? name;
 
   /// The filter value.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   SavingsPlanFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$SavingsPlanFilterToJson(this);
+
+  factory SavingsPlanFilter.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanFilter(
+      name: (json['name'] as String?)?.toSavingsPlansFilterName(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 /// Information about a Savings Plan offering.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlanOffering {
   /// The currency.
-  @_s.JsonKey(name: 'currency')
-  final CurrencyCode currency;
+  final CurrencyCode? currency;
 
   /// The description.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The duration, in seconds.
-  @_s.JsonKey(name: 'durationSeconds')
-  final int durationSeconds;
+  final int? durationSeconds;
 
   /// The ID of the offering.
-  @_s.JsonKey(name: 'offeringId')
-  final String offeringId;
+  final String? offeringId;
 
   /// The specific AWS operation for the line item in the billing report.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The payment option.
-  @_s.JsonKey(name: 'paymentOption')
-  final SavingsPlanPaymentOption paymentOption;
+  final SavingsPlanPaymentOption? paymentOption;
 
   /// The plan type.
-  @_s.JsonKey(name: 'planType')
-  final SavingsPlanType planType;
+  final SavingsPlanType? planType;
 
   /// The product type.
-  @_s.JsonKey(name: 'productTypes')
-  final List<SavingsPlanProductType> productTypes;
+  final List<SavingsPlanProductType>? productTypes;
 
   /// The properties.
-  @_s.JsonKey(name: 'properties')
-  final List<SavingsPlanOfferingProperty> properties;
+  final List<SavingsPlanOfferingProperty>? properties;
 
   /// The service.
-  @_s.JsonKey(name: 'serviceCode')
-  final String serviceCode;
+  final String? serviceCode;
 
   /// The usage details of the line item in the billing report.
-  @_s.JsonKey(name: 'usageType')
-  final String usageType;
+  final String? usageType;
 
   SavingsPlanOffering({
     this.currency,
@@ -953,108 +1025,206 @@ class SavingsPlanOffering {
     this.serviceCode,
     this.usageType,
   });
-  factory SavingsPlanOffering.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlanOfferingFromJson(json);
+
+  factory SavingsPlanOffering.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOffering(
+      currency: (json['currency'] as String?)?.toCurrencyCode(),
+      description: json['description'] as String?,
+      durationSeconds: json['durationSeconds'] as int?,
+      offeringId: json['offeringId'] as String?,
+      operation: json['operation'] as String?,
+      paymentOption:
+          (json['paymentOption'] as String?)?.toSavingsPlanPaymentOption(),
+      planType: (json['planType'] as String?)?.toSavingsPlanType(),
+      productTypes: (json['productTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toSavingsPlanProductType())
+          .toList(),
+      properties: (json['properties'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SavingsPlanOfferingProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      serviceCode: json['serviceCode'] as String?,
+      usageType: json['usageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final description = this.description;
+    final durationSeconds = this.durationSeconds;
+    final offeringId = this.offeringId;
+    final operation = this.operation;
+    final paymentOption = this.paymentOption;
+    final planType = this.planType;
+    final productTypes = this.productTypes;
+    final properties = this.properties;
+    final serviceCode = this.serviceCode;
+    final usageType = this.usageType;
+    return {
+      if (currency != null) 'currency': currency.toValue(),
+      if (description != null) 'description': description,
+      if (durationSeconds != null) 'durationSeconds': durationSeconds,
+      if (offeringId != null) 'offeringId': offeringId,
+      if (operation != null) 'operation': operation,
+      if (paymentOption != null) 'paymentOption': paymentOption.toValue(),
+      if (planType != null) 'planType': planType.toValue(),
+      if (productTypes != null)
+        'productTypes': productTypes.map((e) => e.toValue()).toList(),
+      if (properties != null) 'properties': properties,
+      if (serviceCode != null) 'serviceCode': serviceCode,
+      if (usageType != null) 'usageType': usageType,
+    };
+  }
 }
 
 enum SavingsPlanOfferingFilterAttribute {
-  @_s.JsonValue('region')
   region,
-  @_s.JsonValue('instanceFamily')
   instanceFamily,
 }
 
+extension on SavingsPlanOfferingFilterAttribute {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanOfferingFilterAttribute.region:
+        return 'region';
+      case SavingsPlanOfferingFilterAttribute.instanceFamily:
+        return 'instanceFamily';
+    }
+  }
+}
+
+extension on String {
+  SavingsPlanOfferingFilterAttribute toSavingsPlanOfferingFilterAttribute() {
+    switch (this) {
+      case 'region':
+        return SavingsPlanOfferingFilterAttribute.region;
+      case 'instanceFamily':
+        return SavingsPlanOfferingFilterAttribute.instanceFamily;
+    }
+    throw Exception(
+        '$this is not known in enum SavingsPlanOfferingFilterAttribute');
+  }
+}
+
 /// Information about a filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SavingsPlanOfferingFilterElement {
   /// The filter name.
-  @_s.JsonKey(name: 'name')
-  final SavingsPlanOfferingFilterAttribute name;
+  final SavingsPlanOfferingFilterAttribute? name;
 
   /// The filter values.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   SavingsPlanOfferingFilterElement({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() =>
-      _$SavingsPlanOfferingFilterElementToJson(this);
+
+  factory SavingsPlanOfferingFilterElement.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOfferingFilterElement(
+      name: (json['name'] as String?)?.toSavingsPlanOfferingFilterAttribute(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 /// Information about a property.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlanOfferingProperty {
   /// The property name.
-  @_s.JsonKey(name: 'name')
-  final SavingsPlanOfferingPropertyKey name;
+  final SavingsPlanOfferingPropertyKey? name;
 
   /// The property value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   SavingsPlanOfferingProperty({
     this.name,
     this.value,
   });
-  factory SavingsPlanOfferingProperty.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlanOfferingPropertyFromJson(json);
+
+  factory SavingsPlanOfferingProperty.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOfferingProperty(
+      name: (json['name'] as String?)?.toSavingsPlanOfferingPropertyKey(),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum SavingsPlanOfferingPropertyKey {
-  @_s.JsonValue('region')
   region,
-  @_s.JsonValue('instanceFamily')
   instanceFamily,
 }
 
+extension on SavingsPlanOfferingPropertyKey {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanOfferingPropertyKey.region:
+        return 'region';
+      case SavingsPlanOfferingPropertyKey.instanceFamily:
+        return 'instanceFamily';
+    }
+  }
+}
+
+extension on String {
+  SavingsPlanOfferingPropertyKey toSavingsPlanOfferingPropertyKey() {
+    switch (this) {
+      case 'region':
+        return SavingsPlanOfferingPropertyKey.region;
+      case 'instanceFamily':
+        return SavingsPlanOfferingPropertyKey.instanceFamily;
+    }
+    throw Exception(
+        '$this is not known in enum SavingsPlanOfferingPropertyKey');
+  }
+}
+
 /// Information about a Savings Plan offering rate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlanOfferingRate {
   /// The specific AWS operation for the line item in the billing report.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The product type.
-  @_s.JsonKey(name: 'productType')
-  final SavingsPlanProductType productType;
+  final SavingsPlanProductType? productType;
 
   /// The properties.
-  @_s.JsonKey(name: 'properties')
-  final List<SavingsPlanOfferingRateProperty> properties;
+  final List<SavingsPlanOfferingRateProperty>? properties;
 
   /// The Savings Plan rate.
-  @_s.JsonKey(name: 'rate')
-  final String rate;
+  final String? rate;
 
   /// The Savings Plan offering.
-  @_s.JsonKey(name: 'savingsPlanOffering')
-  final ParentSavingsPlanOffering savingsPlanOffering;
+  final ParentSavingsPlanOffering? savingsPlanOffering;
 
   /// The service.
-  @_s.JsonKey(name: 'serviceCode')
-  final SavingsPlanRateServiceCode serviceCode;
+  final SavingsPlanRateServiceCode? serviceCode;
 
   /// The unit.
-  @_s.JsonKey(name: 'unit')
-  final SavingsPlanRateUnit unit;
+  final SavingsPlanRateUnit? unit;
 
   /// The usage details of the line item in the billing report.
-  @_s.JsonKey(name: 'usageType')
-  final String usageType;
+  final String? usageType;
 
   SavingsPlanOfferingRate({
     this.operation,
@@ -1066,62 +1236,118 @@ class SavingsPlanOfferingRate {
     this.unit,
     this.usageType,
   });
-  factory SavingsPlanOfferingRate.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlanOfferingRateFromJson(json);
+
+  factory SavingsPlanOfferingRate.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOfferingRate(
+      operation: json['operation'] as String?,
+      productType: (json['productType'] as String?)?.toSavingsPlanProductType(),
+      properties: (json['properties'] as List?)
+          ?.whereNotNull()
+          .map((e) => SavingsPlanOfferingRateProperty.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      rate: json['rate'] as String?,
+      savingsPlanOffering: json['savingsPlanOffering'] != null
+          ? ParentSavingsPlanOffering.fromJson(
+              json['savingsPlanOffering'] as Map<String, dynamic>)
+          : null,
+      serviceCode:
+          (json['serviceCode'] as String?)?.toSavingsPlanRateServiceCode(),
+      unit: (json['unit'] as String?)?.toSavingsPlanRateUnit(),
+      usageType: json['usageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operation = this.operation;
+    final productType = this.productType;
+    final properties = this.properties;
+    final rate = this.rate;
+    final savingsPlanOffering = this.savingsPlanOffering;
+    final serviceCode = this.serviceCode;
+    final unit = this.unit;
+    final usageType = this.usageType;
+    return {
+      if (operation != null) 'operation': operation,
+      if (productType != null) 'productType': productType.toValue(),
+      if (properties != null) 'properties': properties,
+      if (rate != null) 'rate': rate,
+      if (savingsPlanOffering != null)
+        'savingsPlanOffering': savingsPlanOffering,
+      if (serviceCode != null) 'serviceCode': serviceCode.toValue(),
+      if (unit != null) 'unit': unit.toValue(),
+      if (usageType != null) 'usageType': usageType,
+    };
+  }
 }
 
 /// Information about a filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SavingsPlanOfferingRateFilterElement {
   /// The filter name.
-  @_s.JsonKey(name: 'name')
-  final SavingsPlanRateFilterAttribute name;
+  final SavingsPlanRateFilterAttribute? name;
 
   /// The filter values.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   SavingsPlanOfferingRateFilterElement({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() =>
-      _$SavingsPlanOfferingRateFilterElementToJson(this);
+
+  factory SavingsPlanOfferingRateFilterElement.fromJson(
+      Map<String, dynamic> json) {
+    return SavingsPlanOfferingRateFilterElement(
+      name: (json['name'] as String?)?.toSavingsPlanRateFilterAttribute(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 /// Information about a property.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlanOfferingRateProperty {
   /// The property name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The property value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   SavingsPlanOfferingRateProperty({
     this.name,
     this.value,
   });
-  factory SavingsPlanOfferingRateProperty.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlanOfferingRatePropertyFromJson(json);
+
+  factory SavingsPlanOfferingRateProperty.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanOfferingRateProperty(
+      name: json['name'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum SavingsPlanPaymentOption {
-  @_s.JsonValue('All Upfront')
   allUpfront,
-  @_s.JsonValue('Partial Upfront')
   partialUpfront,
-  @_s.JsonValue('No Upfront')
   noUpfront,
 }
 
@@ -1135,17 +1361,28 @@ extension on SavingsPlanPaymentOption {
       case SavingsPlanPaymentOption.noUpfront:
         return 'No Upfront';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SavingsPlanPaymentOption toSavingsPlanPaymentOption() {
+    switch (this) {
+      case 'All Upfront':
+        return SavingsPlanPaymentOption.allUpfront;
+      case 'Partial Upfront':
+        return SavingsPlanPaymentOption.partialUpfront;
+      case 'No Upfront':
+        return SavingsPlanPaymentOption.noUpfront;
+    }
+    throw Exception('$this is not known in enum SavingsPlanPaymentOption');
   }
 }
 
 enum SavingsPlanProductType {
-  @_s.JsonValue('EC2')
   ec2,
-  @_s.JsonValue('Fargate')
   fargate,
-  @_s.JsonValue('Lambda')
   lambda,
+  sageMaker,
 }
 
 extension on SavingsPlanProductType {
@@ -1157,49 +1394,53 @@ extension on SavingsPlanProductType {
         return 'Fargate';
       case SavingsPlanProductType.lambda:
         return 'Lambda';
+      case SavingsPlanProductType.sageMaker:
+        return 'SageMaker';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SavingsPlanProductType toSavingsPlanProductType() {
+    switch (this) {
+      case 'EC2':
+        return SavingsPlanProductType.ec2;
+      case 'Fargate':
+        return SavingsPlanProductType.fargate;
+      case 'Lambda':
+        return SavingsPlanProductType.lambda;
+      case 'SageMaker':
+        return SavingsPlanProductType.sageMaker;
+    }
+    throw Exception('$this is not known in enum SavingsPlanProductType');
   }
 }
 
 /// Information about a Savings Plan rate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlanRate {
   /// The currency.
-  @_s.JsonKey(name: 'currency')
-  final CurrencyCode currency;
+  final CurrencyCode? currency;
 
   /// The specific AWS operation for the line item in the billing report.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The product type.
-  @_s.JsonKey(name: 'productType')
-  final SavingsPlanProductType productType;
+  final SavingsPlanProductType? productType;
 
   /// The properties.
-  @_s.JsonKey(name: 'properties')
-  final List<SavingsPlanRateProperty> properties;
+  final List<SavingsPlanRateProperty>? properties;
 
   /// The rate.
-  @_s.JsonKey(name: 'rate')
-  final String rate;
+  final String? rate;
 
   /// The service.
-  @_s.JsonKey(name: 'serviceCode')
-  final SavingsPlanRateServiceCode serviceCode;
+  final SavingsPlanRateServiceCode? serviceCode;
 
   /// The unit.
-  @_s.JsonKey(name: 'unit')
-  final SavingsPlanRateUnit unit;
+  final SavingsPlanRateUnit? unit;
 
   /// The usage details of the line item in the billing report.
-  @_s.JsonKey(name: 'usageType')
-  final String usageType;
+  final String? usageType;
 
   SavingsPlanRate({
     this.currency,
@@ -1211,109 +1452,266 @@ class SavingsPlanRate {
     this.unit,
     this.usageType,
   });
-  factory SavingsPlanRate.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlanRateFromJson(json);
+
+  factory SavingsPlanRate.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanRate(
+      currency: (json['currency'] as String?)?.toCurrencyCode(),
+      operation: json['operation'] as String?,
+      productType: (json['productType'] as String?)?.toSavingsPlanProductType(),
+      properties: (json['properties'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SavingsPlanRateProperty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rate: json['rate'] as String?,
+      serviceCode:
+          (json['serviceCode'] as String?)?.toSavingsPlanRateServiceCode(),
+      unit: (json['unit'] as String?)?.toSavingsPlanRateUnit(),
+      usageType: json['usageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currency = this.currency;
+    final operation = this.operation;
+    final productType = this.productType;
+    final properties = this.properties;
+    final rate = this.rate;
+    final serviceCode = this.serviceCode;
+    final unit = this.unit;
+    final usageType = this.usageType;
+    return {
+      if (currency != null) 'currency': currency.toValue(),
+      if (operation != null) 'operation': operation,
+      if (productType != null) 'productType': productType.toValue(),
+      if (properties != null) 'properties': properties,
+      if (rate != null) 'rate': rate,
+      if (serviceCode != null) 'serviceCode': serviceCode.toValue(),
+      if (unit != null) 'unit': unit.toValue(),
+      if (usageType != null) 'usageType': usageType,
+    };
+  }
 }
 
 /// Information about a filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SavingsPlanRateFilter {
   /// The filter name.
-  @_s.JsonKey(name: 'name')
-  final SavingsPlanRateFilterName name;
+  final SavingsPlanRateFilterName? name;
 
   /// The filter values.
-  @_s.JsonKey(name: 'values')
-  final List<String> values;
+  final List<String>? values;
 
   SavingsPlanRateFilter({
     this.name,
     this.values,
   });
-  Map<String, dynamic> toJson() => _$SavingsPlanRateFilterToJson(this);
+
+  factory SavingsPlanRateFilter.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanRateFilter(
+      name: (json['name'] as String?)?.toSavingsPlanRateFilterName(),
+      values: (json['values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final values = this.values;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (values != null) 'values': values,
+    };
+  }
 }
 
 enum SavingsPlanRateFilterAttribute {
-  @_s.JsonValue('region')
   region,
-  @_s.JsonValue('instanceFamily')
   instanceFamily,
-  @_s.JsonValue('instanceType')
   instanceType,
-  @_s.JsonValue('productDescription')
   productDescription,
-  @_s.JsonValue('tenancy')
   tenancy,
-  @_s.JsonValue('productId')
   productId,
 }
 
+extension on SavingsPlanRateFilterAttribute {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanRateFilterAttribute.region:
+        return 'region';
+      case SavingsPlanRateFilterAttribute.instanceFamily:
+        return 'instanceFamily';
+      case SavingsPlanRateFilterAttribute.instanceType:
+        return 'instanceType';
+      case SavingsPlanRateFilterAttribute.productDescription:
+        return 'productDescription';
+      case SavingsPlanRateFilterAttribute.tenancy:
+        return 'tenancy';
+      case SavingsPlanRateFilterAttribute.productId:
+        return 'productId';
+    }
+  }
+}
+
+extension on String {
+  SavingsPlanRateFilterAttribute toSavingsPlanRateFilterAttribute() {
+    switch (this) {
+      case 'region':
+        return SavingsPlanRateFilterAttribute.region;
+      case 'instanceFamily':
+        return SavingsPlanRateFilterAttribute.instanceFamily;
+      case 'instanceType':
+        return SavingsPlanRateFilterAttribute.instanceType;
+      case 'productDescription':
+        return SavingsPlanRateFilterAttribute.productDescription;
+      case 'tenancy':
+        return SavingsPlanRateFilterAttribute.tenancy;
+      case 'productId':
+        return SavingsPlanRateFilterAttribute.productId;
+    }
+    throw Exception(
+        '$this is not known in enum SavingsPlanRateFilterAttribute');
+  }
+}
+
 enum SavingsPlanRateFilterName {
-  @_s.JsonValue('region')
   region,
-  @_s.JsonValue('instanceType')
   instanceType,
-  @_s.JsonValue('productDescription')
   productDescription,
-  @_s.JsonValue('tenancy')
   tenancy,
-  @_s.JsonValue('productType')
   productType,
-  @_s.JsonValue('serviceCode')
   serviceCode,
-  @_s.JsonValue('usageType')
   usageType,
-  @_s.JsonValue('operation')
   operation,
 }
 
+extension on SavingsPlanRateFilterName {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanRateFilterName.region:
+        return 'region';
+      case SavingsPlanRateFilterName.instanceType:
+        return 'instanceType';
+      case SavingsPlanRateFilterName.productDescription:
+        return 'productDescription';
+      case SavingsPlanRateFilterName.tenancy:
+        return 'tenancy';
+      case SavingsPlanRateFilterName.productType:
+        return 'productType';
+      case SavingsPlanRateFilterName.serviceCode:
+        return 'serviceCode';
+      case SavingsPlanRateFilterName.usageType:
+        return 'usageType';
+      case SavingsPlanRateFilterName.operation:
+        return 'operation';
+    }
+  }
+}
+
+extension on String {
+  SavingsPlanRateFilterName toSavingsPlanRateFilterName() {
+    switch (this) {
+      case 'region':
+        return SavingsPlanRateFilterName.region;
+      case 'instanceType':
+        return SavingsPlanRateFilterName.instanceType;
+      case 'productDescription':
+        return SavingsPlanRateFilterName.productDescription;
+      case 'tenancy':
+        return SavingsPlanRateFilterName.tenancy;
+      case 'productType':
+        return SavingsPlanRateFilterName.productType;
+      case 'serviceCode':
+        return SavingsPlanRateFilterName.serviceCode;
+      case 'usageType':
+        return SavingsPlanRateFilterName.usageType;
+      case 'operation':
+        return SavingsPlanRateFilterName.operation;
+    }
+    throw Exception('$this is not known in enum SavingsPlanRateFilterName');
+  }
+}
+
 /// Information about a property.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlanRateProperty {
   /// The property name.
-  @_s.JsonKey(name: 'name')
-  final SavingsPlanRatePropertyKey name;
+  final SavingsPlanRatePropertyKey? name;
 
   /// The property value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   SavingsPlanRateProperty({
     this.name,
     this.value,
   });
-  factory SavingsPlanRateProperty.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlanRatePropertyFromJson(json);
+
+  factory SavingsPlanRateProperty.fromJson(Map<String, dynamic> json) {
+    return SavingsPlanRateProperty(
+      name: (json['name'] as String?)?.toSavingsPlanRatePropertyKey(),
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'name': name.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum SavingsPlanRatePropertyKey {
-  @_s.JsonValue('region')
   region,
-  @_s.JsonValue('instanceType')
   instanceType,
-  @_s.JsonValue('instanceFamily')
   instanceFamily,
-  @_s.JsonValue('productDescription')
   productDescription,
-  @_s.JsonValue('tenancy')
   tenancy,
 }
 
+extension on SavingsPlanRatePropertyKey {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanRatePropertyKey.region:
+        return 'region';
+      case SavingsPlanRatePropertyKey.instanceType:
+        return 'instanceType';
+      case SavingsPlanRatePropertyKey.instanceFamily:
+        return 'instanceFamily';
+      case SavingsPlanRatePropertyKey.productDescription:
+        return 'productDescription';
+      case SavingsPlanRatePropertyKey.tenancy:
+        return 'tenancy';
+    }
+  }
+}
+
+extension on String {
+  SavingsPlanRatePropertyKey toSavingsPlanRatePropertyKey() {
+    switch (this) {
+      case 'region':
+        return SavingsPlanRatePropertyKey.region;
+      case 'instanceType':
+        return SavingsPlanRatePropertyKey.instanceType;
+      case 'instanceFamily':
+        return SavingsPlanRatePropertyKey.instanceFamily;
+      case 'productDescription':
+        return SavingsPlanRatePropertyKey.productDescription;
+      case 'tenancy':
+        return SavingsPlanRatePropertyKey.tenancy;
+    }
+    throw Exception('$this is not known in enum SavingsPlanRatePropertyKey');
+  }
+}
+
 enum SavingsPlanRateServiceCode {
-  @_s.JsonValue('AmazonEC2')
   amazonEC2,
-  @_s.JsonValue('AmazonECS')
   amazonECS,
-  @_s.JsonValue('AWSLambda')
+  amazonEKS,
   awsLambda,
+  amazonSageMaker,
 }
 
 extension on SavingsPlanRateServiceCode {
@@ -1323,34 +1721,73 @@ extension on SavingsPlanRateServiceCode {
         return 'AmazonEC2';
       case SavingsPlanRateServiceCode.amazonECS:
         return 'AmazonECS';
+      case SavingsPlanRateServiceCode.amazonEKS:
+        return 'AmazonEKS';
       case SavingsPlanRateServiceCode.awsLambda:
         return 'AWSLambda';
+      case SavingsPlanRateServiceCode.amazonSageMaker:
+        return 'AmazonSageMaker';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SavingsPlanRateServiceCode toSavingsPlanRateServiceCode() {
+    switch (this) {
+      case 'AmazonEC2':
+        return SavingsPlanRateServiceCode.amazonEC2;
+      case 'AmazonECS':
+        return SavingsPlanRateServiceCode.amazonECS;
+      case 'AmazonEKS':
+        return SavingsPlanRateServiceCode.amazonEKS;
+      case 'AWSLambda':
+        return SavingsPlanRateServiceCode.awsLambda;
+      case 'AmazonSageMaker':
+        return SavingsPlanRateServiceCode.amazonSageMaker;
+    }
+    throw Exception('$this is not known in enum SavingsPlanRateServiceCode');
   }
 }
 
 enum SavingsPlanRateUnit {
-  @_s.JsonValue('Hrs')
   hrs,
-  @_s.JsonValue('Lambda-GB-Second')
   lambdaGbSecond,
-  @_s.JsonValue('Request')
   request,
 }
 
+extension on SavingsPlanRateUnit {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanRateUnit.hrs:
+        return 'Hrs';
+      case SavingsPlanRateUnit.lambdaGbSecond:
+        return 'Lambda-GB-Second';
+      case SavingsPlanRateUnit.request:
+        return 'Request';
+    }
+  }
+}
+
+extension on String {
+  SavingsPlanRateUnit toSavingsPlanRateUnit() {
+    switch (this) {
+      case 'Hrs':
+        return SavingsPlanRateUnit.hrs;
+      case 'Lambda-GB-Second':
+        return SavingsPlanRateUnit.lambdaGbSecond;
+      case 'Request':
+        return SavingsPlanRateUnit.request;
+    }
+    throw Exception('$this is not known in enum SavingsPlanRateUnit');
+  }
+}
+
 enum SavingsPlanState {
-  @_s.JsonValue('payment-pending')
   paymentPending,
-  @_s.JsonValue('payment-failed')
   paymentFailed,
-  @_s.JsonValue('active')
   active,
-  @_s.JsonValue('retired')
   retired,
-  @_s.JsonValue('queued')
   queued,
-  @_s.JsonValue('queued-deleted')
   queuedDeleted,
 }
 
@@ -1370,15 +1807,33 @@ extension on SavingsPlanState {
       case SavingsPlanState.queuedDeleted:
         return 'queued-deleted';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SavingsPlanState toSavingsPlanState() {
+    switch (this) {
+      case 'payment-pending':
+        return SavingsPlanState.paymentPending;
+      case 'payment-failed':
+        return SavingsPlanState.paymentFailed;
+      case 'active':
+        return SavingsPlanState.active;
+      case 'retired':
+        return SavingsPlanState.retired;
+      case 'queued':
+        return SavingsPlanState.queued;
+      case 'queued-deleted':
+        return SavingsPlanState.queuedDeleted;
+    }
+    throw Exception('$this is not known in enum SavingsPlanState');
   }
 }
 
 enum SavingsPlanType {
-  @_s.JsonValue('Compute')
   compute,
-  @_s.JsonValue('EC2Instance')
   eC2Instance,
+  sageMaker,
 }
 
 extension on SavingsPlanType {
@@ -1388,66 +1843,125 @@ extension on SavingsPlanType {
         return 'Compute';
       case SavingsPlanType.eC2Instance:
         return 'EC2Instance';
+      case SavingsPlanType.sageMaker:
+        return 'SageMaker';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SavingsPlanType toSavingsPlanType() {
+    switch (this) {
+      case 'Compute':
+        return SavingsPlanType.compute;
+      case 'EC2Instance':
+        return SavingsPlanType.eC2Instance;
+      case 'SageMaker':
+        return SavingsPlanType.sageMaker;
+    }
+    throw Exception('$this is not known in enum SavingsPlanType');
   }
 }
 
 enum SavingsPlansFilterName {
-  @_s.JsonValue('region')
   region,
-  @_s.JsonValue('ec2-instance-family')
   ec2InstanceFamily,
-  @_s.JsonValue('commitment')
   commitment,
-  @_s.JsonValue('upfront')
   upfront,
-  @_s.JsonValue('term')
   term,
-  @_s.JsonValue('savings-plan-type')
   savingsPlanType,
-  @_s.JsonValue('payment-option')
   paymentOption,
-  @_s.JsonValue('start')
   start,
-  @_s.JsonValue('end')
   end,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class TagResourceResponse {
-  TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+extension on SavingsPlansFilterName {
+  String toValue() {
+    switch (this) {
+      case SavingsPlansFilterName.region:
+        return 'region';
+      case SavingsPlansFilterName.ec2InstanceFamily:
+        return 'ec2-instance-family';
+      case SavingsPlansFilterName.commitment:
+        return 'commitment';
+      case SavingsPlansFilterName.upfront:
+        return 'upfront';
+      case SavingsPlansFilterName.term:
+        return 'term';
+      case SavingsPlansFilterName.savingsPlanType:
+        return 'savings-plan-type';
+      case SavingsPlansFilterName.paymentOption:
+        return 'payment-option';
+      case SavingsPlansFilterName.start:
+        return 'start';
+      case SavingsPlansFilterName.end:
+        return 'end';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SavingsPlansFilterName toSavingsPlansFilterName() {
+    switch (this) {
+      case 'region':
+        return SavingsPlansFilterName.region;
+      case 'ec2-instance-family':
+        return SavingsPlansFilterName.ec2InstanceFamily;
+      case 'commitment':
+        return SavingsPlansFilterName.commitment;
+      case 'upfront':
+        return SavingsPlansFilterName.upfront;
+      case 'term':
+        return SavingsPlansFilterName.term;
+      case 'savings-plan-type':
+        return SavingsPlansFilterName.savingsPlanType;
+      case 'payment-option':
+        return SavingsPlansFilterName.paymentOption;
+      case 'start':
+        return SavingsPlansFilterName.start;
+      case 'end':
+        return SavingsPlansFilterName.end;
+    }
+    throw Exception('$this is not known in enum SavingsPlansFilterName');
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -1455,7 +1969,7 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

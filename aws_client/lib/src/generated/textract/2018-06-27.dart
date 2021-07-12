@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-06-27.g.dart';
 
 /// Amazon Textract detects and analyzes text in documents and converts it into
 /// machine-readable text. This is the API reference documentation for Amazon
@@ -32,10 +25,10 @@ part '2018-06-27.g.dart';
 class Textract {
   final _s.JsonProtocol _protocol;
   Textract({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -119,9 +112,9 @@ class Textract {
   /// Sets the configuration for the human in the loop workflow for analyzing
   /// documents.
   Future<AnalyzeDocumentResponse> analyzeDocument({
-    @_s.required Document document,
-    @_s.required List<FeatureType> featureTypes,
-    HumanLoopConfig humanLoopConfig,
+    required Document document,
+    required List<FeatureType> featureTypes,
+    HumanLoopConfig? humanLoopConfig,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
     ArgumentError.checkNotNull(featureTypes, 'featureTypes');
@@ -137,7 +130,7 @@ class Textract {
       headers: headers,
       payload: {
         'Document': document,
-        'FeatureTypes': featureTypes?.map((e) => e?.toValue() ?? '')?.toList(),
+        'FeatureTypes': featureTypes.map((e) => e.toValue()).toList(),
         if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
       },
     );
@@ -183,7 +176,7 @@ class Textract {
   /// base64-encode image bytes that are passed using the <code>Bytes</code>
   /// field.
   Future<DetectDocumentTextResponse> detectDocumentText({
-    @_s.required Document document,
+    required Document document,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
     final headers = <String, String>{
@@ -284,9 +277,9 @@ class Textract {
   /// retrieve), Amazon Textract returns a pagination token in the response. You
   /// can use this pagination token to retrieve the next set of blocks.
   Future<GetDocumentAnalysisResponse> getDocumentAnalysis({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -294,12 +287,6 @@ class Textract {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -313,11 +300,6 @@ class Textract {
       nextToken,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -401,9 +383,9 @@ class Textract {
   /// retrieve), Amazon Textract returns a pagination token in the response. You
   /// can use this pagination token to retrieve the next set of blocks.
   Future<GetDocumentTextDetectionResponse> getDocumentTextDetection({
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -411,12 +393,6 @@ class Textract {
       jobId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[a-zA-Z0-9-_]+$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -430,11 +406,6 @@ class Textract {
       nextToken,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -535,13 +506,13 @@ class Textract {
   /// Amazon Textract will save the results internally to be accessed by the
   /// GetDocumentAnalysis operation.
   Future<StartDocumentAnalysisResponse> startDocumentAnalysis({
-    @_s.required DocumentLocation documentLocation,
-    @_s.required List<FeatureType> featureTypes,
-    String clientRequestToken,
-    String jobTag,
-    String kMSKeyId,
-    NotificationChannel notificationChannel,
-    OutputConfig outputConfig,
+    required DocumentLocation documentLocation,
+    required List<FeatureType> featureTypes,
+    String? clientRequestToken,
+    String? jobTag,
+    String? kMSKeyId,
+    NotificationChannel? notificationChannel,
+    OutputConfig? outputConfig,
   }) async {
     ArgumentError.checkNotNull(documentLocation, 'documentLocation');
     ArgumentError.checkNotNull(featureTypes, 'featureTypes');
@@ -551,32 +522,17 @@ class Textract {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
-    );
     _s.validateStringLength(
       'kMSKeyId',
       kMSKeyId,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKeyId',
-      kMSKeyId,
-      r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -590,7 +546,7 @@ class Textract {
       headers: headers,
       payload: {
         'DocumentLocation': documentLocation,
-        'FeatureTypes': featureTypes?.map((e) => e?.toValue() ?? '')?.toList(),
+        'FeatureTypes': featureTypes.map((e) => e.toValue()).toList(),
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (jobTag != null) 'JobTag': jobTag,
@@ -674,12 +630,12 @@ class Textract {
   /// Textract will save the results internally to be accessed with the
   /// GetDocumentTextDetection operation.
   Future<StartDocumentTextDetectionResponse> startDocumentTextDetection({
-    @_s.required DocumentLocation documentLocation,
-    String clientRequestToken,
-    String jobTag,
-    String kMSKeyId,
-    NotificationChannel notificationChannel,
-    OutputConfig outputConfig,
+    required DocumentLocation documentLocation,
+    String? clientRequestToken,
+    String? jobTag,
+    String? kMSKeyId,
+    NotificationChannel? notificationChannel,
+    OutputConfig? outputConfig,
   }) async {
     ArgumentError.checkNotNull(documentLocation, 'documentLocation');
     _s.validateStringLength(
@@ -688,32 +644,17 @@ class Textract {
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^[a-zA-Z0-9-_]+$''',
-    );
     _s.validateStringLength(
       'jobTag',
       jobTag,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'jobTag',
-      jobTag,
-      r'''[a-zA-Z0-9_.\-:]+''',
-    );
     _s.validateStringLength(
       'kMSKeyId',
       kMSKeyId,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'kMSKeyId',
-      kMSKeyId,
-      r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -741,27 +682,18 @@ class Textract {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AnalyzeDocumentResponse {
   /// The version of the model used to analyze the document.
-  @_s.JsonKey(name: 'AnalyzeDocumentModelVersion')
-  final String analyzeDocumentModelVersion;
+  final String? analyzeDocumentModelVersion;
 
   /// The items that are detected and analyzed by <code>AnalyzeDocument</code>.
-  @_s.JsonKey(name: 'Blocks')
-  final List<Block> blocks;
+  final List<Block>? blocks;
 
   /// Metadata about the analyzed document. An example is the number of pages.
-  @_s.JsonKey(name: 'DocumentMetadata')
-  final DocumentMetadata documentMetadata;
+  final DocumentMetadata? documentMetadata;
 
   /// Shows the results of the human in the loop evaluation.
-  @_s.JsonKey(name: 'HumanLoopActivationOutput')
-  final HumanLoopActivationOutput humanLoopActivationOutput;
+  final HumanLoopActivationOutput? humanLoopActivationOutput;
 
   AnalyzeDocumentResponse({
     this.analyzeDocumentModelVersion,
@@ -769,8 +701,40 @@ class AnalyzeDocumentResponse {
     this.documentMetadata,
     this.humanLoopActivationOutput,
   });
-  factory AnalyzeDocumentResponse.fromJson(Map<String, dynamic> json) =>
-      _$AnalyzeDocumentResponseFromJson(json);
+
+  factory AnalyzeDocumentResponse.fromJson(Map<String, dynamic> json) {
+    return AnalyzeDocumentResponse(
+      analyzeDocumentModelVersion:
+          json['AnalyzeDocumentModelVersion'] as String?,
+      blocks: (json['Blocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentMetadata: json['DocumentMetadata'] != null
+          ? DocumentMetadata.fromJson(
+              json['DocumentMetadata'] as Map<String, dynamic>)
+          : null,
+      humanLoopActivationOutput: json['HumanLoopActivationOutput'] != null
+          ? HumanLoopActivationOutput.fromJson(
+              json['HumanLoopActivationOutput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzeDocumentModelVersion = this.analyzeDocumentModelVersion;
+    final blocks = this.blocks;
+    final documentMetadata = this.documentMetadata;
+    final humanLoopActivationOutput = this.humanLoopActivationOutput;
+    return {
+      if (analyzeDocumentModelVersion != null)
+        'AnalyzeDocumentModelVersion': analyzeDocumentModelVersion,
+      if (blocks != null) 'Blocks': blocks,
+      if (documentMetadata != null) 'DocumentMetadata': documentMetadata,
+      if (humanLoopActivationOutput != null)
+        'HumanLoopActivationOutput': humanLoopActivationOutput,
+    };
+  }
 }
 
 /// A <code>Block</code> represents items that are recognized in a document
@@ -791,11 +755,6 @@ class AnalyzeDocumentResponse {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/textract/latest/dg/how-it-works.html">How
 /// Amazon Textract Works</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Block {
   /// The type of text item that's recognized. In operations for text detection,
   /// the following types are returned:
@@ -851,27 +810,23 @@ class Block {
   /// selection element.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'BlockType')
-  final BlockType blockType;
+  final BlockType? blockType;
 
   /// The column in which a table cell appears. The first column position is 1.
   /// <code>ColumnIndex</code> isn't returned by <code>DetectDocumentText</code>
   /// and <code>GetDocumentTextDetection</code>.
-  @_s.JsonKey(name: 'ColumnIndex')
-  final int columnIndex;
+  final int? columnIndex;
 
   /// The number of columns that a table cell spans. Currently this value is
   /// always 1, even if the number of columns spanned is greater than 1.
   /// <code>ColumnSpan</code> isn't returned by <code>DetectDocumentText</code>
   /// and <code>GetDocumentTextDetection</code>.
-  @_s.JsonKey(name: 'ColumnSpan')
-  final int columnSpan;
+  final int? columnSpan;
 
   /// The confidence score that Amazon Textract has in the accuracy of the
   /// recognized text and the accuracy of the geometry points around the
   /// recognized text.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The type of entity. The following can be returned:
   ///
@@ -885,19 +840,16 @@ class Block {
   /// </ul>
   /// <code>EntityTypes</code> isn't returned by <code>DetectDocumentText</code>
   /// and <code>GetDocumentTextDetection</code>.
-  @_s.JsonKey(name: 'EntityTypes')
-  final List<EntityType> entityTypes;
+  final List<EntityType>? entityTypes;
 
   /// The location of the recognized text on the image. It includes an
   /// axis-aligned, coarse bounding box that surrounds the text, and a finer-grain
   /// polygon for more accurate spatial information.
-  @_s.JsonKey(name: 'Geometry')
-  final Geometry geometry;
+  final Geometry? geometry;
 
   /// The identifier for the recognized text. The identifier is only unique for a
   /// single operation.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The page on which a block was detected. <code>Page</code> is returned by
   /// asynchronous operations. Page values greater than 1 are only returned for
@@ -906,8 +858,7 @@ class Block {
   /// document. The value of <code>Page</code> is always 1. Synchronous operations
   /// don't return <code>Page</code> because every input document is considered to
   /// be a single-page document.
-  @_s.JsonKey(name: 'Page')
-  final int page;
+  final int? page;
 
   /// A list of child blocks of the current block. For example, a LINE object has
   /// child blocks for each WORD block that's part of the line of text. There
@@ -923,35 +874,29 @@ class Block {
   /// 1 - The block has child blocks.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Relationships')
-  final List<Relationship> relationships;
+  final List<Relationship>? relationships;
 
   /// The row in which a table cell is located. The first row position is 1.
   /// <code>RowIndex</code> isn't returned by <code>DetectDocumentText</code> and
   /// <code>GetDocumentTextDetection</code>.
-  @_s.JsonKey(name: 'RowIndex')
-  final int rowIndex;
+  final int? rowIndex;
 
   /// The number of rows that a table cell spans. Currently this value is always
   /// 1, even if the number of rows spanned is greater than 1.
   /// <code>RowSpan</code> isn't returned by <code>DetectDocumentText</code> and
   /// <code>GetDocumentTextDetection</code>.
-  @_s.JsonKey(name: 'RowSpan')
-  final int rowSpan;
+  final int? rowSpan;
 
   /// The selection status of a selection element, such as an option button or
   /// check box.
-  @_s.JsonKey(name: 'SelectionStatus')
-  final SelectionStatus selectionStatus;
+  final SelectionStatus? selectionStatus;
 
   /// The word or line of text that's recognized by Amazon Textract.
-  @_s.JsonKey(name: 'Text')
-  final String text;
+  final String? text;
 
   /// The kind of text that Amazon Textract has detected. Can check for
   /// handwritten text and printed text.
-  @_s.JsonKey(name: 'TextType')
-  final TextType textType;
+  final TextType? textType;
 
   Block({
     this.blockType,
@@ -969,24 +914,121 @@ class Block {
     this.text,
     this.textType,
   });
-  factory Block.fromJson(Map<String, dynamic> json) => _$BlockFromJson(json);
+
+  factory Block.fromJson(Map<String, dynamic> json) {
+    return Block(
+      blockType: (json['BlockType'] as String?)?.toBlockType(),
+      columnIndex: json['ColumnIndex'] as int?,
+      columnSpan: json['ColumnSpan'] as int?,
+      confidence: json['Confidence'] as double?,
+      entityTypes: (json['EntityTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEntityType())
+          .toList(),
+      geometry: json['Geometry'] != null
+          ? Geometry.fromJson(json['Geometry'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      page: json['Page'] as int?,
+      relationships: (json['Relationships'] as List?)
+          ?.whereNotNull()
+          .map((e) => Relationship.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rowIndex: json['RowIndex'] as int?,
+      rowSpan: json['RowSpan'] as int?,
+      selectionStatus:
+          (json['SelectionStatus'] as String?)?.toSelectionStatus(),
+      text: json['Text'] as String?,
+      textType: (json['TextType'] as String?)?.toTextType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockType = this.blockType;
+    final columnIndex = this.columnIndex;
+    final columnSpan = this.columnSpan;
+    final confidence = this.confidence;
+    final entityTypes = this.entityTypes;
+    final geometry = this.geometry;
+    final id = this.id;
+    final page = this.page;
+    final relationships = this.relationships;
+    final rowIndex = this.rowIndex;
+    final rowSpan = this.rowSpan;
+    final selectionStatus = this.selectionStatus;
+    final text = this.text;
+    final textType = this.textType;
+    return {
+      if (blockType != null) 'BlockType': blockType.toValue(),
+      if (columnIndex != null) 'ColumnIndex': columnIndex,
+      if (columnSpan != null) 'ColumnSpan': columnSpan,
+      if (confidence != null) 'Confidence': confidence,
+      if (entityTypes != null)
+        'EntityTypes': entityTypes.map((e) => e.toValue()).toList(),
+      if (geometry != null) 'Geometry': geometry,
+      if (id != null) 'Id': id,
+      if (page != null) 'Page': page,
+      if (relationships != null) 'Relationships': relationships,
+      if (rowIndex != null) 'RowIndex': rowIndex,
+      if (rowSpan != null) 'RowSpan': rowSpan,
+      if (selectionStatus != null) 'SelectionStatus': selectionStatus.toValue(),
+      if (text != null) 'Text': text,
+      if (textType != null) 'TextType': textType.toValue(),
+    };
+  }
 }
 
 enum BlockType {
-  @_s.JsonValue('KEY_VALUE_SET')
   keyValueSet,
-  @_s.JsonValue('PAGE')
   page,
-  @_s.JsonValue('LINE')
   line,
-  @_s.JsonValue('WORD')
   word,
-  @_s.JsonValue('TABLE')
   table,
-  @_s.JsonValue('CELL')
   cell,
-  @_s.JsonValue('SELECTION_ELEMENT')
   selectionElement,
+}
+
+extension on BlockType {
+  String toValue() {
+    switch (this) {
+      case BlockType.keyValueSet:
+        return 'KEY_VALUE_SET';
+      case BlockType.page:
+        return 'PAGE';
+      case BlockType.line:
+        return 'LINE';
+      case BlockType.word:
+        return 'WORD';
+      case BlockType.table:
+        return 'TABLE';
+      case BlockType.cell:
+        return 'CELL';
+      case BlockType.selectionElement:
+        return 'SELECTION_ELEMENT';
+    }
+  }
+}
+
+extension on String {
+  BlockType toBlockType() {
+    switch (this) {
+      case 'KEY_VALUE_SET':
+        return BlockType.keyValueSet;
+      case 'PAGE':
+        return BlockType.page;
+      case 'LINE':
+        return BlockType.line;
+      case 'WORD':
+        return BlockType.word;
+      case 'TABLE':
+        return BlockType.table;
+      case 'CELL':
+        return BlockType.cell;
+      case 'SELECTION_ELEMENT':
+        return BlockType.selectionElement;
+    }
+    throw Exception('$this is not known in enum BlockType');
+  }
 }
 
 /// The bounding box around the detected page, text, key-value pair, table,
@@ -1005,30 +1047,21 @@ enum BlockType {
 /// dimensions of the bounding box as a ratio of the overall document page
 /// dimension. For example, if the document page size is 700 x 200 pixels, and
 /// the bounding box width is 70 pixels, the width returned is 0.1.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BoundingBox {
   /// The height of the bounding box as a ratio of the overall document page
   /// height.
-  @_s.JsonKey(name: 'Height')
-  final double height;
+  final double? height;
 
   /// The left coordinate of the bounding box as a ratio of overall document page
   /// width.
-  @_s.JsonKey(name: 'Left')
-  final double left;
+  final double? left;
 
   /// The top coordinate of the bounding box as a ratio of overall document page
   /// height.
-  @_s.JsonKey(name: 'Top')
-  final double top;
+  final double? top;
 
   /// The width of the bounding box as a ratio of the overall document page width.
-  @_s.JsonKey(name: 'Width')
-  final double width;
+  final double? width;
 
   BoundingBox({
     this.height,
@@ -1036,44 +1069,102 @@ class BoundingBox {
     this.top,
     this.width,
   });
-  factory BoundingBox.fromJson(Map<String, dynamic> json) =>
-      _$BoundingBoxFromJson(json);
+
+  factory BoundingBox.fromJson(Map<String, dynamic> json) {
+    return BoundingBox(
+      height: json['Height'] as double?,
+      left: json['Left'] as double?,
+      top: json['Top'] as double?,
+      width: json['Width'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final height = this.height;
+    final left = this.left;
+    final top = this.top;
+    final width = this.width;
+    return {
+      if (height != null) 'Height': height,
+      if (left != null) 'Left': left,
+      if (top != null) 'Top': top,
+      if (width != null) 'Width': width,
+    };
+  }
 }
 
 enum ContentClassifier {
-  @_s.JsonValue('FreeOfPersonallyIdentifiableInformation')
   freeOfPersonallyIdentifiableInformation,
-  @_s.JsonValue('FreeOfAdultContent')
   freeOfAdultContent,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ContentClassifier {
+  String toValue() {
+    switch (this) {
+      case ContentClassifier.freeOfPersonallyIdentifiableInformation:
+        return 'FreeOfPersonallyIdentifiableInformation';
+      case ContentClassifier.freeOfAdultContent:
+        return 'FreeOfAdultContent';
+    }
+  }
+}
+
+extension on String {
+  ContentClassifier toContentClassifier() {
+    switch (this) {
+      case 'FreeOfPersonallyIdentifiableInformation':
+        return ContentClassifier.freeOfPersonallyIdentifiableInformation;
+      case 'FreeOfAdultContent':
+        return ContentClassifier.freeOfAdultContent;
+    }
+    throw Exception('$this is not known in enum ContentClassifier');
+  }
+}
+
 class DetectDocumentTextResponse {
   /// An array of <code>Block</code> objects that contain the text that's detected
   /// in the document.
-  @_s.JsonKey(name: 'Blocks')
-  final List<Block> blocks;
+  final List<Block>? blocks;
 
   /// <p/>
-  @_s.JsonKey(name: 'DetectDocumentTextModelVersion')
-  final String detectDocumentTextModelVersion;
+  final String? detectDocumentTextModelVersion;
 
   /// Metadata about the document. It contains the number of pages that are
   /// detected in the document.
-  @_s.JsonKey(name: 'DocumentMetadata')
-  final DocumentMetadata documentMetadata;
+  final DocumentMetadata? documentMetadata;
 
   DetectDocumentTextResponse({
     this.blocks,
     this.detectDocumentTextModelVersion,
     this.documentMetadata,
   });
-  factory DetectDocumentTextResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectDocumentTextResponseFromJson(json);
+
+  factory DetectDocumentTextResponse.fromJson(Map<String, dynamic> json) {
+    return DetectDocumentTextResponse(
+      blocks: (json['Blocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      detectDocumentTextModelVersion:
+          json['DetectDocumentTextModelVersion'] as String?,
+      documentMetadata: json['DocumentMetadata'] != null
+          ? DocumentMetadata.fromJson(
+              json['DocumentMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blocks = this.blocks;
+    final detectDocumentTextModelVersion = this.detectDocumentTextModelVersion;
+    final documentMetadata = this.documentMetadata;
+    return {
+      if (blocks != null) 'Blocks': blocks,
+      if (detectDocumentTextModelVersion != null)
+        'DetectDocumentTextModelVersion': detectDocumentTextModelVersion,
+      if (documentMetadata != null) 'DocumentMetadata': documentMetadata,
+    };
+  }
 }
 
 /// The input document, either as bytes or as an S3 object.
@@ -1099,11 +1190,6 @@ class DetectDocumentTextResponse {
 ///
 /// For Amazon Textract to process an S3 object, the user must have permission
 /// to access the S3 object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Document {
   /// A blob of base64-encoded document bytes. The maximum size of a document
   /// that's provided in a blob of bytes is 5 MB. The document bytes must be in
@@ -1111,20 +1197,34 @@ class Document {
   ///
   /// If you're using an AWS SDK to call Amazon Textract, you might not need to
   /// base64-encode image bytes passed using the <code>Bytes</code> field.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Bytes')
-  final Uint8List bytes;
+  final Uint8List? bytes;
 
   /// Identifies an S3 object as the document source. The maximum size of a
   /// document that's stored in an S3 bucket is 5 MB.
-  @_s.JsonKey(name: 'S3Object')
-  final S3Object s3Object;
+  final S3Object? s3Object;
 
   Document({
     this.bytes,
     this.s3Object,
   });
-  Map<String, dynamic> toJson() => _$DocumentToJson(this);
+
+  factory Document.fromJson(Map<String, dynamic> json) {
+    return Document(
+      bytes: _s.decodeNullableUint8List(json['Bytes'] as String?),
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytes = this.bytes;
+    final s3Object = this.s3Object;
+    return {
+      if (bytes != null) 'Bytes': base64Encode(bytes),
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
 }
 
 /// The Amazon S3 bucket that contains the document to be processed. It's used
@@ -1132,51 +1232,83 @@ class Document {
 ///
 /// The input document can be an image file in JPEG or PNG format. It can also
 /// be a file in PDF format.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DocumentLocation {
   /// The Amazon S3 bucket that contains the input document.
-  @_s.JsonKey(name: 'S3Object')
-  final S3Object s3Object;
+  final S3Object? s3Object;
 
   DocumentLocation({
     this.s3Object,
   });
-  Map<String, dynamic> toJson() => _$DocumentLocationToJson(this);
+
+  factory DocumentLocation.fromJson(Map<String, dynamic> json) {
+    return DocumentLocation(
+      s3Object: json['S3Object'] != null
+          ? S3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
 }
 
 /// Information about the input document.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DocumentMetadata {
   /// The number of pages that are detected in the document.
-  @_s.JsonKey(name: 'Pages')
-  final int pages;
+  final int? pages;
 
   DocumentMetadata({
     this.pages,
   });
-  factory DocumentMetadata.fromJson(Map<String, dynamic> json) =>
-      _$DocumentMetadataFromJson(json);
+
+  factory DocumentMetadata.fromJson(Map<String, dynamic> json) {
+    return DocumentMetadata(
+      pages: json['Pages'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pages = this.pages;
+    return {
+      if (pages != null) 'Pages': pages,
+    };
+  }
 }
 
 enum EntityType {
-  @_s.JsonValue('KEY')
   key,
-  @_s.JsonValue('VALUE')
   value,
 }
 
+extension on EntityType {
+  String toValue() {
+    switch (this) {
+      case EntityType.key:
+        return 'KEY';
+      case EntityType.value:
+        return 'VALUE';
+    }
+  }
+}
+
+extension on String {
+  EntityType toEntityType() {
+    switch (this) {
+      case 'KEY':
+        return EntityType.key;
+      case 'VALUE':
+        return EntityType.value;
+    }
+    throw Exception('$this is not known in enum EntityType');
+  }
+}
+
 enum FeatureType {
-  @_s.JsonValue('TABLES')
   tables,
-  @_s.JsonValue('FORMS')
   forms,
 }
 
@@ -1188,74 +1320,85 @@ extension on FeatureType {
       case FeatureType.forms:
         return 'FORMS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FeatureType toFeatureType() {
+    switch (this) {
+      case 'TABLES':
+        return FeatureType.tables;
+      case 'FORMS':
+        return FeatureType.forms;
+    }
+    throw Exception('$this is not known in enum FeatureType');
   }
 }
 
 /// Information about where the following items are located on a document page:
 /// detected page, text, key-value pairs, tables, table cells, and selection
 /// elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Geometry {
   /// An axis-aligned coarse representation of the location of the recognized item
   /// on the document page.
-  @_s.JsonKey(name: 'BoundingBox')
-  final BoundingBox boundingBox;
+  final BoundingBox? boundingBox;
 
   /// Within the bounding box, a fine-grained polygon around the recognized item.
-  @_s.JsonKey(name: 'Polygon')
-  final List<Point> polygon;
+  final List<Point>? polygon;
 
   Geometry({
     this.boundingBox,
     this.polygon,
   });
-  factory Geometry.fromJson(Map<String, dynamic> json) =>
-      _$GeometryFromJson(json);
+
+  factory Geometry.fromJson(Map<String, dynamic> json) {
+    return Geometry(
+      boundingBox: json['BoundingBox'] != null
+          ? BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>)
+          : null,
+      polygon: (json['Polygon'] as List?)
+          ?.whereNotNull()
+          .map((e) => Point.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final boundingBox = this.boundingBox;
+    final polygon = this.polygon;
+    return {
+      if (boundingBox != null) 'BoundingBox': boundingBox,
+      if (polygon != null) 'Polygon': polygon,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDocumentAnalysisResponse {
   /// <p/>
-  @_s.JsonKey(name: 'AnalyzeDocumentModelVersion')
-  final String analyzeDocumentModelVersion;
+  final String? analyzeDocumentModelVersion;
 
   /// The results of the text-analysis operation.
-  @_s.JsonKey(name: 'Blocks')
-  final List<Block> blocks;
+  final List<Block>? blocks;
 
   /// Information about a document that Amazon Textract processed.
   /// <code>DocumentMetadata</code> is returned in every page of paginated
   /// responses from an Amazon Textract video operation.
-  @_s.JsonKey(name: 'DocumentMetadata')
-  final DocumentMetadata documentMetadata;
+  final DocumentMetadata? documentMetadata;
 
   /// The current status of the text detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// If the response is truncated, Amazon Textract returns this token. You can
   /// use this token in the subsequent request to retrieve the next set of text
   /// detection results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns if the detection job could not be completed. Contains explanation
   /// for what error occured.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// A list of warnings that occurred during the document-analysis operation.
-  @_s.JsonKey(name: 'Warnings')
-  final List<Warning> warnings;
+  final List<Warning>? warnings;
 
   GetDocumentAnalysisResponse({
     this.analyzeDocumentModelVersion,
@@ -1266,49 +1409,77 @@ class GetDocumentAnalysisResponse {
     this.statusMessage,
     this.warnings,
   });
-  factory GetDocumentAnalysisResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDocumentAnalysisResponseFromJson(json);
+
+  factory GetDocumentAnalysisResponse.fromJson(Map<String, dynamic> json) {
+    return GetDocumentAnalysisResponse(
+      analyzeDocumentModelVersion:
+          json['AnalyzeDocumentModelVersion'] as String?,
+      blocks: (json['Blocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      documentMetadata: json['DocumentMetadata'] != null
+          ? DocumentMetadata.fromJson(
+              json['DocumentMetadata'] as Map<String, dynamic>)
+          : null,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      warnings: (json['Warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Warning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyzeDocumentModelVersion = this.analyzeDocumentModelVersion;
+    final blocks = this.blocks;
+    final documentMetadata = this.documentMetadata;
+    final jobStatus = this.jobStatus;
+    final nextToken = this.nextToken;
+    final statusMessage = this.statusMessage;
+    final warnings = this.warnings;
+    return {
+      if (analyzeDocumentModelVersion != null)
+        'AnalyzeDocumentModelVersion': analyzeDocumentModelVersion,
+      if (blocks != null) 'Blocks': blocks,
+      if (documentMetadata != null) 'DocumentMetadata': documentMetadata,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (warnings != null) 'Warnings': warnings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDocumentTextDetectionResponse {
   /// The results of the text-detection operation.
-  @_s.JsonKey(name: 'Blocks')
-  final List<Block> blocks;
+  final List<Block>? blocks;
 
   /// <p/>
-  @_s.JsonKey(name: 'DetectDocumentTextModelVersion')
-  final String detectDocumentTextModelVersion;
+  final String? detectDocumentTextModelVersion;
 
   /// Information about a document that Amazon Textract processed.
   /// <code>DocumentMetadata</code> is returned in every page of paginated
   /// responses from an Amazon Textract video operation.
-  @_s.JsonKey(name: 'DocumentMetadata')
-  final DocumentMetadata documentMetadata;
+  final DocumentMetadata? documentMetadata;
 
   /// The current status of the text detection job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// If the response is truncated, Amazon Textract returns this token. You can
   /// use this token in the subsequent request to retrieve the next set of
   /// text-detection results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Returns if the detection job could not be completed. Contains explanation
   /// for what error occured.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   /// A list of warnings that occurred during the text-detection operation for the
   /// document.
-  @_s.JsonKey(name: 'Warnings')
-  final List<Warning> warnings;
+  final List<Warning>? warnings;
 
   GetDocumentTextDetectionResponse({
     this.blocks,
@@ -1319,148 +1490,275 @@ class GetDocumentTextDetectionResponse {
     this.statusMessage,
     this.warnings,
   });
-  factory GetDocumentTextDetectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDocumentTextDetectionResponseFromJson(json);
+
+  factory GetDocumentTextDetectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetDocumentTextDetectionResponse(
+      blocks: (json['Blocks'] as List?)
+          ?.whereNotNull()
+          .map((e) => Block.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      detectDocumentTextModelVersion:
+          json['DetectDocumentTextModelVersion'] as String?,
+      documentMetadata: json['DocumentMetadata'] != null
+          ? DocumentMetadata.fromJson(
+              json['DocumentMetadata'] as Map<String, dynamic>)
+          : null,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      nextToken: json['NextToken'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+      warnings: (json['Warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => Warning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blocks = this.blocks;
+    final detectDocumentTextModelVersion = this.detectDocumentTextModelVersion;
+    final documentMetadata = this.documentMetadata;
+    final jobStatus = this.jobStatus;
+    final nextToken = this.nextToken;
+    final statusMessage = this.statusMessage;
+    final warnings = this.warnings;
+    return {
+      if (blocks != null) 'Blocks': blocks,
+      if (detectDocumentTextModelVersion != null)
+        'DetectDocumentTextModelVersion': detectDocumentTextModelVersion,
+      if (documentMetadata != null) 'DocumentMetadata': documentMetadata,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (nextToken != null) 'NextToken': nextToken,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+      if (warnings != null) 'Warnings': warnings,
+    };
+  }
 }
 
 /// Shows the results of the human in the loop evaluation. If there is no
 /// HumanLoopArn, the input did not trigger human review.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HumanLoopActivationOutput {
   /// Shows the result of condition evaluations, including those conditions which
   /// activated a human review.
-  @_s.JsonKey(name: 'HumanLoopActivationConditionsEvaluationResults')
-  final Object humanLoopActivationConditionsEvaluationResults;
+  final Object? humanLoopActivationConditionsEvaluationResults;
 
   /// Shows if and why human review was needed.
-  @_s.JsonKey(name: 'HumanLoopActivationReasons')
-  final List<String> humanLoopActivationReasons;
+  final List<String>? humanLoopActivationReasons;
 
   /// The Amazon Resource Name (ARN) of the HumanLoop created.
-  @_s.JsonKey(name: 'HumanLoopArn')
-  final String humanLoopArn;
+  final String? humanLoopArn;
 
   HumanLoopActivationOutput({
     this.humanLoopActivationConditionsEvaluationResults,
     this.humanLoopActivationReasons,
     this.humanLoopArn,
   });
-  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) =>
-      _$HumanLoopActivationOutputFromJson(json);
+
+  factory HumanLoopActivationOutput.fromJson(Map<String, dynamic> json) {
+    return HumanLoopActivationOutput(
+      humanLoopActivationConditionsEvaluationResults:
+          json['HumanLoopActivationConditionsEvaluationResults'] == null
+              ? null
+              : jsonDecode(
+                  json['HumanLoopActivationConditionsEvaluationResults']
+                      as String),
+      humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      humanLoopArn: json['HumanLoopArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final humanLoopActivationConditionsEvaluationResults =
+        this.humanLoopActivationConditionsEvaluationResults;
+    final humanLoopActivationReasons = this.humanLoopActivationReasons;
+    final humanLoopArn = this.humanLoopArn;
+    return {
+      if (humanLoopActivationConditionsEvaluationResults != null)
+        'HumanLoopActivationConditionsEvaluationResults':
+            jsonEncode(humanLoopActivationConditionsEvaluationResults),
+      if (humanLoopActivationReasons != null)
+        'HumanLoopActivationReasons': humanLoopActivationReasons,
+      if (humanLoopArn != null) 'HumanLoopArn': humanLoopArn,
+    };
+  }
 }
 
 /// Sets up the human review workflow the document will be sent to if one of the
 /// conditions is met. You can also set certain attributes of the image before
 /// review.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HumanLoopConfig {
   /// The Amazon Resource Name (ARN) of the flow definition.
-  @_s.JsonKey(name: 'FlowDefinitionArn')
   final String flowDefinitionArn;
 
   /// The name of the human workflow used for this image. This should be kept
   /// unique within a region.
-  @_s.JsonKey(name: 'HumanLoopName')
   final String humanLoopName;
 
   /// Sets attributes of the input data.
-  @_s.JsonKey(name: 'DataAttributes')
-  final HumanLoopDataAttributes dataAttributes;
+  final HumanLoopDataAttributes? dataAttributes;
 
   HumanLoopConfig({
-    @_s.required this.flowDefinitionArn,
-    @_s.required this.humanLoopName,
+    required this.flowDefinitionArn,
+    required this.humanLoopName,
     this.dataAttributes,
   });
-  Map<String, dynamic> toJson() => _$HumanLoopConfigToJson(this);
+
+  factory HumanLoopConfig.fromJson(Map<String, dynamic> json) {
+    return HumanLoopConfig(
+      flowDefinitionArn: json['FlowDefinitionArn'] as String,
+      humanLoopName: json['HumanLoopName'] as String,
+      dataAttributes: json['DataAttributes'] != null
+          ? HumanLoopDataAttributes.fromJson(
+              json['DataAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final flowDefinitionArn = this.flowDefinitionArn;
+    final humanLoopName = this.humanLoopName;
+    final dataAttributes = this.dataAttributes;
+    return {
+      'FlowDefinitionArn': flowDefinitionArn,
+      'HumanLoopName': humanLoopName,
+      if (dataAttributes != null) 'DataAttributes': dataAttributes,
+    };
+  }
 }
 
 /// Allows you to set attributes of the image. Currently, you can declare an
 /// image as free of personally identifiable information and adult content.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HumanLoopDataAttributes {
   /// Sets whether the input image is free of personally identifiable information
   /// or adult content.
-  @_s.JsonKey(name: 'ContentClassifiers')
-  final List<ContentClassifier> contentClassifiers;
+  final List<ContentClassifier>? contentClassifiers;
 
   HumanLoopDataAttributes({
     this.contentClassifiers,
   });
-  Map<String, dynamic> toJson() => _$HumanLoopDataAttributesToJson(this);
+
+  factory HumanLoopDataAttributes.fromJson(Map<String, dynamic> json) {
+    return HumanLoopDataAttributes(
+      contentClassifiers: (json['ContentClassifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toContentClassifier())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentClassifiers = this.contentClassifiers;
+    return {
+      if (contentClassifiers != null)
+        'ContentClassifiers':
+            contentClassifiers.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum JobStatus {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('PARTIAL_SUCCESS')
   partialSuccess,
+}
+
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case JobStatus.succeeded:
+        return 'SUCCEEDED';
+      case JobStatus.failed:
+        return 'FAILED';
+      case JobStatus.partialSuccess:
+        return 'PARTIAL_SUCCESS';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return JobStatus.inProgress;
+      case 'SUCCEEDED':
+        return JobStatus.succeeded;
+      case 'FAILED':
+        return JobStatus.failed;
+      case 'PARTIAL_SUCCESS':
+        return JobStatus.partialSuccess;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
 }
 
 /// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon
 /// Textract publishes the completion status of an asynchronous document
 /// operation, such as <a>StartDocumentTextDetection</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NotificationChannel {
   /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract
   /// publishing permissions to the Amazon SNS topic.
-  @_s.JsonKey(name: 'RoleArn')
   final String roleArn;
 
   /// The Amazon SNS topic that Amazon Textract posts the completion status to.
-  @_s.JsonKey(name: 'SNSTopicArn')
   final String sNSTopicArn;
 
   NotificationChannel({
-    @_s.required this.roleArn,
-    @_s.required this.sNSTopicArn,
+    required this.roleArn,
+    required this.sNSTopicArn,
   });
-  Map<String, dynamic> toJson() => _$NotificationChannelToJson(this);
+
+  factory NotificationChannel.fromJson(Map<String, dynamic> json) {
+    return NotificationChannel(
+      roleArn: json['RoleArn'] as String,
+      sNSTopicArn: json['SNSTopicArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roleArn = this.roleArn;
+    final sNSTopicArn = this.sNSTopicArn;
+    return {
+      'RoleArn': roleArn,
+      'SNSTopicArn': sNSTopicArn,
+    };
+  }
 }
 
 /// Sets whether or not your output will go to a user created bucket. Used to
 /// set the name of the bucket, and the prefix on the output file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OutputConfig {
   /// The name of the bucket your output will go to.
-  @_s.JsonKey(name: 'S3Bucket')
   final String s3Bucket;
 
   /// The prefix of the object key that the output will be saved to. When not
   /// enabled, the prefix will be “textract_output".
-  @_s.JsonKey(name: 'S3Prefix')
-  final String s3Prefix;
+  final String? s3Prefix;
 
   OutputConfig({
-    @_s.required this.s3Bucket,
+    required this.s3Bucket,
     this.s3Prefix,
   });
-  Map<String, dynamic> toJson() => _$OutputConfigToJson(this);
+
+  factory OutputConfig.fromJson(Map<String, dynamic> json) {
+    return OutputConfig(
+      s3Bucket: json['S3Bucket'] as String,
+      s3Prefix: json['S3Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Prefix = this.s3Prefix;
+    return {
+      'S3Bucket': s3Bucket,
+      if (s3Prefix != null) 'S3Prefix': s3Prefix,
+    };
+  }
 }
 
 /// The X and Y coordinates of a point on a document page. The X and Y values
@@ -1473,25 +1771,33 @@ class OutputConfig {
 /// <a>DetectDocumentText</a>. <code>Polygon</code> represents a fine-grained
 /// polygon around detected text. For more information, see Geometry in the
 /// Amazon Textract Developer Guide.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Point {
   /// The value of the X coordinate for a point on a <code>Polygon</code>.
-  @_s.JsonKey(name: 'X')
-  final double x;
+  final double? x;
 
   /// The value of the Y coordinate for a point on a <code>Polygon</code>.
-  @_s.JsonKey(name: 'Y')
-  final double y;
+  final double? y;
 
   Point({
     this.x,
     this.y,
   });
-  factory Point.fromJson(Map<String, dynamic> json) => _$PointFromJson(json);
+
+  factory Point.fromJson(Map<String, dynamic> json) {
+    return Point(
+      x: json['X'] as double?,
+      y: json['Y'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final x = this.x;
+    final y = this.y;
+    return {
+      if (x != null) 'X': x,
+      if (y != null) 'Y': y,
+    };
+  }
 }
 
 /// Information about how blocks are related to each other. A <code>Block</code>
@@ -1500,16 +1806,10 @@ class Point {
 ///
 /// The <code>Type</code> element provides the type of the relationship for all
 /// blocks in the <code>IDs</code> array.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Relationship {
   /// An array of IDs for related blocks. You can get the type of the relationship
   /// from the <code>Type</code> element.
-  @_s.JsonKey(name: 'Ids')
-  final List<String> ids;
+  final List<String>? ids;
 
   /// The type of relationship that the blocks in the IDs array have with the
   /// current block. The relationship can be <code>VALUE</code> or
@@ -1518,24 +1818,64 @@ class Relationship {
   /// relationship of type CHILD is a list of IDs that identify WORD blocks in the
   /// case of lines Cell blocks in the case of Tables, and WORD blocks in the case
   /// of Selection Elements.
-  @_s.JsonKey(name: 'Type')
-  final RelationshipType type;
+  final RelationshipType? type;
 
   Relationship({
     this.ids,
     this.type,
   });
-  factory Relationship.fromJson(Map<String, dynamic> json) =>
-      _$RelationshipFromJson(json);
+
+  factory Relationship.fromJson(Map<String, dynamic> json) {
+    return Relationship(
+      ids: (json['Ids'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      type: (json['Type'] as String?)?.toRelationshipType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ids = this.ids;
+    final type = this.type;
+    return {
+      if (ids != null) 'Ids': ids,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum RelationshipType {
-  @_s.JsonValue('VALUE')
   value,
-  @_s.JsonValue('CHILD')
   child,
-  @_s.JsonValue('COMPLEX_FEATURES')
   complexFeatures,
+}
+
+extension on RelationshipType {
+  String toValue() {
+    switch (this) {
+      case RelationshipType.value:
+        return 'VALUE';
+      case RelationshipType.child:
+        return 'CHILD';
+      case RelationshipType.complexFeatures:
+        return 'COMPLEX_FEATURES';
+    }
+  }
+}
+
+extension on String {
+  RelationshipType toRelationshipType() {
+    switch (this) {
+      case 'VALUE':
+        return RelationshipType.value;
+      case 'CHILD':
+        return RelationshipType.child;
+      case 'COMPLEX_FEATURES':
+        return RelationshipType.complexFeatures;
+    }
+    throw Exception('$this is not known in enum RelationshipType');
+  }
 }
 
 /// The S3 bucket name and file name that identifies the document.
@@ -1545,131 +1885,203 @@ enum RelationshipType {
 ///
 /// For Amazon Textract to process a file in an S3 bucket, the user must have
 /// permission to access the S3 bucket and file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3Object {
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'Bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The file name of the input document. Synchronous operations can use image
   /// files that are in JPEG or PNG format. Asynchronous operations also support
   /// PDF format files.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// If the bucket has versioning enabled, you can specify the object version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   S3Object({
     this.bucket,
     this.name,
     this.version,
   });
-  Map<String, dynamic> toJson() => _$S3ObjectToJson(this);
+
+  factory S3Object.fromJson(Map<String, dynamic> json) {
+    return S3Object(
+      bucket: json['Bucket'] as String?,
+      name: json['Name'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final name = this.name;
+    final version = this.version;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (name != null) 'Name': name,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 enum SelectionStatus {
-  @_s.JsonValue('SELECTED')
   selected,
-  @_s.JsonValue('NOT_SELECTED')
   notSelected,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on SelectionStatus {
+  String toValue() {
+    switch (this) {
+      case SelectionStatus.selected:
+        return 'SELECTED';
+      case SelectionStatus.notSelected:
+        return 'NOT_SELECTED';
+    }
+  }
+}
+
+extension on String {
+  SelectionStatus toSelectionStatus() {
+    switch (this) {
+      case 'SELECTED':
+        return SelectionStatus.selected;
+      case 'NOT_SELECTED':
+        return SelectionStatus.notSelected;
+    }
+    throw Exception('$this is not known in enum SelectionStatus');
+  }
+}
+
 class StartDocumentAnalysisResponse {
   /// The identifier for the document text detection job. Use <code>JobId</code>
   /// to identify the job in a subsequent call to
   /// <code>GetDocumentAnalysis</code>. A <code>JobId</code> value is only valid
   /// for 7 days.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartDocumentAnalysisResponse({
     this.jobId,
   });
-  factory StartDocumentAnalysisResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartDocumentAnalysisResponseFromJson(json);
+
+  factory StartDocumentAnalysisResponse.fromJson(Map<String, dynamic> json) {
+    return StartDocumentAnalysisResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDocumentTextDetectionResponse {
   /// The identifier of the text detection job for the document. Use
   /// <code>JobId</code> to identify the job in a subsequent call to
   /// <code>GetDocumentTextDetection</code>. A <code>JobId</code> value is only
   /// valid for 7 days.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   StartDocumentTextDetectionResponse({
     this.jobId,
   });
+
   factory StartDocumentTextDetectionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartDocumentTextDetectionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return StartDocumentTextDetectionResponse(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
+  }
 }
 
 enum TextType {
-  @_s.JsonValue('HANDWRITING')
   handwriting,
-  @_s.JsonValue('PRINTED')
   printed,
+}
+
+extension on TextType {
+  String toValue() {
+    switch (this) {
+      case TextType.handwriting:
+        return 'HANDWRITING';
+      case TextType.printed:
+        return 'PRINTED';
+    }
+  }
+}
+
+extension on String {
+  TextType toTextType() {
+    switch (this) {
+      case 'HANDWRITING':
+        return TextType.handwriting;
+      case 'PRINTED':
+        return TextType.printed;
+    }
+    throw Exception('$this is not known in enum TextType');
+  }
 }
 
 /// A warning about an issue that occurred during asynchronous text analysis
 /// (<a>StartDocumentAnalysis</a>) or asynchronous document text detection
 /// (<a>StartDocumentTextDetection</a>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Warning {
   /// The error code for the warning.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// A list of the pages that the warning applies to.
-  @_s.JsonKey(name: 'Pages')
-  final List<int> pages;
+  final List<int>? pages;
 
   Warning({
     this.errorCode,
     this.pages,
   });
-  factory Warning.fromJson(Map<String, dynamic> json) =>
-      _$WarningFromJson(json);
+
+  factory Warning.fromJson(Map<String, dynamic> json) {
+    return Warning(
+      errorCode: json['ErrorCode'] as String?,
+      pages: (json['Pages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final pages = this.pages;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (pages != null) 'Pages': pages,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class BadDocumentException extends _s.GenericAwsException {
-  BadDocumentException({String type, String message})
+  BadDocumentException({String? type, String? message})
       : super(type: type, code: 'BadDocumentException', message: message);
 }
 
 class DocumentTooLargeException extends _s.GenericAwsException {
-  DocumentTooLargeException({String type, String message})
+  DocumentTooLargeException({String? type, String? message})
       : super(type: type, code: 'DocumentTooLargeException', message: message);
 }
 
 class HumanLoopQuotaExceededException extends _s.GenericAwsException {
-  HumanLoopQuotaExceededException({String type, String message})
+  HumanLoopQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'HumanLoopQuotaExceededException',
@@ -1677,7 +2089,7 @@ class HumanLoopQuotaExceededException extends _s.GenericAwsException {
 }
 
 class IdempotentParameterMismatchException extends _s.GenericAwsException {
-  IdempotentParameterMismatchException({String type, String message})
+  IdempotentParameterMismatchException({String? type, String? message})
       : super(
             type: type,
             code: 'IdempotentParameterMismatchException',
@@ -1685,37 +2097,37 @@ class IdempotentParameterMismatchException extends _s.GenericAwsException {
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidJobIdException extends _s.GenericAwsException {
-  InvalidJobIdException({String type, String message})
+  InvalidJobIdException({String? type, String? message})
       : super(type: type, code: 'InvalidJobIdException', message: message);
 }
 
 class InvalidKMSKeyException extends _s.GenericAwsException {
-  InvalidKMSKeyException({String type, String message})
+  InvalidKMSKeyException({String? type, String? message})
       : super(type: type, code: 'InvalidKMSKeyException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
-  InvalidParameterException({String type, String message})
+  InvalidParameterException({String? type, String? message})
       : super(type: type, code: 'InvalidParameterException', message: message);
 }
 
 class InvalidS3ObjectException extends _s.GenericAwsException {
-  InvalidS3ObjectException({String type, String message})
+  InvalidS3ObjectException({String? type, String? message})
       : super(type: type, code: 'InvalidS3ObjectException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
-  ProvisionedThroughputExceededException({String type, String message})
+  ProvisionedThroughputExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedThroughputExceededException',
@@ -1723,12 +2135,12 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class UnsupportedDocumentException extends _s.GenericAwsException {
-  UnsupportedDocumentException({String type, String message})
+  UnsupportedDocumentException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedDocumentException', message: message);
 }

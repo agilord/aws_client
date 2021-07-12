@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-09-01.g.dart';
 
 /// An AWS Elemental MediaStore container is a namespace that holds folders and
 /// objects. You use a container endpoint to create, read, and delete objects.
 class MediaStore {
   final _s.JsonProtocol _protocol;
   MediaStore({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -70,8 +63,8 @@ class MediaStore {
   /// href="https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html">Tagging
   /// Resources in MediaStore</a>.
   Future<CreateContainerOutput> createContainer({
-    @_s.required String containerName,
-    List<Tag> tags,
+    required String containerName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -79,12 +72,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -117,7 +104,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container to delete.
   Future<void> deleteContainer({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -127,17 +114,11 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteContainer'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -147,8 +128,6 @@ class MediaStore {
         'ContainerName': containerName,
       },
     );
-
-    return DeleteContainerOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the access policy that is associated with the specified container.
@@ -161,7 +140,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container that holds the policy.
   Future<void> deleteContainerPolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -171,17 +150,11 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteContainerPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -191,8 +164,6 @@ class MediaStore {
         'ContainerName': containerName,
       },
     );
-
-    return DeleteContainerPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the cross-origin resource sharing (CORS) configuration information
@@ -210,7 +181,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container to remove the policy from.
   Future<void> deleteCorsPolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -220,17 +191,11 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteCorsPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -240,8 +205,6 @@ class MediaStore {
         'ContainerName': containerName,
       },
     );
-
-    return DeleteCorsPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes an object lifecycle policy from a container. It takes up to 20
@@ -255,7 +218,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container that holds the object lifecycle policy.
   Future<void> deleteLifecyclePolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -265,17 +228,11 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteLifecyclePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -285,8 +242,6 @@ class MediaStore {
         'ContainerName': containerName,
       },
     );
-
-    return DeleteLifecyclePolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the metric policy that is associated with the specified container.
@@ -302,7 +257,7 @@ class MediaStore {
   /// The name of the container that is associated with the metric policy that
   /// you want to delete.
   Future<void> deleteMetricPolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -312,17 +267,11 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.DeleteMetricPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -332,8 +281,6 @@ class MediaStore {
         'ContainerName': containerName,
       },
     );
-
-    return DeleteMetricPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Retrieves the properties of the requested container. This request is
@@ -351,18 +298,13 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container to query.
   Future<DescribeContainerOutput> describeContainer({
-    String containerName,
+    String? containerName,
   }) async {
     _s.validateStringLength(
       'containerName',
       containerName,
       1,
       255,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -395,7 +337,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container.
   Future<GetContainerPolicyOutput> getContainerPolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -403,12 +345,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -444,7 +380,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container that the policy is assigned to.
   Future<GetCorsPolicyOutput> getCorsPolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -452,12 +388,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -488,7 +418,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container that the object lifecycle policy is assigned to.
   Future<GetLifecyclePolicyOutput> getLifecyclePolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -496,12 +426,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -532,7 +456,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container that is associated with the metric policy.
   Future<GetMetricPolicyOutput> getMetricPolicy({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -540,12 +464,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -591,8 +509,8 @@ class MediaStore {
   /// of containers. This token is included in a response only if there actually
   /// are more containers to list.
   Future<ListContainersOutput> listContainers({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -605,11 +523,6 @@ class MediaStore {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[0-9A-Za-z=/+]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -639,7 +552,7 @@ class MediaStore {
   /// Parameter [resource] :
   /// The Amazon Resource Name (ARN) for the container.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resource,
+    required String resource,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
     _s.validateStringLength(
@@ -647,12 +560,6 @@ class MediaStore {
       resource,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -703,8 +610,8 @@ class MediaStore {
   /// </li>
   /// </ul>
   Future<void> putContainerPolicy({
-    @_s.required String containerName,
-    @_s.required String policy,
+    required String containerName,
+    required String policy,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -712,12 +619,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(policy, 'policy');
@@ -728,17 +629,11 @@ class MediaStore {
       8192,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\x00-\x7F]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutContainerPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -749,8 +644,6 @@ class MediaStore {
         'Policy': policy,
       },
     );
-
-    return PutContainerPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Sets the cross-origin resource sharing (CORS) configuration on a container
@@ -780,8 +673,8 @@ class MediaStore {
   /// Parameter [corsPolicy] :
   /// The CORS policy to apply to the container.
   Future<void> putCorsPolicy({
-    @_s.required String containerName,
-    @_s.required List<CorsRule> corsPolicy,
+    required String containerName,
+    required List<CorsRule> corsPolicy,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -791,18 +684,12 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(corsPolicy, 'corsPolicy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutCorsPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -813,8 +700,6 @@ class MediaStore {
         'CorsPolicy': corsPolicy,
       },
     );
-
-    return PutCorsPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Writes an object lifecycle policy to a container. If the container already
@@ -837,8 +722,8 @@ class MediaStore {
   /// Parameter [lifecyclePolicy] :
   /// The object lifecycle policy to apply to the container.
   Future<void> putLifecyclePolicy({
-    @_s.required String containerName,
-    @_s.required String lifecyclePolicy,
+    required String containerName,
+    required String lifecyclePolicy,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -846,12 +731,6 @@ class MediaStore {
       containerName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(lifecyclePolicy, 'lifecyclePolicy');
@@ -862,17 +741,11 @@ class MediaStore {
       8192,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'lifecyclePolicy',
-      lifecyclePolicy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutLifecyclePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -883,8 +756,6 @@ class MediaStore {
         'LifecyclePolicy': lifecyclePolicy,
       },
     );
-
-    return PutLifecyclePolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// The metric policy that you want to add to the container. A metric policy
@@ -921,8 +792,8 @@ class MediaStore {
   /// </li>
   /// </ul>
   Future<void> putMetricPolicy({
-    @_s.required String containerName,
-    @_s.required MetricPolicy metricPolicy,
+    required String containerName,
+    required MetricPolicy metricPolicy,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -932,18 +803,12 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(metricPolicy, 'metricPolicy');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.PutMetricPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -954,8 +819,6 @@ class MediaStore {
         'MetricPolicy': metricPolicy,
       },
     );
-
-    return PutMetricPolicyOutput.fromJson(jsonResponse.body);
   }
 
   /// Starts access logging on the specified container. When you enable access
@@ -969,7 +832,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container that you want to start access logging on.
   Future<void> startAccessLogging({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -979,17 +842,11 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.StartAccessLogging'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -999,8 +856,6 @@ class MediaStore {
         'ContainerName': containerName,
       },
     );
-
-    return StartAccessLoggingOutput.fromJson(jsonResponse.body);
   }
 
   /// Stops access logging on the specified container. When you stop access
@@ -1014,7 +869,7 @@ class MediaStore {
   /// Parameter [containerName] :
   /// The name of the container that you want to stop access logging on.
   Future<void> stopAccessLogging({
-    @_s.required String containerName,
+    required String containerName,
   }) async {
     ArgumentError.checkNotNull(containerName, 'containerName');
     _s.validateStringLength(
@@ -1024,17 +879,11 @@ class MediaStore {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'containerName',
-      containerName,
-      r'''[\w-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.StopAccessLogging'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1044,8 +893,6 @@ class MediaStore {
         'ContainerName': containerName,
       },
     );
-
-    return StopAccessLoggingOutput.fromJson(jsonResponse.body);
   }
 
   /// Adds tags to the specified AWS Elemental MediaStore container. Tags are
@@ -1073,8 +920,8 @@ class MediaStore {
   /// priority:Medium, type:Contract. The result is that your container has
   /// three tags: customer:CompanyA, priority:Medium, and type:Contract.
   Future<void> tagResource({
-    @_s.required String resource,
-    @_s.required List<Tag> tags,
+    required String resource,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
     _s.validateStringLength(
@@ -1084,18 +931,12 @@ class MediaStore {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1106,8 +947,6 @@ class MediaStore {
         'Tags': tags,
       },
     );
-
-    return TagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from the specified container. You can specify one or more
@@ -1126,8 +965,8 @@ class MediaStore {
   /// and priority:High) and you want to remove one of the tags (priority:High),
   /// you specify the key for the tag that you want to remove (priority).
   Future<void> untagResource({
-    @_s.required String resource,
-    @_s.required List<String> tagKeys,
+    required String resource,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
     _s.validateStringLength(
@@ -1137,18 +976,12 @@ class MediaStore {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:aws:mediastore:[a-z]+-[a-z]+-\d:\d{12}:container/[\w-]{1,255}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'MediaStore_20170901.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1159,18 +992,11 @@ class MediaStore {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceOutput.fromJson(jsonResponse.body);
   }
 }
 
 /// This section describes operations that you can perform on an AWS Elemental
 /// MediaStore container.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Container {
   /// The Amazon Resource Name (ARN) of the container. The ARN has the following
   /// format:
@@ -1179,8 +1005,7 @@ class Container {
   /// container&gt;:container/&lt;name of container&gt;
   ///
   /// For example: arn:aws:mediastore:us-west-2:111122223333:container/movies
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// The state of access logging on the container. This value is
   /// <code>false</code> by default, indicating that AWS Elemental MediaStore does
@@ -1188,32 +1013,26 @@ class Container {
   /// logging on the container, MediaStore changes this value to
   /// <code>true</code>, indicating that the service delivers access logs for
   /// objects stored in that container to CloudWatch Logs.
-  @_s.JsonKey(name: 'AccessLoggingEnabled')
-  final bool accessLoggingEnabled;
+  final bool? accessLoggingEnabled;
 
   /// Unix timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The DNS endpoint of the container. Use the endpoint to identify the specific
   /// container when sending requests to the data plane. The service assigns this
   /// value when the container is created. Once the value has been assigned, it
   /// does not change.
-  @_s.JsonKey(name: 'Endpoint')
-  final String endpoint;
+  final String? endpoint;
 
   /// The name of the container.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of container creation or deletion. The status is one of the
   /// following: <code>CREATING</code>, <code>ACTIVE</code>, or
   /// <code>DELETING</code>. While the service is creating the container, the
   /// status is <code>CREATING</code>. When the endpoint is available, the status
   /// changes to <code>ACTIVE</code>.
-  @_s.JsonKey(name: 'Status')
-  final ContainerStatus status;
+  final ContainerStatus? status;
 
   Container({
     this.arn,
@@ -1223,34 +1042,102 @@ class Container {
     this.name,
     this.status,
   });
-  factory Container.fromJson(Map<String, dynamic> json) =>
-      _$ContainerFromJson(json);
+
+  factory Container.fromJson(Map<String, dynamic> json) {
+    return Container(
+      arn: json['ARN'] as String?,
+      accessLoggingEnabled: json['AccessLoggingEnabled'] as bool?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      endpoint: json['Endpoint'] as String?,
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toContainerStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final accessLoggingEnabled = this.accessLoggingEnabled;
+    final creationTime = this.creationTime;
+    final endpoint = this.endpoint;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (accessLoggingEnabled != null)
+        'AccessLoggingEnabled': accessLoggingEnabled,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum ContainerLevelMetrics {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on ContainerLevelMetrics {
+  String toValue() {
+    switch (this) {
+      case ContainerLevelMetrics.enabled:
+        return 'ENABLED';
+      case ContainerLevelMetrics.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ContainerLevelMetrics toContainerLevelMetrics() {
+    switch (this) {
+      case 'ENABLED':
+        return ContainerLevelMetrics.enabled;
+      case 'DISABLED':
+        return ContainerLevelMetrics.disabled;
+    }
+    throw Exception('$this is not known in enum ContainerLevelMetrics');
+  }
+}
+
 enum ContainerStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on ContainerStatus {
+  String toValue() {
+    switch (this) {
+      case ContainerStatus.active:
+        return 'ACTIVE';
+      case ContainerStatus.creating:
+        return 'CREATING';
+      case ContainerStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ContainerStatus toContainerStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return ContainerStatus.active;
+      case 'CREATING':
+        return ContainerStatus.creating;
+      case 'DELETING':
+        return ContainerStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ContainerStatus');
+  }
 }
 
 /// A rule for a CORS policy. You can add up to 100 rules to a CORS policy. If
 /// more than one rule applies, the service uses the first applicable rule
 /// listed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CorsRule {
   /// Specifies which headers are allowed in a preflight <code>OPTIONS</code>
   /// request through the <code>Access-Control-Request-Headers</code> header. Each
@@ -1259,7 +1146,6 @@ class CorsRule {
   /// requested are sent back.
   ///
   /// This element can contain only one wildcard character (*).
-  @_s.JsonKey(name: 'AllowedHeaders')
   final List<String> allowedHeaders;
 
   /// One or more response headers that you want users to be able to access from
@@ -1270,7 +1156,6 @@ class CorsRule {
   /// The string value can include only one wildcard character (*), for example,
   /// http://*.example.com. Additionally, you can specify only one wildcard
   /// character to allow cross-origin access for all origins.
-  @_s.JsonKey(name: 'AllowedOrigins')
   final List<String> allowedOrigins;
 
   /// Identifies an HTTP method that the origin that is specified in the rule is
@@ -1278,42 +1163,68 @@ class CorsRule {
   ///
   /// Each CORS rule must contain at least one <code>AllowedMethods</code> and one
   /// <code>AllowedOrigins</code> element.
-  @_s.JsonKey(name: 'AllowedMethods')
-  final List<MethodName> allowedMethods;
+  final List<MethodName>? allowedMethods;
 
   /// One or more headers in the response that you want users to be able to access
   /// from their applications (for example, from a JavaScript
   /// <code>XMLHttpRequest</code> object).
   ///
   /// This element is optional for each rule.
-  @_s.JsonKey(name: 'ExposeHeaders')
-  final List<String> exposeHeaders;
+  final List<String>? exposeHeaders;
 
   /// The time in seconds that your browser caches the preflight response for the
   /// specified resource.
   ///
   /// A CORS rule can have only one <code>MaxAgeSeconds</code> element.
-  @_s.JsonKey(name: 'MaxAgeSeconds')
-  final int maxAgeSeconds;
+  final int? maxAgeSeconds;
 
   CorsRule({
-    @_s.required this.allowedHeaders,
-    @_s.required this.allowedOrigins,
+    required this.allowedHeaders,
+    required this.allowedOrigins,
     this.allowedMethods,
     this.exposeHeaders,
     this.maxAgeSeconds,
   });
-  factory CorsRule.fromJson(Map<String, dynamic> json) =>
-      _$CorsRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CorsRuleToJson(this);
+  factory CorsRule.fromJson(Map<String, dynamic> json) {
+    return CorsRule(
+      allowedHeaders: (json['AllowedHeaders'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowedOrigins: (json['AllowedOrigins'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowedMethods: (json['AllowedMethods'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMethodName())
+          .toList(),
+      exposeHeaders: (json['ExposeHeaders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      maxAgeSeconds: json['MaxAgeSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedHeaders = this.allowedHeaders;
+    final allowedOrigins = this.allowedOrigins;
+    final allowedMethods = this.allowedMethods;
+    final exposeHeaders = this.exposeHeaders;
+    final maxAgeSeconds = this.maxAgeSeconds;
+    return {
+      'AllowedHeaders': allowedHeaders,
+      'AllowedOrigins': allowedOrigins,
+      if (allowedMethods != null)
+        'AllowedMethods': allowedMethods.map((e) => e.toValue()).toList(),
+      if (exposeHeaders != null) 'ExposeHeaders': exposeHeaders,
+      if (maxAgeSeconds != null) 'MaxAgeSeconds': maxAgeSeconds,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateContainerOutput {
   /// ContainerARN: The Amazon Resource Name (ARN) of the newly created container.
   /// The ARN has the following format: arn:aws:&lt;region&gt;:&lt;account that
@@ -1333,207 +1244,298 @@ class CreateContainerOutput {
   /// The return value does not include the container's endpoint. To make
   /// downstream requests, you must obtain this value by using
   /// <a>DescribeContainer</a> or <a>ListContainers</a>.
-  @_s.JsonKey(name: 'Container')
   final Container container;
 
   CreateContainerOutput({
-    @_s.required this.container,
+    required this.container,
   });
-  factory CreateContainerOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateContainerOutputFromJson(json);
+
+  factory CreateContainerOutput.fromJson(Map<String, dynamic> json) {
+    return CreateContainerOutput(
+      container: Container.fromJson(json['Container'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final container = this.container;
+    return {
+      'Container': container,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteContainerOutput {
   DeleteContainerOutput();
-  factory DeleteContainerOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteContainerOutputFromJson(json);
+
+  factory DeleteContainerOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteContainerOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteContainerPolicyOutput {
   DeleteContainerPolicyOutput();
-  factory DeleteContainerPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteContainerPolicyOutputFromJson(json);
+
+  factory DeleteContainerPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteContainerPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCorsPolicyOutput {
   DeleteCorsPolicyOutput();
-  factory DeleteCorsPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCorsPolicyOutputFromJson(json);
+
+  factory DeleteCorsPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteCorsPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLifecyclePolicyOutput {
   DeleteLifecyclePolicyOutput();
-  factory DeleteLifecyclePolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLifecyclePolicyOutputFromJson(json);
+
+  factory DeleteLifecyclePolicyOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteLifecyclePolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMetricPolicyOutput {
   DeleteMetricPolicyOutput();
-  factory DeleteMetricPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMetricPolicyOutputFromJson(json);
+
+  factory DeleteMetricPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteMetricPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeContainerOutput {
   /// The name of the queried container.
-  @_s.JsonKey(name: 'Container')
-  final Container container;
+  final Container? container;
 
   DescribeContainerOutput({
     this.container,
   });
-  factory DescribeContainerOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeContainerOutputFromJson(json);
+
+  factory DescribeContainerOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeContainerOutput(
+      container: json['Container'] != null
+          ? Container.fromJson(json['Container'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final container = this.container;
+    return {
+      if (container != null) 'Container': container,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetContainerPolicyOutput {
   /// The contents of the access policy.
-  @_s.JsonKey(name: 'Policy')
   final String policy;
 
   GetContainerPolicyOutput({
-    @_s.required this.policy,
+    required this.policy,
   });
-  factory GetContainerPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetContainerPolicyOutputFromJson(json);
+
+  factory GetContainerPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetContainerPolicyOutput(
+      policy: json['Policy'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      'Policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCorsPolicyOutput {
   /// The CORS policy assigned to the container.
-  @_s.JsonKey(name: 'CorsPolicy')
   final List<CorsRule> corsPolicy;
 
   GetCorsPolicyOutput({
-    @_s.required this.corsPolicy,
+    required this.corsPolicy,
   });
-  factory GetCorsPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetCorsPolicyOutputFromJson(json);
+
+  factory GetCorsPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetCorsPolicyOutput(
+      corsPolicy: (json['CorsPolicy'] as List)
+          .whereNotNull()
+          .map((e) => CorsRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final corsPolicy = this.corsPolicy;
+    return {
+      'CorsPolicy': corsPolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLifecyclePolicyOutput {
   /// The object lifecycle policy that is assigned to the container.
-  @_s.JsonKey(name: 'LifecyclePolicy')
   final String lifecyclePolicy;
 
   GetLifecyclePolicyOutput({
-    @_s.required this.lifecyclePolicy,
+    required this.lifecyclePolicy,
   });
-  factory GetLifecyclePolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetLifecyclePolicyOutputFromJson(json);
+
+  factory GetLifecyclePolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetLifecyclePolicyOutput(
+      lifecyclePolicy: json['LifecyclePolicy'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecyclePolicy = this.lifecyclePolicy;
+    return {
+      'LifecyclePolicy': lifecyclePolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMetricPolicyOutput {
   /// The metric policy that is associated with the specific container.
-  @_s.JsonKey(name: 'MetricPolicy')
   final MetricPolicy metricPolicy;
 
   GetMetricPolicyOutput({
-    @_s.required this.metricPolicy,
+    required this.metricPolicy,
   });
-  factory GetMetricPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMetricPolicyOutputFromJson(json);
+
+  factory GetMetricPolicyOutput.fromJson(Map<String, dynamic> json) {
+    return GetMetricPolicyOutput(
+      metricPolicy:
+          MetricPolicy.fromJson(json['MetricPolicy'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricPolicy = this.metricPolicy;
+    return {
+      'MetricPolicy': metricPolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListContainersOutput {
   /// The names of the containers.
-  @_s.JsonKey(name: 'Containers')
   final List<Container> containers;
 
   /// <code>NextToken</code> is the token to use in the next call to
   /// <code>ListContainers</code>. This token is returned only if you included the
   /// <code>MaxResults</code> tag in the original command, and only if there are
   /// still containers to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListContainersOutput({
-    @_s.required this.containers,
+    required this.containers,
     this.nextToken,
   });
-  factory ListContainersOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListContainersOutputFromJson(json);
+
+  factory ListContainersOutput.fromJson(Map<String, dynamic> json) {
+    return ListContainersOutput(
+      containers: (json['Containers'] as List)
+          .whereNotNull()
+          .map((e) => Container.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containers = this.containers;
+    final nextToken = this.nextToken;
+    return {
+      'Containers': containers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// An array of key:value pairs that are assigned to the container.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceOutput({
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum MethodName {
-  @_s.JsonValue('PUT')
   put,
-  @_s.JsonValue('GET')
   get,
-  @_s.JsonValue('DELETE')
   delete,
-  @_s.JsonValue('HEAD')
   head,
+}
+
+extension on MethodName {
+  String toValue() {
+    switch (this) {
+      case MethodName.put:
+        return 'PUT';
+      case MethodName.get:
+        return 'GET';
+      case MethodName.delete:
+        return 'DELETE';
+      case MethodName.head:
+        return 'HEAD';
+    }
+  }
+}
+
+extension on String {
+  MethodName toMethodName() {
+    switch (this) {
+      case 'PUT':
+        return MethodName.put;
+      case 'GET':
+        return MethodName.get;
+      case 'DELETE':
+        return MethodName.delete;
+      case 'HEAD':
+        return MethodName.head;
+    }
+    throw Exception('$this is not known in enum MethodName');
+  }
 }
 
 /// The metric policy that is associated with the container. A metric policy
@@ -1546,14 +1548,8 @@ enum MethodName {
 /// <a
 /// href="https://docs.aws.amazon.com/mediastore/latest/ug/policies-metric-examples.html">Example
 /// Metric Policies</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricPolicy {
   /// A setting to enable or disable metrics at the container level.
-  @_s.JsonKey(name: 'ContainerLevelMetrics')
   final ContainerLevelMetrics containerLevelMetrics;
 
   /// A parameter that holds an array of rules that enable metrics at the object
@@ -1562,17 +1558,32 @@ class MetricPolicy {
   /// rules. You can also <a
   /// href="https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas">request
   /// a quota increase</a> to allow up to 300 rules per policy.
-  @_s.JsonKey(name: 'MetricPolicyRules')
-  final List<MetricPolicyRule> metricPolicyRules;
+  final List<MetricPolicyRule>? metricPolicyRules;
 
   MetricPolicy({
-    @_s.required this.containerLevelMetrics,
+    required this.containerLevelMetrics,
     this.metricPolicyRules,
   });
-  factory MetricPolicy.fromJson(Map<String, dynamic> json) =>
-      _$MetricPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetricPolicyToJson(this);
+  factory MetricPolicy.fromJson(Map<String, dynamic> json) {
+    return MetricPolicy(
+      containerLevelMetrics:
+          (json['ContainerLevelMetrics'] as String).toContainerLevelMetrics(),
+      metricPolicyRules: (json['MetricPolicyRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricPolicyRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final containerLevelMetrics = this.containerLevelMetrics;
+    final metricPolicyRules = this.metricPolicyRules;
+    return {
+      'ContainerLevelMetrics': containerLevelMetrics.toValue(),
+      if (metricPolicyRules != null) 'MetricPolicyRules': metricPolicyRules,
+    };
+  }
 }
 
 /// A setting that enables metrics at the object level. Each rule contains an
@@ -1581,95 +1592,106 @@ class MetricPolicy {
 /// policy can include up to five rules by default. You can also <a
 /// href="https://console.aws.amazon.com/servicequotas/home?region=us-east-1#!/services/mediastore/quotas">request
 /// a quota increase</a> to allow up to 300 rules per policy.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MetricPolicyRule {
   /// A path or file name that defines which objects to include in the group.
   /// Wildcards (*) are acceptable.
-  @_s.JsonKey(name: 'ObjectGroup')
   final String objectGroup;
 
   /// A name that allows you to refer to the object group.
-  @_s.JsonKey(name: 'ObjectGroupName')
   final String objectGroupName;
 
   MetricPolicyRule({
-    @_s.required this.objectGroup,
-    @_s.required this.objectGroupName,
+    required this.objectGroup,
+    required this.objectGroupName,
   });
-  factory MetricPolicyRule.fromJson(Map<String, dynamic> json) =>
-      _$MetricPolicyRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MetricPolicyRuleToJson(this);
+  factory MetricPolicyRule.fromJson(Map<String, dynamic> json) {
+    return MetricPolicyRule(
+      objectGroup: json['ObjectGroup'] as String,
+      objectGroupName: json['ObjectGroupName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectGroup = this.objectGroup;
+    final objectGroupName = this.objectGroupName;
+    return {
+      'ObjectGroup': objectGroup,
+      'ObjectGroupName': objectGroupName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutContainerPolicyOutput {
   PutContainerPolicyOutput();
-  factory PutContainerPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutContainerPolicyOutputFromJson(json);
+
+  factory PutContainerPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return PutContainerPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutCorsPolicyOutput {
   PutCorsPolicyOutput();
-  factory PutCorsPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutCorsPolicyOutputFromJson(json);
+
+  factory PutCorsPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return PutCorsPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutLifecyclePolicyOutput {
   PutLifecyclePolicyOutput();
-  factory PutLifecyclePolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutLifecyclePolicyOutputFromJson(json);
+
+  factory PutLifecyclePolicyOutput.fromJson(Map<String, dynamic> _) {
+    return PutLifecyclePolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutMetricPolicyOutput {
   PutMetricPolicyOutput();
-  factory PutMetricPolicyOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutMetricPolicyOutputFromJson(json);
+
+  factory PutMetricPolicyOutput.fromJson(Map<String, dynamic> _) {
+    return PutMetricPolicyOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartAccessLoggingOutput {
   StartAccessLoggingOutput();
-  factory StartAccessLoggingOutput.fromJson(Map<String, dynamic> json) =>
-      _$StartAccessLoggingOutputFromJson(json);
+
+  factory StartAccessLoggingOutput.fromJson(Map<String, dynamic> _) {
+    return StartAccessLoggingOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopAccessLoggingOutput {
   StopAccessLoggingOutput();
-  factory StopAccessLoggingOutput.fromJson(Map<String, dynamic> json) =>
-      _$StopAccessLoggingOutputFromJson(json);
+
+  factory StopAccessLoggingOutput.fromJson(Map<String, dynamic> _) {
+    return StopAccessLoggingOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A collection of tags associated with a container. Each tag consists of a
@@ -1680,83 +1702,91 @@ class StopAccessLoggingOutput {
 /// information about tagging, including naming and usage conventions, see <a
 /// href="https://docs.aws.amazon.com/mediastore/latest/ug/tagging.html">Tagging
 /// Resources in MediaStore</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// Part of the key:value pair that defines a tag. You can use a tag key to
   /// describe a category of information, such as "customer." Tag keys are
   /// case-sensitive.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Part of the key:value pair that defines a tag. You can use a tag value to
   /// describe a specific value within a category, such as "companyA" or
   /// "companyB." Tag values are case-sensitive.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceOutputFromJson(json);
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceOutputFromJson(json);
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class ContainerInUseException extends _s.GenericAwsException {
-  ContainerInUseException({String type, String message})
+  ContainerInUseException({String? type, String? message})
       : super(type: type, code: 'ContainerInUseException', message: message);
 }
 
 class ContainerNotFoundException extends _s.GenericAwsException {
-  ContainerNotFoundException({String type, String message})
+  ContainerNotFoundException({String? type, String? message})
       : super(type: type, code: 'ContainerNotFoundException', message: message);
 }
 
 class CorsPolicyNotFoundException extends _s.GenericAwsException {
-  CorsPolicyNotFoundException({String type, String message})
+  CorsPolicyNotFoundException({String? type, String? message})
       : super(
             type: type, code: 'CorsPolicyNotFoundException', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class PolicyNotFoundException extends _s.GenericAwsException {
-  PolicyNotFoundException({String type, String message})
+  PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);
 }
 

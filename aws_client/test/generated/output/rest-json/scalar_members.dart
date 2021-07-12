@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
-
-part 'scalar_members.g.dart';
 
 /// Scalar members
 class ScalarMembers {
   final _s.RestJsonProtocol _protocol;
   ScalarMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -53,14 +46,14 @@ class ScalarMembers {
     );
     final $json = await _s.jsonFromResponse(response);
     return OutputShape(
-      char: $json['Char'] as String,
-      doubleValue: $json['Double'] as double,
-      falseBool: $json['FalseBool'] as bool,
-      float: $json['Float'] as double,
-      long: $json['Long'] as int,
-      num: $json['Num'] as int,
-      str: $json['Str'] as String,
-      trueBool: $json['TrueBool'] as bool,
+      char: $json['Char'] as String?,
+      doubleValue: $json['Double'] as double?,
+      falseBool: $json['FalseBool'] as bool?,
+      float: $json['Float'] as double?,
+      long: $json['Long'] as int?,
+      num: $json['Num'] as int?,
+      str: $json['Str'] as String?,
+      trueBool: $json['TrueBool'] as bool?,
       imaHeader: _s.extractHeaderStringValue(response.headers, 'ImaHeader'),
       imaHeaderLocation: _s.extractHeaderStringValue(response.headers, 'X-Foo'),
       status: response.statusCode,
@@ -68,34 +61,18 @@ class ScalarMembers {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'Char')
-  final String char;
-  @_s.JsonKey(name: 'Double')
-  final double doubleValue;
-  @_s.JsonKey(name: 'FalseBool')
-  final bool falseBool;
-  @_s.JsonKey(name: 'Float')
-  final double float;
-  @_s.JsonKey(name: 'ImaHeader')
-  final String imaHeader;
-  @_s.JsonKey(name: 'X-Foo')
-  final String imaHeaderLocation;
-  @_s.JsonKey(name: 'Long')
-  final int long;
-  @_s.JsonKey(name: 'Num')
-  final int num;
-  @_s.JsonKey(name: 'Status')
-  final int status;
-  @_s.JsonKey(name: 'Str')
-  final String str;
-  @_s.JsonKey(name: 'TrueBool')
-  final bool trueBool;
+  final String? char;
+  final double? doubleValue;
+  final bool? falseBool;
+  final double? float;
+  final String? imaHeader;
+  final String? imaHeaderLocation;
+  final int? long;
+  final int? num;
+  final int? status;
+  final String? str;
+  final bool? trueBool;
 
   OutputShape({
     this.char,
@@ -110,8 +87,46 @@ class OutputShape {
     this.str,
     this.trueBool,
   });
-  factory OutputShape.fromJson(Map<String, dynamic> json) =>
-      _$OutputShapeFromJson(json);
+
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      char: json['Char'] as String?,
+      doubleValue: json['Double'] as double?,
+      falseBool: json['FalseBool'] as bool?,
+      float: json['Float'] as double?,
+      imaHeader: json['ImaHeader'] as String?,
+      imaHeaderLocation: json['X-Foo'] as String?,
+      long: json['Long'] as int?,
+      num: json['Num'] as int?,
+      status: json['Status'] as int?,
+      str: json['Str'] as String?,
+      trueBool: json['TrueBool'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final char = this.char;
+    final doubleValue = this.doubleValue;
+    final falseBool = this.falseBool;
+    final float = this.float;
+    final imaHeader = this.imaHeader;
+    final imaHeaderLocation = this.imaHeaderLocation;
+    final long = this.long;
+    final num = this.num;
+    final status = this.status;
+    final str = this.str;
+    final trueBool = this.trueBool;
+    return {
+      if (char != null) 'Char': char,
+      if (doubleValue != null) 'Double': doubleValue,
+      if (falseBool != null) 'FalseBool': falseBool,
+      if (float != null) 'Float': float,
+      if (long != null) 'Long': long,
+      if (num != null) 'Num': num,
+      if (str != null) 'Str': str,
+      if (trueBool != null) 'TrueBool': trueBool,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

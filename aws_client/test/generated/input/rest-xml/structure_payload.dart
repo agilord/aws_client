@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +23,10 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 class StructurePayload {
   final _s.RestXmlProtocol _protocol;
   StructurePayload({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +38,7 @@ class StructurePayload {
         );
 
   Future<void> operationName0({
-    FooShape foo,
+    FooShape? foo,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -43,7 +49,7 @@ class StructurePayload {
   }
 
   Future<void> operationName1({
-    FooShape foo,
+    FooShape? foo,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -54,7 +60,7 @@ class StructurePayload {
   }
 
   Future<void> operationName2({
-    FooShape foo,
+    FooShape? foo,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -65,7 +71,7 @@ class StructurePayload {
   }
 
   Future<void> operationName3({
-    FooShape foo,
+    FooShape? foo,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -77,12 +83,27 @@ class StructurePayload {
 }
 
 class FooShape {
-  final String baz;
+  final String? baz;
 
   FooShape({
     this.baz,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory FooShape.fromJson(Map<String, dynamic> json) {
+    return FooShape(
+      baz: json['baz'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final baz = this.baz;
+    return {
+      if (baz != null) 'baz': baz,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final baz = this.baz;
     final $children = <_s.XmlNode>[
       if (baz != null) _s.encodeXmlStringValue('baz', baz),
     ];
@@ -92,7 +113,7 @@ class FooShape {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

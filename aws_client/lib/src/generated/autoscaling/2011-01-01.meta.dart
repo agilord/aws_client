@@ -28,7 +28,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StatusCode": {"shape": "ScalingActivityStatusCode", "flattened": false},
       "StatusMessage": {"shape": "XmlStringMaxLen255", "flattened": false},
       "Progress": {"shape": "Progress", "flattened": false},
-      "Details": {"shape": "XmlString", "flattened": false}
+      "Details": {"shape": "XmlString", "flattened": false},
+      "AutoScalingGroupState": {
+        "shape": "AutoScalingGroupState",
+        "flattened": false
+      },
+      "AutoScalingGroupARN": {"shape": "ResourceName", "flattened": false}
     },
     "flattened": false
   },
@@ -140,6 +145,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "AutoScalingGroupDesiredCapacity",
         "flattened": false
       },
+      "PredictedCapacity": {
+        "shape": "AutoScalingGroupPredictedCapacity",
+        "flattened": false
+      },
       "DefaultCooldown": {"shape": "Cooldown", "flattened": false},
       "AvailabilityZones": {"shape": "AvailabilityZones", "flattened": false},
       "LoadBalancerNames": {"shape": "LoadBalancerNames", "flattened": false},
@@ -173,7 +182,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CapacityRebalance": {
         "shape": "CapacityRebalanceEnabled",
         "flattened": false
-      }
+      },
+      "WarmPoolConfiguration": {
+        "shape": "WarmPoolConfiguration",
+        "flattened": false
+      },
+      "WarmPoolSize": {"shape": "WarmPoolSize", "flattened": false},
+      "Context": {"shape": "Context", "flattened": false}
     },
     "flattened": false
   },
@@ -197,6 +212,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "AutoScalingGroupPredictedCapacity": {"type": "integer", "flattened": false},
+  "AutoScalingGroupState": {"type": "string", "flattened": false},
   "AutoScalingGroups": {
     "type": "list",
     "member": {"shape": "AutoScalingGroup"},
@@ -315,6 +332,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "BlockDeviceEbsDeleteOnTermination": {"type": "boolean", "flattened": false},
   "BlockDeviceEbsEncrypted": {"type": "boolean", "flattened": false},
   "BlockDeviceEbsIops": {"type": "integer", "flattened": false},
+  "BlockDeviceEbsThroughput": {"type": "integer", "flattened": false},
   "BlockDeviceEbsVolumeSize": {"type": "integer", "flattened": false},
   "BlockDeviceEbsVolumeType": {"type": "string", "flattened": false},
   "BlockDeviceMapping": {
@@ -349,7 +367,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "CapacityForecast": {
+    "type": "structure",
+    "members": {
+      "Timestamps": {
+        "shape": "PredictiveScalingForecastTimestamps",
+        "flattened": false
+      },
+      "Values": {"shape": "PredictiveScalingForecastValues", "flattened": false}
+    },
+    "flattened": false
+  },
   "CapacityRebalanceEnabled": {"type": "boolean", "flattened": false},
+  "CheckpointDelay": {"type": "integer", "flattened": false},
+  "CheckpointPercentages": {
+    "type": "list",
+    "member": {"shape": "NonZeroIntPercent"},
+    "flattened": false
+  },
   "ClassicLinkVPCSecurityGroups": {
     "type": "list",
     "member": {"shape": "XmlStringMaxLen255"},
@@ -380,6 +415,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "Context": {"type": "string", "flattened": false},
   "Cooldown": {"type": "integer", "flattened": false},
   "CreateAutoScalingGroupType": {
     "type": "structure",
@@ -439,7 +475,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "MaxInstanceLifetime": {
         "shape": "MaxInstanceLifetime",
         "flattened": false
-      }
+      },
+      "Context": {"shape": "Context", "flattened": false}
     },
     "flattened": false
   },
@@ -571,6 +608,22 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Tags": {"shape": "Tags", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteWarmPoolAnswer": {
+    "type": "structure",
+    "members": {},
+    "flattened": false
+  },
+  "DeleteWarmPoolType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "ForceDelete": {"shape": "ForceDelete", "flattened": false}
     },
     "flattened": false
   },
@@ -767,6 +820,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "XmlStringMaxLen255",
         "flattened": false
       },
+      "IncludeDeletedGroups": {
+        "shape": "IncludeDeletedGroups",
+        "flattened": false
+      },
       "MaxRecords": {"shape": "MaxRecords", "flattened": false},
       "NextToken": {"shape": "XmlString", "flattened": false}
     },
@@ -806,6 +863,30 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "TerminationPolicies",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "DescribeWarmPoolAnswer": {
+    "type": "structure",
+    "members": {
+      "WarmPoolConfiguration": {
+        "shape": "WarmPoolConfiguration",
+        "flattened": false
+      },
+      "Instances": {"shape": "Instances", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DescribeWarmPoolType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "MaxRecords": {"shape": "MaxRecords", "flattened": false},
+      "NextToken": {"shape": "XmlString", "flattened": false}
     },
     "flattened": false
   },
@@ -886,7 +967,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "Iops": {"shape": "BlockDeviceEbsIops", "flattened": false},
-      "Encrypted": {"shape": "BlockDeviceEbsEncrypted", "flattened": false}
+      "Encrypted": {"shape": "BlockDeviceEbsEncrypted", "flattened": false},
+      "Throughput": {"shape": "BlockDeviceEbsThroughput", "flattened": false}
     },
     "flattened": false
   },
@@ -1002,10 +1084,33 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "ForceDelete": {"type": "boolean", "flattened": false},
+  "GetPredictiveScalingForecastAnswer": {
+    "type": "structure",
+    "members": {
+      "LoadForecast": {"shape": "LoadForecasts", "flattened": false},
+      "CapacityForecast": {"shape": "CapacityForecast", "flattened": false},
+      "UpdateTime": {"shape": "TimestampType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "GetPredictiveScalingForecastType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "PolicyName": {"shape": "XmlStringMaxLen255", "flattened": false},
+      "StartTime": {"shape": "TimestampType", "flattened": false},
+      "EndTime": {"shape": "TimestampType", "flattened": false}
+    },
+    "flattened": false
+  },
   "GlobalTimeout": {"type": "integer", "flattened": false},
   "HealthCheckGracePeriod": {"type": "integer", "flattened": false},
   "HeartbeatTimeout": {"type": "integer", "flattened": false},
   "HonorCooldown": {"type": "boolean", "flattened": false},
+  "IncludeDeletedGroups": {"type": "boolean", "flattened": false},
   "Instance": {
     "type": "structure",
     "members": {
@@ -1080,7 +1185,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StartTime": {"shape": "TimestampType", "flattened": false},
       "EndTime": {"shape": "TimestampType", "flattened": false},
       "PercentageComplete": {"shape": "IntPercent", "flattened": false},
-      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false}
+      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false},
+      "ProgressDetails": {
+        "shape": "InstanceRefreshProgressDetails",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1089,7 +1198,37 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlStringMaxLen255"},
     "flattened": false
   },
+  "InstanceRefreshLivePoolProgress": {
+    "type": "structure",
+    "members": {
+      "PercentageComplete": {"shape": "IntPercent", "flattened": false},
+      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false}
+    },
+    "flattened": false
+  },
+  "InstanceRefreshProgressDetails": {
+    "type": "structure",
+    "members": {
+      "LivePoolProgress": {
+        "shape": "InstanceRefreshLivePoolProgress",
+        "flattened": false
+      },
+      "WarmPoolProgress": {
+        "shape": "InstanceRefreshWarmPoolProgress",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
   "InstanceRefreshStatus": {"type": "string", "flattened": false},
+  "InstanceRefreshWarmPoolProgress": {
+    "type": "structure",
+    "members": {
+      "PercentageComplete": {"shape": "IntPercent", "flattened": false},
+      "InstancesToUpdate": {"shape": "InstancesToUpdate", "flattened": false}
+    },
+    "flattened": false
+  },
   "InstanceRefreshes": {
     "type": "list",
     "member": {"shape": "InstanceRefresh"},
@@ -1348,6 +1487,30 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "LoadBalancerTargetGroupState"},
     "flattened": false
   },
+  "LoadForecast": {
+    "type": "structure",
+    "members": {
+      "Timestamps": {
+        "shape": "PredictiveScalingForecastTimestamps",
+        "flattened": false
+      },
+      "Values": {
+        "shape": "PredictiveScalingForecastValues",
+        "flattened": false
+      },
+      "MetricSpecification": {
+        "shape": "PredictiveScalingMetricSpecification",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "LoadForecasts": {
+    "type": "list",
+    "member": {"shape": "LoadForecast"},
+    "flattened": false
+  },
+  "MaxGroupPreparedCapacity": {"type": "integer", "flattened": false},
   "MaxInstanceLifetime": {"type": "integer", "flattened": false},
   "MaxNumberOfAutoScalingGroups": {"type": "integer", "flattened": false},
   "MaxNumberOfLaunchConfigurations": {"type": "integer", "flattened": false},
@@ -1418,6 +1581,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "MonitoringEnabled": {"type": "boolean", "flattened": false},
   "NoDevice": {"type": "boolean", "flattened": false},
+  "NonZeroIntPercent": {"type": "integer", "flattened": false},
   "NotificationConfiguration": {
     "type": "structure",
     "members": {
@@ -1475,12 +1639,115 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlStringMaxLen64"},
     "flattened": false
   },
+  "PredefinedLoadMetricType": {"type": "string", "flattened": false},
+  "PredefinedMetricPairType": {"type": "string", "flattened": false},
   "PredefinedMetricSpecification": {
     "type": "structure",
     "members": {
       "PredefinedMetricType": {"shape": "MetricType", "flattened": false},
       "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
     },
+    "flattened": false
+  },
+  "PredefinedScalingMetricType": {"type": "string", "flattened": false},
+  "PredictiveScalingConfiguration": {
+    "type": "structure",
+    "members": {
+      "MetricSpecifications": {
+        "shape": "PredictiveScalingMetricSpecifications",
+        "flattened": false
+      },
+      "Mode": {"shape": "PredictiveScalingMode", "flattened": false},
+      "SchedulingBufferTime": {
+        "shape": "PredictiveScalingSchedulingBufferTime",
+        "flattened": false
+      },
+      "MaxCapacityBreachBehavior": {
+        "shape": "PredictiveScalingMaxCapacityBreachBehavior",
+        "flattened": false
+      },
+      "MaxCapacityBuffer": {
+        "shape": "PredictiveScalingMaxCapacityBuffer",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PredictiveScalingForecastTimestamps": {
+    "type": "list",
+    "member": {"shape": "TimestampType"},
+    "flattened": false
+  },
+  "PredictiveScalingForecastValues": {
+    "type": "list",
+    "member": {"shape": "MetricScale"},
+    "flattened": false
+  },
+  "PredictiveScalingMaxCapacityBreachBehavior": {
+    "type": "string",
+    "flattened": false
+  },
+  "PredictiveScalingMaxCapacityBuffer": {"type": "integer", "flattened": false},
+  "PredictiveScalingMetricSpecification": {
+    "type": "structure",
+    "members": {
+      "TargetValue": {"shape": "MetricScale", "flattened": false},
+      "PredefinedMetricPairSpecification": {
+        "shape": "PredictiveScalingPredefinedMetricPair",
+        "flattened": false
+      },
+      "PredefinedScalingMetricSpecification": {
+        "shape": "PredictiveScalingPredefinedScalingMetric",
+        "flattened": false
+      },
+      "PredefinedLoadMetricSpecification": {
+        "shape": "PredictiveScalingPredefinedLoadMetric",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "PredictiveScalingMetricSpecifications": {
+    "type": "list",
+    "member": {"shape": "PredictiveScalingMetricSpecification"},
+    "flattened": false
+  },
+  "PredictiveScalingMode": {"type": "string", "flattened": false},
+  "PredictiveScalingPredefinedLoadMetric": {
+    "type": "structure",
+    "members": {
+      "PredefinedMetricType": {
+        "shape": "PredefinedLoadMetricType",
+        "flattened": false
+      },
+      "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingPredefinedMetricPair": {
+    "type": "structure",
+    "members": {
+      "PredefinedMetricType": {
+        "shape": "PredefinedMetricPairType",
+        "flattened": false
+      },
+      "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingPredefinedScalingMetric": {
+    "type": "structure",
+    "members": {
+      "PredefinedMetricType": {
+        "shape": "PredefinedScalingMetricType",
+        "flattened": false
+      },
+      "ResourceLabel": {"shape": "XmlStringMaxLen1023", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PredictiveScalingSchedulingBufferTime": {
+    "type": "integer",
     "flattened": false
   },
   "ProcessNames": {
@@ -1589,7 +1856,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "TargetTrackingConfiguration",
         "flattened": false
       },
-      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false}
+      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false},
+      "PredictiveScalingConfiguration": {
+        "shape": "PredictiveScalingConfiguration",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1613,7 +1884,25 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
         "flattened": false
-      }
+      },
+      "TimeZone": {"shape": "XmlStringMaxLen255", "flattened": false}
+    },
+    "flattened": false
+  },
+  "PutWarmPoolAnswer": {"type": "structure", "members": {}, "flattened": false},
+  "PutWarmPoolType": {
+    "type": "structure",
+    "members": {
+      "AutoScalingGroupName": {
+        "shape": "XmlStringMaxLen255",
+        "flattened": false
+      },
+      "MaxGroupPreparedCapacity": {
+        "shape": "MaxGroupPreparedCapacity",
+        "flattened": false
+      },
+      "MinSize": {"shape": "WarmPoolMinSize", "flattened": false},
+      "PoolState": {"shape": "WarmPoolState", "flattened": false}
     },
     "flattened": false
   },
@@ -1643,7 +1932,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "MinHealthyPercentage": {"shape": "IntPercent", "flattened": false},
-      "InstanceWarmup": {"shape": "RefreshInstanceWarmup", "flattened": false}
+      "InstanceWarmup": {"shape": "RefreshInstanceWarmup", "flattened": false},
+      "CheckpointPercentages": {
+        "shape": "CheckpointPercentages",
+        "flattened": false
+      },
+      "CheckpointDelay": {"shape": "CheckpointDelay", "flattened": false}
     },
     "flattened": false
   },
@@ -1687,7 +1981,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "TargetTrackingConfiguration",
         "flattened": false
       },
-      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false}
+      "Enabled": {"shape": "ScalingPolicyEnabled", "flattened": false},
+      "PredictiveScalingConfiguration": {
+        "shape": "PredictiveScalingConfiguration",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1740,7 +2038,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
         "flattened": false
-      }
+      },
+      "TimeZone": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
   },
@@ -1759,7 +2058,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DesiredCapacity": {
         "shape": "AutoScalingGroupDesiredCapacity",
         "flattened": false
-      }
+      },
+      "TimeZone": {"shape": "XmlStringMaxLen255", "flattened": false}
     },
     "flattened": false
   },
@@ -2005,7 +2305,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "CapacityRebalance": {
         "shape": "CapacityRebalanceEnabled",
         "flattened": false
-      }
+      },
+      "Context": {"shape": "Context", "flattened": false}
     },
     "flattened": false
   },
@@ -2014,6 +2315,23 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "XmlString"},
     "flattened": false
   },
+  "WarmPoolConfiguration": {
+    "type": "structure",
+    "members": {
+      "MaxGroupPreparedCapacity": {
+        "shape": "MaxGroupPreparedCapacity",
+        "flattened": false
+      },
+      "MinSize": {"shape": "WarmPoolMinSize", "flattened": false},
+      "PoolState": {"shape": "WarmPoolState", "flattened": false},
+      "Status": {"shape": "WarmPoolStatus", "flattened": false}
+    },
+    "flattened": false
+  },
+  "WarmPoolMinSize": {"type": "integer", "flattened": false},
+  "WarmPoolSize": {"type": "integer", "flattened": false},
+  "WarmPoolState": {"type": "string", "flattened": false},
+  "WarmPoolStatus": {"type": "string", "flattened": false},
   "XmlString": {"type": "string", "flattened": false},
   "XmlStringMaxLen1023": {"type": "string", "flattened": false},
   "XmlStringMaxLen1600": {"type": "string", "flattened": false},

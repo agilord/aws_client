@@ -1,5 +1,5 @@
 import '../credentials.dart';
 
 class CredentialsUtil {
-  static AwsClientCredentials resolve() => null;
+  static AwsClientCredentials? resolve() => null;
 }

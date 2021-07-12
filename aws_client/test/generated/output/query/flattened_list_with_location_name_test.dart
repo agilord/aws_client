@@ -30,8 +30,8 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.list[0], "a");
-    expect(output.list[1], "b");
+    expect(output.list?[0], "a");
+    expect(output.list?[1], "b");
 /*
 {
   "List": [

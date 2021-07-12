@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2015-07-01.g.dart';
 
 /// Provides AWS Marketplace business intelligence data on-demand.
 class MarketplaceCommerceAnalytics {
   final _s.JsonProtocol _protocol;
   MarketplaceCommerceAnalytics({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -188,13 +181,13 @@ class MarketplaceCommerceAnalytics {
   /// structure does not exist, it will be created. If no prefix is provided,
   /// the data set will be published to the S3 bucket root.
   Future<GenerateDataSetResult> generateDataSet({
-    @_s.required DateTime dataSetPublicationDate,
-    @_s.required DataSetType dataSetType,
-    @_s.required String destinationS3BucketName,
-    @_s.required String roleNameArn,
-    @_s.required String snsTopicArn,
-    Map<String, String> customerDefinedValues,
-    String destinationS3Prefix,
+    required DateTime dataSetPublicationDate,
+    required DataSetType dataSetType,
+    required String destinationS3BucketName,
+    required String roleNameArn,
+    required String snsTopicArn,
+    Map<String, String>? customerDefinedValues,
+    String? destinationS3Prefix,
   }) async {
     ArgumentError.checkNotNull(
         dataSetPublicationDate, 'dataSetPublicationDate');
@@ -236,7 +229,7 @@ class MarketplaceCommerceAnalytics {
       headers: headers,
       payload: {
         'dataSetPublicationDate': unixTimestampToJson(dataSetPublicationDate),
-        'dataSetType': dataSetType?.toValue() ?? '',
+        'dataSetType': dataSetType.toValue(),
         'destinationS3BucketName': destinationS3BucketName,
         'roleNameArn': roleNameArn,
         'snsTopicArn': snsTopicArn,
@@ -313,13 +306,13 @@ class MarketplaceCommerceAnalytics {
   /// structure does not exist, it will be created. If no prefix is provided,
   /// the data set will be published to the S3 bucket root.
   Future<StartSupportDataExportResult> startSupportDataExport({
-    @_s.required SupportDataSetType dataSetType,
-    @_s.required String destinationS3BucketName,
-    @_s.required DateTime fromDate,
-    @_s.required String roleNameArn,
-    @_s.required String snsTopicArn,
-    Map<String, String> customerDefinedValues,
-    String destinationS3Prefix,
+    required SupportDataSetType dataSetType,
+    required String destinationS3BucketName,
+    required DateTime fromDate,
+    required String roleNameArn,
+    required String snsTopicArn,
+    Map<String, String>? customerDefinedValues,
+    String? destinationS3Prefix,
   }) async {
     ArgumentError.checkNotNull(dataSetType, 'dataSetType');
     ArgumentError.checkNotNull(
@@ -360,7 +353,7 @@ class MarketplaceCommerceAnalytics {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSetType': dataSetType?.toValue() ?? '',
+        'dataSetType': dataSetType.toValue(),
         'destinationS3BucketName': destinationS3BucketName,
         'fromDate': unixTimestampToJson(fromDate),
         'roleNameArn': roleNameArn,
@@ -377,55 +370,30 @@ class MarketplaceCommerceAnalytics {
 }
 
 enum DataSetType {
-  @_s.JsonValue('customer_subscriber_hourly_monthly_subscriptions')
   customerSubscriberHourlyMonthlySubscriptions,
-  @_s.JsonValue('customer_subscriber_annual_subscriptions')
   customerSubscriberAnnualSubscriptions,
-  @_s.JsonValue('daily_business_usage_by_instance_type')
   dailyBusinessUsageByInstanceType,
-  @_s.JsonValue('daily_business_fees')
   dailyBusinessFees,
-  @_s.JsonValue('daily_business_free_trial_conversions')
   dailyBusinessFreeTrialConversions,
-  @_s.JsonValue('daily_business_new_instances')
   dailyBusinessNewInstances,
-  @_s.JsonValue('daily_business_new_product_subscribers')
   dailyBusinessNewProductSubscribers,
-  @_s.JsonValue('daily_business_canceled_product_subscribers')
   dailyBusinessCanceledProductSubscribers,
-  @_s.JsonValue('monthly_revenue_billing_and_revenue_data')
   monthlyRevenueBillingAndRevenueData,
-  @_s.JsonValue('monthly_revenue_annual_subscriptions')
   monthlyRevenueAnnualSubscriptions,
-  @_s.JsonValue('monthly_revenue_field_demonstration_usage')
   monthlyRevenueFieldDemonstrationUsage,
-  @_s.JsonValue('monthly_revenue_flexible_payment_schedule')
   monthlyRevenueFlexiblePaymentSchedule,
-  @_s.JsonValue('disbursed_amount_by_product')
   disbursedAmountByProduct,
-  @_s.JsonValue('disbursed_amount_by_product_with_uncollected_funds')
   disbursedAmountByProductWithUncollectedFunds,
-  @_s.JsonValue('disbursed_amount_by_instance_hours')
   disbursedAmountByInstanceHours,
-  @_s.JsonValue('disbursed_amount_by_customer_geo')
   disbursedAmountByCustomerGeo,
-  @_s.JsonValue('disbursed_amount_by_age_of_uncollected_funds')
   disbursedAmountByAgeOfUncollectedFunds,
-  @_s.JsonValue('disbursed_amount_by_age_of_disbursed_funds')
   disbursedAmountByAgeOfDisbursedFunds,
-  @_s.JsonValue('disbursed_amount_by_age_of_past_due_funds')
   disbursedAmountByAgeOfPastDueFunds,
-  @_s.JsonValue('disbursed_amount_by_uncollected_funds_breakdown')
   disbursedAmountByUncollectedFundsBreakdown,
-  @_s.JsonValue('customer_profile_by_industry')
   customerProfileByIndustry,
-  @_s.JsonValue('customer_profile_by_revenue')
   customerProfileByRevenue,
-  @_s.JsonValue('customer_profile_by_geography')
   customerProfileByGeography,
-  @_s.JsonValue('sales_compensation_billed_revenue')
   salesCompensationBilledRevenue,
-  @_s.JsonValue('us_sales_and_use_tax_records')
   usSalesAndUseTaxRecords,
 }
 
@@ -483,54 +451,119 @@ extension on DataSetType {
       case DataSetType.usSalesAndUseTaxRecords:
         return 'us_sales_and_use_tax_records';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DataSetType toDataSetType() {
+    switch (this) {
+      case 'customer_subscriber_hourly_monthly_subscriptions':
+        return DataSetType.customerSubscriberHourlyMonthlySubscriptions;
+      case 'customer_subscriber_annual_subscriptions':
+        return DataSetType.customerSubscriberAnnualSubscriptions;
+      case 'daily_business_usage_by_instance_type':
+        return DataSetType.dailyBusinessUsageByInstanceType;
+      case 'daily_business_fees':
+        return DataSetType.dailyBusinessFees;
+      case 'daily_business_free_trial_conversions':
+        return DataSetType.dailyBusinessFreeTrialConversions;
+      case 'daily_business_new_instances':
+        return DataSetType.dailyBusinessNewInstances;
+      case 'daily_business_new_product_subscribers':
+        return DataSetType.dailyBusinessNewProductSubscribers;
+      case 'daily_business_canceled_product_subscribers':
+        return DataSetType.dailyBusinessCanceledProductSubscribers;
+      case 'monthly_revenue_billing_and_revenue_data':
+        return DataSetType.monthlyRevenueBillingAndRevenueData;
+      case 'monthly_revenue_annual_subscriptions':
+        return DataSetType.monthlyRevenueAnnualSubscriptions;
+      case 'monthly_revenue_field_demonstration_usage':
+        return DataSetType.monthlyRevenueFieldDemonstrationUsage;
+      case 'monthly_revenue_flexible_payment_schedule':
+        return DataSetType.monthlyRevenueFlexiblePaymentSchedule;
+      case 'disbursed_amount_by_product':
+        return DataSetType.disbursedAmountByProduct;
+      case 'disbursed_amount_by_product_with_uncollected_funds':
+        return DataSetType.disbursedAmountByProductWithUncollectedFunds;
+      case 'disbursed_amount_by_instance_hours':
+        return DataSetType.disbursedAmountByInstanceHours;
+      case 'disbursed_amount_by_customer_geo':
+        return DataSetType.disbursedAmountByCustomerGeo;
+      case 'disbursed_amount_by_age_of_uncollected_funds':
+        return DataSetType.disbursedAmountByAgeOfUncollectedFunds;
+      case 'disbursed_amount_by_age_of_disbursed_funds':
+        return DataSetType.disbursedAmountByAgeOfDisbursedFunds;
+      case 'disbursed_amount_by_age_of_past_due_funds':
+        return DataSetType.disbursedAmountByAgeOfPastDueFunds;
+      case 'disbursed_amount_by_uncollected_funds_breakdown':
+        return DataSetType.disbursedAmountByUncollectedFundsBreakdown;
+      case 'customer_profile_by_industry':
+        return DataSetType.customerProfileByIndustry;
+      case 'customer_profile_by_revenue':
+        return DataSetType.customerProfileByRevenue;
+      case 'customer_profile_by_geography':
+        return DataSetType.customerProfileByGeography;
+      case 'sales_compensation_billed_revenue':
+        return DataSetType.salesCompensationBilledRevenue;
+      case 'us_sales_and_use_tax_records':
+        return DataSetType.usSalesAndUseTaxRecords;
+    }
+    throw Exception('$this is not known in enum DataSetType');
   }
 }
 
 /// Container for the result of the GenerateDataSet operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateDataSetResult {
   /// A unique identifier representing a specific request to the GenerateDataSet
   /// operation. This identifier can be used to correlate a request with
   /// notifications from the SNS topic.
-  @_s.JsonKey(name: 'dataSetRequestId')
-  final String dataSetRequestId;
+  final String? dataSetRequestId;
 
   GenerateDataSetResult({
     this.dataSetRequestId,
   });
-  factory GenerateDataSetResult.fromJson(Map<String, dynamic> json) =>
-      _$GenerateDataSetResultFromJson(json);
+
+  factory GenerateDataSetResult.fromJson(Map<String, dynamic> json) {
+    return GenerateDataSetResult(
+      dataSetRequestId: json['dataSetRequestId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetRequestId = this.dataSetRequestId;
+    return {
+      if (dataSetRequestId != null) 'dataSetRequestId': dataSetRequestId,
+    };
+  }
 }
 
 /// Container for the result of the StartSupportDataExport operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartSupportDataExportResult {
   /// A unique identifier representing a specific request to the
   /// StartSupportDataExport operation. This identifier can be used to correlate a
   /// request with notifications from the SNS topic.
-  @_s.JsonKey(name: 'dataSetRequestId')
-  final String dataSetRequestId;
+  final String? dataSetRequestId;
 
   StartSupportDataExportResult({
     this.dataSetRequestId,
   });
-  factory StartSupportDataExportResult.fromJson(Map<String, dynamic> json) =>
-      _$StartSupportDataExportResultFromJson(json);
+
+  factory StartSupportDataExportResult.fromJson(Map<String, dynamic> json) {
+    return StartSupportDataExportResult(
+      dataSetRequestId: json['dataSetRequestId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSetRequestId = this.dataSetRequestId;
+    return {
+      if (dataSetRequestId != null) 'dataSetRequestId': dataSetRequestId,
+    };
+  }
 }
 
 enum SupportDataSetType {
-  @_s.JsonValue('customer_support_contacts_data')
   customerSupportContactsData,
-  @_s.JsonValue('test_customer_support_contacts_data')
   testCustomerSupportContactsData,
 }
 
@@ -542,12 +575,23 @@ extension on SupportDataSetType {
       case SupportDataSetType.testCustomerSupportContactsData:
         return 'test_customer_support_contacts_data';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SupportDataSetType toSupportDataSetType() {
+    switch (this) {
+      case 'customer_support_contacts_data':
+        return SupportDataSetType.customerSupportContactsData;
+      case 'test_customer_support_contacts_data':
+        return SupportDataSetType.testCustomerSupportContactsData;
+    }
+    throw Exception('$this is not known in enum SupportDataSetType');
   }
 }
 
 class MarketplaceCommerceAnalyticsException extends _s.GenericAwsException {
-  MarketplaceCommerceAnalyticsException({String type, String message})
+  MarketplaceCommerceAnalyticsException({String? type, String? message})
       : super(
             type: type,
             code: 'MarketplaceCommerceAnalyticsException',

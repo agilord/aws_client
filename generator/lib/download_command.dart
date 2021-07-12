@@ -12,12 +12,11 @@ class DownloadCommand extends Command {
   Config config;
 
   DownloadCommand([this.config]) {
-    argParser
-      ..addOption(
-        'config-file',
-        help: 'Configuration file describing package generation.',
-        defaultsTo: 'config.yaml',
-      );
+    argParser.addOption(
+      'config-file',
+      help: 'Configuration file describing package generation.',
+      defaultsTo: 'config.yaml',
+    );
   }
 
   @override
@@ -63,7 +62,7 @@ Future<void> _fetchApiDefinitions(String reference) async {
 
       newfile
         ..createSync(recursive: true)
-        ..writeAsStringSync(jsonEncode(json));
+        ..writeAsStringSync(const JsonEncoder.withIndent('  ').convert(json));
     } else if (file.isFile &&
         const ['lib/region_config_data.json', 'apis/metadata.json']
             .contains(filename)) {

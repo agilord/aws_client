@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-11-27.g.dart';
 
 /// Amazon MQ is a managed message broker service for Apache ActiveMQ and
 /// RabbitMQ that makes it easy to set up and operate message brokers in the
@@ -34,10 +27,10 @@ part '2017-11-27.g.dart';
 class MQ {
   final _s.RestJsonProtocol _protocol;
   MQ({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -51,25 +44,112 @@ class MQ {
 
   /// Creates a broker. Note: This API is asynchronous.
   ///
+  /// To create a broker, you must either use the AmazonMQFullAccess IAM policy
+  /// or include the following EC2 permissions in your IAM policy.
+  ///
+  /// <ul>
+  /// <li>
+  /// ec2:CreateNetworkInterface
+  ///
+  /// This permission is required to allow Amazon MQ to create an elastic
+  /// network interface (ENI) on behalf of your account.
+  /// </li>
+  /// <li>
+  /// ec2:CreateNetworkInterfacePermission
+  ///
+  /// This permission is required to attach the ENI to the broker instance.
+  /// </li>
+  /// <li>
+  /// ec2:DeleteNetworkInterface
+  /// </li>
+  /// <li>
+  /// ec2:DeleteNetworkInterfacePermission
+  /// </li>
+  /// <li>
+  /// ec2:DetachNetworkInterface
+  /// </li>
+  /// <li>
+  /// ec2:DescribeInternetGateways
+  /// </li>
+  /// <li>
+  /// ec2:DescribeNetworkInterfaces
+  /// </li>
+  /// <li>
+  /// ec2:DescribeNetworkInterfacePermissions
+  /// </li>
+  /// <li>
+  /// ec2:DescribeRouteTables
+  /// </li>
+  /// <li>
+  /// ec2:DescribeSecurityGroups
+  /// </li>
+  /// <li>
+  /// ec2:DescribeSubnets
+  /// </li>
+  /// <li>
+  /// ec2:DescribeVpcs
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user">Create
+  /// an IAM User and Get Your AWS Credentials</a> and <a
+  /// href="https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface">Never
+  /// Modify or Delete the Amazon MQ Elastic Network Interface</a> in the
+  /// <i>Amazon MQ Developer Guide</i>.
+  ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
   /// May throw [InternalServerErrorException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   ///
-  /// Parameter [authenticationStrategy] :
-  /// The authentication strategy used to secure the broker.
-  ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// Required. Enables automatic upgrades to new minor versions for brokers, as
-  /// Apache releases the versions. The automatic upgrades occur during the
-  /// maintenance window of the broker or after a manual broker reboot.
+  /// Enables automatic upgrades to new minor versions for brokers, as new
+  /// versions are released and supported by Amazon MQ. Automatic upgrades occur
+  /// during the scheduled maintenance window of the broker or after a manual
+  /// broker reboot. Set to true by default, if no value is specified.
   ///
   /// Parameter [brokerName] :
-  /// Required. The name of the broker. This value must be unique in your AWS
+  /// Required. The broker's name. This value must be unique in your AWS
   /// account, 1-50 characters long, must contain only letters, numbers, dashes,
-  /// and underscores, and must not contain whitespaces, brackets, wildcard
+  /// and underscores, and must not contain white spaces, brackets, wildcard
   /// characters, or special characters.
+  ///
+  /// Parameter [deploymentMode] :
+  /// Required. The broker's deployment mode.
+  ///
+  /// Parameter [engineType] :
+  /// Required. The type of broker engine. Currently, Amazon MQ supports
+  /// ACTIVEMQ and RABBITMQ.
+  ///
+  /// Parameter [engineVersion] :
+  /// Required. The broker engine's version. For a list of supported engine
+  /// versions, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
+  ///
+  /// Parameter [hostInstanceType] :
+  /// Required. The broker's instance type.
+  ///
+  /// Parameter [publiclyAccessible] :
+  /// Enables connections from applications outside of the VPC that hosts the
+  /// broker's subnets. Set to false by default, if no value is provided.
+  ///
+  /// Parameter [users] :
+  /// Required. The list of broker users (persons or applications) who can
+  /// access queues and topics. This value can contain only alphanumeric
+  /// characters, dashes, periods, underscores, and tildes (- . _ ~). This value
+  /// must be 2-100 characters long.
+  /// <important><title>Amazon MQ for RabbitMQ</title>
+  /// When you create an Amazon MQ for RabbitMQ broker, one and only one
+  /// administrative user is accepted and created when a broker is first
+  /// provisioned. All subsequent broker users are created by making RabbitMQ
+  /// API calls directly to brokers or via the RabbitMQ web console.
+  /// </important>
+  ///
+  /// Parameter [authenticationStrategy] :
+  /// Optional. The authentication strategy used to secure the broker. The
+  /// default is SIMPLE.
   ///
   /// Parameter [configuration] :
   /// A list of information about the configuration.
@@ -80,27 +160,12 @@ class MQ {
   /// Universally Unique Identifier (UUID) for the creatorRequestId. You may
   /// omit the creatorRequestId if your application doesn't require idempotency.
   ///
-  /// Parameter [deploymentMode] :
-  /// Required. The deployment mode of the broker.
-  ///
   /// Parameter [encryptionOptions] :
-  /// Encryption options for the broker.
-  ///
-  /// Parameter [engineType] :
-  /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// ACTIVEMQ and RABBITMQ.
-  ///
-  /// Parameter [engineVersion] :
-  /// Required. The version of the broker engine. For a list of supported engine
-  /// versions, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-  ///
-  /// Parameter [hostInstanceType] :
-  /// Required. The broker's instance type.
+  /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
   ///
   /// Parameter [ldapServerMetadata] :
-  /// The metadata of the LDAP server used to authenticate and authorize
-  /// connections to the broker.
+  /// Optional. The metadata of the LDAP server used to authenticate and
+  /// authorize connections to the broker. Does not apply to RabbitMQ brokers.
   ///
   /// Parameter [logs] :
   /// Enables Amazon CloudWatch logging for brokers.
@@ -108,81 +173,87 @@ class MQ {
   /// Parameter [maintenanceWindowStartTime] :
   /// The parameters that determine the WeeklyStartTime.
   ///
-  /// Parameter [publiclyAccessible] :
-  /// Required. Enables connections from applications outside of the VPC that
-  /// hosts the broker's subnets.
-  ///
   /// Parameter [securityGroups] :
-  /// The list of security groups (1 minimum, 5 maximum) that authorizes
-  /// connections to brokers.
+  /// The list of rules (1 minimum, 125 maximum) that authorize connections to
+  /// brokers.
   ///
   /// Parameter [storageType] :
   /// The broker's storage type.
   ///
   /// Parameter [subnetIds] :
   /// The list of groups that define which subnets and IP ranges the broker can
-  /// use from different Availability Zones. A SINGLE_INSTANCE deployment
+  /// use from different Availability Zones. If you specify more than one
+  /// subnet, the subnets must be in different Availability Zones. Amazon MQ
+  /// will not be able to create VPC endpoints for your broker with multiple
+  /// subnets in the same Availability Zone. A SINGLE_INSTANCE deployment
   /// requires one subnet (for example, the default subnet). An
-  /// ACTIVE_STANDBY_MULTI_AZ deployment (ACTIVEMQ) requires two subnets. A
-  /// CLUSTER_MULTI_AZ deployment (RABBITMQ) has no subnet requirements when
-  /// deployed with public accessibility, deployment without public
-  /// accessibility requires at least one subnet.
+  /// ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two
+  /// subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no
+  /// subnet requirements when deployed with public accessibility. Deployment
+  /// without public accessibility requires at least one subnet.
+  /// <important>
+  /// If you specify subnets in a <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html">shared
+  /// VPC</a> for a RabbitMQ broker, the associated VPC to which the specified
+  /// subnets belong must be owned by your AWS account. Amazon MQ will not be
+  /// able to create VPC endpoints in VPCs that are not owned by your AWS
+  /// account.
+  /// </important>
   ///
   /// Parameter [tags] :
   /// Create tags when creating the broker.
-  ///
-  /// Parameter [users] :
-  /// Required. The list of broker users (persons or applications) who can
-  /// access queues and topics. For RabbitMQ brokers, one and only one
-  /// administrative user is accepted and created when a broker is first
-  /// provisioned. All subsequent broker users are created by making RabbitMQ
-  /// API calls directly to brokers or via the RabbitMQ Web Console. This value
-  /// can contain only alphanumeric characters, dashes, periods, underscores,
-  /// and tildes (- . _ ~). This value must be 2-100 characters long.
   Future<CreateBrokerResponse> createBroker({
-    AuthenticationStrategy authenticationStrategy,
-    bool autoMinorVersionUpgrade,
-    String brokerName,
-    ConfigurationId configuration,
-    String creatorRequestId,
-    DeploymentMode deploymentMode,
-    EncryptionOptions encryptionOptions,
-    EngineType engineType,
-    String engineVersion,
-    String hostInstanceType,
-    LdapServerMetadataInput ldapServerMetadata,
-    Logs logs,
-    WeeklyStartTime maintenanceWindowStartTime,
-    bool publiclyAccessible,
-    List<String> securityGroups,
-    BrokerStorageType storageType,
-    List<String> subnetIds,
-    Map<String, String> tags,
-    List<User> users,
+    required bool autoMinorVersionUpgrade,
+    required String brokerName,
+    required DeploymentMode deploymentMode,
+    required EngineType engineType,
+    required String engineVersion,
+    required String hostInstanceType,
+    required bool publiclyAccessible,
+    required List<User> users,
+    AuthenticationStrategy? authenticationStrategy,
+    ConfigurationId? configuration,
+    String? creatorRequestId,
+    EncryptionOptions? encryptionOptions,
+    LdapServerMetadataInput? ldapServerMetadata,
+    Logs? logs,
+    WeeklyStartTime? maintenanceWindowStartTime,
+    List<String>? securityGroups,
+    BrokerStorageType? storageType,
+    List<String>? subnetIds,
+    Map<String, String>? tags,
   }) async {
+    ArgumentError.checkNotNull(
+        autoMinorVersionUpgrade, 'autoMinorVersionUpgrade');
+    ArgumentError.checkNotNull(brokerName, 'brokerName');
+    ArgumentError.checkNotNull(deploymentMode, 'deploymentMode');
+    ArgumentError.checkNotNull(engineType, 'engineType');
+    ArgumentError.checkNotNull(engineVersion, 'engineVersion');
+    ArgumentError.checkNotNull(hostInstanceType, 'hostInstanceType');
+    ArgumentError.checkNotNull(publiclyAccessible, 'publiclyAccessible');
+    ArgumentError.checkNotNull(users, 'users');
     final $payload = <String, dynamic>{
+      'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      'brokerName': brokerName,
+      'deploymentMode': deploymentMode.toValue(),
+      'engineType': engineType.toValue(),
+      'engineVersion': engineVersion,
+      'hostInstanceType': hostInstanceType,
+      'publiclyAccessible': publiclyAccessible,
+      'users': users,
       if (authenticationStrategy != null)
         'authenticationStrategy': authenticationStrategy.toValue(),
-      if (autoMinorVersionUpgrade != null)
-        'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
-      if (brokerName != null) 'brokerName': brokerName,
       if (configuration != null) 'configuration': configuration,
       'creatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
-      if (deploymentMode != null) 'deploymentMode': deploymentMode.toValue(),
       if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
-      if (engineType != null) 'engineType': engineType.toValue(),
-      if (engineVersion != null) 'engineVersion': engineVersion,
-      if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
       if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
       if (logs != null) 'logs': logs,
       if (maintenanceWindowStartTime != null)
         'maintenanceWindowStartTime': maintenanceWindowStartTime,
-      if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
       if (securityGroups != null) 'securityGroups': securityGroups,
       if (storageType != null) 'storageType': storageType.toValue(),
       if (subnetIds != null) 'subnetIds': subnetIds,
       if (tags != null) 'tags': tags,
-      if (users != null) 'users': users,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -201,38 +272,43 @@ class MQ {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   ///
-  /// Parameter [authenticationStrategy] :
-  /// The authentication strategy associated with the configuration.
-  ///
   /// Parameter [engineType] :
-  /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
+  /// Required. The type of broker engine. Currently, Amazon MQ supports
   /// ACTIVEMQ and RABBITMQ.
   ///
   /// Parameter [engineVersion] :
-  /// Required. The version of the broker engine. For a list of supported engine
-  /// versions, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+  /// Required. The broker engine's version. For a list of supported engine
+  /// versions, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
   ///
   /// Parameter [name] :
   /// Required. The name of the configuration. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _
   /// ~). This value must be 1-150 characters long.
   ///
+  /// Parameter [authenticationStrategy] :
+  /// Optional. The authentication strategy associated with the configuration.
+  /// The default is SIMPLE.
+  ///
   /// Parameter [tags] :
   /// Create tags when creating the configuration.
   Future<CreateConfigurationResponse> createConfiguration({
-    AuthenticationStrategy authenticationStrategy,
-    EngineType engineType,
-    String engineVersion,
-    String name,
-    Map<String, String> tags,
+    required EngineType engineType,
+    required String engineVersion,
+    required String name,
+    AuthenticationStrategy? authenticationStrategy,
+    Map<String, String>? tags,
   }) async {
+    ArgumentError.checkNotNull(engineType, 'engineType');
+    ArgumentError.checkNotNull(engineVersion, 'engineVersion');
+    ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
+      'engineType': engineType.toValue(),
+      'engineVersion': engineVersion,
+      'name': name,
       if (authenticationStrategy != null)
         'authenticationStrategy': authenticationStrategy.toValue(),
-      if (engineType != null) 'engineType': engineType.toValue(),
-      if (engineVersion != null) 'engineVersion': engineVersion,
-      if (name != null) 'name': name,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -257,8 +333,8 @@ class MQ {
   /// Parameter [tags] :
   /// The key-value pair for the resource tag.
   Future<void> createTags({
-    @_s.required String resourceArn,
-    Map<String, String> tags,
+    required String resourceArn,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
@@ -283,37 +359,38 @@ class MQ {
   /// Parameter [brokerId] :
   /// The unique ID that Amazon MQ generates for the broker.
   ///
+  /// Parameter [password] :
+  /// Required. The password of the user. This value must be at least 12
+  /// characters long, must contain at least 4 unique characters, and must not
+  /// contain commas, colons, or equal signs (,:=).
+  ///
   /// Parameter [username] :
   /// The username of the ActiveMQ user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _
   /// ~). This value must be 2-100 characters long.
   ///
   /// Parameter [consoleAccess] :
-  /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+  /// Enables access to the ActiveMQ Web Console for the ActiveMQ user.
   ///
   /// Parameter [groups] :
   /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This
   /// value can contain only alphanumeric characters, dashes, periods,
   /// underscores, and tildes (- . _ ~). This value must be 2-100 characters
   /// long.
-  ///
-  /// Parameter [password] :
-  /// Required. The password of the user. This value must be at least 12
-  /// characters long, must contain at least 4 unique characters, and must not
-  /// contain commas.
   Future<void> createUser({
-    @_s.required String brokerId,
-    @_s.required String username,
-    bool consoleAccess,
-    List<String> groups,
-    String password,
+    required String brokerId,
+    required String password,
+    required String username,
+    bool? consoleAccess,
+    List<String>? groups,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
+    ArgumentError.checkNotNull(password, 'password');
     ArgumentError.checkNotNull(username, 'username');
     final $payload = <String, dynamic>{
+      'password': password,
       if (consoleAccess != null) 'consoleAccess': consoleAccess,
       if (groups != null) 'groups': groups,
-      if (password != null) 'password': password,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -322,7 +399,6 @@ class MQ {
           '/v1/brokers/${Uri.encodeComponent(brokerId)}/users/${Uri.encodeComponent(username)}',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateUserResponse.fromJson(response);
   }
 
   /// Deletes a broker. Note: This API is asynchronous.
@@ -335,7 +411,7 @@ class MQ {
   /// Parameter [brokerId] :
   /// The unique ID that Amazon MQ generates for the broker.
   Future<DeleteBrokerResponse> deleteBroker({
-    @_s.required String brokerId,
+    required String brokerId,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     final response = await _protocol.send(
@@ -360,13 +436,13 @@ class MQ {
   /// Parameter [tagKeys] :
   /// An array of tag keys to delete
   Future<void> deleteTags({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -392,8 +468,8 @@ class MQ {
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _
   /// ~). This value must be 2-100 characters long.
   Future<void> deleteUser({
-    @_s.required String brokerId,
-    @_s.required String username,
+    required String brokerId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
@@ -404,7 +480,6 @@ class MQ {
           '/v1/brokers/${Uri.encodeComponent(brokerId)}/users/${Uri.encodeComponent(username)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteUserResponse.fromJson(response);
   }
 
   /// Returns information about the specified broker.
@@ -415,12 +490,9 @@ class MQ {
   /// May throw [ForbiddenException].
   ///
   /// Parameter [brokerId] :
-  /// The name of the broker. This value must be unique in your AWS account,
-  /// 1-50 characters long, must contain only letters, numbers, dashes, and
-  /// underscores, and must not contain whitespaces, brackets, wildcard
-  /// characters, or special characters.
+  /// The unique ID that Amazon MQ generates for the broker.
   Future<DescribeBrokerResponse> describeBroker({
-    @_s.required String brokerId,
+    required String brokerId,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     final response = await _protocol.send(
@@ -442,16 +514,16 @@ class MQ {
   /// Filter response by engine type.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of engine types that Amazon MQ can return per page (20
-  /// by default). This value must be an integer from 5 to 100.
+  /// The maximum number of brokers that Amazon MQ can return per page (20 by
+  /// default). This value must be an integer from 5 to 100.
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
   Future<DescribeBrokerEngineTypesResponse> describeBrokerEngineTypes({
-    String engineType,
-    int maxResults,
-    String nextToken,
+    String? engineType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -487,8 +559,8 @@ class MQ {
   /// Filter response by host instance type.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of instance options that Amazon MQ can return per page
-  /// (20 by default). This value must be an integer from 5 to 100.
+  /// The maximum number of brokers that Amazon MQ can return per page (20 by
+  /// default). This value must be an integer from 5 to 100.
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results Amazon MQ should return.
@@ -497,11 +569,11 @@ class MQ {
   /// Parameter [storageType] :
   /// Filter response by storage type.
   Future<DescribeBrokerInstanceOptionsResponse> describeBrokerInstanceOptions({
-    String engineType,
-    String hostInstanceType,
-    int maxResults,
-    String nextToken,
-    String storageType,
+    String? engineType,
+    String? hostInstanceType,
+    int? maxResults,
+    String? nextToken,
+    String? storageType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -536,7 +608,7 @@ class MQ {
   /// Parameter [configurationId] :
   /// The unique ID that Amazon MQ generates for the configuration.
   Future<DescribeConfigurationResponse> describeConfiguration({
-    @_s.required String configurationId,
+    required String configurationId,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     final response = await _protocol.send(
@@ -562,8 +634,8 @@ class MQ {
   /// Parameter [configurationRevision] :
   /// The revision of the configuration.
   Future<DescribeConfigurationRevisionResponse> describeConfigurationRevision({
-    @_s.required String configurationId,
-    @_s.required String configurationRevision,
+    required String configurationId,
+    required String configurationRevision,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     ArgumentError.checkNotNull(configurationRevision, 'configurationRevision');
@@ -592,8 +664,8 @@ class MQ {
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _
   /// ~). This value must be 2-100 characters long.
   Future<DescribeUserResponse> describeUser({
-    @_s.required String brokerId,
-    @_s.required String username,
+    required String brokerId,
+    required String username,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
@@ -621,8 +693,8 @@ class MQ {
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
   Future<ListBrokersResponse> listBrokers({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -655,16 +727,16 @@ class MQ {
   /// The unique ID that Amazon MQ generates for the configuration.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of configurations that Amazon MQ can return per page
-  /// (20 by default). This value must be an integer from 5 to 100.
+  /// The maximum number of brokers that Amazon MQ can return per page (20 by
+  /// default). This value must be an integer from 5 to 100.
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
   Future<ListConfigurationRevisionsResponse> listConfigurationRevisions({
-    @_s.required String configurationId,
-    int maxResults,
-    String nextToken,
+    required String configurationId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     _s.validateNumRange(
@@ -695,15 +767,15 @@ class MQ {
   /// May throw [ForbiddenException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of configurations that Amazon MQ can return per page
-  /// (20 by default). This value must be an integer from 5 to 100.
+  /// The maximum number of brokers that Amazon MQ can return per page (20 by
+  /// default). This value must be an integer from 5 to 100.
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
   Future<ListConfigurationsResponse> listConfigurations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -735,7 +807,7 @@ class MQ {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource tag.
   Future<ListTagsResponse> listTags({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -758,16 +830,16 @@ class MQ {
   /// The unique ID that Amazon MQ generates for the broker.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of ActiveMQ users that can be returned per page (20 by
+  /// The maximum number of brokers that Amazon MQ can return per page (20 by
   /// default). This value must be an integer from 5 to 100.
   ///
   /// Parameter [nextToken] :
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
   Future<ListUsersResponse> listUsers({
-    @_s.required String brokerId,
-    int maxResults,
-    String nextToken,
+    required String brokerId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     _s.validateNumRange(
@@ -800,7 +872,7 @@ class MQ {
   /// Parameter [brokerId] :
   /// The unique ID that Amazon MQ generates for the broker.
   Future<void> rebootBroker({
-    @_s.required String brokerId,
+    required String brokerId,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     final response = await _protocol.send(
@@ -809,7 +881,6 @@ class MQ {
       requestUri: '/v1/brokers/${Uri.encodeComponent(brokerId)}/reboot',
       exceptionFnMap: _exceptionFns,
     );
-    return RebootBrokerResponse.fromJson(response);
   }
 
   /// Adds a pending configuration change to a broker.
@@ -824,46 +895,53 @@ class MQ {
   /// The unique ID that Amazon MQ generates for the broker.
   ///
   /// Parameter [authenticationStrategy] :
-  /// The authentication strategy used to secure the broker.
+  /// Optional. The authentication strategy used to secure the broker. The
+  /// default is SIMPLE.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
-  /// Enables automatic upgrades to new minor versions for brokers, as Apache
-  /// releases the versions. The automatic upgrades occur during the maintenance
-  /// window of the broker or after a manual broker reboot.
+  /// Enables automatic upgrades to new minor versions for brokers, as new
+  /// versions are released and supported by Amazon MQ. Automatic upgrades occur
+  /// during the scheduled maintenance window of the broker or after a manual
+  /// broker reboot.
   ///
   /// Parameter [configuration] :
   /// A list of information about the configuration.
   ///
   /// Parameter [engineVersion] :
-  /// The version of the broker engine. For a list of supported engine versions,
-  /// see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
+  /// The broker engine version. For a list of supported engine versions, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
   ///
   /// Parameter [hostInstanceType] :
-  /// The host instance type of the broker to upgrade to. For a list of
-  /// supported instance types, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
+  /// The broker's host instance type to upgrade to. For a list of supported
+  /// instance types, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types">Broker
+  /// instance types</a>.
   ///
   /// Parameter [ldapServerMetadata] :
-  /// The metadata of the LDAP server used to authenticate and authorize
-  /// connections to the broker.
+  /// Optional. The metadata of the LDAP server used to authenticate and
+  /// authorize connections to the broker. Does not apply to RabbitMQ brokers.
   ///
   /// Parameter [logs] :
   /// Enables Amazon CloudWatch logging for brokers.
+  ///
+  /// Parameter [maintenanceWindowStartTime] :
+  /// The parameters that determine the WeeklyStartTime.
   ///
   /// Parameter [securityGroups] :
   /// The list of security groups (1 minimum, 5 maximum) that authorizes
   /// connections to brokers.
   Future<UpdateBrokerResponse> updateBroker({
-    @_s.required String brokerId,
-    AuthenticationStrategy authenticationStrategy,
-    bool autoMinorVersionUpgrade,
-    ConfigurationId configuration,
-    String engineVersion,
-    String hostInstanceType,
-    LdapServerMetadataInput ldapServerMetadata,
-    Logs logs,
-    List<String> securityGroups,
+    required String brokerId,
+    AuthenticationStrategy? authenticationStrategy,
+    bool? autoMinorVersionUpgrade,
+    ConfigurationId? configuration,
+    String? engineVersion,
+    String? hostInstanceType,
+    LdapServerMetadataInput? ldapServerMetadata,
+    Logs? logs,
+    WeeklyStartTime? maintenanceWindowStartTime,
+    List<String>? securityGroups,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     final $payload = <String, dynamic>{
@@ -876,6 +954,8 @@ class MQ {
       if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
       if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
       if (logs != null) 'logs': logs,
+      if (maintenanceWindowStartTime != null)
+        'maintenanceWindowStartTime': maintenanceWindowStartTime,
       if (securityGroups != null) 'securityGroups': securityGroups,
     };
     final response = await _protocol.send(
@@ -904,13 +984,14 @@ class MQ {
   /// Parameter [description] :
   /// The description of the configuration.
   Future<UpdateConfigurationResponse> updateConfiguration({
-    @_s.required String configurationId,
-    String data,
-    String description,
+    required String configurationId,
+    required String data,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
+    ArgumentError.checkNotNull(data, 'data');
     final $payload = <String, dynamic>{
-      if (data != null) 'data': data,
+      'data': data,
       if (description != null) 'description': description,
     };
     final response = await _protocol.send(
@@ -934,7 +1015,7 @@ class MQ {
   /// The unique ID that Amazon MQ generates for the broker.
   ///
   /// Parameter [username] :
-  /// Required. The username of the ActiveMQ user. This value can contain only
+  /// The username of the ActiveMQ user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _
   /// ~). This value must be 2-100 characters long.
   ///
@@ -949,13 +1030,14 @@ class MQ {
   ///
   /// Parameter [password] :
   /// The password of the user. This value must be at least 12 characters long,
-  /// must contain at least 4 unique characters, and must not contain commas.
+  /// must contain at least 4 unique characters, and must not contain commas,
+  /// colons, or equal signs (,:=).
   Future<void> updateUser({
-    @_s.required String brokerId,
-    @_s.required String username,
-    bool consoleAccess,
-    List<String> groups,
-    String password,
+    required String brokerId,
+    required String username,
+    bool? consoleAccess,
+    List<String>? groups,
+    String? password,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
@@ -971,15 +1053,13 @@ class MQ {
           '/v1/brokers/${Uri.encodeComponent(brokerId)}/users/${Uri.encodeComponent(username)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateUserResponse.fromJson(response);
   }
 }
 
-/// The authentication strategy used to secure the broker.
+/// Optional. The authentication strategy used to secure the broker. The default
+/// is SIMPLE.
 enum AuthenticationStrategy {
-  @_s.JsonValue('SIMPLE')
   simple,
-  @_s.JsonValue('LDAP')
   ldap,
 }
 
@@ -991,110 +1071,137 @@ extension on AuthenticationStrategy {
       case AuthenticationStrategy.ldap:
         return 'LDAP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuthenticationStrategy toAuthenticationStrategy() {
+    switch (this) {
+      case 'SIMPLE':
+        return AuthenticationStrategy.simple;
+      case 'LDAP':
+        return AuthenticationStrategy.ldap;
+    }
+    throw Exception('$this is not known in enum AuthenticationStrategy');
   }
 }
 
 /// Name of the availability zone.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AvailabilityZone {
   /// Id for the availability zone.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   AvailabilityZone({
     this.name,
   });
-  factory AvailabilityZone.fromJson(Map<String, dynamic> json) =>
-      _$AvailabilityZoneFromJson(json);
+
+  factory AvailabilityZone.fromJson(Map<String, dynamic> json) {
+    return AvailabilityZone(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Types of broker engines.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BrokerEngineType {
-  /// The type of broker engine.
-  @_s.JsonKey(name: 'engineType')
-  final EngineType engineType;
+  /// The broker's engine type.
+  final EngineType? engineType;
 
   /// The list of engine versions.
-  @_s.JsonKey(name: 'engineVersions')
-  final List<EngineVersion> engineVersions;
+  final List<EngineVersion>? engineVersions;
 
   BrokerEngineType({
     this.engineType,
     this.engineVersions,
   });
-  factory BrokerEngineType.fromJson(Map<String, dynamic> json) =>
-      _$BrokerEngineTypeFromJson(json);
+
+  factory BrokerEngineType.fromJson(Map<String, dynamic> json) {
+    return BrokerEngineType(
+      engineType: (json['engineType'] as String?)?.toEngineType(),
+      engineVersions: (json['engineVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => EngineVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final engineType = this.engineType;
+    final engineVersions = this.engineVersions;
+    return {
+      if (engineType != null) 'engineType': engineType.toValue(),
+      if (engineVersions != null) 'engineVersions': engineVersions,
+    };
+  }
 }
 
 /// Returns information about all brokers.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BrokerInstance {
-  /// The URL of the broker's Web Console.
-  @_s.JsonKey(name: 'consoleURL')
-  final String consoleURL;
+  /// The brokers web console URL.
+  final String? consoleURL;
 
   /// The broker's wire-level protocol endpoints.
-  @_s.JsonKey(name: 'endpoints')
-  final List<String> endpoints;
+  final List<String>? endpoints;
 
   /// The IP address of the Elastic Network Interface (ENI) attached to the
-  /// broker. Does not apply to RabbitMQ brokers
-  @_s.JsonKey(name: 'ipAddress')
-  final String ipAddress;
+  /// broker. Does not apply to RabbitMQ brokers.
+  final String? ipAddress;
 
   BrokerInstance({
     this.consoleURL,
     this.endpoints,
     this.ipAddress,
   });
-  factory BrokerInstance.fromJson(Map<String, dynamic> json) =>
-      _$BrokerInstanceFromJson(json);
+
+  factory BrokerInstance.fromJson(Map<String, dynamic> json) {
+    return BrokerInstance(
+      consoleURL: json['consoleURL'] as String?,
+      endpoints: (json['endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ipAddress: json['ipAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consoleURL = this.consoleURL;
+    final endpoints = this.endpoints;
+    final ipAddress = this.ipAddress;
+    return {
+      if (consoleURL != null) 'consoleURL': consoleURL,
+      if (endpoints != null) 'endpoints': endpoints,
+      if (ipAddress != null) 'ipAddress': ipAddress,
+    };
+  }
 }
 
 /// Option for host instance type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BrokerInstanceOption {
   /// The list of available az.
-  @_s.JsonKey(name: 'availabilityZones')
-  final List<AvailabilityZone> availabilityZones;
+  final List<AvailabilityZone>? availabilityZones;
 
-  /// The type of broker engine.
-  @_s.JsonKey(name: 'engineType')
-  final EngineType engineType;
+  /// The broker's engine type.
+  final EngineType? engineType;
 
-  /// The type of broker instance.
-  @_s.JsonKey(name: 'hostInstanceType')
-  final String hostInstanceType;
+  /// The broker's instance type.
+  final String? hostInstanceType;
 
   /// The broker's storage type.
-  @_s.JsonKey(name: 'storageType')
-  final BrokerStorageType storageType;
+  final BrokerStorageType? storageType;
 
   /// The list of supported deployment modes.
-  @_s.JsonKey(name: 'supportedDeploymentModes')
-  final List<DeploymentMode> supportedDeploymentModes;
+  final List<DeploymentMode>? supportedDeploymentModes;
 
   /// The list of supported engine versions.
-  @_s.JsonKey(name: 'supportedEngineVersions')
-  final List<String> supportedEngineVersions;
+  final List<String>? supportedEngineVersions;
 
   BrokerInstanceOption({
     this.availabilityZones,
@@ -1104,30 +1211,98 @@ class BrokerInstanceOption {
     this.supportedDeploymentModes,
     this.supportedEngineVersions,
   });
-  factory BrokerInstanceOption.fromJson(Map<String, dynamic> json) =>
-      _$BrokerInstanceOptionFromJson(json);
+
+  factory BrokerInstanceOption.fromJson(Map<String, dynamic> json) {
+    return BrokerInstanceOption(
+      availabilityZones: (json['availabilityZones'] as List?)
+          ?.whereNotNull()
+          .map((e) => AvailabilityZone.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      engineType: (json['engineType'] as String?)?.toEngineType(),
+      hostInstanceType: json['hostInstanceType'] as String?,
+      storageType: (json['storageType'] as String?)?.toBrokerStorageType(),
+      supportedDeploymentModes: (json['supportedDeploymentModes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toDeploymentMode())
+          .toList(),
+      supportedEngineVersions: (json['supportedEngineVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZones = this.availabilityZones;
+    final engineType = this.engineType;
+    final hostInstanceType = this.hostInstanceType;
+    final storageType = this.storageType;
+    final supportedDeploymentModes = this.supportedDeploymentModes;
+    final supportedEngineVersions = this.supportedEngineVersions;
+    return {
+      if (availabilityZones != null) 'availabilityZones': availabilityZones,
+      if (engineType != null) 'engineType': engineType.toValue(),
+      if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+      if (storageType != null) 'storageType': storageType.toValue(),
+      if (supportedDeploymentModes != null)
+        'supportedDeploymentModes':
+            supportedDeploymentModes.map((e) => e.toValue()).toList(),
+      if (supportedEngineVersions != null)
+        'supportedEngineVersions': supportedEngineVersions,
+    };
+  }
 }
 
-/// The status of the broker.
+/// The broker's status.
 enum BrokerState {
-  @_s.JsonValue('CREATION_IN_PROGRESS')
   creationInProgress,
-  @_s.JsonValue('CREATION_FAILED')
   creationFailed,
-  @_s.JsonValue('DELETION_IN_PROGRESS')
   deletionInProgress,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('REBOOT_IN_PROGRESS')
   rebootInProgress,
 }
 
-/// The broker's storage type. <important>EFS is currently not Supported for
-/// RabbitMQ engine type.</important>
+extension on BrokerState {
+  String toValue() {
+    switch (this) {
+      case BrokerState.creationInProgress:
+        return 'CREATION_IN_PROGRESS';
+      case BrokerState.creationFailed:
+        return 'CREATION_FAILED';
+      case BrokerState.deletionInProgress:
+        return 'DELETION_IN_PROGRESS';
+      case BrokerState.running:
+        return 'RUNNING';
+      case BrokerState.rebootInProgress:
+        return 'REBOOT_IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  BrokerState toBrokerState() {
+    switch (this) {
+      case 'CREATION_IN_PROGRESS':
+        return BrokerState.creationInProgress;
+      case 'CREATION_FAILED':
+        return BrokerState.creationFailed;
+      case 'DELETION_IN_PROGRESS':
+        return BrokerState.deletionInProgress;
+      case 'RUNNING':
+        return BrokerState.running;
+      case 'REBOOT_IN_PROGRESS':
+        return BrokerState.rebootInProgress;
+    }
+    throw Exception('$this is not known in enum BrokerState');
+  }
+}
+
+/// The broker's storage type.
+/// <important>
+/// EFS is not supported for RabbitMQ engine type.
+/// </important>
 enum BrokerStorageType {
-  @_s.JsonValue('EBS')
   ebs,
-  @_s.JsonValue('EFS')
   efs,
 }
 
@@ -1139,283 +1314,390 @@ extension on BrokerStorageType {
       case BrokerStorageType.efs:
         return 'EFS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// The Amazon Resource Name (ARN) of the broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  BrokerStorageType toBrokerStorageType() {
+    switch (this) {
+      case 'EBS':
+        return BrokerStorageType.ebs;
+      case 'EFS':
+        return BrokerStorageType.efs;
+    }
+    throw Exception('$this is not known in enum BrokerStorageType');
+  }
+}
+
+/// Returns information about all brokers.
 class BrokerSummary {
-  /// The Amazon Resource Name (ARN) of the broker.
-  @_s.JsonKey(name: 'brokerArn')
-  final String brokerArn;
-
-  /// The unique ID that Amazon MQ generates for the broker.
-  @_s.JsonKey(name: 'brokerId')
-  final String brokerId;
-
-  /// The name of the broker. This value must be unique in your AWS account, 1-50
-  /// characters long, must contain only letters, numbers, dashes, and
-  /// underscores, and must not contain whitespaces, brackets, wildcard
-  /// characters, or special characters.
-  @_s.JsonKey(name: 'brokerName')
-  final String brokerName;
-
-  /// The status of the broker.
-  @_s.JsonKey(name: 'brokerState')
-  final BrokerState brokerState;
-
-  /// The time when the broker was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
-
-  /// Required. The deployment mode of the broker.
-  @_s.JsonKey(name: 'deploymentMode')
+  /// The broker's deployment mode.
   final DeploymentMode deploymentMode;
 
-  /// Required. The type of broker engine.
-  @_s.JsonKey(name: 'engineType')
+  /// The type of broker engine.
   final EngineType engineType;
 
+  /// The broker's Amazon Resource Name (ARN).
+  final String? brokerArn;
+
+  /// The unique ID that Amazon MQ generates for the broker.
+  final String? brokerId;
+
+  /// The broker's name. This value is unique in your AWS account, 1-50 characters
+  /// long, and containing only letters, numbers, dashes, and underscores, and
+  /// must not contain white spaces, brackets, wildcard characters, or special
+  /// characters.
+  final String? brokerName;
+
+  /// The broker's status.
+  final BrokerState? brokerState;
+
+  /// The time when the broker was created.
+  final DateTime? created;
+
   /// The broker's instance type.
-  @_s.JsonKey(name: 'hostInstanceType')
-  final String hostInstanceType;
+  final String? hostInstanceType;
 
   BrokerSummary({
+    required this.deploymentMode,
+    required this.engineType,
     this.brokerArn,
     this.brokerId,
     this.brokerName,
     this.brokerState,
     this.created,
-    this.deploymentMode,
-    this.engineType,
     this.hostInstanceType,
   });
-  factory BrokerSummary.fromJson(Map<String, dynamic> json) =>
-      _$BrokerSummaryFromJson(json);
+
+  factory BrokerSummary.fromJson(Map<String, dynamic> json) {
+    return BrokerSummary(
+      deploymentMode: (json['deploymentMode'] as String).toDeploymentMode(),
+      engineType: (json['engineType'] as String).toEngineType(),
+      brokerArn: json['brokerArn'] as String?,
+      brokerId: json['brokerId'] as String?,
+      brokerName: json['brokerName'] as String?,
+      brokerState: (json['brokerState'] as String?)?.toBrokerState(),
+      created: timeStampFromJson(json['created']),
+      hostInstanceType: json['hostInstanceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentMode = this.deploymentMode;
+    final engineType = this.engineType;
+    final brokerArn = this.brokerArn;
+    final brokerId = this.brokerId;
+    final brokerName = this.brokerName;
+    final brokerState = this.brokerState;
+    final created = this.created;
+    final hostInstanceType = this.hostInstanceType;
+    return {
+      'deploymentMode': deploymentMode.toValue(),
+      'engineType': engineType.toValue(),
+      if (brokerArn != null) 'brokerArn': brokerArn,
+      if (brokerId != null) 'brokerId': brokerId,
+      if (brokerName != null) 'brokerName': brokerName,
+      if (brokerState != null) 'brokerState': brokerState.toValue(),
+      if (created != null) 'created': iso8601ToJson(created),
+      if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+    };
+  }
 }
 
 /// The type of change pending for the ActiveMQ user.
 enum ChangeType {
-  @_s.JsonValue('CREATE')
   create,
-  @_s.JsonValue('UPDATE')
   update,
-  @_s.JsonValue('DELETE')
   delete,
 }
 
+extension on ChangeType {
+  String toValue() {
+    switch (this) {
+      case ChangeType.create:
+        return 'CREATE';
+      case ChangeType.update:
+        return 'UPDATE';
+      case ChangeType.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  ChangeType toChangeType() {
+    switch (this) {
+      case 'CREATE':
+        return ChangeType.create;
+      case 'UPDATE':
+        return ChangeType.update;
+      case 'DELETE':
+        return ChangeType.delete;
+    }
+    throw Exception('$this is not known in enum ChangeType');
+  }
+}
+
 /// Returns information about all configurations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Configuration {
   /// Required. The ARN of the configuration.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
-  /// The authentication strategy associated with the configuration.
-  @_s.JsonKey(name: 'authenticationStrategy')
+  /// Optional. The authentication strategy associated with the configuration. The
+  /// default is SIMPLE.
   final AuthenticationStrategy authenticationStrategy;
 
   /// Required. The date and time of the configuration revision.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The description of the configuration.
-  @_s.JsonKey(name: 'description')
   final String description;
 
-  /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// ACTIVEMQ and RABBITMQ.
-  @_s.JsonKey(name: 'engineType')
+  /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
+  /// and RABBITMQ.
   final EngineType engineType;
 
-  /// Required. The version of the broker engine. For a list of supported engine
-  /// versions, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-  @_s.JsonKey(name: 'engineVersion')
+  /// Required. The broker engine's version. For a list of supported engine
+  /// versions, see, <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
   final String engineVersion;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// Required. The latest revision of the configuration.
-  @_s.JsonKey(name: 'latestRevision')
   final ConfigurationRevision latestRevision;
 
   /// Required. The name of the configuration. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 1-150 characters long.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The list of all tags associated with this configuration.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   Configuration({
-    this.arn,
-    this.authenticationStrategy,
-    this.created,
-    this.description,
-    this.engineType,
-    this.engineVersion,
-    this.id,
-    this.latestRevision,
-    this.name,
+    required this.arn,
+    required this.authenticationStrategy,
+    required this.created,
+    required this.description,
+    required this.engineType,
+    required this.engineVersion,
+    required this.id,
+    required this.latestRevision,
+    required this.name,
     this.tags,
   });
-  factory Configuration.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationFromJson(json);
+
+  factory Configuration.fromJson(Map<String, dynamic> json) {
+    return Configuration(
+      arn: json['arn'] as String,
+      authenticationStrategy:
+          (json['authenticationStrategy'] as String).toAuthenticationStrategy(),
+      created: nonNullableTimeStampFromJson(json['created'] as Object),
+      description: json['description'] as String,
+      engineType: (json['engineType'] as String).toEngineType(),
+      engineVersion: json['engineVersion'] as String,
+      id: json['id'] as String,
+      latestRevision: ConfigurationRevision.fromJson(
+          json['latestRevision'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final authenticationStrategy = this.authenticationStrategy;
+    final created = this.created;
+    final description = this.description;
+    final engineType = this.engineType;
+    final engineVersion = this.engineVersion;
+    final id = this.id;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      'arn': arn,
+      'authenticationStrategy': authenticationStrategy.toValue(),
+      'created': iso8601ToJson(created),
+      'description': description,
+      'engineType': engineType.toValue(),
+      'engineVersion': engineVersion,
+      'id': id,
+      'latestRevision': latestRevision,
+      'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-/// A list of information about the configuration. <important>Does not apply to
-/// RabbitMQ brokers.</important>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// A list of information about the configuration.
+/// <important>
+/// Does not apply to RabbitMQ brokers.
+/// </important>
 class ConfigurationId {
   /// Required. The unique ID that Amazon MQ generates for the configuration.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The revision number of the configuration.
-  @_s.JsonKey(name: 'revision')
-  final int revision;
+  final int? revision;
 
   ConfigurationId({
-    this.id,
+    required this.id,
     this.revision,
   });
-  factory ConfigurationId.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationIdFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConfigurationIdToJson(this);
+  factory ConfigurationId.fromJson(Map<String, dynamic> json) {
+    return ConfigurationId(
+      id: json['id'] as String,
+      revision: json['revision'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final revision = this.revision;
+    return {
+      'id': id,
+      if (revision != null) 'revision': revision,
+    };
+  }
 }
 
 /// Returns information about the specified configuration revision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfigurationRevision {
   /// Required. The date and time of the configuration revision.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
   final DateTime created;
 
-  /// The description of the configuration revision.
-  @_s.JsonKey(name: 'description')
-  final String description;
-
   /// Required. The revision number of the configuration.
-  @_s.JsonKey(name: 'revision')
   final int revision;
 
+  /// The description of the configuration revision.
+  final String? description;
+
   ConfigurationRevision({
-    this.created,
+    required this.created,
+    required this.revision,
     this.description,
-    this.revision,
   });
-  factory ConfigurationRevision.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationRevisionFromJson(json);
+
+  factory ConfigurationRevision.fromJson(Map<String, dynamic> json) {
+    return ConfigurationRevision(
+      created: nonNullableTimeStampFromJson(json['created'] as Object),
+      revision: json['revision'] as int,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final revision = this.revision;
+    final description = this.description;
+    return {
+      'created': iso8601ToJson(created),
+      'revision': revision,
+      if (description != null) 'description': description,
+    };
+  }
 }
 
 /// Broker configuration information
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Configurations {
-  /// The current configuration of the broker.
-  @_s.JsonKey(name: 'current')
-  final ConfigurationId current;
+  /// The broker's current configuration.
+  final ConfigurationId? current;
 
   /// The history of configurations applied to the broker.
-  @_s.JsonKey(name: 'history')
-  final List<ConfigurationId> history;
+  final List<ConfigurationId>? history;
 
-  /// The pending configuration of the broker.
-  @_s.JsonKey(name: 'pending')
-  final ConfigurationId pending;
+  /// The broker's pending configuration.
+  final ConfigurationId? pending;
 
   Configurations({
     this.current,
     this.history,
     this.pending,
   });
-  factory Configurations.fromJson(Map<String, dynamic> json) =>
-      _$ConfigurationsFromJson(json);
+
+  factory Configurations.fromJson(Map<String, dynamic> json) {
+    return Configurations(
+      current: json['current'] != null
+          ? ConfigurationId.fromJson(json['current'] as Map<String, dynamic>)
+          : null,
+      history: (json['history'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationId.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pending: json['pending'] != null
+          ? ConfigurationId.fromJson(json['pending'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final current = this.current;
+    final history = this.history;
+    final pending = this.pending;
+    return {
+      if (current != null) 'current': current,
+      if (history != null) 'history': history,
+      if (pending != null) 'pending': pending,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBrokerResponse {
-  /// The Amazon Resource Name (ARN) of the broker.
-  @_s.JsonKey(name: 'brokerArn')
-  final String brokerArn;
+  /// The broker's Amazon Resource Name (ARN).
+  final String? brokerArn;
 
   /// The unique ID that Amazon MQ generates for the broker.
-  @_s.JsonKey(name: 'brokerId')
-  final String brokerId;
+  final String? brokerId;
 
   CreateBrokerResponse({
     this.brokerArn,
     this.brokerId,
   });
-  factory CreateBrokerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBrokerResponseFromJson(json);
+
+  factory CreateBrokerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBrokerResponse(
+      brokerArn: json['brokerArn'] as String?,
+      brokerId: json['brokerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerArn = this.brokerArn;
+    final brokerId = this.brokerId;
+    return {
+      if (brokerArn != null) 'brokerArn': brokerArn,
+      if (brokerId != null) 'brokerId': brokerId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConfigurationResponse {
   /// Required. The Amazon Resource Name (ARN) of the configuration.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
-  /// The authentication strategy associated with the configuration.
-  @_s.JsonKey(name: 'authenticationStrategy')
-  final AuthenticationStrategy authenticationStrategy;
+  /// Optional. The authentication strategy associated with the configuration. The
+  /// default is SIMPLE.
+  final AuthenticationStrategy? authenticationStrategy;
 
   /// Required. The date and time of the configuration.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The latest revision of the configuration.
-  @_s.JsonKey(name: 'latestRevision')
-  final ConfigurationRevision latestRevision;
+  final ConfigurationRevision? latestRevision;
 
   /// Required. The name of the configuration. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 1-150 characters long.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   CreateConfigurationResponse({
     this.arn,
@@ -1425,73 +1707,144 @@ class CreateConfigurationResponse {
     this.latestRevision,
     this.name,
   });
-  factory CreateConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateConfigurationResponseFromJson(json);
+
+  factory CreateConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConfigurationResponse(
+      arn: json['arn'] as String?,
+      authenticationStrategy: (json['authenticationStrategy'] as String?)
+          ?.toAuthenticationStrategy(),
+      created: timeStampFromJson(json['created']),
+      id: json['id'] as String?,
+      latestRevision: json['latestRevision'] != null
+          ? ConfigurationRevision.fromJson(
+              json['latestRevision'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final authenticationStrategy = this.authenticationStrategy;
+    final created = this.created;
+    final id = this.id;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    return {
+      if (arn != null) 'arn': arn,
+      if (authenticationStrategy != null)
+        'authenticationStrategy': authenticationStrategy.toValue(),
+      if (created != null) 'created': iso8601ToJson(created),
+      if (id != null) 'id': id,
+      if (latestRevision != null) 'latestRevision': latestRevision,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserResponse {
   CreateUserResponse();
-  factory CreateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserResponseFromJson(json);
+
+  factory CreateUserResponse.fromJson(Map<String, dynamic> _) {
+    return CreateUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum DayOfWeek {
-  @_s.JsonValue('MONDAY')
   monday,
-  @_s.JsonValue('TUESDAY')
   tuesday,
-  @_s.JsonValue('WEDNESDAY')
   wednesday,
-  @_s.JsonValue('THURSDAY')
   thursday,
-  @_s.JsonValue('FRIDAY')
   friday,
-  @_s.JsonValue('SATURDAY')
   saturday,
-  @_s.JsonValue('SUNDAY')
   sunday,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DayOfWeek {
+  String toValue() {
+    switch (this) {
+      case DayOfWeek.monday:
+        return 'MONDAY';
+      case DayOfWeek.tuesday:
+        return 'TUESDAY';
+      case DayOfWeek.wednesday:
+        return 'WEDNESDAY';
+      case DayOfWeek.thursday:
+        return 'THURSDAY';
+      case DayOfWeek.friday:
+        return 'FRIDAY';
+      case DayOfWeek.saturday:
+        return 'SATURDAY';
+      case DayOfWeek.sunday:
+        return 'SUNDAY';
+    }
+  }
+}
+
+extension on String {
+  DayOfWeek toDayOfWeek() {
+    switch (this) {
+      case 'MONDAY':
+        return DayOfWeek.monday;
+      case 'TUESDAY':
+        return DayOfWeek.tuesday;
+      case 'WEDNESDAY':
+        return DayOfWeek.wednesday;
+      case 'THURSDAY':
+        return DayOfWeek.thursday;
+      case 'FRIDAY':
+        return DayOfWeek.friday;
+      case 'SATURDAY':
+        return DayOfWeek.saturday;
+      case 'SUNDAY':
+        return DayOfWeek.sunday;
+    }
+    throw Exception('$this is not known in enum DayOfWeek');
+  }
+}
+
 class DeleteBrokerResponse {
   /// The unique ID that Amazon MQ generates for the broker.
-  @_s.JsonKey(name: 'brokerId')
-  final String brokerId;
+  final String? brokerId;
 
   DeleteBrokerResponse({
     this.brokerId,
   });
-  factory DeleteBrokerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBrokerResponseFromJson(json);
+
+  factory DeleteBrokerResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBrokerResponse(
+      brokerId: json['brokerId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerId = this.brokerId;
+    return {
+      if (brokerId != null) 'brokerId': brokerId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteUserResponse {
   DeleteUserResponse();
-  factory DeleteUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserResponseFromJson(json);
+
+  factory DeleteUserResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-/// The deployment mode of the broker.
+/// The broker's deployment mode.
 enum DeploymentMode {
-  @_s.JsonValue('SINGLE_INSTANCE')
   singleInstance,
-  @_s.JsonValue('ACTIVE_STANDBY_MULTI_AZ')
   activeStandbyMultiAz,
-  @_s.JsonValue('CLUSTER_MULTI_AZ')
   clusterMultiAz,
 }
 
@@ -1505,212 +1858,215 @@ extension on DeploymentMode {
       case DeploymentMode.clusterMultiAz:
         return 'CLUSTER_MULTI_AZ';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DeploymentMode toDeploymentMode() {
+    switch (this) {
+      case 'SINGLE_INSTANCE':
+        return DeploymentMode.singleInstance;
+      case 'ACTIVE_STANDBY_MULTI_AZ':
+        return DeploymentMode.activeStandbyMultiAz;
+      case 'CLUSTER_MULTI_AZ':
+        return DeploymentMode.clusterMultiAz;
+    }
+    throw Exception('$this is not known in enum DeploymentMode');
+  }
+}
+
 class DescribeBrokerEngineTypesResponse {
   /// List of available engine types and versions.
-  @_s.JsonKey(name: 'brokerEngineTypes')
-  final List<BrokerEngineType> brokerEngineTypes;
+  final List<BrokerEngineType>? brokerEngineTypes;
 
   /// Required. The maximum number of engine types that can be returned per page
   /// (20 by default). This value must be an integer from 5 to 100.
-  @_s.JsonKey(name: 'maxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBrokerEngineTypesResponse({
     this.brokerEngineTypes,
     this.maxResults,
     this.nextToken,
   });
+
   factory DescribeBrokerEngineTypesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBrokerEngineTypesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBrokerEngineTypesResponse(
+      brokerEngineTypes: (json['brokerEngineTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => BrokerEngineType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxResults: json['maxResults'] as int?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerEngineTypes = this.brokerEngineTypes;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      if (brokerEngineTypes != null) 'brokerEngineTypes': brokerEngineTypes,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBrokerInstanceOptionsResponse {
   /// List of available broker instance options.
-  @_s.JsonKey(name: 'brokerInstanceOptions')
-  final List<BrokerInstanceOption> brokerInstanceOptions;
+  final List<BrokerInstanceOption>? brokerInstanceOptions;
 
   /// Required. The maximum number of instance options that can be returned per
   /// page (20 by default). This value must be an integer from 5 to 100.
-  @_s.JsonKey(name: 'maxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBrokerInstanceOptionsResponse({
     this.brokerInstanceOptions,
     this.maxResults,
     this.nextToken,
   });
+
   factory DescribeBrokerInstanceOptionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeBrokerInstanceOptionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeBrokerInstanceOptionsResponse(
+      brokerInstanceOptions: (json['brokerInstanceOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => BrokerInstanceOption.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxResults: json['maxResults'] as int?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerInstanceOptions = this.brokerInstanceOptions;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      if (brokerInstanceOptions != null)
+        'brokerInstanceOptions': brokerInstanceOptions,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBrokerResponse {
-  /// The authentication strategy used to secure the broker.
-  @_s.JsonKey(name: 'authenticationStrategy')
-  final AuthenticationStrategy authenticationStrategy;
+  /// The authentication strategy used to secure the broker. The default is
+  /// SIMPLE.
+  final AuthenticationStrategy? authenticationStrategy;
 
-  /// Required. Enables automatic upgrades to new minor versions for brokers, as
-  /// Apache releases the versions. The automatic upgrades occur during the
-  /// maintenance window of the broker or after a manual broker reboot.
-  @_s.JsonKey(name: 'autoMinorVersionUpgrade')
-  final bool autoMinorVersionUpgrade;
+  /// Enables automatic upgrades to new minor versions for brokers, as new
+  /// versions are released and supported by Amazon MQ. Automatic upgrades occur
+  /// during the scheduled maintenance window of the broker or after a manual
+  /// broker reboot.
+  final bool? autoMinorVersionUpgrade;
 
-  /// The Amazon Resource Name (ARN) of the broker.
-  @_s.JsonKey(name: 'brokerArn')
-  final String brokerArn;
+  /// The broker's Amazon Resource Name (ARN).
+  final String? brokerArn;
 
   /// The unique ID that Amazon MQ generates for the broker.
-  @_s.JsonKey(name: 'brokerId')
-  final String brokerId;
+  final String? brokerId;
 
   /// A list of information about allocated brokers.
-  @_s.JsonKey(name: 'brokerInstances')
-  final List<BrokerInstance> brokerInstances;
+  final List<BrokerInstance>? brokerInstances;
 
-  /// The name of the broker. This value must be unique in your AWS account, 1-50
+  /// The broker's name. This value must be unique in your AWS account, 1-50
   /// characters long, must contain only letters, numbers, dashes, and
-  /// underscores, and must not contain whitespaces, brackets, wildcard
+  /// underscores, and must not contain white spaces, brackets, wildcard
   /// characters, or special characters.
-  @_s.JsonKey(name: 'brokerName')
-  final String brokerName;
+  final String? brokerName;
 
-  /// The status of the broker.
-  @_s.JsonKey(name: 'brokerState')
-  final BrokerState brokerState;
+  /// The broker's status.
+  final BrokerState? brokerState;
 
   /// The list of all revisions for the specified configuration.
-  @_s.JsonKey(name: 'configurations')
-  final Configurations configurations;
+  final Configurations? configurations;
 
   /// The time when the broker was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
-  /// Required. The deployment mode of the broker.
-  @_s.JsonKey(name: 'deploymentMode')
-  final DeploymentMode deploymentMode;
+  /// The broker's deployment mode.
+  final DeploymentMode? deploymentMode;
 
-  /// Encryption options for the broker.
-  @_s.JsonKey(name: 'encryptionOptions')
-  final EncryptionOptions encryptionOptions;
+  /// Encryption options for the broker. Does not apply to RabbitMQ brokers.
+  final EncryptionOptions? encryptionOptions;
 
-  /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// ACTIVEMQ and RABBITMQ.
-  @_s.JsonKey(name: 'engineType')
-  final EngineType engineType;
+  /// The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ and
+  /// RABBITMQ.
+  final EngineType? engineType;
 
-  /// The version of the broker engine. For a list of supported engine versions,
-  /// see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-  @_s.JsonKey(name: 'engineVersion')
-  final String engineVersion;
+  /// The broker engine's version. For a list of supported engine versions, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
+  final String? engineVersion;
 
   /// The broker's instance type.
-  @_s.JsonKey(name: 'hostInstanceType')
-  final String hostInstanceType;
+  final String? hostInstanceType;
 
   /// The metadata of the LDAP server used to authenticate and authorize
   /// connections to the broker.
-  @_s.JsonKey(name: 'ldapServerMetadata')
-  final LdapServerMetadataOutput ldapServerMetadata;
+  final LdapServerMetadataOutput? ldapServerMetadata;
 
   /// The list of information about logs currently enabled and pending to be
   /// deployed for the specified broker.
-  @_s.JsonKey(name: 'logs')
-  final LogsSummary logs;
+  final LogsSummary? logs;
 
   /// The parameters that determine the WeeklyStartTime.
-  @_s.JsonKey(name: 'maintenanceWindowStartTime')
-  final WeeklyStartTime maintenanceWindowStartTime;
+  final WeeklyStartTime? maintenanceWindowStartTime;
 
   /// The authentication strategy that will be applied when the broker is
-  /// rebooted.
-  @_s.JsonKey(name: 'pendingAuthenticationStrategy')
-  final AuthenticationStrategy pendingAuthenticationStrategy;
+  /// rebooted. The default is SIMPLE.
+  final AuthenticationStrategy? pendingAuthenticationStrategy;
 
-  /// The version of the broker engine to upgrade to. For a list of supported
-  /// engine versions, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-  @_s.JsonKey(name: 'pendingEngineVersion')
-  final String pendingEngineVersion;
+  /// The broker engine version to upgrade to. For a list of supported engine
+  /// versions, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
+  final String? pendingEngineVersion;
 
-  /// The host instance type of the broker to upgrade to. For a list of supported
-  /// instance types, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
-  @_s.JsonKey(name: 'pendingHostInstanceType')
-  final String pendingHostInstanceType;
+  /// The broker's host instance type to upgrade to. For a list of supported
+  /// instance types, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types">Broker
+  /// instance types</a>.
+  final String? pendingHostInstanceType;
 
   /// The metadata of the LDAP server that will be used to authenticate and
-  /// authorize connections to the broker once it is rebooted.
-  @_s.JsonKey(name: 'pendingLdapServerMetadata')
-  final LdapServerMetadataOutput pendingLdapServerMetadata;
+  /// authorize connections to the broker after it is rebooted.
+  final LdapServerMetadataOutput? pendingLdapServerMetadata;
 
   /// The list of pending security groups to authorize connections to brokers.
-  @_s.JsonKey(name: 'pendingSecurityGroups')
-  final List<String> pendingSecurityGroups;
+  final List<String>? pendingSecurityGroups;
 
-  /// Required. Enables connections from applications outside of the VPC that
-  /// hosts the broker's subnets.
-  @_s.JsonKey(name: 'publiclyAccessible')
-  final bool publiclyAccessible;
+  /// Enables connections from applications outside of the VPC that hosts the
+  /// broker's subnets.
+  final bool? publiclyAccessible;
 
-  /// The list of security groups (1 minimum, 5 maximum) that authorizes
-  /// connections to brokers.
-  @_s.JsonKey(name: 'securityGroups')
-  final List<String> securityGroups;
+  /// The list of rules (1 minimum, 125 maximum) that authorize connections to
+  /// brokers.
+  final List<String>? securityGroups;
 
   /// The broker's storage type.
-  @_s.JsonKey(name: 'storageType')
-  final BrokerStorageType storageType;
+  final BrokerStorageType? storageType;
 
   /// The list of groups that define which subnets and IP ranges the broker can
-  /// use from different Availability Zones. A SINGLE_INSTANCE deployment requires
-  /// one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ
-  /// deployment (ACTIVEMQ) requires two subnets. A CLUSTER_MULTI_AZ deployment
-  /// (RABBITMQ) has no subnet requirements when deployed with public
-  /// accessibility, deployment without public accessibility requires at least one
-  /// subnet.
-  @_s.JsonKey(name: 'subnetIds')
-  final List<String> subnetIds;
+  /// use from different Availability Zones.
+  final List<String>? subnetIds;
 
   /// The list of all tags associated with this broker.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The list of all broker usernames for the specified broker.
-  @_s.JsonKey(name: 'users')
-  final List<UserSummary> users;
+  final List<UserSummary>? users;
 
   DescribeBrokerResponse({
     this.authenticationStrategy,
@@ -1742,61 +2098,184 @@ class DescribeBrokerResponse {
     this.tags,
     this.users,
   });
-  factory DescribeBrokerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBrokerResponseFromJson(json);
+
+  factory DescribeBrokerResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBrokerResponse(
+      authenticationStrategy: (json['authenticationStrategy'] as String?)
+          ?.toAuthenticationStrategy(),
+      autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool?,
+      brokerArn: json['brokerArn'] as String?,
+      brokerId: json['brokerId'] as String?,
+      brokerInstances: (json['brokerInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => BrokerInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      brokerName: json['brokerName'] as String?,
+      brokerState: (json['brokerState'] as String?)?.toBrokerState(),
+      configurations: json['configurations'] != null
+          ? Configurations.fromJson(
+              json['configurations'] as Map<String, dynamic>)
+          : null,
+      created: timeStampFromJson(json['created']),
+      deploymentMode: (json['deploymentMode'] as String?)?.toDeploymentMode(),
+      encryptionOptions: json['encryptionOptions'] != null
+          ? EncryptionOptions.fromJson(
+              json['encryptionOptions'] as Map<String, dynamic>)
+          : null,
+      engineType: (json['engineType'] as String?)?.toEngineType(),
+      engineVersion: json['engineVersion'] as String?,
+      hostInstanceType: json['hostInstanceType'] as String?,
+      ldapServerMetadata: json['ldapServerMetadata'] != null
+          ? LdapServerMetadataOutput.fromJson(
+              json['ldapServerMetadata'] as Map<String, dynamic>)
+          : null,
+      logs: json['logs'] != null
+          ? LogsSummary.fromJson(json['logs'] as Map<String, dynamic>)
+          : null,
+      maintenanceWindowStartTime: json['maintenanceWindowStartTime'] != null
+          ? WeeklyStartTime.fromJson(
+              json['maintenanceWindowStartTime'] as Map<String, dynamic>)
+          : null,
+      pendingAuthenticationStrategy:
+          (json['pendingAuthenticationStrategy'] as String?)
+              ?.toAuthenticationStrategy(),
+      pendingEngineVersion: json['pendingEngineVersion'] as String?,
+      pendingHostInstanceType: json['pendingHostInstanceType'] as String?,
+      pendingLdapServerMetadata: json['pendingLdapServerMetadata'] != null
+          ? LdapServerMetadataOutput.fromJson(
+              json['pendingLdapServerMetadata'] as Map<String, dynamic>)
+          : null,
+      pendingSecurityGroups: (json['pendingSecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      publiclyAccessible: json['publiclyAccessible'] as bool?,
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      storageType: (json['storageType'] as String?)?.toBrokerStorageType(),
+      subnetIds: (json['subnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      users: (json['users'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationStrategy = this.authenticationStrategy;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
+    final brokerArn = this.brokerArn;
+    final brokerId = this.brokerId;
+    final brokerInstances = this.brokerInstances;
+    final brokerName = this.brokerName;
+    final brokerState = this.brokerState;
+    final configurations = this.configurations;
+    final created = this.created;
+    final deploymentMode = this.deploymentMode;
+    final encryptionOptions = this.encryptionOptions;
+    final engineType = this.engineType;
+    final engineVersion = this.engineVersion;
+    final hostInstanceType = this.hostInstanceType;
+    final ldapServerMetadata = this.ldapServerMetadata;
+    final logs = this.logs;
+    final maintenanceWindowStartTime = this.maintenanceWindowStartTime;
+    final pendingAuthenticationStrategy = this.pendingAuthenticationStrategy;
+    final pendingEngineVersion = this.pendingEngineVersion;
+    final pendingHostInstanceType = this.pendingHostInstanceType;
+    final pendingLdapServerMetadata = this.pendingLdapServerMetadata;
+    final pendingSecurityGroups = this.pendingSecurityGroups;
+    final publiclyAccessible = this.publiclyAccessible;
+    final securityGroups = this.securityGroups;
+    final storageType = this.storageType;
+    final subnetIds = this.subnetIds;
+    final tags = this.tags;
+    final users = this.users;
+    return {
+      if (authenticationStrategy != null)
+        'authenticationStrategy': authenticationStrategy.toValue(),
+      if (autoMinorVersionUpgrade != null)
+        'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (brokerArn != null) 'brokerArn': brokerArn,
+      if (brokerId != null) 'brokerId': brokerId,
+      if (brokerInstances != null) 'brokerInstances': brokerInstances,
+      if (brokerName != null) 'brokerName': brokerName,
+      if (brokerState != null) 'brokerState': brokerState.toValue(),
+      if (configurations != null) 'configurations': configurations,
+      if (created != null) 'created': iso8601ToJson(created),
+      if (deploymentMode != null) 'deploymentMode': deploymentMode.toValue(),
+      if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
+      if (engineType != null) 'engineType': engineType.toValue(),
+      if (engineVersion != null) 'engineVersion': engineVersion,
+      if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+      if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
+      if (logs != null) 'logs': logs,
+      if (maintenanceWindowStartTime != null)
+        'maintenanceWindowStartTime': maintenanceWindowStartTime,
+      if (pendingAuthenticationStrategy != null)
+        'pendingAuthenticationStrategy':
+            pendingAuthenticationStrategy.toValue(),
+      if (pendingEngineVersion != null)
+        'pendingEngineVersion': pendingEngineVersion,
+      if (pendingHostInstanceType != null)
+        'pendingHostInstanceType': pendingHostInstanceType,
+      if (pendingLdapServerMetadata != null)
+        'pendingLdapServerMetadata': pendingLdapServerMetadata,
+      if (pendingSecurityGroups != null)
+        'pendingSecurityGroups': pendingSecurityGroups,
+      if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (storageType != null) 'storageType': storageType.toValue(),
+      if (subnetIds != null) 'subnetIds': subnetIds,
+      if (tags != null) 'tags': tags,
+      if (users != null) 'users': users,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConfigurationResponse {
   /// Required. The ARN of the configuration.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
-  /// The authentication strategy associated with the configuration.
-  @_s.JsonKey(name: 'authenticationStrategy')
-  final AuthenticationStrategy authenticationStrategy;
+  /// Optional. The authentication strategy associated with the configuration. The
+  /// default is SIMPLE.
+  final AuthenticationStrategy? authenticationStrategy;
 
   /// Required. The date and time of the configuration revision.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Required. The description of the configuration.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
-  /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// ACTIVEMQ and RABBITMQ.
-  @_s.JsonKey(name: 'engineType')
-  final EngineType engineType;
+  /// Required. The type of broker engine. Currently, Amazon MQ supports ACTIVEMQ
+  /// and RABBITMQ.
+  final EngineType? engineType;
 
-  /// Required. The version of the broker engine. For a list of supported engine
-  /// versions, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-  @_s.JsonKey(name: 'engineVersion')
-  final String engineVersion;
+  /// Required. The broker engine's version. For a list of supported engine
+  /// versions, see, <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
+  final String? engineVersion;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// Required. The latest revision of the configuration.
-  @_s.JsonKey(name: 'latestRevision')
-  final ConfigurationRevision latestRevision;
+  final ConfigurationRevision? latestRevision;
 
   /// Required. The name of the configuration. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 1-150 characters long.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The list of all tags associated with this configuration.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DescribeConfigurationResponse({
     this.arn,
@@ -1810,32 +2289,66 @@ class DescribeConfigurationResponse {
     this.name,
     this.tags,
   });
-  factory DescribeConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeConfigurationResponseFromJson(json);
+
+  factory DescribeConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConfigurationResponse(
+      arn: json['arn'] as String?,
+      authenticationStrategy: (json['authenticationStrategy'] as String?)
+          ?.toAuthenticationStrategy(),
+      created: timeStampFromJson(json['created']),
+      description: json['description'] as String?,
+      engineType: (json['engineType'] as String?)?.toEngineType(),
+      engineVersion: json['engineVersion'] as String?,
+      id: json['id'] as String?,
+      latestRevision: json['latestRevision'] != null
+          ? ConfigurationRevision.fromJson(
+              json['latestRevision'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final authenticationStrategy = this.authenticationStrategy;
+    final created = this.created;
+    final description = this.description;
+    final engineType = this.engineType;
+    final engineVersion = this.engineVersion;
+    final id = this.id;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'arn': arn,
+      if (authenticationStrategy != null)
+        'authenticationStrategy': authenticationStrategy.toValue(),
+      if (created != null) 'created': iso8601ToJson(created),
+      if (description != null) 'description': description,
+      if (engineType != null) 'engineType': engineType.toValue(),
+      if (engineVersion != null) 'engineVersion': engineVersion,
+      if (id != null) 'id': id,
+      if (latestRevision != null) 'latestRevision': latestRevision,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConfigurationRevisionResponse {
   /// Required. The unique ID that Amazon MQ generates for the configuration.
-  @_s.JsonKey(name: 'configurationId')
-  final String configurationId;
+  final String? configurationId;
 
   /// Required. The date and time of the configuration.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Required. The base64-encoded XML configuration.
-  @_s.JsonKey(name: 'data')
-  final String data;
+  final String? data;
 
   /// The description of the configuration.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   DescribeConfigurationRevisionResponse({
     this.configurationId,
@@ -1843,40 +2356,50 @@ class DescribeConfigurationRevisionResponse {
     this.data,
     this.description,
   });
+
   factory DescribeConfigurationRevisionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeConfigurationRevisionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeConfigurationRevisionResponse(
+      configurationId: json['configurationId'] as String?,
+      created: timeStampFromJson(json['created']),
+      data: json['data'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationId = this.configurationId;
+    final created = this.created;
+    final data = this.data;
+    final description = this.description;
+    return {
+      if (configurationId != null) 'configurationId': configurationId,
+      if (created != null) 'created': iso8601ToJson(created),
+      if (data != null) 'data': data,
+      if (description != null) 'description': description,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeUserResponse {
   /// Required. The unique ID that Amazon MQ generates for the broker.
-  @_s.JsonKey(name: 'brokerId')
-  final String brokerId;
+  final String? brokerId;
 
   /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-  @_s.JsonKey(name: 'consoleAccess')
-  final bool consoleAccess;
+  final bool? consoleAccess;
 
   /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This
   /// value can contain only alphanumeric characters, dashes, periods,
   /// underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-  @_s.JsonKey(name: 'groups')
-  final List<String> groups;
+  final List<String>? groups;
 
   /// The status of the changes pending for the ActiveMQ user.
-  @_s.JsonKey(name: 'pending')
-  final UserPendingChanges pending;
+  final UserPendingChanges? pending;
 
   /// Required. The username of the ActiveMQ user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 2-100 characters long.
-  @_s.JsonKey(name: 'username')
-  final String username;
+  final String? username;
 
   DescribeUserResponse({
     this.brokerId,
@@ -1885,43 +2408,78 @@ class DescribeUserResponse {
     this.pending,
     this.username,
   });
-  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeUserResponseFromJson(json);
+
+  factory DescribeUserResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeUserResponse(
+      brokerId: json['brokerId'] as String?,
+      consoleAccess: json['consoleAccess'] as bool?,
+      groups: (json['groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      pending: json['pending'] != null
+          ? UserPendingChanges.fromJson(json['pending'] as Map<String, dynamic>)
+          : null,
+      username: json['username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerId = this.brokerId;
+    final consoleAccess = this.consoleAccess;
+    final groups = this.groups;
+    final pending = this.pending;
+    final username = this.username;
+    return {
+      if (brokerId != null) 'brokerId': brokerId,
+      if (consoleAccess != null) 'consoleAccess': consoleAccess,
+      if (groups != null) 'groups': groups,
+      if (pending != null) 'pending': pending,
+      if (username != null) 'username': username,
+    };
+  }
 }
 
+/// <important>
+/// Does not apply to RabbitMQ brokers.
+/// </important>
 /// Encryption options for the broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionOptions {
   /// Enables the use of an AWS owned CMK using AWS Key Management Service (KMS).
-  @_s.JsonKey(name: 'useAwsOwnedKey')
+  /// Set to true by default, if no value is provided, for example, for RabbitMQ
+  /// brokers.
   final bool useAwsOwnedKey;
 
-  /// The symmetric customer master key (CMK) to use for the AWS Key Management
-  /// Service (KMS). This key is used to encrypt your data at rest. If not
-  /// provided, Amazon MQ will use a default CMK to encrypt your data.
-  @_s.JsonKey(name: 'kmsKeyId')
-  final String kmsKeyId;
+  /// The customer master key (CMK) to use for the AWS Key Management Service
+  /// (KMS). This key is used to encrypt your data at rest. If not provided,
+  /// Amazon MQ will use a default CMK to encrypt your data.
+  final String? kmsKeyId;
 
   EncryptionOptions({
-    @_s.required this.useAwsOwnedKey,
+    required this.useAwsOwnedKey,
     this.kmsKeyId,
   });
-  factory EncryptionOptions.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionOptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionOptionsToJson(this);
+  factory EncryptionOptions.fromJson(Map<String, dynamic> json) {
+    return EncryptionOptions(
+      useAwsOwnedKey: json['useAwsOwnedKey'] as bool,
+      kmsKeyId: json['kmsKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final useAwsOwnedKey = this.useAwsOwnedKey;
+    final kmsKeyId = this.kmsKeyId;
+    return {
+      'useAwsOwnedKey': useAwsOwnedKey,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+    };
+  }
 }
 
-/// The type of broker engine. Note: Currently, Amazon MQ supports ActiveMQ and
-/// RabbitMQ.
+/// The type of broker engine. Amazon MQ supports ActiveMQ and RabbitMQ.
 enum EngineType {
-  @_s.JsonValue('ACTIVEMQ')
   activemq,
-  @_s.JsonValue('RABBITMQ')
   rabbitmq,
 }
 
@@ -1933,212 +2491,338 @@ extension on EngineType {
       case EngineType.rabbitmq:
         return 'RABBITMQ';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EngineType toEngineType() {
+    switch (this) {
+      case 'ACTIVEMQ':
+        return EngineType.activemq;
+      case 'RABBITMQ':
+        return EngineType.rabbitmq;
+    }
+    throw Exception('$this is not known in enum EngineType');
   }
 }
 
 /// Id of the engine version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EngineVersion {
   /// Id for the version.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   EngineVersion({
     this.name,
   });
-  factory EngineVersion.fromJson(Map<String, dynamic> json) =>
-      _$EngineVersionFromJson(json);
+
+  factory EngineVersion.fromJson(Map<String, dynamic> json) {
+    return EngineVersion(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-/// The metadata of the LDAP server used to authenticate and authorize
+/// Optional. The metadata of the LDAP server used to authenticate and authorize
 /// connections to the broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// <important>
+/// Does not apply to RabbitMQ brokers.
+/// </important>
 class LdapServerMetadataInput {
-  /// Fully qualified domain name of the LDAP server. Optional failover server.
-  @_s.JsonKey(name: 'hosts')
+  /// Specifies the location of the LDAP server such as AWS Directory Service for
+  /// Microsoft Active Directory . Optional failover server.
   final List<String> hosts;
 
-  /// Fully qualified name of the directory to search for a user’s groups.
-  @_s.JsonKey(name: 'roleBase')
+  /// The distinguished name of the node in the directory information tree (DIT)
+  /// to search for roles or groups. For example, ou=group, ou=corp, dc=corp,
+  /// dc=example, dc=com.
   final String roleBase;
 
-  /// Specifies the LDAP attribute that identifies the group name attribute in the
-  /// object returned from the group membership query.
-  @_s.JsonKey(name: 'roleName')
-  final String roleName;
-
-  /// The search criteria for groups.
-  @_s.JsonKey(name: 'roleSearchMatching')
+  /// The LDAP search filter used to find roles within the roleBase. The
+  /// distinguished name of the user matched by userSearchMatching is substituted
+  /// into the {0} placeholder in the search filter. The client's username is
+  /// substituted into the {1} placeholder. For example, if you set this option to
+  /// (member=uid={1})for the user janedoe, the search filter becomes
+  /// (member=uid=janedoe) after string substitution. It matches all role entries
+  /// that have a member attribute equal to uid=janedoe under the subtree selected
+  /// by the roleBase.
   final String roleSearchMatching;
 
-  /// The directory search scope for the role. If set to true, scope is to search
-  /// the entire sub-tree.
-  @_s.JsonKey(name: 'roleSearchSubtree')
-  final bool roleSearchSubtree;
-
-  /// Service account password.
-  @_s.JsonKey(name: 'serviceAccountPassword')
+  /// Service account password. A service account is an account in your LDAP
+  /// server that has access to initiate a connection. For example,
+  /// cn=admin,dc=corp, dc=example,
+  /// dc=com.
   final String serviceAccountPassword;
 
-  /// Service account username.
-  @_s.JsonKey(name: 'serviceAccountUsername')
+  /// Service account username. A service account is an account in your LDAP
+  /// server that has access to initiate a connection. For example,
+  /// cn=admin,dc=corp, dc=example,
+  /// dc=com.
   final String serviceAccountUsername;
 
-  /// Fully qualified name of the directory where you want to search for users.
-  @_s.JsonKey(name: 'userBase')
+  /// Select a particular subtree of the directory information tree (DIT) to
+  /// search for user entries. The subtree is specified by a DN, which specifies
+  /// the base node of the subtree. For example, by setting this option to
+  /// ou=Users,ou=corp, dc=corp,
+  /// dc=example, dc=com, the search for user entries is restricted to the subtree
+  /// beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com.
   final String userBase;
 
-  /// Specifies the name of the LDAP attribute for the user group membership.
-  @_s.JsonKey(name: 'userRoleName')
-  final String userRoleName;
-
-  /// The search criteria for users.
-  @_s.JsonKey(name: 'userSearchMatching')
+  /// The LDAP search filter used to find users within the userBase. The client's
+  /// username is substituted into the {0} placeholder in the search filter. For
+  /// example, if this option is set to (uid={0}) and the received username is
+  /// janedoe, the search filter becomes (uid=janedoe) after string substitution.
+  /// It will result in matching an entry like uid=janedoe, ou=Users,ou=corp,
+  /// dc=corp, dc=example,
+  /// dc=com.
   final String userSearchMatching;
-
-  /// The directory search scope for the user. If set to true, scope is to search
-  /// the entire sub-tree.
-  @_s.JsonKey(name: 'userSearchSubtree')
-  final bool userSearchSubtree;
-
-  LdapServerMetadataInput({
-    this.hosts,
-    this.roleBase,
-    this.roleName,
-    this.roleSearchMatching,
-    this.roleSearchSubtree,
-    this.serviceAccountPassword,
-    this.serviceAccountUsername,
-    this.userBase,
-    this.userRoleName,
-    this.userSearchMatching,
-    this.userSearchSubtree,
-  });
-  Map<String, dynamic> toJson() => _$LdapServerMetadataInputToJson(this);
-}
-
-/// The metadata of the LDAP server used to authenticate and authorize
-/// connections to the broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class LdapServerMetadataOutput {
-  /// Fully qualified domain name of the LDAP server. Optional failover server.
-  @_s.JsonKey(name: 'hosts')
-  final List<String> hosts;
-
-  /// Fully qualified name of the directory to search for a user’s groups.
-  @_s.JsonKey(name: 'roleBase')
-  final String roleBase;
 
   /// Specifies the LDAP attribute that identifies the group name attribute in the
   /// object returned from the group membership query.
-  @_s.JsonKey(name: 'roleName')
-  final String roleName;
-
-  /// The search criteria for groups.
-  @_s.JsonKey(name: 'roleSearchMatching')
-  final String roleSearchMatching;
+  final String? roleName;
 
   /// The directory search scope for the role. If set to true, scope is to search
-  /// the entire sub-tree.
-  @_s.JsonKey(name: 'roleSearchSubtree')
-  final bool roleSearchSubtree;
-
-  /// Service account username.
-  @_s.JsonKey(name: 'serviceAccountUsername')
-  final String serviceAccountUsername;
-
-  /// Fully qualified name of the directory where you want to search for users.
-  @_s.JsonKey(name: 'userBase')
-  final String userBase;
+  /// the entire subtree.
+  final bool? roleSearchSubtree;
 
   /// Specifies the name of the LDAP attribute for the user group membership.
-  @_s.JsonKey(name: 'userRoleName')
-  final String userRoleName;
-
-  /// The search criteria for users.
-  @_s.JsonKey(name: 'userSearchMatching')
-  final String userSearchMatching;
+  final String? userRoleName;
 
   /// The directory search scope for the user. If set to true, scope is to search
-  /// the entire sub-tree.
-  @_s.JsonKey(name: 'userSearchSubtree')
-  final bool userSearchSubtree;
+  /// the entire subtree.
+  final bool? userSearchSubtree;
 
-  LdapServerMetadataOutput({
-    this.hosts,
-    this.roleBase,
+  LdapServerMetadataInput({
+    required this.hosts,
+    required this.roleBase,
+    required this.roleSearchMatching,
+    required this.serviceAccountPassword,
+    required this.serviceAccountUsername,
+    required this.userBase,
+    required this.userSearchMatching,
     this.roleName,
-    this.roleSearchMatching,
     this.roleSearchSubtree,
-    this.serviceAccountUsername,
-    this.userBase,
     this.userRoleName,
-    this.userSearchMatching,
     this.userSearchSubtree,
   });
-  factory LdapServerMetadataOutput.fromJson(Map<String, dynamic> json) =>
-      _$LdapServerMetadataOutputFromJson(json);
+
+  factory LdapServerMetadataInput.fromJson(Map<String, dynamic> json) {
+    return LdapServerMetadataInput(
+      hosts: (json['hosts'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      roleBase: json['roleBase'] as String,
+      roleSearchMatching: json['roleSearchMatching'] as String,
+      serviceAccountPassword: json['serviceAccountPassword'] as String,
+      serviceAccountUsername: json['serviceAccountUsername'] as String,
+      userBase: json['userBase'] as String,
+      userSearchMatching: json['userSearchMatching'] as String,
+      roleName: json['roleName'] as String?,
+      roleSearchSubtree: json['roleSearchSubtree'] as bool?,
+      userRoleName: json['userRoleName'] as String?,
+      userSearchSubtree: json['userSearchSubtree'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hosts = this.hosts;
+    final roleBase = this.roleBase;
+    final roleSearchMatching = this.roleSearchMatching;
+    final serviceAccountPassword = this.serviceAccountPassword;
+    final serviceAccountUsername = this.serviceAccountUsername;
+    final userBase = this.userBase;
+    final userSearchMatching = this.userSearchMatching;
+    final roleName = this.roleName;
+    final roleSearchSubtree = this.roleSearchSubtree;
+    final userRoleName = this.userRoleName;
+    final userSearchSubtree = this.userSearchSubtree;
+    return {
+      'hosts': hosts,
+      'roleBase': roleBase,
+      'roleSearchMatching': roleSearchMatching,
+      'serviceAccountPassword': serviceAccountPassword,
+      'serviceAccountUsername': serviceAccountUsername,
+      'userBase': userBase,
+      'userSearchMatching': userSearchMatching,
+      if (roleName != null) 'roleName': roleName,
+      if (roleSearchSubtree != null) 'roleSearchSubtree': roleSearchSubtree,
+      if (userRoleName != null) 'userRoleName': userRoleName,
+      if (userSearchSubtree != null) 'userSearchSubtree': userSearchSubtree,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Optional. The metadata of the LDAP server used to authenticate and authorize
+/// connections to the broker.
+class LdapServerMetadataOutput {
+  /// Specifies the location of the LDAP server such as AWS Directory Service for
+  /// Microsoft Active Directory . Optional failover server.
+  final List<String> hosts;
+
+  /// The distinguished name of the node in the directory information tree (DIT)
+  /// to search for roles or groups. For example, ou=group, ou=corp, dc=corp,
+  /// dc=example, dc=com.
+  final String roleBase;
+
+  /// The LDAP search filter used to find roles within the roleBase. The
+  /// distinguished name of the user matched by userSearchMatching is substituted
+  /// into the {0} placeholder in the search filter. The client's username is
+  /// substituted into the {1} placeholder. For example, if you set this option to
+  /// (member=uid={1})for the user janedoe, the search filter becomes
+  /// (member=uid=janedoe) after string substitution. It matches all role entries
+  /// that have a member attribute equal to uid=janedoe under the subtree selected
+  /// by the roleBase.
+  final String roleSearchMatching;
+
+  /// Service account username. A service account is an account in your LDAP
+  /// server that has access to initiate a connection. For example,
+  /// cn=admin,dc=corp, dc=example,
+  /// dc=com.
+  final String serviceAccountUsername;
+
+  /// Select a particular subtree of the directory information tree (DIT) to
+  /// search for user entries. The subtree is specified by a DN, which specifies
+  /// the base node of the subtree. For example, by setting this option to
+  /// ou=Users,ou=corp, dc=corp,
+  /// dc=example, dc=com, the search for user entries is restricted to the subtree
+  /// beneath ou=Users, ou=corp, dc=corp, dc=example, dc=com.
+  final String userBase;
+
+  /// The LDAP search filter used to find users within the userBase. The client's
+  /// username is substituted into the {0} placeholder in the search filter. For
+  /// example, if this option is set to (uid={0}) and the received username is
+  /// janedoe, the search filter becomes (uid=janedoe) after string substitution.
+  /// It will result in matching an entry like uid=janedoe, ou=Users,ou=corp,
+  /// dc=corp, dc=example,
+  /// dc=com.
+  final String userSearchMatching;
+
+  /// Specifies the LDAP attribute that identifies the group name attribute in the
+  /// object returned from the group membership query.
+  final String? roleName;
+
+  /// The directory search scope for the role. If set to true, scope is to search
+  /// the entire subtree.
+  final bool? roleSearchSubtree;
+
+  /// Specifies the name of the LDAP attribute for the user group membership.
+  final String? userRoleName;
+
+  /// The directory search scope for the user. If set to true, scope is to search
+  /// the entire subtree.
+  final bool? userSearchSubtree;
+
+  LdapServerMetadataOutput({
+    required this.hosts,
+    required this.roleBase,
+    required this.roleSearchMatching,
+    required this.serviceAccountUsername,
+    required this.userBase,
+    required this.userSearchMatching,
+    this.roleName,
+    this.roleSearchSubtree,
+    this.userRoleName,
+    this.userSearchSubtree,
+  });
+
+  factory LdapServerMetadataOutput.fromJson(Map<String, dynamic> json) {
+    return LdapServerMetadataOutput(
+      hosts: (json['hosts'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      roleBase: json['roleBase'] as String,
+      roleSearchMatching: json['roleSearchMatching'] as String,
+      serviceAccountUsername: json['serviceAccountUsername'] as String,
+      userBase: json['userBase'] as String,
+      userSearchMatching: json['userSearchMatching'] as String,
+      roleName: json['roleName'] as String?,
+      roleSearchSubtree: json['roleSearchSubtree'] as bool?,
+      userRoleName: json['userRoleName'] as String?,
+      userSearchSubtree: json['userSearchSubtree'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hosts = this.hosts;
+    final roleBase = this.roleBase;
+    final roleSearchMatching = this.roleSearchMatching;
+    final serviceAccountUsername = this.serviceAccountUsername;
+    final userBase = this.userBase;
+    final userSearchMatching = this.userSearchMatching;
+    final roleName = this.roleName;
+    final roleSearchSubtree = this.roleSearchSubtree;
+    final userRoleName = this.userRoleName;
+    final userSearchSubtree = this.userSearchSubtree;
+    return {
+      'hosts': hosts,
+      'roleBase': roleBase,
+      'roleSearchMatching': roleSearchMatching,
+      'serviceAccountUsername': serviceAccountUsername,
+      'userBase': userBase,
+      'userSearchMatching': userSearchMatching,
+      if (roleName != null) 'roleName': roleName,
+      if (roleSearchSubtree != null) 'roleSearchSubtree': roleSearchSubtree,
+      if (userRoleName != null) 'userRoleName': userRoleName,
+      if (userSearchSubtree != null) 'userSearchSubtree': userSearchSubtree,
+    };
+  }
+}
+
 class ListBrokersResponse {
   /// A list of information about all brokers.
-  @_s.JsonKey(name: 'brokerSummaries')
-  final List<BrokerSummary> brokerSummaries;
+  final List<BrokerSummary>? brokerSummaries;
 
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBrokersResponse({
     this.brokerSummaries,
     this.nextToken,
   });
-  factory ListBrokersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListBrokersResponseFromJson(json);
+
+  factory ListBrokersResponse.fromJson(Map<String, dynamic> json) {
+    return ListBrokersResponse(
+      brokerSummaries: (json['brokerSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => BrokerSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerSummaries = this.brokerSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (brokerSummaries != null) 'brokerSummaries': brokerSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConfigurationRevisionsResponse {
   /// The unique ID that Amazon MQ generates for the configuration.
-  @_s.JsonKey(name: 'configurationId')
-  final String configurationId;
+  final String? configurationId;
 
   /// The maximum number of configuration revisions that can be returned per page
   /// (20 by default). This value must be an integer from 5 to 100.
-  @_s.JsonKey(name: 'maxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of all revisions for the specified configuration.
-  @_s.JsonKey(name: 'revisions')
-  final List<ConfigurationRevision> revisions;
+  final List<ConfigurationRevision>? revisions;
 
   ListConfigurationRevisionsResponse({
     this.configurationId,
@@ -2146,80 +2830,113 @@ class ListConfigurationRevisionsResponse {
     this.nextToken,
     this.revisions,
   });
+
   factory ListConfigurationRevisionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListConfigurationRevisionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListConfigurationRevisionsResponse(
+      configurationId: json['configurationId'] as String?,
+      maxResults: json['maxResults'] as int?,
+      nextToken: json['nextToken'] as String?,
+      revisions: (json['revisions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationRevision.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationId = this.configurationId;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    final revisions = this.revisions;
+    return {
+      if (configurationId != null) 'configurationId': configurationId,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (revisions != null) 'revisions': revisions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConfigurationsResponse {
   /// The list of all revisions for the specified configuration.
-  @_s.JsonKey(name: 'configurations')
-  final List<Configuration> configurations;
+  final List<Configuration>? configurations;
 
   /// The maximum number of configurations that Amazon MQ can return per page (20
   /// by default). This value must be an integer from 5 to 100.
-  @_s.JsonKey(name: 'maxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConfigurationsResponse({
     this.configurations,
     this.maxResults,
     this.nextToken,
   });
-  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListConfigurationsResponseFromJson(json);
+
+  factory ListConfigurationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationsResponse(
+      configurations: (json['configurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Configuration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxResults: json['maxResults'] as int?,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurations = this.configurations;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    return {
+      if (configurations != null) 'configurations': configurations,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResponse {
   /// The key-value pair for the resource tag.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsResponse({
     this.tags,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListUsersResponse {
   /// Required. The unique ID that Amazon MQ generates for the broker.
-  @_s.JsonKey(name: 'brokerId')
-  final String brokerId;
+  final String? brokerId;
 
   /// Required. The maximum number of ActiveMQ users that can be returned per page
   /// (20 by default). This value must be an integer from 5 to 100.
-  @_s.JsonKey(name: 'maxResults')
-  final int maxResults;
+  final int? maxResults;
 
   /// The token that specifies the next page of results Amazon MQ should return.
   /// To request the first page, leave nextToken empty.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
-  /// Required. The list of all ActiveMQ usernames for the specified broker.
-  @_s.JsonKey(name: 'users')
-  final List<UserSummary> users;
+  /// Required. The list of all ActiveMQ usernames for the specified broker. Does
+  /// not apply to RabbitMQ brokers.
+  final List<UserSummary>? users;
 
   ListUsersResponse({
     this.brokerId,
@@ -2227,198 +2944,277 @@ class ListUsersResponse {
     this.nextToken,
     this.users,
   });
-  factory ListUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListUsersResponseFromJson(json);
+
+  factory ListUsersResponse.fromJson(Map<String, dynamic> json) {
+    return ListUsersResponse(
+      brokerId: json['brokerId'] as String?,
+      maxResults: json['maxResults'] as int?,
+      nextToken: json['nextToken'] as String?,
+      users: (json['users'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final brokerId = this.brokerId;
+    final maxResults = this.maxResults;
+    final nextToken = this.nextToken;
+    final users = this.users;
+    return {
+      if (brokerId != null) 'brokerId': brokerId,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (users != null) 'users': users,
+    };
+  }
 }
 
 /// The list of information about logs to be enabled for the specified broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Logs {
   /// Enables audit logging. Every user management action made using JMX or the
   /// ActiveMQ Web Console is logged. Does not apply to RabbitMQ brokers.
-  @_s.JsonKey(name: 'audit')
-  final bool audit;
+  final bool? audit;
 
   /// Enables general logging.
-  @_s.JsonKey(name: 'general')
-  final bool general;
+  final bool? general;
 
   Logs({
     this.audit,
     this.general,
   });
-  factory Logs.fromJson(Map<String, dynamic> json) => _$LogsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LogsToJson(this);
+  factory Logs.fromJson(Map<String, dynamic> json) {
+    return Logs(
+      audit: json['audit'] as bool?,
+      general: json['general'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audit = this.audit;
+    final general = this.general;
+    return {
+      if (audit != null) 'audit': audit,
+      if (general != null) 'general': general,
+    };
+  }
 }
 
 /// The list of information about logs currently enabled and pending to be
 /// deployed for the specified broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LogsSummary {
-  /// Enables audit logging. Every user management action made using JMX or the
-  /// ActiveMQ Web Console is logged.
-  @_s.JsonKey(name: 'audit')
-  final bool audit;
-
-  /// The location of the CloudWatch Logs log group where audit logs are sent.
-  @_s.JsonKey(name: 'auditLogGroup')
-  final String auditLogGroup;
-
   /// Enables general logging.
-  @_s.JsonKey(name: 'general')
   final bool general;
 
   /// The location of the CloudWatch Logs log group where general logs are sent.
-  @_s.JsonKey(name: 'generalLogGroup')
   final String generalLogGroup;
+
+  /// Enables audit logging. Every user management action made using JMX or the
+  /// ActiveMQ Web Console is logged.
+  final bool? audit;
+
+  /// The location of the CloudWatch Logs log group where audit logs are sent.
+  final String? auditLogGroup;
 
   /// The list of information about logs pending to be deployed for the specified
   /// broker.
-  @_s.JsonKey(name: 'pending')
-  final PendingLogs pending;
+  final PendingLogs? pending;
 
   LogsSummary({
+    required this.general,
+    required this.generalLogGroup,
     this.audit,
     this.auditLogGroup,
-    this.general,
-    this.generalLogGroup,
     this.pending,
   });
-  factory LogsSummary.fromJson(Map<String, dynamic> json) =>
-      _$LogsSummaryFromJson(json);
+
+  factory LogsSummary.fromJson(Map<String, dynamic> json) {
+    return LogsSummary(
+      general: json['general'] as bool,
+      generalLogGroup: json['generalLogGroup'] as String,
+      audit: json['audit'] as bool?,
+      auditLogGroup: json['auditLogGroup'] as String?,
+      pending: json['pending'] != null
+          ? PendingLogs.fromJson(json['pending'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final general = this.general;
+    final generalLogGroup = this.generalLogGroup;
+    final audit = this.audit;
+    final auditLogGroup = this.auditLogGroup;
+    final pending = this.pending;
+    return {
+      'general': general,
+      'generalLogGroup': generalLogGroup,
+      if (audit != null) 'audit': audit,
+      if (auditLogGroup != null) 'auditLogGroup': auditLogGroup,
+      if (pending != null) 'pending': pending,
+    };
+  }
 }
 
 /// The list of information about logs to be enabled for the specified broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PendingLogs {
   /// Enables audit logging. Every user management action made using JMX or the
   /// ActiveMQ Web Console is logged.
-  @_s.JsonKey(name: 'audit')
-  final bool audit;
+  final bool? audit;
 
   /// Enables general logging.
-  @_s.JsonKey(name: 'general')
-  final bool general;
+  final bool? general;
 
   PendingLogs({
     this.audit,
     this.general,
   });
-  factory PendingLogs.fromJson(Map<String, dynamic> json) =>
-      _$PendingLogsFromJson(json);
+
+  factory PendingLogs.fromJson(Map<String, dynamic> json) {
+    return PendingLogs(
+      audit: json['audit'] as bool?,
+      general: json['general'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audit = this.audit;
+    final general = this.general;
+    return {
+      if (audit != null) 'audit': audit,
+      if (general != null) 'general': general,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RebootBrokerResponse {
   RebootBrokerResponse();
-  factory RebootBrokerResponse.fromJson(Map<String, dynamic> json) =>
-      _$RebootBrokerResponseFromJson(json);
+
+  factory RebootBrokerResponse.fromJson(Map<String, dynamic> _) {
+    return RebootBrokerResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Returns information about the XML element or attribute that was sanitized in
 /// the configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SanitizationWarning {
-  /// The name of the XML attribute that has been sanitized.
-  @_s.JsonKey(name: 'attributeName')
-  final String attributeName;
-
-  /// The name of the XML element that has been sanitized.
-  @_s.JsonKey(name: 'elementName')
-  final String elementName;
-
   /// Required. The reason for which the XML elements or attributes were
   /// sanitized.
-  @_s.JsonKey(name: 'reason')
   final SanitizationWarningReason reason;
 
+  /// The name of the XML attribute that has been sanitized.
+  final String? attributeName;
+
+  /// The name of the XML element that has been sanitized.
+  final String? elementName;
+
   SanitizationWarning({
+    required this.reason,
     this.attributeName,
     this.elementName,
-    this.reason,
   });
-  factory SanitizationWarning.fromJson(Map<String, dynamic> json) =>
-      _$SanitizationWarningFromJson(json);
+
+  factory SanitizationWarning.fromJson(Map<String, dynamic> json) {
+    return SanitizationWarning(
+      reason: (json['reason'] as String).toSanitizationWarningReason(),
+      attributeName: json['attributeName'] as String?,
+      elementName: json['elementName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reason = this.reason;
+    final attributeName = this.attributeName;
+    final elementName = this.elementName;
+    return {
+      'reason': reason.toValue(),
+      if (attributeName != null) 'attributeName': attributeName,
+      if (elementName != null) 'elementName': elementName,
+    };
+  }
 }
 
 /// The reason for which the XML elements or attributes were sanitized.
 enum SanitizationWarningReason {
-  @_s.JsonValue('DISALLOWED_ELEMENT_REMOVED')
   disallowedElementRemoved,
-  @_s.JsonValue('DISALLOWED_ATTRIBUTE_REMOVED')
   disallowedAttributeRemoved,
-  @_s.JsonValue('INVALID_ATTRIBUTE_VALUE_REMOVED')
   invalidAttributeValueRemoved,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UpdateBrokerResponse {
-  /// The authentication strategy used to secure the broker.
-  @_s.JsonKey(name: 'authenticationStrategy')
-  final AuthenticationStrategy authenticationStrategy;
+extension on SanitizationWarningReason {
+  String toValue() {
+    switch (this) {
+      case SanitizationWarningReason.disallowedElementRemoved:
+        return 'DISALLOWED_ELEMENT_REMOVED';
+      case SanitizationWarningReason.disallowedAttributeRemoved:
+        return 'DISALLOWED_ATTRIBUTE_REMOVED';
+      case SanitizationWarningReason.invalidAttributeValueRemoved:
+        return 'INVALID_ATTRIBUTE_VALUE_REMOVED';
+    }
+  }
+}
 
-  /// The new value of automatic upgrades to new minor version for brokers.
-  @_s.JsonKey(name: 'autoMinorVersionUpgrade')
-  final bool autoMinorVersionUpgrade;
+extension on String {
+  SanitizationWarningReason toSanitizationWarningReason() {
+    switch (this) {
+      case 'DISALLOWED_ELEMENT_REMOVED':
+        return SanitizationWarningReason.disallowedElementRemoved;
+      case 'DISALLOWED_ATTRIBUTE_REMOVED':
+        return SanitizationWarningReason.disallowedAttributeRemoved;
+      case 'INVALID_ATTRIBUTE_VALUE_REMOVED':
+        return SanitizationWarningReason.invalidAttributeValueRemoved;
+    }
+    throw Exception('$this is not known in enum SanitizationWarningReason');
+  }
+}
+
+class UpdateBrokerResponse {
+  /// Optional. The authentication strategy used to secure the broker. The default
+  /// is SIMPLE.
+  final AuthenticationStrategy? authenticationStrategy;
+
+  /// The new boolean value that specifies whether broker engines automatically
+  /// upgrade to new minor versions as new versions are released and supported by
+  /// Amazon MQ.
+  final bool? autoMinorVersionUpgrade;
 
   /// Required. The unique ID that Amazon MQ generates for the broker.
-  @_s.JsonKey(name: 'brokerId')
-  final String brokerId;
+  final String? brokerId;
 
   /// The ID of the updated configuration.
-  @_s.JsonKey(name: 'configuration')
-  final ConfigurationId configuration;
+  final ConfigurationId? configuration;
 
-  /// The version of the broker engine to upgrade to. For a list of supported
-  /// engine versions, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html
-  @_s.JsonKey(name: 'engineVersion')
-  final String engineVersion;
+  /// The broker engine version to upgrade to. For a list of supported engine
+  /// versions, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker-engine.html">Supported
+  /// engines</a>.
+  final String? engineVersion;
 
-  /// The host instance type of the broker to upgrade to. For a list of supported
-  /// instance types, see
-  /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
-  @_s.JsonKey(name: 'hostInstanceType')
-  final String hostInstanceType;
+  /// The broker's host instance type to upgrade to. For a list of supported
+  /// instance types, see <a
+  /// href="https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/broker.html#broker-instance-types">Broker
+  /// instance types</a>.
+  final String? hostInstanceType;
 
-  /// The metadata of the LDAP server used to authenticate and authorize
-  /// connections to the broker.
-  @_s.JsonKey(name: 'ldapServerMetadata')
-  final LdapServerMetadataOutput ldapServerMetadata;
+  /// Optional. The metadata of the LDAP server used to authenticate and authorize
+  /// connections to the broker. Does not apply to RabbitMQ brokers.
+  final LdapServerMetadataOutput? ldapServerMetadata;
 
   /// The list of information about logs to be enabled for the specified broker.
-  @_s.JsonKey(name: 'logs')
-  final Logs logs;
+  final Logs? logs;
+
+  /// The parameters that determine the WeeklyStartTime.
+  final WeeklyStartTime? maintenanceWindowStartTime;
 
   /// The list of security groups (1 minimum, 5 maximum) that authorizes
   /// connections to brokers.
-  @_s.JsonKey(name: 'securityGroups')
-  final List<String> securityGroups;
+  final List<String>? securityGroups;
 
   UpdateBrokerResponse({
     this.authenticationStrategy,
@@ -2429,45 +3225,90 @@ class UpdateBrokerResponse {
     this.hostInstanceType,
     this.ldapServerMetadata,
     this.logs,
+    this.maintenanceWindowStartTime,
     this.securityGroups,
   });
-  factory UpdateBrokerResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBrokerResponseFromJson(json);
+
+  factory UpdateBrokerResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBrokerResponse(
+      authenticationStrategy: (json['authenticationStrategy'] as String?)
+          ?.toAuthenticationStrategy(),
+      autoMinorVersionUpgrade: json['autoMinorVersionUpgrade'] as bool?,
+      brokerId: json['brokerId'] as String?,
+      configuration: json['configuration'] != null
+          ? ConfigurationId.fromJson(
+              json['configuration'] as Map<String, dynamic>)
+          : null,
+      engineVersion: json['engineVersion'] as String?,
+      hostInstanceType: json['hostInstanceType'] as String?,
+      ldapServerMetadata: json['ldapServerMetadata'] != null
+          ? LdapServerMetadataOutput.fromJson(
+              json['ldapServerMetadata'] as Map<String, dynamic>)
+          : null,
+      logs: json['logs'] != null
+          ? Logs.fromJson(json['logs'] as Map<String, dynamic>)
+          : null,
+      maintenanceWindowStartTime: json['maintenanceWindowStartTime'] != null
+          ? WeeklyStartTime.fromJson(
+              json['maintenanceWindowStartTime'] as Map<String, dynamic>)
+          : null,
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authenticationStrategy = this.authenticationStrategy;
+    final autoMinorVersionUpgrade = this.autoMinorVersionUpgrade;
+    final brokerId = this.brokerId;
+    final configuration = this.configuration;
+    final engineVersion = this.engineVersion;
+    final hostInstanceType = this.hostInstanceType;
+    final ldapServerMetadata = this.ldapServerMetadata;
+    final logs = this.logs;
+    final maintenanceWindowStartTime = this.maintenanceWindowStartTime;
+    final securityGroups = this.securityGroups;
+    return {
+      if (authenticationStrategy != null)
+        'authenticationStrategy': authenticationStrategy.toValue(),
+      if (autoMinorVersionUpgrade != null)
+        'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (brokerId != null) 'brokerId': brokerId,
+      if (configuration != null) 'configuration': configuration,
+      if (engineVersion != null) 'engineVersion': engineVersion,
+      if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+      if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
+      if (logs != null) 'logs': logs,
+      if (maintenanceWindowStartTime != null)
+        'maintenanceWindowStartTime': maintenanceWindowStartTime,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConfigurationResponse {
   /// Required. The Amazon Resource Name (ARN) of the configuration.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// Required. The date and time of the configuration.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'created')
-  final DateTime created;
+  final DateTime? created;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The latest revision of the configuration.
-  @_s.JsonKey(name: 'latestRevision')
-  final ConfigurationRevision latestRevision;
+  final ConfigurationRevision? latestRevision;
 
   /// Required. The name of the configuration. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 1-150 characters long.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The list of the first 20 warnings about the configuration XML elements or
   /// attributes that were sanitized.
-  @_s.JsonKey(name: 'warnings')
-  final List<SanitizationWarning> warnings;
+  final List<SanitizationWarning>? warnings;
 
   UpdateConfigurationResponse({
     this.arn,
@@ -2477,176 +3318,260 @@ class UpdateConfigurationResponse {
     this.name,
     this.warnings,
   });
-  factory UpdateConfigurationResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateConfigurationResponseFromJson(json);
+
+  factory UpdateConfigurationResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConfigurationResponse(
+      arn: json['arn'] as String?,
+      created: timeStampFromJson(json['created']),
+      id: json['id'] as String?,
+      latestRevision: json['latestRevision'] != null
+          ? ConfigurationRevision.fromJson(
+              json['latestRevision'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      warnings: (json['warnings'] as List?)
+          ?.whereNotNull()
+          .map((e) => SanitizationWarning.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final created = this.created;
+    final id = this.id;
+    final latestRevision = this.latestRevision;
+    final name = this.name;
+    final warnings = this.warnings;
+    return {
+      if (arn != null) 'arn': arn,
+      if (created != null) 'created': iso8601ToJson(created),
+      if (id != null) 'id': id,
+      if (latestRevision != null) 'latestRevision': latestRevision,
+      if (name != null) 'name': name,
+      if (warnings != null) 'warnings': warnings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateUserResponse {
   UpdateUserResponse();
-  factory UpdateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateUserResponseFromJson(json);
+
+  factory UpdateUserResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-/// A user associated with the broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// A user associated with the broker. For RabbitMQ brokers, one and only one
+/// administrative user is accepted and created when a broker is first
+/// provisioned. All subsequent broker users are created by making RabbitMQ API
+/// calls directly to brokers or via the RabbitMQ web console.
 class User {
-  /// Enables access to the ActiveMQ Web Console for the ActiveMQ user (Does not
-  /// apply to RabbitMQ brokers).
-  @_s.JsonKey(name: 'consoleAccess')
-  final bool consoleAccess;
+  /// Required. The password of the user. This value must be at least 12
+  /// characters long, must contain at least 4 unique characters, and must not
+  /// contain commas, colons, or equal signs (,:=).
+  final String password;
+
+  /// important><title>Amazon MQ for ActiveMQ</title> <para>For ActiveMQ brokers,
+  /// this value can contain only alphanumeric characters, dashes, periods,
+  /// underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
+  /// /important> <important><title>Amazon MQ for RabbitMQ</title>
+  /// For RabbitMQ brokers, this value can contain only alphanumeric characters,
+  /// dashes, periods, underscores (- . _). This value must not contain a tilde
+  /// (~) character. Amazon MQ prohibts using guest as a valid usename. This value
+  /// must be 2-100 characters long.
+  /// </important></para>
+  final String username;
+
+  /// Enables access to the ActiveMQ Web Console for the ActiveMQ user. Does not
+  /// apply to RabbitMQ brokers.
+  final bool? consoleAccess;
 
   /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This
   /// value can contain only alphanumeric characters, dashes, periods,
   /// underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-  @_s.JsonKey(name: 'groups')
-  final List<String> groups;
-
-  /// Required. The password of the broker user. This value must be at least 12
-  /// characters long, must contain at least 4 unique characters, and must not
-  /// contain commas.
-  @_s.JsonKey(name: 'password')
-  final String password;
-
-  /// Required. The username of the broker user. This value can contain only
-  /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
-  /// This value must be 2-100 characters long.
-  @_s.JsonKey(name: 'username')
-  final String username;
+  /// Does not apply to RabbitMQ brokers.
+  final List<String>? groups;
 
   User({
+    required this.password,
+    required this.username,
     this.consoleAccess,
     this.groups,
-    this.password,
-    this.username,
   });
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      password: json['password'] as String,
+      username: json['username'] as String,
+      consoleAccess: json['consoleAccess'] as bool?,
+      groups: (json['groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final username = this.username;
+    final consoleAccess = this.consoleAccess;
+    final groups = this.groups;
+    return {
+      'password': password,
+      'username': username,
+      if (consoleAccess != null) 'consoleAccess': consoleAccess,
+      if (groups != null) 'groups': groups,
+    };
+  }
 }
 
 /// Returns information about the status of the changes pending for the ActiveMQ
 /// user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserPendingChanges {
+  /// Required. The type of change pending for the ActiveMQ user.
+  final ChangeType pendingChange;
+
   /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
-  @_s.JsonKey(name: 'consoleAccess')
-  final bool consoleAccess;
+  final bool? consoleAccess;
 
   /// The list of groups (20 maximum) to which the ActiveMQ user belongs. This
   /// value can contain only alphanumeric characters, dashes, periods,
   /// underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
-  @_s.JsonKey(name: 'groups')
-  final List<String> groups;
-
-  /// Required. The type of change pending for the ActiveMQ user.
-  @_s.JsonKey(name: 'pendingChange')
-  final ChangeType pendingChange;
+  final List<String>? groups;
 
   UserPendingChanges({
+    required this.pendingChange,
     this.consoleAccess,
     this.groups,
-    this.pendingChange,
   });
-  factory UserPendingChanges.fromJson(Map<String, dynamic> json) =>
-      _$UserPendingChangesFromJson(json);
+
+  factory UserPendingChanges.fromJson(Map<String, dynamic> json) {
+    return UserPendingChanges(
+      pendingChange: (json['pendingChange'] as String).toChangeType(),
+      consoleAccess: json['consoleAccess'] as bool?,
+      groups: (json['groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pendingChange = this.pendingChange;
+    final consoleAccess = this.consoleAccess;
+    final groups = this.groups;
+    return {
+      'pendingChange': pendingChange.toValue(),
+      if (consoleAccess != null) 'consoleAccess': consoleAccess,
+      if (groups != null) 'groups': groups,
+    };
+  }
 }
 
-/// Returns a list of all broker users.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Returns a list of all broker users. Does not apply to RabbitMQ brokers.
 class UserSummary {
-  /// The type of change pending for the broker user.
-  @_s.JsonKey(name: 'pendingChange')
-  final ChangeType pendingChange;
-
   /// Required. The username of the broker user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 2-100 characters long.
-  @_s.JsonKey(name: 'username')
   final String username;
 
+  /// The type of change pending for the broker user.
+  final ChangeType? pendingChange;
+
   UserSummary({
+    required this.username,
     this.pendingChange,
-    this.username,
   });
-  factory UserSummary.fromJson(Map<String, dynamic> json) =>
-      _$UserSummaryFromJson(json);
+
+  factory UserSummary.fromJson(Map<String, dynamic> json) {
+    return UserSummary(
+      username: json['username'] as String,
+      pendingChange: (json['pendingChange'] as String?)?.toChangeType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final username = this.username;
+    final pendingChange = this.pendingChange;
+    return {
+      'username': username,
+      if (pendingChange != null) 'pendingChange': pendingChange.toValue(),
+    };
+  }
 }
 
 /// The scheduled time period relative to UTC during which Amazon MQ begins to
 /// apply pending updates or patches to the broker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WeeklyStartTime {
   /// Required. The day of the week.
-  @_s.JsonKey(name: 'dayOfWeek')
   final DayOfWeek dayOfWeek;
 
   /// Required. The time, in 24-hour format.
-  @_s.JsonKey(name: 'timeOfDay')
   final String timeOfDay;
 
   /// The time zone, UTC by default, in either the Country/City format, or the UTC
   /// offset format.
-  @_s.JsonKey(name: 'timeZone')
-  final String timeZone;
+  final String? timeZone;
 
   WeeklyStartTime({
-    this.dayOfWeek,
-    this.timeOfDay,
+    required this.dayOfWeek,
+    required this.timeOfDay,
     this.timeZone,
   });
-  factory WeeklyStartTime.fromJson(Map<String, dynamic> json) =>
-      _$WeeklyStartTimeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WeeklyStartTimeToJson(this);
+  factory WeeklyStartTime.fromJson(Map<String, dynamic> json) {
+    return WeeklyStartTime(
+      dayOfWeek: (json['dayOfWeek'] as String).toDayOfWeek(),
+      timeOfDay: json['timeOfDay'] as String,
+      timeZone: json['timeZone'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dayOfWeek = this.dayOfWeek;
+    final timeOfDay = this.timeOfDay;
+    final timeZone = this.timeZone;
+    return {
+      'dayOfWeek': dayOfWeek.toValue(),
+      'timeOfDay': timeOfDay,
+      if (timeZone != null) 'timeZone': timeZone,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

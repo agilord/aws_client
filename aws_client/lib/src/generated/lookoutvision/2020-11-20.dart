@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-11-20.g.dart';
 
 /// This is the Amazon Lookout for Vision API Reference. It provides
 /// descriptions of actions, data types, common parameters, and common errors.
@@ -38,10 +31,10 @@ part '2020-11-20.g.dart';
 class LookoutForVision {
   final _s.RestJsonProtocol _protocol;
   LookoutForVision({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -64,7 +57,10 @@ class LookoutForVision {
   /// <code>CreateDataset</code> twice. On the first call, specify
   /// <code>train</code> for the value of <code>DatasetType</code>. On the
   /// second call, specify <code>test</code> for the value of
-  /// <code>DatasetType</code>. of dataset with
+  /// <code>DatasetType</code>.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:CreateDataset</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -106,10 +102,10 @@ class LookoutForVision {
   /// complete. To find out the current status, Check the value of
   /// <code>Status</code> returned in a call to <a>DescribeDataset</a>.
   Future<CreateDatasetResponse> createDataset({
-    @_s.required String datasetType,
-    @_s.required String projectName,
-    String clientToken,
-    DatasetSource datasetSource,
+    required String datasetType,
+    required String projectName,
+    String? clientToken,
+    DatasetSource? datasetSource,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
     _s.validateStringLength(
@@ -117,12 +113,6 @@ class LookoutForVision {
       datasetType,
       1,
       10,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetType',
-      datasetType,
-      r'''train|test''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -133,25 +123,15 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'DatasetType': datasetType,
       if (datasetSource != null) 'DatasetSource': datasetSource,
@@ -183,6 +163,11 @@ class LookoutForVision {
   /// After training completes, the evaluation metrics are stored at the
   /// location specified in <code>OutputConfig</code>.
   ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:CreateModel</code> operation. If you want to tag your
+  /// model, you also require permission to the
+  /// <code>lookoutvision:TagResource</code> operation.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -212,15 +197,21 @@ class LookoutForVision {
   /// A description for the version of the model.
   ///
   /// Parameter [kmsKeyId] :
-  /// The identifier of the AWS Key Management Service (AWS KMS) customer master
-  /// key (CMK) to use for encypting the model. If this parameter is not
-  /// specified, the model is encrypted by a key that AWS owns and manages.
+  /// The identifier for your AWS Key Management Service (AWS KMS) customer
+  /// master key (CMK). The key is used to encrypt training and test images
+  /// copied into the service for model training. Your source images are
+  /// unaffected. If this parameter is not specified, the copied images are
+  /// encrypted by a key that AWS owns and manages.
+  ///
+  /// Parameter [tags] :
+  /// A set of tags (key-value pairs) that you want to attach to the model.
   Future<CreateModelResponse> createModel({
-    @_s.required OutputConfig outputConfig,
-    @_s.required String projectName,
-    String clientToken,
-    ModelDescription description,
-    String kmsKeyId,
+    required OutputConfig outputConfig,
+    required String projectName,
+    String? clientToken,
+    String? description,
+    String? kmsKeyId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(outputConfig, 'outputConfig');
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -231,22 +222,17 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      500,
     );
     _s.validateStringLength(
       'kmsKeyId',
@@ -254,17 +240,14 @@ class LookoutForVision {
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'OutputConfig': outputConfig,
       if (description != null) 'Description': description,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -280,6 +263,9 @@ class LookoutForVision {
   /// Creates an empty Amazon Lookout for Vision project. After you create the
   /// project, add a dataset by calling <a>CreateDataset</a>.
   ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:CreateProject</code> operation.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -289,7 +275,7 @@ class LookoutForVision {
   /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [projectName] :
-  /// S nsme for the project.
+  /// The name for the project.
   ///
   /// Parameter [clientToken] :
   /// ClientToken is an idempotency token that ensures a call to
@@ -302,8 +288,8 @@ class LookoutForVision {
   /// different value for <code>ClientToken</code> is considered a new call to
   /// <code>CreateProject</code>. An idempotency token is active for 8 hours.
   Future<CreateProjectResponse> createProject({
-    @_s.required String projectName,
-    String clientToken,
+    required String projectName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -313,25 +299,15 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'ProjectName': projectName,
     };
@@ -364,9 +340,8 @@ class LookoutForVision {
   /// before you can create a model.
   /// </li>
   /// </ul>
-  /// It might take a while to delete the dataset. To check the current status,
-  /// check the <code>Status</code> field in the response from a call to
-  /// <a>DescribeDataset</a>.
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DeleteDataset</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -395,9 +370,9 @@ class LookoutForVision {
   /// different value for <code>ClientToken</code> is considered a new call to
   /// <code>DeleteDataset</code>. An idempotency token is active for 8 hours.
   Future<void> deleteDataset({
-    @_s.required String datasetType,
-    @_s.required String projectName,
-    String clientToken,
+    required String datasetType,
+    required String projectName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
     _s.validateStringLength(
@@ -405,12 +380,6 @@ class LookoutForVision {
       datasetType,
       1,
       10,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetType',
-      datasetType,
-      r'''train|test''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -421,25 +390,15 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -448,11 +407,17 @@ class LookoutForVision {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDatasetResponse.fromJson(response);
   }
 
   /// Deletes an Amazon Lookout for Vision model. You can't delete a running
   /// model. To stop a running model, use the <a>StopModel</a> operation.
+  ///
+  /// It might take a few seconds to delete a model. To determine if a model has
+  /// been deleted, call <a>ListProjects</a> and check if the version of the
+  /// model (<code>ModelVersion</code>) is in the <code>Models</code> array.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DeleteModel</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -478,9 +443,9 @@ class LookoutForVision {
   /// different value for <code>ClientToken</code> is considered a new call to
   /// <code>DeleteModel</code>. An idempotency token is active for 8 hours.
   Future<DeleteModelResponse> deleteModel({
-    @_s.required String modelVersion,
-    @_s.required String projectName,
-    String clientToken,
+    required String modelVersion,
+    required String projectName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
     _s.validateStringLength(
@@ -488,12 +453,6 @@ class LookoutForVision {
       modelVersion,
       1,
       10,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersion',
-      modelVersion,
-      r'''([1-9][0-9]*|latest)''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -504,25 +463,15 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -540,8 +489,12 @@ class LookoutForVision {
   /// associated with the project. To delete a model use the <a>DeleteModel</a>
   /// operation.
   ///
-  /// The training and test datasets are deleted automatically for you. The
-  /// images referenced by the training and test datasets aren't deleted.
+  /// You also have to delete the dataset(s) associated with the model. For more
+  /// information, see <a>DeleteDataset</a>. The images referenced by the
+  /// training and test datasets aren't deleted.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DeleteProject</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -564,8 +517,8 @@ class LookoutForVision {
   /// different value for <code>ClientToken</code> is considered a new call to
   /// <code>DeleteProject</code>. An idempotency token is active for 8 hours.
   Future<DeleteProjectResponse> deleteProject({
-    @_s.required String projectName,
-    String clientToken,
+    required String projectName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -575,25 +528,15 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -605,6 +548,9 @@ class LookoutForVision {
   }
 
   /// Describe an Amazon Lookout for Vision dataset.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DescribeDataset</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -623,8 +569,8 @@ class LookoutForVision {
   /// The name of the project that contains the dataset that you want to
   /// describe.
   Future<DescribeDatasetResponse> describeDataset({
-    @_s.required String datasetType,
-    @_s.required String projectName,
+    required String datasetType,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
     _s.validateStringLength(
@@ -634,24 +580,12 @@ class LookoutForVision {
       10,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetType',
-      datasetType,
-      r'''train|test''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -665,6 +599,9 @@ class LookoutForVision {
   }
 
   /// Describes a version of an Amazon Lookout for Vision model.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DescribeModel</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -680,8 +617,8 @@ class LookoutForVision {
   /// The project that contains the version of a model that you want to
   /// describe.
   Future<DescribeModelResponse> describeModel({
-    @_s.required String modelVersion,
-    @_s.required String projectName,
+    required String modelVersion,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
     _s.validateStringLength(
@@ -691,24 +628,12 @@ class LookoutForVision {
       10,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelVersion',
-      modelVersion,
-      r'''([1-9][0-9]*|latest)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
       projectName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -723,6 +648,9 @@ class LookoutForVision {
 
   /// Describes an Amazon Lookout for Vision project.
   ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DescribeProject</code> operation.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -733,7 +661,7 @@ class LookoutForVision {
   /// Parameter [projectName] :
   /// The name of the project that you want to describe.
   Future<DescribeProjectResponse> describeProject({
-    @_s.required String projectName,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -741,12 +669,6 @@ class LookoutForVision {
       projectName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -770,6 +692,8 @@ class LookoutForVision {
   /// detection units that your model uses. If you are not using a model, use
   /// the <a>StopModel</a> operation to stop your model.
   /// </note>
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:DetectAnomalies</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -793,10 +717,10 @@ class LookoutForVision {
   /// The name of the project that contains the model version that you want to
   /// use.
   Future<DetectAnomaliesResponse> detectAnomalies({
-    @_s.required Uint8List body,
-    @_s.required String contentType,
-    @_s.required String modelVersion,
-    @_s.required String projectName,
+    required Uint8List body,
+    required String contentType,
+    required String modelVersion,
+    required String projectName,
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(contentType, 'contentType');
@@ -807,24 +731,12 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'contentType',
-      contentType,
-      r'''.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
     _s.validateStringLength(
       'modelVersion',
       modelVersion,
       1,
       10,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersion',
-      modelVersion,
-      r'''([1-9][0-9]*|latest)''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -835,14 +747,9 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
-    final headers = <String, String>{};
-    contentType?.let((v) => headers['content-type'] = v.toString());
+    final headers = <String, String>{
+      'Content-Type': contentType.toString(),
+    };
     final response = await _protocol.send(
       payload: body,
       method: 'POST',
@@ -857,6 +764,9 @@ class LookoutForVision {
   /// Lists the JSON Lines within a dataset. An Amazon Lookout for Vision JSON
   /// Line contains the anomaly information for a single image, including the
   /// image location and the assigned label.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:ListDatasetEntries</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -908,15 +818,15 @@ class LookoutForVision {
   /// key within the dataset. For example a value of "IMG_17" returns all JSON
   /// Lines where the <code>source-ref</code> key value matches <i>*IMG_17*</i>.
   Future<ListDatasetEntriesResponse> listDatasetEntries({
-    @_s.required String datasetType,
-    @_s.required String projectName,
-    DateTime afterCreationDate,
-    String anomalyClass,
-    DateTime beforeCreationDate,
-    bool labeled,
-    int maxResults,
-    String nextToken,
-    String sourceRefContains,
+    required String datasetType,
+    required String projectName,
+    DateTime? afterCreationDate,
+    String? anomalyClass,
+    DateTime? beforeCreationDate,
+    bool? labeled,
+    int? maxResults,
+    String? nextToken,
+    String? sourceRefContains,
   }) async {
     ArgumentError.checkNotNull(datasetType, 'datasetType');
     _s.validateStringLength(
@@ -924,12 +834,6 @@ class LookoutForVision {
       datasetType,
       1,
       10,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'datasetType',
-      datasetType,
-      r'''train|test''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -940,22 +844,11 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'anomalyClass',
       anomalyClass,
       1,
       10,
-    );
-    _s.validateStringPattern(
-      'anomalyClass',
-      anomalyClass,
-      r'''(normal|anomaly)''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -969,21 +862,11 @@ class LookoutForVision {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-    );
     _s.validateStringLength(
       'sourceRefContains',
       sourceRefContains,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'sourceRefContains',
-      sourceRefContains,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (afterCreationDate != null)
@@ -1009,6 +892,9 @@ class LookoutForVision {
 
   /// Lists the versions of a model in an Amazon Lookout for Vision project.
   ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:ListModels</code> operation.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ValidationException].
@@ -1031,9 +917,9 @@ class LookoutForVision {
   /// response. You can use this pagination token to retrieve the next set of
   /// models.
   Future<ListModelsResponse> listModels({
-    @_s.required String projectName,
-    int maxResults,
-    String nextToken,
+    required String projectName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
@@ -1041,12 +927,6 @@ class LookoutForVision {
       projectName,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1060,11 +940,6 @@ class LookoutForVision {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1082,6 +957,9 @@ class LookoutForVision {
   }
 
   /// Lists the Amazon Lookout for Vision projects in your AWS account.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:ListProjects</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1101,8 +979,8 @@ class LookoutForVision {
   /// response. You can use this pagination token to retrieve the next set of
   /// projects.
   Future<ListProjectsResponse> listProjects({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1115,11 +993,6 @@ class LookoutForVision {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1135,9 +1008,47 @@ class LookoutForVision {
     return ListProjectsResponse.fromJson(response);
   }
 
+  /// Returns a list of tags attached to the specified Amazon Lookout for Vision
+  /// model.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:ListTagsForResource</code> operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the model for which you want to list
+  /// tags.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2020-11-20/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
   /// Starts the running of the version of an Amazon Lookout for Vision model.
   /// Starting a model takes a while to complete. To check the current state of
   /// the model, use <a>DescribeModel</a>.
+  ///
+  /// A model is ready to use when its status is <code>HOSTED</code>.
   ///
   /// Once the model is running, you can detect custom labels in new images by
   /// calling <a>DetectAnomalies</a>.
@@ -1145,6 +1056,8 @@ class LookoutForVision {
   /// You are charged for the amount of time that the model is running. To stop
   /// a running model, call <a>StopModel</a>.
   /// </note>
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:StartModel</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1177,10 +1090,10 @@ class LookoutForVision {
   /// different value for <code>ClientToken</code> is considered a new call to
   /// <code>StartModel</code>. An idempotency token is active for 8 hours.
   Future<StartModelResponse> startModel({
-    @_s.required int minInferenceUnits,
-    @_s.required String modelVersion,
-    @_s.required String projectName,
-    String clientToken,
+    required int minInferenceUnits,
+    required String modelVersion,
+    required String projectName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(minInferenceUnits, 'minInferenceUnits');
     _s.validateNumRange(
@@ -1198,12 +1111,6 @@ class LookoutForVision {
       10,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'modelVersion',
-      modelVersion,
-      r'''([1-9][0-9]*|latest)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
@@ -1212,25 +1119,15 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'MinInferenceUnits': minInferenceUnits,
     };
@@ -1245,8 +1142,14 @@ class LookoutForVision {
     return StartModelResponse.fromJson(response);
   }
 
-  /// Stops a running model. The operation might take a while to complete. To
-  /// check the current status, call <a>DescribeModel</a>.
+  /// Stops the hosting of a running model. The operation might take a while to
+  /// complete. To check the current status, call <a>DescribeModel</a>.
+  ///
+  /// After the model hosting stops, the <code>Status</code> of the model is
+  /// <code>TRAINED</code>.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:StopModel</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1272,9 +1175,9 @@ class LookoutForVision {
   /// different value for <code>ClientToken</code> is considered a new call to
   /// <code>StopModel</code>. An idempotency token is active for 8 hours.
   Future<StopModelResponse> stopModel({
-    @_s.required String modelVersion,
-    @_s.required String projectName,
-    String clientToken,
+    required String modelVersion,
+    required String projectName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(modelVersion, 'modelVersion');
     _s.validateStringLength(
@@ -1282,12 +1185,6 @@ class LookoutForVision {
       modelVersion,
       1,
       10,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'modelVersion',
-      modelVersion,
-      r'''([1-9][0-9]*|latest)''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(projectName, 'projectName');
@@ -1298,25 +1195,15 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -1328,6 +1215,95 @@ class LookoutForVision {
     return StopModelResponse.fromJson(response);
   }
 
+  /// Adds one or more key-value tags to an Amazon Lookout for Vision model. For
+  /// more information, see <i>Tagging a model</i> in the <i>Amazon Lookout for
+  /// Vision Developer Guide</i>.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:TagResource</code> operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the model to assign the tags.
+  ///
+  /// Parameter [tags] :
+  /// The key-value tags to assign to the model.
+  Future<void> tagResource({
+    required String resourceArn,
+    required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2020-11-20/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes one or more tags from an Amazon Lookout for Vision model. For more
+  /// information, see <i>Tagging a model</i> in the <i>Amazon Lookout for
+  /// Vision Developer Guide</i>.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:UntagResource</code> operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ValidationException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the model from which you want to remove
+  /// tags.
+  ///
+  /// Parameter [tagKeys] :
+  /// A list of the keys of the tags that you want to remove.
+  Future<void> untagResource({
+    required String resourceArn,
+    required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $query = <String, List<String>>{
+      'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/2020-11-20/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Adds one or more JSON Line entries to a dataset. A JSON Line includes
   /// information about an image used for training or testing an Amazon Lookout
   /// for Vision model. The following is an example JSON Line.
@@ -1335,6 +1311,9 @@ class LookoutForVision {
   /// Updating a dataset might take a while to complete. To check the current
   /// status, call <a>DescribeDataset</a> and check the <code>Status</code>
   /// field in the response.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>lookoutvision:UpdateDatasetEntries</code> operation.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -1368,10 +1347,10 @@ class LookoutForVision {
   /// <code>UpdateDatasetEntries</code>. An idempotency token is active for 8
   /// hours.
   Future<UpdateDatasetEntriesResponse> updateDatasetEntries({
-    @_s.required Uint8List changes,
-    @_s.required String datasetType,
-    @_s.required String projectName,
-    String clientToken,
+    required Uint8List changes,
+    required String datasetType,
+    required String projectName,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(changes, 'changes');
     ArgumentError.checkNotNull(datasetType, 'datasetType');
@@ -1382,12 +1361,6 @@ class LookoutForVision {
       10,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'datasetType',
-      datasetType,
-      r'''train|test''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(projectName, 'projectName');
     _s.validateStringLength(
       'projectName',
@@ -1396,27 +1369,17 @@ class LookoutForVision {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'projectName',
-      projectName,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_\-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientToken',
       clientToken,
       1,
       64,
     );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-    );
-    final headers = <String, String>{};
-    clientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (clientToken != null) 'X-Amzn-Client-Token': clientToken.toString(),
+    };
     final $payload = <String, dynamic>{
-      'Changes': changes?.let(base64Encode),
+      'Changes': base64Encode(changes),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1430,96 +1393,106 @@ class LookoutForVision {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatasetResponse {
   /// Information about the dataset.
-  @_s.JsonKey(name: 'DatasetMetadata')
-  final DatasetMetadata datasetMetadata;
+  final DatasetMetadata? datasetMetadata;
 
   CreateDatasetResponse({
     this.datasetMetadata,
   });
-  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatasetResponseFromJson(json);
+
+  factory CreateDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatasetResponse(
+      datasetMetadata: json['DatasetMetadata'] != null
+          ? DatasetMetadata.fromJson(
+              json['DatasetMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetMetadata = this.datasetMetadata;
+    return {
+      if (datasetMetadata != null) 'DatasetMetadata': datasetMetadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateModelResponse {
   /// The response from a call to <code>CreateModel</code>.
-  @_s.JsonKey(name: 'ModelMetadata')
-  final ModelMetadata modelMetadata;
+  final ModelMetadata? modelMetadata;
 
   CreateModelResponse({
     this.modelMetadata,
   });
-  factory CreateModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateModelResponseFromJson(json);
+
+  factory CreateModelResponse.fromJson(Map<String, dynamic> json) {
+    return CreateModelResponse(
+      modelMetadata: json['ModelMetadata'] != null
+          ? ModelMetadata.fromJson(
+              json['ModelMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelMetadata = this.modelMetadata;
+    return {
+      if (modelMetadata != null) 'ModelMetadata': modelMetadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProjectResponse {
   /// Information about the project.
-  @_s.JsonKey(name: 'ProjectMetadata')
-  final ProjectMetadata projectMetadata;
+  final ProjectMetadata? projectMetadata;
 
   CreateProjectResponse({
     this.projectMetadata,
   });
-  factory CreateProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProjectResponseFromJson(json);
+
+  factory CreateProjectResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProjectResponse(
+      projectMetadata: json['ProjectMetadata'] != null
+          ? ProjectMetadata.fromJson(
+              json['ProjectMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projectMetadata = this.projectMetadata;
+    return {
+      if (projectMetadata != null) 'ProjectMetadata': projectMetadata,
+    };
+  }
 }
 
 /// The description for a dataset. For more information, see
 /// <a>DescribeDataset</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetDescription {
   /// The Unix timestamp for the time and date that the dataset was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The type of the dataset. The value <code>train</code> represents a training
   /// dataset or single dataset project. The value <code>test</code> represents a
   /// test dataset.
-  @_s.JsonKey(name: 'DatasetType')
-  final String datasetType;
+  final String? datasetType;
 
   /// <p/>
-  @_s.JsonKey(name: 'ImageStats')
-  final DatasetImageStats imageStats;
+  final DatasetImageStats? imageStats;
 
   /// The Unix timestamp for the date and time that the dataset was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  final DateTime? lastUpdatedTimestamp;
 
   /// The name of the project that contains the dataset.
-  @_s.JsonKey(name: 'ProjectName')
-  final String projectName;
+  final String? projectName;
 
   /// The status of the dataset.
-  @_s.JsonKey(name: 'Status')
-  final DatasetStatus status;
+  final DatasetStatus? status;
 
   /// The status message for the dataset.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   DatasetDescription({
     this.creationTimestamp,
@@ -1530,50 +1503,83 @@ class DatasetDescription {
     this.status,
     this.statusMessage,
   });
-  factory DatasetDescription.fromJson(Map<String, dynamic> json) =>
-      _$DatasetDescriptionFromJson(json);
+
+  factory DatasetDescription.fromJson(Map<String, dynamic> json) {
+    return DatasetDescription(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      datasetType: json['DatasetType'] as String?,
+      imageStats: json['ImageStats'] != null
+          ? DatasetImageStats.fromJson(
+              json['ImageStats'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      projectName: json['ProjectName'] as String?,
+      status: (json['Status'] as String?)?.toDatasetStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final datasetType = this.datasetType;
+    final imageStats = this.imageStats;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final projectName = this.projectName;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (datasetType != null) 'DatasetType': datasetType,
+      if (imageStats != null) 'ImageStats': imageStats,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (projectName != null) 'ProjectName': projectName,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
 }
 
 /// Location information about a manifest file. You can use a manifest file to
 /// create a dataset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DatasetGroundTruthManifest {
   /// The S3 bucket location for the manifest file.
-  @_s.JsonKey(name: 'S3Object')
-  final InputS3Object s3Object;
+  final InputS3Object? s3Object;
 
   DatasetGroundTruthManifest({
     this.s3Object,
   });
-  Map<String, dynamic> toJson() => _$DatasetGroundTruthManifestToJson(this);
+
+  factory DatasetGroundTruthManifest.fromJson(Map<String, dynamic> json) {
+    return DatasetGroundTruthManifest(
+      s3Object: json['S3Object'] != null
+          ? InputS3Object.fromJson(json['S3Object'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Object = this.s3Object;
+    return {
+      if (s3Object != null) 'S3Object': s3Object,
+    };
+  }
 }
 
 /// Statistics about the images in a dataset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetImageStats {
   /// the total number of images labeled as an anomaly.
-  @_s.JsonKey(name: 'Anomaly')
-  final int anomaly;
+  final int? anomaly;
 
   /// The total number of labeled images.
-  @_s.JsonKey(name: 'Labeled')
-  final int labeled;
+  final int? labeled;
 
   /// The total number of images labeled as normal.
-  @_s.JsonKey(name: 'Normal')
-  final int normal;
+  final int? normal;
 
   /// The total number of images in the dataset.
-  @_s.JsonKey(name: 'Total')
-  final int total;
+  final int? total;
 
   DatasetImageStats({
     this.anomaly,
@@ -1581,33 +1587,43 @@ class DatasetImageStats {
     this.normal,
     this.total,
   });
-  factory DatasetImageStats.fromJson(Map<String, dynamic> json) =>
-      _$DatasetImageStatsFromJson(json);
+
+  factory DatasetImageStats.fromJson(Map<String, dynamic> json) {
+    return DatasetImageStats(
+      anomaly: json['Anomaly'] as int?,
+      labeled: json['Labeled'] as int?,
+      normal: json['Normal'] as int?,
+      total: json['Total'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomaly = this.anomaly;
+    final labeled = this.labeled;
+    final normal = this.normal;
+    final total = this.total;
+    return {
+      if (anomaly != null) 'Anomaly': anomaly,
+      if (labeled != null) 'Labeled': labeled,
+      if (normal != null) 'Normal': normal,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
 /// Sumary information for an Amazon Lookout for Vision dataset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DatasetMetadata {
   /// The Unix timestamp for the date and time that the dataset was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The type of the dataset.
-  @_s.JsonKey(name: 'DatasetType')
-  final String datasetType;
+  final String? datasetType;
 
   /// The status for the dataset.
-  @_s.JsonKey(name: 'Status')
-  final DatasetStatus status;
+  final DatasetStatus? status;
 
   /// The status message for the dataset.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   DatasetMetadata({
     this.creationTimestamp,
@@ -1615,371 +1631,553 @@ class DatasetMetadata {
     this.status,
     this.statusMessage,
   });
-  factory DatasetMetadata.fromJson(Map<String, dynamic> json) =>
-      _$DatasetMetadataFromJson(json);
+
+  factory DatasetMetadata.fromJson(Map<String, dynamic> json) {
+    return DatasetMetadata(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      datasetType: json['DatasetType'] as String?,
+      status: (json['Status'] as String?)?.toDatasetStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final datasetType = this.datasetType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (datasetType != null) 'DatasetType': datasetType,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
 }
 
 /// Information about the location of a manifest file that Amazon Lookout for
 /// Vision uses to to create a dataset.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DatasetSource {
   /// Location information for the manifest file.
-  @_s.JsonKey(name: 'GroundTruthManifest')
-  final DatasetGroundTruthManifest groundTruthManifest;
+  final DatasetGroundTruthManifest? groundTruthManifest;
 
   DatasetSource({
     this.groundTruthManifest,
   });
-  Map<String, dynamic> toJson() => _$DatasetSourceToJson(this);
+
+  factory DatasetSource.fromJson(Map<String, dynamic> json) {
+    return DatasetSource(
+      groundTruthManifest: json['GroundTruthManifest'] != null
+          ? DatasetGroundTruthManifest.fromJson(
+              json['GroundTruthManifest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groundTruthManifest = this.groundTruthManifest;
+    return {
+      if (groundTruthManifest != null)
+        'GroundTruthManifest': groundTruthManifest,
+    };
+  }
 }
 
 enum DatasetStatus {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
-  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
-  @_s.JsonValue('UPDATE_COMPLETE')
   updateComplete,
-  @_s.JsonValue('UPDATE_FAILED_ROLLBACK_IN_PROGRESS')
   updateFailedRollbackInProgress,
-  @_s.JsonValue('UPDATE_FAILED_ROLLBACK_COMPLETE')
   updateFailedRollbackComplete,
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
-  @_s.JsonValue('DELETE_FAILED')
   deleteFailed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DeleteDatasetResponse {
-  DeleteDatasetResponse();
-  factory DeleteDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDatasetResponseFromJson(json);
+extension on DatasetStatus {
+  String toValue() {
+    switch (this) {
+      case DatasetStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case DatasetStatus.createComplete:
+        return 'CREATE_COMPLETE';
+      case DatasetStatus.createFailed:
+        return 'CREATE_FAILED';
+      case DatasetStatus.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case DatasetStatus.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case DatasetStatus.updateFailedRollbackInProgress:
+        return 'UPDATE_FAILED_ROLLBACK_IN_PROGRESS';
+      case DatasetStatus.updateFailedRollbackComplete:
+        return 'UPDATE_FAILED_ROLLBACK_COMPLETE';
+      case DatasetStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case DatasetStatus.deleteComplete:
+        return 'DELETE_COMPLETE';
+      case DatasetStatus.deleteFailed:
+        return 'DELETE_FAILED';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DatasetStatus toDatasetStatus() {
+    switch (this) {
+      case 'CREATE_IN_PROGRESS':
+        return DatasetStatus.createInProgress;
+      case 'CREATE_COMPLETE':
+        return DatasetStatus.createComplete;
+      case 'CREATE_FAILED':
+        return DatasetStatus.createFailed;
+      case 'UPDATE_IN_PROGRESS':
+        return DatasetStatus.updateInProgress;
+      case 'UPDATE_COMPLETE':
+        return DatasetStatus.updateComplete;
+      case 'UPDATE_FAILED_ROLLBACK_IN_PROGRESS':
+        return DatasetStatus.updateFailedRollbackInProgress;
+      case 'UPDATE_FAILED_ROLLBACK_COMPLETE':
+        return DatasetStatus.updateFailedRollbackComplete;
+      case 'DELETE_IN_PROGRESS':
+        return DatasetStatus.deleteInProgress;
+      case 'DELETE_COMPLETE':
+        return DatasetStatus.deleteComplete;
+      case 'DELETE_FAILED':
+        return DatasetStatus.deleteFailed;
+    }
+    throw Exception('$this is not known in enum DatasetStatus');
+  }
+}
+
+class DeleteDatasetResponse {
+  DeleteDatasetResponse();
+
+  factory DeleteDatasetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDatasetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteModelResponse {
   /// The Amazon Resource Name (ARN) of the model that was deleted.
-  @_s.JsonKey(name: 'ModelArn')
-  final String modelArn;
+  final String? modelArn;
 
   DeleteModelResponse({
     this.modelArn,
   });
-  factory DeleteModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteModelResponseFromJson(json);
+
+  factory DeleteModelResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteModelResponse(
+      modelArn: json['ModelArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelArn = this.modelArn;
+    return {
+      if (modelArn != null) 'ModelArn': modelArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProjectResponse {
   /// The Amazon Resource Name (ARN) of the project that was deleted.
-  @_s.JsonKey(name: 'ProjectArn')
-  final String projectArn;
+  final String? projectArn;
 
   DeleteProjectResponse({
     this.projectArn,
   });
-  factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProjectResponseFromJson(json);
+
+  factory DeleteProjectResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteProjectResponse(
+      projectArn: json['ProjectArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projectArn = this.projectArn;
+    return {
+      if (projectArn != null) 'ProjectArn': projectArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatasetResponse {
   /// The description of the requested dataset.
-  @_s.JsonKey(name: 'DatasetDescription')
-  final DatasetDescription datasetDescription;
+  final DatasetDescription? datasetDescription;
 
   DescribeDatasetResponse({
     this.datasetDescription,
   });
-  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatasetResponseFromJson(json);
+
+  factory DescribeDatasetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatasetResponse(
+      datasetDescription: json['DatasetDescription'] != null
+          ? DatasetDescription.fromJson(
+              json['DatasetDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetDescription = this.datasetDescription;
+    return {
+      if (datasetDescription != null) 'DatasetDescription': datasetDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeModelResponse {
   /// Contains the description of the model.
-  @_s.JsonKey(name: 'ModelDescription')
-  final ModelDescription modelDescription;
+  final ModelDescription? modelDescription;
 
   DescribeModelResponse({
     this.modelDescription,
   });
-  factory DescribeModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeModelResponseFromJson(json);
+
+  factory DescribeModelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeModelResponse(
+      modelDescription: json['ModelDescription'] != null
+          ? ModelDescription.fromJson(
+              json['ModelDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final modelDescription = this.modelDescription;
+    return {
+      if (modelDescription != null) 'ModelDescription': modelDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeProjectResponse {
   /// The description of the project.
-  @_s.JsonKey(name: 'ProjectDescription')
-  final ProjectDescription projectDescription;
+  final ProjectDescription? projectDescription;
 
   DescribeProjectResponse({
     this.projectDescription,
   });
-  factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeProjectResponseFromJson(json);
+
+  factory DescribeProjectResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeProjectResponse(
+      projectDescription: json['ProjectDescription'] != null
+          ? ProjectDescription.fromJson(
+              json['ProjectDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final projectDescription = this.projectDescription;
+    return {
+      if (projectDescription != null) 'ProjectDescription': projectDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectAnomaliesResponse {
   /// The results of the <code>DetectAnomalies</code> operation.
-  @_s.JsonKey(name: 'DetectAnomalyResult')
-  final DetectAnomalyResult detectAnomalyResult;
+  final DetectAnomalyResult? detectAnomalyResult;
 
   DetectAnomaliesResponse({
     this.detectAnomalyResult,
   });
-  factory DetectAnomaliesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DetectAnomaliesResponseFromJson(json);
+
+  factory DetectAnomaliesResponse.fromJson(Map<String, dynamic> json) {
+    return DetectAnomaliesResponse(
+      detectAnomalyResult: json['DetectAnomalyResult'] != null
+          ? DetectAnomalyResult.fromJson(
+              json['DetectAnomalyResult'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectAnomalyResult = this.detectAnomalyResult;
+    return {
+      if (detectAnomalyResult != null)
+        'DetectAnomalyResult': detectAnomalyResult,
+    };
+  }
 }
 
 /// The prediction results from a call to <a>DetectAnomalies</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DetectAnomalyResult {
   /// The confidence that Amazon Lookout for Vision has in the accuracy of the
   /// prediction.
-  @_s.JsonKey(name: 'Confidence')
-  final double confidence;
+  final double? confidence;
 
   /// True if the image contains an anomaly, otherwise false.
-  @_s.JsonKey(name: 'IsAnomalous')
-  final bool isAnomalous;
+  final bool? isAnomalous;
 
   /// The source of the image that was analyzed. <code>direct</code> means that
   /// the images was supplied from the local computer. No other values are
   /// supported.
-  @_s.JsonKey(name: 'Source')
-  final ImageSource source;
+  final ImageSource? source;
 
   DetectAnomalyResult({
     this.confidence,
     this.isAnomalous,
     this.source,
   });
-  factory DetectAnomalyResult.fromJson(Map<String, dynamic> json) =>
-      _$DetectAnomalyResultFromJson(json);
+
+  factory DetectAnomalyResult.fromJson(Map<String, dynamic> json) {
+    return DetectAnomalyResult(
+      confidence: json['Confidence'] as double?,
+      isAnomalous: json['IsAnomalous'] as bool?,
+      source: json['Source'] != null
+          ? ImageSource.fromJson(json['Source'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final confidence = this.confidence;
+    final isAnomalous = this.isAnomalous;
+    final source = this.source;
+    return {
+      if (confidence != null) 'Confidence': confidence,
+      if (isAnomalous != null) 'IsAnomalous': isAnomalous,
+      if (source != null) 'Source': source,
+    };
+  }
 }
 
 /// The source for an image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageSource {
   /// The type of the image.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   ImageSource({
     this.type,
   });
-  factory ImageSource.fromJson(Map<String, dynamic> json) =>
-      _$ImageSourceFromJson(json);
+
+  factory ImageSource.fromJson(Map<String, dynamic> json) {
+    return ImageSource(
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Amazon S3 Location information for an input manifest file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputS3Object {
   /// The Amazon S3 bucket that contains the manifest.
-  @_s.JsonKey(name: 'Bucket')
   final String bucket;
 
   /// The name and location of the manifest file withiin the bucket.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The version ID of the bucket.
-  @_s.JsonKey(name: 'VersionId')
-  final String versionId;
+  final String? versionId;
 
   InputS3Object({
-    @_s.required this.bucket,
-    @_s.required this.key,
+    required this.bucket,
+    required this.key,
     this.versionId,
   });
-  Map<String, dynamic> toJson() => _$InputS3ObjectToJson(this);
+
+  factory InputS3Object.fromJson(Map<String, dynamic> json) {
+    return InputS3Object(
+      bucket: json['Bucket'] as String,
+      key: json['Key'] as String,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    final versionId = this.versionId;
+    return {
+      'Bucket': bucket,
+      'Key': key,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatasetEntriesResponse {
   /// A list of the entries (JSON Lines) within the dataset.
-  @_s.JsonKey(name: 'DatasetEntries')
-  final List<String> datasetEntries;
+  final List<String>? datasetEntries;
 
   /// If the response is truncated, Amazon Lookout for Vision returns this token
   /// that you can use in the subsequent request to retrieve the next set
   /// ofdataset entries.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatasetEntriesResponse({
     this.datasetEntries,
     this.nextToken,
   });
-  factory ListDatasetEntriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatasetEntriesResponseFromJson(json);
+
+  factory ListDatasetEntriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatasetEntriesResponse(
+      datasetEntries: (json['DatasetEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final datasetEntries = this.datasetEntries;
+    final nextToken = this.nextToken;
+    return {
+      if (datasetEntries != null) 'DatasetEntries': datasetEntries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListModelsResponse {
   /// A list of model versions in the specified project.
-  @_s.JsonKey(name: 'Models')
-  final List<ModelMetadata> models;
+  final List<ModelMetadata>? models;
 
   /// If the response is truncated, Amazon Lookout for Vision returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// models.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListModelsResponse({
     this.models,
     this.nextToken,
   });
-  factory ListModelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListModelsResponseFromJson(json);
+
+  factory ListModelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListModelsResponse(
+      models: (json['Models'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModelMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final models = this.models;
+    final nextToken = this.nextToken;
+    return {
+      if (models != null) 'Models': models,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProjectsResponse {
   /// If the response is truncated, Amazon Lookout for Vision returns this token
   /// that you can use in the subsequent request to retrieve the next set of
   /// projects.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of projects in your AWS account.
-  @_s.JsonKey(name: 'Projects')
-  final List<ProjectMetadata> projects;
+  final List<ProjectMetadata>? projects;
 
   ListProjectsResponse({
     this.nextToken,
     this.projects,
   });
-  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListProjectsResponseFromJson(json);
+
+  factory ListProjectsResponse.fromJson(Map<String, dynamic> json) {
+    return ListProjectsResponse(
+      nextToken: json['NextToken'] as String?,
+      projects: (json['Projects'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProjectMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final projects = this.projects;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (projects != null) 'Projects': projects,
+    };
+  }
+}
+
+class ListTagsForResourceResponse {
+  /// A map of tag keys and values attached to the specified model.
+  final List<Tag>? tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Describes an Amazon Lookout for Vision model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ModelDescription {
   /// The unix timestamp for the date and time that the model was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The description for the model.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The unix timestamp for the date and time that the evaluation ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EvaluationEndTimestamp')
-  final DateTime evaluationEndTimestamp;
+  final DateTime? evaluationEndTimestamp;
 
   /// The S3 location where Amazon Lookout for Vision saves the manifest file that
   /// was used to test the trained model and generate the performance scores.
-  @_s.JsonKey(name: 'EvaluationManifest')
-  final OutputS3Object evaluationManifest;
+  final OutputS3Object? evaluationManifest;
 
   /// The S3 location where Amazon Lookout for Vision saves the performance
   /// metrics.
-  @_s.JsonKey(name: 'EvaluationResult')
-  final OutputS3Object evaluationResult;
+  final OutputS3Object? evaluationResult;
 
   /// The identifer for the AWS Key Management Service (AWS KMS) key that was used
   /// to encrypt the model during training.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The Amazon Resource Name (ARN) of the model.
-  @_s.JsonKey(name: 'ModelArn')
-  final String modelArn;
+  final String? modelArn;
 
   /// The version of the model
-  @_s.JsonKey(name: 'ModelVersion')
-  final String modelVersion;
+  final String? modelVersion;
 
   /// The S3 location where Amazon Lookout for Vision saves model training files.
-  @_s.JsonKey(name: 'OutputConfig')
-  final OutputConfig outputConfig;
+  final OutputConfig? outputConfig;
 
   /// Performance metrics for the model. Created during training.
-  @_s.JsonKey(name: 'Performance')
-  final ModelPerformance performance;
+  final ModelPerformance? performance;
 
   /// The status of the model.
-  @_s.JsonKey(name: 'Status')
-  final ModelStatus status;
+  final ModelStatus? status;
 
   /// The status message for the model.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   ModelDescription({
     this.creationTimestamp,
@@ -1995,58 +2193,133 @@ class ModelDescription {
     this.status,
     this.statusMessage,
   });
-  factory ModelDescription.fromJson(Map<String, dynamic> json) =>
-      _$ModelDescriptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ModelDescriptionToJson(this);
+  factory ModelDescription.fromJson(Map<String, dynamic> json) {
+    return ModelDescription(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      description: json['Description'] as String?,
+      evaluationEndTimestamp: timeStampFromJson(json['EvaluationEndTimestamp']),
+      evaluationManifest: json['EvaluationManifest'] != null
+          ? OutputS3Object.fromJson(
+              json['EvaluationManifest'] as Map<String, dynamic>)
+          : null,
+      evaluationResult: json['EvaluationResult'] != null
+          ? OutputS3Object.fromJson(
+              json['EvaluationResult'] as Map<String, dynamic>)
+          : null,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      modelArn: json['ModelArn'] as String?,
+      modelVersion: json['ModelVersion'] as String?,
+      outputConfig: json['OutputConfig'] != null
+          ? OutputConfig.fromJson(json['OutputConfig'] as Map<String, dynamic>)
+          : null,
+      performance: json['Performance'] != null
+          ? ModelPerformance.fromJson(
+              json['Performance'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toModelStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final description = this.description;
+    final evaluationEndTimestamp = this.evaluationEndTimestamp;
+    final evaluationManifest = this.evaluationManifest;
+    final evaluationResult = this.evaluationResult;
+    final kmsKeyId = this.kmsKeyId;
+    final modelArn = this.modelArn;
+    final modelVersion = this.modelVersion;
+    final outputConfig = this.outputConfig;
+    final performance = this.performance;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (description != null) 'Description': description,
+      if (evaluationEndTimestamp != null)
+        'EvaluationEndTimestamp': unixTimestampToJson(evaluationEndTimestamp),
+      if (evaluationManifest != null) 'EvaluationManifest': evaluationManifest,
+      if (evaluationResult != null) 'EvaluationResult': evaluationResult,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (outputConfig != null) 'OutputConfig': outputConfig,
+      if (performance != null) 'Performance': performance,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
 }
 
 enum ModelHostingStatus {
-  @_s.JsonValue('RUNNING')
-  running,
-  @_s.JsonValue('STARTING')
-  starting,
-  @_s.JsonValue('STOPPED')
-  stopped,
-  @_s.JsonValue('FAILED')
-  failed,
+  startingHosting,
+  hosted,
+  hostingFailed,
+  stoppingHosting,
+  systemUpdating,
+}
+
+extension on ModelHostingStatus {
+  String toValue() {
+    switch (this) {
+      case ModelHostingStatus.startingHosting:
+        return 'STARTING_HOSTING';
+      case ModelHostingStatus.hosted:
+        return 'HOSTED';
+      case ModelHostingStatus.hostingFailed:
+        return 'HOSTING_FAILED';
+      case ModelHostingStatus.stoppingHosting:
+        return 'STOPPING_HOSTING';
+      case ModelHostingStatus.systemUpdating:
+        return 'SYSTEM_UPDATING';
+    }
+  }
+}
+
+extension on String {
+  ModelHostingStatus toModelHostingStatus() {
+    switch (this) {
+      case 'STARTING_HOSTING':
+        return ModelHostingStatus.startingHosting;
+      case 'HOSTED':
+        return ModelHostingStatus.hosted;
+      case 'HOSTING_FAILED':
+        return ModelHostingStatus.hostingFailed;
+      case 'STOPPING_HOSTING':
+        return ModelHostingStatus.stoppingHosting;
+      case 'SYSTEM_UPDATING':
+        return ModelHostingStatus.systemUpdating;
+    }
+    throw Exception('$this is not known in enum ModelHostingStatus');
+  }
 }
 
 /// Describes an Amazon Lookout for Vision model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModelMetadata {
   /// The unix timestamp for the date and time that the model was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The description for the model.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the model.
-  @_s.JsonKey(name: 'ModelArn')
-  final String modelArn;
+  final String? modelArn;
 
   /// The version of the model.
-  @_s.JsonKey(name: 'ModelVersion')
-  final String modelVersion;
+  final String? modelVersion;
 
-  /// Performance metrics for the model. Created during training.
-  @_s.JsonKey(name: 'Performance')
-  final ModelPerformance performance;
+  /// Performance metrics for the model. Not available until training has
+  /// successfully completed.
+  final ModelPerformance? performance;
 
   /// The status of the model.
-  @_s.JsonKey(name: 'Status')
-  final ModelStatus status;
+  final ModelStatus? status;
 
   /// The status message for the model.
-  @_s.JsonKey(name: 'StatusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   ModelMetadata({
     this.creationTimestamp,
@@ -2057,130 +2330,211 @@ class ModelMetadata {
     this.status,
     this.statusMessage,
   });
-  factory ModelMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ModelMetadataFromJson(json);
+
+  factory ModelMetadata.fromJson(Map<String, dynamic> json) {
+    return ModelMetadata(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      description: json['Description'] as String?,
+      modelArn: json['ModelArn'] as String?,
+      modelVersion: json['ModelVersion'] as String?,
+      performance: json['Performance'] != null
+          ? ModelPerformance.fromJson(
+              json['Performance'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toModelStatus(),
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final description = this.description;
+    final modelArn = this.modelArn;
+    final modelVersion = this.modelVersion;
+    final performance = this.performance;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (description != null) 'Description': description,
+      if (modelArn != null) 'ModelArn': modelArn,
+      if (modelVersion != null) 'ModelVersion': modelVersion,
+      if (performance != null) 'Performance': performance,
+      if (status != null) 'Status': status.toValue(),
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
 }
 
 /// Information about the evaluation performance of a trained model.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ModelPerformance {
   /// The overall F1 score metric for the trained model.
-  @_s.JsonKey(name: 'F1Score')
-  final double f1Score;
+  final double? f1Score;
 
   /// The overall precision metric value for the trained model.
-  @_s.JsonKey(name: 'Precision')
-  final double precision;
+  final double? precision;
 
   /// The overall recall metric value for the trained model.
-  @_s.JsonKey(name: 'Recall')
-  final double recall;
+  final double? recall;
 
   ModelPerformance({
     this.f1Score,
     this.precision,
     this.recall,
   });
-  factory ModelPerformance.fromJson(Map<String, dynamic> json) =>
-      _$ModelPerformanceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ModelPerformanceToJson(this);
+  factory ModelPerformance.fromJson(Map<String, dynamic> json) {
+    return ModelPerformance(
+      f1Score: json['F1Score'] as double?,
+      precision: json['Precision'] as double?,
+      recall: json['Recall'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final f1Score = this.f1Score;
+    final precision = this.precision;
+    final recall = this.recall;
+    return {
+      if (f1Score != null) 'F1Score': f1Score,
+      if (precision != null) 'Precision': precision,
+      if (recall != null) 'Recall': recall,
+    };
+  }
 }
 
 enum ModelStatus {
-  @_s.JsonValue('TRAINING')
   training,
-  @_s.JsonValue('TRAINED')
   trained,
-  @_s.JsonValue('TRAINING_FAILED')
   trainingFailed,
-  @_s.JsonValue('STARTING_HOSTING')
   startingHosting,
-  @_s.JsonValue('HOSTED')
   hosted,
-  @_s.JsonValue('HOSTING_FAILED')
   hostingFailed,
-  @_s.JsonValue('STOPPING_HOSTING')
   stoppingHosting,
-  @_s.JsonValue('SYSTEM_UPDATING')
   systemUpdating,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on ModelStatus {
+  String toValue() {
+    switch (this) {
+      case ModelStatus.training:
+        return 'TRAINING';
+      case ModelStatus.trained:
+        return 'TRAINED';
+      case ModelStatus.trainingFailed:
+        return 'TRAINING_FAILED';
+      case ModelStatus.startingHosting:
+        return 'STARTING_HOSTING';
+      case ModelStatus.hosted:
+        return 'HOSTED';
+      case ModelStatus.hostingFailed:
+        return 'HOSTING_FAILED';
+      case ModelStatus.stoppingHosting:
+        return 'STOPPING_HOSTING';
+      case ModelStatus.systemUpdating:
+        return 'SYSTEM_UPDATING';
+      case ModelStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ModelStatus toModelStatus() {
+    switch (this) {
+      case 'TRAINING':
+        return ModelStatus.training;
+      case 'TRAINED':
+        return ModelStatus.trained;
+      case 'TRAINING_FAILED':
+        return ModelStatus.trainingFailed;
+      case 'STARTING_HOSTING':
+        return ModelStatus.startingHosting;
+      case 'HOSTED':
+        return ModelStatus.hosted;
+      case 'HOSTING_FAILED':
+        return ModelStatus.hostingFailed;
+      case 'STOPPING_HOSTING':
+        return ModelStatus.stoppingHosting;
+      case 'SYSTEM_UPDATING':
+        return ModelStatus.systemUpdating;
+      case 'DELETING':
+        return ModelStatus.deleting;
+    }
+    throw Exception('$this is not known in enum ModelStatus');
+  }
+}
+
 /// The S3 location where Amazon Lookout for Vision saves model training files.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputConfig {
   /// The S3 location for the output.
-  @_s.JsonKey(name: 'S3Location')
   final S3Location s3Location;
 
   OutputConfig({
-    @_s.required this.s3Location,
+    required this.s3Location,
   });
-  factory OutputConfig.fromJson(Map<String, dynamic> json) =>
-      _$OutputConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OutputConfigToJson(this);
+  factory OutputConfig.fromJson(Map<String, dynamic> json) {
+    return OutputConfig(
+      s3Location:
+          S3Location.fromJson(json['S3Location'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Location = this.s3Location;
+    return {
+      'S3Location': s3Location,
+    };
+  }
 }
 
 /// The S3 location where Amazon Lookout for Vision saves training output.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputS3Object {
   /// The bucket that contains the training output.
-  @_s.JsonKey(name: 'Bucket')
   final String bucket;
 
   /// The location of the training output in the bucket.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   OutputS3Object({
-    @_s.required this.bucket,
-    @_s.required this.key,
+    required this.bucket,
+    required this.key,
   });
-  factory OutputS3Object.fromJson(Map<String, dynamic> json) =>
-      _$OutputS3ObjectFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OutputS3ObjectToJson(this);
+  factory OutputS3Object.fromJson(Map<String, dynamic> json) {
+    return OutputS3Object(
+      bucket: json['Bucket'] as String,
+      key: json['Key'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final key = this.key;
+    return {
+      'Bucket': bucket,
+      'Key': key,
+    };
+  }
 }
 
 /// Describe an Amazon Lookout for Vision project. For more information, see
 /// <a>DescribeProject</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectDescription {
   /// The unix timestamp for the date and time that the project was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// A list of datasets in the project.
-  @_s.JsonKey(name: 'Datasets')
-  final List<DatasetMetadata> datasets;
+  final List<DatasetMetadata>? datasets;
 
   /// The Amazon Resource Name (ARN) of the project.
-  @_s.JsonKey(name: 'ProjectArn')
-  final String projectArn;
+  final String? projectArn;
 
   /// The name of the project.
-  @_s.JsonKey(name: 'ProjectName')
-  final String projectName;
+  final String? projectName;
 
   ProjectDescription({
     this.creationTimestamp,
@@ -2188,137 +2542,246 @@ class ProjectDescription {
     this.projectArn,
     this.projectName,
   });
-  factory ProjectDescription.fromJson(Map<String, dynamic> json) =>
-      _$ProjectDescriptionFromJson(json);
+
+  factory ProjectDescription.fromJson(Map<String, dynamic> json) {
+    return ProjectDescription(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      datasets: (json['Datasets'] as List?)
+          ?.whereNotNull()
+          .map((e) => DatasetMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      projectArn: json['ProjectArn'] as String?,
+      projectName: json['ProjectName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final datasets = this.datasets;
+    final projectArn = this.projectArn;
+    final projectName = this.projectName;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (datasets != null) 'Datasets': datasets,
+      if (projectArn != null) 'ProjectArn': projectArn,
+      if (projectName != null) 'ProjectName': projectName,
+    };
+  }
 }
 
 /// Metadata about an Amazon Lookout for Vision project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProjectMetadata {
   /// The unix timestamp for the date and time that the project was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final DateTime creationTimestamp;
+  final DateTime? creationTimestamp;
 
   /// The Amazon Resource Name (ARN) of the project.
-  @_s.JsonKey(name: 'ProjectArn')
-  final String projectArn;
+  final String? projectArn;
 
   /// The name of the project.
-  @_s.JsonKey(name: 'ProjectName')
-  final String projectName;
+  final String? projectName;
 
   ProjectMetadata({
     this.creationTimestamp,
     this.projectArn,
     this.projectName,
   });
-  factory ProjectMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ProjectMetadataFromJson(json);
+
+  factory ProjectMetadata.fromJson(Map<String, dynamic> json) {
+    return ProjectMetadata(
+      creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+      projectArn: json['ProjectArn'] as String?,
+      projectName: json['ProjectName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTimestamp = this.creationTimestamp;
+    final projectArn = this.projectArn;
+    final projectName = this.projectName;
+    return {
+      if (creationTimestamp != null)
+        'CreationTimestamp': unixTimestampToJson(creationTimestamp),
+      if (projectArn != null) 'ProjectArn': projectArn,
+      if (projectName != null) 'ProjectName': projectName,
+    };
+  }
 }
 
-/// Information about the location of a manifest file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// Information about the location training output.
 class S3Location {
-  /// The S3 bucket that contain the manifest file.
-  @_s.JsonKey(name: 'Bucket')
+  /// The S3 bucket that contains the training output.
   final String bucket;
 
-  /// The path and name of the manifest file with the S3 bucket.
-  @_s.JsonKey(name: 'Prefix')
-  final String prefix;
+  /// The path of the folder, within the S3 bucket, that contains the training
+  /// output.
+  final String? prefix;
 
   S3Location({
-    @_s.required this.bucket,
+    required this.bucket,
     this.prefix,
   });
-  factory S3Location.fromJson(Map<String, dynamic> json) =>
-      _$S3LocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: json['Bucket'] as String,
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartModelResponse {
   /// The current running status of the model.
-  @_s.JsonKey(name: 'Status')
-  final ModelHostingStatus status;
+  final ModelHostingStatus? status;
 
   StartModelResponse({
     this.status,
   });
-  factory StartModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartModelResponseFromJson(json);
+
+  factory StartModelResponse.fromJson(Map<String, dynamic> json) {
+    return StartModelResponse(
+      status: (json['Status'] as String?)?.toModelHostingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopModelResponse {
   /// The status of the model.
-  @_s.JsonKey(name: 'Status')
-  final ModelHostingStatus status;
+  final ModelHostingStatus? status;
 
   StopModelResponse({
     this.status,
   });
-  factory StopModelResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopModelResponseFromJson(json);
+
+  factory StopModelResponse.fromJson(Map<String, dynamic> json) {
+    return StopModelResponse(
+      status: (json['Status'] as String?)?.toModelHostingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// A key and value pair that is attached to the specified Amazon Lookout for
+/// Vision model.
+class Tag {
+  /// The key of the tag that is attached to the specified model.
+  final String key;
+
+  /// The value of the tag that is attached to the specified model.
+  final String value;
+
+  Tag({
+    required this.key,
+    required this.value,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class TagResourceResponse {
+  TagResourceResponse();
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateDatasetEntriesResponse {
   /// The status of the dataset update.
-  @_s.JsonKey(name: 'Status')
-  final DatasetStatus status;
+  final DatasetStatus? status;
 
   UpdateDatasetEntriesResponse({
     this.status,
   });
-  factory UpdateDatasetEntriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDatasetEntriesResponseFromJson(json);
+
+  factory UpdateDatasetEntriesResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDatasetEntriesResponse(
+      status: (json['Status'] as String?)?.toDatasetStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -2326,12 +2789,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

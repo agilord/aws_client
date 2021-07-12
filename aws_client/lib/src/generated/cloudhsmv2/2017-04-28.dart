@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-04-28.g.dart';
 
 /// For more information about AWS CloudHSM, see <a
 /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a> and the <a
@@ -33,10 +26,10 @@ part '2017-04-28.g.dart';
 class CloudHsmV2 {
   final _s.JsonProtocol _protocol;
   CloudHsmV2({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -69,24 +62,12 @@ class CloudHsmV2 {
   /// not specify tags, the service copies tags from the source backup to the
   /// destination backup.
   Future<CopyBackupToRegionResponse> copyBackupToRegion({
-    @_s.required String backupId,
-    @_s.required String destinationRegion,
-    List<Tag> tagList,
+    required String backupId,
+    required String destinationRegion,
+    List<Tag>? tagList,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
-    _s.validateStringPattern(
-      'destinationRegion',
-      destinationRegion,
-      r'''[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CopyBackupToRegion'
@@ -145,25 +126,14 @@ class CloudHsmV2 {
   /// Parameter [tagList] :
   /// Tags to apply to the CloudHSM cluster during creation.
   Future<CreateClusterResponse> createCluster({
-    @_s.required String hsmType,
-    @_s.required List<String> subnetIds,
-    BackupRetentionPolicy backupRetentionPolicy,
-    String sourceBackupId,
-    List<Tag> tagList,
+    required String hsmType,
+    required List<String> subnetIds,
+    BackupRetentionPolicy? backupRetentionPolicy,
+    String? sourceBackupId,
+    List<Tag>? tagList,
   }) async {
     ArgumentError.checkNotNull(hsmType, 'hsmType');
-    _s.validateStringPattern(
-      'hsmType',
-      hsmType,
-      r'''(hsm1\.medium)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
-    _s.validateStringPattern(
-      'sourceBackupId',
-      sourceBackupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CreateCluster'
@@ -210,29 +180,12 @@ class CloudHsmV2 {
   /// creating the HSM. If you don't specify an IP address, one is chosen for
   /// you from that subnet.
   Future<CreateHsmResponse> createHsm({
-    @_s.required String availabilityZone,
-    @_s.required String clusterId,
-    String ipAddress,
+    required String availabilityZone,
+    required String clusterId,
+    String? ipAddress,
   }) async {
     ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
-    _s.validateStringPattern(
-      'availabilityZone',
-      availabilityZone,
-      r'''[a-z]{2}(-(gov))?-(east|west|north|south|central){1,2}-\d[a-z]''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'ipAddress',
-      ipAddress,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.CreateHsm'
@@ -267,15 +220,9 @@ class CloudHsmV2 {
   /// The ID of the backup to be deleted. To find the ID of a backup, use the
   /// <a>DescribeBackups</a> operation.
   Future<DeleteBackupResponse> deleteBackup({
-    @_s.required String backupId,
+    required String backupId,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DeleteBackup'
@@ -310,15 +257,9 @@ class CloudHsmV2 {
   /// The identifier (ID) of the cluster that you are deleting. To find the
   /// cluster ID, use <a>DescribeClusters</a>.
   Future<DeleteClusterResponse> deleteCluster({
-    @_s.required String clusterId,
+    required String clusterId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DeleteCluster'
@@ -363,33 +304,12 @@ class CloudHsmV2 {
   /// Parameter [hsmId] :
   /// The identifier (ID) of the HSM that you are deleting.
   Future<DeleteHsmResponse> deleteHsm({
-    @_s.required String clusterId,
-    String eniId,
-    String eniIp,
-    String hsmId,
+    required String clusterId,
+    String? eniId,
+    String? eniIp,
+    String? hsmId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eniId',
-      eniId,
-      r'''eni-[0-9a-fA-F]{8,17}''',
-    );
-    _s.validateStringPattern(
-      'eniIp',
-      eniIp,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
-    _s.validateStringPattern(
-      'hsmId',
-      hsmId,
-      r'''hsm-[2-7a-zA-Z]{11,16}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.DeleteHsm'
@@ -462,10 +382,10 @@ class CloudHsmV2 {
   /// Designates whether or not to sort the return backups by ascending
   /// chronological order of generation.
   Future<DescribeBackupsResponse> describeBackups({
-    Map<String, List<String>> filters,
-    int maxResults,
-    String nextToken,
-    bool sortAscending,
+    Map<String, List<String>>? filters,
+    int? maxResults,
+    String? nextToken,
+    bool? sortAscending,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -478,11 +398,6 @@ class CloudHsmV2 {
       nextToken,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -542,9 +457,9 @@ class CloudHsmV2 {
   /// The <code>NextToken</code> value that you received in the previous
   /// response. Use this value to get more clusters.
   Future<DescribeClustersResponse> describeClusters({
-    Map<String, List<String>> filters,
-    int maxResults,
-    String nextToken,
+    Map<String, List<String>>? filters,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -557,11 +472,6 @@ class CloudHsmV2 {
       nextToken,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -611,17 +521,11 @@ class CloudHsmV2 {
   /// available, and thus must be the root certificate. The certificate must be
   /// in PEM format and can contain a maximum of 5000 characters.
   Future<InitializeClusterResponse> initializeCluster({
-    @_s.required String clusterId,
-    @_s.required String signedCert,
-    @_s.required String trustAnchor,
+    required String clusterId,
+    required String signedCert,
+    required String trustAnchor,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(signedCert, 'signedCert');
     _s.validateStringLength(
       'signedCert',
@@ -630,24 +534,12 @@ class CloudHsmV2 {
       5000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'signedCert',
-      signedCert,
-      r'''[a-zA-Z0-9+-/=\s]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(trustAnchor, 'trustAnchor');
     _s.validateStringLength(
       'trustAnchor',
       trustAnchor,
       0,
       5000,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'trustAnchor',
-      trustAnchor,
-      r'''[a-zA-Z0-9+-/=\s]*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -699,17 +591,11 @@ class CloudHsmV2 {
   /// The <code>NextToken</code> value that you received in the previous
   /// response. Use this value to get more tags.
   Future<ListTagsResponse> listTags({
-    @_s.required String resourceId,
-    int maxResults,
-    String nextToken,
+    required String resourceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -721,11 +607,6 @@ class CloudHsmV2 {
       nextToken,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -765,16 +646,10 @@ class CloudHsmV2 {
   /// retention policy. <code>False</code> means the service applies the backup
   /// retention policy defined at the cluster.
   Future<ModifyBackupAttributesResponse> modifyBackupAttributes({
-    @_s.required String backupId,
-    @_s.required bool neverExpires,
+    required String backupId,
+    required bool neverExpires,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(neverExpires, 'neverExpires');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -810,17 +685,11 @@ class CloudHsmV2 {
   /// The identifier (ID) of the cluster that you want to modify. To find the
   /// cluster ID, use <a>DescribeClusters</a>.
   Future<ModifyClusterResponse> modifyCluster({
-    @_s.required BackupRetentionPolicy backupRetentionPolicy,
-    @_s.required String clusterId,
+    required BackupRetentionPolicy backupRetentionPolicy,
+    required String clusterId,
   }) async {
     ArgumentError.checkNotNull(backupRetentionPolicy, 'backupRetentionPolicy');
     ArgumentError.checkNotNull(clusterId, 'clusterId');
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''cluster-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.ModifyCluster'
@@ -854,15 +723,9 @@ class CloudHsmV2 {
   /// The ID of the backup to be restored. To find the ID of a backup, use the
   /// <a>DescribeBackups</a> operation.
   Future<RestoreBackupResponse> restoreBackup({
-    @_s.required String backupId,
+    required String backupId,
   }) async {
     ArgumentError.checkNotNull(backupId, 'backupId');
-    _s.validateStringPattern(
-      'backupId',
-      backupId,
-      r'''backup-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.RestoreBackup'
@@ -898,22 +761,16 @@ class CloudHsmV2 {
   /// Parameter [tagList] :
   /// A list of one or more tags.
   Future<void> tagResource({
-    @_s.required String resourceId,
-    @_s.required List<Tag> tagList,
+    required String resourceId,
+    required List<Tag> tagList,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -924,8 +781,6 @@ class CloudHsmV2 {
         'TagList': tagList,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the specified tag or tags from the specified AWS CloudHSM cluster.
@@ -945,22 +800,16 @@ class CloudHsmV2 {
   /// A list of one or more tag keys for the tags that you are removing. Specify
   /// only the tag keys, not the tag values.
   Future<void> untagResource({
-    @_s.required String resourceId,
-    @_s.required List<String> tagKeyList,
+    required String resourceId,
+    required List<String> tagKeyList,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''(?:cluster|backup)-[2-7a-zA-Z]{11,16}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'BaldrApiService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -971,8 +820,6 @@ class CloudHsmV2 {
         'TagKeyList': tagKeyList,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -984,67 +831,48 @@ class CloudHsmV2 {
 /// <code>SourceCluster</code>, and <code>SourceRegion</code> parameters. A
 /// backup that is pending deletion will include the
 /// <code>DeleteTimestamp</code> parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Backup {
   /// The identifier (ID) of the backup.
-  @_s.JsonKey(name: 'BackupId')
   final String backupId;
 
   /// The state of the backup.
-  @_s.JsonKey(name: 'BackupState')
-  final BackupState backupState;
+  final BackupState? backupState;
 
   /// The identifier (ID) of the cluster that was backed up.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// The date and time when the backup was copied from a source backup.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CopyTimestamp')
-  final DateTime copyTimestamp;
+  final DateTime? copyTimestamp;
 
   /// The date and time when the backup was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTimestamp')
-  final DateTime createTimestamp;
+  final DateTime? createTimestamp;
 
   /// The date and time when the backup will be permanently deleted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeleteTimestamp')
-  final DateTime deleteTimestamp;
+  final DateTime? deleteTimestamp;
 
   /// Specifies whether the service should exempt a backup from the retention
   /// policy for the cluster. <code>True</code> exempts a backup from the
   /// retention policy. <code>False</code> means the service applies the backup
   /// retention policy defined at the cluster.
-  @_s.JsonKey(name: 'NeverExpires')
-  final bool neverExpires;
+  final bool? neverExpires;
 
   /// The identifier (ID) of the source backup from which the new backup was
   /// copied.
-  @_s.JsonKey(name: 'SourceBackup')
-  final String sourceBackup;
+  final String? sourceBackup;
 
   /// The identifier (ID) of the cluster containing the source backup from which
   /// the new backup was copied.
-  @_s.JsonKey(name: 'SourceCluster')
-  final String sourceCluster;
+  final String? sourceCluster;
 
   /// The AWS Region that contains the source backup from which the new backup was
   /// copied.
-  @_s.JsonKey(name: 'SourceRegion')
-  final String sourceRegion;
+  final String? sourceRegion;
 
   /// The list of tags for the backup.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   Backup({
-    @_s.required this.backupId,
+    required this.backupId,
     this.backupState,
     this.clusterId,
     this.copyTimestamp,
@@ -1056,84 +884,190 @@ class Backup {
     this.sourceRegion,
     this.tagList,
   });
-  factory Backup.fromJson(Map<String, dynamic> json) => _$BackupFromJson(json);
+
+  factory Backup.fromJson(Map<String, dynamic> json) {
+    return Backup(
+      backupId: json['BackupId'] as String,
+      backupState: (json['BackupState'] as String?)?.toBackupState(),
+      clusterId: json['ClusterId'] as String?,
+      copyTimestamp: timeStampFromJson(json['CopyTimestamp']),
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      deleteTimestamp: timeStampFromJson(json['DeleteTimestamp']),
+      neverExpires: json['NeverExpires'] as bool?,
+      sourceBackup: json['SourceBackup'] as String?,
+      sourceCluster: json['SourceCluster'] as String?,
+      sourceRegion: json['SourceRegion'] as String?,
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupId = this.backupId;
+    final backupState = this.backupState;
+    final clusterId = this.clusterId;
+    final copyTimestamp = this.copyTimestamp;
+    final createTimestamp = this.createTimestamp;
+    final deleteTimestamp = this.deleteTimestamp;
+    final neverExpires = this.neverExpires;
+    final sourceBackup = this.sourceBackup;
+    final sourceCluster = this.sourceCluster;
+    final sourceRegion = this.sourceRegion;
+    final tagList = this.tagList;
+    return {
+      'BackupId': backupId,
+      if (backupState != null) 'BackupState': backupState.toValue(),
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (copyTimestamp != null)
+        'CopyTimestamp': unixTimestampToJson(copyTimestamp),
+      if (createTimestamp != null)
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
+      if (deleteTimestamp != null)
+        'DeleteTimestamp': unixTimestampToJson(deleteTimestamp),
+      if (neverExpires != null) 'NeverExpires': neverExpires,
+      if (sourceBackup != null) 'SourceBackup': sourceBackup,
+      if (sourceCluster != null) 'SourceCluster': sourceCluster,
+      if (sourceRegion != null) 'SourceRegion': sourceRegion,
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
 }
 
 enum BackupPolicy {
-  @_s.JsonValue('DEFAULT')
   $default,
 }
 
+extension on BackupPolicy {
+  String toValue() {
+    switch (this) {
+      case BackupPolicy.$default:
+        return 'DEFAULT';
+    }
+  }
+}
+
+extension on String {
+  BackupPolicy toBackupPolicy() {
+    switch (this) {
+      case 'DEFAULT':
+        return BackupPolicy.$default;
+    }
+    throw Exception('$this is not known in enum BackupPolicy');
+  }
+}
+
 /// A policy that defines the number of days to retain backups.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackupRetentionPolicy {
   /// The type of backup retention policy. For the <code>DAYS</code> type, the
   /// value is the number of days to retain backups.
-  @_s.JsonKey(name: 'Type')
-  final BackupRetentionType type;
+  final BackupRetentionType? type;
 
   /// Use a value between 7 - 379.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   BackupRetentionPolicy({
     this.type,
     this.value,
   });
-  factory BackupRetentionPolicy.fromJson(Map<String, dynamic> json) =>
-      _$BackupRetentionPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BackupRetentionPolicyToJson(this);
+  factory BackupRetentionPolicy.fromJson(Map<String, dynamic> json) {
+    return BackupRetentionPolicy(
+      type: (json['Type'] as String?)?.toBackupRetentionType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum BackupRetentionType {
-  @_s.JsonValue('DAYS')
   days,
 }
 
+extension on BackupRetentionType {
+  String toValue() {
+    switch (this) {
+      case BackupRetentionType.days:
+        return 'DAYS';
+    }
+  }
+}
+
+extension on String {
+  BackupRetentionType toBackupRetentionType() {
+    switch (this) {
+      case 'DAYS':
+        return BackupRetentionType.days;
+    }
+    throw Exception('$this is not known in enum BackupRetentionType');
+  }
+}
+
 enum BackupState {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('PENDING_DELETION')
   pendingDeletion,
 }
 
+extension on BackupState {
+  String toValue() {
+    switch (this) {
+      case BackupState.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case BackupState.ready:
+        return 'READY';
+      case BackupState.deleted:
+        return 'DELETED';
+      case BackupState.pendingDeletion:
+        return 'PENDING_DELETION';
+    }
+  }
+}
+
+extension on String {
+  BackupState toBackupState() {
+    switch (this) {
+      case 'CREATE_IN_PROGRESS':
+        return BackupState.createInProgress;
+      case 'READY':
+        return BackupState.ready;
+      case 'DELETED':
+        return BackupState.deleted;
+      case 'PENDING_DELETION':
+        return BackupState.pendingDeletion;
+    }
+    throw Exception('$this is not known in enum BackupState');
+  }
+}
+
 /// Contains one or more certificates or a certificate signing request (CSR).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Certificates {
   /// The HSM hardware certificate issued (signed) by AWS CloudHSM.
-  @_s.JsonKey(name: 'AwsHardwareCertificate')
-  final String awsHardwareCertificate;
+  final String? awsHardwareCertificate;
 
   /// The cluster certificate issued (signed) by the issuing certificate authority
   /// (CA) of the cluster's owner.
-  @_s.JsonKey(name: 'ClusterCertificate')
-  final String clusterCertificate;
+  final String? clusterCertificate;
 
   /// The cluster's certificate signing request (CSR). The CSR exists only when
   /// the cluster's state is <code>UNINITIALIZED</code>.
-  @_s.JsonKey(name: 'ClusterCsr')
-  final String clusterCsr;
+  final String? clusterCsr;
 
   /// The HSM certificate issued (signed) by the HSM hardware.
-  @_s.JsonKey(name: 'HsmCertificate')
-  final String hsmCertificate;
+  final String? hsmCertificate;
 
   /// The HSM hardware certificate issued (signed) by the hardware manufacturer.
-  @_s.JsonKey(name: 'ManufacturerHardwareCertificate')
-  final String manufacturerHardwareCertificate;
+  final String? manufacturerHardwareCertificate;
 
   Certificates({
     this.awsHardwareCertificate,
@@ -1142,80 +1076,86 @@ class Certificates {
     this.hsmCertificate,
     this.manufacturerHardwareCertificate,
   });
-  factory Certificates.fromJson(Map<String, dynamic> json) =>
-      _$CertificatesFromJson(json);
+
+  factory Certificates.fromJson(Map<String, dynamic> json) {
+    return Certificates(
+      awsHardwareCertificate: json['AwsHardwareCertificate'] as String?,
+      clusterCertificate: json['ClusterCertificate'] as String?,
+      clusterCsr: json['ClusterCsr'] as String?,
+      hsmCertificate: json['HsmCertificate'] as String?,
+      manufacturerHardwareCertificate:
+          json['ManufacturerHardwareCertificate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsHardwareCertificate = this.awsHardwareCertificate;
+    final clusterCertificate = this.clusterCertificate;
+    final clusterCsr = this.clusterCsr;
+    final hsmCertificate = this.hsmCertificate;
+    final manufacturerHardwareCertificate =
+        this.manufacturerHardwareCertificate;
+    return {
+      if (awsHardwareCertificate != null)
+        'AwsHardwareCertificate': awsHardwareCertificate,
+      if (clusterCertificate != null) 'ClusterCertificate': clusterCertificate,
+      if (clusterCsr != null) 'ClusterCsr': clusterCsr,
+      if (hsmCertificate != null) 'HsmCertificate': hsmCertificate,
+      if (manufacturerHardwareCertificate != null)
+        'ManufacturerHardwareCertificate': manufacturerHardwareCertificate,
+    };
+  }
 }
 
 /// Contains information about an AWS CloudHSM cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Cluster {
   /// The cluster's backup policy.
-  @_s.JsonKey(name: 'BackupPolicy')
-  final BackupPolicy backupPolicy;
+  final BackupPolicy? backupPolicy;
 
   /// A policy that defines how the service retains backups.
-  @_s.JsonKey(name: 'BackupRetentionPolicy')
-  final BackupRetentionPolicy backupRetentionPolicy;
+  final BackupRetentionPolicy? backupRetentionPolicy;
 
   /// Contains one or more certificates or a certificate signing request (CSR).
-  @_s.JsonKey(name: 'Certificates')
-  final Certificates certificates;
+  final Certificates? certificates;
 
   /// The cluster's identifier (ID).
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// The date and time when the cluster was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTimestamp')
-  final DateTime createTimestamp;
+  final DateTime? createTimestamp;
 
   /// The type of HSM that the cluster contains.
-  @_s.JsonKey(name: 'HsmType')
-  final String hsmType;
+  final String? hsmType;
 
   /// Contains information about the HSMs in the cluster.
-  @_s.JsonKey(name: 'Hsms')
-  final List<Hsm> hsms;
+  final List<Hsm>? hsms;
 
   /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
-  @_s.JsonKey(name: 'PreCoPassword')
-  final String preCoPassword;
+  final String? preCoPassword;
 
   /// The identifier (ID) of the cluster's security group.
-  @_s.JsonKey(name: 'SecurityGroup')
-  final String securityGroup;
+  final String? securityGroup;
 
   /// The identifier (ID) of the backup used to create the cluster. This value
   /// exists only when the cluster was created from a backup.
-  @_s.JsonKey(name: 'SourceBackupId')
-  final String sourceBackupId;
+  final String? sourceBackupId;
 
   /// The cluster's state.
-  @_s.JsonKey(name: 'State')
-  final ClusterState state;
+  final ClusterState? state;
 
   /// A description of the cluster's state.
-  @_s.JsonKey(name: 'StateMessage')
-  final String stateMessage;
+  final String? stateMessage;
 
   /// A map from availability zone to the cluster’s subnet in that availability
   /// zone.
-  @_s.JsonKey(name: 'SubnetMapping')
-  final Map<String, String> subnetMapping;
+  final Map<String, String>? subnetMapping;
 
   /// The list of tags for the cluster.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   /// The identifier (ID) of the virtual private cloud (VPC) that contains the
   /// cluster.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   Cluster({
     this.backupPolicy,
@@ -1234,36 +1174,140 @@ class Cluster {
     this.tagList,
     this.vpcId,
   });
-  factory Cluster.fromJson(Map<String, dynamic> json) =>
-      _$ClusterFromJson(json);
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      backupPolicy: (json['BackupPolicy'] as String?)?.toBackupPolicy(),
+      backupRetentionPolicy: json['BackupRetentionPolicy'] != null
+          ? BackupRetentionPolicy.fromJson(
+              json['BackupRetentionPolicy'] as Map<String, dynamic>)
+          : null,
+      certificates: json['Certificates'] != null
+          ? Certificates.fromJson(json['Certificates'] as Map<String, dynamic>)
+          : null,
+      clusterId: json['ClusterId'] as String?,
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      hsmType: json['HsmType'] as String?,
+      hsms: (json['Hsms'] as List?)
+          ?.whereNotNull()
+          .map((e) => Hsm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      preCoPassword: json['PreCoPassword'] as String?,
+      securityGroup: json['SecurityGroup'] as String?,
+      sourceBackupId: json['SourceBackupId'] as String?,
+      state: (json['State'] as String?)?.toClusterState(),
+      stateMessage: json['StateMessage'] as String?,
+      subnetMapping: (json['SubnetMapping'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backupPolicy = this.backupPolicy;
+    final backupRetentionPolicy = this.backupRetentionPolicy;
+    final certificates = this.certificates;
+    final clusterId = this.clusterId;
+    final createTimestamp = this.createTimestamp;
+    final hsmType = this.hsmType;
+    final hsms = this.hsms;
+    final preCoPassword = this.preCoPassword;
+    final securityGroup = this.securityGroup;
+    final sourceBackupId = this.sourceBackupId;
+    final state = this.state;
+    final stateMessage = this.stateMessage;
+    final subnetMapping = this.subnetMapping;
+    final tagList = this.tagList;
+    final vpcId = this.vpcId;
+    return {
+      if (backupPolicy != null) 'BackupPolicy': backupPolicy.toValue(),
+      if (backupRetentionPolicy != null)
+        'BackupRetentionPolicy': backupRetentionPolicy,
+      if (certificates != null) 'Certificates': certificates,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (createTimestamp != null)
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
+      if (hsmType != null) 'HsmType': hsmType,
+      if (hsms != null) 'Hsms': hsms,
+      if (preCoPassword != null) 'PreCoPassword': preCoPassword,
+      if (securityGroup != null) 'SecurityGroup': securityGroup,
+      if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
+      if (state != null) 'State': state.toValue(),
+      if (stateMessage != null) 'StateMessage': stateMessage,
+      if (subnetMapping != null) 'SubnetMapping': subnetMapping,
+      if (tagList != null) 'TagList': tagList,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
 }
 
 enum ClusterState {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('UNINITIALIZED')
   uninitialized,
-  @_s.JsonValue('INITIALIZE_IN_PROGRESS')
   initializeInProgress,
-  @_s.JsonValue('INITIALIZED')
   initialized,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('DEGRADED')
   degraded,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ClusterState {
+  String toValue() {
+    switch (this) {
+      case ClusterState.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case ClusterState.uninitialized:
+        return 'UNINITIALIZED';
+      case ClusterState.initializeInProgress:
+        return 'INITIALIZE_IN_PROGRESS';
+      case ClusterState.initialized:
+        return 'INITIALIZED';
+      case ClusterState.active:
+        return 'ACTIVE';
+      case ClusterState.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case ClusterState.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case ClusterState.deleted:
+        return 'DELETED';
+      case ClusterState.degraded:
+        return 'DEGRADED';
+    }
+  }
+}
+
+extension on String {
+  ClusterState toClusterState() {
+    switch (this) {
+      case 'CREATE_IN_PROGRESS':
+        return ClusterState.createInProgress;
+      case 'UNINITIALIZED':
+        return ClusterState.uninitialized;
+      case 'INITIALIZE_IN_PROGRESS':
+        return ClusterState.initializeInProgress;
+      case 'INITIALIZED':
+        return ClusterState.initialized;
+      case 'ACTIVE':
+        return ClusterState.active;
+      case 'UPDATE_IN_PROGRESS':
+        return ClusterState.updateInProgress;
+      case 'DELETE_IN_PROGRESS':
+        return ClusterState.deleteInProgress;
+      case 'DELETED':
+        return ClusterState.deleted;
+      case 'DEGRADED':
+        return ClusterState.degraded;
+    }
+    throw Exception('$this is not known in enum ClusterState');
+  }
+}
+
 class CopyBackupToRegionResponse {
   /// Information on the backup that will be copied to the destination region,
   /// including CreateTimestamp, SourceBackup, SourceCluster, and Source Region.
@@ -1273,176 +1317,232 @@ class CopyBackupToRegionResponse {
   /// You will need to use the <code>sourceBackupID</code> returned in this
   /// operation to use the <a>DescribeBackups</a> operation on the backup that
   /// will be copied to the destination region.
-  @_s.JsonKey(name: 'DestinationBackup')
-  final DestinationBackup destinationBackup;
+  final DestinationBackup? destinationBackup;
 
   CopyBackupToRegionResponse({
     this.destinationBackup,
   });
-  factory CopyBackupToRegionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CopyBackupToRegionResponseFromJson(json);
+
+  factory CopyBackupToRegionResponse.fromJson(Map<String, dynamic> json) {
+    return CopyBackupToRegionResponse(
+      destinationBackup: json['DestinationBackup'] != null
+          ? DestinationBackup.fromJson(
+              json['DestinationBackup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationBackup = this.destinationBackup;
+    return {
+      if (destinationBackup != null) 'DestinationBackup': destinationBackup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateClusterResponse {
   /// Information about the cluster that was created.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   CreateClusterResponse({
     this.cluster,
   });
-  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateClusterResponseFromJson(json);
+
+  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateClusterResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateHsmResponse {
   /// Information about the HSM that was created.
-  @_s.JsonKey(name: 'Hsm')
-  final Hsm hsm;
+  final Hsm? hsm;
 
   CreateHsmResponse({
     this.hsm,
   });
-  factory CreateHsmResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateHsmResponseFromJson(json);
+
+  factory CreateHsmResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHsmResponse(
+      hsm: json['Hsm'] != null
+          ? Hsm.fromJson(json['Hsm'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsm = this.hsm;
+    return {
+      if (hsm != null) 'Hsm': hsm,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackupResponse {
   /// Information on the <code>Backup</code> object deleted.
-  @_s.JsonKey(name: 'Backup')
-  final Backup backup;
+  final Backup? backup;
 
   DeleteBackupResponse({
     this.backup,
   });
-  factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackupResponseFromJson(json);
+
+  factory DeleteBackupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBackupResponse(
+      backup: json['Backup'] != null
+          ? Backup.fromJson(json['Backup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backup = this.backup;
+    return {
+      if (backup != null) 'Backup': backup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteClusterResponse {
   /// Information about the cluster that was deleted.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DeleteClusterResponse({
     this.cluster,
   });
-  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteClusterResponseFromJson(json);
+
+  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteClusterResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteHsmResponse {
   /// The identifier (ID) of the HSM that was deleted.
-  @_s.JsonKey(name: 'HsmId')
-  final String hsmId;
+  final String? hsmId;
 
   DeleteHsmResponse({
     this.hsmId,
   });
-  factory DeleteHsmResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteHsmResponseFromJson(json);
+
+  factory DeleteHsmResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteHsmResponse(
+      hsmId: json['HsmId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmId = this.hsmId;
+    return {
+      if (hsmId != null) 'HsmId': hsmId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeBackupsResponse {
   /// A list of backups.
-  @_s.JsonKey(name: 'Backups')
-  final List<Backup> backups;
+  final List<Backup>? backups;
 
   /// An opaque string that indicates that the response contains only a subset of
   /// backups. Use this value in a subsequent <code>DescribeBackups</code> request
   /// to get more backups.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeBackupsResponse({
     this.backups,
     this.nextToken,
   });
-  factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeBackupsResponseFromJson(json);
+
+  factory DescribeBackupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeBackupsResponse(
+      backups: (json['Backups'] as List?)
+          ?.whereNotNull()
+          .map((e) => Backup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backups = this.backups;
+    final nextToken = this.nextToken;
+    return {
+      if (backups != null) 'Backups': backups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClustersResponse {
   /// A list of clusters.
-  @_s.JsonKey(name: 'Clusters')
-  final List<Cluster> clusters;
+  final List<Cluster>? clusters;
 
   /// An opaque string that indicates that the response contains only a subset of
   /// clusters. Use this value in a subsequent <code>DescribeClusters</code>
   /// request to get more clusters.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeClustersResponse({
     this.clusters,
     this.nextToken,
   });
-  factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClustersResponseFromJson(json);
+
+  factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClustersResponse(
+      clusters: (json['Clusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusters = this.clusters;
+    final nextToken = this.nextToken;
+    return {
+      if (clusters != null) 'Clusters': clusters,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Contains information about the backup that will be copied and created by the
 /// <a>CopyBackupToRegion</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DestinationBackup {
   /// The date and time when both the source backup was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTimestamp')
-  final DateTime createTimestamp;
+  final DateTime? createTimestamp;
 
   /// The identifier (ID) of the source backup from which the new backup was
   /// copied.
-  @_s.JsonKey(name: 'SourceBackup')
-  final String sourceBackup;
+  final String? sourceBackup;
 
   /// The identifier (ID) of the cluster containing the source backup from which
   /// the new backup was copied.
-  @_s.JsonKey(name: 'SourceCluster')
-  final String sourceCluster;
+  final String? sourceCluster;
 
   /// The AWS region that contains the source backup from which the new backup was
   /// copied.
-  @_s.JsonKey(name: 'SourceRegion')
-  final String sourceRegion;
+  final String? sourceRegion;
 
   DestinationBackup({
     this.createTimestamp,
@@ -1450,52 +1550,60 @@ class DestinationBackup {
     this.sourceCluster,
     this.sourceRegion,
   });
-  factory DestinationBackup.fromJson(Map<String, dynamic> json) =>
-      _$DestinationBackupFromJson(json);
+
+  factory DestinationBackup.fromJson(Map<String, dynamic> json) {
+    return DestinationBackup(
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      sourceBackup: json['SourceBackup'] as String?,
+      sourceCluster: json['SourceCluster'] as String?,
+      sourceRegion: json['SourceRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTimestamp = this.createTimestamp;
+    final sourceBackup = this.sourceBackup;
+    final sourceCluster = this.sourceCluster;
+    final sourceRegion = this.sourceRegion;
+    return {
+      if (createTimestamp != null)
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
+      if (sourceBackup != null) 'SourceBackup': sourceBackup,
+      if (sourceCluster != null) 'SourceCluster': sourceCluster,
+      if (sourceRegion != null) 'SourceRegion': sourceRegion,
+    };
+  }
 }
 
 /// Contains information about a hardware security module (HSM) in an AWS
 /// CloudHSM cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Hsm {
   /// The HSM's identifier (ID).
-  @_s.JsonKey(name: 'HsmId')
   final String hsmId;
 
   /// The Availability Zone that contains the HSM.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The identifier (ID) of the cluster that contains the HSM.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// The identifier (ID) of the HSM's elastic network interface (ENI).
-  @_s.JsonKey(name: 'EniId')
-  final String eniId;
+  final String? eniId;
 
   /// The IP address of the HSM's elastic network interface (ENI).
-  @_s.JsonKey(name: 'EniIp')
-  final String eniIp;
+  final String? eniIp;
 
   /// The HSM's state.
-  @_s.JsonKey(name: 'State')
-  final HsmState state;
+  final HsmState? state;
 
   /// A description of the HSM's state.
-  @_s.JsonKey(name: 'StateMessage')
-  final String stateMessage;
+  final String? stateMessage;
 
   /// The subnet that contains the HSM's elastic network interface (ENI).
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   Hsm({
-    @_s.required this.hsmId,
+    required this.hsmId,
     this.availabilityZone,
     this.clusterId,
     this.eniId,
@@ -1504,165 +1612,274 @@ class Hsm {
     this.stateMessage,
     this.subnetId,
   });
-  factory Hsm.fromJson(Map<String, dynamic> json) => _$HsmFromJson(json);
+
+  factory Hsm.fromJson(Map<String, dynamic> json) {
+    return Hsm(
+      hsmId: json['HsmId'] as String,
+      availabilityZone: json['AvailabilityZone'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      eniId: json['EniId'] as String?,
+      eniIp: json['EniIp'] as String?,
+      state: (json['State'] as String?)?.toHsmState(),
+      stateMessage: json['StateMessage'] as String?,
+      subnetId: json['SubnetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmId = this.hsmId;
+    final availabilityZone = this.availabilityZone;
+    final clusterId = this.clusterId;
+    final eniId = this.eniId;
+    final eniIp = this.eniIp;
+    final state = this.state;
+    final stateMessage = this.stateMessage;
+    final subnetId = this.subnetId;
+    return {
+      'HsmId': hsmId,
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (eniId != null) 'EniId': eniId,
+      if (eniIp != null) 'EniIp': eniIp,
+      if (state != null) 'State': state.toValue(),
+      if (stateMessage != null) 'StateMessage': stateMessage,
+      if (subnetId != null) 'SubnetId': subnetId,
+    };
+  }
 }
 
 enum HsmState {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DEGRADED')
   degraded,
-  @_s.JsonValue('DELETE_IN_PROGRESS')
   deleteInProgress,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on HsmState {
+  String toValue() {
+    switch (this) {
+      case HsmState.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case HsmState.active:
+        return 'ACTIVE';
+      case HsmState.degraded:
+        return 'DEGRADED';
+      case HsmState.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case HsmState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  HsmState toHsmState() {
+    switch (this) {
+      case 'CREATE_IN_PROGRESS':
+        return HsmState.createInProgress;
+      case 'ACTIVE':
+        return HsmState.active;
+      case 'DEGRADED':
+        return HsmState.degraded;
+      case 'DELETE_IN_PROGRESS':
+        return HsmState.deleteInProgress;
+      case 'DELETED':
+        return HsmState.deleted;
+    }
+    throw Exception('$this is not known in enum HsmState');
+  }
+}
+
 class InitializeClusterResponse {
   /// The cluster's state.
-  @_s.JsonKey(name: 'State')
-  final ClusterState state;
+  final ClusterState? state;
 
   /// A description of the cluster's state.
-  @_s.JsonKey(name: 'StateMessage')
-  final String stateMessage;
+  final String? stateMessage;
 
   InitializeClusterResponse({
     this.state,
     this.stateMessage,
   });
-  factory InitializeClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$InitializeClusterResponseFromJson(json);
+
+  factory InitializeClusterResponse.fromJson(Map<String, dynamic> json) {
+    return InitializeClusterResponse(
+      state: (json['State'] as String?)?.toClusterState(),
+      stateMessage: json['StateMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final state = this.state;
+    final stateMessage = this.stateMessage;
+    return {
+      if (state != null) 'State': state.toValue(),
+      if (stateMessage != null) 'StateMessage': stateMessage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResponse {
   /// A list of tags.
-  @_s.JsonKey(name: 'TagList')
   final List<Tag> tagList;
 
   /// An opaque string that indicates that the response contains only a subset of
   /// tags. Use this value in a subsequent <code>ListTags</code> request to get
   /// more tags.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListTagsResponse({
-    @_s.required this.tagList,
+    required this.tagList,
     this.nextToken,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      tagList: (json['TagList'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    final nextToken = this.nextToken;
+    return {
+      'TagList': tagList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyBackupAttributesResponse {
-  @_s.JsonKey(name: 'Backup')
-  final Backup backup;
+  final Backup? backup;
 
   ModifyBackupAttributesResponse({
     this.backup,
   });
-  factory ModifyBackupAttributesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyBackupAttributesResponseFromJson(json);
+
+  factory ModifyBackupAttributesResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyBackupAttributesResponse(
+      backup: json['Backup'] != null
+          ? Backup.fromJson(json['Backup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backup = this.backup;
+    return {
+      if (backup != null) 'Backup': backup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyClusterResponse {
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   ModifyClusterResponse({
     this.cluster,
   });
-  factory ModifyClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyClusterResponseFromJson(json);
+
+  factory ModifyClusterResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyClusterResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreBackupResponse {
   /// Information on the <code>Backup</code> object created.
-  @_s.JsonKey(name: 'Backup')
-  final Backup backup;
+  final Backup? backup;
 
   RestoreBackupResponse({
     this.backup,
   });
-  factory RestoreBackupResponse.fromJson(Map<String, dynamic> json) =>
-      _$RestoreBackupResponseFromJson(json);
+
+  factory RestoreBackupResponse.fromJson(Map<String, dynamic> json) {
+    return RestoreBackupResponse(
+      backup: json['Backup'] != null
+          ? Backup.fromJson(json['Backup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backup = this.backup;
+    return {
+      if (backup != null) 'Backup': backup,
+    };
+  }
 }
 
 /// Contains a tag. A tag is a key-value pair.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class CloudHsmAccessDeniedException extends _s.GenericAwsException {
-  CloudHsmAccessDeniedException({String type, String message})
+  CloudHsmAccessDeniedException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmAccessDeniedException',
@@ -1670,7 +1887,7 @@ class CloudHsmAccessDeniedException extends _s.GenericAwsException {
 }
 
 class CloudHsmInternalFailureException extends _s.GenericAwsException {
-  CloudHsmInternalFailureException({String type, String message})
+  CloudHsmInternalFailureException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmInternalFailureException',
@@ -1678,7 +1895,7 @@ class CloudHsmInternalFailureException extends _s.GenericAwsException {
 }
 
 class CloudHsmInvalidRequestException extends _s.GenericAwsException {
-  CloudHsmInvalidRequestException({String type, String message})
+  CloudHsmInvalidRequestException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmInvalidRequestException',
@@ -1686,7 +1903,7 @@ class CloudHsmInvalidRequestException extends _s.GenericAwsException {
 }
 
 class CloudHsmResourceNotFoundException extends _s.GenericAwsException {
-  CloudHsmResourceNotFoundException({String type, String message})
+  CloudHsmResourceNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'CloudHsmResourceNotFoundException',
@@ -1694,12 +1911,12 @@ class CloudHsmResourceNotFoundException extends _s.GenericAwsException {
 }
 
 class CloudHsmServiceException extends _s.GenericAwsException {
-  CloudHsmServiceException({String type, String message})
+  CloudHsmServiceException({String? type, String? message})
       : super(type: type, code: 'CloudHsmServiceException', message: message);
 }
 
 class CloudHsmTagException extends _s.GenericAwsException {
-  CloudHsmTagException({String type, String message})
+  CloudHsmTagException({String? type, String? message})
       : super(type: type, code: 'CloudHsmTagException', message: message);
 }
 

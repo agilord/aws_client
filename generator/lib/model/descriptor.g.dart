@@ -17,7 +17,8 @@ Descriptor _$DescriptorFromJson(Map<String, dynamic> json) {
     'fault',
     'xmlNamespace',
     'jsonvalue',
-    'payload'
+    'payload',
+    'pattern'
   ]);
   return Descriptor(
     json['shape'] as String,
@@ -34,5 +35,6 @@ Descriptor _$DescriptorFromJson(Map<String, dynamic> json) {
         : XmlNamespace.fromJson(json['xmlNamespace'] as Map<String, dynamic>),
     json['jsonvalue'] as bool ?? false,
     json['payload'] as String,
+    json['pattern'] as String,
   );
 }

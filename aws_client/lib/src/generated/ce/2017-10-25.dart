@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-10-25.g.dart';
 
 /// The Cost Explorer API enables you to programmatically query your cost and
 /// usage data. You can query for aggregated data such as total monthly costs or
@@ -47,10 +40,10 @@ part '2017-10-25.g.dart';
 class CostExplorer {
   final _s.JsonProtocol _protocol;
   CostExplorer({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -70,7 +63,7 @@ class CostExplorer {
   /// Parameter [anomalyMonitor] :
   /// The cost anomaly detection monitor object that you want to create.
   Future<CreateAnomalyMonitorResponse> createAnomalyMonitor({
-    @_s.required AnomalyMonitor anomalyMonitor,
+    required AnomalyMonitor anomalyMonitor,
   }) async {
     ArgumentError.checkNotNull(anomalyMonitor, 'anomalyMonitor');
     final headers = <String, String>{
@@ -102,7 +95,7 @@ class CostExplorer {
   /// Parameter [anomalySubscription] :
   /// The cost anomaly subscription object that you want to create.
   Future<CreateAnomalySubscriptionResponse> createAnomalySubscription({
-    @_s.required AnomalySubscription anomalySubscription,
+    required AnomalySubscription anomalySubscription,
   }) async {
     ArgumentError.checkNotNull(anomalySubscription, 'anomalySubscription');
     final headers = <String, String>{
@@ -133,26 +126,27 @@ class CostExplorer {
   /// see <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule</a>.
   Future<CreateCostCategoryDefinitionResponse> createCostCategoryDefinition({
-    @_s.required String name,
-    @_s.required CostCategoryRuleVersion ruleVersion,
-    @_s.required List<CostCategoryRule> rules,
+    required String name,
+    required CostCategoryRuleVersion ruleVersion,
+    required List<CostCategoryRule> rules,
+    String? defaultValue,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
-      255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^(?! )[\p{L}\p{N}\p{Z}-_]*(?<! )$''',
+      50,
       isRequired: true,
     );
     ArgumentError.checkNotNull(ruleVersion, 'ruleVersion');
     ArgumentError.checkNotNull(rules, 'rules');
+    _s.validateStringLength(
+      'defaultValue',
+      defaultValue,
+      1,
+      50,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.CreateCostCategoryDefinition'
@@ -165,8 +159,9 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Name': name,
-        'RuleVersion': ruleVersion?.toValue() ?? '',
+        'RuleVersion': ruleVersion.toValue(),
         'Rules': rules,
+        if (defaultValue != null) 'DefaultValue': defaultValue,
       },
     );
 
@@ -181,7 +176,7 @@ class CostExplorer {
   /// Parameter [monitorArn] :
   /// The unique identifier of the cost anomaly monitor that you want to delete.
   Future<void> deleteAnomalyMonitor({
-    @_s.required String monitorArn,
+    required String monitorArn,
   }) async {
     ArgumentError.checkNotNull(monitorArn, 'monitorArn');
     _s.validateStringLength(
@@ -191,17 +186,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalyMonitor'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -211,8 +200,6 @@ class CostExplorer {
         'MonitorArn': monitorArn,
       },
     );
-
-    return DeleteAnomalyMonitorResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a cost anomaly subscription.
@@ -224,7 +211,7 @@ class CostExplorer {
   /// The unique identifier of the cost anomaly subscription that you want to
   /// delete.
   Future<void> deleteAnomalySubscription({
-    @_s.required String subscriptionArn,
+    required String subscriptionArn,
   }) async {
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
     _s.validateStringLength(
@@ -234,17 +221,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'subscriptionArn',
-      subscriptionArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalySubscription'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -254,8 +235,6 @@ class CostExplorer {
         'SubscriptionArn': subscriptionArn,
       },
     );
-
-    return DeleteAnomalySubscriptionResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a Cost Category. Expenses from this month going forward will no
@@ -267,7 +246,7 @@ class CostExplorer {
   /// Parameter [costCategoryArn] :
   /// The unique identifier for your Cost Category.
   Future<DeleteCostCategoryDefinitionResponse> deleteCostCategoryDefinition({
-    @_s.required String costCategoryArn,
+    required String costCategoryArn,
   }) async {
     ArgumentError.checkNotNull(costCategoryArn, 'costCategoryArn');
     _s.validateStringLength(
@@ -275,12 +254,6 @@ class CostExplorer {
       costCategoryArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'costCategoryArn',
-      costCategoryArn,
-      r'''arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -320,8 +293,8 @@ class CostExplorer {
   /// The date when the Cost Category was effective.
   Future<DescribeCostCategoryDefinitionResponse>
       describeCostCategoryDefinition({
-    @_s.required String costCategoryArn,
-    String effectiveOn,
+    required String costCategoryArn,
+    String? effectiveOn,
   }) async {
     ArgumentError.checkNotNull(costCategoryArn, 'costCategoryArn');
     _s.validateStringLength(
@@ -331,22 +304,11 @@ class CostExplorer {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'costCategoryArn',
-      costCategoryArn,
-      r'''arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'effectiveOn',
       effectiveOn,
       20,
       25,
-    );
-    _s.validateStringPattern(
-      'effectiveOn',
-      effectiveOn,
-      r'''^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -398,12 +360,12 @@ class CostExplorer {
   /// For example, you can filter anomalies <code>GREATER_THAN 200.00</code> to
   /// retrieve anomalies, with an estimated dollar impact greater than 200.
   Future<GetAnomaliesResponse> getAnomalies({
-    @_s.required AnomalyDateInterval dateInterval,
-    AnomalyFeedbackType feedback,
-    int maxResults,
-    String monitorArn,
-    String nextPageToken,
-    TotalImpactFilter totalImpact,
+    required AnomalyDateInterval dateInterval,
+    AnomalyFeedbackType? feedback,
+    int? maxResults,
+    String? monitorArn,
+    String? nextPageToken,
+    TotalImpactFilter? totalImpact,
   }) async {
     ArgumentError.checkNotNull(dateInterval, 'dateInterval');
     _s.validateStringLength(
@@ -412,21 +374,11 @@ class CostExplorer {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -469,20 +421,15 @@ class CostExplorer {
   /// the response from a previous call has more results than the maximum page
   /// size.
   Future<GetAnomalyMonitorsResponse> getAnomalyMonitors({
-    int maxResults,
-    List<String> monitorArnList,
-    String nextPageToken,
+    int? maxResults,
+    List<String>? monitorArnList,
+    String? nextPageToken,
   }) async {
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -525,10 +472,10 @@ class CostExplorer {
   /// Parameter [subscriptionArnList] :
   /// A list of cost anomaly subscription ARNs.
   Future<GetAnomalySubscriptionsResponse> getAnomalySubscriptions({
-    int maxResults,
-    String monitorArn,
-    String nextPageToken,
-    List<String> subscriptionArnList,
+    int? maxResults,
+    String? monitorArn,
+    String? nextPageToken,
+    List<String>? subscriptionArnList,
   }) async {
     _s.validateStringLength(
       'monitorArn',
@@ -536,21 +483,11 @@ class CostExplorer {
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -594,6 +531,13 @@ class CostExplorer {
   /// May throw [InvalidNextTokenException].
   /// May throw [RequestChangedException].
   ///
+  /// Parameter [granularity] :
+  /// Sets the AWS cost granularity to <code>MONTHLY</code> or
+  /// <code>DAILY</code>, or <code>HOURLY</code>. If <code>Granularity</code>
+  /// isn't set, the response object doesn't include the
+  /// <code>Granularity</code>, either <code>MONTHLY</code> or
+  /// <code>DAILY</code>, or <code>HOURLY</code>.
+  ///
   /// Parameter [metrics] :
   /// Which metrics are returned in the query. For more information about
   /// blended and unblended rates, see <a
@@ -632,13 +576,6 @@ class CostExplorer {
   /// dimension filters. For more information, see <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>.
   ///
-  /// Parameter [granularity] :
-  /// Sets the AWS cost granularity to <code>MONTHLY</code> or
-  /// <code>DAILY</code>, or <code>HOURLY</code>. If <code>Granularity</code>
-  /// isn't set, the response object doesn't include the
-  /// <code>Granularity</code>, either <code>MONTHLY</code> or
-  /// <code>DAILY</code>, or <code>HOURLY</code>.
-  ///
   /// Parameter [groupBy] :
   /// You can group AWS costs using up to two different groups, either
   /// dimensions, tag keys, cost categories, or any two group by types.
@@ -657,13 +594,14 @@ class CostExplorer {
   /// the response from a previous call has more results than the maximum page
   /// size.
   Future<GetCostAndUsageResponse> getCostAndUsage({
-    @_s.required List<String> metrics,
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    Granularity granularity,
-    List<GroupDefinition> groupBy,
-    String nextPageToken,
+    required Granularity granularity,
+    required List<String> metrics,
+    required DateInterval timePeriod,
+    Expression? filter,
+    List<GroupDefinition>? groupBy,
+    String? nextPageToken,
   }) async {
+    ArgumentError.checkNotNull(granularity, 'granularity');
     ArgumentError.checkNotNull(metrics, 'metrics');
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateStringLength(
@@ -671,11 +609,6 @@ class CostExplorer {
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -688,10 +621,10 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
+        'Granularity': granularity.toValue(),
         'Metrics': metrics,
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
       },
@@ -739,6 +672,12 @@ class CostExplorer {
   /// <code>"SERVICE = Amazon Elastic Compute Cloud - Compute"</code> in the
   /// filter.
   ///
+  /// Parameter [granularity] :
+  /// Sets the AWS cost granularity to <code>MONTHLY</code>, <code>DAILY</code>,
+  /// or <code>HOURLY</code>. If <code>Granularity</code> isn't set, the
+  /// response object doesn't include the <code>Granularity</code>,
+  /// <code>MONTHLY</code>, <code>DAILY</code>, or <code>HOURLY</code>.
+  ///
   /// Parameter [timePeriod] :
   /// Sets the start and end dates for retrieving Amazon Web Services costs. The
   /// range must be within the last 14 days (the start date cannot be earlier
@@ -747,12 +686,6 @@ class CostExplorer {
   /// and <code>end</code> is <code>2017-05-01</code>, then the cost and usage
   /// data is retrieved from <code>2017-01-01</code> up to and including
   /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
-  ///
-  /// Parameter [granularity] :
-  /// Sets the AWS cost granularity to <code>MONTHLY</code>, <code>DAILY</code>,
-  /// or <code>HOURLY</code>. If <code>Granularity</code> isn't set, the
-  /// response object doesn't include the <code>Granularity</code>,
-  /// <code>MONTHLY</code>, <code>DAILY</code>, or <code>HOURLY</code>.
   ///
   /// Parameter [groupBy] :
   /// You can group Amazon Web Services costs using up to two different groups:
@@ -785,25 +718,21 @@ class CostExplorer {
   /// the response from a previous call has more results than the maximum page
   /// size.
   Future<GetCostAndUsageWithResourcesResponse> getCostAndUsageWithResources({
-    @_s.required Expression filter,
-    @_s.required DateInterval timePeriod,
-    Granularity granularity,
-    List<GroupDefinition> groupBy,
-    List<String> metrics,
-    String nextPageToken,
+    required Expression filter,
+    required Granularity granularity,
+    required DateInterval timePeriod,
+    List<GroupDefinition>? groupBy,
+    List<String>? metrics,
+    String? nextPageToken,
   }) async {
     ArgumentError.checkNotNull(filter, 'filter');
+    ArgumentError.checkNotNull(granularity, 'granularity');
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -817,8 +746,8 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Filter': filter,
+        'Granularity': granularity.toValue(),
         'TimePeriod': timePeriod,
-        if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (metrics != null) 'Metrics': metrics,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -826,6 +755,136 @@ class CostExplorer {
     );
 
     return GetCostAndUsageWithResourcesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves an array of Cost Category names and values incurred cost.
+  /// <note>
+  /// If some Cost Category names and values are not associated with any cost,
+  /// they will not be returned by this API.
+  /// </note>
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [BillExpirationException].
+  /// May throw [DataUnavailableException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [RequestChangedException].
+  ///
+  /// Parameter [maxResults] :
+  /// This field is only used when <code>SortBy</code> is provided in the
+  /// request.
+  ///
+  /// The maximum number of objects that to be returned for this request. If
+  /// <code>MaxResults</code> is not specified with <code>SortBy</code>, the
+  /// request will return 1000 results as the default value for this parameter.
+  ///
+  /// For <code>GetCostCategories</code>, MaxResults has an upper limit of 1000.
+  ///
+  /// Parameter [nextPageToken] :
+  /// If the number of objects that are still available for retrieval exceeds
+  /// the limit, AWS returns a NextPageToken value in the response. To retrieve
+  /// the next batch of objects, provide the NextPageToken from the prior call
+  /// in your next request.
+  ///
+  /// Parameter [searchString] :
+  /// The value that you want to search the filter values for.
+  ///
+  /// If you do not specify a <code>CostCategoryName</code>,
+  /// <code>SearchString</code> will be used to filter Cost Category names that
+  /// match the <code>SearchString</code> pattern. If you do specifiy a
+  /// <code>CostCategoryName</code>, <code>SearchString</code> will be used to
+  /// filter Cost Category values that match the <code>SearchString</code>
+  /// pattern.
+  ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The key represents cost and usage metrics. The following values are
+  /// supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BlendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>UnblendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>AmortizedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>NetAmortizedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>NetUnblendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>UsageQuantity</code>
+  /// </li>
+  /// <li>
+  /// <code>NormalizedUsageAmount</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
+  ///
+  /// When using <code>SortBy</code>, <code>NextPageToken</code> and
+  /// <code>SearchString</code> are not supported.
+  Future<GetCostCategoriesResponse> getCostCategories({
+    required DateInterval timePeriod,
+    String? costCategoryName,
+    Expression? filter,
+    int? maxResults,
+    String? nextPageToken,
+    String? searchString,
+    List<SortDefinition>? sortBy,
+  }) async {
+    ArgumentError.checkNotNull(timePeriod, 'timePeriod');
+    _s.validateStringLength(
+      'costCategoryName',
+      costCategoryName,
+      1,
+      50,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'nextPageToken',
+      nextPageToken,
+      0,
+      8192,
+    );
+    _s.validateStringLength(
+      'searchString',
+      searchString,
+      0,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetCostCategories'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'TimePeriod': timePeriod,
+        if (costCategoryName != null) 'CostCategoryName': costCategoryName,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (searchString != null) 'SearchString': searchString,
+        if (sortBy != null) 'SortBy': sortBy,
+      },
+    );
+
+    return GetCostCategoriesResponse.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a forecast for how much Amazon Web Services predicts that you
@@ -875,8 +934,81 @@ class CostExplorer {
   /// error.
   ///
   /// Parameter [filter] :
-  /// The filters that you want to use to filter your forecast. Cost Explorer
-  /// API supports all of the Cost Explorer filters.
+  /// The filters that you want to use to filter your forecast. The
+  /// <code>GetCostForecast</code> API supports filtering by the following
+  /// dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AZ</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTANCE_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>LINKED_ACCOUNT</code>
+  /// </li>
+  /// <li>
+  /// <code>LINKED_ACCOUNT_NAME</code>
+  /// </li>
+  /// <li>
+  /// <code>OPERATION</code>
+  /// </li>
+  /// <li>
+  /// <code>PURCHASE_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>REGION</code>
+  /// </li>
+  /// <li>
+  /// <code>SERVICE</code>
+  /// </li>
+  /// <li>
+  /// <code>USAGE_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>USAGE_TYPE_GROUP</code>
+  /// </li>
+  /// <li>
+  /// <code>RECORD_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>OPERATING_SYSTEM</code>
+  /// </li>
+  /// <li>
+  /// <code>TENANCY</code>
+  /// </li>
+  /// <li>
+  /// <code>SCOPE</code>
+  /// </li>
+  /// <li>
+  /// <code>PLATFORM</code>
+  /// </li>
+  /// <li>
+  /// <code>SUBSCRIPTION_ID</code>
+  /// </li>
+  /// <li>
+  /// <code>LEGAL_ENTITY_NAME</code>
+  /// </li>
+  /// <li>
+  /// <code>DEPLOYMENT_OPTION</code>
+  /// </li>
+  /// <li>
+  /// <code>DATABASE_ENGINE</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTANCE_TYPE_FAMILY</code>
+  /// </li>
+  /// <li>
+  /// <code>BILLING_ENTITY</code>
+  /// </li>
+  /// <li>
+  /// <code>RESERVATION_ID</code>
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_PLAN_ARN</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [predictionIntervalLevel] :
   /// Cost Explorer always returns the mean forecast as a single point. You can
@@ -885,11 +1017,11 @@ class CostExplorer {
   /// is about the actual value falling in the prediction interval. Higher
   /// confidence levels result in wider prediction intervals.
   Future<GetCostForecastResponse> getCostForecast({
-    @_s.required Granularity granularity,
-    @_s.required Metric metric,
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    int predictionIntervalLevel,
+    required Granularity granularity,
+    required Metric metric,
+    required DateInterval timePeriod,
+    Expression? filter,
+    int? predictionIntervalLevel,
   }) async {
     ArgumentError.checkNotNull(granularity, 'granularity');
     ArgumentError.checkNotNull(metric, 'metric');
@@ -911,8 +1043,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity?.toValue() ?? '',
-        'Metric': metric?.toValue() ?? '',
+        'Granularity': granularity.toValue(),
+        'Metric': metric.toValue(),
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
         if (predictionIntervalLevel != null)
@@ -1089,6 +1221,15 @@ class CostExplorer {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [maxResults] :
+  /// This field is only used when SortBy is provided in the request. The
+  /// maximum number of objects that to be returned for this request. If
+  /// MaxResults is not specified with SortBy, the request will return 1000
+  /// results as the default value for this parameter.
+  ///
+  /// For <code>GetDimensionValues</code>, MaxResults has an upper limit of
+  /// 1000.
+  ///
   /// Parameter [nextPageToken] :
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
@@ -1096,36 +1237,72 @@ class CostExplorer {
   ///
   /// Parameter [searchString] :
   /// The value that you want to search the filter values for.
+  ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The key represents cost and usage metrics. The following values are
+  /// supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BlendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>UnblendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>AmortizedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>NetAmortizedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>NetUnblendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>UsageQuantity</code>
+  /// </li>
+  /// <li>
+  /// <code>NormalizedUsageAmount</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
+  ///
+  /// When you specify a <code>SortBy</code> paramater, the context must be
+  /// <code>COST_AND_USAGE</code>. Further, when using <code>SortBy</code>,
+  /// <code>NextPageToken</code> and <code>SearchString</code> are not
+  /// supported.
   Future<GetDimensionValuesResponse> getDimensionValues({
-    @_s.required Dimension dimension,
-    @_s.required DateInterval timePeriod,
-    Context context,
-    String nextPageToken,
-    String searchString,
+    required Dimension dimension,
+    required DateInterval timePeriod,
+    Context? context,
+    Expression? filter,
+    int? maxResults,
+    String? nextPageToken,
+    String? searchString,
+    List<SortDefinition>? sortBy,
   }) async {
     ArgumentError.checkNotNull(dimension, 'dimension');
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'searchString',
       searchString,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'searchString',
-      searchString,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1138,11 +1315,14 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Dimension': dimension?.toValue() ?? '',
+        'Dimension': dimension.toValue(),
         'TimePeriod': timePeriod,
         if (context != null) 'Context': context.toValue(),
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
         if (searchString != null) 'SearchString': searchString,
+        if (sortBy != null) 'SortBy': sortBy,
       },
     );
 
@@ -1313,6 +1493,11 @@ class CostExplorer {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you returned for this request. If more
+  /// objects are available, in the response, AWS provides a NextPageToken value
+  /// that you can use in a subsequent call to get the next batch of objects.
+  ///
   /// Parameter [metrics] :
   /// The measurement that you want your reservation coverage reported in.
   ///
@@ -1323,25 +1508,68 @@ class CostExplorer {
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
   /// size.
+  ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The following values are supported for <code>Key</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>OnDemandCost</code>
+  /// </li>
+  /// <li>
+  /// <code>CoverageHoursPercentage</code>
+  /// </li>
+  /// <li>
+  /// <code>OnDemandHours</code>
+  /// </li>
+  /// <li>
+  /// <code>ReservedHours</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalRunningHours</code>
+  /// </li>
+  /// <li>
+  /// <code>CoverageNormalizedUnitsPercentage</code>
+  /// </li>
+  /// <li>
+  /// <code>OnDemandNormalizedUnits</code>
+  /// </li>
+  /// <li>
+  /// <code>ReservedNormalizedUnits</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalRunningNormalizedUnits</code>
+  /// </li>
+  /// <li>
+  /// <code>Time</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
   Future<GetReservationCoverageResponse> getReservationCoverage({
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    Granularity granularity,
-    List<GroupDefinition> groupBy,
-    List<String> metrics,
-    String nextPageToken,
+    required DateInterval timePeriod,
+    Expression? filter,
+    Granularity? granularity,
+    List<GroupDefinition>? groupBy,
+    int? maxResults,
+    List<String>? metrics,
+    String? nextPageToken,
+    SortDefinition? sortBy,
   }) async {
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1358,8 +1586,10 @@ class CostExplorer {
         if (filter != null) 'Filter': filter,
         if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
+        if (maxResults != null) 'MaxResults': maxResults,
         if (metrics != null) 'Metrics': metrics,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (sortBy != null) 'SortBy': sortBy,
       },
     );
 
@@ -1427,15 +1657,16 @@ class CostExplorer {
   /// The reservation term that you want recommendations for.
   Future<GetReservationPurchaseRecommendationResponse>
       getReservationPurchaseRecommendation({
-    @_s.required String service,
-    String accountId,
-    AccountScope accountScope,
-    LookbackPeriodInDays lookbackPeriodInDays,
-    String nextPageToken,
-    int pageSize,
-    PaymentOption paymentOption,
-    ServiceSpecification serviceSpecification,
-    TermInYears termInYears,
+    required String service,
+    String? accountId,
+    AccountScope? accountScope,
+    Expression? filter,
+    LookbackPeriodInDays? lookbackPeriodInDays,
+    String? nextPageToken,
+    int? pageSize,
+    PaymentOption? paymentOption,
+    ServiceSpecification? serviceSpecification,
+    TermInYears? termInYears,
   }) async {
     ArgumentError.checkNotNull(service, 'service');
     _s.validateStringLength(
@@ -1445,33 +1676,17 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'service',
-      service,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'accountId',
       accountId,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -1494,6 +1709,7 @@ class CostExplorer {
         'Service': service,
         if (accountId != null) 'AccountId': accountId,
         if (accountScope != null) 'AccountScope': accountScope.toValue(),
+        if (filter != null) 'Filter': filter,
         if (lookbackPeriodInDays != null)
           'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -1586,28 +1802,97 @@ class CostExplorer {
   /// Parameter [groupBy] :
   /// Groups only by <code>SUBSCRIPTION_ID</code>. Metadata is included.
   ///
+  /// Parameter [maxResults] :
+  /// The maximum number of objects that you returned for this request. If more
+  /// objects are available, in the response, AWS provides a NextPageToken value
+  /// that you can use in a subsequent call to get the next batch of objects.
+  ///
   /// Parameter [nextPageToken] :
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
   /// size.
+  ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The following values are supported for <code>Key</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>UtilizationPercentage</code>
+  /// </li>
+  /// <li>
+  /// <code>UtilizationPercentageInUnits</code>
+  /// </li>
+  /// <li>
+  /// <code>PurchasedHours</code>
+  /// </li>
+  /// <li>
+  /// <code>PurchasedUnits</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalActualHours</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalActualUnits</code>
+  /// </li>
+  /// <li>
+  /// <code>UnusedHours</code>
+  /// </li>
+  /// <li>
+  /// <code>UnusedUnits</code>
+  /// </li>
+  /// <li>
+  /// <code>OnDemandCostOfRIHoursUsed</code>
+  /// </li>
+  /// <li>
+  /// <code>NetRISavings</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalPotentialRISavings</code>
+  /// </li>
+  /// <li>
+  /// <code>AmortizedUpfrontFee</code>
+  /// </li>
+  /// <li>
+  /// <code>AmortizedRecurringFee</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalAmortizedFee</code>
+  /// </li>
+  /// <li>
+  /// <code>RICostForUnusedHours</code>
+  /// </li>
+  /// <li>
+  /// <code>RealizedSavings</code>
+  /// </li>
+  /// <li>
+  /// <code>UnrealizedSavings</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
   Future<GetReservationUtilizationResponse> getReservationUtilization({
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    Granularity granularity,
-    List<GroupDefinition> groupBy,
-    String nextPageToken,
+    required DateInterval timePeriod,
+    Expression? filter,
+    Granularity? granularity,
+    List<GroupDefinition>? groupBy,
+    int? maxResults,
+    String? nextPageToken,
+    SortDefinition? sortBy,
   }) async {
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1624,7 +1909,9 @@ class CostExplorer {
         if (filter != null) 'Filter': filter,
         if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
+        if (maxResults != null) 'MaxResults': maxResults,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (sortBy != null) 'SortBy': sortBy,
       },
     );
 
@@ -1664,11 +1951,11 @@ class CostExplorer {
   /// The number of recommendations that you want returned in a single response
   /// object.
   Future<GetRightsizingRecommendationResponse> getRightsizingRecommendation({
-    @_s.required String service,
-    RightsizingRecommendationConfiguration configuration,
-    Expression filter,
-    String nextPageToken,
-    int pageSize,
+    required String service,
+    RightsizingRecommendationConfiguration? configuration,
+    Expression? filter,
+    String? nextPageToken,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(service, 'service');
     _s.validateStringLength(
@@ -1678,22 +1965,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'service',
-      service,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -1807,14 +2083,46 @@ class CostExplorer {
   /// The token to retrieve the next set of results. Amazon Web Services
   /// provides the token when the response from a previous call has more results
   /// than the maximum page size.
+  ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The following values are supported for <code>Key</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>SpendCoveredBySavingsPlan</code>
+  /// </li>
+  /// <li>
+  /// <code>OnDemandCost</code>
+  /// </li>
+  /// <li>
+  /// <code>CoveragePercentage</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalCost</code>
+  /// </li>
+  /// <li>
+  /// <code>InstanceFamily</code>
+  /// </li>
+  /// <li>
+  /// <code>Region</code>
+  /// </li>
+  /// <li>
+  /// <code>Service</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
   Future<GetSavingsPlansCoverageResponse> getSavingsPlansCoverage({
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    Granularity granularity,
-    List<GroupDefinition> groupBy,
-    int maxResults,
-    List<String> metrics,
-    String nextToken,
+    required DateInterval timePeriod,
+    Expression? filter,
+    Granularity? granularity,
+    List<GroupDefinition>? groupBy,
+    int? maxResults,
+    List<String>? metrics,
+    String? nextToken,
+    SortDefinition? sortBy,
   }) async {
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateNumRange(
@@ -1828,11 +2136,6 @@ class CostExplorer {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1852,6 +2155,7 @@ class CostExplorer {
         if (maxResults != null) 'MaxResults': maxResults,
         if (metrics != null) 'Metrics': metrics,
         if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy,
       },
     );
 
@@ -1910,14 +2214,14 @@ class CostExplorer {
   /// object.
   Future<GetSavingsPlansPurchaseRecommendationResponse>
       getSavingsPlansPurchaseRecommendation({
-    @_s.required LookbackPeriodInDays lookbackPeriodInDays,
-    @_s.required PaymentOption paymentOption,
-    @_s.required SupportedSavingsPlansType savingsPlansType,
-    @_s.required TermInYears termInYears,
-    AccountScope accountScope,
-    Expression filter,
-    String nextPageToken,
-    int pageSize,
+    required LookbackPeriodInDays lookbackPeriodInDays,
+    required PaymentOption paymentOption,
+    required SupportedSavingsPlansType savingsPlansType,
+    required TermInYears termInYears,
+    AccountScope? accountScope,
+    Expression? filter,
+    String? nextPageToken,
+    int? pageSize,
   }) async {
     ArgumentError.checkNotNull(lookbackPeriodInDays, 'lookbackPeriodInDays');
     ArgumentError.checkNotNull(paymentOption, 'paymentOption');
@@ -1928,11 +2232,6 @@ class CostExplorer {
       nextPageToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'pageSize',
@@ -1952,10 +2251,10 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue() ?? '',
-        'PaymentOption': paymentOption?.toValue() ?? '',
-        'SavingsPlansType': savingsPlansType?.toValue() ?? '',
-        'TermInYears': termInYears?.toValue() ?? '',
+        'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
+        'PaymentOption': paymentOption.toValue(),
+        'SavingsPlansType': savingsPlansType.toValue(),
+        'TermInYears': termInYears.toValue(),
         if (accountScope != null) 'AccountScope': accountScope.toValue(),
         if (filter != null) 'Filter': filter,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -2021,10 +2320,36 @@ class CostExplorer {
   ///
   /// The <code>GetSavingsPlansUtilization</code> operation supports only
   /// <code>DAILY</code> and <code>MONTHLY</code> granularities.
+  ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The following values are supported for <code>Key</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>UtilizationPercentage</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalCommitment</code>
+  /// </li>
+  /// <li>
+  /// <code>UsedCommitment</code>
+  /// </li>
+  /// <li>
+  /// <code>UnusedCommitment</code>
+  /// </li>
+  /// <li>
+  /// <code>NetSavings</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
   Future<GetSavingsPlansUtilizationResponse> getSavingsPlansUtilization({
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    Granularity granularity,
+    required DateInterval timePeriod,
+    Expression? filter,
+    Granularity? granularity,
+    SortDefinition? sortBy,
   }) async {
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     final headers = <String, String>{
@@ -2041,6 +2366,7 @@ class CostExplorer {
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
         if (granularity != null) 'Granularity': granularity.toValue(),
+        if (sortBy != null) 'SortBy': sortBy,
       },
     );
 
@@ -2069,6 +2395,9 @@ class CostExplorer {
   /// <code>Start</code> date must be within 13 months. The <code>End</code>
   /// date must be after the <code>Start</code> date, and before the current
   /// date. Future dates can't be used as an <code>End</code> date.
+  ///
+  /// Parameter [dataType] :
+  /// The data type.
   ///
   /// Parameter [filter] :
   /// Filters Savings Plans utilization coverage data for active Savings Plans
@@ -2104,12 +2433,45 @@ class CostExplorer {
   /// The token to retrieve the next set of results. Amazon Web Services
   /// provides the token when the response from a previous call has more results
   /// than the maximum page size.
+  ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The following values are supported for <code>Key</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>UtilizationPercentage</code>
+  /// </li>
+  /// <li>
+  /// <code>TotalCommitment</code>
+  /// </li>
+  /// <li>
+  /// <code>UsedCommitment</code>
+  /// </li>
+  /// <li>
+  /// <code>UnusedCommitment</code>
+  /// </li>
+  /// <li>
+  /// <code>NetSavings</code>
+  /// </li>
+  /// <li>
+  /// <code>AmortizedRecurringCommitment</code>
+  /// </li>
+  /// <li>
+  /// <code>AmortizedUpfrontCommitment</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
   Future<GetSavingsPlansUtilizationDetailsResponse>
       getSavingsPlansUtilizationDetails({
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    int maxResults,
-    String nextToken,
+    required DateInterval timePeriod,
+    List<SavingsPlansDataType>? dataType,
+    Expression? filter,
+    int? maxResults,
+    String? nextToken,
+    SortDefinition? sortBy,
   }) async {
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateNumRange(
@@ -2124,11 +2486,6 @@ class CostExplorer {
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S\s]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
@@ -2142,9 +2499,12 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
+        if (dataType != null)
+          'DataType': dataType.map((e) => e.toValue()).toList(),
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (sortBy != null) 'SortBy': sortBy,
       },
     );
 
@@ -2169,6 +2529,14 @@ class CostExplorer {
   /// <code>2017-01-01</code> up to and including <code>2017-04-30</code> but
   /// not including <code>2017-05-01</code>.
   ///
+  /// Parameter [maxResults] :
+  /// This field is only used when SortBy is provided in the request. The
+  /// maximum number of objects that to be returned for this request. If
+  /// MaxResults is not specified with SortBy, the request will return 1000
+  /// results as the default value for this parameter.
+  ///
+  /// For <code>GetTags</code>, MaxResults has an upper limit of 1000.
+  ///
   /// Parameter [nextPageToken] :
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
@@ -2177,47 +2545,76 @@ class CostExplorer {
   /// Parameter [searchString] :
   /// The value that you want to search for.
   ///
+  /// Parameter [sortBy] :
+  /// The value by which you want to sort the data.
+  ///
+  /// The key represents cost and usage metrics. The following values are
+  /// supported:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BlendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>UnblendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>AmortizedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>NetAmortizedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>NetUnblendedCost</code>
+  /// </li>
+  /// <li>
+  /// <code>UsageQuantity</code>
+  /// </li>
+  /// <li>
+  /// <code>NormalizedUsageAmount</code>
+  /// </li>
+  /// </ul>
+  /// Supported values for <code>SortOrder</code> are <code>ASCENDING</code> or
+  /// <code>DESCENDING</code>.
+  ///
+  /// When using <code>SortBy</code>, <code>NextPageToken</code> and
+  /// <code>SearchString</code> are not supported.
+  ///
   /// Parameter [tagKey] :
   /// The key of the tag that you want to return values for.
   Future<GetTagsResponse> getTags({
-    @_s.required DateInterval timePeriod,
-    String nextPageToken,
-    String searchString,
-    String tagKey,
+    required DateInterval timePeriod,
+    Expression? filter,
+    int? maxResults,
+    String? nextPageToken,
+    String? searchString,
+    List<SortDefinition>? sortBy,
+    String? tagKey,
   }) async {
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
     _s.validateStringLength(
       'nextPageToken',
       nextPageToken,
       0,
       8192,
     );
-    _s.validateStringPattern(
-      'nextPageToken',
-      nextPageToken,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'searchString',
       searchString,
       0,
       1024,
     );
-    _s.validateStringPattern(
-      'searchString',
-      searchString,
-      r'''[\S\s]*''',
-    );
     _s.validateStringLength(
       'tagKey',
       tagKey,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'tagKey',
-      tagKey,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2231,8 +2628,11 @@ class CostExplorer {
       headers: headers,
       payload: {
         'TimePeriod': timePeriod,
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
         if (searchString != null) 'SearchString': searchString,
+        if (sortBy != null) 'SortBy': sortBy,
         if (tagKey != null) 'TagKey': tagKey,
       },
     );
@@ -2281,8 +2681,81 @@ class CostExplorer {
   /// validation error.
   ///
   /// Parameter [filter] :
-  /// The filters that you want to use to filter your forecast. Cost Explorer
-  /// API supports all of the Cost Explorer filters.
+  /// The filters that you want to use to filter your forecast. The
+  /// <code>GetUsageForecast</code> API supports filtering by the following
+  /// dimensions:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AZ</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTANCE_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>LINKED_ACCOUNT</code>
+  /// </li>
+  /// <li>
+  /// <code>LINKED_ACCOUNT_NAME</code>
+  /// </li>
+  /// <li>
+  /// <code>OPERATION</code>
+  /// </li>
+  /// <li>
+  /// <code>PURCHASE_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>REGION</code>
+  /// </li>
+  /// <li>
+  /// <code>SERVICE</code>
+  /// </li>
+  /// <li>
+  /// <code>USAGE_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>USAGE_TYPE_GROUP</code>
+  /// </li>
+  /// <li>
+  /// <code>RECORD_TYPE</code>
+  /// </li>
+  /// <li>
+  /// <code>OPERATING_SYSTEM</code>
+  /// </li>
+  /// <li>
+  /// <code>TENANCY</code>
+  /// </li>
+  /// <li>
+  /// <code>SCOPE</code>
+  /// </li>
+  /// <li>
+  /// <code>PLATFORM</code>
+  /// </li>
+  /// <li>
+  /// <code>SUBSCRIPTION_ID</code>
+  /// </li>
+  /// <li>
+  /// <code>LEGAL_ENTITY_NAME</code>
+  /// </li>
+  /// <li>
+  /// <code>DEPLOYMENT_OPTION</code>
+  /// </li>
+  /// <li>
+  /// <code>DATABASE_ENGINE</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTANCE_TYPE_FAMILY</code>
+  /// </li>
+  /// <li>
+  /// <code>BILLING_ENTITY</code>
+  /// </li>
+  /// <li>
+  /// <code>RESERVATION_ID</code>
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_PLAN_ARN</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [predictionIntervalLevel] :
   /// Cost Explorer always returns the mean forecast as a single point. You can
@@ -2291,11 +2764,11 @@ class CostExplorer {
   /// is about the actual value falling in the prediction interval. Higher
   /// confidence levels result in wider prediction intervals.
   Future<GetUsageForecastResponse> getUsageForecast({
-    @_s.required Granularity granularity,
-    @_s.required Metric metric,
-    @_s.required DateInterval timePeriod,
-    Expression filter,
-    int predictionIntervalLevel,
+    required Granularity granularity,
+    required Metric metric,
+    required DateInterval timePeriod,
+    Expression? filter,
+    int? predictionIntervalLevel,
   }) async {
     ArgumentError.checkNotNull(granularity, 'granularity');
     ArgumentError.checkNotNull(metric, 'metric');
@@ -2317,8 +2790,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity?.toValue() ?? '',
-        'Metric': metric?.toValue() ?? '',
+        'Granularity': granularity.toValue(),
+        'Metric': metric.toValue(),
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
         if (predictionIntervalLevel != null)
@@ -2352,20 +2825,15 @@ class CostExplorer {
   /// provides the token when the response from a previous call has more results
   /// than the maximum page size.
   Future<ListCostCategoryDefinitionsResponse> listCostCategoryDefinitions({
-    String effectiveOn,
-    int maxResults,
-    String nextToken,
+    String? effectiveOn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'effectiveOn',
       effectiveOn,
       20,
       25,
-    );
-    _s.validateStringPattern(
-      'effectiveOn',
-      effectiveOn,
-      r'''^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(([+-]\d\d:\d\d)|Z)$''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -2378,11 +2846,6 @@ class CostExplorer {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2415,8 +2878,8 @@ class CostExplorer {
   /// Describes whether the cost anomaly was a planned activity or you
   /// considered it an anomaly.
   Future<ProvideAnomalyFeedbackResponse> provideAnomalyFeedback({
-    @_s.required String anomalyId,
-    @_s.required AnomalyFeedbackType feedback,
+    required String anomalyId,
+    required AnomalyFeedbackType feedback,
   }) async {
     ArgumentError.checkNotNull(anomalyId, 'anomalyId');
     _s.validateStringLength(
@@ -2424,12 +2887,6 @@ class CostExplorer {
       anomalyId,
       0,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'anomalyId',
-      anomalyId,
-      r'''[\S\s]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(feedback, 'feedback');
@@ -2445,7 +2902,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'AnomalyId': anomalyId,
-        'Feedback': feedback?.toValue() ?? '',
+        'Feedback': feedback.toValue(),
       },
     );
 
@@ -2464,8 +2921,8 @@ class CostExplorer {
   /// Parameter [monitorName] :
   /// The new name for the cost anomaly monitor.
   Future<UpdateAnomalyMonitorResponse> updateAnomalyMonitor({
-    @_s.required String monitorArn,
-    String monitorName,
+    required String monitorArn,
+    String? monitorName,
   }) async {
     ArgumentError.checkNotNull(monitorArn, 'monitorArn');
     _s.validateStringLength(
@@ -2475,22 +2932,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'monitorArn',
-      monitorArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'monitorName',
       monitorName,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'monitorName',
-      monitorName,
-      r'''[\S\s]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2536,12 +2982,12 @@ class CostExplorer {
   /// Parameter [threshold] :
   /// The update to the threshold value for receiving notifications.
   Future<UpdateAnomalySubscriptionResponse> updateAnomalySubscription({
-    @_s.required String subscriptionArn,
-    AnomalySubscriptionFrequency frequency,
-    List<String> monitorArnList,
-    List<Subscriber> subscribers,
-    String subscriptionName,
-    double threshold,
+    required String subscriptionArn,
+    AnomalySubscriptionFrequency? frequency,
+    List<String>? monitorArnList,
+    List<Subscriber>? subscribers,
+    String? subscriptionName,
+    double? threshold,
   }) async {
     ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
     _s.validateStringLength(
@@ -2551,22 +2997,11 @@ class CostExplorer {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'subscriptionArn',
-      subscriptionArn,
-      r'''[\S\s]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'subscriptionName',
       subscriptionName,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'subscriptionName',
-      subscriptionName,
-      r'''[\S\s]*''',
     );
     _s.validateNumRange(
       'threshold',
@@ -2614,9 +3049,10 @@ class CostExplorer {
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html">CostCategoryRule
   /// </a>.
   Future<UpdateCostCategoryDefinitionResponse> updateCostCategoryDefinition({
-    @_s.required String costCategoryArn,
-    @_s.required CostCategoryRuleVersion ruleVersion,
-    @_s.required List<CostCategoryRule> rules,
+    required String costCategoryArn,
+    required CostCategoryRuleVersion ruleVersion,
+    required List<CostCategoryRule> rules,
+    String? defaultValue,
   }) async {
     ArgumentError.checkNotNull(costCategoryArn, 'costCategoryArn');
     _s.validateStringLength(
@@ -2626,14 +3062,14 @@ class CostExplorer {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'costCategoryArn',
-      costCategoryArn,
-      r'''arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(ruleVersion, 'ruleVersion');
     ArgumentError.checkNotNull(rules, 'rules');
+    _s.validateStringLength(
+      'defaultValue',
+      defaultValue,
+      1,
+      50,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSInsightsIndexService.UpdateCostCategoryDefinition'
@@ -2646,8 +3082,9 @@ class CostExplorer {
       headers: headers,
       payload: {
         'CostCategoryArn': costCategoryArn,
-        'RuleVersion': ruleVersion?.toValue() ?? '',
+        'RuleVersion': ruleVersion.toValue(),
         'Rules': rules,
+        if (defaultValue != null) 'DefaultValue': defaultValue,
       },
     );
 
@@ -2656,9 +3093,7 @@ class CostExplorer {
 }
 
 enum AccountScope {
-  @_s.JsonValue('PAYER')
   payer,
-  @_s.JsonValue('LINKED')
   linked,
 }
 
@@ -2670,99 +3105,140 @@ extension on AccountScope {
       case AccountScope.linked:
         return 'LINKED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AccountScope toAccountScope() {
+    switch (this) {
+      case 'PAYER':
+        return AccountScope.payer;
+      case 'LINKED':
+        return AccountScope.linked;
+    }
+    throw Exception('$this is not known in enum AccountScope');
   }
 }
 
 /// An unusual cost pattern. This consists of the detailed metadata and the
 /// current status of the anomaly object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Anomaly {
   /// The unique identifier for the anomaly.
-  @_s.JsonKey(name: 'AnomalyId')
   final String anomalyId;
 
   /// The latest and maximum score for the anomaly.
-  @_s.JsonKey(name: 'AnomalyScore')
   final AnomalyScore anomalyScore;
 
   /// The dollar impact for the anomaly.
-  @_s.JsonKey(name: 'Impact')
   final Impact impact;
 
   /// The Amazon Resource Name (ARN) for the cost monitor that generated this
   /// anomaly.
-  @_s.JsonKey(name: 'MonitorArn')
   final String monitorArn;
 
   /// The last day the anomaly is detected.
-  @_s.JsonKey(name: 'AnomalyEndDate')
-  final String anomalyEndDate;
+  final String? anomalyEndDate;
 
   /// The first day the anomaly is detected.
-  @_s.JsonKey(name: 'AnomalyStartDate')
-  final String anomalyStartDate;
+  final String? anomalyStartDate;
 
   /// The dimension for the anomaly. For example, an AWS service in a service
   /// monitor.
-  @_s.JsonKey(name: 'DimensionValue')
-  final String dimensionValue;
+  final String? dimensionValue;
 
   /// The feedback value.
-  @_s.JsonKey(name: 'Feedback')
-  final AnomalyFeedbackType feedback;
+  final AnomalyFeedbackType? feedback;
 
   /// The list of identified root causes for the anomaly.
-  @_s.JsonKey(name: 'RootCauses')
-  final List<RootCause> rootCauses;
+  final List<RootCause>? rootCauses;
 
   Anomaly({
-    @_s.required this.anomalyId,
-    @_s.required this.anomalyScore,
-    @_s.required this.impact,
-    @_s.required this.monitorArn,
+    required this.anomalyId,
+    required this.anomalyScore,
+    required this.impact,
+    required this.monitorArn,
     this.anomalyEndDate,
     this.anomalyStartDate,
     this.dimensionValue,
     this.feedback,
     this.rootCauses,
   });
-  factory Anomaly.fromJson(Map<String, dynamic> json) =>
-      _$AnomalyFromJson(json);
+
+  factory Anomaly.fromJson(Map<String, dynamic> json) {
+    return Anomaly(
+      anomalyId: json['AnomalyId'] as String,
+      anomalyScore:
+          AnomalyScore.fromJson(json['AnomalyScore'] as Map<String, dynamic>),
+      impact: Impact.fromJson(json['Impact'] as Map<String, dynamic>),
+      monitorArn: json['MonitorArn'] as String,
+      anomalyEndDate: json['AnomalyEndDate'] as String?,
+      anomalyStartDate: json['AnomalyStartDate'] as String?,
+      dimensionValue: json['DimensionValue'] as String?,
+      feedback: (json['Feedback'] as String?)?.toAnomalyFeedbackType(),
+      rootCauses: (json['RootCauses'] as List?)
+          ?.whereNotNull()
+          .map((e) => RootCause.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyId = this.anomalyId;
+    final anomalyScore = this.anomalyScore;
+    final impact = this.impact;
+    final monitorArn = this.monitorArn;
+    final anomalyEndDate = this.anomalyEndDate;
+    final anomalyStartDate = this.anomalyStartDate;
+    final dimensionValue = this.dimensionValue;
+    final feedback = this.feedback;
+    final rootCauses = this.rootCauses;
+    return {
+      'AnomalyId': anomalyId,
+      'AnomalyScore': anomalyScore,
+      'Impact': impact,
+      'MonitorArn': monitorArn,
+      if (anomalyEndDate != null) 'AnomalyEndDate': anomalyEndDate,
+      if (anomalyStartDate != null) 'AnomalyStartDate': anomalyStartDate,
+      if (dimensionValue != null) 'DimensionValue': dimensionValue,
+      if (feedback != null) 'Feedback': feedback.toValue(),
+      if (rootCauses != null) 'RootCauses': rootCauses,
+    };
+  }
 }
 
 /// The time period for an anomaly.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AnomalyDateInterval {
   /// The first date an anomaly was observed.
-  @_s.JsonKey(name: 'StartDate')
   final String startDate;
 
   /// The last date an anomaly was observed.
-  @_s.JsonKey(name: 'EndDate')
-  final String endDate;
+  final String? endDate;
 
   AnomalyDateInterval({
-    @_s.required this.startDate,
+    required this.startDate,
     this.endDate,
   });
-  Map<String, dynamic> toJson() => _$AnomalyDateIntervalToJson(this);
+
+  factory AnomalyDateInterval.fromJson(Map<String, dynamic> json) {
+    return AnomalyDateInterval(
+      startDate: json['StartDate'] as String,
+      endDate: json['EndDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startDate = this.startDate;
+    final endDate = this.endDate;
+    return {
+      'StartDate': startDate,
+      if (endDate != null) 'EndDate': endDate,
+    };
+  }
 }
 
 enum AnomalyFeedbackType {
-  @_s.JsonValue('YES')
   yes,
-  @_s.JsonValue('NO')
   no,
-  @_s.JsonValue('PLANNED_ACTIVITY')
   plannedActivity,
 }
 
@@ -2776,7 +3252,20 @@ extension on AnomalyFeedbackType {
       case AnomalyFeedbackType.plannedActivity:
         return 'PLANNED_ACTIVITY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AnomalyFeedbackType toAnomalyFeedbackType() {
+    switch (this) {
+      case 'YES':
+        return AnomalyFeedbackType.yes;
+      case 'NO':
+        return AnomalyFeedbackType.no;
+      case 'PLANNED_ACTIVITY':
+        return AnomalyFeedbackType.plannedActivity;
+    }
+    throw Exception('$this is not known in enum AnomalyFeedbackType');
   }
 }
 
@@ -2784,49 +3273,35 @@ extension on AnomalyFeedbackType {
 /// based on <code>MonitorType</code> and <code>MonitorSpecification</code>. The
 /// content consists of detailed metadata and the current status of the monitor
 /// object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AnomalyMonitor {
   /// The name of the monitor.
-  @_s.JsonKey(name: 'MonitorName')
   final String monitorName;
 
   /// The possible type values.
-  @_s.JsonKey(name: 'MonitorType')
   final MonitorType monitorType;
 
   /// The date when the monitor was created.
-  @_s.JsonKey(name: 'CreationDate')
-  final String creationDate;
+  final String? creationDate;
 
   /// The value for evaluated dimensions.
-  @_s.JsonKey(name: 'DimensionalValueCount')
-  final int dimensionalValueCount;
+  final int? dimensionalValueCount;
 
   /// The date when the monitor last evaluated for anomalies.
-  @_s.JsonKey(name: 'LastEvaluatedDate')
-  final String lastEvaluatedDate;
+  final String? lastEvaluatedDate;
 
   /// The date when the monitor was last updated.
-  @_s.JsonKey(name: 'LastUpdatedDate')
-  final String lastUpdatedDate;
+  final String? lastUpdatedDate;
 
   /// The Amazon Resource Name (ARN) value.
-  @_s.JsonKey(name: 'MonitorArn')
-  final String monitorArn;
+  final String? monitorArn;
 
   /// The dimensions to evaluate.
-  @_s.JsonKey(name: 'MonitorDimension')
-  final MonitorDimension monitorDimension;
-  @_s.JsonKey(name: 'MonitorSpecification')
-  final Expression monitorSpecification;
+  final MonitorDimension? monitorDimension;
+  final Expression? monitorSpecification;
 
   AnomalyMonitor({
-    @_s.required this.monitorName,
-    @_s.required this.monitorType,
+    required this.monitorName,
+    required this.monitorType,
     this.creationDate,
     this.dimensionalValueCount,
     this.lastEvaluatedDate,
@@ -2835,94 +3310,159 @@ class AnomalyMonitor {
     this.monitorDimension,
     this.monitorSpecification,
   });
-  factory AnomalyMonitor.fromJson(Map<String, dynamic> json) =>
-      _$AnomalyMonitorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AnomalyMonitorToJson(this);
+  factory AnomalyMonitor.fromJson(Map<String, dynamic> json) {
+    return AnomalyMonitor(
+      monitorName: json['MonitorName'] as String,
+      monitorType: (json['MonitorType'] as String).toMonitorType(),
+      creationDate: json['CreationDate'] as String?,
+      dimensionalValueCount: json['DimensionalValueCount'] as int?,
+      lastEvaluatedDate: json['LastEvaluatedDate'] as String?,
+      lastUpdatedDate: json['LastUpdatedDate'] as String?,
+      monitorArn: json['MonitorArn'] as String?,
+      monitorDimension:
+          (json['MonitorDimension'] as String?)?.toMonitorDimension(),
+      monitorSpecification: json['MonitorSpecification'] != null
+          ? Expression.fromJson(
+              json['MonitorSpecification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorName = this.monitorName;
+    final monitorType = this.monitorType;
+    final creationDate = this.creationDate;
+    final dimensionalValueCount = this.dimensionalValueCount;
+    final lastEvaluatedDate = this.lastEvaluatedDate;
+    final lastUpdatedDate = this.lastUpdatedDate;
+    final monitorArn = this.monitorArn;
+    final monitorDimension = this.monitorDimension;
+    final monitorSpecification = this.monitorSpecification;
+    return {
+      'MonitorName': monitorName,
+      'MonitorType': monitorType.toValue(),
+      if (creationDate != null) 'CreationDate': creationDate,
+      if (dimensionalValueCount != null)
+        'DimensionalValueCount': dimensionalValueCount,
+      if (lastEvaluatedDate != null) 'LastEvaluatedDate': lastEvaluatedDate,
+      if (lastUpdatedDate != null) 'LastUpdatedDate': lastUpdatedDate,
+      if (monitorArn != null) 'MonitorArn': monitorArn,
+      if (monitorDimension != null)
+        'MonitorDimension': monitorDimension.toValue(),
+      if (monitorSpecification != null)
+        'MonitorSpecification': monitorSpecification,
+    };
+  }
 }
 
 /// Quantifies the anomaly. The higher score means that it is more anomalous.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AnomalyScore {
   /// The last observed score.
-  @_s.JsonKey(name: 'CurrentScore')
   final double currentScore;
 
   /// The maximum score observed during the <code>AnomalyDateInterval</code>.
-  @_s.JsonKey(name: 'MaxScore')
   final double maxScore;
 
   AnomalyScore({
-    @_s.required this.currentScore,
-    @_s.required this.maxScore,
+    required this.currentScore,
+    required this.maxScore,
   });
-  factory AnomalyScore.fromJson(Map<String, dynamic> json) =>
-      _$AnomalyScoreFromJson(json);
+
+  factory AnomalyScore.fromJson(Map<String, dynamic> json) {
+    return AnomalyScore(
+      currentScore: json['CurrentScore'] as double,
+      maxScore: json['MaxScore'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentScore = this.currentScore;
+    final maxScore = this.maxScore;
+    return {
+      'CurrentScore': currentScore,
+      'MaxScore': maxScore,
+    };
+  }
 }
 
 /// The association between a monitor, threshold, and list of subscribers used
 /// to deliver notifications about anomalies detected by a monitor that exceeds
 /// a threshold. The content consists of the detailed metadata and the current
 /// status of the <code>AnomalySubscription</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AnomalySubscription {
   /// The frequency at which anomaly reports are sent over email.
-  @_s.JsonKey(name: 'Frequency')
   final AnomalySubscriptionFrequency frequency;
 
   /// A list of cost anomaly monitors.
-  @_s.JsonKey(name: 'MonitorArnList')
   final List<String> monitorArnList;
 
   /// A list of subscribers to notify.
-  @_s.JsonKey(name: 'Subscribers')
   final List<Subscriber> subscribers;
 
   /// The name for the subscription.
-  @_s.JsonKey(name: 'SubscriptionName')
   final String subscriptionName;
 
   /// The dollar value that triggers a notification if the threshold is exceeded.
-  @_s.JsonKey(name: 'Threshold')
   final double threshold;
 
   /// Your unique account identifier.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The <code>AnomalySubscription</code> Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'SubscriptionArn')
-  final String subscriptionArn;
+  final String? subscriptionArn;
 
   AnomalySubscription({
-    @_s.required this.frequency,
-    @_s.required this.monitorArnList,
-    @_s.required this.subscribers,
-    @_s.required this.subscriptionName,
-    @_s.required this.threshold,
+    required this.frequency,
+    required this.monitorArnList,
+    required this.subscribers,
+    required this.subscriptionName,
+    required this.threshold,
     this.accountId,
     this.subscriptionArn,
   });
-  factory AnomalySubscription.fromJson(Map<String, dynamic> json) =>
-      _$AnomalySubscriptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AnomalySubscriptionToJson(this);
+  factory AnomalySubscription.fromJson(Map<String, dynamic> json) {
+    return AnomalySubscription(
+      frequency: (json['Frequency'] as String).toAnomalySubscriptionFrequency(),
+      monitorArnList: (json['MonitorArnList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subscribers: (json['Subscribers'] as List)
+          .whereNotNull()
+          .map((e) => Subscriber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subscriptionName: json['SubscriptionName'] as String,
+      threshold: json['Threshold'] as double,
+      accountId: json['AccountId'] as String?,
+      subscriptionArn: json['SubscriptionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frequency = this.frequency;
+    final monitorArnList = this.monitorArnList;
+    final subscribers = this.subscribers;
+    final subscriptionName = this.subscriptionName;
+    final threshold = this.threshold;
+    final accountId = this.accountId;
+    final subscriptionArn = this.subscriptionArn;
+    return {
+      'Frequency': frequency.toValue(),
+      'MonitorArnList': monitorArnList,
+      'Subscribers': subscribers,
+      'SubscriptionName': subscriptionName,
+      'Threshold': threshold,
+      if (accountId != null) 'AccountId': accountId,
+      if (subscriptionArn != null) 'SubscriptionArn': subscriptionArn,
+    };
+  }
 }
 
 enum AnomalySubscriptionFrequency {
-  @_s.JsonValue('DAILY')
   daily,
-  @_s.JsonValue('IMMEDIATE')
   immediate,
-  @_s.JsonValue('WEEKLY')
   weekly,
 }
 
@@ -2936,16 +3476,26 @@ extension on AnomalySubscriptionFrequency {
       case AnomalySubscriptionFrequency.weekly:
         return 'WEEKLY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AnomalySubscriptionFrequency toAnomalySubscriptionFrequency() {
+    switch (this) {
+      case 'DAILY':
+        return AnomalySubscriptionFrequency.daily;
+      case 'IMMEDIATE':
+        return AnomalySubscriptionFrequency.immediate;
+      case 'WEEKLY':
+        return AnomalySubscriptionFrequency.weekly;
+    }
+    throw Exception('$this is not known in enum AnomalySubscriptionFrequency');
   }
 }
 
 enum Context {
-  @_s.JsonValue('COST_AND_USAGE')
   costAndUsage,
-  @_s.JsonValue('RESERVATIONS')
   reservations,
-  @_s.JsonValue('SAVINGS_PLANS')
   savingsPlans,
 }
 
@@ -2959,80 +3509,203 @@ extension on Context {
       case Context.savingsPlans:
         return 'SAVINGS_PLANS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Context toContext() {
+    switch (this) {
+      case 'COST_AND_USAGE':
+        return Context.costAndUsage;
+      case 'RESERVATIONS':
+        return Context.reservations;
+      case 'SAVINGS_PLANS':
+        return Context.savingsPlans;
+    }
+    throw Exception('$this is not known in enum Context');
   }
 }
 
 /// The structure of Cost Categories. This includes detailed metadata and the
 /// set of rules for the <code>CostCategory</code> object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CostCategory {
   /// The unique identifier for your Cost Category.
-  @_s.JsonKey(name: 'CostCategoryArn')
   final String costCategoryArn;
 
   /// The Cost Category's effective start date.
-  @_s.JsonKey(name: 'EffectiveStart')
   final String effectiveStart;
-  @_s.JsonKey(name: 'Name')
   final String name;
-  @_s.JsonKey(name: 'RuleVersion')
   final CostCategoryRuleVersion ruleVersion;
 
   /// Rules are processed in order. If there are multiple rules that match the
   /// line item, then the first rule to match is used to determine that Cost
   /// Category value.
-  @_s.JsonKey(name: 'Rules')
   final List<CostCategoryRule> rules;
+  final String? defaultValue;
 
   /// The Cost Category's effective end date.
-  @_s.JsonKey(name: 'EffectiveEnd')
-  final String effectiveEnd;
+  final String? effectiveEnd;
 
   /// The list of processing statuses for Cost Management products for a specific
   /// cost category.
-  @_s.JsonKey(name: 'ProcessingStatus')
-  final List<CostCategoryProcessingStatus> processingStatus;
+  final List<CostCategoryProcessingStatus>? processingStatus;
 
   CostCategory({
-    @_s.required this.costCategoryArn,
-    @_s.required this.effectiveStart,
-    @_s.required this.name,
-    @_s.required this.ruleVersion,
-    @_s.required this.rules,
+    required this.costCategoryArn,
+    required this.effectiveStart,
+    required this.name,
+    required this.ruleVersion,
+    required this.rules,
+    this.defaultValue,
     this.effectiveEnd,
     this.processingStatus,
   });
-  factory CostCategory.fromJson(Map<String, dynamic> json) =>
-      _$CostCategoryFromJson(json);
+
+  factory CostCategory.fromJson(Map<String, dynamic> json) {
+    return CostCategory(
+      costCategoryArn: json['CostCategoryArn'] as String,
+      effectiveStart: json['EffectiveStart'] as String,
+      name: json['Name'] as String,
+      ruleVersion: (json['RuleVersion'] as String).toCostCategoryRuleVersion(),
+      rules: (json['Rules'] as List)
+          .whereNotNull()
+          .map((e) => CostCategoryRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      defaultValue: json['DefaultValue'] as String?,
+      effectiveEnd: json['EffectiveEnd'] as String?,
+      processingStatus: (json['ProcessingStatus'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final effectiveStart = this.effectiveStart;
+    final name = this.name;
+    final ruleVersion = this.ruleVersion;
+    final rules = this.rules;
+    final defaultValue = this.defaultValue;
+    final effectiveEnd = this.effectiveEnd;
+    final processingStatus = this.processingStatus;
+    return {
+      'CostCategoryArn': costCategoryArn,
+      'EffectiveStart': effectiveStart,
+      'Name': name,
+      'RuleVersion': ruleVersion.toValue(),
+      'Rules': rules,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (effectiveEnd != null) 'EffectiveEnd': effectiveEnd,
+      if (processingStatus != null) 'ProcessingStatus': processingStatus,
+    };
+  }
+}
+
+/// When creating or updating a cost category, you can define the
+/// <code>CostCategoryRule</code> rule type as <code>INHERITED_VALUE</code>.
+/// This rule type adds the flexibility of defining a rule that dynamically
+/// inherits the cost category value from the dimension value defined by
+/// <code>CostCategoryInheritedValueDimension</code>. For example, if you wanted
+/// to dynamically group costs based on the value of a specific tag key, you
+/// would first choose an inherited value rule type, then choose the tag
+/// dimension and specify the tag key to use.
+class CostCategoryInheritedValueDimension {
+  /// The key to extract cost category values.
+  final String? dimensionKey;
+
+  /// The name of dimension for which to group costs.
+  ///
+  /// If you specify <code>LINKED_ACCOUNT_NAME</code>, the cost category value
+  /// will be based on account name. If you specify <code>TAG</code>, the cost
+  /// category value will be based on the value of the specified tag key.
+  final CostCategoryInheritedValueDimensionName? dimensionName;
+
+  CostCategoryInheritedValueDimension({
+    this.dimensionKey,
+    this.dimensionName,
+  });
+
+  factory CostCategoryInheritedValueDimension.fromJson(
+      Map<String, dynamic> json) {
+    return CostCategoryInheritedValueDimension(
+      dimensionKey: json['DimensionKey'] as String?,
+      dimensionName: (json['DimensionName'] as String?)
+          ?.toCostCategoryInheritedValueDimensionName(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionKey = this.dimensionKey;
+    final dimensionName = this.dimensionName;
+    return {
+      if (dimensionKey != null) 'DimensionKey': dimensionKey,
+      if (dimensionName != null) 'DimensionName': dimensionName.toValue(),
+    };
+  }
+}
+
+enum CostCategoryInheritedValueDimensionName {
+  linkedAccountName,
+  tag,
+}
+
+extension on CostCategoryInheritedValueDimensionName {
+  String toValue() {
+    switch (this) {
+      case CostCategoryInheritedValueDimensionName.linkedAccountName:
+        return 'LINKED_ACCOUNT_NAME';
+      case CostCategoryInheritedValueDimensionName.tag:
+        return 'TAG';
+    }
+  }
+}
+
+extension on String {
+  CostCategoryInheritedValueDimensionName
+      toCostCategoryInheritedValueDimensionName() {
+    switch (this) {
+      case 'LINKED_ACCOUNT_NAME':
+        return CostCategoryInheritedValueDimensionName.linkedAccountName;
+      case 'TAG':
+        return CostCategoryInheritedValueDimensionName.tag;
+    }
+    throw Exception(
+        '$this is not known in enum CostCategoryInheritedValueDimensionName');
+  }
 }
 
 /// The list of processing statuses for Cost Management products for a specific
 /// cost category.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CostCategoryProcessingStatus {
   /// The Cost Management product name of the applied status.
-  @_s.JsonKey(name: 'Component')
-  final CostCategoryStatusComponent component;
+  final CostCategoryStatusComponent? component;
 
   /// The process status for a specific cost category.
-  @_s.JsonKey(name: 'Status')
-  final CostCategoryStatus status;
+  final CostCategoryStatus? status;
 
   CostCategoryProcessingStatus({
     this.component,
     this.status,
   });
-  factory CostCategoryProcessingStatus.fromJson(Map<String, dynamic> json) =>
-      _$CostCategoryProcessingStatusFromJson(json);
+
+  factory CostCategoryProcessingStatus.fromJson(Map<String, dynamic> json) {
+    return CostCategoryProcessingStatus(
+      component:
+          (json['Component'] as String?)?.toCostCategoryStatusComponent(),
+      status: (json['Status'] as String?)?.toCostCategoryStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final component = this.component;
+    final status = this.status;
+    return {
+      if (component != null) 'Component': component.toValue(),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// A reference to a Cost Category containing only enough information to
@@ -3040,41 +3713,31 @@ class CostCategoryProcessingStatus {
 ///
 /// You can use this information to retrieve the full Cost Category information
 /// using <code>DescribeCostCategory</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CostCategoryReference {
   /// The unique identifier for your Cost Category.
-  @_s.JsonKey(name: 'CostCategoryArn')
-  final String costCategoryArn;
+  final String? costCategoryArn;
+  final String? defaultValue;
 
   /// The Cost Category's effective end date.
-  @_s.JsonKey(name: 'EffectiveEnd')
-  final String effectiveEnd;
+  final String? effectiveEnd;
 
   /// The Cost Category's effective start date.
-  @_s.JsonKey(name: 'EffectiveStart')
-  final String effectiveStart;
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? effectiveStart;
+  final String? name;
 
   /// The number of rules associated with a specific Cost Category.
-  @_s.JsonKey(name: 'NumberOfRules')
-  final int numberOfRules;
+  final int? numberOfRules;
 
   /// The list of processing statuses for Cost Management products for a specific
   /// cost category.
-  @_s.JsonKey(name: 'ProcessingStatus')
-  final List<CostCategoryProcessingStatus> processingStatus;
+  final List<CostCategoryProcessingStatus>? processingStatus;
 
   /// A list of unique cost category values in a specific cost category.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   CostCategoryReference({
     this.costCategoryArn,
+    this.defaultValue,
     this.effectiveEnd,
     this.effectiveStart,
     this.name,
@@ -3082,19 +3745,57 @@ class CostCategoryReference {
     this.processingStatus,
     this.values,
   });
-  factory CostCategoryReference.fromJson(Map<String, dynamic> json) =>
-      _$CostCategoryReferenceFromJson(json);
+
+  factory CostCategoryReference.fromJson(Map<String, dynamic> json) {
+    return CostCategoryReference(
+      costCategoryArn: json['CostCategoryArn'] as String?,
+      defaultValue: json['DefaultValue'] as String?,
+      effectiveEnd: json['EffectiveEnd'] as String?,
+      effectiveStart: json['EffectiveStart'] as String?,
+      name: json['Name'] as String?,
+      numberOfRules: json['NumberOfRules'] as int?,
+      processingStatus: (json['ProcessingStatus'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CostCategoryProcessingStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final defaultValue = this.defaultValue;
+    final effectiveEnd = this.effectiveEnd;
+    final effectiveStart = this.effectiveStart;
+    final name = this.name;
+    final numberOfRules = this.numberOfRules;
+    final processingStatus = this.processingStatus;
+    final values = this.values;
+    return {
+      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+      if (defaultValue != null) 'DefaultValue': defaultValue,
+      if (effectiveEnd != null) 'EffectiveEnd': effectiveEnd,
+      if (effectiveStart != null) 'EffectiveStart': effectiveStart,
+      if (name != null) 'Name': name,
+      if (numberOfRules != null) 'NumberOfRules': numberOfRules,
+      if (processingStatus != null) 'ProcessingStatus': processingStatus,
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Rules are processed in order. If there are multiple rules that match the
 /// line item, then the first rule to match is used to determine that Cost
 /// Category value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CostCategoryRule {
+  /// The value the line item will be categorized as, if the line item contains
+  /// the matched dimension.
+  final CostCategoryInheritedValueDimension? inheritedValue;
+
   /// An <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
   /// object used to categorize costs. This supports dimensions, tags, and nested
@@ -3111,24 +3812,84 @@ class CostCategoryRule {
   /// a detailed comparison, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-cost-categories.html#cost-categories-terms">Term
   /// Comparisons</a> in the <i>AWS Billing and Cost Management User Guide</i>.
-  @_s.JsonKey(name: 'Rule')
-  final Expression rule;
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final Expression? rule;
+
+  /// You can define the <code>CostCategoryRule</code> rule type as either
+  /// <code>REGULAR</code> or <code>INHERITED_VALUE</code>. The
+  /// <code>INHERITED_VALUE</code> rule type adds the flexibility of defining a
+  /// rule that dynamically inherits the cost category value from the dimension
+  /// value defined by <code>CostCategoryInheritedValueDimension</code>. For
+  /// example, if you wanted to dynamically group costs based on the value of a
+  /// specific tag key, you would first choose an inherited value rule type, then
+  /// choose the tag dimension and specify the tag key to use.
+  final CostCategoryRuleType? type;
+  final String? value;
 
   CostCategoryRule({
-    @_s.required this.rule,
-    @_s.required this.value,
+    this.inheritedValue,
+    this.rule,
+    this.type,
+    this.value,
   });
-  factory CostCategoryRule.fromJson(Map<String, dynamic> json) =>
-      _$CostCategoryRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CostCategoryRuleToJson(this);
+  factory CostCategoryRule.fromJson(Map<String, dynamic> json) {
+    return CostCategoryRule(
+      inheritedValue: json['InheritedValue'] != null
+          ? CostCategoryInheritedValueDimension.fromJson(
+              json['InheritedValue'] as Map<String, dynamic>)
+          : null,
+      rule: json['Rule'] != null
+          ? Expression.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toCostCategoryRuleType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inheritedValue = this.inheritedValue;
+    final rule = this.rule;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (inheritedValue != null) 'InheritedValue': inheritedValue,
+      if (rule != null) 'Rule': rule,
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+enum CostCategoryRuleType {
+  regular,
+  inheritedValue,
+}
+
+extension on CostCategoryRuleType {
+  String toValue() {
+    switch (this) {
+      case CostCategoryRuleType.regular:
+        return 'REGULAR';
+      case CostCategoryRuleType.inheritedValue:
+        return 'INHERITED_VALUE';
+    }
+  }
+}
+
+extension on String {
+  CostCategoryRuleType toCostCategoryRuleType() {
+    switch (this) {
+      case 'REGULAR':
+        return CostCategoryRuleType.regular;
+      case 'INHERITED_VALUE':
+        return CostCategoryRuleType.inheritedValue;
+    }
+    throw Exception('$this is not known in enum CostCategoryRuleType');
+  }
 }
 
 /// The rule schema version in this particular Cost Category.
 enum CostCategoryRuleVersion {
-  @_s.JsonValue('CostCategoryExpression.v1')
   costCategoryExpressionV1,
 }
 
@@ -3138,151 +3899,254 @@ extension on CostCategoryRuleVersion {
       case CostCategoryRuleVersion.costCategoryExpressionV1:
         return 'CostCategoryExpression.v1';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CostCategoryRuleVersion toCostCategoryRuleVersion() {
+    switch (this) {
+      case 'CostCategoryExpression.v1':
+        return CostCategoryRuleVersion.costCategoryExpressionV1;
+    }
+    throw Exception('$this is not known in enum CostCategoryRuleVersion');
   }
 }
 
 enum CostCategoryStatus {
-  @_s.JsonValue('PROCESSING')
   processing,
-  @_s.JsonValue('APPLIED')
   applied,
 }
 
+extension on CostCategoryStatus {
+  String toValue() {
+    switch (this) {
+      case CostCategoryStatus.processing:
+        return 'PROCESSING';
+      case CostCategoryStatus.applied:
+        return 'APPLIED';
+    }
+  }
+}
+
+extension on String {
+  CostCategoryStatus toCostCategoryStatus() {
+    switch (this) {
+      case 'PROCESSING':
+        return CostCategoryStatus.processing;
+      case 'APPLIED':
+        return CostCategoryStatus.applied;
+    }
+    throw Exception('$this is not known in enum CostCategoryStatus');
+  }
+}
+
 enum CostCategoryStatusComponent {
-  @_s.JsonValue('COST_EXPLORER')
   costExplorer,
 }
 
+extension on CostCategoryStatusComponent {
+  String toValue() {
+    switch (this) {
+      case CostCategoryStatusComponent.costExplorer:
+        return 'COST_EXPLORER';
+    }
+  }
+}
+
+extension on String {
+  CostCategoryStatusComponent toCostCategoryStatusComponent() {
+    switch (this) {
+      case 'COST_EXPLORER':
+        return CostCategoryStatusComponent.costExplorer;
+    }
+    throw Exception('$this is not known in enum CostCategoryStatusComponent');
+  }
+}
+
 /// The Cost Categories values used for filtering the costs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+///
+/// If <code>Values</code> and <code>Key</code> are not specified, the
+/// <code>ABSENT</code> <code>MatchOption</code> is applied to all Cost
+/// Categories. That is, filtering on resources that are not mapped to any Cost
+/// Categories.
+///
+/// If <code>Values</code> is provided and <code>Key</code> is not specified,
+/// the <code>ABSENT</code> <code>MatchOption</code> is applied to the Cost
+/// Categories <code>Key</code> only. That is, filtering on resources without
+/// the given Cost Categories key.
 class CostCategoryValues {
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The match options that you can use to filter your results. MatchOptions is
-  /// only applicable for only applicable for actions related to cost category.
-  /// The default values for <code>MatchOptions</code> is <code>EQUALS</code> and
+  /// only applicable for actions related to cost category. The default values for
+  /// <code>MatchOptions</code> is <code>EQUALS</code> and
   /// <code>CASE_SENSITIVE</code>.
-  @_s.JsonKey(name: 'MatchOptions')
-  final List<MatchOption> matchOptions;
+  final List<MatchOption>? matchOptions;
 
   /// The specific value of the Cost Category.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   CostCategoryValues({
     this.key,
     this.matchOptions,
     this.values,
   });
-  factory CostCategoryValues.fromJson(Map<String, dynamic> json) =>
-      _$CostCategoryValuesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CostCategoryValuesToJson(this);
+  factory CostCategoryValues.fromJson(Map<String, dynamic> json) {
+    return CostCategoryValues(
+      key: json['Key'] as String?,
+      matchOptions: (json['MatchOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMatchOption())
+          .toList(),
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final matchOptions = this.matchOptions;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (matchOptions != null)
+        'MatchOptions': matchOptions.map((e) => e.toValue()).toList(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// The amount of instance usage that a reservation covered.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Coverage {
   /// The amount of cost that the reservation covered.
-  @_s.JsonKey(name: 'CoverageCost')
-  final CoverageCost coverageCost;
+  final CoverageCost? coverageCost;
 
   /// The amount of instance usage that the reservation covered, in hours.
-  @_s.JsonKey(name: 'CoverageHours')
-  final CoverageHours coverageHours;
+  final CoverageHours? coverageHours;
 
   /// The amount of instance usage that the reservation covered, in normalized
   /// units.
-  @_s.JsonKey(name: 'CoverageNormalizedUnits')
-  final CoverageNormalizedUnits coverageNormalizedUnits;
+  final CoverageNormalizedUnits? coverageNormalizedUnits;
 
   Coverage({
     this.coverageCost,
     this.coverageHours,
     this.coverageNormalizedUnits,
   });
-  factory Coverage.fromJson(Map<String, dynamic> json) =>
-      _$CoverageFromJson(json);
+
+  factory Coverage.fromJson(Map<String, dynamic> json) {
+    return Coverage(
+      coverageCost: json['CoverageCost'] != null
+          ? CoverageCost.fromJson(json['CoverageCost'] as Map<String, dynamic>)
+          : null,
+      coverageHours: json['CoverageHours'] != null
+          ? CoverageHours.fromJson(
+              json['CoverageHours'] as Map<String, dynamic>)
+          : null,
+      coverageNormalizedUnits: json['CoverageNormalizedUnits'] != null
+          ? CoverageNormalizedUnits.fromJson(
+              json['CoverageNormalizedUnits'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coverageCost = this.coverageCost;
+    final coverageHours = this.coverageHours;
+    final coverageNormalizedUnits = this.coverageNormalizedUnits;
+    return {
+      if (coverageCost != null) 'CoverageCost': coverageCost,
+      if (coverageHours != null) 'CoverageHours': coverageHours,
+      if (coverageNormalizedUnits != null)
+        'CoverageNormalizedUnits': coverageNormalizedUnits,
+    };
+  }
 }
 
 /// Reservation coverage for a specified period, in hours.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CoverageByTime {
   /// The groups of instances that the reservation covered.
-  @_s.JsonKey(name: 'Groups')
-  final List<ReservationCoverageGroup> groups;
+  final List<ReservationCoverageGroup>? groups;
 
   /// The period that this coverage was used over.
-  @_s.JsonKey(name: 'TimePeriod')
-  final DateInterval timePeriod;
+  final DateInterval? timePeriod;
 
   /// The total reservation coverage, in hours.
-  @_s.JsonKey(name: 'Total')
-  final Coverage total;
+  final Coverage? total;
 
   CoverageByTime({
     this.groups,
     this.timePeriod,
     this.total,
   });
-  factory CoverageByTime.fromJson(Map<String, dynamic> json) =>
-      _$CoverageByTimeFromJson(json);
+
+  factory CoverageByTime.fromJson(Map<String, dynamic> json) {
+    return CoverageByTime(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReservationCoverageGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+      total: json['Total'] != null
+          ? Coverage.fromJson(json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final timePeriod = this.timePeriod;
+    final total = this.total;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
 /// How much it costs to run an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CoverageCost {
   /// How much an On-Demand Instance costs.
-  @_s.JsonKey(name: 'OnDemandCost')
-  final String onDemandCost;
+  final String? onDemandCost;
 
   CoverageCost({
     this.onDemandCost,
   });
-  factory CoverageCost.fromJson(Map<String, dynamic> json) =>
-      _$CoverageCostFromJson(json);
+
+  factory CoverageCost.fromJson(Map<String, dynamic> json) {
+    return CoverageCost(
+      onDemandCost: json['OnDemandCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onDemandCost = this.onDemandCost;
+    return {
+      if (onDemandCost != null) 'OnDemandCost': onDemandCost,
+    };
+  }
 }
 
 /// How long a running instance either used a reservation or was On-Demand.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CoverageHours {
   /// The percentage of instance hours that a reservation covered.
-  @_s.JsonKey(name: 'CoverageHoursPercentage')
-  final String coverageHoursPercentage;
+  final String? coverageHoursPercentage;
 
   /// The number of instance running hours that On-Demand Instances covered.
-  @_s.JsonKey(name: 'OnDemandHours')
-  final String onDemandHours;
+  final String? onDemandHours;
 
   /// The number of instance running hours that reservations covered.
-  @_s.JsonKey(name: 'ReservedHours')
-  final String reservedHours;
+  final String? reservedHours;
 
   /// The total instance usage, in hours.
-  @_s.JsonKey(name: 'TotalRunningHours')
-  final String totalRunningHours;
+  final String? totalRunningHours;
 
   CoverageHours({
     this.coverageHoursPercentage,
@@ -3290,8 +4154,29 @@ class CoverageHours {
     this.reservedHours,
     this.totalRunningHours,
   });
-  factory CoverageHours.fromJson(Map<String, dynamic> json) =>
-      _$CoverageHoursFromJson(json);
+
+  factory CoverageHours.fromJson(Map<String, dynamic> json) {
+    return CoverageHours(
+      coverageHoursPercentage: json['CoverageHoursPercentage'] as String?,
+      onDemandHours: json['OnDemandHours'] as String?,
+      reservedHours: json['ReservedHours'] as String?,
+      totalRunningHours: json['TotalRunningHours'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coverageHoursPercentage = this.coverageHoursPercentage;
+    final onDemandHours = this.onDemandHours;
+    final reservedHours = this.reservedHours;
+    final totalRunningHours = this.totalRunningHours;
+    return {
+      if (coverageHoursPercentage != null)
+        'CoverageHoursPercentage': coverageHoursPercentage,
+      if (onDemandHours != null) 'OnDemandHours': onDemandHours,
+      if (reservedHours != null) 'ReservedHours': reservedHours,
+      if (totalRunningHours != null) 'TotalRunningHours': totalRunningHours,
+    };
+  }
 }
 
 /// The amount of instance usage, in normalized units. Normalized units enable
@@ -3307,29 +4192,20 @@ class CoverageHours {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html">Modifying
 /// Reserved Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide for
 /// Linux Instances</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CoverageNormalizedUnits {
   /// The percentage of your used instance normalized units that a reservation
   /// covers.
-  @_s.JsonKey(name: 'CoverageNormalizedUnitsPercentage')
-  final String coverageNormalizedUnitsPercentage;
+  final String? coverageNormalizedUnitsPercentage;
 
   /// The number of normalized units that are covered by On-Demand Instances
   /// instead of a reservation.
-  @_s.JsonKey(name: 'OnDemandNormalizedUnits')
-  final String onDemandNormalizedUnits;
+  final String? onDemandNormalizedUnits;
 
   /// The number of normalized units that a reservation covers.
-  @_s.JsonKey(name: 'ReservedNormalizedUnits')
-  final String reservedNormalizedUnits;
+  final String? reservedNormalizedUnits;
 
   /// The total number of normalized units that you used.
-  @_s.JsonKey(name: 'TotalRunningNormalizedUnits')
-  final String totalRunningNormalizedUnits;
+  final String? totalRunningNormalizedUnits;
 
   CoverageNormalizedUnits({
     this.coverageNormalizedUnitsPercentage,
@@ -3337,119 +4213,147 @@ class CoverageNormalizedUnits {
     this.reservedNormalizedUnits,
     this.totalRunningNormalizedUnits,
   });
-  factory CoverageNormalizedUnits.fromJson(Map<String, dynamic> json) =>
-      _$CoverageNormalizedUnitsFromJson(json);
+
+  factory CoverageNormalizedUnits.fromJson(Map<String, dynamic> json) {
+    return CoverageNormalizedUnits(
+      coverageNormalizedUnitsPercentage:
+          json['CoverageNormalizedUnitsPercentage'] as String?,
+      onDemandNormalizedUnits: json['OnDemandNormalizedUnits'] as String?,
+      reservedNormalizedUnits: json['ReservedNormalizedUnits'] as String?,
+      totalRunningNormalizedUnits:
+          json['TotalRunningNormalizedUnits'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coverageNormalizedUnitsPercentage =
+        this.coverageNormalizedUnitsPercentage;
+    final onDemandNormalizedUnits = this.onDemandNormalizedUnits;
+    final reservedNormalizedUnits = this.reservedNormalizedUnits;
+    final totalRunningNormalizedUnits = this.totalRunningNormalizedUnits;
+    return {
+      if (coverageNormalizedUnitsPercentage != null)
+        'CoverageNormalizedUnitsPercentage': coverageNormalizedUnitsPercentage,
+      if (onDemandNormalizedUnits != null)
+        'OnDemandNormalizedUnits': onDemandNormalizedUnits,
+      if (reservedNormalizedUnits != null)
+        'ReservedNormalizedUnits': reservedNormalizedUnits,
+      if (totalRunningNormalizedUnits != null)
+        'TotalRunningNormalizedUnits': totalRunningNormalizedUnits,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAnomalyMonitorResponse {
   /// The unique identifier of your newly created cost anomaly detection monitor.
-  @_s.JsonKey(name: 'MonitorArn')
   final String monitorArn;
 
   CreateAnomalyMonitorResponse({
-    @_s.required this.monitorArn,
+    required this.monitorArn,
   });
-  factory CreateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAnomalyMonitorResponseFromJson(json);
+
+  factory CreateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAnomalyMonitorResponse(
+      monitorArn: json['MonitorArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorArn = this.monitorArn;
+    return {
+      'MonitorArn': monitorArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAnomalySubscriptionResponse {
   /// The unique identifier of your newly created cost anomaly subscription.
-  @_s.JsonKey(name: 'SubscriptionArn')
   final String subscriptionArn;
 
   CreateAnomalySubscriptionResponse({
-    @_s.required this.subscriptionArn,
+    required this.subscriptionArn,
   });
+
   factory CreateAnomalySubscriptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateAnomalySubscriptionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateAnomalySubscriptionResponse(
+      subscriptionArn: json['SubscriptionArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriptionArn = this.subscriptionArn;
+    return {
+      'SubscriptionArn': subscriptionArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCostCategoryDefinitionResponse {
   /// The unique identifier for your newly created Cost Category.
-  @_s.JsonKey(name: 'CostCategoryArn')
-  final String costCategoryArn;
+  final String? costCategoryArn;
 
   /// The Cost Category's effective start date.
-  @_s.JsonKey(name: 'EffectiveStart')
-  final String effectiveStart;
+  final String? effectiveStart;
 
   CreateCostCategoryDefinitionResponse({
     this.costCategoryArn,
     this.effectiveStart,
   });
+
   factory CreateCostCategoryDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCostCategoryDefinitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCostCategoryDefinitionResponse(
+      costCategoryArn: json['CostCategoryArn'] as String?,
+      effectiveStart: json['EffectiveStart'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final effectiveStart = this.effectiveStart;
+    return {
+      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+      if (effectiveStart != null) 'EffectiveStart': effectiveStart,
+    };
+  }
 }
 
 /// Context about the current instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CurrentInstance {
   /// The currency code that AWS used to calculate the costs for this instance.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The name you've given an instance. This field will show as blank if you
   /// haven't given the instance a name.
-  @_s.JsonKey(name: 'InstanceName')
-  final String instanceName;
+  final String? instanceName;
 
   /// Current On-Demand cost of operating this instance on a monthly basis.
-  @_s.JsonKey(name: 'MonthlyCost')
-  final String monthlyCost;
+  final String? monthlyCost;
 
   /// Number of hours during the lookback period billed at On-Demand rates.
-  @_s.JsonKey(name: 'OnDemandHoursInLookbackPeriod')
-  final String onDemandHoursInLookbackPeriod;
+  final String? onDemandHoursInLookbackPeriod;
 
   /// Number of hours during the lookback period covered by reservations.
-  @_s.JsonKey(name: 'ReservationCoveredHoursInLookbackPeriod')
-  final String reservationCoveredHoursInLookbackPeriod;
+  final String? reservationCoveredHoursInLookbackPeriod;
 
   /// Details about the resource and utilization.
-  @_s.JsonKey(name: 'ResourceDetails')
-  final ResourceDetails resourceDetails;
+  final ResourceDetails? resourceDetails;
 
   /// Resource ID of the current instance.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   /// Utilization information of the current instance during the lookback period.
-  @_s.JsonKey(name: 'ResourceUtilization')
-  final ResourceUtilization resourceUtilization;
+  final ResourceUtilization? resourceUtilization;
 
   /// Number of hours during the lookback period covered by Savings Plans.
-  @_s.JsonKey(name: 'SavingsPlansCoveredHoursInLookbackPeriod')
-  final String savingsPlansCoveredHoursInLookbackPeriod;
+  final String? savingsPlansCoveredHoursInLookbackPeriod;
 
   /// Cost allocation resource tags applied to the instance.
-  @_s.JsonKey(name: 'Tags')
-  final List<TagValues> tags;
+  final List<TagValues>? tags;
 
   /// The total number of hours the instance ran during the lookback period.
-  @_s.JsonKey(name: 'TotalRunningHoursInLookbackPeriod')
-  final String totalRunningHoursInLookbackPeriod;
+  final String? totalRunningHoursInLookbackPeriod;
 
   CurrentInstance({
     this.currencyCode,
@@ -3464,164 +4368,221 @@ class CurrentInstance {
     this.tags,
     this.totalRunningHoursInLookbackPeriod,
   });
-  factory CurrentInstance.fromJson(Map<String, dynamic> json) =>
-      _$CurrentInstanceFromJson(json);
+
+  factory CurrentInstance.fromJson(Map<String, dynamic> json) {
+    return CurrentInstance(
+      currencyCode: json['CurrencyCode'] as String?,
+      instanceName: json['InstanceName'] as String?,
+      monthlyCost: json['MonthlyCost'] as String?,
+      onDemandHoursInLookbackPeriod:
+          json['OnDemandHoursInLookbackPeriod'] as String?,
+      reservationCoveredHoursInLookbackPeriod:
+          json['ReservationCoveredHoursInLookbackPeriod'] as String?,
+      resourceDetails: json['ResourceDetails'] != null
+          ? ResourceDetails.fromJson(
+              json['ResourceDetails'] as Map<String, dynamic>)
+          : null,
+      resourceId: json['ResourceId'] as String?,
+      resourceUtilization: json['ResourceUtilization'] != null
+          ? ResourceUtilization.fromJson(
+              json['ResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      savingsPlansCoveredHoursInLookbackPeriod:
+          json['SavingsPlansCoveredHoursInLookbackPeriod'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => TagValues.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalRunningHoursInLookbackPeriod:
+          json['TotalRunningHoursInLookbackPeriod'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final instanceName = this.instanceName;
+    final monthlyCost = this.monthlyCost;
+    final onDemandHoursInLookbackPeriod = this.onDemandHoursInLookbackPeriod;
+    final reservationCoveredHoursInLookbackPeriod =
+        this.reservationCoveredHoursInLookbackPeriod;
+    final resourceDetails = this.resourceDetails;
+    final resourceId = this.resourceId;
+    final resourceUtilization = this.resourceUtilization;
+    final savingsPlansCoveredHoursInLookbackPeriod =
+        this.savingsPlansCoveredHoursInLookbackPeriod;
+    final tags = this.tags;
+    final totalRunningHoursInLookbackPeriod =
+        this.totalRunningHoursInLookbackPeriod;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (instanceName != null) 'InstanceName': instanceName,
+      if (monthlyCost != null) 'MonthlyCost': monthlyCost,
+      if (onDemandHoursInLookbackPeriod != null)
+        'OnDemandHoursInLookbackPeriod': onDemandHoursInLookbackPeriod,
+      if (reservationCoveredHoursInLookbackPeriod != null)
+        'ReservationCoveredHoursInLookbackPeriod':
+            reservationCoveredHoursInLookbackPeriod,
+      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceUtilization != null)
+        'ResourceUtilization': resourceUtilization,
+      if (savingsPlansCoveredHoursInLookbackPeriod != null)
+        'SavingsPlansCoveredHoursInLookbackPeriod':
+            savingsPlansCoveredHoursInLookbackPeriod,
+      if (tags != null) 'Tags': tags,
+      if (totalRunningHoursInLookbackPeriod != null)
+        'TotalRunningHoursInLookbackPeriod': totalRunningHoursInLookbackPeriod,
+    };
+  }
 }
 
-/// The time period that you want the usage and costs for.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// The time period of the request.
 class DateInterval {
-  /// The end of the time period that you want the usage and costs for. The end
-  /// date is exclusive. For example, if <code>end</code> is
-  /// <code>2017-05-01</code>, AWS retrieves cost and usage data from the start
-  /// date up to, but not including, <code>2017-05-01</code>.
-  @_s.JsonKey(name: 'End')
+  /// The end of the time period. The end date is exclusive. For example, if
+  /// <code>end</code> is <code>2017-05-01</code>, AWS retrieves cost and usage
+  /// data from the start date up to, but not including, <code>2017-05-01</code>.
   final String end;
 
-  /// The beginning of the time period that you want the usage and costs for. The
-  /// start date is inclusive. For example, if <code>start</code> is
-  /// <code>2017-01-01</code>, AWS retrieves cost and usage data starting at
-  /// <code>2017-01-01</code> up to the end date.
-  @_s.JsonKey(name: 'Start')
+  /// The beginning of the time period. The start date is inclusive. For example,
+  /// if <code>start</code> is <code>2017-01-01</code>, AWS retrieves cost and
+  /// usage data starting at <code>2017-01-01</code> up to the end date. The start
+  /// date must be equal to or no later than the current date to avoid a
+  /// validation error.
   final String start;
 
   DateInterval({
-    @_s.required this.end,
-    @_s.required this.start,
+    required this.end,
+    required this.start,
   });
-  factory DateInterval.fromJson(Map<String, dynamic> json) =>
-      _$DateIntervalFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DateIntervalToJson(this);
+  factory DateInterval.fromJson(Map<String, dynamic> json) {
+    return DateInterval(
+      end: json['End'] as String,
+      start: json['Start'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final end = this.end;
+    final start = this.start;
+    return {
+      'End': end,
+      'Start': start,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAnomalyMonitorResponse {
   DeleteAnomalyMonitorResponse();
-  factory DeleteAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAnomalyMonitorResponseFromJson(json);
+
+  factory DeleteAnomalyMonitorResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAnomalyMonitorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAnomalySubscriptionResponse {
   DeleteAnomalySubscriptionResponse();
-  factory DeleteAnomalySubscriptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteAnomalySubscriptionResponseFromJson(json);
+
+  factory DeleteAnomalySubscriptionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAnomalySubscriptionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCostCategoryDefinitionResponse {
   /// The unique identifier for your Cost Category.
-  @_s.JsonKey(name: 'CostCategoryArn')
-  final String costCategoryArn;
+  final String? costCategoryArn;
 
   /// The effective end date of the Cost Category as a result of deleting it. No
   /// costs after this date will be categorized by the deleted Cost Category.
-  @_s.JsonKey(name: 'EffectiveEnd')
-  final String effectiveEnd;
+  final String? effectiveEnd;
 
   DeleteCostCategoryDefinitionResponse({
     this.costCategoryArn,
     this.effectiveEnd,
   });
+
   factory DeleteCostCategoryDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteCostCategoryDefinitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteCostCategoryDefinitionResponse(
+      costCategoryArn: json['CostCategoryArn'] as String?,
+      effectiveEnd: json['EffectiveEnd'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final effectiveEnd = this.effectiveEnd;
+    return {
+      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+      if (effectiveEnd != null) 'EffectiveEnd': effectiveEnd,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCostCategoryDefinitionResponse {
-  @_s.JsonKey(name: 'CostCategory')
-  final CostCategory costCategory;
+  final CostCategory? costCategory;
 
   DescribeCostCategoryDefinitionResponse({
     this.costCategory,
   });
+
   factory DescribeCostCategoryDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCostCategoryDefinitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCostCategoryDefinitionResponse(
+      costCategory: json['CostCategory'] != null
+          ? CostCategory.fromJson(json['CostCategory'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategory = this.costCategory;
+    return {
+      if (costCategory != null) 'CostCategory': costCategory,
+    };
+  }
 }
 
 enum Dimension {
-  @_s.JsonValue('AZ')
   az,
-  @_s.JsonValue('INSTANCE_TYPE')
   instanceType,
-  @_s.JsonValue('LINKED_ACCOUNT')
   linkedAccount,
-  @_s.JsonValue('LINKED_ACCOUNT_NAME')
   linkedAccountName,
-  @_s.JsonValue('OPERATION')
   operation,
-  @_s.JsonValue('PURCHASE_TYPE')
   purchaseType,
-  @_s.JsonValue('REGION')
   region,
-  @_s.JsonValue('SERVICE')
   service,
-  @_s.JsonValue('SERVICE_CODE')
   serviceCode,
-  @_s.JsonValue('USAGE_TYPE')
   usageType,
-  @_s.JsonValue('USAGE_TYPE_GROUP')
   usageTypeGroup,
-  @_s.JsonValue('RECORD_TYPE')
   recordType,
-  @_s.JsonValue('OPERATING_SYSTEM')
   operatingSystem,
-  @_s.JsonValue('TENANCY')
   tenancy,
-  @_s.JsonValue('SCOPE')
   scope,
-  @_s.JsonValue('PLATFORM')
   platform,
-  @_s.JsonValue('SUBSCRIPTION_ID')
   subscriptionId,
-  @_s.JsonValue('LEGAL_ENTITY_NAME')
   legalEntityName,
-  @_s.JsonValue('DEPLOYMENT_OPTION')
   deploymentOption,
-  @_s.JsonValue('DATABASE_ENGINE')
   databaseEngine,
-  @_s.JsonValue('CACHE_ENGINE')
   cacheEngine,
-  @_s.JsonValue('INSTANCE_TYPE_FAMILY')
   instanceTypeFamily,
-  @_s.JsonValue('BILLING_ENTITY')
   billingEntity,
-  @_s.JsonValue('RESERVATION_ID')
   reservationId,
-  @_s.JsonValue('RESOURCE_ID')
   resourceId,
-  @_s.JsonValue('RIGHTSIZING_TYPE')
   rightsizingType,
-  @_s.JsonValue('SAVINGS_PLANS_TYPE')
   savingsPlansType,
-  @_s.JsonValue('SAVINGS_PLAN_ARN')
   savingsPlanArn,
-  @_s.JsonValue('PAYMENT_OPTION')
   paymentOption,
+  agreementEndDateTimeAfter,
+  agreementEndDateTimeBefore,
 }
 
 extension on Dimension {
@@ -3685,95 +4646,230 @@ extension on Dimension {
         return 'SAVINGS_PLAN_ARN';
       case Dimension.paymentOption:
         return 'PAYMENT_OPTION';
+      case Dimension.agreementEndDateTimeAfter:
+        return 'AGREEMENT_END_DATE_TIME_AFTER';
+      case Dimension.agreementEndDateTimeBefore:
+        return 'AGREEMENT_END_DATE_TIME_BEFORE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Dimension toDimension() {
+    switch (this) {
+      case 'AZ':
+        return Dimension.az;
+      case 'INSTANCE_TYPE':
+        return Dimension.instanceType;
+      case 'LINKED_ACCOUNT':
+        return Dimension.linkedAccount;
+      case 'LINKED_ACCOUNT_NAME':
+        return Dimension.linkedAccountName;
+      case 'OPERATION':
+        return Dimension.operation;
+      case 'PURCHASE_TYPE':
+        return Dimension.purchaseType;
+      case 'REGION':
+        return Dimension.region;
+      case 'SERVICE':
+        return Dimension.service;
+      case 'SERVICE_CODE':
+        return Dimension.serviceCode;
+      case 'USAGE_TYPE':
+        return Dimension.usageType;
+      case 'USAGE_TYPE_GROUP':
+        return Dimension.usageTypeGroup;
+      case 'RECORD_TYPE':
+        return Dimension.recordType;
+      case 'OPERATING_SYSTEM':
+        return Dimension.operatingSystem;
+      case 'TENANCY':
+        return Dimension.tenancy;
+      case 'SCOPE':
+        return Dimension.scope;
+      case 'PLATFORM':
+        return Dimension.platform;
+      case 'SUBSCRIPTION_ID':
+        return Dimension.subscriptionId;
+      case 'LEGAL_ENTITY_NAME':
+        return Dimension.legalEntityName;
+      case 'DEPLOYMENT_OPTION':
+        return Dimension.deploymentOption;
+      case 'DATABASE_ENGINE':
+        return Dimension.databaseEngine;
+      case 'CACHE_ENGINE':
+        return Dimension.cacheEngine;
+      case 'INSTANCE_TYPE_FAMILY':
+        return Dimension.instanceTypeFamily;
+      case 'BILLING_ENTITY':
+        return Dimension.billingEntity;
+      case 'RESERVATION_ID':
+        return Dimension.reservationId;
+      case 'RESOURCE_ID':
+        return Dimension.resourceId;
+      case 'RIGHTSIZING_TYPE':
+        return Dimension.rightsizingType;
+      case 'SAVINGS_PLANS_TYPE':
+        return Dimension.savingsPlansType;
+      case 'SAVINGS_PLAN_ARN':
+        return Dimension.savingsPlanArn;
+      case 'PAYMENT_OPTION':
+        return Dimension.paymentOption;
+      case 'AGREEMENT_END_DATE_TIME_AFTER':
+        return Dimension.agreementEndDateTimeAfter;
+      case 'AGREEMENT_END_DATE_TIME_BEFORE':
+        return Dimension.agreementEndDateTimeBefore;
+    }
+    throw Exception('$this is not known in enum Dimension');
   }
 }
 
 /// The metadata that you can use to filter and group your results. You can use
 /// <code>GetDimensionValues</code> to find specific values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DimensionValues {
   /// The names of the metadata types that you can use to filter and group your
   /// results. For example, <code>AZ</code> returns a list of Availability Zones.
-  @_s.JsonKey(name: 'Key')
-  final Dimension key;
+  final Dimension? key;
 
   /// The match options that you can use to filter your results.
   /// <code>MatchOptions</code> is only applicable for actions related to Cost
   /// Category. The default values for <code>MatchOptions</code> are
   /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
-  @_s.JsonKey(name: 'MatchOptions')
-  final List<MatchOption> matchOptions;
+  final List<MatchOption>? matchOptions;
 
   /// The metadata values that you can use to filter and group your results. You
   /// can use <code>GetDimensionValues</code> to find specific values.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   DimensionValues({
     this.key,
     this.matchOptions,
     this.values,
   });
-  factory DimensionValues.fromJson(Map<String, dynamic> json) =>
-      _$DimensionValuesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DimensionValuesToJson(this);
+  factory DimensionValues.fromJson(Map<String, dynamic> json) {
+    return DimensionValues(
+      key: (json['Key'] as String?)?.toDimension(),
+      matchOptions: (json['MatchOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMatchOption())
+          .toList(),
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final matchOptions = this.matchOptions;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key.toValue(),
+      if (matchOptions != null)
+        'MatchOptions': matchOptions.map((e) => e.toValue()).toList(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// The metadata of a specific type that you can use to filter and group your
 /// results. You can use <code>GetDimensionValues</code> to find specific
 /// values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DimensionValuesWithAttributes {
   /// The attribute that applies to a specific <code>Dimension</code>.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The value of a dimension with a specific attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   DimensionValuesWithAttributes({
     this.attributes,
     this.value,
   });
-  factory DimensionValuesWithAttributes.fromJson(Map<String, dynamic> json) =>
-      _$DimensionValuesWithAttributesFromJson(json);
+
+  factory DimensionValuesWithAttributes.fromJson(Map<String, dynamic> json) {
+    return DimensionValuesWithAttributes(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final value = this.value;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (value != null) 'Value': value,
+    };
+  }
+}
+
+/// The field that contains a list of disk (local storage) metrics associated
+/// with the current instance.
+class DiskResourceUtilization {
+  /// The maximum read throughput operations per second.
+  final String? diskReadBytesPerSecond;
+
+  /// The maximum number of read operations per second.
+  final String? diskReadOpsPerSecond;
+
+  /// The maximum write throughput operations per second.
+  final String? diskWriteBytesPerSecond;
+
+  /// The maximum number of write operations per second.
+  final String? diskWriteOpsPerSecond;
+
+  DiskResourceUtilization({
+    this.diskReadBytesPerSecond,
+    this.diskReadOpsPerSecond,
+    this.diskWriteBytesPerSecond,
+    this.diskWriteOpsPerSecond,
+  });
+
+  factory DiskResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return DiskResourceUtilization(
+      diskReadBytesPerSecond: json['DiskReadBytesPerSecond'] as String?,
+      diskReadOpsPerSecond: json['DiskReadOpsPerSecond'] as String?,
+      diskWriteBytesPerSecond: json['DiskWriteBytesPerSecond'] as String?,
+      diskWriteOpsPerSecond: json['DiskWriteOpsPerSecond'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diskReadBytesPerSecond = this.diskReadBytesPerSecond;
+    final diskReadOpsPerSecond = this.diskReadOpsPerSecond;
+    final diskWriteBytesPerSecond = this.diskWriteBytesPerSecond;
+    final diskWriteOpsPerSecond = this.diskWriteOpsPerSecond;
+    return {
+      if (diskReadBytesPerSecond != null)
+        'DiskReadBytesPerSecond': diskReadBytesPerSecond,
+      if (diskReadOpsPerSecond != null)
+        'DiskReadOpsPerSecond': diskReadOpsPerSecond,
+      if (diskWriteBytesPerSecond != null)
+        'DiskWriteBytesPerSecond': diskWriteBytesPerSecond,
+      if (diskWriteOpsPerSecond != null)
+        'DiskWriteOpsPerSecond': diskWriteOpsPerSecond,
+    };
+  }
 }
 
 /// The EBS field that contains a list of EBS metrics associated with the
 /// current instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EBSResourceUtilization {
   /// The maximum size of read operations per second
-  @_s.JsonKey(name: 'EbsReadBytesPerSecond')
-  final String ebsReadBytesPerSecond;
+  final String? ebsReadBytesPerSecond;
 
   /// The maximum number of read operations per second.
-  @_s.JsonKey(name: 'EbsReadOpsPerSecond')
-  final String ebsReadOpsPerSecond;
+  final String? ebsReadOpsPerSecond;
 
   /// The maximum size of write operations per second.
-  @_s.JsonKey(name: 'EbsWriteBytesPerSecond')
-  final String ebsWriteBytesPerSecond;
+  final String? ebsWriteBytesPerSecond;
 
   /// The maximum number of write operations per second.
-  @_s.JsonKey(name: 'EbsWriteOpsPerSecond')
-  final String ebsWriteOpsPerSecond;
+  final String? ebsWriteOpsPerSecond;
 
   EBSResourceUtilization({
     this.ebsReadBytesPerSecond,
@@ -3781,50 +4877,61 @@ class EBSResourceUtilization {
     this.ebsWriteBytesPerSecond,
     this.ebsWriteOpsPerSecond,
   });
-  factory EBSResourceUtilization.fromJson(Map<String, dynamic> json) =>
-      _$EBSResourceUtilizationFromJson(json);
+
+  factory EBSResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return EBSResourceUtilization(
+      ebsReadBytesPerSecond: json['EbsReadBytesPerSecond'] as String?,
+      ebsReadOpsPerSecond: json['EbsReadOpsPerSecond'] as String?,
+      ebsWriteBytesPerSecond: json['EbsWriteBytesPerSecond'] as String?,
+      ebsWriteOpsPerSecond: json['EbsWriteOpsPerSecond'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ebsReadBytesPerSecond = this.ebsReadBytesPerSecond;
+    final ebsReadOpsPerSecond = this.ebsReadOpsPerSecond;
+    final ebsWriteBytesPerSecond = this.ebsWriteBytesPerSecond;
+    final ebsWriteOpsPerSecond = this.ebsWriteOpsPerSecond;
+    return {
+      if (ebsReadBytesPerSecond != null)
+        'EbsReadBytesPerSecond': ebsReadBytesPerSecond,
+      if (ebsReadOpsPerSecond != null)
+        'EbsReadOpsPerSecond': ebsReadOpsPerSecond,
+      if (ebsWriteBytesPerSecond != null)
+        'EbsWriteBytesPerSecond': ebsWriteBytesPerSecond,
+      if (ebsWriteOpsPerSecond != null)
+        'EbsWriteOpsPerSecond': ebsWriteOpsPerSecond,
+    };
+  }
 }
 
 /// Details about the Amazon EC2 instances that AWS recommends that you
 /// purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EC2InstanceDetails {
   /// The Availability Zone of the recommended reservation.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// Whether the recommendation is for a current-generation instance.
-  @_s.JsonKey(name: 'CurrentGeneration')
-  final bool currentGeneration;
+  final bool? currentGeneration;
 
   /// The instance family of the recommended reservation.
-  @_s.JsonKey(name: 'Family')
-  final String family;
+  final String? family;
 
   /// The type of instance that AWS recommends.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The platform of the recommended reservation. The platform is the specific
   /// combination of operating system, license model, and software on an instance.
-  @_s.JsonKey(name: 'Platform')
-  final String platform;
+  final String? platform;
 
   /// The AWS Region of the recommended reservation.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// Whether the recommended reservation is size flexible.
-  @_s.JsonKey(name: 'SizeFlexEligible')
-  final bool sizeFlexEligible;
+  final bool? sizeFlexEligible;
 
   /// Whether the recommended reservation is dedicated or shared.
-  @_s.JsonKey(name: 'Tenancy')
-  final String tenancy;
+  final String? tenancy;
 
   EC2InstanceDetails({
     this.availabilityZone,
@@ -3836,53 +4943,71 @@ class EC2InstanceDetails {
     this.sizeFlexEligible,
     this.tenancy,
   });
-  factory EC2InstanceDetails.fromJson(Map<String, dynamic> json) =>
-      _$EC2InstanceDetailsFromJson(json);
+
+  factory EC2InstanceDetails.fromJson(Map<String, dynamic> json) {
+    return EC2InstanceDetails(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      platform: json['Platform'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+      tenancy: json['Tenancy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final currentGeneration = this.currentGeneration;
+    final family = this.family;
+    final instanceType = this.instanceType;
+    final platform = this.platform;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    final tenancy = this.tenancy;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (family != null) 'Family': family,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (platform != null) 'Platform': platform,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+      if (tenancy != null) 'Tenancy': tenancy,
+    };
+  }
 }
 
 /// Details on the Amazon EC2 Resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EC2ResourceDetails {
   /// Hourly public On-Demand rate for the instance type.
-  @_s.JsonKey(name: 'HourlyOnDemandRate')
-  final String hourlyOnDemandRate;
+  final String? hourlyOnDemandRate;
 
   /// The type of AWS instance.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// Memory capacity of the AWS instance.
-  @_s.JsonKey(name: 'Memory')
-  final String memory;
+  final String? memory;
 
   /// Network performance capacity of the AWS instance.
-  @_s.JsonKey(name: 'NetworkPerformance')
-  final String networkPerformance;
+  final String? networkPerformance;
 
   /// The platform of the AWS instance. The platform is the specific combination
   /// of operating system, license model, and software on an instance.
-  @_s.JsonKey(name: 'Platform')
-  final String platform;
+  final String? platform;
 
   /// The AWS Region of the instance.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The SKU of the product.
-  @_s.JsonKey(name: 'Sku')
-  final String sku;
+  final String? sku;
 
   /// The disk storage of the AWS instance (not EBS storage).
-  @_s.JsonKey(name: 'Storage')
-  final String storage;
+  final String? storage;
 
   /// Number of VCPU cores in the AWS instance type.
-  @_s.JsonKey(name: 'Vcpu')
-  final String vcpu;
+  final String? vcpu;
 
   EC2ResourceDetails({
     this.hourlyOnDemandRate,
@@ -3895,92 +5020,166 @@ class EC2ResourceDetails {
     this.storage,
     this.vcpu,
   });
-  factory EC2ResourceDetails.fromJson(Map<String, dynamic> json) =>
-      _$EC2ResourceDetailsFromJson(json);
+
+  factory EC2ResourceDetails.fromJson(Map<String, dynamic> json) {
+    return EC2ResourceDetails(
+      hourlyOnDemandRate: json['HourlyOnDemandRate'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      memory: json['Memory'] as String?,
+      networkPerformance: json['NetworkPerformance'] as String?,
+      platform: json['Platform'] as String?,
+      region: json['Region'] as String?,
+      sku: json['Sku'] as String?,
+      storage: json['Storage'] as String?,
+      vcpu: json['Vcpu'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hourlyOnDemandRate = this.hourlyOnDemandRate;
+    final instanceType = this.instanceType;
+    final memory = this.memory;
+    final networkPerformance = this.networkPerformance;
+    final platform = this.platform;
+    final region = this.region;
+    final sku = this.sku;
+    final storage = this.storage;
+    final vcpu = this.vcpu;
+    return {
+      if (hourlyOnDemandRate != null) 'HourlyOnDemandRate': hourlyOnDemandRate,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (memory != null) 'Memory': memory,
+      if (networkPerformance != null) 'NetworkPerformance': networkPerformance,
+      if (platform != null) 'Platform': platform,
+      if (region != null) 'Region': region,
+      if (sku != null) 'Sku': sku,
+      if (storage != null) 'Storage': storage,
+      if (vcpu != null) 'Vcpu': vcpu,
+    };
+  }
 }
 
 /// Utilization metrics of the instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EC2ResourceUtilization {
+  /// The field that contains a list of disk (local storage) metrics associated
+  /// with the current instance.
+  final DiskResourceUtilization? diskResourceUtilization;
+
   /// The EBS field that contains a list of EBS metrics associated with the
   /// current instance.
-  @_s.JsonKey(name: 'EBSResourceUtilization')
-  final EBSResourceUtilization eBSResourceUtilization;
+  final EBSResourceUtilization? eBSResourceUtilization;
 
   /// Maximum observed or expected CPU utilization of the instance.
-  @_s.JsonKey(name: 'MaxCpuUtilizationPercentage')
-  final String maxCpuUtilizationPercentage;
+  final String? maxCpuUtilizationPercentage;
 
   /// Maximum observed or expected memory utilization of the instance.
-  @_s.JsonKey(name: 'MaxMemoryUtilizationPercentage')
-  final String maxMemoryUtilizationPercentage;
+  final String? maxMemoryUtilizationPercentage;
 
   /// Maximum observed or expected storage utilization of the instance (does not
   /// measure EBS storage).
-  @_s.JsonKey(name: 'MaxStorageUtilizationPercentage')
-  final String maxStorageUtilizationPercentage;
+  final String? maxStorageUtilizationPercentage;
+
+  /// The network field that contains a list of network metrics associated with
+  /// the current instance.
+  final NetworkResourceUtilization? networkResourceUtilization;
 
   EC2ResourceUtilization({
+    this.diskResourceUtilization,
     this.eBSResourceUtilization,
     this.maxCpuUtilizationPercentage,
     this.maxMemoryUtilizationPercentage,
     this.maxStorageUtilizationPercentage,
+    this.networkResourceUtilization,
   });
-  factory EC2ResourceUtilization.fromJson(Map<String, dynamic> json) =>
-      _$EC2ResourceUtilizationFromJson(json);
+
+  factory EC2ResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return EC2ResourceUtilization(
+      diskResourceUtilization: json['DiskResourceUtilization'] != null
+          ? DiskResourceUtilization.fromJson(
+              json['DiskResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      eBSResourceUtilization: json['EBSResourceUtilization'] != null
+          ? EBSResourceUtilization.fromJson(
+              json['EBSResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      maxCpuUtilizationPercentage:
+          json['MaxCpuUtilizationPercentage'] as String?,
+      maxMemoryUtilizationPercentage:
+          json['MaxMemoryUtilizationPercentage'] as String?,
+      maxStorageUtilizationPercentage:
+          json['MaxStorageUtilizationPercentage'] as String?,
+      networkResourceUtilization: json['NetworkResourceUtilization'] != null
+          ? NetworkResourceUtilization.fromJson(
+              json['NetworkResourceUtilization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diskResourceUtilization = this.diskResourceUtilization;
+    final eBSResourceUtilization = this.eBSResourceUtilization;
+    final maxCpuUtilizationPercentage = this.maxCpuUtilizationPercentage;
+    final maxMemoryUtilizationPercentage = this.maxMemoryUtilizationPercentage;
+    final maxStorageUtilizationPercentage =
+        this.maxStorageUtilizationPercentage;
+    final networkResourceUtilization = this.networkResourceUtilization;
+    return {
+      if (diskResourceUtilization != null)
+        'DiskResourceUtilization': diskResourceUtilization,
+      if (eBSResourceUtilization != null)
+        'EBSResourceUtilization': eBSResourceUtilization,
+      if (maxCpuUtilizationPercentage != null)
+        'MaxCpuUtilizationPercentage': maxCpuUtilizationPercentage,
+      if (maxMemoryUtilizationPercentage != null)
+        'MaxMemoryUtilizationPercentage': maxMemoryUtilizationPercentage,
+      if (maxStorageUtilizationPercentage != null)
+        'MaxStorageUtilizationPercentage': maxStorageUtilizationPercentage,
+      if (networkResourceUtilization != null)
+        'NetworkResourceUtilization': networkResourceUtilization,
+    };
+  }
 }
 
 /// The Amazon EC2 hardware specifications that you want AWS to provide
 /// recommendations for.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EC2Specification {
   /// Whether you want a recommendation for standard or convertible reservations.
-  @_s.JsonKey(name: 'OfferingClass')
-  final OfferingClass offeringClass;
+  final OfferingClass? offeringClass;
 
   EC2Specification({
     this.offeringClass,
   });
-  factory EC2Specification.fromJson(Map<String, dynamic> json) =>
-      _$EC2SpecificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EC2SpecificationToJson(this);
+  factory EC2Specification.fromJson(Map<String, dynamic> json) {
+    return EC2Specification(
+      offeringClass: (json['OfferingClass'] as String?)?.toOfferingClass(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final offeringClass = this.offeringClass;
+    return {
+      if (offeringClass != null) 'OfferingClass': offeringClass.toValue(),
+    };
+  }
 }
 
 /// Details about the Amazon ES instances that AWS recommends that you purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ESInstanceDetails {
   /// Whether the recommendation is for a current-generation instance.
-  @_s.JsonKey(name: 'CurrentGeneration')
-  final bool currentGeneration;
+  final bool? currentGeneration;
 
   /// The class of instance that AWS recommends.
-  @_s.JsonKey(name: 'InstanceClass')
-  final String instanceClass;
+  final String? instanceClass;
 
   /// The size of instance that AWS recommends.
-  @_s.JsonKey(name: 'InstanceSize')
-  final String instanceSize;
+  final String? instanceSize;
 
   /// The AWS Region of the recommended reservation.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// Whether the recommended reservation is size flexible.
-  @_s.JsonKey(name: 'SizeFlexEligible')
-  final bool sizeFlexEligible;
+  final bool? sizeFlexEligible;
 
   ESInstanceDetails({
     this.currentGeneration,
@@ -3989,41 +5188,53 @@ class ESInstanceDetails {
     this.region,
     this.sizeFlexEligible,
   });
-  factory ESInstanceDetails.fromJson(Map<String, dynamic> json) =>
-      _$ESInstanceDetailsFromJson(json);
+
+  factory ESInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return ESInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      instanceClass: json['InstanceClass'] as String?,
+      instanceSize: json['InstanceSize'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final instanceClass = this.instanceClass;
+    final instanceSize = this.instanceSize;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (instanceClass != null) 'InstanceClass': instanceClass,
+      if (instanceSize != null) 'InstanceSize': instanceSize,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
 }
 
 /// Details about the Amazon ElastiCache instances that AWS recommends that you
 /// purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ElastiCacheInstanceDetails {
   /// Whether the recommendation is for a current generation instance.
-  @_s.JsonKey(name: 'CurrentGeneration')
-  final bool currentGeneration;
+  final bool? currentGeneration;
 
   /// The instance family of the recommended reservation.
-  @_s.JsonKey(name: 'Family')
-  final String family;
+  final String? family;
 
   /// The type of node that AWS recommends.
-  @_s.JsonKey(name: 'NodeType')
-  final String nodeType;
+  final String? nodeType;
 
   /// The description of the recommended reservation.
-  @_s.JsonKey(name: 'ProductDescription')
-  final String productDescription;
+  final String? productDescription;
 
   /// The AWS Region of the recommended reservation.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// Whether the recommended reservation is size flexible.
-  @_s.JsonKey(name: 'SizeFlexEligible')
-  final bool sizeFlexEligible;
+  final bool? sizeFlexEligible;
 
   ElastiCacheInstanceDetails({
     this.currentGeneration,
@@ -4033,8 +5244,34 @@ class ElastiCacheInstanceDetails {
     this.region,
     this.sizeFlexEligible,
   });
-  factory ElastiCacheInstanceDetails.fromJson(Map<String, dynamic> json) =>
-      _$ElastiCacheInstanceDetailsFromJson(json);
+
+  factory ElastiCacheInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return ElastiCacheInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      nodeType: json['NodeType'] as String?,
+      productDescription: json['ProductDescription'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final family = this.family;
+    final nodeType = this.nodeType;
+    final productDescription = this.productDescription;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (family != null) 'Family': family,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (productDescription != null) 'ProductDescription': productDescription,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
 }
 
 /// Use <code>Expression</code> to filter by cost or by usage. There are two
@@ -4079,41 +5316,34 @@ class ElastiCacheInstanceDetails {
 /// "Values": [ "DataTransfer" ] } } </code>
 /// </li>
 /// </ul> <note>
-/// For <code>GetRightsizingRecommendation</code> action, a combination of OR
-/// and NOT is not supported. OR is not supported between different dimensions,
-/// or dimensions and tags. NOT operators aren't supported. Dimensions are also
-/// limited to <code>LINKED_ACCOUNT</code>, <code>REGION</code>, or
-/// <code>RIGHTSIZING_TYPE</code>.
+/// For the <code>GetRightsizingRecommendation</code> action, a combination of
+/// OR and NOT is not supported. OR is not supported between different
+/// dimensions, or dimensions and tags. NOT operators aren't supported.
+/// Dimensions are also limited to <code>LINKED_ACCOUNT</code>,
+/// <code>REGION</code>, or <code>RIGHTSIZING_TYPE</code>.
+///
+/// For the <code>GetReservationPurchaseRecommendation</code> action, only NOT
+/// is supported. AND and OR are not supported. Dimensions are limited to
+/// <code>LINKED_ACCOUNT</code>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Expression {
   /// Return results that match both <code>Dimension</code> objects.
-  @_s.JsonKey(name: 'And')
-  final List<Expression> and;
+  final List<Expression>? and;
 
   /// The filter based on <code>CostCategory</code> values.
-  @_s.JsonKey(name: 'CostCategories')
-  final CostCategoryValues costCategories;
+  final CostCategoryValues? costCategories;
 
   /// The specific <code>Dimension</code> to use for <code>Expression</code>.
-  @_s.JsonKey(name: 'Dimensions')
-  final DimensionValues dimensions;
+  final DimensionValues? dimensions;
 
   /// Return results that don't match a <code>Dimension</code> object.
-  @_s.JsonKey(name: 'Not')
-  final Expression not;
+  final Expression? not;
 
   /// Return results that match either <code>Dimension</code> object.
-  @_s.JsonKey(name: 'Or')
-  final List<Expression> or;
+  final List<Expression>? or;
 
   /// The specific <code>Tag</code> to use for <code>Expression</code>.
-  @_s.JsonKey(name: 'Tags')
-  final TagValues tags;
+  final TagValues? tags;
 
   Expression({
     this.and,
@@ -4123,34 +5353,162 @@ class Expression {
     this.or,
     this.tags,
   });
-  factory Expression.fromJson(Map<String, dynamic> json) =>
-      _$ExpressionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExpressionToJson(this);
+  factory Expression.fromJson(Map<String, dynamic> json) {
+    return Expression(
+      and: (json['And'] as List?)
+          ?.whereNotNull()
+          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      costCategories: json['CostCategories'] != null
+          ? CostCategoryValues.fromJson(
+              json['CostCategories'] as Map<String, dynamic>)
+          : null,
+      dimensions: json['Dimensions'] != null
+          ? DimensionValues.fromJson(json['Dimensions'] as Map<String, dynamic>)
+          : null,
+      not: json['Not'] != null
+          ? Expression.fromJson(json['Not'] as Map<String, dynamic>)
+          : null,
+      or: (json['Or'] as List?)
+          ?.whereNotNull()
+          .map((e) => Expression.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: json['Tags'] != null
+          ? TagValues.fromJson(json['Tags'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final costCategories = this.costCategories;
+    final dimensions = this.dimensions;
+    final not = this.not;
+    final or = this.or;
+    final tags = this.tags;
+    return {
+      if (and != null) 'And': and,
+      if (costCategories != null) 'CostCategories': costCategories,
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (not != null) 'Not': not,
+      if (or != null) 'Or': or,
+      if (tags != null) 'Tags': tags,
+    };
+  }
+}
+
+enum FindingReasonCode {
+  cpuOverProvisioned,
+  cpuUnderProvisioned,
+  memoryOverProvisioned,
+  memoryUnderProvisioned,
+  ebsThroughputOverProvisioned,
+  ebsThroughputUnderProvisioned,
+  ebsIopsOverProvisioned,
+  ebsIopsUnderProvisioned,
+  networkBandwidthOverProvisioned,
+  networkBandwidthUnderProvisioned,
+  networkPpsOverProvisioned,
+  networkPpsUnderProvisioned,
+  diskIopsOverProvisioned,
+  diskIopsUnderProvisioned,
+  diskThroughputOverProvisioned,
+  diskThroughputUnderProvisioned,
+}
+
+extension on FindingReasonCode {
+  String toValue() {
+    switch (this) {
+      case FindingReasonCode.cpuOverProvisioned:
+        return 'CPU_OVER_PROVISIONED';
+      case FindingReasonCode.cpuUnderProvisioned:
+        return 'CPU_UNDER_PROVISIONED';
+      case FindingReasonCode.memoryOverProvisioned:
+        return 'MEMORY_OVER_PROVISIONED';
+      case FindingReasonCode.memoryUnderProvisioned:
+        return 'MEMORY_UNDER_PROVISIONED';
+      case FindingReasonCode.ebsThroughputOverProvisioned:
+        return 'EBS_THROUGHPUT_OVER_PROVISIONED';
+      case FindingReasonCode.ebsThroughputUnderProvisioned:
+        return 'EBS_THROUGHPUT_UNDER_PROVISIONED';
+      case FindingReasonCode.ebsIopsOverProvisioned:
+        return 'EBS_IOPS_OVER_PROVISIONED';
+      case FindingReasonCode.ebsIopsUnderProvisioned:
+        return 'EBS_IOPS_UNDER_PROVISIONED';
+      case FindingReasonCode.networkBandwidthOverProvisioned:
+        return 'NETWORK_BANDWIDTH_OVER_PROVISIONED';
+      case FindingReasonCode.networkBandwidthUnderProvisioned:
+        return 'NETWORK_BANDWIDTH_UNDER_PROVISIONED';
+      case FindingReasonCode.networkPpsOverProvisioned:
+        return 'NETWORK_PPS_OVER_PROVISIONED';
+      case FindingReasonCode.networkPpsUnderProvisioned:
+        return 'NETWORK_PPS_UNDER_PROVISIONED';
+      case FindingReasonCode.diskIopsOverProvisioned:
+        return 'DISK_IOPS_OVER_PROVISIONED';
+      case FindingReasonCode.diskIopsUnderProvisioned:
+        return 'DISK_IOPS_UNDER_PROVISIONED';
+      case FindingReasonCode.diskThroughputOverProvisioned:
+        return 'DISK_THROUGHPUT_OVER_PROVISIONED';
+      case FindingReasonCode.diskThroughputUnderProvisioned:
+        return 'DISK_THROUGHPUT_UNDER_PROVISIONED';
+    }
+  }
+}
+
+extension on String {
+  FindingReasonCode toFindingReasonCode() {
+    switch (this) {
+      case 'CPU_OVER_PROVISIONED':
+        return FindingReasonCode.cpuOverProvisioned;
+      case 'CPU_UNDER_PROVISIONED':
+        return FindingReasonCode.cpuUnderProvisioned;
+      case 'MEMORY_OVER_PROVISIONED':
+        return FindingReasonCode.memoryOverProvisioned;
+      case 'MEMORY_UNDER_PROVISIONED':
+        return FindingReasonCode.memoryUnderProvisioned;
+      case 'EBS_THROUGHPUT_OVER_PROVISIONED':
+        return FindingReasonCode.ebsThroughputOverProvisioned;
+      case 'EBS_THROUGHPUT_UNDER_PROVISIONED':
+        return FindingReasonCode.ebsThroughputUnderProvisioned;
+      case 'EBS_IOPS_OVER_PROVISIONED':
+        return FindingReasonCode.ebsIopsOverProvisioned;
+      case 'EBS_IOPS_UNDER_PROVISIONED':
+        return FindingReasonCode.ebsIopsUnderProvisioned;
+      case 'NETWORK_BANDWIDTH_OVER_PROVISIONED':
+        return FindingReasonCode.networkBandwidthOverProvisioned;
+      case 'NETWORK_BANDWIDTH_UNDER_PROVISIONED':
+        return FindingReasonCode.networkBandwidthUnderProvisioned;
+      case 'NETWORK_PPS_OVER_PROVISIONED':
+        return FindingReasonCode.networkPpsOverProvisioned;
+      case 'NETWORK_PPS_UNDER_PROVISIONED':
+        return FindingReasonCode.networkPpsUnderProvisioned;
+      case 'DISK_IOPS_OVER_PROVISIONED':
+        return FindingReasonCode.diskIopsOverProvisioned;
+      case 'DISK_IOPS_UNDER_PROVISIONED':
+        return FindingReasonCode.diskIopsUnderProvisioned;
+      case 'DISK_THROUGHPUT_OVER_PROVISIONED':
+        return FindingReasonCode.diskThroughputOverProvisioned;
+      case 'DISK_THROUGHPUT_UNDER_PROVISIONED':
+        return FindingReasonCode.diskThroughputUnderProvisioned;
+    }
+    throw Exception('$this is not known in enum FindingReasonCode');
+  }
 }
 
 /// The forecast created for your query.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ForecastResult {
   /// The mean value of the forecast.
-  @_s.JsonKey(name: 'MeanValue')
-  final String meanValue;
+  final String? meanValue;
 
   /// The lower limit for the prediction interval.
-  @_s.JsonKey(name: 'PredictionIntervalLowerBound')
-  final String predictionIntervalLowerBound;
+  final String? predictionIntervalLowerBound;
 
   /// The upper limit for the prediction interval.
-  @_s.JsonKey(name: 'PredictionIntervalUpperBound')
-  final String predictionIntervalUpperBound;
+  final String? predictionIntervalUpperBound;
 
   /// The period of time that the forecast covers.
-  @_s.JsonKey(name: 'TimePeriod')
-  final DateInterval timePeriod;
+  final DateInterval? timePeriod;
 
   ForecastResult({
     this.meanValue,
@@ -4158,175 +5516,357 @@ class ForecastResult {
     this.predictionIntervalUpperBound,
     this.timePeriod,
   });
-  factory ForecastResult.fromJson(Map<String, dynamic> json) =>
-      _$ForecastResultFromJson(json);
+
+  factory ForecastResult.fromJson(Map<String, dynamic> json) {
+    return ForecastResult(
+      meanValue: json['MeanValue'] as String?,
+      predictionIntervalLowerBound:
+          json['PredictionIntervalLowerBound'] as String?,
+      predictionIntervalUpperBound:
+          json['PredictionIntervalUpperBound'] as String?,
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final meanValue = this.meanValue;
+    final predictionIntervalLowerBound = this.predictionIntervalLowerBound;
+    final predictionIntervalUpperBound = this.predictionIntervalUpperBound;
+    final timePeriod = this.timePeriod;
+    return {
+      if (meanValue != null) 'MeanValue': meanValue,
+      if (predictionIntervalLowerBound != null)
+        'PredictionIntervalLowerBound': predictionIntervalLowerBound,
+      if (predictionIntervalUpperBound != null)
+        'PredictionIntervalUpperBound': predictionIntervalUpperBound,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAnomaliesResponse {
   /// A list of cost anomalies.
-  @_s.JsonKey(name: 'Anomalies')
   final List<Anomaly> anomalies;
 
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
   /// size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   GetAnomaliesResponse({
-    @_s.required this.anomalies,
+    required this.anomalies,
     this.nextPageToken,
   });
-  factory GetAnomaliesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAnomaliesResponseFromJson(json);
+
+  factory GetAnomaliesResponse.fromJson(Map<String, dynamic> json) {
+    return GetAnomaliesResponse(
+      anomalies: (json['Anomalies'] as List)
+          .whereNotNull()
+          .map((e) => Anomaly.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalies = this.anomalies;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'Anomalies': anomalies,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAnomalyMonitorsResponse {
   /// A list of cost anomaly monitors that includes the detailed metadata for each
   /// monitor.
-  @_s.JsonKey(name: 'AnomalyMonitors')
   final List<AnomalyMonitor> anomalyMonitors;
 
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
   /// size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   GetAnomalyMonitorsResponse({
-    @_s.required this.anomalyMonitors,
+    required this.anomalyMonitors,
     this.nextPageToken,
   });
-  factory GetAnomalyMonitorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAnomalyMonitorsResponseFromJson(json);
+
+  factory GetAnomalyMonitorsResponse.fromJson(Map<String, dynamic> json) {
+    return GetAnomalyMonitorsResponse(
+      anomalyMonitors: (json['AnomalyMonitors'] as List)
+          .whereNotNull()
+          .map((e) => AnomalyMonitor.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyMonitors = this.anomalyMonitors;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'AnomalyMonitors': anomalyMonitors,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAnomalySubscriptionsResponse {
   /// A list of cost anomaly subscriptions that includes the detailed metadata for
   /// each one.
-  @_s.JsonKey(name: 'AnomalySubscriptions')
   final List<AnomalySubscription> anomalySubscriptions;
 
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
   /// size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   GetAnomalySubscriptionsResponse({
-    @_s.required this.anomalySubscriptions,
+    required this.anomalySubscriptions,
     this.nextPageToken,
   });
-  factory GetAnomalySubscriptionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAnomalySubscriptionsResponseFromJson(json);
+
+  factory GetAnomalySubscriptionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetAnomalySubscriptionsResponse(
+      anomalySubscriptions: (json['AnomalySubscriptions'] as List)
+          .whereNotNull()
+          .map((e) => AnomalySubscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalySubscriptions = this.anomalySubscriptions;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'AnomalySubscriptions': anomalySubscriptions,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCostAndUsageResponse {
+  /// The attributes that apply to a specific dimension value. For example, if the
+  /// value is a linked account, the attribute is that account name.
+  final List<DimensionValuesWithAttributes>? dimensionValueAttributes;
+
   /// The groups that are specified by the <code>Filter</code> or
   /// <code>GroupBy</code> parameters in the request.
-  @_s.JsonKey(name: 'GroupDefinitions')
-  final List<GroupDefinition> groupDefinitions;
+  final List<GroupDefinition>? groupDefinitions;
 
   /// The token for the next set of retrievable results. AWS provides the token
   /// when the response from a previous call has more results than the maximum
   /// page size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The time period that is covered by the results in the response.
-  @_s.JsonKey(name: 'ResultsByTime')
-  final List<ResultByTime> resultsByTime;
+  final List<ResultByTime>? resultsByTime;
 
   GetCostAndUsageResponse({
+    this.dimensionValueAttributes,
     this.groupDefinitions,
     this.nextPageToken,
     this.resultsByTime,
   });
-  factory GetCostAndUsageResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCostAndUsageResponseFromJson(json);
+
+  factory GetCostAndUsageResponse.fromJson(Map<String, dynamic> json) {
+    return GetCostAndUsageResponse(
+      dimensionValueAttributes: (json['DimensionValueAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      groupDefinitions: (json['GroupDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+      resultsByTime: (json['ResultsByTime'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResultByTime.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionValueAttributes = this.dimensionValueAttributes;
+    final groupDefinitions = this.groupDefinitions;
+    final nextPageToken = this.nextPageToken;
+    final resultsByTime = this.resultsByTime;
+    return {
+      if (dimensionValueAttributes != null)
+        'DimensionValueAttributes': dimensionValueAttributes,
+      if (groupDefinitions != null) 'GroupDefinitions': groupDefinitions,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (resultsByTime != null) 'ResultsByTime': resultsByTime,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCostAndUsageWithResourcesResponse {
+  /// The attributes that apply to a specific dimension value. For example, if the
+  /// value is a linked account, the attribute is that account name.
+  final List<DimensionValuesWithAttributes>? dimensionValueAttributes;
+
   /// The groups that are specified by the <code>Filter</code> or
   /// <code>GroupBy</code> parameters in the request.
-  @_s.JsonKey(name: 'GroupDefinitions')
-  final List<GroupDefinition> groupDefinitions;
+  final List<GroupDefinition>? groupDefinitions;
 
   /// The token for the next set of retrievable results. AWS provides the token
   /// when the response from a previous call has more results than the maximum
   /// page size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The time period that is covered by the results in the response.
-  @_s.JsonKey(name: 'ResultsByTime')
-  final List<ResultByTime> resultsByTime;
+  final List<ResultByTime>? resultsByTime;
 
   GetCostAndUsageWithResourcesResponse({
+    this.dimensionValueAttributes,
     this.groupDefinitions,
     this.nextPageToken,
     this.resultsByTime,
   });
+
   factory GetCostAndUsageWithResourcesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCostAndUsageWithResourcesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCostAndUsageWithResourcesResponse(
+      dimensionValueAttributes: (json['DimensionValueAttributes'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      groupDefinitions: (json['GroupDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+      resultsByTime: (json['ResultsByTime'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResultByTime.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionValueAttributes = this.dimensionValueAttributes;
+    final groupDefinitions = this.groupDefinitions;
+    final nextPageToken = this.nextPageToken;
+    final resultsByTime = this.resultsByTime;
+    return {
+      if (dimensionValueAttributes != null)
+        'DimensionValueAttributes': dimensionValueAttributes,
+      if (groupDefinitions != null) 'GroupDefinitions': groupDefinitions,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (resultsByTime != null) 'ResultsByTime': resultsByTime,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class GetCostCategoriesResponse {
+  /// The number of objects returned.
+  final int returnSize;
+
+  /// The total number of objects.
+  final int totalSize;
+
+  /// The names of the Cost Categories.
+  final List<String>? costCategoryNames;
+
+  /// The Cost Category values.
+  ///
+  /// <code>CostCategoryValues</code> are not returned if
+  /// <code>CostCategoryName</code> is not specified in the request.
+  final List<String>? costCategoryValues;
+
+  /// If the number of objects that are still available for retrieval exceeds the
+  /// limit, AWS returns a NextPageToken value in the response. To retrieve the
+  /// next batch of objects, provide the marker from the prior call in your next
+  /// request.
+  final String? nextPageToken;
+
+  GetCostCategoriesResponse({
+    required this.returnSize,
+    required this.totalSize,
+    this.costCategoryNames,
+    this.costCategoryValues,
+    this.nextPageToken,
+  });
+
+  factory GetCostCategoriesResponse.fromJson(Map<String, dynamic> json) {
+    return GetCostCategoriesResponse(
+      returnSize: json['ReturnSize'] as int,
+      totalSize: json['TotalSize'] as int,
+      costCategoryNames: (json['CostCategoryNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      costCategoryValues: (json['CostCategoryValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final returnSize = this.returnSize;
+    final totalSize = this.totalSize;
+    final costCategoryNames = this.costCategoryNames;
+    final costCategoryValues = this.costCategoryValues;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'ReturnSize': returnSize,
+      'TotalSize': totalSize,
+      if (costCategoryNames != null) 'CostCategoryNames': costCategoryNames,
+      if (costCategoryValues != null) 'CostCategoryValues': costCategoryValues,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
+}
+
 class GetCostForecastResponse {
   /// The forecasts for your query, in order. For <code>DAILY</code> forecasts,
   /// this is a list of days. For <code>MONTHLY</code> forecasts, this is a list
   /// of months.
-  @_s.JsonKey(name: 'ForecastResultsByTime')
-  final List<ForecastResult> forecastResultsByTime;
+  final List<ForecastResult>? forecastResultsByTime;
 
   /// How much you are forecasted to spend over the forecast period, in
   /// <code>USD</code>.
-  @_s.JsonKey(name: 'Total')
-  final MetricValue total;
+  final MetricValue? total;
 
   GetCostForecastResponse({
     this.forecastResultsByTime,
     this.total,
   });
-  factory GetCostForecastResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCostForecastResponseFromJson(json);
+
+  factory GetCostForecastResponse.fromJson(Map<String, dynamic> json) {
+    return GetCostForecastResponse(
+      forecastResultsByTime: (json['ForecastResultsByTime'] as List?)
+          ?.whereNotNull()
+          .map((e) => ForecastResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      total: json['Total'] != null
+          ? MetricValue.fromJson(json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forecastResultsByTime = this.forecastResultsByTime;
+    final total = this.total;
+    return {
+      if (forecastResultsByTime != null)
+        'ForecastResultsByTime': forecastResultsByTime,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDimensionValuesResponse {
   /// The filters that you used to filter your request. Some dimensions are
   /// available only for a specific context.
@@ -4462,150 +6002,205 @@ class GetDimensionValuesResponse {
   /// SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DimensionValues')
   final List<DimensionValuesWithAttributes> dimensionValues;
 
   /// The number of results that AWS returned at one time.
-  @_s.JsonKey(name: 'ReturnSize')
   final int returnSize;
 
   /// The total number of search results.
-  @_s.JsonKey(name: 'TotalSize')
   final int totalSize;
 
   /// The token for the next set of retrievable results. AWS provides the token
   /// when the response from a previous call has more results than the maximum
   /// page size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   GetDimensionValuesResponse({
-    @_s.required this.dimensionValues,
-    @_s.required this.returnSize,
-    @_s.required this.totalSize,
+    required this.dimensionValues,
+    required this.returnSize,
+    required this.totalSize,
     this.nextPageToken,
   });
-  factory GetDimensionValuesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDimensionValuesResponseFromJson(json);
+
+  factory GetDimensionValuesResponse.fromJson(Map<String, dynamic> json) {
+    return GetDimensionValuesResponse(
+      dimensionValues: (json['DimensionValues'] as List)
+          .whereNotNull()
+          .map((e) =>
+              DimensionValuesWithAttributes.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      returnSize: json['ReturnSize'] as int,
+      totalSize: json['TotalSize'] as int,
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionValues = this.dimensionValues;
+    final returnSize = this.returnSize;
+    final totalSize = this.totalSize;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'DimensionValues': dimensionValues,
+      'ReturnSize': returnSize,
+      'TotalSize': totalSize,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetReservationCoverageResponse {
   /// The amount of time that your reservations covered.
-  @_s.JsonKey(name: 'CoveragesByTime')
   final List<CoverageByTime> coveragesByTime;
 
   /// The token for the next set of retrievable results. AWS provides the token
   /// when the response from a previous call has more results than the maximum
   /// page size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The total amount of instance usage that a reservation covered.
-  @_s.JsonKey(name: 'Total')
-  final Coverage total;
+  final Coverage? total;
 
   GetReservationCoverageResponse({
-    @_s.required this.coveragesByTime,
+    required this.coveragesByTime,
     this.nextPageToken,
     this.total,
   });
-  factory GetReservationCoverageResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetReservationCoverageResponseFromJson(json);
+
+  factory GetReservationCoverageResponse.fromJson(Map<String, dynamic> json) {
+    return GetReservationCoverageResponse(
+      coveragesByTime: (json['CoveragesByTime'] as List)
+          .whereNotNull()
+          .map((e) => CoverageByTime.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+      total: json['Total'] != null
+          ? Coverage.fromJson(json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coveragesByTime = this.coveragesByTime;
+    final nextPageToken = this.nextPageToken;
+    final total = this.total;
+    return {
+      'CoveragesByTime': coveragesByTime,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetReservationPurchaseRecommendationResponse {
   /// Information about this specific recommendation call, such as the time stamp
   /// for when Cost Explorer generated this recommendation.
-  @_s.JsonKey(name: 'Metadata')
-  final ReservationPurchaseRecommendationMetadata metadata;
+  final ReservationPurchaseRecommendationMetadata? metadata;
 
   /// The pagination token for the next set of retrievable results.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Recommendations for reservations to purchase.
-  @_s.JsonKey(name: 'Recommendations')
-  final List<ReservationPurchaseRecommendation> recommendations;
+  final List<ReservationPurchaseRecommendation>? recommendations;
 
   GetReservationPurchaseRecommendationResponse({
     this.metadata,
     this.nextPageToken,
     this.recommendations,
   });
+
   factory GetReservationPurchaseRecommendationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetReservationPurchaseRecommendationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetReservationPurchaseRecommendationResponse(
+      metadata: json['Metadata'] != null
+          ? ReservationPurchaseRecommendationMetadata.fromJson(
+              json['Metadata'] as Map<String, dynamic>)
+          : null,
+      nextPageToken: json['NextPageToken'] as String?,
+      recommendations: (json['Recommendations'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReservationPurchaseRecommendation.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final nextPageToken = this.nextPageToken;
+    final recommendations = this.recommendations;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (recommendations != null) 'Recommendations': recommendations,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetReservationUtilizationResponse {
   /// The amount of time that you used your RIs.
-  @_s.JsonKey(name: 'UtilizationsByTime')
   final List<UtilizationByTime> utilizationsByTime;
 
   /// The token for the next set of retrievable results. AWS provides the token
   /// when the response from a previous call has more results than the maximum
   /// page size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The total amount of time that you used your RIs.
-  @_s.JsonKey(name: 'Total')
-  final ReservationAggregates total;
+  final ReservationAggregates? total;
 
   GetReservationUtilizationResponse({
-    @_s.required this.utilizationsByTime,
+    required this.utilizationsByTime,
     this.nextPageToken,
     this.total,
   });
+
   factory GetReservationUtilizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetReservationUtilizationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetReservationUtilizationResponse(
+      utilizationsByTime: (json['UtilizationsByTime'] as List)
+          .whereNotNull()
+          .map((e) => UtilizationByTime.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['NextPageToken'] as String?,
+      total: json['Total'] != null
+          ? ReservationAggregates.fromJson(
+              json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final utilizationsByTime = this.utilizationsByTime;
+    final nextPageToken = this.nextPageToken;
+    final total = this.total;
+    return {
+      'UtilizationsByTime': utilizationsByTime,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRightsizingRecommendationResponse {
   /// Enables you to customize recommendations across two attributes. You can
   /// choose to view recommendations for instances within the same instance
   /// families or across different instance families. You can also choose to view
   /// your estimated savings associated with recommendations with consideration of
   /// existing Savings Plans or RI benefits, or neither.
-  @_s.JsonKey(name: 'Configuration')
-  final RightsizingRecommendationConfiguration configuration;
+  final RightsizingRecommendationConfiguration? configuration;
 
   /// Information regarding this specific recommendation set.
-  @_s.JsonKey(name: 'Metadata')
-  final RightsizingRecommendationMetadata metadata;
+  final RightsizingRecommendationMetadata? metadata;
 
   /// The token to retrieve the next set of results.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Recommendations to rightsize resources.
-  @_s.JsonKey(name: 'RightsizingRecommendations')
-  final List<RightsizingRecommendation> rightsizingRecommendations;
+  final List<RightsizingRecommendation>? rightsizingRecommendations;
 
   /// Summary of this recommendation set.
-  @_s.JsonKey(name: 'Summary')
-  final RightsizingRecommendationSummary summary;
+  final RightsizingRecommendationSummary? summary;
 
   GetRightsizingRecommendationResponse({
     this.configuration,
@@ -4614,189 +6209,314 @@ class GetRightsizingRecommendationResponse {
     this.rightsizingRecommendations,
     this.summary,
   });
+
   factory GetRightsizingRecommendationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetRightsizingRecommendationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetRightsizingRecommendationResponse(
+      configuration: json['Configuration'] != null
+          ? RightsizingRecommendationConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      metadata: json['Metadata'] != null
+          ? RightsizingRecommendationMetadata.fromJson(
+              json['Metadata'] as Map<String, dynamic>)
+          : null,
+      nextPageToken: json['NextPageToken'] as String?,
+      rightsizingRecommendations: (json['RightsizingRecommendations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              RightsizingRecommendation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      summary: json['Summary'] != null
+          ? RightsizingRecommendationSummary.fromJson(
+              json['Summary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final metadata = this.metadata;
+    final nextPageToken = this.nextPageToken;
+    final rightsizingRecommendations = this.rightsizingRecommendations;
+    final summary = this.summary;
+    return {
+      if (configuration != null) 'Configuration': configuration,
+      if (metadata != null) 'Metadata': metadata,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (rightsizingRecommendations != null)
+        'RightsizingRecommendations': rightsizingRecommendations,
+      if (summary != null) 'Summary': summary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSavingsPlansCoverageResponse {
   /// The amount of spend that your Savings Plans covered.
-  @_s.JsonKey(name: 'SavingsPlansCoverages')
   final List<SavingsPlansCoverage> savingsPlansCoverages;
 
   /// The token to retrieve the next set of results. Amazon Web Services provides
   /// the token when the response from a previous call has more results than the
   /// maximum page size.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetSavingsPlansCoverageResponse({
-    @_s.required this.savingsPlansCoverages,
+    required this.savingsPlansCoverages,
     this.nextToken,
   });
-  factory GetSavingsPlansCoverageResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSavingsPlansCoverageResponseFromJson(json);
+
+  factory GetSavingsPlansCoverageResponse.fromJson(Map<String, dynamic> json) {
+    return GetSavingsPlansCoverageResponse(
+      savingsPlansCoverages: (json['SavingsPlansCoverages'] as List)
+          .whereNotNull()
+          .map((e) => SavingsPlansCoverage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final savingsPlansCoverages = this.savingsPlansCoverages;
+    final nextToken = this.nextToken;
+    return {
+      'SavingsPlansCoverages': savingsPlansCoverages,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSavingsPlansPurchaseRecommendationResponse {
   /// Information regarding this specific recommendation set.
-  @_s.JsonKey(name: 'Metadata')
-  final SavingsPlansPurchaseRecommendationMetadata metadata;
+  final SavingsPlansPurchaseRecommendationMetadata? metadata;
 
   /// The token for the next set of retrievable results. AWS provides the token
   /// when the response from a previous call has more results than the maximum
   /// page size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// Contains your request parameters, Savings Plan Recommendations Summary, and
   /// Details.
-  @_s.JsonKey(name: 'SavingsPlansPurchaseRecommendation')
-  final SavingsPlansPurchaseRecommendation savingsPlansPurchaseRecommendation;
+  final SavingsPlansPurchaseRecommendation? savingsPlansPurchaseRecommendation;
 
   GetSavingsPlansPurchaseRecommendationResponse({
     this.metadata,
     this.nextPageToken,
     this.savingsPlansPurchaseRecommendation,
   });
+
   factory GetSavingsPlansPurchaseRecommendationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSavingsPlansPurchaseRecommendationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSavingsPlansPurchaseRecommendationResponse(
+      metadata: json['Metadata'] != null
+          ? SavingsPlansPurchaseRecommendationMetadata.fromJson(
+              json['Metadata'] as Map<String, dynamic>)
+          : null,
+      nextPageToken: json['NextPageToken'] as String?,
+      savingsPlansPurchaseRecommendation:
+          json['SavingsPlansPurchaseRecommendation'] != null
+              ? SavingsPlansPurchaseRecommendation.fromJson(
+                  json['SavingsPlansPurchaseRecommendation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final nextPageToken = this.nextPageToken;
+    final savingsPlansPurchaseRecommendation =
+        this.savingsPlansPurchaseRecommendation;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      if (savingsPlansPurchaseRecommendation != null)
+        'SavingsPlansPurchaseRecommendation':
+            savingsPlansPurchaseRecommendation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSavingsPlansUtilizationDetailsResponse {
   /// Retrieves a single daily or monthly Savings Plans utilization rate and
   /// details for your account.
-  @_s.JsonKey(name: 'SavingsPlansUtilizationDetails')
   final List<SavingsPlansUtilizationDetail> savingsPlansUtilizationDetails;
-  @_s.JsonKey(name: 'TimePeriod')
   final DateInterval timePeriod;
 
   /// The token to retrieve the next set of results. Amazon Web Services provides
   /// the token when the response from a previous call has more results than the
   /// maximum page size.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The total Savings Plans utilization, regardless of time period.
-  @_s.JsonKey(name: 'Total')
-  final SavingsPlansUtilizationAggregates total;
+  final SavingsPlansUtilizationAggregates? total;
 
   GetSavingsPlansUtilizationDetailsResponse({
-    @_s.required this.savingsPlansUtilizationDetails,
-    @_s.required this.timePeriod,
+    required this.savingsPlansUtilizationDetails,
+    required this.timePeriod,
     this.nextToken,
     this.total,
   });
+
   factory GetSavingsPlansUtilizationDetailsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSavingsPlansUtilizationDetailsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSavingsPlansUtilizationDetailsResponse(
+      savingsPlansUtilizationDetails: (json['SavingsPlansUtilizationDetails']
+              as List)
+          .whereNotNull()
+          .map((e) =>
+              SavingsPlansUtilizationDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timePeriod:
+          DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
+      nextToken: json['NextToken'] as String?,
+      total: json['Total'] != null
+          ? SavingsPlansUtilizationAggregates.fromJson(
+              json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final savingsPlansUtilizationDetails = this.savingsPlansUtilizationDetails;
+    final timePeriod = this.timePeriod;
+    final nextToken = this.nextToken;
+    final total = this.total;
+    return {
+      'SavingsPlansUtilizationDetails': savingsPlansUtilizationDetails,
+      'TimePeriod': timePeriod,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSavingsPlansUtilizationResponse {
   /// The total amount of cost/commitment that you used your Savings Plans,
   /// regardless of date ranges.
-  @_s.JsonKey(name: 'Total')
   final SavingsPlansUtilizationAggregates total;
 
   /// The amount of cost/commitment you used your Savings Plans. This allows you
   /// to specify date ranges.
-  @_s.JsonKey(name: 'SavingsPlansUtilizationsByTime')
-  final List<SavingsPlansUtilizationByTime> savingsPlansUtilizationsByTime;
+  final List<SavingsPlansUtilizationByTime>? savingsPlansUtilizationsByTime;
 
   GetSavingsPlansUtilizationResponse({
-    @_s.required this.total,
+    required this.total,
     this.savingsPlansUtilizationsByTime,
   });
+
   factory GetSavingsPlansUtilizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSavingsPlansUtilizationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSavingsPlansUtilizationResponse(
+      total: SavingsPlansUtilizationAggregates.fromJson(
+          json['Total'] as Map<String, dynamic>),
+      savingsPlansUtilizationsByTime: (json['SavingsPlansUtilizationsByTime']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SavingsPlansUtilizationByTime.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final total = this.total;
+    final savingsPlansUtilizationsByTime = this.savingsPlansUtilizationsByTime;
+    return {
+      'Total': total,
+      if (savingsPlansUtilizationsByTime != null)
+        'SavingsPlansUtilizationsByTime': savingsPlansUtilizationsByTime,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTagsResponse {
   /// The number of query results that AWS returns at a time.
-  @_s.JsonKey(name: 'ReturnSize')
   final int returnSize;
 
   /// The tags that match your request.
-  @_s.JsonKey(name: 'Tags')
   final List<String> tags;
 
   /// The total number of query results.
-  @_s.JsonKey(name: 'TotalSize')
   final int totalSize;
 
   /// The token for the next set of retrievable results. AWS provides the token
   /// when the response from a previous call has more results than the maximum
   /// page size.
-  @_s.JsonKey(name: 'NextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   GetTagsResponse({
-    @_s.required this.returnSize,
-    @_s.required this.tags,
-    @_s.required this.totalSize,
+    required this.returnSize,
+    required this.tags,
+    required this.totalSize,
     this.nextPageToken,
   });
-  factory GetTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTagsResponseFromJson(json);
+
+  factory GetTagsResponse.fromJson(Map<String, dynamic> json) {
+    return GetTagsResponse(
+      returnSize: json['ReturnSize'] as int,
+      tags: (json['Tags'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      totalSize: json['TotalSize'] as int,
+      nextPageToken: json['NextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final returnSize = this.returnSize;
+    final tags = this.tags;
+    final totalSize = this.totalSize;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'ReturnSize': returnSize,
+      'Tags': tags,
+      'TotalSize': totalSize,
+      if (nextPageToken != null) 'NextPageToken': nextPageToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUsageForecastResponse {
   /// The forecasts for your query, in order. For <code>DAILY</code> forecasts,
   /// this is a list of days. For <code>MONTHLY</code> forecasts, this is a list
   /// of months.
-  @_s.JsonKey(name: 'ForecastResultsByTime')
-  final List<ForecastResult> forecastResultsByTime;
+  final List<ForecastResult>? forecastResultsByTime;
 
   /// How much you're forecasted to use over the forecast period.
-  @_s.JsonKey(name: 'Total')
-  final MetricValue total;
+  final MetricValue? total;
 
   GetUsageForecastResponse({
     this.forecastResultsByTime,
     this.total,
   });
-  factory GetUsageForecastResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUsageForecastResponseFromJson(json);
+
+  factory GetUsageForecastResponse.fromJson(Map<String, dynamic> json) {
+    return GetUsageForecastResponse(
+      forecastResultsByTime: (json['ForecastResultsByTime'] as List?)
+          ?.whereNotNull()
+          .map((e) => ForecastResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      total: json['Total'] != null
+          ? MetricValue.fromJson(json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forecastResultsByTime = this.forecastResultsByTime;
+    final total = this.total;
+    return {
+      if (forecastResultsByTime != null)
+        'ForecastResultsByTime': forecastResultsByTime,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
 enum Granularity {
-  @_s.JsonValue('DAILY')
   daily,
-  @_s.JsonValue('MONTHLY')
   monthly,
-  @_s.JsonValue('HOURLY')
   hourly,
 }
 
@@ -4810,115 +6530,167 @@ extension on Granularity {
       case Granularity.hourly:
         return 'HOURLY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Granularity toGranularity() {
+    switch (this) {
+      case 'DAILY':
+        return Granularity.daily;
+      case 'MONTHLY':
+        return Granularity.monthly;
+      case 'HOURLY':
+        return Granularity.hourly;
+    }
+    throw Exception('$this is not known in enum Granularity');
   }
 }
 
 /// One level of grouped data in the results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Group {
   /// The keys that are included in this group.
-  @_s.JsonKey(name: 'Keys')
-  final List<String> keys;
+  final List<String>? keys;
 
   /// The metrics that are included in this group.
-  @_s.JsonKey(name: 'Metrics')
-  final Map<String, MetricValue> metrics;
+  final Map<String, MetricValue>? metrics;
 
   Group({
     this.keys,
     this.metrics,
   });
-  factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      keys: (json['Keys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      metrics: (json['Metrics'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, MetricValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keys = this.keys;
+    final metrics = this.metrics;
+    return {
+      if (keys != null) 'Keys': keys,
+      if (metrics != null) 'Metrics': metrics,
+    };
+  }
 }
 
 /// Represents a group when you specify a group by criteria or in the response
 /// to a query with a specific grouping.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GroupDefinition {
   /// The string that represents a key for a specified group.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The string that represents the type of group.
-  @_s.JsonKey(name: 'Type')
-  final GroupDefinitionType type;
+  final GroupDefinitionType? type;
 
   GroupDefinition({
     this.key,
     this.type,
   });
-  factory GroupDefinition.fromJson(Map<String, dynamic> json) =>
-      _$GroupDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GroupDefinitionToJson(this);
+  factory GroupDefinition.fromJson(Map<String, dynamic> json) {
+    return GroupDefinition(
+      key: json['Key'] as String?,
+      type: (json['Type'] as String?)?.toGroupDefinitionType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    return {
+      if (key != null) 'Key': key,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum GroupDefinitionType {
-  @_s.JsonValue('DIMENSION')
   dimension,
-  @_s.JsonValue('TAG')
   tag,
-  @_s.JsonValue('COST_CATEGORY')
   costCategory,
 }
 
+extension on GroupDefinitionType {
+  String toValue() {
+    switch (this) {
+      case GroupDefinitionType.dimension:
+        return 'DIMENSION';
+      case GroupDefinitionType.tag:
+        return 'TAG';
+      case GroupDefinitionType.costCategory:
+        return 'COST_CATEGORY';
+    }
+  }
+}
+
+extension on String {
+  GroupDefinitionType toGroupDefinitionType() {
+    switch (this) {
+      case 'DIMENSION':
+        return GroupDefinitionType.dimension;
+      case 'TAG':
+        return GroupDefinitionType.tag;
+      case 'COST_CATEGORY':
+        return GroupDefinitionType.costCategory;
+    }
+    throw Exception('$this is not known in enum GroupDefinitionType');
+  }
+}
+
 /// The anomaly's dollar value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Impact {
   /// The maximum dollar value observed for an anomaly.
-  @_s.JsonKey(name: 'MaxImpact')
   final double maxImpact;
 
   /// The cumulative dollar value observed for an anomaly.
-  @_s.JsonKey(name: 'TotalImpact')
-  final double totalImpact;
+  final double? totalImpact;
 
   Impact({
-    @_s.required this.maxImpact,
+    required this.maxImpact,
     this.totalImpact,
   });
-  factory Impact.fromJson(Map<String, dynamic> json) => _$ImpactFromJson(json);
+
+  factory Impact.fromJson(Map<String, dynamic> json) {
+    return Impact(
+      maxImpact: json['MaxImpact'] as double,
+      totalImpact: json['TotalImpact'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxImpact = this.maxImpact;
+    final totalImpact = this.totalImpact;
+    return {
+      'MaxImpact': maxImpact,
+      if (totalImpact != null) 'TotalImpact': totalImpact,
+    };
+  }
 }
 
 /// Details about the instances that AWS recommends that you purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceDetails {
   /// The Amazon EC2 instances that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'EC2InstanceDetails')
-  final EC2InstanceDetails eC2InstanceDetails;
+  final EC2InstanceDetails? eC2InstanceDetails;
 
   /// The Amazon ES instances that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'ESInstanceDetails')
-  final ESInstanceDetails eSInstanceDetails;
+  final ESInstanceDetails? eSInstanceDetails;
 
   /// The ElastiCache instances that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'ElastiCacheInstanceDetails')
-  final ElastiCacheInstanceDetails elastiCacheInstanceDetails;
+  final ElastiCacheInstanceDetails? elastiCacheInstanceDetails;
 
   /// The Amazon RDS instances that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'RDSInstanceDetails')
-  final RDSInstanceDetails rDSInstanceDetails;
+  final RDSInstanceDetails? rDSInstanceDetails;
 
   /// The Amazon Redshift instances that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'RedshiftInstanceDetails')
-  final RedshiftInstanceDetails redshiftInstanceDetails;
+  final RedshiftInstanceDetails? redshiftInstanceDetails;
 
   InstanceDetails({
     this.eC2InstanceDetails,
@@ -4927,42 +6699,90 @@ class InstanceDetails {
     this.rDSInstanceDetails,
     this.redshiftInstanceDetails,
   });
-  factory InstanceDetails.fromJson(Map<String, dynamic> json) =>
-      _$InstanceDetailsFromJson(json);
+
+  factory InstanceDetails.fromJson(Map<String, dynamic> json) {
+    return InstanceDetails(
+      eC2InstanceDetails: json['EC2InstanceDetails'] != null
+          ? EC2InstanceDetails.fromJson(
+              json['EC2InstanceDetails'] as Map<String, dynamic>)
+          : null,
+      eSInstanceDetails: json['ESInstanceDetails'] != null
+          ? ESInstanceDetails.fromJson(
+              json['ESInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      elastiCacheInstanceDetails: json['ElastiCacheInstanceDetails'] != null
+          ? ElastiCacheInstanceDetails.fromJson(
+              json['ElastiCacheInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      rDSInstanceDetails: json['RDSInstanceDetails'] != null
+          ? RDSInstanceDetails.fromJson(
+              json['RDSInstanceDetails'] as Map<String, dynamic>)
+          : null,
+      redshiftInstanceDetails: json['RedshiftInstanceDetails'] != null
+          ? RedshiftInstanceDetails.fromJson(
+              json['RedshiftInstanceDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2InstanceDetails = this.eC2InstanceDetails;
+    final eSInstanceDetails = this.eSInstanceDetails;
+    final elastiCacheInstanceDetails = this.elastiCacheInstanceDetails;
+    final rDSInstanceDetails = this.rDSInstanceDetails;
+    final redshiftInstanceDetails = this.redshiftInstanceDetails;
+    return {
+      if (eC2InstanceDetails != null) 'EC2InstanceDetails': eC2InstanceDetails,
+      if (eSInstanceDetails != null) 'ESInstanceDetails': eSInstanceDetails,
+      if (elastiCacheInstanceDetails != null)
+        'ElastiCacheInstanceDetails': elastiCacheInstanceDetails,
+      if (rDSInstanceDetails != null) 'RDSInstanceDetails': rDSInstanceDetails,
+      if (redshiftInstanceDetails != null)
+        'RedshiftInstanceDetails': redshiftInstanceDetails,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCostCategoryDefinitionsResponse {
   /// A reference to a Cost Category containing enough information to identify the
   /// Cost Category.
-  @_s.JsonKey(name: 'CostCategoryReferences')
-  final List<CostCategoryReference> costCategoryReferences;
+  final List<CostCategoryReference>? costCategoryReferences;
 
   /// The token to retrieve the next set of results. Amazon Web Services provides
   /// the token when the response from a previous call has more results than the
   /// maximum page size.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCostCategoryDefinitionsResponse({
     this.costCategoryReferences,
     this.nextToken,
   });
+
   factory ListCostCategoryDefinitionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCostCategoryDefinitionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCostCategoryDefinitionsResponse(
+      costCategoryReferences: (json['CostCategoryReferences'] as List?)
+          ?.whereNotNull()
+          .map((e) => CostCategoryReference.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryReferences = this.costCategoryReferences;
+    final nextToken = this.nextToken;
+    return {
+      if (costCategoryReferences != null)
+        'CostCategoryReferences': costCategoryReferences,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 enum LookbackPeriodInDays {
-  @_s.JsonValue('SEVEN_DAYS')
   sevenDays,
-  @_s.JsonValue('THIRTY_DAYS')
   thirtyDays,
-  @_s.JsonValue('SIXTY_DAYS')
   sixtyDays,
 }
 
@@ -4976,39 +6796,83 @@ extension on LookbackPeriodInDays {
       case LookbackPeriodInDays.sixtyDays:
         return 'SIXTY_DAYS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LookbackPeriodInDays toLookbackPeriodInDays() {
+    switch (this) {
+      case 'SEVEN_DAYS':
+        return LookbackPeriodInDays.sevenDays;
+      case 'THIRTY_DAYS':
+        return LookbackPeriodInDays.thirtyDays;
+      case 'SIXTY_DAYS':
+        return LookbackPeriodInDays.sixtyDays;
+    }
+    throw Exception('$this is not known in enum LookbackPeriodInDays');
   }
 }
 
 enum MatchOption {
-  @_s.JsonValue('EQUALS')
   equals,
-  @_s.JsonValue('STARTS_WITH')
+  absent,
   startsWith,
-  @_s.JsonValue('ENDS_WITH')
   endsWith,
-  @_s.JsonValue('CONTAINS')
   contains,
-  @_s.JsonValue('CASE_SENSITIVE')
   caseSensitive,
-  @_s.JsonValue('CASE_INSENSITIVE')
   caseInsensitive,
 }
 
+extension on MatchOption {
+  String toValue() {
+    switch (this) {
+      case MatchOption.equals:
+        return 'EQUALS';
+      case MatchOption.absent:
+        return 'ABSENT';
+      case MatchOption.startsWith:
+        return 'STARTS_WITH';
+      case MatchOption.endsWith:
+        return 'ENDS_WITH';
+      case MatchOption.contains:
+        return 'CONTAINS';
+      case MatchOption.caseSensitive:
+        return 'CASE_SENSITIVE';
+      case MatchOption.caseInsensitive:
+        return 'CASE_INSENSITIVE';
+    }
+  }
+}
+
+extension on String {
+  MatchOption toMatchOption() {
+    switch (this) {
+      case 'EQUALS':
+        return MatchOption.equals;
+      case 'ABSENT':
+        return MatchOption.absent;
+      case 'STARTS_WITH':
+        return MatchOption.startsWith;
+      case 'ENDS_WITH':
+        return MatchOption.endsWith;
+      case 'CONTAINS':
+        return MatchOption.contains;
+      case 'CASE_SENSITIVE':
+        return MatchOption.caseSensitive;
+      case 'CASE_INSENSITIVE':
+        return MatchOption.caseInsensitive;
+    }
+    throw Exception('$this is not known in enum MatchOption');
+  }
+}
+
 enum Metric {
-  @_s.JsonValue('BLENDED_COST')
   blendedCost,
-  @_s.JsonValue('UNBLENDED_COST')
   unblendedCost,
-  @_s.JsonValue('AMORTIZED_COST')
   amortizedCost,
-  @_s.JsonValue('NET_UNBLENDED_COST')
   netUnblendedCost,
-  @_s.JsonValue('NET_AMORTIZED_COST')
   netAmortizedCost,
-  @_s.JsonValue('USAGE_QUANTITY')
   usageQuantity,
-  @_s.JsonValue('NORMALIZED_USAGE_AMOUNT')
   normalizedUsageAmount,
 }
 
@@ -5030,97 +6894,269 @@ extension on Metric {
       case Metric.normalizedUsageAmount:
         return 'NORMALIZED_USAGE_AMOUNT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Metric toMetric() {
+    switch (this) {
+      case 'BLENDED_COST':
+        return Metric.blendedCost;
+      case 'UNBLENDED_COST':
+        return Metric.unblendedCost;
+      case 'AMORTIZED_COST':
+        return Metric.amortizedCost;
+      case 'NET_UNBLENDED_COST':
+        return Metric.netUnblendedCost;
+      case 'NET_AMORTIZED_COST':
+        return Metric.netAmortizedCost;
+      case 'USAGE_QUANTITY':
+        return Metric.usageQuantity;
+      case 'NORMALIZED_USAGE_AMOUNT':
+        return Metric.normalizedUsageAmount;
+    }
+    throw Exception('$this is not known in enum Metric');
   }
 }
 
 /// The aggregated value for a metric.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MetricValue {
   /// The actual number that represents the metric.
-  @_s.JsonKey(name: 'Amount')
-  final String amount;
+  final String? amount;
 
   /// The unit that the metric is given in.
-  @_s.JsonKey(name: 'Unit')
-  final String unit;
+  final String? unit;
 
   MetricValue({
     this.amount,
     this.unit,
   });
-  factory MetricValue.fromJson(Map<String, dynamic> json) =>
-      _$MetricValueFromJson(json);
+
+  factory MetricValue.fromJson(Map<String, dynamic> json) {
+    return MetricValue(
+      amount: json['Amount'] as String?,
+      unit: json['Unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final unit = this.unit;
+    return {
+      if (amount != null) 'Amount': amount,
+      if (unit != null) 'Unit': unit,
+    };
+  }
 }
 
 /// Details on the modification recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyRecommendationDetail {
   /// Identifies whether this instance type is the AWS default recommendation.
-  @_s.JsonKey(name: 'TargetInstances')
-  final List<TargetInstance> targetInstances;
+  final List<TargetInstance>? targetInstances;
 
   ModifyRecommendationDetail({
     this.targetInstances,
   });
-  factory ModifyRecommendationDetail.fromJson(Map<String, dynamic> json) =>
-      _$ModifyRecommendationDetailFromJson(json);
+
+  factory ModifyRecommendationDetail.fromJson(Map<String, dynamic> json) {
+    return ModifyRecommendationDetail(
+      targetInstances: (json['TargetInstances'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetInstances = this.targetInstances;
+    return {
+      if (targetInstances != null) 'TargetInstances': targetInstances,
+    };
+  }
 }
 
 enum MonitorDimension {
-  @_s.JsonValue('SERVICE')
   service,
 }
 
+extension on MonitorDimension {
+  String toValue() {
+    switch (this) {
+      case MonitorDimension.service:
+        return 'SERVICE';
+    }
+  }
+}
+
+extension on String {
+  MonitorDimension toMonitorDimension() {
+    switch (this) {
+      case 'SERVICE':
+        return MonitorDimension.service;
+    }
+    throw Exception('$this is not known in enum MonitorDimension');
+  }
+}
+
 enum MonitorType {
-  @_s.JsonValue('DIMENSIONAL')
   dimensional,
-  @_s.JsonValue('CUSTOM')
   custom,
 }
 
+extension on MonitorType {
+  String toValue() {
+    switch (this) {
+      case MonitorType.dimensional:
+        return 'DIMENSIONAL';
+      case MonitorType.custom:
+        return 'CUSTOM';
+    }
+  }
+}
+
+extension on String {
+  MonitorType toMonitorType() {
+    switch (this) {
+      case 'DIMENSIONAL':
+        return MonitorType.dimensional;
+      case 'CUSTOM':
+        return MonitorType.custom;
+    }
+    throw Exception('$this is not known in enum MonitorType');
+  }
+}
+
+/// The network field that contains a list of network metrics associated with
+/// the current instance.
+class NetworkResourceUtilization {
+  /// The network ingress throughput utilization measured in Bytes per second.
+  final String? networkInBytesPerSecond;
+
+  /// The network outgress throughput utilization measured in Bytes per second.
+  final String? networkOutBytesPerSecond;
+
+  /// The network ingress packets measured in packets per second.
+  final String? networkPacketsInPerSecond;
+
+  /// The network outgress packets measured in packets per second.
+  final String? networkPacketsOutPerSecond;
+
+  NetworkResourceUtilization({
+    this.networkInBytesPerSecond,
+    this.networkOutBytesPerSecond,
+    this.networkPacketsInPerSecond,
+    this.networkPacketsOutPerSecond,
+  });
+
+  factory NetworkResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return NetworkResourceUtilization(
+      networkInBytesPerSecond: json['NetworkInBytesPerSecond'] as String?,
+      networkOutBytesPerSecond: json['NetworkOutBytesPerSecond'] as String?,
+      networkPacketsInPerSecond: json['NetworkPacketsInPerSecond'] as String?,
+      networkPacketsOutPerSecond: json['NetworkPacketsOutPerSecond'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInBytesPerSecond = this.networkInBytesPerSecond;
+    final networkOutBytesPerSecond = this.networkOutBytesPerSecond;
+    final networkPacketsInPerSecond = this.networkPacketsInPerSecond;
+    final networkPacketsOutPerSecond = this.networkPacketsOutPerSecond;
+    return {
+      if (networkInBytesPerSecond != null)
+        'NetworkInBytesPerSecond': networkInBytesPerSecond,
+      if (networkOutBytesPerSecond != null)
+        'NetworkOutBytesPerSecond': networkOutBytesPerSecond,
+      if (networkPacketsInPerSecond != null)
+        'NetworkPacketsInPerSecond': networkPacketsInPerSecond,
+      if (networkPacketsOutPerSecond != null)
+        'NetworkPacketsOutPerSecond': networkPacketsOutPerSecond,
+    };
+  }
+}
+
 enum NumericOperator {
-  @_s.JsonValue('EQUAL')
   equal,
-  @_s.JsonValue('GREATER_THAN_OR_EQUAL')
   greaterThanOrEqual,
-  @_s.JsonValue('LESS_THAN_OR_EQUAL')
   lessThanOrEqual,
-  @_s.JsonValue('GREATER_THAN')
   greaterThan,
-  @_s.JsonValue('LESS_THAN')
   lessThan,
-  @_s.JsonValue('BETWEEN')
   between,
 }
 
+extension on NumericOperator {
+  String toValue() {
+    switch (this) {
+      case NumericOperator.equal:
+        return 'EQUAL';
+      case NumericOperator.greaterThanOrEqual:
+        return 'GREATER_THAN_OR_EQUAL';
+      case NumericOperator.lessThanOrEqual:
+        return 'LESS_THAN_OR_EQUAL';
+      case NumericOperator.greaterThan:
+        return 'GREATER_THAN';
+      case NumericOperator.lessThan:
+        return 'LESS_THAN';
+      case NumericOperator.between:
+        return 'BETWEEN';
+    }
+  }
+}
+
+extension on String {
+  NumericOperator toNumericOperator() {
+    switch (this) {
+      case 'EQUAL':
+        return NumericOperator.equal;
+      case 'GREATER_THAN_OR_EQUAL':
+        return NumericOperator.greaterThanOrEqual;
+      case 'LESS_THAN_OR_EQUAL':
+        return NumericOperator.lessThanOrEqual;
+      case 'GREATER_THAN':
+        return NumericOperator.greaterThan;
+      case 'LESS_THAN':
+        return NumericOperator.lessThan;
+      case 'BETWEEN':
+        return NumericOperator.between;
+    }
+    throw Exception('$this is not known in enum NumericOperator');
+  }
+}
+
 enum OfferingClass {
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('CONVERTIBLE')
   convertible,
 }
 
+extension on OfferingClass {
+  String toValue() {
+    switch (this) {
+      case OfferingClass.standard:
+        return 'STANDARD';
+      case OfferingClass.convertible:
+        return 'CONVERTIBLE';
+    }
+  }
+}
+
+extension on String {
+  OfferingClass toOfferingClass() {
+    switch (this) {
+      case 'STANDARD':
+        return OfferingClass.standard;
+      case 'CONVERTIBLE':
+        return OfferingClass.convertible;
+    }
+    throw Exception('$this is not known in enum OfferingClass');
+  }
+}
+
 enum PaymentOption {
-  @_s.JsonValue('NO_UPFRONT')
   noUpfront,
-  @_s.JsonValue('PARTIAL_UPFRONT')
   partialUpfront,
-  @_s.JsonValue('ALL_UPFRONT')
   allUpfront,
-  @_s.JsonValue('LIGHT_UTILIZATION')
   lightUtilization,
-  @_s.JsonValue('MEDIUM_UTILIZATION')
   mediumUtilization,
-  @_s.JsonValue('HEAVY_UTILIZATION')
   heavyUtilization,
 }
 
@@ -5140,71 +7176,124 @@ extension on PaymentOption {
       case PaymentOption.heavyUtilization:
         return 'HEAVY_UTILIZATION';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  PaymentOption toPaymentOption() {
+    switch (this) {
+      case 'NO_UPFRONT':
+        return PaymentOption.noUpfront;
+      case 'PARTIAL_UPFRONT':
+        return PaymentOption.partialUpfront;
+      case 'ALL_UPFRONT':
+        return PaymentOption.allUpfront;
+      case 'LIGHT_UTILIZATION':
+        return PaymentOption.lightUtilization;
+      case 'MEDIUM_UTILIZATION':
+        return PaymentOption.mediumUtilization;
+      case 'HEAVY_UTILIZATION':
+        return PaymentOption.heavyUtilization;
+    }
+    throw Exception('$this is not known in enum PaymentOption');
+  }
+}
+
+enum PlatformDifference {
+  hypervisor,
+  networkInterface,
+  storageInterface,
+  instanceStoreAvailability,
+  virtualizationType,
+}
+
+extension on PlatformDifference {
+  String toValue() {
+    switch (this) {
+      case PlatformDifference.hypervisor:
+        return 'HYPERVISOR';
+      case PlatformDifference.networkInterface:
+        return 'NETWORK_INTERFACE';
+      case PlatformDifference.storageInterface:
+        return 'STORAGE_INTERFACE';
+      case PlatformDifference.instanceStoreAvailability:
+        return 'INSTANCE_STORE_AVAILABILITY';
+      case PlatformDifference.virtualizationType:
+        return 'VIRTUALIZATION_TYPE';
+    }
+  }
+}
+
+extension on String {
+  PlatformDifference toPlatformDifference() {
+    switch (this) {
+      case 'HYPERVISOR':
+        return PlatformDifference.hypervisor;
+      case 'NETWORK_INTERFACE':
+        return PlatformDifference.networkInterface;
+      case 'STORAGE_INTERFACE':
+        return PlatformDifference.storageInterface;
+      case 'INSTANCE_STORE_AVAILABILITY':
+        return PlatformDifference.instanceStoreAvailability;
+      case 'VIRTUALIZATION_TYPE':
+        return PlatformDifference.virtualizationType;
+    }
+    throw Exception('$this is not known in enum PlatformDifference');
+  }
+}
+
 class ProvideAnomalyFeedbackResponse {
   /// The ID of the modified cost anomaly.
-  @_s.JsonKey(name: 'AnomalyId')
   final String anomalyId;
 
   ProvideAnomalyFeedbackResponse({
-    @_s.required this.anomalyId,
+    required this.anomalyId,
   });
-  factory ProvideAnomalyFeedbackResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProvideAnomalyFeedbackResponseFromJson(json);
+
+  factory ProvideAnomalyFeedbackResponse.fromJson(Map<String, dynamic> json) {
+    return ProvideAnomalyFeedbackResponse(
+      anomalyId: json['AnomalyId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final anomalyId = this.anomalyId;
+    return {
+      'AnomalyId': anomalyId,
+    };
+  }
 }
 
 /// Details about the Amazon RDS instances that AWS recommends that you
 /// purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RDSInstanceDetails {
   /// Whether the recommendation is for a current-generation instance.
-  @_s.JsonKey(name: 'CurrentGeneration')
-  final bool currentGeneration;
+  final bool? currentGeneration;
 
   /// The database edition that the recommended reservation supports.
-  @_s.JsonKey(name: 'DatabaseEdition')
-  final String databaseEdition;
+  final String? databaseEdition;
 
   /// The database engine that the recommended reservation supports.
-  @_s.JsonKey(name: 'DatabaseEngine')
-  final String databaseEngine;
+  final String? databaseEngine;
 
   /// Whether the recommendation is for a reservation in a single Availability
   /// Zone or a reservation with a backup in a second Availability Zone.
-  @_s.JsonKey(name: 'DeploymentOption')
-  final String deploymentOption;
+  final String? deploymentOption;
 
   /// The instance family of the recommended reservation.
-  @_s.JsonKey(name: 'Family')
-  final String family;
+  final String? family;
 
   /// The type of instance that AWS recommends.
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The license model that the recommended reservation supports.
-  @_s.JsonKey(name: 'LicenseModel')
-  final String licenseModel;
+  final String? licenseModel;
 
   /// The AWS Region of the recommended reservation.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// Whether the recommended reservation is size flexible.
-  @_s.JsonKey(name: 'SizeFlexEligible')
-  final bool sizeFlexEligible;
+  final bool? sizeFlexEligible;
 
   RDSInstanceDetails({
     this.currentGeneration,
@@ -5217,44 +7306,90 @@ class RDSInstanceDetails {
     this.region,
     this.sizeFlexEligible,
   });
-  factory RDSInstanceDetails.fromJson(Map<String, dynamic> json) =>
-      _$RDSInstanceDetailsFromJson(json);
+
+  factory RDSInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return RDSInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      databaseEdition: json['DatabaseEdition'] as String?,
+      databaseEngine: json['DatabaseEngine'] as String?,
+      deploymentOption: json['DeploymentOption'] as String?,
+      family: json['Family'] as String?,
+      instanceType: json['InstanceType'] as String?,
+      licenseModel: json['LicenseModel'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final databaseEdition = this.databaseEdition;
+    final databaseEngine = this.databaseEngine;
+    final deploymentOption = this.deploymentOption;
+    final family = this.family;
+    final instanceType = this.instanceType;
+    final licenseModel = this.licenseModel;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (databaseEdition != null) 'DatabaseEdition': databaseEdition,
+      if (databaseEngine != null) 'DatabaseEngine': databaseEngine,
+      if (deploymentOption != null) 'DeploymentOption': deploymentOption,
+      if (family != null) 'Family': family,
+      if (instanceType != null) 'InstanceType': instanceType,
+      if (licenseModel != null) 'LicenseModel': licenseModel,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
 }
 
 enum RecommendationTarget {
-  @_s.JsonValue('SAME_INSTANCE_FAMILY')
   sameInstanceFamily,
-  @_s.JsonValue('CROSS_INSTANCE_FAMILY')
   crossInstanceFamily,
+}
+
+extension on RecommendationTarget {
+  String toValue() {
+    switch (this) {
+      case RecommendationTarget.sameInstanceFamily:
+        return 'SAME_INSTANCE_FAMILY';
+      case RecommendationTarget.crossInstanceFamily:
+        return 'CROSS_INSTANCE_FAMILY';
+    }
+  }
+}
+
+extension on String {
+  RecommendationTarget toRecommendationTarget() {
+    switch (this) {
+      case 'SAME_INSTANCE_FAMILY':
+        return RecommendationTarget.sameInstanceFamily;
+      case 'CROSS_INSTANCE_FAMILY':
+        return RecommendationTarget.crossInstanceFamily;
+    }
+    throw Exception('$this is not known in enum RecommendationTarget');
+  }
 }
 
 /// Details about the Amazon Redshift instances that AWS recommends that you
 /// purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RedshiftInstanceDetails {
   /// Whether the recommendation is for a current-generation instance.
-  @_s.JsonKey(name: 'CurrentGeneration')
-  final bool currentGeneration;
+  final bool? currentGeneration;
 
   /// The instance family of the recommended reservation.
-  @_s.JsonKey(name: 'Family')
-  final String family;
+  final String? family;
 
   /// The type of node that AWS recommends.
-  @_s.JsonKey(name: 'NodeType')
-  final String nodeType;
+  final String? nodeType;
 
   /// The AWS Region of the recommended reservation.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// Whether the recommended reservation is size flexible.
-  @_s.JsonKey(name: 'SizeFlexEligible')
-  final bool sizeFlexEligible;
+  final bool? sizeFlexEligible;
 
   RedshiftInstanceDetails({
     this.currentGeneration,
@@ -5263,82 +7398,95 @@ class RedshiftInstanceDetails {
     this.region,
     this.sizeFlexEligible,
   });
-  factory RedshiftInstanceDetails.fromJson(Map<String, dynamic> json) =>
-      _$RedshiftInstanceDetailsFromJson(json);
+
+  factory RedshiftInstanceDetails.fromJson(Map<String, dynamic> json) {
+    return RedshiftInstanceDetails(
+      currentGeneration: json['CurrentGeneration'] as bool?,
+      family: json['Family'] as String?,
+      nodeType: json['NodeType'] as String?,
+      region: json['Region'] as String?,
+      sizeFlexEligible: json['SizeFlexEligible'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentGeneration = this.currentGeneration;
+    final family = this.family;
+    final nodeType = this.nodeType;
+    final region = this.region;
+    final sizeFlexEligible = this.sizeFlexEligible;
+    return {
+      if (currentGeneration != null) 'CurrentGeneration': currentGeneration,
+      if (family != null) 'Family': family,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (region != null) 'Region': region,
+      if (sizeFlexEligible != null) 'SizeFlexEligible': sizeFlexEligible,
+    };
+  }
 }
 
 /// The aggregated numbers for your reservation usage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservationAggregates {
   /// The monthly cost of your reservation, amortized over the reservation period.
-  @_s.JsonKey(name: 'AmortizedRecurringFee')
-  final String amortizedRecurringFee;
+  final String? amortizedRecurringFee;
 
   /// The upfront cost of your reservation, amortized over the reservation period.
-  @_s.JsonKey(name: 'AmortizedUpfrontFee')
-  final String amortizedUpfrontFee;
+  final String? amortizedUpfrontFee;
 
   /// How much you saved due to purchasing and utilizing reservation. AWS
   /// calculates this by subtracting <code>TotalAmortizedFee</code> from
   /// <code>OnDemandCostOfRIHoursUsed</code>.
-  @_s.JsonKey(name: 'NetRISavings')
-  final String netRISavings;
+  final String? netRISavings;
 
   /// How much your reservation would cost if charged On-Demand rates.
-  @_s.JsonKey(name: 'OnDemandCostOfRIHoursUsed')
-  final String onDemandCostOfRIHoursUsed;
+  final String? onDemandCostOfRIHoursUsed;
 
   /// How many reservation hours that you purchased.
-  @_s.JsonKey(name: 'PurchasedHours')
-  final String purchasedHours;
+  final String? purchasedHours;
 
   /// How many Amazon EC2 reservation hours that you purchased, converted to
   /// normalized units. Normalized units are available only for Amazon EC2 usage
   /// after November 11, 2017.
-  @_s.JsonKey(name: 'PurchasedUnits')
-  final String purchasedUnits;
+  final String? purchasedUnits;
+
+  /// The cost of unused hours for your reservation.
+  final String? rICostForUnusedHours;
+
+  /// The realized savings due to purchasing and using a reservation.
+  final String? realizedSavings;
 
   /// The total number of reservation hours that you used.
-  @_s.JsonKey(name: 'TotalActualHours')
-  final String totalActualHours;
+  final String? totalActualHours;
 
   /// The total number of Amazon EC2 reservation hours that you used, converted to
   /// normalized units. Normalized units are available only for Amazon EC2 usage
   /// after November 11, 2017.
-  @_s.JsonKey(name: 'TotalActualUnits')
-  final String totalActualUnits;
+  final String? totalActualUnits;
 
   /// The total cost of your reservation, amortized over the reservation period.
-  @_s.JsonKey(name: 'TotalAmortizedFee')
-  final String totalAmortizedFee;
+  final String? totalAmortizedFee;
 
   /// How much you could save if you use your entire reservation.
-  @_s.JsonKey(name: 'TotalPotentialRISavings')
-  final String totalPotentialRISavings;
+  final String? totalPotentialRISavings;
+
+  /// The unrealized savings due to purchasing and using a reservation.
+  final String? unrealizedSavings;
 
   /// The number of reservation hours that you didn't use.
-  @_s.JsonKey(name: 'UnusedHours')
-  final String unusedHours;
+  final String? unusedHours;
 
   /// The number of Amazon EC2 reservation hours that you didn't use, converted to
   /// normalized units. Normalized units are available only for Amazon EC2 usage
   /// after November 11, 2017.
-  @_s.JsonKey(name: 'UnusedUnits')
-  final String unusedUnits;
+  final String? unusedUnits;
 
   /// The percentage of reservation time that you used.
-  @_s.JsonKey(name: 'UtilizationPercentage')
-  final String utilizationPercentage;
+  final String? utilizationPercentage;
 
   /// The percentage of Amazon EC2 reservation time that you used, converted to
   /// normalized units. Normalized units are available only for Amazon EC2 usage
   /// after November 11, 2017.
-  @_s.JsonKey(name: 'UtilizationPercentageInUnits')
-  final String utilizationPercentageInUnits;
+  final String? utilizationPercentageInUnits;
 
   ReservationAggregates({
     this.amortizedRecurringFee,
@@ -5347,80 +7495,148 @@ class ReservationAggregates {
     this.onDemandCostOfRIHoursUsed,
     this.purchasedHours,
     this.purchasedUnits,
+    this.rICostForUnusedHours,
+    this.realizedSavings,
     this.totalActualHours,
     this.totalActualUnits,
     this.totalAmortizedFee,
     this.totalPotentialRISavings,
+    this.unrealizedSavings,
     this.unusedHours,
     this.unusedUnits,
     this.utilizationPercentage,
     this.utilizationPercentageInUnits,
   });
-  factory ReservationAggregates.fromJson(Map<String, dynamic> json) =>
-      _$ReservationAggregatesFromJson(json);
+
+  factory ReservationAggregates.fromJson(Map<String, dynamic> json) {
+    return ReservationAggregates(
+      amortizedRecurringFee: json['AmortizedRecurringFee'] as String?,
+      amortizedUpfrontFee: json['AmortizedUpfrontFee'] as String?,
+      netRISavings: json['NetRISavings'] as String?,
+      onDemandCostOfRIHoursUsed: json['OnDemandCostOfRIHoursUsed'] as String?,
+      purchasedHours: json['PurchasedHours'] as String?,
+      purchasedUnits: json['PurchasedUnits'] as String?,
+      rICostForUnusedHours: json['RICostForUnusedHours'] as String?,
+      realizedSavings: json['RealizedSavings'] as String?,
+      totalActualHours: json['TotalActualHours'] as String?,
+      totalActualUnits: json['TotalActualUnits'] as String?,
+      totalAmortizedFee: json['TotalAmortizedFee'] as String?,
+      totalPotentialRISavings: json['TotalPotentialRISavings'] as String?,
+      unrealizedSavings: json['UnrealizedSavings'] as String?,
+      unusedHours: json['UnusedHours'] as String?,
+      unusedUnits: json['UnusedUnits'] as String?,
+      utilizationPercentage: json['UtilizationPercentage'] as String?,
+      utilizationPercentageInUnits:
+          json['UtilizationPercentageInUnits'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amortizedRecurringFee = this.amortizedRecurringFee;
+    final amortizedUpfrontFee = this.amortizedUpfrontFee;
+    final netRISavings = this.netRISavings;
+    final onDemandCostOfRIHoursUsed = this.onDemandCostOfRIHoursUsed;
+    final purchasedHours = this.purchasedHours;
+    final purchasedUnits = this.purchasedUnits;
+    final rICostForUnusedHours = this.rICostForUnusedHours;
+    final realizedSavings = this.realizedSavings;
+    final totalActualHours = this.totalActualHours;
+    final totalActualUnits = this.totalActualUnits;
+    final totalAmortizedFee = this.totalAmortizedFee;
+    final totalPotentialRISavings = this.totalPotentialRISavings;
+    final unrealizedSavings = this.unrealizedSavings;
+    final unusedHours = this.unusedHours;
+    final unusedUnits = this.unusedUnits;
+    final utilizationPercentage = this.utilizationPercentage;
+    final utilizationPercentageInUnits = this.utilizationPercentageInUnits;
+    return {
+      if (amortizedRecurringFee != null)
+        'AmortizedRecurringFee': amortizedRecurringFee,
+      if (amortizedUpfrontFee != null)
+        'AmortizedUpfrontFee': amortizedUpfrontFee,
+      if (netRISavings != null) 'NetRISavings': netRISavings,
+      if (onDemandCostOfRIHoursUsed != null)
+        'OnDemandCostOfRIHoursUsed': onDemandCostOfRIHoursUsed,
+      if (purchasedHours != null) 'PurchasedHours': purchasedHours,
+      if (purchasedUnits != null) 'PurchasedUnits': purchasedUnits,
+      if (rICostForUnusedHours != null)
+        'RICostForUnusedHours': rICostForUnusedHours,
+      if (realizedSavings != null) 'RealizedSavings': realizedSavings,
+      if (totalActualHours != null) 'TotalActualHours': totalActualHours,
+      if (totalActualUnits != null) 'TotalActualUnits': totalActualUnits,
+      if (totalAmortizedFee != null) 'TotalAmortizedFee': totalAmortizedFee,
+      if (totalPotentialRISavings != null)
+        'TotalPotentialRISavings': totalPotentialRISavings,
+      if (unrealizedSavings != null) 'UnrealizedSavings': unrealizedSavings,
+      if (unusedHours != null) 'UnusedHours': unusedHours,
+      if (unusedUnits != null) 'UnusedUnits': unusedUnits,
+      if (utilizationPercentage != null)
+        'UtilizationPercentage': utilizationPercentage,
+      if (utilizationPercentageInUnits != null)
+        'UtilizationPercentageInUnits': utilizationPercentageInUnits,
+    };
+  }
 }
 
 /// A group of reservations that share a set of attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservationCoverageGroup {
   /// The attributes for this group of reservations.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// How much instance usage this group of reservations covered.
-  @_s.JsonKey(name: 'Coverage')
-  final Coverage coverage;
+  final Coverage? coverage;
 
   ReservationCoverageGroup({
     this.attributes,
     this.coverage,
   });
-  factory ReservationCoverageGroup.fromJson(Map<String, dynamic> json) =>
-      _$ReservationCoverageGroupFromJson(json);
+
+  factory ReservationCoverageGroup.fromJson(Map<String, dynamic> json) {
+    return ReservationCoverageGroup(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      coverage: json['Coverage'] != null
+          ? Coverage.fromJson(json['Coverage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final coverage = this.coverage;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (coverage != null) 'Coverage': coverage,
+    };
+  }
 }
 
 /// A specific reservation that AWS recommends for purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservationPurchaseRecommendation {
   /// The account scope that AWS recommends that you purchase this instance for.
   /// For example, you can purchase this reservation for an entire organization in
   /// AWS Organizations.
-  @_s.JsonKey(name: 'AccountScope')
-  final AccountScope accountScope;
+  final AccountScope? accountScope;
 
   /// How many days of previous usage that AWS considers when making this
   /// recommendation.
-  @_s.JsonKey(name: 'LookbackPeriodInDays')
-  final LookbackPeriodInDays lookbackPeriodInDays;
+  final LookbackPeriodInDays? lookbackPeriodInDays;
 
   /// The payment option for the reservation. For example, <code>AllUpfront</code>
   /// or <code>NoUpfront</code>.
-  @_s.JsonKey(name: 'PaymentOption')
-  final PaymentOption paymentOption;
+  final PaymentOption? paymentOption;
 
   /// Details about the recommended purchases.
-  @_s.JsonKey(name: 'RecommendationDetails')
-  final List<ReservationPurchaseRecommendationDetail> recommendationDetails;
+  final List<ReservationPurchaseRecommendationDetail>? recommendationDetails;
 
   /// A summary about the recommended purchase.
-  @_s.JsonKey(name: 'RecommendationSummary')
-  final ReservationPurchaseRecommendationSummary recommendationSummary;
+  final ReservationPurchaseRecommendationSummary? recommendationSummary;
 
   /// Hardware specifications for the service that you want recommendations for.
-  @_s.JsonKey(name: 'ServiceSpecification')
-  final ServiceSpecification serviceSpecification;
+  final ServiceSpecification? serviceSpecification;
 
   /// The term of the reservation that you want recommendations for, in years.
-  @_s.JsonKey(name: 'TermInYears')
-  final TermInYears termInYears;
+  final TermInYears? termInYears;
 
   ReservationPurchaseRecommendation({
     this.accountScope,
@@ -5431,110 +7647,130 @@ class ReservationPurchaseRecommendation {
     this.serviceSpecification,
     this.termInYears,
   });
+
   factory ReservationPurchaseRecommendation.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReservationPurchaseRecommendationFromJson(json);
+      Map<String, dynamic> json) {
+    return ReservationPurchaseRecommendation(
+      accountScope: (json['AccountScope'] as String?)?.toAccountScope(),
+      lookbackPeriodInDays:
+          (json['LookbackPeriodInDays'] as String?)?.toLookbackPeriodInDays(),
+      paymentOption: (json['PaymentOption'] as String?)?.toPaymentOption(),
+      recommendationDetails: (json['RecommendationDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReservationPurchaseRecommendationDetail.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      recommendationSummary: json['RecommendationSummary'] != null
+          ? ReservationPurchaseRecommendationSummary.fromJson(
+              json['RecommendationSummary'] as Map<String, dynamic>)
+          : null,
+      serviceSpecification: json['ServiceSpecification'] != null
+          ? ServiceSpecification.fromJson(
+              json['ServiceSpecification'] as Map<String, dynamic>)
+          : null,
+      termInYears: (json['TermInYears'] as String?)?.toTermInYears(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountScope = this.accountScope;
+    final lookbackPeriodInDays = this.lookbackPeriodInDays;
+    final paymentOption = this.paymentOption;
+    final recommendationDetails = this.recommendationDetails;
+    final recommendationSummary = this.recommendationSummary;
+    final serviceSpecification = this.serviceSpecification;
+    final termInYears = this.termInYears;
+    return {
+      if (accountScope != null) 'AccountScope': accountScope.toValue(),
+      if (lookbackPeriodInDays != null)
+        'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
+      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
+      if (recommendationDetails != null)
+        'RecommendationDetails': recommendationDetails,
+      if (recommendationSummary != null)
+        'RecommendationSummary': recommendationSummary,
+      if (serviceSpecification != null)
+        'ServiceSpecification': serviceSpecification,
+      if (termInYears != null) 'TermInYears': termInYears.toValue(),
+    };
+  }
 }
 
 /// Details about your recommended reservation purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservationPurchaseRecommendationDetail {
   /// The account that this RI recommendation is for.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The average number of normalized units that you used in an hour during the
   /// historical period. AWS uses this to calculate your recommended reservation
   /// purchases.
-  @_s.JsonKey(name: 'AverageNormalizedUnitsUsedPerHour')
-  final String averageNormalizedUnitsUsedPerHour;
+  final String? averageNormalizedUnitsUsedPerHour;
 
   /// The average number of instances that you used in an hour during the
   /// historical period. AWS uses this to calculate your recommended reservation
   /// purchases.
-  @_s.JsonKey(name: 'AverageNumberOfInstancesUsedPerHour')
-  final String averageNumberOfInstancesUsedPerHour;
+  final String? averageNumberOfInstancesUsedPerHour;
 
   /// The average utilization of your instances. AWS uses this to calculate your
   /// recommended reservation purchases.
-  @_s.JsonKey(name: 'AverageUtilization')
-  final String averageUtilization;
+  final String? averageUtilization;
 
   /// The currency code that AWS used to calculate the costs for this instance.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// How long AWS estimates that it takes for this instance to start saving you
   /// money, in months.
-  @_s.JsonKey(name: 'EstimatedBreakEvenInMonths')
-  final String estimatedBreakEvenInMonths;
+  final String? estimatedBreakEvenInMonths;
 
   /// How much AWS estimates that you spend on On-Demand Instances in a month.
-  @_s.JsonKey(name: 'EstimatedMonthlyOnDemandCost')
-  final String estimatedMonthlyOnDemandCost;
+  final String? estimatedMonthlyOnDemandCost;
 
   /// How much AWS estimates that this specific recommendation could save you in a
   /// month.
-  @_s.JsonKey(name: 'EstimatedMonthlySavingsAmount')
-  final String estimatedMonthlySavingsAmount;
+  final String? estimatedMonthlySavingsAmount;
 
   /// How much AWS estimates that this specific recommendation could save you in a
   /// month, as a percentage of your overall costs.
-  @_s.JsonKey(name: 'EstimatedMonthlySavingsPercentage')
-  final String estimatedMonthlySavingsPercentage;
+  final String? estimatedMonthlySavingsPercentage;
 
   /// How much AWS estimates that you would have spent for all usage during the
   /// specified historical period if you had a reservation.
-  @_s.JsonKey(name: 'EstimatedReservationCostForLookbackPeriod')
-  final String estimatedReservationCostForLookbackPeriod;
+  final String? estimatedReservationCostForLookbackPeriod;
 
   /// Details about the instances that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'InstanceDetails')
-  final InstanceDetails instanceDetails;
+  final InstanceDetails? instanceDetails;
 
   /// The maximum number of normalized units that you used in an hour during the
   /// historical period. AWS uses this to calculate your recommended reservation
   /// purchases.
-  @_s.JsonKey(name: 'MaximumNormalizedUnitsUsedPerHour')
-  final String maximumNormalizedUnitsUsedPerHour;
+  final String? maximumNormalizedUnitsUsedPerHour;
 
   /// The maximum number of instances that you used in an hour during the
   /// historical period. AWS uses this to calculate your recommended reservation
   /// purchases.
-  @_s.JsonKey(name: 'MaximumNumberOfInstancesUsedPerHour')
-  final String maximumNumberOfInstancesUsedPerHour;
+  final String? maximumNumberOfInstancesUsedPerHour;
 
   /// The minimum number of normalized units that you used in an hour during the
   /// historical period. AWS uses this to calculate your recommended reservation
   /// purchases.
-  @_s.JsonKey(name: 'MinimumNormalizedUnitsUsedPerHour')
-  final String minimumNormalizedUnitsUsedPerHour;
+  final String? minimumNormalizedUnitsUsedPerHour;
 
   /// The minimum number of instances that you used in an hour during the
   /// historical period. AWS uses this to calculate your recommended reservation
   /// purchases.
-  @_s.JsonKey(name: 'MinimumNumberOfInstancesUsedPerHour')
-  final String minimumNumberOfInstancesUsedPerHour;
+  final String? minimumNumberOfInstancesUsedPerHour;
 
   /// The number of normalized units that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'RecommendedNormalizedUnitsToPurchase')
-  final String recommendedNormalizedUnitsToPurchase;
+  final String? recommendedNormalizedUnitsToPurchase;
 
   /// The number of instances that AWS recommends that you purchase.
-  @_s.JsonKey(name: 'RecommendedNumberOfInstancesToPurchase')
-  final String recommendedNumberOfInstancesToPurchase;
+  final String? recommendedNumberOfInstancesToPurchase;
 
   /// How much purchasing this instance costs you on a monthly basis.
-  @_s.JsonKey(name: 'RecurringStandardMonthlyCost')
-  final String recurringStandardMonthlyCost;
+  final String? recurringStandardMonthlyCost;
 
   /// How much purchasing this instance costs you upfront.
-  @_s.JsonKey(name: 'UpfrontCost')
-  final String upfrontCost;
+  final String? upfrontCost;
 
   ReservationPurchaseRecommendationDetail({
     this.accountId,
@@ -5557,91 +7793,218 @@ class ReservationPurchaseRecommendationDetail {
     this.recurringStandardMonthlyCost,
     this.upfrontCost,
   });
+
   factory ReservationPurchaseRecommendationDetail.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReservationPurchaseRecommendationDetailFromJson(json);
+      Map<String, dynamic> json) {
+    return ReservationPurchaseRecommendationDetail(
+      accountId: json['AccountId'] as String?,
+      averageNormalizedUnitsUsedPerHour:
+          json['AverageNormalizedUnitsUsedPerHour'] as String?,
+      averageNumberOfInstancesUsedPerHour:
+          json['AverageNumberOfInstancesUsedPerHour'] as String?,
+      averageUtilization: json['AverageUtilization'] as String?,
+      currencyCode: json['CurrencyCode'] as String?,
+      estimatedBreakEvenInMonths: json['EstimatedBreakEvenInMonths'] as String?,
+      estimatedMonthlyOnDemandCost:
+          json['EstimatedMonthlyOnDemandCost'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedMonthlySavingsPercentage:
+          json['EstimatedMonthlySavingsPercentage'] as String?,
+      estimatedReservationCostForLookbackPeriod:
+          json['EstimatedReservationCostForLookbackPeriod'] as String?,
+      instanceDetails: json['InstanceDetails'] != null
+          ? InstanceDetails.fromJson(
+              json['InstanceDetails'] as Map<String, dynamic>)
+          : null,
+      maximumNormalizedUnitsUsedPerHour:
+          json['MaximumNormalizedUnitsUsedPerHour'] as String?,
+      maximumNumberOfInstancesUsedPerHour:
+          json['MaximumNumberOfInstancesUsedPerHour'] as String?,
+      minimumNormalizedUnitsUsedPerHour:
+          json['MinimumNormalizedUnitsUsedPerHour'] as String?,
+      minimumNumberOfInstancesUsedPerHour:
+          json['MinimumNumberOfInstancesUsedPerHour'] as String?,
+      recommendedNormalizedUnitsToPurchase:
+          json['RecommendedNormalizedUnitsToPurchase'] as String?,
+      recommendedNumberOfInstancesToPurchase:
+          json['RecommendedNumberOfInstancesToPurchase'] as String?,
+      recurringStandardMonthlyCost:
+          json['RecurringStandardMonthlyCost'] as String?,
+      upfrontCost: json['UpfrontCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final averageNormalizedUnitsUsedPerHour =
+        this.averageNormalizedUnitsUsedPerHour;
+    final averageNumberOfInstancesUsedPerHour =
+        this.averageNumberOfInstancesUsedPerHour;
+    final averageUtilization = this.averageUtilization;
+    final currencyCode = this.currencyCode;
+    final estimatedBreakEvenInMonths = this.estimatedBreakEvenInMonths;
+    final estimatedMonthlyOnDemandCost = this.estimatedMonthlyOnDemandCost;
+    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
+    final estimatedMonthlySavingsPercentage =
+        this.estimatedMonthlySavingsPercentage;
+    final estimatedReservationCostForLookbackPeriod =
+        this.estimatedReservationCostForLookbackPeriod;
+    final instanceDetails = this.instanceDetails;
+    final maximumNormalizedUnitsUsedPerHour =
+        this.maximumNormalizedUnitsUsedPerHour;
+    final maximumNumberOfInstancesUsedPerHour =
+        this.maximumNumberOfInstancesUsedPerHour;
+    final minimumNormalizedUnitsUsedPerHour =
+        this.minimumNormalizedUnitsUsedPerHour;
+    final minimumNumberOfInstancesUsedPerHour =
+        this.minimumNumberOfInstancesUsedPerHour;
+    final recommendedNormalizedUnitsToPurchase =
+        this.recommendedNormalizedUnitsToPurchase;
+    final recommendedNumberOfInstancesToPurchase =
+        this.recommendedNumberOfInstancesToPurchase;
+    final recurringStandardMonthlyCost = this.recurringStandardMonthlyCost;
+    final upfrontCost = this.upfrontCost;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (averageNormalizedUnitsUsedPerHour != null)
+        'AverageNormalizedUnitsUsedPerHour': averageNormalizedUnitsUsedPerHour,
+      if (averageNumberOfInstancesUsedPerHour != null)
+        'AverageNumberOfInstancesUsedPerHour':
+            averageNumberOfInstancesUsedPerHour,
+      if (averageUtilization != null) 'AverageUtilization': averageUtilization,
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (estimatedBreakEvenInMonths != null)
+        'EstimatedBreakEvenInMonths': estimatedBreakEvenInMonths,
+      if (estimatedMonthlyOnDemandCost != null)
+        'EstimatedMonthlyOnDemandCost': estimatedMonthlyOnDemandCost,
+      if (estimatedMonthlySavingsAmount != null)
+        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
+      if (estimatedMonthlySavingsPercentage != null)
+        'EstimatedMonthlySavingsPercentage': estimatedMonthlySavingsPercentage,
+      if (estimatedReservationCostForLookbackPeriod != null)
+        'EstimatedReservationCostForLookbackPeriod':
+            estimatedReservationCostForLookbackPeriod,
+      if (instanceDetails != null) 'InstanceDetails': instanceDetails,
+      if (maximumNormalizedUnitsUsedPerHour != null)
+        'MaximumNormalizedUnitsUsedPerHour': maximumNormalizedUnitsUsedPerHour,
+      if (maximumNumberOfInstancesUsedPerHour != null)
+        'MaximumNumberOfInstancesUsedPerHour':
+            maximumNumberOfInstancesUsedPerHour,
+      if (minimumNormalizedUnitsUsedPerHour != null)
+        'MinimumNormalizedUnitsUsedPerHour': minimumNormalizedUnitsUsedPerHour,
+      if (minimumNumberOfInstancesUsedPerHour != null)
+        'MinimumNumberOfInstancesUsedPerHour':
+            minimumNumberOfInstancesUsedPerHour,
+      if (recommendedNormalizedUnitsToPurchase != null)
+        'RecommendedNormalizedUnitsToPurchase':
+            recommendedNormalizedUnitsToPurchase,
+      if (recommendedNumberOfInstancesToPurchase != null)
+        'RecommendedNumberOfInstancesToPurchase':
+            recommendedNumberOfInstancesToPurchase,
+      if (recurringStandardMonthlyCost != null)
+        'RecurringStandardMonthlyCost': recurringStandardMonthlyCost,
+      if (upfrontCost != null) 'UpfrontCost': upfrontCost,
+    };
+  }
 }
 
 /// Information about this specific recommendation, such as the timestamp for
 /// when AWS made a specific recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservationPurchaseRecommendationMetadata {
   /// The timestamp for when AWS made this recommendation.
-  @_s.JsonKey(name: 'GenerationTimestamp')
-  final String generationTimestamp;
+  final String? generationTimestamp;
 
   /// The ID for this specific recommendation.
-  @_s.JsonKey(name: 'RecommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   ReservationPurchaseRecommendationMetadata({
     this.generationTimestamp,
     this.recommendationId,
   });
+
   factory ReservationPurchaseRecommendationMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReservationPurchaseRecommendationMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return ReservationPurchaseRecommendationMetadata(
+      generationTimestamp: json['GenerationTimestamp'] as String?,
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final generationTimestamp = this.generationTimestamp;
+    final recommendationId = this.recommendationId;
+    return {
+      if (generationTimestamp != null)
+        'GenerationTimestamp': generationTimestamp,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+    };
+  }
 }
 
 /// A summary about this recommendation, such as the currency code, the amount
 /// that AWS estimates that you could save, and the total amount of reservation
 /// to purchase.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservationPurchaseRecommendationSummary {
   /// The currency code used for this recommendation.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The total amount that AWS estimates that this recommendation could save you
   /// in a month.
-  @_s.JsonKey(name: 'TotalEstimatedMonthlySavingsAmount')
-  final String totalEstimatedMonthlySavingsAmount;
+  final String? totalEstimatedMonthlySavingsAmount;
 
   /// The total amount that AWS estimates that this recommendation could save you
   /// in a month, as a percentage of your costs.
-  @_s.JsonKey(name: 'TotalEstimatedMonthlySavingsPercentage')
-  final String totalEstimatedMonthlySavingsPercentage;
+  final String? totalEstimatedMonthlySavingsPercentage;
 
   ReservationPurchaseRecommendationSummary({
     this.currencyCode,
     this.totalEstimatedMonthlySavingsAmount,
     this.totalEstimatedMonthlySavingsPercentage,
   });
+
   factory ReservationPurchaseRecommendationSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$ReservationPurchaseRecommendationSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return ReservationPurchaseRecommendationSummary(
+      currencyCode: json['CurrencyCode'] as String?,
+      totalEstimatedMonthlySavingsAmount:
+          json['TotalEstimatedMonthlySavingsAmount'] as String?,
+      totalEstimatedMonthlySavingsPercentage:
+          json['TotalEstimatedMonthlySavingsPercentage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final totalEstimatedMonthlySavingsAmount =
+        this.totalEstimatedMonthlySavingsAmount;
+    final totalEstimatedMonthlySavingsPercentage =
+        this.totalEstimatedMonthlySavingsPercentage;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (totalEstimatedMonthlySavingsAmount != null)
+        'TotalEstimatedMonthlySavingsAmount':
+            totalEstimatedMonthlySavingsAmount,
+      if (totalEstimatedMonthlySavingsPercentage != null)
+        'TotalEstimatedMonthlySavingsPercentage':
+            totalEstimatedMonthlySavingsPercentage,
+    };
+  }
 }
 
 /// A group of reservations that share a set of attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReservationUtilizationGroup {
   /// The attributes for this group of reservations.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The key for a specific reservation attribute.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// How much you used this group of reservations.
-  @_s.JsonKey(name: 'Utilization')
-  final ReservationAggregates utilization;
+  final ReservationAggregates? utilization;
 
   /// The value of a specific reservation attribute.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   ReservationUtilizationGroup({
     this.attributes,
@@ -5649,68 +8012,100 @@ class ReservationUtilizationGroup {
     this.utilization,
     this.value,
   });
-  factory ReservationUtilizationGroup.fromJson(Map<String, dynamic> json) =>
-      _$ReservationUtilizationGroupFromJson(json);
+
+  factory ReservationUtilizationGroup.fromJson(Map<String, dynamic> json) {
+    return ReservationUtilizationGroup(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      key: json['Key'] as String?,
+      utilization: json['Utilization'] != null
+          ? ReservationAggregates.fromJson(
+              json['Utilization'] as Map<String, dynamic>)
+          : null,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final key = this.key;
+    final utilization = this.utilization;
+    final value = this.value;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (key != null) 'Key': key,
+      if (utilization != null) 'Utilization': utilization,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Details on the resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceDetails {
   /// Details on the Amazon EC2 resource.
-  @_s.JsonKey(name: 'EC2ResourceDetails')
-  final EC2ResourceDetails eC2ResourceDetails;
+  final EC2ResourceDetails? eC2ResourceDetails;
 
   ResourceDetails({
     this.eC2ResourceDetails,
   });
-  factory ResourceDetails.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDetailsFromJson(json);
+
+  factory ResourceDetails.fromJson(Map<String, dynamic> json) {
+    return ResourceDetails(
+      eC2ResourceDetails: json['EC2ResourceDetails'] != null
+          ? EC2ResourceDetails.fromJson(
+              json['EC2ResourceDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2ResourceDetails = this.eC2ResourceDetails;
+    return {
+      if (eC2ResourceDetails != null) 'EC2ResourceDetails': eC2ResourceDetails,
+    };
+  }
 }
 
 /// Resource utilization of current resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceUtilization {
   /// Utilization of current Amazon EC2 instance.
-  @_s.JsonKey(name: 'EC2ResourceUtilization')
-  final EC2ResourceUtilization eC2ResourceUtilization;
+  final EC2ResourceUtilization? eC2ResourceUtilization;
 
   ResourceUtilization({
     this.eC2ResourceUtilization,
   });
-  factory ResourceUtilization.fromJson(Map<String, dynamic> json) =>
-      _$ResourceUtilizationFromJson(json);
+
+  factory ResourceUtilization.fromJson(Map<String, dynamic> json) {
+    return ResourceUtilization(
+      eC2ResourceUtilization: json['EC2ResourceUtilization'] != null
+          ? EC2ResourceUtilization.fromJson(
+              json['EC2ResourceUtilization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2ResourceUtilization = this.eC2ResourceUtilization;
+    return {
+      if (eC2ResourceUtilization != null)
+        'EC2ResourceUtilization': eC2ResourceUtilization,
+    };
+  }
 }
 
 /// The result that is associated with a time period.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultByTime {
   /// Whether the result is estimated.
-  @_s.JsonKey(name: 'Estimated')
-  final bool estimated;
+  final bool? estimated;
 
   /// The groups that this time period includes.
-  @_s.JsonKey(name: 'Groups')
-  final List<Group> groups;
+  final List<Group>? groups;
 
   /// The time period that the result covers.
-  @_s.JsonKey(name: 'TimePeriod')
-  final DateInterval timePeriod;
+  final DateInterval? timePeriod;
 
   /// The total amount of cost or usage accrued during the time period.
-  @_s.JsonKey(name: 'Total')
-  final Map<String, MetricValue> total;
+  final Map<String, MetricValue>? total;
 
   ResultByTime({
     this.estimated,
@@ -5718,46 +8113,112 @@ class ResultByTime {
     this.timePeriod,
     this.total,
   });
-  factory ResultByTime.fromJson(Map<String, dynamic> json) =>
-      _$ResultByTimeFromJson(json);
+
+  factory ResultByTime.fromJson(Map<String, dynamic> json) {
+    return ResultByTime(
+      estimated: json['Estimated'] as bool?,
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => Group.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+      total: (json['Total'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, MetricValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimated = this.estimated;
+    final groups = this.groups;
+    final timePeriod = this.timePeriod;
+    final total = this.total;
+    return {
+      if (estimated != null) 'Estimated': estimated,
+      if (groups != null) 'Groups': groups,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
 /// Recommendations to rightsize resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RightsizingRecommendation {
   /// The account that this recommendation is for.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// Context regarding the current instance.
-  @_s.JsonKey(name: 'CurrentInstance')
-  final CurrentInstance currentInstance;
+  final CurrentInstance? currentInstance;
+
+  /// The list of possible reasons why the recommendation is generated such as
+  /// under or over utilization of specific metrics (for example, CPU, Memory,
+  /// Network).
+  final List<FindingReasonCode>? findingReasonCodes;
 
   /// Details for modification recommendations.
-  @_s.JsonKey(name: 'ModifyRecommendationDetail')
-  final ModifyRecommendationDetail modifyRecommendationDetail;
+  final ModifyRecommendationDetail? modifyRecommendationDetail;
 
   /// Recommendation to either terminate or modify the resource.
-  @_s.JsonKey(name: 'RightsizingType')
-  final RightsizingType rightsizingType;
+  final RightsizingType? rightsizingType;
 
   /// Details for termination recommendations.
-  @_s.JsonKey(name: 'TerminateRecommendationDetail')
-  final TerminateRecommendationDetail terminateRecommendationDetail;
+  final TerminateRecommendationDetail? terminateRecommendationDetail;
 
   RightsizingRecommendation({
     this.accountId,
     this.currentInstance,
+    this.findingReasonCodes,
     this.modifyRecommendationDetail,
     this.rightsizingType,
     this.terminateRecommendationDetail,
   });
-  factory RightsizingRecommendation.fromJson(Map<String, dynamic> json) =>
-      _$RightsizingRecommendationFromJson(json);
+
+  factory RightsizingRecommendation.fromJson(Map<String, dynamic> json) {
+    return RightsizingRecommendation(
+      accountId: json['AccountId'] as String?,
+      currentInstance: json['CurrentInstance'] != null
+          ? CurrentInstance.fromJson(
+              json['CurrentInstance'] as Map<String, dynamic>)
+          : null,
+      findingReasonCodes: (json['FindingReasonCodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toFindingReasonCode())
+          .toList(),
+      modifyRecommendationDetail: json['ModifyRecommendationDetail'] != null
+          ? ModifyRecommendationDetail.fromJson(
+              json['ModifyRecommendationDetail'] as Map<String, dynamic>)
+          : null,
+      rightsizingType:
+          (json['RightsizingType'] as String?)?.toRightsizingType(),
+      terminateRecommendationDetail:
+          json['TerminateRecommendationDetail'] != null
+              ? TerminateRecommendationDetail.fromJson(
+                  json['TerminateRecommendationDetail'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final currentInstance = this.currentInstance;
+    final findingReasonCodes = this.findingReasonCodes;
+    final modifyRecommendationDetail = this.modifyRecommendationDetail;
+    final rightsizingType = this.rightsizingType;
+    final terminateRecommendationDetail = this.terminateRecommendationDetail;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (currentInstance != null) 'CurrentInstance': currentInstance,
+      if (findingReasonCodes != null)
+        'FindingReasonCodes':
+            findingReasonCodes.map((e) => e.toValue()).toList(),
+      if (modifyRecommendationDetail != null)
+        'ModifyRecommendationDetail': modifyRecommendationDetail,
+      if (rightsizingType != null) 'RightsizingType': rightsizingType.toValue(),
+      if (terminateRecommendationDetail != null)
+        'TerminateRecommendationDetail': terminateRecommendationDetail,
+    };
+  }
 }
 
 /// Enables you to customize recommendations across two attributes. You can
@@ -5765,58 +8226,54 @@ class RightsizingRecommendation {
 /// families or across different instance families. You can also choose to view
 /// your estimated savings associated with recommendations with consideration of
 /// existing Savings Plans or RI benefits, or neither.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RightsizingRecommendationConfiguration {
   /// The option to consider RI or Savings Plans discount benefits in your savings
   /// calculation. The default value is <code>TRUE</code>.
-  @_s.JsonKey(name: 'BenefitsConsidered')
   final bool benefitsConsidered;
 
   /// The option to see recommendations within the same instance family, or
   /// recommendations for instances across other families. The default value is
   /// <code>SAME_INSTANCE_FAMILY</code>.
-  @_s.JsonKey(name: 'RecommendationTarget')
   final RecommendationTarget recommendationTarget;
 
   RightsizingRecommendationConfiguration({
-    @_s.required this.benefitsConsidered,
-    @_s.required this.recommendationTarget,
+    required this.benefitsConsidered,
+    required this.recommendationTarget,
   });
-  factory RightsizingRecommendationConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$RightsizingRecommendationConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$RightsizingRecommendationConfigurationToJson(this);
+  factory RightsizingRecommendationConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return RightsizingRecommendationConfiguration(
+      benefitsConsidered: json['BenefitsConsidered'] as bool,
+      recommendationTarget:
+          (json['RecommendationTarget'] as String).toRecommendationTarget(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final benefitsConsidered = this.benefitsConsidered;
+    final recommendationTarget = this.recommendationTarget;
+    return {
+      'BenefitsConsidered': benefitsConsidered,
+      'RecommendationTarget': recommendationTarget.toValue(),
+    };
+  }
 }
 
 /// Metadata for this recommendation set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RightsizingRecommendationMetadata {
   /// Additional metadata that may be applicable to the recommendation.
-  @_s.JsonKey(name: 'AdditionalMetadata')
-  final String additionalMetadata;
+  final String? additionalMetadata;
 
   /// The timestamp for when AWS made this recommendation.
-  @_s.JsonKey(name: 'GenerationTimestamp')
-  final String generationTimestamp;
+  final String? generationTimestamp;
 
   /// How many days of previous usage that AWS considers when making this
   /// recommendation.
-  @_s.JsonKey(name: 'LookbackPeriodInDays')
-  final LookbackPeriodInDays lookbackPeriodInDays;
+  final LookbackPeriodInDays? lookbackPeriodInDays;
 
   /// The ID for this specific recommendation.
-  @_s.JsonKey(name: 'RecommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   RightsizingRecommendationMetadata({
     this.additionalMetadata,
@@ -5824,34 +8281,48 @@ class RightsizingRecommendationMetadata {
     this.lookbackPeriodInDays,
     this.recommendationId,
   });
+
   factory RightsizingRecommendationMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$RightsizingRecommendationMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return RightsizingRecommendationMetadata(
+      additionalMetadata: json['AdditionalMetadata'] as String?,
+      generationTimestamp: json['GenerationTimestamp'] as String?,
+      lookbackPeriodInDays:
+          (json['LookbackPeriodInDays'] as String?)?.toLookbackPeriodInDays(),
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMetadata = this.additionalMetadata;
+    final generationTimestamp = this.generationTimestamp;
+    final lookbackPeriodInDays = this.lookbackPeriodInDays;
+    final recommendationId = this.recommendationId;
+    return {
+      if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
+      if (generationTimestamp != null)
+        'GenerationTimestamp': generationTimestamp,
+      if (lookbackPeriodInDays != null)
+        'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+    };
+  }
 }
 
 /// Summary of rightsizing recommendations
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RightsizingRecommendationSummary {
   /// Estimated total savings resulting from modifications, on a monthly basis.
-  @_s.JsonKey(name: 'EstimatedTotalMonthlySavingsAmount')
-  final String estimatedTotalMonthlySavingsAmount;
+  final String? estimatedTotalMonthlySavingsAmount;
 
   /// The currency code that AWS used to calculate the savings.
-  @_s.JsonKey(name: 'SavingsCurrencyCode')
-  final String savingsCurrencyCode;
+  final String? savingsCurrencyCode;
 
   /// Savings percentage based on the recommended modifications, relative to the
   /// total On-Demand costs associated with these instances.
-  @_s.JsonKey(name: 'SavingsPercentage')
-  final String savingsPercentage;
+  final String? savingsPercentage;
 
   /// Total number of instance recommendations.
-  @_s.JsonKey(name: 'TotalRecommendationCount')
-  final String totalRecommendationCount;
+  final String? totalRecommendationCount;
 
   RightsizingRecommendationSummary({
     this.estimatedTotalMonthlySavingsAmount,
@@ -5859,41 +8330,78 @@ class RightsizingRecommendationSummary {
     this.savingsPercentage,
     this.totalRecommendationCount,
   });
-  factory RightsizingRecommendationSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$RightsizingRecommendationSummaryFromJson(json);
+
+  factory RightsizingRecommendationSummary.fromJson(Map<String, dynamic> json) {
+    return RightsizingRecommendationSummary(
+      estimatedTotalMonthlySavingsAmount:
+          json['EstimatedTotalMonthlySavingsAmount'] as String?,
+      savingsCurrencyCode: json['SavingsCurrencyCode'] as String?,
+      savingsPercentage: json['SavingsPercentage'] as String?,
+      totalRecommendationCount: json['TotalRecommendationCount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedTotalMonthlySavingsAmount =
+        this.estimatedTotalMonthlySavingsAmount;
+    final savingsCurrencyCode = this.savingsCurrencyCode;
+    final savingsPercentage = this.savingsPercentage;
+    final totalRecommendationCount = this.totalRecommendationCount;
+    return {
+      if (estimatedTotalMonthlySavingsAmount != null)
+        'EstimatedTotalMonthlySavingsAmount':
+            estimatedTotalMonthlySavingsAmount,
+      if (savingsCurrencyCode != null)
+        'SavingsCurrencyCode': savingsCurrencyCode,
+      if (savingsPercentage != null) 'SavingsPercentage': savingsPercentage,
+      if (totalRecommendationCount != null)
+        'TotalRecommendationCount': totalRecommendationCount,
+    };
+  }
 }
 
 enum RightsizingType {
-  @_s.JsonValue('TERMINATE')
   terminate,
-  @_s.JsonValue('MODIFY')
   modify,
+}
+
+extension on RightsizingType {
+  String toValue() {
+    switch (this) {
+      case RightsizingType.terminate:
+        return 'TERMINATE';
+      case RightsizingType.modify:
+        return 'MODIFY';
+    }
+  }
+}
+
+extension on String {
+  RightsizingType toRightsizingType() {
+    switch (this) {
+      case 'TERMINATE':
+        return RightsizingType.terminate;
+      case 'MODIFY':
+        return RightsizingType.modify;
+    }
+    throw Exception('$this is not known in enum RightsizingType');
+  }
 }
 
 /// The combination of AWS service, linked account, Region, and usage type where
 /// a cost anomaly is observed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RootCause {
   /// The linked account value associated with the cost anomaly.
-  @_s.JsonKey(name: 'LinkedAccount')
-  final String linkedAccount;
+  final String? linkedAccount;
 
   /// The AWS Region associated with the cost anomaly.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   /// The AWS service name associated with the cost anomaly.
-  @_s.JsonKey(name: 'Service')
-  final String service;
+  final String? service;
 
   /// The <code>UsageType</code> value associated with the cost anomaly.
-  @_s.JsonKey(name: 'UsageType')
-  final String usageType;
+  final String? usageType;
 
   RootCause({
     this.linkedAccount,
@@ -5901,94 +8409,133 @@ class RootCause {
     this.service,
     this.usageType,
   });
-  factory RootCause.fromJson(Map<String, dynamic> json) =>
-      _$RootCauseFromJson(json);
+
+  factory RootCause.fromJson(Map<String, dynamic> json) {
+    return RootCause(
+      linkedAccount: json['LinkedAccount'] as String?,
+      region: json['Region'] as String?,
+      service: json['Service'] as String?,
+      usageType: json['UsageType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linkedAccount = this.linkedAccount;
+    final region = this.region;
+    final service = this.service;
+    final usageType = this.usageType;
+    return {
+      if (linkedAccount != null) 'LinkedAccount': linkedAccount,
+      if (region != null) 'Region': region,
+      if (service != null) 'Service': service,
+      if (usageType != null) 'UsageType': usageType,
+    };
+  }
 }
 
 /// The amortized amount of Savings Plans purchased in a specific account during
 /// a specific time interval.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansAmortizedCommitment {
   /// The amortized amount of your Savings Plans commitment that was purchased
   /// with either a <code>Partial</code> or a <code>NoUpfront</code>.
-  @_s.JsonKey(name: 'AmortizedRecurringCommitment')
-  final String amortizedRecurringCommitment;
+  final String? amortizedRecurringCommitment;
 
   /// The amortized amount of your Savings Plans commitment that was purchased
   /// with an <code>Upfront</code> or <code>PartialUpfront</code> Savings Plans.
-  @_s.JsonKey(name: 'AmortizedUpfrontCommitment')
-  final String amortizedUpfrontCommitment;
+  final String? amortizedUpfrontCommitment;
 
   /// The total amortized amount of your Savings Plans commitment, regardless of
   /// your Savings Plans purchase method.
-  @_s.JsonKey(name: 'TotalAmortizedCommitment')
-  final String totalAmortizedCommitment;
+  final String? totalAmortizedCommitment;
 
   SavingsPlansAmortizedCommitment({
     this.amortizedRecurringCommitment,
     this.amortizedUpfrontCommitment,
     this.totalAmortizedCommitment,
   });
-  factory SavingsPlansAmortizedCommitment.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansAmortizedCommitmentFromJson(json);
+
+  factory SavingsPlansAmortizedCommitment.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansAmortizedCommitment(
+      amortizedRecurringCommitment:
+          json['AmortizedRecurringCommitment'] as String?,
+      amortizedUpfrontCommitment: json['AmortizedUpfrontCommitment'] as String?,
+      totalAmortizedCommitment: json['TotalAmortizedCommitment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amortizedRecurringCommitment = this.amortizedRecurringCommitment;
+    final amortizedUpfrontCommitment = this.amortizedUpfrontCommitment;
+    final totalAmortizedCommitment = this.totalAmortizedCommitment;
+    return {
+      if (amortizedRecurringCommitment != null)
+        'AmortizedRecurringCommitment': amortizedRecurringCommitment,
+      if (amortizedUpfrontCommitment != null)
+        'AmortizedUpfrontCommitment': amortizedUpfrontCommitment,
+      if (totalAmortizedCommitment != null)
+        'TotalAmortizedCommitment': totalAmortizedCommitment,
+    };
+  }
 }
 
 /// The amount of Savings Plans eligible usage that is covered by Savings Plans.
 /// All calculations consider the On-Demand equivalent of your Savings Plans
 /// usage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansCoverage {
   /// The attribute that applies to a specific <code>Dimension</code>.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The amount of Savings Plans eligible usage that the Savings Plans covered.
-  @_s.JsonKey(name: 'Coverage')
-  final SavingsPlansCoverageData coverage;
-  @_s.JsonKey(name: 'TimePeriod')
-  final DateInterval timePeriod;
+  final SavingsPlansCoverageData? coverage;
+  final DateInterval? timePeriod;
 
   SavingsPlansCoverage({
     this.attributes,
     this.coverage,
     this.timePeriod,
   });
-  factory SavingsPlansCoverage.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansCoverageFromJson(json);
+
+  factory SavingsPlansCoverage.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansCoverage(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      coverage: json['Coverage'] != null
+          ? SavingsPlansCoverageData.fromJson(
+              json['Coverage'] as Map<String, dynamic>)
+          : null,
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final coverage = this.coverage;
+    final timePeriod = this.timePeriod;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (coverage != null) 'Coverage': coverage,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+    };
+  }
 }
 
 /// Specific coverage percentage, On-Demand costs, and spend covered by Savings
 /// Plans, and total Savings Plans costs for an account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansCoverageData {
   /// The percentage of your existing Savings Plans covered usage, divided by all
   /// of your eligible Savings Plans usage in an account(or set of accounts).
-  @_s.JsonKey(name: 'CoveragePercentage')
-  final String coveragePercentage;
+  final String? coveragePercentage;
 
   /// The cost of your AWS usage at the public On-Demand rate.
-  @_s.JsonKey(name: 'OnDemandCost')
-  final String onDemandCost;
+  final String? onDemandCost;
 
   /// The amount of your AWS usage that is covered by a Savings Plans.
-  @_s.JsonKey(name: 'SpendCoveredBySavingsPlans')
-  final String spendCoveredBySavingsPlans;
+  final String? spendCoveredBySavingsPlans;
 
   /// The total cost of your AWS usage, regardless of your purchase option.
-  @_s.JsonKey(name: 'TotalCost')
-  final String totalCost;
+  final String? totalCost;
 
   SavingsPlansCoverageData({
     this.coveragePercentage,
@@ -5996,82 +8543,138 @@ class SavingsPlansCoverageData {
     this.spendCoveredBySavingsPlans,
     this.totalCost,
   });
-  factory SavingsPlansCoverageData.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansCoverageDataFromJson(json);
+
+  factory SavingsPlansCoverageData.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansCoverageData(
+      coveragePercentage: json['CoveragePercentage'] as String?,
+      onDemandCost: json['OnDemandCost'] as String?,
+      spendCoveredBySavingsPlans: json['SpendCoveredBySavingsPlans'] as String?,
+      totalCost: json['TotalCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final coveragePercentage = this.coveragePercentage;
+    final onDemandCost = this.onDemandCost;
+    final spendCoveredBySavingsPlans = this.spendCoveredBySavingsPlans;
+    final totalCost = this.totalCost;
+    return {
+      if (coveragePercentage != null) 'CoveragePercentage': coveragePercentage,
+      if (onDemandCost != null) 'OnDemandCost': onDemandCost,
+      if (spendCoveredBySavingsPlans != null)
+        'SpendCoveredBySavingsPlans': spendCoveredBySavingsPlans,
+      if (totalCost != null) 'TotalCost': totalCost,
+    };
+  }
+}
+
+enum SavingsPlansDataType {
+  attributes,
+  utilization,
+  amortizedCommitment,
+  savings,
+}
+
+extension on SavingsPlansDataType {
+  String toValue() {
+    switch (this) {
+      case SavingsPlansDataType.attributes:
+        return 'ATTRIBUTES';
+      case SavingsPlansDataType.utilization:
+        return 'UTILIZATION';
+      case SavingsPlansDataType.amortizedCommitment:
+        return 'AMORTIZED_COMMITMENT';
+      case SavingsPlansDataType.savings:
+        return 'SAVINGS';
+    }
+  }
+}
+
+extension on String {
+  SavingsPlansDataType toSavingsPlansDataType() {
+    switch (this) {
+      case 'ATTRIBUTES':
+        return SavingsPlansDataType.attributes;
+      case 'UTILIZATION':
+        return SavingsPlansDataType.utilization;
+      case 'AMORTIZED_COMMITMENT':
+        return SavingsPlansDataType.amortizedCommitment;
+      case 'SAVINGS':
+        return SavingsPlansDataType.savings;
+    }
+    throw Exception('$this is not known in enum SavingsPlansDataType');
+  }
 }
 
 /// Attribute details on a specific Savings Plan.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansDetails {
   /// A group of instance types that Savings Plans applies to.
-  @_s.JsonKey(name: 'InstanceFamily')
-  final String instanceFamily;
+  final String? instanceFamily;
 
   /// The unique ID used to distinguish Savings Plans from one another.
-  @_s.JsonKey(name: 'OfferingId')
-  final String offeringId;
+  final String? offeringId;
 
   /// A collection of AWS resources in a geographic area. Each AWS Region is
   /// isolated and independent of the other Regions.
-  @_s.JsonKey(name: 'Region')
-  final String region;
+  final String? region;
 
   SavingsPlansDetails({
     this.instanceFamily,
     this.offeringId,
     this.region,
   });
-  factory SavingsPlansDetails.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansDetailsFromJson(json);
+
+  factory SavingsPlansDetails.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansDetails(
+      instanceFamily: json['InstanceFamily'] as String?,
+      offeringId: json['OfferingId'] as String?,
+      region: json['Region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceFamily = this.instanceFamily;
+    final offeringId = this.offeringId;
+    final region = this.region;
+    return {
+      if (instanceFamily != null) 'InstanceFamily': instanceFamily,
+      if (offeringId != null) 'OfferingId': offeringId,
+      if (region != null) 'Region': region,
+    };
+  }
 }
 
 /// Contains your request parameters, Savings Plan Recommendations Summary, and
 /// Details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansPurchaseRecommendation {
   /// The account scope that you want your recommendations for. Amazon Web
   /// Services calculates recommendations including the management account and
   /// member accounts if the value is set to <code>PAYER</code>. If the value is
   /// <code>LINKED</code>, recommendations are calculated for individual member
   /// accounts only.
-  @_s.JsonKey(name: 'AccountScope')
-  final AccountScope accountScope;
+  final AccountScope? accountScope;
 
   /// The lookback period in days, used to generate the recommendation.
-  @_s.JsonKey(name: 'LookbackPeriodInDays')
-  final LookbackPeriodInDays lookbackPeriodInDays;
+  final LookbackPeriodInDays? lookbackPeriodInDays;
 
   /// The payment option used to generate the recommendation.
-  @_s.JsonKey(name: 'PaymentOption')
-  final PaymentOption paymentOption;
+  final PaymentOption? paymentOption;
 
   /// Details for the Savings Plans we recommend that you purchase to cover
   /// existing Savings Plans eligible workloads.
-  @_s.JsonKey(name: 'SavingsPlansPurchaseRecommendationDetails')
-  final List<SavingsPlansPurchaseRecommendationDetail>
+  final List<SavingsPlansPurchaseRecommendationDetail>?
       savingsPlansPurchaseRecommendationDetails;
 
   /// Summary metrics for your Savings Plans Recommendations.
-  @_s.JsonKey(name: 'SavingsPlansPurchaseRecommendationSummary')
-  final SavingsPlansPurchaseRecommendationSummary
+  final SavingsPlansPurchaseRecommendationSummary?
       savingsPlansPurchaseRecommendationSummary;
 
   /// The requested Savings Plans recommendation type.
-  @_s.JsonKey(name: 'SavingsPlansType')
-  final SupportedSavingsPlansType savingsPlansType;
+  final SupportedSavingsPlansType? savingsPlansType;
 
   /// The Savings Plans recommendation term in years, used to generate the
   /// recommendation.
-  @_s.JsonKey(name: 'TermInYears')
-  final TermInYears termInYears;
+  final TermInYears? termInYears;
 
   SavingsPlansPurchaseRecommendation({
     this.accountScope,
@@ -6082,96 +8685,124 @@ class SavingsPlansPurchaseRecommendation {
     this.savingsPlansType,
     this.termInYears,
   });
+
   factory SavingsPlansPurchaseRecommendation.fromJson(
-          Map<String, dynamic> json) =>
-      _$SavingsPlansPurchaseRecommendationFromJson(json);
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendation(
+      accountScope: (json['AccountScope'] as String?)?.toAccountScope(),
+      lookbackPeriodInDays:
+          (json['LookbackPeriodInDays'] as String?)?.toLookbackPeriodInDays(),
+      paymentOption: (json['PaymentOption'] as String?)?.toPaymentOption(),
+      savingsPlansPurchaseRecommendationDetails:
+          (json['SavingsPlansPurchaseRecommendationDetails'] as List?)
+              ?.whereNotNull()
+              .map((e) => SavingsPlansPurchaseRecommendationDetail.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      savingsPlansPurchaseRecommendationSummary:
+          json['SavingsPlansPurchaseRecommendationSummary'] != null
+              ? SavingsPlansPurchaseRecommendationSummary.fromJson(
+                  json['SavingsPlansPurchaseRecommendationSummary']
+                      as Map<String, dynamic>)
+              : null,
+      savingsPlansType:
+          (json['SavingsPlansType'] as String?)?.toSupportedSavingsPlansType(),
+      termInYears: (json['TermInYears'] as String?)?.toTermInYears(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountScope = this.accountScope;
+    final lookbackPeriodInDays = this.lookbackPeriodInDays;
+    final paymentOption = this.paymentOption;
+    final savingsPlansPurchaseRecommendationDetails =
+        this.savingsPlansPurchaseRecommendationDetails;
+    final savingsPlansPurchaseRecommendationSummary =
+        this.savingsPlansPurchaseRecommendationSummary;
+    final savingsPlansType = this.savingsPlansType;
+    final termInYears = this.termInYears;
+    return {
+      if (accountScope != null) 'AccountScope': accountScope.toValue(),
+      if (lookbackPeriodInDays != null)
+        'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
+      if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
+      if (savingsPlansPurchaseRecommendationDetails != null)
+        'SavingsPlansPurchaseRecommendationDetails':
+            savingsPlansPurchaseRecommendationDetails,
+      if (savingsPlansPurchaseRecommendationSummary != null)
+        'SavingsPlansPurchaseRecommendationSummary':
+            savingsPlansPurchaseRecommendationSummary,
+      if (savingsPlansType != null)
+        'SavingsPlansType': savingsPlansType.toValue(),
+      if (termInYears != null) 'TermInYears': termInYears.toValue(),
+    };
+  }
 }
 
 /// Details for your recommended Savings Plans.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansPurchaseRecommendationDetail {
   /// The <code>AccountID</code> the recommendation is generated for.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The currency code AWS used to generate the recommendations and present
   /// potential savings.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The average value of hourly On-Demand spend over the lookback period of the
   /// applicable usage type.
-  @_s.JsonKey(name: 'CurrentAverageHourlyOnDemandSpend')
-  final String currentAverageHourlyOnDemandSpend;
+  final String? currentAverageHourlyOnDemandSpend;
 
   /// The highest value of hourly On-Demand spend over the lookback period of the
   /// applicable usage type.
-  @_s.JsonKey(name: 'CurrentMaximumHourlyOnDemandSpend')
-  final String currentMaximumHourlyOnDemandSpend;
+  final String? currentMaximumHourlyOnDemandSpend;
 
   /// The lowest value of hourly On-Demand spend over the lookback period of the
   /// applicable usage type.
-  @_s.JsonKey(name: 'CurrentMinimumHourlyOnDemandSpend')
-  final String currentMinimumHourlyOnDemandSpend;
+  final String? currentMinimumHourlyOnDemandSpend;
 
   /// The estimated utilization of the recommended Savings Plans.
-  @_s.JsonKey(name: 'EstimatedAverageUtilization')
-  final String estimatedAverageUtilization;
+  final String? estimatedAverageUtilization;
 
   /// The estimated monthly savings amount, based on the recommended Savings
   /// Plans.
-  @_s.JsonKey(name: 'EstimatedMonthlySavingsAmount')
-  final String estimatedMonthlySavingsAmount;
+  final String? estimatedMonthlySavingsAmount;
 
   /// The remaining On-Demand cost estimated to not be covered by the recommended
   /// Savings Plans, over the length of the lookback period.
-  @_s.JsonKey(name: 'EstimatedOnDemandCost')
-  final String estimatedOnDemandCost;
+  final String? estimatedOnDemandCost;
 
   /// The estimated On-Demand costs you would expect with no additional
   /// commitment, based on your usage of the selected time period and the Savings
   /// Plans you own.
-  @_s.JsonKey(name: 'EstimatedOnDemandCostWithCurrentCommitment')
-  final String estimatedOnDemandCostWithCurrentCommitment;
+  final String? estimatedOnDemandCostWithCurrentCommitment;
 
   /// The estimated return on investment based on the recommended Savings Plans
   /// purchased. This is calculated as <code>estimatedSavingsAmount</code>/
   /// <code>estimatedSPCost</code>*100.
-  @_s.JsonKey(name: 'EstimatedROI')
-  final String estimatedROI;
+  final String? estimatedROI;
 
   /// The cost of the recommended Savings Plans over the length of the lookback
   /// period.
-  @_s.JsonKey(name: 'EstimatedSPCost')
-  final String estimatedSPCost;
+  final String? estimatedSPCost;
 
   /// The estimated savings amount based on the recommended Savings Plans over the
   /// length of the lookback period.
-  @_s.JsonKey(name: 'EstimatedSavingsAmount')
-  final String estimatedSavingsAmount;
+  final String? estimatedSavingsAmount;
 
   /// The estimated savings percentage relative to the total cost of applicable
   /// On-Demand usage over the lookback period.
-  @_s.JsonKey(name: 'EstimatedSavingsPercentage')
-  final String estimatedSavingsPercentage;
+  final String? estimatedSavingsPercentage;
 
   /// The recommended hourly commitment level for the Savings Plans type, and
   /// configuration based on the usage during the lookback period.
-  @_s.JsonKey(name: 'HourlyCommitmentToPurchase')
-  final String hourlyCommitmentToPurchase;
+  final String? hourlyCommitmentToPurchase;
 
   /// Details for your recommended Savings Plans.
-  @_s.JsonKey(name: 'SavingsPlansDetails')
-  final SavingsPlansDetails savingsPlansDetails;
+  final SavingsPlansDetails? savingsPlansDetails;
 
   /// The upfront cost of the recommended Savings Plans, based on the selected
   /// payment option.
-  @_s.JsonKey(name: 'UpfrontCost')
-  final String upfrontCost;
+  final String? upfrontCost;
 
   SavingsPlansPurchaseRecommendationDetail({
     this.accountId,
@@ -6191,102 +8822,177 @@ class SavingsPlansPurchaseRecommendationDetail {
     this.savingsPlansDetails,
     this.upfrontCost,
   });
+
   factory SavingsPlansPurchaseRecommendationDetail.fromJson(
-          Map<String, dynamic> json) =>
-      _$SavingsPlansPurchaseRecommendationDetailFromJson(json);
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendationDetail(
+      accountId: json['AccountId'] as String?,
+      currencyCode: json['CurrencyCode'] as String?,
+      currentAverageHourlyOnDemandSpend:
+          json['CurrentAverageHourlyOnDemandSpend'] as String?,
+      currentMaximumHourlyOnDemandSpend:
+          json['CurrentMaximumHourlyOnDemandSpend'] as String?,
+      currentMinimumHourlyOnDemandSpend:
+          json['CurrentMinimumHourlyOnDemandSpend'] as String?,
+      estimatedAverageUtilization:
+          json['EstimatedAverageUtilization'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedOnDemandCost: json['EstimatedOnDemandCost'] as String?,
+      estimatedOnDemandCostWithCurrentCommitment:
+          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+      estimatedROI: json['EstimatedROI'] as String?,
+      estimatedSPCost: json['EstimatedSPCost'] as String?,
+      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+      savingsPlansDetails: json['SavingsPlansDetails'] != null
+          ? SavingsPlansDetails.fromJson(
+              json['SavingsPlansDetails'] as Map<String, dynamic>)
+          : null,
+      upfrontCost: json['UpfrontCost'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final currencyCode = this.currencyCode;
+    final currentAverageHourlyOnDemandSpend =
+        this.currentAverageHourlyOnDemandSpend;
+    final currentMaximumHourlyOnDemandSpend =
+        this.currentMaximumHourlyOnDemandSpend;
+    final currentMinimumHourlyOnDemandSpend =
+        this.currentMinimumHourlyOnDemandSpend;
+    final estimatedAverageUtilization = this.estimatedAverageUtilization;
+    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
+    final estimatedOnDemandCost = this.estimatedOnDemandCost;
+    final estimatedOnDemandCostWithCurrentCommitment =
+        this.estimatedOnDemandCostWithCurrentCommitment;
+    final estimatedROI = this.estimatedROI;
+    final estimatedSPCost = this.estimatedSPCost;
+    final estimatedSavingsAmount = this.estimatedSavingsAmount;
+    final estimatedSavingsPercentage = this.estimatedSavingsPercentage;
+    final hourlyCommitmentToPurchase = this.hourlyCommitmentToPurchase;
+    final savingsPlansDetails = this.savingsPlansDetails;
+    final upfrontCost = this.upfrontCost;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (currentAverageHourlyOnDemandSpend != null)
+        'CurrentAverageHourlyOnDemandSpend': currentAverageHourlyOnDemandSpend,
+      if (currentMaximumHourlyOnDemandSpend != null)
+        'CurrentMaximumHourlyOnDemandSpend': currentMaximumHourlyOnDemandSpend,
+      if (currentMinimumHourlyOnDemandSpend != null)
+        'CurrentMinimumHourlyOnDemandSpend': currentMinimumHourlyOnDemandSpend,
+      if (estimatedAverageUtilization != null)
+        'EstimatedAverageUtilization': estimatedAverageUtilization,
+      if (estimatedMonthlySavingsAmount != null)
+        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
+      if (estimatedOnDemandCost != null)
+        'EstimatedOnDemandCost': estimatedOnDemandCost,
+      if (estimatedOnDemandCostWithCurrentCommitment != null)
+        'EstimatedOnDemandCostWithCurrentCommitment':
+            estimatedOnDemandCostWithCurrentCommitment,
+      if (estimatedROI != null) 'EstimatedROI': estimatedROI,
+      if (estimatedSPCost != null) 'EstimatedSPCost': estimatedSPCost,
+      if (estimatedSavingsAmount != null)
+        'EstimatedSavingsAmount': estimatedSavingsAmount,
+      if (estimatedSavingsPercentage != null)
+        'EstimatedSavingsPercentage': estimatedSavingsPercentage,
+      if (hourlyCommitmentToPurchase != null)
+        'HourlyCommitmentToPurchase': hourlyCommitmentToPurchase,
+      if (savingsPlansDetails != null)
+        'SavingsPlansDetails': savingsPlansDetails,
+      if (upfrontCost != null) 'UpfrontCost': upfrontCost,
+    };
+  }
 }
 
 /// Metadata about your Savings Plans Purchase Recommendations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansPurchaseRecommendationMetadata {
   /// Additional metadata that may be applicable to the recommendation.
-  @_s.JsonKey(name: 'AdditionalMetadata')
-  final String additionalMetadata;
+  final String? additionalMetadata;
 
   /// The timestamp showing when the recommendations were generated.
-  @_s.JsonKey(name: 'GenerationTimestamp')
-  final String generationTimestamp;
+  final String? generationTimestamp;
 
   /// The unique identifier for the recommendation set.
-  @_s.JsonKey(name: 'RecommendationId')
-  final String recommendationId;
+  final String? recommendationId;
 
   SavingsPlansPurchaseRecommendationMetadata({
     this.additionalMetadata,
     this.generationTimestamp,
     this.recommendationId,
   });
+
   factory SavingsPlansPurchaseRecommendationMetadata.fromJson(
-          Map<String, dynamic> json) =>
-      _$SavingsPlansPurchaseRecommendationMetadataFromJson(json);
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendationMetadata(
+      additionalMetadata: json['AdditionalMetadata'] as String?,
+      generationTimestamp: json['GenerationTimestamp'] as String?,
+      recommendationId: json['RecommendationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalMetadata = this.additionalMetadata;
+    final generationTimestamp = this.generationTimestamp;
+    final recommendationId = this.recommendationId;
+    return {
+      if (additionalMetadata != null) 'AdditionalMetadata': additionalMetadata,
+      if (generationTimestamp != null)
+        'GenerationTimestamp': generationTimestamp,
+      if (recommendationId != null) 'RecommendationId': recommendationId,
+    };
+  }
 }
 
 /// Summary metrics for your Savings Plans Purchase Recommendations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansPurchaseRecommendationSummary {
   /// The currency code AWS used to generate the recommendations and present
   /// potential savings.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// The current total on demand spend of the applicable usage types over the
   /// lookback period.
-  @_s.JsonKey(name: 'CurrentOnDemandSpend')
-  final String currentOnDemandSpend;
+  final String? currentOnDemandSpend;
 
   /// The recommended Savings Plans cost on a daily (24 hourly) basis.
-  @_s.JsonKey(name: 'DailyCommitmentToPurchase')
-  final String dailyCommitmentToPurchase;
+  final String? dailyCommitmentToPurchase;
 
   /// The estimated monthly savings amount, based on the recommended Savings Plans
   /// purchase.
-  @_s.JsonKey(name: 'EstimatedMonthlySavingsAmount')
-  final String estimatedMonthlySavingsAmount;
+  final String? estimatedMonthlySavingsAmount;
 
   /// The estimated On-Demand costs you would expect with no additional
   /// commitment, based on your usage of the selected time period and the Savings
   /// Plans you own.
-  @_s.JsonKey(name: 'EstimatedOnDemandCostWithCurrentCommitment')
-  final String estimatedOnDemandCostWithCurrentCommitment;
+  final String? estimatedOnDemandCostWithCurrentCommitment;
 
   /// The estimated return on investment based on the recommended Savings Plans
   /// and estimated savings.
-  @_s.JsonKey(name: 'EstimatedROI')
-  final String estimatedROI;
+  final String? estimatedROI;
 
   /// The estimated total savings over the lookback period, based on the purchase
   /// of the recommended Savings Plans.
-  @_s.JsonKey(name: 'EstimatedSavingsAmount')
-  final String estimatedSavingsAmount;
+  final String? estimatedSavingsAmount;
 
   /// The estimated savings relative to the total cost of On-Demand usage, over
   /// the lookback period. This is calculated as
   /// <code>estimatedSavingsAmount</code>/ <code>CurrentOnDemandSpend</code>*100.
-  @_s.JsonKey(name: 'EstimatedSavingsPercentage')
-  final String estimatedSavingsPercentage;
+  final String? estimatedSavingsPercentage;
 
   /// The estimated total cost of the usage after purchasing the recommended
   /// Savings Plans. This is a sum of the cost of Savings Plans during this term,
   /// and the remaining On-Demand usage.
-  @_s.JsonKey(name: 'EstimatedTotalCost')
-  final String estimatedTotalCost;
+  final String? estimatedTotalCost;
 
   /// The recommended hourly commitment based on the recommendation parameters.
-  @_s.JsonKey(name: 'HourlyCommitmentToPurchase')
-  final String hourlyCommitmentToPurchase;
+  final String? hourlyCommitmentToPurchase;
 
   /// The aggregate number of Savings Plans recommendations that exist for your
   /// account.
-  @_s.JsonKey(name: 'TotalRecommendationCount')
-  final String totalRecommendationCount;
+  final String? totalRecommendationCount;
 
   SavingsPlansPurchaseRecommendationSummary({
     this.currencyCode,
@@ -6301,64 +9007,116 @@ class SavingsPlansPurchaseRecommendationSummary {
     this.hourlyCommitmentToPurchase,
     this.totalRecommendationCount,
   });
+
   factory SavingsPlansPurchaseRecommendationSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$SavingsPlansPurchaseRecommendationSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return SavingsPlansPurchaseRecommendationSummary(
+      currencyCode: json['CurrencyCode'] as String?,
+      currentOnDemandSpend: json['CurrentOnDemandSpend'] as String?,
+      dailyCommitmentToPurchase: json['DailyCommitmentToPurchase'] as String?,
+      estimatedMonthlySavingsAmount:
+          json['EstimatedMonthlySavingsAmount'] as String?,
+      estimatedOnDemandCostWithCurrentCommitment:
+          json['EstimatedOnDemandCostWithCurrentCommitment'] as String?,
+      estimatedROI: json['EstimatedROI'] as String?,
+      estimatedSavingsAmount: json['EstimatedSavingsAmount'] as String?,
+      estimatedSavingsPercentage: json['EstimatedSavingsPercentage'] as String?,
+      estimatedTotalCost: json['EstimatedTotalCost'] as String?,
+      hourlyCommitmentToPurchase: json['HourlyCommitmentToPurchase'] as String?,
+      totalRecommendationCount: json['TotalRecommendationCount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final currentOnDemandSpend = this.currentOnDemandSpend;
+    final dailyCommitmentToPurchase = this.dailyCommitmentToPurchase;
+    final estimatedMonthlySavingsAmount = this.estimatedMonthlySavingsAmount;
+    final estimatedOnDemandCostWithCurrentCommitment =
+        this.estimatedOnDemandCostWithCurrentCommitment;
+    final estimatedROI = this.estimatedROI;
+    final estimatedSavingsAmount = this.estimatedSavingsAmount;
+    final estimatedSavingsPercentage = this.estimatedSavingsPercentage;
+    final estimatedTotalCost = this.estimatedTotalCost;
+    final hourlyCommitmentToPurchase = this.hourlyCommitmentToPurchase;
+    final totalRecommendationCount = this.totalRecommendationCount;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (currentOnDemandSpend != null)
+        'CurrentOnDemandSpend': currentOnDemandSpend,
+      if (dailyCommitmentToPurchase != null)
+        'DailyCommitmentToPurchase': dailyCommitmentToPurchase,
+      if (estimatedMonthlySavingsAmount != null)
+        'EstimatedMonthlySavingsAmount': estimatedMonthlySavingsAmount,
+      if (estimatedOnDemandCostWithCurrentCommitment != null)
+        'EstimatedOnDemandCostWithCurrentCommitment':
+            estimatedOnDemandCostWithCurrentCommitment,
+      if (estimatedROI != null) 'EstimatedROI': estimatedROI,
+      if (estimatedSavingsAmount != null)
+        'EstimatedSavingsAmount': estimatedSavingsAmount,
+      if (estimatedSavingsPercentage != null)
+        'EstimatedSavingsPercentage': estimatedSavingsPercentage,
+      if (estimatedTotalCost != null) 'EstimatedTotalCost': estimatedTotalCost,
+      if (hourlyCommitmentToPurchase != null)
+        'HourlyCommitmentToPurchase': hourlyCommitmentToPurchase,
+      if (totalRecommendationCount != null)
+        'TotalRecommendationCount': totalRecommendationCount,
+    };
+  }
 }
 
 /// The amount of savings you're accumulating, against the public On-Demand rate
 /// of the usage accrued in an account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansSavings {
   /// The savings amount that you are accumulating for the usage that is covered
   /// by a Savings Plans, when compared to the On-Demand equivalent of the same
   /// usage.
-  @_s.JsonKey(name: 'NetSavings')
-  final String netSavings;
+  final String? netSavings;
 
   /// How much the amount that the usage would have cost if it was accrued at the
   /// On-Demand rate.
-  @_s.JsonKey(name: 'OnDemandCostEquivalent')
-  final String onDemandCostEquivalent;
+  final String? onDemandCostEquivalent;
 
   SavingsPlansSavings({
     this.netSavings,
     this.onDemandCostEquivalent,
   });
-  factory SavingsPlansSavings.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansSavingsFromJson(json);
+
+  factory SavingsPlansSavings.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansSavings(
+      netSavings: json['NetSavings'] as String?,
+      onDemandCostEquivalent: json['OnDemandCostEquivalent'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final netSavings = this.netSavings;
+    final onDemandCostEquivalent = this.onDemandCostEquivalent;
+    return {
+      if (netSavings != null) 'NetSavings': netSavings,
+      if (onDemandCostEquivalent != null)
+        'OnDemandCostEquivalent': onDemandCostEquivalent,
+    };
+  }
 }
 
 /// The measurement of how well you are using your existing Savings Plans.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansUtilization {
   /// The total amount of Savings Plans commitment that's been purchased in an
   /// account (or set of accounts).
-  @_s.JsonKey(name: 'TotalCommitment')
-  final String totalCommitment;
+  final String? totalCommitment;
 
   /// The amount of your Savings Plans commitment that was not consumed from
   /// Savings Plans eligible usage in a specific period.
-  @_s.JsonKey(name: 'UnusedCommitment')
-  final String unusedCommitment;
+  final String? unusedCommitment;
 
   /// The amount of your Savings Plans commitment that was consumed from Savings
   /// Plans eligible usage in a specific period.
-  @_s.JsonKey(name: 'UsedCommitment')
-  final String usedCommitment;
+  final String? usedCommitment;
 
   /// The amount of <code>UsedCommitment</code> divided by the
   /// <code>TotalCommitment</code> for your Savings Plans.
-  @_s.JsonKey(name: 'UtilizationPercentage')
-  final String utilizationPercentage;
+  final String? utilizationPercentage;
 
   SavingsPlansUtilization({
     this.totalCommitment,
@@ -6366,115 +9124,163 @@ class SavingsPlansUtilization {
     this.usedCommitment,
     this.utilizationPercentage,
   });
-  factory SavingsPlansUtilization.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansUtilizationFromJson(json);
+
+  factory SavingsPlansUtilization.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansUtilization(
+      totalCommitment: json['TotalCommitment'] as String?,
+      unusedCommitment: json['UnusedCommitment'] as String?,
+      usedCommitment: json['UsedCommitment'] as String?,
+      utilizationPercentage: json['UtilizationPercentage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final totalCommitment = this.totalCommitment;
+    final unusedCommitment = this.unusedCommitment;
+    final usedCommitment = this.usedCommitment;
+    final utilizationPercentage = this.utilizationPercentage;
+    return {
+      if (totalCommitment != null) 'TotalCommitment': totalCommitment,
+      if (unusedCommitment != null) 'UnusedCommitment': unusedCommitment,
+      if (usedCommitment != null) 'UsedCommitment': usedCommitment,
+      if (utilizationPercentage != null)
+        'UtilizationPercentage': utilizationPercentage,
+    };
+  }
 }
 
 /// The aggregated utilization metrics for your Savings Plans usage.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansUtilizationAggregates {
   /// A ratio of your effectiveness of using existing Savings Plans to apply to
   /// workloads that are Savings Plans eligible.
-  @_s.JsonKey(name: 'Utilization')
   final SavingsPlansUtilization utilization;
 
   /// The total amortized commitment for a Savings Plans. This includes the sum of
   /// the upfront and recurring Savings Plans fees.
-  @_s.JsonKey(name: 'AmortizedCommitment')
-  final SavingsPlansAmortizedCommitment amortizedCommitment;
+  final SavingsPlansAmortizedCommitment? amortizedCommitment;
 
   /// The amount saved by using existing Savings Plans. Savings returns both net
   /// savings from Savings Plans, as well as the
   /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
   /// the utilization rate.
-  @_s.JsonKey(name: 'Savings')
-  final SavingsPlansSavings savings;
+  final SavingsPlansSavings? savings;
 
   SavingsPlansUtilizationAggregates({
-    @_s.required this.utilization,
+    required this.utilization,
     this.amortizedCommitment,
     this.savings,
   });
+
   factory SavingsPlansUtilizationAggregates.fromJson(
-          Map<String, dynamic> json) =>
-      _$SavingsPlansUtilizationAggregatesFromJson(json);
+      Map<String, dynamic> json) {
+    return SavingsPlansUtilizationAggregates(
+      utilization: SavingsPlansUtilization.fromJson(
+          json['Utilization'] as Map<String, dynamic>),
+      amortizedCommitment: json['AmortizedCommitment'] != null
+          ? SavingsPlansAmortizedCommitment.fromJson(
+              json['AmortizedCommitment'] as Map<String, dynamic>)
+          : null,
+      savings: json['Savings'] != null
+          ? SavingsPlansSavings.fromJson(
+              json['Savings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final utilization = this.utilization;
+    final amortizedCommitment = this.amortizedCommitment;
+    final savings = this.savings;
+    return {
+      'Utilization': utilization,
+      if (amortizedCommitment != null)
+        'AmortizedCommitment': amortizedCommitment,
+      if (savings != null) 'Savings': savings,
+    };
+  }
 }
 
 /// The amount of Savings Plans utilization, in hours.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansUtilizationByTime {
-  @_s.JsonKey(name: 'TimePeriod')
   final DateInterval timePeriod;
 
   /// A ratio of your effectiveness of using existing Savings Plans to apply to
   /// workloads that are Savings Plans eligible.
-  @_s.JsonKey(name: 'Utilization')
   final SavingsPlansUtilization utilization;
 
   /// The total amortized commitment for a Savings Plans. This includes the sum of
   /// the upfront and recurring Savings Plans fees.
-  @_s.JsonKey(name: 'AmortizedCommitment')
-  final SavingsPlansAmortizedCommitment amortizedCommitment;
+  final SavingsPlansAmortizedCommitment? amortizedCommitment;
 
   /// The amount saved by using existing Savings Plans. Savings returns both net
   /// savings from Savings Plans as well as the
   /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
   /// the utilization rate.
-  @_s.JsonKey(name: 'Savings')
-  final SavingsPlansSavings savings;
+  final SavingsPlansSavings? savings;
 
   SavingsPlansUtilizationByTime({
-    @_s.required this.timePeriod,
-    @_s.required this.utilization,
+    required this.timePeriod,
+    required this.utilization,
     this.amortizedCommitment,
     this.savings,
   });
-  factory SavingsPlansUtilizationByTime.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansUtilizationByTimeFromJson(json);
+
+  factory SavingsPlansUtilizationByTime.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansUtilizationByTime(
+      timePeriod:
+          DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>),
+      utilization: SavingsPlansUtilization.fromJson(
+          json['Utilization'] as Map<String, dynamic>),
+      amortizedCommitment: json['AmortizedCommitment'] != null
+          ? SavingsPlansAmortizedCommitment.fromJson(
+              json['AmortizedCommitment'] as Map<String, dynamic>)
+          : null,
+      savings: json['Savings'] != null
+          ? SavingsPlansSavings.fromJson(
+              json['Savings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timePeriod = this.timePeriod;
+    final utilization = this.utilization;
+    final amortizedCommitment = this.amortizedCommitment;
+    final savings = this.savings;
+    return {
+      'TimePeriod': timePeriod,
+      'Utilization': utilization,
+      if (amortizedCommitment != null)
+        'AmortizedCommitment': amortizedCommitment,
+      if (savings != null) 'Savings': savings,
+    };
+  }
 }
 
 /// A single daily or monthly Savings Plans utilization rate, and details for
 /// your account. A management account in an organization have access to member
 /// accounts. You can use <code>GetDimensionValues</code> to determine the
 /// possible dimension values.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SavingsPlansUtilizationDetail {
   /// The total amortized commitment for a Savings Plans. Includes the sum of the
   /// upfront and recurring Savings Plans fees.
-  @_s.JsonKey(name: 'AmortizedCommitment')
-  final SavingsPlansAmortizedCommitment amortizedCommitment;
+  final SavingsPlansAmortizedCommitment? amortizedCommitment;
 
   /// The attribute that applies to a specific <code>Dimension</code>.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<String, String>? attributes;
 
   /// The amount saved by using existing Savings Plans. Savings returns both net
   /// savings from savings plans as well as the
   /// <code>onDemandCostEquivalent</code> of the Savings Plans when considering
   /// the utilization rate.
-  @_s.JsonKey(name: 'Savings')
-  final SavingsPlansSavings savings;
+  final SavingsPlansSavings? savings;
 
   /// The unique Amazon Resource Name (ARN) for a particular Savings Plan.
-  @_s.JsonKey(name: 'SavingsPlanArn')
-  final String savingsPlanArn;
+  final String? savingsPlanArn;
 
   /// A ratio of your effectiveness of using existing Savings Plans to apply to
   /// workloads that are Savings Plans eligible.
-  @_s.JsonKey(name: 'Utilization')
-  final SavingsPlansUtilization utilization;
+  final SavingsPlansUtilization? utilization;
 
   SavingsPlansUtilizationDetail({
     this.amortizedCommitment,
@@ -6483,81 +9289,227 @@ class SavingsPlansUtilizationDetail {
     this.savingsPlanArn,
     this.utilization,
   });
-  factory SavingsPlansUtilizationDetail.fromJson(Map<String, dynamic> json) =>
-      _$SavingsPlansUtilizationDetailFromJson(json);
+
+  factory SavingsPlansUtilizationDetail.fromJson(Map<String, dynamic> json) {
+    return SavingsPlansUtilizationDetail(
+      amortizedCommitment: json['AmortizedCommitment'] != null
+          ? SavingsPlansAmortizedCommitment.fromJson(
+              json['AmortizedCommitment'] as Map<String, dynamic>)
+          : null,
+      attributes: (json['Attributes'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      savings: json['Savings'] != null
+          ? SavingsPlansSavings.fromJson(
+              json['Savings'] as Map<String, dynamic>)
+          : null,
+      savingsPlanArn: json['SavingsPlanArn'] as String?,
+      utilization: json['Utilization'] != null
+          ? SavingsPlansUtilization.fromJson(
+              json['Utilization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amortizedCommitment = this.amortizedCommitment;
+    final attributes = this.attributes;
+    final savings = this.savings;
+    final savingsPlanArn = this.savingsPlanArn;
+    final utilization = this.utilization;
+    return {
+      if (amortizedCommitment != null)
+        'AmortizedCommitment': amortizedCommitment,
+      if (attributes != null) 'Attributes': attributes,
+      if (savings != null) 'Savings': savings,
+      if (savingsPlanArn != null) 'SavingsPlanArn': savingsPlanArn,
+      if (utilization != null) 'Utilization': utilization,
+    };
+  }
 }
 
 /// Hardware specifications for the service that you want recommendations for.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ServiceSpecification {
   /// The Amazon EC2 hardware specifications that you want AWS to provide
   /// recommendations for.
-  @_s.JsonKey(name: 'EC2Specification')
-  final EC2Specification eC2Specification;
+  final EC2Specification? eC2Specification;
 
   ServiceSpecification({
     this.eC2Specification,
   });
-  factory ServiceSpecification.fromJson(Map<String, dynamic> json) =>
-      _$ServiceSpecificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ServiceSpecificationToJson(this);
+  factory ServiceSpecification.fromJson(Map<String, dynamic> json) {
+    return ServiceSpecification(
+      eC2Specification: json['EC2Specification'] != null
+          ? EC2Specification.fromJson(
+              json['EC2Specification'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eC2Specification = this.eC2Specification;
+    return {
+      if (eC2Specification != null) 'EC2Specification': eC2Specification,
+    };
+  }
+}
+
+/// The details of how to sort the data.
+class SortDefinition {
+  /// The key by which to sort the data.
+  final String key;
+
+  /// The order in which to sort the data.
+  final SortOrder? sortOrder;
+
+  SortDefinition({
+    required this.key,
+    this.sortOrder,
+  });
+
+  factory SortDefinition.fromJson(Map<String, dynamic> json) {
+    return SortDefinition(
+      key: json['Key'] as String,
+      sortOrder: (json['SortOrder'] as String?)?.toSortOrder(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final sortOrder = this.sortOrder;
+    return {
+      'Key': key,
+      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+    };
+  }
+}
+
+enum SortOrder {
+  ascending,
+  descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'ASCENDING';
+      case SortOrder.descending:
+        return 'DESCENDING';
+    }
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ASCENDING':
+        return SortOrder.ascending;
+      case 'DESCENDING':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
+  }
 }
 
 /// The recipient of <code>AnomalySubscription</code> notifications.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Subscriber {
   /// The email address or SNS Amazon Resource Name (ARN), depending on the
   /// <code>Type</code>.
-  @_s.JsonKey(name: 'Address')
-  final String address;
+  final String? address;
 
   /// Indicates if the subscriber accepts the notifications.
-  @_s.JsonKey(name: 'Status')
-  final SubscriberStatus status;
+  final SubscriberStatus? status;
 
   /// The notification delivery channel.
-  @_s.JsonKey(name: 'Type')
-  final SubscriberType type;
+  final SubscriberType? type;
 
   Subscriber({
     this.address,
     this.status,
     this.type,
   });
-  factory Subscriber.fromJson(Map<String, dynamic> json) =>
-      _$SubscriberFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SubscriberToJson(this);
+  factory Subscriber.fromJson(Map<String, dynamic> json) {
+    return Subscriber(
+      address: json['Address'] as String?,
+      status: (json['Status'] as String?)?.toSubscriberStatus(),
+      type: (json['Type'] as String?)?.toSubscriberType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (address != null) 'Address': address,
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum SubscriberStatus {
-  @_s.JsonValue('CONFIRMED')
   confirmed,
-  @_s.JsonValue('DECLINED')
   declined,
 }
 
+extension on SubscriberStatus {
+  String toValue() {
+    switch (this) {
+      case SubscriberStatus.confirmed:
+        return 'CONFIRMED';
+      case SubscriberStatus.declined:
+        return 'DECLINED';
+    }
+  }
+}
+
+extension on String {
+  SubscriberStatus toSubscriberStatus() {
+    switch (this) {
+      case 'CONFIRMED':
+        return SubscriberStatus.confirmed;
+      case 'DECLINED':
+        return SubscriberStatus.declined;
+    }
+    throw Exception('$this is not known in enum SubscriberStatus');
+  }
+}
+
 enum SubscriberType {
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('SNS')
   sns,
 }
 
+extension on SubscriberType {
+  String toValue() {
+    switch (this) {
+      case SubscriberType.email:
+        return 'EMAIL';
+      case SubscriberType.sns:
+        return 'SNS';
+    }
+  }
+}
+
+extension on String {
+  SubscriberType toSubscriberType() {
+    switch (this) {
+      case 'EMAIL':
+        return SubscriberType.email;
+      case 'SNS':
+        return SubscriberType.sns;
+    }
+    throw Exception('$this is not known in enum SubscriberType');
+  }
+}
+
 enum SupportedSavingsPlansType {
-  @_s.JsonValue('COMPUTE_SP')
   computeSp,
-  @_s.JsonValue('EC2_INSTANCE_SP')
   ec2InstanceSp,
+  sagemakerSp,
 }
 
 extension on SupportedSavingsPlansType {
@@ -6567,74 +9519,106 @@ extension on SupportedSavingsPlansType {
         return 'COMPUTE_SP';
       case SupportedSavingsPlansType.ec2InstanceSp:
         return 'EC2_INSTANCE_SP';
+      case SupportedSavingsPlansType.sagemakerSp:
+        return 'SAGEMAKER_SP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SupportedSavingsPlansType toSupportedSavingsPlansType() {
+    switch (this) {
+      case 'COMPUTE_SP':
+        return SupportedSavingsPlansType.computeSp;
+      case 'EC2_INSTANCE_SP':
+        return SupportedSavingsPlansType.ec2InstanceSp;
+      case 'SAGEMAKER_SP':
+        return SupportedSavingsPlansType.sagemakerSp;
+    }
+    throw Exception('$this is not known in enum SupportedSavingsPlansType');
   }
 }
 
 /// The values that are available for a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+///
+/// If <code>Values</code> and <code>Key</code> are not specified, the
+/// <code>ABSENT</code> <code>MatchOption</code> is applied to all tags. That
+/// is, filtering on resources with no tags.
+///
+/// If <code>Values</code> is provided and <code>Key</code> is not specified,
+/// the <code>ABSENT</code> <code>MatchOption</code> is applied to the tag
+/// <code>Key</code> only. That is, filtering on resources without the given tag
+/// key.
 class TagValues {
   /// The key for the tag.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The match options that you can use to filter your results.
   /// <code>MatchOptions</code> is only applicable for actions related to Cost
   /// Category. The default values for <code>MatchOptions</code> are
   /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
-  @_s.JsonKey(name: 'MatchOptions')
-  final List<MatchOption> matchOptions;
+  final List<MatchOption>? matchOptions;
 
   /// The specific value of the tag.
-  @_s.JsonKey(name: 'Values')
-  final List<String> values;
+  final List<String>? values;
 
   TagValues({
     this.key,
     this.matchOptions,
     this.values,
   });
-  factory TagValues.fromJson(Map<String, dynamic> json) =>
-      _$TagValuesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagValuesToJson(this);
+  factory TagValues.fromJson(Map<String, dynamic> json) {
+    return TagValues(
+      key: json['Key'] as String?,
+      matchOptions: (json['MatchOptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMatchOption())
+          .toList(),
+      values: (json['Values'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final matchOptions = this.matchOptions;
+    final values = this.values;
+    return {
+      if (key != null) 'Key': key,
+      if (matchOptions != null)
+        'MatchOptions': matchOptions.map((e) => e.toValue()).toList(),
+      if (values != null) 'Values': values,
+    };
+  }
 }
 
 /// Details on recommended instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TargetInstance {
   /// The currency code that AWS used to calculate the costs for this instance.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// Indicates whether this recommendation is the defaulted AWS recommendation.
-  @_s.JsonKey(name: 'DefaultTargetInstance')
-  final bool defaultTargetInstance;
+  final bool? defaultTargetInstance;
 
   /// Expected cost to operate this instance type on a monthly basis.
-  @_s.JsonKey(name: 'EstimatedMonthlyCost')
-  final String estimatedMonthlyCost;
+  final String? estimatedMonthlyCost;
 
   /// Estimated savings resulting from modification, on a monthly basis.
-  @_s.JsonKey(name: 'EstimatedMonthlySavings')
-  final String estimatedMonthlySavings;
+  final String? estimatedMonthlySavings;
 
   /// Expected utilization metrics for target instance type.
-  @_s.JsonKey(name: 'ExpectedResourceUtilization')
-  final ResourceUtilization expectedResourceUtilization;
+  final ResourceUtilization? expectedResourceUtilization;
+
+  /// Explains the actions you might need to take in order to successfully migrate
+  /// your workloads from the current instance type to the recommended instance
+  /// type.
+  final List<PlatformDifference>? platformDifferences;
 
   /// Details on the target instance type.
-  @_s.JsonKey(name: 'ResourceDetails')
-  final ResourceDetails resourceDetails;
+  final ResourceDetails? resourceDetails;
 
   TargetInstance({
     this.currencyCode,
@@ -6642,16 +9626,59 @@ class TargetInstance {
     this.estimatedMonthlyCost,
     this.estimatedMonthlySavings,
     this.expectedResourceUtilization,
+    this.platformDifferences,
     this.resourceDetails,
   });
-  factory TargetInstance.fromJson(Map<String, dynamic> json) =>
-      _$TargetInstanceFromJson(json);
+
+  factory TargetInstance.fromJson(Map<String, dynamic> json) {
+    return TargetInstance(
+      currencyCode: json['CurrencyCode'] as String?,
+      defaultTargetInstance: json['DefaultTargetInstance'] as bool?,
+      estimatedMonthlyCost: json['EstimatedMonthlyCost'] as String?,
+      estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
+      expectedResourceUtilization: json['ExpectedResourceUtilization'] != null
+          ? ResourceUtilization.fromJson(
+              json['ExpectedResourceUtilization'] as Map<String, dynamic>)
+          : null,
+      platformDifferences: (json['PlatformDifferences'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toPlatformDifference())
+          .toList(),
+      resourceDetails: json['ResourceDetails'] != null
+          ? ResourceDetails.fromJson(
+              json['ResourceDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final defaultTargetInstance = this.defaultTargetInstance;
+    final estimatedMonthlyCost = this.estimatedMonthlyCost;
+    final estimatedMonthlySavings = this.estimatedMonthlySavings;
+    final expectedResourceUtilization = this.expectedResourceUtilization;
+    final platformDifferences = this.platformDifferences;
+    final resourceDetails = this.resourceDetails;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (defaultTargetInstance != null)
+        'DefaultTargetInstance': defaultTargetInstance,
+      if (estimatedMonthlyCost != null)
+        'EstimatedMonthlyCost': estimatedMonthlyCost,
+      if (estimatedMonthlySavings != null)
+        'EstimatedMonthlySavings': estimatedMonthlySavings,
+      if (expectedResourceUtilization != null)
+        'ExpectedResourceUtilization': expectedResourceUtilization,
+      if (platformDifferences != null)
+        'PlatformDifferences':
+            platformDifferences.map((e) => e.toValue()).toList(),
+      if (resourceDetails != null) 'ResourceDetails': resourceDetails,
+    };
+  }
 }
 
 enum TermInYears {
-  @_s.JsonValue('ONE_YEAR')
   oneYear,
-  @_s.JsonValue('THREE_YEARS')
   threeYears,
 }
 
@@ -6663,178 +9690,242 @@ extension on TermInYears {
       case TermInYears.threeYears:
         return 'THREE_YEARS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TermInYears toTermInYears() {
+    switch (this) {
+      case 'ONE_YEAR':
+        return TermInYears.oneYear;
+      case 'THREE_YEARS':
+        return TermInYears.threeYears;
+    }
+    throw Exception('$this is not known in enum TermInYears');
   }
 }
 
 /// Details on termination recommendation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminateRecommendationDetail {
   /// The currency code that AWS used to calculate the costs for this instance.
-  @_s.JsonKey(name: 'CurrencyCode')
-  final String currencyCode;
+  final String? currencyCode;
 
   /// Estimated savings resulting from modification, on a monthly basis.
-  @_s.JsonKey(name: 'EstimatedMonthlySavings')
-  final String estimatedMonthlySavings;
+  final String? estimatedMonthlySavings;
 
   TerminateRecommendationDetail({
     this.currencyCode,
     this.estimatedMonthlySavings,
   });
-  factory TerminateRecommendationDetail.fromJson(Map<String, dynamic> json) =>
-      _$TerminateRecommendationDetailFromJson(json);
+
+  factory TerminateRecommendationDetail.fromJson(Map<String, dynamic> json) {
+    return TerminateRecommendationDetail(
+      currencyCode: json['CurrencyCode'] as String?,
+      estimatedMonthlySavings: json['EstimatedMonthlySavings'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currencyCode = this.currencyCode;
+    final estimatedMonthlySavings = this.estimatedMonthlySavings;
+    return {
+      if (currencyCode != null) 'CurrencyCode': currencyCode,
+      if (estimatedMonthlySavings != null)
+        'EstimatedMonthlySavings': estimatedMonthlySavings,
+    };
+  }
 }
 
 /// Filters cost anomalies based on the total impact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TotalImpactFilter {
   /// The comparing value used in the filter.
-  @_s.JsonKey(name: 'NumericOperator')
   final NumericOperator numericOperator;
 
   /// The lower bound dollar value used in the filter.
-  @_s.JsonKey(name: 'StartValue')
   final double startValue;
 
   /// The upper bound dollar value used in the filter.
-  @_s.JsonKey(name: 'EndValue')
-  final double endValue;
+  final double? endValue;
 
   TotalImpactFilter({
-    @_s.required this.numericOperator,
-    @_s.required this.startValue,
+    required this.numericOperator,
+    required this.startValue,
     this.endValue,
   });
-  Map<String, dynamic> toJson() => _$TotalImpactFilterToJson(this);
+
+  factory TotalImpactFilter.fromJson(Map<String, dynamic> json) {
+    return TotalImpactFilter(
+      numericOperator: (json['NumericOperator'] as String).toNumericOperator(),
+      startValue: json['StartValue'] as double,
+      endValue: json['EndValue'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final numericOperator = this.numericOperator;
+    final startValue = this.startValue;
+    final endValue = this.endValue;
+    return {
+      'NumericOperator': numericOperator.toValue(),
+      'StartValue': startValue,
+      if (endValue != null) 'EndValue': endValue,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAnomalyMonitorResponse {
   /// A cost anomaly monitor ARN.
-  @_s.JsonKey(name: 'MonitorArn')
   final String monitorArn;
 
   UpdateAnomalyMonitorResponse({
-    @_s.required this.monitorArn,
+    required this.monitorArn,
   });
-  factory UpdateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAnomalyMonitorResponseFromJson(json);
+
+  factory UpdateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateAnomalyMonitorResponse(
+      monitorArn: json['MonitorArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitorArn = this.monitorArn;
+    return {
+      'MonitorArn': monitorArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAnomalySubscriptionResponse {
   /// A cost anomaly subscription ARN.
-  @_s.JsonKey(name: 'SubscriptionArn')
   final String subscriptionArn;
 
   UpdateAnomalySubscriptionResponse({
-    @_s.required this.subscriptionArn,
+    required this.subscriptionArn,
   });
+
   factory UpdateAnomalySubscriptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateAnomalySubscriptionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateAnomalySubscriptionResponse(
+      subscriptionArn: json['SubscriptionArn'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriptionArn = this.subscriptionArn;
+    return {
+      'SubscriptionArn': subscriptionArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCostCategoryDefinitionResponse {
   /// The unique identifier for your Cost Category.
-  @_s.JsonKey(name: 'CostCategoryArn')
-  final String costCategoryArn;
+  final String? costCategoryArn;
 
   /// The Cost Category's effective start date.
-  @_s.JsonKey(name: 'EffectiveStart')
-  final String effectiveStart;
+  final String? effectiveStart;
 
   UpdateCostCategoryDefinitionResponse({
     this.costCategoryArn,
     this.effectiveStart,
   });
+
   factory UpdateCostCategoryDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateCostCategoryDefinitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateCostCategoryDefinitionResponse(
+      costCategoryArn: json['CostCategoryArn'] as String?,
+      effectiveStart: json['EffectiveStart'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costCategoryArn = this.costCategoryArn;
+    final effectiveStart = this.effectiveStart;
+    return {
+      if (costCategoryArn != null) 'CostCategoryArn': costCategoryArn,
+      if (effectiveStart != null) 'EffectiveStart': effectiveStart,
+    };
+  }
 }
 
 /// The amount of utilization, in hours.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UtilizationByTime {
   /// The groups that this utilization result uses.
-  @_s.JsonKey(name: 'Groups')
-  final List<ReservationUtilizationGroup> groups;
+  final List<ReservationUtilizationGroup>? groups;
 
   /// The period of time that this utilization was used for.
-  @_s.JsonKey(name: 'TimePeriod')
-  final DateInterval timePeriod;
+  final DateInterval? timePeriod;
 
   /// The total number of reservation hours that were used.
-  @_s.JsonKey(name: 'Total')
-  final ReservationAggregates total;
+  final ReservationAggregates? total;
 
   UtilizationByTime({
     this.groups,
     this.timePeriod,
     this.total,
   });
-  factory UtilizationByTime.fromJson(Map<String, dynamic> json) =>
-      _$UtilizationByTimeFromJson(json);
+
+  factory UtilizationByTime.fromJson(Map<String, dynamic> json) {
+    return UtilizationByTime(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReservationUtilizationGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timePeriod: json['TimePeriod'] != null
+          ? DateInterval.fromJson(json['TimePeriod'] as Map<String, dynamic>)
+          : null,
+      total: json['Total'] != null
+          ? ReservationAggregates.fromJson(
+              json['Total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final timePeriod = this.timePeriod;
+    final total = this.total;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (timePeriod != null) 'TimePeriod': timePeriod,
+      if (total != null) 'Total': total,
+    };
+  }
 }
 
 class BillExpirationException extends _s.GenericAwsException {
-  BillExpirationException({String type, String message})
+  BillExpirationException({String? type, String? message})
       : super(type: type, code: 'BillExpirationException', message: message);
 }
 
 class DataUnavailableException extends _s.GenericAwsException {
-  DataUnavailableException({String type, String message})
+  DataUnavailableException({String? type, String? message})
       : super(type: type, code: 'DataUnavailableException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class RequestChangedException extends _s.GenericAwsException {
-  RequestChangedException({String type, String message})
+  RequestChangedException({String? type, String? message})
       : super(type: type, code: 'RequestChangedException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -6842,18 +9933,18 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class UnknownMonitorException extends _s.GenericAwsException {
-  UnknownMonitorException({String type, String message})
+  UnknownMonitorException({String? type, String? message})
       : super(type: type, code: 'UnknownMonitorException', message: message);
 }
 
 class UnknownSubscriptionException extends _s.GenericAwsException {
-  UnknownSubscriptionException({String type, String message})
+  UnknownSubscriptionException({String? type, String? message})
       : super(
             type: type, code: 'UnknownSubscriptionException', message: message);
 }
 
 class UnresolvableUsageUnitException extends _s.GenericAwsException {
-  UnresolvableUsageUnitException({String type, String message})
+  UnresolvableUsageUnitException({String? type, String? message})
       : super(
             type: type,
             code: 'UnresolvableUsageUnitException',

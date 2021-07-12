@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2014-10-06.g.dart';
 
 /// AWS CodeDeploy is a deployment service that automates application
 /// deployments to Amazon EC2 instances, on-premises instances running in your
@@ -33,10 +26,10 @@ part '2014-10-06.g.dart';
 class CodeDeploy {
   final _s.JsonProtocol _protocol;
   CodeDeploy({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -66,8 +59,8 @@ class CodeDeploy {
   /// Keys and values are both required. Keys cannot be null or empty strings.
   /// Value-only tags are not allowed.
   Future<void> addTagsToOnPremisesInstances({
-    @_s.required List<String> instanceNames,
-    @_s.required List<Tag> tags,
+    required List<String> instanceNames,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(instanceNames, 'instanceNames');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -75,7 +68,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.AddTagsToOnPremisesInstances'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -108,8 +101,8 @@ class CodeDeploy {
   /// maximum number of <code>RevisionLocation</code> objects you can specify is
   /// 25.
   Future<BatchGetApplicationRevisionsOutput> batchGetApplicationRevisions({
-    @_s.required String applicationName,
-    @_s.required List<RevisionLocation> revisions,
+    required String applicationName,
+    required List<RevisionLocation> revisions,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -151,7 +144,7 @@ class CodeDeploy {
   /// A list of application names separated by spaces. The maximum number of
   /// application names you can specify is 100.
   Future<BatchGetApplicationsOutput> batchGetApplications({
-    @_s.required List<String> applicationNames,
+    required List<String> applicationNames,
   }) async {
     ArgumentError.checkNotNull(applicationNames, 'applicationNames');
     final headers = <String, String>{
@@ -189,8 +182,8 @@ class CodeDeploy {
   /// Parameter [deploymentGroupNames] :
   /// The names of the deployment groups.
   Future<BatchGetDeploymentGroupsOutput> batchGetDeploymentGroups({
-    @_s.required String applicationName,
-    @_s.required List<String> deploymentGroupNames,
+    required String applicationName,
+    required List<String> deploymentGroupNames,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -245,8 +238,8 @@ class CodeDeploy {
   /// instance IDs you can specify is 25.
   @Deprecated('Deprecated')
   Future<BatchGetDeploymentInstancesOutput> batchGetDeploymentInstances({
-    @_s.required String deploymentId,
-    @_s.required List<String> instanceIds,
+    required String deploymentId,
+    required List<String> instanceIds,
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(instanceIds, 'instanceIds');
@@ -335,8 +328,8 @@ class CodeDeploy {
   /// </li>
   /// </ul>
   Future<BatchGetDeploymentTargetsOutput> batchGetDeploymentTargets({
-    String deploymentId,
-    List<String> targetIds,
+    String? deploymentId,
+    List<String>? targetIds,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -368,7 +361,7 @@ class CodeDeploy {
   /// A list of deployment IDs, separated by spaces. The maximum number of
   /// deployment IDs you can specify is 25.
   Future<BatchGetDeploymentsOutput> batchGetDeployments({
-    @_s.required List<String> deploymentIds,
+    required List<String> deploymentIds,
   }) async {
     ArgumentError.checkNotNull(deploymentIds, 'deploymentIds');
     final headers = <String, String>{
@@ -400,7 +393,7 @@ class CodeDeploy {
   /// The names of the on-premises instances about which to get information. The
   /// maximum number of instance names you can specify is 25.
   Future<BatchGetOnPremisesInstancesOutput> batchGetOnPremisesInstances({
-    @_s.required List<String> instanceNames,
+    required List<String> instanceNames,
   }) async {
     ArgumentError.checkNotNull(instanceNames, 'instanceNames');
     final headers = <String, String>{
@@ -447,14 +440,14 @@ class CodeDeploy {
   /// <code>TERMINATION_WAIT</code> indicates that the traffic is shifted, but
   /// the original target is not terminated.
   Future<void> continueDeployment({
-    String deploymentId,
-    DeploymentWaitType deploymentWaitType,
+    String? deploymentId,
+    DeploymentWaitType? deploymentWaitType,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.ContinueDeployment'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -490,9 +483,9 @@ class CodeDeploy {
   /// organize and categorize them. Each tag consists of a key and an optional
   /// value, both of which you define.
   Future<CreateApplicationOutput> createApplication({
-    @_s.required String applicationName,
-    ComputePlatform computePlatform,
-    List<Tag> tags,
+    required String applicationName,
+    ComputePlatform? computePlatform,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -637,16 +630,16 @@ class CodeDeploy {
   /// Indicates whether to deploy to all instances or only to instances that are
   /// not running the latest application revision.
   Future<CreateDeploymentOutput> createDeployment({
-    @_s.required String applicationName,
-    AutoRollbackConfiguration autoRollbackConfiguration,
-    String deploymentConfigName,
-    String deploymentGroupName,
-    String description,
-    FileExistsBehavior fileExistsBehavior,
-    bool ignoreApplicationStopFailures,
-    RevisionLocation revision,
-    TargetInstances targetInstances,
-    bool updateOutdatedInstancesOnly,
+    required String applicationName,
+    AutoRollbackConfiguration? autoRollbackConfiguration,
+    String? deploymentConfigName,
+    String? deploymentGroupName,
+    String? description,
+    FileExistsBehavior? fileExistsBehavior,
+    bool? ignoreApplicationStopFailures,
+    RevisionLocation? revision,
+    TargetInstances? targetInstances,
+    bool? updateOutdatedInstancesOnly,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -746,10 +739,10 @@ class CodeDeploy {
   /// Parameter [trafficRoutingConfig] :
   /// The configuration that specifies how the deployment traffic is routed.
   Future<CreateDeploymentConfigOutput> createDeploymentConfig({
-    @_s.required String deploymentConfigName,
-    ComputePlatform computePlatform,
-    MinimumHealthyHosts minimumHealthyHosts,
-    TrafficRoutingConfig trafficRoutingConfig,
+    required String deploymentConfigName,
+    ComputePlatform? computePlatform,
+    MinimumHealthyHosts? minimumHealthyHosts,
+    TrafficRoutingConfig? trafficRoutingConfig,
   }) async {
     ArgumentError.checkNotNull(deploymentConfigName, 'deploymentConfigName');
     _s.validateStringLength(
@@ -896,6 +889,18 @@ class CodeDeploy {
   /// the tag groups. Cannot be used in the same call as
   /// <code>onPremisesInstanceTagFilters</code>.
   ///
+  /// Parameter [outdatedInstancesStrategy] :
+  /// Indicates what happens when new EC2 instances are launched mid-deployment
+  /// and do not receive the deployed application revision.
+  ///
+  /// If this option is set to <code>UPDATE</code> or is unspecified, CodeDeploy
+  /// initiates one or more 'auto-update outdated instances' deployments to
+  /// apply the deployed application revision to the new EC2 instances.
+  ///
+  /// If this option is set to <code>IGNORE</code>, CodeDeploy does not initiate
+  /// a deployment to update the new EC2 instances. This may result in instances
+  /// having different revisions.
+  ///
   /// Parameter [tags] :
   /// The metadata that you apply to CodeDeploy deployment groups to help you
   /// organize and categorize them. Each tag consists of a key and an optional
@@ -908,23 +913,24 @@ class CodeDeploy {
   /// a Trigger for an AWS CodeDeploy Event</a> in the <i>AWS CodeDeploy User
   /// Guide</i>.
   Future<CreateDeploymentGroupOutput> createDeploymentGroup({
-    @_s.required String applicationName,
-    @_s.required String deploymentGroupName,
-    @_s.required String serviceRoleArn,
-    AlarmConfiguration alarmConfiguration,
-    AutoRollbackConfiguration autoRollbackConfiguration,
-    List<String> autoScalingGroups,
-    BlueGreenDeploymentConfiguration blueGreenDeploymentConfiguration,
-    String deploymentConfigName,
-    DeploymentStyle deploymentStyle,
-    List<EC2TagFilter> ec2TagFilters,
-    EC2TagSet ec2TagSet,
-    List<ECSService> ecsServices,
-    LoadBalancerInfo loadBalancerInfo,
-    List<TagFilter> onPremisesInstanceTagFilters,
-    OnPremisesTagSet onPremisesTagSet,
-    List<Tag> tags,
-    List<TriggerConfig> triggerConfigurations,
+    required String applicationName,
+    required String deploymentGroupName,
+    required String serviceRoleArn,
+    AlarmConfiguration? alarmConfiguration,
+    AutoRollbackConfiguration? autoRollbackConfiguration,
+    List<String>? autoScalingGroups,
+    BlueGreenDeploymentConfiguration? blueGreenDeploymentConfiguration,
+    String? deploymentConfigName,
+    DeploymentStyle? deploymentStyle,
+    List<EC2TagFilter>? ec2TagFilters,
+    EC2TagSet? ec2TagSet,
+    List<ECSService>? ecsServices,
+    LoadBalancerInfo? loadBalancerInfo,
+    List<TagFilter>? onPremisesInstanceTagFilters,
+    OnPremisesTagSet? onPremisesTagSet,
+    OutdatedInstancesStrategy? outdatedInstancesStrategy,
+    List<Tag>? tags,
+    List<TriggerConfig>? triggerConfigurations,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -980,6 +986,8 @@ class CodeDeploy {
         if (onPremisesInstanceTagFilters != null)
           'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
         if (onPremisesTagSet != null) 'onPremisesTagSet': onPremisesTagSet,
+        if (outdatedInstancesStrategy != null)
+          'outdatedInstancesStrategy': outdatedInstancesStrategy.toValue(),
         if (tags != null) 'tags': tags,
         if (triggerConfigurations != null)
           'triggerConfigurations': triggerConfigurations,
@@ -999,7 +1007,7 @@ class CodeDeploy {
   /// The name of an AWS CodeDeploy application associated with the IAM user or
   /// AWS account.
   Future<void> deleteApplication({
-    @_s.required String applicationName,
+    required String applicationName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1013,7 +1021,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.DeleteApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1040,7 +1048,7 @@ class CodeDeploy {
   /// The name of a deployment configuration associated with the IAM user or AWS
   /// account.
   Future<void> deleteDeploymentConfig({
-    @_s.required String deploymentConfigName,
+    required String deploymentConfigName,
   }) async {
     ArgumentError.checkNotNull(deploymentConfigName, 'deploymentConfigName');
     _s.validateStringLength(
@@ -1054,7 +1062,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.DeleteDeploymentConfig'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1081,8 +1089,8 @@ class CodeDeploy {
   /// Parameter [deploymentGroupName] :
   /// The name of a deployment group for the specified application.
   Future<DeleteDeploymentGroupOutput> deleteDeploymentGroup({
-    @_s.required String applicationName,
-    @_s.required String deploymentGroupName,
+    required String applicationName,
+    required String deploymentGroupName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1130,7 +1138,7 @@ class CodeDeploy {
   /// Parameter [tokenName] :
   /// The name of the GitHub account connection to delete.
   Future<DeleteGitHubAccountTokenOutput> deleteGitHubAccountToken({
-    String tokenName,
+    String? tokenName,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1156,13 +1164,13 @@ class CodeDeploy {
   /// The unique ID of an external resource (for example, a CloudFormation stack
   /// ID) that is linked to one or more CodeDeploy resources.
   Future<void> deleteResourcesByExternalId({
-    String externalId,
+    String? externalId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.DeleteResourcesByExternalId'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1172,8 +1180,6 @@ class CodeDeploy {
         if (externalId != null) 'externalId': externalId,
       },
     );
-
-    return DeleteResourcesByExternalIdOutput.fromJson(jsonResponse.body);
   }
 
   /// Deregisters an on-premises instance.
@@ -1184,14 +1190,14 @@ class CodeDeploy {
   /// Parameter [instanceName] :
   /// The name of the on-premises instance to deregister.
   Future<void> deregisterOnPremisesInstance({
-    @_s.required String instanceName,
+    required String instanceName,
   }) async {
     ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.DeregisterOnPremisesInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1213,7 +1219,7 @@ class CodeDeploy {
   /// The name of an AWS CodeDeploy application associated with the IAM user or
   /// AWS account.
   Future<GetApplicationOutput> getApplication({
-    @_s.required String applicationName,
+    required String applicationName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1257,8 +1263,8 @@ class CodeDeploy {
   /// Information about the application revision to get, including type and
   /// location.
   Future<GetApplicationRevisionOutput> getApplicationRevision({
-    @_s.required String applicationName,
-    @_s.required RevisionLocation revision,
+    required String applicationName,
+    required RevisionLocation revision,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1304,7 +1310,7 @@ class CodeDeploy {
   /// Parameter [deploymentId] :
   /// The unique ID of a deployment associated with the IAM user or AWS account.
   Future<GetDeploymentOutput> getDeployment({
-    @_s.required String deploymentId,
+    required String deploymentId,
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     final headers = <String, String>{
@@ -1336,7 +1342,7 @@ class CodeDeploy {
   /// The name of a deployment configuration associated with the IAM user or AWS
   /// account.
   Future<GetDeploymentConfigOutput> getDeploymentConfig({
-    @_s.required String deploymentConfigName,
+    required String deploymentConfigName,
   }) async {
     ArgumentError.checkNotNull(deploymentConfigName, 'deploymentConfigName');
     _s.validateStringLength(
@@ -1381,8 +1387,8 @@ class CodeDeploy {
   /// Parameter [deploymentGroupName] :
   /// The name of a deployment group for the specified application.
   Future<GetDeploymentGroupOutput> getDeploymentGroup({
-    @_s.required String applicationName,
-    @_s.required String deploymentGroupName,
+    required String applicationName,
+    required String deploymentGroupName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1436,8 +1442,8 @@ class CodeDeploy {
   /// The unique ID of an instance in the deployment group.
   @Deprecated('Deprecated')
   Future<GetDeploymentInstanceOutput> getDeploymentInstance({
-    @_s.required String deploymentId,
-    @_s.required String instanceId,
+    required String deploymentId,
+    required String instanceId,
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -1477,8 +1483,8 @@ class CodeDeploy {
   /// Parameter [targetId] :
   /// The unique ID of a deployment target.
   Future<GetDeploymentTargetOutput> getDeploymentTarget({
-    String deploymentId,
-    String targetId,
+    String? deploymentId,
+    String? targetId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1508,7 +1514,7 @@ class CodeDeploy {
   /// Parameter [instanceName] :
   /// The name of the on-premises instance about which to get information.
   Future<GetOnPremisesInstanceOutput> getOnPremisesInstance({
-    @_s.required String instanceName,
+    required String instanceName,
   }) async {
     ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
@@ -1613,13 +1619,13 @@ class CodeDeploy {
   ///
   /// If set to null, the results are sorted in an arbitrary order.
   Future<ListApplicationRevisionsOutput> listApplicationRevisions({
-    @_s.required String applicationName,
-    ListStateFilterAction deployed,
-    String nextToken,
-    String s3Bucket,
-    String s3KeyPrefix,
-    ApplicationRevisionSortBy sortBy,
-    SortOrder sortOrder,
+    required String applicationName,
+    ListStateFilterAction? deployed,
+    String? nextToken,
+    String? s3Bucket,
+    String? s3KeyPrefix,
+    ApplicationRevisionSortBy? sortBy,
+    SortOrder? sortOrder,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1661,7 +1667,7 @@ class CodeDeploy {
   /// An identifier returned from the previous list applications call. It can be
   /// used to return the next set of applications in the list.
   Future<ListApplicationsOutput> listApplications({
-    String nextToken,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1690,7 +1696,7 @@ class CodeDeploy {
   /// <code>ListDeploymentConfigs</code> call. It can be used to return the next
   /// set of deployment configurations in the list.
   Future<ListDeploymentConfigsOutput> listDeploymentConfigs({
-    String nextToken,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1726,8 +1732,8 @@ class CodeDeploy {
   /// An identifier returned from the previous list deployment groups call. It
   /// can be used to return the next set of deployment groups in the list.
   Future<ListDeploymentGroupsOutput> listDeploymentGroups({
-    @_s.required String applicationName,
-    String nextToken,
+    required String applicationName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1816,10 +1822,10 @@ class CodeDeploy {
   /// It can be used to return the next set of deployment instances in the list.
   @Deprecated('Deprecated')
   Future<ListDeploymentInstancesOutput> listDeploymentInstances({
-    @_s.required String deploymentId,
-    List<InstanceStatus> instanceStatusFilter,
-    List<InstanceType> instanceTypeFilter,
-    String nextToken,
+    required String deploymentId,
+    List<InstanceStatus>? instanceStatusFilter,
+    List<InstanceType>? instanceTypeFilter,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     final headers = <String, String>{
@@ -1836,10 +1842,10 @@ class CodeDeploy {
         'deploymentId': deploymentId,
         if (instanceStatusFilter != null)
           'instanceStatusFilter':
-              instanceStatusFilter.map((e) => e?.toValue() ?? '').toList(),
+              instanceStatusFilter.map((e) => e.toValue()).toList(),
         if (instanceTypeFilter != null)
           'instanceTypeFilter':
-              instanceTypeFilter.map((e) => e?.toValue() ?? '').toList(),
+              instanceTypeFilter.map((e) => e.toValue()).toList(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -1882,9 +1888,9 @@ class CodeDeploy {
   /// </li>
   /// </ul>
   Future<ListDeploymentTargetsOutput> listDeploymentTargets({
-    String deploymentId,
-    String nextToken,
-    Map<TargetFilterName, List<String>> targetFilters,
+    String? deploymentId,
+    String? nextToken,
+    Map<TargetFilterName, List<String>>? targetFilters,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1978,12 +1984,12 @@ class CodeDeploy {
   /// An identifier returned from the previous list deployments call. It can be
   /// used to return the next set of deployments in the list.
   Future<ListDeploymentsOutput> listDeployments({
-    String applicationName,
-    TimeRange createTimeRange,
-    String deploymentGroupName,
-    String externalId,
-    List<DeploymentStatus> includeOnlyStatuses,
-    String nextToken,
+    String? applicationName,
+    TimeRange? createTimeRange,
+    String? deploymentGroupName,
+    String? externalId,
+    List<DeploymentStatus>? includeOnlyStatuses,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -2015,7 +2021,7 @@ class CodeDeploy {
         if (externalId != null) 'externalId': externalId,
         if (includeOnlyStatuses != null)
           'includeOnlyStatuses':
-              includeOnlyStatuses.map((e) => e?.toValue() ?? '').toList(),
+              includeOnlyStatuses.map((e) => e.toValue()).toList(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -2034,7 +2040,7 @@ class CodeDeploy {
   /// <code>ListGitHubAccountTokenNames</code> call. It can be used to return
   /// the next set of names in the list.
   Future<ListGitHubAccountTokenNamesOutput> listGitHubAccountTokenNames({
-    String nextToken,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2087,9 +2093,9 @@ class CodeDeploy {
   /// The on-premises instance tags that are used to restrict the on-premises
   /// instance names returned.
   Future<ListOnPremisesInstancesOutput> listOnPremisesInstances({
-    String nextToken,
-    RegistrationStatus registrationStatus,
-    List<TagFilter> tagFilters,
+    String? nextToken,
+    RegistrationStatus? registrationStatus,
+    List<TagFilter>? tagFilters,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2129,8 +2135,8 @@ class CodeDeploy {
   /// An identifier returned from the previous <code>ListTagsForResource</code>
   /// call. It can be used to return the next set of applications in the list.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceArn,
-    String nextToken,
+    required String resourceArn,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2192,12 +2198,13 @@ class CodeDeploy {
   ///
   /// Parameter [status] :
   /// The result of a Lambda function that validates a deployment lifecycle
-  /// event (<code>Succeeded</code> or <code>Failed</code>).
+  /// event. <code>Succeeded</code> and <code>Failed</code> are the only valid
+  /// values for <code>status</code>.
   Future<PutLifecycleEventHookExecutionStatusOutput>
       putLifecycleEventHookExecutionStatus({
-    String deploymentId,
-    String lifecycleEventHookExecutionId,
-    LifecycleEventStatus status,
+    String? deploymentId,
+    String? lifecycleEventHookExecutionId,
+    LifecycleEventStatus? status,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2241,9 +2248,9 @@ class CodeDeploy {
   /// Parameter [description] :
   /// A comment about the revision.
   Future<void> registerApplicationRevision({
-    @_s.required String applicationName,
-    @_s.required RevisionLocation revision,
-    String description,
+    required String applicationName,
+    required RevisionLocation revision,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2258,7 +2265,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.RegisterApplicationRevision'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2298,16 +2305,16 @@ class CodeDeploy {
   /// Parameter [iamUserArn] :
   /// The ARN of the IAM user to associate with the on-premises instance.
   Future<void> registerOnPremisesInstance({
-    @_s.required String instanceName,
-    String iamSessionArn,
-    String iamUserArn,
+    required String instanceName,
+    String? iamSessionArn,
+    String? iamUserArn,
   }) async {
     ArgumentError.checkNotNull(instanceName, 'instanceName');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.RegisterOnPremisesInstance'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2337,8 +2344,8 @@ class CodeDeploy {
   /// Parameter [tags] :
   /// The tag key-value pairs to remove from the on-premises instances.
   Future<void> removeTagsFromOnPremisesInstances({
-    @_s.required List<String> instanceNames,
-    @_s.required List<Tag> tags,
+    required List<String> instanceNames,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(instanceNames, 'instanceNames');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2346,7 +2353,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.RemoveTagsFromOnPremisesInstances'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2374,13 +2381,13 @@ class CodeDeploy {
   /// instance termination wait time.
   @Deprecated('Deprecated')
   Future<void> skipWaitTimeForInstanceTermination({
-    String deploymentId,
+    String? deploymentId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.SkipWaitTimeForInstanceTermination'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2409,8 +2416,8 @@ class CodeDeploy {
   /// updated should be rolled back to the previous version of the application
   /// revision.
   Future<StopDeploymentOutput> stopDeployment({
-    @_s.required String deploymentId,
-    bool autoRollbackEnabled,
+    required String deploymentId,
+    bool? autoRollbackEnabled,
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     final headers = <String, String>{
@@ -2454,8 +2461,8 @@ class CodeDeploy {
   /// The resource is identified by the <code>ResourceArn</code> input
   /// parameter.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2470,7 +2477,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2481,8 +2488,6 @@ class CodeDeploy {
         'Tags': tags,
       },
     );
-
-    return TagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Disassociates a resource from a list of tags. The resource is identified
@@ -2508,8 +2513,8 @@ class CodeDeploy {
   /// identified by the keys are disassociated from the resource specified by
   /// the <code>ResourceArn</code> input parameter.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -2524,7 +2529,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2535,8 +2540,6 @@ class CodeDeploy {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceOutput.fromJson(jsonResponse.body);
   }
 
   /// Changes the name of an application.
@@ -2552,8 +2555,8 @@ class CodeDeploy {
   /// Parameter [newApplicationName] :
   /// The new name to give the application.
   Future<void> updateApplication({
-    String applicationName,
-    String newApplicationName,
+    String? applicationName,
+    String? newApplicationName,
   }) async {
     _s.validateStringLength(
       'applicationName',
@@ -2571,7 +2574,7 @@ class CodeDeploy {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CodeDeploy_20141006.UpdateApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2683,6 +2686,18 @@ class CodeDeploy {
   /// Information about an on-premises instance tag set. The deployment group
   /// includes only on-premises instances identified by all the tag groups.
   ///
+  /// Parameter [outdatedInstancesStrategy] :
+  /// Indicates what happens when new EC2 instances are launched mid-deployment
+  /// and do not receive the deployed application revision.
+  ///
+  /// If this option is set to <code>UPDATE</code> or is unspecified, CodeDeploy
+  /// initiates one or more 'auto-update outdated instances' deployments to
+  /// apply the deployed application revision to the new EC2 instances.
+  ///
+  /// If this option is set to <code>IGNORE</code>, CodeDeploy does not initiate
+  /// a deployment to update the new EC2 instances. This may result in instances
+  /// having different revisions.
+  ///
   /// Parameter [serviceRoleArn] :
   /// A replacement ARN for the service role, if you want to change it.
   ///
@@ -2693,23 +2708,24 @@ class CodeDeploy {
   /// a Trigger in a CodeDeploy Deployment Group</a> in the <i>AWS CodeDeploy
   /// User Guide</i>.
   Future<UpdateDeploymentGroupOutput> updateDeploymentGroup({
-    @_s.required String applicationName,
-    @_s.required String currentDeploymentGroupName,
-    AlarmConfiguration alarmConfiguration,
-    AutoRollbackConfiguration autoRollbackConfiguration,
-    List<String> autoScalingGroups,
-    BlueGreenDeploymentConfiguration blueGreenDeploymentConfiguration,
-    String deploymentConfigName,
-    DeploymentStyle deploymentStyle,
-    List<EC2TagFilter> ec2TagFilters,
-    EC2TagSet ec2TagSet,
-    List<ECSService> ecsServices,
-    LoadBalancerInfo loadBalancerInfo,
-    String newDeploymentGroupName,
-    List<TagFilter> onPremisesInstanceTagFilters,
-    OnPremisesTagSet onPremisesTagSet,
-    String serviceRoleArn,
-    List<TriggerConfig> triggerConfigurations,
+    required String applicationName,
+    required String currentDeploymentGroupName,
+    AlarmConfiguration? alarmConfiguration,
+    AutoRollbackConfiguration? autoRollbackConfiguration,
+    List<String>? autoScalingGroups,
+    BlueGreenDeploymentConfiguration? blueGreenDeploymentConfiguration,
+    String? deploymentConfigName,
+    DeploymentStyle? deploymentStyle,
+    List<EC2TagFilter>? ec2TagFilters,
+    EC2TagSet? ec2TagSet,
+    List<ECSService>? ecsServices,
+    LoadBalancerInfo? loadBalancerInfo,
+    String? newDeploymentGroupName,
+    List<TagFilter>? onPremisesInstanceTagFilters,
+    OnPremisesTagSet? onPremisesTagSet,
+    OutdatedInstancesStrategy? outdatedInstancesStrategy,
+    String? serviceRoleArn,
+    List<TriggerConfig>? triggerConfigurations,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2772,6 +2788,8 @@ class CodeDeploy {
         if (onPremisesInstanceTagFilters != null)
           'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
         if (onPremisesTagSet != null) 'onPremisesTagSet': onPremisesTagSet,
+        if (outdatedInstancesStrategy != null)
+          'outdatedInstancesStrategy': outdatedInstancesStrategy.toValue(),
         if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
         if (triggerConfigurations != null)
           'triggerConfigurations': triggerConfigurations,
@@ -2783,40 +2801,37 @@ class CodeDeploy {
 }
 
 /// Information about an alarm.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Alarm {
   /// The name of the alarm. Maximum length is 255 characters. Each alarm name can
   /// be used only once in a list of alarms.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Alarm({
     this.name,
   });
-  factory Alarm.fromJson(Map<String, dynamic> json) => _$AlarmFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AlarmToJson(this);
+  factory Alarm.fromJson(Map<String, dynamic> json) {
+    return Alarm(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Information about alarms associated with the deployment group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AlarmConfiguration {
   /// A list of alarms configured for the deployment group. A maximum of 10 alarms
   /// can be added to a deployment group.
-  @_s.JsonKey(name: 'alarms')
-  final List<Alarm> alarms;
+  final List<Alarm>? alarms;
 
   /// Indicates whether the alarm configuration is enabled.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Indicates whether a deployment should continue if information about the
   /// current state of alarms cannot be retrieved from Amazon CloudWatch. The
@@ -2832,29 +2847,42 @@ class AlarmConfiguration {
   /// be retrieved from Amazon CloudWatch.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ignorePollAlarmFailure')
-  final bool ignorePollAlarmFailure;
+  final bool? ignorePollAlarmFailure;
 
   AlarmConfiguration({
     this.alarms,
     this.enabled,
     this.ignorePollAlarmFailure,
   });
-  factory AlarmConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AlarmConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AlarmConfigurationToJson(this);
+  factory AlarmConfiguration.fromJson(Map<String, dynamic> json) {
+    return AlarmConfiguration(
+      alarms: (json['alarms'] as List?)
+          ?.whereNotNull()
+          .map((e) => Alarm.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      enabled: json['enabled'] as bool?,
+      ignorePollAlarmFailure: json['ignorePollAlarmFailure'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarms = this.alarms;
+    final enabled = this.enabled;
+    final ignorePollAlarmFailure = this.ignorePollAlarmFailure;
+    return {
+      if (alarms != null) 'alarms': alarms,
+      if (enabled != null) 'enabled': enabled,
+      if (ignorePollAlarmFailure != null)
+        'ignorePollAlarmFailure': ignorePollAlarmFailure,
+    };
+  }
 }
 
 /// A revision for an AWS Lambda or Amazon ECS deployment that is a
 /// YAML-formatted or JSON-formatted string. For AWS Lambda and Amazon ECS
 /// deployments, the revision is the same as the AppSpec file. This method
 /// replaces the deprecated <code>RawString</code> data type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AppSpecContent {
   /// The YAML-formatted or JSON-formatted revision string.
   ///
@@ -2870,56 +2898,54 @@ class AppSpecContent {
   /// For both types of deployments, the content can specify Lambda functions that
   /// run at specified hooks, such as <code>BeforeInstall</code>, during a
   /// deployment.
-  @_s.JsonKey(name: 'content')
-  final String content;
+  final String? content;
 
   /// The SHA256 hash value of the revision content.
-  @_s.JsonKey(name: 'sha256')
-  final String sha256;
+  final String? sha256;
 
   AppSpecContent({
     this.content,
     this.sha256,
   });
-  factory AppSpecContent.fromJson(Map<String, dynamic> json) =>
-      _$AppSpecContentFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AppSpecContentToJson(this);
+  factory AppSpecContent.fromJson(Map<String, dynamic> json) {
+    return AppSpecContent(
+      content: json['content'] as String?,
+      sha256: json['sha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final sha256 = this.sha256;
+    return {
+      if (content != null) 'content': content,
+      if (sha256 != null) 'sha256': sha256,
+    };
+  }
 }
 
 /// Information about an application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationInfo {
   /// The application ID.
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The application name.
-  @_s.JsonKey(name: 'applicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// The destination platform type for deployment of the application
   /// (<code>Lambda</code> or <code>Server</code>).
-  @_s.JsonKey(name: 'computePlatform')
-  final ComputePlatform computePlatform;
+  final ComputePlatform? computePlatform;
 
   /// The time at which the application was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The name for a connection to a GitHub account.
-  @_s.JsonKey(name: 'gitHubAccountName')
-  final String gitHubAccountName;
+  final String? gitHubAccountName;
 
   /// True if the user has authenticated with GitHub for the specified
   /// application. Otherwise, false.
-  @_s.JsonKey(name: 'linkedToGitHub')
-  final bool linkedToGitHub;
+  final bool? linkedToGitHub;
 
   ApplicationInfo({
     this.applicationId,
@@ -2929,16 +2955,40 @@ class ApplicationInfo {
     this.gitHubAccountName,
     this.linkedToGitHub,
   });
-  factory ApplicationInfo.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationInfoFromJson(json);
+
+  factory ApplicationInfo.fromJson(Map<String, dynamic> json) {
+    return ApplicationInfo(
+      applicationId: json['applicationId'] as String?,
+      applicationName: json['applicationName'] as String?,
+      computePlatform:
+          (json['computePlatform'] as String?)?.toComputePlatform(),
+      createTime: timeStampFromJson(json['createTime']),
+      gitHubAccountName: json['gitHubAccountName'] as String?,
+      linkedToGitHub: json['linkedToGitHub'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final applicationName = this.applicationName;
+    final computePlatform = this.computePlatform;
+    final createTime = this.createTime;
+    final gitHubAccountName = this.gitHubAccountName;
+    final linkedToGitHub = this.linkedToGitHub;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (applicationName != null) 'applicationName': applicationName,
+      if (computePlatform != null) 'computePlatform': computePlatform.toValue(),
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (gitHubAccountName != null) 'gitHubAccountName': gitHubAccountName,
+      if (linkedToGitHub != null) 'linkedToGitHub': linkedToGitHub,
+    };
+  }
 }
 
 enum ApplicationRevisionSortBy {
-  @_s.JsonValue('registerTime')
   registerTime,
-  @_s.JsonValue('firstUsedTime')
   firstUsedTime,
-  @_s.JsonValue('lastUsedTime')
   lastUsedTime,
 }
 
@@ -2952,171 +3002,259 @@ extension on ApplicationRevisionSortBy {
       case ApplicationRevisionSortBy.lastUsedTime:
         return 'lastUsedTime';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ApplicationRevisionSortBy toApplicationRevisionSortBy() {
+    switch (this) {
+      case 'registerTime':
+        return ApplicationRevisionSortBy.registerTime;
+      case 'firstUsedTime':
+        return ApplicationRevisionSortBy.firstUsedTime;
+      case 'lastUsedTime':
+        return ApplicationRevisionSortBy.lastUsedTime;
+    }
+    throw Exception('$this is not known in enum ApplicationRevisionSortBy');
   }
 }
 
 /// Information about a configuration for automatically rolling back to a
 /// previous version of an application revision when a deployment is not
 /// completed successfully.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AutoRollbackConfiguration {
   /// Indicates whether a defined automatic rollback configuration is currently
   /// enabled.
-  @_s.JsonKey(name: 'enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The event type or types that trigger a rollback.
-  @_s.JsonKey(name: 'events')
-  final List<AutoRollbackEvent> events;
+  final List<AutoRollbackEvent>? events;
 
   AutoRollbackConfiguration({
     this.enabled,
     this.events,
   });
-  factory AutoRollbackConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AutoRollbackConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AutoRollbackConfigurationToJson(this);
+  factory AutoRollbackConfiguration.fromJson(Map<String, dynamic> json) {
+    return AutoRollbackConfiguration(
+      enabled: json['enabled'] as bool?,
+      events: (json['events'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAutoRollbackEvent())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final events = this.events;
+    return {
+      if (enabled != null) 'enabled': enabled,
+      if (events != null) 'events': events.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 enum AutoRollbackEvent {
-  @_s.JsonValue('DEPLOYMENT_FAILURE')
   deploymentFailure,
-  @_s.JsonValue('DEPLOYMENT_STOP_ON_ALARM')
   deploymentStopOnAlarm,
-  @_s.JsonValue('DEPLOYMENT_STOP_ON_REQUEST')
   deploymentStopOnRequest,
 }
 
+extension on AutoRollbackEvent {
+  String toValue() {
+    switch (this) {
+      case AutoRollbackEvent.deploymentFailure:
+        return 'DEPLOYMENT_FAILURE';
+      case AutoRollbackEvent.deploymentStopOnAlarm:
+        return 'DEPLOYMENT_STOP_ON_ALARM';
+      case AutoRollbackEvent.deploymentStopOnRequest:
+        return 'DEPLOYMENT_STOP_ON_REQUEST';
+    }
+  }
+}
+
+extension on String {
+  AutoRollbackEvent toAutoRollbackEvent() {
+    switch (this) {
+      case 'DEPLOYMENT_FAILURE':
+        return AutoRollbackEvent.deploymentFailure;
+      case 'DEPLOYMENT_STOP_ON_ALARM':
+        return AutoRollbackEvent.deploymentStopOnAlarm;
+      case 'DEPLOYMENT_STOP_ON_REQUEST':
+        return AutoRollbackEvent.deploymentStopOnRequest;
+    }
+    throw Exception('$this is not known in enum AutoRollbackEvent');
+  }
+}
+
 /// Information about an Auto Scaling group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AutoScalingGroup {
   /// An Auto Scaling lifecycle event hook name.
-  @_s.JsonKey(name: 'hook')
-  final String hook;
+  final String? hook;
 
   /// The Auto Scaling group name.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   AutoScalingGroup({
     this.hook,
     this.name,
   });
-  factory AutoScalingGroup.fromJson(Map<String, dynamic> json) =>
-      _$AutoScalingGroupFromJson(json);
+
+  factory AutoScalingGroup.fromJson(Map<String, dynamic> json) {
+    return AutoScalingGroup(
+      hook: json['hook'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hook = this.hook;
+    final name = this.name;
+    return {
+      if (hook != null) 'hook': hook,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchGetApplicationRevisions</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetApplicationRevisionsOutput {
   /// The name of the application that corresponds to the revisions.
-  @_s.JsonKey(name: 'applicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// Information about errors that might have occurred during the API call.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// Additional information about the revisions, including the type and location.
-  @_s.JsonKey(name: 'revisions')
-  final List<RevisionInfo> revisions;
+  final List<RevisionInfo>? revisions;
 
   BatchGetApplicationRevisionsOutput({
     this.applicationName,
     this.errorMessage,
     this.revisions,
   });
+
   factory BatchGetApplicationRevisionsOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchGetApplicationRevisionsOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchGetApplicationRevisionsOutput(
+      applicationName: json['applicationName'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      revisions: (json['revisions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RevisionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final errorMessage = this.errorMessage;
+    final revisions = this.revisions;
+    return {
+      if (applicationName != null) 'applicationName': applicationName,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (revisions != null) 'revisions': revisions,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchGetApplications</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetApplicationsOutput {
   /// Information about the applications.
-  @_s.JsonKey(name: 'applicationsInfo')
-  final List<ApplicationInfo> applicationsInfo;
+  final List<ApplicationInfo>? applicationsInfo;
 
   BatchGetApplicationsOutput({
     this.applicationsInfo,
   });
-  factory BatchGetApplicationsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetApplicationsOutputFromJson(json);
+
+  factory BatchGetApplicationsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetApplicationsOutput(
+      applicationsInfo: (json['applicationsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApplicationInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationsInfo = this.applicationsInfo;
+    return {
+      if (applicationsInfo != null) 'applicationsInfo': applicationsInfo,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchGetDeploymentGroups</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetDeploymentGroupsOutput {
   /// Information about the deployment groups.
-  @_s.JsonKey(name: 'deploymentGroupsInfo')
-  final List<DeploymentGroupInfo> deploymentGroupsInfo;
+  final List<DeploymentGroupInfo>? deploymentGroupsInfo;
 
   /// Information about errors that might have occurred during the API call.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   BatchGetDeploymentGroupsOutput({
     this.deploymentGroupsInfo,
     this.errorMessage,
   });
-  factory BatchGetDeploymentGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetDeploymentGroupsOutputFromJson(json);
+
+  factory BatchGetDeploymentGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetDeploymentGroupsOutput(
+      deploymentGroupsInfo: (json['deploymentGroupsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeploymentGroupInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errorMessage: json['errorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentGroupsInfo = this.deploymentGroupsInfo;
+    final errorMessage = this.errorMessage;
+    return {
+      if (deploymentGroupsInfo != null)
+        'deploymentGroupsInfo': deploymentGroupsInfo,
+      if (errorMessage != null) 'errorMessage': errorMessage,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchGetDeploymentInstances</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetDeploymentInstancesOutput {
   /// Information about errors that might have occurred during the API call.
-  @_s.JsonKey(name: 'errorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// Information about the instance.
-  @_s.JsonKey(name: 'instancesSummary')
-  final List<InstanceSummary> instancesSummary;
+  final List<InstanceSummary>? instancesSummary;
 
   BatchGetDeploymentInstancesOutput({
     this.errorMessage,
     this.instancesSummary,
   });
+
   factory BatchGetDeploymentInstancesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchGetDeploymentInstancesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchGetDeploymentInstancesOutput(
+      errorMessage: json['errorMessage'] as String?,
+      instancesSummary: (json['instancesSummary'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final instancesSummary = this.instancesSummary;
+    return {
+      if (errorMessage != null) 'errorMessage': errorMessage,
+      if (instancesSummary != null) 'instancesSummary': instancesSummary,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetDeploymentTargetsOutput {
   /// A list of target objects for a deployment. Each target object contains
   /// details about the target, such as its status and lifecycle events. The type
@@ -3139,98 +3277,144 @@ class BatchGetDeploymentTargetsOutput {
   /// deployment.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'deploymentTargets')
-  final List<DeploymentTarget> deploymentTargets;
+  final List<DeploymentTarget>? deploymentTargets;
 
   BatchGetDeploymentTargetsOutput({
     this.deploymentTargets,
   });
-  factory BatchGetDeploymentTargetsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetDeploymentTargetsOutputFromJson(json);
+
+  factory BatchGetDeploymentTargetsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetDeploymentTargetsOutput(
+      deploymentTargets: (json['deploymentTargets'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeploymentTarget.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentTargets = this.deploymentTargets;
+    return {
+      if (deploymentTargets != null) 'deploymentTargets': deploymentTargets,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchGetDeployments</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetDeploymentsOutput {
   /// Information about the deployments.
-  @_s.JsonKey(name: 'deploymentsInfo')
-  final List<DeploymentInfo> deploymentsInfo;
+  final List<DeploymentInfo>? deploymentsInfo;
 
   BatchGetDeploymentsOutput({
     this.deploymentsInfo,
   });
-  factory BatchGetDeploymentsOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetDeploymentsOutputFromJson(json);
+
+  factory BatchGetDeploymentsOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetDeploymentsOutput(
+      deploymentsInfo: (json['deploymentsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeploymentInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentsInfo = this.deploymentsInfo;
+    return {
+      if (deploymentsInfo != null) 'deploymentsInfo': deploymentsInfo,
+    };
+  }
 }
 
 /// Represents the output of a <code>BatchGetOnPremisesInstances</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetOnPremisesInstancesOutput {
   /// Information about the on-premises instances.
-  @_s.JsonKey(name: 'instanceInfos')
-  final List<InstanceInfo> instanceInfos;
+  final List<InstanceInfo>? instanceInfos;
 
   BatchGetOnPremisesInstancesOutput({
     this.instanceInfos,
   });
+
   factory BatchGetOnPremisesInstancesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$BatchGetOnPremisesInstancesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return BatchGetOnPremisesInstancesOutput(
+      instanceInfos: (json['instanceInfos'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceInfos = this.instanceInfos;
+    return {
+      if (instanceInfos != null) 'instanceInfos': instanceInfos,
+    };
+  }
 }
 
 /// Information about blue/green deployment options for a deployment group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BlueGreenDeploymentConfiguration {
   /// Information about the action to take when newly provisioned instances are
   /// ready to receive traffic in a blue/green deployment.
-  @_s.JsonKey(name: 'deploymentReadyOption')
-  final DeploymentReadyOption deploymentReadyOption;
+  final DeploymentReadyOption? deploymentReadyOption;
 
   /// Information about how instances are provisioned for a replacement
   /// environment in a blue/green deployment.
-  @_s.JsonKey(name: 'greenFleetProvisioningOption')
-  final GreenFleetProvisioningOption greenFleetProvisioningOption;
+  final GreenFleetProvisioningOption? greenFleetProvisioningOption;
 
   /// Information about whether to terminate instances in the original fleet
   /// during a blue/green deployment.
-  @_s.JsonKey(name: 'terminateBlueInstancesOnDeploymentSuccess')
-  final BlueInstanceTerminationOption terminateBlueInstancesOnDeploymentSuccess;
+  final BlueInstanceTerminationOption?
+      terminateBlueInstancesOnDeploymentSuccess;
 
   BlueGreenDeploymentConfiguration({
     this.deploymentReadyOption,
     this.greenFleetProvisioningOption,
     this.terminateBlueInstancesOnDeploymentSuccess,
   });
-  factory BlueGreenDeploymentConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$BlueGreenDeploymentConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$BlueGreenDeploymentConfigurationToJson(this);
+  factory BlueGreenDeploymentConfiguration.fromJson(Map<String, dynamic> json) {
+    return BlueGreenDeploymentConfiguration(
+      deploymentReadyOption: json['deploymentReadyOption'] != null
+          ? DeploymentReadyOption.fromJson(
+              json['deploymentReadyOption'] as Map<String, dynamic>)
+          : null,
+      greenFleetProvisioningOption: json['greenFleetProvisioningOption'] != null
+          ? GreenFleetProvisioningOption.fromJson(
+              json['greenFleetProvisioningOption'] as Map<String, dynamic>)
+          : null,
+      terminateBlueInstancesOnDeploymentSuccess:
+          json['terminateBlueInstancesOnDeploymentSuccess'] != null
+              ? BlueInstanceTerminationOption.fromJson(
+                  json['terminateBlueInstancesOnDeploymentSuccess']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentReadyOption = this.deploymentReadyOption;
+    final greenFleetProvisioningOption = this.greenFleetProvisioningOption;
+    final terminateBlueInstancesOnDeploymentSuccess =
+        this.terminateBlueInstancesOnDeploymentSuccess;
+    return {
+      if (deploymentReadyOption != null)
+        'deploymentReadyOption': deploymentReadyOption,
+      if (greenFleetProvisioningOption != null)
+        'greenFleetProvisioningOption': greenFleetProvisioningOption,
+      if (terminateBlueInstancesOnDeploymentSuccess != null)
+        'terminateBlueInstancesOnDeploymentSuccess':
+            terminateBlueInstancesOnDeploymentSuccess,
+    };
+  }
 }
 
 /// Information about whether instances in the original environment are
 /// terminated when a blue/green deployment is successful.
 /// <code>BlueInstanceTerminationOption</code> does not apply to Lambda
 /// deployments.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BlueInstanceTerminationOption {
   /// The action to take on instances in the original environment after a
   /// successful blue/green deployment.
@@ -3245,8 +3429,7 @@ class BlueInstanceTerminationOption {
   /// deregistered from the load balancer and removed from the deployment group.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'action')
-  final InstanceAction action;
+  final InstanceAction? action;
 
   /// For an Amazon EC2 deployment, the number of minutes to wait after a
   /// successful blue/green deployment before terminating instances from the
@@ -3257,74 +3440,104 @@ class BlueInstanceTerminationOption {
   /// traffic from the original (blue) task set to a replacement (green) task set.
   ///
   /// The maximum setting is 2880 minutes (2 days).
-  @_s.JsonKey(name: 'terminationWaitTimeInMinutes')
-  final int terminationWaitTimeInMinutes;
+  final int? terminationWaitTimeInMinutes;
 
   BlueInstanceTerminationOption({
     this.action,
     this.terminationWaitTimeInMinutes,
   });
-  factory BlueInstanceTerminationOption.fromJson(Map<String, dynamic> json) =>
-      _$BlueInstanceTerminationOptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BlueInstanceTerminationOptionToJson(this);
+  factory BlueInstanceTerminationOption.fromJson(Map<String, dynamic> json) {
+    return BlueInstanceTerminationOption(
+      action: (json['action'] as String?)?.toInstanceAction(),
+      terminationWaitTimeInMinutes:
+          json['terminationWaitTimeInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final terminationWaitTimeInMinutes = this.terminationWaitTimeInMinutes;
+    return {
+      if (action != null) 'action': action.toValue(),
+      if (terminationWaitTimeInMinutes != null)
+        'terminationWaitTimeInMinutes': terminationWaitTimeInMinutes,
+    };
+  }
 }
 
 enum BundleType {
-  @_s.JsonValue('tar')
   tar,
-  @_s.JsonValue('tgz')
   tgz,
-  @_s.JsonValue('zip')
   zip,
-  @_s.JsonValue('YAML')
   yaml,
-  @_s.JsonValue('JSON')
   json,
+}
+
+extension on BundleType {
+  String toValue() {
+    switch (this) {
+      case BundleType.tar:
+        return 'tar';
+      case BundleType.tgz:
+        return 'tgz';
+      case BundleType.zip:
+        return 'zip';
+      case BundleType.yaml:
+        return 'YAML';
+      case BundleType.json:
+        return 'JSON';
+    }
+  }
+}
+
+extension on String {
+  BundleType toBundleType() {
+    switch (this) {
+      case 'tar':
+        return BundleType.tar;
+      case 'tgz':
+        return BundleType.tgz;
+      case 'zip':
+        return BundleType.zip;
+      case 'YAML':
+        return BundleType.yaml;
+      case 'JSON':
+        return BundleType.json;
+    }
+    throw Exception('$this is not known in enum BundleType');
+  }
 }
 
 /// Information about the target to be updated by an AWS CloudFormation
 /// blue/green deployment. This target type is used for all deployments
 /// initiated by a CloudFormation stack update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CloudFormationTarget {
   /// The unique ID of an AWS CloudFormation blue/green deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The date and time when the target application was updated by an AWS
   /// CloudFormation blue/green deployment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The lifecycle events of the AWS CloudFormation blue/green deployment to this
   /// target application.
-  @_s.JsonKey(name: 'lifecycleEvents')
-  final List<LifecycleEvent> lifecycleEvents;
+  final List<LifecycleEvent>? lifecycleEvents;
 
   /// The resource type for the AWS CloudFormation blue/green deployment.
-  @_s.JsonKey(name: 'resourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// The status of an AWS CloudFormation blue/green deployment's target
   /// application.
-  @_s.JsonKey(name: 'status')
-  final TargetStatus status;
+  final TargetStatus? status;
 
   /// The unique ID of a deployment target that has a type
   /// of <code>CloudFormationTarget</code>.
-  @_s.JsonKey(name: 'targetId')
-  final String targetId;
+  final String? targetId;
 
   /// The percentage of production traffic that the target version of an AWS
   /// CloudFormation blue/green deployment receives.
-  @_s.JsonKey(name: 'targetVersionWeight')
-  final double targetVersionWeight;
+  final double? targetVersionWeight;
 
   CloudFormationTarget({
     this.deploymentId,
@@ -3335,16 +3548,47 @@ class CloudFormationTarget {
     this.targetId,
     this.targetVersionWeight,
   });
-  factory CloudFormationTarget.fromJson(Map<String, dynamic> json) =>
-      _$CloudFormationTargetFromJson(json);
+
+  factory CloudFormationTarget.fromJson(Map<String, dynamic> json) {
+    return CloudFormationTarget(
+      deploymentId: json['deploymentId'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourceType: json['resourceType'] as String?,
+      status: (json['status'] as String?)?.toTargetStatus(),
+      targetId: json['targetId'] as String?,
+      targetVersionWeight: json['targetVersionWeight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final resourceType = this.resourceType;
+    final status = this.status;
+    final targetId = this.targetId;
+    final targetVersionWeight = this.targetVersionWeight;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (status != null) 'status': status.toValue(),
+      if (targetId != null) 'targetId': targetId,
+      if (targetVersionWeight != null)
+        'targetVersionWeight': targetVersionWeight,
+    };
+  }
 }
 
 enum ComputePlatform {
-  @_s.JsonValue('Server')
   server,
-  @_s.JsonValue('Lambda')
   lambda,
-  @_s.JsonValue('ECS')
   ecs,
 }
 
@@ -3358,88 +3602,116 @@ extension on ComputePlatform {
       case ComputePlatform.ecs:
         return 'ECS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ComputePlatform toComputePlatform() {
+    switch (this) {
+      case 'Server':
+        return ComputePlatform.server;
+      case 'Lambda':
+        return ComputePlatform.lambda;
+      case 'ECS':
+        return ComputePlatform.ecs;
+    }
+    throw Exception('$this is not known in enum ComputePlatform');
   }
 }
 
 /// Represents the output of a <code>CreateApplication</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApplicationOutput {
   /// A unique application ID.
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   CreateApplicationOutput({
     this.applicationId,
   });
-  factory CreateApplicationOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateApplicationOutputFromJson(json);
+
+  factory CreateApplicationOutput.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationOutput(
+      applicationId: json['applicationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+    };
+  }
 }
 
 /// Represents the output of a <code>CreateDeploymentConfig</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeploymentConfigOutput {
   /// A unique deployment configuration ID.
-  @_s.JsonKey(name: 'deploymentConfigId')
-  final String deploymentConfigId;
+  final String? deploymentConfigId;
 
   CreateDeploymentConfigOutput({
     this.deploymentConfigId,
   });
-  factory CreateDeploymentConfigOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeploymentConfigOutputFromJson(json);
+
+  factory CreateDeploymentConfigOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentConfigOutput(
+      deploymentConfigId: json['deploymentConfigId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentConfigId = this.deploymentConfigId;
+    return {
+      if (deploymentConfigId != null) 'deploymentConfigId': deploymentConfigId,
+    };
+  }
 }
 
 /// Represents the output of a <code>CreateDeploymentGroup</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeploymentGroupOutput {
   /// A unique deployment group ID.
-  @_s.JsonKey(name: 'deploymentGroupId')
-  final String deploymentGroupId;
+  final String? deploymentGroupId;
 
   CreateDeploymentGroupOutput({
     this.deploymentGroupId,
   });
-  factory CreateDeploymentGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeploymentGroupOutputFromJson(json);
+
+  factory CreateDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentGroupOutput(
+      deploymentGroupId: json['deploymentGroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentGroupId = this.deploymentGroupId;
+    return {
+      if (deploymentGroupId != null) 'deploymentGroupId': deploymentGroupId,
+    };
+  }
 }
 
 /// Represents the output of a <code>CreateDeployment</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeploymentOutput {
   /// The unique ID of a deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   CreateDeploymentOutput({
     this.deploymentId,
   });
-  factory CreateDeploymentOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeploymentOutputFromJson(json);
+
+  factory CreateDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentOutput(
+      deploymentId: json['deploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+    };
+  }
 }
 
 /// Represents the output of a <code>DeleteDeploymentGroup</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDeploymentGroupOutput {
   /// If the output contains no data, and the corresponding deployment group
   /// contained at least one Auto Scaling group, AWS CodeDeploy successfully
@@ -3447,79 +3719,85 @@ class DeleteDeploymentGroupOutput {
   /// EC2 instances in the Auto Scaling group. If the output contains data, AWS
   /// CodeDeploy could not remove some Auto Scaling lifecycle event hooks from the
   /// Amazon EC2 instances in the Auto Scaling group.
-  @_s.JsonKey(name: 'hooksNotCleanedUp')
-  final List<AutoScalingGroup> hooksNotCleanedUp;
+  final List<AutoScalingGroup>? hooksNotCleanedUp;
 
   DeleteDeploymentGroupOutput({
     this.hooksNotCleanedUp,
   });
-  factory DeleteDeploymentGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDeploymentGroupOutputFromJson(json);
+
+  factory DeleteDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteDeploymentGroupOutput(
+      hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hooksNotCleanedUp = this.hooksNotCleanedUp;
+    return {
+      if (hooksNotCleanedUp != null) 'hooksNotCleanedUp': hooksNotCleanedUp,
+    };
+  }
 }
 
 /// Represents the output of a <code>DeleteGitHubAccountToken</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGitHubAccountTokenOutput {
   /// The name of the GitHub account connection that was deleted.
-  @_s.JsonKey(name: 'tokenName')
-  final String tokenName;
+  final String? tokenName;
 
   DeleteGitHubAccountTokenOutput({
     this.tokenName,
   });
-  factory DeleteGitHubAccountTokenOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGitHubAccountTokenOutputFromJson(json);
+
+  factory DeleteGitHubAccountTokenOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteGitHubAccountTokenOutput(
+      tokenName: json['tokenName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tokenName = this.tokenName;
+    return {
+      if (tokenName != null) 'tokenName': tokenName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourcesByExternalIdOutput {
   DeleteResourcesByExternalIdOutput();
-  factory DeleteResourcesByExternalIdOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteResourcesByExternalIdOutputFromJson(json);
+
+  factory DeleteResourcesByExternalIdOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteResourcesByExternalIdOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about a deployment configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentConfigInfo {
   /// The destination platform type for the deployment (<code>Lambda</code>,
   /// <code>Server</code>, or <code>ECS</code>).
-  @_s.JsonKey(name: 'computePlatform')
-  final ComputePlatform computePlatform;
+  final ComputePlatform? computePlatform;
 
   /// The time at which the deployment configuration was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The deployment configuration ID.
-  @_s.JsonKey(name: 'deploymentConfigId')
-  final String deploymentConfigId;
+  final String? deploymentConfigId;
 
   /// The deployment configuration name.
-  @_s.JsonKey(name: 'deploymentConfigName')
-  final String deploymentConfigName;
+  final String? deploymentConfigName;
 
   /// Information about the number or percentage of minimum healthy instance.
-  @_s.JsonKey(name: 'minimumHealthyHosts')
-  final MinimumHealthyHosts minimumHealthyHosts;
+  final MinimumHealthyHosts? minimumHealthyHosts;
 
   /// The configuration that specifies how the deployment traffic is routed. Used
   /// for deployments with a Lambda or ECS compute platform only.
-  @_s.JsonKey(name: 'trafficRoutingConfig')
-  final TrafficRoutingConfig trafficRoutingConfig;
+  final TrafficRoutingConfig? trafficRoutingConfig;
 
   DeploymentConfigInfo({
     this.computePlatform,
@@ -3529,134 +3807,194 @@ class DeploymentConfigInfo {
     this.minimumHealthyHosts,
     this.trafficRoutingConfig,
   });
-  factory DeploymentConfigInfo.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentConfigInfoFromJson(json);
+
+  factory DeploymentConfigInfo.fromJson(Map<String, dynamic> json) {
+    return DeploymentConfigInfo(
+      computePlatform:
+          (json['computePlatform'] as String?)?.toComputePlatform(),
+      createTime: timeStampFromJson(json['createTime']),
+      deploymentConfigId: json['deploymentConfigId'] as String?,
+      deploymentConfigName: json['deploymentConfigName'] as String?,
+      minimumHealthyHosts: json['minimumHealthyHosts'] != null
+          ? MinimumHealthyHosts.fromJson(
+              json['minimumHealthyHosts'] as Map<String, dynamic>)
+          : null,
+      trafficRoutingConfig: json['trafficRoutingConfig'] != null
+          ? TrafficRoutingConfig.fromJson(
+              json['trafficRoutingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computePlatform = this.computePlatform;
+    final createTime = this.createTime;
+    final deploymentConfigId = this.deploymentConfigId;
+    final deploymentConfigName = this.deploymentConfigName;
+    final minimumHealthyHosts = this.minimumHealthyHosts;
+    final trafficRoutingConfig = this.trafficRoutingConfig;
+    return {
+      if (computePlatform != null) 'computePlatform': computePlatform.toValue(),
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (deploymentConfigId != null) 'deploymentConfigId': deploymentConfigId,
+      if (deploymentConfigName != null)
+        'deploymentConfigName': deploymentConfigName,
+      if (minimumHealthyHosts != null)
+        'minimumHealthyHosts': minimumHealthyHosts,
+      if (trafficRoutingConfig != null)
+        'trafficRoutingConfig': trafficRoutingConfig,
+    };
+  }
 }
 
 enum DeploymentCreator {
-  @_s.JsonValue('user')
   user,
-  @_s.JsonValue('autoscaling')
   autoscaling,
-  @_s.JsonValue('codeDeployRollback')
   codeDeployRollback,
-  @_s.JsonValue('CodeDeploy')
   codeDeploy,
-  @_s.JsonValue('CloudFormation')
+  codeDeployAutoUpdate,
   cloudFormation,
-  @_s.JsonValue('CloudFormationRollback')
   cloudFormationRollback,
 }
 
+extension on DeploymentCreator {
+  String toValue() {
+    switch (this) {
+      case DeploymentCreator.user:
+        return 'user';
+      case DeploymentCreator.autoscaling:
+        return 'autoscaling';
+      case DeploymentCreator.codeDeployRollback:
+        return 'codeDeployRollback';
+      case DeploymentCreator.codeDeploy:
+        return 'CodeDeploy';
+      case DeploymentCreator.codeDeployAutoUpdate:
+        return 'CodeDeployAutoUpdate';
+      case DeploymentCreator.cloudFormation:
+        return 'CloudFormation';
+      case DeploymentCreator.cloudFormationRollback:
+        return 'CloudFormationRollback';
+    }
+  }
+}
+
+extension on String {
+  DeploymentCreator toDeploymentCreator() {
+    switch (this) {
+      case 'user':
+        return DeploymentCreator.user;
+      case 'autoscaling':
+        return DeploymentCreator.autoscaling;
+      case 'codeDeployRollback':
+        return DeploymentCreator.codeDeployRollback;
+      case 'CodeDeploy':
+        return DeploymentCreator.codeDeploy;
+      case 'CodeDeployAutoUpdate':
+        return DeploymentCreator.codeDeployAutoUpdate;
+      case 'CloudFormation':
+        return DeploymentCreator.cloudFormation;
+      case 'CloudFormationRollback':
+        return DeploymentCreator.cloudFormationRollback;
+    }
+    throw Exception('$this is not known in enum DeploymentCreator');
+  }
+}
+
 /// Information about a deployment group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentGroupInfo {
   /// A list of alarms associated with the deployment group.
-  @_s.JsonKey(name: 'alarmConfiguration')
-  final AlarmConfiguration alarmConfiguration;
+  final AlarmConfiguration? alarmConfiguration;
 
   /// The application name.
-  @_s.JsonKey(name: 'applicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// Information about the automatic rollback configuration associated with the
   /// deployment group.
-  @_s.JsonKey(name: 'autoRollbackConfiguration')
-  final AutoRollbackConfiguration autoRollbackConfiguration;
+  final AutoRollbackConfiguration? autoRollbackConfiguration;
 
   /// A list of associated Auto Scaling groups.
-  @_s.JsonKey(name: 'autoScalingGroups')
-  final List<AutoScalingGroup> autoScalingGroups;
+  final List<AutoScalingGroup>? autoScalingGroups;
 
   /// Information about blue/green deployment options for a deployment group.
-  @_s.JsonKey(name: 'blueGreenDeploymentConfiguration')
-  final BlueGreenDeploymentConfiguration blueGreenDeploymentConfiguration;
+  final BlueGreenDeploymentConfiguration? blueGreenDeploymentConfiguration;
 
   /// The destination platform type for the deployment (<code>Lambda</code>,
   /// <code>Server</code>, or <code>ECS</code>).
-  @_s.JsonKey(name: 'computePlatform')
-  final ComputePlatform computePlatform;
+  final ComputePlatform? computePlatform;
 
   /// The deployment configuration name.
-  @_s.JsonKey(name: 'deploymentConfigName')
-  final String deploymentConfigName;
+  final String? deploymentConfigName;
 
   /// The deployment group ID.
-  @_s.JsonKey(name: 'deploymentGroupId')
-  final String deploymentGroupId;
+  final String? deploymentGroupId;
 
   /// The deployment group name.
-  @_s.JsonKey(name: 'deploymentGroupName')
-  final String deploymentGroupName;
+  final String? deploymentGroupName;
 
   /// Information about the type of deployment, either in-place or blue/green, you
   /// want to run and whether to route deployment traffic behind a load balancer.
-  @_s.JsonKey(name: 'deploymentStyle')
-  final DeploymentStyle deploymentStyle;
+  final DeploymentStyle? deploymentStyle;
 
   /// The Amazon EC2 tags on which to filter. The deployment group includes EC2
   /// instances with any of the specified tags.
-  @_s.JsonKey(name: 'ec2TagFilters')
-  final List<EC2TagFilter> ec2TagFilters;
+  final List<EC2TagFilter>? ec2TagFilters;
 
   /// Information about groups of tags applied to an EC2 instance. The deployment
   /// group includes only EC2 instances identified by all of the tag groups.
   /// Cannot be used in the same call as ec2TagFilters.
-  @_s.JsonKey(name: 'ec2TagSet')
-  final EC2TagSet ec2TagSet;
+  final EC2TagSet? ec2TagSet;
 
   /// The target Amazon ECS services in the deployment group. This applies only to
   /// deployment groups that use the Amazon ECS compute platform. A target Amazon
   /// ECS service is specified as an Amazon ECS cluster and service name pair
   /// using the format <code>&lt;clustername&gt;:&lt;servicename&gt;</code>.
-  @_s.JsonKey(name: 'ecsServices')
-  final List<ECSService> ecsServices;
+  final List<ECSService>? ecsServices;
 
   /// Information about the most recent attempted deployment to the deployment
   /// group.
-  @_s.JsonKey(name: 'lastAttemptedDeployment')
-  final LastDeploymentInfo lastAttemptedDeployment;
+  final LastDeploymentInfo? lastAttemptedDeployment;
 
   /// Information about the most recent successful deployment to the deployment
   /// group.
-  @_s.JsonKey(name: 'lastSuccessfulDeployment')
-  final LastDeploymentInfo lastSuccessfulDeployment;
+  final LastDeploymentInfo? lastSuccessfulDeployment;
 
   /// Information about the load balancer to use in a deployment.
-  @_s.JsonKey(name: 'loadBalancerInfo')
-  final LoadBalancerInfo loadBalancerInfo;
+  final LoadBalancerInfo? loadBalancerInfo;
 
   /// The on-premises instance tags on which to filter. The deployment group
   /// includes on-premises instances with any of the specified tags.
-  @_s.JsonKey(name: 'onPremisesInstanceTagFilters')
-  final List<TagFilter> onPremisesInstanceTagFilters;
+  final List<TagFilter>? onPremisesInstanceTagFilters;
 
   /// Information about groups of tags applied to an on-premises instance. The
   /// deployment group includes only on-premises instances identified by all the
   /// tag groups. Cannot be used in the same call as onPremisesInstanceTagFilters.
-  @_s.JsonKey(name: 'onPremisesTagSet')
-  final OnPremisesTagSet onPremisesTagSet;
+  final OnPremisesTagSet? onPremisesTagSet;
+
+  /// Indicates what happens when new EC2 instances are launched mid-deployment
+  /// and do not receive the deployed application revision.
+  ///
+  /// If this option is set to <code>UPDATE</code> or is unspecified, CodeDeploy
+  /// initiates one or more 'auto-update outdated instances' deployments to apply
+  /// the deployed application revision to the new EC2 instances.
+  ///
+  /// If this option is set to <code>IGNORE</code>, CodeDeploy does not initiate a
+  /// deployment to update the new EC2 instances. This may result in instances
+  /// having different revisions.
+  final OutdatedInstancesStrategy? outdatedInstancesStrategy;
 
   /// A service role Amazon Resource Name (ARN) that grants CodeDeploy permission
   /// to make calls to AWS services on your behalf. For more information, see <a
   /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html">Create
   /// a Service Role for AWS CodeDeploy</a> in the <i>AWS CodeDeploy User
   /// Guide</i>.
-  @_s.JsonKey(name: 'serviceRoleArn')
-  final String serviceRoleArn;
+  final String? serviceRoleArn;
 
   /// Information about the deployment group's target revision, including type and
   /// location.
-  @_s.JsonKey(name: 'targetRevision')
-  final RevisionLocation targetRevision;
+  final RevisionLocation? targetRevision;
 
   /// Information about triggers associated with the deployment group.
-  @_s.JsonKey(name: 'triggerConfigurations')
-  final List<TriggerConfig> triggerConfigurations;
+  final List<TriggerConfig>? triggerConfigurations;
 
   DeploymentGroupInfo({
     this.alarmConfiguration,
@@ -3677,54 +4015,174 @@ class DeploymentGroupInfo {
     this.loadBalancerInfo,
     this.onPremisesInstanceTagFilters,
     this.onPremisesTagSet,
+    this.outdatedInstancesStrategy,
     this.serviceRoleArn,
     this.targetRevision,
     this.triggerConfigurations,
   });
-  factory DeploymentGroupInfo.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentGroupInfoFromJson(json);
+
+  factory DeploymentGroupInfo.fromJson(Map<String, dynamic> json) {
+    return DeploymentGroupInfo(
+      alarmConfiguration: json['alarmConfiguration'] != null
+          ? AlarmConfiguration.fromJson(
+              json['alarmConfiguration'] as Map<String, dynamic>)
+          : null,
+      applicationName: json['applicationName'] as String?,
+      autoRollbackConfiguration: json['autoRollbackConfiguration'] != null
+          ? AutoRollbackConfiguration.fromJson(
+              json['autoRollbackConfiguration'] as Map<String, dynamic>)
+          : null,
+      autoScalingGroups: (json['autoScalingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      blueGreenDeploymentConfiguration:
+          json['blueGreenDeploymentConfiguration'] != null
+              ? BlueGreenDeploymentConfiguration.fromJson(
+                  json['blueGreenDeploymentConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      computePlatform:
+          (json['computePlatform'] as String?)?.toComputePlatform(),
+      deploymentConfigName: json['deploymentConfigName'] as String?,
+      deploymentGroupId: json['deploymentGroupId'] as String?,
+      deploymentGroupName: json['deploymentGroupName'] as String?,
+      deploymentStyle: json['deploymentStyle'] != null
+          ? DeploymentStyle.fromJson(
+              json['deploymentStyle'] as Map<String, dynamic>)
+          : null,
+      ec2TagFilters: (json['ec2TagFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ec2TagSet: json['ec2TagSet'] != null
+          ? EC2TagSet.fromJson(json['ec2TagSet'] as Map<String, dynamic>)
+          : null,
+      ecsServices: (json['ecsServices'] as List?)
+          ?.whereNotNull()
+          .map((e) => ECSService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastAttemptedDeployment: json['lastAttemptedDeployment'] != null
+          ? LastDeploymentInfo.fromJson(
+              json['lastAttemptedDeployment'] as Map<String, dynamic>)
+          : null,
+      lastSuccessfulDeployment: json['lastSuccessfulDeployment'] != null
+          ? LastDeploymentInfo.fromJson(
+              json['lastSuccessfulDeployment'] as Map<String, dynamic>)
+          : null,
+      loadBalancerInfo: json['loadBalancerInfo'] != null
+          ? LoadBalancerInfo.fromJson(
+              json['loadBalancerInfo'] as Map<String, dynamic>)
+          : null,
+      onPremisesInstanceTagFilters:
+          (json['onPremisesInstanceTagFilters'] as List?)
+              ?.whereNotNull()
+              .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      onPremisesTagSet: json['onPremisesTagSet'] != null
+          ? OnPremisesTagSet.fromJson(
+              json['onPremisesTagSet'] as Map<String, dynamic>)
+          : null,
+      outdatedInstancesStrategy: (json['outdatedInstancesStrategy'] as String?)
+          ?.toOutdatedInstancesStrategy(),
+      serviceRoleArn: json['serviceRoleArn'] as String?,
+      targetRevision: json['targetRevision'] != null
+          ? RevisionLocation.fromJson(
+              json['targetRevision'] as Map<String, dynamic>)
+          : null,
+      triggerConfigurations: (json['triggerConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => TriggerConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alarmConfiguration = this.alarmConfiguration;
+    final applicationName = this.applicationName;
+    final autoRollbackConfiguration = this.autoRollbackConfiguration;
+    final autoScalingGroups = this.autoScalingGroups;
+    final blueGreenDeploymentConfiguration =
+        this.blueGreenDeploymentConfiguration;
+    final computePlatform = this.computePlatform;
+    final deploymentConfigName = this.deploymentConfigName;
+    final deploymentGroupId = this.deploymentGroupId;
+    final deploymentGroupName = this.deploymentGroupName;
+    final deploymentStyle = this.deploymentStyle;
+    final ec2TagFilters = this.ec2TagFilters;
+    final ec2TagSet = this.ec2TagSet;
+    final ecsServices = this.ecsServices;
+    final lastAttemptedDeployment = this.lastAttemptedDeployment;
+    final lastSuccessfulDeployment = this.lastSuccessfulDeployment;
+    final loadBalancerInfo = this.loadBalancerInfo;
+    final onPremisesInstanceTagFilters = this.onPremisesInstanceTagFilters;
+    final onPremisesTagSet = this.onPremisesTagSet;
+    final outdatedInstancesStrategy = this.outdatedInstancesStrategy;
+    final serviceRoleArn = this.serviceRoleArn;
+    final targetRevision = this.targetRevision;
+    final triggerConfigurations = this.triggerConfigurations;
+    return {
+      if (alarmConfiguration != null) 'alarmConfiguration': alarmConfiguration,
+      if (applicationName != null) 'applicationName': applicationName,
+      if (autoRollbackConfiguration != null)
+        'autoRollbackConfiguration': autoRollbackConfiguration,
+      if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
+      if (blueGreenDeploymentConfiguration != null)
+        'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
+      if (computePlatform != null) 'computePlatform': computePlatform.toValue(),
+      if (deploymentConfigName != null)
+        'deploymentConfigName': deploymentConfigName,
+      if (deploymentGroupId != null) 'deploymentGroupId': deploymentGroupId,
+      if (deploymentGroupName != null)
+        'deploymentGroupName': deploymentGroupName,
+      if (deploymentStyle != null) 'deploymentStyle': deploymentStyle,
+      if (ec2TagFilters != null) 'ec2TagFilters': ec2TagFilters,
+      if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
+      if (ecsServices != null) 'ecsServices': ecsServices,
+      if (lastAttemptedDeployment != null)
+        'lastAttemptedDeployment': lastAttemptedDeployment,
+      if (lastSuccessfulDeployment != null)
+        'lastSuccessfulDeployment': lastSuccessfulDeployment,
+      if (loadBalancerInfo != null) 'loadBalancerInfo': loadBalancerInfo,
+      if (onPremisesInstanceTagFilters != null)
+        'onPremisesInstanceTagFilters': onPremisesInstanceTagFilters,
+      if (onPremisesTagSet != null) 'onPremisesTagSet': onPremisesTagSet,
+      if (outdatedInstancesStrategy != null)
+        'outdatedInstancesStrategy': outdatedInstancesStrategy.toValue(),
+      if (serviceRoleArn != null) 'serviceRoleArn': serviceRoleArn,
+      if (targetRevision != null) 'targetRevision': targetRevision,
+      if (triggerConfigurations != null)
+        'triggerConfigurations': triggerConfigurations,
+    };
+  }
 }
 
 /// Information about a deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentInfo {
   /// Provides information about the results of a deployment, such as whether
   /// instances in the original environment in a blue/green deployment were not
   /// terminated.
-  @_s.JsonKey(name: 'additionalDeploymentStatusInfo')
-  final String additionalDeploymentStatusInfo;
+  final String? additionalDeploymentStatusInfo;
 
   /// The application name.
-  @_s.JsonKey(name: 'applicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// Information about the automatic rollback configuration associated with the
   /// deployment.
-  @_s.JsonKey(name: 'autoRollbackConfiguration')
-  final AutoRollbackConfiguration autoRollbackConfiguration;
+  final AutoRollbackConfiguration? autoRollbackConfiguration;
 
   /// Information about blue/green deployment options for this deployment.
-  @_s.JsonKey(name: 'blueGreenDeploymentConfiguration')
-  final BlueGreenDeploymentConfiguration blueGreenDeploymentConfiguration;
+  final BlueGreenDeploymentConfiguration? blueGreenDeploymentConfiguration;
 
   /// A timestamp that indicates when the deployment was complete.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'completeTime')
-  final DateTime completeTime;
+  final DateTime? completeTime;
 
   /// The destination platform type for the deployment (<code>Lambda</code>,
   /// <code>Server</code>, or <code>ECS</code>).
-  @_s.JsonKey(name: 'computePlatform')
-  final ComputePlatform computePlatform;
+  final ComputePlatform? computePlatform;
 
   /// A timestamp that indicates when the deployment was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The means by which the deployment was created:
   ///
@@ -3738,47 +4196,41 @@ class DeploymentInfo {
   /// <li>
   /// <code>codeDeployRollback</code>: A rollback process created the deployment.
   /// </li>
+  /// <li>
+  /// <code>CodeDeployAutoUpdate</code>: An auto-update process created the
+  /// deployment when it detected outdated EC2 instances.
+  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'creator')
-  final DeploymentCreator creator;
+  final DeploymentCreator? creator;
 
   /// The deployment configuration name.
-  @_s.JsonKey(name: 'deploymentConfigName')
-  final String deploymentConfigName;
+  final String? deploymentConfigName;
 
   /// The deployment group name.
-  @_s.JsonKey(name: 'deploymentGroupName')
-  final String deploymentGroupName;
+  final String? deploymentGroupName;
 
   /// The unique ID of a deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// A summary of the deployment status of the instances in the deployment.
-  @_s.JsonKey(name: 'deploymentOverview')
-  final DeploymentOverview deploymentOverview;
+  final DeploymentOverview? deploymentOverview;
 
   /// Messages that contain information about the status of a deployment.
-  @_s.JsonKey(name: 'deploymentStatusMessages')
-  final List<String> deploymentStatusMessages;
+  final List<String>? deploymentStatusMessages;
 
   /// Information about the type of deployment, either in-place or blue/green, you
   /// want to run and whether to route deployment traffic behind a load balancer.
-  @_s.JsonKey(name: 'deploymentStyle')
-  final DeploymentStyle deploymentStyle;
+  final DeploymentStyle? deploymentStyle;
 
   /// A comment about the deployment.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Information about any error associated with this deployment.
-  @_s.JsonKey(name: 'errorInformation')
-  final ErrorInformation errorInformation;
+  final ErrorInformation? errorInformation;
 
   /// The unique ID for an external resource (for example, a CloudFormation stack
   /// ID) that is linked to this deployment.
-  @_s.JsonKey(name: 'externalId')
-  final String externalId;
+  final String? externalId;
 
   /// Information about how AWS CodeDeploy handles files that already exist in a
   /// deployment target location but weren't part of the previous successful
@@ -3799,8 +4251,7 @@ class DeploymentInfo {
   /// and used as part of the new deployment.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'fileExistsBehavior')
-  final FileExistsBehavior fileExistsBehavior;
+  final FileExistsBehavior? fileExistsBehavior;
 
   /// If true, then if an <code>ApplicationStop</code>,
   /// <code>BeforeBlockTraffic</code>, or <code>AfterBlockTraffic</code>
@@ -3829,33 +4280,28 @@ class DeploymentInfo {
   /// <code>ignoreApplicationStopFailures</code> to specify that the
   /// <code>ApplicationStop</code>, <code>BeforeBlockTraffic</code>, and
   /// <code>AfterBlockTraffic</code> failures should be ignored.
-  @_s.JsonKey(name: 'ignoreApplicationStopFailures')
-  final bool ignoreApplicationStopFailures;
+  final bool? ignoreApplicationStopFailures;
 
   /// Indicates whether the wait period set for the termination of instances in
   /// the original environment has started. Status is 'false' if the KEEP_ALIVE
   /// option is specified. Otherwise, 'true' as soon as the termination wait
   /// period starts.
-  @_s.JsonKey(name: 'instanceTerminationWaitTimeStarted')
-  final bool instanceTerminationWaitTimeStarted;
+  final bool? instanceTerminationWaitTimeStarted;
 
   /// Information about the load balancer used in the deployment.
-  @_s.JsonKey(name: 'loadBalancerInfo')
-  final LoadBalancerInfo loadBalancerInfo;
+  final LoadBalancerInfo? loadBalancerInfo;
 
   /// Information about the application revision that was deployed to the
   /// deployment group before the most recent successful deployment.
-  @_s.JsonKey(name: 'previousRevision')
-  final RevisionLocation previousRevision;
+  final RevisionLocation? previousRevision;
+  final RelatedDeployments? relatedDeployments;
 
   /// Information about the location of stored application artifacts and the
   /// service from which to retrieve them.
-  @_s.JsonKey(name: 'revision')
-  final RevisionLocation revision;
+  final RevisionLocation? revision;
 
   /// Information about a deployment rollback.
-  @_s.JsonKey(name: 'rollbackInfo')
-  final RollbackInfo rollbackInfo;
+  final RollbackInfo? rollbackInfo;
 
   /// A timestamp that indicates when the deployment was deployed to the
   /// deployment group.
@@ -3863,23 +4309,18 @@ class DeploymentInfo {
   /// In some cases, the reported value of the start time might be later than the
   /// complete time. This is due to differences in the clock settings of backend
   /// servers that participate in the deployment process.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The current state of the deployment as a whole.
-  @_s.JsonKey(name: 'status')
-  final DeploymentStatus status;
+  final DeploymentStatus? status;
 
   /// Information about the instances that belong to the replacement environment
   /// in a blue/green deployment.
-  @_s.JsonKey(name: 'targetInstances')
-  final TargetInstances targetInstances;
+  final TargetInstances? targetInstances;
 
   /// Indicates whether only instances that are not running the latest application
   /// revision are to be deployed to.
-  @_s.JsonKey(name: 'updateOutdatedInstancesOnly')
-  final bool updateOutdatedInstancesOnly;
+  final bool? updateOutdatedInstancesOnly;
 
   DeploymentInfo({
     this.additionalDeploymentStatusInfo,
@@ -3904,6 +4345,7 @@ class DeploymentInfo {
     this.instanceTerminationWaitTimeStarted,
     this.loadBalancerInfo,
     this.previousRevision,
+    this.relatedDeployments,
     this.revision,
     this.rollbackInfo,
     this.startTime,
@@ -3911,49 +4353,209 @@ class DeploymentInfo {
     this.targetInstances,
     this.updateOutdatedInstancesOnly,
   });
-  factory DeploymentInfo.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentInfoFromJson(json);
+
+  factory DeploymentInfo.fromJson(Map<String, dynamic> json) {
+    return DeploymentInfo(
+      additionalDeploymentStatusInfo:
+          json['additionalDeploymentStatusInfo'] as String?,
+      applicationName: json['applicationName'] as String?,
+      autoRollbackConfiguration: json['autoRollbackConfiguration'] != null
+          ? AutoRollbackConfiguration.fromJson(
+              json['autoRollbackConfiguration'] as Map<String, dynamic>)
+          : null,
+      blueGreenDeploymentConfiguration:
+          json['blueGreenDeploymentConfiguration'] != null
+              ? BlueGreenDeploymentConfiguration.fromJson(
+                  json['blueGreenDeploymentConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      completeTime: timeStampFromJson(json['completeTime']),
+      computePlatform:
+          (json['computePlatform'] as String?)?.toComputePlatform(),
+      createTime: timeStampFromJson(json['createTime']),
+      creator: (json['creator'] as String?)?.toDeploymentCreator(),
+      deploymentConfigName: json['deploymentConfigName'] as String?,
+      deploymentGroupName: json['deploymentGroupName'] as String?,
+      deploymentId: json['deploymentId'] as String?,
+      deploymentOverview: json['deploymentOverview'] != null
+          ? DeploymentOverview.fromJson(
+              json['deploymentOverview'] as Map<String, dynamic>)
+          : null,
+      deploymentStatusMessages: (json['deploymentStatusMessages'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      deploymentStyle: json['deploymentStyle'] != null
+          ? DeploymentStyle.fromJson(
+              json['deploymentStyle'] as Map<String, dynamic>)
+          : null,
+      description: json['description'] as String?,
+      errorInformation: json['errorInformation'] != null
+          ? ErrorInformation.fromJson(
+              json['errorInformation'] as Map<String, dynamic>)
+          : null,
+      externalId: json['externalId'] as String?,
+      fileExistsBehavior:
+          (json['fileExistsBehavior'] as String?)?.toFileExistsBehavior(),
+      ignoreApplicationStopFailures:
+          json['ignoreApplicationStopFailures'] as bool?,
+      instanceTerminationWaitTimeStarted:
+          json['instanceTerminationWaitTimeStarted'] as bool?,
+      loadBalancerInfo: json['loadBalancerInfo'] != null
+          ? LoadBalancerInfo.fromJson(
+              json['loadBalancerInfo'] as Map<String, dynamic>)
+          : null,
+      previousRevision: json['previousRevision'] != null
+          ? RevisionLocation.fromJson(
+              json['previousRevision'] as Map<String, dynamic>)
+          : null,
+      relatedDeployments: json['relatedDeployments'] != null
+          ? RelatedDeployments.fromJson(
+              json['relatedDeployments'] as Map<String, dynamic>)
+          : null,
+      revision: json['revision'] != null
+          ? RevisionLocation.fromJson(json['revision'] as Map<String, dynamic>)
+          : null,
+      rollbackInfo: json['rollbackInfo'] != null
+          ? RollbackInfo.fromJson(json['rollbackInfo'] as Map<String, dynamic>)
+          : null,
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.toDeploymentStatus(),
+      targetInstances: json['targetInstances'] != null
+          ? TargetInstances.fromJson(
+              json['targetInstances'] as Map<String, dynamic>)
+          : null,
+      updateOutdatedInstancesOnly: json['updateOutdatedInstancesOnly'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalDeploymentStatusInfo = this.additionalDeploymentStatusInfo;
+    final applicationName = this.applicationName;
+    final autoRollbackConfiguration = this.autoRollbackConfiguration;
+    final blueGreenDeploymentConfiguration =
+        this.blueGreenDeploymentConfiguration;
+    final completeTime = this.completeTime;
+    final computePlatform = this.computePlatform;
+    final createTime = this.createTime;
+    final creator = this.creator;
+    final deploymentConfigName = this.deploymentConfigName;
+    final deploymentGroupName = this.deploymentGroupName;
+    final deploymentId = this.deploymentId;
+    final deploymentOverview = this.deploymentOverview;
+    final deploymentStatusMessages = this.deploymentStatusMessages;
+    final deploymentStyle = this.deploymentStyle;
+    final description = this.description;
+    final errorInformation = this.errorInformation;
+    final externalId = this.externalId;
+    final fileExistsBehavior = this.fileExistsBehavior;
+    final ignoreApplicationStopFailures = this.ignoreApplicationStopFailures;
+    final instanceTerminationWaitTimeStarted =
+        this.instanceTerminationWaitTimeStarted;
+    final loadBalancerInfo = this.loadBalancerInfo;
+    final previousRevision = this.previousRevision;
+    final relatedDeployments = this.relatedDeployments;
+    final revision = this.revision;
+    final rollbackInfo = this.rollbackInfo;
+    final startTime = this.startTime;
+    final status = this.status;
+    final targetInstances = this.targetInstances;
+    final updateOutdatedInstancesOnly = this.updateOutdatedInstancesOnly;
+    return {
+      if (additionalDeploymentStatusInfo != null)
+        'additionalDeploymentStatusInfo': additionalDeploymentStatusInfo,
+      if (applicationName != null) 'applicationName': applicationName,
+      if (autoRollbackConfiguration != null)
+        'autoRollbackConfiguration': autoRollbackConfiguration,
+      if (blueGreenDeploymentConfiguration != null)
+        'blueGreenDeploymentConfiguration': blueGreenDeploymentConfiguration,
+      if (completeTime != null)
+        'completeTime': unixTimestampToJson(completeTime),
+      if (computePlatform != null) 'computePlatform': computePlatform.toValue(),
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (creator != null) 'creator': creator.toValue(),
+      if (deploymentConfigName != null)
+        'deploymentConfigName': deploymentConfigName,
+      if (deploymentGroupName != null)
+        'deploymentGroupName': deploymentGroupName,
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (deploymentOverview != null) 'deploymentOverview': deploymentOverview,
+      if (deploymentStatusMessages != null)
+        'deploymentStatusMessages': deploymentStatusMessages,
+      if (deploymentStyle != null) 'deploymentStyle': deploymentStyle,
+      if (description != null) 'description': description,
+      if (errorInformation != null) 'errorInformation': errorInformation,
+      if (externalId != null) 'externalId': externalId,
+      if (fileExistsBehavior != null)
+        'fileExistsBehavior': fileExistsBehavior.toValue(),
+      if (ignoreApplicationStopFailures != null)
+        'ignoreApplicationStopFailures': ignoreApplicationStopFailures,
+      if (instanceTerminationWaitTimeStarted != null)
+        'instanceTerminationWaitTimeStarted':
+            instanceTerminationWaitTimeStarted,
+      if (loadBalancerInfo != null) 'loadBalancerInfo': loadBalancerInfo,
+      if (previousRevision != null) 'previousRevision': previousRevision,
+      if (relatedDeployments != null) 'relatedDeployments': relatedDeployments,
+      if (revision != null) 'revision': revision,
+      if (rollbackInfo != null) 'rollbackInfo': rollbackInfo,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.toValue(),
+      if (targetInstances != null) 'targetInstances': targetInstances,
+      if (updateOutdatedInstancesOnly != null)
+        'updateOutdatedInstancesOnly': updateOutdatedInstancesOnly,
+    };
+  }
 }
 
 enum DeploymentOption {
-  @_s.JsonValue('WITH_TRAFFIC_CONTROL')
   withTrafficControl,
-  @_s.JsonValue('WITHOUT_TRAFFIC_CONTROL')
   withoutTrafficControl,
 }
 
+extension on DeploymentOption {
+  String toValue() {
+    switch (this) {
+      case DeploymentOption.withTrafficControl:
+        return 'WITH_TRAFFIC_CONTROL';
+      case DeploymentOption.withoutTrafficControl:
+        return 'WITHOUT_TRAFFIC_CONTROL';
+    }
+  }
+}
+
+extension on String {
+  DeploymentOption toDeploymentOption() {
+    switch (this) {
+      case 'WITH_TRAFFIC_CONTROL':
+        return DeploymentOption.withTrafficControl;
+      case 'WITHOUT_TRAFFIC_CONTROL':
+        return DeploymentOption.withoutTrafficControl;
+    }
+    throw Exception('$this is not known in enum DeploymentOption');
+  }
+}
+
 /// Information about the deployment status of the instances in the deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentOverview {
   /// The number of instances in the deployment in a failed state.
-  @_s.JsonKey(name: 'Failed')
-  final int failed;
+  final int? failed;
 
   /// The number of instances in which the deployment is in progress.
-  @_s.JsonKey(name: 'InProgress')
-  final int inProgress;
+  final int? inProgress;
 
   /// The number of instances in the deployment in a pending state.
-  @_s.JsonKey(name: 'Pending')
-  final int pending;
+  final int? pending;
 
   /// The number of instances in a replacement environment ready to receive
   /// traffic in a blue/green deployment.
-  @_s.JsonKey(name: 'Ready')
-  final int ready;
+  final int? ready;
 
   /// The number of instances in the deployment in a skipped state.
-  @_s.JsonKey(name: 'Skipped')
-  final int skipped;
+  final int? skipped;
 
   /// The number of instances in the deployment to which revisions have been
   /// successfully deployed.
-  @_s.JsonKey(name: 'Succeeded')
-  final int succeeded;
+  final int? succeeded;
 
   DeploymentOverview({
     this.failed,
@@ -3963,24 +4565,66 @@ class DeploymentOverview {
     this.skipped,
     this.succeeded,
   });
-  factory DeploymentOverview.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentOverviewFromJson(json);
+
+  factory DeploymentOverview.fromJson(Map<String, dynamic> json) {
+    return DeploymentOverview(
+      failed: json['Failed'] as int?,
+      inProgress: json['InProgress'] as int?,
+      pending: json['Pending'] as int?,
+      ready: json['Ready'] as int?,
+      skipped: json['Skipped'] as int?,
+      succeeded: json['Succeeded'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failed = this.failed;
+    final inProgress = this.inProgress;
+    final pending = this.pending;
+    final ready = this.ready;
+    final skipped = this.skipped;
+    final succeeded = this.succeeded;
+    return {
+      if (failed != null) 'Failed': failed,
+      if (inProgress != null) 'InProgress': inProgress,
+      if (pending != null) 'Pending': pending,
+      if (ready != null) 'Ready': ready,
+      if (skipped != null) 'Skipped': skipped,
+      if (succeeded != null) 'Succeeded': succeeded,
+    };
+  }
 }
 
 enum DeploymentReadyAction {
-  @_s.JsonValue('CONTINUE_DEPLOYMENT')
   continueDeployment,
-  @_s.JsonValue('STOP_DEPLOYMENT')
   stopDeployment,
+}
+
+extension on DeploymentReadyAction {
+  String toValue() {
+    switch (this) {
+      case DeploymentReadyAction.continueDeployment:
+        return 'CONTINUE_DEPLOYMENT';
+      case DeploymentReadyAction.stopDeployment:
+        return 'STOP_DEPLOYMENT';
+    }
+  }
+}
+
+extension on String {
+  DeploymentReadyAction toDeploymentReadyAction() {
+    switch (this) {
+      case 'CONTINUE_DEPLOYMENT':
+        return DeploymentReadyAction.continueDeployment;
+      case 'STOP_DEPLOYMENT':
+        return DeploymentReadyAction.stopDeployment;
+    }
+    throw Exception('$this is not known in enum DeploymentReadyAction');
+  }
 }
 
 /// Information about how traffic is rerouted to instances in a replacement
 /// environment in a blue/green deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeploymentReadyOption {
   /// Information about when to reroute traffic from an original environment to a
   /// replacement environment in a blue/green deployment.
@@ -3998,41 +4642,44 @@ class DeploymentReadyOption {
   /// deployment status is changed to Stopped.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'actionOnTimeout')
-  final DeploymentReadyAction actionOnTimeout;
+  final DeploymentReadyAction? actionOnTimeout;
 
   /// The number of minutes to wait before the status of a blue/green deployment
   /// is changed to Stopped if rerouting is not started manually. Applies only to
   /// the <code>STOP_DEPLOYMENT</code> option for <code>actionOnTimeout</code>.
-  @_s.JsonKey(name: 'waitTimeInMinutes')
-  final int waitTimeInMinutes;
+  final int? waitTimeInMinutes;
 
   DeploymentReadyOption({
     this.actionOnTimeout,
     this.waitTimeInMinutes,
   });
-  factory DeploymentReadyOption.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentReadyOptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeploymentReadyOptionToJson(this);
+  factory DeploymentReadyOption.fromJson(Map<String, dynamic> json) {
+    return DeploymentReadyOption(
+      actionOnTimeout:
+          (json['actionOnTimeout'] as String?)?.toDeploymentReadyAction(),
+      waitTimeInMinutes: json['waitTimeInMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionOnTimeout = this.actionOnTimeout;
+    final waitTimeInMinutes = this.waitTimeInMinutes;
+    return {
+      if (actionOnTimeout != null) 'actionOnTimeout': actionOnTimeout.toValue(),
+      if (waitTimeInMinutes != null) 'waitTimeInMinutes': waitTimeInMinutes,
+    };
+  }
 }
 
 enum DeploymentStatus {
-  @_s.JsonValue('Created')
   created,
-  @_s.JsonValue('Queued')
   queued,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Baking')
   baking,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Stopped')
   stopped,
-  @_s.JsonValue('Ready')
   ready,
 }
 
@@ -4056,65 +4703,85 @@ extension on DeploymentStatus {
       case DeploymentStatus.ready:
         return 'Ready';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DeploymentStatus toDeploymentStatus() {
+    switch (this) {
+      case 'Created':
+        return DeploymentStatus.created;
+      case 'Queued':
+        return DeploymentStatus.queued;
+      case 'InProgress':
+        return DeploymentStatus.inProgress;
+      case 'Baking':
+        return DeploymentStatus.baking;
+      case 'Succeeded':
+        return DeploymentStatus.succeeded;
+      case 'Failed':
+        return DeploymentStatus.failed;
+      case 'Stopped':
+        return DeploymentStatus.stopped;
+      case 'Ready':
+        return DeploymentStatus.ready;
+    }
+    throw Exception('$this is not known in enum DeploymentStatus');
   }
 }
 
 /// Information about the type of deployment, either in-place or blue/green, you
 /// want to run and whether to route deployment traffic behind a load balancer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeploymentStyle {
   /// Indicates whether to route deployment traffic behind a load balancer.
-  @_s.JsonKey(name: 'deploymentOption')
-  final DeploymentOption deploymentOption;
+  final DeploymentOption? deploymentOption;
 
   /// Indicates whether to run an in-place deployment or a blue/green deployment.
-  @_s.JsonKey(name: 'deploymentType')
-  final DeploymentType deploymentType;
+  final DeploymentType? deploymentType;
 
   DeploymentStyle({
     this.deploymentOption,
     this.deploymentType,
   });
-  factory DeploymentStyle.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentStyleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeploymentStyleToJson(this);
+  factory DeploymentStyle.fromJson(Map<String, dynamic> json) {
+    return DeploymentStyle(
+      deploymentOption:
+          (json['deploymentOption'] as String?)?.toDeploymentOption(),
+      deploymentType: (json['deploymentType'] as String?)?.toDeploymentType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentOption = this.deploymentOption;
+    final deploymentType = this.deploymentType;
+    return {
+      if (deploymentOption != null)
+        'deploymentOption': deploymentOption.toValue(),
+      if (deploymentType != null) 'deploymentType': deploymentType.toValue(),
+    };
+  }
 }
 
 /// Information about the deployment target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeploymentTarget {
-  @_s.JsonKey(name: 'cloudFormationTarget')
-  final CloudFormationTarget cloudFormationTarget;
+  final CloudFormationTarget? cloudFormationTarget;
 
   /// The deployment type that is specific to the deployment's compute platform or
   /// deployments initiated by a CloudFormation stack update.
-  @_s.JsonKey(name: 'deploymentTargetType')
-  final DeploymentTargetType deploymentTargetType;
+  final DeploymentTargetType? deploymentTargetType;
 
   /// Information about the target for a deployment that uses the Amazon ECS
   /// compute platform.
-  @_s.JsonKey(name: 'ecsTarget')
-  final ECSTarget ecsTarget;
+  final ECSTarget? ecsTarget;
 
   /// Information about the target for a deployment that uses the EC2/On-premises
   /// compute platform.
-  @_s.JsonKey(name: 'instanceTarget')
-  final InstanceTarget instanceTarget;
+  final InstanceTarget? instanceTarget;
 
   /// Information about the target for a deployment that uses the AWS Lambda
   /// compute platform.
-  @_s.JsonKey(name: 'lambdaTarget')
-  final LambdaTarget lambdaTarget;
+  final LambdaTarget? lambdaTarget;
 
   DeploymentTarget({
     this.cloudFormationTarget,
@@ -4123,32 +4790,114 @@ class DeploymentTarget {
     this.instanceTarget,
     this.lambdaTarget,
   });
-  factory DeploymentTarget.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentTargetFromJson(json);
+
+  factory DeploymentTarget.fromJson(Map<String, dynamic> json) {
+    return DeploymentTarget(
+      cloudFormationTarget: json['cloudFormationTarget'] != null
+          ? CloudFormationTarget.fromJson(
+              json['cloudFormationTarget'] as Map<String, dynamic>)
+          : null,
+      deploymentTargetType:
+          (json['deploymentTargetType'] as String?)?.toDeploymentTargetType(),
+      ecsTarget: json['ecsTarget'] != null
+          ? ECSTarget.fromJson(json['ecsTarget'] as Map<String, dynamic>)
+          : null,
+      instanceTarget: json['instanceTarget'] != null
+          ? InstanceTarget.fromJson(
+              json['instanceTarget'] as Map<String, dynamic>)
+          : null,
+      lambdaTarget: json['lambdaTarget'] != null
+          ? LambdaTarget.fromJson(json['lambdaTarget'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudFormationTarget = this.cloudFormationTarget;
+    final deploymentTargetType = this.deploymentTargetType;
+    final ecsTarget = this.ecsTarget;
+    final instanceTarget = this.instanceTarget;
+    final lambdaTarget = this.lambdaTarget;
+    return {
+      if (cloudFormationTarget != null)
+        'cloudFormationTarget': cloudFormationTarget,
+      if (deploymentTargetType != null)
+        'deploymentTargetType': deploymentTargetType.toValue(),
+      if (ecsTarget != null) 'ecsTarget': ecsTarget,
+      if (instanceTarget != null) 'instanceTarget': instanceTarget,
+      if (lambdaTarget != null) 'lambdaTarget': lambdaTarget,
+    };
+  }
 }
 
 enum DeploymentTargetType {
-  @_s.JsonValue('InstanceTarget')
   instanceTarget,
-  @_s.JsonValue('LambdaTarget')
   lambdaTarget,
-  @_s.JsonValue('ECSTarget')
   eCSTarget,
-  @_s.JsonValue('CloudFormationTarget')
   cloudFormationTarget,
 }
 
+extension on DeploymentTargetType {
+  String toValue() {
+    switch (this) {
+      case DeploymentTargetType.instanceTarget:
+        return 'InstanceTarget';
+      case DeploymentTargetType.lambdaTarget:
+        return 'LambdaTarget';
+      case DeploymentTargetType.eCSTarget:
+        return 'ECSTarget';
+      case DeploymentTargetType.cloudFormationTarget:
+        return 'CloudFormationTarget';
+    }
+  }
+}
+
+extension on String {
+  DeploymentTargetType toDeploymentTargetType() {
+    switch (this) {
+      case 'InstanceTarget':
+        return DeploymentTargetType.instanceTarget;
+      case 'LambdaTarget':
+        return DeploymentTargetType.lambdaTarget;
+      case 'ECSTarget':
+        return DeploymentTargetType.eCSTarget;
+      case 'CloudFormationTarget':
+        return DeploymentTargetType.cloudFormationTarget;
+    }
+    throw Exception('$this is not known in enum DeploymentTargetType');
+  }
+}
+
 enum DeploymentType {
-  @_s.JsonValue('IN_PLACE')
   inPlace,
-  @_s.JsonValue('BLUE_GREEN')
   blueGreen,
 }
 
+extension on DeploymentType {
+  String toValue() {
+    switch (this) {
+      case DeploymentType.inPlace:
+        return 'IN_PLACE';
+      case DeploymentType.blueGreen:
+        return 'BLUE_GREEN';
+    }
+  }
+}
+
+extension on String {
+  DeploymentType toDeploymentType() {
+    switch (this) {
+      case 'IN_PLACE':
+        return DeploymentType.inPlace;
+      case 'BLUE_GREEN':
+        return DeploymentType.blueGreen;
+    }
+    throw Exception('$this is not known in enum DeploymentType');
+  }
+}
+
 enum DeploymentWaitType {
-  @_s.JsonValue('READY_WAIT')
   readyWait,
-  @_s.JsonValue('TERMINATION_WAIT')
   terminationWait,
 }
 
@@ -4160,17 +4909,23 @@ extension on DeploymentWaitType {
       case DeploymentWaitType.terminationWait:
         return 'TERMINATION_WAIT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DeploymentWaitType toDeploymentWaitType() {
+    switch (this) {
+      case 'READY_WAIT':
+        return DeploymentWaitType.readyWait;
+      case 'TERMINATION_WAIT':
+        return DeploymentWaitType.terminationWait;
+    }
+    throw Exception('$this is not known in enum DeploymentWaitType');
   }
 }
 
 /// Diagnostic information about executable scripts that are part of a
 /// deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Diagnostics {
   /// The associated error code:
   ///
@@ -4196,23 +4951,19 @@ class Diagnostics {
   /// UnknownError: The specified script did not run for an unknown reason.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'errorCode')
-  final LifecycleErrorCode errorCode;
+  final LifecycleErrorCode? errorCode;
 
   /// The last portion of the diagnostic log.
   ///
   /// If available, AWS CodeDeploy returns up to the last 4 KB of the diagnostic
   /// log.
-  @_s.JsonKey(name: 'logTail')
-  final String logTail;
+  final String? logTail;
 
   /// The message associated with the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The name of the script.
-  @_s.JsonKey(name: 'scriptName')
-  final String scriptName;
+  final String? scriptName;
 
   Diagnostics({
     this.errorCode,
@@ -4220,20 +4971,34 @@ class Diagnostics {
     this.message,
     this.scriptName,
   });
-  factory Diagnostics.fromJson(Map<String, dynamic> json) =>
-      _$DiagnosticsFromJson(json);
+
+  factory Diagnostics.fromJson(Map<String, dynamic> json) {
+    return Diagnostics(
+      errorCode: (json['errorCode'] as String?)?.toLifecycleErrorCode(),
+      logTail: json['logTail'] as String?,
+      message: json['message'] as String?,
+      scriptName: json['scriptName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final logTail = this.logTail;
+    final message = this.message;
+    final scriptName = this.scriptName;
+    return {
+      if (errorCode != null) 'errorCode': errorCode.toValue(),
+      if (logTail != null) 'logTail': logTail,
+      if (message != null) 'message': message,
+      if (scriptName != null) 'scriptName': scriptName,
+    };
+  }
 }
 
 /// Information about an EC2 tag filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EC2TagFilter {
   /// The tag filter key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The tag filter type:
   ///
@@ -4248,119 +5013,157 @@ class EC2TagFilter {
   /// <code>KEY_AND_VALUE</code>: Key and value.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final EC2TagFilterType type;
+  final EC2TagFilterType? type;
 
   /// The tag filter value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   EC2TagFilter({
     this.key,
     this.type,
     this.value,
   });
-  factory EC2TagFilter.fromJson(Map<String, dynamic> json) =>
-      _$EC2TagFilterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EC2TagFilterToJson(this);
+  factory EC2TagFilter.fromJson(Map<String, dynamic> json) {
+    return EC2TagFilter(
+      key: json['Key'] as String?,
+      type: (json['Type'] as String?)?.toEC2TagFilterType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum EC2TagFilterType {
-  @_s.JsonValue('KEY_ONLY')
   keyOnly,
-  @_s.JsonValue('VALUE_ONLY')
   valueOnly,
-  @_s.JsonValue('KEY_AND_VALUE')
   keyAndValue,
 }
 
+extension on EC2TagFilterType {
+  String toValue() {
+    switch (this) {
+      case EC2TagFilterType.keyOnly:
+        return 'KEY_ONLY';
+      case EC2TagFilterType.valueOnly:
+        return 'VALUE_ONLY';
+      case EC2TagFilterType.keyAndValue:
+        return 'KEY_AND_VALUE';
+    }
+  }
+}
+
+extension on String {
+  EC2TagFilterType toEC2TagFilterType() {
+    switch (this) {
+      case 'KEY_ONLY':
+        return EC2TagFilterType.keyOnly;
+      case 'VALUE_ONLY':
+        return EC2TagFilterType.valueOnly;
+      case 'KEY_AND_VALUE':
+        return EC2TagFilterType.keyAndValue;
+    }
+    throw Exception('$this is not known in enum EC2TagFilterType');
+  }
+}
+
 /// Information about groups of EC2 instance tags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EC2TagSet {
   /// A list that contains other lists of EC2 instance tag groups. For an instance
   /// to be included in the deployment group, it must be identified by all of the
   /// tag groups in the list.
-  @_s.JsonKey(name: 'ec2TagSetList')
-  final List<List<EC2TagFilter>> ec2TagSetList;
+  final List<List<EC2TagFilter>>? ec2TagSetList;
 
   EC2TagSet({
     this.ec2TagSetList,
   });
-  factory EC2TagSet.fromJson(Map<String, dynamic> json) =>
-      _$EC2TagSetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EC2TagSetToJson(this);
+  factory EC2TagSet.fromJson(Map<String, dynamic> json) {
+    return EC2TagSet(
+      ec2TagSetList: (json['ec2TagSetList'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as List)
+              .whereNotNull()
+              .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ec2TagSetList = this.ec2TagSetList;
+    return {
+      if (ec2TagSetList != null) 'ec2TagSetList': ec2TagSetList,
+    };
+  }
 }
 
 /// Contains the service and cluster names used to identify an Amazon ECS
 /// deployment's target.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ECSService {
   /// The name of the cluster that the Amazon ECS service is associated with.
-  @_s.JsonKey(name: 'clusterName')
-  final String clusterName;
+  final String? clusterName;
 
   /// The name of the target Amazon ECS service.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   ECSService({
     this.clusterName,
     this.serviceName,
   });
-  factory ECSService.fromJson(Map<String, dynamic> json) =>
-      _$ECSServiceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ECSServiceToJson(this);
+  factory ECSService.fromJson(Map<String, dynamic> json) {
+    return ECSService(
+      clusterName: json['clusterName'] as String?,
+      serviceName: json['serviceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterName = this.clusterName;
+    final serviceName = this.serviceName;
+    return {
+      if (clusterName != null) 'clusterName': clusterName,
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
 }
 
 /// Information about the target of an Amazon ECS deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ECSTarget {
   /// The unique ID of a deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The date and time when the target Amazon ECS application was updated by a
   /// deployment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The lifecycle events of the deployment to this target Amazon ECS
   /// application.
-  @_s.JsonKey(name: 'lifecycleEvents')
-  final List<LifecycleEvent> lifecycleEvents;
+  final List<LifecycleEvent>? lifecycleEvents;
 
   /// The status an Amazon ECS deployment's target ECS application.
-  @_s.JsonKey(name: 'status')
-  final TargetStatus status;
+  final TargetStatus? status;
 
   /// The Amazon Resource Name (ARN) of the target.
-  @_s.JsonKey(name: 'targetArn')
-  final String targetArn;
+  final String? targetArn;
 
   /// The unique ID of a deployment target that has a type of
   /// <code>ecsTarget</code>.
-  @_s.JsonKey(name: 'targetId')
-  final String targetId;
+  final String? targetId;
 
   /// The <code>ECSTaskSet</code> objects associated with the ECS target.
-  @_s.JsonKey(name: 'taskSetsInfo')
-  final List<ECSTaskSet> taskSetsInfo;
+  final List<ECSTaskSet>? taskSetsInfo;
 
   ECSTarget({
     this.deploymentId,
@@ -4371,8 +5174,44 @@ class ECSTarget {
     this.targetId,
     this.taskSetsInfo,
   });
-  factory ECSTarget.fromJson(Map<String, dynamic> json) =>
-      _$ECSTargetFromJson(json);
+
+  factory ECSTarget.fromJson(Map<String, dynamic> json) {
+    return ECSTarget(
+      deploymentId: json['deploymentId'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.toTargetStatus(),
+      targetArn: json['targetArn'] as String?,
+      targetId: json['targetId'] as String?,
+      taskSetsInfo: (json['taskSetsInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => ECSTaskSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    final targetId = this.targetId;
+    final taskSetsInfo = this.taskSetsInfo;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.toValue(),
+      if (targetArn != null) 'targetArn': targetArn,
+      if (targetId != null) 'targetId': targetId,
+      if (taskSetsInfo != null) 'taskSetsInfo': taskSetsInfo,
+    };
+  }
 }
 
 /// Information about a set of Amazon ECS tasks in an AWS CodeDeploy deployment.
@@ -4381,36 +5220,27 @@ class ECSTarget {
 /// traffic. An AWS CodeDeploy application that uses the Amazon ECS compute
 /// platform deploys a containerized application in an Amazon ECS service as a
 /// task set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ECSTaskSet {
   /// The number of tasks in a task set. During a deployment that uses the Amazon
   /// ECS compute type, CodeDeploy instructs Amazon ECS to create a new task set
   /// and uses this value to determine how many tasks to create. After the updated
   /// task set is created, CodeDeploy shifts traffic to the new task set.
-  @_s.JsonKey(name: 'desiredCount')
-  final int desiredCount;
+  final int? desiredCount;
 
   /// A unique ID of an <code>ECSTaskSet</code>.
-  @_s.JsonKey(name: 'identifer')
-  final String identifer;
+  final String? identifer;
 
   /// The number of tasks in the task set that are in the <code>PENDING</code>
   /// status during an Amazon ECS deployment. A task in the <code>PENDING</code>
   /// state is preparing to enter the <code>RUNNING</code> state. A task set
   /// enters the <code>PENDING</code> status when it launches for the first time,
   /// or when it is restarted after being in the <code>STOPPED</code> state.
-  @_s.JsonKey(name: 'pendingCount')
-  final int pendingCount;
+  final int? pendingCount;
 
   /// The number of tasks in the task set that are in the <code>RUNNING</code>
   /// status during an Amazon ECS deployment. A task in the <code>RUNNING</code>
   /// state is running and ready for use.
-  @_s.JsonKey(name: 'runningCount')
-  final int runningCount;
+  final int? runningCount;
 
   /// The status of the task set. There are three valid task set statuses:
   ///
@@ -4428,22 +5258,18 @@ class ECSTaskSet {
   /// group.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The target group associated with the task set. The target group is used by
   /// AWS CodeDeploy to manage traffic to a task set.
-  @_s.JsonKey(name: 'targetGroup')
-  final TargetGroupInfo targetGroup;
+  final TargetGroupInfo? targetGroup;
 
   /// A label that identifies whether the ECS task set is an original target
   /// (<code>BLUE</code>) or a replacement target (<code>GREEN</code>).
-  @_s.JsonKey(name: 'taskSetLabel')
-  final TargetLabel taskSetLabel;
+  final TargetLabel? taskSetLabel;
 
   /// The percentage of traffic served by this task set.
-  @_s.JsonKey(name: 'trafficWeight')
-  final double trafficWeight;
+  final double? trafficWeight;
 
   ECSTaskSet({
     this.desiredCount,
@@ -4455,18 +5281,48 @@ class ECSTaskSet {
     this.taskSetLabel,
     this.trafficWeight,
   });
-  factory ECSTaskSet.fromJson(Map<String, dynamic> json) =>
-      _$ECSTaskSetFromJson(json);
+
+  factory ECSTaskSet.fromJson(Map<String, dynamic> json) {
+    return ECSTaskSet(
+      desiredCount: json['desiredCount'] as int?,
+      identifer: json['identifer'] as String?,
+      pendingCount: json['pendingCount'] as int?,
+      runningCount: json['runningCount'] as int?,
+      status: json['status'] as String?,
+      targetGroup: json['targetGroup'] != null
+          ? TargetGroupInfo.fromJson(
+              json['targetGroup'] as Map<String, dynamic>)
+          : null,
+      taskSetLabel: (json['taskSetLabel'] as String?)?.toTargetLabel(),
+      trafficWeight: json['trafficWeight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final desiredCount = this.desiredCount;
+    final identifer = this.identifer;
+    final pendingCount = this.pendingCount;
+    final runningCount = this.runningCount;
+    final status = this.status;
+    final targetGroup = this.targetGroup;
+    final taskSetLabel = this.taskSetLabel;
+    final trafficWeight = this.trafficWeight;
+    return {
+      if (desiredCount != null) 'desiredCount': desiredCount,
+      if (identifer != null) 'identifer': identifer,
+      if (pendingCount != null) 'pendingCount': pendingCount,
+      if (runningCount != null) 'runningCount': runningCount,
+      if (status != null) 'status': status,
+      if (targetGroup != null) 'targetGroup': targetGroup,
+      if (taskSetLabel != null) 'taskSetLabel': taskSetLabel.toValue(),
+      if (trafficWeight != null) 'trafficWeight': trafficWeight,
+    };
+  }
 }
 
 /// Information about a load balancer in Elastic Load Balancing to use in a
 /// deployment. Instances are registered directly with a load balancer, and
 /// traffic is routed to the load balancer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ELBInfo {
   /// For blue/green deployments, the name of the load balancer that is used to
   /// route traffic from original instances to replacement instances in a
@@ -4474,95 +5330,215 @@ class ELBInfo {
   /// balancer that instances are deregistered from so they are not serving
   /// traffic during a deployment, and then re-registered with after the
   /// deployment is complete.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   ELBInfo({
     this.name,
   });
-  factory ELBInfo.fromJson(Map<String, dynamic> json) =>
-      _$ELBInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ELBInfoToJson(this);
+  factory ELBInfo.fromJson(Map<String, dynamic> json) {
+    return ELBInfo(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 enum ErrorCode {
-  @_s.JsonValue('AGENT_ISSUE')
   agentIssue,
-  @_s.JsonValue('ALARM_ACTIVE')
   alarmActive,
-  @_s.JsonValue('APPLICATION_MISSING')
   applicationMissing,
-  @_s.JsonValue('AUTOSCALING_VALIDATION_ERROR')
   autoscalingValidationError,
-  @_s.JsonValue('AUTO_SCALING_CONFIGURATION')
   autoScalingConfiguration,
-  @_s.JsonValue('AUTO_SCALING_IAM_ROLE_PERMISSIONS')
   autoScalingIamRolePermissions,
-  @_s.JsonValue('CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND')
   codedeployResourceCannotBeFound,
-  @_s.JsonValue('CUSTOMER_APPLICATION_UNHEALTHY')
   customerApplicationUnhealthy,
-  @_s.JsonValue('DEPLOYMENT_GROUP_MISSING')
   deploymentGroupMissing,
-  @_s.JsonValue('ECS_UPDATE_ERROR')
   ecsUpdateError,
-  @_s.JsonValue('ELASTIC_LOAD_BALANCING_INVALID')
   elasticLoadBalancingInvalid,
-  @_s.JsonValue('ELB_INVALID_INSTANCE')
   elbInvalidInstance,
-  @_s.JsonValue('HEALTH_CONSTRAINTS')
   healthConstraints,
-  @_s.JsonValue('HEALTH_CONSTRAINTS_INVALID')
   healthConstraintsInvalid,
-  @_s.JsonValue('HOOK_EXECUTION_FAILURE')
   hookExecutionFailure,
-  @_s.JsonValue('IAM_ROLE_MISSING')
   iamRoleMissing,
-  @_s.JsonValue('IAM_ROLE_PERMISSIONS')
   iamRolePermissions,
-  @_s.JsonValue('INTERNAL_ERROR')
   internalError,
-  @_s.JsonValue('INVALID_ECS_SERVICE')
   invalidEcsService,
-  @_s.JsonValue('INVALID_LAMBDA_CONFIGURATION')
   invalidLambdaConfiguration,
-  @_s.JsonValue('INVALID_LAMBDA_FUNCTION')
   invalidLambdaFunction,
-  @_s.JsonValue('INVALID_REVISION')
   invalidRevision,
-  @_s.JsonValue('MANUAL_STOP')
   manualStop,
-  @_s.JsonValue('MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION')
   missingBlueGreenDeploymentConfiguration,
-  @_s.JsonValue('MISSING_ELB_INFORMATION')
   missingElbInformation,
-  @_s.JsonValue('MISSING_GITHUB_TOKEN')
   missingGithubToken,
-  @_s.JsonValue('NO_EC2_SUBSCRIPTION')
   noEc2Subscription,
-  @_s.JsonValue('NO_INSTANCES')
   noInstances,
-  @_s.JsonValue('OVER_MAX_INSTANCES')
   overMaxInstances,
-  @_s.JsonValue('RESOURCE_LIMIT_EXCEEDED')
   resourceLimitExceeded,
-  @_s.JsonValue('REVISION_MISSING')
   revisionMissing,
-  @_s.JsonValue('THROTTLED')
   throttled,
-  @_s.JsonValue('TIMEOUT')
   timeout,
-  @_s.JsonValue('CLOUDFORMATION_STACK_FAILURE')
   cloudformationStackFailure,
 }
 
+extension on ErrorCode {
+  String toValue() {
+    switch (this) {
+      case ErrorCode.agentIssue:
+        return 'AGENT_ISSUE';
+      case ErrorCode.alarmActive:
+        return 'ALARM_ACTIVE';
+      case ErrorCode.applicationMissing:
+        return 'APPLICATION_MISSING';
+      case ErrorCode.autoscalingValidationError:
+        return 'AUTOSCALING_VALIDATION_ERROR';
+      case ErrorCode.autoScalingConfiguration:
+        return 'AUTO_SCALING_CONFIGURATION';
+      case ErrorCode.autoScalingIamRolePermissions:
+        return 'AUTO_SCALING_IAM_ROLE_PERMISSIONS';
+      case ErrorCode.codedeployResourceCannotBeFound:
+        return 'CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND';
+      case ErrorCode.customerApplicationUnhealthy:
+        return 'CUSTOMER_APPLICATION_UNHEALTHY';
+      case ErrorCode.deploymentGroupMissing:
+        return 'DEPLOYMENT_GROUP_MISSING';
+      case ErrorCode.ecsUpdateError:
+        return 'ECS_UPDATE_ERROR';
+      case ErrorCode.elasticLoadBalancingInvalid:
+        return 'ELASTIC_LOAD_BALANCING_INVALID';
+      case ErrorCode.elbInvalidInstance:
+        return 'ELB_INVALID_INSTANCE';
+      case ErrorCode.healthConstraints:
+        return 'HEALTH_CONSTRAINTS';
+      case ErrorCode.healthConstraintsInvalid:
+        return 'HEALTH_CONSTRAINTS_INVALID';
+      case ErrorCode.hookExecutionFailure:
+        return 'HOOK_EXECUTION_FAILURE';
+      case ErrorCode.iamRoleMissing:
+        return 'IAM_ROLE_MISSING';
+      case ErrorCode.iamRolePermissions:
+        return 'IAM_ROLE_PERMISSIONS';
+      case ErrorCode.internalError:
+        return 'INTERNAL_ERROR';
+      case ErrorCode.invalidEcsService:
+        return 'INVALID_ECS_SERVICE';
+      case ErrorCode.invalidLambdaConfiguration:
+        return 'INVALID_LAMBDA_CONFIGURATION';
+      case ErrorCode.invalidLambdaFunction:
+        return 'INVALID_LAMBDA_FUNCTION';
+      case ErrorCode.invalidRevision:
+        return 'INVALID_REVISION';
+      case ErrorCode.manualStop:
+        return 'MANUAL_STOP';
+      case ErrorCode.missingBlueGreenDeploymentConfiguration:
+        return 'MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION';
+      case ErrorCode.missingElbInformation:
+        return 'MISSING_ELB_INFORMATION';
+      case ErrorCode.missingGithubToken:
+        return 'MISSING_GITHUB_TOKEN';
+      case ErrorCode.noEc2Subscription:
+        return 'NO_EC2_SUBSCRIPTION';
+      case ErrorCode.noInstances:
+        return 'NO_INSTANCES';
+      case ErrorCode.overMaxInstances:
+        return 'OVER_MAX_INSTANCES';
+      case ErrorCode.resourceLimitExceeded:
+        return 'RESOURCE_LIMIT_EXCEEDED';
+      case ErrorCode.revisionMissing:
+        return 'REVISION_MISSING';
+      case ErrorCode.throttled:
+        return 'THROTTLED';
+      case ErrorCode.timeout:
+        return 'TIMEOUT';
+      case ErrorCode.cloudformationStackFailure:
+        return 'CLOUDFORMATION_STACK_FAILURE';
+    }
+  }
+}
+
+extension on String {
+  ErrorCode toErrorCode() {
+    switch (this) {
+      case 'AGENT_ISSUE':
+        return ErrorCode.agentIssue;
+      case 'ALARM_ACTIVE':
+        return ErrorCode.alarmActive;
+      case 'APPLICATION_MISSING':
+        return ErrorCode.applicationMissing;
+      case 'AUTOSCALING_VALIDATION_ERROR':
+        return ErrorCode.autoscalingValidationError;
+      case 'AUTO_SCALING_CONFIGURATION':
+        return ErrorCode.autoScalingConfiguration;
+      case 'AUTO_SCALING_IAM_ROLE_PERMISSIONS':
+        return ErrorCode.autoScalingIamRolePermissions;
+      case 'CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND':
+        return ErrorCode.codedeployResourceCannotBeFound;
+      case 'CUSTOMER_APPLICATION_UNHEALTHY':
+        return ErrorCode.customerApplicationUnhealthy;
+      case 'DEPLOYMENT_GROUP_MISSING':
+        return ErrorCode.deploymentGroupMissing;
+      case 'ECS_UPDATE_ERROR':
+        return ErrorCode.ecsUpdateError;
+      case 'ELASTIC_LOAD_BALANCING_INVALID':
+        return ErrorCode.elasticLoadBalancingInvalid;
+      case 'ELB_INVALID_INSTANCE':
+        return ErrorCode.elbInvalidInstance;
+      case 'HEALTH_CONSTRAINTS':
+        return ErrorCode.healthConstraints;
+      case 'HEALTH_CONSTRAINTS_INVALID':
+        return ErrorCode.healthConstraintsInvalid;
+      case 'HOOK_EXECUTION_FAILURE':
+        return ErrorCode.hookExecutionFailure;
+      case 'IAM_ROLE_MISSING':
+        return ErrorCode.iamRoleMissing;
+      case 'IAM_ROLE_PERMISSIONS':
+        return ErrorCode.iamRolePermissions;
+      case 'INTERNAL_ERROR':
+        return ErrorCode.internalError;
+      case 'INVALID_ECS_SERVICE':
+        return ErrorCode.invalidEcsService;
+      case 'INVALID_LAMBDA_CONFIGURATION':
+        return ErrorCode.invalidLambdaConfiguration;
+      case 'INVALID_LAMBDA_FUNCTION':
+        return ErrorCode.invalidLambdaFunction;
+      case 'INVALID_REVISION':
+        return ErrorCode.invalidRevision;
+      case 'MANUAL_STOP':
+        return ErrorCode.manualStop;
+      case 'MISSING_BLUE_GREEN_DEPLOYMENT_CONFIGURATION':
+        return ErrorCode.missingBlueGreenDeploymentConfiguration;
+      case 'MISSING_ELB_INFORMATION':
+        return ErrorCode.missingElbInformation;
+      case 'MISSING_GITHUB_TOKEN':
+        return ErrorCode.missingGithubToken;
+      case 'NO_EC2_SUBSCRIPTION':
+        return ErrorCode.noEc2Subscription;
+      case 'NO_INSTANCES':
+        return ErrorCode.noInstances;
+      case 'OVER_MAX_INSTANCES':
+        return ErrorCode.overMaxInstances;
+      case 'RESOURCE_LIMIT_EXCEEDED':
+        return ErrorCode.resourceLimitExceeded;
+      case 'REVISION_MISSING':
+        return ErrorCode.revisionMissing;
+      case 'THROTTLED':
+        return ErrorCode.throttled;
+      case 'TIMEOUT':
+        return ErrorCode.timeout;
+      case 'CLOUDFORMATION_STACK_FAILURE':
+        return ErrorCode.cloudformationStackFailure;
+    }
+    throw Exception('$this is not known in enum ErrorCode');
+  }
+}
+
 /// Information about a deployment error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorInformation {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/error-codes.html">Error
@@ -4623,27 +5599,36 @@ class ErrorInformation {
   /// but before it is started.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'code')
-  final ErrorCode code;
+  final ErrorCode? code;
 
   /// An accompanying error message.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   ErrorInformation({
     this.code,
     this.message,
   });
-  factory ErrorInformation.fromJson(Map<String, dynamic> json) =>
-      _$ErrorInformationFromJson(json);
+
+  factory ErrorInformation.fromJson(Map<String, dynamic> json) {
+    return ErrorInformation(
+      code: (json['code'] as String?)?.toErrorCode(),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'code': code.toValue(),
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 enum FileExistsBehavior {
-  @_s.JsonValue('DISALLOW')
   disallow,
-  @_s.JsonValue('OVERWRITE')
   overwrite,
-  @_s.JsonValue('RETAIN')
   retain,
 }
 
@@ -4657,39 +5642,39 @@ extension on FileExistsBehavior {
       case FileExistsBehavior.retain:
         return 'RETAIN';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FileExistsBehavior toFileExistsBehavior() {
+    switch (this) {
+      case 'DISALLOW':
+        return FileExistsBehavior.disallow;
+      case 'OVERWRITE':
+        return FileExistsBehavior.overwrite;
+      case 'RETAIN':
+        return FileExistsBehavior.retain;
+    }
+    throw Exception('$this is not known in enum FileExistsBehavior');
   }
 }
 
 /// Information about an application revision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenericRevisionInfo {
   /// The deployment groups for which this is the current target revision.
-  @_s.JsonKey(name: 'deploymentGroups')
-  final List<String> deploymentGroups;
+  final List<String>? deploymentGroups;
 
   /// A comment about the revision.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// When the revision was first used by AWS CodeDeploy.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'firstUsedTime')
-  final DateTime firstUsedTime;
+  final DateTime? firstUsedTime;
 
   /// When the revision was last used by AWS CodeDeploy.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUsedTime')
-  final DateTime lastUsedTime;
+  final DateTime? lastUsedTime;
 
   /// When the revision was registered with AWS CodeDeploy.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'registerTime')
-  final DateTime registerTime;
+  final DateTime? registerTime;
 
   GenericRevisionInfo({
     this.deploymentGroups,
@@ -4698,210 +5683,331 @@ class GenericRevisionInfo {
     this.lastUsedTime,
     this.registerTime,
   });
-  factory GenericRevisionInfo.fromJson(Map<String, dynamic> json) =>
-      _$GenericRevisionInfoFromJson(json);
+
+  factory GenericRevisionInfo.fromJson(Map<String, dynamic> json) {
+    return GenericRevisionInfo(
+      deploymentGroups: (json['deploymentGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String?,
+      firstUsedTime: timeStampFromJson(json['firstUsedTime']),
+      lastUsedTime: timeStampFromJson(json['lastUsedTime']),
+      registerTime: timeStampFromJson(json['registerTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentGroups = this.deploymentGroups;
+    final description = this.description;
+    final firstUsedTime = this.firstUsedTime;
+    final lastUsedTime = this.lastUsedTime;
+    final registerTime = this.registerTime;
+    return {
+      if (deploymentGroups != null) 'deploymentGroups': deploymentGroups,
+      if (description != null) 'description': description,
+      if (firstUsedTime != null)
+        'firstUsedTime': unixTimestampToJson(firstUsedTime),
+      if (lastUsedTime != null)
+        'lastUsedTime': unixTimestampToJson(lastUsedTime),
+      if (registerTime != null)
+        'registerTime': unixTimestampToJson(registerTime),
+    };
+  }
 }
 
 /// Represents the output of a <code>GetApplication</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApplicationOutput {
   /// Information about the application.
-  @_s.JsonKey(name: 'application')
-  final ApplicationInfo application;
+  final ApplicationInfo? application;
 
   GetApplicationOutput({
     this.application,
   });
-  factory GetApplicationOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetApplicationOutputFromJson(json);
+
+  factory GetApplicationOutput.fromJson(Map<String, dynamic> json) {
+    return GetApplicationOutput(
+      application: json['application'] != null
+          ? ApplicationInfo.fromJson(
+              json['application'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final application = this.application;
+    return {
+      if (application != null) 'application': application,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetApplicationRevision</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApplicationRevisionOutput {
   /// The name of the application that corresponds to the revision.
-  @_s.JsonKey(name: 'applicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// Additional information about the revision, including type and location.
-  @_s.JsonKey(name: 'revision')
-  final RevisionLocation revision;
+  final RevisionLocation? revision;
 
   /// General information about the revision.
-  @_s.JsonKey(name: 'revisionInfo')
-  final GenericRevisionInfo revisionInfo;
+  final GenericRevisionInfo? revisionInfo;
 
   GetApplicationRevisionOutput({
     this.applicationName,
     this.revision,
     this.revisionInfo,
   });
-  factory GetApplicationRevisionOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetApplicationRevisionOutputFromJson(json);
+
+  factory GetApplicationRevisionOutput.fromJson(Map<String, dynamic> json) {
+    return GetApplicationRevisionOutput(
+      applicationName: json['applicationName'] as String?,
+      revision: json['revision'] != null
+          ? RevisionLocation.fromJson(json['revision'] as Map<String, dynamic>)
+          : null,
+      revisionInfo: json['revisionInfo'] != null
+          ? GenericRevisionInfo.fromJson(
+              json['revisionInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final revision = this.revision;
+    final revisionInfo = this.revisionInfo;
+    return {
+      if (applicationName != null) 'applicationName': applicationName,
+      if (revision != null) 'revision': revision,
+      if (revisionInfo != null) 'revisionInfo': revisionInfo,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetDeploymentConfig</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentConfigOutput {
   /// Information about the deployment configuration.
-  @_s.JsonKey(name: 'deploymentConfigInfo')
-  final DeploymentConfigInfo deploymentConfigInfo;
+  final DeploymentConfigInfo? deploymentConfigInfo;
 
   GetDeploymentConfigOutput({
     this.deploymentConfigInfo,
   });
-  factory GetDeploymentConfigOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentConfigOutputFromJson(json);
+
+  factory GetDeploymentConfigOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentConfigOutput(
+      deploymentConfigInfo: json['deploymentConfigInfo'] != null
+          ? DeploymentConfigInfo.fromJson(
+              json['deploymentConfigInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentConfigInfo = this.deploymentConfigInfo;
+    return {
+      if (deploymentConfigInfo != null)
+        'deploymentConfigInfo': deploymentConfigInfo,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetDeploymentGroup</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentGroupOutput {
   /// Information about the deployment group.
-  @_s.JsonKey(name: 'deploymentGroupInfo')
-  final DeploymentGroupInfo deploymentGroupInfo;
+  final DeploymentGroupInfo? deploymentGroupInfo;
 
   GetDeploymentGroupOutput({
     this.deploymentGroupInfo,
   });
-  factory GetDeploymentGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentGroupOutputFromJson(json);
+
+  factory GetDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentGroupOutput(
+      deploymentGroupInfo: json['deploymentGroupInfo'] != null
+          ? DeploymentGroupInfo.fromJson(
+              json['deploymentGroupInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentGroupInfo = this.deploymentGroupInfo;
+    return {
+      if (deploymentGroupInfo != null)
+        'deploymentGroupInfo': deploymentGroupInfo,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetDeploymentInstance</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentInstanceOutput {
   /// Information about the instance.
-  @_s.JsonKey(name: 'instanceSummary')
-  final InstanceSummary instanceSummary;
+  final InstanceSummary? instanceSummary;
 
   GetDeploymentInstanceOutput({
     this.instanceSummary,
   });
-  factory GetDeploymentInstanceOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentInstanceOutputFromJson(json);
+
+  factory GetDeploymentInstanceOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentInstanceOutput(
+      instanceSummary: json['instanceSummary'] != null
+          ? InstanceSummary.fromJson(
+              json['instanceSummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceSummary = this.instanceSummary;
+    return {
+      if (instanceSummary != null) 'instanceSummary': instanceSummary,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetDeployment</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentOutput {
   /// Information about the deployment.
-  @_s.JsonKey(name: 'deploymentInfo')
-  final DeploymentInfo deploymentInfo;
+  final DeploymentInfo? deploymentInfo;
 
   GetDeploymentOutput({
     this.deploymentInfo,
   });
-  factory GetDeploymentOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentOutputFromJson(json);
+
+  factory GetDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentOutput(
+      deploymentInfo: json['deploymentInfo'] != null
+          ? DeploymentInfo.fromJson(
+              json['deploymentInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentInfo = this.deploymentInfo;
+    return {
+      if (deploymentInfo != null) 'deploymentInfo': deploymentInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentTargetOutput {
   /// A deployment target that contains information about a deployment such as its
   /// status, lifecycle events, and when it was last updated. It also contains
   /// metadata about the deployment target. The deployment target metadata depends
   /// on the deployment target's type (<code>instanceTarget</code>,
   /// <code>lambdaTarget</code>, or <code>ecsTarget</code>).
-  @_s.JsonKey(name: 'deploymentTarget')
-  final DeploymentTarget deploymentTarget;
+  final DeploymentTarget? deploymentTarget;
 
   GetDeploymentTargetOutput({
     this.deploymentTarget,
   });
-  factory GetDeploymentTargetOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentTargetOutputFromJson(json);
+
+  factory GetDeploymentTargetOutput.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentTargetOutput(
+      deploymentTarget: json['deploymentTarget'] != null
+          ? DeploymentTarget.fromJson(
+              json['deploymentTarget'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentTarget = this.deploymentTarget;
+    return {
+      if (deploymentTarget != null) 'deploymentTarget': deploymentTarget,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetOnPremisesInstance</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOnPremisesInstanceOutput {
   /// Information about the on-premises instance.
-  @_s.JsonKey(name: 'instanceInfo')
-  final InstanceInfo instanceInfo;
+  final InstanceInfo? instanceInfo;
 
   GetOnPremisesInstanceOutput({
     this.instanceInfo,
   });
-  factory GetOnPremisesInstanceOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetOnPremisesInstanceOutputFromJson(json);
+
+  factory GetOnPremisesInstanceOutput.fromJson(Map<String, dynamic> json) {
+    return GetOnPremisesInstanceOutput(
+      instanceInfo: json['instanceInfo'] != null
+          ? InstanceInfo.fromJson(json['instanceInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceInfo = this.instanceInfo;
+    return {
+      if (instanceInfo != null) 'instanceInfo': instanceInfo,
+    };
+  }
 }
 
 /// Information about the location of application artifacts stored in GitHub.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GitHubLocation {
   /// The SHA1 commit ID of the GitHub commit that represents the bundled
   /// artifacts for the application revision.
-  @_s.JsonKey(name: 'commitId')
-  final String commitId;
+  final String? commitId;
 
   /// The GitHub account and repository pair that stores a reference to the commit
   /// that represents the bundled artifacts for the application revision.
   ///
   /// Specified as account/repository.
-  @_s.JsonKey(name: 'repository')
-  final String repository;
+  final String? repository;
 
   GitHubLocation({
     this.commitId,
     this.repository,
   });
-  factory GitHubLocation.fromJson(Map<String, dynamic> json) =>
-      _$GitHubLocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GitHubLocationToJson(this);
+  factory GitHubLocation.fromJson(Map<String, dynamic> json) {
+    return GitHubLocation(
+      commitId: json['commitId'] as String?,
+      repository: json['repository'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final repository = this.repository;
+    return {
+      if (commitId != null) 'commitId': commitId,
+      if (repository != null) 'repository': repository,
+    };
+  }
 }
 
 enum GreenFleetProvisioningAction {
-  @_s.JsonValue('DISCOVER_EXISTING')
   discoverExisting,
-  @_s.JsonValue('COPY_AUTO_SCALING_GROUP')
   copyAutoScalingGroup,
+}
+
+extension on GreenFleetProvisioningAction {
+  String toValue() {
+    switch (this) {
+      case GreenFleetProvisioningAction.discoverExisting:
+        return 'DISCOVER_EXISTING';
+      case GreenFleetProvisioningAction.copyAutoScalingGroup:
+        return 'COPY_AUTO_SCALING_GROUP';
+    }
+  }
+}
+
+extension on String {
+  GreenFleetProvisioningAction toGreenFleetProvisioningAction() {
+    switch (this) {
+      case 'DISCOVER_EXISTING':
+        return GreenFleetProvisioningAction.discoverExisting;
+      case 'COPY_AUTO_SCALING_GROUP':
+        return GreenFleetProvisioningAction.copyAutoScalingGroup;
+    }
+    throw Exception('$this is not known in enum GreenFleetProvisioningAction');
+  }
 }
 
 /// Information about the instances that belong to the replacement environment
 /// in a blue/green deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GreenFleetProvisioningOption {
   /// The method used to add instances to a replacement environment.
   ///
@@ -4915,62 +6021,77 @@ class GreenFleetProvisioningOption {
   /// Scaling group to define and create instances in a new Auto Scaling group.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'action')
-  final GreenFleetProvisioningAction action;
+  final GreenFleetProvisioningAction? action;
 
   GreenFleetProvisioningOption({
     this.action,
   });
-  factory GreenFleetProvisioningOption.fromJson(Map<String, dynamic> json) =>
-      _$GreenFleetProvisioningOptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GreenFleetProvisioningOptionToJson(this);
+  factory GreenFleetProvisioningOption.fromJson(Map<String, dynamic> json) {
+    return GreenFleetProvisioningOption(
+      action: (json['action'] as String?)?.toGreenFleetProvisioningAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    return {
+      if (action != null) 'action': action.toValue(),
+    };
+  }
 }
 
 enum InstanceAction {
-  @_s.JsonValue('TERMINATE')
   terminate,
-  @_s.JsonValue('KEEP_ALIVE')
   keepAlive,
 }
 
+extension on InstanceAction {
+  String toValue() {
+    switch (this) {
+      case InstanceAction.terminate:
+        return 'TERMINATE';
+      case InstanceAction.keepAlive:
+        return 'KEEP_ALIVE';
+    }
+  }
+}
+
+extension on String {
+  InstanceAction toInstanceAction() {
+    switch (this) {
+      case 'TERMINATE':
+        return InstanceAction.terminate;
+      case 'KEEP_ALIVE':
+        return InstanceAction.keepAlive;
+    }
+    throw Exception('$this is not known in enum InstanceAction');
+  }
+}
+
 /// Information about an on-premises instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceInfo {
   /// If the on-premises instance was deregistered, the time at which the
   /// on-premises instance was deregistered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'deregisterTime')
-  final DateTime deregisterTime;
+  final DateTime? deregisterTime;
 
   /// The ARN of the IAM session associated with the on-premises instance.
-  @_s.JsonKey(name: 'iamSessionArn')
-  final String iamSessionArn;
+  final String? iamSessionArn;
 
   /// The IAM user ARN associated with the on-premises instance.
-  @_s.JsonKey(name: 'iamUserArn')
-  final String iamUserArn;
+  final String? iamUserArn;
 
   /// The ARN of the on-premises instance.
-  @_s.JsonKey(name: 'instanceArn')
-  final String instanceArn;
+  final String? instanceArn;
 
   /// The name of the on-premises instance.
-  @_s.JsonKey(name: 'instanceName')
-  final String instanceName;
+  final String? instanceName;
 
   /// The time at which the on-premises instance was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'registerTime')
-  final DateTime registerTime;
+  final DateTime? registerTime;
 
   /// The tags currently associated with the on-premises instance.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   InstanceInfo({
     this.deregisterTime,
@@ -4981,25 +6102,52 @@ class InstanceInfo {
     this.registerTime,
     this.tags,
   });
-  factory InstanceInfo.fromJson(Map<String, dynamic> json) =>
-      _$InstanceInfoFromJson(json);
+
+  factory InstanceInfo.fromJson(Map<String, dynamic> json) {
+    return InstanceInfo(
+      deregisterTime: timeStampFromJson(json['deregisterTime']),
+      iamSessionArn: json['iamSessionArn'] as String?,
+      iamUserArn: json['iamUserArn'] as String?,
+      instanceArn: json['instanceArn'] as String?,
+      instanceName: json['instanceName'] as String?,
+      registerTime: timeStampFromJson(json['registerTime']),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deregisterTime = this.deregisterTime;
+    final iamSessionArn = this.iamSessionArn;
+    final iamUserArn = this.iamUserArn;
+    final instanceArn = this.instanceArn;
+    final instanceName = this.instanceName;
+    final registerTime = this.registerTime;
+    final tags = this.tags;
+    return {
+      if (deregisterTime != null)
+        'deregisterTime': unixTimestampToJson(deregisterTime),
+      if (iamSessionArn != null) 'iamSessionArn': iamSessionArn,
+      if (iamUserArn != null) 'iamUserArn': iamUserArn,
+      if (instanceArn != null) 'instanceArn': instanceArn,
+      if (instanceName != null) 'instanceName': instanceName,
+      if (registerTime != null)
+        'registerTime': unixTimestampToJson(registerTime),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 @Deprecated('Deprecated')
 enum InstanceStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Skipped')
   skipped,
-  @_s.JsonValue('Unknown')
   unknown,
-  @_s.JsonValue('Ready')
   ready,
 }
 
@@ -5021,25 +6169,39 @@ extension on InstanceStatus {
       case InstanceStatus.ready:
         return 'Ready';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InstanceStatus toInstanceStatus() {
+    switch (this) {
+      case 'Pending':
+        return InstanceStatus.pending;
+      case 'InProgress':
+        return InstanceStatus.inProgress;
+      case 'Succeeded':
+        return InstanceStatus.succeeded;
+      case 'Failed':
+        return InstanceStatus.failed;
+      case 'Skipped':
+        return InstanceStatus.skipped;
+      case 'Unknown':
+        return InstanceStatus.unknown;
+      case 'Ready':
+        return InstanceStatus.ready;
+    }
+    throw Exception('$this is not known in enum InstanceStatus');
   }
 }
 
 /// Information about an instance in a deployment.
 @deprecated
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceSummary {
   /// The unique ID of a deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The instance ID.
-  @_s.JsonKey(name: 'instanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// Information about which environment an instance belongs to in a blue/green
   /// deployment.
@@ -5052,17 +6214,13 @@ class InstanceSummary {
   /// GREEN: The instance is part of the replacement environment.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'instanceType')
-  final InstanceType instanceType;
+  final InstanceType? instanceType;
 
   /// A timestamp that indicates when the instance information was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// A list of lifecycle events for this instance.
-  @_s.JsonKey(name: 'lifecycleEvents')
-  final List<LifecycleEvent> lifecycleEvents;
+  final List<LifecycleEvent>? lifecycleEvents;
 
   /// The deployment status for this instance:
   ///
@@ -5086,8 +6244,7 @@ class InstanceSummary {
   /// <code>Unknown</code>: The deployment status is unknown for this instance.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final InstanceStatus status;
+  final InstanceStatus? status;
 
   InstanceSummary({
     this.deploymentId,
@@ -5097,48 +6254,65 @@ class InstanceSummary {
     this.lifecycleEvents,
     this.status,
   });
-  factory InstanceSummary.fromJson(Map<String, dynamic> json) =>
-      _$InstanceSummaryFromJson(json);
+
+  factory InstanceSummary.fromJson(Map<String, dynamic> json) {
+    return InstanceSummary(
+      deploymentId: json['deploymentId'] as String?,
+      instanceId: json['instanceId'] as String?,
+      instanceType: (json['instanceType'] as String?)?.toInstanceType(),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.toInstanceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final instanceId = this.instanceId;
+    final instanceType = this.instanceType;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (instanceId != null) 'instanceId': instanceId,
+      if (instanceType != null) 'instanceType': instanceType.toValue(),
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// A target Amazon EC2 or on-premises instance during a deployment that uses
 /// the EC2/On-premises compute platform.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceTarget {
   /// The unique ID of a deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// A label that identifies whether the instance is an original target
   /// (<code>BLUE</code>) or a replacement target (<code>GREEN</code>).
-  @_s.JsonKey(name: 'instanceLabel')
-  final TargetLabel instanceLabel;
+  final TargetLabel? instanceLabel;
 
   /// The date and time when the target instance was updated by a deployment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The lifecycle events of the deployment to this target instance.
-  @_s.JsonKey(name: 'lifecycleEvents')
-  final List<LifecycleEvent> lifecycleEvents;
+  final List<LifecycleEvent>? lifecycleEvents;
 
   /// The status an EC2/On-premises deployment's target instance.
-  @_s.JsonKey(name: 'status')
-  final TargetStatus status;
+  final TargetStatus? status;
 
   /// The Amazon Resource Name (ARN) of the target.
-  @_s.JsonKey(name: 'targetArn')
-  final String targetArn;
+  final String? targetArn;
 
   /// The unique ID of a deployment target that has a type of
   /// <code>instanceTarget</code>.
-  @_s.JsonKey(name: 'targetId')
-  final String targetId;
+  final String? targetId;
 
   InstanceTarget({
     this.deploymentId,
@@ -5149,14 +6323,45 @@ class InstanceTarget {
     this.targetArn,
     this.targetId,
   });
-  factory InstanceTarget.fromJson(Map<String, dynamic> json) =>
-      _$InstanceTargetFromJson(json);
+
+  factory InstanceTarget.fromJson(Map<String, dynamic> json) {
+    return InstanceTarget(
+      deploymentId: json['deploymentId'] as String?,
+      instanceLabel: (json['instanceLabel'] as String?)?.toTargetLabel(),
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.toTargetStatus(),
+      targetArn: json['targetArn'] as String?,
+      targetId: json['targetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final instanceLabel = this.instanceLabel;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    final targetId = this.targetId;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (instanceLabel != null) 'instanceLabel': instanceLabel.toValue(),
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.toValue(),
+      if (targetArn != null) 'targetArn': targetArn,
+      if (targetId != null) 'targetId': targetId,
+    };
+  }
 }
 
 enum InstanceType {
-  @_s.JsonValue('Blue')
   blue,
-  @_s.JsonValue('Green')
   green,
 }
 
@@ -5168,40 +6373,41 @@ extension on InstanceType {
       case InstanceType.green:
         return 'Green';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InstanceType toInstanceType() {
+    switch (this) {
+      case 'Blue':
+        return InstanceType.blue;
+      case 'Green':
+        return InstanceType.green;
+    }
+    throw Exception('$this is not known in enum InstanceType');
   }
 }
 
 /// Information about a Lambda function specified in a deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionInfo {
   /// The version of a Lambda function that production traffic points to.
-  @_s.JsonKey(name: 'currentVersion')
-  final String currentVersion;
+  final String? currentVersion;
 
   /// The alias of a Lambda function. For more information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/aliases-intro.html">AWS
   /// Lambda Function Aliases</a> in the <i>AWS Lambda Developer Guide</i>.
-  @_s.JsonKey(name: 'functionAlias')
-  final String functionAlias;
+  final String? functionAlias;
 
   /// The name of a Lambda function.
-  @_s.JsonKey(name: 'functionName')
-  final String functionName;
+  final String? functionName;
 
   /// The version of a Lambda function that production traffic points to after the
   /// Lambda function is deployed.
-  @_s.JsonKey(name: 'targetVersion')
-  final String targetVersion;
+  final String? targetVersion;
 
   /// The percentage of production traffic that the target version of a Lambda
   /// function receives.
-  @_s.JsonKey(name: 'targetVersionWeight')
-  final double targetVersionWeight;
+  final double? targetVersionWeight;
 
   LambdaFunctionInfo({
     this.currentVersion,
@@ -5210,49 +6416,60 @@ class LambdaFunctionInfo {
     this.targetVersion,
     this.targetVersionWeight,
   });
-  factory LambdaFunctionInfo.fromJson(Map<String, dynamic> json) =>
-      _$LambdaFunctionInfoFromJson(json);
+
+  factory LambdaFunctionInfo.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionInfo(
+      currentVersion: json['currentVersion'] as String?,
+      functionAlias: json['functionAlias'] as String?,
+      functionName: json['functionName'] as String?,
+      targetVersion: json['targetVersion'] as String?,
+      targetVersionWeight: json['targetVersionWeight'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentVersion = this.currentVersion;
+    final functionAlias = this.functionAlias;
+    final functionName = this.functionName;
+    final targetVersion = this.targetVersion;
+    final targetVersionWeight = this.targetVersionWeight;
+    return {
+      if (currentVersion != null) 'currentVersion': currentVersion,
+      if (functionAlias != null) 'functionAlias': functionAlias,
+      if (functionName != null) 'functionName': functionName,
+      if (targetVersion != null) 'targetVersion': targetVersion,
+      if (targetVersionWeight != null)
+        'targetVersionWeight': targetVersionWeight,
+    };
+  }
 }
 
 /// Information about the target AWS Lambda function during an AWS Lambda
 /// deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaTarget {
   /// The unique ID of a deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// A <code>LambdaFunctionInfo</code> object that describes a target Lambda
   /// function.
-  @_s.JsonKey(name: 'lambdaFunctionInfo')
-  final LambdaFunctionInfo lambdaFunctionInfo;
+  final LambdaFunctionInfo? lambdaFunctionInfo;
 
   /// The date and time when the target Lambda function was updated by a
   /// deployment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The lifecycle events of the deployment to this target Lambda function.
-  @_s.JsonKey(name: 'lifecycleEvents')
-  final List<LifecycleEvent> lifecycleEvents;
+  final List<LifecycleEvent>? lifecycleEvents;
 
   /// The status an AWS Lambda deployment's target Lambda function.
-  @_s.JsonKey(name: 'status')
-  final TargetStatus status;
+  final TargetStatus? status;
 
   /// The Amazon Resource Name (ARN) of the target.
-  @_s.JsonKey(name: 'targetArn')
-  final String targetArn;
+  final String? targetArn;
 
   /// The unique ID of a deployment target that has a type of
   /// <code>lambdaTarget</code>.
-  @_s.JsonKey(name: 'targetId')
-  final String targetId;
+  final String? targetId;
 
   LambdaTarget({
     this.deploymentId,
@@ -5263,37 +6480,62 @@ class LambdaTarget {
     this.targetArn,
     this.targetId,
   });
-  factory LambdaTarget.fromJson(Map<String, dynamic> json) =>
-      _$LambdaTargetFromJson(json);
+
+  factory LambdaTarget.fromJson(Map<String, dynamic> json) {
+    return LambdaTarget(
+      deploymentId: json['deploymentId'] as String?,
+      lambdaFunctionInfo: json['lambdaFunctionInfo'] != null
+          ? LambdaFunctionInfo.fromJson(
+              json['lambdaFunctionInfo'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      lifecycleEvents: (json['lifecycleEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: (json['status'] as String?)?.toTargetStatus(),
+      targetArn: json['targetArn'] as String?,
+      targetId: json['targetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentId = this.deploymentId;
+    final lambdaFunctionInfo = this.lambdaFunctionInfo;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final lifecycleEvents = this.lifecycleEvents;
+    final status = this.status;
+    final targetArn = this.targetArn;
+    final targetId = this.targetId;
+    return {
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (lambdaFunctionInfo != null) 'lambdaFunctionInfo': lambdaFunctionInfo,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (lifecycleEvents != null) 'lifecycleEvents': lifecycleEvents,
+      if (status != null) 'status': status.toValue(),
+      if (targetArn != null) 'targetArn': targetArn,
+      if (targetId != null) 'targetId': targetId,
+    };
+  }
 }
 
 /// Information about the most recent attempted or successful deployment to a
 /// deployment group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LastDeploymentInfo {
   /// A timestamp that indicates when the most recent deployment to the deployment
   /// group started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
-  final DateTime createTime;
+  final DateTime? createTime;
 
   /// The unique ID of a deployment.
-  @_s.JsonKey(name: 'deploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// A timestamp that indicates when the most recent deployment to the deployment
   /// group was complete.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The status of the most recent deployment.
-  @_s.JsonKey(name: 'status')
-  final DeploymentStatus status;
+  final DeploymentStatus? status;
 
   LastDeploymentInfo({
     this.createTime,
@@ -5301,51 +6543,93 @@ class LastDeploymentInfo {
     this.endTime,
     this.status,
   });
-  factory LastDeploymentInfo.fromJson(Map<String, dynamic> json) =>
-      _$LastDeploymentInfoFromJson(json);
+
+  factory LastDeploymentInfo.fromJson(Map<String, dynamic> json) {
+    return LastDeploymentInfo(
+      createTime: timeStampFromJson(json['createTime']),
+      deploymentId: json['deploymentId'] as String?,
+      endTime: timeStampFromJson(json['endTime']),
+      status: (json['status'] as String?)?.toDeploymentStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createTime = this.createTime;
+    final deploymentId = this.deploymentId;
+    final endTime = this.endTime;
+    final status = this.status;
+    return {
+      if (createTime != null) 'createTime': unixTimestampToJson(createTime),
+      if (deploymentId != null) 'deploymentId': deploymentId,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 enum LifecycleErrorCode {
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('ScriptMissing')
   scriptMissing,
-  @_s.JsonValue('ScriptNotExecutable')
   scriptNotExecutable,
-  @_s.JsonValue('ScriptTimedOut')
   scriptTimedOut,
-  @_s.JsonValue('ScriptFailed')
   scriptFailed,
-  @_s.JsonValue('UnknownError')
   unknownError,
 }
 
+extension on LifecycleErrorCode {
+  String toValue() {
+    switch (this) {
+      case LifecycleErrorCode.success:
+        return 'Success';
+      case LifecycleErrorCode.scriptMissing:
+        return 'ScriptMissing';
+      case LifecycleErrorCode.scriptNotExecutable:
+        return 'ScriptNotExecutable';
+      case LifecycleErrorCode.scriptTimedOut:
+        return 'ScriptTimedOut';
+      case LifecycleErrorCode.scriptFailed:
+        return 'ScriptFailed';
+      case LifecycleErrorCode.unknownError:
+        return 'UnknownError';
+    }
+  }
+}
+
+extension on String {
+  LifecycleErrorCode toLifecycleErrorCode() {
+    switch (this) {
+      case 'Success':
+        return LifecycleErrorCode.success;
+      case 'ScriptMissing':
+        return LifecycleErrorCode.scriptMissing;
+      case 'ScriptNotExecutable':
+        return LifecycleErrorCode.scriptNotExecutable;
+      case 'ScriptTimedOut':
+        return LifecycleErrorCode.scriptTimedOut;
+      case 'ScriptFailed':
+        return LifecycleErrorCode.scriptFailed;
+      case 'UnknownError':
+        return LifecycleErrorCode.unknownError;
+    }
+    throw Exception('$this is not known in enum LifecycleErrorCode');
+  }
+}
+
 /// Information about a deployment lifecycle event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LifecycleEvent {
   /// Diagnostic information about the deployment lifecycle event.
-  @_s.JsonKey(name: 'diagnostics')
-  final Diagnostics diagnostics;
+  final Diagnostics? diagnostics;
 
   /// A timestamp that indicates when the deployment lifecycle event ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The deployment lifecycle event name, such as <code>ApplicationStop</code>,
   /// <code>BeforeInstall</code>, <code>AfterInstall</code>,
   /// <code>ApplicationStart</code>, or <code>ValidateService</code>.
-  @_s.JsonKey(name: 'lifecycleEventName')
-  final String lifecycleEventName;
+  final String? lifecycleEventName;
 
   /// A timestamp that indicates when the deployment lifecycle event started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The deployment lifecycle event status:
   ///
@@ -5369,8 +6653,7 @@ class LifecycleEvent {
   /// Unknown: The deployment lifecycle event is unknown.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final LifecycleEventStatus status;
+  final LifecycleEventStatus? status;
 
   LifecycleEvent({
     this.diagnostics,
@@ -5379,22 +6662,41 @@ class LifecycleEvent {
     this.startTime,
     this.status,
   });
-  factory LifecycleEvent.fromJson(Map<String, dynamic> json) =>
-      _$LifecycleEventFromJson(json);
+
+  factory LifecycleEvent.fromJson(Map<String, dynamic> json) {
+    return LifecycleEvent(
+      diagnostics: json['diagnostics'] != null
+          ? Diagnostics.fromJson(json['diagnostics'] as Map<String, dynamic>)
+          : null,
+      endTime: timeStampFromJson(json['endTime']),
+      lifecycleEventName: json['lifecycleEventName'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      status: (json['status'] as String?)?.toLifecycleEventStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final diagnostics = this.diagnostics;
+    final endTime = this.endTime;
+    final lifecycleEventName = this.lifecycleEventName;
+    final startTime = this.startTime;
+    final status = this.status;
+    return {
+      if (diagnostics != null) 'diagnostics': diagnostics,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (lifecycleEventName != null) 'lifecycleEventName': lifecycleEventName,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 enum LifecycleEventStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Skipped')
   skipped,
-  @_s.JsonValue('Unknown')
   unknown,
 }
 
@@ -5414,249 +6716,358 @@ extension on LifecycleEventStatus {
       case LifecycleEventStatus.unknown:
         return 'Unknown';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LifecycleEventStatus toLifecycleEventStatus() {
+    switch (this) {
+      case 'Pending':
+        return LifecycleEventStatus.pending;
+      case 'InProgress':
+        return LifecycleEventStatus.inProgress;
+      case 'Succeeded':
+        return LifecycleEventStatus.succeeded;
+      case 'Failed':
+        return LifecycleEventStatus.failed;
+      case 'Skipped':
+        return LifecycleEventStatus.skipped;
+      case 'Unknown':
+        return LifecycleEventStatus.unknown;
+    }
+    throw Exception('$this is not known in enum LifecycleEventStatus');
   }
 }
 
 /// Represents the output of a <code>ListApplicationRevisions</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApplicationRevisionsOutput {
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list application revisions call to
   /// return the next set of application revisions in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of locations that contain the matching revisions.
-  @_s.JsonKey(name: 'revisions')
-  final List<RevisionLocation> revisions;
+  final List<RevisionLocation>? revisions;
 
   ListApplicationRevisionsOutput({
     this.nextToken,
     this.revisions,
   });
-  factory ListApplicationRevisionsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListApplicationRevisionsOutputFromJson(json);
+
+  factory ListApplicationRevisionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListApplicationRevisionsOutput(
+      nextToken: json['nextToken'] as String?,
+      revisions: (json['revisions'] as List?)
+          ?.whereNotNull()
+          .map((e) => RevisionLocation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final revisions = this.revisions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (revisions != null) 'revisions': revisions,
+    };
+  }
 }
 
 /// Represents the output of a ListApplications operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApplicationsOutput {
   /// A list of application names.
-  @_s.JsonKey(name: 'applications')
-  final List<String> applications;
+  final List<String>? applications;
 
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list applications call to return
   /// the next set of applications in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApplicationsOutput({
     this.applications,
     this.nextToken,
   });
-  factory ListApplicationsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListApplicationsOutputFromJson(json);
+
+  factory ListApplicationsOutput.fromJson(Map<String, dynamic> json) {
+    return ListApplicationsOutput(
+      applications: (json['applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    final nextToken = this.nextToken;
+    return {
+      if (applications != null) 'applications': applications,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListDeploymentConfigs</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeploymentConfigsOutput {
   /// A list of deployment configurations, including built-in configurations such
   /// as <code>CodeDeployDefault.OneAtATime</code>.
-  @_s.JsonKey(name: 'deploymentConfigsList')
-  final List<String> deploymentConfigsList;
+  final List<String>? deploymentConfigsList;
 
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list deployment configurations call
   /// to return the next set of deployment configurations in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeploymentConfigsOutput({
     this.deploymentConfigsList,
     this.nextToken,
   });
-  factory ListDeploymentConfigsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDeploymentConfigsOutputFromJson(json);
+
+  factory ListDeploymentConfigsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentConfigsOutput(
+      deploymentConfigsList: (json['deploymentConfigsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentConfigsList = this.deploymentConfigsList;
+    final nextToken = this.nextToken;
+    return {
+      if (deploymentConfigsList != null)
+        'deploymentConfigsList': deploymentConfigsList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListDeploymentGroups</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeploymentGroupsOutput {
   /// The application name.
-  @_s.JsonKey(name: 'applicationName')
-  final String applicationName;
+  final String? applicationName;
 
   /// A list of deployment group names.
-  @_s.JsonKey(name: 'deploymentGroups')
-  final List<String> deploymentGroups;
+  final List<String>? deploymentGroups;
 
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list deployment groups call to
   /// return the next set of deployment groups in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeploymentGroupsOutput({
     this.applicationName,
     this.deploymentGroups,
     this.nextToken,
   });
-  factory ListDeploymentGroupsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDeploymentGroupsOutputFromJson(json);
+
+  factory ListDeploymentGroupsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentGroupsOutput(
+      applicationName: json['applicationName'] as String?,
+      deploymentGroups: (json['deploymentGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationName = this.applicationName;
+    final deploymentGroups = this.deploymentGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (applicationName != null) 'applicationName': applicationName,
+      if (deploymentGroups != null) 'deploymentGroups': deploymentGroups,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListDeploymentInstances</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeploymentInstancesOutput {
   /// A list of instance IDs.
-  @_s.JsonKey(name: 'instancesList')
-  final List<String> instancesList;
+  final List<String>? instancesList;
 
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list deployment instances call to
   /// return the next set of deployment instances in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeploymentInstancesOutput({
     this.instancesList,
     this.nextToken,
   });
-  factory ListDeploymentInstancesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDeploymentInstancesOutputFromJson(json);
+
+  factory ListDeploymentInstancesOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentInstancesOutput(
+      instancesList: (json['instancesList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instancesList = this.instancesList;
+    final nextToken = this.nextToken;
+    return {
+      if (instancesList != null) 'instancesList': instancesList,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeploymentTargetsOutput {
   /// If a large amount of information is returned, a token identifier is also
   /// returned. It can be used in a subsequent <code>ListDeploymentTargets</code>
   /// call to return the next set of deployment targets in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The unique IDs of deployment targets.
-  @_s.JsonKey(name: 'targetIds')
-  final List<String> targetIds;
+  final List<String>? targetIds;
 
   ListDeploymentTargetsOutput({
     this.nextToken,
     this.targetIds,
   });
-  factory ListDeploymentTargetsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDeploymentTargetsOutputFromJson(json);
+
+  factory ListDeploymentTargetsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentTargetsOutput(
+      nextToken: json['nextToken'] as String?,
+      targetIds: (json['targetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final targetIds = this.targetIds;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (targetIds != null) 'targetIds': targetIds,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListDeployments</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeploymentsOutput {
   /// A list of deployment IDs.
-  @_s.JsonKey(name: 'deployments')
-  final List<String> deployments;
+  final List<String>? deployments;
 
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list deployments call to return the
   /// next set of deployments in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeploymentsOutput({
     this.deployments,
     this.nextToken,
   });
-  factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListDeploymentsOutputFromJson(json);
+
+  factory ListDeploymentsOutput.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentsOutput(
+      deployments: (json['deployments'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
+    return {
+      if (deployments != null) 'deployments': deployments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Represents the output of a <code>ListGitHubAccountTokenNames</code>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGitHubAccountTokenNamesOutput {
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent
   /// <code>ListGitHubAccountTokenNames</code> call to return the next set of
   /// names in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of names of connections to GitHub accounts.
-  @_s.JsonKey(name: 'tokenNameList')
-  final List<String> tokenNameList;
+  final List<String>? tokenNameList;
 
   ListGitHubAccountTokenNamesOutput({
     this.nextToken,
     this.tokenNameList,
   });
+
   factory ListGitHubAccountTokenNamesOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListGitHubAccountTokenNamesOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return ListGitHubAccountTokenNamesOutput(
+      nextToken: json['nextToken'] as String?,
+      tokenNameList: (json['tokenNameList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tokenNameList = this.tokenNameList;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tokenNameList != null) 'tokenNameList': tokenNameList,
+    };
+  }
 }
 
 /// Represents the output of the list on-premises instances operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOnPremisesInstancesOutput {
   /// The list of matching on-premises instance names.
-  @_s.JsonKey(name: 'instanceNames')
-  final List<String> instanceNames;
+  final List<String>? instanceNames;
 
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list on-premises instances call to
   /// return the next set of on-premises instances in the list.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListOnPremisesInstancesOutput({
     this.instanceNames,
     this.nextToken,
   });
-  factory ListOnPremisesInstancesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListOnPremisesInstancesOutputFromJson(json);
+
+  factory ListOnPremisesInstancesOutput.fromJson(Map<String, dynamic> json) {
+    return ListOnPremisesInstancesOutput(
+      instanceNames: (json['instanceNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceNames = this.instanceNames;
+    final nextToken = this.nextToken;
+    return {
+      if (instanceNames != null) 'instanceNames': instanceNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 enum ListStateFilterAction {
-  @_s.JsonValue('include')
   include,
-  @_s.JsonValue('exclude')
   exclude,
-  @_s.JsonValue('ignore')
   ignore,
 }
 
@@ -5670,43 +7081,61 @@ extension on ListStateFilterAction {
       case ListStateFilterAction.ignore:
         return 'ignore';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ListStateFilterAction toListStateFilterAction() {
+    switch (this) {
+      case 'include':
+        return ListStateFilterAction.include;
+      case 'exclude':
+        return ListStateFilterAction.exclude;
+      case 'ignore':
+        return ListStateFilterAction.ignore;
+    }
+    throw Exception('$this is not known in enum ListStateFilterAction');
+  }
+}
+
 class ListTagsForResourceOutput {
   /// If a large amount of information is returned, an identifier is also
   /// returned. It can be used in a subsequent list application revisions call to
   /// return the next set of application revisions in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of tags returned by <code>ListTagsForResource</code>. The tags are
   /// associated with the resource identified by the input
   /// <code>ResourceArn</code> parameter.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Information about the Elastic Load Balancing load balancer or target group
 /// used in a deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoadBalancerInfo {
   /// An array that contains information about the load balancer to use for load
   /// balancing in a deployment. In Elastic Load Balancing, load balancers are
@@ -5714,8 +7143,7 @@ class LoadBalancerInfo {
   /// <note>
   /// Adding more than one load balancer to the array is not supported.
   /// </note>
-  @_s.JsonKey(name: 'elbInfoList')
-  final List<ELBInfo> elbInfoList;
+  final List<ELBInfo>? elbInfoList;
 
   /// An array that contains information about the target group to use for load
   /// balancing in a deployment. In Elastic Load Balancing, target groups are used
@@ -5723,31 +7151,50 @@ class LoadBalancerInfo {
   /// <note>
   /// Adding more than one target group to the array is not supported.
   /// </note>
-  @_s.JsonKey(name: 'targetGroupInfoList')
-  final List<TargetGroupInfo> targetGroupInfoList;
+  final List<TargetGroupInfo>? targetGroupInfoList;
 
   /// The target group pair information. This is an array of
   /// <code>TargeGroupPairInfo</code> objects with a maximum size of one.
-  @_s.JsonKey(name: 'targetGroupPairInfoList')
-  final List<TargetGroupPairInfo> targetGroupPairInfoList;
+  final List<TargetGroupPairInfo>? targetGroupPairInfoList;
 
   LoadBalancerInfo({
     this.elbInfoList,
     this.targetGroupInfoList,
     this.targetGroupPairInfoList,
   });
-  factory LoadBalancerInfo.fromJson(Map<String, dynamic> json) =>
-      _$LoadBalancerInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoadBalancerInfoToJson(this);
+  factory LoadBalancerInfo.fromJson(Map<String, dynamic> json) {
+    return LoadBalancerInfo(
+      elbInfoList: (json['elbInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ELBInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetGroupInfoList: (json['targetGroupInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      targetGroupPairInfoList: (json['targetGroupPairInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetGroupPairInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final elbInfoList = this.elbInfoList;
+    final targetGroupInfoList = this.targetGroupInfoList;
+    final targetGroupPairInfoList = this.targetGroupPairInfoList;
+    return {
+      if (elbInfoList != null) 'elbInfoList': elbInfoList,
+      if (targetGroupInfoList != null)
+        'targetGroupInfoList': targetGroupInfoList,
+      if (targetGroupPairInfoList != null)
+        'targetGroupPairInfoList': targetGroupPairInfoList,
+    };
+  }
 }
 
 /// Information about minimum healthy instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MinimumHealthyHosts {
   /// The minimum healthy instance type:
   ///
@@ -5782,105 +7229,184 @@ class MinimumHealthyHosts {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html">AWS
   /// CodeDeploy Instance Health</a> in the <i>AWS CodeDeploy User Guide</i>.
-  @_s.JsonKey(name: 'type')
-  final MinimumHealthyHostsType type;
+  final MinimumHealthyHostsType? type;
 
   /// The minimum healthy instance value.
-  @_s.JsonKey(name: 'value')
-  final int value;
+  final int? value;
 
   MinimumHealthyHosts({
     this.type,
     this.value,
   });
-  factory MinimumHealthyHosts.fromJson(Map<String, dynamic> json) =>
-      _$MinimumHealthyHostsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MinimumHealthyHostsToJson(this);
+  factory MinimumHealthyHosts.fromJson(Map<String, dynamic> json) {
+    return MinimumHealthyHosts(
+      type: (json['type'] as String?)?.toMinimumHealthyHostsType(),
+      value: json['value'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (type != null) 'type': type.toValue(),
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 enum MinimumHealthyHostsType {
-  @_s.JsonValue('HOST_COUNT')
   hostCount,
-  @_s.JsonValue('FLEET_PERCENT')
   fleetPercent,
 }
 
+extension on MinimumHealthyHostsType {
+  String toValue() {
+    switch (this) {
+      case MinimumHealthyHostsType.hostCount:
+        return 'HOST_COUNT';
+      case MinimumHealthyHostsType.fleetPercent:
+        return 'FLEET_PERCENT';
+    }
+  }
+}
+
+extension on String {
+  MinimumHealthyHostsType toMinimumHealthyHostsType() {
+    switch (this) {
+      case 'HOST_COUNT':
+        return MinimumHealthyHostsType.hostCount;
+      case 'FLEET_PERCENT':
+        return MinimumHealthyHostsType.fleetPercent;
+    }
+    throw Exception('$this is not known in enum MinimumHealthyHostsType');
+  }
+}
+
 /// Information about groups of on-premises instance tags.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OnPremisesTagSet {
   /// A list that contains other lists of on-premises instance tag groups. For an
   /// instance to be included in the deployment group, it must be identified by
   /// all of the tag groups in the list.
-  @_s.JsonKey(name: 'onPremisesTagSetList')
-  final List<List<TagFilter>> onPremisesTagSetList;
+  final List<List<TagFilter>>? onPremisesTagSetList;
 
   OnPremisesTagSet({
     this.onPremisesTagSetList,
   });
-  factory OnPremisesTagSet.fromJson(Map<String, dynamic> json) =>
-      _$OnPremisesTagSetFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OnPremisesTagSetToJson(this);
+  factory OnPremisesTagSet.fromJson(Map<String, dynamic> json) {
+    return OnPremisesTagSet(
+      onPremisesTagSetList: (json['onPremisesTagSetList'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as List)
+              .whereNotNull()
+              .map((e) => TagFilter.fromJson(e as Map<String, dynamic>))
+              .toList())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onPremisesTagSetList = this.onPremisesTagSetList;
+    return {
+      if (onPremisesTagSetList != null)
+        'onPremisesTagSetList': onPremisesTagSetList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+enum OutdatedInstancesStrategy {
+  update,
+  ignore,
+}
+
+extension on OutdatedInstancesStrategy {
+  String toValue() {
+    switch (this) {
+      case OutdatedInstancesStrategy.update:
+        return 'UPDATE';
+      case OutdatedInstancesStrategy.ignore:
+        return 'IGNORE';
+    }
+  }
+}
+
+extension on String {
+  OutdatedInstancesStrategy toOutdatedInstancesStrategy() {
+    switch (this) {
+      case 'UPDATE':
+        return OutdatedInstancesStrategy.update;
+      case 'IGNORE':
+        return OutdatedInstancesStrategy.ignore;
+    }
+    throw Exception('$this is not known in enum OutdatedInstancesStrategy');
+  }
+}
+
 class PutLifecycleEventHookExecutionStatusOutput {
   /// The execution ID of the lifecycle event hook. A hook is specified in the
   /// <code>hooks</code> section of the deployment's AppSpec file.
-  @_s.JsonKey(name: 'lifecycleEventHookExecutionId')
-  final String lifecycleEventHookExecutionId;
+  final String? lifecycleEventHookExecutionId;
 
   PutLifecycleEventHookExecutionStatusOutput({
     this.lifecycleEventHookExecutionId,
   });
+
   factory PutLifecycleEventHookExecutionStatusOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutLifecycleEventHookExecutionStatusOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return PutLifecycleEventHookExecutionStatusOutput(
+      lifecycleEventHookExecutionId:
+          json['lifecycleEventHookExecutionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lifecycleEventHookExecutionId = this.lifecycleEventHookExecutionId;
+    return {
+      if (lifecycleEventHookExecutionId != null)
+        'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
+    };
+  }
 }
 
 /// A revision for an AWS Lambda deployment that is a YAML-formatted or
 /// JSON-formatted string. For AWS Lambda deployments, the revision is the same
 /// as the AppSpec file.
 @deprecated
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RawString {
   /// The YAML-formatted or JSON-formatted revision string. It includes
   /// information about which Lambda function to update and optional Lambda
   /// functions that validate deployment lifecycle events.
-  @_s.JsonKey(name: 'content')
-  final String content;
+  final String? content;
 
   /// The SHA256 hash value of the revision content.
-  @_s.JsonKey(name: 'sha256')
-  final String sha256;
+  final String? sha256;
 
   RawString({
     this.content,
     this.sha256,
   });
-  factory RawString.fromJson(Map<String, dynamic> json) =>
-      _$RawStringFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RawStringToJson(this);
+  factory RawString.fromJson(Map<String, dynamic> json) {
+    return RawString(
+      content: json['content'] as String?,
+      sha256: json['sha256'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final sha256 = this.sha256;
+    return {
+      if (content != null) 'content': content,
+      if (sha256 != null) 'sha256': sha256,
+    };
+  }
 }
 
 enum RegistrationStatus {
-  @_s.JsonValue('Registered')
   registered,
-  @_s.JsonValue('Deregistered')
   deregistered,
 }
 
@@ -5892,49 +7418,109 @@ extension on RegistrationStatus {
       case RegistrationStatus.deregistered:
         return 'Deregistered';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RegistrationStatus toRegistrationStatus() {
+    switch (this) {
+      case 'Registered':
+        return RegistrationStatus.registered;
+      case 'Deregistered':
+        return RegistrationStatus.deregistered;
+    }
+    throw Exception('$this is not known in enum RegistrationStatus');
+  }
+}
+
+/// Information about deployments related to the specified deployment.
+class RelatedDeployments {
+  /// The deployment IDs of 'auto-update outdated instances' deployments triggered
+  /// by this deployment.
+  final List<String>? autoUpdateOutdatedInstancesDeploymentIds;
+
+  /// The deployment ID of the root deployment that triggered this deployment.
+  final String? autoUpdateOutdatedInstancesRootDeploymentId;
+
+  RelatedDeployments({
+    this.autoUpdateOutdatedInstancesDeploymentIds,
+    this.autoUpdateOutdatedInstancesRootDeploymentId,
+  });
+
+  factory RelatedDeployments.fromJson(Map<String, dynamic> json) {
+    return RelatedDeployments(
+      autoUpdateOutdatedInstancesDeploymentIds:
+          (json['autoUpdateOutdatedInstancesDeploymentIds'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      autoUpdateOutdatedInstancesRootDeploymentId:
+          json['autoUpdateOutdatedInstancesRootDeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoUpdateOutdatedInstancesDeploymentIds =
+        this.autoUpdateOutdatedInstancesDeploymentIds;
+    final autoUpdateOutdatedInstancesRootDeploymentId =
+        this.autoUpdateOutdatedInstancesRootDeploymentId;
+    return {
+      if (autoUpdateOutdatedInstancesDeploymentIds != null)
+        'autoUpdateOutdatedInstancesDeploymentIds':
+            autoUpdateOutdatedInstancesDeploymentIds,
+      if (autoUpdateOutdatedInstancesRootDeploymentId != null)
+        'autoUpdateOutdatedInstancesRootDeploymentId':
+            autoUpdateOutdatedInstancesRootDeploymentId,
+    };
   }
 }
 
 /// Information about an application revision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RevisionInfo {
   /// Information about an application revision, including usage details and
   /// associated deployment groups.
-  @_s.JsonKey(name: 'genericRevisionInfo')
-  final GenericRevisionInfo genericRevisionInfo;
+  final GenericRevisionInfo? genericRevisionInfo;
 
   /// Information about the location and type of an application revision.
-  @_s.JsonKey(name: 'revisionLocation')
-  final RevisionLocation revisionLocation;
+  final RevisionLocation? revisionLocation;
 
   RevisionInfo({
     this.genericRevisionInfo,
     this.revisionLocation,
   });
-  factory RevisionInfo.fromJson(Map<String, dynamic> json) =>
-      _$RevisionInfoFromJson(json);
+
+  factory RevisionInfo.fromJson(Map<String, dynamic> json) {
+    return RevisionInfo(
+      genericRevisionInfo: json['genericRevisionInfo'] != null
+          ? GenericRevisionInfo.fromJson(
+              json['genericRevisionInfo'] as Map<String, dynamic>)
+          : null,
+      revisionLocation: json['revisionLocation'] != null
+          ? RevisionLocation.fromJson(
+              json['revisionLocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final genericRevisionInfo = this.genericRevisionInfo;
+    final revisionLocation = this.revisionLocation;
+    return {
+      if (genericRevisionInfo != null)
+        'genericRevisionInfo': genericRevisionInfo,
+      if (revisionLocation != null) 'revisionLocation': revisionLocation,
+    };
+  }
 }
 
 /// Information about the location of an application revision.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RevisionLocation {
   /// The content of an AppSpec file for an AWS Lambda or Amazon ECS deployment.
   /// The content is formatted as JSON or YAML and stored as a RawString.
-  @_s.JsonKey(name: 'appSpecContent')
-  final AppSpecContent appSpecContent;
+  final AppSpecContent? appSpecContent;
 
   /// Information about the location of application artifacts stored in GitHub.
-  @_s.JsonKey(name: 'gitHubLocation')
-  final GitHubLocation gitHubLocation;
+  final GitHubLocation? gitHubLocation;
 
   /// The type of application revision:
   ///
@@ -5956,17 +7542,14 @@ class RevisionLocation {
   /// content is formatted as JSON or YAML stored as a RawString.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'revisionType')
-  final RevisionLocationType revisionType;
+  final RevisionLocationType? revisionType;
 
   /// Information about the location of a revision stored in Amazon S3.
-  @_s.JsonKey(name: 's3Location')
-  final S3Location s3Location;
+  final S3Location? s3Location;
 
   /// Information about the location of an AWS Lambda deployment revision stored
   /// as a RawString.
-  @_s.JsonKey(name: 'string')
-  final RawString string;
+  final RawString? string;
 
   RevisionLocation({
     this.appSpecContent,
@@ -5975,64 +7558,128 @@ class RevisionLocation {
     this.s3Location,
     this.string,
   });
-  factory RevisionLocation.fromJson(Map<String, dynamic> json) =>
-      _$RevisionLocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RevisionLocationToJson(this);
+  factory RevisionLocation.fromJson(Map<String, dynamic> json) {
+    return RevisionLocation(
+      appSpecContent: json['appSpecContent'] != null
+          ? AppSpecContent.fromJson(
+              json['appSpecContent'] as Map<String, dynamic>)
+          : null,
+      gitHubLocation: json['gitHubLocation'] != null
+          ? GitHubLocation.fromJson(
+              json['gitHubLocation'] as Map<String, dynamic>)
+          : null,
+      revisionType: (json['revisionType'] as String?)?.toRevisionLocationType(),
+      s3Location: json['s3Location'] != null
+          ? S3Location.fromJson(json['s3Location'] as Map<String, dynamic>)
+          : null,
+      string: json['string'] != null
+          ? RawString.fromJson(json['string'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appSpecContent = this.appSpecContent;
+    final gitHubLocation = this.gitHubLocation;
+    final revisionType = this.revisionType;
+    final s3Location = this.s3Location;
+    final string = this.string;
+    return {
+      if (appSpecContent != null) 'appSpecContent': appSpecContent,
+      if (gitHubLocation != null) 'gitHubLocation': gitHubLocation,
+      if (revisionType != null) 'revisionType': revisionType.toValue(),
+      if (s3Location != null) 's3Location': s3Location,
+      if (string != null) 'string': string,
+    };
+  }
 }
 
 enum RevisionLocationType {
-  @_s.JsonValue('S3')
   s3,
-  @_s.JsonValue('GitHub')
   gitHub,
-  @_s.JsonValue('String')
   string,
-  @_s.JsonValue('AppSpecContent')
   appSpecContent,
 }
 
+extension on RevisionLocationType {
+  String toValue() {
+    switch (this) {
+      case RevisionLocationType.s3:
+        return 'S3';
+      case RevisionLocationType.gitHub:
+        return 'GitHub';
+      case RevisionLocationType.string:
+        return 'String';
+      case RevisionLocationType.appSpecContent:
+        return 'AppSpecContent';
+    }
+  }
+}
+
+extension on String {
+  RevisionLocationType toRevisionLocationType() {
+    switch (this) {
+      case 'S3':
+        return RevisionLocationType.s3;
+      case 'GitHub':
+        return RevisionLocationType.gitHub;
+      case 'String':
+        return RevisionLocationType.string;
+      case 'AppSpecContent':
+        return RevisionLocationType.appSpecContent;
+    }
+    throw Exception('$this is not known in enum RevisionLocationType');
+  }
+}
+
 /// Information about a deployment rollback.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RollbackInfo {
   /// The ID of the deployment rollback.
-  @_s.JsonKey(name: 'rollbackDeploymentId')
-  final String rollbackDeploymentId;
+  final String? rollbackDeploymentId;
 
   /// Information that describes the status of a deployment rollback (for example,
   /// whether the deployment can't be rolled back, is in progress, failed, or
   /// succeeded).
-  @_s.JsonKey(name: 'rollbackMessage')
-  final String rollbackMessage;
+  final String? rollbackMessage;
 
   /// The deployment ID of the deployment that was underway and triggered a
   /// rollback deployment because it failed or was stopped.
-  @_s.JsonKey(name: 'rollbackTriggeringDeploymentId')
-  final String rollbackTriggeringDeploymentId;
+  final String? rollbackTriggeringDeploymentId;
 
   RollbackInfo({
     this.rollbackDeploymentId,
     this.rollbackMessage,
     this.rollbackTriggeringDeploymentId,
   });
-  factory RollbackInfo.fromJson(Map<String, dynamic> json) =>
-      _$RollbackInfoFromJson(json);
+
+  factory RollbackInfo.fromJson(Map<String, dynamic> json) {
+    return RollbackInfo(
+      rollbackDeploymentId: json['rollbackDeploymentId'] as String?,
+      rollbackMessage: json['rollbackMessage'] as String?,
+      rollbackTriggeringDeploymentId:
+          json['rollbackTriggeringDeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rollbackDeploymentId = this.rollbackDeploymentId;
+    final rollbackMessage = this.rollbackMessage;
+    final rollbackTriggeringDeploymentId = this.rollbackTriggeringDeploymentId;
+    return {
+      if (rollbackDeploymentId != null)
+        'rollbackDeploymentId': rollbackDeploymentId,
+      if (rollbackMessage != null) 'rollbackMessage': rollbackMessage,
+      if (rollbackTriggeringDeploymentId != null)
+        'rollbackTriggeringDeploymentId': rollbackTriggeringDeploymentId,
+    };
+  }
 }
 
 /// Information about the location of application artifacts stored in Amazon S3.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Location {
   /// The name of the Amazon S3 bucket where the application revision is stored.
-  @_s.JsonKey(name: 'bucket')
-  final String bucket;
+  final String? bucket;
 
   /// The file type of the application revision. Must be one of the following:
   ///
@@ -6047,29 +7694,25 @@ class S3Location {
   /// <code>zip</code>: A zip archive file.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'bundleType')
-  final BundleType bundleType;
+  final BundleType? bundleType;
 
   /// The ETag of the Amazon S3 object that represents the bundled artifacts for
   /// the application revision.
   ///
   /// If the ETag is not specified as an input parameter, ETag validation of the
   /// object is skipped.
-  @_s.JsonKey(name: 'eTag')
-  final String eTag;
+  final String? eTag;
 
   /// The name of the Amazon S3 object that represents the bundled artifacts for
   /// the application revision.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// A specific version of the Amazon S3 object that represents the bundled
   /// artifacts for the application revision.
   ///
   /// If the version is not specified, the system uses the most recent version by
   /// default.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   S3Location({
     this.bucket,
@@ -6078,16 +7721,35 @@ class S3Location {
     this.key,
     this.version,
   });
-  factory S3Location.fromJson(Map<String, dynamic> json) =>
-      _$S3LocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3LocationToJson(this);
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucket: json['bucket'] as String?,
+      bundleType: (json['bundleType'] as String?)?.toBundleType(),
+      eTag: json['eTag'] as String?,
+      key: json['key'] as String?,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final bundleType = this.bundleType;
+    final eTag = this.eTag;
+    final key = this.key;
+    final version = this.version;
+    return {
+      if (bucket != null) 'bucket': bucket,
+      if (bundleType != null) 'bundleType': bundleType.toValue(),
+      if (eTag != null) 'eTag': eTag,
+      if (key != null) 'key': key,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 enum SortOrder {
-  @_s.JsonValue('ascending')
   ascending,
-  @_s.JsonValue('descending')
   descending,
 }
 
@@ -6099,16 +7761,22 @@ extension on SortOrder {
       case SortOrder.descending:
         return 'descending';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SortOrder toSortOrder() {
+    switch (this) {
+      case 'ascending':
+        return SortOrder.ascending;
+      case 'descending':
+        return SortOrder.descending;
+    }
+    throw Exception('$this is not known in enum SortOrder');
   }
 }
 
 /// Represents the output of a <code>StopDeployment</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopDeploymentOutput {
   /// The status of the stop deployment operation:
   ///
@@ -6120,62 +7788,95 @@ class StopDeploymentOutput {
   /// Succeeded: The stop operation was successful.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final StopStatus status;
+  final StopStatus? status;
 
   /// An accompanying status message.
-  @_s.JsonKey(name: 'statusMessage')
-  final String statusMessage;
+  final String? statusMessage;
 
   StopDeploymentOutput({
     this.status,
     this.statusMessage,
   });
-  factory StopDeploymentOutput.fromJson(Map<String, dynamic> json) =>
-      _$StopDeploymentOutputFromJson(json);
+
+  factory StopDeploymentOutput.fromJson(Map<String, dynamic> json) {
+    return StopDeploymentOutput(
+      status: (json['status'] as String?)?.toStopStatus(),
+      statusMessage: json['statusMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (status != null) 'status': status.toValue(),
+      if (statusMessage != null) 'statusMessage': statusMessage,
+    };
+  }
 }
 
 enum StopStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Succeeded')
   succeeded,
 }
 
+extension on StopStatus {
+  String toValue() {
+    switch (this) {
+      case StopStatus.pending:
+        return 'Pending';
+      case StopStatus.succeeded:
+        return 'Succeeded';
+    }
+  }
+}
+
+extension on String {
+  StopStatus toStopStatus() {
+    switch (this) {
+      case 'Pending':
+        return StopStatus.pending;
+      case 'Succeeded':
+        return StopStatus.succeeded;
+    }
+    throw Exception('$this is not known in enum StopStatus');
+  }
+}
+
 /// Information about a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag's key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The tag's value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Information about an on-premises instance tag filter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TagFilter {
   /// The on-premises instance tag filter key.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The on-premises instance tag filter type:
   ///
@@ -6190,48 +7891,84 @@ class TagFilter {
   /// KEY_AND_VALUE: Key and value.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final TagFilterType type;
+  final TagFilterType? type;
 
   /// The on-premises instance tag filter value.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   TagFilter({
     this.key,
     this.type,
     this.value,
   });
-  factory TagFilter.fromJson(Map<String, dynamic> json) =>
-      _$TagFilterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagFilterToJson(this);
+  factory TagFilter.fromJson(Map<String, dynamic> json) {
+    return TagFilter(
+      key: json['Key'] as String?,
+      type: (json['Type'] as String?)?.toTagFilterType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum TagFilterType {
-  @_s.JsonValue('KEY_ONLY')
   keyOnly,
-  @_s.JsonValue('VALUE_ONLY')
   valueOnly,
-  @_s.JsonValue('KEY_AND_VALUE')
   keyAndValue,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TagFilterType {
+  String toValue() {
+    switch (this) {
+      case TagFilterType.keyOnly:
+        return 'KEY_ONLY';
+      case TagFilterType.valueOnly:
+        return 'VALUE_ONLY';
+      case TagFilterType.keyAndValue:
+        return 'KEY_AND_VALUE';
+    }
+  }
+}
+
+extension on String {
+  TagFilterType toTagFilterType() {
+    switch (this) {
+      case 'KEY_ONLY':
+        return TagFilterType.keyOnly;
+      case 'VALUE_ONLY':
+        return TagFilterType.valueOnly;
+      case 'KEY_AND_VALUE':
+        return TagFilterType.keyAndValue;
+    }
+    throw Exception('$this is not known in enum TagFilterType');
+  }
+}
+
 class TagResourceOutput {
   TagResourceOutput();
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceOutputFromJson(json);
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum TargetFilterName {
-  @_s.JsonValue('TargetStatus')
   targetStatus,
-  @_s.JsonValue('ServerInstanceLabel')
   serverInstanceLabel,
 }
 
@@ -6243,18 +7980,24 @@ extension on TargetFilterName {
       case TargetFilterName.serverInstanceLabel:
         return 'ServerInstanceLabel';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TargetFilterName toTargetFilterName() {
+    switch (this) {
+      case 'TargetStatus':
+        return TargetFilterName.targetStatus;
+      case 'ServerInstanceLabel':
+        return TargetFilterName.serverInstanceLabel;
+    }
+    throw Exception('$this is not known in enum TargetFilterName');
   }
 }
 
 /// Information about a target group in Elastic Load Balancing to use in a
 /// deployment. Instances are registered as targets in a target group, and
 /// traffic is routed to the target group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TargetGroupInfo {
   /// For blue/green deployments, the name of the target group that instances in
   /// the original environment are deregistered from, and instances in the
@@ -6262,372 +8005,592 @@ class TargetGroupInfo {
   /// name of the target group that instances are deregistered from, so they are
   /// not serving traffic during a deployment, and then re-registered with after
   /// the deployment is complete.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   TargetGroupInfo({
     this.name,
   });
-  factory TargetGroupInfo.fromJson(Map<String, dynamic> json) =>
-      _$TargetGroupInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TargetGroupInfoToJson(this);
+  factory TargetGroupInfo.fromJson(Map<String, dynamic> json) {
+    return TargetGroupInfo(
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// Information about two target groups and how traffic is routed during an
 /// Amazon ECS deployment. An optional test traffic route can be specified.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TargetGroupPairInfo {
   /// The path used by a load balancer to route production traffic when an Amazon
   /// ECS deployment is complete.
-  @_s.JsonKey(name: 'prodTrafficRoute')
-  final TrafficRoute prodTrafficRoute;
+  final TrafficRoute? prodTrafficRoute;
 
   /// One pair of target groups. One is associated with the original task set. The
   /// second is associated with the task set that serves traffic after the
   /// deployment is complete.
-  @_s.JsonKey(name: 'targetGroups')
-  final List<TargetGroupInfo> targetGroups;
+  final List<TargetGroupInfo>? targetGroups;
 
   /// An optional path used by a load balancer to route test traffic after an
   /// Amazon ECS deployment. Validation can occur while test traffic is served
   /// during a deployment.
-  @_s.JsonKey(name: 'testTrafficRoute')
-  final TrafficRoute testTrafficRoute;
+  final TrafficRoute? testTrafficRoute;
 
   TargetGroupPairInfo({
     this.prodTrafficRoute,
     this.targetGroups,
     this.testTrafficRoute,
   });
-  factory TargetGroupPairInfo.fromJson(Map<String, dynamic> json) =>
-      _$TargetGroupPairInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TargetGroupPairInfoToJson(this);
+  factory TargetGroupPairInfo.fromJson(Map<String, dynamic> json) {
+    return TargetGroupPairInfo(
+      prodTrafficRoute: json['prodTrafficRoute'] != null
+          ? TrafficRoute.fromJson(
+              json['prodTrafficRoute'] as Map<String, dynamic>)
+          : null,
+      targetGroups: (json['targetGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetGroupInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      testTrafficRoute: json['testTrafficRoute'] != null
+          ? TrafficRoute.fromJson(
+              json['testTrafficRoute'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prodTrafficRoute = this.prodTrafficRoute;
+    final targetGroups = this.targetGroups;
+    final testTrafficRoute = this.testTrafficRoute;
+    return {
+      if (prodTrafficRoute != null) 'prodTrafficRoute': prodTrafficRoute,
+      if (targetGroups != null) 'targetGroups': targetGroups,
+      if (testTrafficRoute != null) 'testTrafficRoute': testTrafficRoute,
+    };
+  }
 }
 
 /// Information about the instances to be used in the replacement environment in
 /// a blue/green deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TargetInstances {
   /// The names of one or more Auto Scaling groups to identify a replacement
   /// environment for a blue/green deployment.
-  @_s.JsonKey(name: 'autoScalingGroups')
-  final List<String> autoScalingGroups;
+  final List<String>? autoScalingGroups;
 
   /// Information about the groups of EC2 instance tags that an instance must be
   /// identified by in order for it to be included in the replacement environment
   /// for a blue/green deployment. Cannot be used in the same call as
   /// <code>tagFilters</code>.
-  @_s.JsonKey(name: 'ec2TagSet')
-  final EC2TagSet ec2TagSet;
+  final EC2TagSet? ec2TagSet;
 
   /// The tag filter key, type, and value used to identify Amazon EC2 instances in
   /// a replacement environment for a blue/green deployment. Cannot be used in the
   /// same call as <code>ec2TagSet</code>.
-  @_s.JsonKey(name: 'tagFilters')
-  final List<EC2TagFilter> tagFilters;
+  final List<EC2TagFilter>? tagFilters;
 
   TargetInstances({
     this.autoScalingGroups,
     this.ec2TagSet,
     this.tagFilters,
   });
-  factory TargetInstances.fromJson(Map<String, dynamic> json) =>
-      _$TargetInstancesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TargetInstancesToJson(this);
+  factory TargetInstances.fromJson(Map<String, dynamic> json) {
+    return TargetInstances(
+      autoScalingGroups: (json['autoScalingGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ec2TagSet: json['ec2TagSet'] != null
+          ? EC2TagSet.fromJson(json['ec2TagSet'] as Map<String, dynamic>)
+          : null,
+      tagFilters: (json['tagFilters'] as List?)
+          ?.whereNotNull()
+          .map((e) => EC2TagFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingGroups = this.autoScalingGroups;
+    final ec2TagSet = this.ec2TagSet;
+    final tagFilters = this.tagFilters;
+    return {
+      if (autoScalingGroups != null) 'autoScalingGroups': autoScalingGroups,
+      if (ec2TagSet != null) 'ec2TagSet': ec2TagSet,
+      if (tagFilters != null) 'tagFilters': tagFilters,
+    };
+  }
 }
 
 enum TargetLabel {
-  @_s.JsonValue('Blue')
   blue,
-  @_s.JsonValue('Green')
   green,
 }
 
+extension on TargetLabel {
+  String toValue() {
+    switch (this) {
+      case TargetLabel.blue:
+        return 'Blue';
+      case TargetLabel.green:
+        return 'Green';
+    }
+  }
+}
+
+extension on String {
+  TargetLabel toTargetLabel() {
+    switch (this) {
+      case 'Blue':
+        return TargetLabel.blue;
+      case 'Green':
+        return TargetLabel.green;
+    }
+    throw Exception('$this is not known in enum TargetLabel');
+  }
+}
+
 enum TargetStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('Skipped')
   skipped,
-  @_s.JsonValue('Unknown')
   unknown,
-  @_s.JsonValue('Ready')
   ready,
+}
+
+extension on TargetStatus {
+  String toValue() {
+    switch (this) {
+      case TargetStatus.pending:
+        return 'Pending';
+      case TargetStatus.inProgress:
+        return 'InProgress';
+      case TargetStatus.succeeded:
+        return 'Succeeded';
+      case TargetStatus.failed:
+        return 'Failed';
+      case TargetStatus.skipped:
+        return 'Skipped';
+      case TargetStatus.unknown:
+        return 'Unknown';
+      case TargetStatus.ready:
+        return 'Ready';
+    }
+  }
+}
+
+extension on String {
+  TargetStatus toTargetStatus() {
+    switch (this) {
+      case 'Pending':
+        return TargetStatus.pending;
+      case 'InProgress':
+        return TargetStatus.inProgress;
+      case 'Succeeded':
+        return TargetStatus.succeeded;
+      case 'Failed':
+        return TargetStatus.failed;
+      case 'Skipped':
+        return TargetStatus.skipped;
+      case 'Unknown':
+        return TargetStatus.unknown;
+      case 'Ready':
+        return TargetStatus.ready;
+    }
+    throw Exception('$this is not known in enum TargetStatus');
+  }
 }
 
 /// A configuration that shifts traffic from one version of a Lambda function or
 /// ECS task set to another in two increments. The original and target Lambda
 /// function versions or ECS task sets are specified in the deployment's AppSpec
 /// file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeBasedCanary {
   /// The number of minutes between the first and second traffic shifts of a
   /// <code>TimeBasedCanary</code> deployment.
-  @_s.JsonKey(name: 'canaryInterval')
-  final int canaryInterval;
+  final int? canaryInterval;
 
   /// The percentage of traffic to shift in the first increment of a
   /// <code>TimeBasedCanary</code> deployment.
-  @_s.JsonKey(name: 'canaryPercentage')
-  final int canaryPercentage;
+  final int? canaryPercentage;
 
   TimeBasedCanary({
     this.canaryInterval,
     this.canaryPercentage,
   });
-  factory TimeBasedCanary.fromJson(Map<String, dynamic> json) =>
-      _$TimeBasedCanaryFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimeBasedCanaryToJson(this);
+  factory TimeBasedCanary.fromJson(Map<String, dynamic> json) {
+    return TimeBasedCanary(
+      canaryInterval: json['canaryInterval'] as int?,
+      canaryPercentage: json['canaryPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final canaryInterval = this.canaryInterval;
+    final canaryPercentage = this.canaryPercentage;
+    return {
+      if (canaryInterval != null) 'canaryInterval': canaryInterval,
+      if (canaryPercentage != null) 'canaryPercentage': canaryPercentage,
+    };
+  }
 }
 
 /// A configuration that shifts traffic from one version of a Lambda function or
 /// ECS task set to another in equal increments, with an equal number of minutes
 /// between each increment. The original and target Lambda function versions or
 /// ECS task sets are specified in the deployment's AppSpec file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeBasedLinear {
   /// The number of minutes between each incremental traffic shift of a
   /// <code>TimeBasedLinear</code> deployment.
-  @_s.JsonKey(name: 'linearInterval')
-  final int linearInterval;
+  final int? linearInterval;
 
   /// The percentage of traffic that is shifted at the start of each increment of
   /// a <code>TimeBasedLinear</code> deployment.
-  @_s.JsonKey(name: 'linearPercentage')
-  final int linearPercentage;
+  final int? linearPercentage;
 
   TimeBasedLinear({
     this.linearInterval,
     this.linearPercentage,
   });
-  factory TimeBasedLinear.fromJson(Map<String, dynamic> json) =>
-      _$TimeBasedLinearFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimeBasedLinearToJson(this);
+  factory TimeBasedLinear.fromJson(Map<String, dynamic> json) {
+    return TimeBasedLinear(
+      linearInterval: json['linearInterval'] as int?,
+      linearPercentage: json['linearPercentage'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linearInterval = this.linearInterval;
+    final linearPercentage = this.linearPercentage;
+    return {
+      if (linearInterval != null) 'linearInterval': linearInterval,
+      if (linearPercentage != null) 'linearPercentage': linearPercentage,
+    };
+  }
 }
 
 /// Information about a time range.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TimeRange {
   /// The end time of the time range.
   /// <note>
   /// Specify null to leave the end time open-ended.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'end')
-  final DateTime end;
+  final DateTime? end;
 
   /// The start time of the time range.
   /// <note>
   /// Specify null to leave the start time open-ended.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'start')
-  final DateTime start;
+  final DateTime? start;
 
   TimeRange({
     this.end,
     this.start,
   });
-  Map<String, dynamic> toJson() => _$TimeRangeToJson(this);
+
+  factory TimeRange.fromJson(Map<String, dynamic> json) {
+    return TimeRange(
+      end: timeStampFromJson(json['end']),
+      start: timeStampFromJson(json['start']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final end = this.end;
+    final start = this.start;
+    return {
+      if (end != null) 'end': unixTimestampToJson(end),
+      if (start != null) 'start': unixTimestampToJson(start),
+    };
+  }
 }
 
 /// Information about a listener. The listener contains the path used to route
 /// traffic that is received from the load balancer to a target group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TrafficRoute {
   /// The Amazon Resource Name (ARN) of one listener. The listener identifies the
   /// route between a target group and a load balancer. This is an array of
   /// strings with a maximum size of one.
-  @_s.JsonKey(name: 'listenerArns')
-  final List<String> listenerArns;
+  final List<String>? listenerArns;
 
   TrafficRoute({
     this.listenerArns,
   });
-  factory TrafficRoute.fromJson(Map<String, dynamic> json) =>
-      _$TrafficRouteFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TrafficRouteToJson(this);
+  factory TrafficRoute.fromJson(Map<String, dynamic> json) {
+    return TrafficRoute(
+      listenerArns: (json['listenerArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final listenerArns = this.listenerArns;
+    return {
+      if (listenerArns != null) 'listenerArns': listenerArns,
+    };
+  }
 }
 
 /// The configuration that specifies how traffic is shifted from one version of
 /// a Lambda function to another version during an AWS Lambda deployment, or
 /// from one Amazon ECS task set to another during an Amazon ECS deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TrafficRoutingConfig {
   /// A configuration that shifts traffic from one version of a Lambda function or
   /// ECS task set to another in two increments. The original and target Lambda
   /// function versions or ECS task sets are specified in the deployment's AppSpec
   /// file.
-  @_s.JsonKey(name: 'timeBasedCanary')
-  final TimeBasedCanary timeBasedCanary;
+  final TimeBasedCanary? timeBasedCanary;
 
   /// A configuration that shifts traffic from one version of a Lambda function or
   /// ECS task set to another in equal increments, with an equal number of minutes
   /// between each increment. The original and target Lambda function versions or
   /// ECS task sets are specified in the deployment's AppSpec file.
-  @_s.JsonKey(name: 'timeBasedLinear')
-  final TimeBasedLinear timeBasedLinear;
+  final TimeBasedLinear? timeBasedLinear;
 
   /// The type of traffic shifting (<code>TimeBasedCanary</code> or
   /// <code>TimeBasedLinear</code>) used by a deployment configuration.
-  @_s.JsonKey(name: 'type')
-  final TrafficRoutingType type;
+  final TrafficRoutingType? type;
 
   TrafficRoutingConfig({
     this.timeBasedCanary,
     this.timeBasedLinear,
     this.type,
   });
-  factory TrafficRoutingConfig.fromJson(Map<String, dynamic> json) =>
-      _$TrafficRoutingConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TrafficRoutingConfigToJson(this);
+  factory TrafficRoutingConfig.fromJson(Map<String, dynamic> json) {
+    return TrafficRoutingConfig(
+      timeBasedCanary: json['timeBasedCanary'] != null
+          ? TimeBasedCanary.fromJson(
+              json['timeBasedCanary'] as Map<String, dynamic>)
+          : null,
+      timeBasedLinear: json['timeBasedLinear'] != null
+          ? TimeBasedLinear.fromJson(
+              json['timeBasedLinear'] as Map<String, dynamic>)
+          : null,
+      type: (json['type'] as String?)?.toTrafficRoutingType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timeBasedCanary = this.timeBasedCanary;
+    final timeBasedLinear = this.timeBasedLinear;
+    final type = this.type;
+    return {
+      if (timeBasedCanary != null) 'timeBasedCanary': timeBasedCanary,
+      if (timeBasedLinear != null) 'timeBasedLinear': timeBasedLinear,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 enum TrafficRoutingType {
-  @_s.JsonValue('TimeBasedCanary')
   timeBasedCanary,
-  @_s.JsonValue('TimeBasedLinear')
   timeBasedLinear,
-  @_s.JsonValue('AllAtOnce')
   allAtOnce,
 }
 
+extension on TrafficRoutingType {
+  String toValue() {
+    switch (this) {
+      case TrafficRoutingType.timeBasedCanary:
+        return 'TimeBasedCanary';
+      case TrafficRoutingType.timeBasedLinear:
+        return 'TimeBasedLinear';
+      case TrafficRoutingType.allAtOnce:
+        return 'AllAtOnce';
+    }
+  }
+}
+
+extension on String {
+  TrafficRoutingType toTrafficRoutingType() {
+    switch (this) {
+      case 'TimeBasedCanary':
+        return TrafficRoutingType.timeBasedCanary;
+      case 'TimeBasedLinear':
+        return TrafficRoutingType.timeBasedLinear;
+      case 'AllAtOnce':
+        return TrafficRoutingType.allAtOnce;
+    }
+    throw Exception('$this is not known in enum TrafficRoutingType');
+  }
+}
+
 /// Information about notification triggers for the deployment group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TriggerConfig {
   /// The event type or types for which notifications are triggered.
-  @_s.JsonKey(name: 'triggerEvents')
-  final List<TriggerEventType> triggerEvents;
+  final List<TriggerEventType>? triggerEvents;
 
   /// The name of the notification trigger.
-  @_s.JsonKey(name: 'triggerName')
-  final String triggerName;
+  final String? triggerName;
 
   /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
   /// topic through which notifications about deployment or instance events are
   /// sent.
-  @_s.JsonKey(name: 'triggerTargetArn')
-  final String triggerTargetArn;
+  final String? triggerTargetArn;
 
   TriggerConfig({
     this.triggerEvents,
     this.triggerName,
     this.triggerTargetArn,
   });
-  factory TriggerConfig.fromJson(Map<String, dynamic> json) =>
-      _$TriggerConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TriggerConfigToJson(this);
+  factory TriggerConfig.fromJson(Map<String, dynamic> json) {
+    return TriggerConfig(
+      triggerEvents: (json['triggerEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toTriggerEventType())
+          .toList(),
+      triggerName: json['triggerName'] as String?,
+      triggerTargetArn: json['triggerTargetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final triggerEvents = this.triggerEvents;
+    final triggerName = this.triggerName;
+    final triggerTargetArn = this.triggerTargetArn;
+    return {
+      if (triggerEvents != null)
+        'triggerEvents': triggerEvents.map((e) => e.toValue()).toList(),
+      if (triggerName != null) 'triggerName': triggerName,
+      if (triggerTargetArn != null) 'triggerTargetArn': triggerTargetArn,
+    };
+  }
 }
 
 enum TriggerEventType {
-  @_s.JsonValue('DeploymentStart')
   deploymentStart,
-  @_s.JsonValue('DeploymentSuccess')
   deploymentSuccess,
-  @_s.JsonValue('DeploymentFailure')
   deploymentFailure,
-  @_s.JsonValue('DeploymentStop')
   deploymentStop,
-  @_s.JsonValue('DeploymentRollback')
   deploymentRollback,
-  @_s.JsonValue('DeploymentReady')
   deploymentReady,
-  @_s.JsonValue('InstanceStart')
   instanceStart,
-  @_s.JsonValue('InstanceSuccess')
   instanceSuccess,
-  @_s.JsonValue('InstanceFailure')
   instanceFailure,
-  @_s.JsonValue('InstanceReady')
   instanceReady,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TriggerEventType {
+  String toValue() {
+    switch (this) {
+      case TriggerEventType.deploymentStart:
+        return 'DeploymentStart';
+      case TriggerEventType.deploymentSuccess:
+        return 'DeploymentSuccess';
+      case TriggerEventType.deploymentFailure:
+        return 'DeploymentFailure';
+      case TriggerEventType.deploymentStop:
+        return 'DeploymentStop';
+      case TriggerEventType.deploymentRollback:
+        return 'DeploymentRollback';
+      case TriggerEventType.deploymentReady:
+        return 'DeploymentReady';
+      case TriggerEventType.instanceStart:
+        return 'InstanceStart';
+      case TriggerEventType.instanceSuccess:
+        return 'InstanceSuccess';
+      case TriggerEventType.instanceFailure:
+        return 'InstanceFailure';
+      case TriggerEventType.instanceReady:
+        return 'InstanceReady';
+    }
+  }
+}
+
+extension on String {
+  TriggerEventType toTriggerEventType() {
+    switch (this) {
+      case 'DeploymentStart':
+        return TriggerEventType.deploymentStart;
+      case 'DeploymentSuccess':
+        return TriggerEventType.deploymentSuccess;
+      case 'DeploymentFailure':
+        return TriggerEventType.deploymentFailure;
+      case 'DeploymentStop':
+        return TriggerEventType.deploymentStop;
+      case 'DeploymentRollback':
+        return TriggerEventType.deploymentRollback;
+      case 'DeploymentReady':
+        return TriggerEventType.deploymentReady;
+      case 'InstanceStart':
+        return TriggerEventType.instanceStart;
+      case 'InstanceSuccess':
+        return TriggerEventType.instanceSuccess;
+      case 'InstanceFailure':
+        return TriggerEventType.instanceFailure;
+      case 'InstanceReady':
+        return TriggerEventType.instanceReady;
+    }
+    throw Exception('$this is not known in enum TriggerEventType');
+  }
+}
+
 class UntagResourceOutput {
   UntagResourceOutput();
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceOutputFromJson(json);
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Represents the output of an <code>UpdateDeploymentGroup</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeploymentGroupOutput {
   /// If the output contains no data, and the corresponding deployment group
   /// contained at least one Auto Scaling group, AWS CodeDeploy successfully
   /// removed all corresponding Auto Scaling lifecycle event hooks from the AWS
   /// account. If the output contains data, AWS CodeDeploy could not remove some
   /// Auto Scaling lifecycle event hooks from the AWS account.
-  @_s.JsonKey(name: 'hooksNotCleanedUp')
-  final List<AutoScalingGroup> hooksNotCleanedUp;
+  final List<AutoScalingGroup>? hooksNotCleanedUp;
 
   UpdateDeploymentGroupOutput({
     this.hooksNotCleanedUp,
   });
-  factory UpdateDeploymentGroupOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeploymentGroupOutputFromJson(json);
+
+  factory UpdateDeploymentGroupOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateDeploymentGroupOutput(
+      hooksNotCleanedUp: (json['hooksNotCleanedUp'] as List?)
+          ?.whereNotNull()
+          .map((e) => AutoScalingGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hooksNotCleanedUp = this.hooksNotCleanedUp;
+    return {
+      if (hooksNotCleanedUp != null) 'hooksNotCleanedUp': hooksNotCleanedUp,
+    };
+  }
 }
 
 class AlarmsLimitExceededException extends _s.GenericAwsException {
-  AlarmsLimitExceededException({String type, String message})
+  AlarmsLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'AlarmsLimitExceededException', message: message);
 }
 
 class ApplicationAlreadyExistsException extends _s.GenericAwsException {
-  ApplicationAlreadyExistsException({String type, String message})
+  ApplicationAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ApplicationAlreadyExistsException',
@@ -6635,7 +8598,7 @@ class ApplicationAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ApplicationDoesNotExistException extends _s.GenericAwsException {
-  ApplicationDoesNotExistException({String type, String message})
+  ApplicationDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'ApplicationDoesNotExistException',
@@ -6643,7 +8606,7 @@ class ApplicationDoesNotExistException extends _s.GenericAwsException {
 }
 
 class ApplicationLimitExceededException extends _s.GenericAwsException {
-  ApplicationLimitExceededException({String type, String message})
+  ApplicationLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ApplicationLimitExceededException',
@@ -6651,7 +8614,7 @@ class ApplicationLimitExceededException extends _s.GenericAwsException {
 }
 
 class ApplicationNameRequiredException extends _s.GenericAwsException {
-  ApplicationNameRequiredException({String type, String message})
+  ApplicationNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'ApplicationNameRequiredException',
@@ -6659,18 +8622,18 @@ class ApplicationNameRequiredException extends _s.GenericAwsException {
 }
 
 class ArnNotSupportedException extends _s.GenericAwsException {
-  ArnNotSupportedException({String type, String message})
+  ArnNotSupportedException({String? type, String? message})
       : super(type: type, code: 'ArnNotSupportedException', message: message);
 }
 
 class BatchLimitExceededException extends _s.GenericAwsException {
-  BatchLimitExceededException({String type, String message})
+  BatchLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'BatchLimitExceededException', message: message);
 }
 
 class BucketNameFilterRequiredException extends _s.GenericAwsException {
-  BucketNameFilterRequiredException({String type, String message})
+  BucketNameFilterRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'BucketNameFilterRequiredException',
@@ -6678,7 +8641,7 @@ class BucketNameFilterRequiredException extends _s.GenericAwsException {
 }
 
 class DeploymentAlreadyCompletedException extends _s.GenericAwsException {
-  DeploymentAlreadyCompletedException({String type, String message})
+  DeploymentAlreadyCompletedException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentAlreadyCompletedException',
@@ -6686,7 +8649,7 @@ class DeploymentAlreadyCompletedException extends _s.GenericAwsException {
 }
 
 class DeploymentConfigAlreadyExistsException extends _s.GenericAwsException {
-  DeploymentConfigAlreadyExistsException({String type, String message})
+  DeploymentConfigAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentConfigAlreadyExistsException',
@@ -6694,7 +8657,7 @@ class DeploymentConfigAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class DeploymentConfigDoesNotExistException extends _s.GenericAwsException {
-  DeploymentConfigDoesNotExistException({String type, String message})
+  DeploymentConfigDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentConfigDoesNotExistException',
@@ -6702,7 +8665,7 @@ class DeploymentConfigDoesNotExistException extends _s.GenericAwsException {
 }
 
 class DeploymentConfigInUseException extends _s.GenericAwsException {
-  DeploymentConfigInUseException({String type, String message})
+  DeploymentConfigInUseException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentConfigInUseException',
@@ -6710,7 +8673,7 @@ class DeploymentConfigInUseException extends _s.GenericAwsException {
 }
 
 class DeploymentConfigLimitExceededException extends _s.GenericAwsException {
-  DeploymentConfigLimitExceededException({String type, String message})
+  DeploymentConfigLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentConfigLimitExceededException',
@@ -6718,7 +8681,7 @@ class DeploymentConfigLimitExceededException extends _s.GenericAwsException {
 }
 
 class DeploymentConfigNameRequiredException extends _s.GenericAwsException {
-  DeploymentConfigNameRequiredException({String type, String message})
+  DeploymentConfigNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentConfigNameRequiredException',
@@ -6726,7 +8689,7 @@ class DeploymentConfigNameRequiredException extends _s.GenericAwsException {
 }
 
 class DeploymentDoesNotExistException extends _s.GenericAwsException {
-  DeploymentDoesNotExistException({String type, String message})
+  DeploymentDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentDoesNotExistException',
@@ -6734,7 +8697,7 @@ class DeploymentDoesNotExistException extends _s.GenericAwsException {
 }
 
 class DeploymentGroupAlreadyExistsException extends _s.GenericAwsException {
-  DeploymentGroupAlreadyExistsException({String type, String message})
+  DeploymentGroupAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentGroupAlreadyExistsException',
@@ -6742,7 +8705,7 @@ class DeploymentGroupAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class DeploymentGroupDoesNotExistException extends _s.GenericAwsException {
-  DeploymentGroupDoesNotExistException({String type, String message})
+  DeploymentGroupDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentGroupDoesNotExistException',
@@ -6750,7 +8713,7 @@ class DeploymentGroupDoesNotExistException extends _s.GenericAwsException {
 }
 
 class DeploymentGroupLimitExceededException extends _s.GenericAwsException {
-  DeploymentGroupLimitExceededException({String type, String message})
+  DeploymentGroupLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentGroupLimitExceededException',
@@ -6758,7 +8721,7 @@ class DeploymentGroupLimitExceededException extends _s.GenericAwsException {
 }
 
 class DeploymentGroupNameRequiredException extends _s.GenericAwsException {
-  DeploymentGroupNameRequiredException({String type, String message})
+  DeploymentGroupNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentGroupNameRequiredException',
@@ -6766,7 +8729,7 @@ class DeploymentGroupNameRequiredException extends _s.GenericAwsException {
 }
 
 class DeploymentIdRequiredException extends _s.GenericAwsException {
-  DeploymentIdRequiredException({String type, String message})
+  DeploymentIdRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentIdRequiredException',
@@ -6774,7 +8737,7 @@ class DeploymentIdRequiredException extends _s.GenericAwsException {
 }
 
 class DeploymentIsNotInReadyStateException extends _s.GenericAwsException {
-  DeploymentIsNotInReadyStateException({String type, String message})
+  DeploymentIsNotInReadyStateException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentIsNotInReadyStateException',
@@ -6782,7 +8745,7 @@ class DeploymentIsNotInReadyStateException extends _s.GenericAwsException {
 }
 
 class DeploymentLimitExceededException extends _s.GenericAwsException {
-  DeploymentLimitExceededException({String type, String message})
+  DeploymentLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentLimitExceededException',
@@ -6790,7 +8753,7 @@ class DeploymentLimitExceededException extends _s.GenericAwsException {
 }
 
 class DeploymentNotStartedException extends _s.GenericAwsException {
-  DeploymentNotStartedException({String type, String message})
+  DeploymentNotStartedException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentNotStartedException',
@@ -6798,7 +8761,7 @@ class DeploymentNotStartedException extends _s.GenericAwsException {
 }
 
 class DeploymentTargetDoesNotExistException extends _s.GenericAwsException {
-  DeploymentTargetDoesNotExistException({String type, String message})
+  DeploymentTargetDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentTargetDoesNotExistException',
@@ -6806,7 +8769,7 @@ class DeploymentTargetDoesNotExistException extends _s.GenericAwsException {
 }
 
 class DeploymentTargetIdRequiredException extends _s.GenericAwsException {
-  DeploymentTargetIdRequiredException({String type, String message})
+  DeploymentTargetIdRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentTargetIdRequiredException',
@@ -6814,7 +8777,7 @@ class DeploymentTargetIdRequiredException extends _s.GenericAwsException {
 }
 
 class DeploymentTargetListSizeExceededException extends _s.GenericAwsException {
-  DeploymentTargetListSizeExceededException({String type, String message})
+  DeploymentTargetListSizeExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'DeploymentTargetListSizeExceededException',
@@ -6822,13 +8785,13 @@ class DeploymentTargetListSizeExceededException extends _s.GenericAwsException {
 }
 
 class DescriptionTooLongException extends _s.GenericAwsException {
-  DescriptionTooLongException({String type, String message})
+  DescriptionTooLongException({String? type, String? message})
       : super(
             type: type, code: 'DescriptionTooLongException', message: message);
 }
 
 class ECSServiceMappingLimitExceededException extends _s.GenericAwsException {
-  ECSServiceMappingLimitExceededException({String type, String message})
+  ECSServiceMappingLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ECSServiceMappingLimitExceededException',
@@ -6836,7 +8799,7 @@ class ECSServiceMappingLimitExceededException extends _s.GenericAwsException {
 }
 
 class GitHubAccountTokenDoesNotExistException extends _s.GenericAwsException {
-  GitHubAccountTokenDoesNotExistException({String type, String message})
+  GitHubAccountTokenDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'GitHubAccountTokenDoesNotExistException',
@@ -6844,7 +8807,7 @@ class GitHubAccountTokenDoesNotExistException extends _s.GenericAwsException {
 }
 
 class GitHubAccountTokenNameRequiredException extends _s.GenericAwsException {
-  GitHubAccountTokenNameRequiredException({String type, String message})
+  GitHubAccountTokenNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'GitHubAccountTokenNameRequiredException',
@@ -6852,12 +8815,12 @@ class GitHubAccountTokenNameRequiredException extends _s.GenericAwsException {
 }
 
 class IamArnRequiredException extends _s.GenericAwsException {
-  IamArnRequiredException({String type, String message})
+  IamArnRequiredException({String? type, String? message})
       : super(type: type, code: 'IamArnRequiredException', message: message);
 }
 
 class IamSessionArnAlreadyRegisteredException extends _s.GenericAwsException {
-  IamSessionArnAlreadyRegisteredException({String type, String message})
+  IamSessionArnAlreadyRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'IamSessionArnAlreadyRegisteredException',
@@ -6865,7 +8828,7 @@ class IamSessionArnAlreadyRegisteredException extends _s.GenericAwsException {
 }
 
 class IamUserArnAlreadyRegisteredException extends _s.GenericAwsException {
-  IamUserArnAlreadyRegisteredException({String type, String message})
+  IamUserArnAlreadyRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'IamUserArnAlreadyRegisteredException',
@@ -6873,13 +8836,13 @@ class IamUserArnAlreadyRegisteredException extends _s.GenericAwsException {
 }
 
 class IamUserArnRequiredException extends _s.GenericAwsException {
-  IamUserArnRequiredException({String type, String message})
+  IamUserArnRequiredException({String? type, String? message})
       : super(
             type: type, code: 'IamUserArnRequiredException', message: message);
 }
 
 class InstanceDoesNotExistException extends _s.GenericAwsException {
-  InstanceDoesNotExistException({String type, String message})
+  InstanceDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'InstanceDoesNotExistException',
@@ -6887,13 +8850,13 @@ class InstanceDoesNotExistException extends _s.GenericAwsException {
 }
 
 class InstanceIdRequiredException extends _s.GenericAwsException {
-  InstanceIdRequiredException({String type, String message})
+  InstanceIdRequiredException({String? type, String? message})
       : super(
             type: type, code: 'InstanceIdRequiredException', message: message);
 }
 
 class InstanceLimitExceededException extends _s.GenericAwsException {
-  InstanceLimitExceededException({String type, String message})
+  InstanceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'InstanceLimitExceededException',
@@ -6901,7 +8864,7 @@ class InstanceLimitExceededException extends _s.GenericAwsException {
 }
 
 class InstanceNameAlreadyRegisteredException extends _s.GenericAwsException {
-  InstanceNameAlreadyRegisteredException({String type, String message})
+  InstanceNameAlreadyRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'InstanceNameAlreadyRegisteredException',
@@ -6909,7 +8872,7 @@ class InstanceNameAlreadyRegisteredException extends _s.GenericAwsException {
 }
 
 class InstanceNameRequiredException extends _s.GenericAwsException {
-  InstanceNameRequiredException({String type, String message})
+  InstanceNameRequiredException({String? type, String? message})
       : super(
             type: type,
             code: 'InstanceNameRequiredException',
@@ -6917,7 +8880,7 @@ class InstanceNameRequiredException extends _s.GenericAwsException {
 }
 
 class InstanceNotRegisteredException extends _s.GenericAwsException {
-  InstanceNotRegisteredException({String type, String message})
+  InstanceNotRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'InstanceNotRegisteredException',
@@ -6925,13 +8888,13 @@ class InstanceNotRegisteredException extends _s.GenericAwsException {
 }
 
 class InvalidAlarmConfigException extends _s.GenericAwsException {
-  InvalidAlarmConfigException({String type, String message})
+  InvalidAlarmConfigException({String? type, String? message})
       : super(
             type: type, code: 'InvalidAlarmConfigException', message: message);
 }
 
 class InvalidApplicationNameException extends _s.GenericAwsException {
-  InvalidApplicationNameException({String type, String message})
+  InvalidApplicationNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApplicationNameException',
@@ -6939,12 +8902,12 @@ class InvalidApplicationNameException extends _s.GenericAwsException {
 }
 
 class InvalidArnException extends _s.GenericAwsException {
-  InvalidArnException({String type, String message})
+  InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
 class InvalidAutoRollbackConfigException extends _s.GenericAwsException {
-  InvalidAutoRollbackConfigException({String type, String message})
+  InvalidAutoRollbackConfigException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAutoRollbackConfigException',
@@ -6952,7 +8915,7 @@ class InvalidAutoRollbackConfigException extends _s.GenericAwsException {
 }
 
 class InvalidAutoScalingGroupException extends _s.GenericAwsException {
-  InvalidAutoScalingGroupException({String type, String message})
+  InvalidAutoScalingGroupException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidAutoScalingGroupException',
@@ -6962,7 +8925,7 @@ class InvalidAutoScalingGroupException extends _s.GenericAwsException {
 class InvalidBlueGreenDeploymentConfigurationException
     extends _s.GenericAwsException {
   InvalidBlueGreenDeploymentConfigurationException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InvalidBlueGreenDeploymentConfigurationException',
@@ -6970,7 +8933,7 @@ class InvalidBlueGreenDeploymentConfigurationException
 }
 
 class InvalidBucketNameFilterException extends _s.GenericAwsException {
-  InvalidBucketNameFilterException({String type, String message})
+  InvalidBucketNameFilterException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidBucketNameFilterException',
@@ -6978,7 +8941,7 @@ class InvalidBucketNameFilterException extends _s.GenericAwsException {
 }
 
 class InvalidComputePlatformException extends _s.GenericAwsException {
-  InvalidComputePlatformException({String type, String message})
+  InvalidComputePlatformException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidComputePlatformException',
@@ -6986,7 +8949,7 @@ class InvalidComputePlatformException extends _s.GenericAwsException {
 }
 
 class InvalidDeployedStateFilterException extends _s.GenericAwsException {
-  InvalidDeployedStateFilterException({String type, String message})
+  InvalidDeployedStateFilterException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeployedStateFilterException',
@@ -6994,7 +8957,7 @@ class InvalidDeployedStateFilterException extends _s.GenericAwsException {
 }
 
 class InvalidDeploymentConfigNameException extends _s.GenericAwsException {
-  InvalidDeploymentConfigNameException({String type, String message})
+  InvalidDeploymentConfigNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeploymentConfigNameException',
@@ -7002,7 +8965,7 @@ class InvalidDeploymentConfigNameException extends _s.GenericAwsException {
 }
 
 class InvalidDeploymentGroupNameException extends _s.GenericAwsException {
-  InvalidDeploymentGroupNameException({String type, String message})
+  InvalidDeploymentGroupNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeploymentGroupNameException',
@@ -7010,13 +8973,13 @@ class InvalidDeploymentGroupNameException extends _s.GenericAwsException {
 }
 
 class InvalidDeploymentIdException extends _s.GenericAwsException {
-  InvalidDeploymentIdException({String type, String message})
+  InvalidDeploymentIdException({String? type, String? message})
       : super(
             type: type, code: 'InvalidDeploymentIdException', message: message);
 }
 
 class InvalidDeploymentInstanceTypeException extends _s.GenericAwsException {
-  InvalidDeploymentInstanceTypeException({String type, String message})
+  InvalidDeploymentInstanceTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeploymentInstanceTypeException',
@@ -7024,7 +8987,7 @@ class InvalidDeploymentInstanceTypeException extends _s.GenericAwsException {
 }
 
 class InvalidDeploymentStatusException extends _s.GenericAwsException {
-  InvalidDeploymentStatusException({String type, String message})
+  InvalidDeploymentStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeploymentStatusException',
@@ -7032,7 +8995,7 @@ class InvalidDeploymentStatusException extends _s.GenericAwsException {
 }
 
 class InvalidDeploymentStyleException extends _s.GenericAwsException {
-  InvalidDeploymentStyleException({String type, String message})
+  InvalidDeploymentStyleException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeploymentStyleException',
@@ -7040,7 +9003,7 @@ class InvalidDeploymentStyleException extends _s.GenericAwsException {
 }
 
 class InvalidDeploymentTargetIdException extends _s.GenericAwsException {
-  InvalidDeploymentTargetIdException({String type, String message})
+  InvalidDeploymentTargetIdException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeploymentTargetIdException',
@@ -7048,7 +9011,7 @@ class InvalidDeploymentTargetIdException extends _s.GenericAwsException {
 }
 
 class InvalidDeploymentWaitTypeException extends _s.GenericAwsException {
-  InvalidDeploymentWaitTypeException({String type, String message})
+  InvalidDeploymentWaitTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeploymentWaitTypeException',
@@ -7056,7 +9019,7 @@ class InvalidDeploymentWaitTypeException extends _s.GenericAwsException {
 }
 
 class InvalidEC2TagCombinationException extends _s.GenericAwsException {
-  InvalidEC2TagCombinationException({String type, String message})
+  InvalidEC2TagCombinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidEC2TagCombinationException',
@@ -7064,22 +9027,22 @@ class InvalidEC2TagCombinationException extends _s.GenericAwsException {
 }
 
 class InvalidEC2TagException extends _s.GenericAwsException {
-  InvalidEC2TagException({String type, String message})
+  InvalidEC2TagException({String? type, String? message})
       : super(type: type, code: 'InvalidEC2TagException', message: message);
 }
 
 class InvalidECSServiceException extends _s.GenericAwsException {
-  InvalidECSServiceException({String type, String message})
+  InvalidECSServiceException({String? type, String? message})
       : super(type: type, code: 'InvalidECSServiceException', message: message);
 }
 
 class InvalidExternalIdException extends _s.GenericAwsException {
-  InvalidExternalIdException({String type, String message})
+  InvalidExternalIdException({String? type, String? message})
       : super(type: type, code: 'InvalidExternalIdException', message: message);
 }
 
 class InvalidFileExistsBehaviorException extends _s.GenericAwsException {
-  InvalidFileExistsBehaviorException({String type, String message})
+  InvalidFileExistsBehaviorException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidFileExistsBehaviorException',
@@ -7087,7 +9050,7 @@ class InvalidFileExistsBehaviorException extends _s.GenericAwsException {
 }
 
 class InvalidGitHubAccountTokenException extends _s.GenericAwsException {
-  InvalidGitHubAccountTokenException({String type, String message})
+  InvalidGitHubAccountTokenException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidGitHubAccountTokenException',
@@ -7095,7 +9058,7 @@ class InvalidGitHubAccountTokenException extends _s.GenericAwsException {
 }
 
 class InvalidGitHubAccountTokenNameException extends _s.GenericAwsException {
-  InvalidGitHubAccountTokenNameException({String type, String message})
+  InvalidGitHubAccountTokenNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidGitHubAccountTokenNameException',
@@ -7103,7 +9066,7 @@ class InvalidGitHubAccountTokenNameException extends _s.GenericAwsException {
 }
 
 class InvalidIamSessionArnException extends _s.GenericAwsException {
-  InvalidIamSessionArnException({String type, String message})
+  InvalidIamSessionArnException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidIamSessionArnException',
@@ -7111,14 +9074,14 @@ class InvalidIamSessionArnException extends _s.GenericAwsException {
 }
 
 class InvalidIamUserArnException extends _s.GenericAwsException {
-  InvalidIamUserArnException({String type, String message})
+  InvalidIamUserArnException({String? type, String? message})
       : super(type: type, code: 'InvalidIamUserArnException', message: message);
 }
 
 class InvalidIgnoreApplicationStopFailuresValueException
     extends _s.GenericAwsException {
   InvalidIgnoreApplicationStopFailuresValueException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InvalidIgnoreApplicationStopFailuresValueException',
@@ -7126,18 +9089,18 @@ class InvalidIgnoreApplicationStopFailuresValueException
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class InvalidInstanceNameException extends _s.GenericAwsException {
-  InvalidInstanceNameException({String type, String message})
+  InvalidInstanceNameException({String? type, String? message})
       : super(
             type: type, code: 'InvalidInstanceNameException', message: message);
 }
 
 class InvalidInstanceStatusException extends _s.GenericAwsException {
-  InvalidInstanceStatusException({String type, String message})
+  InvalidInstanceStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidInstanceStatusException',
@@ -7145,13 +9108,13 @@ class InvalidInstanceStatusException extends _s.GenericAwsException {
 }
 
 class InvalidInstanceTypeException extends _s.GenericAwsException {
-  InvalidInstanceTypeException({String type, String message})
+  InvalidInstanceTypeException({String? type, String? message})
       : super(
             type: type, code: 'InvalidInstanceTypeException', message: message);
 }
 
 class InvalidKeyPrefixFilterException extends _s.GenericAwsException {
-  InvalidKeyPrefixFilterException({String type, String message})
+  InvalidKeyPrefixFilterException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidKeyPrefixFilterException',
@@ -7160,7 +9123,7 @@ class InvalidKeyPrefixFilterException extends _s.GenericAwsException {
 
 class InvalidLifecycleEventHookExecutionIdException
     extends _s.GenericAwsException {
-  InvalidLifecycleEventHookExecutionIdException({String type, String message})
+  InvalidLifecycleEventHookExecutionIdException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLifecycleEventHookExecutionIdException',
@@ -7170,7 +9133,7 @@ class InvalidLifecycleEventHookExecutionIdException
 class InvalidLifecycleEventHookExecutionStatusException
     extends _s.GenericAwsException {
   InvalidLifecycleEventHookExecutionStatusException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLifecycleEventHookExecutionStatusException',
@@ -7178,7 +9141,7 @@ class InvalidLifecycleEventHookExecutionStatusException
 }
 
 class InvalidLoadBalancerInfoException extends _s.GenericAwsException {
-  InvalidLoadBalancerInfoException({String type, String message})
+  InvalidLoadBalancerInfoException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLoadBalancerInfoException',
@@ -7186,7 +9149,7 @@ class InvalidLoadBalancerInfoException extends _s.GenericAwsException {
 }
 
 class InvalidMinimumHealthyHostValueException extends _s.GenericAwsException {
-  InvalidMinimumHealthyHostValueException({String type, String message})
+  InvalidMinimumHealthyHostValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidMinimumHealthyHostValueException',
@@ -7194,12 +9157,12 @@ class InvalidMinimumHealthyHostValueException extends _s.GenericAwsException {
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidOnPremisesTagCombinationException extends _s.GenericAwsException {
-  InvalidOnPremisesTagCombinationException({String type, String message})
+  InvalidOnPremisesTagCombinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidOnPremisesTagCombinationException',
@@ -7207,12 +9170,12 @@ class InvalidOnPremisesTagCombinationException extends _s.GenericAwsException {
 }
 
 class InvalidOperationException extends _s.GenericAwsException {
-  InvalidOperationException({String type, String message})
+  InvalidOperationException({String? type, String? message})
       : super(type: type, code: 'InvalidOperationException', message: message);
 }
 
 class InvalidRegistrationStatusException extends _s.GenericAwsException {
-  InvalidRegistrationStatusException({String type, String message})
+  InvalidRegistrationStatusException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRegistrationStatusException',
@@ -7220,42 +9183,42 @@ class InvalidRegistrationStatusException extends _s.GenericAwsException {
 }
 
 class InvalidRevisionException extends _s.GenericAwsException {
-  InvalidRevisionException({String type, String message})
+  InvalidRevisionException({String? type, String? message})
       : super(type: type, code: 'InvalidRevisionException', message: message);
 }
 
 class InvalidRoleException extends _s.GenericAwsException {
-  InvalidRoleException({String type, String message})
+  InvalidRoleException({String? type, String? message})
       : super(type: type, code: 'InvalidRoleException', message: message);
 }
 
 class InvalidSortByException extends _s.GenericAwsException {
-  InvalidSortByException({String type, String message})
+  InvalidSortByException({String? type, String? message})
       : super(type: type, code: 'InvalidSortByException', message: message);
 }
 
 class InvalidSortOrderException extends _s.GenericAwsException {
-  InvalidSortOrderException({String type, String message})
+  InvalidSortOrderException({String? type, String? message})
       : super(type: type, code: 'InvalidSortOrderException', message: message);
 }
 
 class InvalidTagException extends _s.GenericAwsException {
-  InvalidTagException({String type, String message})
+  InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
 class InvalidTagFilterException extends _s.GenericAwsException {
-  InvalidTagFilterException({String type, String message})
+  InvalidTagFilterException({String? type, String? message})
       : super(type: type, code: 'InvalidTagFilterException', message: message);
 }
 
 class InvalidTagsToAddException extends _s.GenericAwsException {
-  InvalidTagsToAddException({String type, String message})
+  InvalidTagsToAddException({String? type, String? message})
       : super(type: type, code: 'InvalidTagsToAddException', message: message);
 }
 
 class InvalidTargetFilterNameException extends _s.GenericAwsException {
-  InvalidTargetFilterNameException({String type, String message})
+  InvalidTargetFilterNameException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidTargetFilterNameException',
@@ -7263,7 +9226,7 @@ class InvalidTargetFilterNameException extends _s.GenericAwsException {
 }
 
 class InvalidTargetGroupPairException extends _s.GenericAwsException {
-  InvalidTargetGroupPairException({String type, String message})
+  InvalidTargetGroupPairException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidTargetGroupPairException',
@@ -7271,7 +9234,7 @@ class InvalidTargetGroupPairException extends _s.GenericAwsException {
 }
 
 class InvalidTargetInstancesException extends _s.GenericAwsException {
-  InvalidTargetInstancesException({String type, String message})
+  InvalidTargetInstancesException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidTargetInstancesException',
@@ -7279,13 +9242,13 @@ class InvalidTargetInstancesException extends _s.GenericAwsException {
 }
 
 class InvalidTimeRangeException extends _s.GenericAwsException {
-  InvalidTimeRangeException({String type, String message})
+  InvalidTimeRangeException({String? type, String? message})
       : super(type: type, code: 'InvalidTimeRangeException', message: message);
 }
 
 class InvalidTrafficRoutingConfigurationException
     extends _s.GenericAwsException {
-  InvalidTrafficRoutingConfigurationException({String type, String message})
+  InvalidTrafficRoutingConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidTrafficRoutingConfigurationException',
@@ -7293,7 +9256,7 @@ class InvalidTrafficRoutingConfigurationException
 }
 
 class InvalidTriggerConfigException extends _s.GenericAwsException {
-  InvalidTriggerConfigException({String type, String message})
+  InvalidTriggerConfigException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidTriggerConfigException',
@@ -7303,7 +9266,7 @@ class InvalidTriggerConfigException extends _s.GenericAwsException {
 class InvalidUpdateOutdatedInstancesOnlyValueException
     extends _s.GenericAwsException {
   InvalidUpdateOutdatedInstancesOnlyValueException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'InvalidUpdateOutdatedInstancesOnlyValueException',
@@ -7311,7 +9274,7 @@ class InvalidUpdateOutdatedInstancesOnlyValueException
 }
 
 class LifecycleEventAlreadyCompletedException extends _s.GenericAwsException {
-  LifecycleEventAlreadyCompletedException({String type, String message})
+  LifecycleEventAlreadyCompletedException({String? type, String? message})
       : super(
             type: type,
             code: 'LifecycleEventAlreadyCompletedException',
@@ -7319,7 +9282,7 @@ class LifecycleEventAlreadyCompletedException extends _s.GenericAwsException {
 }
 
 class LifecycleHookLimitExceededException extends _s.GenericAwsException {
-  LifecycleHookLimitExceededException({String type, String message})
+  LifecycleHookLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'LifecycleHookLimitExceededException',
@@ -7327,7 +9290,7 @@ class LifecycleHookLimitExceededException extends _s.GenericAwsException {
 }
 
 class MultipleIamArnsProvidedException extends _s.GenericAwsException {
-  MultipleIamArnsProvidedException({String type, String message})
+  MultipleIamArnsProvidedException({String? type, String? message})
       : super(
             type: type,
             code: 'MultipleIamArnsProvidedException',
@@ -7335,7 +9298,7 @@ class MultipleIamArnsProvidedException extends _s.GenericAwsException {
 }
 
 class OperationNotSupportedException extends _s.GenericAwsException {
-  OperationNotSupportedException({String type, String message})
+  OperationNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotSupportedException',
@@ -7343,19 +9306,19 @@ class OperationNotSupportedException extends _s.GenericAwsException {
 }
 
 class ResourceArnRequiredException extends _s.GenericAwsException {
-  ResourceArnRequiredException({String type, String message})
+  ResourceArnRequiredException({String? type, String? message})
       : super(
             type: type, code: 'ResourceArnRequiredException', message: message);
 }
 
 class ResourceValidationException extends _s.GenericAwsException {
-  ResourceValidationException({String type, String message})
+  ResourceValidationException({String? type, String? message})
       : super(
             type: type, code: 'ResourceValidationException', message: message);
 }
 
 class RevisionDoesNotExistException extends _s.GenericAwsException {
-  RevisionDoesNotExistException({String type, String message})
+  RevisionDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'RevisionDoesNotExistException',
@@ -7363,27 +9326,27 @@ class RevisionDoesNotExistException extends _s.GenericAwsException {
 }
 
 class RevisionRequiredException extends _s.GenericAwsException {
-  RevisionRequiredException({String type, String message})
+  RevisionRequiredException({String? type, String? message})
       : super(type: type, code: 'RevisionRequiredException', message: message);
 }
 
 class RoleRequiredException extends _s.GenericAwsException {
-  RoleRequiredException({String type, String message})
+  RoleRequiredException({String? type, String? message})
       : super(type: type, code: 'RoleRequiredException', message: message);
 }
 
 class TagLimitExceededException extends _s.GenericAwsException {
-  TagLimitExceededException({String type, String message})
+  TagLimitExceededException({String? type, String? message})
       : super(type: type, code: 'TagLimitExceededException', message: message);
 }
 
 class TagRequiredException extends _s.GenericAwsException {
-  TagRequiredException({String type, String message})
+  TagRequiredException({String? type, String? message})
       : super(type: type, code: 'TagRequiredException', message: message);
 }
 
 class TagSetListLimitExceededException extends _s.GenericAwsException {
-  TagSetListLimitExceededException({String type, String message})
+  TagSetListLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'TagSetListLimitExceededException',
@@ -7391,12 +9354,12 @@ class TagSetListLimitExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TriggerTargetsLimitExceededException extends _s.GenericAwsException {
-  TriggerTargetsLimitExceededException({String type, String message})
+  TriggerTargetsLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'TriggerTargetsLimitExceededException',
@@ -7405,7 +9368,7 @@ class TriggerTargetsLimitExceededException extends _s.GenericAwsException {
 
 class UnsupportedActionForDeploymentTypeException
     extends _s.GenericAwsException {
-  UnsupportedActionForDeploymentTypeException({String type, String message})
+  UnsupportedActionForDeploymentTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedActionForDeploymentTypeException',

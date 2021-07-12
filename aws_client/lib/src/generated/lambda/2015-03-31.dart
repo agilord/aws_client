@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,35 +11,27 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-part '2015-03-31.g.dart';
-
-/// This is the <i>AWS Lambda API Reference</i>. The AWS Lambda Developer Guide
-/// provides additional information. For the service overview, see <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What is AWS
+/// This is the <i>Lambda API Reference</i>. The Lambda Developer Guide provides
+/// additional information. For the service overview, see <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">What is
 /// Lambda</a>, and for information about how the service works, see <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">AWS
-/// Lambda: How it Works</a> in the <b>AWS Lambda Developer Guide</b>.
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html">Lambda:
+/// How it Works</a> in the <b>Lambda Developer Guide</b>.
 class Lambda {
   final _s.RestJsonProtocol _protocol;
   Lambda({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -50,10 +43,10 @@ class Lambda {
         );
 
   /// Adds permissions to the resource-based policy of a version of an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a>. Use this action to grant layer usage permission to other
-  /// accounts. You can grant permission to a single account, all AWS accounts,
-  /// or all accounts in an organization.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a>. Use this action to grant layer usage permission to other
+  /// accounts. You can grant permission to a single account, all accounts in an
+  /// organization, or all Amazon Web Services accounts.
   ///
   /// To revoke permission, call <a>RemoveLayerVersionPermission</a> with the
   /// statement ID that you specified when you added it.
@@ -74,7 +67,11 @@ class Lambda {
   /// The name or Amazon Resource Name (ARN) of the layer.
   ///
   /// Parameter [principal] :
-  /// An account ID, or <code>*</code> to grant permission to all AWS accounts.
+  /// An account ID, or <code>*</code> to grant layer usage permission to all
+  /// accounts in an organization, or all Amazon Web Services accounts (if
+  /// <code>organizationId</code> is not specified). For the last case, make
+  /// sure that you really do want all Amazon Web Services accounts to have
+  /// usage permission to this layer.
   ///
   /// Parameter [statementId] :
   /// An identifier that distinguishes the policy from others on the same layer
@@ -92,19 +89,20 @@ class Lambda {
   /// this option to avoid modifying a policy that has changed since you last
   /// read it.
   Future<AddLayerVersionPermissionResponse> addLayerVersionPermission({
-    @_s.required String action,
-    @_s.required String layerName,
-    @_s.required String principal,
-    @_s.required String statementId,
-    @_s.required int versionNumber,
-    String organizationId,
-    String revisionId,
+    required String action,
+    required String layerName,
+    required String principal,
+    required String statementId,
+    required int versionNumber,
+    String? organizationId,
+    String? revisionId,
   }) async {
     ArgumentError.checkNotNull(action, 'action');
-    _s.validateStringPattern(
+    _s.validateStringLength(
       'action',
       action,
-      r'''lambda:GetLayerVersion''',
+      0,
+      22,
       isRequired: true,
     );
     ArgumentError.checkNotNull(layerName, 'layerName');
@@ -115,19 +113,7 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'layerName',
-      layerName,
-      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
-    _s.validateStringPattern(
-      'principal',
-      principal,
-      r'''\d{12}|\*|arn:(aws[a-zA-Z-]*):iam::\d{12}:root''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
       'statementId',
@@ -136,17 +122,12 @@ class Lambda {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''([a-zA-Z0-9-_]+)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
-    _s.validateStringPattern(
+    _s.validateStringLength(
       'organizationId',
       organizationId,
-      r'''o-[a-z0-9]{10,32}''',
+      0,
+      34,
     );
     final $query = <String, List<String>>{
       if (revisionId != null) 'RevisionId': [revisionId],
@@ -168,20 +149,21 @@ class Lambda {
     return AddLayerVersionPermissionResponse.fromJson(response);
   }
 
-  /// Grants an AWS service or another account permission to use a function. You
-  /// can apply the policy at the function level, or specify a qualifier to
-  /// restrict access to a single version or alias. If you use a qualifier, the
-  /// invoker must use the full Amazon Resource Name (ARN) of that version or
-  /// alias to invoke the function.
+  /// Grants an Amazon Web Services service or another account permission to use
+  /// a function. You can apply the policy at the function level, or specify a
+  /// qualifier to restrict access to a single version or alias. If you use a
+  /// qualifier, the invoker must use the full Amazon Resource Name (ARN) of
+  /// that version or alias to invoke the function.
   ///
   /// To grant permission to another account, specify the account ID as the
-  /// <code>Principal</code>. For AWS services, the principal is a domain-style
-  /// identifier defined by the service, like <code>s3.amazonaws.com</code> or
-  /// <code>sns.amazonaws.com</code>. For AWS services, you can also specify the
-  /// ARN of the associated resource as the <code>SourceArn</code>. If you grant
-  /// permission to a service principal without specifying the source, other
-  /// accounts could potentially configure resources in their account to invoke
-  /// your Lambda function.
+  /// <code>Principal</code>. For Amazon Web Services services, the principal is
+  /// a domain-style identifier defined by the service, like
+  /// <code>s3.amazonaws.com</code> or <code>sns.amazonaws.com</code>. For
+  /// Amazon Web Services services, you can also specify the ARN of the
+  /// associated resource as the <code>SourceArn</code>. If you grant permission
+  /// to a service principal without specifying the source, other accounts could
+  /// potentially configure resources in their account to invoke your Lambda
+  /// function.
   ///
   /// This action adds a statement to a resource-based permissions policy for
   /// the function. For more information about function policies, see <a
@@ -222,9 +204,10 @@ class Lambda {
   /// name, it is limited to 64 characters in length.
   ///
   /// Parameter [principal] :
-  /// The AWS service or account that invokes the function. If you specify a
-  /// service, use <code>SourceArn</code> or <code>SourceAccount</code> to limit
-  /// who can invoke the function through that service.
+  /// The Amazon Web Services service or account that invokes the function. If
+  /// you specify a service, use <code>SourceArn</code> or
+  /// <code>SourceAccount</code> to limit who can invoke the function through
+  /// that service.
   ///
   /// Parameter [statementId] :
   /// A statement identifier that differentiates the statement from others in
@@ -250,26 +233,21 @@ class Lambda {
   /// deleted by its owner and recreated by another account.
   ///
   /// Parameter [sourceArn] :
-  /// For AWS services, the ARN of the AWS resource that invokes the function.
-  /// For example, an Amazon S3 bucket or Amazon SNS topic.
+  /// For Amazon Web Services services, the ARN of the Amazon Web Services
+  /// resource that invokes the function. For example, an Amazon S3 bucket or
+  /// Amazon SNS topic.
   Future<AddPermissionResponse> addPermission({
-    @_s.required String action,
-    @_s.required String functionName,
-    @_s.required String principal,
-    @_s.required String statementId,
-    String eventSourceToken,
-    String qualifier,
-    String revisionId,
-    String sourceAccount,
-    String sourceArn,
+    required String action,
+    required String functionName,
+    required String principal,
+    required String statementId,
+    String? eventSourceToken,
+    String? qualifier,
+    String? revisionId,
+    String? sourceAccount,
+    String? sourceArn,
   }) async {
     ArgumentError.checkNotNull(action, 'action');
-    _s.validateStringPattern(
-      'action',
-      action,
-      r'''(lambda:[*]|lambda:[a-zA-Z]+|[*])''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
       'functionName',
@@ -278,19 +256,7 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
-    _s.validateStringPattern(
-      'principal',
-      principal,
-      r'''.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
       'statementId',
@@ -299,22 +265,11 @@ class Lambda {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''([a-zA-Z0-9-_]+)''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'eventSourceToken',
       eventSourceToken,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'eventSourceToken',
-      eventSourceToken,
-      r'''[a-zA-Z0-9._\-]+''',
     );
     _s.validateStringLength(
       'qualifier',
@@ -322,20 +277,11 @@ class Lambda {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
-    _s.validateStringPattern(
+    _s.validateStringLength(
       'sourceAccount',
       sourceAccount,
-      r'''\d{12}''',
-    );
-    _s.validateStringPattern(
-      'sourceArn',
-      sourceArn,
-      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
+      0,
+      12,
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -408,11 +354,11 @@ class Lambda {
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing">routing
   /// configuration</a> of the alias.
   Future<AliasConfiguration> createAlias({
-    @_s.required String functionName,
-    @_s.required String functionVersion,
-    @_s.required String name,
-    String description,
-    AliasRoutingConfiguration routingConfig,
+    required String functionName,
+    required String functionVersion,
+    required String name,
+    String? description,
+    AliasRoutingConfiguration? routingConfig,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -420,12 +366,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(functionVersion, 'functionVersion');
@@ -436,24 +376,12 @@ class Lambda {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionVersion',
-      functionVersion,
-      r'''(\$LATEST|[0-9]+)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -497,9 +425,9 @@ class Lambda {
   /// Parameter [description] :
   /// Descriptive name for this code signing configuration.
   Future<CreateCodeSigningConfigResponse> createCodeSigningConfig({
-    @_s.required AllowedPublishers allowedPublishers,
-    CodeSigningPolicies codeSigningPolicies,
-    String description,
+    required AllowedPublishers allowedPublishers,
+    CodeSigningPolicies? codeSigningPolicies,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(allowedPublishers, 'allowedPublishers');
     _s.validateStringLength(
@@ -523,37 +451,41 @@ class Lambda {
     return CreateCodeSigningConfigResponse.fromJson(response);
   }
 
-  /// Creates a mapping between an event source and an AWS Lambda function.
-  /// Lambda reads items from the event source and triggers the function.
+  /// Creates a mapping between an event source and an Lambda function. Lambda
+  /// reads items from the event source and triggers the function.
   ///
-  /// For details about each event source type, see the following topics.
+  /// For details about each event source type, see the following topics. In
+  /// particular, each of the topics describes the required and optional
+  /// parameters for the specific event source.
   ///
   /// <ul>
   /// <li>
-  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html">Using
-  /// AWS Lambda with Amazon DynamoDB</a>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html#services-dynamodb-eventsourcemapping">
+  /// Configuring a Dynamo DB stream as an event source</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html">Using
-  /// AWS Lambda with Amazon Kinesis</a>
-  /// </li>
-  /// <li>
-  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html">Using
-  /// AWS Lambda with Amazon SQS</a>
-  /// </li>
-  /// <li>
-  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-mq.html">Using
-  /// AWS Lambda with Amazon MQ</a>
-  /// </li>
-  /// <li>
-  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html">Using
-  /// AWS Lambda with Amazon MSK</a>
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html#services-kinesis-eventsourcemapping">
+  /// Configuring a Kinesis stream as an event source</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html">Using
-  /// AWS Lambda with Self-Managed Apache Kafka</a>
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-eventsource">
+  /// Configuring an SQS queue as an event source</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/with-mq.html#services-mq-eventsourcemapping">
+  /// Configuring an MQ broker as an event source</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html">
+  /// Configuring MSK as an event source</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html">
+  /// Configuring Self-Managed Apache Kafka as an event source</a>
   /// </li>
   /// </ul>
   /// The following error handling options are only available for stream sources
@@ -637,11 +569,11 @@ class Lambda {
   /// </ul>
   ///
   /// Parameter [bisectBatchOnFunctionError] :
-  /// (Streams) If the function returns an error, split the batch in two and
-  /// retry.
+  /// (Streams only) If the function returns an error, split the batch in two
+  /// and retry.
   ///
   /// Parameter [destinationConfig] :
-  /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for
+  /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for
   /// discarded records.
   ///
   /// Parameter [enabled] :
@@ -667,7 +599,7 @@ class Lambda {
   /// </ul>
   ///
   /// Parameter [functionResponseTypes] :
-  /// (Streams) A list of current response type enums applied to the event
+  /// (Streams only) A list of current response type enums applied to the event
   /// source mapping.
   ///
   /// Parameter [maximumBatchingWindowInSeconds] :
@@ -675,16 +607,17 @@ class Lambda {
   /// records before invoking the function, in seconds.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
-  /// (Streams) Discard records older than the specified age. The default value
-  /// is infinite (-1).
+  /// (Streams only) Discard records older than the specified age. The default
+  /// value is infinite (-1).
   ///
   /// Parameter [maximumRetryAttempts] :
-  /// (Streams) Discard records after the specified number of retries. The
+  /// (Streams only) Discard records after the specified number of retries. The
   /// default value is infinite (-1). When set to infinite (-1), failed records
   /// will be retried until the record expires.
   ///
   /// Parameter [parallelizationFactor] :
-  /// (Streams) The number of batches to process from each shard concurrently.
+  /// (Streams only) The number of batches to process from each shard
+  /// concurrently.
   ///
   /// Parameter [queues] :
   /// (MQ) The name of the Amazon MQ broker destination queue to consume.
@@ -709,27 +642,27 @@ class Lambda {
   /// The name of the Kafka topic.
   ///
   /// Parameter [tumblingWindowInSeconds] :
-  /// (Streams) The duration of a processing window in seconds. The range is
-  /// between 1 second up to 15 minutes.
+  /// (Streams only) The duration in seconds of a processing window. The range
+  /// is between 1 second up to 900 seconds.
   Future<EventSourceMappingConfiguration> createEventSourceMapping({
-    @_s.required String functionName,
-    int batchSize,
-    bool bisectBatchOnFunctionError,
-    DestinationConfig destinationConfig,
-    bool enabled,
-    String eventSourceArn,
-    List<FunctionResponseType> functionResponseTypes,
-    int maximumBatchingWindowInSeconds,
-    int maximumRecordAgeInSeconds,
-    int maximumRetryAttempts,
-    int parallelizationFactor,
-    List<String> queues,
-    SelfManagedEventSource selfManagedEventSource,
-    List<SourceAccessConfiguration> sourceAccessConfigurations,
-    EventSourcePosition startingPosition,
-    DateTime startingPositionTimestamp,
-    List<String> topics,
-    int tumblingWindowInSeconds,
+    required String functionName,
+    int? batchSize,
+    bool? bisectBatchOnFunctionError,
+    DestinationConfig? destinationConfig,
+    bool? enabled,
+    String? eventSourceArn,
+    List<FunctionResponseType>? functionResponseTypes,
+    int? maximumBatchingWindowInSeconds,
+    int? maximumRecordAgeInSeconds,
+    int? maximumRetryAttempts,
+    int? parallelizationFactor,
+    List<String>? queues,
+    SelfManagedEventSource? selfManagedEventSource,
+    List<SourceAccessConfiguration>? sourceAccessConfigurations,
+    EventSourcePosition? startingPosition,
+    DateTime? startingPositionTimestamp,
+    List<String>? topics,
+    int? tumblingWindowInSeconds,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -739,22 +672,11 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'batchSize',
       batchSize,
       1,
       10000,
-    );
-    _s.validateStringPattern(
-      'eventSourceArn',
-      eventSourceArn,
-      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
     );
     _s.validateNumRange(
       'maximumBatchingWindowInSeconds',
@@ -796,7 +718,7 @@ class Lambda {
       if (eventSourceArn != null) 'EventSourceArn': eventSourceArn,
       if (functionResponseTypes != null)
         'FunctionResponseTypes':
-            functionResponseTypes.map((e) => e?.toValue() ?? '').toList(),
+            functionResponseTypes.map((e) => e.toValue()).toList(),
       if (maximumBatchingWindowInSeconds != null)
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
       if (maximumRecordAgeInSeconds != null)
@@ -834,8 +756,22 @@ class Lambda {
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role">execution
   /// role</a>. The deployment package is a .zip file archive or container image
   /// that contains your function code. The execution role grants the function
-  /// permission to use AWS services, such as Amazon CloudWatch Logs for log
-  /// streaming and AWS X-Ray for request tracing.
+  /// permission to use Amazon Web Services services, such as Amazon CloudWatch
+  /// Logs for log streaming and X-Ray for request tracing.
+  ///
+  /// You set the package type to <code>Image</code> if the deployment package
+  /// is a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html">container
+  /// image</a>. For a container image, the code property must include the URI
+  /// of a container image in the Amazon ECR registry. You do not need to
+  /// specify the handler and runtime properties.
+  ///
+  /// You set the package type to <code>Zip</code> if the deployment package is
+  /// a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip">.zip
+  /// file archive</a>. For a .zip file archive, the code property specifies the
+  /// location of the .zip file. You must also specify the handler and runtime
+  /// properties.
   ///
   /// When you create a function, Lambda provisions an instance of the function
   /// and its supporting resources. If your function connects to a VPC, this
@@ -870,15 +806,16 @@ class Lambda {
   /// includes set set of signing profiles, which define the trusted publishers
   /// for this function.
   ///
-  /// If another account or an AWS service invokes your function, use
-  /// <a>AddPermission</a> to grant permission by creating a resource-based IAM
-  /// policy. You can grant permissions at the function level, on a version, or
-  /// on an alias.
+  /// If another account or an Amazon Web Services service invokes your
+  /// function, use <a>AddPermission</a> to grant permission by creating a
+  /// resource-based IAM policy. You can grant permissions at the function
+  /// level, on a version, or on an alias.
   ///
   /// To invoke your function directly, use <a>Invoke</a>. To invoke your
-  /// function in response to events in other AWS services, create an event
-  /// source mapping (<a>CreateEventSourceMapping</a>), or configure a function
-  /// trigger in the other service. For more information, see <a
+  /// function in response to events in other Amazon Web Services services,
+  /// create an event source mapping (<a>CreateEventSourceMapping</a>), or
+  /// configure a function trigger in the other service. For more information,
+  /// see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html">Invoking
   /// Functions</a>.
   ///
@@ -948,12 +885,14 @@ class Lambda {
   /// Model</a>.
   ///
   /// Parameter [imageConfig] :
-  /// Configuration values that override the container image Dockerfile.
+  /// Container image <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html#configuration-images-settings">configuration
+  /// values</a> that override the values in the container image Dockerfile.
   ///
   /// Parameter [kMSKeyArn] :
-  /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to
-  /// encrypt your function's environment variables. If it's not provided, AWS
-  /// Lambda uses a default service key.
+  /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's
+  /// used to encrypt your function's environment variables. If it's not
+  /// provided, Lambda uses a default service key.
   ///
   /// Parameter [layers] :
   /// A list of <a
@@ -962,9 +901,11 @@ class Lambda {
   /// layer by its ARN, including the version.
   ///
   /// Parameter [memorySize] :
-  /// The amount of memory available to the function at runtime. Increasing the
-  /// function's memory also increases its CPU allocation. The default value is
-  /// 128 MB. The value can be any multiple of 1 MB.
+  /// The amount of <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html">memory
+  /// available to the function</a> at runtime. Increasing the function memory
+  /// also increases its CPU allocation. The default value is 128 MB. The value
+  /// can be any multiple of 1 MB.
   ///
   /// Parameter [packageType] :
   /// The type of deployment package. Set to <code>Image</code> for container
@@ -985,39 +926,43 @@ class Lambda {
   /// Parameter [timeout] :
   /// The amount of time that Lambda allows a function to run before stopping
   /// it. The default is 3 seconds. The maximum allowed value is 900 seconds.
+  /// For additional information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html">Lambda
+  /// execution environment</a>.
   ///
   /// Parameter [tracingConfig] :
   /// Set <code>Mode</code> to <code>Active</code> to sample and trace a subset
-  /// of incoming requests with AWS X-Ray.
+  /// of incoming requests with <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html">X-Ray</a>.
   ///
   /// Parameter [vpcConfig] :
-  /// For network connectivity to AWS resources in a VPC, specify a list of
-  /// security groups and subnets in the VPC. When you connect a function to a
-  /// VPC, it can only access resources and the internet through that VPC. For
-  /// more information, see <a
+  /// For network connectivity to Amazon Web Services resources in a VPC,
+  /// specify a list of security groups and subnets in the VPC. When you connect
+  /// a function to a VPC, it can only access resources and the internet through
+  /// that VPC. For more information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
   /// Settings</a>.
   Future<FunctionConfiguration> createFunction({
-    @_s.required FunctionCode code,
-    @_s.required String functionName,
-    @_s.required String role,
-    String codeSigningConfigArn,
-    DeadLetterConfig deadLetterConfig,
-    String description,
-    Environment environment,
-    List<FileSystemConfig> fileSystemConfigs,
-    String handler,
-    ImageConfig imageConfig,
-    String kMSKeyArn,
-    List<String> layers,
-    int memorySize,
-    PackageType packageType,
-    bool publish,
-    Runtime runtime,
-    Map<String, String> tags,
-    int timeout,
-    TracingConfig tracingConfig,
-    VpcConfig vpcConfig,
+    required FunctionCode code,
+    required String functionName,
+    required String role,
+    String? codeSigningConfigArn,
+    DeadLetterConfig? deadLetterConfig,
+    String? description,
+    Environment? environment,
+    List<FileSystemConfig>? fileSystemConfigs,
+    String? handler,
+    ImageConfig? imageConfig,
+    String? kMSKeyArn,
+    List<String>? layers,
+    int? memorySize,
+    PackageType? packageType,
+    bool? publish,
+    Runtime? runtime,
+    Map<String, String>? tags,
+    int? timeout,
+    TracingConfig? tracingConfig,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(code, 'code');
     ArgumentError.checkNotNull(functionName, 'functionName');
@@ -1028,29 +973,12 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'codeSigningConfigArn',
       codeSigningConfigArn,
       0,
       200,
-    );
-    _s.validateStringPattern(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
     );
     _s.validateStringLength(
       'description',
@@ -1063,16 +991,6 @@ class Lambda {
       handler,
       0,
       128,
-    );
-    _s.validateStringPattern(
-      'handler',
-      handler,
-      r'''[^\s]+''',
-    );
-    _s.validateStringPattern(
-      'kMSKeyArn',
-      kMSKeyArn,
-      r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
     );
     _s.validateNumRange(
       'memorySize',
@@ -1148,8 +1066,8 @@ class Lambda {
   /// Parameter [name] :
   /// The name of the alias.
   Future<void> deleteAlias({
-    @_s.required String functionName,
-    @_s.required String name,
+    required String functionName,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1159,24 +1077,12 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
     await _protocol.send(
@@ -1199,7 +1105,7 @@ class Lambda {
   /// Parameter [codeSigningConfigArn] :
   /// The The Amazon Resource Name (ARN) of the code signing configuration.
   Future<void> deleteCodeSigningConfig({
-    @_s.required String codeSigningConfigArn,
+    required String codeSigningConfigArn,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
     _s.validateStringLength(
@@ -1209,12 +1115,6 @@ class Lambda {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -1222,7 +1122,6 @@ class Lambda {
           '/2020-04-22/code-signing-configs/${Uri.encodeComponent(codeSigningConfigArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCodeSigningConfigResponse.fromJson(response);
   }
 
   /// Deletes an <a
@@ -1242,7 +1141,7 @@ class Lambda {
   /// Parameter [uuid] :
   /// The identifier of the event source mapping.
   Future<EventSourceMappingConfiguration> deleteEventSourceMapping({
-    @_s.required String uuid,
+    required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
     final response = await _protocol.send(
@@ -1260,9 +1159,9 @@ class Lambda {
   /// deleted.
   ///
   /// To delete Lambda event source mappings that invoke a function, use
-  /// <a>DeleteEventSourceMapping</a>. For AWS services and resources that
-  /// invoke your function directly, delete the trigger in the service where you
-  /// originally configured it.
+  /// <a>DeleteEventSourceMapping</a>. For Amazon Web Services services and
+  /// resources that invoke your function directly, delete the trigger in the
+  /// service where you originally configured it.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -1295,8 +1194,8 @@ class Lambda {
   /// Specify a version to delete. You can't delete a version that's referenced
   /// by an alias.
   Future<void> deleteFunction({
-    @_s.required String functionName,
-    String qualifier,
+    required String functionName,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1306,22 +1205,11 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -1363,7 +1251,7 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
   Future<void> deleteFunctionCodeSigningConfig({
-    @_s.required String functionName,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1371,12 +1259,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     await _protocol.send(
@@ -1415,7 +1297,7 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
   Future<void> deleteFunctionConcurrency({
-    @_s.required String functionName,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1423,12 +1305,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     await _protocol.send(
@@ -1475,8 +1351,8 @@ class Lambda {
   /// Parameter [qualifier] :
   /// A version number or alias name.
   Future<void> deleteFunctionEventInvokeConfig({
-    @_s.required String functionName,
-    String qualifier,
+    required String functionName,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1486,22 +1362,11 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -1517,10 +1382,10 @@ class Lambda {
   }
 
   /// Deletes a version of an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a>. Deleted versions can no longer be viewed or added to
-  /// functions. To avoid breaking functions, a copy of the version remains in
-  /// Lambda until no functions refer to it.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a>. Deleted versions can no longer be viewed or added to functions.
+  /// To avoid breaking functions, a copy of the version remains in Lambda until
+  /// no functions refer to it.
   ///
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
@@ -1531,8 +1396,8 @@ class Lambda {
   /// Parameter [versionNumber] :
   /// The version number.
   Future<void> deleteLayerVersion({
-    @_s.required String layerName,
-    @_s.required int versionNumber,
+    required String layerName,
+    required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
     _s.validateStringLength(
@@ -1540,12 +1405,6 @@ class Lambda {
       layerName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'layerName',
-      layerName,
-      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
@@ -1588,8 +1447,8 @@ class Lambda {
   /// Parameter [qualifier] :
   /// The version number or alias name.
   Future<void> deleteProvisionedConcurrencyConfig({
-    @_s.required String functionName,
-    @_s.required String qualifier,
+    required String functionName,
+    required String qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1597,12 +1456,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
@@ -1613,14 +1466,8 @@ class Lambda {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (qualifier != null) 'Qualifier': [qualifier],
+      'Qualifier': [qualifier],
     };
     await _protocol.send(
       payload: null,
@@ -1634,7 +1481,7 @@ class Lambda {
 
   /// Retrieves details about your account's <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/limits.html">limits</a>
-  /// and usage in an AWS Region.
+  /// and usage in an Amazon Web Services Region.
   ///
   /// May throw [TooManyRequestsException].
   /// May throw [ServiceException].
@@ -1678,8 +1525,8 @@ class Lambda {
   /// Parameter [name] :
   /// The name of the alias.
   Future<AliasConfiguration> getAlias({
-    @_s.required String functionName,
-    @_s.required String name,
+    required String functionName,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1689,24 +1536,12 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1728,7 +1563,7 @@ class Lambda {
   /// Parameter [codeSigningConfigArn] :
   /// The The Amazon Resource Name (ARN) of the code signing configuration.
   Future<GetCodeSigningConfigResponse> getCodeSigningConfig({
-    @_s.required String codeSigningConfigArn,
+    required String codeSigningConfigArn,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
     _s.validateStringLength(
@@ -1736,12 +1571,6 @@ class Lambda {
       codeSigningConfigArn,
       0,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1765,7 +1594,7 @@ class Lambda {
   /// Parameter [uuid] :
   /// The identifier of the event source mapping.
   Future<EventSourceMappingConfiguration> getEventSourceMapping({
-    @_s.required String uuid,
+    required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
     final response = await _protocol.send(
@@ -1813,8 +1642,8 @@ class Lambda {
   /// Specify a version or alias to get details about a published version of the
   /// function.
   Future<GetFunctionResponse> getFunction({
-    @_s.required String functionName,
-    String qualifier,
+    required String functionName,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1824,22 +1653,11 @@ class Lambda {
       170,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -1880,7 +1698,7 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
   Future<GetFunctionCodeSigningConfigResponse> getFunctionCodeSigningConfig({
-    @_s.required String functionName,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1888,12 +1706,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1934,7 +1746,7 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
   Future<GetFunctionConcurrencyResponse> getFunctionConcurrency({
-    @_s.required String functionName,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -1942,12 +1754,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1997,8 +1803,8 @@ class Lambda {
   /// Specify a version or alias to get details about a published version of the
   /// function.
   Future<FunctionConfiguration> getFunctionConfiguration({
-    @_s.required String functionName,
-    String qualifier,
+    required String functionName,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2008,22 +1814,11 @@ class Lambda {
       170,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -2074,8 +1869,8 @@ class Lambda {
   /// Parameter [qualifier] :
   /// A version number or alias name.
   Future<FunctionEventInvokeConfig> getFunctionEventInvokeConfig({
-    @_s.required String functionName,
-    String qualifier,
+    required String functionName,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2085,22 +1880,11 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -2117,9 +1901,9 @@ class Lambda {
   }
 
   /// Returns information about a version of an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a>, with a link to download the layer archive that's valid
-  /// for 10 minutes.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a>, with a link to download the layer archive that's valid for 10
+  /// minutes.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidParameterValueException].
@@ -2132,8 +1916,8 @@ class Lambda {
   /// Parameter [versionNumber] :
   /// The version number.
   Future<GetLayerVersionResponse> getLayerVersion({
-    @_s.required String layerName,
-    @_s.required int versionNumber,
+    required String layerName,
+    required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
     _s.validateStringLength(
@@ -2141,12 +1925,6 @@ class Lambda {
       layerName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'layerName',
-      layerName,
-      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
@@ -2161,9 +1939,9 @@ class Lambda {
   }
 
   /// Returns information about a version of an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a>, with a link to download the layer archive that's valid
-  /// for 10 minutes.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a>, with a link to download the layer archive that's valid for 10
+  /// minutes.
   ///
   /// May throw [ServiceException].
   /// May throw [InvalidParameterValueException].
@@ -2173,7 +1951,7 @@ class Lambda {
   /// Parameter [arn] :
   /// The ARN of the layer version.
   Future<GetLayerVersionResponse> getLayerVersionByArn({
-    @_s.required String arn,
+    required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     _s.validateStringLength(
@@ -2183,14 +1961,8 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (arn != null) 'Arn': [arn],
+      'Arn': [arn],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2203,9 +1975,8 @@ class Lambda {
   }
 
   /// Returns the permission policy for a version of an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a>. For more information, see
-  /// <a>AddLayerVersionPermission</a>.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a>. For more information, see <a>AddLayerVersionPermission</a>.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -2218,8 +1989,8 @@ class Lambda {
   /// Parameter [versionNumber] :
   /// The version number.
   Future<GetLayerVersionPolicyResponse> getLayerVersionPolicy({
-    @_s.required String layerName,
-    @_s.required int versionNumber,
+    required String layerName,
+    required int versionNumber,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
     _s.validateStringLength(
@@ -2227,12 +1998,6 @@ class Lambda {
       layerName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'layerName',
-      layerName,
-      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
@@ -2279,8 +2044,8 @@ class Lambda {
   /// Parameter [qualifier] :
   /// Specify a version or alias to get the policy for that resource.
   Future<GetPolicyResponse> getPolicy({
-    @_s.required String functionName,
-    String qualifier,
+    required String functionName,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2290,22 +2055,11 @@ class Lambda {
       170,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -2353,8 +2107,8 @@ class Lambda {
   /// The version number or alias name.
   Future<GetProvisionedConcurrencyConfigResponse>
       getProvisionedConcurrencyConfig({
-    @_s.required String functionName,
-    @_s.required String qualifier,
+    required String functionName,
+    required String qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2362,12 +2116,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(qualifier, 'qualifier');
@@ -2378,14 +2126,8 @@ class Lambda {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (qualifier != null) 'Qualifier': [qualifier],
+      'Qualifier': [qualifier],
     };
     final response = await _protocol.send(
       payload: null,
@@ -2530,12 +2272,12 @@ class Lambda {
   /// Parameter [qualifier] :
   /// Specify a version or alias to invoke a published version of the function.
   Future<InvocationResponse> invoke({
-    @_s.required String functionName,
-    String clientContext,
-    InvocationType invocationType,
-    LogType logType,
-    Uint8List payload,
-    String qualifier,
+    required String functionName,
+    String? clientContext,
+    InvocationType? invocationType,
+    LogType? logType,
+    Uint8List? payload,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2545,27 +2287,19 @@ class Lambda {
       170,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-    );
-    final headers = <String, String>{};
-    clientContext?.let((v) => headers['X-Amz-Client-Context'] = v.toString());
-    invocationType?.let((v) => headers['X-Amz-Invocation-Type'] = v.toValue());
-    logType?.let((v) => headers['X-Amz-Log-Type'] = v.toValue());
+    final headers = <String, String>{
+      if (clientContext != null)
+        'X-Amz-Client-Context': clientContext.toString(),
+      if (invocationType != null)
+        'X-Amz-Invocation-Type': invocationType.toValue(),
+      if (logType != null) 'X-Amz-Log-Type': logType.toValue(),
+    };
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
     };
@@ -2624,8 +2358,8 @@ class Lambda {
   /// The JSON that you want to provide to your Lambda function as input.
   @Deprecated('Deprecated')
   Future<InvokeAsyncResponse> invokeAsync({
-    @_s.required String functionName,
-    @_s.required Uint8List invokeArgs,
+    required String functionName,
+    required Uint8List invokeArgs,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2633,12 +2367,6 @@ class Lambda {
       functionName,
       1,
       170,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
@@ -2690,10 +2418,10 @@ class Lambda {
   /// Parameter [maxItems] :
   /// Limit the number of aliases returned.
   Future<ListAliasesResponse> listAliases({
-    @_s.required String functionName,
-    String functionVersion,
-    String marker,
-    int maxItems,
+    required String functionName,
+    String? functionVersion,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2703,22 +2431,11 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'functionVersion',
       functionVersion,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'functionVersion',
-      functionVersion,
-      r'''(\$LATEST|[0-9]+)''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2758,8 +2475,8 @@ class Lambda {
   /// Parameter [maxItems] :
   /// Maximum number of items to return.
   Future<ListCodeSigningConfigsResponse> listCodeSigningConfigs({
-    String marker,
-    int maxItems,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateNumRange(
       'maxItems',
@@ -2836,26 +2553,16 @@ class Lambda {
   /// Parameter [maxItems] :
   /// The maximum number of event source mappings to return.
   Future<ListEventSourceMappingsResponse> listEventSourceMappings({
-    String eventSourceArn,
-    String functionName,
-    String marker,
-    int maxItems,
+    String? eventSourceArn,
+    String? functionName,
+    String? marker,
+    int? maxItems,
   }) async {
-    _s.validateStringPattern(
-      'eventSourceArn',
-      eventSourceArn,
-      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
-    );
     _s.validateStringLength(
       'functionName',
       functionName,
       1,
       140,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -2917,9 +2624,9 @@ class Lambda {
   /// The maximum number of configurations to return.
   Future<ListFunctionEventInvokeConfigsResponse>
       listFunctionEventInvokeConfigs({
-    @_s.required String functionName,
-    String marker,
-    int maxItems,
+    required String functionName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -2927,12 +2634,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2961,8 +2662,14 @@ class Lambda {
   ///
   /// Set <code>FunctionVersion</code> to <code>ALL</code> to include all
   /// published versions of each function in addition to the unpublished
-  /// version. To get more information about a function or version, use
+  /// version.
+  /// <note>
+  /// The <code>ListFunctions</code> action returns a subset of the
+  /// <a>FunctionConfiguration</a> fields. To get the additional fields (State,
+  /// StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason,
+  /// LastUpdateStatusReasonCode) for a function or version, use
   /// <a>GetFunction</a>.
+  /// </note>
   ///
   /// May throw [ServiceException].
   /// May throw [TooManyRequestsException].
@@ -2977,25 +2684,22 @@ class Lambda {
   /// retrieve the next page of results.
   ///
   /// Parameter [masterRegion] :
-  /// For Lambda@Edge functions, the AWS Region of the master function. For
-  /// example, <code>us-east-1</code> filters the list of functions to only
-  /// include Lambda@Edge functions replicated from a master function in US East
-  /// (N. Virginia). If specified, you must set <code>FunctionVersion</code> to
+  /// For Lambda@Edge functions, the Region of the master function. For example,
+  /// <code>us-east-1</code> filters the list of functions to only include
+  /// Lambda@Edge functions replicated from a master function in US East (N.
+  /// Virginia). If specified, you must set <code>FunctionVersion</code> to
   /// <code>ALL</code>.
   ///
   /// Parameter [maxItems] :
-  /// The maximum number of functions to return.
+  /// The maximum number of functions to return in the response. Note that
+  /// <code>ListFunctions</code> returns a maximum of 50 items in each response,
+  /// even if you set the number higher.
   Future<ListFunctionsResponse> listFunctions({
-    FunctionVersion functionVersion,
-    String marker,
-    String masterRegion,
-    int maxItems,
+    FunctionVersion? functionVersion,
+    String? marker,
+    String? masterRegion,
+    int? maxItems,
   }) async {
-    _s.validateStringPattern(
-      'masterRegion',
-      masterRegion,
-      r'''ALL|[a-z]{2}(-gov)?-[a-z]+-\d{1}''',
-    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -3038,9 +2742,9 @@ class Lambda {
   /// Maximum number of items to return.
   Future<ListFunctionsByCodeSigningConfigResponse>
       listFunctionsByCodeSigningConfig({
-    @_s.required String codeSigningConfigArn,
-    String marker,
-    int maxItems,
+    required String codeSigningConfigArn,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
     _s.validateStringLength(
@@ -3048,12 +2752,6 @@ class Lambda {
       codeSigningConfigArn,
       0,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3078,9 +2776,8 @@ class Lambda {
   }
 
   /// Lists the versions of an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a>. Versions that have been deleted aren't listed. Specify a
-  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a>. Versions that have been deleted aren't listed. Specify a <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime
   /// identifier</a> to list only versions that indicate that they're compatible
   /// with that runtime.
@@ -3102,10 +2799,10 @@ class Lambda {
   /// Parameter [maxItems] :
   /// The maximum number of versions to return.
   Future<ListLayerVersionsResponse> listLayerVersions({
-    @_s.required String layerName,
-    Runtime compatibleRuntime,
-    String marker,
-    int maxItems,
+    required String layerName,
+    Runtime? compatibleRuntime,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
     _s.validateStringLength(
@@ -3113,12 +2810,6 @@ class Lambda {
       layerName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'layerName',
-      layerName,
-      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3145,9 +2836,9 @@ class Lambda {
   }
 
   /// Lists <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layers</a> and shows information about the latest version of each.
-  /// Specify a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layers</a> and shows information about the latest version of each. Specify
+  /// a <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime
   /// identifier</a> to list only layers that indicate that they're compatible
   /// with that runtime.
@@ -3165,9 +2856,9 @@ class Lambda {
   /// Parameter [maxItems] :
   /// The maximum number of layers to return.
   Future<ListLayersResponse> listLayers({
-    Runtime compatibleRuntime,
-    String marker,
-    int maxItems,
+    Runtime? compatibleRuntime,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateNumRange(
       'maxItems',
@@ -3225,9 +2916,9 @@ class Lambda {
   /// Specify a number to limit the number of configurations returned.
   Future<ListProvisionedConcurrencyConfigsResponse>
       listProvisionedConcurrencyConfigs({
-    @_s.required String functionName,
-    String marker,
-    int maxItems,
+    required String functionName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -3235,12 +2926,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3276,15 +2961,9 @@ class Lambda {
   /// Parameter [resource] :
   /// The function's Amazon Resource Name (ARN).
   Future<ListTagsResponse> listTags({
-    @_s.required String resource,
+    required String resource,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -3328,11 +3007,13 @@ class Lambda {
   /// retrieve the next page of results.
   ///
   /// Parameter [maxItems] :
-  /// The maximum number of versions to return.
+  /// The maximum number of versions to return. Note that
+  /// <code>ListVersionsByFunction</code> returns a maximum of 50 items in each
+  /// response, even if you set the number higher.
   Future<ListVersionsByFunctionResponse> listVersionsByFunction({
-    @_s.required String functionName,
-    String marker,
-    int maxItems,
+    required String functionName,
+    String? marker,
+    int? maxItems,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -3340,12 +3021,6 @@ class Lambda {
       functionName,
       1,
       170,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_\.]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3370,8 +3045,8 @@ class Lambda {
   }
 
   /// Creates an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a> from a ZIP archive. Each time you call
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a> from a ZIP archive. Each time you call
   /// <code>PublishLayerVersion</code> with the same layer name, a new version
   /// is created.
   ///
@@ -3416,11 +3091,11 @@ class Lambda {
   /// </li>
   /// </ul>
   Future<PublishLayerVersionResponse> publishLayerVersion({
-    @_s.required LayerVersionContentInput content,
-    @_s.required String layerName,
-    List<Runtime> compatibleRuntimes,
-    String description,
-    String licenseInfo,
+    required LayerVersionContentInput content,
+    required String layerName,
+    List<Runtime>? compatibleRuntimes,
+    String? description,
+    String? licenseInfo,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     ArgumentError.checkNotNull(layerName, 'layerName');
@@ -3429,12 +3104,6 @@ class Lambda {
       layerName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'layerName',
-      layerName,
-      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3453,7 +3122,7 @@ class Lambda {
       'Content': content,
       if (compatibleRuntimes != null)
         'CompatibleRuntimes':
-            compatibleRuntimes.map((e) => e?.toValue() ?? '').toList(),
+            compatibleRuntimes.map((e) => e.toValue()).toList(),
       if (description != null) 'Description': description,
       if (licenseInfo != null) 'LicenseInfo': licenseInfo,
     };
@@ -3473,9 +3142,9 @@ class Lambda {
   /// create a snapshot of your function code and configuration that doesn't
   /// change.
   ///
-  /// AWS Lambda doesn't publish a version if the function's configuration and
-  /// code haven't changed since the last version. Use <a>UpdateFunctionCode</a>
-  /// or <a>UpdateFunctionConfiguration</a> to update the function before
+  /// Lambda doesn't publish a version if the function's configuration and code
+  /// haven't changed since the last version. Use <a>UpdateFunctionCode</a> or
+  /// <a>UpdateFunctionConfiguration</a> to update the function before
   /// publishing a version.
   ///
   /// Clients can invoke versions directly or with an alias. To create an alias,
@@ -3523,10 +3192,10 @@ class Lambda {
   /// specified. Use this option to avoid publishing a version if the function
   /// configuration has changed since you last updated it.
   Future<FunctionConfiguration> publishVersion({
-    @_s.required String functionName,
-    String codeSha256,
-    String description,
-    String revisionId,
+    required String functionName,
+    String? codeSha256,
+    String? description,
+    String? revisionId,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -3534,12 +3203,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -3596,8 +3259,8 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
   Future<PutFunctionCodeSigningConfigResponse> putFunctionCodeSigningConfig({
-    @_s.required String codeSigningConfigArn,
-    @_s.required String functionName,
+    required String codeSigningConfigArn,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
     _s.validateStringLength(
@@ -3607,24 +3270,12 @@ class Lambda {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
       'functionName',
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -3684,8 +3335,8 @@ class Lambda {
   /// Parameter [reservedConcurrentExecutions] :
   /// The number of simultaneous executions to reserve for the function.
   Future<Concurrency> putFunctionConcurrency({
-    @_s.required String functionName,
-    @_s.required int reservedConcurrentExecutions,
+    required String functionName,
+    required int reservedConcurrentExecutions,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -3693,12 +3344,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -3802,11 +3447,11 @@ class Lambda {
   /// Parameter [qualifier] :
   /// A version number or alias name.
   Future<FunctionEventInvokeConfig> putFunctionEventInvokeConfig({
-    @_s.required String functionName,
-    DestinationConfig destinationConfig,
-    int maximumEventAgeInSeconds,
-    int maximumRetryAttempts,
-    String qualifier,
+    required String functionName,
+    DestinationConfig? destinationConfig,
+    int? maximumEventAgeInSeconds,
+    int? maximumRetryAttempts,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -3814,12 +3459,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3839,11 +3478,6 @@ class Lambda {
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -3902,9 +3536,9 @@ class Lambda {
   /// The version number or alias name.
   Future<PutProvisionedConcurrencyConfigResponse>
       putProvisionedConcurrencyConfig({
-    @_s.required String functionName,
-    @_s.required int provisionedConcurrentExecutions,
-    @_s.required String qualifier,
+    required String functionName,
+    required int provisionedConcurrentExecutions,
+    required String qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -3912,12 +3546,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -3937,14 +3565,8 @@ class Lambda {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (qualifier != null) 'Qualifier': [qualifier],
+      'Qualifier': [qualifier],
     };
     final $payload = <String, dynamic>{
       'ProvisionedConcurrentExecutions': provisionedConcurrentExecutions,
@@ -3961,9 +3583,8 @@ class Lambda {
   }
 
   /// Removes a statement from the permissions policy for a version of an <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-  /// Lambda layer</a>. For more information, see
-  /// <a>AddLayerVersionPermission</a>.
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+  /// layer</a>. For more information, see <a>AddLayerVersionPermission</a>.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -3985,10 +3606,10 @@ class Lambda {
   /// this option to avoid modifying a policy that has changed since you last
   /// read it.
   Future<void> removeLayerVersionPermission({
-    @_s.required String layerName,
-    @_s.required String statementId,
-    @_s.required int versionNumber,
-    String revisionId,
+    required String layerName,
+    required String statementId,
+    required int versionNumber,
+    String? revisionId,
   }) async {
     ArgumentError.checkNotNull(layerName, 'layerName');
     _s.validateStringLength(
@@ -3998,24 +3619,12 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'layerName',
-      layerName,
-      r'''(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(statementId, 'statementId');
     _s.validateStringLength(
       'statementId',
       statementId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(versionNumber, 'versionNumber');
@@ -4032,8 +3641,9 @@ class Lambda {
     );
   }
 
-  /// Revokes function-use permission from an AWS service or another account.
-  /// You can get the ID of the statement from the output of <a>GetPolicy</a>.
+  /// Revokes function-use permission from an Amazon Web Services service or
+  /// another account. You can get the ID of the statement from the output of
+  /// <a>GetPolicy</a>.
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -4074,10 +3684,10 @@ class Lambda {
   /// Use this option to avoid modifying a policy that has changed since you
   /// last read it.
   Future<void> removePermission({
-    @_s.required String functionName,
-    @_s.required String statementId,
-    String qualifier,
-    String revisionId,
+    required String functionName,
+    required String statementId,
+    String? qualifier,
+    String? revisionId,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -4085,12 +3695,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(statementId, 'statementId');
@@ -4101,22 +3705,11 @@ class Lambda {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'statementId',
-      statementId,
-      r'''([a-zA-Z0-9-_.]+)''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'qualifier',
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -4148,16 +3741,10 @@ class Lambda {
   /// Parameter [tags] :
   /// A list of tags to apply to the function.
   Future<void> tagResource({
-    @_s.required String resource,
-    @_s.required Map<String, String> tags,
+    required String resource,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -4186,19 +3773,13 @@ class Lambda {
   /// Parameter [tagKeys] :
   /// A list of tag keys to remove from the function.
   Future<void> untagResource({
-    @_s.required String resource,
-    @_s.required List<String> tagKeys,
+    required String resource,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resource, 'resource');
-    _s.validateStringPattern(
-      'resource',
-      resource,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\d{1}:\d{12}:function:[a-zA-Z0-9-_]+(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -4257,12 +3838,12 @@ class Lambda {
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing">routing
   /// configuration</a> of the alias.
   Future<AliasConfiguration> updateAlias({
-    @_s.required String functionName,
-    @_s.required String name,
-    String description,
-    String functionVersion,
-    String revisionId,
-    AliasRoutingConfiguration routingConfig,
+    required String functionName,
+    required String name,
+    String? description,
+    String? functionVersion,
+    String? revisionId,
+    AliasRoutingConfiguration? routingConfig,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -4272,24 +3853,12 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''(?!^[0-9]+$)([a-zA-Z0-9-_]+)''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4303,11 +3872,6 @@ class Lambda {
       functionVersion,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'functionVersion',
-      functionVersion,
-      r'''(\$LATEST|[0-9]+)''',
     );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
@@ -4345,10 +3909,10 @@ class Lambda {
   /// Parameter [description] :
   /// Descriptive name for this code signing configuration.
   Future<UpdateCodeSigningConfigResponse> updateCodeSigningConfig({
-    @_s.required String codeSigningConfigArn,
-    AllowedPublishers allowedPublishers,
-    CodeSigningPolicies codeSigningPolicies,
-    String description,
+    required String codeSigningConfigArn,
+    AllowedPublishers? allowedPublishers,
+    CodeSigningPolicies? codeSigningPolicies,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
     _s.validateStringLength(
@@ -4356,12 +3920,6 @@ class Lambda {
       codeSigningConfigArn,
       0,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'codeSigningConfigArn',
-      codeSigningConfigArn,
-      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4386,9 +3944,8 @@ class Lambda {
     return UpdateCodeSigningConfigResponse.fromJson(response);
   }
 
-  /// Updates an event source mapping. You can change the function that AWS
-  /// Lambda invokes, or pause invocation and resume later from the same
-  /// location.
+  /// Updates an event source mapping. You can change the function that Lambda
+  /// invokes, or pause invocation and resume later from the same location.
   ///
   /// The following error handling options are only available for stream sources
   /// (DynamoDB and Kinesis):
@@ -4452,11 +4009,11 @@ class Lambda {
   /// </ul>
   ///
   /// Parameter [bisectBatchOnFunctionError] :
-  /// (Streams) If the function returns an error, split the batch in two and
-  /// retry.
+  /// (Streams only) If the function returns an error, split the batch in two
+  /// and retry.
   ///
   /// Parameter [destinationConfig] :
-  /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for
+  /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for
   /// discarded records.
   ///
   /// Parameter [enabled] :
@@ -4487,7 +4044,7 @@ class Lambda {
   /// the function name, it's limited to 64 characters in length.
   ///
   /// Parameter [functionResponseTypes] :
-  /// (Streams) A list of current response type enums applied to the event
+  /// (Streams only) A list of current response type enums applied to the event
   /// source mapping.
   ///
   /// Parameter [maximumBatchingWindowInSeconds] :
@@ -4495,38 +4052,39 @@ class Lambda {
   /// records before invoking the function, in seconds.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
-  /// (Streams) Discard records older than the specified age. The default value
-  /// is infinite (-1).
+  /// (Streams only) Discard records older than the specified age. The default
+  /// value is infinite (-1).
   ///
   /// Parameter [maximumRetryAttempts] :
-  /// (Streams) Discard records after the specified number of retries. The
+  /// (Streams only) Discard records after the specified number of retries. The
   /// default value is infinite (-1). When set to infinite (-1), failed records
   /// will be retried until the record expires.
   ///
   /// Parameter [parallelizationFactor] :
-  /// (Streams) The number of batches to process from each shard concurrently.
+  /// (Streams only) The number of batches to process from each shard
+  /// concurrently.
   ///
   /// Parameter [sourceAccessConfigurations] :
   /// An array of the authentication protocol, or the VPC components to secure
   /// your event source.
   ///
   /// Parameter [tumblingWindowInSeconds] :
-  /// (Streams) The duration of a processing window in seconds. The range is
-  /// between 1 second up to 15 minutes.
+  /// (Streams only) The duration in seconds of a processing window. The range
+  /// is between 1 second up to 900 seconds.
   Future<EventSourceMappingConfiguration> updateEventSourceMapping({
-    @_s.required String uuid,
-    int batchSize,
-    bool bisectBatchOnFunctionError,
-    DestinationConfig destinationConfig,
-    bool enabled,
-    String functionName,
-    List<FunctionResponseType> functionResponseTypes,
-    int maximumBatchingWindowInSeconds,
-    int maximumRecordAgeInSeconds,
-    int maximumRetryAttempts,
-    int parallelizationFactor,
-    List<SourceAccessConfiguration> sourceAccessConfigurations,
-    int tumblingWindowInSeconds,
+    required String uuid,
+    int? batchSize,
+    bool? bisectBatchOnFunctionError,
+    DestinationConfig? destinationConfig,
+    bool? enabled,
+    String? functionName,
+    List<FunctionResponseType>? functionResponseTypes,
+    int? maximumBatchingWindowInSeconds,
+    int? maximumRecordAgeInSeconds,
+    int? maximumRetryAttempts,
+    int? parallelizationFactor,
+    List<SourceAccessConfiguration>? sourceAccessConfigurations,
+    int? tumblingWindowInSeconds,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
     _s.validateNumRange(
@@ -4540,11 +4098,6 @@ class Lambda {
       functionName,
       1,
       140,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
     );
     _s.validateNumRange(
       'maximumBatchingWindowInSeconds',
@@ -4585,7 +4138,7 @@ class Lambda {
       if (functionName != null) 'FunctionName': functionName,
       if (functionResponseTypes != null)
         'FunctionResponseTypes':
-            functionResponseTypes.map((e) => e?.toValue() ?? '').toList(),
+            functionResponseTypes.map((e) => e.toValue()).toList(),
       if (maximumBatchingWindowInSeconds != null)
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
       if (maximumRecordAgeInSeconds != null)
@@ -4671,8 +4224,8 @@ class Lambda {
   /// since you last read it.
   ///
   /// Parameter [s3Bucket] :
-  /// An Amazon S3 bucket in the same AWS Region as your function. The bucket
-  /// can be in a different AWS account.
+  /// An Amazon S3 bucket in the same Amazon Web Services Region as your
+  /// function. The bucket can be in a different Amazon Web Services account.
   ///
   /// Parameter [s3Key] :
   /// The Amazon S3 key of the deployment package.
@@ -4682,18 +4235,18 @@ class Lambda {
   /// use.
   ///
   /// Parameter [zipFile] :
-  /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI
-  /// clients handle the encoding for you.
+  /// The base64-encoded contents of the deployment package. Amazon Web Services
+  /// SDK and Amazon Web Services CLI clients handle the encoding for you.
   Future<FunctionConfiguration> updateFunctionCode({
-    @_s.required String functionName,
-    bool dryRun,
-    String imageUri,
-    bool publish,
-    String revisionId,
-    String s3Bucket,
-    String s3Key,
-    String s3ObjectVersion,
-    Uint8List zipFile,
+    required String functionName,
+    bool? dryRun,
+    String? imageUri,
+    bool? publish,
+    String? revisionId,
+    String? s3Bucket,
+    String? s3Key,
+    String? s3ObjectVersion,
+    Uint8List? zipFile,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -4703,22 +4256,11 @@ class Lambda {
       140,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       's3Bucket',
       s3Bucket,
       3,
       63,
-    );
-    _s.validateStringPattern(
-      's3Bucket',
-      s3Bucket,
-      r'''^[0-9A-Za-z\.\-_]*(?<!\.)$''',
     );
     _s.validateStringLength(
       's3Key',
@@ -4771,7 +4313,7 @@ class Lambda {
   /// version, only the unpublished version.
   ///
   /// To configure function concurrency, use <a>PutFunctionConcurrency</a>. To
-  /// grant invoke permissions to an account or AWS service, use
+  /// grant invoke permissions to an account or Amazon Web Services service, use
   /// <a>AddPermission</a>.
   ///
   /// May throw [ServiceException].
@@ -4829,12 +4371,15 @@ class Lambda {
   /// Model</a>.
   ///
   /// Parameter [imageConfig] :
-  /// Configuration values that override the container image Dockerfile.
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/images-parms.html">Container
+  /// image configuration values</a> that override the values in the container
+  /// image Dockerfile.
   ///
   /// Parameter [kMSKeyArn] :
-  /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to
-  /// encrypt your function's environment variables. If it's not provided, AWS
-  /// Lambda uses a default service key.
+  /// The ARN of the Amazon Web Services Key Management Service (KMS) key that's
+  /// used to encrypt your function's environment variables. If it's not
+  /// provided, Lambda uses a default service key.
   ///
   /// Parameter [layers] :
   /// A list of <a
@@ -4843,9 +4388,11 @@ class Lambda {
   /// layer by its ARN, including the version.
   ///
   /// Parameter [memorySize] :
-  /// The amount of memory available to the function at runtime. Increasing the
-  /// function's memory also increases its CPU allocation. The default value is
-  /// 128 MB. The value can be any multiple of 1 MB.
+  /// The amount of <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html">memory
+  /// available to the function</a> at runtime. Increasing the function memory
+  /// also increases its CPU allocation. The default value is 128 MB. The value
+  /// can be any multiple of 1 MB.
   ///
   /// Parameter [revisionId] :
   /// Only update the function if the revision ID matches the ID that's
@@ -4862,35 +4409,39 @@ class Lambda {
   /// Parameter [timeout] :
   /// The amount of time that Lambda allows a function to run before stopping
   /// it. The default is 3 seconds. The maximum allowed value is 900 seconds.
+  /// For additional information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/runtimes-context.html">Lambda
+  /// execution environment</a>.
   ///
   /// Parameter [tracingConfig] :
   /// Set <code>Mode</code> to <code>Active</code> to sample and trace a subset
-  /// of incoming requests with AWS X-Ray.
+  /// of incoming requests with <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html">X-Ray</a>.
   ///
   /// Parameter [vpcConfig] :
-  /// For network connectivity to AWS resources in a VPC, specify a list of
-  /// security groups and subnets in the VPC. When you connect a function to a
-  /// VPC, it can only access resources and the internet through that VPC. For
-  /// more information, see <a
+  /// For network connectivity to Amazon Web Services resources in a VPC,
+  /// specify a list of security groups and subnets in the VPC. When you connect
+  /// a function to a VPC, it can only access resources and the internet through
+  /// that VPC. For more information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
   /// Settings</a>.
   Future<FunctionConfiguration> updateFunctionConfiguration({
-    @_s.required String functionName,
-    DeadLetterConfig deadLetterConfig,
-    String description,
-    Environment environment,
-    List<FileSystemConfig> fileSystemConfigs,
-    String handler,
-    ImageConfig imageConfig,
-    String kMSKeyArn,
-    List<String> layers,
-    int memorySize,
-    String revisionId,
-    String role,
-    Runtime runtime,
-    int timeout,
-    TracingConfig tracingConfig,
-    VpcConfig vpcConfig,
+    required String functionName,
+    DeadLetterConfig? deadLetterConfig,
+    String? description,
+    Environment? environment,
+    List<FileSystemConfig>? fileSystemConfigs,
+    String? handler,
+    ImageConfig? imageConfig,
+    String? kMSKeyArn,
+    List<String>? layers,
+    int? memorySize,
+    String? revisionId,
+    String? role,
+    Runtime? runtime,
+    int? timeout,
+    TracingConfig? tracingConfig,
+    VpcConfig? vpcConfig,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -4898,12 +4449,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4918,26 +4463,11 @@ class Lambda {
       0,
       128,
     );
-    _s.validateStringPattern(
-      'handler',
-      handler,
-      r'''[^\s]+''',
-    );
-    _s.validateStringPattern(
-      'kMSKeyArn',
-      kMSKeyArn,
-      r'''(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()''',
-    );
     _s.validateNumRange(
       'memorySize',
       memorySize,
       128,
       10240,
-    );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     _s.validateNumRange(
       'timeout',
@@ -5034,11 +4564,11 @@ class Lambda {
   /// Parameter [qualifier] :
   /// A version number or alias name.
   Future<FunctionEventInvokeConfig> updateFunctionEventInvokeConfig({
-    @_s.required String functionName,
-    DestinationConfig destinationConfig,
-    int maximumEventAgeInSeconds,
-    int maximumRetryAttempts,
-    String qualifier,
+    required String functionName,
+    DestinationConfig? destinationConfig,
+    int? maximumEventAgeInSeconds,
+    int? maximumRetryAttempts,
+    String? qualifier,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -5046,12 +4576,6 @@ class Lambda {
       functionName,
       1,
       140,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -5071,11 +4595,6 @@ class Lambda {
       qualifier,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'qualifier',
-      qualifier,
-      r'''(|[a-zA-Z0-9$_-]+)''',
     );
     final $query = <String, List<String>>{
       if (qualifier != null) 'Qualifier': [qualifier],
@@ -5101,35 +4620,25 @@ class Lambda {
 
 /// Limits that are related to concurrency and storage. All file and storage
 /// sizes are in bytes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountLimit {
   /// The maximum size of a function's deployment package and layers when they're
   /// extracted.
-  @_s.JsonKey(name: 'CodeSizeUnzipped')
-  final int codeSizeUnzipped;
+  final int? codeSizeUnzipped;
 
-  /// The maximum size of a deployment package when it's uploaded directly to AWS
+  /// The maximum size of a deployment package when it's uploaded directly to
   /// Lambda. Use Amazon S3 for larger files.
-  @_s.JsonKey(name: 'CodeSizeZipped')
-  final int codeSizeZipped;
+  final int? codeSizeZipped;
 
   /// The maximum number of simultaneous function executions.
-  @_s.JsonKey(name: 'ConcurrentExecutions')
-  final int concurrentExecutions;
+  final int? concurrentExecutions;
 
   /// The amount of storage space that you can use for all deployment packages and
   /// layer archives.
-  @_s.JsonKey(name: 'TotalCodeSize')
-  final int totalCodeSize;
+  final int? totalCodeSize;
 
   /// The maximum number of simultaneous function executions, minus the capacity
   /// that's reserved for individual functions with <a>PutFunctionConcurrency</a>.
-  @_s.JsonKey(name: 'UnreservedConcurrentExecutions')
-  final int unreservedConcurrentExecutions;
+  final int? unreservedConcurrentExecutions;
 
   AccountLimit({
     this.codeSizeUnzipped,
@@ -5138,107 +4647,141 @@ class AccountLimit {
     this.totalCodeSize,
     this.unreservedConcurrentExecutions,
   });
-  factory AccountLimit.fromJson(Map<String, dynamic> json) =>
-      _$AccountLimitFromJson(json);
+
+  factory AccountLimit.fromJson(Map<String, dynamic> json) {
+    return AccountLimit(
+      codeSizeUnzipped: json['CodeSizeUnzipped'] as int?,
+      codeSizeZipped: json['CodeSizeZipped'] as int?,
+      concurrentExecutions: json['ConcurrentExecutions'] as int?,
+      totalCodeSize: json['TotalCodeSize'] as int?,
+      unreservedConcurrentExecutions:
+          json['UnreservedConcurrentExecutions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSizeUnzipped = this.codeSizeUnzipped;
+    final codeSizeZipped = this.codeSizeZipped;
+    final concurrentExecutions = this.concurrentExecutions;
+    final totalCodeSize = this.totalCodeSize;
+    final unreservedConcurrentExecutions = this.unreservedConcurrentExecutions;
+    return {
+      if (codeSizeUnzipped != null) 'CodeSizeUnzipped': codeSizeUnzipped,
+      if (codeSizeZipped != null) 'CodeSizeZipped': codeSizeZipped,
+      if (concurrentExecutions != null)
+        'ConcurrentExecutions': concurrentExecutions,
+      if (totalCodeSize != null) 'TotalCodeSize': totalCodeSize,
+      if (unreservedConcurrentExecutions != null)
+        'UnreservedConcurrentExecutions': unreservedConcurrentExecutions,
+    };
+  }
 }
 
 /// The number of functions and amount of storage in use.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountUsage {
   /// The number of Lambda functions.
-  @_s.JsonKey(name: 'FunctionCount')
-  final int functionCount;
+  final int? functionCount;
 
   /// The amount of storage space, in bytes, that's being used by deployment
   /// packages and layer archives.
-  @_s.JsonKey(name: 'TotalCodeSize')
-  final int totalCodeSize;
+  final int? totalCodeSize;
 
   AccountUsage({
     this.functionCount,
     this.totalCodeSize,
   });
-  factory AccountUsage.fromJson(Map<String, dynamic> json) =>
-      _$AccountUsageFromJson(json);
+
+  factory AccountUsage.fromJson(Map<String, dynamic> json) {
+    return AccountUsage(
+      functionCount: json['FunctionCount'] as int?,
+      totalCodeSize: json['TotalCodeSize'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionCount = this.functionCount;
+    final totalCodeSize = this.totalCodeSize;
+    return {
+      if (functionCount != null) 'FunctionCount': functionCount,
+      if (totalCodeSize != null) 'TotalCodeSize': totalCodeSize,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddLayerVersionPermissionResponse {
   /// A unique identifier for the current revision of the policy.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// The permission statement.
-  @_s.JsonKey(name: 'Statement')
-  final String statement;
+  final String? statement;
 
   AddLayerVersionPermissionResponse({
     this.revisionId,
     this.statement,
   });
+
   factory AddLayerVersionPermissionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddLayerVersionPermissionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AddLayerVersionPermissionResponse(
+      revisionId: json['RevisionId'] as String?,
+      statement: json['Statement'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final revisionId = this.revisionId;
+    final statement = this.statement;
+    return {
+      if (revisionId != null) 'RevisionId': revisionId,
+      if (statement != null) 'Statement': statement,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddPermissionResponse {
   /// The permission statement that's added to the function policy.
-  @_s.JsonKey(name: 'Statement')
-  final String statement;
+  final String? statement;
 
   AddPermissionResponse({
     this.statement,
   });
-  factory AddPermissionResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddPermissionResponseFromJson(json);
+
+  factory AddPermissionResponse.fromJson(Map<String, dynamic> json) {
+    return AddPermissionResponse(
+      statement: json['Statement'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statement = this.statement;
+    return {
+      if (statement != null) 'Statement': statement,
+    };
+  }
 }
 
 /// Provides configuration information about a Lambda function <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html">alias</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AliasConfiguration {
   /// The Amazon Resource Name (ARN) of the alias.
-  @_s.JsonKey(name: 'AliasArn')
-  final String aliasArn;
+  final String? aliasArn;
 
   /// A description of the alias.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The function version that the alias invokes.
-  @_s.JsonKey(name: 'FunctionVersion')
-  final String functionVersion;
+  final String? functionVersion;
 
   /// The name of the alias.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A unique identifier that changes when you update the alias.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// The <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">routing
   /// configuration</a> of the alias.
-  @_s.JsonKey(name: 'RoutingConfig')
-  final AliasRoutingConfiguration routingConfig;
+  final AliasRoutingConfiguration? routingConfig;
 
   AliasConfiguration({
     this.aliasArn,
@@ -5248,105 +4791,161 @@ class AliasConfiguration {
     this.revisionId,
     this.routingConfig,
   });
-  factory AliasConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AliasConfigurationFromJson(json);
+
+  factory AliasConfiguration.fromJson(Map<String, dynamic> json) {
+    return AliasConfiguration(
+      aliasArn: json['AliasArn'] as String?,
+      description: json['Description'] as String?,
+      functionVersion: json['FunctionVersion'] as String?,
+      name: json['Name'] as String?,
+      revisionId: json['RevisionId'] as String?,
+      routingConfig: json['RoutingConfig'] != null
+          ? AliasRoutingConfiguration.fromJson(
+              json['RoutingConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliasArn = this.aliasArn;
+    final description = this.description;
+    final functionVersion = this.functionVersion;
+    final name = this.name;
+    final revisionId = this.revisionId;
+    final routingConfig = this.routingConfig;
+    return {
+      if (aliasArn != null) 'AliasArn': aliasArn,
+      if (description != null) 'Description': description,
+      if (functionVersion != null) 'FunctionVersion': functionVersion,
+      if (name != null) 'Name': name,
+      if (revisionId != null) 'RevisionId': revisionId,
+      if (routingConfig != null) 'RoutingConfig': routingConfig,
+    };
+  }
 }
 
 /// The <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">traffic-shifting</a>
 /// configuration of a Lambda function alias.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AliasRoutingConfiguration {
   /// The second version, and the percentage of traffic that's routed to it.
-  @_s.JsonKey(name: 'AdditionalVersionWeights')
-  final Map<String, double> additionalVersionWeights;
+  final Map<String, double>? additionalVersionWeights;
 
   AliasRoutingConfiguration({
     this.additionalVersionWeights,
   });
-  factory AliasRoutingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$AliasRoutingConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AliasRoutingConfigurationToJson(this);
+  factory AliasRoutingConfiguration.fromJson(Map<String, dynamic> json) {
+    return AliasRoutingConfiguration(
+      additionalVersionWeights:
+          (json['AdditionalVersionWeights'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as double)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalVersionWeights = this.additionalVersionWeights;
+    return {
+      if (additionalVersionWeights != null)
+        'AdditionalVersionWeights': additionalVersionWeights,
+    };
+  }
 }
 
 /// List of signing profiles that can sign a code package.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AllowedPublishers {
   /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing
   /// profile defines a trusted user who can sign a code package.
-  @_s.JsonKey(name: 'SigningProfileVersionArns')
   final List<String> signingProfileVersionArns;
 
   AllowedPublishers({
-    @_s.required this.signingProfileVersionArns,
+    required this.signingProfileVersionArns,
   });
-  factory AllowedPublishers.fromJson(Map<String, dynamic> json) =>
-      _$AllowedPublishersFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AllowedPublishersToJson(this);
+  factory AllowedPublishers.fromJson(Map<String, dynamic> json) {
+    return AllowedPublishers(
+      signingProfileVersionArns: (json['SigningProfileVersionArns'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signingProfileVersionArns = this.signingProfileVersionArns;
+    return {
+      'SigningProfileVersionArns': signingProfileVersionArns,
+    };
+  }
 }
 
-/// Details about a Code signing configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Details about a <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html">Code
+/// signing configuration</a>.
 class CodeSigningConfig {
   /// List of allowed publishers.
-  @_s.JsonKey(name: 'AllowedPublishers')
   final AllowedPublishers allowedPublishers;
 
   /// The Amazon Resource Name (ARN) of the Code signing configuration.
-  @_s.JsonKey(name: 'CodeSigningConfigArn')
   final String codeSigningConfigArn;
 
   /// Unique identifer for the Code signing configuration.
-  @_s.JsonKey(name: 'CodeSigningConfigId')
   final String codeSigningConfigId;
 
   /// The code signing policy controls the validation failure action for signature
   /// mismatch or expiry.
-  @_s.JsonKey(name: 'CodeSigningPolicies')
   final CodeSigningPolicies codeSigningPolicies;
 
   /// The date and time that the Code signing configuration was last modified, in
   /// ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
-  @_s.JsonKey(name: 'LastModified')
   final String lastModified;
 
   /// Code signing configuration description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   CodeSigningConfig({
-    @_s.required this.allowedPublishers,
-    @_s.required this.codeSigningConfigArn,
-    @_s.required this.codeSigningConfigId,
-    @_s.required this.codeSigningPolicies,
-    @_s.required this.lastModified,
+    required this.allowedPublishers,
+    required this.codeSigningConfigArn,
+    required this.codeSigningConfigId,
+    required this.codeSigningPolicies,
+    required this.lastModified,
     this.description,
   });
-  factory CodeSigningConfig.fromJson(Map<String, dynamic> json) =>
-      _$CodeSigningConfigFromJson(json);
+
+  factory CodeSigningConfig.fromJson(Map<String, dynamic> json) {
+    return CodeSigningConfig(
+      allowedPublishers: AllowedPublishers.fromJson(
+          json['AllowedPublishers'] as Map<String, dynamic>),
+      codeSigningConfigArn: json['CodeSigningConfigArn'] as String,
+      codeSigningConfigId: json['CodeSigningConfigId'] as String,
+      codeSigningPolicies: CodeSigningPolicies.fromJson(
+          json['CodeSigningPolicies'] as Map<String, dynamic>),
+      lastModified: json['LastModified'] as String,
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedPublishers = this.allowedPublishers;
+    final codeSigningConfigArn = this.codeSigningConfigArn;
+    final codeSigningConfigId = this.codeSigningConfigId;
+    final codeSigningPolicies = this.codeSigningPolicies;
+    final lastModified = this.lastModified;
+    final description = this.description;
+    return {
+      'AllowedPublishers': allowedPublishers,
+      'CodeSigningConfigArn': codeSigningConfigArn,
+      'CodeSigningConfigId': codeSigningConfigId,
+      'CodeSigningPolicies': codeSigningPolicies,
+      'LastModified': lastModified,
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
-/// Code signing configuration policies specifies the validation failure action
-/// for signature mismatch or expiry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// Code signing configuration <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies">policies</a>
+/// specify the validation failure action for signature mismatch or expiry.
 class CodeSigningPolicies {
   /// Code signing configuration policy for deployment validation failure. If you
   /// set the policy to <code>Enforce</code>, Lambda blocks the deployment request
@@ -5355,307 +4954,385 @@ class CodeSigningPolicies {
   /// log.
   ///
   /// Default value: <code>Warn</code>
-  @_s.JsonKey(name: 'UntrustedArtifactOnDeployment')
-  final CodeSigningPolicy untrustedArtifactOnDeployment;
+  final CodeSigningPolicy? untrustedArtifactOnDeployment;
 
   CodeSigningPolicies({
     this.untrustedArtifactOnDeployment,
   });
-  factory CodeSigningPolicies.fromJson(Map<String, dynamic> json) =>
-      _$CodeSigningPoliciesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CodeSigningPoliciesToJson(this);
+  factory CodeSigningPolicies.fromJson(Map<String, dynamic> json) {
+    return CodeSigningPolicies(
+      untrustedArtifactOnDeployment:
+          (json['UntrustedArtifactOnDeployment'] as String?)
+              ?.toCodeSigningPolicy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final untrustedArtifactOnDeployment = this.untrustedArtifactOnDeployment;
+    return {
+      if (untrustedArtifactOnDeployment != null)
+        'UntrustedArtifactOnDeployment':
+            untrustedArtifactOnDeployment.toValue(),
+    };
+  }
 }
 
 enum CodeSigningPolicy {
-  @_s.JsonValue('Warn')
   warn,
-  @_s.JsonValue('Enforce')
   enforce,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CodeSigningPolicy {
+  String toValue() {
+    switch (this) {
+      case CodeSigningPolicy.warn:
+        return 'Warn';
+      case CodeSigningPolicy.enforce:
+        return 'Enforce';
+    }
+  }
+}
+
+extension on String {
+  CodeSigningPolicy toCodeSigningPolicy() {
+    switch (this) {
+      case 'Warn':
+        return CodeSigningPolicy.warn;
+      case 'Enforce':
+        return CodeSigningPolicy.enforce;
+    }
+    throw Exception('$this is not known in enum CodeSigningPolicy');
+  }
+}
+
 class Concurrency {
   /// The number of concurrent executions that are reserved for this function. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html">Managing
   /// Concurrency</a>.
-  @_s.JsonKey(name: 'ReservedConcurrentExecutions')
-  final int reservedConcurrentExecutions;
+  final int? reservedConcurrentExecutions;
 
   Concurrency({
     this.reservedConcurrentExecutions,
   });
-  factory Concurrency.fromJson(Map<String, dynamic> json) =>
-      _$ConcurrencyFromJson(json);
+
+  factory Concurrency.fromJson(Map<String, dynamic> json) {
+    return Concurrency(
+      reservedConcurrentExecutions:
+          json['ReservedConcurrentExecutions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservedConcurrentExecutions = this.reservedConcurrentExecutions;
+    return {
+      if (reservedConcurrentExecutions != null)
+        'ReservedConcurrentExecutions': reservedConcurrentExecutions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCodeSigningConfigResponse {
   /// The code signing configuration.
-  @_s.JsonKey(name: 'CodeSigningConfig')
   final CodeSigningConfig codeSigningConfig;
 
   CreateCodeSigningConfigResponse({
-    @_s.required this.codeSigningConfig,
+    required this.codeSigningConfig,
   });
-  factory CreateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCodeSigningConfigResponseFromJson(json);
+
+  factory CreateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCodeSigningConfigResponse(
+      codeSigningConfig: CodeSigningConfig.fromJson(
+          json['CodeSigningConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSigningConfig = this.codeSigningConfig;
+    return {
+      'CodeSigningConfig': codeSigningConfig,
+    };
+  }
 }
 
 /// The <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq">dead-letter
 /// queue</a> for failed asynchronous invocations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeadLetterConfig {
   /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
-  @_s.JsonKey(name: 'TargetArn')
-  final String targetArn;
+  final String? targetArn;
 
   DeadLetterConfig({
     this.targetArn,
   });
-  factory DeadLetterConfig.fromJson(Map<String, dynamic> json) =>
-      _$DeadLetterConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeadLetterConfigToJson(this);
+  factory DeadLetterConfig.fromJson(Map<String, dynamic> json) {
+    return DeadLetterConfig(
+      targetArn: json['TargetArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final targetArn = this.targetArn;
+    return {
+      if (targetArn != null) 'TargetArn': targetArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCodeSigningConfigResponse {
   DeleteCodeSigningConfigResponse();
-  factory DeleteCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCodeSigningConfigResponseFromJson(json);
+
+  factory DeleteCodeSigningConfigResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCodeSigningConfigResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A configuration object that specifies the destination of an event after
 /// Lambda processes it.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DestinationConfig {
   /// The destination configuration for failed invocations.
-  @_s.JsonKey(name: 'OnFailure')
-  final OnFailure onFailure;
+  final OnFailure? onFailure;
 
   /// The destination configuration for successful invocations.
-  @_s.JsonKey(name: 'OnSuccess')
-  final OnSuccess onSuccess;
+  final OnSuccess? onSuccess;
 
   DestinationConfig({
     this.onFailure,
     this.onSuccess,
   });
-  factory DestinationConfig.fromJson(Map<String, dynamic> json) =>
-      _$DestinationConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DestinationConfigToJson(this);
+  factory DestinationConfig.fromJson(Map<String, dynamic> json) {
+    return DestinationConfig(
+      onFailure: json['OnFailure'] != null
+          ? OnFailure.fromJson(json['OnFailure'] as Map<String, dynamic>)
+          : null,
+      onSuccess: json['OnSuccess'] != null
+          ? OnSuccess.fromJson(json['OnSuccess'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final onFailure = this.onFailure;
+    final onSuccess = this.onSuccess;
+    return {
+      if (onFailure != null) 'OnFailure': onFailure,
+      if (onSuccess != null) 'OnSuccess': onSuccess,
+    };
+  }
 }
 
 enum EndPointType {
-  @_s.JsonValue('KAFKA_BOOTSTRAP_SERVERS')
   kafkaBootstrapServers,
 }
 
-/// A function's environment variable settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+extension on EndPointType {
+  String toValue() {
+    switch (this) {
+      case EndPointType.kafkaBootstrapServers:
+        return 'KAFKA_BOOTSTRAP_SERVERS';
+    }
+  }
+}
+
+extension on String {
+  EndPointType toEndPointType() {
+    switch (this) {
+      case 'KAFKA_BOOTSTRAP_SERVERS':
+        return EndPointType.kafkaBootstrapServers;
+    }
+    throw Exception('$this is not known in enum EndPointType');
+  }
+}
+
+/// A function's environment variable settings. You can use environment
+/// variables to adjust your function's behavior without updating code. An
+/// environment variable is a pair of strings that are stored in a function's
+/// version-specific configuration.
 class Environment {
-  /// Environment variable key-value pairs.
-  @_s.JsonKey(name: 'Variables')
-  final Map<String, String> variables;
+  /// Environment variable key-value pairs. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html">Using
+  /// Lambda environment variables</a>.
+  final Map<String, String>? variables;
 
   Environment({
     this.variables,
   });
-  Map<String, dynamic> toJson() => _$EnvironmentToJson(this);
+
+  factory Environment.fromJson(Map<String, dynamic> json) {
+    return Environment(
+      variables: (json['Variables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final variables = this.variables;
+    return {
+      if (variables != null) 'Variables': variables,
+    };
+  }
 }
 
 /// Error messages for environment variables that couldn't be applied.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnvironmentError {
   /// The error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The error message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   EnvironmentError({
     this.errorCode,
     this.message,
   });
-  factory EnvironmentError.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentErrorFromJson(json);
+
+  factory EnvironmentError.fromJson(Map<String, dynamic> json) {
+    return EnvironmentError(
+      errorCode: json['ErrorCode'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final message = this.message;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 /// The results of an operation to update or read environment variables. If the
 /// operation is successful, the response contains the environment variables. If
 /// it failed, the response contains details about the error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnvironmentResponse {
   /// Error messages for environment variables that couldn't be applied.
-  @_s.JsonKey(name: 'Error')
-  final EnvironmentError error;
+  final EnvironmentError? error;
 
   /// Environment variable key-value pairs.
-  @_s.JsonKey(name: 'Variables')
-  final Map<String, String> variables;
+  final Map<String, String>? variables;
 
   EnvironmentResponse({
     this.error,
     this.variables,
   });
-  factory EnvironmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentResponseFromJson(json);
+
+  factory EnvironmentResponse.fromJson(Map<String, dynamic> json) {
+    return EnvironmentResponse(
+      error: json['Error'] != null
+          ? EnvironmentError.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      variables: (json['Variables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final variables = this.variables;
+    return {
+      if (error != null) 'Error': error,
+      if (variables != null) 'Variables': variables,
+    };
+  }
 }
 
-/// A mapping between an AWS resource and an AWS Lambda function. See
-/// <a>CreateEventSourceMapping</a> for details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// A mapping between an Amazon Web Services resource and an Lambda function.
+/// See <a>CreateEventSourceMapping</a> for details.
 class EventSourceMappingConfiguration {
   /// The maximum number of items to retrieve in a single batch.
-  @_s.JsonKey(name: 'BatchSize')
-  final int batchSize;
+  final int? batchSize;
 
-  /// (Streams) If the function returns an error, split the batch in two and
+  /// (Streams only) If the function returns an error, split the batch in two and
   /// retry. The default value is false.
-  @_s.JsonKey(name: 'BisectBatchOnFunctionError')
-  final bool bisectBatchOnFunctionError;
+  final bool? bisectBatchOnFunctionError;
 
-  /// (Streams) An Amazon SQS queue or Amazon SNS topic destination for discarded
-  /// records.
-  @_s.JsonKey(name: 'DestinationConfig')
-  final DestinationConfig destinationConfig;
+  /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for
+  /// discarded records.
+  final DestinationConfig? destinationConfig;
 
   /// The Amazon Resource Name (ARN) of the event source.
-  @_s.JsonKey(name: 'EventSourceArn')
-  final String eventSourceArn;
+  final String? eventSourceArn;
 
   /// The ARN of the Lambda function.
-  @_s.JsonKey(name: 'FunctionArn')
-  final String functionArn;
+  final String? functionArn;
 
-  /// (Streams) A list of current response type enums applied to the event source
-  /// mapping.
-  @_s.JsonKey(name: 'FunctionResponseTypes')
-  final List<FunctionResponseType> functionResponseTypes;
+  /// (Streams only) A list of current response type enums applied to the event
+  /// source mapping.
+  final List<FunctionResponseType>? functionResponseTypes;
 
   /// The date that the event source mapping was last updated, or its state
   /// changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
-  /// The result of the last AWS Lambda invocation of your Lambda function.
-  @_s.JsonKey(name: 'LastProcessingResult')
-  final String lastProcessingResult;
+  /// The result of the last Lambda invocation of your Lambda function.
+  final String? lastProcessingResult;
 
   /// (Streams and SQS standard queues) The maximum amount of time to gather
   /// records before invoking the function, in seconds. The default value is zero.
-  @_s.JsonKey(name: 'MaximumBatchingWindowInSeconds')
-  final int maximumBatchingWindowInSeconds;
+  final int? maximumBatchingWindowInSeconds;
 
-  /// (Streams) Discard records older than the specified age. The default value is
-  /// infinite (-1). When set to infinite (-1), failed records are retried until
-  /// the record expires.
-  @_s.JsonKey(name: 'MaximumRecordAgeInSeconds')
-  final int maximumRecordAgeInSeconds;
+  /// (Streams only) Discard records older than the specified age. The default
+  /// value is -1, which sets the maximum age to infinite. When the value is set
+  /// to infinite, Lambda never discards old records.
+  final int? maximumRecordAgeInSeconds;
 
-  /// (Streams) Discard records after the specified number of retries. The default
-  /// value is infinite (-1). When set to infinite (-1), failed records are
-  /// retried until the record expires.
-  @_s.JsonKey(name: 'MaximumRetryAttempts')
-  final int maximumRetryAttempts;
+  /// (Streams only) Discard records after the specified number of retries. The
+  /// default value is -1, which sets the maximum number of retries to infinite.
+  /// When MaximumRetryAttempts is infinite, Lambda retries failed records until
+  /// the record expires in the event source.
+  final int? maximumRetryAttempts;
 
-  /// (Streams) The number of batches to process from each shard concurrently. The
-  /// default value is 1.
-  @_s.JsonKey(name: 'ParallelizationFactor')
-  final int parallelizationFactor;
+  /// (Streams only) The number of batches to process from each shard
+  /// concurrently. The default value is 1.
+  final int? parallelizationFactor;
 
   /// (MQ) The name of the Amazon MQ broker destination queue to consume.
-  @_s.JsonKey(name: 'Queues')
-  final List<String> queues;
+  final List<String>? queues;
 
   /// The Self-Managed Apache Kafka cluster for your event source.
-  @_s.JsonKey(name: 'SelfManagedEventSource')
-  final SelfManagedEventSource selfManagedEventSource;
+  final SelfManagedEventSource? selfManagedEventSource;
 
   /// An array of the authentication protocol, or the VPC components to secure
   /// your event source.
-  @_s.JsonKey(name: 'SourceAccessConfigurations')
-  final List<SourceAccessConfiguration> sourceAccessConfigurations;
+  final List<SourceAccessConfiguration>? sourceAccessConfigurations;
 
   /// The position in a stream from which to start reading. Required for Amazon
   /// Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources.
   /// <code>AT_TIMESTAMP</code> is only supported for Amazon Kinesis streams.
-  @_s.JsonKey(name: 'StartingPosition')
-  final EventSourcePosition startingPosition;
+  final EventSourcePosition? startingPosition;
 
   /// With <code>StartingPosition</code> set to <code>AT_TIMESTAMP</code>, the
   /// time from which to start reading.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartingPositionTimestamp')
-  final DateTime startingPositionTimestamp;
+  final DateTime? startingPositionTimestamp;
 
   /// The state of the event source mapping. It can be one of the following:
   /// <code>Creating</code>, <code>Enabling</code>, <code>Enabled</code>,
   /// <code>Disabling</code>, <code>Disabled</code>, <code>Updating</code>, or
   /// <code>Deleting</code>.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   /// Indicates whether the last change to the event source mapping was made by a
   /// user, or by the Lambda service.
-  @_s.JsonKey(name: 'StateTransitionReason')
-  final String stateTransitionReason;
+  final String? stateTransitionReason;
 
   /// The name of the Kafka topic.
-  @_s.JsonKey(name: 'Topics')
-  final List<String> topics;
+  final List<String>? topics;
 
-  /// (Streams) The duration of a processing window in seconds. The range is
-  /// between 1 second up to 15 minutes.
-  @_s.JsonKey(name: 'TumblingWindowInSeconds')
-  final int tumblingWindowInSeconds;
+  /// (Streams only) The duration in seconds of a processing window. The range is
+  /// between 1 second up to 900 seconds.
+  final int? tumblingWindowInSeconds;
 
   /// The identifier of the event source mapping.
-  @_s.JsonKey(name: 'UUID')
-  final String uuid;
+  final String? uuid;
 
   EventSourceMappingConfiguration({
     this.batchSize,
@@ -5681,16 +5358,125 @@ class EventSourceMappingConfiguration {
     this.tumblingWindowInSeconds,
     this.uuid,
   });
-  factory EventSourceMappingConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EventSourceMappingConfigurationFromJson(json);
+
+  factory EventSourceMappingConfiguration.fromJson(Map<String, dynamic> json) {
+    return EventSourceMappingConfiguration(
+      batchSize: json['BatchSize'] as int?,
+      bisectBatchOnFunctionError: json['BisectBatchOnFunctionError'] as bool?,
+      destinationConfig: json['DestinationConfig'] != null
+          ? DestinationConfig.fromJson(
+              json['DestinationConfig'] as Map<String, dynamic>)
+          : null,
+      eventSourceArn: json['EventSourceArn'] as String?,
+      functionArn: json['FunctionArn'] as String?,
+      functionResponseTypes: (json['FunctionResponseTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toFunctionResponseType())
+          .toList(),
+      lastModified: timeStampFromJson(json['LastModified']),
+      lastProcessingResult: json['LastProcessingResult'] as String?,
+      maximumBatchingWindowInSeconds:
+          json['MaximumBatchingWindowInSeconds'] as int?,
+      maximumRecordAgeInSeconds: json['MaximumRecordAgeInSeconds'] as int?,
+      maximumRetryAttempts: json['MaximumRetryAttempts'] as int?,
+      parallelizationFactor: json['ParallelizationFactor'] as int?,
+      queues: (json['Queues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      selfManagedEventSource: json['SelfManagedEventSource'] != null
+          ? SelfManagedEventSource.fromJson(
+              json['SelfManagedEventSource'] as Map<String, dynamic>)
+          : null,
+      sourceAccessConfigurations: (json['SourceAccessConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SourceAccessConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startingPosition:
+          (json['StartingPosition'] as String?)?.toEventSourcePosition(),
+      startingPositionTimestamp:
+          timeStampFromJson(json['StartingPositionTimestamp']),
+      state: json['State'] as String?,
+      stateTransitionReason: json['StateTransitionReason'] as String?,
+      topics: (json['Topics'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tumblingWindowInSeconds: json['TumblingWindowInSeconds'] as int?,
+      uuid: json['UUID'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchSize = this.batchSize;
+    final bisectBatchOnFunctionError = this.bisectBatchOnFunctionError;
+    final destinationConfig = this.destinationConfig;
+    final eventSourceArn = this.eventSourceArn;
+    final functionArn = this.functionArn;
+    final functionResponseTypes = this.functionResponseTypes;
+    final lastModified = this.lastModified;
+    final lastProcessingResult = this.lastProcessingResult;
+    final maximumBatchingWindowInSeconds = this.maximumBatchingWindowInSeconds;
+    final maximumRecordAgeInSeconds = this.maximumRecordAgeInSeconds;
+    final maximumRetryAttempts = this.maximumRetryAttempts;
+    final parallelizationFactor = this.parallelizationFactor;
+    final queues = this.queues;
+    final selfManagedEventSource = this.selfManagedEventSource;
+    final sourceAccessConfigurations = this.sourceAccessConfigurations;
+    final startingPosition = this.startingPosition;
+    final startingPositionTimestamp = this.startingPositionTimestamp;
+    final state = this.state;
+    final stateTransitionReason = this.stateTransitionReason;
+    final topics = this.topics;
+    final tumblingWindowInSeconds = this.tumblingWindowInSeconds;
+    final uuid = this.uuid;
+    return {
+      if (batchSize != null) 'BatchSize': batchSize,
+      if (bisectBatchOnFunctionError != null)
+        'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
+      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
+      if (eventSourceArn != null) 'EventSourceArn': eventSourceArn,
+      if (functionArn != null) 'FunctionArn': functionArn,
+      if (functionResponseTypes != null)
+        'FunctionResponseTypes':
+            functionResponseTypes.map((e) => e.toValue()).toList(),
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (lastProcessingResult != null)
+        'LastProcessingResult': lastProcessingResult,
+      if (maximumBatchingWindowInSeconds != null)
+        'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
+      if (maximumRecordAgeInSeconds != null)
+        'MaximumRecordAgeInSeconds': maximumRecordAgeInSeconds,
+      if (maximumRetryAttempts != null)
+        'MaximumRetryAttempts': maximumRetryAttempts,
+      if (parallelizationFactor != null)
+        'ParallelizationFactor': parallelizationFactor,
+      if (queues != null) 'Queues': queues,
+      if (selfManagedEventSource != null)
+        'SelfManagedEventSource': selfManagedEventSource,
+      if (sourceAccessConfigurations != null)
+        'SourceAccessConfigurations': sourceAccessConfigurations,
+      if (startingPosition != null)
+        'StartingPosition': startingPosition.toValue(),
+      if (startingPositionTimestamp != null)
+        'StartingPositionTimestamp':
+            unixTimestampToJson(startingPositionTimestamp),
+      if (state != null) 'State': state,
+      if (stateTransitionReason != null)
+        'StateTransitionReason': stateTransitionReason,
+      if (topics != null) 'Topics': topics,
+      if (tumblingWindowInSeconds != null)
+        'TumblingWindowInSeconds': tumblingWindowInSeconds,
+      if (uuid != null) 'UUID': uuid,
+    };
+  }
 }
 
 enum EventSourcePosition {
-  @_s.JsonValue('TRIM_HORIZON')
   trimHorizon,
-  @_s.JsonValue('LATEST')
   latest,
-  @_s.JsonValue('AT_TIMESTAMP')
   atTimestamp,
 }
 
@@ -5704,69 +5490,79 @@ extension on EventSourcePosition {
       case EventSourcePosition.atTimestamp:
         return 'AT_TIMESTAMP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Details about the connection between a Lambda function and an Amazon EFS
-/// file system.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+extension on String {
+  EventSourcePosition toEventSourcePosition() {
+    switch (this) {
+      case 'TRIM_HORIZON':
+        return EventSourcePosition.trimHorizon;
+      case 'LATEST':
+        return EventSourcePosition.latest;
+      case 'AT_TIMESTAMP':
+        return EventSourcePosition.atTimestamp;
+    }
+    throw Exception('$this is not known in enum EventSourcePosition');
+  }
+}
+
+/// Details about the connection between a Lambda function and an <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html">Amazon
+/// EFS file system</a>.
 class FileSystemConfig {
   /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides
   /// access to the file system.
-  @_s.JsonKey(name: 'Arn')
   final String arn;
 
   /// The path where the function can access the file system, starting with
   /// <code>/mnt/</code>.
-  @_s.JsonKey(name: 'LocalMountPath')
   final String localMountPath;
 
   FileSystemConfig({
-    @_s.required this.arn,
-    @_s.required this.localMountPath,
+    required this.arn,
+    required this.localMountPath,
   });
-  factory FileSystemConfig.fromJson(Map<String, dynamic> json) =>
-      _$FileSystemConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FileSystemConfigToJson(this);
+  factory FileSystemConfig.fromJson(Map<String, dynamic> json) {
+    return FileSystemConfig(
+      arn: json['Arn'] as String,
+      localMountPath: json['LocalMountPath'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final localMountPath = this.localMountPath;
+    return {
+      'Arn': arn,
+      'LocalMountPath': localMountPath,
+    };
+  }
 }
 
 /// The code for the Lambda function. You can specify either an object in Amazon
 /// S3, upload a .zip file archive deployment package directly, or specify the
 /// URI of a container image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FunctionCode {
-  /// URI of a container image in the Amazon ECR registry.
-  @_s.JsonKey(name: 'ImageUri')
-  final String imageUri;
+  /// URI of a <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html">container
+  /// image</a> in the Amazon ECR registry.
+  final String? imageUri;
 
-  /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can
-  /// be in a different AWS account.
-  @_s.JsonKey(name: 'S3Bucket')
-  final String s3Bucket;
+  /// An Amazon S3 bucket in the same Amazon Web Services Region as your function.
+  /// The bucket can be in a different Amazon Web Services account.
+  final String? s3Bucket;
 
   /// The Amazon S3 key of the deployment package.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   /// For versioned objects, the version of the deployment package object to use.
-  @_s.JsonKey(name: 'S3ObjectVersion')
-  final String s3ObjectVersion;
+  final String? s3ObjectVersion;
 
-  /// The base64-encoded contents of the deployment package. AWS SDK and AWS CLI
-  /// clients handle the encoding for you.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'ZipFile')
-  final Uint8List zipFile;
+  /// The base64-encoded contents of the deployment package. Amazon Web Services
+  /// SDK and Amazon Web Services CLI clients handle the encoding for you.
+  final Uint8List? zipFile;
 
   FunctionCode({
     this.imageUri,
@@ -5775,31 +5571,46 @@ class FunctionCode {
     this.s3ObjectVersion,
     this.zipFile,
   });
-  Map<String, dynamic> toJson() => _$FunctionCodeToJson(this);
+
+  factory FunctionCode.fromJson(Map<String, dynamic> json) {
+    return FunctionCode(
+      imageUri: json['ImageUri'] as String?,
+      s3Bucket: json['S3Bucket'] as String?,
+      s3Key: json['S3Key'] as String?,
+      s3ObjectVersion: json['S3ObjectVersion'] as String?,
+      zipFile: _s.decodeNullableUint8List(json['ZipFile'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageUri = this.imageUri;
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    final s3ObjectVersion = this.s3ObjectVersion;
+    final zipFile = this.zipFile;
+    return {
+      if (imageUri != null) 'ImageUri': imageUri,
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
+      if (zipFile != null) 'ZipFile': base64Encode(zipFile),
+    };
+  }
 }
 
 /// Details about a function's deployment package.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FunctionCodeLocation {
   /// URI of a container image in the Amazon ECR registry.
-  @_s.JsonKey(name: 'ImageUri')
-  final String imageUri;
+  final String? imageUri;
 
   /// A presigned URL that you can use to download the deployment package.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   /// The service that's hosting the file.
-  @_s.JsonKey(name: 'RepositoryType')
-  final String repositoryType;
+  final String? repositoryType;
 
   /// The resolved URI for the image.
-  @_s.JsonKey(name: 'ResolvedImageUri')
-  final String resolvedImageUri;
+  final String? resolvedImageUri;
 
   FunctionCodeLocation({
     this.imageUri,
@@ -5807,150 +5618,138 @@ class FunctionCodeLocation {
     this.repositoryType,
     this.resolvedImageUri,
   });
-  factory FunctionCodeLocation.fromJson(Map<String, dynamic> json) =>
-      _$FunctionCodeLocationFromJson(json);
+
+  factory FunctionCodeLocation.fromJson(Map<String, dynamic> json) {
+    return FunctionCodeLocation(
+      imageUri: json['ImageUri'] as String?,
+      location: json['Location'] as String?,
+      repositoryType: json['RepositoryType'] as String?,
+      resolvedImageUri: json['ResolvedImageUri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageUri = this.imageUri;
+    final location = this.location;
+    final repositoryType = this.repositoryType;
+    final resolvedImageUri = this.resolvedImageUri;
+    return {
+      if (imageUri != null) 'ImageUri': imageUri,
+      if (location != null) 'Location': location,
+      if (repositoryType != null) 'RepositoryType': repositoryType,
+      if (resolvedImageUri != null) 'ResolvedImageUri': resolvedImageUri,
+    };
+  }
 }
 
 /// Details about a function's configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FunctionConfiguration {
   /// The SHA256 hash of the function's deployment package.
-  @_s.JsonKey(name: 'CodeSha256')
-  final String codeSha256;
+  final String? codeSha256;
 
   /// The size of the function's deployment package, in bytes.
-  @_s.JsonKey(name: 'CodeSize')
-  final int codeSize;
+  final int? codeSize;
 
   /// The function's dead letter queue.
-  @_s.JsonKey(name: 'DeadLetterConfig')
-  final DeadLetterConfig deadLetterConfig;
+  final DeadLetterConfig? deadLetterConfig;
 
   /// The function's description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
-  /// The function's environment variables.
-  @_s.JsonKey(name: 'Environment')
-  final EnvironmentResponse environment;
+  /// The function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html">environment
+  /// variables</a>.
+  final EnvironmentResponse? environment;
 
-  /// Connection settings for an Amazon EFS file system.
-  @_s.JsonKey(name: 'FileSystemConfigs')
-  final List<FileSystemConfig> fileSystemConfigs;
+  /// Connection settings for an <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html">Amazon
+  /// EFS file system</a>.
+  final List<FileSystemConfig>? fileSystemConfigs;
 
   /// The function's Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'FunctionArn')
-  final String functionArn;
+  final String? functionArn;
 
   /// The name of the function.
-  @_s.JsonKey(name: 'FunctionName')
-  final String functionName;
+  final String? functionName;
 
   /// The function that Lambda calls to begin executing your function.
-  @_s.JsonKey(name: 'Handler')
-  final String handler;
+  final String? handler;
 
   /// The function's image configuration values.
-  @_s.JsonKey(name: 'ImageConfigResponse')
-  final ImageConfigResponse imageConfigResponse;
+  final ImageConfigResponse? imageConfigResponse;
 
   /// The KMS key that's used to encrypt the function's environment variables.
   /// This key is only returned if you've configured a customer managed CMK.
-  @_s.JsonKey(name: 'KMSKeyArn')
-  final String kMSKeyArn;
+  final String? kMSKeyArn;
 
   /// The date and time that the function was last updated, in <a
   /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
   /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  @_s.JsonKey(name: 'LastModified')
-  final String lastModified;
+  final String? lastModified;
 
   /// The status of the last update that was performed on the function. This is
   /// first set to <code>Successful</code> after function creation completes.
-  @_s.JsonKey(name: 'LastUpdateStatus')
-  final LastUpdateStatus lastUpdateStatus;
+  final LastUpdateStatus? lastUpdateStatus;
 
   /// The reason for the last update that was performed on the function.
-  @_s.JsonKey(name: 'LastUpdateStatusReason')
-  final String lastUpdateStatusReason;
+  final String? lastUpdateStatusReason;
 
   /// The reason code for the last update that was performed on the function.
-  @_s.JsonKey(name: 'LastUpdateStatusReasonCode')
-  final LastUpdateStatusReasonCode lastUpdateStatusReasonCode;
+  final LastUpdateStatusReasonCode? lastUpdateStatusReasonCode;
 
   /// The function's <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">
   /// layers</a>.
-  @_s.JsonKey(name: 'Layers')
-  final List<Layer> layers;
+  final List<Layer>? layers;
 
   /// For Lambda@Edge functions, the ARN of the master function.
-  @_s.JsonKey(name: 'MasterArn')
-  final String masterArn;
+  final String? masterArn;
 
   /// The amount of memory available to the function at runtime.
-  @_s.JsonKey(name: 'MemorySize')
-  final int memorySize;
+  final int? memorySize;
 
   /// The type of deployment package. Set to <code>Image</code> for container
   /// image and set <code>Zip</code> for .zip file archive.
-  @_s.JsonKey(name: 'PackageType')
-  final PackageType packageType;
+  final PackageType? packageType;
 
   /// The latest updated revision of the function or alias.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   /// The function's execution role.
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// The runtime environment for the Lambda function.
-  @_s.JsonKey(name: 'Runtime')
-  final Runtime runtime;
+  final Runtime? runtime;
 
   /// The ARN of the signing job.
-  @_s.JsonKey(name: 'SigningJobArn')
-  final String signingJobArn;
+  final String? signingJobArn;
 
   /// The ARN of the signing profile version.
-  @_s.JsonKey(name: 'SigningProfileVersionArn')
-  final String signingProfileVersionArn;
+  final String? signingProfileVersionArn;
 
   /// The current state of the function. When the state is <code>Inactive</code>,
   /// you can reactivate the function by invoking it.
-  @_s.JsonKey(name: 'State')
-  final State state;
+  final State? state;
 
   /// The reason for the function's current state.
-  @_s.JsonKey(name: 'StateReason')
-  final String stateReason;
+  final String? stateReason;
 
   /// The reason code for the function's current state. When the code is
   /// <code>Creating</code>, you can't invoke or modify the function.
-  @_s.JsonKey(name: 'StateReasonCode')
-  final StateReasonCode stateReasonCode;
+  final StateReasonCode? stateReasonCode;
 
   /// The amount of time in seconds that Lambda allows a function to run before
   /// stopping it.
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
-  /// The function's AWS X-Ray tracing configuration.
-  @_s.JsonKey(name: 'TracingConfig')
-  final TracingConfigResponse tracingConfig;
+  /// The function's X-Ray tracing configuration.
+  final TracingConfigResponse? tracingConfig;
 
   /// The version of the Lambda function.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   /// The function's networking configuration.
-  @_s.JsonKey(name: 'VpcConfig')
-  final VpcConfigResponse vpcConfig;
+  final VpcConfigResponse? vpcConfig;
 
   FunctionConfiguration({
     this.codeSha256,
@@ -5985,15 +5784,141 @@ class FunctionConfiguration {
     this.version,
     this.vpcConfig,
   });
-  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FunctionConfigurationFromJson(json);
+
+  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
+    return FunctionConfiguration(
+      codeSha256: json['CodeSha256'] as String?,
+      codeSize: json['CodeSize'] as int?,
+      deadLetterConfig: json['DeadLetterConfig'] != null
+          ? DeadLetterConfig.fromJson(
+              json['DeadLetterConfig'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      environment: json['Environment'] != null
+          ? EnvironmentResponse.fromJson(
+              json['Environment'] as Map<String, dynamic>)
+          : null,
+      fileSystemConfigs: (json['FileSystemConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => FileSystemConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      functionArn: json['FunctionArn'] as String?,
+      functionName: json['FunctionName'] as String?,
+      handler: json['Handler'] as String?,
+      imageConfigResponse: json['ImageConfigResponse'] != null
+          ? ImageConfigResponse.fromJson(
+              json['ImageConfigResponse'] as Map<String, dynamic>)
+          : null,
+      kMSKeyArn: json['KMSKeyArn'] as String?,
+      lastModified: json['LastModified'] as String?,
+      lastUpdateStatus:
+          (json['LastUpdateStatus'] as String?)?.toLastUpdateStatus(),
+      lastUpdateStatusReason: json['LastUpdateStatusReason'] as String?,
+      lastUpdateStatusReasonCode:
+          (json['LastUpdateStatusReasonCode'] as String?)
+              ?.toLastUpdateStatusReasonCode(),
+      layers: (json['Layers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Layer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      masterArn: json['MasterArn'] as String?,
+      memorySize: json['MemorySize'] as int?,
+      packageType: (json['PackageType'] as String?)?.toPackageType(),
+      revisionId: json['RevisionId'] as String?,
+      role: json['Role'] as String?,
+      runtime: (json['Runtime'] as String?)?.toRuntime(),
+      signingJobArn: json['SigningJobArn'] as String?,
+      signingProfileVersionArn: json['SigningProfileVersionArn'] as String?,
+      state: (json['State'] as String?)?.toState(),
+      stateReason: json['StateReason'] as String?,
+      stateReasonCode:
+          (json['StateReasonCode'] as String?)?.toStateReasonCode(),
+      timeout: json['Timeout'] as int?,
+      tracingConfig: json['TracingConfig'] != null
+          ? TracingConfigResponse.fromJson(
+              json['TracingConfig'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
+      vpcConfig: json['VpcConfig'] != null
+          ? VpcConfigResponse.fromJson(
+              json['VpcConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSha256 = this.codeSha256;
+    final codeSize = this.codeSize;
+    final deadLetterConfig = this.deadLetterConfig;
+    final description = this.description;
+    final environment = this.environment;
+    final fileSystemConfigs = this.fileSystemConfigs;
+    final functionArn = this.functionArn;
+    final functionName = this.functionName;
+    final handler = this.handler;
+    final imageConfigResponse = this.imageConfigResponse;
+    final kMSKeyArn = this.kMSKeyArn;
+    final lastModified = this.lastModified;
+    final lastUpdateStatus = this.lastUpdateStatus;
+    final lastUpdateStatusReason = this.lastUpdateStatusReason;
+    final lastUpdateStatusReasonCode = this.lastUpdateStatusReasonCode;
+    final layers = this.layers;
+    final masterArn = this.masterArn;
+    final memorySize = this.memorySize;
+    final packageType = this.packageType;
+    final revisionId = this.revisionId;
+    final role = this.role;
+    final runtime = this.runtime;
+    final signingJobArn = this.signingJobArn;
+    final signingProfileVersionArn = this.signingProfileVersionArn;
+    final state = this.state;
+    final stateReason = this.stateReason;
+    final stateReasonCode = this.stateReasonCode;
+    final timeout = this.timeout;
+    final tracingConfig = this.tracingConfig;
+    final version = this.version;
+    final vpcConfig = this.vpcConfig;
+    return {
+      if (codeSha256 != null) 'CodeSha256': codeSha256,
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
+      if (description != null) 'Description': description,
+      if (environment != null) 'Environment': environment,
+      if (fileSystemConfigs != null) 'FileSystemConfigs': fileSystemConfigs,
+      if (functionArn != null) 'FunctionArn': functionArn,
+      if (functionName != null) 'FunctionName': functionName,
+      if (handler != null) 'Handler': handler,
+      if (imageConfigResponse != null)
+        'ImageConfigResponse': imageConfigResponse,
+      if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
+      if (lastModified != null) 'LastModified': lastModified,
+      if (lastUpdateStatus != null)
+        'LastUpdateStatus': lastUpdateStatus.toValue(),
+      if (lastUpdateStatusReason != null)
+        'LastUpdateStatusReason': lastUpdateStatusReason,
+      if (lastUpdateStatusReasonCode != null)
+        'LastUpdateStatusReasonCode': lastUpdateStatusReasonCode.toValue(),
+      if (layers != null) 'Layers': layers,
+      if (masterArn != null) 'MasterArn': masterArn,
+      if (memorySize != null) 'MemorySize': memorySize,
+      if (packageType != null) 'PackageType': packageType.toValue(),
+      if (revisionId != null) 'RevisionId': revisionId,
+      if (role != null) 'Role': role,
+      if (runtime != null) 'Runtime': runtime.toValue(),
+      if (signingJobArn != null) 'SigningJobArn': signingJobArn,
+      if (signingProfileVersionArn != null)
+        'SigningProfileVersionArn': signingProfileVersionArn,
+      if (state != null) 'State': state.toValue(),
+      if (stateReason != null) 'StateReason': stateReason,
+      if (stateReasonCode != null) 'StateReasonCode': stateReasonCode.toValue(),
+      if (timeout != null) 'Timeout': timeout,
+      if (tracingConfig != null) 'TracingConfig': tracingConfig,
+      if (version != null) 'Version': version,
+      if (vpcConfig != null) 'VpcConfig': vpcConfig,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FunctionEventInvokeConfig {
   /// A destination for events after they have been sent to a function for
   /// processing.
@@ -6013,25 +5938,19 @@ class FunctionEventInvokeConfig {
   /// <b>Event Bus</b> - The ARN of an Amazon EventBridge event bus.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DestinationConfig')
-  final DestinationConfig destinationConfig;
+  final DestinationConfig? destinationConfig;
 
   /// The Amazon Resource Name (ARN) of the function.
-  @_s.JsonKey(name: 'FunctionArn')
-  final String functionArn;
+  final String? functionArn;
 
   /// The date and time that the configuration was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The maximum age of a request that Lambda sends to a function for processing.
-  @_s.JsonKey(name: 'MaximumEventAgeInSeconds')
-  final int maximumEventAgeInSeconds;
+  final int? maximumEventAgeInSeconds;
 
   /// The maximum number of times to retry when the function returns an error.
-  @_s.JsonKey(name: 'MaximumRetryAttempts')
-  final int maximumRetryAttempts;
+  final int? maximumRetryAttempts;
 
   FunctionEventInvokeConfig({
     this.destinationConfig,
@@ -6040,12 +5959,40 @@ class FunctionEventInvokeConfig {
     this.maximumEventAgeInSeconds,
     this.maximumRetryAttempts,
   });
-  factory FunctionEventInvokeConfig.fromJson(Map<String, dynamic> json) =>
-      _$FunctionEventInvokeConfigFromJson(json);
+
+  factory FunctionEventInvokeConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionEventInvokeConfig(
+      destinationConfig: json['DestinationConfig'] != null
+          ? DestinationConfig.fromJson(
+              json['DestinationConfig'] as Map<String, dynamic>)
+          : null,
+      functionArn: json['FunctionArn'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      maximumEventAgeInSeconds: json['MaximumEventAgeInSeconds'] as int?,
+      maximumRetryAttempts: json['MaximumRetryAttempts'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationConfig = this.destinationConfig;
+    final functionArn = this.functionArn;
+    final lastModified = this.lastModified;
+    final maximumEventAgeInSeconds = this.maximumEventAgeInSeconds;
+    final maximumRetryAttempts = this.maximumRetryAttempts;
+    return {
+      if (destinationConfig != null) 'DestinationConfig': destinationConfig,
+      if (functionArn != null) 'FunctionArn': functionArn,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (maximumEventAgeInSeconds != null)
+        'MaximumEventAgeInSeconds': maximumEventAgeInSeconds,
+      if (maximumRetryAttempts != null)
+        'MaximumRetryAttempts': maximumRetryAttempts,
+    };
+  }
 }
 
 enum FunctionResponseType {
-  @_s.JsonValue('ReportBatchItemFailures')
   reportBatchItemFailures,
 }
 
@@ -6055,12 +6002,20 @@ extension on FunctionResponseType {
       case FunctionResponseType.reportBatchItemFailures:
         return 'ReportBatchItemFailures';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FunctionResponseType toFunctionResponseType() {
+    switch (this) {
+      case 'ReportBatchItemFailures':
+        return FunctionResponseType.reportBatchItemFailures;
+    }
+    throw Exception('$this is not known in enum FunctionResponseType');
   }
 }
 
 enum FunctionVersion {
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -6070,57 +6025,77 @@ extension on FunctionVersion {
       case FunctionVersion.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  FunctionVersion toFunctionVersion() {
+    switch (this) {
+      case 'ALL':
+        return FunctionVersion.all;
+    }
+    throw Exception('$this is not known in enum FunctionVersion');
+  }
+}
+
 class GetAccountSettingsResponse {
   /// Limits that are related to concurrency and code storage.
-  @_s.JsonKey(name: 'AccountLimit')
-  final AccountLimit accountLimit;
+  final AccountLimit? accountLimit;
 
   /// The number of functions and amount of storage in use.
-  @_s.JsonKey(name: 'AccountUsage')
-  final AccountUsage accountUsage;
+  final AccountUsage? accountUsage;
 
   GetAccountSettingsResponse({
     this.accountLimit,
     this.accountUsage,
   });
-  factory GetAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAccountSettingsResponseFromJson(json);
+
+  factory GetAccountSettingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountSettingsResponse(
+      accountLimit: json['AccountLimit'] != null
+          ? AccountLimit.fromJson(json['AccountLimit'] as Map<String, dynamic>)
+          : null,
+      accountUsage: json['AccountUsage'] != null
+          ? AccountUsage.fromJson(json['AccountUsage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLimit = this.accountLimit;
+    final accountUsage = this.accountUsage;
+    return {
+      if (accountLimit != null) 'AccountLimit': accountLimit,
+      if (accountUsage != null) 'AccountUsage': accountUsage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCodeSigningConfigResponse {
   /// The code signing configuration
-  @_s.JsonKey(name: 'CodeSigningConfig')
   final CodeSigningConfig codeSigningConfig;
 
   GetCodeSigningConfigResponse({
-    @_s.required this.codeSigningConfig,
+    required this.codeSigningConfig,
   });
-  factory GetCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCodeSigningConfigResponseFromJson(json);
+
+  factory GetCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetCodeSigningConfigResponse(
+      codeSigningConfig: CodeSigningConfig.fromJson(
+          json['CodeSigningConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSigningConfig = this.codeSigningConfig;
+    return {
+      'CodeSigningConfig': codeSigningConfig,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFunctionCodeSigningConfigResponse {
   /// The The Amazon Resource Name (ARN) of the code signing configuration.
-  @_s.JsonKey(name: 'CodeSigningConfigArn')
   final String codeSigningConfigArn;
 
   /// The name of the Lambda function.
@@ -6140,59 +6115,70 @@ class GetFunctionCodeSigningConfigResponse {
   /// </ul>
   /// The length constraint applies only to the full ARN. If you specify only the
   /// function name, it is limited to 64 characters in length.
-  @_s.JsonKey(name: 'FunctionName')
   final String functionName;
 
   GetFunctionCodeSigningConfigResponse({
-    @_s.required this.codeSigningConfigArn,
-    @_s.required this.functionName,
+    required this.codeSigningConfigArn,
+    required this.functionName,
   });
+
   factory GetFunctionCodeSigningConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetFunctionCodeSigningConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetFunctionCodeSigningConfigResponse(
+      codeSigningConfigArn: json['CodeSigningConfigArn'] as String,
+      functionName: json['FunctionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSigningConfigArn = this.codeSigningConfigArn;
+    final functionName = this.functionName;
+    return {
+      'CodeSigningConfigArn': codeSigningConfigArn,
+      'FunctionName': functionName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFunctionConcurrencyResponse {
   /// The number of simultaneous executions that are reserved for the function.
-  @_s.JsonKey(name: 'ReservedConcurrentExecutions')
-  final int reservedConcurrentExecutions;
+  final int? reservedConcurrentExecutions;
 
   GetFunctionConcurrencyResponse({
     this.reservedConcurrentExecutions,
   });
-  factory GetFunctionConcurrencyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFunctionConcurrencyResponseFromJson(json);
+
+  factory GetFunctionConcurrencyResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionConcurrencyResponse(
+      reservedConcurrentExecutions:
+          json['ReservedConcurrentExecutions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reservedConcurrentExecutions = this.reservedConcurrentExecutions;
+    return {
+      if (reservedConcurrentExecutions != null)
+        'ReservedConcurrentExecutions': reservedConcurrentExecutions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFunctionResponse {
   /// The deployment package of the function or version.
-  @_s.JsonKey(name: 'Code')
-  final FunctionCodeLocation code;
+  final FunctionCodeLocation? code;
 
   /// The function's <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html">reserved
   /// concurrency</a>.
-  @_s.JsonKey(name: 'Concurrency')
-  final Concurrency concurrency;
+  final Concurrency? concurrency;
 
   /// The configuration of the function or version.
-  @_s.JsonKey(name: 'Configuration')
-  final FunctionConfiguration configuration;
+  final FunctionConfiguration? configuration;
 
   /// The function's <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/tagging.html">tags</a>.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetFunctionResponse({
     this.code,
@@ -6200,71 +6186,93 @@ class GetFunctionResponse {
     this.configuration,
     this.tags,
   });
-  factory GetFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFunctionResponseFromJson(json);
+
+  factory GetFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionResponse(
+      code: json['Code'] != null
+          ? FunctionCodeLocation.fromJson(json['Code'] as Map<String, dynamic>)
+          : null,
+      concurrency: json['Concurrency'] != null
+          ? Concurrency.fromJson(json['Concurrency'] as Map<String, dynamic>)
+          : null,
+      configuration: json['Configuration'] != null
+          ? FunctionConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final concurrency = this.concurrency;
+    final configuration = this.configuration;
+    final tags = this.tags;
+    return {
+      if (code != null) 'Code': code,
+      if (concurrency != null) 'Concurrency': concurrency,
+      if (configuration != null) 'Configuration': configuration,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLayerVersionPolicyResponse {
   /// The policy document.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   /// A unique identifier for the current revision of the policy.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   GetLayerVersionPolicyResponse({
     this.policy,
     this.revisionId,
   });
-  factory GetLayerVersionPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLayerVersionPolicyResponseFromJson(json);
+
+  factory GetLayerVersionPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetLayerVersionPolicyResponse(
+      policy: json['Policy'] as String?,
+      revisionId: json['RevisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    final revisionId = this.revisionId;
+    return {
+      if (policy != null) 'Policy': policy,
+      if (revisionId != null) 'RevisionId': revisionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLayerVersionResponse {
   /// The layer's compatible runtimes.
-  @_s.JsonKey(name: 'CompatibleRuntimes')
-  final List<Runtime> compatibleRuntimes;
+  final List<Runtime>? compatibleRuntimes;
 
   /// Details about the layer version.
-  @_s.JsonKey(name: 'Content')
-  final LayerVersionContentOutput content;
+  final LayerVersionContentOutput? content;
 
   /// The date that the layer version was created, in <a
   /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
   /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  @_s.JsonKey(name: 'CreatedDate')
-  final String createdDate;
+  final String? createdDate;
 
   /// The description of the version.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the layer.
-  @_s.JsonKey(name: 'LayerArn')
-  final String layerArn;
+  final String? layerArn;
 
   /// The ARN of the layer version.
-  @_s.JsonKey(name: 'LayerVersionArn')
-  final String layerVersionArn;
+  final String? layerVersionArn;
 
   /// The layer's software license.
-  @_s.JsonKey(name: 'LicenseInfo')
-  final String licenseInfo;
+  final String? licenseInfo;
 
   /// The version number.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   GetLayerVersionResponse({
     this.compatibleRuntimes,
@@ -6276,64 +6284,100 @@ class GetLayerVersionResponse {
     this.licenseInfo,
     this.version,
   });
-  factory GetLayerVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLayerVersionResponseFromJson(json);
+
+  factory GetLayerVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetLayerVersionResponse(
+      compatibleRuntimes: (json['CompatibleRuntimes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toRuntime())
+          .toList(),
+      content: json['Content'] != null
+          ? LayerVersionContentOutput.fromJson(
+              json['Content'] as Map<String, dynamic>)
+          : null,
+      createdDate: json['CreatedDate'] as String?,
+      description: json['Description'] as String?,
+      layerArn: json['LayerArn'] as String?,
+      layerVersionArn: json['LayerVersionArn'] as String?,
+      licenseInfo: json['LicenseInfo'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compatibleRuntimes = this.compatibleRuntimes;
+    final content = this.content;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final layerArn = this.layerArn;
+    final layerVersionArn = this.layerVersionArn;
+    final licenseInfo = this.licenseInfo;
+    final version = this.version;
+    return {
+      if (compatibleRuntimes != null)
+        'CompatibleRuntimes':
+            compatibleRuntimes.map((e) => e.toValue()).toList(),
+      if (content != null) 'Content': content,
+      if (createdDate != null) 'CreatedDate': createdDate,
+      if (description != null) 'Description': description,
+      if (layerArn != null) 'LayerArn': layerArn,
+      if (layerVersionArn != null) 'LayerVersionArn': layerVersionArn,
+      if (licenseInfo != null) 'LicenseInfo': licenseInfo,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPolicyResponse {
   /// The resource-based policy.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   /// A unique identifier for the current revision of the policy.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   GetPolicyResponse({
     this.policy,
     this.revisionId,
   });
-  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPolicyResponseFromJson(json);
+
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      policy: json['Policy'] as String?,
+      revisionId: json['RevisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    final revisionId = this.revisionId;
+    return {
+      if (policy != null) 'Policy': policy,
+      if (revisionId != null) 'RevisionId': revisionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProvisionedConcurrencyConfigResponse {
   /// The amount of provisioned concurrency allocated.
-  @_s.JsonKey(name: 'AllocatedProvisionedConcurrentExecutions')
-  final int allocatedProvisionedConcurrentExecutions;
+  final int? allocatedProvisionedConcurrentExecutions;
 
   /// The amount of provisioned concurrency available.
-  @_s.JsonKey(name: 'AvailableProvisionedConcurrentExecutions')
-  final int availableProvisionedConcurrentExecutions;
+  final int? availableProvisionedConcurrentExecutions;
 
   /// The date and time that a user last updated the configuration, in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601
   /// format</a>.
-  @_s.JsonKey(name: 'LastModified')
-  final String lastModified;
+  final String? lastModified;
 
   /// The amount of provisioned concurrency requested.
-  @_s.JsonKey(name: 'RequestedProvisionedConcurrentExecutions')
-  final int requestedProvisionedConcurrentExecutions;
+  final int? requestedProvisionedConcurrentExecutions;
 
   /// The status of the allocation process.
-  @_s.JsonKey(name: 'Status')
-  final ProvisionedConcurrencyStatusEnum status;
+  final ProvisionedConcurrencyStatusEnum? status;
 
   /// For failed allocations, the reason that provisioned concurrency could not be
   /// allocated.
-  @_s.JsonKey(name: 'StatusReason')
-  final String statusReason;
+  final String? statusReason;
 
   GetProvisionedConcurrencyConfigResponse({
     this.allocatedProvisionedConcurrentExecutions,
@@ -6343,122 +6387,180 @@ class GetProvisionedConcurrencyConfigResponse {
     this.status,
     this.statusReason,
   });
+
   factory GetProvisionedConcurrencyConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetProvisionedConcurrencyConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetProvisionedConcurrencyConfigResponse(
+      allocatedProvisionedConcurrentExecutions:
+          json['AllocatedProvisionedConcurrentExecutions'] as int?,
+      availableProvisionedConcurrentExecutions:
+          json['AvailableProvisionedConcurrentExecutions'] as int?,
+      lastModified: json['LastModified'] as String?,
+      requestedProvisionedConcurrentExecutions:
+          json['RequestedProvisionedConcurrentExecutions'] as int?,
+      status: (json['Status'] as String?)?.toProvisionedConcurrencyStatusEnum(),
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedProvisionedConcurrentExecutions =
+        this.allocatedProvisionedConcurrentExecutions;
+    final availableProvisionedConcurrentExecutions =
+        this.availableProvisionedConcurrentExecutions;
+    final lastModified = this.lastModified;
+    final requestedProvisionedConcurrentExecutions =
+        this.requestedProvisionedConcurrentExecutions;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (allocatedProvisionedConcurrentExecutions != null)
+        'AllocatedProvisionedConcurrentExecutions':
+            allocatedProvisionedConcurrentExecutions,
+      if (availableProvisionedConcurrentExecutions != null)
+        'AvailableProvisionedConcurrentExecutions':
+            availableProvisionedConcurrentExecutions,
+      if (lastModified != null) 'LastModified': lastModified,
+      if (requestedProvisionedConcurrentExecutions != null)
+        'RequestedProvisionedConcurrentExecutions':
+            requestedProvisionedConcurrentExecutions,
+      if (status != null) 'Status': status.toValue(),
+      if (statusReason != null) 'StatusReason': statusReason,
+    };
+  }
 }
 
 /// Configuration values that override the container image Dockerfile settings.
 /// See <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/images-parms.html">Container
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms">Container
 /// settings</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ImageConfig {
   /// Specifies parameters that you want to pass in with ENTRYPOINT.
-  @_s.JsonKey(name: 'Command')
-  final List<String> command;
+  final List<String>? command;
 
   /// Specifies the entry point to their application, which is typically the
   /// location of the runtime executable.
-  @_s.JsonKey(name: 'EntryPoint')
-  final List<String> entryPoint;
+  final List<String>? entryPoint;
 
   /// Specifies the working directory.
-  @_s.JsonKey(name: 'WorkingDirectory')
-  final String workingDirectory;
+  final String? workingDirectory;
 
   ImageConfig({
     this.command,
     this.entryPoint,
     this.workingDirectory,
   });
-  factory ImageConfig.fromJson(Map<String, dynamic> json) =>
-      _$ImageConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImageConfigToJson(this);
+  factory ImageConfig.fromJson(Map<String, dynamic> json) {
+    return ImageConfig(
+      command: (json['Command'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      entryPoint: (json['EntryPoint'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      workingDirectory: json['WorkingDirectory'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final command = this.command;
+    final entryPoint = this.entryPoint;
+    final workingDirectory = this.workingDirectory;
+    return {
+      if (command != null) 'Command': command,
+      if (entryPoint != null) 'EntryPoint': entryPoint,
+      if (workingDirectory != null) 'WorkingDirectory': workingDirectory,
+    };
+  }
 }
 
 /// Error response to GetFunctionConfiguration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageConfigError {
   /// Error code.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// Error message.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   ImageConfigError({
     this.errorCode,
     this.message,
   });
-  factory ImageConfigError.fromJson(Map<String, dynamic> json) =>
-      _$ImageConfigErrorFromJson(json);
+
+  factory ImageConfigError.fromJson(Map<String, dynamic> json) {
+    return ImageConfigError(
+      errorCode: json['ErrorCode'] as String?,
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final message = this.message;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
 /// Response to GetFunctionConfiguration request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImageConfigResponse {
   /// Error response to GetFunctionConfiguration.
-  @_s.JsonKey(name: 'Error')
-  final ImageConfigError error;
+  final ImageConfigError? error;
 
   /// Configuration values that override the container image Dockerfile.
-  @_s.JsonKey(name: 'ImageConfig')
-  final ImageConfig imageConfig;
+  final ImageConfig? imageConfig;
 
   ImageConfigResponse({
     this.error,
     this.imageConfig,
   });
-  factory ImageConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImageConfigResponseFromJson(json);
+
+  factory ImageConfigResponse.fromJson(Map<String, dynamic> json) {
+    return ImageConfigResponse(
+      error: json['Error'] != null
+          ? ImageConfigError.fromJson(json['Error'] as Map<String, dynamic>)
+          : null,
+      imageConfig: json['ImageConfig'] != null
+          ? ImageConfig.fromJson(json['ImageConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final imageConfig = this.imageConfig;
+    return {
+      if (error != null) 'Error': error,
+      if (imageConfig != null) 'ImageConfig': imageConfig,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvocationResponse {
   /// The version of the function that executed. When you invoke a function with
   /// an alias, this indicates which version the alias resolved to.
-  @_s.JsonKey(name: 'X-Amz-Executed-Version')
-  final String executedVersion;
+  final String? executedVersion;
 
   /// If present, indicates that an error occurred during function execution.
   /// Details about the error are included in the response payload.
-  @_s.JsonKey(name: 'X-Amz-Function-Error')
-  final String functionError;
+  final String? functionError;
 
   /// The last 4 KB of the execution log, which is base64 encoded.
-  @_s.JsonKey(name: 'X-Amz-Log-Result')
-  final String logResult;
+  final String? logResult;
 
   /// The response from the function, or an error object.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   /// The HTTP status code is in the 200 range for a successful request. For the
   /// <code>RequestResponse</code> invocation type, this status code is 200. For
   /// the <code>Event</code> invocation type, this status code is 202. For the
   /// <code>DryRun</code> invocation type, the status code is 204.
-  @_s.JsonKey(name: 'StatusCode')
-  final int statusCode;
+  final int? statusCode;
 
   InvocationResponse({
     this.executedVersion,
@@ -6467,16 +6569,32 @@ class InvocationResponse {
     this.payload,
     this.statusCode,
   });
-  factory InvocationResponse.fromJson(Map<String, dynamic> json) =>
-      _$InvocationResponseFromJson(json);
+
+  factory InvocationResponse.fromJson(Map<String, dynamic> json) {
+    return InvocationResponse(
+      executedVersion: json['X-Amz-Executed-Version'] as String?,
+      functionError: json['X-Amz-Function-Error'] as String?,
+      logResult: json['X-Amz-Log-Result'] as String?,
+      payload: _s.decodeNullableUint8List(json['Payload'] as String?),
+      statusCode: json['StatusCode'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executedVersion = this.executedVersion;
+    final functionError = this.functionError;
+    final logResult = this.logResult;
+    final payload = this.payload;
+    final statusCode = this.statusCode;
+    return {
+      if (payload != null) 'Payload': base64Encode(payload),
+    };
+  }
 }
 
 enum InvocationType {
-  @_s.JsonValue('Event')
   event,
-  @_s.JsonValue('RequestResponse')
   requestResponse,
-  @_s.JsonValue('DryRun')
   dryRun,
 }
 
@@ -6490,86 +6608,162 @@ extension on InvocationType {
       case InvocationType.dryRun:
         return 'DryRun';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  InvocationType toInvocationType() {
+    switch (this) {
+      case 'Event':
+        return InvocationType.event;
+      case 'RequestResponse':
+        return InvocationType.requestResponse;
+      case 'DryRun':
+        return InvocationType.dryRun;
+    }
+    throw Exception('$this is not known in enum InvocationType');
   }
 }
 
 /// A success response (<code>202 Accepted</code>) indicates that the request is
 /// queued for invocation.
 @deprecated
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvokeAsyncResponse {
   /// The status code.
-  @_s.JsonKey(name: 'Status')
-  final int status;
+  final int? status;
 
   InvokeAsyncResponse({
     this.status,
   });
-  factory InvokeAsyncResponse.fromJson(Map<String, dynamic> json) =>
-      _$InvokeAsyncResponseFromJson(json);
+
+  factory InvokeAsyncResponse.fromJson(Map<String, dynamic> json) {
+    return InvokeAsyncResponse(
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {};
+  }
 }
 
 enum LastUpdateStatus {
-  @_s.JsonValue('Successful')
   successful,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('InProgress')
   inProgress,
 }
 
+extension on LastUpdateStatus {
+  String toValue() {
+    switch (this) {
+      case LastUpdateStatus.successful:
+        return 'Successful';
+      case LastUpdateStatus.failed:
+        return 'Failed';
+      case LastUpdateStatus.inProgress:
+        return 'InProgress';
+    }
+  }
+}
+
+extension on String {
+  LastUpdateStatus toLastUpdateStatus() {
+    switch (this) {
+      case 'Successful':
+        return LastUpdateStatus.successful;
+      case 'Failed':
+        return LastUpdateStatus.failed;
+      case 'InProgress':
+        return LastUpdateStatus.inProgress;
+    }
+    throw Exception('$this is not known in enum LastUpdateStatus');
+  }
+}
+
 enum LastUpdateStatusReasonCode {
-  @_s.JsonValue('EniLimitExceeded')
   eniLimitExceeded,
-  @_s.JsonValue('InsufficientRolePermissions')
   insufficientRolePermissions,
-  @_s.JsonValue('InvalidConfiguration')
   invalidConfiguration,
-  @_s.JsonValue('InternalError')
   internalError,
-  @_s.JsonValue('SubnetOutOfIPAddresses')
   subnetOutOfIPAddresses,
-  @_s.JsonValue('InvalidSubnet')
   invalidSubnet,
-  @_s.JsonValue('InvalidSecurityGroup')
   invalidSecurityGroup,
-  @_s.JsonValue('ImageDeleted')
   imageDeleted,
-  @_s.JsonValue('ImageAccessDenied')
   imageAccessDenied,
-  @_s.JsonValue('InvalidImage')
   invalidImage,
 }
 
+extension on LastUpdateStatusReasonCode {
+  String toValue() {
+    switch (this) {
+      case LastUpdateStatusReasonCode.eniLimitExceeded:
+        return 'EniLimitExceeded';
+      case LastUpdateStatusReasonCode.insufficientRolePermissions:
+        return 'InsufficientRolePermissions';
+      case LastUpdateStatusReasonCode.invalidConfiguration:
+        return 'InvalidConfiguration';
+      case LastUpdateStatusReasonCode.internalError:
+        return 'InternalError';
+      case LastUpdateStatusReasonCode.subnetOutOfIPAddresses:
+        return 'SubnetOutOfIPAddresses';
+      case LastUpdateStatusReasonCode.invalidSubnet:
+        return 'InvalidSubnet';
+      case LastUpdateStatusReasonCode.invalidSecurityGroup:
+        return 'InvalidSecurityGroup';
+      case LastUpdateStatusReasonCode.imageDeleted:
+        return 'ImageDeleted';
+      case LastUpdateStatusReasonCode.imageAccessDenied:
+        return 'ImageAccessDenied';
+      case LastUpdateStatusReasonCode.invalidImage:
+        return 'InvalidImage';
+    }
+  }
+}
+
+extension on String {
+  LastUpdateStatusReasonCode toLastUpdateStatusReasonCode() {
+    switch (this) {
+      case 'EniLimitExceeded':
+        return LastUpdateStatusReasonCode.eniLimitExceeded;
+      case 'InsufficientRolePermissions':
+        return LastUpdateStatusReasonCode.insufficientRolePermissions;
+      case 'InvalidConfiguration':
+        return LastUpdateStatusReasonCode.invalidConfiguration;
+      case 'InternalError':
+        return LastUpdateStatusReasonCode.internalError;
+      case 'SubnetOutOfIPAddresses':
+        return LastUpdateStatusReasonCode.subnetOutOfIPAddresses;
+      case 'InvalidSubnet':
+        return LastUpdateStatusReasonCode.invalidSubnet;
+      case 'InvalidSecurityGroup':
+        return LastUpdateStatusReasonCode.invalidSecurityGroup;
+      case 'ImageDeleted':
+        return LastUpdateStatusReasonCode.imageDeleted;
+      case 'ImageAccessDenied':
+        return LastUpdateStatusReasonCode.imageAccessDenied;
+      case 'InvalidImage':
+        return LastUpdateStatusReasonCode.invalidImage;
+    }
+    throw Exception('$this is not known in enum LastUpdateStatusReasonCode');
+  }
+}
+
 /// An <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-/// Lambda layer</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+/// layer</a>.
 class Layer {
   /// The Amazon Resource Name (ARN) of the function layer.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The size of the layer archive in bytes.
-  @_s.JsonKey(name: 'CodeSize')
-  final int codeSize;
+  final int? codeSize;
 
   /// The Amazon Resource Name (ARN) of a signing job.
-  @_s.JsonKey(name: 'SigningJobArn')
-  final String signingJobArn;
+  final String? signingJobArn;
 
   /// The Amazon Resource Name (ARN) for a signing profile version.
-  @_s.JsonKey(name: 'SigningProfileVersionArn')
-  final String signingProfileVersionArn;
+  final String? signingProfileVersionArn;
 
   Layer({
     this.arn,
@@ -6577,36 +6771,48 @@ class Layer {
     this.signingJobArn,
     this.signingProfileVersionArn,
   });
-  factory Layer.fromJson(Map<String, dynamic> json) => _$LayerFromJson(json);
+
+  factory Layer.fromJson(Map<String, dynamic> json) {
+    return Layer(
+      arn: json['Arn'] as String?,
+      codeSize: json['CodeSize'] as int?,
+      signingJobArn: json['SigningJobArn'] as String?,
+      signingProfileVersionArn: json['SigningProfileVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final codeSize = this.codeSize;
+    final signingJobArn = this.signingJobArn;
+    final signingProfileVersionArn = this.signingProfileVersionArn;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (signingJobArn != null) 'SigningJobArn': signingJobArn,
+      if (signingProfileVersionArn != null)
+        'SigningProfileVersionArn': signingProfileVersionArn,
+    };
+  }
 }
 
 /// A ZIP archive that contains the contents of an <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-/// Lambda layer</a>. You can specify either an Amazon S3 location, or upload a
-/// layer archive directly.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+/// layer</a>. You can specify either an Amazon S3 location, or upload a layer
+/// archive directly.
 class LayerVersionContentInput {
   /// The Amazon S3 bucket of the layer archive.
-  @_s.JsonKey(name: 'S3Bucket')
-  final String s3Bucket;
+  final String? s3Bucket;
 
   /// The Amazon S3 key of the layer archive.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   /// For versioned objects, the version of the layer archive object to use.
-  @_s.JsonKey(name: 'S3ObjectVersion')
-  final String s3ObjectVersion;
+  final String? s3ObjectVersion;
 
-  /// The base64-encoded contents of the layer archive. AWS SDK and AWS CLI
-  /// clients handle the encoding for you.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'ZipFile')
-  final Uint8List zipFile;
+  /// The base64-encoded contents of the layer archive. Amazon Web Services SDK
+  /// and Amazon Web Services CLI clients handle the encoding for you.
+  final Uint8List? zipFile;
 
   LayerVersionContentInput({
     this.s3Bucket,
@@ -6614,37 +6820,48 @@ class LayerVersionContentInput {
     this.s3ObjectVersion,
     this.zipFile,
   });
-  Map<String, dynamic> toJson() => _$LayerVersionContentInputToJson(this);
+
+  factory LayerVersionContentInput.fromJson(Map<String, dynamic> json) {
+    return LayerVersionContentInput(
+      s3Bucket: json['S3Bucket'] as String?,
+      s3Key: json['S3Key'] as String?,
+      s3ObjectVersion: json['S3ObjectVersion'] as String?,
+      zipFile: _s.decodeNullableUint8List(json['ZipFile'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Bucket = this.s3Bucket;
+    final s3Key = this.s3Key;
+    final s3ObjectVersion = this.s3ObjectVersion;
+    final zipFile = this.zipFile;
+    return {
+      if (s3Bucket != null) 'S3Bucket': s3Bucket,
+      if (s3Key != null) 'S3Key': s3Key,
+      if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
+      if (zipFile != null) 'ZipFile': base64Encode(zipFile),
+    };
+  }
 }
 
 /// Details about a version of an <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-/// Lambda layer</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+/// layer</a>.
 class LayerVersionContentOutput {
   /// The SHA-256 hash of the layer archive.
-  @_s.JsonKey(name: 'CodeSha256')
-  final String codeSha256;
+  final String? codeSha256;
 
   /// The size of the layer archive in bytes.
-  @_s.JsonKey(name: 'CodeSize')
-  final int codeSize;
+  final int? codeSize;
 
   /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   /// The Amazon Resource Name (ARN) of a signing job.
-  @_s.JsonKey(name: 'SigningJobArn')
-  final String signingJobArn;
+  final String? signingJobArn;
 
   /// The Amazon Resource Name (ARN) for a signing profile version.
-  @_s.JsonKey(name: 'SigningProfileVersionArn')
-  final String signingProfileVersionArn;
+  final String? signingProfileVersionArn;
 
   LayerVersionContentOutput({
     this.codeSha256,
@@ -6653,43 +6870,56 @@ class LayerVersionContentOutput {
     this.signingJobArn,
     this.signingProfileVersionArn,
   });
-  factory LayerVersionContentOutput.fromJson(Map<String, dynamic> json) =>
-      _$LayerVersionContentOutputFromJson(json);
+
+  factory LayerVersionContentOutput.fromJson(Map<String, dynamic> json) {
+    return LayerVersionContentOutput(
+      codeSha256: json['CodeSha256'] as String?,
+      codeSize: json['CodeSize'] as int?,
+      location: json['Location'] as String?,
+      signingJobArn: json['SigningJobArn'] as String?,
+      signingProfileVersionArn: json['SigningProfileVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSha256 = this.codeSha256;
+    final codeSize = this.codeSize;
+    final location = this.location;
+    final signingJobArn = this.signingJobArn;
+    final signingProfileVersionArn = this.signingProfileVersionArn;
+    return {
+      if (codeSha256 != null) 'CodeSha256': codeSha256,
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (location != null) 'Location': location,
+      if (signingJobArn != null) 'SigningJobArn': signingJobArn,
+      if (signingProfileVersionArn != null)
+        'SigningProfileVersionArn': signingProfileVersionArn,
+    };
+  }
 }
 
 /// Details about a version of an <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-/// Lambda layer</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+/// layer</a>.
 class LayerVersionsListItem {
   /// The layer's compatible runtimes.
-  @_s.JsonKey(name: 'CompatibleRuntimes')
-  final List<Runtime> compatibleRuntimes;
+  final List<Runtime>? compatibleRuntimes;
 
   /// The date that the version was created, in ISO 8601 format. For example,
   /// <code>2018-11-27T15:10:45.123+0000</code>.
-  @_s.JsonKey(name: 'CreatedDate')
-  final String createdDate;
+  final String? createdDate;
 
   /// The description of the version.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the layer version.
-  @_s.JsonKey(name: 'LayerVersionArn')
-  final String layerVersionArn;
+  final String? layerVersionArn;
 
   /// The layer's open-source license.
-  @_s.JsonKey(name: 'LicenseInfo')
-  final String licenseInfo;
+  final String? licenseInfo;
 
   /// The version number.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   LayerVersionsListItem({
     this.compatibleRuntimes,
@@ -6699,287 +6929,442 @@ class LayerVersionsListItem {
     this.licenseInfo,
     this.version,
   });
-  factory LayerVersionsListItem.fromJson(Map<String, dynamic> json) =>
-      _$LayerVersionsListItemFromJson(json);
+
+  factory LayerVersionsListItem.fromJson(Map<String, dynamic> json) {
+    return LayerVersionsListItem(
+      compatibleRuntimes: (json['CompatibleRuntimes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toRuntime())
+          .toList(),
+      createdDate: json['CreatedDate'] as String?,
+      description: json['Description'] as String?,
+      layerVersionArn: json['LayerVersionArn'] as String?,
+      licenseInfo: json['LicenseInfo'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compatibleRuntimes = this.compatibleRuntimes;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final layerVersionArn = this.layerVersionArn;
+    final licenseInfo = this.licenseInfo;
+    final version = this.version;
+    return {
+      if (compatibleRuntimes != null)
+        'CompatibleRuntimes':
+            compatibleRuntimes.map((e) => e.toValue()).toList(),
+      if (createdDate != null) 'CreatedDate': createdDate,
+      if (description != null) 'Description': description,
+      if (layerVersionArn != null) 'LayerVersionArn': layerVersionArn,
+      if (licenseInfo != null) 'LicenseInfo': licenseInfo,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Details about an <a
-/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">AWS
-/// Lambda layer</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html">Lambda
+/// layer</a>.
 class LayersListItem {
   /// The newest version of the layer.
-  @_s.JsonKey(name: 'LatestMatchingVersion')
-  final LayerVersionsListItem latestMatchingVersion;
+  final LayerVersionsListItem? latestMatchingVersion;
 
   /// The Amazon Resource Name (ARN) of the function layer.
-  @_s.JsonKey(name: 'LayerArn')
-  final String layerArn;
+  final String? layerArn;
 
   /// The name of the layer.
-  @_s.JsonKey(name: 'LayerName')
-  final String layerName;
+  final String? layerName;
 
   LayersListItem({
     this.latestMatchingVersion,
     this.layerArn,
     this.layerName,
   });
-  factory LayersListItem.fromJson(Map<String, dynamic> json) =>
-      _$LayersListItemFromJson(json);
+
+  factory LayersListItem.fromJson(Map<String, dynamic> json) {
+    return LayersListItem(
+      latestMatchingVersion: json['LatestMatchingVersion'] != null
+          ? LayerVersionsListItem.fromJson(
+              json['LatestMatchingVersion'] as Map<String, dynamic>)
+          : null,
+      layerArn: json['LayerArn'] as String?,
+      layerName: json['LayerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latestMatchingVersion = this.latestMatchingVersion;
+    final layerArn = this.layerArn;
+    final layerName = this.layerName;
+    return {
+      if (latestMatchingVersion != null)
+        'LatestMatchingVersion': latestMatchingVersion,
+      if (layerArn != null) 'LayerArn': layerArn,
+      if (layerName != null) 'LayerName': layerName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAliasesResponse {
   /// A list of aliases.
-  @_s.JsonKey(name: 'Aliases')
-  final List<AliasConfiguration> aliases;
+  final List<AliasConfiguration>? aliases;
 
   /// The pagination token that's included if more results are available.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListAliasesResponse({
     this.aliases,
     this.nextMarker,
   });
-  factory ListAliasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAliasesResponseFromJson(json);
+
+  factory ListAliasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAliasesResponse(
+      aliases: (json['Aliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => AliasConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliases = this.aliases;
+    final nextMarker = this.nextMarker;
+    return {
+      if (aliases != null) 'Aliases': aliases,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCodeSigningConfigsResponse {
   /// The code signing configurations
-  @_s.JsonKey(name: 'CodeSigningConfigs')
-  final List<CodeSigningConfig> codeSigningConfigs;
+  final List<CodeSigningConfig>? codeSigningConfigs;
 
   /// The pagination token that's included if more results are available.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListCodeSigningConfigsResponse({
     this.codeSigningConfigs,
     this.nextMarker,
   });
-  factory ListCodeSigningConfigsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCodeSigningConfigsResponseFromJson(json);
+
+  factory ListCodeSigningConfigsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCodeSigningConfigsResponse(
+      codeSigningConfigs: (json['CodeSigningConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) => CodeSigningConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSigningConfigs = this.codeSigningConfigs;
+    final nextMarker = this.nextMarker;
+    return {
+      if (codeSigningConfigs != null) 'CodeSigningConfigs': codeSigningConfigs,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEventSourceMappingsResponse {
   /// A list of event source mappings.
-  @_s.JsonKey(name: 'EventSourceMappings')
-  final List<EventSourceMappingConfiguration> eventSourceMappings;
+  final List<EventSourceMappingConfiguration>? eventSourceMappings;
 
   /// A pagination token that's returned when the response doesn't contain all
   /// event source mappings.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListEventSourceMappingsResponse({
     this.eventSourceMappings,
     this.nextMarker,
   });
-  factory ListEventSourceMappingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEventSourceMappingsResponseFromJson(json);
+
+  factory ListEventSourceMappingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventSourceMappingsResponse(
+      eventSourceMappings: (json['EventSourceMappings'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventSourceMappingConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSourceMappings = this.eventSourceMappings;
+    final nextMarker = this.nextMarker;
+    return {
+      if (eventSourceMappings != null)
+        'EventSourceMappings': eventSourceMappings,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFunctionEventInvokeConfigsResponse {
   /// A list of configurations.
-  @_s.JsonKey(name: 'FunctionEventInvokeConfigs')
-  final List<FunctionEventInvokeConfig> functionEventInvokeConfigs;
+  final List<FunctionEventInvokeConfig>? functionEventInvokeConfigs;
 
   /// The pagination token that's included if more results are available.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListFunctionEventInvokeConfigsResponse({
     this.functionEventInvokeConfigs,
     this.nextMarker,
   });
+
   factory ListFunctionEventInvokeConfigsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListFunctionEventInvokeConfigsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListFunctionEventInvokeConfigsResponse(
+      functionEventInvokeConfigs: (json['FunctionEventInvokeConfigs'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FunctionEventInvokeConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionEventInvokeConfigs = this.functionEventInvokeConfigs;
+    final nextMarker = this.nextMarker;
+    return {
+      if (functionEventInvokeConfigs != null)
+        'FunctionEventInvokeConfigs': functionEventInvokeConfigs,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFunctionsByCodeSigningConfigResponse {
   /// The function ARNs.
-  @_s.JsonKey(name: 'FunctionArns')
-  final List<String> functionArns;
+  final List<String>? functionArns;
 
   /// The pagination token that's included if more results are available.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListFunctionsByCodeSigningConfigResponse({
     this.functionArns,
     this.nextMarker,
   });
+
   factory ListFunctionsByCodeSigningConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListFunctionsByCodeSigningConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListFunctionsByCodeSigningConfigResponse(
+      functionArns: (json['FunctionArns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functionArns = this.functionArns;
+    final nextMarker = this.nextMarker;
+    return {
+      if (functionArns != null) 'FunctionArns': functionArns,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
 /// A list of Lambda functions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFunctionsResponse {
   /// A list of Lambda functions.
-  @_s.JsonKey(name: 'Functions')
-  final List<FunctionConfiguration> functions;
+  final List<FunctionConfiguration>? functions;
 
   /// The pagination token that's included if more results are available.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListFunctionsResponse({
     this.functions,
     this.nextMarker,
   });
-  factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFunctionsResponseFromJson(json);
+
+  factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFunctionsResponse(
+      functions: (json['Functions'] as List?)
+          ?.whereNotNull()
+          .map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functions = this.functions;
+    final nextMarker = this.nextMarker;
+    return {
+      if (functions != null) 'Functions': functions,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLayerVersionsResponse {
   /// A list of versions.
-  @_s.JsonKey(name: 'LayerVersions')
-  final List<LayerVersionsListItem> layerVersions;
+  final List<LayerVersionsListItem>? layerVersions;
 
   /// A pagination token returned when the response doesn't contain all versions.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListLayerVersionsResponse({
     this.layerVersions,
     this.nextMarker,
   });
-  factory ListLayerVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLayerVersionsResponseFromJson(json);
+
+  factory ListLayerVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLayerVersionsResponse(
+      layerVersions: (json['LayerVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => LayerVersionsListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final layerVersions = this.layerVersions;
+    final nextMarker = this.nextMarker;
+    return {
+      if (layerVersions != null) 'LayerVersions': layerVersions,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLayersResponse {
   /// A list of function layers.
-  @_s.JsonKey(name: 'Layers')
-  final List<LayersListItem> layers;
+  final List<LayersListItem>? layers;
 
   /// A pagination token returned when the response doesn't contain all layers.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListLayersResponse({
     this.layers,
     this.nextMarker,
   });
-  factory ListLayersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLayersResponseFromJson(json);
+
+  factory ListLayersResponse.fromJson(Map<String, dynamic> json) {
+    return ListLayersResponse(
+      layers: (json['Layers'] as List?)
+          ?.whereNotNull()
+          .map((e) => LayersListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final layers = this.layers;
+    final nextMarker = this.nextMarker;
+    return {
+      if (layers != null) 'Layers': layers,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProvisionedConcurrencyConfigsResponse {
   /// The pagination token that's included if more results are available.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A list of provisioned concurrency configurations.
-  @_s.JsonKey(name: 'ProvisionedConcurrencyConfigs')
-  final List<ProvisionedConcurrencyConfigListItem>
+  final List<ProvisionedConcurrencyConfigListItem>?
       provisionedConcurrencyConfigs;
 
   ListProvisionedConcurrencyConfigsResponse({
     this.nextMarker,
     this.provisionedConcurrencyConfigs,
   });
+
   factory ListProvisionedConcurrencyConfigsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListProvisionedConcurrencyConfigsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListProvisionedConcurrencyConfigsResponse(
+      nextMarker: json['NextMarker'] as String?,
+      provisionedConcurrencyConfigs:
+          (json['ProvisionedConcurrencyConfigs'] as List?)
+              ?.whereNotNull()
+              .map((e) => ProvisionedConcurrencyConfigListItem.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final provisionedConcurrencyConfigs = this.provisionedConcurrencyConfigs;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (provisionedConcurrencyConfigs != null)
+        'ProvisionedConcurrencyConfigs': provisionedConcurrencyConfigs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResponse {
   /// The function's tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsResponse({
     this.tags,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVersionsByFunctionResponse {
   /// The pagination token that's included if more results are available.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   /// A list of Lambda function versions.
-  @_s.JsonKey(name: 'Versions')
-  final List<FunctionConfiguration> versions;
+  final List<FunctionConfiguration>? versions;
 
   ListVersionsByFunctionResponse({
     this.nextMarker,
     this.versions,
   });
-  factory ListVersionsByFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListVersionsByFunctionResponseFromJson(json);
+
+  factory ListVersionsByFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return ListVersionsByFunctionResponse(
+      nextMarker: json['NextMarker'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextMarker = this.nextMarker;
+    final versions = this.versions;
+    return {
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
 enum LogType {
-  @_s.JsonValue('None')
   none,
-  @_s.JsonValue('Tail')
   tail,
 }
 
@@ -6991,54 +7376,69 @@ extension on LogType {
       case LogType.tail:
         return 'Tail';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LogType toLogType() {
+    switch (this) {
+      case 'None':
+        return LogType.none;
+      case 'Tail':
+        return LogType.tail;
+    }
+    throw Exception('$this is not known in enum LogType');
   }
 }
 
 /// A destination for events that failed processing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OnFailure {
   /// The Amazon Resource Name (ARN) of the destination resource.
-  @_s.JsonKey(name: 'Destination')
-  final String destination;
+  final String? destination;
 
   OnFailure({
     this.destination,
   });
-  factory OnFailure.fromJson(Map<String, dynamic> json) =>
-      _$OnFailureFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OnFailureToJson(this);
+  factory OnFailure.fromJson(Map<String, dynamic> json) {
+    return OnFailure(
+      destination: json['Destination'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    return {
+      if (destination != null) 'Destination': destination,
+    };
+  }
 }
 
 /// A destination for events that were processed successfully.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OnSuccess {
   /// The Amazon Resource Name (ARN) of the destination resource.
-  @_s.JsonKey(name: 'Destination')
-  final String destination;
+  final String? destination;
 
   OnSuccess({
     this.destination,
   });
-  factory OnSuccess.fromJson(Map<String, dynamic> json) =>
-      _$OnSuccessFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OnSuccessToJson(this);
+  factory OnSuccess.fromJson(Map<String, dynamic> json) {
+    return OnSuccess(
+      destination: json['Destination'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    return {
+      if (destination != null) 'Destination': destination,
+    };
+  }
 }
 
 enum PackageType {
-  @_s.JsonValue('Zip')
   zip,
-  @_s.JsonValue('Image')
   image,
 }
 
@@ -7050,48 +7450,47 @@ extension on PackageType {
       case PackageType.image:
         return 'Image';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PackageType toPackageType() {
+    switch (this) {
+      case 'Zip':
+        return PackageType.zip;
+      case 'Image':
+        return PackageType.image;
+    }
+    throw Exception('$this is not known in enum PackageType');
   }
 }
 
 /// Details about the provisioned concurrency configuration for a function alias
 /// or version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedConcurrencyConfigListItem {
   /// The amount of provisioned concurrency allocated.
-  @_s.JsonKey(name: 'AllocatedProvisionedConcurrentExecutions')
-  final int allocatedProvisionedConcurrentExecutions;
+  final int? allocatedProvisionedConcurrentExecutions;
 
   /// The amount of provisioned concurrency available.
-  @_s.JsonKey(name: 'AvailableProvisionedConcurrentExecutions')
-  final int availableProvisionedConcurrentExecutions;
+  final int? availableProvisionedConcurrentExecutions;
 
   /// The Amazon Resource Name (ARN) of the alias or version.
-  @_s.JsonKey(name: 'FunctionArn')
-  final String functionArn;
+  final String? functionArn;
 
   /// The date and time that a user last updated the configuration, in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601
   /// format</a>.
-  @_s.JsonKey(name: 'LastModified')
-  final String lastModified;
+  final String? lastModified;
 
   /// The amount of provisioned concurrency requested.
-  @_s.JsonKey(name: 'RequestedProvisionedConcurrentExecutions')
-  final int requestedProvisionedConcurrentExecutions;
+  final int? requestedProvisionedConcurrentExecutions;
 
   /// The status of the allocation process.
-  @_s.JsonKey(name: 'Status')
-  final ProvisionedConcurrencyStatusEnum status;
+  final ProvisionedConcurrencyStatusEnum? status;
 
   /// For failed allocations, the reason that provisioned concurrency could not be
   /// allocated.
-  @_s.JsonKey(name: 'StatusReason')
-  final String statusReason;
+  final String? statusReason;
 
   ProvisionedConcurrencyConfigListItem({
     this.allocatedProvisionedConcurrentExecutions,
@@ -7102,59 +7501,112 @@ class ProvisionedConcurrencyConfigListItem {
     this.status,
     this.statusReason,
   });
+
   factory ProvisionedConcurrencyConfigListItem.fromJson(
-          Map<String, dynamic> json) =>
-      _$ProvisionedConcurrencyConfigListItemFromJson(json);
+      Map<String, dynamic> json) {
+    return ProvisionedConcurrencyConfigListItem(
+      allocatedProvisionedConcurrentExecutions:
+          json['AllocatedProvisionedConcurrentExecutions'] as int?,
+      availableProvisionedConcurrentExecutions:
+          json['AvailableProvisionedConcurrentExecutions'] as int?,
+      functionArn: json['FunctionArn'] as String?,
+      lastModified: json['LastModified'] as String?,
+      requestedProvisionedConcurrentExecutions:
+          json['RequestedProvisionedConcurrentExecutions'] as int?,
+      status: (json['Status'] as String?)?.toProvisionedConcurrencyStatusEnum(),
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedProvisionedConcurrentExecutions =
+        this.allocatedProvisionedConcurrentExecutions;
+    final availableProvisionedConcurrentExecutions =
+        this.availableProvisionedConcurrentExecutions;
+    final functionArn = this.functionArn;
+    final lastModified = this.lastModified;
+    final requestedProvisionedConcurrentExecutions =
+        this.requestedProvisionedConcurrentExecutions;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (allocatedProvisionedConcurrentExecutions != null)
+        'AllocatedProvisionedConcurrentExecutions':
+            allocatedProvisionedConcurrentExecutions,
+      if (availableProvisionedConcurrentExecutions != null)
+        'AvailableProvisionedConcurrentExecutions':
+            availableProvisionedConcurrentExecutions,
+      if (functionArn != null) 'FunctionArn': functionArn,
+      if (lastModified != null) 'LastModified': lastModified,
+      if (requestedProvisionedConcurrentExecutions != null)
+        'RequestedProvisionedConcurrentExecutions':
+            requestedProvisionedConcurrentExecutions,
+      if (status != null) 'Status': status.toValue(),
+      if (statusReason != null) 'StatusReason': statusReason,
+    };
+  }
 }
 
 enum ProvisionedConcurrencyStatusEnum {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ProvisionedConcurrencyStatusEnum {
+  String toValue() {
+    switch (this) {
+      case ProvisionedConcurrencyStatusEnum.inProgress:
+        return 'IN_PROGRESS';
+      case ProvisionedConcurrencyStatusEnum.ready:
+        return 'READY';
+      case ProvisionedConcurrencyStatusEnum.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ProvisionedConcurrencyStatusEnum toProvisionedConcurrencyStatusEnum() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return ProvisionedConcurrencyStatusEnum.inProgress;
+      case 'READY':
+        return ProvisionedConcurrencyStatusEnum.ready;
+      case 'FAILED':
+        return ProvisionedConcurrencyStatusEnum.failed;
+    }
+    throw Exception(
+        '$this is not known in enum ProvisionedConcurrencyStatusEnum');
+  }
+}
+
 class PublishLayerVersionResponse {
   /// The layer's compatible runtimes.
-  @_s.JsonKey(name: 'CompatibleRuntimes')
-  final List<Runtime> compatibleRuntimes;
+  final List<Runtime>? compatibleRuntimes;
 
   /// Details about the layer version.
-  @_s.JsonKey(name: 'Content')
-  final LayerVersionContentOutput content;
+  final LayerVersionContentOutput? content;
 
   /// The date that the layer version was created, in <a
   /// href="https://www.w3.org/TR/NOTE-datetime">ISO-8601 format</a>
   /// (YYYY-MM-DDThh:mm:ss.sTZD).
-  @_s.JsonKey(name: 'CreatedDate')
-  final String createdDate;
+  final String? createdDate;
 
   /// The description of the version.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the layer.
-  @_s.JsonKey(name: 'LayerArn')
-  final String layerArn;
+  final String? layerArn;
 
   /// The ARN of the layer version.
-  @_s.JsonKey(name: 'LayerVersionArn')
-  final String layerVersionArn;
+  final String? layerVersionArn;
 
   /// The layer's software license.
-  @_s.JsonKey(name: 'LicenseInfo')
-  final String licenseInfo;
+  final String? licenseInfo;
 
   /// The version number.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   PublishLayerVersionResponse({
     this.compatibleRuntimes,
@@ -7166,18 +7618,52 @@ class PublishLayerVersionResponse {
     this.licenseInfo,
     this.version,
   });
-  factory PublishLayerVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$PublishLayerVersionResponseFromJson(json);
+
+  factory PublishLayerVersionResponse.fromJson(Map<String, dynamic> json) {
+    return PublishLayerVersionResponse(
+      compatibleRuntimes: (json['CompatibleRuntimes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toRuntime())
+          .toList(),
+      content: json['Content'] != null
+          ? LayerVersionContentOutput.fromJson(
+              json['Content'] as Map<String, dynamic>)
+          : null,
+      createdDate: json['CreatedDate'] as String?,
+      description: json['Description'] as String?,
+      layerArn: json['LayerArn'] as String?,
+      layerVersionArn: json['LayerVersionArn'] as String?,
+      licenseInfo: json['LicenseInfo'] as String?,
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compatibleRuntimes = this.compatibleRuntimes;
+    final content = this.content;
+    final createdDate = this.createdDate;
+    final description = this.description;
+    final layerArn = this.layerArn;
+    final layerVersionArn = this.layerVersionArn;
+    final licenseInfo = this.licenseInfo;
+    final version = this.version;
+    return {
+      if (compatibleRuntimes != null)
+        'CompatibleRuntimes':
+            compatibleRuntimes.map((e) => e.toValue()).toList(),
+      if (content != null) 'Content': content,
+      if (createdDate != null) 'CreatedDate': createdDate,
+      if (description != null) 'Description': description,
+      if (layerArn != null) 'LayerArn': layerArn,
+      if (layerVersionArn != null) 'LayerVersionArn': layerVersionArn,
+      if (licenseInfo != null) 'LicenseInfo': licenseInfo,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutFunctionCodeSigningConfigResponse {
   /// The The Amazon Resource Name (ARN) of the code signing configuration.
-  @_s.JsonKey(name: 'CodeSigningConfigArn')
   final String codeSigningConfigArn;
 
   /// The name of the Lambda function.
@@ -7197,50 +7683,52 @@ class PutFunctionCodeSigningConfigResponse {
   /// </ul>
   /// The length constraint applies only to the full ARN. If you specify only the
   /// function name, it is limited to 64 characters in length.
-  @_s.JsonKey(name: 'FunctionName')
   final String functionName;
 
   PutFunctionCodeSigningConfigResponse({
-    @_s.required this.codeSigningConfigArn,
-    @_s.required this.functionName,
+    required this.codeSigningConfigArn,
+    required this.functionName,
   });
+
   factory PutFunctionCodeSigningConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutFunctionCodeSigningConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutFunctionCodeSigningConfigResponse(
+      codeSigningConfigArn: json['CodeSigningConfigArn'] as String,
+      functionName: json['FunctionName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSigningConfigArn = this.codeSigningConfigArn;
+    final functionName = this.functionName;
+    return {
+      'CodeSigningConfigArn': codeSigningConfigArn,
+      'FunctionName': functionName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutProvisionedConcurrencyConfigResponse {
   /// The amount of provisioned concurrency allocated.
-  @_s.JsonKey(name: 'AllocatedProvisionedConcurrentExecutions')
-  final int allocatedProvisionedConcurrentExecutions;
+  final int? allocatedProvisionedConcurrentExecutions;
 
   /// The amount of provisioned concurrency available.
-  @_s.JsonKey(name: 'AvailableProvisionedConcurrentExecutions')
-  final int availableProvisionedConcurrentExecutions;
+  final int? availableProvisionedConcurrentExecutions;
 
   /// The date and time that a user last updated the configuration, in <a
   /// href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601
   /// format</a>.
-  @_s.JsonKey(name: 'LastModified')
-  final String lastModified;
+  final String? lastModified;
 
   /// The amount of provisioned concurrency requested.
-  @_s.JsonKey(name: 'RequestedProvisionedConcurrentExecutions')
-  final int requestedProvisionedConcurrentExecutions;
+  final int? requestedProvisionedConcurrentExecutions;
 
   /// The status of the allocation process.
-  @_s.JsonKey(name: 'Status')
-  final ProvisionedConcurrencyStatusEnum status;
+  final ProvisionedConcurrencyStatusEnum? status;
 
   /// For failed allocations, the reason that provisioned concurrency could not be
   /// allocated.
-  @_s.JsonKey(name: 'StatusReason')
-  final String statusReason;
+  final String? statusReason;
 
   PutProvisionedConcurrencyConfigResponse({
     this.allocatedProvisionedConcurrentExecutions,
@@ -7250,57 +7738,73 @@ class PutProvisionedConcurrencyConfigResponse {
     this.status,
     this.statusReason,
   });
+
   factory PutProvisionedConcurrencyConfigResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutProvisionedConcurrencyConfigResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return PutProvisionedConcurrencyConfigResponse(
+      allocatedProvisionedConcurrentExecutions:
+          json['AllocatedProvisionedConcurrentExecutions'] as int?,
+      availableProvisionedConcurrentExecutions:
+          json['AvailableProvisionedConcurrentExecutions'] as int?,
+      lastModified: json['LastModified'] as String?,
+      requestedProvisionedConcurrentExecutions:
+          json['RequestedProvisionedConcurrentExecutions'] as int?,
+      status: (json['Status'] as String?)?.toProvisionedConcurrencyStatusEnum(),
+      statusReason: json['StatusReason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allocatedProvisionedConcurrentExecutions =
+        this.allocatedProvisionedConcurrentExecutions;
+    final availableProvisionedConcurrentExecutions =
+        this.availableProvisionedConcurrentExecutions;
+    final lastModified = this.lastModified;
+    final requestedProvisionedConcurrentExecutions =
+        this.requestedProvisionedConcurrentExecutions;
+    final status = this.status;
+    final statusReason = this.statusReason;
+    return {
+      if (allocatedProvisionedConcurrentExecutions != null)
+        'AllocatedProvisionedConcurrentExecutions':
+            allocatedProvisionedConcurrentExecutions,
+      if (availableProvisionedConcurrentExecutions != null)
+        'AvailableProvisionedConcurrentExecutions':
+            availableProvisionedConcurrentExecutions,
+      if (lastModified != null) 'LastModified': lastModified,
+      if (requestedProvisionedConcurrentExecutions != null)
+        'RequestedProvisionedConcurrentExecutions':
+            requestedProvisionedConcurrentExecutions,
+      if (status != null) 'Status': status.toValue(),
+      if (statusReason != null) 'StatusReason': statusReason,
+    };
+  }
 }
 
 enum Runtime {
-  @_s.JsonValue('nodejs')
   nodejs,
-  @_s.JsonValue('nodejs4.3')
   nodejs4_3,
-  @_s.JsonValue('nodejs6.10')
   nodejs6_10,
-  @_s.JsonValue('nodejs8.10')
   nodejs8_10,
-  @_s.JsonValue('nodejs10.x')
   nodejs10X,
-  @_s.JsonValue('nodejs12.x')
   nodejs12X,
-  @_s.JsonValue('java8')
+  nodejs14X,
   java8,
-  @_s.JsonValue('java8.al2')
   java8Al2,
-  @_s.JsonValue('java11')
   java11,
-  @_s.JsonValue('python2.7')
   python2_7,
-  @_s.JsonValue('python3.6')
   python3_6,
-  @_s.JsonValue('python3.7')
   python3_7,
-  @_s.JsonValue('python3.8')
   python3_8,
-  @_s.JsonValue('dotnetcore1.0')
   dotnetcore1_0,
-  @_s.JsonValue('dotnetcore2.0')
   dotnetcore2_0,
-  @_s.JsonValue('dotnetcore2.1')
   dotnetcore2_1,
-  @_s.JsonValue('dotnetcore3.1')
   dotnetcore3_1,
-  @_s.JsonValue('nodejs4.3-edge')
   nodejs4_3Edge,
-  @_s.JsonValue('go1.x')
   go1X,
-  @_s.JsonValue('ruby2.5')
   ruby2_5,
-  @_s.JsonValue('ruby2.7')
   ruby2_7,
-  @_s.JsonValue('provided')
   provided,
-  @_s.JsonValue('provided.al2')
   providedAl2,
 }
 
@@ -7319,6 +7823,8 @@ extension on Runtime {
         return 'nodejs10.x';
       case Runtime.nodejs12X:
         return 'nodejs12.x';
+      case Runtime.nodejs14X:
+        return 'nodejs14.x';
       case Runtime.java8:
         return 'java8';
       case Runtime.java8Al2:
@@ -7354,39 +7860,95 @@ extension on Runtime {
       case Runtime.providedAl2:
         return 'provided.al2';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Runtime toRuntime() {
+    switch (this) {
+      case 'nodejs':
+        return Runtime.nodejs;
+      case 'nodejs4.3':
+        return Runtime.nodejs4_3;
+      case 'nodejs6.10':
+        return Runtime.nodejs6_10;
+      case 'nodejs8.10':
+        return Runtime.nodejs8_10;
+      case 'nodejs10.x':
+        return Runtime.nodejs10X;
+      case 'nodejs12.x':
+        return Runtime.nodejs12X;
+      case 'nodejs14.x':
+        return Runtime.nodejs14X;
+      case 'java8':
+        return Runtime.java8;
+      case 'java8.al2':
+        return Runtime.java8Al2;
+      case 'java11':
+        return Runtime.java11;
+      case 'python2.7':
+        return Runtime.python2_7;
+      case 'python3.6':
+        return Runtime.python3_6;
+      case 'python3.7':
+        return Runtime.python3_7;
+      case 'python3.8':
+        return Runtime.python3_8;
+      case 'dotnetcore1.0':
+        return Runtime.dotnetcore1_0;
+      case 'dotnetcore2.0':
+        return Runtime.dotnetcore2_0;
+      case 'dotnetcore2.1':
+        return Runtime.dotnetcore2_1;
+      case 'dotnetcore3.1':
+        return Runtime.dotnetcore3_1;
+      case 'nodejs4.3-edge':
+        return Runtime.nodejs4_3Edge;
+      case 'go1.x':
+        return Runtime.go1X;
+      case 'ruby2.5':
+        return Runtime.ruby2_5;
+      case 'ruby2.7':
+        return Runtime.ruby2_7;
+      case 'provided':
+        return Runtime.provided;
+      case 'provided.al2':
+        return Runtime.providedAl2;
+    }
+    throw Exception('$this is not known in enum Runtime');
   }
 }
 
 /// The Self-Managed Apache Kafka cluster for your event source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SelfManagedEventSource {
   /// The list of bootstrap servers for your Kafka brokers in the following
   /// format: <code>"KAFKA_BOOTSTRAP_SERVERS":
   /// ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"]</code>.
-  @_s.JsonKey(name: 'Endpoints')
-  final Map<EndPointType, List<String>> endpoints;
+  final Map<EndPointType, List<String>>? endpoints;
 
   SelfManagedEventSource({
     this.endpoints,
   });
-  factory SelfManagedEventSource.fromJson(Map<String, dynamic> json) =>
-      _$SelfManagedEventSourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SelfManagedEventSourceToJson(this);
+  factory SelfManagedEventSource.fromJson(Map<String, dynamic> json) {
+    return SelfManagedEventSource(
+      endpoints: (json['Endpoints'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k.toEndPointType(),
+              (e as List).whereNotNull().map((e) => e as String).toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    return {
+      if (endpoints != null)
+        'Endpoints': endpoints.map((k, e) => MapEntry(k.toValue(), e)),
+    };
+  }
 }
 
 /// You can specify the authentication protocol, or the VPC components to secure
 /// access to your event source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SourceAccessConfiguration {
   /// The type of authentication protocol or the VPC components for your event
   /// source. For example: <code>"Type":"SASL_SCRAM_512_AUTH"</code>.
@@ -7398,208 +7960,410 @@ class SourceAccessConfiguration {
   /// </li>
   /// <li>
   /// <code>VPC_SUBNET</code> - The subnets associated with your VPC. Lambda
-  /// connects to these subnets to fetch data from your Kafka cluster.
+  /// connects to these subnets to fetch data from your Self-Managed Apache Kafka
+  /// cluster.
   /// </li>
   /// <li>
   /// <code>VPC_SECURITY_GROUP</code> - The VPC security group used to manage
-  /// access to your Kafka brokers.
+  /// access to your Self-Managed Apache Kafka brokers.
   /// </li>
   /// <li>
-  /// <code>SASL_SCRAM_256_AUTH</code> - The ARN of your secret key used for SASL
-  /// SCRAM-256 authentication of your Kafka brokers.
+  /// <code>SASL_SCRAM_256_AUTH</code> - The Secrets Manager ARN of your secret
+  /// key used for SASL SCRAM-256 authentication of your Self-Managed Apache Kafka
+  /// brokers.
   /// </li>
   /// <li>
-  /// <code>SASL_SCRAM_512_AUTH</code> - The ARN of your secret key used for SASL
-  /// SCRAM-512 authentication of your Kafka brokers.
+  /// <code>SASL_SCRAM_512_AUTH</code> - The Secrets Manager ARN of your secret
+  /// key used for SASL SCRAM-512 authentication of your Self-Managed Apache Kafka
+  /// brokers.
+  /// </li>
+  /// <li>
+  /// <code>VIRTUAL_HOST</code> - The name of the virtual host in your RabbitMQ
+  /// broker. Lambda will use this host as the event source.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final SourceAccessType type;
+  final SourceAccessType? type;
 
   /// The value for your chosen configuration in <code>Type</code>. For example:
   /// <code>"URI":
   /// "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName"</code>.
-  @_s.JsonKey(name: 'URI')
-  final String uri;
+  final String? uri;
 
   SourceAccessConfiguration({
     this.type,
     this.uri,
   });
-  factory SourceAccessConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SourceAccessConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SourceAccessConfigurationToJson(this);
+  factory SourceAccessConfiguration.fromJson(Map<String, dynamic> json) {
+    return SourceAccessConfiguration(
+      type: (json['Type'] as String?)?.toSourceAccessType(),
+      uri: json['URI'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final uri = this.uri;
+    return {
+      if (type != null) 'Type': type.toValue(),
+      if (uri != null) 'URI': uri,
+    };
+  }
 }
 
 enum SourceAccessType {
-  @_s.JsonValue('BASIC_AUTH')
   basicAuth,
-  @_s.JsonValue('VPC_SUBNET')
   vpcSubnet,
-  @_s.JsonValue('VPC_SECURITY_GROUP')
   vpcSecurityGroup,
-  @_s.JsonValue('SASL_SCRAM_512_AUTH')
   saslScram_512Auth,
-  @_s.JsonValue('SASL_SCRAM_256_AUTH')
   saslScram_256Auth,
+  virtualHost,
+}
+
+extension on SourceAccessType {
+  String toValue() {
+    switch (this) {
+      case SourceAccessType.basicAuth:
+        return 'BASIC_AUTH';
+      case SourceAccessType.vpcSubnet:
+        return 'VPC_SUBNET';
+      case SourceAccessType.vpcSecurityGroup:
+        return 'VPC_SECURITY_GROUP';
+      case SourceAccessType.saslScram_512Auth:
+        return 'SASL_SCRAM_512_AUTH';
+      case SourceAccessType.saslScram_256Auth:
+        return 'SASL_SCRAM_256_AUTH';
+      case SourceAccessType.virtualHost:
+        return 'VIRTUAL_HOST';
+    }
+  }
+}
+
+extension on String {
+  SourceAccessType toSourceAccessType() {
+    switch (this) {
+      case 'BASIC_AUTH':
+        return SourceAccessType.basicAuth;
+      case 'VPC_SUBNET':
+        return SourceAccessType.vpcSubnet;
+      case 'VPC_SECURITY_GROUP':
+        return SourceAccessType.vpcSecurityGroup;
+      case 'SASL_SCRAM_512_AUTH':
+        return SourceAccessType.saslScram_512Auth;
+      case 'SASL_SCRAM_256_AUTH':
+        return SourceAccessType.saslScram_256Auth;
+      case 'VIRTUAL_HOST':
+        return SourceAccessType.virtualHost;
+    }
+    throw Exception('$this is not known in enum SourceAccessType');
+  }
 }
 
 enum State {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('Inactive')
   inactive,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on State {
+  String toValue() {
+    switch (this) {
+      case State.pending:
+        return 'Pending';
+      case State.active:
+        return 'Active';
+      case State.inactive:
+        return 'Inactive';
+      case State.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  State toState() {
+    switch (this) {
+      case 'Pending':
+        return State.pending;
+      case 'Active':
+        return State.active;
+      case 'Inactive':
+        return State.inactive;
+      case 'Failed':
+        return State.failed;
+    }
+    throw Exception('$this is not known in enum State');
+  }
+}
+
 enum StateReasonCode {
-  @_s.JsonValue('Idle')
   idle,
-  @_s.JsonValue('Creating')
   creating,
-  @_s.JsonValue('Restoring')
   restoring,
-  @_s.JsonValue('EniLimitExceeded')
   eniLimitExceeded,
-  @_s.JsonValue('InsufficientRolePermissions')
   insufficientRolePermissions,
-  @_s.JsonValue('InvalidConfiguration')
   invalidConfiguration,
-  @_s.JsonValue('InternalError')
   internalError,
-  @_s.JsonValue('SubnetOutOfIPAddresses')
   subnetOutOfIPAddresses,
-  @_s.JsonValue('InvalidSubnet')
   invalidSubnet,
-  @_s.JsonValue('InvalidSecurityGroup')
   invalidSecurityGroup,
-  @_s.JsonValue('ImageDeleted')
   imageDeleted,
-  @_s.JsonValue('ImageAccessDenied')
   imageAccessDenied,
-  @_s.JsonValue('InvalidImage')
   invalidImage,
 }
 
-/// The function's AWS X-Ray tracing configuration. To sample and record
-/// incoming requests, set <code>Mode</code> to <code>Active</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+extension on StateReasonCode {
+  String toValue() {
+    switch (this) {
+      case StateReasonCode.idle:
+        return 'Idle';
+      case StateReasonCode.creating:
+        return 'Creating';
+      case StateReasonCode.restoring:
+        return 'Restoring';
+      case StateReasonCode.eniLimitExceeded:
+        return 'EniLimitExceeded';
+      case StateReasonCode.insufficientRolePermissions:
+        return 'InsufficientRolePermissions';
+      case StateReasonCode.invalidConfiguration:
+        return 'InvalidConfiguration';
+      case StateReasonCode.internalError:
+        return 'InternalError';
+      case StateReasonCode.subnetOutOfIPAddresses:
+        return 'SubnetOutOfIPAddresses';
+      case StateReasonCode.invalidSubnet:
+        return 'InvalidSubnet';
+      case StateReasonCode.invalidSecurityGroup:
+        return 'InvalidSecurityGroup';
+      case StateReasonCode.imageDeleted:
+        return 'ImageDeleted';
+      case StateReasonCode.imageAccessDenied:
+        return 'ImageAccessDenied';
+      case StateReasonCode.invalidImage:
+        return 'InvalidImage';
+    }
+  }
+}
+
+extension on String {
+  StateReasonCode toStateReasonCode() {
+    switch (this) {
+      case 'Idle':
+        return StateReasonCode.idle;
+      case 'Creating':
+        return StateReasonCode.creating;
+      case 'Restoring':
+        return StateReasonCode.restoring;
+      case 'EniLimitExceeded':
+        return StateReasonCode.eniLimitExceeded;
+      case 'InsufficientRolePermissions':
+        return StateReasonCode.insufficientRolePermissions;
+      case 'InvalidConfiguration':
+        return StateReasonCode.invalidConfiguration;
+      case 'InternalError':
+        return StateReasonCode.internalError;
+      case 'SubnetOutOfIPAddresses':
+        return StateReasonCode.subnetOutOfIPAddresses;
+      case 'InvalidSubnet':
+        return StateReasonCode.invalidSubnet;
+      case 'InvalidSecurityGroup':
+        return StateReasonCode.invalidSecurityGroup;
+      case 'ImageDeleted':
+        return StateReasonCode.imageDeleted;
+      case 'ImageAccessDenied':
+        return StateReasonCode.imageAccessDenied;
+      case 'InvalidImage':
+        return StateReasonCode.invalidImage;
+    }
+    throw Exception('$this is not known in enum StateReasonCode');
+  }
+}
+
+/// The function's <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html">X-Ray</a>
+/// tracing configuration. To sample and record incoming requests, set
+/// <code>Mode</code> to <code>Active</code>.
 class TracingConfig {
   /// The tracing mode.
-  @_s.JsonKey(name: 'Mode')
-  final TracingMode mode;
+  final TracingMode? mode;
 
   TracingConfig({
     this.mode,
   });
-  Map<String, dynamic> toJson() => _$TracingConfigToJson(this);
+
+  factory TracingConfig.fromJson(Map<String, dynamic> json) {
+    return TracingConfig(
+      mode: (json['Mode'] as String?)?.toTracingMode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    return {
+      if (mode != null) 'Mode': mode.toValue(),
+    };
+  }
 }
 
-/// The function's AWS X-Ray tracing configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The function's X-Ray tracing configuration.
 class TracingConfigResponse {
   /// The tracing mode.
-  @_s.JsonKey(name: 'Mode')
-  final TracingMode mode;
+  final TracingMode? mode;
 
   TracingConfigResponse({
     this.mode,
   });
-  factory TracingConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$TracingConfigResponseFromJson(json);
+
+  factory TracingConfigResponse.fromJson(Map<String, dynamic> json) {
+    return TracingConfigResponse(
+      mode: (json['Mode'] as String?)?.toTracingMode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    return {
+      if (mode != null) 'Mode': mode.toValue(),
+    };
+  }
 }
 
 enum TracingMode {
-  @_s.JsonValue('Active')
   active,
-  @_s.JsonValue('PassThrough')
   passThrough,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TracingMode {
+  String toValue() {
+    switch (this) {
+      case TracingMode.active:
+        return 'Active';
+      case TracingMode.passThrough:
+        return 'PassThrough';
+    }
+  }
+}
+
+extension on String {
+  TracingMode toTracingMode() {
+    switch (this) {
+      case 'Active':
+        return TracingMode.active;
+      case 'PassThrough':
+        return TracingMode.passThrough;
+    }
+    throw Exception('$this is not known in enum TracingMode');
+  }
+}
+
 class UpdateCodeSigningConfigResponse {
   /// The code signing configuration
-  @_s.JsonKey(name: 'CodeSigningConfig')
   final CodeSigningConfig codeSigningConfig;
 
   UpdateCodeSigningConfigResponse({
-    @_s.required this.codeSigningConfig,
+    required this.codeSigningConfig,
   });
-  factory UpdateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCodeSigningConfigResponseFromJson(json);
+
+  factory UpdateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateCodeSigningConfigResponse(
+      codeSigningConfig: CodeSigningConfig.fromJson(
+          json['CodeSigningConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSigningConfig = this.codeSigningConfig;
+    return {
+      'CodeSigningConfig': codeSigningConfig,
+    };
+  }
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html">VPC
 /// Settings</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VpcConfig {
   /// A list of VPC security groups IDs.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// A list of VPC subnet IDs.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   VpcConfig({
     this.securityGroupIds,
     this.subnetIds,
   });
-  Map<String, dynamic> toJson() => _$VpcConfigToJson(this);
+
+  factory VpcConfig.fromJson(Map<String, dynamic> json) {
+    return VpcConfig(
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+    };
+  }
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcConfigResponse {
   /// A list of VPC security groups IDs.
-  @_s.JsonKey(name: 'SecurityGroupIds')
-  final List<String> securityGroupIds;
+  final List<String>? securityGroupIds;
 
   /// A list of VPC subnet IDs.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// The ID of the VPC.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   VpcConfigResponse({
     this.securityGroupIds,
     this.subnetIds,
     this.vpcId,
   });
-  factory VpcConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigResponseFromJson(json);
+
+  factory VpcConfigResponse.fromJson(Map<String, dynamic> json) {
+    return VpcConfigResponse(
+      securityGroupIds: (json['SecurityGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    final vpcId = this.vpcId;
+    return {
+      if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
 }
 
 class CodeSigningConfigNotFoundException extends _s.GenericAwsException {
-  CodeSigningConfigNotFoundException({String type, String message})
+  CodeSigningConfigNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'CodeSigningConfigNotFoundException',
@@ -7607,13 +8371,13 @@ class CodeSigningConfigNotFoundException extends _s.GenericAwsException {
 }
 
 class CodeStorageExceededException extends _s.GenericAwsException {
-  CodeStorageExceededException({String type, String message})
+  CodeStorageExceededException({String? type, String? message})
       : super(
             type: type, code: 'CodeStorageExceededException', message: message);
 }
 
 class CodeVerificationFailedException extends _s.GenericAwsException {
-  CodeVerificationFailedException({String type, String message})
+  CodeVerificationFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'CodeVerificationFailedException',
@@ -7621,27 +8385,27 @@ class CodeVerificationFailedException extends _s.GenericAwsException {
 }
 
 class EC2AccessDeniedException extends _s.GenericAwsException {
-  EC2AccessDeniedException({String type, String message})
+  EC2AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'EC2AccessDeniedException', message: message);
 }
 
 class EC2ThrottledException extends _s.GenericAwsException {
-  EC2ThrottledException({String type, String message})
+  EC2ThrottledException({String? type, String? message})
       : super(type: type, code: 'EC2ThrottledException', message: message);
 }
 
 class EC2UnexpectedException extends _s.GenericAwsException {
-  EC2UnexpectedException({String type, String message})
+  EC2UnexpectedException({String? type, String? message})
       : super(type: type, code: 'EC2UnexpectedException', message: message);
 }
 
 class EFSIOException extends _s.GenericAwsException {
-  EFSIOException({String type, String message})
+  EFSIOException({String? type, String? message})
       : super(type: type, code: 'EFSIOException', message: message);
 }
 
 class EFSMountConnectivityException extends _s.GenericAwsException {
-  EFSMountConnectivityException({String type, String message})
+  EFSMountConnectivityException({String? type, String? message})
       : super(
             type: type,
             code: 'EFSMountConnectivityException',
@@ -7649,22 +8413,22 @@ class EFSMountConnectivityException extends _s.GenericAwsException {
 }
 
 class EFSMountFailureException extends _s.GenericAwsException {
-  EFSMountFailureException({String type, String message})
+  EFSMountFailureException({String? type, String? message})
       : super(type: type, code: 'EFSMountFailureException', message: message);
 }
 
 class EFSMountTimeoutException extends _s.GenericAwsException {
-  EFSMountTimeoutException({String type, String message})
+  EFSMountTimeoutException({String? type, String? message})
       : super(type: type, code: 'EFSMountTimeoutException', message: message);
 }
 
 class ENILimitReachedException extends _s.GenericAwsException {
-  ENILimitReachedException({String type, String message})
+  ENILimitReachedException({String? type, String? message})
       : super(type: type, code: 'ENILimitReachedException', message: message);
 }
 
 class InvalidCodeSignatureException extends _s.GenericAwsException {
-  InvalidCodeSignatureException({String type, String message})
+  InvalidCodeSignatureException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCodeSignatureException',
@@ -7672,7 +8436,7 @@ class InvalidCodeSignatureException extends _s.GenericAwsException {
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -7680,7 +8444,7 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class InvalidRequestContentException extends _s.GenericAwsException {
-  InvalidRequestContentException({String type, String message})
+  InvalidRequestContentException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRequestContentException',
@@ -7688,12 +8452,12 @@ class InvalidRequestContentException extends _s.GenericAwsException {
 }
 
 class InvalidRuntimeException extends _s.GenericAwsException {
-  InvalidRuntimeException({String type, String message})
+  InvalidRuntimeException({String? type, String? message})
       : super(type: type, code: 'InvalidRuntimeException', message: message);
 }
 
 class InvalidSecurityGroupIDException extends _s.GenericAwsException {
-  InvalidSecurityGroupIDException({String type, String message})
+  InvalidSecurityGroupIDException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSecurityGroupIDException',
@@ -7701,37 +8465,37 @@ class InvalidSecurityGroupIDException extends _s.GenericAwsException {
 }
 
 class InvalidSubnetIDException extends _s.GenericAwsException {
-  InvalidSubnetIDException({String type, String message})
+  InvalidSubnetIDException({String? type, String? message})
       : super(type: type, code: 'InvalidSubnetIDException', message: message);
 }
 
 class InvalidZipFileException extends _s.GenericAwsException {
-  InvalidZipFileException({String type, String message})
+  InvalidZipFileException({String? type, String? message})
       : super(type: type, code: 'InvalidZipFileException', message: message);
 }
 
 class KMSAccessDeniedException extends _s.GenericAwsException {
-  KMSAccessDeniedException({String type, String message})
+  KMSAccessDeniedException({String? type, String? message})
       : super(type: type, code: 'KMSAccessDeniedException', message: message);
 }
 
 class KMSDisabledException extends _s.GenericAwsException {
-  KMSDisabledException({String type, String message})
+  KMSDisabledException({String? type, String? message})
       : super(type: type, code: 'KMSDisabledException', message: message);
 }
 
 class KMSInvalidStateException extends _s.GenericAwsException {
-  KMSInvalidStateException({String type, String message})
+  KMSInvalidStateException({String? type, String? message})
       : super(type: type, code: 'KMSInvalidStateException', message: message);
 }
 
 class KMSNotFoundException extends _s.GenericAwsException {
-  KMSNotFoundException({String type, String message})
+  KMSNotFoundException({String? type, String? message})
       : super(type: type, code: 'KMSNotFoundException', message: message);
 }
 
 class PolicyLengthExceededException extends _s.GenericAwsException {
-  PolicyLengthExceededException({String type, String message})
+  PolicyLengthExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'PolicyLengthExceededException',
@@ -7739,14 +8503,14 @@ class PolicyLengthExceededException extends _s.GenericAwsException {
 }
 
 class PreconditionFailedException extends _s.GenericAwsException {
-  PreconditionFailedException({String type, String message})
+  PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
 class ProvisionedConcurrencyConfigNotFoundException
     extends _s.GenericAwsException {
-  ProvisionedConcurrencyConfigNotFoundException({String type, String message})
+  ProvisionedConcurrencyConfigNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedConcurrencyConfigNotFoundException',
@@ -7754,37 +8518,37 @@ class ProvisionedConcurrencyConfigNotFoundException
 }
 
 class RequestTooLargeException extends _s.GenericAwsException {
-  RequestTooLargeException({String type, String message})
+  RequestTooLargeException({String? type, String? message})
       : super(type: type, code: 'RequestTooLargeException', message: message);
 }
 
 class ResourceConflictException extends _s.GenericAwsException {
-  ResourceConflictException({String type, String message})
+  ResourceConflictException({String? type, String? message})
       : super(type: type, code: 'ResourceConflictException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceNotReadyException extends _s.GenericAwsException {
-  ResourceNotReadyException({String type, String message})
+  ResourceNotReadyException({String? type, String? message})
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
 class ServiceException extends _s.GenericAwsException {
-  ServiceException({String type, String message})
+  ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
 class SubnetIPAddressLimitReachedException extends _s.GenericAwsException {
-  SubnetIPAddressLimitReachedException({String type, String message})
+  SubnetIPAddressLimitReachedException({String? type, String? message})
       : super(
             type: type,
             code: 'SubnetIPAddressLimitReachedException',
@@ -7792,12 +8556,12 @@ class SubnetIPAddressLimitReachedException extends _s.GenericAwsException {
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnsupportedMediaTypeException extends _s.GenericAwsException {
-  UnsupportedMediaTypeException({String type, String message})
+  UnsupportedMediaTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedMediaTypeException',

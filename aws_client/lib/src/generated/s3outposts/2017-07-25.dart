@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-07-25.g.dart';
 
 /// Amazon S3 on Outposts provides access to S3 on Outposts operations.
 class S3Outposts {
   final _s.RestJsonProtocol _protocol;
   S3Outposts({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -81,9 +74,9 @@ class S3Outposts {
   /// Parameter [subnetId] :
   /// The ID of the subnet in the selected VPC.
   Future<CreateEndpointResult> createEndpoint({
-    @_s.required String outpostId,
-    @_s.required String securityGroupId,
-    @_s.required String subnetId,
+    required String outpostId,
+    required String securityGroupId,
+    required String subnetId,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
     _s.validateStringLength(
@@ -91,12 +84,6 @@ class S3Outposts {
       outpostId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(op-[a-f0-9]{17}|\d{12}|ec2)$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(securityGroupId, 'securityGroupId');
@@ -107,24 +94,12 @@ class S3Outposts {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'securityGroupId',
-      securityGroupId,
-      r'''^sg-([0-9a-f]{8}|[0-9a-f]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetId, 'subnetId');
     _s.validateStringLength(
       'subnetId',
       subnetId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'subnetId',
-      subnetId,
-      r'''^subnet-([0-9a-f]{8}|[0-9a-f]{17})$''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -172,8 +147,8 @@ class S3Outposts {
   /// Parameter [outpostId] :
   /// The ID of the AWS Outpost.
   Future<void> deleteEndpoint({
-    @_s.required String endpointId,
-    @_s.required String outpostId,
+    required String endpointId,
+    required String outpostId,
   }) async {
     ArgumentError.checkNotNull(endpointId, 'endpointId');
     _s.validateStringLength(
@@ -181,12 +156,6 @@ class S3Outposts {
       endpointId,
       5,
       500,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'endpointId',
-      endpointId,
-      r'''^[a-zA-Z0-9]{19}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(outpostId, 'outpostId');
@@ -197,15 +166,9 @@ class S3Outposts {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(op-[a-f0-9]{17}|\d{12}|ec2)$''',
-      isRequired: true,
-    );
     final $query = <String, List<String>>{
-      if (endpointId != null) 'endpointId': [endpointId],
-      if (outpostId != null) 'outpostId': [outpostId],
+      'endpointId': [endpointId],
+      'outpostId': [outpostId],
     };
     await _protocol.send(
       payload: null,
@@ -247,8 +210,8 @@ class S3Outposts {
   /// Parameter [nextToken] :
   /// The next endpoint requested in the list.
   Future<ListEndpointsResult> listEndpoints({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -261,11 +224,6 @@ class S3Outposts {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[A-Za-z0-9\+\:\/\=\?\#-_]+$''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -282,57 +240,50 @@ class S3Outposts {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateEndpointResult {
   /// The Amazon Resource Name (ARN) of the endpoint.
-  @_s.JsonKey(name: 'EndpointArn')
-  final String endpointArn;
+  final String? endpointArn;
 
   CreateEndpointResult({
     this.endpointArn,
   });
-  factory CreateEndpointResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateEndpointResultFromJson(json);
+
+  factory CreateEndpointResult.fromJson(Map<String, dynamic> json) {
+    return CreateEndpointResult(
+      endpointArn: json['EndpointArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpointArn = this.endpointArn;
+    return {
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+    };
+  }
 }
 
 /// S3 on Outposts access points simplify managing data access at scale for
 /// shared datasets in Amazon S3 on Outposts. S3 on Outposts uses endpoints to
 /// connect to Outposts buckets so that you can perform actions within your
 /// virtual private cloud (VPC).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Endpoint {
   /// The VPC CIDR committed by this endpoint.
-  @_s.JsonKey(name: 'CidrBlock')
-  final String cidrBlock;
+  final String? cidrBlock;
 
   /// The time the endpoint was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The Amazon Resource Name (ARN) of the endpoint.
-  @_s.JsonKey(name: 'EndpointArn')
-  final String endpointArn;
+  final String? endpointArn;
 
   /// The network interface of the endpoint.
-  @_s.JsonKey(name: 'NetworkInterfaces')
-  final List<NetworkInterface> networkInterfaces;
+  final List<NetworkInterface>? networkInterfaces;
 
   /// The ID of the AWS Outpost.
-  @_s.JsonKey(name: 'OutpostsId')
-  final String outpostsId;
+  final String? outpostsId;
 
   /// The status of the endpoint.
-  @_s.JsonKey(name: 'Status')
-  final EndpointStatus status;
+  final EndpointStatus? status;
 
   Endpoint({
     this.cidrBlock,
@@ -342,79 +293,145 @@ class Endpoint {
     this.outpostsId,
     this.status,
   });
-  factory Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$EndpointFromJson(json);
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      cidrBlock: json['CidrBlock'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      endpointArn: json['EndpointArn'] as String?,
+      networkInterfaces: (json['NetworkInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outpostsId: json['OutpostsId'] as String?,
+      status: (json['Status'] as String?)?.toEndpointStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidrBlock = this.cidrBlock;
+    final creationTime = this.creationTime;
+    final endpointArn = this.endpointArn;
+    final networkInterfaces = this.networkInterfaces;
+    final outpostsId = this.outpostsId;
+    final status = this.status;
+    return {
+      if (cidrBlock != null) 'CidrBlock': cidrBlock,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (endpointArn != null) 'EndpointArn': endpointArn,
+      if (networkInterfaces != null) 'NetworkInterfaces': networkInterfaces,
+      if (outpostsId != null) 'OutpostsId': outpostsId,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum EndpointStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EndpointStatus {
+  String toValue() {
+    switch (this) {
+      case EndpointStatus.pending:
+        return 'PENDING';
+      case EndpointStatus.available:
+        return 'AVAILABLE';
+    }
+  }
+}
+
+extension on String {
+  EndpointStatus toEndpointStatus() {
+    switch (this) {
+      case 'PENDING':
+        return EndpointStatus.pending;
+      case 'AVAILABLE':
+        return EndpointStatus.available;
+    }
+    throw Exception('$this is not known in enum EndpointStatus');
+  }
+}
+
 class ListEndpointsResult {
   /// Returns an array of endpoints associated with AWS Outpost.
-  @_s.JsonKey(name: 'Endpoints')
-  final List<Endpoint> endpoints;
+  final List<Endpoint>? endpoints;
 
   /// The next endpoint returned in the list.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListEndpointsResult({
     this.endpoints,
     this.nextToken,
   });
-  factory ListEndpointsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListEndpointsResultFromJson(json);
+
+  factory ListEndpointsResult.fromJson(Map<String, dynamic> json) {
+    return ListEndpointsResult(
+      endpoints: (json['Endpoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    final nextToken = this.nextToken;
+    return {
+      if (endpoints != null) 'Endpoints': endpoints,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// The container for the network interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkInterface {
   /// The ID for the network interface.
-  @_s.JsonKey(name: 'NetworkInterfaceId')
-  final String networkInterfaceId;
+  final String? networkInterfaceId;
 
   NetworkInterface({
     this.networkInterfaceId,
   });
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) =>
-      _$NetworkInterfaceFromJson(json);
+
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      networkInterfaceId: json['NetworkInterfaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkInterfaceId = this.networkInterfaceId;
+    return {
+      if (networkInterfaceId != null) 'NetworkInterfaceId': networkInterfaceId,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

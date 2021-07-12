@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2012-08-10.g.dart';
 
 /// Amazon DynamoDB Streams provides API actions for accessing streams and
 /// processing stream records. To learn more about application development with
@@ -35,10 +28,10 @@ part '2012-08-10.g.dart';
 class DynamoDBStreams {
   final _s.JsonProtocol _protocol;
   DynamoDBStreams({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -79,9 +72,9 @@ class DynamoDBStreams {
   /// Parameter [limit] :
   /// The maximum number of shard objects to return. The upper limit is 100.
   Future<DescribeStreamOutput> describeStream({
-    @_s.required String streamArn,
-    String exclusiveStartShardId,
-    int limit,
+    required String streamArn,
+    String? exclusiveStartShardId,
+    int? limit,
   }) async {
     ArgumentError.checkNotNull(streamArn, 'streamArn');
     _s.validateStringLength(
@@ -153,8 +146,8 @@ class DynamoDBStreams {
   /// The maximum number of records to return from the shard. The upper limit is
   /// 1000.
   Future<GetRecordsOutput> getRecords({
-    @_s.required String shardIterator,
-    int limit,
+    required String shardIterator,
+    int? limit,
   }) async {
     ArgumentError.checkNotNull(shardIterator, 'shardIterator');
     _s.validateStringLength(
@@ -238,10 +231,10 @@ class DynamoDBStreams {
   /// The sequence number of a stream record in the shard from which to start
   /// reading.
   Future<GetShardIteratorOutput> getShardIterator({
-    @_s.required String shardId,
-    @_s.required ShardIteratorType shardIteratorType,
-    @_s.required String streamArn,
-    String sequenceNumber,
+    required String shardId,
+    required ShardIteratorType shardIteratorType,
+    required String streamArn,
+    String? sequenceNumber,
   }) async {
     ArgumentError.checkNotNull(shardId, 'shardId');
     _s.validateStringLength(
@@ -278,7 +271,7 @@ class DynamoDBStreams {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType?.toValue() ?? '',
+        'ShardIteratorType': shardIteratorType.toValue(),
         'StreamArn': streamArn,
         if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
       },
@@ -310,9 +303,9 @@ class DynamoDBStreams {
   /// If this parameter is provided, then only the streams associated with this
   /// table name are returned.
   Future<ListStreamsOutput> listStreams({
-    String exclusiveStartStreamArn,
-    int limit,
-    String tableName,
+    String? exclusiveStartStreamArn,
+    int? limit,
+    String? tableName,
   }) async {
     _s.validateStringLength(
       'exclusiveStartStreamArn',
@@ -331,11 +324,6 @@ class DynamoDBStreams {
       tableName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -367,43 +355,31 @@ class DynamoDBStreams {
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
 /// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttributeValue {
   /// An attribute of type Binary. For example:
   ///
   /// <code>"B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"</code>
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'B')
-  final Uint8List b;
+  final Uint8List? b;
 
   /// An attribute of type Boolean. For example:
   ///
   /// <code>"BOOL": true</code>
-  @_s.JsonKey(name: 'BOOL')
-  final bool boolValue;
+  final bool? boolValue;
 
   /// An attribute of type Binary Set. For example:
   ///
   /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
-  @Uint8ListListConverter()
-  @_s.JsonKey(name: 'BS')
-  final List<Uint8List> bs;
+  final List<Uint8List>? bs;
 
   /// An attribute of type List. For example:
   ///
   /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code>
-  @_s.JsonKey(name: 'L')
-  final List<AttributeValue> l;
+  final List<AttributeValue>? l;
 
   /// An attribute of type Map. For example:
   ///
   /// <code>"M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}</code>
-  @_s.JsonKey(name: 'M')
-  final Map<String, AttributeValue> m;
+  final Map<String, AttributeValue>? m;
 
   /// An attribute of type Number. For example:
   ///
@@ -412,8 +388,7 @@ class AttributeValue {
   /// Numbers are sent across the network to DynamoDB as strings, to maximize
   /// compatibility across languages and libraries. However, DynamoDB treats them
   /// as number type attributes for mathematical operations.
-  @_s.JsonKey(name: 'N')
-  final String n;
+  final String? n;
 
   /// An attribute of type Number Set. For example:
   ///
@@ -422,26 +397,22 @@ class AttributeValue {
   /// Numbers are sent across the network to DynamoDB as strings, to maximize
   /// compatibility across languages and libraries. However, DynamoDB treats them
   /// as number type attributes for mathematical operations.
-  @_s.JsonKey(name: 'NS')
-  final List<String> ns;
+  final List<String>? ns;
 
   /// An attribute of type Null. For example:
   ///
   /// <code>"NULL": true</code>
-  @_s.JsonKey(name: 'NULL')
-  final bool nullValue;
+  final bool? nullValue;
 
   /// An attribute of type String. For example:
   ///
   /// <code>"S": "Hello"</code>
-  @_s.JsonKey(name: 'S')
-  final String s;
+  final String? s;
 
   /// An attribute of type String Set. For example:
   ///
   /// <code>"SS": ["Giraffe", "Hippo" ,"Zebra"]</code>
-  @_s.JsonKey(name: 'SS')
-  final List<String> ss;
+  final List<String>? ss;
 
   AttributeValue({
     this.b,
@@ -455,99 +426,180 @@ class AttributeValue {
     this.s,
     this.ss,
   });
-  factory AttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$AttributeValueFromJson(json);
+
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      b: _s.decodeNullableUint8List(json['B'] as String?),
+      boolValue: json['BOOL'] as bool?,
+      bs: (json['BS'] as List?)
+          ?.whereNotNull()
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+      l: (json['L'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      m: (json['M'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      n: json['N'] as String?,
+      ns: (json['NS'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nullValue: json['NULL'] as bool?,
+      s: json['S'] as String?,
+      ss: (json['SS'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final b = this.b;
+    final boolValue = this.boolValue;
+    final bs = this.bs;
+    final l = this.l;
+    final m = this.m;
+    final n = this.n;
+    final ns = this.ns;
+    final nullValue = this.nullValue;
+    final s = this.s;
+    final ss = this.ss;
+    return {
+      if (b != null) 'B': base64Encode(b),
+      if (boolValue != null) 'BOOL': boolValue,
+      if (bs != null) 'BS': bs.map(base64Encode).toList(),
+      if (l != null) 'L': l,
+      if (m != null) 'M': m,
+      if (n != null) 'N': n,
+      if (ns != null) 'NS': ns,
+      if (nullValue != null) 'NULL': nullValue,
+      if (s != null) 'S': s,
+      if (ss != null) 'SS': ss,
+    };
+  }
 }
 
 /// Represents the output of a <code>DescribeStream</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStreamOutput {
   /// A complete description of the stream, including its creation date and time,
   /// the DynamoDB table associated with the stream, the shard IDs within the
   /// stream, and the beginning and ending sequence numbers of stream records
   /// within the shards.
-  @_s.JsonKey(name: 'StreamDescription')
-  final StreamDescription streamDescription;
+  final StreamDescription? streamDescription;
 
   DescribeStreamOutput({
     this.streamDescription,
   });
-  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStreamOutputFromJson(json);
+
+  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamOutput(
+      streamDescription: json['StreamDescription'] != null
+          ? StreamDescription.fromJson(
+              json['StreamDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamDescription = this.streamDescription;
+    return {
+      if (streamDescription != null) 'StreamDescription': streamDescription,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetRecords</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRecordsOutput {
   /// The next position in the shard from which to start sequentially reading
   /// stream records. If set to <code>null</code>, the shard has been closed and
   /// the requested iterator will not return any more data.
-  @_s.JsonKey(name: 'NextShardIterator')
-  final String nextShardIterator;
+  final String? nextShardIterator;
 
   /// The stream records from the shard, which were retrieved using the shard
   /// iterator.
-  @_s.JsonKey(name: 'Records')
-  final List<Record> records;
+  final List<Record>? records;
 
   GetRecordsOutput({
     this.nextShardIterator,
     this.records,
   });
-  factory GetRecordsOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetRecordsOutputFromJson(json);
+
+  factory GetRecordsOutput.fromJson(Map<String, dynamic> json) {
+    return GetRecordsOutput(
+      nextShardIterator: json['NextShardIterator'] as String?,
+      records: (json['Records'] as List?)
+          ?.whereNotNull()
+          .map((e) => Record.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextShardIterator = this.nextShardIterator;
+    final records = this.records;
+    return {
+      if (nextShardIterator != null) 'NextShardIterator': nextShardIterator,
+      if (records != null) 'Records': records,
+    };
+  }
 }
 
 /// Represents the output of a <code>GetShardIterator</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetShardIteratorOutput {
   /// The position in the shard from which to start reading stream records
   /// sequentially. A shard iterator specifies this position using the sequence
   /// number of a stream record in a shard.
-  @_s.JsonKey(name: 'ShardIterator')
-  final String shardIterator;
+  final String? shardIterator;
 
   GetShardIteratorOutput({
     this.shardIterator,
   });
-  factory GetShardIteratorOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetShardIteratorOutputFromJson(json);
+
+  factory GetShardIteratorOutput.fromJson(Map<String, dynamic> json) {
+    return GetShardIteratorOutput(
+      shardIterator: json['ShardIterator'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final shardIterator = this.shardIterator;
+    return {
+      if (shardIterator != null) 'ShardIterator': shardIterator,
+    };
+  }
 }
 
 /// Contains details about the type of identity that made the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Identity {
   /// A unique identifier for the entity that made the call. For Time To Live, the
   /// principalId is "dynamodb.amazonaws.com".
-  @_s.JsonKey(name: 'PrincipalId')
-  final String principalId;
+  final String? principalId;
 
   /// The type of the identity. For Time To Live, the type is "Service".
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   Identity({
     this.principalId,
     this.type,
   });
-  factory Identity.fromJson(Map<String, dynamic> json) =>
-      _$IdentityFromJson(json);
+
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      principalId: json['PrincipalId'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final principalId = this.principalId;
+    final type = this.type;
+    return {
+      if (principalId != null) 'PrincipalId': principalId,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Represents <i>a single element</i> of a key schema. A key schema specifies
@@ -563,14 +615,8 @@ class Identity {
 /// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
 /// nested attribute). The data type must be one of String, Number, or Binary.
 /// The attribute cannot be nested within a List or a Map.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KeySchemaElement {
   /// The name of a key attribute.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// The role that this key attribute will assume:
@@ -593,30 +639,59 @@ class KeySchemaElement {
   /// same partition key physically close together, in sorted order by the sort
   /// key value.
   /// </note>
-  @_s.JsonKey(name: 'KeyType')
   final KeyType keyType;
 
   KeySchemaElement({
-    @_s.required this.attributeName,
-    @_s.required this.keyType,
+    required this.attributeName,
+    required this.keyType,
   });
-  factory KeySchemaElement.fromJson(Map<String, dynamic> json) =>
-      _$KeySchemaElementFromJson(json);
+
+  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
+    return KeySchemaElement(
+      attributeName: json['AttributeName'] as String,
+      keyType: (json['KeyType'] as String).toKeyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final keyType = this.keyType;
+    return {
+      'AttributeName': attributeName,
+      'KeyType': keyType.toValue(),
+    };
+  }
 }
 
 enum KeyType {
-  @_s.JsonValue('HASH')
   hash,
-  @_s.JsonValue('RANGE')
   range,
 }
 
+extension on KeyType {
+  String toValue() {
+    switch (this) {
+      case KeyType.hash:
+        return 'HASH';
+      case KeyType.range:
+        return 'RANGE';
+    }
+  }
+}
+
+extension on String {
+  KeyType toKeyType() {
+    switch (this) {
+      case 'HASH':
+        return KeyType.hash;
+      case 'RANGE':
+        return KeyType.range;
+    }
+    throw Exception('$this is not known in enum KeyType');
+  }
+}
+
 /// Represents the output of a <code>ListStreams</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStreamsOutput {
   /// The stream ARN of the item where the operation stopped, inclusive of the
   /// previous result set. Use this value to start a new operation, excluding this
@@ -629,51 +704,83 @@ class ListStreamsOutput {
   /// mean that there is more data in the result set. The only way to know when
   /// you have reached the end of the result set is when
   /// <code>LastEvaluatedStreamArn</code> is empty.
-  @_s.JsonKey(name: 'LastEvaluatedStreamArn')
-  final String lastEvaluatedStreamArn;
+  final String? lastEvaluatedStreamArn;
 
   /// A list of stream descriptors associated with the current account and
   /// endpoint.
-  @_s.JsonKey(name: 'Streams')
-  final List<Stream> streams;
+  final List<Stream>? streams;
 
   ListStreamsOutput({
     this.lastEvaluatedStreamArn,
     this.streams,
   });
-  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListStreamsOutputFromJson(json);
+
+  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStreamsOutput(
+      lastEvaluatedStreamArn: json['LastEvaluatedStreamArn'] as String?,
+      streams: (json['Streams'] as List?)
+          ?.whereNotNull()
+          .map((e) => Stream.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastEvaluatedStreamArn = this.lastEvaluatedStreamArn;
+    final streams = this.streams;
+    return {
+      if (lastEvaluatedStreamArn != null)
+        'LastEvaluatedStreamArn': lastEvaluatedStreamArn,
+      if (streams != null) 'Streams': streams,
+    };
+  }
 }
 
 enum OperationType {
-  @_s.JsonValue('INSERT')
   insert,
-  @_s.JsonValue('MODIFY')
   modify,
-  @_s.JsonValue('REMOVE')
   remove,
 }
 
+extension on OperationType {
+  String toValue() {
+    switch (this) {
+      case OperationType.insert:
+        return 'INSERT';
+      case OperationType.modify:
+        return 'MODIFY';
+      case OperationType.remove:
+        return 'REMOVE';
+    }
+  }
+}
+
+extension on String {
+  OperationType toOperationType() {
+    switch (this) {
+      case 'INSERT':
+        return OperationType.insert;
+      case 'MODIFY':
+        return OperationType.modify;
+      case 'REMOVE':
+        return OperationType.remove;
+    }
+    throw Exception('$this is not known in enum OperationType');
+  }
+}
+
 /// A description of a unique event within a stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Record {
   /// The region in which the <code>GetRecords</code> request was received.
-  @_s.JsonKey(name: 'awsRegion')
-  final String awsRegion;
+  final String? awsRegion;
 
   /// The main body of the stream record, containing all of the DynamoDB-specific
   /// fields.
-  @_s.JsonKey(name: 'dynamodb')
-  final StreamRecord dynamodb;
+  final StreamRecord? dynamodb;
 
   /// A globally unique identifier for the event that was recorded in this stream
   /// record.
-  @_s.JsonKey(name: 'eventID')
-  final String eventID;
+  final String? eventID;
 
   /// The type of data modification that was performed on the DynamoDB table:
   ///
@@ -689,13 +796,11 @@ class Record {
   /// <code>REMOVE</code> - the item was deleted from the table
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'eventName')
-  final OperationType eventName;
+  final OperationType? eventName;
 
   /// The AWS service from which the stream record originated. For DynamoDB
   /// Streams, this is <code>aws:dynamodb</code>.
-  @_s.JsonKey(name: 'eventSource')
-  final String eventSource;
+  final String? eventSource;
 
   /// The version number of the stream record format. This number is updated
   /// whenever the structure of <code>Record</code> is modified.
@@ -704,8 +809,7 @@ class Record {
   /// remain at a particular value, as this number is subject to change at any
   /// time. In general, <code>eventVersion</code> will only increase as the
   /// low-level DynamoDB Streams API evolves.
-  @_s.JsonKey(name: 'eventVersion')
-  final String eventVersion;
+  final String? eventVersion;
 
   /// Items that are deleted by the Time to Live process after expiration have the
   /// following fields:
@@ -722,8 +826,7 @@ class Record {
   /// "dynamodb.amazonaws.com"
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'userIdentity')
-  final Identity userIdentity;
+  final Identity? userIdentity;
 
   Record({
     this.awsRegion,
@@ -734,70 +837,123 @@ class Record {
     this.eventVersion,
     this.userIdentity,
   });
-  factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
+
+  factory Record.fromJson(Map<String, dynamic> json) {
+    return Record(
+      awsRegion: json['awsRegion'] as String?,
+      dynamodb: json['dynamodb'] != null
+          ? StreamRecord.fromJson(json['dynamodb'] as Map<String, dynamic>)
+          : null,
+      eventID: json['eventID'] as String?,
+      eventName: (json['eventName'] as String?)?.toOperationType(),
+      eventSource: json['eventSource'] as String?,
+      eventVersion: json['eventVersion'] as String?,
+      userIdentity: json['userIdentity'] != null
+          ? Identity.fromJson(json['userIdentity'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsRegion = this.awsRegion;
+    final dynamodb = this.dynamodb;
+    final eventID = this.eventID;
+    final eventName = this.eventName;
+    final eventSource = this.eventSource;
+    final eventVersion = this.eventVersion;
+    final userIdentity = this.userIdentity;
+    return {
+      if (awsRegion != null) 'awsRegion': awsRegion,
+      if (dynamodb != null) 'dynamodb': dynamodb,
+      if (eventID != null) 'eventID': eventID,
+      if (eventName != null) 'eventName': eventName.toValue(),
+      if (eventSource != null) 'eventSource': eventSource,
+      if (eventVersion != null) 'eventVersion': eventVersion,
+      if (userIdentity != null) 'userIdentity': userIdentity,
+    };
+  }
 }
 
 /// The beginning and ending sequence numbers for the stream records contained
 /// within a shard.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SequenceNumberRange {
   /// The last sequence number for the stream records contained within a shard.
   /// String contains numeric characters only.
-  @_s.JsonKey(name: 'EndingSequenceNumber')
-  final String endingSequenceNumber;
+  final String? endingSequenceNumber;
 
   /// The first sequence number for the stream records contained within a shard.
   /// String contains numeric characters only.
-  @_s.JsonKey(name: 'StartingSequenceNumber')
-  final String startingSequenceNumber;
+  final String? startingSequenceNumber;
 
   SequenceNumberRange({
     this.endingSequenceNumber,
     this.startingSequenceNumber,
   });
-  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) =>
-      _$SequenceNumberRangeFromJson(json);
+
+  factory SequenceNumberRange.fromJson(Map<String, dynamic> json) {
+    return SequenceNumberRange(
+      endingSequenceNumber: json['EndingSequenceNumber'] as String?,
+      startingSequenceNumber: json['StartingSequenceNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endingSequenceNumber = this.endingSequenceNumber;
+    final startingSequenceNumber = this.startingSequenceNumber;
+    return {
+      if (endingSequenceNumber != null)
+        'EndingSequenceNumber': endingSequenceNumber,
+      if (startingSequenceNumber != null)
+        'StartingSequenceNumber': startingSequenceNumber,
+    };
+  }
 }
 
 /// A uniquely identified group of stream records within a stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Shard {
   /// The shard ID of the current shard's parent.
-  @_s.JsonKey(name: 'ParentShardId')
-  final String parentShardId;
+  final String? parentShardId;
 
   /// The range of possible sequence numbers for the shard.
-  @_s.JsonKey(name: 'SequenceNumberRange')
-  final SequenceNumberRange sequenceNumberRange;
+  final SequenceNumberRange? sequenceNumberRange;
 
   /// The system-generated identifier for this shard.
-  @_s.JsonKey(name: 'ShardId')
-  final String shardId;
+  final String? shardId;
 
   Shard({
     this.parentShardId,
     this.sequenceNumberRange,
     this.shardId,
   });
-  factory Shard.fromJson(Map<String, dynamic> json) => _$ShardFromJson(json);
+
+  factory Shard.fromJson(Map<String, dynamic> json) {
+    return Shard(
+      parentShardId: json['ParentShardId'] as String?,
+      sequenceNumberRange: json['SequenceNumberRange'] != null
+          ? SequenceNumberRange.fromJson(
+              json['SequenceNumberRange'] as Map<String, dynamic>)
+          : null,
+      shardId: json['ShardId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parentShardId = this.parentShardId;
+    final sequenceNumberRange = this.sequenceNumberRange;
+    final shardId = this.shardId;
+    return {
+      if (parentShardId != null) 'ParentShardId': parentShardId,
+      if (sequenceNumberRange != null)
+        'SequenceNumberRange': sequenceNumberRange,
+      if (shardId != null) 'ShardId': shardId,
+    };
+  }
 }
 
 enum ShardIteratorType {
-  @_s.JsonValue('TRIM_HORIZON')
   trimHorizon,
-  @_s.JsonValue('LATEST')
   latest,
-  @_s.JsonValue('AT_SEQUENCE_NUMBER')
   atSequenceNumber,
-  @_s.JsonValue('AFTER_SEQUENCE_NUMBER')
   afterSequenceNumber,
 }
 
@@ -813,20 +969,29 @@ extension on ShardIteratorType {
       case ShardIteratorType.afterSequenceNumber:
         return 'AFTER_SEQUENCE_NUMBER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ShardIteratorType toShardIteratorType() {
+    switch (this) {
+      case 'TRIM_HORIZON':
+        return ShardIteratorType.trimHorizon;
+      case 'LATEST':
+        return ShardIteratorType.latest;
+      case 'AT_SEQUENCE_NUMBER':
+        return ShardIteratorType.atSequenceNumber;
+      case 'AFTER_SEQUENCE_NUMBER':
+        return ShardIteratorType.afterSequenceNumber;
+    }
+    throw Exception('$this is not known in enum ShardIteratorType');
   }
 }
 
 /// Represents all of the data describing a particular stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Stream {
   /// The Amazon Resource Name (ARN) for the stream.
-  @_s.JsonKey(name: 'StreamArn')
-  final String streamArn;
+  final String? streamArn;
 
   /// A timestamp, in ISO 8601 format, for this stream.
   ///
@@ -846,36 +1011,44 @@ class Stream {
   /// the <code>StreamLabel</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamLabel')
-  final String streamLabel;
+  final String? streamLabel;
 
   /// The DynamoDB table with which the stream is associated.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   Stream({
     this.streamArn,
     this.streamLabel,
     this.tableName,
   });
-  factory Stream.fromJson(Map<String, dynamic> json) => _$StreamFromJson(json);
+
+  factory Stream.fromJson(Map<String, dynamic> json) {
+    return Stream(
+      streamArn: json['StreamArn'] as String?,
+      streamLabel: json['StreamLabel'] as String?,
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamArn = this.streamArn;
+    final streamLabel = this.streamLabel;
+    final tableName = this.tableName;
+    return {
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (streamLabel != null) 'StreamLabel': streamLabel,
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
 /// Represents all of the data describing a particular stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamDescription {
   /// The date and time when the request to create this stream was issued.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationRequestDateTime')
-  final DateTime creationRequestDateTime;
+  final DateTime? creationRequestDateTime;
 
   /// The key attribute(s) of the stream's DynamoDB table.
-  @_s.JsonKey(name: 'KeySchema')
-  final List<KeySchemaElement> keySchema;
+  final List<KeySchemaElement>? keySchema;
 
   /// The shard ID of the item where the operation stopped, inclusive of the
   /// previous result set. Use this value to start a new operation, excluding this
@@ -889,16 +1062,13 @@ class StreamDescription {
   /// mean that there is more data in the result set. The only way to know when
   /// you have reached the end of the result set is when
   /// <code>LastEvaluatedShardId</code> is empty.
-  @_s.JsonKey(name: 'LastEvaluatedShardId')
-  final String lastEvaluatedShardId;
+  final String? lastEvaluatedShardId;
 
   /// The shards that comprise the stream.
-  @_s.JsonKey(name: 'Shards')
-  final List<Shard> shards;
+  final List<Shard>? shards;
 
   /// The Amazon Resource Name (ARN) for the stream.
-  @_s.JsonKey(name: 'StreamArn')
-  final String streamArn;
+  final String? streamArn;
 
   /// A timestamp, in ISO 8601 format, for this stream.
   ///
@@ -918,8 +1088,7 @@ class StreamDescription {
   /// the <code>StreamLabel</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamLabel')
-  final String streamLabel;
+  final String? streamLabel;
 
   /// Indicates the current status of the stream:
   ///
@@ -939,8 +1108,7 @@ class StreamDescription {
   /// <code>DISABLED</code> - the stream is disabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamStatus')
-  final StreamStatus streamStatus;
+  final StreamStatus? streamStatus;
 
   /// Indicates the format of the records within this stream:
   ///
@@ -962,12 +1130,10 @@ class StreamDescription {
   /// items from the table.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamViewType')
-  final StreamViewType streamViewType;
+  final StreamViewType? streamViewType;
 
   /// The DynamoDB table with which the stream is associated.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   StreamDescription({
     this.creationRequestDateTime,
@@ -980,43 +1146,75 @@ class StreamDescription {
     this.streamViewType,
     this.tableName,
   });
-  factory StreamDescription.fromJson(Map<String, dynamic> json) =>
-      _$StreamDescriptionFromJson(json);
+
+  factory StreamDescription.fromJson(Map<String, dynamic> json) {
+    return StreamDescription(
+      creationRequestDateTime:
+          timeStampFromJson(json['CreationRequestDateTime']),
+      keySchema: (json['KeySchema'] as List?)
+          ?.whereNotNull()
+          .map((e) => KeySchemaElement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lastEvaluatedShardId: json['LastEvaluatedShardId'] as String?,
+      shards: (json['Shards'] as List?)
+          ?.whereNotNull()
+          .map((e) => Shard.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      streamArn: json['StreamArn'] as String?,
+      streamLabel: json['StreamLabel'] as String?,
+      streamStatus: (json['StreamStatus'] as String?)?.toStreamStatus(),
+      streamViewType: (json['StreamViewType'] as String?)?.toStreamViewType(),
+      tableName: json['TableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationRequestDateTime = this.creationRequestDateTime;
+    final keySchema = this.keySchema;
+    final lastEvaluatedShardId = this.lastEvaluatedShardId;
+    final shards = this.shards;
+    final streamArn = this.streamArn;
+    final streamLabel = this.streamLabel;
+    final streamStatus = this.streamStatus;
+    final streamViewType = this.streamViewType;
+    final tableName = this.tableName;
+    return {
+      if (creationRequestDateTime != null)
+        'CreationRequestDateTime': unixTimestampToJson(creationRequestDateTime),
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (lastEvaluatedShardId != null)
+        'LastEvaluatedShardId': lastEvaluatedShardId,
+      if (shards != null) 'Shards': shards,
+      if (streamArn != null) 'StreamArn': streamArn,
+      if (streamLabel != null) 'StreamLabel': streamLabel,
+      if (streamStatus != null) 'StreamStatus': streamStatus.toValue(),
+      if (streamViewType != null) 'StreamViewType': streamViewType.toValue(),
+      if (tableName != null) 'TableName': tableName,
+    };
+  }
 }
 
 /// A description of a single data modification that was performed on an item in
 /// a DynamoDB table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamRecord {
   /// The approximate date and time when the stream record was created, in <a
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ApproximateCreationDateTime')
-  final DateTime approximateCreationDateTime;
+  final DateTime? approximateCreationDateTime;
 
   /// The primary key attribute(s) for the DynamoDB item that was modified.
-  @_s.JsonKey(name: 'Keys')
-  final Map<String, AttributeValue> keys;
+  final Map<String, AttributeValue>? keys;
 
   /// The item in the DynamoDB table as it appeared after it was modified.
-  @_s.JsonKey(name: 'NewImage')
-  final Map<String, AttributeValue> newImage;
+  final Map<String, AttributeValue>? newImage;
 
   /// The item in the DynamoDB table as it appeared before it was modified.
-  @_s.JsonKey(name: 'OldImage')
-  final Map<String, AttributeValue> oldImage;
+  final Map<String, AttributeValue>? oldImage;
 
   /// The sequence number of the stream record.
-  @_s.JsonKey(name: 'SequenceNumber')
-  final String sequenceNumber;
+  final String? sequenceNumber;
 
   /// The size of the stream record, in bytes.
-  @_s.JsonKey(name: 'SizeBytes')
-  final int sizeBytes;
+  final int? sizeBytes;
 
   /// The type of data from the modified DynamoDB item that was captured in this
   /// stream record:
@@ -1038,8 +1236,7 @@ class StreamRecord {
   /// the item.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'StreamViewType')
-  final StreamViewType streamViewType;
+  final StreamViewType? streamViewType;
 
   StreamRecord({
     this.approximateCreationDateTime,
@@ -1050,54 +1247,143 @@ class StreamRecord {
     this.sizeBytes,
     this.streamViewType,
   });
-  factory StreamRecord.fromJson(Map<String, dynamic> json) =>
-      _$StreamRecordFromJson(json);
+
+  factory StreamRecord.fromJson(Map<String, dynamic> json) {
+    return StreamRecord(
+      approximateCreationDateTime:
+          timeStampFromJson(json['ApproximateCreationDateTime']),
+      keys: (json['Keys'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      newImage: (json['NewImage'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      oldImage: (json['OldImage'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      sequenceNumber: json['SequenceNumber'] as String?,
+      sizeBytes: json['SizeBytes'] as int?,
+      streamViewType: (json['StreamViewType'] as String?)?.toStreamViewType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final approximateCreationDateTime = this.approximateCreationDateTime;
+    final keys = this.keys;
+    final newImage = this.newImage;
+    final oldImage = this.oldImage;
+    final sequenceNumber = this.sequenceNumber;
+    final sizeBytes = this.sizeBytes;
+    final streamViewType = this.streamViewType;
+    return {
+      if (approximateCreationDateTime != null)
+        'ApproximateCreationDateTime':
+            unixTimestampToJson(approximateCreationDateTime),
+      if (keys != null) 'Keys': keys,
+      if (newImage != null) 'NewImage': newImage,
+      if (oldImage != null) 'OldImage': oldImage,
+      if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
+      if (sizeBytes != null) 'SizeBytes': sizeBytes,
+      if (streamViewType != null) 'StreamViewType': streamViewType.toValue(),
+    };
+  }
 }
 
 enum StreamStatus {
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on StreamStatus {
+  String toValue() {
+    switch (this) {
+      case StreamStatus.enabling:
+        return 'ENABLING';
+      case StreamStatus.enabled:
+        return 'ENABLED';
+      case StreamStatus.disabling:
+        return 'DISABLING';
+      case StreamStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  StreamStatus toStreamStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return StreamStatus.enabling;
+      case 'ENABLED':
+        return StreamStatus.enabled;
+      case 'DISABLING':
+        return StreamStatus.disabling;
+      case 'DISABLED':
+        return StreamStatus.disabled;
+    }
+    throw Exception('$this is not known in enum StreamStatus');
+  }
+}
+
 enum StreamViewType {
-  @_s.JsonValue('NEW_IMAGE')
   newImage,
-  @_s.JsonValue('OLD_IMAGE')
   oldImage,
-  @_s.JsonValue('NEW_AND_OLD_IMAGES')
   newAndOldImages,
-  @_s.JsonValue('KEYS_ONLY')
   keysOnly,
 }
 
+extension on StreamViewType {
+  String toValue() {
+    switch (this) {
+      case StreamViewType.newImage:
+        return 'NEW_IMAGE';
+      case StreamViewType.oldImage:
+        return 'OLD_IMAGE';
+      case StreamViewType.newAndOldImages:
+        return 'NEW_AND_OLD_IMAGES';
+      case StreamViewType.keysOnly:
+        return 'KEYS_ONLY';
+    }
+  }
+}
+
+extension on String {
+  StreamViewType toStreamViewType() {
+    switch (this) {
+      case 'NEW_IMAGE':
+        return StreamViewType.newImage;
+      case 'OLD_IMAGE':
+        return StreamViewType.oldImage;
+      case 'NEW_AND_OLD_IMAGES':
+        return StreamViewType.newAndOldImages;
+      case 'KEYS_ONLY':
+        return StreamViewType.keysOnly;
+    }
+    throw Exception('$this is not known in enum StreamViewType');
+  }
+}
+
 class ExpiredIteratorException extends _s.GenericAwsException {
-  ExpiredIteratorException({String type, String message})
+  ExpiredIteratorException({String? type, String? message})
       : super(type: type, code: 'ExpiredIteratorException', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TrimmedDataAccessException extends _s.GenericAwsException {
-  TrimmedDataAccessException({String type, String message})
+  TrimmedDataAccessException({String? type, String? message})
       : super(type: type, code: 'TrimmedDataAccessException', message: message);
 }
 

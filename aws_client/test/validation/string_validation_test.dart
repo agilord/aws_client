@@ -4,18 +4,13 @@ import 'package:test/test.dart';
 void main() {
   group('validate patterns', () {
     test('null name is ok', () {
-      validateStringPattern(null, '666', r'\d{3}');
+      validateStringPattern('', '666', r'\d{3}');
     });
 
     test('null value is an ArgumentError', () {
       expect(
           () => validateStringPattern('null value', null, r'\d{3}',
               isRequired: true),
-          throwsA(TypeMatcher<ArgumentError>()));
-    });
-
-    test('null pattern is an ArgumentError', () {
-      expect(() => validateStringPattern('null pattern', '666', null),
           throwsA(TypeMatcher<ArgumentError>()));
     });
   });

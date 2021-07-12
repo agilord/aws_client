@@ -14,10 +14,8 @@ void main() {
       () => '00000000-0000-4000-8000-000000000000';
   test('Enum 0', () async {
     final client = MockClient((request) async {
-      expect(
-          request.body,
-          equalsJson(
-              r'''{"FooEnum": "foo", "ListEnums": ["foo", "", "bar"]}'''));
+      expect(request.body,
+          equalsJson(r'''{"FooEnum": "foo", "ListEnums": ["foo", "bar"]}'''));
       expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
@@ -33,7 +31,7 @@ void main() {
 
     await service.operationName0(
       fooEnum: EnumType.foo,
-      listEnums: [EnumType.foo, null, EnumType.bar],
+      listEnums: [EnumType.foo, EnumType.bar],
     );
 /*
 {

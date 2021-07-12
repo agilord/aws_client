@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-05-31.g.dart';
 
 /// The AWS Migration Hub API methods help to obtain server and application
 /// migration status and integrate your resource-specific migration tool by
@@ -37,10 +30,10 @@ part '2017-05-31.g.dart';
 class MigrationHub {
   final _s.JsonProtocol _protocol;
   MigrationHub({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -97,10 +90,10 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> associateCreatedArtifact({
-    @_s.required CreatedArtifact createdArtifact,
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    bool dryRun,
+    required CreatedArtifact createdArtifact,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(createdArtifact, 'createdArtifact');
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
@@ -111,12 +104,6 @@ class MigrationHub {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
       'progressUpdateStream',
@@ -125,17 +112,11 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.AssociateCreatedArtifact'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -148,8 +129,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return AssociateCreatedArtifactResult.fromJson(jsonResponse.body);
   }
 
   /// Associates a discovered resource ID from Application Discovery Service
@@ -180,10 +159,10 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> associateDiscoveredResource({
-    @_s.required DiscoveredResource discoveredResource,
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    bool dryRun,
+    required DiscoveredResource discoveredResource,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(discoveredResource, 'discoveredResource');
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
@@ -194,12 +173,6 @@ class MigrationHub {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
       'progressUpdateStream',
@@ -208,17 +181,11 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.AssociateDiscoveredResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -231,8 +198,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return AssociateDiscoveredResourceResult.fromJson(jsonResponse.body);
   }
 
   /// Creates a progress update stream which is an AWS resource used for access
@@ -258,8 +223,8 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> createProgressUpdateStream({
-    @_s.required String progressUpdateStreamName,
-    bool dryRun,
+    required String progressUpdateStreamName,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(
         progressUpdateStreamName, 'progressUpdateStreamName');
@@ -270,17 +235,11 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStreamName',
-      progressUpdateStreamName,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.CreateProgressUpdateStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -291,8 +250,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return CreateProgressUpdateStreamResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes a progress update stream, including all of its tasks, which was
@@ -345,8 +302,8 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> deleteProgressUpdateStream({
-    @_s.required String progressUpdateStreamName,
-    bool dryRun,
+    required String progressUpdateStreamName,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(
         progressUpdateStreamName, 'progressUpdateStreamName');
@@ -357,17 +314,11 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStreamName',
-      progressUpdateStreamName,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.DeleteProgressUpdateStream'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -378,8 +329,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return DeleteProgressUpdateStreamResult.fromJson(jsonResponse.body);
   }
 
   /// Gets the migration status of an application.
@@ -397,7 +346,7 @@ class MigrationHub {
   /// The configurationId in Application Discovery Service that uniquely
   /// identifies the grouped application.
   Future<DescribeApplicationStateResult> describeApplicationState({
-    @_s.required String applicationId,
+    required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringLength(
@@ -405,12 +354,6 @@ class MigrationHub {
       applicationId,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''^.{1,1600}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -449,8 +392,8 @@ class MigrationHub {
   /// Parameter [progressUpdateStream] :
   /// The name of the ProgressUpdateStream.
   Future<DescribeMigrationTaskResult> describeMigrationTask({
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
+    required String migrationTaskName,
+    required String progressUpdateStream,
   }) async {
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -460,24 +403,12 @@ class MigrationHub {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
       'progressUpdateStream',
       progressUpdateStream,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -544,10 +475,10 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> disassociateCreatedArtifact({
-    @_s.required String createdArtifactName,
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    bool dryRun,
+    required String createdArtifactName,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(createdArtifactName, 'createdArtifactName');
     _s.validateStringLength(
@@ -555,12 +486,6 @@ class MigrationHub {
       createdArtifactName,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'createdArtifactName',
-      createdArtifactName,
-      r'''arn:[a-z-]+:[a-z0-9-]+:(?:[a-z0-9-]+|):(?:[0-9]{12}|):.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
@@ -571,12 +496,6 @@ class MigrationHub {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
       'progressUpdateStream',
@@ -585,17 +504,11 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.DisassociateCreatedArtifact'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -608,8 +521,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return DisassociateCreatedArtifactResult.fromJson(jsonResponse.body);
   }
 
   /// Disassociate an Application Discovery Service discovered resource from a
@@ -640,10 +551,10 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> disassociateDiscoveredResource({
-    @_s.required String configurationId,
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    bool dryRun,
+    required String configurationId,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     _s.validateStringLength(
@@ -651,12 +562,6 @@ class MigrationHub {
       configurationId,
       1,
       1600,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'configurationId',
-      configurationId,
-      r'''^.{1,1600}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
@@ -667,12 +572,6 @@ class MigrationHub {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
       'progressUpdateStream',
@@ -681,17 +580,11 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.DisassociateDiscoveredResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -704,8 +597,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return DisassociateDiscoveredResourceResult.fromJson(jsonResponse.body);
   }
 
   /// Registers a new migration task which represents a server, database, etc.,
@@ -736,9 +627,9 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> importMigrationTask({
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    bool dryRun,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -746,12 +637,6 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
@@ -762,17 +647,11 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.ImportMigrationTask'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -784,8 +663,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return ImportMigrationTaskResult.fromJson(jsonResponse.body);
   }
 
   /// Lists all the migration statuses for your applications. If you use the
@@ -811,9 +688,9 @@ class MigrationHub {
   /// more results available. To retrieve the next page of results, make the
   /// call again using the returned token in <code>NextToken</code>.
   Future<ListApplicationStatesResult> listApplicationStates({
-    List<String> applicationIds,
-    int maxResults,
-    String nextToken,
+    List<String>? applicationIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -826,11 +703,6 @@ class MigrationHub {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -891,10 +763,10 @@ class MigrationHub {
   /// more results available. To retrieve the next page of results, make the
   /// call again using the returned token in <code>NextToken</code>.
   Future<ListCreatedArtifactsResult> listCreatedArtifacts({
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    int maxResults,
-    String nextToken,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -904,24 +776,12 @@ class MigrationHub {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
       'progressUpdateStream',
       progressUpdateStream,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -935,11 +795,6 @@ class MigrationHub {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -988,10 +843,10 @@ class MigrationHub {
   /// more results available. To retrieve the next page of results, make the
   /// call again using the returned token in <code>NextToken</code>.
   Future<ListDiscoveredResourcesResult> listDiscoveredResources({
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    int maxResults,
-    String nextToken,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -1001,24 +856,12 @@ class MigrationHub {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
     _s.validateStringLength(
       'progressUpdateStream',
       progressUpdateStream,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1032,11 +875,6 @@ class MigrationHub {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1095,9 +933,9 @@ class MigrationHub {
   /// Parameter [resourceName] :
   /// Filter migration tasks by discovered resource name.
   Future<ListMigrationTasksResult> listMigrationTasks({
-    int maxResults,
-    String nextToken,
-    String resourceName,
+    int? maxResults,
+    String? nextToken,
+    String? resourceName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1111,21 +949,11 @@ class MigrationHub {
       0,
       2048,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
-    );
     _s.validateStringLength(
       'resourceName',
       resourceName,
       1,
       1600,
-    );
-    _s.validateStringPattern(
-      'resourceName',
-      resourceName,
-      r'''^.{1,1600}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1165,8 +993,8 @@ class MigrationHub {
   /// more results available. To retrieve the next page of results, make the
   /// call again using the returned token in <code>NextToken</code>.
   Future<ListProgressUpdateStreamsResult> listProgressUpdateStreams({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1179,11 +1007,6 @@ class MigrationHub {
       nextToken,
       0,
       2048,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^[a-zA-Z0-9\/\+\=]{0,2048}$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1234,10 +1057,10 @@ class MigrationHub {
   /// Parameter [updateDateTime] :
   /// The timestamp when the application state changed.
   Future<void> notifyApplicationState({
-    @_s.required String applicationId,
-    @_s.required ApplicationStatus status,
-    bool dryRun,
-    DateTime updateDateTime,
+    required String applicationId,
+    required ApplicationStatus status,
+    bool? dryRun,
+    DateTime? updateDateTime,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateStringLength(
@@ -1247,18 +1070,12 @@ class MigrationHub {
       1600,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationId',
-      applicationId,
-      r'''^.{1,1600}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(status, 'status');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.NotifyApplicationState'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1266,14 +1083,12 @@ class MigrationHub {
       headers: headers,
       payload: {
         'ApplicationId': applicationId,
-        'Status': status?.toValue() ?? '',
+        'Status': status.toValue(),
         if (dryRun != null) 'DryRun': dryRun,
         if (updateDateTime != null)
           'UpdateDateTime': unixTimestampToJson(updateDateTime),
       },
     );
-
-    return NotifyApplicationStateResult.fromJson(jsonResponse.body);
   }
 
   /// Notifies Migration Hub of the current status, progress, or other detail
@@ -1326,12 +1141,12 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> notifyMigrationTaskState({
-    @_s.required String migrationTaskName,
-    @_s.required int nextUpdateSeconds,
-    @_s.required String progressUpdateStream,
-    @_s.required Task task,
-    @_s.required DateTime updateDateTime,
-    bool dryRun,
+    required String migrationTaskName,
+    required int nextUpdateSeconds,
+    required String progressUpdateStream,
+    required Task task,
+    required DateTime updateDateTime,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -1339,12 +1154,6 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(nextUpdateSeconds, 'nextUpdateSeconds');
@@ -1363,19 +1172,13 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(task, 'task');
     ArgumentError.checkNotNull(updateDateTime, 'updateDateTime');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.NotifyMigrationTaskState'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1390,8 +1193,6 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return NotifyMigrationTaskStateResult.fromJson(jsonResponse.body);
   }
 
   /// Provides identifying details of the resource being migrated so that it can
@@ -1471,10 +1272,10 @@ class MigrationHub {
   /// Optional boolean flag to indicate whether any effect should take place.
   /// Used to test if the caller has permission to make the call.
   Future<void> putResourceAttributes({
-    @_s.required String migrationTaskName,
-    @_s.required String progressUpdateStream,
-    @_s.required List<ResourceAttribute> resourceAttributeList,
-    bool dryRun,
+    required String migrationTaskName,
+    required String progressUpdateStream,
+    required List<ResourceAttribute> resourceAttributeList,
+    bool? dryRun,
   }) async {
     ArgumentError.checkNotNull(migrationTaskName, 'migrationTaskName');
     _s.validateStringLength(
@@ -1482,12 +1283,6 @@ class MigrationHub {
       migrationTaskName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'migrationTaskName',
-      migrationTaskName,
-      r'''[^:|]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(progressUpdateStream, 'progressUpdateStream');
@@ -1498,18 +1293,12 @@ class MigrationHub {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'progressUpdateStream',
-      progressUpdateStream,
-      r'''[^/:|\000-\037]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(resourceAttributeList, 'resourceAttributeList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSMigrationHub.PutResourceAttributes'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1522,48 +1311,54 @@ class MigrationHub {
         if (dryRun != null) 'DryRun': dryRun,
       },
     );
-
-    return PutResourceAttributesResult.fromJson(jsonResponse.body);
   }
 }
 
 /// The state of an application discovered through Migration Hub import, the AWS
 /// Agentless Discovery Connector, or the AWS Application Discovery Agent.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationState {
   /// The configurationId from the Application Discovery Service that uniquely
   /// identifies an application.
-  @_s.JsonKey(name: 'ApplicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The current status of an application.
-  @_s.JsonKey(name: 'ApplicationStatus')
-  final ApplicationStatus applicationStatus;
+  final ApplicationStatus? applicationStatus;
 
   /// The timestamp when the application status was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   ApplicationState({
     this.applicationId,
     this.applicationStatus,
     this.lastUpdatedTime,
   });
-  factory ApplicationState.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationStateFromJson(json);
+
+  factory ApplicationState.fromJson(Map<String, dynamic> json) {
+    return ApplicationState(
+      applicationId: json['ApplicationId'] as String?,
+      applicationStatus:
+          (json['ApplicationStatus'] as String?)?.toApplicationStatus(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final applicationStatus = this.applicationStatus;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    return {
+      if (applicationId != null) 'ApplicationId': applicationId,
+      if (applicationStatus != null)
+        'ApplicationStatus': applicationStatus.toValue(),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+    };
+  }
 }
 
 enum ApplicationStatus {
-  @_s.JsonValue('NOT_STARTED')
   notStarted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
 }
 
@@ -1577,338 +1372,428 @@ extension on ApplicationStatus {
       case ApplicationStatus.completed:
         return 'COMPLETED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ApplicationStatus toApplicationStatus() {
+    switch (this) {
+      case 'NOT_STARTED':
+        return ApplicationStatus.notStarted;
+      case 'IN_PROGRESS':
+        return ApplicationStatus.inProgress;
+      case 'COMPLETED':
+        return ApplicationStatus.completed;
+    }
+    throw Exception('$this is not known in enum ApplicationStatus');
+  }
+}
+
 class AssociateCreatedArtifactResult {
   AssociateCreatedArtifactResult();
-  factory AssociateCreatedArtifactResult.fromJson(Map<String, dynamic> json) =>
-      _$AssociateCreatedArtifactResultFromJson(json);
+
+  factory AssociateCreatedArtifactResult.fromJson(Map<String, dynamic> _) {
+    return AssociateCreatedArtifactResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateDiscoveredResourceResult {
   AssociateDiscoveredResourceResult();
-  factory AssociateDiscoveredResourceResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateDiscoveredResourceResultFromJson(json);
+
+  factory AssociateDiscoveredResourceResult.fromJson(Map<String, dynamic> _) {
+    return AssociateDiscoveredResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProgressUpdateStreamResult {
   CreateProgressUpdateStreamResult();
-  factory CreateProgressUpdateStreamResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateProgressUpdateStreamResultFromJson(json);
+
+  factory CreateProgressUpdateStreamResult.fromJson(Map<String, dynamic> _) {
+    return CreateProgressUpdateStreamResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// An ARN of the AWS cloud resource target receiving the migration (e.g., AMI,
 /// EC2 instance, RDS instance, etc.).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreatedArtifact {
   /// An ARN that uniquely identifies the result of a migration task.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A description that can be free-form text to record additional detail about
   /// the artifact for clarity or for later reference.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   CreatedArtifact({
-    @_s.required this.name,
+    required this.name,
     this.description,
   });
-  factory CreatedArtifact.fromJson(Map<String, dynamic> json) =>
-      _$CreatedArtifactFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CreatedArtifactToJson(this);
+  factory CreatedArtifact.fromJson(Map<String, dynamic> json) {
+    return CreatedArtifact(
+      name: json['Name'] as String,
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final description = this.description;
+    return {
+      'Name': name,
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProgressUpdateStreamResult {
   DeleteProgressUpdateStreamResult();
-  factory DeleteProgressUpdateStreamResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteProgressUpdateStreamResultFromJson(json);
+
+  factory DeleteProgressUpdateStreamResult.fromJson(Map<String, dynamic> _) {
+    return DeleteProgressUpdateStreamResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeApplicationStateResult {
   /// Status of the application - Not Started, In-Progress, Complete.
-  @_s.JsonKey(name: 'ApplicationStatus')
-  final ApplicationStatus applicationStatus;
+  final ApplicationStatus? applicationStatus;
 
   /// The timestamp when the application status was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   DescribeApplicationStateResult({
     this.applicationStatus,
     this.lastUpdatedTime,
   });
-  factory DescribeApplicationStateResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeApplicationStateResultFromJson(json);
+
+  factory DescribeApplicationStateResult.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationStateResult(
+      applicationStatus:
+          (json['ApplicationStatus'] as String?)?.toApplicationStatus(),
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationStatus = this.applicationStatus;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    return {
+      if (applicationStatus != null)
+        'ApplicationStatus': applicationStatus.toValue(),
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeMigrationTaskResult {
   /// Object encapsulating information about the migration task.
-  @_s.JsonKey(name: 'MigrationTask')
-  final MigrationTask migrationTask;
+  final MigrationTask? migrationTask;
 
   DescribeMigrationTaskResult({
     this.migrationTask,
   });
-  factory DescribeMigrationTaskResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeMigrationTaskResultFromJson(json);
+
+  factory DescribeMigrationTaskResult.fromJson(Map<String, dynamic> json) {
+    return DescribeMigrationTaskResult(
+      migrationTask: json['MigrationTask'] != null
+          ? MigrationTask.fromJson(
+              json['MigrationTask'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTask = this.migrationTask;
+    return {
+      if (migrationTask != null) 'MigrationTask': migrationTask,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateCreatedArtifactResult {
   DisassociateCreatedArtifactResult();
-  factory DisassociateCreatedArtifactResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateCreatedArtifactResultFromJson(json);
+
+  factory DisassociateCreatedArtifactResult.fromJson(Map<String, dynamic> _) {
+    return DisassociateCreatedArtifactResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateDiscoveredResourceResult {
   DisassociateDiscoveredResourceResult();
+
   factory DisassociateDiscoveredResourceResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateDiscoveredResourceResultFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateDiscoveredResourceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Object representing the on-premises resource being migrated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DiscoveredResource {
   /// The configurationId in Application Discovery Service that uniquely
   /// identifies the on-premise resource.
-  @_s.JsonKey(name: 'ConfigurationId')
   final String configurationId;
 
   /// A description that can be free-form text to record additional detail about
   /// the discovered resource for clarity or later reference.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   DiscoveredResource({
-    @_s.required this.configurationId,
+    required this.configurationId,
     this.description,
   });
-  factory DiscoveredResource.fromJson(Map<String, dynamic> json) =>
-      _$DiscoveredResourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DiscoveredResourceToJson(this);
+  factory DiscoveredResource.fromJson(Map<String, dynamic> json) {
+    return DiscoveredResource(
+      configurationId: json['ConfigurationId'] as String,
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationId = this.configurationId;
+    final description = this.description;
+    return {
+      'ConfigurationId': configurationId,
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportMigrationTaskResult {
   ImportMigrationTaskResult();
-  factory ImportMigrationTaskResult.fromJson(Map<String, dynamic> json) =>
-      _$ImportMigrationTaskResultFromJson(json);
+
+  factory ImportMigrationTaskResult.fromJson(Map<String, dynamic> _) {
+    return ImportMigrationTaskResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApplicationStatesResult {
   /// A list of Applications that exist in Application Discovery Service.
-  @_s.JsonKey(name: 'ApplicationStateList')
-  final List<ApplicationState> applicationStateList;
+  final List<ApplicationState>? applicationStateList;
 
   /// If a <code>NextToken</code> was returned by a previous call, there are more
   /// results available. To retrieve the next page of results, make the call again
   /// using the returned token in <code>NextToken</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApplicationStatesResult({
     this.applicationStateList,
     this.nextToken,
   });
-  factory ListApplicationStatesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListApplicationStatesResultFromJson(json);
+
+  factory ListApplicationStatesResult.fromJson(Map<String, dynamic> json) {
+    return ListApplicationStatesResult(
+      applicationStateList: (json['ApplicationStateList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApplicationState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationStateList = this.applicationStateList;
+    final nextToken = this.nextToken;
+    return {
+      if (applicationStateList != null)
+        'ApplicationStateList': applicationStateList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCreatedArtifactsResult {
   /// List of created artifacts up to the maximum number of results specified in
   /// the request.
-  @_s.JsonKey(name: 'CreatedArtifactList')
-  final List<CreatedArtifact> createdArtifactList;
+  final List<CreatedArtifact>? createdArtifactList;
 
   /// If there are more created artifacts than the max result, return the next
   /// token to be passed to the next call as a bookmark of where to start from.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCreatedArtifactsResult({
     this.createdArtifactList,
     this.nextToken,
   });
-  factory ListCreatedArtifactsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListCreatedArtifactsResultFromJson(json);
+
+  factory ListCreatedArtifactsResult.fromJson(Map<String, dynamic> json) {
+    return ListCreatedArtifactsResult(
+      createdArtifactList: (json['CreatedArtifactList'] as List?)
+          ?.whereNotNull()
+          .map((e) => CreatedArtifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdArtifactList = this.createdArtifactList;
+    final nextToken = this.nextToken;
+    return {
+      if (createdArtifactList != null)
+        'CreatedArtifactList': createdArtifactList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDiscoveredResourcesResult {
   /// Returned list of discovered resources associated with the given
   /// MigrationTask.
-  @_s.JsonKey(name: 'DiscoveredResourceList')
-  final List<DiscoveredResource> discoveredResourceList;
+  final List<DiscoveredResource>? discoveredResourceList;
 
   /// If there are more discovered resources than the max result, return the next
   /// token to be passed to the next call as a bookmark of where to start from.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDiscoveredResourcesResult({
     this.discoveredResourceList,
     this.nextToken,
   });
-  factory ListDiscoveredResourcesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDiscoveredResourcesResultFromJson(json);
+
+  factory ListDiscoveredResourcesResult.fromJson(Map<String, dynamic> json) {
+    return ListDiscoveredResourcesResult(
+      discoveredResourceList: (json['DiscoveredResourceList'] as List?)
+          ?.whereNotNull()
+          .map((e) => DiscoveredResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final discoveredResourceList = this.discoveredResourceList;
+    final nextToken = this.nextToken;
+    return {
+      if (discoveredResourceList != null)
+        'DiscoveredResourceList': discoveredResourceList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMigrationTasksResult {
   /// Lists the migration task's summary which includes:
   /// <code>MigrationTaskName</code>, <code>ProgressPercent</code>,
   /// <code>ProgressUpdateStream</code>, <code>Status</code>, and the
   /// <code>UpdateDateTime</code> for each task.
-  @_s.JsonKey(name: 'MigrationTaskSummaryList')
-  final List<MigrationTaskSummary> migrationTaskSummaryList;
+  final List<MigrationTaskSummary>? migrationTaskSummaryList;
 
   /// If there are more migration tasks than the max result, return the next token
   /// to be passed to the next call as a bookmark of where to start from.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMigrationTasksResult({
     this.migrationTaskSummaryList,
     this.nextToken,
   });
-  factory ListMigrationTasksResult.fromJson(Map<String, dynamic> json) =>
-      _$ListMigrationTasksResultFromJson(json);
+
+  factory ListMigrationTasksResult.fromJson(Map<String, dynamic> json) {
+    return ListMigrationTasksResult(
+      migrationTaskSummaryList: (json['MigrationTaskSummaryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => MigrationTaskSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTaskSummaryList = this.migrationTaskSummaryList;
+    final nextToken = this.nextToken;
+    return {
+      if (migrationTaskSummaryList != null)
+        'MigrationTaskSummaryList': migrationTaskSummaryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListProgressUpdateStreamsResult {
   /// If there are more streams created than the max result, return the next token
   /// to be passed to the next call as a bookmark of where to start from.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// List of progress update streams up to the max number of results passed in
   /// the input.
-  @_s.JsonKey(name: 'ProgressUpdateStreamSummaryList')
-  final List<ProgressUpdateStreamSummary> progressUpdateStreamSummaryList;
+  final List<ProgressUpdateStreamSummary>? progressUpdateStreamSummaryList;
 
   ListProgressUpdateStreamsResult({
     this.nextToken,
     this.progressUpdateStreamSummaryList,
   });
-  factory ListProgressUpdateStreamsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListProgressUpdateStreamsResultFromJson(json);
+
+  factory ListProgressUpdateStreamsResult.fromJson(Map<String, dynamic> json) {
+    return ListProgressUpdateStreamsResult(
+      nextToken: json['NextToken'] as String?,
+      progressUpdateStreamSummaryList: (json['ProgressUpdateStreamSummaryList']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ProgressUpdateStreamSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final progressUpdateStreamSummaryList =
+        this.progressUpdateStreamSummaryList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (progressUpdateStreamSummaryList != null)
+        'ProgressUpdateStreamSummaryList': progressUpdateStreamSummaryList,
+    };
+  }
 }
 
 /// Represents a migration task in a migration tool.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MigrationTask {
   /// Unique identifier that references the migration task. <i>Do not store
   /// personal data in this field.</i>
-  @_s.JsonKey(name: 'MigrationTaskName')
-  final String migrationTaskName;
+  final String? migrationTaskName;
 
   /// A name that identifies the vendor of the migration tool being used.
-  @_s.JsonKey(name: 'ProgressUpdateStream')
-  final String progressUpdateStream;
+  final String? progressUpdateStream;
 
   /// Information about the resource that is being migrated. This data will be
   /// used to map the task to a resource in the Application Discovery Service
   /// repository.
-  @_s.JsonKey(name: 'ResourceAttributeList')
-  final List<ResourceAttribute> resourceAttributeList;
+  final List<ResourceAttribute>? resourceAttributeList;
 
   /// Task object encapsulating task information.
-  @_s.JsonKey(name: 'Task')
-  final Task task;
+  final Task? task;
 
   /// The timestamp when the task was gathered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdateDateTime')
-  final DateTime updateDateTime;
+  final DateTime? updateDateTime;
 
   MigrationTask({
     this.migrationTaskName,
@@ -1917,45 +1802,64 @@ class MigrationTask {
     this.task,
     this.updateDateTime,
   });
-  factory MigrationTask.fromJson(Map<String, dynamic> json) =>
-      _$MigrationTaskFromJson(json);
+
+  factory MigrationTask.fromJson(Map<String, dynamic> json) {
+    return MigrationTask(
+      migrationTaskName: json['MigrationTaskName'] as String?,
+      progressUpdateStream: json['ProgressUpdateStream'] as String?,
+      resourceAttributeList: (json['ResourceAttributeList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceAttribute.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      task: json['Task'] != null
+          ? Task.fromJson(json['Task'] as Map<String, dynamic>)
+          : null,
+      updateDateTime: timeStampFromJson(json['UpdateDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTaskName = this.migrationTaskName;
+    final progressUpdateStream = this.progressUpdateStream;
+    final resourceAttributeList = this.resourceAttributeList;
+    final task = this.task;
+    final updateDateTime = this.updateDateTime;
+    return {
+      if (migrationTaskName != null) 'MigrationTaskName': migrationTaskName,
+      if (progressUpdateStream != null)
+        'ProgressUpdateStream': progressUpdateStream,
+      if (resourceAttributeList != null)
+        'ResourceAttributeList': resourceAttributeList,
+      if (task != null) 'Task': task,
+      if (updateDateTime != null)
+        'UpdateDateTime': unixTimestampToJson(updateDateTime),
+    };
+  }
 }
 
 /// MigrationTaskSummary includes <code>MigrationTaskName</code>,
 /// <code>ProgressPercent</code>, <code>ProgressUpdateStream</code>,
 /// <code>Status</code>, and <code>UpdateDateTime</code> for each task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MigrationTaskSummary {
   /// Unique identifier that references the migration task. <i>Do not store
   /// personal data in this field.</i>
-  @_s.JsonKey(name: 'MigrationTaskName')
-  final String migrationTaskName;
+  final String? migrationTaskName;
 
   /// Indication of the percentage completion of the task.
-  @_s.JsonKey(name: 'ProgressPercent')
-  final int progressPercent;
+  final int? progressPercent;
 
   /// An AWS resource used for access control. It should uniquely identify the
   /// migration tool as it is used for all updates made by the tool.
-  @_s.JsonKey(name: 'ProgressUpdateStream')
-  final String progressUpdateStream;
+  final String? progressUpdateStream;
 
   /// Status of the task.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   /// Detail information of what is being done within the overall status state.
-  @_s.JsonKey(name: 'StatusDetail')
-  final String statusDetail;
+  final String? statusDetail;
 
   /// The timestamp when the task was gathered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdateDateTime')
-  final DateTime updateDateTime;
+  final DateTime? updateDateTime;
 
   MigrationTaskSummary({
     this.migrationTaskName,
@@ -1965,61 +1869,98 @@ class MigrationTaskSummary {
     this.statusDetail,
     this.updateDateTime,
   });
-  factory MigrationTaskSummary.fromJson(Map<String, dynamic> json) =>
-      _$MigrationTaskSummaryFromJson(json);
+
+  factory MigrationTaskSummary.fromJson(Map<String, dynamic> json) {
+    return MigrationTaskSummary(
+      migrationTaskName: json['MigrationTaskName'] as String?,
+      progressPercent: json['ProgressPercent'] as int?,
+      progressUpdateStream: json['ProgressUpdateStream'] as String?,
+      status: (json['Status'] as String?)?.toStatus(),
+      statusDetail: json['StatusDetail'] as String?,
+      updateDateTime: timeStampFromJson(json['UpdateDateTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final migrationTaskName = this.migrationTaskName;
+    final progressPercent = this.progressPercent;
+    final progressUpdateStream = this.progressUpdateStream;
+    final status = this.status;
+    final statusDetail = this.statusDetail;
+    final updateDateTime = this.updateDateTime;
+    return {
+      if (migrationTaskName != null) 'MigrationTaskName': migrationTaskName,
+      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (progressUpdateStream != null)
+        'ProgressUpdateStream': progressUpdateStream,
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetail != null) 'StatusDetail': statusDetail,
+      if (updateDateTime != null)
+        'UpdateDateTime': unixTimestampToJson(updateDateTime),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotifyApplicationStateResult {
   NotifyApplicationStateResult();
-  factory NotifyApplicationStateResult.fromJson(Map<String, dynamic> json) =>
-      _$NotifyApplicationStateResultFromJson(json);
+
+  factory NotifyApplicationStateResult.fromJson(Map<String, dynamic> _) {
+    return NotifyApplicationStateResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotifyMigrationTaskStateResult {
   NotifyMigrationTaskStateResult();
-  factory NotifyMigrationTaskStateResult.fromJson(Map<String, dynamic> json) =>
-      _$NotifyMigrationTaskStateResultFromJson(json);
+
+  factory NotifyMigrationTaskStateResult.fromJson(Map<String, dynamic> _) {
+    return NotifyMigrationTaskStateResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Summary of the AWS resource used for access control that is implicitly
 /// linked to your AWS account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProgressUpdateStreamSummary {
   /// The name of the ProgressUpdateStream. <i>Do not store personal data in this
   /// field.</i>
-  @_s.JsonKey(name: 'ProgressUpdateStreamName')
-  final String progressUpdateStreamName;
+  final String? progressUpdateStreamName;
 
   ProgressUpdateStreamSummary({
     this.progressUpdateStreamName,
   });
-  factory ProgressUpdateStreamSummary.fromJson(Map<String, dynamic> json) =>
-      _$ProgressUpdateStreamSummaryFromJson(json);
+
+  factory ProgressUpdateStreamSummary.fromJson(Map<String, dynamic> json) {
+    return ProgressUpdateStreamSummary(
+      progressUpdateStreamName: json['ProgressUpdateStreamName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final progressUpdateStreamName = this.progressUpdateStreamName;
+    return {
+      if (progressUpdateStreamName != null)
+        'ProgressUpdateStreamName': progressUpdateStreamName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResourceAttributesResult {
   PutResourceAttributesResult();
-  factory PutResourceAttributesResult.fromJson(Map<String, dynamic> json) =>
-      _$PutResourceAttributesResultFromJson(json);
+
+  factory PutResourceAttributesResult.fromJson(Map<String, dynamic> _) {
+    return PutResourceAttributesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Attribute associated with a resource.
@@ -2038,143 +1979,228 @@ class PutResourceAttributesResult {
 /// </dd> <dt>FQDN</dt> <dd>
 /// <code>^[^&lt;&gt;{}\\\\/?,=\\p{Cntrl}]{1,256}$</code>
 /// </dd> </dl>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceAttribute {
   /// Type of resource.
-  @_s.JsonKey(name: 'Type')
   final ResourceAttributeType type;
 
   /// Value of the resource type.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   ResourceAttribute({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  factory ResourceAttribute.fromJson(Map<String, dynamic> json) =>
-      _$ResourceAttributeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceAttributeToJson(this);
+  factory ResourceAttribute.fromJson(Map<String, dynamic> json) {
+    return ResourceAttribute(
+      type: (json['Type'] as String).toResourceAttributeType(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum ResourceAttributeType {
-  @_s.JsonValue('IPV4_ADDRESS')
   ipv4Address,
-  @_s.JsonValue('IPV6_ADDRESS')
   ipv6Address,
-  @_s.JsonValue('MAC_ADDRESS')
   macAddress,
-  @_s.JsonValue('FQDN')
   fqdn,
-  @_s.JsonValue('VM_MANAGER_ID')
   vmManagerId,
-  @_s.JsonValue('VM_MANAGED_OBJECT_REFERENCE')
   vmManagedObjectReference,
-  @_s.JsonValue('VM_NAME')
   vmName,
-  @_s.JsonValue('VM_PATH')
   vmPath,
-  @_s.JsonValue('BIOS_ID')
   biosId,
-  @_s.JsonValue('MOTHERBOARD_SERIAL_NUMBER')
   motherboardSerialNumber,
 }
 
+extension on ResourceAttributeType {
+  String toValue() {
+    switch (this) {
+      case ResourceAttributeType.ipv4Address:
+        return 'IPV4_ADDRESS';
+      case ResourceAttributeType.ipv6Address:
+        return 'IPV6_ADDRESS';
+      case ResourceAttributeType.macAddress:
+        return 'MAC_ADDRESS';
+      case ResourceAttributeType.fqdn:
+        return 'FQDN';
+      case ResourceAttributeType.vmManagerId:
+        return 'VM_MANAGER_ID';
+      case ResourceAttributeType.vmManagedObjectReference:
+        return 'VM_MANAGED_OBJECT_REFERENCE';
+      case ResourceAttributeType.vmName:
+        return 'VM_NAME';
+      case ResourceAttributeType.vmPath:
+        return 'VM_PATH';
+      case ResourceAttributeType.biosId:
+        return 'BIOS_ID';
+      case ResourceAttributeType.motherboardSerialNumber:
+        return 'MOTHERBOARD_SERIAL_NUMBER';
+    }
+  }
+}
+
+extension on String {
+  ResourceAttributeType toResourceAttributeType() {
+    switch (this) {
+      case 'IPV4_ADDRESS':
+        return ResourceAttributeType.ipv4Address;
+      case 'IPV6_ADDRESS':
+        return ResourceAttributeType.ipv6Address;
+      case 'MAC_ADDRESS':
+        return ResourceAttributeType.macAddress;
+      case 'FQDN':
+        return ResourceAttributeType.fqdn;
+      case 'VM_MANAGER_ID':
+        return ResourceAttributeType.vmManagerId;
+      case 'VM_MANAGED_OBJECT_REFERENCE':
+        return ResourceAttributeType.vmManagedObjectReference;
+      case 'VM_NAME':
+        return ResourceAttributeType.vmName;
+      case 'VM_PATH':
+        return ResourceAttributeType.vmPath;
+      case 'BIOS_ID':
+        return ResourceAttributeType.biosId;
+      case 'MOTHERBOARD_SERIAL_NUMBER':
+        return ResourceAttributeType.motherboardSerialNumber;
+    }
+    throw Exception('$this is not known in enum ResourceAttributeType');
+  }
+}
+
 enum Status {
-  @_s.JsonValue('NOT_STARTED')
   notStarted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('COMPLETED')
   completed,
 }
 
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.notStarted:
+        return 'NOT_STARTED';
+      case Status.inProgress:
+        return 'IN_PROGRESS';
+      case Status.failed:
+        return 'FAILED';
+      case Status.completed:
+        return 'COMPLETED';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'NOT_STARTED':
+        return Status.notStarted;
+      case 'IN_PROGRESS':
+        return Status.inProgress;
+      case 'FAILED':
+        return Status.failed;
+      case 'COMPLETED':
+        return Status.completed;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
+}
+
 /// Task object encapsulating task information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Task {
   /// Status of the task - Not Started, In-Progress, Complete.
-  @_s.JsonKey(name: 'Status')
   final Status status;
 
   /// Indication of the percentage completion of the task.
-  @_s.JsonKey(name: 'ProgressPercent')
-  final int progressPercent;
+  final int? progressPercent;
 
   /// Details of task status as notified by a migration tool. A tool might use
   /// this field to provide clarifying information about the status that is unique
   /// to that tool or that explains an error state.
-  @_s.JsonKey(name: 'StatusDetail')
-  final String statusDetail;
+  final String? statusDetail;
 
   Task({
-    @_s.required this.status,
+    required this.status,
     this.progressPercent,
     this.statusDetail,
   });
-  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TaskToJson(this);
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      status: (json['Status'] as String).toStatus(),
+      progressPercent: json['ProgressPercent'] as int?,
+      statusDetail: json['StatusDetail'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final progressPercent = this.progressPercent;
+    final statusDetail = this.statusDetail;
+    return {
+      'Status': status.toValue(),
+      if (progressPercent != null) 'ProgressPercent': progressPercent,
+      if (statusDetail != null) 'StatusDetail': statusDetail,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class DryRunOperation extends _s.GenericAwsException {
-  DryRunOperation({String type, String message})
+  DryRunOperation({String? type, String? message})
       : super(type: type, code: 'DryRunOperation', message: message);
 }
 
 class HomeRegionNotSetException extends _s.GenericAwsException {
-  HomeRegionNotSetException({String type, String message})
+  HomeRegionNotSetException({String? type, String? message})
       : super(type: type, code: 'HomeRegionNotSetException', message: message);
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class PolicyErrorException extends _s.GenericAwsException {
-  PolicyErrorException({String type, String message})
+  PolicyErrorException({String? type, String? message})
       : super(type: type, code: 'PolicyErrorException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class UnauthorizedOperation extends _s.GenericAwsException {
-  UnauthorizedOperation({String type, String message})
+  UnauthorizedOperation({String? type, String? message})
       : super(type: type, code: 'UnauthorizedOperation', message: message);
 }
 

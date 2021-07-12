@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-11-09.g.dart';
 
 /// Alexa for Business helps you use Alexa in your organization. Alexa for
 /// Business provides you with the tools to manage Alexa devices, enroll your
@@ -39,10 +32,10 @@ part '2017-11-09.g.dart';
 class AlexaForBusiness {
   final _s.JsonProtocol _protocol;
   AlexaForBusiness({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -64,20 +57,14 @@ class AlexaForBusiness {
   /// Parameter [skillId] :
   /// The unique identifier of the skill.
   Future<void> approveSkill({
-    @_s.required String skillId,
+    required String skillId,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ApproveSkill'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -87,8 +74,6 @@ class AlexaForBusiness {
         'SkillId': skillId,
       },
     );
-
-    return ApproveSkillResponse.fromJson(jsonResponse.body);
   }
 
   /// Associates a contact with a given address book.
@@ -101,28 +86,16 @@ class AlexaForBusiness {
   /// Parameter [contactArn] :
   /// The ARN of the contact to associate with an address book.
   Future<void> associateContactWithAddressBook({
-    @_s.required String addressBookArn,
-    @_s.required String contactArn,
+    required String addressBookArn,
+    required String contactArn,
   }) async {
     ArgumentError.checkNotNull(addressBookArn, 'addressBookArn');
-    _s.validateStringPattern(
-      'addressBookArn',
-      addressBookArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(contactArn, 'contactArn');
-    _s.validateStringPattern(
-      'contactArn',
-      contactArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateContactWithAddressBook'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -133,8 +106,6 @@ class AlexaForBusiness {
         'ContactArn': contactArn,
       },
     );
-
-    return AssociateContactWithAddressBookResponse.fromJson(jsonResponse.body);
   }
 
   /// Associates a device with the specified network profile.
@@ -149,28 +120,16 @@ class AlexaForBusiness {
   /// Parameter [networkProfileArn] :
   /// The ARN of the network profile to associate with a device.
   Future<void> associateDeviceWithNetworkProfile({
-    @_s.required String deviceArn,
-    @_s.required String networkProfileArn,
+    required String deviceArn,
+    required String networkProfileArn,
   }) async {
     ArgumentError.checkNotNull(deviceArn, 'deviceArn');
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkProfileArn, 'networkProfileArn');
-    _s.validateStringPattern(
-      'networkProfileArn',
-      networkProfileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateDeviceWithNetworkProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -181,9 +140,6 @@ class AlexaForBusiness {
         'NetworkProfileArn': networkProfileArn,
       },
     );
-
-    return AssociateDeviceWithNetworkProfileResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Associates a device with a given room. This applies all the settings from
@@ -201,24 +157,14 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room with which to associate the device. Required.
   Future<void> associateDeviceWithRoom({
-    String deviceArn,
-    String roomArn,
+    String? deviceArn,
+    String? roomArn,
   }) async {
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateDeviceWithRoom'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -229,8 +175,6 @@ class AlexaForBusiness {
         if (roomArn != null) 'RoomArn': roomArn,
       },
     );
-
-    return AssociateDeviceWithRoomResponse.fromJson(jsonResponse.body);
   }
 
   /// Associates a skill group with a given room. This enables all skills in the
@@ -244,24 +188,14 @@ class AlexaForBusiness {
   /// Parameter [skillGroupArn] :
   /// The ARN of the skill group to associate with a room. Required.
   Future<void> associateSkillGroupWithRoom({
-    String roomArn,
-    String skillGroupArn,
+    String? roomArn,
+    String? skillGroupArn,
   }) async {
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateSkillGroupWithRoom'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -272,8 +206,6 @@ class AlexaForBusiness {
         if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
-
-    return AssociateSkillGroupWithRoomResponse.fromJson(jsonResponse.body);
   }
 
   /// Associates a skill with a skill group.
@@ -288,26 +220,15 @@ class AlexaForBusiness {
   /// Parameter [skillGroupArn] :
   /// The ARN of the skill group to associate the skill to. Required.
   Future<void> associateSkillWithSkillGroup({
-    @_s.required String skillId,
-    String skillGroupArn,
+    required String skillId,
+    String? skillGroupArn,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateSkillWithSkillGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -318,8 +239,6 @@ class AlexaForBusiness {
         if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
-
-    return AssociateSkillWithSkillGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Makes a private skill available for enrolled users to enable on their
@@ -331,20 +250,14 @@ class AlexaForBusiness {
   /// Parameter [skillId] :
   /// The private skill ID you want to make available to enrolled users.
   Future<void> associateSkillWithUsers({
-    @_s.required String skillId,
+    required String skillId,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.AssociateSkillWithUsers'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -354,8 +267,6 @@ class AlexaForBusiness {
         'SkillId': skillId,
       },
     );
-
-    return AssociateSkillWithUsersResponse.fromJson(jsonResponse.body);
   }
 
   /// Creates an address book with the specified details.
@@ -372,10 +283,15 @@ class AlexaForBusiness {
   ///
   /// Parameter [description] :
   /// The description of the address book.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be added to the specified resource. Do not provide system
+  /// tags.
   Future<CreateAddressBookResponse> createAddressBook({
-    @_s.required String name,
-    String clientRequestToken,
-    String description,
+    required String name,
+    String? clientRequestToken,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -385,33 +301,17 @@ class AlexaForBusiness {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       10,
       150,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -428,6 +328,7 @@ class AlexaForBusiness {
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -467,14 +368,14 @@ class AlexaForBusiness {
   /// Parameter [tags] :
   /// The tags for the business report schedule.
   Future<CreateBusinessReportScheduleResponse> createBusinessReportSchedule({
-    @_s.required BusinessReportContentRange contentRange,
-    @_s.required BusinessReportFormat format,
-    String clientRequestToken,
-    BusinessReportRecurrence recurrence,
-    String s3BucketName,
-    String s3KeyPrefix,
-    String scheduleName,
-    List<Tag> tags,
+    required BusinessReportContentRange contentRange,
+    required BusinessReportFormat format,
+    String? clientRequestToken,
+    BusinessReportRecurrence? recurrence,
+    String? s3BucketName,
+    String? s3KeyPrefix,
+    String? scheduleName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(contentRange, 'contentRange');
     ArgumentError.checkNotNull(format, 'format');
@@ -484,37 +385,17 @@ class AlexaForBusiness {
       10,
       150,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
-    _s.validateStringPattern(
-      's3BucketName',
-      s3BucketName,
-      r'''[a-z0-9-\.]{3,63}''',
-    );
     _s.validateStringLength(
       's3KeyPrefix',
       s3KeyPrefix,
       0,
       100,
     );
-    _s.validateStringPattern(
-      's3KeyPrefix',
-      s3KeyPrefix,
-      r'''[A-Za-z0-9!_\-\.\*'()/]*''',
-    );
     _s.validateStringLength(
       'scheduleName',
       scheduleName,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'scheduleName',
-      scheduleName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -528,7 +409,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ContentRange': contentRange,
-        'Format': format?.toValue() ?? '',
+        'Format': format.toValue(),
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (recurrence != null) 'Recurrence': recurrence,
@@ -563,13 +444,18 @@ class AlexaForBusiness {
   ///
   /// Parameter [pSTNDialIn] :
   /// The information for PSTN conferencing.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be added to the specified resource. Do not provide system
+  /// tags.
   Future<CreateConferenceProviderResponse> createConferenceProvider({
-    @_s.required String conferenceProviderName,
-    @_s.required ConferenceProviderType conferenceProviderType,
-    @_s.required MeetingSetting meetingSetting,
-    String clientRequestToken,
-    IPDialIn iPDialIn,
-    PSTNDialIn pSTNDialIn,
+    required String conferenceProviderName,
+    required ConferenceProviderType conferenceProviderType,
+    required MeetingSetting meetingSetting,
+    String? clientRequestToken,
+    IPDialIn? iPDialIn,
+    PSTNDialIn? pSTNDialIn,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         conferenceProviderName, 'conferenceProviderName');
@@ -580,12 +466,6 @@ class AlexaForBusiness {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'conferenceProviderName',
-      conferenceProviderName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         conferenceProviderType, 'conferenceProviderType');
     ArgumentError.checkNotNull(meetingSetting, 'meetingSetting');
@@ -594,11 +474,6 @@ class AlexaForBusiness {
       clientRequestToken,
       10,
       150,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -612,12 +487,13 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderName': conferenceProviderName,
-        'ConferenceProviderType': conferenceProviderType?.toValue() ?? '',
+        'ConferenceProviderType': conferenceProviderType.toValue(),
         'MeetingSetting': meetingSetting,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (iPDialIn != null) 'IPDialIn': iPDialIn,
         if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -655,14 +531,19 @@ class AlexaForBusiness {
   ///
   /// Parameter [sipAddresses] :
   /// The list of SIP addresses for the contact.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be added to the specified resource. Do not provide system
+  /// tags.
   Future<CreateContactResponse> createContact({
-    @_s.required String firstName,
-    String clientRequestToken,
-    String displayName,
-    String lastName,
-    String phoneNumber,
-    List<PhoneNumber> phoneNumbers,
-    List<SipAddress> sipAddresses,
+    required String firstName,
+    String? clientRequestToken,
+    String? displayName,
+    String? lastName,
+    String? phoneNumber,
+    List<PhoneNumber>? phoneNumbers,
+    List<SipAddress>? sipAddresses,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(firstName, 'firstName');
     _s.validateStringLength(
@@ -672,55 +553,29 @@ class AlexaForBusiness {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'firstName',
-      firstName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       10,
       150,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       100,
     );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     _s.validateStringLength(
       'lastName',
       lastName,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'lastName',
-      lastName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     _s.validateStringLength(
       'phoneNumber',
       phoneNumber,
       0,
       50,
-    );
-    _s.validateStringPattern(
-      'phoneNumber',
-      phoneNumber,
-      r'''^[\+0-9\#\,\(][\+0-9\-\.\/\(\)\,\#\s]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -741,6 +596,7 @@ class AlexaForBusiness {
         if (phoneNumber != null) 'PhoneNumber': phoneNumber,
         if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
         if (sipAddresses != null) 'SipAddresses': sipAddresses,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -752,34 +608,25 @@ class AlexaForBusiness {
   /// May throw [AlreadyExistsException].
   /// May throw [LimitExceededException].
   ///
+  /// Parameter [name] :
+  /// The name of the gateway group.
+  ///
   /// Parameter [clientRequestToken] :
   /// A unique, user-specified identifier for the request that ensures
   /// idempotency.
   ///
-  /// Parameter [name] :
-  /// The name of the gateway group.
-  ///
   /// Parameter [description] :
   /// The description of the gateway group.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be added to the specified resource. Do not provide system
+  /// tags.
   Future<CreateGatewayGroupResponse> createGatewayGroup({
-    @_s.required String clientRequestToken,
-    @_s.required String name,
-    String description,
+    required String name,
+    String? clientRequestToken,
+    String? description,
+    List<Tag>? tags,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      10,
-      150,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -788,11 +635,11 @@ class AlexaForBusiness {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
     );
     _s.validateStringLength(
       'description',
@@ -811,10 +658,11 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
+        'Name': name,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
-        'Name': name,
         if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -859,48 +707,33 @@ class AlexaForBusiness {
   /// asynchronously transmitted to the device and is used when the password of
   /// the network changes to NextPassword.
   ///
+  /// Parameter [tags] :
+  /// The tags to be added to the specified resource. Do not provide system
+  /// tags.
+  ///
   /// Parameter [trustAnchors] :
   /// The root certificates of your authentication server that is installed on
   /// your devices and used to trust your authentication server during EAP
   /// negotiation.
   Future<CreateNetworkProfileResponse> createNetworkProfile({
-    @_s.required String clientRequestToken,
-    @_s.required String networkProfileName,
-    @_s.required NetworkSecurityType securityType,
-    @_s.required String ssid,
-    String certificateAuthorityArn,
-    String currentPassword,
-    String description,
-    NetworkEapMethod eapMethod,
-    String nextPassword,
-    List<String> trustAnchors,
+    required String networkProfileName,
+    required NetworkSecurityType securityType,
+    required String ssid,
+    String? certificateAuthorityArn,
+    String? clientRequestToken,
+    String? currentPassword,
+    String? description,
+    NetworkEapMethod? eapMethod,
+    String? nextPassword,
+    List<Tag>? tags,
+    List<String>? trustAnchors,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
-    _s.validateStringLength(
-      'clientRequestToken',
-      clientRequestToken,
-      10,
-      150,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkProfileName, 'networkProfileName');
     _s.validateStringLength(
       'networkProfileName',
       networkProfileName,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'networkProfileName',
-      networkProfileName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(securityType, 'securityType');
@@ -912,16 +745,11 @@ class AlexaForBusiness {
       32,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'ssid',
-      ssid,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      10,
+      150,
     );
     _s.validateStringLength(
       'currentPassword',
@@ -929,32 +757,17 @@ class AlexaForBusiness {
       5,
       128,
     );
-    _s.validateStringPattern(
-      'currentPassword',
-      currentPassword,
-      r'''[\x00-\x7F]*''',
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       200,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     _s.validateStringLength(
       'nextPassword',
       nextPassword,
       0,
       128,
-    );
-    _s.validateStringPattern(
-      'nextPassword',
-      nextPassword,
-      r'''(^$)|([\x00-\x7F]{5,})''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -967,17 +780,18 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientRequestToken':
-            clientRequestToken ?? _s.generateIdempotencyToken(),
         'NetworkProfileName': networkProfileName,
-        'SecurityType': securityType?.toValue() ?? '',
+        'SecurityType': securityType.toValue(),
         'Ssid': ssid,
         if (certificateAuthorityArn != null)
           'CertificateAuthorityArn': certificateAuthorityArn,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (currentPassword != null) 'CurrentPassword': currentPassword,
         if (description != null) 'Description': description,
         if (eapMethod != null) 'EapMethod': eapMethod.toValue(),
         if (nextPassword != null) 'NextPassword': nextPassword,
+        if (tags != null) 'Tags': tags,
         if (trustAnchors != null) 'TrustAnchors': trustAnchors,
       },
     );
@@ -1012,6 +826,9 @@ class AlexaForBusiness {
   /// Parameter [clientRequestToken] :
   /// The user-specified token that is used during the creation of a profile.
   ///
+  /// Parameter [dataRetentionOptIn] :
+  /// Whether data retention of the profile is enabled.
+  ///
   /// Parameter [locale] :
   /// The locale of the room profile. (This is currently only available to a
   /// limited preview audience.)
@@ -1031,19 +848,20 @@ class AlexaForBusiness {
   /// Parameter [tags] :
   /// The tags for the profile.
   Future<CreateProfileResponse> createProfile({
-    @_s.required String address,
-    @_s.required DistanceUnit distanceUnit,
-    @_s.required String profileName,
-    @_s.required TemperatureUnit temperatureUnit,
-    @_s.required String timezone,
-    @_s.required WakeWord wakeWord,
-    String clientRequestToken,
-    String locale,
-    int maxVolumeLimit,
-    CreateMeetingRoomConfiguration meetingRoomConfiguration,
-    bool pSTNEnabled,
-    bool setupModeDisabled,
-    List<Tag> tags,
+    required String address,
+    required DistanceUnit distanceUnit,
+    required String profileName,
+    required TemperatureUnit temperatureUnit,
+    required String timezone,
+    required WakeWord wakeWord,
+    String? clientRequestToken,
+    bool? dataRetentionOptIn,
+    String? locale,
+    int? maxVolumeLimit,
+    CreateMeetingRoomConfiguration? meetingRoomConfiguration,
+    bool? pSTNEnabled,
+    bool? setupModeDisabled,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(address, 'address');
     _s.validateStringLength(
@@ -1062,12 +880,6 @@ class AlexaForBusiness {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(temperatureUnit, 'temperatureUnit');
     ArgumentError.checkNotNull(timezone, 'timezone');
     _s.validateStringLength(
@@ -1083,11 +895,6 @@ class AlexaForBusiness {
       clientRequestToken,
       10,
       150,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
     );
     _s.validateStringLength(
       'locale',
@@ -1107,13 +914,15 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Address': address,
-        'DistanceUnit': distanceUnit?.toValue() ?? '',
+        'DistanceUnit': distanceUnit.toValue(),
         'ProfileName': profileName,
-        'TemperatureUnit': temperatureUnit?.toValue() ?? '',
+        'TemperatureUnit': temperatureUnit.toValue(),
         'Timezone': timezone,
-        'WakeWord': wakeWord?.toValue() ?? '',
+        'WakeWord': wakeWord.toValue(),
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (dataRetentionOptIn != null)
+          'DataRetentionOptIn': dataRetentionOptIn,
         if (locale != null) 'Locale': locale,
         if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
         if (meetingRoomConfiguration != null)
@@ -1151,12 +960,12 @@ class AlexaForBusiness {
   /// Parameter [tags] :
   /// The tags for the room.
   Future<CreateRoomResponse> createRoom({
-    @_s.required String roomName,
-    String clientRequestToken,
-    String description,
-    String profileArn,
-    String providerCalendarId,
-    List<Tag> tags,
+    required String roomName,
+    String? clientRequestToken,
+    String? description,
+    String? profileArn,
+    String? providerCalendarId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(roomName, 'roomName');
     _s.validateStringLength(
@@ -1166,38 +975,17 @@ class AlexaForBusiness {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roomName',
-      roomName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       10,
       150,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
-    _s.validateStringPattern(
-      'profileArn',
-      profileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     _s.validateStringLength(
       'providerCalendarId',
@@ -1249,10 +1037,10 @@ class AlexaForBusiness {
   /// Parameter [tags] :
   /// The tags for the skill group.
   Future<CreateSkillGroupResponse> createSkillGroup({
-    @_s.required String skillGroupName,
-    String clientRequestToken,
-    String description,
-    List<Tag> tags,
+    required String skillGroupName,
+    String? clientRequestToken,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(skillGroupName, 'skillGroupName');
     _s.validateStringLength(
@@ -1262,33 +1050,17 @@ class AlexaForBusiness {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'skillGroupName',
-      skillGroupName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       10,
       150,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1337,12 +1109,12 @@ class AlexaForBusiness {
   /// Parameter [tags] :
   /// The tags for the user.
   Future<CreateUserResponse> createUser({
-    @_s.required String userId,
-    String clientRequestToken,
-    String email,
-    String firstName,
-    String lastName,
-    List<Tag> tags,
+    required String userId,
+    String? clientRequestToken,
+    String? email,
+    String? firstName,
+    String? lastName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(userId, 'userId');
     _s.validateStringLength(
@@ -1352,22 +1124,11 @@ class AlexaForBusiness {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''[a-zA-Z0-9@_+.-]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       10,
       150,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
     );
     _s.validateStringLength(
       'email',
@@ -1375,32 +1136,17 @@ class AlexaForBusiness {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'email',
-      email,
-      r'''([0-9a-zA-Z]([+-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\w]*[0-9a-zA-Z]+)*\.)+[a-zA-Z]{2,9})''',
-    );
     _s.validateStringLength(
       'firstName',
       firstName,
       0,
       30,
     );
-    _s.validateStringPattern(
-      'firstName',
-      firstName,
-      r'''([A-Za-z\-' 0-9._]|\p{IsLetter})*''',
-    );
     _s.validateStringLength(
       'lastName',
       lastName,
       0,
       30,
-    );
-    _s.validateStringPattern(
-      'lastName',
-      lastName,
-      r'''([A-Za-z\-' 0-9._]|\p{IsLetter})*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1434,20 +1180,14 @@ class AlexaForBusiness {
   /// Parameter [addressBookArn] :
   /// The ARN of the address book to delete.
   Future<void> deleteAddressBook({
-    @_s.required String addressBookArn,
+    required String addressBookArn,
   }) async {
     ArgumentError.checkNotNull(addressBookArn, 'addressBookArn');
-    _s.validateStringPattern(
-      'addressBookArn',
-      addressBookArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteAddressBook'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1457,8 +1197,6 @@ class AlexaForBusiness {
         'AddressBookArn': addressBookArn,
       },
     );
-
-    return DeleteAddressBookResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the recurring report delivery schedule with the specified schedule
@@ -1470,20 +1208,14 @@ class AlexaForBusiness {
   /// Parameter [scheduleArn] :
   /// The ARN of the business report schedule.
   Future<void> deleteBusinessReportSchedule({
-    @_s.required String scheduleArn,
+    required String scheduleArn,
   }) async {
     ArgumentError.checkNotNull(scheduleArn, 'scheduleArn');
-    _s.validateStringPattern(
-      'scheduleArn',
-      scheduleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteBusinessReportSchedule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1493,8 +1225,6 @@ class AlexaForBusiness {
         'ScheduleArn': scheduleArn,
       },
     );
-
-    return DeleteBusinessReportScheduleResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a conference provider.
@@ -1504,20 +1234,14 @@ class AlexaForBusiness {
   /// Parameter [conferenceProviderArn] :
   /// The ARN of the conference provider.
   Future<void> deleteConferenceProvider({
-    @_s.required String conferenceProviderArn,
+    required String conferenceProviderArn,
   }) async {
     ArgumentError.checkNotNull(conferenceProviderArn, 'conferenceProviderArn');
-    _s.validateStringPattern(
-      'conferenceProviderArn',
-      conferenceProviderArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteConferenceProvider'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1527,8 +1251,6 @@ class AlexaForBusiness {
         'ConferenceProviderArn': conferenceProviderArn,
       },
     );
-
-    return DeleteConferenceProviderResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a contact by the contact ARN.
@@ -1539,20 +1261,14 @@ class AlexaForBusiness {
   /// Parameter [contactArn] :
   /// The ARN of the contact to delete.
   Future<void> deleteContact({
-    @_s.required String contactArn,
+    required String contactArn,
   }) async {
     ArgumentError.checkNotNull(contactArn, 'contactArn');
-    _s.validateStringPattern(
-      'contactArn',
-      contactArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteContact'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1562,8 +1278,6 @@ class AlexaForBusiness {
         'ContactArn': contactArn,
       },
     );
-
-    return DeleteContactResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a device from Alexa For Business.
@@ -1575,20 +1289,14 @@ class AlexaForBusiness {
   /// Parameter [deviceArn] :
   /// The ARN of the device for which to request details.
   Future<void> deleteDevice({
-    @_s.required String deviceArn,
+    required String deviceArn,
   }) async {
     ArgumentError.checkNotNull(deviceArn, 'deviceArn');
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteDevice'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1598,8 +1306,6 @@ class AlexaForBusiness {
         'DeviceArn': deviceArn,
       },
     );
-
-    return DeleteDeviceResponse.fromJson(jsonResponse.body);
   }
 
   /// When this action is called for a specified shared device, it allows
@@ -1617,22 +1323,16 @@ class AlexaForBusiness {
   /// Parameter [deviceUsageType] :
   /// The type of usage data to delete.
   Future<void> deleteDeviceUsageData({
-    @_s.required String deviceArn,
-    @_s.required DeviceUsageType deviceUsageType,
+    required String deviceArn,
+    required DeviceUsageType deviceUsageType,
   }) async {
     ArgumentError.checkNotNull(deviceArn, 'deviceArn');
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(deviceUsageType, 'deviceUsageType');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteDeviceUsageData'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1640,11 +1340,9 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'DeviceUsageType': deviceUsageType?.toValue() ?? '',
+        'DeviceUsageType': deviceUsageType.toValue(),
       },
     );
-
-    return DeleteDeviceUsageDataResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a gateway group.
@@ -1654,20 +1352,14 @@ class AlexaForBusiness {
   /// Parameter [gatewayGroupArn] :
   /// The ARN of the gateway group to delete.
   Future<void> deleteGatewayGroup({
-    @_s.required String gatewayGroupArn,
+    required String gatewayGroupArn,
   }) async {
     ArgumentError.checkNotNull(gatewayGroupArn, 'gatewayGroupArn');
-    _s.validateStringPattern(
-      'gatewayGroupArn',
-      gatewayGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteGatewayGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1677,8 +1369,6 @@ class AlexaForBusiness {
         'GatewayGroupArn': gatewayGroupArn,
       },
     );
-
-    return DeleteGatewayGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a network profile by the network profile ARN.
@@ -1690,20 +1380,14 @@ class AlexaForBusiness {
   /// Parameter [networkProfileArn] :
   /// The ARN of the network profile associated with a device.
   Future<void> deleteNetworkProfile({
-    @_s.required String networkProfileArn,
+    required String networkProfileArn,
   }) async {
     ArgumentError.checkNotNull(networkProfileArn, 'networkProfileArn');
-    _s.validateStringPattern(
-      'networkProfileArn',
-      networkProfileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteNetworkProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1713,8 +1397,6 @@ class AlexaForBusiness {
         'NetworkProfileArn': networkProfileArn,
       },
     );
-
-    return DeleteNetworkProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a room profile by the profile ARN.
@@ -1725,18 +1407,13 @@ class AlexaForBusiness {
   /// Parameter [profileArn] :
   /// The ARN of the room profile to delete. Required.
   Future<void> deleteProfile({
-    String profileArn,
+    String? profileArn,
   }) async {
-    _s.validateStringPattern(
-      'profileArn',
-      profileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1746,8 +1423,6 @@ class AlexaForBusiness {
         if (profileArn != null) 'ProfileArn': profileArn,
       },
     );
-
-    return DeleteProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a room by the room ARN.
@@ -1758,18 +1433,13 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room to delete. Required.
   Future<void> deleteRoom({
-    String roomArn,
+    String? roomArn,
   }) async {
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteRoom'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1779,8 +1449,6 @@ class AlexaForBusiness {
         if (roomArn != null) 'RoomArn': roomArn,
       },
     );
-
-    return DeleteRoomResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes room skill parameter details by room, skill, and parameter key ID.
@@ -1796,9 +1464,9 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room from which to remove the room skill parameter details.
   Future<void> deleteRoomSkillParameter({
-    @_s.required String parameterKey,
-    @_s.required String skillId,
-    String roomArn,
+    required String parameterKey,
+    required String skillId,
+    String? roomArn,
   }) async {
     ArgumentError.checkNotNull(parameterKey, 'parameterKey');
     _s.validateStringLength(
@@ -1809,22 +1477,11 @@ class AlexaForBusiness {
       isRequired: true,
     );
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteRoomSkillParameter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1836,8 +1493,6 @@ class AlexaForBusiness {
         if (roomArn != null) 'RoomArn': roomArn,
       },
     );
-
-    return DeleteRoomSkillParameterResponse.fromJson(jsonResponse.body);
   }
 
   /// Unlinks a third-party account from a skill.
@@ -1851,26 +1506,15 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The room that the skill is authorized for.
   Future<void> deleteSkillAuthorization({
-    @_s.required String skillId,
-    String roomArn,
+    required String skillId,
+    String? roomArn,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteSkillAuthorization'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1881,8 +1525,6 @@ class AlexaForBusiness {
         if (roomArn != null) 'RoomArn': roomArn,
       },
     );
-
-    return DeleteSkillAuthorizationResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a skill group by skill group ARN.
@@ -1893,18 +1535,13 @@ class AlexaForBusiness {
   /// Parameter [skillGroupArn] :
   /// The ARN of the skill group to delete. Required.
   Future<void> deleteSkillGroup({
-    String skillGroupArn,
+    String? skillGroupArn,
   }) async {
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteSkillGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1914,8 +1551,6 @@ class AlexaForBusiness {
         if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
-
-    return DeleteSkillGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a specified user by user ARN and enrollment ARN.
@@ -1929,8 +1564,8 @@ class AlexaForBusiness {
   /// Parameter [userArn] :
   /// The ARN of the user to delete in the organization. Required.
   Future<void> deleteUser({
-    @_s.required String enrollmentId,
-    String userArn,
+    required String enrollmentId,
+    String? userArn,
   }) async {
     ArgumentError.checkNotNull(enrollmentId, 'enrollmentId');
     _s.validateStringLength(
@@ -1940,16 +1575,11 @@ class AlexaForBusiness {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DeleteUser'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1960,8 +1590,6 @@ class AlexaForBusiness {
         if (userArn != null) 'UserArn': userArn,
       },
     );
-
-    return DeleteUserResponse.fromJson(jsonResponse.body);
   }
 
   /// Disassociates a contact from a given address book.
@@ -1972,28 +1600,16 @@ class AlexaForBusiness {
   /// Parameter [contactArn] :
   /// The ARN of the contact to disassociate from an address book.
   Future<void> disassociateContactFromAddressBook({
-    @_s.required String addressBookArn,
-    @_s.required String contactArn,
+    required String addressBookArn,
+    required String contactArn,
   }) async {
     ArgumentError.checkNotNull(addressBookArn, 'addressBookArn');
-    _s.validateStringPattern(
-      'addressBookArn',
-      addressBookArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(contactArn, 'contactArn');
-    _s.validateStringPattern(
-      'contactArn',
-      contactArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateContactFromAddressBook'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2004,9 +1620,6 @@ class AlexaForBusiness {
         'ContactArn': contactArn,
       },
     );
-
-    return DisassociateContactFromAddressBookResponse.fromJson(
-        jsonResponse.body);
   }
 
   /// Disassociates a device from its current room. The device continues to be
@@ -2019,18 +1632,13 @@ class AlexaForBusiness {
   /// Parameter [deviceArn] :
   /// The ARN of the device to disassociate from a room. Required.
   Future<void> disassociateDeviceFromRoom({
-    String deviceArn,
+    String? deviceArn,
   }) async {
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateDeviceFromRoom'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2040,8 +1648,6 @@ class AlexaForBusiness {
         if (deviceArn != null) 'DeviceArn': deviceArn,
       },
     );
-
-    return DisassociateDeviceFromRoomResponse.fromJson(jsonResponse.body);
   }
 
   /// Disassociates a skill from a skill group.
@@ -2055,26 +1661,15 @@ class AlexaForBusiness {
   /// Parameter [skillGroupArn] :
   /// The unique identifier of a skill. Required.
   Future<void> disassociateSkillFromSkillGroup({
-    @_s.required String skillId,
-    String skillGroupArn,
+    required String skillId,
+    String? skillGroupArn,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateSkillFromSkillGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2085,8 +1680,6 @@ class AlexaForBusiness {
         if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
-
-    return DisassociateSkillFromSkillGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Makes a private skill unavailable for enrolled users and prevents them
@@ -2098,20 +1691,14 @@ class AlexaForBusiness {
   /// Parameter [skillId] :
   /// The private skill ID you want to make unavailable for enrolled users.
   Future<void> disassociateSkillFromUsers({
-    @_s.required String skillId,
+    required String skillId,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateSkillFromUsers'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2121,8 +1708,6 @@ class AlexaForBusiness {
         'SkillId': skillId,
       },
     );
-
-    return DisassociateSkillFromUsersResponse.fromJson(jsonResponse.body);
   }
 
   /// Disassociates a skill group from a specified room. This disables all
@@ -2137,24 +1722,14 @@ class AlexaForBusiness {
   /// Parameter [skillGroupArn] :
   /// The ARN of the skill group to disassociate from a room. Required.
   Future<void> disassociateSkillGroupFromRoom({
-    String roomArn,
-    String skillGroupArn,
+    String? roomArn,
+    String? skillGroupArn,
   }) async {
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.DisassociateSkillGroupFromRoom'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2165,8 +1740,6 @@ class AlexaForBusiness {
         if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
       },
     );
-
-    return DisassociateSkillGroupFromRoomResponse.fromJson(jsonResponse.body);
   }
 
   /// Forgets smart home appliances associated to a room.
@@ -2176,20 +1749,14 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The room that the appliances are associated with.
   Future<void> forgetSmartHomeAppliances({
-    @_s.required String roomArn,
+    required String roomArn,
   }) async {
     ArgumentError.checkNotNull(roomArn, 'roomArn');
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ForgetSmartHomeAppliances'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2199,8 +1766,6 @@ class AlexaForBusiness {
         'RoomArn': roomArn,
       },
     );
-
-    return ForgetSmartHomeAppliancesResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets address the book details by the address book ARN.
@@ -2210,15 +1775,9 @@ class AlexaForBusiness {
   /// Parameter [addressBookArn] :
   /// The ARN of the address book for which to request details.
   Future<GetAddressBookResponse> getAddressBook({
-    @_s.required String addressBookArn,
+    required String addressBookArn,
   }) async {
     ArgumentError.checkNotNull(addressBookArn, 'addressBookArn');
-    _s.validateStringPattern(
-      'addressBookArn',
-      addressBookArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetAddressBook'
@@ -2263,15 +1822,9 @@ class AlexaForBusiness {
   /// Parameter [conferenceProviderArn] :
   /// The ARN of the newly created conference provider.
   Future<GetConferenceProviderResponse> getConferenceProvider({
-    @_s.required String conferenceProviderArn,
+    required String conferenceProviderArn,
   }) async {
     ArgumentError.checkNotNull(conferenceProviderArn, 'conferenceProviderArn');
-    _s.validateStringPattern(
-      'conferenceProviderArn',
-      conferenceProviderArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetConferenceProvider'
@@ -2297,15 +1850,9 @@ class AlexaForBusiness {
   /// Parameter [contactArn] :
   /// The ARN of the contact for which to request details.
   Future<GetContactResponse> getContact({
-    @_s.required String contactArn,
+    required String contactArn,
   }) async {
     ArgumentError.checkNotNull(contactArn, 'contactArn');
-    _s.validateStringPattern(
-      'contactArn',
-      contactArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetContact'
@@ -2331,13 +1878,8 @@ class AlexaForBusiness {
   /// Parameter [deviceArn] :
   /// The ARN of the device for which to request details. Required.
   Future<GetDeviceResponse> getDevice({
-    String deviceArn,
+    String? deviceArn,
   }) async {
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetDevice'
@@ -2363,15 +1905,9 @@ class AlexaForBusiness {
   /// Parameter [gatewayArn] :
   /// The ARN of the gateway to get.
   Future<GetGatewayResponse> getGateway({
-    @_s.required String gatewayArn,
+    required String gatewayArn,
   }) async {
     ArgumentError.checkNotNull(gatewayArn, 'gatewayArn');
-    _s.validateStringPattern(
-      'gatewayArn',
-      gatewayArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetGateway'
@@ -2397,15 +1933,9 @@ class AlexaForBusiness {
   /// Parameter [gatewayGroupArn] :
   /// The ARN of the gateway group to get.
   Future<GetGatewayGroupResponse> getGatewayGroup({
-    @_s.required String gatewayGroupArn,
+    required String gatewayGroupArn,
   }) async {
     ArgumentError.checkNotNull(gatewayGroupArn, 'gatewayGroupArn');
-    _s.validateStringPattern(
-      'gatewayGroupArn',
-      gatewayGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetGatewayGroup'
@@ -2453,15 +1983,9 @@ class AlexaForBusiness {
   /// Parameter [networkProfileArn] :
   /// The ARN of the network profile associated with a device.
   Future<GetNetworkProfileResponse> getNetworkProfile({
-    @_s.required String networkProfileArn,
+    required String networkProfileArn,
   }) async {
     ArgumentError.checkNotNull(networkProfileArn, 'networkProfileArn');
-    _s.validateStringPattern(
-      'networkProfileArn',
-      networkProfileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetNetworkProfile'
@@ -2487,13 +2011,8 @@ class AlexaForBusiness {
   /// Parameter [profileArn] :
   /// The ARN of the room profile for which to request details. Required.
   Future<GetProfileResponse> getProfile({
-    String profileArn,
+    String? profileArn,
   }) async {
-    _s.validateStringPattern(
-      'profileArn',
-      profileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetProfile'
@@ -2519,13 +2038,8 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room for which to request details. Required.
   Future<GetRoomResponse> getRoom({
-    String roomArn,
+    String? roomArn,
   }) async {
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetRoom'
@@ -2558,9 +2072,9 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room from which to get the room skill parameter details.
   Future<GetRoomSkillParameterResponse> getRoomSkillParameter({
-    @_s.required String parameterKey,
-    @_s.required String skillId,
-    String roomArn,
+    required String parameterKey,
+    required String skillId,
+    String? roomArn,
   }) async {
     ArgumentError.checkNotNull(parameterKey, 'parameterKey');
     _s.validateStringLength(
@@ -2571,17 +2085,6 @@ class AlexaForBusiness {
       isRequired: true,
     );
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetRoomSkillParameter'
@@ -2609,13 +2112,8 @@ class AlexaForBusiness {
   /// Parameter [skillGroupArn] :
   /// The ARN of the skill group for which to get details. Required.
   Future<GetSkillGroupResponse> getSkillGroup({
-    String skillGroupArn,
+    String? skillGroupArn,
   }) async {
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.GetSkillGroup'
@@ -2645,8 +2143,8 @@ class AlexaForBusiness {
   /// Parameter [nextToken] :
   /// The token used to list the remaining schedules from the previous API call.
   Future<ListBusinessReportSchedulesResponse> listBusinessReportSchedules({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2688,8 +2186,8 @@ class AlexaForBusiness {
   /// Parameter [nextToken] :
   /// The tokens used for pagination.
   Future<ListConferenceProvidersResponse> listConferenceProviders({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2749,18 +2247,12 @@ class AlexaForBusiness {
   /// specified by MaxResults. When the end of results is reached, the response
   /// has a value of null.
   Future<ListDeviceEventsResponse> listDeviceEvents({
-    @_s.required String deviceArn,
-    DeviceEventType eventType,
-    int maxResults,
-    String nextToken,
+    required String deviceArn,
+    DeviceEventType? eventType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(deviceArn, 'deviceArn');
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2805,8 +2297,8 @@ class AlexaForBusiness {
   /// The token used to paginate though multiple pages of gateway group
   /// summaries.
   Future<ListGatewayGroupsResponse> listGatewayGroups({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2853,15 +2345,10 @@ class AlexaForBusiness {
   /// Parameter [nextToken] :
   /// The token used to paginate though multiple pages of gateway summaries.
   Future<ListGatewaysResponse> listGateways({
-    String gatewayGroupArn,
-    int maxResults,
-    String nextToken,
+    String? gatewayGroupArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'gatewayGroupArn',
-      gatewayGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -2916,11 +2403,11 @@ class AlexaForBusiness {
   /// Parameter [skillType] :
   /// Whether the skill is publicly available or is a private skill.
   Future<ListSkillsResponse> listSkills({
-    EnablementTypeFilter enablementType,
-    int maxResults,
-    String nextToken,
-    String skillGroupArn,
-    SkillTypeFilter skillType,
+    EnablementTypeFilter? enablementType,
+    int? maxResults,
+    String? nextToken,
+    String? skillGroupArn,
+    SkillTypeFilter? skillType,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2933,11 +2420,6 @@ class AlexaForBusiness {
       nextToken,
       1,
       1100,
-    );
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2969,8 +2451,8 @@ class AlexaForBusiness {
   /// Parameter [nextToken] :
   /// The tokens used for pagination.
   Future<ListSkillsStoreCategoriesResponse> listSkillsStoreCategories({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3016,9 +2498,9 @@ class AlexaForBusiness {
   /// The tokens used for pagination.
   Future<ListSkillsStoreSkillsByCategoryResponse>
       listSkillsStoreSkillsByCategory({
-    @_s.required int categoryId,
-    int maxResults,
-    String nextToken,
+    required int categoryId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(categoryId, 'categoryId');
     _s.validateNumRange(
@@ -3073,17 +2555,11 @@ class AlexaForBusiness {
   /// Parameter [nextToken] :
   /// The tokens used for pagination.
   Future<ListSmartHomeAppliancesResponse> listSmartHomeAppliances({
-    @_s.required String roomArn,
-    int maxResults,
-    String nextToken,
+    required String roomArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(roomArn, 'roomArn');
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3134,17 +2610,11 @@ class AlexaForBusiness {
   /// the response includes only results beyond the token, up to the value
   /// specified by <code>MaxResults</code>.
   Future<ListTagsResponse> listTags({
-    @_s.required String arn,
-    int maxResults,
-    String nextToken,
+    required String arn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -3185,14 +2655,14 @@ class AlexaForBusiness {
   /// Parameter [conferencePreference] :
   /// The conference preference of a specific conference provider.
   Future<void> putConferencePreference({
-    @_s.required ConferencePreference conferencePreference,
+    required ConferencePreference conferencePreference,
   }) async {
     ArgumentError.checkNotNull(conferencePreference, 'conferencePreference');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.PutConferencePreference'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3202,8 +2672,6 @@ class AlexaForBusiness {
         'ConferencePreference': conferencePreference,
       },
     );
-
-    return PutConferencePreferenceResponse.fromJson(jsonResponse.body);
   }
 
   /// Configures the email template for the user enrollment invitation with the
@@ -3223,9 +2691,9 @@ class AlexaForBusiness {
   /// The list of private skill IDs that you want to recommend to the user to
   /// enable in the invitation.
   Future<void> putInvitationConfiguration({
-    @_s.required String organizationName,
-    String contactEmail,
-    List<String> privateSkillIds,
+    required String organizationName,
+    String? contactEmail,
+    List<String>? privateSkillIds,
   }) async {
     ArgumentError.checkNotNull(organizationName, 'organizationName');
     _s.validateStringLength(
@@ -3235,28 +2703,17 @@ class AlexaForBusiness {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationName',
-      organizationName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'contactEmail',
       contactEmail,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'contactEmail',
-      contactEmail,
-      r'''([0-9a-zA-Z]([+-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z]([-\w]*[0-9a-zA-Z]+)*\.)+[a-zA-Z]{2,9})''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.PutInvitationConfiguration'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3268,8 +2725,6 @@ class AlexaForBusiness {
         if (privateSkillIds != null) 'PrivateSkillIds': privateSkillIds,
       },
     );
-
-    return PutInvitationConfigurationResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates room skill parameter details by room, skill, and parameter key ID.
@@ -3286,28 +2741,17 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room associated with the room skill parameter. Required.
   Future<void> putRoomSkillParameter({
-    @_s.required RoomSkillParameter roomSkillParameter,
-    @_s.required String skillId,
-    String roomArn,
+    required RoomSkillParameter roomSkillParameter,
+    required String skillId,
+    String? roomArn,
   }) async {
     ArgumentError.checkNotNull(roomSkillParameter, 'roomSkillParameter');
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.PutRoomSkillParameter'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3319,8 +2763,6 @@ class AlexaForBusiness {
         if (roomArn != null) 'RoomArn': roomArn,
       },
     );
-
-    return PutRoomSkillParameterResponse.fromJson(jsonResponse.body);
   }
 
   /// Links a user's account to a third-party skill provider. If this API
@@ -3342,28 +2784,17 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The room that the skill is authorized for.
   Future<void> putSkillAuthorization({
-    @_s.required Map<String, String> authorizationResult,
-    @_s.required String skillId,
-    String roomArn,
+    required Map<String, String> authorizationResult,
+    required String skillId,
+    String? roomArn,
   }) async {
     ArgumentError.checkNotNull(authorizationResult, 'authorizationResult');
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.PutSkillAuthorization'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3375,8 +2806,6 @@ class AlexaForBusiness {
         if (roomArn != null) 'RoomArn': roomArn,
       },
     );
-
-    return PutSkillAuthorizationResponse.fromJson(jsonResponse.body);
   }
 
   /// Registers an Alexa-enabled device built by an Original Equipment
@@ -3408,36 +2837,24 @@ class AlexaForBusiness {
   /// of your AVS device.
   ///
   /// Parameter [roomArn] :
-  /// The ARN of the room with which to associate your AVS device.
+  /// The Amazon Resource Name (ARN) of the room with which to associate your
+  /// AVS device.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be added to the specified resource. Do not provide system
+  /// tags.
   Future<RegisterAVSDeviceResponse> registerAVSDevice({
-    @_s.required String amazonId,
-    @_s.required String clientId,
-    @_s.required String productId,
-    @_s.required String userCode,
-    String deviceSerialNumber,
-    String roomArn,
+    required String amazonId,
+    required String clientId,
+    required String productId,
+    required String userCode,
+    String? deviceSerialNumber,
+    String? roomArn,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(amazonId, 'amazonId');
-    _s.validateStringPattern(
-      'amazonId',
-      amazonId,
-      r'''[a-zA-Z0-9]{1,18}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(clientId, 'clientId');
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''^\S+{1,256}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(productId, 'productId');
-    _s.validateStringPattern(
-      'productId',
-      productId,
-      r'''^[a-zA-Z0-9_]{1,256}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userCode, 'userCode');
     _s.validateStringLength(
       'userCode',
@@ -3445,16 +2862,6 @@ class AlexaForBusiness {
       1,
       128,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'deviceSerialNumber',
-      deviceSerialNumber,
-      r'''^[a-zA-Z0-9]{1,50}$''',
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3474,6 +2881,7 @@ class AlexaForBusiness {
         if (deviceSerialNumber != null)
           'DeviceSerialNumber': deviceSerialNumber,
         if (roomArn != null) 'RoomArn': roomArn,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -3491,20 +2899,14 @@ class AlexaForBusiness {
   /// Parameter [skillId] :
   /// The unique identifier of the skill.
   Future<void> rejectSkill({
-    @_s.required String skillId,
+    required String skillId,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.RejectSkill'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3514,12 +2916,17 @@ class AlexaForBusiness {
         'SkillId': skillId,
       },
     );
-
-    return RejectSkillResponse.fromJson(jsonResponse.body);
   }
 
   /// Determines the details for the room from which a skill request was
   /// invoked. This operation is used by skill developers.
+  ///
+  /// To query ResolveRoom from an Alexa skill, the skill ID needs to be
+  /// authorized. When the skill is using an AWS Lambda function, the skill is
+  /// automatically authorized when you publish your skill as a private skill to
+  /// your AWS account. Skills that are hosted using a custom web service must
+  /// be manually authorized. To get your skill authorized, contact AWS Support
+  /// with your AWS account ID that queries the ResolveRoom API and skill ID.
   ///
   /// May throw [NotFoundException].
   ///
@@ -3529,23 +2936,11 @@ class AlexaForBusiness {
   /// Parameter [userId] :
   /// The ARN of the user. Required.
   Future<ResolveRoomResponse> resolveRoom({
-    @_s.required String skillId,
-    @_s.required String userId,
+    required String skillId,
+    required String userId,
   }) async {
     ArgumentError.checkNotNull(skillId, 'skillId');
-    _s.validateStringPattern(
-      'skillId',
-      skillId,
-      r'''(^amzn1\.ask\.skill\.[0-9a-f\-]{1,200})|(^amzn1\.echo-sdk-ams\.app\.[0-9a-f\-]{1,200})''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userId, 'userId');
-    _s.validateStringPattern(
-      'userId',
-      userId,
-      r'''amzn1\.[A-Za-z0-9+-\/=.]{1,300}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.ResolveRoom'
@@ -3576,8 +2971,8 @@ class AlexaForBusiness {
   /// Parameter [userArn] :
   /// The ARN of the user for whom to revoke an enrollment invitation. Required.
   Future<void> revokeInvitation({
-    String enrollmentId,
-    String userArn,
+    String? enrollmentId,
+    String? userArn,
   }) async {
     _s.validateStringLength(
       'enrollmentId',
@@ -3585,16 +2980,11 @@ class AlexaForBusiness {
       0,
       128,
     );
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.RevokeInvitation'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3605,8 +2995,6 @@ class AlexaForBusiness {
         if (userArn != null) 'UserArn': userArn,
       },
     );
-
-    return RevokeInvitationResponse.fromJson(jsonResponse.body);
   }
 
   /// Searches address books and lists the ones that meet a set of filter and
@@ -3631,10 +3019,10 @@ class AlexaForBusiness {
   /// The sort order to use in listing the specified set of address books. The
   /// supported sort key is AddressBookName.
   Future<SearchAddressBooksResponse> searchAddressBooks({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3691,10 +3079,10 @@ class AlexaForBusiness {
   /// The sort order to use in listing the specified set of contacts. The
   /// supported sort keys are DisplayName, FirstName, and LastName.
   Future<SearchContactsResponse> searchContacts({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3755,10 +3143,10 @@ class AlexaForBusiness {
   /// DeviceSerialNumber, ConnectionStatus, NetworkProfileName,
   /// NetworkProfileArn, Feature, and FailureCode.
   Future<SearchDevicesResponse> searchDevices({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3815,10 +3203,10 @@ class AlexaForBusiness {
   /// The sort order to use to list the specified set of network profiles. Valid
   /// sort criteria includes NetworkProfileName, Ssid, and SecurityType.
   Future<SearchNetworkProfilesResponse> searchNetworkProfiles({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3875,10 +3263,10 @@ class AlexaForBusiness {
   /// The sort order to use in listing the specified set of room profiles.
   /// Supported sort keys are ProfileName and Address.
   Future<SearchProfilesResponse> searchProfiles({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3935,10 +3323,10 @@ class AlexaForBusiness {
   /// The sort order to use in listing the specified set of rooms. The supported
   /// sort keys are RoomName and ProfileName.
   Future<SearchRoomsResponse> searchRooms({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3995,10 +3383,10 @@ class AlexaForBusiness {
   /// The sort order to use in listing the specified set of skill groups. The
   /// supported sort key is SkillGroupName.
   Future<SearchSkillGroupsResponse> searchSkillGroups({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4058,10 +3446,10 @@ class AlexaForBusiness {
   /// Supported sort keys are UserId, FirstName, LastName, Email, and
   /// EnrollmentStatus.
   Future<SearchUsersResponse> searchUsers({
-    List<Filter> filters,
-    int maxResults,
-    String nextToken,
-    List<Sort> sortCriteria,
+    List<Filter>? filters,
+    int? maxResults,
+    String? nextToken,
+    List<Sort>? sortCriteria,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4102,10 +3490,6 @@ class AlexaForBusiness {
   /// May throw [LimitExceededException].
   /// May throw [AlreadyExistsException].
   ///
-  /// Parameter [clientRequestToken] :
-  /// The unique, user-specified identifier for the request that ensures
-  /// idempotency.
-  ///
   /// Parameter [content] :
   /// The announcement content. This can contain only one of the three possible
   /// announcement types (text, SSML or audio).
@@ -4115,31 +3499,27 @@ class AlexaForBusiness {
   /// The supported filter keys are RoomName, ProfileName, RoomArn, and
   /// ProfileArn. To send to all rooms, specify an empty RoomFilters list.
   ///
+  /// Parameter [clientRequestToken] :
+  /// The unique, user-specified identifier for the request that ensures
+  /// idempotency.
+  ///
   /// Parameter [timeToLiveInSeconds] :
   /// The time to live for an announcement. Default is 300. If delivery doesn't
   /// occur within this time, the announcement is not delivered.
   Future<SendAnnouncementResponse> sendAnnouncement({
-    @_s.required String clientRequestToken,
-    @_s.required Content content,
-    @_s.required List<Filter> roomFilters,
-    int timeToLiveInSeconds,
+    required Content content,
+    required List<Filter> roomFilters,
+    String? clientRequestToken,
+    int? timeToLiveInSeconds,
   }) async {
-    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    ArgumentError.checkNotNull(content, 'content');
+    ArgumentError.checkNotNull(roomFilters, 'roomFilters');
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       10,
       150,
-      isRequired: true,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''[a-zA-Z0-9][a-zA-Z0-9_-]*''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(roomFilters, 'roomFilters');
     _s.validateNumRange(
       'timeToLiveInSeconds',
       timeToLiveInSeconds,
@@ -4157,10 +3537,10 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientRequestToken':
-            clientRequestToken ?? _s.generateIdempotencyToken(),
         'Content': content,
         'RoomFilters': roomFilters,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (timeToLiveInSeconds != null)
           'TimeToLiveInSeconds': timeToLiveInSeconds,
       },
@@ -4180,18 +3560,13 @@ class AlexaForBusiness {
   /// Parameter [userArn] :
   /// The ARN of the user to whom to send an invitation. Required.
   Future<void> sendInvitation({
-    String userArn,
+    String? userArn,
   }) async {
-    _s.validateStringPattern(
-      'userArn',
-      userArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.SendInvitation'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4201,8 +3576,6 @@ class AlexaForBusiness {
         if (userArn != null) 'UserArn': userArn,
       },
     );
-
-    return SendInvitationResponse.fromJson(jsonResponse.body);
   }
 
   /// Resets a device and its account to the known default settings. This clears
@@ -4240,39 +3613,27 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room with which the device to sync is associated. Required.
   Future<void> startDeviceSync({
-    @_s.required List<Feature> features,
-    String deviceArn,
-    String roomArn,
+    required List<Feature> features,
+    String? deviceArn,
+    String? roomArn,
   }) async {
     ArgumentError.checkNotNull(features, 'features');
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.StartDeviceSync'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'Features': features?.map((e) => e?.toValue() ?? '')?.toList(),
+        'Features': features.map((e) => e.toValue()).toList(),
         if (deviceArn != null) 'DeviceArn': deviceArn,
         if (roomArn != null) 'RoomArn': roomArn,
       },
     );
-
-    return StartDeviceSyncResponse.fromJson(jsonResponse.body);
   }
 
   /// Initiates the discovery of any smart home appliances associated with the
@@ -4283,20 +3644,14 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The room where smart home appliance discovery was initiated.
   Future<void> startSmartHomeApplianceDiscovery({
-    @_s.required String roomArn,
+    required String roomArn,
   }) async {
     ArgumentError.checkNotNull(roomArn, 'roomArn');
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.StartSmartHomeApplianceDiscovery'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4306,8 +3661,6 @@ class AlexaForBusiness {
         'RoomArn': roomArn,
       },
     );
-
-    return StartSmartHomeApplianceDiscoveryResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds metadata tags to a specified resource.
@@ -4321,22 +3674,16 @@ class AlexaForBusiness {
   /// The tags to be added to the specified resource. Do not provide system
   /// tags. Required.
   Future<void> tagResource({
-    @_s.required String arn,
-    @_s.required List<Tag> tags,
+    required String arn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4347,8 +3694,6 @@ class AlexaForBusiness {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes metadata tags from a specified resource.
@@ -4362,22 +3707,16 @@ class AlexaForBusiness {
   /// The tags to be removed from the specified resource. Do not provide system
   /// tags. Required.
   Future<void> untagResource({
-    @_s.required String arn,
-    @_s.required List<String> tagKeys,
+    required String arn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    _s.validateStringPattern(
-      'arn',
-      arn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4388,8 +3727,6 @@ class AlexaForBusiness {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates address book details by the address book ARN.
@@ -4407,27 +3744,16 @@ class AlexaForBusiness {
   /// Parameter [name] :
   /// The updated name of the room.
   Future<void> updateAddressBook({
-    @_s.required String addressBookArn,
-    String description,
-    String name,
+    required String addressBookArn,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(addressBookArn, 'addressBookArn');
-    _s.validateStringPattern(
-      'addressBookArn',
-      addressBookArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       200,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     _s.validateStringLength(
       'name',
@@ -4435,16 +3761,11 @@ class AlexaForBusiness {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateAddressBook'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4456,8 +3777,6 @@ class AlexaForBusiness {
         if (name != null) 'Name': name,
       },
     );
-
-    return UpdateAddressBookResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the configuration of the report delivery schedule with the
@@ -4485,35 +3804,19 @@ class AlexaForBusiness {
   /// Parameter [scheduleName] :
   /// The name identifier of the schedule.
   Future<void> updateBusinessReportSchedule({
-    @_s.required String scheduleArn,
-    BusinessReportFormat format,
-    BusinessReportRecurrence recurrence,
-    String s3BucketName,
-    String s3KeyPrefix,
-    String scheduleName,
+    required String scheduleArn,
+    BusinessReportFormat? format,
+    BusinessReportRecurrence? recurrence,
+    String? s3BucketName,
+    String? s3KeyPrefix,
+    String? scheduleName,
   }) async {
     ArgumentError.checkNotNull(scheduleArn, 'scheduleArn');
-    _s.validateStringPattern(
-      'scheduleArn',
-      scheduleArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      's3BucketName',
-      s3BucketName,
-      r'''[a-z0-9-\.]{3,63}''',
-    );
     _s.validateStringLength(
       's3KeyPrefix',
       s3KeyPrefix,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      's3KeyPrefix',
-      s3KeyPrefix,
-      r'''[A-Za-z0-9!_\-\.\*'()/]*''',
     );
     _s.validateStringLength(
       'scheduleName',
@@ -4521,16 +3824,11 @@ class AlexaForBusiness {
       0,
       64,
     );
-    _s.validateStringPattern(
-      'scheduleName',
-      scheduleName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateBusinessReportSchedule'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4545,8 +3843,6 @@ class AlexaForBusiness {
         if (scheduleName != null) 'ScheduleName': scheduleName,
       },
     );
-
-    return UpdateBusinessReportScheduleResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing conference provider's settings.
@@ -4568,19 +3864,13 @@ class AlexaForBusiness {
   /// Parameter [pSTNDialIn] :
   /// The information for PSTN conferencing.
   Future<void> updateConferenceProvider({
-    @_s.required String conferenceProviderArn,
-    @_s.required ConferenceProviderType conferenceProviderType,
-    @_s.required MeetingSetting meetingSetting,
-    IPDialIn iPDialIn,
-    PSTNDialIn pSTNDialIn,
+    required String conferenceProviderArn,
+    required ConferenceProviderType conferenceProviderType,
+    required MeetingSetting meetingSetting,
+    IPDialIn? iPDialIn,
+    PSTNDialIn? pSTNDialIn,
   }) async {
     ArgumentError.checkNotNull(conferenceProviderArn, 'conferenceProviderArn');
-    _s.validateStringPattern(
-      'conferenceProviderArn',
-      conferenceProviderArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         conferenceProviderType, 'conferenceProviderType');
     ArgumentError.checkNotNull(meetingSetting, 'meetingSetting');
@@ -4588,7 +3878,7 @@ class AlexaForBusiness {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateConferenceProvider'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4596,14 +3886,12 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderArn': conferenceProviderArn,
-        'ConferenceProviderType': conferenceProviderType?.toValue() ?? '',
+        'ConferenceProviderType': conferenceProviderType.toValue(),
         'MeetingSetting': meetingSetting,
         if (iPDialIn != null) 'IPDialIn': iPDialIn,
         if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
       },
     );
-
-    return UpdateConferenceProviderResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the contact details by the contact ARN.
@@ -4635,31 +3923,20 @@ class AlexaForBusiness {
   /// Parameter [sipAddresses] :
   /// The list of SIP addresses for the contact.
   Future<void> updateContact({
-    @_s.required String contactArn,
-    String displayName,
-    String firstName,
-    String lastName,
-    String phoneNumber,
-    List<PhoneNumber> phoneNumbers,
-    List<SipAddress> sipAddresses,
+    required String contactArn,
+    String? displayName,
+    String? firstName,
+    String? lastName,
+    String? phoneNumber,
+    List<PhoneNumber>? phoneNumbers,
+    List<SipAddress>? sipAddresses,
   }) async {
     ArgumentError.checkNotNull(contactArn, 'contactArn');
-    _s.validateStringPattern(
-      'contactArn',
-      contactArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'displayName',
       displayName,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'displayName',
-      displayName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     _s.validateStringLength(
       'firstName',
@@ -4667,21 +3944,11 @@ class AlexaForBusiness {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'firstName',
-      firstName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     _s.validateStringLength(
       'lastName',
       lastName,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'lastName',
-      lastName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     _s.validateStringLength(
       'phoneNumber',
@@ -4689,16 +3956,11 @@ class AlexaForBusiness {
       0,
       50,
     );
-    _s.validateStringPattern(
-      'phoneNumber',
-      phoneNumber,
-      r'''^[\+0-9\#\,\(][\+0-9\-\.\/\(\)\,\#\s]+$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateContact'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4714,8 +3976,6 @@ class AlexaForBusiness {
         if (sipAddresses != null) 'SipAddresses': sipAddresses,
       },
     );
-
-    return UpdateContactResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the device name by device ARN.
@@ -4730,30 +3990,20 @@ class AlexaForBusiness {
   /// Parameter [deviceName] :
   /// The updated device name. Required.
   Future<void> updateDevice({
-    String deviceArn,
-    String deviceName,
+    String? deviceArn,
+    String? deviceName,
   }) async {
-    _s.validateStringPattern(
-      'deviceArn',
-      deviceArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateStringLength(
       'deviceName',
       deviceName,
       2,
       100,
     );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateDevice'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4764,8 +4014,6 @@ class AlexaForBusiness {
         if (deviceName != null) 'DeviceName': deviceName,
       },
     );
-
-    return UpdateDeviceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the details of a gateway. If any optional field is not provided,
@@ -4787,39 +4035,23 @@ class AlexaForBusiness {
   /// The updated software version of the gateway. The gateway automatically
   /// updates its software version during normal operation.
   Future<void> updateGateway({
-    @_s.required String gatewayArn,
-    String description,
-    String name,
-    String softwareVersion,
+    required String gatewayArn,
+    String? description,
+    String? name,
+    String? softwareVersion,
   }) async {
     ArgumentError.checkNotNull(gatewayArn, 'gatewayArn');
-    _s.validateStringPattern(
-      'gatewayArn',
-      gatewayArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       200,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       253,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     _s.validateStringLength(
       'softwareVersion',
@@ -4831,7 +4063,7 @@ class AlexaForBusiness {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateGateway'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4844,8 +4076,6 @@ class AlexaForBusiness {
         if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
       },
     );
-
-    return UpdateGatewayResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the details of a gateway group. If any optional field is not
@@ -4863,17 +4093,11 @@ class AlexaForBusiness {
   /// Parameter [name] :
   /// The updated name of the gateway group.
   Future<void> updateGatewayGroup({
-    @_s.required String gatewayGroupArn,
-    String description,
-    String name,
+    required String gatewayGroupArn,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(gatewayGroupArn, 'gatewayGroupArn');
-    _s.validateStringPattern(
-      'gatewayGroupArn',
-      gatewayGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
@@ -4886,16 +4110,11 @@ class AlexaForBusiness {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateGatewayGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4907,8 +4126,6 @@ class AlexaForBusiness {
         if (name != null) 'Name': name,
       },
     );
-
-    return UpdateGatewayGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates a network profile by the network profile ARN.
@@ -4946,36 +4163,20 @@ class AlexaForBusiness {
   /// installed on your devices and used to trust your authentication server
   /// during EAP negotiation.
   Future<void> updateNetworkProfile({
-    @_s.required String networkProfileArn,
-    String certificateAuthorityArn,
-    String currentPassword,
-    String description,
-    String networkProfileName,
-    String nextPassword,
-    List<String> trustAnchors,
+    required String networkProfileArn,
+    String? certificateAuthorityArn,
+    String? currentPassword,
+    String? description,
+    String? networkProfileName,
+    String? nextPassword,
+    List<String>? trustAnchors,
   }) async {
     ArgumentError.checkNotNull(networkProfileArn, 'networkProfileArn');
-    _s.validateStringPattern(
-      'networkProfileArn',
-      networkProfileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateStringLength(
       'currentPassword',
       currentPassword,
       5,
       128,
-    );
-    _s.validateStringPattern(
-      'currentPassword',
-      currentPassword,
-      r'''[\x00-\x7F]*''',
     );
     _s.validateStringLength(
       'description',
@@ -4983,21 +4184,11 @@ class AlexaForBusiness {
       0,
       200,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     _s.validateStringLength(
       'networkProfileName',
       networkProfileName,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'networkProfileName',
-      networkProfileName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     _s.validateStringLength(
       'nextPassword',
@@ -5005,16 +4196,11 @@ class AlexaForBusiness {
       0,
       128,
     );
-    _s.validateStringPattern(
-      'nextPassword',
-      nextPassword,
-      r'''(^$)|([\x00-\x7F]{5,})''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateNetworkProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5032,8 +4218,6 @@ class AlexaForBusiness {
         if (trustAnchors != null) 'TrustAnchors': trustAnchors,
       },
     );
-
-    return UpdateNetworkProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing room profile by room profile ARN.
@@ -5044,6 +4228,9 @@ class AlexaForBusiness {
   ///
   /// Parameter [address] :
   /// The updated address for the room profile.
+  ///
+  /// Parameter [dataRetentionOptIn] :
+  /// Whether data retention of the profile is enabled.
   ///
   /// Parameter [distanceUnit] :
   /// The updated distance unit for the room profile.
@@ -5083,19 +4270,20 @@ class AlexaForBusiness {
   /// Parameter [wakeWord] :
   /// The updated wake word for the room profile.
   Future<void> updateProfile({
-    String address,
-    DistanceUnit distanceUnit,
-    bool isDefault,
-    String locale,
-    int maxVolumeLimit,
-    UpdateMeetingRoomConfiguration meetingRoomConfiguration,
-    bool pSTNEnabled,
-    String profileArn,
-    String profileName,
-    bool setupModeDisabled,
-    TemperatureUnit temperatureUnit,
-    String timezone,
-    WakeWord wakeWord,
+    String? address,
+    bool? dataRetentionOptIn,
+    DistanceUnit? distanceUnit,
+    bool? isDefault,
+    String? locale,
+    int? maxVolumeLimit,
+    UpdateMeetingRoomConfiguration? meetingRoomConfiguration,
+    bool? pSTNEnabled,
+    String? profileArn,
+    String? profileName,
+    bool? setupModeDisabled,
+    TemperatureUnit? temperatureUnit,
+    String? timezone,
+    WakeWord? wakeWord,
   }) async {
     _s.validateStringLength(
       'address',
@@ -5109,21 +4297,11 @@ class AlexaForBusiness {
       1,
       256,
     );
-    _s.validateStringPattern(
-      'profileArn',
-      profileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateStringLength(
       'profileName',
       profileName,
       1,
       100,
-    );
-    _s.validateStringPattern(
-      'profileName',
-      profileName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
     );
     _s.validateStringLength(
       'timezone',
@@ -5135,7 +4313,7 @@ class AlexaForBusiness {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateProfile'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5143,6 +4321,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         if (address != null) 'Address': address,
+        if (dataRetentionOptIn != null)
+          'DataRetentionOptIn': dataRetentionOptIn,
         if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
         if (isDefault != null) 'IsDefault': isDefault,
         if (locale != null) 'Locale': locale,
@@ -5159,8 +4339,6 @@ class AlexaForBusiness {
         if (wakeWord != null) 'WakeWord': wakeWord.toValue(),
       },
     );
-
-    return UpdateProfileResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates room details by room ARN.
@@ -5183,11 +4361,11 @@ class AlexaForBusiness {
   /// Parameter [roomName] :
   /// The updated name for the room.
   Future<void> updateRoom({
-    String description,
-    String profileArn,
-    String providerCalendarId,
-    String roomArn,
-    String roomName,
+    String? description,
+    String? profileArn,
+    String? providerCalendarId,
+    String? roomArn,
+    String? roomName,
   }) async {
     _s.validateStringLength(
       'description',
@@ -5195,26 +4373,11 @@ class AlexaForBusiness {
       1,
       200,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
-    _s.validateStringPattern(
-      'profileArn',
-      profileArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateStringLength(
       'providerCalendarId',
       providerCalendarId,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'roomArn',
-      roomArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
     );
     _s.validateStringLength(
       'roomName',
@@ -5222,16 +4385,11 @@ class AlexaForBusiness {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'roomName',
-      roomName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateRoom'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5246,8 +4404,6 @@ class AlexaForBusiness {
         if (roomName != null) 'RoomName': roomName,
       },
     );
-
-    return UpdateRoomResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates skill group details by skill group ARN.
@@ -5265,9 +4421,9 @@ class AlexaForBusiness {
   /// Parameter [skillGroupName] :
   /// The updated name for the skill group.
   Future<void> updateSkillGroup({
-    String description,
-    String skillGroupArn,
-    String skillGroupName,
+    String? description,
+    String? skillGroupArn,
+    String? skillGroupName,
   }) async {
     _s.validateStringLength(
       'description',
@@ -5275,32 +4431,17 @@ class AlexaForBusiness {
       1,
       200,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
-    _s.validateStringPattern(
-      'skillGroupArn',
-      skillGroupArn,
-      r'''arn:[a-z0-9-\.]{1,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[a-z0-9-\.]{0,63}:[^/].{0,1023}''',
-    );
     _s.validateStringLength(
       'skillGroupName',
       skillGroupName,
       1,
       100,
     );
-    _s.validateStringPattern(
-      'skillGroupName',
-      skillGroupName,
-      r'''[\u0009\u000A\u000D\u0020-\u007E\u0085\u00A0-\uD7FF\uE000-\uFFFD\u10000-\u10FFFF]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AlexaForBusiness.UpdateSkillGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -5312,146 +4453,168 @@ class AlexaForBusiness {
         if (skillGroupName != null) 'SkillGroupName': skillGroupName,
       },
     );
-
-    return UpdateSkillGroupResponse.fromJson(jsonResponse.body);
   }
 }
 
 /// An address book with attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddressBook {
   /// The ARN of the address book.
-  @_s.JsonKey(name: 'AddressBookArn')
-  final String addressBookArn;
+  final String? addressBookArn;
 
   /// The description of the address book.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the address book.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   AddressBook({
     this.addressBookArn,
     this.description,
     this.name,
   });
-  factory AddressBook.fromJson(Map<String, dynamic> json) =>
-      _$AddressBookFromJson(json);
+
+  factory AddressBook.fromJson(Map<String, dynamic> json) {
+    return AddressBook(
+      addressBookArn: json['AddressBookArn'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressBookArn = this.addressBookArn;
+    final description = this.description;
+    final name = this.name;
+    return {
+      if (addressBookArn != null) 'AddressBookArn': addressBookArn,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Information related to an address book.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddressBookData {
   /// The ARN of the address book.
-  @_s.JsonKey(name: 'AddressBookArn')
-  final String addressBookArn;
+  final String? addressBookArn;
 
   /// The description of the address book.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the address book.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   AddressBookData({
     this.addressBookArn,
     this.description,
     this.name,
   });
-  factory AddressBookData.fromJson(Map<String, dynamic> json) =>
-      _$AddressBookDataFromJson(json);
+
+  factory AddressBookData.fromJson(Map<String, dynamic> json) {
+    return AddressBookData(
+      addressBookArn: json['AddressBookArn'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressBookArn = this.addressBookArn;
+    final description = this.description;
+    final name = this.name;
+    return {
+      if (addressBookArn != null) 'AddressBookArn': addressBookArn,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApproveSkillResponse {
   ApproveSkillResponse();
-  factory ApproveSkillResponse.fromJson(Map<String, dynamic> json) =>
-      _$ApproveSkillResponseFromJson(json);
+
+  factory ApproveSkillResponse.fromJson(Map<String, dynamic> _) {
+    return ApproveSkillResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateContactWithAddressBookResponse {
   AssociateContactWithAddressBookResponse();
+
   factory AssociateContactWithAddressBookResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateContactWithAddressBookResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateContactWithAddressBookResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateDeviceWithNetworkProfileResponse {
   AssociateDeviceWithNetworkProfileResponse();
+
   factory AssociateDeviceWithNetworkProfileResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateDeviceWithNetworkProfileResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateDeviceWithNetworkProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateDeviceWithRoomResponse {
   AssociateDeviceWithRoomResponse();
-  factory AssociateDeviceWithRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateDeviceWithRoomResponseFromJson(json);
+
+  factory AssociateDeviceWithRoomResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateDeviceWithRoomResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateSkillGroupWithRoomResponse {
   AssociateSkillGroupWithRoomResponse();
-  factory AssociateSkillGroupWithRoomResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateSkillGroupWithRoomResponseFromJson(json);
+
+  factory AssociateSkillGroupWithRoomResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateSkillGroupWithRoomResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateSkillWithSkillGroupResponse {
   AssociateSkillWithSkillGroupResponse();
+
   factory AssociateSkillWithSkillGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateSkillWithSkillGroupResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return AssociateSkillWithSkillGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateSkillWithUsersResponse {
   AssociateSkillWithUsersResponse();
-  factory AssociateSkillWithUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateSkillWithUsersResponseFromJson(json);
+
+  factory AssociateSkillWithUsersResponse.fromJson(Map<String, dynamic> _) {
+    return AssociateSkillWithUsersResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The audio message. There is a 1 MB limit on the audio file input and the
@@ -5466,14 +4629,8 @@ class AssociateSkillWithUsersResponse {
 ///
 /// <code>ffmpeg -i &lt;input-file&gt; -ac 2 -codec:a libmp3lame -b:a 48k -ar
 /// 16000 &lt;output-file.mp3&gt;</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Audio {
   /// The locale of the audio message. Currently, en-US is supported.
-  @_s.JsonKey(name: 'Locale')
   final Locale locale;
 
   /// The location of the audio file. Currently, S3 URLs are supported. Only S3
@@ -5481,44 +4638,47 @@ class Audio {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#Safe%20Characters">Safe
   /// Characters</a>.
-  @_s.JsonKey(name: 'Location')
   final String location;
 
   Audio({
-    @_s.required this.locale,
-    @_s.required this.location,
+    required this.locale,
+    required this.location,
   });
-  Map<String, dynamic> toJson() => _$AudioToJson(this);
+
+  factory Audio.fromJson(Map<String, dynamic> json) {
+    return Audio(
+      locale: (json['Locale'] as String).toLocale(),
+      location: json['Location'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locale = this.locale;
+    final location = this.location;
+    return {
+      'Locale': locale.toValue(),
+      'Location': location,
+    };
+  }
 }
 
 /// Usage report with specified parameters.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BusinessReport {
   /// The time of report delivery.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DeliveryTime')
-  final DateTime deliveryTime;
+  final DateTime? deliveryTime;
 
   /// The download link where a user can download the report.
-  @_s.JsonKey(name: 'DownloadUrl')
-  final String downloadUrl;
+  final String? downloadUrl;
 
   /// The failure code.
-  @_s.JsonKey(name: 'FailureCode')
-  final BusinessReportFailureCode failureCode;
+  final BusinessReportFailureCode? failureCode;
 
   /// The S3 location of the output reports.
-  @_s.JsonKey(name: 'S3Location')
-  final BusinessReportS3Location s3Location;
+  final BusinessReportS3Location? s3Location;
 
   /// The status of the report generation execution (RUNNING, SUCCEEDED, or
   /// FAILED).
-  @_s.JsonKey(name: 'Status')
-  final BusinessReportStatus status;
+  final BusinessReportStatus? status;
 
   BusinessReport({
     this.deliveryTime,
@@ -5527,43 +4687,96 @@ class BusinessReport {
     this.s3Location,
     this.status,
   });
-  factory BusinessReport.fromJson(Map<String, dynamic> json) =>
-      _$BusinessReportFromJson(json);
+
+  factory BusinessReport.fromJson(Map<String, dynamic> json) {
+    return BusinessReport(
+      deliveryTime: timeStampFromJson(json['DeliveryTime']),
+      downloadUrl: json['DownloadUrl'] as String?,
+      failureCode:
+          (json['FailureCode'] as String?)?.toBusinessReportFailureCode(),
+      s3Location: json['S3Location'] != null
+          ? BusinessReportS3Location.fromJson(
+              json['S3Location'] as Map<String, dynamic>)
+          : null,
+      status: (json['Status'] as String?)?.toBusinessReportStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryTime = this.deliveryTime;
+    final downloadUrl = this.downloadUrl;
+    final failureCode = this.failureCode;
+    final s3Location = this.s3Location;
+    final status = this.status;
+    return {
+      if (deliveryTime != null)
+        'DeliveryTime': unixTimestampToJson(deliveryTime),
+      if (downloadUrl != null) 'DownloadUrl': downloadUrl,
+      if (failureCode != null) 'FailureCode': failureCode.toValue(),
+      if (s3Location != null) 'S3Location': s3Location,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// The content range of the report.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BusinessReportContentRange {
   /// The interval of the content range.
-  @_s.JsonKey(name: 'Interval')
   final BusinessReportInterval interval;
 
   BusinessReportContentRange({
-    @_s.required this.interval,
+    required this.interval,
   });
-  factory BusinessReportContentRange.fromJson(Map<String, dynamic> json) =>
-      _$BusinessReportContentRangeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BusinessReportContentRangeToJson(this);
+  factory BusinessReportContentRange.fromJson(Map<String, dynamic> json) {
+    return BusinessReportContentRange(
+      interval: (json['Interval'] as String).toBusinessReportInterval(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interval = this.interval;
+    return {
+      'Interval': interval.toValue(),
+    };
+  }
 }
 
 enum BusinessReportFailureCode {
-  @_s.JsonValue('ACCESS_DENIED')
   accessDenied,
-  @_s.JsonValue('NO_SUCH_BUCKET')
   noSuchBucket,
-  @_s.JsonValue('INTERNAL_FAILURE')
   internalFailure,
 }
 
+extension on BusinessReportFailureCode {
+  String toValue() {
+    switch (this) {
+      case BusinessReportFailureCode.accessDenied:
+        return 'ACCESS_DENIED';
+      case BusinessReportFailureCode.noSuchBucket:
+        return 'NO_SUCH_BUCKET';
+      case BusinessReportFailureCode.internalFailure:
+        return 'INTERNAL_FAILURE';
+    }
+  }
+}
+
+extension on String {
+  BusinessReportFailureCode toBusinessReportFailureCode() {
+    switch (this) {
+      case 'ACCESS_DENIED':
+        return BusinessReportFailureCode.accessDenied;
+      case 'NO_SUCH_BUCKET':
+        return BusinessReportFailureCode.noSuchBucket;
+      case 'INTERNAL_FAILURE':
+        return BusinessReportFailureCode.internalFailure;
+    }
+    throw Exception('$this is not known in enum BusinessReportFailureCode');
+  }
+}
+
 enum BusinessReportFormat {
-  @_s.JsonValue('CSV')
   csv,
-  @_s.JsonValue('CSV_ZIP')
   csvZip,
 }
 
@@ -5575,102 +4788,134 @@ extension on BusinessReportFormat {
       case BusinessReportFormat.csvZip:
         return 'CSV_ZIP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  BusinessReportFormat toBusinessReportFormat() {
+    switch (this) {
+      case 'CSV':
+        return BusinessReportFormat.csv;
+      case 'CSV_ZIP':
+        return BusinessReportFormat.csvZip;
+    }
+    throw Exception('$this is not known in enum BusinessReportFormat');
   }
 }
 
 enum BusinessReportInterval {
-  @_s.JsonValue('ONE_DAY')
   oneDay,
-  @_s.JsonValue('ONE_WEEK')
   oneWeek,
-  @_s.JsonValue('THIRTY_DAYS')
   thirtyDays,
 }
 
+extension on BusinessReportInterval {
+  String toValue() {
+    switch (this) {
+      case BusinessReportInterval.oneDay:
+        return 'ONE_DAY';
+      case BusinessReportInterval.oneWeek:
+        return 'ONE_WEEK';
+      case BusinessReportInterval.thirtyDays:
+        return 'THIRTY_DAYS';
+    }
+  }
+}
+
+extension on String {
+  BusinessReportInterval toBusinessReportInterval() {
+    switch (this) {
+      case 'ONE_DAY':
+        return BusinessReportInterval.oneDay;
+      case 'ONE_WEEK':
+        return BusinessReportInterval.oneWeek;
+      case 'THIRTY_DAYS':
+        return BusinessReportInterval.thirtyDays;
+    }
+    throw Exception('$this is not known in enum BusinessReportInterval');
+  }
+}
+
 /// The recurrence of the reports.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BusinessReportRecurrence {
   /// The start date.
-  @_s.JsonKey(name: 'StartDate')
-  final String startDate;
+  final String? startDate;
 
   BusinessReportRecurrence({
     this.startDate,
   });
-  factory BusinessReportRecurrence.fromJson(Map<String, dynamic> json) =>
-      _$BusinessReportRecurrenceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BusinessReportRecurrenceToJson(this);
+  factory BusinessReportRecurrence.fromJson(Map<String, dynamic> json) {
+    return BusinessReportRecurrence(
+      startDate: json['StartDate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startDate = this.startDate;
+    return {
+      if (startDate != null) 'StartDate': startDate,
+    };
+  }
 }
 
 /// The S3 location of the output reports.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BusinessReportS3Location {
   /// The S3 bucket name of the output reports.
-  @_s.JsonKey(name: 'BucketName')
-  final String bucketName;
+  final String? bucketName;
 
   /// The path of the business report.
-  @_s.JsonKey(name: 'Path')
-  final String path;
+  final String? path;
 
   BusinessReportS3Location({
     this.bucketName,
     this.path,
   });
-  factory BusinessReportS3Location.fromJson(Map<String, dynamic> json) =>
-      _$BusinessReportS3LocationFromJson(json);
+
+  factory BusinessReportS3Location.fromJson(Map<String, dynamic> json) {
+    return BusinessReportS3Location(
+      bucketName: json['BucketName'] as String?,
+      path: json['Path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final path = this.path;
+    return {
+      if (bucketName != null) 'BucketName': bucketName,
+      if (path != null) 'Path': path,
+    };
+  }
 }
 
 /// The schedule of the usage report.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BusinessReportSchedule {
   /// The content range of the reports.
-  @_s.JsonKey(name: 'ContentRange')
-  final BusinessReportContentRange contentRange;
+  final BusinessReportContentRange? contentRange;
 
   /// The format of the generated report (individual CSV files or zipped files of
   /// individual files).
-  @_s.JsonKey(name: 'Format')
-  final BusinessReportFormat format;
+  final BusinessReportFormat? format;
 
   /// The details of the last business report delivery for a specified time
   /// interval.
-  @_s.JsonKey(name: 'LastBusinessReport')
-  final BusinessReport lastBusinessReport;
+  final BusinessReport? lastBusinessReport;
 
   /// The recurrence of the reports.
-  @_s.JsonKey(name: 'Recurrence')
-  final BusinessReportRecurrence recurrence;
+  final BusinessReportRecurrence? recurrence;
 
   /// The S3 bucket name of the output reports.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// The S3 key where the report is delivered.
-  @_s.JsonKey(name: 'S3KeyPrefix')
-  final String s3KeyPrefix;
+  final String? s3KeyPrefix;
 
   /// The ARN of the business report schedule.
-  @_s.JsonKey(name: 'ScheduleArn')
-  final String scheduleArn;
+  final String? scheduleArn;
 
   /// The name identifier of the schedule.
-  @_s.JsonKey(name: 'ScheduleName')
-  final String scheduleName;
+  final String? scheduleName;
 
   BusinessReportSchedule({
     this.contentRange,
@@ -5682,106 +4927,196 @@ class BusinessReportSchedule {
     this.scheduleArn,
     this.scheduleName,
   });
-  factory BusinessReportSchedule.fromJson(Map<String, dynamic> json) =>
-      _$BusinessReportScheduleFromJson(json);
+
+  factory BusinessReportSchedule.fromJson(Map<String, dynamic> json) {
+    return BusinessReportSchedule(
+      contentRange: json['ContentRange'] != null
+          ? BusinessReportContentRange.fromJson(
+              json['ContentRange'] as Map<String, dynamic>)
+          : null,
+      format: (json['Format'] as String?)?.toBusinessReportFormat(),
+      lastBusinessReport: json['LastBusinessReport'] != null
+          ? BusinessReport.fromJson(
+              json['LastBusinessReport'] as Map<String, dynamic>)
+          : null,
+      recurrence: json['Recurrence'] != null
+          ? BusinessReportRecurrence.fromJson(
+              json['Recurrence'] as Map<String, dynamic>)
+          : null,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3KeyPrefix: json['S3KeyPrefix'] as String?,
+      scheduleArn: json['ScheduleArn'] as String?,
+      scheduleName: json['ScheduleName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentRange = this.contentRange;
+    final format = this.format;
+    final lastBusinessReport = this.lastBusinessReport;
+    final recurrence = this.recurrence;
+    final s3BucketName = this.s3BucketName;
+    final s3KeyPrefix = this.s3KeyPrefix;
+    final scheduleArn = this.scheduleArn;
+    final scheduleName = this.scheduleName;
+    return {
+      if (contentRange != null) 'ContentRange': contentRange,
+      if (format != null) 'Format': format.toValue(),
+      if (lastBusinessReport != null) 'LastBusinessReport': lastBusinessReport,
+      if (recurrence != null) 'Recurrence': recurrence,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
+      if (scheduleArn != null) 'ScheduleArn': scheduleArn,
+      if (scheduleName != null) 'ScheduleName': scheduleName,
+    };
+  }
 }
 
 enum BusinessReportStatus {
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on BusinessReportStatus {
+  String toValue() {
+    switch (this) {
+      case BusinessReportStatus.running:
+        return 'RUNNING';
+      case BusinessReportStatus.succeeded:
+        return 'SUCCEEDED';
+      case BusinessReportStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  BusinessReportStatus toBusinessReportStatus() {
+    switch (this) {
+      case 'RUNNING':
+        return BusinessReportStatus.running;
+      case 'SUCCEEDED':
+        return BusinessReportStatus.succeeded;
+      case 'FAILED':
+        return BusinessReportStatus.failed;
+    }
+    throw Exception('$this is not known in enum BusinessReportStatus');
+  }
 }
 
 /// The skill store category that is shown. Alexa skills are assigned a specific
 /// skill category during creation, such as News, Social, and Sports.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Category {
   /// The ID of the skill store category.
-  @_s.JsonKey(name: 'CategoryId')
-  final int categoryId;
+  final int? categoryId;
 
   /// The name of the skill store category.
-  @_s.JsonKey(name: 'CategoryName')
-  final String categoryName;
+  final String? categoryName;
 
   Category({
     this.categoryId,
     this.categoryName,
   });
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      categoryId: json['CategoryId'] as int?,
+      categoryName: json['CategoryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryId = this.categoryId;
+    final categoryName = this.categoryName;
+    return {
+      if (categoryId != null) 'CategoryId': categoryId,
+      if (categoryName != null) 'CategoryName': categoryName,
+    };
+  }
 }
 
 enum CommsProtocol {
-  @_s.JsonValue('SIP')
   sip,
-  @_s.JsonValue('SIPS')
   sips,
-  @_s.JsonValue('H323')
   h323,
+}
+
+extension on CommsProtocol {
+  String toValue() {
+    switch (this) {
+      case CommsProtocol.sip:
+        return 'SIP';
+      case CommsProtocol.sips:
+        return 'SIPS';
+      case CommsProtocol.h323:
+        return 'H323';
+    }
+  }
+}
+
+extension on String {
+  CommsProtocol toCommsProtocol() {
+    switch (this) {
+      case 'SIP':
+        return CommsProtocol.sip;
+      case 'SIPS':
+        return CommsProtocol.sips;
+      case 'H323':
+        return CommsProtocol.h323;
+    }
+    throw Exception('$this is not known in enum CommsProtocol');
+  }
 }
 
 /// The default conference provider that is used if no other scheduled meetings
 /// are detected.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConferencePreference {
   /// The ARN of the default conference provider.
-  @_s.JsonKey(name: 'DefaultConferenceProviderArn')
-  final String defaultConferenceProviderArn;
+  final String? defaultConferenceProviderArn;
 
   ConferencePreference({
     this.defaultConferenceProviderArn,
   });
-  factory ConferencePreference.fromJson(Map<String, dynamic> json) =>
-      _$ConferencePreferenceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConferencePreferenceToJson(this);
+  factory ConferencePreference.fromJson(Map<String, dynamic> json) {
+    return ConferencePreference(
+      defaultConferenceProviderArn:
+          json['DefaultConferenceProviderArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultConferenceProviderArn = this.defaultConferenceProviderArn;
+    return {
+      if (defaultConferenceProviderArn != null)
+        'DefaultConferenceProviderArn': defaultConferenceProviderArn,
+    };
+  }
 }
 
 /// An entity that provides a conferencing solution. Alexa for Business acts as
 /// the voice interface and mediator that connects users to their preferred
 /// conference provider. Examples of conference providers include Amazon Chime,
 /// Zoom, Cisco, and Polycom.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConferenceProvider {
   /// The ARN of the newly created conference provider.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The IP endpoint and protocol for calling.
-  @_s.JsonKey(name: 'IPDialIn')
-  final IPDialIn iPDialIn;
+  final IPDialIn? iPDialIn;
 
   /// The meeting settings for the conference provider.
-  @_s.JsonKey(name: 'MeetingSetting')
-  final MeetingSetting meetingSetting;
+  final MeetingSetting? meetingSetting;
 
   /// The name of the conference provider.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The information for PSTN conferencing.
-  @_s.JsonKey(name: 'PSTNDialIn')
-  final PSTNDialIn pSTNDialIn;
+  final PSTNDialIn? pSTNDialIn;
 
   /// The type of conference providers.
-  @_s.JsonKey(name: 'Type')
-  final ConferenceProviderType type;
+  final ConferenceProviderType? type;
 
   ConferenceProvider({
     this.arn,
@@ -5791,30 +5126,53 @@ class ConferenceProvider {
     this.pSTNDialIn,
     this.type,
   });
-  factory ConferenceProvider.fromJson(Map<String, dynamic> json) =>
-      _$ConferenceProviderFromJson(json);
+
+  factory ConferenceProvider.fromJson(Map<String, dynamic> json) {
+    return ConferenceProvider(
+      arn: json['Arn'] as String?,
+      iPDialIn: json['IPDialIn'] != null
+          ? IPDialIn.fromJson(json['IPDialIn'] as Map<String, dynamic>)
+          : null,
+      meetingSetting: json['MeetingSetting'] != null
+          ? MeetingSetting.fromJson(
+              json['MeetingSetting'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      pSTNDialIn: json['PSTNDialIn'] != null
+          ? PSTNDialIn.fromJson(json['PSTNDialIn'] as Map<String, dynamic>)
+          : null,
+      type: (json['Type'] as String?)?.toConferenceProviderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final iPDialIn = this.iPDialIn;
+    final meetingSetting = this.meetingSetting;
+    final name = this.name;
+    final pSTNDialIn = this.pSTNDialIn;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (iPDialIn != null) 'IPDialIn': iPDialIn,
+      if (meetingSetting != null) 'MeetingSetting': meetingSetting,
+      if (name != null) 'Name': name,
+      if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ConferenceProviderType {
-  @_s.JsonValue('CHIME')
   chime,
-  @_s.JsonValue('BLUEJEANS')
   bluejeans,
-  @_s.JsonValue('FUZE')
   fuze,
-  @_s.JsonValue('GOOGLE_HANGOUTS')
   googleHangouts,
-  @_s.JsonValue('POLYCOM')
   polycom,
-  @_s.JsonValue('RINGCENTRAL')
   ringcentral,
-  @_s.JsonValue('SKYPE_FOR_BUSINESS')
   skypeForBusiness,
-  @_s.JsonValue('WEBEX')
   webex,
-  @_s.JsonValue('ZOOM')
   zoom,
-  @_s.JsonValue('CUSTOM')
   custom,
 }
 
@@ -5842,54 +5200,90 @@ extension on ConferenceProviderType {
       case ConferenceProviderType.custom:
         return 'CUSTOM';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ConferenceProviderType toConferenceProviderType() {
+    switch (this) {
+      case 'CHIME':
+        return ConferenceProviderType.chime;
+      case 'BLUEJEANS':
+        return ConferenceProviderType.bluejeans;
+      case 'FUZE':
+        return ConferenceProviderType.fuze;
+      case 'GOOGLE_HANGOUTS':
+        return ConferenceProviderType.googleHangouts;
+      case 'POLYCOM':
+        return ConferenceProviderType.polycom;
+      case 'RINGCENTRAL':
+        return ConferenceProviderType.ringcentral;
+      case 'SKYPE_FOR_BUSINESS':
+        return ConferenceProviderType.skypeForBusiness;
+      case 'WEBEX':
+        return ConferenceProviderType.webex;
+      case 'ZOOM':
+        return ConferenceProviderType.zoom;
+      case 'CUSTOM':
+        return ConferenceProviderType.custom;
+    }
+    throw Exception('$this is not known in enum ConferenceProviderType');
   }
 }
 
 enum ConnectionStatus {
-  @_s.JsonValue('ONLINE')
   online,
-  @_s.JsonValue('OFFLINE')
   offline,
 }
 
+extension on ConnectionStatus {
+  String toValue() {
+    switch (this) {
+      case ConnectionStatus.online:
+        return 'ONLINE';
+      case ConnectionStatus.offline:
+        return 'OFFLINE';
+    }
+  }
+}
+
+extension on String {
+  ConnectionStatus toConnectionStatus() {
+    switch (this) {
+      case 'ONLINE':
+        return ConnectionStatus.online;
+      case 'OFFLINE':
+        return ConnectionStatus.offline;
+    }
+    throw Exception('$this is not known in enum ConnectionStatus');
+  }
+}
+
 /// A contact with attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Contact {
   /// The ARN of the contact.
-  @_s.JsonKey(name: 'ContactArn')
-  final String contactArn;
+  final String? contactArn;
 
   /// The name of the contact to display on the console.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The first name of the contact, used to call the contact on the device.
-  @_s.JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
 
   /// The last name of the contact, used to call the contact on the device.
-  @_s.JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
 
   /// The phone number of the contact. The phone number type defaults to WORK. You
   /// can either specify PhoneNumber or PhoneNumbers. We recommend that you use
   /// PhoneNumbers, which lets you specify the phone number type and multiple
   /// numbers.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   /// The list of phone numbers for the contact.
-  @_s.JsonKey(name: 'PhoneNumbers')
-  final List<PhoneNumber> phoneNumbers;
+  final List<PhoneNumber>? phoneNumbers;
 
   /// The list of SIP addresses for the contact.
-  @_s.JsonKey(name: 'SipAddresses')
-  final List<SipAddress> sipAddresses;
+  final List<SipAddress>? sipAddresses;
 
   Contact({
     this.contactArn,
@@ -5900,47 +5294,70 @@ class Contact {
     this.phoneNumbers,
     this.sipAddresses,
   });
-  factory Contact.fromJson(Map<String, dynamic> json) =>
-      _$ContactFromJson(json);
+
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      contactArn: json['ContactArn'] as String?,
+      displayName: json['DisplayName'] as String?,
+      firstName: json['FirstName'] as String?,
+      lastName: json['LastName'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+      phoneNumbers: (json['PhoneNumbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sipAddresses: (json['SipAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => SipAddress.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactArn = this.contactArn;
+    final displayName = this.displayName;
+    final firstName = this.firstName;
+    final lastName = this.lastName;
+    final phoneNumber = this.phoneNumber;
+    final phoneNumbers = this.phoneNumbers;
+    final sipAddresses = this.sipAddresses;
+    return {
+      if (contactArn != null) 'ContactArn': contactArn,
+      if (displayName != null) 'DisplayName': displayName,
+      if (firstName != null) 'FirstName': firstName,
+      if (lastName != null) 'LastName': lastName,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
+      if (sipAddresses != null) 'SipAddresses': sipAddresses,
+    };
+  }
 }
 
 /// Information related to a contact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContactData {
   /// The ARN of the contact.
-  @_s.JsonKey(name: 'ContactArn')
-  final String contactArn;
+  final String? contactArn;
 
   /// The name of the contact to display on the console.
-  @_s.JsonKey(name: 'DisplayName')
-  final String displayName;
+  final String? displayName;
 
   /// The first name of the contact, used to call the contact on the device.
-  @_s.JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
 
   /// The last name of the contact, used to call the contact on the device.
-  @_s.JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
 
   /// The phone number of the contact. The phone number type defaults to WORK. You
   /// can specify PhoneNumber or PhoneNumbers. We recommend that you use
   /// PhoneNumbers, which lets you specify the phone number type and multiple
   /// numbers.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   /// The list of phone numbers for the contact.
-  @_s.JsonKey(name: 'PhoneNumbers')
-  final List<PhoneNumber> phoneNumbers;
+  final List<PhoneNumber>? phoneNumbers;
 
   /// The list of SIP addresses for the contact.
-  @_s.JsonKey(name: 'SipAddresses')
-  final List<SipAddress> sipAddresses;
+  final List<SipAddress>? sipAddresses;
 
   ContactData({
     this.contactArn,
@@ -5951,204 +5368,296 @@ class ContactData {
     this.phoneNumbers,
     this.sipAddresses,
   });
-  factory ContactData.fromJson(Map<String, dynamic> json) =>
-      _$ContactDataFromJson(json);
+
+  factory ContactData.fromJson(Map<String, dynamic> json) {
+    return ContactData(
+      contactArn: json['ContactArn'] as String?,
+      displayName: json['DisplayName'] as String?,
+      firstName: json['FirstName'] as String?,
+      lastName: json['LastName'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+      phoneNumbers: (json['PhoneNumbers'] as List?)
+          ?.whereNotNull()
+          .map((e) => PhoneNumber.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sipAddresses: (json['SipAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => SipAddress.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactArn = this.contactArn;
+    final displayName = this.displayName;
+    final firstName = this.firstName;
+    final lastName = this.lastName;
+    final phoneNumber = this.phoneNumber;
+    final phoneNumbers = this.phoneNumbers;
+    final sipAddresses = this.sipAddresses;
+    return {
+      if (contactArn != null) 'ContactArn': contactArn,
+      if (displayName != null) 'DisplayName': displayName,
+      if (firstName != null) 'FirstName': firstName,
+      if (lastName != null) 'LastName': lastName,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (phoneNumbers != null) 'PhoneNumbers': phoneNumbers,
+      if (sipAddresses != null) 'SipAddresses': sipAddresses,
+    };
+  }
 }
 
 /// The content definition. This can contain only one text, SSML, or audio list
 /// object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Content {
   /// The list of audio messages.
-  @_s.JsonKey(name: 'AudioList')
-  final List<Audio> audioList;
+  final List<Audio>? audioList;
 
   /// The list of SSML messages.
-  @_s.JsonKey(name: 'SsmlList')
-  final List<Ssml> ssmlList;
+  final List<Ssml>? ssmlList;
 
   /// The list of text messages.
-  @_s.JsonKey(name: 'TextList')
-  final List<Text> textList;
+  final List<Text>? textList;
 
   Content({
     this.audioList,
     this.ssmlList,
     this.textList,
   });
-  Map<String, dynamic> toJson() => _$ContentToJson(this);
+
+  factory Content.fromJson(Map<String, dynamic> json) {
+    return Content(
+      audioList: (json['AudioList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Audio.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ssmlList: (json['SsmlList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ssml.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      textList: (json['TextList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Text.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final audioList = this.audioList;
+    final ssmlList = this.ssmlList;
+    final textList = this.textList;
+    return {
+      if (audioList != null) 'AudioList': audioList,
+      if (ssmlList != null) 'SsmlList': ssmlList,
+      if (textList != null) 'TextList': textList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAddressBookResponse {
   /// The ARN of the newly created address book.
-  @_s.JsonKey(name: 'AddressBookArn')
-  final String addressBookArn;
+  final String? addressBookArn;
 
   CreateAddressBookResponse({
     this.addressBookArn,
   });
-  factory CreateAddressBookResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAddressBookResponseFromJson(json);
+
+  factory CreateAddressBookResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAddressBookResponse(
+      addressBookArn: json['AddressBookArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressBookArn = this.addressBookArn;
+    return {
+      if (addressBookArn != null) 'AddressBookArn': addressBookArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBusinessReportScheduleResponse {
   /// The ARN of the business report schedule.
-  @_s.JsonKey(name: 'ScheduleArn')
-  final String scheduleArn;
+  final String? scheduleArn;
 
   CreateBusinessReportScheduleResponse({
     this.scheduleArn,
   });
+
   factory CreateBusinessReportScheduleResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateBusinessReportScheduleResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateBusinessReportScheduleResponse(
+      scheduleArn: json['ScheduleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduleArn = this.scheduleArn;
+    return {
+      if (scheduleArn != null) 'ScheduleArn': scheduleArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConferenceProviderResponse {
   /// The ARN of the newly-created conference provider.
-  @_s.JsonKey(name: 'ConferenceProviderArn')
-  final String conferenceProviderArn;
+  final String? conferenceProviderArn;
 
   CreateConferenceProviderResponse({
     this.conferenceProviderArn,
   });
-  factory CreateConferenceProviderResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateConferenceProviderResponseFromJson(json);
+
+  factory CreateConferenceProviderResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConferenceProviderResponse(
+      conferenceProviderArn: json['ConferenceProviderArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conferenceProviderArn = this.conferenceProviderArn;
+    return {
+      if (conferenceProviderArn != null)
+        'ConferenceProviderArn': conferenceProviderArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateContactResponse {
   /// The ARN of the newly created address book.
-  @_s.JsonKey(name: 'ContactArn')
-  final String contactArn;
+  final String? contactArn;
 
   CreateContactResponse({
     this.contactArn,
   });
-  factory CreateContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateContactResponseFromJson(json);
+
+  factory CreateContactResponse.fromJson(Map<String, dynamic> json) {
+    return CreateContactResponse(
+      contactArn: json['ContactArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactArn = this.contactArn;
+    return {
+      if (contactArn != null) 'ContactArn': contactArn,
+    };
+  }
 }
 
 /// Creates settings for the end of meeting reminder feature that are applied to
 /// a room profile. The end of meeting reminder enables Alexa to remind users
 /// when a meeting is ending.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateEndOfMeetingReminder {
   /// Whether an end of meeting reminder is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// A range of 3 to 15 minutes that determines when the reminder begins.
-  @_s.JsonKey(name: 'ReminderAtMinutes')
   final List<int> reminderAtMinutes;
 
   /// The type of sound that users hear during the end of meeting reminder.
-  @_s.JsonKey(name: 'ReminderType')
   final EndOfMeetingReminderType reminderType;
 
   CreateEndOfMeetingReminder({
-    @_s.required this.enabled,
-    @_s.required this.reminderAtMinutes,
-    @_s.required this.reminderType,
+    required this.enabled,
+    required this.reminderAtMinutes,
+    required this.reminderType,
   });
-  Map<String, dynamic> toJson() => _$CreateEndOfMeetingReminderToJson(this);
+
+  factory CreateEndOfMeetingReminder.fromJson(Map<String, dynamic> json) {
+    return CreateEndOfMeetingReminder(
+      enabled: json['Enabled'] as bool,
+      reminderAtMinutes: (json['ReminderAtMinutes'] as List)
+          .whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      reminderType:
+          (json['ReminderType'] as String).toEndOfMeetingReminderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final reminderAtMinutes = this.reminderAtMinutes;
+    final reminderType = this.reminderType;
+    return {
+      'Enabled': enabled,
+      'ReminderAtMinutes': reminderAtMinutes,
+      'ReminderType': reminderType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGatewayGroupResponse {
   /// The ARN of the created gateway group.
-  @_s.JsonKey(name: 'GatewayGroupArn')
-  final String gatewayGroupArn;
+  final String? gatewayGroupArn;
 
   CreateGatewayGroupResponse({
     this.gatewayGroupArn,
   });
-  factory CreateGatewayGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGatewayGroupResponseFromJson(json);
+
+  factory CreateGatewayGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGatewayGroupResponse(
+      gatewayGroupArn: json['GatewayGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayGroupArn = this.gatewayGroupArn;
+    return {
+      if (gatewayGroupArn != null) 'GatewayGroupArn': gatewayGroupArn,
+    };
+  }
 }
 
 /// Creates settings for the instant booking feature that are applied to a room
 /// profile. When users start their meeting with Alexa, Alexa automatically
 /// books the room for the configured duration if the room is available.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateInstantBooking {
   /// Duration between 15 and 240 minutes at increments of 15 that determines how
   /// long to book an available room when a meeting is started with Alexa.
-  @_s.JsonKey(name: 'DurationInMinutes')
   final int durationInMinutes;
 
   /// Whether instant booking is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   CreateInstantBooking({
-    @_s.required this.durationInMinutes,
-    @_s.required this.enabled,
+    required this.durationInMinutes,
+    required this.enabled,
   });
-  Map<String, dynamic> toJson() => _$CreateInstantBookingToJson(this);
+
+  factory CreateInstantBooking.fromJson(Map<String, dynamic> json) {
+    return CreateInstantBooking(
+      durationInMinutes: json['DurationInMinutes'] as int,
+      enabled: json['Enabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInMinutes = this.durationInMinutes;
+    final enabled = this.enabled;
+    return {
+      'DurationInMinutes': durationInMinutes,
+      'Enabled': enabled,
+    };
+  }
 }
 
 /// Creates meeting room settings of a room profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateMeetingRoomConfiguration {
-  @_s.JsonKey(name: 'EndOfMeetingReminder')
-  final CreateEndOfMeetingReminder endOfMeetingReminder;
+  final CreateEndOfMeetingReminder? endOfMeetingReminder;
 
   /// Settings to automatically book a room for a configured duration if it's free
   /// when joining a meeting with Alexa.
-  @_s.JsonKey(name: 'InstantBooking')
-  final CreateInstantBooking instantBooking;
+  final CreateInstantBooking? instantBooking;
 
   /// Settings for requiring a check in when a room is reserved. Alexa can cancel
   /// a room reservation if it's not checked into to make the room available for
   /// others. Users can check in by joining the meeting with Alexa or an AVS
   /// device, or by saying “Alexa, check in.”
-  @_s.JsonKey(name: 'RequireCheckIn')
-  final CreateRequireCheckIn requireCheckIn;
+  final CreateRequireCheckIn? requireCheckIn;
 
   /// Whether room utilization metrics are enabled or not.
-  @_s.JsonKey(name: 'RoomUtilizationMetricsEnabled')
-  final bool roomUtilizationMetricsEnabled;
+  final bool? roomUtilizationMetricsEnabled;
 
   CreateMeetingRoomConfiguration({
     this.endOfMeetingReminder,
@@ -6156,299 +5665,367 @@ class CreateMeetingRoomConfiguration {
     this.requireCheckIn,
     this.roomUtilizationMetricsEnabled,
   });
-  Map<String, dynamic> toJson() => _$CreateMeetingRoomConfigurationToJson(this);
+
+  factory CreateMeetingRoomConfiguration.fromJson(Map<String, dynamic> json) {
+    return CreateMeetingRoomConfiguration(
+      endOfMeetingReminder: json['EndOfMeetingReminder'] != null
+          ? CreateEndOfMeetingReminder.fromJson(
+              json['EndOfMeetingReminder'] as Map<String, dynamic>)
+          : null,
+      instantBooking: json['InstantBooking'] != null
+          ? CreateInstantBooking.fromJson(
+              json['InstantBooking'] as Map<String, dynamic>)
+          : null,
+      requireCheckIn: json['RequireCheckIn'] != null
+          ? CreateRequireCheckIn.fromJson(
+              json['RequireCheckIn'] as Map<String, dynamic>)
+          : null,
+      roomUtilizationMetricsEnabled:
+          json['RoomUtilizationMetricsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endOfMeetingReminder = this.endOfMeetingReminder;
+    final instantBooking = this.instantBooking;
+    final requireCheckIn = this.requireCheckIn;
+    final roomUtilizationMetricsEnabled = this.roomUtilizationMetricsEnabled;
+    return {
+      if (endOfMeetingReminder != null)
+        'EndOfMeetingReminder': endOfMeetingReminder,
+      if (instantBooking != null) 'InstantBooking': instantBooking,
+      if (requireCheckIn != null) 'RequireCheckIn': requireCheckIn,
+      if (roomUtilizationMetricsEnabled != null)
+        'RoomUtilizationMetricsEnabled': roomUtilizationMetricsEnabled,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateNetworkProfileResponse {
   /// The ARN of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileArn')
-  final String networkProfileArn;
+  final String? networkProfileArn;
 
   CreateNetworkProfileResponse({
     this.networkProfileArn,
   });
-  factory CreateNetworkProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateNetworkProfileResponseFromJson(json);
+
+  factory CreateNetworkProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateNetworkProfileResponse(
+      networkProfileArn: json['NetworkProfileArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkProfileArn = this.networkProfileArn;
+    return {
+      if (networkProfileArn != null) 'NetworkProfileArn': networkProfileArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateProfileResponse {
   /// The ARN of the newly created room profile in the response.
-  @_s.JsonKey(name: 'ProfileArn')
-  final String profileArn;
+  final String? profileArn;
 
   CreateProfileResponse({
     this.profileArn,
   });
-  factory CreateProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateProfileResponseFromJson(json);
+
+  factory CreateProfileResponse.fromJson(Map<String, dynamic> json) {
+    return CreateProfileResponse(
+      profileArn: json['ProfileArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profileArn = this.profileArn;
+    return {
+      if (profileArn != null) 'ProfileArn': profileArn,
+    };
+  }
 }
 
 /// Creates settings for the require check in feature that are applied to a room
 /// profile. Require check in allows a meeting room’s Alexa or AVS device to
 /// prompt the user to check in; otherwise, the room will be released.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateRequireCheckIn {
   /// Whether require check in is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Duration between 5 and 20 minutes to determine when to release the room if
   /// it's not checked into.
-  @_s.JsonKey(name: 'ReleaseAfterMinutes')
   final int releaseAfterMinutes;
 
   CreateRequireCheckIn({
-    @_s.required this.enabled,
-    @_s.required this.releaseAfterMinutes,
+    required this.enabled,
+    required this.releaseAfterMinutes,
   });
-  Map<String, dynamic> toJson() => _$CreateRequireCheckInToJson(this);
+
+  factory CreateRequireCheckIn.fromJson(Map<String, dynamic> json) {
+    return CreateRequireCheckIn(
+      enabled: json['Enabled'] as bool,
+      releaseAfterMinutes: json['ReleaseAfterMinutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final releaseAfterMinutes = this.releaseAfterMinutes;
+    return {
+      'Enabled': enabled,
+      'ReleaseAfterMinutes': releaseAfterMinutes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRoomResponse {
   /// The ARN of the newly created room in the response.
-  @_s.JsonKey(name: 'RoomArn')
-  final String roomArn;
+  final String? roomArn;
 
   CreateRoomResponse({
     this.roomArn,
   });
-  factory CreateRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRoomResponseFromJson(json);
+
+  factory CreateRoomResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRoomResponse(
+      roomArn: json['RoomArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roomArn = this.roomArn;
+    return {
+      if (roomArn != null) 'RoomArn': roomArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSkillGroupResponse {
   /// The ARN of the newly created skill group in the response.
-  @_s.JsonKey(name: 'SkillGroupArn')
-  final String skillGroupArn;
+  final String? skillGroupArn;
 
   CreateSkillGroupResponse({
     this.skillGroupArn,
   });
-  factory CreateSkillGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSkillGroupResponseFromJson(json);
+
+  factory CreateSkillGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSkillGroupResponse(
+      skillGroupArn: json['SkillGroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final skillGroupArn = this.skillGroupArn;
+    return {
+      if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateUserResponse {
   /// The ARN of the newly created user in the response.
-  @_s.JsonKey(name: 'UserArn')
-  final String userArn;
+  final String? userArn;
 
   CreateUserResponse({
     this.userArn,
   });
-  factory CreateUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateUserResponseFromJson(json);
+
+  factory CreateUserResponse.fromJson(Map<String, dynamic> json) {
+    return CreateUserResponse(
+      userArn: json['UserArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final userArn = this.userArn;
+    return {
+      if (userArn != null) 'UserArn': userArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAddressBookResponse {
   DeleteAddressBookResponse();
-  factory DeleteAddressBookResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAddressBookResponseFromJson(json);
+
+  factory DeleteAddressBookResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteAddressBookResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBusinessReportScheduleResponse {
   DeleteBusinessReportScheduleResponse();
+
   factory DeleteBusinessReportScheduleResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteBusinessReportScheduleResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteBusinessReportScheduleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConferenceProviderResponse {
   DeleteConferenceProviderResponse();
-  factory DeleteConferenceProviderResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteConferenceProviderResponseFromJson(json);
+
+  factory DeleteConferenceProviderResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConferenceProviderResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteContactResponse {
   DeleteContactResponse();
-  factory DeleteContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteContactResponseFromJson(json);
+
+  factory DeleteContactResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDeviceResponse {
   DeleteDeviceResponse();
-  factory DeleteDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDeviceResponseFromJson(json);
+
+  factory DeleteDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDeviceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDeviceUsageDataResponse {
   DeleteDeviceUsageDataResponse();
-  factory DeleteDeviceUsageDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDeviceUsageDataResponseFromJson(json);
+
+  factory DeleteDeviceUsageDataResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDeviceUsageDataResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGatewayGroupResponse {
   DeleteGatewayGroupResponse();
-  factory DeleteGatewayGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGatewayGroupResponseFromJson(json);
+
+  factory DeleteGatewayGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteGatewayGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteNetworkProfileResponse {
   DeleteNetworkProfileResponse();
-  factory DeleteNetworkProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteNetworkProfileResponseFromJson(json);
+
+  factory DeleteNetworkProfileResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteNetworkProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteProfileResponse {
   DeleteProfileResponse();
-  factory DeleteProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteProfileResponseFromJson(json);
+
+  factory DeleteProfileResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRoomResponse {
   DeleteRoomResponse();
-  factory DeleteRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRoomResponseFromJson(json);
+
+  factory DeleteRoomResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteRoomResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteRoomSkillParameterResponse {
   DeleteRoomSkillParameterResponse();
-  factory DeleteRoomSkillParameterResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteRoomSkillParameterResponseFromJson(json);
+
+  factory DeleteRoomSkillParameterResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteRoomSkillParameterResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSkillAuthorizationResponse {
   DeleteSkillAuthorizationResponse();
-  factory DeleteSkillAuthorizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteSkillAuthorizationResponseFromJson(json);
+
+  factory DeleteSkillAuthorizationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSkillAuthorizationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSkillGroupResponse {
   DeleteSkillGroupResponse();
-  factory DeleteSkillGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSkillGroupResponseFromJson(json);
+
+  factory DeleteSkillGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteSkillGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteUserResponse {
   DeleteUserResponse();
-  factory DeleteUserResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteUserResponseFromJson(json);
+
+  factory DeleteUserResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteUserResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The details about the developer that published the skill.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeveloperInfo {
   /// The name of the developer.
-  @_s.JsonKey(name: 'DeveloperName')
-  final String developerName;
+  final String? developerName;
 
   /// The email of the developer.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The URL of the privacy policy.
-  @_s.JsonKey(name: 'PrivacyPolicy')
-  final String privacyPolicy;
+  final String? privacyPolicy;
 
   /// The website of the developer.
-  @_s.JsonKey(name: 'Url')
-  final String url;
+  final String? url;
 
   DeveloperInfo({
     this.developerName,
@@ -6456,57 +6033,62 @@ class DeveloperInfo {
     this.privacyPolicy,
     this.url,
   });
-  factory DeveloperInfo.fromJson(Map<String, dynamic> json) =>
-      _$DeveloperInfoFromJson(json);
+
+  factory DeveloperInfo.fromJson(Map<String, dynamic> json) {
+    return DeveloperInfo(
+      developerName: json['DeveloperName'] as String?,
+      email: json['Email'] as String?,
+      privacyPolicy: json['PrivacyPolicy'] as String?,
+      url: json['Url'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final developerName = this.developerName;
+    final email = this.email;
+    final privacyPolicy = this.privacyPolicy;
+    final url = this.url;
+    return {
+      if (developerName != null) 'DeveloperName': developerName,
+      if (email != null) 'Email': email,
+      if (privacyPolicy != null) 'PrivacyPolicy': privacyPolicy,
+      if (url != null) 'Url': url,
+    };
+  }
 }
 
 /// A device with attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Device {
   /// The ARN of a device.
-  @_s.JsonKey(name: 'DeviceArn')
-  final String deviceArn;
+  final String? deviceArn;
 
   /// The name of a device.
-  @_s.JsonKey(name: 'DeviceName')
-  final String deviceName;
+  final String? deviceName;
 
   /// The serial number of a device.
-  @_s.JsonKey(name: 'DeviceSerialNumber')
-  final String deviceSerialNumber;
+  final String? deviceSerialNumber;
 
   /// The status of a device. If the status is not READY, check the
   /// DeviceStatusInfo value for details.
-  @_s.JsonKey(name: 'DeviceStatus')
-  final DeviceStatus deviceStatus;
+  final DeviceStatus? deviceStatus;
 
   /// Detailed information about a device's status.
-  @_s.JsonKey(name: 'DeviceStatusInfo')
-  final DeviceStatusInfo deviceStatusInfo;
+  final DeviceStatusInfo? deviceStatusInfo;
 
   /// The type of a device.
-  @_s.JsonKey(name: 'DeviceType')
-  final String deviceType;
+  final String? deviceType;
 
   /// The MAC address of a device.
-  @_s.JsonKey(name: 'MacAddress')
-  final String macAddress;
+  final String? macAddress;
 
   /// Detailed information about a device's network profile.
-  @_s.JsonKey(name: 'NetworkProfileInfo')
-  final DeviceNetworkProfileInfo networkProfileInfo;
+  final DeviceNetworkProfileInfo? networkProfileInfo;
 
   /// The room ARN of a device.
-  @_s.JsonKey(name: 'RoomArn')
-  final String roomArn;
+  final String? roomArn;
 
   /// The software version of a device.
-  @_s.JsonKey(name: 'SoftwareVersion')
-  final String softwareVersion;
+  final String? softwareVersion;
 
   Device({
     this.deviceArn,
@@ -6520,68 +6102,94 @@ class Device {
     this.roomArn,
     this.softwareVersion,
   });
-  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
+
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      deviceArn: json['DeviceArn'] as String?,
+      deviceName: json['DeviceName'] as String?,
+      deviceSerialNumber: json['DeviceSerialNumber'] as String?,
+      deviceStatus: (json['DeviceStatus'] as String?)?.toDeviceStatus(),
+      deviceStatusInfo: json['DeviceStatusInfo'] != null
+          ? DeviceStatusInfo.fromJson(
+              json['DeviceStatusInfo'] as Map<String, dynamic>)
+          : null,
+      deviceType: json['DeviceType'] as String?,
+      macAddress: json['MacAddress'] as String?,
+      networkProfileInfo: json['NetworkProfileInfo'] != null
+          ? DeviceNetworkProfileInfo.fromJson(
+              json['NetworkProfileInfo'] as Map<String, dynamic>)
+          : null,
+      roomArn: json['RoomArn'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceArn = this.deviceArn;
+    final deviceName = this.deviceName;
+    final deviceSerialNumber = this.deviceSerialNumber;
+    final deviceStatus = this.deviceStatus;
+    final deviceStatusInfo = this.deviceStatusInfo;
+    final deviceType = this.deviceType;
+    final macAddress = this.macAddress;
+    final networkProfileInfo = this.networkProfileInfo;
+    final roomArn = this.roomArn;
+    final softwareVersion = this.softwareVersion;
+    return {
+      if (deviceArn != null) 'DeviceArn': deviceArn,
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (deviceSerialNumber != null) 'DeviceSerialNumber': deviceSerialNumber,
+      if (deviceStatus != null) 'DeviceStatus': deviceStatus.toValue(),
+      if (deviceStatusInfo != null) 'DeviceStatusInfo': deviceStatusInfo,
+      if (deviceType != null) 'DeviceType': deviceType,
+      if (macAddress != null) 'MacAddress': macAddress,
+      if (networkProfileInfo != null) 'NetworkProfileInfo': networkProfileInfo,
+      if (roomArn != null) 'RoomArn': roomArn,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
+    };
+  }
 }
 
 /// Device attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceData {
   /// The time (in epoch) when the device data was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedTime')
-  final DateTime createdTime;
+  final DateTime? createdTime;
 
   /// The ARN of a device.
-  @_s.JsonKey(name: 'DeviceArn')
-  final String deviceArn;
+  final String? deviceArn;
 
   /// The name of a device.
-  @_s.JsonKey(name: 'DeviceName')
-  final String deviceName;
+  final String? deviceName;
 
   /// The serial number of a device.
-  @_s.JsonKey(name: 'DeviceSerialNumber')
-  final String deviceSerialNumber;
+  final String? deviceSerialNumber;
 
   /// The status of a device.
-  @_s.JsonKey(name: 'DeviceStatus')
-  final DeviceStatus deviceStatus;
+  final DeviceStatus? deviceStatus;
 
   /// Detailed information about a device's status.
-  @_s.JsonKey(name: 'DeviceStatusInfo')
-  final DeviceStatusInfo deviceStatusInfo;
+  final DeviceStatusInfo? deviceStatusInfo;
 
   /// The type of a device.
-  @_s.JsonKey(name: 'DeviceType')
-  final String deviceType;
+  final String? deviceType;
 
   /// The MAC address of a device.
-  @_s.JsonKey(name: 'MacAddress')
-  final String macAddress;
+  final String? macAddress;
 
   /// The ARN of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileArn')
-  final String networkProfileArn;
+  final String? networkProfileArn;
 
   /// The name of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileName')
-  final String networkProfileName;
+  final String? networkProfileName;
 
   /// The room ARN associated with a device.
-  @_s.JsonKey(name: 'RoomArn')
-  final String roomArn;
+  final String? roomArn;
 
   /// The name of the room associated with a device.
-  @_s.JsonKey(name: 'RoomName')
-  final String roomName;
+  final String? roomName;
 
   /// The software version of a device.
-  @_s.JsonKey(name: 'SoftwareVersion')
-  final String softwareVersion;
+  final String? softwareVersion;
 
   DeviceData({
     this.createdTime,
@@ -6598,43 +6206,99 @@ class DeviceData {
     this.roomName,
     this.softwareVersion,
   });
-  factory DeviceData.fromJson(Map<String, dynamic> json) =>
-      _$DeviceDataFromJson(json);
+
+  factory DeviceData.fromJson(Map<String, dynamic> json) {
+    return DeviceData(
+      createdTime: timeStampFromJson(json['CreatedTime']),
+      deviceArn: json['DeviceArn'] as String?,
+      deviceName: json['DeviceName'] as String?,
+      deviceSerialNumber: json['DeviceSerialNumber'] as String?,
+      deviceStatus: (json['DeviceStatus'] as String?)?.toDeviceStatus(),
+      deviceStatusInfo: json['DeviceStatusInfo'] != null
+          ? DeviceStatusInfo.fromJson(
+              json['DeviceStatusInfo'] as Map<String, dynamic>)
+          : null,
+      deviceType: json['DeviceType'] as String?,
+      macAddress: json['MacAddress'] as String?,
+      networkProfileArn: json['NetworkProfileArn'] as String?,
+      networkProfileName: json['NetworkProfileName'] as String?,
+      roomArn: json['RoomArn'] as String?,
+      roomName: json['RoomName'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTime = this.createdTime;
+    final deviceArn = this.deviceArn;
+    final deviceName = this.deviceName;
+    final deviceSerialNumber = this.deviceSerialNumber;
+    final deviceStatus = this.deviceStatus;
+    final deviceStatusInfo = this.deviceStatusInfo;
+    final deviceType = this.deviceType;
+    final macAddress = this.macAddress;
+    final networkProfileArn = this.networkProfileArn;
+    final networkProfileName = this.networkProfileName;
+    final roomArn = this.roomArn;
+    final roomName = this.roomName;
+    final softwareVersion = this.softwareVersion;
+    return {
+      if (createdTime != null) 'CreatedTime': unixTimestampToJson(createdTime),
+      if (deviceArn != null) 'DeviceArn': deviceArn,
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (deviceSerialNumber != null) 'DeviceSerialNumber': deviceSerialNumber,
+      if (deviceStatus != null) 'DeviceStatus': deviceStatus.toValue(),
+      if (deviceStatusInfo != null) 'DeviceStatusInfo': deviceStatusInfo,
+      if (deviceType != null) 'DeviceType': deviceType,
+      if (macAddress != null) 'MacAddress': macAddress,
+      if (networkProfileArn != null) 'NetworkProfileArn': networkProfileArn,
+      if (networkProfileName != null) 'NetworkProfileName': networkProfileName,
+      if (roomArn != null) 'RoomArn': roomArn,
+      if (roomName != null) 'RoomName': roomName,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
+    };
+  }
 }
 
 /// The list of device events.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceEvent {
   /// The time (in epoch) when the event occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Timestamp')
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   /// The type of device event.
-  @_s.JsonKey(name: 'Type')
-  final DeviceEventType type;
+  final DeviceEventType? type;
 
   /// The value of the event.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   DeviceEvent({
     this.timestamp,
     this.type,
     this.value,
   });
-  factory DeviceEvent.fromJson(Map<String, dynamic> json) =>
-      _$DeviceEventFromJson(json);
+
+  factory DeviceEvent.fromJson(Map<String, dynamic> json) {
+    return DeviceEvent(
+      timestamp: timeStampFromJson(json['Timestamp']),
+      type: (json['Type'] as String?)?.toDeviceEventType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timestamp = this.timestamp;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum DeviceEventType {
-  @_s.JsonValue('CONNECTION_STATUS')
   connectionStatus,
-  @_s.JsonValue('DEVICE_STATUS')
   deviceStatus,
 }
 
@@ -6646,143 +6310,284 @@ extension on DeviceEventType {
       case DeviceEventType.deviceStatus:
         return 'DEVICE_STATUS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DeviceEventType toDeviceEventType() {
+    switch (this) {
+      case 'CONNECTION_STATUS':
+        return DeviceEventType.connectionStatus;
+      case 'DEVICE_STATUS':
+        return DeviceEventType.deviceStatus;
+    }
+    throw Exception('$this is not known in enum DeviceEventType');
   }
 }
 
 /// Detailed information about a device's network profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceNetworkProfileInfo {
   /// The ARN of the certificate associated with a device.
-  @_s.JsonKey(name: 'CertificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   /// The time (in epoch) when the certificate expires.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CertificateExpirationTime')
-  final DateTime certificateExpirationTime;
+  final DateTime? certificateExpirationTime;
 
   /// The ARN of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileArn')
-  final String networkProfileArn;
+  final String? networkProfileArn;
 
   DeviceNetworkProfileInfo({
     this.certificateArn,
     this.certificateExpirationTime,
     this.networkProfileArn,
   });
-  factory DeviceNetworkProfileInfo.fromJson(Map<String, dynamic> json) =>
-      _$DeviceNetworkProfileInfoFromJson(json);
+
+  factory DeviceNetworkProfileInfo.fromJson(Map<String, dynamic> json) {
+    return DeviceNetworkProfileInfo(
+      certificateArn: json['CertificateArn'] as String?,
+      certificateExpirationTime:
+          timeStampFromJson(json['CertificateExpirationTime']),
+      networkProfileArn: json['NetworkProfileArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final certificateExpirationTime = this.certificateExpirationTime;
+    final networkProfileArn = this.networkProfileArn;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+      if (certificateExpirationTime != null)
+        'CertificateExpirationTime':
+            unixTimestampToJson(certificateExpirationTime),
+      if (networkProfileArn != null) 'NetworkProfileArn': networkProfileArn,
+    };
+  }
 }
 
 enum DeviceStatus {
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('WAS_OFFLINE')
   wasOffline,
-  @_s.JsonValue('DEREGISTERED')
   deregistered,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on DeviceStatus {
+  String toValue() {
+    switch (this) {
+      case DeviceStatus.ready:
+        return 'READY';
+      case DeviceStatus.pending:
+        return 'PENDING';
+      case DeviceStatus.wasOffline:
+        return 'WAS_OFFLINE';
+      case DeviceStatus.deregistered:
+        return 'DEREGISTERED';
+      case DeviceStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  DeviceStatus toDeviceStatus() {
+    switch (this) {
+      case 'READY':
+        return DeviceStatus.ready;
+      case 'PENDING':
+        return DeviceStatus.pending;
+      case 'WAS_OFFLINE':
+        return DeviceStatus.wasOffline;
+      case 'DEREGISTERED':
+        return DeviceStatus.deregistered;
+      case 'FAILED':
+        return DeviceStatus.failed;
+    }
+    throw Exception('$this is not known in enum DeviceStatus');
+  }
+}
+
 /// Details of a device’s status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceStatusDetail {
   /// The device status detail code.
-  @_s.JsonKey(name: 'Code')
-  final DeviceStatusDetailCode code;
+  final DeviceStatusDetailCode? code;
 
   /// The list of available features on the device.
-  @_s.JsonKey(name: 'Feature')
-  final Feature feature;
+  final Feature? feature;
 
   DeviceStatusDetail({
     this.code,
     this.feature,
   });
-  factory DeviceStatusDetail.fromJson(Map<String, dynamic> json) =>
-      _$DeviceStatusDetailFromJson(json);
+
+  factory DeviceStatusDetail.fromJson(Map<String, dynamic> json) {
+    return DeviceStatusDetail(
+      code: (json['Code'] as String?)?.toDeviceStatusDetailCode(),
+      feature: (json['Feature'] as String?)?.toFeature(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final feature = this.feature;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (feature != null) 'Feature': feature.toValue(),
+    };
+  }
 }
 
 enum DeviceStatusDetailCode {
-  @_s.JsonValue('DEVICE_SOFTWARE_UPDATE_NEEDED')
   deviceSoftwareUpdateNeeded,
-  @_s.JsonValue('DEVICE_WAS_OFFLINE')
   deviceWasOffline,
-  @_s.JsonValue('CREDENTIALS_ACCESS_FAILURE')
   credentialsAccessFailure,
-  @_s.JsonValue('TLS_VERSION_MISMATCH')
   tlsVersionMismatch,
-  @_s.JsonValue('ASSOCIATION_REJECTION')
   associationRejection,
-  @_s.JsonValue('AUTHENTICATION_FAILURE')
   authenticationFailure,
-  @_s.JsonValue('DHCP_FAILURE')
   dhcpFailure,
-  @_s.JsonValue('INTERNET_UNAVAILABLE')
   internetUnavailable,
-  @_s.JsonValue('DNS_FAILURE')
   dnsFailure,
-  @_s.JsonValue('UNKNOWN_FAILURE')
   unknownFailure,
-  @_s.JsonValue('CERTIFICATE_ISSUING_LIMIT_EXCEEDED')
   certificateIssuingLimitExceeded,
-  @_s.JsonValue('INVALID_CERTIFICATE_AUTHORITY')
   invalidCertificateAuthority,
-  @_s.JsonValue('NETWORK_PROFILE_NOT_FOUND')
   networkProfileNotFound,
-  @_s.JsonValue('INVALID_PASSWORD_STATE')
   invalidPasswordState,
-  @_s.JsonValue('PASSWORD_NOT_FOUND')
   passwordNotFound,
-  @_s.JsonValue('PASSWORD_MANAGER_ACCESS_DENIED')
   passwordManagerAccessDenied,
-  @_s.JsonValue('CERTIFICATE_AUTHORITY_ACCESS_DENIED')
   certificateAuthorityAccessDenied,
 }
 
+extension on DeviceStatusDetailCode {
+  String toValue() {
+    switch (this) {
+      case DeviceStatusDetailCode.deviceSoftwareUpdateNeeded:
+        return 'DEVICE_SOFTWARE_UPDATE_NEEDED';
+      case DeviceStatusDetailCode.deviceWasOffline:
+        return 'DEVICE_WAS_OFFLINE';
+      case DeviceStatusDetailCode.credentialsAccessFailure:
+        return 'CREDENTIALS_ACCESS_FAILURE';
+      case DeviceStatusDetailCode.tlsVersionMismatch:
+        return 'TLS_VERSION_MISMATCH';
+      case DeviceStatusDetailCode.associationRejection:
+        return 'ASSOCIATION_REJECTION';
+      case DeviceStatusDetailCode.authenticationFailure:
+        return 'AUTHENTICATION_FAILURE';
+      case DeviceStatusDetailCode.dhcpFailure:
+        return 'DHCP_FAILURE';
+      case DeviceStatusDetailCode.internetUnavailable:
+        return 'INTERNET_UNAVAILABLE';
+      case DeviceStatusDetailCode.dnsFailure:
+        return 'DNS_FAILURE';
+      case DeviceStatusDetailCode.unknownFailure:
+        return 'UNKNOWN_FAILURE';
+      case DeviceStatusDetailCode.certificateIssuingLimitExceeded:
+        return 'CERTIFICATE_ISSUING_LIMIT_EXCEEDED';
+      case DeviceStatusDetailCode.invalidCertificateAuthority:
+        return 'INVALID_CERTIFICATE_AUTHORITY';
+      case DeviceStatusDetailCode.networkProfileNotFound:
+        return 'NETWORK_PROFILE_NOT_FOUND';
+      case DeviceStatusDetailCode.invalidPasswordState:
+        return 'INVALID_PASSWORD_STATE';
+      case DeviceStatusDetailCode.passwordNotFound:
+        return 'PASSWORD_NOT_FOUND';
+      case DeviceStatusDetailCode.passwordManagerAccessDenied:
+        return 'PASSWORD_MANAGER_ACCESS_DENIED';
+      case DeviceStatusDetailCode.certificateAuthorityAccessDenied:
+        return 'CERTIFICATE_AUTHORITY_ACCESS_DENIED';
+    }
+  }
+}
+
+extension on String {
+  DeviceStatusDetailCode toDeviceStatusDetailCode() {
+    switch (this) {
+      case 'DEVICE_SOFTWARE_UPDATE_NEEDED':
+        return DeviceStatusDetailCode.deviceSoftwareUpdateNeeded;
+      case 'DEVICE_WAS_OFFLINE':
+        return DeviceStatusDetailCode.deviceWasOffline;
+      case 'CREDENTIALS_ACCESS_FAILURE':
+        return DeviceStatusDetailCode.credentialsAccessFailure;
+      case 'TLS_VERSION_MISMATCH':
+        return DeviceStatusDetailCode.tlsVersionMismatch;
+      case 'ASSOCIATION_REJECTION':
+        return DeviceStatusDetailCode.associationRejection;
+      case 'AUTHENTICATION_FAILURE':
+        return DeviceStatusDetailCode.authenticationFailure;
+      case 'DHCP_FAILURE':
+        return DeviceStatusDetailCode.dhcpFailure;
+      case 'INTERNET_UNAVAILABLE':
+        return DeviceStatusDetailCode.internetUnavailable;
+      case 'DNS_FAILURE':
+        return DeviceStatusDetailCode.dnsFailure;
+      case 'UNKNOWN_FAILURE':
+        return DeviceStatusDetailCode.unknownFailure;
+      case 'CERTIFICATE_ISSUING_LIMIT_EXCEEDED':
+        return DeviceStatusDetailCode.certificateIssuingLimitExceeded;
+      case 'INVALID_CERTIFICATE_AUTHORITY':
+        return DeviceStatusDetailCode.invalidCertificateAuthority;
+      case 'NETWORK_PROFILE_NOT_FOUND':
+        return DeviceStatusDetailCode.networkProfileNotFound;
+      case 'INVALID_PASSWORD_STATE':
+        return DeviceStatusDetailCode.invalidPasswordState;
+      case 'PASSWORD_NOT_FOUND':
+        return DeviceStatusDetailCode.passwordNotFound;
+      case 'PASSWORD_MANAGER_ACCESS_DENIED':
+        return DeviceStatusDetailCode.passwordManagerAccessDenied;
+      case 'CERTIFICATE_AUTHORITY_ACCESS_DENIED':
+        return DeviceStatusDetailCode.certificateAuthorityAccessDenied;
+    }
+    throw Exception('$this is not known in enum DeviceStatusDetailCode');
+  }
+}
+
 /// Detailed information about a device's status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeviceStatusInfo {
   /// The latest available information about the connection status of a device.
-  @_s.JsonKey(name: 'ConnectionStatus')
-  final ConnectionStatus connectionStatus;
+  final ConnectionStatus? connectionStatus;
 
   /// The time (in epoch) when the device connection status changed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ConnectionStatusUpdatedTime')
-  final DateTime connectionStatusUpdatedTime;
+  final DateTime? connectionStatusUpdatedTime;
 
   /// One or more device status detail descriptions.
-  @_s.JsonKey(name: 'DeviceStatusDetails')
-  final List<DeviceStatusDetail> deviceStatusDetails;
+  final List<DeviceStatusDetail>? deviceStatusDetails;
 
   DeviceStatusInfo({
     this.connectionStatus,
     this.connectionStatusUpdatedTime,
     this.deviceStatusDetails,
   });
-  factory DeviceStatusInfo.fromJson(Map<String, dynamic> json) =>
-      _$DeviceStatusInfoFromJson(json);
+
+  factory DeviceStatusInfo.fromJson(Map<String, dynamic> json) {
+    return DeviceStatusInfo(
+      connectionStatus:
+          (json['ConnectionStatus'] as String?)?.toConnectionStatus(),
+      connectionStatusUpdatedTime:
+          timeStampFromJson(json['ConnectionStatusUpdatedTime']),
+      deviceStatusDetails: (json['DeviceStatusDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceStatusDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionStatus = this.connectionStatus;
+    final connectionStatusUpdatedTime = this.connectionStatusUpdatedTime;
+    final deviceStatusDetails = this.deviceStatusDetails;
+    return {
+      if (connectionStatus != null)
+        'ConnectionStatus': connectionStatus.toValue(),
+      if (connectionStatusUpdatedTime != null)
+        'ConnectionStatusUpdatedTime':
+            unixTimestampToJson(connectionStatusUpdatedTime),
+      if (deviceStatusDetails != null)
+        'DeviceStatusDetails': deviceStatusDetails,
+    };
+  }
 }
 
 enum DeviceUsageType {
-  @_s.JsonValue('VOICE')
   voice,
 }
 
@@ -6792,74 +6597,84 @@ extension on DeviceUsageType {
       case DeviceUsageType.voice:
         return 'VOICE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  DeviceUsageType toDeviceUsageType() {
+    switch (this) {
+      case 'VOICE':
+        return DeviceUsageType.voice;
+    }
+    throw Exception('$this is not known in enum DeviceUsageType');
+  }
+}
+
 class DisassociateContactFromAddressBookResponse {
   DisassociateContactFromAddressBookResponse();
+
   factory DisassociateContactFromAddressBookResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateContactFromAddressBookResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateContactFromAddressBookResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateDeviceFromRoomResponse {
   DisassociateDeviceFromRoomResponse();
-  factory DisassociateDeviceFromRoomResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateDeviceFromRoomResponseFromJson(json);
+
+  factory DisassociateDeviceFromRoomResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateDeviceFromRoomResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateSkillFromSkillGroupResponse {
   DisassociateSkillFromSkillGroupResponse();
+
   factory DisassociateSkillFromSkillGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateSkillFromSkillGroupResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateSkillFromSkillGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateSkillFromUsersResponse {
   DisassociateSkillFromUsersResponse();
-  factory DisassociateSkillFromUsersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateSkillFromUsersResponseFromJson(json);
+
+  factory DisassociateSkillFromUsersResponse.fromJson(Map<String, dynamic> _) {
+    return DisassociateSkillFromUsersResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateSkillGroupFromRoomResponse {
   DisassociateSkillGroupFromRoomResponse();
+
   factory DisassociateSkillGroupFromRoomResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateSkillGroupFromRoomResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateSkillGroupFromRoomResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum DistanceUnit {
-  @_s.JsonValue('METRIC')
   metric,
-  @_s.JsonValue('IMPERIAL')
   imperial,
 }
 
@@ -6871,21 +6686,51 @@ extension on DistanceUnit {
       case DistanceUnit.imperial:
         return 'IMPERIAL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DistanceUnit toDistanceUnit() {
+    switch (this) {
+      case 'METRIC':
+        return DistanceUnit.metric;
+      case 'IMPERIAL':
+        return DistanceUnit.imperial;
+    }
+    throw Exception('$this is not known in enum DistanceUnit');
   }
 }
 
 enum EnablementType {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('PENDING')
   pending,
 }
 
+extension on EnablementType {
+  String toValue() {
+    switch (this) {
+      case EnablementType.enabled:
+        return 'ENABLED';
+      case EnablementType.pending:
+        return 'PENDING';
+    }
+  }
+}
+
+extension on String {
+  EnablementType toEnablementType() {
+    switch (this) {
+      case 'ENABLED':
+        return EnablementType.enabled;
+      case 'PENDING':
+        return EnablementType.pending;
+    }
+    throw Exception('$this is not known in enum EnablementType');
+  }
+}
+
 enum EnablementTypeFilter {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('PENDING')
   pending,
 }
 
@@ -6897,80 +6742,153 @@ extension on EnablementTypeFilter {
       case EnablementTypeFilter.pending:
         return 'PENDING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  EnablementTypeFilter toEnablementTypeFilter() {
+    switch (this) {
+      case 'ENABLED':
+        return EnablementTypeFilter.enabled;
+      case 'PENDING':
+        return EnablementTypeFilter.pending;
+    }
+    throw Exception('$this is not known in enum EnablementTypeFilter');
   }
 }
 
 /// Settings for the end of meeting reminder feature that are applied to a room
 /// profile. The end of meeting reminder enables Alexa to remind users when a
 /// meeting is ending.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EndOfMeetingReminder {
   /// Whether an end of meeting reminder is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// A range of 3 to 15 minutes that determines when the reminder begins.
-  @_s.JsonKey(name: 'ReminderAtMinutes')
-  final List<int> reminderAtMinutes;
+  final List<int>? reminderAtMinutes;
 
   /// The type of sound that users hear during the end of meeting reminder.
-  @_s.JsonKey(name: 'ReminderType')
-  final EndOfMeetingReminderType reminderType;
+  final EndOfMeetingReminderType? reminderType;
 
   EndOfMeetingReminder({
     this.enabled,
     this.reminderAtMinutes,
     this.reminderType,
   });
-  factory EndOfMeetingReminder.fromJson(Map<String, dynamic> json) =>
-      _$EndOfMeetingReminderFromJson(json);
+
+  factory EndOfMeetingReminder.fromJson(Map<String, dynamic> json) {
+    return EndOfMeetingReminder(
+      enabled: json['Enabled'] as bool?,
+      reminderAtMinutes: (json['ReminderAtMinutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      reminderType:
+          (json['ReminderType'] as String?)?.toEndOfMeetingReminderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final reminderAtMinutes = this.reminderAtMinutes;
+    final reminderType = this.reminderType;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (reminderAtMinutes != null) 'ReminderAtMinutes': reminderAtMinutes,
+      if (reminderType != null) 'ReminderType': reminderType.toValue(),
+    };
+  }
 }
 
 enum EndOfMeetingReminderType {
-  @_s.JsonValue('ANNOUNCEMENT_TIME_CHECK')
   announcementTimeCheck,
-  @_s.JsonValue('ANNOUNCEMENT_VARIABLE_TIME_LEFT')
   announcementVariableTimeLeft,
-  @_s.JsonValue('CHIME')
   chime,
-  @_s.JsonValue('KNOCK')
   knock,
 }
 
+extension on EndOfMeetingReminderType {
+  String toValue() {
+    switch (this) {
+      case EndOfMeetingReminderType.announcementTimeCheck:
+        return 'ANNOUNCEMENT_TIME_CHECK';
+      case EndOfMeetingReminderType.announcementVariableTimeLeft:
+        return 'ANNOUNCEMENT_VARIABLE_TIME_LEFT';
+      case EndOfMeetingReminderType.chime:
+        return 'CHIME';
+      case EndOfMeetingReminderType.knock:
+        return 'KNOCK';
+    }
+  }
+}
+
+extension on String {
+  EndOfMeetingReminderType toEndOfMeetingReminderType() {
+    switch (this) {
+      case 'ANNOUNCEMENT_TIME_CHECK':
+        return EndOfMeetingReminderType.announcementTimeCheck;
+      case 'ANNOUNCEMENT_VARIABLE_TIME_LEFT':
+        return EndOfMeetingReminderType.announcementVariableTimeLeft;
+      case 'CHIME':
+        return EndOfMeetingReminderType.chime;
+      case 'KNOCK':
+        return EndOfMeetingReminderType.knock;
+    }
+    throw Exception('$this is not known in enum EndOfMeetingReminderType');
+  }
+}
+
 enum EnrollmentStatus {
-  @_s.JsonValue('INITIALIZED')
   initialized,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('REGISTERED')
   registered,
-  @_s.JsonValue('DISASSOCIATING')
   disassociating,
-  @_s.JsonValue('DEREGISTERING')
   deregistering,
 }
 
+extension on EnrollmentStatus {
+  String toValue() {
+    switch (this) {
+      case EnrollmentStatus.initialized:
+        return 'INITIALIZED';
+      case EnrollmentStatus.pending:
+        return 'PENDING';
+      case EnrollmentStatus.registered:
+        return 'REGISTERED';
+      case EnrollmentStatus.disassociating:
+        return 'DISASSOCIATING';
+      case EnrollmentStatus.deregistering:
+        return 'DEREGISTERING';
+    }
+  }
+}
+
+extension on String {
+  EnrollmentStatus toEnrollmentStatus() {
+    switch (this) {
+      case 'INITIALIZED':
+        return EnrollmentStatus.initialized;
+      case 'PENDING':
+        return EnrollmentStatus.pending;
+      case 'REGISTERED':
+        return EnrollmentStatus.registered;
+      case 'DISASSOCIATING':
+        return EnrollmentStatus.disassociating;
+      case 'DEREGISTERING':
+        return EnrollmentStatus.deregistering;
+    }
+    throw Exception('$this is not known in enum EnrollmentStatus');
+  }
+}
+
 enum Feature {
-  @_s.JsonValue('BLUETOOTH')
   bluetooth,
-  @_s.JsonValue('VOLUME')
   volume,
-  @_s.JsonValue('NOTIFICATIONS')
   notifications,
-  @_s.JsonValue('LISTS')
   lists,
-  @_s.JsonValue('SKILLS')
   skills,
-  @_s.JsonValue('NETWORK_PROFILE')
   networkProfile,
-  @_s.JsonValue('SETTINGS')
   settings,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -6994,73 +6912,97 @@ extension on Feature {
       case Feature.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Feature toFeature() {
+    switch (this) {
+      case 'BLUETOOTH':
+        return Feature.bluetooth;
+      case 'VOLUME':
+        return Feature.volume;
+      case 'NOTIFICATIONS':
+        return Feature.notifications;
+      case 'LISTS':
+        return Feature.lists;
+      case 'SKILLS':
+        return Feature.skills;
+      case 'NETWORK_PROFILE':
+        return Feature.networkProfile;
+      case 'SETTINGS':
+        return Feature.settings;
+      case 'ALL':
+        return Feature.all;
+    }
+    throw Exception('$this is not known in enum Feature');
   }
 }
 
 /// A filter name and value pair that is used to return a more specific list of
 /// results. Filters can be used to match a set of resources by various
 /// criteria.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// The key of a filter.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The values of a filter.
-  @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   Filter({
-    @_s.required this.key,
-    @_s.required this.values,
+    required this.key,
+    required this.values,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      key: json['Key'] as String,
+      values: (json['Values'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final values = this.values;
+    return {
+      'Key': key,
+      'Values': values,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ForgetSmartHomeAppliancesResponse {
   ForgetSmartHomeAppliancesResponse();
-  factory ForgetSmartHomeAppliancesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ForgetSmartHomeAppliancesResponseFromJson(json);
+
+  factory ForgetSmartHomeAppliancesResponse.fromJson(Map<String, dynamic> _) {
+    return ForgetSmartHomeAppliancesResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The details of the gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Gateway {
   /// The ARN of the gateway.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the gateway.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the gateway group that the gateway is associated to.
-  @_s.JsonKey(name: 'GatewayGroupArn')
-  final String gatewayGroupArn;
+  final String? gatewayGroupArn;
 
   /// The name of the gateway.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The software version of the gateway. The gateway automatically updates its
   /// software version during normal operation.
-  @_s.JsonKey(name: 'SoftwareVersion')
-  final String softwareVersion;
+  final String? softwareVersion;
 
   Gateway({
     this.arn,
@@ -7069,93 +7011,124 @@ class Gateway {
     this.name,
     this.softwareVersion,
   });
-  factory Gateway.fromJson(Map<String, dynamic> json) =>
-      _$GatewayFromJson(json);
+
+  factory Gateway.fromJson(Map<String, dynamic> json) {
+    return Gateway(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      gatewayGroupArn: json['GatewayGroupArn'] as String?,
+      name: json['Name'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final gatewayGroupArn = this.gatewayGroupArn;
+    final name = this.name;
+    final softwareVersion = this.softwareVersion;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (gatewayGroupArn != null) 'GatewayGroupArn': gatewayGroupArn,
+      if (name != null) 'Name': name,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
+    };
+  }
 }
 
 /// The details of the gateway group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GatewayGroup {
   /// The ARN of the gateway group.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the gateway group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the gateway group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   GatewayGroup({
     this.arn,
     this.description,
     this.name,
   });
-  factory GatewayGroup.fromJson(Map<String, dynamic> json) =>
-      _$GatewayGroupFromJson(json);
+
+  factory GatewayGroup.fromJson(Map<String, dynamic> json) {
+    return GatewayGroup(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// The summary of a gateway group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GatewayGroupSummary {
   /// The ARN of the gateway group.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the gateway group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the gateway group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   GatewayGroupSummary({
     this.arn,
     this.description,
     this.name,
   });
-  factory GatewayGroupSummary.fromJson(Map<String, dynamic> json) =>
-      _$GatewayGroupSummaryFromJson(json);
+
+  factory GatewayGroupSummary.fromJson(Map<String, dynamic> json) {
+    return GatewayGroupSummary(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// The summary of a gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GatewaySummary {
   /// The ARN of the gateway.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the gateway.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the gateway group that the gateway is associated to.
-  @_s.JsonKey(name: 'GatewayGroupArn')
-  final String gatewayGroupArn;
+  final String? gatewayGroupArn;
 
   /// The name of the gateway.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The software version of the gateway. The gateway automatically updates its
   /// software version during normal operation.
-  @_s.JsonKey(name: 'SoftwareVersion')
-  final String softwareVersion;
+  final String? softwareVersion;
 
   GatewaySummary({
     this.arn,
@@ -7164,550 +7137,798 @@ class GatewaySummary {
     this.name,
     this.softwareVersion,
   });
-  factory GatewaySummary.fromJson(Map<String, dynamic> json) =>
-      _$GatewaySummaryFromJson(json);
+
+  factory GatewaySummary.fromJson(Map<String, dynamic> json) {
+    return GatewaySummary(
+      arn: json['Arn'] as String?,
+      description: json['Description'] as String?,
+      gatewayGroupArn: json['GatewayGroupArn'] as String?,
+      name: json['Name'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final description = this.description;
+    final gatewayGroupArn = this.gatewayGroupArn;
+    final name = this.name;
+    final softwareVersion = this.softwareVersion;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (description != null) 'Description': description,
+      if (gatewayGroupArn != null) 'GatewayGroupArn': gatewayGroupArn,
+      if (name != null) 'Name': name,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAddressBookResponse {
   /// The details of the requested address book.
-  @_s.JsonKey(name: 'AddressBook')
-  final AddressBook addressBook;
+  final AddressBook? addressBook;
 
   GetAddressBookResponse({
     this.addressBook,
   });
-  factory GetAddressBookResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAddressBookResponseFromJson(json);
+
+  factory GetAddressBookResponse.fromJson(Map<String, dynamic> json) {
+    return GetAddressBookResponse(
+      addressBook: json['AddressBook'] != null
+          ? AddressBook.fromJson(json['AddressBook'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressBook = this.addressBook;
+    return {
+      if (addressBook != null) 'AddressBook': addressBook,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConferencePreferenceResponse {
   /// The conference preference.
-  @_s.JsonKey(name: 'Preference')
-  final ConferencePreference preference;
+  final ConferencePreference? preference;
 
   GetConferencePreferenceResponse({
     this.preference,
   });
-  factory GetConferencePreferenceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConferencePreferenceResponseFromJson(json);
+
+  factory GetConferencePreferenceResponse.fromJson(Map<String, dynamic> json) {
+    return GetConferencePreferenceResponse(
+      preference: json['Preference'] != null
+          ? ConferencePreference.fromJson(
+              json['Preference'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final preference = this.preference;
+    return {
+      if (preference != null) 'Preference': preference,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConferenceProviderResponse {
   /// The conference provider.
-  @_s.JsonKey(name: 'ConferenceProvider')
-  final ConferenceProvider conferenceProvider;
+  final ConferenceProvider? conferenceProvider;
 
   GetConferenceProviderResponse({
     this.conferenceProvider,
   });
-  factory GetConferenceProviderResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConferenceProviderResponseFromJson(json);
+
+  factory GetConferenceProviderResponse.fromJson(Map<String, dynamic> json) {
+    return GetConferenceProviderResponse(
+      conferenceProvider: json['ConferenceProvider'] != null
+          ? ConferenceProvider.fromJson(
+              json['ConferenceProvider'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conferenceProvider = this.conferenceProvider;
+    return {
+      if (conferenceProvider != null) 'ConferenceProvider': conferenceProvider,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetContactResponse {
   /// The details of the requested contact.
-  @_s.JsonKey(name: 'Contact')
-  final Contact contact;
+  final Contact? contact;
 
   GetContactResponse({
     this.contact,
   });
-  factory GetContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetContactResponseFromJson(json);
+
+  factory GetContactResponse.fromJson(Map<String, dynamic> json) {
+    return GetContactResponse(
+      contact: json['Contact'] != null
+          ? Contact.fromJson(json['Contact'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contact = this.contact;
+    return {
+      if (contact != null) 'Contact': contact,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceResponse {
   /// The details of the device requested. Required.
-  @_s.JsonKey(name: 'Device')
-  final Device device;
+  final Device? device;
 
   GetDeviceResponse({
     this.device,
   });
-  factory GetDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceResponseFromJson(json);
+
+  factory GetDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeviceResponse(
+      device: json['Device'] != null
+          ? Device.fromJson(json['Device'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    return {
+      if (device != null) 'Device': device,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGatewayGroupResponse {
-  @_s.JsonKey(name: 'GatewayGroup')
-  final GatewayGroup gatewayGroup;
+  final GatewayGroup? gatewayGroup;
 
   GetGatewayGroupResponse({
     this.gatewayGroup,
   });
-  factory GetGatewayGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGatewayGroupResponseFromJson(json);
+
+  factory GetGatewayGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetGatewayGroupResponse(
+      gatewayGroup: json['GatewayGroup'] != null
+          ? GatewayGroup.fromJson(json['GatewayGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayGroup = this.gatewayGroup;
+    return {
+      if (gatewayGroup != null) 'GatewayGroup': gatewayGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGatewayResponse {
   /// The details of the gateway.
-  @_s.JsonKey(name: 'Gateway')
-  final Gateway gateway;
+  final Gateway? gateway;
 
   GetGatewayResponse({
     this.gateway,
   });
-  factory GetGatewayResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGatewayResponseFromJson(json);
+
+  factory GetGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return GetGatewayResponse(
+      gateway: json['Gateway'] != null
+          ? Gateway.fromJson(json['Gateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gateway = this.gateway;
+    return {
+      if (gateway != null) 'Gateway': gateway,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetInvitationConfigurationResponse {
   /// The email ID of the organization or individual contact that the enrolled
   /// user can use.
-  @_s.JsonKey(name: 'ContactEmail')
-  final String contactEmail;
+  final String? contactEmail;
 
   /// The name of the organization sending the enrollment invite to a user.
-  @_s.JsonKey(name: 'OrganizationName')
-  final String organizationName;
+  final String? organizationName;
 
   /// The list of private skill IDs that you want to recommend to the user to
   /// enable in the invitation.
-  @_s.JsonKey(name: 'PrivateSkillIds')
-  final List<String> privateSkillIds;
+  final List<String>? privateSkillIds;
 
   GetInvitationConfigurationResponse({
     this.contactEmail,
     this.organizationName,
     this.privateSkillIds,
   });
+
   factory GetInvitationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetInvitationConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetInvitationConfigurationResponse(
+      contactEmail: json['ContactEmail'] as String?,
+      organizationName: json['OrganizationName'] as String?,
+      privateSkillIds: (json['PrivateSkillIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contactEmail = this.contactEmail;
+    final organizationName = this.organizationName;
+    final privateSkillIds = this.privateSkillIds;
+    return {
+      if (contactEmail != null) 'ContactEmail': contactEmail,
+      if (organizationName != null) 'OrganizationName': organizationName,
+      if (privateSkillIds != null) 'PrivateSkillIds': privateSkillIds,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetNetworkProfileResponse {
   /// The network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfile')
-  final NetworkProfile networkProfile;
+  final NetworkProfile? networkProfile;
 
   GetNetworkProfileResponse({
     this.networkProfile,
   });
-  factory GetNetworkProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetNetworkProfileResponseFromJson(json);
+
+  factory GetNetworkProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetNetworkProfileResponse(
+      networkProfile: json['NetworkProfile'] != null
+          ? NetworkProfile.fromJson(
+              json['NetworkProfile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkProfile = this.networkProfile;
+    return {
+      if (networkProfile != null) 'NetworkProfile': networkProfile,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetProfileResponse {
   /// The details of the room profile requested. Required.
-  @_s.JsonKey(name: 'Profile')
-  final Profile profile;
+  final Profile? profile;
 
   GetProfileResponse({
     this.profile,
   });
-  factory GetProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetProfileResponseFromJson(json);
+
+  factory GetProfileResponse.fromJson(Map<String, dynamic> json) {
+    return GetProfileResponse(
+      profile: json['Profile'] != null
+          ? Profile.fromJson(json['Profile'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final profile = this.profile;
+    return {
+      if (profile != null) 'Profile': profile,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRoomResponse {
   /// The details of the room requested.
-  @_s.JsonKey(name: 'Room')
-  final Room room;
+  final Room? room;
 
   GetRoomResponse({
     this.room,
   });
-  factory GetRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRoomResponseFromJson(json);
+
+  factory GetRoomResponse.fromJson(Map<String, dynamic> json) {
+    return GetRoomResponse(
+      room: json['Room'] != null
+          ? Room.fromJson(json['Room'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final room = this.room;
+    return {
+      if (room != null) 'Room': room,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetRoomSkillParameterResponse {
   /// The details of the room skill parameter requested. Required.
-  @_s.JsonKey(name: 'RoomSkillParameter')
-  final RoomSkillParameter roomSkillParameter;
+  final RoomSkillParameter? roomSkillParameter;
 
   GetRoomSkillParameterResponse({
     this.roomSkillParameter,
   });
-  factory GetRoomSkillParameterResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRoomSkillParameterResponseFromJson(json);
+
+  factory GetRoomSkillParameterResponse.fromJson(Map<String, dynamic> json) {
+    return GetRoomSkillParameterResponse(
+      roomSkillParameter: json['RoomSkillParameter'] != null
+          ? RoomSkillParameter.fromJson(
+              json['RoomSkillParameter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roomSkillParameter = this.roomSkillParameter;
+    return {
+      if (roomSkillParameter != null) 'RoomSkillParameter': roomSkillParameter,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSkillGroupResponse {
   /// The details of the skill group requested. Required.
-  @_s.JsonKey(name: 'SkillGroup')
-  final SkillGroup skillGroup;
+  final SkillGroup? skillGroup;
 
   GetSkillGroupResponse({
     this.skillGroup,
   });
-  factory GetSkillGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSkillGroupResponseFromJson(json);
+
+  factory GetSkillGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetSkillGroupResponse(
+      skillGroup: json['SkillGroup'] != null
+          ? SkillGroup.fromJson(json['SkillGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final skillGroup = this.skillGroup;
+    return {
+      if (skillGroup != null) 'SkillGroup': skillGroup,
+    };
+  }
 }
 
 /// The IP endpoint and protocol for calling.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IPDialIn {
   /// The protocol, including SIP, SIPS, and H323.
-  @_s.JsonKey(name: 'CommsProtocol')
   final CommsProtocol commsProtocol;
 
   /// The IP address.
-  @_s.JsonKey(name: 'Endpoint')
   final String endpoint;
 
   IPDialIn({
-    @_s.required this.commsProtocol,
-    @_s.required this.endpoint,
+    required this.commsProtocol,
+    required this.endpoint,
   });
-  factory IPDialIn.fromJson(Map<String, dynamic> json) =>
-      _$IPDialInFromJson(json);
 
-  Map<String, dynamic> toJson() => _$IPDialInToJson(this);
+  factory IPDialIn.fromJson(Map<String, dynamic> json) {
+    return IPDialIn(
+      commsProtocol: (json['CommsProtocol'] as String).toCommsProtocol(),
+      endpoint: json['Endpoint'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commsProtocol = this.commsProtocol;
+    final endpoint = this.endpoint;
+    return {
+      'CommsProtocol': commsProtocol.toValue(),
+      'Endpoint': endpoint,
+    };
+  }
 }
 
 /// Settings for the instant booking feature that are applied to a room profile.
 /// When users start their meeting with Alexa, Alexa automatically books the
 /// room for the configured duration if the room is available.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstantBooking {
   /// Duration between 15 and 240 minutes at increments of 15 that determines how
   /// long to book an available room when a meeting is started with Alexa.
-  @_s.JsonKey(name: 'DurationInMinutes')
-  final int durationInMinutes;
+  final int? durationInMinutes;
 
   /// Whether instant booking is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   InstantBooking({
     this.durationInMinutes,
     this.enabled,
   });
-  factory InstantBooking.fromJson(Map<String, dynamic> json) =>
-      _$InstantBookingFromJson(json);
+
+  factory InstantBooking.fromJson(Map<String, dynamic> json) {
+    return InstantBooking(
+      durationInMinutes: json['DurationInMinutes'] as int?,
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInMinutes = this.durationInMinutes;
+    final enabled = this.enabled;
+    return {
+      if (durationInMinutes != null) 'DurationInMinutes': durationInMinutes,
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBusinessReportSchedulesResponse {
   /// The schedule of the reports.
-  @_s.JsonKey(name: 'BusinessReportSchedules')
-  final List<BusinessReportSchedule> businessReportSchedules;
+  final List<BusinessReportSchedule>? businessReportSchedules;
 
   /// The token used to list the remaining schedules from the previous API call.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBusinessReportSchedulesResponse({
     this.businessReportSchedules,
     this.nextToken,
   });
+
   factory ListBusinessReportSchedulesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListBusinessReportSchedulesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListBusinessReportSchedulesResponse(
+      businessReportSchedules: (json['BusinessReportSchedules'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => BusinessReportSchedule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final businessReportSchedules = this.businessReportSchedules;
+    final nextToken = this.nextToken;
+    return {
+      if (businessReportSchedules != null)
+        'BusinessReportSchedules': businessReportSchedules,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConferenceProvidersResponse {
   /// The conference providers.
-  @_s.JsonKey(name: 'ConferenceProviders')
-  final List<ConferenceProvider> conferenceProviders;
+  final List<ConferenceProvider>? conferenceProviders;
 
   /// The tokens used for pagination.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConferenceProvidersResponse({
     this.conferenceProviders,
     this.nextToken,
   });
-  factory ListConferenceProvidersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListConferenceProvidersResponseFromJson(json);
+
+  factory ListConferenceProvidersResponse.fromJson(Map<String, dynamic> json) {
+    return ListConferenceProvidersResponse(
+      conferenceProviders: (json['ConferenceProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConferenceProvider.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final conferenceProviders = this.conferenceProviders;
+    final nextToken = this.nextToken;
+    return {
+      if (conferenceProviders != null)
+        'ConferenceProviders': conferenceProviders,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeviceEventsResponse {
   /// The device events requested for the device ARN.
-  @_s.JsonKey(name: 'DeviceEvents')
-  final List<DeviceEvent> deviceEvents;
+  final List<DeviceEvent>? deviceEvents;
 
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeviceEventsResponse({
     this.deviceEvents,
     this.nextToken,
   });
-  factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDeviceEventsResponseFromJson(json);
+
+  factory ListDeviceEventsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDeviceEventsResponse(
+      deviceEvents: (json['DeviceEvents'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceEvents = this.deviceEvents;
+    final nextToken = this.nextToken;
+    return {
+      if (deviceEvents != null) 'DeviceEvents': deviceEvents,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGatewayGroupsResponse {
   /// The gateway groups in the list.
-  @_s.JsonKey(name: 'GatewayGroups')
-  final List<GatewayGroupSummary> gatewayGroups;
+  final List<GatewayGroupSummary>? gatewayGroups;
 
   /// The token used to paginate though multiple pages of gateway group summaries.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGatewayGroupsResponse({
     this.gatewayGroups,
     this.nextToken,
   });
-  factory ListGatewayGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGatewayGroupsResponseFromJson(json);
+
+  factory ListGatewayGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGatewayGroupsResponse(
+      gatewayGroups: (json['GatewayGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GatewayGroupSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gatewayGroups = this.gatewayGroups;
+    final nextToken = this.nextToken;
+    return {
+      if (gatewayGroups != null) 'GatewayGroups': gatewayGroups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGatewaysResponse {
   /// The gateways in the list.
-  @_s.JsonKey(name: 'Gateways')
-  final List<GatewaySummary> gateways;
+  final List<GatewaySummary>? gateways;
 
   /// The token used to paginate though multiple pages of gateway summaries.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGatewaysResponse({
     this.gateways,
     this.nextToken,
   });
-  factory ListGatewaysResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGatewaysResponseFromJson(json);
+
+  factory ListGatewaysResponse.fromJson(Map<String, dynamic> json) {
+    return ListGatewaysResponse(
+      gateways: (json['Gateways'] as List?)
+          ?.whereNotNull()
+          .map((e) => GatewaySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gateways = this.gateways;
+    final nextToken = this.nextToken;
+    return {
+      if (gateways != null) 'Gateways': gateways,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSkillsResponse {
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of enabled skills requested. Required.
-  @_s.JsonKey(name: 'SkillSummaries')
-  final List<SkillSummary> skillSummaries;
+  final List<SkillSummary>? skillSummaries;
 
   ListSkillsResponse({
     this.nextToken,
     this.skillSummaries,
   });
-  factory ListSkillsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSkillsResponseFromJson(json);
+
+  factory ListSkillsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSkillsResponse(
+      nextToken: json['NextToken'] as String?,
+      skillSummaries: (json['SkillSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => SkillSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final skillSummaries = this.skillSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (skillSummaries != null) 'SkillSummaries': skillSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSkillsStoreCategoriesResponse {
   /// The list of categories.
-  @_s.JsonKey(name: 'CategoryList')
-  final List<Category> categoryList;
+  final List<Category>? categoryList;
 
   /// The tokens used for pagination.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListSkillsStoreCategoriesResponse({
     this.categoryList,
     this.nextToken,
   });
+
   factory ListSkillsStoreCategoriesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSkillsStoreCategoriesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListSkillsStoreCategoriesResponse(
+      categoryList: (json['CategoryList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Category.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categoryList = this.categoryList;
+    final nextToken = this.nextToken;
+    return {
+      if (categoryList != null) 'CategoryList': categoryList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSkillsStoreSkillsByCategoryResponse {
   /// The tokens used for pagination.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The skill store skills.
-  @_s.JsonKey(name: 'SkillsStoreSkills')
-  final List<SkillsStoreSkill> skillsStoreSkills;
+  final List<SkillsStoreSkill>? skillsStoreSkills;
 
   ListSkillsStoreSkillsByCategoryResponse({
     this.nextToken,
     this.skillsStoreSkills,
   });
+
   factory ListSkillsStoreSkillsByCategoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSkillsStoreSkillsByCategoryResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListSkillsStoreSkillsByCategoryResponse(
+      nextToken: json['NextToken'] as String?,
+      skillsStoreSkills: (json['SkillsStoreSkills'] as List?)
+          ?.whereNotNull()
+          .map((e) => SkillsStoreSkill.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final skillsStoreSkills = this.skillsStoreSkills;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (skillsStoreSkills != null) 'SkillsStoreSkills': skillsStoreSkills,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSmartHomeAppliancesResponse {
   /// The tokens used for pagination.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The smart home appliances.
-  @_s.JsonKey(name: 'SmartHomeAppliances')
-  final List<SmartHomeAppliance> smartHomeAppliances;
+  final List<SmartHomeAppliance>? smartHomeAppliances;
 
   ListSmartHomeAppliancesResponse({
     this.nextToken,
     this.smartHomeAppliances,
   });
-  factory ListSmartHomeAppliancesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSmartHomeAppliancesResponseFromJson(json);
+
+  factory ListSmartHomeAppliancesResponse.fromJson(Map<String, dynamic> json) {
+    return ListSmartHomeAppliancesResponse(
+      nextToken: json['NextToken'] as String?,
+      smartHomeAppliances: (json['SmartHomeAppliances'] as List?)
+          ?.whereNotNull()
+          .map((e) => SmartHomeAppliance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final smartHomeAppliances = this.smartHomeAppliances;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (smartHomeAppliances != null)
+        'SmartHomeAppliances': smartHomeAppliances,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResponse {
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tags requested for the specified resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum Locale {
-  @_s.JsonValue('en-US')
   enUs,
 }
 
+extension on Locale {
+  String toValue() {
+    switch (this) {
+      case Locale.enUs:
+        return 'en-US';
+    }
+  }
+}
+
+extension on String {
+  Locale toLocale() {
+    switch (this) {
+      case 'en-US':
+        return Locale.enUs;
+    }
+    throw Exception('$this is not known in enum Locale');
+  }
+}
+
 /// Meeting room settings of a room profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MeetingRoomConfiguration {
   /// Settings for the end of meeting reminder feature that are applied to a room
   /// profile. The end of meeting reminder enables Alexa to remind users when a
   /// meeting is ending.
-  @_s.JsonKey(name: 'EndOfMeetingReminder')
-  final EndOfMeetingReminder endOfMeetingReminder;
+  final EndOfMeetingReminder? endOfMeetingReminder;
 
   /// Settings to automatically book the room if available for a configured
   /// duration when joining a meeting with Alexa.
-  @_s.JsonKey(name: 'InstantBooking')
-  final InstantBooking instantBooking;
+  final InstantBooking? instantBooking;
 
   /// Settings for requiring a check in when a room is reserved. Alexa can cancel
   /// a room reservation if it's not checked into. This makes the room available
   /// for others. Users can check in by joining the meeting with Alexa or an AVS
   /// device, or by saying “Alexa, check in.”
-  @_s.JsonKey(name: 'RequireCheckIn')
-  final RequireCheckIn requireCheckIn;
+  final RequireCheckIn? requireCheckIn;
 
   /// Whether room utilization metrics are enabled or not.
-  @_s.JsonKey(name: 'RoomUtilizationMetricsEnabled')
-  final bool roomUtilizationMetricsEnabled;
+  final bool? roomUtilizationMetricsEnabled;
 
   MeetingRoomConfiguration({
     this.endOfMeetingReminder,
@@ -7715,8 +7936,40 @@ class MeetingRoomConfiguration {
     this.requireCheckIn,
     this.roomUtilizationMetricsEnabled,
   });
-  factory MeetingRoomConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$MeetingRoomConfigurationFromJson(json);
+
+  factory MeetingRoomConfiguration.fromJson(Map<String, dynamic> json) {
+    return MeetingRoomConfiguration(
+      endOfMeetingReminder: json['EndOfMeetingReminder'] != null
+          ? EndOfMeetingReminder.fromJson(
+              json['EndOfMeetingReminder'] as Map<String, dynamic>)
+          : null,
+      instantBooking: json['InstantBooking'] != null
+          ? InstantBooking.fromJson(
+              json['InstantBooking'] as Map<String, dynamic>)
+          : null,
+      requireCheckIn: json['RequireCheckIn'] != null
+          ? RequireCheckIn.fromJson(
+              json['RequireCheckIn'] as Map<String, dynamic>)
+          : null,
+      roomUtilizationMetricsEnabled:
+          json['RoomUtilizationMetricsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endOfMeetingReminder = this.endOfMeetingReminder;
+    final instantBooking = this.instantBooking;
+    final requireCheckIn = this.requireCheckIn;
+    final roomUtilizationMetricsEnabled = this.roomUtilizationMetricsEnabled;
+    return {
+      if (endOfMeetingReminder != null)
+        'EndOfMeetingReminder': endOfMeetingReminder,
+      if (instantBooking != null) 'InstantBooking': instantBooking,
+      if (requireCheckIn != null) 'RequireCheckIn': requireCheckIn,
+      if (roomUtilizationMetricsEnabled != null)
+        'RoomUtilizationMetricsEnabled': roomUtilizationMetricsEnabled,
+    };
+  }
 }
 
 /// The values that indicate whether a pin is always required (YES), never
@@ -7734,27 +7987,29 @@ class MeetingRoomConfiguration {
 /// responds with yes, it will ask for the meeting pin.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MeetingSetting {
   /// The values that indicate whether the pin is always required.
-  @_s.JsonKey(name: 'RequirePin')
   final RequirePin requirePin;
 
   MeetingSetting({
-    @_s.required this.requirePin,
+    required this.requirePin,
   });
-  factory MeetingSetting.fromJson(Map<String, dynamic> json) =>
-      _$MeetingSettingFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MeetingSettingToJson(this);
+  factory MeetingSetting.fromJson(Map<String, dynamic> json) {
+    return MeetingSetting(
+      requirePin: (json['RequirePin'] as String).toRequirePin(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requirePin = this.requirePin;
+    return {
+      'RequirePin': requirePin.toValue(),
+    };
+  }
 }
 
 enum NetworkEapMethod {
-  @_s.JsonValue('EAP_TLS')
   eapTls,
 }
 
@@ -7764,64 +8019,58 @@ extension on NetworkEapMethod {
       case NetworkEapMethod.eapTls:
         return 'EAP_TLS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NetworkEapMethod toNetworkEapMethod() {
+    switch (this) {
+      case 'EAP_TLS':
+        return NetworkEapMethod.eapTls;
+    }
+    throw Exception('$this is not known in enum NetworkEapMethod');
   }
 }
 
 /// The network profile associated with a device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkProfile {
   /// The ARN of the Private Certificate Authority (PCA) created in AWS
   /// Certificate Manager (ACM). This is used to issue certificates to the
   /// devices.
-  @_s.JsonKey(name: 'CertificateAuthorityArn')
-  final String certificateAuthorityArn;
+  final String? certificateAuthorityArn;
 
   /// The current password of the Wi-Fi network.
-  @_s.JsonKey(name: 'CurrentPassword')
-  final String currentPassword;
+  final String? currentPassword;
 
   /// Detailed information about a device's network profile.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The authentication standard that is used in the EAP framework. Currently,
   /// EAP_TLS is supported.
-  @_s.JsonKey(name: 'EapMethod')
-  final NetworkEapMethod eapMethod;
+  final NetworkEapMethod? eapMethod;
 
   /// The ARN of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileArn')
-  final String networkProfileArn;
+  final String? networkProfileArn;
 
   /// The name of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileName')
-  final String networkProfileName;
+  final String? networkProfileName;
 
   /// The next, or subsequent, password of the Wi-Fi network. This password is
   /// asynchronously transmitted to the device and is used when the password of
   /// the network changes to NextPassword.
-  @_s.JsonKey(name: 'NextPassword')
-  final String nextPassword;
+  final String? nextPassword;
 
   /// The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE,
   /// WPA2_PSK, WPA_PSK, WEP, or OPEN.
-  @_s.JsonKey(name: 'SecurityType')
-  final NetworkSecurityType securityType;
+  final NetworkSecurityType? securityType;
 
   /// The SSID of the Wi-Fi network.
-  @_s.JsonKey(name: 'Ssid')
-  final String ssid;
+  final String? ssid;
 
   /// The root certificates of your authentication server, which is installed on
   /// your devices and used to trust your authentication server during EAP
   /// negotiation.
-  @_s.JsonKey(name: 'TrustAnchors')
-  final List<String> trustAnchors;
+  final List<String>? trustAnchors;
 
   NetworkProfile({
     this.certificateAuthorityArn,
@@ -7835,48 +8084,78 @@ class NetworkProfile {
     this.ssid,
     this.trustAnchors,
   });
-  factory NetworkProfile.fromJson(Map<String, dynamic> json) =>
-      _$NetworkProfileFromJson(json);
+
+  factory NetworkProfile.fromJson(Map<String, dynamic> json) {
+    return NetworkProfile(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      currentPassword: json['CurrentPassword'] as String?,
+      description: json['Description'] as String?,
+      eapMethod: (json['EapMethod'] as String?)?.toNetworkEapMethod(),
+      networkProfileArn: json['NetworkProfileArn'] as String?,
+      networkProfileName: json['NetworkProfileName'] as String?,
+      nextPassword: json['NextPassword'] as String?,
+      securityType: (json['SecurityType'] as String?)?.toNetworkSecurityType(),
+      ssid: json['Ssid'] as String?,
+      trustAnchors: (json['TrustAnchors'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final currentPassword = this.currentPassword;
+    final description = this.description;
+    final eapMethod = this.eapMethod;
+    final networkProfileArn = this.networkProfileArn;
+    final networkProfileName = this.networkProfileName;
+    final nextPassword = this.nextPassword;
+    final securityType = this.securityType;
+    final ssid = this.ssid;
+    final trustAnchors = this.trustAnchors;
+    return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (currentPassword != null) 'CurrentPassword': currentPassword,
+      if (description != null) 'Description': description,
+      if (eapMethod != null) 'EapMethod': eapMethod.toValue(),
+      if (networkProfileArn != null) 'NetworkProfileArn': networkProfileArn,
+      if (networkProfileName != null) 'NetworkProfileName': networkProfileName,
+      if (nextPassword != null) 'NextPassword': nextPassword,
+      if (securityType != null) 'SecurityType': securityType.toValue(),
+      if (ssid != null) 'Ssid': ssid,
+      if (trustAnchors != null) 'TrustAnchors': trustAnchors,
+    };
+  }
 }
 
 /// The data associated with a network profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkProfileData {
   /// The ARN of the Private Certificate Authority (PCA) created in AWS
   /// Certificate Manager (ACM). This is used to issue certificates to the
   /// devices.
-  @_s.JsonKey(name: 'CertificateAuthorityArn')
-  final String certificateAuthorityArn;
+  final String? certificateAuthorityArn;
 
   /// Detailed information about a device's network profile.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The authentication standard that is used in the EAP framework. Currently,
   /// EAP_TLS is supported.
-  @_s.JsonKey(name: 'EapMethod')
-  final NetworkEapMethod eapMethod;
+  final NetworkEapMethod? eapMethod;
 
   /// The ARN of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileArn')
-  final String networkProfileArn;
+  final String? networkProfileArn;
 
   /// The name of the network profile associated with a device.
-  @_s.JsonKey(name: 'NetworkProfileName')
-  final String networkProfileName;
+  final String? networkProfileName;
 
   /// The security type of the Wi-Fi network. This can be WPA2_ENTERPRISE,
   /// WPA2_PSK, WPA_PSK, WEP, or OPEN.
-  @_s.JsonKey(name: 'SecurityType')
-  final NetworkSecurityType securityType;
+  final NetworkSecurityType? securityType;
 
   /// The SSID of the Wi-Fi network.
-  @_s.JsonKey(name: 'Ssid')
-  final String ssid;
+  final String? ssid;
 
   NetworkProfileData({
     this.certificateAuthorityArn,
@@ -7887,20 +8166,45 @@ class NetworkProfileData {
     this.securityType,
     this.ssid,
   });
-  factory NetworkProfileData.fromJson(Map<String, dynamic> json) =>
-      _$NetworkProfileDataFromJson(json);
+
+  factory NetworkProfileData.fromJson(Map<String, dynamic> json) {
+    return NetworkProfileData(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      description: json['Description'] as String?,
+      eapMethod: (json['EapMethod'] as String?)?.toNetworkEapMethod(),
+      networkProfileArn: json['NetworkProfileArn'] as String?,
+      networkProfileName: json['NetworkProfileName'] as String?,
+      securityType: (json['SecurityType'] as String?)?.toNetworkSecurityType(),
+      ssid: json['Ssid'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final description = this.description;
+    final eapMethod = this.eapMethod;
+    final networkProfileArn = this.networkProfileArn;
+    final networkProfileName = this.networkProfileName;
+    final securityType = this.securityType;
+    final ssid = this.ssid;
+    return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (description != null) 'Description': description,
+      if (eapMethod != null) 'EapMethod': eapMethod.toValue(),
+      if (networkProfileArn != null) 'NetworkProfileArn': networkProfileArn,
+      if (networkProfileName != null) 'NetworkProfileName': networkProfileName,
+      if (securityType != null) 'SecurityType': securityType.toValue(),
+      if (ssid != null) 'Ssid': ssid,
+    };
+  }
 }
 
 enum NetworkSecurityType {
-  @_s.JsonValue('OPEN')
   open,
-  @_s.JsonValue('WEP')
   wep,
-  @_s.JsonValue('WPA_PSK')
   wpaPsk,
-  @_s.JsonValue('WPA2_PSK')
   wpa2Psk,
-  @_s.JsonValue('WPA2_ENTERPRISE')
   wpa2Enterprise,
 }
 
@@ -7918,151 +8222,191 @@ extension on NetworkSecurityType {
       case NetworkSecurityType.wpa2Enterprise:
         return 'WPA2_ENTERPRISE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  NetworkSecurityType toNetworkSecurityType() {
+    switch (this) {
+      case 'OPEN':
+        return NetworkSecurityType.open;
+      case 'WEP':
+        return NetworkSecurityType.wep;
+      case 'WPA_PSK':
+        return NetworkSecurityType.wpaPsk;
+      case 'WPA2_PSK':
+        return NetworkSecurityType.wpa2Psk;
+      case 'WPA2_ENTERPRISE':
+        return NetworkSecurityType.wpa2Enterprise;
+    }
+    throw Exception('$this is not known in enum NetworkSecurityType');
   }
 }
 
 /// The information for public switched telephone network (PSTN) conferencing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PSTNDialIn {
   /// The zip code.
-  @_s.JsonKey(name: 'CountryCode')
   final String countryCode;
 
   /// The delay duration before Alexa enters the conference ID with dual-tone
   /// multi-frequency (DTMF). Each number on the dial pad corresponds to a DTMF
   /// tone, which is how we send data over the telephone network.
-  @_s.JsonKey(name: 'OneClickIdDelay')
   final String oneClickIdDelay;
 
   /// The delay duration before Alexa enters the conference pin with dual-tone
   /// multi-frequency (DTMF). Each number on the dial pad corresponds to a DTMF
   /// tone, which is how we send data over the telephone network.
-  @_s.JsonKey(name: 'OneClickPinDelay')
   final String oneClickPinDelay;
 
   /// The phone number to call to join the conference.
-  @_s.JsonKey(name: 'PhoneNumber')
   final String phoneNumber;
 
   PSTNDialIn({
-    @_s.required this.countryCode,
-    @_s.required this.oneClickIdDelay,
-    @_s.required this.oneClickPinDelay,
-    @_s.required this.phoneNumber,
+    required this.countryCode,
+    required this.oneClickIdDelay,
+    required this.oneClickPinDelay,
+    required this.phoneNumber,
   });
-  factory PSTNDialIn.fromJson(Map<String, dynamic> json) =>
-      _$PSTNDialInFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PSTNDialInToJson(this);
+  factory PSTNDialIn.fromJson(Map<String, dynamic> json) {
+    return PSTNDialIn(
+      countryCode: json['CountryCode'] as String,
+      oneClickIdDelay: json['OneClickIdDelay'] as String,
+      oneClickPinDelay: json['OneClickPinDelay'] as String,
+      phoneNumber: json['PhoneNumber'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countryCode = this.countryCode;
+    final oneClickIdDelay = this.oneClickIdDelay;
+    final oneClickPinDelay = this.oneClickPinDelay;
+    final phoneNumber = this.phoneNumber;
+    return {
+      'CountryCode': countryCode,
+      'OneClickIdDelay': oneClickIdDelay,
+      'OneClickPinDelay': oneClickPinDelay,
+      'PhoneNumber': phoneNumber,
+    };
+  }
 }
 
 /// The phone number for the contact containing the raw number and phone number
 /// type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PhoneNumber {
   /// The raw value of the phone number.
-  @_s.JsonKey(name: 'Number')
   final String number;
 
   /// The type of the phone number.
-  @_s.JsonKey(name: 'Type')
   final PhoneNumberType type;
 
   PhoneNumber({
-    @_s.required this.number,
-    @_s.required this.type,
+    required this.number,
+    required this.type,
   });
-  factory PhoneNumber.fromJson(Map<String, dynamic> json) =>
-      _$PhoneNumberFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PhoneNumberToJson(this);
+  factory PhoneNumber.fromJson(Map<String, dynamic> json) {
+    return PhoneNumber(
+      number: json['Number'] as String,
+      type: (json['Type'] as String).toPhoneNumberType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final number = this.number;
+    final type = this.type;
+    return {
+      'Number': number,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum PhoneNumberType {
-  @_s.JsonValue('MOBILE')
   mobile,
-  @_s.JsonValue('WORK')
   work,
-  @_s.JsonValue('HOME')
   home,
 }
 
+extension on PhoneNumberType {
+  String toValue() {
+    switch (this) {
+      case PhoneNumberType.mobile:
+        return 'MOBILE';
+      case PhoneNumberType.work:
+        return 'WORK';
+      case PhoneNumberType.home:
+        return 'HOME';
+    }
+  }
+}
+
+extension on String {
+  PhoneNumberType toPhoneNumberType() {
+    switch (this) {
+      case 'MOBILE':
+        return PhoneNumberType.mobile;
+      case 'WORK':
+        return PhoneNumberType.work;
+      case 'HOME':
+        return PhoneNumberType.home;
+    }
+    throw Exception('$this is not known in enum PhoneNumberType');
+  }
+}
+
 /// A room profile with attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Profile {
   /// The address of a room profile.
-  @_s.JsonKey(name: 'Address')
-  final String address;
+  final String? address;
 
   /// The ARN of the address book.
-  @_s.JsonKey(name: 'AddressBookArn')
-  final String addressBookArn;
+  final String? addressBookArn;
+
+  /// Whether data retention of the profile is enabled.
+  final bool? dataRetentionOptIn;
 
   /// The distance unit of a room profile.
-  @_s.JsonKey(name: 'DistanceUnit')
-  final DistanceUnit distanceUnit;
+  final DistanceUnit? distanceUnit;
 
   /// Retrieves if the profile is default or not.
-  @_s.JsonKey(name: 'IsDefault')
-  final bool isDefault;
+  final bool? isDefault;
 
   /// The locale of a room profile. (This is currently available only to a limited
   /// preview audience.)
-  @_s.JsonKey(name: 'Locale')
-  final String locale;
+  final String? locale;
 
   /// The max volume limit of a room profile.
-  @_s.JsonKey(name: 'MaxVolumeLimit')
-  final int maxVolumeLimit;
+  final int? maxVolumeLimit;
 
   /// Meeting room settings of a room profile.
-  @_s.JsonKey(name: 'MeetingRoomConfiguration')
-  final MeetingRoomConfiguration meetingRoomConfiguration;
+  final MeetingRoomConfiguration? meetingRoomConfiguration;
 
   /// The PSTN setting of a room profile.
-  @_s.JsonKey(name: 'PSTNEnabled')
-  final bool pSTNEnabled;
+  final bool? pSTNEnabled;
 
   /// The ARN of a room profile.
-  @_s.JsonKey(name: 'ProfileArn')
-  final String profileArn;
+  final String? profileArn;
 
   /// The name of a room profile.
-  @_s.JsonKey(name: 'ProfileName')
-  final String profileName;
+  final String? profileName;
 
   /// The setup mode of a room profile.
-  @_s.JsonKey(name: 'SetupModeDisabled')
-  final bool setupModeDisabled;
+  final bool? setupModeDisabled;
 
   /// The temperature unit of a room profile.
-  @_s.JsonKey(name: 'TemperatureUnit')
-  final TemperatureUnit temperatureUnit;
+  final TemperatureUnit? temperatureUnit;
 
   /// The time zone of a room profile.
-  @_s.JsonKey(name: 'Timezone')
-  final String timezone;
+  final String? timezone;
 
   /// The wake word of a room profile.
-  @_s.JsonKey(name: 'WakeWord')
-  final WakeWord wakeWord;
+  final WakeWord? wakeWord;
 
   Profile({
     this.address,
     this.addressBookArn,
+    this.dataRetentionOptIn,
     this.distanceUnit,
     this.isDefault,
     this.locale,
@@ -8076,53 +8420,97 @@ class Profile {
     this.timezone,
     this.wakeWord,
   });
-  factory Profile.fromJson(Map<String, dynamic> json) =>
-      _$ProfileFromJson(json);
+
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      address: json['Address'] as String?,
+      addressBookArn: json['AddressBookArn'] as String?,
+      dataRetentionOptIn: json['DataRetentionOptIn'] as bool?,
+      distanceUnit: (json['DistanceUnit'] as String?)?.toDistanceUnit(),
+      isDefault: json['IsDefault'] as bool?,
+      locale: json['Locale'] as String?,
+      maxVolumeLimit: json['MaxVolumeLimit'] as int?,
+      meetingRoomConfiguration: json['MeetingRoomConfiguration'] != null
+          ? MeetingRoomConfiguration.fromJson(
+              json['MeetingRoomConfiguration'] as Map<String, dynamic>)
+          : null,
+      pSTNEnabled: json['PSTNEnabled'] as bool?,
+      profileArn: json['ProfileArn'] as String?,
+      profileName: json['ProfileName'] as String?,
+      setupModeDisabled: json['SetupModeDisabled'] as bool?,
+      temperatureUnit:
+          (json['TemperatureUnit'] as String?)?.toTemperatureUnit(),
+      timezone: json['Timezone'] as String?,
+      wakeWord: (json['WakeWord'] as String?)?.toWakeWord(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final addressBookArn = this.addressBookArn;
+    final dataRetentionOptIn = this.dataRetentionOptIn;
+    final distanceUnit = this.distanceUnit;
+    final isDefault = this.isDefault;
+    final locale = this.locale;
+    final maxVolumeLimit = this.maxVolumeLimit;
+    final meetingRoomConfiguration = this.meetingRoomConfiguration;
+    final pSTNEnabled = this.pSTNEnabled;
+    final profileArn = this.profileArn;
+    final profileName = this.profileName;
+    final setupModeDisabled = this.setupModeDisabled;
+    final temperatureUnit = this.temperatureUnit;
+    final timezone = this.timezone;
+    final wakeWord = this.wakeWord;
+    return {
+      if (address != null) 'Address': address,
+      if (addressBookArn != null) 'AddressBookArn': addressBookArn,
+      if (dataRetentionOptIn != null) 'DataRetentionOptIn': dataRetentionOptIn,
+      if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (locale != null) 'Locale': locale,
+      if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
+      if (meetingRoomConfiguration != null)
+        'MeetingRoomConfiguration': meetingRoomConfiguration,
+      if (pSTNEnabled != null) 'PSTNEnabled': pSTNEnabled,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileName != null) 'ProfileName': profileName,
+      if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
+      if (temperatureUnit != null) 'TemperatureUnit': temperatureUnit.toValue(),
+      if (timezone != null) 'Timezone': timezone,
+      if (wakeWord != null) 'WakeWord': wakeWord.toValue(),
+    };
+  }
 }
 
 /// The data of a room profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProfileData {
   /// The address of a room profile.
-  @_s.JsonKey(name: 'Address')
-  final String address;
+  final String? address;
 
   /// The distance unit of a room profile.
-  @_s.JsonKey(name: 'DistanceUnit')
-  final DistanceUnit distanceUnit;
+  final DistanceUnit? distanceUnit;
 
   /// Retrieves if the profile data is default or not.
-  @_s.JsonKey(name: 'IsDefault')
-  final bool isDefault;
+  final bool? isDefault;
 
   /// The locale of a room profile. (This is currently available only to a limited
   /// preview audience.)
-  @_s.JsonKey(name: 'Locale')
-  final String locale;
+  final String? locale;
 
   /// The ARN of a room profile.
-  @_s.JsonKey(name: 'ProfileArn')
-  final String profileArn;
+  final String? profileArn;
 
   /// The name of a room profile.
-  @_s.JsonKey(name: 'ProfileName')
-  final String profileName;
+  final String? profileName;
 
   /// The temperature unit of a room profile.
-  @_s.JsonKey(name: 'TemperatureUnit')
-  final TemperatureUnit temperatureUnit;
+  final TemperatureUnit? temperatureUnit;
 
   /// The time zone of a room profile.
-  @_s.JsonKey(name: 'Timezone')
-  final String timezone;
+  final String? timezone;
 
   /// The wake word of a room profile.
-  @_s.JsonKey(name: 'WakeWord')
-  final WakeWord wakeWord;
+  final WakeWord? wakeWord;
 
   ProfileData({
     this.address,
@@ -8135,182 +8523,263 @@ class ProfileData {
     this.timezone,
     this.wakeWord,
   });
-  factory ProfileData.fromJson(Map<String, dynamic> json) =>
-      _$ProfileDataFromJson(json);
+
+  factory ProfileData.fromJson(Map<String, dynamic> json) {
+    return ProfileData(
+      address: json['Address'] as String?,
+      distanceUnit: (json['DistanceUnit'] as String?)?.toDistanceUnit(),
+      isDefault: json['IsDefault'] as bool?,
+      locale: json['Locale'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileName: json['ProfileName'] as String?,
+      temperatureUnit:
+          (json['TemperatureUnit'] as String?)?.toTemperatureUnit(),
+      timezone: json['Timezone'] as String?,
+      wakeWord: (json['WakeWord'] as String?)?.toWakeWord(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final distanceUnit = this.distanceUnit;
+    final isDefault = this.isDefault;
+    final locale = this.locale;
+    final profileArn = this.profileArn;
+    final profileName = this.profileName;
+    final temperatureUnit = this.temperatureUnit;
+    final timezone = this.timezone;
+    final wakeWord = this.wakeWord;
+    return {
+      if (address != null) 'Address': address,
+      if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
+      if (isDefault != null) 'IsDefault': isDefault,
+      if (locale != null) 'Locale': locale,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileName != null) 'ProfileName': profileName,
+      if (temperatureUnit != null) 'TemperatureUnit': temperatureUnit.toValue(),
+      if (timezone != null) 'Timezone': timezone,
+      if (wakeWord != null) 'WakeWord': wakeWord.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutConferencePreferenceResponse {
   PutConferencePreferenceResponse();
-  factory PutConferencePreferenceResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutConferencePreferenceResponseFromJson(json);
+
+  factory PutConferencePreferenceResponse.fromJson(Map<String, dynamic> _) {
+    return PutConferencePreferenceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutInvitationConfigurationResponse {
   PutInvitationConfigurationResponse();
-  factory PutInvitationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$PutInvitationConfigurationResponseFromJson(json);
+
+  factory PutInvitationConfigurationResponse.fromJson(Map<String, dynamic> _) {
+    return PutInvitationConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutRoomSkillParameterResponse {
   PutRoomSkillParameterResponse();
-  factory PutRoomSkillParameterResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutRoomSkillParameterResponseFromJson(json);
+
+  factory PutRoomSkillParameterResponse.fromJson(Map<String, dynamic> _) {
+    return PutRoomSkillParameterResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutSkillAuthorizationResponse {
   PutSkillAuthorizationResponse();
-  factory PutSkillAuthorizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutSkillAuthorizationResponseFromJson(json);
+
+  factory PutSkillAuthorizationResponse.fromJson(Map<String, dynamic> _) {
+    return PutSkillAuthorizationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterAVSDeviceResponse {
   /// The ARN of the device.
-  @_s.JsonKey(name: 'DeviceArn')
-  final String deviceArn;
+  final String? deviceArn;
 
   RegisterAVSDeviceResponse({
     this.deviceArn,
   });
-  factory RegisterAVSDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterAVSDeviceResponseFromJson(json);
+
+  factory RegisterAVSDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterAVSDeviceResponse(
+      deviceArn: json['DeviceArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceArn = this.deviceArn;
+    return {
+      if (deviceArn != null) 'DeviceArn': deviceArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectSkillResponse {
   RejectSkillResponse();
-  factory RejectSkillResponse.fromJson(Map<String, dynamic> json) =>
-      _$RejectSkillResponseFromJson(json);
+
+  factory RejectSkillResponse.fromJson(Map<String, dynamic> _) {
+    return RejectSkillResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Settings for the require check in feature that are applied to a room
 /// profile. Require check in allows a meeting room’s Alexa or AVS device to
 /// prompt the user to check in; otherwise, the room will be released.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RequireCheckIn {
   /// Whether require check in is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Duration between 5 and 20 minutes to determine when to release the room if
   /// it's not checked into.
-  @_s.JsonKey(name: 'ReleaseAfterMinutes')
-  final int releaseAfterMinutes;
+  final int? releaseAfterMinutes;
 
   RequireCheckIn({
     this.enabled,
     this.releaseAfterMinutes,
   });
-  factory RequireCheckIn.fromJson(Map<String, dynamic> json) =>
-      _$RequireCheckInFromJson(json);
+
+  factory RequireCheckIn.fromJson(Map<String, dynamic> json) {
+    return RequireCheckIn(
+      enabled: json['Enabled'] as bool?,
+      releaseAfterMinutes: json['ReleaseAfterMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final releaseAfterMinutes = this.releaseAfterMinutes;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (releaseAfterMinutes != null)
+        'ReleaseAfterMinutes': releaseAfterMinutes,
+    };
+  }
 }
 
 enum RequirePin {
-  @_s.JsonValue('YES')
   yes,
-  @_s.JsonValue('NO')
   no,
-  @_s.JsonValue('OPTIONAL')
   optional,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on RequirePin {
+  String toValue() {
+    switch (this) {
+      case RequirePin.yes:
+        return 'YES';
+      case RequirePin.no:
+        return 'NO';
+      case RequirePin.optional:
+        return 'OPTIONAL';
+    }
+  }
+}
+
+extension on String {
+  RequirePin toRequirePin() {
+    switch (this) {
+      case 'YES':
+        return RequirePin.yes;
+      case 'NO':
+        return RequirePin.no;
+      case 'OPTIONAL':
+        return RequirePin.optional;
+    }
+    throw Exception('$this is not known in enum RequirePin');
+  }
+}
+
 class ResolveRoomResponse {
   /// The ARN of the room from which the skill request was invoked.
-  @_s.JsonKey(name: 'RoomArn')
-  final String roomArn;
+  final String? roomArn;
 
   /// The name of the room from which the skill request was invoked.
-  @_s.JsonKey(name: 'RoomName')
-  final String roomName;
+  final String? roomName;
 
   /// Response to get the room profile request. Required.
-  @_s.JsonKey(name: 'RoomSkillParameters')
-  final List<RoomSkillParameter> roomSkillParameters;
+  final List<RoomSkillParameter>? roomSkillParameters;
 
   ResolveRoomResponse({
     this.roomArn,
     this.roomName,
     this.roomSkillParameters,
   });
-  factory ResolveRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResolveRoomResponseFromJson(json);
+
+  factory ResolveRoomResponse.fromJson(Map<String, dynamic> json) {
+    return ResolveRoomResponse(
+      roomArn: json['RoomArn'] as String?,
+      roomName: json['RoomName'] as String?,
+      roomSkillParameters: (json['RoomSkillParameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoomSkillParameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final roomArn = this.roomArn;
+    final roomName = this.roomName;
+    final roomSkillParameters = this.roomSkillParameters;
+    return {
+      if (roomArn != null) 'RoomArn': roomArn,
+      if (roomName != null) 'RoomName': roomName,
+      if (roomSkillParameters != null)
+        'RoomSkillParameters': roomSkillParameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RevokeInvitationResponse {
   RevokeInvitationResponse();
-  factory RevokeInvitationResponse.fromJson(Map<String, dynamic> json) =>
-      _$RevokeInvitationResponseFromJson(json);
+
+  factory RevokeInvitationResponse.fromJson(Map<String, dynamic> _) {
+    return RevokeInvitationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A room with attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Room {
   /// The description of a room.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The profile ARN of a room.
-  @_s.JsonKey(name: 'ProfileArn')
-  final String profileArn;
+  final String? profileArn;
 
   /// The provider calendar ARN of a room.
-  @_s.JsonKey(name: 'ProviderCalendarId')
-  final String providerCalendarId;
+  final String? providerCalendarId;
 
   /// The ARN of a room.
-  @_s.JsonKey(name: 'RoomArn')
-  final String roomArn;
+  final String? roomArn;
 
   /// The name of a room.
-  @_s.JsonKey(name: 'RoomName')
-  final String roomName;
+  final String? roomName;
 
   Room({
     this.description,
@@ -8319,39 +8788,52 @@ class Room {
     this.roomArn,
     this.roomName,
   });
-  factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
+
+  factory Room.fromJson(Map<String, dynamic> json) {
+    return Room(
+      description: json['Description'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      providerCalendarId: json['ProviderCalendarId'] as String?,
+      roomArn: json['RoomArn'] as String?,
+      roomName: json['RoomName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final profileArn = this.profileArn;
+    final providerCalendarId = this.providerCalendarId;
+    final roomArn = this.roomArn;
+    final roomName = this.roomName;
+    return {
+      if (description != null) 'Description': description,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (providerCalendarId != null) 'ProviderCalendarId': providerCalendarId,
+      if (roomArn != null) 'RoomArn': roomArn,
+      if (roomName != null) 'RoomName': roomName,
+    };
+  }
 }
 
 /// The data of a room.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RoomData {
   /// The description of a room.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The profile ARN of a room.
-  @_s.JsonKey(name: 'ProfileArn')
-  final String profileArn;
+  final String? profileArn;
 
   /// The profile name of a room.
-  @_s.JsonKey(name: 'ProfileName')
-  final String profileName;
+  final String? profileName;
 
   /// The provider calendar ARN of a room.
-  @_s.JsonKey(name: 'ProviderCalendarId')
-  final String providerCalendarId;
+  final String? providerCalendarId;
 
   /// The ARN of a room.
-  @_s.JsonKey(name: 'RoomArn')
-  final String roomArn;
+  final String? roomArn;
 
   /// The name of a room.
-  @_s.JsonKey(name: 'RoomName')
-  final String roomName;
+  final String? roomName;
 
   RoomData({
     this.description,
@@ -8361,364 +8843,505 @@ class RoomData {
     this.roomArn,
     this.roomName,
   });
-  factory RoomData.fromJson(Map<String, dynamic> json) =>
-      _$RoomDataFromJson(json);
+
+  factory RoomData.fromJson(Map<String, dynamic> json) {
+    return RoomData(
+      description: json['Description'] as String?,
+      profileArn: json['ProfileArn'] as String?,
+      profileName: json['ProfileName'] as String?,
+      providerCalendarId: json['ProviderCalendarId'] as String?,
+      roomArn: json['RoomArn'] as String?,
+      roomName: json['RoomName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final profileArn = this.profileArn;
+    final profileName = this.profileName;
+    final providerCalendarId = this.providerCalendarId;
+    final roomArn = this.roomArn;
+    final roomName = this.roomName;
+    return {
+      if (description != null) 'Description': description,
+      if (profileArn != null) 'ProfileArn': profileArn,
+      if (profileName != null) 'ProfileName': profileName,
+      if (providerCalendarId != null) 'ProviderCalendarId': providerCalendarId,
+      if (roomArn != null) 'RoomArn': roomArn,
+      if (roomName != null) 'RoomName': roomName,
+    };
+  }
 }
 
 /// A skill parameter associated with a room.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RoomSkillParameter {
   /// The parameter key of a room skill parameter. ParameterKey is an enumerated
   /// type that only takes “DEFAULT” or “SCOPE” as valid values.
-  @_s.JsonKey(name: 'ParameterKey')
   final String parameterKey;
 
   /// The parameter value of a room skill parameter.
-  @_s.JsonKey(name: 'ParameterValue')
   final String parameterValue;
 
   RoomSkillParameter({
-    @_s.required this.parameterKey,
-    @_s.required this.parameterValue,
+    required this.parameterKey,
+    required this.parameterValue,
   });
-  factory RoomSkillParameter.fromJson(Map<String, dynamic> json) =>
-      _$RoomSkillParameterFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RoomSkillParameterToJson(this);
+  factory RoomSkillParameter.fromJson(Map<String, dynamic> json) {
+    return RoomSkillParameter(
+      parameterKey: json['ParameterKey'] as String,
+      parameterValue: json['ParameterValue'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterKey = this.parameterKey;
+    final parameterValue = this.parameterValue;
+    return {
+      'ParameterKey': parameterKey,
+      'ParameterValue': parameterValue,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchAddressBooksResponse {
   /// The address books that meet the specified set of filter criteria, in sort
   /// order.
-  @_s.JsonKey(name: 'AddressBooks')
-  final List<AddressBookData> addressBooks;
+  final List<AddressBookData>? addressBooks;
 
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The total number of address books returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   SearchAddressBooksResponse({
     this.addressBooks,
     this.nextToken,
     this.totalCount,
   });
-  factory SearchAddressBooksResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchAddressBooksResponseFromJson(json);
+
+  factory SearchAddressBooksResponse.fromJson(Map<String, dynamic> json) {
+    return SearchAddressBooksResponse(
+      addressBooks: (json['AddressBooks'] as List?)
+          ?.whereNotNull()
+          .map((e) => AddressBookData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressBooks = this.addressBooks;
+    final nextToken = this.nextToken;
+    final totalCount = this.totalCount;
+    return {
+      if (addressBooks != null) 'AddressBooks': addressBooks,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchContactsResponse {
   /// The contacts that meet the specified set of filter criteria, in sort order.
-  @_s.JsonKey(name: 'Contacts')
-  final List<ContactData> contacts;
+  final List<ContactData>? contacts;
 
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The total number of contacts returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   SearchContactsResponse({
     this.contacts,
     this.nextToken,
     this.totalCount,
   });
-  factory SearchContactsResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchContactsResponseFromJson(json);
+
+  factory SearchContactsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchContactsResponse(
+      contacts: (json['Contacts'] as List?)
+          ?.whereNotNull()
+          .map((e) => ContactData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contacts = this.contacts;
+    final nextToken = this.nextToken;
+    final totalCount = this.totalCount;
+    return {
+      if (contacts != null) 'Contacts': contacts,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchDevicesResponse {
   /// The devices that meet the specified set of filter criteria, in sort order.
-  @_s.JsonKey(name: 'Devices')
-  final List<DeviceData> devices;
+  final List<DeviceData>? devices;
 
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The total number of devices returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   SearchDevicesResponse({
     this.devices,
     this.nextToken,
     this.totalCount,
   });
-  factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchDevicesResponseFromJson(json);
+
+  factory SearchDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchDevicesResponse(
+      devices: (json['Devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeviceData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    final nextToken = this.nextToken;
+    final totalCount = this.totalCount;
+    return {
+      if (devices != null) 'Devices': devices,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchNetworkProfilesResponse {
   /// The network profiles that meet the specified set of filter criteria, in sort
   /// order. It is a list of NetworkProfileData objects.
-  @_s.JsonKey(name: 'NetworkProfiles')
-  final List<NetworkProfileData> networkProfiles;
+  final List<NetworkProfileData>? networkProfiles;
 
   /// An optional token returned from a prior request. Use this token for
   /// pagination of results from this action. If this parameter is specified, the
   /// response includes only results beyond the token, up to the value specified
   /// by MaxResults.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The total number of network profiles returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   SearchNetworkProfilesResponse({
     this.networkProfiles,
     this.nextToken,
     this.totalCount,
   });
-  factory SearchNetworkProfilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchNetworkProfilesResponseFromJson(json);
+
+  factory SearchNetworkProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchNetworkProfilesResponse(
+      networkProfiles: (json['NetworkProfiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkProfileData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final networkProfiles = this.networkProfiles;
+    final nextToken = this.nextToken;
+    final totalCount = this.totalCount;
+    return {
+      if (networkProfiles != null) 'NetworkProfiles': networkProfiles,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchProfilesResponse {
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The profiles that meet the specified set of filter criteria, in sort order.
-  @_s.JsonKey(name: 'Profiles')
-  final List<ProfileData> profiles;
+  final List<ProfileData>? profiles;
 
   /// The total number of room profiles returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   SearchProfilesResponse({
     this.nextToken,
     this.profiles,
     this.totalCount,
   });
-  factory SearchProfilesResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchProfilesResponseFromJson(json);
+
+  factory SearchProfilesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchProfilesResponse(
+      nextToken: json['NextToken'] as String?,
+      profiles: (json['Profiles'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProfileData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final profiles = this.profiles;
+    final totalCount = this.totalCount;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (profiles != null) 'Profiles': profiles,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchRoomsResponse {
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The rooms that meet the specified set of filter criteria, in sort order.
-  @_s.JsonKey(name: 'Rooms')
-  final List<RoomData> rooms;
+  final List<RoomData>? rooms;
 
   /// The total number of rooms returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   SearchRoomsResponse({
     this.nextToken,
     this.rooms,
     this.totalCount,
   });
-  factory SearchRoomsResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchRoomsResponseFromJson(json);
+
+  factory SearchRoomsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchRoomsResponse(
+      nextToken: json['NextToken'] as String?,
+      rooms: (json['Rooms'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoomData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final rooms = this.rooms;
+    final totalCount = this.totalCount;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (rooms != null) 'Rooms': rooms,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchSkillGroupsResponse {
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The skill groups that meet the filter criteria, in sort order.
-  @_s.JsonKey(name: 'SkillGroups')
-  final List<SkillGroupData> skillGroups;
+  final List<SkillGroupData>? skillGroups;
 
   /// The total number of skill groups returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   SearchSkillGroupsResponse({
     this.nextToken,
     this.skillGroups,
     this.totalCount,
   });
-  factory SearchSkillGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchSkillGroupsResponseFromJson(json);
+
+  factory SearchSkillGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return SearchSkillGroupsResponse(
+      nextToken: json['NextToken'] as String?,
+      skillGroups: (json['SkillGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => SkillGroupData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      totalCount: json['TotalCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final skillGroups = this.skillGroups;
+    final totalCount = this.totalCount;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (skillGroups != null) 'SkillGroups': skillGroups,
+      if (totalCount != null) 'TotalCount': totalCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchUsersResponse {
   /// The token returned to indicate that there is more data available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The total number of users returned.
-  @_s.JsonKey(name: 'TotalCount')
-  final int totalCount;
+  final int? totalCount;
 
   /// The users that meet the specified set of filter criteria, in sort order.
-  @_s.JsonKey(name: 'Users')
-  final List<UserData> users;
+  final List<UserData>? users;
 
   SearchUsersResponse({
     this.nextToken,
     this.totalCount,
     this.users,
   });
-  factory SearchUsersResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchUsersResponseFromJson(json);
+
+  factory SearchUsersResponse.fromJson(Map<String, dynamic> json) {
+    return SearchUsersResponse(
+      nextToken: json['NextToken'] as String?,
+      totalCount: json['TotalCount'] as int?,
+      users: (json['Users'] as List?)
+          ?.whereNotNull()
+          .map((e) => UserData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final totalCount = this.totalCount;
+    final users = this.users;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (totalCount != null) 'TotalCount': totalCount,
+      if (users != null) 'Users': users,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendAnnouncementResponse {
   /// The identifier of the announcement.
-  @_s.JsonKey(name: 'AnnouncementArn')
-  final String announcementArn;
+  final String? announcementArn;
 
   SendAnnouncementResponse({
     this.announcementArn,
   });
-  factory SendAnnouncementResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendAnnouncementResponseFromJson(json);
+
+  factory SendAnnouncementResponse.fromJson(Map<String, dynamic> json) {
+    return SendAnnouncementResponse(
+      announcementArn: json['AnnouncementArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final announcementArn = this.announcementArn;
+    return {
+      if (announcementArn != null) 'AnnouncementArn': announcementArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendInvitationResponse {
   SendInvitationResponse();
-  factory SendInvitationResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendInvitationResponseFromJson(json);
+
+  factory SendInvitationResponse.fromJson(Map<String, dynamic> _) {
+    return SendInvitationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The SIP address for the contact containing the URI and SIP address type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SipAddress {
   /// The type of the SIP address.
-  @_s.JsonKey(name: 'Type')
   final SipType type;
 
   /// The URI for the SIP address.
-  @_s.JsonKey(name: 'Uri')
   final String uri;
 
   SipAddress({
-    @_s.required this.type,
-    @_s.required this.uri,
+    required this.type,
+    required this.uri,
   });
-  factory SipAddress.fromJson(Map<String, dynamic> json) =>
-      _$SipAddressFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SipAddressToJson(this);
+  factory SipAddress.fromJson(Map<String, dynamic> json) {
+    return SipAddress(
+      type: (json['Type'] as String).toSipType(),
+      uri: json['Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final uri = this.uri;
+    return {
+      'Type': type.toValue(),
+      'Uri': uri,
+    };
+  }
 }
 
 enum SipType {
-  @_s.JsonValue('WORK')
   work,
 }
 
+extension on SipType {
+  String toValue() {
+    switch (this) {
+      case SipType.work:
+        return 'WORK';
+    }
+  }
+}
+
+extension on String {
+  SipType toSipType() {
+    switch (this) {
+      case 'WORK':
+        return SipType.work;
+    }
+    throw Exception('$this is not known in enum SipType');
+  }
+}
+
 /// Granular information about the skill.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SkillDetails {
   /// The details about what the skill supports organized as bullet points.
-  @_s.JsonKey(name: 'BulletPoints')
-  final List<String> bulletPoints;
+  final List<String>? bulletPoints;
 
   /// The details about the developer that published the skill.
-  @_s.JsonKey(name: 'DeveloperInfo')
-  final DeveloperInfo developerInfo;
+  final DeveloperInfo? developerInfo;
 
   /// The URL of the end user license agreement.
-  @_s.JsonKey(name: 'EndUserLicenseAgreement')
-  final String endUserLicenseAgreement;
+  final String? endUserLicenseAgreement;
 
   /// The generic keywords associated with the skill that can be used to find a
   /// skill.
-  @_s.JsonKey(name: 'GenericKeywords')
-  final List<String> genericKeywords;
+  final List<String>? genericKeywords;
 
   /// The phrase used to trigger the skill.
-  @_s.JsonKey(name: 'InvocationPhrase')
-  final String invocationPhrase;
+  final String? invocationPhrase;
 
   /// The updates added in bullet points.
-  @_s.JsonKey(name: 'NewInThisVersionBulletPoints')
-  final List<String> newInThisVersionBulletPoints;
+  final List<String>? newInThisVersionBulletPoints;
 
   /// The description of the product.
-  @_s.JsonKey(name: 'ProductDescription')
-  final String productDescription;
+  final String? productDescription;
 
   /// The date when the skill was released.
-  @_s.JsonKey(name: 'ReleaseDate')
-  final String releaseDate;
+  final String? releaseDate;
 
   /// <i>This member has been deprecated.</i>
   ///
   /// The list of reviews for the skill, including Key and Value pair.
-  @_s.JsonKey(name: 'Reviews')
-  final Map<String, String> reviews;
+  final Map<String, String>? reviews;
 
   /// The types of skills.
-  @_s.JsonKey(name: 'SkillTypes')
-  final List<String> skillTypes;
+  final List<String>? skillTypes;
 
   SkillDetails({
     this.bulletPoints,
@@ -8732,93 +9355,158 @@ class SkillDetails {
     this.reviews,
     this.skillTypes,
   });
-  factory SkillDetails.fromJson(Map<String, dynamic> json) =>
-      _$SkillDetailsFromJson(json);
+
+  factory SkillDetails.fromJson(Map<String, dynamic> json) {
+    return SkillDetails(
+      bulletPoints: (json['BulletPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      developerInfo: json['DeveloperInfo'] != null
+          ? DeveloperInfo.fromJson(
+              json['DeveloperInfo'] as Map<String, dynamic>)
+          : null,
+      endUserLicenseAgreement: json['EndUserLicenseAgreement'] as String?,
+      genericKeywords: (json['GenericKeywords'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      invocationPhrase: json['InvocationPhrase'] as String?,
+      newInThisVersionBulletPoints:
+          (json['NewInThisVersionBulletPoints'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      productDescription: json['ProductDescription'] as String?,
+      releaseDate: json['ReleaseDate'] as String?,
+      reviews: (json['Reviews'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      skillTypes: (json['SkillTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulletPoints = this.bulletPoints;
+    final developerInfo = this.developerInfo;
+    final endUserLicenseAgreement = this.endUserLicenseAgreement;
+    final genericKeywords = this.genericKeywords;
+    final invocationPhrase = this.invocationPhrase;
+    final newInThisVersionBulletPoints = this.newInThisVersionBulletPoints;
+    final productDescription = this.productDescription;
+    final releaseDate = this.releaseDate;
+    final reviews = this.reviews;
+    final skillTypes = this.skillTypes;
+    return {
+      if (bulletPoints != null) 'BulletPoints': bulletPoints,
+      if (developerInfo != null) 'DeveloperInfo': developerInfo,
+      if (endUserLicenseAgreement != null)
+        'EndUserLicenseAgreement': endUserLicenseAgreement,
+      if (genericKeywords != null) 'GenericKeywords': genericKeywords,
+      if (invocationPhrase != null) 'InvocationPhrase': invocationPhrase,
+      if (newInThisVersionBulletPoints != null)
+        'NewInThisVersionBulletPoints': newInThisVersionBulletPoints,
+      if (productDescription != null) 'ProductDescription': productDescription,
+      if (releaseDate != null) 'ReleaseDate': releaseDate,
+      if (reviews != null) 'Reviews': reviews,
+      if (skillTypes != null) 'SkillTypes': skillTypes,
+    };
+  }
 }
 
 /// A skill group with attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SkillGroup {
   /// The description of a skill group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of a skill group.
-  @_s.JsonKey(name: 'SkillGroupArn')
-  final String skillGroupArn;
+  final String? skillGroupArn;
 
   /// The name of a skill group.
-  @_s.JsonKey(name: 'SkillGroupName')
-  final String skillGroupName;
+  final String? skillGroupName;
 
   SkillGroup({
     this.description,
     this.skillGroupArn,
     this.skillGroupName,
   });
-  factory SkillGroup.fromJson(Map<String, dynamic> json) =>
-      _$SkillGroupFromJson(json);
+
+  factory SkillGroup.fromJson(Map<String, dynamic> json) {
+    return SkillGroup(
+      description: json['Description'] as String?,
+      skillGroupArn: json['SkillGroupArn'] as String?,
+      skillGroupName: json['SkillGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final skillGroupArn = this.skillGroupArn;
+    final skillGroupName = this.skillGroupName;
+    return {
+      if (description != null) 'Description': description,
+      if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
+      if (skillGroupName != null) 'SkillGroupName': skillGroupName,
+    };
+  }
 }
 
 /// The attributes of a skill group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SkillGroupData {
   /// The description of a skill group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The skill group ARN of a skill group.
-  @_s.JsonKey(name: 'SkillGroupArn')
-  final String skillGroupArn;
+  final String? skillGroupArn;
 
   /// The skill group name of a skill group.
-  @_s.JsonKey(name: 'SkillGroupName')
-  final String skillGroupName;
+  final String? skillGroupName;
 
   SkillGroupData({
     this.description,
     this.skillGroupArn,
     this.skillGroupName,
   });
-  factory SkillGroupData.fromJson(Map<String, dynamic> json) =>
-      _$SkillGroupDataFromJson(json);
+
+  factory SkillGroupData.fromJson(Map<String, dynamic> json) {
+    return SkillGroupData(
+      description: json['Description'] as String?,
+      skillGroupArn: json['SkillGroupArn'] as String?,
+      skillGroupName: json['SkillGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final skillGroupArn = this.skillGroupArn;
+    final skillGroupName = this.skillGroupName;
+    return {
+      if (description != null) 'Description': description,
+      if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
+      if (skillGroupName != null) 'SkillGroupName': skillGroupName,
+    };
+  }
 }
 
 /// The summary of skills.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SkillSummary {
   /// Whether the skill is enabled under the user's account, or if it requires
   /// linking to be used.
-  @_s.JsonKey(name: 'EnablementType')
-  final EnablementType enablementType;
+  final EnablementType? enablementType;
 
   /// The ARN of the skill summary.
-  @_s.JsonKey(name: 'SkillId')
-  final String skillId;
+  final String? skillId;
 
   /// The name of the skill.
-  @_s.JsonKey(name: 'SkillName')
-  final String skillName;
+  final String? skillName;
 
   /// Whether the skill is publicly available or is a private skill.
-  @_s.JsonKey(name: 'SkillType')
-  final SkillType skillType;
+  final SkillType? skillType;
 
   /// Linking support for a skill.
-  @_s.JsonKey(name: 'SupportsLinking')
-  final bool supportsLinking;
+  final bool? supportsLinking;
 
   SkillSummary({
     this.enablementType,
@@ -8827,23 +9515,64 @@ class SkillSummary {
     this.skillType,
     this.supportsLinking,
   });
-  factory SkillSummary.fromJson(Map<String, dynamic> json) =>
-      _$SkillSummaryFromJson(json);
+
+  factory SkillSummary.fromJson(Map<String, dynamic> json) {
+    return SkillSummary(
+      enablementType: (json['EnablementType'] as String?)?.toEnablementType(),
+      skillId: json['SkillId'] as String?,
+      skillName: json['SkillName'] as String?,
+      skillType: (json['SkillType'] as String?)?.toSkillType(),
+      supportsLinking: json['SupportsLinking'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enablementType = this.enablementType;
+    final skillId = this.skillId;
+    final skillName = this.skillName;
+    final skillType = this.skillType;
+    final supportsLinking = this.supportsLinking;
+    return {
+      if (enablementType != null) 'EnablementType': enablementType.toValue(),
+      if (skillId != null) 'SkillId': skillId,
+      if (skillName != null) 'SkillName': skillName,
+      if (skillType != null) 'SkillType': skillType.toValue(),
+      if (supportsLinking != null) 'SupportsLinking': supportsLinking,
+    };
+  }
 }
 
 enum SkillType {
-  @_s.JsonValue('PUBLIC')
   public,
-  @_s.JsonValue('PRIVATE')
   private,
 }
 
+extension on SkillType {
+  String toValue() {
+    switch (this) {
+      case SkillType.public:
+        return 'PUBLIC';
+      case SkillType.private:
+        return 'PRIVATE';
+    }
+  }
+}
+
+extension on String {
+  SkillType toSkillType() {
+    switch (this) {
+      case 'PUBLIC':
+        return SkillType.public;
+      case 'PRIVATE':
+        return SkillType.private;
+    }
+    throw Exception('$this is not known in enum SkillType');
+  }
+}
+
 enum SkillTypeFilter {
-  @_s.JsonValue('PUBLIC')
   public,
-  @_s.JsonValue('PRIVATE')
   private,
-  @_s.JsonValue('ALL')
   all,
 }
 
@@ -8857,44 +9586,45 @@ extension on SkillTypeFilter {
       case SkillTypeFilter.all:
         return 'ALL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SkillTypeFilter toSkillTypeFilter() {
+    switch (this) {
+      case 'PUBLIC':
+        return SkillTypeFilter.public;
+      case 'PRIVATE':
+        return SkillTypeFilter.private;
+      case 'ALL':
+        return SkillTypeFilter.all;
+    }
+    throw Exception('$this is not known in enum SkillTypeFilter');
   }
 }
 
 /// The detailed information about an Alexa skill.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SkillsStoreSkill {
   /// The URL where the skill icon resides.
-  @_s.JsonKey(name: 'IconUrl')
-  final String iconUrl;
+  final String? iconUrl;
 
   /// Sample utterances that interact with the skill.
-  @_s.JsonKey(name: 'SampleUtterances')
-  final List<String> sampleUtterances;
+  final List<String>? sampleUtterances;
 
   /// Short description about the skill.
-  @_s.JsonKey(name: 'ShortDescription')
-  final String shortDescription;
+  final String? shortDescription;
 
   /// Information about the skill.
-  @_s.JsonKey(name: 'SkillDetails')
-  final SkillDetails skillDetails;
+  final SkillDetails? skillDetails;
 
   /// The ARN of the skill.
-  @_s.JsonKey(name: 'SkillId')
-  final String skillId;
+  final String? skillId;
 
   /// The name of the skill.
-  @_s.JsonKey(name: 'SkillName')
-  final String skillName;
+  final String? skillName;
 
   /// Linking support for a skill.
-  @_s.JsonKey(name: 'SupportsLinking')
-  final bool supportsLinking;
+  final bool? supportsLinking;
 
   SkillsStoreSkill({
     this.iconUrl,
@@ -8905,155 +9635,242 @@ class SkillsStoreSkill {
     this.skillName,
     this.supportsLinking,
   });
-  factory SkillsStoreSkill.fromJson(Map<String, dynamic> json) =>
-      _$SkillsStoreSkillFromJson(json);
+
+  factory SkillsStoreSkill.fromJson(Map<String, dynamic> json) {
+    return SkillsStoreSkill(
+      iconUrl: json['IconUrl'] as String?,
+      sampleUtterances: (json['SampleUtterances'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      shortDescription: json['ShortDescription'] as String?,
+      skillDetails: json['SkillDetails'] != null
+          ? SkillDetails.fromJson(json['SkillDetails'] as Map<String, dynamic>)
+          : null,
+      skillId: json['SkillId'] as String?,
+      skillName: json['SkillName'] as String?,
+      supportsLinking: json['SupportsLinking'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iconUrl = this.iconUrl;
+    final sampleUtterances = this.sampleUtterances;
+    final shortDescription = this.shortDescription;
+    final skillDetails = this.skillDetails;
+    final skillId = this.skillId;
+    final skillName = this.skillName;
+    final supportsLinking = this.supportsLinking;
+    return {
+      if (iconUrl != null) 'IconUrl': iconUrl,
+      if (sampleUtterances != null) 'SampleUtterances': sampleUtterances,
+      if (shortDescription != null) 'ShortDescription': shortDescription,
+      if (skillDetails != null) 'SkillDetails': skillDetails,
+      if (skillId != null) 'SkillId': skillId,
+      if (skillName != null) 'SkillName': skillName,
+      if (supportsLinking != null) 'SupportsLinking': supportsLinking,
+    };
+  }
 }
 
 /// A smart home appliance that can connect to a central system. Any domestic
 /// device can be a smart appliance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SmartHomeAppliance {
   /// The description of the smart home appliance.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The friendly name of the smart home appliance.
-  @_s.JsonKey(name: 'FriendlyName')
-  final String friendlyName;
+  final String? friendlyName;
 
   /// The name of the manufacturer of the smart home appliance.
-  @_s.JsonKey(name: 'ManufacturerName')
-  final String manufacturerName;
+  final String? manufacturerName;
 
   SmartHomeAppliance({
     this.description,
     this.friendlyName,
     this.manufacturerName,
   });
-  factory SmartHomeAppliance.fromJson(Map<String, dynamic> json) =>
-      _$SmartHomeApplianceFromJson(json);
+
+  factory SmartHomeAppliance.fromJson(Map<String, dynamic> json) {
+    return SmartHomeAppliance(
+      description: json['Description'] as String?,
+      friendlyName: json['FriendlyName'] as String?,
+      manufacturerName: json['ManufacturerName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final friendlyName = this.friendlyName;
+    final manufacturerName = this.manufacturerName;
+    return {
+      if (description != null) 'Description': description,
+      if (friendlyName != null) 'FriendlyName': friendlyName,
+      if (manufacturerName != null) 'ManufacturerName': manufacturerName,
+    };
+  }
 }
 
 /// An object representing a sort criteria.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Sort {
   /// The sort key of a sort object.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The sort value of a sort object.
-  @_s.JsonKey(name: 'Value')
   final SortValue value;
 
   Sort({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$SortToJson(this);
+
+  factory Sort.fromJson(Map<String, dynamic> json) {
+    return Sort(
+      key: json['Key'] as String,
+      value: (json['Value'] as String).toSortValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value.toValue(),
+    };
+  }
 }
 
 enum SortValue {
-  @_s.JsonValue('ASC')
   asc,
-  @_s.JsonValue('DESC')
   desc,
+}
+
+extension on SortValue {
+  String toValue() {
+    switch (this) {
+      case SortValue.asc:
+        return 'ASC';
+      case SortValue.desc:
+        return 'DESC';
+    }
+  }
+}
+
+extension on String {
+  SortValue toSortValue() {
+    switch (this) {
+      case 'ASC':
+        return SortValue.asc;
+      case 'DESC':
+        return SortValue.desc;
+    }
+    throw Exception('$this is not known in enum SortValue');
+  }
 }
 
 /// The SSML message. For more information, see <a
 /// href="https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html">SSML
 /// Reference</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Ssml {
   /// The locale of the SSML message. Currently, en-US is supported.
-  @_s.JsonKey(name: 'Locale')
   final Locale locale;
 
   /// The value of the SSML message in the correct SSML format. The audio tag is
   /// not supported.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Ssml({
-    @_s.required this.locale,
-    @_s.required this.value,
+    required this.locale,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$SsmlToJson(this);
+
+  factory Ssml.fromJson(Map<String, dynamic> json) {
+    return Ssml(
+      locale: (json['Locale'] as String).toLocale(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locale = this.locale;
+    final value = this.value;
+    return {
+      'Locale': locale.toValue(),
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDeviceSyncResponse {
   StartDeviceSyncResponse();
-  factory StartDeviceSyncResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartDeviceSyncResponseFromJson(json);
+
+  factory StartDeviceSyncResponse.fromJson(Map<String, dynamic> _) {
+    return StartDeviceSyncResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartSmartHomeApplianceDiscoveryResponse {
   StartSmartHomeApplianceDiscoveryResponse();
+
   factory StartSmartHomeApplianceDiscoveryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartSmartHomeApplianceDiscoveryResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return StartSmartHomeApplianceDiscoveryResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A key-value pair that can be associated with a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of a tag. Tag keys are case-sensitive.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of a tag. Tag values are case sensitive and can be null.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum TemperatureUnit {
-  @_s.JsonValue('FAHRENHEIT')
   fahrenheit,
-  @_s.JsonValue('CELSIUS')
   celsius,
 }
 
@@ -9065,206 +9882,245 @@ extension on TemperatureUnit {
       case TemperatureUnit.celsius:
         return 'CELSIUS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TemperatureUnit toTemperatureUnit() {
+    switch (this) {
+      case 'FAHRENHEIT':
+        return TemperatureUnit.fahrenheit;
+      case 'CELSIUS':
+        return TemperatureUnit.celsius;
+    }
+    throw Exception('$this is not known in enum TemperatureUnit');
   }
 }
 
 /// The text message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Text {
   /// The locale of the text message. Currently, en-US is supported.
-  @_s.JsonKey(name: 'Locale')
   final Locale locale;
 
   /// The value of the text message.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Text({
-    @_s.required this.locale,
-    @_s.required this.value,
+    required this.locale,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$TextToJson(this);
+
+  factory Text.fromJson(Map<String, dynamic> json) {
+    return Text(
+      locale: (json['Locale'] as String).toLocale(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locale = this.locale;
+    final value = this.value;
+    return {
+      'Locale': locale.toValue(),
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAddressBookResponse {
   UpdateAddressBookResponse();
-  factory UpdateAddressBookResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAddressBookResponseFromJson(json);
+
+  factory UpdateAddressBookResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateAddressBookResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBusinessReportScheduleResponse {
   UpdateBusinessReportScheduleResponse();
+
   factory UpdateBusinessReportScheduleResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateBusinessReportScheduleResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateBusinessReportScheduleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConferenceProviderResponse {
   UpdateConferenceProviderResponse();
-  factory UpdateConferenceProviderResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateConferenceProviderResponseFromJson(json);
+
+  factory UpdateConferenceProviderResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateConferenceProviderResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateContactResponse {
   UpdateContactResponse();
-  factory UpdateContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateContactResponseFromJson(json);
+
+  factory UpdateContactResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateContactResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeviceResponse {
   UpdateDeviceResponse();
-  factory UpdateDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeviceResponseFromJson(json);
+
+  factory UpdateDeviceResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDeviceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Settings for the end of meeting reminder feature that are applied to a room
 /// profile. The end of meeting reminder enables Alexa to remind users when a
 /// meeting is ending.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateEndOfMeetingReminder {
   /// Whether an end of meeting reminder is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Updates settings for the end of meeting reminder feature that are applied to
   /// a room profile. The end of meeting reminder enables Alexa to remind users
   /// when a meeting is ending.
-  @_s.JsonKey(name: 'ReminderAtMinutes')
-  final List<int> reminderAtMinutes;
+  final List<int>? reminderAtMinutes;
 
   /// The type of sound that users hear during the end of meeting reminder.
-  @_s.JsonKey(name: 'ReminderType')
-  final EndOfMeetingReminderType reminderType;
+  final EndOfMeetingReminderType? reminderType;
 
   UpdateEndOfMeetingReminder({
     this.enabled,
     this.reminderAtMinutes,
     this.reminderType,
   });
-  Map<String, dynamic> toJson() => _$UpdateEndOfMeetingReminderToJson(this);
+
+  factory UpdateEndOfMeetingReminder.fromJson(Map<String, dynamic> json) {
+    return UpdateEndOfMeetingReminder(
+      enabled: json['Enabled'] as bool?,
+      reminderAtMinutes: (json['ReminderAtMinutes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as int)
+          .toList(),
+      reminderType:
+          (json['ReminderType'] as String?)?.toEndOfMeetingReminderType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final reminderAtMinutes = this.reminderAtMinutes;
+    final reminderType = this.reminderType;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (reminderAtMinutes != null) 'ReminderAtMinutes': reminderAtMinutes,
+      if (reminderType != null) 'ReminderType': reminderType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGatewayGroupResponse {
   UpdateGatewayGroupResponse();
-  factory UpdateGatewayGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGatewayGroupResponseFromJson(json);
+
+  factory UpdateGatewayGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateGatewayGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGatewayResponse {
   UpdateGatewayResponse();
-  factory UpdateGatewayResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGatewayResponseFromJson(json);
+
+  factory UpdateGatewayResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateGatewayResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Updates settings for the instant booking feature that are applied to a room
 /// profile. If instant booking is enabled, Alexa automatically reserves a room
 /// if it is free when a user joins a meeting with Alexa.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateInstantBooking {
   /// Duration between 15 and 240 minutes at increments of 15 that determines how
   /// long to book an available room when a meeting is started with Alexa.
-  @_s.JsonKey(name: 'DurationInMinutes')
-  final int durationInMinutes;
+  final int? durationInMinutes;
 
   /// Whether instant booking is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   UpdateInstantBooking({
     this.durationInMinutes,
     this.enabled,
   });
-  Map<String, dynamic> toJson() => _$UpdateInstantBookingToJson(this);
+
+  factory UpdateInstantBooking.fromJson(Map<String, dynamic> json) {
+    return UpdateInstantBooking(
+      durationInMinutes: json['DurationInMinutes'] as int?,
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final durationInMinutes = this.durationInMinutes;
+    final enabled = this.enabled;
+    return {
+      if (durationInMinutes != null) 'DurationInMinutes': durationInMinutes,
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
 }
 
 /// Updates meeting room settings of a room profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateMeetingRoomConfiguration {
   /// Settings for the end of meeting reminder feature that are applied to a room
   /// profile. The end of meeting reminder enables Alexa to remind users when a
   /// meeting is ending.
-  @_s.JsonKey(name: 'EndOfMeetingReminder')
-  final UpdateEndOfMeetingReminder endOfMeetingReminder;
+  final UpdateEndOfMeetingReminder? endOfMeetingReminder;
 
   /// Settings to automatically book an available room available for a configured
   /// duration when joining a meeting with Alexa.
-  @_s.JsonKey(name: 'InstantBooking')
-  final UpdateInstantBooking instantBooking;
+  final UpdateInstantBooking? instantBooking;
 
   /// Settings for requiring a check in when a room is reserved. Alexa can cancel
   /// a room reservation if it's not checked into to make the room available for
   /// others. Users can check in by joining the meeting with Alexa or an AVS
   /// device, or by saying “Alexa, check in.”
-  @_s.JsonKey(name: 'RequireCheckIn')
-  final UpdateRequireCheckIn requireCheckIn;
+  final UpdateRequireCheckIn? requireCheckIn;
 
   /// Whether room utilization metrics are enabled or not.
-  @_s.JsonKey(name: 'RoomUtilizationMetricsEnabled')
-  final bool roomUtilizationMetricsEnabled;
+  final bool? roomUtilizationMetricsEnabled;
 
   UpdateMeetingRoomConfiguration({
     this.endOfMeetingReminder,
@@ -9272,108 +10128,143 @@ class UpdateMeetingRoomConfiguration {
     this.requireCheckIn,
     this.roomUtilizationMetricsEnabled,
   });
-  Map<String, dynamic> toJson() => _$UpdateMeetingRoomConfigurationToJson(this);
+
+  factory UpdateMeetingRoomConfiguration.fromJson(Map<String, dynamic> json) {
+    return UpdateMeetingRoomConfiguration(
+      endOfMeetingReminder: json['EndOfMeetingReminder'] != null
+          ? UpdateEndOfMeetingReminder.fromJson(
+              json['EndOfMeetingReminder'] as Map<String, dynamic>)
+          : null,
+      instantBooking: json['InstantBooking'] != null
+          ? UpdateInstantBooking.fromJson(
+              json['InstantBooking'] as Map<String, dynamic>)
+          : null,
+      requireCheckIn: json['RequireCheckIn'] != null
+          ? UpdateRequireCheckIn.fromJson(
+              json['RequireCheckIn'] as Map<String, dynamic>)
+          : null,
+      roomUtilizationMetricsEnabled:
+          json['RoomUtilizationMetricsEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endOfMeetingReminder = this.endOfMeetingReminder;
+    final instantBooking = this.instantBooking;
+    final requireCheckIn = this.requireCheckIn;
+    final roomUtilizationMetricsEnabled = this.roomUtilizationMetricsEnabled;
+    return {
+      if (endOfMeetingReminder != null)
+        'EndOfMeetingReminder': endOfMeetingReminder,
+      if (instantBooking != null) 'InstantBooking': instantBooking,
+      if (requireCheckIn != null) 'RequireCheckIn': requireCheckIn,
+      if (roomUtilizationMetricsEnabled != null)
+        'RoomUtilizationMetricsEnabled': roomUtilizationMetricsEnabled,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateNetworkProfileResponse {
   UpdateNetworkProfileResponse();
-  factory UpdateNetworkProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateNetworkProfileResponseFromJson(json);
+
+  factory UpdateNetworkProfileResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateNetworkProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateProfileResponse {
   UpdateProfileResponse();
-  factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateProfileResponseFromJson(json);
+
+  factory UpdateProfileResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateProfileResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Updates settings for the require check in feature that are applied to a room
 /// profile. Require check in allows a meeting room’s Alexa or AVS device to
 /// prompt the user to check in; otherwise, the room will be released.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateRequireCheckIn {
   /// Whether require check in is enabled or not.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// Duration between 5 and 20 minutes to determine when to release the room if
   /// it's not checked into.
-  @_s.JsonKey(name: 'ReleaseAfterMinutes')
-  final int releaseAfterMinutes;
+  final int? releaseAfterMinutes;
 
   UpdateRequireCheckIn({
     this.enabled,
     this.releaseAfterMinutes,
   });
-  Map<String, dynamic> toJson() => _$UpdateRequireCheckInToJson(this);
+
+  factory UpdateRequireCheckIn.fromJson(Map<String, dynamic> json) {
+    return UpdateRequireCheckIn(
+      enabled: json['Enabled'] as bool?,
+      releaseAfterMinutes: json['ReleaseAfterMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final releaseAfterMinutes = this.releaseAfterMinutes;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+      if (releaseAfterMinutes != null)
+        'ReleaseAfterMinutes': releaseAfterMinutes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRoomResponse {
   UpdateRoomResponse();
-  factory UpdateRoomResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRoomResponseFromJson(json);
+
+  factory UpdateRoomResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateRoomResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSkillGroupResponse {
   UpdateSkillGroupResponse();
-  factory UpdateSkillGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSkillGroupResponseFromJson(json);
+
+  factory UpdateSkillGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateSkillGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information related to a user.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UserData {
   /// The email of a user.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The enrollment ARN of a user.
-  @_s.JsonKey(name: 'EnrollmentId')
-  final String enrollmentId;
+  final String? enrollmentId;
 
   /// The enrollment status of a user.
-  @_s.JsonKey(name: 'EnrollmentStatus')
-  final EnrollmentStatus enrollmentStatus;
+  final EnrollmentStatus? enrollmentStatus;
 
   /// The first name of a user.
-  @_s.JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
 
   /// The last name of a user.
-  @_s.JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
 
   /// The ARN of a user.
-  @_s.JsonKey(name: 'UserArn')
-  final String userArn;
+  final String? userArn;
 
   UserData({
     this.email,
@@ -9383,18 +10274,42 @@ class UserData {
     this.lastName,
     this.userArn,
   });
-  factory UserData.fromJson(Map<String, dynamic> json) =>
-      _$UserDataFromJson(json);
+
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
+      email: json['Email'] as String?,
+      enrollmentId: json['EnrollmentId'] as String?,
+      enrollmentStatus:
+          (json['EnrollmentStatus'] as String?)?.toEnrollmentStatus(),
+      firstName: json['FirstName'] as String?,
+      lastName: json['LastName'] as String?,
+      userArn: json['UserArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final email = this.email;
+    final enrollmentId = this.enrollmentId;
+    final enrollmentStatus = this.enrollmentStatus;
+    final firstName = this.firstName;
+    final lastName = this.lastName;
+    final userArn = this.userArn;
+    return {
+      if (email != null) 'Email': email,
+      if (enrollmentId != null) 'EnrollmentId': enrollmentId,
+      if (enrollmentStatus != null)
+        'EnrollmentStatus': enrollmentStatus.toValue(),
+      if (firstName != null) 'FirstName': firstName,
+      if (lastName != null) 'LastName': lastName,
+      if (userArn != null) 'UserArn': userArn,
+    };
+  }
 }
 
 enum WakeWord {
-  @_s.JsonValue('ALEXA')
   alexa,
-  @_s.JsonValue('AMAZON')
   amazon,
-  @_s.JsonValue('ECHO')
   echo,
-  @_s.JsonValue('COMPUTER')
   computer,
 }
 
@@ -9410,17 +10325,32 @@ extension on WakeWord {
       case WakeWord.computer:
         return 'COMPUTER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  WakeWord toWakeWord() {
+    switch (this) {
+      case 'ALEXA':
+        return WakeWord.alexa;
+      case 'AMAZON':
+        return WakeWord.amazon;
+      case 'ECHO':
+        return WakeWord.echo;
+      case 'COMPUTER':
+        return WakeWord.computer;
+    }
+    throw Exception('$this is not known in enum WakeWord');
   }
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -9428,13 +10358,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class DeviceNotRegisteredException extends _s.GenericAwsException {
-  DeviceNotRegisteredException({String type, String message})
+  DeviceNotRegisteredException({String? type, String? message})
       : super(
             type: type, code: 'DeviceNotRegisteredException', message: message);
 }
 
 class InvalidCertificateAuthorityException extends _s.GenericAwsException {
-  InvalidCertificateAuthorityException({String type, String message})
+  InvalidCertificateAuthorityException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCertificateAuthorityException',
@@ -9442,12 +10372,12 @@ class InvalidCertificateAuthorityException extends _s.GenericAwsException {
 }
 
 class InvalidDeviceException extends _s.GenericAwsException {
-  InvalidDeviceException({String type, String message})
+  InvalidDeviceException({String? type, String? message})
       : super(type: type, code: 'InvalidDeviceException', message: message);
 }
 
 class InvalidSecretsManagerResourceException extends _s.GenericAwsException {
-  InvalidSecretsManagerResourceException({String type, String message})
+  InvalidSecretsManagerResourceException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSecretsManagerResourceException',
@@ -9455,7 +10385,7 @@ class InvalidSecretsManagerResourceException extends _s.GenericAwsException {
 }
 
 class InvalidServiceLinkedRoleStateException extends _s.GenericAwsException {
-  InvalidServiceLinkedRoleStateException({String type, String message})
+  InvalidServiceLinkedRoleStateException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidServiceLinkedRoleStateException',
@@ -9463,43 +10393,43 @@ class InvalidServiceLinkedRoleStateException extends _s.GenericAwsException {
 }
 
 class InvalidUserStatusException extends _s.GenericAwsException {
-  InvalidUserStatusException({String type, String message})
+  InvalidUserStatusException({String? type, String? message})
       : super(type: type, code: 'InvalidUserStatusException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NameInUseException extends _s.GenericAwsException {
-  NameInUseException({String type, String message})
+  NameInUseException({String? type, String? message})
       : super(type: type, code: 'NameInUseException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceAssociatedException extends _s.GenericAwsException {
-  ResourceAssociatedException({String type, String message})
+  ResourceAssociatedException({String? type, String? message})
       : super(
             type: type, code: 'ResourceAssociatedException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class SkillNotLinkedException extends _s.GenericAwsException {
-  SkillNotLinkedException({String type, String message})
+  SkillNotLinkedException({String? type, String? message})
       : super(type: type, code: 'SkillNotLinkedException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

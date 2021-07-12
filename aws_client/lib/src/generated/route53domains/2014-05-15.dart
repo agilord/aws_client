@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2014-05-15.g.dart';
 
 /// Amazon Route 53 API actions let you register domain names and perform
 /// related operations.
 class Route53Domains {
   final _s.JsonProtocol _protocol;
   Route53Domains({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -74,8 +67,8 @@ class Route53Domains {
   /// request.
   Future<AcceptDomainTransferFromAnotherAwsAccountResponse>
       acceptDomainTransferFromAnotherAwsAccount({
-    @_s.required String domainName,
-    @_s.required String password,
+    required String domainName,
+    required String password,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -132,7 +125,7 @@ class Route53Domains {
   /// another AWS account.
   Future<CancelDomainTransferToAnotherAwsAccountResponse>
       cancelDomainTransferToAnotherAwsAccount({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -206,8 +199,8 @@ class Route53Domains {
   /// Parameter [idnLangCode] :
   /// Reserved for future use.
   Future<CheckDomainAvailabilityResponse> checkDomainAvailability({
-    @_s.required String domainName,
-    String idnLangCode,
+    required String domainName,
+    String? idnLangCode,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -278,8 +271,8 @@ class Route53Domains {
   /// code to transfer the domain, the code that you got from the current
   /// registrar for the domain.
   Future<CheckDomainTransferabilityResponse> checkDomainTransferability({
-    @_s.required String domainName,
-    String authCode,
+    required String domainName,
+    String? authCode,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -329,8 +322,8 @@ class Route53Domains {
   /// Parameter [tagsToDelete] :
   /// A list of tag keys to delete.
   Future<void> deleteTagsForDomain({
-    @_s.required String domainName,
-    @_s.required List<String> tagsToDelete,
+    required String domainName,
+    required List<String> tagsToDelete,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -345,7 +338,7 @@ class Route53Domains {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Domains_v20140515.DeleteTagsForDomain'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -356,8 +349,6 @@ class Route53Domains {
         'TagsToDelete': tagsToDelete,
       },
     );
-
-    return DeleteTagsForDomainResponse.fromJson(jsonResponse.body);
   }
 
   /// This operation disables automatic renewal of domain registration for the
@@ -369,7 +360,7 @@ class Route53Domains {
   /// Parameter [domainName] :
   /// The name of the domain that you want to disable automatic renewal for.
   Future<void> disableDomainAutoRenew({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -383,7 +374,7 @@ class Route53Domains {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Domains_v20140515.DisableDomainAutoRenew'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -393,8 +384,6 @@ class Route53Domains {
         'DomainName': domainName,
       },
     );
-
-    return DisableDomainAutoRenewResponse.fromJson(jsonResponse.body);
   }
 
   /// This operation removes the transfer lock on the domain (specifically the
@@ -414,7 +403,7 @@ class Route53Domains {
   /// Parameter [domainName] :
   /// The name of the domain that you want to remove the transfer lock for.
   Future<DisableDomainTransferLockResponse> disableDomainTransferLock({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -460,7 +449,7 @@ class Route53Domains {
   /// Parameter [domainName] :
   /// The name of the domain that you want to enable automatic renewal for.
   Future<void> enableDomainAutoRenew({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -474,7 +463,7 @@ class Route53Domains {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Domains_v20140515.EnableDomainAutoRenew'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -484,8 +473,6 @@ class Route53Domains {
         'DomainName': domainName,
       },
     );
-
-    return EnableDomainAutoRenewResponse.fromJson(jsonResponse.body);
   }
 
   /// This operation sets the transfer lock on the domain (specifically the
@@ -503,7 +490,7 @@ class Route53Domains {
   /// Parameter [domainName] :
   /// The name of the domain that you want to set the transfer lock for.
   Future<EnableDomainTransferLockResponse> enableDomainTransferLock({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -547,7 +534,7 @@ class Route53Domains {
   /// The name of the domain for which you want to know whether the registrant
   /// contact has confirmed that the email address is valid.
   Future<GetContactReachabilityStatusResponse> getContactReachabilityStatus({
-    String domainName,
+    String? domainName,
   }) async {
     _s.validateStringLength(
       'domainName',
@@ -583,7 +570,7 @@ class Route53Domains {
   /// Parameter [domainName] :
   /// The name of the domain that you want to get detailed information about.
   Future<GetDomainDetailResponse> getDomainDetail({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -660,9 +647,9 @@ class Route53Domains {
   /// The number of suggested domain names that you want Route 53 to return.
   /// Specify a value between 1 and 50.
   Future<GetDomainSuggestionsResponse> getDomainSuggestions({
-    @_s.required String domainName,
-    @_s.required bool onlyAvailable,
-    @_s.required int suggestionCount,
+    required String domainName,
+    required bool onlyAvailable,
+    required int suggestionCount,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -703,7 +690,7 @@ class Route53Domains {
   /// The identifier for the operation for which you want to get the status.
   /// Route 53 returned the identifier in the response to the original request.
   Future<GetOperationDetailResponse> getOperationDetail({
-    @_s.required String operationId,
+    required String operationId,
   }) async {
     ArgumentError.checkNotNull(operationId, 'operationId');
     _s.validateStringLength(
@@ -753,8 +740,8 @@ class Route53Domains {
   ///
   /// Default: 20
   Future<ListDomainsResponse> listDomains({
-    String marker,
-    int maxItems,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -812,9 +799,9 @@ class Route53Domains {
   /// operations that you submitted after a specified date and time. Specify the
   /// date and time in Unix time format and Coordinated Universal time (UTC).
   Future<ListOperationsResponse> listOperations({
-    String marker,
-    int maxItems,
-    DateTime submittedSince,
+    String? marker,
+    int? maxItems,
+    DateTime? submittedSince,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -862,7 +849,7 @@ class Route53Domains {
   /// Parameter [domainName] :
   /// The domain for which you want to get a list of tags.
   Future<ListTagsForDomainResponse> listTagsForDomain({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1033,16 +1020,16 @@ class Route53Domains {
   ///
   /// Default: <code>true</code>
   Future<RegisterDomainResponse> registerDomain({
-    @_s.required ContactDetail adminContact,
-    @_s.required String domainName,
-    @_s.required int durationInYears,
-    @_s.required ContactDetail registrantContact,
-    @_s.required ContactDetail techContact,
-    bool autoRenew,
-    String idnLangCode,
-    bool privacyProtectAdminContact,
-    bool privacyProtectRegistrantContact,
-    bool privacyProtectTechContact,
+    required ContactDetail adminContact,
+    required String domainName,
+    required int durationInYears,
+    required ContactDetail registrantContact,
+    required ContactDetail techContact,
+    bool? autoRenew,
+    String? idnLangCode,
+    bool? privacyProtectAdminContact,
+    bool? privacyProtectRegistrantContact,
+    bool? privacyProtectTechContact,
   }) async {
     ArgumentError.checkNotNull(adminContact, 'adminContact');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1122,7 +1109,7 @@ class Route53Domains {
   /// request.
   Future<RejectDomainTransferFromAnotherAwsAccountResponse>
       rejectDomainTransferFromAnotherAwsAccount({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1186,9 +1173,9 @@ class Route53Domains {
   ///
   /// Default: 1
   Future<RenewDomainResponse> renewDomain({
-    @_s.required int currentExpiryYear,
-    @_s.required String domainName,
-    int durationInYears,
+    required int currentExpiryYear,
+    required String domainName,
+    int? durationInYears,
   }) async {
     ArgumentError.checkNotNull(currentExpiryYear, 'currentExpiryYear');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1239,7 +1226,7 @@ class Route53Domains {
   /// confirmation email to the registrant contact.
   Future<ResendContactReachabilityEmailResponse>
       resendContactReachabilityEmail({
-    String domainName,
+    String? domainName,
   }) async {
     _s.validateStringLength(
       'domainName',
@@ -1274,7 +1261,7 @@ class Route53Domains {
   /// Parameter [domainName] :
   /// The name of the domain that you want to get an authorization code for.
   Future<RetrieveDomainAuthCodeResponse> retrieveDomainAuthCode({
-    @_s.required String domainName,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1444,18 +1431,18 @@ class Route53Domains {
   ///
   /// Default: <code>true</code>
   Future<TransferDomainResponse> transferDomain({
-    @_s.required ContactDetail adminContact,
-    @_s.required String domainName,
-    @_s.required int durationInYears,
-    @_s.required ContactDetail registrantContact,
-    @_s.required ContactDetail techContact,
-    String authCode,
-    bool autoRenew,
-    String idnLangCode,
-    List<Nameserver> nameservers,
-    bool privacyProtectAdminContact,
-    bool privacyProtectRegistrantContact,
-    bool privacyProtectTechContact,
+    required ContactDetail adminContact,
+    required String domainName,
+    required int durationInYears,
+    required ContactDetail registrantContact,
+    required ContactDetail techContact,
+    String? authCode,
+    bool? autoRenew,
+    String? idnLangCode,
+    List<Nameserver>? nameservers,
+    bool? privacyProtectAdminContact,
+    bool? privacyProtectRegistrantContact,
+    bool? privacyProtectTechContact,
   }) async {
     ArgumentError.checkNotNull(adminContact, 'adminContact');
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1571,16 +1558,10 @@ class Route53Domains {
   /// account to another account.
   Future<TransferDomainToAnotherAwsAccountResponse>
       transferDomainToAnotherAwsAccount({
-    @_s.required String accountId,
-    @_s.required String domainName,
+    required String accountId,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^(\d{12})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
       'domainName',
@@ -1637,10 +1618,10 @@ class Route53Domains {
   /// Parameter [techContact] :
   /// Provides detailed contact information.
   Future<UpdateDomainContactResponse> updateDomainContact({
-    @_s.required String domainName,
-    ContactDetail adminContact,
-    ContactDetail registrantContact,
-    ContactDetail techContact,
+    required String domainName,
+    ContactDetail? adminContact,
+    ContactDetail? registrantContact,
+    ContactDetail? techContact,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1729,10 +1710,10 @@ class Route53Domains {
   /// <code>false</code>, WHOIS queries return the information that you entered
   /// for the technical contact.
   Future<UpdateDomainContactPrivacyResponse> updateDomainContactPrivacy({
-    @_s.required String domainName,
-    bool adminPrivacy,
-    bool registrantPrivacy,
-    bool techPrivacy,
+    required String domainName,
+    bool? adminPrivacy,
+    bool? registrantPrivacy,
+    bool? techPrivacy,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1787,9 +1768,9 @@ class Route53Domains {
   /// Parameter [fIAuthKey] :
   /// The authorization key for .fi domains
   Future<UpdateDomainNameserversResponse> updateDomainNameservers({
-    @_s.required String domainName,
-    @_s.required List<Nameserver> nameservers,
-    String fIAuthKey,
+    required String domainName,
+    required List<Nameserver> nameservers,
+    String? fIAuthKey,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1837,8 +1818,8 @@ class Route53Domains {
   /// specify a key that already exists, the corresponding value will be
   /// replaced.
   Future<void> updateTagsForDomain({
-    @_s.required String domainName,
-    List<Tag> tagsToUpdate,
+    required String domainName,
+    List<Tag>? tagsToUpdate,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     _s.validateStringLength(
@@ -1852,7 +1833,7 @@ class Route53Domains {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Route53Domains_v20140515.UpdateTagsForDomain'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1863,8 +1844,6 @@ class Route53Domains {
         if (tagsToUpdate != null) 'TagsToUpdate': tagsToUpdate,
       },
     );
-
-    return UpdateTagsForDomainResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns all the domain-related billing records for the current AWS account
@@ -1900,10 +1879,10 @@ class Route53Domains {
   /// of billing records. Specify the date and time in Unix time format and
   /// Coordinated Universal time (UTC).
   Future<ViewBillingResponse> viewBilling({
-    DateTime end,
-    String marker,
-    int maxItems,
-    DateTime start,
+    DateTime? end,
+    String? marker,
+    int? maxItems,
+    DateTime? start,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -1941,37 +1920,35 @@ class Route53Domains {
 
 /// The AcceptDomainTransferFromAnotherAwsAccount response includes the
 /// following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptDomainTransferFromAnotherAwsAccountResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
-  final String operationId;
+  final String? operationId;
 
   AcceptDomainTransferFromAnotherAwsAccountResponse({
     this.operationId,
   });
+
   factory AcceptDomainTransferFromAnotherAwsAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AcceptDomainTransferFromAnotherAwsAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AcceptDomainTransferFromAnotherAwsAccountResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
 }
 
 /// Information for one billing record.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BillingRecord {
   /// The date that the operation was billed, in Unix format.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'BillDate')
-  final DateTime billDate;
+  final DateTime? billDate;
 
   /// The name of the domain that the billing record applies to. If the domain
   /// name contains characters other than a-z, 0-9, and - (hyphen), such as an
@@ -1979,22 +1956,18 @@ class BillingRecord {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
   /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// The ID of the invoice that is associated with the billing record.
-  @_s.JsonKey(name: 'InvoiceId')
-  final String invoiceId;
+  final String? invoiceId;
 
   /// The operation that you were charged for.
-  @_s.JsonKey(name: 'Operation')
-  final OperationType operation;
+  final OperationType? operation;
 
   /// The price that you were charged for the operation, in US dollars.
   ///
   /// Example value: 12.0
-  @_s.JsonKey(name: 'Price')
-  final double price;
+  final double? price;
 
   BillingRecord({
     this.billDate,
@@ -2003,39 +1976,62 @@ class BillingRecord {
     this.operation,
     this.price,
   });
-  factory BillingRecord.fromJson(Map<String, dynamic> json) =>
-      _$BillingRecordFromJson(json);
+
+  factory BillingRecord.fromJson(Map<String, dynamic> json) {
+    return BillingRecord(
+      billDate: timeStampFromJson(json['BillDate']),
+      domainName: json['DomainName'] as String?,
+      invoiceId: json['InvoiceId'] as String?,
+      operation: (json['Operation'] as String?)?.toOperationType(),
+      price: json['Price'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billDate = this.billDate;
+    final domainName = this.domainName;
+    final invoiceId = this.invoiceId;
+    final operation = this.operation;
+    final price = this.price;
+    return {
+      if (billDate != null) 'BillDate': unixTimestampToJson(billDate),
+      if (domainName != null) 'DomainName': domainName,
+      if (invoiceId != null) 'InvoiceId': invoiceId,
+      if (operation != null) 'Operation': operation.toValue(),
+      if (price != null) 'Price': price,
+    };
+  }
 }
 
 /// The <code>CancelDomainTransferToAnotherAwsAccount</code> response includes
 /// the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelDomainTransferToAnotherAwsAccountResponse {
   /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
   /// to track the progress of the request. Because the transfer request was
   /// canceled, the value is no longer valid, and you can't use
   /// <code>GetOperationDetail</code> to query the operation status.
-  @_s.JsonKey(name: 'OperationId')
-  final String operationId;
+  final String? operationId;
 
   CancelDomainTransferToAnotherAwsAccountResponse({
     this.operationId,
   });
+
   factory CancelDomainTransferToAnotherAwsAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelDomainTransferToAnotherAwsAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CancelDomainTransferToAnotherAwsAccountResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
 }
 
 /// The CheckDomainAvailability response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CheckDomainAvailabilityResponse {
   /// Whether the domain name is available for registering.
   /// <note>
@@ -2066,54 +2062,62 @@ class CheckDomainAvailabilityResponse {
   /// </dd> <dt>UNAVAILABLE_RESTRICTED</dt> <dd>
   /// The domain name is forbidden.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'Availability')
   final DomainAvailability availability;
 
   CheckDomainAvailabilityResponse({
-    @_s.required this.availability,
+    required this.availability,
   });
-  factory CheckDomainAvailabilityResponse.fromJson(Map<String, dynamic> json) =>
-      _$CheckDomainAvailabilityResponseFromJson(json);
+
+  factory CheckDomainAvailabilityResponse.fromJson(Map<String, dynamic> json) {
+    return CheckDomainAvailabilityResponse(
+      availability: (json['Availability'] as String).toDomainAvailability(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availability = this.availability;
+    return {
+      'Availability': availability.toValue(),
+    };
+  }
 }
 
 /// The CheckDomainTransferability response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CheckDomainTransferabilityResponse {
   /// A complex type that contains information about whether the specified domain
   /// can be transferred to Route 53.
-  @_s.JsonKey(name: 'Transferability')
   final DomainTransferability transferability;
 
   CheckDomainTransferabilityResponse({
-    @_s.required this.transferability,
+    required this.transferability,
   });
+
   factory CheckDomainTransferabilityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CheckDomainTransferabilityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CheckDomainTransferabilityResponse(
+      transferability: DomainTransferability.fromJson(
+          json['Transferability'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transferability = this.transferability;
+    return {
+      'Transferability': transferability,
+    };
+  }
 }
 
 /// ContactDetail includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ContactDetail {
   /// First line of the contact's address.
-  @_s.JsonKey(name: 'AddressLine1')
-  final String addressLine1;
+  final String? addressLine1;
 
   /// Second line of contact's address, if any.
-  @_s.JsonKey(name: 'AddressLine2')
-  final String addressLine2;
+  final String? addressLine2;
 
   /// The city of the contact's address.
-  @_s.JsonKey(name: 'City')
-  final String city;
+  final String? city;
 
   /// Indicates whether the contact is a person, company, association, or public
   /// organization. Note the following:
@@ -2136,57 +2140,46 @@ class ContactDetail {
   /// <code>INDIVIDUAL</code> for the value of <code>ES_LEGAL_FORM</code>.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ContactType')
-  final ContactType contactType;
+  final ContactType? contactType;
 
   /// Code for the country of the contact's address.
-  @_s.JsonKey(name: 'CountryCode')
-  final CountryCode countryCode;
+  final CountryCode? countryCode;
 
   /// Email address of the contact.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// A list of name-value pairs for parameters required by certain top-level
   /// domains.
-  @_s.JsonKey(name: 'ExtraParams')
-  final List<ExtraParam> extraParams;
+  final List<ExtraParam>? extraParams;
 
   /// Fax number of the contact.
   ///
   /// Constraints: Phone number must be specified in the format "+[country dialing
   /// code].[number including any area code]". For example, a US phone number
   /// might appear as <code>"+1.1234567890"</code>.
-  @_s.JsonKey(name: 'Fax')
-  final String fax;
+  final String? fax;
 
   /// First name of contact.
-  @_s.JsonKey(name: 'FirstName')
-  final String firstName;
+  final String? firstName;
 
   /// Last name of contact.
-  @_s.JsonKey(name: 'LastName')
-  final String lastName;
+  final String? lastName;
 
   /// Name of the organization for contact types other than <code>PERSON</code>.
-  @_s.JsonKey(name: 'OrganizationName')
-  final String organizationName;
+  final String? organizationName;
 
   /// The phone number of the contact.
   ///
   /// Constraints: Phone number must be specified in the format "+[country dialing
   /// code].[number including any area code&gt;]". For example, a US phone number
   /// might appear as <code>"+1.1234567890"</code>.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   /// The state or province of the contact's city.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   /// The zip or postal code of the contact's address.
-  @_s.JsonKey(name: 'ZipCode')
-  final String zipCode;
+  final String? zipCode;
 
   ContactDetail({
     this.addressLine1,
@@ -2204,554 +2197,1378 @@ class ContactDetail {
     this.state,
     this.zipCode,
   });
-  factory ContactDetail.fromJson(Map<String, dynamic> json) =>
-      _$ContactDetailFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ContactDetailToJson(this);
+  factory ContactDetail.fromJson(Map<String, dynamic> json) {
+    return ContactDetail(
+      addressLine1: json['AddressLine1'] as String?,
+      addressLine2: json['AddressLine2'] as String?,
+      city: json['City'] as String?,
+      contactType: (json['ContactType'] as String?)?.toContactType(),
+      countryCode: (json['CountryCode'] as String?)?.toCountryCode(),
+      email: json['Email'] as String?,
+      extraParams: (json['ExtraParams'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExtraParam.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      fax: json['Fax'] as String?,
+      firstName: json['FirstName'] as String?,
+      lastName: json['LastName'] as String?,
+      organizationName: json['OrganizationName'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+      state: json['State'] as String?,
+      zipCode: json['ZipCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressLine1 = this.addressLine1;
+    final addressLine2 = this.addressLine2;
+    final city = this.city;
+    final contactType = this.contactType;
+    final countryCode = this.countryCode;
+    final email = this.email;
+    final extraParams = this.extraParams;
+    final fax = this.fax;
+    final firstName = this.firstName;
+    final lastName = this.lastName;
+    final organizationName = this.organizationName;
+    final phoneNumber = this.phoneNumber;
+    final state = this.state;
+    final zipCode = this.zipCode;
+    return {
+      if (addressLine1 != null) 'AddressLine1': addressLine1,
+      if (addressLine2 != null) 'AddressLine2': addressLine2,
+      if (city != null) 'City': city,
+      if (contactType != null) 'ContactType': contactType.toValue(),
+      if (countryCode != null) 'CountryCode': countryCode.toValue(),
+      if (email != null) 'Email': email,
+      if (extraParams != null) 'ExtraParams': extraParams,
+      if (fax != null) 'Fax': fax,
+      if (firstName != null) 'FirstName': firstName,
+      if (lastName != null) 'LastName': lastName,
+      if (organizationName != null) 'OrganizationName': organizationName,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (state != null) 'State': state,
+      if (zipCode != null) 'ZipCode': zipCode,
+    };
+  }
 }
 
 enum ContactType {
-  @_s.JsonValue('PERSON')
   person,
-  @_s.JsonValue('COMPANY')
   company,
-  @_s.JsonValue('ASSOCIATION')
   association,
-  @_s.JsonValue('PUBLIC_BODY')
   publicBody,
-  @_s.JsonValue('RESELLER')
   reseller,
 }
 
+extension on ContactType {
+  String toValue() {
+    switch (this) {
+      case ContactType.person:
+        return 'PERSON';
+      case ContactType.company:
+        return 'COMPANY';
+      case ContactType.association:
+        return 'ASSOCIATION';
+      case ContactType.publicBody:
+        return 'PUBLIC_BODY';
+      case ContactType.reseller:
+        return 'RESELLER';
+    }
+  }
+}
+
+extension on String {
+  ContactType toContactType() {
+    switch (this) {
+      case 'PERSON':
+        return ContactType.person;
+      case 'COMPANY':
+        return ContactType.company;
+      case 'ASSOCIATION':
+        return ContactType.association;
+      case 'PUBLIC_BODY':
+        return ContactType.publicBody;
+      case 'RESELLER':
+        return ContactType.reseller;
+    }
+    throw Exception('$this is not known in enum ContactType');
+  }
+}
+
 enum CountryCode {
-  @_s.JsonValue('AD')
   ad,
-  @_s.JsonValue('AE')
   ae,
-  @_s.JsonValue('AF')
   af,
-  @_s.JsonValue('AG')
   ag,
-  @_s.JsonValue('AI')
   ai,
-  @_s.JsonValue('AL')
   al,
-  @_s.JsonValue('AM')
   am,
-  @_s.JsonValue('AN')
   an,
-  @_s.JsonValue('AO')
   ao,
-  @_s.JsonValue('AQ')
   aq,
-  @_s.JsonValue('AR')
   ar,
-  @_s.JsonValue('AS')
   as,
-  @_s.JsonValue('AT')
   at,
-  @_s.JsonValue('AU')
   au,
-  @_s.JsonValue('AW')
   aw,
-  @_s.JsonValue('AZ')
   az,
-  @_s.JsonValue('BA')
   ba,
-  @_s.JsonValue('BB')
   bb,
-  @_s.JsonValue('BD')
   bd,
-  @_s.JsonValue('BE')
   be,
-  @_s.JsonValue('BF')
   bf,
-  @_s.JsonValue('BG')
   bg,
-  @_s.JsonValue('BH')
   bh,
-  @_s.JsonValue('BI')
   bi,
-  @_s.JsonValue('BJ')
   bj,
-  @_s.JsonValue('BL')
   bl,
-  @_s.JsonValue('BM')
   bm,
-  @_s.JsonValue('BN')
   bn,
-  @_s.JsonValue('BO')
   bo,
-  @_s.JsonValue('BR')
   br,
-  @_s.JsonValue('BS')
   bs,
-  @_s.JsonValue('BT')
   bt,
-  @_s.JsonValue('BW')
   bw,
-  @_s.JsonValue('BY')
   by,
-  @_s.JsonValue('BZ')
   bz,
-  @_s.JsonValue('CA')
   ca,
-  @_s.JsonValue('CC')
   cc,
-  @_s.JsonValue('CD')
   cd,
-  @_s.JsonValue('CF')
   cf,
-  @_s.JsonValue('CG')
   cg,
-  @_s.JsonValue('CH')
   ch,
-  @_s.JsonValue('CI')
   ci,
-  @_s.JsonValue('CK')
   ck,
-  @_s.JsonValue('CL')
   cl,
-  @_s.JsonValue('CM')
   cm,
-  @_s.JsonValue('CN')
   cn,
-  @_s.JsonValue('CO')
   co,
-  @_s.JsonValue('CR')
   cr,
-  @_s.JsonValue('CU')
   cu,
-  @_s.JsonValue('CV')
   cv,
-  @_s.JsonValue('CX')
   cx,
-  @_s.JsonValue('CY')
   cy,
-  @_s.JsonValue('CZ')
   cz,
-  @_s.JsonValue('DE')
   de,
-  @_s.JsonValue('DJ')
   dj,
-  @_s.JsonValue('DK')
   dk,
-  @_s.JsonValue('DM')
   dm,
-  @_s.JsonValue('DO')
   $do,
-  @_s.JsonValue('DZ')
   dz,
-  @_s.JsonValue('EC')
   ec,
-  @_s.JsonValue('EE')
   ee,
-  @_s.JsonValue('EG')
   eg,
-  @_s.JsonValue('ER')
   er,
-  @_s.JsonValue('ES')
   es,
-  @_s.JsonValue('ET')
   et,
-  @_s.JsonValue('FI')
   fi,
-  @_s.JsonValue('FJ')
   fj,
-  @_s.JsonValue('FK')
   fk,
-  @_s.JsonValue('FM')
   fm,
-  @_s.JsonValue('FO')
   fo,
-  @_s.JsonValue('FR')
   fr,
-  @_s.JsonValue('GA')
   ga,
-  @_s.JsonValue('GB')
   gb,
-  @_s.JsonValue('GD')
   gd,
-  @_s.JsonValue('GE')
   ge,
-  @_s.JsonValue('GH')
   gh,
-  @_s.JsonValue('GI')
   gi,
-  @_s.JsonValue('GL')
   gl,
-  @_s.JsonValue('GM')
   gm,
-  @_s.JsonValue('GN')
   gn,
-  @_s.JsonValue('GQ')
   gq,
-  @_s.JsonValue('GR')
   gr,
-  @_s.JsonValue('GT')
   gt,
-  @_s.JsonValue('GU')
   gu,
-  @_s.JsonValue('GW')
   gw,
-  @_s.JsonValue('GY')
   gy,
-  @_s.JsonValue('HK')
   hk,
-  @_s.JsonValue('HN')
   hn,
-  @_s.JsonValue('HR')
   hr,
-  @_s.JsonValue('HT')
   ht,
-  @_s.JsonValue('HU')
   hu,
-  @_s.JsonValue('ID')
   id,
-  @_s.JsonValue('IE')
   ie,
-  @_s.JsonValue('IL')
   il,
-  @_s.JsonValue('IM')
   im,
-  @_s.JsonValue('IN')
   $in,
-  @_s.JsonValue('IQ')
   iq,
-  @_s.JsonValue('IR')
   ir,
-  @_s.JsonValue('IS')
   $is,
-  @_s.JsonValue('IT')
   it,
-  @_s.JsonValue('JM')
   jm,
-  @_s.JsonValue('JO')
   jo,
-  @_s.JsonValue('JP')
   jp,
-  @_s.JsonValue('KE')
   ke,
-  @_s.JsonValue('KG')
   kg,
-  @_s.JsonValue('KH')
   kh,
-  @_s.JsonValue('KI')
   ki,
-  @_s.JsonValue('KM')
   km,
-  @_s.JsonValue('KN')
   kn,
-  @_s.JsonValue('KP')
   kp,
-  @_s.JsonValue('KR')
   kr,
-  @_s.JsonValue('KW')
   kw,
-  @_s.JsonValue('KY')
   ky,
-  @_s.JsonValue('KZ')
   kz,
-  @_s.JsonValue('LA')
   la,
-  @_s.JsonValue('LB')
   lb,
-  @_s.JsonValue('LC')
   lc,
-  @_s.JsonValue('LI')
   li,
-  @_s.JsonValue('LK')
   lk,
-  @_s.JsonValue('LR')
   lr,
-  @_s.JsonValue('LS')
   ls,
-  @_s.JsonValue('LT')
   lt,
-  @_s.JsonValue('LU')
   lu,
-  @_s.JsonValue('LV')
   lv,
-  @_s.JsonValue('LY')
   ly,
-  @_s.JsonValue('MA')
   ma,
-  @_s.JsonValue('MC')
   mc,
-  @_s.JsonValue('MD')
   md,
-  @_s.JsonValue('ME')
   me,
-  @_s.JsonValue('MF')
   mf,
-  @_s.JsonValue('MG')
   mg,
-  @_s.JsonValue('MH')
   mh,
-  @_s.JsonValue('MK')
   mk,
-  @_s.JsonValue('ML')
   ml,
-  @_s.JsonValue('MM')
   mm,
-  @_s.JsonValue('MN')
   mn,
-  @_s.JsonValue('MO')
   mo,
-  @_s.JsonValue('MP')
   mp,
-  @_s.JsonValue('MR')
   mr,
-  @_s.JsonValue('MS')
   ms,
-  @_s.JsonValue('MT')
   mt,
-  @_s.JsonValue('MU')
   mu,
-  @_s.JsonValue('MV')
   mv,
-  @_s.JsonValue('MW')
   mw,
-  @_s.JsonValue('MX')
   mx,
-  @_s.JsonValue('MY')
   my,
-  @_s.JsonValue('MZ')
   mz,
-  @_s.JsonValue('NA')
   na,
-  @_s.JsonValue('NC')
   nc,
-  @_s.JsonValue('NE')
   ne,
-  @_s.JsonValue('NG')
   ng,
-  @_s.JsonValue('NI')
   ni,
-  @_s.JsonValue('NL')
   nl,
-  @_s.JsonValue('NO')
   no,
-  @_s.JsonValue('NP')
   np,
-  @_s.JsonValue('NR')
   nr,
-  @_s.JsonValue('NU')
   nu,
-  @_s.JsonValue('NZ')
   nz,
-  @_s.JsonValue('OM')
   om,
-  @_s.JsonValue('PA')
   pa,
-  @_s.JsonValue('PE')
   pe,
-  @_s.JsonValue('PF')
   pf,
-  @_s.JsonValue('PG')
   pg,
-  @_s.JsonValue('PH')
   ph,
-  @_s.JsonValue('PK')
   pk,
-  @_s.JsonValue('PL')
   pl,
-  @_s.JsonValue('PM')
   pm,
-  @_s.JsonValue('PN')
   pn,
-  @_s.JsonValue('PR')
   pr,
-  @_s.JsonValue('PT')
   pt,
-  @_s.JsonValue('PW')
   pw,
-  @_s.JsonValue('PY')
   py,
-  @_s.JsonValue('QA')
   qa,
-  @_s.JsonValue('RO')
   ro,
-  @_s.JsonValue('RS')
   rs,
-  @_s.JsonValue('RU')
   ru,
-  @_s.JsonValue('RW')
   rw,
-  @_s.JsonValue('SA')
   sa,
-  @_s.JsonValue('SB')
   sb,
-  @_s.JsonValue('SC')
   sc,
-  @_s.JsonValue('SD')
   sd,
-  @_s.JsonValue('SE')
   se,
-  @_s.JsonValue('SG')
   sg,
-  @_s.JsonValue('SH')
   sh,
-  @_s.JsonValue('SI')
   si,
-  @_s.JsonValue('SK')
   sk,
-  @_s.JsonValue('SL')
   sl,
-  @_s.JsonValue('SM')
   sm,
-  @_s.JsonValue('SN')
   sn,
-  @_s.JsonValue('SO')
   so,
-  @_s.JsonValue('SR')
   sr,
-  @_s.JsonValue('ST')
   st,
-  @_s.JsonValue('SV')
   sv,
-  @_s.JsonValue('SY')
   sy,
-  @_s.JsonValue('SZ')
   sz,
-  @_s.JsonValue('TC')
   tc,
-  @_s.JsonValue('TD')
   td,
-  @_s.JsonValue('TG')
   tg,
-  @_s.JsonValue('TH')
   th,
-  @_s.JsonValue('TJ')
   tj,
-  @_s.JsonValue('TK')
   tk,
-  @_s.JsonValue('TL')
   tl,
-  @_s.JsonValue('TM')
   tm,
-  @_s.JsonValue('TN')
   tn,
-  @_s.JsonValue('TO')
   to,
-  @_s.JsonValue('TR')
   tr,
-  @_s.JsonValue('TT')
   tt,
-  @_s.JsonValue('TV')
   tv,
-  @_s.JsonValue('TW')
   tw,
-  @_s.JsonValue('TZ')
   tz,
-  @_s.JsonValue('UA')
   ua,
-  @_s.JsonValue('UG')
   ug,
-  @_s.JsonValue('US')
   us,
-  @_s.JsonValue('UY')
   uy,
-  @_s.JsonValue('UZ')
   uz,
-  @_s.JsonValue('VA')
   va,
-  @_s.JsonValue('VC')
   vc,
-  @_s.JsonValue('VE')
   ve,
-  @_s.JsonValue('VG')
   vg,
-  @_s.JsonValue('VI')
   vi,
-  @_s.JsonValue('VN')
   vn,
-  @_s.JsonValue('VU')
   vu,
-  @_s.JsonValue('WF')
   wf,
-  @_s.JsonValue('WS')
   ws,
-  @_s.JsonValue('YE')
   ye,
-  @_s.JsonValue('YT')
   yt,
-  @_s.JsonValue('ZA')
   za,
-  @_s.JsonValue('ZM')
   zm,
-  @_s.JsonValue('ZW')
   zw,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DeleteTagsForDomainResponse {
-  DeleteTagsForDomainResponse();
-  factory DeleteTagsForDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTagsForDomainResponseFromJson(json);
+extension on CountryCode {
+  String toValue() {
+    switch (this) {
+      case CountryCode.ad:
+        return 'AD';
+      case CountryCode.ae:
+        return 'AE';
+      case CountryCode.af:
+        return 'AF';
+      case CountryCode.ag:
+        return 'AG';
+      case CountryCode.ai:
+        return 'AI';
+      case CountryCode.al:
+        return 'AL';
+      case CountryCode.am:
+        return 'AM';
+      case CountryCode.an:
+        return 'AN';
+      case CountryCode.ao:
+        return 'AO';
+      case CountryCode.aq:
+        return 'AQ';
+      case CountryCode.ar:
+        return 'AR';
+      case CountryCode.as:
+        return 'AS';
+      case CountryCode.at:
+        return 'AT';
+      case CountryCode.au:
+        return 'AU';
+      case CountryCode.aw:
+        return 'AW';
+      case CountryCode.az:
+        return 'AZ';
+      case CountryCode.ba:
+        return 'BA';
+      case CountryCode.bb:
+        return 'BB';
+      case CountryCode.bd:
+        return 'BD';
+      case CountryCode.be:
+        return 'BE';
+      case CountryCode.bf:
+        return 'BF';
+      case CountryCode.bg:
+        return 'BG';
+      case CountryCode.bh:
+        return 'BH';
+      case CountryCode.bi:
+        return 'BI';
+      case CountryCode.bj:
+        return 'BJ';
+      case CountryCode.bl:
+        return 'BL';
+      case CountryCode.bm:
+        return 'BM';
+      case CountryCode.bn:
+        return 'BN';
+      case CountryCode.bo:
+        return 'BO';
+      case CountryCode.br:
+        return 'BR';
+      case CountryCode.bs:
+        return 'BS';
+      case CountryCode.bt:
+        return 'BT';
+      case CountryCode.bw:
+        return 'BW';
+      case CountryCode.by:
+        return 'BY';
+      case CountryCode.bz:
+        return 'BZ';
+      case CountryCode.ca:
+        return 'CA';
+      case CountryCode.cc:
+        return 'CC';
+      case CountryCode.cd:
+        return 'CD';
+      case CountryCode.cf:
+        return 'CF';
+      case CountryCode.cg:
+        return 'CG';
+      case CountryCode.ch:
+        return 'CH';
+      case CountryCode.ci:
+        return 'CI';
+      case CountryCode.ck:
+        return 'CK';
+      case CountryCode.cl:
+        return 'CL';
+      case CountryCode.cm:
+        return 'CM';
+      case CountryCode.cn:
+        return 'CN';
+      case CountryCode.co:
+        return 'CO';
+      case CountryCode.cr:
+        return 'CR';
+      case CountryCode.cu:
+        return 'CU';
+      case CountryCode.cv:
+        return 'CV';
+      case CountryCode.cx:
+        return 'CX';
+      case CountryCode.cy:
+        return 'CY';
+      case CountryCode.cz:
+        return 'CZ';
+      case CountryCode.de:
+        return 'DE';
+      case CountryCode.dj:
+        return 'DJ';
+      case CountryCode.dk:
+        return 'DK';
+      case CountryCode.dm:
+        return 'DM';
+      case CountryCode.$do:
+        return 'DO';
+      case CountryCode.dz:
+        return 'DZ';
+      case CountryCode.ec:
+        return 'EC';
+      case CountryCode.ee:
+        return 'EE';
+      case CountryCode.eg:
+        return 'EG';
+      case CountryCode.er:
+        return 'ER';
+      case CountryCode.es:
+        return 'ES';
+      case CountryCode.et:
+        return 'ET';
+      case CountryCode.fi:
+        return 'FI';
+      case CountryCode.fj:
+        return 'FJ';
+      case CountryCode.fk:
+        return 'FK';
+      case CountryCode.fm:
+        return 'FM';
+      case CountryCode.fo:
+        return 'FO';
+      case CountryCode.fr:
+        return 'FR';
+      case CountryCode.ga:
+        return 'GA';
+      case CountryCode.gb:
+        return 'GB';
+      case CountryCode.gd:
+        return 'GD';
+      case CountryCode.ge:
+        return 'GE';
+      case CountryCode.gh:
+        return 'GH';
+      case CountryCode.gi:
+        return 'GI';
+      case CountryCode.gl:
+        return 'GL';
+      case CountryCode.gm:
+        return 'GM';
+      case CountryCode.gn:
+        return 'GN';
+      case CountryCode.gq:
+        return 'GQ';
+      case CountryCode.gr:
+        return 'GR';
+      case CountryCode.gt:
+        return 'GT';
+      case CountryCode.gu:
+        return 'GU';
+      case CountryCode.gw:
+        return 'GW';
+      case CountryCode.gy:
+        return 'GY';
+      case CountryCode.hk:
+        return 'HK';
+      case CountryCode.hn:
+        return 'HN';
+      case CountryCode.hr:
+        return 'HR';
+      case CountryCode.ht:
+        return 'HT';
+      case CountryCode.hu:
+        return 'HU';
+      case CountryCode.id:
+        return 'ID';
+      case CountryCode.ie:
+        return 'IE';
+      case CountryCode.il:
+        return 'IL';
+      case CountryCode.im:
+        return 'IM';
+      case CountryCode.$in:
+        return 'IN';
+      case CountryCode.iq:
+        return 'IQ';
+      case CountryCode.ir:
+        return 'IR';
+      case CountryCode.$is:
+        return 'IS';
+      case CountryCode.it:
+        return 'IT';
+      case CountryCode.jm:
+        return 'JM';
+      case CountryCode.jo:
+        return 'JO';
+      case CountryCode.jp:
+        return 'JP';
+      case CountryCode.ke:
+        return 'KE';
+      case CountryCode.kg:
+        return 'KG';
+      case CountryCode.kh:
+        return 'KH';
+      case CountryCode.ki:
+        return 'KI';
+      case CountryCode.km:
+        return 'KM';
+      case CountryCode.kn:
+        return 'KN';
+      case CountryCode.kp:
+        return 'KP';
+      case CountryCode.kr:
+        return 'KR';
+      case CountryCode.kw:
+        return 'KW';
+      case CountryCode.ky:
+        return 'KY';
+      case CountryCode.kz:
+        return 'KZ';
+      case CountryCode.la:
+        return 'LA';
+      case CountryCode.lb:
+        return 'LB';
+      case CountryCode.lc:
+        return 'LC';
+      case CountryCode.li:
+        return 'LI';
+      case CountryCode.lk:
+        return 'LK';
+      case CountryCode.lr:
+        return 'LR';
+      case CountryCode.ls:
+        return 'LS';
+      case CountryCode.lt:
+        return 'LT';
+      case CountryCode.lu:
+        return 'LU';
+      case CountryCode.lv:
+        return 'LV';
+      case CountryCode.ly:
+        return 'LY';
+      case CountryCode.ma:
+        return 'MA';
+      case CountryCode.mc:
+        return 'MC';
+      case CountryCode.md:
+        return 'MD';
+      case CountryCode.me:
+        return 'ME';
+      case CountryCode.mf:
+        return 'MF';
+      case CountryCode.mg:
+        return 'MG';
+      case CountryCode.mh:
+        return 'MH';
+      case CountryCode.mk:
+        return 'MK';
+      case CountryCode.ml:
+        return 'ML';
+      case CountryCode.mm:
+        return 'MM';
+      case CountryCode.mn:
+        return 'MN';
+      case CountryCode.mo:
+        return 'MO';
+      case CountryCode.mp:
+        return 'MP';
+      case CountryCode.mr:
+        return 'MR';
+      case CountryCode.ms:
+        return 'MS';
+      case CountryCode.mt:
+        return 'MT';
+      case CountryCode.mu:
+        return 'MU';
+      case CountryCode.mv:
+        return 'MV';
+      case CountryCode.mw:
+        return 'MW';
+      case CountryCode.mx:
+        return 'MX';
+      case CountryCode.my:
+        return 'MY';
+      case CountryCode.mz:
+        return 'MZ';
+      case CountryCode.na:
+        return 'NA';
+      case CountryCode.nc:
+        return 'NC';
+      case CountryCode.ne:
+        return 'NE';
+      case CountryCode.ng:
+        return 'NG';
+      case CountryCode.ni:
+        return 'NI';
+      case CountryCode.nl:
+        return 'NL';
+      case CountryCode.no:
+        return 'NO';
+      case CountryCode.np:
+        return 'NP';
+      case CountryCode.nr:
+        return 'NR';
+      case CountryCode.nu:
+        return 'NU';
+      case CountryCode.nz:
+        return 'NZ';
+      case CountryCode.om:
+        return 'OM';
+      case CountryCode.pa:
+        return 'PA';
+      case CountryCode.pe:
+        return 'PE';
+      case CountryCode.pf:
+        return 'PF';
+      case CountryCode.pg:
+        return 'PG';
+      case CountryCode.ph:
+        return 'PH';
+      case CountryCode.pk:
+        return 'PK';
+      case CountryCode.pl:
+        return 'PL';
+      case CountryCode.pm:
+        return 'PM';
+      case CountryCode.pn:
+        return 'PN';
+      case CountryCode.pr:
+        return 'PR';
+      case CountryCode.pt:
+        return 'PT';
+      case CountryCode.pw:
+        return 'PW';
+      case CountryCode.py:
+        return 'PY';
+      case CountryCode.qa:
+        return 'QA';
+      case CountryCode.ro:
+        return 'RO';
+      case CountryCode.rs:
+        return 'RS';
+      case CountryCode.ru:
+        return 'RU';
+      case CountryCode.rw:
+        return 'RW';
+      case CountryCode.sa:
+        return 'SA';
+      case CountryCode.sb:
+        return 'SB';
+      case CountryCode.sc:
+        return 'SC';
+      case CountryCode.sd:
+        return 'SD';
+      case CountryCode.se:
+        return 'SE';
+      case CountryCode.sg:
+        return 'SG';
+      case CountryCode.sh:
+        return 'SH';
+      case CountryCode.si:
+        return 'SI';
+      case CountryCode.sk:
+        return 'SK';
+      case CountryCode.sl:
+        return 'SL';
+      case CountryCode.sm:
+        return 'SM';
+      case CountryCode.sn:
+        return 'SN';
+      case CountryCode.so:
+        return 'SO';
+      case CountryCode.sr:
+        return 'SR';
+      case CountryCode.st:
+        return 'ST';
+      case CountryCode.sv:
+        return 'SV';
+      case CountryCode.sy:
+        return 'SY';
+      case CountryCode.sz:
+        return 'SZ';
+      case CountryCode.tc:
+        return 'TC';
+      case CountryCode.td:
+        return 'TD';
+      case CountryCode.tg:
+        return 'TG';
+      case CountryCode.th:
+        return 'TH';
+      case CountryCode.tj:
+        return 'TJ';
+      case CountryCode.tk:
+        return 'TK';
+      case CountryCode.tl:
+        return 'TL';
+      case CountryCode.tm:
+        return 'TM';
+      case CountryCode.tn:
+        return 'TN';
+      case CountryCode.to:
+        return 'TO';
+      case CountryCode.tr:
+        return 'TR';
+      case CountryCode.tt:
+        return 'TT';
+      case CountryCode.tv:
+        return 'TV';
+      case CountryCode.tw:
+        return 'TW';
+      case CountryCode.tz:
+        return 'TZ';
+      case CountryCode.ua:
+        return 'UA';
+      case CountryCode.ug:
+        return 'UG';
+      case CountryCode.us:
+        return 'US';
+      case CountryCode.uy:
+        return 'UY';
+      case CountryCode.uz:
+        return 'UZ';
+      case CountryCode.va:
+        return 'VA';
+      case CountryCode.vc:
+        return 'VC';
+      case CountryCode.ve:
+        return 'VE';
+      case CountryCode.vg:
+        return 'VG';
+      case CountryCode.vi:
+        return 'VI';
+      case CountryCode.vn:
+        return 'VN';
+      case CountryCode.vu:
+        return 'VU';
+      case CountryCode.wf:
+        return 'WF';
+      case CountryCode.ws:
+        return 'WS';
+      case CountryCode.ye:
+        return 'YE';
+      case CountryCode.yt:
+        return 'YT';
+      case CountryCode.za:
+        return 'ZA';
+      case CountryCode.zm:
+        return 'ZM';
+      case CountryCode.zw:
+        return 'ZW';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  CountryCode toCountryCode() {
+    switch (this) {
+      case 'AD':
+        return CountryCode.ad;
+      case 'AE':
+        return CountryCode.ae;
+      case 'AF':
+        return CountryCode.af;
+      case 'AG':
+        return CountryCode.ag;
+      case 'AI':
+        return CountryCode.ai;
+      case 'AL':
+        return CountryCode.al;
+      case 'AM':
+        return CountryCode.am;
+      case 'AN':
+        return CountryCode.an;
+      case 'AO':
+        return CountryCode.ao;
+      case 'AQ':
+        return CountryCode.aq;
+      case 'AR':
+        return CountryCode.ar;
+      case 'AS':
+        return CountryCode.as;
+      case 'AT':
+        return CountryCode.at;
+      case 'AU':
+        return CountryCode.au;
+      case 'AW':
+        return CountryCode.aw;
+      case 'AZ':
+        return CountryCode.az;
+      case 'BA':
+        return CountryCode.ba;
+      case 'BB':
+        return CountryCode.bb;
+      case 'BD':
+        return CountryCode.bd;
+      case 'BE':
+        return CountryCode.be;
+      case 'BF':
+        return CountryCode.bf;
+      case 'BG':
+        return CountryCode.bg;
+      case 'BH':
+        return CountryCode.bh;
+      case 'BI':
+        return CountryCode.bi;
+      case 'BJ':
+        return CountryCode.bj;
+      case 'BL':
+        return CountryCode.bl;
+      case 'BM':
+        return CountryCode.bm;
+      case 'BN':
+        return CountryCode.bn;
+      case 'BO':
+        return CountryCode.bo;
+      case 'BR':
+        return CountryCode.br;
+      case 'BS':
+        return CountryCode.bs;
+      case 'BT':
+        return CountryCode.bt;
+      case 'BW':
+        return CountryCode.bw;
+      case 'BY':
+        return CountryCode.by;
+      case 'BZ':
+        return CountryCode.bz;
+      case 'CA':
+        return CountryCode.ca;
+      case 'CC':
+        return CountryCode.cc;
+      case 'CD':
+        return CountryCode.cd;
+      case 'CF':
+        return CountryCode.cf;
+      case 'CG':
+        return CountryCode.cg;
+      case 'CH':
+        return CountryCode.ch;
+      case 'CI':
+        return CountryCode.ci;
+      case 'CK':
+        return CountryCode.ck;
+      case 'CL':
+        return CountryCode.cl;
+      case 'CM':
+        return CountryCode.cm;
+      case 'CN':
+        return CountryCode.cn;
+      case 'CO':
+        return CountryCode.co;
+      case 'CR':
+        return CountryCode.cr;
+      case 'CU':
+        return CountryCode.cu;
+      case 'CV':
+        return CountryCode.cv;
+      case 'CX':
+        return CountryCode.cx;
+      case 'CY':
+        return CountryCode.cy;
+      case 'CZ':
+        return CountryCode.cz;
+      case 'DE':
+        return CountryCode.de;
+      case 'DJ':
+        return CountryCode.dj;
+      case 'DK':
+        return CountryCode.dk;
+      case 'DM':
+        return CountryCode.dm;
+      case 'DO':
+        return CountryCode.$do;
+      case 'DZ':
+        return CountryCode.dz;
+      case 'EC':
+        return CountryCode.ec;
+      case 'EE':
+        return CountryCode.ee;
+      case 'EG':
+        return CountryCode.eg;
+      case 'ER':
+        return CountryCode.er;
+      case 'ES':
+        return CountryCode.es;
+      case 'ET':
+        return CountryCode.et;
+      case 'FI':
+        return CountryCode.fi;
+      case 'FJ':
+        return CountryCode.fj;
+      case 'FK':
+        return CountryCode.fk;
+      case 'FM':
+        return CountryCode.fm;
+      case 'FO':
+        return CountryCode.fo;
+      case 'FR':
+        return CountryCode.fr;
+      case 'GA':
+        return CountryCode.ga;
+      case 'GB':
+        return CountryCode.gb;
+      case 'GD':
+        return CountryCode.gd;
+      case 'GE':
+        return CountryCode.ge;
+      case 'GH':
+        return CountryCode.gh;
+      case 'GI':
+        return CountryCode.gi;
+      case 'GL':
+        return CountryCode.gl;
+      case 'GM':
+        return CountryCode.gm;
+      case 'GN':
+        return CountryCode.gn;
+      case 'GQ':
+        return CountryCode.gq;
+      case 'GR':
+        return CountryCode.gr;
+      case 'GT':
+        return CountryCode.gt;
+      case 'GU':
+        return CountryCode.gu;
+      case 'GW':
+        return CountryCode.gw;
+      case 'GY':
+        return CountryCode.gy;
+      case 'HK':
+        return CountryCode.hk;
+      case 'HN':
+        return CountryCode.hn;
+      case 'HR':
+        return CountryCode.hr;
+      case 'HT':
+        return CountryCode.ht;
+      case 'HU':
+        return CountryCode.hu;
+      case 'ID':
+        return CountryCode.id;
+      case 'IE':
+        return CountryCode.ie;
+      case 'IL':
+        return CountryCode.il;
+      case 'IM':
+        return CountryCode.im;
+      case 'IN':
+        return CountryCode.$in;
+      case 'IQ':
+        return CountryCode.iq;
+      case 'IR':
+        return CountryCode.ir;
+      case 'IS':
+        return CountryCode.$is;
+      case 'IT':
+        return CountryCode.it;
+      case 'JM':
+        return CountryCode.jm;
+      case 'JO':
+        return CountryCode.jo;
+      case 'JP':
+        return CountryCode.jp;
+      case 'KE':
+        return CountryCode.ke;
+      case 'KG':
+        return CountryCode.kg;
+      case 'KH':
+        return CountryCode.kh;
+      case 'KI':
+        return CountryCode.ki;
+      case 'KM':
+        return CountryCode.km;
+      case 'KN':
+        return CountryCode.kn;
+      case 'KP':
+        return CountryCode.kp;
+      case 'KR':
+        return CountryCode.kr;
+      case 'KW':
+        return CountryCode.kw;
+      case 'KY':
+        return CountryCode.ky;
+      case 'KZ':
+        return CountryCode.kz;
+      case 'LA':
+        return CountryCode.la;
+      case 'LB':
+        return CountryCode.lb;
+      case 'LC':
+        return CountryCode.lc;
+      case 'LI':
+        return CountryCode.li;
+      case 'LK':
+        return CountryCode.lk;
+      case 'LR':
+        return CountryCode.lr;
+      case 'LS':
+        return CountryCode.ls;
+      case 'LT':
+        return CountryCode.lt;
+      case 'LU':
+        return CountryCode.lu;
+      case 'LV':
+        return CountryCode.lv;
+      case 'LY':
+        return CountryCode.ly;
+      case 'MA':
+        return CountryCode.ma;
+      case 'MC':
+        return CountryCode.mc;
+      case 'MD':
+        return CountryCode.md;
+      case 'ME':
+        return CountryCode.me;
+      case 'MF':
+        return CountryCode.mf;
+      case 'MG':
+        return CountryCode.mg;
+      case 'MH':
+        return CountryCode.mh;
+      case 'MK':
+        return CountryCode.mk;
+      case 'ML':
+        return CountryCode.ml;
+      case 'MM':
+        return CountryCode.mm;
+      case 'MN':
+        return CountryCode.mn;
+      case 'MO':
+        return CountryCode.mo;
+      case 'MP':
+        return CountryCode.mp;
+      case 'MR':
+        return CountryCode.mr;
+      case 'MS':
+        return CountryCode.ms;
+      case 'MT':
+        return CountryCode.mt;
+      case 'MU':
+        return CountryCode.mu;
+      case 'MV':
+        return CountryCode.mv;
+      case 'MW':
+        return CountryCode.mw;
+      case 'MX':
+        return CountryCode.mx;
+      case 'MY':
+        return CountryCode.my;
+      case 'MZ':
+        return CountryCode.mz;
+      case 'NA':
+        return CountryCode.na;
+      case 'NC':
+        return CountryCode.nc;
+      case 'NE':
+        return CountryCode.ne;
+      case 'NG':
+        return CountryCode.ng;
+      case 'NI':
+        return CountryCode.ni;
+      case 'NL':
+        return CountryCode.nl;
+      case 'NO':
+        return CountryCode.no;
+      case 'NP':
+        return CountryCode.np;
+      case 'NR':
+        return CountryCode.nr;
+      case 'NU':
+        return CountryCode.nu;
+      case 'NZ':
+        return CountryCode.nz;
+      case 'OM':
+        return CountryCode.om;
+      case 'PA':
+        return CountryCode.pa;
+      case 'PE':
+        return CountryCode.pe;
+      case 'PF':
+        return CountryCode.pf;
+      case 'PG':
+        return CountryCode.pg;
+      case 'PH':
+        return CountryCode.ph;
+      case 'PK':
+        return CountryCode.pk;
+      case 'PL':
+        return CountryCode.pl;
+      case 'PM':
+        return CountryCode.pm;
+      case 'PN':
+        return CountryCode.pn;
+      case 'PR':
+        return CountryCode.pr;
+      case 'PT':
+        return CountryCode.pt;
+      case 'PW':
+        return CountryCode.pw;
+      case 'PY':
+        return CountryCode.py;
+      case 'QA':
+        return CountryCode.qa;
+      case 'RO':
+        return CountryCode.ro;
+      case 'RS':
+        return CountryCode.rs;
+      case 'RU':
+        return CountryCode.ru;
+      case 'RW':
+        return CountryCode.rw;
+      case 'SA':
+        return CountryCode.sa;
+      case 'SB':
+        return CountryCode.sb;
+      case 'SC':
+        return CountryCode.sc;
+      case 'SD':
+        return CountryCode.sd;
+      case 'SE':
+        return CountryCode.se;
+      case 'SG':
+        return CountryCode.sg;
+      case 'SH':
+        return CountryCode.sh;
+      case 'SI':
+        return CountryCode.si;
+      case 'SK':
+        return CountryCode.sk;
+      case 'SL':
+        return CountryCode.sl;
+      case 'SM':
+        return CountryCode.sm;
+      case 'SN':
+        return CountryCode.sn;
+      case 'SO':
+        return CountryCode.so;
+      case 'SR':
+        return CountryCode.sr;
+      case 'ST':
+        return CountryCode.st;
+      case 'SV':
+        return CountryCode.sv;
+      case 'SY':
+        return CountryCode.sy;
+      case 'SZ':
+        return CountryCode.sz;
+      case 'TC':
+        return CountryCode.tc;
+      case 'TD':
+        return CountryCode.td;
+      case 'TG':
+        return CountryCode.tg;
+      case 'TH':
+        return CountryCode.th;
+      case 'TJ':
+        return CountryCode.tj;
+      case 'TK':
+        return CountryCode.tk;
+      case 'TL':
+        return CountryCode.tl;
+      case 'TM':
+        return CountryCode.tm;
+      case 'TN':
+        return CountryCode.tn;
+      case 'TO':
+        return CountryCode.to;
+      case 'TR':
+        return CountryCode.tr;
+      case 'TT':
+        return CountryCode.tt;
+      case 'TV':
+        return CountryCode.tv;
+      case 'TW':
+        return CountryCode.tw;
+      case 'TZ':
+        return CountryCode.tz;
+      case 'UA':
+        return CountryCode.ua;
+      case 'UG':
+        return CountryCode.ug;
+      case 'US':
+        return CountryCode.us;
+      case 'UY':
+        return CountryCode.uy;
+      case 'UZ':
+        return CountryCode.uz;
+      case 'VA':
+        return CountryCode.va;
+      case 'VC':
+        return CountryCode.vc;
+      case 'VE':
+        return CountryCode.ve;
+      case 'VG':
+        return CountryCode.vg;
+      case 'VI':
+        return CountryCode.vi;
+      case 'VN':
+        return CountryCode.vn;
+      case 'VU':
+        return CountryCode.vu;
+      case 'WF':
+        return CountryCode.wf;
+      case 'WS':
+        return CountryCode.ws;
+      case 'YE':
+        return CountryCode.ye;
+      case 'YT':
+        return CountryCode.yt;
+      case 'ZA':
+        return CountryCode.za;
+      case 'ZM':
+        return CountryCode.zm;
+      case 'ZW':
+        return CountryCode.zw;
+    }
+    throw Exception('$this is not known in enum CountryCode');
+  }
+}
+
+class DeleteTagsForDomainResponse {
+  DeleteTagsForDomainResponse();
+
+  factory DeleteTagsForDomainResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTagsForDomainResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DisableDomainAutoRenewResponse {
   DisableDomainAutoRenewResponse();
-  factory DisableDomainAutoRenewResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisableDomainAutoRenewResponseFromJson(json);
+
+  factory DisableDomainAutoRenewResponse.fromJson(Map<String, dynamic> _) {
+    return DisableDomainAutoRenewResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The DisableDomainTransferLock response includes the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisableDomainTransferLockResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   DisableDomainTransferLockResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
+
   factory DisableDomainTransferLockResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisableDomainTransferLockResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisableDomainTransferLockResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
 enum DomainAvailability {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('AVAILABLE_RESERVED')
   availableReserved,
-  @_s.JsonValue('AVAILABLE_PREORDER')
   availablePreorder,
-  @_s.JsonValue('UNAVAILABLE')
   unavailable,
-  @_s.JsonValue('UNAVAILABLE_PREMIUM')
   unavailablePremium,
-  @_s.JsonValue('UNAVAILABLE_RESTRICTED')
   unavailableRestricted,
-  @_s.JsonValue('RESERVED')
   reserved,
-  @_s.JsonValue('DONT_KNOW')
   dontKnow,
 }
 
+extension on DomainAvailability {
+  String toValue() {
+    switch (this) {
+      case DomainAvailability.available:
+        return 'AVAILABLE';
+      case DomainAvailability.availableReserved:
+        return 'AVAILABLE_RESERVED';
+      case DomainAvailability.availablePreorder:
+        return 'AVAILABLE_PREORDER';
+      case DomainAvailability.unavailable:
+        return 'UNAVAILABLE';
+      case DomainAvailability.unavailablePremium:
+        return 'UNAVAILABLE_PREMIUM';
+      case DomainAvailability.unavailableRestricted:
+        return 'UNAVAILABLE_RESTRICTED';
+      case DomainAvailability.reserved:
+        return 'RESERVED';
+      case DomainAvailability.dontKnow:
+        return 'DONT_KNOW';
+    }
+  }
+}
+
+extension on String {
+  DomainAvailability toDomainAvailability() {
+    switch (this) {
+      case 'AVAILABLE':
+        return DomainAvailability.available;
+      case 'AVAILABLE_RESERVED':
+        return DomainAvailability.availableReserved;
+      case 'AVAILABLE_PREORDER':
+        return DomainAvailability.availablePreorder;
+      case 'UNAVAILABLE':
+        return DomainAvailability.unavailable;
+      case 'UNAVAILABLE_PREMIUM':
+        return DomainAvailability.unavailablePremium;
+      case 'UNAVAILABLE_RESTRICTED':
+        return DomainAvailability.unavailableRestricted;
+      case 'RESERVED':
+        return DomainAvailability.reserved;
+      case 'DONT_KNOW':
+        return DomainAvailability.dontKnow;
+    }
+    throw Exception('$this is not known in enum DomainAvailability');
+  }
+}
+
 /// Information about one suggested domain name.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainSuggestion {
   /// Whether the domain name is available for registering.
   /// <note>
@@ -2783,112 +3600,139 @@ class DomainSuggestion {
   /// </dd> <dt>UNAVAILABLE_RESTRICTED</dt> <dd>
   /// The domain name is forbidden.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'Availability')
-  final String availability;
+  final String? availability;
 
   /// A suggested domain name.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   DomainSuggestion({
     this.availability,
     this.domainName,
   });
-  factory DomainSuggestion.fromJson(Map<String, dynamic> json) =>
-      _$DomainSuggestionFromJson(json);
+
+  factory DomainSuggestion.fromJson(Map<String, dynamic> json) {
+    return DomainSuggestion(
+      availability: json['Availability'] as String?,
+      domainName: json['DomainName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availability = this.availability;
+    final domainName = this.domainName;
+    return {
+      if (availability != null) 'Availability': availability,
+      if (domainName != null) 'DomainName': domainName,
+    };
+  }
 }
 
 /// Summary information about one domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainSummary {
   /// The name of the domain that the summary information applies to.
-  @_s.JsonKey(name: 'DomainName')
   final String domainName;
 
   /// Indicates whether the domain is automatically renewed upon expiration.
-  @_s.JsonKey(name: 'AutoRenew')
-  final bool autoRenew;
+  final bool? autoRenew;
 
   /// Expiration date of the domain in Unix time format and Coordinated Universal
   /// Time (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Expiry')
-  final DateTime expiry;
+  final DateTime? expiry;
 
   /// Indicates whether a domain is locked from unauthorized transfer to another
   /// party.
-  @_s.JsonKey(name: 'TransferLock')
-  final bool transferLock;
+  final bool? transferLock;
 
   DomainSummary({
-    @_s.required this.domainName,
+    required this.domainName,
     this.autoRenew,
     this.expiry,
     this.transferLock,
   });
-  factory DomainSummary.fromJson(Map<String, dynamic> json) =>
-      _$DomainSummaryFromJson(json);
+
+  factory DomainSummary.fromJson(Map<String, dynamic> json) {
+    return DomainSummary(
+      domainName: json['DomainName'] as String,
+      autoRenew: json['AutoRenew'] as bool?,
+      expiry: timeStampFromJson(json['Expiry']),
+      transferLock: json['TransferLock'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final autoRenew = this.autoRenew;
+    final expiry = this.expiry;
+    final transferLock = this.transferLock;
+    return {
+      'DomainName': domainName,
+      if (autoRenew != null) 'AutoRenew': autoRenew,
+      if (expiry != null) 'Expiry': unixTimestampToJson(expiry),
+      if (transferLock != null) 'TransferLock': transferLock,
+    };
+  }
 }
 
 /// A complex type that contains information about whether the specified domain
 /// can be transferred to Route 53.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainTransferability {
-  @_s.JsonKey(name: 'Transferable')
-  final Transferable transferable;
+  final Transferable? transferable;
 
   DomainTransferability({
     this.transferable,
   });
-  factory DomainTransferability.fromJson(Map<String, dynamic> json) =>
-      _$DomainTransferabilityFromJson(json);
+
+  factory DomainTransferability.fromJson(Map<String, dynamic> json) {
+    return DomainTransferability(
+      transferable: (json['Transferable'] as String?)?.toTransferable(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transferable = this.transferable;
+    return {
+      if (transferable != null) 'Transferable': transferable.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableDomainAutoRenewResponse {
   EnableDomainAutoRenewResponse();
-  factory EnableDomainAutoRenewResponse.fromJson(Map<String, dynamic> json) =>
-      _$EnableDomainAutoRenewResponseFromJson(json);
+
+  factory EnableDomainAutoRenewResponse.fromJson(Map<String, dynamic> _) {
+    return EnableDomainAutoRenewResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The EnableDomainTransferLock response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableDomainTransferLockResponse {
   /// Identifier for tracking the progress of the request. To use this ID to query
   /// the operation status, use GetOperationDetail.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   EnableDomainTransferLockResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
-  factory EnableDomainTransferLockResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$EnableDomainTransferLockResponseFromJson(json);
+
+  factory EnableDomainTransferLockResponse.fromJson(Map<String, dynamic> json) {
+    return EnableDomainTransferLockResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
 /// ExtraParam includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ExtraParam {
   /// The name of an additional parameter that is required by a top-level domain.
   /// Here are the top-level domains that require additional parameters and the
@@ -3414,93 +4258,199 @@ class ExtraParam {
   /// </li>
   /// </ul> </dd> </dl>
   /// In addition, many TLDs require a <code>VAT_NUMBER</code>.
-  @_s.JsonKey(name: 'Name')
   final ExtraParamName name;
 
   /// The value that corresponds with the name of an extra parameter.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   ExtraParam({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  factory ExtraParam.fromJson(Map<String, dynamic> json) =>
-      _$ExtraParamFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExtraParamToJson(this);
+  factory ExtraParam.fromJson(Map<String, dynamic> json) {
+    return ExtraParam(
+      name: (json['Name'] as String).toExtraParamName(),
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum ExtraParamName {
-  @_s.JsonValue('DUNS_NUMBER')
   dunsNumber,
-  @_s.JsonValue('BRAND_NUMBER')
   brandNumber,
-  @_s.JsonValue('BIRTH_DEPARTMENT')
   birthDepartment,
-  @_s.JsonValue('BIRTH_DATE_IN_YYYY_MM_DD')
   birthDateInYyyyMmDd,
-  @_s.JsonValue('BIRTH_COUNTRY')
   birthCountry,
-  @_s.JsonValue('BIRTH_CITY')
   birthCity,
-  @_s.JsonValue('DOCUMENT_NUMBER')
   documentNumber,
-  @_s.JsonValue('AU_ID_NUMBER')
   auIdNumber,
-  @_s.JsonValue('AU_ID_TYPE')
   auIdType,
-  @_s.JsonValue('CA_LEGAL_TYPE')
   caLegalType,
-  @_s.JsonValue('CA_BUSINESS_ENTITY_TYPE')
   caBusinessEntityType,
-  @_s.JsonValue('CA_LEGAL_REPRESENTATIVE')
   caLegalRepresentative,
-  @_s.JsonValue('CA_LEGAL_REPRESENTATIVE_CAPACITY')
   caLegalRepresentativeCapacity,
-  @_s.JsonValue('ES_IDENTIFICATION')
   esIdentification,
-  @_s.JsonValue('ES_IDENTIFICATION_TYPE')
   esIdentificationType,
-  @_s.JsonValue('ES_LEGAL_FORM')
   esLegalForm,
-  @_s.JsonValue('FI_BUSINESS_NUMBER')
   fiBusinessNumber,
-  @_s.JsonValue('FI_ID_NUMBER')
   fiIdNumber,
-  @_s.JsonValue('FI_NATIONALITY')
   fiNationality,
-  @_s.JsonValue('FI_ORGANIZATION_TYPE')
   fiOrganizationType,
-  @_s.JsonValue('IT_NATIONALITY')
   itNationality,
-  @_s.JsonValue('IT_PIN')
   itPin,
-  @_s.JsonValue('IT_REGISTRANT_ENTITY_TYPE')
   itRegistrantEntityType,
-  @_s.JsonValue('RU_PASSPORT_DATA')
   ruPassportData,
-  @_s.JsonValue('SE_ID_NUMBER')
   seIdNumber,
-  @_s.JsonValue('SG_ID_NUMBER')
   sgIdNumber,
-  @_s.JsonValue('VAT_NUMBER')
   vatNumber,
-  @_s.JsonValue('UK_CONTACT_TYPE')
   ukContactType,
-  @_s.JsonValue('UK_COMPANY_NUMBER')
   ukCompanyNumber,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ExtraParamName {
+  String toValue() {
+    switch (this) {
+      case ExtraParamName.dunsNumber:
+        return 'DUNS_NUMBER';
+      case ExtraParamName.brandNumber:
+        return 'BRAND_NUMBER';
+      case ExtraParamName.birthDepartment:
+        return 'BIRTH_DEPARTMENT';
+      case ExtraParamName.birthDateInYyyyMmDd:
+        return 'BIRTH_DATE_IN_YYYY_MM_DD';
+      case ExtraParamName.birthCountry:
+        return 'BIRTH_COUNTRY';
+      case ExtraParamName.birthCity:
+        return 'BIRTH_CITY';
+      case ExtraParamName.documentNumber:
+        return 'DOCUMENT_NUMBER';
+      case ExtraParamName.auIdNumber:
+        return 'AU_ID_NUMBER';
+      case ExtraParamName.auIdType:
+        return 'AU_ID_TYPE';
+      case ExtraParamName.caLegalType:
+        return 'CA_LEGAL_TYPE';
+      case ExtraParamName.caBusinessEntityType:
+        return 'CA_BUSINESS_ENTITY_TYPE';
+      case ExtraParamName.caLegalRepresentative:
+        return 'CA_LEGAL_REPRESENTATIVE';
+      case ExtraParamName.caLegalRepresentativeCapacity:
+        return 'CA_LEGAL_REPRESENTATIVE_CAPACITY';
+      case ExtraParamName.esIdentification:
+        return 'ES_IDENTIFICATION';
+      case ExtraParamName.esIdentificationType:
+        return 'ES_IDENTIFICATION_TYPE';
+      case ExtraParamName.esLegalForm:
+        return 'ES_LEGAL_FORM';
+      case ExtraParamName.fiBusinessNumber:
+        return 'FI_BUSINESS_NUMBER';
+      case ExtraParamName.fiIdNumber:
+        return 'FI_ID_NUMBER';
+      case ExtraParamName.fiNationality:
+        return 'FI_NATIONALITY';
+      case ExtraParamName.fiOrganizationType:
+        return 'FI_ORGANIZATION_TYPE';
+      case ExtraParamName.itNationality:
+        return 'IT_NATIONALITY';
+      case ExtraParamName.itPin:
+        return 'IT_PIN';
+      case ExtraParamName.itRegistrantEntityType:
+        return 'IT_REGISTRANT_ENTITY_TYPE';
+      case ExtraParamName.ruPassportData:
+        return 'RU_PASSPORT_DATA';
+      case ExtraParamName.seIdNumber:
+        return 'SE_ID_NUMBER';
+      case ExtraParamName.sgIdNumber:
+        return 'SG_ID_NUMBER';
+      case ExtraParamName.vatNumber:
+        return 'VAT_NUMBER';
+      case ExtraParamName.ukContactType:
+        return 'UK_CONTACT_TYPE';
+      case ExtraParamName.ukCompanyNumber:
+        return 'UK_COMPANY_NUMBER';
+    }
+  }
+}
+
+extension on String {
+  ExtraParamName toExtraParamName() {
+    switch (this) {
+      case 'DUNS_NUMBER':
+        return ExtraParamName.dunsNumber;
+      case 'BRAND_NUMBER':
+        return ExtraParamName.brandNumber;
+      case 'BIRTH_DEPARTMENT':
+        return ExtraParamName.birthDepartment;
+      case 'BIRTH_DATE_IN_YYYY_MM_DD':
+        return ExtraParamName.birthDateInYyyyMmDd;
+      case 'BIRTH_COUNTRY':
+        return ExtraParamName.birthCountry;
+      case 'BIRTH_CITY':
+        return ExtraParamName.birthCity;
+      case 'DOCUMENT_NUMBER':
+        return ExtraParamName.documentNumber;
+      case 'AU_ID_NUMBER':
+        return ExtraParamName.auIdNumber;
+      case 'AU_ID_TYPE':
+        return ExtraParamName.auIdType;
+      case 'CA_LEGAL_TYPE':
+        return ExtraParamName.caLegalType;
+      case 'CA_BUSINESS_ENTITY_TYPE':
+        return ExtraParamName.caBusinessEntityType;
+      case 'CA_LEGAL_REPRESENTATIVE':
+        return ExtraParamName.caLegalRepresentative;
+      case 'CA_LEGAL_REPRESENTATIVE_CAPACITY':
+        return ExtraParamName.caLegalRepresentativeCapacity;
+      case 'ES_IDENTIFICATION':
+        return ExtraParamName.esIdentification;
+      case 'ES_IDENTIFICATION_TYPE':
+        return ExtraParamName.esIdentificationType;
+      case 'ES_LEGAL_FORM':
+        return ExtraParamName.esLegalForm;
+      case 'FI_BUSINESS_NUMBER':
+        return ExtraParamName.fiBusinessNumber;
+      case 'FI_ID_NUMBER':
+        return ExtraParamName.fiIdNumber;
+      case 'FI_NATIONALITY':
+        return ExtraParamName.fiNationality;
+      case 'FI_ORGANIZATION_TYPE':
+        return ExtraParamName.fiOrganizationType;
+      case 'IT_NATIONALITY':
+        return ExtraParamName.itNationality;
+      case 'IT_PIN':
+        return ExtraParamName.itPin;
+      case 'IT_REGISTRANT_ENTITY_TYPE':
+        return ExtraParamName.itRegistrantEntityType;
+      case 'RU_PASSPORT_DATA':
+        return ExtraParamName.ruPassportData;
+      case 'SE_ID_NUMBER':
+        return ExtraParamName.seIdNumber;
+      case 'SG_ID_NUMBER':
+        return ExtraParamName.sgIdNumber;
+      case 'VAT_NUMBER':
+        return ExtraParamName.vatNumber;
+      case 'UK_CONTACT_TYPE':
+        return ExtraParamName.ukContactType;
+      case 'UK_COMPANY_NUMBER':
+        return ExtraParamName.ukCompanyNumber;
+    }
+    throw Exception('$this is not known in enum ExtraParamName');
+  }
+}
+
 class GetContactReachabilityStatusResponse {
   /// The domain name for which you requested the reachability status.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// Whether the registrant contact has responded. Values include the following:
   /// <dl> <dt>PENDING</dt> <dd>
@@ -3510,55 +4460,56 @@ class GetContactReachabilityStatusResponse {
   /// </dd> <dt>EXPIRED</dt> <dd>
   /// The time limit expired before the registrant contact responded.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final ReachabilityStatus status;
+  final ReachabilityStatus? status;
 
   GetContactReachabilityStatusResponse({
     this.domainName,
     this.status,
   });
+
   factory GetContactReachabilityStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetContactReachabilityStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetContactReachabilityStatusResponse(
+      domainName: json['domainName'] as String?,
+      status: (json['status'] as String?)?.toReachabilityStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final status = this.status;
+    return {
+      if (domainName != null) 'domainName': domainName,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 /// The GetDomainDetail response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainDetailResponse {
   /// Provides details about the domain administrative contact.
-  @_s.JsonKey(name: 'AdminContact')
   final ContactDetail adminContact;
 
   /// The name of a domain.
-  @_s.JsonKey(name: 'DomainName')
   final String domainName;
 
   /// The name of the domain.
-  @_s.JsonKey(name: 'Nameservers')
   final List<Nameserver> nameservers;
 
   /// Provides details about the domain registrant.
-  @_s.JsonKey(name: 'RegistrantContact')
   final ContactDetail registrantContact;
 
   /// Provides details about the domain technical contact.
-  @_s.JsonKey(name: 'TechContact')
   final ContactDetail techContact;
 
   /// Email address to contact to report incorrect contact information for a
   /// domain, to report that the domain is being used to send spam, to report that
   /// someone is cybersquatting on a domain name, or report some other type of
   /// abuse.
-  @_s.JsonKey(name: 'AbuseContactEmail')
-  final String abuseContactEmail;
+  final String? abuseContactEmail;
 
   /// Phone number for reporting abuse.
-  @_s.JsonKey(name: 'AbuseContactPhone')
-  final String abuseContactPhone;
+  final String? abuseContactPhone;
 
   /// Specifies whether contact information is concealed from WHOIS queries. If
   /// the value is <code>true</code>, WHOIS ("who is") queries return contact
@@ -3566,29 +4517,22 @@ class GetDomainDetailResponse {
   /// or for our registrar associate, Gandi (for all other TLDs). If the value is
   /// <code>false</code>, WHOIS queries return the information that you entered
   /// for the admin contact.
-  @_s.JsonKey(name: 'AdminPrivacy')
-  final bool adminPrivacy;
+  final bool? adminPrivacy;
 
   /// Specifies whether the domain registration is set to renew automatically.
-  @_s.JsonKey(name: 'AutoRenew')
-  final bool autoRenew;
+  final bool? autoRenew;
 
   /// The date when the domain was created as found in the response to a WHOIS
   /// query. The date and time is in Unix time format and Coordinated Universal
   /// time (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'DnsSec')
-  final String dnsSec;
+  final String? dnsSec;
 
   /// The date when the registration for the domain is set to expire. The date and
   /// time is in Unix time format and Coordinated Universal time (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationDate')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   /// Specifies whether contact information is concealed from WHOIS queries. If
   /// the value is <code>true</code>, WHOIS ("who is") queries return contact
@@ -3596,28 +4540,23 @@ class GetDomainDetailResponse {
   /// or for our registrar associate, Gandi (for all other TLDs). If the value is
   /// <code>false</code>, WHOIS queries return the information that you entered
   /// for the registrant contact (domain owner).
-  @_s.JsonKey(name: 'RegistrantPrivacy')
-  final bool registrantPrivacy;
+  final bool? registrantPrivacy;
 
   /// Name of the registrar of the domain as identified in the registry. Domains
   /// with a .com, .net, or .org TLD are registered by Amazon Registrar. All other
   /// domains are registered by our registrar associate, Gandi. The value for
   /// domains that are registered by Gandi is <code>"GANDI SAS"</code>.
-  @_s.JsonKey(name: 'RegistrarName')
-  final String registrarName;
+  final String? registrarName;
 
   /// Web address of the registrar.
-  @_s.JsonKey(name: 'RegistrarUrl')
-  final String registrarUrl;
+  final String? registrarUrl;
 
   /// Reserved for future use.
-  @_s.JsonKey(name: 'RegistryDomainId')
-  final String registryDomainId;
+  final String? registryDomainId;
 
   /// Reseller of the domain. Domains registered or transferred using Route 53
   /// domains will have <code>"Amazon"</code> as the reseller.
-  @_s.JsonKey(name: 'Reseller')
-  final String reseller;
+  final String? reseller;
 
   /// An array of domain name status codes, also known as Extensible Provisioning
   /// Protocol (EPP) status codes.
@@ -3634,8 +4573,7 @@ class GetDomainDetailResponse {
   /// website</a> and search for <code>epp status codes</code>. (Search on the
   /// ICANN website; web searches sometimes return an old version of the
   /// document.)
-  @_s.JsonKey(name: 'StatusList')
-  final List<String> statusList;
+  final List<String>? statusList;
 
   /// Specifies whether contact information is concealed from WHOIS queries. If
   /// the value is <code>true</code>, WHOIS ("who is") queries return contact
@@ -3643,27 +4581,23 @@ class GetDomainDetailResponse {
   /// or for our registrar associate, Gandi (for all other TLDs). If the value is
   /// <code>false</code>, WHOIS queries return the information that you entered
   /// for the technical contact.
-  @_s.JsonKey(name: 'TechPrivacy')
-  final bool techPrivacy;
+  final bool? techPrivacy;
 
   /// The last updated date of the domain as found in the response to a WHOIS
   /// query. The date and time is in Unix time format and Coordinated Universal
   /// time (UTC).
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'UpdatedDate')
-  final DateTime updatedDate;
+  final DateTime? updatedDate;
 
   /// The fully qualified name of the WHOIS server that can answer the WHOIS query
   /// for the domain.
-  @_s.JsonKey(name: 'WhoIsServer')
-  final String whoIsServer;
+  final String? whoIsServer;
 
   GetDomainDetailResponse({
-    @_s.required this.adminContact,
-    @_s.required this.domainName,
-    @_s.required this.nameservers,
-    @_s.required this.registrantContact,
-    @_s.required this.techContact,
+    required this.adminContact,
+    required this.domainName,
+    required this.nameservers,
+    required this.registrantContact,
+    required this.techContact,
     this.abuseContactEmail,
     this.abuseContactPhone,
     this.adminPrivacy,
@@ -3681,60 +4615,138 @@ class GetDomainDetailResponse {
     this.updatedDate,
     this.whoIsServer,
   });
-  factory GetDomainDetailResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDomainDetailResponseFromJson(json);
+
+  factory GetDomainDetailResponse.fromJson(Map<String, dynamic> json) {
+    return GetDomainDetailResponse(
+      adminContact:
+          ContactDetail.fromJson(json['AdminContact'] as Map<String, dynamic>),
+      domainName: json['DomainName'] as String,
+      nameservers: (json['Nameservers'] as List)
+          .whereNotNull()
+          .map((e) => Nameserver.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      registrantContact: ContactDetail.fromJson(
+          json['RegistrantContact'] as Map<String, dynamic>),
+      techContact:
+          ContactDetail.fromJson(json['TechContact'] as Map<String, dynamic>),
+      abuseContactEmail: json['AbuseContactEmail'] as String?,
+      abuseContactPhone: json['AbuseContactPhone'] as String?,
+      adminPrivacy: json['AdminPrivacy'] as bool?,
+      autoRenew: json['AutoRenew'] as bool?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      dnsSec: json['DnsSec'] as String?,
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      registrantPrivacy: json['RegistrantPrivacy'] as bool?,
+      registrarName: json['RegistrarName'] as String?,
+      registrarUrl: json['RegistrarUrl'] as String?,
+      registryDomainId: json['RegistryDomainId'] as String?,
+      reseller: json['Reseller'] as String?,
+      statusList: (json['StatusList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      techPrivacy: json['TechPrivacy'] as bool?,
+      updatedDate: timeStampFromJson(json['UpdatedDate']),
+      whoIsServer: json['WhoIsServer'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminContact = this.adminContact;
+    final domainName = this.domainName;
+    final nameservers = this.nameservers;
+    final registrantContact = this.registrantContact;
+    final techContact = this.techContact;
+    final abuseContactEmail = this.abuseContactEmail;
+    final abuseContactPhone = this.abuseContactPhone;
+    final adminPrivacy = this.adminPrivacy;
+    final autoRenew = this.autoRenew;
+    final creationDate = this.creationDate;
+    final dnsSec = this.dnsSec;
+    final expirationDate = this.expirationDate;
+    final registrantPrivacy = this.registrantPrivacy;
+    final registrarName = this.registrarName;
+    final registrarUrl = this.registrarUrl;
+    final registryDomainId = this.registryDomainId;
+    final reseller = this.reseller;
+    final statusList = this.statusList;
+    final techPrivacy = this.techPrivacy;
+    final updatedDate = this.updatedDate;
+    final whoIsServer = this.whoIsServer;
+    return {
+      'AdminContact': adminContact,
+      'DomainName': domainName,
+      'Nameservers': nameservers,
+      'RegistrantContact': registrantContact,
+      'TechContact': techContact,
+      if (abuseContactEmail != null) 'AbuseContactEmail': abuseContactEmail,
+      if (abuseContactPhone != null) 'AbuseContactPhone': abuseContactPhone,
+      if (adminPrivacy != null) 'AdminPrivacy': adminPrivacy,
+      if (autoRenew != null) 'AutoRenew': autoRenew,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (dnsSec != null) 'DnsSec': dnsSec,
+      if (expirationDate != null)
+        'ExpirationDate': unixTimestampToJson(expirationDate),
+      if (registrantPrivacy != null) 'RegistrantPrivacy': registrantPrivacy,
+      if (registrarName != null) 'RegistrarName': registrarName,
+      if (registrarUrl != null) 'RegistrarUrl': registrarUrl,
+      if (registryDomainId != null) 'RegistryDomainId': registryDomainId,
+      if (reseller != null) 'Reseller': reseller,
+      if (statusList != null) 'StatusList': statusList,
+      if (techPrivacy != null) 'TechPrivacy': techPrivacy,
+      if (updatedDate != null) 'UpdatedDate': unixTimestampToJson(updatedDate),
+      if (whoIsServer != null) 'WhoIsServer': whoIsServer,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainSuggestionsResponse {
   /// A list of possible domain names. If you specified <code>true</code> for
   /// <code>OnlyAvailable</code> in the request, the list contains only domains
   /// that are available for registration.
-  @_s.JsonKey(name: 'SuggestionsList')
-  final List<DomainSuggestion> suggestionsList;
+  final List<DomainSuggestion>? suggestionsList;
 
   GetDomainSuggestionsResponse({
     this.suggestionsList,
   });
-  factory GetDomainSuggestionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDomainSuggestionsResponseFromJson(json);
+
+  factory GetDomainSuggestionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetDomainSuggestionsResponse(
+      suggestionsList: (json['SuggestionsList'] as List?)
+          ?.whereNotNull()
+          .map((e) => DomainSuggestion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final suggestionsList = this.suggestionsList;
+    return {
+      if (suggestionsList != null) 'SuggestionsList': suggestionsList,
+    };
+  }
 }
 
 /// The GetOperationDetail response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOperationDetailResponse {
   /// The name of a domain.
-  @_s.JsonKey(name: 'DomainName')
-  final String domainName;
+  final String? domainName;
 
   /// Detailed information on the status including possible errors.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The identifier for the operation.
-  @_s.JsonKey(name: 'OperationId')
-  final String operationId;
+  final String? operationId;
 
   /// The current status of the requested operation in the system.
-  @_s.JsonKey(name: 'Status')
-  final OperationStatus status;
+  final OperationStatus? status;
 
   /// The date when the request was submitted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmittedDate')
-  final DateTime submittedDate;
+  final DateTime? submittedDate;
 
   /// The type of operation that was requested.
-  @_s.JsonKey(name: 'Type')
-  final OperationType type;
+  final OperationType? type;
 
   GetOperationDetailResponse({
     this.domainName,
@@ -3744,89 +4756,138 @@ class GetOperationDetailResponse {
     this.submittedDate,
     this.type,
   });
-  factory GetOperationDetailResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetOperationDetailResponseFromJson(json);
+
+  factory GetOperationDetailResponse.fromJson(Map<String, dynamic> json) {
+    return GetOperationDetailResponse(
+      domainName: json['DomainName'] as String?,
+      message: json['Message'] as String?,
+      operationId: json['OperationId'] as String?,
+      status: (json['Status'] as String?)?.toOperationStatus(),
+      submittedDate: timeStampFromJson(json['SubmittedDate']),
+      type: (json['Type'] as String?)?.toOperationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final message = this.message;
+    final operationId = this.operationId;
+    final status = this.status;
+    final submittedDate = this.submittedDate;
+    final type = this.type;
+    return {
+      if (domainName != null) 'DomainName': domainName,
+      if (message != null) 'Message': message,
+      if (operationId != null) 'OperationId': operationId,
+      if (status != null) 'Status': status.toValue(),
+      if (submittedDate != null)
+        'SubmittedDate': unixTimestampToJson(submittedDate),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// The ListDomains response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainsResponse {
   /// A summary of domains.
-  @_s.JsonKey(name: 'Domains')
   final List<DomainSummary> domains;
 
   /// If there are more domains than you specified for <code>MaxItems</code> in
   /// the request, submit another request and include the value of
   /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
-  @_s.JsonKey(name: 'NextPageMarker')
-  final String nextPageMarker;
+  final String? nextPageMarker;
 
   ListDomainsResponse({
-    @_s.required this.domains,
+    required this.domains,
     this.nextPageMarker,
   });
-  factory ListDomainsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDomainsResponseFromJson(json);
+
+  factory ListDomainsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDomainsResponse(
+      domains: (json['Domains'] as List)
+          .whereNotNull()
+          .map((e) => DomainSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageMarker: json['NextPageMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domains = this.domains;
+    final nextPageMarker = this.nextPageMarker;
+    return {
+      'Domains': domains,
+      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+    };
+  }
 }
 
 /// The ListOperations response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOperationsResponse {
   /// Lists summaries of the operations.
-  @_s.JsonKey(name: 'Operations')
   final List<OperationSummary> operations;
 
   /// If there are more operations than you specified for <code>MaxItems</code> in
   /// the request, submit another request and include the value of
   /// <code>NextPageMarker</code> in the value of <code>Marker</code>.
-  @_s.JsonKey(name: 'NextPageMarker')
-  final String nextPageMarker;
+  final String? nextPageMarker;
 
   ListOperationsResponse({
-    @_s.required this.operations,
+    required this.operations,
     this.nextPageMarker,
   });
-  factory ListOperationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListOperationsResponseFromJson(json);
+
+  factory ListOperationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListOperationsResponse(
+      operations: (json['Operations'] as List)
+          .whereNotNull()
+          .map((e) => OperationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageMarker: json['NextPageMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operations = this.operations;
+    final nextPageMarker = this.nextPageMarker;
+    return {
+      'Operations': operations,
+      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+    };
+  }
 }
 
 /// The ListTagsForDomain response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForDomainResponse {
   /// A list of the tags that are associated with the specified domain.
-  @_s.JsonKey(name: 'TagList')
   final List<Tag> tagList;
 
   ListTagsForDomainResponse({
-    @_s.required this.tagList,
+    required this.tagList,
   });
-  factory ListTagsForDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForDomainResponseFromJson(json);
+
+  factory ListTagsForDomainResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForDomainResponse(
+      tagList: (json['TagList'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      'TagList': tagList,
+    };
+  }
 }
 
 /// Nameserver includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Nameserver {
   /// The fully qualified host name of the name server.
   ///
   /// Constraint: Maximum 255 characters
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Glue IP address of a name server entry. Glue IP addresses are required only
@@ -3835,290 +4896,472 @@ class Nameserver {
   /// ns.example.com, you need to specify the IP address for ns.example.com.
   ///
   /// Constraints: The list can contain only one IPv4 and one IPv6 address.
-  @_s.JsonKey(name: 'GlueIps')
-  final List<String> glueIps;
+  final List<String>? glueIps;
 
   Nameserver({
-    @_s.required this.name,
+    required this.name,
     this.glueIps,
   });
-  factory Nameserver.fromJson(Map<String, dynamic> json) =>
-      _$NameserverFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NameserverToJson(this);
+  factory Nameserver.fromJson(Map<String, dynamic> json) {
+    return Nameserver(
+      name: json['Name'] as String,
+      glueIps: (json['GlueIps'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final glueIps = this.glueIps;
+    return {
+      'Name': name,
+      if (glueIps != null) 'GlueIps': glueIps,
+    };
+  }
 }
 
 enum OperationStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('SUCCESSFUL')
   successful,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on OperationStatus {
+  String toValue() {
+    switch (this) {
+      case OperationStatus.submitted:
+        return 'SUBMITTED';
+      case OperationStatus.inProgress:
+        return 'IN_PROGRESS';
+      case OperationStatus.error:
+        return 'ERROR';
+      case OperationStatus.successful:
+        return 'SUCCESSFUL';
+      case OperationStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  OperationStatus toOperationStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return OperationStatus.submitted;
+      case 'IN_PROGRESS':
+        return OperationStatus.inProgress;
+      case 'ERROR':
+        return OperationStatus.error;
+      case 'SUCCESSFUL':
+        return OperationStatus.successful;
+      case 'FAILED':
+        return OperationStatus.failed;
+    }
+    throw Exception('$this is not known in enum OperationStatus');
+  }
+}
+
 /// OperationSummary includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OperationSummary {
   /// Identifier returned to track the requested action.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   /// The current status of the requested operation in the system.
-  @_s.JsonKey(name: 'Status')
   final OperationStatus status;
 
   /// The date when the request was submitted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmittedDate')
   final DateTime submittedDate;
 
   /// Type of the action requested.
-  @_s.JsonKey(name: 'Type')
   final OperationType type;
 
   OperationSummary({
-    @_s.required this.operationId,
-    @_s.required this.status,
-    @_s.required this.submittedDate,
-    @_s.required this.type,
+    required this.operationId,
+    required this.status,
+    required this.submittedDate,
+    required this.type,
   });
-  factory OperationSummary.fromJson(Map<String, dynamic> json) =>
-      _$OperationSummaryFromJson(json);
+
+  factory OperationSummary.fromJson(Map<String, dynamic> json) {
+    return OperationSummary(
+      operationId: json['OperationId'] as String,
+      status: (json['Status'] as String).toOperationStatus(),
+      submittedDate:
+          nonNullableTimeStampFromJson(json['SubmittedDate'] as Object),
+      type: (json['Type'] as String).toOperationType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    final status = this.status;
+    final submittedDate = this.submittedDate;
+    final type = this.type;
+    return {
+      'OperationId': operationId,
+      'Status': status.toValue(),
+      'SubmittedDate': unixTimestampToJson(submittedDate),
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum OperationType {
-  @_s.JsonValue('REGISTER_DOMAIN')
   registerDomain,
-  @_s.JsonValue('DELETE_DOMAIN')
   deleteDomain,
-  @_s.JsonValue('TRANSFER_IN_DOMAIN')
   transferInDomain,
-  @_s.JsonValue('UPDATE_DOMAIN_CONTACT')
   updateDomainContact,
-  @_s.JsonValue('UPDATE_NAMESERVER')
   updateNameserver,
-  @_s.JsonValue('CHANGE_PRIVACY_PROTECTION')
   changePrivacyProtection,
-  @_s.JsonValue('DOMAIN_LOCK')
   domainLock,
-  @_s.JsonValue('ENABLE_AUTORENEW')
   enableAutorenew,
-  @_s.JsonValue('DISABLE_AUTORENEW')
   disableAutorenew,
-  @_s.JsonValue('ADD_DNSSEC')
   addDnssec,
-  @_s.JsonValue('REMOVE_DNSSEC')
   removeDnssec,
-  @_s.JsonValue('EXPIRE_DOMAIN')
   expireDomain,
-  @_s.JsonValue('TRANSFER_OUT_DOMAIN')
   transferOutDomain,
-  @_s.JsonValue('CHANGE_DOMAIN_OWNER')
   changeDomainOwner,
-  @_s.JsonValue('RENEW_DOMAIN')
   renewDomain,
-  @_s.JsonValue('PUSH_DOMAIN')
   pushDomain,
-  @_s.JsonValue('INTERNAL_TRANSFER_OUT_DOMAIN')
   internalTransferOutDomain,
-  @_s.JsonValue('INTERNAL_TRANSFER_IN_DOMAIN')
   internalTransferInDomain,
 }
 
+extension on OperationType {
+  String toValue() {
+    switch (this) {
+      case OperationType.registerDomain:
+        return 'REGISTER_DOMAIN';
+      case OperationType.deleteDomain:
+        return 'DELETE_DOMAIN';
+      case OperationType.transferInDomain:
+        return 'TRANSFER_IN_DOMAIN';
+      case OperationType.updateDomainContact:
+        return 'UPDATE_DOMAIN_CONTACT';
+      case OperationType.updateNameserver:
+        return 'UPDATE_NAMESERVER';
+      case OperationType.changePrivacyProtection:
+        return 'CHANGE_PRIVACY_PROTECTION';
+      case OperationType.domainLock:
+        return 'DOMAIN_LOCK';
+      case OperationType.enableAutorenew:
+        return 'ENABLE_AUTORENEW';
+      case OperationType.disableAutorenew:
+        return 'DISABLE_AUTORENEW';
+      case OperationType.addDnssec:
+        return 'ADD_DNSSEC';
+      case OperationType.removeDnssec:
+        return 'REMOVE_DNSSEC';
+      case OperationType.expireDomain:
+        return 'EXPIRE_DOMAIN';
+      case OperationType.transferOutDomain:
+        return 'TRANSFER_OUT_DOMAIN';
+      case OperationType.changeDomainOwner:
+        return 'CHANGE_DOMAIN_OWNER';
+      case OperationType.renewDomain:
+        return 'RENEW_DOMAIN';
+      case OperationType.pushDomain:
+        return 'PUSH_DOMAIN';
+      case OperationType.internalTransferOutDomain:
+        return 'INTERNAL_TRANSFER_OUT_DOMAIN';
+      case OperationType.internalTransferInDomain:
+        return 'INTERNAL_TRANSFER_IN_DOMAIN';
+    }
+  }
+}
+
+extension on String {
+  OperationType toOperationType() {
+    switch (this) {
+      case 'REGISTER_DOMAIN':
+        return OperationType.registerDomain;
+      case 'DELETE_DOMAIN':
+        return OperationType.deleteDomain;
+      case 'TRANSFER_IN_DOMAIN':
+        return OperationType.transferInDomain;
+      case 'UPDATE_DOMAIN_CONTACT':
+        return OperationType.updateDomainContact;
+      case 'UPDATE_NAMESERVER':
+        return OperationType.updateNameserver;
+      case 'CHANGE_PRIVACY_PROTECTION':
+        return OperationType.changePrivacyProtection;
+      case 'DOMAIN_LOCK':
+        return OperationType.domainLock;
+      case 'ENABLE_AUTORENEW':
+        return OperationType.enableAutorenew;
+      case 'DISABLE_AUTORENEW':
+        return OperationType.disableAutorenew;
+      case 'ADD_DNSSEC':
+        return OperationType.addDnssec;
+      case 'REMOVE_DNSSEC':
+        return OperationType.removeDnssec;
+      case 'EXPIRE_DOMAIN':
+        return OperationType.expireDomain;
+      case 'TRANSFER_OUT_DOMAIN':
+        return OperationType.transferOutDomain;
+      case 'CHANGE_DOMAIN_OWNER':
+        return OperationType.changeDomainOwner;
+      case 'RENEW_DOMAIN':
+        return OperationType.renewDomain;
+      case 'PUSH_DOMAIN':
+        return OperationType.pushDomain;
+      case 'INTERNAL_TRANSFER_OUT_DOMAIN':
+        return OperationType.internalTransferOutDomain;
+      case 'INTERNAL_TRANSFER_IN_DOMAIN':
+        return OperationType.internalTransferInDomain;
+    }
+    throw Exception('$this is not known in enum OperationType');
+  }
+}
+
 enum ReachabilityStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('DONE')
   done,
-  @_s.JsonValue('EXPIRED')
   expired,
 }
 
+extension on ReachabilityStatus {
+  String toValue() {
+    switch (this) {
+      case ReachabilityStatus.pending:
+        return 'PENDING';
+      case ReachabilityStatus.done:
+        return 'DONE';
+      case ReachabilityStatus.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  ReachabilityStatus toReachabilityStatus() {
+    switch (this) {
+      case 'PENDING':
+        return ReachabilityStatus.pending;
+      case 'DONE':
+        return ReachabilityStatus.done;
+      case 'EXPIRED':
+        return ReachabilityStatus.expired;
+    }
+    throw Exception('$this is not known in enum ReachabilityStatus');
+  }
+}
+
 /// The RegisterDomain response includes the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   RegisterDomainResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
-  factory RegisterDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterDomainResponseFromJson(json);
+
+  factory RegisterDomainResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterDomainResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
 /// The RejectDomainTransferFromAnotherAwsAccount response includes the
 /// following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RejectDomainTransferFromAnotherAwsAccountResponse {
   /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
   /// to track the progress of the request. Because the transfer request was
   /// rejected, the value is no longer valid, and you can't use
   /// <code>GetOperationDetail</code> to query the operation status.
-  @_s.JsonKey(name: 'OperationId')
-  final String operationId;
+  final String? operationId;
 
   RejectDomainTransferFromAnotherAwsAccountResponse({
     this.operationId,
   });
+
   factory RejectDomainTransferFromAnotherAwsAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RejectDomainTransferFromAnotherAwsAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RejectDomainTransferFromAnotherAwsAccountResponse(
+      operationId: json['OperationId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RenewDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   RenewDomainResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
-  factory RenewDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$RenewDomainResponseFromJson(json);
+
+  factory RenewDomainResponse.fromJson(Map<String, dynamic> json) {
+    return RenewDomainResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResendContactReachabilityEmailResponse {
   /// The domain name for which you requested a confirmation email.
-  @_s.JsonKey(name: 'domainName')
-  final String domainName;
+  final String? domainName;
 
   /// The email address for the registrant contact at the time that we sent the
   /// verification email.
-  @_s.JsonKey(name: 'emailAddress')
-  final String emailAddress;
+  final String? emailAddress;
 
   /// <code>True</code> if the email address for the registrant contact has
   /// already been verified, and <code>false</code> otherwise. If the email
   /// address has already been verified, we don't send another confirmation email.
-  @_s.JsonKey(name: 'isAlreadyVerified')
-  final bool isAlreadyVerified;
+  final bool? isAlreadyVerified;
 
   ResendContactReachabilityEmailResponse({
     this.domainName,
     this.emailAddress,
     this.isAlreadyVerified,
   });
+
   factory ResendContactReachabilityEmailResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ResendContactReachabilityEmailResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ResendContactReachabilityEmailResponse(
+      domainName: json['domainName'] as String?,
+      emailAddress: json['emailAddress'] as String?,
+      isAlreadyVerified: json['isAlreadyVerified'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainName = this.domainName;
+    final emailAddress = this.emailAddress;
+    final isAlreadyVerified = this.isAlreadyVerified;
+    return {
+      if (domainName != null) 'domainName': domainName,
+      if (emailAddress != null) 'emailAddress': emailAddress,
+      if (isAlreadyVerified != null) 'isAlreadyVerified': isAlreadyVerified,
+    };
+  }
 }
 
 /// The RetrieveDomainAuthCode response includes the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RetrieveDomainAuthCodeResponse {
   /// The authorization code for the domain.
-  @_s.JsonKey(name: 'AuthCode')
   final String authCode;
 
   RetrieveDomainAuthCodeResponse({
-    @_s.required this.authCode,
+    required this.authCode,
   });
-  factory RetrieveDomainAuthCodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$RetrieveDomainAuthCodeResponseFromJson(json);
+
+  factory RetrieveDomainAuthCodeResponse.fromJson(Map<String, dynamic> json) {
+    return RetrieveDomainAuthCodeResponse(
+      authCode: json['AuthCode'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authCode = this.authCode;
+    return {
+      'AuthCode': authCode,
+    };
+  }
 }
 
 /// Each tag includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key (name) of a tag.
   ///
   /// Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@"
   ///
   /// Constraints: Each key can be 1-128 characters long.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of a tag.
   ///
   /// Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@"
   ///
   /// Constraints: Each value can be 0-256 characters long.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// The TransferDomain response includes the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransferDomainResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   TransferDomainResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
-  factory TransferDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$TransferDomainResponseFromJson(json);
+
+  factory TransferDomainResponse.fromJson(Map<String, dynamic> json) {
+    return TransferDomainResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
 /// The <code>TransferDomainToAnotherAwsAccount</code> response includes the
 /// following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransferDomainToAnotherAwsAccountResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
-  final String operationId;
+  final String? operationId;
 
   /// To finish transferring a domain to another AWS account, the account that the
   /// domain is being transferred to must submit an <a
@@ -4126,16 +5369,29 @@ class TransferDomainToAnotherAwsAccountResponse {
   /// request. The request must include the value of the <code>Password</code>
   /// element that was returned in the
   /// <code>TransferDomainToAnotherAwsAccount</code> response.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   TransferDomainToAnotherAwsAccountResponse({
     this.operationId,
     this.password,
   });
+
   factory TransferDomainToAnotherAwsAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$TransferDomainToAnotherAwsAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return TransferDomainToAnotherAwsAccountResponse(
+      operationId: json['OperationId'] as String?,
+      password: json['Password'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    final password = this.password;
+    return {
+      if (operationId != null) 'OperationId': operationId,
+      if (password != null) 'Password': password,
+    };
+  }
 }
 
 /// Whether the domain name can be transferred to Route 53.
@@ -4152,137 +5408,187 @@ class TransferDomainToAnotherAwsAccountResponse {
 /// Reserved for future use.
 /// </dd> </dl>
 enum Transferable {
-  @_s.JsonValue('TRANSFERABLE')
   transferable,
-  @_s.JsonValue('UNTRANSFERABLE')
   untransferable,
-  @_s.JsonValue('DONT_KNOW')
   dontKnow,
 }
 
+extension on Transferable {
+  String toValue() {
+    switch (this) {
+      case Transferable.transferable:
+        return 'TRANSFERABLE';
+      case Transferable.untransferable:
+        return 'UNTRANSFERABLE';
+      case Transferable.dontKnow:
+        return 'DONT_KNOW';
+    }
+  }
+}
+
+extension on String {
+  Transferable toTransferable() {
+    switch (this) {
+      case 'TRANSFERABLE':
+        return Transferable.transferable;
+      case 'UNTRANSFERABLE':
+        return Transferable.untransferable;
+      case 'DONT_KNOW':
+        return Transferable.dontKnow;
+    }
+    throw Exception('$this is not known in enum Transferable');
+  }
+}
+
 /// The UpdateDomainContactPrivacy response includes the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDomainContactPrivacyResponse {
   /// Identifier for tracking the progress of the request. To use this ID to query
   /// the operation status, use GetOperationDetail.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   UpdateDomainContactPrivacyResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
+
   factory UpdateDomainContactPrivacyResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateDomainContactPrivacyResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateDomainContactPrivacyResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
 /// The UpdateDomainContact response includes the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDomainContactResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   UpdateDomainContactResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
-  factory UpdateDomainContactResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDomainContactResponseFromJson(json);
+
+  factory UpdateDomainContactResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainContactResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
 /// The UpdateDomainNameservers response includes the following element.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDomainNameserversResponse {
   /// Identifier for tracking the progress of the request. To query the operation
   /// status, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
-  @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
   UpdateDomainNameserversResponse({
-    @_s.required this.operationId,
+    required this.operationId,
   });
-  factory UpdateDomainNameserversResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDomainNameserversResponseFromJson(json);
+
+  factory UpdateDomainNameserversResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainNameserversResponse(
+      operationId: json['OperationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final operationId = this.operationId;
+    return {
+      'OperationId': operationId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTagsForDomainResponse {
   UpdateTagsForDomainResponse();
-  factory UpdateTagsForDomainResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTagsForDomainResponseFromJson(json);
+
+  factory UpdateTagsForDomainResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTagsForDomainResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The ViewBilling response includes the following elements.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ViewBillingResponse {
   /// A summary of billing records.
-  @_s.JsonKey(name: 'BillingRecords')
-  final List<BillingRecord> billingRecords;
+  final List<BillingRecord>? billingRecords;
 
   /// If there are more billing records than you specified for
   /// <code>MaxItems</code> in the request, submit another request and include the
   /// value of <code>NextPageMarker</code> in the value of <code>Marker</code>.
-  @_s.JsonKey(name: 'NextPageMarker')
-  final String nextPageMarker;
+  final String? nextPageMarker;
 
   ViewBillingResponse({
     this.billingRecords,
     this.nextPageMarker,
   });
-  factory ViewBillingResponse.fromJson(Map<String, dynamic> json) =>
-      _$ViewBillingResponseFromJson(json);
+
+  factory ViewBillingResponse.fromJson(Map<String, dynamic> json) {
+    return ViewBillingResponse(
+      billingRecords: (json['BillingRecords'] as List?)
+          ?.whereNotNull()
+          .map((e) => BillingRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageMarker: json['NextPageMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final billingRecords = this.billingRecords;
+    final nextPageMarker = this.nextPageMarker;
+    return {
+      if (billingRecords != null) 'BillingRecords': billingRecords,
+      if (nextPageMarker != null) 'NextPageMarker': nextPageMarker,
+    };
+  }
 }
 
 class DomainLimitExceeded extends _s.GenericAwsException {
-  DomainLimitExceeded({String type, String message})
+  DomainLimitExceeded({String? type, String? message})
       : super(type: type, code: 'DomainLimitExceeded', message: message);
 }
 
 class DuplicateRequest extends _s.GenericAwsException {
-  DuplicateRequest({String type, String message})
+  DuplicateRequest({String? type, String? message})
       : super(type: type, code: 'DuplicateRequest', message: message);
 }
 
 class InvalidInput extends _s.GenericAwsException {
-  InvalidInput({String type, String message})
+  InvalidInput({String? type, String? message})
       : super(type: type, code: 'InvalidInput', message: message);
 }
 
 class OperationLimitExceeded extends _s.GenericAwsException {
-  OperationLimitExceeded({String type, String message})
+  OperationLimitExceeded({String? type, String? message})
       : super(type: type, code: 'OperationLimitExceeded', message: message);
 }
 
 class TLDRulesViolation extends _s.GenericAwsException {
-  TLDRulesViolation({String type, String message})
+  TLDRulesViolation({String? type, String? message})
       : super(type: type, code: 'TLDRulesViolation', message: message);
 }
 
 class UnsupportedTLD extends _s.GenericAwsException {
-  UnsupportedTLD({String type, String message})
+  UnsupportedTLD({String? type, String? message})
       : super(type: type, code: 'UnsupportedTLD', message: message);
 }
 

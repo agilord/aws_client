@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,17 +11,11 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'scalar_members.meta.dart';
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
@@ -31,9 +26,9 @@ class ScalarMembers {
   final Map<String, _s.Shape> shapes;
 
   ScalarMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,15 +57,15 @@ class ScalarMembers {
 }
 
 class OutputShape {
-  final String char;
-  final double doubleValue;
-  final bool falseBool;
-  final double float;
-  final int long;
-  final int num;
-  final String str;
-  final DateTime timestamp;
-  final bool trueBool;
+  final String? char;
+  final double? doubleValue;
+  final bool? falseBool;
+  final double? float;
+  final int? long;
+  final int? num;
+  final String? str;
+  final DateTime? timestamp;
+  final bool? trueBool;
 
   OutputShape({
     this.char,
@@ -83,6 +78,21 @@ class OutputShape {
     this.timestamp,
     this.trueBool,
   });
+
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      char: json['Char'] as String?,
+      doubleValue: json['Double'] as double?,
+      falseBool: json['FalseBool'] as bool?,
+      float: json['Float'] as double?,
+      long: json['Long'] as int?,
+      num: json['FooNum'] as int?,
+      str: json['Str'] as String?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+      trueBool: json['TrueBool'] as bool?,
+    );
+  }
+
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
       char: _s.extractXmlStringValue(elem, 'Char'),
@@ -95,6 +105,29 @@ class OutputShape {
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
       trueBool: _s.extractXmlBoolValue(elem, 'TrueBool'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final char = this.char;
+    final doubleValue = this.doubleValue;
+    final falseBool = this.falseBool;
+    final float = this.float;
+    final long = this.long;
+    final num = this.num;
+    final str = this.str;
+    final timestamp = this.timestamp;
+    final trueBool = this.trueBool;
+    return {
+      if (char != null) 'Char': char,
+      if (doubleValue != null) 'Double': doubleValue,
+      if (falseBool != null) 'FalseBool': falseBool,
+      if (float != null) 'Float': float,
+      if (long != null) 'Long': long,
+      if (num != null) 'FooNum': num,
+      if (str != null) 'Str': str,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+      if (trueBool != null) 'TrueBool': trueBool,
+    };
   }
 }
 

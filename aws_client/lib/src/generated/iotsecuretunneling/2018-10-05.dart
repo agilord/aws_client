@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-10-05.g.dart';
 
 /// AWS IoT Secure Tunnling enables you to create remote connections to devices
 /// deployed in the field.
 class IoTSecureTunneling {
   final _s.JsonProtocol _protocol;
   IoTSecureTunneling({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -60,21 +53,15 @@ class IoTSecureTunneling {
   /// When set to true, AWS IoT Secure Tunneling deletes the tunnel data
   /// immediately.
   Future<void> closeTunnel({
-    @_s.required String tunnelId,
-    bool delete,
+    required String tunnelId,
+    bool? delete,
   }) async {
     ArgumentError.checkNotNull(tunnelId, 'tunnelId');
-    _s.validateStringPattern(
-      'tunnelId',
-      tunnelId,
-      r'''[a-zA-Z0-9_\-+=:]{1,128}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.CloseTunnel'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -85,8 +72,6 @@ class IoTSecureTunneling {
         if (delete != null) 'delete': delete,
       },
     );
-
-    return CloseTunnelResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets information about a tunnel identified by the unique tunnel id.
@@ -96,15 +81,9 @@ class IoTSecureTunneling {
   /// Parameter [tunnelId] :
   /// The tunnel to describe.
   Future<DescribeTunnelResponse> describeTunnel({
-    @_s.required String tunnelId,
+    required String tunnelId,
   }) async {
     ArgumentError.checkNotNull(tunnelId, 'tunnelId');
-    _s.validateStringPattern(
-      'tunnelId',
-      tunnelId,
-      r'''[a-zA-Z0-9_\-+=:]{1,128}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.DescribeTunnel'
@@ -130,7 +109,7 @@ class IoTSecureTunneling {
   /// Parameter [resourceArn] :
   /// The resource ARN.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -170,9 +149,9 @@ class IoTSecureTunneling {
   /// Parameter [thingName] :
   /// The name of the IoT thing associated with the destination device.
   Future<ListTunnelsResponse> listTunnels({
-    int maxResults,
-    String nextToken,
-    String thingName,
+    int? maxResults,
+    String? nextToken,
+    String? thingName,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -180,21 +159,11 @@ class IoTSecureTunneling {
       1,
       100,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_=-]{1,4096}''',
-    );
     _s.validateStringLength(
       'thingName',
       thingName,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'thingName',
-      thingName,
-      r'''[a-zA-Z0-9:_-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -233,16 +202,11 @@ class IoTSecureTunneling {
   /// Parameter [timeoutConfig] :
   /// Timeout configuration for a tunnel.
   Future<OpenTunnelResponse> openTunnel({
-    String description,
-    DestinationConfig destinationConfig,
-    List<Tag> tags,
-    TimeoutConfig timeoutConfig,
+    String? description,
+    DestinationConfig? destinationConfig,
+    List<Tag>? tags,
+    TimeoutConfig? timeoutConfig,
   }) async {
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[^\p{C}]{1,2048}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.OpenTunnel'
@@ -274,8 +238,8 @@ class IoTSecureTunneling {
   /// Parameter [tags] :
   /// The tags for the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -290,7 +254,7 @@ class IoTSecureTunneling {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -301,8 +265,6 @@ class IoTSecureTunneling {
         'tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a tag from a resource.
@@ -315,8 +277,8 @@ class IoTSecureTunneling {
   /// Parameter [tagKeys] :
   /// The keys of the tags to remove.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -331,7 +293,7 @@ class IoTSecureTunneling {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'IoTSecuredTunneling.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -342,163 +304,214 @@ class IoTSecureTunneling {
         'tagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CloseTunnelResponse {
   CloseTunnelResponse();
-  factory CloseTunnelResponse.fromJson(Map<String, dynamic> json) =>
-      _$CloseTunnelResponseFromJson(json);
+
+  factory CloseTunnelResponse.fromJson(Map<String, dynamic> _) {
+    return CloseTunnelResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The state of a connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConnectionState {
   /// The last time the connection status was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The connection status of the tunnel. Valid values are <code>CONNECTED</code>
   /// and <code>DISCONNECTED</code>.
-  @_s.JsonKey(name: 'status')
-  final ConnectionStatus status;
+  final ConnectionStatus? status;
 
   ConnectionState({
     this.lastUpdatedAt,
     this.status,
   });
-  factory ConnectionState.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionStateFromJson(json);
+
+  factory ConnectionState.fromJson(Map<String, dynamic> json) {
+    return ConnectionState(
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      status: (json['status'] as String?)?.toConnectionStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    return {
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
 enum ConnectionStatus {
-  @_s.JsonValue('CONNECTED')
   connected,
-  @_s.JsonValue('DISCONNECTED')
   disconnected,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectionStatus {
+  String toValue() {
+    switch (this) {
+      case ConnectionStatus.connected:
+        return 'CONNECTED';
+      case ConnectionStatus.disconnected:
+        return 'DISCONNECTED';
+    }
+  }
+}
+
+extension on String {
+  ConnectionStatus toConnectionStatus() {
+    switch (this) {
+      case 'CONNECTED':
+        return ConnectionStatus.connected;
+      case 'DISCONNECTED':
+        return ConnectionStatus.disconnected;
+    }
+    throw Exception('$this is not known in enum ConnectionStatus');
+  }
+}
+
 class DescribeTunnelResponse {
   /// The tunnel being described.
-  @_s.JsonKey(name: 'tunnel')
-  final Tunnel tunnel;
+  final Tunnel? tunnel;
 
   DescribeTunnelResponse({
     this.tunnel,
   });
-  factory DescribeTunnelResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTunnelResponseFromJson(json);
+
+  factory DescribeTunnelResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTunnelResponse(
+      tunnel: json['tunnel'] != null
+          ? Tunnel.fromJson(json['tunnel'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tunnel = this.tunnel;
+    return {
+      if (tunnel != null) 'tunnel': tunnel,
+    };
+  }
 }
 
 /// The destination configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DestinationConfig {
   /// A list of service names that identity the target application. The AWS IoT
   /// client running on the destination device reads this value and uses it to
   /// look up a port or an IP address and a port. The AWS IoT client instantiates
   /// the local proxy which uses this information to connect to the destination
   /// application.
-  @_s.JsonKey(name: 'services')
   final List<String> services;
 
   /// The name of the IoT thing to which you want to connect.
-  @_s.JsonKey(name: 'thingName')
-  final String thingName;
+  final String? thingName;
 
   DestinationConfig({
-    @_s.required this.services,
+    required this.services,
     this.thingName,
   });
-  factory DestinationConfig.fromJson(Map<String, dynamic> json) =>
-      _$DestinationConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DestinationConfigToJson(this);
+  factory DestinationConfig.fromJson(Map<String, dynamic> json) {
+    return DestinationConfig(
+      services: (json['services'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      thingName: json['thingName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final services = this.services;
+    final thingName = this.thingName;
+    return {
+      'services': services,
+      if (thingName != null) 'thingName': thingName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags for the specified resource.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTunnelsResponse {
   /// A token to used to retrieve the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A short description of the tunnels in an AWS account.
-  @_s.JsonKey(name: 'tunnelSummaries')
-  final List<TunnelSummary> tunnelSummaries;
+  final List<TunnelSummary>? tunnelSummaries;
 
   ListTunnelsResponse({
     this.nextToken,
     this.tunnelSummaries,
   });
-  factory ListTunnelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTunnelsResponseFromJson(json);
+
+  factory ListTunnelsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTunnelsResponse(
+      nextToken: json['nextToken'] as String?,
+      tunnelSummaries: (json['tunnelSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => TunnelSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tunnelSummaries = this.tunnelSummaries;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (tunnelSummaries != null) 'tunnelSummaries': tunnelSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OpenTunnelResponse {
   /// The access token the destination local proxy uses to connect to AWS IoT
   /// Secure Tunneling.
-  @_s.JsonKey(name: 'destinationAccessToken')
-  final String destinationAccessToken;
+  final String? destinationAccessToken;
 
   /// The access token the source local proxy uses to connect to AWS IoT Secure
   /// Tunneling.
-  @_s.JsonKey(name: 'sourceAccessToken')
-  final String sourceAccessToken;
+  final String? sourceAccessToken;
 
   /// The Amazon Resource Name for the tunnel. The tunnel ARN format is
   /// <code>arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;</code>
-  @_s.JsonKey(name: 'tunnelArn')
-  final String tunnelArn;
+  final String? tunnelArn;
 
   /// A unique alpha-numeric tunnel ID.
-  @_s.JsonKey(name: 'tunnelId')
-  final String tunnelId;
+  final String? tunnelId;
 
   OpenTunnelResponse({
     this.destinationAccessToken,
@@ -506,123 +519,137 @@ class OpenTunnelResponse {
     this.tunnelArn,
     this.tunnelId,
   });
-  factory OpenTunnelResponse.fromJson(Map<String, dynamic> json) =>
-      _$OpenTunnelResponseFromJson(json);
+
+  factory OpenTunnelResponse.fromJson(Map<String, dynamic> json) {
+    return OpenTunnelResponse(
+      destinationAccessToken: json['destinationAccessToken'] as String?,
+      sourceAccessToken: json['sourceAccessToken'] as String?,
+      tunnelArn: json['tunnelArn'] as String?,
+      tunnelId: json['tunnelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationAccessToken = this.destinationAccessToken;
+    final sourceAccessToken = this.sourceAccessToken;
+    final tunnelArn = this.tunnelArn;
+    final tunnelId = this.tunnelId;
+    return {
+      if (destinationAccessToken != null)
+        'destinationAccessToken': destinationAccessToken,
+      if (sourceAccessToken != null) 'sourceAccessToken': sourceAccessToken,
+      if (tunnelArn != null) 'tunnelArn': tunnelArn,
+      if (tunnelId != null) 'tunnelId': tunnelId,
+    };
+  }
 }
 
 /// An arbitary key/value pair used to add searchable metadata to secure tunnel
 /// resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Tunnel timeout configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TimeoutConfig {
   /// The maximum amount of time (in minutes) a tunnel can remain open. If not
   /// specified, maxLifetimeTimeoutMinutes defaults to 720 minutes. Valid values
   /// are from 1 minute to 12 hours (720 minutes)
-  @_s.JsonKey(name: 'maxLifetimeTimeoutMinutes')
-  final int maxLifetimeTimeoutMinutes;
+  final int? maxLifetimeTimeoutMinutes;
 
   TimeoutConfig({
     this.maxLifetimeTimeoutMinutes,
   });
-  factory TimeoutConfig.fromJson(Map<String, dynamic> json) =>
-      _$TimeoutConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimeoutConfigToJson(this);
+  factory TimeoutConfig.fromJson(Map<String, dynamic> json) {
+    return TimeoutConfig(
+      maxLifetimeTimeoutMinutes: json['maxLifetimeTimeoutMinutes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final maxLifetimeTimeoutMinutes = this.maxLifetimeTimeoutMinutes;
+    return {
+      if (maxLifetimeTimeoutMinutes != null)
+        'maxLifetimeTimeoutMinutes': maxLifetimeTimeoutMinutes,
+    };
+  }
 }
 
 /// A connection between a source computer and a destination device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Tunnel {
   /// The time when the tunnel was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// A description of the tunnel.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The destination configuration that specifies the thing name of the
   /// destination device and a service name that the local proxy uses to connect
   /// to the destination application.
-  @_s.JsonKey(name: 'destinationConfig')
-  final DestinationConfig destinationConfig;
+  final DestinationConfig? destinationConfig;
 
   /// The connection state of the destination application.
-  @_s.JsonKey(name: 'destinationConnectionState')
-  final ConnectionState destinationConnectionState;
+  final ConnectionState? destinationConnectionState;
 
   /// The last time the tunnel was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The connection state of the source application.
-  @_s.JsonKey(name: 'sourceConnectionState')
-  final ConnectionState sourceConnectionState;
+  final ConnectionState? sourceConnectionState;
 
   /// The status of a tunnel. Valid values are: Open and Closed.
-  @_s.JsonKey(name: 'status')
-  final TunnelStatus status;
+  final TunnelStatus? status;
 
   /// A list of tag metadata associated with the secure tunnel.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// Timeout configuration for the tunnel.
-  @_s.JsonKey(name: 'timeoutConfig')
-  final TimeoutConfig timeoutConfig;
+  final TimeoutConfig? timeoutConfig;
 
   /// The Amazon Resource Name (ARN) of a tunnel. The tunnel ARN format is
   /// <code>arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;</code>
-  @_s.JsonKey(name: 'tunnelArn')
-  final String tunnelArn;
+  final String? tunnelArn;
 
   /// A unique alpha-numeric ID that identifies a tunnel.
-  @_s.JsonKey(name: 'tunnelId')
-  final String tunnelId;
+  final String? tunnelId;
 
   Tunnel({
     this.createdAt,
@@ -637,49 +664,117 @@ class Tunnel {
     this.tunnelArn,
     this.tunnelId,
   });
-  factory Tunnel.fromJson(Map<String, dynamic> json) => _$TunnelFromJson(json);
+
+  factory Tunnel.fromJson(Map<String, dynamic> json) {
+    return Tunnel(
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      destinationConfig: json['destinationConfig'] != null
+          ? DestinationConfig.fromJson(
+              json['destinationConfig'] as Map<String, dynamic>)
+          : null,
+      destinationConnectionState: json['destinationConnectionState'] != null
+          ? ConnectionState.fromJson(
+              json['destinationConnectionState'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      sourceConnectionState: json['sourceConnectionState'] != null
+          ? ConnectionState.fromJson(
+              json['sourceConnectionState'] as Map<String, dynamic>)
+          : null,
+      status: (json['status'] as String?)?.toTunnelStatus(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      timeoutConfig: json['timeoutConfig'] != null
+          ? TimeoutConfig.fromJson(
+              json['timeoutConfig'] as Map<String, dynamic>)
+          : null,
+      tunnelArn: json['tunnelArn'] as String?,
+      tunnelId: json['tunnelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final destinationConfig = this.destinationConfig;
+    final destinationConnectionState = this.destinationConnectionState;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final sourceConnectionState = this.sourceConnectionState;
+    final status = this.status;
+    final tags = this.tags;
+    final timeoutConfig = this.timeoutConfig;
+    final tunnelArn = this.tunnelArn;
+    final tunnelId = this.tunnelId;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (destinationConfig != null) 'destinationConfig': destinationConfig,
+      if (destinationConnectionState != null)
+        'destinationConnectionState': destinationConnectionState,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (sourceConnectionState != null)
+        'sourceConnectionState': sourceConnectionState,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+      if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
+      if (tunnelArn != null) 'tunnelArn': tunnelArn,
+      if (tunnelId != null) 'tunnelId': tunnelId,
+    };
+  }
 }
 
 enum TunnelStatus {
-  @_s.JsonValue('OPEN')
   open,
-  @_s.JsonValue('CLOSED')
   closed,
 }
 
+extension on TunnelStatus {
+  String toValue() {
+    switch (this) {
+      case TunnelStatus.open:
+        return 'OPEN';
+      case TunnelStatus.closed:
+        return 'CLOSED';
+    }
+  }
+}
+
+extension on String {
+  TunnelStatus toTunnelStatus() {
+    switch (this) {
+      case 'OPEN':
+        return TunnelStatus.open;
+      case 'CLOSED':
+        return TunnelStatus.closed;
+    }
+    throw Exception('$this is not known in enum TunnelStatus');
+  }
+}
+
 /// Information about the tunnel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TunnelSummary {
   /// The time the tunnel was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// A description of the tunnel.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The time the tunnel was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The status of a tunnel. Valid values are: Open and Closed.
-  @_s.JsonKey(name: 'status')
-  final TunnelStatus status;
+  final TunnelStatus? status;
 
   /// The Amazon Resource Name of the tunnel. The tunnel ARN format is
   /// <code>arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;</code>
-  @_s.JsonKey(name: 'tunnelArn')
-  final String tunnelArn;
+  final String? tunnelArn;
 
   /// The unique alpha-numeric identifier for the tunnel.
-  @_s.JsonKey(name: 'tunnelId')
-  final String tunnelId;
+  final String? tunnelId;
 
   TunnelSummary({
     this.createdAt,
@@ -689,28 +784,56 @@ class TunnelSummary {
     this.tunnelArn,
     this.tunnelId,
   });
-  factory TunnelSummary.fromJson(Map<String, dynamic> json) =>
-      _$TunnelSummaryFromJson(json);
+
+  factory TunnelSummary.fromJson(Map<String, dynamic> json) {
+    return TunnelSummary(
+      createdAt: timeStampFromJson(json['createdAt']),
+      description: json['description'] as String?,
+      lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+      status: (json['status'] as String?)?.toTunnelStatus(),
+      tunnelArn: json['tunnelArn'] as String?,
+      tunnelId: json['tunnelId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final status = this.status;
+    final tunnelArn = this.tunnelArn;
+    final tunnelId = this.tunnelId;
+    return {
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (description != null) 'description': description,
+      if (lastUpdatedAt != null)
+        'lastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (status != null) 'status': status.toValue(),
+      if (tunnelArn != null) 'tunnelArn': tunnelArn,
+      if (tunnelId != null) 'tunnelId': tunnelId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

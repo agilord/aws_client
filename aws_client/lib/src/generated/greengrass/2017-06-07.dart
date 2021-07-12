@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-06-07.g.dart';
 
 /// AWS IoT Greengrass seamlessly extends AWS onto physical devices so they can
 /// act locally on the data they generate, while still using the cloud for
@@ -36,10 +29,10 @@ part '2017-06-07.g.dart';
 class Greengrass {
   final _s.RestJsonProtocol _protocol;
   Greengrass({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,8 +58,8 @@ class Greengrass {
   /// The ARN of the role you wish to associate with this group. The existence
   /// of the role is not validated.
   Future<AssociateRoleToGroupResponse> associateRoleToGroup({
-    @_s.required String groupId,
-    @_s.required String roleArn,
+    required String groupId,
+    required String roleArn,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
@@ -93,7 +86,7 @@ class Greengrass {
   /// Parameter [roleArn] :
   /// The ARN of the service role you wish to associate with your account.
   Future<AssociateServiceRoleToAccountResponse> associateServiceRoleToAccount({
-    @_s.required String roleArn,
+    required String roleArn,
   }) async {
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $payload = <String, dynamic>{
@@ -126,13 +119,15 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateConnectorDefinitionResponse> createConnectorDefinition({
-    String amznClientToken,
-    ConnectorDefinitionVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    String? amznClientToken,
+    ConnectorDefinitionVersion? initialVersion,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (initialVersion != null) 'InitialVersion': initialVersion,
       if (name != null) 'Name': name,
@@ -164,13 +159,15 @@ class Greengrass {
   /// corresponding configuration settings.
   Future<CreateConnectorDefinitionVersionResponse>
       createConnectorDefinitionVersion({
-    @_s.required String connectorDefinitionId,
-    String amznClientToken,
-    List<Connector> connectors,
+    required String connectorDefinitionId,
+    String? amznClientToken,
+    List<Connector>? connectors,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (connectors != null) 'Connectors': connectors,
     };
@@ -203,13 +200,15 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateCoreDefinitionResponse> createCoreDefinition({
-    String amznClientToken,
-    CoreDefinitionVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    String? amznClientToken,
+    CoreDefinitionVersion? initialVersion,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (initialVersion != null) 'InitialVersion': initialVersion,
       if (name != null) 'Name': name,
@@ -239,13 +238,15 @@ class Greengrass {
   /// Parameter [cores] :
   /// A list of cores in the core definition version.
   Future<CreateCoreDefinitionVersionResponse> createCoreDefinitionVersion({
-    @_s.required String coreDefinitionId,
-    String amznClientToken,
-    List<Core> cores,
+    required String coreDefinitionId,
+    String? amznClientToken,
+    List<Core>? cores,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (cores != null) 'Cores': cores,
     };
@@ -281,18 +282,20 @@ class Greengrass {
   /// Parameter [groupVersionId] :
   /// The ID of the group version to be deployed.
   Future<CreateDeploymentResponse> createDeployment({
-    @_s.required DeploymentType deploymentType,
-    @_s.required String groupId,
-    String amznClientToken,
-    String deploymentId,
-    String groupVersionId,
+    required DeploymentType deploymentType,
+    required String groupId,
+    String? amznClientToken,
+    String? deploymentId,
+    String? groupVersionId,
   }) async {
     ArgumentError.checkNotNull(deploymentType, 'deploymentType');
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
-      'DeploymentType': deploymentType?.toValue() ?? '',
+      'DeploymentType': deploymentType.toValue(),
       if (deploymentId != null) 'DeploymentId': deploymentId,
       if (groupVersionId != null) 'GroupVersionId': groupVersionId,
     };
@@ -325,13 +328,15 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateDeviceDefinitionResponse> createDeviceDefinition({
-    String amznClientToken,
-    DeviceDefinitionVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    String? amznClientToken,
+    DeviceDefinitionVersion? initialVersion,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (initialVersion != null) 'InitialVersion': initialVersion,
       if (name != null) 'Name': name,
@@ -360,13 +365,15 @@ class Greengrass {
   /// Parameter [devices] :
   /// A list of devices in the definition version.
   Future<CreateDeviceDefinitionVersionResponse> createDeviceDefinitionVersion({
-    @_s.required String deviceDefinitionId,
-    String amznClientToken,
-    List<Device> devices,
+    required String deviceDefinitionId,
+    String? amznClientToken,
+    List<Device>? devices,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (devices != null) 'Devices': devices,
     };
@@ -401,13 +408,15 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateFunctionDefinitionResponse> createFunctionDefinition({
-    String amznClientToken,
-    FunctionDefinitionVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    String? amznClientToken,
+    FunctionDefinitionVersion? initialVersion,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (initialVersion != null) 'InitialVersion': initialVersion,
       if (name != null) 'Name': name,
@@ -443,14 +452,16 @@ class Greengrass {
   /// A list of Lambda functions in this function definition version.
   Future<CreateFunctionDefinitionVersionResponse>
       createFunctionDefinitionVersion({
-    @_s.required String functionDefinitionId,
-    String amznClientToken,
-    FunctionDefaultConfig defaultConfig,
-    List<$Function> functions,
+    required String functionDefinitionId,
+    String? amznClientToken,
+    FunctionDefaultConfig? defaultConfig,
+    List<$Function>? functions,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (defaultConfig != null) 'DefaultConfig': defaultConfig,
       if (functions != null) 'Functions': functions,
@@ -474,28 +485,31 @@ class Greengrass {
   ///
   /// May throw [BadRequestException].
   ///
+  /// Parameter [name] :
+  /// The name of the group.
+  ///
   /// Parameter [amznClientToken] :
   /// A client token used to correlate requests and responses.
   ///
   /// Parameter [initialVersion] :
   /// Information about the initial version of the group.
   ///
-  /// Parameter [name] :
-  /// The name of the group.
-  ///
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateGroupResponse> createGroup({
-    String amznClientToken,
-    GroupVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    required String name,
+    String? amznClientToken,
+    GroupVersion? initialVersion,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
+      'Name': name,
       if (initialVersion != null) 'InitialVersion': initialVersion,
-      if (name != null) 'Name': name,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -521,12 +535,14 @@ class Greengrass {
   /// A client token used to correlate requests and responses.
   Future<CreateGroupCertificateAuthorityResponse>
       createGroupCertificateAuthority({
-    @_s.required String groupId,
-    String amznClientToken,
+    required String groupId,
+    String? amznClientToken,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'POST',
@@ -569,19 +585,21 @@ class Greengrass {
   /// Parameter [subscriptionDefinitionVersionArn] :
   /// The ARN of the subscription definition version for this group.
   Future<CreateGroupVersionResponse> createGroupVersion({
-    @_s.required String groupId,
-    String amznClientToken,
-    String connectorDefinitionVersionArn,
-    String coreDefinitionVersionArn,
-    String deviceDefinitionVersionArn,
-    String functionDefinitionVersionArn,
-    String loggerDefinitionVersionArn,
-    String resourceDefinitionVersionArn,
-    String subscriptionDefinitionVersionArn,
+    required String groupId,
+    String? amznClientToken,
+    String? connectorDefinitionVersionArn,
+    String? coreDefinitionVersionArn,
+    String? deviceDefinitionVersionArn,
+    String? functionDefinitionVersionArn,
+    String? loggerDefinitionVersionArn,
+    String? resourceDefinitionVersionArn,
+    String? subscriptionDefinitionVersionArn,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (connectorDefinitionVersionArn != null)
         'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
@@ -626,13 +644,15 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateLoggerDefinitionResponse> createLoggerDefinition({
-    String amznClientToken,
-    LoggerDefinitionVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    String? amznClientToken,
+    LoggerDefinitionVersion? initialVersion,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (initialVersion != null) 'InitialVersion': initialVersion,
       if (name != null) 'Name': name,
@@ -661,13 +681,15 @@ class Greengrass {
   /// Parameter [loggers] :
   /// A list of loggers.
   Future<CreateLoggerDefinitionVersionResponse> createLoggerDefinitionVersion({
-    @_s.required String loggerDefinitionId,
-    String amznClientToken,
-    List<Logger> loggers,
+    required String loggerDefinitionId,
+    String? amznClientToken,
+    List<Logger>? loggers,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (loggers != null) 'Loggers': loggers,
     };
@@ -701,13 +723,15 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateResourceDefinitionResponse> createResourceDefinition({
-    String amznClientToken,
-    ResourceDefinitionVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    String? amznClientToken,
+    ResourceDefinitionVersion? initialVersion,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (initialVersion != null) 'InitialVersion': initialVersion,
       if (name != null) 'Name': name,
@@ -737,13 +761,15 @@ class Greengrass {
   /// A list of resources.
   Future<CreateResourceDefinitionVersionResponse>
       createResourceDefinitionVersion({
-    @_s.required String resourceDefinitionId,
-    String amznClientToken,
-    List<Resource> resources,
+    required String resourceDefinitionId,
+    String? amznClientToken,
+    List<Resource>? resources,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (resources != null) 'Resources': resources,
     };
@@ -770,13 +796,13 @@ class Greengrass {
   /// Parameter [amznClientToken] :
   /// A client token used to correlate requests and responses.
   Future<CreateSoftwareUpdateJobResponse> createSoftwareUpdateJob({
-    @_s.required String s3UrlSignerRole,
-    @_s.required SoftwareToUpdate softwareToUpdate,
-    @_s.required List<String> updateTargets,
-    @_s.required UpdateTargetsArchitecture updateTargetsArchitecture,
-    @_s.required UpdateTargetsOperatingSystem updateTargetsOperatingSystem,
-    String amznClientToken,
-    UpdateAgentLogLevel updateAgentLogLevel,
+    required String s3UrlSignerRole,
+    required SoftwareToUpdate softwareToUpdate,
+    required List<String> updateTargets,
+    required UpdateTargetsArchitecture updateTargetsArchitecture,
+    required UpdateTargetsOperatingSystem updateTargetsOperatingSystem,
+    String? amznClientToken,
+    UpdateAgentLogLevel? updateAgentLogLevel,
   }) async {
     ArgumentError.checkNotNull(s3UrlSignerRole, 's3UrlSignerRole');
     ArgumentError.checkNotNull(softwareToUpdate, 'softwareToUpdate');
@@ -785,15 +811,16 @@ class Greengrass {
         updateTargetsArchitecture, 'updateTargetsArchitecture');
     ArgumentError.checkNotNull(
         updateTargetsOperatingSystem, 'updateTargetsOperatingSystem');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'S3UrlSignerRole': s3UrlSignerRole,
-      'SoftwareToUpdate': softwareToUpdate?.toValue() ?? '',
+      'SoftwareToUpdate': softwareToUpdate.toValue(),
       'UpdateTargets': updateTargets,
-      'UpdateTargetsArchitecture': updateTargetsArchitecture?.toValue() ?? '',
-      'UpdateTargetsOperatingSystem':
-          updateTargetsOperatingSystem?.toValue() ?? '',
+      'UpdateTargetsArchitecture': updateTargetsArchitecture.toValue(),
+      'UpdateTargetsOperatingSystem': updateTargetsOperatingSystem.toValue(),
       if (updateAgentLogLevel != null)
         'UpdateAgentLogLevel': updateAgentLogLevel.toValue(),
     };
@@ -825,13 +852,15 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<CreateSubscriptionDefinitionResponse> createSubscriptionDefinition({
-    String amznClientToken,
-    SubscriptionDefinitionVersion initialVersion,
-    String name,
-    Map<String, String> tags,
+    String? amznClientToken,
+    SubscriptionDefinitionVersion? initialVersion,
+    String? name,
+    Map<String, String>? tags,
   }) async {
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (initialVersion != null) 'InitialVersion': initialVersion,
       if (name != null) 'Name': name,
@@ -862,14 +891,16 @@ class Greengrass {
   /// A list of subscriptions.
   Future<CreateSubscriptionDefinitionVersionResponse>
       createSubscriptionDefinitionVersion({
-    @_s.required String subscriptionDefinitionId,
-    String amznClientToken,
-    List<Subscription> subscriptions,
+    required String subscriptionDefinitionId,
+    String? amznClientToken,
+    List<Subscription>? subscriptions,
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (subscriptions != null) 'Subscriptions': subscriptions,
     };
@@ -891,7 +922,7 @@ class Greengrass {
   /// Parameter [connectorDefinitionId] :
   /// The ID of the connector definition.
   Future<void> deleteConnectorDefinition({
-    @_s.required String connectorDefinitionId,
+    required String connectorDefinitionId,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final response = await _protocol.send(
@@ -901,7 +932,6 @@ class Greengrass {
           '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteConnectorDefinitionResponse.fromJson(response);
   }
 
   /// Deletes a core definition.
@@ -911,7 +941,7 @@ class Greengrass {
   /// Parameter [coreDefinitionId] :
   /// The ID of the core definition.
   Future<void> deleteCoreDefinition({
-    @_s.required String coreDefinitionId,
+    required String coreDefinitionId,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final response = await _protocol.send(
@@ -921,7 +951,6 @@ class Greengrass {
           '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCoreDefinitionResponse.fromJson(response);
   }
 
   /// Deletes a device definition.
@@ -931,7 +960,7 @@ class Greengrass {
   /// Parameter [deviceDefinitionId] :
   /// The ID of the device definition.
   Future<void> deleteDeviceDefinition({
-    @_s.required String deviceDefinitionId,
+    required String deviceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final response = await _protocol.send(
@@ -941,7 +970,6 @@ class Greengrass {
           '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDeviceDefinitionResponse.fromJson(response);
   }
 
   /// Deletes a Lambda function definition.
@@ -951,7 +979,7 @@ class Greengrass {
   /// Parameter [functionDefinitionId] :
   /// The ID of the Lambda function definition.
   Future<void> deleteFunctionDefinition({
-    @_s.required String functionDefinitionId,
+    required String functionDefinitionId,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final response = await _protocol.send(
@@ -961,7 +989,6 @@ class Greengrass {
           '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteFunctionDefinitionResponse.fromJson(response);
   }
 
   /// Deletes a group.
@@ -971,7 +998,7 @@ class Greengrass {
   /// Parameter [groupId] :
   /// The ID of the Greengrass group.
   Future<void> deleteGroup({
-    @_s.required String groupId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
@@ -980,7 +1007,6 @@ class Greengrass {
       requestUri: '/greengrass/groups/${Uri.encodeComponent(groupId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteGroupResponse.fromJson(response);
   }
 
   /// Deletes a logger definition.
@@ -990,7 +1016,7 @@ class Greengrass {
   /// Parameter [loggerDefinitionId] :
   /// The ID of the logger definition.
   Future<void> deleteLoggerDefinition({
-    @_s.required String loggerDefinitionId,
+    required String loggerDefinitionId,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final response = await _protocol.send(
@@ -1000,7 +1026,6 @@ class Greengrass {
           '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteLoggerDefinitionResponse.fromJson(response);
   }
 
   /// Deletes a resource definition.
@@ -1010,7 +1035,7 @@ class Greengrass {
   /// Parameter [resourceDefinitionId] :
   /// The ID of the resource definition.
   Future<void> deleteResourceDefinition({
-    @_s.required String resourceDefinitionId,
+    required String resourceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final response = await _protocol.send(
@@ -1020,7 +1045,6 @@ class Greengrass {
           '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteResourceDefinitionResponse.fromJson(response);
   }
 
   /// Deletes a subscription definition.
@@ -1030,7 +1054,7 @@ class Greengrass {
   /// Parameter [subscriptionDefinitionId] :
   /// The ID of the subscription definition.
   Future<void> deleteSubscriptionDefinition({
-    @_s.required String subscriptionDefinitionId,
+    required String subscriptionDefinitionId,
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
@@ -1041,7 +1065,6 @@ class Greengrass {
           '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSubscriptionDefinitionResponse.fromJson(response);
   }
 
   /// Disassociates the role from a group.
@@ -1052,7 +1075,7 @@ class Greengrass {
   /// Parameter [groupId] :
   /// The ID of the Greengrass group.
   Future<DisassociateRoleFromGroupResponse> disassociateRoleFromGroup({
-    @_s.required String groupId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
@@ -1087,7 +1110,7 @@ class Greengrass {
   /// Parameter [groupId] :
   /// The ID of the Greengrass group.
   Future<GetAssociatedRoleResponse> getAssociatedRole({
-    @_s.required String groupId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
@@ -1106,7 +1129,7 @@ class Greengrass {
   /// Parameter [bulkDeploymentId] :
   /// The ID of the bulk deployment.
   Future<GetBulkDeploymentStatusResponse> getBulkDeploymentStatus({
-    @_s.required String bulkDeploymentId,
+    required String bulkDeploymentId,
   }) async {
     ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
     final response = await _protocol.send(
@@ -1127,7 +1150,7 @@ class Greengrass {
   /// Parameter [thingName] :
   /// The thing name.
   Future<GetConnectivityInfoResponse> getConnectivityInfo({
-    @_s.required String thingName,
+    required String thingName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     final response = await _protocol.send(
@@ -1147,7 +1170,7 @@ class Greengrass {
   /// Parameter [connectorDefinitionId] :
   /// The ID of the connector definition.
   Future<GetConnectorDefinitionResponse> getConnectorDefinition({
-    @_s.required String connectorDefinitionId,
+    required String connectorDefinitionId,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final response = await _protocol.send(
@@ -1182,9 +1205,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<GetConnectorDefinitionVersionResponse> getConnectorDefinitionVersion({
-    @_s.required String connectorDefinitionId,
-    @_s.required String connectorDefinitionVersionId,
-    String nextToken,
+    required String connectorDefinitionId,
+    required String connectorDefinitionVersionId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     ArgumentError.checkNotNull(
@@ -1210,7 +1233,7 @@ class Greengrass {
   /// Parameter [coreDefinitionId] :
   /// The ID of the core definition.
   Future<GetCoreDefinitionResponse> getCoreDefinition({
-    @_s.required String coreDefinitionId,
+    required String coreDefinitionId,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final response = await _protocol.send(
@@ -1238,8 +1261,8 @@ class Greengrass {
   /// to the ''LatestVersion'' property of the corresponding
   /// ''DefinitionInformation'' object.
   Future<GetCoreDefinitionVersionResponse> getCoreDefinitionVersion({
-    @_s.required String coreDefinitionId,
-    @_s.required String coreDefinitionVersionId,
+    required String coreDefinitionId,
+    required String coreDefinitionVersionId,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     ArgumentError.checkNotNull(
@@ -1264,8 +1287,8 @@ class Greengrass {
   /// Parameter [groupId] :
   /// The ID of the Greengrass group.
   Future<GetDeploymentStatusResponse> getDeploymentStatus({
-    @_s.required String deploymentId,
-    @_s.required String groupId,
+    required String deploymentId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(groupId, 'groupId');
@@ -1286,7 +1309,7 @@ class Greengrass {
   /// Parameter [deviceDefinitionId] :
   /// The ID of the device definition.
   Future<GetDeviceDefinitionResponse> getDeviceDefinition({
-    @_s.required String deviceDefinitionId,
+    required String deviceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final response = await _protocol.send(
@@ -1318,9 +1341,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<GetDeviceDefinitionVersionResponse> getDeviceDefinitionVersion({
-    @_s.required String deviceDefinitionId,
-    @_s.required String deviceDefinitionVersionId,
-    String nextToken,
+    required String deviceDefinitionId,
+    required String deviceDefinitionVersionId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     ArgumentError.checkNotNull(
@@ -1347,7 +1370,7 @@ class Greengrass {
   /// Parameter [functionDefinitionId] :
   /// The ID of the Lambda function definition.
   Future<GetFunctionDefinitionResponse> getFunctionDefinition({
-    @_s.required String functionDefinitionId,
+    required String functionDefinitionId,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final response = await _protocol.send(
@@ -1381,9 +1404,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<GetFunctionDefinitionVersionResponse> getFunctionDefinitionVersion({
-    @_s.required String functionDefinitionId,
-    @_s.required String functionDefinitionVersionId,
-    String nextToken,
+    required String functionDefinitionId,
+    required String functionDefinitionVersionId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     ArgumentError.checkNotNull(
@@ -1409,7 +1432,7 @@ class Greengrass {
   /// Parameter [groupId] :
   /// The ID of the Greengrass group.
   Future<GetGroupResponse> getGroup({
-    @_s.required String groupId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
@@ -1433,8 +1456,8 @@ class Greengrass {
   /// Parameter [groupId] :
   /// The ID of the Greengrass group.
   Future<GetGroupCertificateAuthorityResponse> getGroupCertificateAuthority({
-    @_s.required String certificateAuthorityId,
-    @_s.required String groupId,
+    required String certificateAuthorityId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityId, 'certificateAuthorityId');
@@ -1458,7 +1481,7 @@ class Greengrass {
   /// The ID of the Greengrass group.
   Future<GetGroupCertificateConfigurationResponse>
       getGroupCertificateConfiguration({
-    @_s.required String groupId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
@@ -1485,8 +1508,8 @@ class Greengrass {
   /// associated with a group, the value also maps to the ''LatestVersion''
   /// property of the corresponding ''GroupInformation'' object.
   Future<GetGroupVersionResponse> getGroupVersion({
-    @_s.required String groupId,
-    @_s.required String groupVersionId,
+    required String groupId,
+    required String groupVersionId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     ArgumentError.checkNotNull(groupVersionId, 'groupVersionId');
@@ -1507,7 +1530,7 @@ class Greengrass {
   /// Parameter [loggerDefinitionId] :
   /// The ID of the logger definition.
   Future<GetLoggerDefinitionResponse> getLoggerDefinition({
-    @_s.required String loggerDefinitionId,
+    required String loggerDefinitionId,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final response = await _protocol.send(
@@ -1539,9 +1562,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<GetLoggerDefinitionVersionResponse> getLoggerDefinitionVersion({
-    @_s.required String loggerDefinitionId,
-    @_s.required String loggerDefinitionVersionId,
-    String nextToken,
+    required String loggerDefinitionId,
+    required String loggerDefinitionVersionId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     ArgumentError.checkNotNull(
@@ -1568,7 +1591,7 @@ class Greengrass {
   /// Parameter [resourceDefinitionId] :
   /// The ID of the resource definition.
   Future<GetResourceDefinitionResponse> getResourceDefinition({
-    @_s.required String resourceDefinitionId,
+    required String resourceDefinitionId,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final response = await _protocol.send(
@@ -1597,8 +1620,8 @@ class Greengrass {
   /// the value also maps to the ''LatestVersion'' property of the corresponding
   /// ''DefinitionInformation'' object.
   Future<GetResourceDefinitionVersionResponse> getResourceDefinitionVersion({
-    @_s.required String resourceDefinitionId,
-    @_s.required String resourceDefinitionVersionId,
+    required String resourceDefinitionId,
+    required String resourceDefinitionVersionId,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     ArgumentError.checkNotNull(
@@ -1633,7 +1656,7 @@ class Greengrass {
   /// Parameter [subscriptionDefinitionId] :
   /// The ID of the subscription definition.
   Future<GetSubscriptionDefinitionResponse> getSubscriptionDefinition({
-    @_s.required String subscriptionDefinitionId,
+    required String subscriptionDefinitionId,
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
@@ -1667,9 +1690,9 @@ class Greengrass {
   /// additional results.
   Future<GetSubscriptionDefinitionVersionResponse>
       getSubscriptionDefinitionVersion({
-    @_s.required String subscriptionDefinitionId,
-    @_s.required String subscriptionDefinitionVersionId,
-    String nextToken,
+    required String subscriptionDefinitionId,
+    required String subscriptionDefinitionVersionId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
@@ -1697,7 +1720,7 @@ class Greengrass {
   /// Parameter [thingName] :
   /// The thing name.
   Future<GetThingRuntimeConfigurationResponse> getThingRuntimeConfiguration({
-    @_s.required String thingName,
+    required String thingName,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     final response = await _protocol.send(
@@ -1726,9 +1749,9 @@ class Greengrass {
   /// additional results.
   Future<ListBulkDeploymentDetailedReportsResponse>
       listBulkDeploymentDetailedReports({
-    @_s.required String bulkDeploymentId,
-    String maxResults,
-    String nextToken,
+    required String bulkDeploymentId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
     final $query = <String, List<String>>{
@@ -1757,8 +1780,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListBulkDeploymentsResponse> listBulkDeployments({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -1792,9 +1815,9 @@ class Greengrass {
   /// additional results.
   Future<ListConnectorDefinitionVersionsResponse>
       listConnectorDefinitionVersions({
-    @_s.required String connectorDefinitionId,
-    String maxResults,
-    String nextToken,
+    required String connectorDefinitionId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final $query = <String, List<String>>{
@@ -1821,8 +1844,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListConnectorDefinitionsResponse> listConnectorDefinitions({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -1852,9 +1875,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListCoreDefinitionVersionsResponse> listCoreDefinitionVersions({
-    @_s.required String coreDefinitionId,
-    String maxResults,
-    String nextToken,
+    required String coreDefinitionId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final $query = <String, List<String>>{
@@ -1881,8 +1904,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListCoreDefinitionsResponse> listCoreDefinitions({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -1912,9 +1935,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListDeploymentsResponse> listDeployments({
-    @_s.required String groupId,
-    String maxResults,
-    String nextToken,
+    required String groupId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final $query = <String, List<String>>{
@@ -1946,9 +1969,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListDeviceDefinitionVersionsResponse> listDeviceDefinitionVersions({
-    @_s.required String deviceDefinitionId,
-    String maxResults,
-    String nextToken,
+    required String deviceDefinitionId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final $query = <String, List<String>>{
@@ -1975,8 +1998,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListDeviceDefinitionsResponse> listDeviceDefinitions({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -2007,9 +2030,9 @@ class Greengrass {
   /// additional results.
   Future<ListFunctionDefinitionVersionsResponse>
       listFunctionDefinitionVersions({
-    @_s.required String functionDefinitionId,
-    String maxResults,
-    String nextToken,
+    required String functionDefinitionId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final $query = <String, List<String>>{
@@ -2036,8 +2059,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListFunctionDefinitionsResponse> listFunctionDefinitions({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -2062,7 +2085,7 @@ class Greengrass {
   /// The ID of the Greengrass group.
   Future<ListGroupCertificateAuthoritiesResponse>
       listGroupCertificateAuthorities({
-    @_s.required String groupId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final response = await _protocol.send(
@@ -2089,9 +2112,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListGroupVersionsResponse> listGroupVersions({
-    @_s.required String groupId,
-    String maxResults,
-    String nextToken,
+    required String groupId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final $query = <String, List<String>>{
@@ -2117,8 +2140,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListGroupsResponse> listGroups({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -2148,9 +2171,9 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListLoggerDefinitionVersionsResponse> listLoggerDefinitionVersions({
-    @_s.required String loggerDefinitionId,
-    String maxResults,
-    String nextToken,
+    required String loggerDefinitionId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final $query = <String, List<String>>{
@@ -2177,8 +2200,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListLoggerDefinitionsResponse> listLoggerDefinitions({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -2209,9 +2232,9 @@ class Greengrass {
   /// additional results.
   Future<ListResourceDefinitionVersionsResponse>
       listResourceDefinitionVersions({
-    @_s.required String resourceDefinitionId,
-    String maxResults,
-    String nextToken,
+    required String resourceDefinitionId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final $query = <String, List<String>>{
@@ -2238,8 +2261,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListResourceDefinitionsResponse> listResourceDefinitions({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -2270,9 +2293,9 @@ class Greengrass {
   /// additional results.
   Future<ListSubscriptionDefinitionVersionsResponse>
       listSubscriptionDefinitionVersions({
-    @_s.required String subscriptionDefinitionId,
-    String maxResults,
-    String nextToken,
+    required String subscriptionDefinitionId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
@@ -2300,8 +2323,8 @@ class Greengrass {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
   Future<ListSubscriptionDefinitionsResponse> listSubscriptionDefinitions({
-    String maxResults,
-    String nextToken,
+    String? maxResults,
+    String? nextToken,
   }) async {
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults],
@@ -2324,7 +2347,7 @@ class Greengrass {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -2349,13 +2372,15 @@ class Greengrass {
   /// Parameter [force] :
   /// If true, performs a best-effort only core reset.
   Future<ResetDeploymentsResponse> resetDeployments({
-    @_s.required String groupId,
-    String amznClientToken,
-    bool force,
+    required String groupId,
+    String? amznClientToken,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       if (force != null) 'Force': force,
     };
@@ -2399,15 +2424,17 @@ class Greengrass {
   /// Parameter [tags] :
   /// Tag(s) to add to the new resource.
   Future<StartBulkDeploymentResponse> startBulkDeployment({
-    @_s.required String executionRoleArn,
-    @_s.required String inputFileUri,
-    String amznClientToken,
-    Map<String, String> tags,
+    required String executionRoleArn,
+    required String inputFileUri,
+    String? amznClientToken,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(executionRoleArn, 'executionRoleArn');
     ArgumentError.checkNotNull(inputFileUri, 'inputFileUri');
-    final headers = <String, String>{};
-    amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
+    final headers = <String, String>{
+      if (amznClientToken != null)
+        'X-Amzn-Client-Token': amznClientToken.toString(),
+    };
     final $payload = <String, dynamic>{
       'ExecutionRoleArn': executionRoleArn,
       'InputFileUri': inputFileUri,
@@ -2434,7 +2461,7 @@ class Greengrass {
   /// Parameter [bulkDeploymentId] :
   /// The ID of the bulk deployment.
   Future<void> stopBulkDeployment({
-    @_s.required String bulkDeploymentId,
+    required String bulkDeploymentId,
   }) async {
     ArgumentError.checkNotNull(bulkDeploymentId, 'bulkDeploymentId');
     final response = await _protocol.send(
@@ -2444,7 +2471,6 @@ class Greengrass {
           '/greengrass/bulk/deployments/${Uri.encodeComponent(bulkDeploymentId)}/\$stop',
       exceptionFnMap: _exceptionFns,
     );
-    return StopBulkDeploymentResponse.fromJson(response);
   }
 
   /// Adds tags to a Greengrass resource. Valid resources are 'Group',
@@ -2457,8 +2483,8 @@ class Greengrass {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    Map<String, String> tags,
+    required String resourceArn,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
@@ -2482,13 +2508,13 @@ class Greengrass {
   /// Parameter [tagKeys] :
   /// An array of tag keys to delete
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -2512,8 +2538,8 @@ class Greengrass {
   /// Parameter [connectivityInfo] :
   /// A list of connectivity info.
   Future<UpdateConnectivityInfoResponse> updateConnectivityInfo({
-    @_s.required String thingName,
-    List<ConnectivityInfo> connectivityInfo,
+    required String thingName,
+    List<ConnectivityInfo>? connectivityInfo,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     final $payload = <String, dynamic>{
@@ -2539,8 +2565,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateConnectorDefinition({
-    @_s.required String connectorDefinitionId,
-    String name,
+    required String connectorDefinitionId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(connectorDefinitionId, 'connectorDefinitionId');
     final $payload = <String, dynamic>{
@@ -2553,7 +2579,6 @@ class Greengrass {
           '/greengrass/definition/connectors/${Uri.encodeComponent(connectorDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateConnectorDefinitionResponse.fromJson(response);
   }
 
   /// Updates a core definition.
@@ -2566,8 +2591,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateCoreDefinition({
-    @_s.required String coreDefinitionId,
-    String name,
+    required String coreDefinitionId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(coreDefinitionId, 'coreDefinitionId');
     final $payload = <String, dynamic>{
@@ -2580,7 +2605,6 @@ class Greengrass {
           '/greengrass/definition/cores/${Uri.encodeComponent(coreDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateCoreDefinitionResponse.fromJson(response);
   }
 
   /// Updates a device definition.
@@ -2593,8 +2617,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateDeviceDefinition({
-    @_s.required String deviceDefinitionId,
-    String name,
+    required String deviceDefinitionId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(deviceDefinitionId, 'deviceDefinitionId');
     final $payload = <String, dynamic>{
@@ -2607,7 +2631,6 @@ class Greengrass {
           '/greengrass/definition/devices/${Uri.encodeComponent(deviceDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateDeviceDefinitionResponse.fromJson(response);
   }
 
   /// Updates a Lambda function definition.
@@ -2620,8 +2643,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateFunctionDefinition({
-    @_s.required String functionDefinitionId,
-    String name,
+    required String functionDefinitionId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(functionDefinitionId, 'functionDefinitionId');
     final $payload = <String, dynamic>{
@@ -2634,7 +2657,6 @@ class Greengrass {
           '/greengrass/definition/functions/${Uri.encodeComponent(functionDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateFunctionDefinitionResponse.fromJson(response);
   }
 
   /// Updates a group.
@@ -2647,8 +2669,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateGroup({
-    @_s.required String groupId,
-    String name,
+    required String groupId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final $payload = <String, dynamic>{
@@ -2660,7 +2682,6 @@ class Greengrass {
       requestUri: '/greengrass/groups/${Uri.encodeComponent(groupId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateGroupResponse.fromJson(response);
   }
 
   /// Updates the Certificate expiry time for a group.
@@ -2676,8 +2697,8 @@ class Greengrass {
   /// milliseconds.
   Future<UpdateGroupCertificateConfigurationResponse>
       updateGroupCertificateConfiguration({
-    @_s.required String groupId,
-    String certificateExpiryInMilliseconds,
+    required String groupId,
+    String? certificateExpiryInMilliseconds,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
     final $payload = <String, dynamic>{
@@ -2704,8 +2725,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateLoggerDefinition({
-    @_s.required String loggerDefinitionId,
-    String name,
+    required String loggerDefinitionId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(loggerDefinitionId, 'loggerDefinitionId');
     final $payload = <String, dynamic>{
@@ -2718,7 +2739,6 @@ class Greengrass {
           '/greengrass/definition/loggers/${Uri.encodeComponent(loggerDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateLoggerDefinitionResponse.fromJson(response);
   }
 
   /// Updates a resource definition.
@@ -2731,8 +2751,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateResourceDefinition({
-    @_s.required String resourceDefinitionId,
-    String name,
+    required String resourceDefinitionId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(resourceDefinitionId, 'resourceDefinitionId');
     final $payload = <String, dynamic>{
@@ -2745,7 +2765,6 @@ class Greengrass {
           '/greengrass/definition/resources/${Uri.encodeComponent(resourceDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateResourceDefinitionResponse.fromJson(response);
   }
 
   /// Updates a subscription definition.
@@ -2758,8 +2777,8 @@ class Greengrass {
   /// Parameter [name] :
   /// The name of the definition.
   Future<void> updateSubscriptionDefinition({
-    @_s.required String subscriptionDefinitionId,
-    String name,
+    required String subscriptionDefinitionId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(
         subscriptionDefinitionId, 'subscriptionDefinitionId');
@@ -2773,7 +2792,6 @@ class Greengrass {
           '/greengrass/definition/subscriptions/${Uri.encodeComponent(subscriptionDefinitionId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSubscriptionDefinitionResponse.fromJson(response);
   }
 
   /// Updates the runtime configuration of a thing.
@@ -2787,8 +2805,8 @@ class Greengrass {
   /// Parameter [telemetryConfiguration] :
   /// Configuration for telemetry service.
   Future<void> updateThingRuntimeConfiguration({
-    @_s.required String thingName,
-    TelemetryConfigurationUpdate telemetryConfiguration,
+    required String thingName,
+    TelemetryConfigurationUpdate? telemetryConfiguration,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     final $payload = <String, dynamic>{
@@ -2802,150 +2820,165 @@ class Greengrass {
           '/greengrass/things/${Uri.encodeComponent(thingName)}/runtimeconfig',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateThingRuntimeConfigurationResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateRoleToGroupResponse {
   /// The time, in milliseconds since the epoch, when the role ARN was associated
   /// with the group.
-  @_s.JsonKey(name: 'AssociatedAt')
-  final String associatedAt;
+  final String? associatedAt;
 
   AssociateRoleToGroupResponse({
     this.associatedAt,
   });
-  factory AssociateRoleToGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateRoleToGroupResponseFromJson(json);
+
+  factory AssociateRoleToGroupResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateRoleToGroupResponse(
+      associatedAt: json['AssociatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedAt = this.associatedAt;
+    return {
+      if (associatedAt != null) 'AssociatedAt': associatedAt,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateServiceRoleToAccountResponse {
   /// The time when the service role was associated with the account.
-  @_s.JsonKey(name: 'AssociatedAt')
-  final String associatedAt;
+  final String? associatedAt;
 
   AssociateServiceRoleToAccountResponse({
     this.associatedAt,
   });
+
   factory AssociateServiceRoleToAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateServiceRoleToAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateServiceRoleToAccountResponse(
+      associatedAt: json['AssociatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedAt = this.associatedAt;
+    return {
+      if (associatedAt != null) 'AssociatedAt': associatedAt,
+    };
+  }
 }
 
 /// Information about a bulk deployment. You cannot start a new bulk deployment
 /// while another one is still running or in a non-terminal state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BulkDeployment {
   /// The ARN of the bulk deployment.
-  @_s.JsonKey(name: 'BulkDeploymentArn')
-  final String bulkDeploymentArn;
+  final String? bulkDeploymentArn;
 
   /// The ID of the bulk deployment.
-  @_s.JsonKey(name: 'BulkDeploymentId')
-  final String bulkDeploymentId;
+  final String? bulkDeploymentId;
 
   /// The time, in ISO format, when the deployment was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   BulkDeployment({
     this.bulkDeploymentArn,
     this.bulkDeploymentId,
     this.createdAt,
   });
-  factory BulkDeployment.fromJson(Map<String, dynamic> json) =>
-      _$BulkDeploymentFromJson(json);
+
+  factory BulkDeployment.fromJson(Map<String, dynamic> json) {
+    return BulkDeployment(
+      bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
+      bulkDeploymentId: json['BulkDeploymentId'] as String?,
+      createdAt: json['CreatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulkDeploymentArn = this.bulkDeploymentArn;
+    final bulkDeploymentId = this.bulkDeploymentId;
+    final createdAt = this.createdAt;
+    return {
+      if (bulkDeploymentArn != null) 'BulkDeploymentArn': bulkDeploymentArn,
+      if (bulkDeploymentId != null) 'BulkDeploymentId': bulkDeploymentId,
+      if (createdAt != null) 'CreatedAt': createdAt,
+    };
+  }
 }
 
 /// Relevant metrics on input records processed during bulk deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BulkDeploymentMetrics {
   /// The total number of records that returned a non-retryable error. For
   /// example, this can occur if a group record from the input file uses an
   /// invalid format or specifies a nonexistent group version, or if the execution
   /// role doesn't grant permission to deploy a group or group version.
-  @_s.JsonKey(name: 'InvalidInputRecords')
-  final int invalidInputRecords;
+  final int? invalidInputRecords;
 
   /// The total number of group records from the input file that have been
   /// processed so far, or attempted.
-  @_s.JsonKey(name: 'RecordsProcessed')
-  final int recordsProcessed;
+  final int? recordsProcessed;
 
   /// The total number of deployment attempts that returned a retryable error. For
   /// example, a retry is triggered if the attempt to deploy a group returns a
   /// throttling error. ''StartBulkDeployment'' retries a group deployment up to
   /// five times.
-  @_s.JsonKey(name: 'RetryAttempts')
-  final int retryAttempts;
+  final int? retryAttempts;
 
   BulkDeploymentMetrics({
     this.invalidInputRecords,
     this.recordsProcessed,
     this.retryAttempts,
   });
-  factory BulkDeploymentMetrics.fromJson(Map<String, dynamic> json) =>
-      _$BulkDeploymentMetricsFromJson(json);
+
+  factory BulkDeploymentMetrics.fromJson(Map<String, dynamic> json) {
+    return BulkDeploymentMetrics(
+      invalidInputRecords: json['InvalidInputRecords'] as int?,
+      recordsProcessed: json['RecordsProcessed'] as int?,
+      retryAttempts: json['RetryAttempts'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invalidInputRecords = this.invalidInputRecords;
+    final recordsProcessed = this.recordsProcessed;
+    final retryAttempts = this.retryAttempts;
+    return {
+      if (invalidInputRecords != null)
+        'InvalidInputRecords': invalidInputRecords,
+      if (recordsProcessed != null) 'RecordsProcessed': recordsProcessed,
+      if (retryAttempts != null) 'RetryAttempts': retryAttempts,
+    };
+  }
 }
 
 /// Information about an individual group deployment in a bulk deployment
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BulkDeploymentResult {
   /// The time, in ISO format, when the deployment was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The ARN of the group deployment.
-  @_s.JsonKey(name: 'DeploymentArn')
-  final String deploymentArn;
+  final String? deploymentArn;
 
   /// The ID of the group deployment.
-  @_s.JsonKey(name: 'DeploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The current status of the group deployment: ''InProgress'', ''Building'',
   /// ''Success'', or ''Failure''.
-  @_s.JsonKey(name: 'DeploymentStatus')
-  final String deploymentStatus;
+  final String? deploymentStatus;
 
   /// The type of the deployment.
-  @_s.JsonKey(name: 'DeploymentType')
-  final DeploymentType deploymentType;
+  final DeploymentType? deploymentType;
 
   /// Details about the error.
-  @_s.JsonKey(name: 'ErrorDetails')
-  final List<ErrorDetail> errorDetails;
+  final List<ErrorDetail>? errorDetails;
 
   /// The error message for a failed deployment
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The ARN of the Greengrass group.
-  @_s.JsonKey(name: 'GroupArn')
-  final String groupArn;
+  final String? groupArn;
 
   BulkDeploymentResult({
     this.createdAt,
@@ -2957,55 +2990,135 @@ class BulkDeploymentResult {
     this.errorMessage,
     this.groupArn,
   });
-  factory BulkDeploymentResult.fromJson(Map<String, dynamic> json) =>
-      _$BulkDeploymentResultFromJson(json);
+
+  factory BulkDeploymentResult.fromJson(Map<String, dynamic> json) {
+    return BulkDeploymentResult(
+      createdAt: json['CreatedAt'] as String?,
+      deploymentArn: json['DeploymentArn'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+      deploymentStatus: json['DeploymentStatus'] as String?,
+      deploymentType: (json['DeploymentType'] as String?)?.toDeploymentType(),
+      errorDetails: (json['ErrorDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errorMessage: json['ErrorMessage'] as String?,
+      groupArn: json['GroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final deploymentArn = this.deploymentArn;
+    final deploymentId = this.deploymentId;
+    final deploymentStatus = this.deploymentStatus;
+    final deploymentType = this.deploymentType;
+    final errorDetails = this.errorDetails;
+    final errorMessage = this.errorMessage;
+    final groupArn = this.groupArn;
+    return {
+      if (createdAt != null) 'CreatedAt': createdAt,
+      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
+      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (groupArn != null) 'GroupArn': groupArn,
+    };
+  }
 }
 
 /// The current status of the bulk deployment.
 enum BulkDeploymentStatus {
-  @_s.JsonValue('Initializing')
   initializing,
-  @_s.JsonValue('Running')
   running,
-  @_s.JsonValue('Completed')
   completed,
-  @_s.JsonValue('Stopping')
   stopping,
-  @_s.JsonValue('Stopped')
   stopped,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on BulkDeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case BulkDeploymentStatus.initializing:
+        return 'Initializing';
+      case BulkDeploymentStatus.running:
+        return 'Running';
+      case BulkDeploymentStatus.completed:
+        return 'Completed';
+      case BulkDeploymentStatus.stopping:
+        return 'Stopping';
+      case BulkDeploymentStatus.stopped:
+        return 'Stopped';
+      case BulkDeploymentStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  BulkDeploymentStatus toBulkDeploymentStatus() {
+    switch (this) {
+      case 'Initializing':
+        return BulkDeploymentStatus.initializing;
+      case 'Running':
+        return BulkDeploymentStatus.running;
+      case 'Completed':
+        return BulkDeploymentStatus.completed;
+      case 'Stopping':
+        return BulkDeploymentStatus.stopping;
+      case 'Stopped':
+        return BulkDeploymentStatus.stopped;
+      case 'Failed':
+        return BulkDeploymentStatus.failed;
+    }
+    throw Exception('$this is not known in enum BulkDeploymentStatus');
+  }
+}
+
 enum ConfigurationSyncStatus {
-  @_s.JsonValue('InSync')
   inSync,
-  @_s.JsonValue('OutOfSync')
   outOfSync,
 }
 
+extension on ConfigurationSyncStatus {
+  String toValue() {
+    switch (this) {
+      case ConfigurationSyncStatus.inSync:
+        return 'InSync';
+      case ConfigurationSyncStatus.outOfSync:
+        return 'OutOfSync';
+    }
+  }
+}
+
+extension on String {
+  ConfigurationSyncStatus toConfigurationSyncStatus() {
+    switch (this) {
+      case 'InSync':
+        return ConfigurationSyncStatus.inSync;
+      case 'OutOfSync':
+        return ConfigurationSyncStatus.outOfSync;
+    }
+    throw Exception('$this is not known in enum ConfigurationSyncStatus');
+  }
+}
+
 /// Information about a Greengrass core's connectivity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConnectivityInfo {
   /// The endpoint for the Greengrass core. Can be an IP address or DNS.
-  @_s.JsonKey(name: 'HostAddress')
-  final String hostAddress;
+  final String? hostAddress;
 
   /// The ID of the connectivity information.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// Metadata for this endpoint.
-  @_s.JsonKey(name: 'Metadata')
-  final String metadata;
+  final String? metadata;
 
   /// The port of the Greengrass core. Usually 8883.
-  @_s.JsonKey(name: 'PortNumber')
-  final int portNumber;
+  final int? portNumber;
 
   ConnectivityInfo({
     this.hostAddress,
@@ -3013,158 +3126,194 @@ class ConnectivityInfo {
     this.metadata,
     this.portNumber,
   });
-  factory ConnectivityInfo.fromJson(Map<String, dynamic> json) =>
-      _$ConnectivityInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConnectivityInfoToJson(this);
+  factory ConnectivityInfo.fromJson(Map<String, dynamic> json) {
+    return ConnectivityInfo(
+      hostAddress: json['HostAddress'] as String?,
+      id: json['Id'] as String?,
+      metadata: json['Metadata'] as String?,
+      portNumber: json['PortNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostAddress = this.hostAddress;
+    final id = this.id;
+    final metadata = this.metadata;
+    final portNumber = this.portNumber;
+    return {
+      if (hostAddress != null) 'HostAddress': hostAddress,
+      if (id != null) 'Id': id,
+      if (metadata != null) 'Metadata': metadata,
+      if (portNumber != null) 'PortNumber': portNumber,
+    };
+  }
 }
 
 /// Information about a connector. Connectors run on the Greengrass core and
 /// contain built-in integration with local infrastructure, device protocols,
 /// AWS, and other cloud services.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Connector {
   /// The ARN of the connector.
-  @_s.JsonKey(name: 'ConnectorArn')
   final String connectorArn;
 
   /// A descriptive or arbitrary ID for the connector. This value must be unique
   /// within the connector definition version. Max length is 128 characters with
   /// pattern [a-zA-Z0-9:_-]+.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The parameters or configuration that the connector uses.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   Connector({
-    @_s.required this.connectorArn,
-    @_s.required this.id,
+    required this.connectorArn,
+    required this.id,
     this.parameters,
   });
-  factory Connector.fromJson(Map<String, dynamic> json) =>
-      _$ConnectorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConnectorToJson(this);
+  factory Connector.fromJson(Map<String, dynamic> json) {
+    return Connector(
+      connectorArn: json['ConnectorArn'] as String,
+      id: json['Id'] as String,
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorArn = this.connectorArn;
+    final id = this.id;
+    final parameters = this.parameters;
+    return {
+      'ConnectorArn': connectorArn,
+      'Id': id,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
 /// Information about the connector definition version, which is a container for
 /// connectors.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConnectorDefinitionVersion {
   /// A list of references to connectors in this version, with their corresponding
   /// configuration settings.
-  @_s.JsonKey(name: 'Connectors')
-  final List<Connector> connectors;
+  final List<Connector>? connectors;
 
   ConnectorDefinitionVersion({
     this.connectors,
   });
-  factory ConnectorDefinitionVersion.fromJson(Map<String, dynamic> json) =>
-      _$ConnectorDefinitionVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConnectorDefinitionVersionToJson(this);
+  factory ConnectorDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return ConnectorDefinitionVersion(
+      connectors: (json['Connectors'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connector.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectors = this.connectors;
+    return {
+      if (connectors != null) 'Connectors': connectors,
+    };
+  }
 }
 
 /// Information about a core.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Core {
   /// The ARN of the certificate associated with the core.
-  @_s.JsonKey(name: 'CertificateArn')
   final String certificateArn;
 
   /// A descriptive or arbitrary ID for the core. This value must be unique within
   /// the core definition version. Max length is 128 characters with pattern
   /// ''[a-zA-Z0-9:_-]+''.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The ARN of the thing which is the core.
-  @_s.JsonKey(name: 'ThingArn')
   final String thingArn;
 
   /// If true, the core's local shadow is automatically synced with the cloud.
-  @_s.JsonKey(name: 'SyncShadow')
-  final bool syncShadow;
+  final bool? syncShadow;
 
   Core({
-    @_s.required this.certificateArn,
-    @_s.required this.id,
-    @_s.required this.thingArn,
+    required this.certificateArn,
+    required this.id,
+    required this.thingArn,
     this.syncShadow,
   });
-  factory Core.fromJson(Map<String, dynamic> json) => _$CoreFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CoreToJson(this);
+  factory Core.fromJson(Map<String, dynamic> json) {
+    return Core(
+      certificateArn: json['CertificateArn'] as String,
+      id: json['Id'] as String,
+      thingArn: json['ThingArn'] as String,
+      syncShadow: json['SyncShadow'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final id = this.id;
+    final thingArn = this.thingArn;
+    final syncShadow = this.syncShadow;
+    return {
+      'CertificateArn': certificateArn,
+      'Id': id,
+      'ThingArn': thingArn,
+      if (syncShadow != null) 'SyncShadow': syncShadow,
+    };
+  }
 }
 
 /// Information about a core definition version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CoreDefinitionVersion {
   /// A list of cores in the core definition version.
-  @_s.JsonKey(name: 'Cores')
-  final List<Core> cores;
+  final List<Core>? cores;
 
   CoreDefinitionVersion({
     this.cores,
   });
-  factory CoreDefinitionVersion.fromJson(Map<String, dynamic> json) =>
-      _$CoreDefinitionVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CoreDefinitionVersionToJson(this);
+  factory CoreDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return CoreDefinitionVersion(
+      cores: (json['Cores'] as List?)
+          ?.whereNotNull()
+          .map((e) => Core.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cores = this.cores;
+    return {
+      if (cores != null) 'Cores': cores,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConnectorDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateConnectorDefinitionResponse({
     this.arn,
@@ -3175,32 +3324,53 @@ class CreateConnectorDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateConnectorDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateConnectorDefinitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateConnectorDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConnectorDefinitionVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateConnectorDefinitionVersionResponse({
     this.arn,
@@ -3208,45 +3378,53 @@ class CreateConnectorDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateConnectorDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateConnectorDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateConnectorDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCoreDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateCoreDefinitionResponse({
     this.arn,
@@ -3257,31 +3435,52 @@ class CreateCoreDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
-  factory CreateCoreDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCoreDefinitionResponseFromJson(json);
+
+  factory CreateCoreDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCoreDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCoreDefinitionVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateCoreDefinitionVersionResponse({
     this.arn,
@@ -3289,67 +3488,82 @@ class CreateCoreDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateCoreDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCoreDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCoreDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeploymentResponse {
   /// The ARN of the deployment.
-  @_s.JsonKey(name: 'DeploymentArn')
-  final String deploymentArn;
+  final String? deploymentArn;
 
   /// The ID of the deployment.
-  @_s.JsonKey(name: 'DeploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   CreateDeploymentResponse({
     this.deploymentArn,
     this.deploymentId,
   });
-  factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeploymentResponseFromJson(json);
+
+  factory CreateDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentResponse(
+      deploymentArn: json['DeploymentArn'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentArn = this.deploymentArn;
+    final deploymentId = this.deploymentId;
+    return {
+      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeviceDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateDeviceDefinitionResponse({
     this.arn,
@@ -3360,31 +3574,52 @@ class CreateDeviceDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
-  factory CreateDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeviceDefinitionResponseFromJson(json);
+
+  factory CreateDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDeviceDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeviceDefinitionVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateDeviceDefinitionVersionResponse({
     this.arn,
@@ -3392,45 +3627,53 @@ class CreateDeviceDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateDeviceDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDeviceDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateDeviceDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFunctionDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateFunctionDefinitionResponse({
     this.arn,
@@ -3441,32 +3684,52 @@ class CreateFunctionDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
-  factory CreateFunctionDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateFunctionDefinitionResponseFromJson(json);
+
+  factory CreateFunctionDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFunctionDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFunctionDefinitionVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateFunctionDefinitionVersionResponse({
     this.arn,
@@ -3474,63 +3737,78 @@ class CreateFunctionDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateFunctionDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateFunctionDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateFunctionDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGroupCertificateAuthorityResponse {
   /// The ARN of the group certificate authority.
-  @_s.JsonKey(name: 'GroupCertificateAuthorityArn')
-  final String groupCertificateAuthorityArn;
+  final String? groupCertificateAuthorityArn;
 
   CreateGroupCertificateAuthorityResponse({
     this.groupCertificateAuthorityArn,
   });
+
   factory CreateGroupCertificateAuthorityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateGroupCertificateAuthorityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateGroupCertificateAuthorityResponse(
+      groupCertificateAuthorityArn:
+          json['GroupCertificateAuthorityArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupCertificateAuthorityArn = this.groupCertificateAuthorityArn;
+    return {
+      if (groupCertificateAuthorityArn != null)
+        'GroupCertificateAuthorityArn': groupCertificateAuthorityArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGroupResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateGroupResponse({
     this.arn,
@@ -3541,31 +3819,52 @@ class CreateGroupResponse {
     this.latestVersionArn,
     this.name,
   });
-  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGroupResponseFromJson(json);
+
+  factory CreateGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGroupResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGroupVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateGroupVersionResponse({
     this.arn,
@@ -3573,44 +3872,52 @@ class CreateGroupVersionResponse {
     this.id,
     this.version,
   });
-  factory CreateGroupVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGroupVersionResponseFromJson(json);
+
+  factory CreateGroupVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGroupVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLoggerDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateLoggerDefinitionResponse({
     this.arn,
@@ -3621,31 +3928,52 @@ class CreateLoggerDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
-  factory CreateLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLoggerDefinitionResponseFromJson(json);
+
+  factory CreateLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLoggerDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLoggerDefinitionVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateLoggerDefinitionVersionResponse({
     this.arn,
@@ -3653,45 +3981,53 @@ class CreateLoggerDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateLoggerDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateLoggerDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateLoggerDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResourceDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateResourceDefinitionResponse({
     this.arn,
@@ -3702,32 +4038,52 @@ class CreateResourceDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
-  factory CreateResourceDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateResourceDefinitionResponseFromJson(json);
+
+  factory CreateResourceDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateResourceDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateResourceDefinitionVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateResourceDefinitionVersionResponse({
     this.arn,
@@ -3735,72 +4091,90 @@ class CreateResourceDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateResourceDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateResourceDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateResourceDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSoftwareUpdateJobResponse {
   /// The IoT Job ARN corresponding to this update.
-  @_s.JsonKey(name: 'IotJobArn')
-  final String iotJobArn;
+  final String? iotJobArn;
 
   /// The IoT Job Id corresponding to this update.
-  @_s.JsonKey(name: 'IotJobId')
-  final String iotJobId;
+  final String? iotJobId;
 
   /// The software version installed on the device or devices after the update.
-  @_s.JsonKey(name: 'PlatformSoftwareVersion')
-  final String platformSoftwareVersion;
+  final String? platformSoftwareVersion;
 
   CreateSoftwareUpdateJobResponse({
     this.iotJobArn,
     this.iotJobId,
     this.platformSoftwareVersion,
   });
-  factory CreateSoftwareUpdateJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSoftwareUpdateJobResponseFromJson(json);
+
+  factory CreateSoftwareUpdateJobResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSoftwareUpdateJobResponse(
+      iotJobArn: json['IotJobArn'] as String?,
+      iotJobId: json['IotJobId'] as String?,
+      platformSoftwareVersion: json['PlatformSoftwareVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iotJobArn = this.iotJobArn;
+    final iotJobId = this.iotJobId;
+    final platformSoftwareVersion = this.platformSoftwareVersion;
+    return {
+      if (iotJobArn != null) 'IotJobArn': iotJobArn,
+      if (iotJobId != null) 'IotJobId': iotJobId,
+      if (platformSoftwareVersion != null)
+        'PlatformSoftwareVersion': platformSoftwareVersion,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSubscriptionDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CreateSubscriptionDefinitionResponse({
     this.arn,
@@ -3811,32 +4185,53 @@ class CreateSubscriptionDefinitionResponse {
     this.latestVersionArn,
     this.name,
   });
+
   factory CreateSubscriptionDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSubscriptionDefinitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSubscriptionDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSubscriptionDefinitionVersionResponse {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   CreateSubscriptionDefinitionVersionResponse({
     this.arn,
@@ -3844,50 +4239,57 @@ class CreateSubscriptionDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory CreateSubscriptionDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateSubscriptionDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateSubscriptionDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Information about a definition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DefinitionInformation {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DefinitionInformation({
     this.arn,
@@ -3899,128 +4301,157 @@ class DefinitionInformation {
     this.name,
     this.tags,
   });
-  factory DefinitionInformation.fromJson(Map<String, dynamic> json) =>
-      _$DefinitionInformationFromJson(json);
+
+  factory DefinitionInformation.fromJson(Map<String, dynamic> json) {
+    return DefinitionInformation(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConnectorDefinitionResponse {
   DeleteConnectorDefinitionResponse();
-  factory DeleteConnectorDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteConnectorDefinitionResponseFromJson(json);
+
+  factory DeleteConnectorDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConnectorDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteCoreDefinitionResponse {
   DeleteCoreDefinitionResponse();
-  factory DeleteCoreDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteCoreDefinitionResponseFromJson(json);
+
+  factory DeleteCoreDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteCoreDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDeviceDefinitionResponse {
   DeleteDeviceDefinitionResponse();
-  factory DeleteDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDeviceDefinitionResponseFromJson(json);
+
+  factory DeleteDeviceDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDeviceDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFunctionDefinitionResponse {
   DeleteFunctionDefinitionResponse();
-  factory DeleteFunctionDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteFunctionDefinitionResponseFromJson(json);
+
+  factory DeleteFunctionDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFunctionDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGroupResponse {
   DeleteGroupResponse();
-  factory DeleteGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGroupResponseFromJson(json);
+
+  factory DeleteGroupResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLoggerDefinitionResponse {
   DeleteLoggerDefinitionResponse();
-  factory DeleteLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLoggerDefinitionResponseFromJson(json);
+
+  factory DeleteLoggerDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteLoggerDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteResourceDefinitionResponse {
   DeleteResourceDefinitionResponse();
-  factory DeleteResourceDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteResourceDefinitionResponseFromJson(json);
+
+  factory DeleteResourceDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteResourceDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSubscriptionDefinitionResponse {
   DeleteSubscriptionDefinitionResponse();
+
   factory DeleteSubscriptionDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteSubscriptionDefinitionResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DeleteSubscriptionDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about a deployment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Deployment {
   /// The time, in milliseconds since the epoch, when the deployment was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// The ARN of the deployment.
-  @_s.JsonKey(name: 'DeploymentArn')
-  final String deploymentArn;
+  final String? deploymentArn;
 
   /// The ID of the deployment.
-  @_s.JsonKey(name: 'DeploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   /// The type of the deployment.
-  @_s.JsonKey(name: 'DeploymentType')
-  final DeploymentType deploymentType;
+  final DeploymentType? deploymentType;
 
   /// The ARN of the group for this deployment.
-  @_s.JsonKey(name: 'GroupArn')
-  final String groupArn;
+  final String? groupArn;
 
   Deployment({
     this.createdAt,
@@ -4029,20 +4460,39 @@ class Deployment {
     this.deploymentType,
     this.groupArn,
   });
-  factory Deployment.fromJson(Map<String, dynamic> json) =>
-      _$DeploymentFromJson(json);
+
+  factory Deployment.fromJson(Map<String, dynamic> json) {
+    return Deployment(
+      createdAt: json['CreatedAt'] as String?,
+      deploymentArn: json['DeploymentArn'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+      deploymentType: (json['DeploymentType'] as String?)?.toDeploymentType(),
+      groupArn: json['GroupArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final deploymentArn = this.deploymentArn;
+    final deploymentId = this.deploymentId;
+    final deploymentType = this.deploymentType;
+    final groupArn = this.groupArn;
+    return {
+      if (createdAt != null) 'CreatedAt': createdAt,
+      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (groupArn != null) 'GroupArn': groupArn,
+    };
+  }
 }
 
 /// The type of deployment. When used for ''CreateDeployment'', only
 /// ''NewDeployment'' and ''Redeployment'' are valid.
 enum DeploymentType {
-  @_s.JsonValue('NewDeployment')
   newDeployment,
-  @_s.JsonValue('Redeployment')
   redeployment,
-  @_s.JsonValue('ResetDeployment')
   resetDeployment,
-  @_s.JsonValue('ForceResetDeployment')
   forceResetDeployment,
 }
 
@@ -4058,206 +4508,275 @@ extension on DeploymentType {
       case DeploymentType.forceResetDeployment:
         return 'ForceResetDeployment';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DeploymentType toDeploymentType() {
+    switch (this) {
+      case 'NewDeployment':
+        return DeploymentType.newDeployment;
+      case 'Redeployment':
+        return DeploymentType.redeployment;
+      case 'ResetDeployment':
+        return DeploymentType.resetDeployment;
+      case 'ForceResetDeployment':
+        return DeploymentType.forceResetDeployment;
+    }
+    throw Exception('$this is not known in enum DeploymentType');
   }
 }
 
 /// Information about a device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Device {
   /// The ARN of the certificate associated with the device.
-  @_s.JsonKey(name: 'CertificateArn')
   final String certificateArn;
 
   /// A descriptive or arbitrary ID for the device. This value must be unique
   /// within the device definition version. Max length is 128 characters with
   /// pattern ''[a-zA-Z0-9:_-]+''.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The thing ARN of the device.
-  @_s.JsonKey(name: 'ThingArn')
   final String thingArn;
 
   /// If true, the device's local shadow will be automatically synced with the
   /// cloud.
-  @_s.JsonKey(name: 'SyncShadow')
-  final bool syncShadow;
+  final bool? syncShadow;
 
   Device({
-    @_s.required this.certificateArn,
-    @_s.required this.id,
-    @_s.required this.thingArn,
+    required this.certificateArn,
+    required this.id,
+    required this.thingArn,
     this.syncShadow,
   });
-  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceToJson(this);
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      certificateArn: json['CertificateArn'] as String,
+      id: json['Id'] as String,
+      thingArn: json['ThingArn'] as String,
+      syncShadow: json['SyncShadow'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    final id = this.id;
+    final thingArn = this.thingArn;
+    final syncShadow = this.syncShadow;
+    return {
+      'CertificateArn': certificateArn,
+      'Id': id,
+      'ThingArn': thingArn,
+      if (syncShadow != null) 'SyncShadow': syncShadow,
+    };
+  }
 }
 
 /// Information about a device definition version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceDefinitionVersion {
   /// A list of devices in the definition version.
-  @_s.JsonKey(name: 'Devices')
-  final List<Device> devices;
+  final List<Device>? devices;
 
   DeviceDefinitionVersion({
     this.devices,
   });
-  factory DeviceDefinitionVersion.fromJson(Map<String, dynamic> json) =>
-      _$DeviceDefinitionVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceDefinitionVersionToJson(this);
+  factory DeviceDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return DeviceDefinitionVersion(
+      devices: (json['Devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Device.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    return {
+      if (devices != null) 'Devices': devices,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateRoleFromGroupResponse {
   /// The time, in milliseconds since the epoch, when the role was disassociated
   /// from the group.
-  @_s.JsonKey(name: 'DisassociatedAt')
-  final String disassociatedAt;
+  final String? disassociatedAt;
 
   DisassociateRoleFromGroupResponse({
     this.disassociatedAt,
   });
+
   factory DisassociateRoleFromGroupResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateRoleFromGroupResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateRoleFromGroupResponse(
+      disassociatedAt: json['DisassociatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disassociatedAt = this.disassociatedAt;
+    return {
+      if (disassociatedAt != null) 'DisassociatedAt': disassociatedAt,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateServiceRoleFromAccountResponse {
   /// The time when the service role was disassociated from the account.
-  @_s.JsonKey(name: 'DisassociatedAt')
-  final String disassociatedAt;
+  final String? disassociatedAt;
 
   DisassociateServiceRoleFromAccountResponse({
     this.disassociatedAt,
   });
+
   factory DisassociateServiceRoleFromAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateServiceRoleFromAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateServiceRoleFromAccountResponse(
+      disassociatedAt: json['DisassociatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final disassociatedAt = this.disassociatedAt;
+    return {
+      if (disassociatedAt != null) 'DisassociatedAt': disassociatedAt,
+    };
+  }
 }
 
 enum EncodingType {
-  @_s.JsonValue('binary')
   binary,
-  @_s.JsonValue('json')
   json,
 }
 
+extension on EncodingType {
+  String toValue() {
+    switch (this) {
+      case EncodingType.binary:
+        return 'binary';
+      case EncodingType.json:
+        return 'json';
+    }
+  }
+}
+
+extension on String {
+  EncodingType toEncodingType() {
+    switch (this) {
+      case 'binary':
+        return EncodingType.binary;
+      case 'json':
+        return EncodingType.json;
+    }
+    throw Exception('$this is not known in enum EncodingType');
+  }
+}
+
 /// Details about the error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ErrorDetail {
   /// A detailed error code.
-  @_s.JsonKey(name: 'DetailedErrorCode')
-  final String detailedErrorCode;
+  final String? detailedErrorCode;
 
   /// A detailed error message.
-  @_s.JsonKey(name: 'DetailedErrorMessage')
-  final String detailedErrorMessage;
+  final String? detailedErrorMessage;
 
   ErrorDetail({
     this.detailedErrorCode,
     this.detailedErrorMessage,
   });
-  factory ErrorDetail.fromJson(Map<String, dynamic> json) =>
-      _$ErrorDetailFromJson(json);
+
+  factory ErrorDetail.fromJson(Map<String, dynamic> json) {
+    return ErrorDetail(
+      detailedErrorCode: json['DetailedErrorCode'] as String?,
+      detailedErrorMessage: json['DetailedErrorMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detailedErrorCode = this.detailedErrorCode;
+    final detailedErrorMessage = this.detailedErrorMessage;
+    return {
+      if (detailedErrorCode != null) 'DetailedErrorCode': detailedErrorCode,
+      if (detailedErrorMessage != null)
+        'DetailedErrorMessage': detailedErrorMessage,
+    };
+  }
 }
 
 /// Information about a Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class $Function {
   /// A descriptive or arbitrary ID for the function. This value must be unique
   /// within the function definition version. Max length is 128 characters with
   /// pattern ''[a-zA-Z0-9:_-]+''.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The ARN of the Lambda function.
-  @_s.JsonKey(name: 'FunctionArn')
-  final String functionArn;
+  final String? functionArn;
 
   /// The configuration of the Lambda function.
-  @_s.JsonKey(name: 'FunctionConfiguration')
-  final FunctionConfiguration functionConfiguration;
+  final FunctionConfiguration? functionConfiguration;
 
   $Function({
-    @_s.required this.id,
+    required this.id,
     this.functionArn,
     this.functionConfiguration,
   });
-  factory $Function.fromJson(Map<String, dynamic> json) =>
-      _$$FunctionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$$FunctionToJson(this);
+  factory $Function.fromJson(Map<String, dynamic> json) {
+    return $Function(
+      id: json['Id'] as String,
+      functionArn: json['FunctionArn'] as String?,
+      functionConfiguration: json['FunctionConfiguration'] != null
+          ? FunctionConfiguration.fromJson(
+              json['FunctionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final functionArn = this.functionArn;
+    final functionConfiguration = this.functionConfiguration;
+    return {
+      'Id': id,
+      if (functionArn != null) 'FunctionArn': functionArn,
+      if (functionConfiguration != null)
+        'FunctionConfiguration': functionConfiguration,
+    };
+  }
 }
 
 /// The configuration of the Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FunctionConfiguration {
   /// The expected encoding type of the input payload for the function. The
   /// default is ''json''.
-  @_s.JsonKey(name: 'EncodingType')
-  final EncodingType encodingType;
+  final EncodingType? encodingType;
 
   /// The environment configuration of the function.
-  @_s.JsonKey(name: 'Environment')
-  final FunctionConfigurationEnvironment environment;
+  final FunctionConfigurationEnvironment? environment;
 
   /// The execution arguments.
-  @_s.JsonKey(name: 'ExecArgs')
-  final String execArgs;
+  final String? execArgs;
 
   /// The name of the function executable.
-  @_s.JsonKey(name: 'Executable')
-  final String executable;
+  final String? executable;
 
   /// The memory size, in KB, which the function requires. This setting is not
   /// applicable and should be cleared when you run the Lambda function without
   /// containerization.
-  @_s.JsonKey(name: 'MemorySize')
-  final int memorySize;
+  final int? memorySize;
 
   /// True if the function is pinned. Pinned means the function is long-lived and
   /// starts when the core starts.
-  @_s.JsonKey(name: 'Pinned')
-  final bool pinned;
+  final bool? pinned;
 
   /// The allowed function execution time, after which Lambda should terminate the
   /// function. This timeout still applies to pinned Lambda functions for each
   /// request.
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   FunctionConfiguration({
     this.encodingType,
@@ -4268,40 +4787,61 @@ class FunctionConfiguration {
     this.pinned,
     this.timeout,
   });
-  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FunctionConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FunctionConfigurationToJson(this);
+  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
+    return FunctionConfiguration(
+      encodingType: (json['EncodingType'] as String?)?.toEncodingType(),
+      environment: json['Environment'] != null
+          ? FunctionConfigurationEnvironment.fromJson(
+              json['Environment'] as Map<String, dynamic>)
+          : null,
+      execArgs: json['ExecArgs'] as String?,
+      executable: json['Executable'] as String?,
+      memorySize: json['MemorySize'] as int?,
+      pinned: json['Pinned'] as bool?,
+      timeout: json['Timeout'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encodingType = this.encodingType;
+    final environment = this.environment;
+    final execArgs = this.execArgs;
+    final executable = this.executable;
+    final memorySize = this.memorySize;
+    final pinned = this.pinned;
+    final timeout = this.timeout;
+    return {
+      if (encodingType != null) 'EncodingType': encodingType.toValue(),
+      if (environment != null) 'Environment': environment,
+      if (execArgs != null) 'ExecArgs': execArgs,
+      if (executable != null) 'Executable': executable,
+      if (memorySize != null) 'MemorySize': memorySize,
+      if (pinned != null) 'Pinned': pinned,
+      if (timeout != null) 'Timeout': timeout,
+    };
+  }
 }
 
 /// The environment configuration of the function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FunctionConfigurationEnvironment {
   /// If true, the Lambda function is allowed to access the host's /sys folder.
   /// Use this when the Lambda function needs to read device information from
   /// /sys. This setting applies only when you run the Lambda function in a
   /// Greengrass container.
-  @_s.JsonKey(name: 'AccessSysfs')
-  final bool accessSysfs;
+  final bool? accessSysfs;
 
   /// Configuration related to executing the Lambda function
-  @_s.JsonKey(name: 'Execution')
-  final FunctionExecutionConfig execution;
+  final FunctionExecutionConfig? execution;
 
   /// A list of the resources, with their permissions, to which the Lambda
   /// function will be granted access. A Lambda function can have at most 10
   /// resources. ResourceAccessPolicies apply only when you run the Lambda
   /// function in a Greengrass container.
-  @_s.JsonKey(name: 'ResourceAccessPolicies')
-  final List<ResourceAccessPolicy> resourceAccessPolicies;
+  final List<ResourceAccessPolicy>? resourceAccessPolicies;
 
   /// Environment variables for the Lambda function's configuration.
-  @_s.JsonKey(name: 'Variables')
-  final Map<String, String> variables;
+  final Map<String, String>? variables;
 
   FunctionConfigurationEnvironment({
     this.accessSysfs,
@@ -4309,103 +4849,160 @@ class FunctionConfigurationEnvironment {
     this.resourceAccessPolicies,
     this.variables,
   });
-  factory FunctionConfigurationEnvironment.fromJson(
-          Map<String, dynamic> json) =>
-      _$FunctionConfigurationEnvironmentFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$FunctionConfigurationEnvironmentToJson(this);
+  factory FunctionConfigurationEnvironment.fromJson(Map<String, dynamic> json) {
+    return FunctionConfigurationEnvironment(
+      accessSysfs: json['AccessSysfs'] as bool?,
+      execution: json['Execution'] != null
+          ? FunctionExecutionConfig.fromJson(
+              json['Execution'] as Map<String, dynamic>)
+          : null,
+      resourceAccessPolicies: (json['ResourceAccessPolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceAccessPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      variables: (json['Variables'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessSysfs = this.accessSysfs;
+    final execution = this.execution;
+    final resourceAccessPolicies = this.resourceAccessPolicies;
+    final variables = this.variables;
+    return {
+      if (accessSysfs != null) 'AccessSysfs': accessSysfs,
+      if (execution != null) 'Execution': execution,
+      if (resourceAccessPolicies != null)
+        'ResourceAccessPolicies': resourceAccessPolicies,
+      if (variables != null) 'Variables': variables,
+    };
+  }
 }
 
 /// The default configuration that applies to all Lambda functions in the group.
 /// Individual Lambda functions can override these settings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FunctionDefaultConfig {
-  @_s.JsonKey(name: 'Execution')
-  final FunctionDefaultExecutionConfig execution;
+  final FunctionDefaultExecutionConfig? execution;
 
   FunctionDefaultConfig({
     this.execution,
   });
-  factory FunctionDefaultConfig.fromJson(Map<String, dynamic> json) =>
-      _$FunctionDefaultConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FunctionDefaultConfigToJson(this);
+  factory FunctionDefaultConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionDefaultConfig(
+      execution: json['Execution'] != null
+          ? FunctionDefaultExecutionConfig.fromJson(
+              json['Execution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final execution = this.execution;
+    return {
+      if (execution != null) 'Execution': execution,
+    };
+  }
 }
 
 /// Configuration information that specifies how a Lambda function runs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FunctionDefaultExecutionConfig {
-  @_s.JsonKey(name: 'IsolationMode')
-  final FunctionIsolationMode isolationMode;
-  @_s.JsonKey(name: 'RunAs')
-  final FunctionRunAsConfig runAs;
+  final FunctionIsolationMode? isolationMode;
+  final FunctionRunAsConfig? runAs;
 
   FunctionDefaultExecutionConfig({
     this.isolationMode,
     this.runAs,
   });
-  factory FunctionDefaultExecutionConfig.fromJson(Map<String, dynamic> json) =>
-      _$FunctionDefaultExecutionConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FunctionDefaultExecutionConfigToJson(this);
+  factory FunctionDefaultExecutionConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionDefaultExecutionConfig(
+      isolationMode:
+          (json['IsolationMode'] as String?)?.toFunctionIsolationMode(),
+      runAs: json['RunAs'] != null
+          ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isolationMode = this.isolationMode;
+    final runAs = this.runAs;
+    return {
+      if (isolationMode != null) 'IsolationMode': isolationMode.toValue(),
+      if (runAs != null) 'RunAs': runAs,
+    };
+  }
 }
 
 /// Information about a function definition version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FunctionDefinitionVersion {
   /// The default configuration that applies to all Lambda functions in this
   /// function definition version. Individual Lambda functions can override these
   /// settings.
-  @_s.JsonKey(name: 'DefaultConfig')
-  final FunctionDefaultConfig defaultConfig;
+  final FunctionDefaultConfig? defaultConfig;
 
   /// A list of Lambda functions in this function definition version.
-  @_s.JsonKey(name: 'Functions')
-  final List<$Function> functions;
+  final List<$Function>? functions;
 
   FunctionDefinitionVersion({
     this.defaultConfig,
     this.functions,
   });
-  factory FunctionDefinitionVersion.fromJson(Map<String, dynamic> json) =>
-      _$FunctionDefinitionVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FunctionDefinitionVersionToJson(this);
+  factory FunctionDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return FunctionDefinitionVersion(
+      defaultConfig: json['DefaultConfig'] != null
+          ? FunctionDefaultConfig.fromJson(
+              json['DefaultConfig'] as Map<String, dynamic>)
+          : null,
+      functions: (json['Functions'] as List?)
+          ?.whereNotNull()
+          .map((e) => $Function.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultConfig = this.defaultConfig;
+    final functions = this.functions;
+    return {
+      if (defaultConfig != null) 'DefaultConfig': defaultConfig,
+      if (functions != null) 'Functions': functions,
+    };
+  }
 }
 
 /// Configuration information that specifies how a Lambda function runs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FunctionExecutionConfig {
-  @_s.JsonKey(name: 'IsolationMode')
-  final FunctionIsolationMode isolationMode;
-  @_s.JsonKey(name: 'RunAs')
-  final FunctionRunAsConfig runAs;
+  final FunctionIsolationMode? isolationMode;
+  final FunctionRunAsConfig? runAs;
 
   FunctionExecutionConfig({
     this.isolationMode,
     this.runAs,
   });
-  factory FunctionExecutionConfig.fromJson(Map<String, dynamic> json) =>
-      _$FunctionExecutionConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FunctionExecutionConfigToJson(this);
+  factory FunctionExecutionConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionExecutionConfig(
+      isolationMode:
+          (json['IsolationMode'] as String?)?.toFunctionIsolationMode(),
+      runAs: json['RunAs'] != null
+          ? FunctionRunAsConfig.fromJson(json['RunAs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isolationMode = this.isolationMode;
+    final runAs = this.runAs;
+    return {
+      if (isolationMode != null) 'IsolationMode': isolationMode.toValue(),
+      if (runAs != null) 'RunAs': runAs,
+    };
+  }
 }
 
 /// Specifies whether the Lambda function runs in a Greengrass container
@@ -4414,10 +5011,31 @@ class FunctionExecutionConfig {
 /// container. Omit this value to run the Lambda function with the default
 /// containerization for the group.
 enum FunctionIsolationMode {
-  @_s.JsonValue('GreengrassContainer')
   greengrassContainer,
-  @_s.JsonValue('NoContainer')
   noContainer,
+}
+
+extension on FunctionIsolationMode {
+  String toValue() {
+    switch (this) {
+      case FunctionIsolationMode.greengrassContainer:
+        return 'GreengrassContainer';
+      case FunctionIsolationMode.noContainer:
+        return 'NoContainer';
+    }
+  }
+}
+
+extension on String {
+  FunctionIsolationMode toFunctionIsolationMode() {
+    switch (this) {
+      case 'GreengrassContainer':
+        return FunctionIsolationMode.greengrassContainer;
+      case 'NoContainer':
+        return FunctionIsolationMode.noContainer;
+    }
+    throw Exception('$this is not known in enum FunctionIsolationMode');
+  }
 }
 
 /// Specifies the user and group whose permissions are used when running the
@@ -4427,81 +5045,82 @@ enum FunctionIsolationMode {
 /// To run as root, you must set ''IsolationMode'' to ''NoContainer'' and update
 /// config.json in ''greengrass-root/config'' to set
 /// ''allowFunctionsToRunAsRoot'' to ''yes''.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FunctionRunAsConfig {
   /// The group ID whose permissions are used to run a Lambda function.
-  @_s.JsonKey(name: 'Gid')
-  final int gid;
+  final int? gid;
 
   /// The user ID whose permissions are used to run a Lambda function.
-  @_s.JsonKey(name: 'Uid')
-  final int uid;
+  final int? uid;
 
   FunctionRunAsConfig({
     this.gid,
     this.uid,
   });
-  factory FunctionRunAsConfig.fromJson(Map<String, dynamic> json) =>
-      _$FunctionRunAsConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FunctionRunAsConfigToJson(this);
+  factory FunctionRunAsConfig.fromJson(Map<String, dynamic> json) {
+    return FunctionRunAsConfig(
+      gid: json['Gid'] as int?,
+      uid: json['Uid'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gid = this.gid;
+    final uid = this.uid;
+    return {
+      if (gid != null) 'Gid': gid,
+      if (uid != null) 'Uid': uid,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAssociatedRoleResponse {
   /// The time when the role was associated with the group.
-  @_s.JsonKey(name: 'AssociatedAt')
-  final String associatedAt;
+  final String? associatedAt;
 
   /// The ARN of the role that is associated with the group.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   GetAssociatedRoleResponse({
     this.associatedAt,
     this.roleArn,
   });
-  factory GetAssociatedRoleResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetAssociatedRoleResponseFromJson(json);
+
+  factory GetAssociatedRoleResponse.fromJson(Map<String, dynamic> json) {
+    return GetAssociatedRoleResponse(
+      associatedAt: json['AssociatedAt'] as String?,
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedAt = this.associatedAt;
+    final roleArn = this.roleArn;
+    return {
+      if (associatedAt != null) 'AssociatedAt': associatedAt,
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBulkDeploymentStatusResponse {
   /// Relevant metrics on input records processed during bulk deployment.
-  @_s.JsonKey(name: 'BulkDeploymentMetrics')
-  final BulkDeploymentMetrics bulkDeploymentMetrics;
+  final BulkDeploymentMetrics? bulkDeploymentMetrics;
 
   /// The status of the bulk deployment.
-  @_s.JsonKey(name: 'BulkDeploymentStatus')
-  final BulkDeploymentStatus bulkDeploymentStatus;
+  final BulkDeploymentStatus? bulkDeploymentStatus;
 
   /// The time, in ISO format, when the deployment was created.
-  @_s.JsonKey(name: 'CreatedAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// Error details
-  @_s.JsonKey(name: 'ErrorDetails')
-  final List<ErrorDetail> errorDetails;
+  final List<ErrorDetail>? errorDetails;
 
   /// Error message
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetBulkDeploymentStatusResponse({
     this.bulkDeploymentMetrics,
@@ -4511,70 +5130,103 @@ class GetBulkDeploymentStatusResponse {
     this.errorMessage,
     this.tags,
   });
-  factory GetBulkDeploymentStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBulkDeploymentStatusResponseFromJson(json);
+
+  factory GetBulkDeploymentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetBulkDeploymentStatusResponse(
+      bulkDeploymentMetrics: json['BulkDeploymentMetrics'] != null
+          ? BulkDeploymentMetrics.fromJson(
+              json['BulkDeploymentMetrics'] as Map<String, dynamic>)
+          : null,
+      bulkDeploymentStatus:
+          (json['BulkDeploymentStatus'] as String?)?.toBulkDeploymentStatus(),
+      createdAt: json['CreatedAt'] as String?,
+      errorDetails: (json['ErrorDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errorMessage: json['ErrorMessage'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulkDeploymentMetrics = this.bulkDeploymentMetrics;
+    final bulkDeploymentStatus = this.bulkDeploymentStatus;
+    final createdAt = this.createdAt;
+    final errorDetails = this.errorDetails;
+    final errorMessage = this.errorMessage;
+    final tags = this.tags;
+    return {
+      if (bulkDeploymentMetrics != null)
+        'BulkDeploymentMetrics': bulkDeploymentMetrics,
+      if (bulkDeploymentStatus != null)
+        'BulkDeploymentStatus': bulkDeploymentStatus.toValue(),
+      if (createdAt != null) 'CreatedAt': createdAt,
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectivityInfoResponse {
   /// Connectivity info list.
-  @_s.JsonKey(name: 'ConnectivityInfo')
-  final List<ConnectivityInfo> connectivityInfo;
+  final List<ConnectivityInfo>? connectivityInfo;
 
   /// A message about the connectivity info request.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   GetConnectivityInfoResponse({
     this.connectivityInfo,
     this.message,
   });
-  factory GetConnectivityInfoResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectivityInfoResponseFromJson(json);
+
+  factory GetConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectivityInfoResponse(
+      connectivityInfo: (json['ConnectivityInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConnectivityInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectivityInfo = this.connectivityInfo;
+    final message = this.message;
+    return {
+      if (connectivityInfo != null) 'ConnectivityInfo': connectivityInfo,
+      if (message != null) 'message': message,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectorDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetConnectorDefinitionResponse({
     this.arn,
@@ -4586,41 +5238,64 @@ class GetConnectorDefinitionResponse {
     this.name,
     this.tags,
   });
-  factory GetConnectorDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectorDefinitionResponseFromJson(json);
+
+  factory GetConnectorDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectorDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectorDefinitionVersionResponse {
   /// The ARN of the connector definition version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the connector definition
   /// version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information about the connector definition version.
-  @_s.JsonKey(name: 'Definition')
-  final ConnectorDefinitionVersion definition;
+  final ConnectorDefinitionVersion? definition;
 
   /// The ID of the connector definition version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The version of the connector definition version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetConnectorDefinitionVersionResponse({
     this.arn,
@@ -4630,49 +5305,65 @@ class GetConnectorDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetConnectorDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetConnectorDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetConnectorDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? ConnectorDefinitionVersion.fromJson(
+              json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      nextToken: json['NextToken'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final nextToken = this.nextToken;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCoreDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetCoreDefinitionResponse({
     this.arn,
@@ -4684,41 +5375,64 @@ class GetCoreDefinitionResponse {
     this.name,
     this.tags,
   });
-  factory GetCoreDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCoreDefinitionResponseFromJson(json);
+
+  factory GetCoreDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetCoreDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCoreDefinitionVersionResponse {
   /// The ARN of the core definition version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the core definition version
   /// was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information about the core definition version.
-  @_s.JsonKey(name: 'Definition')
-  final CoreDefinitionVersion definition;
+  final CoreDefinitionVersion? definition;
 
   /// The ID of the core definition version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The version of the core definition version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetCoreDefinitionVersionResponse({
     this.arn,
@@ -4728,38 +5442,56 @@ class GetCoreDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
-  factory GetCoreDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCoreDefinitionVersionResponseFromJson(json);
+
+  factory GetCoreDefinitionVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetCoreDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? CoreDefinitionVersion.fromJson(
+              json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      nextToken: json['NextToken'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final nextToken = this.nextToken;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeploymentStatusResponse {
   /// The status of the deployment: ''InProgress'', ''Building'', ''Success'', or
   /// ''Failure''.
-  @_s.JsonKey(name: 'DeploymentStatus')
-  final String deploymentStatus;
+  final String? deploymentStatus;
 
   /// The type of the deployment.
-  @_s.JsonKey(name: 'DeploymentType')
-  final DeploymentType deploymentType;
+  final DeploymentType? deploymentType;
 
   /// Error details
-  @_s.JsonKey(name: 'ErrorDetails')
-  final List<ErrorDetail> errorDetails;
+  final List<ErrorDetail>? errorDetails;
 
   /// Error message
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The time, in milliseconds since the epoch, when the deployment status was
   /// updated.
-  @_s.JsonKey(name: 'UpdatedAt')
-  final String updatedAt;
+  final String? updatedAt;
 
   GetDeploymentStatusResponse({
     this.deploymentStatus,
@@ -4768,48 +5500,61 @@ class GetDeploymentStatusResponse {
     this.errorMessage,
     this.updatedAt,
   });
-  factory GetDeploymentStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeploymentStatusResponseFromJson(json);
+
+  factory GetDeploymentStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeploymentStatusResponse(
+      deploymentStatus: json['DeploymentStatus'] as String?,
+      deploymentType: (json['DeploymentType'] as String?)?.toDeploymentType(),
+      errorDetails: (json['ErrorDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => ErrorDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errorMessage: json['ErrorMessage'] as String?,
+      updatedAt: json['UpdatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentStatus = this.deploymentStatus;
+    final deploymentType = this.deploymentType;
+    final errorDetails = this.errorDetails;
+    final errorMessage = this.errorMessage;
+    final updatedAt = this.updatedAt;
+    return {
+      if (deploymentStatus != null) 'DeploymentStatus': deploymentStatus,
+      if (deploymentType != null) 'DeploymentType': deploymentType.toValue(),
+      if (errorDetails != null) 'ErrorDetails': errorDetails,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (updatedAt != null) 'UpdatedAt': updatedAt,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetDeviceDefinitionResponse({
     this.arn,
@@ -4821,41 +5566,64 @@ class GetDeviceDefinitionResponse {
     this.name,
     this.tags,
   });
-  factory GetDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDeviceDefinitionResponseFromJson(json);
+
+  factory GetDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetDeviceDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDeviceDefinitionVersionResponse {
   /// The ARN of the device definition version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the device definition
   /// version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information about the device definition version.
-  @_s.JsonKey(name: 'Definition')
-  final DeviceDefinitionVersion definition;
+  final DeviceDefinitionVersion? definition;
 
   /// The ID of the device definition version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The version of the device definition version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetDeviceDefinitionVersionResponse({
     this.arn,
@@ -4865,49 +5633,65 @@ class GetDeviceDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetDeviceDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDeviceDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetDeviceDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? DeviceDefinitionVersion.fromJson(
+              json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      nextToken: json['NextToken'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final nextToken = this.nextToken;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFunctionDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetFunctionDefinitionResponse({
     this.arn,
@@ -4919,41 +5703,64 @@ class GetFunctionDefinitionResponse {
     this.name,
     this.tags,
   });
-  factory GetFunctionDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFunctionDefinitionResponseFromJson(json);
+
+  factory GetFunctionDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFunctionDefinitionVersionResponse {
   /// The ARN of the function definition version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the function definition
   /// version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information on the definition.
-  @_s.JsonKey(name: 'Definition')
-  final FunctionDefinitionVersion definition;
+  final FunctionDefinitionVersion? definition;
 
   /// The ID of the function definition version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The version of the function definition version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetFunctionDefinitionVersionResponse({
     this.arn,
@@ -4963,107 +5770,153 @@ class GetFunctionDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetFunctionDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetFunctionDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetFunctionDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? FunctionDefinitionVersion.fromJson(
+              json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      nextToken: json['NextToken'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final nextToken = this.nextToken;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupCertificateAuthorityResponse {
   /// The ARN of the certificate authority for the group.
-  @_s.JsonKey(name: 'GroupCertificateAuthorityArn')
-  final String groupCertificateAuthorityArn;
+  final String? groupCertificateAuthorityArn;
 
   /// The ID of the certificate authority for the group.
-  @_s.JsonKey(name: 'GroupCertificateAuthorityId')
-  final String groupCertificateAuthorityId;
+  final String? groupCertificateAuthorityId;
 
   /// The PEM encoded certificate for the group.
-  @_s.JsonKey(name: 'PemEncodedCertificate')
-  final String pemEncodedCertificate;
+  final String? pemEncodedCertificate;
 
   GetGroupCertificateAuthorityResponse({
     this.groupCertificateAuthorityArn,
     this.groupCertificateAuthorityId,
     this.pemEncodedCertificate,
   });
+
   factory GetGroupCertificateAuthorityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetGroupCertificateAuthorityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetGroupCertificateAuthorityResponse(
+      groupCertificateAuthorityArn:
+          json['GroupCertificateAuthorityArn'] as String?,
+      groupCertificateAuthorityId:
+          json['GroupCertificateAuthorityId'] as String?,
+      pemEncodedCertificate: json['PemEncodedCertificate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupCertificateAuthorityArn = this.groupCertificateAuthorityArn;
+    final groupCertificateAuthorityId = this.groupCertificateAuthorityId;
+    final pemEncodedCertificate = this.pemEncodedCertificate;
+    return {
+      if (groupCertificateAuthorityArn != null)
+        'GroupCertificateAuthorityArn': groupCertificateAuthorityArn,
+      if (groupCertificateAuthorityId != null)
+        'GroupCertificateAuthorityId': groupCertificateAuthorityId,
+      if (pemEncodedCertificate != null)
+        'PemEncodedCertificate': pemEncodedCertificate,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupCertificateConfigurationResponse {
   /// The amount of time remaining before the certificate authority expires, in
   /// milliseconds.
-  @_s.JsonKey(name: 'CertificateAuthorityExpiryInMilliseconds')
-  final String certificateAuthorityExpiryInMilliseconds;
+  final String? certificateAuthorityExpiryInMilliseconds;
 
   /// The amount of time remaining before the certificate expires, in
   /// milliseconds.
-  @_s.JsonKey(name: 'CertificateExpiryInMilliseconds')
-  final String certificateExpiryInMilliseconds;
+  final String? certificateExpiryInMilliseconds;
 
   /// The ID of the group certificate configuration.
-  @_s.JsonKey(name: 'GroupId')
-  final String groupId;
+  final String? groupId;
 
   GetGroupCertificateConfigurationResponse({
     this.certificateAuthorityExpiryInMilliseconds,
     this.certificateExpiryInMilliseconds,
     this.groupId,
   });
+
   factory GetGroupCertificateConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetGroupCertificateConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetGroupCertificateConfigurationResponse(
+      certificateAuthorityExpiryInMilliseconds:
+          json['CertificateAuthorityExpiryInMilliseconds'] as String?,
+      certificateExpiryInMilliseconds:
+          json['CertificateExpiryInMilliseconds'] as String?,
+      groupId: json['GroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityExpiryInMilliseconds =
+        this.certificateAuthorityExpiryInMilliseconds;
+    final certificateExpiryInMilliseconds =
+        this.certificateExpiryInMilliseconds;
+    final groupId = this.groupId;
+    return {
+      if (certificateAuthorityExpiryInMilliseconds != null)
+        'CertificateAuthorityExpiryInMilliseconds':
+            certificateAuthorityExpiryInMilliseconds,
+      if (certificateExpiryInMilliseconds != null)
+        'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
+      if (groupId != null) 'GroupId': groupId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetGroupResponse({
     this.arn,
@@ -5075,36 +5928,60 @@ class GetGroupResponse {
     this.name,
     this.tags,
   });
-  factory GetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGroupResponseFromJson(json);
+
+  factory GetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return GetGroupResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetGroupVersionResponse {
   /// The ARN of the group version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the group version was
   /// created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information about the group version definition.
-  @_s.JsonKey(name: 'Definition')
-  final GroupVersion definition;
+  final GroupVersion? definition;
 
   /// The ID of the group that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the group version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetGroupVersionResponse({
     this.arn,
@@ -5113,48 +5990,60 @@ class GetGroupVersionResponse {
     this.id,
     this.version,
   });
-  factory GetGroupVersionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetGroupVersionResponseFromJson(json);
+
+  factory GetGroupVersionResponse.fromJson(Map<String, dynamic> json) {
+    return GetGroupVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? GroupVersion.fromJson(json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLoggerDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetLoggerDefinitionResponse({
     this.arn,
@@ -5166,36 +6055,60 @@ class GetLoggerDefinitionResponse {
     this.name,
     this.tags,
   });
-  factory GetLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLoggerDefinitionResponseFromJson(json);
+
+  factory GetLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetLoggerDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLoggerDefinitionVersionResponse {
   /// The ARN of the logger definition version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the logger definition
   /// version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information about the logger definition version.
-  @_s.JsonKey(name: 'Definition')
-  final LoggerDefinitionVersion definition;
+  final LoggerDefinitionVersion? definition;
 
   /// The ID of the logger definition version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The version of the logger definition version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetLoggerDefinitionVersionResponse({
     this.arn,
@@ -5204,49 +6117,62 @@ class GetLoggerDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory GetLoggerDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetLoggerDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetLoggerDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? LoggerDefinitionVersion.fromJson(
+              json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourceDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetResourceDefinitionResponse({
     this.arn,
@@ -5258,36 +6184,60 @@ class GetResourceDefinitionResponse {
     this.name,
     this.tags,
   });
-  factory GetResourceDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourceDefinitionResponseFromJson(json);
+
+  factory GetResourceDefinitionResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourceDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourceDefinitionVersionResponse {
   /// Arn of the resource definition version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the resource definition
   /// version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information about the definition.
-  @_s.JsonKey(name: 'Definition')
-  final ResourceDefinitionVersion definition;
+  final ResourceDefinitionVersion? definition;
 
   /// The ID of the resource definition version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The version of the resource definition version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetResourceDefinitionVersionResponse({
     this.arn,
@@ -5296,72 +6246,91 @@ class GetResourceDefinitionVersionResponse {
     this.id,
     this.version,
   });
+
   factory GetResourceDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetResourceDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetResourceDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? ResourceDefinitionVersion.fromJson(
+              json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetServiceRoleForAccountResponse {
   /// The time when the service role was associated with the account.
-  @_s.JsonKey(name: 'AssociatedAt')
-  final String associatedAt;
+  final String? associatedAt;
 
   /// The ARN of the role which is associated with the account.
-  @_s.JsonKey(name: 'RoleArn')
-  final String roleArn;
+  final String? roleArn;
 
   GetServiceRoleForAccountResponse({
     this.associatedAt,
     this.roleArn,
   });
-  factory GetServiceRoleForAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetServiceRoleForAccountResponseFromJson(json);
+
+  factory GetServiceRoleForAccountResponse.fromJson(Map<String, dynamic> json) {
+    return GetServiceRoleForAccountResponse(
+      associatedAt: json['AssociatedAt'] as String?,
+      roleArn: json['RoleArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedAt = this.associatedAt;
+    final roleArn = this.roleArn;
+    return {
+      if (associatedAt != null) 'AssociatedAt': associatedAt,
+      if (roleArn != null) 'RoleArn': roleArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSubscriptionDefinitionResponse {
   /// The ARN of the definition.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the definition was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the definition.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the definition was last
   /// updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the definition.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the definition.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Tag(s) attached to the resource arn.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetSubscriptionDefinitionResponse({
     this.arn,
@@ -5373,42 +6342,65 @@ class GetSubscriptionDefinitionResponse {
     this.name,
     this.tags,
   });
+
   factory GetSubscriptionDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSubscriptionDefinitionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSubscriptionDefinitionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    final tags = this.tags;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSubscriptionDefinitionVersionResponse {
   /// The ARN of the subscription definition version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the subscription definition
   /// version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// Information about the subscription definition version.
-  @_s.JsonKey(name: 'Definition')
-  final SubscriptionDefinitionVersion definition;
+  final SubscriptionDefinitionVersion? definition;
 
   /// The ID of the subscription definition version.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The version of the subscription definition version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   GetSubscriptionDefinitionVersionResponse({
     this.arn,
@@ -5418,87 +6410,124 @@ class GetSubscriptionDefinitionVersionResponse {
     this.nextToken,
     this.version,
   });
+
   factory GetSubscriptionDefinitionVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSubscriptionDefinitionVersionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSubscriptionDefinitionVersionResponse(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      definition: json['Definition'] != null
+          ? SubscriptionDefinitionVersion.fromJson(
+              json['Definition'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+      nextToken: json['NextToken'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final definition = this.definition;
+    final id = this.id;
+    final nextToken = this.nextToken;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (definition != null) 'Definition': definition,
+      if (id != null) 'Id': id,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetThingRuntimeConfigurationResponse {
   /// Runtime configuration for a thing.
-  @_s.JsonKey(name: 'RuntimeConfiguration')
-  final RuntimeConfiguration runtimeConfiguration;
+  final RuntimeConfiguration? runtimeConfiguration;
 
   GetThingRuntimeConfigurationResponse({
     this.runtimeConfiguration,
   });
+
   factory GetThingRuntimeConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetThingRuntimeConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetThingRuntimeConfigurationResponse(
+      runtimeConfiguration: json['RuntimeConfiguration'] != null
+          ? RuntimeConfiguration.fromJson(
+              json['RuntimeConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runtimeConfiguration = this.runtimeConfiguration;
+    return {
+      if (runtimeConfiguration != null)
+        'RuntimeConfiguration': runtimeConfiguration,
+    };
+  }
 }
 
 /// Information about a certificate authority for a group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupCertificateAuthorityProperties {
   /// The ARN of the certificate authority for the group.
-  @_s.JsonKey(name: 'GroupCertificateAuthorityArn')
-  final String groupCertificateAuthorityArn;
+  final String? groupCertificateAuthorityArn;
 
   /// The ID of the certificate authority for the group.
-  @_s.JsonKey(name: 'GroupCertificateAuthorityId')
-  final String groupCertificateAuthorityId;
+  final String? groupCertificateAuthorityId;
 
   GroupCertificateAuthorityProperties({
     this.groupCertificateAuthorityArn,
     this.groupCertificateAuthorityId,
   });
+
   factory GroupCertificateAuthorityProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$GroupCertificateAuthorityPropertiesFromJson(json);
+      Map<String, dynamic> json) {
+    return GroupCertificateAuthorityProperties(
+      groupCertificateAuthorityArn:
+          json['GroupCertificateAuthorityArn'] as String?,
+      groupCertificateAuthorityId:
+          json['GroupCertificateAuthorityId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupCertificateAuthorityArn = this.groupCertificateAuthorityArn;
+    final groupCertificateAuthorityId = this.groupCertificateAuthorityId;
+    return {
+      if (groupCertificateAuthorityArn != null)
+        'GroupCertificateAuthorityArn': groupCertificateAuthorityArn,
+      if (groupCertificateAuthorityId != null)
+        'GroupCertificateAuthorityId': groupCertificateAuthorityId,
+    };
+  }
 }
 
 /// Information about a group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GroupInformation {
   /// The ARN of the group.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the group was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the group.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The time, in milliseconds since the epoch, when the group was last updated.
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final String lastUpdatedTimestamp;
+  final String? lastUpdatedTimestamp;
 
   /// The ID of the latest version associated with the group.
-  @_s.JsonKey(name: 'LatestVersion')
-  final String latestVersion;
+  final String? latestVersion;
 
   /// The ARN of the latest version associated with the group.
-  @_s.JsonKey(name: 'LatestVersionArn')
-  final String latestVersionArn;
+  final String? latestVersionArn;
 
   /// The name of the group.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   GroupInformation({
     this.arn,
@@ -5509,72 +6538,95 @@ class GroupInformation {
     this.latestVersionArn,
     this.name,
   });
-  factory GroupInformation.fromJson(Map<String, dynamic> json) =>
-      _$GroupInformationFromJson(json);
+
+  factory GroupInformation.fromJson(Map<String, dynamic> json) {
+    return GroupInformation(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      lastUpdatedTimestamp: json['LastUpdatedTimestamp'] as String?,
+      latestVersion: json['LatestVersion'] as String?,
+      latestVersionArn: json['LatestVersionArn'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final latestVersion = this.latestVersion;
+    final latestVersionArn = this.latestVersionArn;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': lastUpdatedTimestamp,
+      if (latestVersion != null) 'LatestVersion': latestVersion,
+      if (latestVersionArn != null) 'LatestVersionArn': latestVersionArn,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Group owner related settings for local resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GroupOwnerSetting {
   /// If true, AWS IoT Greengrass automatically adds the specified Linux OS group
   /// owner of the resource to the Lambda process privileges. Thus the Lambda
   /// process will have the file access permissions of the added Linux group.
-  @_s.JsonKey(name: 'AutoAddGroupOwner')
-  final bool autoAddGroupOwner;
+  final bool? autoAddGroupOwner;
 
   /// The name of the Linux OS group whose privileges will be added to the Lambda
   /// process. This field is optional.
-  @_s.JsonKey(name: 'GroupOwner')
-  final String groupOwner;
+  final String? groupOwner;
 
   GroupOwnerSetting({
     this.autoAddGroupOwner,
     this.groupOwner,
   });
-  factory GroupOwnerSetting.fromJson(Map<String, dynamic> json) =>
-      _$GroupOwnerSettingFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GroupOwnerSettingToJson(this);
+  factory GroupOwnerSetting.fromJson(Map<String, dynamic> json) {
+    return GroupOwnerSetting(
+      autoAddGroupOwner: json['AutoAddGroupOwner'] as bool?,
+      groupOwner: json['GroupOwner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoAddGroupOwner = this.autoAddGroupOwner;
+    final groupOwner = this.groupOwner;
+    return {
+      if (autoAddGroupOwner != null) 'AutoAddGroupOwner': autoAddGroupOwner,
+      if (groupOwner != null) 'GroupOwner': groupOwner,
+    };
+  }
 }
 
 /// Information about a group version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GroupVersion {
   /// The ARN of the connector definition version for this group.
-  @_s.JsonKey(name: 'ConnectorDefinitionVersionArn')
-  final String connectorDefinitionVersionArn;
+  final String? connectorDefinitionVersionArn;
 
   /// The ARN of the core definition version for this group.
-  @_s.JsonKey(name: 'CoreDefinitionVersionArn')
-  final String coreDefinitionVersionArn;
+  final String? coreDefinitionVersionArn;
 
   /// The ARN of the device definition version for this group.
-  @_s.JsonKey(name: 'DeviceDefinitionVersionArn')
-  final String deviceDefinitionVersionArn;
+  final String? deviceDefinitionVersionArn;
 
   /// The ARN of the function definition version for this group.
-  @_s.JsonKey(name: 'FunctionDefinitionVersionArn')
-  final String functionDefinitionVersionArn;
+  final String? functionDefinitionVersionArn;
 
   /// The ARN of the logger definition version for this group.
-  @_s.JsonKey(name: 'LoggerDefinitionVersionArn')
-  final String loggerDefinitionVersionArn;
+  final String? loggerDefinitionVersionArn;
 
   /// The ARN of the resource definition version for this group.
-  @_s.JsonKey(name: 'ResourceDefinitionVersionArn')
-  final String resourceDefinitionVersionArn;
+  final String? resourceDefinitionVersionArn;
 
   /// The ARN of the subscription definition version for this group.
-  @_s.JsonKey(name: 'SubscriptionDefinitionVersionArn')
-  final String subscriptionDefinitionVersionArn;
+  final String? subscriptionDefinitionVersionArn;
 
   GroupVersion({
     this.connectorDefinitionVersionArn,
@@ -5585,730 +6637,1124 @@ class GroupVersion {
     this.resourceDefinitionVersionArn,
     this.subscriptionDefinitionVersionArn,
   });
-  factory GroupVersion.fromJson(Map<String, dynamic> json) =>
-      _$GroupVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GroupVersionToJson(this);
+  factory GroupVersion.fromJson(Map<String, dynamic> json) {
+    return GroupVersion(
+      connectorDefinitionVersionArn:
+          json['ConnectorDefinitionVersionArn'] as String?,
+      coreDefinitionVersionArn: json['CoreDefinitionVersionArn'] as String?,
+      deviceDefinitionVersionArn: json['DeviceDefinitionVersionArn'] as String?,
+      functionDefinitionVersionArn:
+          json['FunctionDefinitionVersionArn'] as String?,
+      loggerDefinitionVersionArn: json['LoggerDefinitionVersionArn'] as String?,
+      resourceDefinitionVersionArn:
+          json['ResourceDefinitionVersionArn'] as String?,
+      subscriptionDefinitionVersionArn:
+          json['SubscriptionDefinitionVersionArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectorDefinitionVersionArn = this.connectorDefinitionVersionArn;
+    final coreDefinitionVersionArn = this.coreDefinitionVersionArn;
+    final deviceDefinitionVersionArn = this.deviceDefinitionVersionArn;
+    final functionDefinitionVersionArn = this.functionDefinitionVersionArn;
+    final loggerDefinitionVersionArn = this.loggerDefinitionVersionArn;
+    final resourceDefinitionVersionArn = this.resourceDefinitionVersionArn;
+    final subscriptionDefinitionVersionArn =
+        this.subscriptionDefinitionVersionArn;
+    return {
+      if (connectorDefinitionVersionArn != null)
+        'ConnectorDefinitionVersionArn': connectorDefinitionVersionArn,
+      if (coreDefinitionVersionArn != null)
+        'CoreDefinitionVersionArn': coreDefinitionVersionArn,
+      if (deviceDefinitionVersionArn != null)
+        'DeviceDefinitionVersionArn': deviceDefinitionVersionArn,
+      if (functionDefinitionVersionArn != null)
+        'FunctionDefinitionVersionArn': functionDefinitionVersionArn,
+      if (loggerDefinitionVersionArn != null)
+        'LoggerDefinitionVersionArn': loggerDefinitionVersionArn,
+      if (resourceDefinitionVersionArn != null)
+        'ResourceDefinitionVersionArn': resourceDefinitionVersionArn,
+      if (subscriptionDefinitionVersionArn != null)
+        'SubscriptionDefinitionVersionArn': subscriptionDefinitionVersionArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBulkDeploymentDetailedReportsResponse {
   /// A list of the individual group deployments in the bulk deployment operation.
-  @_s.JsonKey(name: 'Deployments')
-  final List<BulkDeploymentResult> deployments;
+  final List<BulkDeploymentResult>? deployments;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBulkDeploymentDetailedReportsResponse({
     this.deployments,
     this.nextToken,
   });
+
   factory ListBulkDeploymentDetailedReportsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListBulkDeploymentDetailedReportsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListBulkDeploymentDetailedReportsResponse(
+      deployments: (json['Deployments'] as List?)
+          ?.whereNotNull()
+          .map((e) => BulkDeploymentResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
+    return {
+      if (deployments != null) 'Deployments': deployments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBulkDeploymentsResponse {
   /// A list of bulk deployments.
-  @_s.JsonKey(name: 'BulkDeployments')
-  final List<BulkDeployment> bulkDeployments;
+  final List<BulkDeployment>? bulkDeployments;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBulkDeploymentsResponse({
     this.bulkDeployments,
     this.nextToken,
   });
-  factory ListBulkDeploymentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListBulkDeploymentsResponseFromJson(json);
+
+  factory ListBulkDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBulkDeploymentsResponse(
+      bulkDeployments: (json['BulkDeployments'] as List?)
+          ?.whereNotNull()
+          .map((e) => BulkDeployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulkDeployments = this.bulkDeployments;
+    final nextToken = this.nextToken;
+    return {
+      if (bulkDeployments != null) 'BulkDeployments': bulkDeployments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConnectorDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListConnectorDefinitionVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListConnectorDefinitionVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListConnectorDefinitionVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListConnectorDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListConnectorDefinitionsResponse {
   /// Information about a definition.
-  @_s.JsonKey(name: 'Definitions')
-  final List<DefinitionInformation> definitions;
+  final List<DefinitionInformation>? definitions;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListConnectorDefinitionsResponse({
     this.definitions,
     this.nextToken,
   });
-  factory ListConnectorDefinitionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListConnectorDefinitionsResponseFromJson(json);
+
+  factory ListConnectorDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConnectorDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCoreDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListCoreDefinitionVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListCoreDefinitionVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCoreDefinitionVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCoreDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCoreDefinitionsResponse {
   /// Information about a definition.
-  @_s.JsonKey(name: 'Definitions')
-  final List<DefinitionInformation> definitions;
+  final List<DefinitionInformation>? definitions;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCoreDefinitionsResponse({
     this.definitions,
     this.nextToken,
   });
-  factory ListCoreDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCoreDefinitionsResponseFromJson(json);
+
+  factory ListCoreDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListCoreDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeploymentsResponse {
   /// A list of deployments for the requested groups.
-  @_s.JsonKey(name: 'Deployments')
-  final List<Deployment> deployments;
+  final List<Deployment>? deployments;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeploymentsResponse({
     this.deployments,
     this.nextToken,
   });
-  factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDeploymentsResponseFromJson(json);
+
+  factory ListDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDeploymentsResponse(
+      deployments: (json['Deployments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Deployment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deployments = this.deployments;
+    final nextToken = this.nextToken;
+    return {
+      if (deployments != null) 'Deployments': deployments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeviceDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListDeviceDefinitionVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListDeviceDefinitionVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDeviceDefinitionVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDeviceDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDeviceDefinitionsResponse {
   /// Information about a definition.
-  @_s.JsonKey(name: 'Definitions')
-  final List<DefinitionInformation> definitions;
+  final List<DefinitionInformation>? definitions;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDeviceDefinitionsResponse({
     this.definitions,
     this.nextToken,
   });
-  factory ListDeviceDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDeviceDefinitionsResponseFromJson(json);
+
+  factory ListDeviceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDeviceDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFunctionDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListFunctionDefinitionVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListFunctionDefinitionVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListFunctionDefinitionVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListFunctionDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFunctionDefinitionsResponse {
   /// Information about a definition.
-  @_s.JsonKey(name: 'Definitions')
-  final List<DefinitionInformation> definitions;
+  final List<DefinitionInformation>? definitions;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFunctionDefinitionsResponse({
     this.definitions,
     this.nextToken,
   });
-  factory ListFunctionDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFunctionDefinitionsResponseFromJson(json);
+
+  factory ListFunctionDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFunctionDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupCertificateAuthoritiesResponse {
   /// A list of certificate authorities associated with the group.
-  @_s.JsonKey(name: 'GroupCertificateAuthorities')
-  final List<GroupCertificateAuthorityProperties> groupCertificateAuthorities;
+  final List<GroupCertificateAuthorityProperties>? groupCertificateAuthorities;
 
   ListGroupCertificateAuthoritiesResponse({
     this.groupCertificateAuthorities,
   });
+
   factory ListGroupCertificateAuthoritiesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListGroupCertificateAuthoritiesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListGroupCertificateAuthoritiesResponse(
+      groupCertificateAuthorities:
+          (json['GroupCertificateAuthorities'] as List?)
+              ?.whereNotNull()
+              .map((e) => GroupCertificateAuthorityProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupCertificateAuthorities = this.groupCertificateAuthorities;
+    return {
+      if (groupCertificateAuthorities != null)
+        'GroupCertificateAuthorities': groupCertificateAuthorities,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListGroupVersionsResponse({
     this.nextToken,
     this.versions,
   });
-  factory ListGroupVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupVersionsResponseFromJson(json);
+
+  factory ListGroupVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListGroupsResponse {
   /// Information about a group.
-  @_s.JsonKey(name: 'Groups')
-  final List<GroupInformation> groups;
+  final List<GroupInformation>? groups;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListGroupsResponse({
     this.groups,
     this.nextToken,
   });
-  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListGroupsResponseFromJson(json);
+
+  factory ListGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGroupsResponse(
+      groups: (json['Groups'] as List?)
+          ?.whereNotNull()
+          .map((e) => GroupInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groups = this.groups;
+    final nextToken = this.nextToken;
+    return {
+      if (groups != null) 'Groups': groups,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLoggerDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListLoggerDefinitionVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListLoggerDefinitionVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListLoggerDefinitionVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListLoggerDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLoggerDefinitionsResponse {
   /// Information about a definition.
-  @_s.JsonKey(name: 'Definitions')
-  final List<DefinitionInformation> definitions;
+  final List<DefinitionInformation>? definitions;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLoggerDefinitionsResponse({
     this.definitions,
     this.nextToken,
   });
-  factory ListLoggerDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLoggerDefinitionsResponseFromJson(json);
+
+  factory ListLoggerDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLoggerDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListResourceDefinitionVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListResourceDefinitionVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListResourceDefinitionVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListResourceDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListResourceDefinitionsResponse {
   /// Information about a definition.
-  @_s.JsonKey(name: 'Definitions')
-  final List<DefinitionInformation> definitions;
+  final List<DefinitionInformation>? definitions;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListResourceDefinitionsResponse({
     this.definitions,
     this.nextToken,
   });
-  factory ListResourceDefinitionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListResourceDefinitionsResponseFromJson(json);
+
+  factory ListResourceDefinitionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSubscriptionDefinitionVersionsResponse {
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about a version.
-  @_s.JsonKey(name: 'Versions')
-  final List<VersionInformation> versions;
+  final List<VersionInformation>? versions;
 
   ListSubscriptionDefinitionVersionsResponse({
     this.nextToken,
     this.versions,
   });
+
   factory ListSubscriptionDefinitionVersionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSubscriptionDefinitionVersionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListSubscriptionDefinitionVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      versions: (json['Versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (versions != null) 'Versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSubscriptionDefinitionsResponse {
   /// Information about a definition.
-  @_s.JsonKey(name: 'Definitions')
-  final List<DefinitionInformation> definitions;
+  final List<DefinitionInformation>? definitions;
 
   /// The token for the next set of results, or ''null'' if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListSubscriptionDefinitionsResponse({
     this.definitions,
     this.nextToken,
   });
+
   factory ListSubscriptionDefinitionsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListSubscriptionDefinitionsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListSubscriptionDefinitionsResponse(
+      definitions: (json['Definitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => DefinitionInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final definitions = this.definitions;
+    final nextToken = this.nextToken;
+    return {
+      if (definitions != null) 'Definitions': definitions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Attributes that define a local device resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LocalDeviceResourceData {
   /// Group/owner related settings for local resources.
-  @_s.JsonKey(name: 'GroupOwnerSetting')
-  final GroupOwnerSetting groupOwnerSetting;
+  final GroupOwnerSetting? groupOwnerSetting;
 
   /// The local absolute path of the device resource. The source path for a device
   /// resource can refer only to a character device or block device under
   /// ''/dev''.
-  @_s.JsonKey(name: 'SourcePath')
-  final String sourcePath;
+  final String? sourcePath;
 
   LocalDeviceResourceData({
     this.groupOwnerSetting,
     this.sourcePath,
   });
-  factory LocalDeviceResourceData.fromJson(Map<String, dynamic> json) =>
-      _$LocalDeviceResourceDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LocalDeviceResourceDataToJson(this);
+  factory LocalDeviceResourceData.fromJson(Map<String, dynamic> json) {
+    return LocalDeviceResourceData(
+      groupOwnerSetting: json['GroupOwnerSetting'] != null
+          ? GroupOwnerSetting.fromJson(
+              json['GroupOwnerSetting'] as Map<String, dynamic>)
+          : null,
+      sourcePath: json['SourcePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupOwnerSetting = this.groupOwnerSetting;
+    final sourcePath = this.sourcePath;
+    return {
+      if (groupOwnerSetting != null) 'GroupOwnerSetting': groupOwnerSetting,
+      if (sourcePath != null) 'SourcePath': sourcePath,
+    };
+  }
 }
 
 /// Attributes that define a local volume resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LocalVolumeResourceData {
   /// The absolute local path of the resource inside the Lambda environment.
-  @_s.JsonKey(name: 'DestinationPath')
-  final String destinationPath;
+  final String? destinationPath;
 
   /// Allows you to configure additional group privileges for the Lambda process.
   /// This field is optional.
-  @_s.JsonKey(name: 'GroupOwnerSetting')
-  final GroupOwnerSetting groupOwnerSetting;
+  final GroupOwnerSetting? groupOwnerSetting;
 
   /// The local absolute path of the volume resource on the host. The source path
   /// for a volume resource type cannot start with ''/sys''.
-  @_s.JsonKey(name: 'SourcePath')
-  final String sourcePath;
+  final String? sourcePath;
 
   LocalVolumeResourceData({
     this.destinationPath,
     this.groupOwnerSetting,
     this.sourcePath,
   });
-  factory LocalVolumeResourceData.fromJson(Map<String, dynamic> json) =>
-      _$LocalVolumeResourceDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LocalVolumeResourceDataToJson(this);
+  factory LocalVolumeResourceData.fromJson(Map<String, dynamic> json) {
+    return LocalVolumeResourceData(
+      destinationPath: json['DestinationPath'] as String?,
+      groupOwnerSetting: json['GroupOwnerSetting'] != null
+          ? GroupOwnerSetting.fromJson(
+              json['GroupOwnerSetting'] as Map<String, dynamic>)
+          : null,
+      sourcePath: json['SourcePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationPath = this.destinationPath;
+    final groupOwnerSetting = this.groupOwnerSetting;
+    final sourcePath = this.sourcePath;
+    return {
+      if (destinationPath != null) 'DestinationPath': destinationPath,
+      if (groupOwnerSetting != null) 'GroupOwnerSetting': groupOwnerSetting,
+      if (sourcePath != null) 'SourcePath': sourcePath,
+    };
+  }
 }
 
 /// Information about a logger
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Logger {
   /// The component that will be subject to logging.
-  @_s.JsonKey(name: 'Component')
   final LoggerComponent component;
 
   /// A descriptive or arbitrary ID for the logger. This value must be unique
   /// within the logger definition version. Max length is 128 characters with
   /// pattern ''[a-zA-Z0-9:_-]+''.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The level of the logs.
-  @_s.JsonKey(name: 'Level')
   final LoggerLevel level;
 
   /// The type of log output which will be used.
-  @_s.JsonKey(name: 'Type')
   final LoggerType type;
 
   /// The amount of file space, in KB, to use if the local file system is used for
   /// logging purposes.
-  @_s.JsonKey(name: 'Space')
-  final int space;
+  final int? space;
 
   Logger({
-    @_s.required this.component,
-    @_s.required this.id,
-    @_s.required this.level,
-    @_s.required this.type,
+    required this.component,
+    required this.id,
+    required this.level,
+    required this.type,
     this.space,
   });
-  factory Logger.fromJson(Map<String, dynamic> json) => _$LoggerFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoggerToJson(this);
+  factory Logger.fromJson(Map<String, dynamic> json) {
+    return Logger(
+      component: (json['Component'] as String).toLoggerComponent(),
+      id: json['Id'] as String,
+      level: (json['Level'] as String).toLoggerLevel(),
+      type: (json['Type'] as String).toLoggerType(),
+      space: json['Space'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final component = this.component;
+    final id = this.id;
+    final level = this.level;
+    final type = this.type;
+    final space = this.space;
+    return {
+      'Component': component.toValue(),
+      'Id': id,
+      'Level': level.toValue(),
+      'Type': type.toValue(),
+      if (space != null) 'Space': space,
+    };
+  }
 }
 
 enum LoggerComponent {
-  @_s.JsonValue('GreengrassSystem')
   greengrassSystem,
-  @_s.JsonValue('Lambda')
   lambda,
 }
 
+extension on LoggerComponent {
+  String toValue() {
+    switch (this) {
+      case LoggerComponent.greengrassSystem:
+        return 'GreengrassSystem';
+      case LoggerComponent.lambda:
+        return 'Lambda';
+    }
+  }
+}
+
+extension on String {
+  LoggerComponent toLoggerComponent() {
+    switch (this) {
+      case 'GreengrassSystem':
+        return LoggerComponent.greengrassSystem;
+      case 'Lambda':
+        return LoggerComponent.lambda;
+    }
+    throw Exception('$this is not known in enum LoggerComponent');
+  }
+}
+
 /// Information about a logger definition version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoggerDefinitionVersion {
   /// A list of loggers.
-  @_s.JsonKey(name: 'Loggers')
-  final List<Logger> loggers;
+  final List<Logger>? loggers;
 
   LoggerDefinitionVersion({
     this.loggers,
   });
-  factory LoggerDefinitionVersion.fromJson(Map<String, dynamic> json) =>
-      _$LoggerDefinitionVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoggerDefinitionVersionToJson(this);
+  factory LoggerDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return LoggerDefinitionVersion(
+      loggers: (json['Loggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => Logger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggers = this.loggers;
+    return {
+      if (loggers != null) 'Loggers': loggers,
+    };
+  }
 }
 
 enum LoggerLevel {
-  @_s.JsonValue('DEBUG')
   debug,
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('FATAL')
   fatal,
 }
 
+extension on LoggerLevel {
+  String toValue() {
+    switch (this) {
+      case LoggerLevel.debug:
+        return 'DEBUG';
+      case LoggerLevel.info:
+        return 'INFO';
+      case LoggerLevel.warn:
+        return 'WARN';
+      case LoggerLevel.error:
+        return 'ERROR';
+      case LoggerLevel.fatal:
+        return 'FATAL';
+    }
+  }
+}
+
+extension on String {
+  LoggerLevel toLoggerLevel() {
+    switch (this) {
+      case 'DEBUG':
+        return LoggerLevel.debug;
+      case 'INFO':
+        return LoggerLevel.info;
+      case 'WARN':
+        return LoggerLevel.warn;
+      case 'ERROR':
+        return LoggerLevel.error;
+      case 'FATAL':
+        return LoggerLevel.fatal;
+    }
+    throw Exception('$this is not known in enum LoggerLevel');
+  }
+}
+
 enum LoggerType {
-  @_s.JsonValue('FileSystem')
   fileSystem,
-  @_s.JsonValue('AWSCloudWatch')
   awsCloudWatch,
+}
+
+extension on LoggerType {
+  String toValue() {
+    switch (this) {
+      case LoggerType.fileSystem:
+        return 'FileSystem';
+      case LoggerType.awsCloudWatch:
+        return 'AWSCloudWatch';
+    }
+  }
+}
+
+extension on String {
+  LoggerType toLoggerType() {
+    switch (this) {
+      case 'FileSystem':
+        return LoggerType.fileSystem;
+      case 'AWSCloudWatch':
+        return LoggerType.awsCloudWatch;
+    }
+    throw Exception('$this is not known in enum LoggerType');
+  }
 }
 
 /// The type of permission a function has to access a resource.
 enum Permission {
-  @_s.JsonValue('ro')
   ro,
-  @_s.JsonValue('rw')
   rw,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Permission {
+  String toValue() {
+    switch (this) {
+      case Permission.ro:
+        return 'ro';
+      case Permission.rw:
+        return 'rw';
+    }
+  }
+}
+
+extension on String {
+  Permission toPermission() {
+    switch (this) {
+      case 'ro':
+        return Permission.ro;
+      case 'rw':
+        return Permission.rw;
+    }
+    throw Exception('$this is not known in enum Permission');
+  }
+}
+
 class ResetDeploymentsResponse {
   /// The ARN of the deployment.
-  @_s.JsonKey(name: 'DeploymentArn')
-  final String deploymentArn;
+  final String? deploymentArn;
 
   /// The ID of the deployment.
-  @_s.JsonKey(name: 'DeploymentId')
-  final String deploymentId;
+  final String? deploymentId;
 
   ResetDeploymentsResponse({
     this.deploymentArn,
     this.deploymentId,
   });
-  factory ResetDeploymentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResetDeploymentsResponseFromJson(json);
+
+  factory ResetDeploymentsResponse.fromJson(Map<String, dynamic> json) {
+    return ResetDeploymentsResponse(
+      deploymentArn: json['DeploymentArn'] as String?,
+      deploymentId: json['DeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deploymentArn = this.deploymentArn;
+    final deploymentId = this.deploymentId;
+    return {
+      if (deploymentArn != null) 'DeploymentArn': deploymentArn,
+      if (deploymentId != null) 'DeploymentId': deploymentId,
+    };
+  }
 }
 
 /// Information about a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Resource {
   /// The resource ID, used to refer to a resource in the Lambda function
   /// configuration. Max length is 128 characters with pattern
   /// ''[a-zA-Z0-9:_-]+''. This must be unique within a Greengrass group.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The descriptive resource name, which is displayed on the AWS IoT Greengrass
   /// console. Max length 128 characters with pattern ''[a-zA-Z0-9:_-]+''. This
   /// must be unique within a Greengrass group.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// A container of data for all resource types.
-  @_s.JsonKey(name: 'ResourceDataContainer')
   final ResourceDataContainer resourceDataContainer;
 
   Resource({
-    @_s.required this.id,
-    @_s.required this.name,
-    @_s.required this.resourceDataContainer,
+    required this.id,
+    required this.name,
+    required this.resourceDataContainer,
   });
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceToJson(this);
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      resourceDataContainer: ResourceDataContainer.fromJson(
+          json['ResourceDataContainer'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final resourceDataContainer = this.resourceDataContainer;
+    return {
+      'Id': id,
+      'Name': name,
+      'ResourceDataContainer': resourceDataContainer,
+    };
+  }
 }
 
 /// A policy used by the function to access a resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceAccessPolicy {
   /// The ID of the resource. (This ID is assigned to the resource when you create
   /// the resource definiton.)
-  @_s.JsonKey(name: 'ResourceId')
   final String resourceId;
 
   /// The permissions that the Lambda function has to the resource. Can be one of
   /// ''rw'' (read/write) or ''ro'' (read-only).
-  @_s.JsonKey(name: 'Permission')
-  final Permission permission;
+  final Permission? permission;
 
   ResourceAccessPolicy({
-    @_s.required this.resourceId,
+    required this.resourceId,
     this.permission,
   });
-  factory ResourceAccessPolicy.fromJson(Map<String, dynamic> json) =>
-      _$ResourceAccessPolicyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceAccessPolicyToJson(this);
+  factory ResourceAccessPolicy.fromJson(Map<String, dynamic> json) {
+    return ResourceAccessPolicy(
+      resourceId: json['ResourceId'] as String,
+      permission: (json['Permission'] as String?)?.toPermission(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final permission = this.permission;
+    return {
+      'ResourceId': resourceId,
+      if (permission != null) 'Permission': permission.toValue(),
+    };
+  }
 }
 
 /// A container for resource data. The container takes only one of the following
@@ -6316,33 +7762,23 @@ class ResourceAccessPolicy {
 /// ''LocalVolumeResourceData'', ''SageMakerMachineLearningModelResourceData'',
 /// ''S3MachineLearningModelResourceData'',
 /// ''SecretsManagerSecretResourceData''.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceDataContainer {
   /// Attributes that define the local device resource.
-  @_s.JsonKey(name: 'LocalDeviceResourceData')
-  final LocalDeviceResourceData localDeviceResourceData;
+  final LocalDeviceResourceData? localDeviceResourceData;
 
   /// Attributes that define the local volume resource.
-  @_s.JsonKey(name: 'LocalVolumeResourceData')
-  final LocalVolumeResourceData localVolumeResourceData;
+  final LocalVolumeResourceData? localVolumeResourceData;
 
   /// Attributes that define an Amazon S3 machine learning resource.
-  @_s.JsonKey(name: 'S3MachineLearningModelResourceData')
-  final S3MachineLearningModelResourceData s3MachineLearningModelResourceData;
+  final S3MachineLearningModelResourceData? s3MachineLearningModelResourceData;
 
   /// Attributes that define an Amazon SageMaker machine learning resource.
-  @_s.JsonKey(name: 'SageMakerMachineLearningModelResourceData')
-  final SageMakerMachineLearningModelResourceData
+  final SageMakerMachineLearningModelResourceData?
       sageMakerMachineLearningModelResourceData;
 
   /// Attributes that define a secret resource, which references a secret from AWS
   /// Secrets Manager.
-  @_s.JsonKey(name: 'SecretsManagerSecretResourceData')
-  final SecretsManagerSecretResourceData secretsManagerSecretResourceData;
+  final SecretsManagerSecretResourceData? secretsManagerSecretResourceData;
 
   ResourceDataContainer({
     this.localDeviceResourceData,
@@ -6351,178 +7787,275 @@ class ResourceDataContainer {
     this.sageMakerMachineLearningModelResourceData,
     this.secretsManagerSecretResourceData,
   });
-  factory ResourceDataContainer.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDataContainerFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceDataContainerToJson(this);
+  factory ResourceDataContainer.fromJson(Map<String, dynamic> json) {
+    return ResourceDataContainer(
+      localDeviceResourceData: json['LocalDeviceResourceData'] != null
+          ? LocalDeviceResourceData.fromJson(
+              json['LocalDeviceResourceData'] as Map<String, dynamic>)
+          : null,
+      localVolumeResourceData: json['LocalVolumeResourceData'] != null
+          ? LocalVolumeResourceData.fromJson(
+              json['LocalVolumeResourceData'] as Map<String, dynamic>)
+          : null,
+      s3MachineLearningModelResourceData:
+          json['S3MachineLearningModelResourceData'] != null
+              ? S3MachineLearningModelResourceData.fromJson(
+                  json['S3MachineLearningModelResourceData']
+                      as Map<String, dynamic>)
+              : null,
+      sageMakerMachineLearningModelResourceData:
+          json['SageMakerMachineLearningModelResourceData'] != null
+              ? SageMakerMachineLearningModelResourceData.fromJson(
+                  json['SageMakerMachineLearningModelResourceData']
+                      as Map<String, dynamic>)
+              : null,
+      secretsManagerSecretResourceData:
+          json['SecretsManagerSecretResourceData'] != null
+              ? SecretsManagerSecretResourceData.fromJson(
+                  json['SecretsManagerSecretResourceData']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final localDeviceResourceData = this.localDeviceResourceData;
+    final localVolumeResourceData = this.localVolumeResourceData;
+    final s3MachineLearningModelResourceData =
+        this.s3MachineLearningModelResourceData;
+    final sageMakerMachineLearningModelResourceData =
+        this.sageMakerMachineLearningModelResourceData;
+    final secretsManagerSecretResourceData =
+        this.secretsManagerSecretResourceData;
+    return {
+      if (localDeviceResourceData != null)
+        'LocalDeviceResourceData': localDeviceResourceData,
+      if (localVolumeResourceData != null)
+        'LocalVolumeResourceData': localVolumeResourceData,
+      if (s3MachineLearningModelResourceData != null)
+        'S3MachineLearningModelResourceData':
+            s3MachineLearningModelResourceData,
+      if (sageMakerMachineLearningModelResourceData != null)
+        'SageMakerMachineLearningModelResourceData':
+            sageMakerMachineLearningModelResourceData,
+      if (secretsManagerSecretResourceData != null)
+        'SecretsManagerSecretResourceData': secretsManagerSecretResourceData,
+    };
+  }
 }
 
 /// Information about a resource definition version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceDefinitionVersion {
   /// A list of resources.
-  @_s.JsonKey(name: 'Resources')
-  final List<Resource> resources;
+  final List<Resource>? resources;
 
   ResourceDefinitionVersion({
     this.resources,
   });
-  factory ResourceDefinitionVersion.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDefinitionVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceDefinitionVersionToJson(this);
+  factory ResourceDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return ResourceDefinitionVersion(
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resources = this.resources;
+    return {
+      if (resources != null) 'Resources': resources,
+    };
+  }
 }
 
 /// The owner setting for downloaded machine learning resources.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceDownloadOwnerSetting {
   /// The group owner of the resource. This is the name of an existing Linux OS
   /// group on the system or a GID. The group's permissions are added to the
   /// Lambda process.
-  @_s.JsonKey(name: 'GroupOwner')
   final String groupOwner;
 
   /// The permissions that the group owner has to the resource. Valid values are
   /// ''rw'' (read/write) or ''ro'' (read-only).
-  @_s.JsonKey(name: 'GroupPermission')
   final Permission groupPermission;
 
   ResourceDownloadOwnerSetting({
-    @_s.required this.groupOwner,
-    @_s.required this.groupPermission,
+    required this.groupOwner,
+    required this.groupPermission,
   });
-  factory ResourceDownloadOwnerSetting.fromJson(Map<String, dynamic> json) =>
-      _$ResourceDownloadOwnerSettingFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceDownloadOwnerSettingToJson(this);
+  factory ResourceDownloadOwnerSetting.fromJson(Map<String, dynamic> json) {
+    return ResourceDownloadOwnerSetting(
+      groupOwner: json['GroupOwner'] as String,
+      groupPermission: (json['GroupPermission'] as String).toPermission(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupOwner = this.groupOwner;
+    final groupPermission = this.groupPermission;
+    return {
+      'GroupOwner': groupOwner,
+      'GroupPermission': groupPermission.toValue(),
+    };
+  }
 }
 
 /// Runtime configuration for a thing.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RuntimeConfiguration {
   /// Configuration for telemetry service.
-  @_s.JsonKey(name: 'TelemetryConfiguration')
-  final TelemetryConfiguration telemetryConfiguration;
+  final TelemetryConfiguration? telemetryConfiguration;
 
   RuntimeConfiguration({
     this.telemetryConfiguration,
   });
-  factory RuntimeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$RuntimeConfigurationFromJson(json);
+
+  factory RuntimeConfiguration.fromJson(Map<String, dynamic> json) {
+    return RuntimeConfiguration(
+      telemetryConfiguration: json['TelemetryConfiguration'] != null
+          ? TelemetryConfiguration.fromJson(
+              json['TelemetryConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final telemetryConfiguration = this.telemetryConfiguration;
+    return {
+      if (telemetryConfiguration != null)
+        'TelemetryConfiguration': telemetryConfiguration,
+    };
+  }
 }
 
 /// Attributes that define an Amazon S3 machine learning resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3MachineLearningModelResourceData {
   /// The absolute local path of the resource inside the Lambda environment.
-  @_s.JsonKey(name: 'DestinationPath')
-  final String destinationPath;
-  @_s.JsonKey(name: 'OwnerSetting')
-  final ResourceDownloadOwnerSetting ownerSetting;
+  final String? destinationPath;
+  final ResourceDownloadOwnerSetting? ownerSetting;
 
   /// The URI of the source model in an S3 bucket. The model package must be in
   /// tar.gz or .zip format.
-  @_s.JsonKey(name: 'S3Uri')
-  final String s3Uri;
+  final String? s3Uri;
 
   S3MachineLearningModelResourceData({
     this.destinationPath,
     this.ownerSetting,
     this.s3Uri,
   });
-  factory S3MachineLearningModelResourceData.fromJson(
-          Map<String, dynamic> json) =>
-      _$S3MachineLearningModelResourceDataFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$S3MachineLearningModelResourceDataToJson(this);
+  factory S3MachineLearningModelResourceData.fromJson(
+      Map<String, dynamic> json) {
+    return S3MachineLearningModelResourceData(
+      destinationPath: json['DestinationPath'] as String?,
+      ownerSetting: json['OwnerSetting'] != null
+          ? ResourceDownloadOwnerSetting.fromJson(
+              json['OwnerSetting'] as Map<String, dynamic>)
+          : null,
+      s3Uri: json['S3Uri'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationPath = this.destinationPath;
+    final ownerSetting = this.ownerSetting;
+    final s3Uri = this.s3Uri;
+    return {
+      if (destinationPath != null) 'DestinationPath': destinationPath,
+      if (ownerSetting != null) 'OwnerSetting': ownerSetting,
+      if (s3Uri != null) 'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// Attributes that define an Amazon SageMaker machine learning resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SageMakerMachineLearningModelResourceData {
   /// The absolute local path of the resource inside the Lambda environment.
-  @_s.JsonKey(name: 'DestinationPath')
-  final String destinationPath;
-  @_s.JsonKey(name: 'OwnerSetting')
-  final ResourceDownloadOwnerSetting ownerSetting;
+  final String? destinationPath;
+  final ResourceDownloadOwnerSetting? ownerSetting;
 
   /// The ARN of the Amazon SageMaker training job that represents the source
   /// model.
-  @_s.JsonKey(name: 'SageMakerJobArn')
-  final String sageMakerJobArn;
+  final String? sageMakerJobArn;
 
   SageMakerMachineLearningModelResourceData({
     this.destinationPath,
     this.ownerSetting,
     this.sageMakerJobArn,
   });
-  factory SageMakerMachineLearningModelResourceData.fromJson(
-          Map<String, dynamic> json) =>
-      _$SageMakerMachineLearningModelResourceDataFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$SageMakerMachineLearningModelResourceDataToJson(this);
+  factory SageMakerMachineLearningModelResourceData.fromJson(
+      Map<String, dynamic> json) {
+    return SageMakerMachineLearningModelResourceData(
+      destinationPath: json['DestinationPath'] as String?,
+      ownerSetting: json['OwnerSetting'] != null
+          ? ResourceDownloadOwnerSetting.fromJson(
+              json['OwnerSetting'] as Map<String, dynamic>)
+          : null,
+      sageMakerJobArn: json['SageMakerJobArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationPath = this.destinationPath;
+    final ownerSetting = this.ownerSetting;
+    final sageMakerJobArn = this.sageMakerJobArn;
+    return {
+      if (destinationPath != null) 'DestinationPath': destinationPath,
+      if (ownerSetting != null) 'OwnerSetting': ownerSetting,
+      if (sageMakerJobArn != null) 'SageMakerJobArn': sageMakerJobArn,
+    };
+  }
 }
 
 /// Attributes that define a secret resource, which references a secret from AWS
 /// Secrets Manager. AWS IoT Greengrass stores a local, encrypted copy of the
 /// secret on the Greengrass core, where it can be securely accessed by
 /// connectors and Lambda functions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SecretsManagerSecretResourceData {
   /// The ARN of the Secrets Manager secret to make available on the core. The
   /// value of the secret's latest version (represented by the ''AWSCURRENT''
   /// staging label) is included by default.
-  @_s.JsonKey(name: 'ARN')
-  final String arn;
+  final String? arn;
 
   /// Optional. The staging labels whose values you want to make available on the
   /// core, in addition to ''AWSCURRENT''.
-  @_s.JsonKey(name: 'AdditionalStagingLabelsToDownload')
-  final List<String> additionalStagingLabelsToDownload;
+  final List<String>? additionalStagingLabelsToDownload;
 
   SecretsManagerSecretResourceData({
     this.arn,
     this.additionalStagingLabelsToDownload,
   });
-  factory SecretsManagerSecretResourceData.fromJson(
-          Map<String, dynamic> json) =>
-      _$SecretsManagerSecretResourceDataFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$SecretsManagerSecretResourceDataToJson(this);
+  factory SecretsManagerSecretResourceData.fromJson(Map<String, dynamic> json) {
+    return SecretsManagerSecretResourceData(
+      arn: json['ARN'] as String?,
+      additionalStagingLabelsToDownload:
+          (json['AdditionalStagingLabelsToDownload'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final additionalStagingLabelsToDownload =
+        this.additionalStagingLabelsToDownload;
+    return {
+      if (arn != null) 'ARN': arn,
+      if (additionalStagingLabelsToDownload != null)
+        'AdditionalStagingLabelsToDownload': additionalStagingLabelsToDownload,
+    };
+  }
 }
 
 /// The piece of software on the Greengrass core that will be updated.
 enum SoftwareToUpdate {
-  @_s.JsonValue('core')
   core,
-  @_s.JsonValue('ota_agent')
   otaAgent,
 }
 
@@ -6534,170 +8067,232 @@ extension on SoftwareToUpdate {
       case SoftwareToUpdate.otaAgent:
         return 'ota_agent';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  SoftwareToUpdate toSoftwareToUpdate() {
+    switch (this) {
+      case 'core':
+        return SoftwareToUpdate.core;
+      case 'ota_agent':
+        return SoftwareToUpdate.otaAgent;
+    }
+    throw Exception('$this is not known in enum SoftwareToUpdate');
+  }
+}
+
 class StartBulkDeploymentResponse {
   /// The ARN of the bulk deployment.
-  @_s.JsonKey(name: 'BulkDeploymentArn')
-  final String bulkDeploymentArn;
+  final String? bulkDeploymentArn;
 
   /// The ID of the bulk deployment.
-  @_s.JsonKey(name: 'BulkDeploymentId')
-  final String bulkDeploymentId;
+  final String? bulkDeploymentId;
 
   StartBulkDeploymentResponse({
     this.bulkDeploymentArn,
     this.bulkDeploymentId,
   });
-  factory StartBulkDeploymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartBulkDeploymentResponseFromJson(json);
+
+  factory StartBulkDeploymentResponse.fromJson(Map<String, dynamic> json) {
+    return StartBulkDeploymentResponse(
+      bulkDeploymentArn: json['BulkDeploymentArn'] as String?,
+      bulkDeploymentId: json['BulkDeploymentId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bulkDeploymentArn = this.bulkDeploymentArn;
+    final bulkDeploymentId = this.bulkDeploymentId;
+    return {
+      if (bulkDeploymentArn != null) 'BulkDeploymentArn': bulkDeploymentArn,
+      if (bulkDeploymentId != null) 'BulkDeploymentId': bulkDeploymentId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopBulkDeploymentResponse {
   StopBulkDeploymentResponse();
-  factory StopBulkDeploymentResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopBulkDeploymentResponseFromJson(json);
+
+  factory StopBulkDeploymentResponse.fromJson(Map<String, dynamic> _) {
+    return StopBulkDeploymentResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about a subscription.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Subscription {
   /// A descriptive or arbitrary ID for the subscription. This value must be
   /// unique within the subscription definition version. Max length is 128
   /// characters with pattern ''[a-zA-Z0-9:_-]+''.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The source of the subscription. Can be a thing ARN, a Lambda function ARN, a
   /// connector ARN, 'cloud' (which represents the AWS IoT cloud), or
   /// 'GGShadowService'.
-  @_s.JsonKey(name: 'Source')
   final String source;
 
   /// The MQTT topic used to route the message.
-  @_s.JsonKey(name: 'Subject')
   final String subject;
 
   /// Where the message is sent to. Can be a thing ARN, a Lambda function ARN, a
   /// connector ARN, 'cloud' (which represents the AWS IoT cloud), or
   /// 'GGShadowService'.
-  @_s.JsonKey(name: 'Target')
   final String target;
 
   Subscription({
-    @_s.required this.id,
-    @_s.required this.source,
-    @_s.required this.subject,
-    @_s.required this.target,
+    required this.id,
+    required this.source,
+    required this.subject,
+    required this.target,
   });
-  factory Subscription.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SubscriptionToJson(this);
+  factory Subscription.fromJson(Map<String, dynamic> json) {
+    return Subscription(
+      id: json['Id'] as String,
+      source: json['Source'] as String,
+      subject: json['Subject'] as String,
+      target: json['Target'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final source = this.source;
+    final subject = this.subject;
+    final target = this.target;
+    return {
+      'Id': id,
+      'Source': source,
+      'Subject': subject,
+      'Target': target,
+    };
+  }
 }
 
 /// Information about a subscription definition version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SubscriptionDefinitionVersion {
   /// A list of subscriptions.
-  @_s.JsonKey(name: 'Subscriptions')
-  final List<Subscription> subscriptions;
+  final List<Subscription>? subscriptions;
 
   SubscriptionDefinitionVersion({
     this.subscriptions,
   });
-  factory SubscriptionDefinitionVersion.fromJson(Map<String, dynamic> json) =>
-      _$SubscriptionDefinitionVersionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SubscriptionDefinitionVersionToJson(this);
+  factory SubscriptionDefinitionVersion.fromJson(Map<String, dynamic> json) {
+    return SubscriptionDefinitionVersion(
+      subscriptions: (json['Subscriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Subscription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subscriptions = this.subscriptions;
+    return {
+      if (subscriptions != null) 'Subscriptions': subscriptions,
+    };
+  }
 }
 
 enum Telemetry {
-  @_s.JsonValue('On')
   on,
-  @_s.JsonValue('Off')
   off,
 }
 
+extension on Telemetry {
+  String toValue() {
+    switch (this) {
+      case Telemetry.on:
+        return 'On';
+      case Telemetry.off:
+        return 'Off';
+    }
+  }
+}
+
+extension on String {
+  Telemetry toTelemetry() {
+    switch (this) {
+      case 'On':
+        return Telemetry.on;
+      case 'Off':
+        return Telemetry.off;
+    }
+    throw Exception('$this is not known in enum Telemetry');
+  }
+}
+
 /// Configuration settings for running telemetry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TelemetryConfiguration {
   /// Configure telemetry to be on or off.
-  @_s.JsonKey(name: 'Telemetry')
   final Telemetry telemetry;
 
   /// Synchronization status of the device reported configuration with the desired
   /// configuration.
-  @_s.JsonKey(name: 'ConfigurationSyncStatus')
-  final ConfigurationSyncStatus configurationSyncStatus;
+  final ConfigurationSyncStatus? configurationSyncStatus;
 
   TelemetryConfiguration({
-    @_s.required this.telemetry,
+    required this.telemetry,
     this.configurationSyncStatus,
   });
-  factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$TelemetryConfigurationFromJson(json);
+
+  factory TelemetryConfiguration.fromJson(Map<String, dynamic> json) {
+    return TelemetryConfiguration(
+      telemetry: (json['Telemetry'] as String).toTelemetry(),
+      configurationSyncStatus: (json['ConfigurationSyncStatus'] as String?)
+          ?.toConfigurationSyncStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final telemetry = this.telemetry;
+    final configurationSyncStatus = this.configurationSyncStatus;
+    return {
+      'Telemetry': telemetry.toValue(),
+      if (configurationSyncStatus != null)
+        'ConfigurationSyncStatus': configurationSyncStatus.toValue(),
+    };
+  }
 }
 
 /// Configuration settings for running telemetry.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TelemetryConfigurationUpdate {
   /// Configure telemetry to be on or off.
-  @_s.JsonKey(name: 'Telemetry')
   final Telemetry telemetry;
 
   TelemetryConfigurationUpdate({
-    @_s.required this.telemetry,
+    required this.telemetry,
   });
-  Map<String, dynamic> toJson() => _$TelemetryConfigurationUpdateToJson(this);
+
+  factory TelemetryConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return TelemetryConfigurationUpdate(
+      telemetry: (json['Telemetry'] as String).toTelemetry(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final telemetry = this.telemetry;
+    return {
+      'Telemetry': telemetry.toValue(),
+    };
+  }
 }
 
 /// The minimum level of log statements that should be logged by the OTA Agent
 /// during an update.
 enum UpdateAgentLogLevel {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('TRACE')
   trace,
-  @_s.JsonValue('DEBUG')
   debug,
-  @_s.JsonValue('VERBOSE')
   verbose,
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('FATAL')
   fatal,
 }
 
@@ -6721,163 +8316,210 @@ extension on UpdateAgentLogLevel {
       case UpdateAgentLogLevel.fatal:
         return 'FATAL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  UpdateAgentLogLevel toUpdateAgentLogLevel() {
+    switch (this) {
+      case 'NONE':
+        return UpdateAgentLogLevel.none;
+      case 'TRACE':
+        return UpdateAgentLogLevel.trace;
+      case 'DEBUG':
+        return UpdateAgentLogLevel.debug;
+      case 'VERBOSE':
+        return UpdateAgentLogLevel.verbose;
+      case 'INFO':
+        return UpdateAgentLogLevel.info;
+      case 'WARN':
+        return UpdateAgentLogLevel.warn;
+      case 'ERROR':
+        return UpdateAgentLogLevel.error;
+      case 'FATAL':
+        return UpdateAgentLogLevel.fatal;
+    }
+    throw Exception('$this is not known in enum UpdateAgentLogLevel');
+  }
+}
+
 class UpdateConnectivityInfoResponse {
   /// A message about the connectivity info update request.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The new version of the connectivity info.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   UpdateConnectivityInfoResponse({
     this.message,
     this.version,
   });
-  factory UpdateConnectivityInfoResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateConnectivityInfoResponseFromJson(json);
+
+  factory UpdateConnectivityInfoResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectivityInfoResponse(
+      message: json['message'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final version = this.version;
+    return {
+      if (message != null) 'message': message,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConnectorDefinitionResponse {
   UpdateConnectorDefinitionResponse();
-  factory UpdateConnectorDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateConnectorDefinitionResponseFromJson(json);
+
+  factory UpdateConnectorDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateConnectorDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateCoreDefinitionResponse {
   UpdateCoreDefinitionResponse();
-  factory UpdateCoreDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateCoreDefinitionResponseFromJson(json);
+
+  factory UpdateCoreDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateCoreDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeviceDefinitionResponse {
   UpdateDeviceDefinitionResponse();
-  factory UpdateDeviceDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeviceDefinitionResponseFromJson(json);
+
+  factory UpdateDeviceDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDeviceDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFunctionDefinitionResponse {
   UpdateFunctionDefinitionResponse();
-  factory UpdateFunctionDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateFunctionDefinitionResponseFromJson(json);
+
+  factory UpdateFunctionDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateFunctionDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGroupCertificateConfigurationResponse {
   /// The amount of time remaining before the certificate authority expires, in
   /// milliseconds.
-  @_s.JsonKey(name: 'CertificateAuthorityExpiryInMilliseconds')
-  final String certificateAuthorityExpiryInMilliseconds;
+  final String? certificateAuthorityExpiryInMilliseconds;
 
   /// The amount of time remaining before the certificate expires, in
   /// milliseconds.
-  @_s.JsonKey(name: 'CertificateExpiryInMilliseconds')
-  final String certificateExpiryInMilliseconds;
+  final String? certificateExpiryInMilliseconds;
 
   /// The ID of the group certificate configuration.
-  @_s.JsonKey(name: 'GroupId')
-  final String groupId;
+  final String? groupId;
 
   UpdateGroupCertificateConfigurationResponse({
     this.certificateAuthorityExpiryInMilliseconds,
     this.certificateExpiryInMilliseconds,
     this.groupId,
   });
+
   factory UpdateGroupCertificateConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateGroupCertificateConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateGroupCertificateConfigurationResponse(
+      certificateAuthorityExpiryInMilliseconds:
+          json['CertificateAuthorityExpiryInMilliseconds'] as String?,
+      certificateExpiryInMilliseconds:
+          json['CertificateExpiryInMilliseconds'] as String?,
+      groupId: json['GroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityExpiryInMilliseconds =
+        this.certificateAuthorityExpiryInMilliseconds;
+    final certificateExpiryInMilliseconds =
+        this.certificateExpiryInMilliseconds;
+    final groupId = this.groupId;
+    return {
+      if (certificateAuthorityExpiryInMilliseconds != null)
+        'CertificateAuthorityExpiryInMilliseconds':
+            certificateAuthorityExpiryInMilliseconds,
+      if (certificateExpiryInMilliseconds != null)
+        'CertificateExpiryInMilliseconds': certificateExpiryInMilliseconds,
+      if (groupId != null) 'GroupId': groupId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGroupResponse {
   UpdateGroupResponse();
-  factory UpdateGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGroupResponseFromJson(json);
+
+  factory UpdateGroupResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateGroupResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateLoggerDefinitionResponse {
   UpdateLoggerDefinitionResponse();
-  factory UpdateLoggerDefinitionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateLoggerDefinitionResponseFromJson(json);
+
+  factory UpdateLoggerDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateLoggerDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateResourceDefinitionResponse {
   UpdateResourceDefinitionResponse();
-  factory UpdateResourceDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateResourceDefinitionResponseFromJson(json);
+
+  factory UpdateResourceDefinitionResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateResourceDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSubscriptionDefinitionResponse {
   UpdateSubscriptionDefinitionResponse();
+
   factory UpdateSubscriptionDefinitionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateSubscriptionDefinitionResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateSubscriptionDefinitionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The architecture of the cores which are the targets of an update.
 enum UpdateTargetsArchitecture {
-  @_s.JsonValue('armv6l')
   armv6l,
-  @_s.JsonValue('armv7l')
   armv7l,
-  @_s.JsonValue('x86_64')
   x86_64,
-  @_s.JsonValue('aarch64')
   aarch64,
 }
 
@@ -6893,19 +8535,30 @@ extension on UpdateTargetsArchitecture {
       case UpdateTargetsArchitecture.aarch64:
         return 'aarch64';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UpdateTargetsArchitecture toUpdateTargetsArchitecture() {
+    switch (this) {
+      case 'armv6l':
+        return UpdateTargetsArchitecture.armv6l;
+      case 'armv7l':
+        return UpdateTargetsArchitecture.armv7l;
+      case 'x86_64':
+        return UpdateTargetsArchitecture.x86_64;
+      case 'aarch64':
+        return UpdateTargetsArchitecture.aarch64;
+    }
+    throw Exception('$this is not known in enum UpdateTargetsArchitecture');
   }
 }
 
 /// The operating system of the cores which are the targets of an update.
 enum UpdateTargetsOperatingSystem {
-  @_s.JsonValue('ubuntu')
   ubuntu,
-  @_s.JsonValue('raspbian')
   raspbian,
-  @_s.JsonValue('amazon_linux')
   amazonLinux,
-  @_s.JsonValue('openwrt')
   openwrt,
 }
 
@@ -6921,44 +8574,51 @@ extension on UpdateTargetsOperatingSystem {
       case UpdateTargetsOperatingSystem.openwrt:
         return 'openwrt';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  UpdateTargetsOperatingSystem toUpdateTargetsOperatingSystem() {
+    switch (this) {
+      case 'ubuntu':
+        return UpdateTargetsOperatingSystem.ubuntu;
+      case 'raspbian':
+        return UpdateTargetsOperatingSystem.raspbian;
+      case 'amazon_linux':
+        return UpdateTargetsOperatingSystem.amazonLinux;
+      case 'openwrt':
+        return UpdateTargetsOperatingSystem.openwrt;
+    }
+    throw Exception('$this is not known in enum UpdateTargetsOperatingSystem');
+  }
+}
+
 class UpdateThingRuntimeConfigurationResponse {
   UpdateThingRuntimeConfigurationResponse();
+
   factory UpdateThingRuntimeConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateThingRuntimeConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateThingRuntimeConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Information about a version.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VersionInformation {
   /// The ARN of the version.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time, in milliseconds since the epoch, when the version was created.
-  @_s.JsonKey(name: 'CreationTimestamp')
-  final String creationTimestamp;
+  final String? creationTimestamp;
 
   /// The ID of the parent definition that the version is associated with.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The ID of the version.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   VersionInformation({
     this.arn,
@@ -6966,17 +8626,37 @@ class VersionInformation {
     this.id,
     this.version,
   });
-  factory VersionInformation.fromJson(Map<String, dynamic> json) =>
-      _$VersionInformationFromJson(json);
+
+  factory VersionInformation.fromJson(Map<String, dynamic> json) {
+    return VersionInformation(
+      arn: json['Arn'] as String?,
+      creationTimestamp: json['CreationTimestamp'] as String?,
+      id: json['Id'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTimestamp = this.creationTimestamp;
+    final id = this.id;
+    final version = this.version;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTimestamp != null) 'CreationTimestamp': creationTimestamp,
+      if (id != null) 'Id': id,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }

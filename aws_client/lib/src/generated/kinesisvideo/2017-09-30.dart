@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-09-30.g.dart';
 
 /// <p/>
 class KinesisVideo {
   final _s.RestJsonProtocol _protocol;
   KinesisVideo({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -71,10 +64,10 @@ class KinesisVideo {
   /// A set of tags (key-value pairs) that you want to associate with this
   /// channel.
   Future<CreateSignalingChannelOutput> createSignalingChannel({
-    @_s.required String channelName,
-    ChannelType channelType,
-    SingleMasterConfiguration singleMasterConfiguration,
-    List<Tag> tags,
+    required String channelName,
+    ChannelType? channelType,
+    SingleMasterConfiguration? singleMasterConfiguration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(channelName, 'channelName');
     _s.validateStringLength(
@@ -82,12 +75,6 @@ class KinesisVideo {
       channelName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -182,12 +169,12 @@ class KinesisVideo {
   /// A list of tags to associate with the specified stream. Each tag is a
   /// key-value pair (the value is optional).
   Future<CreateStreamOutput> createStream({
-    @_s.required String streamName,
-    int dataRetentionInHours,
-    String deviceName,
-    String kmsKeyId,
-    String mediaType,
-    Map<String, String> tags,
+    required String streamName,
+    int? dataRetentionInHours,
+    String? deviceName,
+    String? kmsKeyId,
+    String? mediaType,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
@@ -195,12 +182,6 @@ class KinesisVideo {
       streamName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -215,32 +196,17 @@ class KinesisVideo {
       1,
       128,
     );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
       1,
       2048,
     );
-    _s.validateStringPattern(
-      'kmsKeyId',
-      kmsKeyId,
-      r'''.+''',
-    );
     _s.validateStringLength(
       'mediaType',
       mediaType,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'mediaType',
-      mediaType,
-      r'''[\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*''',
     );
     final $payload = <String, dynamic>{
       'StreamName': streamName,
@@ -281,8 +247,8 @@ class KinesisVideo {
   /// <code>DescribeSignalingChannel</code> or
   /// <code>ListSignalingChannels</code> API operations.
   Future<void> deleteSignalingChannel({
-    @_s.required String channelARN,
-    String currentVersion,
+    required String channelARN,
+    String? currentVersion,
   }) async {
     ArgumentError.checkNotNull(channelARN, 'channelARN');
     _s.validateStringLength(
@@ -292,22 +258,11 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'currentVersion',
       currentVersion,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
     );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
@@ -319,7 +274,6 @@ class KinesisVideo {
       requestUri: '/deleteSignalingChannel',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSignalingChannelOutput.fromJson(response);
   }
 
   /// Deletes a Kinesis video stream and the data contained in the stream.
@@ -358,8 +312,8 @@ class KinesisVideo {
   /// If not specified, only the <code>CreationTime</code> is checked before
   /// deleting the stream.
   Future<void> deleteStream({
-    @_s.required String streamARN,
-    String currentVersion,
+    required String streamARN,
+    String? currentVersion,
   }) async {
     ArgumentError.checkNotNull(streamARN, 'streamARN');
     _s.validateStringLength(
@@ -369,22 +323,11 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'currentVersion',
       currentVersion,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
     );
     final $payload = <String, dynamic>{
       'StreamARN': streamARN,
@@ -396,7 +339,6 @@ class KinesisVideo {
       requestUri: '/deleteStream',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteStreamOutput.fromJson(response);
   }
 
   /// Returns the most current information about the signaling channel. You must
@@ -414,8 +356,8 @@ class KinesisVideo {
   /// Parameter [channelName] :
   /// The name of the signaling channel that you want to describe.
   Future<DescribeSignalingChannelOutput> describeSignalingChannel({
-    String channelARN,
-    String channelName,
+    String? channelARN,
+    String? channelName,
   }) async {
     _s.validateStringLength(
       'channelARN',
@@ -423,21 +365,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'channelName',
       channelName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'channelName',
-      channelName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (channelARN != null) 'ChannelARN': channelARN,
@@ -466,8 +398,8 @@ class KinesisVideo {
   /// Parameter [streamName] :
   /// The name of the stream.
   Future<DescribeStreamOutput> describeStream({
-    String streamARN,
-    String streamName,
+    String? streamARN,
+    String? streamName,
   }) async {
     _s.validateStringLength(
       'streamARN',
@@ -475,21 +407,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (streamARN != null) 'StreamARN': streamARN,
@@ -532,9 +454,9 @@ class KinesisVideo {
   /// The name of the stream that you want to get the endpoint for. You must
   /// specify either this parameter or a <code>StreamARN</code> in the request.
   Future<GetDataEndpointOutput> getDataEndpoint({
-    @_s.required APIName aPIName,
-    String streamARN,
-    String streamName,
+    required APIName aPIName,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(aPIName, 'aPIName');
     _s.validateStringLength(
@@ -543,24 +465,14 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     final $payload = <String, dynamic>{
-      'APIName': aPIName?.toValue() ?? '',
+      'APIName': aPIName.toValue(),
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -604,8 +516,8 @@ class KinesisVideo {
   /// A structure containing the endpoint configuration for the
   /// <code>SINGLE_MASTER</code> channel type.
   Future<GetSignalingChannelEndpointOutput> getSignalingChannelEndpoint({
-    @_s.required String channelARN,
-    SingleMasterChannelEndpointConfiguration
+    required String channelARN,
+    SingleMasterChannelEndpointConfiguration?
         singleMasterChannelEndpointConfiguration,
   }) async {
     ArgumentError.checkNotNull(channelARN, 'channelARN');
@@ -614,12 +526,6 @@ class KinesisVideo {
       channelARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -659,9 +565,9 @@ class KinesisVideo {
   /// returns the <code>NextToken</code> in the response. To get another batch
   /// of channels, provide this token in your next request.
   Future<ListSignalingChannelsOutput> listSignalingChannels({
-    ChannelNameCondition channelNameCondition,
-    int maxResults,
-    String nextToken,
+    ChannelNameCondition? channelNameCondition,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -674,11 +580,6 @@ class KinesisVideo {
       nextToken,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
     );
     final $payload = <String, dynamic>{
       if (channelNameCondition != null)
@@ -717,9 +618,9 @@ class KinesisVideo {
   /// Currently, you can specify only the prefix of a stream name as a
   /// condition.
   Future<ListStreamsOutput> listStreams({
-    int maxResults,
-    String nextToken,
-    StreamNameCondition streamNameCondition,
+    int? maxResults,
+    String? nextToken,
+    StreamNameCondition? streamNameCondition,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -732,11 +633,6 @@ class KinesisVideo {
       nextToken,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
@@ -770,8 +666,8 @@ class KinesisVideo {
   /// a token that you can use in the next request to fetch the next batch of
   /// tags.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceARN,
-    String nextToken,
+    required String resourceARN,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -781,22 +677,11 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       512,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
     );
     final $payload = <String, dynamic>{
       'ResourceARN': resourceARN,
@@ -835,9 +720,9 @@ class KinesisVideo {
   /// Parameter [streamName] :
   /// The name of the stream that you want to list tags for.
   Future<ListTagsForStreamOutput> listTagsForStream({
-    String nextToken,
-    String streamARN,
-    String streamName,
+    String? nextToken,
+    String? streamARN,
+    String? streamName,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -845,32 +730,17 @@ class KinesisVideo {
       0,
       512,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/=]*''',
-    );
     _s.validateStringLength(
       'streamARN',
       streamARN,
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (nextToken != null) 'NextToken': nextToken,
@@ -909,8 +779,8 @@ class KinesisVideo {
   /// A list of tags to associate with the specified signaling channel. Each tag
   /// is a key-value pair.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -918,12 +788,6 @@ class KinesisVideo {
       resourceARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -937,7 +801,6 @@ class KinesisVideo {
       requestUri: '/TagResource',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceOutput.fromJson(response);
   }
 
   /// Adds one or more tags to a stream. A <i>tag</i> is a key-value pair (the
@@ -974,9 +837,9 @@ class KinesisVideo {
   /// Parameter [streamName] :
   /// The name of the stream that you want to add the tag or tags to.
   Future<void> tagStream({
-    @_s.required Map<String, String> tags,
-    String streamARN,
-    String streamName,
+    required Map<String, String> tags,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(tags, 'tags');
     _s.validateStringLength(
@@ -985,21 +848,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -1012,7 +865,6 @@ class KinesisVideo {
       requestUri: '/tagStream',
       exceptionFnMap: _exceptionFns,
     );
-    return TagStreamOutput.fromJson(response);
   }
 
   /// Removes one or more tags from a signaling channel. In the request, specify
@@ -1031,8 +883,8 @@ class KinesisVideo {
   /// Parameter [tagKeyList] :
   /// A list of the keys of the tags that you want to remove.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeyList,
+    required String resourceARN,
+    required List<String> tagKeyList,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1040,12 +892,6 @@ class KinesisVideo {
       resourceARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
@@ -1059,7 +905,6 @@ class KinesisVideo {
       requestUri: '/UntagResource',
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceOutput.fromJson(response);
   }
 
   /// Removes one or more tags from a stream. In the request, specify only a tag
@@ -1085,9 +930,9 @@ class KinesisVideo {
   /// Parameter [streamName] :
   /// The name of the stream that you want to remove tags from.
   Future<void> untagStream({
-    @_s.required List<String> tagKeyList,
-    String streamARN,
-    String streamName,
+    required List<String> tagKeyList,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     _s.validateStringLength(
@@ -1096,21 +941,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'TagKeyList': tagKeyList,
@@ -1123,7 +958,6 @@ class KinesisVideo {
       requestUri: '/untagStream',
       exceptionFnMap: _exceptionFns,
     );
-    return UntagStreamOutput.fromJson(response);
   }
 
   /// Increases or decreases the stream's data retention period by the value
@@ -1181,11 +1015,11 @@ class KinesisVideo {
   /// Parameter [streamName] :
   /// The name of the stream whose retention period you want to change.
   Future<void> updateDataRetention({
-    @_s.required String currentVersion,
-    @_s.required int dataRetentionChangeInHours,
-    @_s.required UpdateDataRetentionOperation operation,
-    String streamARN,
-    String streamName,
+    required String currentVersion,
+    required int dataRetentionChangeInHours,
+    required UpdateDataRetentionOperation operation,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     _s.validateStringLength(
@@ -1193,12 +1027,6 @@ class KinesisVideo {
       currentVersion,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -1217,26 +1045,16 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
       'DataRetentionChangeInHours': dataRetentionChangeInHours,
-      'Operation': operation?.toValue() ?? '',
+      'Operation': operation.toValue(),
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -1246,7 +1064,6 @@ class KinesisVideo {
       requestUri: '/updateDataRetention',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateDataRetentionOutput.fromJson(response);
   }
 
   /// Updates the existing signaling channel. This is an asynchronous operation
@@ -1276,9 +1093,9 @@ class KinesisVideo {
   /// <code>SINGLE_MASTER</code> type of the signaling channel that you want to
   /// update.
   Future<void> updateSignalingChannel({
-    @_s.required String channelARN,
-    @_s.required String currentVersion,
-    SingleMasterConfiguration singleMasterConfiguration,
+    required String channelARN,
+    required String currentVersion,
+    SingleMasterConfiguration? singleMasterConfiguration,
   }) async {
     ArgumentError.checkNotNull(channelARN, 'channelARN');
     _s.validateStringLength(
@@ -1288,24 +1105,12 @@ class KinesisVideo {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     _s.validateStringLength(
       'currentVersion',
       currentVersion,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -1320,7 +1125,6 @@ class KinesisVideo {
       requestUri: '/updateSignalingChannel',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSignalingChannelOutput.fromJson(response);
   }
 
   /// Updates stream metadata, such as the device name and media type.
@@ -1376,11 +1180,11 @@ class KinesisVideo {
   /// The stream name is an identifier for the stream, and must be unique for
   /// each account and region.
   Future<void> updateStream({
-    @_s.required String currentVersion,
-    String deviceName,
-    String mediaType,
-    String streamARN,
-    String streamName,
+    required String currentVersion,
+    String? deviceName,
+    String? mediaType,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     _s.validateStringLength(
@@ -1390,33 +1194,17 @@ class KinesisVideo {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'currentVersion',
-      currentVersion,
-      r'''[a-zA-Z0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'deviceName',
       deviceName,
       1,
       128,
     );
-    _s.validateStringPattern(
-      'deviceName',
-      deviceName,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     _s.validateStringLength(
       'mediaType',
       mediaType,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'mediaType',
-      mediaType,
-      r'''[\w\-\.\+]+/[\w\-\.\+]+(,[\w\-\.\+]+/[\w\-\.\+]+)*''',
     );
     _s.validateStringLength(
       'streamARN',
@@ -1424,21 +1212,11 @@ class KinesisVideo {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
@@ -1453,24 +1231,16 @@ class KinesisVideo {
       requestUri: '/updateStream',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateStreamOutput.fromJson(response);
   }
 }
 
 enum APIName {
-  @_s.JsonValue('PUT_MEDIA')
   putMedia,
-  @_s.JsonValue('GET_MEDIA')
   getMedia,
-  @_s.JsonValue('LIST_FRAGMENTS')
   listFragments,
-  @_s.JsonValue('GET_MEDIA_FOR_FRAGMENT_LIST')
   getMediaForFragmentList,
-  @_s.JsonValue('GET_HLS_STREAMING_SESSION_URL')
   getHlsStreamingSessionUrl,
-  @_s.JsonValue('GET_DASH_STREAMING_SESSION_URL')
   getDashStreamingSessionUrl,
-  @_s.JsonValue('GET_CLIP')
   getClip,
 }
 
@@ -1492,46 +1262,54 @@ extension on APIName {
       case APIName.getClip:
         return 'GET_CLIP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  APIName toAPIName() {
+    switch (this) {
+      case 'PUT_MEDIA':
+        return APIName.putMedia;
+      case 'GET_MEDIA':
+        return APIName.getMedia;
+      case 'LIST_FRAGMENTS':
+        return APIName.listFragments;
+      case 'GET_MEDIA_FOR_FRAGMENT_LIST':
+        return APIName.getMediaForFragmentList;
+      case 'GET_HLS_STREAMING_SESSION_URL':
+        return APIName.getHlsStreamingSessionUrl;
+      case 'GET_DASH_STREAMING_SESSION_URL':
+        return APIName.getDashStreamingSessionUrl;
+      case 'GET_CLIP':
+        return APIName.getClip;
+    }
+    throw Exception('$this is not known in enum APIName');
   }
 }
 
 /// A structure that encapsulates a signaling channel's metadata and properties.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChannelInfo {
   /// The Amazon Resource Name (ARN) of the signaling channel.
-  @_s.JsonKey(name: 'ChannelARN')
-  final String channelARN;
+  final String? channelARN;
 
   /// The name of the signaling channel.
-  @_s.JsonKey(name: 'ChannelName')
-  final String channelName;
+  final String? channelName;
 
   /// Current status of the signaling channel.
-  @_s.JsonKey(name: 'ChannelStatus')
-  final Status channelStatus;
+  final Status? channelStatus;
 
   /// The type of the signaling channel.
-  @_s.JsonKey(name: 'ChannelType')
-  final ChannelType channelType;
+  final ChannelType? channelType;
 
   /// The time at which the signaling channel was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// A structure that contains the configuration for the
   /// <code>SINGLE_MASTER</code> channel type.
-  @_s.JsonKey(name: 'SingleMasterConfiguration')
-  final SingleMasterConfiguration singleMasterConfiguration;
+  final SingleMasterConfiguration? singleMasterConfiguration;
 
   /// The current version of the signaling channel.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   ChannelInfo({
     this.channelARN,
@@ -1542,53 +1320,138 @@ class ChannelInfo {
     this.singleMasterConfiguration,
     this.version,
   });
-  factory ChannelInfo.fromJson(Map<String, dynamic> json) =>
-      _$ChannelInfoFromJson(json);
+
+  factory ChannelInfo.fromJson(Map<String, dynamic> json) {
+    return ChannelInfo(
+      channelARN: json['ChannelARN'] as String?,
+      channelName: json['ChannelName'] as String?,
+      channelStatus: (json['ChannelStatus'] as String?)?.toStatus(),
+      channelType: (json['ChannelType'] as String?)?.toChannelType(),
+      creationTime: timeStampFromJson(json['CreationTime']),
+      singleMasterConfiguration: json['SingleMasterConfiguration'] != null
+          ? SingleMasterConfiguration.fromJson(
+              json['SingleMasterConfiguration'] as Map<String, dynamic>)
+          : null,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelARN = this.channelARN;
+    final channelName = this.channelName;
+    final channelStatus = this.channelStatus;
+    final channelType = this.channelType;
+    final creationTime = this.creationTime;
+    final singleMasterConfiguration = this.singleMasterConfiguration;
+    final version = this.version;
+    return {
+      if (channelARN != null) 'ChannelARN': channelARN,
+      if (channelName != null) 'ChannelName': channelName,
+      if (channelStatus != null) 'ChannelStatus': channelStatus.toValue(),
+      if (channelType != null) 'ChannelType': channelType.toValue(),
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (singleMasterConfiguration != null)
+        'SingleMasterConfiguration': singleMasterConfiguration,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// An optional input parameter for the <code>ListSignalingChannels</code> API.
 /// When this parameter is specified while invoking
 /// <code>ListSignalingChannels</code>, the API returns only the channels that
 /// satisfy a condition specified in <code>ChannelNameCondition</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ChannelNameCondition {
   /// A comparison operator. Currently, you can only specify the
   /// <code>BEGINS_WITH</code> operator, which finds signaling channels whose
   /// names begin with a given prefix.
-  @_s.JsonKey(name: 'ComparisonOperator')
-  final ComparisonOperator comparisonOperator;
+  final ComparisonOperator? comparisonOperator;
 
   /// A value to compare.
-  @_s.JsonKey(name: 'ComparisonValue')
-  final String comparisonValue;
+  final String? comparisonValue;
 
   ChannelNameCondition({
     this.comparisonOperator,
     this.comparisonValue,
   });
-  Map<String, dynamic> toJson() => _$ChannelNameConditionToJson(this);
+
+  factory ChannelNameCondition.fromJson(Map<String, dynamic> json) {
+    return ChannelNameCondition(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String?)?.toComparisonOperator(),
+      comparisonValue: json['ComparisonValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final comparisonValue = this.comparisonValue;
+    return {
+      if (comparisonOperator != null)
+        'ComparisonOperator': comparisonOperator.toValue(),
+      if (comparisonValue != null) 'ComparisonValue': comparisonValue,
+    };
+  }
 }
 
 enum ChannelProtocol {
-  @_s.JsonValue('WSS')
   wss,
-  @_s.JsonValue('HTTPS')
   https,
 }
 
+extension on ChannelProtocol {
+  String toValue() {
+    switch (this) {
+      case ChannelProtocol.wss:
+        return 'WSS';
+      case ChannelProtocol.https:
+        return 'HTTPS';
+    }
+  }
+}
+
+extension on String {
+  ChannelProtocol toChannelProtocol() {
+    switch (this) {
+      case 'WSS':
+        return ChannelProtocol.wss;
+      case 'HTTPS':
+        return ChannelProtocol.https;
+    }
+    throw Exception('$this is not known in enum ChannelProtocol');
+  }
+}
+
 enum ChannelRole {
-  @_s.JsonValue('MASTER')
   master,
-  @_s.JsonValue('VIEWER')
   viewer,
 }
 
+extension on ChannelRole {
+  String toValue() {
+    switch (this) {
+      case ChannelRole.master:
+        return 'MASTER';
+      case ChannelRole.viewer:
+        return 'VIEWER';
+    }
+  }
+}
+
+extension on String {
+  ChannelRole toChannelRole() {
+    switch (this) {
+      case 'MASTER':
+        return ChannelRole.master;
+      case 'VIEWER':
+        return ChannelRole.viewer;
+    }
+    throw Exception('$this is not known in enum ChannelRole');
+  }
+}
+
 enum ChannelType {
-  @_s.JsonValue('SINGLE_MASTER')
   singleMaster,
 }
 
@@ -1598,277 +1461,382 @@ extension on ChannelType {
       case ChannelType.singleMaster:
         return 'SINGLE_MASTER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ChannelType toChannelType() {
+    switch (this) {
+      case 'SINGLE_MASTER':
+        return ChannelType.singleMaster;
+    }
+    throw Exception('$this is not known in enum ChannelType');
   }
 }
 
 enum ComparisonOperator {
-  @_s.JsonValue('BEGINS_WITH')
   beginsWith,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.beginsWith:
+        return 'BEGINS_WITH';
+    }
+  }
+}
+
+extension on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'BEGINS_WITH':
+        return ComparisonOperator.beginsWith;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
+}
+
 class CreateSignalingChannelOutput {
   /// The Amazon Resource Name (ARN) of the created channel.
-  @_s.JsonKey(name: 'ChannelARN')
-  final String channelARN;
+  final String? channelARN;
 
   CreateSignalingChannelOutput({
     this.channelARN,
   });
-  factory CreateSignalingChannelOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateSignalingChannelOutputFromJson(json);
+
+  factory CreateSignalingChannelOutput.fromJson(Map<String, dynamic> json) {
+    return CreateSignalingChannelOutput(
+      channelARN: json['ChannelARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelARN = this.channelARN;
+    return {
+      if (channelARN != null) 'ChannelARN': channelARN,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateStreamOutput {
   /// The Amazon Resource Name (ARN) of the stream.
-  @_s.JsonKey(name: 'StreamARN')
-  final String streamARN;
+  final String? streamARN;
 
   CreateStreamOutput({
     this.streamARN,
   });
-  factory CreateStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateStreamOutputFromJson(json);
+
+  factory CreateStreamOutput.fromJson(Map<String, dynamic> json) {
+    return CreateStreamOutput(
+      streamARN: json['StreamARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamARN = this.streamARN;
+    return {
+      if (streamARN != null) 'StreamARN': streamARN,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSignalingChannelOutput {
   DeleteSignalingChannelOutput();
-  factory DeleteSignalingChannelOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSignalingChannelOutputFromJson(json);
+
+  factory DeleteSignalingChannelOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteSignalingChannelOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteStreamOutput {
   DeleteStreamOutput();
-  factory DeleteStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteStreamOutputFromJson(json);
+
+  factory DeleteStreamOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSignalingChannelOutput {
   /// A structure that encapsulates the specified signaling channel's metadata and
   /// properties.
-  @_s.JsonKey(name: 'ChannelInfo')
-  final ChannelInfo channelInfo;
+  final ChannelInfo? channelInfo;
 
   DescribeSignalingChannelOutput({
     this.channelInfo,
   });
-  factory DescribeSignalingChannelOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSignalingChannelOutputFromJson(json);
+
+  factory DescribeSignalingChannelOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeSignalingChannelOutput(
+      channelInfo: json['ChannelInfo'] != null
+          ? ChannelInfo.fromJson(json['ChannelInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelInfo = this.channelInfo;
+    return {
+      if (channelInfo != null) 'ChannelInfo': channelInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeStreamOutput {
   /// An object that describes the stream.
-  @_s.JsonKey(name: 'StreamInfo')
-  final StreamInfo streamInfo;
+  final StreamInfo? streamInfo;
 
   DescribeStreamOutput({
     this.streamInfo,
   });
-  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeStreamOutputFromJson(json);
+
+  factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeStreamOutput(
+      streamInfo: json['StreamInfo'] != null
+          ? StreamInfo.fromJson(json['StreamInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final streamInfo = this.streamInfo;
+    return {
+      if (streamInfo != null) 'StreamInfo': streamInfo,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDataEndpointOutput {
   /// The endpoint value. To read data from the stream or to write data to it,
   /// specify this endpoint in your application.
-  @_s.JsonKey(name: 'DataEndpoint')
-  final String dataEndpoint;
+  final String? dataEndpoint;
 
   GetDataEndpointOutput({
     this.dataEndpoint,
   });
-  factory GetDataEndpointOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetDataEndpointOutputFromJson(json);
+
+  factory GetDataEndpointOutput.fromJson(Map<String, dynamic> json) {
+    return GetDataEndpointOutput(
+      dataEndpoint: json['DataEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataEndpoint = this.dataEndpoint;
+    return {
+      if (dataEndpoint != null) 'DataEndpoint': dataEndpoint,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSignalingChannelEndpointOutput {
   /// A list of endpoints for the specified signaling channel.
-  @_s.JsonKey(name: 'ResourceEndpointList')
-  final List<ResourceEndpointListItem> resourceEndpointList;
+  final List<ResourceEndpointListItem>? resourceEndpointList;
 
   GetSignalingChannelEndpointOutput({
     this.resourceEndpointList,
   });
+
   factory GetSignalingChannelEndpointOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetSignalingChannelEndpointOutputFromJson(json);
+      Map<String, dynamic> json) {
+    return GetSignalingChannelEndpointOutput(
+      resourceEndpointList: (json['ResourceEndpointList'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ResourceEndpointListItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceEndpointList = this.resourceEndpointList;
+    return {
+      if (resourceEndpointList != null)
+        'ResourceEndpointList': resourceEndpointList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSignalingChannelsOutput {
   /// An array of <code>ChannelInfo</code> objects.
-  @_s.JsonKey(name: 'ChannelInfoList')
-  final List<ChannelInfo> channelInfoList;
+  final List<ChannelInfo>? channelInfoList;
 
   /// If the response is truncated, the call returns this element with a token. To
   /// get the next batch of streams, use this token in your next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListSignalingChannelsOutput({
     this.channelInfoList,
     this.nextToken,
   });
-  factory ListSignalingChannelsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListSignalingChannelsOutputFromJson(json);
+
+  factory ListSignalingChannelsOutput.fromJson(Map<String, dynamic> json) {
+    return ListSignalingChannelsOutput(
+      channelInfoList: (json['ChannelInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => ChannelInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final channelInfoList = this.channelInfoList;
+    final nextToken = this.nextToken;
+    return {
+      if (channelInfoList != null) 'ChannelInfoList': channelInfoList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListStreamsOutput {
   /// If the response is truncated, the call returns this element with a token. To
   /// get the next batch of streams, use this token in your next request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of <code>StreamInfo</code> objects.
-  @_s.JsonKey(name: 'StreamInfoList')
-  final List<StreamInfo> streamInfoList;
+  final List<StreamInfo>? streamInfoList;
 
   ListStreamsOutput({
     this.nextToken,
     this.streamInfoList,
   });
-  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListStreamsOutputFromJson(json);
+
+  factory ListStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return ListStreamsOutput(
+      nextToken: json['NextToken'] as String?,
+      streamInfoList: (json['StreamInfoList'] as List?)
+          ?.whereNotNull()
+          .map((e) => StreamInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final streamInfoList = this.streamInfoList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (streamInfoList != null) 'StreamInfoList': streamInfoList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceOutput {
   /// If you specify this parameter and the result of a
   /// <code>ListTagsForResource</code> call is truncated, the response includes a
   /// token that you can use in the next request to fetch the next set of tags.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A map of tag keys and values associated with the specified signaling
   /// channel.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForStreamOutput {
   /// If you specify this parameter and the result of a <code>ListTags</code> call
   /// is truncated, the response includes a token that you can use in the next
   /// request to fetch the next set of tags.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A map of tag keys and values associated with the specified stream.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForStreamOutput({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForStreamOutputFromJson(json);
+
+  factory ListTagsForStreamOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForStreamOutput(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// An object that describes the endpoint of the signaling channel returned by
 /// the <code>GetSignalingChannelEndpoint</code> API.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceEndpointListItem {
   /// The protocol of the signaling channel returned by the
   /// <code>GetSignalingChannelEndpoint</code> API.
-  @_s.JsonKey(name: 'Protocol')
-  final ChannelProtocol protocol;
+  final ChannelProtocol? protocol;
 
   /// The endpoint of the signaling channel returned by the
   /// <code>GetSignalingChannelEndpoint</code> API.
-  @_s.JsonKey(name: 'ResourceEndpoint')
-  final String resourceEndpoint;
+  final String? resourceEndpoint;
 
   ResourceEndpointListItem({
     this.protocol,
     this.resourceEndpoint,
   });
-  factory ResourceEndpointListItem.fromJson(Map<String, dynamic> json) =>
-      _$ResourceEndpointListItemFromJson(json);
+
+  factory ResourceEndpointListItem.fromJson(Map<String, dynamic> json) {
+    return ResourceEndpointListItem(
+      protocol: (json['Protocol'] as String?)?.toChannelProtocol(),
+      resourceEndpoint: json['ResourceEndpoint'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final protocol = this.protocol;
+    final resourceEndpoint = this.resourceEndpoint;
+    return {
+      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (resourceEndpoint != null) 'ResourceEndpoint': resourceEndpoint,
+    };
+  }
 }
 
 /// An object that contains the endpoint configuration for the
 /// <code>SINGLE_MASTER</code> channel type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SingleMasterChannelEndpointConfiguration {
   /// This property is used to determine the nature of communication over this
   /// <code>SINGLE_MASTER</code> signaling channel. If <code>WSS</code> is
   /// specified, this API returns a websocket endpoint. If <code>HTTPS</code> is
   /// specified, this API returns an <code>HTTPS</code> endpoint.
-  @_s.JsonKey(name: 'Protocols')
-  final List<ChannelProtocol> protocols;
+  final List<ChannelProtocol>? protocols;
 
   /// This property is used to determine messaging permissions in this
   /// <code>SINGLE_MASTER</code> signaling channel. If <code>MASTER</code> is
@@ -1877,94 +1845,127 @@ class SingleMasterChannelEndpointConfiguration {
   /// channel. If <code>VIEWER</code> is specified, this API returns an endpoint
   /// that a client can use only to send offers to another <code>MASTER</code>
   /// client on this signaling channel.
-  @_s.JsonKey(name: 'Role')
-  final ChannelRole role;
+  final ChannelRole? role;
 
   SingleMasterChannelEndpointConfiguration({
     this.protocols,
     this.role,
   });
-  Map<String, dynamic> toJson() =>
-      _$SingleMasterChannelEndpointConfigurationToJson(this);
+
+  factory SingleMasterChannelEndpointConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return SingleMasterChannelEndpointConfiguration(
+      protocols: (json['Protocols'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toChannelProtocol())
+          .toList(),
+      role: (json['Role'] as String?)?.toChannelRole(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final protocols = this.protocols;
+    final role = this.role;
+    return {
+      if (protocols != null)
+        'Protocols': protocols.map((e) => e.toValue()).toList(),
+      if (role != null) 'Role': role.toValue(),
+    };
+  }
 }
 
 /// A structure that contains the configuration for the
 /// <code>SINGLE_MASTER</code> channel type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SingleMasterConfiguration {
   /// The period of time a signaling channel retains underlivered messages before
   /// they are discarded.
-  @_s.JsonKey(name: 'MessageTtlSeconds')
-  final int messageTtlSeconds;
+  final int? messageTtlSeconds;
 
   SingleMasterConfiguration({
     this.messageTtlSeconds,
   });
-  factory SingleMasterConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SingleMasterConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SingleMasterConfigurationToJson(this);
+  factory SingleMasterConfiguration.fromJson(Map<String, dynamic> json) {
+    return SingleMasterConfiguration(
+      messageTtlSeconds: json['MessageTtlSeconds'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageTtlSeconds = this.messageTtlSeconds;
+    return {
+      if (messageTtlSeconds != null) 'MessageTtlSeconds': messageTtlSeconds,
+    };
+  }
 }
 
 enum Status {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.creating:
+        return 'CREATING';
+      case Status.active:
+        return 'ACTIVE';
+      case Status.updating:
+        return 'UPDATING';
+      case Status.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'CREATING':
+        return Status.creating;
+      case 'ACTIVE':
+        return Status.active;
+      case 'UPDATING':
+        return Status.updating;
+      case 'DELETING':
+        return Status.deleting;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
+}
+
 /// An object describing a Kinesis video stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StreamInfo {
   /// A time stamp that indicates when the stream was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// How long the stream retains data, in hours.
-  @_s.JsonKey(name: 'DataRetentionInHours')
-  final int dataRetentionInHours;
+  final int? dataRetentionInHours;
 
   /// The name of the device that is associated with the stream.
-  @_s.JsonKey(name: 'DeviceName')
-  final String deviceName;
+  final String? deviceName;
 
   /// The ID of the AWS Key Management Service (AWS KMS) key that Kinesis Video
   /// Streams uses to encrypt data on the stream.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The <code>MediaType</code> of the stream.
-  @_s.JsonKey(name: 'MediaType')
-  final String mediaType;
+  final String? mediaType;
 
   /// The status of the stream.
-  @_s.JsonKey(name: 'Status')
-  final Status status;
+  final Status? status;
 
   /// The Amazon Resource Name (ARN) of the stream.
-  @_s.JsonKey(name: 'StreamARN')
-  final String streamARN;
+  final String? streamARN;
 
   /// The name of the stream.
-  @_s.JsonKey(name: 'StreamName')
-  final String streamName;
+  final String? streamName;
 
   /// The version of the stream.
-  @_s.JsonKey(name: 'Version')
-  final String version;
+  final String? version;
 
   StreamInfo({
     this.creationTime,
@@ -1977,8 +1978,45 @@ class StreamInfo {
     this.streamName,
     this.version,
   });
-  factory StreamInfo.fromJson(Map<String, dynamic> json) =>
-      _$StreamInfoFromJson(json);
+
+  factory StreamInfo.fromJson(Map<String, dynamic> json) {
+    return StreamInfo(
+      creationTime: timeStampFromJson(json['CreationTime']),
+      dataRetentionInHours: json['DataRetentionInHours'] as int?,
+      deviceName: json['DeviceName'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      mediaType: json['MediaType'] as String?,
+      status: (json['Status'] as String?)?.toStatus(),
+      streamARN: json['StreamARN'] as String?,
+      streamName: json['StreamName'] as String?,
+      version: json['Version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationTime = this.creationTime;
+    final dataRetentionInHours = this.dataRetentionInHours;
+    final deviceName = this.deviceName;
+    final kmsKeyId = this.kmsKeyId;
+    final mediaType = this.mediaType;
+    final status = this.status;
+    final streamARN = this.streamARN;
+    final streamName = this.streamName;
+    final version = this.version;
+    return {
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (dataRetentionInHours != null)
+        'DataRetentionInHours': dataRetentionInHours,
+      if (deviceName != null) 'DeviceName': deviceName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (mediaType != null) 'MediaType': mediaType,
+      if (status != null) 'Status': status.toValue(),
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Specifies the condition that streams must satisfy to be returned when you
@@ -1986,101 +2024,121 @@ class StreamInfo {
 /// comparison operation and a value. Currently, you can specify only the
 /// <code>BEGINS_WITH</code> operator, which finds streams whose names start
 /// with a given prefix.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StreamNameCondition {
   /// A comparison operator. Currently, you can specify only the
   /// <code>BEGINS_WITH</code> operator, which finds streams whose names start
   /// with a given prefix.
-  @_s.JsonKey(name: 'ComparisonOperator')
-  final ComparisonOperator comparisonOperator;
+  final ComparisonOperator? comparisonOperator;
 
   /// A value to compare.
-  @_s.JsonKey(name: 'ComparisonValue')
-  final String comparisonValue;
+  final String? comparisonValue;
 
   StreamNameCondition({
     this.comparisonOperator,
     this.comparisonValue,
   });
-  Map<String, dynamic> toJson() => _$StreamNameConditionToJson(this);
+
+  factory StreamNameCondition.fromJson(Map<String, dynamic> json) {
+    return StreamNameCondition(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String?)?.toComparisonOperator(),
+      comparisonValue: json['ComparisonValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final comparisonValue = this.comparisonValue;
+    return {
+      if (comparisonOperator != null)
+        'ComparisonOperator': comparisonOperator.toValue(),
+      if (comparisonValue != null) 'ComparisonValue': comparisonValue,
+    };
+  }
 }
 
 /// A key and value pair that is associated with the specified signaling
 /// channel.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// The key of the tag that is associated with the specified signaling channel.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag that is associated with the specified signaling
   /// channel.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceOutput {
   TagResourceOutput();
-  factory TagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceOutputFromJson(json);
+
+  factory TagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return TagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagStreamOutput {
   TagStreamOutput();
-  factory TagStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$TagStreamOutputFromJson(json);
+
+  factory TagStreamOutput.fromJson(Map<String, dynamic> _) {
+    return TagStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceOutput {
   UntagResourceOutput();
-  factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceOutputFromJson(json);
+
+  factory UntagResourceOutput.fromJson(Map<String, dynamic> _) {
+    return UntagResourceOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagStreamOutput {
   UntagStreamOutput();
-  factory UntagStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$UntagStreamOutputFromJson(json);
+
+  factory UntagStreamOutput.fromJson(Map<String, dynamic> _) {
+    return UntagStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum UpdateDataRetentionOperation {
-  @_s.JsonValue('INCREASE_DATA_RETENTION')
   increaseDataRetention,
-  @_s.JsonValue('DECREASE_DATA_RETENTION')
   decreaseDataRetention,
 }
 
@@ -2092,50 +2150,64 @@ extension on UpdateDataRetentionOperation {
       case UpdateDataRetentionOperation.decreaseDataRetention:
         return 'DECREASE_DATA_RETENTION';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  UpdateDataRetentionOperation toUpdateDataRetentionOperation() {
+    switch (this) {
+      case 'INCREASE_DATA_RETENTION':
+        return UpdateDataRetentionOperation.increaseDataRetention;
+      case 'DECREASE_DATA_RETENTION':
+        return UpdateDataRetentionOperation.decreaseDataRetention;
+    }
+    throw Exception('$this is not known in enum UpdateDataRetentionOperation');
+  }
+}
+
 class UpdateDataRetentionOutput {
   UpdateDataRetentionOutput();
-  factory UpdateDataRetentionOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDataRetentionOutputFromJson(json);
+
+  factory UpdateDataRetentionOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateDataRetentionOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSignalingChannelOutput {
   UpdateSignalingChannelOutput();
-  factory UpdateSignalingChannelOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSignalingChannelOutputFromJson(json);
+
+  factory UpdateSignalingChannelOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateSignalingChannelOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateStreamOutput {
   UpdateStreamOutput();
-  factory UpdateStreamOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateStreamOutputFromJson(json);
+
+  factory UpdateStreamOutput.fromJson(Map<String, dynamic> _) {
+    return UpdateStreamOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AccountChannelLimitExceededException extends _s.GenericAwsException {
-  AccountChannelLimitExceededException({String type, String message})
+  AccountChannelLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'AccountChannelLimitExceededException',
@@ -2143,7 +2215,7 @@ class AccountChannelLimitExceededException extends _s.GenericAwsException {
 }
 
 class AccountStreamLimitExceededException extends _s.GenericAwsException {
-  AccountStreamLimitExceededException({String type, String message})
+  AccountStreamLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'AccountStreamLimitExceededException',
@@ -2151,13 +2223,13 @@ class AccountStreamLimitExceededException extends _s.GenericAwsException {
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {
-  ClientLimitExceededException({String type, String message})
+  ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
 class DeviceStreamLimitExceededException extends _s.GenericAwsException {
-  DeviceStreamLimitExceededException({String type, String message})
+  DeviceStreamLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'DeviceStreamLimitExceededException',
@@ -2165,17 +2237,17 @@ class DeviceStreamLimitExceededException extends _s.GenericAwsException {
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidDeviceException extends _s.GenericAwsException {
-  InvalidDeviceException({String type, String message})
+  InvalidDeviceException({String? type, String? message})
       : super(type: type, code: 'InvalidDeviceException', message: message);
 }
 
 class InvalidResourceFormatException extends _s.GenericAwsException {
-  InvalidResourceFormatException({String type, String message})
+  InvalidResourceFormatException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidResourceFormatException',
@@ -2183,22 +2255,22 @@ class InvalidResourceFormatException extends _s.GenericAwsException {
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TagsPerResourceExceededLimitException extends _s.GenericAwsException {
-  TagsPerResourceExceededLimitException({String type, String message})
+  TagsPerResourceExceededLimitException({String? type, String? message})
       : super(
             type: type,
             code: 'TagsPerResourceExceededLimitException',
@@ -2206,7 +2278,7 @@ class TagsPerResourceExceededLimitException extends _s.GenericAwsException {
 }
 
 class VersionMismatchException extends _s.GenericAwsException {
-  VersionMismatchException({String type, String message})
+  VersionMismatchException({String? type, String? message})
       : super(type: type, code: 'VersionMismatchException', message: message);
 }
 

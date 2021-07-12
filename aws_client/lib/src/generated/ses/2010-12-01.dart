@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,22 +11,14 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import '2010-12-01.meta.dart';
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2010-12-01.g.dart';
 
 /// This document contains reference information for the <a
 /// href="https://aws.amazon.com/ses/">Amazon Simple Email Service</a> (Amazon
@@ -45,9 +38,9 @@ class Ses {
   final Map<String, _s.Shape> shapes;
 
   Ses({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -93,8 +86,8 @@ class Ses {
   /// </li>
   /// </ul>
   Future<void> cloneReceiptRuleSet({
-    @_s.required String originalRuleSetName,
-    @_s.required String ruleSetName,
+    required String originalRuleSetName,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(originalRuleSetName, 'originalRuleSetName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
@@ -130,7 +123,7 @@ class Ses {
   /// Parameter [configurationSet] :
   /// A data structure that contains the name of the configuration set.
   Future<void> createConfigurationSet({
-    @_s.required ConfigurationSet configurationSet,
+    required ConfigurationSet configurationSet,
   }) async {
     ArgumentError.checkNotNull(configurationSet, 'configurationSet');
     final $request = <String, dynamic>{};
@@ -177,8 +170,8 @@ class Ses {
   /// An object that describes the AWS service that email sending event
   /// information will be published to.
   Future<void> createConfigurationSetEventDestination({
-    @_s.required String configurationSetName,
-    @_s.required EventDestination eventDestination,
+    required String configurationSetName,
+    required EventDestination eventDestination,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
@@ -216,8 +209,8 @@ class Ses {
   /// The name of the configuration set that the tracking options should be
   /// associated with.
   Future<void> createConfigurationSetTrackingOptions({
-    @_s.required String configurationSetName,
-    @_s.required TrackingOptions trackingOptions,
+    required String configurationSetName,
+    required TrackingOptions trackingOptions,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(trackingOptions, 'trackingOptions');
@@ -276,12 +269,12 @@ class Ses {
   /// Parameter [templateSubject] :
   /// The subject line of the custom verification email.
   Future<void> createCustomVerificationEmailTemplate({
-    @_s.required String failureRedirectionURL,
-    @_s.required String fromEmailAddress,
-    @_s.required String successRedirectionURL,
-    @_s.required String templateContent,
-    @_s.required String templateName,
-    @_s.required String templateSubject,
+    required String failureRedirectionURL,
+    required String fromEmailAddress,
+    required String successRedirectionURL,
+    required String templateContent,
+    required String templateName,
+    required String templateSubject,
   }) async {
     ArgumentError.checkNotNull(failureRedirectionURL, 'failureRedirectionURL');
     ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
@@ -324,7 +317,7 @@ class Ses {
   /// consists of a name, an IP address range, and whether to allow or block
   /// mail from it.
   Future<void> createReceiptFilter({
-    @_s.required ReceiptFilter filter,
+    required ReceiptFilter filter,
   }) async {
     ArgumentError.checkNotNull(filter, 'filter');
     final $request = <String, dynamic>{};
@@ -370,9 +363,9 @@ class Ses {
   /// this parameter is null, the new rule will be inserted at the beginning of
   /// the rule list.
   Future<void> createReceiptRule({
-    @_s.required ReceiptRule rule,
-    @_s.required String ruleSetName,
-    String after,
+    required ReceiptRule rule,
+    required String ruleSetName,
+    String? after,
   }) async {
     ArgumentError.checkNotNull(rule, 'rule');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
@@ -420,7 +413,7 @@ class Ses {
   /// </li>
   /// </ul>
   Future<void> createReceiptRuleSet({
-    @_s.required String ruleSetName,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
@@ -454,7 +447,7 @@ class Ses {
   /// The content of the email, composed of a subject line, an HTML part, and a
   /// text-only part.
   Future<void> createTemplate({
-    @_s.required Template template,
+    required Template template,
   }) async {
     ArgumentError.checkNotNull(template, 'template');
     final $request = <String, dynamic>{};
@@ -485,7 +478,7 @@ class Ses {
   /// Parameter [configurationSetName] :
   /// The name of the configuration set to delete.
   Future<void> deleteConfigurationSet({
-    @_s.required String configurationSetName,
+    required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
@@ -522,8 +515,8 @@ class Ses {
   /// Parameter [eventDestinationName] :
   /// The name of the event destination to delete.
   Future<void> deleteConfigurationSetEventDestination({
-    @_s.required String configurationSetName,
-    @_s.required String eventDestinationName,
+    required String configurationSetName,
+    required String eventDestinationName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
@@ -565,7 +558,7 @@ class Ses {
   /// The name of the configuration set from which you want to delete the
   /// tracking options.
   Future<void> deleteConfigurationSetTrackingOptions({
-    @_s.required String configurationSetName,
+    required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
@@ -596,7 +589,7 @@ class Ses {
   /// The name of the custom verification email template that you want to
   /// delete.
   Future<void> deleteCustomVerificationEmailTemplate({
-    @_s.required String templateName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
@@ -622,7 +615,7 @@ class Ses {
   /// The identity to be removed from the list of identities for the AWS
   /// Account.
   Future<void> deleteIdentity({
-    @_s.required String identity,
+    required String identity,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
@@ -667,8 +660,8 @@ class Ses {
   /// Parameter [policyName] :
   /// The name of the policy to be deleted.
   Future<void> deleteIdentityPolicy({
-    @_s.required String identity,
-    @_s.required String policyName,
+    required String identity,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -706,7 +699,7 @@ class Ses {
   /// Parameter [filterName] :
   /// The name of the IP address filter to delete.
   Future<void> deleteReceiptFilter({
-    @_s.required String filterName,
+    required String filterName,
   }) async {
     ArgumentError.checkNotNull(filterName, 'filterName');
     final $request = <String, dynamic>{};
@@ -740,8 +733,8 @@ class Ses {
   /// Parameter [ruleSetName] :
   /// The name of the receipt rule set that contains the receipt rule to delete.
   Future<void> deleteReceiptRule({
-    @_s.required String ruleName,
-    @_s.required String ruleSetName,
+    required String ruleName,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
@@ -777,7 +770,7 @@ class Ses {
   /// Parameter [ruleSetName] :
   /// The name of the receipt rule set to delete.
   Future<void> deleteReceiptRuleSet({
-    @_s.required String ruleSetName,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
@@ -802,7 +795,7 @@ class Ses {
   /// Parameter [templateName] :
   /// The name of the template to be deleted.
   Future<void> deleteTemplate({
-    @_s.required String templateName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
@@ -826,7 +819,7 @@ class Ses {
   /// Parameter [emailAddress] :
   /// An email address to be removed from the list of verified addresses.
   Future<void> deleteVerifiedEmailAddress({
-    @_s.required String emailAddress,
+    required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     final $request = <String, dynamic>{};
@@ -883,15 +876,15 @@ class Ses {
   /// Parameter [configurationSetAttributeNames] :
   /// A list of configuration set attributes to return.
   Future<DescribeConfigurationSetResponse> describeConfigurationSet({
-    @_s.required String configurationSetName,
-    List<ConfigurationSetAttribute> configurationSetAttributeNames,
+    required String configurationSetName,
+    List<ConfigurationSetAttribute>? configurationSetAttributeNames,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
     configurationSetAttributeNames?.also((arg) =>
         $request['ConfigurationSetAttributeNames'] =
-            arg.map((e) => e?.toValue() ?? '').toList());
+            arg.map((e) => e.toValue()).toList());
     final $result = await _protocol.send(
       $request,
       action: 'DescribeConfigurationSet',
@@ -923,8 +916,8 @@ class Ses {
   /// Parameter [ruleSetName] :
   /// The name of the receipt rule set that the receipt rule belongs to.
   Future<DescribeReceiptRuleResponse> describeReceiptRule({
-    @_s.required String ruleName,
-    @_s.required String ruleSetName,
+    required String ruleName,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
@@ -958,7 +951,7 @@ class Ses {
   /// Parameter [ruleSetName] :
   /// The name of the receipt rule set to describe.
   Future<DescribeReceiptRuleSetResponse> describeReceiptRuleSet({
-    @_s.required String ruleSetName,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
     final $request = <String, dynamic>{};
@@ -1013,7 +1006,7 @@ class Ses {
   /// retrieve.
   Future<GetCustomVerificationEmailTemplateResponse>
       getCustomVerificationEmailTemplate({
-    @_s.required String templateName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
@@ -1066,7 +1059,7 @@ class Ses {
   /// A list of one or more verified identities - email addresses, domains, or
   /// both.
   Future<GetIdentityDkimAttributesResponse> getIdentityDkimAttributes({
-    @_s.required List<String> identities,
+    required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
@@ -1095,7 +1088,7 @@ class Ses {
   /// A list of one or more identities.
   Future<GetIdentityMailFromDomainAttributesResponse>
       getIdentityMailFromDomainAttributes({
-    @_s.required List<String> identities,
+    required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
@@ -1131,7 +1124,7 @@ class Ses {
   /// <code>arn:aws:ses:us-east-1:123456789012:identity/example.com</code>.
   Future<GetIdentityNotificationAttributesResponse>
       getIdentityNotificationAttributes({
-    @_s.required List<String> identities,
+    required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
@@ -1180,8 +1173,8 @@ class Ses {
   /// policies that are attached to the identity, you can use
   /// <code>ListIdentityPolicies</code>.
   Future<GetIdentityPoliciesResponse> getIdentityPolicies({
-    @_s.required String identity,
-    @_s.required List<String> policyNames,
+    required String identity,
+    required List<String> policyNames,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     ArgumentError.checkNotNull(policyNames, 'policyNames');
@@ -1230,7 +1223,7 @@ class Ses {
   /// A list of identities.
   Future<GetIdentityVerificationAttributesResponse>
       getIdentityVerificationAttributes({
-    @_s.required List<String> identities,
+    required List<String> identities,
   }) async {
     ArgumentError.checkNotNull(identities, 'identities');
     final $request = <String, dynamic>{};
@@ -1298,7 +1291,7 @@ class Ses {
   /// Parameter [templateName] :
   /// The name of the template you want to retrieve.
   Future<GetTemplateResponse> getTemplate({
-    @_s.required String templateName,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
@@ -1340,8 +1333,8 @@ class Ses {
   /// <code>ListConfigurationSets</code> to indicate the position of the
   /// configuration set in the configuration set list.
   Future<ListConfigurationSetsResponse> listConfigurationSets({
-    int maxItems,
-    String nextToken,
+    int? maxItems,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     maxItems?.also((arg) => $request['MaxItems'] = arg);
@@ -1381,8 +1374,8 @@ class Ses {
   /// in your Amazon SES account.
   Future<ListCustomVerificationEmailTemplatesResponse>
       listCustomVerificationEmailTemplates({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1425,9 +1418,9 @@ class Ses {
   /// Parameter [nextToken] :
   /// The token to use for pagination.
   Future<ListIdentitiesResponse> listIdentities({
-    IdentityType identityType,
-    int maxItems,
-    String nextToken,
+    IdentityType? identityType,
+    int? maxItems,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     identityType?.also((arg) => $request['IdentityType'] = arg.toValue());
@@ -1472,7 +1465,7 @@ class Ses {
   ///
   /// To successfully call this API, you must own the identity.
   Future<ListIdentityPoliciesResponse> listIdentityPolicies({
-    @_s.required String identity,
+    required String identity,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
@@ -1531,7 +1524,7 @@ class Ses {
   /// A token returned from a previous call to <code>ListReceiptRuleSets</code>
   /// to indicate the position in the receipt rule set list.
   Future<ListReceiptRuleSetsResponse> listReceiptRuleSets({
-    String nextToken,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -1564,8 +1557,8 @@ class Ses {
   /// A token returned from a previous call to <code>ListTemplates</code> to
   /// indicate the position in the list of email templates.
   Future<ListTemplatesResponse> listTemplates({
-    int maxItems,
-    String nextToken,
+    int? maxItems,
+    String? nextToken,
   }) async {
     final $request = <String, dynamic>{};
     maxItems?.also((arg) => $request['MaxItems'] = arg);
@@ -1615,8 +1608,8 @@ class Ses {
   /// Specifies whether messages that use the configuration set are required to
   /// use Transport Layer Security (TLS).
   Future<void> putConfigurationSetDeliveryOptions({
-    @_s.required String configurationSetName,
-    DeliveryOptions deliveryOptions,
+    required String configurationSetName,
+    DeliveryOptions? deliveryOptions,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
@@ -1673,9 +1666,9 @@ class Ses {
   /// The policy name cannot exceed 64 characters and can only include
   /// alphanumeric characters, dashes, and underscores.
   Future<void> putIdentityPolicy({
-    @_s.required String identity,
-    @_s.required String policy,
-    @_s.required String policyName,
+    required String identity,
+    required String policy,
+    required String policyName,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     ArgumentError.checkNotNull(policy, 'policy');
@@ -1733,8 +1726,8 @@ class Ses {
   /// Parameter [ruleSetName] :
   /// The name of the receipt rule set to reorder.
   Future<void> reorderReceiptRuleSet({
-    @_s.required List<String> ruleNames,
-    @_s.required String ruleSetName,
+    required List<String> ruleNames,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(ruleNames, 'ruleNames');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
@@ -1799,12 +1792,12 @@ class Ses {
   /// Message-related DSN fields. If not specified, Amazon SES will choose the
   /// values.
   Future<SendBounceResponse> sendBounce({
-    @_s.required String bounceSender,
-    @_s.required List<BouncedRecipientInfo> bouncedRecipientInfoList,
-    @_s.required String originalMessageId,
-    String bounceSenderArn,
-    String explanation,
-    MessageDsn messageDsn,
+    required String bounceSender,
+    required List<BouncedRecipientInfo> bouncedRecipientInfoList,
+    required String originalMessageId,
+    String? bounceSenderArn,
+    String? explanation,
+    MessageDsn? messageDsn,
   }) async {
     ArgumentError.checkNotNull(bounceSender, 'bounceSender');
     ArgumentError.checkNotNull(
@@ -1994,17 +1987,17 @@ class Ses {
   /// Parameter [templateArn] :
   /// The ARN of the template to use when sending this email.
   Future<SendBulkTemplatedEmailResponse> sendBulkTemplatedEmail({
-    @_s.required List<BulkEmailDestination> destinations,
-    @_s.required String source,
-    @_s.required String template,
-    String configurationSetName,
-    List<MessageTag> defaultTags,
-    String defaultTemplateData,
-    List<String> replyToAddresses,
-    String returnPath,
-    String returnPathArn,
-    String sourceArn,
-    String templateArn,
+    required List<BulkEmailDestination> destinations,
+    required String source,
+    required String template,
+    String? configurationSetName,
+    List<MessageTag>? defaultTags,
+    String? defaultTemplateData,
+    List<String>? replyToAddresses,
+    String? returnPath,
+    String? returnPathArn,
+    String? sourceArn,
+    String? templateArn,
   }) async {
     ArgumentError.checkNotNull(destinations, 'destinations');
     ArgumentError.checkNotNull(source, 'source');
@@ -2071,9 +2064,9 @@ class Ses {
   /// Parameter [configurationSetName] :
   /// Name of a configuration set to use when sending the verification email.
   Future<SendCustomVerificationEmailResponse> sendCustomVerificationEmail({
-    @_s.required String emailAddress,
-    @_s.required String templateName,
-    String configurationSetName,
+    required String emailAddress,
+    required String templateName,
+    String? configurationSetName,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     ArgumentError.checkNotNull(templateName, 'templateName');
@@ -2244,15 +2237,15 @@ class Ses {
   /// of the email that you define, so that you can publish email sending
   /// events.
   Future<SendEmailResponse> sendEmail({
-    @_s.required Destination destination,
-    @_s.required Message message,
-    @_s.required String source,
-    String configurationSetName,
-    List<String> replyToAddresses,
-    String returnPath,
-    String returnPathArn,
-    String sourceArn,
-    List<MessageTag> tags,
+    required Destination destination,
+    required Message message,
+    required String source,
+    String? configurationSetName,
+    List<String>? replyToAddresses,
+    String? returnPath,
+    String? returnPathArn,
+    String? sourceArn,
+    List<MessageTag>? tags,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(message, 'message');
@@ -2541,14 +2534,14 @@ class Ses {
   /// characteristics of the email that you define, so that you can publish
   /// email sending events.
   Future<SendRawEmailResponse> sendRawEmail({
-    @_s.required RawMessage rawMessage,
-    String configurationSetName,
-    List<String> destinations,
-    String fromArn,
-    String returnPathArn,
-    String source,
-    String sourceArn,
-    List<MessageTag> tags,
+    required RawMessage rawMessage,
+    String? configurationSetName,
+    List<String>? destinations,
+    String? fromArn,
+    String? returnPathArn,
+    String? source,
+    String? sourceArn,
+    List<MessageTag>? tags,
   }) async {
     ArgumentError.checkNotNull(rawMessage, 'rawMessage');
     final $request = <String, dynamic>{};
@@ -2742,17 +2735,17 @@ class Ses {
   /// Parameter [templateArn] :
   /// The ARN of the template to use when sending this email.
   Future<SendTemplatedEmailResponse> sendTemplatedEmail({
-    @_s.required Destination destination,
-    @_s.required String source,
-    @_s.required String template,
-    @_s.required String templateData,
-    String configurationSetName,
-    List<String> replyToAddresses,
-    String returnPath,
-    String returnPathArn,
-    String sourceArn,
-    List<MessageTag> tags,
-    String templateArn,
+    required Destination destination,
+    required String source,
+    required String template,
+    required String templateData,
+    String? configurationSetName,
+    List<String>? replyToAddresses,
+    String? returnPath,
+    String? returnPathArn,
+    String? sourceArn,
+    List<MessageTag>? tags,
+    String? templateArn,
   }) async {
     ArgumentError.checkNotNull(destination, 'destination');
     ArgumentError.checkNotNull(source, 'source');
@@ -2808,7 +2801,7 @@ class Ses {
   /// The name of the receipt rule set to make active. Setting this value to
   /// null disables all email receiving.
   Future<void> setActiveReceiptRuleSet({
-    String ruleSetName,
+    String? ruleSetName,
   }) async {
     final $request = <String, dynamic>{};
     ruleSetName?.also((arg) => $request['RuleSetName'] = arg);
@@ -2853,8 +2846,8 @@ class Ses {
   /// Parameter [identity] :
   /// The identity for which DKIM signing should be enabled or disabled.
   Future<void> setIdentityDkimEnabled({
-    @_s.required bool dkimEnabled,
-    @_s.required String identity,
+    required bool dkimEnabled,
+    required String identity,
   }) async {
     ArgumentError.checkNotNull(dkimEnabled, 'dkimEnabled');
     ArgumentError.checkNotNull(identity, 'identity');
@@ -2903,8 +2896,8 @@ class Ses {
   /// forwarding. Examples: <code>user@example.com</code>,
   /// <code>example.com</code>.
   Future<void> setIdentityFeedbackForwardingEnabled({
-    @_s.required bool forwardingEnabled,
-    @_s.required String identity,
+    required bool forwardingEnabled,
+    required String identity,
   }) async {
     ArgumentError.checkNotNull(forwardingEnabled, 'forwardingEnabled');
     ArgumentError.checkNotNull(identity, 'identity');
@@ -2952,9 +2945,9 @@ class Ses {
   /// The notification type for which to enable or disable headers in
   /// notifications.
   Future<void> setIdentityHeadersInNotificationsEnabled({
-    @_s.required bool enabled,
-    @_s.required String identity,
-    @_s.required NotificationType notificationType,
+    required bool enabled,
+    required String identity,
+    required NotificationType notificationType,
   }) async {
     ArgumentError.checkNotNull(enabled, 'enabled');
     ArgumentError.checkNotNull(identity, 'identity');
@@ -3013,9 +3006,9 @@ class Ses {
   /// SES Developer Guide</a>), and 3) not be used to receive emails. A value of
   /// <code>null</code> disables the custom MAIL FROM setting for the identity.
   Future<void> setIdentityMailFromDomain({
-    @_s.required String identity,
-    BehaviorOnMXFailure behaviorOnMXFailure,
-    String mailFromDomain,
+    required String identity,
+    BehaviorOnMXFailure? behaviorOnMXFailure,
+    String? mailFromDomain,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     final $request = <String, dynamic>{};
@@ -3070,9 +3063,9 @@ class Ses {
   /// is omitted from the request or a null value is passed,
   /// <code>SnsTopic</code> is cleared and publishing is disabled.
   Future<void> setIdentityNotificationTopic({
-    @_s.required String identity,
-    @_s.required NotificationType notificationType,
-    String snsTopic,
+    required String identity,
+    required NotificationType notificationType,
+    String? snsTopic,
   }) async {
     ArgumentError.checkNotNull(identity, 'identity');
     ArgumentError.checkNotNull(notificationType, 'notificationType');
@@ -3115,9 +3108,9 @@ class Ses {
   /// The name of the receipt rule after which to place the specified receipt
   /// rule.
   Future<void> setReceiptRulePosition({
-    @_s.required String ruleName,
-    @_s.required String ruleSetName,
-    String after,
+    required String ruleName,
+    required String ruleSetName,
+    String? after,
   }) async {
     ArgumentError.checkNotNull(ruleName, 'ruleName');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
@@ -3155,8 +3148,8 @@ class Ses {
   /// Parameter [templateName] :
   /// The name of the template that you want to render.
   Future<TestRenderTemplateResponse> testRenderTemplate({
-    @_s.required String templateData,
-    @_s.required String templateName,
+    required String templateData,
+    required String templateName,
   }) async {
     ArgumentError.checkNotNull(templateData, 'templateData');
     _s.validateStringLength(
@@ -3196,7 +3189,7 @@ class Ses {
   /// Describes whether email sending is enabled or disabled for your Amazon SES
   /// account in the current AWS Region.
   Future<void> updateAccountSendingEnabled({
-    bool enabled,
+    bool? enabled,
   }) async {
     final $request = <String, dynamic>{};
     enabled?.also((arg) => $request['Enabled'] = arg);
@@ -3241,8 +3234,8 @@ class Ses {
   /// The event destination object that you want to apply to the specified
   /// configuration set.
   Future<void> updateConfigurationSetEventDestination({
-    @_s.required String configurationSetName,
-    @_s.required EventDestination eventDestination,
+    required String configurationSetName,
+    required EventDestination eventDestination,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestination, 'eventDestination');
@@ -3280,8 +3273,8 @@ class Ses {
   /// the configuration set, such as bounce and complaint rates, to Amazon
   /// CloudWatch.
   Future<void> updateConfigurationSetReputationMetricsEnabled({
-    @_s.required String configurationSetName,
-    @_s.required bool enabled,
+    required String configurationSetName,
+    required bool enabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(enabled, 'enabled');
@@ -3318,8 +3311,8 @@ class Ses {
   /// Describes whether email sending is enabled or disabled for the
   /// configuration set.
   Future<void> updateConfigurationSetSendingEnabled({
-    @_s.required String configurationSetName,
-    @_s.required bool enabled,
+    required String configurationSetName,
+    required bool enabled,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(enabled, 'enabled');
@@ -3356,8 +3349,8 @@ class Ses {
   /// The name of the configuration set for which you want to update the custom
   /// tracking domain.
   Future<void> updateConfigurationSetTrackingOptions({
-    @_s.required String configurationSetName,
-    @_s.required TrackingOptions trackingOptions,
+    required String configurationSetName,
+    required TrackingOptions trackingOptions,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(trackingOptions, 'trackingOptions');
@@ -3416,12 +3409,12 @@ class Ses {
   /// Parameter [templateSubject] :
   /// The subject line of the custom verification email.
   Future<void> updateCustomVerificationEmailTemplate({
-    @_s.required String templateName,
-    String failureRedirectionURL,
-    String fromEmailAddress,
-    String successRedirectionURL,
-    String templateContent,
-    String templateSubject,
+    required String templateName,
+    String? failureRedirectionURL,
+    String? fromEmailAddress,
+    String? successRedirectionURL,
+    String? templateContent,
+    String? templateSubject,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     final $request = <String, dynamic>{};
@@ -3466,8 +3459,8 @@ class Ses {
   /// Parameter [ruleSetName] :
   /// The name of the receipt rule set that the receipt rule belongs to.
   Future<void> updateReceiptRule({
-    @_s.required ReceiptRule rule,
-    @_s.required String ruleSetName,
+    required ReceiptRule rule,
+    required String ruleSetName,
   }) async {
     ArgumentError.checkNotNull(rule, 'rule');
     ArgumentError.checkNotNull(ruleSetName, 'ruleSetName');
@@ -3498,7 +3491,7 @@ class Ses {
   /// May throw [TemplateDoesNotExistException].
   /// May throw [InvalidTemplateException].
   Future<void> updateTemplate({
-    @_s.required Template template,
+    required Template template,
   }) async {
     ArgumentError.checkNotNull(template, 'template');
     final $request = <String, dynamic>{};
@@ -3561,7 +3554,7 @@ class Ses {
   /// Parameter [domain] :
   /// The name of the domain to be verified for Easy DKIM signing.
   Future<VerifyDomainDkimResponse> verifyDomainDkim({
-    @_s.required String domain,
+    required String domain,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     final $request = <String, dynamic>{};
@@ -3591,7 +3584,7 @@ class Ses {
   /// Parameter [domain] :
   /// The domain to be verified.
   Future<VerifyDomainIdentityResponse> verifyDomainIdentity({
-    @_s.required String domain,
+    required String domain,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     final $request = <String, dynamic>{};
@@ -3616,7 +3609,7 @@ class Ses {
   /// Parameter [emailAddress] :
   /// The email address to be verified.
   Future<void> verifyEmailAddress({
-    @_s.required String emailAddress,
+    required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     final $request = <String, dynamic>{};
@@ -3643,7 +3636,7 @@ class Ses {
   /// Parameter [emailAddress] :
   /// The email address to be verified.
   Future<void> verifyEmailIdentity({
-    @_s.required String emailAddress,
+    required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
     final $request = <String, dynamic>{};
@@ -3668,41 +3661,47 @@ class Ses {
 /// For information about adding a header using a receipt rule, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-add-header.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AddHeaderAction {
   /// The name of the header to add. Must be between 1 and 50 characters,
   /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
   /// only.
-  @_s.JsonKey(name: 'HeaderName')
   final String headerName;
 
   /// Must be less than 2048 characters, and must not contain newline characters
   /// ("\r" or "\n").
-  @_s.JsonKey(name: 'HeaderValue')
   final String headerValue;
 
   AddHeaderAction({
-    @_s.required this.headerName,
-    @_s.required this.headerValue,
+    required this.headerName,
+    required this.headerValue,
   });
-  factory AddHeaderAction.fromXml(_s.XmlElement elem) {
+
+  factory AddHeaderAction.fromJson(Map<String, dynamic> json) {
     return AddHeaderAction(
-      headerName: _s.extractXmlStringValue(elem, 'HeaderName'),
-      headerValue: _s.extractXmlStringValue(elem, 'HeaderValue'),
+      headerName: json['HeaderName'] as String,
+      headerValue: json['HeaderValue'] as String,
     );
   }
 
-  Map<String, dynamic> toJson() => _$AddHeaderActionToJson(this);
+  factory AddHeaderAction.fromXml(_s.XmlElement elem) {
+    return AddHeaderAction(
+      headerName: _s.extractXmlStringValue(elem, 'HeaderName')!,
+      headerValue: _s.extractXmlStringValue(elem, 'HeaderValue')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headerName = this.headerName;
+    final headerValue = this.headerValue;
+    return {
+      'HeaderName': headerName,
+      'HeaderValue': headerValue,
+    };
+  }
 }
 
 enum BehaviorOnMXFailure {
-  @_s.JsonValue('UseDefaultValue')
   useDefaultValue,
-  @_s.JsonValue('RejectMessage')
   rejectMessage,
 }
 
@@ -3714,7 +3713,6 @@ extension on BehaviorOnMXFailure {
       case BehaviorOnMXFailure.rejectMessage:
         return 'RejectMessage';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -3726,35 +3724,47 @@ extension on String {
       case 'RejectMessage':
         return BehaviorOnMXFailure.rejectMessage;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BehaviorOnMXFailure');
   }
 }
 
 /// Represents the body of the message. You can specify text, HTML, or both. If
 /// you use both, then the message should display correctly in the widest
 /// variety of email clients.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Body {
   /// The content of the message, in HTML format. Use this for email clients that
   /// can process HTML. You can include clickable links, formatted text, and much
   /// more in an HTML message.
-  @_s.JsonKey(name: 'Html')
-  final Content html;
+  final Content? html;
 
   /// The content of the message, in text format. Use this for text-based email
   /// clients, or clients on high-latency networks (such as mobile devices).
-  @_s.JsonKey(name: 'Text')
-  final Content text;
+  final Content? text;
 
   Body({
     this.html,
     this.text,
   });
-  Map<String, dynamic> toJson() => _$BodyToJson(this);
+
+  factory Body.fromJson(Map<String, dynamic> json) {
+    return Body(
+      html: json['Html'] != null
+          ? Content.fromJson(json['Html'] as Map<String, dynamic>)
+          : null,
+      text: json['Text'] != null
+          ? Content.fromJson(json['Text'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final html = this.html;
+    final text = this.text;
+    return {
+      if (html != null) 'Html': html,
+      if (text != null) 'Text': text,
+    };
+  }
 }
 
 /// When included in a receipt rule, this action rejects the received email by
@@ -3765,30 +3775,21 @@ class Body {
 /// email, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-bounce.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BounceAction {
   /// Human-readable text to include in the bounce message.
-  @_s.JsonKey(name: 'Message')
   final String message;
 
   /// The email address of the sender of the bounced email. This is the address
   /// from which the bounce message will be sent.
-  @_s.JsonKey(name: 'Sender')
   final String sender;
 
   /// The SMTP reply code, as defined by <a
   /// href="https://tools.ietf.org/html/rfc5321">RFC 5321</a>.
-  @_s.JsonKey(name: 'SmtpReplyCode')
   final String smtpReplyCode;
 
   /// The SMTP enhanced status code, as defined by <a
   /// href="https://tools.ietf.org/html/rfc3463">RFC 3463</a>.
-  @_s.JsonKey(name: 'StatusCode')
-  final String statusCode;
+  final String? statusCode;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
   /// bounce action is taken. An example of an Amazon SNS topic ARN is
@@ -3796,42 +3797,78 @@ class BounceAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicArn')
-  final String topicArn;
+  final String? topicArn;
 
   BounceAction({
-    @_s.required this.message,
-    @_s.required this.sender,
-    @_s.required this.smtpReplyCode,
+    required this.message,
+    required this.sender,
+    required this.smtpReplyCode,
     this.statusCode,
     this.topicArn,
   });
+
+  factory BounceAction.fromJson(Map<String, dynamic> json) {
+    return BounceAction(
+      message: json['Message'] as String,
+      sender: json['Sender'] as String,
+      smtpReplyCode: json['SmtpReplyCode'] as String,
+      statusCode: json['StatusCode'] as String?,
+      topicArn: json['TopicArn'] as String?,
+    );
+  }
+
   factory BounceAction.fromXml(_s.XmlElement elem) {
     return BounceAction(
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      sender: _s.extractXmlStringValue(elem, 'Sender'),
-      smtpReplyCode: _s.extractXmlStringValue(elem, 'SmtpReplyCode'),
+      message: _s.extractXmlStringValue(elem, 'Message')!,
+      sender: _s.extractXmlStringValue(elem, 'Sender')!,
+      smtpReplyCode: _s.extractXmlStringValue(elem, 'SmtpReplyCode')!,
       statusCode: _s.extractXmlStringValue(elem, 'StatusCode'),
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$BounceActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final sender = this.sender;
+    final smtpReplyCode = this.smtpReplyCode;
+    final statusCode = this.statusCode;
+    final topicArn = this.topicArn;
+    return {
+      'Message': message,
+      'Sender': sender,
+      'SmtpReplyCode': smtpReplyCode,
+      if (statusCode != null) 'StatusCode': statusCode,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
 }
 
 enum BounceType {
-  @_s.JsonValue('DoesNotExist')
   doesNotExist,
-  @_s.JsonValue('MessageTooLarge')
   messageTooLarge,
-  @_s.JsonValue('ExceededQuota')
   exceededQuota,
-  @_s.JsonValue('ContentRejected')
   contentRejected,
-  @_s.JsonValue('Undefined')
   undefined,
-  @_s.JsonValue('TemporaryFailure')
   temporaryFailure,
+}
+
+extension on BounceType {
+  String toValue() {
+    switch (this) {
+      case BounceType.doesNotExist:
+        return 'DoesNotExist';
+      case BounceType.messageTooLarge:
+        return 'MessageTooLarge';
+      case BounceType.exceededQuota:
+        return 'ExceededQuota';
+      case BounceType.contentRejected:
+        return 'ContentRejected';
+      case BounceType.undefined:
+        return 'Undefined';
+      case BounceType.temporaryFailure:
+        return 'TemporaryFailure';
+    }
+  }
 }
 
 extension on String {
@@ -3850,7 +3887,7 @@ extension on String {
       case 'TemporaryFailure':
         return BounceType.temporaryFailure;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BounceType');
   }
 }
 
@@ -3860,20 +3897,13 @@ extension on String {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BouncedRecipientInfo {
   /// The email address of the recipient of the bounced email.
-  @_s.JsonKey(name: 'Recipient')
   final String recipient;
 
   /// The reason for the bounce. You must provide either this parameter or
   /// <code>RecipientDsnFields</code>.
-  @_s.JsonKey(name: 'BounceType')
-  final BounceType bounceType;
+  final BounceType? bounceType;
 
   /// This parameter is used only for sending authorization. It is the ARN of the
   /// identity that is associated with the sending authorization policy that
@@ -3881,54 +3911,91 @@ class BouncedRecipientInfo {
   /// more information about sending authorization, see the <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
   /// SES Developer Guide</a>.
-  @_s.JsonKey(name: 'RecipientArn')
-  final String recipientArn;
+  final String? recipientArn;
 
   /// Recipient-related DSN fields, most of which would normally be filled in
   /// automatically when provided with a <code>BounceType</code>. You must provide
   /// either this parameter or <code>BounceType</code>.
-  @_s.JsonKey(name: 'RecipientDsnFields')
-  final RecipientDsnFields recipientDsnFields;
+  final RecipientDsnFields? recipientDsnFields;
 
   BouncedRecipientInfo({
-    @_s.required this.recipient,
+    required this.recipient,
     this.bounceType,
     this.recipientArn,
     this.recipientDsnFields,
   });
-  Map<String, dynamic> toJson() => _$BouncedRecipientInfoToJson(this);
+
+  factory BouncedRecipientInfo.fromJson(Map<String, dynamic> json) {
+    return BouncedRecipientInfo(
+      recipient: json['Recipient'] as String,
+      bounceType: (json['BounceType'] as String?)?.toBounceType(),
+      recipientArn: json['RecipientArn'] as String?,
+      recipientDsnFields: json['RecipientDsnFields'] != null
+          ? RecipientDsnFields.fromJson(
+              json['RecipientDsnFields'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recipient = this.recipient;
+    final bounceType = this.bounceType;
+    final recipientArn = this.recipientArn;
+    final recipientDsnFields = this.recipientDsnFields;
+    return {
+      'Recipient': recipient,
+      if (bounceType != null) 'BounceType': bounceType.toValue(),
+      if (recipientArn != null) 'RecipientArn': recipientArn,
+      if (recipientDsnFields != null) 'RecipientDsnFields': recipientDsnFields,
+    };
+  }
 }
 
 /// An array that contains one or more Destinations, as well as the tags and
 /// replacement data associated with each of those Destinations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class BulkEmailDestination {
-  @_s.JsonKey(name: 'Destination')
   final Destination destination;
 
   /// A list of tags, in the form of name/value pairs, to apply to an email that
   /// you send using <code>SendBulkTemplatedEmail</code>. Tags correspond to
   /// characteristics of the email that you define, so that you can publish email
   /// sending events.
-  @_s.JsonKey(name: 'ReplacementTags')
-  final List<MessageTag> replacementTags;
+  final List<MessageTag>? replacementTags;
 
   /// A list of replacement values to apply to the template. This parameter is a
   /// JSON object, typically consisting of key-value pairs in which the keys
   /// correspond to replacement tags in the email template.
-  @_s.JsonKey(name: 'ReplacementTemplateData')
-  final String replacementTemplateData;
+  final String? replacementTemplateData;
 
   BulkEmailDestination({
-    @_s.required this.destination,
+    required this.destination,
     this.replacementTags,
     this.replacementTemplateData,
   });
-  Map<String, dynamic> toJson() => _$BulkEmailDestinationToJson(this);
+
+  factory BulkEmailDestination.fromJson(Map<String, dynamic> json) {
+    return BulkEmailDestination(
+      destination:
+          Destination.fromJson(json['Destination'] as Map<String, dynamic>),
+      replacementTags: (json['ReplacementTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => MessageTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      replacementTemplateData: json['ReplacementTemplateData'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final replacementTags = this.replacementTags;
+    final replacementTemplateData = this.replacementTemplateData;
+    return {
+      'Destination': destination,
+      if (replacementTags != null) 'ReplacementTags': replacementTags,
+      if (replacementTemplateData != null)
+        'ReplacementTemplateData': replacementTemplateData,
+    };
+  }
 }
 
 /// An object that contains the response from the
@@ -3936,11 +4003,11 @@ class BulkEmailDestination {
 class BulkEmailDestinationStatus {
   /// A description of an error that prevented a message being sent using the
   /// <code>SendBulkTemplatedEmail</code> operation.
-  final String error;
+  final String? error;
 
   /// The unique message identifier returned from the
   /// <code>SendBulkTemplatedEmail</code> operation.
-  final String messageId;
+  final String? messageId;
 
   /// The status of a message sent using the <code>SendBulkTemplatedEmail</code>
   /// operation.
@@ -4007,13 +4074,22 @@ class BulkEmailDestinationStatus {
   /// error message for additional information.
   /// </li>
   /// </ul>
-  final BulkEmailStatus status;
+  final BulkEmailStatus? status;
 
   BulkEmailDestinationStatus({
     this.error,
     this.messageId,
     this.status,
   });
+
+  factory BulkEmailDestinationStatus.fromJson(Map<String, dynamic> json) {
+    return BulkEmailDestinationStatus(
+      error: json['Error'] as String?,
+      messageId: json['MessageId'] as String?,
+      status: (json['Status'] as String?)?.toBulkEmailStatus(),
+    );
+  }
+
   factory BulkEmailDestinationStatus.fromXml(_s.XmlElement elem) {
     return BulkEmailDestinationStatus(
       error: _s.extractXmlStringValue(elem, 'Error'),
@@ -4021,37 +4097,69 @@ class BulkEmailDestinationStatus {
       status: _s.extractXmlStringValue(elem, 'Status')?.toBulkEmailStatus(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    final messageId = this.messageId;
+    final status = this.status;
+    return {
+      if (error != null) 'Error': error,
+      if (messageId != null) 'MessageId': messageId,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum BulkEmailStatus {
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('MessageRejected')
   messageRejected,
-  @_s.JsonValue('MailFromDomainNotVerified')
   mailFromDomainNotVerified,
-  @_s.JsonValue('ConfigurationSetDoesNotExist')
   configurationSetDoesNotExist,
-  @_s.JsonValue('TemplateDoesNotExist')
   templateDoesNotExist,
-  @_s.JsonValue('AccountSuspended')
   accountSuspended,
-  @_s.JsonValue('AccountThrottled')
   accountThrottled,
-  @_s.JsonValue('AccountDailyQuotaExceeded')
   accountDailyQuotaExceeded,
-  @_s.JsonValue('InvalidSendingPoolName')
   invalidSendingPoolName,
-  @_s.JsonValue('AccountSendingPaused')
   accountSendingPaused,
-  @_s.JsonValue('ConfigurationSetSendingPaused')
   configurationSetSendingPaused,
-  @_s.JsonValue('InvalidParameterValue')
   invalidParameterValue,
-  @_s.JsonValue('TransientFailure')
   transientFailure,
-  @_s.JsonValue('Failed')
   failed,
+}
+
+extension on BulkEmailStatus {
+  String toValue() {
+    switch (this) {
+      case BulkEmailStatus.success:
+        return 'Success';
+      case BulkEmailStatus.messageRejected:
+        return 'MessageRejected';
+      case BulkEmailStatus.mailFromDomainNotVerified:
+        return 'MailFromDomainNotVerified';
+      case BulkEmailStatus.configurationSetDoesNotExist:
+        return 'ConfigurationSetDoesNotExist';
+      case BulkEmailStatus.templateDoesNotExist:
+        return 'TemplateDoesNotExist';
+      case BulkEmailStatus.accountSuspended:
+        return 'AccountSuspended';
+      case BulkEmailStatus.accountThrottled:
+        return 'AccountThrottled';
+      case BulkEmailStatus.accountDailyQuotaExceeded:
+        return 'AccountDailyQuotaExceeded';
+      case BulkEmailStatus.invalidSendingPoolName:
+        return 'InvalidSendingPoolName';
+      case BulkEmailStatus.accountSendingPaused:
+        return 'AccountSendingPaused';
+      case BulkEmailStatus.configurationSetSendingPaused:
+        return 'ConfigurationSetSendingPaused';
+      case BulkEmailStatus.invalidParameterValue:
+        return 'InvalidParameterValue';
+      case BulkEmailStatus.transientFailure:
+        return 'TransientFailure';
+      case BulkEmailStatus.failed:
+        return 'Failed';
+    }
+  }
 }
 
 extension on String {
@@ -4086,17 +4194,26 @@ extension on String {
       case 'Failed':
         return BulkEmailStatus.failed;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BulkEmailStatus');
   }
 }
 
 /// An empty element returned on a successful request.
 class CloneReceiptRuleSetResponse {
   CloneReceiptRuleSetResponse();
+
+  factory CloneReceiptRuleSetResponse.fromJson(Map<String, dynamic> _) {
+    return CloneReceiptRuleSetResponse();
+  }
+
   factory CloneReceiptRuleSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CloneReceiptRuleSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -4108,32 +4225,41 @@ class CloneReceiptRuleSetResponse {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CloudWatchDestination {
   /// A list of dimensions upon which to categorize your emails when you publish
   /// email sending events to Amazon CloudWatch.
-  @_s.JsonKey(name: 'DimensionConfigurations')
   final List<CloudWatchDimensionConfiguration> dimensionConfigurations;
 
   CloudWatchDestination({
-    @_s.required this.dimensionConfigurations,
+    required this.dimensionConfigurations,
   });
-  factory CloudWatchDestination.fromXml(_s.XmlElement elem) {
+
+  factory CloudWatchDestination.fromJson(Map<String, dynamic> json) {
     return CloudWatchDestination(
-      dimensionConfigurations: _s
-          .extractXmlChild(elem, 'DimensionConfigurations')
-          ?.let((elem) => elem
-              .findElements('member')
-              .map((c) => CloudWatchDimensionConfiguration.fromXml(c))
-              .toList()),
+      dimensionConfigurations: (json['DimensionConfigurations'] as List)
+          .whereNotNull()
+          .map((e) => CloudWatchDimensionConfiguration.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
-  Map<String, dynamic> toJson() => _$CloudWatchDestinationToJson(this);
+  factory CloudWatchDestination.fromXml(_s.XmlElement elem) {
+    return CloudWatchDestination(
+      dimensionConfigurations: _s
+          .extractXmlChild(elem, 'DimensionConfigurations')!
+          .findElements('member')
+          .map((c) => CloudWatchDimensionConfiguration.fromXml(c))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensionConfigurations = this.dimensionConfigurations;
+    return {
+      'DimensionConfigurations': dimensionConfigurations,
+    };
+  }
 }
 
 /// Contains the dimension configuration to use when you publish email sending
@@ -4143,11 +4269,6 @@ class CloudWatchDestination {
 /// see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CloudWatchDimensionConfiguration {
   /// The default value of the dimension that is published to Amazon CloudWatch if
   /// you do not provide the value of the dimension when you send an email. The
@@ -4162,7 +4283,6 @@ class CloudWatchDimensionConfiguration {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DefaultDimensionValue')
   final String defaultDimensionValue;
 
   /// The name of an Amazon CloudWatch dimension associated with an email sending
@@ -4177,7 +4297,6 @@ class CloudWatchDimensionConfiguration {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'DimensionName')
   final String dimensionName;
 
   /// The place where Amazon SES finds the value of a dimension to publish to
@@ -4186,27 +4305,44 @@ class CloudWatchDimensionConfiguration {
   /// the <code>SendEmail</code>/<code>SendRawEmail</code> API, choose
   /// <code>messageTag</code>. If you want Amazon SES to use your own email
   /// headers, choose <code>emailHeader</code>.
-  @_s.JsonKey(name: 'DimensionValueSource')
   final DimensionValueSource dimensionValueSource;
 
   CloudWatchDimensionConfiguration({
-    @_s.required this.defaultDimensionValue,
-    @_s.required this.dimensionName,
-    @_s.required this.dimensionValueSource,
+    required this.defaultDimensionValue,
+    required this.dimensionName,
+    required this.dimensionValueSource,
   });
-  factory CloudWatchDimensionConfiguration.fromXml(_s.XmlElement elem) {
+
+  factory CloudWatchDimensionConfiguration.fromJson(Map<String, dynamic> json) {
     return CloudWatchDimensionConfiguration(
-      defaultDimensionValue:
-          _s.extractXmlStringValue(elem, 'DefaultDimensionValue'),
-      dimensionName: _s.extractXmlStringValue(elem, 'DimensionName'),
-      dimensionValueSource: _s
-          .extractXmlStringValue(elem, 'DimensionValueSource')
-          ?.toDimensionValueSource(),
+      defaultDimensionValue: json['DefaultDimensionValue'] as String,
+      dimensionName: json['DimensionName'] as String,
+      dimensionValueSource:
+          (json['DimensionValueSource'] as String).toDimensionValueSource(),
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      _$CloudWatchDimensionConfigurationToJson(this);
+  factory CloudWatchDimensionConfiguration.fromXml(_s.XmlElement elem) {
+    return CloudWatchDimensionConfiguration(
+      defaultDimensionValue:
+          _s.extractXmlStringValue(elem, 'DefaultDimensionValue')!,
+      dimensionName: _s.extractXmlStringValue(elem, 'DimensionName')!,
+      dimensionValueSource: _s
+          .extractXmlStringValue(elem, 'DimensionValueSource')!
+          .toDimensionValueSource(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultDimensionValue = this.defaultDimensionValue;
+    final dimensionName = this.dimensionName;
+    final dimensionValueSource = this.dimensionValueSource;
+    return {
+      'DefaultDimensionValue': defaultDimensionValue,
+      'DimensionName': dimensionName,
+      'DimensionValueSource': dimensionValueSource.toValue(),
+    };
+  }
 }
 
 /// The name of the configuration set.
@@ -4218,11 +4354,6 @@ class CloudWatchDimensionConfiguration {
 /// Amazon SES Configuration Sets</a> in the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/">Amazon SES
 /// Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ConfigurationSet {
   /// The name of the configuration set. The name must meet the following
   /// requirements:
@@ -4236,29 +4367,36 @@ class ConfigurationSet {
   /// Contain 64 characters or fewer.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   ConfigurationSet({
-    @_s.required this.name,
+    required this.name,
   });
-  factory ConfigurationSet.fromXml(_s.XmlElement elem) {
+
+  factory ConfigurationSet.fromJson(Map<String, dynamic> json) {
     return ConfigurationSet(
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      name: json['Name'] as String,
     );
   }
 
-  Map<String, dynamic> toJson() => _$ConfigurationSetToJson(this);
+  factory ConfigurationSet.fromXml(_s.XmlElement elem) {
+    return ConfigurationSet(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'Name': name,
+    };
+  }
 }
 
 enum ConfigurationSetAttribute {
-  @_s.JsonValue('eventDestinations')
   eventDestinations,
-  @_s.JsonValue('trackingOptions')
   trackingOptions,
-  @_s.JsonValue('deliveryOptions')
   deliveryOptions,
-  @_s.JsonValue('reputationOptions')
   reputationOptions,
 }
 
@@ -4274,7 +4412,6 @@ extension on ConfigurationSetAttribute {
       case ConfigurationSetAttribute.reputationOptions:
         return 'reputationOptions';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4290,7 +4427,7 @@ extension on String {
       case 'reputationOptions':
         return ConfigurationSetAttribute.reputationOptions;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ConfigurationSetAttribute');
   }
 }
 
@@ -4299,105 +4436,189 @@ extension on String {
 /// By default, the text must be 7-bit ASCII, due to the constraints of the SMTP
 /// protocol. If the text must contain any other characters, then you must also
 /// specify a character set. Examples include UTF-8, ISO-8859-1, and Shift_JIS.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Content {
   /// The textual data of the content.
-  @_s.JsonKey(name: 'Data')
   final String data;
 
   /// The character set of the content.
-  @_s.JsonKey(name: 'Charset')
-  final String charset;
+  final String? charset;
 
   Content({
-    @_s.required this.data,
+    required this.data,
     this.charset,
   });
-  Map<String, dynamic> toJson() => _$ContentToJson(this);
+
+  factory Content.fromJson(Map<String, dynamic> json) {
+    return Content(
+      data: json['Data'] as String,
+      charset: json['Charset'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final charset = this.charset;
+    return {
+      'Data': data,
+      if (charset != null) 'Charset': charset,
+    };
+  }
 }
 
 /// An empty element returned on a successful request.
 class CreateConfigurationSetEventDestinationResponse {
   CreateConfigurationSetEventDestinationResponse();
+
+  factory CreateConfigurationSetEventDestinationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateConfigurationSetEventDestinationResponse();
+  }
+
   factory CreateConfigurationSetEventDestinationResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateConfigurationSetEventDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class CreateConfigurationSetResponse {
   CreateConfigurationSetResponse();
+
+  factory CreateConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateConfigurationSetResponse();
+  }
+
   factory CreateConfigurationSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateConfigurationSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class CreateConfigurationSetTrackingOptionsResponse {
   CreateConfigurationSetTrackingOptionsResponse();
+
+  factory CreateConfigurationSetTrackingOptionsResponse.fromJson(
+      Map<String, dynamic> _) {
+    return CreateConfigurationSetTrackingOptionsResponse();
+  }
+
   factory CreateConfigurationSetTrackingOptionsResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateConfigurationSetTrackingOptionsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class CreateReceiptFilterResponse {
   CreateReceiptFilterResponse();
+
+  factory CreateReceiptFilterResponse.fromJson(Map<String, dynamic> _) {
+    return CreateReceiptFilterResponse();
+  }
+
   factory CreateReceiptFilterResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateReceiptFilterResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class CreateReceiptRuleResponse {
   CreateReceiptRuleResponse();
+
+  factory CreateReceiptRuleResponse.fromJson(Map<String, dynamic> _) {
+    return CreateReceiptRuleResponse();
+  }
+
   factory CreateReceiptRuleResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateReceiptRuleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class CreateReceiptRuleSetResponse {
   CreateReceiptRuleSetResponse();
+
+  factory CreateReceiptRuleSetResponse.fromJson(Map<String, dynamic> _) {
+    return CreateReceiptRuleSetResponse();
+  }
+
   factory CreateReceiptRuleSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateReceiptRuleSetResponse();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class CreateTemplateResponse {
   CreateTemplateResponse();
+
+  factory CreateTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return CreateTemplateResponse();
+  }
+
   factory CreateTemplateResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return CreateTemplateResponse();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum CustomMailFromStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('TemporaryFailure')
   temporaryFailure,
+}
+
+extension on CustomMailFromStatus {
+  String toValue() {
+    switch (this) {
+      case CustomMailFromStatus.pending:
+        return 'Pending';
+      case CustomMailFromStatus.success:
+        return 'Success';
+      case CustomMailFromStatus.failed:
+        return 'Failed';
+      case CustomMailFromStatus.temporaryFailure:
+        return 'TemporaryFailure';
+    }
+  }
 }
 
 extension on String {
@@ -4412,7 +4633,7 @@ extension on String {
       case 'TemporaryFailure':
         return CustomMailFromStatus.temporaryFailure;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum CustomMailFromStatus');
   }
 }
 
@@ -4420,20 +4641,20 @@ extension on String {
 class CustomVerificationEmailTemplate {
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is not successfully verified.
-  final String failureRedirectionURL;
+  final String? failureRedirectionURL;
 
   /// The email address that the custom verification email is sent from.
-  final String fromEmailAddress;
+  final String? fromEmailAddress;
 
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is successfully verified.
-  final String successRedirectionURL;
+  final String? successRedirectionURL;
 
   /// The name of the custom verification email template.
-  final String templateName;
+  final String? templateName;
 
   /// The subject line of the custom verification email.
-  final String templateSubject;
+  final String? templateSubject;
 
   CustomVerificationEmailTemplate({
     this.failureRedirectionURL,
@@ -4442,6 +4663,17 @@ class CustomVerificationEmailTemplate {
     this.templateName,
     this.templateSubject,
   });
+
+  factory CustomVerificationEmailTemplate.fromJson(Map<String, dynamic> json) {
+    return CustomVerificationEmailTemplate(
+      failureRedirectionURL: json['FailureRedirectionURL'] as String?,
+      fromEmailAddress: json['FromEmailAddress'] as String?,
+      successRedirectionURL: json['SuccessRedirectionURL'] as String?,
+      templateName: json['TemplateName'] as String?,
+      templateSubject: json['TemplateSubject'] as String?,
+    );
+  }
+
   factory CustomVerificationEmailTemplate.fromXml(_s.XmlElement elem) {
     return CustomVerificationEmailTemplate(
       failureRedirectionURL:
@@ -4453,123 +4685,229 @@ class CustomVerificationEmailTemplate {
       templateSubject: _s.extractXmlStringValue(elem, 'TemplateSubject'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final failureRedirectionURL = this.failureRedirectionURL;
+    final fromEmailAddress = this.fromEmailAddress;
+    final successRedirectionURL = this.successRedirectionURL;
+    final templateName = this.templateName;
+    final templateSubject = this.templateSubject;
+    return {
+      if (failureRedirectionURL != null)
+        'FailureRedirectionURL': failureRedirectionURL,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (successRedirectionURL != null)
+        'SuccessRedirectionURL': successRedirectionURL,
+      if (templateName != null) 'TemplateName': templateName,
+      if (templateSubject != null) 'TemplateSubject': templateSubject,
+    };
+  }
 }
 
 /// An empty element returned on a successful request.
 class DeleteConfigurationSetEventDestinationResponse {
   DeleteConfigurationSetEventDestinationResponse();
+
+  factory DeleteConfigurationSetEventDestinationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteConfigurationSetEventDestinationResponse();
+  }
+
   factory DeleteConfigurationSetEventDestinationResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteConfigurationSetEventDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class DeleteConfigurationSetResponse {
   DeleteConfigurationSetResponse();
+
+  factory DeleteConfigurationSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteConfigurationSetResponse();
+  }
+
   factory DeleteConfigurationSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteConfigurationSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class DeleteConfigurationSetTrackingOptionsResponse {
   DeleteConfigurationSetTrackingOptionsResponse();
+
+  factory DeleteConfigurationSetTrackingOptionsResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteConfigurationSetTrackingOptionsResponse();
+  }
+
   factory DeleteConfigurationSetTrackingOptionsResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteConfigurationSetTrackingOptionsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class DeleteIdentityPolicyResponse {
   DeleteIdentityPolicyResponse();
+
+  factory DeleteIdentityPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteIdentityPolicyResponse();
+  }
+
   factory DeleteIdentityPolicyResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteIdentityPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class DeleteIdentityResponse {
   DeleteIdentityResponse();
+
+  factory DeleteIdentityResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteIdentityResponse();
+  }
+
   factory DeleteIdentityResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteIdentityResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class DeleteReceiptFilterResponse {
   DeleteReceiptFilterResponse();
+
+  factory DeleteReceiptFilterResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteReceiptFilterResponse();
+  }
+
   factory DeleteReceiptFilterResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteReceiptFilterResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class DeleteReceiptRuleResponse {
   DeleteReceiptRuleResponse();
+
+  factory DeleteReceiptRuleResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteReceiptRuleResponse();
+  }
+
   factory DeleteReceiptRuleResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteReceiptRuleResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class DeleteReceiptRuleSetResponse {
   DeleteReceiptRuleSetResponse();
+
+  factory DeleteReceiptRuleSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteReceiptRuleSetResponse();
+  }
+
   factory DeleteReceiptRuleSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteReceiptRuleSetResponse();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class DeleteTemplateResponse {
   DeleteTemplateResponse();
+
+  factory DeleteTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTemplateResponse();
+  }
+
   factory DeleteTemplateResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteTemplateResponse();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Specifies whether messages that use the configuration set are required to
 /// use Transport Layer Security (TLS).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DeliveryOptions {
   /// Specifies whether messages that use the configuration set are required to
   /// use Transport Layer Security (TLS). If the value is <code>Require</code>,
   /// messages are only delivered if a TLS connection can be established. If the
   /// value is <code>Optional</code>, messages can be delivered in plain text if a
   /// TLS connection can't be established.
-  @_s.JsonKey(name: 'TlsPolicy')
-  final TlsPolicy tlsPolicy;
+  final TlsPolicy? tlsPolicy;
 
   DeliveryOptions({
     this.tlsPolicy,
   });
+
+  factory DeliveryOptions.fromJson(Map<String, dynamic> json) {
+    return DeliveryOptions(
+      tlsPolicy: (json['TlsPolicy'] as String?)?.toTlsPolicy(),
+    );
+  }
+
   factory DeliveryOptions.fromXml(_s.XmlElement elem) {
     return DeliveryOptions(
       tlsPolicy: _s.extractXmlStringValue(elem, 'TlsPolicy')?.toTlsPolicy(),
     );
   }
 
-  Map<String, dynamic> toJson() => _$DeliveryOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+    };
+  }
 }
 
 /// Represents the metadata and receipt rules for the receipt rule set that is
@@ -4578,15 +4916,30 @@ class DescribeActiveReceiptRuleSetResponse {
   /// The metadata for the currently active receipt rule set. The metadata
   /// consists of the rule set name and a timestamp of when the rule set was
   /// created.
-  final ReceiptRuleSetMetadata metadata;
+  final ReceiptRuleSetMetadata? metadata;
 
   /// The receipt rules that belong to the active rule set.
-  final List<ReceiptRule> rules;
+  final List<ReceiptRule>? rules;
 
   DescribeActiveReceiptRuleSetResponse({
     this.metadata,
     this.rules,
   });
+
+  factory DescribeActiveReceiptRuleSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeActiveReceiptRuleSetResponse(
+      metadata: json['Metadata'] != null
+          ? ReceiptRuleSetMetadata.fromJson(
+              json['Metadata'] as Map<String, dynamic>)
+          : null,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReceiptRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeActiveReceiptRuleSetResponse.fromXml(_s.XmlElement elem) {
     return DescribeActiveReceiptRuleSetResponse(
       metadata: _s
@@ -4598,6 +4951,15 @@ class DescribeActiveReceiptRuleSetResponse {
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final rules = this.rules;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+      if (rules != null) 'Rules': rules,
+    };
+  }
 }
 
 /// Represents the details of a configuration set. Configuration sets enable you
@@ -4608,18 +4970,18 @@ class DescribeActiveReceiptRuleSetResponse {
 class DescribeConfigurationSetResponse {
   /// The configuration set object associated with the specified configuration
   /// set.
-  final ConfigurationSet configurationSet;
-  final DeliveryOptions deliveryOptions;
+  final ConfigurationSet? configurationSet;
+  final DeliveryOptions? deliveryOptions;
 
   /// A list of event destinations associated with the configuration set.
-  final List<EventDestination> eventDestinations;
+  final List<EventDestination>? eventDestinations;
 
   /// An object that represents the reputation settings for the configuration set.
-  final ReputationOptions reputationOptions;
+  final ReputationOptions? reputationOptions;
 
   /// The name of the custom open and click tracking domain associated with the
   /// configuration set.
-  final TrackingOptions trackingOptions;
+  final TrackingOptions? trackingOptions;
 
   DescribeConfigurationSetResponse({
     this.configurationSet,
@@ -4628,6 +4990,32 @@ class DescribeConfigurationSetResponse {
     this.reputationOptions,
     this.trackingOptions,
   });
+
+  factory DescribeConfigurationSetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConfigurationSetResponse(
+      configurationSet: json['ConfigurationSet'] != null
+          ? ConfigurationSet.fromJson(
+              json['ConfigurationSet'] as Map<String, dynamic>)
+          : null,
+      deliveryOptions: json['DeliveryOptions'] != null
+          ? DeliveryOptions.fromJson(
+              json['DeliveryOptions'] as Map<String, dynamic>)
+          : null,
+      eventDestinations: (json['EventDestinations'] as List?)
+          ?.whereNotNull()
+          .map((e) => EventDestination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      reputationOptions: json['ReputationOptions'] != null
+          ? ReputationOptions.fromJson(
+              json['ReputationOptions'] as Map<String, dynamic>)
+          : null,
+      trackingOptions: json['TrackingOptions'] != null
+          ? TrackingOptions.fromJson(
+              json['TrackingOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DescribeConfigurationSetResponse.fromXml(_s.XmlElement elem) {
     return DescribeConfigurationSetResponse(
       configurationSet: _s
@@ -4649,6 +5037,21 @@ class DescribeConfigurationSetResponse {
           ?.let((e) => TrackingOptions.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final configurationSet = this.configurationSet;
+    final deliveryOptions = this.deliveryOptions;
+    final eventDestinations = this.eventDestinations;
+    final reputationOptions = this.reputationOptions;
+    final trackingOptions = this.trackingOptions;
+    return {
+      if (configurationSet != null) 'ConfigurationSet': configurationSet,
+      if (deliveryOptions != null) 'DeliveryOptions': deliveryOptions,
+      if (eventDestinations != null) 'EventDestinations': eventDestinations,
+      if (reputationOptions != null) 'ReputationOptions': reputationOptions,
+      if (trackingOptions != null) 'TrackingOptions': trackingOptions,
+    };
+  }
 }
 
 /// Represents the details of a receipt rule.
@@ -4656,16 +5059,32 @@ class DescribeReceiptRuleResponse {
   /// A data structure that contains the specified receipt rule's name, actions,
   /// recipients, domains, enabled status, scan status, and Transport Layer
   /// Security (TLS) policy.
-  final ReceiptRule rule;
+  final ReceiptRule? rule;
 
   DescribeReceiptRuleResponse({
     this.rule,
   });
+
+  factory DescribeReceiptRuleResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReceiptRuleResponse(
+      rule: json['Rule'] != null
+          ? ReceiptRule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory DescribeReceiptRuleResponse.fromXml(_s.XmlElement elem) {
     return DescribeReceiptRuleResponse(
       rule:
           _s.extractXmlChild(elem, 'Rule')?.let((e) => ReceiptRule.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rule = this.rule;
+    return {
+      if (rule != null) 'Rule': rule,
+    };
   }
 }
 
@@ -4673,15 +5092,29 @@ class DescribeReceiptRuleResponse {
 class DescribeReceiptRuleSetResponse {
   /// The metadata for the receipt rule set, which consists of the rule set name
   /// and the timestamp of when the rule set was created.
-  final ReceiptRuleSetMetadata metadata;
+  final ReceiptRuleSetMetadata? metadata;
 
   /// A list of the receipt rules that belong to the specified receipt rule set.
-  final List<ReceiptRule> rules;
+  final List<ReceiptRule>? rules;
 
   DescribeReceiptRuleSetResponse({
     this.metadata,
     this.rules,
   });
+
+  factory DescribeReceiptRuleSetResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeReceiptRuleSetResponse(
+      metadata: json['Metadata'] != null
+          ? ReceiptRuleSetMetadata.fromJson(
+              json['Metadata'] as Map<String, dynamic>)
+          : null,
+      rules: (json['Rules'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReceiptRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory DescribeReceiptRuleSetResponse.fromXml(_s.XmlElement elem) {
     return DescribeReceiptRuleSetResponse(
       metadata: _s
@@ -4692,6 +5125,15 @@ class DescribeReceiptRuleSetResponse {
           .map((c) => ReceiptRule.fromXml(c))
           .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final rules = this.rules;
+    return {
+      if (metadata != null) 'Metadata': metadata,
+      if (rules != null) 'Rules': rules,
+    };
   }
 }
 
@@ -4708,39 +5150,68 @@ class DescribeReceiptRuleSetResponse {
 /// as described in <a
 /// href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>.
 /// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Destination {
   /// The recipients to place on the BCC: line of the message.
-  @_s.JsonKey(name: 'BccAddresses')
-  final List<String> bccAddresses;
+  final List<String>? bccAddresses;
 
   /// The recipients to place on the CC: line of the message.
-  @_s.JsonKey(name: 'CcAddresses')
-  final List<String> ccAddresses;
+  final List<String>? ccAddresses;
 
   /// The recipients to place on the To: line of the message.
-  @_s.JsonKey(name: 'ToAddresses')
-  final List<String> toAddresses;
+  final List<String>? toAddresses;
 
   Destination({
     this.bccAddresses,
     this.ccAddresses,
     this.toAddresses,
   });
-  Map<String, dynamic> toJson() => _$DestinationToJson(this);
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      bccAddresses: (json['BccAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      ccAddresses: (json['CcAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      toAddresses: (json['ToAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bccAddresses = this.bccAddresses;
+    final ccAddresses = this.ccAddresses;
+    final toAddresses = this.toAddresses;
+    return {
+      if (bccAddresses != null) 'BccAddresses': bccAddresses,
+      if (ccAddresses != null) 'CcAddresses': ccAddresses,
+      if (toAddresses != null) 'ToAddresses': toAddresses,
+    };
+  }
 }
 
 enum DimensionValueSource {
-  @_s.JsonValue('messageTag')
   messageTag,
-  @_s.JsonValue('emailHeader')
   emailHeader,
-  @_s.JsonValue('linkTag')
   linkTag,
+}
+
+extension on DimensionValueSource {
+  String toValue() {
+    switch (this) {
+      case DimensionValueSource.messageTag:
+        return 'messageTag';
+      case DimensionValueSource.emailHeader:
+        return 'emailHeader';
+      case DimensionValueSource.linkTag:
+        return 'linkTag';
+    }
+  }
 }
 
 extension on String {
@@ -4753,21 +5224,33 @@ extension on String {
       case 'linkTag':
         return DimensionValueSource.linkTag;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DimensionValueSource');
   }
 }
 
 enum DsnAction {
-  @_s.JsonValue('failed')
   failed,
-  @_s.JsonValue('delayed')
   delayed,
-  @_s.JsonValue('delivered')
   delivered,
-  @_s.JsonValue('relayed')
   relayed,
-  @_s.JsonValue('expanded')
   expanded,
+}
+
+extension on DsnAction {
+  String toValue() {
+    switch (this) {
+      case DsnAction.failed:
+        return 'failed';
+      case DsnAction.delayed:
+        return 'delayed';
+      case DsnAction.delivered:
+        return 'delivered';
+      case DsnAction.relayed:
+        return 'relayed';
+      case DsnAction.expanded:
+        return 'expanded';
+    }
+  }
 }
 
 extension on String {
@@ -4784,7 +5267,7 @@ extension on String {
       case 'expanded':
         return DsnAction.expanded;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DsnAction');
   }
 }
 
@@ -4801,14 +5284,8 @@ extension on String {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EventDestination {
   /// The type of email sending events to publish to the event destination.
-  @_s.JsonKey(name: 'MatchingEventTypes')
   final List<EventType> matchingEventTypes;
 
   /// The name of the event destination. The name must:
@@ -4822,47 +5299,66 @@ class EventDestination {
   /// Contain less than 64 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An object that contains the names, default values, and sources of the
   /// dimensions associated with an Amazon CloudWatch event destination.
-  @_s.JsonKey(name: 'CloudWatchDestination')
-  final CloudWatchDestination cloudWatchDestination;
+  final CloudWatchDestination? cloudWatchDestination;
 
   /// Sets whether Amazon SES publishes events to this destination when you send
   /// an email with the associated configuration set. Set to <code>true</code> to
   /// enable publishing to this destination; set to <code>false</code> to prevent
   /// publishing to this destination. The default value is <code>false</code>.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// An object that contains the delivery stream ARN and the IAM role ARN
   /// associated with an Amazon Kinesis Firehose event destination.
-  @_s.JsonKey(name: 'KinesisFirehoseDestination')
-  final KinesisFirehoseDestination kinesisFirehoseDestination;
+  final KinesisFirehoseDestination? kinesisFirehoseDestination;
 
   /// An object that contains the topic ARN associated with an Amazon Simple
   /// Notification Service (Amazon SNS) event destination.
-  @_s.JsonKey(name: 'SNSDestination')
-  final SNSDestination sNSDestination;
+  final SNSDestination? sNSDestination;
 
   EventDestination({
-    @_s.required this.matchingEventTypes,
-    @_s.required this.name,
+    required this.matchingEventTypes,
+    required this.name,
     this.cloudWatchDestination,
     this.enabled,
     this.kinesisFirehoseDestination,
     this.sNSDestination,
   });
+
+  factory EventDestination.fromJson(Map<String, dynamic> json) {
+    return EventDestination(
+      matchingEventTypes: (json['MatchingEventTypes'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toEventType())
+          .toList(),
+      name: json['Name'] as String,
+      cloudWatchDestination: json['CloudWatchDestination'] != null
+          ? CloudWatchDestination.fromJson(
+              json['CloudWatchDestination'] as Map<String, dynamic>)
+          : null,
+      enabled: json['Enabled'] as bool?,
+      kinesisFirehoseDestination: json['KinesisFirehoseDestination'] != null
+          ? KinesisFirehoseDestination.fromJson(
+              json['KinesisFirehoseDestination'] as Map<String, dynamic>)
+          : null,
+      sNSDestination: json['SNSDestination'] != null
+          ? SNSDestination.fromJson(
+              json['SNSDestination'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory EventDestination.fromXml(_s.XmlElement elem) {
     return EventDestination(
-      matchingEventTypes: _s.extractXmlChild(elem, 'MatchingEventTypes')?.let(
-          (elem) => _s
-              .extractXmlStringListValues(elem, 'member')
-              .map((s) => s.toEventType())
-              .toList()),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      matchingEventTypes: _s
+          .extractXmlStringListValues(
+              _s.extractXmlChild(elem, 'MatchingEventTypes')!, 'member')
+          .map((s) => s.toEventType())
+          .toList(),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       cloudWatchDestination: _s
           .extractXmlChild(elem, 'CloudWatchDestination')
           ?.let((e) => CloudWatchDestination.fromXml(e)),
@@ -4876,26 +5372,58 @@ class EventDestination {
     );
   }
 
-  Map<String, dynamic> toJson() => _$EventDestinationToJson(this);
+  Map<String, dynamic> toJson() {
+    final matchingEventTypes = this.matchingEventTypes;
+    final name = this.name;
+    final cloudWatchDestination = this.cloudWatchDestination;
+    final enabled = this.enabled;
+    final kinesisFirehoseDestination = this.kinesisFirehoseDestination;
+    final sNSDestination = this.sNSDestination;
+    return {
+      'MatchingEventTypes': matchingEventTypes.map((e) => e.toValue()).toList(),
+      'Name': name,
+      if (cloudWatchDestination != null)
+        'CloudWatchDestination': cloudWatchDestination,
+      if (enabled != null) 'Enabled': enabled,
+      if (kinesisFirehoseDestination != null)
+        'KinesisFirehoseDestination': kinesisFirehoseDestination,
+      if (sNSDestination != null) 'SNSDestination': sNSDestination,
+    };
+  }
 }
 
 enum EventType {
-  @_s.JsonValue('send')
   send,
-  @_s.JsonValue('reject')
   reject,
-  @_s.JsonValue('bounce')
   bounce,
-  @_s.JsonValue('complaint')
   complaint,
-  @_s.JsonValue('delivery')
   delivery,
-  @_s.JsonValue('open')
   open,
-  @_s.JsonValue('click')
   click,
-  @_s.JsonValue('renderingFailure')
   renderingFailure,
+}
+
+extension on EventType {
+  String toValue() {
+    switch (this) {
+      case EventType.send:
+        return 'send';
+      case EventType.reject:
+        return 'reject';
+      case EventType.bounce:
+        return 'bounce';
+      case EventType.complaint:
+        return 'complaint';
+      case EventType.delivery:
+        return 'delivery';
+      case EventType.open:
+        return 'open';
+      case EventType.click:
+        return 'click';
+      case EventType.renderingFailure:
+        return 'renderingFailure';
+    }
+  }
 }
 
 extension on String {
@@ -4918,7 +5446,7 @@ extension on String {
       case 'renderingFailure':
         return EventType.renderingFailure;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EventType');
   }
 }
 
@@ -4928,28 +5456,36 @@ extension on String {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExtensionField {
   /// The name of the header to add. Must be between 1 and 50 characters,
   /// inclusive, and consist of alphanumeric (a-z, A-Z, 0-9) characters and dashes
   /// only.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the header to add. Must be less than 2048 characters, and must
   /// not contain newline characters ("\r" or "\n").
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   ExtensionField({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ExtensionFieldToJson(this);
+
+  factory ExtensionField.fromJson(Map<String, dynamic> json) {
+    return ExtensionField(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 /// Represents a request to return the email sending status for your Amazon SES
@@ -4957,15 +5493,29 @@ class ExtensionField {
 class GetAccountSendingEnabledResponse {
   /// Describes whether email sending is enabled or disabled for your Amazon SES
   /// account in the current AWS Region.
-  final bool enabled;
+  final bool? enabled;
 
   GetAccountSendingEnabledResponse({
     this.enabled,
   });
+
+  factory GetAccountSendingEnabledResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountSendingEnabledResponse(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
   factory GetAccountSendingEnabledResponse.fromXml(_s.XmlElement elem) {
     return GetAccountSendingEnabledResponse(
       enabled: _s.extractXmlBoolValue(elem, 'Enabled'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
   }
 }
 
@@ -4973,23 +5523,23 @@ class GetAccountSendingEnabledResponse {
 class GetCustomVerificationEmailTemplateResponse {
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is not successfully verified.
-  final String failureRedirectionURL;
+  final String? failureRedirectionURL;
 
   /// The email address that the custom verification email is sent from.
-  final String fromEmailAddress;
+  final String? fromEmailAddress;
 
   /// The URL that the recipient of the verification email is sent to if his or
   /// her address is successfully verified.
-  final String successRedirectionURL;
+  final String? successRedirectionURL;
 
   /// The content of the custom verification email.
-  final String templateContent;
+  final String? templateContent;
 
   /// The name of the custom verification email template.
-  final String templateName;
+  final String? templateName;
 
   /// The subject line of the custom verification email.
-  final String templateSubject;
+  final String? templateSubject;
 
   GetCustomVerificationEmailTemplateResponse({
     this.failureRedirectionURL,
@@ -4999,6 +5549,19 @@ class GetCustomVerificationEmailTemplateResponse {
     this.templateName,
     this.templateSubject,
   });
+
+  factory GetCustomVerificationEmailTemplateResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetCustomVerificationEmailTemplateResponse(
+      failureRedirectionURL: json['FailureRedirectionURL'] as String?,
+      fromEmailAddress: json['FromEmailAddress'] as String?,
+      successRedirectionURL: json['SuccessRedirectionURL'] as String?,
+      templateContent: json['TemplateContent'] as String?,
+      templateName: json['TemplateName'] as String?,
+      templateSubject: json['TemplateSubject'] as String?,
+    );
+  }
+
   factory GetCustomVerificationEmailTemplateResponse.fromXml(
       _s.XmlElement elem) {
     return GetCustomVerificationEmailTemplateResponse(
@@ -5012,6 +5575,25 @@ class GetCustomVerificationEmailTemplateResponse {
       templateSubject: _s.extractXmlStringValue(elem, 'TemplateSubject'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final failureRedirectionURL = this.failureRedirectionURL;
+    final fromEmailAddress = this.fromEmailAddress;
+    final successRedirectionURL = this.successRedirectionURL;
+    final templateContent = this.templateContent;
+    final templateName = this.templateName;
+    final templateSubject = this.templateSubject;
+    return {
+      if (failureRedirectionURL != null)
+        'FailureRedirectionURL': failureRedirectionURL,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (successRedirectionURL != null)
+        'SuccessRedirectionURL': successRedirectionURL,
+      if (templateContent != null) 'TemplateContent': templateContent,
+      if (templateName != null) 'TemplateName': templateName,
+      if (templateSubject != null) 'TemplateSubject': templateSubject,
+    };
+  }
 }
 
 /// Represents the status of Amazon SES Easy DKIM signing for an identity. For
@@ -5023,21 +5605,38 @@ class GetIdentityDkimAttributesResponse {
   final Map<String, IdentityDkimAttributes> dkimAttributes;
 
   GetIdentityDkimAttributesResponse({
-    @_s.required this.dkimAttributes,
+    required this.dkimAttributes,
   });
+
+  factory GetIdentityDkimAttributesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetIdentityDkimAttributesResponse(
+      dkimAttributes: (json['DkimAttributes'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(
+              k, IdentityDkimAttributes.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
   factory GetIdentityDkimAttributesResponse.fromXml(_s.XmlElement elem) {
     return GetIdentityDkimAttributesResponse(
       dkimAttributes: Map.fromEntries(
-        elem.getElement('DkimAttributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlChild(c, 'value')
-                    ?.let((e) => IdentityDkimAttributes.fromXml(e)),
-              ),
-            ),
+        elem.getElement('DkimAttributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    IdentityDkimAttributes.fromXml(
+                        _s.extractXmlChild(c, 'value')!),
+                  ),
+                ) ??
+            {},
       ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dkimAttributes = this.dkimAttributes;
+    return {
+      'DkimAttributes': dkimAttributes,
+    };
   }
 }
 
@@ -5047,22 +5646,42 @@ class GetIdentityMailFromDomainAttributesResponse {
   final Map<String, IdentityMailFromDomainAttributes> mailFromDomainAttributes;
 
   GetIdentityMailFromDomainAttributesResponse({
-    @_s.required this.mailFromDomainAttributes,
+    required this.mailFromDomainAttributes,
   });
+
+  factory GetIdentityMailFromDomainAttributesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetIdentityMailFromDomainAttributesResponse(
+      mailFromDomainAttributes:
+          (json['MailFromDomainAttributes'] as Map<String, dynamic>).map(
+              (k, e) => MapEntry(
+                  k,
+                  IdentityMailFromDomainAttributes.fromJson(
+                      e as Map<String, dynamic>))),
+    );
+  }
+
   factory GetIdentityMailFromDomainAttributesResponse.fromXml(
       _s.XmlElement elem) {
     return GetIdentityMailFromDomainAttributesResponse(
       mailFromDomainAttributes: Map.fromEntries(
-        elem.getElement('MailFromDomainAttributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlChild(c, 'value')
-                    ?.let((e) => IdentityMailFromDomainAttributes.fromXml(e)),
-              ),
-            ),
+        elem.getElement('MailFromDomainAttributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    IdentityMailFromDomainAttributes.fromXml(
+                        _s.extractXmlChild(c, 'value')!),
+                  ),
+                ) ??
+            {},
       ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mailFromDomainAttributes = this.mailFromDomainAttributes;
+    return {
+      'MailFromDomainAttributes': mailFromDomainAttributes,
+    };
   }
 }
 
@@ -5072,22 +5691,42 @@ class GetIdentityNotificationAttributesResponse {
   final Map<String, IdentityNotificationAttributes> notificationAttributes;
 
   GetIdentityNotificationAttributesResponse({
-    @_s.required this.notificationAttributes,
+    required this.notificationAttributes,
   });
+
+  factory GetIdentityNotificationAttributesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetIdentityNotificationAttributesResponse(
+      notificationAttributes:
+          (json['NotificationAttributes'] as Map<String, dynamic>).map((k, e) =>
+              MapEntry(
+                  k,
+                  IdentityNotificationAttributes.fromJson(
+                      e as Map<String, dynamic>))),
+    );
+  }
+
   factory GetIdentityNotificationAttributesResponse.fromXml(
       _s.XmlElement elem) {
     return GetIdentityNotificationAttributesResponse(
       notificationAttributes: Map.fromEntries(
-        elem.getElement('NotificationAttributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlChild(c, 'value')
-                    ?.let((e) => IdentityNotificationAttributes.fromXml(e)),
-              ),
-            ),
+        elem.getElement('NotificationAttributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    IdentityNotificationAttributes.fromXml(
+                        _s.extractXmlChild(c, 'value')!),
+                  ),
+                ) ??
+            {},
       ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final notificationAttributes = this.notificationAttributes;
+    return {
+      'NotificationAttributes': notificationAttributes,
+    };
   }
 }
 
@@ -5097,19 +5736,35 @@ class GetIdentityPoliciesResponse {
   final Map<String, String> policies;
 
   GetIdentityPoliciesResponse({
-    @_s.required this.policies,
+    required this.policies,
   });
+
+  factory GetIdentityPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return GetIdentityPoliciesResponse(
+      policies: (json['Policies'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
   factory GetIdentityPoliciesResponse.fromXml(_s.XmlElement elem) {
     return GetIdentityPoliciesResponse(
       policies: Map.fromEntries(
-        elem.getElement('Policies').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
-              ),
-            ),
+        elem.getElement('Policies')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    _s.extractXmlStringValue(c, 'value')!,
+                  ),
+                ) ??
+            {},
       ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policies = this.policies;
+    return {
+      'Policies': policies,
+    };
   }
 }
 
@@ -5120,22 +5775,42 @@ class GetIdentityVerificationAttributesResponse {
   final Map<String, IdentityVerificationAttributes> verificationAttributes;
 
   GetIdentityVerificationAttributesResponse({
-    @_s.required this.verificationAttributes,
+    required this.verificationAttributes,
   });
+
+  factory GetIdentityVerificationAttributesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetIdentityVerificationAttributesResponse(
+      verificationAttributes:
+          (json['VerificationAttributes'] as Map<String, dynamic>).map((k, e) =>
+              MapEntry(
+                  k,
+                  IdentityVerificationAttributes.fromJson(
+                      e as Map<String, dynamic>))),
+    );
+  }
+
   factory GetIdentityVerificationAttributesResponse.fromXml(
       _s.XmlElement elem) {
     return GetIdentityVerificationAttributesResponse(
       verificationAttributes: Map.fromEntries(
-        elem.getElement('VerificationAttributes').findElements('entry').map(
-              (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
-                _s
-                    .extractXmlChild(c, 'value')
-                    ?.let((e) => IdentityVerificationAttributes.fromXml(e)),
-              ),
-            ),
+        elem.getElement('VerificationAttributes')?.findElements('entry').map(
+                  (c) => MapEntry(
+                    _s.extractXmlStringValue(c, 'key')!,
+                    IdentityVerificationAttributes.fromXml(
+                        _s.extractXmlChild(c, 'value')!),
+                  ),
+                ) ??
+            {},
       ),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final verificationAttributes = this.verificationAttributes;
+    return {
+      'VerificationAttributes': verificationAttributes,
+    };
   }
 }
 
@@ -5144,7 +5819,7 @@ class GetIdentityVerificationAttributesResponse {
 class GetSendQuotaResponse {
   /// The maximum number of emails the user is allowed to send in a 24-hour
   /// interval. A value of -1 signifies an unlimited quota.
-  final double max24HourSend;
+  final double? max24HourSend;
 
   /// The maximum number of emails that Amazon SES can accept from the user's
   /// account per second.
@@ -5152,16 +5827,25 @@ class GetSendQuotaResponse {
   /// The rate at which Amazon SES accepts the user's messages might be less than
   /// the maximum send rate.
   /// </note>
-  final double maxSendRate;
+  final double? maxSendRate;
 
   /// The number of emails sent during the previous 24 hours.
-  final double sentLast24Hours;
+  final double? sentLast24Hours;
 
   GetSendQuotaResponse({
     this.max24HourSend,
     this.maxSendRate,
     this.sentLast24Hours,
   });
+
+  factory GetSendQuotaResponse.fromJson(Map<String, dynamic> json) {
+    return GetSendQuotaResponse(
+      max24HourSend: json['Max24HourSend'] as double?,
+      maxSendRate: json['MaxSendRate'] as double?,
+      sentLast24Hours: json['SentLast24Hours'] as double?,
+    );
+  }
+
   factory GetSendQuotaResponse.fromXml(_s.XmlElement elem) {
     return GetSendQuotaResponse(
       max24HourSend: _s.extractXmlDoubleValue(elem, 'Max24HourSend'),
@@ -5169,17 +5853,38 @@ class GetSendQuotaResponse {
       sentLast24Hours: _s.extractXmlDoubleValue(elem, 'SentLast24Hours'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final max24HourSend = this.max24HourSend;
+    final maxSendRate = this.maxSendRate;
+    final sentLast24Hours = this.sentLast24Hours;
+    return {
+      if (max24HourSend != null) 'Max24HourSend': max24HourSend,
+      if (maxSendRate != null) 'MaxSendRate': maxSendRate,
+      if (sentLast24Hours != null) 'SentLast24Hours': sentLast24Hours,
+    };
+  }
 }
 
 /// Represents a list of data points. This list contains aggregated data from
 /// the previous two weeks of your sending activity with Amazon SES.
 class GetSendStatisticsResponse {
   /// A list of data points, each of which represents 15 minutes of activity.
-  final List<SendDataPoint> sendDataPoints;
+  final List<SendDataPoint>? sendDataPoints;
 
   GetSendStatisticsResponse({
     this.sendDataPoints,
   });
+
+  factory GetSendStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return GetSendStatisticsResponse(
+      sendDataPoints: (json['SendDataPoints'] as List?)
+          ?.whereNotNull()
+          .map((e) => SendDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetSendStatisticsResponse.fromXml(_s.XmlElement elem) {
     return GetSendStatisticsResponse(
       sendDataPoints: _s.extractXmlChild(elem, 'SendDataPoints')?.let((elem) =>
@@ -5189,19 +5894,42 @@ class GetSendStatisticsResponse {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final sendDataPoints = this.sendDataPoints;
+    return {
+      if (sendDataPoints != null) 'SendDataPoints': sendDataPoints,
+    };
+  }
 }
 
 class GetTemplateResponse {
-  final Template template;
+  final Template? template;
 
   GetTemplateResponse({
     this.template,
   });
+
+  factory GetTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return GetTemplateResponse(
+      template: json['Template'] != null
+          ? Template.fromJson(json['Template'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetTemplateResponse.fromXml(_s.XmlElement elem) {
     return GetTemplateResponse(
       template:
           _s.extractXmlChild(elem, 'Template')?.let((e) => Template.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final template = this.template;
+    return {
+      if (template != null) 'Template': template,
+    };
   }
 }
 
@@ -5228,23 +5956,47 @@ class IdentityDkimAttributes {
   /// <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html">Amazon
   /// SES Developer Guide</a>.
-  final List<String> dkimTokens;
+  final List<String>? dkimTokens;
 
   IdentityDkimAttributes({
-    @_s.required this.dkimEnabled,
-    @_s.required this.dkimVerificationStatus,
+    required this.dkimEnabled,
+    required this.dkimVerificationStatus,
     this.dkimTokens,
   });
+
+  factory IdentityDkimAttributes.fromJson(Map<String, dynamic> json) {
+    return IdentityDkimAttributes(
+      dkimEnabled: json['DkimEnabled'] as bool,
+      dkimVerificationStatus:
+          (json['DkimVerificationStatus'] as String).toVerificationStatus(),
+      dkimTokens: (json['DkimTokens'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory IdentityDkimAttributes.fromXml(_s.XmlElement elem) {
     return IdentityDkimAttributes(
-      dkimEnabled: _s.extractXmlBoolValue(elem, 'DkimEnabled'),
+      dkimEnabled: _s.extractXmlBoolValue(elem, 'DkimEnabled')!,
       dkimVerificationStatus: _s
-          .extractXmlStringValue(elem, 'DkimVerificationStatus')
-          ?.toVerificationStatus(),
+          .extractXmlStringValue(elem, 'DkimVerificationStatus')!
+          .toVerificationStatus(),
       dkimTokens: _s
           .extractXmlChild(elem, 'DkimTokens')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dkimEnabled = this.dkimEnabled;
+    final dkimVerificationStatus = this.dkimVerificationStatus;
+    final dkimTokens = this.dkimTokens;
+    return {
+      'DkimEnabled': dkimEnabled,
+      'DkimVerificationStatus': dkimVerificationStatus.toValue(),
+      if (dkimTokens != null) 'DkimTokens': dkimTokens,
+    };
   }
 }
 
@@ -5275,20 +6027,42 @@ class IdentityMailFromDomainAttributes {
   final CustomMailFromStatus mailFromDomainStatus;
 
   IdentityMailFromDomainAttributes({
-    @_s.required this.behaviorOnMXFailure,
-    @_s.required this.mailFromDomain,
-    @_s.required this.mailFromDomainStatus,
+    required this.behaviorOnMXFailure,
+    required this.mailFromDomain,
+    required this.mailFromDomainStatus,
   });
+
+  factory IdentityMailFromDomainAttributes.fromJson(Map<String, dynamic> json) {
+    return IdentityMailFromDomainAttributes(
+      behaviorOnMXFailure:
+          (json['BehaviorOnMXFailure'] as String).toBehaviorOnMXFailure(),
+      mailFromDomain: json['MailFromDomain'] as String,
+      mailFromDomainStatus:
+          (json['MailFromDomainStatus'] as String).toCustomMailFromStatus(),
+    );
+  }
+
   factory IdentityMailFromDomainAttributes.fromXml(_s.XmlElement elem) {
     return IdentityMailFromDomainAttributes(
       behaviorOnMXFailure: _s
-          .extractXmlStringValue(elem, 'BehaviorOnMXFailure')
-          ?.toBehaviorOnMXFailure(),
-      mailFromDomain: _s.extractXmlStringValue(elem, 'MailFromDomain'),
+          .extractXmlStringValue(elem, 'BehaviorOnMXFailure')!
+          .toBehaviorOnMXFailure(),
+      mailFromDomain: _s.extractXmlStringValue(elem, 'MailFromDomain')!,
       mailFromDomainStatus: _s
-          .extractXmlStringValue(elem, 'MailFromDomainStatus')
-          ?.toCustomMailFromStatus(),
+          .extractXmlStringValue(elem, 'MailFromDomainStatus')!
+          .toCustomMailFromStatus(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final behaviorOnMXFailure = this.behaviorOnMXFailure;
+    final mailFromDomain = this.mailFromDomain;
+    final mailFromDomainStatus = this.mailFromDomainStatus;
+    return {
+      'BehaviorOnMXFailure': behaviorOnMXFailure.toValue(),
+      'MailFromDomain': mailFromDomain,
+      'MailFromDomainStatus': mailFromDomainStatus.toValue(),
+    };
   }
 }
 
@@ -5321,37 +6095,53 @@ class IdentityNotificationAttributes {
   /// specifies that Amazon SES will include headers in bounce notifications, and
   /// a value of <code>false</code> specifies that Amazon SES will not include
   /// headers in bounce notifications.
-  final bool headersInBounceNotificationsEnabled;
+  final bool? headersInBounceNotificationsEnabled;
 
   /// Describes whether Amazon SES includes the original email headers in Amazon
   /// SNS notifications of type <code>Complaint</code>. A value of
   /// <code>true</code> specifies that Amazon SES will include headers in
   /// complaint notifications, and a value of <code>false</code> specifies that
   /// Amazon SES will not include headers in complaint notifications.
-  final bool headersInComplaintNotificationsEnabled;
+  final bool? headersInComplaintNotificationsEnabled;
 
   /// Describes whether Amazon SES includes the original email headers in Amazon
   /// SNS notifications of type <code>Delivery</code>. A value of
   /// <code>true</code> specifies that Amazon SES will include headers in delivery
   /// notifications, and a value of <code>false</code> specifies that Amazon SES
   /// will not include headers in delivery notifications.
-  final bool headersInDeliveryNotificationsEnabled;
+  final bool? headersInDeliveryNotificationsEnabled;
 
   IdentityNotificationAttributes({
-    @_s.required this.bounceTopic,
-    @_s.required this.complaintTopic,
-    @_s.required this.deliveryTopic,
-    @_s.required this.forwardingEnabled,
+    required this.bounceTopic,
+    required this.complaintTopic,
+    required this.deliveryTopic,
+    required this.forwardingEnabled,
     this.headersInBounceNotificationsEnabled,
     this.headersInComplaintNotificationsEnabled,
     this.headersInDeliveryNotificationsEnabled,
   });
+
+  factory IdentityNotificationAttributes.fromJson(Map<String, dynamic> json) {
+    return IdentityNotificationAttributes(
+      bounceTopic: json['BounceTopic'] as String,
+      complaintTopic: json['ComplaintTopic'] as String,
+      deliveryTopic: json['DeliveryTopic'] as String,
+      forwardingEnabled: json['ForwardingEnabled'] as bool,
+      headersInBounceNotificationsEnabled:
+          json['HeadersInBounceNotificationsEnabled'] as bool?,
+      headersInComplaintNotificationsEnabled:
+          json['HeadersInComplaintNotificationsEnabled'] as bool?,
+      headersInDeliveryNotificationsEnabled:
+          json['HeadersInDeliveryNotificationsEnabled'] as bool?,
+    );
+  }
+
   factory IdentityNotificationAttributes.fromXml(_s.XmlElement elem) {
     return IdentityNotificationAttributes(
-      bounceTopic: _s.extractXmlStringValue(elem, 'BounceTopic'),
-      complaintTopic: _s.extractXmlStringValue(elem, 'ComplaintTopic'),
-      deliveryTopic: _s.extractXmlStringValue(elem, 'DeliveryTopic'),
-      forwardingEnabled: _s.extractXmlBoolValue(elem, 'ForwardingEnabled'),
+      bounceTopic: _s.extractXmlStringValue(elem, 'BounceTopic')!,
+      complaintTopic: _s.extractXmlStringValue(elem, 'ComplaintTopic')!,
+      deliveryTopic: _s.extractXmlStringValue(elem, 'DeliveryTopic')!,
+      forwardingEnabled: _s.extractXmlBoolValue(elem, 'ForwardingEnabled')!,
       headersInBounceNotificationsEnabled:
           _s.extractXmlBoolValue(elem, 'HeadersInBounceNotificationsEnabled'),
       headersInComplaintNotificationsEnabled: _s.extractXmlBoolValue(
@@ -5360,12 +6150,38 @@ class IdentityNotificationAttributes {
           _s.extractXmlBoolValue(elem, 'HeadersInDeliveryNotificationsEnabled'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final bounceTopic = this.bounceTopic;
+    final complaintTopic = this.complaintTopic;
+    final deliveryTopic = this.deliveryTopic;
+    final forwardingEnabled = this.forwardingEnabled;
+    final headersInBounceNotificationsEnabled =
+        this.headersInBounceNotificationsEnabled;
+    final headersInComplaintNotificationsEnabled =
+        this.headersInComplaintNotificationsEnabled;
+    final headersInDeliveryNotificationsEnabled =
+        this.headersInDeliveryNotificationsEnabled;
+    return {
+      'BounceTopic': bounceTopic,
+      'ComplaintTopic': complaintTopic,
+      'DeliveryTopic': deliveryTopic,
+      'ForwardingEnabled': forwardingEnabled,
+      if (headersInBounceNotificationsEnabled != null)
+        'HeadersInBounceNotificationsEnabled':
+            headersInBounceNotificationsEnabled,
+      if (headersInComplaintNotificationsEnabled != null)
+        'HeadersInComplaintNotificationsEnabled':
+            headersInComplaintNotificationsEnabled,
+      if (headersInDeliveryNotificationsEnabled != null)
+        'HeadersInDeliveryNotificationsEnabled':
+            headersInDeliveryNotificationsEnabled,
+    };
+  }
 }
 
 enum IdentityType {
-  @_s.JsonValue('EmailAddress')
   emailAddress,
-  @_s.JsonValue('Domain')
   domain,
 }
 
@@ -5377,7 +6193,6 @@ extension on IdentityType {
       case IdentityType.domain:
         return 'Domain';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5389,7 +6204,7 @@ extension on String {
       case 'Domain':
         return IdentityType.domain;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum IdentityType');
   }
 }
 
@@ -5401,27 +6216,54 @@ class IdentityVerificationAttributes {
 
   /// The verification token for a domain identity. Null for email address
   /// identities.
-  final String verificationToken;
+  final String? verificationToken;
 
   IdentityVerificationAttributes({
-    @_s.required this.verificationStatus,
+    required this.verificationStatus,
     this.verificationToken,
   });
+
+  factory IdentityVerificationAttributes.fromJson(Map<String, dynamic> json) {
+    return IdentityVerificationAttributes(
+      verificationStatus:
+          (json['VerificationStatus'] as String).toVerificationStatus(),
+      verificationToken: json['VerificationToken'] as String?,
+    );
+  }
+
   factory IdentityVerificationAttributes.fromXml(_s.XmlElement elem) {
     return IdentityVerificationAttributes(
       verificationStatus: _s
-          .extractXmlStringValue(elem, 'VerificationStatus')
-          ?.toVerificationStatus(),
+          .extractXmlStringValue(elem, 'VerificationStatus')!
+          .toVerificationStatus(),
       verificationToken: _s.extractXmlStringValue(elem, 'VerificationToken'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final verificationStatus = this.verificationStatus;
+    final verificationToken = this.verificationToken;
+    return {
+      'VerificationStatus': verificationStatus.toValue(),
+      if (verificationToken != null) 'VerificationToken': verificationToken,
+    };
   }
 }
 
 enum InvocationType {
-  @_s.JsonValue('Event')
   event,
-  @_s.JsonValue('RequestResponse')
   requestResponse,
+}
+
+extension on InvocationType {
+  String toValue() {
+    switch (this) {
+      case InvocationType.event:
+        return 'Event';
+      case InvocationType.requestResponse:
+        return 'RequestResponse';
+    }
+  }
 }
 
 extension on String {
@@ -5432,7 +6274,7 @@ extension on String {
       case 'RequestResponse':
         return InvocationType.requestResponse;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InvocationType');
   }
 }
 
@@ -5444,34 +6286,42 @@ extension on String {
 /// information about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisFirehoseDestination {
   /// The ARN of the Amazon Kinesis Firehose stream that email sending events
   /// should be published to.
-  @_s.JsonKey(name: 'DeliveryStreamARN')
   final String deliveryStreamARN;
 
   /// The ARN of the IAM role under which Amazon SES publishes email sending
   /// events to the Amazon Kinesis Firehose stream.
-  @_s.JsonKey(name: 'IAMRoleARN')
   final String iAMRoleARN;
 
   KinesisFirehoseDestination({
-    @_s.required this.deliveryStreamARN,
-    @_s.required this.iAMRoleARN,
+    required this.deliveryStreamARN,
+    required this.iAMRoleARN,
   });
-  factory KinesisFirehoseDestination.fromXml(_s.XmlElement elem) {
+
+  factory KinesisFirehoseDestination.fromJson(Map<String, dynamic> json) {
     return KinesisFirehoseDestination(
-      deliveryStreamARN: _s.extractXmlStringValue(elem, 'DeliveryStreamARN'),
-      iAMRoleARN: _s.extractXmlStringValue(elem, 'IAMRoleARN'),
+      deliveryStreamARN: json['DeliveryStreamARN'] as String,
+      iAMRoleARN: json['IAMRoleARN'] as String,
     );
   }
 
-  Map<String, dynamic> toJson() => _$KinesisFirehoseDestinationToJson(this);
+  factory KinesisFirehoseDestination.fromXml(_s.XmlElement elem) {
+    return KinesisFirehoseDestination(
+      deliveryStreamARN: _s.extractXmlStringValue(elem, 'DeliveryStreamARN')!,
+      iAMRoleARN: _s.extractXmlStringValue(elem, 'IAMRoleARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryStreamARN = this.deliveryStreamARN;
+    final iAMRoleARN = this.iAMRoleARN;
+    return {
+      'DeliveryStreamARN': deliveryStreamARN,
+      'IAMRoleARN': iAMRoleARN,
+    };
+  }
 }
 
 /// When included in a receipt rule, this action calls an AWS Lambda function
@@ -5487,11 +6337,6 @@ class KinesisFirehoseDestination {
 /// For information about using AWS Lambda actions in receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-lambda.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LambdaAction {
   /// The Amazon Resource Name (ARN) of the AWS Lambda function. An example of an
   /// AWS Lambda function ARN is
@@ -5499,7 +6344,6 @@ class LambdaAction {
   /// more information about AWS Lambda, see the <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'FunctionArn')
   final String functionArn;
 
   /// The invocation type of the AWS Lambda function. An invocation type of
@@ -5516,8 +6360,7 @@ class LambdaAction {
   /// <code>RequestResponse</code> only when you want to make a mail flow
   /// decision, such as whether to stop the receipt rule or the receipt rule set.
   /// </important>
-  @_s.JsonKey(name: 'InvocationType')
-  final InvocationType invocationType;
+  final InvocationType? invocationType;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
   /// Lambda action is taken. An example of an Amazon SNS topic ARN is
@@ -5525,24 +6368,41 @@ class LambdaAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicArn')
-  final String topicArn;
+  final String? topicArn;
 
   LambdaAction({
-    @_s.required this.functionArn,
+    required this.functionArn,
     this.invocationType,
     this.topicArn,
   });
+
+  factory LambdaAction.fromJson(Map<String, dynamic> json) {
+    return LambdaAction(
+      functionArn: json['FunctionArn'] as String,
+      invocationType: (json['InvocationType'] as String?)?.toInvocationType(),
+      topicArn: json['TopicArn'] as String?,
+    );
+  }
+
   factory LambdaAction.fromXml(_s.XmlElement elem) {
     return LambdaAction(
-      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn'),
+      functionArn: _s.extractXmlStringValue(elem, 'FunctionArn')!,
       invocationType:
           _s.extractXmlStringValue(elem, 'InvocationType')?.toInvocationType(),
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$LambdaActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final functionArn = this.functionArn;
+    final invocationType = this.invocationType;
+    final topicArn = this.topicArn;
+    return {
+      'FunctionArn': functionArn,
+      if (invocationType != null) 'InvocationType': invocationType.toValue(),
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
 }
 
 /// A list of configuration sets associated with your AWS account. Configuration
@@ -5552,17 +6412,28 @@ class LambdaAction {
 /// SES Developer Guide</a>.
 class ListConfigurationSetsResponse {
   /// A list of configuration sets.
-  final List<ConfigurationSet> configurationSets;
+  final List<ConfigurationSet>? configurationSets;
 
   /// A token indicating that there are additional configuration sets available to
   /// be listed. Pass this token to successive calls of
   /// <code>ListConfigurationSets</code>.
-  final String nextToken;
+  final String? nextToken;
 
   ListConfigurationSetsResponse({
     this.configurationSets,
     this.nextToken,
   });
+
+  factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListConfigurationSetsResponse(
+      configurationSets: (json['ConfigurationSets'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConfigurationSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory ListConfigurationSetsResponse.fromXml(_s.XmlElement elem) {
     return ListConfigurationSetsResponse(
       configurationSets: _s.extractXmlChild(elem, 'ConfigurationSets')?.let(
@@ -5573,24 +6444,47 @@ class ListConfigurationSetsResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final configurationSets = this.configurationSets;
+    final nextToken = this.nextToken;
+    return {
+      if (configurationSets != null) 'ConfigurationSets': configurationSets,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// A paginated list of custom verification email templates.
 class ListCustomVerificationEmailTemplatesResponse {
   /// A list of the custom verification email templates that exist in your
   /// account.
-  final List<CustomVerificationEmailTemplate> customVerificationEmailTemplates;
+  final List<CustomVerificationEmailTemplate>? customVerificationEmailTemplates;
 
   /// A token indicating that there are additional custom verification email
   /// templates available to be listed. Pass this token to a subsequent call to
   /// <code>ListTemplates</code> to retrieve the next 50 custom verification email
   /// templates.
-  final String nextToken;
+  final String? nextToken;
 
   ListCustomVerificationEmailTemplatesResponse({
     this.customVerificationEmailTemplates,
     this.nextToken,
   });
+
+  factory ListCustomVerificationEmailTemplatesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListCustomVerificationEmailTemplatesResponse(
+      customVerificationEmailTemplates:
+          (json['CustomVerificationEmailTemplates'] as List?)
+              ?.whereNotNull()
+              .map((e) => CustomVerificationEmailTemplate.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory ListCustomVerificationEmailTemplatesResponse.fromXml(
       _s.XmlElement elem) {
     return ListCustomVerificationEmailTemplatesResponse(
@@ -5603,6 +6497,17 @@ class ListCustomVerificationEmailTemplatesResponse {
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final customVerificationEmailTemplates =
+        this.customVerificationEmailTemplates;
+    final nextToken = this.nextToken;
+    return {
+      if (customVerificationEmailTemplates != null)
+        'CustomVerificationEmailTemplates': customVerificationEmailTemplates,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// A list of all identities that you have attempted to verify under your AWS
@@ -5612,19 +6517,38 @@ class ListIdentitiesResponse {
   final List<String> identities;
 
   /// The token used for pagination.
-  final String nextToken;
+  final String? nextToken;
 
   ListIdentitiesResponse({
-    @_s.required this.identities,
+    required this.identities,
     this.nextToken,
   });
+
+  factory ListIdentitiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListIdentitiesResponse(
+      identities: (json['Identities'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory ListIdentitiesResponse.fromXml(_s.XmlElement elem) {
     return ListIdentitiesResponse(
-      identities: _s
-          .extractXmlChild(elem, 'Identities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      identities: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'Identities')!, 'member'),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identities = this.identities;
+    final nextToken = this.nextToken;
+    return {
+      'Identities': identities,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -5634,14 +6558,30 @@ class ListIdentityPoliciesResponse {
   final List<String> policyNames;
 
   ListIdentityPoliciesResponse({
-    @_s.required this.policyNames,
+    required this.policyNames,
   });
+
+  factory ListIdentityPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListIdentityPoliciesResponse(
+      policyNames: (json['PolicyNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory ListIdentityPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListIdentityPoliciesResponse(
-      policyNames: _s
-          .extractXmlChild(elem, 'PolicyNames')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      policyNames: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'PolicyNames')!, 'member'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyNames = this.policyNames;
+    return {
+      'PolicyNames': policyNames,
+    };
   }
 }
 
@@ -5649,11 +6589,21 @@ class ListIdentityPoliciesResponse {
 class ListReceiptFiltersResponse {
   /// A list of IP address filter data structures, which each consist of a name,
   /// an IP address range, and whether to allow or block mail from it.
-  final List<ReceiptFilter> filters;
+  final List<ReceiptFilter>? filters;
 
   ListReceiptFiltersResponse({
     this.filters,
   });
+
+  factory ListReceiptFiltersResponse.fromJson(Map<String, dynamic> json) {
+    return ListReceiptFiltersResponse(
+      filters: (json['Filters'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReceiptFilter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListReceiptFiltersResponse.fromXml(_s.XmlElement elem) {
     return ListReceiptFiltersResponse(
       filters: _s.extractXmlChild(elem, 'Filters')?.let((elem) => elem
@@ -5661,6 +6611,13 @@ class ListReceiptFiltersResponse {
           .map((c) => ReceiptFilter.fromXml(c))
           .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filters = this.filters;
+    return {
+      if (filters != null) 'Filters': filters,
+    };
   }
 }
 
@@ -5670,17 +6627,29 @@ class ListReceiptRuleSetsResponse {
   /// be listed. Pass this token to successive calls of
   /// <code>ListReceiptRuleSets</code> to retrieve up to 100 receipt rule sets at
   /// a time.
-  final String nextToken;
+  final String? nextToken;
 
   /// The metadata for the currently active receipt rule set. The metadata
   /// consists of the rule set name and the timestamp of when the rule set was
   /// created.
-  final List<ReceiptRuleSetMetadata> ruleSets;
+  final List<ReceiptRuleSetMetadata>? ruleSets;
 
   ListReceiptRuleSetsResponse({
     this.nextToken,
     this.ruleSets,
   });
+
+  factory ListReceiptRuleSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListReceiptRuleSetsResponse(
+      nextToken: json['NextToken'] as String?,
+      ruleSets: (json['RuleSets'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ReceiptRuleSetMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListReceiptRuleSetsResponse.fromXml(_s.XmlElement elem) {
     return ListReceiptRuleSetsResponse(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -5690,22 +6659,42 @@ class ListReceiptRuleSetsResponse {
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final ruleSets = this.ruleSets;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (ruleSets != null) 'RuleSets': ruleSets,
+    };
+  }
 }
 
 class ListTemplatesResponse {
   /// A token indicating that there are additional email templates available to be
   /// listed. Pass this token to a subsequent call to <code>ListTemplates</code>
   /// to retrieve the next 50 email templates.
-  final String nextToken;
+  final String? nextToken;
 
   /// An array the contains the name and creation time stamp for each template in
   /// your Amazon SES account.
-  final List<TemplateMetadata> templatesMetadata;
+  final List<TemplateMetadata>? templatesMetadata;
 
   ListTemplatesResponse({
     this.nextToken,
     this.templatesMetadata,
   });
+
+  factory ListTemplatesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTemplatesResponse(
+      nextToken: json['NextToken'] as String?,
+      templatesMetadata: (json['TemplatesMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => TemplateMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListTemplatesResponse.fromXml(_s.XmlElement elem) {
     return ListTemplatesResponse(
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
@@ -5716,17 +6705,37 @@ class ListTemplatesResponse {
               .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final templatesMetadata = this.templatesMetadata;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (templatesMetadata != null) 'TemplatesMetadata': templatesMetadata,
+    };
+  }
 }
 
 /// A list of email addresses that you have verified with Amazon SES under your
 /// AWS account.
 class ListVerifiedEmailAddressesResponse {
   /// A list of email addresses that have been verified.
-  final List<String> verifiedEmailAddresses;
+  final List<String>? verifiedEmailAddresses;
 
   ListVerifiedEmailAddressesResponse({
     this.verifiedEmailAddresses,
   });
+
+  factory ListVerifiedEmailAddressesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListVerifiedEmailAddressesResponse(
+      verifiedEmailAddresses: (json['VerifiedEmailAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory ListVerifiedEmailAddressesResponse.fromXml(_s.XmlElement elem) {
     return ListVerifiedEmailAddressesResponse(
       verifiedEmailAddresses: _s
@@ -5734,29 +6743,45 @@ class ListVerifiedEmailAddressesResponse {
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final verifiedEmailAddresses = this.verifiedEmailAddresses;
+    return {
+      if (verifiedEmailAddresses != null)
+        'VerifiedEmailAddresses': verifiedEmailAddresses,
+    };
+  }
 }
 
 /// Represents the message to be sent, composed of a subject and a body.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Message {
   /// The message body.
-  @_s.JsonKey(name: 'Body')
   final Body body;
 
   /// The subject of the message: A short summary of the content, which will
   /// appear in the recipient's inbox.
-  @_s.JsonKey(name: 'Subject')
   final Content subject;
 
   Message({
-    @_s.required this.body,
-    @_s.required this.subject,
+    required this.body,
+    required this.subject,
   });
-  Map<String, dynamic> toJson() => _$MessageToJson(this);
+
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      body: Body.fromJson(json['Body'] as Map<String, dynamic>),
+      subject: Content.fromJson(json['Subject'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final subject = this.subject;
+    return {
+      'Body': body,
+      'Subject': subject,
+    };
+  }
 }
 
 /// Message-related information to include in the Delivery Status Notification
@@ -5765,35 +6790,47 @@ class Message {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MessageDsn {
   /// The reporting MTA that attempted to deliver the message, formatted as
   /// specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
   /// (<code>mta-name-type; mta-name</code>). The default value is <code>dns;
   /// inbound-smtp.[region].amazonaws.com</code>.
-  @_s.JsonKey(name: 'ReportingMta')
   final String reportingMta;
 
   /// When the message was received by the reporting mail transfer agent (MTA), in
   /// <a href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'ArrivalDate')
-  final DateTime arrivalDate;
+  final DateTime? arrivalDate;
 
   /// Additional X-headers to include in the DSN.
-  @_s.JsonKey(name: 'ExtensionFields')
-  final List<ExtensionField> extensionFields;
+  final List<ExtensionField>? extensionFields;
 
   MessageDsn({
-    @_s.required this.reportingMta,
+    required this.reportingMta,
     this.arrivalDate,
     this.extensionFields,
   });
-  Map<String, dynamic> toJson() => _$MessageDsnToJson(this);
+
+  factory MessageDsn.fromJson(Map<String, dynamic> json) {
+    return MessageDsn(
+      reportingMta: json['ReportingMta'] as String,
+      arrivalDate: timeStampFromJson(json['ArrivalDate']),
+      extensionFields: (json['ExtensionFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExtensionField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reportingMta = this.reportingMta;
+    final arrivalDate = this.arrivalDate;
+    final extensionFields = this.extensionFields;
+    return {
+      'ReportingMta': reportingMta,
+      if (arrivalDate != null) 'ArrivalDate': unixTimestampToJson(arrivalDate),
+      if (extensionFields != null) 'ExtensionFields': extensionFields,
+    };
+  }
 }
 
 /// Contains the name and value of a tag that you can provide to
@@ -5804,11 +6841,6 @@ class MessageDsn {
 /// the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MessageTag {
   /// The name of the tag. The name must:
   ///
@@ -5821,7 +6853,6 @@ class MessageTag {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the tag. The value must:
@@ -5835,22 +6866,33 @@ class MessageTag {
   /// Contain less than 256 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   MessageTag({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$MessageTagToJson(this);
+
+  factory MessageTag.fromJson(Map<String, dynamic> json) {
+    return MessageTag(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
+  }
 }
 
 enum NotificationType {
-  @_s.JsonValue('Bounce')
   bounce,
-  @_s.JsonValue('Complaint')
   complaint,
-  @_s.JsonValue('Delivery')
   delivery,
 }
 
@@ -5864,7 +6906,6 @@ extension on NotificationType {
       case NotificationType.delivery:
         return 'Delivery';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5878,7 +6919,7 @@ extension on String {
       case 'Delivery':
         return NotificationType.delivery;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum NotificationType');
   }
 }
 
@@ -5886,29 +6927,43 @@ extension on String {
 /// request fails.
 class PutConfigurationSetDeliveryOptionsResponse {
   PutConfigurationSetDeliveryOptionsResponse();
+
+  factory PutConfigurationSetDeliveryOptionsResponse.fromJson(
+      Map<String, dynamic> _) {
+    return PutConfigurationSetDeliveryOptionsResponse();
+  }
+
   factory PutConfigurationSetDeliveryOptionsResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return PutConfigurationSetDeliveryOptionsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class PutIdentityPolicyResponse {
   PutIdentityPolicyResponse();
+
+  factory PutIdentityPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return PutIdentityPolicyResponse();
+  }
+
   factory PutIdentityPolicyResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return PutIdentityPolicyResponse();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Represents the raw data of the message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RawMessage {
   /// The raw data of the message. This data needs to base64-encoded if you are
   /// accessing Amazon SES directly through the HTTPS interface. If you are
@@ -5930,14 +6985,24 @@ class RawMessage {
   /// For more information, go to the <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html">Amazon
   /// SES Developer Guide</a>.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Data')
   final Uint8List data;
 
   RawMessage({
-    @_s.required this.data,
+    required this.data,
   });
-  Map<String, dynamic> toJson() => _$RawMessageToJson(this);
+
+  factory RawMessage.fromJson(Map<String, dynamic> json) {
+    return RawMessage(
+      data: _s.decodeUint8List(json['Data']! as String),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    return {
+      'Data': base64Encode(data),
+    };
+  }
 }
 
 /// An action that Amazon SES can take when it receives an email on behalf of
@@ -5947,45 +7012,33 @@ class RawMessage {
 /// For information about setting up receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReceiptAction {
   /// Adds a header to the received email.
-  @_s.JsonKey(name: 'AddHeaderAction')
-  final AddHeaderAction addHeaderAction;
+  final AddHeaderAction? addHeaderAction;
 
   /// Rejects the received email by returning a bounce response to the sender and,
   /// optionally, publishes a notification to Amazon Simple Notification Service
   /// (Amazon SNS).
-  @_s.JsonKey(name: 'BounceAction')
-  final BounceAction bounceAction;
+  final BounceAction? bounceAction;
 
   /// Calls an AWS Lambda function, and optionally, publishes a notification to
   /// Amazon SNS.
-  @_s.JsonKey(name: 'LambdaAction')
-  final LambdaAction lambdaAction;
+  final LambdaAction? lambdaAction;
 
   /// Saves the received message to an Amazon Simple Storage Service (Amazon S3)
   /// bucket and, optionally, publishes a notification to Amazon SNS.
-  @_s.JsonKey(name: 'S3Action')
-  final S3Action s3Action;
+  final S3Action? s3Action;
 
   /// Publishes the email content within a notification to Amazon SNS.
-  @_s.JsonKey(name: 'SNSAction')
-  final SNSAction sNSAction;
+  final SNSAction? sNSAction;
 
   /// Terminates the evaluation of the receipt rule set and optionally publishes a
   /// notification to Amazon SNS.
-  @_s.JsonKey(name: 'StopAction')
-  final StopAction stopAction;
+  final StopAction? stopAction;
 
   /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon
   /// Amazon SNS.
-  @_s.JsonKey(name: 'WorkmailAction')
-  final WorkmailAction workmailAction;
+  final WorkmailAction? workmailAction;
 
   ReceiptAction({
     this.addHeaderAction,
@@ -5996,6 +7049,35 @@ class ReceiptAction {
     this.stopAction,
     this.workmailAction,
   });
+
+  factory ReceiptAction.fromJson(Map<String, dynamic> json) {
+    return ReceiptAction(
+      addHeaderAction: json['AddHeaderAction'] != null
+          ? AddHeaderAction.fromJson(
+              json['AddHeaderAction'] as Map<String, dynamic>)
+          : null,
+      bounceAction: json['BounceAction'] != null
+          ? BounceAction.fromJson(json['BounceAction'] as Map<String, dynamic>)
+          : null,
+      lambdaAction: json['LambdaAction'] != null
+          ? LambdaAction.fromJson(json['LambdaAction'] as Map<String, dynamic>)
+          : null,
+      s3Action: json['S3Action'] != null
+          ? S3Action.fromJson(json['S3Action'] as Map<String, dynamic>)
+          : null,
+      sNSAction: json['SNSAction'] != null
+          ? SNSAction.fromJson(json['SNSAction'] as Map<String, dynamic>)
+          : null,
+      stopAction: json['StopAction'] != null
+          ? StopAction.fromJson(json['StopAction'] as Map<String, dynamic>)
+          : null,
+      workmailAction: json['WorkmailAction'] != null
+          ? WorkmailAction.fromJson(
+              json['WorkmailAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ReceiptAction.fromXml(_s.XmlElement elem) {
     return ReceiptAction(
       addHeaderAction: _s
@@ -6021,7 +7103,24 @@ class ReceiptAction {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ReceiptActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final addHeaderAction = this.addHeaderAction;
+    final bounceAction = this.bounceAction;
+    final lambdaAction = this.lambdaAction;
+    final s3Action = this.s3Action;
+    final sNSAction = this.sNSAction;
+    final stopAction = this.stopAction;
+    final workmailAction = this.workmailAction;
+    return {
+      if (addHeaderAction != null) 'AddHeaderAction': addHeaderAction,
+      if (bounceAction != null) 'BounceAction': bounceAction,
+      if (lambdaAction != null) 'LambdaAction': lambdaAction,
+      if (s3Action != null) 'S3Action': s3Action,
+      if (sNSAction != null) 'SNSAction': sNSAction,
+      if (stopAction != null) 'StopAction': stopAction,
+      if (workmailAction != null) 'WorkmailAction': workmailAction,
+    };
+  }
 }
 
 /// A receipt IP address filter enables you to specify whether to accept or
@@ -6030,15 +7129,9 @@ class ReceiptAction {
 /// For information about setting up IP address filters, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReceiptFilter {
   /// A structure that provides the IP addresses to block or allow, and whether to
   /// block or allow incoming mail from them.
-  @_s.JsonKey(name: 'IpFilter')
   final ReceiptIpFilter ipFilter;
 
   /// The name of the IP address filter. The name must:
@@ -6055,30 +7148,52 @@ class ReceiptFilter {
   /// Contain less than 64 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   ReceiptFilter({
-    @_s.required this.ipFilter,
-    @_s.required this.name,
+    required this.ipFilter,
+    required this.name,
   });
-  factory ReceiptFilter.fromXml(_s.XmlElement elem) {
+
+  factory ReceiptFilter.fromJson(Map<String, dynamic> json) {
     return ReceiptFilter(
-      ipFilter: _s
-          .extractXmlChild(elem, 'IpFilter')
-          ?.let((e) => ReceiptIpFilter.fromXml(e)),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      ipFilter:
+          ReceiptIpFilter.fromJson(json['IpFilter'] as Map<String, dynamic>),
+      name: json['Name'] as String,
     );
   }
 
-  Map<String, dynamic> toJson() => _$ReceiptFilterToJson(this);
+  factory ReceiptFilter.fromXml(_s.XmlElement elem) {
+    return ReceiptFilter(
+      ipFilter: ReceiptIpFilter.fromXml(_s.extractXmlChild(elem, 'IpFilter')!),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipFilter = this.ipFilter;
+    final name = this.name;
+    return {
+      'IpFilter': ipFilter,
+      'Name': name,
+    };
+  }
 }
 
 enum ReceiptFilterPolicy {
-  @_s.JsonValue('Block')
   block,
-  @_s.JsonValue('Allow')
   allow,
+}
+
+extension on ReceiptFilterPolicy {
+  String toValue() {
+    switch (this) {
+      case ReceiptFilterPolicy.block:
+        return 'Block';
+      case ReceiptFilterPolicy.allow:
+        return 'Allow';
+    }
+  }
 }
 
 extension on String {
@@ -6089,7 +7204,7 @@ extension on String {
       case 'Allow':
         return ReceiptFilterPolicy.allow;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReceiptFilterPolicy');
   }
 }
 
@@ -6099,37 +7214,45 @@ extension on String {
 /// For information about setting up IP address filters, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-ip-filters.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReceiptIpFilter {
   /// A single IP address or a range of IP addresses that you want to block or
   /// allow, specified in Classless Inter-Domain Routing (CIDR) notation. An
   /// example of a single email address is 10.0.0.1. An example of a range of IP
   /// addresses is 10.0.0.1/24. For more information about CIDR notation, see <a
   /// href="https://tools.ietf.org/html/rfc2317">RFC 2317</a>.
-  @_s.JsonKey(name: 'Cidr')
   final String cidr;
 
   /// Indicates whether to block or allow incoming mail from the specified IP
   /// addresses.
-  @_s.JsonKey(name: 'Policy')
   final ReceiptFilterPolicy policy;
 
   ReceiptIpFilter({
-    @_s.required this.cidr,
-    @_s.required this.policy,
+    required this.cidr,
+    required this.policy,
   });
-  factory ReceiptIpFilter.fromXml(_s.XmlElement elem) {
+
+  factory ReceiptIpFilter.fromJson(Map<String, dynamic> json) {
     return ReceiptIpFilter(
-      cidr: _s.extractXmlStringValue(elem, 'Cidr'),
-      policy: _s.extractXmlStringValue(elem, 'Policy')?.toReceiptFilterPolicy(),
+      cidr: json['Cidr'] as String,
+      policy: (json['Policy'] as String).toReceiptFilterPolicy(),
     );
   }
 
-  Map<String, dynamic> toJson() => _$ReceiptIpFilterToJson(this);
+  factory ReceiptIpFilter.fromXml(_s.XmlElement elem) {
+    return ReceiptIpFilter(
+      cidr: _s.extractXmlStringValue(elem, 'Cidr')!,
+      policy: _s.extractXmlStringValue(elem, 'Policy')!.toReceiptFilterPolicy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    final policy = this.policy;
+    return {
+      'Cidr': cidr,
+      'Policy': policy.toValue(),
+    };
+  }
 }
 
 /// Receipt rules enable you to specify which actions Amazon SES should take
@@ -6144,11 +7267,6 @@ class ReceiptIpFilter {
 /// For information about setting up receipt rules, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-receipt-rules.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReceiptRule {
   /// The name of the receipt rule. The name must:
   ///
@@ -6164,48 +7282,60 @@ class ReceiptRule {
   /// Contain less than 64 characters.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// An ordered list of actions to perform on messages that match at least one of
   /// the recipient email addresses or domains specified in the receipt rule.
-  @_s.JsonKey(name: 'Actions')
-  final List<ReceiptAction> actions;
+  final List<ReceiptAction>? actions;
 
   /// If <code>true</code>, the receipt rule is active. The default value is
   /// <code>false</code>.
-  @_s.JsonKey(name: 'Enabled')
-  final bool enabled;
+  final bool? enabled;
 
   /// The recipient domains and email addresses that the receipt rule applies to.
   /// If this field is not specified, this rule will match all recipients under
   /// all verified domains.
-  @_s.JsonKey(name: 'Recipients')
-  final List<String> recipients;
+  final List<String>? recipients;
 
   /// If <code>true</code>, then messages that this receipt rule applies to are
   /// scanned for spam and viruses. The default value is <code>false</code>.
-  @_s.JsonKey(name: 'ScanEnabled')
-  final bool scanEnabled;
+  final bool? scanEnabled;
 
   /// Specifies whether Amazon SES should require that incoming email is delivered
   /// over a connection encrypted with Transport Layer Security (TLS). If this
   /// parameter is set to <code>Require</code>, Amazon SES will bounce emails that
   /// are not received over TLS. The default is <code>Optional</code>.
-  @_s.JsonKey(name: 'TlsPolicy')
-  final TlsPolicy tlsPolicy;
+  final TlsPolicy? tlsPolicy;
 
   ReceiptRule({
-    @_s.required this.name,
+    required this.name,
     this.actions,
     this.enabled,
     this.recipients,
     this.scanEnabled,
     this.tlsPolicy,
   });
+
+  factory ReceiptRule.fromJson(Map<String, dynamic> json) {
+    return ReceiptRule(
+      name: json['Name'] as String,
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReceiptAction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      enabled: json['Enabled'] as bool?,
+      recipients: (json['Recipients'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      scanEnabled: json['ScanEnabled'] as bool?,
+      tlsPolicy: (json['TlsPolicy'] as String?)?.toTlsPolicy(),
+    );
+  }
+
   factory ReceiptRule.fromXml(_s.XmlElement elem) {
     return ReceiptRule(
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       actions: _s.extractXmlChild(elem, 'Actions')?.let((elem) => elem
           .findElements('member')
           .map((c) => ReceiptAction.fromXml(c))
@@ -6219,7 +7349,22 @@ class ReceiptRule {
     );
   }
 
-  Map<String, dynamic> toJson() => _$ReceiptRuleToJson(this);
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final actions = this.actions;
+    final enabled = this.enabled;
+    final recipients = this.recipients;
+    final scanEnabled = this.scanEnabled;
+    final tlsPolicy = this.tlsPolicy;
+    return {
+      'Name': name,
+      if (actions != null) 'Actions': actions,
+      if (enabled != null) 'Enabled': enabled,
+      if (recipients != null) 'Recipients': recipients,
+      if (scanEnabled != null) 'ScanEnabled': scanEnabled,
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
+    };
+  }
 }
 
 /// Information about a receipt rule set.
@@ -6233,7 +7378,7 @@ class ReceiptRule {
 /// SES Developer Guide</a>.
 class ReceiptRuleSetMetadata {
   /// The date and time the receipt rule set was created.
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The name of the receipt rule set. The name must:
   ///
@@ -6249,17 +7394,35 @@ class ReceiptRuleSetMetadata {
   /// Contain less than 64 characters.
   /// </li>
   /// </ul>
-  final String name;
+  final String? name;
 
   ReceiptRuleSetMetadata({
     this.createdTimestamp,
     this.name,
   });
+
+  factory ReceiptRuleSetMetadata.fromJson(Map<String, dynamic> json) {
+    return ReceiptRuleSetMetadata(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      name: json['Name'] as String?,
+    );
+  }
+
   factory ReceiptRuleSetMetadata.fromXml(_s.XmlElement elem) {
     return ReceiptRuleSetMetadata(
       createdTimestamp: _s.extractXmlDateTimeValue(elem, 'CreatedTimestamp'),
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final name = this.name;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (name != null) 'Name': name,
+    };
   }
 }
 
@@ -6269,32 +7432,23 @@ class ReceiptRuleSetMetadata {
 /// For information about receiving email through Amazon SES, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RecipientDsnFields {
   /// The action performed by the reporting mail transfer agent (MTA) as a result
   /// of its attempt to deliver the message to the recipient address. This is
   /// required by <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
-  @_s.JsonKey(name: 'Action')
   final DsnAction action;
 
   /// The status code that indicates what went wrong. This is required by <a
   /// href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>.
-  @_s.JsonKey(name: 'Status')
   final String status;
 
   /// An extended explanation of what went wrong; this is usually an SMTP
   /// response. See <a href="https://tools.ietf.org/html/rfc3463">RFC 3463</a> for
   /// the correct formatting of this parameter.
-  @_s.JsonKey(name: 'DiagnosticCode')
-  final String diagnosticCode;
+  final String? diagnosticCode;
 
   /// Additional X-headers to include in the DSN.
-  @_s.JsonKey(name: 'ExtensionFields')
-  final List<ExtensionField> extensionFields;
+  final List<ExtensionField>? extensionFields;
 
   /// The email address that the message was ultimately delivered to. This
   /// corresponds to the <code>Final-Recipient</code> in the DSN. If not
@@ -6308,41 +7462,80 @@ class RecipientDsnFields {
   /// 822;</code>, as described in <a
   /// href="https://tools.ietf.org/html/rfc3798">RFC 3798</a>.
   /// </note>
-  @_s.JsonKey(name: 'FinalRecipient')
-  final String finalRecipient;
+  final String? finalRecipient;
 
   /// The time the final delivery attempt was made, in <a
   /// href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'LastAttemptDate')
-  final DateTime lastAttemptDate;
+  final DateTime? lastAttemptDate;
 
   /// The MTA to which the remote MTA attempted to deliver the message, formatted
   /// as specified in <a href="https://tools.ietf.org/html/rfc3464">RFC 3464</a>
   /// (<code>mta-name-type; mta-name</code>). This parameter typically applies
   /// only to propagating synchronous bounces.
-  @_s.JsonKey(name: 'RemoteMta')
-  final String remoteMta;
+  final String? remoteMta;
 
   RecipientDsnFields({
-    @_s.required this.action,
-    @_s.required this.status,
+    required this.action,
+    required this.status,
     this.diagnosticCode,
     this.extensionFields,
     this.finalRecipient,
     this.lastAttemptDate,
     this.remoteMta,
   });
-  Map<String, dynamic> toJson() => _$RecipientDsnFieldsToJson(this);
+
+  factory RecipientDsnFields.fromJson(Map<String, dynamic> json) {
+    return RecipientDsnFields(
+      action: (json['Action'] as String).toDsnAction(),
+      status: json['Status'] as String,
+      diagnosticCode: json['DiagnosticCode'] as String?,
+      extensionFields: (json['ExtensionFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExtensionField.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      finalRecipient: json['FinalRecipient'] as String?,
+      lastAttemptDate: timeStampFromJson(json['LastAttemptDate']),
+      remoteMta: json['RemoteMta'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final status = this.status;
+    final diagnosticCode = this.diagnosticCode;
+    final extensionFields = this.extensionFields;
+    final finalRecipient = this.finalRecipient;
+    final lastAttemptDate = this.lastAttemptDate;
+    final remoteMta = this.remoteMta;
+    return {
+      'Action': action.toValue(),
+      'Status': status,
+      if (diagnosticCode != null) 'DiagnosticCode': diagnosticCode,
+      if (extensionFields != null) 'ExtensionFields': extensionFields,
+      if (finalRecipient != null) 'FinalRecipient': finalRecipient,
+      if (lastAttemptDate != null)
+        'LastAttemptDate': unixTimestampToJson(lastAttemptDate),
+      if (remoteMta != null) 'RemoteMta': remoteMta,
+    };
+  }
 }
 
 /// An empty element returned on a successful request.
 class ReorderReceiptRuleSetResponse {
   ReorderReceiptRuleSetResponse();
+
+  factory ReorderReceiptRuleSetResponse.fromJson(Map<String, dynamic> _) {
+    return ReorderReceiptRuleSetResponse();
+  }
+
   factory ReorderReceiptRuleSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return ReorderReceiptRuleSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6358,7 +7551,7 @@ class ReputationOptions {
   ///
   /// If email sending for the configuration set has never been disabled and later
   /// re-enabled, the value of this attribute is <code>null</code>.
-  final DateTime lastFreshStart;
+  final DateTime? lastFreshStart;
 
   /// Describes whether or not Amazon SES publishes reputation metrics for the
   /// configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
@@ -6366,7 +7559,7 @@ class ReputationOptions {
   /// If the value is <code>true</code>, reputation metrics are published. If the
   /// value is <code>false</code>, reputation metrics are not published. The
   /// default value is <code>false</code>.
-  final bool reputationMetricsEnabled;
+  final bool? reputationMetricsEnabled;
 
   /// Describes whether email sending is enabled or disabled for the configuration
   /// set. If the value is <code>true</code>, then Amazon SES will send emails
@@ -6374,13 +7567,22 @@ class ReputationOptions {
   /// SES will not send emails that use the configuration set. The default value
   /// is <code>true</code>. You can change this setting using
   /// <a>UpdateConfigurationSetSendingEnabled</a>.
-  final bool sendingEnabled;
+  final bool? sendingEnabled;
 
   ReputationOptions({
     this.lastFreshStart,
     this.reputationMetricsEnabled,
     this.sendingEnabled,
   });
+
+  factory ReputationOptions.fromJson(Map<String, dynamic> json) {
+    return ReputationOptions(
+      lastFreshStart: timeStampFromJson(json['LastFreshStart']),
+      reputationMetricsEnabled: json['ReputationMetricsEnabled'] as bool?,
+      sendingEnabled: json['SendingEnabled'] as bool?,
+    );
+  }
+
   factory ReputationOptions.fromXml(_s.XmlElement elem) {
     return ReputationOptions(
       lastFreshStart: _s.extractXmlDateTimeValue(elem, 'LastFreshStart'),
@@ -6388,6 +7590,19 @@ class ReputationOptions {
           _s.extractXmlBoolValue(elem, 'ReputationMetricsEnabled'),
       sendingEnabled: _s.extractXmlBoolValue(elem, 'SendingEnabled'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastFreshStart = this.lastFreshStart;
+    final reputationMetricsEnabled = this.reputationMetricsEnabled;
+    final sendingEnabled = this.sendingEnabled;
+    return {
+      if (lastFreshStart != null)
+        'LastFreshStart': unixTimestampToJson(lastFreshStart),
+      if (reputationMetricsEnabled != null)
+        'ReputationMetricsEnabled': reputationMetricsEnabled,
+      if (sendingEnabled != null) 'SendingEnabled': sendingEnabled,
+    };
   }
 }
 
@@ -6409,14 +7624,8 @@ class ReputationOptions {
 /// <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-s3.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3Action {
   /// The name of the Amazon S3 bucket that incoming email will be saved to.
-  @_s.JsonKey(name: 'BucketName')
   final String bucketName;
 
   /// The customer master key that Amazon SES should use to encrypt your emails
@@ -6461,14 +7670,12 @@ class S3Action {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingClientSideEncryption.html">Amazon
   /// S3 Developer Guide</a>.
   /// </important>
-  @_s.JsonKey(name: 'KmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   /// The key prefix of the Amazon S3 bucket. The key prefix is similar to a
   /// directory name that enables you to store similar data under the same
   /// directory in a bucket.
-  @_s.JsonKey(name: 'ObjectKeyPrefix')
-  final String objectKeyPrefix;
+  final String? objectKeyPrefix;
 
   /// The ARN of the Amazon SNS topic to notify when the message is saved to the
   /// Amazon S3 bucket. An example of an Amazon SNS topic ARN is
@@ -6476,25 +7683,45 @@ class S3Action {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicArn')
-  final String topicArn;
+  final String? topicArn;
 
   S3Action({
-    @_s.required this.bucketName,
+    required this.bucketName,
     this.kmsKeyArn,
     this.objectKeyPrefix,
     this.topicArn,
   });
+
+  factory S3Action.fromJson(Map<String, dynamic> json) {
+    return S3Action(
+      bucketName: json['BucketName'] as String,
+      kmsKeyArn: json['KmsKeyArn'] as String?,
+      objectKeyPrefix: json['ObjectKeyPrefix'] as String?,
+      topicArn: json['TopicArn'] as String?,
+    );
+  }
+
   factory S3Action.fromXml(_s.XmlElement elem) {
     return S3Action(
-      bucketName: _s.extractXmlStringValue(elem, 'BucketName'),
+      bucketName: _s.extractXmlStringValue(elem, 'BucketName')!,
       kmsKeyArn: _s.extractXmlStringValue(elem, 'KmsKeyArn'),
       objectKeyPrefix: _s.extractXmlStringValue(elem, 'ObjectKeyPrefix'),
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$S3ActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final kmsKeyArn = this.kmsKeyArn;
+    final objectKeyPrefix = this.objectKeyPrefix;
+    final topicArn = this.topicArn;
+    return {
+      'BucketName': bucketName,
+      if (kmsKeyArn != null) 'KmsKeyArn': kmsKeyArn,
+      if (objectKeyPrefix != null) 'ObjectKeyPrefix': objectKeyPrefix,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
 }
 
 /// When included in a receipt rule, this action publishes a notification to
@@ -6519,11 +7746,6 @@ class S3Action {
 /// notification, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-sns.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SNSAction {
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify. An example
   /// of an Amazon SNS topic ARN is
@@ -6531,36 +7753,58 @@ class SNSAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicArn')
   final String topicArn;
 
   /// The encoding to use for the email within the Amazon SNS notification. UTF-8
   /// is easier to use, but may not preserve all special characters when a message
   /// was encoded with a different encoding format. Base64 preserves all special
   /// characters. The default value is UTF-8.
-  @_s.JsonKey(name: 'Encoding')
-  final SNSActionEncoding encoding;
+  final SNSActionEncoding? encoding;
 
   SNSAction({
-    @_s.required this.topicArn,
+    required this.topicArn,
     this.encoding,
   });
+
+  factory SNSAction.fromJson(Map<String, dynamic> json) {
+    return SNSAction(
+      topicArn: json['TopicArn'] as String,
+      encoding: (json['Encoding'] as String?)?.toSNSActionEncoding(),
+    );
+  }
+
   factory SNSAction.fromXml(_s.XmlElement elem) {
     return SNSAction(
-      topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
+      topicArn: _s.extractXmlStringValue(elem, 'TopicArn')!,
       encoding:
           _s.extractXmlStringValue(elem, 'Encoding')?.toSNSActionEncoding(),
     );
   }
 
-  Map<String, dynamic> toJson() => _$SNSActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    final encoding = this.encoding;
+    return {
+      'TopicArn': topicArn,
+      if (encoding != null) 'Encoding': encoding.toValue(),
+    };
+  }
 }
 
 enum SNSActionEncoding {
-  @_s.JsonValue('UTF-8')
   utf_8,
-  @_s.JsonValue('Base64')
   base64,
+}
+
+extension on SNSActionEncoding {
+  String toValue() {
+    switch (this) {
+      case SNSActionEncoding.utf_8:
+        return 'UTF-8';
+      case SNSActionEncoding.base64:
+        return 'Base64';
+    }
+  }
 }
 
 extension on String {
@@ -6571,7 +7815,7 @@ extension on String {
       case 'Base64':
         return SNSActionEncoding.base64;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SNSActionEncoding');
   }
 }
 
@@ -6583,11 +7827,6 @@ extension on String {
 /// about using configuration sets, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/monitor-sending-activity.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SNSDestination {
   /// The ARN of the Amazon SNS topic that email sending events will be published
   /// to. An example of an Amazon SNS topic ARN is
@@ -6595,33 +7834,58 @@ class SNSDestination {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicARN')
   final String topicARN;
 
   SNSDestination({
-    @_s.required this.topicARN,
+    required this.topicARN,
   });
-  factory SNSDestination.fromXml(_s.XmlElement elem) {
+
+  factory SNSDestination.fromJson(Map<String, dynamic> json) {
     return SNSDestination(
-      topicARN: _s.extractXmlStringValue(elem, 'TopicARN'),
+      topicARN: json['TopicARN'] as String,
     );
   }
 
-  Map<String, dynamic> toJson() => _$SNSDestinationToJson(this);
+  factory SNSDestination.fromXml(_s.XmlElement elem) {
+    return SNSDestination(
+      topicARN: _s.extractXmlStringValue(elem, 'TopicARN')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicARN = this.topicARN;
+    return {
+      'TopicARN': topicARN,
+    };
+  }
 }
 
 /// Represents a unique message ID.
 class SendBounceResponse {
   /// The message ID of the bounce message.
-  final String messageId;
+  final String? messageId;
 
   SendBounceResponse({
     this.messageId,
   });
+
+  factory SendBounceResponse.fromJson(Map<String, dynamic> json) {
+    return SendBounceResponse(
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
   factory SendBounceResponse.fromXml(_s.XmlElement elem) {
     return SendBounceResponse(
       messageId: _s.extractXmlStringValue(elem, 'MessageId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      if (messageId != null) 'MessageId': messageId,
+    };
   }
 }
 
@@ -6631,15 +7895,34 @@ class SendBulkTemplatedEmailResponse {
   final List<BulkEmailDestinationStatus> status;
 
   SendBulkTemplatedEmailResponse({
-    @_s.required this.status,
+    required this.status,
   });
+
+  factory SendBulkTemplatedEmailResponse.fromJson(Map<String, dynamic> json) {
+    return SendBulkTemplatedEmailResponse(
+      status: (json['Status'] as List)
+          .whereNotNull()
+          .map((e) =>
+              BulkEmailDestinationStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory SendBulkTemplatedEmailResponse.fromXml(_s.XmlElement elem) {
     return SendBulkTemplatedEmailResponse(
-      status: _s.extractXmlChild(elem, 'Status')?.let((elem) => elem
+      status: _s
+          .extractXmlChild(elem, 'Status')!
           .findElements('member')
           .map((c) => BulkEmailDestinationStatus.fromXml(c))
-          .toList()),
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status,
+    };
   }
 }
 
@@ -6647,15 +7930,30 @@ class SendBulkTemplatedEmailResponse {
 class SendCustomVerificationEmailResponse {
   /// The unique message identifier returned from the
   /// <code>SendCustomVerificationEmail</code> operation.
-  final String messageId;
+  final String? messageId;
 
   SendCustomVerificationEmailResponse({
     this.messageId,
   });
+
+  factory SendCustomVerificationEmailResponse.fromJson(
+      Map<String, dynamic> json) {
+    return SendCustomVerificationEmailResponse(
+      messageId: json['MessageId'] as String?,
+    );
+  }
+
   factory SendCustomVerificationEmailResponse.fromXml(_s.XmlElement elem) {
     return SendCustomVerificationEmailResponse(
       messageId: _s.extractXmlStringValue(elem, 'MessageId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      if (messageId != null) 'MessageId': messageId,
+    };
   }
 }
 
@@ -6663,19 +7961,19 @@ class SendCustomVerificationEmailResponse {
 /// statistics for a 15-minute period of sending activity.
 class SendDataPoint {
   /// Number of emails that have bounced.
-  final int bounces;
+  final int? bounces;
 
   /// Number of unwanted emails that were rejected by recipients.
-  final int complaints;
+  final int? complaints;
 
   /// Number of emails that have been sent.
-  final int deliveryAttempts;
+  final int? deliveryAttempts;
 
   /// Number of emails rejected by Amazon SES.
-  final int rejects;
+  final int? rejects;
 
   /// Time of the data point.
-  final DateTime timestamp;
+  final DateTime? timestamp;
 
   SendDataPoint({
     this.bounces,
@@ -6684,6 +7982,17 @@ class SendDataPoint {
     this.rejects,
     this.timestamp,
   });
+
+  factory SendDataPoint.fromJson(Map<String, dynamic> json) {
+    return SendDataPoint(
+      bounces: json['Bounces'] as int?,
+      complaints: json['Complaints'] as int?,
+      deliveryAttempts: json['DeliveryAttempts'] as int?,
+      rejects: json['Rejects'] as int?,
+      timestamp: timeStampFromJson(json['Timestamp']),
+    );
+  }
+
   factory SendDataPoint.fromXml(_s.XmlElement elem) {
     return SendDataPoint(
       bounces: _s.extractXmlIntValue(elem, 'Bounces'),
@@ -6692,6 +8001,21 @@ class SendDataPoint {
       rejects: _s.extractXmlIntValue(elem, 'Rejects'),
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bounces = this.bounces;
+    final complaints = this.complaints;
+    final deliveryAttempts = this.deliveryAttempts;
+    final rejects = this.rejects;
+    final timestamp = this.timestamp;
+    return {
+      if (bounces != null) 'Bounces': bounces,
+      if (complaints != null) 'Complaints': complaints,
+      if (deliveryAttempts != null) 'DeliveryAttempts': deliveryAttempts,
+      if (rejects != null) 'Rejects': rejects,
+      if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
+    };
   }
 }
 
@@ -6702,12 +8026,26 @@ class SendEmailResponse {
   final String messageId;
 
   SendEmailResponse({
-    @_s.required this.messageId,
+    required this.messageId,
   });
+
+  factory SendEmailResponse.fromJson(Map<String, dynamic> json) {
+    return SendEmailResponse(
+      messageId: json['MessageId'] as String,
+    );
+  }
+
   factory SendEmailResponse.fromXml(_s.XmlElement elem) {
     return SendEmailResponse(
-      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
+      messageId: _s.extractXmlStringValue(elem, 'MessageId')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      'MessageId': messageId,
+    };
   }
 }
 
@@ -6718,12 +8056,26 @@ class SendRawEmailResponse {
   final String messageId;
 
   SendRawEmailResponse({
-    @_s.required this.messageId,
+    required this.messageId,
   });
+
+  factory SendRawEmailResponse.fromJson(Map<String, dynamic> json) {
+    return SendRawEmailResponse(
+      messageId: json['MessageId'] as String,
+    );
+  }
+
   factory SendRawEmailResponse.fromXml(_s.XmlElement elem) {
     return SendRawEmailResponse(
-      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
+      messageId: _s.extractXmlStringValue(elem, 'MessageId')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      'MessageId': messageId,
+    };
   }
 }
 
@@ -6733,82 +8085,162 @@ class SendTemplatedEmailResponse {
   final String messageId;
 
   SendTemplatedEmailResponse({
-    @_s.required this.messageId,
+    required this.messageId,
   });
+
+  factory SendTemplatedEmailResponse.fromJson(Map<String, dynamic> json) {
+    return SendTemplatedEmailResponse(
+      messageId: json['MessageId'] as String,
+    );
+  }
+
   factory SendTemplatedEmailResponse.fromXml(_s.XmlElement elem) {
     return SendTemplatedEmailResponse(
-      messageId: _s.extractXmlStringValue(elem, 'MessageId'),
+      messageId: _s.extractXmlStringValue(elem, 'MessageId')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final messageId = this.messageId;
+    return {
+      'MessageId': messageId,
+    };
   }
 }
 
 /// An empty element returned on a successful request.
 class SetActiveReceiptRuleSetResponse {
   SetActiveReceiptRuleSetResponse();
+
+  factory SetActiveReceiptRuleSetResponse.fromJson(Map<String, dynamic> _) {
+    return SetActiveReceiptRuleSetResponse();
+  }
+
   factory SetActiveReceiptRuleSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetActiveReceiptRuleSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class SetIdentityDkimEnabledResponse {
   SetIdentityDkimEnabledResponse();
+
+  factory SetIdentityDkimEnabledResponse.fromJson(Map<String, dynamic> _) {
+    return SetIdentityDkimEnabledResponse();
+  }
+
   factory SetIdentityDkimEnabledResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetIdentityDkimEnabledResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class SetIdentityFeedbackForwardingEnabledResponse {
   SetIdentityFeedbackForwardingEnabledResponse();
+
+  factory SetIdentityFeedbackForwardingEnabledResponse.fromJson(
+      Map<String, dynamic> _) {
+    return SetIdentityFeedbackForwardingEnabledResponse();
+  }
+
   factory SetIdentityFeedbackForwardingEnabledResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetIdentityFeedbackForwardingEnabledResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class SetIdentityHeadersInNotificationsEnabledResponse {
   SetIdentityHeadersInNotificationsEnabledResponse();
+
+  factory SetIdentityHeadersInNotificationsEnabledResponse.fromJson(
+      Map<String, dynamic> _) {
+    return SetIdentityHeadersInNotificationsEnabledResponse();
+  }
+
   factory SetIdentityHeadersInNotificationsEnabledResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetIdentityHeadersInNotificationsEnabledResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class SetIdentityMailFromDomainResponse {
   SetIdentityMailFromDomainResponse();
+
+  factory SetIdentityMailFromDomainResponse.fromJson(Map<String, dynamic> _) {
+    return SetIdentityMailFromDomainResponse();
+  }
+
   factory SetIdentityMailFromDomainResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetIdentityMailFromDomainResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class SetIdentityNotificationTopicResponse {
   SetIdentityNotificationTopicResponse();
+
+  factory SetIdentityNotificationTopicResponse.fromJson(
+      Map<String, dynamic> _) {
+    return SetIdentityNotificationTopicResponse();
+  }
+
   factory SetIdentityNotificationTopicResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetIdentityNotificationTopicResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class SetReceiptRulePositionResponse {
   SetReceiptRulePositionResponse();
+
+  factory SetReceiptRulePositionResponse.fromJson(Map<String, dynamic> _) {
+    return SetReceiptRulePositionResponse();
+  }
+
   factory SetReceiptRulePositionResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SetReceiptRulePositionResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6819,15 +8251,9 @@ class SetReceiptRulePositionResponse {
 /// For information about setting a stop action in a receipt rule, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-stop.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StopAction {
   /// The scope of the StopAction. The only acceptable value is
   /// <code>RuleSet</code>.
-  @_s.JsonKey(name: 'Scope')
   final StopScope scope;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
@@ -6836,26 +8262,48 @@ class StopAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicArn')
-  final String topicArn;
+  final String? topicArn;
 
   StopAction({
-    @_s.required this.scope,
+    required this.scope,
     this.topicArn,
   });
+
+  factory StopAction.fromJson(Map<String, dynamic> json) {
+    return StopAction(
+      scope: (json['Scope'] as String).toStopScope(),
+      topicArn: json['TopicArn'] as String?,
+    );
+  }
+
   factory StopAction.fromXml(_s.XmlElement elem) {
     return StopAction(
-      scope: _s.extractXmlStringValue(elem, 'Scope')?.toStopScope(),
+      scope: _s.extractXmlStringValue(elem, 'Scope')!.toStopScope(),
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$StopActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final scope = this.scope;
+    final topicArn = this.topicArn;
+    return {
+      'Scope': scope.toValue(),
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
 }
 
 enum StopScope {
-  @_s.JsonValue('RuleSet')
   ruleSet,
+}
+
+extension on StopScope {
+  String toValue() {
+    switch (this) {
+      case StopScope.ruleSet:
+        return 'RuleSet';
+    }
+  }
 }
 
 extension on String {
@@ -6864,95 +8312,148 @@ extension on String {
       case 'RuleSet':
         return StopScope.ruleSet;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StopScope');
   }
 }
 
 /// The content of the email, composed of a subject line, an HTML part, and a
 /// text-only part.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Template {
   /// The name of the template. You will refer to this name when you send email
   /// using the <code>SendTemplatedEmail</code> or
   /// <code>SendBulkTemplatedEmail</code> operations.
-  @_s.JsonKey(name: 'TemplateName')
   final String templateName;
 
   /// The HTML body of the email.
-  @_s.JsonKey(name: 'HtmlPart')
-  final String htmlPart;
+  final String? htmlPart;
 
   /// The subject line of the email.
-  @_s.JsonKey(name: 'SubjectPart')
-  final String subjectPart;
+  final String? subjectPart;
 
   /// The email body that will be visible to recipients whose email clients do not
   /// display HTML.
-  @_s.JsonKey(name: 'TextPart')
-  final String textPart;
+  final String? textPart;
 
   Template({
-    @_s.required this.templateName,
+    required this.templateName,
     this.htmlPart,
     this.subjectPart,
     this.textPart,
   });
+
+  factory Template.fromJson(Map<String, dynamic> json) {
+    return Template(
+      templateName: json['TemplateName'] as String,
+      htmlPart: json['HtmlPart'] as String?,
+      subjectPart: json['SubjectPart'] as String?,
+      textPart: json['TextPart'] as String?,
+    );
+  }
+
   factory Template.fromXml(_s.XmlElement elem) {
     return Template(
-      templateName: _s.extractXmlStringValue(elem, 'TemplateName'),
+      templateName: _s.extractXmlStringValue(elem, 'TemplateName')!,
       htmlPart: _s.extractXmlStringValue(elem, 'HtmlPart'),
       subjectPart: _s.extractXmlStringValue(elem, 'SubjectPart'),
       textPart: _s.extractXmlStringValue(elem, 'TextPart'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$TemplateToJson(this);
+  Map<String, dynamic> toJson() {
+    final templateName = this.templateName;
+    final htmlPart = this.htmlPart;
+    final subjectPart = this.subjectPart;
+    final textPart = this.textPart;
+    return {
+      'TemplateName': templateName,
+      if (htmlPart != null) 'HtmlPart': htmlPart,
+      if (subjectPart != null) 'SubjectPart': subjectPart,
+      if (textPart != null) 'TextPart': textPart,
+    };
+  }
 }
 
 /// Contains information about an email template.
 class TemplateMetadata {
   /// The time and date the template was created.
-  final DateTime createdTimestamp;
+  final DateTime? createdTimestamp;
 
   /// The name of the template.
-  final String name;
+  final String? name;
 
   TemplateMetadata({
     this.createdTimestamp,
     this.name,
   });
+
+  factory TemplateMetadata.fromJson(Map<String, dynamic> json) {
+    return TemplateMetadata(
+      createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+      name: json['Name'] as String?,
+    );
+  }
+
   factory TemplateMetadata.fromXml(_s.XmlElement elem) {
     return TemplateMetadata(
       createdTimestamp: _s.extractXmlDateTimeValue(elem, 'CreatedTimestamp'),
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final createdTimestamp = this.createdTimestamp;
+    final name = this.name;
+    return {
+      if (createdTimestamp != null)
+        'CreatedTimestamp': unixTimestampToJson(createdTimestamp),
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 class TestRenderTemplateResponse {
   /// The complete MIME message rendered by applying the data in the TemplateData
   /// parameter to the template specified in the TemplateName parameter.
-  final String renderedTemplate;
+  final String? renderedTemplate;
 
   TestRenderTemplateResponse({
     this.renderedTemplate,
   });
+
+  factory TestRenderTemplateResponse.fromJson(Map<String, dynamic> json) {
+    return TestRenderTemplateResponse(
+      renderedTemplate: json['RenderedTemplate'] as String?,
+    );
+  }
+
   factory TestRenderTemplateResponse.fromXml(_s.XmlElement elem) {
     return TestRenderTemplateResponse(
       renderedTemplate: _s.extractXmlStringValue(elem, 'RenderedTemplate'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final renderedTemplate = this.renderedTemplate;
+    return {
+      if (renderedTemplate != null) 'RenderedTemplate': renderedTemplate,
+    };
+  }
 }
 
 enum TlsPolicy {
-  @_s.JsonValue('Require')
   require,
-  @_s.JsonValue('Optional')
   optional,
+}
+
+extension on TlsPolicy {
+  String toValue() {
+    switch (this) {
+      case TlsPolicy.require:
+        return 'Require';
+      case TlsPolicy.optional:
+        return 'Optional';
+    }
+  }
 }
 
 extension on String {
@@ -6963,7 +8464,7 @@ extension on String {
       case 'Optional':
         return TlsPolicy.optional;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TlsPolicy');
   }
 }
 
@@ -6975,20 +8476,21 @@ extension on String {
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-custom-open-click-domains.html">Configuring
 /// Custom Domains to Handle Open and Click Tracking</a> in the <i>Amazon SES
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TrackingOptions {
   /// The custom subdomain that will be used to redirect email recipients to the
   /// Amazon SES event tracking domain.
-  @_s.JsonKey(name: 'CustomRedirectDomain')
-  final String customRedirectDomain;
+  final String? customRedirectDomain;
 
   TrackingOptions({
     this.customRedirectDomain,
   });
+
+  factory TrackingOptions.fromJson(Map<String, dynamic> json) {
+    return TrackingOptions(
+      customRedirectDomain: json['CustomRedirectDomain'] as String?,
+    );
+  }
+
   factory TrackingOptions.fromXml(_s.XmlElement elem) {
     return TrackingOptions(
       customRedirectDomain:
@@ -6996,59 +8498,115 @@ class TrackingOptions {
     );
   }
 
-  Map<String, dynamic> toJson() => _$TrackingOptionsToJson(this);
+  Map<String, dynamic> toJson() {
+    final customRedirectDomain = this.customRedirectDomain;
+    return {
+      if (customRedirectDomain != null)
+        'CustomRedirectDomain': customRedirectDomain,
+    };
+  }
 }
 
 /// An empty element returned on a successful request.
 class UpdateConfigurationSetEventDestinationResponse {
   UpdateConfigurationSetEventDestinationResponse();
+
+  factory UpdateConfigurationSetEventDestinationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateConfigurationSetEventDestinationResponse();
+  }
+
   factory UpdateConfigurationSetEventDestinationResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return UpdateConfigurationSetEventDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class UpdateConfigurationSetTrackingOptionsResponse {
   UpdateConfigurationSetTrackingOptionsResponse();
+
+  factory UpdateConfigurationSetTrackingOptionsResponse.fromJson(
+      Map<String, dynamic> _) {
+    return UpdateConfigurationSetTrackingOptionsResponse();
+  }
+
   factory UpdateConfigurationSetTrackingOptionsResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return UpdateConfigurationSetTrackingOptionsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element returned on a successful request.
 class UpdateReceiptRuleResponse {
   UpdateReceiptRuleResponse();
+
+  factory UpdateReceiptRuleResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateReceiptRuleResponse();
+  }
+
   factory UpdateReceiptRuleResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return UpdateReceiptRuleResponse();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class UpdateTemplateResponse {
   UpdateTemplateResponse();
+
+  factory UpdateTemplateResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateTemplateResponse();
+  }
+
   factory UpdateTemplateResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return UpdateTemplateResponse();
   }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum VerificationStatus {
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('Success')
   success,
-  @_s.JsonValue('Failed')
   failed,
-  @_s.JsonValue('TemporaryFailure')
   temporaryFailure,
-  @_s.JsonValue('NotStarted')
   notStarted,
+}
+
+extension on VerificationStatus {
+  String toValue() {
+    switch (this) {
+      case VerificationStatus.pending:
+        return 'Pending';
+      case VerificationStatus.success:
+        return 'Success';
+      case VerificationStatus.failed:
+        return 'Failed';
+      case VerificationStatus.temporaryFailure:
+        return 'TemporaryFailure';
+      case VerificationStatus.notStarted:
+        return 'NotStarted';
+    }
+  }
 }
 
 extension on String {
@@ -7065,7 +8623,7 @@ extension on String {
       case 'NotStarted':
         return VerificationStatus.notStarted;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum VerificationStatus');
   }
 }
 
@@ -7090,14 +8648,30 @@ class VerifyDomainDkimResponse {
   final List<String> dkimTokens;
 
   VerifyDomainDkimResponse({
-    @_s.required this.dkimTokens,
+    required this.dkimTokens,
   });
+
+  factory VerifyDomainDkimResponse.fromJson(Map<String, dynamic> json) {
+    return VerifyDomainDkimResponse(
+      dkimTokens: (json['DkimTokens'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory VerifyDomainDkimResponse.fromXml(_s.XmlElement elem) {
     return VerifyDomainDkimResponse(
-      dkimTokens: _s
-          .extractXmlChild(elem, 'DkimTokens')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      dkimTokens: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'DkimTokens')!, 'member'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dkimTokens = this.dkimTokens;
+    return {
+      'DkimTokens': dkimTokens,
+    };
   }
 }
 
@@ -7116,22 +8690,45 @@ class VerifyDomainIdentityResponse {
   final String verificationToken;
 
   VerifyDomainIdentityResponse({
-    @_s.required this.verificationToken,
+    required this.verificationToken,
   });
+
+  factory VerifyDomainIdentityResponse.fromJson(Map<String, dynamic> json) {
+    return VerifyDomainIdentityResponse(
+      verificationToken: json['VerificationToken'] as String,
+    );
+  }
+
   factory VerifyDomainIdentityResponse.fromXml(_s.XmlElement elem) {
     return VerifyDomainIdentityResponse(
-      verificationToken: _s.extractXmlStringValue(elem, 'VerificationToken'),
+      verificationToken: _s.extractXmlStringValue(elem, 'VerificationToken')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final verificationToken = this.verificationToken;
+    return {
+      'VerificationToken': verificationToken,
+    };
   }
 }
 
 /// An empty element returned on a successful request.
 class VerifyEmailIdentityResponse {
   VerifyEmailIdentityResponse();
+
+  factory VerifyEmailIdentityResponse.fromJson(Map<String, dynamic> _) {
+    return VerifyEmailIdentityResponse();
+  }
+
   factory VerifyEmailIdentityResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return VerifyEmailIdentityResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -7143,11 +8740,6 @@ class VerifyEmailIdentityResponse {
 /// For information using a receipt rule to call Amazon WorkMail, see the <a
 /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-action-workmail.html">Amazon
 /// SES Developer Guide</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class WorkmailAction {
   /// The ARN of the Amazon WorkMail organization. An example of an Amazon
   /// WorkMail organization ARN is
@@ -7155,7 +8747,6 @@ class WorkmailAction {
   /// For information about Amazon WorkMail organizations, see the <a
   /// href="https://docs.aws.amazon.com/workmail/latest/adminguide/organizations_overview.html">Amazon
   /// WorkMail Administrator Guide</a>.
-  @_s.JsonKey(name: 'OrganizationArn')
   final String organizationArn;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to notify when the
@@ -7164,25 +8755,39 @@ class WorkmailAction {
   /// information about Amazon SNS topics, see the <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html">Amazon SNS
   /// Developer Guide</a>.
-  @_s.JsonKey(name: 'TopicArn')
-  final String topicArn;
+  final String? topicArn;
 
   WorkmailAction({
-    @_s.required this.organizationArn,
+    required this.organizationArn,
     this.topicArn,
   });
+
+  factory WorkmailAction.fromJson(Map<String, dynamic> json) {
+    return WorkmailAction(
+      organizationArn: json['OrganizationArn'] as String,
+      topicArn: json['TopicArn'] as String?,
+    );
+  }
+
   factory WorkmailAction.fromXml(_s.XmlElement elem) {
     return WorkmailAction(
-      organizationArn: _s.extractXmlStringValue(elem, 'OrganizationArn'),
+      organizationArn: _s.extractXmlStringValue(elem, 'OrganizationArn')!,
       topicArn: _s.extractXmlStringValue(elem, 'TopicArn'),
     );
   }
 
-  Map<String, dynamic> toJson() => _$WorkmailActionToJson(this);
+  Map<String, dynamic> toJson() {
+    final organizationArn = this.organizationArn;
+    final topicArn = this.topicArn;
+    return {
+      'OrganizationArn': organizationArn,
+      if (topicArn != null) 'TopicArn': topicArn,
+    };
+  }
 }
 
 class AccountSendingPausedException extends _s.GenericAwsException {
-  AccountSendingPausedException({String type, String message})
+  AccountSendingPausedException({String? type, String? message})
       : super(
             type: type,
             code: 'AccountSendingPausedException',
@@ -7190,17 +8795,17 @@ class AccountSendingPausedException extends _s.GenericAwsException {
 }
 
 class AlreadyExistsException extends _s.GenericAwsException {
-  AlreadyExistsException({String type, String message})
+  AlreadyExistsException({String? type, String? message})
       : super(type: type, code: 'AlreadyExistsException', message: message);
 }
 
 class CannotDeleteException extends _s.GenericAwsException {
-  CannotDeleteException({String type, String message})
+  CannotDeleteException({String? type, String? message})
       : super(type: type, code: 'CannotDeleteException', message: message);
 }
 
 class ConfigurationSetAlreadyExistsException extends _s.GenericAwsException {
-  ConfigurationSetAlreadyExistsException({String type, String message})
+  ConfigurationSetAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ConfigurationSetAlreadyExistsException',
@@ -7208,7 +8813,7 @@ class ConfigurationSetAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ConfigurationSetDoesNotExistException extends _s.GenericAwsException {
-  ConfigurationSetDoesNotExistException({String type, String message})
+  ConfigurationSetDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'ConfigurationSetDoesNotExistException',
@@ -7216,7 +8821,7 @@ class ConfigurationSetDoesNotExistException extends _s.GenericAwsException {
 }
 
 class ConfigurationSetSendingPausedException extends _s.GenericAwsException {
-  ConfigurationSetSendingPausedException({String type, String message})
+  ConfigurationSetSendingPausedException({String? type, String? message})
       : super(
             type: type,
             code: 'ConfigurationSetSendingPausedException',
@@ -7225,7 +8830,8 @@ class ConfigurationSetSendingPausedException extends _s.GenericAwsException {
 
 class CustomVerificationEmailInvalidContentException
     extends _s.GenericAwsException {
-  CustomVerificationEmailInvalidContentException({String type, String message})
+  CustomVerificationEmailInvalidContentException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'CustomVerificationEmailInvalidContentException',
@@ -7235,7 +8841,7 @@ class CustomVerificationEmailInvalidContentException
 class CustomVerificationEmailTemplateAlreadyExistsException
     extends _s.GenericAwsException {
   CustomVerificationEmailTemplateAlreadyExistsException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'CustomVerificationEmailTemplateAlreadyExistsException',
@@ -7245,7 +8851,7 @@ class CustomVerificationEmailTemplateAlreadyExistsException
 class CustomVerificationEmailTemplateDoesNotExistException
     extends _s.GenericAwsException {
   CustomVerificationEmailTemplateDoesNotExistException(
-      {String type, String message})
+      {String? type, String? message})
       : super(
             type: type,
             code: 'CustomVerificationEmailTemplateDoesNotExistException',
@@ -7253,7 +8859,7 @@ class CustomVerificationEmailTemplateDoesNotExistException
 }
 
 class EventDestinationAlreadyExistsException extends _s.GenericAwsException {
-  EventDestinationAlreadyExistsException({String type, String message})
+  EventDestinationAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'EventDestinationAlreadyExistsException',
@@ -7261,7 +8867,7 @@ class EventDestinationAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class EventDestinationDoesNotExistException extends _s.GenericAwsException {
-  EventDestinationDoesNotExistException({String type, String message})
+  EventDestinationDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'EventDestinationDoesNotExistException',
@@ -7269,7 +8875,7 @@ class EventDestinationDoesNotExistException extends _s.GenericAwsException {
 }
 
 class FromEmailAddressNotVerifiedException extends _s.GenericAwsException {
-  FromEmailAddressNotVerifiedException({String type, String message})
+  FromEmailAddressNotVerifiedException({String? type, String? message})
       : super(
             type: type,
             code: 'FromEmailAddressNotVerifiedException',
@@ -7277,7 +8883,7 @@ class FromEmailAddressNotVerifiedException extends _s.GenericAwsException {
 }
 
 class InvalidCloudWatchDestinationException extends _s.GenericAwsException {
-  InvalidCloudWatchDestinationException({String type, String message})
+  InvalidCloudWatchDestinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCloudWatchDestinationException',
@@ -7285,7 +8891,7 @@ class InvalidCloudWatchDestinationException extends _s.GenericAwsException {
 }
 
 class InvalidConfigurationSetException extends _s.GenericAwsException {
-  InvalidConfigurationSetException({String type, String message})
+  InvalidConfigurationSetException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidConfigurationSetException',
@@ -7293,7 +8899,7 @@ class InvalidConfigurationSetException extends _s.GenericAwsException {
 }
 
 class InvalidDeliveryOptionsException extends _s.GenericAwsException {
-  InvalidDeliveryOptionsException({String type, String message})
+  InvalidDeliveryOptionsException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidDeliveryOptionsException',
@@ -7301,7 +8907,7 @@ class InvalidDeliveryOptionsException extends _s.GenericAwsException {
 }
 
 class InvalidFirehoseDestinationException extends _s.GenericAwsException {
-  InvalidFirehoseDestinationException({String type, String message})
+  InvalidFirehoseDestinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidFirehoseDestinationException',
@@ -7309,7 +8915,7 @@ class InvalidFirehoseDestinationException extends _s.GenericAwsException {
 }
 
 class InvalidLambdaFunctionException extends _s.GenericAwsException {
-  InvalidLambdaFunctionException({String type, String message})
+  InvalidLambdaFunctionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidLambdaFunctionException',
@@ -7317,12 +8923,12 @@ class InvalidLambdaFunctionException extends _s.GenericAwsException {
 }
 
 class InvalidPolicyException extends _s.GenericAwsException {
-  InvalidPolicyException({String type, String message})
+  InvalidPolicyException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyException', message: message);
 }
 
 class InvalidRenderingParameterException extends _s.GenericAwsException {
-  InvalidRenderingParameterException({String type, String message})
+  InvalidRenderingParameterException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidRenderingParameterException',
@@ -7330,7 +8936,7 @@ class InvalidRenderingParameterException extends _s.GenericAwsException {
 }
 
 class InvalidS3ConfigurationException extends _s.GenericAwsException {
-  InvalidS3ConfigurationException({String type, String message})
+  InvalidS3ConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidS3ConfigurationException',
@@ -7338,7 +8944,7 @@ class InvalidS3ConfigurationException extends _s.GenericAwsException {
 }
 
 class InvalidSNSDestinationException extends _s.GenericAwsException {
-  InvalidSNSDestinationException({String type, String message})
+  InvalidSNSDestinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidSNSDestinationException',
@@ -7346,17 +8952,17 @@ class InvalidSNSDestinationException extends _s.GenericAwsException {
 }
 
 class InvalidSnsTopicException extends _s.GenericAwsException {
-  InvalidSnsTopicException({String type, String message})
+  InvalidSnsTopicException({String? type, String? message})
       : super(type: type, code: 'InvalidSnsTopicException', message: message);
 }
 
 class InvalidTemplateException extends _s.GenericAwsException {
-  InvalidTemplateException({String type, String message})
+  InvalidTemplateException({String? type, String? message})
       : super(type: type, code: 'InvalidTemplateException', message: message);
 }
 
 class InvalidTrackingOptionsException extends _s.GenericAwsException {
-  InvalidTrackingOptionsException({String type, String message})
+  InvalidTrackingOptionsException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidTrackingOptionsException',
@@ -7364,12 +8970,12 @@ class InvalidTrackingOptionsException extends _s.GenericAwsException {
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
-  MailFromDomainNotVerifiedException({String type, String message})
+  MailFromDomainNotVerifiedException({String? type, String? message})
       : super(
             type: type,
             code: 'MailFromDomainNotVerifiedException',
@@ -7377,12 +8983,12 @@ class MailFromDomainNotVerifiedException extends _s.GenericAwsException {
 }
 
 class MessageRejected extends _s.GenericAwsException {
-  MessageRejected({String type, String message})
+  MessageRejected({String? type, String? message})
       : super(type: type, code: 'MessageRejected', message: message);
 }
 
 class MissingRenderingAttributeException extends _s.GenericAwsException {
-  MissingRenderingAttributeException({String type, String message})
+  MissingRenderingAttributeException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingRenderingAttributeException',
@@ -7390,7 +8996,7 @@ class MissingRenderingAttributeException extends _s.GenericAwsException {
 }
 
 class ProductionAccessNotGrantedException extends _s.GenericAwsException {
-  ProductionAccessNotGrantedException({String type, String message})
+  ProductionAccessNotGrantedException({String? type, String? message})
       : super(
             type: type,
             code: 'ProductionAccessNotGrantedException',
@@ -7398,18 +9004,18 @@ class ProductionAccessNotGrantedException extends _s.GenericAwsException {
 }
 
 class RuleDoesNotExistException extends _s.GenericAwsException {
-  RuleDoesNotExistException({String type, String message})
+  RuleDoesNotExistException({String? type, String? message})
       : super(type: type, code: 'RuleDoesNotExistException', message: message);
 }
 
 class RuleSetDoesNotExistException extends _s.GenericAwsException {
-  RuleSetDoesNotExistException({String type, String message})
+  RuleSetDoesNotExistException({String? type, String? message})
       : super(
             type: type, code: 'RuleSetDoesNotExistException', message: message);
 }
 
 class TemplateDoesNotExistException extends _s.GenericAwsException {
-  TemplateDoesNotExistException({String type, String message})
+  TemplateDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'TemplateDoesNotExistException',
@@ -7417,7 +9023,7 @@ class TemplateDoesNotExistException extends _s.GenericAwsException {
 }
 
 class TrackingOptionsAlreadyExistsException extends _s.GenericAwsException {
-  TrackingOptionsAlreadyExistsException({String type, String message})
+  TrackingOptionsAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'TrackingOptionsAlreadyExistsException',
@@ -7425,7 +9031,7 @@ class TrackingOptionsAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class TrackingOptionsDoesNotExistException extends _s.GenericAwsException {
-  TrackingOptionsDoesNotExistException({String type, String message})
+  TrackingOptionsDoesNotExistException({String? type, String? message})
       : super(
             type: type,
             code: 'TrackingOptionsDoesNotExistException',

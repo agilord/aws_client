@@ -34,16 +34,18 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.structMember.bar.millisecondsSinceEpoch ~/ 1000, 1398796238);
-    expect(output.structMember.foo.millisecondsSinceEpoch ~/ 1000, 1398796238);
-    expect(output.timeArg.millisecondsSinceEpoch ~/ 1000, 1398796238);
-    expect(output.timeArgInHeader.millisecondsSinceEpoch ~/ 1000, 1398796238);
-    expect(output.timeCustom.millisecondsSinceEpoch ~/ 1000, 1398796238);
     expect(
-        output.timeCustomInHeader.millisecondsSinceEpoch ~/ 1000, 1398796238);
-    expect(output.timeFormat.millisecondsSinceEpoch ~/ 1000, 1398796238);
+        output.structMember!.bar!.millisecondsSinceEpoch ~/ 1000, 1398796238);
     expect(
-        output.timeFormatInHeader.millisecondsSinceEpoch ~/ 1000, 1398796238);
+        output.structMember!.foo!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.timeArg!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.timeArgInHeader!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.timeCustom!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(
+        output.timeCustomInHeader!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(output.timeFormat!.millisecondsSinceEpoch ~/ 1000, 1398796238);
+    expect(
+        output.timeFormatInHeader!.millisecondsSinceEpoch ~/ 1000, 1398796238);
 /*
 {
   "TimeArg": 1398796238,

@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-07-01.g.dart';
 
 /// Provides translation between one source language and another of the same set
 /// of languages.
 class Translate {
   final _s.JsonProtocol _protocol;
   Translate({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -59,10 +52,6 @@ class Translate {
   /// May throw [ConflictException].
   /// May throw [InternalServerException].
   ///
-  /// Parameter [clientToken] :
-  /// A unique identifier for the request. This token is automatically generated
-  /// when you use Amazon Translate through an AWS SDK.
-  ///
   /// Parameter [name] :
   /// A custom name for the parallel data resource in Amazon Translate. You must
   /// assign a name that is unique in the account and region.
@@ -70,29 +59,19 @@ class Translate {
   /// Parameter [parallelDataConfig] :
   /// Specifies the format and S3 location of the parallel data input file.
   ///
+  /// Parameter [clientToken] :
+  /// A unique identifier for the request. This token is automatically generated
+  /// when you use Amazon Translate through an AWS SDK.
+  ///
   /// Parameter [description] :
   /// A custom description for the parallel data resource in Amazon Translate.
   Future<CreateParallelDataResponse> createParallelData({
-    @_s.required String clientToken,
-    @_s.required String name,
-    @_s.required ParallelDataConfig parallelDataConfig,
-    String description,
-    EncryptionKey encryptionKey,
+    required String name,
+    required ParallelDataConfig parallelDataConfig,
+    String? clientToken,
+    String? description,
+    EncryptionKey? encryptionKey,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -101,23 +80,18 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
+    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\P{M}\p{M}]{0,256}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -130,9 +104,9 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         'ParallelDataConfig': parallelDataConfig,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (encryptionKey != null) 'EncryptionKey': encryptionKey,
       },
@@ -151,7 +125,7 @@ class Translate {
   /// Parameter [name] :
   /// The name of the parallel data resource that is being deleted.
   Future<DeleteParallelDataResponse> deleteParallelData({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -159,12 +133,6 @@ class Translate {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -195,7 +163,7 @@ class Translate {
   /// Parameter [name] :
   /// The name of the custom terminology being deleted.
   Future<void> deleteTerminology({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -205,17 +173,11 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSShineFrontendService_20170701.DeleteTerminology'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -240,7 +202,7 @@ class Translate {
   /// <a>StartTextTranslationJob</a> operation returns this identifier in its
   /// response.
   Future<DescribeTextTranslationJobResponse> describeTextTranslationJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -248,12 +210,6 @@ class Translate {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -285,7 +241,7 @@ class Translate {
   /// Parameter [name] :
   /// The name of the parallel data resource that is being retrieved.
   Future<GetParallelDataResponse> getParallelData({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -293,12 +249,6 @@ class Translate {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -333,8 +283,8 @@ class Translate {
   /// The data format of the custom terminology being retrieved, either CSV or
   /// TMX.
   Future<GetTerminologyResponse> getTerminology({
-    @_s.required String name,
-    @_s.required TerminologyDataFormat terminologyDataFormat,
+    required String name,
+    required TerminologyDataFormat terminologyDataFormat,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -342,12 +292,6 @@ class Translate {
       name,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(terminologyDataFormat, 'terminologyDataFormat');
@@ -363,7 +307,7 @@ class Translate {
       headers: headers,
       payload: {
         'Name': name,
-        'TerminologyDataFormat': terminologyDataFormat?.toValue() ?? '',
+        'TerminologyDataFormat': terminologyDataFormat.toValue(),
       },
     );
 
@@ -404,11 +348,11 @@ class Translate {
   /// Parameter [encryptionKey] :
   /// The encryption key for the custom terminology being imported.
   Future<ImportTerminologyResponse> importTerminology({
-    @_s.required MergeStrategy mergeStrategy,
-    @_s.required String name,
-    @_s.required TerminologyData terminologyData,
-    String description,
-    EncryptionKey encryptionKey,
+    required MergeStrategy mergeStrategy,
+    required String name,
+    required TerminologyData terminologyData,
+    String? description,
+    EncryptionKey? encryptionKey,
   }) async {
     ArgumentError.checkNotNull(mergeStrategy, 'mergeStrategy');
     ArgumentError.checkNotNull(name, 'name');
@@ -419,23 +363,12 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(terminologyData, 'terminologyData');
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\P{M}\p{M}]{0,256}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -448,7 +381,7 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MergeStrategy': mergeStrategy?.toValue() ?? '',
+        'MergeStrategy': mergeStrategy.toValue(),
         'Name': name,
         'TerminologyData': terminologyData,
         if (description != null) 'Description': description,
@@ -472,8 +405,8 @@ class Translate {
   /// A string that specifies the next page of results to return in a paginated
   /// response.
   Future<ListParallelDataResponse> listParallelData({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -486,11 +419,6 @@ class Translate {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -524,8 +452,8 @@ class Translate {
   /// If the result of the request to ListTerminologies was truncated, include
   /// the NextToken to fetch the next group of custom terminologies.
   Future<ListTerminologiesResponse> listTerminologies({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -538,11 +466,6 @@ class Translate {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -582,9 +505,9 @@ class Translate {
   /// Parameter [nextToken] :
   /// The token to request the next page of results.
   Future<ListTextTranslationJobsResponse> listTextTranslationJobs({
-    TextTranslationJobFilter filter,
-    int maxResults,
-    String nextToken,
+    TextTranslationJobFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -597,11 +520,6 @@ class Translate {
       nextToken,
       0,
       8192,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''\p{ASCII}{0,8192}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -642,10 +560,6 @@ class Translate {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
-  /// Parameter [clientToken] :
-  /// A unique identifier for the request. This token is auto-generated when
-  /// using the Amazon Translate SDK.
-  ///
   /// Parameter [dataAccessRoleArn] :
   /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
   /// (IAM) role that grants Amazon Translate read access to your input data.
@@ -668,6 +582,10 @@ class Translate {
   /// Parameter [targetLanguageCodes] :
   /// The language code of the output language.
   ///
+  /// Parameter [clientToken] :
+  /// A unique identifier for the request. This token is auto-generated when
+  /// using the Amazon Translate SDK.
+  ///
   /// Parameter [jobName] :
   /// The name of the batch translation job to be performed.
   ///
@@ -681,42 +599,22 @@ class Translate {
   /// list of available terminologies, use the <a>ListTerminologies</a>
   /// operation.
   Future<StartTextTranslationJobResponse> startTextTranslationJob({
-    @_s.required String clientToken,
-    @_s.required String dataAccessRoleArn,
-    @_s.required InputDataConfig inputDataConfig,
-    @_s.required OutputDataConfig outputDataConfig,
-    @_s.required String sourceLanguageCode,
-    @_s.required List<String> targetLanguageCodes,
-    String jobName,
-    List<String> parallelDataNames,
-    List<String> terminologyNames,
+    required String dataAccessRoleArn,
+    required InputDataConfig inputDataConfig,
+    required OutputDataConfig outputDataConfig,
+    required String sourceLanguageCode,
+    required List<String> targetLanguageCodes,
+    String? clientToken,
+    String? jobName,
+    List<String>? parallelDataNames,
+    List<String>? terminologyNames,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
     _s.validateStringLength(
       'dataAccessRoleArn',
       dataAccessRoleArn,
       20,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'dataAccessRoleArn',
-      dataAccessRoleArn,
-      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
@@ -731,15 +629,16 @@ class Translate {
     );
     ArgumentError.checkNotNull(targetLanguageCodes, 'targetLanguageCodes');
     _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
+    );
+    _s.validateStringLength(
       'jobName',
       jobName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'jobName',
-      jobName,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -752,12 +651,12 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
         'SourceLanguageCode': sourceLanguageCode,
         'TargetLanguageCodes': targetLanguageCodes,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (parallelDataNames != null) 'ParallelDataNames': parallelDataNames,
         if (terminologyNames != null) 'TerminologyNames': terminologyNames,
@@ -787,7 +686,7 @@ class Translate {
   /// Parameter [jobId] :
   /// The job ID of the job to be stopped.
   Future<StopTextTranslationJobResponse> stopTextTranslationJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -795,12 +694,6 @@ class Translate {
       jobId,
       1,
       32,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -860,10 +753,10 @@ class Translate {
   /// <code>TranslateText</code> request. Terminology lists can contain a
   /// maximum of 256 terms.
   Future<TranslateTextResponse> translateText({
-    @_s.required String sourceLanguageCode,
-    @_s.required String targetLanguageCode,
-    @_s.required String text,
-    List<String> terminologyNames,
+    required String sourceLanguageCode,
+    required String targetLanguageCode,
+    required String text,
+    List<String>? terminologyNames,
   }) async {
     ArgumentError.checkNotNull(sourceLanguageCode, 'sourceLanguageCode');
     _s.validateStringLength(
@@ -887,12 +780,6 @@ class Translate {
       text,
       1,
       5000,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'text',
-      text,
-      r'''[\P{M}\p{M}]{1,5000}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -928,38 +815,24 @@ class Translate {
   /// May throw [ResourceNotFoundException].
   /// May throw [InternalServerException].
   ///
-  /// Parameter [clientToken] :
-  /// A unique identifier for the request. This token is automatically generated
-  /// when you use Amazon Translate through an AWS SDK.
-  ///
   /// Parameter [name] :
   /// The name of the parallel data resource being updated.
   ///
   /// Parameter [parallelDataConfig] :
   /// Specifies the format and S3 location of the parallel data input file.
   ///
+  /// Parameter [clientToken] :
+  /// A unique identifier for the request. This token is automatically generated
+  /// when you use Amazon Translate through an AWS SDK.
+  ///
   /// Parameter [description] :
   /// A custom description for the parallel data resource in Amazon Translate.
   Future<UpdateParallelDataResponse> updateParallelData({
-    @_s.required String clientToken,
-    @_s.required String name,
-    @_s.required ParallelDataConfig parallelDataConfig,
-    String description,
+    required String name,
+    required ParallelDataConfig parallelDataConfig,
+    String? clientToken,
+    String? description,
   }) async {
-    ArgumentError.checkNotNull(clientToken, 'clientToken');
-    _s.validateStringLength(
-      'clientToken',
-      clientToken,
-      1,
-      64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''^[a-zA-Z0-9-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
@@ -968,23 +841,18 @@ class Translate {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^([A-Za-z0-9-]_?)+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parallelDataConfig, 'parallelDataConfig');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      64,
+    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\P{M}\p{M}]{0,256}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -997,9 +865,9 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         'ParallelDataConfig': parallelDataConfig,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
       },
     );
@@ -1012,157 +880,204 @@ class Translate {
 /// translated text response. This is optional in the response and will only be
 /// present if you specified terminology input in the request. Currently, only
 /// one terminology can be applied per TranslateText request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AppliedTerminology {
   /// The name of the custom terminology applied to the input text by Amazon
   /// Translate for the translated text response.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The specific terms of the custom terminology applied to the input text by
   /// Amazon Translate for the translated text response. A maximum of 250 terms
   /// will be returned, and the specific terms applied will be the first 250 terms
   /// in the source text.
-  @_s.JsonKey(name: 'Terms')
-  final List<Term> terms;
+  final List<Term>? terms;
 
   AppliedTerminology({
     this.name,
     this.terms,
   });
-  factory AppliedTerminology.fromJson(Map<String, dynamic> json) =>
-      _$AppliedTerminologyFromJson(json);
+
+  factory AppliedTerminology.fromJson(Map<String, dynamic> json) {
+    return AppliedTerminology(
+      name: json['Name'] as String?,
+      terms: (json['Terms'] as List?)
+          ?.whereNotNull()
+          .map((e) => Term.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final terms = this.terms;
+    return {
+      if (name != null) 'Name': name,
+      if (terms != null) 'Terms': terms,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateParallelDataResponse {
   /// The custom name that you assigned to the parallel data resource.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the parallel data resource. When the resource is ready for you
   /// to use, the status is <code>ACTIVE</code>.
-  @_s.JsonKey(name: 'Status')
-  final ParallelDataStatus status;
+  final ParallelDataStatus? status;
 
   CreateParallelDataResponse({
     this.name,
     this.status,
   });
-  factory CreateParallelDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateParallelDataResponseFromJson(json);
+
+  factory CreateParallelDataResponse.fromJson(Map<String, dynamic> json) {
+    return CreateParallelDataResponse(
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toParallelDataStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteParallelDataResponse {
   /// The name of the parallel data resource that is being deleted.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the parallel data deletion.
-  @_s.JsonKey(name: 'Status')
-  final ParallelDataStatus status;
+  final ParallelDataStatus? status;
 
   DeleteParallelDataResponse({
     this.name,
     this.status,
   });
-  factory DeleteParallelDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteParallelDataResponseFromJson(json);
+
+  factory DeleteParallelDataResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteParallelDataResponse(
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toParallelDataStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTextTranslationJobResponse {
   /// An object that contains the properties associated with an asynchronous batch
   /// translation job.
-  @_s.JsonKey(name: 'TextTranslationJobProperties')
-  final TextTranslationJobProperties textTranslationJobProperties;
+  final TextTranslationJobProperties? textTranslationJobProperties;
 
   DescribeTextTranslationJobResponse({
     this.textTranslationJobProperties,
   });
+
   factory DescribeTextTranslationJobResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTextTranslationJobResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTextTranslationJobResponse(
+      textTranslationJobProperties: json['TextTranslationJobProperties'] != null
+          ? TextTranslationJobProperties.fromJson(
+              json['TextTranslationJobProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final textTranslationJobProperties = this.textTranslationJobProperties;
+    return {
+      if (textTranslationJobProperties != null)
+        'TextTranslationJobProperties': textTranslationJobProperties,
+    };
+  }
 }
 
 /// The encryption key used to encrypt this object.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EncryptionKey {
   /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt
   /// the custom terminology.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The type of encryption key used by Amazon Translate to encrypt custom
   /// terminologies.
-  @_s.JsonKey(name: 'Type')
   final EncryptionKeyType type;
 
   EncryptionKey({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
   });
-  factory EncryptionKey.fromJson(Map<String, dynamic> json) =>
-      _$EncryptionKeyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EncryptionKeyToJson(this);
+  factory EncryptionKey.fromJson(Map<String, dynamic> json) {
+    return EncryptionKey(
+      id: json['Id'] as String,
+      type: (json['Type'] as String).toEncryptionKeyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'Id': id,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum EncryptionKeyType {
-  @_s.JsonValue('KMS')
   kms,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on EncryptionKeyType {
+  String toValue() {
+    switch (this) {
+      case EncryptionKeyType.kms:
+        return 'KMS';
+    }
+  }
+}
+
+extension on String {
+  EncryptionKeyType toEncryptionKeyType() {
+    switch (this) {
+      case 'KMS':
+        return EncryptionKeyType.kms;
+    }
+    throw Exception('$this is not known in enum EncryptionKeyType');
+  }
+}
+
 class GetParallelDataResponse {
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
   /// Translate attempted to create a parallel data resource. The location is
   /// returned as a presigned URL to that has a 30 minute expiration.
-  @_s.JsonKey(name: 'AuxiliaryDataLocation')
-  final ParallelDataDataLocation auxiliaryDataLocation;
+  final ParallelDataDataLocation? auxiliaryDataLocation;
 
   /// The location of the most recent parallel data input file that was
   /// successfully imported into Amazon Translate. The location is returned as a
   /// presigned URL that has a 30 minute expiration.
-  @_s.JsonKey(name: 'DataLocation')
-  final ParallelDataDataLocation dataLocation;
+  final ParallelDataDataLocation? dataLocation;
 
   /// The Amazon S3 location of a file that provides any errors or warnings that
   /// were produced by your input file. This file was created when Amazon
   /// Translate attempted to update a parallel data resource. The location is
   /// returned as a presigned URL to that has a 30 minute expiration.
-  @_s.JsonKey(name: 'LatestUpdateAttemptAuxiliaryDataLocation')
-  final ParallelDataDataLocation latestUpdateAttemptAuxiliaryDataLocation;
+  final ParallelDataDataLocation? latestUpdateAttemptAuxiliaryDataLocation;
 
   /// The properties of the parallel data resource that is being retrieved.
-  @_s.JsonKey(name: 'ParallelDataProperties')
-  final ParallelDataProperties parallelDataProperties;
+  final ParallelDataProperties? parallelDataProperties;
 
   GetParallelDataResponse({
     this.auxiliaryDataLocation,
@@ -1170,57 +1085,115 @@ class GetParallelDataResponse {
     this.latestUpdateAttemptAuxiliaryDataLocation,
     this.parallelDataProperties,
   });
-  factory GetParallelDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetParallelDataResponseFromJson(json);
+
+  factory GetParallelDataResponse.fromJson(Map<String, dynamic> json) {
+    return GetParallelDataResponse(
+      auxiliaryDataLocation: json['AuxiliaryDataLocation'] != null
+          ? ParallelDataDataLocation.fromJson(
+              json['AuxiliaryDataLocation'] as Map<String, dynamic>)
+          : null,
+      dataLocation: json['DataLocation'] != null
+          ? ParallelDataDataLocation.fromJson(
+              json['DataLocation'] as Map<String, dynamic>)
+          : null,
+      latestUpdateAttemptAuxiliaryDataLocation:
+          json['LatestUpdateAttemptAuxiliaryDataLocation'] != null
+              ? ParallelDataDataLocation.fromJson(
+                  json['LatestUpdateAttemptAuxiliaryDataLocation']
+                      as Map<String, dynamic>)
+              : null,
+      parallelDataProperties: json['ParallelDataProperties'] != null
+          ? ParallelDataProperties.fromJson(
+              json['ParallelDataProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auxiliaryDataLocation = this.auxiliaryDataLocation;
+    final dataLocation = this.dataLocation;
+    final latestUpdateAttemptAuxiliaryDataLocation =
+        this.latestUpdateAttemptAuxiliaryDataLocation;
+    final parallelDataProperties = this.parallelDataProperties;
+    return {
+      if (auxiliaryDataLocation != null)
+        'AuxiliaryDataLocation': auxiliaryDataLocation,
+      if (dataLocation != null) 'DataLocation': dataLocation,
+      if (latestUpdateAttemptAuxiliaryDataLocation != null)
+        'LatestUpdateAttemptAuxiliaryDataLocation':
+            latestUpdateAttemptAuxiliaryDataLocation,
+      if (parallelDataProperties != null)
+        'ParallelDataProperties': parallelDataProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTerminologyResponse {
   /// The data location of the custom terminology being retrieved. The custom
   /// terminology file is returned in a presigned url that has a 30 minute
   /// expiration.
-  @_s.JsonKey(name: 'TerminologyDataLocation')
-  final TerminologyDataLocation terminologyDataLocation;
+  final TerminologyDataLocation? terminologyDataLocation;
 
   /// The properties of the custom terminology being retrieved.
-  @_s.JsonKey(name: 'TerminologyProperties')
-  final TerminologyProperties terminologyProperties;
+  final TerminologyProperties? terminologyProperties;
 
   GetTerminologyResponse({
     this.terminologyDataLocation,
     this.terminologyProperties,
   });
-  factory GetTerminologyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTerminologyResponseFromJson(json);
+
+  factory GetTerminologyResponse.fromJson(Map<String, dynamic> json) {
+    return GetTerminologyResponse(
+      terminologyDataLocation: json['TerminologyDataLocation'] != null
+          ? TerminologyDataLocation.fromJson(
+              json['TerminologyDataLocation'] as Map<String, dynamic>)
+          : null,
+      terminologyProperties: json['TerminologyProperties'] != null
+          ? TerminologyProperties.fromJson(
+              json['TerminologyProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final terminologyDataLocation = this.terminologyDataLocation;
+    final terminologyProperties = this.terminologyProperties;
+    return {
+      if (terminologyDataLocation != null)
+        'TerminologyDataLocation': terminologyDataLocation,
+      if (terminologyProperties != null)
+        'TerminologyProperties': terminologyProperties,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportTerminologyResponse {
   /// The properties of the custom terminology being imported.
-  @_s.JsonKey(name: 'TerminologyProperties')
-  final TerminologyProperties terminologyProperties;
+  final TerminologyProperties? terminologyProperties;
 
   ImportTerminologyResponse({
     this.terminologyProperties,
   });
-  factory ImportTerminologyResponse.fromJson(Map<String, dynamic> json) =>
-      _$ImportTerminologyResponseFromJson(json);
+
+  factory ImportTerminologyResponse.fromJson(Map<String, dynamic> json) {
+    return ImportTerminologyResponse(
+      terminologyProperties: json['TerminologyProperties'] != null
+          ? TerminologyProperties.fromJson(
+              json['TerminologyProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final terminologyProperties = this.terminologyProperties;
+    return {
+      if (terminologyProperties != null)
+        'TerminologyProperties': terminologyProperties,
+    };
+  }
 }
 
 /// The input configuration properties for requesting a batch translation job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputDataConfig {
   /// Describes the format of the data that you submit to Amazon Translate as
   /// input. You can specify one of the following multipurpose internet mail
@@ -1257,143 +1230,237 @@ class InputDataConfig {
   /// Otherwise, if you set this parameter to <code>text/plain</code>, your costs
   /// will cover the translation of every character.
   /// </important>
-  @_s.JsonKey(name: 'ContentType')
   final String contentType;
 
   /// The URI of the AWS S3 folder that contains the input file. The folder must
   /// be in the same Region as the API endpoint you are calling.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   InputDataConfig({
-    @_s.required this.contentType,
-    @_s.required this.s3Uri,
+    required this.contentType,
+    required this.s3Uri,
   });
-  factory InputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$InputDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InputDataConfigToJson(this);
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) {
+    return InputDataConfig(
+      contentType: json['ContentType'] as String,
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final s3Uri = this.s3Uri;
+    return {
+      'ContentType': contentType,
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// The number of documents successfully and unsuccessfully processed during a
 /// translation job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobDetails {
   /// The number of documents that could not be processed during a translation
   /// job.
-  @_s.JsonKey(name: 'DocumentsWithErrorsCount')
-  final int documentsWithErrorsCount;
+  final int? documentsWithErrorsCount;
 
   /// The number of documents used as input in a translation job.
-  @_s.JsonKey(name: 'InputDocumentsCount')
-  final int inputDocumentsCount;
+  final int? inputDocumentsCount;
 
   /// The number of documents successfully processed during a translation job.
-  @_s.JsonKey(name: 'TranslatedDocumentsCount')
-  final int translatedDocumentsCount;
+  final int? translatedDocumentsCount;
 
   JobDetails({
     this.documentsWithErrorsCount,
     this.inputDocumentsCount,
     this.translatedDocumentsCount,
   });
-  factory JobDetails.fromJson(Map<String, dynamic> json) =>
-      _$JobDetailsFromJson(json);
+
+  factory JobDetails.fromJson(Map<String, dynamic> json) {
+    return JobDetails(
+      documentsWithErrorsCount: json['DocumentsWithErrorsCount'] as int?,
+      inputDocumentsCount: json['InputDocumentsCount'] as int?,
+      translatedDocumentsCount: json['TranslatedDocumentsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final documentsWithErrorsCount = this.documentsWithErrorsCount;
+    final inputDocumentsCount = this.inputDocumentsCount;
+    final translatedDocumentsCount = this.translatedDocumentsCount;
+    return {
+      if (documentsWithErrorsCount != null)
+        'DocumentsWithErrorsCount': documentsWithErrorsCount,
+      if (inputDocumentsCount != null)
+        'InputDocumentsCount': inputDocumentsCount,
+      if (translatedDocumentsCount != null)
+        'TranslatedDocumentsCount': translatedDocumentsCount,
+    };
+  }
 }
 
 enum JobStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('COMPLETED_WITH_ERROR')
   completedWithError,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('STOP_REQUESTED')
   stopRequested,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.submitted:
+        return 'SUBMITTED';
+      case JobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case JobStatus.completed:
+        return 'COMPLETED';
+      case JobStatus.completedWithError:
+        return 'COMPLETED_WITH_ERROR';
+      case JobStatus.failed:
+        return 'FAILED';
+      case JobStatus.stopRequested:
+        return 'STOP_REQUESTED';
+      case JobStatus.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return JobStatus.submitted;
+      case 'IN_PROGRESS':
+        return JobStatus.inProgress;
+      case 'COMPLETED':
+        return JobStatus.completed;
+      case 'COMPLETED_WITH_ERROR':
+        return JobStatus.completedWithError;
+      case 'FAILED':
+        return JobStatus.failed;
+      case 'STOP_REQUESTED':
+        return JobStatus.stopRequested;
+      case 'STOPPED':
+        return JobStatus.stopped;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
 class ListParallelDataResponse {
   /// The string to use in a subsequent request to get the next page of results in
   /// a paginated response. This value is null if there are no additional pages.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The properties of the parallel data resources returned by this request.
-  @_s.JsonKey(name: 'ParallelDataPropertiesList')
-  final List<ParallelDataProperties> parallelDataPropertiesList;
+  final List<ParallelDataProperties>? parallelDataPropertiesList;
 
   ListParallelDataResponse({
     this.nextToken,
     this.parallelDataPropertiesList,
   });
-  factory ListParallelDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListParallelDataResponseFromJson(json);
+
+  factory ListParallelDataResponse.fromJson(Map<String, dynamic> json) {
+    return ListParallelDataResponse(
+      nextToken: json['NextToken'] as String?,
+      parallelDataPropertiesList: (json['ParallelDataPropertiesList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ParallelDataProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parallelDataPropertiesList = this.parallelDataPropertiesList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parallelDataPropertiesList != null)
+        'ParallelDataPropertiesList': parallelDataPropertiesList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTerminologiesResponse {
   /// If the response to the ListTerminologies was truncated, the NextToken
   /// fetches the next group of custom terminologies.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The properties list of the custom terminologies returned on the list
   /// request.
-  @_s.JsonKey(name: 'TerminologyPropertiesList')
-  final List<TerminologyProperties> terminologyPropertiesList;
+  final List<TerminologyProperties>? terminologyPropertiesList;
 
   ListTerminologiesResponse({
     this.nextToken,
     this.terminologyPropertiesList,
   });
-  factory ListTerminologiesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTerminologiesResponseFromJson(json);
+
+  factory ListTerminologiesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTerminologiesResponse(
+      nextToken: json['NextToken'] as String?,
+      terminologyPropertiesList: (json['TerminologyPropertiesList'] as List?)
+          ?.whereNotNull()
+          .map((e) => TerminologyProperties.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final terminologyPropertiesList = this.terminologyPropertiesList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (terminologyPropertiesList != null)
+        'TerminologyPropertiesList': terminologyPropertiesList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTextTranslationJobsResponse {
   /// The token to use to retreive the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list containing the properties of each job that is returned.
-  @_s.JsonKey(name: 'TextTranslationJobPropertiesList')
-  final List<TextTranslationJobProperties> textTranslationJobPropertiesList;
+  final List<TextTranslationJobProperties>? textTranslationJobPropertiesList;
 
   ListTextTranslationJobsResponse({
     this.nextToken,
     this.textTranslationJobPropertiesList,
   });
-  factory ListTextTranslationJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTextTranslationJobsResponseFromJson(json);
+
+  factory ListTextTranslationJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTextTranslationJobsResponse(
+      nextToken: json['NextToken'] as String?,
+      textTranslationJobPropertiesList:
+          (json['TextTranslationJobPropertiesList'] as List?)
+              ?.whereNotNull()
+              .map((e) => TextTranslationJobProperties.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final textTranslationJobPropertiesList =
+        this.textTranslationJobPropertiesList;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (textTranslationJobPropertiesList != null)
+        'TextTranslationJobPropertiesList': textTranslationJobPropertiesList,
+    };
+  }
 }
 
 enum MergeStrategy {
-  @_s.JsonValue('OVERWRITE')
   overwrite,
 }
 
@@ -1403,177 +1470,200 @@ extension on MergeStrategy {
       case MergeStrategy.overwrite:
         return 'OVERWRITE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  MergeStrategy toMergeStrategy() {
+    switch (this) {
+      case 'OVERWRITE':
+        return MergeStrategy.overwrite;
+    }
+    throw Exception('$this is not known in enum MergeStrategy');
   }
 }
 
 /// The output configuration properties for a batch translation job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OutputDataConfig {
   /// The URI of the S3 folder that contains a translation job's output file. The
   /// folder must be in the same Region as the API endpoint that you are calling.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   OutputDataConfig({
-    @_s.required this.s3Uri,
+    required this.s3Uri,
   });
-  factory OutputDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$OutputDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OutputDataConfigToJson(this);
+  factory OutputDataConfig.fromJson(Map<String, dynamic> json) {
+    return OutputDataConfig(
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Uri = this.s3Uri;
+    return {
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// Specifies the format and S3 location of the parallel data input file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ParallelDataConfig {
   /// The format of the parallel data input file.
-  @_s.JsonKey(name: 'Format')
   final ParallelDataFormat format;
 
   /// The URI of the Amazon S3 folder that contains the parallel data input file.
   /// The folder must be in the same Region as the API endpoint you are calling.
-  @_s.JsonKey(name: 'S3Uri')
   final String s3Uri;
 
   ParallelDataConfig({
-    @_s.required this.format,
-    @_s.required this.s3Uri,
+    required this.format,
+    required this.s3Uri,
   });
-  factory ParallelDataConfig.fromJson(Map<String, dynamic> json) =>
-      _$ParallelDataConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParallelDataConfigToJson(this);
+  factory ParallelDataConfig.fromJson(Map<String, dynamic> json) {
+    return ParallelDataConfig(
+      format: (json['Format'] as String).toParallelDataFormat(),
+      s3Uri: json['S3Uri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final s3Uri = this.s3Uri;
+    return {
+      'Format': format.toValue(),
+      'S3Uri': s3Uri,
+    };
+  }
 }
 
 /// The location of the most recent parallel data input file that was
 /// successfully imported into Amazon Translate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParallelDataDataLocation {
   /// The Amazon S3 location of the parallel data input file. The location is
   /// returned as a presigned URL to that has a 30 minute expiration.
-  @_s.JsonKey(name: 'Location')
   final String location;
 
   /// Describes the repository that contains the parallel data input file.
-  @_s.JsonKey(name: 'RepositoryType')
   final String repositoryType;
 
   ParallelDataDataLocation({
-    @_s.required this.location,
-    @_s.required this.repositoryType,
+    required this.location,
+    required this.repositoryType,
   });
-  factory ParallelDataDataLocation.fromJson(Map<String, dynamic> json) =>
-      _$ParallelDataDataLocationFromJson(json);
+
+  factory ParallelDataDataLocation.fromJson(Map<String, dynamic> json) {
+    return ParallelDataDataLocation(
+      location: json['Location'] as String,
+      repositoryType: json['RepositoryType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final repositoryType = this.repositoryType;
+    return {
+      'Location': location,
+      'RepositoryType': repositoryType,
+    };
+  }
 }
 
 enum ParallelDataFormat {
-  @_s.JsonValue('TSV')
   tsv,
-  @_s.JsonValue('CSV')
   csv,
-  @_s.JsonValue('TMX')
   tmx,
 }
 
+extension on ParallelDataFormat {
+  String toValue() {
+    switch (this) {
+      case ParallelDataFormat.tsv:
+        return 'TSV';
+      case ParallelDataFormat.csv:
+        return 'CSV';
+      case ParallelDataFormat.tmx:
+        return 'TMX';
+    }
+  }
+}
+
+extension on String {
+  ParallelDataFormat toParallelDataFormat() {
+    switch (this) {
+      case 'TSV':
+        return ParallelDataFormat.tsv;
+      case 'CSV':
+        return ParallelDataFormat.csv;
+      case 'TMX':
+        return ParallelDataFormat.tmx;
+    }
+    throw Exception('$this is not known in enum ParallelDataFormat');
+  }
+}
+
 /// The properties of a parallel data resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParallelDataProperties {
   /// The Amazon Resource Name (ARN) of the parallel data resource.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time at which the parallel data resource was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description assigned to the parallel data resource.
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'EncryptionKey')
-  final EncryptionKey encryptionKey;
+  final String? description;
+  final EncryptionKey? encryptionKey;
 
   /// The number of records unsuccessfully imported from the parallel data input
   /// file.
-  @_s.JsonKey(name: 'FailedRecordCount')
-  final int failedRecordCount;
+  final int? failedRecordCount;
 
   /// The number of UTF-8 characters that Amazon Translate imported from the
   /// parallel data input file. This number includes only the characters in your
   /// translation examples. It does not include characters that are used to format
   /// your file. For example, if you provided a Translation Memory Exchange (.tmx)
   /// file, this number does not include the tags.
-  @_s.JsonKey(name: 'ImportedDataSize')
-  final int importedDataSize;
+  final int? importedDataSize;
 
   /// The number of records successfully imported from the parallel data input
   /// file.
-  @_s.JsonKey(name: 'ImportedRecordCount')
-  final int importedRecordCount;
+  final int? importedRecordCount;
 
   /// The time at which the parallel data resource was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The time that the most recent update was attempted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestUpdateAttemptAt')
-  final DateTime latestUpdateAttemptAt;
+  final DateTime? latestUpdateAttemptAt;
 
   /// The status of the most recent update attempt for the parallel data resource.
-  @_s.JsonKey(name: 'LatestUpdateAttemptStatus')
-  final ParallelDataStatus latestUpdateAttemptStatus;
+  final ParallelDataStatus? latestUpdateAttemptStatus;
 
   /// Additional information from Amazon Translate about the parallel data
   /// resource.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The custom name assigned to the parallel data resource.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// Specifies the format and S3 location of the parallel data input file.
-  @_s.JsonKey(name: 'ParallelDataConfig')
-  final ParallelDataConfig parallelDataConfig;
+  final ParallelDataConfig? parallelDataConfig;
 
   /// The number of items in the input file that Amazon Translate skipped when you
   /// created or updated the parallel data resource. For example, Amazon Translate
   /// skips empty records, empty target texts, and empty lines.
-  @_s.JsonKey(name: 'SkippedRecordCount')
-  final int skippedRecordCount;
+  final int? skippedRecordCount;
 
   /// The source language of the translations in the parallel data file.
-  @_s.JsonKey(name: 'SourceLanguageCode')
-  final String sourceLanguageCode;
+  final String? sourceLanguageCode;
 
   /// The status of the parallel data resource. When the parallel data is ready
   /// for you to use, the status is <code>ACTIVE</code>.
-  @_s.JsonKey(name: 'Status')
-  final ParallelDataStatus status;
+  final ParallelDataStatus? status;
 
   /// The language codes for the target languages available in the parallel data
   /// file. All possible target languages are returned as an array.
-  @_s.JsonKey(name: 'TargetLanguageCodes')
-  final List<String> targetLanguageCodes;
+  final List<String>? targetLanguageCodes;
 
   ParallelDataProperties({
     this.arn,
@@ -1594,33 +1684,131 @@ class ParallelDataProperties {
     this.status,
     this.targetLanguageCodes,
   });
-  factory ParallelDataProperties.fromJson(Map<String, dynamic> json) =>
-      _$ParallelDataPropertiesFromJson(json);
+
+  factory ParallelDataProperties.fromJson(Map<String, dynamic> json) {
+    return ParallelDataProperties(
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      encryptionKey: json['EncryptionKey'] != null
+          ? EncryptionKey.fromJson(
+              json['EncryptionKey'] as Map<String, dynamic>)
+          : null,
+      failedRecordCount: json['FailedRecordCount'] as int?,
+      importedDataSize: json['ImportedDataSize'] as int?,
+      importedRecordCount: json['ImportedRecordCount'] as int?,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      latestUpdateAttemptAt: timeStampFromJson(json['LatestUpdateAttemptAt']),
+      latestUpdateAttemptStatus: (json['LatestUpdateAttemptStatus'] as String?)
+          ?.toParallelDataStatus(),
+      message: json['Message'] as String?,
+      name: json['Name'] as String?,
+      parallelDataConfig: json['ParallelDataConfig'] != null
+          ? ParallelDataConfig.fromJson(
+              json['ParallelDataConfig'] as Map<String, dynamic>)
+          : null,
+      skippedRecordCount: json['SkippedRecordCount'] as int?,
+      sourceLanguageCode: json['SourceLanguageCode'] as String?,
+      status: (json['Status'] as String?)?.toParallelDataStatus(),
+      targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final encryptionKey = this.encryptionKey;
+    final failedRecordCount = this.failedRecordCount;
+    final importedDataSize = this.importedDataSize;
+    final importedRecordCount = this.importedRecordCount;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final latestUpdateAttemptAt = this.latestUpdateAttemptAt;
+    final latestUpdateAttemptStatus = this.latestUpdateAttemptStatus;
+    final message = this.message;
+    final name = this.name;
+    final parallelDataConfig = this.parallelDataConfig;
+    final skippedRecordCount = this.skippedRecordCount;
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final status = this.status;
+    final targetLanguageCodes = this.targetLanguageCodes;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (encryptionKey != null) 'EncryptionKey': encryptionKey,
+      if (failedRecordCount != null) 'FailedRecordCount': failedRecordCount,
+      if (importedDataSize != null) 'ImportedDataSize': importedDataSize,
+      if (importedRecordCount != null)
+        'ImportedRecordCount': importedRecordCount,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (latestUpdateAttemptAt != null)
+        'LatestUpdateAttemptAt': unixTimestampToJson(latestUpdateAttemptAt),
+      if (latestUpdateAttemptStatus != null)
+        'LatestUpdateAttemptStatus': latestUpdateAttemptStatus.toValue(),
+      if (message != null) 'Message': message,
+      if (name != null) 'Name': name,
+      if (parallelDataConfig != null) 'ParallelDataConfig': parallelDataConfig,
+      if (skippedRecordCount != null) 'SkippedRecordCount': skippedRecordCount,
+      if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
+      if (status != null) 'Status': status.toValue(),
+      if (targetLanguageCodes != null)
+        'TargetLanguageCodes': targetLanguageCodes,
+    };
+  }
 }
 
 enum ParallelDataStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ParallelDataStatus {
+  String toValue() {
+    switch (this) {
+      case ParallelDataStatus.creating:
+        return 'CREATING';
+      case ParallelDataStatus.updating:
+        return 'UPDATING';
+      case ParallelDataStatus.active:
+        return 'ACTIVE';
+      case ParallelDataStatus.deleting:
+        return 'DELETING';
+      case ParallelDataStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  ParallelDataStatus toParallelDataStatus() {
+    switch (this) {
+      case 'CREATING':
+        return ParallelDataStatus.creating;
+      case 'UPDATING':
+        return ParallelDataStatus.updating;
+      case 'ACTIVE':
+        return ParallelDataStatus.active;
+      case 'DELETING':
+        return ParallelDataStatus.deleting;
+      case 'FAILED':
+        return ParallelDataStatus.failed;
+    }
+    throw Exception('$this is not known in enum ParallelDataStatus');
+  }
+}
+
 class StartTextTranslationJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// ID with the <a>DescribeTextTranslationJob</a> operation.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the job. Possible values include:
   ///
@@ -1652,91 +1840,124 @@ class StartTextTranslationJobResponse {
   /// <code>STOPPED</code> - The job has been stopped.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StartTextTranslationJobResponse({
     this.jobId,
     this.jobStatus,
   });
-  factory StartTextTranslationJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartTextTranslationJobResponseFromJson(json);
+
+  factory StartTextTranslationJobResponse.fromJson(Map<String, dynamic> json) {
+    return StartTextTranslationJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopTextTranslationJobResponse {
   /// The job ID of the stopped batch translation job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The status of the designated job. Upon successful completion, the job's
   /// status will be <code>STOPPED</code>.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   StopTextTranslationJobResponse({
     this.jobId,
     this.jobStatus,
   });
-  factory StopTextTranslationJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopTextTranslationJobResponseFromJson(json);
+
+  factory StopTextTranslationJobResponse.fromJson(Map<String, dynamic> json) {
+    return StopTextTranslationJobResponse(
+      jobId: json['JobId'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      if (jobId != null) 'JobId': jobId,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
 /// The term being translated by the custom terminology.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Term {
   /// The source text of the term being translated by the custom terminology.
-  @_s.JsonKey(name: 'SourceText')
-  final String sourceText;
+  final String? sourceText;
 
   /// The target text of the term being translated by the custom terminology.
-  @_s.JsonKey(name: 'TargetText')
-  final String targetText;
+  final String? targetText;
 
   Term({
     this.sourceText,
     this.targetText,
   });
-  factory Term.fromJson(Map<String, dynamic> json) => _$TermFromJson(json);
+
+  factory Term.fromJson(Map<String, dynamic> json) {
+    return Term(
+      sourceText: json['SourceText'] as String?,
+      targetText: json['TargetText'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceText = this.sourceText;
+    final targetText = this.targetText;
+    return {
+      if (sourceText != null) 'SourceText': sourceText,
+      if (targetText != null) 'TargetText': targetText,
+    };
+  }
 }
 
 /// The data associated with the custom terminology.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TerminologyData {
   /// The file containing the custom terminology data. Your version of the AWS SDK
   /// performs a Base64-encoding on this field before sending a request to the AWS
   /// service. Users of the SDK should not perform Base64-encoding themselves.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'File')
   final Uint8List file;
 
   /// The data format of the custom terminology. Either CSV or TMX.
-  @_s.JsonKey(name: 'Format')
   final TerminologyDataFormat format;
 
   TerminologyData({
-    @_s.required this.file,
-    @_s.required this.format,
+    required this.file,
+    required this.format,
   });
-  Map<String, dynamic> toJson() => _$TerminologyDataToJson(this);
+
+  factory TerminologyData.fromJson(Map<String, dynamic> json) {
+    return TerminologyData(
+      file: _s.decodeUint8List(json['File']! as String),
+      format: (json['Format'] as String).toTerminologyDataFormat(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final file = this.file;
+    final format = this.format;
+    return {
+      'File': base64Encode(file),
+      'Format': format.toValue(),
+    };
+  }
 }
 
 enum TerminologyDataFormat {
-  @_s.JsonValue('CSV')
   csv,
-  @_s.JsonValue('TMX')
   tmx,
 }
 
@@ -1748,85 +1969,86 @@ extension on TerminologyDataFormat {
       case TerminologyDataFormat.tmx:
         return 'TMX';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TerminologyDataFormat toTerminologyDataFormat() {
+    switch (this) {
+      case 'CSV':
+        return TerminologyDataFormat.csv;
+      case 'TMX':
+        return TerminologyDataFormat.tmx;
+    }
+    throw Exception('$this is not known in enum TerminologyDataFormat');
   }
 }
 
 /// The location of the custom terminology data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminologyDataLocation {
   /// The location of the custom terminology data.
-  @_s.JsonKey(name: 'Location')
   final String location;
 
   /// The repository type for the custom terminology data.
-  @_s.JsonKey(name: 'RepositoryType')
   final String repositoryType;
 
   TerminologyDataLocation({
-    @_s.required this.location,
-    @_s.required this.repositoryType,
+    required this.location,
+    required this.repositoryType,
   });
-  factory TerminologyDataLocation.fromJson(Map<String, dynamic> json) =>
-      _$TerminologyDataLocationFromJson(json);
+
+  factory TerminologyDataLocation.fromJson(Map<String, dynamic> json) {
+    return TerminologyDataLocation(
+      location: json['Location'] as String,
+      repositoryType: json['RepositoryType'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final repositoryType = this.repositoryType;
+    return {
+      'Location': location,
+      'RepositoryType': repositoryType,
+    };
+  }
 }
 
 /// The properties of the custom terminology.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminologyProperties {
   /// The Amazon Resource Name (ARN) of the custom terminology.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time at which the custom terminology was created, based on the
   /// timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the custom terminology properties.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The encryption key for the custom terminology.
-  @_s.JsonKey(name: 'EncryptionKey')
-  final EncryptionKey encryptionKey;
+  final EncryptionKey? encryptionKey;
 
   /// The time at which the custom terminology was last update, based on the
   /// timestamp.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedAt')
-  final DateTime lastUpdatedAt;
+  final DateTime? lastUpdatedAt;
 
   /// The name of the custom terminology.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The size of the file used when importing a custom terminology.
-  @_s.JsonKey(name: 'SizeBytes')
-  final int sizeBytes;
+  final int? sizeBytes;
 
   /// The language code for the source text of the translation request for which
   /// the custom terminology is being used.
-  @_s.JsonKey(name: 'SourceLanguageCode')
-  final String sourceLanguageCode;
+  final String? sourceLanguageCode;
 
   /// The language codes for the target languages available with the custom
   /// terminology file. All possible target languages are returned in array.
-  @_s.JsonKey(name: 'TargetLanguageCodes')
-  final List<String> targetLanguageCodes;
+  final List<String>? targetLanguageCodes;
 
   /// The number of terms included in the custom terminology.
-  @_s.JsonKey(name: 'TermCount')
-  final int termCount;
+  final int? termCount;
 
   TerminologyProperties({
     this.arn,
@@ -1840,39 +2062,74 @@ class TerminologyProperties {
     this.targetLanguageCodes,
     this.termCount,
   });
-  factory TerminologyProperties.fromJson(Map<String, dynamic> json) =>
-      _$TerminologyPropertiesFromJson(json);
+
+  factory TerminologyProperties.fromJson(Map<String, dynamic> json) {
+    return TerminologyProperties(
+      arn: json['Arn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      encryptionKey: json['EncryptionKey'] != null
+          ? EncryptionKey.fromJson(
+              json['EncryptionKey'] as Map<String, dynamic>)
+          : null,
+      lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+      name: json['Name'] as String?,
+      sizeBytes: json['SizeBytes'] as int?,
+      sourceLanguageCode: json['SourceLanguageCode'] as String?,
+      targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      termCount: json['TermCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final encryptionKey = this.encryptionKey;
+    final lastUpdatedAt = this.lastUpdatedAt;
+    final name = this.name;
+    final sizeBytes = this.sizeBytes;
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final targetLanguageCodes = this.targetLanguageCodes;
+    final termCount = this.termCount;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (encryptionKey != null) 'EncryptionKey': encryptionKey,
+      if (lastUpdatedAt != null)
+        'LastUpdatedAt': unixTimestampToJson(lastUpdatedAt),
+      if (name != null) 'Name': name,
+      if (sizeBytes != null) 'SizeBytes': sizeBytes,
+      if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
+      if (targetLanguageCodes != null)
+        'TargetLanguageCodes': targetLanguageCodes,
+      if (termCount != null) 'TermCount': termCount,
+    };
+  }
 }
 
 /// Provides information for filtering a list of translation jobs. For more
 /// information, see <a>ListTextTranslationJobs</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TextTranslationJobFilter {
   /// Filters the list of jobs by name.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// Filters the list of jobs based by job status.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing and returns only the jobs submitted after the specified time.
   /// Jobs are returned in descending order, newest to oldest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmittedAfterTime')
-  final DateTime submittedAfterTime;
+  final DateTime? submittedAfterTime;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing and returns only the jobs submitted before the specified time.
   /// Jobs are returned in ascending order, oldest to newest.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmittedBeforeTime')
-  final DateTime submittedBeforeTime;
+  final DateTime? submittedBeforeTime;
 
   TextTranslationJobFilter({
     this.jobName,
@@ -1880,84 +2137,86 @@ class TextTranslationJobFilter {
     this.submittedAfterTime,
     this.submittedBeforeTime,
   });
-  Map<String, dynamic> toJson() => _$TextTranslationJobFilterToJson(this);
+
+  factory TextTranslationJobFilter.fromJson(Map<String, dynamic> json) {
+    return TextTranslationJobFilter(
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      submittedAfterTime: timeStampFromJson(json['SubmittedAfterTime']),
+      submittedBeforeTime: timeStampFromJson(json['SubmittedBeforeTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final submittedAfterTime = this.submittedAfterTime;
+    final submittedBeforeTime = this.submittedBeforeTime;
+    return {
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (submittedAfterTime != null)
+        'SubmittedAfterTime': unixTimestampToJson(submittedAfterTime),
+      if (submittedBeforeTime != null)
+        'SubmittedBeforeTime': unixTimestampToJson(submittedBeforeTime),
+    };
+  }
 }
 
 /// Provides information about a translation job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TextTranslationJobProperties {
   /// The Amazon Resource Name (ARN) of an AWS Identity Access and Management
   /// (IAM) role that granted Amazon Translate read access to the job's input
   /// data.
-  @_s.JsonKey(name: 'DataAccessRoleArn')
-  final String dataAccessRoleArn;
+  final String? dataAccessRoleArn;
 
   /// The time at which the translation job ended.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The input configuration properties that were specified when the job was
   /// requested.
-  @_s.JsonKey(name: 'InputDataConfig')
-  final InputDataConfig inputDataConfig;
+  final InputDataConfig? inputDataConfig;
 
   /// The number of documents successfully and unsuccessfully processed during the
   /// translation job.
-  @_s.JsonKey(name: 'JobDetails')
-  final JobDetails jobDetails;
+  final JobDetails? jobDetails;
 
   /// The ID of the translation job.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The user-defined name of the translation job.
-  @_s.JsonKey(name: 'JobName')
-  final String jobName;
+  final String? jobName;
 
   /// The status of the translation job.
-  @_s.JsonKey(name: 'JobStatus')
-  final JobStatus jobStatus;
+  final JobStatus? jobStatus;
 
   /// An explanation of any errors that may have occured during the translation
   /// job.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The output configuration properties that were specified when the job was
   /// requested.
-  @_s.JsonKey(name: 'OutputDataConfig')
-  final OutputDataConfig outputDataConfig;
+  final OutputDataConfig? outputDataConfig;
 
   /// A list containing the names of the parallel data resources applied to the
   /// translation job.
-  @_s.JsonKey(name: 'ParallelDataNames')
-  final List<String> parallelDataNames;
+  final List<String>? parallelDataNames;
 
   /// The language code of the language of the source text. The language must be a
   /// language supported by Amazon Translate.
-  @_s.JsonKey(name: 'SourceLanguageCode')
-  final String sourceLanguageCode;
+  final String? sourceLanguageCode;
 
   /// The time at which the translation job was submitted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SubmittedTime')
-  final DateTime submittedTime;
+  final DateTime? submittedTime;
 
   /// The language code of the language of the target text. The language must be a
   /// language supported by Amazon Translate.
-  @_s.JsonKey(name: 'TargetLanguageCodes')
-  final List<String> targetLanguageCodes;
+  final List<String>? targetLanguageCodes;
 
   /// A list containing the names of the terminologies applied to a translation
   /// job. Only one terminology can be applied per <a>StartTextTranslationJob</a>
   /// request at this time.
-  @_s.JsonKey(name: 'TerminologyNames')
-  final List<String> terminologyNames;
+  final List<String>? terminologyNames;
 
   TextTranslationJobProperties({
     this.dataAccessRoleArn,
@@ -1975,68 +2234,142 @@ class TextTranslationJobProperties {
     this.targetLanguageCodes,
     this.terminologyNames,
   });
-  factory TextTranslationJobProperties.fromJson(Map<String, dynamic> json) =>
-      _$TextTranslationJobPropertiesFromJson(json);
+
+  factory TextTranslationJobProperties.fromJson(Map<String, dynamic> json) {
+    return TextTranslationJobProperties(
+      dataAccessRoleArn: json['DataAccessRoleArn'] as String?,
+      endTime: timeStampFromJson(json['EndTime']),
+      inputDataConfig: json['InputDataConfig'] != null
+          ? InputDataConfig.fromJson(
+              json['InputDataConfig'] as Map<String, dynamic>)
+          : null,
+      jobDetails: json['JobDetails'] != null
+          ? JobDetails.fromJson(json['JobDetails'] as Map<String, dynamic>)
+          : null,
+      jobId: json['JobId'] as String?,
+      jobName: json['JobName'] as String?,
+      jobStatus: (json['JobStatus'] as String?)?.toJobStatus(),
+      message: json['Message'] as String?,
+      outputDataConfig: json['OutputDataConfig'] != null
+          ? OutputDataConfig.fromJson(
+              json['OutputDataConfig'] as Map<String, dynamic>)
+          : null,
+      parallelDataNames: (json['ParallelDataNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      sourceLanguageCode: json['SourceLanguageCode'] as String?,
+      submittedTime: timeStampFromJson(json['SubmittedTime']),
+      targetLanguageCodes: (json['TargetLanguageCodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      terminologyNames: (json['TerminologyNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataAccessRoleArn = this.dataAccessRoleArn;
+    final endTime = this.endTime;
+    final inputDataConfig = this.inputDataConfig;
+    final jobDetails = this.jobDetails;
+    final jobId = this.jobId;
+    final jobName = this.jobName;
+    final jobStatus = this.jobStatus;
+    final message = this.message;
+    final outputDataConfig = this.outputDataConfig;
+    final parallelDataNames = this.parallelDataNames;
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final submittedTime = this.submittedTime;
+    final targetLanguageCodes = this.targetLanguageCodes;
+    final terminologyNames = this.terminologyNames;
+    return {
+      if (dataAccessRoleArn != null) 'DataAccessRoleArn': dataAccessRoleArn,
+      if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+      if (inputDataConfig != null) 'InputDataConfig': inputDataConfig,
+      if (jobDetails != null) 'JobDetails': jobDetails,
+      if (jobId != null) 'JobId': jobId,
+      if (jobName != null) 'JobName': jobName,
+      if (jobStatus != null) 'JobStatus': jobStatus.toValue(),
+      if (message != null) 'Message': message,
+      if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
+      if (parallelDataNames != null) 'ParallelDataNames': parallelDataNames,
+      if (sourceLanguageCode != null) 'SourceLanguageCode': sourceLanguageCode,
+      if (submittedTime != null)
+        'SubmittedTime': unixTimestampToJson(submittedTime),
+      if (targetLanguageCodes != null)
+        'TargetLanguageCodes': targetLanguageCodes,
+      if (terminologyNames != null) 'TerminologyNames': terminologyNames,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TranslateTextResponse {
   /// The language code for the language of the source text.
-  @_s.JsonKey(name: 'SourceLanguageCode')
   final String sourceLanguageCode;
 
   /// The language code for the language of the target text.
-  @_s.JsonKey(name: 'TargetLanguageCode')
   final String targetLanguageCode;
 
   /// The translated text.
-  @_s.JsonKey(name: 'TranslatedText')
   final String translatedText;
 
   /// The names of the custom terminologies applied to the input text by Amazon
   /// Translate for the translated text response.
-  @_s.JsonKey(name: 'AppliedTerminologies')
-  final List<AppliedTerminology> appliedTerminologies;
+  final List<AppliedTerminology>? appliedTerminologies;
 
   TranslateTextResponse({
-    @_s.required this.sourceLanguageCode,
-    @_s.required this.targetLanguageCode,
-    @_s.required this.translatedText,
+    required this.sourceLanguageCode,
+    required this.targetLanguageCode,
+    required this.translatedText,
     this.appliedTerminologies,
   });
-  factory TranslateTextResponse.fromJson(Map<String, dynamic> json) =>
-      _$TranslateTextResponseFromJson(json);
+
+  factory TranslateTextResponse.fromJson(Map<String, dynamic> json) {
+    return TranslateTextResponse(
+      sourceLanguageCode: json['SourceLanguageCode'] as String,
+      targetLanguageCode: json['TargetLanguageCode'] as String,
+      translatedText: json['TranslatedText'] as String,
+      appliedTerminologies: (json['AppliedTerminologies'] as List?)
+          ?.whereNotNull()
+          .map((e) => AppliedTerminology.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceLanguageCode = this.sourceLanguageCode;
+    final targetLanguageCode = this.targetLanguageCode;
+    final translatedText = this.translatedText;
+    final appliedTerminologies = this.appliedTerminologies;
+    return {
+      'SourceLanguageCode': sourceLanguageCode,
+      'TargetLanguageCode': targetLanguageCode,
+      'TranslatedText': translatedText,
+      if (appliedTerminologies != null)
+        'AppliedTerminologies': appliedTerminologies,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateParallelDataResponse {
   /// The time that the most recent update was attempted.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LatestUpdateAttemptAt')
-  final DateTime latestUpdateAttemptAt;
+  final DateTime? latestUpdateAttemptAt;
 
   /// The status of the parallel data update attempt. When the updated parallel
   /// data resource is ready for you to use, the status is <code>ACTIVE</code>.
-  @_s.JsonKey(name: 'LatestUpdateAttemptStatus')
-  final ParallelDataStatus latestUpdateAttemptStatus;
+  final ParallelDataStatus? latestUpdateAttemptStatus;
 
   /// The name of the parallel data resource being updated.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the parallel data resource that you are attempting to update.
   /// Your update request is accepted only if this status is either
   /// <code>ACTIVE</code> or <code>FAILED</code>.
-  @_s.JsonKey(name: 'Status')
-  final ParallelDataStatus status;
+  final ParallelDataStatus? status;
 
   UpdateParallelDataResponse({
     this.latestUpdateAttemptAt,
@@ -2044,12 +2377,35 @@ class UpdateParallelDataResponse {
     this.name,
     this.status,
   });
-  factory UpdateParallelDataResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateParallelDataResponseFromJson(json);
+
+  factory UpdateParallelDataResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateParallelDataResponse(
+      latestUpdateAttemptAt: timeStampFromJson(json['LatestUpdateAttemptAt']),
+      latestUpdateAttemptStatus: (json['LatestUpdateAttemptStatus'] as String?)
+          ?.toParallelDataStatus(),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toParallelDataStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final latestUpdateAttemptAt = this.latestUpdateAttemptAt;
+    final latestUpdateAttemptStatus = this.latestUpdateAttemptStatus;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (latestUpdateAttemptAt != null)
+        'LatestUpdateAttemptAt': unixTimestampToJson(latestUpdateAttemptAt),
+      if (latestUpdateAttemptStatus != null)
+        'LatestUpdateAttemptStatus': latestUpdateAttemptStatus.toValue(),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -2057,12 +2413,12 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class DetectedLanguageLowConfidenceException extends _s.GenericAwsException {
-  DetectedLanguageLowConfidenceException({String type, String message})
+  DetectedLanguageLowConfidenceException({String? type, String? message})
       : super(
             type: type,
             code: 'DetectedLanguageLowConfidenceException',
@@ -2070,17 +2426,17 @@ class DetectedLanguageLowConfidenceException extends _s.GenericAwsException {
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidFilterException extends _s.GenericAwsException {
-  InvalidFilterException({String type, String message})
+  InvalidFilterException({String? type, String? message})
       : super(type: type, code: 'InvalidFilterException', message: message);
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -2088,28 +2444,28 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TextSizeLimitExceededException extends _s.GenericAwsException {
-  TextSizeLimitExceededException({String type, String message})
+  TextSizeLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'TextSizeLimitExceededException',
@@ -2117,12 +2473,12 @@ class TextSizeLimitExceededException extends _s.GenericAwsException {
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnsupportedLanguagePairException extends _s.GenericAwsException {
-  UnsupportedLanguagePairException({String type, String message})
+  UnsupportedLanguagePairException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedLanguagePairException',

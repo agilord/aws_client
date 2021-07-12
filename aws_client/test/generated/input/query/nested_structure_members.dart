@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,22 +11,14 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'nested_structure_members.meta.dart';
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
-
-part 'nested_structure_members.g.dart';
 
 /// Nested structure members
 class NestedStructureMembers {
@@ -33,9 +26,9 @@ class NestedStructureMembers {
   final Map<String, _s.Shape> shapes;
 
   NestedStructureMembers({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -48,7 +41,7 @@ class NestedStructureMembers {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> operationName0({
-    StructType structArg,
+    StructType? structArg,
   }) async {
     final $request = <String, dynamic>{};
     structArg?.also((arg) => $request['StructArg'] = arg);
@@ -65,19 +58,25 @@ class NestedStructureMembers {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StructType {
-  @_s.JsonKey(name: 'ScalarArg')
-  final String scalarArg;
+  final String? scalarArg;
 
   StructType({
     this.scalarArg,
   });
-  Map<String, dynamic> toJson() => _$StructTypeToJson(this);
+
+  factory StructType.fromJson(Map<String, dynamic> json) {
+    return StructType(
+      scalarArg: json['ScalarArg'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scalarArg = this.scalarArg;
+    return {
+      if (scalarArg != null) 'ScalarArg': scalarArg,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

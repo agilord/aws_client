@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-11-28.g.dart';
 
 /// Amazon GuardDuty is a continuous security monitoring service that analyzes
 /// and processes the following data sources: VPC Flow Logs, AWS CloudTrail
@@ -49,10 +42,10 @@ part '2017-11-28.g.dart';
 class GuardDuty {
   final _s.RestJsonProtocol _protocol;
   GuardDuty({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -81,9 +74,9 @@ class GuardDuty {
   /// The account ID of the GuardDuty administrator account whose invitation
   /// you're accepting.
   Future<void> acceptInvitation({
-    @_s.required String detectorId,
-    @_s.required String invitationId,
-    @_s.required String masterId,
+    required String detectorId,
+    required String invitationId,
+    required String masterId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -105,7 +98,6 @@ class GuardDuty {
       requestUri: '/detector/${Uri.encodeComponent(detectorId)}/master',
       exceptionFnMap: _exceptionFns,
     );
-    return AcceptInvitationResponse.fromJson(response);
   }
 
   /// Archives GuardDuty findings that are specified by the list of finding IDs.
@@ -124,8 +116,8 @@ class GuardDuty {
   /// Parameter [findingIds] :
   /// The IDs of the findings that you want to archive.
   Future<void> archiveFindings({
-    @_s.required String detectorId,
-    @_s.required List<String> findingIds,
+    required String detectorId,
+    required List<String> findingIds,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -146,7 +138,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/findings/archive',
       exceptionFnMap: _exceptionFns,
     );
-    return ArchiveFindingsResponse.fromJson(response);
   }
 
   /// Creates a single Amazon GuardDuty detector. A detector is a resource that
@@ -173,11 +164,11 @@ class GuardDuty {
   /// Parameter [tags] :
   /// The tags to be added to a new detector resource.
   Future<CreateDetectorResponse> createDetector({
-    @_s.required bool enable,
-    String clientToken,
-    DataSourceConfigurations dataSources,
-    FindingPublishingFrequency findingPublishingFrequency,
-    Map<String, String> tags,
+    required bool enable,
+    String? clientToken,
+    DataSourceConfigurations? dataSources,
+    FindingPublishingFrequency? findingPublishingFrequency,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(enable, 'enable');
     _s.validateStringLength(
@@ -402,14 +393,14 @@ class GuardDuty {
   /// Parameter [tags] :
   /// The tags to be added to a new filter resource.
   Future<CreateFilterResponse> createFilter({
-    @_s.required String detectorId,
-    @_s.required FindingCriteria findingCriteria,
-    @_s.required String name,
-    FilterAction action,
-    String clientToken,
-    String description,
-    int rank,
-    Map<String, String> tags,
+    required String detectorId,
+    required FindingCriteria findingCriteria,
+    required String name,
+    FilterAction? action,
+    String? clientToken,
+    String? description,
+    int? rank,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -500,13 +491,13 @@ class GuardDuty {
   /// Parameter [tags] :
   /// The tags to be added to a new IP set resource.
   Future<CreateIPSetResponse> createIPSet({
-    @_s.required bool activate,
-    @_s.required String detectorId,
-    @_s.required IpSetFormat format,
-    @_s.required String location,
-    @_s.required String name,
-    String clientToken,
-    Map<String, String> tags,
+    required bool activate,
+    required String detectorId,
+    required IpSetFormat format,
+    required String location,
+    required String name,
+    String? clientToken,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(activate, 'activate');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -542,7 +533,7 @@ class GuardDuty {
     );
     final $payload = <String, dynamic>{
       'activate': activate,
-      'format': format?.toValue() ?? '',
+      'format': format.toValue(),
       'location': location,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -582,8 +573,8 @@ class GuardDuty {
   /// The unique ID of the detector of the GuardDuty account that you want to
   /// associate member accounts with.
   Future<CreateMembersResponse> createMembers({
-    @_s.required List<AccountDetail> accountDetails,
-    @_s.required String detectorId,
+    required List<AccountDetail> accountDetails,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(accountDetails, 'accountDetails');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -627,10 +618,10 @@ class GuardDuty {
   /// Parameter [clientToken] :
   /// The idempotency token for the request.
   Future<CreatePublishingDestinationResponse> createPublishingDestination({
-    @_s.required DestinationProperties destinationProperties,
-    @_s.required DestinationType destinationType,
-    @_s.required String detectorId,
-    String clientToken,
+    required DestinationProperties destinationProperties,
+    required DestinationType destinationType,
+    required String detectorId,
+    String? clientToken,
   }) async {
     ArgumentError.checkNotNull(destinationProperties, 'destinationProperties');
     ArgumentError.checkNotNull(destinationType, 'destinationType');
@@ -650,7 +641,7 @@ class GuardDuty {
     );
     final $payload = <String, dynamic>{
       'destinationProperties': destinationProperties,
-      'destinationType': destinationType?.toValue() ?? '',
+      'destinationType': destinationType.toValue(),
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
@@ -676,8 +667,8 @@ class GuardDuty {
   /// Parameter [findingTypes] :
   /// The types of sample findings to generate.
   Future<void> createSampleFindings({
-    @_s.required String detectorId,
-    List<String> findingTypes,
+    required String detectorId,
+    List<String>? findingTypes,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -697,7 +688,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/findings/create',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateSampleFindingsResponse.fromJson(response);
   }
 
   /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious
@@ -733,13 +723,13 @@ class GuardDuty {
   /// Parameter [tags] :
   /// The tags to be added to a new threat list resource.
   Future<CreateThreatIntelSetResponse> createThreatIntelSet({
-    @_s.required bool activate,
-    @_s.required String detectorId,
-    @_s.required ThreatIntelSetFormat format,
-    @_s.required String location,
-    @_s.required String name,
-    String clientToken,
-    Map<String, String> tags,
+    required bool activate,
+    required String detectorId,
+    required ThreatIntelSetFormat format,
+    required String location,
+    required String name,
+    String? clientToken,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(activate, 'activate');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -775,7 +765,7 @@ class GuardDuty {
     );
     final $payload = <String, dynamic>{
       'activate': activate,
-      'format': format?.toValue() ?? '',
+      'format': format.toValue(),
       'location': location,
       'name': name,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
@@ -800,7 +790,7 @@ class GuardDuty {
   /// A list of account IDs of the AWS accounts that sent invitations to the
   /// current member account that you want to decline invitations from.
   Future<DeclineInvitationsResponse> declineInvitations({
-    @_s.required List<String> accountIds,
+    required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
@@ -823,7 +813,7 @@ class GuardDuty {
   /// Parameter [detectorId] :
   /// The unique ID of the detector that you want to delete.
   Future<void> deleteDetector({
-    @_s.required String detectorId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -839,7 +829,6 @@ class GuardDuty {
       requestUri: '/detector/${Uri.encodeComponent(detectorId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteDetectorResponse.fromJson(response);
   }
 
   /// Deletes the filter specified by the filter name.
@@ -853,8 +842,8 @@ class GuardDuty {
   /// Parameter [filterName] :
   /// The name of the filter that you want to delete.
   Future<void> deleteFilter({
-    @_s.required String detectorId,
-    @_s.required String filterName,
+    required String detectorId,
+    required String filterName,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -872,7 +861,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/filter/${Uri.encodeComponent(filterName)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteFilterResponse.fromJson(response);
   }
 
   /// Deletes the IPSet specified by the <code>ipSetId</code>. IPSets are called
@@ -887,8 +875,8 @@ class GuardDuty {
   /// Parameter [ipSetId] :
   /// The unique ID of the IPSet to delete.
   Future<void> deleteIPSet({
-    @_s.required String detectorId,
-    @_s.required String ipSetId,
+    required String detectorId,
+    required String ipSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -906,7 +894,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/ipset/${Uri.encodeComponent(ipSetId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteIPSetResponse.fromJson(response);
   }
 
   /// Deletes invitations sent to the current member account by AWS accounts
@@ -919,7 +906,7 @@ class GuardDuty {
   /// A list of account IDs of the AWS accounts that sent invitations to the
   /// current member account that you want to delete invitations from.
   Future<DeleteInvitationsResponse> deleteInvitations({
-    @_s.required List<String> accountIds,
+    required List<String> accountIds,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
@@ -948,8 +935,8 @@ class GuardDuty {
   /// The unique ID of the detector of the GuardDuty account whose members you
   /// want to delete.
   Future<DeleteMembersResponse> deleteMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
+    required List<String> accountIds,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -985,8 +972,8 @@ class GuardDuty {
   /// The unique ID of the detector associated with the publishing destination
   /// to delete.
   Future<void> deletePublishingDestination({
-    @_s.required String destinationId,
-    @_s.required String detectorId,
+    required String destinationId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(destinationId, 'destinationId');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -1004,7 +991,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/publishingDestination/${Uri.encodeComponent(destinationId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePublishingDestinationResponse.fromJson(response);
   }
 
   /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
@@ -1018,8 +1004,8 @@ class GuardDuty {
   /// Parameter [threatIntelSetId] :
   /// The unique ID of the threatIntelSet that you want to delete.
   Future<void> deleteThreatIntelSet({
-    @_s.required String detectorId,
-    @_s.required String threatIntelSetId,
+    required String detectorId,
+    required String threatIntelSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1037,7 +1023,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/threatintelset/${Uri.encodeComponent(threatIntelSetId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteThreatIntelSetResponse.fromJson(response);
   }
 
   /// Returns information about the account selected as the delegated
@@ -1051,7 +1036,7 @@ class GuardDuty {
   /// administrator from.
   Future<DescribeOrganizationConfigurationResponse>
       describeOrganizationConfiguration({
-    @_s.required String detectorId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1083,8 +1068,8 @@ class GuardDuty {
   /// The unique ID of the detector associated with the publishing destination
   /// to retrieve.
   Future<DescribePublishingDestinationResponse> describePublishingDestination({
-    @_s.required String destinationId,
-    @_s.required String detectorId,
+    required String destinationId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(destinationId, 'destinationId');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -1115,7 +1100,7 @@ class GuardDuty {
   /// The AWS Account ID for the organizations account to be disabled as a
   /// GuardDuty delegated administrator.
   Future<void> disableOrganizationAdminAccount({
-    @_s.required String adminAccountId,
+    required String adminAccountId,
   }) async {
     ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
     final $payload = <String, dynamic>{
@@ -1127,7 +1112,6 @@ class GuardDuty {
       requestUri: '/admin/disable',
       exceptionFnMap: _exceptionFns,
     );
-    return DisableOrganizationAdminAccountResponse.fromJson(response);
   }
 
   /// Disassociates the current GuardDuty member account from its administrator
@@ -1139,7 +1123,7 @@ class GuardDuty {
   /// Parameter [detectorId] :
   /// The unique ID of the detector of the GuardDuty member account.
   Future<void> disassociateFromMasterAccount({
-    @_s.required String detectorId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1156,7 +1140,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/master/disassociate',
       exceptionFnMap: _exceptionFns,
     );
-    return DisassociateFromMasterAccountResponse.fromJson(response);
   }
 
   /// Disassociates GuardDuty member accounts (to the current GuardDuty
@@ -1173,8 +1156,8 @@ class GuardDuty {
   /// The unique ID of the detector of the GuardDuty account whose members you
   /// want to disassociate from the administrator account.
   Future<DisassociateMembersResponse> disassociateMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
+    required List<String> accountIds,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -1208,7 +1191,7 @@ class GuardDuty {
   /// The AWS Account ID for the organization account to be enabled as a
   /// GuardDuty delegated administrator.
   Future<void> enableOrganizationAdminAccount({
-    @_s.required String adminAccountId,
+    required String adminAccountId,
   }) async {
     ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
     final $payload = <String, dynamic>{
@@ -1220,7 +1203,6 @@ class GuardDuty {
       requestUri: '/admin/enable',
       exceptionFnMap: _exceptionFns,
     );
-    return EnableOrganizationAdminAccountResponse.fromJson(response);
   }
 
   /// Retrieves an Amazon GuardDuty detector specified by the detectorId.
@@ -1231,7 +1213,7 @@ class GuardDuty {
   /// Parameter [detectorId] :
   /// The unique ID of the detector that you want to get.
   Future<GetDetectorResponse> getDetector({
-    @_s.required String detectorId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1261,8 +1243,8 @@ class GuardDuty {
   /// Parameter [filterName] :
   /// The name of the filter you want to get.
   Future<GetFilterResponse> getFilter({
-    @_s.required String detectorId,
-    @_s.required String filterName,
+    required String detectorId,
+    required String filterName,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1298,9 +1280,9 @@ class GuardDuty {
   /// Parameter [sortCriteria] :
   /// Represents the criteria used for sorting findings.
   Future<GetFindingsResponse> getFindings({
-    @_s.required String detectorId,
-    @_s.required List<String> findingIds,
-    SortCriteria sortCriteria,
+    required String detectorId,
+    required List<String> findingIds,
+    SortCriteria? sortCriteria,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1339,9 +1321,9 @@ class GuardDuty {
   /// Parameter [findingCriteria] :
   /// Represents the criteria that is used for querying findings.
   Future<GetFindingsStatisticsResponse> getFindingsStatistics({
-    @_s.required String detectorId,
-    @_s.required List<FindingStatisticType> findingStatisticTypes,
-    FindingCriteria findingCriteria,
+    required String detectorId,
+    required List<FindingStatisticType> findingStatisticTypes,
+    FindingCriteria? findingCriteria,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1354,7 +1336,7 @@ class GuardDuty {
     ArgumentError.checkNotNull(findingStatisticTypes, 'findingStatisticTypes');
     final $payload = <String, dynamic>{
       'findingStatisticTypes':
-          findingStatisticTypes?.map((e) => e?.toValue() ?? '')?.toList(),
+          findingStatisticTypes.map((e) => e.toValue()).toList(),
       if (findingCriteria != null) 'findingCriteria': findingCriteria,
     };
     final response = await _protocol.send(
@@ -1378,8 +1360,8 @@ class GuardDuty {
   /// Parameter [ipSetId] :
   /// The unique ID of the IPSet to retrieve.
   Future<GetIPSetResponse> getIPSet({
-    @_s.required String detectorId,
-    @_s.required String ipSetId,
+    required String detectorId,
+    required String ipSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1424,7 +1406,7 @@ class GuardDuty {
   /// Parameter [detectorId] :
   /// The unique ID of the detector of the GuardDuty member account.
   Future<GetMasterAccountResponse> getMasterAccount({
-    @_s.required String detectorId,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1455,8 +1437,8 @@ class GuardDuty {
   /// Parameter [detectorId] :
   /// The detector ID for the administrator account.
   Future<GetMemberDetectorsResponse> getMemberDetectors({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
+    required List<String> accountIds,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -1494,8 +1476,8 @@ class GuardDuty {
   /// The unique ID of the detector of the GuardDuty account whose members you
   /// want to retrieve.
   Future<GetMembersResponse> getMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
+    required List<String> accountIds,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -1529,8 +1511,8 @@ class GuardDuty {
   /// Parameter [threatIntelSetId] :
   /// The unique ID of the threatIntelSet that you want to get.
   Future<GetThreatIntelSetResponse> getThreatIntelSet({
-    @_s.required String detectorId,
-    @_s.required String threatIntelSetId,
+    required String detectorId,
+    required String threatIntelSetId,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1585,12 +1567,12 @@ class GuardDuty {
   /// The currency unit you would like to view your usage statistics in. Current
   /// valid values are USD.
   Future<GetUsageStatisticsResponse> getUsageStatistics({
-    @_s.required String detectorId,
-    @_s.required UsageCriteria usageCriteria,
-    @_s.required UsageStatisticType usageStatisticType,
-    int maxResults,
-    String nextToken,
-    String unit,
+    required String detectorId,
+    required UsageCriteria usageCriteria,
+    required UsageStatisticType usageStatisticType,
+    int? maxResults,
+    String? nextToken,
+    String? unit,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1610,7 +1592,7 @@ class GuardDuty {
     );
     final $payload = <String, dynamic>{
       'usageCriteria': usageCriteria,
-      'usageStatisticsType': usageStatisticType?.toValue() ?? '',
+      'usageStatisticsType': usageStatisticType.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (unit != null) 'unit': unit,
@@ -1650,10 +1632,10 @@ class GuardDuty {
   /// The invitation message that you want to send to the accounts that you're
   /// inviting to GuardDuty as members.
   Future<InviteMembersResponse> inviteMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
-    bool disableEmailNotification,
-    String message,
+    required List<String> accountIds,
+    required String detectorId,
+    bool? disableEmailNotification,
+    String? message,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -1695,8 +1677,8 @@ class GuardDuty {
   /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListDetectorsResponse> listDetectors({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1737,9 +1719,9 @@ class GuardDuty {
   /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListFiltersResponse> listFilters({
-    @_s.required String detectorId,
-    int maxResults,
-    String nextToken,
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -1950,11 +1932,11 @@ class GuardDuty {
   /// Parameter [sortCriteria] :
   /// Represents the criteria used for sorting findings.
   Future<ListFindingsResponse> listFindings({
-    @_s.required String detectorId,
-    FindingCriteria findingCriteria,
-    int maxResults,
-    String nextToken,
-    SortCriteria sortCriteria,
+    required String detectorId,
+    FindingCriteria? findingCriteria,
+    int? maxResults,
+    String? nextToken,
+    SortCriteria? sortCriteria,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2005,9 +1987,9 @@ class GuardDuty {
   /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListIPSetsResponse> listIPSets({
-    @_s.required String detectorId,
-    int maxResults,
-    String nextToken,
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2054,8 +2036,8 @@ class GuardDuty {
   /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListInvitationsResponse> listInvitations({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2101,10 +2083,10 @@ class GuardDuty {
   /// members (including members who haven't been invited yet or have been
   /// disassociated).
   Future<ListMembersResponse> listMembers({
-    @_s.required String detectorId,
-    int maxResults,
-    String nextToken,
-    String onlyAssociated,
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
+    String? onlyAssociated,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2150,8 +2132,8 @@ class GuardDuty {
   /// returned from the previous request to continue listing results after the
   /// first page.
   Future<ListOrganizationAdminAccountsResponse> listOrganizationAdminAccounts({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2192,9 +2174,9 @@ class GuardDuty {
   /// returned from the previous request to continue listing results after the
   /// first page.
   Future<ListPublishingDestinationsResponse> listPublishingDestinations({
-    @_s.required String detectorId,
-    int maxResults,
-    String nextToken,
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2236,15 +2218,9 @@ class GuardDuty {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the given GuardDuty resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -2275,9 +2251,9 @@ class GuardDuty {
   /// subsequent calls to the action, fill nextToken in the request with the
   /// value of NextToken from the previous response to continue listing data.
   Future<ListThreatIntelSetsResponse> listThreatIntelSets({
-    @_s.required String detectorId,
-    int maxResults,
-    String nextToken,
+    required String detectorId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2322,8 +2298,8 @@ class GuardDuty {
   /// The unique ID of the detector of the GuardDuty administrator account
   /// associated with the member accounts to monitor.
   Future<StartMonitoringMembersResponse> startMonitoringMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
+    required List<String> accountIds,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -2360,8 +2336,8 @@ class GuardDuty {
   /// The unique ID of the detector associated with the GuardDuty administrator
   /// account that is monitoring member accounts.
   Future<StopMonitoringMembersResponse> stopMonitoringMembers({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
+    required List<String> accountIds,
+    required String detectorId,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -2396,16 +2372,10 @@ class GuardDuty {
   /// Parameter [tags] :
   /// The tags to be added to a resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -2416,7 +2386,6 @@ class GuardDuty {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Unarchives GuardDuty findings specified by the <code>findingIds</code>.
@@ -2430,8 +2399,8 @@ class GuardDuty {
   /// Parameter [findingIds] :
   /// The IDs of the findings to unarchive.
   Future<void> unarchiveFindings({
-    @_s.required String detectorId,
-    @_s.required List<String> findingIds,
+    required String detectorId,
+    required List<String> findingIds,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2452,7 +2421,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/findings/unarchive',
       exceptionFnMap: _exceptionFns,
     );
-    return UnarchiveFindingsResponse.fromJson(response);
   }
 
   /// Removes tags from a resource.
@@ -2466,19 +2434,13 @@ class GuardDuty {
   /// Parameter [tagKeys] :
   /// The tag keys to remove from the resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:[A-Za-z_.-]{1,20}:guardduty:[A-Za-z0-9_/.-]{0,63}:\d+:detector/[A-Za-z0-9_/.-]{32,264}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -2487,7 +2449,6 @@ class GuardDuty {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates the Amazon GuardDuty detector specified by the detectorId.
@@ -2508,10 +2469,10 @@ class GuardDuty {
   /// An enum value that specifies how frequently findings are exported, such as
   /// to CloudWatch Events.
   Future<void> updateDetector({
-    @_s.required String detectorId,
-    DataSourceConfigurations dataSources,
-    bool enable,
-    FindingPublishingFrequency findingPublishingFrequency,
+    required String detectorId,
+    DataSourceConfigurations? dataSources,
+    bool? enable,
+    FindingPublishingFrequency? findingPublishingFrequency,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2533,7 +2494,6 @@ class GuardDuty {
       requestUri: '/detector/${Uri.encodeComponent(detectorId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateDetectorResponse.fromJson(response);
   }
 
   /// Updates the filter specified by the filter name.
@@ -2562,12 +2522,12 @@ class GuardDuty {
   /// Specifies the position of the filter in the list of current filters. Also
   /// specifies the order in which this filter is applied to the findings.
   Future<UpdateFilterResponse> updateFilter({
-    @_s.required String detectorId,
-    @_s.required String filterName,
-    FilterAction action,
-    String description,
-    FindingCriteria findingCriteria,
-    int rank,
+    required String detectorId,
+    required String filterName,
+    FilterAction? action,
+    String? description,
+    FindingCriteria? findingCriteria,
+    int? rank,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2624,10 +2584,10 @@ class GuardDuty {
   /// Parameter [comments] :
   /// Additional feedback about the GuardDuty findings.
   Future<void> updateFindingsFeedback({
-    @_s.required String detectorId,
-    @_s.required Feedback feedback,
-    @_s.required List<String> findingIds,
-    String comments,
+    required String detectorId,
+    required Feedback feedback,
+    required List<String> findingIds,
+    String? comments,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2640,7 +2600,7 @@ class GuardDuty {
     ArgumentError.checkNotNull(feedback, 'feedback');
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
-      'feedback': feedback?.toValue() ?? '',
+      'feedback': feedback.toValue(),
       'findingIds': findingIds,
       if (comments != null) 'comments': comments,
     };
@@ -2651,7 +2611,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/findings/feedback',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateFindingsFeedbackResponse.fromJson(response);
   }
 
   /// Updates the IPSet specified by the IPSet ID.
@@ -2677,11 +2636,11 @@ class GuardDuty {
   /// Parameter [name] :
   /// The unique ID that specifies the IPSet that you want to update.
   Future<void> updateIPSet({
-    @_s.required String detectorId,
-    @_s.required String ipSetId,
-    bool activate,
-    String location,
-    String name,
+    required String detectorId,
+    required String ipSetId,
+    bool? activate,
+    String? location,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2716,7 +2675,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/ipset/${Uri.encodeComponent(ipSetId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateIPSetResponse.fromJson(response);
   }
 
   /// Contains information on member accounts to be updated.
@@ -2733,9 +2691,9 @@ class GuardDuty {
   /// Parameter [dataSources] :
   /// Describes which data sources will be updated.
   Future<UpdateMemberDetectorsResponse> updateMemberDetectors({
-    @_s.required List<String> accountIds,
-    @_s.required String detectorId,
-    DataSourceConfigurations dataSources,
+    required List<String> accountIds,
+    required String detectorId,
+    DataSourceConfigurations? dataSources,
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -2775,9 +2733,9 @@ class GuardDuty {
   /// Parameter [dataSources] :
   /// Describes which data sources will be updated.
   Future<void> updateOrganizationConfiguration({
-    @_s.required bool autoEnable,
-    @_s.required String detectorId,
-    OrganizationDataSourceConfigurations dataSources,
+    required bool autoEnable,
+    required String detectorId,
+    OrganizationDataSourceConfigurations? dataSources,
   }) async {
     ArgumentError.checkNotNull(autoEnable, 'autoEnable');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -2798,7 +2756,6 @@ class GuardDuty {
       requestUri: '/detector/${Uri.encodeComponent(detectorId)}/admin',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateOrganizationConfigurationResponse.fromJson(response);
   }
 
   /// Updates information about the publishing destination specified by the
@@ -2819,9 +2776,9 @@ class GuardDuty {
   /// <code>DestinationArn</code> and <code>KmsKeyArn</code> of the publishing
   /// destination.
   Future<void> updatePublishingDestination({
-    @_s.required String destinationId,
-    @_s.required String detectorId,
-    DestinationProperties destinationProperties,
+    required String destinationId,
+    required String detectorId,
+    DestinationProperties? destinationProperties,
   }) async {
     ArgumentError.checkNotNull(destinationId, 'destinationId');
     ArgumentError.checkNotNull(detectorId, 'detectorId');
@@ -2843,7 +2800,6 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/publishingDestination/${Uri.encodeComponent(destinationId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdatePublishingDestinationResponse.fromJson(response);
   }
 
   /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
@@ -2868,11 +2824,11 @@ class GuardDuty {
   /// Parameter [name] :
   /// The unique ID that specifies the ThreatIntelSet that you want to update.
   Future<void> updateThreatIntelSet({
-    @_s.required String detectorId,
-    @_s.required String threatIntelSetId,
-    bool activate,
-    String location,
-    String name,
+    required String detectorId,
+    required String threatIntelSetId,
+    bool? activate,
+    String? location,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');
     _s.validateStringLength(
@@ -2907,68 +2863,68 @@ class GuardDuty {
           '/detector/${Uri.encodeComponent(detectorId)}/threatintelset/${Uri.encodeComponent(threatIntelSetId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateThreatIntelSetResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptInvitationResponse {
   AcceptInvitationResponse();
-  factory AcceptInvitationResponse.fromJson(Map<String, dynamic> json) =>
-      _$AcceptInvitationResponseFromJson(json);
+
+  factory AcceptInvitationResponse.fromJson(Map<String, dynamic> _) {
+    return AcceptInvitationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains information on the current access control policies for the bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccessControlList {
   /// A value that indicates whether public read access for the bucket is enabled
   /// through an Access Control List (ACL).
-  @_s.JsonKey(name: 'allowsPublicReadAccess')
-  final bool allowsPublicReadAccess;
+  final bool? allowsPublicReadAccess;
 
   /// A value that indicates whether public write access for the bucket is enabled
   /// through an Access Control List (ACL).
-  @_s.JsonKey(name: 'allowsPublicWriteAccess')
-  final bool allowsPublicWriteAccess;
+  final bool? allowsPublicWriteAccess;
 
   AccessControlList({
     this.allowsPublicReadAccess,
     this.allowsPublicWriteAccess,
   });
-  factory AccessControlList.fromJson(Map<String, dynamic> json) =>
-      _$AccessControlListFromJson(json);
+
+  factory AccessControlList.fromJson(Map<String, dynamic> json) {
+    return AccessControlList(
+      allowsPublicReadAccess: json['allowsPublicReadAccess'] as bool?,
+      allowsPublicWriteAccess: json['allowsPublicWriteAccess'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowsPublicReadAccess = this.allowsPublicReadAccess;
+    final allowsPublicWriteAccess = this.allowsPublicWriteAccess;
+    return {
+      if (allowsPublicReadAccess != null)
+        'allowsPublicReadAccess': allowsPublicReadAccess,
+      if (allowsPublicWriteAccess != null)
+        'allowsPublicWriteAccess': allowsPublicWriteAccess,
+    };
+  }
 }
 
 /// Contains information about the access keys.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccessKeyDetails {
   /// The access key ID of the user.
-  @_s.JsonKey(name: 'accessKeyId')
-  final String accessKeyId;
+  final String? accessKeyId;
 
   /// The principal ID of the user.
-  @_s.JsonKey(name: 'principalId')
-  final String principalId;
+  final String? principalId;
 
   /// The name of the user.
-  @_s.JsonKey(name: 'userName')
-  final String userName;
+  final String? userName;
 
   /// The type of the user.
-  @_s.JsonKey(name: 'userType')
-  final String userType;
+  final String? userType;
 
   AccessKeyDetails({
     this.accessKeyId,
@@ -2976,77 +2932,103 @@ class AccessKeyDetails {
     this.userName,
     this.userType,
   });
-  factory AccessKeyDetails.fromJson(Map<String, dynamic> json) =>
-      _$AccessKeyDetailsFromJson(json);
+
+  factory AccessKeyDetails.fromJson(Map<String, dynamic> json) {
+    return AccessKeyDetails(
+      accessKeyId: json['accessKeyId'] as String?,
+      principalId: json['principalId'] as String?,
+      userName: json['userName'] as String?,
+      userType: json['userType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyId = this.accessKeyId;
+    final principalId = this.principalId;
+    final userName = this.userName;
+    final userType = this.userType;
+    return {
+      if (accessKeyId != null) 'accessKeyId': accessKeyId,
+      if (principalId != null) 'principalId': principalId,
+      if (userName != null) 'userName': userName,
+      if (userType != null) 'userType': userType,
+    };
+  }
 }
 
 /// Contains information about the account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AccountDetail {
   /// The member account ID.
-  @_s.JsonKey(name: 'accountId')
   final String accountId;
 
   /// The email address of the member account.
-  @_s.JsonKey(name: 'email')
   final String email;
 
   AccountDetail({
-    @_s.required this.accountId,
-    @_s.required this.email,
+    required this.accountId,
+    required this.email,
   });
-  Map<String, dynamic> toJson() => _$AccountDetailToJson(this);
+
+  factory AccountDetail.fromJson(Map<String, dynamic> json) {
+    return AccountDetail(
+      accountId: json['accountId'] as String,
+      email: json['email'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final email = this.email;
+    return {
+      'accountId': accountId,
+      'email': email,
+    };
+  }
 }
 
 /// Contains information about the account level permissions on the S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountLevelPermissions {
   /// Describes the S3 Block Public Access settings of the bucket's parent
   /// account.
-  @_s.JsonKey(name: 'blockPublicAccess')
-  final BlockPublicAccess blockPublicAccess;
+  final BlockPublicAccess? blockPublicAccess;
 
   AccountLevelPermissions({
     this.blockPublicAccess,
   });
-  factory AccountLevelPermissions.fromJson(Map<String, dynamic> json) =>
-      _$AccountLevelPermissionsFromJson(json);
+
+  factory AccountLevelPermissions.fromJson(Map<String, dynamic> json) {
+    return AccountLevelPermissions(
+      blockPublicAccess: json['blockPublicAccess'] != null
+          ? BlockPublicAccess.fromJson(
+              json['blockPublicAccess'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockPublicAccess = this.blockPublicAccess;
+    return {
+      if (blockPublicAccess != null) 'blockPublicAccess': blockPublicAccess,
+    };
+  }
 }
 
 /// Contains information about actions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Action {
   /// The GuardDuty finding activity type.
-  @_s.JsonKey(name: 'actionType')
-  final String actionType;
+  final String? actionType;
 
   /// Information about the AWS_API_CALL action described in this finding.
-  @_s.JsonKey(name: 'awsApiCallAction')
-  final AwsApiCallAction awsApiCallAction;
+  final AwsApiCallAction? awsApiCallAction;
 
   /// Information about the DNS_REQUEST action described in this finding.
-  @_s.JsonKey(name: 'dnsRequestAction')
-  final DnsRequestAction dnsRequestAction;
+  final DnsRequestAction? dnsRequestAction;
 
   /// Information about the NETWORK_CONNECTION action described in this finding.
-  @_s.JsonKey(name: 'networkConnectionAction')
-  final NetworkConnectionAction networkConnectionAction;
+  final NetworkConnectionAction? networkConnectionAction;
 
   /// Information about the PORT_PROBE action described in this finding.
-  @_s.JsonKey(name: 'portProbeAction')
-  final PortProbeAction portProbeAction;
+  final PortProbeAction? portProbeAction;
 
   Action({
     this.actionType,
@@ -3055,81 +3037,136 @@ class Action {
     this.networkConnectionAction,
     this.portProbeAction,
   });
-  factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
+
+  factory Action.fromJson(Map<String, dynamic> json) {
+    return Action(
+      actionType: json['actionType'] as String?,
+      awsApiCallAction: json['awsApiCallAction'] != null
+          ? AwsApiCallAction.fromJson(
+              json['awsApiCallAction'] as Map<String, dynamic>)
+          : null,
+      dnsRequestAction: json['dnsRequestAction'] != null
+          ? DnsRequestAction.fromJson(
+              json['dnsRequestAction'] as Map<String, dynamic>)
+          : null,
+      networkConnectionAction: json['networkConnectionAction'] != null
+          ? NetworkConnectionAction.fromJson(
+              json['networkConnectionAction'] as Map<String, dynamic>)
+          : null,
+      portProbeAction: json['portProbeAction'] != null
+          ? PortProbeAction.fromJson(
+              json['portProbeAction'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionType = this.actionType;
+    final awsApiCallAction = this.awsApiCallAction;
+    final dnsRequestAction = this.dnsRequestAction;
+    final networkConnectionAction = this.networkConnectionAction;
+    final portProbeAction = this.portProbeAction;
+    return {
+      if (actionType != null) 'actionType': actionType,
+      if (awsApiCallAction != null) 'awsApiCallAction': awsApiCallAction,
+      if (dnsRequestAction != null) 'dnsRequestAction': dnsRequestAction,
+      if (networkConnectionAction != null)
+        'networkConnectionAction': networkConnectionAction,
+      if (portProbeAction != null) 'portProbeAction': portProbeAction,
+    };
+  }
 }
 
 /// The account within the organization specified as the GuardDuty delegated
 /// administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AdminAccount {
   /// The AWS account ID for the account.
-  @_s.JsonKey(name: 'adminAccountId')
-  final String adminAccountId;
+  final String? adminAccountId;
 
   /// Indicates whether the account is enabled as the delegated administrator.
-  @_s.JsonKey(name: 'adminStatus')
-  final AdminStatus adminStatus;
+  final AdminStatus? adminStatus;
 
   AdminAccount({
     this.adminAccountId,
     this.adminStatus,
   });
-  factory AdminAccount.fromJson(Map<String, dynamic> json) =>
-      _$AdminAccountFromJson(json);
+
+  factory AdminAccount.fromJson(Map<String, dynamic> json) {
+    return AdminAccount(
+      adminAccountId: json['adminAccountId'] as String?,
+      adminStatus: (json['adminStatus'] as String?)?.toAdminStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminAccountId = this.adminAccountId;
+    final adminStatus = this.adminStatus;
+    return {
+      if (adminAccountId != null) 'adminAccountId': adminAccountId,
+      if (adminStatus != null) 'adminStatus': adminStatus.toValue(),
+    };
+  }
 }
 
 enum AdminStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLE_IN_PROGRESS')
   disableInProgress,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on AdminStatus {
+  String toValue() {
+    switch (this) {
+      case AdminStatus.enabled:
+        return 'ENABLED';
+      case AdminStatus.disableInProgress:
+        return 'DISABLE_IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  AdminStatus toAdminStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return AdminStatus.enabled;
+      case 'DISABLE_IN_PROGRESS':
+        return AdminStatus.disableInProgress;
+    }
+    throw Exception('$this is not known in enum AdminStatus');
+  }
+}
+
 class ArchiveFindingsResponse {
   ArchiveFindingsResponse();
-  factory ArchiveFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ArchiveFindingsResponseFromJson(json);
+
+  factory ArchiveFindingsResponse.fromJson(Map<String, dynamic> _) {
+    return ArchiveFindingsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains information about the API action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AwsApiCallAction {
   /// The AWS API name.
-  @_s.JsonKey(name: 'api')
-  final String api;
+  final String? api;
 
   /// The AWS API caller type.
-  @_s.JsonKey(name: 'callerType')
-  final String callerType;
+  final String? callerType;
 
   /// The domain information for the AWS API call.
-  @_s.JsonKey(name: 'domainDetails')
-  final DomainDetails domainDetails;
+  final DomainDetails? domainDetails;
 
   /// The error code of the failed AWS API action.
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The remote IP information of the connection that initiated the AWS API call.
-  @_s.JsonKey(name: 'remoteIpDetails')
-  final RemoteIpDetails remoteIpDetails;
+  final RemoteIpDetails? remoteIpDetails;
 
   /// The AWS service name whose API was invoked.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   AwsApiCallAction({
     this.api,
@@ -3139,37 +3176,60 @@ class AwsApiCallAction {
     this.remoteIpDetails,
     this.serviceName,
   });
-  factory AwsApiCallAction.fromJson(Map<String, dynamic> json) =>
-      _$AwsApiCallActionFromJson(json);
+
+  factory AwsApiCallAction.fromJson(Map<String, dynamic> json) {
+    return AwsApiCallAction(
+      api: json['api'] as String?,
+      callerType: json['callerType'] as String?,
+      domainDetails: json['domainDetails'] != null
+          ? DomainDetails.fromJson(
+              json['domainDetails'] as Map<String, dynamic>)
+          : null,
+      errorCode: json['errorCode'] as String?,
+      remoteIpDetails: json['remoteIpDetails'] != null
+          ? RemoteIpDetails.fromJson(
+              json['remoteIpDetails'] as Map<String, dynamic>)
+          : null,
+      serviceName: json['serviceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final api = this.api;
+    final callerType = this.callerType;
+    final domainDetails = this.domainDetails;
+    final errorCode = this.errorCode;
+    final remoteIpDetails = this.remoteIpDetails;
+    final serviceName = this.serviceName;
+    return {
+      if (api != null) 'api': api,
+      if (callerType != null) 'callerType': callerType,
+      if (domainDetails != null) 'domainDetails': domainDetails,
+      if (errorCode != null) 'errorCode': errorCode,
+      if (remoteIpDetails != null) 'remoteIpDetails': remoteIpDetails,
+      if (serviceName != null) 'serviceName': serviceName,
+    };
+  }
 }
 
 /// Contains information on how the bucker owner's S3 Block Public Access
 /// settings are being applied to the S3 bucket. See <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">S3
 /// Block Public Access</a> for more information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BlockPublicAccess {
   /// Indicates if S3 Block Public Access is set to <code>BlockPublicAcls</code>.
-  @_s.JsonKey(name: 'blockPublicAcls')
-  final bool blockPublicAcls;
+  final bool? blockPublicAcls;
 
   /// Indicates if S3 Block Public Access is set to
   /// <code>BlockPublicPolicy</code>.
-  @_s.JsonKey(name: 'blockPublicPolicy')
-  final bool blockPublicPolicy;
+  final bool? blockPublicPolicy;
 
   /// Indicates if S3 Block Public Access is set to <code>IgnorePublicAcls</code>.
-  @_s.JsonKey(name: 'ignorePublicAcls')
-  final bool ignorePublicAcls;
+  final bool? ignorePublicAcls;
 
   /// Indicates if S3 Block Public Access is set to
   /// <code>RestrictPublicBuckets</code>.
-  @_s.JsonKey(name: 'restrictPublicBuckets')
-  final bool restrictPublicBuckets;
+  final bool? restrictPublicBuckets;
 
   BlockPublicAccess({
     this.blockPublicAcls,
@@ -3177,167 +3237,208 @@ class BlockPublicAccess {
     this.ignorePublicAcls,
     this.restrictPublicBuckets,
   });
-  factory BlockPublicAccess.fromJson(Map<String, dynamic> json) =>
-      _$BlockPublicAccessFromJson(json);
+
+  factory BlockPublicAccess.fromJson(Map<String, dynamic> json) {
+    return BlockPublicAccess(
+      blockPublicAcls: json['blockPublicAcls'] as bool?,
+      blockPublicPolicy: json['blockPublicPolicy'] as bool?,
+      ignorePublicAcls: json['ignorePublicAcls'] as bool?,
+      restrictPublicBuckets: json['restrictPublicBuckets'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blockPublicAcls = this.blockPublicAcls;
+    final blockPublicPolicy = this.blockPublicPolicy;
+    final ignorePublicAcls = this.ignorePublicAcls;
+    final restrictPublicBuckets = this.restrictPublicBuckets;
+    return {
+      if (blockPublicAcls != null) 'blockPublicAcls': blockPublicAcls,
+      if (blockPublicPolicy != null) 'blockPublicPolicy': blockPublicPolicy,
+      if (ignorePublicAcls != null) 'ignorePublicAcls': ignorePublicAcls,
+      if (restrictPublicBuckets != null)
+        'restrictPublicBuckets': restrictPublicBuckets,
+    };
+  }
 }
 
 /// Contains information about the bucket level permissions for the S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BucketLevelPermissions {
   /// Contains information on how Access Control Policies are applied to the
   /// bucket.
-  @_s.JsonKey(name: 'accessControlList')
-  final AccessControlList accessControlList;
+  final AccessControlList? accessControlList;
 
   /// Contains information on which account level S3 Block Public Access settings
   /// are applied to the S3 bucket.
-  @_s.JsonKey(name: 'blockPublicAccess')
-  final BlockPublicAccess blockPublicAccess;
+  final BlockPublicAccess? blockPublicAccess;
 
   /// Contains information on the bucket policies for the S3 bucket.
-  @_s.JsonKey(name: 'bucketPolicy')
-  final BucketPolicy bucketPolicy;
+  final BucketPolicy? bucketPolicy;
 
   BucketLevelPermissions({
     this.accessControlList,
     this.blockPublicAccess,
     this.bucketPolicy,
   });
-  factory BucketLevelPermissions.fromJson(Map<String, dynamic> json) =>
-      _$BucketLevelPermissionsFromJson(json);
+
+  factory BucketLevelPermissions.fromJson(Map<String, dynamic> json) {
+    return BucketLevelPermissions(
+      accessControlList: json['accessControlList'] != null
+          ? AccessControlList.fromJson(
+              json['accessControlList'] as Map<String, dynamic>)
+          : null,
+      blockPublicAccess: json['blockPublicAccess'] != null
+          ? BlockPublicAccess.fromJson(
+              json['blockPublicAccess'] as Map<String, dynamic>)
+          : null,
+      bucketPolicy: json['bucketPolicy'] != null
+          ? BucketPolicy.fromJson(json['bucketPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessControlList = this.accessControlList;
+    final blockPublicAccess = this.blockPublicAccess;
+    final bucketPolicy = this.bucketPolicy;
+    return {
+      if (accessControlList != null) 'accessControlList': accessControlList,
+      if (blockPublicAccess != null) 'blockPublicAccess': blockPublicAccess,
+      if (bucketPolicy != null) 'bucketPolicy': bucketPolicy,
+    };
+  }
 }
 
 /// Contains information on the current bucket policies for the S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BucketPolicy {
   /// A value that indicates whether public read access for the bucket is enabled
   /// through a bucket policy.
-  @_s.JsonKey(name: 'allowsPublicReadAccess')
-  final bool allowsPublicReadAccess;
+  final bool? allowsPublicReadAccess;
 
   /// A value that indicates whether public write access for the bucket is enabled
   /// through a bucket policy.
-  @_s.JsonKey(name: 'allowsPublicWriteAccess')
-  final bool allowsPublicWriteAccess;
+  final bool? allowsPublicWriteAccess;
 
   BucketPolicy({
     this.allowsPublicReadAccess,
     this.allowsPublicWriteAccess,
   });
-  factory BucketPolicy.fromJson(Map<String, dynamic> json) =>
-      _$BucketPolicyFromJson(json);
+
+  factory BucketPolicy.fromJson(Map<String, dynamic> json) {
+    return BucketPolicy(
+      allowsPublicReadAccess: json['allowsPublicReadAccess'] as bool?,
+      allowsPublicWriteAccess: json['allowsPublicWriteAccess'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowsPublicReadAccess = this.allowsPublicReadAccess;
+    final allowsPublicWriteAccess = this.allowsPublicWriteAccess;
+    return {
+      if (allowsPublicReadAccess != null)
+        'allowsPublicReadAccess': allowsPublicReadAccess,
+      if (allowsPublicWriteAccess != null)
+        'allowsPublicWriteAccess': allowsPublicWriteAccess,
+    };
+  }
 }
 
 /// Contains information about the city associated with the IP address.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class City {
   /// The city name of the remote IP address.
-  @_s.JsonKey(name: 'cityName')
-  final String cityName;
+  final String? cityName;
 
   City({
     this.cityName,
   });
-  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      cityName: json['cityName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cityName = this.cityName;
+    return {
+      if (cityName != null) 'cityName': cityName,
+    };
+  }
 }
 
 /// Contains information on the status of CloudTrail as a data source for the
 /// detector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CloudTrailConfigurationResult {
   /// Describes whether CloudTrail is enabled as a data source for the detector.
-  @_s.JsonKey(name: 'status')
   final DataSourceStatus status;
 
   CloudTrailConfigurationResult({
-    @_s.required this.status,
+    required this.status,
   });
-  factory CloudTrailConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$CloudTrailConfigurationResultFromJson(json);
+
+  factory CloudTrailConfigurationResult.fromJson(Map<String, dynamic> json) {
+    return CloudTrailConfigurationResult(
+      status: (json['status'] as String).toDataSourceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains information about the condition.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Condition {
   /// Represents the <i>equal</i> condition to be applied to a single field when
   /// querying for findings.
-  @_s.JsonKey(name: 'eq')
-  final List<String> eq;
+  final List<String>? eq;
 
   /// Represents an <i>equal</i> <b/> condition to be applied to a single field
   /// when querying for findings.
-  @_s.JsonKey(name: 'equals')
-  final List<String> equals;
+  final List<String>? equals;
 
   /// Represents a <i>greater than</i> condition to be applied to a single field
   /// when querying for findings.
-  @_s.JsonKey(name: 'greaterThan')
-  final int greaterThan;
+  final int? greaterThan;
 
   /// Represents a <i>greater than or equal</i> condition to be applied to a
   /// single field when querying for findings.
-  @_s.JsonKey(name: 'greaterThanOrEqual')
-  final int greaterThanOrEqual;
+  final int? greaterThanOrEqual;
 
   /// Represents a <i>greater than</i> condition to be applied to a single field
   /// when querying for findings.
-  @_s.JsonKey(name: 'gt')
-  final int gt;
+  final int? gt;
 
   /// Represents a <i>greater than or equal</i> condition to be applied to a
   /// single field when querying for findings.
-  @_s.JsonKey(name: 'gte')
-  final int gte;
+  final int? gte;
 
   /// Represents a <i>less than</i> condition to be applied to a single field when
   /// querying for findings.
-  @_s.JsonKey(name: 'lessThan')
-  final int lessThan;
+  final int? lessThan;
 
   /// Represents a <i>less than or equal</i> condition to be applied to a single
   /// field when querying for findings.
-  @_s.JsonKey(name: 'lessThanOrEqual')
-  final int lessThanOrEqual;
+  final int? lessThanOrEqual;
 
   /// Represents a <i>less than</i> condition to be applied to a single field when
   /// querying for findings.
-  @_s.JsonKey(name: 'lt')
-  final int lt;
+  final int? lt;
 
   /// Represents a <i>less than or equal</i> condition to be applied to a single
   /// field when querying for findings.
-  @_s.JsonKey(name: 'lte')
-  final int lte;
+  final int? lte;
 
   /// Represents the <i>not equal</i> condition to be applied to a single field
   /// when querying for findings.
-  @_s.JsonKey(name: 'neq')
-  final List<String> neq;
+  final List<String>? neq;
 
   /// Represents a <i>not equal</i> <b/> condition to be applied to a single field
   /// when querying for findings.
-  @_s.JsonKey(name: 'notEquals')
-  final List<String> notEquals;
+  final List<String>? notEquals;
 
   Condition({
     this.eq,
@@ -3353,509 +3454,756 @@ class Condition {
     this.neq,
     this.notEquals,
   });
-  factory Condition.fromJson(Map<String, dynamic> json) =>
-      _$ConditionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConditionToJson(this);
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      eq: (json['eq'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      equals: (json['equals'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      greaterThan: json['greaterThan'] as int?,
+      greaterThanOrEqual: json['greaterThanOrEqual'] as int?,
+      gt: json['gt'] as int?,
+      gte: json['gte'] as int?,
+      lessThan: json['lessThan'] as int?,
+      lessThanOrEqual: json['lessThanOrEqual'] as int?,
+      lt: json['lt'] as int?,
+      lte: json['lte'] as int?,
+      neq: (json['neq'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      notEquals: (json['notEquals'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eq = this.eq;
+    final equals = this.equals;
+    final greaterThan = this.greaterThan;
+    final greaterThanOrEqual = this.greaterThanOrEqual;
+    final gt = this.gt;
+    final gte = this.gte;
+    final lessThan = this.lessThan;
+    final lessThanOrEqual = this.lessThanOrEqual;
+    final lt = this.lt;
+    final lte = this.lte;
+    final neq = this.neq;
+    final notEquals = this.notEquals;
+    return {
+      if (eq != null) 'eq': eq,
+      if (equals != null) 'equals': equals,
+      if (greaterThan != null) 'greaterThan': greaterThan,
+      if (greaterThanOrEqual != null) 'greaterThanOrEqual': greaterThanOrEqual,
+      if (gt != null) 'gt': gt,
+      if (gte != null) 'gte': gte,
+      if (lessThan != null) 'lessThan': lessThan,
+      if (lessThanOrEqual != null) 'lessThanOrEqual': lessThanOrEqual,
+      if (lt != null) 'lt': lt,
+      if (lte != null) 'lte': lte,
+      if (neq != null) 'neq': neq,
+      if (notEquals != null) 'notEquals': notEquals,
+    };
+  }
 }
 
 /// Contains information about the country where the remote IP address is
 /// located.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Country {
   /// The country code of the remote IP address.
-  @_s.JsonKey(name: 'countryCode')
-  final String countryCode;
+  final String? countryCode;
 
   /// The country name of the remote IP address.
-  @_s.JsonKey(name: 'countryName')
-  final String countryName;
+  final String? countryName;
 
   Country({
     this.countryCode,
     this.countryName,
   });
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+
+  factory Country.fromJson(Map<String, dynamic> json) {
+    return Country(
+      countryCode: json['countryCode'] as String?,
+      countryName: json['countryName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countryCode = this.countryCode;
+    final countryName = this.countryName;
+    return {
+      if (countryCode != null) 'countryCode': countryCode,
+      if (countryName != null) 'countryName': countryName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDetectorResponse {
   /// The unique ID of the created detector.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   CreateDetectorResponse({
     this.detectorId,
   });
-  factory CreateDetectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDetectorResponseFromJson(json);
+
+  factory CreateDetectorResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDetectorResponse(
+      detectorId: json['detectorId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectorId = this.detectorId;
+    return {
+      if (detectorId != null) 'detectorId': detectorId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateFilterResponse {
   /// The name of the successfully created filter.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   CreateFilterResponse({
-    @_s.required this.name,
+    required this.name,
   });
-  factory CreateFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateFilterResponseFromJson(json);
+
+  factory CreateFilterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateFilterResponse(
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIPSetResponse {
   /// The ID of the IPSet resource.
-  @_s.JsonKey(name: 'ipSetId')
   final String ipSetId;
 
   CreateIPSetResponse({
-    @_s.required this.ipSetId,
+    required this.ipSetId,
   });
-  factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateIPSetResponseFromJson(json);
+
+  factory CreateIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateIPSetResponse(
+      ipSetId: json['ipSetId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipSetId = this.ipSetId;
+    return {
+      'ipSetId': ipSetId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateMembersResponse {
   /// A list of objects that include the <code>accountIds</code> of the
   /// unprocessed accounts and a result string that explains why each was
   /// unprocessed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   CreateMembersResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory CreateMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateMembersResponseFromJson(json);
+
+  factory CreateMembersResponse.fromJson(Map<String, dynamic> json) {
+    return CreateMembersResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePublishingDestinationResponse {
   /// The ID of the publishing destination that is created.
-  @_s.JsonKey(name: 'destinationId')
   final String destinationId;
 
   CreatePublishingDestinationResponse({
-    @_s.required this.destinationId,
+    required this.destinationId,
   });
+
   factory CreatePublishingDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreatePublishingDestinationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreatePublishingDestinationResponse(
+      destinationId: json['destinationId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationId = this.destinationId;
+    return {
+      'destinationId': destinationId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSampleFindingsResponse {
   CreateSampleFindingsResponse();
-  factory CreateSampleFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSampleFindingsResponseFromJson(json);
+
+  factory CreateSampleFindingsResponse.fromJson(Map<String, dynamic> _) {
+    return CreateSampleFindingsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateThreatIntelSetResponse {
   /// The ID of the ThreatIntelSet resource.
-  @_s.JsonKey(name: 'threatIntelSetId')
   final String threatIntelSetId;
 
   CreateThreatIntelSetResponse({
-    @_s.required this.threatIntelSetId,
+    required this.threatIntelSetId,
   });
-  factory CreateThreatIntelSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateThreatIntelSetResponseFromJson(json);
+
+  factory CreateThreatIntelSetResponse.fromJson(Map<String, dynamic> json) {
+    return CreateThreatIntelSetResponse(
+      threatIntelSetId: json['threatIntelSetId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final threatIntelSetId = this.threatIntelSetId;
+    return {
+      'threatIntelSetId': threatIntelSetId,
+    };
+  }
 }
 
 /// Contains information on the status of DNS logs as a data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DNSLogsConfigurationResult {
   /// Denotes whether DNS logs is enabled as a data source.
-  @_s.JsonKey(name: 'status')
   final DataSourceStatus status;
 
   DNSLogsConfigurationResult({
-    @_s.required this.status,
+    required this.status,
   });
-  factory DNSLogsConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$DNSLogsConfigurationResultFromJson(json);
+
+  factory DNSLogsConfigurationResult.fromJson(Map<String, dynamic> json) {
+    return DNSLogsConfigurationResult(
+      status: (json['status'] as String).toDataSourceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status.toValue(),
+    };
+  }
 }
 
 enum DataSource {
-  @_s.JsonValue('FLOW_LOGS')
   flowLogs,
-  @_s.JsonValue('CLOUD_TRAIL')
   cloudTrail,
-  @_s.JsonValue('DNS_LOGS')
   dnsLogs,
-  @_s.JsonValue('S3_LOGS')
   s3Logs,
 }
 
+extension on DataSource {
+  String toValue() {
+    switch (this) {
+      case DataSource.flowLogs:
+        return 'FLOW_LOGS';
+      case DataSource.cloudTrail:
+        return 'CLOUD_TRAIL';
+      case DataSource.dnsLogs:
+        return 'DNS_LOGS';
+      case DataSource.s3Logs:
+        return 'S3_LOGS';
+    }
+  }
+}
+
+extension on String {
+  DataSource toDataSource() {
+    switch (this) {
+      case 'FLOW_LOGS':
+        return DataSource.flowLogs;
+      case 'CLOUD_TRAIL':
+        return DataSource.cloudTrail;
+      case 'DNS_LOGS':
+        return DataSource.dnsLogs;
+      case 'S3_LOGS':
+        return DataSource.s3Logs;
+    }
+    throw Exception('$this is not known in enum DataSource');
+  }
+}
+
 /// Contains information about which data sources are enabled.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DataSourceConfigurations {
   /// Describes whether S3 data event logs are enabled as a data source.
-  @_s.JsonKey(name: 's3Logs')
-  final S3LogsConfiguration s3Logs;
+  final S3LogsConfiguration? s3Logs;
 
   DataSourceConfigurations({
     this.s3Logs,
   });
-  Map<String, dynamic> toJson() => _$DataSourceConfigurationsToJson(this);
+
+  factory DataSourceConfigurations.fromJson(Map<String, dynamic> json) {
+    return DataSourceConfigurations(
+      s3Logs: json['s3Logs'] != null
+          ? S3LogsConfiguration.fromJson(json['s3Logs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Logs = this.s3Logs;
+    return {
+      if (s3Logs != null) 's3Logs': s3Logs,
+    };
+  }
 }
 
 /// Contains information on the status of data sources for the detector.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataSourceConfigurationsResult {
   /// An object that contains information on the status of CloudTrail as a data
   /// source.
-  @_s.JsonKey(name: 'cloudTrail')
   final CloudTrailConfigurationResult cloudTrail;
 
   /// An object that contains information on the status of DNS logs as a data
   /// source.
-  @_s.JsonKey(name: 'dnsLogs')
   final DNSLogsConfigurationResult dNSLogs;
 
   /// An object that contains information on the status of VPC flow logs as a data
   /// source.
-  @_s.JsonKey(name: 'flowLogs')
   final FlowLogsConfigurationResult flowLogs;
 
   /// An object that contains information on the status of S3 Data event logs as a
   /// data source.
-  @_s.JsonKey(name: 's3Logs')
   final S3LogsConfigurationResult s3Logs;
 
   DataSourceConfigurationsResult({
-    @_s.required this.cloudTrail,
-    @_s.required this.dNSLogs,
-    @_s.required this.flowLogs,
-    @_s.required this.s3Logs,
+    required this.cloudTrail,
+    required this.dNSLogs,
+    required this.flowLogs,
+    required this.s3Logs,
   });
-  factory DataSourceConfigurationsResult.fromJson(Map<String, dynamic> json) =>
-      _$DataSourceConfigurationsResultFromJson(json);
+
+  factory DataSourceConfigurationsResult.fromJson(Map<String, dynamic> json) {
+    return DataSourceConfigurationsResult(
+      cloudTrail: CloudTrailConfigurationResult.fromJson(
+          json['cloudTrail'] as Map<String, dynamic>),
+      dNSLogs: DNSLogsConfigurationResult.fromJson(
+          json['dnsLogs'] as Map<String, dynamic>),
+      flowLogs: FlowLogsConfigurationResult.fromJson(
+          json['flowLogs'] as Map<String, dynamic>),
+      s3Logs: S3LogsConfigurationResult.fromJson(
+          json['s3Logs'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudTrail = this.cloudTrail;
+    final dNSLogs = this.dNSLogs;
+    final flowLogs = this.flowLogs;
+    final s3Logs = this.s3Logs;
+    return {
+      'cloudTrail': cloudTrail,
+      'dnsLogs': dNSLogs,
+      'flowLogs': flowLogs,
+      's3Logs': s3Logs,
+    };
+  }
 }
 
 enum DataSourceStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DataSourceStatus {
+  String toValue() {
+    switch (this) {
+      case DataSourceStatus.enabled:
+        return 'ENABLED';
+      case DataSourceStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  DataSourceStatus toDataSourceStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return DataSourceStatus.enabled;
+      case 'DISABLED':
+        return DataSourceStatus.disabled;
+    }
+    throw Exception('$this is not known in enum DataSourceStatus');
+  }
+}
+
 class DeclineInvitationsResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   DeclineInvitationsResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory DeclineInvitationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeclineInvitationsResponseFromJson(json);
+
+  factory DeclineInvitationsResponse.fromJson(Map<String, dynamic> json) {
+    return DeclineInvitationsResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
 /// Contains information on the server side encryption method used in the S3
 /// bucket. See <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">S3
 /// Server-Side Encryption</a> for more information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DefaultServerSideEncryption {
   /// The type of encryption used for objects within the S3 bucket.
-  @_s.JsonKey(name: 'encryptionType')
-  final String encryptionType;
+  final String? encryptionType;
 
   /// The Amazon Resource Name (ARN) of the KMS encryption key. Only available if
   /// the bucket <code>EncryptionType</code> is <code>aws:kms</code>.
-  @_s.JsonKey(name: 'kmsMasterKeyArn')
-  final String kmsMasterKeyArn;
+  final String? kmsMasterKeyArn;
 
   DefaultServerSideEncryption({
     this.encryptionType,
     this.kmsMasterKeyArn,
   });
-  factory DefaultServerSideEncryption.fromJson(Map<String, dynamic> json) =>
-      _$DefaultServerSideEncryptionFromJson(json);
+
+  factory DefaultServerSideEncryption.fromJson(Map<String, dynamic> json) {
+    return DefaultServerSideEncryption(
+      encryptionType: json['encryptionType'] as String?,
+      kmsMasterKeyArn: json['kmsMasterKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final kmsMasterKeyArn = this.kmsMasterKeyArn;
+    return {
+      if (encryptionType != null) 'encryptionType': encryptionType,
+      if (kmsMasterKeyArn != null) 'kmsMasterKeyArn': kmsMasterKeyArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDetectorResponse {
   DeleteDetectorResponse();
-  factory DeleteDetectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDetectorResponseFromJson(json);
+
+  factory DeleteDetectorResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteDetectorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteFilterResponse {
   DeleteFilterResponse();
-  factory DeleteFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteFilterResponseFromJson(json);
+
+  factory DeleteFilterResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteFilterResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteIPSetResponse {
   DeleteIPSetResponse();
-  factory DeleteIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteIPSetResponseFromJson(json);
+
+  factory DeleteIPSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteIPSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInvitationsResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   DeleteInvitationsResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory DeleteInvitationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteInvitationsResponseFromJson(json);
+
+  factory DeleteInvitationsResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteInvitationsResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteMembersResponse {
   /// The accounts that could not be processed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   DeleteMembersResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteMembersResponseFromJson(json);
+
+  factory DeleteMembersResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteMembersResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeletePublishingDestinationResponse {
   DeletePublishingDestinationResponse();
-  factory DeletePublishingDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeletePublishingDestinationResponseFromJson(json);
+
+  factory DeletePublishingDestinationResponse.fromJson(Map<String, dynamic> _) {
+    return DeletePublishingDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteThreatIntelSetResponse {
   DeleteThreatIntelSetResponse();
-  factory DeleteThreatIntelSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteThreatIntelSetResponseFromJson(json);
+
+  factory DeleteThreatIntelSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteThreatIntelSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOrganizationConfigurationResponse {
   /// Indicates whether GuardDuty is automatically enabled for accounts added to
   /// the organization.
-  @_s.JsonKey(name: 'autoEnable')
   final bool autoEnable;
 
   /// Indicates whether the maximum number of allowed member accounts are already
   /// associated with the delegated administrator account for your organization.
-  @_s.JsonKey(name: 'memberAccountLimitReached')
   final bool memberAccountLimitReached;
 
   /// Describes which data sources are enabled automatically for member accounts.
-  @_s.JsonKey(name: 'dataSources')
-  final OrganizationDataSourceConfigurationsResult dataSources;
+  final OrganizationDataSourceConfigurationsResult? dataSources;
 
   DescribeOrganizationConfigurationResponse({
-    @_s.required this.autoEnable,
-    @_s.required this.memberAccountLimitReached,
+    required this.autoEnable,
+    required this.memberAccountLimitReached,
     this.dataSources,
   });
+
   factory DescribeOrganizationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeOrganizationConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeOrganizationConfigurationResponse(
+      autoEnable: json['autoEnable'] as bool,
+      memberAccountLimitReached: json['memberAccountLimitReached'] as bool,
+      dataSources: json['dataSources'] != null
+          ? OrganizationDataSourceConfigurationsResult.fromJson(
+              json['dataSources'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoEnable = this.autoEnable;
+    final memberAccountLimitReached = this.memberAccountLimitReached;
+    final dataSources = this.dataSources;
+    return {
+      'autoEnable': autoEnable,
+      'memberAccountLimitReached': memberAccountLimitReached,
+      if (dataSources != null) 'dataSources': dataSources,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePublishingDestinationResponse {
   /// The ID of the publishing destination.
-  @_s.JsonKey(name: 'destinationId')
   final String destinationId;
 
   /// A <code>DestinationProperties</code> object that includes the
   /// <code>DestinationArn</code> and <code>KmsKeyArn</code> of the publishing
   /// destination.
-  @_s.JsonKey(name: 'destinationProperties')
   final DestinationProperties destinationProperties;
 
   /// The type of publishing destination. Currently, only Amazon S3 buckets are
   /// supported.
-  @_s.JsonKey(name: 'destinationType')
   final DestinationType destinationType;
 
   /// The time, in epoch millisecond format, at which GuardDuty was first unable
   /// to publish findings to the destination.
-  @_s.JsonKey(name: 'publishingFailureStartTimestamp')
   final int publishingFailureStartTimestamp;
 
   /// The status of the publishing destination.
-  @_s.JsonKey(name: 'status')
   final PublishingStatus status;
 
   DescribePublishingDestinationResponse({
-    @_s.required this.destinationId,
-    @_s.required this.destinationProperties,
-    @_s.required this.destinationType,
-    @_s.required this.publishingFailureStartTimestamp,
-    @_s.required this.status,
+    required this.destinationId,
+    required this.destinationProperties,
+    required this.destinationType,
+    required this.publishingFailureStartTimestamp,
+    required this.status,
   });
+
   factory DescribePublishingDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribePublishingDestinationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribePublishingDestinationResponse(
+      destinationId: json['destinationId'] as String,
+      destinationProperties: DestinationProperties.fromJson(
+          json['destinationProperties'] as Map<String, dynamic>),
+      destinationType: (json['destinationType'] as String).toDestinationType(),
+      publishingFailureStartTimestamp:
+          json['publishingFailureStartTimestamp'] as int,
+      status: (json['status'] as String).toPublishingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationId = this.destinationId;
+    final destinationProperties = this.destinationProperties;
+    final destinationType = this.destinationType;
+    final publishingFailureStartTimestamp =
+        this.publishingFailureStartTimestamp;
+    final status = this.status;
+    return {
+      'destinationId': destinationId,
+      'destinationProperties': destinationProperties,
+      'destinationType': destinationType.toValue(),
+      'publishingFailureStartTimestamp': publishingFailureStartTimestamp,
+      'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains information about the publishing destination, including the ID,
 /// type, and status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Destination {
   /// The unique ID of the publishing destination.
-  @_s.JsonKey(name: 'destinationId')
   final String destinationId;
 
   /// The type of resource used for the publishing destination. Currently, only
   /// Amazon S3 buckets are supported.
-  @_s.JsonKey(name: 'destinationType')
   final DestinationType destinationType;
 
   /// The status of the publishing destination.
-  @_s.JsonKey(name: 'status')
   final PublishingStatus status;
 
   Destination({
-    @_s.required this.destinationId,
-    @_s.required this.destinationType,
-    @_s.required this.status,
+    required this.destinationId,
+    required this.destinationType,
+    required this.status,
   });
-  factory Destination.fromJson(Map<String, dynamic> json) =>
-      _$DestinationFromJson(json);
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      destinationId: json['destinationId'] as String,
+      destinationType: (json['destinationType'] as String).toDestinationType(),
+      status: (json['status'] as String).toPublishingStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationId = this.destinationId;
+    final destinationType = this.destinationType;
+    final status = this.status;
+    return {
+      'destinationId': destinationId,
+      'destinationType': destinationType.toValue(),
+      'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains the Amazon Resource Name (ARN) of the resource to publish to, such
 /// as an S3 bucket, and the ARN of the KMS key to use to encrypt published
 /// findings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DestinationProperties {
   /// The ARN of the resource to publish to.
-  @_s.JsonKey(name: 'destinationArn')
-  final String destinationArn;
+  final String? destinationArn;
 
   /// The ARN of the KMS key to use for encryption.
-  @_s.JsonKey(name: 'kmsKeyArn')
-  final String kmsKeyArn;
+  final String? kmsKeyArn;
 
   DestinationProperties({
     this.destinationArn,
     this.kmsKeyArn,
   });
-  factory DestinationProperties.fromJson(Map<String, dynamic> json) =>
-      _$DestinationPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DestinationPropertiesToJson(this);
+  factory DestinationProperties.fromJson(Map<String, dynamic> json) {
+    return DestinationProperties(
+      destinationArn: json['destinationArn'] as String?,
+      kmsKeyArn: json['kmsKeyArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationArn = this.destinationArn;
+    final kmsKeyArn = this.kmsKeyArn;
+    return {
+      if (destinationArn != null) 'destinationArn': destinationArn,
+      if (kmsKeyArn != null) 'kmsKeyArn': kmsKeyArn,
+    };
+  }
 }
 
 enum DestinationType {
-  @_s.JsonValue('S3')
   s3,
 }
 
@@ -3865,129 +4213,188 @@ extension on DestinationType {
       case DestinationType.s3:
         return 'S3';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DestinationType toDestinationType() {
+    switch (this) {
+      case 'S3':
+        return DestinationType.s3;
+    }
+    throw Exception('$this is not known in enum DestinationType');
   }
 }
 
 enum DetectorStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DetectorStatus {
+  String toValue() {
+    switch (this) {
+      case DetectorStatus.enabled:
+        return 'ENABLED';
+      case DetectorStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  DetectorStatus toDetectorStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return DetectorStatus.enabled;
+      case 'DISABLED':
+        return DetectorStatus.disabled;
+    }
+    throw Exception('$this is not known in enum DetectorStatus');
+  }
+}
+
 class DisableOrganizationAdminAccountResponse {
   DisableOrganizationAdminAccountResponse();
+
   factory DisableOrganizationAdminAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisableOrganizationAdminAccountResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisableOrganizationAdminAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateFromMasterAccountResponse {
   DisassociateFromMasterAccountResponse();
+
   factory DisassociateFromMasterAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateFromMasterAccountResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return DisassociateFromMasterAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateMembersResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   DisassociateMembersResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory DisassociateMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateMembersResponseFromJson(json);
+
+  factory DisassociateMembersResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateMembersResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
 /// Contains information about the DNS_REQUEST action described in this finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DnsRequestAction {
   /// The domain information for the API request.
-  @_s.JsonKey(name: 'domain')
-  final String domain;
+  final String? domain;
 
   DnsRequestAction({
     this.domain,
   });
-  factory DnsRequestAction.fromJson(Map<String, dynamic> json) =>
-      _$DnsRequestActionFromJson(json);
+
+  factory DnsRequestAction.fromJson(Map<String, dynamic> json) {
+    return DnsRequestAction(
+      domain: json['domain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    return {
+      if (domain != null) 'domain': domain,
+    };
+  }
 }
 
 /// Contains information about the domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainDetails {
   /// The domain information for the AWS API call.
-  @_s.JsonKey(name: 'domain')
-  final String domain;
+  final String? domain;
 
   DomainDetails({
     this.domain,
   });
-  factory DomainDetails.fromJson(Map<String, dynamic> json) =>
-      _$DomainDetailsFromJson(json);
+
+  factory DomainDetails.fromJson(Map<String, dynamic> json) {
+    return DomainDetails(
+      domain: json['domain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domain = this.domain;
+    return {
+      if (domain != null) 'domain': domain,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnableOrganizationAdminAccountResponse {
   EnableOrganizationAdminAccountResponse();
+
   factory EnableOrganizationAdminAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$EnableOrganizationAdminAccountResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return EnableOrganizationAdminAccountResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains information about the reason that the finding was generated.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Evidence {
   /// A list of threat intelligence details related to the evidence.
-  @_s.JsonKey(name: 'threatIntelligenceDetails')
-  final List<ThreatIntelligenceDetail> threatIntelligenceDetails;
+  final List<ThreatIntelligenceDetail>? threatIntelligenceDetails;
 
   Evidence({
     this.threatIntelligenceDetails,
   });
-  factory Evidence.fromJson(Map<String, dynamic> json) =>
-      _$EvidenceFromJson(json);
+
+  factory Evidence.fromJson(Map<String, dynamic> json) {
+    return Evidence(
+      threatIntelligenceDetails: (json['threatIntelligenceDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ThreatIntelligenceDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final threatIntelligenceDetails = this.threatIntelligenceDetails;
+    return {
+      if (threatIntelligenceDetails != null)
+        'threatIntelligenceDetails': threatIntelligenceDetails,
+    };
+  }
 }
 
 enum Feedback {
-  @_s.JsonValue('USEFUL')
   useful,
-  @_s.JsonValue('NOT_USEFUL')
   notUseful,
 }
 
@@ -3999,14 +4406,23 @@ extension on Feedback {
       case Feedback.notUseful:
         return 'NOT_USEFUL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Feedback toFeedback() {
+    switch (this) {
+      case 'USEFUL':
+        return Feedback.useful;
+      case 'NOT_USEFUL':
+        return Feedback.notUseful;
+    }
+    throw Exception('$this is not known in enum Feedback');
   }
 }
 
 enum FilterAction {
-  @_s.JsonValue('NOOP')
   noop,
-  @_s.JsonValue('ARCHIVE')
   archive,
 }
 
@@ -4018,122 +4434,169 @@ extension on FilterAction {
       case FilterAction.archive:
         return 'ARCHIVE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FilterAction toFilterAction() {
+    switch (this) {
+      case 'NOOP':
+        return FilterAction.noop;
+      case 'ARCHIVE':
+        return FilterAction.archive;
+    }
+    throw Exception('$this is not known in enum FilterAction');
   }
 }
 
 /// Contains information about the finding, which is generated when abnormal or
 /// suspicious activity is detected.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Finding {
   /// The ID of the account in which the finding was generated.
-  @_s.JsonKey(name: 'accountId')
   final String accountId;
 
   /// The ARN of the finding.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// The time and date when the finding was created.
-  @_s.JsonKey(name: 'createdAt')
   final String createdAt;
 
   /// The ID of the finding.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The Region where the finding was generated.
-  @_s.JsonKey(name: 'region')
   final String region;
-  @_s.JsonKey(name: 'resource')
   final Resource resource;
 
   /// The version of the schema used for the finding.
-  @_s.JsonKey(name: 'schemaVersion')
   final String schemaVersion;
 
   /// The severity of the finding.
-  @_s.JsonKey(name: 'severity')
   final double severity;
 
   /// The type of finding.
-  @_s.JsonKey(name: 'type')
   final String type;
 
   /// The time and date when the finding was last updated.
-  @_s.JsonKey(name: 'updatedAt')
   final String updatedAt;
 
   /// The confidence score for the finding.
-  @_s.JsonKey(name: 'confidence')
-  final double confidence;
+  final double? confidence;
 
   /// The description of the finding.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// The partition associated with the finding.
-  @_s.JsonKey(name: 'partition')
-  final String partition;
-  @_s.JsonKey(name: 'service')
-  final Service service;
+  final String? partition;
+  final Service? service;
 
   /// The title of the finding.
-  @_s.JsonKey(name: 'title')
-  final String title;
+  final String? title;
 
   Finding({
-    @_s.required this.accountId,
-    @_s.required this.arn,
-    @_s.required this.createdAt,
-    @_s.required this.id,
-    @_s.required this.region,
-    @_s.required this.resource,
-    @_s.required this.schemaVersion,
-    @_s.required this.severity,
-    @_s.required this.type,
-    @_s.required this.updatedAt,
+    required this.accountId,
+    required this.arn,
+    required this.createdAt,
+    required this.id,
+    required this.region,
+    required this.resource,
+    required this.schemaVersion,
+    required this.severity,
+    required this.type,
+    required this.updatedAt,
     this.confidence,
     this.description,
     this.partition,
     this.service,
     this.title,
   });
-  factory Finding.fromJson(Map<String, dynamic> json) =>
-      _$FindingFromJson(json);
+
+  factory Finding.fromJson(Map<String, dynamic> json) {
+    return Finding(
+      accountId: json['accountId'] as String,
+      arn: json['arn'] as String,
+      createdAt: json['createdAt'] as String,
+      id: json['id'] as String,
+      region: json['region'] as String,
+      resource: Resource.fromJson(json['resource'] as Map<String, dynamic>),
+      schemaVersion: json['schemaVersion'] as String,
+      severity: json['severity'] as double,
+      type: json['type'] as String,
+      updatedAt: json['updatedAt'] as String,
+      confidence: json['confidence'] as double?,
+      description: json['description'] as String?,
+      partition: json['partition'] as String?,
+      service: json['service'] != null
+          ? Service.fromJson(json['service'] as Map<String, dynamic>)
+          : null,
+      title: json['title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final id = this.id;
+    final region = this.region;
+    final resource = this.resource;
+    final schemaVersion = this.schemaVersion;
+    final severity = this.severity;
+    final type = this.type;
+    final updatedAt = this.updatedAt;
+    final confidence = this.confidence;
+    final description = this.description;
+    final partition = this.partition;
+    final service = this.service;
+    final title = this.title;
+    return {
+      'accountId': accountId,
+      'arn': arn,
+      'createdAt': createdAt,
+      'id': id,
+      'region': region,
+      'resource': resource,
+      'schemaVersion': schemaVersion,
+      'severity': severity,
+      'type': type,
+      'updatedAt': updatedAt,
+      if (confidence != null) 'confidence': confidence,
+      if (description != null) 'description': description,
+      if (partition != null) 'partition': partition,
+      if (service != null) 'service': service,
+      if (title != null) 'title': title,
+    };
+  }
 }
 
 /// Contains information about the criteria used for querying findings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FindingCriteria {
   /// Represents a map of finding properties that match specified conditions and
   /// values when querying findings.
-  @_s.JsonKey(name: 'criterion')
-  final Map<String, Condition> criterion;
+  final Map<String, Condition>? criterion;
 
   FindingCriteria({
     this.criterion,
   });
-  factory FindingCriteria.fromJson(Map<String, dynamic> json) =>
-      _$FindingCriteriaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FindingCriteriaToJson(this);
+  factory FindingCriteria.fromJson(Map<String, dynamic> json) {
+    return FindingCriteria(
+      criterion: (json['criterion'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(k, Condition.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final criterion = this.criterion;
+    return {
+      if (criterion != null) 'criterion': criterion,
+    };
+  }
 }
 
 enum FindingPublishingFrequency {
-  @_s.JsonValue('FIFTEEN_MINUTES')
   fifteenMinutes,
-  @_s.JsonValue('ONE_HOUR')
   oneHour,
-  @_s.JsonValue('SIX_HOURS')
   sixHours,
 }
 
@@ -4147,12 +4610,24 @@ extension on FindingPublishingFrequency {
       case FindingPublishingFrequency.sixHours:
         return 'SIX_HOURS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FindingPublishingFrequency toFindingPublishingFrequency() {
+    switch (this) {
+      case 'FIFTEEN_MINUTES':
+        return FindingPublishingFrequency.fifteenMinutes;
+      case 'ONE_HOUR':
+        return FindingPublishingFrequency.oneHour;
+      case 'SIX_HOURS':
+        return FindingPublishingFrequency.sixHours;
+    }
+    throw Exception('$this is not known in enum FindingPublishingFrequency');
   }
 }
 
 enum FindingStatisticType {
-  @_s.JsonValue('COUNT_BY_SEVERITY')
   countBySeverity,
 }
 
@@ -4162,459 +4637,605 @@ extension on FindingStatisticType {
       case FindingStatisticType.countBySeverity:
         return 'COUNT_BY_SEVERITY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  FindingStatisticType toFindingStatisticType() {
+    switch (this) {
+      case 'COUNT_BY_SEVERITY':
+        return FindingStatisticType.countBySeverity;
+    }
+    throw Exception('$this is not known in enum FindingStatisticType');
   }
 }
 
 /// Contains information about finding statistics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FindingStatistics {
   /// Represents a map of severity to count statistics for a set of findings.
-  @_s.JsonKey(name: 'countBySeverity')
-  final Map<String, int> countBySeverity;
+  final Map<String, int>? countBySeverity;
 
   FindingStatistics({
     this.countBySeverity,
   });
-  factory FindingStatistics.fromJson(Map<String, dynamic> json) =>
-      _$FindingStatisticsFromJson(json);
+
+  factory FindingStatistics.fromJson(Map<String, dynamic> json) {
+    return FindingStatistics(
+      countBySeverity: (json['countBySeverity'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as int)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countBySeverity = this.countBySeverity;
+    return {
+      if (countBySeverity != null) 'countBySeverity': countBySeverity,
+    };
+  }
 }
 
 /// Contains information on the status of VPC flow logs as a data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FlowLogsConfigurationResult {
   /// Denotes whether VPC flow logs is enabled as a data source.
-  @_s.JsonKey(name: 'status')
   final DataSourceStatus status;
 
   FlowLogsConfigurationResult({
-    @_s.required this.status,
+    required this.status,
   });
-  factory FlowLogsConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$FlowLogsConfigurationResultFromJson(json);
+
+  factory FlowLogsConfigurationResult.fromJson(Map<String, dynamic> json) {
+    return FlowLogsConfigurationResult(
+      status: (json['status'] as String).toDataSourceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains information about the location of the remote IP address.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GeoLocation {
   /// The latitude information of the remote IP address.
-  @_s.JsonKey(name: 'lat')
-  final double lat;
+  final double? lat;
 
   /// The longitude information of the remote IP address.
-  @_s.JsonKey(name: 'lon')
-  final double lon;
+  final double? lon;
 
   GeoLocation({
     this.lat,
     this.lon,
   });
-  factory GeoLocation.fromJson(Map<String, dynamic> json) =>
-      _$GeoLocationFromJson(json);
+
+  factory GeoLocation.fromJson(Map<String, dynamic> json) {
+    return GeoLocation(
+      lat: json['lat'] as double?,
+      lon: json['lon'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lat = this.lat;
+    final lon = this.lon;
+    return {
+      if (lat != null) 'lat': lat,
+      if (lon != null) 'lon': lon,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDetectorResponse {
   /// The GuardDuty service role.
-  @_s.JsonKey(name: 'serviceRole')
   final String serviceRole;
 
   /// The detector status.
-  @_s.JsonKey(name: 'status')
   final DetectorStatus status;
 
   /// The timestamp of when the detector was created.
-  @_s.JsonKey(name: 'createdAt')
-  final String createdAt;
+  final String? createdAt;
 
   /// Describes which data sources are enabled for the detector.
-  @_s.JsonKey(name: 'dataSources')
-  final DataSourceConfigurationsResult dataSources;
+  final DataSourceConfigurationsResult? dataSources;
 
   /// The publishing frequency of the finding.
-  @_s.JsonKey(name: 'findingPublishingFrequency')
-  final FindingPublishingFrequency findingPublishingFrequency;
+  final FindingPublishingFrequency? findingPublishingFrequency;
 
   /// The tags of the detector resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The last-updated timestamp for the detector.
-  @_s.JsonKey(name: 'updatedAt')
-  final String updatedAt;
+  final String? updatedAt;
 
   GetDetectorResponse({
-    @_s.required this.serviceRole,
-    @_s.required this.status,
+    required this.serviceRole,
+    required this.status,
     this.createdAt,
     this.dataSources,
     this.findingPublishingFrequency,
     this.tags,
     this.updatedAt,
   });
-  factory GetDetectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDetectorResponseFromJson(json);
+
+  factory GetDetectorResponse.fromJson(Map<String, dynamic> json) {
+    return GetDetectorResponse(
+      serviceRole: json['serviceRole'] as String,
+      status: (json['status'] as String).toDetectorStatus(),
+      createdAt: json['createdAt'] as String?,
+      dataSources: json['dataSources'] != null
+          ? DataSourceConfigurationsResult.fromJson(
+              json['dataSources'] as Map<String, dynamic>)
+          : null,
+      findingPublishingFrequency:
+          (json['findingPublishingFrequency'] as String?)
+              ?.toFindingPublishingFrequency(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      updatedAt: json['updatedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceRole = this.serviceRole;
+    final status = this.status;
+    final createdAt = this.createdAt;
+    final dataSources = this.dataSources;
+    final findingPublishingFrequency = this.findingPublishingFrequency;
+    final tags = this.tags;
+    final updatedAt = this.updatedAt;
+    return {
+      'serviceRole': serviceRole,
+      'status': status.toValue(),
+      if (createdAt != null) 'createdAt': createdAt,
+      if (dataSources != null) 'dataSources': dataSources,
+      if (findingPublishingFrequency != null)
+        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
+      if (tags != null) 'tags': tags,
+      if (updatedAt != null) 'updatedAt': updatedAt,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFilterResponse {
   /// Specifies the action that is to be applied to the findings that match the
   /// filter.
-  @_s.JsonKey(name: 'action')
   final FilterAction action;
 
   /// Represents the criteria to be used in the filter for querying findings.
-  @_s.JsonKey(name: 'findingCriteria')
   final FindingCriteria findingCriteria;
 
   /// The name of the filter.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The description of the filter.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// Specifies the position of the filter in the list of current filters. Also
   /// specifies the order in which this filter is applied to the findings.
-  @_s.JsonKey(name: 'rank')
-  final int rank;
+  final int? rank;
 
   /// The tags of the filter resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetFilterResponse({
-    @_s.required this.action,
-    @_s.required this.findingCriteria,
-    @_s.required this.name,
+    required this.action,
+    required this.findingCriteria,
+    required this.name,
     this.description,
     this.rank,
     this.tags,
   });
-  factory GetFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFilterResponseFromJson(json);
+
+  factory GetFilterResponse.fromJson(Map<String, dynamic> json) {
+    return GetFilterResponse(
+      action: (json['action'] as String).toFilterAction(),
+      findingCriteria: FindingCriteria.fromJson(
+          json['findingCriteria'] as Map<String, dynamic>),
+      name: json['name'] as String,
+      description: json['description'] as String?,
+      rank: json['rank'] as int?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final findingCriteria = this.findingCriteria;
+    final name = this.name;
+    final description = this.description;
+    final rank = this.rank;
+    final tags = this.tags;
+    return {
+      'action': action.toValue(),
+      'findingCriteria': findingCriteria,
+      'name': name,
+      if (description != null) 'description': description,
+      if (rank != null) 'rank': rank,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFindingsResponse {
   /// A list of findings.
-  @_s.JsonKey(name: 'findings')
   final List<Finding> findings;
 
   GetFindingsResponse({
-    @_s.required this.findings,
+    required this.findings,
   });
-  factory GetFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFindingsResponseFromJson(json);
+
+  factory GetFindingsResponse.fromJson(Map<String, dynamic> json) {
+    return GetFindingsResponse(
+      findings: (json['findings'] as List)
+          .whereNotNull()
+          .map((e) => Finding.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findings = this.findings;
+    return {
+      'findings': findings,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFindingsStatisticsResponse {
   /// The finding statistics object.
-  @_s.JsonKey(name: 'findingStatistics')
   final FindingStatistics findingStatistics;
 
   GetFindingsStatisticsResponse({
-    @_s.required this.findingStatistics,
+    required this.findingStatistics,
   });
-  factory GetFindingsStatisticsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFindingsStatisticsResponseFromJson(json);
+
+  factory GetFindingsStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return GetFindingsStatisticsResponse(
+      findingStatistics: FindingStatistics.fromJson(
+          json['findingStatistics'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingStatistics = this.findingStatistics;
+    return {
+      'findingStatistics': findingStatistics,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIPSetResponse {
   /// The format of the file that contains the IPSet.
-  @_s.JsonKey(name: 'format')
   final IpSetFormat format;
 
   /// The URI of the file that contains the IPSet. For example:
   /// https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
-  @_s.JsonKey(name: 'location')
   final String location;
 
   /// The user-friendly name for the IPSet.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The status of IPSet file that was uploaded.
-  @_s.JsonKey(name: 'status')
   final IpSetStatus status;
 
   /// The tags of the IPSet resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetIPSetResponse({
-    @_s.required this.format,
-    @_s.required this.location,
-    @_s.required this.name,
-    @_s.required this.status,
+    required this.format,
+    required this.location,
+    required this.name,
+    required this.status,
     this.tags,
   });
-  factory GetIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIPSetResponseFromJson(json);
+
+  factory GetIPSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetIPSetResponse(
+      format: (json['format'] as String).toIpSetFormat(),
+      location: json['location'] as String,
+      name: json['name'] as String,
+      status: (json['status'] as String).toIpSetStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final location = this.location;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      'format': format.toValue(),
+      'location': location,
+      'name': name,
+      'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetInvitationsCountResponse {
   /// The number of received invitations.
-  @_s.JsonKey(name: 'invitationsCount')
-  final int invitationsCount;
+  final int? invitationsCount;
 
   GetInvitationsCountResponse({
     this.invitationsCount,
   });
-  factory GetInvitationsCountResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetInvitationsCountResponseFromJson(json);
+
+  factory GetInvitationsCountResponse.fromJson(Map<String, dynamic> json) {
+    return GetInvitationsCountResponse(
+      invitationsCount: json['invitationsCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invitationsCount = this.invitationsCount;
+    return {
+      if (invitationsCount != null) 'invitationsCount': invitationsCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMasterAccountResponse {
   /// The administrator account details.
-  @_s.JsonKey(name: 'master')
   final Master master;
 
   GetMasterAccountResponse({
-    @_s.required this.master,
+    required this.master,
   });
-  factory GetMasterAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMasterAccountResponseFromJson(json);
+
+  factory GetMasterAccountResponse.fromJson(Map<String, dynamic> json) {
+    return GetMasterAccountResponse(
+      master: Master.fromJson(json['master'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final master = this.master;
+    return {
+      'master': master,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMemberDetectorsResponse {
   /// An object that describes which data sources are enabled for a member
   /// account.
-  @_s.JsonKey(name: 'members')
   final List<MemberDataSourceConfiguration> memberDataSourceConfigurations;
 
   /// A list of member account IDs that were unable to be processed along with an
   /// explanation for why they were not processed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   GetMemberDetectorsResponse({
-    @_s.required this.memberDataSourceConfigurations,
-    @_s.required this.unprocessedAccounts,
+    required this.memberDataSourceConfigurations,
+    required this.unprocessedAccounts,
   });
-  factory GetMemberDetectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMemberDetectorsResponseFromJson(json);
+
+  factory GetMemberDetectorsResponse.fromJson(Map<String, dynamic> json) {
+    return GetMemberDetectorsResponse(
+      memberDataSourceConfigurations: (json['members'] as List)
+          .whereNotNull()
+          .map((e) =>
+              MemberDataSourceConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final memberDataSourceConfigurations = this.memberDataSourceConfigurations;
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'members': memberDataSourceConfigurations,
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMembersResponse {
   /// A list of members.
-  @_s.JsonKey(name: 'members')
   final List<Member> members;
 
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   GetMembersResponse({
-    @_s.required this.members,
-    @_s.required this.unprocessedAccounts,
+    required this.members,
+    required this.unprocessedAccounts,
   });
-  factory GetMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetMembersResponseFromJson(json);
+
+  factory GetMembersResponse.fromJson(Map<String, dynamic> json) {
+    return GetMembersResponse(
+      members: (json['members'] as List)
+          .whereNotNull()
+          .map((e) => Member.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final members = this.members;
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'members': members,
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetThreatIntelSetResponse {
   /// The format of the threatIntelSet.
-  @_s.JsonKey(name: 'format')
   final ThreatIntelSetFormat format;
 
   /// The URI of the file that contains the ThreatIntelSet. For example:
   /// https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
-  @_s.JsonKey(name: 'location')
   final String location;
 
   /// A user-friendly ThreatIntelSet name displayed in all findings that are
   /// generated by activity that involves IP addresses included in this
   /// ThreatIntelSet.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The status of threatIntelSet file uploaded.
-  @_s.JsonKey(name: 'status')
   final ThreatIntelSetStatus status;
 
   /// The tags of the threat list resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   GetThreatIntelSetResponse({
-    @_s.required this.format,
-    @_s.required this.location,
-    @_s.required this.name,
-    @_s.required this.status,
+    required this.format,
+    required this.location,
+    required this.name,
+    required this.status,
     this.tags,
   });
-  factory GetThreatIntelSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetThreatIntelSetResponseFromJson(json);
+
+  factory GetThreatIntelSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetThreatIntelSetResponse(
+      format: (json['format'] as String).toThreatIntelSetFormat(),
+      location: json['location'] as String,
+      name: json['name'] as String,
+      status: (json['status'] as String).toThreatIntelSetStatus(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final location = this.location;
+    final name = this.name;
+    final status = this.status;
+    final tags = this.tags;
+    return {
+      'format': format.toValue(),
+      'location': location,
+      'name': name,
+      'status': status.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetUsageStatisticsResponse {
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The usage statistics object. If a UsageStatisticType was provided, the
   /// objects representing other types will be null.
-  @_s.JsonKey(name: 'usageStatistics')
-  final UsageStatistics usageStatistics;
+  final UsageStatistics? usageStatistics;
 
   GetUsageStatisticsResponse({
     this.nextToken,
     this.usageStatistics,
   });
-  factory GetUsageStatisticsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetUsageStatisticsResponseFromJson(json);
+
+  factory GetUsageStatisticsResponse.fromJson(Map<String, dynamic> json) {
+    return GetUsageStatisticsResponse(
+      nextToken: json['nextToken'] as String?,
+      usageStatistics: json['usageStatistics'] != null
+          ? UsageStatistics.fromJson(
+              json['usageStatistics'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final usageStatistics = this.usageStatistics;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (usageStatistics != null) 'usageStatistics': usageStatistics,
+    };
+  }
 }
 
 /// Contains information about the EC2 instance profile.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IamInstanceProfile {
   /// The profile ARN of the EC2 instance.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The profile ID of the EC2 instance.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   IamInstanceProfile({
     this.arn,
     this.id,
   });
-  factory IamInstanceProfile.fromJson(Map<String, dynamic> json) =>
-      _$IamInstanceProfileFromJson(json);
+
+  factory IamInstanceProfile.fromJson(Map<String, dynamic> json) {
+    return IamInstanceProfile(
+      arn: json['arn'] as String?,
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    return {
+      if (arn != null) 'arn': arn,
+      if (id != null) 'id': id,
+    };
+  }
 }
 
 /// Contains information about the details of an instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceDetails {
   /// The Availability Zone of the EC2 instance.
-  @_s.JsonKey(name: 'availabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The profile information of the EC2 instance.
-  @_s.JsonKey(name: 'iamInstanceProfile')
-  final IamInstanceProfile iamInstanceProfile;
+  final IamInstanceProfile? iamInstanceProfile;
 
   /// The image description of the EC2 instance.
-  @_s.JsonKey(name: 'imageDescription')
-  final String imageDescription;
+  final String? imageDescription;
 
   /// The image ID of the EC2 instance.
-  @_s.JsonKey(name: 'imageId')
-  final String imageId;
+  final String? imageId;
 
   /// The ID of the EC2 instance.
-  @_s.JsonKey(name: 'instanceId')
-  final String instanceId;
+  final String? instanceId;
 
   /// The state of the EC2 instance.
-  @_s.JsonKey(name: 'instanceState')
-  final String instanceState;
+  final String? instanceState;
 
   /// The type of the EC2 instance.
-  @_s.JsonKey(name: 'instanceType')
-  final String instanceType;
+  final String? instanceType;
 
   /// The launch time of the EC2 instance.
-  @_s.JsonKey(name: 'launchTime')
-  final String launchTime;
+  final String? launchTime;
 
   /// The elastic network interface information of the EC2 instance.
-  @_s.JsonKey(name: 'networkInterfaces')
-  final List<NetworkInterface> networkInterfaces;
+  final List<NetworkInterface>? networkInterfaces;
 
   /// The Amazon Resource Name (ARN) of the AWS Outpost. Only applicable to AWS
   /// Outposts instances.
-  @_s.JsonKey(name: 'outpostArn')
-  final String outpostArn;
+  final String? outpostArn;
 
   /// The platform of the EC2 instance.
-  @_s.JsonKey(name: 'platform')
-  final String platform;
+  final String? platform;
 
   /// The product code of the EC2 instance.
-  @_s.JsonKey(name: 'productCodes')
-  final List<ProductCode> productCodes;
+  final List<ProductCode>? productCodes;
 
   /// The tags of the EC2 instance.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   InstanceDetails({
     this.availabilityZone,
@@ -4631,33 +5252,83 @@ class InstanceDetails {
     this.productCodes,
     this.tags,
   });
-  factory InstanceDetails.fromJson(Map<String, dynamic> json) =>
-      _$InstanceDetailsFromJson(json);
+
+  factory InstanceDetails.fromJson(Map<String, dynamic> json) {
+    return InstanceDetails(
+      availabilityZone: json['availabilityZone'] as String?,
+      iamInstanceProfile: json['iamInstanceProfile'] != null
+          ? IamInstanceProfile.fromJson(
+              json['iamInstanceProfile'] as Map<String, dynamic>)
+          : null,
+      imageDescription: json['imageDescription'] as String?,
+      imageId: json['imageId'] as String?,
+      instanceId: json['instanceId'] as String?,
+      instanceState: json['instanceState'] as String?,
+      instanceType: json['instanceType'] as String?,
+      launchTime: json['launchTime'] as String?,
+      networkInterfaces: (json['networkInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => NetworkInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outpostArn: json['outpostArn'] as String?,
+      platform: json['platform'] as String?,
+      productCodes: (json['productCodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => ProductCode.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final iamInstanceProfile = this.iamInstanceProfile;
+    final imageDescription = this.imageDescription;
+    final imageId = this.imageId;
+    final instanceId = this.instanceId;
+    final instanceState = this.instanceState;
+    final instanceType = this.instanceType;
+    final launchTime = this.launchTime;
+    final networkInterfaces = this.networkInterfaces;
+    final outpostArn = this.outpostArn;
+    final platform = this.platform;
+    final productCodes = this.productCodes;
+    final tags = this.tags;
+    return {
+      if (availabilityZone != null) 'availabilityZone': availabilityZone,
+      if (iamInstanceProfile != null) 'iamInstanceProfile': iamInstanceProfile,
+      if (imageDescription != null) 'imageDescription': imageDescription,
+      if (imageId != null) 'imageId': imageId,
+      if (instanceId != null) 'instanceId': instanceId,
+      if (instanceState != null) 'instanceState': instanceState,
+      if (instanceType != null) 'instanceType': instanceType,
+      if (launchTime != null) 'launchTime': launchTime,
+      if (networkInterfaces != null) 'networkInterfaces': networkInterfaces,
+      if (outpostArn != null) 'outpostArn': outpostArn,
+      if (platform != null) 'platform': platform,
+      if (productCodes != null) 'productCodes': productCodes,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Contains information about the invitation to become a member account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Invitation {
   /// The ID of the account that the invitation was sent from.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The ID of the invitation. This value is used to validate the inviter account
   /// to the member account.
-  @_s.JsonKey(name: 'invitationId')
-  final String invitationId;
+  final String? invitationId;
 
   /// The timestamp when the invitation was sent.
-  @_s.JsonKey(name: 'invitedAt')
-  final String invitedAt;
+  final String? invitedAt;
 
   /// The status of the relationship between the inviter and invitee accounts.
-  @_s.JsonKey(name: 'relationshipStatus')
-  final String relationshipStatus;
+  final String? relationshipStatus;
 
   Invitation({
     this.accountId,
@@ -4665,40 +5336,62 @@ class Invitation {
     this.invitedAt,
     this.relationshipStatus,
   });
-  factory Invitation.fromJson(Map<String, dynamic> json) =>
-      _$InvitationFromJson(json);
+
+  factory Invitation.fromJson(Map<String, dynamic> json) {
+    return Invitation(
+      accountId: json['accountId'] as String?,
+      invitationId: json['invitationId'] as String?,
+      invitedAt: json['invitedAt'] as String?,
+      relationshipStatus: json['relationshipStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final invitationId = this.invitationId;
+    final invitedAt = this.invitedAt;
+    final relationshipStatus = this.relationshipStatus;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (invitationId != null) 'invitationId': invitationId,
+      if (invitedAt != null) 'invitedAt': invitedAt,
+      if (relationshipStatus != null) 'relationshipStatus': relationshipStatus,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InviteMembersResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   InviteMembersResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory InviteMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$InviteMembersResponseFromJson(json);
+
+  factory InviteMembersResponse.fromJson(Map<String, dynamic> json) {
+    return InviteMembersResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
 enum IpSetFormat {
-  @_s.JsonValue('TXT')
   txt,
-  @_s.JsonValue('STIX')
   stix,
-  @_s.JsonValue('OTX_CSV')
   otxCsv,
-  @_s.JsonValue('ALIEN_VAULT')
   alienVault,
-  @_s.JsonValue('PROOF_POINT')
   proofPoint,
-  @_s.JsonValue('FIRE_EYE')
   fireEye,
 }
 
@@ -4718,320 +5411,474 @@ extension on IpSetFormat {
       case IpSetFormat.fireEye:
         return 'FIRE_EYE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  IpSetFormat toIpSetFormat() {
+    switch (this) {
+      case 'TXT':
+        return IpSetFormat.txt;
+      case 'STIX':
+        return IpSetFormat.stix;
+      case 'OTX_CSV':
+        return IpSetFormat.otxCsv;
+      case 'ALIEN_VAULT':
+        return IpSetFormat.alienVault;
+      case 'PROOF_POINT':
+        return IpSetFormat.proofPoint;
+      case 'FIRE_EYE':
+        return IpSetFormat.fireEye;
+    }
+    throw Exception('$this is not known in enum IpSetFormat');
   }
 }
 
 enum IpSetStatus {
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('ACTIVATING')
   activating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DEACTIVATING')
   deactivating,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('DELETE_PENDING')
   deletePending,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on IpSetStatus {
+  String toValue() {
+    switch (this) {
+      case IpSetStatus.inactive:
+        return 'INACTIVE';
+      case IpSetStatus.activating:
+        return 'ACTIVATING';
+      case IpSetStatus.active:
+        return 'ACTIVE';
+      case IpSetStatus.deactivating:
+        return 'DEACTIVATING';
+      case IpSetStatus.error:
+        return 'ERROR';
+      case IpSetStatus.deletePending:
+        return 'DELETE_PENDING';
+      case IpSetStatus.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  IpSetStatus toIpSetStatus() {
+    switch (this) {
+      case 'INACTIVE':
+        return IpSetStatus.inactive;
+      case 'ACTIVATING':
+        return IpSetStatus.activating;
+      case 'ACTIVE':
+        return IpSetStatus.active;
+      case 'DEACTIVATING':
+        return IpSetStatus.deactivating;
+      case 'ERROR':
+        return IpSetStatus.error;
+      case 'DELETE_PENDING':
+        return IpSetStatus.deletePending;
+      case 'DELETED':
+        return IpSetStatus.deleted;
+    }
+    throw Exception('$this is not known in enum IpSetStatus');
+  }
+}
+
 class ListDetectorsResponse {
   /// A list of detector IDs.
-  @_s.JsonKey(name: 'detectorIds')
   final List<String> detectorIds;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDetectorsResponse({
-    @_s.required this.detectorIds,
+    required this.detectorIds,
     this.nextToken,
   });
-  factory ListDetectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDetectorsResponseFromJson(json);
+
+  factory ListDetectorsResponse.fromJson(Map<String, dynamic> json) {
+    return ListDetectorsResponse(
+      detectorIds: (json['detectorIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final detectorIds = this.detectorIds;
+    final nextToken = this.nextToken;
+    return {
+      'detectorIds': detectorIds,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFiltersResponse {
   /// A list of filter names.
-  @_s.JsonKey(name: 'filterNames')
   final List<String> filterNames;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFiltersResponse({
-    @_s.required this.filterNames,
+    required this.filterNames,
     this.nextToken,
   });
-  factory ListFiltersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFiltersResponseFromJson(json);
+
+  factory ListFiltersResponse.fromJson(Map<String, dynamic> json) {
+    return ListFiltersResponse(
+      filterNames: (json['filterNames'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final filterNames = this.filterNames;
+    final nextToken = this.nextToken;
+    return {
+      'filterNames': filterNames,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFindingsResponse {
   /// The IDs of the findings that you're listing.
-  @_s.JsonKey(name: 'findingIds')
   final List<String> findingIds;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFindingsResponse({
-    @_s.required this.findingIds,
+    required this.findingIds,
     this.nextToken,
   });
-  factory ListFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFindingsResponseFromJson(json);
+
+  factory ListFindingsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFindingsResponse(
+      findingIds: (json['findingIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final findingIds = this.findingIds;
+    final nextToken = this.nextToken;
+    return {
+      'findingIds': findingIds,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListIPSetsResponse {
   /// The IDs of the IPSet resources.
-  @_s.JsonKey(name: 'ipSetIds')
   final List<String> ipSetIds;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListIPSetsResponse({
-    @_s.required this.ipSetIds,
+    required this.ipSetIds,
     this.nextToken,
   });
-  factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListIPSetsResponseFromJson(json);
+
+  factory ListIPSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListIPSetsResponse(
+      ipSetIds: (json['ipSetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipSetIds = this.ipSetIds;
+    final nextToken = this.nextToken;
+    return {
+      'ipSetIds': ipSetIds,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListInvitationsResponse {
   /// A list of invitation descriptions.
-  @_s.JsonKey(name: 'invitations')
-  final List<Invitation> invitations;
+  final List<Invitation>? invitations;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListInvitationsResponse({
     this.invitations,
     this.nextToken,
   });
-  factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListInvitationsResponseFromJson(json);
+
+  factory ListInvitationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListInvitationsResponse(
+      invitations: (json['invitations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Invitation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final invitations = this.invitations;
+    final nextToken = this.nextToken;
+    return {
+      if (invitations != null) 'invitations': invitations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListMembersResponse {
   /// A list of members.
-  @_s.JsonKey(name: 'members')
-  final List<Member> members;
+  final List<Member>? members;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListMembersResponse({
     this.members,
     this.nextToken,
   });
-  factory ListMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListMembersResponseFromJson(json);
+
+  factory ListMembersResponse.fromJson(Map<String, dynamic> json) {
+    return ListMembersResponse(
+      members: (json['members'] as List?)
+          ?.whereNotNull()
+          .map((e) => Member.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final members = this.members;
+    final nextToken = this.nextToken;
+    return {
+      if (members != null) 'members': members,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOrganizationAdminAccountsResponse {
   /// A list of accounts configured as GuardDuty delegated administrators.
-  @_s.JsonKey(name: 'adminAccounts')
-  final List<AdminAccount> adminAccounts;
+  final List<AdminAccount>? adminAccounts;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListOrganizationAdminAccountsResponse({
     this.adminAccounts,
     this.nextToken,
   });
+
   factory ListOrganizationAdminAccountsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListOrganizationAdminAccountsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListOrganizationAdminAccountsResponse(
+      adminAccounts: (json['adminAccounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => AdminAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final adminAccounts = this.adminAccounts;
+    final nextToken = this.nextToken;
+    return {
+      if (adminAccounts != null) 'adminAccounts': adminAccounts,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPublishingDestinationsResponse {
   /// A <code>Destinations</code> object that includes information about each
   /// publishing destination returned.
-  @_s.JsonKey(name: 'destinations')
   final List<Destination> destinations;
 
   /// A token to use for paginating results that are returned in the response. Set
   /// the value of this parameter to null for the first request to a list action.
   /// For subsequent calls, use the <code>NextToken</code> value returned from the
   /// previous request to continue listing results after the first page.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListPublishingDestinationsResponse({
-    @_s.required this.destinations,
+    required this.destinations,
     this.nextToken,
   });
+
   factory ListPublishingDestinationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListPublishingDestinationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListPublishingDestinationsResponse(
+      destinations: (json['destinations'] as List)
+          .whereNotNull()
+          .map((e) => Destination.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinations = this.destinations;
+    final nextToken = this.nextToken;
+    return {
+      'destinations': destinations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags associated with the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListThreatIntelSetsResponse {
   /// The IDs of the ThreatIntelSet resources.
-  @_s.JsonKey(name: 'threatIntelSetIds')
   final List<String> threatIntelSetIds;
 
   /// The pagination parameter to be used on the next list operation to retrieve
   /// more items.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListThreatIntelSetsResponse({
-    @_s.required this.threatIntelSetIds,
+    required this.threatIntelSetIds,
     this.nextToken,
   });
-  factory ListThreatIntelSetsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListThreatIntelSetsResponseFromJson(json);
+
+  factory ListThreatIntelSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListThreatIntelSetsResponse(
+      threatIntelSetIds: (json['threatIntelSetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final threatIntelSetIds = this.threatIntelSetIds;
+    final nextToken = this.nextToken;
+    return {
+      'threatIntelSetIds': threatIntelSetIds,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Contains information about the local IP address of the connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LocalIpDetails {
   /// The IPv4 local address of the connection.
-  @_s.JsonKey(name: 'ipAddressV4')
-  final String ipAddressV4;
+  final String? ipAddressV4;
 
   LocalIpDetails({
     this.ipAddressV4,
   });
-  factory LocalIpDetails.fromJson(Map<String, dynamic> json) =>
-      _$LocalIpDetailsFromJson(json);
+
+  factory LocalIpDetails.fromJson(Map<String, dynamic> json) {
+    return LocalIpDetails(
+      ipAddressV4: json['ipAddressV4'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipAddressV4 = this.ipAddressV4;
+    return {
+      if (ipAddressV4 != null) 'ipAddressV4': ipAddressV4,
+    };
+  }
 }
 
 /// Contains information about the port for the local connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LocalPortDetails {
   /// The port number of the local connection.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   /// The port name of the local connection.
-  @_s.JsonKey(name: 'portName')
-  final String portName;
+  final String? portName;
 
   LocalPortDetails({
     this.port,
     this.portName,
   });
-  factory LocalPortDetails.fromJson(Map<String, dynamic> json) =>
-      _$LocalPortDetailsFromJson(json);
+
+  factory LocalPortDetails.fromJson(Map<String, dynamic> json) {
+    return LocalPortDetails(
+      port: json['port'] as int?,
+      portName: json['portName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final portName = this.portName;
+    return {
+      if (port != null) 'port': port,
+      if (portName != null) 'portName': portName,
+    };
+  }
 }
 
 /// Contains information about the administrator account and invitation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Master {
   /// The ID of the account used as the administrator account.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// The value used to validate the administrator account to the member account.
-  @_s.JsonKey(name: 'invitationId')
-  final String invitationId;
+  final String? invitationId;
 
   /// The timestamp when the invitation was sent.
-  @_s.JsonKey(name: 'invitedAt')
-  final String invitedAt;
+  final String? invitedAt;
 
   /// The status of the relationship between the administrator and member
   /// accounts.
-  @_s.JsonKey(name: 'relationshipStatus')
-  final String relationshipStatus;
+  final String? relationshipStatus;
 
   Master({
     this.accountId,
@@ -5039,114 +5886,149 @@ class Master {
     this.invitedAt,
     this.relationshipStatus,
   });
-  factory Master.fromJson(Map<String, dynamic> json) => _$MasterFromJson(json);
+
+  factory Master.fromJson(Map<String, dynamic> json) {
+    return Master(
+      accountId: json['accountId'] as String?,
+      invitationId: json['invitationId'] as String?,
+      invitedAt: json['invitedAt'] as String?,
+      relationshipStatus: json['relationshipStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final invitationId = this.invitationId;
+    final invitedAt = this.invitedAt;
+    final relationshipStatus = this.relationshipStatus;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (invitationId != null) 'invitationId': invitationId,
+      if (invitedAt != null) 'invitedAt': invitedAt,
+      if (relationshipStatus != null) 'relationshipStatus': relationshipStatus,
+    };
+  }
 }
 
 /// Contains information about the member account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Member {
   /// The ID of the member account.
-  @_s.JsonKey(name: 'accountId')
   final String accountId;
 
   /// The email address of the member account.
-  @_s.JsonKey(name: 'email')
   final String email;
 
   /// The administrator account ID.
-  @_s.JsonKey(name: 'masterId')
   final String masterId;
 
   /// The status of the relationship between the member and the administrator.
-  @_s.JsonKey(name: 'relationshipStatus')
   final String relationshipStatus;
 
   /// The last-updated timestamp of the member.
-  @_s.JsonKey(name: 'updatedAt')
   final String updatedAt;
 
   /// The detector ID of the member account.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   /// The timestamp when the invitation was sent.
-  @_s.JsonKey(name: 'invitedAt')
-  final String invitedAt;
+  final String? invitedAt;
 
   Member({
-    @_s.required this.accountId,
-    @_s.required this.email,
-    @_s.required this.masterId,
-    @_s.required this.relationshipStatus,
-    @_s.required this.updatedAt,
+    required this.accountId,
+    required this.email,
+    required this.masterId,
+    required this.relationshipStatus,
+    required this.updatedAt,
     this.detectorId,
     this.invitedAt,
   });
-  factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
+
+  factory Member.fromJson(Map<String, dynamic> json) {
+    return Member(
+      accountId: json['accountId'] as String,
+      email: json['email'] as String,
+      masterId: json['masterId'] as String,
+      relationshipStatus: json['relationshipStatus'] as String,
+      updatedAt: json['updatedAt'] as String,
+      detectorId: json['detectorId'] as String?,
+      invitedAt: json['invitedAt'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final email = this.email;
+    final masterId = this.masterId;
+    final relationshipStatus = this.relationshipStatus;
+    final updatedAt = this.updatedAt;
+    final detectorId = this.detectorId;
+    final invitedAt = this.invitedAt;
+    return {
+      'accountId': accountId,
+      'email': email,
+      'masterId': masterId,
+      'relationshipStatus': relationshipStatus,
+      'updatedAt': updatedAt,
+      if (detectorId != null) 'detectorId': detectorId,
+      if (invitedAt != null) 'invitedAt': invitedAt,
+    };
+  }
 }
 
 /// Contains information on which data sources are enabled for a member account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MemberDataSourceConfiguration {
   /// The account ID for the member account.
-  @_s.JsonKey(name: 'accountId')
   final String accountId;
 
   /// Contains information on the status of data sources for the account.
-  @_s.JsonKey(name: 'dataSources')
   final DataSourceConfigurationsResult dataSources;
 
   MemberDataSourceConfiguration({
-    @_s.required this.accountId,
-    @_s.required this.dataSources,
+    required this.accountId,
+    required this.dataSources,
   });
-  factory MemberDataSourceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$MemberDataSourceConfigurationFromJson(json);
+
+  factory MemberDataSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return MemberDataSourceConfiguration(
+      accountId: json['accountId'] as String,
+      dataSources: DataSourceConfigurationsResult.fromJson(
+          json['dataSources'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final dataSources = this.dataSources;
+    return {
+      'accountId': accountId,
+      'dataSources': dataSources,
+    };
+  }
 }
 
 /// Contains information about the NETWORK_CONNECTION action described in the
 /// finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkConnectionAction {
   /// Indicates whether EC2 blocked the network connection to your instance.
-  @_s.JsonKey(name: 'blocked')
-  final bool blocked;
+  final bool? blocked;
 
   /// The network connection direction.
-  @_s.JsonKey(name: 'connectionDirection')
-  final String connectionDirection;
+  final String? connectionDirection;
 
   /// The local IP information of the connection.
-  @_s.JsonKey(name: 'localIpDetails')
-  final LocalIpDetails localIpDetails;
+  final LocalIpDetails? localIpDetails;
 
   /// The local port information of the connection.
-  @_s.JsonKey(name: 'localPortDetails')
-  final LocalPortDetails localPortDetails;
+  final LocalPortDetails? localPortDetails;
 
   /// The network connection protocol.
-  @_s.JsonKey(name: 'protocol')
-  final String protocol;
+  final String? protocol;
 
   /// The remote IP information of the connection.
-  @_s.JsonKey(name: 'remoteIpDetails')
-  final RemoteIpDetails remoteIpDetails;
+  final RemoteIpDetails? remoteIpDetails;
 
   /// The remote port information of the connection.
-  @_s.JsonKey(name: 'remotePortDetails')
-  final RemotePortDetails remotePortDetails;
+  final RemotePortDetails? remotePortDetails;
 
   NetworkConnectionAction({
     this.blocked,
@@ -5157,57 +6039,84 @@ class NetworkConnectionAction {
     this.remoteIpDetails,
     this.remotePortDetails,
   });
-  factory NetworkConnectionAction.fromJson(Map<String, dynamic> json) =>
-      _$NetworkConnectionActionFromJson(json);
+
+  factory NetworkConnectionAction.fromJson(Map<String, dynamic> json) {
+    return NetworkConnectionAction(
+      blocked: json['blocked'] as bool?,
+      connectionDirection: json['connectionDirection'] as String?,
+      localIpDetails: json['localIpDetails'] != null
+          ? LocalIpDetails.fromJson(
+              json['localIpDetails'] as Map<String, dynamic>)
+          : null,
+      localPortDetails: json['localPortDetails'] != null
+          ? LocalPortDetails.fromJson(
+              json['localPortDetails'] as Map<String, dynamic>)
+          : null,
+      protocol: json['protocol'] as String?,
+      remoteIpDetails: json['remoteIpDetails'] != null
+          ? RemoteIpDetails.fromJson(
+              json['remoteIpDetails'] as Map<String, dynamic>)
+          : null,
+      remotePortDetails: json['remotePortDetails'] != null
+          ? RemotePortDetails.fromJson(
+              json['remotePortDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blocked = this.blocked;
+    final connectionDirection = this.connectionDirection;
+    final localIpDetails = this.localIpDetails;
+    final localPortDetails = this.localPortDetails;
+    final protocol = this.protocol;
+    final remoteIpDetails = this.remoteIpDetails;
+    final remotePortDetails = this.remotePortDetails;
+    return {
+      if (blocked != null) 'blocked': blocked,
+      if (connectionDirection != null)
+        'connectionDirection': connectionDirection,
+      if (localIpDetails != null) 'localIpDetails': localIpDetails,
+      if (localPortDetails != null) 'localPortDetails': localPortDetails,
+      if (protocol != null) 'protocol': protocol,
+      if (remoteIpDetails != null) 'remoteIpDetails': remoteIpDetails,
+      if (remotePortDetails != null) 'remotePortDetails': remotePortDetails,
+    };
+  }
 }
 
 /// Contains information about the elastic network interface of the EC2
 /// instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NetworkInterface {
   /// A list of IPv6 addresses for the EC2 instance.
-  @_s.JsonKey(name: 'ipv6Addresses')
-  final List<String> ipv6Addresses;
+  final List<String>? ipv6Addresses;
 
   /// The ID of the network interface.
-  @_s.JsonKey(name: 'networkInterfaceId')
-  final String networkInterfaceId;
+  final String? networkInterfaceId;
 
   /// The private DNS name of the EC2 instance.
-  @_s.JsonKey(name: 'privateDnsName')
-  final String privateDnsName;
+  final String? privateDnsName;
 
   /// The private IP address of the EC2 instance.
-  @_s.JsonKey(name: 'privateIpAddress')
-  final String privateIpAddress;
+  final String? privateIpAddress;
 
   /// Other private IP address information of the EC2 instance.
-  @_s.JsonKey(name: 'privateIpAddresses')
-  final List<PrivateIpAddressDetails> privateIpAddresses;
+  final List<PrivateIpAddressDetails>? privateIpAddresses;
 
   /// The public DNS name of the EC2 instance.
-  @_s.JsonKey(name: 'publicDnsName')
-  final String publicDnsName;
+  final String? publicDnsName;
 
   /// The public IP address of the EC2 instance.
-  @_s.JsonKey(name: 'publicIp')
-  final String publicIp;
+  final String? publicIp;
 
   /// The security groups associated with the EC2 instance.
-  @_s.JsonKey(name: 'securityGroups')
-  final List<SecurityGroup> securityGroups;
+  final List<SecurityGroup>? securityGroups;
 
   /// The subnet ID of the EC2 instance.
-  @_s.JsonKey(name: 'subnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The VPC ID of the EC2 instance.
-  @_s.JsonKey(name: 'vpcId')
-  final String vpcId;
+  final String? vpcId;
 
   NetworkInterface({
     this.ipv6Addresses,
@@ -5221,40 +6130,100 @@ class NetworkInterface {
     this.subnetId,
     this.vpcId,
   });
-  factory NetworkInterface.fromJson(Map<String, dynamic> json) =>
-      _$NetworkInterfaceFromJson(json);
+
+  factory NetworkInterface.fromJson(Map<String, dynamic> json) {
+    return NetworkInterface(
+      ipv6Addresses: (json['ipv6Addresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      networkInterfaceId: json['networkInterfaceId'] as String?,
+      privateDnsName: json['privateDnsName'] as String?,
+      privateIpAddress: json['privateIpAddress'] as String?,
+      privateIpAddresses: (json['privateIpAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              PrivateIpAddressDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      publicDnsName: json['publicDnsName'] as String?,
+      publicIp: json['publicIp'] as String?,
+      securityGroups: (json['securityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => SecurityGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      subnetId: json['subnetId'] as String?,
+      vpcId: json['vpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipv6Addresses = this.ipv6Addresses;
+    final networkInterfaceId = this.networkInterfaceId;
+    final privateDnsName = this.privateDnsName;
+    final privateIpAddress = this.privateIpAddress;
+    final privateIpAddresses = this.privateIpAddresses;
+    final publicDnsName = this.publicDnsName;
+    final publicIp = this.publicIp;
+    final securityGroups = this.securityGroups;
+    final subnetId = this.subnetId;
+    final vpcId = this.vpcId;
+    return {
+      if (ipv6Addresses != null) 'ipv6Addresses': ipv6Addresses,
+      if (networkInterfaceId != null) 'networkInterfaceId': networkInterfaceId,
+      if (privateDnsName != null) 'privateDnsName': privateDnsName,
+      if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
+      if (privateIpAddresses != null) 'privateIpAddresses': privateIpAddresses,
+      if (publicDnsName != null) 'publicDnsName': publicDnsName,
+      if (publicIp != null) 'publicIp': publicIp,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (subnetId != null) 'subnetId': subnetId,
+      if (vpcId != null) 'vpcId': vpcId,
+    };
+  }
 }
 
 enum OrderBy {
-  @_s.JsonValue('ASC')
   asc,
-  @_s.JsonValue('DESC')
   desc,
 }
 
+extension on OrderBy {
+  String toValue() {
+    switch (this) {
+      case OrderBy.asc:
+        return 'ASC';
+      case OrderBy.desc:
+        return 'DESC';
+    }
+  }
+}
+
+extension on String {
+  OrderBy toOrderBy() {
+    switch (this) {
+      case 'ASC':
+        return OrderBy.asc;
+      case 'DESC':
+        return OrderBy.desc;
+    }
+    throw Exception('$this is not known in enum OrderBy');
+  }
+}
+
 /// Contains information about the ISP organization of the remote IP address.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Organization {
   /// The Autonomous System Number (ASN) of the internet provider of the remote IP
   /// address.
-  @_s.JsonKey(name: 'asn')
-  final String asn;
+  final String? asn;
 
   /// The organization that registered this ASN.
-  @_s.JsonKey(name: 'asnOrg')
-  final String asnOrg;
+  final String? asnOrg;
 
   /// The ISP information for the internet provider.
-  @_s.JsonKey(name: 'isp')
-  final String isp;
+  final String? isp;
 
   /// The name of the internet provider.
-  @_s.JsonKey(name: 'org')
-  final String org;
+  final String? org;
 
   Organization({
     this.asn,
@@ -5262,293 +6231,430 @@ class Organization {
     this.isp,
     this.org,
   });
-  factory Organization.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationFromJson(json);
+
+  factory Organization.fromJson(Map<String, dynamic> json) {
+    return Organization(
+      asn: json['asn'] as String?,
+      asnOrg: json['asnOrg'] as String?,
+      isp: json['isp'] as String?,
+      org: json['org'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asn = this.asn;
+    final asnOrg = this.asnOrg;
+    final isp = this.isp;
+    final org = this.org;
+    return {
+      if (asn != null) 'asn': asn,
+      if (asnOrg != null) 'asnOrg': asnOrg,
+      if (isp != null) 'isp': isp,
+      if (org != null) 'org': org,
+    };
+  }
 }
 
 /// An object that contains information on which data sources will be configured
 /// to be automatically enabled for new members within the organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OrganizationDataSourceConfigurations {
   /// Describes whether S3 data event logs are enabled for new members of the
   /// organization.
-  @_s.JsonKey(name: 's3Logs')
-  final OrganizationS3LogsConfiguration s3Logs;
+  final OrganizationS3LogsConfiguration? s3Logs;
 
   OrganizationDataSourceConfigurations({
     this.s3Logs,
   });
-  Map<String, dynamic> toJson() =>
-      _$OrganizationDataSourceConfigurationsToJson(this);
+
+  factory OrganizationDataSourceConfigurations.fromJson(
+      Map<String, dynamic> json) {
+    return OrganizationDataSourceConfigurations(
+      s3Logs: json['s3Logs'] != null
+          ? OrganizationS3LogsConfiguration.fromJson(
+              json['s3Logs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Logs = this.s3Logs;
+    return {
+      if (s3Logs != null) 's3Logs': s3Logs,
+    };
+  }
 }
 
 /// An object that contains information on which data sources are automatically
 /// enabled for new members within the organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OrganizationDataSourceConfigurationsResult {
   /// Describes whether S3 data event logs are enabled as a data source.
-  @_s.JsonKey(name: 's3Logs')
   final OrganizationS3LogsConfigurationResult s3Logs;
 
   OrganizationDataSourceConfigurationsResult({
-    @_s.required this.s3Logs,
+    required this.s3Logs,
   });
+
   factory OrganizationDataSourceConfigurationsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$OrganizationDataSourceConfigurationsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return OrganizationDataSourceConfigurationsResult(
+      s3Logs: OrganizationS3LogsConfigurationResult.fromJson(
+          json['s3Logs'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3Logs = this.s3Logs;
+    return {
+      's3Logs': s3Logs,
+    };
+  }
 }
 
 /// Describes whether S3 data event logs will be automatically enabled for new
 /// members of the organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OrganizationS3LogsConfiguration {
   /// A value that contains information on whether S3 data event logs will be
   /// enabled automatically as a data source for the organization.
-  @_s.JsonKey(name: 'autoEnable')
   final bool autoEnable;
 
   OrganizationS3LogsConfiguration({
-    @_s.required this.autoEnable,
+    required this.autoEnable,
   });
-  Map<String, dynamic> toJson() =>
-      _$OrganizationS3LogsConfigurationToJson(this);
+
+  factory OrganizationS3LogsConfiguration.fromJson(Map<String, dynamic> json) {
+    return OrganizationS3LogsConfiguration(
+      autoEnable: json['autoEnable'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoEnable = this.autoEnable;
+    return {
+      'autoEnable': autoEnable,
+    };
+  }
 }
 
 /// The current configuration of S3 data event logs as a data source for the
 /// organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OrganizationS3LogsConfigurationResult {
   /// A value that describes whether S3 data event logs are automatically enabled
   /// for new members of the organization.
-  @_s.JsonKey(name: 'autoEnable')
   final bool autoEnable;
 
   OrganizationS3LogsConfigurationResult({
-    @_s.required this.autoEnable,
+    required this.autoEnable,
   });
+
   factory OrganizationS3LogsConfigurationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$OrganizationS3LogsConfigurationResultFromJson(json);
+      Map<String, dynamic> json) {
+    return OrganizationS3LogsConfigurationResult(
+      autoEnable: json['autoEnable'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoEnable = this.autoEnable;
+    return {
+      'autoEnable': autoEnable,
+    };
+  }
 }
 
 /// Contains information on the owner of the bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Owner {
   /// The canonical user ID of the bucket owner. For information about locating
   /// your canonical user ID see <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/acct-identifiers.html#FindingCanonicalId">Finding
   /// Your Account Canonical User ID.</a>
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   Owner({
     this.id,
   });
-  factory Owner.fromJson(Map<String, dynamic> json) => _$OwnerFromJson(json);
+
+  factory Owner.fromJson(Map<String, dynamic> json) {
+    return Owner(
+      id: json['id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    return {
+      if (id != null) 'id': id,
+    };
+  }
 }
 
 /// Contains information about how permissions are configured for the S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PermissionConfiguration {
   /// Contains information about the account level permissions on the S3 bucket.
-  @_s.JsonKey(name: 'accountLevelPermissions')
-  final AccountLevelPermissions accountLevelPermissions;
+  final AccountLevelPermissions? accountLevelPermissions;
 
   /// Contains information about the bucket level permissions for the S3 bucket.
-  @_s.JsonKey(name: 'bucketLevelPermissions')
-  final BucketLevelPermissions bucketLevelPermissions;
+  final BucketLevelPermissions? bucketLevelPermissions;
 
   PermissionConfiguration({
     this.accountLevelPermissions,
     this.bucketLevelPermissions,
   });
-  factory PermissionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$PermissionConfigurationFromJson(json);
+
+  factory PermissionConfiguration.fromJson(Map<String, dynamic> json) {
+    return PermissionConfiguration(
+      accountLevelPermissions: json['accountLevelPermissions'] != null
+          ? AccountLevelPermissions.fromJson(
+              json['accountLevelPermissions'] as Map<String, dynamic>)
+          : null,
+      bucketLevelPermissions: json['bucketLevelPermissions'] != null
+          ? BucketLevelPermissions.fromJson(
+              json['bucketLevelPermissions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountLevelPermissions = this.accountLevelPermissions;
+    final bucketLevelPermissions = this.bucketLevelPermissions;
+    return {
+      if (accountLevelPermissions != null)
+        'accountLevelPermissions': accountLevelPermissions,
+      if (bucketLevelPermissions != null)
+        'bucketLevelPermissions': bucketLevelPermissions,
+    };
+  }
 }
 
 /// Contains information about the PORT_PROBE action described in the finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PortProbeAction {
   /// Indicates whether EC2 blocked the port probe to the instance, such as with
   /// an ACL.
-  @_s.JsonKey(name: 'blocked')
-  final bool blocked;
+  final bool? blocked;
 
   /// A list of objects related to port probe details.
-  @_s.JsonKey(name: 'portProbeDetails')
-  final List<PortProbeDetail> portProbeDetails;
+  final List<PortProbeDetail>? portProbeDetails;
 
   PortProbeAction({
     this.blocked,
     this.portProbeDetails,
   });
-  factory PortProbeAction.fromJson(Map<String, dynamic> json) =>
-      _$PortProbeActionFromJson(json);
+
+  factory PortProbeAction.fromJson(Map<String, dynamic> json) {
+    return PortProbeAction(
+      blocked: json['blocked'] as bool?,
+      portProbeDetails: (json['portProbeDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => PortProbeDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final blocked = this.blocked;
+    final portProbeDetails = this.portProbeDetails;
+    return {
+      if (blocked != null) 'blocked': blocked,
+      if (portProbeDetails != null) 'portProbeDetails': portProbeDetails,
+    };
+  }
 }
 
 /// Contains information about the port probe details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PortProbeDetail {
   /// The local IP information of the connection.
-  @_s.JsonKey(name: 'localIpDetails')
-  final LocalIpDetails localIpDetails;
+  final LocalIpDetails? localIpDetails;
 
   /// The local port information of the connection.
-  @_s.JsonKey(name: 'localPortDetails')
-  final LocalPortDetails localPortDetails;
+  final LocalPortDetails? localPortDetails;
 
   /// The remote IP information of the connection.
-  @_s.JsonKey(name: 'remoteIpDetails')
-  final RemoteIpDetails remoteIpDetails;
+  final RemoteIpDetails? remoteIpDetails;
 
   PortProbeDetail({
     this.localIpDetails,
     this.localPortDetails,
     this.remoteIpDetails,
   });
-  factory PortProbeDetail.fromJson(Map<String, dynamic> json) =>
-      _$PortProbeDetailFromJson(json);
+
+  factory PortProbeDetail.fromJson(Map<String, dynamic> json) {
+    return PortProbeDetail(
+      localIpDetails: json['localIpDetails'] != null
+          ? LocalIpDetails.fromJson(
+              json['localIpDetails'] as Map<String, dynamic>)
+          : null,
+      localPortDetails: json['localPortDetails'] != null
+          ? LocalPortDetails.fromJson(
+              json['localPortDetails'] as Map<String, dynamic>)
+          : null,
+      remoteIpDetails: json['remoteIpDetails'] != null
+          ? RemoteIpDetails.fromJson(
+              json['remoteIpDetails'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final localIpDetails = this.localIpDetails;
+    final localPortDetails = this.localPortDetails;
+    final remoteIpDetails = this.remoteIpDetails;
+    return {
+      if (localIpDetails != null) 'localIpDetails': localIpDetails,
+      if (localPortDetails != null) 'localPortDetails': localPortDetails,
+      if (remoteIpDetails != null) 'remoteIpDetails': remoteIpDetails,
+    };
+  }
 }
 
 /// Contains other private IP address information of the EC2 instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PrivateIpAddressDetails {
   /// The private DNS name of the EC2 instance.
-  @_s.JsonKey(name: 'privateDnsName')
-  final String privateDnsName;
+  final String? privateDnsName;
 
   /// The private IP address of the EC2 instance.
-  @_s.JsonKey(name: 'privateIpAddress')
-  final String privateIpAddress;
+  final String? privateIpAddress;
 
   PrivateIpAddressDetails({
     this.privateDnsName,
     this.privateIpAddress,
   });
-  factory PrivateIpAddressDetails.fromJson(Map<String, dynamic> json) =>
-      _$PrivateIpAddressDetailsFromJson(json);
+
+  factory PrivateIpAddressDetails.fromJson(Map<String, dynamic> json) {
+    return PrivateIpAddressDetails(
+      privateDnsName: json['privateDnsName'] as String?,
+      privateIpAddress: json['privateIpAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final privateDnsName = this.privateDnsName;
+    final privateIpAddress = this.privateIpAddress;
+    return {
+      if (privateDnsName != null) 'privateDnsName': privateDnsName,
+      if (privateIpAddress != null) 'privateIpAddress': privateIpAddress,
+    };
+  }
 }
 
 /// Contains information about the product code for the EC2 instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProductCode {
   /// The product code information.
-  @_s.JsonKey(name: 'code')
-  final String code;
+  final String? code;
 
   /// The product code type.
-  @_s.JsonKey(name: 'productType')
-  final String productType;
+  final String? productType;
 
   ProductCode({
     this.code,
     this.productType,
   });
-  factory ProductCode.fromJson(Map<String, dynamic> json) =>
-      _$ProductCodeFromJson(json);
+
+  factory ProductCode.fromJson(Map<String, dynamic> json) {
+    return ProductCode(
+      code: json['code'] as String?,
+      productType: json['productType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final productType = this.productType;
+    return {
+      if (code != null) 'code': code,
+      if (productType != null) 'productType': productType,
+    };
+  }
 }
 
 /// Describes the public access policies that apply to the S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PublicAccess {
   /// Describes the effective permission on this bucket after factoring all
   /// attached policies.
-  @_s.JsonKey(name: 'effectivePermission')
-  final String effectivePermission;
+  final String? effectivePermission;
 
   /// Contains information about how permissions are configured for the S3 bucket.
-  @_s.JsonKey(name: 'permissionConfiguration')
-  final PermissionConfiguration permissionConfiguration;
+  final PermissionConfiguration? permissionConfiguration;
 
   PublicAccess({
     this.effectivePermission,
     this.permissionConfiguration,
   });
-  factory PublicAccess.fromJson(Map<String, dynamic> json) =>
-      _$PublicAccessFromJson(json);
+
+  factory PublicAccess.fromJson(Map<String, dynamic> json) {
+    return PublicAccess(
+      effectivePermission: json['effectivePermission'] as String?,
+      permissionConfiguration: json['permissionConfiguration'] != null
+          ? PermissionConfiguration.fromJson(
+              json['permissionConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectivePermission = this.effectivePermission;
+    final permissionConfiguration = this.permissionConfiguration;
+    return {
+      if (effectivePermission != null)
+        'effectivePermission': effectivePermission,
+      if (permissionConfiguration != null)
+        'permissionConfiguration': permissionConfiguration,
+    };
+  }
 }
 
 enum PublishingStatus {
-  @_s.JsonValue('PENDING_VERIFICATION')
   pendingVerification,
-  @_s.JsonValue('PUBLISHING')
   publishing,
-  @_s.JsonValue('UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY')
   unableToPublishFixDestinationProperty,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
+extension on PublishingStatus {
+  String toValue() {
+    switch (this) {
+      case PublishingStatus.pendingVerification:
+        return 'PENDING_VERIFICATION';
+      case PublishingStatus.publishing:
+        return 'PUBLISHING';
+      case PublishingStatus.unableToPublishFixDestinationProperty:
+        return 'UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY';
+      case PublishingStatus.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  PublishingStatus toPublishingStatus() {
+    switch (this) {
+      case 'PENDING_VERIFICATION':
+        return PublishingStatus.pendingVerification;
+      case 'PUBLISHING':
+        return PublishingStatus.publishing;
+      case 'UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY':
+        return PublishingStatus.unableToPublishFixDestinationProperty;
+      case 'STOPPED':
+        return PublishingStatus.stopped;
+    }
+    throw Exception('$this is not known in enum PublishingStatus');
+  }
+}
+
 /// Contains information about the remote IP address of the connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoteIpDetails {
   /// The city information of the remote IP address.
-  @_s.JsonKey(name: 'city')
-  final City city;
+  final City? city;
 
   /// The country code of the remote IP address.
-  @_s.JsonKey(name: 'country')
-  final Country country;
+  final Country? country;
 
   /// The location information of the remote IP address.
-  @_s.JsonKey(name: 'geoLocation')
-  final GeoLocation geoLocation;
+  final GeoLocation? geoLocation;
 
   /// The IPv4 remote address of the connection.
-  @_s.JsonKey(name: 'ipAddressV4')
-  final String ipAddressV4;
+  final String? ipAddressV4;
 
   /// The ISP organization information of the remote IP address.
-  @_s.JsonKey(name: 'organization')
-  final Organization organization;
+  final Organization? organization;
 
   RemoteIpDetails({
     this.city,
@@ -5557,58 +6663,87 @@ class RemoteIpDetails {
     this.ipAddressV4,
     this.organization,
   });
-  factory RemoteIpDetails.fromJson(Map<String, dynamic> json) =>
-      _$RemoteIpDetailsFromJson(json);
+
+  factory RemoteIpDetails.fromJson(Map<String, dynamic> json) {
+    return RemoteIpDetails(
+      city: json['city'] != null
+          ? City.fromJson(json['city'] as Map<String, dynamic>)
+          : null,
+      country: json['country'] != null
+          ? Country.fromJson(json['country'] as Map<String, dynamic>)
+          : null,
+      geoLocation: json['geoLocation'] != null
+          ? GeoLocation.fromJson(json['geoLocation'] as Map<String, dynamic>)
+          : null,
+      ipAddressV4: json['ipAddressV4'] as String?,
+      organization: json['organization'] != null
+          ? Organization.fromJson(json['organization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final city = this.city;
+    final country = this.country;
+    final geoLocation = this.geoLocation;
+    final ipAddressV4 = this.ipAddressV4;
+    final organization = this.organization;
+    return {
+      if (city != null) 'city': city,
+      if (country != null) 'country': country,
+      if (geoLocation != null) 'geoLocation': geoLocation,
+      if (ipAddressV4 != null) 'ipAddressV4': ipAddressV4,
+      if (organization != null) 'organization': organization,
+    };
+  }
 }
 
 /// Contains information about the remote port.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemotePortDetails {
   /// The port number of the remote connection.
-  @_s.JsonKey(name: 'port')
-  final int port;
+  final int? port;
 
   /// The port name of the remote connection.
-  @_s.JsonKey(name: 'portName')
-  final String portName;
+  final String? portName;
 
   RemotePortDetails({
     this.port,
     this.portName,
   });
-  factory RemotePortDetails.fromJson(Map<String, dynamic> json) =>
-      _$RemotePortDetailsFromJson(json);
+
+  factory RemotePortDetails.fromJson(Map<String, dynamic> json) {
+    return RemotePortDetails(
+      port: json['port'] as int?,
+      portName: json['portName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final port = this.port;
+    final portName = this.portName;
+    return {
+      if (port != null) 'port': port,
+      if (portName != null) 'portName': portName,
+    };
+  }
 }
 
 /// Contains information about the AWS resource associated with the activity
 /// that prompted GuardDuty to generate a finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Resource {
   /// The IAM access key details (IAM user information) of a user that engaged in
   /// the activity that prompted GuardDuty to generate a finding.
-  @_s.JsonKey(name: 'accessKeyDetails')
-  final AccessKeyDetails accessKeyDetails;
+  final AccessKeyDetails? accessKeyDetails;
 
   /// The information about the EC2 instance associated with the activity that
   /// prompted GuardDuty to generate a finding.
-  @_s.JsonKey(name: 'instanceDetails')
-  final InstanceDetails instanceDetails;
+  final InstanceDetails? instanceDetails;
 
   /// The type of AWS resource.
-  @_s.JsonKey(name: 'resourceType')
-  final String resourceType;
+  final String? resourceType;
 
   /// Contains information on the S3 bucket.
-  @_s.JsonKey(name: 's3BucketDetails')
-  final List<S3BucketDetail> s3BucketDetails;
+  final List<S3BucketDetail>? s3BucketDetails;
 
   Resource({
     this.accessKeyDetails,
@@ -5616,49 +6751,64 @@ class Resource {
     this.resourceType,
     this.s3BucketDetails,
   });
-  factory Resource.fromJson(Map<String, dynamic> json) =>
-      _$ResourceFromJson(json);
+
+  factory Resource.fromJson(Map<String, dynamic> json) {
+    return Resource(
+      accessKeyDetails: json['accessKeyDetails'] != null
+          ? AccessKeyDetails.fromJson(
+              json['accessKeyDetails'] as Map<String, dynamic>)
+          : null,
+      instanceDetails: json['instanceDetails'] != null
+          ? InstanceDetails.fromJson(
+              json['instanceDetails'] as Map<String, dynamic>)
+          : null,
+      resourceType: json['resourceType'] as String?,
+      s3BucketDetails: (json['s3BucketDetails'] as List?)
+          ?.whereNotNull()
+          .map((e) => S3BucketDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessKeyDetails = this.accessKeyDetails;
+    final instanceDetails = this.instanceDetails;
+    final resourceType = this.resourceType;
+    final s3BucketDetails = this.s3BucketDetails;
+    return {
+      if (accessKeyDetails != null) 'accessKeyDetails': accessKeyDetails,
+      if (instanceDetails != null) 'instanceDetails': instanceDetails,
+      if (resourceType != null) 'resourceType': resourceType,
+      if (s3BucketDetails != null) 's3BucketDetails': s3BucketDetails,
+    };
+  }
 }
 
 /// Contains information on the S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3BucketDetail {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The date and time the bucket was created at.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createdAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Describes the server side encryption method used in the S3 bucket.
-  @_s.JsonKey(name: 'defaultServerSideEncryption')
-  final DefaultServerSideEncryption defaultServerSideEncryption;
+  final DefaultServerSideEncryption? defaultServerSideEncryption;
 
   /// The name of the S3 bucket.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// The owner of the S3 bucket.
-  @_s.JsonKey(name: 'owner')
-  final Owner owner;
+  final Owner? owner;
 
   /// Describes the public access policies that apply to the S3 bucket.
-  @_s.JsonKey(name: 'publicAccess')
-  final PublicAccess publicAccess;
+  final PublicAccess? publicAccess;
 
   /// All tags attached to the S3 bucket
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// Describes whether the bucket is a source or destination bucket.
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   S3BucketDetail({
     this.arn,
@@ -5670,118 +6820,164 @@ class S3BucketDetail {
     this.tags,
     this.type,
   });
-  factory S3BucketDetail.fromJson(Map<String, dynamic> json) =>
-      _$S3BucketDetailFromJson(json);
+
+  factory S3BucketDetail.fromJson(Map<String, dynamic> json) {
+    return S3BucketDetail(
+      arn: json['arn'] as String?,
+      createdAt: timeStampFromJson(json['createdAt']),
+      defaultServerSideEncryption: json['defaultServerSideEncryption'] != null
+          ? DefaultServerSideEncryption.fromJson(
+              json['defaultServerSideEncryption'] as Map<String, dynamic>)
+          : null,
+      name: json['name'] as String?,
+      owner: json['owner'] != null
+          ? Owner.fromJson(json['owner'] as Map<String, dynamic>)
+          : null,
+      publicAccess: json['publicAccess'] != null
+          ? PublicAccess.fromJson(json['publicAccess'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final createdAt = this.createdAt;
+    final defaultServerSideEncryption = this.defaultServerSideEncryption;
+    final name = this.name;
+    final owner = this.owner;
+    final publicAccess = this.publicAccess;
+    final tags = this.tags;
+    final type = this.type;
+    return {
+      if (arn != null) 'arn': arn,
+      if (createdAt != null) 'createdAt': unixTimestampToJson(createdAt),
+      if (defaultServerSideEncryption != null)
+        'defaultServerSideEncryption': defaultServerSideEncryption,
+      if (name != null) 'name': name,
+      if (owner != null) 'owner': owner,
+      if (publicAccess != null) 'publicAccess': publicAccess,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'type': type,
+    };
+  }
 }
 
 /// Describes whether S3 data event logs will be enabled as a data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3LogsConfiguration {
   /// The status of S3 data event logs as a data source.
-  @_s.JsonKey(name: 'enable')
   final bool enable;
 
   S3LogsConfiguration({
-    @_s.required this.enable,
+    required this.enable,
   });
-  Map<String, dynamic> toJson() => _$S3LogsConfigurationToJson(this);
+
+  factory S3LogsConfiguration.fromJson(Map<String, dynamic> json) {
+    return S3LogsConfiguration(
+      enable: json['enable'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enable = this.enable;
+    return {
+      'enable': enable,
+    };
+  }
 }
 
 /// Describes whether S3 data event logs will be enabled as a data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3LogsConfigurationResult {
   /// A value that describes whether S3 data event logs are automatically enabled
   /// for new members of the organization.
-  @_s.JsonKey(name: 'status')
   final DataSourceStatus status;
 
   S3LogsConfigurationResult({
-    @_s.required this.status,
+    required this.status,
   });
-  factory S3LogsConfigurationResult.fromJson(Map<String, dynamic> json) =>
-      _$S3LogsConfigurationResultFromJson(json);
+
+  factory S3LogsConfigurationResult.fromJson(Map<String, dynamic> json) {
+    return S3LogsConfigurationResult(
+      status: (json['status'] as String).toDataSourceStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status.toValue(),
+    };
+  }
 }
 
 /// Contains information about the security groups associated with the EC2
 /// instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityGroup {
   /// The security group ID of the EC2 instance.
-  @_s.JsonKey(name: 'groupId')
-  final String groupId;
+  final String? groupId;
 
   /// The security group name of the EC2 instance.
-  @_s.JsonKey(name: 'groupName')
-  final String groupName;
+  final String? groupName;
 
   SecurityGroup({
     this.groupId,
     this.groupName,
   });
-  factory SecurityGroup.fromJson(Map<String, dynamic> json) =>
-      _$SecurityGroupFromJson(json);
+
+  factory SecurityGroup.fromJson(Map<String, dynamic> json) {
+    return SecurityGroup(
+      groupId: json['groupId'] as String?,
+      groupName: json['groupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    return {
+      if (groupId != null) 'groupId': groupId,
+      if (groupName != null) 'groupName': groupName,
+    };
+  }
 }
 
 /// Contains additional information about the generated finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Service {
   /// Information about the activity that is described in a finding.
-  @_s.JsonKey(name: 'action')
-  final Action action;
+  final Action? action;
 
   /// Indicates whether this finding is archived.
-  @_s.JsonKey(name: 'archived')
-  final bool archived;
+  final bool? archived;
 
   /// The total count of the occurrences of this finding type.
-  @_s.JsonKey(name: 'count')
-  final int count;
+  final int? count;
 
   /// The detector ID for the GuardDuty service.
-  @_s.JsonKey(name: 'detectorId')
-  final String detectorId;
+  final String? detectorId;
 
   /// The first-seen timestamp of the activity that prompted GuardDuty to generate
   /// this finding.
-  @_s.JsonKey(name: 'eventFirstSeen')
-  final String eventFirstSeen;
+  final String? eventFirstSeen;
 
   /// The last-seen timestamp of the activity that prompted GuardDuty to generate
   /// this finding.
-  @_s.JsonKey(name: 'eventLastSeen')
-  final String eventLastSeen;
+  final String? eventLastSeen;
 
   /// An evidence object associated with the service.
-  @_s.JsonKey(name: 'evidence')
-  final Evidence evidence;
+  final Evidence? evidence;
 
   /// The resource role information for this finding.
-  @_s.JsonKey(name: 'resourceRole')
-  final String resourceRole;
+  final String? resourceRole;
 
   /// The name of the AWS service (GuardDuty) that generated a finding.
-  @_s.JsonKey(name: 'serviceName')
-  final String serviceName;
+  final String? serviceName;
 
   /// Feedback that was submitted about the finding.
-  @_s.JsonKey(name: 'userFeedback')
-  final String userFeedback;
+  final String? userFeedback;
 
   Service({
     this.action,
@@ -5795,115 +6991,184 @@ class Service {
     this.serviceName,
     this.userFeedback,
   });
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      action: json['action'] != null
+          ? Action.fromJson(json['action'] as Map<String, dynamic>)
+          : null,
+      archived: json['archived'] as bool?,
+      count: json['count'] as int?,
+      detectorId: json['detectorId'] as String?,
+      eventFirstSeen: json['eventFirstSeen'] as String?,
+      eventLastSeen: json['eventLastSeen'] as String?,
+      evidence: json['evidence'] != null
+          ? Evidence.fromJson(json['evidence'] as Map<String, dynamic>)
+          : null,
+      resourceRole: json['resourceRole'] as String?,
+      serviceName: json['serviceName'] as String?,
+      userFeedback: json['userFeedback'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final archived = this.archived;
+    final count = this.count;
+    final detectorId = this.detectorId;
+    final eventFirstSeen = this.eventFirstSeen;
+    final eventLastSeen = this.eventLastSeen;
+    final evidence = this.evidence;
+    final resourceRole = this.resourceRole;
+    final serviceName = this.serviceName;
+    final userFeedback = this.userFeedback;
+    return {
+      if (action != null) 'action': action,
+      if (archived != null) 'archived': archived,
+      if (count != null) 'count': count,
+      if (detectorId != null) 'detectorId': detectorId,
+      if (eventFirstSeen != null) 'eventFirstSeen': eventFirstSeen,
+      if (eventLastSeen != null) 'eventLastSeen': eventLastSeen,
+      if (evidence != null) 'evidence': evidence,
+      if (resourceRole != null) 'resourceRole': resourceRole,
+      if (serviceName != null) 'serviceName': serviceName,
+      if (userFeedback != null) 'userFeedback': userFeedback,
+    };
+  }
 }
 
 /// Contains information about the criteria used for sorting findings.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SortCriteria {
   /// Represents the finding attribute (for example, accountId) to sort findings
   /// by.
-  @_s.JsonKey(name: 'attributeName')
-  final String attributeName;
+  final String? attributeName;
 
   /// The order by which the sorted findings are to be displayed.
-  @_s.JsonKey(name: 'orderBy')
-  final OrderBy orderBy;
+  final OrderBy? orderBy;
 
   SortCriteria({
     this.attributeName,
     this.orderBy,
   });
-  Map<String, dynamic> toJson() => _$SortCriteriaToJson(this);
+
+  factory SortCriteria.fromJson(Map<String, dynamic> json) {
+    return SortCriteria(
+      attributeName: json['attributeName'] as String?,
+      orderBy: (json['orderBy'] as String?)?.toOrderBy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final orderBy = this.orderBy;
+    return {
+      if (attributeName != null) 'attributeName': attributeName,
+      if (orderBy != null) 'orderBy': orderBy.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartMonitoringMembersResponse {
   /// A list of objects that contain the unprocessed account and a result string
   /// that explains why it was unprocessed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   StartMonitoringMembersResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory StartMonitoringMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartMonitoringMembersResponseFromJson(json);
+
+  factory StartMonitoringMembersResponse.fromJson(Map<String, dynamic> json) {
+    return StartMonitoringMembersResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopMonitoringMembersResponse {
   /// A list of objects that contain an accountId for each account that could not
   /// be processed, and a result string that indicates why the account was not
   /// processed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   StopMonitoringMembersResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory StopMonitoringMembersResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopMonitoringMembersResponseFromJson(json);
+
+  factory StopMonitoringMembersResponse.fromJson(Map<String, dynamic> json) {
+    return StopMonitoringMembersResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
 /// Contains information about a tag associated with the EC2 instance.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Tag {
   /// The EC2 instance tag key.
-  @_s.JsonKey(name: 'key')
-  final String key;
+  final String? key;
 
   /// The EC2 instance tag value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String?,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum ThreatIntelSetFormat {
-  @_s.JsonValue('TXT')
   txt,
-  @_s.JsonValue('STIX')
   stix,
-  @_s.JsonValue('OTX_CSV')
   otxCsv,
-  @_s.JsonValue('ALIEN_VAULT')
   alienVault,
-  @_s.JsonValue('PROOF_POINT')
   proofPoint,
-  @_s.JsonValue('FIRE_EYE')
   fireEye,
 }
 
@@ -5923,328 +7188,470 @@ extension on ThreatIntelSetFormat {
       case ThreatIntelSetFormat.fireEye:
         return 'FIRE_EYE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ThreatIntelSetFormat toThreatIntelSetFormat() {
+    switch (this) {
+      case 'TXT':
+        return ThreatIntelSetFormat.txt;
+      case 'STIX':
+        return ThreatIntelSetFormat.stix;
+      case 'OTX_CSV':
+        return ThreatIntelSetFormat.otxCsv;
+      case 'ALIEN_VAULT':
+        return ThreatIntelSetFormat.alienVault;
+      case 'PROOF_POINT':
+        return ThreatIntelSetFormat.proofPoint;
+      case 'FIRE_EYE':
+        return ThreatIntelSetFormat.fireEye;
+    }
+    throw Exception('$this is not known in enum ThreatIntelSetFormat');
   }
 }
 
 enum ThreatIntelSetStatus {
-  @_s.JsonValue('INACTIVE')
   inactive,
-  @_s.JsonValue('ACTIVATING')
   activating,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DEACTIVATING')
   deactivating,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('DELETE_PENDING')
   deletePending,
-  @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on ThreatIntelSetStatus {
+  String toValue() {
+    switch (this) {
+      case ThreatIntelSetStatus.inactive:
+        return 'INACTIVE';
+      case ThreatIntelSetStatus.activating:
+        return 'ACTIVATING';
+      case ThreatIntelSetStatus.active:
+        return 'ACTIVE';
+      case ThreatIntelSetStatus.deactivating:
+        return 'DEACTIVATING';
+      case ThreatIntelSetStatus.error:
+        return 'ERROR';
+      case ThreatIntelSetStatus.deletePending:
+        return 'DELETE_PENDING';
+      case ThreatIntelSetStatus.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  ThreatIntelSetStatus toThreatIntelSetStatus() {
+    switch (this) {
+      case 'INACTIVE':
+        return ThreatIntelSetStatus.inactive;
+      case 'ACTIVATING':
+        return ThreatIntelSetStatus.activating;
+      case 'ACTIVE':
+        return ThreatIntelSetStatus.active;
+      case 'DEACTIVATING':
+        return ThreatIntelSetStatus.deactivating;
+      case 'ERROR':
+        return ThreatIntelSetStatus.error;
+      case 'DELETE_PENDING':
+        return ThreatIntelSetStatus.deletePending;
+      case 'DELETED':
+        return ThreatIntelSetStatus.deleted;
+    }
+    throw Exception('$this is not known in enum ThreatIntelSetStatus');
+  }
 }
 
 /// An instance of a threat intelligence detail that constitutes evidence for
 /// the finding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ThreatIntelligenceDetail {
   /// The name of the threat intelligence list that triggered the finding.
-  @_s.JsonKey(name: 'threatListName')
-  final String threatListName;
+  final String? threatListName;
 
   /// A list of names of the threats in the threat intelligence list that
   /// triggered the finding.
-  @_s.JsonKey(name: 'threatNames')
-  final List<String> threatNames;
+  final List<String>? threatNames;
 
   ThreatIntelligenceDetail({
     this.threatListName,
     this.threatNames,
   });
-  factory ThreatIntelligenceDetail.fromJson(Map<String, dynamic> json) =>
-      _$ThreatIntelligenceDetailFromJson(json);
+
+  factory ThreatIntelligenceDetail.fromJson(Map<String, dynamic> json) {
+    return ThreatIntelligenceDetail(
+      threatListName: json['threatListName'] as String?,
+      threatNames: (json['threatNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final threatListName = this.threatListName;
+    final threatNames = this.threatNames;
+    return {
+      if (threatListName != null) 'threatListName': threatListName,
+      if (threatNames != null) 'threatNames': threatNames,
+    };
+  }
 }
 
 /// Contains the total usage with the corresponding currency unit for that
 /// value.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Total {
   /// The total usage.
-  @_s.JsonKey(name: 'amount')
-  final String amount;
+  final String? amount;
 
   /// The currency unit that the amount is given in.
-  @_s.JsonKey(name: 'unit')
-  final String unit;
+  final String? unit;
 
   Total({
     this.amount,
     this.unit,
   });
-  factory Total.fromJson(Map<String, dynamic> json) => _$TotalFromJson(json);
+
+  factory Total.fromJson(Map<String, dynamic> json) {
+    return Total(
+      amount: json['amount'] as String?,
+      unit: json['unit'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amount = this.amount;
+    final unit = this.unit;
+    return {
+      if (amount != null) 'amount': amount,
+      if (unit != null) 'unit': unit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnarchiveFindingsResponse {
   UnarchiveFindingsResponse();
-  factory UnarchiveFindingsResponse.fromJson(Map<String, dynamic> json) =>
-      _$UnarchiveFindingsResponseFromJson(json);
+
+  factory UnarchiveFindingsResponse.fromJson(Map<String, dynamic> _) {
+    return UnarchiveFindingsResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains information about the accounts that weren't processed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UnprocessedAccount {
   /// The AWS account ID.
-  @_s.JsonKey(name: 'accountId')
   final String accountId;
 
   /// A reason why the account hasn't been processed.
-  @_s.JsonKey(name: 'result')
   final String result;
 
   UnprocessedAccount({
-    @_s.required this.accountId,
-    @_s.required this.result,
+    required this.accountId,
+    required this.result,
   });
-  factory UnprocessedAccount.fromJson(Map<String, dynamic> json) =>
-      _$UnprocessedAccountFromJson(json);
+
+  factory UnprocessedAccount.fromJson(Map<String, dynamic> json) {
+    return UnprocessedAccount(
+      accountId: json['accountId'] as String,
+      result: json['result'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final result = this.result;
+    return {
+      'accountId': accountId,
+      'result': result,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDetectorResponse {
   UpdateDetectorResponse();
-  factory UpdateDetectorResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDetectorResponseFromJson(json);
+
+  factory UpdateDetectorResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateDetectorResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFilterResponse {
   /// The name of the filter.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   UpdateFilterResponse({
-    @_s.required this.name,
+    required this.name,
   });
-  factory UpdateFilterResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFilterResponseFromJson(json);
+
+  factory UpdateFilterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateFilterResponse(
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateFindingsFeedbackResponse {
   UpdateFindingsFeedbackResponse();
-  factory UpdateFindingsFeedbackResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateFindingsFeedbackResponseFromJson(json);
+
+  factory UpdateFindingsFeedbackResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateFindingsFeedbackResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateIPSetResponse {
   UpdateIPSetResponse();
-  factory UpdateIPSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateIPSetResponseFromJson(json);
+
+  factory UpdateIPSetResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateIPSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateMemberDetectorsResponse {
   /// A list of member account IDs that were unable to be processed along with an
   /// explanation for why they were not processed.
-  @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
   UpdateMemberDetectorsResponse({
-    @_s.required this.unprocessedAccounts,
+    required this.unprocessedAccounts,
   });
-  factory UpdateMemberDetectorsResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateMemberDetectorsResponseFromJson(json);
+
+  factory UpdateMemberDetectorsResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateMemberDetectorsResponse(
+      unprocessedAccounts: (json['unprocessedAccounts'] as List)
+          .whereNotNull()
+          .map((e) => UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unprocessedAccounts = this.unprocessedAccounts;
+    return {
+      'unprocessedAccounts': unprocessedAccounts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateOrganizationConfigurationResponse {
   UpdateOrganizationConfigurationResponse();
+
   factory UpdateOrganizationConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateOrganizationConfigurationResponseFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateOrganizationConfigurationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePublishingDestinationResponse {
   UpdatePublishingDestinationResponse();
-  factory UpdatePublishingDestinationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdatePublishingDestinationResponseFromJson(json);
+
+  factory UpdatePublishingDestinationResponse.fromJson(Map<String, dynamic> _) {
+    return UpdatePublishingDestinationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateThreatIntelSetResponse {
   UpdateThreatIntelSetResponse();
-  factory UpdateThreatIntelSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateThreatIntelSetResponseFromJson(json);
+
+  factory UpdateThreatIntelSetResponse.fromJson(Map<String, dynamic> _) {
+    return UpdateThreatIntelSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains information on the total of usage based on account IDs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UsageAccountResult {
   /// The Account ID that generated usage.
-  @_s.JsonKey(name: 'accountId')
-  final String accountId;
+  final String? accountId;
 
   /// Represents the total of usage for the Account ID.
-  @_s.JsonKey(name: 'total')
-  final Total total;
+  final Total? total;
 
   UsageAccountResult({
     this.accountId,
     this.total,
   });
-  factory UsageAccountResult.fromJson(Map<String, dynamic> json) =>
-      _$UsageAccountResultFromJson(json);
+
+  factory UsageAccountResult.fromJson(Map<String, dynamic> json) {
+    return UsageAccountResult(
+      accountId: json['accountId'] as String?,
+      total: json['total'] != null
+          ? Total.fromJson(json['total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final total = this.total;
+    return {
+      if (accountId != null) 'accountId': accountId,
+      if (total != null) 'total': total,
+    };
+  }
 }
 
 /// Contains information about the criteria used to query usage statistics.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UsageCriteria {
   /// The data sources to aggregate usage statistics from.
-  @_s.JsonKey(name: 'dataSources')
   final List<DataSource> dataSources;
 
   /// The account IDs to aggregate usage statistics from.
-  @_s.JsonKey(name: 'accountIds')
-  final List<String> accountIds;
+  final List<String>? accountIds;
 
   /// The resources to aggregate usage statistics from. Only accepts exact
   /// resource names.
-  @_s.JsonKey(name: 'resources')
-  final List<String> resources;
+  final List<String>? resources;
 
   UsageCriteria({
-    @_s.required this.dataSources,
+    required this.dataSources,
     this.accountIds,
     this.resources,
   });
-  Map<String, dynamic> toJson() => _$UsageCriteriaToJson(this);
+
+  factory UsageCriteria.fromJson(Map<String, dynamic> json) {
+    return UsageCriteria(
+      dataSources: (json['dataSources'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toDataSource())
+          .toList(),
+      accountIds: (json['accountIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resources: (json['resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSources = this.dataSources;
+    final accountIds = this.accountIds;
+    final resources = this.resources;
+    return {
+      'dataSources': dataSources.map((e) => e.toValue()).toList(),
+      if (accountIds != null) 'accountIds': accountIds,
+      if (resources != null) 'resources': resources,
+    };
+  }
 }
 
 /// Contains information on the result of usage based on data source type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UsageDataSourceResult {
   /// The data source type that generated usage.
-  @_s.JsonKey(name: 'dataSource')
-  final DataSource dataSource;
+  final DataSource? dataSource;
 
   /// Represents the total of usage for the specified data source.
-  @_s.JsonKey(name: 'total')
-  final Total total;
+  final Total? total;
 
   UsageDataSourceResult({
     this.dataSource,
     this.total,
   });
-  factory UsageDataSourceResult.fromJson(Map<String, dynamic> json) =>
-      _$UsageDataSourceResultFromJson(json);
+
+  factory UsageDataSourceResult.fromJson(Map<String, dynamic> json) {
+    return UsageDataSourceResult(
+      dataSource: (json['dataSource'] as String?)?.toDataSource(),
+      total: json['total'] != null
+          ? Total.fromJson(json['total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final total = this.total;
+    return {
+      if (dataSource != null) 'dataSource': dataSource.toValue(),
+      if (total != null) 'total': total,
+    };
+  }
 }
 
 /// Contains information on the sum of usage based on an AWS resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UsageResourceResult {
   /// The AWS resource that generated usage.
-  @_s.JsonKey(name: 'resource')
-  final String resource;
+  final String? resource;
 
   /// Represents the sum total of usage for the specified resource type.
-  @_s.JsonKey(name: 'total')
-  final Total total;
+  final Total? total;
 
   UsageResourceResult({
     this.resource,
     this.total,
   });
-  factory UsageResourceResult.fromJson(Map<String, dynamic> json) =>
-      _$UsageResourceResultFromJson(json);
+
+  factory UsageResourceResult.fromJson(Map<String, dynamic> json) {
+    return UsageResourceResult(
+      resource: json['resource'] as String?,
+      total: json['total'] != null
+          ? Total.fromJson(json['total'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resource = this.resource;
+    final total = this.total;
+    return {
+      if (resource != null) 'resource': resource,
+      if (total != null) 'total': total,
+    };
+  }
 }
 
 enum UsageStatisticType {
-  @_s.JsonValue('SUM_BY_ACCOUNT')
   sumByAccount,
-  @_s.JsonValue('SUM_BY_DATA_SOURCE')
   sumByDataSource,
-  @_s.JsonValue('SUM_BY_RESOURCE')
   sumByResource,
-  @_s.JsonValue('TOP_RESOURCES')
   topResources,
 }
 
@@ -6260,34 +7667,40 @@ extension on UsageStatisticType {
       case UsageStatisticType.topResources:
         return 'TOP_RESOURCES';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageStatisticType toUsageStatisticType() {
+    switch (this) {
+      case 'SUM_BY_ACCOUNT':
+        return UsageStatisticType.sumByAccount;
+      case 'SUM_BY_DATA_SOURCE':
+        return UsageStatisticType.sumByDataSource;
+      case 'SUM_BY_RESOURCE':
+        return UsageStatisticType.sumByResource;
+      case 'TOP_RESOURCES':
+        return UsageStatisticType.topResources;
+    }
+    throw Exception('$this is not known in enum UsageStatisticType');
   }
 }
 
 /// Contains the result of GuardDuty usage. If a UsageStatisticType is provided
 /// the result for other types will be null.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UsageStatistics {
   /// The usage statistic sum organized by account ID.
-  @_s.JsonKey(name: 'sumByAccount')
-  final List<UsageAccountResult> sumByAccount;
+  final List<UsageAccountResult>? sumByAccount;
 
   /// The usage statistic sum organized by on data source.
-  @_s.JsonKey(name: 'sumByDataSource')
-  final List<UsageDataSourceResult> sumByDataSource;
+  final List<UsageDataSourceResult>? sumByDataSource;
 
   /// The usage statistic sum organized by resource.
-  @_s.JsonKey(name: 'sumByResource')
-  final List<UsageResourceResult> sumByResource;
+  final List<UsageResourceResult>? sumByResource;
 
   /// Lists the top 50 resources that have generated the most GuardDuty usage, in
   /// order from most to least expensive.
-  @_s.JsonKey(name: 'topResources')
-  final List<UsageResourceResult> topResources;
+  final List<UsageResourceResult>? topResources;
 
   UsageStatistics({
     this.sumByAccount,
@@ -6295,17 +7708,49 @@ class UsageStatistics {
     this.sumByResource,
     this.topResources,
   });
-  factory UsageStatistics.fromJson(Map<String, dynamic> json) =>
-      _$UsageStatisticsFromJson(json);
+
+  factory UsageStatistics.fromJson(Map<String, dynamic> json) {
+    return UsageStatistics(
+      sumByAccount: (json['sumByAccount'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageAccountResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sumByDataSource: (json['sumByDataSource'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageDataSourceResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      sumByResource: (json['sumByResource'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageResourceResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      topResources: (json['topResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => UsageResourceResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sumByAccount = this.sumByAccount;
+    final sumByDataSource = this.sumByDataSource;
+    final sumByResource = this.sumByResource;
+    final topResources = this.topResources;
+    return {
+      if (sumByAccount != null) 'sumByAccount': sumByAccount,
+      if (sumByDataSource != null) 'sumByDataSource': sumByDataSource,
+      if (sumByResource != null) 'sumByResource': sumByResource,
+      if (topResources != null) 'topResources': topResources,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }

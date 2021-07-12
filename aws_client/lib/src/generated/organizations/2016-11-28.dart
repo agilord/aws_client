@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,29 +11,98 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-part '2016-11-28.g.dart';
-
+/// AWS Organizations is a web service that enables you to consolidate your
+/// multiple AWS accounts into an <i>organization</i> and centrally manage your
+/// accounts and their resources.
+///
+/// This guide provides descriptions of the Organizations operations. For more
+/// information about using this service, see the <a
+/// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html">AWS
+/// Organizations User Guide</a>.
+///
+/// <b>Support and feedback for AWS Organizations</b>
+///
+/// We welcome your feedback. Send your comments to <a
+/// href="mailto:feedback-awsorganizations@amazon.com">feedback-awsorganizations@amazon.com</a>
+/// or post your feedback and questions in the <a
+/// href="http://forums.aws.amazon.com/forum.jspa?forumID=219">AWS Organizations
+/// support forum</a>. For more information about the AWS support forums, see <a
+/// href="http://forums.aws.amazon.com/help.jspa">Forums Help</a>.
+///
+/// <b>Endpoint to call When using the AWS CLI or the AWS SDK</b>
+///
+/// For the current release of Organizations, specify the <code>us-east-1</code>
+/// region for all AWS API and AWS CLI calls made from the commercial AWS
+/// Regions outside of China. If calling from one of the AWS Regions in China,
+/// then specify <code>cn-northwest-1</code>. You can do this in the AWS CLI by
+/// using these parameters and commands:
+///
+/// <ul>
+/// <li>
+/// Use the following parameter with each command to specify both the endpoint
+/// and its region:
+///
+/// <code>--endpoint-url https://organizations.us-east-1.amazonaws.com</code>
+/// <i>(from commercial AWS Regions outside of China)</i>
+///
+/// or
+///
+/// <code>--endpoint-url
+/// https://organizations.cn-northwest-1.amazonaws.com.cn</code> <i>(from AWS
+/// Regions in China)</i>
+/// </li>
+/// <li>
+/// Use the default endpoint, but configure your default region with this
+/// command:
+///
+/// <code>aws configure set default.region us-east-1</code> <i>(from commercial
+/// AWS Regions outside of China)</i>
+///
+/// or
+///
+/// <code>aws configure set default.region cn-northwest-1</code> <i>(from AWS
+/// Regions in China)</i>
+/// </li>
+/// <li>
+/// Use the following parameter with each command to specify the endpoint:
+///
+/// <code>--region us-east-1</code> <i>(from commercial AWS Regions outside of
+/// China)</i>
+///
+/// or
+///
+/// <code>--region cn-northwest-1</code> <i>(from AWS Regions in China)</i>
+/// </li>
+/// </ul>
+/// <b>Recording API Requests</b>
+///
+/// AWS Organizations supports AWS CloudTrail, a service that records AWS API
+/// calls for your AWS account and delivers log files to an Amazon S3 bucket. By
+/// using information collected by AWS CloudTrail, you can determine which
+/// requests the Organizations service received, who made the request and when,
+/// and so on. For more about AWS Organizations and its support for AWS
+/// CloudTrail, see <a
+/// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_incident-response.html#orgs_cloudtrail-integration">Logging
+/// AWS Organizations Events with AWS CloudTrail</a> in the <i>AWS Organizations
+/// User Guide</i>. To learn more about AWS CloudTrail, including how to turn it
+/// on and find your log files, see the <a
+/// href="http://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html">AWS
+/// CloudTrail User Guide</a>.
 class Organizations {
   final _s.JsonProtocol _protocol;
   Organizations({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -100,7 +170,7 @@ class Organizations {
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
   /// letters or digits.
   Future<AcceptHandshakeResponse> acceptHandshake({
-    @_s.required String handshakeId,
+    required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
     _s.validateStringLength(
@@ -108,12 +178,6 @@ class Organizations {
       handshakeId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -208,8 +272,8 @@ class Organizations {
   /// </li>
   /// </ul>
   Future<void> attachPolicy({
-    @_s.required String policyId,
-    @_s.required String targetId,
+    required String policyId,
+    required String targetId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -217,12 +281,6 @@ class Organizations {
       policyId,
       0,
       130,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetId, 'targetId');
@@ -233,17 +291,11 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.AttachPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -284,7 +336,7 @@ class Organizations {
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
   /// letters or digits.
   Future<CancelHandshakeResponse> cancelHandshake({
-    @_s.required String handshakeId,
+    required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
     _s.validateStringLength(
@@ -292,12 +344,6 @@ class Organizations {
       handshakeId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -336,8 +382,8 @@ class Organizations {
   /// Check the AWS CloudTrail log for the <code>CreateAccountResult</code>
   /// event. For information on using AWS CloudTrail with AWS Organizations, see
   /// <a
-  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
-  /// the Activity in Your Organization</a> in the <i>AWS Organizations User
+  /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html#orgs_cloudtrail-integration">Logging
+  /// and monitoring in AWS Organizations</a> in the <i>AWS Organizations User
   /// Guide.</i>
   /// </li>
   /// </ul>
@@ -491,11 +537,11 @@ class Organizations {
   /// created.
   /// </note>
   Future<CreateAccountResponse> createAccount({
-    @_s.required String accountName,
-    @_s.required String email,
-    IAMUserAccessToBilling iamUserAccessToBilling,
-    String roleName,
-    List<Tag> tags,
+    required String accountName,
+    required String email,
+    IAMUserAccessToBilling? iamUserAccessToBilling,
+    String? roleName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(accountName, 'accountName');
     _s.validateStringLength(
@@ -503,12 +549,6 @@ class Organizations {
       accountName,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountName',
-      accountName,
-      r'''[\u0020-\u007E]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(email, 'email');
@@ -519,22 +559,11 @@ class Organizations {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'email',
-      email,
-      r'''[^\s@]+@[^\s@]+\.[^\s@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'roleName',
       roleName,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]{1,64}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -789,11 +818,11 @@ class Organizations {
   /// created.
   /// </note>
   Future<CreateGovCloudAccountResponse> createGovCloudAccount({
-    @_s.required String accountName,
-    @_s.required String email,
-    IAMUserAccessToBilling iamUserAccessToBilling,
-    String roleName,
-    List<Tag> tags,
+    required String accountName,
+    required String email,
+    IAMUserAccessToBilling? iamUserAccessToBilling,
+    String? roleName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(accountName, 'accountName');
     _s.validateStringLength(
@@ -801,12 +830,6 @@ class Organizations {
       accountName,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountName',
-      accountName,
-      r'''[\u0020-\u007E]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(email, 'email');
@@ -817,22 +840,11 @@ class Organizations {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'email',
-      email,
-      r'''[^\s@]+@[^\s@]+\.[^\s@]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'roleName',
       roleName,
       0,
       64,
-    );
-    _s.validateStringPattern(
-      'roleName',
-      roleName,
-      r'''[\w+=,.@-]{1,64}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -908,7 +920,7 @@ class Organizations {
   /// </li>
   /// </ul>
   Future<CreateOrganizationResponse> createOrganization({
-    OrganizationFeatureSet featureSet,
+    OrganizationFeatureSet? featureSet,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -989,9 +1001,9 @@ class Organizations {
   /// tags for an OU, then the entire request fails and the OU is not created.
   /// </note>
   Future<CreateOrganizationalUnitResponse> createOrganizationalUnit({
-    @_s.required String name,
-    @_s.required String parentId,
-    List<Tag> tags,
+    required String name,
+    required String parentId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -1001,24 +1013,12 @@ class Organizations {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(parentId, 'parentId');
     _s.validateStringLength(
       'parentId',
       parentId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1116,11 +1116,11 @@ class Organizations {
   /// created.
   /// </note>
   Future<CreatePolicyResponse> createPolicy({
-    @_s.required String content,
-    @_s.required String description,
-    @_s.required String name,
-    @_s.required PolicyType type,
-    List<Tag> tags,
+    required String content,
+    required String description,
+    required String name,
+    required PolicyType type,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     _s.validateStringLength(
@@ -1128,12 +1128,6 @@ class Organizations {
       content,
       1,
       1000000,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(description, 'description');
@@ -1144,24 +1138,12 @@ class Organizations {
       512,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\s\S]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(type, 'type');
@@ -1179,7 +1161,7 @@ class Organizations {
         'Content': content,
         'Description': description,
         'Name': name,
-        'Type': type?.toValue() ?? '',
+        'Type': type.toValue(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1215,7 +1197,7 @@ class Organizations {
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
   /// letters or digits.
   Future<DeclineHandshakeResponse> declineHandshake({
-    @_s.required String handshakeId,
+    required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
     _s.validateStringLength(
@@ -1223,12 +1205,6 @@ class Organizations {
       handshakeId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1265,7 +1241,7 @@ class Organizations {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DeleteOrganization'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1301,7 +1277,7 @@ class Organizations {
   /// This string is followed by a second "-" dash and from 8 to 32 additional
   /// lowercase letters or digits.
   Future<void> deleteOrganizationalUnit({
-    @_s.required String organizationalUnitId,
+    required String organizationalUnitId,
   }) async {
     ArgumentError.checkNotNull(organizationalUnitId, 'organizationalUnitId');
     _s.validateStringLength(
@@ -1311,17 +1287,11 @@ class Organizations {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationalUnitId',
-      organizationalUnitId,
-      r'''^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DeleteOrganizationalUnit'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1359,7 +1329,7 @@ class Organizations {
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
   /// uppercase letters, digits, or the underscore character (_).
   Future<void> deletePolicy({
-    @_s.required String policyId,
+    required String policyId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -1369,17 +1339,11 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DeletePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1402,7 +1366,7 @@ class Organizations {
   /// You can run this action only for AWS services that support this feature.
   /// For a current list of services that support it, see the column <i>Supports
   /// Delegated Administrator</i> in the table at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrated-services-list.html">AWS
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html">AWS
   /// Services that you can use with AWS Organizations</a> in the <i>AWS
   /// Organizations User Guide.</i>
   ///
@@ -1433,8 +1397,8 @@ class Organizations {
   /// service for which the member account is a delegated administrator, the
   /// operation also revokes Organizations read action permissions.
   Future<void> deregisterDelegatedAdministrator({
-    @_s.required String accountId,
-    @_s.required String servicePrincipal,
+    required String accountId,
+    required String servicePrincipal,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1442,12 +1406,6 @@ class Organizations {
       accountId,
       0,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(servicePrincipal, 'servicePrincipal');
@@ -1458,18 +1416,12 @@ class Organizations {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target':
           'AWSOrganizationsV20161128.DeregisterDelegatedAdministrator'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1504,7 +1456,7 @@ class Organizations {
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
   Future<DescribeAccountResponse> describeAccount({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -1512,12 +1464,6 @@ class Organizations {
       accountId,
       0,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1564,7 +1510,7 @@ class Organizations {
   /// create account request ID string requires "car-" followed by from 8 to 32
   /// lowercase letters or digits.
   Future<DescribeCreateAccountStatusResponse> describeCreateAccountStatus({
-    @_s.required String createAccountRequestId,
+    required String createAccountRequestId,
   }) async {
     ArgumentError.checkNotNull(
         createAccountRequestId, 'createAccountRequestId');
@@ -1573,12 +1519,6 @@ class Organizations {
       createAccountRequestId,
       0,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'createAccountRequestId',
-      createAccountRequestId,
-      r'''^car-[a-z0-9]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1649,8 +1589,8 @@ class Organizations {
   /// account that you want details about. Specifying an organization root or
   /// organizational unit (OU) as the target is not supported.
   Future<DescribeEffectivePolicyResponse> describeEffectivePolicy({
-    @_s.required EffectivePolicyType policyType,
-    String targetId,
+    required EffectivePolicyType policyType,
+    String? targetId,
   }) async {
     ArgumentError.checkNotNull(policyType, 'policyType');
     _s.validateStringLength(
@@ -1658,11 +1598,6 @@ class Organizations {
       targetId,
       0,
       100,
-    );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1675,7 +1610,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType?.toValue() ?? '',
+        'PolicyType': policyType.toValue(),
         if (targetId != null) 'TargetId': targetId,
       },
     );
@@ -1710,7 +1645,7 @@ class Organizations {
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase
   /// letters or digits.
   Future<DescribeHandshakeResponse> describeHandshake({
-    @_s.required String handshakeId,
+    required String handshakeId,
   }) async {
     ArgumentError.checkNotNull(handshakeId, 'handshakeId');
     _s.validateStringLength(
@@ -1718,12 +1653,6 @@ class Organizations {
       handshakeId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handshakeId',
-      handshakeId,
-      r'''^h-[0-9a-z]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1799,7 +1728,7 @@ class Organizations {
   /// This string is followed by a second "-" dash and from 8 to 32 additional
   /// lowercase letters or digits.
   Future<DescribeOrganizationalUnitResponse> describeOrganizationalUnit({
-    @_s.required String organizationalUnitId,
+    required String organizationalUnitId,
   }) async {
     ArgumentError.checkNotNull(organizationalUnitId, 'organizationalUnitId');
     _s.validateStringLength(
@@ -1807,12 +1736,6 @@ class Organizations {
       organizationalUnitId,
       0,
       68,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'organizationalUnitId',
-      organizationalUnitId,
-      r'''^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1856,7 +1779,7 @@ class Organizations {
   /// policy ID string requires "p-" followed by from 8 to 128 lowercase or
   /// uppercase letters, digits, or the underscore character (_).
   Future<DescribePolicyResponse> describePolicy({
-    @_s.required String policyId,
+    required String policyId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -1864,12 +1787,6 @@ class Organizations {
       policyId,
       0,
       130,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1961,8 +1878,8 @@ class Organizations {
   /// </li>
   /// </ul>
   Future<void> detachPolicy({
-    @_s.required String policyId,
-    @_s.required String targetId,
+    required String policyId,
+    required String targetId,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -1970,12 +1887,6 @@ class Organizations {
       policyId,
       0,
       130,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(targetId, 'targetId');
@@ -1986,17 +1897,11 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DetachPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2017,19 +1922,55 @@ class Organizations {
   /// service can't perform operations on your behalf on any new accounts in
   /// your organization. The service can still perform operations in older
   /// accounts until the service completes its clean-up from AWS Organizations.
-  /// <p/> <important>
-  /// We recommend that you disable integration between AWS Organizations and
-  /// the specified AWS service by using the console or commands that are
-  /// provided by the specified service. Doing so ensures that the other service
-  /// is aware that it can clean up any resources that are required only for the
-  /// integration. How the service cleans up its resources in the organization's
-  /// accounts depends on that service. For more information, see the
-  /// documentation for the other AWS service.
+  /// <important>
+  /// We <b> <i>strongly recommend</i> </b> that you don't use this command to
+  /// disable integration between AWS Organizations and the specified AWS
+  /// service. Instead, use the console or commands that are provided by the
+  /// specified service. This lets the trusted service perform any required
+  /// initialization when enabling trusted access, such as creating any required
+  /// resources and any required clean up of resources when disabling trusted
+  /// access.
+  ///
+  /// For information about how to disable trusted service access to your
+  /// organization using the trusted service, see the <b>Learn more</b> link
+  /// under the <b>Supports Trusted Access</b> column at <a
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html">AWS
+  /// services that you can use with AWS Organizations</a>. on this page.
+  ///
+  /// If you disable access by using this command, it causes the following
+  /// actions to occur:
+  ///
+  /// <ul>
+  /// <li>
+  /// The service can no longer create a service-linked role in the accounts in
+  /// your organization. This means that the service can't perform operations on
+  /// your behalf on any new accounts in your organization. The service can
+  /// still perform operations in older accounts until the service completes its
+  /// clean-up from AWS Organizations.
+  /// </li>
+  /// <li>
+  /// The service can no longer perform tasks in the member accounts in the
+  /// organization, unless those operations are explicitly permitted by the IAM
+  /// policies that are attached to your roles. This includes any data
+  /// aggregation from the member accounts to the management account, or to a
+  /// delegated administrator account, where relevant.
+  /// </li>
+  /// <li>
+  /// Some services detect this and clean up any remaining data or resources
+  /// related to the integration, while other services stop accessing the
+  /// organization but leave any historical data and configuration in place to
+  /// support a possible re-enabling of the integration.
+  /// </li>
+  /// </ul>
+  /// Using the other service's console or commands to disable the integration
+  /// ensures that the other service is aware that it can clean up any resources
+  /// that are required only for the integration. How the service cleans up its
+  /// resources in the organization's accounts depends on that service. For more
+  /// information, see the documentation for the other AWS service.
   /// </important>
   /// After you perform the <code>DisableAWSServiceAccess</code> operation, the
   /// specified service can no longer perform operations in your organization's
-  /// accounts unless the operations are explicitly permitted by the IAM
-  /// policies that are attached to your roles.
+  /// accounts
   ///
   /// For more information about integrating other services with AWS
   /// Organizations, including the list of services that work with
@@ -2055,7 +1996,7 @@ class Organizations {
   /// disable integration with your organization. This is typically in the form
   /// of a URL, such as <code> <i>service-abbreviation</i>.amazonaws.com</code>.
   Future<void> disableAWSServiceAccess({
-    @_s.required String servicePrincipal,
+    required String servicePrincipal,
   }) async {
     ArgumentError.checkNotNull(servicePrincipal, 'servicePrincipal');
     _s.validateStringLength(
@@ -2065,17 +2006,11 @@ class Organizations {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.DisableAWSServiceAccess'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2151,8 +2086,8 @@ class Organizations {
   /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
   /// digits.
   Future<DisablePolicyTypeResponse> disablePolicyType({
-    @_s.required PolicyType policyType,
-    @_s.required String rootId,
+    required PolicyType policyType,
+    required String rootId,
   }) async {
     ArgumentError.checkNotNull(policyType, 'policyType');
     ArgumentError.checkNotNull(rootId, 'rootId');
@@ -2161,12 +2096,6 @@ class Organizations {
       rootId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'rootId',
-      rootId,
-      r'''^r-[0-9a-z]{4,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2180,7 +2109,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType?.toValue() ?? '',
+        'PolicyType': policyType.toValue(),
         'RootId': rootId,
       },
     );
@@ -2229,7 +2158,7 @@ class Organizations {
   /// integration with your organization. This is typically in the form of a
   /// URL, such as <code> <i>service-abbreviation</i>.amazonaws.com</code>.
   Future<void> enableAWSServiceAccess({
-    @_s.required String servicePrincipal,
+    required String servicePrincipal,
   }) async {
     ArgumentError.checkNotNull(servicePrincipal, 'servicePrincipal');
     _s.validateStringLength(
@@ -2239,17 +2168,11 @@ class Organizations {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.EnableAWSServiceAccess'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2380,8 +2303,8 @@ class Organizations {
   /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
   /// digits.
   Future<EnablePolicyTypeResponse> enablePolicyType({
-    @_s.required PolicyType policyType,
-    @_s.required String rootId,
+    required PolicyType policyType,
+    required String rootId,
   }) async {
     ArgumentError.checkNotNull(policyType, 'policyType');
     ArgumentError.checkNotNull(rootId, 'rootId');
@@ -2390,12 +2313,6 @@ class Organizations {
       rootId,
       0,
       34,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'rootId',
-      rootId,
-      r'''^r-[0-9a-z]{4,32}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2409,7 +2326,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType?.toValue() ?? '',
+        'PolicyType': policyType.toValue(),
         'RootId': rootId,
       },
     );
@@ -2505,9 +2422,9 @@ class Organizations {
   /// sent.
   /// </note>
   Future<InviteAccountToOrganizationResponse> inviteAccountToOrganization({
-    @_s.required HandshakeParty target,
-    String notes,
-    List<Tag> tags,
+    required HandshakeParty target,
+    String? notes,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(target, 'target');
     _s.validateStringLength(
@@ -2515,11 +2432,6 @@ class Organizations {
       notes,
       0,
       1024,
-    );
-    _s.validateStringPattern(
-      'notes',
-      notes,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2585,6 +2497,13 @@ class Organizations {
   /// been provided</a> in the <i>AWS Organizations User Guide.</i>
   /// </li>
   /// <li>
+  /// The account that you want to leave must not be a delegated administrator
+  /// account for any AWS service enabled for your organization. If the account
+  /// is a delegated administrator, you must first change the delegated
+  /// administrator account to another account that is remaining in the
+  /// organization.
+  /// </li>
+  /// <li>
   /// You can leave an organization only after you enable IAM user access to
   /// billing in your account. For more information, see <a
   /// href="http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate">Activating
@@ -2595,6 +2514,11 @@ class Organizations {
   /// After the account leaves the organization, all tags that were attached to
   /// the account object in the organization are deleted. AWS accounts outside
   /// of an organization do not support tags.
+  /// </li>
+  /// <li>
+  /// A newly created account has a waiting period before it can be removed from
+  /// its organization. If you get an error that indicates that a wait period is
+  /// required, then try again in a few days.
   /// </li>
   /// </ul> </important>
   ///
@@ -2612,7 +2536,7 @@ class Organizations {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.LeaveOrganization'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2666,8 +2590,8 @@ class Organizations {
   /// continue from.
   Future<ListAWSServiceAccessForOrganizationResponse>
       listAWSServiceAccessForOrganization({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2680,11 +2604,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2748,8 +2667,8 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListAccountsResponse> listAccounts({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -2762,11 +2681,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2836,9 +2750,9 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListAccountsForParentResponse> listAccountsForParent({
-    @_s.required String parentId,
-    int maxResults,
-    String nextToken,
+    required String parentId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(parentId, 'parentId');
     _s.validateStringLength(
@@ -2846,12 +2760,6 @@ class Organizations {
       parentId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2865,11 +2773,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2957,10 +2860,10 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListChildrenResponse> listChildren({
-    @_s.required ChildType childType,
-    @_s.required String parentId,
-    int maxResults,
-    String nextToken,
+    required ChildType childType,
+    required String parentId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(childType, 'childType');
     ArgumentError.checkNotNull(parentId, 'parentId');
@@ -2969,12 +2872,6 @@ class Organizations {
       parentId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -2989,11 +2886,6 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListChildren'
@@ -3005,7 +2897,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChildType': childType?.toValue() ?? '',
+        'ChildType': childType.toValue(),
         'ParentId': parentId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -3060,9 +2952,9 @@ class Organizations {
   /// A list of one or more states that you want included in the response. If
   /// this parameter isn't present, all requests are included in the response.
   Future<ListCreateAccountStatusResponse> listCreateAccountStatus({
-    int maxResults,
-    String nextToken,
-    List<CreateAccountState> states,
+    int? maxResults,
+    String? nextToken,
+    List<CreateAccountState>? states,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3075,11 +2967,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3094,8 +2981,7 @@ class Organizations {
       payload: {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (states != null)
-          'States': states.map((e) => e?.toValue() ?? '').toList(),
+        if (states != null) 'States': states.map((e) => e.toValue()).toList(),
       },
     );
 
@@ -3144,9 +3030,9 @@ class Organizations {
   /// If you don't specify a service principal, the operation lists all
   /// delegated administrators for all services in your organization.
   Future<ListDelegatedAdministratorsResponse> listDelegatedAdministrators({
-    int maxResults,
-    String nextToken,
-    String servicePrincipal,
+    int? maxResults,
+    String? nextToken,
+    String? servicePrincipal,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3160,21 +3046,11 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     _s.validateStringLength(
       'servicePrincipal',
       servicePrincipal,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3238,9 +3114,9 @@ class Organizations {
   /// continue from.
   Future<ListDelegatedServicesForAccountResponse>
       listDelegatedServicesForAccount({
-    @_s.required String accountId,
-    int maxResults,
-    String nextToken,
+    required String accountId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -3248,12 +3124,6 @@ class Organizations {
       accountId,
       0,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3267,11 +3137,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3347,9 +3212,9 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListHandshakesForAccountResponse> listHandshakesForAccount({
-    HandshakeFilter filter,
-    int maxResults,
-    String nextToken,
+    HandshakeFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3362,11 +3227,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3446,9 +3306,9 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListHandshakesForOrganizationResponse> listHandshakesForOrganization({
-    HandshakeFilter filter,
-    int maxResults,
-    String nextToken,
+    HandshakeFilter? filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -3461,11 +3321,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3549,9 +3404,9 @@ class Organizations {
   /// continue from.
   Future<ListOrganizationalUnitsForParentResponse>
       listOrganizationalUnitsForParent({
-    @_s.required String parentId,
-    int maxResults,
-    String nextToken,
+    required String parentId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(parentId, 'parentId');
     _s.validateStringLength(
@@ -3559,12 +3414,6 @@ class Organizations {
       parentId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'parentId',
-      parentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3578,11 +3427,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3670,9 +3514,9 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListParentsResponse> listParents({
-    @_s.required String childId,
-    int maxResults,
-    String nextToken,
+    required String childId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(childId, 'childId');
     _s.validateStringLength(
@@ -3680,12 +3524,6 @@ class Organizations {
       childId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'childId',
-      childId,
-      r'''^(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3699,11 +3537,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -3788,9 +3621,9 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListPoliciesResponse> listPolicies({
-    @_s.required PolicyType filter,
-    int maxResults,
-    String nextToken,
+    required PolicyType filter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(filter, 'filter');
     _s.validateNumRange(
@@ -3805,11 +3638,6 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListPolicies'
@@ -3821,7 +3649,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter?.toValue() ?? '',
+        'Filter': filter.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -3919,10 +3747,10 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListPoliciesForTargetResponse> listPoliciesForTarget({
-    @_s.required PolicyType filter,
-    @_s.required String targetId,
-    int maxResults,
-    String nextToken,
+    required PolicyType filter,
+    required String targetId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(filter, 'filter');
     ArgumentError.checkNotNull(targetId, 'targetId');
@@ -3931,12 +3759,6 @@ class Organizations {
       targetId,
       0,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'targetId',
-      targetId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -3951,11 +3773,6 @@ class Organizations {
       0,
       100000,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.ListPoliciesForTarget'
@@ -3967,7 +3784,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter?.toValue() ?? '',
+        'Filter': filter.toValue(),
         'TargetId': targetId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4024,8 +3841,8 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListRootsResponse> listRoots({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -4038,11 +3855,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4123,8 +3935,8 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceId,
-    String nextToken,
+    required String resourceId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -4134,22 +3946,11 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4220,9 +4021,9 @@ class Organizations {
   /// <code>NextToken</code> response to indicate where the output should
   /// continue from.
   Future<ListTargetsForPolicyResponse> listTargetsForPolicy({
-    @_s.required String policyId,
-    int maxResults,
-    String nextToken,
+    required String policyId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -4230,12 +4031,6 @@ class Organizations {
       policyId,
       0,
       130,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -4249,11 +4044,6 @@ class Organizations {
       nextToken,
       0,
       100000,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4338,9 +4128,9 @@ class Organizations {
   /// </li>
   /// </ul>
   Future<void> moveAccount({
-    @_s.required String accountId,
-    @_s.required String destinationParentId,
-    @_s.required String sourceParentId,
+    required String accountId,
+    required String destinationParentId,
+    required String sourceParentId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -4348,12 +4138,6 @@ class Organizations {
       accountId,
       0,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(destinationParentId, 'destinationParentId');
@@ -4364,12 +4148,6 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'destinationParentId',
-      destinationParentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceParentId, 'sourceParentId');
     _s.validateStringLength(
       'sourceParentId',
@@ -4378,17 +4156,11 @@ class Organizations {
       100,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sourceParentId',
-      sourceParentId,
-      r'''^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.MoveAccount'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4410,7 +4182,7 @@ class Organizations {
   /// You can run this action only for AWS services that support this feature.
   /// For a current list of services that support it, see the column <i>Supports
   /// Delegated Administrator</i> in the table at <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrated-services-list.html">AWS
+  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services_list.html">AWS
   /// Services that you can use with AWS Organizations</a> in the <i>AWS
   /// Organizations User Guide.</i>
   ///
@@ -4436,8 +4208,8 @@ class Organizations {
   /// The service principal of the AWS service for which you want to make the
   /// member account a delegated administrator.
   Future<void> registerDelegatedAdministrator({
-    @_s.required String accountId,
-    @_s.required String servicePrincipal,
+    required String accountId,
+    required String servicePrincipal,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -4445,12 +4217,6 @@ class Organizations {
       accountId,
       0,
       12,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(servicePrincipal, 'servicePrincipal');
@@ -4461,17 +4227,11 @@ class Organizations {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'servicePrincipal',
-      servicePrincipal,
-      r'''[\w+=,.@-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.RegisterDelegatedAdministrator'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4514,6 +4274,13 @@ class Organizations {
   /// been provided</a> in the <i>AWS Organizations User Guide.</i>
   /// </li>
   /// <li>
+  /// The account that you want to leave must not be a delegated administrator
+  /// account for any AWS service enabled for your organization. If the account
+  /// is a delegated administrator, you must first change the delegated
+  /// administrator account to another account that is remaining in the
+  /// organization.
+  /// </li>
+  /// <li>
   /// After the account leaves the organization, all tags that were attached to
   /// the account object in the organization are deleted. AWS accounts outside
   /// of an organization do not support tags.
@@ -4537,7 +4304,7 @@ class Organizations {
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
   Future<void> removeAccountFromOrganization({
-    @_s.required String accountId,
+    required String accountId,
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     _s.validateStringLength(
@@ -4547,17 +4314,11 @@ class Organizations {
       12,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'accountId',
-      accountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.RemoveAccountFromOrganization'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4634,8 +4395,8 @@ class Organizations {
   /// not created.
   /// </note>
   Future<void> tagResource({
-    @_s.required String resourceId,
-    @_s.required List<Tag> tags,
+    required String resourceId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -4645,18 +4406,12 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4725,8 +4480,8 @@ class Organizations {
   /// Parameter [tagKeys] :
   /// The list of keys for tags to remove from the specified resource.
   Future<void> untagResource({
-    @_s.required String resourceId,
-    @_s.required List<String> tagKeys,
+    required String resourceId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -4736,18 +4491,12 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^(r-[0-9a-z]{4,32})|(\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSOrganizationsV20161128.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4793,8 +4542,8 @@ class Organizations {
   /// used to validate this parameter is a string of any of the characters in
   /// the ASCII character range.
   Future<UpdateOrganizationalUnitResponse> updateOrganizationalUnit({
-    @_s.required String organizationalUnitId,
-    String name,
+    required String organizationalUnitId,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(organizationalUnitId, 'organizationalUnitId');
     _s.validateStringLength(
@@ -4804,22 +4553,11 @@ class Organizations {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'organizationalUnitId',
-      organizationalUnitId,
-      r'''^ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4884,10 +4622,10 @@ class Organizations {
   /// used to validate this parameter is a string of any of the characters in
   /// the ASCII character range.
   Future<UpdatePolicyResponse> updatePolicy({
-    @_s.required String policyId,
-    String content,
-    String description,
-    String name,
+    required String policyId,
+    String? content,
+    String? description,
+    String? name,
   }) async {
     ArgumentError.checkNotNull(policyId, 'policyId');
     _s.validateStringLength(
@@ -4897,22 +4635,11 @@ class Organizations {
       130,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'policyId',
-      policyId,
-      r'''^p-[0-9a-zA-Z_]{8,128}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'content',
       content,
       1,
       1000000,
-    );
-    _s.validateStringPattern(
-      'content',
-      content,
-      r'''[\s\S]*''',
     );
     _s.validateStringLength(
       'description',
@@ -4920,21 +4647,11 @@ class Organizations {
       0,
       512,
     );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''[\s\S]*''',
-    );
     _s.validateStringLength(
       'name',
       name,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''[\s\S]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4958,75 +4675,69 @@ class Organizations {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptHandshakeResponse {
   /// A structure that contains details about the accepted handshake.
-  @_s.JsonKey(name: 'Handshake')
-  final Handshake handshake;
+  final Handshake? handshake;
 
   AcceptHandshakeResponse({
     this.handshake,
   });
-  factory AcceptHandshakeResponse.fromJson(Map<String, dynamic> json) =>
-      _$AcceptHandshakeResponseFromJson(json);
+
+  factory AcceptHandshakeResponse.fromJson(Map<String, dynamic> json) {
+    return AcceptHandshakeResponse(
+      handshake: json['Handshake'] != null
+          ? Handshake.fromJson(json['Handshake'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshake = this.handshake;
+    return {
+      if (handshake != null) 'Handshake': handshake,
+    };
+  }
 }
 
 /// Contains information about an AWS account that is a member of an
 /// organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Account {
   /// The Amazon Resource Name (ARN) of the account.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? arn;
 
   /// The email address associated with the AWS account.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for this
   /// parameter is a string of characters that represents a standard internet
   /// email address.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The unique identifier (ID) of the account.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The method by which the account joined the organization.
-  @_s.JsonKey(name: 'JoinedMethod')
-  final AccountJoinedMethod joinedMethod;
+  final AccountJoinedMethod? joinedMethod;
 
   /// The date the account became a part of the organization.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'JoinedTimestamp')
-  final DateTime joinedTimestamp;
+  final DateTime? joinedTimestamp;
 
   /// The friendly name of the account.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
   /// to validate this parameter is a string of any of the characters in the ASCII
   /// character range.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the account in the organization.
-  @_s.JsonKey(name: 'Status')
-  final AccountStatus status;
+  final AccountStatus? status;
 
   Account({
     this.arn,
@@ -5037,58 +4748,159 @@ class Account {
     this.name,
     this.status,
   });
-  factory Account.fromJson(Map<String, dynamic> json) =>
-      _$AccountFromJson(json);
+
+  factory Account.fromJson(Map<String, dynamic> json) {
+    return Account(
+      arn: json['Arn'] as String?,
+      email: json['Email'] as String?,
+      id: json['Id'] as String?,
+      joinedMethod: (json['JoinedMethod'] as String?)?.toAccountJoinedMethod(),
+      joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toAccountStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final email = this.email;
+    final id = this.id;
+    final joinedMethod = this.joinedMethod;
+    final joinedTimestamp = this.joinedTimestamp;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (email != null) 'Email': email,
+      if (id != null) 'Id': id,
+      if (joinedMethod != null) 'JoinedMethod': joinedMethod.toValue(),
+      if (joinedTimestamp != null)
+        'JoinedTimestamp': unixTimestampToJson(joinedTimestamp),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 enum AccountJoinedMethod {
-  @_s.JsonValue('INVITED')
   invited,
-  @_s.JsonValue('CREATED')
   created,
 }
 
+extension on AccountJoinedMethod {
+  String toValue() {
+    switch (this) {
+      case AccountJoinedMethod.invited:
+        return 'INVITED';
+      case AccountJoinedMethod.created:
+        return 'CREATED';
+    }
+  }
+}
+
+extension on String {
+  AccountJoinedMethod toAccountJoinedMethod() {
+    switch (this) {
+      case 'INVITED':
+        return AccountJoinedMethod.invited;
+      case 'CREATED':
+        return AccountJoinedMethod.created;
+    }
+    throw Exception('$this is not known in enum AccountJoinedMethod');
+  }
+}
+
 enum AccountStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('SUSPENDED')
   suspended,
 }
 
+extension on AccountStatus {
+  String toValue() {
+    switch (this) {
+      case AccountStatus.active:
+        return 'ACTIVE';
+      case AccountStatus.suspended:
+        return 'SUSPENDED';
+    }
+  }
+}
+
+extension on String {
+  AccountStatus toAccountStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return AccountStatus.active;
+      case 'SUSPENDED':
+        return AccountStatus.suspended;
+    }
+    throw Exception('$this is not known in enum AccountStatus');
+  }
+}
+
 enum ActionType {
-  @_s.JsonValue('INVITE')
   invite,
-  @_s.JsonValue('ENABLE_ALL_FEATURES')
   enableAllFeatures,
-  @_s.JsonValue('APPROVE_ALL_FEATURES')
   approveAllFeatures,
-  @_s.JsonValue('ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE')
   addOrganizationsServiceLinkedRole,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.invite:
+        return 'INVITE';
+      case ActionType.enableAllFeatures:
+        return 'ENABLE_ALL_FEATURES';
+      case ActionType.approveAllFeatures:
+        return 'APPROVE_ALL_FEATURES';
+      case ActionType.addOrganizationsServiceLinkedRole:
+        return 'ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE';
+    }
+  }
+}
+
+extension on String {
+  ActionType toActionType() {
+    switch (this) {
+      case 'INVITE':
+        return ActionType.invite;
+      case 'ENABLE_ALL_FEATURES':
+        return ActionType.enableAllFeatures;
+      case 'APPROVE_ALL_FEATURES':
+        return ActionType.approveAllFeatures;
+      case 'ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE':
+        return ActionType.addOrganizationsServiceLinkedRole;
+    }
+    throw Exception('$this is not known in enum ActionType');
+  }
+}
+
 class CancelHandshakeResponse {
   /// A structure that contains details about the handshake that you canceled.
-  @_s.JsonKey(name: 'Handshake')
-  final Handshake handshake;
+  final Handshake? handshake;
 
   CancelHandshakeResponse({
     this.handshake,
   });
-  factory CancelHandshakeResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelHandshakeResponseFromJson(json);
+
+  factory CancelHandshakeResponse.fromJson(Map<String, dynamic> json) {
+    return CancelHandshakeResponse(
+      handshake: json['Handshake'] != null
+          ? Handshake.fromJson(json['Handshake'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshake = this.handshake;
+    return {
+      if (handshake != null) 'Handshake': handshake,
+    };
+  }
 }
 
 /// Contains a list of child entities, either OUs or accounts.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Child {
   /// The unique identifier (ID) of this child entity.
   ///
@@ -5106,24 +4918,35 @@ class Child {
   /// 32 additional lowercase letters or digits.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The type of this child entity.
-  @_s.JsonKey(name: 'Type')
-  final ChildType type;
+  final ChildType? type;
 
   Child({
     this.id,
     this.type,
   });
-  factory Child.fromJson(Map<String, dynamic> json) => _$ChildFromJson(json);
+
+  factory Child.fromJson(Map<String, dynamic> json) {
+    return Child(
+      id: json['Id'] as String?,
+      type: (json['Type'] as String?)?.toChildType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ChildType {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('ORGANIZATIONAL_UNIT')
   organizationalUnit,
 }
 
@@ -5135,36 +4958,104 @@ extension on ChildType {
       case ChildType.organizationalUnit:
         return 'ORGANIZATIONAL_UNIT';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ChildType toChildType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return ChildType.account;
+      case 'ORGANIZATIONAL_UNIT':
+        return ChildType.organizationalUnit;
+    }
+    throw Exception('$this is not known in enum ChildType');
   }
 }
 
 enum CreateAccountFailureReason {
-  @_s.JsonValue('ACCOUNT_LIMIT_EXCEEDED')
   accountLimitExceeded,
-  @_s.JsonValue('EMAIL_ALREADY_EXISTS')
   emailAlreadyExists,
-  @_s.JsonValue('INVALID_ADDRESS')
   invalidAddress,
-  @_s.JsonValue('INVALID_EMAIL')
   invalidEmail,
-  @_s.JsonValue('CONCURRENT_ACCOUNT_MODIFICATION')
   concurrentAccountModification,
-  @_s.JsonValue('INTERNAL_FAILURE')
   internalFailure,
-  @_s.JsonValue('GOVCLOUD_ACCOUNT_ALREADY_EXISTS')
   govcloudAccountAlreadyExists,
-  @_s.JsonValue('MISSING_BUSINESS_VALIDATION')
   missingBusinessValidation,
-  @_s.JsonValue('MISSING_PAYMENT_INSTRUMENT')
+  failedBusinessValidation,
+  pendingBusinessValidation,
+  invalidIdentityForBusinessValidation,
+  unknownBusinessValidation,
   missingPaymentInstrument,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CreateAccountFailureReason {
+  String toValue() {
+    switch (this) {
+      case CreateAccountFailureReason.accountLimitExceeded:
+        return 'ACCOUNT_LIMIT_EXCEEDED';
+      case CreateAccountFailureReason.emailAlreadyExists:
+        return 'EMAIL_ALREADY_EXISTS';
+      case CreateAccountFailureReason.invalidAddress:
+        return 'INVALID_ADDRESS';
+      case CreateAccountFailureReason.invalidEmail:
+        return 'INVALID_EMAIL';
+      case CreateAccountFailureReason.concurrentAccountModification:
+        return 'CONCURRENT_ACCOUNT_MODIFICATION';
+      case CreateAccountFailureReason.internalFailure:
+        return 'INTERNAL_FAILURE';
+      case CreateAccountFailureReason.govcloudAccountAlreadyExists:
+        return 'GOVCLOUD_ACCOUNT_ALREADY_EXISTS';
+      case CreateAccountFailureReason.missingBusinessValidation:
+        return 'MISSING_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.failedBusinessValidation:
+        return 'FAILED_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.pendingBusinessValidation:
+        return 'PENDING_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.invalidIdentityForBusinessValidation:
+        return 'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.unknownBusinessValidation:
+        return 'UNKNOWN_BUSINESS_VALIDATION';
+      case CreateAccountFailureReason.missingPaymentInstrument:
+        return 'MISSING_PAYMENT_INSTRUMENT';
+    }
+  }
+}
+
+extension on String {
+  CreateAccountFailureReason toCreateAccountFailureReason() {
+    switch (this) {
+      case 'ACCOUNT_LIMIT_EXCEEDED':
+        return CreateAccountFailureReason.accountLimitExceeded;
+      case 'EMAIL_ALREADY_EXISTS':
+        return CreateAccountFailureReason.emailAlreadyExists;
+      case 'INVALID_ADDRESS':
+        return CreateAccountFailureReason.invalidAddress;
+      case 'INVALID_EMAIL':
+        return CreateAccountFailureReason.invalidEmail;
+      case 'CONCURRENT_ACCOUNT_MODIFICATION':
+        return CreateAccountFailureReason.concurrentAccountModification;
+      case 'INTERNAL_FAILURE':
+        return CreateAccountFailureReason.internalFailure;
+      case 'GOVCLOUD_ACCOUNT_ALREADY_EXISTS':
+        return CreateAccountFailureReason.govcloudAccountAlreadyExists;
+      case 'MISSING_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.missingBusinessValidation;
+      case 'FAILED_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.failedBusinessValidation;
+      case 'PENDING_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.pendingBusinessValidation;
+      case 'INVALID_IDENTITY_FOR_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.invalidIdentityForBusinessValidation;
+      case 'UNKNOWN_BUSINESS_VALIDATION':
+        return CreateAccountFailureReason.unknownBusinessValidation;
+      case 'MISSING_PAYMENT_INSTRUMENT':
+        return CreateAccountFailureReason.missingPaymentInstrument;
+    }
+    throw Exception('$this is not known in enum CreateAccountFailureReason');
+  }
+}
+
 class CreateAccountResponse {
   /// A structure that contains details about the request to create an account.
   /// This response structure might not be fully populated when you first receive
@@ -5176,22 +5067,33 @@ class CreateAccountResponse {
   /// href="http://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html">Monitoring
   /// the Activity in Your Organization</a> in the <i>AWS Organizations User
   /// Guide</i>.
-  @_s.JsonKey(name: 'CreateAccountStatus')
-  final CreateAccountStatus createAccountStatus;
+  final CreateAccountStatus? createAccountStatus;
 
   CreateAccountResponse({
     this.createAccountStatus,
   });
-  factory CreateAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateAccountResponseFromJson(json);
+
+  factory CreateAccountResponse.fromJson(Map<String, dynamic> json) {
+    return CreateAccountResponse(
+      createAccountStatus: json['CreateAccountStatus'] != null
+          ? CreateAccountStatus.fromJson(
+              json['CreateAccountStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createAccountStatus = this.createAccountStatus;
+    return {
+      if (createAccountStatus != null)
+        'CreateAccountStatus': createAccountStatus,
+    };
+  }
 }
 
 enum CreateAccountState {
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('SUCCEEDED')
   succeeded,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -5205,42 +5107,46 @@ extension on CreateAccountState {
       case CreateAccountState.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CreateAccountState toCreateAccountState() {
+    switch (this) {
+      case 'IN_PROGRESS':
+        return CreateAccountState.inProgress;
+      case 'SUCCEEDED':
+        return CreateAccountState.succeeded;
+      case 'FAILED':
+        return CreateAccountState.failed;
+    }
+    throw Exception('$this is not known in enum CreateAccountState');
   }
 }
 
 /// Contains the status about a <a>CreateAccount</a> or
 /// <a>CreateGovCloudAccount</a> request to create an AWS account or an AWS
 /// GovCloud (US) account in an organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAccountStatus {
   /// If the account was created successfully, the unique identifier (ID) of the
   /// new account.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
+  final String? accountId;
 
   /// The account name given to the account when it was created.
-  @_s.JsonKey(name: 'AccountName')
-  final String accountName;
+  final String? accountName;
 
   /// The date and time that the account was created and the request completed.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CompletedTimestamp')
-  final DateTime completedTimestamp;
+  final DateTime? completedTimestamp;
 
   /// If the request failed, a description of the reason for the failure.
   ///
   /// <ul>
   /// <li>
-  /// ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have
-  /// reached the limit on the number of accounts in your organization.
+  /// ACCOUNT_LIMIT_EXCEEDED: The account couldn't be created because you reached
+  /// the limit on the number of accounts in your organization.
   /// </li>
   /// <li>
   /// CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the
@@ -5251,9 +5157,18 @@ class CreateAccountStatus {
   /// account with that email address already exists.
   /// </li>
   /// <li>
+  /// FAILED_BUSINESS_VALIDATION: The AWS account that owns your organization
+  /// failed to receive business license validation.
+  /// </li>
+  /// <li>
   /// GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region
   /// could not be created because this Region already includes an account with
   /// that email address.
+  /// </li>
+  /// <li>
+  /// IDENTITY_INVALID_BUSINESS_VALIDATION: The AWS account that owns your
+  /// organization can't complete business license validation because it doesn't
+  /// have valid identity data.
   /// </li>
   /// <li>
   /// INVALID_ADDRESS: The account could not be created because the address you
@@ -5265,7 +5180,8 @@ class CreateAccountStatus {
   /// </li>
   /// <li>
   /// INTERNAL_FAILURE: The account could not be created because of an internal
-  /// failure. Try again later. If the problem persists, contact Customer Support.
+  /// failure. Try again later. If the problem persists, contact AWS Customer
+  /// Support.
   /// </li>
   /// <li>
   /// MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has
@@ -5275,14 +5191,20 @@ class CreateAccountStatus {
   /// MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a
   /// valid payment method, such as a credit card.
   /// </li>
+  /// <li>
+  /// PENDING_BUSINESS_VALIDATION: The AWS account that owns your organization is
+  /// still in the process of completing business license validation.
+  /// </li>
+  /// <li>
+  /// UNKNOWN_BUSINESS_VALIDATION: The AWS account that owns your organization has
+  /// an unknown issue with business license validation.
+  /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'FailureReason')
-  final CreateAccountFailureReason failureReason;
+  final CreateAccountFailureReason? failureReason;
 
   /// If the account was created successfully, the unique identifier (ID) of the
   /// new account in the AWS GovCloud (US) Region.
-  @_s.JsonKey(name: 'GovCloudAccountId')
-  final String govCloudAccountId;
+  final String? govCloudAccountId;
 
   /// The unique identifier (ID) that references this request. You get this value
   /// from the response of the initial <a>CreateAccount</a> request to create the
@@ -5291,17 +5213,13 @@ class CreateAccountStatus {
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a create
   /// account request ID string requires "car-" followed by from 8 to 32 lowercase
   /// letters or digits.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The date and time that the request was made for the account creation.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RequestedTimestamp')
-  final DateTime requestedTimestamp;
+  final DateTime? requestedTimestamp;
 
-  /// The status of the request.
-  @_s.JsonKey(name: 'State')
-  final CreateAccountState state;
+  /// The status of the asynchronous request to create an AWS account.
+  final CreateAccountState? state;
 
   CreateAccountStatus({
     this.accountId,
@@ -5313,139 +5231,196 @@ class CreateAccountStatus {
     this.requestedTimestamp,
     this.state,
   });
-  factory CreateAccountStatus.fromJson(Map<String, dynamic> json) =>
-      _$CreateAccountStatusFromJson(json);
+
+  factory CreateAccountStatus.fromJson(Map<String, dynamic> json) {
+    return CreateAccountStatus(
+      accountId: json['AccountId'] as String?,
+      accountName: json['AccountName'] as String?,
+      completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
+      failureReason:
+          (json['FailureReason'] as String?)?.toCreateAccountFailureReason(),
+      govCloudAccountId: json['GovCloudAccountId'] as String?,
+      id: json['Id'] as String?,
+      requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
+      state: (json['State'] as String?)?.toCreateAccountState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final accountName = this.accountName;
+    final completedTimestamp = this.completedTimestamp;
+    final failureReason = this.failureReason;
+    final govCloudAccountId = this.govCloudAccountId;
+    final id = this.id;
+    final requestedTimestamp = this.requestedTimestamp;
+    final state = this.state;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (accountName != null) 'AccountName': accountName,
+      if (completedTimestamp != null)
+        'CompletedTimestamp': unixTimestampToJson(completedTimestamp),
+      if (failureReason != null) 'FailureReason': failureReason.toValue(),
+      if (govCloudAccountId != null) 'GovCloudAccountId': govCloudAccountId,
+      if (id != null) 'Id': id,
+      if (requestedTimestamp != null)
+        'RequestedTimestamp': unixTimestampToJson(requestedTimestamp),
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGovCloudAccountResponse {
-  @_s.JsonKey(name: 'CreateAccountStatus')
-  final CreateAccountStatus createAccountStatus;
+  final CreateAccountStatus? createAccountStatus;
 
   CreateGovCloudAccountResponse({
     this.createAccountStatus,
   });
-  factory CreateGovCloudAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGovCloudAccountResponseFromJson(json);
+
+  factory CreateGovCloudAccountResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGovCloudAccountResponse(
+      createAccountStatus: json['CreateAccountStatus'] != null
+          ? CreateAccountStatus.fromJson(
+              json['CreateAccountStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createAccountStatus = this.createAccountStatus;
+    return {
+      if (createAccountStatus != null)
+        'CreateAccountStatus': createAccountStatus,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOrganizationResponse {
   /// A structure that contains details about the newly created organization.
-  @_s.JsonKey(name: 'Organization')
-  final Organization organization;
+  final Organization? organization;
 
   CreateOrganizationResponse({
     this.organization,
   });
-  factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateOrganizationResponseFromJson(json);
+
+  factory CreateOrganizationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOrganizationResponse(
+      organization: json['Organization'] != null
+          ? Organization.fromJson(json['Organization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organization = this.organization;
+    return {
+      if (organization != null) 'Organization': organization,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOrganizationalUnitResponse {
   /// A structure that contains details about the newly created OU.
-  @_s.JsonKey(name: 'OrganizationalUnit')
-  final OrganizationalUnit organizationalUnit;
+  final OrganizationalUnit? organizationalUnit;
 
   CreateOrganizationalUnitResponse({
     this.organizationalUnit,
   });
-  factory CreateOrganizationalUnitResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateOrganizationalUnitResponseFromJson(json);
+
+  factory CreateOrganizationalUnitResponse.fromJson(Map<String, dynamic> json) {
+    return CreateOrganizationalUnitResponse(
+      organizationalUnit: json['OrganizationalUnit'] != null
+          ? OrganizationalUnit.fromJson(
+              json['OrganizationalUnit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationalUnit = this.organizationalUnit;
+    return {
+      if (organizationalUnit != null) 'OrganizationalUnit': organizationalUnit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreatePolicyResponse {
   /// A structure that contains details about the newly created policy.
-  @_s.JsonKey(name: 'Policy')
-  final Policy policy;
+  final Policy? policy;
 
   CreatePolicyResponse({
     this.policy,
   });
-  factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreatePolicyResponseFromJson(json);
+
+  factory CreatePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreatePolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeclineHandshakeResponse {
   /// A structure that contains details about the declined handshake. The state is
   /// updated to show the value <code>DECLINED</code>.
-  @_s.JsonKey(name: 'Handshake')
-  final Handshake handshake;
+  final Handshake? handshake;
 
   DeclineHandshakeResponse({
     this.handshake,
   });
-  factory DeclineHandshakeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeclineHandshakeResponseFromJson(json);
+
+  factory DeclineHandshakeResponse.fromJson(Map<String, dynamic> json) {
+    return DeclineHandshakeResponse(
+      handshake: json['Handshake'] != null
+          ? Handshake.fromJson(json['Handshake'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshake = this.handshake;
+    return {
+      if (handshake != null) 'Handshake': handshake,
+    };
+  }
 }
 
 /// Contains information about the delegated administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DelegatedAdministrator {
   /// The Amazon Resource Name (ARN) of the delegated administrator's account.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The date when the account was made a delegated administrator.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DelegationEnabledDate')
-  final DateTime delegationEnabledDate;
+  final DateTime? delegationEnabledDate;
 
   /// The email address that is associated with the delegated administrator's AWS
   /// account.
-  @_s.JsonKey(name: 'Email')
-  final String email;
+  final String? email;
 
   /// The unique identifier (ID) of the delegated administrator's account.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The method by which the delegated administrator's account joined the
   /// organization.
-  @_s.JsonKey(name: 'JoinedMethod')
-  final AccountJoinedMethod joinedMethod;
+  final AccountJoinedMethod? joinedMethod;
 
   /// The date when the delegated administrator's account became a part of the
   /// organization.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'JoinedTimestamp')
-  final DateTime joinedTimestamp;
+  final DateTime? joinedTimestamp;
 
   /// The friendly name of the delegated administrator's account.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The status of the delegated administrator's account in the organization.
-  @_s.JsonKey(name: 'Status')
-  final AccountStatus status;
+  final AccountStatus? status;
 
   DelegatedAdministrator({
     this.arn,
@@ -5457,111 +5432,178 @@ class DelegatedAdministrator {
     this.name,
     this.status,
   });
-  factory DelegatedAdministrator.fromJson(Map<String, dynamic> json) =>
-      _$DelegatedAdministratorFromJson(json);
+
+  factory DelegatedAdministrator.fromJson(Map<String, dynamic> json) {
+    return DelegatedAdministrator(
+      arn: json['Arn'] as String?,
+      delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
+      email: json['Email'] as String?,
+      id: json['Id'] as String?,
+      joinedMethod: (json['JoinedMethod'] as String?)?.toAccountJoinedMethod(),
+      joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
+      name: json['Name'] as String?,
+      status: (json['Status'] as String?)?.toAccountStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final delegationEnabledDate = this.delegationEnabledDate;
+    final email = this.email;
+    final id = this.id;
+    final joinedMethod = this.joinedMethod;
+    final joinedTimestamp = this.joinedTimestamp;
+    final name = this.name;
+    final status = this.status;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (delegationEnabledDate != null)
+        'DelegationEnabledDate': unixTimestampToJson(delegationEnabledDate),
+      if (email != null) 'Email': email,
+      if (id != null) 'Id': id,
+      if (joinedMethod != null) 'JoinedMethod': joinedMethod.toValue(),
+      if (joinedTimestamp != null)
+        'JoinedTimestamp': unixTimestampToJson(joinedTimestamp),
+      if (name != null) 'Name': name,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Contains information about the AWS service for which the account is a
 /// delegated administrator.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DelegatedService {
   /// The date that the account became a delegated administrator for this service.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DelegationEnabledDate')
-  final DateTime delegationEnabledDate;
+  final DateTime? delegationEnabledDate;
 
-  /// The name of a service that can request an operation for the specified
+  /// The name of an AWS service that can request an operation for the specified
   /// service. This is typically in the form of a URL, such as: <code>
   /// <i>servicename</i>.amazonaws.com</code>.
-  @_s.JsonKey(name: 'ServicePrincipal')
-  final String servicePrincipal;
+  final String? servicePrincipal;
 
   DelegatedService({
     this.delegationEnabledDate,
     this.servicePrincipal,
   });
-  factory DelegatedService.fromJson(Map<String, dynamic> json) =>
-      _$DelegatedServiceFromJson(json);
+
+  factory DelegatedService.fromJson(Map<String, dynamic> json) {
+    return DelegatedService(
+      delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
+      servicePrincipal: json['ServicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationEnabledDate = this.delegationEnabledDate;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (delegationEnabledDate != null)
+        'DelegationEnabledDate': unixTimestampToJson(delegationEnabledDate),
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountResponse {
   /// A structure that contains information about the requested account.
-  @_s.JsonKey(name: 'Account')
-  final Account account;
+  final Account? account;
 
   DescribeAccountResponse({
     this.account,
   });
-  factory DescribeAccountResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAccountResponseFromJson(json);
+
+  factory DescribeAccountResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAccountResponse(
+      account: json['Account'] != null
+          ? Account.fromJson(json['Account'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final account = this.account;
+    return {
+      if (account != null) 'Account': account,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCreateAccountStatusResponse {
   /// A structure that contains the current status of an account creation request.
-  @_s.JsonKey(name: 'CreateAccountStatus')
-  final CreateAccountStatus createAccountStatus;
+  final CreateAccountStatus? createAccountStatus;
 
   DescribeCreateAccountStatusResponse({
     this.createAccountStatus,
   });
+
   factory DescribeCreateAccountStatusResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCreateAccountStatusResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCreateAccountStatusResponse(
+      createAccountStatus: json['CreateAccountStatus'] != null
+          ? CreateAccountStatus.fromJson(
+              json['CreateAccountStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createAccountStatus = this.createAccountStatus;
+    return {
+      if (createAccountStatus != null)
+        'CreateAccountStatus': createAccountStatus,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEffectivePolicyResponse {
   /// The contents of the effective policy.
-  @_s.JsonKey(name: 'EffectivePolicy')
-  final EffectivePolicy effectivePolicy;
+  final EffectivePolicy? effectivePolicy;
 
   DescribeEffectivePolicyResponse({
     this.effectivePolicy,
   });
-  factory DescribeEffectivePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEffectivePolicyResponseFromJson(json);
+
+  factory DescribeEffectivePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEffectivePolicyResponse(
+      effectivePolicy: json['EffectivePolicy'] != null
+          ? EffectivePolicy.fromJson(
+              json['EffectivePolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final effectivePolicy = this.effectivePolicy;
+    return {
+      if (effectivePolicy != null) 'EffectivePolicy': effectivePolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeHandshakeResponse {
   /// A structure that contains information about the specified handshake.
-  @_s.JsonKey(name: 'Handshake')
-  final Handshake handshake;
+  final Handshake? handshake;
 
   DescribeHandshakeResponse({
     this.handshake,
   });
-  factory DescribeHandshakeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeHandshakeResponseFromJson(json);
+
+  factory DescribeHandshakeResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeHandshakeResponse(
+      handshake: json['Handshake'] != null
+          ? Handshake.fromJson(json['Handshake'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshake = this.handshake;
+    return {
+      if (handshake != null) 'Handshake': handshake,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOrganizationResponse {
   /// A structure that contains information about the organization.
   /// <important>
@@ -5571,94 +5613,118 @@ class DescribeOrganizationResponse {
   /// are enabled in your organization, use the <code> <a>ListRoots</a> </code>
   /// operation.
   /// </important>
-  @_s.JsonKey(name: 'Organization')
-  final Organization organization;
+  final Organization? organization;
 
   DescribeOrganizationResponse({
     this.organization,
   });
-  factory DescribeOrganizationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeOrganizationResponseFromJson(json);
+
+  factory DescribeOrganizationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeOrganizationResponse(
+      organization: json['Organization'] != null
+          ? Organization.fromJson(json['Organization'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organization = this.organization;
+    return {
+      if (organization != null) 'Organization': organization,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeOrganizationalUnitResponse {
   /// A structure that contains details about the specified OU.
-  @_s.JsonKey(name: 'OrganizationalUnit')
-  final OrganizationalUnit organizationalUnit;
+  final OrganizationalUnit? organizationalUnit;
 
   DescribeOrganizationalUnitResponse({
     this.organizationalUnit,
   });
+
   factory DescribeOrganizationalUnitResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeOrganizationalUnitResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeOrganizationalUnitResponse(
+      organizationalUnit: json['OrganizationalUnit'] != null
+          ? OrganizationalUnit.fromJson(
+              json['OrganizationalUnit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationalUnit = this.organizationalUnit;
+    return {
+      if (organizationalUnit != null) 'OrganizationalUnit': organizationalUnit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribePolicyResponse {
   /// A structure that contains details about the specified policy.
-  @_s.JsonKey(name: 'Policy')
-  final Policy policy;
+  final Policy? policy;
 
   DescribePolicyResponse({
     this.policy,
   });
-  factory DescribePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribePolicyResponseFromJson(json);
+
+  factory DescribePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return DescribePolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisablePolicyTypeResponse {
   /// A structure that shows the root with the updated list of enabled policy
   /// types.
-  @_s.JsonKey(name: 'Root')
-  final Root root;
+  final Root? root;
 
   DisablePolicyTypeResponse({
     this.root,
   });
-  factory DisablePolicyTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisablePolicyTypeResponseFromJson(json);
+
+  factory DisablePolicyTypeResponse.fromJson(Map<String, dynamic> json) {
+    return DisablePolicyTypeResponse(
+      root: json['Root'] != null
+          ? Root.fromJson(json['Root'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final root = this.root;
+    return {
+      if (root != null) 'Root': root,
+    };
+  }
 }
 
 /// Contains rules to be applied to the affected accounts. The effective policy
 /// is the aggregation of any policies the account inherits, plus any policy
 /// directly attached to the account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EffectivePolicy {
   /// The time of the last update to this policy.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTimestamp')
-  final DateTime lastUpdatedTimestamp;
+  final DateTime? lastUpdatedTimestamp;
 
   /// The text content of the policy.
-  @_s.JsonKey(name: 'PolicyContent')
-  final String policyContent;
+  final String? policyContent;
 
   /// The policy type.
-  @_s.JsonKey(name: 'PolicyType')
-  final EffectivePolicyType policyType;
+  final EffectivePolicyType? policyType;
 
   /// The account ID of the policy target.
-  @_s.JsonKey(name: 'TargetId')
-  final String targetId;
+  final String? targetId;
 
   EffectivePolicy({
     this.lastUpdatedTimestamp,
@@ -5666,16 +5732,34 @@ class EffectivePolicy {
     this.policyType,
     this.targetId,
   });
-  factory EffectivePolicy.fromJson(Map<String, dynamic> json) =>
-      _$EffectivePolicyFromJson(json);
+
+  factory EffectivePolicy.fromJson(Map<String, dynamic> json) {
+    return EffectivePolicy(
+      lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+      policyContent: json['PolicyContent'] as String?,
+      policyType: (json['PolicyType'] as String?)?.toEffectivePolicyType(),
+      targetId: json['TargetId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastUpdatedTimestamp = this.lastUpdatedTimestamp;
+    final policyContent = this.policyContent;
+    final policyType = this.policyType;
+    final targetId = this.targetId;
+    return {
+      if (lastUpdatedTimestamp != null)
+        'LastUpdatedTimestamp': unixTimestampToJson(lastUpdatedTimestamp),
+      if (policyContent != null) 'PolicyContent': policyContent,
+      if (policyType != null) 'PolicyType': policyType.toValue(),
+      if (targetId != null) 'TargetId': targetId,
+    };
+  }
 }
 
 enum EffectivePolicyType {
-  @_s.JsonValue('TAG_POLICY')
   tagPolicy,
-  @_s.JsonValue('BACKUP_POLICY')
   backupPolicy,
-  @_s.JsonValue('AISERVICES_OPT_OUT_POLICY')
   aiservicesOptOutPolicy,
 }
 
@@ -5689,71 +5773,104 @@ extension on EffectivePolicyType {
       case EffectivePolicyType.aiservicesOptOutPolicy:
         return 'AISERVICES_OPT_OUT_POLICY';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  EffectivePolicyType toEffectivePolicyType() {
+    switch (this) {
+      case 'TAG_POLICY':
+        return EffectivePolicyType.tagPolicy;
+      case 'BACKUP_POLICY':
+        return EffectivePolicyType.backupPolicy;
+      case 'AISERVICES_OPT_OUT_POLICY':
+        return EffectivePolicyType.aiservicesOptOutPolicy;
+    }
+    throw Exception('$this is not known in enum EffectivePolicyType');
+  }
+}
+
 class EnableAllFeaturesResponse {
   /// A structure that contains details about the handshake created to support
   /// this request to enable all features in the organization.
-  @_s.JsonKey(name: 'Handshake')
-  final Handshake handshake;
+  final Handshake? handshake;
 
   EnableAllFeaturesResponse({
     this.handshake,
   });
-  factory EnableAllFeaturesResponse.fromJson(Map<String, dynamic> json) =>
-      _$EnableAllFeaturesResponseFromJson(json);
+
+  factory EnableAllFeaturesResponse.fromJson(Map<String, dynamic> json) {
+    return EnableAllFeaturesResponse(
+      handshake: json['Handshake'] != null
+          ? Handshake.fromJson(json['Handshake'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshake = this.handshake;
+    return {
+      if (handshake != null) 'Handshake': handshake,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnablePolicyTypeResponse {
   /// A structure that shows the root with the updated list of enabled policy
   /// types.
-  @_s.JsonKey(name: 'Root')
-  final Root root;
+  final Root? root;
 
   EnablePolicyTypeResponse({
     this.root,
   });
-  factory EnablePolicyTypeResponse.fromJson(Map<String, dynamic> json) =>
-      _$EnablePolicyTypeResponseFromJson(json);
+
+  factory EnablePolicyTypeResponse.fromJson(Map<String, dynamic> json) {
+    return EnablePolicyTypeResponse(
+      root: json['Root'] != null
+          ? Root.fromJson(json['Root'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final root = this.root;
+    return {
+      if (root != null) 'Root': root,
+    };
+  }
 }
 
 /// A structure that contains details of a service principal that represents an
 /// AWS service that is enabled to integrate with AWS Organizations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EnabledServicePrincipal {
   /// The date that the service principal was enabled for integration with AWS
   /// Organizations.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'DateEnabled')
-  final DateTime dateEnabled;
+  final DateTime? dateEnabled;
 
   /// The name of the service principal. This is typically in the form of a URL,
   /// such as: <code> <i>servicename</i>.amazonaws.com</code>.
-  @_s.JsonKey(name: 'ServicePrincipal')
-  final String servicePrincipal;
+  final String? servicePrincipal;
 
   EnabledServicePrincipal({
     this.dateEnabled,
     this.servicePrincipal,
   });
-  factory EnabledServicePrincipal.fromJson(Map<String, dynamic> json) =>
-      _$EnabledServicePrincipalFromJson(json);
+
+  factory EnabledServicePrincipal.fromJson(Map<String, dynamic> json) {
+    return EnabledServicePrincipal(
+      dateEnabled: timeStampFromJson(json['DateEnabled']),
+      servicePrincipal: json['ServicePrincipal'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dateEnabled = this.dateEnabled;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (dateEnabled != null) 'DateEnabled': unixTimestampToJson(dateEnabled),
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
+  }
 }
 
 /// Contains information that must be exchanged to securely establish a
@@ -5763,14 +5880,9 @@ class EnabledServicePrincipal {
 /// accounts exchange information as a series of handshake requests and
 /// responses.
 ///
-/// <b>Note:</b> Handshakes that are CANCELED, ACCEPTED, or DECLINED show up in
-/// lists for only 30 days after entering that state After that they are
-/// deleted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// <b>Note:</b> Handshakes that are <code>CANCELED</code>,
+/// <code>ACCEPTED</code>, or <code>DECLINED</code> show up in lists for only 30
+/// days after entering that state After that they are deleted.
 class Handshake {
   /// The type of handshake, indicating what action occurs when the recipient
   /// accepts the handshake. The following handshake types are supported:
@@ -5796,24 +5908,20 @@ class Handshake {
   /// to enable all features.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Action')
-  final ActionType action;
+  final ActionType? action;
 
   /// The Amazon Resource Name (ARN) of a handshake.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? arn;
 
   /// The date and time that the handshake expires. If the recipient of the
   /// handshake request fails to respond before the specified date and time, the
   /// handshake becomes inactive and is no longer valid.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationTimestamp')
-  final DateTime expirationTimestamp;
+  final DateTime? expirationTimestamp;
 
   /// The unique identifier (ID) of a handshake. The originating account creates
   /// the ID when it initiates the handshake.
@@ -5821,21 +5929,16 @@ class Handshake {
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
   /// or digits.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// Information about the two accounts that are participating in the handshake.
-  @_s.JsonKey(name: 'Parties')
-  final List<HandshakeParty> parties;
+  final List<HandshakeParty>? parties;
 
   /// The date and time that the handshake request was made.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RequestedTimestamp')
-  final DateTime requestedTimestamp;
+  final DateTime? requestedTimestamp;
 
   /// Additional information that is needed to process the handshake.
-  @_s.JsonKey(name: 'Resources')
-  final List<HandshakeResource> resources;
+  final List<HandshakeResource>? resources;
 
   /// The current state of the handshake. Use the state to trace the flow of the
   /// handshake through the process from its creation to its acceptance. The
@@ -5870,8 +5973,7 @@ class Handshake {
   /// expiration time (15 days).
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'State')
-  final HandshakeState state;
+  final HandshakeState? state;
 
   Handshake({
     this.action,
@@ -5883,24 +5985,58 @@ class Handshake {
     this.resources,
     this.state,
   });
-  factory Handshake.fromJson(Map<String, dynamic> json) =>
-      _$HandshakeFromJson(json);
+
+  factory Handshake.fromJson(Map<String, dynamic> json) {
+    return Handshake(
+      action: (json['Action'] as String?)?.toActionType(),
+      arn: json['Arn'] as String?,
+      expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
+      id: json['Id'] as String?,
+      parties: (json['Parties'] as List?)
+          ?.whereNotNull()
+          .map((e) => HandshakeParty.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      state: (json['State'] as String?)?.toHandshakeState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final arn = this.arn;
+    final expirationTimestamp = this.expirationTimestamp;
+    final id = this.id;
+    final parties = this.parties;
+    final requestedTimestamp = this.requestedTimestamp;
+    final resources = this.resources;
+    final state = this.state;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (arn != null) 'Arn': arn,
+      if (expirationTimestamp != null)
+        'ExpirationTimestamp': unixTimestampToJson(expirationTimestamp),
+      if (id != null) 'Id': id,
+      if (parties != null) 'Parties': parties,
+      if (requestedTimestamp != null)
+        'RequestedTimestamp': unixTimestampToJson(requestedTimestamp),
+      if (resources != null) 'Resources': resources,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 /// Specifies the criteria that are used to select the handshakes for the
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HandshakeFilter {
   /// Specifies the type of handshake action.
   ///
   /// If you specify <code>ActionType</code>, you cannot also specify
   /// <code>ParentHandshakeId</code>.
-  @_s.JsonKey(name: 'ActionType')
-  final ActionType actionType;
+  final ActionType? actionType;
 
   /// Specifies the parent handshake. Only used for handshake types that are a
   /// child of another type.
@@ -5911,65 +6047,102 @@ class HandshakeFilter {
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
   /// or digits.
-  @_s.JsonKey(name: 'ParentHandshakeId')
-  final String parentHandshakeId;
+  final String? parentHandshakeId;
 
   HandshakeFilter({
     this.actionType,
     this.parentHandshakeId,
   });
-  Map<String, dynamic> toJson() => _$HandshakeFilterToJson(this);
+
+  factory HandshakeFilter.fromJson(Map<String, dynamic> json) {
+    return HandshakeFilter(
+      actionType: (json['ActionType'] as String?)?.toActionType(),
+      parentHandshakeId: json['ParentHandshakeId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actionType = this.actionType;
+    final parentHandshakeId = this.parentHandshakeId;
+    return {
+      if (actionType != null) 'ActionType': actionType.toValue(),
+      if (parentHandshakeId != null) 'ParentHandshakeId': parentHandshakeId,
+    };
+  }
 }
 
 /// Identifies a participant in a handshake.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class HandshakeParty {
   /// The unique identifier (ID) for the party.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for
   /// handshake ID string requires "h-" followed by from 8 to 32 lowercase letters
   /// or digits.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The type of party.
-  @_s.JsonKey(name: 'Type')
   final HandshakePartyType type;
 
   HandshakeParty({
-    @_s.required this.id,
-    @_s.required this.type,
+    required this.id,
+    required this.type,
   });
-  factory HandshakeParty.fromJson(Map<String, dynamic> json) =>
-      _$HandshakePartyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HandshakePartyToJson(this);
+  factory HandshakeParty.fromJson(Map<String, dynamic> json) {
+    return HandshakeParty(
+      id: json['Id'] as String,
+      type: (json['Type'] as String).toHandshakePartyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      'Id': id,
+      'Type': type.toValue(),
+    };
+  }
 }
 
 enum HandshakePartyType {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('ORGANIZATION')
   organization,
-  @_s.JsonValue('EMAIL')
   email,
 }
 
+extension on HandshakePartyType {
+  String toValue() {
+    switch (this) {
+      case HandshakePartyType.account:
+        return 'ACCOUNT';
+      case HandshakePartyType.organization:
+        return 'ORGANIZATION';
+      case HandshakePartyType.email:
+        return 'EMAIL';
+    }
+  }
+}
+
+extension on String {
+  HandshakePartyType toHandshakePartyType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return HandshakePartyType.account;
+      case 'ORGANIZATION':
+        return HandshakePartyType.organization;
+      case 'EMAIL':
+        return HandshakePartyType.email;
+    }
+    throw Exception('$this is not known in enum HandshakePartyType');
+  }
+}
+
 /// Contains additional data that is needed to process a handshake.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HandshakeResource {
   /// When needed, contains an additional array of <code>HandshakeResource</code>
   /// objects.
-  @_s.JsonKey(name: 'Resources')
-  final List<HandshakeResource> resources;
+  final List<HandshakeResource>? resources;
 
   /// The type of information being passed, specifying how the value is to be
   /// interpreted by the other party:
@@ -5998,62 +6171,150 @@ class HandshakeResource {
   /// intended for the recipient to read.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Type')
-  final HandshakeResourceType type;
+  final HandshakeResourceType? type;
 
   /// The information that is passed to the other party in the handshake. The
   /// format of the value string must match the requirements of the specified
   /// type.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   HandshakeResource({
     this.resources,
     this.type,
     this.value,
   });
-  factory HandshakeResource.fromJson(Map<String, dynamic> json) =>
-      _$HandshakeResourceFromJson(json);
+
+  factory HandshakeResource.fromJson(Map<String, dynamic> json) {
+    return HandshakeResource(
+      resources: (json['Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => HandshakeResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: (json['Type'] as String?)?.toHandshakeResourceType(),
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resources = this.resources;
+    final type = this.type;
+    final value = this.value;
+    return {
+      if (resources != null) 'Resources': resources,
+      if (type != null) 'Type': type.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum HandshakeResourceType {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('ORGANIZATION')
   organization,
-  @_s.JsonValue('ORGANIZATION_FEATURE_SET')
   organizationFeatureSet,
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('MASTER_EMAIL')
   masterEmail,
-  @_s.JsonValue('MASTER_NAME')
   masterName,
-  @_s.JsonValue('NOTES')
   notes,
-  @_s.JsonValue('PARENT_HANDSHAKE')
   parentHandshake,
 }
 
+extension on HandshakeResourceType {
+  String toValue() {
+    switch (this) {
+      case HandshakeResourceType.account:
+        return 'ACCOUNT';
+      case HandshakeResourceType.organization:
+        return 'ORGANIZATION';
+      case HandshakeResourceType.organizationFeatureSet:
+        return 'ORGANIZATION_FEATURE_SET';
+      case HandshakeResourceType.email:
+        return 'EMAIL';
+      case HandshakeResourceType.masterEmail:
+        return 'MASTER_EMAIL';
+      case HandshakeResourceType.masterName:
+        return 'MASTER_NAME';
+      case HandshakeResourceType.notes:
+        return 'NOTES';
+      case HandshakeResourceType.parentHandshake:
+        return 'PARENT_HANDSHAKE';
+    }
+  }
+}
+
+extension on String {
+  HandshakeResourceType toHandshakeResourceType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return HandshakeResourceType.account;
+      case 'ORGANIZATION':
+        return HandshakeResourceType.organization;
+      case 'ORGANIZATION_FEATURE_SET':
+        return HandshakeResourceType.organizationFeatureSet;
+      case 'EMAIL':
+        return HandshakeResourceType.email;
+      case 'MASTER_EMAIL':
+        return HandshakeResourceType.masterEmail;
+      case 'MASTER_NAME':
+        return HandshakeResourceType.masterName;
+      case 'NOTES':
+        return HandshakeResourceType.notes;
+      case 'PARENT_HANDSHAKE':
+        return HandshakeResourceType.parentHandshake;
+    }
+    throw Exception('$this is not known in enum HandshakeResourceType');
+  }
+}
+
 enum HandshakeState {
-  @_s.JsonValue('REQUESTED')
   requested,
-  @_s.JsonValue('OPEN')
   open,
-  @_s.JsonValue('CANCELED')
   canceled,
-  @_s.JsonValue('ACCEPTED')
   accepted,
-  @_s.JsonValue('DECLINED')
   declined,
-  @_s.JsonValue('EXPIRED')
   expired,
 }
 
+extension on HandshakeState {
+  String toValue() {
+    switch (this) {
+      case HandshakeState.requested:
+        return 'REQUESTED';
+      case HandshakeState.open:
+        return 'OPEN';
+      case HandshakeState.canceled:
+        return 'CANCELED';
+      case HandshakeState.accepted:
+        return 'ACCEPTED';
+      case HandshakeState.declined:
+        return 'DECLINED';
+      case HandshakeState.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  HandshakeState toHandshakeState() {
+    switch (this) {
+      case 'REQUESTED':
+        return HandshakeState.requested;
+      case 'OPEN':
+        return HandshakeState.open;
+      case 'CANCELED':
+        return HandshakeState.canceled;
+      case 'ACCEPTED':
+        return HandshakeState.accepted;
+      case 'DECLINED':
+        return HandshakeState.declined;
+      case 'EXPIRED':
+        return HandshakeState.expired;
+    }
+    throw Exception('$this is not known in enum HandshakeState');
+  }
+}
+
 enum IAMUserAccessToBilling {
-  @_s.JsonValue('ALLOW')
   allow,
-  @_s.JsonValue('DENY')
   deny,
 }
 
@@ -6065,479 +6326,656 @@ extension on IAMUserAccessToBilling {
       case IAMUserAccessToBilling.deny:
         return 'DENY';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  IAMUserAccessToBilling toIAMUserAccessToBilling() {
+    switch (this) {
+      case 'ALLOW':
+        return IAMUserAccessToBilling.allow;
+      case 'DENY':
+        return IAMUserAccessToBilling.deny;
+    }
+    throw Exception('$this is not known in enum IAMUserAccessToBilling');
+  }
+}
+
 class InviteAccountToOrganizationResponse {
   /// A structure that contains details about the handshake that is created to
   /// support this invitation request.
-  @_s.JsonKey(name: 'Handshake')
-  final Handshake handshake;
+  final Handshake? handshake;
 
   InviteAccountToOrganizationResponse({
     this.handshake,
   });
+
   factory InviteAccountToOrganizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$InviteAccountToOrganizationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return InviteAccountToOrganizationResponse(
+      handshake: json['Handshake'] != null
+          ? Handshake.fromJson(json['Handshake'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshake = this.handshake;
+    return {
+      if (handshake != null) 'Handshake': handshake,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAWSServiceAccessForOrganizationResponse {
   /// A list of the service principals for the services that are enabled to
   /// integrate with your organization. Each principal is a structure that
   /// includes the name and the date that it was enabled for integration with AWS
   /// Organizations.
-  @_s.JsonKey(name: 'EnabledServicePrincipals')
-  final List<EnabledServicePrincipal> enabledServicePrincipals;
+  final List<EnabledServicePrincipal>? enabledServicePrincipals;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAWSServiceAccessForOrganizationResponse({
     this.enabledServicePrincipals,
     this.nextToken,
   });
+
   factory ListAWSServiceAccessForOrganizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAWSServiceAccessForOrganizationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAWSServiceAccessForOrganizationResponse(
+      enabledServicePrincipals: (json['EnabledServicePrincipals'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EnabledServicePrincipal.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabledServicePrincipals = this.enabledServicePrincipals;
+    final nextToken = this.nextToken;
+    return {
+      if (enabledServicePrincipals != null)
+        'EnabledServicePrincipals': enabledServicePrincipals,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountsForParentResponse {
   /// A list of the accounts in the specified root or OU.
-  @_s.JsonKey(name: 'Accounts')
-  final List<Account> accounts;
+  final List<Account>? accounts;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAccountsForParentResponse({
     this.accounts,
     this.nextToken,
   });
-  factory ListAccountsForParentResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccountsForParentResponseFromJson(json);
+
+  factory ListAccountsForParentResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountsForParentResponse(
+      accounts: (json['Accounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Account.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final nextToken = this.nextToken;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAccountsResponse {
   /// A list of objects in the organization.
-  @_s.JsonKey(name: 'Accounts')
-  final List<Account> accounts;
+  final List<Account>? accounts;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAccountsResponse({
     this.accounts,
     this.nextToken,
   });
-  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAccountsResponseFromJson(json);
+
+  factory ListAccountsResponse.fromJson(Map<String, dynamic> json) {
+    return ListAccountsResponse(
+      accounts: (json['Accounts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Account.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accounts = this.accounts;
+    final nextToken = this.nextToken;
+    return {
+      if (accounts != null) 'Accounts': accounts,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListChildrenResponse {
   /// The list of children of the specified parent container.
-  @_s.JsonKey(name: 'Children')
-  final List<Child> children;
+  final List<Child>? children;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListChildrenResponse({
     this.children,
     this.nextToken,
   });
-  factory ListChildrenResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListChildrenResponseFromJson(json);
+
+  factory ListChildrenResponse.fromJson(Map<String, dynamic> json) {
+    return ListChildrenResponse(
+      children: (json['Children'] as List?)
+          ?.whereNotNull()
+          .map((e) => Child.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final children = this.children;
+    final nextToken = this.nextToken;
+    return {
+      if (children != null) 'Children': children,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCreateAccountStatusResponse {
   /// A list of objects with details about the requests. Certain elements, such as
   /// the accountId number, are present in the output only after the account has
   /// been successfully created.
-  @_s.JsonKey(name: 'CreateAccountStatuses')
-  final List<CreateAccountStatus> createAccountStatuses;
+  final List<CreateAccountStatus>? createAccountStatuses;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCreateAccountStatusResponse({
     this.createAccountStatuses,
     this.nextToken,
   });
-  factory ListCreateAccountStatusResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListCreateAccountStatusResponseFromJson(json);
+
+  factory ListCreateAccountStatusResponse.fromJson(Map<String, dynamic> json) {
+    return ListCreateAccountStatusResponse(
+      createAccountStatuses: (json['CreateAccountStatuses'] as List?)
+          ?.whereNotNull()
+          .map((e) => CreateAccountStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createAccountStatuses = this.createAccountStatuses;
+    final nextToken = this.nextToken;
+    return {
+      if (createAccountStatuses != null)
+        'CreateAccountStatuses': createAccountStatuses,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDelegatedAdministratorsResponse {
   /// The list of delegated administrators in your organization.
-  @_s.JsonKey(name: 'DelegatedAdministrators')
-  final List<DelegatedAdministrator> delegatedAdministrators;
+  final List<DelegatedAdministrator>? delegatedAdministrators;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDelegatedAdministratorsResponse({
     this.delegatedAdministrators,
     this.nextToken,
   });
+
   factory ListDelegatedAdministratorsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDelegatedAdministratorsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDelegatedAdministratorsResponse(
+      delegatedAdministrators: (json['DelegatedAdministrators'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => DelegatedAdministrator.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegatedAdministrators = this.delegatedAdministrators;
+    final nextToken = this.nextToken;
+    return {
+      if (delegatedAdministrators != null)
+        'DelegatedAdministrators': delegatedAdministrators,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDelegatedServicesForAccountResponse {
   /// The services for which the account is a delegated administrator.
-  @_s.JsonKey(name: 'DelegatedServices')
-  final List<DelegatedService> delegatedServices;
+  final List<DelegatedService>? delegatedServices;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDelegatedServicesForAccountResponse({
     this.delegatedServices,
     this.nextToken,
   });
+
   factory ListDelegatedServicesForAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListDelegatedServicesForAccountResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListDelegatedServicesForAccountResponse(
+      delegatedServices: (json['DelegatedServices'] as List?)
+          ?.whereNotNull()
+          .map((e) => DelegatedService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegatedServices = this.delegatedServices;
+    final nextToken = this.nextToken;
+    return {
+      if (delegatedServices != null) 'DelegatedServices': delegatedServices,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHandshakesForAccountResponse {
   /// A list of <a>Handshake</a> objects with details about each of the handshakes
   /// that is associated with the specified account.
-  @_s.JsonKey(name: 'Handshakes')
-  final List<Handshake> handshakes;
+  final List<Handshake>? handshakes;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListHandshakesForAccountResponse({
     this.handshakes,
     this.nextToken,
   });
-  factory ListHandshakesForAccountResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListHandshakesForAccountResponseFromJson(json);
+
+  factory ListHandshakesForAccountResponse.fromJson(Map<String, dynamic> json) {
+    return ListHandshakesForAccountResponse(
+      handshakes: (json['Handshakes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Handshake.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshakes = this.handshakes;
+    final nextToken = this.nextToken;
+    return {
+      if (handshakes != null) 'Handshakes': handshakes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHandshakesForOrganizationResponse {
   /// A list of <a>Handshake</a> objects with details about each of the handshakes
   /// that are associated with an organization.
-  @_s.JsonKey(name: 'Handshakes')
-  final List<Handshake> handshakes;
+  final List<Handshake>? handshakes;
 
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListHandshakesForOrganizationResponse({
     this.handshakes,
     this.nextToken,
   });
+
   factory ListHandshakesForOrganizationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListHandshakesForOrganizationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListHandshakesForOrganizationResponse(
+      handshakes: (json['Handshakes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Handshake.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final handshakes = this.handshakes;
+    final nextToken = this.nextToken;
+    return {
+      if (handshakes != null) 'Handshakes': handshakes,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOrganizationalUnitsForParentResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of the OUs in the specified root or parent OU.
-  @_s.JsonKey(name: 'OrganizationalUnits')
-  final List<OrganizationalUnit> organizationalUnits;
+  final List<OrganizationalUnit>? organizationalUnits;
 
   ListOrganizationalUnitsForParentResponse({
     this.nextToken,
     this.organizationalUnits,
   });
+
   factory ListOrganizationalUnitsForParentResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListOrganizationalUnitsForParentResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListOrganizationalUnitsForParentResponse(
+      nextToken: json['NextToken'] as String?,
+      organizationalUnits: (json['OrganizationalUnits'] as List?)
+          ?.whereNotNull()
+          .map((e) => OrganizationalUnit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final organizationalUnits = this.organizationalUnits;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (organizationalUnits != null)
+        'OrganizationalUnits': organizationalUnits,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListParentsResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of parents for the specified child account or OU.
-  @_s.JsonKey(name: 'Parents')
-  final List<Parent> parents;
+  final List<Parent>? parents;
 
   ListParentsResponse({
     this.nextToken,
     this.parents,
   });
-  factory ListParentsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListParentsResponseFromJson(json);
+
+  factory ListParentsResponse.fromJson(Map<String, dynamic> json) {
+    return ListParentsResponse(
+      nextToken: json['NextToken'] as String?,
+      parents: (json['Parents'] as List?)
+          ?.whereNotNull()
+          .map((e) => Parent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parents = this.parents;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parents != null) 'Parents': parents,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPoliciesForTargetResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of policies that match the criteria in the request.
-  @_s.JsonKey(name: 'Policies')
-  final List<PolicySummary> policies;
+  final List<PolicySummary>? policies;
 
   ListPoliciesForTargetResponse({
     this.nextToken,
     this.policies,
   });
-  factory ListPoliciesForTargetResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPoliciesForTargetResponseFromJson(json);
+
+  factory ListPoliciesForTargetResponse.fromJson(Map<String, dynamic> json) {
+    return ListPoliciesForTargetResponse(
+      nextToken: json['NextToken'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final policies = this.policies;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (policies != null) 'Policies': policies,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPoliciesResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of policies that match the filter criteria in the request. The output
   /// list doesn't include the policy contents. To see the content for a policy,
   /// see <a>DescribePolicy</a>.
-  @_s.JsonKey(name: 'Policies')
-  final List<PolicySummary> policies;
+  final List<PolicySummary>? policies;
 
   ListPoliciesResponse({
     this.nextToken,
     this.policies,
   });
-  factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPoliciesResponseFromJson(json);
+
+  factory ListPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListPoliciesResponse(
+      nextToken: json['NextToken'] as String?,
+      policies: (json['Policies'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final policies = this.policies;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (policies != null) 'Policies': policies,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRootsResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of roots that are defined in an organization.
-  @_s.JsonKey(name: 'Roots')
-  final List<Root> roots;
+  final List<Root>? roots;
 
   ListRootsResponse({
     this.nextToken,
     this.roots,
   });
-  factory ListRootsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRootsResponseFromJson(json);
+
+  factory ListRootsResponse.fromJson(Map<String, dynamic> json) {
+    return ListRootsResponse(
+      nextToken: json['NextToken'] as String?,
+      roots: (json['Roots'] as List?)
+          ?.whereNotNull()
+          .map((e) => Root.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final roots = this.roots;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (roots != null) 'Roots': roots,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tags that are assigned to the resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTargetsForPolicyResponse {
   /// If present, indicates that more output is available than is included in the
   /// current response. Use this value in the <code>NextToken</code> request
   /// parameter in a subsequent call to the operation to get the next part of the
   /// output. You should repeat this until the <code>NextToken</code> response
   /// element comes back as <code>null</code>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of structures, each of which contains details about one of the
   /// entities to which the specified policy is attached.
-  @_s.JsonKey(name: 'Targets')
-  final List<PolicyTargetSummary> targets;
+  final List<PolicyTargetSummary>? targets;
 
   ListTargetsForPolicyResponse({
     this.nextToken,
     this.targets,
   });
-  factory ListTargetsForPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTargetsForPolicyResponseFromJson(json);
+
+  factory ListTargetsForPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return ListTargetsForPolicyResponse(
+      nextToken: json['NextToken'] as String?,
+      targets: (json['Targets'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyTargetSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final targets = this.targets;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (targets != null) 'Targets': targets,
+    };
+  }
 }
 
 /// Contains details about an organization. An organization is a collection of
 /// accounts that are centrally managed together using consolidated billing,
 /// organized hierarchically with organizational units (OUs), and controlled
 /// with policies .
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Organization {
   /// The Amazon Resource Name (ARN) of an organization.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? arn;
 
   /// <important>
   /// Do not use. This field is deprecated and doesn't provide complete
@@ -6545,8 +6983,7 @@ class Organization {
   /// </important>
   /// To determine the policies that are enabled and available for use in your
   /// organization, use the <a>ListRoots</a> operation instead.
-  @_s.JsonKey(name: 'AvailablePolicyTypes')
-  final List<PolicyTypeSummary> availablePolicyTypes;
+  final List<PolicyTypeSummary>? availablePolicyTypes;
 
   /// Specifies the functionality that currently is available to the organization.
   /// If set to "ALL", then all features are enabled and policies can be applied
@@ -6556,38 +6993,33 @@ class Organization {
   /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html">Enabling
   /// All Features in Your Organization</a> in the <i>AWS Organizations User
   /// Guide</i>.
-  @_s.JsonKey(name: 'FeatureSet')
-  final OrganizationFeatureSet featureSet;
+  final OrganizationFeatureSet? featureSet;
 
   /// The unique identifier (ID) of an organization.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// organization ID string requires "o-" followed by from 10 to 32 lowercase
   /// letters or digits.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The Amazon Resource Name (ARN) of the account that is designated as the
   /// management account for the organization.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'MasterAccountArn')
-  final String masterAccountArn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? masterAccountArn;
 
   /// The email address that is associated with the AWS account that is designated
   /// as the management account for the organization.
-  @_s.JsonKey(name: 'MasterAccountEmail')
-  final String masterAccountEmail;
+  final String? masterAccountEmail;
 
   /// The unique identifier (ID) of the management account of an organization.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for an
   /// account ID string requires exactly 12 digits.
-  @_s.JsonKey(name: 'MasterAccountId')
-  final String masterAccountId;
+  final String? masterAccountId;
 
   Organization({
     this.arn,
@@ -6598,14 +7030,45 @@ class Organization {
     this.masterAccountEmail,
     this.masterAccountId,
   });
-  factory Organization.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationFromJson(json);
+
+  factory Organization.fromJson(Map<String, dynamic> json) {
+    return Organization(
+      arn: json['Arn'] as String?,
+      availablePolicyTypes: (json['AvailablePolicyTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      featureSet: (json['FeatureSet'] as String?)?.toOrganizationFeatureSet(),
+      id: json['Id'] as String?,
+      masterAccountArn: json['MasterAccountArn'] as String?,
+      masterAccountEmail: json['MasterAccountEmail'] as String?,
+      masterAccountId: json['MasterAccountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final availablePolicyTypes = this.availablePolicyTypes;
+    final featureSet = this.featureSet;
+    final id = this.id;
+    final masterAccountArn = this.masterAccountArn;
+    final masterAccountEmail = this.masterAccountEmail;
+    final masterAccountId = this.masterAccountId;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (availablePolicyTypes != null)
+        'AvailablePolicyTypes': availablePolicyTypes,
+      if (featureSet != null) 'FeatureSet': featureSet.toValue(),
+      if (id != null) 'Id': id,
+      if (masterAccountArn != null) 'MasterAccountArn': masterAccountArn,
+      if (masterAccountEmail != null) 'MasterAccountEmail': masterAccountEmail,
+      if (masterAccountId != null) 'MasterAccountId': masterAccountId,
+    };
+  }
 }
 
 enum OrganizationFeatureSet {
-  @_s.JsonValue('ALL')
   all,
-  @_s.JsonValue('CONSOLIDATED_BILLING')
   consolidatedBilling,
 }
 
@@ -6617,27 +7080,32 @@ extension on OrganizationFeatureSet {
       case OrganizationFeatureSet.consolidatedBilling:
         return 'CONSOLIDATED_BILLING';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  OrganizationFeatureSet toOrganizationFeatureSet() {
+    switch (this) {
+      case 'ALL':
+        return OrganizationFeatureSet.all;
+      case 'CONSOLIDATED_BILLING':
+        return OrganizationFeatureSet.consolidatedBilling;
+    }
+    throw Exception('$this is not known in enum OrganizationFeatureSet');
   }
 }
 
 /// Contains details about an organizational unit (OU). An OU is a container of
 /// AWS accounts within a root of an organization. Policies that are attached to
 /// an OU apply to all accounts contained in that OU and in any child OUs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OrganizationalUnit {
   /// The Amazon Resource Name (ARN) of this OU.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? arn;
 
   /// The unique identifier (ID) associated with this OU.
   ///
@@ -6646,33 +7114,43 @@ class OrganizationalUnit {
   /// lowercase letters or digits (the ID of the root that contains the OU). This
   /// string is followed by a second "-" dash and from 8 to 32 additional
   /// lowercase letters or digits.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The friendly name of this OU.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
   /// to validate this parameter is a string of any of the characters in the ASCII
   /// character range.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   OrganizationalUnit({
     this.arn,
     this.id,
     this.name,
   });
-  factory OrganizationalUnit.fromJson(Map<String, dynamic> json) =>
-      _$OrganizationalUnitFromJson(json);
+
+  factory OrganizationalUnit.fromJson(Map<String, dynamic> json) {
+    return OrganizationalUnit(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Contains information about either a root or an organizational unit (OU) that
 /// can contain OUs or accounts in an organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Parent {
   /// The unique identifier (ID) of the parent entity.
   ///
@@ -6691,97 +7169,131 @@ class Parent {
   /// additional lowercase letters or digits.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The type of the parent entity.
-  @_s.JsonKey(name: 'Type')
-  final ParentType type;
+  final ParentType? type;
 
   Parent({
     this.id,
     this.type,
   });
-  factory Parent.fromJson(Map<String, dynamic> json) => _$ParentFromJson(json);
+
+  factory Parent.fromJson(Map<String, dynamic> json) {
+    return Parent(
+      id: json['Id'] as String?,
+      type: (json['Type'] as String?)?.toParentType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final type = this.type;
+    return {
+      if (id != null) 'Id': id,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum ParentType {
-  @_s.JsonValue('ROOT')
   root,
-  @_s.JsonValue('ORGANIZATIONAL_UNIT')
   organizationalUnit,
+}
+
+extension on ParentType {
+  String toValue() {
+    switch (this) {
+      case ParentType.root:
+        return 'ROOT';
+      case ParentType.organizationalUnit:
+        return 'ORGANIZATIONAL_UNIT';
+    }
+  }
+}
+
+extension on String {
+  ParentType toParentType() {
+    switch (this) {
+      case 'ROOT':
+        return ParentType.root;
+      case 'ORGANIZATIONAL_UNIT':
+        return ParentType.organizationalUnit;
+    }
+    throw Exception('$this is not known in enum ParentType');
+  }
 }
 
 /// Contains rules to be applied to the affected accounts. Policies can be
 /// attached directly to accounts, or to roots and OUs to affect all accounts in
 /// those hierarchies.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Policy {
   /// The text content of the policy.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// A structure that contains additional details about the policy.
-  @_s.JsonKey(name: 'PolicySummary')
-  final PolicySummary policySummary;
+  final PolicySummary? policySummary;
 
   Policy({
     this.content,
     this.policySummary,
   });
-  factory Policy.fromJson(Map<String, dynamic> json) => _$PolicyFromJson(json);
+
+  factory Policy.fromJson(Map<String, dynamic> json) {
+    return Policy(
+      content: json['Content'] as String?,
+      policySummary: json['PolicySummary'] != null
+          ? PolicySummary.fromJson(
+              json['PolicySummary'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final policySummary = this.policySummary;
+    return {
+      if (content != null) 'Content': content,
+      if (policySummary != null) 'PolicySummary': policySummary,
+    };
+  }
 }
 
 /// Contains information about a policy, but does not include the content. To
 /// see the content of a policy, see <a>DescribePolicy</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicySummary {
   /// The Amazon Resource Name (ARN) of the policy.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? arn;
 
   /// A boolean value that indicates whether the specified policy is an AWS
   /// managed policy. If true, then you can attach the policy to roots, OUs, or
   /// accounts, but you cannot edit it.
-  @_s.JsonKey(name: 'AwsManaged')
-  final bool awsManaged;
+  final bool? awsManaged;
 
   /// The description of the policy.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The unique identifier (ID) of the policy.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a policy
   /// ID string requires "p-" followed by from 8 to 128 lowercase or uppercase
   /// letters, digits, or the underscore character (_).
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The friendly name of the policy.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
   /// to validate this parameter is a string of any of the characters in the ASCII
   /// character range.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The type of policy.
-  @_s.JsonKey(name: 'Type')
-  final PolicyType type;
+  final PolicyType? type;
 
   PolicySummary({
     this.arn,
@@ -6791,34 +7303,53 @@ class PolicySummary {
     this.name,
     this.type,
   });
-  factory PolicySummary.fromJson(Map<String, dynamic> json) =>
-      _$PolicySummaryFromJson(json);
+
+  factory PolicySummary.fromJson(Map<String, dynamic> json) {
+    return PolicySummary(
+      arn: json['Arn'] as String?,
+      awsManaged: json['AwsManaged'] as bool?,
+      description: json['Description'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      type: (json['Type'] as String?)?.toPolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final awsManaged = this.awsManaged;
+    final description = this.description;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (awsManaged != null) 'AwsManaged': awsManaged,
+      if (description != null) 'Description': description,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// Contains information about a root, OU, or account that a policy is attached
 /// to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicyTargetSummary {
   /// The Amazon Resource Name (ARN) of the policy target.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? arn;
 
   /// The friendly name of the policy target.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
   /// to validate this parameter is a string of any of the characters in the ASCII
   /// character range.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The unique identifier (ID) of the policy target.
   ///
@@ -6840,12 +7371,10 @@ class PolicyTargetSummary {
   /// additional lowercase letters or digits.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'TargetId')
-  final String targetId;
+  final String? targetId;
 
   /// The type of the policy target.
-  @_s.JsonKey(name: 'Type')
-  final TargetType type;
+  final TargetType? type;
 
   PolicyTargetSummary({
     this.arn,
@@ -6853,18 +7382,34 @@ class PolicyTargetSummary {
     this.targetId,
     this.type,
   });
-  factory PolicyTargetSummary.fromJson(Map<String, dynamic> json) =>
-      _$PolicyTargetSummaryFromJson(json);
+
+  factory PolicyTargetSummary.fromJson(Map<String, dynamic> json) {
+    return PolicyTargetSummary(
+      arn: json['Arn'] as String?,
+      name: json['Name'] as String?,
+      targetId: json['TargetId'] as String?,
+      type: (json['Type'] as String?)?.toTargetType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final name = this.name;
+    final targetId = this.targetId;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (name != null) 'Name': name,
+      if (targetId != null) 'TargetId': targetId,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum PolicyType {
-  @_s.JsonValue('SERVICE_CONTROL_POLICY')
   serviceControlPolicy,
-  @_s.JsonValue('TAG_POLICY')
   tagPolicy,
-  @_s.JsonValue('BACKUP_POLICY')
   backupPolicy,
-  @_s.JsonValue('AISERVICES_OPT_OUT_POLICY')
   aiservicesOptOutPolicy,
 }
 
@@ -6880,79 +7425,117 @@ extension on PolicyType {
       case PolicyType.aiservicesOptOutPolicy:
         return 'AISERVICES_OPT_OUT_POLICY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  PolicyType toPolicyType() {
+    switch (this) {
+      case 'SERVICE_CONTROL_POLICY':
+        return PolicyType.serviceControlPolicy;
+      case 'TAG_POLICY':
+        return PolicyType.tagPolicy;
+      case 'BACKUP_POLICY':
+        return PolicyType.backupPolicy;
+      case 'AISERVICES_OPT_OUT_POLICY':
+        return PolicyType.aiservicesOptOutPolicy;
+    }
+    throw Exception('$this is not known in enum PolicyType');
   }
 }
 
 enum PolicyTypeStatus {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('PENDING_ENABLE')
   pendingEnable,
-  @_s.JsonValue('PENDING_DISABLE')
   pendingDisable,
+}
+
+extension on PolicyTypeStatus {
+  String toValue() {
+    switch (this) {
+      case PolicyTypeStatus.enabled:
+        return 'ENABLED';
+      case PolicyTypeStatus.pendingEnable:
+        return 'PENDING_ENABLE';
+      case PolicyTypeStatus.pendingDisable:
+        return 'PENDING_DISABLE';
+    }
+  }
+}
+
+extension on String {
+  PolicyTypeStatus toPolicyTypeStatus() {
+    switch (this) {
+      case 'ENABLED':
+        return PolicyTypeStatus.enabled;
+      case 'PENDING_ENABLE':
+        return PolicyTypeStatus.pendingEnable;
+      case 'PENDING_DISABLE':
+        return PolicyTypeStatus.pendingDisable;
+    }
+    throw Exception('$this is not known in enum PolicyTypeStatus');
+  }
 }
 
 /// Contains information about a policy type and its status in the associated
 /// root.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PolicyTypeSummary {
   /// The status of the policy type as it relates to the associated root. To
   /// attach a policy of the specified type to a root or to an OU or account in
   /// that root, it must be available in the organization and enabled for that
   /// root.
-  @_s.JsonKey(name: 'Status')
-  final PolicyTypeStatus status;
+  final PolicyTypeStatus? status;
 
   /// The name of the policy type.
-  @_s.JsonKey(name: 'Type')
-  final PolicyType type;
+  final PolicyType? type;
 
   PolicyTypeSummary({
     this.status,
     this.type,
   });
-  factory PolicyTypeSummary.fromJson(Map<String, dynamic> json) =>
-      _$PolicyTypeSummaryFromJson(json);
+
+  factory PolicyTypeSummary.fromJson(Map<String, dynamic> json) {
+    return PolicyTypeSummary(
+      status: (json['Status'] as String?)?.toPolicyTypeStatus(),
+      type: (json['Type'] as String?)?.toPolicyType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// Contains details about a root. A root is a top-level parent node in the
 /// hierarchy of an organization that can contain organizational units (OUs) and
 /// accounts. The root contains every AWS account in the organization.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Root {
   /// The Amazon Resource Name (ARN) of the root.
   ///
   /// For more information about ARNs in Organizations, see <a
-  /// href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_permissions.html#orgs-permissions-arns">ARN
-  /// Formats Supported by Organizations</a> in the <i>AWS Organizations User
-  /// Guide</i>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  /// href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsorganizations.html#awsorganizations-resources-for-iam-policies">ARN
+  /// Formats Supported by Organizations</a> in the <i>AWS Service Authorization
+  /// Reference</i>.
+  final String? arn;
 
   /// The unique identifier (ID) for the root.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> for a root
   /// ID string requires "r-" followed by from 4 to 32 lowercase letters or
   /// digits.
-  @_s.JsonKey(name: 'Id')
-  final String id;
+  final String? id;
 
   /// The friendly name of the root.
   ///
   /// The <a href="http://wikipedia.org/wiki/regex">regex pattern</a> that is used
   /// to validate this parameter is a string of any of the characters in the ASCII
   /// character range.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The types of policies that are currently enabled for the root and therefore
   /// can be attached to the root or to its OUs or accounts.
@@ -6963,8 +7546,7 @@ class Root {
   /// <a>DescribeOrganization</a> to see the availability of the policy types in
   /// that organization.
   /// </note>
-  @_s.JsonKey(name: 'PolicyTypes')
-  final List<PolicyTypeSummary> policyTypes;
+  final List<PolicyTypeSummary>? policyTypes;
 
   Root({
     this.arn,
@@ -6972,7 +7554,31 @@ class Root {
     this.name,
     this.policyTypes,
   });
-  factory Root.fromJson(Map<String, dynamic> json) => _$RootFromJson(json);
+
+  factory Root.fromJson(Map<String, dynamic> json) {
+    return Root(
+      arn: json['Arn'] as String?,
+      id: json['Id'] as String?,
+      name: json['Name'] as String?,
+      policyTypes: (json['PolicyTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyTypeSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final id = this.id;
+    final name = this.name;
+    final policyTypes = this.policyTypes;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (id != null) 'Id': id,
+      if (name != null) 'Name': name,
+      if (policyTypes != null) 'PolicyTypes': policyTypes,
+    };
+  }
 }
 
 /// A custom key-value pair associated with a resource within your organization.
@@ -6993,79 +7599,123 @@ class Root {
 /// Policy
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key identifier, or name, of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The string value that's associated with the key of the tag. You can set the
   /// value of a tag to an empty string, but you can't set the value of a tag to
   /// null.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
 enum TargetType {
-  @_s.JsonValue('ACCOUNT')
   account,
-  @_s.JsonValue('ORGANIZATIONAL_UNIT')
   organizationalUnit,
-  @_s.JsonValue('ROOT')
   root,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TargetType {
+  String toValue() {
+    switch (this) {
+      case TargetType.account:
+        return 'ACCOUNT';
+      case TargetType.organizationalUnit:
+        return 'ORGANIZATIONAL_UNIT';
+      case TargetType.root:
+        return 'ROOT';
+    }
+  }
+}
+
+extension on String {
+  TargetType toTargetType() {
+    switch (this) {
+      case 'ACCOUNT':
+        return TargetType.account;
+      case 'ORGANIZATIONAL_UNIT':
+        return TargetType.organizationalUnit;
+      case 'ROOT':
+        return TargetType.root;
+    }
+    throw Exception('$this is not known in enum TargetType');
+  }
+}
+
 class UpdateOrganizationalUnitResponse {
   /// A structure that contains the details about the specified OU, including its
   /// new name.
-  @_s.JsonKey(name: 'OrganizationalUnit')
-  final OrganizationalUnit organizationalUnit;
+  final OrganizationalUnit? organizationalUnit;
 
   UpdateOrganizationalUnitResponse({
     this.organizationalUnit,
   });
-  factory UpdateOrganizationalUnitResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateOrganizationalUnitResponseFromJson(json);
+
+  factory UpdateOrganizationalUnitResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateOrganizationalUnitResponse(
+      organizationalUnit: json['OrganizationalUnit'] != null
+          ? OrganizationalUnit.fromJson(
+              json['OrganizationalUnit'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final organizationalUnit = this.organizationalUnit;
+    return {
+      if (organizationalUnit != null) 'OrganizationalUnit': organizationalUnit,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdatePolicyResponse {
   /// A structure that contains details about the updated policy, showing the
   /// requested changes.
-  @_s.JsonKey(name: 'Policy')
-  final Policy policy;
+  final Policy? policy;
 
   UpdatePolicyResponse({
     this.policy,
   });
-  factory UpdatePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdatePolicyResponseFromJson(json);
+
+  factory UpdatePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return UpdatePolicyResponse(
+      policy: json['Policy'] != null
+          ? Policy.fromJson(json['Policy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
 }
 
 class AWSOrganizationsNotInUseException extends _s.GenericAwsException {
-  AWSOrganizationsNotInUseException({String type, String message})
+  AWSOrganizationsNotInUseException({String? type, String? message})
       : super(
             type: type,
             code: 'AWSOrganizationsNotInUseException',
@@ -7073,12 +7723,12 @@ class AWSOrganizationsNotInUseException extends _s.GenericAwsException {
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AccessDeniedForDependencyException extends _s.GenericAwsException {
-  AccessDeniedForDependencyException({String type, String message})
+  AccessDeniedForDependencyException({String? type, String? message})
       : super(
             type: type,
             code: 'AccessDeniedForDependencyException',
@@ -7086,7 +7736,7 @@ class AccessDeniedForDependencyException extends _s.GenericAwsException {
 }
 
 class AccountAlreadyRegisteredException extends _s.GenericAwsException {
-  AccountAlreadyRegisteredException({String type, String message})
+  AccountAlreadyRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'AccountAlreadyRegisteredException',
@@ -7094,12 +7744,12 @@ class AccountAlreadyRegisteredException extends _s.GenericAwsException {
 }
 
 class AccountNotFoundException extends _s.GenericAwsException {
-  AccountNotFoundException({String type, String message})
+  AccountNotFoundException({String? type, String? message})
       : super(type: type, code: 'AccountNotFoundException', message: message);
 }
 
 class AccountNotRegisteredException extends _s.GenericAwsException {
-  AccountNotRegisteredException({String type, String message})
+  AccountNotRegisteredException({String? type, String? message})
       : super(
             type: type,
             code: 'AccountNotRegisteredException',
@@ -7107,7 +7757,7 @@ class AccountNotRegisteredException extends _s.GenericAwsException {
 }
 
 class AccountOwnerNotVerifiedException extends _s.GenericAwsException {
-  AccountOwnerNotVerifiedException({String type, String message})
+  AccountOwnerNotVerifiedException({String? type, String? message})
       : super(
             type: type,
             code: 'AccountOwnerNotVerifiedException',
@@ -7115,7 +7765,7 @@ class AccountOwnerNotVerifiedException extends _s.GenericAwsException {
 }
 
 class AlreadyInOrganizationException extends _s.GenericAwsException {
-  AlreadyInOrganizationException({String type, String message})
+  AlreadyInOrganizationException({String? type, String? message})
       : super(
             type: type,
             code: 'AlreadyInOrganizationException',
@@ -7123,12 +7773,12 @@ class AlreadyInOrganizationException extends _s.GenericAwsException {
 }
 
 class ChildNotFoundException extends _s.GenericAwsException {
-  ChildNotFoundException({String type, String message})
+  ChildNotFoundException({String? type, String? message})
       : super(type: type, code: 'ChildNotFoundException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -7136,13 +7786,13 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class ConstraintViolationException extends _s.GenericAwsException {
-  ConstraintViolationException({String type, String message})
+  ConstraintViolationException({String? type, String? message})
       : super(
             type: type, code: 'ConstraintViolationException', message: message);
 }
 
 class CreateAccountStatusNotFoundException extends _s.GenericAwsException {
-  CreateAccountStatusNotFoundException({String type, String message})
+  CreateAccountStatusNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'CreateAccountStatusNotFoundException',
@@ -7150,7 +7800,7 @@ class CreateAccountStatusNotFoundException extends _s.GenericAwsException {
 }
 
 class DestinationParentNotFoundException extends _s.GenericAwsException {
-  DestinationParentNotFoundException({String type, String message})
+  DestinationParentNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'DestinationParentNotFoundException',
@@ -7158,18 +7808,18 @@ class DestinationParentNotFoundException extends _s.GenericAwsException {
 }
 
 class DuplicateAccountException extends _s.GenericAwsException {
-  DuplicateAccountException({String type, String message})
+  DuplicateAccountException({String? type, String? message})
       : super(type: type, code: 'DuplicateAccountException', message: message);
 }
 
 class DuplicateHandshakeException extends _s.GenericAwsException {
-  DuplicateHandshakeException({String type, String message})
+  DuplicateHandshakeException({String? type, String? message})
       : super(
             type: type, code: 'DuplicateHandshakeException', message: message);
 }
 
 class DuplicateOrganizationalUnitException extends _s.GenericAwsException {
-  DuplicateOrganizationalUnitException({String type, String message})
+  DuplicateOrganizationalUnitException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicateOrganizationalUnitException',
@@ -7177,7 +7827,7 @@ class DuplicateOrganizationalUnitException extends _s.GenericAwsException {
 }
 
 class DuplicatePolicyAttachmentException extends _s.GenericAwsException {
-  DuplicatePolicyAttachmentException({String type, String message})
+  DuplicatePolicyAttachmentException({String? type, String? message})
       : super(
             type: type,
             code: 'DuplicatePolicyAttachmentException',
@@ -7185,12 +7835,12 @@ class DuplicatePolicyAttachmentException extends _s.GenericAwsException {
 }
 
 class DuplicatePolicyException extends _s.GenericAwsException {
-  DuplicatePolicyException({String type, String message})
+  DuplicatePolicyException({String? type, String? message})
       : super(type: type, code: 'DuplicatePolicyException', message: message);
 }
 
 class EffectivePolicyNotFoundException extends _s.GenericAwsException {
-  EffectivePolicyNotFoundException({String type, String message})
+  EffectivePolicyNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'EffectivePolicyNotFoundException',
@@ -7198,7 +7848,7 @@ class EffectivePolicyNotFoundException extends _s.GenericAwsException {
 }
 
 class FinalizingOrganizationException extends _s.GenericAwsException {
-  FinalizingOrganizationException({String type, String message})
+  FinalizingOrganizationException({String? type, String? message})
       : super(
             type: type,
             code: 'FinalizingOrganizationException',
@@ -7206,7 +7856,7 @@ class FinalizingOrganizationException extends _s.GenericAwsException {
 }
 
 class HandshakeAlreadyInStateException extends _s.GenericAwsException {
-  HandshakeAlreadyInStateException({String type, String message})
+  HandshakeAlreadyInStateException({String? type, String? message})
       : super(
             type: type,
             code: 'HandshakeAlreadyInStateException',
@@ -7214,7 +7864,7 @@ class HandshakeAlreadyInStateException extends _s.GenericAwsException {
 }
 
 class HandshakeConstraintViolationException extends _s.GenericAwsException {
-  HandshakeConstraintViolationException({String type, String message})
+  HandshakeConstraintViolationException({String? type, String? message})
       : super(
             type: type,
             code: 'HandshakeConstraintViolationException',
@@ -7222,12 +7872,12 @@ class HandshakeConstraintViolationException extends _s.GenericAwsException {
 }
 
 class HandshakeNotFoundException extends _s.GenericAwsException {
-  HandshakeNotFoundException({String type, String message})
+  HandshakeNotFoundException({String? type, String? message})
       : super(type: type, code: 'HandshakeNotFoundException', message: message);
 }
 
 class InvalidHandshakeTransitionException extends _s.GenericAwsException {
-  InvalidHandshakeTransitionException({String type, String message})
+  InvalidHandshakeTransitionException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidHandshakeTransitionException',
@@ -7235,12 +7885,12 @@ class InvalidHandshakeTransitionException extends _s.GenericAwsException {
 }
 
 class InvalidInputException extends _s.GenericAwsException {
-  InvalidInputException({String type, String message})
+  InvalidInputException({String? type, String? message})
       : super(type: type, code: 'InvalidInputException', message: message);
 }
 
 class MalformedPolicyDocumentException extends _s.GenericAwsException {
-  MalformedPolicyDocumentException({String type, String message})
+  MalformedPolicyDocumentException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedPolicyDocumentException',
@@ -7248,7 +7898,7 @@ class MalformedPolicyDocumentException extends _s.GenericAwsException {
 }
 
 class MasterCannotLeaveOrganizationException extends _s.GenericAwsException {
-  MasterCannotLeaveOrganizationException({String type, String message})
+  MasterCannotLeaveOrganizationException({String? type, String? message})
       : super(
             type: type,
             code: 'MasterCannotLeaveOrganizationException',
@@ -7256,7 +7906,7 @@ class MasterCannotLeaveOrganizationException extends _s.GenericAwsException {
 }
 
 class OrganizationNotEmptyException extends _s.GenericAwsException {
-  OrganizationNotEmptyException({String type, String message})
+  OrganizationNotEmptyException({String? type, String? message})
       : super(
             type: type,
             code: 'OrganizationNotEmptyException',
@@ -7264,7 +7914,7 @@ class OrganizationNotEmptyException extends _s.GenericAwsException {
 }
 
 class OrganizationalUnitNotEmptyException extends _s.GenericAwsException {
-  OrganizationalUnitNotEmptyException({String type, String message})
+  OrganizationalUnitNotEmptyException({String? type, String? message})
       : super(
             type: type,
             code: 'OrganizationalUnitNotEmptyException',
@@ -7272,7 +7922,7 @@ class OrganizationalUnitNotEmptyException extends _s.GenericAwsException {
 }
 
 class OrganizationalUnitNotFoundException extends _s.GenericAwsException {
-  OrganizationalUnitNotFoundException({String type, String message})
+  OrganizationalUnitNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'OrganizationalUnitNotFoundException',
@@ -7280,12 +7930,12 @@ class OrganizationalUnitNotFoundException extends _s.GenericAwsException {
 }
 
 class ParentNotFoundException extends _s.GenericAwsException {
-  ParentNotFoundException({String type, String message})
+  ParentNotFoundException({String? type, String? message})
       : super(type: type, code: 'ParentNotFoundException', message: message);
 }
 
 class PolicyChangesInProgressException extends _s.GenericAwsException {
-  PolicyChangesInProgressException({String type, String message})
+  PolicyChangesInProgressException({String? type, String? message})
       : super(
             type: type,
             code: 'PolicyChangesInProgressException',
@@ -7293,22 +7943,22 @@ class PolicyChangesInProgressException extends _s.GenericAwsException {
 }
 
 class PolicyInUseException extends _s.GenericAwsException {
-  PolicyInUseException({String type, String message})
+  PolicyInUseException({String? type, String? message})
       : super(type: type, code: 'PolicyInUseException', message: message);
 }
 
 class PolicyNotAttachedException extends _s.GenericAwsException {
-  PolicyNotAttachedException({String type, String message})
+  PolicyNotAttachedException({String? type, String? message})
       : super(type: type, code: 'PolicyNotAttachedException', message: message);
 }
 
 class PolicyNotFoundException extends _s.GenericAwsException {
-  PolicyNotFoundException({String type, String message})
+  PolicyNotFoundException({String? type, String? message})
       : super(type: type, code: 'PolicyNotFoundException', message: message);
 }
 
 class PolicyTypeAlreadyEnabledException extends _s.GenericAwsException {
-  PolicyTypeAlreadyEnabledException({String type, String message})
+  PolicyTypeAlreadyEnabledException({String? type, String? message})
       : super(
             type: type,
             code: 'PolicyTypeAlreadyEnabledException',
@@ -7317,7 +7967,8 @@ class PolicyTypeAlreadyEnabledException extends _s.GenericAwsException {
 
 class PolicyTypeNotAvailableForOrganizationException
     extends _s.GenericAwsException {
-  PolicyTypeNotAvailableForOrganizationException({String type, String message})
+  PolicyTypeNotAvailableForOrganizationException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'PolicyTypeNotAvailableForOrganizationException',
@@ -7325,7 +7976,7 @@ class PolicyTypeNotAvailableForOrganizationException
 }
 
 class PolicyTypeNotEnabledException extends _s.GenericAwsException {
-  PolicyTypeNotEnabledException({String type, String message})
+  PolicyTypeNotEnabledException({String? type, String? message})
       : super(
             type: type,
             code: 'PolicyTypeNotEnabledException',
@@ -7333,17 +7984,17 @@ class PolicyTypeNotEnabledException extends _s.GenericAwsException {
 }
 
 class RootNotFoundException extends _s.GenericAwsException {
-  RootNotFoundException({String type, String message})
+  RootNotFoundException({String? type, String? message})
       : super(type: type, code: 'RootNotFoundException', message: message);
 }
 
 class ServiceException extends _s.GenericAwsException {
-  ServiceException({String type, String message})
+  ServiceException({String? type, String? message})
       : super(type: type, code: 'ServiceException', message: message);
 }
 
 class SourceParentNotFoundException extends _s.GenericAwsException {
-  SourceParentNotFoundException({String type, String message})
+  SourceParentNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'SourceParentNotFoundException',
@@ -7351,17 +8002,17 @@ class SourceParentNotFoundException extends _s.GenericAwsException {
 }
 
 class TargetNotFoundException extends _s.GenericAwsException {
-  TargetNotFoundException({String type, String message})
+  TargetNotFoundException({String? type, String? message})
       : super(type: type, code: 'TargetNotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnsupportedAPIEndpointException extends _s.GenericAwsException {
-  UnsupportedAPIEndpointException({String type, String message})
+  UnsupportedAPIEndpointException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedAPIEndpointException',

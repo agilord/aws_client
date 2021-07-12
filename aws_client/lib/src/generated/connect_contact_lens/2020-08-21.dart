@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-08-21.g.dart';
 
 /// Contact Lens for Amazon Connect enables you to analyze conversations between
 /// customer and agents, by using speech transcription, natural language
@@ -40,10 +33,10 @@ part '2020-08-21.g.dart';
 class ConnectContactLens {
   final _s.RestJsonProtocol _protocol;
   ConnectContactLens({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -77,10 +70,10 @@ class ConnectContactLens {
   /// previous response in the next request to retrieve the next set of results.
   Future<ListRealtimeContactAnalysisSegmentsResponse>
       listRealtimeContactAnalysisSegments({
-    @_s.required String contactId,
-    @_s.required String instanceId,
-    int maxResults,
-    String nextToken,
+    required String contactId,
+    required String instanceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(contactId, 'contactId');
     _s.validateStringLength(
@@ -90,24 +83,12 @@ class ConnectContactLens {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'contactId',
-      contactId,
-      r'''.*\S.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
       'instanceId',
       instanceId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'instanceId',
-      instanceId,
-      r'''.*\S.*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -121,11 +102,6 @@ class ConnectContactLens {
       nextToken,
       1,
       131070,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final $payload = <String, dynamic>{
       'ContactId': contactId,
@@ -145,97 +121,124 @@ class ConnectContactLens {
 
 /// Provides the category rules that are used to automatically categorize
 /// contacts based on uttered keywords and phrases.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Categories {
   /// The category rules that have been matched in the analyzed segment.
-  @_s.JsonKey(name: 'MatchedCategories')
   final List<String> matchedCategories;
 
   /// The category rule that was matched and when it occurred in the transcript.
-  @_s.JsonKey(name: 'MatchedDetails')
   final Map<String, CategoryDetails> matchedDetails;
 
   Categories({
-    @_s.required this.matchedCategories,
-    @_s.required this.matchedDetails,
+    required this.matchedCategories,
+    required this.matchedDetails,
   });
-  factory Categories.fromJson(Map<String, dynamic> json) =>
-      _$CategoriesFromJson(json);
+
+  factory Categories.fromJson(Map<String, dynamic> json) {
+    return Categories(
+      matchedCategories: (json['MatchedCategories'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      matchedDetails: (json['MatchedDetails'] as Map<String, dynamic>).map(
+          (k, e) =>
+              MapEntry(k, CategoryDetails.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final matchedCategories = this.matchedCategories;
+    final matchedDetails = this.matchedDetails;
+    return {
+      'MatchedCategories': matchedCategories,
+      'MatchedDetails': matchedDetails,
+    };
+  }
 }
 
 /// Provides information about the category rule that was matched.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CategoryDetails {
   /// The section of audio where the category rule was detected.
-  @_s.JsonKey(name: 'PointsOfInterest')
   final List<PointOfInterest> pointsOfInterest;
 
   CategoryDetails({
-    @_s.required this.pointsOfInterest,
+    required this.pointsOfInterest,
   });
-  factory CategoryDetails.fromJson(Map<String, dynamic> json) =>
-      _$CategoryDetailsFromJson(json);
+
+  factory CategoryDetails.fromJson(Map<String, dynamic> json) {
+    return CategoryDetails(
+      pointsOfInterest: (json['PointsOfInterest'] as List)
+          .whereNotNull()
+          .map((e) => PointOfInterest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final pointsOfInterest = this.pointsOfInterest;
+    return {
+      'PointsOfInterest': pointsOfInterest,
+    };
+  }
 }
 
 /// For characters that were detected as issues, where they occur in the
 /// transcript.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CharacterOffsets {
   /// The beginning of the issue.
-  @_s.JsonKey(name: 'BeginOffsetChar')
   final int beginOffsetChar;
 
   /// The end of the issue.
-  @_s.JsonKey(name: 'EndOffsetChar')
   final int endOffsetChar;
 
   CharacterOffsets({
-    @_s.required this.beginOffsetChar,
-    @_s.required this.endOffsetChar,
+    required this.beginOffsetChar,
+    required this.endOffsetChar,
   });
-  factory CharacterOffsets.fromJson(Map<String, dynamic> json) =>
-      _$CharacterOffsetsFromJson(json);
+
+  factory CharacterOffsets.fromJson(Map<String, dynamic> json) {
+    return CharacterOffsets(
+      beginOffsetChar: json['BeginOffsetChar'] as int,
+      endOffsetChar: json['EndOffsetChar'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffsetChar = this.beginOffsetChar;
+    final endOffsetChar = this.endOffsetChar;
+    return {
+      'BeginOffsetChar': beginOffsetChar,
+      'EndOffsetChar': endOffsetChar,
+    };
+  }
 }
 
 /// Potential issues that are detected based on an artificial intelligence
 /// analysis of each turn in the conversation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IssueDetected {
   /// The offset for when the issue was detected in the segment.
-  @_s.JsonKey(name: 'CharacterOffsets')
   final CharacterOffsets characterOffsets;
 
   IssueDetected({
-    @_s.required this.characterOffsets,
+    required this.characterOffsets,
   });
-  factory IssueDetected.fromJson(Map<String, dynamic> json) =>
-      _$IssueDetectedFromJson(json);
+
+  factory IssueDetected.fromJson(Map<String, dynamic> json) {
+    return IssueDetected(
+      characterOffsets: CharacterOffsets.fromJson(
+          json['CharacterOffsets'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final characterOffsets = this.characterOffsets;
+    return {
+      'CharacterOffsets': characterOffsets,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRealtimeContactAnalysisSegmentsResponse {
   /// An analyzed transcript or category.
-  @_s.JsonKey(name: 'Segments')
   final List<RealtimeContactAnalysisSegment> segments;
 
   /// If there are additional results, this is the token for the next set of
@@ -255,148 +258,229 @@ class ListRealtimeContactAnalysisSegmentsResponse {
   /// If response does not include <code>nextToken</code>, the analysis is
   /// completed (successfully or failed) and there are no more segments to
   /// retrieve.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListRealtimeContactAnalysisSegmentsResponse({
-    @_s.required this.segments,
+    required this.segments,
     this.nextToken,
   });
+
   factory ListRealtimeContactAnalysisSegmentsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListRealtimeContactAnalysisSegmentsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListRealtimeContactAnalysisSegmentsResponse(
+      segments: (json['Segments'] as List)
+          .whereNotNull()
+          .map((e) => RealtimeContactAnalysisSegment.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final segments = this.segments;
+    final nextToken = this.nextToken;
+    return {
+      'Segments': segments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// The section of the contact audio where that category rule was detected.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PointOfInterest {
   /// The beginning offset in milliseconds where the category rule was detected.
-  @_s.JsonKey(name: 'BeginOffsetMillis')
   final int beginOffsetMillis;
 
   /// The ending offset in milliseconds where the category rule was detected.
-  @_s.JsonKey(name: 'EndOffsetMillis')
   final int endOffsetMillis;
 
   PointOfInterest({
-    @_s.required this.beginOffsetMillis,
-    @_s.required this.endOffsetMillis,
+    required this.beginOffsetMillis,
+    required this.endOffsetMillis,
   });
-  factory PointOfInterest.fromJson(Map<String, dynamic> json) =>
-      _$PointOfInterestFromJson(json);
+
+  factory PointOfInterest.fromJson(Map<String, dynamic> json) {
+    return PointOfInterest(
+      beginOffsetMillis: json['BeginOffsetMillis'] as int,
+      endOffsetMillis: json['EndOffsetMillis'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffsetMillis = this.beginOffsetMillis;
+    final endOffsetMillis = this.endOffsetMillis;
+    return {
+      'BeginOffsetMillis': beginOffsetMillis,
+      'EndOffsetMillis': endOffsetMillis,
+    };
+  }
 }
 
 /// An analyzed segment for a real-time analysis session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RealtimeContactAnalysisSegment {
   /// The matched category rules.
-  @_s.JsonKey(name: 'Categories')
-  final Categories categories;
+  final Categories? categories;
 
   /// The analyzed transcript.
-  @_s.JsonKey(name: 'Transcript')
-  final Transcript transcript;
+  final Transcript? transcript;
 
   RealtimeContactAnalysisSegment({
     this.categories,
     this.transcript,
   });
-  factory RealtimeContactAnalysisSegment.fromJson(Map<String, dynamic> json) =>
-      _$RealtimeContactAnalysisSegmentFromJson(json);
+
+  factory RealtimeContactAnalysisSegment.fromJson(Map<String, dynamic> json) {
+    return RealtimeContactAnalysisSegment(
+      categories: json['Categories'] != null
+          ? Categories.fromJson(json['Categories'] as Map<String, dynamic>)
+          : null,
+      transcript: json['Transcript'] != null
+          ? Transcript.fromJson(json['Transcript'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categories = this.categories;
+    final transcript = this.transcript;
+    return {
+      if (categories != null) 'Categories': categories,
+      if (transcript != null) 'Transcript': transcript,
+    };
+  }
 }
 
 enum SentimentValue {
-  @_s.JsonValue('POSITIVE')
   positive,
-  @_s.JsonValue('NEUTRAL')
   neutral,
-  @_s.JsonValue('NEGATIVE')
   negative,
 }
 
+extension on SentimentValue {
+  String toValue() {
+    switch (this) {
+      case SentimentValue.positive:
+        return 'POSITIVE';
+      case SentimentValue.neutral:
+        return 'NEUTRAL';
+      case SentimentValue.negative:
+        return 'NEGATIVE';
+    }
+  }
+}
+
+extension on String {
+  SentimentValue toSentimentValue() {
+    switch (this) {
+      case 'POSITIVE':
+        return SentimentValue.positive;
+      case 'NEUTRAL':
+        return SentimentValue.neutral;
+      case 'NEGATIVE':
+        return SentimentValue.negative;
+    }
+    throw Exception('$this is not known in enum SentimentValue');
+  }
+}
+
 /// A list of messages in the session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Transcript {
   /// The beginning offset in the contact for this transcript.
-  @_s.JsonKey(name: 'BeginOffsetMillis')
   final int beginOffsetMillis;
 
   /// The content of the transcript.
-  @_s.JsonKey(name: 'Content')
   final String content;
 
   /// The end offset in the contact for this transcript.
-  @_s.JsonKey(name: 'EndOffsetMillis')
   final int endOffsetMillis;
 
   /// The identifier of the transcript.
-  @_s.JsonKey(name: 'Id')
   final String id;
 
   /// The identifier of the participant.
-  @_s.JsonKey(name: 'ParticipantId')
   final String participantId;
 
   /// The role of participant. For example, is it a customer, agent, or system.
-  @_s.JsonKey(name: 'ParticipantRole')
   final String participantRole;
 
   /// The sentiment of the detected for this piece of transcript.
-  @_s.JsonKey(name: 'Sentiment')
   final SentimentValue sentiment;
 
   /// List of positions where issues were detected on the transcript.
-  @_s.JsonKey(name: 'IssuesDetected')
-  final List<IssueDetected> issuesDetected;
+  final List<IssueDetected>? issuesDetected;
 
   Transcript({
-    @_s.required this.beginOffsetMillis,
-    @_s.required this.content,
-    @_s.required this.endOffsetMillis,
-    @_s.required this.id,
-    @_s.required this.participantId,
-    @_s.required this.participantRole,
-    @_s.required this.sentiment,
+    required this.beginOffsetMillis,
+    required this.content,
+    required this.endOffsetMillis,
+    required this.id,
+    required this.participantId,
+    required this.participantRole,
+    required this.sentiment,
     this.issuesDetected,
   });
-  factory Transcript.fromJson(Map<String, dynamic> json) =>
-      _$TranscriptFromJson(json);
+
+  factory Transcript.fromJson(Map<String, dynamic> json) {
+    return Transcript(
+      beginOffsetMillis: json['BeginOffsetMillis'] as int,
+      content: json['Content'] as String,
+      endOffsetMillis: json['EndOffsetMillis'] as int,
+      id: json['Id'] as String,
+      participantId: json['ParticipantId'] as String,
+      participantRole: json['ParticipantRole'] as String,
+      sentiment: (json['Sentiment'] as String).toSentimentValue(),
+      issuesDetected: (json['IssuesDetected'] as List?)
+          ?.whereNotNull()
+          .map((e) => IssueDetected.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginOffsetMillis = this.beginOffsetMillis;
+    final content = this.content;
+    final endOffsetMillis = this.endOffsetMillis;
+    final id = this.id;
+    final participantId = this.participantId;
+    final participantRole = this.participantRole;
+    final sentiment = this.sentiment;
+    final issuesDetected = this.issuesDetected;
+    return {
+      'BeginOffsetMillis': beginOffsetMillis,
+      'Content': content,
+      'EndOffsetMillis': endOffsetMillis,
+      'Id': id,
+      'ParticipantId': participantId,
+      'ParticipantRole': participantRole,
+      'Sentiment': sentiment.toValue(),
+      if (issuesDetected != null) 'IssuesDetected': issuesDetected,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InternalServiceException extends _s.GenericAwsException {
-  InternalServiceException({String type, String message})
+  InternalServiceException({String? type, String? message})
       : super(type: type, code: 'InternalServiceException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 

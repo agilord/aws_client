@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-07-05.g.dart';
 
 /// Transit Gateway Network Manager (Network Manager) enables you to create a
 /// global network, in which you can monitor your AWS and on-premises networks
@@ -36,10 +29,10 @@ part '2019-07-05.g.dart';
 class NetworkManager {
   final _s.RestJsonProtocol _protocol;
   NetworkManager({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -89,10 +82,10 @@ class NetworkManager {
   /// Parameter [linkId] :
   /// The ID of the link.
   Future<AssociateCustomerGatewayResponse> associateCustomerGateway({
-    @_s.required String customerGatewayArn,
-    @_s.required String deviceId,
-    @_s.required String globalNetworkId,
-    String linkId,
+    required String customerGatewayArn,
+    required String deviceId,
+    required String globalNetworkId,
+    String? linkId,
   }) async {
     ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
     ArgumentError.checkNotNull(deviceId, 'deviceId');
@@ -133,9 +126,9 @@ class NetworkManager {
   /// Parameter [linkId] :
   /// The ID of the link.
   Future<AssociateLinkResponse> associateLink({
-    @_s.required String deviceId,
-    @_s.required String globalNetworkId,
-    @_s.required String linkId,
+    required String deviceId,
+    required String globalNetworkId,
+    required String linkId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -185,10 +178,10 @@ class NetworkManager {
   /// The ID of the link.
   Future<AssociateTransitGatewayConnectPeerResponse>
       associateTransitGatewayConnectPeer({
-    @_s.required String deviceId,
-    @_s.required String globalNetworkId,
-    @_s.required String transitGatewayConnectPeerArn,
-    String linkId,
+    required String deviceId,
+    required String globalNetworkId,
+    required String transitGatewayConnectPeerArn,
+    String? linkId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -244,13 +237,13 @@ class NetworkManager {
   /// Parameter [tags] :
   /// The tags to apply to the resource during creation.
   Future<CreateConnectionResponse> createConnection({
-    @_s.required String connectedDeviceId,
-    @_s.required String deviceId,
-    @_s.required String globalNetworkId,
-    String connectedLinkId,
-    String description,
-    String linkId,
-    List<Tag> tags,
+    required String connectedDeviceId,
+    required String deviceId,
+    required String globalNetworkId,
+    String? connectedLinkId,
+    String? description,
+    String? linkId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(connectedDeviceId, 'connectedDeviceId');
     ArgumentError.checkNotNull(deviceId, 'deviceId');
@@ -323,16 +316,16 @@ class NetworkManager {
   ///
   /// Length Constraints: Maximum length of 128 characters.
   Future<CreateDeviceResponse> createDevice({
-    @_s.required String globalNetworkId,
-    AWSLocation awsLocation,
-    String description,
-    Location location,
-    String model,
-    String serialNumber,
-    String siteId,
-    List<Tag> tags,
-    String type,
-    String vendor,
+    required String globalNetworkId,
+    AWSLocation? awsLocation,
+    String? description,
+    Location? location,
+    String? model,
+    String? serialNumber,
+    String? siteId,
+    List<Tag>? tags,
+    String? type,
+    String? vendor,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
@@ -373,8 +366,8 @@ class NetworkManager {
   /// Parameter [tags] :
   /// The tags to apply to the resource during creation.
   Future<CreateGlobalNetworkResponse> createGlobalNetwork({
-    String description,
-    List<Tag> tags,
+    String? description,
+    List<Tag>? tags,
   }) async {
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
@@ -430,13 +423,13 @@ class NetworkManager {
   ///
   /// Length Constraints: Maximum length of 128 characters.
   Future<CreateLinkResponse> createLink({
-    @_s.required Bandwidth bandwidth,
-    @_s.required String globalNetworkId,
-    @_s.required String siteId,
-    String description,
-    String provider,
-    List<Tag> tags,
-    String type,
+    required Bandwidth bandwidth,
+    required String globalNetworkId,
+    required String siteId,
+    String? description,
+    String? provider,
+    List<Tag>? tags,
+    String? type,
   }) async {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -497,10 +490,10 @@ class NetworkManager {
   /// Parameter [tags] :
   /// The tags to apply to the resource during creation.
   Future<CreateSiteResponse> createSite({
-    @_s.required String globalNetworkId,
-    String description,
-    Location location,
-    List<Tag> tags,
+    required String globalNetworkId,
+    String? description,
+    Location? location,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
@@ -533,8 +526,8 @@ class NetworkManager {
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
   Future<DeleteConnectionResponse> deleteConnection({
-    @_s.required String connectionId,
-    @_s.required String globalNetworkId,
+    required String connectionId,
+    required String globalNetworkId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -564,8 +557,8 @@ class NetworkManager {
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
   Future<DeleteDeviceResponse> deleteDevice({
-    @_s.required String deviceId,
-    @_s.required String globalNetworkId,
+    required String deviceId,
+    required String globalNetworkId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -593,7 +586,7 @@ class NetworkManager {
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
   Future<DeleteGlobalNetworkResponse> deleteGlobalNetwork({
-    @_s.required String globalNetworkId,
+    required String globalNetworkId,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final response = await _protocol.send(
@@ -621,8 +614,8 @@ class NetworkManager {
   /// Parameter [linkId] :
   /// The ID of the link.
   Future<DeleteLinkResponse> deleteLink({
-    @_s.required String globalNetworkId,
-    @_s.required String linkId,
+    required String globalNetworkId,
+    required String linkId,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
@@ -652,8 +645,8 @@ class NetworkManager {
   /// Parameter [siteId] :
   /// The ID of the site.
   Future<DeleteSiteResponse> deleteSite({
-    @_s.required String globalNetworkId,
-    @_s.required String siteId,
+    required String globalNetworkId,
+    required String siteId,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
@@ -684,8 +677,8 @@ class NetworkManager {
   /// Parameter [transitGatewayArn] :
   /// The Amazon Resource Name (ARN) of the transit gateway.
   Future<DeregisterTransitGatewayResponse> deregisterTransitGateway({
-    @_s.required String globalNetworkId,
-    @_s.required String transitGatewayArn,
+    required String globalNetworkId,
+    required String transitGatewayArn,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
@@ -720,9 +713,9 @@ class NetworkManager {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<DescribeGlobalNetworksResponse> describeGlobalNetworks({
-    List<String> globalNetworkIds,
-    int maxResults,
-    String nextToken,
+    List<String>? globalNetworkIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -763,8 +756,8 @@ class NetworkManager {
   /// Parameter [globalNetworkId] :
   /// The ID of the global network.
   Future<DisassociateCustomerGatewayResponse> disassociateCustomerGateway({
-    @_s.required String customerGatewayArn,
-    @_s.required String globalNetworkId,
+    required String customerGatewayArn,
+    required String globalNetworkId,
   }) async {
     ArgumentError.checkNotNull(customerGatewayArn, 'customerGatewayArn');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -797,16 +790,16 @@ class NetworkManager {
   /// Parameter [linkId] :
   /// The ID of the link.
   Future<DisassociateLinkResponse> disassociateLink({
-    @_s.required String deviceId,
-    @_s.required String globalNetworkId,
-    @_s.required String linkId,
+    required String deviceId,
+    required String globalNetworkId,
+    required String linkId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
     final $query = <String, List<String>>{
-      if (deviceId != null) 'deviceId': [deviceId],
-      if (linkId != null) 'linkId': [linkId],
+      'deviceId': [deviceId],
+      'linkId': [linkId],
     };
     final response = await _protocol.send(
       payload: null,
@@ -835,8 +828,8 @@ class NetworkManager {
   /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
   Future<DisassociateTransitGatewayConnectPeerResponse>
       disassociateTransitGatewayConnectPeer({
-    @_s.required String globalNetworkId,
-    @_s.required String transitGatewayConnectPeerArn,
+    required String globalNetworkId,
+    required String transitGatewayConnectPeerArn,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(
@@ -875,11 +868,11 @@ class NetworkManager {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<GetConnectionsResponse> getConnections({
-    @_s.required String globalNetworkId,
-    List<String> connectionIds,
-    String deviceId,
-    int maxResults,
-    String nextToken,
+    required String globalNetworkId,
+    List<String>? connectionIds,
+    String? deviceId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -931,10 +924,10 @@ class NetworkManager {
   /// The token for the next page of results.
   Future<GetCustomerGatewayAssociationsResponse>
       getCustomerGatewayAssociations({
-    @_s.required String globalNetworkId,
-    List<String> customerGatewayArns,
-    int maxResults,
-    String nextToken,
+    required String globalNetworkId,
+    List<String>? customerGatewayArns,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -983,11 +976,11 @@ class NetworkManager {
   /// Parameter [siteId] :
   /// The ID of the site.
   Future<GetDevicesResponse> getDevices({
-    @_s.required String globalNetworkId,
-    List<String> deviceIds,
-    int maxResults,
-    String nextToken,
-    String siteId,
+    required String globalNetworkId,
+    List<String>? deviceIds,
+    int? maxResults,
+    String? nextToken,
+    String? siteId,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -1037,11 +1030,11 @@ class NetworkManager {
   /// Parameter [nextToken] :
   /// The token for the next page of results.
   Future<GetLinkAssociationsResponse> getLinkAssociations({
-    @_s.required String globalNetworkId,
-    String deviceId,
-    String linkId,
-    int maxResults,
-    String nextToken,
+    required String globalNetworkId,
+    String? deviceId,
+    String? linkId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -1099,13 +1092,13 @@ class NetworkManager {
   /// Parameter [type] :
   /// The link type.
   Future<GetLinksResponse> getLinks({
-    @_s.required String globalNetworkId,
-    List<String> linkIds,
-    int maxResults,
-    String nextToken,
-    String provider,
-    String siteId,
-    String type,
+    required String globalNetworkId,
+    List<String>? linkIds,
+    int? maxResults,
+    String? nextToken,
+    String? provider,
+    String? siteId,
+    String? type,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -1153,10 +1146,10 @@ class NetworkManager {
   /// Parameter [siteIds] :
   /// One or more site IDs. The maximum is 10.
   Future<GetSitesResponse> getSites({
-    @_s.required String globalNetworkId,
-    int maxResults,
-    String nextToken,
-    List<String> siteIds,
+    required String globalNetworkId,
+    int? maxResults,
+    String? nextToken,
+    List<String>? siteIds,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -1204,10 +1197,10 @@ class NetworkManager {
   /// One or more transit gateway Connect peer Amazon Resource Names (ARNs).
   Future<GetTransitGatewayConnectPeerAssociationsResponse>
       getTransitGatewayConnectPeerAssociations({
-    @_s.required String globalNetworkId,
-    int maxResults,
-    String nextToken,
-    List<String> transitGatewayConnectPeerArns,
+    required String globalNetworkId,
+    int? maxResults,
+    String? nextToken,
+    List<String>? transitGatewayConnectPeerArns,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -1256,10 +1249,10 @@ class NetworkManager {
   /// maximum is 10.
   Future<GetTransitGatewayRegistrationsResponse>
       getTransitGatewayRegistrations({
-    @_s.required String globalNetworkId,
-    int maxResults,
-    String nextToken,
-    List<String> transitGatewayArns,
+    required String globalNetworkId,
+    int? maxResults,
+    String? nextToken,
+    List<String>? transitGatewayArns,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     _s.validateNumRange(
@@ -1295,7 +1288,7 @@ class NetworkManager {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -1328,8 +1321,8 @@ class NetworkManager {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazonec2.html#amazonec2-resources-for-iam-policies">Resources
   /// Defined by Amazon EC2</a>.
   Future<RegisterTransitGatewayResponse> registerTransitGateway({
-    @_s.required String globalNetworkId,
-    @_s.required String transitGatewayArn,
+    required String globalNetworkId,
+    required String transitGatewayArn,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(transitGatewayArn, 'transitGatewayArn');
@@ -1362,8 +1355,8 @@ class NetworkManager {
   /// Parameter [tags] :
   /// The tags to apply to the specified resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1376,7 +1369,6 @@ class NetworkManager {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes tags from a specified resource.
@@ -1394,13 +1386,13 @@ class NetworkManager {
   /// Parameter [tagKeys] :
   /// The tag keys to remove from the specified resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -1409,7 +1401,6 @@ class NetworkManager {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates the information for an existing connection. To remove information
@@ -1439,11 +1430,11 @@ class NetworkManager {
   /// Parameter [linkId] :
   /// The ID of the link for the first device in the connection.
   Future<UpdateConnectionResponse> updateConnection({
-    @_s.required String connectionId,
-    @_s.required String globalNetworkId,
-    String connectedLinkId,
-    String description,
-    String linkId,
+    required String connectionId,
+    required String globalNetworkId,
+    String? connectedLinkId,
+    String? description,
+    String? linkId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -1507,16 +1498,16 @@ class NetworkManager {
   ///
   /// Length Constraints: Maximum length of 128 characters.
   Future<UpdateDeviceResponse> updateDevice({
-    @_s.required String deviceId,
-    @_s.required String globalNetworkId,
-    AWSLocation awsLocation,
-    String description,
-    Location location,
-    String model,
-    String serialNumber,
-    String siteId,
-    String type,
-    String vendor,
+    required String deviceId,
+    required String globalNetworkId,
+    AWSLocation? awsLocation,
+    String? description,
+    Location? location,
+    String? model,
+    String? serialNumber,
+    String? siteId,
+    String? type,
+    String? vendor,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
@@ -1558,8 +1549,8 @@ class NetworkManager {
   ///
   /// Length Constraints: Maximum length of 256 characters.
   Future<UpdateGlobalNetworkResponse> updateGlobalNetwork({
-    @_s.required String globalNetworkId,
-    String description,
+    required String globalNetworkId,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     final $payload = <String, dynamic>{
@@ -1609,12 +1600,12 @@ class NetworkManager {
   ///
   /// Length Constraints: Maximum length of 128 characters.
   Future<UpdateLinkResponse> updateLink({
-    @_s.required String globalNetworkId,
-    @_s.required String linkId,
-    Bandwidth bandwidth,
-    String description,
-    String provider,
-    String type,
+    required String globalNetworkId,
+    required String linkId,
+    Bandwidth? bandwidth,
+    String? description,
+    String? provider,
+    String? type,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(linkId, 'linkId');
@@ -1670,10 +1661,10 @@ class NetworkManager {
   /// </li>
   /// </ul>
   Future<UpdateSiteResponse> updateSite({
-    @_s.required String globalNetworkId,
-    @_s.required String siteId,
-    String description,
-    Location location,
+    required String globalNetworkId,
+    required String siteId,
+    String? description,
+    Location? location,
   }) async {
     ArgumentError.checkNotNull(globalNetworkId, 'globalNetworkId');
     ArgumentError.checkNotNull(siteId, 'siteId');
@@ -1693,161 +1684,183 @@ class NetworkManager {
 }
 
 /// Specifies a location in AWS.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AWSLocation {
   /// The Amazon Resource Name (ARN) of the subnet the device is located in.
-  @_s.JsonKey(name: 'SubnetArn')
-  final String subnetArn;
+  final String? subnetArn;
 
   /// The Zone the device is located in. This can be the ID of an Availability
   /// Zone, Local Zone, Wavelength Zone, or an Outpost.
-  @_s.JsonKey(name: 'Zone')
-  final String zone;
+  final String? zone;
 
   AWSLocation({
     this.subnetArn,
     this.zone,
   });
-  factory AWSLocation.fromJson(Map<String, dynamic> json) =>
-      _$AWSLocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AWSLocationToJson(this);
+  factory AWSLocation.fromJson(Map<String, dynamic> json) {
+    return AWSLocation(
+      subnetArn: json['SubnetArn'] as String?,
+      zone: json['Zone'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetArn = this.subnetArn;
+    final zone = this.zone;
+    return {
+      if (subnetArn != null) 'SubnetArn': subnetArn,
+      if (zone != null) 'Zone': zone,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateCustomerGatewayResponse {
   /// The customer gateway association.
-  @_s.JsonKey(name: 'CustomerGatewayAssociation')
-  final CustomerGatewayAssociation customerGatewayAssociation;
+  final CustomerGatewayAssociation? customerGatewayAssociation;
 
   AssociateCustomerGatewayResponse({
     this.customerGatewayAssociation,
   });
-  factory AssociateCustomerGatewayResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateCustomerGatewayResponseFromJson(json);
+
+  factory AssociateCustomerGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateCustomerGatewayResponse(
+      customerGatewayAssociation: json['CustomerGatewayAssociation'] != null
+          ? CustomerGatewayAssociation.fromJson(
+              json['CustomerGatewayAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerGatewayAssociation = this.customerGatewayAssociation;
+    return {
+      if (customerGatewayAssociation != null)
+        'CustomerGatewayAssociation': customerGatewayAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateLinkResponse {
   /// The link association.
-  @_s.JsonKey(name: 'LinkAssociation')
-  final LinkAssociation linkAssociation;
+  final LinkAssociation? linkAssociation;
 
   AssociateLinkResponse({
     this.linkAssociation,
   });
-  factory AssociateLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$AssociateLinkResponseFromJson(json);
+
+  factory AssociateLinkResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateLinkResponse(
+      linkAssociation: json['LinkAssociation'] != null
+          ? LinkAssociation.fromJson(
+              json['LinkAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linkAssociation = this.linkAssociation;
+    return {
+      if (linkAssociation != null) 'LinkAssociation': linkAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateTransitGatewayConnectPeerResponse {
   /// The transit gateway Connect peer association.
-  @_s.JsonKey(name: 'TransitGatewayConnectPeerAssociation')
-  final TransitGatewayConnectPeerAssociation
+  final TransitGatewayConnectPeerAssociation?
       transitGatewayConnectPeerAssociation;
 
   AssociateTransitGatewayConnectPeerResponse({
     this.transitGatewayConnectPeerAssociation,
   });
+
   factory AssociateTransitGatewayConnectPeerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AssociateTransitGatewayConnectPeerResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AssociateTransitGatewayConnectPeerResponse(
+      transitGatewayConnectPeerAssociation:
+          json['TransitGatewayConnectPeerAssociation'] != null
+              ? TransitGatewayConnectPeerAssociation.fromJson(
+                  json['TransitGatewayConnectPeerAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayConnectPeerAssociation =
+        this.transitGatewayConnectPeerAssociation;
+    return {
+      if (transitGatewayConnectPeerAssociation != null)
+        'TransitGatewayConnectPeerAssociation':
+            transitGatewayConnectPeerAssociation,
+    };
+  }
 }
 
 /// Describes bandwidth information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Bandwidth {
   /// Download speed in Mbps.
-  @_s.JsonKey(name: 'DownloadSpeed')
-  final int downloadSpeed;
+  final int? downloadSpeed;
 
   /// Upload speed in Mbps.
-  @_s.JsonKey(name: 'UploadSpeed')
-  final int uploadSpeed;
+  final int? uploadSpeed;
 
   Bandwidth({
     this.downloadSpeed,
     this.uploadSpeed,
   });
-  factory Bandwidth.fromJson(Map<String, dynamic> json) =>
-      _$BandwidthFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BandwidthToJson(this);
+  factory Bandwidth.fromJson(Map<String, dynamic> json) {
+    return Bandwidth(
+      downloadSpeed: json['DownloadSpeed'] as int?,
+      uploadSpeed: json['UploadSpeed'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final downloadSpeed = this.downloadSpeed;
+    final uploadSpeed = this.uploadSpeed;
+    return {
+      if (downloadSpeed != null) 'DownloadSpeed': downloadSpeed,
+      if (uploadSpeed != null) 'UploadSpeed': uploadSpeed,
+    };
+  }
 }
 
 /// Describes a connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Connection {
   /// The ID of the second device in the connection.
-  @_s.JsonKey(name: 'ConnectedDeviceId')
-  final String connectedDeviceId;
+  final String? connectedDeviceId;
 
   /// The ID of the link for the second device in the connection.
-  @_s.JsonKey(name: 'ConnectedLinkId')
-  final String connectedLinkId;
+  final String? connectedLinkId;
 
   /// The Amazon Resource Name (ARN) of the connection.
-  @_s.JsonKey(name: 'ConnectionArn')
-  final String connectionArn;
+  final String? connectionArn;
 
   /// The ID of the connection.
-  @_s.JsonKey(name: 'ConnectionId')
-  final String connectionId;
+  final String? connectionId;
 
   /// The date and time that the connection was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the connection.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ID of the first device in the connection.
-  @_s.JsonKey(name: 'DeviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The ID of the link for the first device in the connection.
-  @_s.JsonKey(name: 'LinkId')
-  final String linkId;
+  final String? linkId;
 
   /// The state of the connection.
-  @_s.JsonKey(name: 'State')
-  final ConnectionState state;
+  final ConnectionState? state;
 
   /// The tags for the connection.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Connection({
     this.connectedDeviceId,
@@ -1862,132 +1875,229 @@ class Connection {
     this.state,
     this.tags,
   });
-  factory Connection.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionFromJson(json);
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      connectedDeviceId: json['ConnectedDeviceId'] as String?,
+      connectedLinkId: json['ConnectedLinkId'] as String?,
+      connectionArn: json['ConnectionArn'] as String?,
+      connectionId: json['ConnectionId'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkId: json['LinkId'] as String?,
+      state: (json['State'] as String?)?.toConnectionState(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectedDeviceId = this.connectedDeviceId;
+    final connectedLinkId = this.connectedLinkId;
+    final connectionArn = this.connectionArn;
+    final connectionId = this.connectionId;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkId = this.linkId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (connectedDeviceId != null) 'ConnectedDeviceId': connectedDeviceId,
+      if (connectedLinkId != null) 'ConnectedLinkId': connectedLinkId,
+      if (connectionArn != null) 'ConnectionArn': connectionArn,
+      if (connectionId != null) 'ConnectionId': connectionId,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkId != null) 'LinkId': linkId,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum ConnectionState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectionState {
+  String toValue() {
+    switch (this) {
+      case ConnectionState.pending:
+        return 'PENDING';
+      case ConnectionState.available:
+        return 'AVAILABLE';
+      case ConnectionState.deleting:
+        return 'DELETING';
+      case ConnectionState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  ConnectionState toConnectionState() {
+    switch (this) {
+      case 'PENDING':
+        return ConnectionState.pending;
+      case 'AVAILABLE':
+        return ConnectionState.available;
+      case 'DELETING':
+        return ConnectionState.deleting;
+      case 'UPDATING':
+        return ConnectionState.updating;
+    }
+    throw Exception('$this is not known in enum ConnectionState');
+  }
+}
+
 class CreateConnectionResponse {
   /// Information about the connection.
-  @_s.JsonKey(name: 'Connection')
-  final Connection connection;
+  final Connection? connection;
 
   CreateConnectionResponse({
     this.connection,
   });
-  factory CreateConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateConnectionResponseFromJson(json);
+
+  factory CreateConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeviceResponse {
   /// Information about the device.
-  @_s.JsonKey(name: 'Device')
-  final Device device;
+  final Device? device;
 
   CreateDeviceResponse({
     this.device,
   });
-  factory CreateDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeviceResponseFromJson(json);
+
+  factory CreateDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDeviceResponse(
+      device: json['Device'] != null
+          ? Device.fromJson(json['Device'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    return {
+      if (device != null) 'Device': device,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateGlobalNetworkResponse {
   /// Information about the global network object.
-  @_s.JsonKey(name: 'GlobalNetwork')
-  final GlobalNetwork globalNetwork;
+  final GlobalNetwork? globalNetwork;
 
   CreateGlobalNetworkResponse({
     this.globalNetwork,
   });
-  factory CreateGlobalNetworkResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateGlobalNetworkResponseFromJson(json);
+
+  factory CreateGlobalNetworkResponse.fromJson(Map<String, dynamic> json) {
+    return CreateGlobalNetworkResponse(
+      globalNetwork: json['GlobalNetwork'] != null
+          ? GlobalNetwork.fromJson(
+              json['GlobalNetwork'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalNetwork = this.globalNetwork;
+    return {
+      if (globalNetwork != null) 'GlobalNetwork': globalNetwork,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLinkResponse {
   /// Information about the link.
-  @_s.JsonKey(name: 'Link')
-  final Link link;
+  final Link? link;
 
   CreateLinkResponse({
     this.link,
   });
-  factory CreateLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLinkResponseFromJson(json);
+
+  factory CreateLinkResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLinkResponse(
+      link: json['Link'] != null
+          ? Link.fromJson(json['Link'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final link = this.link;
+    return {
+      if (link != null) 'Link': link,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSiteResponse {
   /// Information about the site.
-  @_s.JsonKey(name: 'Site')
-  final Site site;
+  final Site? site;
 
   CreateSiteResponse({
     this.site,
   });
-  factory CreateSiteResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSiteResponseFromJson(json);
+
+  factory CreateSiteResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSiteResponse(
+      site: json['Site'] != null
+          ? Site.fromJson(json['Site'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final site = this.site;
+    return {
+      if (site != null) 'Site': site,
+    };
+  }
 }
 
 /// Describes the association between a customer gateway, a device, and a link.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CustomerGatewayAssociation {
   /// The Amazon Resource Name (ARN) of the customer gateway.
-  @_s.JsonKey(name: 'CustomerGatewayArn')
-  final String customerGatewayArn;
+  final String? customerGatewayArn;
 
   /// The ID of the device.
-  @_s.JsonKey(name: 'DeviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The ID of the link.
-  @_s.JsonKey(name: 'LinkId')
-  final String linkId;
+  final String? linkId;
 
   /// The association state.
-  @_s.JsonKey(name: 'State')
-  final CustomerGatewayAssociationState state;
+  final CustomerGatewayAssociationState? state;
 
   CustomerGatewayAssociation({
     this.customerGatewayArn,
@@ -1996,209 +2106,294 @@ class CustomerGatewayAssociation {
     this.linkId,
     this.state,
   });
-  factory CustomerGatewayAssociation.fromJson(Map<String, dynamic> json) =>
-      _$CustomerGatewayAssociationFromJson(json);
+
+  factory CustomerGatewayAssociation.fromJson(Map<String, dynamic> json) {
+    return CustomerGatewayAssociation(
+      customerGatewayArn: json['CustomerGatewayArn'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkId: json['LinkId'] as String?,
+      state: (json['State'] as String?)?.toCustomerGatewayAssociationState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerGatewayArn = this.customerGatewayArn;
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkId = this.linkId;
+    final state = this.state;
+    return {
+      if (customerGatewayArn != null) 'CustomerGatewayArn': customerGatewayArn,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkId != null) 'LinkId': linkId,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 enum CustomerGatewayAssociationState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CustomerGatewayAssociationState {
+  String toValue() {
+    switch (this) {
+      case CustomerGatewayAssociationState.pending:
+        return 'PENDING';
+      case CustomerGatewayAssociationState.available:
+        return 'AVAILABLE';
+      case CustomerGatewayAssociationState.deleting:
+        return 'DELETING';
+      case CustomerGatewayAssociationState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  CustomerGatewayAssociationState toCustomerGatewayAssociationState() {
+    switch (this) {
+      case 'PENDING':
+        return CustomerGatewayAssociationState.pending;
+      case 'AVAILABLE':
+        return CustomerGatewayAssociationState.available;
+      case 'DELETING':
+        return CustomerGatewayAssociationState.deleting;
+      case 'DELETED':
+        return CustomerGatewayAssociationState.deleted;
+    }
+    throw Exception(
+        '$this is not known in enum CustomerGatewayAssociationState');
+  }
+}
+
 class DeleteConnectionResponse {
   /// Information about the connection.
-  @_s.JsonKey(name: 'Connection')
-  final Connection connection;
+  final Connection? connection;
 
   DeleteConnectionResponse({
     this.connection,
   });
-  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConnectionResponseFromJson(json);
+
+  factory DeleteConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDeviceResponse {
   /// Information about the device.
-  @_s.JsonKey(name: 'Device')
-  final Device device;
+  final Device? device;
 
   DeleteDeviceResponse({
     this.device,
   });
-  factory DeleteDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDeviceResponseFromJson(json);
+
+  factory DeleteDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteDeviceResponse(
+      device: json['Device'] != null
+          ? Device.fromJson(json['Device'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    return {
+      if (device != null) 'Device': device,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteGlobalNetworkResponse {
   /// Information about the global network.
-  @_s.JsonKey(name: 'GlobalNetwork')
-  final GlobalNetwork globalNetwork;
+  final GlobalNetwork? globalNetwork;
 
   DeleteGlobalNetworkResponse({
     this.globalNetwork,
   });
-  factory DeleteGlobalNetworkResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteGlobalNetworkResponseFromJson(json);
+
+  factory DeleteGlobalNetworkResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteGlobalNetworkResponse(
+      globalNetwork: json['GlobalNetwork'] != null
+          ? GlobalNetwork.fromJson(
+              json['GlobalNetwork'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalNetwork = this.globalNetwork;
+    return {
+      if (globalNetwork != null) 'GlobalNetwork': globalNetwork,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLinkResponse {
   /// Information about the link.
-  @_s.JsonKey(name: 'Link')
-  final Link link;
+  final Link? link;
 
   DeleteLinkResponse({
     this.link,
   });
-  factory DeleteLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLinkResponseFromJson(json);
+
+  factory DeleteLinkResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteLinkResponse(
+      link: json['Link'] != null
+          ? Link.fromJson(json['Link'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final link = this.link;
+    return {
+      if (link != null) 'Link': link,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSiteResponse {
   /// Information about the site.
-  @_s.JsonKey(name: 'Site')
-  final Site site;
+  final Site? site;
 
   DeleteSiteResponse({
     this.site,
   });
-  factory DeleteSiteResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSiteResponseFromJson(json);
+
+  factory DeleteSiteResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSiteResponse(
+      site: json['Site'] != null
+          ? Site.fromJson(json['Site'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final site = this.site;
+    return {
+      if (site != null) 'Site': site,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterTransitGatewayResponse {
   /// The transit gateway registration information.
-  @_s.JsonKey(name: 'TransitGatewayRegistration')
-  final TransitGatewayRegistration transitGatewayRegistration;
+  final TransitGatewayRegistration? transitGatewayRegistration;
 
   DeregisterTransitGatewayResponse({
     this.transitGatewayRegistration,
   });
-  factory DeregisterTransitGatewayResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterTransitGatewayResponseFromJson(json);
+
+  factory DeregisterTransitGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return DeregisterTransitGatewayResponse(
+      transitGatewayRegistration: json['TransitGatewayRegistration'] != null
+          ? TransitGatewayRegistration.fromJson(
+              json['TransitGatewayRegistration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayRegistration = this.transitGatewayRegistration;
+    return {
+      if (transitGatewayRegistration != null)
+        'TransitGatewayRegistration': transitGatewayRegistration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeGlobalNetworksResponse {
   /// Information about the global networks.
-  @_s.JsonKey(name: 'GlobalNetworks')
-  final List<GlobalNetwork> globalNetworks;
+  final List<GlobalNetwork>? globalNetworks;
 
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeGlobalNetworksResponse({
     this.globalNetworks,
     this.nextToken,
   });
-  factory DescribeGlobalNetworksResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeGlobalNetworksResponseFromJson(json);
+
+  factory DescribeGlobalNetworksResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeGlobalNetworksResponse(
+      globalNetworks: (json['GlobalNetworks'] as List?)
+          ?.whereNotNull()
+          .map((e) => GlobalNetwork.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalNetworks = this.globalNetworks;
+    final nextToken = this.nextToken;
+    return {
+      if (globalNetworks != null) 'GlobalNetworks': globalNetworks,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Describes a device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Device {
   /// The AWS location of the device.
-  @_s.JsonKey(name: 'AWSLocation')
-  final AWSLocation awsLocation;
+  final AWSLocation? awsLocation;
 
   /// The date and time that the site was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the device.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the device.
-  @_s.JsonKey(name: 'DeviceArn')
-  final String deviceArn;
+  final String? deviceArn;
 
   /// The ID of the device.
-  @_s.JsonKey(name: 'DeviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The site location.
-  @_s.JsonKey(name: 'Location')
-  final Location location;
+  final Location? location;
 
   /// The device model.
-  @_s.JsonKey(name: 'Model')
-  final String model;
+  final String? model;
 
   /// The device serial number.
-  @_s.JsonKey(name: 'SerialNumber')
-  final String serialNumber;
+  final String? serialNumber;
 
   /// The site ID.
-  @_s.JsonKey(name: 'SiteId')
-  final String siteId;
+  final String? siteId;
 
   /// The device state.
-  @_s.JsonKey(name: 'State')
-  final DeviceState state;
+  final DeviceState? state;
 
   /// The tags for the device.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The device type.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The device vendor.
-  @_s.JsonKey(name: 'Vendor')
-  final String vendor;
+  final String? vendor;
 
   Device({
     this.awsLocation,
@@ -2216,285 +2411,479 @@ class Device {
     this.type,
     this.vendor,
   });
-  factory Device.fromJson(Map<String, dynamic> json) => _$DeviceFromJson(json);
+
+  factory Device.fromJson(Map<String, dynamic> json) {
+    return Device(
+      awsLocation: json['AWSLocation'] != null
+          ? AWSLocation.fromJson(json['AWSLocation'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      deviceArn: json['DeviceArn'] as String?,
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      location: json['Location'] != null
+          ? Location.fromJson(json['Location'] as Map<String, dynamic>)
+          : null,
+      model: json['Model'] as String?,
+      serialNumber: json['SerialNumber'] as String?,
+      siteId: json['SiteId'] as String?,
+      state: (json['State'] as String?)?.toDeviceState(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+      vendor: json['Vendor'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsLocation = this.awsLocation;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final deviceArn = this.deviceArn;
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final location = this.location;
+    final model = this.model;
+    final serialNumber = this.serialNumber;
+    final siteId = this.siteId;
+    final state = this.state;
+    final tags = this.tags;
+    final type = this.type;
+    final vendor = this.vendor;
+    return {
+      if (awsLocation != null) 'AWSLocation': awsLocation,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (deviceArn != null) 'DeviceArn': deviceArn,
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (location != null) 'Location': location,
+      if (model != null) 'Model': model,
+      if (serialNumber != null) 'SerialNumber': serialNumber,
+      if (siteId != null) 'SiteId': siteId,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+      if (vendor != null) 'Vendor': vendor,
+    };
+  }
 }
 
 enum DeviceState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DeviceState {
+  String toValue() {
+    switch (this) {
+      case DeviceState.pending:
+        return 'PENDING';
+      case DeviceState.available:
+        return 'AVAILABLE';
+      case DeviceState.deleting:
+        return 'DELETING';
+      case DeviceState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  DeviceState toDeviceState() {
+    switch (this) {
+      case 'PENDING':
+        return DeviceState.pending;
+      case 'AVAILABLE':
+        return DeviceState.available;
+      case 'DELETING':
+        return DeviceState.deleting;
+      case 'UPDATING':
+        return DeviceState.updating;
+    }
+    throw Exception('$this is not known in enum DeviceState');
+  }
+}
+
 class DisassociateCustomerGatewayResponse {
   /// Information about the customer gateway association.
-  @_s.JsonKey(name: 'CustomerGatewayAssociation')
-  final CustomerGatewayAssociation customerGatewayAssociation;
+  final CustomerGatewayAssociation? customerGatewayAssociation;
 
   DisassociateCustomerGatewayResponse({
     this.customerGatewayAssociation,
   });
+
   factory DisassociateCustomerGatewayResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateCustomerGatewayResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateCustomerGatewayResponse(
+      customerGatewayAssociation: json['CustomerGatewayAssociation'] != null
+          ? CustomerGatewayAssociation.fromJson(
+              json['CustomerGatewayAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerGatewayAssociation = this.customerGatewayAssociation;
+    return {
+      if (customerGatewayAssociation != null)
+        'CustomerGatewayAssociation': customerGatewayAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateLinkResponse {
   /// Information about the link association.
-  @_s.JsonKey(name: 'LinkAssociation')
-  final LinkAssociation linkAssociation;
+  final LinkAssociation? linkAssociation;
 
   DisassociateLinkResponse({
     this.linkAssociation,
   });
-  factory DisassociateLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateLinkResponseFromJson(json);
+
+  factory DisassociateLinkResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateLinkResponse(
+      linkAssociation: json['LinkAssociation'] != null
+          ? LinkAssociation.fromJson(
+              json['LinkAssociation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linkAssociation = this.linkAssociation;
+    return {
+      if (linkAssociation != null) 'LinkAssociation': linkAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateTransitGatewayConnectPeerResponse {
   /// The transit gateway Connect peer association.
-  @_s.JsonKey(name: 'TransitGatewayConnectPeerAssociation')
-  final TransitGatewayConnectPeerAssociation
+  final TransitGatewayConnectPeerAssociation?
       transitGatewayConnectPeerAssociation;
 
   DisassociateTransitGatewayConnectPeerResponse({
     this.transitGatewayConnectPeerAssociation,
   });
+
   factory DisassociateTransitGatewayConnectPeerResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateTransitGatewayConnectPeerResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DisassociateTransitGatewayConnectPeerResponse(
+      transitGatewayConnectPeerAssociation:
+          json['TransitGatewayConnectPeerAssociation'] != null
+              ? TransitGatewayConnectPeerAssociation.fromJson(
+                  json['TransitGatewayConnectPeerAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayConnectPeerAssociation =
+        this.transitGatewayConnectPeerAssociation;
+    return {
+      if (transitGatewayConnectPeerAssociation != null)
+        'TransitGatewayConnectPeerAssociation':
+            transitGatewayConnectPeerAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectionsResponse {
   /// Information about the connections.
-  @_s.JsonKey(name: 'Connections')
-  final List<Connection> connections;
+  final List<Connection>? connections;
 
   /// The token to use for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetConnectionsResponse({
     this.connections,
     this.nextToken,
   });
-  factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectionsResponseFromJson(json);
+
+  factory GetConnectionsResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionsResponse(
+      connections: (json['Connections'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    final nextToken = this.nextToken;
+    return {
+      if (connections != null) 'Connections': connections,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCustomerGatewayAssociationsResponse {
   /// The customer gateway associations.
-  @_s.JsonKey(name: 'CustomerGatewayAssociations')
-  final List<CustomerGatewayAssociation> customerGatewayAssociations;
+  final List<CustomerGatewayAssociation>? customerGatewayAssociations;
 
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetCustomerGatewayAssociationsResponse({
     this.customerGatewayAssociations,
     this.nextToken,
   });
+
   factory GetCustomerGatewayAssociationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCustomerGatewayAssociationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCustomerGatewayAssociationsResponse(
+      customerGatewayAssociations: (json['CustomerGatewayAssociations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CustomerGatewayAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customerGatewayAssociations = this.customerGatewayAssociations;
+    final nextToken = this.nextToken;
+    return {
+      if (customerGatewayAssociations != null)
+        'CustomerGatewayAssociations': customerGatewayAssociations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDevicesResponse {
   /// The devices.
-  @_s.JsonKey(name: 'Devices')
-  final List<Device> devices;
+  final List<Device>? devices;
 
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetDevicesResponse({
     this.devices,
     this.nextToken,
   });
-  factory GetDevicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDevicesResponseFromJson(json);
+
+  factory GetDevicesResponse.fromJson(Map<String, dynamic> json) {
+    return GetDevicesResponse(
+      devices: (json['Devices'] as List?)
+          ?.whereNotNull()
+          .map((e) => Device.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final devices = this.devices;
+    final nextToken = this.nextToken;
+    return {
+      if (devices != null) 'Devices': devices,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLinkAssociationsResponse {
   /// The link associations.
-  @_s.JsonKey(name: 'LinkAssociations')
-  final List<LinkAssociation> linkAssociations;
+  final List<LinkAssociation>? linkAssociations;
 
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetLinkAssociationsResponse({
     this.linkAssociations,
     this.nextToken,
   });
-  factory GetLinkAssociationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLinkAssociationsResponseFromJson(json);
+
+  factory GetLinkAssociationsResponse.fromJson(Map<String, dynamic> json) {
+    return GetLinkAssociationsResponse(
+      linkAssociations: (json['LinkAssociations'] as List?)
+          ?.whereNotNull()
+          .map((e) => LinkAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final linkAssociations = this.linkAssociations;
+    final nextToken = this.nextToken;
+    return {
+      if (linkAssociations != null) 'LinkAssociations': linkAssociations,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetLinksResponse {
   /// The links.
-  @_s.JsonKey(name: 'Links')
-  final List<Link> links;
+  final List<Link>? links;
 
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetLinksResponse({
     this.links,
     this.nextToken,
   });
-  factory GetLinksResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetLinksResponseFromJson(json);
+
+  factory GetLinksResponse.fromJson(Map<String, dynamic> json) {
+    return GetLinksResponse(
+      links: (json['Links'] as List?)
+          ?.whereNotNull()
+          .map((e) => Link.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final links = this.links;
+    final nextToken = this.nextToken;
+    return {
+      if (links != null) 'Links': links,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSitesResponse {
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The sites.
-  @_s.JsonKey(name: 'Sites')
-  final List<Site> sites;
+  final List<Site>? sites;
 
   GetSitesResponse({
     this.nextToken,
     this.sites,
   });
-  factory GetSitesResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetSitesResponseFromJson(json);
+
+  factory GetSitesResponse.fromJson(Map<String, dynamic> json) {
+    return GetSitesResponse(
+      nextToken: json['NextToken'] as String?,
+      sites: (json['Sites'] as List?)
+          ?.whereNotNull()
+          .map((e) => Site.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sites = this.sites;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sites != null) 'Sites': sites,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTransitGatewayConnectPeerAssociationsResponse {
   /// The token to use for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the transit gateway Connect peer associations.
-  @_s.JsonKey(name: 'TransitGatewayConnectPeerAssociations')
-  final List<TransitGatewayConnectPeerAssociation>
+  final List<TransitGatewayConnectPeerAssociation>?
       transitGatewayConnectPeerAssociations;
 
   GetTransitGatewayConnectPeerAssociationsResponse({
     this.nextToken,
     this.transitGatewayConnectPeerAssociations,
   });
+
   factory GetTransitGatewayConnectPeerAssociationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetTransitGatewayConnectPeerAssociationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetTransitGatewayConnectPeerAssociationsResponse(
+      nextToken: json['NextToken'] as String?,
+      transitGatewayConnectPeerAssociations:
+          (json['TransitGatewayConnectPeerAssociations'] as List?)
+              ?.whereNotNull()
+              .map((e) => TransitGatewayConnectPeerAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final transitGatewayConnectPeerAssociations =
+        this.transitGatewayConnectPeerAssociations;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (transitGatewayConnectPeerAssociations != null)
+        'TransitGatewayConnectPeerAssociations':
+            transitGatewayConnectPeerAssociations,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTransitGatewayRegistrationsResponse {
   /// The token for the next page of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The transit gateway registrations.
-  @_s.JsonKey(name: 'TransitGatewayRegistrations')
-  final List<TransitGatewayRegistration> transitGatewayRegistrations;
+  final List<TransitGatewayRegistration>? transitGatewayRegistrations;
 
   GetTransitGatewayRegistrationsResponse({
     this.nextToken,
     this.transitGatewayRegistrations,
   });
+
   factory GetTransitGatewayRegistrationsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetTransitGatewayRegistrationsResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetTransitGatewayRegistrationsResponse(
+      nextToken: json['NextToken'] as String?,
+      transitGatewayRegistrations: (json['TransitGatewayRegistrations']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              TransitGatewayRegistration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final transitGatewayRegistrations = this.transitGatewayRegistrations;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (transitGatewayRegistrations != null)
+        'TransitGatewayRegistrations': transitGatewayRegistrations,
+    };
+  }
 }
 
 /// Describes a global network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GlobalNetwork {
   /// The date and time that the global network was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the global network.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkArn')
-  final String globalNetworkArn;
+  final String? globalNetworkArn;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The state of the global network.
-  @_s.JsonKey(name: 'State')
-  final GlobalNetworkState state;
+  final GlobalNetworkState? state;
 
   /// The tags for the global network.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   GlobalNetwork({
     this.createdAt,
@@ -2504,72 +2893,111 @@ class GlobalNetwork {
     this.state,
     this.tags,
   });
-  factory GlobalNetwork.fromJson(Map<String, dynamic> json) =>
-      _$GlobalNetworkFromJson(json);
+
+  factory GlobalNetwork.fromJson(Map<String, dynamic> json) {
+    return GlobalNetwork(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      globalNetworkArn: json['GlobalNetworkArn'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      state: (json['State'] as String?)?.toGlobalNetworkState(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final globalNetworkArn = this.globalNetworkArn;
+    final globalNetworkId = this.globalNetworkId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (globalNetworkArn != null) 'GlobalNetworkArn': globalNetworkArn,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum GlobalNetworkState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on GlobalNetworkState {
+  String toValue() {
+    switch (this) {
+      case GlobalNetworkState.pending:
+        return 'PENDING';
+      case GlobalNetworkState.available:
+        return 'AVAILABLE';
+      case GlobalNetworkState.deleting:
+        return 'DELETING';
+      case GlobalNetworkState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  GlobalNetworkState toGlobalNetworkState() {
+    switch (this) {
+      case 'PENDING':
+        return GlobalNetworkState.pending;
+      case 'AVAILABLE':
+        return GlobalNetworkState.available;
+      case 'DELETING':
+        return GlobalNetworkState.deleting;
+      case 'UPDATING':
+        return GlobalNetworkState.updating;
+    }
+    throw Exception('$this is not known in enum GlobalNetworkState');
+  }
+}
+
 /// Describes a link.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Link {
   /// The bandwidth for the link.
-  @_s.JsonKey(name: 'Bandwidth')
-  final Bandwidth bandwidth;
+  final Bandwidth? bandwidth;
 
   /// The date and time that the link was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the link.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The Amazon Resource Name (ARN) of the link.
-  @_s.JsonKey(name: 'LinkArn')
-  final String linkArn;
+  final String? linkArn;
 
   /// The ID of the link.
-  @_s.JsonKey(name: 'LinkId')
-  final String linkId;
+  final String? linkId;
 
   /// The provider of the link.
-  @_s.JsonKey(name: 'Provider')
-  final String provider;
+  final String? provider;
 
   /// The ID of the site.
-  @_s.JsonKey(name: 'SiteId')
-  final String siteId;
+  final String? siteId;
 
   /// The state of the link.
-  @_s.JsonKey(name: 'State')
-  final LinkState state;
+  final LinkState? state;
 
   /// The tags for the link.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The type of the link.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   Link({
     this.bandwidth,
@@ -2584,31 +3012,69 @@ class Link {
     this.tags,
     this.type,
   });
-  factory Link.fromJson(Map<String, dynamic> json) => _$LinkFromJson(json);
+
+  factory Link.fromJson(Map<String, dynamic> json) {
+    return Link(
+      bandwidth: json['Bandwidth'] != null
+          ? Bandwidth.fromJson(json['Bandwidth'] as Map<String, dynamic>)
+          : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkArn: json['LinkArn'] as String?,
+      linkId: json['LinkId'] as String?,
+      provider: json['Provider'] as String?,
+      siteId: json['SiteId'] as String?,
+      state: (json['State'] as String?)?.toLinkState(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bandwidth = this.bandwidth;
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final globalNetworkId = this.globalNetworkId;
+    final linkArn = this.linkArn;
+    final linkId = this.linkId;
+    final provider = this.provider;
+    final siteId = this.siteId;
+    final state = this.state;
+    final tags = this.tags;
+    final type = this.type;
+    return {
+      if (bandwidth != null) 'Bandwidth': bandwidth,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkArn != null) 'LinkArn': linkArn,
+      if (linkId != null) 'LinkId': linkId,
+      if (provider != null) 'Provider': provider,
+      if (siteId != null) 'SiteId': siteId,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'Tags': tags,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 /// Describes the association between a device and a link.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LinkAssociation {
   /// The device ID for the link association.
-  @_s.JsonKey(name: 'DeviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The state of the association.
-  @_s.JsonKey(name: 'LinkAssociationState')
-  final LinkAssociationState linkAssociationState;
+  final LinkAssociationState? linkAssociationState;
 
   /// The ID of the link.
-  @_s.JsonKey(name: 'LinkId')
-  final String linkId;
+  final String? linkId;
 
   LinkAssociation({
     this.deviceId,
@@ -2616,135 +3082,221 @@ class LinkAssociation {
     this.linkAssociationState,
     this.linkId,
   });
-  factory LinkAssociation.fromJson(Map<String, dynamic> json) =>
-      _$LinkAssociationFromJson(json);
+
+  factory LinkAssociation.fromJson(Map<String, dynamic> json) {
+    return LinkAssociation(
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkAssociationState:
+          (json['LinkAssociationState'] as String?)?.toLinkAssociationState(),
+      linkId: json['LinkId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkAssociationState = this.linkAssociationState;
+    final linkId = this.linkId;
+    return {
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkAssociationState != null)
+        'LinkAssociationState': linkAssociationState.toValue(),
+      if (linkId != null) 'LinkId': linkId,
+    };
+  }
 }
 
 enum LinkAssociationState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on LinkAssociationState {
+  String toValue() {
+    switch (this) {
+      case LinkAssociationState.pending:
+        return 'PENDING';
+      case LinkAssociationState.available:
+        return 'AVAILABLE';
+      case LinkAssociationState.deleting:
+        return 'DELETING';
+      case LinkAssociationState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  LinkAssociationState toLinkAssociationState() {
+    switch (this) {
+      case 'PENDING':
+        return LinkAssociationState.pending;
+      case 'AVAILABLE':
+        return LinkAssociationState.available;
+      case 'DELETING':
+        return LinkAssociationState.deleting;
+      case 'DELETED':
+        return LinkAssociationState.deleted;
+    }
+    throw Exception('$this is not known in enum LinkAssociationState');
+  }
+}
+
 enum LinkState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LinkState {
+  String toValue() {
+    switch (this) {
+      case LinkState.pending:
+        return 'PENDING';
+      case LinkState.available:
+        return 'AVAILABLE';
+      case LinkState.deleting:
+        return 'DELETING';
+      case LinkState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  LinkState toLinkState() {
+    switch (this) {
+      case 'PENDING':
+        return LinkState.pending;
+      case 'AVAILABLE':
+        return LinkState.available;
+      case 'DELETING':
+        return LinkState.deleting;
+      case 'UPDATING':
+        return LinkState.updating;
+    }
+    throw Exception('$this is not known in enum LinkState');
+  }
+}
+
 class ListTagsForResourceResponse {
   /// The list of tags.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   ListTagsForResourceResponse({
     this.tagList,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
 }
 
 /// Describes a location.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Location {
   /// The physical address.
-  @_s.JsonKey(name: 'Address')
-  final String address;
+  final String? address;
 
   /// The latitude.
-  @_s.JsonKey(name: 'Latitude')
-  final String latitude;
+  final String? latitude;
 
   /// The longitude.
-  @_s.JsonKey(name: 'Longitude')
-  final String longitude;
+  final String? longitude;
 
   Location({
     this.address,
     this.latitude,
     this.longitude,
   });
-  factory Location.fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LocationToJson(this);
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      address: json['Address'] as String?,
+      latitude: json['Latitude'] as String?,
+      longitude: json['Longitude'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final latitude = this.latitude;
+    final longitude = this.longitude;
+    return {
+      if (address != null) 'Address': address,
+      if (latitude != null) 'Latitude': latitude,
+      if (longitude != null) 'Longitude': longitude,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegisterTransitGatewayResponse {
   /// Information about the transit gateway registration.
-  @_s.JsonKey(name: 'TransitGatewayRegistration')
-  final TransitGatewayRegistration transitGatewayRegistration;
+  final TransitGatewayRegistration? transitGatewayRegistration;
 
   RegisterTransitGatewayResponse({
     this.transitGatewayRegistration,
   });
-  factory RegisterTransitGatewayResponse.fromJson(Map<String, dynamic> json) =>
-      _$RegisterTransitGatewayResponseFromJson(json);
+
+  factory RegisterTransitGatewayResponse.fromJson(Map<String, dynamic> json) {
+    return RegisterTransitGatewayResponse(
+      transitGatewayRegistration: json['TransitGatewayRegistration'] != null
+          ? TransitGatewayRegistration.fromJson(
+              json['TransitGatewayRegistration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final transitGatewayRegistration = this.transitGatewayRegistration;
+    return {
+      if (transitGatewayRegistration != null)
+        'TransitGatewayRegistration': transitGatewayRegistration,
+    };
+  }
 }
 
 /// Describes a site.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Site {
   /// The date and time that the site was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The description of the site.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The location of the site.
-  @_s.JsonKey(name: 'Location')
-  final Location location;
+  final Location? location;
 
   /// The Amazon Resource Name (ARN) of the site.
-  @_s.JsonKey(name: 'SiteArn')
-  final String siteArn;
+  final String? siteArn;
 
   /// The ID of the site.
-  @_s.JsonKey(name: 'SiteId')
-  final String siteId;
+  final String? siteId;
 
   /// The state of the site.
-  @_s.JsonKey(name: 'State')
-  final SiteState state;
+  final SiteState? state;
 
   /// The tags for the site.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Site({
     this.createdAt,
@@ -2756,85 +3308,147 @@ class Site {
     this.state,
     this.tags,
   });
-  factory Site.fromJson(Map<String, dynamic> json) => _$SiteFromJson(json);
+
+  factory Site.fromJson(Map<String, dynamic> json) {
+    return Site(
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      description: json['Description'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      location: json['Location'] != null
+          ? Location.fromJson(json['Location'] as Map<String, dynamic>)
+          : null,
+      siteArn: json['SiteArn'] as String?,
+      siteId: json['SiteId'] as String?,
+      state: (json['State'] as String?)?.toSiteState(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdAt = this.createdAt;
+    final description = this.description;
+    final globalNetworkId = this.globalNetworkId;
+    final location = this.location;
+    final siteArn = this.siteArn;
+    final siteId = this.siteId;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (description != null) 'Description': description,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (location != null) 'Location': location,
+      if (siteArn != null) 'SiteArn': siteArn,
+      if (siteId != null) 'SiteId': siteId,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum SiteState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on SiteState {
+  String toValue() {
+    switch (this) {
+      case SiteState.pending:
+        return 'PENDING';
+      case SiteState.available:
+        return 'AVAILABLE';
+      case SiteState.deleting:
+        return 'DELETING';
+      case SiteState.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  SiteState toSiteState() {
+    switch (this) {
+      case 'PENDING':
+        return SiteState.pending;
+      case 'AVAILABLE':
+        return SiteState.available;
+      case 'DELETING':
+        return SiteState.deleting;
+      case 'UPDATING':
+        return SiteState.updating;
+    }
+    throw Exception('$this is not known in enum SiteState');
+  }
+}
+
 /// Describes a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The tag key.
   ///
   /// Length Constraints: Maximum length of 128 characters.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The tag value.
   ///
   /// Length Constraints: Maximum length of 256 characters.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes a transit gateway Connect peer association.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransitGatewayConnectPeerAssociation {
   /// The ID of the device.
-  @_s.JsonKey(name: 'DeviceId')
-  final String deviceId;
+  final String? deviceId;
 
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The ID of the link.
-  @_s.JsonKey(name: 'LinkId')
-  final String linkId;
+  final String? linkId;
 
   /// The state of the association.
-  @_s.JsonKey(name: 'State')
-  final TransitGatewayConnectPeerAssociationState state;
+  final TransitGatewayConnectPeerAssociationState? state;
 
   /// The Amazon Resource Name (ARN) of the transit gateway Connect peer.
-  @_s.JsonKey(name: 'TransitGatewayConnectPeerArn')
-  final String transitGatewayConnectPeerArn;
+  final String? transitGatewayConnectPeerArn;
 
   TransitGatewayConnectPeerAssociation({
     this.deviceId,
@@ -2843,205 +3457,347 @@ class TransitGatewayConnectPeerAssociation {
     this.state,
     this.transitGatewayConnectPeerArn,
   });
+
   factory TransitGatewayConnectPeerAssociation.fromJson(
-          Map<String, dynamic> json) =>
-      _$TransitGatewayConnectPeerAssociationFromJson(json);
+      Map<String, dynamic> json) {
+    return TransitGatewayConnectPeerAssociation(
+      deviceId: json['DeviceId'] as String?,
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      linkId: json['LinkId'] as String?,
+      state: (json['State'] as String?)
+          ?.toTransitGatewayConnectPeerAssociationState(),
+      transitGatewayConnectPeerArn:
+          json['TransitGatewayConnectPeerArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceId = this.deviceId;
+    final globalNetworkId = this.globalNetworkId;
+    final linkId = this.linkId;
+    final state = this.state;
+    final transitGatewayConnectPeerArn = this.transitGatewayConnectPeerArn;
+    return {
+      if (deviceId != null) 'DeviceId': deviceId,
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (linkId != null) 'LinkId': linkId,
+      if (state != null) 'State': state.toValue(),
+      if (transitGatewayConnectPeerArn != null)
+        'TransitGatewayConnectPeerArn': transitGatewayConnectPeerArn,
+    };
+  }
 }
 
 enum TransitGatewayConnectPeerAssociationState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
 }
 
+extension on TransitGatewayConnectPeerAssociationState {
+  String toValue() {
+    switch (this) {
+      case TransitGatewayConnectPeerAssociationState.pending:
+        return 'PENDING';
+      case TransitGatewayConnectPeerAssociationState.available:
+        return 'AVAILABLE';
+      case TransitGatewayConnectPeerAssociationState.deleting:
+        return 'DELETING';
+      case TransitGatewayConnectPeerAssociationState.deleted:
+        return 'DELETED';
+    }
+  }
+}
+
+extension on String {
+  TransitGatewayConnectPeerAssociationState
+      toTransitGatewayConnectPeerAssociationState() {
+    switch (this) {
+      case 'PENDING':
+        return TransitGatewayConnectPeerAssociationState.pending;
+      case 'AVAILABLE':
+        return TransitGatewayConnectPeerAssociationState.available;
+      case 'DELETING':
+        return TransitGatewayConnectPeerAssociationState.deleting;
+      case 'DELETED':
+        return TransitGatewayConnectPeerAssociationState.deleted;
+    }
+    throw Exception(
+        '$this is not known in enum TransitGatewayConnectPeerAssociationState');
+  }
+}
+
 /// Describes the registration of a transit gateway to a global network.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransitGatewayRegistration {
   /// The ID of the global network.
-  @_s.JsonKey(name: 'GlobalNetworkId')
-  final String globalNetworkId;
+  final String? globalNetworkId;
 
   /// The state of the transit gateway registration.
-  @_s.JsonKey(name: 'State')
-  final TransitGatewayRegistrationStateReason state;
+  final TransitGatewayRegistrationStateReason? state;
 
   /// The Amazon Resource Name (ARN) of the transit gateway.
-  @_s.JsonKey(name: 'TransitGatewayArn')
-  final String transitGatewayArn;
+  final String? transitGatewayArn;
 
   TransitGatewayRegistration({
     this.globalNetworkId,
     this.state,
     this.transitGatewayArn,
   });
-  factory TransitGatewayRegistration.fromJson(Map<String, dynamic> json) =>
-      _$TransitGatewayRegistrationFromJson(json);
+
+  factory TransitGatewayRegistration.fromJson(Map<String, dynamic> json) {
+    return TransitGatewayRegistration(
+      globalNetworkId: json['GlobalNetworkId'] as String?,
+      state: json['State'] != null
+          ? TransitGatewayRegistrationStateReason.fromJson(
+              json['State'] as Map<String, dynamic>)
+          : null,
+      transitGatewayArn: json['TransitGatewayArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalNetworkId = this.globalNetworkId;
+    final state = this.state;
+    final transitGatewayArn = this.transitGatewayArn;
+    return {
+      if (globalNetworkId != null) 'GlobalNetworkId': globalNetworkId,
+      if (state != null) 'State': state,
+      if (transitGatewayArn != null) 'TransitGatewayArn': transitGatewayArn,
+    };
+  }
 }
 
 enum TransitGatewayRegistrationState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on TransitGatewayRegistrationState {
+  String toValue() {
+    switch (this) {
+      case TransitGatewayRegistrationState.pending:
+        return 'PENDING';
+      case TransitGatewayRegistrationState.available:
+        return 'AVAILABLE';
+      case TransitGatewayRegistrationState.deleting:
+        return 'DELETING';
+      case TransitGatewayRegistrationState.deleted:
+        return 'DELETED';
+      case TransitGatewayRegistrationState.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  TransitGatewayRegistrationState toTransitGatewayRegistrationState() {
+    switch (this) {
+      case 'PENDING':
+        return TransitGatewayRegistrationState.pending;
+      case 'AVAILABLE':
+        return TransitGatewayRegistrationState.available;
+      case 'DELETING':
+        return TransitGatewayRegistrationState.deleting;
+      case 'DELETED':
+        return TransitGatewayRegistrationState.deleted;
+      case 'FAILED':
+        return TransitGatewayRegistrationState.failed;
+    }
+    throw Exception(
+        '$this is not known in enum TransitGatewayRegistrationState');
+  }
+}
+
 /// Describes the status of a transit gateway registration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TransitGatewayRegistrationStateReason {
   /// The code for the state reason.
-  @_s.JsonKey(name: 'Code')
-  final TransitGatewayRegistrationState code;
+  final TransitGatewayRegistrationState? code;
 
   /// The message for the state reason.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   TransitGatewayRegistrationStateReason({
     this.code,
     this.message,
   });
+
   factory TransitGatewayRegistrationStateReason.fromJson(
-          Map<String, dynamic> json) =>
-      _$TransitGatewayRegistrationStateReasonFromJson(json);
+      Map<String, dynamic> json) {
+    return TransitGatewayRegistrationStateReason(
+      code: (json['Code'] as String?)?.toTransitGatewayRegistrationState(),
+      message: json['Message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final message = this.message;
+    return {
+      if (code != null) 'Code': code.toValue(),
+      if (message != null) 'Message': message,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConnectionResponse {
   /// Information about the connection.
-  @_s.JsonKey(name: 'Connection')
-  final Connection connection;
+  final Connection? connection;
 
   UpdateConnectionResponse({
     this.connection,
   });
-  factory UpdateConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateConnectionResponseFromJson(json);
+
+  factory UpdateConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateConnectionResponse(
+      connection: json['Connection'] != null
+          ? Connection.fromJson(json['Connection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connection = this.connection;
+    return {
+      if (connection != null) 'Connection': connection,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDeviceResponse {
   /// Information about the device.
-  @_s.JsonKey(name: 'Device')
-  final Device device;
+  final Device? device;
 
   UpdateDeviceResponse({
     this.device,
   });
-  factory UpdateDeviceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDeviceResponseFromJson(json);
+
+  factory UpdateDeviceResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDeviceResponse(
+      device: json['Device'] != null
+          ? Device.fromJson(json['Device'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final device = this.device;
+    return {
+      if (device != null) 'Device': device,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateGlobalNetworkResponse {
   /// Information about the global network object.
-  @_s.JsonKey(name: 'GlobalNetwork')
-  final GlobalNetwork globalNetwork;
+  final GlobalNetwork? globalNetwork;
 
   UpdateGlobalNetworkResponse({
     this.globalNetwork,
   });
-  factory UpdateGlobalNetworkResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateGlobalNetworkResponseFromJson(json);
+
+  factory UpdateGlobalNetworkResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateGlobalNetworkResponse(
+      globalNetwork: json['GlobalNetwork'] != null
+          ? GlobalNetwork.fromJson(
+              json['GlobalNetwork'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final globalNetwork = this.globalNetwork;
+    return {
+      if (globalNetwork != null) 'GlobalNetwork': globalNetwork,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateLinkResponse {
   /// Information about the link.
-  @_s.JsonKey(name: 'Link')
-  final Link link;
+  final Link? link;
 
   UpdateLinkResponse({
     this.link,
   });
-  factory UpdateLinkResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateLinkResponseFromJson(json);
+
+  factory UpdateLinkResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateLinkResponse(
+      link: json['Link'] != null
+          ? Link.fromJson(json['Link'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final link = this.link;
+    return {
+      if (link != null) 'Link': link,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSiteResponse {
   /// Information about the site.
-  @_s.JsonKey(name: 'Site')
-  final Site site;
+  final Site? site;
 
   UpdateSiteResponse({
     this.site,
   });
-  factory UpdateSiteResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSiteResponseFromJson(json);
+
+  factory UpdateSiteResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSiteResponse(
+      site: json['Site'] != null
+          ? Site.fromJson(json['Site'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final site = this.site;
+    return {
+      if (site != null) 'Site': site,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -3049,12 +3805,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,17 +11,11 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 import 'flattened_list_with_location_name.meta.dart';
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
@@ -31,9 +26,9 @@ class FlattenedListWithLocationName {
   final Map<String, _s.Shape> shapes;
 
   FlattenedListWithLocationName({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -62,15 +57,32 @@ class FlattenedListWithLocationName {
 }
 
 class OutputShape {
-  final List<String> list;
+  final List<String>? list;
 
   OutputShape({
     this.list,
   });
+
+  factory OutputShape.fromJson(Map<String, dynamic> json) {
+    return OutputShape(
+      list: (json['List'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
       list: _s.extractXmlStringListValues(elem, 'NamedList'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final list = this.list;
+    return {
+      if (list != null) 'List': list,
+    };
   }
 }
 

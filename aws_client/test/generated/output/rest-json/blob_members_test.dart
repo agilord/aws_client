@@ -31,7 +31,7 @@ void main() {
 
     final output = await service.operationName0();
     expect(output.blobMember, utf8.encode('hi!'));
-    expect(output.structMember.foo, utf8.encode('there!'));
+    expect(output.structMember?.foo, utf8.encode('there!'));
 /*
 {
   "BlobMember": "hi!",

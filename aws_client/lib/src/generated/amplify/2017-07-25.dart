@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-07-25.g.dart';
 
 /// Amplify enables developers to develop and deploy cloud-powered mobile and
 /// web apps. The Amplify Console provides a continuous delivery and hosting
@@ -37,10 +30,10 @@ part '2017-07-25.g.dart';
 class Amplify {
   final _s.RestJsonProtocol _protocol;
   Amplify({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -124,25 +117,25 @@ class Amplify {
   /// Parameter [tags] :
   /// The tag for an Amplify app.
   Future<CreateAppResult> createApp({
-    @_s.required String name,
-    String accessToken,
-    AutoBranchCreationConfig autoBranchCreationConfig,
-    List<String> autoBranchCreationPatterns,
-    String basicAuthCredentials,
-    String buildSpec,
-    String customHeaders,
-    List<CustomRule> customRules,
-    String description,
-    bool enableAutoBranchCreation,
-    bool enableBasicAuth,
-    bool enableBranchAutoBuild,
-    bool enableBranchAutoDeletion,
-    Map<String, String> environmentVariables,
-    String iamServiceRoleArn,
-    String oauthToken,
-    Platform platform,
-    String repository,
-    Map<String, String> tags,
+    required String name,
+    String? accessToken,
+    AutoBranchCreationConfig? autoBranchCreationConfig,
+    List<String>? autoBranchCreationPatterns,
+    String? basicAuthCredentials,
+    String? buildSpec,
+    String? customHeaders,
+    List<CustomRule>? customRules,
+    String? description,
+    bool? enableAutoBranchCreation,
+    bool? enableBasicAuth,
+    bool? enableBranchAutoBuild,
+    bool? enableBranchAutoDeletion,
+    Map<String, String>? environmentVariables,
+    String? iamServiceRoleArn,
+    String? oauthToken,
+    Platform? platform,
+    String? repository,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -257,10 +250,10 @@ class Amplify {
   /// Parameter [stackName] :
   /// The AWS CloudFormation stack name of a backend environment.
   Future<CreateBackendEnvironmentResult> createBackendEnvironment({
-    @_s.required String appId,
-    @_s.required String environmentName,
-    String deploymentArtifacts,
-    String stackName,
+    required String appId,
+    required String environmentName,
+    String? deploymentArtifacts,
+    String? stackName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -268,12 +261,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
@@ -380,24 +367,24 @@ class Amplify {
   /// Parameter [ttl] :
   /// The content Time To Live (TTL) for the website in seconds.
   Future<CreateBranchResult> createBranch({
-    @_s.required String appId,
-    @_s.required String branchName,
-    String backendEnvironmentArn,
-    String basicAuthCredentials,
-    String buildSpec,
-    String description,
-    String displayName,
-    bool enableAutoBuild,
-    bool enableBasicAuth,
-    bool enableNotification,
-    bool enablePerformanceMode,
-    bool enablePullRequestPreview,
-    Map<String, String> environmentVariables,
-    String framework,
-    String pullRequestEnvironmentName,
-    Stage stage,
-    Map<String, String> tags,
-    String ttl,
+    required String appId,
+    required String branchName,
+    String? backendEnvironmentArn,
+    String? basicAuthCredentials,
+    String? buildSpec,
+    String? description,
+    String? displayName,
+    bool? enableAutoBuild,
+    bool? enableBasicAuth,
+    bool? enableNotification,
+    bool? enablePerformanceMode,
+    bool? enablePullRequestPreview,
+    Map<String, String>? environmentVariables,
+    String? framework,
+    String? pullRequestEnvironmentName,
+    Stage? stage,
+    Map<String, String>? tags,
+    String? ttl,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -405,12 +392,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -517,9 +498,9 @@ class Amplify {
   /// will generate a unique upload URL per file. Otherwise, the service will
   /// only generate a single upload URL for the zipped files.
   Future<CreateDeploymentResult> createDeployment({
-    @_s.required String appId,
-    @_s.required String branchName,
-    Map<String, String> fileMap,
+    required String appId,
+    required String branchName,
+    Map<String, String>? fileMap,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -527,12 +508,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -585,12 +560,12 @@ class Amplify {
   /// Parameter [enableAutoSubDomain] :
   /// Enables the automated creation of subdomains for branches.
   Future<CreateDomainAssociationResult> createDomainAssociation({
-    @_s.required String appId,
-    @_s.required String domainName,
-    @_s.required List<SubDomainSetting> subDomainSettings,
-    List<String> autoSubDomainCreationPatterns,
-    String autoSubDomainIAMRole,
-    bool enableAutoSubDomain,
+    required String appId,
+    required String domainName,
+    required List<SubDomainSetting> subDomainSettings,
+    List<String>? autoSubDomainCreationPatterns,
+    String? autoSubDomainIAMRole,
+    bool? enableAutoSubDomain,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -598,12 +573,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -620,11 +589,6 @@ class Amplify {
       autoSubDomainIAMRole,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'autoSubDomainIAMRole',
-      autoSubDomainIAMRole,
-      r'''^$|^arn:aws:iam::\d{12}:role.+''',
     );
     final $payload = <String, dynamic>{
       'domainName': domainName,
@@ -663,9 +627,9 @@ class Amplify {
   /// Parameter [description] :
   /// The description for a webhook.
   Future<CreateWebhookResult> createWebhook({
-    @_s.required String appId,
-    @_s.required String branchName,
-    String description,
+    required String appId,
+    required String branchName,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -673,12 +637,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -719,7 +677,7 @@ class Amplify {
   /// Parameter [appId] :
   /// The unique ID for an Amplify app.
   Future<DeleteAppResult> deleteApp({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -727,12 +685,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -758,8 +710,8 @@ class Amplify {
   /// Parameter [environmentName] :
   /// The name of a backend environment of an Amplify app.
   Future<DeleteBackendEnvironmentResult> deleteBackendEnvironment({
-    @_s.required String appId,
-    @_s.required String environmentName,
+    required String appId,
+    required String environmentName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -767,12 +719,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
@@ -807,8 +753,8 @@ class Amplify {
   /// Parameter [branchName] :
   /// The name for the branch.
   Future<DeleteBranchResult> deleteBranch({
-    @_s.required String appId,
-    @_s.required String branchName,
+    required String appId,
+    required String branchName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -816,12 +762,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -856,8 +796,8 @@ class Amplify {
   /// Parameter [domainName] :
   /// The name of the domain.
   Future<DeleteDomainAssociationResult> deleteDomainAssociation({
-    @_s.required String appId,
-    @_s.required String domainName,
+    required String appId,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -865,12 +805,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -908,9 +842,9 @@ class Amplify {
   /// Parameter [jobId] :
   /// The unique ID for the job.
   Future<DeleteJobResult> deleteJob({
-    @_s.required String appId,
-    @_s.required String branchName,
-    @_s.required String jobId,
+    required String appId,
+    required String branchName,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -918,12 +852,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -963,7 +891,7 @@ class Amplify {
   /// Parameter [webhookId] :
   /// The unique ID for a webhook.
   Future<DeleteWebhookResult> deleteWebhook({
-    @_s.required String webhookId,
+    required String webhookId,
   }) async {
     ArgumentError.checkNotNull(webhookId, 'webhookId');
     _s.validateStringLength(
@@ -1004,10 +932,10 @@ class Amplify {
   /// The time at which the logs should start. The time range specified is
   /// inclusive of the start time.
   Future<GenerateAccessLogsResult> generateAccessLogs({
-    @_s.required String appId,
-    @_s.required String domainName,
-    DateTime endTime,
-    DateTime startTime,
+    required String appId,
+    required String domainName,
+    DateTime? endTime,
+    DateTime? startTime,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1015,12 +943,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1055,7 +977,7 @@ class Amplify {
   /// Parameter [appId] :
   /// The unique ID for an Amplify app.
   Future<GetAppResult> getApp({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1063,12 +985,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -1091,7 +1007,7 @@ class Amplify {
   /// Parameter [artifactId] :
   /// The unique ID for an artifact.
   Future<GetArtifactUrlResult> getArtifactUrl({
-    @_s.required String artifactId,
+    required String artifactId,
   }) async {
     ArgumentError.checkNotNull(artifactId, 'artifactId');
     _s.validateStringLength(
@@ -1123,8 +1039,8 @@ class Amplify {
   /// Parameter [environmentName] :
   /// The name for the backend environment.
   Future<GetBackendEnvironmentResult> getBackendEnvironment({
-    @_s.required String appId,
-    @_s.required String environmentName,
+    required String appId,
+    required String environmentName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1132,12 +1048,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
@@ -1171,8 +1081,8 @@ class Amplify {
   /// Parameter [branchName] :
   /// The name for the branch.
   Future<GetBranchResult> getBranch({
-    @_s.required String appId,
-    @_s.required String branchName,
+    required String appId,
+    required String branchName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1180,12 +1090,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1219,8 +1123,8 @@ class Amplify {
   /// Parameter [domainName] :
   /// The name of the domain.
   Future<GetDomainAssociationResult> getDomainAssociation({
-    @_s.required String appId,
-    @_s.required String domainName,
+    required String appId,
+    required String domainName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1228,12 +1132,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1271,9 +1169,9 @@ class Amplify {
   /// Parameter [jobId] :
   /// The unique ID for the job.
   Future<GetJobResult> getJob({
-    @_s.required String appId,
-    @_s.required String branchName,
-    @_s.required String jobId,
+    required String appId,
+    required String branchName,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1281,12 +1179,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1327,7 +1219,7 @@ class Amplify {
   /// Parameter [webhookId] :
   /// The unique ID for a webhook.
   Future<GetWebhookResult> getWebhook({
-    @_s.required String webhookId,
+    required String webhookId,
   }) async {
     ArgumentError.checkNotNull(webhookId, 'webhookId');
     _s.validateStringLength(
@@ -1359,8 +1251,8 @@ class Amplify {
   /// A pagination token. If non-null, the pagination token is returned in a
   /// result. Pass its value in another request to retrieve more entries.
   Future<ListAppsResult> listApps({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1412,11 +1304,11 @@ class Amplify {
   /// a non-null pagination token is returned in a result, pass its value in
   /// here to list more artifacts.
   Future<ListArtifactsResult> listArtifacts({
-    @_s.required String appId,
-    @_s.required String branchName,
-    @_s.required String jobId,
-    int maxResults,
-    String nextToken,
+    required String appId,
+    required String branchName,
+    required String jobId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1424,12 +1316,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1495,10 +1381,10 @@ class Amplify {
   /// the start. If a non-null pagination token is returned in a result, pass
   /// its value in here to list more backend environments.
   Future<ListBackendEnvironmentsResult> listBackendEnvironments({
-    @_s.required String appId,
-    String environmentName,
-    int maxResults,
-    String nextToken,
+    required String appId,
+    String? environmentName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1506,12 +1392,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1564,9 +1444,9 @@ class Amplify {
   /// If a non-null pagination token is returned in a result, pass its value in
   /// here to list more branches.
   Future<ListBranchesResult> listBranches({
-    @_s.required String appId,
-    int maxResults,
-    String nextToken,
+    required String appId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1574,12 +1454,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1625,9 +1499,9 @@ class Amplify {
   /// non-null, a pagination token is returned in a result. Pass its value in
   /// here to list more projects.
   Future<ListDomainAssociationsResult> listDomainAssociations({
-    @_s.required String appId,
-    int maxResults,
-    String nextToken,
+    required String appId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1635,12 +1509,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1690,10 +1558,10 @@ class Amplify {
   /// a non-null pagination token is returned in a result, pass its value in
   /// here to list more steps.
   Future<ListJobsResult> listJobs({
-    @_s.required String appId,
-    @_s.required String branchName,
-    int maxResults,
-    String nextToken,
+    required String appId,
+    required String branchName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1701,12 +1569,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1753,15 +1615,9 @@ class Amplify {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) to use to list tags.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:amplify:.*''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1789,9 +1645,9 @@ class Amplify {
   /// If non-null,the pagination token is returned in a result. Pass its value
   /// in here to list more webhooks.
   Future<ListWebhooksResult> listWebhooks({
-    @_s.required String appId,
-    int maxResults,
-    String nextToken,
+    required String appId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1799,12 +1655,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1857,10 +1707,10 @@ class Amplify {
   /// without create deployment. The source URL can be any HTTP GET URL that is
   /// publicly accessible and downloads a single .zip file.
   Future<StartDeploymentResult> startDeployment({
-    @_s.required String appId,
-    @_s.required String branchName,
-    String jobId,
-    String sourceUrl,
+    required String appId,
+    required String branchName,
+    String? jobId,
+    String? sourceUrl,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1868,12 +1718,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1947,14 +1791,14 @@ class Amplify {
   /// Parameter [jobReason] :
   /// A descriptive reason for starting this job.
   Future<StartJobResult> startJob({
-    @_s.required String appId,
-    @_s.required String branchName,
-    @_s.required JobType jobType,
-    String commitId,
-    String commitMessage,
-    DateTime commitTime,
-    String jobId,
-    String jobReason,
+    required String appId,
+    required String branchName,
+    required JobType jobType,
+    String? commitId,
+    String? commitMessage,
+    DateTime? commitTime,
+    String? jobId,
+    String? jobReason,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -1962,12 +1806,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -2004,7 +1842,7 @@ class Amplify {
       255,
     );
     final $payload = <String, dynamic>{
-      'jobType': jobType?.toValue() ?? '',
+      'jobType': jobType.toValue(),
       if (commitId != null) 'commitId': commitId,
       if (commitMessage != null) 'commitMessage': commitMessage,
       if (commitTime != null) 'commitTime': unixTimestampToJson(commitTime),
@@ -2038,9 +1876,9 @@ class Amplify {
   /// Parameter [jobId] :
   /// The unique id for the job.
   Future<StopJobResult> stopJob({
-    @_s.required String appId,
-    @_s.required String branchName,
-    @_s.required String jobId,
+    required String appId,
+    required String branchName,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -2048,12 +1886,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -2094,16 +1926,10 @@ class Amplify {
   /// Parameter [tags] :
   /// The tags used to tag the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:amplify:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'tags': tags,
@@ -2114,7 +1940,6 @@ class Amplify {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Untags a resource with a specified Amazon Resource Name (ARN).
@@ -2129,19 +1954,13 @@ class Amplify {
   /// Parameter [tagKeys] :
   /// The tag keys to use to untag a resource.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^arn:aws:amplify:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -2150,7 +1969,6 @@ class Amplify {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 
   /// Updates an existing Amplify app.
@@ -2223,25 +2041,25 @@ class Amplify {
   /// Parameter [repository] :
   /// The name of the repository for an Amplify app
   Future<UpdateAppResult> updateApp({
-    @_s.required String appId,
-    String accessToken,
-    AutoBranchCreationConfig autoBranchCreationConfig,
-    List<String> autoBranchCreationPatterns,
-    String basicAuthCredentials,
-    String buildSpec,
-    String customHeaders,
-    List<CustomRule> customRules,
-    String description,
-    bool enableAutoBranchCreation,
-    bool enableBasicAuth,
-    bool enableBranchAutoBuild,
-    bool enableBranchAutoDeletion,
-    Map<String, String> environmentVariables,
-    String iamServiceRoleArn,
-    String name,
-    String oauthToken,
-    Platform platform,
-    String repository,
+    required String appId,
+    String? accessToken,
+    AutoBranchCreationConfig? autoBranchCreationConfig,
+    List<String>? autoBranchCreationPatterns,
+    String? basicAuthCredentials,
+    String? buildSpec,
+    String? customHeaders,
+    List<CustomRule>? customRules,
+    String? description,
+    bool? enableAutoBranchCreation,
+    bool? enableBasicAuth,
+    bool? enableBranchAutoBuild,
+    bool? enableBranchAutoDeletion,
+    Map<String, String>? environmentVariables,
+    String? iamServiceRoleArn,
+    String? name,
+    String? oauthToken,
+    Platform? platform,
+    String? repository,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -2249,12 +2067,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2412,23 +2224,23 @@ class Amplify {
   /// Parameter [ttl] :
   /// The content Time to Live (TTL) for the website in seconds.
   Future<UpdateBranchResult> updateBranch({
-    @_s.required String appId,
-    @_s.required String branchName,
-    String backendEnvironmentArn,
-    String basicAuthCredentials,
-    String buildSpec,
-    String description,
-    String displayName,
-    bool enableAutoBuild,
-    bool enableBasicAuth,
-    bool enableNotification,
-    bool enablePerformanceMode,
-    bool enablePullRequestPreview,
-    Map<String, String> environmentVariables,
-    String framework,
-    String pullRequestEnvironmentName,
-    Stage stage,
-    String ttl,
+    required String appId,
+    required String branchName,
+    String? backendEnvironmentArn,
+    String? basicAuthCredentials,
+    String? buildSpec,
+    String? description,
+    String? displayName,
+    bool? enableAutoBuild,
+    bool? enableBasicAuth,
+    bool? enableNotification,
+    bool? enablePerformanceMode,
+    bool? enablePullRequestPreview,
+    Map<String, String>? environmentVariables,
+    String? framework,
+    String? pullRequestEnvironmentName,
+    Stage? stage,
+    String? ttl,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -2436,12 +2248,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -2554,12 +2360,12 @@ class Amplify {
   /// Parameter [enableAutoSubDomain] :
   /// Enables the automated creation of subdomains for branches.
   Future<UpdateDomainAssociationResult> updateDomainAssociation({
-    @_s.required String appId,
-    @_s.required String domainName,
-    @_s.required List<SubDomainSetting> subDomainSettings,
-    List<String> autoSubDomainCreationPatterns,
-    String autoSubDomainIAMRole,
-    bool enableAutoSubDomain,
+    required String appId,
+    required String domainName,
+    required List<SubDomainSetting> subDomainSettings,
+    List<String>? autoSubDomainCreationPatterns,
+    String? autoSubDomainIAMRole,
+    bool? enableAutoSubDomain,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -2567,12 +2373,6 @@ class Amplify {
       appId,
       1,
       20,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -2589,11 +2389,6 @@ class Amplify {
       autoSubDomainIAMRole,
       0,
       1000,
-    );
-    _s.validateStringPattern(
-      'autoSubDomainIAMRole',
-      autoSubDomainIAMRole,
-      r'''^$|^arn:aws:iam::\d{12}:role.+''',
     );
     final $payload = <String, dynamic>{
       'subDomainSettings': subDomainSettings,
@@ -2631,9 +2426,9 @@ class Amplify {
   /// Parameter [description] :
   /// The description for a webhook.
   Future<UpdateWebhookResult> updateWebhook({
-    @_s.required String webhookId,
-    String branchName,
-    String description,
+    required String webhookId,
+    String? branchName,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(webhookId, 'webhookId');
     _s.validateStringLength(
@@ -2671,122 +2466,92 @@ class Amplify {
 
 /// Represents the different branches of a repository for building, deploying,
 /// and hosting an Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class App {
   /// The Amazon Resource Name (ARN) of the Amplify app.
-  @_s.JsonKey(name: 'appArn')
   final String appArn;
 
   /// The unique ID of the Amplify app.
-  @_s.JsonKey(name: 'appId')
   final String appId;
 
   /// Creates a date and time for the Amplify app.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The default domain for the Amplify app.
-  @_s.JsonKey(name: 'defaultDomain')
   final String defaultDomain;
 
   /// The description for the Amplify app.
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// Enables basic authorization for the Amplify app's branches.
-  @_s.JsonKey(name: 'enableBasicAuth')
   final bool enableBasicAuth;
 
   /// Enables the auto-building of branches for the Amplify app.
-  @_s.JsonKey(name: 'enableBranchAutoBuild')
   final bool enableBranchAutoBuild;
 
   /// The environment variables for the Amplify app.
-  @_s.JsonKey(name: 'environmentVariables')
   final Map<String, String> environmentVariables;
 
   /// The name for the Amplify app.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The platform for the Amplify app.
-  @_s.JsonKey(name: 'platform')
   final Platform platform;
 
   /// The repository for the Amplify app.
-  @_s.JsonKey(name: 'repository')
   final String repository;
 
   /// Updates the date and time for the Amplify app.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// Describes the automated branch creation configuration for the Amplify app.
-  @_s.JsonKey(name: 'autoBranchCreationConfig')
-  final AutoBranchCreationConfig autoBranchCreationConfig;
+  final AutoBranchCreationConfig? autoBranchCreationConfig;
 
   /// Describes the automated branch creation glob patterns for the Amplify app.
-  @_s.JsonKey(name: 'autoBranchCreationPatterns')
-  final List<String> autoBranchCreationPatterns;
+  final List<String>? autoBranchCreationPatterns;
 
   /// The basic authorization credentials for branches for the Amplify app.
-  @_s.JsonKey(name: 'basicAuthCredentials')
-  final String basicAuthCredentials;
+  final String? basicAuthCredentials;
 
   /// Describes the content of the build specification (build spec) for the
   /// Amplify app.
-  @_s.JsonKey(name: 'buildSpec')
-  final String buildSpec;
+  final String? buildSpec;
 
   /// Describes the custom HTTP headers for the Amplify app.
-  @_s.JsonKey(name: 'customHeaders')
-  final String customHeaders;
+  final String? customHeaders;
 
   /// Describes the custom redirect and rewrite rules for the Amplify app.
-  @_s.JsonKey(name: 'customRules')
-  final List<CustomRule> customRules;
+  final List<CustomRule>? customRules;
 
   /// Enables automated branch creation for the Amplify app.
-  @_s.JsonKey(name: 'enableAutoBranchCreation')
-  final bool enableAutoBranchCreation;
+  final bool? enableAutoBranchCreation;
 
   /// Automatically disconnect a branch in the Amplify Console when you delete a
   /// branch from your Git repository.
-  @_s.JsonKey(name: 'enableBranchAutoDeletion')
-  final bool enableBranchAutoDeletion;
+  final bool? enableBranchAutoDeletion;
 
   /// The AWS Identity and Access Management (IAM) service role for the Amazon
   /// Resource Name (ARN) of the Amplify app.
-  @_s.JsonKey(name: 'iamServiceRoleArn')
-  final String iamServiceRoleArn;
+  final String? iamServiceRoleArn;
 
   /// Describes the information about a production branch of the Amplify app.
-  @_s.JsonKey(name: 'productionBranch')
-  final ProductionBranch productionBranch;
+  final ProductionBranch? productionBranch;
 
   /// The tag for the Amplify app.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   App({
-    @_s.required this.appArn,
-    @_s.required this.appId,
-    @_s.required this.createTime,
-    @_s.required this.defaultDomain,
-    @_s.required this.description,
-    @_s.required this.enableBasicAuth,
-    @_s.required this.enableBranchAutoBuild,
-    @_s.required this.environmentVariables,
-    @_s.required this.name,
-    @_s.required this.platform,
-    @_s.required this.repository,
-    @_s.required this.updateTime,
+    required this.appArn,
+    required this.appId,
+    required this.createTime,
+    required this.defaultDomain,
+    required this.description,
+    required this.enableBasicAuth,
+    required this.enableBranchAutoBuild,
+    required this.environmentVariables,
+    required this.name,
+    required this.platform,
+    required this.repository,
+    required this.updateTime,
     this.autoBranchCreationConfig,
     this.autoBranchCreationPatterns,
     this.basicAuthCredentials,
@@ -2799,82 +2564,172 @@ class App {
     this.productionBranch,
     this.tags,
   });
-  factory App.fromJson(Map<String, dynamic> json) => _$AppFromJson(json);
+
+  factory App.fromJson(Map<String, dynamic> json) {
+    return App(
+      appArn: json['appArn'] as String,
+      appId: json['appId'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      defaultDomain: json['defaultDomain'] as String,
+      description: json['description'] as String,
+      enableBasicAuth: json['enableBasicAuth'] as bool,
+      enableBranchAutoBuild: json['enableBranchAutoBuild'] as bool,
+      environmentVariables:
+          (json['environmentVariables'] as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)),
+      name: json['name'] as String,
+      platform: (json['platform'] as String).toPlatform(),
+      repository: json['repository'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      autoBranchCreationConfig: json['autoBranchCreationConfig'] != null
+          ? AutoBranchCreationConfig.fromJson(
+              json['autoBranchCreationConfig'] as Map<String, dynamic>)
+          : null,
+      autoBranchCreationPatterns: (json['autoBranchCreationPatterns'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      basicAuthCredentials: json['basicAuthCredentials'] as String?,
+      buildSpec: json['buildSpec'] as String?,
+      customHeaders: json['customHeaders'] as String?,
+      customRules: (json['customRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => CustomRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      enableAutoBranchCreation: json['enableAutoBranchCreation'] as bool?,
+      enableBranchAutoDeletion: json['enableBranchAutoDeletion'] as bool?,
+      iamServiceRoleArn: json['iamServiceRoleArn'] as String?,
+      productionBranch: json['productionBranch'] != null
+          ? ProductionBranch.fromJson(
+              json['productionBranch'] as Map<String, dynamic>)
+          : null,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appArn = this.appArn;
+    final appId = this.appId;
+    final createTime = this.createTime;
+    final defaultDomain = this.defaultDomain;
+    final description = this.description;
+    final enableBasicAuth = this.enableBasicAuth;
+    final enableBranchAutoBuild = this.enableBranchAutoBuild;
+    final environmentVariables = this.environmentVariables;
+    final name = this.name;
+    final platform = this.platform;
+    final repository = this.repository;
+    final updateTime = this.updateTime;
+    final autoBranchCreationConfig = this.autoBranchCreationConfig;
+    final autoBranchCreationPatterns = this.autoBranchCreationPatterns;
+    final basicAuthCredentials = this.basicAuthCredentials;
+    final buildSpec = this.buildSpec;
+    final customHeaders = this.customHeaders;
+    final customRules = this.customRules;
+    final enableAutoBranchCreation = this.enableAutoBranchCreation;
+    final enableBranchAutoDeletion = this.enableBranchAutoDeletion;
+    final iamServiceRoleArn = this.iamServiceRoleArn;
+    final productionBranch = this.productionBranch;
+    final tags = this.tags;
+    return {
+      'appArn': appArn,
+      'appId': appId,
+      'createTime': unixTimestampToJson(createTime),
+      'defaultDomain': defaultDomain,
+      'description': description,
+      'enableBasicAuth': enableBasicAuth,
+      'enableBranchAutoBuild': enableBranchAutoBuild,
+      'environmentVariables': environmentVariables,
+      'name': name,
+      'platform': platform.toValue(),
+      'repository': repository,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (autoBranchCreationConfig != null)
+        'autoBranchCreationConfig': autoBranchCreationConfig,
+      if (autoBranchCreationPatterns != null)
+        'autoBranchCreationPatterns': autoBranchCreationPatterns,
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (buildSpec != null) 'buildSpec': buildSpec,
+      if (customHeaders != null) 'customHeaders': customHeaders,
+      if (customRules != null) 'customRules': customRules,
+      if (enableAutoBranchCreation != null)
+        'enableAutoBranchCreation': enableAutoBranchCreation,
+      if (enableBranchAutoDeletion != null)
+        'enableBranchAutoDeletion': enableBranchAutoDeletion,
+      if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
+      if (productionBranch != null) 'productionBranch': productionBranch,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Describes an artifact.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Artifact {
   /// The file name for the artifact.
-  @_s.JsonKey(name: 'artifactFileName')
   final String artifactFileName;
 
   /// The unique ID for the artifact.
-  @_s.JsonKey(name: 'artifactId')
   final String artifactId;
 
   Artifact({
-    @_s.required this.artifactFileName,
-    @_s.required this.artifactId,
+    required this.artifactFileName,
+    required this.artifactId,
   });
-  factory Artifact.fromJson(Map<String, dynamic> json) =>
-      _$ArtifactFromJson(json);
+
+  factory Artifact.fromJson(Map<String, dynamic> json) {
+    return Artifact(
+      artifactFileName: json['artifactFileName'] as String,
+      artifactId: json['artifactId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactFileName = this.artifactFileName;
+    final artifactId = this.artifactId;
+    return {
+      'artifactFileName': artifactFileName,
+      'artifactId': artifactId,
+    };
+  }
 }
 
 /// Describes the automated branch creation configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AutoBranchCreationConfig {
   /// The basic authorization credentials for the autocreated branch.
-  @_s.JsonKey(name: 'basicAuthCredentials')
-  final String basicAuthCredentials;
+  final String? basicAuthCredentials;
 
   /// The build specification (build spec) for the autocreated branch.
-  @_s.JsonKey(name: 'buildSpec')
-  final String buildSpec;
+  final String? buildSpec;
 
   /// Enables auto building for the autocreated branch.
-  @_s.JsonKey(name: 'enableAutoBuild')
-  final bool enableAutoBuild;
+  final bool? enableAutoBuild;
 
   /// Enables basic authorization for the autocreated branch.
-  @_s.JsonKey(name: 'enableBasicAuth')
-  final bool enableBasicAuth;
+  final bool? enableBasicAuth;
 
   /// Enables performance mode for the branch.
   ///
   /// Performance mode optimizes for faster hosting performance by keeping content
   /// cached at the edge for a longer interval. When performance mode is enabled,
   /// hosting configuration or code changes can take up to 10 minutes to roll out.
-  @_s.JsonKey(name: 'enablePerformanceMode')
-  final bool enablePerformanceMode;
+  final bool? enablePerformanceMode;
 
   /// Enables pull request previews for the autocreated branch.
-  @_s.JsonKey(name: 'enablePullRequestPreview')
-  final bool enablePullRequestPreview;
+  final bool? enablePullRequestPreview;
 
   /// The environment variables for the autocreated branch.
-  @_s.JsonKey(name: 'environmentVariables')
-  final Map<String, String> environmentVariables;
+  final Map<String, String>? environmentVariables;
 
   /// The framework for the autocreated branch.
-  @_s.JsonKey(name: 'framework')
-  final String framework;
+  final String? framework;
 
   /// The Amplify environment name for the pull request.
-  @_s.JsonKey(name: 'pullRequestEnvironmentName')
-  final String pullRequestEnvironmentName;
+  final String? pullRequestEnvironmentName;
 
   /// Describes the current stage for the autocreated branch.
-  @_s.JsonKey(name: 'stage')
-  final Stage stage;
+  final Stage? stage;
 
   AutoBranchCreationConfig({
     this.basicAuthCredentials,
@@ -2888,202 +2743,225 @@ class AutoBranchCreationConfig {
     this.pullRequestEnvironmentName,
     this.stage,
   });
-  factory AutoBranchCreationConfig.fromJson(Map<String, dynamic> json) =>
-      _$AutoBranchCreationConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AutoBranchCreationConfigToJson(this);
+  factory AutoBranchCreationConfig.fromJson(Map<String, dynamic> json) {
+    return AutoBranchCreationConfig(
+      basicAuthCredentials: json['basicAuthCredentials'] as String?,
+      buildSpec: json['buildSpec'] as String?,
+      enableAutoBuild: json['enableAutoBuild'] as bool?,
+      enableBasicAuth: json['enableBasicAuth'] as bool?,
+      enablePerformanceMode: json['enablePerformanceMode'] as bool?,
+      enablePullRequestPreview: json['enablePullRequestPreview'] as bool?,
+      environmentVariables:
+          (json['environmentVariables'] as Map<String, dynamic>?)
+              ?.map((k, e) => MapEntry(k, e as String)),
+      framework: json['framework'] as String?,
+      pullRequestEnvironmentName: json['pullRequestEnvironmentName'] as String?,
+      stage: (json['stage'] as String?)?.toStage(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final basicAuthCredentials = this.basicAuthCredentials;
+    final buildSpec = this.buildSpec;
+    final enableAutoBuild = this.enableAutoBuild;
+    final enableBasicAuth = this.enableBasicAuth;
+    final enablePerformanceMode = this.enablePerformanceMode;
+    final enablePullRequestPreview = this.enablePullRequestPreview;
+    final environmentVariables = this.environmentVariables;
+    final framework = this.framework;
+    final pullRequestEnvironmentName = this.pullRequestEnvironmentName;
+    final stage = this.stage;
+    return {
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (buildSpec != null) 'buildSpec': buildSpec,
+      if (enableAutoBuild != null) 'enableAutoBuild': enableAutoBuild,
+      if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
+      if (enablePerformanceMode != null)
+        'enablePerformanceMode': enablePerformanceMode,
+      if (enablePullRequestPreview != null)
+        'enablePullRequestPreview': enablePullRequestPreview,
+      if (environmentVariables != null)
+        'environmentVariables': environmentVariables,
+      if (framework != null) 'framework': framework,
+      if (pullRequestEnvironmentName != null)
+        'pullRequestEnvironmentName': pullRequestEnvironmentName,
+      if (stage != null) 'stage': stage.toValue(),
+    };
+  }
 }
 
 /// Describes the backend environment for an Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackendEnvironment {
   /// The Amazon Resource Name (ARN) for a backend environment that is part of an
   /// Amplify app.
-  @_s.JsonKey(name: 'backendEnvironmentArn')
   final String backendEnvironmentArn;
 
   /// The creation date and time for a backend environment that is part of an
   /// Amplify app.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The name for a backend environment that is part of an Amplify app.
-  @_s.JsonKey(name: 'environmentName')
   final String environmentName;
 
   /// The last updated date and time for a backend environment that is part of an
   /// Amplify app.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// The name of deployment artifacts.
-  @_s.JsonKey(name: 'deploymentArtifacts')
-  final String deploymentArtifacts;
+  final String? deploymentArtifacts;
 
   /// The AWS CloudFormation stack name of a backend environment.
-  @_s.JsonKey(name: 'stackName')
-  final String stackName;
+  final String? stackName;
 
   BackendEnvironment({
-    @_s.required this.backendEnvironmentArn,
-    @_s.required this.createTime,
-    @_s.required this.environmentName,
-    @_s.required this.updateTime,
+    required this.backendEnvironmentArn,
+    required this.createTime,
+    required this.environmentName,
+    required this.updateTime,
     this.deploymentArtifacts,
     this.stackName,
   });
-  factory BackendEnvironment.fromJson(Map<String, dynamic> json) =>
-      _$BackendEnvironmentFromJson(json);
+
+  factory BackendEnvironment.fromJson(Map<String, dynamic> json) {
+    return BackendEnvironment(
+      backendEnvironmentArn: json['backendEnvironmentArn'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      environmentName: json['environmentName'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      deploymentArtifacts: json['deploymentArtifacts'] as String?,
+      stackName: json['stackName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backendEnvironmentArn = this.backendEnvironmentArn;
+    final createTime = this.createTime;
+    final environmentName = this.environmentName;
+    final updateTime = this.updateTime;
+    final deploymentArtifacts = this.deploymentArtifacts;
+    final stackName = this.stackName;
+    return {
+      'backendEnvironmentArn': backendEnvironmentArn,
+      'createTime': unixTimestampToJson(createTime),
+      'environmentName': environmentName,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (deploymentArtifacts != null)
+        'deploymentArtifacts': deploymentArtifacts,
+      if (stackName != null) 'stackName': stackName,
+    };
+  }
 }
 
 /// The branch for an Amplify app, which maps to a third-party repository
 /// branch.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Branch {
   /// The ID of the active job for a branch of an Amplify app.
-  @_s.JsonKey(name: 'activeJobId')
   final String activeJobId;
 
   /// The Amazon Resource Name (ARN) for a branch that is part of an Amplify app.
-  @_s.JsonKey(name: 'branchArn')
   final String branchArn;
 
   /// The name for the branch that is part of an Amplify app.
-  @_s.JsonKey(name: 'branchName')
   final String branchName;
 
   /// The creation date and time for a branch that is part of an Amplify app.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The custom domains for a branch of an Amplify app.
-  @_s.JsonKey(name: 'customDomains')
   final List<String> customDomains;
 
   /// The description for the branch that is part of an Amplify app.
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// The display name for the branch. This is used as the default domain prefix.
-  @_s.JsonKey(name: 'displayName')
   final String displayName;
 
   /// Enables auto-building on push for a branch of an Amplify app.
-  @_s.JsonKey(name: 'enableAutoBuild')
   final bool enableAutoBuild;
 
   /// Enables basic authorization for a branch of an Amplify app.
-  @_s.JsonKey(name: 'enableBasicAuth')
   final bool enableBasicAuth;
 
   /// Enables notifications for a branch that is part of an Amplify app.
-  @_s.JsonKey(name: 'enableNotification')
   final bool enableNotification;
 
   /// Enables pull request previews for the branch.
-  @_s.JsonKey(name: 'enablePullRequestPreview')
   final bool enablePullRequestPreview;
 
   /// The environment variables specific to a branch of an Amplify app.
-  @_s.JsonKey(name: 'environmentVariables')
   final Map<String, String> environmentVariables;
 
   /// The framework for a branch of an Amplify app.
-  @_s.JsonKey(name: 'framework')
   final String framework;
 
   /// The current stage for the branch that is part of an Amplify app.
-  @_s.JsonKey(name: 'stage')
   final Stage stage;
 
   /// The total number of jobs that are part of an Amplify app.
-  @_s.JsonKey(name: 'totalNumberOfJobs')
   final String totalNumberOfJobs;
 
   /// The content Time to Live (TTL) for the website in seconds.
-  @_s.JsonKey(name: 'ttl')
   final String ttl;
 
   /// The last updated date and time for a branch that is part of an Amplify app.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// A list of custom resources that are linked to this branch.
-  @_s.JsonKey(name: 'associatedResources')
-  final List<String> associatedResources;
+  final List<String>? associatedResources;
 
   /// The Amazon Resource Name (ARN) for a backend environment that is part of an
   /// Amplify app.
-  @_s.JsonKey(name: 'backendEnvironmentArn')
-  final String backendEnvironmentArn;
+  final String? backendEnvironmentArn;
 
   /// The basic authorization credentials for a branch of an Amplify app.
-  @_s.JsonKey(name: 'basicAuthCredentials')
-  final String basicAuthCredentials;
+  final String? basicAuthCredentials;
 
   /// The build specification (build spec) content for the branch of an Amplify
   /// app.
-  @_s.JsonKey(name: 'buildSpec')
-  final String buildSpec;
+  final String? buildSpec;
 
   /// The destination branch if the branch is a pull request branch.
-  @_s.JsonKey(name: 'destinationBranch')
-  final String destinationBranch;
+  final String? destinationBranch;
 
   /// Enables performance mode for the branch.
   ///
   /// Performance mode optimizes for faster hosting performance by keeping content
   /// cached at the edge for a longer interval. When performance mode is enabled,
   /// hosting configuration or code changes can take up to 10 minutes to roll out.
-  @_s.JsonKey(name: 'enablePerformanceMode')
-  final bool enablePerformanceMode;
+  final bool? enablePerformanceMode;
 
   /// The Amplify environment name for the pull request.
-  @_s.JsonKey(name: 'pullRequestEnvironmentName')
-  final String pullRequestEnvironmentName;
+  final String? pullRequestEnvironmentName;
 
   /// The source branch if the branch is a pull request branch.
-  @_s.JsonKey(name: 'sourceBranch')
-  final String sourceBranch;
+  final String? sourceBranch;
 
   /// The tag for the branch of an Amplify app.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The thumbnail URL for the branch of an Amplify app.
-  @_s.JsonKey(name: 'thumbnailUrl')
-  final String thumbnailUrl;
+  final String? thumbnailUrl;
 
   Branch({
-    @_s.required this.activeJobId,
-    @_s.required this.branchArn,
-    @_s.required this.branchName,
-    @_s.required this.createTime,
-    @_s.required this.customDomains,
-    @_s.required this.description,
-    @_s.required this.displayName,
-    @_s.required this.enableAutoBuild,
-    @_s.required this.enableBasicAuth,
-    @_s.required this.enableNotification,
-    @_s.required this.enablePullRequestPreview,
-    @_s.required this.environmentVariables,
-    @_s.required this.framework,
-    @_s.required this.stage,
-    @_s.required this.totalNumberOfJobs,
-    @_s.required this.ttl,
-    @_s.required this.updateTime,
+    required this.activeJobId,
+    required this.branchArn,
+    required this.branchName,
+    required this.createTime,
+    required this.customDomains,
+    required this.description,
+    required this.displayName,
+    required this.enableAutoBuild,
+    required this.enableBasicAuth,
+    required this.enableNotification,
+    required this.enablePullRequestPreview,
+    required this.environmentVariables,
+    required this.framework,
+    required this.stage,
+    required this.totalNumberOfJobs,
+    required this.ttl,
+    required this.updateTime,
     this.associatedResources,
     this.backendEnvironmentArn,
     this.basicAuthCredentials,
@@ -3095,147 +2973,280 @@ class Branch {
     this.tags,
     this.thumbnailUrl,
   });
-  factory Branch.fromJson(Map<String, dynamic> json) => _$BranchFromJson(json);
+
+  factory Branch.fromJson(Map<String, dynamic> json) {
+    return Branch(
+      activeJobId: json['activeJobId'] as String,
+      branchArn: json['branchArn'] as String,
+      branchName: json['branchName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      customDomains: (json['customDomains'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      description: json['description'] as String,
+      displayName: json['displayName'] as String,
+      enableAutoBuild: json['enableAutoBuild'] as bool,
+      enableBasicAuth: json['enableBasicAuth'] as bool,
+      enableNotification: json['enableNotification'] as bool,
+      enablePullRequestPreview: json['enablePullRequestPreview'] as bool,
+      environmentVariables:
+          (json['environmentVariables'] as Map<String, dynamic>)
+              .map((k, e) => MapEntry(k, e as String)),
+      framework: json['framework'] as String,
+      stage: (json['stage'] as String).toStage(),
+      totalNumberOfJobs: json['totalNumberOfJobs'] as String,
+      ttl: json['ttl'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      associatedResources: (json['associatedResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      backendEnvironmentArn: json['backendEnvironmentArn'] as String?,
+      basicAuthCredentials: json['basicAuthCredentials'] as String?,
+      buildSpec: json['buildSpec'] as String?,
+      destinationBranch: json['destinationBranch'] as String?,
+      enablePerformanceMode: json['enablePerformanceMode'] as bool?,
+      pullRequestEnvironmentName: json['pullRequestEnvironmentName'] as String?,
+      sourceBranch: json['sourceBranch'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      thumbnailUrl: json['thumbnailUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeJobId = this.activeJobId;
+    final branchArn = this.branchArn;
+    final branchName = this.branchName;
+    final createTime = this.createTime;
+    final customDomains = this.customDomains;
+    final description = this.description;
+    final displayName = this.displayName;
+    final enableAutoBuild = this.enableAutoBuild;
+    final enableBasicAuth = this.enableBasicAuth;
+    final enableNotification = this.enableNotification;
+    final enablePullRequestPreview = this.enablePullRequestPreview;
+    final environmentVariables = this.environmentVariables;
+    final framework = this.framework;
+    final stage = this.stage;
+    final totalNumberOfJobs = this.totalNumberOfJobs;
+    final ttl = this.ttl;
+    final updateTime = this.updateTime;
+    final associatedResources = this.associatedResources;
+    final backendEnvironmentArn = this.backendEnvironmentArn;
+    final basicAuthCredentials = this.basicAuthCredentials;
+    final buildSpec = this.buildSpec;
+    final destinationBranch = this.destinationBranch;
+    final enablePerformanceMode = this.enablePerformanceMode;
+    final pullRequestEnvironmentName = this.pullRequestEnvironmentName;
+    final sourceBranch = this.sourceBranch;
+    final tags = this.tags;
+    final thumbnailUrl = this.thumbnailUrl;
+    return {
+      'activeJobId': activeJobId,
+      'branchArn': branchArn,
+      'branchName': branchName,
+      'createTime': unixTimestampToJson(createTime),
+      'customDomains': customDomains,
+      'description': description,
+      'displayName': displayName,
+      'enableAutoBuild': enableAutoBuild,
+      'enableBasicAuth': enableBasicAuth,
+      'enableNotification': enableNotification,
+      'enablePullRequestPreview': enablePullRequestPreview,
+      'environmentVariables': environmentVariables,
+      'framework': framework,
+      'stage': stage.toValue(),
+      'totalNumberOfJobs': totalNumberOfJobs,
+      'ttl': ttl,
+      'updateTime': unixTimestampToJson(updateTime),
+      if (associatedResources != null)
+        'associatedResources': associatedResources,
+      if (backendEnvironmentArn != null)
+        'backendEnvironmentArn': backendEnvironmentArn,
+      if (basicAuthCredentials != null)
+        'basicAuthCredentials': basicAuthCredentials,
+      if (buildSpec != null) 'buildSpec': buildSpec,
+      if (destinationBranch != null) 'destinationBranch': destinationBranch,
+      if (enablePerformanceMode != null)
+        'enablePerformanceMode': enablePerformanceMode,
+      if (pullRequestEnvironmentName != null)
+        'pullRequestEnvironmentName': pullRequestEnvironmentName,
+      if (sourceBranch != null) 'sourceBranch': sourceBranch,
+      if (tags != null) 'tags': tags,
+      if (thumbnailUrl != null) 'thumbnailUrl': thumbnailUrl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAppResult {
-  @_s.JsonKey(name: 'app')
   final App app;
 
   CreateAppResult({
-    @_s.required this.app,
+    required this.app,
   });
-  factory CreateAppResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateAppResultFromJson(json);
+
+  factory CreateAppResult.fromJson(Map<String, dynamic> json) {
+    return CreateAppResult(
+      app: App.fromJson(json['app'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    return {
+      'app': app,
+    };
+  }
 }
 
 /// The result structure for the create backend environment request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackendEnvironmentResult {
   /// Describes the backend environment for an Amplify app.
-  @_s.JsonKey(name: 'backendEnvironment')
   final BackendEnvironment backendEnvironment;
 
   CreateBackendEnvironmentResult({
-    @_s.required this.backendEnvironment,
+    required this.backendEnvironment,
   });
-  factory CreateBackendEnvironmentResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendEnvironmentResultFromJson(json);
+
+  factory CreateBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
+    return CreateBackendEnvironmentResult(
+      backendEnvironment: BackendEnvironment.fromJson(
+          json['backendEnvironment'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backendEnvironment = this.backendEnvironment;
+    return {
+      'backendEnvironment': backendEnvironment,
+    };
+  }
 }
 
 /// The result structure for create branch request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBranchResult {
   /// Describes the branch for an Amplify app, which maps to a third-party
   /// repository branch.
-  @_s.JsonKey(name: 'branch')
   final Branch branch;
 
   CreateBranchResult({
-    @_s.required this.branch,
+    required this.branch,
   });
-  factory CreateBranchResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateBranchResultFromJson(json);
+
+  factory CreateBranchResult.fromJson(Map<String, dynamic> json) {
+    return CreateBranchResult(
+      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    return {
+      'branch': branch,
+    };
+  }
 }
 
 /// The result structure for the create a new deployment request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDeploymentResult {
   /// When the <code>fileMap</code> argument is provided in the request,
   /// <code>fileUploadUrls</code> will contain a map of file names to upload URLs.
-  @_s.JsonKey(name: 'fileUploadUrls')
   final Map<String, String> fileUploadUrls;
 
   /// When the <code>fileMap</code> argument is not provided in the request, this
   /// <code>zipUploadUrl</code> is returned.
-  @_s.JsonKey(name: 'zipUploadUrl')
   final String zipUploadUrl;
 
   /// The job ID for this deployment. will supply to start deployment api.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   CreateDeploymentResult({
-    @_s.required this.fileUploadUrls,
-    @_s.required this.zipUploadUrl,
+    required this.fileUploadUrls,
+    required this.zipUploadUrl,
     this.jobId,
   });
-  factory CreateDeploymentResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDeploymentResultFromJson(json);
+
+  factory CreateDeploymentResult.fromJson(Map<String, dynamic> json) {
+    return CreateDeploymentResult(
+      fileUploadUrls: (json['fileUploadUrls'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      zipUploadUrl: json['zipUploadUrl'] as String,
+      jobId: json['jobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fileUploadUrls = this.fileUploadUrls;
+    final zipUploadUrl = this.zipUploadUrl;
+    final jobId = this.jobId;
+    return {
+      'fileUploadUrls': fileUploadUrls,
+      'zipUploadUrl': zipUploadUrl,
+      if (jobId != null) 'jobId': jobId,
+    };
+  }
 }
 
 /// The result structure for the create domain association request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDomainAssociationResult {
   /// Describes the structure of a domain association, which associates a custom
   /// domain with an Amplify app.
-  @_s.JsonKey(name: 'domainAssociation')
   final DomainAssociation domainAssociation;
 
   CreateDomainAssociationResult({
-    @_s.required this.domainAssociation,
+    required this.domainAssociation,
   });
-  factory CreateDomainAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateDomainAssociationResultFromJson(json);
+
+  factory CreateDomainAssociationResult.fromJson(Map<String, dynamic> json) {
+    return CreateDomainAssociationResult(
+      domainAssociation: DomainAssociation.fromJson(
+          json['domainAssociation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainAssociation = this.domainAssociation;
+    return {
+      'domainAssociation': domainAssociation,
+    };
+  }
 }
 
 /// The result structure for the create webhook request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateWebhookResult {
   /// Describes a webhook that connects repository events to an Amplify app.
-  @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
   CreateWebhookResult({
-    @_s.required this.webhook,
+    required this.webhook,
   });
-  factory CreateWebhookResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateWebhookResultFromJson(json);
+
+  factory CreateWebhookResult.fromJson(Map<String, dynamic> json) {
+    return CreateWebhookResult(
+      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webhook = this.webhook;
+    return {
+      'webhook': webhook,
+    };
+  }
 }
 
 /// Describes a custom rewrite or redirect rule.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CustomRule {
   /// The source pattern for a URL rewrite or redirect rule.
-  @_s.JsonKey(name: 'source')
   final String source;
 
   /// The target pattern for a URL rewrite or redirect rule.
-  @_s.JsonKey(name: 'target')
   final String target;
 
   /// The condition for a URL rewrite or redirect rule, such as a country code.
-  @_s.JsonKey(name: 'condition')
-  final String condition;
+  final String? condition;
 
   /// The status code for a URL rewrite or redirect rule.
   /// <dl> <dt>200</dt> <dd>
@@ -3250,414 +3261,616 @@ class CustomRule {
   /// </dd> <dt>404-200</dt> <dd>
   /// Represents a 404 rewrite rule.
   /// </dd> </dl>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CustomRule({
-    @_s.required this.source,
-    @_s.required this.target,
+    required this.source,
+    required this.target,
     this.condition,
     this.status,
   });
-  factory CustomRule.fromJson(Map<String, dynamic> json) =>
-      _$CustomRuleFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CustomRuleToJson(this);
+  factory CustomRule.fromJson(Map<String, dynamic> json) {
+    return CustomRule(
+      source: json['source'] as String,
+      target: json['target'] as String,
+      condition: json['condition'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final source = this.source;
+    final target = this.target;
+    final condition = this.condition;
+    final status = this.status;
+    return {
+      'source': source,
+      'target': target,
+      if (condition != null) 'condition': condition,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// The result structure for the delete app request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteAppResult {
-  @_s.JsonKey(name: 'app')
   final App app;
 
   DeleteAppResult({
-    @_s.required this.app,
+    required this.app,
   });
-  factory DeleteAppResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteAppResultFromJson(json);
+
+  factory DeleteAppResult.fromJson(Map<String, dynamic> json) {
+    return DeleteAppResult(
+      app: App.fromJson(json['app'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    return {
+      'app': app,
+    };
+  }
 }
 
 /// The result structure of the delete backend environment result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackendEnvironmentResult {
   /// Describes the backend environment for an Amplify app.
-  @_s.JsonKey(name: 'backendEnvironment')
   final BackendEnvironment backendEnvironment;
 
   DeleteBackendEnvironmentResult({
-    @_s.required this.backendEnvironment,
+    required this.backendEnvironment,
   });
-  factory DeleteBackendEnvironmentResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackendEnvironmentResultFromJson(json);
+
+  factory DeleteBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
+    return DeleteBackendEnvironmentResult(
+      backendEnvironment: BackendEnvironment.fromJson(
+          json['backendEnvironment'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backendEnvironment = this.backendEnvironment;
+    return {
+      'backendEnvironment': backendEnvironment,
+    };
+  }
 }
 
 /// The result structure for the delete branch request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBranchResult {
   /// The branch for an Amplify app, which maps to a third-party repository
   /// branch.
-  @_s.JsonKey(name: 'branch')
   final Branch branch;
 
   DeleteBranchResult({
-    @_s.required this.branch,
+    required this.branch,
   });
-  factory DeleteBranchResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBranchResultFromJson(json);
+
+  factory DeleteBranchResult.fromJson(Map<String, dynamic> json) {
+    return DeleteBranchResult(
+      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    return {
+      'branch': branch,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDomainAssociationResult {
-  @_s.JsonKey(name: 'domainAssociation')
   final DomainAssociation domainAssociation;
 
   DeleteDomainAssociationResult({
-    @_s.required this.domainAssociation,
+    required this.domainAssociation,
   });
-  factory DeleteDomainAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteDomainAssociationResultFromJson(json);
+
+  factory DeleteDomainAssociationResult.fromJson(Map<String, dynamic> json) {
+    return DeleteDomainAssociationResult(
+      domainAssociation: DomainAssociation.fromJson(
+          json['domainAssociation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainAssociation = this.domainAssociation;
+    return {
+      'domainAssociation': domainAssociation,
+    };
+  }
 }
 
 /// The result structure for the delete job request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteJobResult {
-  @_s.JsonKey(name: 'jobSummary')
   final JobSummary jobSummary;
 
   DeleteJobResult({
-    @_s.required this.jobSummary,
+    required this.jobSummary,
   });
-  factory DeleteJobResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteJobResultFromJson(json);
+
+  factory DeleteJobResult.fromJson(Map<String, dynamic> json) {
+    return DeleteJobResult(
+      jobSummary:
+          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobSummary = this.jobSummary;
+    return {
+      'jobSummary': jobSummary,
+    };
+  }
 }
 
 /// The result structure for the delete webhook request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteWebhookResult {
   /// Describes a webhook that connects repository events to an Amplify app.
-  @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
   DeleteWebhookResult({
-    @_s.required this.webhook,
+    required this.webhook,
   });
-  factory DeleteWebhookResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWebhookResultFromJson(json);
+
+  factory DeleteWebhookResult.fromJson(Map<String, dynamic> json) {
+    return DeleteWebhookResult(
+      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webhook = this.webhook;
+    return {
+      'webhook': webhook,
+    };
+  }
 }
 
 /// Describes a domain association that associates a custom domain with an
 /// Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainAssociation {
   /// The Amazon Resource Name (ARN) for the domain association.
-  @_s.JsonKey(name: 'domainAssociationArn')
   final String domainAssociationArn;
 
   /// The name of the domain.
-  @_s.JsonKey(name: 'domainName')
   final String domainName;
 
   /// The current status of the domain association.
-  @_s.JsonKey(name: 'domainStatus')
   final DomainStatus domainStatus;
 
   /// Enables the automated creation of subdomains for branches.
-  @_s.JsonKey(name: 'enableAutoSubDomain')
   final bool enableAutoSubDomain;
 
   /// The reason for the current status of the domain association.
-  @_s.JsonKey(name: 'statusReason')
   final String statusReason;
 
   /// The subdomains for the domain association.
-  @_s.JsonKey(name: 'subDomains')
   final List<SubDomain> subDomains;
 
   /// Sets branch patterns for automatic subdomain creation.
-  @_s.JsonKey(name: 'autoSubDomainCreationPatterns')
-  final List<String> autoSubDomainCreationPatterns;
+  final List<String>? autoSubDomainCreationPatterns;
 
   /// The required AWS Identity and Access Management (IAM) service role for the
   /// Amazon Resource Name (ARN) for automatically creating subdomains.
-  @_s.JsonKey(name: 'autoSubDomainIAMRole')
-  final String autoSubDomainIAMRole;
+  final String? autoSubDomainIAMRole;
 
   /// The DNS record for certificate verification.
-  @_s.JsonKey(name: 'certificateVerificationDNSRecord')
-  final String certificateVerificationDNSRecord;
+  final String? certificateVerificationDNSRecord;
 
   DomainAssociation({
-    @_s.required this.domainAssociationArn,
-    @_s.required this.domainName,
-    @_s.required this.domainStatus,
-    @_s.required this.enableAutoSubDomain,
-    @_s.required this.statusReason,
-    @_s.required this.subDomains,
+    required this.domainAssociationArn,
+    required this.domainName,
+    required this.domainStatus,
+    required this.enableAutoSubDomain,
+    required this.statusReason,
+    required this.subDomains,
     this.autoSubDomainCreationPatterns,
     this.autoSubDomainIAMRole,
     this.certificateVerificationDNSRecord,
   });
-  factory DomainAssociation.fromJson(Map<String, dynamic> json) =>
-      _$DomainAssociationFromJson(json);
+
+  factory DomainAssociation.fromJson(Map<String, dynamic> json) {
+    return DomainAssociation(
+      domainAssociationArn: json['domainAssociationArn'] as String,
+      domainName: json['domainName'] as String,
+      domainStatus: (json['domainStatus'] as String).toDomainStatus(),
+      enableAutoSubDomain: json['enableAutoSubDomain'] as bool,
+      statusReason: json['statusReason'] as String,
+      subDomains: (json['subDomains'] as List)
+          .whereNotNull()
+          .map((e) => SubDomain.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      autoSubDomainCreationPatterns:
+          (json['autoSubDomainCreationPatterns'] as List?)
+              ?.whereNotNull()
+              .map((e) => e as String)
+              .toList(),
+      autoSubDomainIAMRole: json['autoSubDomainIAMRole'] as String?,
+      certificateVerificationDNSRecord:
+          json['certificateVerificationDNSRecord'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainAssociationArn = this.domainAssociationArn;
+    final domainName = this.domainName;
+    final domainStatus = this.domainStatus;
+    final enableAutoSubDomain = this.enableAutoSubDomain;
+    final statusReason = this.statusReason;
+    final subDomains = this.subDomains;
+    final autoSubDomainCreationPatterns = this.autoSubDomainCreationPatterns;
+    final autoSubDomainIAMRole = this.autoSubDomainIAMRole;
+    final certificateVerificationDNSRecord =
+        this.certificateVerificationDNSRecord;
+    return {
+      'domainAssociationArn': domainAssociationArn,
+      'domainName': domainName,
+      'domainStatus': domainStatus.toValue(),
+      'enableAutoSubDomain': enableAutoSubDomain,
+      'statusReason': statusReason,
+      'subDomains': subDomains,
+      if (autoSubDomainCreationPatterns != null)
+        'autoSubDomainCreationPatterns': autoSubDomainCreationPatterns,
+      if (autoSubDomainIAMRole != null)
+        'autoSubDomainIAMRole': autoSubDomainIAMRole,
+      if (certificateVerificationDNSRecord != null)
+        'certificateVerificationDNSRecord': certificateVerificationDNSRecord,
+    };
+  }
 }
 
 enum DomainStatus {
-  @_s.JsonValue('PENDING_VERIFICATION')
   pendingVerification,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('PENDING_DEPLOYMENT')
   pendingDeployment,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('REQUESTING_CERTIFICATE')
   requestingCertificate,
-  @_s.JsonValue('UPDATING')
   updating,
 }
 
+extension on DomainStatus {
+  String toValue() {
+    switch (this) {
+      case DomainStatus.pendingVerification:
+        return 'PENDING_VERIFICATION';
+      case DomainStatus.inProgress:
+        return 'IN_PROGRESS';
+      case DomainStatus.available:
+        return 'AVAILABLE';
+      case DomainStatus.pendingDeployment:
+        return 'PENDING_DEPLOYMENT';
+      case DomainStatus.failed:
+        return 'FAILED';
+      case DomainStatus.creating:
+        return 'CREATING';
+      case DomainStatus.requestingCertificate:
+        return 'REQUESTING_CERTIFICATE';
+      case DomainStatus.updating:
+        return 'UPDATING';
+    }
+  }
+}
+
+extension on String {
+  DomainStatus toDomainStatus() {
+    switch (this) {
+      case 'PENDING_VERIFICATION':
+        return DomainStatus.pendingVerification;
+      case 'IN_PROGRESS':
+        return DomainStatus.inProgress;
+      case 'AVAILABLE':
+        return DomainStatus.available;
+      case 'PENDING_DEPLOYMENT':
+        return DomainStatus.pendingDeployment;
+      case 'FAILED':
+        return DomainStatus.failed;
+      case 'CREATING':
+        return DomainStatus.creating;
+      case 'REQUESTING_CERTIFICATE':
+        return DomainStatus.requestingCertificate;
+      case 'UPDATING':
+        return DomainStatus.updating;
+    }
+    throw Exception('$this is not known in enum DomainStatus');
+  }
+}
+
 /// The result structure for the generate access logs request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateAccessLogsResult {
   /// The pre-signed URL for the requested access logs.
-  @_s.JsonKey(name: 'logUrl')
-  final String logUrl;
+  final String? logUrl;
 
   GenerateAccessLogsResult({
     this.logUrl,
   });
-  factory GenerateAccessLogsResult.fromJson(Map<String, dynamic> json) =>
-      _$GenerateAccessLogsResultFromJson(json);
+
+  factory GenerateAccessLogsResult.fromJson(Map<String, dynamic> json) {
+    return GenerateAccessLogsResult(
+      logUrl: json['logUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logUrl = this.logUrl;
+    return {
+      if (logUrl != null) 'logUrl': logUrl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetAppResult {
-  @_s.JsonKey(name: 'app')
   final App app;
 
   GetAppResult({
-    @_s.required this.app,
+    required this.app,
   });
-  factory GetAppResult.fromJson(Map<String, dynamic> json) =>
-      _$GetAppResultFromJson(json);
+
+  factory GetAppResult.fromJson(Map<String, dynamic> json) {
+    return GetAppResult(
+      app: App.fromJson(json['app'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    return {
+      'app': app,
+    };
+  }
 }
 
 /// Returns the result structure for the get artifact request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetArtifactUrlResult {
   /// The unique ID for an artifact.
-  @_s.JsonKey(name: 'artifactId')
   final String artifactId;
 
   /// The presigned URL for the artifact.
-  @_s.JsonKey(name: 'artifactUrl')
   final String artifactUrl;
 
   GetArtifactUrlResult({
-    @_s.required this.artifactId,
-    @_s.required this.artifactUrl,
+    required this.artifactId,
+    required this.artifactUrl,
   });
-  factory GetArtifactUrlResult.fromJson(Map<String, dynamic> json) =>
-      _$GetArtifactUrlResultFromJson(json);
+
+  factory GetArtifactUrlResult.fromJson(Map<String, dynamic> json) {
+    return GetArtifactUrlResult(
+      artifactId: json['artifactId'] as String,
+      artifactUrl: json['artifactUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactId = this.artifactId;
+    final artifactUrl = this.artifactUrl;
+    return {
+      'artifactId': artifactId,
+      'artifactUrl': artifactUrl,
+    };
+  }
 }
 
 /// The result structure for the get backend environment result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackendEnvironmentResult {
   /// Describes the backend environment for an Amplify app.
-  @_s.JsonKey(name: 'backendEnvironment')
   final BackendEnvironment backendEnvironment;
 
   GetBackendEnvironmentResult({
-    @_s.required this.backendEnvironment,
+    required this.backendEnvironment,
   });
-  factory GetBackendEnvironmentResult.fromJson(Map<String, dynamic> json) =>
-      _$GetBackendEnvironmentResultFromJson(json);
+
+  factory GetBackendEnvironmentResult.fromJson(Map<String, dynamic> json) {
+    return GetBackendEnvironmentResult(
+      backendEnvironment: BackendEnvironment.fromJson(
+          json['backendEnvironment'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backendEnvironment = this.backendEnvironment;
+    return {
+      'backendEnvironment': backendEnvironment,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBranchResult {
-  @_s.JsonKey(name: 'branch')
   final Branch branch;
 
   GetBranchResult({
-    @_s.required this.branch,
+    required this.branch,
   });
-  factory GetBranchResult.fromJson(Map<String, dynamic> json) =>
-      _$GetBranchResultFromJson(json);
+
+  factory GetBranchResult.fromJson(Map<String, dynamic> json) {
+    return GetBranchResult(
+      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    return {
+      'branch': branch,
+    };
+  }
 }
 
 /// The result structure for the get domain association request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDomainAssociationResult {
   /// Describes the structure of a domain association, which associates a custom
   /// domain with an Amplify app.
-  @_s.JsonKey(name: 'domainAssociation')
   final DomainAssociation domainAssociation;
 
   GetDomainAssociationResult({
-    @_s.required this.domainAssociation,
+    required this.domainAssociation,
   });
-  factory GetDomainAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$GetDomainAssociationResultFromJson(json);
+
+  factory GetDomainAssociationResult.fromJson(Map<String, dynamic> json) {
+    return GetDomainAssociationResult(
+      domainAssociation: DomainAssociation.fromJson(
+          json['domainAssociation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainAssociation = this.domainAssociation;
+    return {
+      'domainAssociation': domainAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobResult {
-  @_s.JsonKey(name: 'job')
   final Job job;
 
   GetJobResult({
-    @_s.required this.job,
+    required this.job,
   });
-  factory GetJobResult.fromJson(Map<String, dynamic> json) =>
-      _$GetJobResultFromJson(json);
+
+  factory GetJobResult.fromJson(Map<String, dynamic> json) {
+    return GetJobResult(
+      job: Job.fromJson(json['job'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final job = this.job;
+    return {
+      'job': job,
+    };
+  }
 }
 
 /// The result structure for the get webhook request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetWebhookResult {
   /// Describes the structure of a webhook.
-  @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
   GetWebhookResult({
-    @_s.required this.webhook,
+    required this.webhook,
   });
-  factory GetWebhookResult.fromJson(Map<String, dynamic> json) =>
-      _$GetWebhookResultFromJson(json);
+
+  factory GetWebhookResult.fromJson(Map<String, dynamic> json) {
+    return GetWebhookResult(
+      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webhook = this.webhook;
+    return {
+      'webhook': webhook,
+    };
+  }
 }
 
 /// Describes an execution job for an Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Job {
   /// The execution steps for an execution job, for an Amplify app.
-  @_s.JsonKey(name: 'steps')
   final List<Step> steps;
 
   /// Describes the summary for an execution job for an Amplify app.
-  @_s.JsonKey(name: 'summary')
   final JobSummary summary;
 
   Job({
-    @_s.required this.steps,
-    @_s.required this.summary,
+    required this.steps,
+    required this.summary,
   });
-  factory Job.fromJson(Map<String, dynamic> json) => _$JobFromJson(json);
+
+  factory Job.fromJson(Map<String, dynamic> json) {
+    return Job(
+      steps: (json['steps'] as List)
+          .whereNotNull()
+          .map((e) => Step.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      summary: JobSummary.fromJson(json['summary'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final steps = this.steps;
+    final summary = this.summary;
+    return {
+      'steps': steps,
+      'summary': summary,
+    };
+  }
 }
 
 enum JobStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('PROVISIONING')
   provisioning,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('SUCCEED')
   succeed,
-  @_s.JsonValue('CANCELLING')
   cancelling,
-  @_s.JsonValue('CANCELLED')
   cancelled,
 }
 
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.pending:
+        return 'PENDING';
+      case JobStatus.provisioning:
+        return 'PROVISIONING';
+      case JobStatus.running:
+        return 'RUNNING';
+      case JobStatus.failed:
+        return 'FAILED';
+      case JobStatus.succeed:
+        return 'SUCCEED';
+      case JobStatus.cancelling:
+        return 'CANCELLING';
+      case JobStatus.cancelled:
+        return 'CANCELLED';
+    }
+  }
+}
+
+extension on String {
+  JobStatus toJobStatus() {
+    switch (this) {
+      case 'PENDING':
+        return JobStatus.pending;
+      case 'PROVISIONING':
+        return JobStatus.provisioning;
+      case 'RUNNING':
+        return JobStatus.running;
+      case 'FAILED':
+        return JobStatus.failed;
+      case 'SUCCEED':
+        return JobStatus.succeed;
+      case 'CANCELLING':
+        return JobStatus.cancelling;
+      case 'CANCELLED':
+        return JobStatus.cancelled;
+    }
+    throw Exception('$this is not known in enum JobStatus');
+  }
+}
+
 /// Describes the summary for an execution job for an Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobSummary {
   /// The commit ID from a third-party repository provider for the job.
-  @_s.JsonKey(name: 'commitId')
   final String commitId;
 
   /// The commit message from a third-party repository provider for the job.
-  @_s.JsonKey(name: 'commitMessage')
   final String commitMessage;
 
   /// The commit date and time for the job.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'commitTime')
   final DateTime commitTime;
 
   /// The Amazon Resource Name (ARN) for the job.
-  @_s.JsonKey(name: 'jobArn')
   final String jobArn;
 
   /// The unique ID for the job.
-  @_s.JsonKey(name: 'jobId')
   final String jobId;
 
   /// The type for the job. If the value is <code>RELEASE</code>, the job was
@@ -3665,46 +3878,71 @@ class JobSummary {
   /// the value is <code>RETRY</code>, the job was manually retried using the
   /// <code>StartJob</code> API. If the value is <code>WEB_HOOK</code>, the job
   /// was automatically triggered by webhooks.
-  @_s.JsonKey(name: 'jobType')
   final JobType jobType;
 
   /// The start date and time for the job.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// The current status for the job.
-  @_s.JsonKey(name: 'status')
   final JobStatus status;
 
   /// The end date and time for the job.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   JobSummary({
-    @_s.required this.commitId,
-    @_s.required this.commitMessage,
-    @_s.required this.commitTime,
-    @_s.required this.jobArn,
-    @_s.required this.jobId,
-    @_s.required this.jobType,
-    @_s.required this.startTime,
-    @_s.required this.status,
+    required this.commitId,
+    required this.commitMessage,
+    required this.commitTime,
+    required this.jobArn,
+    required this.jobId,
+    required this.jobType,
+    required this.startTime,
+    required this.status,
     this.endTime,
   });
-  factory JobSummary.fromJson(Map<String, dynamic> json) =>
-      _$JobSummaryFromJson(json);
+
+  factory JobSummary.fromJson(Map<String, dynamic> json) {
+    return JobSummary(
+      commitId: json['commitId'] as String,
+      commitMessage: json['commitMessage'] as String,
+      commitTime: nonNullableTimeStampFromJson(json['commitTime'] as Object),
+      jobArn: json['jobArn'] as String,
+      jobId: json['jobId'] as String,
+      jobType: (json['jobType'] as String).toJobType(),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      status: (json['status'] as String).toJobStatus(),
+      endTime: timeStampFromJson(json['endTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commitId = this.commitId;
+    final commitMessage = this.commitMessage;
+    final commitTime = this.commitTime;
+    final jobArn = this.jobArn;
+    final jobId = this.jobId;
+    final jobType = this.jobType;
+    final startTime = this.startTime;
+    final status = this.status;
+    final endTime = this.endTime;
+    return {
+      'commitId': commitId,
+      'commitMessage': commitMessage,
+      'commitTime': unixTimestampToJson(commitTime),
+      'jobArn': jobArn,
+      'jobId': jobId,
+      'jobType': jobType.toValue(),
+      'startTime': unixTimestampToJson(startTime),
+      'status': status.toValue(),
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+    };
+  }
 }
 
 enum JobType {
-  @_s.JsonValue('RELEASE')
   release,
-  @_s.JsonValue('RETRY')
   retry,
-  @_s.JsonValue('MANUAL')
   manual,
-  @_s.JsonValue('WEB_HOOK')
   webHook,
 }
 
@@ -3720,199 +3958,289 @@ extension on JobType {
       case JobType.webHook:
         return 'WEB_HOOK';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JobType toJobType() {
+    switch (this) {
+      case 'RELEASE':
+        return JobType.release;
+      case 'RETRY':
+        return JobType.retry;
+      case 'MANUAL':
+        return JobType.manual;
+      case 'WEB_HOOK':
+        return JobType.webHook;
+    }
+    throw Exception('$this is not known in enum JobType');
   }
 }
 
 /// The result structure for an Amplify app list request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAppsResult {
   /// A list of Amplify apps.
-  @_s.JsonKey(name: 'apps')
   final List<App> apps;
 
   /// A pagination token. Set to null to start listing apps from start. If
   /// non-null, the pagination token is returned in a result. Pass its value in
   /// here to list more projects.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListAppsResult({
-    @_s.required this.apps,
+    required this.apps,
     this.nextToken,
   });
-  factory ListAppsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListAppsResultFromJson(json);
+
+  factory ListAppsResult.fromJson(Map<String, dynamic> json) {
+    return ListAppsResult(
+      apps: (json['apps'] as List)
+          .whereNotNull()
+          .map((e) => App.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final apps = this.apps;
+    final nextToken = this.nextToken;
+    return {
+      'apps': apps,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The result structure for the list artifacts request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListArtifactsResult {
   /// A list of artifacts.
-  @_s.JsonKey(name: 'artifacts')
   final List<Artifact> artifacts;
 
   /// A pagination token. If a non-null pagination token is returned in a result,
   /// pass its value in another request to retrieve more entries.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListArtifactsResult({
-    @_s.required this.artifacts,
+    required this.artifacts,
     this.nextToken,
   });
-  factory ListArtifactsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListArtifactsResultFromJson(json);
+
+  factory ListArtifactsResult.fromJson(Map<String, dynamic> json) {
+    return ListArtifactsResult(
+      artifacts: (json['artifacts'] as List)
+          .whereNotNull()
+          .map((e) => Artifact.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifacts = this.artifacts;
+    final nextToken = this.nextToken;
+    return {
+      'artifacts': artifacts,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The result structure for the list backend environments result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBackendEnvironmentsResult {
   /// The list of backend environments for an Amplify app.
-  @_s.JsonKey(name: 'backendEnvironments')
   final List<BackendEnvironment> backendEnvironments;
 
   /// A pagination token. If a non-null pagination token is returned in a result,
   /// pass its value in another request to retrieve more entries.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackendEnvironmentsResult({
-    @_s.required this.backendEnvironments,
+    required this.backendEnvironments,
     this.nextToken,
   });
-  factory ListBackendEnvironmentsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListBackendEnvironmentsResultFromJson(json);
+
+  factory ListBackendEnvironmentsResult.fromJson(Map<String, dynamic> json) {
+    return ListBackendEnvironmentsResult(
+      backendEnvironments: (json['backendEnvironments'] as List)
+          .whereNotNull()
+          .map((e) => BackendEnvironment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final backendEnvironments = this.backendEnvironments;
+    final nextToken = this.nextToken;
+    return {
+      'backendEnvironments': backendEnvironments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The result structure for the list branches request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListBranchesResult {
   /// A list of branches for an Amplify app.
-  @_s.JsonKey(name: 'branches')
   final List<Branch> branches;
 
   /// A pagination token. If a non-null pagination token is returned in a result,
   /// pass its value in another request to retrieve more entries.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBranchesResult({
-    @_s.required this.branches,
+    required this.branches,
     this.nextToken,
   });
-  factory ListBranchesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListBranchesResultFromJson(json);
+
+  factory ListBranchesResult.fromJson(Map<String, dynamic> json) {
+    return ListBranchesResult(
+      branches: (json['branches'] as List)
+          .whereNotNull()
+          .map((e) => Branch.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branches = this.branches;
+    final nextToken = this.nextToken;
+    return {
+      'branches': branches,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The result structure for the list domain association request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDomainAssociationsResult {
   /// A list of domain associations.
-  @_s.JsonKey(name: 'domainAssociations')
   final List<DomainAssociation> domainAssociations;
 
   /// A pagination token. If non-null, a pagination token is returned in a result.
   /// Pass its value in another request to retrieve more entries.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDomainAssociationsResult({
-    @_s.required this.domainAssociations,
+    required this.domainAssociations,
     this.nextToken,
   });
-  factory ListDomainAssociationsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListDomainAssociationsResultFromJson(json);
+
+  factory ListDomainAssociationsResult.fromJson(Map<String, dynamic> json) {
+    return ListDomainAssociationsResult(
+      domainAssociations: (json['domainAssociations'] as List)
+          .whereNotNull()
+          .map((e) => DomainAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainAssociations = this.domainAssociations;
+    final nextToken = this.nextToken;
+    return {
+      'domainAssociations': domainAssociations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The maximum number of records to list in a single response.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsResult {
   /// The result structure for the list job result request.
-  @_s.JsonKey(name: 'jobSummaries')
   final List<JobSummary> jobSummaries;
 
   /// A pagination token. If non-null the pagination token is returned in a
   /// result. Pass its value in another request to retrieve more entries.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobsResult({
-    @_s.required this.jobSummaries,
+    required this.jobSummaries,
     this.nextToken,
   });
-  factory ListJobsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsResultFromJson(json);
+
+  factory ListJobsResult.fromJson(Map<String, dynamic> json) {
+    return ListJobsResult(
+      jobSummaries: (json['jobSummaries'] as List)
+          .whereNotNull()
+          .map((e) => JobSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobSummaries = this.jobSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'jobSummaries': jobSummaries,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The response for the list tags for resource request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// A list of tags for the specified The Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// The result structure for the list webhooks request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListWebhooksResult {
   /// A list of webhooks.
-  @_s.JsonKey(name: 'webhooks')
   final List<Webhook> webhooks;
 
   /// A pagination token. If non-null, the pagination token is returned in a
   /// result. Pass its value in another request to retrieve more entries.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListWebhooksResult({
-    @_s.required this.webhooks,
+    required this.webhooks,
     this.nextToken,
   });
-  factory ListWebhooksResult.fromJson(Map<String, dynamic> json) =>
-      _$ListWebhooksResultFromJson(json);
+
+  factory ListWebhooksResult.fromJson(Map<String, dynamic> json) {
+    return ListWebhooksResult(
+      webhooks: (json['webhooks'] as List)
+          .whereNotNull()
+          .map((e) => Webhook.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webhooks = this.webhooks;
+    final nextToken = this.nextToken;
+    return {
+      'webhooks': webhooks,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 enum Platform {
-  @_s.JsonValue('WEB')
   web,
 }
 
@@ -3922,33 +4250,32 @@ extension on Platform {
       case Platform.web:
         return 'WEB';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Platform toPlatform() {
+    switch (this) {
+      case 'WEB':
+        return Platform.web;
+    }
+    throw Exception('$this is not known in enum Platform');
   }
 }
 
 /// Describes the information about a production branch for an Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProductionBranch {
   /// The branch name for the production branch.
-  @_s.JsonKey(name: 'branchName')
-  final String branchName;
+  final String? branchName;
 
   /// The last deploy time of the production branch.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'lastDeployTime')
-  final DateTime lastDeployTime;
+  final DateTime? lastDeployTime;
 
   /// The status of the production branch.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The thumbnail URL for the production branch.
-  @_s.JsonKey(name: 'thumbnailUrl')
-  final String thumbnailUrl;
+  final String? thumbnailUrl;
 
   ProductionBranch({
     this.branchName,
@@ -3956,20 +4283,36 @@ class ProductionBranch {
     this.status,
     this.thumbnailUrl,
   });
-  factory ProductionBranch.fromJson(Map<String, dynamic> json) =>
-      _$ProductionBranchFromJson(json);
+
+  factory ProductionBranch.fromJson(Map<String, dynamic> json) {
+    return ProductionBranch(
+      branchName: json['branchName'] as String?,
+      lastDeployTime: timeStampFromJson(json['lastDeployTime']),
+      status: json['status'] as String?,
+      thumbnailUrl: json['thumbnailUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branchName = this.branchName;
+    final lastDeployTime = this.lastDeployTime;
+    final status = this.status;
+    final thumbnailUrl = this.thumbnailUrl;
+    return {
+      if (branchName != null) 'branchName': branchName,
+      if (lastDeployTime != null)
+        'lastDeployTime': unixTimestampToJson(lastDeployTime),
+      if (status != null) 'status': status,
+      if (thumbnailUrl != null) 'thumbnailUrl': thumbnailUrl,
+    };
+  }
 }
 
 enum Stage {
-  @_s.JsonValue('PRODUCTION')
   production,
-  @_s.JsonValue('BETA')
   beta,
-  @_s.JsonValue('DEVELOPMENT')
   development,
-  @_s.JsonValue('EXPERIMENTAL')
   experimental,
-  @_s.JsonValue('PULL_REQUEST')
   pullRequest,
 }
 
@@ -3987,105 +4330,116 @@ extension on Stage {
       case Stage.pullRequest:
         return 'PULL_REQUEST';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Stage toStage() {
+    switch (this) {
+      case 'PRODUCTION':
+        return Stage.production;
+      case 'BETA':
+        return Stage.beta;
+      case 'DEVELOPMENT':
+        return Stage.development;
+      case 'EXPERIMENTAL':
+        return Stage.experimental;
+      case 'PULL_REQUEST':
+        return Stage.pullRequest;
+    }
+    throw Exception('$this is not known in enum Stage');
   }
 }
 
 /// The result structure for the start a deployment request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDeploymentResult {
   /// The summary for the job.
-  @_s.JsonKey(name: 'jobSummary')
   final JobSummary jobSummary;
 
   StartDeploymentResult({
-    @_s.required this.jobSummary,
+    required this.jobSummary,
   });
-  factory StartDeploymentResult.fromJson(Map<String, dynamic> json) =>
-      _$StartDeploymentResultFromJson(json);
+
+  factory StartDeploymentResult.fromJson(Map<String, dynamic> json) {
+    return StartDeploymentResult(
+      jobSummary:
+          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobSummary = this.jobSummary;
+    return {
+      'jobSummary': jobSummary,
+    };
+  }
 }
 
 /// The result structure for the run job request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartJobResult {
   /// The summary for the job.
-  @_s.JsonKey(name: 'jobSummary')
   final JobSummary jobSummary;
 
   StartJobResult({
-    @_s.required this.jobSummary,
+    required this.jobSummary,
   });
-  factory StartJobResult.fromJson(Map<String, dynamic> json) =>
-      _$StartJobResultFromJson(json);
+
+  factory StartJobResult.fromJson(Map<String, dynamic> json) {
+    return StartJobResult(
+      jobSummary:
+          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobSummary = this.jobSummary;
+    return {
+      'jobSummary': jobSummary,
+    };
+  }
 }
 
 /// Describes an execution step, for an execution job, for an Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Step {
   /// The end date and time of the execution step.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// The start date and time of the execution step.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// The status of the execution step.
-  @_s.JsonKey(name: 'status')
   final JobStatus status;
 
   /// The name of the execution step.
-  @_s.JsonKey(name: 'stepName')
   final String stepName;
 
   /// The URL to the artifact for the execution step.
-  @_s.JsonKey(name: 'artifactsUrl')
-  final String artifactsUrl;
+  final String? artifactsUrl;
 
   /// The context for the current step. Includes a build image if the step is
   /// build.
-  @_s.JsonKey(name: 'context')
-  final String context;
+  final String? context;
 
   /// The URL to the logs for the execution step.
-  @_s.JsonKey(name: 'logUrl')
-  final String logUrl;
+  final String? logUrl;
 
   /// The list of screenshot URLs for the execution step, if relevant.
-  @_s.JsonKey(name: 'screenshots')
-  final Map<String, String> screenshots;
+  final Map<String, String>? screenshots;
 
   /// The reason for the current step status.
-  @_s.JsonKey(name: 'statusReason')
-  final String statusReason;
+  final String? statusReason;
 
   /// The URL to the test artifact for the execution step.
-  @_s.JsonKey(name: 'testArtifactsUrl')
-  final String testArtifactsUrl;
+  final String? testArtifactsUrl;
 
   /// The URL to the test configuration for the execution step.
-  @_s.JsonKey(name: 'testConfigUrl')
-  final String testConfigUrl;
+  final String? testConfigUrl;
 
   Step({
-    @_s.required this.endTime,
-    @_s.required this.startTime,
-    @_s.required this.status,
-    @_s.required this.stepName,
+    required this.endTime,
+    required this.startTime,
+    required this.status,
+    required this.stepName,
     this.artifactsUrl,
     this.context,
     this.logUrl,
@@ -4094,235 +4448,337 @@ class Step {
     this.testArtifactsUrl,
     this.testConfigUrl,
   });
-  factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
+
+  factory Step.fromJson(Map<String, dynamic> json) {
+    return Step(
+      endTime: nonNullableTimeStampFromJson(json['endTime'] as Object),
+      startTime: nonNullableTimeStampFromJson(json['startTime'] as Object),
+      status: (json['status'] as String).toJobStatus(),
+      stepName: json['stepName'] as String,
+      artifactsUrl: json['artifactsUrl'] as String?,
+      context: json['context'] as String?,
+      logUrl: json['logUrl'] as String?,
+      screenshots: (json['screenshots'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      statusReason: json['statusReason'] as String?,
+      testArtifactsUrl: json['testArtifactsUrl'] as String?,
+      testConfigUrl: json['testConfigUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTime = this.endTime;
+    final startTime = this.startTime;
+    final status = this.status;
+    final stepName = this.stepName;
+    final artifactsUrl = this.artifactsUrl;
+    final context = this.context;
+    final logUrl = this.logUrl;
+    final screenshots = this.screenshots;
+    final statusReason = this.statusReason;
+    final testArtifactsUrl = this.testArtifactsUrl;
+    final testConfigUrl = this.testConfigUrl;
+    return {
+      'endTime': unixTimestampToJson(endTime),
+      'startTime': unixTimestampToJson(startTime),
+      'status': status.toValue(),
+      'stepName': stepName,
+      if (artifactsUrl != null) 'artifactsUrl': artifactsUrl,
+      if (context != null) 'context': context,
+      if (logUrl != null) 'logUrl': logUrl,
+      if (screenshots != null) 'screenshots': screenshots,
+      if (statusReason != null) 'statusReason': statusReason,
+      if (testArtifactsUrl != null) 'testArtifactsUrl': testArtifactsUrl,
+      if (testConfigUrl != null) 'testConfigUrl': testConfigUrl,
+    };
+  }
 }
 
 /// The result structure for the stop job request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopJobResult {
   /// The summary for the job.
-  @_s.JsonKey(name: 'jobSummary')
   final JobSummary jobSummary;
 
   StopJobResult({
-    @_s.required this.jobSummary,
+    required this.jobSummary,
   });
-  factory StopJobResult.fromJson(Map<String, dynamic> json) =>
-      _$StopJobResultFromJson(json);
+
+  factory StopJobResult.fromJson(Map<String, dynamic> json) {
+    return StopJobResult(
+      jobSummary:
+          JobSummary.fromJson(json['jobSummary'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobSummary = this.jobSummary;
+    return {
+      'jobSummary': jobSummary,
+    };
+  }
 }
 
 /// The subdomain for the domain association.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubDomain {
   /// The DNS record for the subdomain.
-  @_s.JsonKey(name: 'dnsRecord')
   final String dnsRecord;
 
   /// Describes the settings for the subdomain.
-  @_s.JsonKey(name: 'subDomainSetting')
   final SubDomainSetting subDomainSetting;
 
   /// The verified status of the subdomain
-  @_s.JsonKey(name: 'verified')
   final bool verified;
 
   SubDomain({
-    @_s.required this.dnsRecord,
-    @_s.required this.subDomainSetting,
-    @_s.required this.verified,
+    required this.dnsRecord,
+    required this.subDomainSetting,
+    required this.verified,
   });
-  factory SubDomain.fromJson(Map<String, dynamic> json) =>
-      _$SubDomainFromJson(json);
+
+  factory SubDomain.fromJson(Map<String, dynamic> json) {
+    return SubDomain(
+      dnsRecord: json['dnsRecord'] as String,
+      subDomainSetting: SubDomainSetting.fromJson(
+          json['subDomainSetting'] as Map<String, dynamic>),
+      verified: json['verified'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dnsRecord = this.dnsRecord;
+    final subDomainSetting = this.subDomainSetting;
+    final verified = this.verified;
+    return {
+      'dnsRecord': dnsRecord,
+      'subDomainSetting': subDomainSetting,
+      'verified': verified,
+    };
+  }
 }
 
 /// Describes the settings for the subdomain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SubDomainSetting {
   /// The branch name setting for the subdomain.
-  @_s.JsonKey(name: 'branchName')
   final String branchName;
 
   /// The prefix setting for the subdomain.
-  @_s.JsonKey(name: 'prefix')
   final String prefix;
 
   SubDomainSetting({
-    @_s.required this.branchName,
-    @_s.required this.prefix,
+    required this.branchName,
+    required this.prefix,
   });
-  factory SubDomainSetting.fromJson(Map<String, dynamic> json) =>
-      _$SubDomainSettingFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SubDomainSettingToJson(this);
+  factory SubDomainSetting.fromJson(Map<String, dynamic> json) {
+    return SubDomainSetting(
+      branchName: json['branchName'] as String,
+      prefix: json['prefix'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branchName = this.branchName;
+    final prefix = this.prefix;
+    return {
+      'branchName': branchName,
+      'prefix': prefix,
+    };
+  }
 }
 
 /// The response for the tag resource request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The response for the untag resource request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The result structure for an Amplify app update request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateAppResult {
   /// Represents the updated Amplify app.
-  @_s.JsonKey(name: 'app')
   final App app;
 
   UpdateAppResult({
-    @_s.required this.app,
+    required this.app,
   });
-  factory UpdateAppResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateAppResultFromJson(json);
+
+  factory UpdateAppResult.fromJson(Map<String, dynamic> json) {
+    return UpdateAppResult(
+      app: App.fromJson(json['app'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final app = this.app;
+    return {
+      'app': app,
+    };
+  }
 }
 
 /// The result structure for the update branch request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBranchResult {
   /// The branch for an Amplify app, which maps to a third-party repository
   /// branch.
-  @_s.JsonKey(name: 'branch')
   final Branch branch;
 
   UpdateBranchResult({
-    @_s.required this.branch,
+    required this.branch,
   });
-  factory UpdateBranchResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBranchResultFromJson(json);
+
+  factory UpdateBranchResult.fromJson(Map<String, dynamic> json) {
+    return UpdateBranchResult(
+      branch: Branch.fromJson(json['branch'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branch = this.branch;
+    return {
+      'branch': branch,
+    };
+  }
 }
 
 /// The result structure for the update domain association request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDomainAssociationResult {
   /// Describes a domain association, which associates a custom domain with an
   /// Amplify app.
-  @_s.JsonKey(name: 'domainAssociation')
   final DomainAssociation domainAssociation;
 
   UpdateDomainAssociationResult({
-    @_s.required this.domainAssociation,
+    required this.domainAssociation,
   });
-  factory UpdateDomainAssociationResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDomainAssociationResultFromJson(json);
+
+  factory UpdateDomainAssociationResult.fromJson(Map<String, dynamic> json) {
+    return UpdateDomainAssociationResult(
+      domainAssociation: DomainAssociation.fromJson(
+          json['domainAssociation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainAssociation = this.domainAssociation;
+    return {
+      'domainAssociation': domainAssociation,
+    };
+  }
 }
 
 /// The result structure for the update webhook request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateWebhookResult {
   /// Describes a webhook that connects repository events to an Amplify app.
-  @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
   UpdateWebhookResult({
-    @_s.required this.webhook,
+    required this.webhook,
   });
-  factory UpdateWebhookResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateWebhookResultFromJson(json);
+
+  factory UpdateWebhookResult.fromJson(Map<String, dynamic> json) {
+    return UpdateWebhookResult(
+      webhook: Webhook.fromJson(json['webhook'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final webhook = this.webhook;
+    return {
+      'webhook': webhook,
+    };
+  }
 }
 
 /// Describes a webhook that connects repository events to an Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Webhook {
   /// The name for a branch that is part of an Amplify app.
-  @_s.JsonKey(name: 'branchName')
   final String branchName;
 
   /// The create date and time for a webhook.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The description for a webhook.
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// Updates the date and time for a webhook.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// The Amazon Resource Name (ARN) for the webhook.
-  @_s.JsonKey(name: 'webhookArn')
   final String webhookArn;
 
   /// The ID of the webhook.
-  @_s.JsonKey(name: 'webhookId')
   final String webhookId;
 
   /// The URL of the webhook.
-  @_s.JsonKey(name: 'webhookUrl')
   final String webhookUrl;
 
   Webhook({
-    @_s.required this.branchName,
-    @_s.required this.createTime,
-    @_s.required this.description,
-    @_s.required this.updateTime,
-    @_s.required this.webhookArn,
-    @_s.required this.webhookId,
-    @_s.required this.webhookUrl,
+    required this.branchName,
+    required this.createTime,
+    required this.description,
+    required this.updateTime,
+    required this.webhookArn,
+    required this.webhookId,
+    required this.webhookUrl,
   });
-  factory Webhook.fromJson(Map<String, dynamic> json) =>
-      _$WebhookFromJson(json);
+
+  factory Webhook.fromJson(Map<String, dynamic> json) {
+    return Webhook(
+      branchName: json['branchName'] as String,
+      createTime: nonNullableTimeStampFromJson(json['createTime'] as Object),
+      description: json['description'] as String,
+      updateTime: nonNullableTimeStampFromJson(json['updateTime'] as Object),
+      webhookArn: json['webhookArn'] as String,
+      webhookId: json['webhookId'] as String,
+      webhookUrl: json['webhookUrl'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final branchName = this.branchName;
+    final createTime = this.createTime;
+    final description = this.description;
+    final updateTime = this.updateTime;
+    final webhookArn = this.webhookArn;
+    final webhookId = this.webhookId;
+    final webhookUrl = this.webhookUrl;
+    return {
+      'branchName': branchName,
+      'createTime': unixTimestampToJson(createTime),
+      'description': description,
+      'updateTime': unixTimestampToJson(updateTime),
+      'webhookArn': webhookArn,
+      'webhookId': webhookId,
+      'webhookUrl': webhookUrl,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class DependentServiceFailureException extends _s.GenericAwsException {
-  DependentServiceFailureException({String type, String message})
+  DependentServiceFailureException({String? type, String? message})
       : super(
             type: type,
             code: 'DependentServiceFailureException',
@@ -4330,27 +4786,27 @@ class DependentServiceFailureException extends _s.GenericAwsException {
 }
 
 class InternalFailureException extends _s.GenericAwsException {
-  InternalFailureException({String type, String message})
+  InternalFailureException({String? type, String? message})
       : super(type: type, code: 'InternalFailureException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

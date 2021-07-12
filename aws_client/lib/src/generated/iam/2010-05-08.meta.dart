@@ -215,7 +215,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "instanceProfileNameType",
         "flattened": false
       },
-      "Path": {"shape": "pathType", "flattened": false}
+      "Path": {"shape": "pathType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -247,14 +248,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "Url": {"shape": "OpenIDConnectProviderUrlType", "flattened": false},
       "ClientIDList": {"shape": "clientIDListType", "flattened": false},
-      "ThumbprintList": {"shape": "thumbprintListType", "flattened": false}
+      "ThumbprintList": {"shape": "thumbprintListType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
   "CreateOpenIDConnectProviderResponse": {
     "type": "structure",
     "members": {
-      "OpenIDConnectProviderArn": {"shape": "arnType", "flattened": false}
+      "OpenIDConnectProviderArn": {"shape": "arnType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -264,7 +267,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "PolicyName": {"shape": "policyNameType", "flattened": false},
       "Path": {"shape": "policyPathType", "flattened": false},
       "PolicyDocument": {"shape": "policyDocumentType", "flattened": false},
-      "Description": {"shape": "policyDescriptionType", "flattened": false}
+      "Description": {"shape": "policyDescriptionType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -324,14 +328,16 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "SAMLMetadataDocumentType",
         "flattened": false
       },
-      "Name": {"shape": "SAMLProviderNameType", "flattened": false}
+      "Name": {"shape": "SAMLProviderNameType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
   "CreateSAMLProviderResponse": {
     "type": "structure",
     "members": {
-      "SAMLProviderArn": {"shape": "arnType", "flattened": false}
+      "SAMLProviderArn": {"shape": "arnType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -393,7 +399,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "VirtualMFADeviceName": {
         "shape": "virtualMFADeviceName",
         "flattened": false
-      }
+      },
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -930,7 +937,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Url": {"shape": "OpenIDConnectProviderUrlType", "flattened": false},
       "ClientIDList": {"shape": "clientIDListType", "flattened": false},
       "ThumbprintList": {"shape": "thumbprintListType", "flattened": false},
-      "CreateDate": {"shape": "dateType", "flattened": false}
+      "CreateDate": {"shape": "dateType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -1040,7 +1048,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "CreateDate": {"shape": "dateType", "flattened": false},
-      "ValidUntil": {"shape": "dateType", "flattened": false}
+      "ValidUntil": {"shape": "dateType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -1216,7 +1225,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "InstanceProfileId": {"shape": "idType", "flattened": false},
       "Arn": {"shape": "arnType", "flattened": false},
       "CreateDate": {"shape": "dateType", "flattened": false},
-      "Roles": {"shape": "roleListType", "flattened": false}
+      "Roles": {"shape": "roleListType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -1402,6 +1412,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ListInstanceProfileTagsRequest": {
+    "type": "structure",
+    "members": {
+      "InstanceProfileName": {
+        "shape": "instanceProfileNameType",
+        "flattened": false
+      },
+      "Marker": {"shape": "markerType", "flattened": false},
+      "MaxItems": {"shape": "maxItemsType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListInstanceProfileTagsResponse": {
+    "type": "structure",
+    "members": {
+      "Tags": {"shape": "tagListType", "flattened": false},
+      "IsTruncated": {"shape": "booleanType", "flattened": false},
+      "Marker": {"shape": "responseMarkerType", "flattened": false}
+    },
+    "flattened": false
+  },
   "ListInstanceProfilesForRoleRequest": {
     "type": "structure",
     "members": {
@@ -1444,6 +1475,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ListMFADeviceTagsRequest": {
+    "type": "structure",
+    "members": {
+      "SerialNumber": {"shape": "serialNumberType", "flattened": false},
+      "Marker": {"shape": "markerType", "flattened": false},
+      "MaxItems": {"shape": "maxItemsType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListMFADeviceTagsResponse": {
+    "type": "structure",
+    "members": {
+      "Tags": {"shape": "tagListType", "flattened": false},
+      "IsTruncated": {"shape": "booleanType", "flattened": false},
+      "Marker": {"shape": "responseMarkerType", "flattened": false}
+    },
+    "flattened": false
+  },
   "ListMFADevicesRequest": {
     "type": "structure",
     "members": {
@@ -1457,6 +1506,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "MFADevices": {"shape": "mfaDeviceListType", "flattened": false},
+      "IsTruncated": {"shape": "booleanType", "flattened": false},
+      "Marker": {"shape": "responseMarkerType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListOpenIDConnectProviderTagsRequest": {
+    "type": "structure",
+    "members": {
+      "OpenIDConnectProviderArn": {"shape": "arnType", "flattened": false},
+      "Marker": {"shape": "markerType", "flattened": false},
+      "MaxItems": {"shape": "maxItemsType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListOpenIDConnectProviderTagsResponse": {
+    "type": "structure",
+    "members": {
+      "Tags": {"shape": "tagListType", "flattened": false},
       "IsTruncated": {"shape": "booleanType", "flattened": false},
       "Marker": {"shape": "responseMarkerType", "flattened": false}
     },
@@ -1528,6 +1595,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Policies": {"shape": "policyListType", "flattened": false},
+      "IsTruncated": {"shape": "booleanType", "flattened": false},
+      "Marker": {"shape": "responseMarkerType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListPolicyTagsRequest": {
+    "type": "structure",
+    "members": {
+      "PolicyArn": {"shape": "arnType", "flattened": false},
+      "Marker": {"shape": "markerType", "flattened": false},
+      "MaxItems": {"shape": "maxItemsType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListPolicyTagsResponse": {
+    "type": "structure",
+    "members": {
+      "Tags": {"shape": "tagListType", "flattened": false},
       "IsTruncated": {"shape": "booleanType", "flattened": false},
       "Marker": {"shape": "responseMarkerType", "flattened": false}
     },
@@ -1608,6 +1693,24 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "ListSAMLProviderTagsRequest": {
+    "type": "structure",
+    "members": {
+      "SAMLProviderArn": {"shape": "arnType", "flattened": false},
+      "Marker": {"shape": "markerType", "flattened": false},
+      "MaxItems": {"shape": "maxItemsType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListSAMLProviderTagsResponse": {
+    "type": "structure",
+    "members": {
+      "Tags": {"shape": "tagListType", "flattened": false},
+      "IsTruncated": {"shape": "booleanType", "flattened": false},
+      "Marker": {"shape": "responseMarkerType", "flattened": false}
+    },
+    "flattened": false
+  },
   "ListSAMLProvidersRequest": {
     "type": "structure",
     "members": {},
@@ -1633,6 +1736,27 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "SSHPublicKeys": {"shape": "SSHPublicKeyListType", "flattened": false},
+      "IsTruncated": {"shape": "booleanType", "flattened": false},
+      "Marker": {"shape": "responseMarkerType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListServerCertificateTagsRequest": {
+    "type": "structure",
+    "members": {
+      "ServerCertificateName": {
+        "shape": "serverCertificateNameType",
+        "flattened": false
+      },
+      "Marker": {"shape": "markerType", "flattened": false},
+      "MaxItems": {"shape": "maxItemsType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "ListServerCertificateTagsResponse": {
+    "type": "structure",
+    "members": {
+      "Tags": {"shape": "tagListType", "flattened": false},
       "IsTruncated": {"shape": "booleanType", "flattened": false},
       "Marker": {"shape": "responseMarkerType", "flattened": false}
     },
@@ -1895,7 +2019,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "IsAttachable": {"shape": "booleanType", "flattened": false},
       "Description": {"shape": "policyDescriptionType", "flattened": false},
       "CreateDate": {"shape": "dateType", "flattened": false},
-      "UpdateDate": {"shape": "dateType", "flattened": false}
+      "UpdateDate": {"shape": "dateType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -2259,7 +2384,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "CertificateBody": {"shape": "certificateBodyType", "flattened": false},
-      "CertificateChain": {"shape": "certificateChainType", "flattened": false}
+      "CertificateChain": {"shape": "certificateChainType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -2460,10 +2586,64 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "TagInstanceProfileRequest": {
+    "type": "structure",
+    "members": {
+      "InstanceProfileName": {
+        "shape": "instanceProfileNameType",
+        "flattened": false
+      },
+      "Tags": {"shape": "tagListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TagMFADeviceRequest": {
+    "type": "structure",
+    "members": {
+      "SerialNumber": {"shape": "serialNumberType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TagOpenIDConnectProviderRequest": {
+    "type": "structure",
+    "members": {
+      "OpenIDConnectProviderArn": {"shape": "arnType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TagPolicyRequest": {
+    "type": "structure",
+    "members": {
+      "PolicyArn": {"shape": "arnType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
+    },
+    "flattened": false
+  },
   "TagRoleRequest": {
     "type": "structure",
     "members": {
       "RoleName": {"shape": "roleNameType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TagSAMLProviderRequest": {
+    "type": "structure",
+    "members": {
+      "SAMLProviderArn": {"shape": "arnType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TagServerCertificateRequest": {
+    "type": "structure",
+    "members": {
+      "ServerCertificateName": {
+        "shape": "serverCertificateNameType",
+        "flattened": false
+      },
       "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
@@ -2491,10 +2671,64 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "member": {"shape": "TrackedActionLastAccessed"},
     "flattened": false
   },
+  "UntagInstanceProfileRequest": {
+    "type": "structure",
+    "members": {
+      "InstanceProfileName": {
+        "shape": "instanceProfileNameType",
+        "flattened": false
+      },
+      "TagKeys": {"shape": "tagKeyListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UntagMFADeviceRequest": {
+    "type": "structure",
+    "members": {
+      "SerialNumber": {"shape": "serialNumberType", "flattened": false},
+      "TagKeys": {"shape": "tagKeyListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UntagOpenIDConnectProviderRequest": {
+    "type": "structure",
+    "members": {
+      "OpenIDConnectProviderArn": {"shape": "arnType", "flattened": false},
+      "TagKeys": {"shape": "tagKeyListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UntagPolicyRequest": {
+    "type": "structure",
+    "members": {
+      "PolicyArn": {"shape": "arnType", "flattened": false},
+      "TagKeys": {"shape": "tagKeyListType", "flattened": false}
+    },
+    "flattened": false
+  },
   "UntagRoleRequest": {
     "type": "structure",
     "members": {
       "RoleName": {"shape": "roleNameType", "flattened": false},
+      "TagKeys": {"shape": "tagKeyListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UntagSAMLProviderRequest": {
+    "type": "structure",
+    "members": {
+      "SAMLProviderArn": {"shape": "arnType", "flattened": false},
+      "TagKeys": {"shape": "tagKeyListType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UntagServerCertificateRequest": {
+    "type": "structure",
+    "members": {
+      "ServerCertificateName": {
+        "shape": "serverCertificateNameType",
+        "flattened": false
+      },
       "TagKeys": {"shape": "tagKeyListType", "flattened": false}
     },
     "flattened": false
@@ -2712,7 +2946,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       },
       "CertificateBody": {"shape": "certificateBodyType", "flattened": false},
       "PrivateKey": {"shape": "privateKeyType", "flattened": false},
-      "CertificateChain": {"shape": "certificateChainType", "flattened": false}
+      "CertificateChain": {"shape": "certificateChainType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -2722,7 +2957,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ServerCertificateMetadata": {
         "shape": "ServerCertificateMetadata",
         "flattened": false
-      }
+      },
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },
@@ -2787,7 +3023,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Base32StringSeed": {"shape": "BootstrapDatum", "flattened": false},
       "QRCodePNG": {"shape": "BootstrapDatum", "flattened": false},
       "User": {"shape": "User", "flattened": false},
-      "EnableDate": {"shape": "dateType", "flattened": false}
+      "EnableDate": {"shape": "dateType", "flattened": false},
+      "Tags": {"shape": "tagListType", "flattened": false}
     },
     "flattened": false
   },

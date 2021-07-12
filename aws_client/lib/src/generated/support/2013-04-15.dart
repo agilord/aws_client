@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,35 +11,27 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
-part '2013-04-15.g.dart';
-
-/// The AWS Support API reference is intended for programmers who need detailed
-/// information about the AWS Support operations and data types. This service
-/// enables you to manage your AWS Support cases programmatically. It uses HTTP
-/// methods that return results in JSON format.
+/// The <i>AWS Support API Reference</i> is intended for programmers who need
+/// detailed information about the AWS Support operations and data types. You
+/// can use the API to manage your support cases programmatically. The AWS
+/// Support API uses HTTP methods that return results in JSON format.
 /// <note>
 /// <ul>
 /// <li>
-/// You must have a Business or Enterprise support plan to use the AWS Support
+/// You must have a Business or Enterprise Support plan to use the AWS Support
 /// API.
 /// </li>
 /// <li>
 /// If you call the AWS Support API from an account that does not have a
-/// Business or Enterprise support plan, the
+/// Business or Enterprise Support plan, the
 /// <code>SubscriptionRequiredException</code> error message appears. For
 /// information about changing your support plan, see <a
 /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -52,10 +45,10 @@ part '2013-04-15.g.dart';
 class Support {
   final _s.JsonProtocol _protocol;
   Support({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -75,12 +68,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -110,8 +103,8 @@ class Support {
   /// returned in the response. If an <code>attachmentSetId</code> is specified,
   /// the attachments are added to the specified set, if it exists.
   Future<AddAttachmentsToSetResponse> addAttachmentsToSet({
-    @_s.required List<Attachment> attachments,
-    String attachmentSetId,
+    required List<Attachment> attachments,
+    String? attachmentSetId,
   }) async {
     ArgumentError.checkNotNull(attachments, 'attachments');
     final headers = <String, String>{
@@ -142,12 +135,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -167,18 +160,18 @@ class Support {
   /// the case. Create the set by calling <a>AddAttachmentsToSet</a>
   ///
   /// Parameter [caseId] :
-  /// The AWS Support case ID requested or returned in the call. The case ID is
-  /// an alphanumeric string formatted as shown in this example:
+  /// The support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
   /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
   ///
   /// Parameter [ccEmailAddresses] :
   /// The email addresses in the CC line of an email to be added to the support
   /// case.
   Future<AddCommunicationToCaseResponse> addCommunicationToCase({
-    @_s.required String communicationBody,
-    String attachmentSetId,
-    String caseId,
-    List<String> ccEmailAddresses,
+    required String communicationBody,
+    String? attachmentSetId,
+    String? caseId,
+    List<String>? ccEmailAddresses,
   }) async {
     ArgumentError.checkNotNull(communicationBody, 'communicationBody');
     _s.validateStringLength(
@@ -242,12 +235,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -266,7 +259,7 @@ class Support {
   /// Case</a> page.
   ///
   /// Parameter [subject] :
-  /// The title of the AWS Support case. The title appears in the <b>Subject</b>
+  /// The title of the support case. The title appears in the <b>Subject</b>
   /// field on the AWS Support Center <a
   /// href="https://console.aws.amazon.com/support/home#/case/create">Create
   /// Case</a> page.
@@ -276,7 +269,7 @@ class Support {
   /// using the <a>AddAttachmentsToSet</a> operation.
   ///
   /// Parameter [categoryCode] :
-  /// The category of problem for the AWS Support case. You also use the
+  /// The category of problem for the support case. You also use the
   /// <a>DescribeServices</a> operation to get the category code for a service.
   /// Each AWS service defines its own set of category codes.
   ///
@@ -315,15 +308,15 @@ class Support {
   /// AWS account.
   /// </note>
   Future<CreateCaseResponse> createCase({
-    @_s.required String communicationBody,
-    @_s.required String subject,
-    String attachmentSetId,
-    String categoryCode,
-    List<String> ccEmailAddresses,
-    String issueType,
-    String language,
-    String serviceCode,
-    String severityCode,
+    required String communicationBody,
+    required String subject,
+    String? attachmentSetId,
+    String? categoryCode,
+    List<String>? ccEmailAddresses,
+    String? issueType,
+    String? language,
+    String? serviceCode,
+    String? severityCode,
   }) async {
     ArgumentError.checkNotNull(communicationBody, 'communicationBody');
     _s.validateStringLength(
@@ -369,12 +362,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -389,7 +382,7 @@ class Support {
   /// The ID of the attachment to return. Attachment IDs are returned by the
   /// <a>DescribeCommunications</a> operation.
   Future<DescribeAttachmentResponse> describeAttachment({
-    @_s.required String attachmentId,
+    required String attachmentId,
   }) async {
     ArgumentError.checkNotNull(attachmentId, 'attachmentId');
     final headers = <String, String>{
@@ -434,12 +427,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -467,7 +460,7 @@ class Support {
   /// Parameter [includeCommunications] :
   /// Specifies whether to include communications in the
   /// <code>DescribeCases</code> response. By default, communications are
-  /// incuded.
+  /// included.
   ///
   /// Parameter [includeResolvedCases] :
   /// Specifies whether to include resolved support cases in the
@@ -485,15 +478,15 @@ class Support {
   /// Parameter [nextToken] :
   /// A resumption point for pagination.
   Future<DescribeCasesResponse> describeCases({
-    String afterTime,
-    String beforeTime,
-    List<String> caseIdList,
-    String displayId,
-    bool includeCommunications,
-    bool includeResolvedCases,
-    String language,
-    int maxResults,
-    String nextToken,
+    String? afterTime,
+    String? beforeTime,
+    List<String>? caseIdList,
+    String? displayId,
+    bool? includeCommunications,
+    bool? includeResolvedCases,
+    String? language,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -545,12 +538,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -561,8 +554,8 @@ class Support {
   /// May throw [CaseIdNotFound].
   ///
   /// Parameter [caseId] :
-  /// The AWS Support case ID requested or returned in the call. The case ID is
-  /// an alphanumeric string formatted as shown in this example:
+  /// The support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
   /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
   ///
   /// Parameter [afterTime] :
@@ -579,11 +572,11 @@ class Support {
   /// Parameter [nextToken] :
   /// A resumption point for pagination.
   Future<DescribeCommunicationsResponse> describeCommunications({
-    @_s.required String caseId,
-    String afterTime,
-    String beforeTime,
-    int maxResults,
-    String nextToken,
+    required String caseId,
+    String? afterTime,
+    String? beforeTime,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(caseId, 'caseId');
     _s.validateNumRange(
@@ -630,12 +623,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -652,8 +645,8 @@ class Support {
   /// Parameter [serviceCodeList] :
   /// A JSON-formatted list of service codes available for AWS services.
   Future<DescribeServicesResponse> describeServices({
-    String language,
-    List<String> serviceCodeList,
+    String? language,
+    List<String>? serviceCodeList,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -674,19 +667,18 @@ class Support {
     return DescribeServicesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the list of severity levels that you can assign to an AWS Support
-  /// case. The severity level for a case is also a field in the
-  /// <a>CaseDetails</a> data type that you include for a <a>CreateCase</a>
-  /// request.
+  /// Returns the list of severity levels that you can assign to a support case.
+  /// The severity level for a case is also a field in the <a>CaseDetails</a>
+  /// data type that you include for a <a>CreateCase</a> request.
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -700,7 +692,7 @@ class Support {
   /// Support currently supports English ("en") and Japanese ("ja"). Language
   /// parameters must be passed explicitly for operations that take them.
   Future<DescribeSeverityLevelsResponse> describeSeverityLevels({
-    String language,
+    String? language,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -732,12 +724,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -747,14 +739,14 @@ class Support {
   /// May throw [InternalServerError].
   ///
   /// Parameter [checkIds] :
-  /// The IDs of the Trusted Advisor checks to get the status of.
+  /// The IDs of the Trusted Advisor checks to get the status.
   /// <note>
   /// If you specify the check ID of a check that is automatically refreshed,
   /// you might see an <code>InvalidParameterValue</code> error.
   /// </note>
   Future<DescribeTrustedAdvisorCheckRefreshStatusesResponse>
       describeTrustedAdvisorCheckRefreshStatuses({
-    @_s.required List<String> checkIds,
+    required List<String> checkIds,
   }) async {
     ArgumentError.checkNotNull(checkIds, 'checkIds');
     final headers = <String, String>{
@@ -799,8 +791,9 @@ class Support {
   ///
   /// <ul>
   /// <li>
-  /// <b>status</b> - The alert status of the check: "ok" (green), "warning"
-  /// (yellow), "error" (red), or "not_available".
+  /// <b>status</b> - The alert status of the check can be <code>ok</code>
+  /// (green), <code>warning</code> (yellow), <code>error</code> (red), or
+  /// <code>not_available</code>.
   /// </li>
   /// <li>
   /// <b>timestamp</b> - The time of the last refresh of the check.
@@ -811,12 +804,12 @@ class Support {
   /// </ul> <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -834,8 +827,8 @@ class Support {
   /// parameters must be passed explicitly for operations that take them.
   Future<DescribeTrustedAdvisorCheckResultResponse>
       describeTrustedAdvisorCheckResult({
-    @_s.required String checkId,
-    String language,
+    required String checkId,
+    String? language,
   }) async {
     ArgumentError.checkNotNull(checkId, 'checkId');
     final headers = <String, String>{
@@ -867,12 +860,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -885,7 +878,7 @@ class Support {
   /// The IDs of the Trusted Advisor checks.
   Future<DescribeTrustedAdvisorCheckSummariesResponse>
       describeTrustedAdvisorCheckSummaries({
-    @_s.required List<String> checkIds,
+    required List<String> checkIds,
   }) async {
     ArgumentError.checkNotNull(checkIds, 'checkIds');
     final headers = <String, String>{
@@ -916,15 +909,20 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
+  /// </li>
+  /// <li>
+  /// The names and descriptions for Trusted Advisor checks are subject to
+  /// change. We recommend that you specify the check ID in your code to
+  /// uniquely identify a check.
   /// </li>
   /// </ul> </note>
   ///
@@ -935,7 +933,7 @@ class Support {
   /// Support currently supports English ("en") and Japanese ("ja"). Language
   /// parameters must be passed explicitly for operations that take them.
   Future<DescribeTrustedAdvisorChecksResponse> describeTrustedAdvisorChecks({
-    @_s.required String language,
+    required String language,
   }) async {
     ArgumentError.checkNotNull(language, 'language');
     final headers = <String, String>{
@@ -968,12 +966,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -984,10 +982,12 @@ class Support {
   ///
   /// Parameter [checkId] :
   /// The unique identifier for the Trusted Advisor check to refresh.
-  /// <b>Note:</b> Specifying the check ID of a check that is automatically
-  /// refreshed causes an <code>InvalidParameterValue</code> error.
+  /// <note>
+  /// Specifying the check ID of a check that is automatically refreshed causes
+  /// an <code>InvalidParameterValue</code> error.
+  /// </note>
   Future<RefreshTrustedAdvisorCheckResponse> refreshTrustedAdvisorCheck({
-    @_s.required String checkId,
+    required String checkId,
   }) async {
     ArgumentError.checkNotNull(checkId, 'checkId');
     final headers = <String, String>{
@@ -1013,12 +1013,12 @@ class Support {
   /// <note>
   /// <ul>
   /// <li>
-  /// You must have a Business or Enterprise support plan to use the AWS Support
+  /// You must have a Business or Enterprise Support plan to use the AWS Support
   /// API.
   /// </li>
   /// <li>
   /// If you call the AWS Support API from an account that does not have a
-  /// Business or Enterprise support plan, the
+  /// Business or Enterprise Support plan, the
   /// <code>SubscriptionRequiredException</code> error message appears. For
   /// information about changing your support plan, see <a
   /// href="http://aws.amazon.com/premiumsupport/">AWS Support</a>.
@@ -1029,11 +1029,11 @@ class Support {
   /// May throw [CaseIdNotFound].
   ///
   /// Parameter [caseId] :
-  /// The AWS Support case ID requested or returned in the call. The case ID is
-  /// an alphanumeric string formatted as shown in this example:
+  /// The support case ID requested or returned in the call. The case ID is an
+  /// alphanumeric string formatted as shown in this example:
   /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
   Future<ResolveCaseResponse> resolveCase({
-    String caseId,
+    String? caseId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1056,99 +1056,122 @@ class Support {
 
 /// The ID and expiry time of the attachment set returned by the
 /// <a>AddAttachmentsToSet</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddAttachmentsToSetResponse {
   /// The ID of the attachment set. If an <code>attachmentSetId</code> was not
   /// specified, a new attachment set is created, and the ID of the set is
   /// returned in the response. If an <code>attachmentSetId</code> was specified,
   /// the attachments are added to the specified set, if it exists.
-  @_s.JsonKey(name: 'attachmentSetId')
-  final String attachmentSetId;
+  final String? attachmentSetId;
 
   /// The time and date when the attachment set expires.
-  @_s.JsonKey(name: 'expiryTime')
-  final String expiryTime;
+  final String? expiryTime;
 
   AddAttachmentsToSetResponse({
     this.attachmentSetId,
     this.expiryTime,
   });
-  factory AddAttachmentsToSetResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddAttachmentsToSetResponseFromJson(json);
+
+  factory AddAttachmentsToSetResponse.fromJson(Map<String, dynamic> json) {
+    return AddAttachmentsToSetResponse(
+      attachmentSetId: json['attachmentSetId'] as String?,
+      expiryTime: json['expiryTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentSetId = this.attachmentSetId;
+    final expiryTime = this.expiryTime;
+    return {
+      if (attachmentSetId != null) 'attachmentSetId': attachmentSetId,
+      if (expiryTime != null) 'expiryTime': expiryTime,
+    };
+  }
 }
 
 /// The result of the <a>AddCommunicationToCase</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddCommunicationToCaseResponse {
   /// True if <a>AddCommunicationToCase</a> succeeds. Otherwise, returns an error.
-  @_s.JsonKey(name: 'result')
-  final bool result;
+  final bool? result;
 
   AddCommunicationToCaseResponse({
     this.result,
   });
-  factory AddCommunicationToCaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddCommunicationToCaseResponseFromJson(json);
+
+  factory AddCommunicationToCaseResponse.fromJson(Map<String, dynamic> json) {
+    return AddCommunicationToCaseResponse(
+      result: json['result'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    return {
+      if (result != null) 'result': result,
+    };
+  }
 }
 
 /// An attachment to a case communication. The attachment consists of the file
 /// name and the content of the file.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Attachment {
   /// The content of the attachment file.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'data')
-  final Uint8List data;
+  final Uint8List? data;
 
   /// The name of the attachment file.
-  @_s.JsonKey(name: 'fileName')
-  final String fileName;
+  final String? fileName;
 
   Attachment({
     this.data,
     this.fileName,
   });
-  factory Attachment.fromJson(Map<String, dynamic> json) =>
-      _$AttachmentFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AttachmentToJson(this);
+  factory Attachment.fromJson(Map<String, dynamic> json) {
+    return Attachment(
+      data: _s.decodeNullableUint8List(json['data'] as String?),
+      fileName: json['fileName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    final fileName = this.fileName;
+    return {
+      if (data != null) 'data': base64Encode(data),
+      if (fileName != null) 'fileName': fileName,
+    };
+  }
 }
 
 /// The file name and ID of an attachment to a case communication. You can use
 /// the ID to retrieve the attachment with the <a>DescribeAttachment</a>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AttachmentDetails {
   /// The ID of the attachment.
-  @_s.JsonKey(name: 'attachmentId')
-  final String attachmentId;
+  final String? attachmentId;
 
   /// The file name of the attachment.
-  @_s.JsonKey(name: 'fileName')
-  final String fileName;
+  final String? fileName;
 
   AttachmentDetails({
     this.attachmentId,
     this.fileName,
   });
-  factory AttachmentDetails.fromJson(Map<String, dynamic> json) =>
-      _$AttachmentDetailsFromJson(json);
+
+  factory AttachmentDetails.fromJson(Map<String, dynamic> json) {
+    return AttachmentDetails(
+      attachmentId: json['attachmentId'] as String?,
+      fileName: json['fileName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentId = this.attachmentId;
+    final fileName = this.fileName;
+    return {
+      if (attachmentId != null) 'attachmentId': attachmentId,
+      if (fileName != null) 'fileName': fileName,
+    };
+  }
 }
 
 /// A JSON-formatted object that contains the metadata for a support case. It is
@@ -1157,44 +1180,44 @@ class AttachmentDetails {
 ///
 /// <ul>
 /// <li>
-/// <b>caseId.</b> The AWS Support case ID requested or returned in the call.
-/// The case ID is an alphanumeric string formatted as shown in this example:
+/// <b>caseId</b> - The support case ID requested or returned in the call. The
+/// case ID is an alphanumeric string formatted as shown in this example:
 /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>.
 /// </li>
 /// <li>
-/// <b>categoryCode.</b> The category of problem for the AWS Support case.
-/// Corresponds to the CategoryCode values returned by a call to
+/// <b>categoryCode</b> - The category of problem for the support case.
+/// Corresponds to the <code>CategoryCode</code> values returned by a call to
 /// <a>DescribeServices</a>.
 /// </li>
 /// <li>
-/// <b>displayId.</b> The identifier for the case on pages in the AWS Support
+/// <b>displayId</b> - The identifier for the case on pages in the AWS Support
 /// Center.
 /// </li>
 /// <li>
-/// <b>language.</b> The ISO 639-1 code for the language in which AWS provides
+/// <b>language</b> - The ISO 639-1 code for the language in which AWS provides
 /// support. AWS Support currently supports English ("en") and Japanese ("ja").
 /// Language parameters must be passed explicitly for operations that take them.
 /// </li>
 /// <li>
-/// <b>nextToken.</b> A resumption point for pagination.
+/// <b>nextToken</b> - A resumption point for pagination.
 /// </li>
 /// <li>
-/// <b>recentCommunications.</b> One or more <a>Communication</a> objects.
+/// <b>recentCommunications</b> - One or more <a>Communication</a> objects.
 /// Fields of these objects are <code>attachments</code>, <code>body</code>,
 /// <code>caseId</code>, <code>submittedBy</code>, and <code>timeCreated</code>.
 /// </li>
 /// <li>
-/// <b>serviceCode.</b> The identifier for the AWS service that corresponds to
+/// <b>serviceCode</b> - The identifier for the AWS service that corresponds to
 /// the service code defined in the call to <a>DescribeServices</a>.
 /// </li>
 /// <li>
-/// <b>severityCode.</b> The severity code assigned to the case. Contains one of
-/// the values returned by the call to <a>DescribeSeverityLevels</a>. The
+/// <b>severityCode</b> - The severity code assigned to the case. Contains one
+/// of the values returned by the call to <a>DescribeSeverityLevels</a>. The
 /// possible values are: <code>low</code>, <code>normal</code>,
 /// <code>high</code>, <code>urgent</code>, and <code>critical</code>.
 /// </li>
 /// <li>
-/// <b>status.</b> The status of the case in the AWS Support Center. Valid
+/// <b>status</b> - The status of the case in the AWS Support Center. Valid
 /// values:
 ///
 /// <ul>
@@ -1218,62 +1241,49 @@ class AttachmentDetails {
 /// </li>
 /// </ul> </li>
 /// <li>
-/// <b>subject.</b> The subject line of the case.
+/// <b>subject</b> - The subject line of the case.
 /// </li>
 /// <li>
-/// <b>submittedBy.</b> The email address of the account that submitted the
+/// <b>submittedBy</b> - The email address of the account that submitted the
 /// case.
 /// </li>
 /// <li>
-/// <b>timeCreated.</b> The time the case was created, in ISO-8601 format.
+/// <b>timeCreated</b> - The time the case was created, in ISO-8601 format.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CaseDetails {
-  /// The AWS Support case ID requested or returned in the call. The case ID is an
+  /// The support case ID requested or returned in the call. The case ID is an
   /// alphanumeric string formatted as shown in this example:
   /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
-  @_s.JsonKey(name: 'caseId')
-  final String caseId;
+  final String? caseId;
 
-  /// The category of problem for the AWS Support case.
-  @_s.JsonKey(name: 'categoryCode')
-  final String categoryCode;
+  /// The category of problem for the support case.
+  final String? categoryCode;
 
   /// The email addresses that receive copies of communication about the case.
-  @_s.JsonKey(name: 'ccEmailAddresses')
-  final List<String> ccEmailAddresses;
+  final List<String>? ccEmailAddresses;
 
   /// The ID displayed for the case in the AWS Support Center. This is a numeric
   /// string.
-  @_s.JsonKey(name: 'displayId')
-  final String displayId;
+  final String? displayId;
 
   /// The ISO 639-1 code for the language in which AWS provides support. AWS
   /// Support currently supports English ("en") and Japanese ("ja"). Language
   /// parameters must be passed explicitly for operations that take them.
-  @_s.JsonKey(name: 'language')
-  final String language;
+  final String? language;
 
   /// The five most recent communications between you and AWS Support Center,
   /// including the IDs of any attachments to the communications. Also includes a
   /// <code>nextToken</code> that you can use to retrieve earlier communications.
-  @_s.JsonKey(name: 'recentCommunications')
-  final RecentCaseCommunications recentCommunications;
+  final RecentCaseCommunications? recentCommunications;
 
   /// The code for the AWS service. You can get a list of codes and the
   /// corresponding service names by calling <a>DescribeServices</a>.
-  @_s.JsonKey(name: 'serviceCode')
-  final String serviceCode;
+  final String? serviceCode;
 
   /// The code for the severity level returned by the call to
   /// <a>DescribeSeverityLevels</a>.
-  @_s.JsonKey(name: 'severityCode')
-  final String severityCode;
+  final String? severityCode;
 
   /// The status of the case.
   ///
@@ -1299,20 +1309,16 @@ class CaseDetails {
   /// <code>work-in-progress</code>
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The subject line for the case in the AWS Support Center.
-  @_s.JsonKey(name: 'subject')
-  final String subject;
+  final String? subject;
 
   /// The email address of the account that submitted the case.
-  @_s.JsonKey(name: 'submittedBy')
-  final String submittedBy;
+  final String? submittedBy;
 
   /// The time that the case was created in the AWS Support Center.
-  @_s.JsonKey(name: 'timeCreated')
-  final String timeCreated;
+  final String? timeCreated;
 
   CaseDetails({
     this.caseId,
@@ -1328,69 +1334,117 @@ class CaseDetails {
     this.submittedBy,
     this.timeCreated,
   });
-  factory CaseDetails.fromJson(Map<String, dynamic> json) =>
-      _$CaseDetailsFromJson(json);
+
+  factory CaseDetails.fromJson(Map<String, dynamic> json) {
+    return CaseDetails(
+      caseId: json['caseId'] as String?,
+      categoryCode: json['categoryCode'] as String?,
+      ccEmailAddresses: (json['ccEmailAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      displayId: json['displayId'] as String?,
+      language: json['language'] as String?,
+      recentCommunications: json['recentCommunications'] != null
+          ? RecentCaseCommunications.fromJson(
+              json['recentCommunications'] as Map<String, dynamic>)
+          : null,
+      serviceCode: json['serviceCode'] as String?,
+      severityCode: json['severityCode'] as String?,
+      status: json['status'] as String?,
+      subject: json['subject'] as String?,
+      submittedBy: json['submittedBy'] as String?,
+      timeCreated: json['timeCreated'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final caseId = this.caseId;
+    final categoryCode = this.categoryCode;
+    final ccEmailAddresses = this.ccEmailAddresses;
+    final displayId = this.displayId;
+    final language = this.language;
+    final recentCommunications = this.recentCommunications;
+    final serviceCode = this.serviceCode;
+    final severityCode = this.severityCode;
+    final status = this.status;
+    final subject = this.subject;
+    final submittedBy = this.submittedBy;
+    final timeCreated = this.timeCreated;
+    return {
+      if (caseId != null) 'caseId': caseId,
+      if (categoryCode != null) 'categoryCode': categoryCode,
+      if (ccEmailAddresses != null) 'ccEmailAddresses': ccEmailAddresses,
+      if (displayId != null) 'displayId': displayId,
+      if (language != null) 'language': language,
+      if (recentCommunications != null)
+        'recentCommunications': recentCommunications,
+      if (serviceCode != null) 'serviceCode': serviceCode,
+      if (severityCode != null) 'severityCode': severityCode,
+      if (status != null) 'status': status,
+      if (subject != null) 'subject': subject,
+      if (submittedBy != null) 'submittedBy': submittedBy,
+      if (timeCreated != null) 'timeCreated': timeCreated,
+    };
+  }
 }
 
 /// A JSON-formatted name/value pair that represents the category name and
 /// category code of the problem, selected from the <a>DescribeServices</a>
 /// response for each AWS service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Category {
   /// The category code for the support case.
-  @_s.JsonKey(name: 'code')
-  final String code;
+  final String? code;
 
   /// The category name for the support case.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Category({
     this.code,
     this.name,
   });
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final name = this.name;
+    return {
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
-/// A communication associated with an AWS Support case. The communication
-/// consists of the case ID, the message body, attachment information, the
-/// submitter of the communication, and the date and time of the communication.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// A communication associated with a support case. The communication consists
+/// of the case ID, the message body, attachment information, the submitter of
+/// the communication, and the date and time of the communication.
 class Communication {
   /// Information about the attachments to the case communication.
-  @_s.JsonKey(name: 'attachmentSet')
-  final List<AttachmentDetails> attachmentSet;
+  final List<AttachmentDetails>? attachmentSet;
 
   /// The text of the communication between the customer and AWS Support.
-  @_s.JsonKey(name: 'body')
-  final String body;
+  final String? body;
 
-  /// The AWS Support case ID requested or returned in the call. The case ID is an
+  /// The support case ID requested or returned in the call. The case ID is an
   /// alphanumeric string formatted as shown in this example:
   /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
-  @_s.JsonKey(name: 'caseId')
-  final String caseId;
+  final String? caseId;
 
   /// The identity of the account that submitted, or responded to, the support
   /// case. Customer entries include the role or IAM user as well as the email
-  /// address. For example, "AdminRole (Role) &lt;someone@example.com&gt;. Entries
-  /// from the AWS Support team display "Amazon Web Services," and do not show an
+  /// address. For example, "AdminRole (Role) &lt;janedoe@example.com&gt;. Entries
+  /// from the AWS Support team display "Amazon Web Services," and don't show an
   /// email address.
-  @_s.JsonKey(name: 'submittedBy')
-  final String submittedBy;
+  final String? submittedBy;
 
   /// The time the communication was created.
-  @_s.JsonKey(name: 'timeCreated')
-  final String timeCreated;
+  final String? timeCreated;
 
   Communication({
     this.attachmentSet,
@@ -1399,38 +1453,64 @@ class Communication {
     this.submittedBy,
     this.timeCreated,
   });
-  factory Communication.fromJson(Map<String, dynamic> json) =>
-      _$CommunicationFromJson(json);
+
+  factory Communication.fromJson(Map<String, dynamic> json) {
+    return Communication(
+      attachmentSet: (json['attachmentSet'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttachmentDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      body: json['body'] as String?,
+      caseId: json['caseId'] as String?,
+      submittedBy: json['submittedBy'] as String?,
+      timeCreated: json['timeCreated'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentSet = this.attachmentSet;
+    final body = this.body;
+    final caseId = this.caseId;
+    final submittedBy = this.submittedBy;
+    final timeCreated = this.timeCreated;
+    return {
+      if (attachmentSet != null) 'attachmentSet': attachmentSet,
+      if (body != null) 'body': body,
+      if (caseId != null) 'caseId': caseId,
+      if (submittedBy != null) 'submittedBy': submittedBy,
+      if (timeCreated != null) 'timeCreated': timeCreated,
+    };
+  }
 }
 
-/// The AWS Support case ID returned by a successful completion of the
+/// The support case ID returned by a successful completion of the
 /// <a>CreateCase</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCaseResponse {
-  /// The AWS Support case ID requested or returned in the call. The case ID is an
+  /// The support case ID requested or returned in the call. The case ID is an
   /// alphanumeric string in the following format:
   /// case-<i>12345678910-2013-c4c1d2bf33c5cf47</i>
-  @_s.JsonKey(name: 'caseId')
-  final String caseId;
+  final String? caseId;
 
   CreateCaseResponse({
     this.caseId,
   });
-  factory CreateCaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateCaseResponseFromJson(json);
+
+  factory CreateCaseResponse.fromJson(Map<String, dynamic> json) {
+    return CreateCaseResponse(
+      caseId: json['caseId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final caseId = this.caseId;
+    return {
+      if (caseId != null) 'caseId': caseId,
+    };
+  }
 }
 
 /// The content and file name of the attachment returned by the
 /// <a>DescribeAttachment</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAttachmentResponse {
   /// This object includes the attachment content and file name.
   ///
@@ -1438,282 +1518,400 @@ class DescribeAttachmentResponse {
   /// parameter appears as <code>blob</code>, which is represented as a
   /// base64-encoded string. The value for <code>fileName</code> is the name of
   /// the attachment, such as <code>troubleshoot-screenshot.png</code>.
-  @_s.JsonKey(name: 'attachment')
-  final Attachment attachment;
+  final Attachment? attachment;
 
   DescribeAttachmentResponse({
     this.attachment,
   });
-  factory DescribeAttachmentResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAttachmentResponseFromJson(json);
+
+  factory DescribeAttachmentResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeAttachmentResponse(
+      attachment: json['attachment'] != null
+          ? Attachment.fromJson(json['attachment'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachment = this.attachment;
+    return {
+      if (attachment != null) 'attachment': attachment,
+    };
+  }
 }
 
 /// Returns an array of <a
 /// href="https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html">CaseDetails</a>
 /// objects and a <code>nextToken</code> that defines a point for pagination in
 /// the result set.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCasesResponse {
   /// The details for the cases that match the request.
-  @_s.JsonKey(name: 'cases')
-  final List<CaseDetails> cases;
+  final List<CaseDetails>? cases;
 
   /// A resumption point for pagination.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeCasesResponse({
     this.cases,
     this.nextToken,
   });
-  factory DescribeCasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCasesResponseFromJson(json);
+
+  factory DescribeCasesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCasesResponse(
+      cases: (json['cases'] as List?)
+          ?.whereNotNull()
+          .map((e) => CaseDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cases = this.cases;
+    final nextToken = this.nextToken;
+    return {
+      if (cases != null) 'cases': cases,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The communications returned by the <a>DescribeCommunications</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCommunicationsResponse {
   /// The communications for the case.
-  @_s.JsonKey(name: 'communications')
-  final List<Communication> communications;
+  final List<Communication>? communications;
 
   /// A resumption point for pagination.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeCommunicationsResponse({
     this.communications,
     this.nextToken,
   });
-  factory DescribeCommunicationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCommunicationsResponseFromJson(json);
+
+  factory DescribeCommunicationsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCommunicationsResponse(
+      communications: (json['communications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Communication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final communications = this.communications;
+    final nextToken = this.nextToken;
+    return {
+      if (communications != null) 'communications': communications,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The list of AWS services returned by the <a>DescribeServices</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeServicesResponse {
   /// A JSON-formatted list of AWS services.
-  @_s.JsonKey(name: 'services')
-  final List<Service> services;
+  final List<Service>? services;
 
   DescribeServicesResponse({
     this.services,
   });
-  factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeServicesResponseFromJson(json);
+
+  factory DescribeServicesResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeServicesResponse(
+      services: (json['services'] as List?)
+          ?.whereNotNull()
+          .map((e) => Service.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final services = this.services;
+    return {
+      if (services != null) 'services': services,
+    };
+  }
 }
 
 /// The list of severity levels returned by the <a>DescribeSeverityLevels</a>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSeverityLevelsResponse {
   /// The available severity levels for the support case. Available severity
   /// levels are defined by your service level agreement with AWS.
-  @_s.JsonKey(name: 'severityLevels')
-  final List<SeverityLevel> severityLevels;
+  final List<SeverityLevel>? severityLevels;
 
   DescribeSeverityLevelsResponse({
     this.severityLevels,
   });
-  factory DescribeSeverityLevelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSeverityLevelsResponseFromJson(json);
+
+  factory DescribeSeverityLevelsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSeverityLevelsResponse(
+      severityLevels: (json['severityLevels'] as List?)
+          ?.whereNotNull()
+          .map((e) => SeverityLevel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final severityLevels = this.severityLevels;
+    return {
+      if (severityLevels != null) 'severityLevels': severityLevels,
+    };
+  }
 }
 
 /// The statuses of the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorCheckRefreshStatuses</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTrustedAdvisorCheckRefreshStatusesResponse {
   /// The refresh status of the specified Trusted Advisor checks.
-  @_s.JsonKey(name: 'statuses')
   final List<TrustedAdvisorCheckRefreshStatus> statuses;
 
   DescribeTrustedAdvisorCheckRefreshStatusesResponse({
-    @_s.required this.statuses,
+    required this.statuses,
   });
+
   factory DescribeTrustedAdvisorCheckRefreshStatusesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTrustedAdvisorCheckRefreshStatusesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTrustedAdvisorCheckRefreshStatusesResponse(
+      statuses: (json['statuses'] as List)
+          .whereNotNull()
+          .map((e) => TrustedAdvisorCheckRefreshStatus.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statuses = this.statuses;
+    return {
+      'statuses': statuses,
+    };
+  }
 }
 
 /// The result of the Trusted Advisor check returned by the
 /// <a>DescribeTrustedAdvisorCheckResult</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTrustedAdvisorCheckResultResponse {
   /// The detailed results of the Trusted Advisor check.
-  @_s.JsonKey(name: 'result')
-  final TrustedAdvisorCheckResult result;
+  final TrustedAdvisorCheckResult? result;
 
   DescribeTrustedAdvisorCheckResultResponse({
     this.result,
   });
+
   factory DescribeTrustedAdvisorCheckResultResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTrustedAdvisorCheckResultResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTrustedAdvisorCheckResultResponse(
+      result: json['result'] != null
+          ? TrustedAdvisorCheckResult.fromJson(
+              json['result'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    return {
+      if (result != null) 'result': result,
+    };
+  }
 }
 
 /// The summaries of the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorCheckSummaries</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTrustedAdvisorCheckSummariesResponse {
   /// The summary information for the requested Trusted Advisor checks.
-  @_s.JsonKey(name: 'summaries')
   final List<TrustedAdvisorCheckSummary> summaries;
 
   DescribeTrustedAdvisorCheckSummariesResponse({
-    @_s.required this.summaries,
+    required this.summaries,
   });
+
   factory DescribeTrustedAdvisorCheckSummariesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTrustedAdvisorCheckSummariesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTrustedAdvisorCheckSummariesResponse(
+      summaries: (json['summaries'] as List)
+          .whereNotNull()
+          .map((e) =>
+              TrustedAdvisorCheckSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final summaries = this.summaries;
+    return {
+      'summaries': summaries,
+    };
+  }
 }
 
 /// Information about the Trusted Advisor checks returned by the
 /// <a>DescribeTrustedAdvisorChecks</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTrustedAdvisorChecksResponse {
   /// Information about all available Trusted Advisor checks.
-  @_s.JsonKey(name: 'checks')
   final List<TrustedAdvisorCheckDescription> checks;
 
   DescribeTrustedAdvisorChecksResponse({
-    @_s.required this.checks,
+    required this.checks,
   });
+
   factory DescribeTrustedAdvisorChecksResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTrustedAdvisorChecksResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeTrustedAdvisorChecksResponse(
+      checks: (json['checks'] as List)
+          .whereNotNull()
+          .map((e) => TrustedAdvisorCheckDescription.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checks = this.checks;
+    return {
+      'checks': checks,
+    };
+  }
 }
 
 /// The five most recent communications associated with the case.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecentCaseCommunications {
   /// The five most recent communications associated with the case.
-  @_s.JsonKey(name: 'communications')
-  final List<Communication> communications;
+  final List<Communication>? communications;
 
   /// A resumption point for pagination.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   RecentCaseCommunications({
     this.communications,
     this.nextToken,
   });
-  factory RecentCaseCommunications.fromJson(Map<String, dynamic> json) =>
-      _$RecentCaseCommunicationsFromJson(json);
+
+  factory RecentCaseCommunications.fromJson(Map<String, dynamic> json) {
+    return RecentCaseCommunications(
+      communications: (json['communications'] as List?)
+          ?.whereNotNull()
+          .map((e) => Communication.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final communications = this.communications;
+    final nextToken = this.nextToken;
+    return {
+      if (communications != null) 'communications': communications,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The current refresh status of a Trusted Advisor check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RefreshTrustedAdvisorCheckResponse {
   /// The current refresh status for a check, including the amount of time until
   /// the check is eligible for refresh.
-  @_s.JsonKey(name: 'status')
   final TrustedAdvisorCheckRefreshStatus status;
 
   RefreshTrustedAdvisorCheckResponse({
-    @_s.required this.status,
+    required this.status,
   });
+
   factory RefreshTrustedAdvisorCheckResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$RefreshTrustedAdvisorCheckResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return RefreshTrustedAdvisorCheckResponse(
+      status: TrustedAdvisorCheckRefreshStatus.fromJson(
+          json['status'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status,
+    };
+  }
 }
 
 /// The status of the case returned by the <a>ResolveCase</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResolveCaseResponse {
   /// The status of the case after the <a>ResolveCase</a> request was processed.
-  @_s.JsonKey(name: 'finalCaseStatus')
-  final String finalCaseStatus;
+  final String? finalCaseStatus;
 
   /// The status of the case when the <a>ResolveCase</a> request was sent.
-  @_s.JsonKey(name: 'initialCaseStatus')
-  final String initialCaseStatus;
+  final String? initialCaseStatus;
 
   ResolveCaseResponse({
     this.finalCaseStatus,
     this.initialCaseStatus,
   });
-  factory ResolveCaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResolveCaseResponseFromJson(json);
+
+  factory ResolveCaseResponse.fromJson(Map<String, dynamic> json) {
+    return ResolveCaseResponse(
+      finalCaseStatus: json['finalCaseStatus'] as String?,
+      initialCaseStatus: json['initialCaseStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final finalCaseStatus = this.finalCaseStatus;
+    final initialCaseStatus = this.initialCaseStatus;
+    return {
+      if (finalCaseStatus != null) 'finalCaseStatus': finalCaseStatus,
+      if (initialCaseStatus != null) 'initialCaseStatus': initialCaseStatus,
+    };
+  }
 }
 
 /// Information about an AWS service returned by the <a>DescribeServices</a>
 /// operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Service {
   /// A list of categories that describe the type of support issue a case
   /// describes. Categories consist of a category name and a category code.
   /// Category names and codes are passed to AWS Support when you call
   /// <a>CreateCase</a>.
-  @_s.JsonKey(name: 'categories')
-  final List<Category> categories;
+  final List<Category>? categories;
 
   /// The code for an AWS service returned by the <a>DescribeServices</a>
   /// response. The <code>name</code> element contains the corresponding friendly
   /// name.
-  @_s.JsonKey(name: 'code')
-  final String code;
+  final String? code;
 
   /// The friendly name for an AWS service. The <code>code</code> element contains
   /// the corresponding code.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   Service({
     this.categories,
     this.code,
     this.name,
   });
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+
+  factory Service.fromJson(Map<String, dynamic> json) {
+    return Service(
+      categories: (json['categories'] as List?)
+          ?.whereNotNull()
+          .map((e) => Category.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categories = this.categories;
+    final code = this.code;
+    final name = this.name;
+    return {
+      if (categories != null) 'categories': categories,
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// A code and name pair that represents the severity level of a support case.
@@ -1721,96 +1919,104 @@ class Service {
 /// information, see <a
 /// href="https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity">Choosing
 /// a severity</a> in the <i>AWS Support User Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SeverityLevel {
   /// The code for case severity level.
   ///
   /// Valid values: <code>low</code> | <code>normal</code> | <code>high</code> |
   /// <code>urgent</code> | <code>critical</code>
-  @_s.JsonKey(name: 'code')
-  final String code;
+  final String? code;
 
   /// The name of the severity level that corresponds to the severity level code.
   /// <note>
-  /// The values returned by the API differ from the values that are displayed in
-  /// the AWS Support Center. For example, for the code "low", the API name is
-  /// "Low", but the name in the Support Center is "General guidance". These are
-  /// the Support Center code/name mappings:
+  /// The values returned by the API are different from the values that appear in
+  /// the AWS Support Center. For example, the API uses the code <code>low</code>,
+  /// but the name appears as General guidance in Support Center.
+  ///
+  /// The following are the API code names and how they appear in the console:
   ///
   /// <ul>
   /// <li>
-  /// <code>low</code>: General guidance
+  /// <code>low</code> - General guidance
   /// </li>
   /// <li>
-  /// <code>normal</code>: System impaired
+  /// <code>normal</code> - System impaired
   /// </li>
   /// <li>
-  /// <code>high</code>: Production system impaired
+  /// <code>high</code> - Production system impaired
   /// </li>
   /// <li>
-  /// <code>urgent</code>: Production system down
+  /// <code>urgent</code> - Production system down
   /// </li>
   /// <li>
-  /// <code>critical</code>: Business-critical system down
+  /// <code>critical</code> - Business-critical system down
   /// </li>
   /// </ul> </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/awssupport/latest/user/case-management.html#choosing-severity">Choosing
   /// a severity</a> in the <i>AWS Support User Guide</i>.
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   SeverityLevel({
     this.code,
     this.name,
   });
-  factory SeverityLevel.fromJson(Map<String, dynamic> json) =>
-      _$SeverityLevelFromJson(json);
+
+  factory SeverityLevel.fromJson(Map<String, dynamic> json) {
+    return SeverityLevel(
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final name = this.name;
+    return {
+      if (code != null) 'code': code,
+      if (name != null) 'name': name,
+    };
+  }
 }
 
 /// The container for summary information that relates to the category of the
 /// Trusted Advisor check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorCategorySpecificSummary {
   /// The summary information about cost savings for a Trusted Advisor check that
   /// is in the Cost Optimizing category.
-  @_s.JsonKey(name: 'costOptimizing')
-  final TrustedAdvisorCostOptimizingSummary costOptimizing;
+  final TrustedAdvisorCostOptimizingSummary? costOptimizing;
 
   TrustedAdvisorCategorySpecificSummary({
     this.costOptimizing,
   });
+
   factory TrustedAdvisorCategorySpecificSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$TrustedAdvisorCategorySpecificSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return TrustedAdvisorCategorySpecificSummary(
+      costOptimizing: json['costOptimizing'] != null
+          ? TrustedAdvisorCostOptimizingSummary.fromJson(
+              json['costOptimizing'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final costOptimizing = this.costOptimizing;
+    return {
+      if (costOptimizing != null) 'costOptimizing': costOptimizing,
+    };
+  }
 }
 
 /// The description and metadata for a Trusted Advisor check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorCheckDescription {
   /// The category of the Trusted Advisor check.
-  @_s.JsonKey(name: 'category')
   final String category;
 
   /// The description of the Trusted Advisor check, which includes the alert
   /// criteria and recommended operations (contains HTML markup).
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// The unique identifier for the Trusted Advisor check.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The column headings for the data returned by the Trusted Advisor check. The
@@ -1818,38 +2024,55 @@ class TrustedAdvisorCheckDescription {
   /// <b>Metadata</b> element of the <a>TrustedAdvisorResourceDetail</a> for the
   /// check. <b>Metadata</b> contains all the data that is shown in the Excel
   /// download, even in those cases where the UI shows just summary data.
-  @_s.JsonKey(name: 'metadata')
   final List<String> metadata;
 
   /// The display name for the Trusted Advisor check.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   TrustedAdvisorCheckDescription({
-    @_s.required this.category,
-    @_s.required this.description,
-    @_s.required this.id,
-    @_s.required this.metadata,
-    @_s.required this.name,
+    required this.category,
+    required this.description,
+    required this.id,
+    required this.metadata,
+    required this.name,
   });
-  factory TrustedAdvisorCheckDescription.fromJson(Map<String, dynamic> json) =>
-      _$TrustedAdvisorCheckDescriptionFromJson(json);
+
+  factory TrustedAdvisorCheckDescription.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorCheckDescription(
+      category: json['category'] as String,
+      description: json['description'] as String,
+      id: json['id'] as String,
+      metadata: (json['metadata'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final category = this.category;
+    final description = this.description;
+    final id = this.id;
+    final metadata = this.metadata;
+    final name = this.name;
+    return {
+      'category': category,
+      'description': description,
+      'id': id,
+      'metadata': metadata,
+      'name': name,
+    };
+  }
 }
 
 /// The refresh status of a Trusted Advisor check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorCheckRefreshStatus {
   /// The unique identifier for the Trusted Advisor check.
-  @_s.JsonKey(name: 'checkId')
   final String checkId;
 
   /// The amount of time, in milliseconds, until the Trusted Advisor check is
   /// eligible for refresh.
-  @_s.JsonKey(name: 'millisUntilNextRefreshable')
   final int millisUntilNextRefreshable;
 
   /// The status of the Trusted Advisor check for which a refresh has been
@@ -1857,158 +2080,215 @@ class TrustedAdvisorCheckRefreshStatus {
   ///
   /// <ul>
   /// <li>
-  /// <code>none:</code> The check is not refreshed or the non-success status
+  /// <code>none</code> - The check is not refreshed or the non-success status
   /// exceeds the timeout
   /// </li>
   /// <li>
-  /// <code>enqueued:</code> The check refresh requests has entered the refresh
+  /// <code>enqueued</code> - The check refresh requests has entered the refresh
   /// queue
   /// </li>
   /// <li>
-  /// <code>processing:</code> The check refresh request is picked up by the rule
+  /// <code>processing</code> - The check refresh request is picked up by the rule
   /// processing engine
   /// </li>
   /// <li>
-  /// <code>success:</code> The check is successfully refreshed
+  /// <code>success</code> - The check is successfully refreshed
   /// </li>
   /// <li>
-  /// <code>abandoned:</code> The check refresh has failed
+  /// <code>abandoned</code> - The check refresh has failed
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
   final String status;
 
   TrustedAdvisorCheckRefreshStatus({
-    @_s.required this.checkId,
-    @_s.required this.millisUntilNextRefreshable,
-    @_s.required this.status,
+    required this.checkId,
+    required this.millisUntilNextRefreshable,
+    required this.status,
   });
-  factory TrustedAdvisorCheckRefreshStatus.fromJson(
-          Map<String, dynamic> json) =>
-      _$TrustedAdvisorCheckRefreshStatusFromJson(json);
+
+  factory TrustedAdvisorCheckRefreshStatus.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorCheckRefreshStatus(
+      checkId: json['checkId'] as String,
+      millisUntilNextRefreshable: json['millisUntilNextRefreshable'] as int,
+      status: json['status'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkId = this.checkId;
+    final millisUntilNextRefreshable = this.millisUntilNextRefreshable;
+    final status = this.status;
+    return {
+      'checkId': checkId,
+      'millisUntilNextRefreshable': millisUntilNextRefreshable,
+      'status': status,
+    };
+  }
 }
 
 /// The results of a Trusted Advisor check returned by
 /// <a>DescribeTrustedAdvisorCheckResult</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorCheckResult {
   /// Summary information that relates to the category of the check. Cost
   /// Optimizing is the only category that is currently supported.
-  @_s.JsonKey(name: 'categorySpecificSummary')
   final TrustedAdvisorCategorySpecificSummary categorySpecificSummary;
 
   /// The unique identifier for the Trusted Advisor check.
-  @_s.JsonKey(name: 'checkId')
   final String checkId;
 
   /// The details about each resource listed in the check result.
-  @_s.JsonKey(name: 'flaggedResources')
   final List<TrustedAdvisorResourceDetail> flaggedResources;
-  @_s.JsonKey(name: 'resourcesSummary')
   final TrustedAdvisorResourcesSummary resourcesSummary;
 
   /// The alert status of the check: "ok" (green), "warning" (yellow), "error"
   /// (red), or "not_available".
-  @_s.JsonKey(name: 'status')
   final String status;
 
   /// The time of the last refresh of the check.
-  @_s.JsonKey(name: 'timestamp')
   final String timestamp;
 
   TrustedAdvisorCheckResult({
-    @_s.required this.categorySpecificSummary,
-    @_s.required this.checkId,
-    @_s.required this.flaggedResources,
-    @_s.required this.resourcesSummary,
-    @_s.required this.status,
-    @_s.required this.timestamp,
+    required this.categorySpecificSummary,
+    required this.checkId,
+    required this.flaggedResources,
+    required this.resourcesSummary,
+    required this.status,
+    required this.timestamp,
   });
-  factory TrustedAdvisorCheckResult.fromJson(Map<String, dynamic> json) =>
-      _$TrustedAdvisorCheckResultFromJson(json);
+
+  factory TrustedAdvisorCheckResult.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorCheckResult(
+      categorySpecificSummary: TrustedAdvisorCategorySpecificSummary.fromJson(
+          json['categorySpecificSummary'] as Map<String, dynamic>),
+      checkId: json['checkId'] as String,
+      flaggedResources: (json['flaggedResources'] as List)
+          .whereNotNull()
+          .map((e) =>
+              TrustedAdvisorResourceDetail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      resourcesSummary: TrustedAdvisorResourcesSummary.fromJson(
+          json['resourcesSummary'] as Map<String, dynamic>),
+      status: json['status'] as String,
+      timestamp: json['timestamp'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categorySpecificSummary = this.categorySpecificSummary;
+    final checkId = this.checkId;
+    final flaggedResources = this.flaggedResources;
+    final resourcesSummary = this.resourcesSummary;
+    final status = this.status;
+    final timestamp = this.timestamp;
+    return {
+      'categorySpecificSummary': categorySpecificSummary,
+      'checkId': checkId,
+      'flaggedResources': flaggedResources,
+      'resourcesSummary': resourcesSummary,
+      'status': status,
+      'timestamp': timestamp,
+    };
+  }
 }
 
 /// A summary of a Trusted Advisor check result, including the alert status,
 /// last refresh, and number of resources examined.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorCheckSummary {
   /// Summary information that relates to the category of the check. Cost
   /// Optimizing is the only category that is currently supported.
-  @_s.JsonKey(name: 'categorySpecificSummary')
   final TrustedAdvisorCategorySpecificSummary categorySpecificSummary;
 
   /// The unique identifier for the Trusted Advisor check.
-  @_s.JsonKey(name: 'checkId')
   final String checkId;
-  @_s.JsonKey(name: 'resourcesSummary')
   final TrustedAdvisorResourcesSummary resourcesSummary;
 
   /// The alert status of the check: "ok" (green), "warning" (yellow), "error"
   /// (red), or "not_available".
-  @_s.JsonKey(name: 'status')
   final String status;
 
   /// The time of the last refresh of the check.
-  @_s.JsonKey(name: 'timestamp')
   final String timestamp;
 
   /// Specifies whether the Trusted Advisor check has flagged resources.
-  @_s.JsonKey(name: 'hasFlaggedResources')
-  final bool hasFlaggedResources;
+  final bool? hasFlaggedResources;
 
   TrustedAdvisorCheckSummary({
-    @_s.required this.categorySpecificSummary,
-    @_s.required this.checkId,
-    @_s.required this.resourcesSummary,
-    @_s.required this.status,
-    @_s.required this.timestamp,
+    required this.categorySpecificSummary,
+    required this.checkId,
+    required this.resourcesSummary,
+    required this.status,
+    required this.timestamp,
     this.hasFlaggedResources,
   });
-  factory TrustedAdvisorCheckSummary.fromJson(Map<String, dynamic> json) =>
-      _$TrustedAdvisorCheckSummaryFromJson(json);
+
+  factory TrustedAdvisorCheckSummary.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorCheckSummary(
+      categorySpecificSummary: TrustedAdvisorCategorySpecificSummary.fromJson(
+          json['categorySpecificSummary'] as Map<String, dynamic>),
+      checkId: json['checkId'] as String,
+      resourcesSummary: TrustedAdvisorResourcesSummary.fromJson(
+          json['resourcesSummary'] as Map<String, dynamic>),
+      status: json['status'] as String,
+      timestamp: json['timestamp'] as String,
+      hasFlaggedResources: json['hasFlaggedResources'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final categorySpecificSummary = this.categorySpecificSummary;
+    final checkId = this.checkId;
+    final resourcesSummary = this.resourcesSummary;
+    final status = this.status;
+    final timestamp = this.timestamp;
+    final hasFlaggedResources = this.hasFlaggedResources;
+    return {
+      'categorySpecificSummary': categorySpecificSummary,
+      'checkId': checkId,
+      'resourcesSummary': resourcesSummary,
+      'status': status,
+      'timestamp': timestamp,
+      if (hasFlaggedResources != null)
+        'hasFlaggedResources': hasFlaggedResources,
+    };
+  }
 }
 
 /// The estimated cost savings that might be realized if the recommended
 /// operations are taken.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorCostOptimizingSummary {
   /// The estimated monthly savings that might be realized if the recommended
   /// operations are taken.
-  @_s.JsonKey(name: 'estimatedMonthlySavings')
   final double estimatedMonthlySavings;
 
   /// The estimated percentage of savings that might be realized if the
   /// recommended operations are taken.
-  @_s.JsonKey(name: 'estimatedPercentMonthlySavings')
   final double estimatedPercentMonthlySavings;
 
   TrustedAdvisorCostOptimizingSummary({
-    @_s.required this.estimatedMonthlySavings,
-    @_s.required this.estimatedPercentMonthlySavings,
+    required this.estimatedMonthlySavings,
+    required this.estimatedPercentMonthlySavings,
   });
+
   factory TrustedAdvisorCostOptimizingSummary.fromJson(
-          Map<String, dynamic> json) =>
-      _$TrustedAdvisorCostOptimizingSummaryFromJson(json);
+      Map<String, dynamic> json) {
+    return TrustedAdvisorCostOptimizingSummary(
+      estimatedMonthlySavings: json['estimatedMonthlySavings'] as double,
+      estimatedPercentMonthlySavings:
+          json['estimatedPercentMonthlySavings'] as double,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final estimatedMonthlySavings = this.estimatedMonthlySavings;
+    final estimatedPercentMonthlySavings = this.estimatedPercentMonthlySavings;
+    return {
+      'estimatedMonthlySavings': estimatedMonthlySavings,
+      'estimatedPercentMonthlySavings': estimatedPercentMonthlySavings,
+    };
+  }
 }
 
 /// Contains information about a resource identified by a Trusted Advisor check.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorResourceDetail {
   /// Additional information about the identified resource. The exact metadata and
   /// its order can be obtained by inspecting the
@@ -2016,96 +2296,128 @@ class TrustedAdvisorResourceDetail {
   /// <a>DescribeTrustedAdvisorChecks</a>. <b>Metadata</b> contains all the data
   /// that is shown in the Excel download, even in those cases where the UI shows
   /// just summary data.
-  @_s.JsonKey(name: 'metadata')
   final List<String> metadata;
 
   /// The unique identifier for the identified resource.
-  @_s.JsonKey(name: 'resourceId')
   final String resourceId;
 
   /// The status code for the resource identified in the Trusted Advisor check.
-  @_s.JsonKey(name: 'status')
   final String status;
 
   /// Specifies whether the AWS resource was ignored by Trusted Advisor because it
   /// was marked as suppressed by the user.
-  @_s.JsonKey(name: 'isSuppressed')
-  final bool isSuppressed;
+  final bool? isSuppressed;
 
-  /// The AWS region in which the identified resource is located.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  /// The AWS Region in which the identified resource is located.
+  final String? region;
 
   TrustedAdvisorResourceDetail({
-    @_s.required this.metadata,
-    @_s.required this.resourceId,
-    @_s.required this.status,
+    required this.metadata,
+    required this.resourceId,
+    required this.status,
     this.isSuppressed,
     this.region,
   });
-  factory TrustedAdvisorResourceDetail.fromJson(Map<String, dynamic> json) =>
-      _$TrustedAdvisorResourceDetailFromJson(json);
+
+  factory TrustedAdvisorResourceDetail.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorResourceDetail(
+      metadata: (json['metadata'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resourceId: json['resourceId'] as String,
+      status: json['status'] as String,
+      isSuppressed: json['isSuppressed'] as bool?,
+      region: json['region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metadata = this.metadata;
+    final resourceId = this.resourceId;
+    final status = this.status;
+    final isSuppressed = this.isSuppressed;
+    final region = this.region;
+    return {
+      'metadata': metadata,
+      'resourceId': resourceId,
+      'status': status,
+      if (isSuppressed != null) 'isSuppressed': isSuppressed,
+      if (region != null) 'region': region,
+    };
+  }
 }
 
 /// Details about AWS resources that were analyzed in a call to Trusted Advisor
 /// <a>DescribeTrustedAdvisorCheckSummaries</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TrustedAdvisorResourcesSummary {
   /// The number of AWS resources that were flagged (listed) by the Trusted
   /// Advisor check.
-  @_s.JsonKey(name: 'resourcesFlagged')
   final int resourcesFlagged;
 
   /// The number of AWS resources ignored by Trusted Advisor because information
   /// was unavailable.
-  @_s.JsonKey(name: 'resourcesIgnored')
   final int resourcesIgnored;
 
   /// The number of AWS resources that were analyzed by the Trusted Advisor check.
-  @_s.JsonKey(name: 'resourcesProcessed')
   final int resourcesProcessed;
 
   /// The number of AWS resources ignored by Trusted Advisor because they were
   /// marked as suppressed by the user.
-  @_s.JsonKey(name: 'resourcesSuppressed')
   final int resourcesSuppressed;
 
   TrustedAdvisorResourcesSummary({
-    @_s.required this.resourcesFlagged,
-    @_s.required this.resourcesIgnored,
-    @_s.required this.resourcesProcessed,
-    @_s.required this.resourcesSuppressed,
+    required this.resourcesFlagged,
+    required this.resourcesIgnored,
+    required this.resourcesProcessed,
+    required this.resourcesSuppressed,
   });
-  factory TrustedAdvisorResourcesSummary.fromJson(Map<String, dynamic> json) =>
-      _$TrustedAdvisorResourcesSummaryFromJson(json);
+
+  factory TrustedAdvisorResourcesSummary.fromJson(Map<String, dynamic> json) {
+    return TrustedAdvisorResourcesSummary(
+      resourcesFlagged: json['resourcesFlagged'] as int,
+      resourcesIgnored: json['resourcesIgnored'] as int,
+      resourcesProcessed: json['resourcesProcessed'] as int,
+      resourcesSuppressed: json['resourcesSuppressed'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourcesFlagged = this.resourcesFlagged;
+    final resourcesIgnored = this.resourcesIgnored;
+    final resourcesProcessed = this.resourcesProcessed;
+    final resourcesSuppressed = this.resourcesSuppressed;
+    return {
+      'resourcesFlagged': resourcesFlagged,
+      'resourcesIgnored': resourcesIgnored,
+      'resourcesProcessed': resourcesProcessed,
+      'resourcesSuppressed': resourcesSuppressed,
+    };
+  }
 }
 
 class AttachmentIdNotFound extends _s.GenericAwsException {
-  AttachmentIdNotFound({String type, String message})
+  AttachmentIdNotFound({String? type, String? message})
       : super(type: type, code: 'AttachmentIdNotFound', message: message);
 }
 
 class AttachmentLimitExceeded extends _s.GenericAwsException {
-  AttachmentLimitExceeded({String type, String message})
+  AttachmentLimitExceeded({String? type, String? message})
       : super(type: type, code: 'AttachmentLimitExceeded', message: message);
 }
 
 class AttachmentSetExpired extends _s.GenericAwsException {
-  AttachmentSetExpired({String type, String message})
+  AttachmentSetExpired({String? type, String? message})
       : super(type: type, code: 'AttachmentSetExpired', message: message);
 }
 
 class AttachmentSetIdNotFound extends _s.GenericAwsException {
-  AttachmentSetIdNotFound({String type, String message})
+  AttachmentSetIdNotFound({String? type, String? message})
       : super(type: type, code: 'AttachmentSetIdNotFound', message: message);
 }
 
 class AttachmentSetSizeLimitExceeded extends _s.GenericAwsException {
-  AttachmentSetSizeLimitExceeded({String type, String message})
+  AttachmentSetSizeLimitExceeded({String? type, String? message})
       : super(
             type: type,
             code: 'AttachmentSetSizeLimitExceeded',
@@ -2113,17 +2425,17 @@ class AttachmentSetSizeLimitExceeded extends _s.GenericAwsException {
 }
 
 class CaseCreationLimitExceeded extends _s.GenericAwsException {
-  CaseCreationLimitExceeded({String type, String message})
+  CaseCreationLimitExceeded({String? type, String? message})
       : super(type: type, code: 'CaseCreationLimitExceeded', message: message);
 }
 
 class CaseIdNotFound extends _s.GenericAwsException {
-  CaseIdNotFound({String type, String message})
+  CaseIdNotFound({String? type, String? message})
       : super(type: type, code: 'CaseIdNotFound', message: message);
 }
 
 class DescribeAttachmentLimitExceeded extends _s.GenericAwsException {
-  DescribeAttachmentLimitExceeded({String type, String message})
+  DescribeAttachmentLimitExceeded({String? type, String? message})
       : super(
             type: type,
             code: 'DescribeAttachmentLimitExceeded',
@@ -2131,7 +2443,7 @@ class DescribeAttachmentLimitExceeded extends _s.GenericAwsException {
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 

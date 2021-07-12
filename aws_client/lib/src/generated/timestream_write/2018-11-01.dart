@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-11-01.g.dart';
 
 /// Amazon Timestream is a fast, scalable, fully managed time series database
 /// service that makes it easy to store and analyze trillions of time series
@@ -42,10 +35,10 @@ part '2018-11-01.g.dart';
 class TimestreamWrite {
   final _s.JsonProtocol _protocol;
   TimestreamWrite({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -87,9 +80,9 @@ class TimestreamWrite {
   /// Parameter [tags] :
   /// A list of key-value pairs to label the table.
   Future<CreateDatabaseResponse> createDatabase({
-    @_s.required String databaseName,
-    String kmsKeyId,
-    List<Tag> tags,
+    required String databaseName,
+    String? kmsKeyId,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -97,12 +90,6 @@ class TimestreamWrite {
       databaseName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -163,10 +150,10 @@ class TimestreamWrite {
   /// Parameter [tags] :
   /// A list of key-value pairs to label the table.
   Future<CreateTableResponse> createTable({
-    @_s.required String databaseName,
-    @_s.required String tableName,
-    RetentionProperties retentionProperties,
-    List<Tag> tags,
+    required String databaseName,
+    required String tableName,
+    RetentionProperties? retentionProperties,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -176,24 +163,12 @@ class TimestreamWrite {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
       'tableName',
       tableName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -239,7 +214,7 @@ class TimestreamWrite {
   /// Parameter [databaseName] :
   /// The name of the Timestream database to be deleted.
   Future<void> deleteDatabase({
-    @_s.required String databaseName,
+    required String databaseName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -249,17 +224,11 @@ class TimestreamWrite {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.DeleteDatabase'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -292,8 +261,8 @@ class TimestreamWrite {
   /// Parameter [tableName] :
   /// The name of the Timestream table to be deleted.
   Future<void> deleteTable({
-    @_s.required String databaseName,
-    @_s.required String tableName,
+    required String databaseName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -301,12 +270,6 @@ class TimestreamWrite {
       databaseName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -317,17 +280,11 @@ class TimestreamWrite {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.DeleteTable'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -356,7 +313,7 @@ class TimestreamWrite {
   /// Parameter [databaseName] :
   /// The name of the Timestream database.
   Future<DescribeDatabaseResponse> describeDatabase({
-    @_s.required String databaseName,
+    required String databaseName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -364,12 +321,6 @@ class TimestreamWrite {
       databaseName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -449,8 +400,8 @@ class TimestreamWrite {
   /// Parameter [tableName] :
   /// The name of the Timestream table.
   Future<DescribeTableResponse> describeTable({
-    @_s.required String databaseName,
-    @_s.required String tableName,
+    required String databaseName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -460,24 +411,12 @@ class TimestreamWrite {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
       'tableName',
       tableName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -520,8 +459,8 @@ class TimestreamWrite {
   /// The pagination token. To resume pagination, provide the NextToken value as
   /// argument of a subsequent API invocation.
   Future<ListDatabasesResponse> listDatabases({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -571,20 +510,15 @@ class TimestreamWrite {
   /// The pagination token. To resume pagination, provide the NextToken value as
   /// argument of a subsequent API invocation.
   Future<ListTablesResponse> listTables({
-    String databaseName,
-    int maxResults,
-    String nextToken,
+    String? databaseName,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'databaseName',
       databaseName,
       3,
       64,
-    );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'maxResults',
@@ -623,7 +557,7 @@ class TimestreamWrite {
   /// The Timestream resource with tags to be listed. This value is an Amazon
   /// Resource Name (ARN).
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -668,8 +602,8 @@ class TimestreamWrite {
   /// Parameter [tags] :
   /// The tags to be assigned to the Timestream resource.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -684,7 +618,7 @@ class TimestreamWrite {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -695,8 +629,6 @@ class TimestreamWrite {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes the association of tags from a Timestream resource.
@@ -715,8 +647,8 @@ class TimestreamWrite {
   /// A list of tags keys. Existing tags of the resource whose keys are members
   /// of this list will be removed from the Timestream resource.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -731,7 +663,7 @@ class TimestreamWrite {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -742,8 +674,6 @@ class TimestreamWrite {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Modifies the KMS key for an existing database. While updating the
@@ -787,8 +717,8 @@ class TimestreamWrite {
   /// </li>
   /// </ul>
   Future<UpdateDatabaseResponse> updateDatabase({
-    @_s.required String databaseName,
-    @_s.required String kmsKeyId,
+    required String databaseName,
+    required String kmsKeyId,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -796,12 +726,6 @@ class TimestreamWrite {
       databaseName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(kmsKeyId, 'kmsKeyId');
@@ -860,9 +784,9 @@ class TimestreamWrite {
   /// Parameter [tableName] :
   /// The name of the Timesream table.
   Future<UpdateTableResponse> updateTable({
-    @_s.required String databaseName,
-    @_s.required RetentionProperties retentionProperties,
-    @_s.required String tableName,
+    required String databaseName,
+    required RetentionProperties retentionProperties,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -872,12 +796,6 @@ class TimestreamWrite {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(retentionProperties, 'retentionProperties');
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -885,12 +803,6 @@ class TimestreamWrite {
       tableName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -952,10 +864,10 @@ class TimestreamWrite {
   /// attributes specified in here will be merged with the measure and dimension
   /// attributes in the records object when the data is written into Timestream.
   Future<void> writeRecords({
-    @_s.required String databaseName,
-    @_s.required List<Record> records,
-    @_s.required String tableName,
-    Record commonAttributes,
+    required String databaseName,
+    required List<Record> records,
+    required String tableName,
+    Record? commonAttributes,
   }) async {
     ArgumentError.checkNotNull(databaseName, 'databaseName');
     _s.validateStringLength(
@@ -963,12 +875,6 @@ class TimestreamWrite {
       databaseName,
       3,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'databaseName',
-      databaseName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(records, 'records');
@@ -980,17 +886,11 @@ class TimestreamWrite {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'Timestream_20181101.WriteRecords'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1006,75 +906,76 @@ class TimestreamWrite {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDatabaseResponse {
   /// The newly created Timestream database.
-  @_s.JsonKey(name: 'Database')
-  final Database database;
+  final Database? database;
 
   CreateDatabaseResponse({
     this.database,
   });
-  factory CreateDatabaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDatabaseResponseFromJson(json);
+
+  factory CreateDatabaseResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDatabaseResponse(
+      database: json['Database'] != null
+          ? Database.fromJson(json['Database'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    return {
+      if (database != null) 'Database': database,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTableResponse {
   /// The newly created Timestream table.
-  @_s.JsonKey(name: 'Table')
-  final Table table;
+  final Table? table;
 
   CreateTableResponse({
     this.table,
   });
-  factory CreateTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTableResponseFromJson(json);
+
+  factory CreateTableResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTableResponse(
+      table: json['Table'] != null
+          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final table = this.table;
+    return {
+      if (table != null) 'Table': table,
+    };
+  }
 }
 
 /// A top level container for a table. Databases and tables are the fundamental
 /// management concepts in Amazon Timestream. All tables in a database are
 /// encrypted with the same KMS key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Database {
   /// The Amazon Resource Name that uniquely identifies this database.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time when the database was created, calculated from the Unix epoch time.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the Timestream database.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The identifier of the KMS key used to encrypt the data stored in the
   /// database.
-  @_s.JsonKey(name: 'KmsKeyId')
-  final String kmsKeyId;
+  final String? kmsKeyId;
 
   /// The last time that this database was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The total number of tables found within a Timestream database.
-  @_s.JsonKey(name: 'TableCount')
-  final int tableCount;
+  final int? tableCount;
 
   Database({
     this.arn,
@@ -1084,70 +985,115 @@ class Database {
     this.lastUpdatedTime,
     this.tableCount,
   });
-  factory Database.fromJson(Map<String, dynamic> json) =>
-      _$DatabaseFromJson(json);
+
+  factory Database.fromJson(Map<String, dynamic> json) {
+    return Database(
+      arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      databaseName: json['DatabaseName'] as String?,
+      kmsKeyId: json['KmsKeyId'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      tableCount: json['TableCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final databaseName = this.databaseName;
+    final kmsKeyId = this.kmsKeyId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final tableCount = this.tableCount;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (tableCount != null) 'TableCount': tableCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDatabaseResponse {
   /// The name of the Timestream table.
-  @_s.JsonKey(name: 'Database')
-  final Database database;
+  final Database? database;
 
   DescribeDatabaseResponse({
     this.database,
   });
-  factory DescribeDatabaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDatabaseResponseFromJson(json);
+
+  factory DescribeDatabaseResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDatabaseResponse(
+      database: json['Database'] != null
+          ? Database.fromJson(json['Database'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    return {
+      if (database != null) 'Database': database,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointsResponse {
   /// An <code>Endpoints</code> object is returned when a
   /// <code>DescribeEndpoints</code> request is made.
-  @_s.JsonKey(name: 'Endpoints')
   final List<Endpoint> endpoints;
 
   DescribeEndpointsResponse({
-    @_s.required this.endpoints,
+    required this.endpoints,
   });
-  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointsResponseFromJson(json);
+
+  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointsResponse(
+      endpoints: (json['Endpoints'] as List)
+          .whereNotNull()
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    return {
+      'Endpoints': endpoints,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTableResponse {
   /// The Timestream table.
-  @_s.JsonKey(name: 'Table')
-  final Table table;
+  final Table? table;
 
   DescribeTableResponse({
     this.table,
   });
-  factory DescribeTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTableResponseFromJson(json);
+
+  factory DescribeTableResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTableResponse(
+      table: json['Table'] != null
+          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final table = this.table;
+    return {
+      if (table != null) 'Table': table,
+    };
+  }
 }
 
 /// Dimension represents the meta data attributes of the time series. For
 /// example, the name and availability zone of an EC2 instance or the name of
 /// the manufacturer of a wind turbine are dimensions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Dimension {
   /// Dimension represents the meta data attributes of the time series. For
   /// example, the name and availability zone of an EC2 instance or the name of
@@ -1156,126 +1102,223 @@ class Dimension {
   /// For constraints on Dimension names, see <a
   /// href="https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming">Naming
   /// Constraints</a>.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The value of the dimension.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   /// The data type of the dimension for the time series data point.
-  @_s.JsonKey(name: 'DimensionValueType')
-  final DimensionValueType dimensionValueType;
+  final DimensionValueType? dimensionValueType;
 
   Dimension({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
     this.dimensionValueType,
   });
-  Map<String, dynamic> toJson() => _$DimensionToJson(this);
+
+  factory Dimension.fromJson(Map<String, dynamic> json) {
+    return Dimension(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+      dimensionValueType:
+          (json['DimensionValueType'] as String?)?.toDimensionValueType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    final dimensionValueType = this.dimensionValueType;
+    return {
+      'Name': name,
+      'Value': value,
+      if (dimensionValueType != null)
+        'DimensionValueType': dimensionValueType.toValue(),
+    };
+  }
 }
 
 enum DimensionValueType {
-  @_s.JsonValue('VARCHAR')
   varchar,
+}
+
+extension on DimensionValueType {
+  String toValue() {
+    switch (this) {
+      case DimensionValueType.varchar:
+        return 'VARCHAR';
+    }
+  }
+}
+
+extension on String {
+  DimensionValueType toDimensionValueType() {
+    switch (this) {
+      case 'VARCHAR':
+        return DimensionValueType.varchar;
+    }
+    throw Exception('$this is not known in enum DimensionValueType');
+  }
 }
 
 /// Represents an available endpoint against which to make API calls agaisnt, as
 /// well as the TTL for that endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Endpoint {
   /// An endpoint address.
-  @_s.JsonKey(name: 'Address')
   final String address;
 
   /// The TTL for the endpoint, in minutes.
-  @_s.JsonKey(name: 'CachePeriodInMinutes')
   final int cachePeriodInMinutes;
 
   Endpoint({
-    @_s.required this.address,
-    @_s.required this.cachePeriodInMinutes,
+    required this.address,
+    required this.cachePeriodInMinutes,
   });
-  factory Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$EndpointFromJson(json);
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: json['Address'] as String,
+      cachePeriodInMinutes: json['CachePeriodInMinutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final cachePeriodInMinutes = this.cachePeriodInMinutes;
+    return {
+      'Address': address,
+      'CachePeriodInMinutes': cachePeriodInMinutes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDatabasesResponse {
   /// A list of database names.
-  @_s.JsonKey(name: 'Databases')
-  final List<Database> databases;
+  final List<Database>? databases;
 
   /// The pagination token. This parameter is returned when the response is
   /// truncated.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDatabasesResponse({
     this.databases,
     this.nextToken,
   });
-  factory ListDatabasesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDatabasesResponseFromJson(json);
+
+  factory ListDatabasesResponse.fromJson(Map<String, dynamic> json) {
+    return ListDatabasesResponse(
+      databases: (json['Databases'] as List?)
+          ?.whereNotNull()
+          .map((e) => Database.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databases = this.databases;
+    final nextToken = this.nextToken;
+    return {
+      if (databases != null) 'Databases': databases,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTablesResponse {
   /// A token to specify where to start paginating. This is the NextToken from a
   /// previously truncated response.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of tables.
-  @_s.JsonKey(name: 'Tables')
-  final List<Table> tables;
+  final List<Table>? tables;
 
   ListTablesResponse({
     this.nextToken,
     this.tables,
   });
-  factory ListTablesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTablesResponseFromJson(json);
+
+  factory ListTablesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTablesResponse(
+      nextToken: json['NextToken'] as String?,
+      tables: (json['Tables'] as List?)
+          ?.whereNotNull()
+          .map((e) => Table.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tables = this.tables;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tables != null) 'Tables': tables,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The tags currently associated with the Timestream resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum MeasureValueType {
-  @_s.JsonValue('DOUBLE')
   double,
-  @_s.JsonValue('BIGINT')
   bigint,
-  @_s.JsonValue('VARCHAR')
   varchar,
-  @_s.JsonValue('BOOLEAN')
   boolean,
+}
+
+extension on MeasureValueType {
+  String toValue() {
+    switch (this) {
+      case MeasureValueType.double:
+        return 'DOUBLE';
+      case MeasureValueType.bigint:
+        return 'BIGINT';
+      case MeasureValueType.varchar:
+        return 'VARCHAR';
+      case MeasureValueType.boolean:
+        return 'BOOLEAN';
+    }
+  }
+}
+
+extension on String {
+  MeasureValueType toMeasureValueType() {
+    switch (this) {
+      case 'DOUBLE':
+        return MeasureValueType.double;
+      case 'BIGINT':
+        return MeasureValueType.bigint;
+      case 'VARCHAR':
+        return MeasureValueType.varchar;
+      case 'BOOLEAN':
+        return MeasureValueType.boolean;
+    }
+    throw Exception('$this is not known in enum MeasureValueType');
+  }
 }
 
 /// Record represents a time series data point being written into Timestream.
@@ -1287,48 +1330,36 @@ enum MeasureValueType {
 /// the value type which is the data type of the measure value. In addition, the
 /// record contains the timestamp when the measure was collected that the
 /// timestamp unit which represents the granularity of the timestamp.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Record {
   /// Contains the list of dimensions for time series data points.
-  @_s.JsonKey(name: 'Dimensions')
-  final List<Dimension> dimensions;
+  final List<Dimension>? dimensions;
 
   /// Measure represents the data attribute of the time series. For example, the
   /// CPU utilization of an EC2 instance or the RPM of a wind turbine are
   /// measures.
-  @_s.JsonKey(name: 'MeasureName')
-  final String measureName;
+  final String? measureName;
 
   /// Contains the measure value for the time series data point.
-  @_s.JsonKey(name: 'MeasureValue')
-  final String measureValue;
+  final String? measureValue;
 
   /// Contains the data type of the measure value for the time series data point.
-  @_s.JsonKey(name: 'MeasureValueType')
-  final MeasureValueType measureValueType;
+  final MeasureValueType? measureValueType;
 
   /// Contains the time at which the measure value for the data point was
   /// collected. The time value plus the unit provides the time elapsed since the
   /// epoch. For example, if the time value is <code>12345</code> and the unit is
   /// <code>ms</code>, then <code>12345 ms</code> have elapsed since the epoch.
-  @_s.JsonKey(name: 'Time')
-  final String time;
+  final String? time;
 
   /// The granularity of the timestamp unit. It indicates if the time value is in
   /// seconds, milliseconds, nanoseconds or other supported values.
-  @_s.JsonKey(name: 'TimeUnit')
-  final TimeUnit timeUnit;
+  final TimeUnit? timeUnit;
 
   /// 64-bit attribute used for record updates. Write requests for duplicate data
   /// with a higher version number will update the existing measure value and
   /// version. In cases where the measure value is the same, <code>Version</code>
   /// will still be updated . Default value is to 1.
-  @_s.JsonKey(name: 'Version')
-  final int version;
+  final int? version;
 
   Record({
     this.dimensions,
@@ -1339,69 +1370,100 @@ class Record {
     this.timeUnit,
     this.version,
   });
-  Map<String, dynamic> toJson() => _$RecordToJson(this);
+
+  factory Record.fromJson(Map<String, dynamic> json) {
+    return Record(
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      measureName: json['MeasureName'] as String?,
+      measureValue: json['MeasureValue'] as String?,
+      measureValueType:
+          (json['MeasureValueType'] as String?)?.toMeasureValueType(),
+      time: json['Time'] as String?,
+      timeUnit: (json['TimeUnit'] as String?)?.toTimeUnit(),
+      version: json['Version'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dimensions = this.dimensions;
+    final measureName = this.measureName;
+    final measureValue = this.measureValue;
+    final measureValueType = this.measureValueType;
+    final time = this.time;
+    final timeUnit = this.timeUnit;
+    final version = this.version;
+    return {
+      if (dimensions != null) 'Dimensions': dimensions,
+      if (measureName != null) 'MeasureName': measureName,
+      if (measureValue != null) 'MeasureValue': measureValue,
+      if (measureValueType != null)
+        'MeasureValueType': measureValueType.toValue(),
+      if (time != null) 'Time': time,
+      if (timeUnit != null) 'TimeUnit': timeUnit.toValue(),
+      if (version != null) 'Version': version,
+    };
+  }
 }
 
 /// Retention properties contain the duration for which your time series data
 /// must be stored in the magnetic store and the memory store.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RetentionProperties {
   /// The duration for which data must be stored in the magnetic store.
-  @_s.JsonKey(name: 'MagneticStoreRetentionPeriodInDays')
   final int magneticStoreRetentionPeriodInDays;
 
   /// The duration for which data must be stored in the memory store.
-  @_s.JsonKey(name: 'MemoryStoreRetentionPeriodInHours')
   final int memoryStoreRetentionPeriodInHours;
 
   RetentionProperties({
-    @_s.required this.magneticStoreRetentionPeriodInDays,
-    @_s.required this.memoryStoreRetentionPeriodInHours,
+    required this.magneticStoreRetentionPeriodInDays,
+    required this.memoryStoreRetentionPeriodInHours,
   });
-  factory RetentionProperties.fromJson(Map<String, dynamic> json) =>
-      _$RetentionPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RetentionPropertiesToJson(this);
+  factory RetentionProperties.fromJson(Map<String, dynamic> json) {
+    return RetentionProperties(
+      magneticStoreRetentionPeriodInDays:
+          json['MagneticStoreRetentionPeriodInDays'] as int,
+      memoryStoreRetentionPeriodInHours:
+          json['MemoryStoreRetentionPeriodInHours'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final magneticStoreRetentionPeriodInDays =
+        this.magneticStoreRetentionPeriodInDays;
+    final memoryStoreRetentionPeriodInHours =
+        this.memoryStoreRetentionPeriodInHours;
+    return {
+      'MagneticStoreRetentionPeriodInDays': magneticStoreRetentionPeriodInDays,
+      'MemoryStoreRetentionPeriodInHours': memoryStoreRetentionPeriodInHours,
+    };
+  }
 }
 
 /// Table represents a database table in Timestream. Tables contain one or more
 /// related time series. You can modify the retention duration of the memory
 /// store and the magnetic store for a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Table {
   /// The Amazon Resource Name that uniquely identifies this table.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// The time when the Timestream table was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationTime')
-  final DateTime creationTime;
+  final DateTime? creationTime;
 
   /// The name of the Timestream database that contains this table.
-  @_s.JsonKey(name: 'DatabaseName')
-  final String databaseName;
+  final String? databaseName;
 
   /// The time when the Timestream table was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The retention duration for the memory store and magnetic store.
-  @_s.JsonKey(name: 'RetentionProperties')
-  final RetentionProperties retentionProperties;
+  final RetentionProperties? retentionProperties;
 
   /// The name of the Timestream table.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
+  final String? tableName;
 
   /// The current state of the table:
   ///
@@ -1413,8 +1475,7 @@ class Table {
   /// <code>ACTIVE</code> - The table is ready for use.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'TableStatus')
-  final TableStatus tableStatus;
+  final TableStatus? tableStatus;
 
   Table({
     this.arn,
@@ -1425,141 +1486,247 @@ class Table {
     this.tableName,
     this.tableStatus,
   });
-  factory Table.fromJson(Map<String, dynamic> json) => _$TableFromJson(json);
+
+  factory Table.fromJson(Map<String, dynamic> json) {
+    return Table(
+      arn: json['Arn'] as String?,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      databaseName: json['DatabaseName'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      retentionProperties: json['RetentionProperties'] != null
+          ? RetentionProperties.fromJson(
+              json['RetentionProperties'] as Map<String, dynamic>)
+          : null,
+      tableName: json['TableName'] as String?,
+      tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final creationTime = this.creationTime;
+    final databaseName = this.databaseName;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final retentionProperties = this.retentionProperties;
+    final tableName = this.tableName;
+    final tableStatus = this.tableStatus;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (databaseName != null) 'DatabaseName': databaseName,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (retentionProperties != null)
+        'RetentionProperties': retentionProperties,
+      if (tableName != null) 'TableName': tableName,
+      if (tableStatus != null) 'TableStatus': tableStatus.toValue(),
+    };
+  }
 }
 
 enum TableStatus {
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETING')
   deleting,
+}
+
+extension on TableStatus {
+  String toValue() {
+    switch (this) {
+      case TableStatus.active:
+        return 'ACTIVE';
+      case TableStatus.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  TableStatus toTableStatus() {
+    switch (this) {
+      case 'ACTIVE':
+        return TableStatus.active;
+      case 'DELETING':
+        return TableStatus.deleting;
+    }
+    throw Exception('$this is not known in enum TableStatus');
+  }
 }
 
 /// A tag is a label that you assign to a Timestream database and/or table. Each
 /// tag consists of a key and an optional value, both of which you define. Tags
 /// enable you to categorize databases and/or tables, for example, by purpose,
 /// owner, or environment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag. Tag keys are case sensitive.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag. Tag values are case-sensitive and can be null.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum TimeUnit {
-  @_s.JsonValue('MILLISECONDS')
   milliseconds,
-  @_s.JsonValue('SECONDS')
   seconds,
-  @_s.JsonValue('MICROSECONDS')
   microseconds,
-  @_s.JsonValue('NANOSECONDS')
   nanoseconds,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UntagResourceResponse {
-  UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+extension on TimeUnit {
+  String toValue() {
+    switch (this) {
+      case TimeUnit.milliseconds:
+        return 'MILLISECONDS';
+      case TimeUnit.seconds:
+        return 'SECONDS';
+      case TimeUnit.microseconds:
+        return 'MICROSECONDS';
+      case TimeUnit.nanoseconds:
+        return 'NANOSECONDS';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  TimeUnit toTimeUnit() {
+    switch (this) {
+      case 'MILLISECONDS':
+        return TimeUnit.milliseconds;
+      case 'SECONDS':
+        return TimeUnit.seconds;
+      case 'MICROSECONDS':
+        return TimeUnit.microseconds;
+      case 'NANOSECONDS':
+        return TimeUnit.nanoseconds;
+    }
+    throw Exception('$this is not known in enum TimeUnit');
+  }
+}
+
+class UntagResourceResponse {
+  UntagResourceResponse();
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateDatabaseResponse {
-  @_s.JsonKey(name: 'Database')
-  final Database database;
+  final Database? database;
 
   UpdateDatabaseResponse({
     this.database,
   });
-  factory UpdateDatabaseResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDatabaseResponseFromJson(json);
+
+  factory UpdateDatabaseResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDatabaseResponse(
+      database: json['Database'] != null
+          ? Database.fromJson(json['Database'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final database = this.database;
+    return {
+      if (database != null) 'Database': database,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTableResponse {
   /// The updated Timestream table.
-  @_s.JsonKey(name: 'Table')
-  final Table table;
+  final Table? table;
 
   UpdateTableResponse({
     this.table,
   });
-  factory UpdateTableResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTableResponseFromJson(json);
+
+  factory UpdateTableResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateTableResponse(
+      table: json['Table'] != null
+          ? Table.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final table = this.table;
+    return {
+      if (table != null) 'Table': table,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidEndpointException extends _s.GenericAwsException {
-  InvalidEndpointException({String type, String message})
+  InvalidEndpointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointException', message: message);
 }
 
 class RejectedRecordsException extends _s.GenericAwsException {
-  RejectedRecordsException({String type, String message})
+  RejectedRecordsException({String? type, String? message})
       : super(type: type, code: 'RejectedRecordsException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -1567,12 +1734,12 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

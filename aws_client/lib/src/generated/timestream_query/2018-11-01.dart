@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-11-01.g.dart';
 
 ///
 class TimestreamQuery {
   final _s.JsonProtocol _protocol;
   TimestreamQuery({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,7 +54,7 @@ class TimestreamQuery {
   /// The id of the query that needs to be cancelled. <code>QueryID</code> is
   /// returned as part of QueryResult.
   Future<CancelQueryResponse> cancelQuery({
-    @_s.required String queryId,
+    required String queryId,
   }) async {
     ArgumentError.checkNotNull(queryId, 'queryId');
     _s.validateStringLength(
@@ -69,12 +62,6 @@ class TimestreamQuery {
       queryId,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'queryId',
-      queryId,
-      r'''[a-zA-Z0-9]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -183,10 +170,10 @@ class TimestreamQuery {
   /// Parameter [nextToken] :
   /// A pagination token passed to get a set of results.
   Future<QueryResponse> query({
-    @_s.required String queryString,
-    String clientToken,
-    int maxRows,
-    String nextToken,
+    required String queryString,
+    String? clientToken,
+    int? maxRows,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(queryString, 'queryString');
     _s.validateStringLength(
@@ -223,79 +210,82 @@ class TimestreamQuery {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelQueryResponse {
   /// A <code>CancellationMessage</code> is returned when a
   /// <code>CancelQuery</code> request for the query specified by
   /// <code>QueryId</code> has already been issued.
-  @_s.JsonKey(name: 'CancellationMessage')
-  final String cancellationMessage;
+  final String? cancellationMessage;
 
   CancelQueryResponse({
     this.cancellationMessage,
   });
-  factory CancelQueryResponse.fromJson(Map<String, dynamic> json) =>
-      _$CancelQueryResponseFromJson(json);
+
+  factory CancelQueryResponse.fromJson(Map<String, dynamic> json) {
+    return CancelQueryResponse(
+      cancellationMessage: json['CancellationMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancellationMessage = this.cancellationMessage;
+    return {
+      if (cancellationMessage != null)
+        'CancellationMessage': cancellationMessage,
+    };
+  }
 }
 
 /// Contains the meta data for query results such as the column names, data
 /// types, and other attributes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnInfo {
   /// The data type of the result set column. The data type can be a scalar or
   /// complex. Scalar data types are integers, strings, doubles, booleans, and
   /// others. Complex data types are types such as arrays, rows, and others.
-  @_s.JsonKey(name: 'Type')
   final Type type;
 
   /// The name of the result set column. The name of the result set is available
   /// for columns of all data types except for arrays.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   ColumnInfo({
-    @_s.required this.type,
+    required this.type,
     this.name,
   });
-  factory ColumnInfo.fromJson(Map<String, dynamic> json) =>
-      _$ColumnInfoFromJson(json);
+
+  factory ColumnInfo.fromJson(Map<String, dynamic> json) {
+    return ColumnInfo(
+      type: Type.fromJson(json['Type'] as Map<String, dynamic>),
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final name = this.name;
+    return {
+      'Type': type,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
 /// Datum represents a single data point in a query result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Datum {
   /// Indicates if the data point is an array.
-  @_s.JsonKey(name: 'ArrayValue')
-  final List<Datum> arrayValue;
+  final List<Datum>? arrayValue;
 
   /// Indicates if the data point is null.
-  @_s.JsonKey(name: 'NullValue')
-  final bool nullValue;
+  final bool? nullValue;
 
   /// Indicates if the data point is a row.
-  @_s.JsonKey(name: 'RowValue')
-  final Row rowValue;
+  final Row? rowValue;
 
   /// Indicates if the data point is a scalar value such as integer, string,
   /// double, or boolean.
-  @_s.JsonKey(name: 'ScalarValue')
-  final String scalarValue;
+  final String? scalarValue;
 
   /// Indicates if the data point is of timeseries data type.
-  @_s.JsonKey(name: 'TimeSeriesValue')
-  final List<TimeSeriesDataPoint> timeSeriesValue;
+  final List<TimeSeriesDataPoint>? timeSeriesValue;
 
   Datum({
     this.arrayValue,
@@ -304,165 +294,301 @@ class Datum {
     this.scalarValue,
     this.timeSeriesValue,
   });
-  factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+
+  factory Datum.fromJson(Map<String, dynamic> json) {
+    return Datum(
+      arrayValue: (json['ArrayValue'] as List?)
+          ?.whereNotNull()
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nullValue: json['NullValue'] as bool?,
+      rowValue: json['RowValue'] != null
+          ? Row.fromJson(json['RowValue'] as Map<String, dynamic>)
+          : null,
+      scalarValue: json['ScalarValue'] as String?,
+      timeSeriesValue: (json['TimeSeriesValue'] as List?)
+          ?.whereNotNull()
+          .map((e) => TimeSeriesDataPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arrayValue = this.arrayValue;
+    final nullValue = this.nullValue;
+    final rowValue = this.rowValue;
+    final scalarValue = this.scalarValue;
+    final timeSeriesValue = this.timeSeriesValue;
+    return {
+      if (arrayValue != null) 'ArrayValue': arrayValue,
+      if (nullValue != null) 'NullValue': nullValue,
+      if (rowValue != null) 'RowValue': rowValue,
+      if (scalarValue != null) 'ScalarValue': scalarValue,
+      if (timeSeriesValue != null) 'TimeSeriesValue': timeSeriesValue,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEndpointsResponse {
   /// An <code>Endpoints</code> object is returned when a
   /// <code>DescribeEndpoints</code> request is made.
-  @_s.JsonKey(name: 'Endpoints')
   final List<Endpoint> endpoints;
 
   DescribeEndpointsResponse({
-    @_s.required this.endpoints,
+    required this.endpoints,
   });
-  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEndpointsResponseFromJson(json);
+
+  factory DescribeEndpointsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEndpointsResponse(
+      endpoints: (json['Endpoints'] as List)
+          .whereNotNull()
+          .map((e) => Endpoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endpoints = this.endpoints;
+    return {
+      'Endpoints': endpoints,
+    };
+  }
 }
 
 /// Represents an available endpoint against which to make API calls agaisnt, as
 /// well as the TTL for that endpoint.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Endpoint {
   /// An endpoint address.
-  @_s.JsonKey(name: 'Address')
   final String address;
 
   /// The TTL for the endpoint, in minutes.
-  @_s.JsonKey(name: 'CachePeriodInMinutes')
   final int cachePeriodInMinutes;
 
   Endpoint({
-    @_s.required this.address,
-    @_s.required this.cachePeriodInMinutes,
+    required this.address,
+    required this.cachePeriodInMinutes,
   });
-  factory Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$EndpointFromJson(json);
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: json['Address'] as String,
+      cachePeriodInMinutes: json['CachePeriodInMinutes'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final cachePeriodInMinutes = this.cachePeriodInMinutes;
+    return {
+      'Address': address,
+      'CachePeriodInMinutes': cachePeriodInMinutes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryResponse {
   /// The column data types of the returned result set.
-  @_s.JsonKey(name: 'ColumnInfo')
   final List<ColumnInfo> columnInfo;
 
   /// A unique ID for the given query.
-  @_s.JsonKey(name: 'QueryId')
   final String queryId;
 
   /// The result set rows returned by the query.
-  @_s.JsonKey(name: 'Rows')
   final List<Row> rows;
 
   /// A pagination token that can be used again on a <code>Query</code> call to
   /// get the next set of results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Information about the status of the query, including progress and bytes
   /// scannned.
-  @_s.JsonKey(name: 'QueryStatus')
-  final QueryStatus queryStatus;
+  final QueryStatus? queryStatus;
 
   QueryResponse({
-    @_s.required this.columnInfo,
-    @_s.required this.queryId,
-    @_s.required this.rows,
+    required this.columnInfo,
+    required this.queryId,
+    required this.rows,
     this.nextToken,
     this.queryStatus,
   });
-  factory QueryResponse.fromJson(Map<String, dynamic> json) =>
-      _$QueryResponseFromJson(json);
+
+  factory QueryResponse.fromJson(Map<String, dynamic> json) {
+    return QueryResponse(
+      columnInfo: (json['ColumnInfo'] as List)
+          .whereNotNull()
+          .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queryId: json['QueryId'] as String,
+      rows: (json['Rows'] as List)
+          .whereNotNull()
+          .map((e) => Row.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      queryStatus: json['QueryStatus'] != null
+          ? QueryStatus.fromJson(json['QueryStatus'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnInfo = this.columnInfo;
+    final queryId = this.queryId;
+    final rows = this.rows;
+    final nextToken = this.nextToken;
+    final queryStatus = this.queryStatus;
+    return {
+      'ColumnInfo': columnInfo,
+      'QueryId': queryId,
+      'Rows': rows,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (queryStatus != null) 'QueryStatus': queryStatus,
+    };
+  }
 }
 
 /// Information about the status of the query, including progress and bytes
 /// scannned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryStatus {
   /// The amount of data scanned by the query in bytes that you will be charged
   /// for. This is a cumulative sum and represents the total amount of data that
   /// you will be charged for since the query was started. The charge is applied
   /// only once and is either applied when the query completes execution or when
   /// the query is cancelled.
-  @_s.JsonKey(name: 'CumulativeBytesMetered')
-  final int cumulativeBytesMetered;
+  final int? cumulativeBytesMetered;
 
   /// The amount of data scanned by the query in bytes. This is a cumulative sum
   /// and represents the total amount of bytes scanned since the query was
   /// started.
-  @_s.JsonKey(name: 'CumulativeBytesScanned')
-  final int cumulativeBytesScanned;
+  final int? cumulativeBytesScanned;
 
   /// The progress of the query, expressed as a percentage.
-  @_s.JsonKey(name: 'ProgressPercentage')
-  final double progressPercentage;
+  final double? progressPercentage;
 
   QueryStatus({
     this.cumulativeBytesMetered,
     this.cumulativeBytesScanned,
     this.progressPercentage,
   });
-  factory QueryStatus.fromJson(Map<String, dynamic> json) =>
-      _$QueryStatusFromJson(json);
+
+  factory QueryStatus.fromJson(Map<String, dynamic> json) {
+    return QueryStatus(
+      cumulativeBytesMetered: json['CumulativeBytesMetered'] as int?,
+      cumulativeBytesScanned: json['CumulativeBytesScanned'] as int?,
+      progressPercentage: json['ProgressPercentage'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cumulativeBytesMetered = this.cumulativeBytesMetered;
+    final cumulativeBytesScanned = this.cumulativeBytesScanned;
+    final progressPercentage = this.progressPercentage;
+    return {
+      if (cumulativeBytesMetered != null)
+        'CumulativeBytesMetered': cumulativeBytesMetered,
+      if (cumulativeBytesScanned != null)
+        'CumulativeBytesScanned': cumulativeBytesScanned,
+      if (progressPercentage != null) 'ProgressPercentage': progressPercentage,
+    };
+  }
 }
 
 /// Represents a single row in the query results.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Row {
   /// List of data points in a single row of the result set.
-  @_s.JsonKey(name: 'Data')
   final List<Datum> data;
 
   Row({
-    @_s.required this.data,
+    required this.data,
   });
-  factory Row.fromJson(Map<String, dynamic> json) => _$RowFromJson(json);
+
+  factory Row.fromJson(Map<String, dynamic> json) {
+    return Row(
+      data: (json['Data'] as List)
+          .whereNotNull()
+          .map((e) => Datum.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = this.data;
+    return {
+      'Data': data,
+    };
+  }
 }
 
 enum ScalarType {
-  @_s.JsonValue('VARCHAR')
   varchar,
-  @_s.JsonValue('BOOLEAN')
   boolean,
-  @_s.JsonValue('BIGINT')
   bigint,
-  @_s.JsonValue('DOUBLE')
   double,
-  @_s.JsonValue('TIMESTAMP')
   timestamp,
-  @_s.JsonValue('DATE')
   date,
-  @_s.JsonValue('TIME')
   time,
-  @_s.JsonValue('INTERVAL_DAY_TO_SECOND')
   intervalDayToSecond,
-  @_s.JsonValue('INTERVAL_YEAR_TO_MONTH')
   intervalYearToMonth,
-  @_s.JsonValue('UNKNOWN')
   unknown,
-  @_s.JsonValue('INTEGER')
   integer,
+}
+
+extension on ScalarType {
+  String toValue() {
+    switch (this) {
+      case ScalarType.varchar:
+        return 'VARCHAR';
+      case ScalarType.boolean:
+        return 'BOOLEAN';
+      case ScalarType.bigint:
+        return 'BIGINT';
+      case ScalarType.double:
+        return 'DOUBLE';
+      case ScalarType.timestamp:
+        return 'TIMESTAMP';
+      case ScalarType.date:
+        return 'DATE';
+      case ScalarType.time:
+        return 'TIME';
+      case ScalarType.intervalDayToSecond:
+        return 'INTERVAL_DAY_TO_SECOND';
+      case ScalarType.intervalYearToMonth:
+        return 'INTERVAL_YEAR_TO_MONTH';
+      case ScalarType.unknown:
+        return 'UNKNOWN';
+      case ScalarType.integer:
+        return 'INTEGER';
+    }
+  }
+}
+
+extension on String {
+  ScalarType toScalarType() {
+    switch (this) {
+      case 'VARCHAR':
+        return ScalarType.varchar;
+      case 'BOOLEAN':
+        return ScalarType.boolean;
+      case 'BIGINT':
+        return ScalarType.bigint;
+      case 'DOUBLE':
+        return ScalarType.double;
+      case 'TIMESTAMP':
+        return ScalarType.timestamp;
+      case 'DATE':
+        return ScalarType.date;
+      case 'TIME':
+        return ScalarType.time;
+      case 'INTERVAL_DAY_TO_SECOND':
+        return ScalarType.intervalDayToSecond;
+      case 'INTERVAL_YEAR_TO_MONTH':
+        return ScalarType.intervalYearToMonth;
+      case 'UNKNOWN':
+        return ScalarType.unknown;
+      case 'INTEGER':
+        return ScalarType.integer;
+    }
+    throw Exception('$this is not known in enum ScalarType');
+  }
 }
 
 /// The timeseries datatype represents the values of a measure over time. A time
@@ -470,54 +596,52 @@ enum ScalarType {
 /// sorted in ascending order of time. A TimeSeriesDataPoint is a single data
 /// point in the timeseries. It represents a tuple of (time, measure value) in a
 /// timeseries.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimeSeriesDataPoint {
   /// The timestamp when the measure value was collected.
-  @_s.JsonKey(name: 'Time')
   final String time;
 
   /// The measure value for the data point.
-  @_s.JsonKey(name: 'Value')
   final Datum value;
 
   TimeSeriesDataPoint({
-    @_s.required this.time,
-    @_s.required this.value,
+    required this.time,
+    required this.value,
   });
-  factory TimeSeriesDataPoint.fromJson(Map<String, dynamic> json) =>
-      _$TimeSeriesDataPointFromJson(json);
+
+  factory TimeSeriesDataPoint.fromJson(Map<String, dynamic> json) {
+    return TimeSeriesDataPoint(
+      time: json['Time'] as String,
+      value: Datum.fromJson(json['Value'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final time = this.time;
+    final value = this.value;
+    return {
+      'Time': time,
+      'Value': value,
+    };
+  }
 }
 
 /// Contains the data type of a column in a query result set. The data type can
 /// be scalar or complex. The supported scalar data types are integers, boolean,
 /// string, double, timestamp, date, time, and intervals. The supported complex
 /// data types are arrays, rows, and timeseries.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Type {
   /// Indicates if the column is an array.
-  @_s.JsonKey(name: 'ArrayColumnInfo')
-  final ColumnInfo arrayColumnInfo;
+  final ColumnInfo? arrayColumnInfo;
 
   /// Indicates if the column is a row.
-  @_s.JsonKey(name: 'RowColumnInfo')
-  final List<ColumnInfo> rowColumnInfo;
+  final List<ColumnInfo>? rowColumnInfo;
 
   /// Indicates if the column is of type string, integer, boolean, double,
   /// timestamp, date, time.
-  @_s.JsonKey(name: 'ScalarType')
-  final ScalarType scalarType;
+  final ScalarType? scalarType;
 
   /// Indicates if the column is a timeseries data type.
-  @_s.JsonKey(name: 'TimeSeriesMeasureValueColumnInfo')
-  final ColumnInfo timeSeriesMeasureValueColumnInfo;
+  final ColumnInfo? timeSeriesMeasureValueColumnInfo;
 
   Type({
     this.arrayColumnInfo,
@@ -525,41 +649,73 @@ class Type {
     this.scalarType,
     this.timeSeriesMeasureValueColumnInfo,
   });
-  factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
+
+  factory Type.fromJson(Map<String, dynamic> json) {
+    return Type(
+      arrayColumnInfo: json['ArrayColumnInfo'] != null
+          ? ColumnInfo.fromJson(json['ArrayColumnInfo'] as Map<String, dynamic>)
+          : null,
+      rowColumnInfo: (json['RowColumnInfo'] as List?)
+          ?.whereNotNull()
+          .map((e) => ColumnInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      scalarType: (json['ScalarType'] as String?)?.toScalarType(),
+      timeSeriesMeasureValueColumnInfo:
+          json['TimeSeriesMeasureValueColumnInfo'] != null
+              ? ColumnInfo.fromJson(json['TimeSeriesMeasureValueColumnInfo']
+                  as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arrayColumnInfo = this.arrayColumnInfo;
+    final rowColumnInfo = this.rowColumnInfo;
+    final scalarType = this.scalarType;
+    final timeSeriesMeasureValueColumnInfo =
+        this.timeSeriesMeasureValueColumnInfo;
+    return {
+      if (arrayColumnInfo != null) 'ArrayColumnInfo': arrayColumnInfo,
+      if (rowColumnInfo != null) 'RowColumnInfo': rowColumnInfo,
+      if (scalarType != null) 'ScalarType': scalarType.toValue(),
+      if (timeSeriesMeasureValueColumnInfo != null)
+        'TimeSeriesMeasureValueColumnInfo': timeSeriesMeasureValueColumnInfo,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class InvalidEndpointException extends _s.GenericAwsException {
-  InvalidEndpointException({String type, String message})
+  InvalidEndpointException({String? type, String? message})
       : super(type: type, code: 'InvalidEndpointException', message: message);
 }
 
 class QueryExecutionException extends _s.GenericAwsException {
-  QueryExecutionException({String type, String message})
+  QueryExecutionException({String? type, String? message})
       : super(type: type, code: 'QueryExecutionException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

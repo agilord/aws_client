@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-03-01.g.dart';
 
 /// Amazon Honeycode is a fully managed service that allows you to quickly build
 /// mobile and web apps for teams—without programming. Build Honeycode apps for
@@ -33,10 +26,10 @@ part '2020-03-01.g.dart';
 class Honeycode {
   final _s.RestJsonProtocol _protocol;
   Honeycode({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -101,10 +94,10 @@ class Honeycode {
   /// Note that request tokens are valid only for a few minutes. You cannot use
   /// request tokens to dedupe requests spanning hours or days.
   Future<BatchCreateTableRowsResult> batchCreateTableRows({
-    @_s.required List<CreateRowData> rowsToCreate,
-    @_s.required String tableId,
-    @_s.required String workbookId,
-    String clientRequestToken,
+    required List<CreateRowData> rowsToCreate,
+    required String tableId,
+    required String workbookId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(rowsToCreate, 'rowsToCreate');
     ArgumentError.checkNotNull(tableId, 'tableId');
@@ -115,12 +108,6 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
@@ -129,22 +116,11 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       32,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^(?!\s*$).+''',
     );
     final $payload = <String, dynamic>{
       'rowsToCreate': rowsToCreate,
@@ -202,10 +178,10 @@ class Honeycode {
   /// Note that request tokens are valid only for a few minutes. You cannot use
   /// request tokens to dedupe requests spanning hours or days.
   Future<BatchDeleteTableRowsResult> batchDeleteTableRows({
-    @_s.required List<String> rowIds,
-    @_s.required String tableId,
-    @_s.required String workbookId,
-    String clientRequestToken,
+    required List<String> rowIds,
+    required String tableId,
+    required String workbookId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(rowIds, 'rowIds');
     ArgumentError.checkNotNull(tableId, 'tableId');
@@ -216,12 +192,6 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
@@ -230,22 +200,11 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       32,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^(?!\s*$).+''',
     );
     final $payload = <String, dynamic>{
       'rowIds': rowIds,
@@ -311,10 +270,10 @@ class Honeycode {
   /// Note that request tokens are valid only for a few minutes. You cannot use
   /// request tokens to dedupe requests spanning hours or days.
   Future<BatchUpdateTableRowsResult> batchUpdateTableRows({
-    @_s.required List<UpdateRowData> rowsToUpdate,
-    @_s.required String tableId,
-    @_s.required String workbookId,
-    String clientRequestToken,
+    required List<UpdateRowData> rowsToUpdate,
+    required String tableId,
+    required String workbookId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(rowsToUpdate, 'rowsToUpdate');
     ArgumentError.checkNotNull(tableId, 'tableId');
@@ -325,12 +284,6 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
@@ -339,22 +292,11 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       32,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^(?!\s*$).+''',
     );
     final $payload = <String, dynamic>{
       'rowsToUpdate': rowsToUpdate,
@@ -428,10 +370,10 @@ class Honeycode {
   /// Note that request tokens are valid only for a few minutes. You cannot use
   /// request tokens to dedupe requests spanning hours or days.
   Future<BatchUpsertTableRowsResult> batchUpsertTableRows({
-    @_s.required List<UpsertRowData> rowsToUpsert,
-    @_s.required String tableId,
-    @_s.required String workbookId,
-    String clientRequestToken,
+    required List<UpsertRowData> rowsToUpsert,
+    required String tableId,
+    required String workbookId,
+    String? clientRequestToken,
   }) async {
     ArgumentError.checkNotNull(rowsToUpsert, 'rowsToUpsert');
     ArgumentError.checkNotNull(tableId, 'tableId');
@@ -442,12 +384,6 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
@@ -456,22 +392,11 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       32,
       64,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^(?!\s*$).+''',
     );
     final $payload = <String, dynamic>{
       'rowsToUpsert': rowsToUpsert,
@@ -516,9 +441,9 @@ class Honeycode {
   /// If a workbook with the specified id could not be found, this API throws
   /// ResourceNotFoundException.
   Future<DescribeTableDataImportJobResult> describeTableDataImportJob({
-    @_s.required String jobId,
-    @_s.required String tableId,
-    @_s.required String workbookId,
+    required String jobId,
+    required String tableId,
+    required String workbookId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -526,12 +451,6 @@ class Honeycode {
       jobId,
       1,
       100,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''^[^\n\r\x00\x08\x0B\x0C\x0E\x1F]*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tableId, 'tableId');
@@ -542,24 +461,12 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
       workbookId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -614,12 +521,12 @@ class Honeycode {
   /// which currently has only one property, rawValue, which holds the value of
   /// the variable to be passed to the screen.
   Future<GetScreenDataResult> getScreenData({
-    @_s.required String appId,
-    @_s.required String screenId,
-    @_s.required String workbookId,
-    int maxResults,
-    String nextToken,
-    Map<String, VariableValue> variables,
+    required String appId,
+    required String screenId,
+    required String workbookId,
+    int? maxResults,
+    String? nextToken,
+    Map<String, VariableValue>? variables,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -627,12 +534,6 @@ class Honeycode {
       appId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(screenId, 'screenId');
@@ -643,24 +544,12 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'screenId',
-      screenId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
       workbookId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -674,11 +563,6 @@ class Honeycode {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?!\s*$).+''',
     );
     final $payload = <String, dynamic>{
       'appId': appId,
@@ -748,13 +632,13 @@ class Honeycode {
   /// to the screen. Any variables defined in a screen are required to be passed
   /// in the call.
   Future<InvokeScreenAutomationResult> invokeScreenAutomation({
-    @_s.required String appId,
-    @_s.required String screenAutomationId,
-    @_s.required String screenId,
-    @_s.required String workbookId,
-    String clientRequestToken,
-    String rowId,
-    Map<String, VariableValue> variables,
+    required String appId,
+    required String screenAutomationId,
+    required String screenId,
+    required String workbookId,
+    String? clientRequestToken,
+    String? rowId,
+    Map<String, VariableValue>? variables,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     _s.validateStringLength(
@@ -762,12 +646,6 @@ class Honeycode {
       appId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'appId',
-      appId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(screenAutomationId, 'screenAutomationId');
@@ -778,24 +656,12 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'screenAutomationId',
-      screenAutomationId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(screenId, 'screenId');
     _s.validateStringLength(
       'screenId',
       screenId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'screenId',
-      screenId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
@@ -806,33 +672,17 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientRequestToken',
       clientRequestToken,
       32,
       64,
     );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^(?!\s*$).+''',
-    );
     _s.validateStringLength(
       'rowId',
       rowId,
       77,
       77,
-    );
-    _s.validateStringPattern(
-      'rowId',
-      rowId,
-      r'''row:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
     );
     final $payload = <String, dynamic>{
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
@@ -880,9 +730,9 @@ class Honeycode {
   /// Pagination tokens expire after 1 hour. If you use a token that was
   /// returned more than an hour back, the API will throw ValidationException.
   Future<ListTableColumnsResult> listTableColumns({
-    @_s.required String tableId,
-    @_s.required String workbookId,
-    String nextToken,
+    required String tableId,
+    required String workbookId,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(tableId, 'tableId');
     _s.validateStringLength(
@@ -890,12 +740,6 @@ class Honeycode {
       tableId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
@@ -906,22 +750,11 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'nextToken',
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?!\s*$).+''',
     );
     final $query = <String, List<String>>{
       if (nextToken != null) 'nextToken': [nextToken],
@@ -976,11 +809,11 @@ class Honeycode {
   /// list, then only the specified row ids are returned in the result. If no
   /// row ids are specified here, then all the rows in the table are returned.
   Future<ListTableRowsResult> listTableRows({
-    @_s.required String tableId,
-    @_s.required String workbookId,
-    int maxResults,
-    String nextToken,
-    List<String> rowIds,
+    required String tableId,
+    required String workbookId,
+    int? maxResults,
+    String? nextToken,
+    List<String>? rowIds,
   }) async {
     ArgumentError.checkNotNull(tableId, 'tableId');
     _s.validateStringLength(
@@ -990,24 +823,12 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
       workbookId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1021,11 +842,6 @@ class Honeycode {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?!\s*$).+''',
     );
     final $payload = <String, dynamic>{
       if (maxResults != null) 'maxResults': maxResults,
@@ -1069,9 +885,9 @@ class Honeycode {
   /// Pagination tokens expire after 1 hour. If you use a token that was
   /// returned more than an hour back, the API will throw ValidationException.
   Future<ListTablesResult> listTables({
-    @_s.required String workbookId,
-    int maxResults,
-    String nextToken,
+    required String workbookId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
@@ -1079,12 +895,6 @@ class Honeycode {
       workbookId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1098,11 +908,6 @@ class Honeycode {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?!\s*$).+''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
@@ -1155,11 +960,11 @@ class Honeycode {
   /// Pagination tokens expire after 1 hour. If you use a token that was
   /// returned more than an hour back, the API will throw ValidationException.
   Future<QueryTableRowsResult> queryTableRows({
-    @_s.required Filter filterFormula,
-    @_s.required String tableId,
-    @_s.required String workbookId,
-    int maxResults,
-    String nextToken,
+    required Filter filterFormula,
+    required String tableId,
+    required String workbookId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(filterFormula, 'filterFormula');
     ArgumentError.checkNotNull(tableId, 'tableId');
@@ -1170,24 +975,12 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'tableId',
-      tableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
       'workbookId',
       workbookId,
       36,
       36,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1201,11 +994,6 @@ class Honeycode {
       nextToken,
       1,
       1024,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''^(?!\s*$).+''',
     );
     final $payload = <String, dynamic>{
       'filterFormula': filterFormula,
@@ -1269,12 +1057,12 @@ class Honeycode {
   /// If a workbook with the specified id could not be found, this API throws
   /// ResourceNotFoundException.
   Future<StartTableDataImportJobResult> startTableDataImportJob({
-    @_s.required String clientRequestToken,
-    @_s.required ImportSourceDataFormat dataFormat,
-    @_s.required ImportDataSource dataSource,
-    @_s.required String destinationTableId,
-    @_s.required ImportOptions importOptions,
-    @_s.required String workbookId,
+    required String clientRequestToken,
+    required ImportSourceDataFormat dataFormat,
+    required ImportDataSource dataSource,
+    required String destinationTableId,
+    required ImportOptions importOptions,
+    required String workbookId,
   }) async {
     ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
     _s.validateStringLength(
@@ -1282,12 +1070,6 @@ class Honeycode {
       clientRequestToken,
       32,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clientRequestToken',
-      clientRequestToken,
-      r'''^(?!\s*$).+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(dataFormat, 'dataFormat');
@@ -1300,12 +1082,6 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'destinationTableId',
-      destinationTableId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(importOptions, 'importOptions');
     ArgumentError.checkNotNull(workbookId, 'workbookId');
     _s.validateStringLength(
@@ -1315,15 +1091,9 @@ class Honeycode {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'workbookId',
-      workbookId,
-      r'''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
-      'dataFormat': dataFormat?.toValue() ?? '',
+      'dataFormat': dataFormat.toValue(),
       'dataSource': dataSource,
       'importOptions': importOptions,
     };
@@ -1338,131 +1108,171 @@ class Honeycode {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchCreateTableRowsResult {
   /// The map of batch item id to the row id that was created for that item.
-  @_s.JsonKey(name: 'createdRows')
   final Map<String, String> createdRows;
 
   /// The updated workbook cursor after adding the new rows at the end of the
   /// table.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   /// The list of batch items in the request that could not be added to the table.
   /// Each element in this list contains one item from the request that could not
   /// be added to the table along with the reason why that item could not be
   /// added.
-  @_s.JsonKey(name: 'failedBatchItems')
-  final List<FailedBatchItem> failedBatchItems;
+  final List<FailedBatchItem>? failedBatchItems;
 
   BatchCreateTableRowsResult({
-    @_s.required this.createdRows,
-    @_s.required this.workbookCursor,
+    required this.createdRows,
+    required this.workbookCursor,
     this.failedBatchItems,
   });
-  factory BatchCreateTableRowsResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchCreateTableRowsResultFromJson(json);
+
+  factory BatchCreateTableRowsResult.fromJson(Map<String, dynamic> json) {
+    return BatchCreateTableRowsResult(
+      createdRows: (json['createdRows'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+      workbookCursor: json['workbookCursor'] as int,
+      failedBatchItems: (json['failedBatchItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdRows = this.createdRows;
+    final workbookCursor = this.workbookCursor;
+    final failedBatchItems = this.failedBatchItems;
+    return {
+      'createdRows': createdRows,
+      'workbookCursor': workbookCursor,
+      if (failedBatchItems != null) 'failedBatchItems': failedBatchItems,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchDeleteTableRowsResult {
   /// The updated workbook cursor after deleting the rows from the table.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   /// The list of row ids in the request that could not be deleted from the table.
   /// Each element in this list contains one row id from the request that could
   /// not be deleted along with the reason why that item could not be deleted.
-  @_s.JsonKey(name: 'failedBatchItems')
-  final List<FailedBatchItem> failedBatchItems;
+  final List<FailedBatchItem>? failedBatchItems;
 
   BatchDeleteTableRowsResult({
-    @_s.required this.workbookCursor,
+    required this.workbookCursor,
     this.failedBatchItems,
   });
-  factory BatchDeleteTableRowsResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchDeleteTableRowsResultFromJson(json);
+
+  factory BatchDeleteTableRowsResult.fromJson(Map<String, dynamic> json) {
+    return BatchDeleteTableRowsResult(
+      workbookCursor: json['workbookCursor'] as int,
+      failedBatchItems: (json['failedBatchItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workbookCursor = this.workbookCursor;
+    final failedBatchItems = this.failedBatchItems;
+    return {
+      'workbookCursor': workbookCursor,
+      if (failedBatchItems != null) 'failedBatchItems': failedBatchItems,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpdateTableRowsResult {
   /// The updated workbook cursor after adding the new rows at the end of the
   /// table.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   /// The list of batch items in the request that could not be updated in the
   /// table. Each element in this list contains one item from the request that
   /// could not be updated in the table along with the reason why that item could
   /// not be updated.
-  @_s.JsonKey(name: 'failedBatchItems')
-  final List<FailedBatchItem> failedBatchItems;
+  final List<FailedBatchItem>? failedBatchItems;
 
   BatchUpdateTableRowsResult({
-    @_s.required this.workbookCursor,
+    required this.workbookCursor,
     this.failedBatchItems,
   });
-  factory BatchUpdateTableRowsResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchUpdateTableRowsResultFromJson(json);
+
+  factory BatchUpdateTableRowsResult.fromJson(Map<String, dynamic> json) {
+    return BatchUpdateTableRowsResult(
+      workbookCursor: json['workbookCursor'] as int,
+      failedBatchItems: (json['failedBatchItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workbookCursor = this.workbookCursor;
+    final failedBatchItems = this.failedBatchItems;
+    return {
+      'workbookCursor': workbookCursor,
+      if (failedBatchItems != null) 'failedBatchItems': failedBatchItems,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchUpsertTableRowsResult {
   /// A map with the batch item id as the key and the result of the upsert
   /// operation as the value. The result of the upsert operation specifies whether
   /// existing rows were updated or a new row was appended, along with the list of
   /// row ids that were affected.
-  @_s.JsonKey(name: 'rows')
   final Map<String, UpsertRowsResult> rows;
 
   /// The updated workbook cursor after updating or appending rows in the table.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   /// The list of batch items in the request that could not be updated or appended
   /// in the table. Each element in this list contains one item from the request
   /// that could not be updated in the table along with the reason why that item
   /// could not be updated or appended.
-  @_s.JsonKey(name: 'failedBatchItems')
-  final List<FailedBatchItem> failedBatchItems;
+  final List<FailedBatchItem>? failedBatchItems;
 
   BatchUpsertTableRowsResult({
-    @_s.required this.rows,
-    @_s.required this.workbookCursor,
+    required this.rows,
+    required this.workbookCursor,
     this.failedBatchItems,
   });
-  factory BatchUpsertTableRowsResult.fromJson(Map<String, dynamic> json) =>
-      _$BatchUpsertTableRowsResultFromJson(json);
+
+  factory BatchUpsertTableRowsResult.fromJson(Map<String, dynamic> json) {
+    return BatchUpsertTableRowsResult(
+      rows: (json['rows'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, UpsertRowsResult.fromJson(e as Map<String, dynamic>))),
+      workbookCursor: json['workbookCursor'] as int,
+      failedBatchItems: (json['failedBatchItems'] as List?)
+          ?.whereNotNull()
+          .map((e) => FailedBatchItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rows = this.rows;
+    final workbookCursor = this.workbookCursor;
+    final failedBatchItems = this.failedBatchItems;
+    return {
+      'rows': rows,
+      'workbookCursor': workbookCursor,
+      if (failedBatchItems != null) 'failedBatchItems': failedBatchItems,
+    };
+  }
 }
 
 /// An object that represents a single cell in a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Cell {
   /// The format of the cell. If this field is empty, then the format is either
   /// not specified in the workbook or the format is set to AUTO.
-  @_s.JsonKey(name: 'format')
-  final Format format;
+  final Format? format;
 
   /// The formatted value of the cell. This is the value that you see displayed in
   /// the cell in the UI.
@@ -1473,13 +1283,11 @@ class Cell {
   /// representation of the formatted date being shown in the cell in the UI. See
   /// details in the rawValue field below for how cells of different formats will
   /// have different raw and formatted values.
-  @_s.JsonKey(name: 'formattedValue')
-  final String formattedValue;
+  final String? formattedValue;
 
   /// The formula contained in the cell. This field is empty if a cell does not
   /// have a formula.
-  @_s.JsonKey(name: 'formula')
-  final String formula;
+  final String? formula;
 
   /// The raw value of the data contained in the cell. The raw value depends on
   /// the format of the data in the cell. However the attribute in the API return
@@ -1525,8 +1333,7 @@ class Cell {
   /// mentioned above, based on the auto-detected formats. If there is no
   /// auto-detected format, the raw and formatted values will be the same as the
   /// data in the cell.
-  @_s.JsonKey(name: 'rawValue')
-  final String rawValue;
+  final String? rawValue;
 
   Cell({
     this.format,
@@ -1534,230 +1341,309 @@ class Cell {
     this.formula,
     this.rawValue,
   });
-  factory Cell.fromJson(Map<String, dynamic> json) => _$CellFromJson(json);
+
+  factory Cell.fromJson(Map<String, dynamic> json) {
+    return Cell(
+      format: (json['format'] as String?)?.toFormat(),
+      formattedValue: json['formattedValue'] as String?,
+      formula: json['formula'] as String?,
+      rawValue: json['rawValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final formattedValue = this.formattedValue;
+    final formula = this.formula;
+    final rawValue = this.rawValue;
+    return {
+      if (format != null) 'format': format.toValue(),
+      if (formattedValue != null) 'formattedValue': formattedValue,
+      if (formula != null) 'formula': formula,
+      if (rawValue != null) 'rawValue': rawValue,
+    };
+  }
 }
 
 /// CellInput object contains the data needed to create or update cells in a
 /// table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CellInput {
   /// Fact represents the data that is entered into a cell. This data can be free
   /// text or a formula. Formulas need to start with the equals (=) sign.
-  @_s.JsonKey(name: 'fact')
-  final String fact;
+  final String? fact;
 
   CellInput({
     this.fact,
   });
-  Map<String, dynamic> toJson() => _$CellInputToJson(this);
+
+  factory CellInput.fromJson(Map<String, dynamic> json) {
+    return CellInput(
+      fact: json['fact'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fact = this.fact;
+    return {
+      if (fact != null) 'fact': fact,
+    };
+  }
 }
 
 /// Metadata for column in the table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ColumnMetadata {
   /// The format of the column.
-  @_s.JsonKey(name: 'format')
   final Format format;
 
   /// The name of the column.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   ColumnMetadata({
-    @_s.required this.format,
-    @_s.required this.name,
+    required this.format,
+    required this.name,
   });
-  factory ColumnMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ColumnMetadataFromJson(json);
+
+  factory ColumnMetadata.fromJson(Map<String, dynamic> json) {
+    return ColumnMetadata(
+      format: (json['format'] as String).toFormat(),
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final name = this.name;
+    return {
+      'format': format.toValue(),
+      'name': name,
+    };
+  }
 }
 
 /// Data needed to create a single row in a table as part of the
 /// BatchCreateTableRows request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CreateRowData {
   /// An external identifier that represents the single row that is being created
   /// as part of the BatchCreateTableRows request. This can be any string that you
   /// can use to identify the row in the request. The BatchCreateTableRows API
   /// puts the batch item id in the results to allow you to link data in the
   /// request to data in the results.
-  @_s.JsonKey(name: 'batchItemId')
   final String batchItemId;
 
   /// A map representing the cells to create in the new row. The key is the column
   /// id of the cell and the value is the CellInput object that represents the
   /// data to set in that cell.
-  @_s.JsonKey(name: 'cellsToCreate')
   final Map<String, CellInput> cellsToCreate;
 
   CreateRowData({
-    @_s.required this.batchItemId,
-    @_s.required this.cellsToCreate,
+    required this.batchItemId,
+    required this.cellsToCreate,
   });
-  Map<String, dynamic> toJson() => _$CreateRowDataToJson(this);
+
+  factory CreateRowData.fromJson(Map<String, dynamic> json) {
+    return CreateRowData(
+      batchItemId: json['batchItemId'] as String,
+      cellsToCreate: (json['cellsToCreate'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(k, CellInput.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchItemId = this.batchItemId;
+    final cellsToCreate = this.cellsToCreate;
+    return {
+      'batchItemId': batchItemId,
+      'cellsToCreate': cellsToCreate,
+    };
+  }
 }
 
 /// The data in a particular data cell defined on the screen.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataItem {
   /// The formatted value of the data. e.g. John Smith.
-  @_s.JsonKey(name: 'formattedValue')
-  final String formattedValue;
+  final String? formattedValue;
 
   /// The overrideFormat is optional and is specified only if a particular row of
   /// data has a different format for the data than the default format defined on
   /// the screen or the table.
-  @_s.JsonKey(name: 'overrideFormat')
-  final Format overrideFormat;
+  final Format? overrideFormat;
 
   /// The raw value of the data. e.g. jsmith@example.com
-  @_s.JsonKey(name: 'rawValue')
-  final String rawValue;
+  final String? rawValue;
 
   DataItem({
     this.formattedValue,
     this.overrideFormat,
     this.rawValue,
   });
-  factory DataItem.fromJson(Map<String, dynamic> json) =>
-      _$DataItemFromJson(json);
+
+  factory DataItem.fromJson(Map<String, dynamic> json) {
+    return DataItem(
+      formattedValue: json['formattedValue'] as String?,
+      overrideFormat: (json['overrideFormat'] as String?)?.toFormat(),
+      rawValue: json['rawValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formattedValue = this.formattedValue;
+    final overrideFormat = this.overrideFormat;
+    final rawValue = this.rawValue;
+    return {
+      if (formattedValue != null) 'formattedValue': formattedValue,
+      if (overrideFormat != null) 'overrideFormat': overrideFormat.toValue(),
+      if (rawValue != null) 'rawValue': rawValue,
+    };
+  }
 }
 
 /// An object that contains the options relating to parsing delimited text as
 /// part of an import request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DelimitedTextImportOptions {
   /// The delimiter to use for separating columns in a single row of the input.
-  @_s.JsonKey(name: 'delimiter')
   final String delimiter;
 
   /// The encoding of the data in the input file.
-  @_s.JsonKey(name: 'dataCharacterEncoding')
-  final ImportDataCharacterEncoding dataCharacterEncoding;
+  final ImportDataCharacterEncoding? dataCharacterEncoding;
 
   /// Indicates whether the input file has a header row at the top containing the
   /// column names.
-  @_s.JsonKey(name: 'hasHeaderRow')
-  final bool hasHeaderRow;
+  final bool? hasHeaderRow;
 
   /// A parameter to indicate whether empty rows should be ignored or be included
   /// in the import.
-  @_s.JsonKey(name: 'ignoreEmptyRows')
-  final bool ignoreEmptyRows;
+  final bool? ignoreEmptyRows;
 
   DelimitedTextImportOptions({
-    @_s.required this.delimiter,
+    required this.delimiter,
     this.dataCharacterEncoding,
     this.hasHeaderRow,
     this.ignoreEmptyRows,
   });
-  factory DelimitedTextImportOptions.fromJson(Map<String, dynamic> json) =>
-      _$DelimitedTextImportOptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DelimitedTextImportOptionsToJson(this);
+  factory DelimitedTextImportOptions.fromJson(Map<String, dynamic> json) {
+    return DelimitedTextImportOptions(
+      delimiter: json['delimiter'] as String,
+      dataCharacterEncoding: (json['dataCharacterEncoding'] as String?)
+          ?.toImportDataCharacterEncoding(),
+      hasHeaderRow: json['hasHeaderRow'] as bool?,
+      ignoreEmptyRows: json['ignoreEmptyRows'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimiter = this.delimiter;
+    final dataCharacterEncoding = this.dataCharacterEncoding;
+    final hasHeaderRow = this.hasHeaderRow;
+    final ignoreEmptyRows = this.ignoreEmptyRows;
+    return {
+      'delimiter': delimiter,
+      if (dataCharacterEncoding != null)
+        'dataCharacterEncoding': dataCharacterEncoding.toValue(),
+      if (hasHeaderRow != null) 'hasHeaderRow': hasHeaderRow,
+      if (ignoreEmptyRows != null) 'ignoreEmptyRows': ignoreEmptyRows,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTableDataImportJobResult {
   /// The metadata about the job that was submitted for import.
-  @_s.JsonKey(name: 'jobMetadata')
   final TableDataImportJobMetadata jobMetadata;
 
   /// The current status of the import job.
-  @_s.JsonKey(name: 'jobStatus')
   final TableDataImportJobStatus jobStatus;
 
   /// A message providing more details about the current status of the import job.
-  @_s.JsonKey(name: 'message')
   final String message;
 
   DescribeTableDataImportJobResult({
-    @_s.required this.jobMetadata,
-    @_s.required this.jobStatus,
-    @_s.required this.message,
+    required this.jobMetadata,
+    required this.jobStatus,
+    required this.message,
   });
-  factory DescribeTableDataImportJobResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeTableDataImportJobResultFromJson(json);
+
+  factory DescribeTableDataImportJobResult.fromJson(Map<String, dynamic> json) {
+    return DescribeTableDataImportJobResult(
+      jobMetadata: TableDataImportJobMetadata.fromJson(
+          json['jobMetadata'] as Map<String, dynamic>),
+      jobStatus: (json['jobStatus'] as String).toTableDataImportJobStatus(),
+      message: json['message'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobMetadata = this.jobMetadata;
+    final jobStatus = this.jobStatus;
+    final message = this.message;
+    return {
+      'jobMetadata': jobMetadata,
+      'jobStatus': jobStatus.toValue(),
+      'message': message,
+    };
+  }
 }
 
 /// An object that contains the options relating to the destination of the
 /// import request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DestinationOptions {
   /// A map of the column id to the import properties for each column.
-  @_s.JsonKey(name: 'columnMap')
-  final Map<String, SourceDataColumnProperties> columnMap;
+  final Map<String, SourceDataColumnProperties>? columnMap;
 
   DestinationOptions({
     this.columnMap,
   });
-  factory DestinationOptions.fromJson(Map<String, dynamic> json) =>
-      _$DestinationOptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DestinationOptionsToJson(this);
+  factory DestinationOptions.fromJson(Map<String, dynamic> json) {
+    return DestinationOptions(
+      columnMap: (json['columnMap'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k,
+              SourceDataColumnProperties.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnMap = this.columnMap;
+    return {
+      if (columnMap != null) 'columnMap': columnMap,
+    };
+  }
 }
 
 /// A single item in a batch that failed to perform the intended action because
 /// of an error preventing it from succeeding.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedBatchItem {
   /// The error message that indicates why the batch item failed.
-  @_s.JsonKey(name: 'errorMessage')
   final String errorMessage;
 
   /// The id of the batch item that failed. This is the batch item id for the
   /// BatchCreateTableRows and BatchUpsertTableRows operations and the row id for
   /// the BatchUpdateTableRows and BatchDeleteTableRows operations.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   FailedBatchItem({
-    @_s.required this.errorMessage,
-    @_s.required this.id,
+    required this.errorMessage,
+    required this.id,
   });
-  factory FailedBatchItem.fromJson(Map<String, dynamic> json) =>
-      _$FailedBatchItemFromJson(json);
+
+  factory FailedBatchItem.fromJson(Map<String, dynamic> json) {
+    return FailedBatchItem(
+      errorMessage: json['errorMessage'] as String,
+      id: json['id'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorMessage = this.errorMessage;
+    final id = this.id;
+    return {
+      'errorMessage': errorMessage,
+      'id': id,
+    };
+  }
 }
 
 /// An object that represents a filter formula along with the id of the context
 /// row under which the filter function needs to evaluate.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Filter {
   /// A formula representing a filter function that returns zero or more matching
   /// rows from a table. Valid formulas in this field return a list of rows from a
@@ -1765,187 +1651,316 @@ class Filter {
   /// are to use the FindRow() or Filter() functions. Any other formula that
   /// returns zero or more rows is also acceptable. For example, you can use a
   /// formula that points to a cell that contains a filter function.
-  @_s.JsonKey(name: 'formula')
   final String formula;
 
   /// The optional contextRowId attribute can be used to specify the row id of the
   /// context row if the filter formula contains unqualified references to table
   /// columns and needs a context row to evaluate them successfully.
-  @_s.JsonKey(name: 'contextRowId')
-  final String contextRowId;
+  final String? contextRowId;
 
   Filter({
-    @_s.required this.formula,
+    required this.formula,
     this.contextRowId,
   });
-  Map<String, dynamic> toJson() => _$FilterToJson(this);
+
+  factory Filter.fromJson(Map<String, dynamic> json) {
+    return Filter(
+      formula: json['formula'] as String,
+      contextRowId: json['contextRowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final formula = this.formula;
+    final contextRowId = this.contextRowId;
+    return {
+      'formula': formula,
+      if (contextRowId != null) 'contextRowId': contextRowId,
+    };
+  }
 }
 
 enum Format {
-  @_s.JsonValue('AUTO')
   auto,
-  @_s.JsonValue('NUMBER')
   number,
-  @_s.JsonValue('CURRENCY')
   currency,
-  @_s.JsonValue('DATE')
   date,
-  @_s.JsonValue('TIME')
   time,
-  @_s.JsonValue('DATE_TIME')
   dateTime,
-  @_s.JsonValue('PERCENTAGE')
   percentage,
-  @_s.JsonValue('TEXT')
   text,
-  @_s.JsonValue('ACCOUNTING')
   accounting,
-  @_s.JsonValue('CONTACT')
   contact,
-  @_s.JsonValue('ROWLINK')
   rowlink,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Format {
+  String toValue() {
+    switch (this) {
+      case Format.auto:
+        return 'AUTO';
+      case Format.number:
+        return 'NUMBER';
+      case Format.currency:
+        return 'CURRENCY';
+      case Format.date:
+        return 'DATE';
+      case Format.time:
+        return 'TIME';
+      case Format.dateTime:
+        return 'DATE_TIME';
+      case Format.percentage:
+        return 'PERCENTAGE';
+      case Format.text:
+        return 'TEXT';
+      case Format.accounting:
+        return 'ACCOUNTING';
+      case Format.contact:
+        return 'CONTACT';
+      case Format.rowlink:
+        return 'ROWLINK';
+    }
+  }
+}
+
+extension on String {
+  Format toFormat() {
+    switch (this) {
+      case 'AUTO':
+        return Format.auto;
+      case 'NUMBER':
+        return Format.number;
+      case 'CURRENCY':
+        return Format.currency;
+      case 'DATE':
+        return Format.date;
+      case 'TIME':
+        return Format.time;
+      case 'DATE_TIME':
+        return Format.dateTime;
+      case 'PERCENTAGE':
+        return Format.percentage;
+      case 'TEXT':
+        return Format.text;
+      case 'ACCOUNTING':
+        return Format.accounting;
+      case 'CONTACT':
+        return Format.contact;
+      case 'ROWLINK':
+        return Format.rowlink;
+    }
+    throw Exception('$this is not known in enum Format');
+  }
+}
+
 class GetScreenDataResult {
   /// A map of all the rows on the screen keyed by block name.
-  @_s.JsonKey(name: 'results')
   final Map<String, ResultSet> results;
 
   /// Indicates the cursor of the workbook at which the data returned by this
   /// workbook is read. Workbook cursor keeps increasing with every update and the
   /// increments are not sequential.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   /// Provides the pagination token to load the next page if there are more
   /// results matching the request. If a pagination token is not present in the
   /// response, it means that all data matching the query has been loaded.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   GetScreenDataResult({
-    @_s.required this.results,
-    @_s.required this.workbookCursor,
+    required this.results,
+    required this.workbookCursor,
     this.nextToken,
   });
-  factory GetScreenDataResult.fromJson(Map<String, dynamic> json) =>
-      _$GetScreenDataResultFromJson(json);
+
+  factory GetScreenDataResult.fromJson(Map<String, dynamic> json) {
+    return GetScreenDataResult(
+      results: (json['results'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(k, ResultSet.fromJson(e as Map<String, dynamic>))),
+      workbookCursor: json['workbookCursor'] as int,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final results = this.results;
+    final workbookCursor = this.workbookCursor;
+    final nextToken = this.nextToken;
+    return {
+      'results': results,
+      'workbookCursor': workbookCursor,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 enum ImportDataCharacterEncoding {
-  @_s.JsonValue('UTF-8')
   utf_8,
-  @_s.JsonValue('US-ASCII')
   usAscii,
-  @_s.JsonValue('ISO-8859-1')
   iso_8859_1,
-  @_s.JsonValue('UTF-16BE')
   utf_16be,
-  @_s.JsonValue('UTF-16LE')
   utf_16le,
-  @_s.JsonValue('UTF-16')
   utf_16,
+}
+
+extension on ImportDataCharacterEncoding {
+  String toValue() {
+    switch (this) {
+      case ImportDataCharacterEncoding.utf_8:
+        return 'UTF-8';
+      case ImportDataCharacterEncoding.usAscii:
+        return 'US-ASCII';
+      case ImportDataCharacterEncoding.iso_8859_1:
+        return 'ISO-8859-1';
+      case ImportDataCharacterEncoding.utf_16be:
+        return 'UTF-16BE';
+      case ImportDataCharacterEncoding.utf_16le:
+        return 'UTF-16LE';
+      case ImportDataCharacterEncoding.utf_16:
+        return 'UTF-16';
+    }
+  }
+}
+
+extension on String {
+  ImportDataCharacterEncoding toImportDataCharacterEncoding() {
+    switch (this) {
+      case 'UTF-8':
+        return ImportDataCharacterEncoding.utf_8;
+      case 'US-ASCII':
+        return ImportDataCharacterEncoding.usAscii;
+      case 'ISO-8859-1':
+        return ImportDataCharacterEncoding.iso_8859_1;
+      case 'UTF-16BE':
+        return ImportDataCharacterEncoding.utf_16be;
+      case 'UTF-16LE':
+        return ImportDataCharacterEncoding.utf_16le;
+      case 'UTF-16':
+        return ImportDataCharacterEncoding.utf_16;
+    }
+    throw Exception('$this is not known in enum ImportDataCharacterEncoding');
+  }
 }
 
 /// An object that has details about the source of the data that was submitted
 /// for import.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ImportDataSource {
   /// The configuration parameters for the data source of the import
-  @_s.JsonKey(name: 'dataSourceConfig')
   final ImportDataSourceConfig dataSourceConfig;
 
   ImportDataSource({
-    @_s.required this.dataSourceConfig,
+    required this.dataSourceConfig,
   });
-  factory ImportDataSource.fromJson(Map<String, dynamic> json) =>
-      _$ImportDataSourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImportDataSourceToJson(this);
+  factory ImportDataSource.fromJson(Map<String, dynamic> json) {
+    return ImportDataSource(
+      dataSourceConfig: ImportDataSourceConfig.fromJson(
+          json['dataSourceConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceConfig = this.dataSourceConfig;
+    return {
+      'dataSourceConfig': dataSourceConfig,
+    };
+  }
 }
 
 /// An object that contains the configuration parameters for the data source of
 /// an import request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ImportDataSourceConfig {
   /// The URL from which source data will be downloaded for the import request.
-  @_s.JsonKey(name: 'dataSourceUrl')
-  final String dataSourceUrl;
+  final String? dataSourceUrl;
 
   ImportDataSourceConfig({
     this.dataSourceUrl,
   });
-  factory ImportDataSourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$ImportDataSourceConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImportDataSourceConfigToJson(this);
+  factory ImportDataSourceConfig.fromJson(Map<String, dynamic> json) {
+    return ImportDataSourceConfig(
+      dataSourceUrl: json['dataSourceUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSourceUrl = this.dataSourceUrl;
+    return {
+      if (dataSourceUrl != null) 'dataSourceUrl': dataSourceUrl,
+    };
+  }
 }
 
 /// An object that contains the attributes of the submitter of the import job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImportJobSubmitter {
   /// The email id of the submitter of the import job, if available.
-  @_s.JsonKey(name: 'email')
-  final String email;
+  final String? email;
 
   /// The AWS user ARN of the submitter of the import job, if available.
-  @_s.JsonKey(name: 'userArn')
-  final String userArn;
+  final String? userArn;
 
   ImportJobSubmitter({
     this.email,
     this.userArn,
   });
-  factory ImportJobSubmitter.fromJson(Map<String, dynamic> json) =>
-      _$ImportJobSubmitterFromJson(json);
+
+  factory ImportJobSubmitter.fromJson(Map<String, dynamic> json) {
+    return ImportJobSubmitter(
+      email: json['email'] as String?,
+      userArn: json['userArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final email = this.email;
+    final userArn = this.userArn;
+    return {
+      if (email != null) 'email': email,
+      if (userArn != null) 'userArn': userArn,
+    };
+  }
 }
 
 /// An object that contains the options specified by the sumitter of the import
 /// request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ImportOptions {
   /// Options relating to parsing delimited text. Required if dataFormat is
   /// DELIMITED_TEXT.
-  @_s.JsonKey(name: 'delimitedTextOptions')
-  final DelimitedTextImportOptions delimitedTextOptions;
+  final DelimitedTextImportOptions? delimitedTextOptions;
 
   /// Options relating to the destination of the import request.
-  @_s.JsonKey(name: 'destinationOptions')
-  final DestinationOptions destinationOptions;
+  final DestinationOptions? destinationOptions;
 
   ImportOptions({
     this.delimitedTextOptions,
     this.destinationOptions,
   });
-  factory ImportOptions.fromJson(Map<String, dynamic> json) =>
-      _$ImportOptionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ImportOptionsToJson(this);
+  factory ImportOptions.fromJson(Map<String, dynamic> json) {
+    return ImportOptions(
+      delimitedTextOptions: json['delimitedTextOptions'] != null
+          ? DelimitedTextImportOptions.fromJson(
+              json['delimitedTextOptions'] as Map<String, dynamic>)
+          : null,
+      destinationOptions: json['destinationOptions'] != null
+          ? DestinationOptions.fromJson(
+              json['destinationOptions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delimitedTextOptions = this.delimitedTextOptions;
+    final destinationOptions = this.destinationOptions;
+    return {
+      if (delimitedTextOptions != null)
+        'delimitedTextOptions': delimitedTextOptions,
+      if (destinationOptions != null) 'destinationOptions': destinationOptions,
+    };
+  }
 }
 
 enum ImportSourceDataFormat {
-  @_s.JsonValue('DELIMITED_TEXT')
   delimitedText,
 }
 
@@ -1955,198 +1970,280 @@ extension on ImportSourceDataFormat {
       case ImportSourceDataFormat.delimitedText:
         return 'DELIMITED_TEXT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ImportSourceDataFormat toImportSourceDataFormat() {
+    switch (this) {
+      case 'DELIMITED_TEXT':
+        return ImportSourceDataFormat.delimitedText;
+    }
+    throw Exception('$this is not known in enum ImportSourceDataFormat');
+  }
+}
+
 class InvokeScreenAutomationResult {
   /// The updated workbook cursor after performing the automation action.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   InvokeScreenAutomationResult({
-    @_s.required this.workbookCursor,
+    required this.workbookCursor,
   });
-  factory InvokeScreenAutomationResult.fromJson(Map<String, dynamic> json) =>
-      _$InvokeScreenAutomationResultFromJson(json);
+
+  factory InvokeScreenAutomationResult.fromJson(Map<String, dynamic> json) {
+    return InvokeScreenAutomationResult(
+      workbookCursor: json['workbookCursor'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workbookCursor = this.workbookCursor;
+    return {
+      'workbookCursor': workbookCursor,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTableColumnsResult {
   /// The list of columns in the table.
-  @_s.JsonKey(name: 'tableColumns')
   final List<TableColumn> tableColumns;
 
   /// Provides the pagination token to load the next page if there are more
   /// results matching the request. If a pagination token is not present in the
   /// response, it means that all data matching the request has been loaded.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Indicates the cursor of the workbook at which the data returned by this
   /// request is read. Workbook cursor keeps increasing with every update and the
   /// increments are not sequential.
-  @_s.JsonKey(name: 'workbookCursor')
-  final int workbookCursor;
+  final int? workbookCursor;
 
   ListTableColumnsResult({
-    @_s.required this.tableColumns,
+    required this.tableColumns,
     this.nextToken,
     this.workbookCursor,
   });
-  factory ListTableColumnsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTableColumnsResultFromJson(json);
+
+  factory ListTableColumnsResult.fromJson(Map<String, dynamic> json) {
+    return ListTableColumnsResult(
+      tableColumns: (json['tableColumns'] as List)
+          .whereNotNull()
+          .map((e) => TableColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+      workbookCursor: json['workbookCursor'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableColumns = this.tableColumns;
+    final nextToken = this.nextToken;
+    final workbookCursor = this.workbookCursor;
+    return {
+      'tableColumns': tableColumns,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (workbookCursor != null) 'workbookCursor': workbookCursor,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTableRowsResult {
   /// The list of columns in the table whose row data is returned in the result.
-  @_s.JsonKey(name: 'columnIds')
   final List<String> columnIds;
 
   /// The list of rows in the table. Note that this result is paginated, so this
   /// list contains a maximum of 100 rows.
-  @_s.JsonKey(name: 'rows')
   final List<TableRow> rows;
 
   /// Indicates the cursor of the workbook at which the data returned by this
   /// request is read. Workbook cursor keeps increasing with every update and the
   /// increments are not sequential.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   /// Provides the pagination token to load the next page if there are more
   /// results matching the request. If a pagination token is not present in the
   /// response, it means that all data matching the request has been loaded.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The list of row ids included in the request that were not found in the
   /// table.
-  @_s.JsonKey(name: 'rowIdsNotFound')
-  final List<String> rowIdsNotFound;
+  final List<String>? rowIdsNotFound;
 
   ListTableRowsResult({
-    @_s.required this.columnIds,
-    @_s.required this.rows,
-    @_s.required this.workbookCursor,
+    required this.columnIds,
+    required this.rows,
+    required this.workbookCursor,
     this.nextToken,
     this.rowIdsNotFound,
   });
-  factory ListTableRowsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTableRowsResultFromJson(json);
+
+  factory ListTableRowsResult.fromJson(Map<String, dynamic> json) {
+    return ListTableRowsResult(
+      columnIds: (json['columnIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rows: (json['rows'] as List)
+          .whereNotNull()
+          .map((e) => TableRow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workbookCursor: json['workbookCursor'] as int,
+      nextToken: json['nextToken'] as String?,
+      rowIdsNotFound: (json['rowIdsNotFound'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnIds = this.columnIds;
+    final rows = this.rows;
+    final workbookCursor = this.workbookCursor;
+    final nextToken = this.nextToken;
+    final rowIdsNotFound = this.rowIdsNotFound;
+    return {
+      'columnIds': columnIds,
+      'rows': rows,
+      'workbookCursor': workbookCursor,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (rowIdsNotFound != null) 'rowIdsNotFound': rowIdsNotFound,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTablesResult {
   /// The list of tables in the workbook.
-  @_s.JsonKey(name: 'tables')
   final List<Table> tables;
 
   /// Provides the pagination token to load the next page if there are more
   /// results matching the request. If a pagination token is not present in the
   /// response, it means that all data matching the request has been loaded.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Indicates the cursor of the workbook at which the data returned by this
   /// request is read. Workbook cursor keeps increasing with every update and the
   /// increments are not sequential.
-  @_s.JsonKey(name: 'workbookCursor')
-  final int workbookCursor;
+  final int? workbookCursor;
 
   ListTablesResult({
-    @_s.required this.tables,
+    required this.tables,
     this.nextToken,
     this.workbookCursor,
   });
-  factory ListTablesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListTablesResultFromJson(json);
+
+  factory ListTablesResult.fromJson(Map<String, dynamic> json) {
+    return ListTablesResult(
+      tables: (json['tables'] as List)
+          .whereNotNull()
+          .map((e) => Table.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+      workbookCursor: json['workbookCursor'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tables = this.tables;
+    final nextToken = this.nextToken;
+    final workbookCursor = this.workbookCursor;
+    return {
+      'tables': tables,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (workbookCursor != null) 'workbookCursor': workbookCursor,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryTableRowsResult {
   /// The list of columns in the table whose row data is returned in the result.
-  @_s.JsonKey(name: 'columnIds')
   final List<String> columnIds;
 
   /// The list of rows in the table that match the query filter.
-  @_s.JsonKey(name: 'rows')
   final List<TableRow> rows;
 
   /// Indicates the cursor of the workbook at which the data returned by this
   /// request is read. Workbook cursor keeps increasing with every update and the
   /// increments are not sequential.
-  @_s.JsonKey(name: 'workbookCursor')
   final int workbookCursor;
 
   /// Provides the pagination token to load the next page if there are more
   /// results matching the request. If a pagination token is not present in the
   /// response, it means that all data matching the request has been loaded.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   QueryTableRowsResult({
-    @_s.required this.columnIds,
-    @_s.required this.rows,
-    @_s.required this.workbookCursor,
+    required this.columnIds,
+    required this.rows,
+    required this.workbookCursor,
     this.nextToken,
   });
-  factory QueryTableRowsResult.fromJson(Map<String, dynamic> json) =>
-      _$QueryTableRowsResultFromJson(json);
+
+  factory QueryTableRowsResult.fromJson(Map<String, dynamic> json) {
+    return QueryTableRowsResult(
+      columnIds: (json['columnIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rows: (json['rows'] as List)
+          .whereNotNull()
+          .map((e) => TableRow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      workbookCursor: json['workbookCursor'] as int,
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnIds = this.columnIds;
+    final rows = this.rows;
+    final workbookCursor = this.workbookCursor;
+    final nextToken = this.nextToken;
+    return {
+      'columnIds': columnIds,
+      'rows': rows,
+      'workbookCursor': workbookCursor,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// A single row in the ResultSet.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultRow {
   /// List of all the data cells in a row.
-  @_s.JsonKey(name: 'dataItems')
   final List<DataItem> dataItems;
 
   /// The ID for a particular row.
-  @_s.JsonKey(name: 'rowId')
-  final String rowId;
+  final String? rowId;
 
   ResultRow({
-    @_s.required this.dataItems,
+    required this.dataItems,
     this.rowId,
   });
-  factory ResultRow.fromJson(Map<String, dynamic> json) =>
-      _$ResultRowFromJson(json);
+
+  factory ResultRow.fromJson(Map<String, dynamic> json) {
+    return ResultRow(
+      dataItems: (json['dataItems'] as List)
+          .whereNotNull()
+          .map((e) => DataItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rowId: json['rowId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataItems = this.dataItems;
+    final rowId = this.rowId;
+    return {
+      'dataItems': dataItems,
+      if (rowId != null) 'rowId': rowId,
+    };
+  }
 }
 
 /// ResultSet contains the results of the request for a single block or list
 /// defined on the screen.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResultSet {
   /// List of headers for all the data cells in the block. The header identifies
   /// the name and default format of the data cell. Data cells appear in the same
@@ -2161,240 +2258,358 @@ class ResultSet {
   /// item and assigned person as the third item. If a particular task does not
   /// have a due date, that row will still have a blank value in the second
   /// element and the assigned person will still be in the third element.
-  @_s.JsonKey(name: 'headers')
   final List<ColumnMetadata> headers;
 
   /// List of rows returned by the request. Each row has a row Id and a list of
   /// data cells in that row. The data cells will be present in the same order as
   /// they are defined in the header.
-  @_s.JsonKey(name: 'rows')
   final List<ResultRow> rows;
 
   ResultSet({
-    @_s.required this.headers,
-    @_s.required this.rows,
+    required this.headers,
+    required this.rows,
   });
-  factory ResultSet.fromJson(Map<String, dynamic> json) =>
-      _$ResultSetFromJson(json);
+
+  factory ResultSet.fromJson(Map<String, dynamic> json) {
+    return ResultSet(
+      headers: (json['headers'] as List)
+          .whereNotNull()
+          .map((e) => ColumnMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rows: (json['rows'] as List)
+          .whereNotNull()
+          .map((e) => ResultRow.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final headers = this.headers;
+    final rows = this.rows;
+    return {
+      'headers': headers,
+      'rows': rows,
+    };
+  }
 }
 
 /// An object that contains the properties for importing data to a specific
 /// column in a table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SourceDataColumnProperties {
   /// The index of the column in the input file.
-  @_s.JsonKey(name: 'columnIndex')
-  final int columnIndex;
+  final int? columnIndex;
 
   SourceDataColumnProperties({
     this.columnIndex,
   });
-  factory SourceDataColumnProperties.fromJson(Map<String, dynamic> json) =>
-      _$SourceDataColumnPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SourceDataColumnPropertiesToJson(this);
+  factory SourceDataColumnProperties.fromJson(Map<String, dynamic> json) {
+    return SourceDataColumnProperties(
+      columnIndex: json['columnIndex'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final columnIndex = this.columnIndex;
+    return {
+      if (columnIndex != null) 'columnIndex': columnIndex,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartTableDataImportJobResult {
   /// The id that is assigned to this import job. Future requests to find out the
   /// status of this import job need to send this id in the appropriate parameter
   /// in the request.
-  @_s.JsonKey(name: 'jobId')
   final String jobId;
 
   /// The status of the import job immediately after submitting the request.
-  @_s.JsonKey(name: 'jobStatus')
   final TableDataImportJobStatus jobStatus;
 
   StartTableDataImportJobResult({
-    @_s.required this.jobId,
-    @_s.required this.jobStatus,
+    required this.jobId,
+    required this.jobStatus,
   });
-  factory StartTableDataImportJobResult.fromJson(Map<String, dynamic> json) =>
-      _$StartTableDataImportJobResultFromJson(json);
+
+  factory StartTableDataImportJobResult.fromJson(Map<String, dynamic> json) {
+    return StartTableDataImportJobResult(
+      jobId: json['jobId'] as String,
+      jobStatus: (json['jobStatus'] as String).toTableDataImportJobStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    final jobStatus = this.jobStatus;
+    return {
+      'jobId': jobId,
+      'jobStatus': jobStatus.toValue(),
+    };
+  }
 }
 
 /// An object representing the properties of a table in a workbook.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Table {
   /// The id of the table.
-  @_s.JsonKey(name: 'tableId')
-  final String tableId;
+  final String? tableId;
 
   /// The name of the table.
-  @_s.JsonKey(name: 'tableName')
-  final String tableName;
+  final String? tableName;
 
   Table({
     this.tableId,
     this.tableName,
   });
-  factory Table.fromJson(Map<String, dynamic> json) => _$TableFromJson(json);
+
+  factory Table.fromJson(Map<String, dynamic> json) {
+    return Table(
+      tableId: json['tableId'] as String?,
+      tableName: json['tableName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableId = this.tableId;
+    final tableName = this.tableName;
+    return {
+      if (tableId != null) 'tableId': tableId,
+      if (tableName != null) 'tableName': tableName,
+    };
+  }
 }
 
 /// An object that contains attributes about a single column in a table
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableColumn {
   /// The column level format that is applied in the table. An empty value in this
   /// field means that the column format is the default value 'AUTO'.
-  @_s.JsonKey(name: 'format')
-  final Format format;
+  final Format? format;
 
   /// The id of the column in the table.
-  @_s.JsonKey(name: 'tableColumnId')
-  final String tableColumnId;
+  final String? tableColumnId;
 
   /// The name of the column in the table.
-  @_s.JsonKey(name: 'tableColumnName')
-  final String tableColumnName;
+  final String? tableColumnName;
 
   TableColumn({
     this.format,
     this.tableColumnId,
     this.tableColumnName,
   });
-  factory TableColumn.fromJson(Map<String, dynamic> json) =>
-      _$TableColumnFromJson(json);
+
+  factory TableColumn.fromJson(Map<String, dynamic> json) {
+    return TableColumn(
+      format: (json['format'] as String?)?.toFormat(),
+      tableColumnId: json['tableColumnId'] as String?,
+      tableColumnName: json['tableColumnName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final format = this.format;
+    final tableColumnId = this.tableColumnId;
+    final tableColumnName = this.tableColumnName;
+    return {
+      if (format != null) 'format': format.toValue(),
+      if (tableColumnId != null) 'tableColumnId': tableColumnId,
+      if (tableColumnName != null) 'tableColumnName': tableColumnName,
+    };
+  }
 }
 
 /// The metadata associated with the table data import job that was submitted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableDataImportJobMetadata {
   /// The source of the data that was submitted for import.
-  @_s.JsonKey(name: 'dataSource')
   final ImportDataSource dataSource;
 
   /// The options that was specified at the time of submitting the import request.
-  @_s.JsonKey(name: 'importOptions')
   final ImportOptions importOptions;
 
   /// The timestamp when the job was submitted for import.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'submitTime')
   final DateTime submitTime;
 
   /// Details about the submitter of the import request.
-  @_s.JsonKey(name: 'submitter')
   final ImportJobSubmitter submitter;
 
   TableDataImportJobMetadata({
-    @_s.required this.dataSource,
-    @_s.required this.importOptions,
-    @_s.required this.submitTime,
-    @_s.required this.submitter,
+    required this.dataSource,
+    required this.importOptions,
+    required this.submitTime,
+    required this.submitter,
   });
-  factory TableDataImportJobMetadata.fromJson(Map<String, dynamic> json) =>
-      _$TableDataImportJobMetadataFromJson(json);
+
+  factory TableDataImportJobMetadata.fromJson(Map<String, dynamic> json) {
+    return TableDataImportJobMetadata(
+      dataSource:
+          ImportDataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
+      importOptions:
+          ImportOptions.fromJson(json['importOptions'] as Map<String, dynamic>),
+      submitTime: nonNullableTimeStampFromJson(json['submitTime'] as Object),
+      submitter: ImportJobSubmitter.fromJson(
+          json['submitter'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dataSource = this.dataSource;
+    final importOptions = this.importOptions;
+    final submitTime = this.submitTime;
+    final submitter = this.submitter;
+    return {
+      'dataSource': dataSource,
+      'importOptions': importOptions,
+      'submitTime': unixTimestampToJson(submitTime),
+      'submitter': submitter,
+    };
+  }
 }
 
 enum TableDataImportJobStatus {
-  @_s.JsonValue('SUBMITTED')
   submitted,
-  @_s.JsonValue('IN_PROGRESS')
   inProgress,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on TableDataImportJobStatus {
+  String toValue() {
+    switch (this) {
+      case TableDataImportJobStatus.submitted:
+        return 'SUBMITTED';
+      case TableDataImportJobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case TableDataImportJobStatus.completed:
+        return 'COMPLETED';
+      case TableDataImportJobStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  TableDataImportJobStatus toTableDataImportJobStatus() {
+    switch (this) {
+      case 'SUBMITTED':
+        return TableDataImportJobStatus.submitted;
+      case 'IN_PROGRESS':
+        return TableDataImportJobStatus.inProgress;
+      case 'COMPLETED':
+        return TableDataImportJobStatus.completed;
+      case 'FAILED':
+        return TableDataImportJobStatus.failed;
+    }
+    throw Exception('$this is not known in enum TableDataImportJobStatus');
+  }
+}
+
 /// An object that contains attributes about a single row in a table
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableRow {
   /// A list of cells in the table row. The cells appear in the same order as the
   /// columns of the table.
-  @_s.JsonKey(name: 'cells')
   final List<Cell> cells;
 
   /// The id of the row in the table.
-  @_s.JsonKey(name: 'rowId')
   final String rowId;
 
   TableRow({
-    @_s.required this.cells,
-    @_s.required this.rowId,
+    required this.cells,
+    required this.rowId,
   });
-  factory TableRow.fromJson(Map<String, dynamic> json) =>
-      _$TableRowFromJson(json);
+
+  factory TableRow.fromJson(Map<String, dynamic> json) {
+    return TableRow(
+      cells: (json['cells'] as List)
+          .whereNotNull()
+          .map((e) => Cell.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rowId: json['rowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cells = this.cells;
+    final rowId = this.rowId;
+    return {
+      'cells': cells,
+      'rowId': rowId,
+    };
+  }
 }
 
 /// Data needed to create a single row in a table as part of the
 /// BatchCreateTableRows request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateRowData {
   /// A map representing the cells to update in the given row. The key is the
   /// column id of the cell and the value is the CellInput object that represents
   /// the data to set in that cell.
-  @_s.JsonKey(name: 'cellsToUpdate')
   final Map<String, CellInput> cellsToUpdate;
 
   /// The id of the row that needs to be updated.
-  @_s.JsonKey(name: 'rowId')
   final String rowId;
 
   UpdateRowData({
-    @_s.required this.cellsToUpdate,
-    @_s.required this.rowId,
+    required this.cellsToUpdate,
+    required this.rowId,
   });
-  Map<String, dynamic> toJson() => _$UpdateRowDataToJson(this);
+
+  factory UpdateRowData.fromJson(Map<String, dynamic> json) {
+    return UpdateRowData(
+      cellsToUpdate: (json['cellsToUpdate'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(k, CellInput.fromJson(e as Map<String, dynamic>))),
+      rowId: json['rowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cellsToUpdate = this.cellsToUpdate;
+    final rowId = this.rowId;
+    return {
+      'cellsToUpdate': cellsToUpdate,
+      'rowId': rowId,
+    };
+  }
 }
 
 enum UpsertAction {
-  @_s.JsonValue('UPDATED')
   updated,
-  @_s.JsonValue('APPENDED')
   appended,
+}
+
+extension on UpsertAction {
+  String toValue() {
+    switch (this) {
+      case UpsertAction.updated:
+        return 'UPDATED';
+      case UpsertAction.appended:
+        return 'APPENDED';
+    }
+  }
+}
+
+extension on String {
+  UpsertAction toUpsertAction() {
+    switch (this) {
+      case 'UPDATED':
+        return UpsertAction.updated;
+      case 'APPENDED':
+        return UpsertAction.appended;
+    }
+    throw Exception('$this is not known in enum UpsertAction');
+  }
 }
 
 /// Data needed to upsert rows in a table as part of a single item in the
 /// BatchUpsertTableRows request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpsertRowData {
   /// An external identifier that represents a single item in the request that is
   /// being upserted as part of the BatchUpsertTableRows request. This can be any
   /// string that you can use to identify the item in the request. The
   /// BatchUpsertTableRows API puts the batch item id in the results to allow you
   /// to link data in the request to data in the results.
-  @_s.JsonKey(name: 'batchItemId')
   final String batchItemId;
 
   /// A map representing the cells to update for the matching rows or an appended
   /// row. The key is the column id of the cell and the value is the CellInput
   /// object that represents the data to set in that cell.
-  @_s.JsonKey(name: 'cellsToUpdate')
   final Map<String, CellInput> cellsToUpdate;
 
   /// The filter formula to use to find existing matching rows to update. The
@@ -2407,75 +2622,109 @@ class UpsertRowData {
   /// it doesn't evaluate to zero or more rows in the target table for any one
   /// item in the input list, then the entire BatchUpsertTableRows request fails
   /// and no updates are made to the table.
-  @_s.JsonKey(name: 'filter')
   final Filter filter;
 
   UpsertRowData({
-    @_s.required this.batchItemId,
-    @_s.required this.cellsToUpdate,
-    @_s.required this.filter,
+    required this.batchItemId,
+    required this.cellsToUpdate,
+    required this.filter,
   });
-  Map<String, dynamic> toJson() => _$UpsertRowDataToJson(this);
+
+  factory UpsertRowData.fromJson(Map<String, dynamic> json) {
+    return UpsertRowData(
+      batchItemId: json['batchItemId'] as String,
+      cellsToUpdate: (json['cellsToUpdate'] as Map<String, dynamic>).map(
+          (k, e) => MapEntry(k, CellInput.fromJson(e as Map<String, dynamic>))),
+      filter: Filter.fromJson(json['filter'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchItemId = this.batchItemId;
+    final cellsToUpdate = this.cellsToUpdate;
+    final filter = this.filter;
+    return {
+      'batchItemId': batchItemId,
+      'cellsToUpdate': cellsToUpdate,
+      'filter': filter,
+    };
+  }
 }
 
 /// An object that represents the result of a single upsert row request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpsertRowsResult {
   /// The list of row ids that were changed as part of an upsert row operation. If
   /// the upsert resulted in an update, this list could potentially contain
   /// multiple rows that matched the filter and hence got updated. If the upsert
   /// resulted in an append, this list would only have the single row that was
   /// appended.
-  @_s.JsonKey(name: 'rowIds')
   final List<String> rowIds;
 
   /// The result of the upsert action.
-  @_s.JsonKey(name: 'upsertAction')
   final UpsertAction upsertAction;
 
   UpsertRowsResult({
-    @_s.required this.rowIds,
-    @_s.required this.upsertAction,
+    required this.rowIds,
+    required this.upsertAction,
   });
-  factory UpsertRowsResult.fromJson(Map<String, dynamic> json) =>
-      _$UpsertRowsResultFromJson(json);
+
+  factory UpsertRowsResult.fromJson(Map<String, dynamic> json) {
+    return UpsertRowsResult(
+      rowIds: (json['rowIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      upsertAction: (json['upsertAction'] as String).toUpsertAction(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rowIds = this.rowIds;
+    final upsertAction = this.upsertAction;
+    return {
+      'rowIds': rowIds,
+      'upsertAction': upsertAction.toValue(),
+    };
+  }
 }
 
 /// The input variables to the app to be used by the InvokeScreenAutomation
 /// action request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VariableValue {
   /// Raw value of the variable.
-  @_s.JsonKey(name: 'rawValue')
   final String rawValue;
 
   VariableValue({
-    @_s.required this.rawValue,
+    required this.rawValue,
   });
-  Map<String, dynamic> toJson() => _$VariableValueToJson(this);
+
+  factory VariableValue.fromJson(Map<String, dynamic> json) {
+    return VariableValue(
+      rawValue: json['rawValue'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rawValue = this.rawValue;
+    return {
+      'rawValue': rawValue,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class AutomationExecutionException extends _s.GenericAwsException {
-  AutomationExecutionException({String type, String message})
+  AutomationExecutionException({String? type, String? message})
       : super(
             type: type, code: 'AutomationExecutionException', message: message);
 }
 
 class AutomationExecutionTimeoutException extends _s.GenericAwsException {
-  AutomationExecutionTimeoutException({String type, String message})
+  AutomationExecutionTimeoutException({String? type, String? message})
       : super(
             type: type,
             code: 'AutomationExecutionTimeoutException',
@@ -2483,22 +2732,22 @@ class AutomationExecutionTimeoutException extends _s.GenericAwsException {
 }
 
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class RequestTimeoutException extends _s.GenericAwsException {
-  RequestTimeoutException({String type, String message})
+  RequestTimeoutException({String? type, String? message})
       : super(type: type, code: 'RequestTimeoutException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -2506,18 +2755,18 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 

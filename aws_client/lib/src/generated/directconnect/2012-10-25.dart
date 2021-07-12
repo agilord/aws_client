@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2012-10-25.g.dart';
 
 /// AWS Direct Connect links your internal network to an AWS Direct Connect
 /// location over a standard Ethernet fiber-optic cable. One end of the cable is
@@ -38,10 +31,10 @@ part '2012-10-25.g.dart';
 class DirectConnect {
   final _s.JsonProtocol _protocol;
   DirectConnect({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -77,10 +70,10 @@ class DirectConnect {
   /// Prefixes</a> in the <i>AWS Direct Connect User Guide</i>.
   Future<AcceptDirectConnectGatewayAssociationProposalResult>
       acceptDirectConnectGatewayAssociationProposal({
-    @_s.required String associatedGatewayOwnerAccount,
-    @_s.required String directConnectGatewayId,
-    @_s.required String proposalId,
-    List<RouteFilterPrefix> overrideAllowedPrefixesToDirectConnectGateway,
+    required String associatedGatewayOwnerAccount,
+    required String directConnectGatewayId,
+    required String proposalId,
+    List<RouteFilterPrefix>? overrideAllowedPrefixesToDirectConnectGateway,
   }) async {
     ArgumentError.checkNotNull(
         associatedGatewayOwnerAccount, 'associatedGatewayOwnerAccount');
@@ -146,11 +139,11 @@ class DirectConnect {
   /// The dedicated VLAN provisioned to the connection.
   @Deprecated('Deprecated')
   Future<Connection> allocateConnectionOnInterconnect({
-    @_s.required String bandwidth,
-    @_s.required String connectionName,
-    @_s.required String interconnectId,
-    @_s.required String ownerAccount,
-    @_s.required int vlan,
+    required String bandwidth,
+    required String connectionName,
+    required String interconnectId,
+    required String ownerAccount,
+    required int vlan,
   }) async {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(connectionName, 'connectionName');
@@ -218,12 +211,12 @@ class DirectConnect {
   /// Parameter [tags] :
   /// The tags associated with the connection.
   Future<Connection> allocateHostedConnection({
-    @_s.required String bandwidth,
-    @_s.required String connectionId,
-    @_s.required String connectionName,
-    @_s.required String ownerAccount,
-    @_s.required int vlan,
-    List<Tag> tags,
+    required String bandwidth,
+    required String connectionId,
+    required String connectionName,
+    required String ownerAccount,
+    required int vlan,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(connectionId, 'connectionId');
@@ -276,11 +269,10 @@ class DirectConnect {
   /// Parameter [ownerAccount] :
   /// The ID of the AWS account that owns the virtual private interface.
   Future<VirtualInterface> allocatePrivateVirtualInterface({
-    @_s.required String connectionId,
-    @_s.required
-        NewPrivateVirtualInterfaceAllocation
-            newPrivateVirtualInterfaceAllocation,
-    @_s.required String ownerAccount,
+    required String connectionId,
+    required NewPrivateVirtualInterfaceAllocation
+        newPrivateVirtualInterfaceAllocation,
+    required String ownerAccount,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(newPrivateVirtualInterfaceAllocation,
@@ -337,10 +329,10 @@ class DirectConnect {
   /// Parameter [ownerAccount] :
   /// The ID of the AWS account that owns the public virtual interface.
   Future<VirtualInterface> allocatePublicVirtualInterface({
-    @_s.required String connectionId,
-    @_s.required
-        NewPublicVirtualInterfaceAllocation newPublicVirtualInterfaceAllocation,
-    @_s.required String ownerAccount,
+    required String connectionId,
+    required NewPublicVirtualInterfaceAllocation
+        newPublicVirtualInterfaceAllocation,
+    required String ownerAccount,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(newPublicVirtualInterfaceAllocation,
@@ -395,11 +387,10 @@ class DirectConnect {
   /// The ID of the AWS account that owns the transit virtual interface.
   Future<AllocateTransitVirtualInterfaceResult>
       allocateTransitVirtualInterface({
-    @_s.required String connectionId,
-    @_s.required
-        NewTransitVirtualInterfaceAllocation
-            newTransitVirtualInterfaceAllocation,
-    @_s.required String ownerAccount,
+    required String connectionId,
+    required NewTransitVirtualInterfaceAllocation
+        newTransitVirtualInterfaceAllocation,
+    required String ownerAccount,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(newTransitVirtualInterfaceAllocation,
@@ -454,8 +445,8 @@ class DirectConnect {
   /// Parameter [lagId] :
   /// The ID of the LAG with which to associate the connection.
   Future<Connection> associateConnectionWithLag({
-    @_s.required String connectionId,
-    @_s.required String lagId,
+    required String connectionId,
+    required String lagId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(lagId, 'lagId');
@@ -496,8 +487,8 @@ class DirectConnect {
   /// Parameter [parentConnectionId] :
   /// The ID of the interconnect or the LAG.
   Future<Connection> associateHostedConnection({
-    @_s.required String connectionId,
-    @_s.required String parentConnectionId,
+    required String connectionId,
+    required String parentConnectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(parentConnectionId, 'parentConnectionId');
@@ -518,6 +509,87 @@ class DirectConnect {
     );
 
     return Connection.fromJson(jsonResponse.body);
+  }
+
+  /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity
+  /// Association Key (CAK) pair with an AWS Direct Connect dedicated
+  /// connection.
+  ///
+  /// You must supply either the <code>secretARN,</code> or the CKN/CAK
+  /// (<code>ckn</code> and <code>cak</code>) pair in the request.
+  ///
+  /// For information about MAC Security (MACsec) key considerations, see <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration">MACsec
+  /// pre-shared CKN/CAK key considerations </a> in the <i>AWS Direct Connect
+  /// User Guide</i>.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [connectionId] :
+  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
+  /// (dxlag-xxxx).
+  ///
+  /// You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve
+  /// connection ID.
+  ///
+  /// Parameter [cak] :
+  /// The MAC Security (MACsec) CAK to associate with the dedicated connection.
+  ///
+  /// You can create the CKN/CAK pair using an industry standard tool.
+  ///
+  /// The valid values are 64 hexadecimal characters (0-9, A-E).
+  ///
+  /// If you use this request parameter, you must use the <code>ckn</code>
+  /// request parameter and not use the <code>secretARN</code> request
+  /// parameter.
+  ///
+  /// Parameter [ckn] :
+  /// The MAC Security (MACsec) CKN to associate with the dedicated connection.
+  ///
+  /// You can create the CKN/CAK pair using an industry standard tool.
+  ///
+  /// The valid values are 64 hexadecimal characters (0-9, A-E).
+  ///
+  /// If you use this request parameter, you must use the <code>cak</code>
+  /// request parameter and not use the <code>secretARN</code> request
+  /// parameter.
+  ///
+  /// Parameter [secretARN] :
+  /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
+  /// associate with the dedicated connection.
+  ///
+  /// You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve
+  /// the MAC Security (MACsec) secret key.
+  ///
+  /// If you use this request parameter, you do not use the <code>ckn</code> and
+  /// <code>cak</code> request parameters.
+  Future<AssociateMacSecKeyResponse> associateMacSecKey({
+    required String connectionId,
+    String? cak,
+    String? ckn,
+    String? secretARN,
+  }) async {
+    ArgumentError.checkNotNull(connectionId, 'connectionId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.AssociateMacSecKey'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'connectionId': connectionId,
+        if (cak != null) 'cak': cak,
+        if (ckn != null) 'ckn': ckn,
+        if (secretARN != null) 'secretARN': secretARN,
+      },
+    );
+
+    return AssociateMacSecKeyResponse.fromJson(jsonResponse.body);
   }
 
   /// Associates a virtual interface with a specified link aggregation group
@@ -544,8 +616,8 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
   Future<VirtualInterface> associateVirtualInterface({
-    @_s.required String connectionId,
-    @_s.required String virtualInterfaceId,
+    required String connectionId,
+    required String virtualInterfaceId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
@@ -581,7 +653,7 @@ class DirectConnect {
   /// Parameter [connectionId] :
   /// The ID of the hosted connection.
   Future<ConfirmConnectionResponse> confirmConnection({
-    @_s.required String connectionId,
+    required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
@@ -622,9 +694,9 @@ class DirectConnect {
   /// The ID of the virtual private gateway.
   Future<ConfirmPrivateVirtualInterfaceResponse>
       confirmPrivateVirtualInterface({
-    @_s.required String virtualInterfaceId,
-    String directConnectGatewayId,
-    String virtualGatewayId,
+    required String virtualInterfaceId,
+    String? directConnectGatewayId,
+    String? virtualGatewayId,
   }) async {
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
@@ -660,7 +732,7 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
   Future<ConfirmPublicVirtualInterfaceResponse> confirmPublicVirtualInterface({
-    @_s.required String virtualInterfaceId,
+    required String virtualInterfaceId,
   }) async {
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
@@ -698,8 +770,8 @@ class DirectConnect {
   /// The ID of the virtual interface.
   Future<ConfirmTransitVirtualInterfaceResponse>
       confirmTransitVirtualInterface({
-    @_s.required String directConnectGatewayId,
-    @_s.required String virtualInterfaceId,
+    required String directConnectGatewayId,
+    required String virtualInterfaceId,
   }) async {
     ArgumentError.checkNotNull(
         directConnectGatewayId, 'directConnectGatewayId');
@@ -738,7 +810,7 @@ class DirectConnect {
   /// IPv6 addresses; you cannot specify custom IPv6 addresses.
   ///
   /// For a public virtual interface, the Autonomous System Number (ASN) must be
-  /// private or already whitelisted for the virtual interface.
+  /// private or already on the allow list for the virtual interface.
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -749,8 +821,8 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
   Future<CreateBGPPeerResponse> createBGPPeer({
-    NewBGPPeer newBGPPeer,
-    String virtualInterfaceId,
+    NewBGPPeer? newBGPPeer,
+    String? virtualInterfaceId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -807,15 +879,25 @@ class DirectConnect {
   /// Parameter [providerName] :
   /// The name of the service provider associated with the requested connection.
   ///
+  /// Parameter [requestMACSec] :
+  /// Indicates whether you want the connection to support MAC Security
+  /// (MACsec).
+  ///
+  /// MAC Security (MACsec) is only available on dedicated connections. For
+  /// information about MAC Security (MACsec) prerequisties, see <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites">MACsec
+  /// prerequisties</a> in the <i>AWS Direct Connect User Guide</i>.
+  ///
   /// Parameter [tags] :
   /// The tags to associate with the lag.
   Future<Connection> createConnection({
-    @_s.required String bandwidth,
-    @_s.required String connectionName,
-    @_s.required String location,
-    String lagId,
-    String providerName,
-    List<Tag> tags,
+    required String bandwidth,
+    required String connectionName,
+    required String location,
+    String? lagId,
+    String? providerName,
+    bool? requestMACSec,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(connectionName, 'connectionName');
@@ -836,6 +918,7 @@ class DirectConnect {
         'location': location,
         if (lagId != null) 'lagId': lagId,
         if (providerName != null) 'providerName': providerName,
+        if (requestMACSec != null) 'requestMACSec': requestMACSec,
         if (tags != null) 'tags': tags,
       },
     );
@@ -864,8 +947,8 @@ class DirectConnect {
   /// private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The
   /// default is 64512.
   Future<CreateDirectConnectGatewayResult> createDirectConnectGateway({
-    @_s.required String directConnectGatewayName,
-    int amazonSideAsn,
+    required String directConnectGatewayName,
+    int? amazonSideAsn,
   }) async {
     ArgumentError.checkNotNull(
         directConnectGatewayName, 'directConnectGatewayName');
@@ -915,10 +998,10 @@ class DirectConnect {
   /// The ID of the virtual private gateway.
   Future<CreateDirectConnectGatewayAssociationResult>
       createDirectConnectGatewayAssociation({
-    @_s.required String directConnectGatewayId,
-    List<RouteFilterPrefix> addAllowedPrefixesToDirectConnectGateway,
-    String gatewayId,
-    String virtualGatewayId,
+    required String directConnectGatewayId,
+    List<RouteFilterPrefix>? addAllowedPrefixesToDirectConnectGateway,
+    String? gatewayId,
+    String? virtualGatewayId,
   }) async {
     ArgumentError.checkNotNull(
         directConnectGatewayId, 'directConnectGatewayId');
@@ -972,11 +1055,11 @@ class DirectConnect {
   /// gateway.
   Future<CreateDirectConnectGatewayAssociationProposalResult>
       createDirectConnectGatewayAssociationProposal({
-    @_s.required String directConnectGatewayId,
-    @_s.required String directConnectGatewayOwnerAccount,
-    @_s.required String gatewayId,
-    List<RouteFilterPrefix> addAllowedPrefixesToDirectConnectGateway,
-    List<RouteFilterPrefix> removeAllowedPrefixesToDirectConnectGateway,
+    required String directConnectGatewayId,
+    required String directConnectGatewayOwnerAccount,
+    required String gatewayId,
+    List<RouteFilterPrefix>? addAllowedPrefixesToDirectConnectGateway,
+    List<RouteFilterPrefix>? removeAllowedPrefixesToDirectConnectGateway,
   }) async {
     ArgumentError.checkNotNull(
         directConnectGatewayId, 'directConnectGatewayId');
@@ -1060,12 +1143,12 @@ class DirectConnect {
   /// Parameter [tags] :
   /// The tags to associate with the interconnect.
   Future<Interconnect> createInterconnect({
-    @_s.required String bandwidth,
-    @_s.required String interconnectName,
-    @_s.required String location,
-    String lagId,
-    String providerName,
-    List<Tag> tags,
+    required String bandwidth,
+    required String interconnectName,
+    required String location,
+    String? lagId,
+    String? providerName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(bandwidth, 'bandwidth');
     ArgumentError.checkNotNull(interconnectName, 'interconnectName');
@@ -1148,17 +1231,28 @@ class DirectConnect {
   /// Parameter [providerName] :
   /// The name of the service provider associated with the LAG.
   ///
+  /// Parameter [requestMACSec] :
+  /// Indicates whether the connection will support MAC Security (MACsec).
+  /// <note>
+  /// All connections in the LAG must be capable of supporting MAC Security
+  /// (MACsec). For information about MAC Security (MACsec) prerequisties, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites">MACsec
+  /// prerequisties</a> in the <i>AWS Direct Connect User Guide</i>.
+  /// </note>
+  ///
   /// Parameter [tags] :
   /// The tags to associate with the LAG.
   Future<Lag> createLag({
-    @_s.required String connectionsBandwidth,
-    @_s.required String lagName,
-    @_s.required String location,
-    @_s.required int numberOfConnections,
-    List<Tag> childConnectionTags,
-    String connectionId,
-    String providerName,
-    List<Tag> tags,
+    required String connectionsBandwidth,
+    required String lagName,
+    required String location,
+    required int numberOfConnections,
+    List<Tag>? childConnectionTags,
+    String? connectionId,
+    String? providerName,
+    bool? requestMACSec,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(connectionsBandwidth, 'connectionsBandwidth');
     ArgumentError.checkNotNull(lagName, 'lagName');
@@ -1183,6 +1277,7 @@ class DirectConnect {
           'childConnectionTags': childConnectionTags,
         if (connectionId != null) 'connectionId': connectionId,
         if (providerName != null) 'providerName': providerName,
+        if (requestMACSec != null) 'requestMACSec': requestMACSec,
         if (tags != null) 'tags': tags,
       },
     );
@@ -1217,8 +1312,8 @@ class DirectConnect {
   /// Parameter [newPrivateVirtualInterface] :
   /// Information about the private virtual interface.
   Future<VirtualInterface> createPrivateVirtualInterface({
-    @_s.required String connectionId,
-    @_s.required NewPrivateVirtualInterface newPrivateVirtualInterface,
+    required String connectionId,
+    required NewPrivateVirtualInterface newPrivateVirtualInterface,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(
@@ -1262,8 +1357,8 @@ class DirectConnect {
   /// Parameter [newPublicVirtualInterface] :
   /// Information about the public virtual interface.
   Future<VirtualInterface> createPublicVirtualInterface({
-    @_s.required String connectionId,
-    @_s.required NewPublicVirtualInterface newPublicVirtualInterface,
+    required String connectionId,
+    required NewPublicVirtualInterface newPublicVirtualInterface,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(
@@ -1317,8 +1412,8 @@ class DirectConnect {
   /// Parameter [newTransitVirtualInterface] :
   /// Information about the transit virtual interface.
   Future<CreateTransitVirtualInterfaceResult> createTransitVirtualInterface({
-    @_s.required String connectionId,
-    @_s.required NewTransitVirtualInterface newTransitVirtualInterface,
+    required String connectionId,
+    required NewTransitVirtualInterface newTransitVirtualInterface,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(
@@ -1363,10 +1458,10 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
   Future<DeleteBGPPeerResponse> deleteBGPPeer({
-    int asn,
-    String bgpPeerId,
-    String customerAddress,
-    String virtualInterfaceId,
+    int? asn,
+    String? bgpPeerId,
+    String? customerAddress,
+    String? virtualInterfaceId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1403,7 +1498,7 @@ class DirectConnect {
   /// Parameter [connectionId] :
   /// The ID of the connection.
   Future<Connection> deleteConnection({
-    @_s.required String connectionId,
+    required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
@@ -1435,7 +1530,7 @@ class DirectConnect {
   /// Parameter [directConnectGatewayId] :
   /// The ID of the Direct Connect gateway.
   Future<DeleteDirectConnectGatewayResult> deleteDirectConnectGateway({
-    @_s.required String directConnectGatewayId,
+    required String directConnectGatewayId,
   }) async {
     ArgumentError.checkNotNull(
         directConnectGatewayId, 'directConnectGatewayId');
@@ -1479,9 +1574,9 @@ class DirectConnect {
   /// The ID of the virtual private gateway.
   Future<DeleteDirectConnectGatewayAssociationResult>
       deleteDirectConnectGatewayAssociation({
-    String associationId,
-    String directConnectGatewayId,
-    String virtualGatewayId,
+    String? associationId,
+    String? directConnectGatewayId,
+    String? virtualGatewayId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1515,7 +1610,7 @@ class DirectConnect {
   /// The ID of the proposal.
   Future<DeleteDirectConnectGatewayAssociationProposalResult>
       deleteDirectConnectGatewayAssociationProposal({
-    @_s.required String proposalId,
+    required String proposalId,
   }) async {
     ArgumentError.checkNotNull(proposalId, 'proposalId');
     final headers = <String, String>{
@@ -1549,7 +1644,7 @@ class DirectConnect {
   /// Parameter [interconnectId] :
   /// The ID of the interconnect.
   Future<DeleteInterconnectResponse> deleteInterconnect({
-    @_s.required String interconnectId,
+    required String interconnectId,
   }) async {
     ArgumentError.checkNotNull(interconnectId, 'interconnectId');
     final headers = <String, String>{
@@ -1579,7 +1674,7 @@ class DirectConnect {
   /// Parameter [lagId] :
   /// The ID of the LAG.
   Future<Lag> deleteLag({
-    @_s.required String lagId,
+    required String lagId,
   }) async {
     ArgumentError.checkNotNull(lagId, 'lagId');
     final headers = <String, String>{
@@ -1608,7 +1703,7 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
   Future<DeleteVirtualInterfaceResponse> deleteVirtualInterface({
-    @_s.required String virtualInterfaceId,
+    required String virtualInterfaceId,
   }) async {
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
@@ -1658,9 +1753,9 @@ class DirectConnect {
   /// the cross connect.
   @Deprecated('Deprecated')
   Future<DescribeConnectionLoaResponse> describeConnectionLoa({
-    @_s.required String connectionId,
-    LoaContentType loaContentType,
-    String providerName,
+    required String connectionId,
+    LoaContentType? loaContentType,
+    String? providerName,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
@@ -1691,7 +1786,7 @@ class DirectConnect {
   /// Parameter [connectionId] :
   /// The ID of the connection.
   Future<Connections> describeConnections({
-    String connectionId,
+    String? connectionId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1726,7 +1821,7 @@ class DirectConnect {
   /// The ID of the interconnect.
   @Deprecated('Deprecated')
   Future<Connections> describeConnectionsOnInterconnect({
-    @_s.required String interconnectId,
+    required String interconnectId,
   }) async {
     ArgumentError.checkNotNull(interconnectId, 'interconnectId');
     final headers = <String, String>{
@@ -1774,11 +1869,11 @@ class DirectConnect {
   /// The ID of the proposal.
   Future<DescribeDirectConnectGatewayAssociationProposalsResult>
       describeDirectConnectGatewayAssociationProposals({
-    String associatedGatewayId,
-    String directConnectGatewayId,
-    int maxResults,
-    String nextToken,
-    String proposalId,
+    String? associatedGatewayId,
+    String? directConnectGatewayId,
+    int? maxResults,
+    String? nextToken,
+    String? proposalId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1807,13 +1902,39 @@ class DirectConnect {
   }
 
   /// Lists the associations between your Direct Connect gateways and virtual
-  /// private gateways. You must specify a Direct Connect gateway, a virtual
-  /// private gateway, or both. If you specify a Direct Connect gateway, the
-  /// response contains all virtual private gateways associated with the Direct
-  /// Connect gateway. If you specify a virtual private gateway, the response
-  /// contains all Direct Connect gateways associated with the virtual private
-  /// gateway. If you specify both, the response contains the association
-  /// between the Direct Connect gateway and the virtual private gateway.
+  /// private gateways and transit gateways. You must specify one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// A Direct Connect gateway
+  ///
+  /// The response contains all virtual private gateways and transit gateways
+  /// associated with the Direct Connect gateway.
+  /// </li>
+  /// <li>
+  /// A virtual private gateway
+  ///
+  /// The response contains the Direct Connect gateway.
+  /// </li>
+  /// <li>
+  /// A transit gateway
+  ///
+  /// The response contains the Direct Connect gateway.
+  /// </li>
+  /// <li>
+  /// A Direct Connect gateway and a virtual private gateway
+  ///
+  /// The response contains the association between the Direct Connect gateway
+  /// and virtual private gateway.
+  /// </li>
+  /// <li>
+  /// A Direct Connect gateway and a transit gateway
+  ///
+  /// The response contains the association between the Direct Connect gateway
+  /// and transit gateway.
+  /// </li>
+  /// </ul>
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
@@ -1839,15 +1960,15 @@ class DirectConnect {
   /// The token provided in the previous call to retrieve the next page.
   ///
   /// Parameter [virtualGatewayId] :
-  /// The ID of the virtual private gateway.
+  /// The ID of the virtual private gateway or transit gateway.
   Future<DescribeDirectConnectGatewayAssociationsResult>
       describeDirectConnectGatewayAssociations({
-    String associatedGatewayId,
-    String associationId,
-    String directConnectGatewayId,
-    int maxResults,
-    String nextToken,
-    String virtualGatewayId,
+    String? associatedGatewayId,
+    String? associationId,
+    String? directConnectGatewayId,
+    int? maxResults,
+    String? nextToken,
+    String? virtualGatewayId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1905,10 +2026,10 @@ class DirectConnect {
   /// The ID of the virtual interface.
   Future<DescribeDirectConnectGatewayAttachmentsResult>
       describeDirectConnectGatewayAttachments({
-    String directConnectGatewayId,
-    int maxResults,
-    String nextToken,
-    String virtualInterfaceId,
+    String? directConnectGatewayId,
+    int? maxResults,
+    String? nextToken,
+    String? virtualInterfaceId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1954,9 +2075,9 @@ class DirectConnect {
   /// Parameter [nextToken] :
   /// The token provided in the previous call to retrieve the next page.
   Future<DescribeDirectConnectGatewaysResult> describeDirectConnectGateways({
-    String directConnectGatewayId,
-    int maxResults,
-    String nextToken,
+    String? directConnectGatewayId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1991,7 +2112,7 @@ class DirectConnect {
   /// Parameter [connectionId] :
   /// The ID of the interconnect or LAG.
   Future<Connections> describeHostedConnections({
-    @_s.required String connectionId,
+    required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
@@ -2039,9 +2160,9 @@ class DirectConnect {
   /// alongside your company name as the requester of the cross connect.
   @Deprecated('Deprecated')
   Future<DescribeInterconnectLoaResponse> describeInterconnectLoa({
-    @_s.required String interconnectId,
-    LoaContentType loaContentType,
-    String providerName,
+    required String interconnectId,
+    LoaContentType? loaContentType,
+    String? providerName,
   }) async {
     ArgumentError.checkNotNull(interconnectId, 'interconnectId');
     final headers = <String, String>{
@@ -2073,7 +2194,7 @@ class DirectConnect {
   /// Parameter [interconnectId] :
   /// The ID of the interconnect.
   Future<Interconnects> describeInterconnects({
-    String interconnectId,
+    String? interconnectId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2101,7 +2222,7 @@ class DirectConnect {
   /// Parameter [lagId] :
   /// The ID of the LAG.
   Future<Lags> describeLags({
-    String lagId,
+    String? lagId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2146,9 +2267,9 @@ class DirectConnect {
   /// behalf. If you specify this parameter, the LOA-CFA lists the provider name
   /// alongside your company name as the requester of the cross connect.
   Future<Loa> describeLoa({
-    @_s.required String connectionId,
-    LoaContentType loaContentType,
-    String providerName,
+    required String connectionId,
+    LoaContentType? loaContentType,
+    String? providerName,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     final headers = <String, String>{
@@ -2202,7 +2323,7 @@ class DirectConnect {
   /// Parameter [resourceArns] :
   /// The Amazon Resource Names (ARNs) of the resources.
   Future<DescribeTagsResponse> describeTags({
-    @_s.required List<String> resourceArns,
+    required List<String> resourceArns,
   }) async {
     ArgumentError.checkNotNull(resourceArns, 'resourceArns');
     final headers = <String, String>{
@@ -2264,8 +2385,8 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface.
   Future<VirtualInterfaces> describeVirtualInterfaces({
-    String connectionId,
-    String virtualInterfaceId,
+    String? connectionId,
+    String? virtualInterfaceId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2310,8 +2431,8 @@ class DirectConnect {
   /// Parameter [lagId] :
   /// The ID of the LAG.
   Future<Connection> disassociateConnectionFromLag({
-    @_s.required String connectionId,
-    @_s.required String lagId,
+    required String connectionId,
+    required String lagId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(lagId, 'lagId');
@@ -2332,6 +2453,49 @@ class DirectConnect {
     );
 
     return Connection.fromJson(jsonResponse.body);
+  }
+
+  /// Removes the association between a MAC Security (MACsec) security key and
+  /// an AWS Direct Connect dedicated connection.
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [connectionId] :
+  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
+  /// (dxlag-xxxx).
+  ///
+  /// You can use <a>DescribeConnections</a> or <a>DescribeLags</a> to retrieve
+  /// connection ID.
+  ///
+  /// Parameter [secretARN] :
+  /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
+  ///
+  /// You can use <a>DescribeConnections</a> to retrieve the ARN of the MAC
+  /// Security (MACsec) secret key.
+  Future<DisassociateMacSecKeyResponse> disassociateMacSecKey({
+    required String connectionId,
+    required String secretARN,
+  }) async {
+    ArgumentError.checkNotNull(connectionId, 'connectionId');
+    ArgumentError.checkNotNull(secretARN, 'secretARN');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.DisassociateMacSecKey'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'connectionId': connectionId,
+        'secretARN': secretARN,
+      },
+    );
+
+    return DisassociateMacSecKeyResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists the virtual interface failover test history.
@@ -2364,12 +2528,12 @@ class DirectConnect {
   /// The ID of the virtual interface that was tested.
   Future<ListVirtualInterfaceTestHistoryResponse>
       listVirtualInterfaceTestHistory({
-    List<String> bgpPeers,
-    int maxResults,
-    String nextToken,
-    String status,
-    String testId,
-    String virtualInterfaceId,
+    List<String>? bgpPeers,
+    int? maxResults,
+    String? nextToken,
+    String? status,
+    String? testId,
+    String? virtualInterfaceId,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2426,9 +2590,9 @@ class DirectConnect {
   ///
   /// Default: 180 minutes (3 hours).
   Future<StartBgpFailoverTestResponse> startBgpFailoverTest({
-    @_s.required String virtualInterfaceId,
-    List<String> bgpPeers,
-    int testDurationInMinutes,
+    required String virtualInterfaceId,
+    List<String>? bgpPeers,
+    int? testDurationInMinutes,
   }) async {
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
@@ -2460,7 +2624,7 @@ class DirectConnect {
   /// Parameter [virtualInterfaceId] :
   /// The ID of the virtual interface you no longer want to test.
   Future<StopBgpFailoverTestResponse> stopBgpFailoverTest({
-    @_s.required String virtualInterfaceId,
+    required String virtualInterfaceId,
   }) async {
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
@@ -2499,8 +2663,8 @@ class DirectConnect {
   /// Parameter [tags] :
   /// The tags to add.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tags,
+    required String resourceArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2508,7 +2672,7 @@ class DirectConnect {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2519,8 +2683,6 @@ class DirectConnect {
         'tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes one or more tags from the specified AWS Direct Connect resource.
@@ -2534,8 +2696,8 @@ class DirectConnect {
   /// Parameter [tagKeys] :
   /// The tag keys of the tags to remove.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2543,7 +2705,7 @@ class DirectConnect {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'OvertureService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2554,8 +2716,61 @@ class DirectConnect {
         'tagKeys': tagKeys,
       },
     );
+  }
 
-    return UntagResourceResponse.fromJson(jsonResponse.body);
+  /// Updates the AWS Direct Connect dedicated connection configuration.
+  ///
+  /// You can update the following parameters for a connection:
+  ///
+  /// <ul>
+  /// <li>
+  /// The connection name
+  /// </li>
+  /// <li>
+  /// The connection's MAC Security (MACsec) encryption mode.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [DirectConnectServerException].
+  /// May throw [DirectConnectClientException].
+  ///
+  /// Parameter [connectionId] :
+  /// The ID of the dedicated connection.
+  ///
+  /// You can use <a>DescribeConnections</a> to retrieve the connection ID.
+  ///
+  /// Parameter [connectionName] :
+  /// The name of the connection.
+  ///
+  /// Parameter [encryptionMode] :
+  /// The connection MAC Security (MACsec) encryption mode.
+  ///
+  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
+  /// and <code>must_encrypt</code>.
+  Future<Connection> updateConnection({
+    required String connectionId,
+    String? connectionName,
+    String? encryptionMode,
+  }) async {
+    ArgumentError.checkNotNull(connectionId, 'connectionId');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'OvertureService.UpdateConnection'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'connectionId': connectionId,
+        if (connectionName != null) 'connectionName': connectionName,
+        if (encryptionMode != null) 'encryptionMode': encryptionMode,
+      },
+    );
+
+    return Connection.fromJson(jsonResponse.body);
   }
 
   /// Updates the specified attributes of the Direct Connect gateway
@@ -2577,9 +2792,9 @@ class DirectConnect {
   /// gateway.
   Future<UpdateDirectConnectGatewayAssociationResult>
       updateDirectConnectGatewayAssociation({
-    List<RouteFilterPrefix> addAllowedPrefixesToDirectConnectGateway,
-    String associationId,
-    List<RouteFilterPrefix> removeAllowedPrefixesToDirectConnectGateway,
+    List<RouteFilterPrefix>? addAllowedPrefixesToDirectConnectGateway,
+    String? associationId,
+    List<RouteFilterPrefix>? removeAllowedPrefixesToDirectConnectGateway,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2608,7 +2823,7 @@ class DirectConnect {
 
   /// Updates the attributes of the specified link aggregation group (LAG).
   ///
-  /// You can update the following attributes:
+  /// You can update the following LAG attributes:
   ///
   /// <ul>
   /// <li>
@@ -2618,19 +2833,30 @@ class DirectConnect {
   /// The value for the minimum number of connections that must be operational
   /// for the LAG itself to be operational.
   /// </li>
-  /// </ul>
-  /// When you create a LAG, the default value for the minimum number of
-  /// operational connections is zero (0). If you update this value and the
-  /// number of operational connections falls below the specified value, the LAG
-  /// automatically goes down to avoid over-utilization of the remaining
-  /// connections. Adjust this value with care, as it could force the LAG down
-  /// if it is set higher than the current number of operational connections.
+  /// <li>
+  /// The LAG's MACsec encryption mode.
+  ///
+  /// AWS assigns this value to each connection which is part of the LAG.
+  /// </li>
+  /// <li>
+  /// The tags
+  /// </li>
+  /// </ul> <note>
+  /// If you adjust the threshold value for the minimum number of operational
+  /// connections, ensure that the new value does not cause the LAG to fall
+  /// below the threshold and become non-operational.
+  /// </note>
   ///
   /// May throw [DirectConnectServerException].
   /// May throw [DirectConnectClientException].
   ///
   /// Parameter [lagId] :
   /// The ID of the LAG.
+  ///
+  /// Parameter [encryptionMode] :
+  /// The LAG MAC Security (MACsec) encryption mode.
+  ///
+  /// AWS applies the value to all connections which are part of the LAG.
   ///
   /// Parameter [lagName] :
   /// The name of the LAG.
@@ -2639,9 +2865,10 @@ class DirectConnect {
   /// The minimum number of physical connections that must be operational for
   /// the LAG itself to be operational.
   Future<Lag> updateLag({
-    @_s.required String lagId,
-    String lagName,
-    int minimumLinks,
+    required String lagId,
+    String? encryptionMode,
+    String? lagName,
+    int? minimumLinks,
   }) async {
     ArgumentError.checkNotNull(lagId, 'lagId');
     final headers = <String, String>{
@@ -2656,6 +2883,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'lagId': lagId,
+        if (encryptionMode != null) 'encryptionMode': encryptionMode,
         if (lagName != null) 'lagName': lagName,
         if (minimumLinks != null) 'minimumLinks': minimumLinks,
       },
@@ -2685,8 +2913,8 @@ class DirectConnect {
   /// The maximum transmission unit (MTU), in bytes. The supported values are
   /// 1500 and 9001. The default value is 1500.
   Future<VirtualInterface> updateVirtualInterfaceAttributes({
-    @_s.required String virtualInterfaceId,
-    int mtu,
+    required String virtualInterfaceId,
+    int? mtu,
   }) async {
     ArgumentError.checkNotNull(virtualInterfaceId, 'virtualInterfaceId');
     final headers = <String, String>{
@@ -2709,70 +2937,136 @@ class DirectConnect {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AcceptDirectConnectGatewayAssociationProposalResult {
-  @_s.JsonKey(name: 'directConnectGatewayAssociation')
-  final DirectConnectGatewayAssociation directConnectGatewayAssociation;
+  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
 
   AcceptDirectConnectGatewayAssociationProposalResult({
     this.directConnectGatewayAssociation,
   });
+
   factory AcceptDirectConnectGatewayAssociationProposalResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$AcceptDirectConnectGatewayAssociationProposalResultFromJson(json);
+      Map<String, dynamic> json) {
+    return AcceptDirectConnectGatewayAssociationProposalResult(
+      directConnectGatewayAssociation:
+          json['directConnectGatewayAssociation'] != null
+              ? DirectConnectGatewayAssociation.fromJson(
+                  json['directConnectGatewayAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociation =
+        this.directConnectGatewayAssociation;
+    return {
+      if (directConnectGatewayAssociation != null)
+        'directConnectGatewayAssociation': directConnectGatewayAssociation,
+    };
+  }
 }
 
 enum AddressFamily {
-  @_s.JsonValue('ipv4')
   ipv4,
-  @_s.JsonValue('ipv6')
   ipv6,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on AddressFamily {
+  String toValue() {
+    switch (this) {
+      case AddressFamily.ipv4:
+        return 'ipv4';
+      case AddressFamily.ipv6:
+        return 'ipv6';
+    }
+  }
+}
+
+extension on String {
+  AddressFamily toAddressFamily() {
+    switch (this) {
+      case 'ipv4':
+        return AddressFamily.ipv4;
+      case 'ipv6':
+        return AddressFamily.ipv6;
+    }
+    throw Exception('$this is not known in enum AddressFamily');
+  }
+}
+
 class AllocateTransitVirtualInterfaceResult {
-  @_s.JsonKey(name: 'virtualInterface')
-  final VirtualInterface virtualInterface;
+  final VirtualInterface? virtualInterface;
 
   AllocateTransitVirtualInterfaceResult({
     this.virtualInterface,
   });
+
   factory AllocateTransitVirtualInterfaceResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$AllocateTransitVirtualInterfaceResultFromJson(json);
+      Map<String, dynamic> json) {
+    return AllocateTransitVirtualInterfaceResult(
+      virtualInterface: json['virtualInterface'] != null
+          ? VirtualInterface.fromJson(
+              json['virtualInterface'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterface = this.virtualInterface;
+    return {
+      if (virtualInterface != null) 'virtualInterface': virtualInterface,
+    };
+  }
+}
+
+class AssociateMacSecKeyResponse {
+  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
+  /// (dxlag-xxxx).
+  final String? connectionId;
+
+  /// The MAC Security (MACsec) security keys associated with the dedicated
+  /// connection.
+  final List<MacSecKey>? macSecKeys;
+
+  AssociateMacSecKeyResponse({
+    this.connectionId,
+    this.macSecKeys,
+  });
+
+  factory AssociateMacSecKeyResponse.fromJson(Map<String, dynamic> json) {
+    return AssociateMacSecKeyResponse(
+      connectionId: json['connectionId'] as String?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionId = this.connectionId;
+    final macSecKeys = this.macSecKeys;
+    return {
+      if (connectionId != null) 'connectionId': connectionId,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+    };
+  }
 }
 
 /// Information about the associated gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociatedGateway {
   /// The ID of the associated gateway.
-  @_s.JsonKey(name: 'id')
-  final String id;
+  final String? id;
 
   /// The ID of the AWS account that owns the associated virtual private gateway
   /// or transit gateway.
-  @_s.JsonKey(name: 'ownerAccount')
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The Region where the associated gateway is located.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// The type of associated gateway.
-  @_s.JsonKey(name: 'type')
-  final GatewayType type;
+  final GatewayType? type;
 
   AssociatedGateway({
     this.id,
@@ -2780,42 +3074,51 @@ class AssociatedGateway {
     this.region,
     this.type,
   });
-  factory AssociatedGateway.fromJson(Map<String, dynamic> json) =>
-      _$AssociatedGatewayFromJson(json);
+
+  factory AssociatedGateway.fromJson(Map<String, dynamic> json) {
+    return AssociatedGateway(
+      id: json['id'] as String?,
+      ownerAccount: json['ownerAccount'] as String?,
+      region: json['region'] as String?,
+      type: (json['type'] as String?)?.toGatewayType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final ownerAccount = this.ownerAccount;
+    final region = this.region;
+    final type = this.type;
+    return {
+      if (id != null) 'id': id,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (region != null) 'region': region,
+      if (type != null) 'type': type.toValue(),
+    };
+  }
 }
 
 /// Information about a BGP peer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BGPPeer {
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
-  @_s.JsonKey(name: 'asn')
-  final int asn;
+  final int? asn;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The Direct Connect endpoint on which the BGP peer terminates.
-  @_s.JsonKey(name: 'awsDeviceV2')
-  final String awsDeviceV2;
+  final String? awsDeviceV2;
 
   /// The ID of the BGP peer.
-  @_s.JsonKey(name: 'bgpPeerId')
-  final String bgpPeerId;
+  final String? bgpPeerId;
 
   /// The state of the BGP peer. The following are the possible values:
   ///
@@ -2839,8 +3142,7 @@ class BGPPeer {
   /// <code>deleted</code>: The BGP peer is deleted and cannot be established.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'bgpPeerState')
-  final BGPPeerState bgpPeerState;
+  final BGPPeerState? bgpPeerState;
 
   /// The status of the BGP peer. The following are the possible values:
   ///
@@ -2857,12 +3159,10 @@ class BGPPeer {
   /// <code>unknown</code>: The BGP peer status is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'bgpStatus')
-  final BGPStatus bgpStatus;
+  final BGPStatus? bgpStatus;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   BGPPeer({
     this.addressFamily,
@@ -2875,37 +3175,121 @@ class BGPPeer {
     this.bgpStatus,
     this.customerAddress,
   });
-  factory BGPPeer.fromJson(Map<String, dynamic> json) =>
-      _$BGPPeerFromJson(json);
+
+  factory BGPPeer.fromJson(Map<String, dynamic> json) {
+    return BGPPeer(
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      asn: json['asn'] as int?,
+      authKey: json['authKey'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      bgpPeerId: json['bgpPeerId'] as String?,
+      bgpPeerState: (json['bgpPeerState'] as String?)?.toBGPPeerState(),
+      bgpStatus: (json['bgpStatus'] as String?)?.toBGPStatus(),
+      customerAddress: json['customerAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final authKey = this.authKey;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final bgpPeerId = this.bgpPeerId;
+    final bgpPeerState = this.bgpPeerState;
+    final bgpStatus = this.bgpStatus;
+    final customerAddress = this.customerAddress;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (authKey != null) 'authKey': authKey,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (bgpPeerId != null) 'bgpPeerId': bgpPeerId,
+      if (bgpPeerState != null) 'bgpPeerState': bgpPeerState.toValue(),
+      if (bgpStatus != null) 'bgpStatus': bgpStatus.toValue(),
+      if (customerAddress != null) 'customerAddress': customerAddress,
+    };
+  }
 }
 
 enum BGPPeerState {
-  @_s.JsonValue('verifying')
   verifying,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('deleted')
   deleted,
 }
 
+extension on BGPPeerState {
+  String toValue() {
+    switch (this) {
+      case BGPPeerState.verifying:
+        return 'verifying';
+      case BGPPeerState.pending:
+        return 'pending';
+      case BGPPeerState.available:
+        return 'available';
+      case BGPPeerState.deleting:
+        return 'deleting';
+      case BGPPeerState.deleted:
+        return 'deleted';
+    }
+  }
+}
+
+extension on String {
+  BGPPeerState toBGPPeerState() {
+    switch (this) {
+      case 'verifying':
+        return BGPPeerState.verifying;
+      case 'pending':
+        return BGPPeerState.pending;
+      case 'available':
+        return BGPPeerState.available;
+      case 'deleting':
+        return BGPPeerState.deleting;
+      case 'deleted':
+        return BGPPeerState.deleted;
+    }
+    throw Exception('$this is not known in enum BGPPeerState');
+  }
+}
+
 enum BGPStatus {
-  @_s.JsonValue('up')
   up,
-  @_s.JsonValue('down')
   down,
-  @_s.JsonValue('unknown')
   unknown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on BGPStatus {
+  String toValue() {
+    switch (this) {
+      case BGPStatus.up:
+        return 'up';
+      case BGPStatus.down:
+        return 'down';
+      case BGPStatus.unknown:
+        return 'unknown';
+    }
+  }
+}
+
+extension on String {
+  BGPStatus toBGPStatus() {
+    switch (this) {
+      case 'up':
+        return BGPStatus.up;
+      case 'down':
+        return BGPStatus.down;
+      case 'unknown':
+        return BGPStatus.unknown;
+    }
+    throw Exception('$this is not known in enum BGPStatus');
+  }
+}
+
 class ConfirmConnectionResponse {
   /// The state of the connection. The following are the possible values:
   ///
@@ -2946,21 +3330,27 @@ class ConfirmConnectionResponse {
   /// <code>unknown</code>: The state of the connection is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'connectionState')
-  final ConnectionState connectionState;
+  final ConnectionState? connectionState;
 
   ConfirmConnectionResponse({
     this.connectionState,
   });
-  factory ConfirmConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$ConfirmConnectionResponseFromJson(json);
+
+  factory ConfirmConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return ConfirmConnectionResponse(
+      connectionState:
+          (json['connectionState'] as String?)?.toConnectionState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionState = this.connectionState;
+    return {
+      if (connectionState != null) 'connectionState': connectionState.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfirmPrivateVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -3005,22 +3395,29 @@ class ConfirmPrivateVirtualInterfaceResponse {
   /// <code>unknown</code>: The state of the virtual interface is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'virtualInterfaceState')
-  final VirtualInterfaceState virtualInterfaceState;
+  final VirtualInterfaceState? virtualInterfaceState;
 
   ConfirmPrivateVirtualInterfaceResponse({
     this.virtualInterfaceState,
   });
+
   factory ConfirmPrivateVirtualInterfaceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfirmPrivateVirtualInterfaceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfirmPrivateVirtualInterfaceResponse(
+      virtualInterfaceState:
+          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceState = this.virtualInterfaceState;
+    return {
+      if (virtualInterfaceState != null)
+        'virtualInterfaceState': virtualInterfaceState.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfirmPublicVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -3065,22 +3462,29 @@ class ConfirmPublicVirtualInterfaceResponse {
   /// <code>unknown</code>: The state of the virtual interface is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'virtualInterfaceState')
-  final VirtualInterfaceState virtualInterfaceState;
+  final VirtualInterfaceState? virtualInterfaceState;
 
   ConfirmPublicVirtualInterfaceResponse({
     this.virtualInterfaceState,
   });
+
   factory ConfirmPublicVirtualInterfaceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfirmPublicVirtualInterfaceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfirmPublicVirtualInterfaceResponse(
+      virtualInterfaceState:
+          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceState = this.virtualInterfaceState;
+    return {
+      if (virtualInterfaceState != null)
+        'virtualInterfaceState': virtualInterfaceState.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConfirmTransitVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -3125,43 +3529,45 @@ class ConfirmTransitVirtualInterfaceResponse {
   /// <code>unknown</code>: The state of the virtual interface is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'virtualInterfaceState')
-  final VirtualInterfaceState virtualInterfaceState;
+  final VirtualInterfaceState? virtualInterfaceState;
 
   ConfirmTransitVirtualInterfaceResponse({
     this.virtualInterfaceState,
   });
+
   factory ConfirmTransitVirtualInterfaceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ConfirmTransitVirtualInterfaceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ConfirmTransitVirtualInterfaceResponse(
+      virtualInterfaceState:
+          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceState = this.virtualInterfaceState;
+    return {
+      if (virtualInterfaceState != null)
+        'virtualInterfaceState': virtualInterfaceState.toValue(),
+    };
+  }
 }
 
 /// Information about an AWS Direct Connect connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Connection {
   /// The Direct Connect endpoint on which the physical connection terminates.
-  @_s.JsonKey(name: 'awsDevice')
-  final String awsDevice;
+  final String? awsDevice;
 
   /// The Direct Connect endpoint on which the physical connection terminates.
-  @_s.JsonKey(name: 'awsDeviceV2')
-  final String awsDeviceV2;
+  final String? awsDeviceV2;
 
   /// The bandwidth of the connection.
-  @_s.JsonKey(name: 'bandwidth')
-  final String bandwidth;
+  final String? bandwidth;
 
   /// The ID of the connection.
-  @_s.JsonKey(name: 'connectionId')
-  final String connectionId;
+  final String? connectionId;
 
   /// The name of the connection.
-  @_s.JsonKey(name: 'connectionName')
-  final String connectionName;
+  final String? connectionName;
 
   /// The state of the connection. The following are the possible values:
   ///
@@ -3202,55 +3608,60 @@ class Connection {
   /// <code>unknown</code>: The state of the connection is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'connectionState')
-  final ConnectionState connectionState;
+  final ConnectionState? connectionState;
+
+  /// The MAC Security (MACsec) connection encryption mode.
+  ///
+  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
+  /// and <code>must_encrypt</code>.
+  final String? encryptionMode;
 
   /// Indicates whether the connection supports a secondary BGP peer in the same
   /// address family (IPv4/IPv6).
-  @_s.JsonKey(name: 'hasLogicalRedundancy')
-  final HasLogicalRedundancy hasLogicalRedundancy;
+  final HasLogicalRedundancy? hasLogicalRedundancy;
 
   /// Indicates whether jumbo frames (9001 MTU) are supported.
-  @_s.JsonKey(name: 'jumboFrameCapable')
-  final bool jumboFrameCapable;
+  final bool? jumboFrameCapable;
 
   /// The ID of the LAG.
-  @_s.JsonKey(name: 'lagId')
-  final String lagId;
+  final String? lagId;
 
   /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'loaIssueTime')
-  final DateTime loaIssueTime;
+  final DateTime? loaIssueTime;
 
   /// The location of the connection.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
+
+  /// Indicates whether the connection supports MAC Security (MACsec).
+  final bool? macSecCapable;
+
+  /// The MAC Security (MACsec) security keys associated with the connection.
+  final List<MacSecKey>? macSecKeys;
 
   /// The ID of the AWS account that owns the connection.
-  @_s.JsonKey(name: 'ownerAccount')
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The name of the AWS Direct Connect service provider associated with the
   /// connection.
-  @_s.JsonKey(name: 'partnerName')
-  final String partnerName;
+  final String? partnerName;
+
+  /// The MAC Security (MACsec) port link status of the connection.
+  ///
+  /// The valid values are <code>Encryption Up</code>, which means that there is
+  /// an active Connection Key Name, or <code>Encryption Down</code>.
+  final String? portEncryptionStatus;
 
   /// The name of the service provider associated with the connection.
-  @_s.JsonKey(name: 'providerName')
-  final String providerName;
+  final String? providerName;
 
   /// The AWS Region where the connection is located.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// The tags associated with the connection.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
-  final int vlan;
+  final int? vlan;
 
   Connection({
     this.awsDevice,
@@ -3259,226 +3670,447 @@ class Connection {
     this.connectionId,
     this.connectionName,
     this.connectionState,
+    this.encryptionMode,
     this.hasLogicalRedundancy,
     this.jumboFrameCapable,
     this.lagId,
     this.loaIssueTime,
     this.location,
+    this.macSecCapable,
+    this.macSecKeys,
     this.ownerAccount,
     this.partnerName,
+    this.portEncryptionStatus,
     this.providerName,
     this.region,
     this.tags,
     this.vlan,
   });
-  factory Connection.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionFromJson(json);
+
+  factory Connection.fromJson(Map<String, dynamic> json) {
+    return Connection(
+      awsDevice: json['awsDevice'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      bandwidth: json['bandwidth'] as String?,
+      connectionId: json['connectionId'] as String?,
+      connectionName: json['connectionName'] as String?,
+      connectionState:
+          (json['connectionState'] as String?)?.toConnectionState(),
+      encryptionMode: json['encryptionMode'] as String?,
+      hasLogicalRedundancy:
+          (json['hasLogicalRedundancy'] as String?)?.toHasLogicalRedundancy(),
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      lagId: json['lagId'] as String?,
+      loaIssueTime: timeStampFromJson(json['loaIssueTime']),
+      location: json['location'] as String?,
+      macSecCapable: json['macSecCapable'] as bool?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      ownerAccount: json['ownerAccount'] as String?,
+      partnerName: json['partnerName'] as String?,
+      portEncryptionStatus: json['portEncryptionStatus'] as String?,
+      providerName: json['providerName'] as String?,
+      region: json['region'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vlan: json['vlan'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsDevice = this.awsDevice;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final bandwidth = this.bandwidth;
+    final connectionId = this.connectionId;
+    final connectionName = this.connectionName;
+    final connectionState = this.connectionState;
+    final encryptionMode = this.encryptionMode;
+    final hasLogicalRedundancy = this.hasLogicalRedundancy;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final lagId = this.lagId;
+    final loaIssueTime = this.loaIssueTime;
+    final location = this.location;
+    final macSecCapable = this.macSecCapable;
+    final macSecKeys = this.macSecKeys;
+    final ownerAccount = this.ownerAccount;
+    final partnerName = this.partnerName;
+    final portEncryptionStatus = this.portEncryptionStatus;
+    final providerName = this.providerName;
+    final region = this.region;
+    final tags = this.tags;
+    final vlan = this.vlan;
+    return {
+      if (awsDevice != null) 'awsDevice': awsDevice,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (bandwidth != null) 'bandwidth': bandwidth,
+      if (connectionId != null) 'connectionId': connectionId,
+      if (connectionName != null) 'connectionName': connectionName,
+      if (connectionState != null) 'connectionState': connectionState.toValue(),
+      if (encryptionMode != null) 'encryptionMode': encryptionMode,
+      if (hasLogicalRedundancy != null)
+        'hasLogicalRedundancy': hasLogicalRedundancy.toValue(),
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (lagId != null) 'lagId': lagId,
+      if (loaIssueTime != null)
+        'loaIssueTime': unixTimestampToJson(loaIssueTime),
+      if (location != null) 'location': location,
+      if (macSecCapable != null) 'macSecCapable': macSecCapable,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (partnerName != null) 'partnerName': partnerName,
+      if (portEncryptionStatus != null)
+        'portEncryptionStatus': portEncryptionStatus,
+      if (providerName != null) 'providerName': providerName,
+      if (region != null) 'region': region,
+      if (tags != null) 'tags': tags,
+      if (vlan != null) 'vlan': vlan,
+    };
+  }
 }
 
 enum ConnectionState {
-  @_s.JsonValue('ordering')
   ordering,
-  @_s.JsonValue('requested')
   requested,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('down')
   down,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('deleted')
   deleted,
-  @_s.JsonValue('rejected')
   rejected,
-  @_s.JsonValue('unknown')
   unknown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectionState {
+  String toValue() {
+    switch (this) {
+      case ConnectionState.ordering:
+        return 'ordering';
+      case ConnectionState.requested:
+        return 'requested';
+      case ConnectionState.pending:
+        return 'pending';
+      case ConnectionState.available:
+        return 'available';
+      case ConnectionState.down:
+        return 'down';
+      case ConnectionState.deleting:
+        return 'deleting';
+      case ConnectionState.deleted:
+        return 'deleted';
+      case ConnectionState.rejected:
+        return 'rejected';
+      case ConnectionState.unknown:
+        return 'unknown';
+    }
+  }
+}
+
+extension on String {
+  ConnectionState toConnectionState() {
+    switch (this) {
+      case 'ordering':
+        return ConnectionState.ordering;
+      case 'requested':
+        return ConnectionState.requested;
+      case 'pending':
+        return ConnectionState.pending;
+      case 'available':
+        return ConnectionState.available;
+      case 'down':
+        return ConnectionState.down;
+      case 'deleting':
+        return ConnectionState.deleting;
+      case 'deleted':
+        return ConnectionState.deleted;
+      case 'rejected':
+        return ConnectionState.rejected;
+      case 'unknown':
+        return ConnectionState.unknown;
+    }
+    throw Exception('$this is not known in enum ConnectionState');
+  }
+}
+
 class Connections {
   /// The connections.
-  @_s.JsonKey(name: 'connections')
-  final List<Connection> connections;
+  final List<Connection>? connections;
 
   Connections({
     this.connections,
   });
-  factory Connections.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionsFromJson(json);
+
+  factory Connections.fromJson(Map<String, dynamic> json) {
+    return Connections(
+      connections: (json['connections'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connections = this.connections;
+    return {
+      if (connections != null) 'connections': connections,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBGPPeerResponse {
   /// The virtual interface.
-  @_s.JsonKey(name: 'virtualInterface')
-  final VirtualInterface virtualInterface;
+  final VirtualInterface? virtualInterface;
 
   CreateBGPPeerResponse({
     this.virtualInterface,
   });
-  factory CreateBGPPeerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBGPPeerResponseFromJson(json);
+
+  factory CreateBGPPeerResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBGPPeerResponse(
+      virtualInterface: json['virtualInterface'] != null
+          ? VirtualInterface.fromJson(
+              json['virtualInterface'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterface = this.virtualInterface;
+    return {
+      if (virtualInterface != null) 'virtualInterface': virtualInterface,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDirectConnectGatewayAssociationProposalResult {
   /// Information about the Direct Connect gateway proposal.
-  @_s.JsonKey(name: 'directConnectGatewayAssociationProposal')
-  final DirectConnectGatewayAssociationProposal
+  final DirectConnectGatewayAssociationProposal?
       directConnectGatewayAssociationProposal;
 
   CreateDirectConnectGatewayAssociationProposalResult({
     this.directConnectGatewayAssociationProposal,
   });
+
   factory CreateDirectConnectGatewayAssociationProposalResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDirectConnectGatewayAssociationProposalResultFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateDirectConnectGatewayAssociationProposalResult(
+      directConnectGatewayAssociationProposal:
+          json['directConnectGatewayAssociationProposal'] != null
+              ? DirectConnectGatewayAssociationProposal.fromJson(
+                  json['directConnectGatewayAssociationProposal']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociationProposal =
+        this.directConnectGatewayAssociationProposal;
+    return {
+      if (directConnectGatewayAssociationProposal != null)
+        'directConnectGatewayAssociationProposal':
+            directConnectGatewayAssociationProposal,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDirectConnectGatewayAssociationResult {
   /// The association to be created.
-  @_s.JsonKey(name: 'directConnectGatewayAssociation')
-  final DirectConnectGatewayAssociation directConnectGatewayAssociation;
+  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
 
   CreateDirectConnectGatewayAssociationResult({
     this.directConnectGatewayAssociation,
   });
+
   factory CreateDirectConnectGatewayAssociationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDirectConnectGatewayAssociationResultFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateDirectConnectGatewayAssociationResult(
+      directConnectGatewayAssociation:
+          json['directConnectGatewayAssociation'] != null
+              ? DirectConnectGatewayAssociation.fromJson(
+                  json['directConnectGatewayAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociation =
+        this.directConnectGatewayAssociation;
+    return {
+      if (directConnectGatewayAssociation != null)
+        'directConnectGatewayAssociation': directConnectGatewayAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateDirectConnectGatewayResult {
   /// The Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGateway')
-  final DirectConnectGateway directConnectGateway;
+  final DirectConnectGateway? directConnectGateway;
 
   CreateDirectConnectGatewayResult({
     this.directConnectGateway,
   });
-  factory CreateDirectConnectGatewayResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateDirectConnectGatewayResultFromJson(json);
+
+  factory CreateDirectConnectGatewayResult.fromJson(Map<String, dynamic> json) {
+    return CreateDirectConnectGatewayResult(
+      directConnectGateway: json['directConnectGateway'] != null
+          ? DirectConnectGateway.fromJson(
+              json['directConnectGateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGateway = this.directConnectGateway;
+    return {
+      if (directConnectGateway != null)
+        'directConnectGateway': directConnectGateway,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTransitVirtualInterfaceResult {
-  @_s.JsonKey(name: 'virtualInterface')
-  final VirtualInterface virtualInterface;
+  final VirtualInterface? virtualInterface;
 
   CreateTransitVirtualInterfaceResult({
     this.virtualInterface,
   });
+
   factory CreateTransitVirtualInterfaceResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateTransitVirtualInterfaceResultFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateTransitVirtualInterfaceResult(
+      virtualInterface: json['virtualInterface'] != null
+          ? VirtualInterface.fromJson(
+              json['virtualInterface'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterface = this.virtualInterface;
+    return {
+      if (virtualInterface != null) 'virtualInterface': virtualInterface,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBGPPeerResponse {
   /// The virtual interface.
-  @_s.JsonKey(name: 'virtualInterface')
-  final VirtualInterface virtualInterface;
+  final VirtualInterface? virtualInterface;
 
   DeleteBGPPeerResponse({
     this.virtualInterface,
   });
-  factory DeleteBGPPeerResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBGPPeerResponseFromJson(json);
+
+  factory DeleteBGPPeerResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBGPPeerResponse(
+      virtualInterface: json['virtualInterface'] != null
+          ? VirtualInterface.fromJson(
+              json['virtualInterface'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterface = this.virtualInterface;
+    return {
+      if (virtualInterface != null) 'virtualInterface': virtualInterface,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDirectConnectGatewayAssociationProposalResult {
   /// The ID of the associated gateway.
-  @_s.JsonKey(name: 'directConnectGatewayAssociationProposal')
-  final DirectConnectGatewayAssociationProposal
+  final DirectConnectGatewayAssociationProposal?
       directConnectGatewayAssociationProposal;
 
   DeleteDirectConnectGatewayAssociationProposalResult({
     this.directConnectGatewayAssociationProposal,
   });
+
   factory DeleteDirectConnectGatewayAssociationProposalResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteDirectConnectGatewayAssociationProposalResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteDirectConnectGatewayAssociationProposalResult(
+      directConnectGatewayAssociationProposal:
+          json['directConnectGatewayAssociationProposal'] != null
+              ? DirectConnectGatewayAssociationProposal.fromJson(
+                  json['directConnectGatewayAssociationProposal']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociationProposal =
+        this.directConnectGatewayAssociationProposal;
+    return {
+      if (directConnectGatewayAssociationProposal != null)
+        'directConnectGatewayAssociationProposal':
+            directConnectGatewayAssociationProposal,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDirectConnectGatewayAssociationResult {
   /// Information about the deleted association.
-  @_s.JsonKey(name: 'directConnectGatewayAssociation')
-  final DirectConnectGatewayAssociation directConnectGatewayAssociation;
+  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
 
   DeleteDirectConnectGatewayAssociationResult({
     this.directConnectGatewayAssociation,
   });
+
   factory DeleteDirectConnectGatewayAssociationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteDirectConnectGatewayAssociationResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteDirectConnectGatewayAssociationResult(
+      directConnectGatewayAssociation:
+          json['directConnectGatewayAssociation'] != null
+              ? DirectConnectGatewayAssociation.fromJson(
+                  json['directConnectGatewayAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociation =
+        this.directConnectGatewayAssociation;
+    return {
+      if (directConnectGatewayAssociation != null)
+        'directConnectGatewayAssociation': directConnectGatewayAssociation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteDirectConnectGatewayResult {
   /// The Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGateway')
-  final DirectConnectGateway directConnectGateway;
+  final DirectConnectGateway? directConnectGateway;
 
   DeleteDirectConnectGatewayResult({
     this.directConnectGateway,
   });
-  factory DeleteDirectConnectGatewayResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteDirectConnectGatewayResultFromJson(json);
+
+  factory DeleteDirectConnectGatewayResult.fromJson(Map<String, dynamic> json) {
+    return DeleteDirectConnectGatewayResult(
+      directConnectGateway: json['directConnectGateway'] != null
+          ? DirectConnectGateway.fromJson(
+              json['directConnectGateway'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGateway = this.directConnectGateway;
+    return {
+      if (directConnectGateway != null)
+        'directConnectGateway': directConnectGateway,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteInterconnectResponse {
   /// The state of the interconnect. The following are the possible values:
   ///
@@ -3509,21 +4141,28 @@ class DeleteInterconnectResponse {
   /// <code>unknown</code>: The state of the interconnect is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'interconnectState')
-  final InterconnectState interconnectState;
+  final InterconnectState? interconnectState;
 
   DeleteInterconnectResponse({
     this.interconnectState,
   });
-  factory DeleteInterconnectResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteInterconnectResponseFromJson(json);
+
+  factory DeleteInterconnectResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteInterconnectResponse(
+      interconnectState:
+          (json['interconnectState'] as String?)?.toInterconnectState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interconnectState = this.interconnectState;
+    return {
+      if (interconnectState != null)
+        'interconnectState': interconnectState.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteVirtualInterfaceResponse {
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -3568,180 +4207,260 @@ class DeleteVirtualInterfaceResponse {
   /// <code>unknown</code>: The state of the virtual interface is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'virtualInterfaceState')
-  final VirtualInterfaceState virtualInterfaceState;
+  final VirtualInterfaceState? virtualInterfaceState;
 
   DeleteVirtualInterfaceResponse({
     this.virtualInterfaceState,
   });
-  factory DeleteVirtualInterfaceResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteVirtualInterfaceResponseFromJson(json);
+
+  factory DeleteVirtualInterfaceResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteVirtualInterfaceResponse(
+      virtualInterfaceState:
+          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceState = this.virtualInterfaceState;
+    return {
+      if (virtualInterfaceState != null)
+        'virtualInterfaceState': virtualInterfaceState.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConnectionLoaResponse {
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
-  @_s.JsonKey(name: 'loa')
-  final Loa loa;
+  final Loa? loa;
 
   DescribeConnectionLoaResponse({
     this.loa,
   });
-  factory DescribeConnectionLoaResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeConnectionLoaResponseFromJson(json);
+
+  factory DescribeConnectionLoaResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectionLoaResponse(
+      loa: json['loa'] != null
+          ? Loa.fromJson(json['loa'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loa = this.loa;
+    return {
+      if (loa != null) 'loa': loa,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDirectConnectGatewayAssociationProposalsResult {
   /// Describes the Direct Connect gateway association proposals.
-  @_s.JsonKey(name: 'directConnectGatewayAssociationProposals')
-  final List<DirectConnectGatewayAssociationProposal>
+  final List<DirectConnectGatewayAssociationProposal>?
       directConnectGatewayAssociationProposals;
 
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDirectConnectGatewayAssociationProposalsResult({
     this.directConnectGatewayAssociationProposals,
     this.nextToken,
   });
+
   factory DescribeDirectConnectGatewayAssociationProposalsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDirectConnectGatewayAssociationProposalsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDirectConnectGatewayAssociationProposalsResult(
+      directConnectGatewayAssociationProposals:
+          (json['directConnectGatewayAssociationProposals'] as List?)
+              ?.whereNotNull()
+              .map((e) => DirectConnectGatewayAssociationProposal.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociationProposals =
+        this.directConnectGatewayAssociationProposals;
+    final nextToken = this.nextToken;
+    return {
+      if (directConnectGatewayAssociationProposals != null)
+        'directConnectGatewayAssociationProposals':
+            directConnectGatewayAssociationProposals,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDirectConnectGatewayAssociationsResult {
   /// Information about the associations.
-  @_s.JsonKey(name: 'directConnectGatewayAssociations')
-  final List<DirectConnectGatewayAssociation> directConnectGatewayAssociations;
+  final List<DirectConnectGatewayAssociation>? directConnectGatewayAssociations;
 
   /// The token to retrieve the next page.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDirectConnectGatewayAssociationsResult({
     this.directConnectGatewayAssociations,
     this.nextToken,
   });
+
   factory DescribeDirectConnectGatewayAssociationsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDirectConnectGatewayAssociationsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDirectConnectGatewayAssociationsResult(
+      directConnectGatewayAssociations:
+          (json['directConnectGatewayAssociations'] as List?)
+              ?.whereNotNull()
+              .map((e) => DirectConnectGatewayAssociation.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociations =
+        this.directConnectGatewayAssociations;
+    final nextToken = this.nextToken;
+    return {
+      if (directConnectGatewayAssociations != null)
+        'directConnectGatewayAssociations': directConnectGatewayAssociations,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDirectConnectGatewayAttachmentsResult {
   /// The attachments.
-  @_s.JsonKey(name: 'directConnectGatewayAttachments')
-  final List<DirectConnectGatewayAttachment> directConnectGatewayAttachments;
+  final List<DirectConnectGatewayAttachment>? directConnectGatewayAttachments;
 
   /// The token to retrieve the next page.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDirectConnectGatewayAttachmentsResult({
     this.directConnectGatewayAttachments,
     this.nextToken,
   });
+
   factory DescribeDirectConnectGatewayAttachmentsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDirectConnectGatewayAttachmentsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDirectConnectGatewayAttachmentsResult(
+      directConnectGatewayAttachments:
+          (json['directConnectGatewayAttachments'] as List?)
+              ?.whereNotNull()
+              .map((e) => DirectConnectGatewayAttachment.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAttachments =
+        this.directConnectGatewayAttachments;
+    final nextToken = this.nextToken;
+    return {
+      if (directConnectGatewayAttachments != null)
+        'directConnectGatewayAttachments': directConnectGatewayAttachments,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDirectConnectGatewaysResult {
   /// The Direct Connect gateways.
-  @_s.JsonKey(name: 'directConnectGateways')
-  final List<DirectConnectGateway> directConnectGateways;
+  final List<DirectConnectGateway>? directConnectGateways;
 
   /// The token to retrieve the next page.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeDirectConnectGatewaysResult({
     this.directConnectGateways,
     this.nextToken,
   });
+
   factory DescribeDirectConnectGatewaysResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDirectConnectGatewaysResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDirectConnectGatewaysResult(
+      directConnectGateways: (json['directConnectGateways'] as List?)
+          ?.whereNotNull()
+          .map((e) => DirectConnectGateway.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGateways = this.directConnectGateways;
+    final nextToken = this.nextToken;
+    return {
+      if (directConnectGateways != null)
+        'directConnectGateways': directConnectGateways,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeInterconnectLoaResponse {
   /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
-  @_s.JsonKey(name: 'loa')
-  final Loa loa;
+  final Loa? loa;
 
   DescribeInterconnectLoaResponse({
     this.loa,
   });
-  factory DescribeInterconnectLoaResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeInterconnectLoaResponseFromJson(json);
+
+  factory DescribeInterconnectLoaResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeInterconnectLoaResponse(
+      loa: json['loa'] != null
+          ? Loa.fromJson(json['loa'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loa = this.loa;
+    return {
+      if (loa != null) 'loa': loa,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTagsResponse {
   /// Information about the tags.
-  @_s.JsonKey(name: 'resourceTags')
-  final List<ResourceTag> resourceTags;
+  final List<ResourceTag>? resourceTags;
 
   DescribeTagsResponse({
     this.resourceTags,
   });
-  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTagsResponseFromJson(json);
+
+  factory DescribeTagsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsResponse(
+      resourceTags: (json['resourceTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTags = this.resourceTags;
+    return {
+      if (resourceTags != null) 'resourceTags': resourceTags,
+    };
+  }
 }
 
 /// Information about a Direct Connect gateway, which enables you to connect
 /// virtual interfaces and virtual private gateway or transit gateways.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectConnectGateway {
   /// The autonomous system number (ASN) for the Amazon side of the connection.
-  @_s.JsonKey(name: 'amazonSideAsn')
-  final int amazonSideAsn;
+  final int? amazonSideAsn;
 
   /// The ID of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayId')
-  final String directConnectGatewayId;
+  final String? directConnectGatewayId;
 
   /// The name of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayName')
-  final String directConnectGatewayName;
+  final String? directConnectGatewayName;
 
   /// The state of the Direct Connect gateway. The following are the possible
   /// values:
@@ -3763,16 +4482,13 @@ class DirectConnectGateway {
   /// traffic.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'directConnectGatewayState')
-  final DirectConnectGatewayState directConnectGatewayState;
+  final DirectConnectGatewayState? directConnectGatewayState;
 
   /// The ID of the AWS account that owns the Direct Connect gateway.
-  @_s.JsonKey(name: 'ownerAccount')
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The error message if the state of an object failed to advance.
-  @_s.JsonKey(name: 'stateChangeError')
-  final String stateChangeError;
+  final String? stateChangeError;
 
   DirectConnectGateway({
     this.amazonSideAsn,
@@ -3782,29 +4498,51 @@ class DirectConnectGateway {
     this.ownerAccount,
     this.stateChangeError,
   });
-  factory DirectConnectGateway.fromJson(Map<String, dynamic> json) =>
-      _$DirectConnectGatewayFromJson(json);
+
+  factory DirectConnectGateway.fromJson(Map<String, dynamic> json) {
+    return DirectConnectGateway(
+      amazonSideAsn: json['amazonSideAsn'] as int?,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      directConnectGatewayName: json['directConnectGatewayName'] as String?,
+      directConnectGatewayState: (json['directConnectGatewayState'] as String?)
+          ?.toDirectConnectGatewayState(),
+      ownerAccount: json['ownerAccount'] as String?,
+      stateChangeError: json['stateChangeError'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amazonSideAsn = this.amazonSideAsn;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final directConnectGatewayName = this.directConnectGatewayName;
+    final directConnectGatewayState = this.directConnectGatewayState;
+    final ownerAccount = this.ownerAccount;
+    final stateChangeError = this.stateChangeError;
+    return {
+      if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (directConnectGatewayName != null)
+        'directConnectGatewayName': directConnectGatewayName,
+      if (directConnectGatewayState != null)
+        'directConnectGatewayState': directConnectGatewayState.toValue(),
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (stateChangeError != null) 'stateChangeError': stateChangeError,
+    };
+  }
 }
 
 /// Information about an association between a Direct Connect gateway and a
 /// virtual private gateway or transit gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectConnectGatewayAssociation {
   /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
-  @_s.JsonKey(name: 'allowedPrefixesToDirectConnectGateway')
-  final List<RouteFilterPrefix> allowedPrefixesToDirectConnectGateway;
+  final List<RouteFilterPrefix>? allowedPrefixesToDirectConnectGateway;
 
   /// Information about the associated gateway.
-  @_s.JsonKey(name: 'associatedGateway')
-  final AssociatedGateway associatedGateway;
+  final AssociatedGateway? associatedGateway;
 
   /// The ID of the Direct Connect gateway association.
-  @_s.JsonKey(name: 'associationId')
-  final String associationId;
+  final String? associationId;
 
   /// The state of the association. The following are the possible values:
   ///
@@ -3829,33 +4567,26 @@ class DirectConnectGatewayAssociation {
   /// stopped.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'associationState')
-  final DirectConnectGatewayAssociationState associationState;
+  final DirectConnectGatewayAssociationState? associationState;
 
   /// The ID of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayId')
-  final String directConnectGatewayId;
+  final String? directConnectGatewayId;
 
   /// The ID of the AWS account that owns the associated gateway.
-  @_s.JsonKey(name: 'directConnectGatewayOwnerAccount')
-  final String directConnectGatewayOwnerAccount;
+  final String? directConnectGatewayOwnerAccount;
 
   /// The error message if the state of an object failed to advance.
-  @_s.JsonKey(name: 'stateChangeError')
-  final String stateChangeError;
+  final String? stateChangeError;
 
   /// The ID of the virtual private gateway. Applies only to private virtual
   /// interfaces.
-  @_s.JsonKey(name: 'virtualGatewayId')
-  final String virtualGatewayId;
+  final String? virtualGatewayId;
 
   /// The ID of the AWS account that owns the virtual private gateway.
-  @_s.JsonKey(name: 'virtualGatewayOwnerAccount')
-  final String virtualGatewayOwnerAccount;
+  final String? virtualGatewayOwnerAccount;
 
   /// The AWS Region where the virtual private gateway is located.
-  @_s.JsonKey(name: 'virtualGatewayRegion')
-  final String virtualGatewayRegion;
+  final String? virtualGatewayRegion;
 
   DirectConnectGatewayAssociation({
     this.allowedPrefixesToDirectConnectGateway,
@@ -3869,37 +4600,83 @@ class DirectConnectGatewayAssociation {
     this.virtualGatewayOwnerAccount,
     this.virtualGatewayRegion,
   });
-  factory DirectConnectGatewayAssociation.fromJson(Map<String, dynamic> json) =>
-      _$DirectConnectGatewayAssociationFromJson(json);
+
+  factory DirectConnectGatewayAssociation.fromJson(Map<String, dynamic> json) {
+    return DirectConnectGatewayAssociation(
+      allowedPrefixesToDirectConnectGateway:
+          (json['allowedPrefixesToDirectConnectGateway'] as List?)
+              ?.whereNotNull()
+              .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      associatedGateway: json['associatedGateway'] != null
+          ? AssociatedGateway.fromJson(
+              json['associatedGateway'] as Map<String, dynamic>)
+          : null,
+      associationId: json['associationId'] as String?,
+      associationState: (json['associationState'] as String?)
+          ?.toDirectConnectGatewayAssociationState(),
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      directConnectGatewayOwnerAccount:
+          json['directConnectGatewayOwnerAccount'] as String?,
+      stateChangeError: json['stateChangeError'] as String?,
+      virtualGatewayId: json['virtualGatewayId'] as String?,
+      virtualGatewayOwnerAccount: json['virtualGatewayOwnerAccount'] as String?,
+      virtualGatewayRegion: json['virtualGatewayRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedPrefixesToDirectConnectGateway =
+        this.allowedPrefixesToDirectConnectGateway;
+    final associatedGateway = this.associatedGateway;
+    final associationId = this.associationId;
+    final associationState = this.associationState;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final directConnectGatewayOwnerAccount =
+        this.directConnectGatewayOwnerAccount;
+    final stateChangeError = this.stateChangeError;
+    final virtualGatewayId = this.virtualGatewayId;
+    final virtualGatewayOwnerAccount = this.virtualGatewayOwnerAccount;
+    final virtualGatewayRegion = this.virtualGatewayRegion;
+    return {
+      if (allowedPrefixesToDirectConnectGateway != null)
+        'allowedPrefixesToDirectConnectGateway':
+            allowedPrefixesToDirectConnectGateway,
+      if (associatedGateway != null) 'associatedGateway': associatedGateway,
+      if (associationId != null) 'associationId': associationId,
+      if (associationState != null)
+        'associationState': associationState.toValue(),
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (directConnectGatewayOwnerAccount != null)
+        'directConnectGatewayOwnerAccount': directConnectGatewayOwnerAccount,
+      if (stateChangeError != null) 'stateChangeError': stateChangeError,
+      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
+      if (virtualGatewayOwnerAccount != null)
+        'virtualGatewayOwnerAccount': virtualGatewayOwnerAccount,
+      if (virtualGatewayRegion != null)
+        'virtualGatewayRegion': virtualGatewayRegion,
+    };
+  }
 }
 
 /// Information about the proposal request to attach a virtual private gateway
 /// to a Direct Connect gateway.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectConnectGatewayAssociationProposal {
   /// Information about the associated gateway.
-  @_s.JsonKey(name: 'associatedGateway')
-  final AssociatedGateway associatedGateway;
+  final AssociatedGateway? associatedGateway;
 
   /// The ID of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayId')
-  final String directConnectGatewayId;
+  final String? directConnectGatewayId;
 
   /// The ID of the AWS account that owns the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayOwnerAccount')
-  final String directConnectGatewayOwnerAccount;
+  final String? directConnectGatewayOwnerAccount;
 
   /// The existing Amazon VPC prefixes advertised to the Direct Connect gateway.
-  @_s.JsonKey(name: 'existingAllowedPrefixesToDirectConnectGateway')
-  final List<RouteFilterPrefix> existingAllowedPrefixesToDirectConnectGateway;
+  final List<RouteFilterPrefix>? existingAllowedPrefixesToDirectConnectGateway;
 
   /// The ID of the association proposal.
-  @_s.JsonKey(name: 'proposalId')
-  final String proposalId;
+  final String? proposalId;
 
   /// The state of the proposal. The following are possible values:
   ///
@@ -3918,12 +4695,10 @@ class DirectConnectGatewayAssociationProposal {
   /// gateway association cannot be used in this state.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'proposalState')
-  final DirectConnectGatewayAssociationProposalState proposalState;
+  final DirectConnectGatewayAssociationProposalState? proposalState;
 
   /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
-  @_s.JsonKey(name: 'requestedAllowedPrefixesToDirectConnectGateway')
-  final List<RouteFilterPrefix> requestedAllowedPrefixesToDirectConnectGateway;
+  final List<RouteFilterPrefix>? requestedAllowedPrefixesToDirectConnectGateway;
 
   DirectConnectGatewayAssociationProposal({
     this.associatedGateway,
@@ -3934,40 +4709,144 @@ class DirectConnectGatewayAssociationProposal {
     this.proposalState,
     this.requestedAllowedPrefixesToDirectConnectGateway,
   });
+
   factory DirectConnectGatewayAssociationProposal.fromJson(
-          Map<String, dynamic> json) =>
-      _$DirectConnectGatewayAssociationProposalFromJson(json);
+      Map<String, dynamic> json) {
+    return DirectConnectGatewayAssociationProposal(
+      associatedGateway: json['associatedGateway'] != null
+          ? AssociatedGateway.fromJson(
+              json['associatedGateway'] as Map<String, dynamic>)
+          : null,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      directConnectGatewayOwnerAccount:
+          json['directConnectGatewayOwnerAccount'] as String?,
+      existingAllowedPrefixesToDirectConnectGateway:
+          (json['existingAllowedPrefixesToDirectConnectGateway'] as List?)
+              ?.whereNotNull()
+              .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      proposalId: json['proposalId'] as String?,
+      proposalState: (json['proposalState'] as String?)
+          ?.toDirectConnectGatewayAssociationProposalState(),
+      requestedAllowedPrefixesToDirectConnectGateway:
+          (json['requestedAllowedPrefixesToDirectConnectGateway'] as List?)
+              ?.whereNotNull()
+              .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedGateway = this.associatedGateway;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final directConnectGatewayOwnerAccount =
+        this.directConnectGatewayOwnerAccount;
+    final existingAllowedPrefixesToDirectConnectGateway =
+        this.existingAllowedPrefixesToDirectConnectGateway;
+    final proposalId = this.proposalId;
+    final proposalState = this.proposalState;
+    final requestedAllowedPrefixesToDirectConnectGateway =
+        this.requestedAllowedPrefixesToDirectConnectGateway;
+    return {
+      if (associatedGateway != null) 'associatedGateway': associatedGateway,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (directConnectGatewayOwnerAccount != null)
+        'directConnectGatewayOwnerAccount': directConnectGatewayOwnerAccount,
+      if (existingAllowedPrefixesToDirectConnectGateway != null)
+        'existingAllowedPrefixesToDirectConnectGateway':
+            existingAllowedPrefixesToDirectConnectGateway,
+      if (proposalId != null) 'proposalId': proposalId,
+      if (proposalState != null) 'proposalState': proposalState.toValue(),
+      if (requestedAllowedPrefixesToDirectConnectGateway != null)
+        'requestedAllowedPrefixesToDirectConnectGateway':
+            requestedAllowedPrefixesToDirectConnectGateway,
+    };
+  }
 }
 
 enum DirectConnectGatewayAssociationProposalState {
-  @_s.JsonValue('requested')
   requested,
-  @_s.JsonValue('accepted')
   accepted,
-  @_s.JsonValue('deleted')
   deleted,
 }
 
+extension on DirectConnectGatewayAssociationProposalState {
+  String toValue() {
+    switch (this) {
+      case DirectConnectGatewayAssociationProposalState.requested:
+        return 'requested';
+      case DirectConnectGatewayAssociationProposalState.accepted:
+        return 'accepted';
+      case DirectConnectGatewayAssociationProposalState.deleted:
+        return 'deleted';
+    }
+  }
+}
+
+extension on String {
+  DirectConnectGatewayAssociationProposalState
+      toDirectConnectGatewayAssociationProposalState() {
+    switch (this) {
+      case 'requested':
+        return DirectConnectGatewayAssociationProposalState.requested;
+      case 'accepted':
+        return DirectConnectGatewayAssociationProposalState.accepted;
+      case 'deleted':
+        return DirectConnectGatewayAssociationProposalState.deleted;
+    }
+    throw Exception(
+        '$this is not known in enum DirectConnectGatewayAssociationProposalState');
+  }
+}
+
 enum DirectConnectGatewayAssociationState {
-  @_s.JsonValue('associating')
   associating,
-  @_s.JsonValue('associated')
   associated,
-  @_s.JsonValue('disassociating')
   disassociating,
-  @_s.JsonValue('disassociated')
   disassociated,
-  @_s.JsonValue('updating')
   updating,
+}
+
+extension on DirectConnectGatewayAssociationState {
+  String toValue() {
+    switch (this) {
+      case DirectConnectGatewayAssociationState.associating:
+        return 'associating';
+      case DirectConnectGatewayAssociationState.associated:
+        return 'associated';
+      case DirectConnectGatewayAssociationState.disassociating:
+        return 'disassociating';
+      case DirectConnectGatewayAssociationState.disassociated:
+        return 'disassociated';
+      case DirectConnectGatewayAssociationState.updating:
+        return 'updating';
+    }
+  }
+}
+
+extension on String {
+  DirectConnectGatewayAssociationState
+      toDirectConnectGatewayAssociationState() {
+    switch (this) {
+      case 'associating':
+        return DirectConnectGatewayAssociationState.associating;
+      case 'associated':
+        return DirectConnectGatewayAssociationState.associated;
+      case 'disassociating':
+        return DirectConnectGatewayAssociationState.disassociating;
+      case 'disassociated':
+        return DirectConnectGatewayAssociationState.disassociated;
+      case 'updating':
+        return DirectConnectGatewayAssociationState.updating;
+    }
+    throw Exception(
+        '$this is not known in enum DirectConnectGatewayAssociationState');
+  }
 }
 
 /// Information about an attachment between a Direct Connect gateway and a
 /// virtual interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DirectConnectGatewayAttachment {
   /// The state of the attachment. The following are the possible values:
   ///
@@ -3990,32 +4869,25 @@ class DirectConnectGatewayAttachment {
   /// interface is stopped.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'attachmentState')
-  final DirectConnectGatewayAttachmentState attachmentState;
+  final DirectConnectGatewayAttachmentState? attachmentState;
 
   /// The type of attachment.
-  @_s.JsonKey(name: 'attachmentType')
-  final DirectConnectGatewayAttachmentType attachmentType;
+  final DirectConnectGatewayAttachmentType? attachmentType;
 
   /// The ID of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayId')
-  final String directConnectGatewayId;
+  final String? directConnectGatewayId;
 
   /// The error message if the state of an object failed to advance.
-  @_s.JsonKey(name: 'stateChangeError')
-  final String stateChangeError;
+  final String? stateChangeError;
 
   /// The ID of the virtual interface.
-  @_s.JsonKey(name: 'virtualInterfaceId')
-  final String virtualInterfaceId;
+  final String? virtualInterfaceId;
 
   /// The ID of the AWS account that owns the virtual interface.
-  @_s.JsonKey(name: 'virtualInterfaceOwnerAccount')
-  final String virtualInterfaceOwnerAccount;
+  final String? virtualInterfaceOwnerAccount;
 
   /// The AWS Region where the virtual interface is located.
-  @_s.JsonKey(name: 'virtualInterfaceRegion')
-  final String virtualInterfaceRegion;
+  final String? virtualInterfaceRegion;
 
   DirectConnectGatewayAttachment({
     this.attachmentState,
@@ -4026,86 +4898,266 @@ class DirectConnectGatewayAttachment {
     this.virtualInterfaceOwnerAccount,
     this.virtualInterfaceRegion,
   });
-  factory DirectConnectGatewayAttachment.fromJson(Map<String, dynamic> json) =>
-      _$DirectConnectGatewayAttachmentFromJson(json);
+
+  factory DirectConnectGatewayAttachment.fromJson(Map<String, dynamic> json) {
+    return DirectConnectGatewayAttachment(
+      attachmentState: (json['attachmentState'] as String?)
+          ?.toDirectConnectGatewayAttachmentState(),
+      attachmentType: (json['attachmentType'] as String?)
+          ?.toDirectConnectGatewayAttachmentType(),
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      stateChangeError: json['stateChangeError'] as String?,
+      virtualInterfaceId: json['virtualInterfaceId'] as String?,
+      virtualInterfaceOwnerAccount:
+          json['virtualInterfaceOwnerAccount'] as String?,
+      virtualInterfaceRegion: json['virtualInterfaceRegion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attachmentState = this.attachmentState;
+    final attachmentType = this.attachmentType;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final stateChangeError = this.stateChangeError;
+    final virtualInterfaceId = this.virtualInterfaceId;
+    final virtualInterfaceOwnerAccount = this.virtualInterfaceOwnerAccount;
+    final virtualInterfaceRegion = this.virtualInterfaceRegion;
+    return {
+      if (attachmentState != null) 'attachmentState': attachmentState.toValue(),
+      if (attachmentType != null) 'attachmentType': attachmentType.toValue(),
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (stateChangeError != null) 'stateChangeError': stateChangeError,
+      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+      if (virtualInterfaceOwnerAccount != null)
+        'virtualInterfaceOwnerAccount': virtualInterfaceOwnerAccount,
+      if (virtualInterfaceRegion != null)
+        'virtualInterfaceRegion': virtualInterfaceRegion,
+    };
+  }
 }
 
 enum DirectConnectGatewayAttachmentState {
-  @_s.JsonValue('attaching')
   attaching,
-  @_s.JsonValue('attached')
   attached,
-  @_s.JsonValue('detaching')
   detaching,
-  @_s.JsonValue('detached')
   detached,
 }
 
+extension on DirectConnectGatewayAttachmentState {
+  String toValue() {
+    switch (this) {
+      case DirectConnectGatewayAttachmentState.attaching:
+        return 'attaching';
+      case DirectConnectGatewayAttachmentState.attached:
+        return 'attached';
+      case DirectConnectGatewayAttachmentState.detaching:
+        return 'detaching';
+      case DirectConnectGatewayAttachmentState.detached:
+        return 'detached';
+    }
+  }
+}
+
+extension on String {
+  DirectConnectGatewayAttachmentState toDirectConnectGatewayAttachmentState() {
+    switch (this) {
+      case 'attaching':
+        return DirectConnectGatewayAttachmentState.attaching;
+      case 'attached':
+        return DirectConnectGatewayAttachmentState.attached;
+      case 'detaching':
+        return DirectConnectGatewayAttachmentState.detaching;
+      case 'detached':
+        return DirectConnectGatewayAttachmentState.detached;
+    }
+    throw Exception(
+        '$this is not known in enum DirectConnectGatewayAttachmentState');
+  }
+}
+
 enum DirectConnectGatewayAttachmentType {
-  @_s.JsonValue('TransitVirtualInterface')
   transitVirtualInterface,
-  @_s.JsonValue('PrivateVirtualInterface')
   privateVirtualInterface,
 }
 
+extension on DirectConnectGatewayAttachmentType {
+  String toValue() {
+    switch (this) {
+      case DirectConnectGatewayAttachmentType.transitVirtualInterface:
+        return 'TransitVirtualInterface';
+      case DirectConnectGatewayAttachmentType.privateVirtualInterface:
+        return 'PrivateVirtualInterface';
+    }
+  }
+}
+
+extension on String {
+  DirectConnectGatewayAttachmentType toDirectConnectGatewayAttachmentType() {
+    switch (this) {
+      case 'TransitVirtualInterface':
+        return DirectConnectGatewayAttachmentType.transitVirtualInterface;
+      case 'PrivateVirtualInterface':
+        return DirectConnectGatewayAttachmentType.privateVirtualInterface;
+    }
+    throw Exception(
+        '$this is not known in enum DirectConnectGatewayAttachmentType');
+  }
+}
+
 enum DirectConnectGatewayState {
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('deleted')
   deleted,
 }
 
+extension on DirectConnectGatewayState {
+  String toValue() {
+    switch (this) {
+      case DirectConnectGatewayState.pending:
+        return 'pending';
+      case DirectConnectGatewayState.available:
+        return 'available';
+      case DirectConnectGatewayState.deleting:
+        return 'deleting';
+      case DirectConnectGatewayState.deleted:
+        return 'deleted';
+    }
+  }
+}
+
+extension on String {
+  DirectConnectGatewayState toDirectConnectGatewayState() {
+    switch (this) {
+      case 'pending':
+        return DirectConnectGatewayState.pending;
+      case 'available':
+        return DirectConnectGatewayState.available;
+      case 'deleting':
+        return DirectConnectGatewayState.deleting;
+      case 'deleted':
+        return DirectConnectGatewayState.deleted;
+    }
+    throw Exception('$this is not known in enum DirectConnectGatewayState');
+  }
+}
+
+class DisassociateMacSecKeyResponse {
+  /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG
+  /// (dxlag-xxxx).
+  final String? connectionId;
+
+  /// The MAC Security (MACsec) security keys no longer associated with the
+  /// dedicated connection.
+  final List<MacSecKey>? macSecKeys;
+
+  DisassociateMacSecKeyResponse({
+    this.connectionId,
+    this.macSecKeys,
+  });
+
+  factory DisassociateMacSecKeyResponse.fromJson(Map<String, dynamic> json) {
+    return DisassociateMacSecKeyResponse(
+      connectionId: json['connectionId'] as String?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionId = this.connectionId;
+    final macSecKeys = this.macSecKeys;
+    return {
+      if (connectionId != null) 'connectionId': connectionId,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+    };
+  }
+}
+
 enum GatewayType {
-  @_s.JsonValue('virtualPrivateGateway')
   virtualPrivateGateway,
-  @_s.JsonValue('transitGateway')
   transitGateway,
 }
 
+extension on GatewayType {
+  String toValue() {
+    switch (this) {
+      case GatewayType.virtualPrivateGateway:
+        return 'virtualPrivateGateway';
+      case GatewayType.transitGateway:
+        return 'transitGateway';
+    }
+  }
+}
+
+extension on String {
+  GatewayType toGatewayType() {
+    switch (this) {
+      case 'virtualPrivateGateway':
+        return GatewayType.virtualPrivateGateway;
+      case 'transitGateway':
+        return GatewayType.transitGateway;
+    }
+    throw Exception('$this is not known in enum GatewayType');
+  }
+}
+
 enum HasLogicalRedundancy {
-  @_s.JsonValue('unknown')
   unknown,
-  @_s.JsonValue('yes')
   yes,
-  @_s.JsonValue('no')
   no,
 }
 
+extension on HasLogicalRedundancy {
+  String toValue() {
+    switch (this) {
+      case HasLogicalRedundancy.unknown:
+        return 'unknown';
+      case HasLogicalRedundancy.yes:
+        return 'yes';
+      case HasLogicalRedundancy.no:
+        return 'no';
+    }
+  }
+}
+
+extension on String {
+  HasLogicalRedundancy toHasLogicalRedundancy() {
+    switch (this) {
+      case 'unknown':
+        return HasLogicalRedundancy.unknown;
+      case 'yes':
+        return HasLogicalRedundancy.yes;
+      case 'no':
+        return HasLogicalRedundancy.no;
+    }
+    throw Exception('$this is not known in enum HasLogicalRedundancy');
+  }
+}
+
 /// Information about an interconnect.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Interconnect {
   /// The Direct Connect endpoint on which the physical connection terminates.
-  @_s.JsonKey(name: 'awsDevice')
-  final String awsDevice;
+  final String? awsDevice;
 
   /// The Direct Connect endpoint on which the physical connection terminates.
-  @_s.JsonKey(name: 'awsDeviceV2')
-  final String awsDeviceV2;
+  final String? awsDeviceV2;
 
   /// The bandwidth of the connection.
-  @_s.JsonKey(name: 'bandwidth')
-  final String bandwidth;
+  final String? bandwidth;
 
   /// Indicates whether the interconnect supports a secondary BGP in the same
   /// address family (IPv4/IPv6).
-  @_s.JsonKey(name: 'hasLogicalRedundancy')
-  final HasLogicalRedundancy hasLogicalRedundancy;
+  final HasLogicalRedundancy? hasLogicalRedundancy;
 
   /// The ID of the interconnect.
-  @_s.JsonKey(name: 'interconnectId')
-  final String interconnectId;
+  final String? interconnectId;
 
   /// The name of the interconnect.
-  @_s.JsonKey(name: 'interconnectName')
-  final String interconnectName;
+  final String? interconnectName;
 
   /// The state of the interconnect. The following are the possible values:
   ///
@@ -4136,37 +5188,28 @@ class Interconnect {
   /// <code>unknown</code>: The state of the interconnect is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'interconnectState')
-  final InterconnectState interconnectState;
+  final InterconnectState? interconnectState;
 
   /// Indicates whether jumbo frames (9001 MTU) are supported.
-  @_s.JsonKey(name: 'jumboFrameCapable')
-  final bool jumboFrameCapable;
+  final bool? jumboFrameCapable;
 
   /// The ID of the LAG.
-  @_s.JsonKey(name: 'lagId')
-  final String lagId;
+  final String? lagId;
 
   /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'loaIssueTime')
-  final DateTime loaIssueTime;
+  final DateTime? loaIssueTime;
 
   /// The location of the connection.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// The name of the service provider associated with the interconnect.
-  @_s.JsonKey(name: 'providerName')
-  final String providerName;
+  final String? providerName;
 
   /// The AWS Region where the connection is located.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// The tags associated with the interconnect.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Interconnect({
     this.awsDevice,
@@ -4184,88 +5227,182 @@ class Interconnect {
     this.region,
     this.tags,
   });
-  factory Interconnect.fromJson(Map<String, dynamic> json) =>
-      _$InterconnectFromJson(json);
+
+  factory Interconnect.fromJson(Map<String, dynamic> json) {
+    return Interconnect(
+      awsDevice: json['awsDevice'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      bandwidth: json['bandwidth'] as String?,
+      hasLogicalRedundancy:
+          (json['hasLogicalRedundancy'] as String?)?.toHasLogicalRedundancy(),
+      interconnectId: json['interconnectId'] as String?,
+      interconnectName: json['interconnectName'] as String?,
+      interconnectState:
+          (json['interconnectState'] as String?)?.toInterconnectState(),
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      lagId: json['lagId'] as String?,
+      loaIssueTime: timeStampFromJson(json['loaIssueTime']),
+      location: json['location'] as String?,
+      providerName: json['providerName'] as String?,
+      region: json['region'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsDevice = this.awsDevice;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final bandwidth = this.bandwidth;
+    final hasLogicalRedundancy = this.hasLogicalRedundancy;
+    final interconnectId = this.interconnectId;
+    final interconnectName = this.interconnectName;
+    final interconnectState = this.interconnectState;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final lagId = this.lagId;
+    final loaIssueTime = this.loaIssueTime;
+    final location = this.location;
+    final providerName = this.providerName;
+    final region = this.region;
+    final tags = this.tags;
+    return {
+      if (awsDevice != null) 'awsDevice': awsDevice,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (bandwidth != null) 'bandwidth': bandwidth,
+      if (hasLogicalRedundancy != null)
+        'hasLogicalRedundancy': hasLogicalRedundancy.toValue(),
+      if (interconnectId != null) 'interconnectId': interconnectId,
+      if (interconnectName != null) 'interconnectName': interconnectName,
+      if (interconnectState != null)
+        'interconnectState': interconnectState.toValue(),
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (lagId != null) 'lagId': lagId,
+      if (loaIssueTime != null)
+        'loaIssueTime': unixTimestampToJson(loaIssueTime),
+      if (location != null) 'location': location,
+      if (providerName != null) 'providerName': providerName,
+      if (region != null) 'region': region,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 enum InterconnectState {
-  @_s.JsonValue('requested')
   requested,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('down')
   down,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('deleted')
   deleted,
-  @_s.JsonValue('unknown')
   unknown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on InterconnectState {
+  String toValue() {
+    switch (this) {
+      case InterconnectState.requested:
+        return 'requested';
+      case InterconnectState.pending:
+        return 'pending';
+      case InterconnectState.available:
+        return 'available';
+      case InterconnectState.down:
+        return 'down';
+      case InterconnectState.deleting:
+        return 'deleting';
+      case InterconnectState.deleted:
+        return 'deleted';
+      case InterconnectState.unknown:
+        return 'unknown';
+    }
+  }
+}
+
+extension on String {
+  InterconnectState toInterconnectState() {
+    switch (this) {
+      case 'requested':
+        return InterconnectState.requested;
+      case 'pending':
+        return InterconnectState.pending;
+      case 'available':
+        return InterconnectState.available;
+      case 'down':
+        return InterconnectState.down;
+      case 'deleting':
+        return InterconnectState.deleting;
+      case 'deleted':
+        return InterconnectState.deleted;
+      case 'unknown':
+        return InterconnectState.unknown;
+    }
+    throw Exception('$this is not known in enum InterconnectState');
+  }
+}
+
 class Interconnects {
   /// The interconnects.
-  @_s.JsonKey(name: 'interconnects')
-  final List<Interconnect> interconnects;
+  final List<Interconnect>? interconnects;
 
   Interconnects({
     this.interconnects,
   });
-  factory Interconnects.fromJson(Map<String, dynamic> json) =>
-      _$InterconnectsFromJson(json);
+
+  factory Interconnects.fromJson(Map<String, dynamic> json) {
+    return Interconnects(
+      interconnects: (json['interconnects'] as List?)
+          ?.whereNotNull()
+          .map((e) => Interconnect.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final interconnects = this.interconnects;
+    return {
+      if (interconnects != null) 'interconnects': interconnects,
+    };
+  }
 }
 
 /// Information about a link aggregation group (LAG).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Lag {
   /// Indicates whether the LAG can host other connections.
-  @_s.JsonKey(name: 'allowsHostedConnections')
-  final bool allowsHostedConnections;
+  final bool? allowsHostedConnections;
 
   /// The AWS Direct Connect endpoint that hosts the LAG.
-  @_s.JsonKey(name: 'awsDevice')
-  final String awsDevice;
+  final String? awsDevice;
 
   /// The AWS Direct Connect endpoint that hosts the LAG.
-  @_s.JsonKey(name: 'awsDeviceV2')
-  final String awsDeviceV2;
+  final String? awsDeviceV2;
 
   /// The connections bundled by the LAG.
-  @_s.JsonKey(name: 'connections')
-  final List<Connection> connections;
+  final List<Connection>? connections;
 
   /// The individual bandwidth of the physical connections bundled by the LAG. The
   /// possible values are 1Gbps and 10Gbps.
-  @_s.JsonKey(name: 'connectionsBandwidth')
-  final String connectionsBandwidth;
+  final String? connectionsBandwidth;
+
+  /// The LAG MAC Security (MACsec) encryption mode.
+  ///
+  /// The valid values are <code>no_encrypt</code>, <code>should_encrypt</code>,
+  /// and <code>must_encrypt</code>.
+  final String? encryptionMode;
 
   /// Indicates whether the LAG supports a secondary BGP peer in the same address
   /// family (IPv4/IPv6).
-  @_s.JsonKey(name: 'hasLogicalRedundancy')
-  final HasLogicalRedundancy hasLogicalRedundancy;
+  final HasLogicalRedundancy? hasLogicalRedundancy;
 
   /// Indicates whether jumbo frames (9001 MTU) are supported.
-  @_s.JsonKey(name: 'jumboFrameCapable')
-  final bool jumboFrameCapable;
+  final bool? jumboFrameCapable;
 
   /// The ID of the LAG.
-  @_s.JsonKey(name: 'lagId')
-  final String lagId;
+  final String? lagId;
 
   /// The name of the LAG.
-  @_s.JsonKey(name: 'lagName')
-  final String lagName;
+  final String? lagName;
 
   /// The state of the LAG. The following are the possible values:
   ///
@@ -4294,38 +5431,36 @@ class Lag {
   /// <code>unknown</code>: The state of the LAG is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'lagState')
-  final LagState lagState;
+  final LagState? lagState;
 
   /// The location of the LAG.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
+
+  /// Indicates whether the LAG supports MAC Security (MACsec).
+  final bool? macSecCapable;
+
+  /// The MAC Security (MACsec) security keys associated with the LAG.
+  final List<MacSecKey>? macSecKeys;
 
   /// The minimum number of physical dedicated connections that must be
   /// operational for the LAG itself to be operational.
-  @_s.JsonKey(name: 'minimumLinks')
-  final int minimumLinks;
+  final int? minimumLinks;
 
   /// The number of physical dedicated connections bundled by the LAG, up to a
   /// maximum of 10.
-  @_s.JsonKey(name: 'numberOfConnections')
-  final int numberOfConnections;
+  final int? numberOfConnections;
 
   /// The ID of the AWS account that owns the LAG.
-  @_s.JsonKey(name: 'ownerAccount')
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The name of the service provider associated with the LAG.
-  @_s.JsonKey(name: 'providerName')
-  final String providerName;
+  final String? providerName;
 
   /// The AWS Region where the connection is located.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// The tags associated with the LAG.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   Lag({
     this.allowsHostedConnections,
@@ -4333,12 +5468,15 @@ class Lag {
     this.awsDeviceV2,
     this.connections,
     this.connectionsBandwidth,
+    this.encryptionMode,
     this.hasLogicalRedundancy,
     this.jumboFrameCapable,
     this.lagId,
     this.lagName,
     this.lagState,
     this.location,
+    this.macSecCapable,
+    this.macSecKeys,
     this.minimumLinks,
     this.numberOfConnections,
     this.ownerAccount,
@@ -4346,93 +5484,240 @@ class Lag {
     this.region,
     this.tags,
   });
-  factory Lag.fromJson(Map<String, dynamic> json) => _$LagFromJson(json);
+
+  factory Lag.fromJson(Map<String, dynamic> json) {
+    return Lag(
+      allowsHostedConnections: json['allowsHostedConnections'] as bool?,
+      awsDevice: json['awsDevice'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      connections: (json['connections'] as List?)
+          ?.whereNotNull()
+          .map((e) => Connection.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      connectionsBandwidth: json['connectionsBandwidth'] as String?,
+      encryptionMode: json['encryptionMode'] as String?,
+      hasLogicalRedundancy:
+          (json['hasLogicalRedundancy'] as String?)?.toHasLogicalRedundancy(),
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      lagId: json['lagId'] as String?,
+      lagName: json['lagName'] as String?,
+      lagState: (json['lagState'] as String?)?.toLagState(),
+      location: json['location'] as String?,
+      macSecCapable: json['macSecCapable'] as bool?,
+      macSecKeys: (json['macSecKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => MacSecKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      minimumLinks: json['minimumLinks'] as int?,
+      numberOfConnections: json['numberOfConnections'] as int?,
+      ownerAccount: json['ownerAccount'] as String?,
+      providerName: json['providerName'] as String?,
+      region: json['region'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowsHostedConnections = this.allowsHostedConnections;
+    final awsDevice = this.awsDevice;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final connections = this.connections;
+    final connectionsBandwidth = this.connectionsBandwidth;
+    final encryptionMode = this.encryptionMode;
+    final hasLogicalRedundancy = this.hasLogicalRedundancy;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final lagId = this.lagId;
+    final lagName = this.lagName;
+    final lagState = this.lagState;
+    final location = this.location;
+    final macSecCapable = this.macSecCapable;
+    final macSecKeys = this.macSecKeys;
+    final minimumLinks = this.minimumLinks;
+    final numberOfConnections = this.numberOfConnections;
+    final ownerAccount = this.ownerAccount;
+    final providerName = this.providerName;
+    final region = this.region;
+    final tags = this.tags;
+    return {
+      if (allowsHostedConnections != null)
+        'allowsHostedConnections': allowsHostedConnections,
+      if (awsDevice != null) 'awsDevice': awsDevice,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (connections != null) 'connections': connections,
+      if (connectionsBandwidth != null)
+        'connectionsBandwidth': connectionsBandwidth,
+      if (encryptionMode != null) 'encryptionMode': encryptionMode,
+      if (hasLogicalRedundancy != null)
+        'hasLogicalRedundancy': hasLogicalRedundancy.toValue(),
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (lagId != null) 'lagId': lagId,
+      if (lagName != null) 'lagName': lagName,
+      if (lagState != null) 'lagState': lagState.toValue(),
+      if (location != null) 'location': location,
+      if (macSecCapable != null) 'macSecCapable': macSecCapable,
+      if (macSecKeys != null) 'macSecKeys': macSecKeys,
+      if (minimumLinks != null) 'minimumLinks': minimumLinks,
+      if (numberOfConnections != null)
+        'numberOfConnections': numberOfConnections,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (providerName != null) 'providerName': providerName,
+      if (region != null) 'region': region,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 enum LagState {
-  @_s.JsonValue('requested')
   requested,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('down')
   down,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('deleted')
   deleted,
-  @_s.JsonValue('unknown')
   unknown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LagState {
+  String toValue() {
+    switch (this) {
+      case LagState.requested:
+        return 'requested';
+      case LagState.pending:
+        return 'pending';
+      case LagState.available:
+        return 'available';
+      case LagState.down:
+        return 'down';
+      case LagState.deleting:
+        return 'deleting';
+      case LagState.deleted:
+        return 'deleted';
+      case LagState.unknown:
+        return 'unknown';
+    }
+  }
+}
+
+extension on String {
+  LagState toLagState() {
+    switch (this) {
+      case 'requested':
+        return LagState.requested;
+      case 'pending':
+        return LagState.pending;
+      case 'available':
+        return LagState.available;
+      case 'down':
+        return LagState.down;
+      case 'deleting':
+        return LagState.deleting;
+      case 'deleted':
+        return LagState.deleted;
+      case 'unknown':
+        return LagState.unknown;
+    }
+    throw Exception('$this is not known in enum LagState');
+  }
+}
+
 class Lags {
   /// The LAGs.
-  @_s.JsonKey(name: 'lags')
-  final List<Lag> lags;
+  final List<Lag>? lags;
 
   Lags({
     this.lags,
   });
-  factory Lags.fromJson(Map<String, dynamic> json) => _$LagsFromJson(json);
+
+  factory Lags.fromJson(Map<String, dynamic> json) {
+    return Lags(
+      lags: (json['lags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Lag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lags = this.lags;
+    return {
+      if (lags != null) 'lags': lags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListVirtualInterfaceTestHistoryResponse {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The ID of the tested virtual interface.
-  @_s.JsonKey(name: 'virtualInterfaceTestHistory')
-  final List<VirtualInterfaceTestHistory> virtualInterfaceTestHistory;
+  final List<VirtualInterfaceTestHistory>? virtualInterfaceTestHistory;
 
   ListVirtualInterfaceTestHistoryResponse({
     this.nextToken,
     this.virtualInterfaceTestHistory,
   });
+
   factory ListVirtualInterfaceTestHistoryResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListVirtualInterfaceTestHistoryResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListVirtualInterfaceTestHistoryResponse(
+      nextToken: json['nextToken'] as String?,
+      virtualInterfaceTestHistory: (json['virtualInterfaceTestHistory']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VirtualInterfaceTestHistory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final virtualInterfaceTestHistory = this.virtualInterfaceTestHistory;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (virtualInterfaceTestHistory != null)
+        'virtualInterfaceTestHistory': virtualInterfaceTestHistory,
+    };
+  }
 }
 
 /// Information about a Letter of Authorization - Connecting Facility Assignment
 /// (LOA-CFA) for a connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Loa {
   /// The binary contents of the LOA-CFA document.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'loaContent')
-  final Uint8List loaContent;
+  final Uint8List? loaContent;
 
   /// The standard media type for the LOA-CFA document. The only supported value
   /// is application/pdf.
-  @_s.JsonKey(name: 'loaContentType')
-  final LoaContentType loaContentType;
+  final LoaContentType? loaContentType;
 
   Loa({
     this.loaContent,
     this.loaContentType,
   });
-  factory Loa.fromJson(Map<String, dynamic> json) => _$LoaFromJson(json);
+
+  factory Loa.fromJson(Map<String, dynamic> json) {
+    return Loa(
+      loaContent: _s.decodeNullableUint8List(json['loaContent'] as String?),
+      loaContentType: (json['loaContentType'] as String?)?.toLoaContentType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loaContent = this.loaContent;
+    final loaContentType = this.loaContentType;
+    return {
+      if (loaContent != null) 'loaContent': base64Encode(loaContent),
+      if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
+    };
+  }
 }
 
 enum LoaContentType {
-  @_s.JsonValue('application/pdf')
   applicationPdf,
 }
 
@@ -4442,94 +5727,198 @@ extension on LoaContentType {
       case LoaContentType.applicationPdf:
         return 'application/pdf';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  LoaContentType toLoaContentType() {
+    switch (this) {
+      case 'application/pdf':
+        return LoaContentType.applicationPdf;
+    }
+    throw Exception('$this is not known in enum LoaContentType');
   }
 }
 
 /// Information about an AWS Direct Connect location.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Location {
+  /// The available MAC Security (MACsec) port speeds for the location.
+  final List<String>? availableMacSecPortSpeeds;
+
   /// The available port speeds for the location.
-  @_s.JsonKey(name: 'availablePortSpeeds')
-  final List<String> availablePortSpeeds;
+  final List<String>? availablePortSpeeds;
 
   /// The name of the service provider for the location.
-  @_s.JsonKey(name: 'availableProviders')
-  final List<String> availableProviders;
+  final List<String>? availableProviders;
 
   /// The code for the location.
-  @_s.JsonKey(name: 'locationCode')
-  final String locationCode;
+  final String? locationCode;
 
   /// The name of the location. This includes the name of the colocation partner
   /// and the physical site of the building.
-  @_s.JsonKey(name: 'locationName')
-  final String locationName;
+  final String? locationName;
 
   /// The AWS Region for the location.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   Location({
+    this.availableMacSecPortSpeeds,
     this.availablePortSpeeds,
     this.availableProviders,
     this.locationCode,
     this.locationName,
     this.region,
   });
-  factory Location.fromJson(Map<String, dynamic> json) =>
-      _$LocationFromJson(json);
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      availableMacSecPortSpeeds: (json['availableMacSecPortSpeeds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      availablePortSpeeds: (json['availablePortSpeeds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      availableProviders: (json['availableProviders'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      locationCode: json['locationCode'] as String?,
+      locationName: json['locationName'] as String?,
+      region: json['region'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availableMacSecPortSpeeds = this.availableMacSecPortSpeeds;
+    final availablePortSpeeds = this.availablePortSpeeds;
+    final availableProviders = this.availableProviders;
+    final locationCode = this.locationCode;
+    final locationName = this.locationName;
+    final region = this.region;
+    return {
+      if (availableMacSecPortSpeeds != null)
+        'availableMacSecPortSpeeds': availableMacSecPortSpeeds,
+      if (availablePortSpeeds != null)
+        'availablePortSpeeds': availablePortSpeeds,
+      if (availableProviders != null) 'availableProviders': availableProviders,
+      if (locationCode != null) 'locationCode': locationCode,
+      if (locationName != null) 'locationName': locationName,
+      if (region != null) 'region': region,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Locations {
   /// The locations.
-  @_s.JsonKey(name: 'locations')
-  final List<Location> locations;
+  final List<Location>? locations;
 
   Locations({
     this.locations,
   });
-  factory Locations.fromJson(Map<String, dynamic> json) =>
-      _$LocationsFromJson(json);
+
+  factory Locations.fromJson(Map<String, dynamic> json) {
+    return Locations(
+      locations: (json['locations'] as List?)
+          ?.whereNotNull()
+          .map((e) => Location.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locations = this.locations;
+    return {
+      if (locations != null) 'locations': locations,
+    };
+  }
+}
+
+/// Information about the MAC Security (MACsec) secret key.
+class MacSecKey {
+  /// The Connection Key Name (CKN) for the MAC Security secret key.
+  final String? ckn;
+
+  /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key.
+  final String? secretARN;
+
+  /// The date that the MAC Security (MACsec) secret key takes effect. The value
+  /// is displayed in UTC format.
+  final String? startOn;
+
+  /// The state of the MAC Security (MACsec) secret key.
+  ///
+  /// The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>associating</code>: The MAC Security (MACsec) secret key is being
+  /// validated and not yet associated with the connection or LAG.
+  /// </li>
+  /// <li>
+  /// <code>associated</code>: The MAC Security (MACsec) secret key is validated
+  /// and associated with the connection or LAG.
+  /// </li>
+  /// <li>
+  /// <code>disassociating</code>: The MAC Security (MACsec) secret key is being
+  /// disassociated from the connection or LAG
+  /// </li>
+  /// <li>
+  /// <code>disassociated</code>: The MAC Security (MACsec) secret key is no
+  /// longer associated with the connection or LAG.
+  /// </li>
+  /// </ul>
+  final String? state;
+
+  MacSecKey({
+    this.ckn,
+    this.secretARN,
+    this.startOn,
+    this.state,
+  });
+
+  factory MacSecKey.fromJson(Map<String, dynamic> json) {
+    return MacSecKey(
+      ckn: json['ckn'] as String?,
+      secretARN: json['secretARN'] as String?,
+      startOn: json['startOn'] as String?,
+      state: json['state'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ckn = this.ckn;
+    final secretARN = this.secretARN;
+    final startOn = this.startOn;
+    final state = this.state;
+    return {
+      if (ckn != null) 'ckn': ckn,
+      if (secretARN != null) 'secretARN': secretARN,
+      if (startOn != null) 'startOn': startOn,
+      if (state != null) 'state': state,
+    };
+  }
 }
 
 /// Information about a new BGP peer.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NewBGPPeer {
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
-  @_s.JsonKey(name: 'asn')
-  final int asn;
+  final int? asn;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   NewBGPPeer({
     this.addressFamily,
@@ -4538,71 +5927,79 @@ class NewBGPPeer {
     this.authKey,
     this.customerAddress,
   });
-  Map<String, dynamic> toJson() => _$NewBGPPeerToJson(this);
+
+  factory NewBGPPeer.fromJson(Map<String, dynamic> json) {
+    return NewBGPPeer(
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      asn: json['asn'] as int?,
+      authKey: json['authKey'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+    };
+  }
 }
 
 /// Information about a private virtual interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NewPrivateVirtualInterface {
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
   ///
   /// The valid values are 1-2147483647.
-  @_s.JsonKey(name: 'asn')
   final int asn;
 
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
   /// 0-9 and a hyphen (-).
-  @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
   final int vlan;
 
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   /// The ID of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayId')
-  final String directConnectGatewayId;
+  final String? directConnectGatewayId;
 
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 9001. The default value is 1500.
-  @_s.JsonKey(name: 'mtu')
-  final int mtu;
+  final int? mtu;
 
   /// The tags associated with the private virtual interface.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The ID of the virtual private gateway.
-  @_s.JsonKey(name: 'virtualGatewayId')
-  final String virtualGatewayId;
+  final String? virtualGatewayId;
 
   NewPrivateVirtualInterface({
-    @_s.required this.asn,
-    @_s.required this.virtualInterfaceName,
-    @_s.required this.vlan,
+    required this.asn,
+    required this.virtualInterfaceName,
+    required this.vlan,
     this.addressFamily,
     this.amazonAddress,
     this.authKey,
@@ -4612,64 +6009,96 @@ class NewPrivateVirtualInterface {
     this.tags,
     this.virtualGatewayId,
   });
-  Map<String, dynamic> toJson() => _$NewPrivateVirtualInterfaceToJson(this);
+
+  factory NewPrivateVirtualInterface.fromJson(Map<String, dynamic> json) {
+    return NewPrivateVirtualInterface(
+      asn: json['asn'] as int,
+      virtualInterfaceName: json['virtualInterfaceName'] as String,
+      vlan: json['vlan'] as int,
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      authKey: json['authKey'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      mtu: json['mtu'] as int?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      virtualGatewayId: json['virtualGatewayId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asn = this.asn;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final mtu = this.mtu;
+    final tags = this.tags;
+    final virtualGatewayId = this.virtualGatewayId;
+    return {
+      'asn': asn,
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (mtu != null) 'mtu': mtu,
+      if (tags != null) 'tags': tags,
+      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
+    };
+  }
 }
 
 /// Information about a private virtual interface to be provisioned on a
 /// connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NewPrivateVirtualInterfaceAllocation {
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
   ///
   /// The valid values are 1-2147483647.
-  @_s.JsonKey(name: 'asn')
   final int asn;
 
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
   /// 0-9 and a hyphen (-).
-  @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
   final int vlan;
 
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 9001. The default value is 1500.
-  @_s.JsonKey(name: 'mtu')
-  final int mtu;
+  final int? mtu;
 
   /// The tags associated with the private virtual interface.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   NewPrivateVirtualInterfaceAllocation({
-    @_s.required this.asn,
-    @_s.required this.virtualInterfaceName,
-    @_s.required this.vlan,
+    required this.asn,
+    required this.virtualInterfaceName,
+    required this.vlan,
     this.addressFamily,
     this.amazonAddress,
     this.authKey,
@@ -4677,64 +6106,89 @@ class NewPrivateVirtualInterfaceAllocation {
     this.mtu,
     this.tags,
   });
-  Map<String, dynamic> toJson() =>
-      _$NewPrivateVirtualInterfaceAllocationToJson(this);
+
+  factory NewPrivateVirtualInterfaceAllocation.fromJson(
+      Map<String, dynamic> json) {
+    return NewPrivateVirtualInterfaceAllocation(
+      asn: json['asn'] as int,
+      virtualInterfaceName: json['virtualInterfaceName'] as String,
+      vlan: json['vlan'] as int,
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      authKey: json['authKey'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      mtu: json['mtu'] as int?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asn = this.asn;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final mtu = this.mtu;
+    final tags = this.tags;
+    return {
+      'asn': asn,
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (mtu != null) 'mtu': mtu,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Information about a public virtual interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NewPublicVirtualInterface {
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
   ///
   /// The valid values are 1-2147483647.
-  @_s.JsonKey(name: 'asn')
   final int asn;
 
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
   /// 0-9 and a hyphen (-).
-  @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
   final int vlan;
 
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   /// The routes to be advertised to the AWS network in this Region. Applies to
   /// public virtual interfaces.
-  @_s.JsonKey(name: 'routeFilterPrefixes')
-  final List<RouteFilterPrefix> routeFilterPrefixes;
+  final List<RouteFilterPrefix>? routeFilterPrefixes;
 
   /// The tags associated with the public virtual interface.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   NewPublicVirtualInterface({
-    @_s.required this.asn,
-    @_s.required this.virtualInterfaceName,
-    @_s.required this.vlan,
+    required this.asn,
+    required this.virtualInterfaceName,
+    required this.vlan,
     this.addressFamily,
     this.amazonAddress,
     this.authKey,
@@ -4742,64 +6196,93 @@ class NewPublicVirtualInterface {
     this.routeFilterPrefixes,
     this.tags,
   });
-  Map<String, dynamic> toJson() => _$NewPublicVirtualInterfaceToJson(this);
+
+  factory NewPublicVirtualInterface.fromJson(Map<String, dynamic> json) {
+    return NewPublicVirtualInterface(
+      asn: json['asn'] as int,
+      virtualInterfaceName: json['virtualInterfaceName'] as String,
+      vlan: json['vlan'] as int,
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      authKey: json['authKey'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      routeFilterPrefixes: (json['routeFilterPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asn = this.asn;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final routeFilterPrefixes = this.routeFilterPrefixes;
+    final tags = this.tags;
+    return {
+      'asn': asn,
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (routeFilterPrefixes != null)
+        'routeFilterPrefixes': routeFilterPrefixes,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Information about a public virtual interface to be provisioned on a
 /// connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NewPublicVirtualInterfaceAllocation {
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
   ///
   /// The valid values are 1-2147483647.
-  @_s.JsonKey(name: 'asn')
   final int asn;
 
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
   /// 0-9 and a hyphen (-).
-  @_s.JsonKey(name: 'virtualInterfaceName')
   final String virtualInterfaceName;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
   final int vlan;
 
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   /// The routes to be advertised to the AWS network in this Region. Applies to
   /// public virtual interfaces.
-  @_s.JsonKey(name: 'routeFilterPrefixes')
-  final List<RouteFilterPrefix> routeFilterPrefixes;
+  final List<RouteFilterPrefix>? routeFilterPrefixes;
 
   /// The tags associated with the public virtual interface.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   NewPublicVirtualInterfaceAllocation({
-    @_s.required this.asn,
-    @_s.required this.virtualInterfaceName,
-    @_s.required this.vlan,
+    required this.asn,
+    required this.virtualInterfaceName,
+    required this.vlan,
     this.addressFamily,
     this.amazonAddress,
     this.authKey,
@@ -4807,63 +6290,91 @@ class NewPublicVirtualInterfaceAllocation {
     this.routeFilterPrefixes,
     this.tags,
   });
-  Map<String, dynamic> toJson() =>
-      _$NewPublicVirtualInterfaceAllocationToJson(this);
+
+  factory NewPublicVirtualInterfaceAllocation.fromJson(
+      Map<String, dynamic> json) {
+    return NewPublicVirtualInterfaceAllocation(
+      asn: json['asn'] as int,
+      virtualInterfaceName: json['virtualInterfaceName'] as String,
+      vlan: json['vlan'] as int,
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      authKey: json['authKey'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      routeFilterPrefixes: (json['routeFilterPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final asn = this.asn;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final routeFilterPrefixes = this.routeFilterPrefixes;
+    final tags = this.tags;
+    return {
+      'asn': asn,
+      'virtualInterfaceName': virtualInterfaceName,
+      'vlan': vlan,
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (routeFilterPrefixes != null)
+        'routeFilterPrefixes': routeFilterPrefixes,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Information about a transit virtual interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NewTransitVirtualInterface {
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
   ///
   /// The valid values are 1-2147483647.
-  @_s.JsonKey(name: 'asn')
-  final int asn;
+  final int? asn;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   /// The ID of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayId')
-  final String directConnectGatewayId;
+  final String? directConnectGatewayId;
 
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 9001. The default value is 1500.
-  @_s.JsonKey(name: 'mtu')
-  final int mtu;
+  final int? mtu;
 
   /// The tags associated with the transitive virtual interface.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
   /// 0-9 and a hyphen (-).
-  @_s.JsonKey(name: 'virtualInterfaceName')
-  final String virtualInterfaceName;
+  final String? virtualInterfaceName;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
-  final int vlan;
+  final int? vlan;
 
   NewTransitVirtualInterface({
     this.addressFamily,
@@ -4877,59 +6388,89 @@ class NewTransitVirtualInterface {
     this.virtualInterfaceName,
     this.vlan,
   });
-  Map<String, dynamic> toJson() => _$NewTransitVirtualInterfaceToJson(this);
+
+  factory NewTransitVirtualInterface.fromJson(Map<String, dynamic> json) {
+    return NewTransitVirtualInterface(
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      asn: json['asn'] as int?,
+      authKey: json['authKey'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      mtu: json['mtu'] as int?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      virtualInterfaceName: json['virtualInterfaceName'] as String?,
+      vlan: json['vlan'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final mtu = this.mtu;
+    final tags = this.tags;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (mtu != null) 'mtu': mtu,
+      if (tags != null) 'tags': tags,
+      if (virtualInterfaceName != null)
+        'virtualInterfaceName': virtualInterfaceName,
+      if (vlan != null) 'vlan': vlan,
+    };
+  }
 }
 
 /// Information about a transit virtual interface to be provisioned on a
 /// connection.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class NewTransitVirtualInterfaceAllocation {
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
   ///
   /// The valid values are 1-2147483647.
-  @_s.JsonKey(name: 'asn')
-  final int asn;
+  final int? asn;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 9001. The default value is 1500.
-  @_s.JsonKey(name: 'mtu')
-  final int mtu;
+  final int? mtu;
 
   /// The tags associated with the transitive virtual interface.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
   /// 0-9 and a hyphen (-).
-  @_s.JsonKey(name: 'virtualInterfaceName')
-  final String virtualInterfaceName;
+  final String? virtualInterfaceName;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
-  final int vlan;
+  final int? vlan;
 
   NewTransitVirtualInterfaceAllocation({
     this.addressFamily,
@@ -4942,162 +6483,247 @@ class NewTransitVirtualInterfaceAllocation {
     this.virtualInterfaceName,
     this.vlan,
   });
-  Map<String, dynamic> toJson() =>
-      _$NewTransitVirtualInterfaceAllocationToJson(this);
+
+  factory NewTransitVirtualInterfaceAllocation.fromJson(
+      Map<String, dynamic> json) {
+    return NewTransitVirtualInterfaceAllocation(
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      asn: json['asn'] as int?,
+      authKey: json['authKey'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      mtu: json['mtu'] as int?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      virtualInterfaceName: json['virtualInterfaceName'] as String?,
+      vlan: json['vlan'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final asn = this.asn;
+    final authKey = this.authKey;
+    final customerAddress = this.customerAddress;
+    final mtu = this.mtu;
+    final tags = this.tags;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final vlan = this.vlan;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (asn != null) 'asn': asn,
+      if (authKey != null) 'authKey': authKey,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (mtu != null) 'mtu': mtu,
+      if (tags != null) 'tags': tags,
+      if (virtualInterfaceName != null)
+        'virtualInterfaceName': virtualInterfaceName,
+      if (vlan != null) 'vlan': vlan,
+    };
+  }
 }
 
 /// Information about a tag associated with an AWS Direct Connect resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceTag {
   /// The Amazon Resource Name (ARN) of the resource.
-  @_s.JsonKey(name: 'resourceArn')
-  final String resourceArn;
+  final String? resourceArn;
 
   /// The tags.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ResourceTag({
     this.resourceArn,
     this.tags,
   });
-  factory ResourceTag.fromJson(Map<String, dynamic> json) =>
-      _$ResourceTagFromJson(json);
+
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      resourceArn: json['resourceArn'] as String?,
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceArn = this.resourceArn;
+    final tags = this.tags;
+    return {
+      if (resourceArn != null) 'resourceArn': resourceArn,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Information about a route filter prefix that a customer can advertise
 /// through Border Gateway Protocol (BGP) over a public virtual interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RouteFilterPrefix {
   /// The CIDR block for the advertised route. Separate multiple routes using
   /// commas. An IPv6 CIDR must use /64 or shorter.
-  @_s.JsonKey(name: 'cidr')
-  final String cidr;
+  final String? cidr;
 
   RouteFilterPrefix({
     this.cidr,
   });
-  factory RouteFilterPrefix.fromJson(Map<String, dynamic> json) =>
-      _$RouteFilterPrefixFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RouteFilterPrefixToJson(this);
+  factory RouteFilterPrefix.fromJson(Map<String, dynamic> json) {
+    return RouteFilterPrefix(
+      cidr: json['cidr'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cidr = this.cidr;
+    return {
+      if (cidr != null) 'cidr': cidr,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartBgpFailoverTestResponse {
   /// Information about the virtual interface failover test.
-  @_s.JsonKey(name: 'virtualInterfaceTest')
-  final VirtualInterfaceTestHistory virtualInterfaceTest;
+  final VirtualInterfaceTestHistory? virtualInterfaceTest;
 
   StartBgpFailoverTestResponse({
     this.virtualInterfaceTest,
   });
-  factory StartBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartBgpFailoverTestResponseFromJson(json);
+
+  factory StartBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) {
+    return StartBgpFailoverTestResponse(
+      virtualInterfaceTest: json['virtualInterfaceTest'] != null
+          ? VirtualInterfaceTestHistory.fromJson(
+              json['virtualInterfaceTest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceTest = this.virtualInterfaceTest;
+    return {
+      if (virtualInterfaceTest != null)
+        'virtualInterfaceTest': virtualInterfaceTest,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopBgpFailoverTestResponse {
   /// Information about the virtual interface failover test.
-  @_s.JsonKey(name: 'virtualInterfaceTest')
-  final VirtualInterfaceTestHistory virtualInterfaceTest;
+  final VirtualInterfaceTestHistory? virtualInterfaceTest;
 
   StopBgpFailoverTestResponse({
     this.virtualInterfaceTest,
   });
-  factory StopBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopBgpFailoverTestResponseFromJson(json);
+
+  factory StopBgpFailoverTestResponse.fromJson(Map<String, dynamic> json) {
+    return StopBgpFailoverTestResponse(
+      virtualInterfaceTest: json['virtualInterfaceTest'] != null
+          ? VirtualInterfaceTestHistory.fromJson(
+              json['virtualInterfaceTest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaceTest = this.virtualInterfaceTest;
+    return {
+      if (virtualInterfaceTest != null)
+        'virtualInterfaceTest': virtualInterfaceTest,
+    };
+  }
 }
 
 /// Information about a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The value.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateDirectConnectGatewayAssociationResult {
-  @_s.JsonKey(name: 'directConnectGatewayAssociation')
-  final DirectConnectGatewayAssociation directConnectGatewayAssociation;
+  final DirectConnectGatewayAssociation? directConnectGatewayAssociation;
 
   UpdateDirectConnectGatewayAssociationResult({
     this.directConnectGatewayAssociation,
   });
+
   factory UpdateDirectConnectGatewayAssociationResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateDirectConnectGatewayAssociationResultFromJson(json);
+      Map<String, dynamic> json) {
+    return UpdateDirectConnectGatewayAssociationResult(
+      directConnectGatewayAssociation:
+          json['directConnectGatewayAssociation'] != null
+              ? DirectConnectGatewayAssociation.fromJson(
+                  json['directConnectGatewayAssociation']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directConnectGatewayAssociation =
+        this.directConnectGatewayAssociation;
+    return {
+      if (directConnectGatewayAssociation != null)
+        'directConnectGatewayAssociation': directConnectGatewayAssociation,
+    };
+  }
 }
 
 /// Information about a virtual private gateway for a private virtual interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualGateway {
   /// The ID of the virtual private gateway.
-  @_s.JsonKey(name: 'virtualGatewayId')
-  final String virtualGatewayId;
+  final String? virtualGatewayId;
 
   /// The state of the virtual private gateway. The following are the possible
   /// values:
@@ -5119,133 +6745,129 @@ class VirtualGateway {
   /// virtual interface is unable to send traffic over this gateway.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'virtualGatewayState')
-  final String virtualGatewayState;
+  final String? virtualGatewayState;
 
   VirtualGateway({
     this.virtualGatewayId,
     this.virtualGatewayState,
   });
-  factory VirtualGateway.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewayFromJson(json);
+
+  factory VirtualGateway.fromJson(Map<String, dynamic> json) {
+    return VirtualGateway(
+      virtualGatewayId: json['virtualGatewayId'] as String?,
+      virtualGatewayState: json['virtualGatewayState'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualGatewayId = this.virtualGatewayId;
+    final virtualGatewayState = this.virtualGatewayState;
+    return {
+      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
+      if (virtualGatewayState != null)
+        'virtualGatewayState': virtualGatewayState,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualGateways {
   /// The virtual private gateways.
-  @_s.JsonKey(name: 'virtualGateways')
-  final List<VirtualGateway> virtualGateways;
+  final List<VirtualGateway>? virtualGateways;
 
   VirtualGateways({
     this.virtualGateways,
   });
-  factory VirtualGateways.fromJson(Map<String, dynamic> json) =>
-      _$VirtualGatewaysFromJson(json);
+
+  factory VirtualGateways.fromJson(Map<String, dynamic> json) {
+    return VirtualGateways(
+      virtualGateways: (json['virtualGateways'] as List?)
+          ?.whereNotNull()
+          .map((e) => VirtualGateway.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualGateways = this.virtualGateways;
+    return {
+      if (virtualGateways != null) 'virtualGateways': virtualGateways,
+    };
+  }
 }
 
 /// Information about a virtual interface.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualInterface {
   /// The address family for the BGP peer.
-  @_s.JsonKey(name: 'addressFamily')
-  final AddressFamily addressFamily;
+  final AddressFamily? addressFamily;
 
   /// The IP address assigned to the Amazon interface.
-  @_s.JsonKey(name: 'amazonAddress')
-  final String amazonAddress;
+  final String? amazonAddress;
 
   /// The autonomous system number (ASN) for the Amazon side of the connection.
-  @_s.JsonKey(name: 'amazonSideAsn')
-  final int amazonSideAsn;
+  final int? amazonSideAsn;
 
   /// The autonomous system (AS) number for Border Gateway Protocol (BGP)
   /// configuration.
   ///
   /// The valid values are 1-2147483647.
-  @_s.JsonKey(name: 'asn')
-  final int asn;
+  final int? asn;
 
   /// The authentication key for BGP configuration. This string has a minimum
   /// length of 6 characters and and a maximun lenth of 80 characters.
-  @_s.JsonKey(name: 'authKey')
-  final String authKey;
+  final String? authKey;
 
   /// The Direct Connect endpoint on which the virtual interface terminates.
-  @_s.JsonKey(name: 'awsDeviceV2')
-  final String awsDeviceV2;
+  final String? awsDeviceV2;
 
   /// The BGP peers configured on this virtual interface.
-  @_s.JsonKey(name: 'bgpPeers')
-  final List<BGPPeer> bgpPeers;
+  final List<BGPPeer>? bgpPeers;
 
   /// The ID of the connection.
-  @_s.JsonKey(name: 'connectionId')
-  final String connectionId;
+  final String? connectionId;
 
   /// The IP address assigned to the customer interface.
-  @_s.JsonKey(name: 'customerAddress')
-  final String customerAddress;
+  final String? customerAddress;
 
   /// The customer router configuration.
-  @_s.JsonKey(name: 'customerRouterConfig')
-  final String customerRouterConfig;
+  final String? customerRouterConfig;
 
   /// The ID of the Direct Connect gateway.
-  @_s.JsonKey(name: 'directConnectGatewayId')
-  final String directConnectGatewayId;
+  final String? directConnectGatewayId;
 
   /// Indicates whether jumbo frames (9001 MTU) are supported.
-  @_s.JsonKey(name: 'jumboFrameCapable')
-  final bool jumboFrameCapable;
+  final bool? jumboFrameCapable;
 
   /// The location of the connection.
-  @_s.JsonKey(name: 'location')
-  final String location;
+  final String? location;
 
   /// The maximum transmission unit (MTU), in bytes. The supported values are 1500
   /// and 9001. The default value is 1500.
-  @_s.JsonKey(name: 'mtu')
-  final int mtu;
+  final int? mtu;
 
   /// The ID of the AWS account that owns the virtual interface.
-  @_s.JsonKey(name: 'ownerAccount')
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The AWS Region where the virtual interface is located.
-  @_s.JsonKey(name: 'region')
-  final String region;
+  final String? region;
 
   /// The routes to be advertised to the AWS network in this Region. Applies to
   /// public virtual interfaces.
-  @_s.JsonKey(name: 'routeFilterPrefixes')
-  final List<RouteFilterPrefix> routeFilterPrefixes;
+  final List<RouteFilterPrefix>? routeFilterPrefixes;
 
   /// The tags associated with the virtual interface.
-  @_s.JsonKey(name: 'tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// The ID of the virtual private gateway. Applies only to private virtual
   /// interfaces.
-  @_s.JsonKey(name: 'virtualGatewayId')
-  final String virtualGatewayId;
+  final String? virtualGatewayId;
 
   /// The ID of the virtual interface.
-  @_s.JsonKey(name: 'virtualInterfaceId')
-  final String virtualInterfaceId;
+  final String? virtualInterfaceId;
 
   /// The name of the virtual interface assigned by the customer network. The name
   /// has a maximum of 100 characters. The following are valid characters: a-z,
   /// 0-9 and a hyphen (-).
-  @_s.JsonKey(name: 'virtualInterfaceName')
-  final String virtualInterfaceName;
+  final String? virtualInterfaceName;
 
   /// The state of the virtual interface. The following are the possible values:
   ///
@@ -5290,17 +6912,14 @@ class VirtualInterface {
   /// <code>unknown</code>: The state of the virtual interface is not available.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'virtualInterfaceState')
-  final VirtualInterfaceState virtualInterfaceState;
+  final VirtualInterfaceState? virtualInterfaceState;
 
   /// The type of virtual interface. The possible values are <code>private</code>
   /// and <code>public</code>.
-  @_s.JsonKey(name: 'virtualInterfaceType')
-  final String virtualInterfaceType;
+  final String? virtualInterfaceType;
 
   /// The ID of the VLAN.
-  @_s.JsonKey(name: 'vlan')
-  final int vlan;
+  final int? vlan;
 
   VirtualInterface({
     this.addressFamily,
@@ -5328,72 +6947,195 @@ class VirtualInterface {
     this.virtualInterfaceType,
     this.vlan,
   });
-  factory VirtualInterface.fromJson(Map<String, dynamic> json) =>
-      _$VirtualInterfaceFromJson(json);
+
+  factory VirtualInterface.fromJson(Map<String, dynamic> json) {
+    return VirtualInterface(
+      addressFamily: (json['addressFamily'] as String?)?.toAddressFamily(),
+      amazonAddress: json['amazonAddress'] as String?,
+      amazonSideAsn: json['amazonSideAsn'] as int?,
+      asn: json['asn'] as int?,
+      authKey: json['authKey'] as String?,
+      awsDeviceV2: json['awsDeviceV2'] as String?,
+      bgpPeers: (json['bgpPeers'] as List?)
+          ?.whereNotNull()
+          .map((e) => BGPPeer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      connectionId: json['connectionId'] as String?,
+      customerAddress: json['customerAddress'] as String?,
+      customerRouterConfig: json['customerRouterConfig'] as String?,
+      directConnectGatewayId: json['directConnectGatewayId'] as String?,
+      jumboFrameCapable: json['jumboFrameCapable'] as bool?,
+      location: json['location'] as String?,
+      mtu: json['mtu'] as int?,
+      ownerAccount: json['ownerAccount'] as String?,
+      region: json['region'] as String?,
+      routeFilterPrefixes: (json['routeFilterPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => RouteFilterPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      virtualGatewayId: json['virtualGatewayId'] as String?,
+      virtualInterfaceId: json['virtualInterfaceId'] as String?,
+      virtualInterfaceName: json['virtualInterfaceName'] as String?,
+      virtualInterfaceState:
+          (json['virtualInterfaceState'] as String?)?.toVirtualInterfaceState(),
+      virtualInterfaceType: json['virtualInterfaceType'] as String?,
+      vlan: json['vlan'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressFamily = this.addressFamily;
+    final amazonAddress = this.amazonAddress;
+    final amazonSideAsn = this.amazonSideAsn;
+    final asn = this.asn;
+    final authKey = this.authKey;
+    final awsDeviceV2 = this.awsDeviceV2;
+    final bgpPeers = this.bgpPeers;
+    final connectionId = this.connectionId;
+    final customerAddress = this.customerAddress;
+    final customerRouterConfig = this.customerRouterConfig;
+    final directConnectGatewayId = this.directConnectGatewayId;
+    final jumboFrameCapable = this.jumboFrameCapable;
+    final location = this.location;
+    final mtu = this.mtu;
+    final ownerAccount = this.ownerAccount;
+    final region = this.region;
+    final routeFilterPrefixes = this.routeFilterPrefixes;
+    final tags = this.tags;
+    final virtualGatewayId = this.virtualGatewayId;
+    final virtualInterfaceId = this.virtualInterfaceId;
+    final virtualInterfaceName = this.virtualInterfaceName;
+    final virtualInterfaceState = this.virtualInterfaceState;
+    final virtualInterfaceType = this.virtualInterfaceType;
+    final vlan = this.vlan;
+    return {
+      if (addressFamily != null) 'addressFamily': addressFamily.toValue(),
+      if (amazonAddress != null) 'amazonAddress': amazonAddress,
+      if (amazonSideAsn != null) 'amazonSideAsn': amazonSideAsn,
+      if (asn != null) 'asn': asn,
+      if (authKey != null) 'authKey': authKey,
+      if (awsDeviceV2 != null) 'awsDeviceV2': awsDeviceV2,
+      if (bgpPeers != null) 'bgpPeers': bgpPeers,
+      if (connectionId != null) 'connectionId': connectionId,
+      if (customerAddress != null) 'customerAddress': customerAddress,
+      if (customerRouterConfig != null)
+        'customerRouterConfig': customerRouterConfig,
+      if (directConnectGatewayId != null)
+        'directConnectGatewayId': directConnectGatewayId,
+      if (jumboFrameCapable != null) 'jumboFrameCapable': jumboFrameCapable,
+      if (location != null) 'location': location,
+      if (mtu != null) 'mtu': mtu,
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (region != null) 'region': region,
+      if (routeFilterPrefixes != null)
+        'routeFilterPrefixes': routeFilterPrefixes,
+      if (tags != null) 'tags': tags,
+      if (virtualGatewayId != null) 'virtualGatewayId': virtualGatewayId,
+      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+      if (virtualInterfaceName != null)
+        'virtualInterfaceName': virtualInterfaceName,
+      if (virtualInterfaceState != null)
+        'virtualInterfaceState': virtualInterfaceState.toValue(),
+      if (virtualInterfaceType != null)
+        'virtualInterfaceType': virtualInterfaceType,
+      if (vlan != null) 'vlan': vlan,
+    };
+  }
 }
 
 enum VirtualInterfaceState {
-  @_s.JsonValue('confirming')
   confirming,
-  @_s.JsonValue('verifying')
   verifying,
-  @_s.JsonValue('pending')
   pending,
-  @_s.JsonValue('available')
   available,
-  @_s.JsonValue('down')
   down,
-  @_s.JsonValue('deleting')
   deleting,
-  @_s.JsonValue('deleted')
   deleted,
-  @_s.JsonValue('rejected')
   rejected,
-  @_s.JsonValue('unknown')
   unknown,
 }
 
+extension on VirtualInterfaceState {
+  String toValue() {
+    switch (this) {
+      case VirtualInterfaceState.confirming:
+        return 'confirming';
+      case VirtualInterfaceState.verifying:
+        return 'verifying';
+      case VirtualInterfaceState.pending:
+        return 'pending';
+      case VirtualInterfaceState.available:
+        return 'available';
+      case VirtualInterfaceState.down:
+        return 'down';
+      case VirtualInterfaceState.deleting:
+        return 'deleting';
+      case VirtualInterfaceState.deleted:
+        return 'deleted';
+      case VirtualInterfaceState.rejected:
+        return 'rejected';
+      case VirtualInterfaceState.unknown:
+        return 'unknown';
+    }
+  }
+}
+
+extension on String {
+  VirtualInterfaceState toVirtualInterfaceState() {
+    switch (this) {
+      case 'confirming':
+        return VirtualInterfaceState.confirming;
+      case 'verifying':
+        return VirtualInterfaceState.verifying;
+      case 'pending':
+        return VirtualInterfaceState.pending;
+      case 'available':
+        return VirtualInterfaceState.available;
+      case 'down':
+        return VirtualInterfaceState.down;
+      case 'deleting':
+        return VirtualInterfaceState.deleting;
+      case 'deleted':
+        return VirtualInterfaceState.deleted;
+      case 'rejected':
+        return VirtualInterfaceState.rejected;
+      case 'unknown':
+        return VirtualInterfaceState.unknown;
+    }
+    throw Exception('$this is not known in enum VirtualInterfaceState');
+  }
+}
+
 /// Information about the virtual interface failover test.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualInterfaceTestHistory {
   /// The BGP peers that were put in the DOWN state as part of the virtual
   /// interface failover test.
-  @_s.JsonKey(name: 'bgpPeers')
-  final List<String> bgpPeers;
+  final List<String>? bgpPeers;
 
   /// The time that the virtual interface moves out of the DOWN state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'endTime')
-  final DateTime endTime;
+  final DateTime? endTime;
 
   /// The owner ID of the tested virtual interface.
-  @_s.JsonKey(name: 'ownerAccount')
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The time that the virtual interface moves to the DOWN state.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   /// The status of the virtual interface failover test.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The time that the virtual interface failover test ran in minutes.
-  @_s.JsonKey(name: 'testDurationInMinutes')
-  final int testDurationInMinutes;
+  final int? testDurationInMinutes;
 
   /// The ID of the virtual interface failover test.
-  @_s.JsonKey(name: 'testId')
-  final String testId;
+  final String? testId;
 
   /// The ID of the tested virtual interface.
-  @_s.JsonKey(name: 'virtualInterfaceId')
-  final String virtualInterfaceId;
+  final String? virtualInterfaceId;
 
   VirtualInterfaceTestHistory({
     this.bgpPeers,
@@ -5405,46 +7147,90 @@ class VirtualInterfaceTestHistory {
     this.testId,
     this.virtualInterfaceId,
   });
-  factory VirtualInterfaceTestHistory.fromJson(Map<String, dynamic> json) =>
-      _$VirtualInterfaceTestHistoryFromJson(json);
+
+  factory VirtualInterfaceTestHistory.fromJson(Map<String, dynamic> json) {
+    return VirtualInterfaceTestHistory(
+      bgpPeers: (json['bgpPeers'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      endTime: timeStampFromJson(json['endTime']),
+      ownerAccount: json['ownerAccount'] as String?,
+      startTime: timeStampFromJson(json['startTime']),
+      status: json['status'] as String?,
+      testDurationInMinutes: json['testDurationInMinutes'] as int?,
+      testId: json['testId'] as String?,
+      virtualInterfaceId: json['virtualInterfaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bgpPeers = this.bgpPeers;
+    final endTime = this.endTime;
+    final ownerAccount = this.ownerAccount;
+    final startTime = this.startTime;
+    final status = this.status;
+    final testDurationInMinutes = this.testDurationInMinutes;
+    final testId = this.testId;
+    final virtualInterfaceId = this.virtualInterfaceId;
+    return {
+      if (bgpPeers != null) 'bgpPeers': bgpPeers,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (ownerAccount != null) 'ownerAccount': ownerAccount,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
+      if (status != null) 'status': status,
+      if (testDurationInMinutes != null)
+        'testDurationInMinutes': testDurationInMinutes,
+      if (testId != null) 'testId': testId,
+      if (virtualInterfaceId != null) 'virtualInterfaceId': virtualInterfaceId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VirtualInterfaces {
   /// The virtual interfaces
-  @_s.JsonKey(name: 'virtualInterfaces')
-  final List<VirtualInterface> virtualInterfaces;
+  final List<VirtualInterface>? virtualInterfaces;
 
   VirtualInterfaces({
     this.virtualInterfaces,
   });
-  factory VirtualInterfaces.fromJson(Map<String, dynamic> json) =>
-      _$VirtualInterfacesFromJson(json);
+
+  factory VirtualInterfaces.fromJson(Map<String, dynamic> json) {
+    return VirtualInterfaces(
+      virtualInterfaces: (json['virtualInterfaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => VirtualInterface.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final virtualInterfaces = this.virtualInterfaces;
+    return {
+      if (virtualInterfaces != null) 'virtualInterfaces': virtualInterfaces,
+    };
+  }
 }
 
 class DirectConnectClientException extends _s.GenericAwsException {
-  DirectConnectClientException({String type, String message})
+  DirectConnectClientException({String? type, String? message})
       : super(
             type: type, code: 'DirectConnectClientException', message: message);
 }
 
 class DirectConnectServerException extends _s.GenericAwsException {
-  DirectConnectServerException({String type, String message})
+  DirectConnectServerException({String? type, String? message})
       : super(
             type: type, code: 'DirectConnectServerException', message: message);
 }
 
 class DuplicateTagKeysException extends _s.GenericAwsException {
-  DuplicateTagKeysException({String type, String message})
+  DuplicateTagKeysException({String? type, String? message})
       : super(type: type, code: 'DuplicateTagKeysException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

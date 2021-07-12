@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-09-30.g.dart';
 
 /// <p/>
 class KinesisVideoArchivedMedia {
   final _s.RestJsonProtocol _protocol;
   KinesisVideoArchivedMedia({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -51,7 +44,7 @@ class KinesisVideoArchivedMedia {
   /// must specify either the StreamName or the StreamARN when invoking this API
   /// operation.
   ///
-  /// As a prerequsite to using GetCLip API, you must obtain an endpoint using
+  /// As a prerequisite to using GetCLip API, you must obtain an endpoint using
   /// <code>GetDataEndpoint</code>, specifying GET_CLIP for<code/> the
   /// <code>APIName</code> parameter.
   ///
@@ -123,9 +116,9 @@ class KinesisVideoArchivedMedia {
   ///
   /// You must specify either the StreamName or the StreamARN.
   Future<GetClipOutput> getClip({
-    @_s.required ClipFragmentSelector clipFragmentSelector,
-    String streamARN,
-    String streamName,
+    required ClipFragmentSelector clipFragmentSelector,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(clipFragmentSelector, 'clipFragmentSelector');
     _s.validateStringLength(
@@ -134,21 +127,11 @@ class KinesisVideoArchivedMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'ClipFragmentSelector': clipFragmentSelector,
@@ -226,9 +209,9 @@ class KinesisVideoArchivedMedia {
   /// includes an encrypted session token) for the session's MPEG-DASH
   /// <i>manifest</i> (the root resource needed for streaming with MPEG-DASH).
   /// <note>
-  /// Don't share or store this token where an unauthorized entity could access
+  /// Don't share or store this token where an unauthorized entity can access
   /// it. The token provides access to the content of the stream. Safeguard the
-  /// token with the same measures that you would use with your AWS credentials.
+  /// token with the same measures that you use with your AWS credentials.
   /// </note>
   /// The media that is made available through the manifest consists only of the
   /// requested stream, time range, and format. No other media data (such as
@@ -283,29 +266,10 @@ class KinesisVideoArchivedMedia {
   /// for details.
   /// </li>
   /// </ul> </li> </ol> <note>
-  /// The following restrictions apply to MPEG-DASH sessions:
-  ///
-  /// <ul>
-  /// <li>
-  /// A streaming session URL should not be shared between players. The service
-  /// might throttle a session if multiple media players are sharing it. For
-  /// connection limits, see <a
+  /// For restrictions that apply to MPEG-DASH sessions, see <a
   /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
   /// Video Streams Limits</a>.
-  /// </li>
-  /// <li>
-  /// A Kinesis video stream can have a maximum of ten active MPEG-DASH
-  /// streaming sessions. If a new session is created when the maximum number of
-  /// sessions is already active, the oldest (earliest created) session is
-  /// closed. The number of active <code>GetMedia</code> connections on a
-  /// Kinesis video stream does not count against this limit, and the number of
-  /// active MPEG-DASH sessions does not count against the active
-  /// <code>GetMedia</code> connection limit.
-  /// <note>
-  /// The maximum limits for active HLS and MPEG-DASH streaming sessions are
-  /// independent of each other.
-  /// </note> </li>
-  /// </ul> </note>
+  /// </note>
   /// You can monitor the amount of data that the media player consumes by
   /// monitoring the <code>GetMP4MediaFragment.OutgoingBytes</code> Amazon
   /// CloudWatch metric. For information about using CloudWatch to monitor
@@ -474,8 +438,8 @@ class KinesisVideoArchivedMedia {
   /// <li>
   /// <b> <code>ON_DEMAND</code> </b>: For sessions of this type, the MPEG-DASH
   /// manifest contains all the fragments for the session, up to the number that
-  /// is specified in <code>MaxMediaPlaylistFragmentResults</code>. The manifest
-  /// must be retrieved only once for each session. When this type of session is
+  /// is specified in <code>MaxManifestFragmentResults</code>. The manifest must
+  /// be retrieved only once for each session. When this type of session is
   /// played in a media player, the user interface typically displays a scrubber
   /// control for choosing the position in the playback window to display.
   /// </li>
@@ -503,14 +467,14 @@ class KinesisVideoArchivedMedia {
   /// You must specify either the <code>StreamName</code> or the
   /// <code>StreamARN</code>.
   Future<GetDASHStreamingSessionURLOutput> getDASHStreamingSessionURL({
-    DASHFragmentSelector dASHFragmentSelector,
-    DASHDisplayFragmentNumber displayFragmentNumber,
-    DASHDisplayFragmentTimestamp displayFragmentTimestamp,
-    int expires,
-    int maxManifestFragmentResults,
-    DASHPlaybackMode playbackMode,
-    String streamARN,
-    String streamName,
+    DASHFragmentSelector? dASHFragmentSelector,
+    DASHDisplayFragmentNumber? displayFragmentNumber,
+    DASHDisplayFragmentTimestamp? displayFragmentTimestamp,
+    int? expires,
+    int? maxManifestFragmentResults,
+    DASHPlaybackMode? playbackMode,
+    String? streamARN,
+    String? streamName,
   }) async {
     _s.validateNumRange(
       'expires',
@@ -522,7 +486,7 @@ class KinesisVideoArchivedMedia {
       'maxManifestFragmentResults',
       maxManifestFragmentResults,
       1,
-      1000,
+      5000,
     );
     _s.validateStringLength(
       'streamARN',
@@ -530,21 +494,11 @@ class KinesisVideoArchivedMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (dASHFragmentSelector != null)
@@ -715,30 +669,13 @@ class KinesisVideoArchivedMedia {
   /// href="https://aws.amazon.com/kinesis/video-streams/pricing/">Kinesis Video
   /// Streams pricing</a>.
   /// </li>
-  /// </ul> </li> </ol> <note>
-  /// The following restrictions apply to HLS sessions:
-  ///
-  /// <ul>
-  /// <li>
-  /// A streaming session URL should not be shared between players. The service
+  /// </ul> </li> </ol>
+  /// A streaming session URL must not be shared between players. The service
   /// might throttle a session if multiple media players are sharing it. For
   /// connection limits, see <a
   /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
   /// Video Streams Limits</a>.
-  /// </li>
-  /// <li>
-  /// A Kinesis video stream can have a maximum of ten active HLS streaming
-  /// sessions. If a new session is created when the maximum number of sessions
-  /// is already active, the oldest (earliest created) session is closed. The
-  /// number of active <code>GetMedia</code> connections on a Kinesis video
-  /// stream does not count against this limit, and the number of active HLS
-  /// sessions does not count against the active <code>GetMedia</code>
-  /// connection limit.
-  /// <note>
-  /// The maximum limits for active HLS and MPEG-DASH streaming sessions are
-  /// independent of each other.
-  /// </note> </li>
-  /// </ul> </note>
+  ///
   /// You can monitor the amount of data that the media player consumes by
   /// monitoring the <code>GetMP4MediaFragment.OutgoingBytes</code> Amazon
   /// CloudWatch metric. For information about using CloudWatch to monitor
@@ -831,7 +768,7 @@ class KinesisVideoArchivedMedia {
   /// player timeline most accurately maps to the producer timestamps.
   /// </li>
   /// <li>
-  /// <code>ON_DISCONTIUNITY</code>: a discontinuity marker is placed between
+  /// <code>ON_DISCONTINUITY</code>: a discontinuity marker is placed between
   /// fragments that have a gap or overlap of more than 50 milliseconds. For
   /// most playback scenarios, it is recommended to use a value of
   /// <code>ON_DISCONTINUITY</code> so that the media player timeline is only
@@ -902,8 +839,8 @@ class KinesisVideoArchivedMedia {
   /// <code>LIVE</code> or <code>LIVE_REPLAY</code>, and 1,000 if
   /// <code>PlaybackMode</code> is <code>ON_DEMAND</code>.
   ///
-  /// The maximum value of 1,000 fragments corresponds to more than 16 minutes
-  /// of video on streams with 1-second fragments, and more than 2 1/2 hours of
+  /// The maximum value of 5,000 fragments corresponds to more than 80 minutes
+  /// of video on streams with 1-second fragments, and more than 13 hours of
   /// video on streams with 10-second fragments.
   ///
   /// Parameter [playbackMode] :
@@ -955,11 +892,12 @@ class KinesisVideoArchivedMedia {
   /// </ul>
   /// In all playback modes, if <code>FragmentSelectorType</code> is
   /// <code>PRODUCER_TIMESTAMP</code>, and if there are multiple fragments with
-  /// the same start timestamp, the fragment that has the larger fragment number
-  /// (that is, the newer fragment) is included in the HLS media playlist. The
-  /// other fragments are not included. Fragments that have different timestamps
-  /// but have overlapping durations are still included in the HLS media
-  /// playlist. This can lead to unexpected behavior in the media player.
+  /// the same start timestamp, the fragment that has the largest fragment
+  /// number (that is, the newest fragment) is included in the HLS media
+  /// playlist. The other fragments are not included. Fragments that have
+  /// different timestamps but have overlapping durations are still included in
+  /// the HLS media playlist. This can lead to unexpected behavior in the media
+  /// player.
   ///
   /// The default is <code>LIVE</code>.
   ///
@@ -976,15 +914,15 @@ class KinesisVideoArchivedMedia {
   /// You must specify either the <code>StreamName</code> or the
   /// <code>StreamARN</code>.
   Future<GetHLSStreamingSessionURLOutput> getHLSStreamingSessionURL({
-    ContainerFormat containerFormat,
-    HLSDiscontinuityMode discontinuityMode,
-    HLSDisplayFragmentTimestamp displayFragmentTimestamp,
-    int expires,
-    HLSFragmentSelector hLSFragmentSelector,
-    int maxMediaPlaylistFragmentResults,
-    HLSPlaybackMode playbackMode,
-    String streamARN,
-    String streamName,
+    ContainerFormat? containerFormat,
+    HLSDiscontinuityMode? discontinuityMode,
+    HLSDisplayFragmentTimestamp? displayFragmentTimestamp,
+    int? expires,
+    HLSFragmentSelector? hLSFragmentSelector,
+    int? maxMediaPlaylistFragmentResults,
+    HLSPlaybackMode? playbackMode,
+    String? streamARN,
+    String? streamName,
   }) async {
     _s.validateNumRange(
       'expires',
@@ -996,7 +934,7 @@ class KinesisVideoArchivedMedia {
       'maxMediaPlaylistFragmentResults',
       maxMediaPlaylistFragmentResults,
       1,
-      1000,
+      5000,
     );
     _s.validateStringLength(
       'streamARN',
@@ -1004,21 +942,11 @@ class KinesisVideoArchivedMedia {
       1,
       1024,
     );
-    _s.validateStringPattern(
-      'streamARN',
-      streamARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       if (containerFormat != null) 'ContainerFormat': containerFormat.toValue(),
@@ -1053,20 +981,10 @@ class KinesisVideoArchivedMedia {
   /// href="https://docs.aws.amazon.com/cli/latest/reference/">--endpoint-url
   /// parameter</a>.
   /// </note>
-  /// The following limits apply when using the
-  /// <code>GetMediaForFragmentList</code> API:
-  ///
-  /// <ul>
-  /// <li>
-  /// A client can call <code>GetMediaForFragmentList</code> up to five times
-  /// per second per stream.
-  /// </li>
-  /// <li>
-  /// Kinesis Video Streams sends media data at a rate of up to 25 megabytes per
-  /// second (or 200 megabits per second) during a
-  /// <code>GetMediaForFragmentList</code> session.
-  /// </li>
-  /// </ul> <important>
+  /// For limits, see <a
+  /// href="http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
+  /// Video Streams Limits</a>.
+  /// <important>
   /// If an error is thrown after invoking a Kinesis Video Streams archived
   /// media API, in addition to the HTTP status code and the response body, it
   /// includes the following pieces of information:
@@ -1102,30 +1020,36 @@ class KinesisVideoArchivedMedia {
   /// A list of the numbers of fragments for which to retrieve media. You
   /// retrieve these values with <a>ListFragments</a>.
   ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream from which to retrieve
+  /// fragment media. Specify either this parameter or the
+  /// <code>StreamName</code> parameter.
+  ///
   /// Parameter [streamName] :
-  /// The name of the stream from which to retrieve fragment media.
+  /// The name of the stream from which to retrieve fragment media. Specify
+  /// either this parameter or the <code>StreamARN</code> parameter.
   Future<GetMediaForFragmentListOutput> getMediaForFragmentList({
-    @_s.required List<String> fragments,
-    @_s.required String streamName,
+    required List<String> fragments,
+    String? streamARN,
+    String? streamName,
   }) async {
     ArgumentError.checkNotNull(fragments, 'fragments');
-    ArgumentError.checkNotNull(streamName, 'streamName');
+    _s.validateStringLength(
+      'streamARN',
+      streamARN,
+      1,
+      1024,
+    );
     _s.validateStringLength(
       'streamName',
       streamName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
     );
     final $payload = <String, dynamic>{
       'Fragments': fragments,
-      'StreamName': streamName,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -1186,9 +1110,6 @@ class KinesisVideoArchivedMedia {
   /// May throw [ClientLimitExceededException].
   /// May throw [NotAuthorizedException].
   ///
-  /// Parameter [streamName] :
-  /// The name of the stream from which to retrieve a fragment list.
-  ///
   /// Parameter [fragmentSelector] :
   /// Describes the timestamp range and timestamp origin for the range of
   /// fragments to return.
@@ -1202,26 +1123,22 @@ class KinesisVideoArchivedMedia {
   /// Parameter [nextToken] :
   /// A token to specify where to start paginating. This is the
   /// <a>ListFragmentsOutput$NextToken</a> from a previously truncated response.
+  ///
+  /// Parameter [streamARN] :
+  /// The Amazon Resource Name (ARN) of the stream from which to retrieve a
+  /// fragment list. Specify either this parameter or the
+  /// <code>StreamName</code> parameter.
+  ///
+  /// Parameter [streamName] :
+  /// The name of the stream from which to retrieve a fragment list. Specify
+  /// either this parameter or the <code>StreamARN</code> parameter.
   Future<ListFragmentsOutput> listFragments({
-    @_s.required String streamName,
-    FragmentSelector fragmentSelector,
-    int maxResults,
-    String nextToken,
+    FragmentSelector? fragmentSelector,
+    int? maxResults,
+    String? nextToken,
+    String? streamARN,
+    String? streamName,
   }) async {
-    ArgumentError.checkNotNull(streamName, 'streamName');
-    _s.validateStringLength(
-      'streamName',
-      streamName,
-      1,
-      256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'streamName',
-      streamName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1234,16 +1151,24 @@ class KinesisVideoArchivedMedia {
       1,
       4096,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/]+={0,2}''',
+    _s.validateStringLength(
+      'streamARN',
+      streamARN,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'streamName',
+      streamName,
+      1,
+      256,
     );
     final $payload = <String, dynamic>{
-      'StreamName': streamName,
       if (fragmentSelector != null) 'FragmentSelector': fragmentSelector,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
+      if (streamARN != null) 'StreamARN': streamARN,
+      if (streamName != null) 'StreamName': streamName,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1264,48 +1189,70 @@ class KinesisVideoArchivedMedia {
 /// some fragments are ingested within the same time range and very different
 /// points in time, only the oldest ingested collection of fragments are
 /// returned.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ClipFragmentSelector {
   /// The origin of the timestamps to use (Server or Producer).
-  @_s.JsonKey(name: 'FragmentSelectorType')
   final ClipFragmentSelectorType fragmentSelectorType;
 
   /// The range of timestamps to return.
-  @_s.JsonKey(name: 'TimestampRange')
   final ClipTimestampRange timestampRange;
 
   ClipFragmentSelector({
-    @_s.required this.fragmentSelectorType,
-    @_s.required this.timestampRange,
+    required this.fragmentSelectorType,
+    required this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$ClipFragmentSelectorToJson(this);
+
+  factory ClipFragmentSelector.fromJson(Map<String, dynamic> json) {
+    return ClipFragmentSelector(
+      fragmentSelectorType:
+          (json['FragmentSelectorType'] as String).toClipFragmentSelectorType(),
+      timestampRange: ClipTimestampRange.fromJson(
+          json['TimestampRange'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      'FragmentSelectorType': fragmentSelectorType.toValue(),
+      'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum ClipFragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
 }
 
+extension on ClipFragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case ClipFragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case ClipFragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  ClipFragmentSelectorType toClipFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return ClipFragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return ClipFragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum ClipFragmentSelectorType');
+  }
+}
+
 /// The range of timestamps for which to return fragments.
-///
-/// The values in the ClipTimestampRange are <code>inclusive</code>. Fragments
-/// that begin before the start time but continue past it, or fragments that
-/// begin before the end time but continue past it, are included in the session.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ClipTimestampRange {
   /// The end of the timestamp range for the requested media.
   ///
-  /// This value must be within 3 hours of the specified
+  /// This value must be within 24 hours of the specified
   /// <code>StartTimestamp</code>, and it must be later than the
   /// <code>StartTimestamp</code> value. If <code>FragmentSelectorType</code> for
   /// the request is <code>SERVER_TIMESTAMP</code>, this value must be in the
@@ -1315,33 +1262,45 @@ class ClipTimestampRange {
   /// (starting) timestamp of the fragment. Fragments that start before the
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
   final DateTime endTimestamp;
 
   /// The starting timestamp in the range of timestamps for which to return
   /// fragments.
   ///
-  /// This value is inclusive. Fragments that start before the
-  /// <code>StartTimestamp</code> and continue past it are included in the
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
   /// session. If <code>FragmentSelectorType</code> is
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   ClipTimestampRange({
-    @_s.required this.endTimestamp,
-    @_s.required this.startTimestamp,
+    required this.endTimestamp,
+    required this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$ClipTimestampRangeToJson(this);
+
+  factory ClipTimestampRange.fromJson(Map<String, dynamic> json) {
+    return ClipTimestampRange(
+      endTimestamp:
+          nonNullableTimeStampFromJson(json['EndTimestamp'] as Object),
+      startTimestamp:
+          nonNullableTimeStampFromJson(json['StartTimestamp'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      'EndTimestamp': unixTimestampToJson(endTimestamp),
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
 enum ContainerFormat {
-  @_s.JsonValue('FRAGMENTED_MP4')
   fragmentedMp4,
-  @_s.JsonValue('MPEG_TS')
   mpegTs,
 }
 
@@ -1353,14 +1312,23 @@ extension on ContainerFormat {
       case ContainerFormat.mpegTs:
         return 'MPEG_TS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ContainerFormat toContainerFormat() {
+    switch (this) {
+      case 'FRAGMENTED_MP4':
+        return ContainerFormat.fragmentedMp4;
+      case 'MPEG_TS':
+        return ContainerFormat.mpegTs;
+    }
+    throw Exception('$this is not known in enum ContainerFormat');
   }
 }
 
 enum DASHDisplayFragmentNumber {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
 }
 
@@ -1372,14 +1340,23 @@ extension on DASHDisplayFragmentNumber {
       case DASHDisplayFragmentNumber.never:
         return 'NEVER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DASHDisplayFragmentNumber toDASHDisplayFragmentNumber() {
+    switch (this) {
+      case 'ALWAYS':
+        return DASHDisplayFragmentNumber.always;
+      case 'NEVER':
+        return DASHDisplayFragmentNumber.never;
+    }
+    throw Exception('$this is not known in enum DASHDisplayFragmentNumber');
   }
 }
 
 enum DASHDisplayFragmentTimestamp {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
 }
 
@@ -1391,17 +1368,23 @@ extension on DASHDisplayFragmentTimestamp {
       case DASHDisplayFragmentTimestamp.never:
         return 'NEVER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DASHDisplayFragmentTimestamp toDASHDisplayFragmentTimestamp() {
+    switch (this) {
+      case 'ALWAYS':
+        return DASHDisplayFragmentTimestamp.always;
+      case 'NEVER':
+        return DASHDisplayFragmentTimestamp.never;
+    }
+    throw Exception('$this is not known in enum DASHDisplayFragmentTimestamp');
   }
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
 /// the timestamps.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class DASHFragmentSelector {
   /// The source of the timestamps for the requested media.
   ///
@@ -1435,36 +1418,72 @@ class DASHFragmentSelector {
   /// included in the HLS media playlist.
   ///
   /// The default is <code>SERVER_TIMESTAMP</code>.
-  @_s.JsonKey(name: 'FragmentSelectorType')
-  final DASHFragmentSelectorType fragmentSelectorType;
+  final DASHFragmentSelectorType? fragmentSelectorType;
 
   /// The start and end of the timestamp range for the requested media.
   ///
   /// This value should not be present if <code>PlaybackType</code> is
   /// <code>LIVE</code>.
-  @_s.JsonKey(name: 'TimestampRange')
-  final DASHTimestampRange timestampRange;
+  final DASHTimestampRange? timestampRange;
 
   DASHFragmentSelector({
     this.fragmentSelectorType,
     this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$DASHFragmentSelectorToJson(this);
+
+  factory DASHFragmentSelector.fromJson(Map<String, dynamic> json) {
+    return DASHFragmentSelector(
+      fragmentSelectorType: (json['FragmentSelectorType'] as String?)
+          ?.toDASHFragmentSelectorType(),
+      timestampRange: json['TimestampRange'] != null
+          ? DASHTimestampRange.fromJson(
+              json['TimestampRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      if (fragmentSelectorType != null)
+        'FragmentSelectorType': fragmentSelectorType.toValue(),
+      if (timestampRange != null) 'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum DASHFragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
 }
 
+extension on DASHFragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case DASHFragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case DASHFragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  DASHFragmentSelectorType toDASHFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return DASHFragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return DASHFragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum DASHFragmentSelectorType');
+  }
+}
+
 enum DASHPlaybackMode {
-  @_s.JsonValue('LIVE')
   live,
-  @_s.JsonValue('LIVE_REPLAY')
   liveReplay,
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
 }
 
@@ -1478,7 +1497,20 @@ extension on DASHPlaybackMode {
       case DASHPlaybackMode.onDemand:
         return 'ON_DEMAND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DASHPlaybackMode toDASHPlaybackMode() {
+    switch (this) {
+      case 'LIVE':
+        return DASHPlaybackMode.live;
+      case 'LIVE_REPLAY':
+        return DASHPlaybackMode.liveReplay;
+      case 'ON_DEMAND':
+        return DASHPlaybackMode.onDemand;
+    }
+    throw Exception('$this is not known in enum DASHPlaybackMode');
   }
 }
 
@@ -1486,19 +1518,14 @@ extension on DASHPlaybackMode {
 ///
 /// This value should not be present if <code>PlaybackType</code> is
 /// <code>LIVE</code>.
-/// <note>
-/// The values in the <code>DASHimestampRange</code> are inclusive. Fragments
-/// that begin before the start time but continue past it, or fragments that
-/// begin before the end time but continue past it, are included in the session.
-/// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+///
+/// The values in <code>DASHimestampRange</code> are inclusive. Fragments that
+/// start exactly at or after the start time are included in the session.
+/// Fragments that start before the start time and continue past it are not
+/// included in the session.
 class DASHTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
-  /// within 3 hours of the specified <code>StartTimestamp</code>, and it must be
+  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
   /// later than the <code>StartTimestamp</code> value.
   ///
   /// If <code>FragmentSelectorType</code> for the request is
@@ -1515,62 +1542,63 @@ class DASHTimestampRange {
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
-  final DateTime endTimestamp;
+  final DateTime? endTimestamp;
 
   /// The start of the timestamp range for the requested media.
   ///
   /// If the <code>DASHTimestampRange</code> value is specified, the
   /// <code>StartTimestamp</code> value is required.
-  /// <note>
-  /// This value is inclusive. Fragments that start before the
-  /// <code>StartTimestamp</code> and continue past it are included in the
+  ///
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
   /// session. If <code>FragmentSelectorType</code> is
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
-  /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
-  final DateTime startTimestamp;
+  final DateTime? startTimestamp;
 
   DASHTimestampRange({
     this.endTimestamp,
     this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$DASHTimestampRangeToJson(this);
+
+  factory DASHTimestampRange.fromJson(Map<String, dynamic> json) {
+    return DASHTimestampRange(
+      endTimestamp: timeStampFromJson(json['EndTimestamp']),
+      startTimestamp: timeStampFromJson(json['StartTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
 /// Represents a segment of video or other time-delimited data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Fragment {
   /// The playback duration or other time value associated with the fragment.
-  @_s.JsonKey(name: 'FragmentLengthInMilliseconds')
-  final int fragmentLengthInMilliseconds;
+  final int? fragmentLengthInMilliseconds;
 
   /// The unique identifier of the fragment. This value monotonically increases
   /// based on the ingestion order.
-  @_s.JsonKey(name: 'FragmentNumber')
-  final String fragmentNumber;
+  final String? fragmentNumber;
 
   /// The total fragment size, including information about the fragment and
   /// contained media data.
-  @_s.JsonKey(name: 'FragmentSizeInBytes')
-  final int fragmentSizeInBytes;
+  final int? fragmentSizeInBytes;
 
   /// The timestamp from the producer corresponding to the fragment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ProducerTimestamp')
-  final DateTime producerTimestamp;
+  final DateTime? producerTimestamp;
 
   /// The timestamp from the AWS server corresponding to the fragment.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ServerTimestamp')
-  final DateTime serverTimestamp;
+  final DateTime? serverTimestamp;
 
   Fragment({
     this.fragmentLengthInMilliseconds,
@@ -1579,8 +1607,36 @@ class Fragment {
     this.producerTimestamp,
     this.serverTimestamp,
   });
-  factory Fragment.fromJson(Map<String, dynamic> json) =>
-      _$FragmentFromJson(json);
+
+  factory Fragment.fromJson(Map<String, dynamic> json) {
+    return Fragment(
+      fragmentLengthInMilliseconds:
+          json['FragmentLengthInMilliseconds'] as int?,
+      fragmentNumber: json['FragmentNumber'] as String?,
+      fragmentSizeInBytes: json['FragmentSizeInBytes'] as int?,
+      producerTimestamp: timeStampFromJson(json['ProducerTimestamp']),
+      serverTimestamp: timeStampFromJson(json['ServerTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentLengthInMilliseconds = this.fragmentLengthInMilliseconds;
+    final fragmentNumber = this.fragmentNumber;
+    final fragmentSizeInBytes = this.fragmentSizeInBytes;
+    final producerTimestamp = this.producerTimestamp;
+    final serverTimestamp = this.serverTimestamp;
+    return {
+      if (fragmentLengthInMilliseconds != null)
+        'FragmentLengthInMilliseconds': fragmentLengthInMilliseconds,
+      if (fragmentNumber != null) 'FragmentNumber': fragmentNumber,
+      if (fragmentSizeInBytes != null)
+        'FragmentSizeInBytes': fragmentSizeInBytes,
+      if (producerTimestamp != null)
+        'ProducerTimestamp': unixTimestampToJson(producerTimestamp),
+      if (serverTimestamp != null)
+        'ServerTimestamp': unixTimestampToJson(serverTimestamp),
+    };
+  }
 }
 
 /// Describes the timestamp range and timestamp origin of a range of fragments.
@@ -1606,106 +1662,148 @@ class Fragment {
 /// A fragment selector range with a start time of 00:00:01 and end time of
 /// 00:00:04 would return the fragments with start times of 00:00:02 and
 /// 00:00:04.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FragmentSelector {
   /// The origin of the timestamps to use (Server or Producer).
-  @_s.JsonKey(name: 'FragmentSelectorType')
   final FragmentSelectorType fragmentSelectorType;
 
   /// The range of timestamps to return.
-  @_s.JsonKey(name: 'TimestampRange')
   final TimestampRange timestampRange;
 
   FragmentSelector({
-    @_s.required this.fragmentSelectorType,
-    @_s.required this.timestampRange,
+    required this.fragmentSelectorType,
+    required this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$FragmentSelectorToJson(this);
+
+  factory FragmentSelector.fromJson(Map<String, dynamic> json) {
+    return FragmentSelector(
+      fragmentSelectorType:
+          (json['FragmentSelectorType'] as String).toFragmentSelectorType(),
+      timestampRange: TimestampRange.fromJson(
+          json['TimestampRange'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      'FragmentSelectorType': fragmentSelectorType.toValue(),
+      'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum FragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on FragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case FragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case FragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  FragmentSelectorType toFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return FragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return FragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum FragmentSelectorType');
+  }
+}
+
 class GetClipOutput {
   /// The content type of the media in the requested clip.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// Traditional MP4 file that contains the media clip from the specified video
   /// stream. The output will contain the first 100 MB or the first 200 fragments
   /// from the specified start timestamp. For more information, see <a
-  /// href="Kinesis Video Streams Limits">Kinesis Video Streams Limits</a>.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Payload')
-  final Uint8List payload;
+  /// href="https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/limits.html">Kinesis
+  /// Video Streams Limits</a>.
+  final Uint8List? payload;
 
   GetClipOutput({
     this.contentType,
     this.payload,
   });
-  factory GetClipOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetClipOutputFromJson(json);
+
+  factory GetClipOutput.fromJson(Map<String, dynamic> json) {
+    return GetClipOutput(
+      contentType: json['Content-Type'] as String?,
+      payload: _s.decodeNullableUint8List(json['Payload'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final payload = this.payload;
+    return {
+      if (payload != null) 'Payload': base64Encode(payload),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDASHStreamingSessionURLOutput {
   /// The URL (containing the session token) that a media player can use to
   /// retrieve the MPEG-DASH manifest.
-  @_s.JsonKey(name: 'DASHStreamingSessionURL')
-  final String dASHStreamingSessionURL;
+  final String? dASHStreamingSessionURL;
 
   GetDASHStreamingSessionURLOutput({
     this.dASHStreamingSessionURL,
   });
-  factory GetDASHStreamingSessionURLOutput.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetDASHStreamingSessionURLOutputFromJson(json);
+
+  factory GetDASHStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) {
+    return GetDASHStreamingSessionURLOutput(
+      dASHStreamingSessionURL: json['DASHStreamingSessionURL'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dASHStreamingSessionURL = this.dASHStreamingSessionURL;
+    return {
+      if (dASHStreamingSessionURL != null)
+        'DASHStreamingSessionURL': dASHStreamingSessionURL,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetHLSStreamingSessionURLOutput {
   /// The URL (containing the session token) that a media player can use to
   /// retrieve the HLS master playlist.
-  @_s.JsonKey(name: 'HLSStreamingSessionURL')
-  final String hLSStreamingSessionURL;
+  final String? hLSStreamingSessionURL;
 
   GetHLSStreamingSessionURLOutput({
     this.hLSStreamingSessionURL,
   });
-  factory GetHLSStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetHLSStreamingSessionURLOutputFromJson(json);
+
+  factory GetHLSStreamingSessionURLOutput.fromJson(Map<String, dynamic> json) {
+    return GetHLSStreamingSessionURLOutput(
+      hLSStreamingSessionURL: json['HLSStreamingSessionURL'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hLSStreamingSessionURL = this.hLSStreamingSessionURL;
+    return {
+      if (hLSStreamingSessionURL != null)
+        'HLSStreamingSessionURL': hLSStreamingSessionURL,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetMediaForFragmentListOutput {
   /// The content type of the requested media.
-  @_s.JsonKey(name: 'Content-Type')
-  final String contentType;
+  final String? contentType;
 
   /// The payload that Kinesis Video Streams returns is a sequence of chunks from
   /// the specified stream. For information about the chunks, see <a
@@ -1741,24 +1839,32 @@ class GetMediaForFragmentListOutput {
   /// AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
   /// </li>
   /// </ul>
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Payload')
-  final Uint8List payload;
+  final Uint8List? payload;
 
   GetMediaForFragmentListOutput({
     this.contentType,
     this.payload,
   });
-  factory GetMediaForFragmentListOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetMediaForFragmentListOutputFromJson(json);
+
+  factory GetMediaForFragmentListOutput.fromJson(Map<String, dynamic> json) {
+    return GetMediaForFragmentListOutput(
+      contentType: json['Content-Type'] as String?,
+      payload: _s.decodeNullableUint8List(json['Payload'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final contentType = this.contentType;
+    final payload = this.payload;
+    return {
+      if (payload != null) 'Payload': base64Encode(payload),
+    };
+  }
 }
 
 enum HLSDiscontinuityMode {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
-  @_s.JsonValue('ON_DISCONTINUITY')
   onDiscontinuity,
 }
 
@@ -1772,14 +1878,25 @@ extension on HLSDiscontinuityMode {
       case HLSDiscontinuityMode.onDiscontinuity:
         return 'ON_DISCONTINUITY';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  HLSDiscontinuityMode toHLSDiscontinuityMode() {
+    switch (this) {
+      case 'ALWAYS':
+        return HLSDiscontinuityMode.always;
+      case 'NEVER':
+        return HLSDiscontinuityMode.never;
+      case 'ON_DISCONTINUITY':
+        return HLSDiscontinuityMode.onDiscontinuity;
+    }
+    throw Exception('$this is not known in enum HLSDiscontinuityMode');
   }
 }
 
 enum HLSDisplayFragmentTimestamp {
-  @_s.JsonValue('ALWAYS')
   always,
-  @_s.JsonValue('NEVER')
   never,
 }
 
@@ -1791,17 +1908,23 @@ extension on HLSDisplayFragmentTimestamp {
       case HLSDisplayFragmentTimestamp.never:
         return 'NEVER';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  HLSDisplayFragmentTimestamp toHLSDisplayFragmentTimestamp() {
+    switch (this) {
+      case 'ALWAYS':
+        return HLSDisplayFragmentTimestamp.always;
+      case 'NEVER':
+        return HLSDisplayFragmentTimestamp.never;
+    }
+    throw Exception('$this is not known in enum HLSDisplayFragmentTimestamp');
   }
 }
 
 /// Contains the range of timestamps for the requested media, and the source of
 /// the timestamps.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HLSFragmentSelector {
   /// The source of the timestamps for the requested media.
   ///
@@ -1834,36 +1957,72 @@ class HLSFragmentSelector {
   /// HLS media playlist.
   ///
   /// The default is <code>SERVER_TIMESTAMP</code>.
-  @_s.JsonKey(name: 'FragmentSelectorType')
-  final HLSFragmentSelectorType fragmentSelectorType;
+  final HLSFragmentSelectorType? fragmentSelectorType;
 
   /// The start and end of the timestamp range for the requested media.
   ///
   /// This value should not be present if <code>PlaybackType</code> is
   /// <code>LIVE</code>.
-  @_s.JsonKey(name: 'TimestampRange')
-  final HLSTimestampRange timestampRange;
+  final HLSTimestampRange? timestampRange;
 
   HLSFragmentSelector({
     this.fragmentSelectorType,
     this.timestampRange,
   });
-  Map<String, dynamic> toJson() => _$HLSFragmentSelectorToJson(this);
+
+  factory HLSFragmentSelector.fromJson(Map<String, dynamic> json) {
+    return HLSFragmentSelector(
+      fragmentSelectorType: (json['FragmentSelectorType'] as String?)
+          ?.toHLSFragmentSelectorType(),
+      timestampRange: json['TimestampRange'] != null
+          ? HLSTimestampRange.fromJson(
+              json['TimestampRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragmentSelectorType = this.fragmentSelectorType;
+    final timestampRange = this.timestampRange;
+    return {
+      if (fragmentSelectorType != null)
+        'FragmentSelectorType': fragmentSelectorType.toValue(),
+      if (timestampRange != null) 'TimestampRange': timestampRange,
+    };
+  }
 }
 
 enum HLSFragmentSelectorType {
-  @_s.JsonValue('PRODUCER_TIMESTAMP')
   producerTimestamp,
-  @_s.JsonValue('SERVER_TIMESTAMP')
   serverTimestamp,
 }
 
+extension on HLSFragmentSelectorType {
+  String toValue() {
+    switch (this) {
+      case HLSFragmentSelectorType.producerTimestamp:
+        return 'PRODUCER_TIMESTAMP';
+      case HLSFragmentSelectorType.serverTimestamp:
+        return 'SERVER_TIMESTAMP';
+    }
+  }
+}
+
+extension on String {
+  HLSFragmentSelectorType toHLSFragmentSelectorType() {
+    switch (this) {
+      case 'PRODUCER_TIMESTAMP':
+        return HLSFragmentSelectorType.producerTimestamp;
+      case 'SERVER_TIMESTAMP':
+        return HLSFragmentSelectorType.serverTimestamp;
+    }
+    throw Exception('$this is not known in enum HLSFragmentSelectorType');
+  }
+}
+
 enum HLSPlaybackMode {
-  @_s.JsonValue('LIVE')
   live,
-  @_s.JsonValue('LIVE_REPLAY')
   liveReplay,
-  @_s.JsonValue('ON_DEMAND')
   onDemand,
 }
 
@@ -1877,7 +2036,20 @@ extension on HLSPlaybackMode {
       case HLSPlaybackMode.onDemand:
         return 'ON_DEMAND';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  HLSPlaybackMode toHLSPlaybackMode() {
+    switch (this) {
+      case 'LIVE':
+        return HLSPlaybackMode.live;
+      case 'LIVE_REPLAY':
+        return HLSPlaybackMode.liveReplay;
+      case 'ON_DEMAND':
+        return HLSPlaybackMode.onDemand;
+    }
+    throw Exception('$this is not known in enum HLSPlaybackMode');
   }
 }
 
@@ -1885,19 +2057,9 @@ extension on HLSPlaybackMode {
 ///
 /// This value should not be present if <code>PlaybackType</code> is
 /// <code>LIVE</code>.
-/// <note>
-/// The values in the <code>HLSTimestampRange</code> are inclusive. Fragments
-/// that begin before the start time but continue past it, or fragments that
-/// begin before the end time but continue past it, are included in the session.
-/// </note>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class HLSTimestampRange {
   /// The end of the timestamp range for the requested media. This value must be
-  /// within 3 hours of the specified <code>StartTimestamp</code>, and it must be
+  /// within 24 hours of the specified <code>StartTimestamp</code>, and it must be
   /// later than the <code>StartTimestamp</code> value.
   ///
   /// If <code>FragmentSelectorType</code> for the request is
@@ -1914,96 +2076,127 @@ class HLSTimestampRange {
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
   /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
-  final DateTime endTimestamp;
+  final DateTime? endTimestamp;
 
   /// The start of the timestamp range for the requested media.
   ///
   /// If the <code>HLSTimestampRange</code> value is specified, the
   /// <code>StartTimestamp</code> value is required.
-  /// <note>
-  /// This value is inclusive. Fragments that start before the
-  /// <code>StartTimestamp</code> and continue past it are included in the
+  ///
+  /// Only fragments that start exactly at or after <code>StartTimestamp</code>
+  /// are included in the session. Fragments that start before
+  /// <code>StartTimestamp</code> and continue past it aren't included in the
   /// session. If <code>FragmentSelectorType</code> is
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
-  /// </note>
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
-  final DateTime startTimestamp;
+  final DateTime? startTimestamp;
 
   HLSTimestampRange({
     this.endTimestamp,
     this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$HLSTimestampRangeToJson(this);
+
+  factory HLSTimestampRange.fromJson(Map<String, dynamic> json) {
+    return HLSTimestampRange(
+      endTimestamp: timeStampFromJson(json['EndTimestamp']),
+      startTimestamp: timeStampFromJson(json['StartTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      if (endTimestamp != null)
+        'EndTimestamp': unixTimestampToJson(endTimestamp),
+      if (startTimestamp != null)
+        'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFragmentsOutput {
   /// A list of archived <a>Fragment</a> objects from the stream that meet the
   /// selector criteria. Results are in no specific order, even across pages.
-  @_s.JsonKey(name: 'Fragments')
-  final List<Fragment> fragments;
+  final List<Fragment>? fragments;
 
   /// If the returned list is truncated, the operation returns this token to use
   /// to retrieve the next page of results. This value is <code>null</code> when
   /// there are no more results to return.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListFragmentsOutput({
     this.fragments,
     this.nextToken,
   });
-  factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListFragmentsOutputFromJson(json);
+
+  factory ListFragmentsOutput.fromJson(Map<String, dynamic> json) {
+    return ListFragmentsOutput(
+      fragments: (json['Fragments'] as List?)
+          ?.whereNotNull()
+          .map((e) => Fragment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fragments = this.fragments;
+    final nextToken = this.nextToken;
+    return {
+      if (fragments != null) 'Fragments': fragments,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// The range of timestamps for which to return fragments.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TimestampRange {
   /// The ending timestamp in the range of timestamps for which to return
   /// fragments.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'EndTimestamp')
   final DateTime endTimestamp;
 
   /// The starting timestamp in the range of timestamps for which to return
   /// fragments.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   TimestampRange({
-    @_s.required this.endTimestamp,
-    @_s.required this.startTimestamp,
+    required this.endTimestamp,
+    required this.startTimestamp,
   });
-  Map<String, dynamic> toJson() => _$TimestampRangeToJson(this);
+
+  factory TimestampRange.fromJson(Map<String, dynamic> json) {
+    return TimestampRange(
+      endTimestamp:
+          nonNullableTimeStampFromJson(json['EndTimestamp'] as Object),
+      startTimestamp:
+          nonNullableTimeStampFromJson(json['StartTimestamp'] as Object),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final endTimestamp = this.endTimestamp;
+    final startTimestamp = this.startTimestamp;
+    return {
+      'EndTimestamp': unixTimestampToJson(endTimestamp),
+      'StartTimestamp': unixTimestampToJson(startTimestamp),
+    };
+  }
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {
-  ClientLimitExceededException({String type, String message})
+  ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidCodecPrivateDataException extends _s.GenericAwsException {
-  InvalidCodecPrivateDataException({String type, String message})
+  InvalidCodecPrivateDataException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidCodecPrivateDataException',
@@ -2011,12 +2204,12 @@ class InvalidCodecPrivateDataException extends _s.GenericAwsException {
 }
 
 class InvalidMediaFrameException extends _s.GenericAwsException {
-  InvalidMediaFrameException({String type, String message})
+  InvalidMediaFrameException({String? type, String? message})
       : super(type: type, code: 'InvalidMediaFrameException', message: message);
 }
 
 class MissingCodecPrivateDataException extends _s.GenericAwsException {
-  MissingCodecPrivateDataException({String type, String message})
+  MissingCodecPrivateDataException({String? type, String? message})
       : super(
             type: type,
             code: 'MissingCodecPrivateDataException',
@@ -2024,22 +2217,22 @@ class MissingCodecPrivateDataException extends _s.GenericAwsException {
 }
 
 class NoDataRetentionException extends _s.GenericAwsException {
-  NoDataRetentionException({String type, String message})
+  NoDataRetentionException({String? type, String? message})
       : super(type: type, code: 'NoDataRetentionException', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class UnsupportedStreamMediaTypeException extends _s.GenericAwsException {
-  UnsupportedStreamMediaTypeException({String type, String message})
+  UnsupportedStreamMediaTypeException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedStreamMediaTypeException',

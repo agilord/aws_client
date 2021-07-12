@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-12-03.g.dart';
 
 /// AWS Outposts is a fully managed service that extends AWS infrastructure,
 /// APIs, and tools to customer premises. By providing local access to AWS
@@ -35,10 +28,10 @@ part '2019-12-03.g.dart';
 class Outposts {
   final _s.RestJsonProtocol _protocol;
   Outposts({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -52,7 +45,11 @@ class Outposts {
 
   /// Creates an Outpost.
   ///
+  /// You can specify <code>AvailabilityZone</code> or
+  /// <code>AvailabilityZoneId</code>.
+  ///
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -61,12 +58,12 @@ class Outposts {
   /// Parameter [tags] :
   /// The tags to apply to the Outpost.
   Future<CreateOutpostOutput> createOutpost({
-    @_s.required String name,
-    @_s.required String siteId,
-    String availabilityZone,
-    String availabilityZoneId,
-    String description,
-    Map<String, String> tags,
+    required String name,
+    required String siteId,
+    String? availabilityZone,
+    String? availabilityZoneId,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -74,12 +71,6 @@ class Outposts {
       name,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[\S ]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(siteId, 'siteId');
@@ -90,22 +81,11 @@ class Outposts {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'siteId',
-      siteId,
-      r'''os-[a-f0-9]{17}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'availabilityZone',
       availabilityZone,
       1,
       1000,
-    );
-    _s.validateStringPattern(
-      'availabilityZone',
-      availabilityZone,
-      r'''[a-z\d-]+''',
     );
     _s.validateStringLength(
       'availabilityZoneId',
@@ -113,21 +93,11 @@ class Outposts {
       1,
       255,
     );
-    _s.validateStringPattern(
-      'availabilityZoneId',
-      availabilityZoneId,
-      r'''[a-z]+[0-9]+-az[0-9]+''',
-    );
     _s.validateStringLength(
       'description',
       description,
-      1,
+      0,
       1000,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[\S ]+$''',
     );
     final $payload = <String, dynamic>{
       'Name': name,
@@ -149,11 +119,12 @@ class Outposts {
   /// Deletes the Outpost.
   ///
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<void> deleteOutpost({
-    @_s.required String outpostId,
+    required String outpostId,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
     _s.validateStringLength(
@@ -163,29 +134,23 @@ class Outposts {
       180,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/outposts/${Uri.encodeComponent(outpostId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteOutpostOutput.fromJson(response);
   }
 
   /// Deletes the site.
   ///
   /// May throw [ValidationException].
+  /// May throw [ConflictException].
   /// May throw [NotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<void> deleteSite({
-    @_s.required String siteId,
+    required String siteId,
   }) async {
     ArgumentError.checkNotNull(siteId, 'siteId');
     _s.validateStringLength(
@@ -195,19 +160,12 @@ class Outposts {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'siteId',
-      siteId,
-      r'''os-[a-f0-9]{17}''',
-      isRequired: true,
-    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri: '/sites/${Uri.encodeComponent(siteId)}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSiteOutput.fromJson(response);
   }
 
   /// Gets information about the specified Outpost.
@@ -217,7 +175,7 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<GetOutpostOutput> getOutpost({
-    @_s.required String outpostId,
+    required String outpostId,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
     _s.validateStringLength(
@@ -225,12 +183,6 @@ class Outposts {
       outpostId,
       1,
       180,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -249,9 +201,9 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<GetOutpostInstanceTypesOutput> getOutpostInstanceTypes({
-    @_s.required String outpostId,
-    int maxResults,
-    String nextToken,
+    required String outpostId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(outpostId, 'outpostId');
     _s.validateStringLength(
@@ -259,12 +211,6 @@ class Outposts {
       outpostId,
       1,
       180,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'outpostId',
-      outpostId,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -278,11 +224,6 @@ class Outposts {
       nextToken,
       1,
       1005,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -298,14 +239,46 @@ class Outposts {
     return GetOutpostInstanceTypesOutput.fromJson(response);
   }
 
-  /// List the Outposts for your AWS account.
+  /// Create a list of the Outposts for your AWS account. Add filters to your
+  /// request to return a more specific list of results. Use filters to match an
+  /// Outpost lifecycle status, Availibility Zone (<code>us-east-1a</code>), and
+  /// AZ ID (<code>use1-az1</code>).
+  ///
+  /// If you specify multiple filters, the filters are joined with an
+  /// <code>AND</code>, and the request returns only results that match all of
+  /// the specified filters.
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
+  ///
+  /// Parameter [availabilityZoneFilter] :
+  /// A filter for the Availibility Zone (<code>us-east-1a</code>) of the
+  /// Outpost.
+  ///
+  /// Filter values are case sensitive. If you specify multiple values for a
+  /// filter, the values are joined with an <code>OR</code>, and the request
+  /// returns all results that match any of the specified values.
+  ///
+  /// Parameter [availabilityZoneIdFilter] :
+  /// A filter for the AZ IDs (<code>use1-az1</code>) of the Outpost.
+  ///
+  /// Filter values are case sensitive. If you specify multiple values for a
+  /// filter, the values are joined with an <code>OR</code>, and the request
+  /// returns all results that match any of the specified values.
+  ///
+  /// Parameter [lifeCycleStatusFilter] :
+  /// A filter for the lifecycle status of the Outpost.
+  ///
+  /// Filter values are case sensitive. If you specify multiple values for a
+  /// filter, the values are joined with an <code>OR</code>, and the request
+  /// returns all results that match any of the specified values.
   Future<ListOutpostsOutput> listOutposts({
-    int maxResults,
-    String nextToken,
+    List<String>? availabilityZoneFilter,
+    List<String>? availabilityZoneIdFilter,
+    List<String>? lifeCycleStatusFilter,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -319,12 +292,13 @@ class Outposts {
       1,
       1005,
     );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
-    );
     final $query = <String, List<String>>{
+      if (availabilityZoneFilter != null)
+        'AvailabilityZoneFilter': availabilityZoneFilter,
+      if (availabilityZoneIdFilter != null)
+        'AvailabilityZoneIdFilter': availabilityZoneIdFilter,
+      if (lifeCycleStatusFilter != null)
+        'LifeCycleStatusFilter': lifeCycleStatusFilter,
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
       if (nextToken != null) 'NextToken': [nextToken],
     };
@@ -344,8 +318,8 @@ class Outposts {
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   Future<ListSitesOutput> listSites({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -358,11 +332,6 @@ class Outposts {
       nextToken,
       1,
       1005,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''.*\S.*''',
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'MaxResults': [maxResults.toString()],
@@ -387,7 +356,7 @@ class Outposts {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -395,12 +364,6 @@ class Outposts {
       resourceArn,
       0,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -424,8 +387,8 @@ class Outposts {
   /// Parameter [tags] :
   /// The tags to add to the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -433,12 +396,6 @@ class Outposts {
       resourceArn,
       0,
       1011,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -451,7 +408,6 @@ class Outposts {
       requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
-    return TagResourceResponse.fromJson(response);
   }
 
   /// Removes tags from the specified resource.
@@ -466,8 +422,8 @@ class Outposts {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -477,15 +433,9 @@ class Outposts {
       1011,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:([a-z\d-]+)/)[a-z]{2,8}-[a-f0-9]{17}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: null,
@@ -494,62 +444,61 @@ class Outposts {
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
-    return UntagResourceResponse.fromJson(response);
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateOutpostOutput {
-  @_s.JsonKey(name: 'Outpost')
-  final Outpost outpost;
+  final Outpost? outpost;
 
   CreateOutpostOutput({
     this.outpost,
   });
-  factory CreateOutpostOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateOutpostOutputFromJson(json);
+
+  factory CreateOutpostOutput.fromJson(Map<String, dynamic> json) {
+    return CreateOutpostOutput(
+      outpost: json['Outpost'] != null
+          ? Outpost.fromJson(json['Outpost'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outpost = this.outpost;
+    return {
+      if (outpost != null) 'Outpost': outpost,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteOutpostOutput {
   DeleteOutpostOutput();
-  factory DeleteOutpostOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteOutpostOutputFromJson(json);
+
+  factory DeleteOutpostOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteOutpostOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSiteOutput {
   DeleteSiteOutput();
-  factory DeleteSiteOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSiteOutputFromJson(json);
+
+  factory DeleteSiteOutput.fromJson(Map<String, dynamic> _) {
+    return DeleteSiteOutput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOutpostInstanceTypesOutput {
-  @_s.JsonKey(name: 'InstanceTypes')
-  final List<InstanceTypeItem> instanceTypes;
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'OutpostArn')
-  final String outpostArn;
-  @_s.JsonKey(name: 'OutpostId')
-  final String outpostId;
+  final List<InstanceTypeItem>? instanceTypes;
+  final String? nextToken;
+  final String? outpostArn;
+  final String? outpostId;
 
   GetOutpostInstanceTypesOutput({
     this.instanceTypes,
@@ -557,127 +506,174 @@ class GetOutpostInstanceTypesOutput {
     this.outpostArn,
     this.outpostId,
   });
-  factory GetOutpostInstanceTypesOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetOutpostInstanceTypesOutputFromJson(json);
+
+  factory GetOutpostInstanceTypesOutput.fromJson(Map<String, dynamic> json) {
+    return GetOutpostInstanceTypesOutput(
+      instanceTypes: (json['InstanceTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => InstanceTypeItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+      outpostArn: json['OutpostArn'] as String?,
+      outpostId: json['OutpostId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceTypes = this.instanceTypes;
+    final nextToken = this.nextToken;
+    final outpostArn = this.outpostArn;
+    final outpostId = this.outpostId;
+    return {
+      if (instanceTypes != null) 'InstanceTypes': instanceTypes,
+      if (nextToken != null) 'NextToken': nextToken,
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (outpostId != null) 'OutpostId': outpostId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetOutpostOutput {
-  @_s.JsonKey(name: 'Outpost')
-  final Outpost outpost;
+  final Outpost? outpost;
 
   GetOutpostOutput({
     this.outpost,
   });
-  factory GetOutpostOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetOutpostOutputFromJson(json);
+
+  factory GetOutpostOutput.fromJson(Map<String, dynamic> json) {
+    return GetOutpostOutput(
+      outpost: json['Outpost'] != null
+          ? Outpost.fromJson(json['Outpost'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outpost = this.outpost;
+    return {
+      if (outpost != null) 'Outpost': outpost,
+    };
+  }
 }
 
 /// Information about an instance type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InstanceTypeItem {
-  @_s.JsonKey(name: 'InstanceType')
-  final String instanceType;
+  final String? instanceType;
 
   InstanceTypeItem({
     this.instanceType,
   });
-  factory InstanceTypeItem.fromJson(Map<String, dynamic> json) =>
-      _$InstanceTypeItemFromJson(json);
+
+  factory InstanceTypeItem.fromJson(Map<String, dynamic> json) {
+    return InstanceTypeItem(
+      instanceType: json['InstanceType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final instanceType = this.instanceType;
+    return {
+      if (instanceType != null) 'InstanceType': instanceType,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListOutpostsOutput {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'Outposts')
-  final List<Outpost> outposts;
+  final String? nextToken;
+  final List<Outpost>? outposts;
 
   ListOutpostsOutput({
     this.nextToken,
     this.outposts,
   });
-  factory ListOutpostsOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListOutpostsOutputFromJson(json);
+
+  factory ListOutpostsOutput.fromJson(Map<String, dynamic> json) {
+    return ListOutpostsOutput(
+      nextToken: json['NextToken'] as String?,
+      outposts: (json['Outposts'] as List?)
+          ?.whereNotNull()
+          .map((e) => Outpost.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final outposts = this.outposts;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (outposts != null) 'Outposts': outposts,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSitesOutput {
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
-  @_s.JsonKey(name: 'Sites')
-  final List<Site> sites;
+  final String? nextToken;
+  final List<Site>? sites;
 
   ListSitesOutput({
     this.nextToken,
     this.sites,
   });
-  factory ListSitesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListSitesOutputFromJson(json);
+
+  factory ListSitesOutput.fromJson(Map<String, dynamic> json) {
+    return ListSitesOutput(
+      nextToken: json['NextToken'] as String?,
+      sites: (json['Sites'] as List?)
+          ?.whereNotNull()
+          .map((e) => Site.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final sites = this.sites;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (sites != null) 'Sites': sites,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The resource tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Information about an Outpost.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Outpost {
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
-  @_s.JsonKey(name: 'AvailabilityZoneId')
-  final String availabilityZoneId;
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'LifeCycleStatus')
-  final String lifeCycleStatus;
-  @_s.JsonKey(name: 'Name')
-  final String name;
-  @_s.JsonKey(name: 'OutpostArn')
-  final String outpostArn;
-  @_s.JsonKey(name: 'OutpostId')
-  final String outpostId;
-  @_s.JsonKey(name: 'OwnerId')
-  final String ownerId;
-  @_s.JsonKey(name: 'SiteId')
-  final String siteId;
+  final String? availabilityZone;
+  final String? availabilityZoneId;
+  final String? description;
+  final String? lifeCycleStatus;
+  final String? name;
+  final String? outpostArn;
+  final String? outpostId;
+  final String? ownerId;
+  final String? siteArn;
+  final String? siteId;
 
   /// The Outpost tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   Outpost({
     this.availabilityZone,
@@ -688,82 +684,152 @@ class Outpost {
     this.outpostArn,
     this.outpostId,
     this.ownerId,
+    this.siteArn,
     this.siteId,
     this.tags,
   });
-  factory Outpost.fromJson(Map<String, dynamic> json) =>
-      _$OutpostFromJson(json);
+
+  factory Outpost.fromJson(Map<String, dynamic> json) {
+    return Outpost(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      availabilityZoneId: json['AvailabilityZoneId'] as String?,
+      description: json['Description'] as String?,
+      lifeCycleStatus: json['LifeCycleStatus'] as String?,
+      name: json['Name'] as String?,
+      outpostArn: json['OutpostArn'] as String?,
+      outpostId: json['OutpostId'] as String?,
+      ownerId: json['OwnerId'] as String?,
+      siteArn: json['SiteArn'] as String?,
+      siteId: json['SiteId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final availabilityZoneId = this.availabilityZoneId;
+    final description = this.description;
+    final lifeCycleStatus = this.lifeCycleStatus;
+    final name = this.name;
+    final outpostArn = this.outpostArn;
+    final outpostId = this.outpostId;
+    final ownerId = this.ownerId;
+    final siteArn = this.siteArn;
+    final siteId = this.siteId;
+    final tags = this.tags;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (availabilityZoneId != null) 'AvailabilityZoneId': availabilityZoneId,
+      if (description != null) 'Description': description,
+      if (lifeCycleStatus != null) 'LifeCycleStatus': lifeCycleStatus,
+      if (name != null) 'Name': name,
+      if (outpostArn != null) 'OutpostArn': outpostArn,
+      if (outpostId != null) 'OutpostId': outpostId,
+      if (ownerId != null) 'OwnerId': ownerId,
+      if (siteArn != null) 'SiteArn': siteArn,
+      if (siteId != null) 'SiteId': siteId,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Information about a site.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Site {
-  @_s.JsonKey(name: 'AccountId')
-  final String accountId;
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'Name')
-  final String name;
-  @_s.JsonKey(name: 'SiteId')
-  final String siteId;
+  final String? accountId;
+  final String? description;
+  final String? name;
+  final String? siteArn;
+  final String? siteId;
 
   /// The site tags.
-  @_s.JsonKey(name: 'Tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   Site({
     this.accountId,
     this.description,
     this.name,
+    this.siteArn,
     this.siteId,
     this.tags,
   });
-  factory Site.fromJson(Map<String, dynamic> json) => _$SiteFromJson(json);
+
+  factory Site.fromJson(Map<String, dynamic> json) {
+    return Site(
+      accountId: json['AccountId'] as String?,
+      description: json['Description'] as String?,
+      name: json['Name'] as String?,
+      siteArn: json['SiteArn'] as String?,
+      siteId: json['SiteId'] as String?,
+      tags: (json['Tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountId = this.accountId;
+    final description = this.description;
+    final name = this.name;
+    final siteArn = this.siteArn;
+    final siteId = this.siteId;
+    final tags = this.tags;
+    return {
+      if (accountId != null) 'AccountId': accountId,
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+      if (siteArn != null) 'SiteArn': siteArn,
+      if (siteId != null) 'SiteId': siteId,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String? type, String? message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class InternalServerException extends _s.GenericAwsException {
-  InternalServerException({String type, String message})
+  InternalServerException({String? type, String? message})
       : super(type: type, code: 'InternalServerException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class ServiceQuotaExceededException extends _s.GenericAwsException {
-  ServiceQuotaExceededException({String type, String message})
+  ServiceQuotaExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceQuotaExceededException',
@@ -771,13 +837,15 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
 }
 
 class ValidationException extends _s.GenericAwsException {
-  ValidationException({String type, String message})
+  ValidationException({String? type, String? message})
       : super(type: type, code: 'ValidationException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
   'NotFoundException': (type, message) =>

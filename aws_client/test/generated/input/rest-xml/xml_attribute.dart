@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +23,10 @@ export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
 class XmlAttribute {
   final _s.RestXmlProtocol _protocol;
   XmlAttribute({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +38,7 @@ class XmlAttribute {
         );
 
   Future<void> operationName0({
-    Grant grant,
+    Grant? grant,
   }) async {
     await _protocol.send(
       method: 'POST',
@@ -44,14 +50,31 @@ class XmlAttribute {
 }
 
 class Grant {
-  final Grantee grantee;
+  final Grantee? grantee;
 
   Grant({
     this.grantee,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory Grant.fromJson(Map<String, dynamic> json) {
+    return Grant(
+      grantee: json['Grantee'] != null
+          ? Grantee.fromJson(json['Grantee'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grantee = this.grantee;
+    return {
+      if (grantee != null) 'Grantee': grantee,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final grantee = this.grantee;
     final $children = <_s.XmlNode>[
-      if (grantee != null) grantee?.toXml('Grantee'),
+      if (grantee != null) grantee.toXml('Grantee'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -59,20 +82,39 @@ class Grant {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class Grantee {
-  final String emailAddress;
-  final String type;
+  final String? emailAddress;
+  final String? type;
 
   Grantee({
     this.emailAddress,
     this.type,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory Grantee.fromJson(Map<String, dynamic> json) {
+    return Grantee(
+      emailAddress: json['EmailAddress'] as String?,
+      type: json['xsi:type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailAddress = this.emailAddress;
+    final type = this.type;
+    return {
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (type != null) 'xsi:type': type,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final emailAddress = this.emailAddress;
+    final type = this.type;
     final $children = <_s.XmlNode>[
       if (emailAddress != null)
         _s.encodeXmlStringValue('EmailAddress', emailAddress),
@@ -86,7 +128,7 @@ class Grantee {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }

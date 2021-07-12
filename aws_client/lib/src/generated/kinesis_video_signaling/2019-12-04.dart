@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-12-04.g.dart';
 
 /// Kinesis Video Streams Signaling Service is a intermediate service that
 /// establishes a communication channel for discovering peers, transmitting
@@ -33,10 +26,10 @@ part '2019-12-04.g.dart';
 class KinesisVideoSignalingChannels {
   final _s.RestJsonProtocol _protocol;
   KinesisVideoSignalingChannels({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -88,10 +81,10 @@ class KinesisVideoSignalingChannels {
   /// Parameter [username] :
   /// An optional user ID to be associated with the credentials.
   Future<GetIceServerConfigResponse> getIceServerConfig({
-    @_s.required String channelARN,
-    String clientId,
-    Service service,
-    String username,
+    required String channelARN,
+    String? clientId,
+    Service? service,
+    String? username,
   }) async {
     ArgumentError.checkNotNull(channelARN, 'channelARN');
     _s.validateStringLength(
@@ -101,33 +94,17 @@ class KinesisVideoSignalingChannels {
       1024,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'clientId',
       clientId,
       1,
       256,
     );
-    _s.validateStringPattern(
-      'clientId',
-      clientId,
-      r'''[a-zA-Z0-9_.-]+''',
-    );
     _s.validateStringLength(
       'username',
       username,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'username',
-      username,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
       'ChannelARN': channelARN,
@@ -167,9 +144,9 @@ class KinesisVideoSignalingChannels {
   /// Parameter [senderClientId] :
   /// The unique identifier for the sender client.
   Future<SendAlexaOfferToMasterResponse> sendAlexaOfferToMaster({
-    @_s.required String channelARN,
-    @_s.required String messagePayload,
-    @_s.required String senderClientId,
+    required String channelARN,
+    required String messagePayload,
+    required String senderClientId,
   }) async {
     ArgumentError.checkNotNull(channelARN, 'channelARN');
     _s.validateStringLength(
@@ -177,12 +154,6 @@ class KinesisVideoSignalingChannels {
       channelARN,
       1,
       1024,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'channelARN',
-      channelARN,
-      r'''arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(messagePayload, 'messagePayload');
@@ -193,24 +164,12 @@ class KinesisVideoSignalingChannels {
       10000,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'messagePayload',
-      messagePayload,
-      r'''[a-zA-Z0-9+/=]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(senderClientId, 'senderClientId');
     _s.validateStringLength(
       'senderClientId',
       senderClientId,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'senderClientId',
-      senderClientId,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final $payload = <String, dynamic>{
@@ -228,49 +187,48 @@ class KinesisVideoSignalingChannels {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetIceServerConfigResponse {
   /// The list of ICE server information objects.
-  @_s.JsonKey(name: 'IceServerList')
-  final List<IceServer> iceServerList;
+  final List<IceServer>? iceServerList;
 
   GetIceServerConfigResponse({
     this.iceServerList,
   });
-  factory GetIceServerConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetIceServerConfigResponseFromJson(json);
+
+  factory GetIceServerConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetIceServerConfigResponse(
+      iceServerList: (json['IceServerList'] as List?)
+          ?.whereNotNull()
+          .map((e) => IceServer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iceServerList = this.iceServerList;
+    return {
+      if (iceServerList != null) 'IceServerList': iceServerList,
+    };
+  }
 }
 
 /// A structure for the ICE server connection data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IceServer {
   /// A password to login to the ICE server.
-  @_s.JsonKey(name: 'Password')
-  final String password;
+  final String? password;
 
   /// The period of time, in seconds, during which the username and password are
   /// valid.
-  @_s.JsonKey(name: 'Ttl')
-  final int ttl;
+  final int? ttl;
 
   /// An array of URIs, in the form specified in the <a
   /// href="https://tools.ietf.org/html/draft-petithuguenin-behave-turn-uris-03">I-D.petithuguenin-behave-turn-uris</a>
   /// spec. These URIs provide the different addresses and/or protocols that can
   /// be used to reach the TURN server.
-  @_s.JsonKey(name: 'Uris')
-  final List<String> uris;
+  final List<String>? uris;
 
   /// A username to login to the ICE server.
-  @_s.JsonKey(name: 'Username')
-  final String username;
+  final String? username;
 
   IceServer({
     this.password,
@@ -278,29 +236,56 @@ class IceServer {
     this.uris,
     this.username,
   });
-  factory IceServer.fromJson(Map<String, dynamic> json) =>
-      _$IceServerFromJson(json);
+
+  factory IceServer.fromJson(Map<String, dynamic> json) {
+    return IceServer(
+      password: json['Password'] as String?,
+      ttl: json['Ttl'] as int?,
+      uris: (json['Uris'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      username: json['Username'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final password = this.password;
+    final ttl = this.ttl;
+    final uris = this.uris;
+    final username = this.username;
+    return {
+      if (password != null) 'Password': password,
+      if (ttl != null) 'Ttl': ttl,
+      if (uris != null) 'Uris': uris,
+      if (username != null) 'Username': username,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SendAlexaOfferToMasterResponse {
   /// The base64-encoded SDP answer content.
-  @_s.JsonKey(name: 'Answer')
-  final String answer;
+  final String? answer;
 
   SendAlexaOfferToMasterResponse({
     this.answer,
   });
-  factory SendAlexaOfferToMasterResponse.fromJson(Map<String, dynamic> json) =>
-      _$SendAlexaOfferToMasterResponseFromJson(json);
+
+  factory SendAlexaOfferToMasterResponse.fromJson(Map<String, dynamic> json) {
+    return SendAlexaOfferToMasterResponse(
+      answer: json['Answer'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final answer = this.answer;
+    return {
+      if (answer != null) 'Answer': answer,
+    };
+  }
 }
 
 enum Service {
-  @_s.JsonValue('TURN')
   turn,
 }
 
@@ -310,38 +295,47 @@ extension on Service {
       case Service.turn:
         return 'TURN';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Service toService() {
+    switch (this) {
+      case 'TURN':
+        return Service.turn;
+    }
+    throw Exception('$this is not known in enum Service');
   }
 }
 
 class ClientLimitExceededException extends _s.GenericAwsException {
-  ClientLimitExceededException({String type, String message})
+  ClientLimitExceededException({String? type, String? message})
       : super(
             type: type, code: 'ClientLimitExceededException', message: message);
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidClientException extends _s.GenericAwsException {
-  InvalidClientException({String type, String message})
+  InvalidClientException({String? type, String? message})
       : super(type: type, code: 'InvalidClientException', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class SessionExpiredException extends _s.GenericAwsException {
-  SessionExpiredException({String type, String message})
+  SessionExpiredException({String? type, String? message})
       : super(type: type, code: 'SessionExpiredException', message: message);
 }
 

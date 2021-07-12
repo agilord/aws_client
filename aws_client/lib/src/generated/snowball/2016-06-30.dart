@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2016-06-30.g.dart';
 
 /// AWS Snow Family is a petabyte-scale data transport solution that uses secure
 /// devices to transfer large amounts of data between your on-premises data
@@ -39,10 +32,10 @@ part '2016-06-30.g.dart';
 class Snowball {
   final _s.JsonProtocol _protocol;
   Snowball({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,7 +58,7 @@ class Snowball {
   /// The 39-character ID for the cluster that you want to cancel, for example
   /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<void> cancelCluster({
-    @_s.required String clusterId,
+    required String clusterId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     _s.validateStringLength(
@@ -75,17 +68,11 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.CancelCluster'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -95,8 +82,6 @@ class Snowball {
         'ClusterId': clusterId,
       },
     );
-
-    return CancelClusterResult.fromJson(jsonResponse.body);
   }
 
   /// Cancels the specified job. You can only cancel a job before its
@@ -113,7 +98,7 @@ class Snowball {
   /// The 39-character job ID for the job that you want to cancel, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<void> cancelJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -123,17 +108,11 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.CancelJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -143,8 +122,6 @@ class Snowball {
         'JobId': jobId,
       },
     );
-
-    return CancelJobResult.fromJson(jsonResponse.body);
   }
 
   /// Creates an address for a Snow device to be shipped to. In most regions,
@@ -158,7 +135,7 @@ class Snowball {
   /// Parameter [address] :
   /// The address that you want the Snow device shipped to.
   Future<CreateAddressResult> createAddress({
-    @_s.required Address address,
+    required Address address,
   }) async {
     ArgumentError.checkNotNull(address, 'address');
     final headers = <String, String>{
@@ -196,6 +173,12 @@ class Snowball {
   /// The type of job for this cluster. Currently, the only job type supported
   /// for clusters is <code>LOCAL_USE</code>.
   ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  ///
   /// Parameter [resources] :
   /// The resources associated with the cluster job. These resources include
   /// Amazon S3 buckets and optional AWS Lambda functions written in the Python
@@ -225,7 +208,7 @@ class Snowball {
   /// typically takes less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snow device are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the United States of America (US), you have access to one-day shipping
@@ -244,12 +227,24 @@ class Snowball {
   /// typically takes less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snow device are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the US, you have access to one-day shipping and two-day shipping.
   /// </li>
   /// </ul>
+  ///
+  /// Parameter [snowballType] :
+  /// The type of AWS Snow Family device to use for this cluster.
+  /// <note>
+  /// For cluster jobs, AWS Snow Family currently supports only the
+  /// <code>EDGE</code> device type.
+  /// </note>
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   ///
   /// Parameter [description] :
   /// An optional description of this specific cluster, for example
@@ -269,27 +264,34 @@ class Snowball {
   /// The Amazon Simple Notification Service (Amazon SNS) notification settings
   /// for this cluster.
   ///
-  /// Parameter [snowballType] :
-  /// The type of AWS Snow Family device to use for this cluster.
-  /// <note>
-  /// For cluster jobs, AWS Snow Family currently supports only the
-  /// <code>EDGE</code> device type.
-  /// </note>
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. AWS Snow Family
+  /// supports Amazon S3 and NFS (Network File System).
+  ///
+  /// Parameter [remoteManagement] :
+  /// Allows you to securely operate and manage Snow devices in a cluster
+  /// remotely from outside of your internal network. When set to
+  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
+  /// available when the device arrives at your location. Otherwise, you need to
+  /// use the Snowball Client to manage the device.
   ///
   /// Parameter [taxDocuments] :
   /// The tax documents required in your AWS Region.
   Future<CreateClusterResult> createCluster({
-    @_s.required String addressId,
-    @_s.required JobType jobType,
-    @_s.required JobResource resources,
-    @_s.required String roleARN,
-    @_s.required ShippingOption shippingOption,
-    String description,
-    String forwardingAddressId,
-    String kmsKeyARN,
-    Notification notification,
-    SnowballType snowballType,
-    TaxDocuments taxDocuments,
+    required String addressId,
+    required JobType jobType,
+    required JobResource resources,
+    required String roleARN,
+    required ShippingOption shippingOption,
+    required SnowballType snowballType,
+    String? description,
+    String? forwardingAddressId,
+    String? kmsKeyARN,
+    Notification? notification,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    RemoteManagement? remoteManagement,
+    TaxDocuments? taxDocuments,
   }) async {
     ArgumentError.checkNotNull(addressId, 'addressId');
     _s.validateStringLength(
@@ -297,12 +299,6 @@ class Snowball {
       addressId,
       40,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(jobType, 'jobType');
@@ -315,40 +311,25 @@ class Snowball {
       255,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(shippingOption, 'shippingOption');
+    ArgumentError.checkNotNull(snowballType, 'snowballType');
     _s.validateStringLength(
       'description',
       description,
       1,
-      1152921504606846976,
+      1024,
     );
     _s.validateStringLength(
       'forwardingAddressId',
       forwardingAddressId,
       40,
       40,
-    );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'kmsKeyARN',
       kmsKeyARN,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'kmsKeyARN',
-      kmsKeyARN,
-      r'''arn:aws.*:kms:.*:[0-9]{12}:key/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -362,16 +343,20 @@ class Snowball {
       headers: headers,
       payload: {
         'AddressId': addressId,
-        'JobType': jobType?.toValue() ?? '',
+        'JobType': jobType.toValue(),
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption?.toValue() ?? '',
+        'ShippingOption': shippingOption.toValue(),
+        'SnowballType': snowballType.toValue(),
         if (description != null) 'Description': description,
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
         if (notification != null) 'Notification': notification,
-        if (snowballType != null) 'SnowballType': snowballType.toValue(),
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+        if (remoteManagement != null)
+          'RemoteManagement': remoteManagement.toValue(),
         if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
@@ -385,6 +370,115 @@ class Snowball {
   /// you're creating a job for a node in a cluster, you only need to provide
   /// the <code>clusterId</code> value; the other job attributes are inherited
   /// from the cluster.
+  /// <note>
+  /// Only the Snowball; Edge device type is supported when ordering clustered
+  /// jobs.
+  ///
+  /// The device capacity is optional.
+  ///
+  /// Availability of device types differ by AWS Region. For more information
+  /// about Region availability, see <a
+  /// href="https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ngi&amp;loc=4">AWS
+  /// Regional Services</a>.
+  /// </note> <p/> <p class="title"> <b>AWS Snow Family device types and their
+  /// capacities.</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Snow Family device type: <b>SNC1_SSD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T14
+  /// </li>
+  /// <li>
+  /// Description: Snowcone
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Snow Family device type: <b>SNC1_HDD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T8
+  /// </li>
+  /// <li>
+  /// Description: Snowcone
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE_S</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T98
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Storage Optimized for data transfer only
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE_CG</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T42
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Compute Optimized with GPU
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE_C</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T42
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Compute Optimized without GPU
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>EDGE</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T100
+  /// </li>
+  /// <li>
+  /// Description: Snowball Edge Storage Optimized with EC2 Compute
+  /// </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>STANDARD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T50
+  /// </li>
+  /// <li>
+  /// Description: Original Snowball device
+  /// <note>
+  /// This device is only available in the Ningxia, Beijing, and Singapore AWS
+  /// Regions.
+  /// </note> </li>
+  /// </ul> <p/> </li>
+  /// <li>
+  /// Device type: <b>STANDARD</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// Capacity: T80
+  /// </li>
+  /// <li>
+  /// Description: Original Snowball device
+  /// <note>
+  /// This device is only available in the Ningxia, Beijing, and Singapore AWS
+  /// Regions.
+  /// </note> </li>
+  /// </ul> <p/> </li>
+  /// </ul>
   ///
   /// May throw [InvalidResourceException].
   /// May throw [KMSRequestFailedException].
@@ -407,9 +501,15 @@ class Snowball {
   /// Parameter [deviceConfiguration] :
   /// Defines the device configuration for an AWS Snowcone job.
   ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  ///
   /// Parameter [forwardingAddressId] :
   /// The forwarding address ID for a job. This field is not supported in most
-  /// regions.
+  /// Regions.
   ///
   /// Parameter [jobType] :
   /// Defines the type of job that you're creating.
@@ -420,9 +520,24 @@ class Snowball {
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
   /// AWS Key Management Service (KMS) API action.
   ///
+  /// Parameter [longTermPricingId] :
+  /// The ID of the long-term pricing type for the device.
+  ///
   /// Parameter [notification] :
   /// Defines the Amazon Simple Notification Service (Amazon SNS) notification
   /// settings for this job.
+  ///
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. AWS Snow Family
+  /// supports Amazon S3 and NFS (Network File System).
+  ///
+  /// Parameter [remoteManagement] :
+  /// Allows you to securely operate and manage Snowcone devices remotely from
+  /// outside of your internal network. When set to
+  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
+  /// available when the device arrives at your location. Otherwise, you need to
+  /// use the Snowball Client to manage the device.
   ///
   /// Parameter [resources] :
   /// Defines the Amazon S3 buckets associated with this job.
@@ -473,6 +588,12 @@ class Snowball {
   /// of specifying what size Snow device you'd like for this job. In all other
   /// regions, Snowballs come with 80 TB in storage capacity.
   ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  ///
   /// Parameter [snowballType] :
   /// The type of AWS Snow Family device to use for this job.
   /// <note>
@@ -486,23 +607,32 @@ class Snowball {
   /// href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
   /// Edge Device Options</a> in the Snowball Edge Developer Guide.
   ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  ///
   /// Parameter [taxDocuments] :
   /// The tax documents required in your AWS Region.
   Future<CreateJobResult> createJob({
-    String addressId,
-    String clusterId,
-    String description,
-    DeviceConfiguration deviceConfiguration,
-    String forwardingAddressId,
-    JobType jobType,
-    String kmsKeyARN,
-    Notification notification,
-    JobResource resources,
-    String roleARN,
-    ShippingOption shippingOption,
-    SnowballCapacity snowballCapacityPreference,
-    SnowballType snowballType,
-    TaxDocuments taxDocuments,
+    String? addressId,
+    String? clusterId,
+    String? description,
+    DeviceConfiguration? deviceConfiguration,
+    String? forwardingAddressId,
+    JobType? jobType,
+    String? kmsKeyARN,
+    String? longTermPricingId,
+    Notification? notification,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    RemoteManagement? remoteManagement,
+    JobResource? resources,
+    String? roleARN,
+    ShippingOption? shippingOption,
+    SnowballCapacity? snowballCapacityPreference,
+    SnowballType? snowballType,
+    TaxDocuments? taxDocuments,
   }) async {
     _s.validateStringLength(
       'addressId',
@@ -510,27 +640,17 @@ class Snowball {
       40,
       40,
     );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-    );
     _s.validateStringLength(
       'clusterId',
       clusterId,
       39,
       39,
-    );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'description',
       description,
       1,
-      1152921504606846976,
+      1024,
     );
     _s.validateStringLength(
       'forwardingAddressId',
@@ -538,32 +658,23 @@ class Snowball {
       40,
       40,
     );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-    );
     _s.validateStringLength(
       'kmsKeyARN',
       kmsKeyARN,
       0,
       255,
     );
-    _s.validateStringPattern(
-      'kmsKeyARN',
-      kmsKeyARN,
-      r'''arn:aws.*:kms:.*:[0-9]{12}:key/.*''',
+    _s.validateStringLength(
+      'longTermPricingId',
+      longTermPricingId,
+      41,
+      41,
     );
     _s.validateStringLength(
       'roleARN',
       roleARN,
       0,
       255,
-    );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -585,7 +696,12 @@ class Snowball {
           'ForwardingAddressId': forwardingAddressId,
         if (jobType != null) 'JobType': jobType.toValue(),
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+        if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
         if (notification != null) 'Notification': notification,
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+        if (remoteManagement != null)
+          'RemoteManagement': remoteManagement.toValue(),
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
@@ -599,6 +715,49 @@ class Snowball {
     return CreateJobResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates a job with the long-term usage option for a device. The long-term
+  /// usage is a 1-year or 3-year long-term pricing type for the device. You are
+  /// billed upfront, and AWS provides discounts for long-term pricing.
+  ///
+  /// May throw [InvalidResourceException].
+  ///
+  /// Parameter [longTermPricingType] :
+  /// The type of long-term pricing option you want for the device, either
+  /// 1-year or 3-year long-term pricing.
+  ///
+  /// Parameter [isLongTermPricingAutoRenew] :
+  /// Specifies whether the current long-term pricing type for the device should
+  /// be renewed.
+  ///
+  /// Parameter [snowballType] :
+  /// The type of AWS Snow Family device to use for the long-term pricing job.
+  Future<CreateLongTermPricingResult> createLongTermPricing({
+    required LongTermPricingType longTermPricingType,
+    bool? isLongTermPricingAutoRenew,
+    SnowballType? snowballType,
+  }) async {
+    ArgumentError.checkNotNull(longTermPricingType, 'longTermPricingType');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.CreateLongTermPricing'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LongTermPricingType': longTermPricingType.toValue(),
+        if (isLongTermPricingAutoRenew != null)
+          'IsLongTermPricingAutoRenew': isLongTermPricingAutoRenew,
+        if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      },
+    );
+
+    return CreateLongTermPricingResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates a shipping label that will be used to return the Snow device to
   /// AWS.
   ///
@@ -609,8 +768,8 @@ class Snowball {
   /// May throw [ReturnShippingLabelAlreadyExistsException].
   ///
   /// Parameter [jobId] :
-  /// The ID for a job that you want to create the return shipping label for.
-  /// For example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  /// The ID for a job that you want to create the return shipping label for;
+  /// for example, <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   ///
   /// Parameter [shippingOption] :
   /// The shipping speed for a particular job. This speed doesn't dictate how
@@ -618,8 +777,8 @@ class Snowball {
   /// moves to its destination while in transit. Regional shipping speeds are as
   /// follows:
   Future<CreateReturnShippingLabelResult> createReturnShippingLabel({
-    @_s.required String jobId,
-    ShippingOption shippingOption,
+    required String jobId,
+    ShippingOption? shippingOption,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -627,12 +786,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -663,7 +816,7 @@ class Snowball {
   /// Parameter [addressId] :
   /// The automatically generated ID for a specific address.
   Future<DescribeAddressResult> describeAddress({
-    @_s.required String addressId,
+    required String addressId,
   }) async {
     ArgumentError.checkNotNull(addressId, 'addressId');
     _s.validateStringLength(
@@ -671,12 +824,6 @@ class Snowball {
       addressId,
       40,
       40,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -713,8 +860,8 @@ class Snowball {
   /// value for <code>NextToken</code> as the starting point for your list of
   /// returned addresses.
   Future<DescribeAddressesResult> describeAddresses({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -726,7 +873,7 @@ class Snowball {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -755,7 +902,7 @@ class Snowball {
   /// Parameter [clusterId] :
   /// The automatically generated ID for a cluster.
   Future<DescribeClusterResult> describeCluster({
-    @_s.required String clusterId,
+    required String clusterId,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     _s.validateStringLength(
@@ -763,12 +910,6 @@ class Snowball {
       clusterId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -798,7 +939,7 @@ class Snowball {
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<DescribeJobResult> describeJob({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -806,12 +947,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -843,18 +978,15 @@ class Snowball {
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<DescribeReturnShippingLabelResult> describeReturnShippingLabel({
-    String jobId,
+    required String jobId,
   }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
       'jobId',
       jobId,
       39,
       39,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
+      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -868,7 +1000,7 @@ class Snowball {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (jobId != null) 'JobId': jobId,
+        'JobId': jobId,
       },
     );
 
@@ -893,7 +1025,7 @@ class Snowball {
   /// from gaining access to the Snow device associated with that job.
   ///
   /// The credentials of a given job, including its manifest file and unlock
-  /// code, expire 90 days after the job is created.
+  /// code, expire 360 days after the job is created.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
@@ -902,7 +1034,7 @@ class Snowball {
   /// The ID for a job that you want to get the manifest file for, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<GetJobManifestResult> getJobManifest({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -910,12 +1042,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -937,8 +1063,8 @@ class Snowball {
   }
 
   /// Returns the <code>UnlockCode</code> code value for the specified job. A
-  /// particular <code>UnlockCode</code> value can be accessed for up to 90 days
-  /// after the associated job has been created.
+  /// particular <code>UnlockCode</code> value can be accessed for up to 360
+  /// days after the associated job has been created.
   ///
   /// The <code>UnlockCode</code> value is a 29-character code with 25
   /// alphanumeric characters and 4 hyphens. This code is used to decrypt the
@@ -957,7 +1083,7 @@ class Snowball {
   /// The ID for the job that you want to get the <code>UnlockCode</code> value
   /// for, for example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<GetJobUnlockCodeResult> getJobUnlockCode({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -965,12 +1091,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1023,7 +1143,7 @@ class Snowball {
   /// The ID for a job that you want to get the software update file for, for
   /// example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
   Future<GetSoftwareUpdatesResult> getSoftwareUpdates({
-    @_s.required String jobId,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1031,12 +1151,6 @@ class Snowball {
       jobId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1078,9 +1192,9 @@ class Snowball {
   /// specifying <code>NextToken</code> as the starting point for your returned
   /// list.
   Future<ListClusterJobsResult> listClusterJobs({
-    @_s.required String clusterId,
-    int maxResults,
-    String nextToken,
+    required String clusterId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     _s.validateStringLength(
@@ -1088,12 +1202,6 @@ class Snowball {
       clusterId,
       39,
       39,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1106,7 +1214,7 @@ class Snowball {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1143,8 +1251,8 @@ class Snowball {
   /// specifying <code>NextToken</code> as the starting point for your returned
   /// list.
   Future<ListClustersResult> listClusters({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1156,7 +1264,7 @@ class Snowball {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1196,8 +1304,8 @@ class Snowball {
   /// <code>NextToken</code> as the starting point for your list of returned
   /// images.
   Future<ListCompatibleImagesResult> listCompatibleImages({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1209,7 +1317,7 @@ class Snowball {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1248,8 +1356,8 @@ class Snowball {
   /// specifying <code>NextToken</code> as the starting point for your returned
   /// list.
   Future<ListJobsResult> listJobs({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1261,7 +1369,7 @@ class Snowball {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      1024,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1280,6 +1388,52 @@ class Snowball {
     );
 
     return ListJobsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Lists all long-term pricing types.
+  ///
+  /// May throw [InvalidResourceException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of <code>ListLongTermPricing</code> objects to return.
+  ///
+  /// Parameter [nextToken] :
+  /// Because HTTP requests are stateless, this is the starting point for your
+  /// next list of <code>ListLongTermPricing</code> to return.
+  Future<ListLongTermPricingResult> listLongTermPricing({
+    int? maxResults,
+    String? nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.ListLongTermPricing'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListLongTermPricingResult.fromJson(jsonResponse.body);
   }
 
   /// While a cluster's <code>ClusterState</code> value is in the
@@ -1311,6 +1465,11 @@ class Snowball {
   /// Parameter [notification] :
   /// The new or updated <a>Notification</a> object.
   ///
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. AWS Snow Family
+  /// supports Amazon S3 and NFS (Network File System).
+  ///
   /// Parameter [resources] :
   /// The updated arrays of <a>JobResource</a> objects that can include updated
   /// <a>S3Resource</a> objects or <a>LambdaResource</a> objects.
@@ -1325,14 +1484,15 @@ class Snowball {
   /// The updated shipping option value of this cluster's <a>ShippingDetails</a>
   /// object.
   Future<void> updateCluster({
-    @_s.required String clusterId,
-    String addressId,
-    String description,
-    String forwardingAddressId,
-    Notification notification,
-    JobResource resources,
-    String roleARN,
-    ShippingOption shippingOption,
+    required String clusterId,
+    String? addressId,
+    String? description,
+    String? forwardingAddressId,
+    Notification? notification,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    JobResource? resources,
+    String? roleARN,
+    ShippingOption? shippingOption,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     _s.validateStringLength(
@@ -1342,39 +1502,23 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'clusterId',
-      clusterId,
-      r'''CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'addressId',
       addressId,
       40,
       40,
-    );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'description',
       description,
       1,
-      1152921504606846976,
+      1024,
     );
     _s.validateStringLength(
       'forwardingAddressId',
       forwardingAddressId,
       40,
       40,
-    );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -1382,16 +1526,11 @@ class Snowball {
       0,
       255,
     );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.UpdateCluster'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1404,13 +1543,13 @@ class Snowball {
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
         if (notification != null) 'Notification': notification,
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
       },
     );
-
-    return UpdateClusterResult.fromJson(jsonResponse.body);
   }
 
   /// While a job's <code>JobState</code> value is <code>New</code>, you can
@@ -1442,6 +1581,11 @@ class Snowball {
   /// Parameter [notification] :
   /// The new or updated <a>Notification</a> object.
   ///
+  /// Parameter [onDeviceServiceConfiguration] :
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. AWS Snow Family
+  /// supports Amazon S3 and NFS (Network File System).
+  ///
   /// Parameter [resources] :
   /// The updated <code>JobResource</code> object, or the updated
   /// <a>JobResource</a> object.
@@ -1460,16 +1604,23 @@ class Snowball {
   /// The updated <code>SnowballCapacityPreference</code> of this job's
   /// <a>JobMetadata</a> object. The 50 TB Snowballs are only available in the
   /// US regions.
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
   Future<void> updateJob({
-    @_s.required String jobId,
-    String addressId,
-    String description,
-    String forwardingAddressId,
-    Notification notification,
-    JobResource resources,
-    String roleARN,
-    ShippingOption shippingOption,
-    SnowballCapacity snowballCapacityPreference,
+    required String jobId,
+    String? addressId,
+    String? description,
+    String? forwardingAddressId,
+    Notification? notification,
+    OnDeviceServiceConfiguration? onDeviceServiceConfiguration,
+    JobResource? resources,
+    String? roleARN,
+    ShippingOption? shippingOption,
+    SnowballCapacity? snowballCapacityPreference,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1479,39 +1630,23 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'addressId',
       addressId,
       40,
       40,
-    );
-    _s.validateStringPattern(
-      'addressId',
-      addressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'description',
       description,
       1,
-      1152921504606846976,
+      1024,
     );
     _s.validateStringLength(
       'forwardingAddressId',
       forwardingAddressId,
       40,
       40,
-    );
-    _s.validateStringPattern(
-      'forwardingAddressId',
-      forwardingAddressId,
-      r'''ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
     );
     _s.validateStringLength(
       'roleARN',
@@ -1519,16 +1654,11 @@ class Snowball {
       0,
       255,
     );
-    _s.validateStringPattern(
-      'roleARN',
-      roleARN,
-      r'''arn:aws.*:iam::[0-9]{12}:role/.*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.UpdateJob'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1541,6 +1671,8 @@ class Snowball {
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
         if (notification != null) 'Notification': notification,
+        if (onDeviceServiceConfiguration != null)
+          'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
         if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
@@ -1548,11 +1680,9 @@ class Snowball {
           'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
       },
     );
-
-    return UpdateJobResult.fromJson(jsonResponse.body);
   }
 
-  /// Updates the state when a the shipment states changes to a different state.
+  /// Updates the state when a shipment state changes to a different state.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
@@ -1568,8 +1698,8 @@ class Snowball {
   ///
   /// Set to <code>RETURNED</code> when you have returned the device to AWS.
   Future<void> updateJobShipmentState({
-    @_s.required String jobId,
-    @_s.required ShipmentState shipmentState,
+    required String jobId,
+    required ShipmentState shipmentState,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -1579,18 +1709,12 @@ class Snowball {
       39,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'jobId',
-      jobId,
-      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(shipmentState, 'shipmentState');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSIESnowballJobManagementService.UpdateJobShipmentState'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1598,11 +1722,62 @@ class Snowball {
       headers: headers,
       payload: {
         'JobId': jobId,
-        'ShipmentState': shipmentState?.toValue() ?? '',
+        'ShipmentState': shipmentState.toValue(),
       },
     );
+  }
 
-    return UpdateJobShipmentStateResult.fromJson(jsonResponse.body);
+  /// Updates the long-term pricing type.
+  ///
+  /// May throw [InvalidResourceException].
+  ///
+  /// Parameter [longTermPricingId] :
+  /// The ID of the long-term pricing type for the device.
+  ///
+  /// Parameter [isLongTermPricingAutoRenew] :
+  /// If set to <code>true</code>, specifies that the current long-term pricing
+  /// type for the device should be automatically renewed before the long-term
+  /// pricing contract expires.
+  ///
+  /// Parameter [replacementJob] :
+  /// Specifies that a device that is ordered with long-term pricing should be
+  /// replaced with a new device.
+  Future<void> updateLongTermPricing({
+    required String longTermPricingId,
+    bool? isLongTermPricingAutoRenew,
+    String? replacementJob,
+  }) async {
+    ArgumentError.checkNotNull(longTermPricingId, 'longTermPricingId');
+    _s.validateStringLength(
+      'longTermPricingId',
+      longTermPricingId,
+      41,
+      41,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'replacementJob',
+      replacementJob,
+      39,
+      39,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.UpdateLongTermPricing'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LongTermPricingId': longTermPricingId,
+        if (isLongTermPricingAutoRenew != null)
+          'IsLongTermPricingAutoRenew': isLongTermPricingAutoRenew,
+        if (replacementJob != null) 'ReplacementJob': replacementJob,
+      },
+    );
   }
 }
 
@@ -1612,71 +1787,52 @@ class Snowball {
 /// region. Although no individual elements of the <code>Address</code> are
 /// required, if the address is invalid or unsupported, then an exception is
 /// thrown.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Address {
   /// The unique ID for an address.
-  @_s.JsonKey(name: 'AddressId')
-  final String addressId;
+  final String? addressId;
 
   /// The city in an address that a Snow device is to be delivered to.
-  @_s.JsonKey(name: 'City')
-  final String city;
+  final String? city;
 
   /// The name of the company to receive a Snow device at an address.
-  @_s.JsonKey(name: 'Company')
-  final String company;
+  final String? company;
 
   /// The country in an address that a Snow device is to be delivered to.
-  @_s.JsonKey(name: 'Country')
-  final String country;
+  final String? country;
 
   /// If the address you are creating is a primary address, then set this option
   /// to true. This field is not supported in most regions.
-  @_s.JsonKey(name: 'IsRestricted')
-  final bool isRestricted;
+  final bool? isRestricted;
 
   /// This field is no longer used and the value is ignored.
-  @_s.JsonKey(name: 'Landmark')
-  final String landmark;
+  final String? landmark;
 
   /// The name of a person to receive a Snow device at an address.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The phone number associated with an address that a Snow device is to be
   /// delivered to.
-  @_s.JsonKey(name: 'PhoneNumber')
-  final String phoneNumber;
+  final String? phoneNumber;
 
   /// The postal code in an address that a Snow device is to be delivered to.
-  @_s.JsonKey(name: 'PostalCode')
-  final String postalCode;
+  final String? postalCode;
 
   /// This field is no longer used and the value is ignored.
-  @_s.JsonKey(name: 'PrefectureOrDistrict')
-  final String prefectureOrDistrict;
+  final String? prefectureOrDistrict;
 
   /// The state or province in an address that a Snow device is to be delivered
   /// to.
-  @_s.JsonKey(name: 'StateOrProvince')
-  final String stateOrProvince;
+  final String? stateOrProvince;
 
   /// The first line in a street address that a Snow device is to be delivered to.
-  @_s.JsonKey(name: 'Street1')
-  final String street1;
+  final String? street1;
 
   /// The second line in a street address that a Snow device is to be delivered
   /// to.
-  @_s.JsonKey(name: 'Street2')
-  final String street2;
+  final String? street2;
 
   /// The third line in a street address that a Snow device is to be delivered to.
-  @_s.JsonKey(name: 'Street3')
-  final String street3;
+  final String? street3;
 
   Address({
     this.addressId,
@@ -1694,60 +1850,101 @@ class Address {
     this.street2,
     this.street3,
   });
-  factory Address.fromJson(Map<String, dynamic> json) =>
-      _$AddressFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AddressToJson(this);
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      addressId: json['AddressId'] as String?,
+      city: json['City'] as String?,
+      company: json['Company'] as String?,
+      country: json['Country'] as String?,
+      isRestricted: json['IsRestricted'] as bool?,
+      landmark: json['Landmark'] as String?,
+      name: json['Name'] as String?,
+      phoneNumber: json['PhoneNumber'] as String?,
+      postalCode: json['PostalCode'] as String?,
+      prefectureOrDistrict: json['PrefectureOrDistrict'] as String?,
+      stateOrProvince: json['StateOrProvince'] as String?,
+      street1: json['Street1'] as String?,
+      street2: json['Street2'] as String?,
+      street3: json['Street3'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressId = this.addressId;
+    final city = this.city;
+    final company = this.company;
+    final country = this.country;
+    final isRestricted = this.isRestricted;
+    final landmark = this.landmark;
+    final name = this.name;
+    final phoneNumber = this.phoneNumber;
+    final postalCode = this.postalCode;
+    final prefectureOrDistrict = this.prefectureOrDistrict;
+    final stateOrProvince = this.stateOrProvince;
+    final street1 = this.street1;
+    final street2 = this.street2;
+    final street3 = this.street3;
+    return {
+      if (addressId != null) 'AddressId': addressId,
+      if (city != null) 'City': city,
+      if (company != null) 'Company': company,
+      if (country != null) 'Country': country,
+      if (isRestricted != null) 'IsRestricted': isRestricted,
+      if (landmark != null) 'Landmark': landmark,
+      if (name != null) 'Name': name,
+      if (phoneNumber != null) 'PhoneNumber': phoneNumber,
+      if (postalCode != null) 'PostalCode': postalCode,
+      if (prefectureOrDistrict != null)
+        'PrefectureOrDistrict': prefectureOrDistrict,
+      if (stateOrProvince != null) 'StateOrProvince': stateOrProvince,
+      if (street1 != null) 'Street1': street1,
+      if (street2 != null) 'Street2': street2,
+      if (street3 != null) 'Street3': street3,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelClusterResult {
   CancelClusterResult();
-  factory CancelClusterResult.fromJson(Map<String, dynamic> json) =>
-      _$CancelClusterResultFromJson(json);
+
+  factory CancelClusterResult.fromJson(Map<String, dynamic> _) {
+    return CancelClusterResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelJobResult {
   CancelJobResult();
-  factory CancelJobResult.fromJson(Map<String, dynamic> json) =>
-      _$CancelJobResultFromJson(json);
+
+  factory CancelJobResult.fromJson(Map<String, dynamic> _) {
+    return CancelJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Contains a cluster's state, a cluster's ID, and other important information.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterListEntry {
   /// The 39-character ID for the cluster that you want to list, for example
   /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// The current state of this cluster. For information about the state of a
   /// specific node, see <a>JobListEntry$JobState</a>.
-  @_s.JsonKey(name: 'ClusterState')
-  final ClusterState clusterState;
+  final ClusterState? clusterState;
 
   /// The creation date for this cluster.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// Defines an optional description of the cluster, for example
   /// <code>Environmental Data Cluster-01</code>.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   ClusterListEntry({
     this.clusterId,
@@ -1755,70 +1952,78 @@ class ClusterListEntry {
     this.creationDate,
     this.description,
   });
-  factory ClusterListEntry.fromJson(Map<String, dynamic> json) =>
-      _$ClusterListEntryFromJson(json);
+
+  factory ClusterListEntry.fromJson(Map<String, dynamic> json) {
+    return ClusterListEntry(
+      clusterId: json['ClusterId'] as String?,
+      clusterState: (json['ClusterState'] as String?)?.toClusterState(),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterId = this.clusterId;
+    final clusterState = this.clusterState;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    return {
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (clusterState != null) 'ClusterState': clusterState.toValue(),
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'Description': description,
+    };
+  }
 }
 
 /// Contains metadata about a specific cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClusterMetadata {
   /// The automatically generated ID for a specific address.
-  @_s.JsonKey(name: 'AddressId')
-  final String addressId;
+  final String? addressId;
 
   /// The automatically generated ID for a cluster.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// The current status of the cluster.
-  @_s.JsonKey(name: 'ClusterState')
-  final ClusterState clusterState;
+  final ClusterState? clusterState;
 
   /// The creation date for this cluster.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The optional description of the cluster.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ID of the address that you want a cluster shipped to, after it will be
   /// shipped to its primary address. This field is not supported in most regions.
-  @_s.JsonKey(name: 'ForwardingAddressId')
-  final String forwardingAddressId;
+  final String? forwardingAddressId;
 
   /// The type of job for this cluster. Currently, the only job type supported for
   /// clusters is <code>LOCAL_USE</code>.
-  @_s.JsonKey(name: 'JobType')
-  final JobType jobType;
+  final JobType? jobType;
 
   /// The <code>KmsKeyARN</code> Amazon Resource Name (ARN) associated with this
   /// cluster. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
   /// API action in AWS Key Management Service (AWS KMS).
-  @_s.JsonKey(name: 'KmsKeyARN')
-  final String kmsKeyARN;
+  final String? kmsKeyARN;
 
   /// The Amazon Simple Notification Service (Amazon SNS) notification settings
   /// for this cluster.
-  @_s.JsonKey(name: 'Notification')
-  final Notification notification;
+  final Notification? notification;
+
+  /// Represents metadata and configuration settings for services on an AWS Snow
+  /// Family device.
+  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
 
   /// The arrays of <a>JobResource</a> objects that can include updated
   /// <a>S3Resource</a> objects or <a>LambdaResource</a> objects.
-  @_s.JsonKey(name: 'Resources')
-  final JobResource resources;
+  final JobResource? resources;
 
   /// The role ARN associated with this cluster. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
   /// API action in AWS Identity and Access Management (IAM).
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// The shipping speed for each node in this cluster. This speed doesn't dictate
   /// how soon you'll get each device, rather it represents how quickly each
@@ -1843,20 +2048,17 @@ class ClusterMetadata {
   /// In the US, you have access to one-day shipping and two-day shipping.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ShippingOption')
-  final ShippingOption shippingOption;
+  final ShippingOption? shippingOption;
 
   /// The type of AWS Snow device to use for this cluster.
   /// <note>
   /// For cluster jobs, AWS Snow Family currently supports only the
   /// <code>EDGE</code> device type.
   /// </note>
-  @_s.JsonKey(name: 'SnowballType')
-  final SnowballType snowballType;
+  final SnowballType? snowballType;
 
   /// The tax documents required in your AWS Region.
-  @_s.JsonKey(name: 'TaxDocuments')
-  final TaxDocuments taxDocuments;
+  final TaxDocuments? taxDocuments;
 
   ClusterMetadata({
     this.addressId,
@@ -1868,156 +2070,292 @@ class ClusterMetadata {
     this.jobType,
     this.kmsKeyARN,
     this.notification,
+    this.onDeviceServiceConfiguration,
     this.resources,
     this.roleARN,
     this.shippingOption,
     this.snowballType,
     this.taxDocuments,
   });
-  factory ClusterMetadata.fromJson(Map<String, dynamic> json) =>
-      _$ClusterMetadataFromJson(json);
+
+  factory ClusterMetadata.fromJson(Map<String, dynamic> json) {
+    return ClusterMetadata(
+      addressId: json['AddressId'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      clusterState: (json['ClusterState'] as String?)?.toClusterState(),
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      forwardingAddressId: json['ForwardingAddressId'] as String?,
+      jobType: (json['JobType'] as String?)?.toJobType(),
+      kmsKeyARN: json['KmsKeyARN'] as String?,
+      notification: json['Notification'] != null
+          ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
+          : null,
+      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
+          ? OnDeviceServiceConfiguration.fromJson(
+              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
+          : null,
+      resources: json['Resources'] != null
+          ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      shippingOption: (json['ShippingOption'] as String?)?.toShippingOption(),
+      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+      taxDocuments: json['TaxDocuments'] != null
+          ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressId = this.addressId;
+    final clusterId = this.clusterId;
+    final clusterState = this.clusterState;
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final forwardingAddressId = this.forwardingAddressId;
+    final jobType = this.jobType;
+    final kmsKeyARN = this.kmsKeyARN;
+    final notification = this.notification;
+    final onDeviceServiceConfiguration = this.onDeviceServiceConfiguration;
+    final resources = this.resources;
+    final roleARN = this.roleARN;
+    final shippingOption = this.shippingOption;
+    final snowballType = this.snowballType;
+    final taxDocuments = this.taxDocuments;
+    return {
+      if (addressId != null) 'AddressId': addressId,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (clusterState != null) 'ClusterState': clusterState.toValue(),
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (forwardingAddressId != null)
+        'ForwardingAddressId': forwardingAddressId,
+      if (jobType != null) 'JobType': jobType.toValue(),
+      if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+      if (notification != null) 'Notification': notification,
+      if (onDeviceServiceConfiguration != null)
+        'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+      if (resources != null) 'Resources': resources,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      if (taxDocuments != null) 'TaxDocuments': taxDocuments,
+    };
+  }
 }
 
 enum ClusterState {
-  @_s.JsonValue('AwaitingQuorum')
   awaitingQuorum,
-  @_s.JsonValue('Pending')
   pending,
-  @_s.JsonValue('InUse')
   inUse,
-  @_s.JsonValue('Complete')
   complete,
-  @_s.JsonValue('Cancelled')
   cancelled,
+}
+
+extension on ClusterState {
+  String toValue() {
+    switch (this) {
+      case ClusterState.awaitingQuorum:
+        return 'AwaitingQuorum';
+      case ClusterState.pending:
+        return 'Pending';
+      case ClusterState.inUse:
+        return 'InUse';
+      case ClusterState.complete:
+        return 'Complete';
+      case ClusterState.cancelled:
+        return 'Cancelled';
+    }
+  }
+}
+
+extension on String {
+  ClusterState toClusterState() {
+    switch (this) {
+      case 'AwaitingQuorum':
+        return ClusterState.awaitingQuorum;
+      case 'Pending':
+        return ClusterState.pending;
+      case 'InUse':
+        return ClusterState.inUse;
+      case 'Complete':
+        return ClusterState.complete;
+      case 'Cancelled':
+        return ClusterState.cancelled;
+    }
+    throw Exception('$this is not known in enum ClusterState');
+  }
 }
 
 /// A JSON-formatted object that describes a compatible Amazon Machine Image
 /// (AMI), including the ID and name for a Snow device AMI. This AMI is
 /// compatible with the device's physical hardware requirements, and it should
 /// be able to be run in an SBE1 instance on the device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompatibleImage {
   /// The unique identifier for an individual Snow device AMI.
-  @_s.JsonKey(name: 'AmiId')
-  final String amiId;
+  final String? amiId;
 
   /// The optional name of a compatible image.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   CompatibleImage({
     this.amiId,
     this.name,
   });
-  factory CompatibleImage.fromJson(Map<String, dynamic> json) =>
-      _$CompatibleImageFromJson(json);
+
+  factory CompatibleImage.fromJson(Map<String, dynamic> json) {
+    return CompatibleImage(
+      amiId: json['AmiId'] as String?,
+      name: json['Name'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amiId = this.amiId;
+    final name = this.name;
+    return {
+      if (amiId != null) 'AmiId': amiId,
+      if (name != null) 'Name': name,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateAddressResult {
   /// The automatically generated ID for a specific address. You'll use this ID
   /// when you create a job to specify which address you want the Snow device for
   /// that job shipped to.
-  @_s.JsonKey(name: 'AddressId')
-  final String addressId;
+  final String? addressId;
 
   CreateAddressResult({
     this.addressId,
   });
-  factory CreateAddressResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateAddressResultFromJson(json);
+
+  factory CreateAddressResult.fromJson(Map<String, dynamic> json) {
+    return CreateAddressResult(
+      addressId: json['AddressId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressId = this.addressId;
+    return {
+      if (addressId != null) 'AddressId': addressId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateClusterResult {
   /// The automatically generated ID for a cluster.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   CreateClusterResult({
     this.clusterId,
   });
-  factory CreateClusterResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateClusterResultFromJson(json);
+
+  factory CreateClusterResult.fromJson(Map<String, dynamic> json) {
+    return CreateClusterResult(
+      clusterId: json['ClusterId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterId = this.clusterId;
+    return {
+      if (clusterId != null) 'ClusterId': clusterId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateJobResult {
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   CreateJobResult({
     this.jobId,
   });
-  factory CreateJobResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateJobResultFromJson(json);
+
+  factory CreateJobResult.fromJson(Map<String, dynamic> json) {
+    return CreateJobResult(
+      jobId: json['JobId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobId = this.jobId;
+    return {
+      if (jobId != null) 'JobId': jobId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class CreateLongTermPricingResult {
+  /// The ID of the long-term pricing type for the device.
+  final String? longTermPricingId;
+
+  CreateLongTermPricingResult({
+    this.longTermPricingId,
+  });
+
+  factory CreateLongTermPricingResult.fromJson(Map<String, dynamic> json) {
+    return CreateLongTermPricingResult(
+      longTermPricingId: json['LongTermPricingId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final longTermPricingId = this.longTermPricingId;
+    return {
+      if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
+    };
+  }
+}
+
 class CreateReturnShippingLabelResult {
   /// The status information of the task on a Snow device that is being returned
   /// to AWS.
-  @_s.JsonKey(name: 'Status')
-  final ShippingLabelStatus status;
+  final ShippingLabelStatus? status;
 
   CreateReturnShippingLabelResult({
     this.status,
   });
-  factory CreateReturnShippingLabelResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateReturnShippingLabelResultFromJson(json);
+
+  factory CreateReturnShippingLabelResult.fromJson(Map<String, dynamic> json) {
+    return CreateReturnShippingLabelResult(
+      status: (json['Status'] as String?)?.toShippingLabelStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Defines the real-time status of a Snow device's data transfer while the
 /// device is at AWS. This data is only available while a job has a
 /// <code>JobState</code> value of <code>InProgress</code>, for both import and
 /// export jobs.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DataTransfer {
   /// The number of bytes transferred between a Snow device and Amazon S3.
-  @_s.JsonKey(name: 'BytesTransferred')
-  final int bytesTransferred;
+  final int? bytesTransferred;
 
   /// The number of objects transferred between a Snow device and Amazon S3.
-  @_s.JsonKey(name: 'ObjectsTransferred')
-  final int objectsTransferred;
+  final int? objectsTransferred;
 
   /// The total bytes of data for a transfer between a Snow device and Amazon S3.
   /// This value is set to 0 (zero) until all the keys that will be transferred
   /// have been listed.
-  @_s.JsonKey(name: 'TotalBytes')
-  final int totalBytes;
+  final int? totalBytes;
 
   /// The total number of objects for a transfer between a Snow device and Amazon
   /// S3. This value is set to 0 (zero) until all the keys that will be
   /// transferred have been listed.
-  @_s.JsonKey(name: 'TotalObjects')
-  final int totalObjects;
+  final int? totalObjects;
 
   DataTransfer({
     this.bytesTransferred,
@@ -2025,308 +2363,432 @@ class DataTransfer {
     this.totalBytes,
     this.totalObjects,
   });
-  factory DataTransfer.fromJson(Map<String, dynamic> json) =>
-      _$DataTransferFromJson(json);
+
+  factory DataTransfer.fromJson(Map<String, dynamic> json) {
+    return DataTransfer(
+      bytesTransferred: json['BytesTransferred'] as int?,
+      objectsTransferred: json['ObjectsTransferred'] as int?,
+      totalBytes: json['TotalBytes'] as int?,
+      totalObjects: json['TotalObjects'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bytesTransferred = this.bytesTransferred;
+    final objectsTransferred = this.objectsTransferred;
+    final totalBytes = this.totalBytes;
+    final totalObjects = this.totalObjects;
+    return {
+      if (bytesTransferred != null) 'BytesTransferred': bytesTransferred,
+      if (objectsTransferred != null) 'ObjectsTransferred': objectsTransferred,
+      if (totalBytes != null) 'TotalBytes': totalBytes,
+      if (totalObjects != null) 'TotalObjects': totalObjects,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAddressResult {
   /// The address that you want the Snow device(s) associated with a specific job
   /// to be shipped to.
-  @_s.JsonKey(name: 'Address')
-  final Address address;
+  final Address? address;
 
   DescribeAddressResult({
     this.address,
   });
-  factory DescribeAddressResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAddressResultFromJson(json);
+
+  factory DescribeAddressResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAddressResult(
+      address: json['Address'] != null
+          ? Address.fromJson(json['Address'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    return {
+      if (address != null) 'Address': address,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAddressesResult {
   /// The Snow device shipping addresses that were created for this account.
-  @_s.JsonKey(name: 'Addresses')
-  final List<Address> addresses;
+  final List<Address>? addresses;
 
   /// HTTP requests are stateless. If you use the automatically generated
   /// <code>NextToken</code> value in your next <code>DescribeAddresses</code>
   /// call, your list of returned addresses will start from this point in the
   /// array.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeAddressesResult({
     this.addresses,
     this.nextToken,
   });
-  factory DescribeAddressesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAddressesResultFromJson(json);
+
+  factory DescribeAddressesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAddressesResult(
+      addresses: (json['Addresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => Address.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addresses = this.addresses;
+    final nextToken = this.nextToken;
+    return {
+      if (addresses != null) 'Addresses': addresses,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClusterResult {
   /// Information about a specific cluster, including shipping information,
   /// cluster status, and other important metadata.
-  @_s.JsonKey(name: 'ClusterMetadata')
-  final ClusterMetadata clusterMetadata;
+  final ClusterMetadata? clusterMetadata;
 
   DescribeClusterResult({
     this.clusterMetadata,
   });
-  factory DescribeClusterResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClusterResultFromJson(json);
+
+  factory DescribeClusterResult.fromJson(Map<String, dynamic> json) {
+    return DescribeClusterResult(
+      clusterMetadata: json['ClusterMetadata'] != null
+          ? ClusterMetadata.fromJson(
+              json['ClusterMetadata'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterMetadata = this.clusterMetadata;
+    return {
+      if (clusterMetadata != null) 'ClusterMetadata': clusterMetadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeJobResult {
   /// Information about a specific job, including shipping information, job
   /// status, and other important metadata.
-  @_s.JsonKey(name: 'JobMetadata')
-  final JobMetadata jobMetadata;
+  final JobMetadata? jobMetadata;
 
   /// Information about a specific job part (in the case of an export job),
   /// including shipping information, job status, and other important metadata.
-  @_s.JsonKey(name: 'SubJobMetadata')
-  final List<JobMetadata> subJobMetadata;
+  final List<JobMetadata>? subJobMetadata;
 
   DescribeJobResult({
     this.jobMetadata,
     this.subJobMetadata,
   });
-  factory DescribeJobResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeJobResultFromJson(json);
+
+  factory DescribeJobResult.fromJson(Map<String, dynamic> json) {
+    return DescribeJobResult(
+      jobMetadata: json['JobMetadata'] != null
+          ? JobMetadata.fromJson(json['JobMetadata'] as Map<String, dynamic>)
+          : null,
+      subJobMetadata: (json['SubJobMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobMetadata.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobMetadata = this.jobMetadata;
+    final subJobMetadata = this.subJobMetadata;
+    return {
+      if (jobMetadata != null) 'JobMetadata': jobMetadata,
+      if (subJobMetadata != null) 'SubJobMetadata': subJobMetadata,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeReturnShippingLabelResult {
   /// The expiration date of the current return shipping label.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ExpirationDate')
-  final DateTime expirationDate;
+  final DateTime? expirationDate;
 
   /// The status information of the task on a Snow device that is being returned
   /// to AWS.
-  @_s.JsonKey(name: 'Status')
-  final ShippingLabelStatus status;
+  final ShippingLabelStatus? status;
 
   DescribeReturnShippingLabelResult({
     this.expirationDate,
     this.status,
   });
+
   factory DescribeReturnShippingLabelResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeReturnShippingLabelResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeReturnShippingLabelResult(
+      expirationDate: timeStampFromJson(json['ExpirationDate']),
+      status: (json['Status'] as String?)?.toShippingLabelStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expirationDate = this.expirationDate;
+    final status = this.status;
+    return {
+      if (expirationDate != null)
+        'ExpirationDate': unixTimestampToJson(expirationDate),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// The container for <code>SnowconeDeviceConfiguration</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeviceConfiguration {
   /// Returns information about the device configuration for an AWS Snowcone job.
-  @_s.JsonKey(name: 'SnowconeDeviceConfiguration')
-  final SnowconeDeviceConfiguration snowconeDeviceConfiguration;
+  final SnowconeDeviceConfiguration? snowconeDeviceConfiguration;
 
   DeviceConfiguration({
     this.snowconeDeviceConfiguration,
   });
-  factory DeviceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DeviceConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceConfigurationToJson(this);
+  factory DeviceConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeviceConfiguration(
+      snowconeDeviceConfiguration: json['SnowconeDeviceConfiguration'] != null
+          ? SnowconeDeviceConfiguration.fromJson(
+              json['SnowconeDeviceConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snowconeDeviceConfiguration = this.snowconeDeviceConfiguration;
+    return {
+      if (snowconeDeviceConfiguration != null)
+        'SnowconeDeviceConfiguration': snowconeDeviceConfiguration,
+    };
+  }
+}
+
+enum DeviceServiceName {
+  nfsOnDeviceService,
+  s3OnDeviceService,
+}
+
+extension on DeviceServiceName {
+  String toValue() {
+    switch (this) {
+      case DeviceServiceName.nfsOnDeviceService:
+        return 'NFS_ON_DEVICE_SERVICE';
+      case DeviceServiceName.s3OnDeviceService:
+        return 'S3_ON_DEVICE_SERVICE';
+    }
+  }
+}
+
+extension on String {
+  DeviceServiceName toDeviceServiceName() {
+    switch (this) {
+      case 'NFS_ON_DEVICE_SERVICE':
+        return DeviceServiceName.nfsOnDeviceService;
+      case 'S3_ON_DEVICE_SERVICE':
+        return DeviceServiceName.s3OnDeviceService;
+    }
+    throw Exception('$this is not known in enum DeviceServiceName');
+  }
 }
 
 /// A JSON-formatted object that contains the IDs for an Amazon Machine Image
 /// (AMI), including the Amazon EC2 AMI ID and the Snow device AMI ID. Each AMI
 /// has these two IDs to simplify identifying the AMI in both the AWS Cloud and
 /// on the device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Ec2AmiResource {
   /// The ID of the AMI in Amazon EC2.
-  @_s.JsonKey(name: 'AmiId')
   final String amiId;
 
   /// The ID of the AMI on the Snow device.
-  @_s.JsonKey(name: 'SnowballAmiId')
-  final String snowballAmiId;
+  final String? snowballAmiId;
 
   Ec2AmiResource({
-    @_s.required this.amiId,
+    required this.amiId,
     this.snowballAmiId,
   });
-  factory Ec2AmiResource.fromJson(Map<String, dynamic> json) =>
-      _$Ec2AmiResourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$Ec2AmiResourceToJson(this);
+  factory Ec2AmiResource.fromJson(Map<String, dynamic> json) {
+    return Ec2AmiResource(
+      amiId: json['AmiId'] as String,
+      snowballAmiId: json['SnowballAmiId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amiId = this.amiId;
+    final snowballAmiId = this.snowballAmiId;
+    return {
+      'AmiId': amiId,
+      if (snowballAmiId != null) 'SnowballAmiId': snowballAmiId,
+    };
+  }
 }
 
 /// The container for the <a>EventTriggerDefinition$EventResourceARN</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EventTriggerDefinition {
   /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an
   /// AWS Lambda function's event trigger associated with this job.
-  @_s.JsonKey(name: 'EventResourceARN')
-  final String eventResourceARN;
+  final String? eventResourceARN;
 
   EventTriggerDefinition({
     this.eventResourceARN,
   });
-  factory EventTriggerDefinition.fromJson(Map<String, dynamic> json) =>
-      _$EventTriggerDefinitionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EventTriggerDefinitionToJson(this);
+  factory EventTriggerDefinition.fromJson(Map<String, dynamic> json) {
+    return EventTriggerDefinition(
+      eventResourceARN: json['EventResourceARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventResourceARN = this.eventResourceARN;
+    return {
+      if (eventResourceARN != null) 'EventResourceARN': eventResourceARN,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobManifestResult {
   /// The Amazon S3 presigned URL for the manifest file associated with the
   /// specified <code>JobId</code> value.
-  @_s.JsonKey(name: 'ManifestURI')
-  final String manifestURI;
+  final String? manifestURI;
 
   GetJobManifestResult({
     this.manifestURI,
   });
-  factory GetJobManifestResult.fromJson(Map<String, dynamic> json) =>
-      _$GetJobManifestResultFromJson(json);
+
+  factory GetJobManifestResult.fromJson(Map<String, dynamic> json) {
+    return GetJobManifestResult(
+      manifestURI: json['ManifestURI'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final manifestURI = this.manifestURI;
+    return {
+      if (manifestURI != null) 'ManifestURI': manifestURI,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetJobUnlockCodeResult {
   /// The <code>UnlockCode</code> value for the specified job. The
-  /// <code>UnlockCode</code> value can be accessed for up to 90 days after the
+  /// <code>UnlockCode</code> value can be accessed for up to 360 days after the
   /// job has been created.
-  @_s.JsonKey(name: 'UnlockCode')
-  final String unlockCode;
+  final String? unlockCode;
 
   GetJobUnlockCodeResult({
     this.unlockCode,
   });
-  factory GetJobUnlockCodeResult.fromJson(Map<String, dynamic> json) =>
-      _$GetJobUnlockCodeResultFromJson(json);
+
+  factory GetJobUnlockCodeResult.fromJson(Map<String, dynamic> json) {
+    return GetJobUnlockCodeResult(
+      unlockCode: json['UnlockCode'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unlockCode = this.unlockCode;
+    return {
+      if (unlockCode != null) 'UnlockCode': unlockCode,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSnowballUsageResult {
   /// The service limit for number of Snow devices this account can have at once.
   /// The default service limit is 1 (one).
-  @_s.JsonKey(name: 'SnowballLimit')
-  final int snowballLimit;
+  final int? snowballLimit;
 
   /// The number of Snow devices that this account is currently using.
-  @_s.JsonKey(name: 'SnowballsInUse')
-  final int snowballsInUse;
+  final int? snowballsInUse;
 
   GetSnowballUsageResult({
     this.snowballLimit,
     this.snowballsInUse,
   });
-  factory GetSnowballUsageResult.fromJson(Map<String, dynamic> json) =>
-      _$GetSnowballUsageResultFromJson(json);
+
+  factory GetSnowballUsageResult.fromJson(Map<String, dynamic> json) {
+    return GetSnowballUsageResult(
+      snowballLimit: json['SnowballLimit'] as int?,
+      snowballsInUse: json['SnowballsInUse'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snowballLimit = this.snowballLimit;
+    final snowballsInUse = this.snowballsInUse;
+    return {
+      if (snowballLimit != null) 'SnowballLimit': snowballLimit,
+      if (snowballsInUse != null) 'SnowballsInUse': snowballsInUse,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetSoftwareUpdatesResult {
   /// The Amazon S3 presigned URL for the update file associated with the
   /// specified <code>JobId</code> value. The software update will be available
   /// for 2 days after this request is made. To access an update after the 2 days
   /// have passed, you'll have to make another call to
   /// <code>GetSoftwareUpdates</code>.
-  @_s.JsonKey(name: 'UpdatesURI')
-  final String updatesURI;
+  final String? updatesURI;
 
   GetSoftwareUpdatesResult({
     this.updatesURI,
   });
-  factory GetSoftwareUpdatesResult.fromJson(Map<String, dynamic> json) =>
-      _$GetSoftwareUpdatesResultFromJson(json);
+
+  factory GetSoftwareUpdatesResult.fromJson(Map<String, dynamic> json) {
+    return GetSoftwareUpdatesResult(
+      updatesURI: json['UpdatesURI'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final updatesURI = this.updatesURI;
+    return {
+      if (updatesURI != null) 'UpdatesURI': updatesURI,
+    };
+  }
 }
 
 /// The tax documents required in AWS Regions in India.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class INDTaxDocuments {
   /// The Goods and Services Tax (GST) documents required in AWS Regions in India.
-  @_s.JsonKey(name: 'GSTIN')
-  final String gstin;
+  final String? gstin;
 
   INDTaxDocuments({
     this.gstin,
   });
-  factory INDTaxDocuments.fromJson(Map<String, dynamic> json) =>
-      _$INDTaxDocumentsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$INDTaxDocumentsToJson(this);
+  factory INDTaxDocuments.fromJson(Map<String, dynamic> json) {
+    return INDTaxDocuments(
+      gstin: json['GSTIN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final gstin = this.gstin;
+    return {
+      if (gstin != null) 'GSTIN': gstin,
+    };
+  }
 }
 
 /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
 /// and a value that indicates whether the job is a job part, in the case of an
 /// export job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobListEntry {
   /// The creation date for this job.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The optional description of this specific job, for example <code>Important
   /// Photos 2016-08-11</code>.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// A value that indicates that this job is a main job. A main job represents a
   /// successful request to create an export job. Main jobs aren't associated with
@@ -2334,25 +2796,20 @@ class JobListEntry {
   /// each job part is associated with a Snowball. It might take some time before
   /// the job parts associated with a particular main job are listed, because they
   /// are created after the main job is created.
-  @_s.JsonKey(name: 'IsMaster')
-  final bool isMaster;
+  final bool? isMaster;
 
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// The current state of this job.
-  @_s.JsonKey(name: 'JobState')
-  final JobState jobState;
+  final JobState? jobState;
 
   /// The type of job.
-  @_s.JsonKey(name: 'JobType')
-  final JobType jobType;
+  final JobType? jobType;
 
   /// The type of device used with this job.
-  @_s.JsonKey(name: 'SnowballType')
-  final SnowballType snowballType;
+  final SnowballType? snowballType;
 
   JobListEntry({
     this.creationDate,
@@ -2363,8 +2820,38 @@ class JobListEntry {
     this.jobType,
     this.snowballType,
   });
-  factory JobListEntry.fromJson(Map<String, dynamic> json) =>
-      _$JobListEntryFromJson(json);
+
+  factory JobListEntry.fromJson(Map<String, dynamic> json) {
+    return JobListEntry(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      description: json['Description'] as String?,
+      isMaster: json['IsMaster'] as bool?,
+      jobId: json['JobId'] as String?,
+      jobState: (json['JobState'] as String?)?.toJobState(),
+      jobType: (json['JobType'] as String?)?.toJobType(),
+      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final description = this.description;
+    final isMaster = this.isMaster;
+    final jobId = this.jobId;
+    final jobState = this.jobState;
+    final jobType = this.jobType;
+    final snowballType = this.snowballType;
+    return {
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (description != null) 'Description': description,
+      if (isMaster != null) 'IsMaster': isMaster,
+      if (jobId != null) 'JobId': jobId,
+      if (jobState != null) 'JobState': jobState.toValue(),
+      if (jobType != null) 'JobType': jobType.toValue(),
+      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+    };
+  }
 }
 
 /// Contains job logs. Whenever a Snow device is used to import data into or
@@ -2387,139 +2874,144 @@ class JobListEntry {
 /// look at the two associated logs: a success log and a failure log. The logs
 /// are saved in comma-separated value (CSV) format, and the name of each log
 /// includes the ID of the job or job part that the log describes.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobLogs {
   /// A link to an Amazon S3 presigned URL where the job completion report is
   /// located.
-  @_s.JsonKey(name: 'JobCompletionReportURI')
-  final String jobCompletionReportURI;
+  final String? jobCompletionReportURI;
 
   /// A link to an Amazon S3 presigned URL where the job failure log is located.
-  @_s.JsonKey(name: 'JobFailureLogURI')
-  final String jobFailureLogURI;
+  final String? jobFailureLogURI;
 
   /// A link to an Amazon S3 presigned URL where the job success log is located.
-  @_s.JsonKey(name: 'JobSuccessLogURI')
-  final String jobSuccessLogURI;
+  final String? jobSuccessLogURI;
 
   JobLogs({
     this.jobCompletionReportURI,
     this.jobFailureLogURI,
     this.jobSuccessLogURI,
   });
-  factory JobLogs.fromJson(Map<String, dynamic> json) =>
-      _$JobLogsFromJson(json);
+
+  factory JobLogs.fromJson(Map<String, dynamic> json) {
+    return JobLogs(
+      jobCompletionReportURI: json['JobCompletionReportURI'] as String?,
+      jobFailureLogURI: json['JobFailureLogURI'] as String?,
+      jobSuccessLogURI: json['JobSuccessLogURI'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobCompletionReportURI = this.jobCompletionReportURI;
+    final jobFailureLogURI = this.jobFailureLogURI;
+    final jobSuccessLogURI = this.jobSuccessLogURI;
+    return {
+      if (jobCompletionReportURI != null)
+        'JobCompletionReportURI': jobCompletionReportURI,
+      if (jobFailureLogURI != null) 'JobFailureLogURI': jobFailureLogURI,
+      if (jobSuccessLogURI != null) 'JobSuccessLogURI': jobSuccessLogURI,
+    };
+  }
 }
 
 /// Contains information about a specific job including shipping information,
 /// job status, and other important metadata. This information is returned as a
 /// part of the response syntax of the <code>DescribeJob</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class JobMetadata {
   /// The ID for the address that you want the Snow device shipped to.
-  @_s.JsonKey(name: 'AddressId')
-  final String addressId;
+  final String? addressId;
 
   /// The 39-character ID for the cluster, for example
   /// <code>CID123e4567-e89b-12d3-a456-426655440000</code>.
-  @_s.JsonKey(name: 'ClusterId')
-  final String clusterId;
+  final String? clusterId;
 
   /// The creation date for this job.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// A value that defines the real-time status of a Snow device's data transfer
   /// while the device is at AWS. This data is only available while a job has a
   /// <code>JobState</code> value of <code>InProgress</code>, for both import and
   /// export jobs.
-  @_s.JsonKey(name: 'DataTransferProgress')
-  final DataTransfer dataTransferProgress;
+  final DataTransfer? dataTransferProgress;
 
   /// The description of the job, provided at job creation.
-  @_s.JsonKey(name: 'Description')
-  final String description;
-  @_s.JsonKey(name: 'DeviceConfiguration')
-  final DeviceConfiguration deviceConfiguration;
+  final String? description;
+  final DeviceConfiguration? deviceConfiguration;
 
   /// The ID of the address that you want a job shipped to, after it will be
   /// shipped to its primary address. This field is not supported in most regions.
-  @_s.JsonKey(name: 'ForwardingAddressId')
-  final String forwardingAddressId;
+  final String? forwardingAddressId;
 
   /// The automatically generated ID for a job, for example
   /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
-  @_s.JsonKey(name: 'JobId')
-  final String jobId;
+  final String? jobId;
 
   /// Links to Amazon S3 presigned URLs for the job report and logs. For import
   /// jobs, the PDF job report becomes available at the end of the import process.
   /// For export jobs, your job report typically becomes available while the Snow
   /// device for your job part is being delivered to you.
-  @_s.JsonKey(name: 'JobLogInfo')
-  final JobLogs jobLogInfo;
+  final JobLogs? jobLogInfo;
 
   /// The current status of the jobs.
-  @_s.JsonKey(name: 'JobState')
-  final JobState jobState;
+  final JobState? jobState;
 
   /// The type of job.
-  @_s.JsonKey(name: 'JobType')
-  final JobType jobType;
+  final JobType? jobType;
 
   /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS)
   /// key associated with this job. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html">CreateKey</a>
   /// API action in AWS KMS.
-  @_s.JsonKey(name: 'KmsKeyARN')
-  final String kmsKeyARN;
+  final String? kmsKeyARN;
+
+  /// The ID of the long-term pricing type for the device.
+  final String? longTermPricingId;
 
   /// The Amazon Simple Notification Service (Amazon SNS) notification settings
   /// associated with a specific job. The <code>Notification</code> object is
   /// returned as a part of the response syntax of the <code>DescribeJob</code>
   /// action in the <code>JobMetadata</code> data type.
-  @_s.JsonKey(name: 'Notification')
-  final Notification notification;
+  final Notification? notification;
+
+  /// Represents metadata and configuration settings for services on an AWS Snow
+  /// Family device.
+  final OnDeviceServiceConfiguration? onDeviceServiceConfiguration;
+
+  /// Allows you to securely operate and manage Snowcone devices remotely from
+  /// outside of your internal network. When set to
+  /// <code>INSTALLED_AUTOSTART</code>, remote management will automatically be
+  /// available when the device arrives at your location. Otherwise, you need to
+  /// use the Snowball Client to manage the device.
+  final RemoteManagement? remoteManagement;
 
   /// An array of <code>S3Resource</code> objects. Each <code>S3Resource</code>
   /// object represents an Amazon S3 bucket that your transferred data will be
   /// exported from or imported into.
-  @_s.JsonKey(name: 'Resources')
-  final JobResource resources;
+  final JobResource? resources;
 
   /// The role ARN associated with this job. This ARN was created using the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html">CreateRole</a>
   /// API action in AWS Identity and Access Management (IAM).
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   /// A job's shipping information, including inbound and outbound tracking
   /// numbers and shipping speed options.
-  @_s.JsonKey(name: 'ShippingDetails')
-  final ShippingDetails shippingDetails;
+  final ShippingDetails? shippingDetails;
 
   /// The Snow device capacity preference for this job, specified at job creation.
   /// In US regions, you can choose between 50 TB and 80 TB Snowballs. All other
   /// regions use 80 TB capacity Snowballs.
-  @_s.JsonKey(name: 'SnowballCapacityPreference')
-  final SnowballCapacity snowballCapacityPreference;
+  ///
+  /// For more information, see
+  /// "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i> or
+  /// "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html"
+  /// (Snow Family Devices and Capacity) in the <i>Snowcone User Guide</i>.
+  final SnowballCapacity? snowballCapacityPreference;
 
   /// The type of device used with this job.
-  @_s.JsonKey(name: 'SnowballType')
-  final SnowballType snowballType;
+  final SnowballType? snowballType;
 
   /// The metadata associated with the tax documents required in your AWS Region.
-  @_s.JsonKey(name: 'TaxDocuments')
-  final TaxDocuments taxDocuments;
+  final TaxDocuments? taxDocuments;
 
   JobMetadata({
     this.addressId,
@@ -2534,7 +3026,10 @@ class JobMetadata {
     this.jobState,
     this.jobType,
     this.kmsKeyARN,
+    this.longTermPricingId,
     this.notification,
+    this.onDeviceServiceConfiguration,
+    this.remoteManagement,
     this.resources,
     this.roleARN,
     this.shippingDetails,
@@ -2542,77 +3037,247 @@ class JobMetadata {
     this.snowballType,
     this.taxDocuments,
   });
-  factory JobMetadata.fromJson(Map<String, dynamic> json) =>
-      _$JobMetadataFromJson(json);
+
+  factory JobMetadata.fromJson(Map<String, dynamic> json) {
+    return JobMetadata(
+      addressId: json['AddressId'] as String?,
+      clusterId: json['ClusterId'] as String?,
+      creationDate: timeStampFromJson(json['CreationDate']),
+      dataTransferProgress: json['DataTransferProgress'] != null
+          ? DataTransfer.fromJson(
+              json['DataTransferProgress'] as Map<String, dynamic>)
+          : null,
+      description: json['Description'] as String?,
+      deviceConfiguration: json['DeviceConfiguration'] != null
+          ? DeviceConfiguration.fromJson(
+              json['DeviceConfiguration'] as Map<String, dynamic>)
+          : null,
+      forwardingAddressId: json['ForwardingAddressId'] as String?,
+      jobId: json['JobId'] as String?,
+      jobLogInfo: json['JobLogInfo'] != null
+          ? JobLogs.fromJson(json['JobLogInfo'] as Map<String, dynamic>)
+          : null,
+      jobState: (json['JobState'] as String?)?.toJobState(),
+      jobType: (json['JobType'] as String?)?.toJobType(),
+      kmsKeyARN: json['KmsKeyARN'] as String?,
+      longTermPricingId: json['LongTermPricingId'] as String?,
+      notification: json['Notification'] != null
+          ? Notification.fromJson(json['Notification'] as Map<String, dynamic>)
+          : null,
+      onDeviceServiceConfiguration: json['OnDeviceServiceConfiguration'] != null
+          ? OnDeviceServiceConfiguration.fromJson(
+              json['OnDeviceServiceConfiguration'] as Map<String, dynamic>)
+          : null,
+      remoteManagement:
+          (json['RemoteManagement'] as String?)?.toRemoteManagement(),
+      resources: json['Resources'] != null
+          ? JobResource.fromJson(json['Resources'] as Map<String, dynamic>)
+          : null,
+      roleARN: json['RoleARN'] as String?,
+      shippingDetails: json['ShippingDetails'] != null
+          ? ShippingDetails.fromJson(
+              json['ShippingDetails'] as Map<String, dynamic>)
+          : null,
+      snowballCapacityPreference:
+          (json['SnowballCapacityPreference'] as String?)?.toSnowballCapacity(),
+      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+      taxDocuments: json['TaxDocuments'] != null
+          ? TaxDocuments.fromJson(json['TaxDocuments'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final addressId = this.addressId;
+    final clusterId = this.clusterId;
+    final creationDate = this.creationDate;
+    final dataTransferProgress = this.dataTransferProgress;
+    final description = this.description;
+    final deviceConfiguration = this.deviceConfiguration;
+    final forwardingAddressId = this.forwardingAddressId;
+    final jobId = this.jobId;
+    final jobLogInfo = this.jobLogInfo;
+    final jobState = this.jobState;
+    final jobType = this.jobType;
+    final kmsKeyARN = this.kmsKeyARN;
+    final longTermPricingId = this.longTermPricingId;
+    final notification = this.notification;
+    final onDeviceServiceConfiguration = this.onDeviceServiceConfiguration;
+    final remoteManagement = this.remoteManagement;
+    final resources = this.resources;
+    final roleARN = this.roleARN;
+    final shippingDetails = this.shippingDetails;
+    final snowballCapacityPreference = this.snowballCapacityPreference;
+    final snowballType = this.snowballType;
+    final taxDocuments = this.taxDocuments;
+    return {
+      if (addressId != null) 'AddressId': addressId,
+      if (clusterId != null) 'ClusterId': clusterId,
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (dataTransferProgress != null)
+        'DataTransferProgress': dataTransferProgress,
+      if (description != null) 'Description': description,
+      if (deviceConfiguration != null)
+        'DeviceConfiguration': deviceConfiguration,
+      if (forwardingAddressId != null)
+        'ForwardingAddressId': forwardingAddressId,
+      if (jobId != null) 'JobId': jobId,
+      if (jobLogInfo != null) 'JobLogInfo': jobLogInfo,
+      if (jobState != null) 'JobState': jobState.toValue(),
+      if (jobType != null) 'JobType': jobType.toValue(),
+      if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
+      if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
+      if (notification != null) 'Notification': notification,
+      if (onDeviceServiceConfiguration != null)
+        'OnDeviceServiceConfiguration': onDeviceServiceConfiguration,
+      if (remoteManagement != null)
+        'RemoteManagement': remoteManagement.toValue(),
+      if (resources != null) 'Resources': resources,
+      if (roleARN != null) 'RoleARN': roleARN,
+      if (shippingDetails != null) 'ShippingDetails': shippingDetails,
+      if (snowballCapacityPreference != null)
+        'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
+      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+      if (taxDocuments != null) 'TaxDocuments': taxDocuments,
+    };
+  }
 }
 
 /// Contains an array of AWS resource objects. Each object represents an Amazon
 /// S3 bucket, an AWS Lambda function, or an Amazon Machine Image (AMI) based on
 /// Amazon EC2 that is associated with a particular job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JobResource {
   /// The Amazon Machine Images (AMIs) associated with this job.
-  @_s.JsonKey(name: 'Ec2AmiResources')
-  final List<Ec2AmiResource> ec2AmiResources;
+  final List<Ec2AmiResource>? ec2AmiResources;
 
   /// The Python-language Lambda functions for this job.
-  @_s.JsonKey(name: 'LambdaResources')
-  final List<LambdaResource> lambdaResources;
+  final List<LambdaResource>? lambdaResources;
 
   /// An array of <code>S3Resource</code> objects.
-  @_s.JsonKey(name: 'S3Resources')
-  final List<S3Resource> s3Resources;
+  final List<S3Resource>? s3Resources;
 
   JobResource({
     this.ec2AmiResources,
     this.lambdaResources,
     this.s3Resources,
   });
-  factory JobResource.fromJson(Map<String, dynamic> json) =>
-      _$JobResourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JobResourceToJson(this);
+  factory JobResource.fromJson(Map<String, dynamic> json) {
+    return JobResource(
+      ec2AmiResources: (json['Ec2AmiResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => Ec2AmiResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lambdaResources: (json['LambdaResources'] as List?)
+          ?.whereNotNull()
+          .map((e) => LambdaResource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      s3Resources: (json['S3Resources'] as List?)
+          ?.whereNotNull()
+          .map((e) => S3Resource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ec2AmiResources = this.ec2AmiResources;
+    final lambdaResources = this.lambdaResources;
+    final s3Resources = this.s3Resources;
+    return {
+      if (ec2AmiResources != null) 'Ec2AmiResources': ec2AmiResources,
+      if (lambdaResources != null) 'LambdaResources': lambdaResources,
+      if (s3Resources != null) 'S3Resources': s3Resources,
+    };
+  }
 }
 
 enum JobState {
-  @_s.JsonValue('New')
   $new,
-  @_s.JsonValue('PreparingAppliance')
   preparingAppliance,
-  @_s.JsonValue('PreparingShipment')
   preparingShipment,
-  @_s.JsonValue('InTransitToCustomer')
   inTransitToCustomer,
-  @_s.JsonValue('WithCustomer')
   withCustomer,
-  @_s.JsonValue('InTransitToAWS')
   inTransitToAWS,
-  @_s.JsonValue('WithAWSSortingFacility')
   withAWSSortingFacility,
-  @_s.JsonValue('WithAWS')
   withAWS,
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('Complete')
   complete,
-  @_s.JsonValue('Cancelled')
   cancelled,
-  @_s.JsonValue('Listing')
   listing,
-  @_s.JsonValue('Pending')
   pending,
 }
 
+extension on JobState {
+  String toValue() {
+    switch (this) {
+      case JobState.$new:
+        return 'New';
+      case JobState.preparingAppliance:
+        return 'PreparingAppliance';
+      case JobState.preparingShipment:
+        return 'PreparingShipment';
+      case JobState.inTransitToCustomer:
+        return 'InTransitToCustomer';
+      case JobState.withCustomer:
+        return 'WithCustomer';
+      case JobState.inTransitToAWS:
+        return 'InTransitToAWS';
+      case JobState.withAWSSortingFacility:
+        return 'WithAWSSortingFacility';
+      case JobState.withAWS:
+        return 'WithAWS';
+      case JobState.inProgress:
+        return 'InProgress';
+      case JobState.complete:
+        return 'Complete';
+      case JobState.cancelled:
+        return 'Cancelled';
+      case JobState.listing:
+        return 'Listing';
+      case JobState.pending:
+        return 'Pending';
+    }
+  }
+}
+
+extension on String {
+  JobState toJobState() {
+    switch (this) {
+      case 'New':
+        return JobState.$new;
+      case 'PreparingAppliance':
+        return JobState.preparingAppliance;
+      case 'PreparingShipment':
+        return JobState.preparingShipment;
+      case 'InTransitToCustomer':
+        return JobState.inTransitToCustomer;
+      case 'WithCustomer':
+        return JobState.withCustomer;
+      case 'InTransitToAWS':
+        return JobState.inTransitToAWS;
+      case 'WithAWSSortingFacility':
+        return JobState.withAWSSortingFacility;
+      case 'WithAWS':
+        return JobState.withAWS;
+      case 'InProgress':
+        return JobState.inProgress;
+      case 'Complete':
+        return JobState.complete;
+      case 'Cancelled':
+        return JobState.cancelled;
+      case 'Listing':
+        return JobState.listing;
+      case 'Pending':
+        return JobState.pending;
+    }
+    throw Exception('$this is not known in enum JobState');
+  }
+}
+
 enum JobType {
-  @_s.JsonValue('IMPORT')
   import,
-  @_s.JsonValue('EXPORT')
   export,
-  @_s.JsonValue('LOCAL_USE')
   localUse,
 }
 
@@ -2626,7 +3291,20 @@ extension on JobType {
       case JobType.localUse:
         return 'LOCAL_USE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  JobType toJobType() {
+    switch (this) {
+      case 'IMPORT':
+        return JobType.import;
+      case 'EXPORT':
+        return JobType.export;
+      case 'LOCAL_USE':
+        return JobType.localUse;
+    }
+    throw Exception('$this is not known in enum JobType');
   }
 }
 
@@ -2635,160 +3313,412 @@ extension on JobType {
 /// defined at job creation, and has either an inclusive
 /// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
 /// Ranges are UTF-8 binary sorted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeyRange {
   /// The key that starts an optional key range for an export job. Ranges are
   /// inclusive and UTF-8 binary sorted.
-  @_s.JsonKey(name: 'BeginMarker')
-  final String beginMarker;
+  final String? beginMarker;
 
   /// The key that ends an optional key range for an export job. Ranges are
   /// inclusive and UTF-8 binary sorted.
-  @_s.JsonKey(name: 'EndMarker')
-  final String endMarker;
+  final String? endMarker;
 
   KeyRange({
     this.beginMarker,
     this.endMarker,
   });
-  factory KeyRange.fromJson(Map<String, dynamic> json) =>
-      _$KeyRangeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeyRangeToJson(this);
+  factory KeyRange.fromJson(Map<String, dynamic> json) {
+    return KeyRange(
+      beginMarker: json['BeginMarker'] as String?,
+      endMarker: json['EndMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final beginMarker = this.beginMarker;
+    final endMarker = this.endMarker;
+    return {
+      if (beginMarker != null) 'BeginMarker': beginMarker,
+      if (endMarker != null) 'EndMarker': endMarker,
+    };
+  }
 }
 
 /// Identifies
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LambdaResource {
   /// The array of ARNs for <a>S3Resource</a> objects to trigger the
   /// <a>LambdaResource</a> objects associated with this job.
-  @_s.JsonKey(name: 'EventTriggers')
-  final List<EventTriggerDefinition> eventTriggers;
+  final List<EventTriggerDefinition>? eventTriggers;
 
   /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be
   /// triggered by PUT object actions on the associated local Amazon S3 resource.
-  @_s.JsonKey(name: 'LambdaArn')
-  final String lambdaArn;
+  final String? lambdaArn;
 
   LambdaResource({
     this.eventTriggers,
     this.lambdaArn,
   });
-  factory LambdaResource.fromJson(Map<String, dynamic> json) =>
-      _$LambdaResourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LambdaResourceToJson(this);
+  factory LambdaResource.fromJson(Map<String, dynamic> json) {
+    return LambdaResource(
+      eventTriggers: (json['EventTriggers'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => EventTriggerDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      lambdaArn: json['LambdaArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventTriggers = this.eventTriggers;
+    final lambdaArn = this.lambdaArn;
+    return {
+      if (eventTriggers != null) 'EventTriggers': eventTriggers,
+      if (lambdaArn != null) 'LambdaArn': lambdaArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListClusterJobsResult {
   /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
   /// and a value that indicates whether the job is a job part, in the case of
   /// export jobs.
-  @_s.JsonKey(name: 'JobListEntries')
-  final List<JobListEntry> jobListEntries;
+  final List<JobListEntry>? jobListEntries;
 
   /// HTTP requests are stateless. If you use the automatically generated
   /// <code>NextToken</code> value in your next <code>ListClusterJobsResult</code>
   /// call, your list of returned jobs will start from this point in the array.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListClusterJobsResult({
     this.jobListEntries,
     this.nextToken,
   });
-  factory ListClusterJobsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListClusterJobsResultFromJson(json);
+
+  factory ListClusterJobsResult.fromJson(Map<String, dynamic> json) {
+    return ListClusterJobsResult(
+      jobListEntries: (json['JobListEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobListEntries = this.jobListEntries;
+    final nextToken = this.nextToken;
+    return {
+      if (jobListEntries != null) 'JobListEntries': jobListEntries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListClustersResult {
   /// Each <code>ClusterListEntry</code> object contains a cluster's state, a
   /// cluster's ID, and other important status information.
-  @_s.JsonKey(name: 'ClusterListEntries')
-  final List<ClusterListEntry> clusterListEntries;
+  final List<ClusterListEntry>? clusterListEntries;
 
   /// HTTP requests are stateless. If you use the automatically generated
   /// <code>NextToken</code> value in your next <code>ClusterListEntry</code>
   /// call, your list of returned clusters will start from this point in the
   /// array.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListClustersResult({
     this.clusterListEntries,
     this.nextToken,
   });
-  factory ListClustersResult.fromJson(Map<String, dynamic> json) =>
-      _$ListClustersResultFromJson(json);
+
+  factory ListClustersResult.fromJson(Map<String, dynamic> json) {
+    return ListClustersResult(
+      clusterListEntries: (json['ClusterListEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => ClusterListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusterListEntries = this.clusterListEntries;
+    final nextToken = this.nextToken;
+    return {
+      if (clusterListEntries != null) 'ClusterListEntries': clusterListEntries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCompatibleImagesResult {
   /// A JSON-formatted object that describes a compatible AMI, including the ID
   /// and name for a Snow device AMI.
-  @_s.JsonKey(name: 'CompatibleImages')
-  final List<CompatibleImage> compatibleImages;
+  final List<CompatibleImage>? compatibleImages;
 
   /// Because HTTP requests are stateless, this is the starting point for your
   /// next list of returned images.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCompatibleImagesResult({
     this.compatibleImages,
     this.nextToken,
   });
-  factory ListCompatibleImagesResult.fromJson(Map<String, dynamic> json) =>
-      _$ListCompatibleImagesResultFromJson(json);
+
+  factory ListCompatibleImagesResult.fromJson(Map<String, dynamic> json) {
+    return ListCompatibleImagesResult(
+      compatibleImages: (json['CompatibleImages'] as List?)
+          ?.whereNotNull()
+          .map((e) => CompatibleImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final compatibleImages = this.compatibleImages;
+    final nextToken = this.nextToken;
+    return {
+      if (compatibleImages != null) 'CompatibleImages': compatibleImages,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListJobsResult {
   /// Each <code>JobListEntry</code> object contains a job's state, a job's ID,
   /// and a value that indicates whether the job is a job part, in the case of
   /// export jobs.
-  @_s.JsonKey(name: 'JobListEntries')
-  final List<JobListEntry> jobListEntries;
+  final List<JobListEntry>? jobListEntries;
 
   /// HTTP requests are stateless. If you use this automatically generated
   /// <code>NextToken</code> value in your next <code>ListJobs</code> call, your
   /// returned <code>JobListEntry</code> objects will start from this point in the
   /// array.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListJobsResult({
     this.jobListEntries,
     this.nextToken,
   });
-  factory ListJobsResult.fromJson(Map<String, dynamic> json) =>
-      _$ListJobsResultFromJson(json);
+
+  factory ListJobsResult.fromJson(Map<String, dynamic> json) {
+    return ListJobsResult(
+      jobListEntries: (json['JobListEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) => JobListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobListEntries = this.jobListEntries;
+    final nextToken = this.nextToken;
+    return {
+      if (jobListEntries != null) 'JobListEntries': jobListEntries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+class ListLongTermPricingResult {
+  /// Each <code>LongTermPricingEntry</code> object contains a status, ID, and
+  /// other information about the <code>LongTermPricing</code> type.
+  final List<LongTermPricingListEntry>? longTermPricingEntries;
+
+  /// Because HTTP requests are stateless, this is the starting point for your
+  /// next list of returned <code>ListLongTermPricing</code> list.
+  final String? nextToken;
+
+  ListLongTermPricingResult({
+    this.longTermPricingEntries,
+    this.nextToken,
+  });
+
+  factory ListLongTermPricingResult.fromJson(Map<String, dynamic> json) {
+    return ListLongTermPricingResult(
+      longTermPricingEntries: (json['LongTermPricingEntries'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LongTermPricingListEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final longTermPricingEntries = this.longTermPricingEntries;
+    final nextToken = this.nextToken;
+    return {
+      if (longTermPricingEntries != null)
+        'LongTermPricingEntries': longTermPricingEntries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
+/// Each <code>LongTermPricingListEntry</code> object contains information about
+/// a long-term pricing type.
+class LongTermPricingListEntry {
+  /// The current active jobs on the device the long-term pricing type.
+  final String? currentActiveJob;
+
+  /// If set to <code>true</code>, specifies that the current long-term pricing
+  /// type for the device should be automatically renewed before the long-term
+  /// pricing contract expires.
+  final bool? isLongTermPricingAutoRenew;
+
+  /// The IDs of the jobs that are associated with a long-term pricing type.
+  final List<String>? jobIds;
+
+  /// The end date the long-term pricing contract.
+  final DateTime? longTermPricingEndDate;
+
+  /// The ID of the long-term pricing type for the device.
+  final String? longTermPricingId;
+
+  /// The start date of the long-term pricing contract.
+  final DateTime? longTermPricingStartDate;
+
+  /// The status of the long-term pricing type.
+  final String? longTermPricingStatus;
+
+  /// The type of long-term pricing that was selected for the device.
+  final LongTermPricingType? longTermPricingType;
+
+  /// A new device that replaces a device that is ordered with long-term pricing.
+  final String? replacementJob;
+
+  /// The type of AWS Snow Family device associated with this long-term pricing
+  /// job.
+  final SnowballType? snowballType;
+
+  LongTermPricingListEntry({
+    this.currentActiveJob,
+    this.isLongTermPricingAutoRenew,
+    this.jobIds,
+    this.longTermPricingEndDate,
+    this.longTermPricingId,
+    this.longTermPricingStartDate,
+    this.longTermPricingStatus,
+    this.longTermPricingType,
+    this.replacementJob,
+    this.snowballType,
+  });
+
+  factory LongTermPricingListEntry.fromJson(Map<String, dynamic> json) {
+    return LongTermPricingListEntry(
+      currentActiveJob: json['CurrentActiveJob'] as String?,
+      isLongTermPricingAutoRenew: json['IsLongTermPricingAutoRenew'] as bool?,
+      jobIds: (json['JobIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      longTermPricingEndDate: timeStampFromJson(json['LongTermPricingEndDate']),
+      longTermPricingId: json['LongTermPricingId'] as String?,
+      longTermPricingStartDate:
+          timeStampFromJson(json['LongTermPricingStartDate']),
+      longTermPricingStatus: json['LongTermPricingStatus'] as String?,
+      longTermPricingType:
+          (json['LongTermPricingType'] as String?)?.toLongTermPricingType(),
+      replacementJob: json['ReplacementJob'] as String?,
+      snowballType: (json['SnowballType'] as String?)?.toSnowballType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final currentActiveJob = this.currentActiveJob;
+    final isLongTermPricingAutoRenew = this.isLongTermPricingAutoRenew;
+    final jobIds = this.jobIds;
+    final longTermPricingEndDate = this.longTermPricingEndDate;
+    final longTermPricingId = this.longTermPricingId;
+    final longTermPricingStartDate = this.longTermPricingStartDate;
+    final longTermPricingStatus = this.longTermPricingStatus;
+    final longTermPricingType = this.longTermPricingType;
+    final replacementJob = this.replacementJob;
+    final snowballType = this.snowballType;
+    return {
+      if (currentActiveJob != null) 'CurrentActiveJob': currentActiveJob,
+      if (isLongTermPricingAutoRenew != null)
+        'IsLongTermPricingAutoRenew': isLongTermPricingAutoRenew,
+      if (jobIds != null) 'JobIds': jobIds,
+      if (longTermPricingEndDate != null)
+        'LongTermPricingEndDate': unixTimestampToJson(longTermPricingEndDate),
+      if (longTermPricingId != null) 'LongTermPricingId': longTermPricingId,
+      if (longTermPricingStartDate != null)
+        'LongTermPricingStartDate':
+            unixTimestampToJson(longTermPricingStartDate),
+      if (longTermPricingStatus != null)
+        'LongTermPricingStatus': longTermPricingStatus,
+      if (longTermPricingType != null)
+        'LongTermPricingType': longTermPricingType.toValue(),
+      if (replacementJob != null) 'ReplacementJob': replacementJob,
+      if (snowballType != null) 'SnowballType': snowballType.toValue(),
+    };
+  }
+}
+
+enum LongTermPricingType {
+  oneYear,
+  threeYear,
+}
+
+extension on LongTermPricingType {
+  String toValue() {
+    switch (this) {
+      case LongTermPricingType.oneYear:
+        return 'OneYear';
+      case LongTermPricingType.threeYear:
+        return 'ThreeYear';
+    }
+  }
+}
+
+extension on String {
+  LongTermPricingType toLongTermPricingType() {
+    switch (this) {
+      case 'OneYear':
+        return LongTermPricingType.oneYear;
+      case 'ThreeYear':
+        return LongTermPricingType.threeYear;
+    }
+    throw Exception('$this is not known in enum LongTermPricingType');
+  }
+}
+
+/// An object that represents metadata and configuration settings for NFS
+/// service on an AWS Snow Family device.
+class NFSOnDeviceServiceConfiguration {
+  /// The maximum NFS storage for one Snowball Family device.
+  final int? storageLimit;
+
+  /// The scale unit of the NFS storage on the device.
+  ///
+  /// Valid values: TB.
+  final StorageUnit? storageUnit;
+
+  NFSOnDeviceServiceConfiguration({
+    this.storageLimit,
+    this.storageUnit,
+  });
+
+  factory NFSOnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return NFSOnDeviceServiceConfiguration(
+      storageLimit: json['StorageLimit'] as int?,
+      storageUnit: (json['StorageUnit'] as String?)?.toStorageUnit(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final storageLimit = this.storageLimit;
+    final storageUnit = this.storageUnit;
+    return {
+      if (storageLimit != null) 'StorageLimit': storageLimit,
+      if (storageUnit != null) 'StorageUnit': storageUnit.toValue(),
+    };
+  }
 }
 
 /// The Amazon Simple Notification Service (Amazon SNS) notification settings
@@ -2801,19 +3731,12 @@ class ListJobsResult {
 /// <code>JobStatesToNotify</code> array of strings, or you can specify that you
 /// want to have Amazon SNS notifications sent out for all job states with
 /// <code>NotifyAll</code> set to true.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Notification {
   /// The list of job states that will trigger a notification for this job.
-  @_s.JsonKey(name: 'JobStatesToNotify')
-  final List<JobState> jobStatesToNotify;
+  final List<JobState>? jobStatesToNotify;
 
   /// Any change in job state will trigger a notification for this job.
-  @_s.JsonKey(name: 'NotifyAll')
-  final bool notifyAll;
+  final bool? notifyAll;
 
   /// The new SNS <code>TopicArn</code> that you want to associate with this job.
   /// You can create Amazon Resource Names (ARNs) for topics by using the <a
@@ -2823,19 +3746,92 @@ class Notification {
   /// You can subscribe email addresses to an Amazon SNS topic through the AWS
   /// Management Console, or by using the <a
   /// href="https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html">Subscribe</a>
-  /// AWS Simple Notification Service (SNS) API action.
-  @_s.JsonKey(name: 'SnsTopicARN')
-  final String snsTopicARN;
+  /// Amazon Simple Notification Service (Amazon SNS) API action.
+  final String? snsTopicARN;
 
   Notification({
     this.jobStatesToNotify,
     this.notifyAll,
     this.snsTopicARN,
   });
-  factory Notification.fromJson(Map<String, dynamic> json) =>
-      _$NotificationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$NotificationToJson(this);
+  factory Notification.fromJson(Map<String, dynamic> json) {
+    return Notification(
+      jobStatesToNotify: (json['JobStatesToNotify'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toJobState())
+          .toList(),
+      notifyAll: json['NotifyAll'] as bool?,
+      snsTopicARN: json['SnsTopicARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobStatesToNotify = this.jobStatesToNotify;
+    final notifyAll = this.notifyAll;
+    final snsTopicARN = this.snsTopicARN;
+    return {
+      if (jobStatesToNotify != null)
+        'JobStatesToNotify': jobStatesToNotify.map((e) => e.toValue()).toList(),
+      if (notifyAll != null) 'NotifyAll': notifyAll,
+      if (snsTopicARN != null) 'SnsTopicARN': snsTopicARN,
+    };
+  }
+}
+
+/// An object that represents metadata and configuration settings for services
+/// on an AWS Snow Family device.
+class OnDeviceServiceConfiguration {
+  /// Represents the NFS service on a Snow Family device.
+  final NFSOnDeviceServiceConfiguration? nFSOnDeviceService;
+
+  OnDeviceServiceConfiguration({
+    this.nFSOnDeviceService,
+  });
+
+  factory OnDeviceServiceConfiguration.fromJson(Map<String, dynamic> json) {
+    return OnDeviceServiceConfiguration(
+      nFSOnDeviceService: json['NFSOnDeviceService'] != null
+          ? NFSOnDeviceServiceConfiguration.fromJson(
+              json['NFSOnDeviceService'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nFSOnDeviceService = this.nFSOnDeviceService;
+    return {
+      if (nFSOnDeviceService != null) 'NFSOnDeviceService': nFSOnDeviceService,
+    };
+  }
+}
+
+enum RemoteManagement {
+  installedOnly,
+  installedAutostart,
+}
+
+extension on RemoteManagement {
+  String toValue() {
+    switch (this) {
+      case RemoteManagement.installedOnly:
+        return 'INSTALLED_ONLY';
+      case RemoteManagement.installedAutostart:
+        return 'INSTALLED_AUTOSTART';
+    }
+  }
+}
+
+extension on String {
+  RemoteManagement toRemoteManagement() {
+    switch (this) {
+      case 'INSTALLED_ONLY':
+        return RemoteManagement.installedOnly;
+      case 'INSTALLED_AUTOSTART':
+        return RemoteManagement.installedAutostart;
+    }
+    throw Exception('$this is not known in enum RemoteManagement');
+  }
 }
 
 /// Each <code>S3Resource</code> object represents an Amazon S3 bucket that your
@@ -2844,44 +3840,58 @@ class Notification {
 /// the range is defined at job creation, and has either an inclusive
 /// <code>BeginMarker</code>, an inclusive <code>EndMarker</code>, or both.
 /// Ranges are UTF-8 binary sorted.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class S3Resource {
   /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
-  @_s.JsonKey(name: 'BucketArn')
-  final String bucketArn;
+  final String? bucketArn;
 
   /// For export jobs, you can provide an optional <code>KeyRange</code> within a
   /// specific Amazon S3 bucket. The length of the range is defined at job
   /// creation, and has either an inclusive <code>BeginMarker</code>, an inclusive
   /// <code>EndMarker</code>, or both. Ranges are UTF-8 binary sorted.
-  @_s.JsonKey(name: 'KeyRange')
-  final KeyRange keyRange;
+  final KeyRange? keyRange;
+
+  /// Specifies the service or services on the Snow Family device that your
+  /// transferred data will be exported from or imported into. AWS Snow Family
+  /// supports Amazon S3 and NFS (Network File System).
+  final List<TargetOnDeviceService>? targetOnDeviceServices;
 
   S3Resource({
     this.bucketArn,
     this.keyRange,
+    this.targetOnDeviceServices,
   });
-  factory S3Resource.fromJson(Map<String, dynamic> json) =>
-      _$S3ResourceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$S3ResourceToJson(this);
+  factory S3Resource.fromJson(Map<String, dynamic> json) {
+    return S3Resource(
+      bucketArn: json['BucketArn'] as String?,
+      keyRange: json['KeyRange'] != null
+          ? KeyRange.fromJson(json['KeyRange'] as Map<String, dynamic>)
+          : null,
+      targetOnDeviceServices: (json['TargetOnDeviceServices'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetOnDeviceService.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketArn = this.bucketArn;
+    final keyRange = this.keyRange;
+    final targetOnDeviceServices = this.targetOnDeviceServices;
+    return {
+      if (bucketArn != null) 'BucketArn': bucketArn,
+      if (keyRange != null) 'KeyRange': keyRange,
+      if (targetOnDeviceServices != null)
+        'TargetOnDeviceServices': targetOnDeviceServices,
+    };
+  }
 }
 
 /// The <code>Status</code> and <code>TrackingNumber</code> information for an
 /// inbound or outbound shipment.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Shipment {
   /// Status information for a shipment.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The tracking number for this job. Using this tracking number with your
   /// region's carrier's website, you can track a Snow device as the carrier
@@ -2889,21 +3899,32 @@ class Shipment {
   ///
   /// For India, the carrier is Amazon Logistics. For all other regions, UPS is
   /// the carrier.
-  @_s.JsonKey(name: 'TrackingNumber')
-  final String trackingNumber;
+  final String? trackingNumber;
 
   Shipment({
     this.status,
     this.trackingNumber,
   });
-  factory Shipment.fromJson(Map<String, dynamic> json) =>
-      _$ShipmentFromJson(json);
+
+  factory Shipment.fromJson(Map<String, dynamic> json) {
+    return Shipment(
+      status: json['Status'] as String?,
+      trackingNumber: json['TrackingNumber'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final trackingNumber = this.trackingNumber;
+    return {
+      if (status != null) 'Status': status,
+      if (trackingNumber != null) 'TrackingNumber': trackingNumber,
+    };
+  }
 }
 
 enum ShipmentState {
-  @_s.JsonValue('RECEIVED')
   received,
-  @_s.JsonValue('RETURNED')
   returned,
 }
 
@@ -2915,28 +3936,32 @@ extension on ShipmentState {
       case ShipmentState.returned:
         return 'RETURNED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ShipmentState toShipmentState() {
+    switch (this) {
+      case 'RECEIVED':
+        return ShipmentState.received;
+      case 'RETURNED':
+        return ShipmentState.returned;
+    }
+    throw Exception('$this is not known in enum ShipmentState');
   }
 }
 
 /// A job's shipping information, including inbound and outbound tracking
 /// numbers and shipping speed options.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ShippingDetails {
   /// The <code>Status</code> and <code>TrackingNumber</code> values for a Snow
   /// device being returned to AWS for a particular job.
-  @_s.JsonKey(name: 'InboundShipment')
-  final Shipment inboundShipment;
+  final Shipment? inboundShipment;
 
   /// The <code>Status</code> and <code>TrackingNumber</code> values for a Snow
   /// device being delivered to the address that you specified for a particular
   /// job.
-  @_s.JsonKey(name: 'OutboundShipment')
-  final Shipment outboundShipment;
+  final Shipment? outboundShipment;
 
   /// The shipping speed for a particular job. This speed doesn't dictate how soon
   /// you'll get the Snow device from the job's creation date. This speed
@@ -2955,44 +3980,87 @@ class ShippingDetails {
   /// less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snow device are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the United States of America (US), you have access to one-day shipping
   /// and two-day shipping.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'ShippingOption')
-  final ShippingOption shippingOption;
+  final ShippingOption? shippingOption;
 
   ShippingDetails({
     this.inboundShipment,
     this.outboundShipment,
     this.shippingOption,
   });
-  factory ShippingDetails.fromJson(Map<String, dynamic> json) =>
-      _$ShippingDetailsFromJson(json);
+
+  factory ShippingDetails.fromJson(Map<String, dynamic> json) {
+    return ShippingDetails(
+      inboundShipment: json['InboundShipment'] != null
+          ? Shipment.fromJson(json['InboundShipment'] as Map<String, dynamic>)
+          : null,
+      outboundShipment: json['OutboundShipment'] != null
+          ? Shipment.fromJson(json['OutboundShipment'] as Map<String, dynamic>)
+          : null,
+      shippingOption: (json['ShippingOption'] as String?)?.toShippingOption(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inboundShipment = this.inboundShipment;
+    final outboundShipment = this.outboundShipment;
+    final shippingOption = this.shippingOption;
+    return {
+      if (inboundShipment != null) 'InboundShipment': inboundShipment,
+      if (outboundShipment != null) 'OutboundShipment': outboundShipment,
+      if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+    };
+  }
 }
 
 enum ShippingLabelStatus {
-  @_s.JsonValue('InProgress')
   inProgress,
-  @_s.JsonValue('TimedOut')
   timedOut,
-  @_s.JsonValue('Succeeded')
   succeeded,
-  @_s.JsonValue('Failed')
   failed,
 }
 
+extension on ShippingLabelStatus {
+  String toValue() {
+    switch (this) {
+      case ShippingLabelStatus.inProgress:
+        return 'InProgress';
+      case ShippingLabelStatus.timedOut:
+        return 'TimedOut';
+      case ShippingLabelStatus.succeeded:
+        return 'Succeeded';
+      case ShippingLabelStatus.failed:
+        return 'Failed';
+    }
+  }
+}
+
+extension on String {
+  ShippingLabelStatus toShippingLabelStatus() {
+    switch (this) {
+      case 'InProgress':
+        return ShippingLabelStatus.inProgress;
+      case 'TimedOut':
+        return ShippingLabelStatus.timedOut;
+      case 'Succeeded':
+        return ShippingLabelStatus.succeeded;
+      case 'Failed':
+        return ShippingLabelStatus.failed;
+    }
+    throw Exception('$this is not known in enum ShippingLabelStatus');
+  }
+}
+
 enum ShippingOption {
-  @_s.JsonValue('SECOND_DAY')
   secondDay,
-  @_s.JsonValue('NEXT_DAY')
   nextDay,
-  @_s.JsonValue('EXPRESS')
   express,
-  @_s.JsonValue('STANDARD')
   standard,
 }
 
@@ -3008,24 +4076,33 @@ extension on ShippingOption {
       case ShippingOption.standard:
         return 'STANDARD';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ShippingOption toShippingOption() {
+    switch (this) {
+      case 'SECOND_DAY':
+        return ShippingOption.secondDay;
+      case 'NEXT_DAY':
+        return ShippingOption.nextDay;
+      case 'EXPRESS':
+        return ShippingOption.express;
+      case 'STANDARD':
+        return ShippingOption.standard;
+    }
+    throw Exception('$this is not known in enum ShippingOption');
   }
 }
 
 enum SnowballCapacity {
-  @_s.JsonValue('T50')
   t50,
-  @_s.JsonValue('T80')
   t80,
-  @_s.JsonValue('T100')
   t100,
-  @_s.JsonValue('T42')
   t42,
-  @_s.JsonValue('T98')
   t98,
-  @_s.JsonValue('T8')
   t8,
-  @_s.JsonValue('NoPreference')
+  t14,
   noPreference,
 }
 
@@ -3044,26 +4121,46 @@ extension on SnowballCapacity {
         return 'T98';
       case SnowballCapacity.t8:
         return 'T8';
+      case SnowballCapacity.t14:
+        return 'T14';
       case SnowballCapacity.noPreference:
         return 'NoPreference';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SnowballCapacity toSnowballCapacity() {
+    switch (this) {
+      case 'T50':
+        return SnowballCapacity.t50;
+      case 'T80':
+        return SnowballCapacity.t80;
+      case 'T100':
+        return SnowballCapacity.t100;
+      case 'T42':
+        return SnowballCapacity.t42;
+      case 'T98':
+        return SnowballCapacity.t98;
+      case 'T8':
+        return SnowballCapacity.t8;
+      case 'T14':
+        return SnowballCapacity.t14;
+      case 'NoPreference':
+        return SnowballCapacity.noPreference;
+    }
+    throw Exception('$this is not known in enum SnowballCapacity');
   }
 }
 
 enum SnowballType {
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('EDGE')
   edge,
-  @_s.JsonValue('EDGE_C')
   edgeC,
-  @_s.JsonValue('EDGE_CG')
   edgeCg,
-  @_s.JsonValue('EDGE_S')
   edgeS,
-  @_s.JsonValue('SNC1_HDD')
   snc1Hdd,
+  snc1Ssd,
 }
 
 extension on SnowballType {
@@ -3081,105 +4178,247 @@ extension on SnowballType {
         return 'EDGE_S';
       case SnowballType.snc1Hdd:
         return 'SNC1_HDD';
+      case SnowballType.snc1Ssd:
+        return 'SNC1_SSD';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SnowballType toSnowballType() {
+    switch (this) {
+      case 'STANDARD':
+        return SnowballType.standard;
+      case 'EDGE':
+        return SnowballType.edge;
+      case 'EDGE_C':
+        return SnowballType.edgeC;
+      case 'EDGE_CG':
+        return SnowballType.edgeCg;
+      case 'EDGE_S':
+        return SnowballType.edgeS;
+      case 'SNC1_HDD':
+        return SnowballType.snc1Hdd;
+      case 'SNC1_SSD':
+        return SnowballType.snc1Ssd;
+    }
+    throw Exception('$this is not known in enum SnowballType');
   }
 }
 
 /// Specifies the device configuration for an AWS Snowcone job.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SnowconeDeviceConfiguration {
   /// Configures the wireless connection for the AWS Snowcone device.
-  @_s.JsonKey(name: 'WirelessConnection')
-  final WirelessConnection wirelessConnection;
+  final WirelessConnection? wirelessConnection;
 
   SnowconeDeviceConfiguration({
     this.wirelessConnection,
   });
-  factory SnowconeDeviceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$SnowconeDeviceConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SnowconeDeviceConfigurationToJson(this);
+  factory SnowconeDeviceConfiguration.fromJson(Map<String, dynamic> json) {
+    return SnowconeDeviceConfiguration(
+      wirelessConnection: json['WirelessConnection'] != null
+          ? WirelessConnection.fromJson(
+              json['WirelessConnection'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final wirelessConnection = this.wirelessConnection;
+    return {
+      if (wirelessConnection != null) 'WirelessConnection': wirelessConnection,
+    };
+  }
+}
+
+enum StorageUnit {
+  tb,
+}
+
+extension on StorageUnit {
+  String toValue() {
+    switch (this) {
+      case StorageUnit.tb:
+        return 'TB';
+    }
+  }
+}
+
+extension on String {
+  StorageUnit toStorageUnit() {
+    switch (this) {
+      case 'TB':
+        return StorageUnit.tb;
+    }
+    throw Exception('$this is not known in enum StorageUnit');
+  }
+}
+
+/// An object that represents the service or services on the Snow Family device
+/// that your transferred data will be exported from or imported into. AWS Snow
+/// Family supports Amazon S3 and NFS (Network File System).
+class TargetOnDeviceService {
+  /// Specifies the name of the service on the Snow Family device that your
+  /// transferred data will be exported from or imported into.
+  final DeviceServiceName? serviceName;
+
+  /// Specifies whether the data is being imported or exported. You can import or
+  /// export the data, or use it locally on the device.
+  final TransferOption? transferOption;
+
+  TargetOnDeviceService({
+    this.serviceName,
+    this.transferOption,
+  });
+
+  factory TargetOnDeviceService.fromJson(Map<String, dynamic> json) {
+    return TargetOnDeviceService(
+      serviceName: (json['ServiceName'] as String?)?.toDeviceServiceName(),
+      transferOption: (json['TransferOption'] as String?)?.toTransferOption(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serviceName = this.serviceName;
+    final transferOption = this.transferOption;
+    return {
+      if (serviceName != null) 'ServiceName': serviceName.toValue(),
+      if (transferOption != null) 'TransferOption': transferOption.toValue(),
+    };
+  }
 }
 
 /// The tax documents required in your AWS Region.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TaxDocuments {
-  @_s.JsonKey(name: 'IND')
-  final INDTaxDocuments ind;
+  final INDTaxDocuments? ind;
 
   TaxDocuments({
     this.ind,
   });
-  factory TaxDocuments.fromJson(Map<String, dynamic> json) =>
-      _$TaxDocumentsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TaxDocumentsToJson(this);
+  factory TaxDocuments.fromJson(Map<String, dynamic> json) {
+    return TaxDocuments(
+      ind: json['IND'] != null
+          ? INDTaxDocuments.fromJson(json['IND'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ind = this.ind;
+    return {
+      if (ind != null) 'IND': ind,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+enum TransferOption {
+  import,
+  export,
+  localUse,
+}
+
+extension on TransferOption {
+  String toValue() {
+    switch (this) {
+      case TransferOption.import:
+        return 'IMPORT';
+      case TransferOption.export:
+        return 'EXPORT';
+      case TransferOption.localUse:
+        return 'LOCAL_USE';
+    }
+  }
+}
+
+extension on String {
+  TransferOption toTransferOption() {
+    switch (this) {
+      case 'IMPORT':
+        return TransferOption.import;
+      case 'EXPORT':
+        return TransferOption.export;
+      case 'LOCAL_USE':
+        return TransferOption.localUse;
+    }
+    throw Exception('$this is not known in enum TransferOption');
+  }
+}
+
 class UpdateClusterResult {
   UpdateClusterResult();
-  factory UpdateClusterResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateClusterResultFromJson(json);
+
+  factory UpdateClusterResult.fromJson(Map<String, dynamic> _) {
+    return UpdateClusterResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateJobResult {
   UpdateJobResult();
-  factory UpdateJobResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateJobResultFromJson(json);
+
+  factory UpdateJobResult.fromJson(Map<String, dynamic> _) {
+    return UpdateJobResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateJobShipmentStateResult {
   UpdateJobShipmentStateResult();
-  factory UpdateJobShipmentStateResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateJobShipmentStateResultFromJson(json);
+
+  factory UpdateJobShipmentStateResult.fromJson(Map<String, dynamic> _) {
+    return UpdateJobShipmentStateResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
+class UpdateLongTermPricingResult {
+  UpdateLongTermPricingResult();
+
+  factory UpdateLongTermPricingResult.fromJson(Map<String, dynamic> _) {
+    return UpdateLongTermPricingResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Configures the wireless connection on an AWS Snowcone device.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WirelessConnection {
   /// Enables the Wi-Fi adapter on an AWS Snowcone device.
-  @_s.JsonKey(name: 'IsWifiEnabled')
-  final bool isWifiEnabled;
+  final bool? isWifiEnabled;
 
   WirelessConnection({
     this.isWifiEnabled,
   });
-  factory WirelessConnection.fromJson(Map<String, dynamic> json) =>
-      _$WirelessConnectionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WirelessConnectionToJson(this);
+  factory WirelessConnection.fromJson(Map<String, dynamic> json) {
+    return WirelessConnection(
+      isWifiEnabled: json['IsWifiEnabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isWifiEnabled = this.isWifiEnabled;
+    return {
+      if (isWifiEnabled != null) 'IsWifiEnabled': isWifiEnabled,
+    };
+  }
 }
 
 class ClusterLimitExceededException extends _s.GenericAwsException {
-  ClusterLimitExceededException({String type, String message})
+  ClusterLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterLimitExceededException',
@@ -3187,22 +4426,22 @@ class ClusterLimitExceededException extends _s.GenericAwsException {
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class Ec2RequestFailedException extends _s.GenericAwsException {
-  Ec2RequestFailedException({String type, String message})
+  Ec2RequestFailedException({String? type, String? message})
       : super(type: type, code: 'Ec2RequestFailedException', message: message);
 }
 
 class InvalidAddressException extends _s.GenericAwsException {
-  InvalidAddressException({String type, String message})
+  InvalidAddressException({String? type, String? message})
       : super(type: type, code: 'InvalidAddressException', message: message);
 }
 
 class InvalidInputCombinationException extends _s.GenericAwsException {
-  InvalidInputCombinationException({String type, String message})
+  InvalidInputCombinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidInputCombinationException',
@@ -3210,27 +4449,27 @@ class InvalidInputCombinationException extends _s.GenericAwsException {
 }
 
 class InvalidJobStateException extends _s.GenericAwsException {
-  InvalidJobStateException({String type, String message})
+  InvalidJobStateException({String? type, String? message})
       : super(type: type, code: 'InvalidJobStateException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidResourceException extends _s.GenericAwsException {
-  InvalidResourceException({String type, String message})
+  InvalidResourceException({String? type, String? message})
       : super(type: type, code: 'InvalidResourceException', message: message);
 }
 
 class KMSRequestFailedException extends _s.GenericAwsException {
-  KMSRequestFailedException({String type, String message})
+  KMSRequestFailedException({String? type, String? message})
       : super(type: type, code: 'KMSRequestFailedException', message: message);
 }
 
 class ReturnShippingLabelAlreadyExistsException extends _s.GenericAwsException {
-  ReturnShippingLabelAlreadyExistsException({String type, String message})
+  ReturnShippingLabelAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ReturnShippingLabelAlreadyExistsException',
@@ -3238,7 +4477,7 @@ class ReturnShippingLabelAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class UnsupportedAddressException extends _s.GenericAwsException {
-  UnsupportedAddressException({String type, String message})
+  UnsupportedAddressException({String? type, String? message})
       : super(
             type: type, code: 'UnsupportedAddressException', message: message);
 }

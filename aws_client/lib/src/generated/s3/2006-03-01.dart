@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
@@ -17,10 +23,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 class S3 {
   final _s.RestXmlProtocol _protocol;
   S3({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -31,7 +37,7 @@ class S3 {
           endpointUrl: endpointUrl,
         );
 
-  /// This operation aborts a multipart upload. After a multipart upload is
+  /// This action aborts a multipart upload. After a multipart upload is
   /// aborted, no additional parts can be uploaded using that upload ID. The
   /// storage consumed by any previously uploaded parts will be freed. However,
   /// if any part uploads are currently in progress, those part uploads might or
@@ -42,12 +48,12 @@ class S3 {
   /// To verify that all parts have been removed, so you don't get charged for
   /// the part storage, you should call the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html">ListParts</a>
-  /// operation and ensure that the parts list is empty.
+  /// action and ensure that the parts list is empty.
   ///
-  /// For information about permissions required to use the multipart upload
-  /// API, see <a
+  /// For information about permissions required to use the multipart upload,
+  /// see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
-  /// Upload API and Permissions</a>.
+  /// Upload and Permissions</a>.
   ///
   /// The following operations are related to <code>AbortMultipartUpload</code>:
   ///
@@ -79,25 +85,24 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name to which the upload was taking place.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Key of the object for which the multipart upload was initiated.
@@ -106,15 +111,15 @@ class S3 {
   /// Upload ID that identifies the multipart upload.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<AbortMultipartUploadOutput> abortMultipartUpload({
-    @_s.required String bucket,
-    @_s.required String key,
-    @_s.required String uploadId,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
+    required String bucket,
+    required String key,
+    required String uploadId,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -126,12 +131,13 @@ class S3 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
-      if (uploadId != null) 'uploadId': [uploadId],
+      'uploadId': [uploadId],
     };
     final $result = await _protocol.sendRaw(
       method: 'DELETE',
@@ -155,12 +161,12 @@ class S3 {
   /// the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
   /// operation. After successfully uploading all relevant parts of an upload,
-  /// you call this operation to complete the upload. Upon receiving this
-  /// request, Amazon S3 concatenates all the parts in ascending order by part
-  /// number to create a new object. In the Complete Multipart Upload request,
-  /// you must provide the parts list. You must ensure that the parts list is
-  /// complete. This operation concatenates the parts that you provide in the
-  /// list. For each part in the list, you must provide the part number and the
+  /// you call this action to complete the upload. Upon receiving this request,
+  /// Amazon S3 concatenates all the parts in ascending order by part number to
+  /// create a new object. In the Complete Multipart Upload request, you must
+  /// provide the parts list. You must ensure that the parts list is complete.
+  /// This action concatenates the parts that you provide in the list. For each
+  /// part in the list, you must provide the part number and the
   /// <code>ETag</code> value, returned after that part was uploaded.
   ///
   /// Processing of a Complete Multipart Upload request could take several
@@ -184,7 +190,7 @@ class S3 {
   /// For information about permissions required to use the multipart upload
   /// API, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
-  /// Upload API and Permissions</a>.
+  /// Upload and Permissions</a>.
   ///
   /// <code>CompleteMultipartUpload</code> has the following special errors:
   ///
@@ -277,19 +283,19 @@ class S3 {
   /// ID for the initiated multipart upload.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [multipartUpload] :
   /// The container for the multipart upload request information.
   Future<CompleteMultipartUploadOutput> completeMultipartUpload({
-    @_s.required String bucket,
-    @_s.required String key,
-    @_s.required String uploadId,
-    String expectedBucketOwner,
-    CompletedMultipartUpload multipartUpload,
-    RequestPayer requestPayer,
+    required String bucket,
+    required String key,
+    required String uploadId,
+    String? expectedBucketOwner,
+    CompletedMultipartUpload? multipartUpload,
+    RequestPayer? requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -301,12 +307,13 @@ class S3 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
-      if (uploadId != null) 'uploadId': [uploadId],
+      'uploadId': [uploadId],
     };
     final $result = await _protocol.sendRaw(
       method: 'POST',
@@ -344,7 +351,7 @@ class S3 {
   /// Creates a copy of an object that is already stored in Amazon S3.
   /// <note>
   /// You can store individual objects of up to 5 TB in Amazon S3. You create a
-  /// copy of your object up to 5 GB in size in a single atomic operation using
+  /// copy of your object up to 5 GB in size in a single atomic action using
   /// this API. However, to copy an object greater than 5 GB, you must use the
   /// multipart upload Upload Part - Copy API. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html">Copy
@@ -360,12 +367,11 @@ class S3 {
   ///
   /// A copy request might return an error when Amazon S3 receives the copy
   /// request or while Amazon S3 is copying the files. If the error occurs
-  /// before the copy operation starts, you receive a standard Amazon S3 error.
-  /// If the error occurs during the copy operation, the error response is
-  /// embedded in the <code>200 OK</code> response. This means that a <code>200
-  /// OK</code> response can contain either a success or an error. Design your
-  /// application to parse the contents of the response and handle it
-  /// appropriately.
+  /// before the copy action starts, you receive a standard Amazon S3 error. If
+  /// the error occurs during the copy operation, the error response is embedded
+  /// in the <code>200 OK</code> response. This means that a <code>200 OK</code>
+  /// response can contain either a success or an error. Design your application
+  /// to parse the contents of the response and handle it appropriately.
   ///
   /// If the copy is successful, you receive a response with information about
   /// the copied object.
@@ -376,7 +382,7 @@ class S3 {
   /// </note>
   /// The copy request charge is based on the storage class and Region that you
   /// specify for the destination object. For pricing information, see <a
-  /// href="https://aws.amazon.com/s3/pricing/">Amazon S3 pricing</a>.
+  /// href="http://aws.amazon.com/s3/pricing/">Amazon S3 pricing</a>.
   /// <important>
   /// Amazon S3 transfer acceleration does not support cross-Region copies. If
   /// you request a cross-Region copy using a transfer acceleration endpoint,
@@ -400,7 +406,7 @@ class S3 {
   /// <code>s3:x-amz-metadata-directive</code> condition key to enforce certain
   /// metadata behavior when objects are uploaded. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/amazon-s3-policy-keys.html">Specifying
-  /// Conditions in a Policy</a> in the <i>Amazon S3 Developer Guide</i>. For a
+  /// Conditions in a Policy</a> in the <i>Amazon S3 User Guide</i>. For a
   /// complete list of Amazon S3-specific condition keys, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html">Actions,
   /// Resources, and Condition Keys for Amazon S3</a>.
@@ -471,8 +477,7 @@ class S3 {
   /// If a target object uses SSE-KMS, you can enable an S3 Bucket Key for the
   /// object. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
-  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// S3 Bucket Keys</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// <b>Access Control List (ACL)-Specific Request Headers</b>
   ///
@@ -489,11 +494,11 @@ class S3 {
   ///
   /// <b>Storage Class Options</b>
   ///
-  /// You can use the <code>CopyObject</code> operation to change the storage
-  /// class of an object that is already stored in Amazon S3 using the
+  /// You can use the <code>CopyObject</code> action to change the storage class
+  /// of an object that is already stored in Amazon S3 using the
   /// <code>StorageClass</code> parameter. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
-  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
+  /// Classes</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// <b>Versioning</b>
   ///
@@ -537,31 +542,30 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the destination bucket.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [copySource] :
   /// Specifies the source object for the copy operation. You specify the value
   /// in one of two formats, depending on whether you want to access the source
   /// object through an <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">access
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">access
   /// point</a>:
   ///
   /// <ul>
@@ -618,7 +622,7 @@ class S3 {
   /// this header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key
   /// for object encryption with SSE-KMS.
   ///
-  /// Specifying this header with a COPY operation doesn’t affect bucket-level
+  /// Specifying this header with a COPY action doesn’t affect bucket-level
   /// settings for S3 Bucket Key.
   ///
   /// Parameter [cacheControl] :
@@ -666,12 +670,12 @@ class S3 {
   /// that the encryption key was transmitted without error.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected destination bucket owner. If the
+  /// The account ID of the expected destination bucket owner. If the
   /// destination bucket is owned by a different account, the request will fail
   /// with an HTTP <code>403 (Access Denied)</code> error.
   ///
   /// Parameter [expectedSourceBucketOwner] :
-  /// The account id of the expected source bucket owner. If the source bucket
+  /// The account ID of the expected source bucket owner. If the source bucket
   /// is owned by a different account, the request will fail with an HTTP
   /// <code>403 (Access Denied)</code> error.
   ///
@@ -742,7 +746,7 @@ class S3 {
   /// officially supported AWS SDKs and AWS CLI, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
   /// the Signature Version in Request Authentication</a> in the <i>Amazon S3
-  /// Developer Guide</i>.
+  /// User Guide</i>.
   ///
   /// Parameter [serverSideEncryption] :
   /// The server-side encryption algorithm used when storing this object in
@@ -755,7 +759,7 @@ class S3 {
   /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
   /// Storage Class. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
-  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
+  /// Classes</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [tagging] :
   /// The tag-set for the object destination object this value must be used in
@@ -771,55 +775,49 @@ class S3 {
   /// object to another object in the same bucket or to an external URL. Amazon
   /// S3 stores the value of this header in the object metadata.
   Future<CopyObjectOutput> copyObject({
-    @_s.required String bucket,
-    @_s.required String copySource,
-    @_s.required String key,
-    ObjectCannedACL acl,
-    bool bucketKeyEnabled,
-    String cacheControl,
-    String contentDisposition,
-    String contentEncoding,
-    String contentLanguage,
-    String contentType,
-    String copySourceIfMatch,
-    DateTime copySourceIfModifiedSince,
-    String copySourceIfNoneMatch,
-    DateTime copySourceIfUnmodifiedSince,
-    String copySourceSSECustomerAlgorithm,
-    Uint8List copySourceSSECustomerKey,
-    String copySourceSSECustomerKeyMD5,
-    String expectedBucketOwner,
-    String expectedSourceBucketOwner,
-    DateTime expires,
-    String grantFullControl,
-    String grantRead,
-    String grantReadACP,
-    String grantWriteACP,
-    Map<String, String> metadata,
-    MetadataDirective metadataDirective,
-    ObjectLockLegalHoldStatus objectLockLegalHoldStatus,
-    ObjectLockMode objectLockMode,
-    DateTime objectLockRetainUntilDate,
-    RequestPayer requestPayer,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
-    String sSEKMSEncryptionContext,
-    String sSEKMSKeyId,
-    ServerSideEncryption serverSideEncryption,
-    StorageClass storageClass,
-    String tagging,
-    TaggingDirective taggingDirective,
-    String websiteRedirectLocation,
+    required String bucket,
+    required String copySource,
+    required String key,
+    ObjectCannedACL? acl,
+    bool? bucketKeyEnabled,
+    String? cacheControl,
+    String? contentDisposition,
+    String? contentEncoding,
+    String? contentLanguage,
+    String? contentType,
+    String? copySourceIfMatch,
+    DateTime? copySourceIfModifiedSince,
+    String? copySourceIfNoneMatch,
+    DateTime? copySourceIfUnmodifiedSince,
+    String? copySourceSSECustomerAlgorithm,
+    Uint8List? copySourceSSECustomerKey,
+    String? copySourceSSECustomerKeyMD5,
+    String? expectedBucketOwner,
+    String? expectedSourceBucketOwner,
+    DateTime? expires,
+    String? grantFullControl,
+    String? grantRead,
+    String? grantReadACP,
+    String? grantWriteACP,
+    Map<String, String>? metadata,
+    MetadataDirective? metadataDirective,
+    ObjectLockLegalHoldStatus? objectLockLegalHoldStatus,
+    ObjectLockMode? objectLockMode,
+    DateTime? objectLockRetainUntilDate,
+    RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
+    String? sSEKMSEncryptionContext,
+    String? sSEKMSKeyId,
+    ServerSideEncryption? serverSideEncryption,
+    StorageClass? storageClass,
+    String? tagging,
+    TaggingDirective? taggingDirective,
+    String? websiteRedirectLocation,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(copySource, 'copySource');
-    _s.validateStringPattern(
-      'copySource',
-      copySource,
-      r'''\/.+\/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
       'key',
@@ -828,74 +826,85 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    copySource?.let((v) => headers['x-amz-copy-source'] = v.toString());
-    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
-    bucketKeyEnabled?.let((v) =>
-        headers['x-amz-server-side-encryption-bucket-key-enabled'] =
-            v.toString());
-    cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
-    contentDisposition
-        ?.let((v) => headers['Content-Disposition'] = v.toString());
-    contentEncoding?.let((v) => headers['Content-Encoding'] = v.toString());
-    contentLanguage?.let((v) => headers['Content-Language'] = v.toString());
-    contentType?.let((v) => headers['Content-Type'] = v.toString());
-    copySourceIfMatch
-        ?.let((v) => headers['x-amz-copy-source-if-match'] = v.toString());
-    copySourceIfModifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-modified-since'] = _s.rfc822ToJson(v));
-    copySourceIfNoneMatch
-        ?.let((v) => headers['x-amz-copy-source-if-none-match'] = v.toString());
-    copySourceIfUnmodifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-unmodified-since'] = _s.rfc822ToJson(v));
-    copySourceSSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-copy-source-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    copySourceSSECustomerKey?.let((v) =>
-        headers['x-amz-copy-source-server-side-encryption-customer-key'] =
-            v.toString());
-    copySourceSSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-copy-source-server-side-encryption-customer-key-MD5'] =
-            v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    expectedSourceBucketOwner?.let(
-        (v) => headers['x-amz-source-expected-bucket-owner'] = v.toString());
-    expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
-    grantFullControl
-        ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
-    grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
-    grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
-    grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
-    metadata?.forEach((key, value) => headers['x-amz-meta-$key'] = value);
-    metadataDirective
-        ?.let((v) => headers['x-amz-metadata-directive'] = v.toValue());
-    objectLockLegalHoldStatus
-        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
-    objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
-    objectLockRetainUntilDate?.let((v) =>
-        headers['x-amz-object-lock-retain-until-date'] = _s.iso8601ToJson(v));
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
-    sSEKMSEncryptionContext?.let(
-        (v) => headers['x-amz-server-side-encryption-context'] = v.toString());
-    sSEKMSKeyId?.let((v) =>
-        headers['x-amz-server-side-encryption-aws-kms-key-id'] = v.toString());
-    serverSideEncryption
-        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toValue());
-    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toValue());
-    tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
-    taggingDirective
-        ?.let((v) => headers['x-amz-tagging-directive'] = v.toValue());
-    websiteRedirectLocation
-        ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
+    final headers = <String, String>{
+      'x-amz-copy-source': copySource.toString(),
+      if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (bucketKeyEnabled != null)
+        'x-amz-server-side-encryption-bucket-key-enabled':
+            bucketKeyEnabled.toString(),
+      if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
+      if (contentDisposition != null)
+        'Content-Disposition': contentDisposition.toString(),
+      if (contentEncoding != null)
+        'Content-Encoding': contentEncoding.toString(),
+      if (contentLanguage != null)
+        'Content-Language': contentLanguage.toString(),
+      if (contentType != null) 'Content-Type': contentType.toString(),
+      if (copySourceIfMatch != null)
+        'x-amz-copy-source-if-match': copySourceIfMatch.toString(),
+      if (copySourceIfModifiedSince != null)
+        'x-amz-copy-source-if-modified-since':
+            _s.rfc822ToJson(copySourceIfModifiedSince),
+      if (copySourceIfNoneMatch != null)
+        'x-amz-copy-source-if-none-match': copySourceIfNoneMatch.toString(),
+      if (copySourceIfUnmodifiedSince != null)
+        'x-amz-copy-source-if-unmodified-since':
+            _s.rfc822ToJson(copySourceIfUnmodifiedSince),
+      if (copySourceSSECustomerAlgorithm != null)
+        'x-amz-copy-source-server-side-encryption-customer-algorithm':
+            copySourceSSECustomerAlgorithm.toString(),
+      if (copySourceSSECustomerKey != null)
+        'x-amz-copy-source-server-side-encryption-customer-key':
+            copySourceSSECustomerKey.toString(),
+      if (copySourceSSECustomerKeyMD5 != null)
+        'x-amz-copy-source-server-side-encryption-customer-key-MD5':
+            copySourceSSECustomerKeyMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (expectedSourceBucketOwner != null)
+        'x-amz-source-expected-bucket-owner':
+            expectedSourceBucketOwner.toString(),
+      if (expires != null) 'Expires': _s.rfc822ToJson(expires),
+      if (grantFullControl != null)
+        'x-amz-grant-full-control': grantFullControl.toString(),
+      if (grantRead != null) 'x-amz-grant-read': grantRead.toString(),
+      if (grantReadACP != null) 'x-amz-grant-read-acp': grantReadACP.toString(),
+      if (grantWriteACP != null)
+        'x-amz-grant-write-acp': grantWriteACP.toString(),
+      if (metadata != null)
+        ...metadata.map((key, value) => MapEntry('x-amz-meta-$key', value)),
+      if (metadataDirective != null)
+        'x-amz-metadata-directive': metadataDirective.toValue(),
+      if (objectLockLegalHoldStatus != null)
+        'x-amz-object-lock-legal-hold': objectLockLegalHoldStatus.toValue(),
+      if (objectLockMode != null)
+        'x-amz-object-lock-mode': objectLockMode.toValue(),
+      if (objectLockRetainUntilDate != null)
+        'x-amz-object-lock-retain-until-date':
+            _s.iso8601ToJson(objectLockRetainUntilDate),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+      if (sSEKMSEncryptionContext != null)
+        'x-amz-server-side-encryption-context':
+            sSEKMSEncryptionContext.toString(),
+      if (sSEKMSKeyId != null)
+        'x-amz-server-side-encryption-aws-kms-key-id': sSEKMSKeyId.toString(),
+      if (serverSideEncryption != null)
+        'x-amz-server-side-encryption': serverSideEncryption.toValue(),
+      if (storageClass != null) 'x-amz-storage-class': storageClass.toValue(),
+      if (tagging != null) 'x-amz-tagging': tagging.toString(),
+      if (taggingDirective != null)
+        'x-amz-tagging-directive': taggingDirective.toValue(),
+      if (websiteRedirectLocation != null)
+        'x-amz-website-redirect-location': websiteRedirectLocation.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
@@ -939,8 +948,8 @@ class S3 {
   ///
   /// Not every string is an acceptable bucket name. For information about
   /// bucket naming restrictions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">Working
-  /// with Amazon S3 buckets</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html">Bucket
+  /// naming rules</a>.
   ///
   /// If you want to create an Amazon S3 on Outposts bucket, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html">Create
@@ -1085,7 +1094,10 @@ class S3 {
   /// Allows grantee to read the bucket ACL.
   ///
   /// Parameter [grantWrite] :
-  /// Allows grantee to create, overwrite, and delete any object in the bucket.
+  /// Allows grantee to create new objects in the bucket.
+  ///
+  /// For the bucket and object owners of existing objects, also allows
+  /// deletions and overwrites of those objects.
   ///
   /// Parameter [grantWriteACP] :
   /// Allows grantee to write the ACL for the applicable bucket.
@@ -1094,27 +1106,30 @@ class S3 {
   /// Specifies whether you want S3 Object Lock to be enabled for the new
   /// bucket.
   Future<CreateBucketOutput> createBucket({
-    @_s.required String bucket,
-    BucketCannedACL acl,
-    CreateBucketConfiguration createBucketConfiguration,
-    String grantFullControl,
-    String grantRead,
-    String grantReadACP,
-    String grantWrite,
-    String grantWriteACP,
-    bool objectLockEnabledForBucket,
+    required String bucket,
+    BucketCannedACL? acl,
+    CreateBucketConfiguration? createBucketConfiguration,
+    String? grantFullControl,
+    String? grantRead,
+    String? grantReadACP,
+    String? grantWrite,
+    String? grantWriteACP,
+    bool? objectLockEnabledForBucket,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
-    grantFullControl
-        ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
-    grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
-    grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
-    grantWrite?.let((v) => headers['x-amz-grant-write'] = v.toString());
-    grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
-    objectLockEnabledForBucket?.let(
-        (v) => headers['x-amz-bucket-object-lock-enabled'] = v.toString());
+    final headers = <String, String>{
+      if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (grantFullControl != null)
+        'x-amz-grant-full-control': grantFullControl.toString(),
+      if (grantRead != null) 'x-amz-grant-read': grantRead.toString(),
+      if (grantReadACP != null) 'x-amz-grant-read-acp': grantReadACP.toString(),
+      if (grantWrite != null) 'x-amz-grant-write': grantWrite.toString(),
+      if (grantWriteACP != null)
+        'x-amz-grant-write-acp': grantWriteACP.toString(),
+      if (objectLockEnabledForBucket != null)
+        'x-amz-bucket-object-lock-enabled':
+            objectLockEnabledForBucket.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}',
@@ -1128,7 +1143,7 @@ class S3 {
     );
   }
 
-  /// This operation initiates a multipart upload and returns an upload ID. This
+  /// This action initiates a multipart upload and returns an upload ID. This
   /// upload ID is used to associate all of the parts in the specific multipart
   /// upload. You specify this upload ID in each of your subsequent upload part
   /// requests (see <a
@@ -1143,7 +1158,7 @@ class S3 {
   /// If you have configured a lifecycle rule to abort incomplete multipart
   /// uploads, the upload must complete within the number of days specified in
   /// the bucket lifecycle configuration. Otherwise, the incomplete multipart
-  /// upload becomes eligible for an abort operation and Amazon S3 aborts the
+  /// upload becomes eligible for an abort action and Amazon S3 aborts the
   /// multipart upload. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">Aborting
   /// Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a>.
@@ -1151,7 +1166,7 @@ class S3 {
   /// For information about the permissions required to use the multipart upload
   /// API, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
-  /// Upload API and Permissions</a>.
+  /// Upload and Permissions</a>.
   ///
   /// For request signing, multipart upload is just a series of regular
   /// requests. You initiate a multipart upload, send one or more requests to
@@ -1173,18 +1188,20 @@ class S3 {
   /// encryption key, or use AWS Key Management Service (AWS KMS) customer
   /// master keys (CMKs) or Amazon S3-managed encryption keys. If you choose to
   /// provide your own encryption key, the request headers you provide in <a
-  /// href="AmazonS3/latest/API/API_UploadPart.html">UploadPart</a> and <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
+  /// and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html">UploadPartCopy</a>
   /// requests must match the headers you used in the request to initiate the
   /// upload by using <code>CreateMultipartUpload</code>.
   ///
   /// To perform a multipart upload with encryption using an AWS KMS CMK, the
-  /// requester must have permission to the <code>kms:Encrypt</code>,
-  /// <code>kms:Decrypt</code>, <code>kms:ReEncrypt*</code>,
-  /// <code>kms:GenerateDataKey*</code>, and <code>kms:DescribeKey</code>
-  /// actions on the key. These permissions are required because Amazon S3 must
-  /// decrypt and read data from the encrypted file parts before it completes
-  /// the multipart upload.
+  /// requester must have permission to the <code>kms:Decrypt</code> and
+  /// <code>kms:GenerateDataKey*</code> actions on the key. These permissions
+  /// are required because Amazon S3 must decrypt and read data from the
+  /// encrypted file parts before it completes the multipart upload. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html#mpuAndPermissions">Multipart
+  /// upload API and permissions</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// If your AWS Identity and Access Management (IAM) user or role is in the
   /// same AWS account as the AWS KMS CMK, then you must have these permissions
@@ -1410,25 +1427,24 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket to which to initiate the upload
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload is to be initiated.
@@ -1444,8 +1460,8 @@ class S3 {
   /// this header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key
   /// for object encryption with SSE-KMS.
   ///
-  /// Specifying this header with an object operation doesn’t affect
-  /// bucket-level settings for S3 Bucket Key.
+  /// Specifying this header with an object action doesn’t affect bucket-level
+  /// settings for S3 Bucket Key.
   ///
   /// Parameter [cacheControl] :
   /// Specifies caching behavior along the request/reply chain.
@@ -1465,7 +1481,7 @@ class S3 {
   /// A standard MIME type describing the format of the object data.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -1532,9 +1548,9 @@ class S3 {
   /// KMS will fail if not made via SSL or using SigV4. For information about
   /// configuring using any of the officially supported AWS SDKs and AWS CLI,
   /// see <a
-  /// href="https://docs.aws.amazon.com/http:/docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#specify-signature-version">Specifying
   /// the Signature Version in Request Authentication</a> in the <i>Amazon S3
-  /// Developer Guide</i>.
+  /// User Guide</i>.
   ///
   /// Parameter [serverSideEncryption] :
   /// The server-side encryption algorithm used when storing this object in
@@ -1547,7 +1563,7 @@ class S3 {
   /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
   /// Storage Class. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
-  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
+  /// Classes</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [tagging] :
   /// The tag-set for the object. The tag-set must be encoded as URL Query
@@ -1558,35 +1574,35 @@ class S3 {
   /// object to another object in the same bucket or to an external URL. Amazon
   /// S3 stores the value of this header in the object metadata.
   Future<CreateMultipartUploadOutput> createMultipartUpload({
-    @_s.required String bucket,
-    @_s.required String key,
-    ObjectCannedACL acl,
-    bool bucketKeyEnabled,
-    String cacheControl,
-    String contentDisposition,
-    String contentEncoding,
-    String contentLanguage,
-    String contentType,
-    String expectedBucketOwner,
-    DateTime expires,
-    String grantFullControl,
-    String grantRead,
-    String grantReadACP,
-    String grantWriteACP,
-    Map<String, String> metadata,
-    ObjectLockLegalHoldStatus objectLockLegalHoldStatus,
-    ObjectLockMode objectLockMode,
-    DateTime objectLockRetainUntilDate,
-    RequestPayer requestPayer,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
-    String sSEKMSEncryptionContext,
-    String sSEKMSKeyId,
-    ServerSideEncryption serverSideEncryption,
-    StorageClass storageClass,
-    String tagging,
-    String websiteRedirectLocation,
+    required String bucket,
+    required String key,
+    ObjectCannedACL? acl,
+    bool? bucketKeyEnabled,
+    String? cacheControl,
+    String? contentDisposition,
+    String? contentEncoding,
+    String? contentLanguage,
+    String? contentType,
+    String? expectedBucketOwner,
+    DateTime? expires,
+    String? grantFullControl,
+    String? grantRead,
+    String? grantReadACP,
+    String? grantWriteACP,
+    Map<String, String>? metadata,
+    ObjectLockLegalHoldStatus? objectLockLegalHoldStatus,
+    ObjectLockMode? objectLockMode,
+    DateTime? objectLockRetainUntilDate,
+    RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
+    String? sSEKMSEncryptionContext,
+    String? sSEKMSKeyId,
+    ServerSideEncryption? serverSideEncryption,
+    StorageClass? storageClass,
+    String? tagging,
+    String? websiteRedirectLocation,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -1597,50 +1613,58 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
-    bucketKeyEnabled?.let((v) =>
-        headers['x-amz-server-side-encryption-bucket-key-enabled'] =
-            v.toString());
-    cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
-    contentDisposition
-        ?.let((v) => headers['Content-Disposition'] = v.toString());
-    contentEncoding?.let((v) => headers['Content-Encoding'] = v.toString());
-    contentLanguage?.let((v) => headers['Content-Language'] = v.toString());
-    contentType?.let((v) => headers['Content-Type'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
-    grantFullControl
-        ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
-    grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
-    grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
-    grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
-    metadata?.forEach((key, value) => headers['x-amz-meta-$key'] = value);
-    objectLockLegalHoldStatus
-        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
-    objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
-    objectLockRetainUntilDate?.let((v) =>
-        headers['x-amz-object-lock-retain-until-date'] = _s.iso8601ToJson(v));
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
-    sSEKMSEncryptionContext?.let(
-        (v) => headers['x-amz-server-side-encryption-context'] = v.toString());
-    sSEKMSKeyId?.let((v) =>
-        headers['x-amz-server-side-encryption-aws-kms-key-id'] = v.toString());
-    serverSideEncryption
-        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toValue());
-    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toValue());
-    tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
-    websiteRedirectLocation
-        ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
+    final headers = <String, String>{
+      if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (bucketKeyEnabled != null)
+        'x-amz-server-side-encryption-bucket-key-enabled':
+            bucketKeyEnabled.toString(),
+      if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
+      if (contentDisposition != null)
+        'Content-Disposition': contentDisposition.toString(),
+      if (contentEncoding != null)
+        'Content-Encoding': contentEncoding.toString(),
+      if (contentLanguage != null)
+        'Content-Language': contentLanguage.toString(),
+      if (contentType != null) 'Content-Type': contentType.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (expires != null) 'Expires': _s.rfc822ToJson(expires),
+      if (grantFullControl != null)
+        'x-amz-grant-full-control': grantFullControl.toString(),
+      if (grantRead != null) 'x-amz-grant-read': grantRead.toString(),
+      if (grantReadACP != null) 'x-amz-grant-read-acp': grantReadACP.toString(),
+      if (grantWriteACP != null)
+        'x-amz-grant-write-acp': grantWriteACP.toString(),
+      if (metadata != null)
+        ...metadata.map((key, value) => MapEntry('x-amz-meta-$key', value)),
+      if (objectLockLegalHoldStatus != null)
+        'x-amz-object-lock-legal-hold': objectLockLegalHoldStatus.toValue(),
+      if (objectLockMode != null)
+        'x-amz-object-lock-mode': objectLockMode.toValue(),
+      if (objectLockRetainUntilDate != null)
+        'x-amz-object-lock-retain-until-date':
+            _s.iso8601ToJson(objectLockRetainUntilDate),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+      if (sSEKMSEncryptionContext != null)
+        'x-amz-server-side-encryption-context':
+            sSEKMSEncryptionContext.toString(),
+      if (sSEKMSKeyId != null)
+        'x-amz-server-side-encryption-aws-kms-key-id': sSEKMSKeyId.toString(),
+      if (serverSideEncryption != null)
+        'x-amz-server-side-encryption': serverSideEncryption.toValue(),
+      if (storageClass != null) 'x-amz-storage-class': storageClass.toValue(),
+      if (tagging != null) 'x-amz-tagging': tagging.toString(),
+      if (websiteRedirectLocation != null)
+        'x-amz-website-redirect-location': websiteRedirectLocation.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
@@ -1697,17 +1721,18 @@ class S3 {
   /// Specifies the bucket being deleted.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucket({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}',
@@ -1723,9 +1748,9 @@ class S3 {
   /// <code>s3:PutAnalyticsConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about the Amazon S3 analytics feature, see <a
@@ -1757,21 +1782,22 @@ class S3 {
   /// The ID that identifies the analytics configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketAnalyticsConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'DELETE',
@@ -1791,8 +1817,7 @@ class S3 {
   ///
   /// For information about <code>cors</code>, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
-  /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Cross-Origin Resource Sharing</a> in the <i>Amazon S3 User Guide</i>.
   /// <p class="title"> <b>Related Resources:</b>
   ///
   /// <ul>
@@ -1811,17 +1836,18 @@ class S3 {
   /// deleted.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketCors({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?cors',
@@ -1830,22 +1856,21 @@ class S3 {
     );
   }
 
-  /// This implementation of the DELETE operation removes default encryption
-  /// from the bucket. For information about the Amazon S3 default encryption
+  /// This implementation of the DELETE action removes default encryption from
+  /// the bucket. For information about the Amazon S3 default encryption
   /// feature, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
-  /// S3 Default Bucket Encryption</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// S3 Default Bucket Encryption</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// To use this operation, you must have permissions to perform the
   /// <code>s3:PutEncryptionConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon S3
+  /// User Guide</i>.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
@@ -1864,17 +1889,18 @@ class S3 {
   /// to delete.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketEncryption({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
@@ -1929,13 +1955,13 @@ class S3 {
   /// Parameter [id] :
   /// The ID used to identify the S3 Intelligent-Tiering configuration.
   Future<void> deleteBucketIntelligentTieringConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
+    required String bucket,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'DELETE',
@@ -1952,9 +1978,9 @@ class S3 {
   /// <code>s3:PutInventoryConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about the Amazon S3 inventory feature, see <a
@@ -1986,21 +2012,22 @@ class S3 {
   /// The ID used to identify the inventory configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketInventoryConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'DELETE',
@@ -2046,17 +2073,18 @@ class S3 {
   /// The bucket name of the lifecycle to delete.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketLifecycle({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
@@ -2073,9 +2101,9 @@ class S3 {
   /// <code>s3:PutMetricsConfiguration</code> action. The bucket owner has this
   /// permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about CloudWatch request metrics for Amazon S3, see <a
@@ -2112,21 +2140,22 @@ class S3 {
   /// The ID used to identify the metrics configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketMetricsConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'DELETE',
@@ -2165,17 +2194,18 @@ class S3 {
   /// delete.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketOwnershipControls({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
@@ -2184,7 +2214,7 @@ class S3 {
     );
   }
 
-  /// This implementation of the DELETE operation uses the policy subresource to
+  /// This implementation of the DELETE action uses the policy subresource to
   /// delete the policy of a specified bucket. If you are using an identity
   /// other than the root user of the AWS account that owns the bucket, the
   /// calling identity must have the <code>DeleteBucketPolicy</code> permissions
@@ -2201,8 +2231,8 @@ class S3 {
   /// bucket can always use this operation, even if the policy explicitly denies
   /// the root user the ability to perform this action.
   /// </important>
-  /// For more information about bucket policies, see <a href="
-  /// https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
+  /// For more information about bucket policies, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
   /// Bucket Policies and UserPolicies</a>.
   ///
   /// The following operations are related to <code>DeleteBucketPolicy</code>
@@ -2222,17 +2252,18 @@ class S3 {
   /// The bucket name.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketPolicy({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?policy',
@@ -2247,17 +2278,17 @@ class S3 {
   /// <code>s3:PutReplicationConfiguration</code> action. The bucket owner has
   /// these permissions by default and can grant it to others. For more
   /// information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   /// <note>
   /// It can take a while for the deletion of a replication configuration to
   /// fully propagate.
   /// </note>
-  /// For information about replication configuration, see <a href="
-  /// https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
-  /// in the <i>Amazon S3 Developer Guide</i>.
+  /// For information about replication configuration, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
+  /// in the <i>Amazon S3 User Guide</i>.
   ///
   /// The following operations are related to
   /// <code>DeleteBucketReplication</code>:
@@ -2277,17 +2308,18 @@ class S3 {
   /// The bucket name.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketReplication({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?replication',
@@ -2319,17 +2351,18 @@ class S3 {
   /// The bucket that has the tag set to be removed.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketTagging({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
@@ -2338,14 +2371,14 @@ class S3 {
     );
   }
 
-  /// This operation removes the website configuration for a bucket. Amazon S3
+  /// This action removes the website configuration for a bucket. Amazon S3
   /// returns a <code>200 OK</code> response upon successfully deleting a
   /// website configuration on the specified bucket. You will get a <code>200
   /// OK</code> response if the website configuration you are trying to delete
   /// does not exist on the bucket. Amazon S3 returns a <code>404</code>
   /// response if the bucket specified in the request does not exist.
   ///
-  /// This DELETE operation requires the <code>S3:DeleteBucketWebsite</code>
+  /// This DELETE action requires the <code>S3:DeleteBucketWebsite</code>
   /// permission. By default, only the bucket owner can delete the website
   /// configuration attached to a bucket. However, bucket owners can grant other
   /// users permission to delete the website configuration by writing a bucket
@@ -2372,17 +2405,18 @@ class S3 {
   /// The bucket name for which you want to remove the website configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deleteBucketWebsite({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?website',
@@ -2393,7 +2427,8 @@ class S3 {
 
   /// Removes the null version (if there is one) of an object and inserts a
   /// delete marker, which becomes the latest version of the object. If there
-  /// isn't a null version, Amazon S3 does not remove any objects.
+  /// isn't a null version, Amazon S3 does not remove any objects but will still
+  /// respond that the command was successful.
   ///
   /// To remove a specific version, you must be the bucket owner and you must
   /// use the version Id subresource. Using this subresource permanently deletes
@@ -2411,8 +2446,8 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete">Sample
   /// Request</a>.
   ///
-  /// You can delete objects by explicitly calling the DELETE Object API or
-  /// configure its lifecycle (<a
+  /// You can delete objects by explicitly calling DELETE Object or configure
+  /// its lifecycle (<a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html">PutBucketLifecycle</a>)
   /// to enable Amazon S3 to remove them for you. If you want to block users or
   /// accounts from removing or deleting objects from your bucket, you must deny
@@ -2420,7 +2455,7 @@ class S3 {
   /// <code>s3:DeleteObjectVersion</code>, and
   /// <code>s3:PutLifeCycleConfiguration</code> actions.
   ///
-  /// The following operation is related to <code>DeleteObject</code>:
+  /// The following action is related to <code>DeleteObject</code>:
   ///
   /// <ul>
   /// <li>
@@ -2432,25 +2467,24 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name of the bucket containing the object.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Key name of the object to delete.
@@ -2460,7 +2494,7 @@ class S3 {
   /// restrictions to process this operation.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -2473,13 +2507,13 @@ class S3 {
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<DeleteObjectOutput> deleteObject({
-    @_s.required String bucket,
-    @_s.required String key,
-    bool bypassGovernanceRetention,
-    String expectedBucketOwner,
-    String mfa,
-    RequestPayer requestPayer,
-    String versionId,
+    required String bucket,
+    required String key,
+    bool? bypassGovernanceRetention,
+    String? expectedBucketOwner,
+    String? mfa,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -2490,13 +2524,15 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    bypassGovernanceRetention?.let(
-        (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (bypassGovernanceRetention != null)
+        'x-amz-bypass-governance-retention':
+            bypassGovernanceRetention.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (mfa != null) 'x-amz-mfa': mfa.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -2549,41 +2585,41 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name containing the objects from which to remove the tags.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
-  /// Name of the object key.
+  /// The key that identifies the object in the bucket from which to remove all
+  /// tags.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// The versionId of the object that the tag-set will be removed from.
   Future<DeleteObjectTaggingOutput> deleteObjectTagging({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -2594,9 +2630,10 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -2615,29 +2652,29 @@ class S3 {
     );
   }
 
-  /// This operation enables you to delete multiple objects from a bucket using
-  /// a single HTTP request. If you know the object keys that you want to
-  /// delete, then this operation provides a suitable alternative to sending
-  /// individual delete requests, reducing per-request overhead.
+  /// This action enables you to delete multiple objects from a bucket using a
+  /// single HTTP request. If you know the object keys that you want to delete,
+  /// then this action provides a suitable alternative to sending individual
+  /// delete requests, reducing per-request overhead.
   ///
   /// The request contains a list of up to 1000 keys that you want to delete. In
   /// the XML, you provide the object key names, and optionally, version IDs if
   /// you want to delete a specific version of the object from a
   /// versioning-enabled bucket. For each key, Amazon S3 performs a delete
-  /// operation and returns the result of that delete, success, or failure, in
-  /// the response. Note that if the object specified in the request is not
-  /// found, Amazon S3 returns the result as deleted.
+  /// action and returns the result of that delete, success, or failure, in the
+  /// response. Note that if the object specified in the request is not found,
+  /// Amazon S3 returns the result as deleted.
   ///
-  /// The operation supports two modes for the response: verbose and quiet. By
-  /// default, the operation uses verbose mode in which the response includes
-  /// the result of deletion of each key in your request. In quiet mode the
-  /// response includes only keys where the delete operation encountered an
-  /// error. For a successful deletion, the operation does not return any
-  /// information about the delete in the response body.
+  /// The action supports two modes for the response: verbose and quiet. By
+  /// default, the action uses verbose mode in which the response includes the
+  /// result of deletion of each key in your request. In quiet mode the response
+  /// includes only keys where the delete action encountered an error. For a
+  /// successful deletion, the action does not return any information about the
+  /// delete in the response body.
   ///
-  /// When performing this operation on an MFA Delete enabled bucket, that
-  /// attempts to delete any versioned objects, you must include an MFA token.
-  /// If you do not provide one, the entire request will fail, even if there are
+  /// When performing this action on an MFA Delete enabled bucket, that attempts
+  /// to delete any versioned objects, you must include an MFA token. If you do
+  /// not provide one, the entire request will fail, even if there are
   /// non-versioned objects you are trying to delete. If you provide an invalid
   /// token, whether there are versioned keys in the request or not, the entire
   /// Multi-Object Delete request will fail. For information about MFA Delete,
@@ -2677,25 +2714,24 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name containing the objects to delete.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [delete] :
   /// Container for the request.
@@ -2706,7 +2742,7 @@ class S3 {
   /// to perform this operation.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -2716,22 +2752,24 @@ class S3 {
   /// permanently delete a versioned object if versioning is configured with MFA
   /// delete enabled.
   Future<DeleteObjectsOutput> deleteObjects({
-    @_s.required String bucket,
-    @_s.required Delete delete,
-    bool bypassGovernanceRetention,
-    String expectedBucketOwner,
-    String mfa,
-    RequestPayer requestPayer,
+    required String bucket,
+    required Delete delete,
+    bool? bypassGovernanceRetention,
+    String? expectedBucketOwner,
+    String? mfa,
+    RequestPayer? requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(delete, 'delete');
-    final headers = <String, String>{};
-    bypassGovernanceRetention?.let(
-        (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (bypassGovernanceRetention != null)
+        'x-amz-bypass-governance-retention':
+            bypassGovernanceRetention.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (mfa != null) 'x-amz-mfa': mfa.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/${Uri.encodeComponent(bucket)}?delete',
@@ -2756,9 +2794,9 @@ class S3 {
   /// bucket. To use this operation, you must have the
   /// <code>s3:PutBucketPublicAccessBlock</code> permission. For more
   /// information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// The following operations are related to
@@ -2789,17 +2827,18 @@ class S3 {
   /// you want to delete.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> deletePublicAccessBlock({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'DELETE',
       requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
@@ -2808,7 +2847,7 @@ class S3 {
     );
   }
 
-  /// This implementation of the GET operation uses the <code>accelerate</code>
+  /// This implementation of the GET action uses the <code>accelerate</code>
   /// subresource to return the Transfer Acceleration state of a bucket, which
   /// is either <code>Enabled</code> or <code>Suspended</code>. Amazon S3
   /// Transfer Acceleration is a bucket-level feature that enables you to
@@ -2818,11 +2857,11 @@ class S3 {
   /// <code>s3:GetAccelerateConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon S3
+  /// User Guide</i>.
   ///
   /// You set the Transfer Acceleration state of an existing bucket to
   /// <code>Enabled</code> or <code>Suspended</code> by using the <a
@@ -2835,7 +2874,7 @@ class S3 {
   ///
   /// For more information about transfer acceleration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Transfer
-  /// Acceleration</a> in the Amazon Simple Storage Service Developer Guide.
+  /// Acceleration</a> in the Amazon S3 User Guide.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
@@ -2850,18 +2889,19 @@ class S3 {
   /// retrieved.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketAccelerateConfigurationOutput>
       getBucketAccelerateConfiguration({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?accelerate',
@@ -2871,7 +2911,7 @@ class S3 {
     return GetBucketAccelerateConfigurationOutput.fromXml($result.body);
   }
 
-  /// This implementation of the <code>GET</code> operation uses the
+  /// This implementation of the <code>GET</code> action uses the
   /// <code>acl</code> subresource to return the access control list (ACL) of a
   /// bucket. To use <code>GET</code> to return the ACL of the bucket, you must
   /// have <code>READ_ACP</code> access to the bucket. If <code>READ_ACP</code>
@@ -2890,17 +2930,18 @@ class S3 {
   /// Specifies the S3 bucket whose ACL is being requested.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketAclOutput> getBucketAcl({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?acl',
@@ -2910,24 +2951,23 @@ class S3 {
     return GetBucketAclOutput.fromXml($result.body);
   }
 
-  /// This implementation of the GET operation returns an analytics
-  /// configuration (identified by the analytics configuration ID) from the
-  /// bucket.
+  /// This implementation of the GET action returns an analytics configuration
+  /// (identified by the analytics configuration ID) from the bucket.
   ///
   /// To use this operation, you must have permissions to perform the
   /// <code>s3:GetAnalyticsConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">
   /// Permissions Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon S3
+  /// User Guide</i>.
   ///
   /// For information about Amazon S3 analytics feature, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html">Amazon
-  /// S3 Analytics – Storage Class Analysis</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>.
+  /// S3 Analytics – Storage Class Analysis</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
@@ -2952,22 +2992,23 @@ class S3 {
   /// The ID that identifies the analytics configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketAnalyticsConfigurationOutput>
       getBucketAnalyticsConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -3009,17 +3050,18 @@ class S3 {
   /// The bucket name for which to get the cors configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketCorsOutput> getBucketCors({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?cors',
@@ -3029,8 +3071,12 @@ class S3 {
     return GetBucketCorsOutput.fromXml($result.body);
   }
 
-  /// Returns the default encryption configuration for an Amazon S3 bucket. For
-  /// information about the Amazon S3 default encryption feature, see <a
+  /// Returns the default encryption configuration for an Amazon S3 bucket. If
+  /// the bucket does not have a default encryption configuration,
+  /// GetBucketEncryption returns
+  /// <code>ServerSideEncryptionConfigurationNotFoundError</code>.
+  ///
+  /// For information about the Amazon S3 default encryption feature, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
   /// S3 Default Bucket Encryption</a>.
   ///
@@ -3038,9 +3084,9 @@ class S3 {
   /// <code>s3:GetEncryptionConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// The following operations are related to <code>GetBucketEncryption</code>:
@@ -3061,17 +3107,18 @@ class S3 {
   /// is retrieved.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketEncryptionOutput> getBucketEncryption({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
@@ -3131,13 +3178,13 @@ class S3 {
   /// The ID used to identify the S3 Intelligent-Tiering configuration.
   Future<GetBucketIntelligentTieringConfigurationOutput>
       getBucketIntelligentTieringConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
+    required String bucket,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -3159,9 +3206,9 @@ class S3 {
   /// <code>s3:GetInventoryConfiguration</code> action. The bucket owner has
   /// this permission by default and can grant this permission to others. For
   /// more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about the Amazon S3 inventory feature, see <a
@@ -3193,22 +3240,23 @@ class S3 {
   /// The ID used to identify the inventory configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketInventoryConfigurationOutput>
       getBucketInventoryConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -3239,9 +3287,9 @@ class S3 {
   /// <code>s3:GetLifecycleConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// <code>GetBucketLifecycle</code> has the following special error:
@@ -3283,18 +3331,19 @@ class S3 {
   /// The name of the bucket for which to get the lifecycle information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   @Deprecated('Deprecated')
   Future<GetBucketLifecycleOutput> getBucketLifecycle({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
@@ -3311,7 +3360,7 @@ class S3 {
   /// describes the new filter element that you can use to specify a filter to
   /// select a subset of objects to which the rule applies. If you are using a
   /// previous version of the lifecycle configuration, it still works. For the
-  /// earlier API description, see <a
+  /// earlier action, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycle.html">GetBucketLifecycle</a>.
   /// </note>
   /// Returns the lifecycle configuration information set on the bucket. For
@@ -3323,9 +3372,9 @@ class S3 {
   /// <code>s3:GetLifecycleConfiguration</code> action. The bucket owner has
   /// this permission, by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// <code>GetBucketLifecycleConfiguration</code> has the following special
@@ -3369,18 +3418,19 @@ class S3 {
   /// The name of the bucket for which to get the lifecycle information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketLifecycleConfigurationOutput>
       getBucketLifecycleConfiguration({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
@@ -3414,17 +3464,18 @@ class S3 {
   /// The name of the bucket for which to get the location.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketLocationOutput> getBucketLocation({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?location',
@@ -3454,17 +3505,18 @@ class S3 {
   /// The bucket name for which to get the logging information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketLoggingOutput> getBucketLogging({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?logging',
@@ -3481,9 +3533,9 @@ class S3 {
   /// <code>s3:GetMetricsConfiguration</code> action. The bucket owner has this
   /// permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about CloudWatch request metrics for Amazon S3, see <a
@@ -3520,21 +3572,22 @@ class S3 {
   /// The ID used to identify the metrics configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketMetricsConfigurationOutput> getBucketMetricsConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     final $result = await _protocol.sendRaw(
       method: 'GET',
@@ -3556,18 +3609,19 @@ class S3 {
   /// The name of the bucket for which to get the notification configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   @Deprecated('Deprecated')
   Future<NotificationConfigurationDeprecated> getBucketNotification({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
@@ -3579,7 +3633,7 @@ class S3 {
 
   /// Returns the notification configuration of a bucket.
   ///
-  /// If notifications are not enabled on the bucket, the operation returns an
+  /// If notifications are not enabled on the bucket, the action returns an
   /// empty <code>NotificationConfiguration</code> element.
   ///
   /// By default, you must be the bucket owner to read the notification
@@ -3595,7 +3649,7 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
   /// Bucket Policies</a>.
   ///
-  /// The following operation is related to <code>GetBucketNotification</code>:
+  /// The following action is related to <code>GetBucketNotification</code>:
   ///
   /// <ul>
   /// <li>
@@ -3608,17 +3662,18 @@ class S3 {
   /// The name of the bucket for which to get the notification configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<NotificationConfiguration> getBucketNotificationConfiguration({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
@@ -3656,17 +3711,18 @@ class S3 {
   /// want to retrieve.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketOwnershipControlsOutput> getBucketOwnershipControls({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
@@ -3699,7 +3755,7 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
   /// Bucket Policies and User Policies</a>.
   ///
-  /// The following operation is related to <code>GetBucketPolicy</code>:
+  /// The following action is related to <code>GetBucketPolicy</code>:
   ///
   /// <ul>
   /// <li>
@@ -3712,17 +3768,18 @@ class S3 {
   /// The bucket name for which to get the bucket policy.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketPolicyOutput> getBucketPolicy({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?policy',
@@ -3773,17 +3830,18 @@ class S3 {
   /// The name of the Amazon S3 bucket whose policy status you want to retrieve.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketPolicyStatusOutput> getBucketPolicyStatus({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?policyStatus',
@@ -3804,9 +3862,9 @@ class S3 {
   /// </note>
   /// For information about replication configuration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
-  /// in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// in the <i>Amazon S3 User Guide</i>.
   ///
-  /// This operation requires permissions for the
+  /// This action requires permissions for the
   /// <code>s3:GetReplicationConfiguration</code> action. For more information
   /// about permissions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html">Using
@@ -3838,17 +3896,18 @@ class S3 {
   /// The bucket name for which to get the replication information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketReplicationOutput> getBucketReplication({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?replication',
@@ -3881,17 +3940,18 @@ class S3 {
   /// The name of the bucket for which to get the payment request configuration
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketRequestPaymentOutput> getBucketRequestPayment({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?requestPayment',
@@ -3936,17 +3996,18 @@ class S3 {
   /// The name of the bucket for which to get the tagging information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketTaggingOutput> getBucketTagging({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
@@ -3987,17 +4048,18 @@ class S3 {
   /// The name of the bucket for which to get the versioning information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketVersioningOutput> getBucketVersioning({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?versioning',
@@ -4013,8 +4075,8 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
   /// Websites on Amazon S3</a>.
   ///
-  /// This GET operation requires the <code>S3:GetBucketWebsite</code>
-  /// permission. By default, only the bucket owner can read the bucket website
+  /// This GET action requires the <code>S3:GetBucketWebsite</code> permission.
+  /// By default, only the bucket owner can read the bucket website
   /// configuration. However, bucket owners can allow other users to read the
   /// website configuration by writing a bucket policy granting them the
   /// <code>S3:GetBucketWebsite</code> permission.
@@ -4036,17 +4098,18 @@ class S3 {
   /// The bucket name for which to get the website configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetBucketWebsiteOutput> getBucketWebsite({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?website',
@@ -4092,7 +4155,7 @@ class S3 {
   /// Intelligent-Tiering Deep Archive tiers, before you can retrieve the object
   /// you must first restore a copy using <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html">RestoreObject</a>.
-  /// Otherwise, this operation returns an <code>InvalidObjectStateError</code>
+  /// Otherwise, this action returns an <code>InvalidObjectStateError</code>
   /// error. For information about restoring archived objects, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
   /// Archived Objects</a>.
@@ -4152,7 +4215,7 @@ class S3 {
   /// </ul>
   /// <b>Versioning</b>
   ///
-  /// By default, the GET operation returns the current version of an object. To
+  /// By default, the GET action returns the current version of an object. To
   /// return a different version, use the <code>versionId</code> subresource.
   /// <note>
   /// If the current version of the object is a delete marker, Amazon S3 behaves
@@ -4241,31 +4304,30 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name containing the object.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Key of the object to get.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -4318,13 +4380,13 @@ class S3 {
   /// Sets the <code>Expires</code> header of the response.
   ///
   /// Parameter [sSECustomerAlgorithm] :
-  /// Specifies the algorithm to use to when encrypting the object (for example,
+  /// Specifies the algorithm to use to when decrypting the object (for example,
   /// AES256).
   ///
   /// Parameter [sSECustomerKey] :
-  /// Specifies the customer-provided encryption key for Amazon S3 to use in
-  /// encrypting data. This value is used to store the object and then it is
-  /// discarded; Amazon S3 does not store the encryption key. The key must be
+  /// Specifies the customer-provided encryption key for Amazon S3 used to
+  /// encrypt the data. This value is used to decrypt the object when recovering
+  /// it and must match the one used when storing the data. The key must be
   /// appropriate for use with the algorithm specified in the
   /// <code>x-amz-server-side-encryption-customer-algorithm</code> header.
   ///
@@ -4336,26 +4398,26 @@ class S3 {
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<GetObjectOutput> getObject({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    String ifMatch,
-    DateTime ifModifiedSince,
-    String ifNoneMatch,
-    DateTime ifUnmodifiedSince,
-    int partNumber,
-    String range,
-    RequestPayer requestPayer,
-    String responseCacheControl,
-    String responseContentDisposition,
-    String responseContentEncoding,
-    String responseContentLanguage,
-    String responseContentType,
-    DateTime responseExpires,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    String? ifMatch,
+    DateTime? ifModifiedSince,
+    String? ifNoneMatch,
+    DateTime? ifUnmodifiedSince,
+    int? partNumber,
+    String? range,
+    RequestPayer? requestPayer,
+    String? responseCacheControl,
+    String? responseContentDisposition,
+    String? responseContentEncoding,
+    String? responseContentLanguage,
+    String? responseContentType,
+    DateTime? responseExpires,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -4366,25 +4428,26 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    ifModifiedSince
-        ?.let((v) => headers['If-Modified-Since'] = _s.rfc822ToJson(v));
-    ifNoneMatch?.let((v) => headers['If-None-Match'] = v.toString());
-    ifUnmodifiedSince
-        ?.let((v) => headers['If-Unmodified-Since'] = _s.rfc822ToJson(v));
-    range?.let((v) => headers['Range'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (ifModifiedSince != null)
+        'If-Modified-Since': _s.rfc822ToJson(ifModifiedSince),
+      if (ifNoneMatch != null) 'If-None-Match': ifNoneMatch.toString(),
+      if (ifUnmodifiedSince != null)
+        'If-Unmodified-Since': _s.rfc822ToJson(ifUnmodifiedSince),
+      if (range != null) 'Range': range.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+    };
     final $query = <String, List<String>>{
       if (partNumber != null) 'partNumber': [partNumber.toString()],
       if (responseCacheControl != null)
@@ -4514,32 +4577,31 @@ class S3 {
   /// The bucket name that contains the object for which to get the ACL
   /// information.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The key of the object for which to get the ACL information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<GetObjectAclOutput> getObjectAcl({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -4550,10 +4612,11 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -4586,32 +4649,31 @@ class S3 {
   /// The bucket name containing the object whose Legal Hold status you want to
   /// retrieve.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The key name for the object whose Legal Hold status you want to retrieve.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// The version ID of the object whose Legal Hold status you want to retrieve.
   Future<GetObjectLegalHoldOutput> getObjectLegalHold({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -4622,10 +4684,11 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -4652,28 +4715,28 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket whose Object Lock configuration you want to retrieve.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetObjectLockConfigurationOutput> getObjectLockConfiguration({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?object-lock',
@@ -4696,21 +4759,20 @@ class S3 {
   /// The bucket name containing the object whose retention settings you want to
   /// retrieve.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The key name for the object whose retention settings you want to retrieve.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -4718,11 +4780,11 @@ class S3 {
   /// The version ID for the object whose retention settings you want to
   /// retrieve.
   Future<GetObjectRetentionOutput> getObjectRetention({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -4733,10 +4795,11 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -4758,7 +4821,7 @@ class S3 {
   /// tagging subresource associated with the object.
   ///
   /// To use this operation, you must have permission to perform the
-  /// <code>s3:GetObjectTagging</code> action. By default, the GET operation
+  /// <code>s3:GetObjectTagging</code> action. By default, the GET action
   /// returns information about current version of an object. For a versioned
   /// bucket, you can have multiple versions of an object in your bucket. To
   /// retrieve tags of any other version, use the versionId query parameter. You
@@ -4772,12 +4835,16 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html">Object
   /// Tagging</a>.
   ///
-  /// The following operation is related to <code>GetObjectTagging</code>:
+  /// The following action is related to <code>GetObjectTagging</code>:
   ///
   /// <ul>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html">PutObjectTagging</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html">DeleteObjectTagging</a>
   /// </li>
   /// </ul>
   ///
@@ -4785,41 +4852,41 @@ class S3 {
   /// The bucket name containing the object for which to get the tagging
   /// information.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which to get the tagging information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// The versionId of the object for which to get the tagging information.
   Future<GetObjectTaggingOutput> getObjectTagging({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -4830,9 +4897,11 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -4846,8 +4915,11 @@ class S3 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return GetObjectTaggingOutput(
-      tagSet: _s.extractXmlChild($elem, 'TagSet')?.let(($elem) =>
-          $elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagSet: _s
+          .extractXmlChild($elem, 'TagSet')!
+          .findElements('Tag')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
       versionId:
           _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
     );
@@ -4867,7 +4939,7 @@ class S3 {
   ///
   /// This action is not supported by Amazon S3 on Outposts.
   ///
-  /// The following operation is related to <code>GetObjectTorrent</code>:
+  /// The following action is related to <code>GetObjectTorrent</code>:
   ///
   /// <ul>
   /// <li>
@@ -4884,14 +4956,14 @@ class S3 {
   /// The object key for which to get the information.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetObjectTorrentOutput> getObjectTorrent({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -4902,10 +4974,11 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
@@ -4968,17 +5041,18 @@ class S3 {
   /// configuration you want to retrieve.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<GetPublicAccessBlockOutput> getPublicAccessBlock({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
@@ -4992,19 +5066,22 @@ class S3 {
     );
   }
 
-  /// This operation is useful to determine if a bucket exists and you have
-  /// permission to access it. The operation returns a <code>200 OK</code> if
-  /// the bucket exists and you have permission to access it. Otherwise, the
-  /// operation might return responses such as <code>404 Not Found</code> and
-  /// <code>403 Forbidden</code>.
+  /// This action is useful to determine if a bucket exists and you have
+  /// permission to access it. The action returns a <code>200 OK</code> if the
+  /// bucket exists and you have permission to access it.
+  ///
+  /// If the bucket does not exist or you do not have permission to access it,
+  /// the <code>HEAD</code> request returns a generic <code>404 Not Found</code>
+  /// or <code>403 Forbidden</code> code. A message body is not included, so you
+  /// cannot determine the exception beyond these error codes.
   ///
   /// To use this operation, you must have permissions to perform the
   /// <code>s3:ListBucket</code> action. The bucket owner has this permission by
   /// default and can grant this permission to others. For more information
   /// about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// May throw [NoSuchBucket].
@@ -5012,38 +5089,38 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> headBucket({
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'HEAD',
       requestUri: '/${Uri.encodeComponent(bucket)}',
@@ -5052,13 +5129,16 @@ class S3 {
     );
   }
 
-  /// The HEAD operation retrieves metadata from an object without returning the
-  /// object itself. This operation is useful if you're only interested in an
+  /// The HEAD action retrieves metadata from an object without returning the
+  /// object itself. This action is useful if you're only interested in an
   /// object's metadata. To use HEAD, you must have READ access to the object.
   ///
   /// A <code>HEAD</code> request has the same options as a <code>GET</code>
-  /// operation on an object. The response is identical to the <code>GET</code>
-  /// response except that there is no response body.
+  /// action on an object. The response is identical to the <code>GET</code>
+  /// response except that there is no response body. Because of this, if the
+  /// <code>HEAD</code> request generates an error, it returns a generic
+  /// <code>404 Not Found</code> or <code>403 Forbidden</code> code. It is not
+  /// possible to retrieve the exact exception beyond these error codes.
   ///
   /// If you encrypt an object by using server-side encryption with
   /// customer-provided encryption keys (SSE-C) when you store the object in
@@ -5080,13 +5160,20 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
   /// Encryption (Using Customer-Provided Encryption Keys)</a>.
   /// <note>
+  /// <ul>
+  /// <li>
   /// Encryption request headers, like
   /// <code>x-amz-server-side-encryption</code>, should not be sent for GET
   /// requests if your object uses server-side encryption with CMKs stored in
   /// AWS KMS (SSE-KMS) or server-side encryption with Amazon S3–managed
   /// encryption keys (SSE-S3). If your object does use these types of keys,
   /// you’ll get an HTTP 400 BadRequest error.
-  /// </note>
+  /// </li>
+  /// <li>
+  /// The last modified property in this case is the creation date of the
+  /// object.
+  /// </li>
+  /// </ul> </note>
   /// Request headers are limited to 8 KB in size. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTCommonRequestHeaders.html">Common
   /// Request Headers</a>.
@@ -5148,7 +5235,7 @@ class S3 {
   /// returns an HTTP status code 403 ("access denied") error.
   /// </li>
   /// </ul>
-  /// The following operation is related to <code>HeadObject</code>:
+  /// The following action is related to <code>HeadObject</code>:
   ///
   /// <ul>
   /// <li>
@@ -5162,31 +5249,30 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket containing the object.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The object key.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -5240,20 +5326,20 @@ class S3 {
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<HeadObjectOutput> headObject({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    String ifMatch,
-    DateTime ifModifiedSince,
-    String ifNoneMatch,
-    DateTime ifUnmodifiedSince,
-    int partNumber,
-    String range,
-    RequestPayer requestPayer,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    String? ifMatch,
+    DateTime? ifModifiedSince,
+    String? ifNoneMatch,
+    DateTime? ifUnmodifiedSince,
+    int? partNumber,
+    String? range,
+    RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -5264,25 +5350,26 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    ifModifiedSince
-        ?.let((v) => headers['If-Modified-Since'] = _s.rfc822ToJson(v));
-    ifNoneMatch?.let((v) => headers['If-None-Match'] = v.toString());
-    ifUnmodifiedSince
-        ?.let((v) => headers['If-Unmodified-Since'] = _s.rfc822ToJson(v));
-    range?.let((v) => headers['Range'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (ifMatch != null) 'If-Match': ifMatch.toString(),
+      if (ifModifiedSince != null)
+        'If-Modified-Since': _s.rfc822ToJson(ifModifiedSince),
+      if (ifNoneMatch != null) 'If-None-Match': ifNoneMatch.toString(),
+      if (ifUnmodifiedSince != null)
+        'If-Unmodified-Since': _s.rfc822ToJson(ifUnmodifiedSince),
+      if (range != null) 'Range': range.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+    };
     final $query = <String, List<String>>{
       if (partNumber != null) 'partNumber': [partNumber.toString()],
       if (versionId != null) 'versionId': [versionId],
@@ -5368,7 +5455,7 @@ class S3 {
   /// Lists the analytics configurations for the bucket. You can have up to
   /// 1,000 analytics configurations per bucket.
   ///
-  /// This operation supports list pagination and does not return more than 100
+  /// This action supports list pagination and does not return more than 100
   /// configurations at a time. You should always check the
   /// <code>IsTruncated</code> element in the response. If there are no more
   /// configurations to list, <code>IsTruncated</code> is set to false. If there
@@ -5382,9 +5469,9 @@ class S3 {
   /// <code>s3:GetAnalyticsConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about Amazon S3 analytics feature, see <a
@@ -5417,19 +5504,20 @@ class S3 {
   /// request should begin.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<ListBucketAnalyticsConfigurationsOutput>
       listBucketAnalyticsConfigurations({
-    @_s.required String bucket,
-    String continuationToken,
-    String expectedBucketOwner,
+    required String bucket,
+    String? continuationToken,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
     };
@@ -5490,8 +5578,8 @@ class S3 {
   /// request should begin.
   Future<ListBucketIntelligentTieringConfigurationsOutput>
       listBucketIntelligentTieringConfigurations({
-    @_s.required String bucket,
-    String continuationToken,
+    required String bucket,
+    String? continuationToken,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     final $query = <String, List<String>>{
@@ -5510,7 +5598,7 @@ class S3 {
   /// Returns a list of inventory configurations for the bucket. You can have up
   /// to 1,000 analytics configurations per bucket.
   ///
-  /// This operation supports list pagination and does not return more than 100
+  /// This action supports list pagination and does not return more than 100
   /// configurations at a time. Always check the <code>IsTruncated</code>
   /// element in the response. If there are no more configurations to list,
   /// <code>IsTruncated</code> is set to false. If there are more configurations
@@ -5524,9 +5612,9 @@ class S3 {
   /// <code>s3:GetInventoryConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about the Amazon S3 inventory feature, see <a
@@ -5562,19 +5650,20 @@ class S3 {
   /// value that Amazon S3 understands.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<ListBucketInventoryConfigurationsOutput>
       listBucketInventoryConfigurations({
-    @_s.required String bucket,
-    String continuationToken,
-    String expectedBucketOwner,
+    required String bucket,
+    String? continuationToken,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
     };
@@ -5593,7 +5682,7 @@ class S3 {
   /// provide information on daily storage metrics. You can have up to 1,000
   /// configurations per bucket.
   ///
-  /// This operation supports list pagination and does not return more than 100
+  /// This action supports list pagination and does not return more than 100
   /// configurations at a time. Always check the <code>IsTruncated</code>
   /// element in the response. If there are no more configurations to list,
   /// <code>IsTruncated</code> is set to false. If there are more configurations
@@ -5607,9 +5696,9 @@ class S3 {
   /// <code>s3:GetMetricsConfiguration</code> action. The bucket owner has this
   /// permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For more information about metrics configurations and CloudWatch request
@@ -5645,19 +5734,20 @@ class S3 {
   /// an opaque value that Amazon S3 understands.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<ListBucketMetricsConfigurationsOutput>
       listBucketMetricsConfigurations({
-    @_s.required String bucket,
-    String continuationToken,
-    String expectedBucketOwner,
+    required String bucket,
+    String? continuationToken,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
     };
@@ -5682,19 +5772,18 @@ class S3 {
     return ListBucketsOutput.fromXml($result.body);
   }
 
-  /// This operation lists in-progress multipart uploads. An in-progress
-  /// multipart upload is a multipart upload that has been initiated using the
-  /// Initiate Multipart Upload request, but has not yet been completed or
-  /// aborted.
+  /// This action lists in-progress multipart uploads. An in-progress multipart
+  /// upload is a multipart upload that has been initiated using the Initiate
+  /// Multipart Upload request, but has not yet been completed or aborted.
   ///
-  /// This operation returns at most 1,000 multipart uploads in the response.
-  /// 1,000 multipart uploads is the maximum number of uploads a response can
-  /// include, which is also the default value. You can further limit the number
-  /// of uploads in a response by specifying the <code>max-uploads</code>
-  /// parameter in the response. If additional multipart uploads satisfy the
-  /// list criteria, the response will contain an <code>IsTruncated</code>
-  /// element with the value true. To list the additional multipart uploads, use
-  /// the <code>key-marker</code> and <code>upload-id-marker</code> request
+  /// This action returns at most 1,000 multipart uploads in the response. 1,000
+  /// multipart uploads is the maximum number of uploads a response can include,
+  /// which is also the default value. You can further limit the number of
+  /// uploads in a response by specifying the <code>max-uploads</code> parameter
+  /// in the response. If additional multipart uploads satisfy the list
+  /// criteria, the response will contain an <code>IsTruncated</code> element
+  /// with the value true. To list the additional multipart uploads, use the
+  /// <code>key-marker</code> and <code>upload-id-marker</code> request
   /// parameters.
   ///
   /// In the response, the uploads are sorted by key. If your application has
@@ -5709,7 +5798,7 @@ class S3 {
   /// For information on permissions required to use the multipart upload API,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
-  /// Upload API and Permissions</a>.
+  /// Upload and Permissions</a>.
   ///
   /// The following operations are related to <code>ListMultipartUploads</code>:
   ///
@@ -5739,25 +5828,24 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket to which the multipart upload was initiated.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [delimiter] :
   /// Character you use to group keys.
@@ -5770,7 +5858,7 @@ class S3 {
   /// result element are not returned elsewhere in the response.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -5806,19 +5894,20 @@ class S3 {
   /// ID lexicographically greater than the specified
   /// <code>upload-id-marker</code>.
   Future<ListMultipartUploadsOutput> listMultipartUploads({
-    @_s.required String bucket,
-    String delimiter,
-    EncodingType encodingType,
-    String expectedBucketOwner,
-    String keyMarker,
-    int maxUploads,
-    String prefix,
-    String uploadIdMarker,
+    required String bucket,
+    String? delimiter,
+    EncodingType? encodingType,
+    String? expectedBucketOwner,
+    String? keyMarker,
+    int? maxUploads,
+    String? prefix,
+    String? uploadIdMarker,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
       if (delimiter != null) 'delimiter': [delimiter],
       if (encodingType != null) 'encoding-type': [encodingType.toValue()],
@@ -5840,7 +5929,11 @@ class S3 {
   /// Returns metadata about all versions of the objects in a bucket. You can
   /// also use request parameters as selection criteria to return metadata about
   /// a subset of all the object versions.
-  /// <note>
+  /// <important>
+  /// To use this operation, you must have permissions to perform the
+  /// <code>s3:ListBucketVersions</code> action. Be aware of the name
+  /// difference.
+  /// </important> <note>
   /// A 200 OK response can contain valid or invalid XML. Make sure to design
   /// your application to parse the contents of the response and handle it
   /// appropriately.
@@ -5882,7 +5975,7 @@ class S3 {
   /// response.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -5891,8 +5984,8 @@ class S3 {
   ///
   /// Parameter [maxKeys] :
   /// Sets the maximum number of keys returned in the response. By default the
-  /// API returns up to 1,000 key names. The response might contain fewer keys
-  /// but will never contain more. If additional keys satisfy the search
+  /// action returns up to 1,000 key names. The response might contain fewer
+  /// keys but will never contain more. If additional keys satisfy the search
   /// criteria, but were not returned because max-keys was exceeded, the
   /// response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return
   /// the additional keys, see key-marker and version-id-marker.
@@ -5907,19 +6000,20 @@ class S3 {
   /// Parameter [versionIdMarker] :
   /// Specifies the object version you want to start listing from.
   Future<ListObjectVersionsOutput> listObjectVersions({
-    @_s.required String bucket,
-    String delimiter,
-    EncodingType encodingType,
-    String expectedBucketOwner,
-    String keyMarker,
-    int maxKeys,
-    String prefix,
-    String versionIdMarker,
+    required String bucket,
+    String? delimiter,
+    EncodingType? encodingType,
+    String? expectedBucketOwner,
+    String? keyMarker,
+    int? maxKeys,
+    String? prefix,
+    String? versionIdMarker,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
       if (delimiter != null) 'delimiter': [delimiter],
       if (encodingType != null) 'encoding-type': [encodingType.toValue()],
@@ -5944,7 +6038,8 @@ class S3 {
   /// Be sure to design your application to parse the contents of the response
   /// and handle it appropriately.
   /// <important>
-  /// This API has been revised. We recommend that you use the newer version, <a
+  /// This action has been revised. We recommend that you use the newer version,
+  /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html">ListObjectsV2</a>,
   /// when developing applications. For backward compatibility, Amazon S3
   /// continues to support <code>ListObjects</code>.
@@ -5979,31 +6074,30 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket containing the objects.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [delimiter] :
   /// A delimiter is a character you use to group keys.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -6012,8 +6106,8 @@ class S3 {
   ///
   /// Parameter [maxKeys] :
   /// Sets the maximum number of keys returned in the response. By default the
-  /// API returns up to 1,000 key names. The response might contain fewer keys
-  /// but will never contain more.
+  /// action returns up to 1,000 key names. The response might contain fewer
+  /// keys but will never contain more.
   ///
   /// Parameter [prefix] :
   /// Limits the response to keys that begin with the specified prefix.
@@ -6023,20 +6117,21 @@ class S3 {
   /// list objects request. Bucket owners need not specify this parameter in
   /// their requests.
   Future<ListObjectsOutput> listObjects({
-    @_s.required String bucket,
-    String delimiter,
-    EncodingType encodingType,
-    String expectedBucketOwner,
-    String marker,
-    int maxKeys,
-    String prefix,
-    RequestPayer requestPayer,
+    required String bucket,
+    String? delimiter,
+    EncodingType? encodingType,
+    String? expectedBucketOwner,
+    String? marker,
+    int? maxKeys,
+    String? prefix,
+    RequestPayer? requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (delimiter != null) 'delimiter': [delimiter],
       if (encodingType != null) 'encoding-type': [encodingType.toValue()],
@@ -6054,26 +6149,29 @@ class S3 {
     return ListObjectsOutput.fromXml($result.body);
   }
 
-  /// Returns some or all (up to 1,000) of the objects in a bucket. You can use
-  /// the request parameters as selection criteria to return a subset of the
-  /// objects in a bucket. A <code>200 OK</code> response can contain valid or
-  /// invalid XML. Make sure to design your application to parse the contents of
-  /// the response and handle it appropriately.
+  /// Returns some or all (up to 1,000) of the objects in a bucket with each
+  /// request. You can use the request parameters as selection criteria to
+  /// return a subset of the objects in a bucket. A <code>200 OK</code> response
+  /// can contain valid or invalid XML. Make sure to design your application to
+  /// parse the contents of the response and handle it appropriately. Objects
+  /// are returned sorted in an ascending order of the respective key names in
+  /// the list. For more information about listing objects, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ListingKeysUsingAPIs.html">Listing
+  /// object keys programmatically</a>
   ///
   /// To use this operation, you must have READ access to the bucket.
   ///
-  /// To use this operation in an AWS Identity and Access Management (IAM)
-  /// policy, you must have permissions to perform the
-  /// <code>s3:ListBucket</code> action. The bucket owner has this permission by
-  /// default and can grant this permission to others. For more information
-  /// about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// To use this action in an AWS Identity and Access Management (IAM) policy,
+  /// you must have permissions to perform the <code>s3:ListBucket</code>
+  /// action. The bucket owner has this permission by default and can grant this
+  /// permission to others. For more information about permissions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   /// <important>
-  /// This section describes the latest revision of the API. We recommend that
-  /// you use this revised API for application development. For backward
+  /// This section describes the latest revision of this action. We recommend
+  /// that you use this revised API for application development. For backward
   /// compatibility, Amazon S3 continues to support the prior version of this
   /// API, <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html">ListObjects</a>.
@@ -6103,25 +6201,24 @@ class S3 {
   /// Parameter [bucket] :
   /// Bucket name to list.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [continuationToken] :
   /// ContinuationToken indicates Amazon S3 that the list is being continued on
@@ -6135,7 +6232,7 @@ class S3 {
   /// Encoding type used by Amazon S3 to encode object keys in the response.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -6146,8 +6243,8 @@ class S3 {
   ///
   /// Parameter [maxKeys] :
   /// Sets the maximum number of keys returned in the response. By default the
-  /// API returns up to 1,000 key names. The response might contain fewer keys
-  /// but will never contain more.
+  /// action returns up to 1,000 key names. The response might contain fewer
+  /// keys but will never contain more.
   ///
   /// Parameter [prefix] :
   /// Limits the response to keys that begin with the specified prefix.
@@ -6162,22 +6259,23 @@ class S3 {
   /// starts listing after this specified key. StartAfter can be any key in the
   /// bucket.
   Future<ListObjectsV2Output> listObjectsV2({
-    @_s.required String bucket,
-    String continuationToken,
-    String delimiter,
-    EncodingType encodingType,
-    String expectedBucketOwner,
-    bool fetchOwner,
-    int maxKeys,
-    String prefix,
-    RequestPayer requestPayer,
-    String startAfter,
+    required String bucket,
+    String? continuationToken,
+    String? delimiter,
+    EncodingType? encodingType,
+    String? expectedBucketOwner,
+    bool? fetchOwner,
+    int? maxKeys,
+    String? prefix,
+    RequestPayer? requestPayer,
+    String? startAfter,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (continuationToken != null) 'continuation-token': [continuationToken],
       if (delimiter != null) 'delimiter': [delimiter],
@@ -6218,7 +6316,7 @@ class S3 {
   /// For information on permissions required to use the multipart upload API,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
-  /// Upload API and Permissions</a>.
+  /// Upload and Permissions</a>.
   ///
   /// The following operations are related to <code>ListParts</code>:
   ///
@@ -6248,25 +6346,24 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket to which the parts are being uploaded.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
@@ -6275,7 +6372,7 @@ class S3 {
   /// Upload ID identifying the multipart upload whose parts are being listed.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -6286,13 +6383,13 @@ class S3 {
   /// Specifies the part after which listing should begin. Only parts with
   /// higher part numbers will be listed.
   Future<ListPartsOutput> listParts({
-    @_s.required String bucket,
-    @_s.required String key,
-    @_s.required String uploadId,
-    String expectedBucketOwner,
-    int maxParts,
-    int partNumberMarker,
-    RequestPayer requestPayer,
+    required String bucket,
+    required String key,
+    required String uploadId,
+    String? expectedBucketOwner,
+    int? maxParts,
+    int? partNumberMarker,
+    RequestPayer? requestPayer,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -6304,12 +6401,13 @@ class S3 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
-      if (uploadId != null) 'uploadId': [uploadId],
+      'uploadId': [uploadId],
       if (maxParts != null) 'max-parts': [maxParts.toString()],
       if (partNumberMarker != null)
         'part-number-marker': [partNumberMarker.toString()],
@@ -6357,9 +6455,9 @@ class S3 {
   /// s3:PutAccelerateConfiguration action. The bucket owner has this permission
   /// by default. The bucket owner can grant this permission to others. For more
   /// information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// The Transfer Acceleration state of a bucket can be set to one of the
@@ -6375,7 +6473,7 @@ class S3 {
   /// </ul>
   /// The <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAccelerateConfiguration.html">GetBucketAccelerateConfiguration</a>
-  /// operation returns the transfer acceleration state of a bucket.
+  /// action returns the transfer acceleration state of a bucket.
   ///
   /// After setting the Transfer Acceleration state of a bucket to Enabled, it
   /// might take up to thirty minutes before the data transfer rates to the
@@ -6409,20 +6507,21 @@ class S3 {
   /// The name of the bucket for which the accelerate configuration is set.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketAccelerateConfiguration({
-    @_s.required AccelerateConfiguration accelerateConfiguration,
-    @_s.required String bucket,
-    String expectedBucketOwner,
+    required AccelerateConfiguration accelerateConfiguration,
+    required String bucket,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(
         accelerateConfiguration, 'accelerateConfiguration');
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?accelerate',
@@ -6646,7 +6745,7 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -6661,34 +6760,39 @@ class S3 {
   /// Allows grantee to read the bucket ACL.
   ///
   /// Parameter [grantWrite] :
-  /// Allows grantee to create, overwrite, and delete any object in the bucket.
+  /// Allows grantee to create new objects in the bucket.
+  ///
+  /// For the bucket and object owners of existing objects, also allows
+  /// deletions and overwrites of those objects.
   ///
   /// Parameter [grantWriteACP] :
   /// Allows grantee to write the ACL for the applicable bucket.
   Future<void> putBucketAcl({
-    @_s.required String bucket,
-    BucketCannedACL acl,
-    AccessControlPolicy accessControlPolicy,
-    String contentMD5,
-    String expectedBucketOwner,
-    String grantFullControl,
-    String grantRead,
-    String grantReadACP,
-    String grantWrite,
-    String grantWriteACP,
+    required String bucket,
+    BucketCannedACL? acl,
+    AccessControlPolicy? accessControlPolicy,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    String? grantFullControl,
+    String? grantRead,
+    String? grantReadACP,
+    String? grantWrite,
+    String? grantWriteACP,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    grantFullControl
-        ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
-    grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
-    grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
-    grantWrite?.let((v) => headers['x-amz-grant-write'] = v.toString());
-    grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
+    final headers = <String, String>{
+      if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (grantFullControl != null)
+        'x-amz-grant-full-control': grantFullControl.toString(),
+      if (grantRead != null) 'x-amz-grant-read': grantRead.toString(),
+      if (grantReadACP != null) 'x-amz-grant-read-acp': grantReadACP.toString(),
+      if (grantWrite != null) 'x-amz-grant-write': grantWrite.toString(),
+      if (grantWriteACP != null)
+        'x-amz-grant-write-acp': grantWriteACP.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?acl',
@@ -6724,9 +6828,9 @@ class S3 {
   /// <code>s3:PutAnalyticsConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   /// <p class="title"> <b>Special Errors</b>
   ///
@@ -6797,24 +6901,25 @@ class S3 {
   /// The ID that identifies the analytics configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketAnalyticsConfiguration({
-    @_s.required AnalyticsConfiguration analyticsConfiguration,
-    @_s.required String bucket,
-    @_s.required String id,
-    String expectedBucketOwner,
+    required AnalyticsConfiguration analyticsConfiguration,
+    required String bucket,
+    required String id,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(
         analyticsConfiguration, 'analyticsConfiguration');
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'PUT',
@@ -6870,8 +6975,7 @@ class S3 {
   /// </ul>
   /// For more information about CORS, go to <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
-  /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Cross-Origin Resource Sharing</a> in the <i>Amazon S3 User Guide</i>.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
@@ -6896,8 +7000,7 @@ class S3 {
   /// Describes the cross-origin access configuration for objects in an Amazon
   /// S3 bucket. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
-  /// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Cross-Origin Resource Sharing</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the data. This header must be
@@ -6909,21 +7012,22 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketCors({
-    @_s.required String bucket,
-    @_s.required CORSConfiguration cORSConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required CORSConfiguration cORSConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(cORSConfiguration, 'cORSConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?cors',
@@ -6933,7 +7037,7 @@ class S3 {
     );
   }
 
-  /// This operation uses the <code>encryption</code> subresource to configure
+  /// This action uses the <code>encryption</code> subresource to configure
   /// default encryption and Amazon S3 Bucket Key for an existing bucket.
   ///
   /// Default encryption for a bucket can use server-side encryption with Amazon
@@ -6941,25 +7045,24 @@ class S3 {
   /// specify default encryption using SSE-KMS, you can also configure Amazon S3
   /// Bucket Key. For information about default encryption, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
-  /// S3 default bucket encryption</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>. For more information about S3 Bucket Keys, see <a
+  /// S3 default bucket encryption</a> in the <i>Amazon S3 User Guide</i>. For
+  /// more information about S3 Bucket Keys, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
-  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// S3 Bucket Keys</a> in the <i>Amazon S3 User Guide</i>.
   /// <important>
-  /// This operation requires AWS Signature Version 4. For more information, see
-  /// <a href="sig-v4-authenticating-requests.html"> Authenticating Requests
-  /// (AWS Signature Version 4)</a>.
+  /// This action requires AWS Signature Version 4. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html">
+  /// Authenticating Requests (AWS Signature Version 4)</a>.
   /// </important>
   /// To use this operation, you must have permissions to perform the
   /// <code>s3:PutEncryptionConfiguration</code> action. The bucket owner has
   /// this permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to Your Amazon S3 Resources</a> in the Amazon Simple
-  /// Storage Service Developer Guide.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to Your Amazon S3 Resources</a> in the Amazon S3 User
+  /// Guide.
   /// <p class="title"> <b>Related Resources</b>
   ///
   /// <ul>
@@ -6979,8 +7082,7 @@ class S3 {
   /// KMS (SSE-KMS). For information about the Amazon S3 default encryption
   /// feature, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html">Amazon
-  /// S3 Default Bucket Encryption</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// S3 Default Bucket Encryption</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [contentMD5] :
   /// The base64-encoded 128-bit MD5 digest of the server-side encryption
@@ -6990,23 +7092,24 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketEncryption({
-    @_s.required String bucket,
-    @_s.required
-        ServerSideEncryptionConfiguration serverSideEncryptionConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required ServerSideEncryptionConfiguration
+        serverSideEncryptionConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         serverSideEncryptionConfiguration, 'serverSideEncryptionConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?encryption',
@@ -7017,7 +7120,8 @@ class S3 {
     );
   }
 
-  /// Puts a S3 Intelligent-Tiering configuration to the specified bucket.
+  /// Puts a S3 Intelligent-Tiering configuration to the specified bucket. You
+  /// can have up to 1,000 S3 Intelligent-Tiering configurations per bucket.
   ///
   /// The S3 Intelligent-Tiering storage class is designed to optimize storage
   /// costs by automatically moving data to the most cost-effective storage
@@ -7053,6 +7157,46 @@ class S3 {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html">ListBucketIntelligentTieringConfigurations</a>
   /// </li>
+  /// </ul> <note>
+  /// You only need S3 Intelligent-Tiering enabled on a bucket if you want to
+  /// automatically move objects stored in the S3 Intelligent-Tiering storage
+  /// class to the Archive Access or Deep Archive Access tier.
+  /// </note> <p class="title"> <b>Special Errors</b>
+  ///
+  /// <ul>
+  /// <li> <p class="title"> <b>HTTP 400 Bad Request Error</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Code:</i> InvalidArgument
+  /// </li>
+  /// <li>
+  /// <i>Cause:</i> Invalid Argument
+  /// </li>
+  /// </ul> </li>
+  /// <li> <p class="title"> <b>HTTP 400 Bad Request Error</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Code:</i> TooManyConfigurations
+  /// </li>
+  /// <li>
+  /// <i>Cause:</i> You are attempting to create a new configuration but have
+  /// already reached the 1,000-configuration limit.
+  /// </li>
+  /// </ul> </li>
+  /// <li> <p class="title"> <b>HTTP 403 Forbidden Error</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>Code:</i> AccessDenied
+  /// </li>
+  /// <li>
+  /// <i>Cause:</i> You are not the owner of the specified bucket, or you do not
+  /// have the <code>s3:PutIntelligentTieringConfiguration</code> bucket
+  /// permission to set the configuration on the bucket.
+  /// </li>
+  /// </ul> </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
@@ -7065,17 +7209,16 @@ class S3 {
   /// Parameter [intelligentTieringConfiguration] :
   /// Container for S3 Intelligent-Tiering configuration.
   Future<void> putBucketIntelligentTieringConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    @_s.required
-        IntelligentTieringConfiguration intelligentTieringConfiguration,
+    required String bucket,
+    required String id,
+    required IntelligentTieringConfiguration intelligentTieringConfiguration,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(
         intelligentTieringConfiguration, 'intelligentTieringConfiguration');
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'PUT',
@@ -7087,7 +7230,7 @@ class S3 {
     );
   }
 
-  /// This implementation of the <code>PUT</code> operation adds an inventory
+  /// This implementation of the <code>PUT</code> action adds an inventory
   /// configuration (identified by the inventory ID) to the bucket. You can have
   /// up to 1,000 inventory configurations per bucket.
   ///
@@ -7104,7 +7247,7 @@ class S3 {
   /// configure what object metadata to include and whether to inventory all
   /// object versions or only current versions. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html">Amazon
-  /// S3 Inventory</a> in the Amazon Simple Storage Service Developer Guide.
+  /// S3 Inventory</a> in the Amazon S3 User Guide.
   /// <important>
   /// You must create a bucket policy on the <i>destination</i> bucket to grant
   /// permissions to Amazon S3 to write objects to the bucket in the defined
@@ -7117,11 +7260,11 @@ class S3 {
   /// <code>s3:PutInventoryConfiguration</code> action. The bucket owner has
   /// this permission by default and can grant this permission to others. For
   /// more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to Your Amazon S3 Resources</a> in the Amazon Simple
-  /// Storage Service Developer Guide.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to Your Amazon S3 Resources</a> in the Amazon S3 User
+  /// Guide.
   /// <p class="title"> <b>Special Errors</b>
   ///
   /// <ul>
@@ -7185,24 +7328,25 @@ class S3 {
   /// Specifies the inventory configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketInventoryConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    @_s.required InventoryConfiguration inventoryConfiguration,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    required InventoryConfiguration inventoryConfiguration,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(
         inventoryConfiguration, 'inventoryConfiguration');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'PUT',
@@ -7224,8 +7368,7 @@ class S3 {
   /// existing lifecycle configuration. For information about lifecycle
   /// configuration, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
-  /// Lifecycle Management</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Lifecycle Management</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// By default, all Amazon S3 resources, including buckets, objects, and
   /// related subresources (for example, lifecycle configuration and website
@@ -7252,9 +7395,9 @@ class S3 {
   /// </li>
   /// </ul>
   /// For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to your Amazon S3 Resources</a> in the <i>Amazon S3
+  /// User Guide</i>.
   ///
   /// For more examples of transitioning objects to storage classes such as
   /// STANDARD_IA or ONEZONE_IA, see <a
@@ -7279,8 +7422,8 @@ class S3 {
   /// By default, a resource owner—in this case, a bucket owner, which is the
   /// AWS account that created the bucket—can perform any of the operations. A
   /// resource owner can also grant others permission to perform the operation.
-  /// For more information, see the following topics in the Amazon Simple
-  /// Storage Service Developer Guide:
+  /// For more information, see the following topics in the Amazon S3 User
+  /// Guide:
   ///
   /// <ul>
   /// <li>
@@ -7290,7 +7433,7 @@ class S3 {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to your Amazon S3 Resources</a>
   /// </li>
   /// </ul> </li>
@@ -7305,7 +7448,7 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -7313,16 +7456,17 @@ class S3 {
   /// <p/>
   @Deprecated('Deprecated')
   Future<void> putBucketLifecycle({
-    @_s.required String bucket,
-    String contentMD5,
-    String expectedBucketOwner,
-    LifecycleConfiguration lifecycleConfiguration,
+    required String bucket,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    LifecycleConfiguration? lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
@@ -7335,8 +7479,8 @@ class S3 {
   /// Creates a new lifecycle configuration for the bucket or replaces an
   /// existing lifecycle configuration. For information about lifecycle
   /// configuration, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to Your Amazon S3 Resources</a>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html">Managing
+  /// your storage lifecycle</a>.
   /// <note>
   /// Bucket lifecycle configuration now supports specifying a lifecycle rule
   /// using an object key name prefix, one or more object tags, or a combination
@@ -7403,7 +7547,7 @@ class S3 {
   /// </li>
   /// </ul>
   /// For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// The following are related to <code>PutBucketLifecycleConfiguration</code>:
@@ -7428,21 +7572,22 @@ class S3 {
   /// The name of the bucket for which to set the configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [lifecycleConfiguration] :
   /// Container for lifecycle rules. You can add as many as 1,000 rules.
   Future<void> putBucketLifecycleConfiguration({
-    @_s.required String bucket,
-    String expectedBucketOwner,
-    BucketLifecycleConfiguration lifecycleConfiguration,
+    required String bucket,
+    String? expectedBucketOwner,
+    BucketLifecycleConfiguration? lifecycleConfiguration,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?lifecycle',
@@ -7544,21 +7689,22 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketLogging({
-    @_s.required String bucket,
-    @_s.required BucketLoggingStatus bucketLoggingStatus,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required BucketLoggingStatus bucketLoggingStatus,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(bucketLoggingStatus, 'bucketLoggingStatus');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?logging',
@@ -7578,9 +7724,9 @@ class S3 {
   /// <code>s3:PutMetricsConfiguration</code> action. The bucket owner has this
   /// permission by default. The bucket owner can grant this permission to
   /// others. For more information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// For information about CloudWatch request metrics for Amazon S3, see <a
@@ -7631,23 +7777,24 @@ class S3 {
   /// Specifies the metrics configuration.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketMetricsConfiguration({
-    @_s.required String bucket,
-    @_s.required String id,
-    @_s.required MetricsConfiguration metricsConfiguration,
-    String expectedBucketOwner,
+    required String bucket,
+    required String id,
+    required MetricsConfiguration metricsConfiguration,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(metricsConfiguration, 'metricsConfiguration');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     final $query = <String, List<String>>{
-      if (id != null) 'id': [id],
+      'id': [id],
     };
     await _protocol.send(
       method: 'PUT',
@@ -7676,23 +7823,24 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   @Deprecated('Deprecated')
   Future<void> putBucketNotification({
-    @_s.required String bucket,
-    @_s.required NotificationConfigurationDeprecated notificationConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required NotificationConfigurationDeprecated notificationConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         notificationConfiguration, 'notificationConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
@@ -7721,7 +7869,7 @@ class S3 {
   ///
   /// <code>&lt;/NotificationConfiguration&gt;</code>
   ///
-  /// This operation replaces the existing notification configuration with the
+  /// This action replaces the existing notification configuration with the
   /// configuration you include in the request body.
   ///
   /// After Amazon S3 receives this request, it first verifies that any Amazon
@@ -7746,8 +7894,8 @@ class S3 {
   /// notification configuration includes SNS topic, SQS queue, and Lambda
   /// function configurations. When you send a PUT request with this
   /// configuration, Amazon S3 sends test messages to your SNS topic. If the
-  /// message fails, the entire PUT operation will fail, and Amazon S3 will not
-  /// add the configuration to your bucket.
+  /// message fails, the entire PUT action will fail, and Amazon S3 will not add
+  /// the configuration to your bucket.
   /// </note>
   /// <b>Responses</b>
   ///
@@ -7757,7 +7905,7 @@ class S3 {
   /// also include the <code>x-amz-sns-test-message-id</code> header containing
   /// the message ID of the test notification sent to the topic.
   ///
-  /// The following operation is related to
+  /// The following action is related to
   /// <code>PutBucketNotificationConfiguration</code>:
   ///
   /// <ul>
@@ -7771,20 +7919,21 @@ class S3 {
   /// The name of the bucket.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketNotificationConfiguration({
-    @_s.required String bucket,
-    @_s.required NotificationConfiguration notificationConfiguration,
-    String expectedBucketOwner,
+    required String bucket,
+    required NotificationConfiguration notificationConfiguration,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         notificationConfiguration, 'notificationConfiguration');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?notification',
@@ -7832,21 +7981,22 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketOwnershipControls({
-    @_s.required String bucket,
-    @_s.required OwnershipControls ownershipControls,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required OwnershipControls ownershipControls,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(ownershipControls, 'ownershipControls');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?ownershipControls',
@@ -7906,24 +8056,26 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketPolicy({
-    @_s.required String bucket,
-    @_s.required String policy,
-    bool confirmRemoveSelfBucketAccess,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required String policy,
+    bool? confirmRemoveSelfBucketAccess,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(policy, 'policy');
-    final headers = <String, String>{};
-    confirmRemoveSelfBucketAccess?.let((v) =>
-        headers['x-amz-confirm-remove-self-bucket-access'] = v.toString());
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (confirmRemoveSelfBucketAccess != null)
+        'x-amz-confirm-remove-self-bucket-access':
+            confirmRemoveSelfBucketAccess.toString(),
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?policy',
@@ -7936,9 +8088,9 @@ class S3 {
   /// Creates a replication configuration or replaces an existing one. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
-  /// in the <i>Amazon S3 Developer Guide</i>.
+  /// in the <i>Amazon S3 User Guide</i>.
   /// <note>
-  /// To perform this operation, the user or role performing the operation must
+  /// To perform this operation, the user or role performing the action must
   /// have the <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html">iam:PassRole</a>
   /// permission.
@@ -7978,7 +8130,7 @@ class S3 {
   /// permissions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
   /// Permissions in a Policy</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// <b>Handling Replication of Encrypted Objects</b>
@@ -8023,27 +8175,28 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [token] :
   /// A token to allow Object Lock to be enabled for an existing bucket.
   Future<void> putBucketReplication({
-    @_s.required String bucket,
-    @_s.required ReplicationConfiguration replicationConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
-    String token,
+    required String bucket,
+    required ReplicationConfiguration replicationConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    String? token,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         replicationConfiguration, 'replicationConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (token != null) 'x-amz-bucket-object-lock-token': token.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?replication',
@@ -8082,7 +8235,7 @@ class S3 {
   /// Container for Payer.
   ///
   /// Parameter [contentMD5] :
-  /// &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this
+  /// The base64-encoded 128-bit MD5 digest of the data. You must use this
   /// header as a message integrity check to verify that the request body was
   /// not corrupted in transit. For more information, see <a
   /// href="http://www.ietf.org/rfc/rfc1864.txt">RFC 1864</a>.
@@ -8091,22 +8244,23 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketRequestPayment({
-    @_s.required String bucket,
-    @_s.required RequestPaymentConfiguration requestPaymentConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required RequestPaymentConfiguration requestPaymentConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         requestPaymentConfiguration, 'requestPaymentConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?requestPayment',
@@ -8126,20 +8280,21 @@ class S3 {
   /// name, and then organize your billing information to see the total cost of
   /// that application across several services. For more information, see <a
   /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html">Cost
-  /// Allocation and Tagging</a>.
-  /// <note>
-  /// Within a bucket, if you add a tag that has the same key as an existing
-  /// tag, the new value overwrites the old value. For more information, see <a
+  /// Allocation and Tagging</a> and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/CostAllocTagging.html">Using
   /// Cost Allocation in Amazon S3 Bucket Tags</a>.
+  /// <note>
+  /// When this operation sets the tags for a bucket, it will overwrite any
+  /// current tags the bucket already has. You cannot use this operation to add
+  /// tags to an existing list of tags.
   /// </note>
   /// To use this operation, you must have permissions to perform the
   /// <code>s3:PutBucketTagging</code> action. The bucket owner has this
   /// permission by default and can grant this permission to others. For more
   /// information about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
   /// Access Permissions to Your Amazon S3 Resources</a>.
   ///
   /// <code>PutBucketTagging</code> has the following special errors:
@@ -8172,7 +8327,7 @@ class S3 {
   ///
   /// <ul>
   /// <li>
-  /// Description: A conflicting conditional operation is currently in progress
+  /// Description: A conflicting conditional action is currently in progress
   /// against this resource. Please try again.
   /// </li>
   /// </ul> </li>
@@ -8215,21 +8370,22 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketTagging({
-    @_s.required String bucket,
-    @_s.required Tagging tagging,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required Tagging tagging,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(tagging, 'tagging');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?tagging',
@@ -8303,7 +8459,7 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -8311,20 +8467,21 @@ class S3 {
   /// The concatenation of the authentication device's serial number, a space,
   /// and the value that is displayed on your authentication device.
   Future<void> putBucketVersioning({
-    @_s.required String bucket,
-    @_s.required VersioningConfiguration versioningConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
-    String mfa,
+    required String bucket,
+    required VersioningConfiguration versioningConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    String? mfa,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         versioningConfiguration, 'versioningConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (mfa != null) 'x-amz-mfa': mfa.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?versioning',
@@ -8342,10 +8499,10 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html">Hosting
   /// Websites on Amazon S3</a>.
   ///
-  /// This PUT operation requires the <code>S3:PutBucketWebsite</code>
-  /// permission. By default, only the bucket owner can configure the website
-  /// attached to a bucket; however, bucket owners can allow other users to set
-  /// the website configuration by writing a bucket policy that grants them the
+  /// This PUT action requires the <code>S3:PutBucketWebsite</code> permission.
+  /// By default, only the bucket owner can configure the website attached to a
+  /// bucket; however, bucket owners can allow other users to set the website
+  /// configuration by writing a bucket policy that grants them the
   /// <code>S3:PutBucketWebsite</code> permission.
   ///
   /// To redirect all website requests sent to the bucket's website endpoint,
@@ -8427,8 +8584,7 @@ class S3 {
   /// If you require more than 50 routing rules, you can use object redirect.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html">Configuring
-  /// an Object Redirect</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// an Object Redirect</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [bucket] :
   /// The bucket name.
@@ -8446,21 +8602,22 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putBucketWebsite({
-    @_s.required String bucket,
-    @_s.required WebsiteConfiguration websiteConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required WebsiteConfiguration websiteConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(websiteConfiguration, 'websiteConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?website',
@@ -8492,8 +8649,7 @@ class S3 {
   /// an object with a retention period configured using Amazon S3 Object Lock.
   /// For more information about Amazon S3 Object Lock, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock-overview.html">Amazon
-  /// S3 Object Lock Overview</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// S3 Object Lock Overview</a> in the <i>Amazon S3 User Guide</i>.
   /// </note>
   /// <b>Server-side Encryption</b>
   ///
@@ -8509,8 +8665,7 @@ class S3 {
   /// (SSE-KMS), you can enable an S3 Bucket Key at the object-level. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
-  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// S3 Bucket Keys</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// <b>Access Control List (ACL)-Specific Request Headers</b>
   ///
@@ -8532,7 +8687,7 @@ class S3 {
   /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
   /// Storage Class. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
-  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
+  /// Classes</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// <b>Versioning</b>
   ///
@@ -8561,30 +8716,29 @@ class S3 {
   /// </ul>
   ///
   /// Parameter [bucket] :
-  /// The bucket name to which the PUT operation was initiated.
+  /// The bucket name to which the PUT action was initiated.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
-  /// Object key for which the PUT operation was initiated.
+  /// Object key for which the PUT action was initiated.
   ///
   /// Parameter [acl] :
   /// The canned ACL to apply to the object. For more information, see <a
@@ -8602,7 +8756,7 @@ class S3 {
   /// this header to <code>true</code> causes Amazon S3 to use an S3 Bucket Key
   /// for object encryption with SSE-KMS.
   ///
-  /// Specifying this header with a PUT operation doesn’t affect bucket-level
+  /// Specifying this header with a PUT action doesn’t affect bucket-level
   /// settings for S3 Bucket Key.
   ///
   /// Parameter [cacheControl] :
@@ -8645,7 +8799,7 @@ class S3 {
   /// href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17">http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17</a>.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -8687,7 +8841,8 @@ class S3 {
   /// The Object Lock mode that you want to apply to this object.
   ///
   /// Parameter [objectLockRetainUntilDate] :
-  /// The date and time when you want this object's Object Lock to expire.
+  /// The date and time when you want this object's Object Lock to expire. Must
+  /// be formatted as a timestamp parameter.
   ///
   /// Parameter [sSECustomerAlgorithm] :
   /// Specifies the algorithm to use to when encrypting the object (for example,
@@ -8714,14 +8869,12 @@ class S3 {
   /// If <code>x-amz-server-side-encryption</code> is present and has the value
   /// of <code>aws:kms</code>, this header specifies the ID of the AWS Key
   /// Management Service (AWS KMS) symmetrical customer managed customer master
-  /// key (CMK) that was used for the object.
-  ///
-  /// If the value of <code>x-amz-server-side-encryption</code> is
-  /// <code>aws:kms</code>, this header specifies the ID of the symmetric
-  /// customer managed AWS KMS CMK that will be used for the object. If you
-  /// specify <code>x-amz-server-side-encryption:aws:kms</code>, but do not
+  /// key (CMK) that was used for the object. If you specify
+  /// <code>x-amz-server-side-encryption:aws:kms</code>, but do not
   /// provide<code> x-amz-server-side-encryption-aws-kms-key-id</code>, Amazon
-  /// S3 uses the AWS managed CMK in AWS to protect the data.
+  /// S3 uses the AWS managed CMK in AWS to protect the data. If the KMS key
+  /// does not exist in the same account issuing the command, you must use the
+  /// full ARN and not just the ID.
   ///
   /// Parameter [serverSideEncryption] :
   /// The server-side encryption algorithm used when storing this object in
@@ -8734,7 +8887,7 @@ class S3 {
   /// different Storage Class. Amazon S3 on Outposts only uses the OUTPOSTS
   /// Storage Class. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
-  /// Classes</a> in the <i>Amazon S3 Service Developer Guide</i>.
+  /// Classes</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [tagging] :
   /// The tag-set for the object. The tag-set must be encoded as URL Query
@@ -8764,38 +8917,38 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html">How
   /// to Configure Website Page Redirects</a>.
   Future<PutObjectOutput> putObject({
-    @_s.required String bucket,
-    @_s.required String key,
-    ObjectCannedACL acl,
-    Uint8List body,
-    bool bucketKeyEnabled,
-    String cacheControl,
-    String contentDisposition,
-    String contentEncoding,
-    String contentLanguage,
-    int contentLength,
-    String contentMD5,
-    String contentType,
-    String expectedBucketOwner,
-    DateTime expires,
-    String grantFullControl,
-    String grantRead,
-    String grantReadACP,
-    String grantWriteACP,
-    Map<String, String> metadata,
-    ObjectLockLegalHoldStatus objectLockLegalHoldStatus,
-    ObjectLockMode objectLockMode,
-    DateTime objectLockRetainUntilDate,
-    RequestPayer requestPayer,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
-    String sSEKMSEncryptionContext,
-    String sSEKMSKeyId,
-    ServerSideEncryption serverSideEncryption,
-    StorageClass storageClass,
-    String tagging,
-    String websiteRedirectLocation,
+    required String bucket,
+    required String key,
+    ObjectCannedACL? acl,
+    Uint8List? body,
+    bool? bucketKeyEnabled,
+    String? cacheControl,
+    String? contentDisposition,
+    String? contentEncoding,
+    String? contentLanguage,
+    int? contentLength,
+    String? contentMD5,
+    String? contentType,
+    String? expectedBucketOwner,
+    DateTime? expires,
+    String? grantFullControl,
+    String? grantRead,
+    String? grantReadACP,
+    String? grantWriteACP,
+    Map<String, String>? metadata,
+    ObjectLockLegalHoldStatus? objectLockLegalHoldStatus,
+    ObjectLockMode? objectLockMode,
+    DateTime? objectLockRetainUntilDate,
+    RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
+    String? sSEKMSEncryptionContext,
+    String? sSEKMSKeyId,
+    ServerSideEncryption? serverSideEncryption,
+    StorageClass? storageClass,
+    String? tagging,
+    String? websiteRedirectLocation,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -8806,52 +8959,60 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
-    bucketKeyEnabled?.let((v) =>
-        headers['x-amz-server-side-encryption-bucket-key-enabled'] =
-            v.toString());
-    cacheControl?.let((v) => headers['Cache-Control'] = v.toString());
-    contentDisposition
-        ?.let((v) => headers['Content-Disposition'] = v.toString());
-    contentEncoding?.let((v) => headers['Content-Encoding'] = v.toString());
-    contentLanguage?.let((v) => headers['Content-Language'] = v.toString());
-    contentLength?.let((v) => headers['Content-Length'] = v.toString());
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    contentType?.let((v) => headers['Content-Type'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
-    grantFullControl
-        ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
-    grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
-    grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
-    grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
-    metadata?.forEach((key, value) => headers['x-amz-meta-$key'] = value);
-    objectLockLegalHoldStatus
-        ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
-    objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
-    objectLockRetainUntilDate?.let((v) =>
-        headers['x-amz-object-lock-retain-until-date'] = _s.iso8601ToJson(v));
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
-    sSEKMSEncryptionContext?.let(
-        (v) => headers['x-amz-server-side-encryption-context'] = v.toString());
-    sSEKMSKeyId?.let((v) =>
-        headers['x-amz-server-side-encryption-aws-kms-key-id'] = v.toString());
-    serverSideEncryption
-        ?.let((v) => headers['x-amz-server-side-encryption'] = v.toValue());
-    storageClass?.let((v) => headers['x-amz-storage-class'] = v.toValue());
-    tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
-    websiteRedirectLocation
-        ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
+    final headers = <String, String>{
+      if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (bucketKeyEnabled != null)
+        'x-amz-server-side-encryption-bucket-key-enabled':
+            bucketKeyEnabled.toString(),
+      if (cacheControl != null) 'Cache-Control': cacheControl.toString(),
+      if (contentDisposition != null)
+        'Content-Disposition': contentDisposition.toString(),
+      if (contentEncoding != null)
+        'Content-Encoding': contentEncoding.toString(),
+      if (contentLanguage != null)
+        'Content-Language': contentLanguage.toString(),
+      if (contentLength != null) 'Content-Length': contentLength.toString(),
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (contentType != null) 'Content-Type': contentType.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (expires != null) 'Expires': _s.rfc822ToJson(expires),
+      if (grantFullControl != null)
+        'x-amz-grant-full-control': grantFullControl.toString(),
+      if (grantRead != null) 'x-amz-grant-read': grantRead.toString(),
+      if (grantReadACP != null) 'x-amz-grant-read-acp': grantReadACP.toString(),
+      if (grantWriteACP != null)
+        'x-amz-grant-write-acp': grantWriteACP.toString(),
+      if (metadata != null)
+        ...metadata.map((key, value) => MapEntry('x-amz-meta-$key', value)),
+      if (objectLockLegalHoldStatus != null)
+        'x-amz-object-lock-legal-hold': objectLockLegalHoldStatus.toValue(),
+      if (objectLockMode != null)
+        'x-amz-object-lock-mode': objectLockMode.toValue(),
+      if (objectLockRetainUntilDate != null)
+        'x-amz-object-lock-retain-until-date':
+            _s.iso8601ToJson(objectLockRetainUntilDate),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+      if (sSEKMSEncryptionContext != null)
+        'x-amz-server-side-encryption-context':
+            sSEKMSEncryptionContext.toString(),
+      if (sSEKMSKeyId != null)
+        'x-amz-server-side-encryption-aws-kms-key-id': sSEKMSKeyId.toString(),
+      if (serverSideEncryption != null)
+        'x-amz-server-side-encryption': serverSideEncryption.toValue(),
+      if (storageClass != null) 'x-amz-storage-class': storageClass.toValue(),
+      if (tagging != null) 'x-amz-tagging': tagging.toString(),
+      if (websiteRedirectLocation != null)
+        'x-amz-website-redirect-location': websiteRedirectLocation.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
@@ -8892,8 +9053,7 @@ class S3 {
   /// <code>WRITE_ACP</code> permission to set the ACL of an object. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#permissions">What
-  /// permissions can I grant?</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// permissions can I grant?</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// This action is not supported by Amazon S3 on Outposts.
   ///
@@ -8902,7 +9062,7 @@ class S3 {
   /// have an existing application that updates a bucket ACL using the request
   /// body, you can continue to use that approach. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html">Access
-  /// Control List (ACL) Overview</a> in the <i>Amazon S3 Developer Guide</i>.
+  /// Control List (ACL) Overview</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// <b>Access Permissions</b>
   ///
@@ -9080,38 +9240,36 @@ class S3 {
   /// The bucket name that contains the object to which you want to attach the
   /// ACL.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
-  /// Key for which the PUT operation was initiated.
+  /// Key for which the PUT action was initiated.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [acl] :
   /// The canned ACL to apply to the object. For more information, see <a
@@ -9132,7 +9290,7 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -9153,7 +9311,10 @@ class S3 {
   /// This action is not supported by Amazon S3 on Outposts.
   ///
   /// Parameter [grantWrite] :
-  /// Allows grantee to create, overwrite, and delete any object in the bucket.
+  /// Allows grantee to create new objects in the bucket.
+  ///
+  /// For the bucket and object owners of existing objects, also allows
+  /// deletions and overwrites of those objects.
   ///
   /// Parameter [grantWriteACP] :
   /// Allows grantee to write the ACL for the applicable bucket.
@@ -9163,19 +9324,19 @@ class S3 {
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<PutObjectAclOutput> putObjectAcl({
-    @_s.required String bucket,
-    @_s.required String key,
-    ObjectCannedACL acl,
-    AccessControlPolicy accessControlPolicy,
-    String contentMD5,
-    String expectedBucketOwner,
-    String grantFullControl,
-    String grantRead,
-    String grantReadACP,
-    String grantWrite,
-    String grantWriteACP,
-    RequestPayer requestPayer,
-    String versionId,
+    required String bucket,
+    required String key,
+    ObjectCannedACL? acl,
+    AccessControlPolicy? accessControlPolicy,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    String? grantFullControl,
+    String? grantRead,
+    String? grantReadACP,
+    String? grantWrite,
+    String? grantWriteACP,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -9186,18 +9347,20 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    acl?.let((v) => headers['x-amz-acl'] = v.toValue());
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    grantFullControl
-        ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
-    grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
-    grantReadACP?.let((v) => headers['x-amz-grant-read-acp'] = v.toString());
-    grantWrite?.let((v) => headers['x-amz-grant-write'] = v.toString());
-    grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (acl != null) 'x-amz-acl': acl.toValue(),
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (grantFullControl != null)
+        'x-amz-grant-full-control': grantFullControl.toString(),
+      if (grantRead != null) 'x-amz-grant-read': grantRead.toString(),
+      if (grantReadACP != null) 'x-amz-grant-read-acp': grantReadACP.toString(),
+      if (grantWrite != null) 'x-amz-grant-write': grantWrite.toString(),
+      if (grantWriteACP != null)
+        'x-amz-grant-write-acp': grantWriteACP.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -9218,32 +9381,25 @@ class S3 {
     );
   }
 
-  /// Applies a Legal Hold configuration to the specified object.
+  /// Applies a Legal Hold configuration to the specified object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+  /// Objects</a>.
   ///
   /// This action is not supported by Amazon S3 on Outposts.
-  /// <p class="title"> <b>Related Resources</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
-  /// Objects</a>
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name containing the object that you want to place a Legal Hold
   /// on.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The key name for the object that you want to place a Legal Hold on.
@@ -9255,7 +9411,7 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -9266,13 +9422,13 @@ class S3 {
   /// Parameter [versionId] :
   /// The version ID of the object that you want to place a Legal Hold on.
   Future<PutObjectLegalHoldOutput> putObjectLegalHold({
-    @_s.required String bucket,
-    @_s.required String key,
-    String contentMD5,
-    String expectedBucketOwner,
-    ObjectLockLegalHold legalHold,
-    RequestPayer requestPayer,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    ObjectLockLegalHold? legalHold,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -9283,11 +9439,12 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -9310,19 +9467,26 @@ class S3 {
 
   /// Places an Object Lock configuration on the specified bucket. The rule
   /// specified in the Object Lock configuration will be applied by default to
-  /// every new object placed in the specified bucket.
-  /// <note>
-  /// <code>DefaultRetention</code> requires either Days or Years. You can't
-  /// specify both at the same time.
-  /// </note> <p class="title"> <b>Related Resources</b>
-  ///
-  /// <ul>
-  /// <li>
+  /// every new object placed in the specified bucket. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
-  /// Objects</a>
+  /// Objects</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// The <code>DefaultRetention</code> settings require both a mode and a
+  /// period.
   /// </li>
-  /// </ul>
+  /// <li>
+  /// The <code>DefaultRetention</code> period can be either <code>Days</code>
+  /// or <code>Years</code> but you must select one. You cannot specify
+  /// <code>Days</code> and <code>Years</code> at the same time.
+  /// </li>
+  /// <li>
+  /// You can only enable Object Lock for new buckets. If you want to turn on
+  /// Object Lock for an existing bucket, contact AWS Support.
+  /// </li>
+  /// </ul> </note>
   ///
   /// Parameter [bucket] :
   /// The bucket whose Object Lock configuration you want to create or replace.
@@ -9334,7 +9498,7 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -9345,20 +9509,21 @@ class S3 {
   /// Parameter [token] :
   /// A token to allow Object Lock to be enabled for an existing bucket.
   Future<PutObjectLockConfigurationOutput> putObjectLockConfiguration({
-    @_s.required String bucket,
-    String contentMD5,
-    String expectedBucketOwner,
-    ObjectLockConfiguration objectLockConfiguration,
-    RequestPayer requestPayer,
-    String token,
+    required String bucket,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    ObjectLockConfiguration? objectLockConfiguration,
+    RequestPayer? requestPayer,
+    String? token,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (token != null) 'x-amz-bucket-object-lock-token': token.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?object-lock',
@@ -9374,40 +9539,32 @@ class S3 {
     );
   }
 
-  /// Places an Object Retention configuration on an object.
+  /// Places an Object Retention configuration on an object. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
+  /// Objects</a>.
   ///
   /// This action is not supported by Amazon S3 on Outposts.
-  /// <p class="title"> <b>Related Resources</b>
-  ///
-  /// <ul>
-  /// <li>
-  /// <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Locking
-  /// Objects</a>
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name that contains the object you want to apply this Object
   /// Retention configuration to.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// The key name for the object that you want to apply this Object Retention
   /// configuration to.
   ///
   /// Parameter [bypassGovernanceRetention] :
-  /// Indicates whether this operation should bypass Governance-mode
-  /// restrictions.
+  /// Indicates whether this action should bypass Governance-mode restrictions.
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash for the request body.
@@ -9416,7 +9573,7 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -9427,14 +9584,14 @@ class S3 {
   /// The version ID for the object that you want to apply this Object Retention
   /// configuration to.
   Future<PutObjectRetentionOutput> putObjectRetention({
-    @_s.required String bucket,
-    @_s.required String key,
-    bool bypassGovernanceRetention,
-    String contentMD5,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
-    ObjectLockRetention retention,
-    String versionId,
+    required String bucket,
+    required String key,
+    bool? bypassGovernanceRetention,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    ObjectLockRetention? retention,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -9445,13 +9602,15 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    bypassGovernanceRetention?.let(
-        (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (bypassGovernanceRetention != null)
+        'x-amz-bypass-governance-retention':
+            bypassGovernanceRetention.toString(),
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -9527,7 +9686,7 @@ class S3 {
   /// <i>Code: OperationAbortedError </i>
   /// </li>
   /// <li>
-  /// <i>Cause: A conflicting conditional operation is currently in progress
+  /// <i>Cause: A conflicting conditional action is currently in progress
   /// against this resource. Please try again.</i>
   /// </li>
   /// </ul> </li>
@@ -9548,30 +9707,33 @@ class S3 {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html">GetObjectTagging</a>
   /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html">DeleteObjectTagging</a>
+  /// </li>
   /// </ul>
   ///
   /// Parameter [bucket] :
   /// The bucket name containing the object.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Name of the object key.
@@ -9586,19 +9748,20 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// The versionId of the object that the tag-set will be added to.
   Future<PutObjectTaggingOutput> putObjectTagging({
-    @_s.required String bucket,
-    @_s.required String key,
-    @_s.required Tagging tagging,
-    String contentMD5,
-    String expectedBucketOwner,
-    String versionId,
+    required String bucket,
+    required String key,
+    required Tagging tagging,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -9610,10 +9773,12 @@ class S3 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagging, 'tagging');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -9684,8 +9849,7 @@ class S3 {
   /// combination. For more information about when Amazon S3 considers a bucket
   /// or object public, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
-  /// Meaning of "Public"</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [contentMD5] :
   /// The MD5 hash of the <code>PutPublicAccessBlock</code> request body.
@@ -9694,22 +9858,23 @@ class S3 {
   /// this field is calculated automatically.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   Future<void> putPublicAccessBlock({
-    @_s.required String bucket,
-    @_s.required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
-    String contentMD5,
-    String expectedBucketOwner,
+    required String bucket,
+    required PublicAccessBlockConfiguration publicAccessBlockConfiguration,
+    String? contentMD5,
+    String? expectedBucketOwner,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(
         publicAccessBlockConfiguration, 'publicAccessBlockConfiguration');
-    final headers = <String, String>{};
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
+    final headers = <String, String>{
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+    };
     await _protocol.send(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket)}?publicAccessBlock',
@@ -9738,11 +9903,11 @@ class S3 {
   /// <code>s3:RestoreObject</code> action. The bucket owner has this permission
   /// by default and can grant this permission to others. For more information
   /// about permissions, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources">Permissions
   /// Related to Bucket Subresource Operations</a> and <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-access-control.html">Managing
-  /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html">Managing
+  /// Access Permissions to Your Amazon S3 Resources</a> in the <i>Amazon S3
+  /// User Guide</i>.
   ///
   /// <b>Querying Archives with Select Requests</b>
   ///
@@ -9753,8 +9918,7 @@ class S3 {
   /// to restore your data to a hotter Amazon S3 tier. For an overview about
   /// select requests, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
-  /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Archived Objects</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// When making a select request, do the following:
   ///
@@ -9767,8 +9931,7 @@ class S3 {
   /// storage class and encryption for the output objects stored in the bucket.
   /// For more information about output, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/querying-glacier-archives.html">Querying
-  /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Archived Objects</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// For more information about the <code>S3</code> structure in the request
   /// body, see the following:
@@ -9781,14 +9944,12 @@ class S3 {
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html">Managing
-  /// Access with ACLs</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>
+  /// Access with ACLs</a> in the <i>Amazon S3 User Guide</i>
   /// </li>
   /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
-  /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>
+  /// Data Using Server-Side Encryption</a> in the <i>Amazon S3 User Guide</i>
   /// </li>
   /// </ul> </li>
   /// <li>
@@ -9824,7 +9985,7 @@ class S3 {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
   /// Reference for Amazon S3 Select and S3 Glacier Select</a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>.
+  /// S3 User Guide</i>.
   ///
   /// When making a select request, you can also do the following:
   ///
@@ -9915,14 +10076,13 @@ class S3 {
   /// For more information about archive retrieval options and provisioned
   /// capacity for <code>Expedited</code> data access, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html">Restoring
-  /// Archived Objects</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Archived Objects</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// You can use Amazon S3 restore speed upgrade to change the restore speed to
   /// a faster speed while it is in progress. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/restoring-objects.html#restoring-objects-upgrade-tier.title.html">
-  /// Upgrading the speed of an in-progress restore</a> in the <i>Amazon Simple
-  /// Storage Service Developer Guide</i>.
+  /// Upgrading the speed of an in-progress restore</a> in the <i>Amazon S3 User
+  /// Guide</i>.
   ///
   /// To get the status of object restoration, you can send a <code>HEAD</code>
   /// request. Operations return the <code>x-amz-restore</code> header, which
@@ -9930,8 +10090,7 @@ class S3 {
   /// can use Amazon S3 event notifications to notify you when a restore is
   /// initiated or completed. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
-  /// Amazon S3 Event Notifications</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Amazon S3 Event Notifications</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// After restoring an archived object, you can update the restoration period
   /// by reissuing the request with a new period. Amazon S3 updates the
@@ -9949,12 +10108,11 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
-  /// Lifecycle Management</a> in <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Lifecycle Management</a> in <i>Amazon S3 User Guide</i>.
   ///
   /// <b>Responses</b>
   ///
-  /// A successful operation returns either the <code>200 OK</code> or <code>202
+  /// A successful action returns either the <code>200 OK</code> or <code>202
   /// Accepted</code> status code.
   ///
   /// <ul>
@@ -10018,7 +10176,7 @@ class S3 {
   /// <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">SQL
   /// Reference for Amazon S3 Select and S3 Glacier Select </a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>
+  /// S3 User Guide</i>
   /// </li>
   /// </ul>
   ///
@@ -10027,43 +10185,42 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name containing the object to restore.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
-  /// Object key for which the operation was initiated.
+  /// Object key for which the action was initiated.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
   /// Parameter [versionId] :
   /// VersionId used to reference a specific version of the object.
   Future<RestoreObjectOutput> restoreObject({
-    @_s.required String bucket,
-    @_s.required String key,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
-    RestoreRequest restoreRequest,
-    String versionId,
+    required String bucket,
+    required String key,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    RestoreRequest? restoreRequest,
+    String? versionId,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -10074,10 +10231,11 @@ class S3 {
       1152921504606846976,
       isRequired: true,
     );
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+    };
     final $query = <String, List<String>>{
       if (versionId != null) 'versionId': [versionId],
     };
@@ -10100,11 +10258,11 @@ class S3 {
     );
   }
 
-  /// This operation filters the contents of an Amazon S3 object based on a
-  /// simple structured query language (SQL) statement. In the request, along
-  /// with the SQL expression, you must also specify a data serialization format
-  /// (JSON, CSV, or Apache Parquet) of the object. Amazon S3 uses this format
-  /// to parse object data into records, and returns only records that match the
+  /// This action filters the contents of an Amazon S3 object based on a simple
+  /// structured query language (SQL) statement. In the request, along with the
+  /// SQL expression, you must also specify a data serialization format (JSON,
+  /// CSV, or Apache Parquet) of the object. Amazon S3 uses this format to parse
+  /// object data into records, and returns only records that match the
   /// specified SQL expression. You must also specify the data serialization
   /// format for the response.
   ///
@@ -10112,13 +10270,12 @@ class S3 {
   ///
   /// For more information about Amazon S3 Select, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/selecting-content-from-objects.html">Selecting
-  /// Content from Objects</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// Content from Objects</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// For more information about using SQL with Amazon S3 Select, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-glacier-select-sql-reference.html">
   /// SQL Reference for Amazon S3 Select and S3 Glacier Select</a> in the
-  /// <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// <b>Permissions</b>
   ///
@@ -10126,8 +10283,7 @@ class S3 {
   /// operation. Amazon S3 Select does not support anonymous access. For more
   /// information about permissions, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-with-s3-actions.html">Specifying
-  /// Permissions in a Policy</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Permissions in a Policy</a> in the <i>Amazon S3 User Guide</i>.
   /// <p/>
   /// <i>Object Data Formats</i>
   ///
@@ -10160,7 +10316,7 @@ class S3 {
   /// For more information about SSE-C, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
   /// Encryption (Using Customer-Provided Encryption Keys)</a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>.
+  /// S3 User Guide</i>.
   ///
   /// For objects that are encrypted with Amazon S3 managed encryption keys
   /// (SSE-S3) and customer master keys (CMKs) stored in AWS Key Management
@@ -10168,8 +10324,7 @@ class S3 {
   /// don't need to specify anything. For more information about server-side
   /// encryption, including SSE-S3 and SSE-KMS, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">Protecting
-  /// Data Using Server-Side Encryption</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>.
+  /// Data Using Server-Side Encryption</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
   /// </ul>
   /// <b>Working with the Response Body</b>
@@ -10183,9 +10338,8 @@ class S3 {
   /// <p/>
   /// <b>GetObject Support</b>
   ///
-  /// The <code>SelectObjectContent</code> operation does not support the
-  /// following <code>GetObject</code> functionality. For more information, see
-  /// <a
+  /// The <code>SelectObjectContent</code> action does not support the following
+  /// <code>GetObject</code> functionality. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>.
   ///
   /// <ul>
@@ -10201,7 +10355,7 @@ class S3 {
   /// specify the GLACIER, DEEP_ARCHIVE, or <code>REDUCED_REDUNDANCY</code>
   /// storage classes. For more information, about storage classes see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#storage-class-intro">Storage
-  /// Classes</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// Classes</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
   /// </ul> <p/>
   /// <b>Special Errors</b>
@@ -10246,7 +10400,7 @@ class S3 {
   /// response.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -10292,18 +10446,18 @@ class S3 {
   /// </li>
   /// </ul>
   Future<SelectObjectContentOutput> selectObjectContent({
-    @_s.required String bucket,
-    @_s.required String expression,
-    @_s.required ExpressionType expressionType,
-    @_s.required InputSerialization inputSerialization,
-    @_s.required String key,
-    @_s.required OutputSerialization outputSerialization,
-    String expectedBucketOwner,
-    RequestProgress requestProgress,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
-    ScanRange scanRange,
+    required String bucket,
+    required String expression,
+    required ExpressionType expressionType,
+    required InputSerialization inputSerialization,
+    required String key,
+    required OutputSerialization outputSerialization,
+    String? expectedBucketOwner,
+    RequestProgress? requestProgress,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
+    ScanRange? scanRange,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(expression, 'expression');
@@ -10318,17 +10472,18 @@ class S3 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(outputSerialization, 'outputSerialization');
-    final headers = <String, String>{};
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
+    final headers = <String, String>{
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+    };
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
@@ -10403,14 +10558,12 @@ class S3 {
   ///
   /// For more information on multipart uploads, go to <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html">Multipart
-  /// Upload Overview</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide </i>.
+  /// Upload Overview</a> in the <i>Amazon S3 User Guide </i>.
   ///
   /// For information on the permissions required to use the multipart upload
   /// API, go to <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
-  /// Upload API and Permissions</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Upload and Permissions</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// You can optionally request server-side encryption where Amazon S3 encrypts
   /// your data as it writes it to disks in its data centers and decrypts it for
@@ -10422,8 +10575,7 @@ class S3 {
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html">CreateMultipartUpload</a>.
   /// For more information, go to <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Using
-  /// Server-Side Encryption</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Server-Side Encryption</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Server-side encryption is supported by the S3 Multipart Upload actions.
   /// Unless you are using a customer-provided encryption key, you don't need to
@@ -10495,25 +10647,24 @@ class S3 {
   /// Parameter [bucket] :
   /// The name of the bucket to which the multipart upload was initiated.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [key] :
   /// Object key for which the multipart upload was initiated.
@@ -10538,7 +10689,7 @@ class S3 {
   /// required if object lock parameters are specified.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
   ///
@@ -10560,18 +10711,18 @@ class S3 {
   /// 1321. Amazon S3 uses this header for a message integrity check to ensure
   /// that the encryption key was transmitted without error.
   Future<UploadPartOutput> uploadPart({
-    @_s.required String bucket,
-    @_s.required String key,
-    @_s.required int partNumber,
-    @_s.required String uploadId,
-    Uint8List body,
-    int contentLength,
-    String contentMD5,
-    String expectedBucketOwner,
-    RequestPayer requestPayer,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
+    required String bucket,
+    required String key,
+    required int partNumber,
+    required String uploadId,
+    Uint8List? body,
+    int? contentLength,
+    String? contentMD5,
+    String? expectedBucketOwner,
+    RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(key, 'key');
@@ -10584,23 +10735,24 @@ class S3 {
     );
     ArgumentError.checkNotNull(partNumber, 'partNumber');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    final headers = <String, String>{};
-    contentLength?.let((v) => headers['Content-Length'] = v.toString());
-    contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
+    final headers = <String, String>{
+      if (contentLength != null) 'Content-Length': contentLength.toString(),
+      if (contentMD5 != null) 'Content-MD5': contentMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+    };
     final $query = <String, List<String>>{
-      if (partNumber != null) 'partNumber': [partNumber.toString()],
-      if (uploadId != null) 'uploadId': [uploadId],
+      'partNumber': [partNumber.toString()],
+      'uploadId': [uploadId],
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
@@ -10640,11 +10792,11 @@ class S3 {
   /// The minimum allowable part size for a multipart upload is 5 MB. For more
   /// information about multipart upload limits, go to <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/qfacts.html">Quick
-  /// Facts</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// Facts</a> in the <i>Amazon S3 User Guide</i>.
   /// <note>
   /// Instead of using an existing object as part data, you might use the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html">UploadPart</a>
-  /// operation and provide data in your request.
+  /// action and provide data in your request.
   /// </note>
   /// You must initiate a multipart upload before you can upload any part. In
   /// response to your initiate request. Amazon S3 returns a unique identifier,
@@ -10657,22 +10809,19 @@ class S3 {
   /// <li>
   /// For conceptual information about multipart uploads, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html">Uploading
-  /// Objects Using Multipart Upload</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Objects Using Multipart Upload</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
   /// <li>
   /// For information about permissions required to use the multipart upload
   /// API, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html">Multipart
-  /// Upload API and Permissions</a> in the <i>Amazon Simple Storage Service
-  /// Developer Guide</i>.
+  /// Upload and Permissions</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
   /// <li>
-  /// For information about copying objects using a single atomic operation vs.
-  /// the multipart upload, see <a
+  /// For information about copying objects using a single atomic action vs. the
+  /// multipart upload, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectOperations.html">Operations
-  /// on Objects</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// on Objects</a> in the <i>Amazon S3 User Guide</i>.
   /// </li>
   /// <li>
   /// For information about using server-side encryption with customer-provided
@@ -10800,31 +10949,30 @@ class S3 {
   /// Parameter [bucket] :
   /// The bucket name.
   ///
-  /// When using this API with an access point, you must direct requests to the
-  /// access point hostname. The access point hostname takes the form
+  /// When using this action with an access point, you must direct requests to
+  /// the access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests
-  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct
+  /// requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
+  /// the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
   ///
   /// Parameter [copySource] :
   /// Specifies the source object for the copy operation. You specify the value
   /// in one of two formats, depending on whether you want to access the source
   /// object through an <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-points.html">access
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html">access
   /// point</a>:
   ///
   /// <ul>
@@ -10912,12 +11060,12 @@ class S3 {
   /// that the encryption key was transmitted without error.
   ///
   /// Parameter [expectedBucketOwner] :
-  /// The account id of the expected destination bucket owner. If the
+  /// The account ID of the expected destination bucket owner. If the
   /// destination bucket is owned by a different account, the request will fail
   /// with an HTTP <code>403 (Access Denied)</code> error.
   ///
   /// Parameter [expectedSourceBucketOwner] :
-  /// The account id of the expected source bucket owner. If the source bucket
+  /// The account ID of the expected source bucket owner. If the source bucket
   /// is owned by a different account, the request will fail with an HTTP
   /// <code>403 (Access Denied)</code> error.
   ///
@@ -10939,34 +11087,28 @@ class S3 {
   /// 1321. Amazon S3 uses this header for a message integrity check to ensure
   /// that the encryption key was transmitted without error.
   Future<UploadPartCopyOutput> uploadPartCopy({
-    @_s.required String bucket,
-    @_s.required String copySource,
-    @_s.required String key,
-    @_s.required int partNumber,
-    @_s.required String uploadId,
-    String copySourceIfMatch,
-    DateTime copySourceIfModifiedSince,
-    String copySourceIfNoneMatch,
-    DateTime copySourceIfUnmodifiedSince,
-    String copySourceRange,
-    String copySourceSSECustomerAlgorithm,
-    Uint8List copySourceSSECustomerKey,
-    String copySourceSSECustomerKeyMD5,
-    String expectedBucketOwner,
-    String expectedSourceBucketOwner,
-    RequestPayer requestPayer,
-    String sSECustomerAlgorithm,
-    Uint8List sSECustomerKey,
-    String sSECustomerKeyMD5,
+    required String bucket,
+    required String copySource,
+    required String key,
+    required int partNumber,
+    required String uploadId,
+    String? copySourceIfMatch,
+    DateTime? copySourceIfModifiedSince,
+    String? copySourceIfNoneMatch,
+    DateTime? copySourceIfUnmodifiedSince,
+    String? copySourceRange,
+    String? copySourceSSECustomerAlgorithm,
+    Uint8List? copySourceSSECustomerKey,
+    String? copySourceSSECustomerKeyMD5,
+    String? expectedBucketOwner,
+    String? expectedSourceBucketOwner,
+    RequestPayer? requestPayer,
+    String? sSECustomerAlgorithm,
+    Uint8List? sSECustomerKey,
+    String? sSECustomerKeyMD5,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
     ArgumentError.checkNotNull(copySource, 'copySource');
-    _s.validateStringPattern(
-      'copySource',
-      copySource,
-      r'''\/.+\/.+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(key, 'key');
     _s.validateStringLength(
       'key',
@@ -10977,43 +11119,47 @@ class S3 {
     );
     ArgumentError.checkNotNull(partNumber, 'partNumber');
     ArgumentError.checkNotNull(uploadId, 'uploadId');
-    final headers = <String, String>{};
-    copySource?.let((v) => headers['x-amz-copy-source'] = v.toString());
-    copySourceIfMatch
-        ?.let((v) => headers['x-amz-copy-source-if-match'] = v.toString());
-    copySourceIfModifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-modified-since'] = _s.rfc822ToJson(v));
-    copySourceIfNoneMatch
-        ?.let((v) => headers['x-amz-copy-source-if-none-match'] = v.toString());
-    copySourceIfUnmodifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-unmodified-since'] = _s.rfc822ToJson(v));
-    copySourceRange
-        ?.let((v) => headers['x-amz-copy-source-range'] = v.toString());
-    copySourceSSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-copy-source-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    copySourceSSECustomerKey?.let((v) =>
-        headers['x-amz-copy-source-server-side-encryption-customer-key'] =
-            v.toString());
-    copySourceSSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-copy-source-server-side-encryption-customer-key-MD5'] =
-            v.toString());
-    expectedBucketOwner
-        ?.let((v) => headers['x-amz-expected-bucket-owner'] = v.toString());
-    expectedSourceBucketOwner?.let(
-        (v) => headers['x-amz-source-expected-bucket-owner'] = v.toString());
-    requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    sSECustomerAlgorithm?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-algorithm'] =
-            v.toString());
-    sSECustomerKey?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key'] = v.toString());
-    sSECustomerKeyMD5?.let((v) =>
-        headers['x-amz-server-side-encryption-customer-key-MD5'] =
-            v.toString());
+    final headers = <String, String>{
+      'x-amz-copy-source': copySource.toString(),
+      if (copySourceIfMatch != null)
+        'x-amz-copy-source-if-match': copySourceIfMatch.toString(),
+      if (copySourceIfModifiedSince != null)
+        'x-amz-copy-source-if-modified-since':
+            _s.rfc822ToJson(copySourceIfModifiedSince),
+      if (copySourceIfNoneMatch != null)
+        'x-amz-copy-source-if-none-match': copySourceIfNoneMatch.toString(),
+      if (copySourceIfUnmodifiedSince != null)
+        'x-amz-copy-source-if-unmodified-since':
+            _s.rfc822ToJson(copySourceIfUnmodifiedSince),
+      if (copySourceRange != null)
+        'x-amz-copy-source-range': copySourceRange.toString(),
+      if (copySourceSSECustomerAlgorithm != null)
+        'x-amz-copy-source-server-side-encryption-customer-algorithm':
+            copySourceSSECustomerAlgorithm.toString(),
+      if (copySourceSSECustomerKey != null)
+        'x-amz-copy-source-server-side-encryption-customer-key':
+            copySourceSSECustomerKey.toString(),
+      if (copySourceSSECustomerKeyMD5 != null)
+        'x-amz-copy-source-server-side-encryption-customer-key-MD5':
+            copySourceSSECustomerKeyMD5.toString(),
+      if (expectedBucketOwner != null)
+        'x-amz-expected-bucket-owner': expectedBucketOwner.toString(),
+      if (expectedSourceBucketOwner != null)
+        'x-amz-source-expected-bucket-owner':
+            expectedSourceBucketOwner.toString(),
+      if (requestPayer != null) 'x-amz-request-payer': requestPayer.toValue(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKey != null)
+        'x-amz-server-side-encryption-customer-key': sSECustomerKey.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+    };
     final $query = <String, List<String>>{
-      if (partNumber != null) 'partNumber': [partNumber.toString()],
-      if (uploadId != null) 'uploadId': [uploadId],
+      'partNumber': [partNumber.toString()],
+      'uploadId': [uploadId],
     };
     final $result = await _protocol.sendRaw(
       method: 'PUT',
@@ -11045,6 +11191,363 @@ class S3 {
           ?.toServerSideEncryption(),
     );
   }
+
+  /// Passes transformed objects to a <code>GetObject</code> operation when
+  /// using Object Lambda Access Points. For information about Object Lambda
+  /// Access Points, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html">Transforming
+  /// objects with Object Lambda Access Points</a> in the <i>Amazon S3 User
+  /// Guide</i>.
+  ///
+  /// This operation supports metadata that can be returned by <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>,
+  /// in addition to <code>RequestRoute</code>, <code>RequestToken</code>,
+  /// <code>StatusCode</code>, <code>ErrorCode</code>, and
+  /// <code>ErrorMessage</code>. The <code>GetObject</code> response metadata is
+  /// supported so that the <code>WriteGetObjectResponse</code> caller,
+  /// typically an AWS Lambda function, can provide the same metadata when it
+  /// internally invokes <code>GetObject</code>. When
+  /// <code>WriteGetObjectResponse</code> is called by a customer-owned Lambda
+  /// function, the metadata returned to the end user <code>GetObject</code>
+  /// call might differ from what Amazon S3 would normally return.
+  ///
+  /// AWS provides some prebuilt Lambda functions that you can use with S3
+  /// Object Lambda to detect and redact personally identifiable information
+  /// (PII) and decompress S3 objects. These Lambda functions are available in
+  /// the AWS Serverless Application Repository, and can be selected through the
+  /// AWS Management Console when you create your Object Lambda Access Point.
+  ///
+  /// Example 1: PII Access Control - This Lambda function uses Amazon
+  /// Comprehend, a natural language processing (NLP) service using machine
+  /// learning to find insights and relationships in text. It automatically
+  /// detects personally identifiable information (PII) such as names,
+  /// addresses, dates, credit card numbers, and social security numbers from
+  /// documents in your Amazon S3 bucket.
+  ///
+  /// Example 2: PII Redaction - This Lambda function uses Amazon Comprehend, a
+  /// natural language processing (NLP) service using machine learning to find
+  /// insights and relationships in text. It automatically redacts personally
+  /// identifiable information (PII) such as names, addresses, dates, credit
+  /// card numbers, and social security numbers from documents in your Amazon S3
+  /// bucket.
+  ///
+  /// Example 3: Decompression - The Lambda function
+  /// S3ObjectLambdaDecompression, is equipped to decompress objects stored in
+  /// S3 in one of six compressed file formats including bzip2, gzip, snappy,
+  /// zlib, zstandard and ZIP.
+  ///
+  /// For information on how to view and use these functions, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html">Using
+  /// AWS built Lambda functions</a> in the <i>Amazon S3 User Guide</i>.
+  ///
+  /// Parameter [requestRoute] :
+  /// Route prefix to the HTTP URL generated.
+  ///
+  /// Parameter [requestToken] :
+  /// A single use encrypted token that maps <code>WriteGetObjectResponse</code>
+  /// to the end user <code>GetObject</code> request.
+  ///
+  /// Parameter [acceptRanges] :
+  /// Indicates that a range of bytes was specified.
+  ///
+  /// Parameter [body] :
+  /// The object data.
+  ///
+  /// Parameter [bucketKeyEnabled] :
+  /// Indicates whether the object stored in Amazon S3 uses an S3 bucket key for
+  /// server-side encryption with AWS KMS (SSE-KMS).
+  ///
+  /// Parameter [cacheControl] :
+  /// Specifies caching behavior along the request/reply chain.
+  ///
+  /// Parameter [contentDisposition] :
+  /// Specifies presentational information for the object.
+  ///
+  /// Parameter [contentEncoding] :
+  /// Specifies what content encodings have been applied to the object and thus
+  /// what decoding mechanisms must be applied to obtain the media-type
+  /// referenced by the Content-Type header field.
+  ///
+  /// Parameter [contentLanguage] :
+  /// The language the content is in.
+  ///
+  /// Parameter [contentLength] :
+  /// The size of the content body in bytes.
+  ///
+  /// Parameter [contentRange] :
+  /// The portion of the object returned in the response.
+  ///
+  /// Parameter [contentType] :
+  /// A standard MIME type describing the format of the object data.
+  ///
+  /// Parameter [deleteMarker] :
+  /// Specifies whether an object stored in Amazon S3 is (<code>true</code>) or
+  /// is not (<code>false</code>) a delete marker.
+  ///
+  /// Parameter [eTag] :
+  /// An opaque identifier assigned by a web server to a specific version of a
+  /// resource found at a URL.
+  ///
+  /// Parameter [errorCode] :
+  /// A string that uniquely identifies an error condition. Returned in the
+  /// &lt;Code&gt; tag of the error XML response for a corresponding
+  /// <code>GetObject</code> call. Cannot be used with a successful
+  /// <code>StatusCode</code> header or when the transformed object is provided
+  /// in the body. All error codes from S3 are sentence-cased. Regex value is
+  /// "^[A-Z][a-zA-Z]+$".
+  ///
+  /// Parameter [errorMessage] :
+  /// Contains a generic description of the error condition. Returned in the
+  /// &lt;Message&gt; tag of the error XML response for a corresponding
+  /// <code>GetObject</code> call. Cannot be used with a successful
+  /// <code>StatusCode</code> header or when the transformed object is provided
+  /// in body.
+  ///
+  /// Parameter [expiration] :
+  /// If object stored in Amazon S3 expiration is configured (see PUT Bucket
+  /// lifecycle) it includes expiry-date and rule-id key-value pairs providing
+  /// object expiration information. The value of the rule-id is URL encoded.
+  ///
+  /// Parameter [expires] :
+  /// The date and time at which the object is no longer cacheable.
+  ///
+  /// Parameter [lastModified] :
+  /// The date and time that the object was last modified.
+  ///
+  /// Parameter [metadata] :
+  /// A map of metadata to store with the object in S3.
+  ///
+  /// Parameter [missingMeta] :
+  /// Set to the number of metadata entries not returned in
+  /// <code>x-amz-meta</code> headers. This can happen if you create metadata
+  /// using an API like SOAP that supports more flexible metadata than the REST
+  /// API. For example, using SOAP, you can create metadata whose values are not
+  /// legal HTTP headers.
+  ///
+  /// Parameter [objectLockLegalHoldStatus] :
+  /// Indicates whether an object stored in Amazon S3 has an active legal hold.
+  ///
+  /// Parameter [objectLockMode] :
+  /// Indicates whether an object stored in Amazon S3 has Object Lock enabled.
+  /// For more information about S3 Object Lock, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html">Object
+  /// Lock</a>.
+  ///
+  /// Parameter [objectLockRetainUntilDate] :
+  /// The date and time when Object Lock is configured to expire.
+  ///
+  /// Parameter [partsCount] :
+  /// The count of parts this object has.
+  ///
+  /// Parameter [replicationStatus] :
+  /// Indicates if request involves bucket that is either a source or
+  /// destination in a Replication rule. For more information about S3
+  /// Replication, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html">Replication</a>.
+  ///
+  /// Parameter [restore] :
+  /// Provides information about object restoration operation and expiration
+  /// time of the restored object copy.
+  ///
+  /// Parameter [sSECustomerAlgorithm] :
+  /// Encryption algorithm used if server-side encryption with a
+  /// customer-provided encryption key was specified for object stored in Amazon
+  /// S3.
+  ///
+  /// Parameter [sSECustomerKeyMD5] :
+  /// 128-bit MD5 digest of customer-provided encryption key used in Amazon S3
+  /// to encrypt data stored in S3. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html">Protecting
+  /// data using server-side encryption with customer-provided encryption keys
+  /// (SSE-C)</a>.
+  ///
+  /// Parameter [sSEKMSKeyId] :
+  /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
+  /// symmetric customer managed customer master key (CMK) that was used for
+  /// stored in Amazon S3 object.
+  ///
+  /// Parameter [serverSideEncryption] :
+  /// The server-side encryption algorithm used when storing requested object in
+  /// Amazon S3 (for example, AES256, aws:kms).
+  ///
+  /// Parameter [statusCode] :
+  /// The integer status code for an HTTP response of a corresponding
+  /// <code>GetObject</code> request.
+  /// <p class="title"> <b>Status Codes</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <i>200 - OK</i>
+  /// </li>
+  /// <li>
+  /// <i>206 - Partial Content</i>
+  /// </li>
+  /// <li>
+  /// <i>304 - Not Modified</i>
+  /// </li>
+  /// <li>
+  /// <i>400 - Bad Request</i>
+  /// </li>
+  /// <li>
+  /// <i>401 - Unauthorized</i>
+  /// </li>
+  /// <li>
+  /// <i>403 - Forbidden</i>
+  /// </li>
+  /// <li>
+  /// <i>404 - Not Found</i>
+  /// </li>
+  /// <li>
+  /// <i>405 - Method Not Allowed</i>
+  /// </li>
+  /// <li>
+  /// <i>409 - Conflict</i>
+  /// </li>
+  /// <li>
+  /// <i>411 - Length Required</i>
+  /// </li>
+  /// <li>
+  /// <i>412 - Precondition Failed</i>
+  /// </li>
+  /// <li>
+  /// <i>416 - Range Not Satisfiable</i>
+  /// </li>
+  /// <li>
+  /// <i>500 - Internal Server Error</i>
+  /// </li>
+  /// <li>
+  /// <i>503 - Service Unavailable</i>
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [storageClass] :
+  /// The class of storage used to store object in Amazon S3.
+  ///
+  /// Parameter [tagCount] :
+  /// The number of tags, if any, on the object.
+  ///
+  /// Parameter [versionId] :
+  /// An ID used to reference a specific version of the object.
+  Future<void> writeGetObjectResponse({
+    required String requestRoute,
+    required String requestToken,
+    String? acceptRanges,
+    Uint8List? body,
+    bool? bucketKeyEnabled,
+    String? cacheControl,
+    String? contentDisposition,
+    String? contentEncoding,
+    String? contentLanguage,
+    int? contentLength,
+    String? contentRange,
+    String? contentType,
+    bool? deleteMarker,
+    String? eTag,
+    String? errorCode,
+    String? errorMessage,
+    String? expiration,
+    DateTime? expires,
+    DateTime? lastModified,
+    Map<String, String>? metadata,
+    int? missingMeta,
+    ObjectLockLegalHoldStatus? objectLockLegalHoldStatus,
+    ObjectLockMode? objectLockMode,
+    DateTime? objectLockRetainUntilDate,
+    int? partsCount,
+    ReplicationStatus? replicationStatus,
+    RequestCharged? requestCharged,
+    String? restore,
+    String? sSECustomerAlgorithm,
+    String? sSECustomerKeyMD5,
+    String? sSEKMSKeyId,
+    ServerSideEncryption? serverSideEncryption,
+    int? statusCode,
+    StorageClass? storageClass,
+    int? tagCount,
+    String? versionId,
+  }) async {
+    ArgumentError.checkNotNull(requestRoute, 'requestRoute');
+    ArgumentError.checkNotNull(requestToken, 'requestToken');
+    final headers = <String, String>{
+      'x-amz-request-route': requestRoute.toString(),
+      'x-amz-request-token': requestToken.toString(),
+      if (acceptRanges != null)
+        'x-amz-fwd-header-accept-ranges': acceptRanges.toString(),
+      if (bucketKeyEnabled != null)
+        'x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled':
+            bucketKeyEnabled.toString(),
+      if (cacheControl != null)
+        'x-amz-fwd-header-Cache-Control': cacheControl.toString(),
+      if (contentDisposition != null)
+        'x-amz-fwd-header-Content-Disposition': contentDisposition.toString(),
+      if (contentEncoding != null)
+        'x-amz-fwd-header-Content-Encoding': contentEncoding.toString(),
+      if (contentLanguage != null)
+        'x-amz-fwd-header-Content-Language': contentLanguage.toString(),
+      if (contentLength != null) 'Content-Length': contentLength.toString(),
+      if (contentRange != null)
+        'x-amz-fwd-header-Content-Range': contentRange.toString(),
+      if (contentType != null)
+        'x-amz-fwd-header-Content-Type': contentType.toString(),
+      if (deleteMarker != null)
+        'x-amz-fwd-header-x-amz-delete-marker': deleteMarker.toString(),
+      if (eTag != null) 'x-amz-fwd-header-ETag': eTag.toString(),
+      if (errorCode != null) 'x-amz-fwd-error-code': errorCode.toString(),
+      if (errorMessage != null)
+        'x-amz-fwd-error-message': errorMessage.toString(),
+      if (expiration != null)
+        'x-amz-fwd-header-x-amz-expiration': expiration.toString(),
+      if (expires != null) 'x-amz-fwd-header-Expires': _s.rfc822ToJson(expires),
+      if (lastModified != null)
+        'x-amz-fwd-header-Last-Modified': _s.rfc822ToJson(lastModified),
+      if (metadata != null)
+        ...metadata.map((key, value) => MapEntry('x-amz-meta-$key', value)),
+      if (missingMeta != null)
+        'x-amz-fwd-header-x-amz-missing-meta': missingMeta.toString(),
+      if (objectLockLegalHoldStatus != null)
+        'x-amz-fwd-header-x-amz-object-lock-legal-hold':
+            objectLockLegalHoldStatus.toValue(),
+      if (objectLockMode != null)
+        'x-amz-fwd-header-x-amz-object-lock-mode': objectLockMode.toValue(),
+      if (objectLockRetainUntilDate != null)
+        'x-amz-fwd-header-x-amz-object-lock-retain-until-date':
+            _s.iso8601ToJson(objectLockRetainUntilDate),
+      if (partsCount != null)
+        'x-amz-fwd-header-x-amz-mp-parts-count': partsCount.toString(),
+      if (replicationStatus != null)
+        'x-amz-fwd-header-x-amz-replication-status':
+            replicationStatus.toValue(),
+      if (requestCharged != null)
+        'x-amz-fwd-header-x-amz-request-charged': requestCharged.toValue(),
+      if (restore != null) 'x-amz-fwd-header-x-amz-restore': restore.toString(),
+      if (sSECustomerAlgorithm != null)
+        'x-amz-fwd-header-x-amz-server-side-encryption-customer-algorithm':
+            sSECustomerAlgorithm.toString(),
+      if (sSECustomerKeyMD5 != null)
+        'x-amz-fwd-header-x-amz-server-side-encryption-customer-key-MD5':
+            sSECustomerKeyMD5.toString(),
+      if (sSEKMSKeyId != null)
+        'x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id':
+            sSEKMSKeyId.toString(),
+      if (serverSideEncryption != null)
+        'x-amz-fwd-header-x-amz-server-side-encryption':
+            serverSideEncryption.toValue(),
+      if (statusCode != null) 'x-amz-fwd-status': statusCode.toString(),
+      if (storageClass != null)
+        'x-amz-fwd-header-x-amz-storage-class': storageClass.toValue(),
+      if (tagCount != null)
+        'x-amz-fwd-header-x-amz-tagging-count': tagCount.toString(),
+      if (versionId != null)
+        'x-amz-fwd-header-x-amz-version-id': versionId.toString(),
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/WriteGetObjectResponse',
+      headers: headers,
+      payload: body,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
 }
 
 /// Specifies the days since the initiation of an incomplete multipart upload
@@ -11052,22 +11555,38 @@ class S3 {
 /// upload. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config">
 /// Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Policy</a> in
-/// the <i>Amazon Simple Storage Service Developer Guide</i>.
+/// the <i>Amazon S3 User Guide</i>.
 class AbortIncompleteMultipartUpload {
   /// Specifies the number of days after which Amazon S3 aborts an incomplete
   /// multipart upload.
-  final int daysAfterInitiation;
+  final int? daysAfterInitiation;
 
   AbortIncompleteMultipartUpload({
     this.daysAfterInitiation,
   });
+
+  factory AbortIncompleteMultipartUpload.fromJson(Map<String, dynamic> json) {
+    return AbortIncompleteMultipartUpload(
+      daysAfterInitiation: json['DaysAfterInitiation'] as int?,
+    );
+  }
+
   factory AbortIncompleteMultipartUpload.fromXml(_s.XmlElement elem) {
     return AbortIncompleteMultipartUpload(
       daysAfterInitiation: _s.extractXmlIntValue(elem, 'DaysAfterInitiation'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final daysAfterInitiation = this.daysAfterInitiation;
+    return {
+      if (daysAfterInitiation != null)
+        'DaysAfterInitiation': daysAfterInitiation,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final daysAfterInitiation = this.daysAfterInitiation;
     final $children = <_s.XmlNode>[
       if (daysAfterInitiation != null)
         _s.encodeXmlIntValue('DaysAfterInitiation', daysAfterInitiation),
@@ -11078,32 +11597,58 @@ class AbortIncompleteMultipartUpload {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class AbortMultipartUploadOutput {
-  final RequestCharged requestCharged;
+  final RequestCharged? requestCharged;
 
   AbortMultipartUploadOutput({
     this.requestCharged,
   });
+
+  factory AbortMultipartUploadOutput.fromJson(Map<String, dynamic> json) {
+    return AbortMultipartUploadOutput(
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestCharged = this.requestCharged;
+    return {};
+  }
 }
 
 /// Configures the transfer acceleration state for an Amazon S3 bucket. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html">Amazon
-/// S3 Transfer Acceleration</a> in the <i>Amazon Simple Storage Service
-/// Developer Guide</i>.
+/// S3 Transfer Acceleration</a> in the <i>Amazon S3 User Guide</i>.
 class AccelerateConfiguration {
   /// Specifies the transfer acceleration status of the bucket.
-  final BucketAccelerateStatus status;
+  final BucketAccelerateStatus? status;
 
   AccelerateConfiguration({
     this.status,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory AccelerateConfiguration.fromJson(Map<String, dynamic> json) {
+    return AccelerateConfiguration(
+      status: (json['Status'] as String?)?.toBucketAccelerateStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
     final $children = <_s.XmlNode>[
       if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
     ];
@@ -11113,7 +11658,7 @@ class AccelerateConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11122,21 +11667,45 @@ class AccelerateConfiguration {
 /// grantee.
 class AccessControlPolicy {
   /// A list of grants.
-  final List<Grant> grants;
+  final List<Grant>? grants;
 
   /// Container for the bucket owner's display name and ID.
-  final Owner owner;
+  final Owner? owner;
 
   AccessControlPolicy({
     this.grants,
     this.owner,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory AccessControlPolicy.fromJson(Map<String, dynamic> json) {
+    return AccessControlPolicy(
+      grants: (json['AccessControlList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Grant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grants = this.grants;
+    final owner = this.owner;
+    return {
+      if (grants != null) 'AccessControlList': grants,
+      if (owner != null) 'Owner': owner,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final grants = this.grants;
+    final owner = this.owner;
     final $children = <_s.XmlNode>[
       if (grants != null)
         _s.XmlElement(_s.XmlName('AccessControlList'), [],
-            grants.map((e) => e?.toXml('Grant'))),
-      if (owner != null) owner?.toXml('Owner'),
+            grants.map((e) => e.toXml('Grant'))),
+      if (owner != null) owner.toXml('Owner'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11144,7 +11713,7 @@ class AccessControlPolicy {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11153,22 +11722,36 @@ class AccessControlPolicy {
 class AccessControlTranslation {
   /// Specifies the replica ownership. For default and valid values, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html">PUT
-  /// bucket replication</a> in the <i>Amazon Simple Storage Service API
-  /// Reference</i>.
+  /// bucket replication</a> in the <i>Amazon S3 API Reference</i>.
   final OwnerOverride owner;
 
   AccessControlTranslation({
-    @_s.required this.owner,
+    required this.owner,
   });
-  factory AccessControlTranslation.fromXml(_s.XmlElement elem) {
+
+  factory AccessControlTranslation.fromJson(Map<String, dynamic> json) {
     return AccessControlTranslation(
-      owner: _s.extractXmlStringValue(elem, 'Owner')?.toOwnerOverride(),
+      owner: (json['Owner'] as String).toOwnerOverride(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory AccessControlTranslation.fromXml(_s.XmlElement elem) {
+    return AccessControlTranslation(
+      owner: _s.extractXmlStringValue(elem, 'Owner')!.toOwnerOverride(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final owner = this.owner;
+    return {
+      'Owner': owner.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final owner = this.owner;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Owner', owner?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Owner', owner.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11176,7 +11759,7 @@ class AccessControlTranslation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11188,15 +11771,26 @@ class AccessControlTranslation {
 class AnalyticsAndOperator {
   /// The prefix to use when evaluating an AND predicate: The prefix that an
   /// object must have to be included in the metrics results.
-  final String prefix;
+  final String? prefix;
 
   /// The list of tags to use when evaluating an AND predicate.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   AnalyticsAndOperator({
     this.prefix,
     this.tags,
   });
+
+  factory AnalyticsAndOperator.fromJson(Map<String, dynamic> json) {
+    return AnalyticsAndOperator(
+      prefix: json['Prefix'] as String?,
+      tags: (json['Tag'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory AnalyticsAndOperator.fromXml(_s.XmlElement elem) {
     return AnalyticsAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
@@ -11204,10 +11798,21 @@ class AnalyticsAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    final tags = this.tags;
+    return {
+      if (prefix != null) 'Prefix': prefix,
+      if (tags != null) 'Tag': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
+      if (tags != null) ...tags.map((e) => e.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11215,7 +11820,7 @@ class AnalyticsAndOperator {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11233,30 +11838,55 @@ class AnalyticsConfiguration {
   /// The filter used to describe a set of objects for analyses. A filter must
   /// have exactly one prefix, one tag, or one conjunction (AnalyticsAndOperator).
   /// If no filter is provided, all objects will be considered in any analysis.
-  final AnalyticsFilter filter;
+  final AnalyticsFilter? filter;
 
   AnalyticsConfiguration({
-    @_s.required this.id,
-    @_s.required this.storageClassAnalysis,
+    required this.id,
+    required this.storageClassAnalysis,
     this.filter,
   });
+
+  factory AnalyticsConfiguration.fromJson(Map<String, dynamic> json) {
+    return AnalyticsConfiguration(
+      id: json['Id'] as String,
+      storageClassAnalysis: StorageClassAnalysis.fromJson(
+          json['StorageClassAnalysis'] as Map<String, dynamic>),
+      filter: json['Filter'] != null
+          ? AnalyticsFilter.fromJson(json['Filter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory AnalyticsConfiguration.fromXml(_s.XmlElement elem) {
     return AnalyticsConfiguration(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      storageClassAnalysis: _s
-          .extractXmlChild(elem, 'StorageClassAnalysis')
-          ?.let((e) => StorageClassAnalysis.fromXml(e)),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      storageClassAnalysis: StorageClassAnalysis.fromXml(
+          _s.extractXmlChild(elem, 'StorageClassAnalysis')!),
       filter: _s
           .extractXmlChild(elem, 'Filter')
           ?.let((e) => AnalyticsFilter.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final storageClassAnalysis = this.storageClassAnalysis;
+    final filter = this.filter;
+    return {
+      'Id': id,
+      'StorageClassAnalysis': storageClassAnalysis,
+      if (filter != null) 'Filter': filter,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final id = this.id;
+    final storageClassAnalysis = this.storageClassAnalysis;
+    final filter = this.filter;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      if (filter != null) filter?.toXml('Filter'),
-      storageClassAnalysis?.toXml('StorageClassAnalysis'),
+      if (filter != null) filter.toXml('Filter'),
+      storageClassAnalysis.toXml('StorageClassAnalysis'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11264,7 +11894,7 @@ class AnalyticsConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11275,19 +11905,34 @@ class AnalyticsExportDestination {
   final AnalyticsS3BucketDestination s3BucketDestination;
 
   AnalyticsExportDestination({
-    @_s.required this.s3BucketDestination,
+    required this.s3BucketDestination,
   });
-  factory AnalyticsExportDestination.fromXml(_s.XmlElement elem) {
+
+  factory AnalyticsExportDestination.fromJson(Map<String, dynamic> json) {
     return AnalyticsExportDestination(
-      s3BucketDestination: _s
-          .extractXmlChild(elem, 'S3BucketDestination')
-          ?.let((e) => AnalyticsS3BucketDestination.fromXml(e)),
+      s3BucketDestination: AnalyticsS3BucketDestination.fromJson(
+          json['S3BucketDestination'] as Map<String, dynamic>),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory AnalyticsExportDestination.fromXml(_s.XmlElement elem) {
+    return AnalyticsExportDestination(
+      s3BucketDestination: AnalyticsS3BucketDestination.fromXml(
+          _s.extractXmlChild(elem, 'S3BucketDestination')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketDestination = this.s3BucketDestination;
+    return {
+      'S3BucketDestination': s3BucketDestination,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3BucketDestination = this.s3BucketDestination;
     final $children = <_s.XmlNode>[
-      s3BucketDestination?.toXml('S3BucketDestination'),
+      s3BucketDestination.toXml('S3BucketDestination'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11295,7 +11940,7 @@ class AnalyticsExportDestination {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11306,19 +11951,32 @@ class AnalyticsExportDestination {
 class AnalyticsFilter {
   /// A conjunction (logical AND) of predicates, which is used in evaluating an
   /// analytics filter. The operator must have at least two predicates.
-  final AnalyticsAndOperator and;
+  final AnalyticsAndOperator? and;
 
   /// The prefix to use when evaluating an analytics filter.
-  final String prefix;
+  final String? prefix;
 
   /// The tag to use when evaluating an analytics filter.
-  final Tag tag;
+  final Tag? tag;
 
   AnalyticsFilter({
     this.and,
     this.prefix,
     this.tag,
   });
+
+  factory AnalyticsFilter.fromJson(Map<String, dynamic> json) {
+    return AnalyticsFilter(
+      and: json['And'] != null
+          ? AnalyticsAndOperator.fromJson(json['And'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+      tag: json['Tag'] != null
+          ? Tag.fromJson(json['Tag'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory AnalyticsFilter.fromXml(_s.XmlElement elem) {
     return AnalyticsFilter(
       and: _s
@@ -11329,11 +11987,25 @@ class AnalyticsFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    return {
+      if (and != null) 'And': and,
+      if (prefix != null) 'Prefix': prefix,
+      if (tag != null) 'Tag': tag,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tag != null) tag?.toXml('Tag'),
-      if (and != null) and?.toXml('And'),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11341,7 +12013,7 @@ class AnalyticsFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11360,32 +12032,59 @@ class AnalyticsS3BucketDestination {
   /// Although this value is optional, we strongly recommend that you set it to
   /// help prevent problems if the destination bucket ownership changes.
   /// </note>
-  final String bucketAccountId;
+  final String? bucketAccountId;
 
   /// The prefix to use when exporting data. The prefix is prepended to all
   /// results.
-  final String prefix;
+  final String? prefix;
 
   AnalyticsS3BucketDestination({
-    @_s.required this.bucket,
-    @_s.required this.format,
+    required this.bucket,
+    required this.format,
     this.bucketAccountId,
     this.prefix,
   });
+
+  factory AnalyticsS3BucketDestination.fromJson(Map<String, dynamic> json) {
+    return AnalyticsS3BucketDestination(
+      bucket: json['Bucket'] as String,
+      format: (json['Format'] as String).toAnalyticsS3ExportFileFormat(),
+      bucketAccountId: json['BucketAccountId'] as String?,
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
   factory AnalyticsS3BucketDestination.fromXml(_s.XmlElement elem) {
     return AnalyticsS3BucketDestination(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
       format: _s
-          .extractXmlStringValue(elem, 'Format')
-          ?.toAnalyticsS3ExportFileFormat(),
+          .extractXmlStringValue(elem, 'Format')!
+          .toAnalyticsS3ExportFileFormat(),
       bucketAccountId: _s.extractXmlStringValue(elem, 'BucketAccountId'),
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final format = this.format;
+    final bucketAccountId = this.bucketAccountId;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      'Format': format.toValue(),
+      if (bucketAccountId != null) 'BucketAccountId': bucketAccountId,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final format = this.format;
+    final bucketAccountId = this.bucketAccountId;
+    final prefix = this.prefix;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Format', format.toValue()),
       if (bucketAccountId != null)
         _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
       _s.encodeXmlStringValue('Bucket', bucket),
@@ -11397,7 +12096,7 @@ class AnalyticsS3BucketDestination {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11412,7 +12111,6 @@ extension on AnalyticsS3ExportFileFormat {
       case AnalyticsS3ExportFileFormat.csv:
         return 'CSV';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11422,7 +12120,7 @@ extension on String {
       case 'CSV':
         return AnalyticsS3ExportFileFormat.csv;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AnalyticsS3ExportFileFormat');
   }
 }
 
@@ -11439,7 +12137,6 @@ extension on ArchiveStatus {
       case ArchiveStatus.deepArchiveAccess:
         return 'DEEP_ARCHIVE_ACCESS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11451,7 +12148,7 @@ extension on String {
       case 'DEEP_ARCHIVE_ACCESS':
         return ArchiveStatus.deepArchiveAccess;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ArchiveStatus');
   }
 }
 
@@ -11460,20 +12157,38 @@ extension on String {
 class Bucket {
   /// Date the bucket was created. This date can change when making changes to
   /// your bucket, such as editing its bucket policy.
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The name of the bucket.
-  final String name;
+  final String? name;
 
   Bucket({
     this.creationDate,
     this.name,
   });
+
+  factory Bucket.fromJson(Map<String, dynamic> json) {
+    return Bucket(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      name: json['Name'] as String?,
+    );
+  }
+
   factory Bucket.fromXml(_s.XmlElement elem) {
     return Bucket(
       creationDate: _s.extractXmlDateTimeValue(elem, 'CreationDate'),
       name: _s.extractXmlStringValue(elem, 'Name'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final name = this.name;
+    return {
+      if (creationDate != null)
+        'CreationDate': unixTimestampToJson(creationDate),
+      if (name != null) 'Name': name,
+    };
   }
 }
 
@@ -11490,7 +12205,6 @@ extension on BucketAccelerateStatus {
       case BucketAccelerateStatus.suspended:
         return 'Suspended';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11502,7 +12216,7 @@ extension on String {
       case 'Suspended':
         return BucketAccelerateStatus.suspended;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BucketAccelerateStatus');
   }
 }
 
@@ -11525,7 +12239,6 @@ extension on BucketCannedACL {
       case BucketCannedACL.authenticatedRead:
         return 'authenticated-read';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11541,25 +12254,42 @@ extension on String {
       case 'authenticated-read':
         return BucketCannedACL.authenticatedRead;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BucketCannedACL');
   }
 }
 
 /// Specifies the lifecycle configuration for objects in an Amazon S3 bucket.
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html">Object
-/// Lifecycle Management</a> in the <i>Amazon Simple Storage Service Developer
-/// Guide</i>.
+/// Lifecycle Management</a> in the <i>Amazon S3 User Guide</i>.
 class BucketLifecycleConfiguration {
   /// A lifecycle rule for individual objects in an Amazon S3 bucket.
   final List<LifecycleRule> rules;
 
   BucketLifecycleConfiguration({
-    @_s.required this.rules,
+    required this.rules,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory BucketLifecycleConfiguration.fromJson(Map<String, dynamic> json) {
+    return BucketLifecycleConfiguration(
+      rules: (json['Rule'] as List)
+          .whereNotNull()
+          .map((e) => LifecycleRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      'Rule': rules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final rules = this.rules;
     final $children = <_s.XmlNode>[
-      ...rules?.map((e) => e?.toXml('Rule')),
+      ...rules.map((e) => e.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11567,7 +12297,7 @@ class BucketLifecycleConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11654,7 +12384,6 @@ extension on BucketLocationConstraint {
       case BucketLocationConstraint.usWest_2:
         return 'us-west-2';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11712,20 +12441,38 @@ extension on String {
       case 'us-west-2':
         return BucketLocationConstraint.usWest_2;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BucketLocationConstraint');
   }
 }
 
 /// Container for logging status information.
 class BucketLoggingStatus {
-  final LoggingEnabled loggingEnabled;
+  final LoggingEnabled? loggingEnabled;
 
   BucketLoggingStatus({
     this.loggingEnabled,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory BucketLoggingStatus.fromJson(Map<String, dynamic> json) {
+    return BucketLoggingStatus(
+      loggingEnabled: json['LoggingEnabled'] != null
+          ? LoggingEnabled.fromJson(
+              json['LoggingEnabled'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final loggingEnabled = this.loggingEnabled;
+    return {
+      if (loggingEnabled != null) 'LoggingEnabled': loggingEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final loggingEnabled = this.loggingEnabled;
     final $children = <_s.XmlNode>[
-      if (loggingEnabled != null) loggingEnabled?.toXml('LoggingEnabled'),
+      if (loggingEnabled != null) loggingEnabled.toXml('LoggingEnabled'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11733,7 +12480,7 @@ class BucketLoggingStatus {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11754,7 +12501,6 @@ extension on BucketLogsPermission {
       case BucketLogsPermission.write:
         return 'WRITE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11768,7 +12514,7 @@ extension on String {
       case 'WRITE':
         return BucketLogsPermission.write;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BucketLogsPermission');
   }
 }
 
@@ -11785,7 +12531,6 @@ extension on BucketVersioningStatus {
       case BucketVersioningStatus.suspended:
         return 'Suspended';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11797,26 +12542,43 @@ extension on String {
       case 'Suspended':
         return BucketVersioningStatus.suspended;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum BucketVersioningStatus');
   }
 }
 
 /// Describes the cross-origin access configuration for objects in an Amazon S3
 /// bucket. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html">Enabling
-/// Cross-Origin Resource Sharing</a> in the <i>Amazon Simple Storage Service
-/// Developer Guide</i>.
+/// Cross-Origin Resource Sharing</a> in the <i>Amazon S3 User Guide</i>.
 class CORSConfiguration {
   /// A set of origins and methods (cross-origin access that you want to allow).
   /// You can add up to 100 rules to the configuration.
   final List<CORSRule> cORSRules;
 
   CORSConfiguration({
-    @_s.required this.cORSRules,
+    required this.cORSRules,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CORSConfiguration.fromJson(Map<String, dynamic> json) {
+    return CORSConfiguration(
+      cORSRules: (json['CORSRule'] as List)
+          .whereNotNull()
+          .map((e) => CORSRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cORSRules = this.cORSRules;
+    return {
+      'CORSRule': cORSRules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cORSRules = this.cORSRules;
     final $children = <_s.XmlNode>[
-      ...cORSRules?.map((e) => e?.toXml('CORSRule')),
+      ...cORSRules.map((e) => e.toXml('CORSRule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11824,7 +12586,7 @@ class CORSConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11843,43 +12605,95 @@ class CORSRule {
   /// <code>Access-Control-Request-Headers</code> header. These headers are
   /// allowed in a preflight OPTIONS request. In response to any preflight OPTIONS
   /// request, Amazon S3 returns any requested headers that are allowed.
-  final List<String> allowedHeaders;
+  final List<String>? allowedHeaders;
 
   /// One or more headers in the response that you want customers to be able to
   /// access from their applications (for example, from a JavaScript
   /// <code>XMLHttpRequest</code> object).
-  final List<String> exposeHeaders;
+  final List<String>? exposeHeaders;
+
+  /// Unique identifier for the rule. The value cannot be longer than 255
+  /// characters.
+  final String? id;
 
   /// The time in seconds that your browser is to cache the preflight response for
   /// the specified resource.
-  final int maxAgeSeconds;
+  final int? maxAgeSeconds;
 
   CORSRule({
-    @_s.required this.allowedMethods,
-    @_s.required this.allowedOrigins,
+    required this.allowedMethods,
+    required this.allowedOrigins,
     this.allowedHeaders,
     this.exposeHeaders,
+    this.id,
     this.maxAgeSeconds,
   });
+
+  factory CORSRule.fromJson(Map<String, dynamic> json) {
+    return CORSRule(
+      allowedMethods: (json['AllowedMethod'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowedOrigins: (json['AllowedOrigin'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowedHeaders: (json['AllowedHeader'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      exposeHeaders: (json['ExposeHeader'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      id: json['ID'] as String?,
+      maxAgeSeconds: json['MaxAgeSeconds'] as int?,
+    );
+  }
+
   factory CORSRule.fromXml(_s.XmlElement elem) {
     return CORSRule(
       allowedMethods: _s.extractXmlStringListValues(elem, 'AllowedMethod'),
       allowedOrigins: _s.extractXmlStringListValues(elem, 'AllowedOrigin'),
       allowedHeaders: _s.extractXmlStringListValues(elem, 'AllowedHeader'),
       exposeHeaders: _s.extractXmlStringListValues(elem, 'ExposeHeader'),
+      id: _s.extractXmlStringValue(elem, 'ID'),
       maxAgeSeconds: _s.extractXmlIntValue(elem, 'MaxAgeSeconds'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final allowedMethods = this.allowedMethods;
+    final allowedOrigins = this.allowedOrigins;
+    final allowedHeaders = this.allowedHeaders;
+    final exposeHeaders = this.exposeHeaders;
+    final id = this.id;
+    final maxAgeSeconds = this.maxAgeSeconds;
+    return {
+      'AllowedMethod': allowedMethods,
+      'AllowedOrigin': allowedOrigins,
+      if (allowedHeaders != null) 'AllowedHeader': allowedHeaders,
+      if (exposeHeaders != null) 'ExposeHeader': exposeHeaders,
+      if (id != null) 'ID': id,
+      if (maxAgeSeconds != null) 'MaxAgeSeconds': maxAgeSeconds,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final allowedMethods = this.allowedMethods;
+    final allowedOrigins = this.allowedOrigins;
+    final allowedHeaders = this.allowedHeaders;
+    final exposeHeaders = this.exposeHeaders;
+    final id = this.id;
+    final maxAgeSeconds = this.maxAgeSeconds;
     final $children = <_s.XmlNode>[
+      if (id != null) _s.encodeXmlStringValue('ID', id),
       if (allowedHeaders != null)
         ...allowedHeaders
             .map((e) => _s.encodeXmlStringValue('AllowedHeader', e)),
-      ...allowedMethods
-          ?.map((e) => _s.encodeXmlStringValue('AllowedMethod', e)),
-      ...allowedOrigins
-          ?.map((e) => _s.encodeXmlStringValue('AllowedOrigin', e)),
+      ...allowedMethods.map((e) => _s.encodeXmlStringValue('AllowedMethod', e)),
+      ...allowedOrigins.map((e) => _s.encodeXmlStringValue('AllowedOrigin', e)),
       if (exposeHeaders != null)
         ...exposeHeaders.map((e) => _s.encodeXmlStringValue('ExposeHeader', e)),
       if (maxAgeSeconds != null)
@@ -11891,7 +12705,7 @@ class CORSRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11902,16 +12716,16 @@ class CSVInput {
   /// Specifies that CSV field values may contain quoted record delimiters and
   /// such records should be allowed. Default value is FALSE. Setting this value
   /// to TRUE may lower performance.
-  final bool allowQuotedRecordDelimiter;
+  final bool? allowQuotedRecordDelimiter;
 
   /// A single character used to indicate that a row should be ignored when the
   /// character is present at the start of that row. You can specify any character
   /// to indicate a comment line.
-  final String comments;
+  final String? comments;
 
   /// A single character used to separate individual fields in a record. You can
   /// specify an arbitrary delimiter.
-  final String fieldDelimiter;
+  final String? fieldDelimiter;
 
   /// Describes the first line of input. Valid values are:
   ///
@@ -11931,7 +12745,7 @@ class CSVInput {
   /// OBJECT</code>).
   /// </li>
   /// </ul>
-  final FileHeaderInfo fileHeaderInfo;
+  final FileHeaderInfo? fileHeaderInfo;
 
   /// A single character used for escaping when the field delimiter is part of the
   /// value. For example, if the value is <code>a, b</code>, Amazon S3 wraps this
@@ -11942,16 +12756,16 @@ class CSVInput {
   /// Default: <code>"</code>
   ///
   /// Ancestors: <code>CSV</code>
-  final String quoteCharacter;
+  final String? quoteCharacter;
 
   /// A single character used for escaping the quotation mark character inside an
   /// already escaped value. For example, the value """ a , b """ is parsed as " a
   /// , b ".
-  final String quoteEscapeCharacter;
+  final String? quoteEscapeCharacter;
 
   /// A single character used to separate individual records in the input. Instead
   /// of the default value, you can specify an arbitrary delimiter.
-  final String recordDelimiter;
+  final String? recordDelimiter;
 
   CSVInput({
     this.allowQuotedRecordDelimiter,
@@ -11962,7 +12776,48 @@ class CSVInput {
     this.quoteEscapeCharacter,
     this.recordDelimiter,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CSVInput.fromJson(Map<String, dynamic> json) {
+    return CSVInput(
+      allowQuotedRecordDelimiter: json['AllowQuotedRecordDelimiter'] as bool?,
+      comments: json['Comments'] as String?,
+      fieldDelimiter: json['FieldDelimiter'] as String?,
+      fileHeaderInfo: (json['FileHeaderInfo'] as String?)?.toFileHeaderInfo(),
+      quoteCharacter: json['QuoteCharacter'] as String?,
+      quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
+      recordDelimiter: json['RecordDelimiter'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowQuotedRecordDelimiter = this.allowQuotedRecordDelimiter;
+    final comments = this.comments;
+    final fieldDelimiter = this.fieldDelimiter;
+    final fileHeaderInfo = this.fileHeaderInfo;
+    final quoteCharacter = this.quoteCharacter;
+    final quoteEscapeCharacter = this.quoteEscapeCharacter;
+    final recordDelimiter = this.recordDelimiter;
+    return {
+      if (allowQuotedRecordDelimiter != null)
+        'AllowQuotedRecordDelimiter': allowQuotedRecordDelimiter,
+      if (comments != null) 'Comments': comments,
+      if (fieldDelimiter != null) 'FieldDelimiter': fieldDelimiter,
+      if (fileHeaderInfo != null) 'FileHeaderInfo': fileHeaderInfo.toValue(),
+      if (quoteCharacter != null) 'QuoteCharacter': quoteCharacter,
+      if (quoteEscapeCharacter != null)
+        'QuoteEscapeCharacter': quoteEscapeCharacter,
+      if (recordDelimiter != null) 'RecordDelimiter': recordDelimiter,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final allowQuotedRecordDelimiter = this.allowQuotedRecordDelimiter;
+    final comments = this.comments;
+    final fieldDelimiter = this.fieldDelimiter;
+    final fileHeaderInfo = this.fileHeaderInfo;
+    final quoteCharacter = this.quoteCharacter;
+    final quoteEscapeCharacter = this.quoteEscapeCharacter;
+    final recordDelimiter = this.recordDelimiter;
     final $children = <_s.XmlNode>[
       if (fileHeaderInfo != null)
         _s.encodeXmlStringValue('FileHeaderInfo', fileHeaderInfo.toValue()),
@@ -11985,7 +12840,7 @@ class CSVInput {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11995,16 +12850,16 @@ class CSVInput {
 class CSVOutput {
   /// The value used to separate individual fields in a record. You can specify an
   /// arbitrary delimiter.
-  final String fieldDelimiter;
+  final String? fieldDelimiter;
 
   /// A single character used for escaping when the field delimiter is part of the
   /// value. For example, if the value is <code>a, b</code>, Amazon S3 wraps this
   /// field value in quotation marks, as follows: <code>" a , b "</code>.
-  final String quoteCharacter;
+  final String? quoteCharacter;
 
   /// The single character used for escaping the quote character inside an already
   /// escaped value.
-  final String quoteEscapeCharacter;
+  final String? quoteEscapeCharacter;
 
   /// Indicates whether to use quotation marks around output fields.
   ///
@@ -12016,11 +12871,11 @@ class CSVOutput {
   /// <code>ASNEEDED</code>: Use quotation marks for output fields when needed.
   /// </li>
   /// </ul>
-  final QuoteFields quoteFields;
+  final QuoteFields? quoteFields;
 
   /// A single character used to separate individual records in the output.
   /// Instead of the default value, you can specify an arbitrary delimiter.
-  final String recordDelimiter;
+  final String? recordDelimiter;
 
   CSVOutput({
     this.fieldDelimiter,
@@ -12029,7 +12884,39 @@ class CSVOutput {
     this.quoteFields,
     this.recordDelimiter,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CSVOutput.fromJson(Map<String, dynamic> json) {
+    return CSVOutput(
+      fieldDelimiter: json['FieldDelimiter'] as String?,
+      quoteCharacter: json['QuoteCharacter'] as String?,
+      quoteEscapeCharacter: json['QuoteEscapeCharacter'] as String?,
+      quoteFields: (json['QuoteFields'] as String?)?.toQuoteFields(),
+      recordDelimiter: json['RecordDelimiter'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final fieldDelimiter = this.fieldDelimiter;
+    final quoteCharacter = this.quoteCharacter;
+    final quoteEscapeCharacter = this.quoteEscapeCharacter;
+    final quoteFields = this.quoteFields;
+    final recordDelimiter = this.recordDelimiter;
+    return {
+      if (fieldDelimiter != null) 'FieldDelimiter': fieldDelimiter,
+      if (quoteCharacter != null) 'QuoteCharacter': quoteCharacter,
+      if (quoteEscapeCharacter != null)
+        'QuoteEscapeCharacter': quoteEscapeCharacter,
+      if (quoteFields != null) 'QuoteFields': quoteFields.toValue(),
+      if (recordDelimiter != null) 'RecordDelimiter': recordDelimiter,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final fieldDelimiter = this.fieldDelimiter;
+    final quoteCharacter = this.quoteCharacter;
+    final quoteEscapeCharacter = this.quoteEscapeCharacter;
+    final quoteFields = this.quoteFields;
+    final recordDelimiter = this.recordDelimiter;
     final $children = <_s.XmlNode>[
       if (quoteFields != null)
         _s.encodeXmlStringValue('QuoteFields', quoteFields.toValue()),
@@ -12048,7 +12935,7 @@ class CSVOutput {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12057,15 +12944,15 @@ class CSVOutput {
 class CloudFunctionConfiguration {
   /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events
   /// of the specified type.
-  final String cloudFunction;
-  final Event event;
+  final String? cloudFunction;
+  final Event? event;
 
   /// Bucket events for which to send notifications.
-  final List<Event> events;
-  final String id;
+  final List<Event>? events;
+  final String? id;
 
   /// The role supporting the invocation of the Lambda function
-  final String invocationRole;
+  final String? invocationRole;
 
   CloudFunctionConfiguration({
     this.cloudFunction,
@@ -12074,6 +12961,20 @@ class CloudFunctionConfiguration {
     this.id,
     this.invocationRole,
   });
+
+  factory CloudFunctionConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudFunctionConfiguration(
+      cloudFunction: json['CloudFunction'] as String?,
+      event: (json['Event'] as String?)?.toEvent(),
+      events: (json['Event'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEvent())
+          .toList(),
+      id: json['Id'] as String?,
+      invocationRole: json['InvocationRole'] as String?,
+    );
+  }
+
   factory CloudFunctionConfiguration.fromXml(_s.XmlElement elem) {
     return CloudFunctionConfiguration(
       cloudFunction: _s.extractXmlStringValue(elem, 'CloudFunction'),
@@ -12087,13 +12988,32 @@ class CloudFunctionConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final cloudFunction = this.cloudFunction;
+    final event = this.event;
+    final events = this.events;
+    final id = this.id;
+    final invocationRole = this.invocationRole;
+    return {
+      if (cloudFunction != null) 'CloudFunction': cloudFunction,
+      if (event != null) 'Event': event.toValue(),
+      if (events != null) 'Event': events.map((e) => e.toValue()).toList(),
+      if (id != null) 'Id': id,
+      if (invocationRole != null) 'InvocationRole': invocationRole,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cloudFunction = this.cloudFunction;
+    final event = this.event;
+    final events = this.events;
+    final id = this.id;
+    final invocationRole = this.invocationRole;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('Id', id),
       if (event != null) _s.encodeXmlStringValue('Event', event.toValue()),
       if (events != null)
-        ...events
-            .map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+        ...events.map((e) => _s.encodeXmlStringValue('Event', e.toValue())),
       if (cloudFunction != null)
         _s.encodeXmlStringValue('CloudFunction', cloudFunction),
       if (invocationRole != null)
@@ -12105,7 +13025,7 @@ class CloudFunctionConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12117,45 +13037,57 @@ class CloudFunctionConfiguration {
 /// notes/summer/july, the common prefix is notes/summer/.
 class CommonPrefix {
   /// Container for the specified common prefix.
-  final String prefix;
+  final String? prefix;
 
   CommonPrefix({
     this.prefix,
   });
+
+  factory CommonPrefix.fromJson(Map<String, dynamic> json) {
+    return CommonPrefix(
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
   factory CommonPrefix.fromXml(_s.XmlElement elem) {
     return CommonPrefix(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    return {
+      if (prefix != null) 'Prefix': prefix,
+    };
   }
 }
 
 class CompleteMultipartUploadOutput {
   /// The name of the bucket that contains the newly created object.
   ///
-  /// When using this API with an access point, you must direct requests to the
+  /// When using this action with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests to
-  /// the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
-  final String bucket;
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  final String? bucket;
 
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Entity tag that identifies the newly created object's data. Objects with
   /// different object data will have different entity tags. The entity tag is an
@@ -12163,34 +13095,34 @@ class CompleteMultipartUploadOutput {
   /// data. If the entity tag is not an MD5 digest of the object data, it will
   /// contain one or more nonhexadecimal characters and/or will consist of less
   /// than 32 or more than 32 hexadecimal digits.
-  final String eTag;
+  final String? eTag;
 
   /// If the object expiration is configured, this will contain the expiration
   /// date (expiry-date) and rule ID (rule-id). The value of rule-id is URL
   /// encoded.
-  final String expiration;
+  final String? expiration;
 
   /// The object key of the newly created object.
-  final String key;
+  final String? key;
 
   /// The URI that identifies the newly created object.
-  final String location;
-  final RequestCharged requestCharged;
+  final String? location;
+  final RequestCharged? requestCharged;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
   /// symmetric customer managed customer master key (CMK) that was used for the
   /// object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// If you specified server-side encryption either with an Amazon S3-managed
   /// encryption key or an AWS KMS customer master key (CMK) in your initiate
   /// multipart upload request, the response includes this header. It confirms the
   /// encryption algorithm that Amazon S3 used to encrypt the object.
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   /// Version ID of the newly created object, in case the bucket has versioning
   /// turned on.
-  final String versionId;
+  final String? versionId;
 
   CompleteMultipartUploadOutput({
     this.bucket,
@@ -12204,19 +13136,75 @@ class CompleteMultipartUploadOutput {
     this.serverSideEncryption,
     this.versionId,
   });
+
+  factory CompleteMultipartUploadOutput.fromJson(Map<String, dynamic> json) {
+    return CompleteMultipartUploadOutput(
+      bucket: json['Bucket'] as String?,
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      eTag: json['ETag'] as String?,
+      expiration: json['x-amz-expiration'] as String?,
+      key: json['Key'] as String?,
+      location: json['Location'] as String?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final eTag = this.eTag;
+    final expiration = this.expiration;
+    final key = this.key;
+    final location = this.location;
+    final requestCharged = this.requestCharged;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    final versionId = this.versionId;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (eTag != null) 'ETag': eTag,
+      if (key != null) 'Key': key,
+      if (location != null) 'Location': location,
+    };
+  }
 }
 
 /// The container for the completed multipart upload details.
 class CompletedMultipartUpload {
   /// Array of CompletedPart data types.
-  final List<CompletedPart> parts;
+  final List<CompletedPart>? parts;
 
   CompletedMultipartUpload({
     this.parts,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CompletedMultipartUpload.fromJson(Map<String, dynamic> json) {
+    return CompletedMultipartUpload(
+      parts: (json['Part'] as List?)
+          ?.whereNotNull()
+          .map((e) => CompletedPart.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parts = this.parts;
+    return {
+      if (parts != null) 'Part': parts,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final parts = this.parts;
     final $children = <_s.XmlNode>[
-      if (parts != null) ...parts.map((e) => e?.toXml('Part')),
+      if (parts != null) ...parts.map((e) => e.toXml('Part')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -12224,7 +13212,7 @@ class CompletedMultipartUpload {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12232,17 +13220,36 @@ class CompletedMultipartUpload {
 /// Details of the parts that were uploaded.
 class CompletedPart {
   /// Entity tag returned when the part was uploaded.
-  final String eTag;
+  final String? eTag;
 
   /// Part number that identifies the part. This is a positive integer between 1
   /// and 10,000.
-  final int partNumber;
+  final int? partNumber;
 
   CompletedPart({
     this.eTag,
     this.partNumber,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CompletedPart.fromJson(Map<String, dynamic> json) {
+    return CompletedPart(
+      eTag: json['ETag'] as String?,
+      partNumber: json['PartNumber'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final partNumber = this.partNumber;
+    return {
+      if (eTag != null) 'ETag': eTag,
+      if (partNumber != null) 'PartNumber': partNumber,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final eTag = this.eTag;
+    final partNumber = this.partNumber;
     final $children = <_s.XmlNode>[
       if (eTag != null) _s.encodeXmlStringValue('ETag', eTag),
       if (partNumber != null) _s.encodeXmlIntValue('PartNumber', partNumber),
@@ -12253,7 +13260,7 @@ class CompletedPart {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12274,7 +13281,6 @@ extension on CompressionType {
       case CompressionType.bzip2:
         return 'BZIP2';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12288,7 +13294,7 @@ extension on String {
       case 'BZIP2':
         return CompressionType.bzip2;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum CompressionType');
   }
 }
 
@@ -12303,7 +13309,7 @@ class Condition {
   /// Required when parent element <code>Condition</code> is specified and sibling
   /// <code>KeyPrefixEquals</code> is not specified. If both are specified, then
   /// both must be true for the redirect to be applied.
-  final String httpErrorCodeReturnedEquals;
+  final String? httpErrorCodeReturnedEquals;
 
   /// The object key name prefix when the redirect is applied. For example, to
   /// redirect requests for <code>ExamplePage.html</code>, the key prefix will be
@@ -12313,12 +13319,27 @@ class Condition {
   /// parent element <code>Condition</code> is specified and sibling
   /// <code>HttpErrorCodeReturnedEquals</code> is not specified. If both
   /// conditions are specified, both must be true for the redirect to be applied.
-  final String keyPrefixEquals;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? keyPrefixEquals;
 
   Condition({
     this.httpErrorCodeReturnedEquals,
     this.keyPrefixEquals,
   });
+
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      httpErrorCodeReturnedEquals:
+          json['HttpErrorCodeReturnedEquals'] as String?,
+      keyPrefixEquals: json['KeyPrefixEquals'] as String?,
+    );
+  }
+
   factory Condition.fromXml(_s.XmlElement elem) {
     return Condition(
       httpErrorCodeReturnedEquals:
@@ -12327,7 +13348,19 @@ class Condition {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final httpErrorCodeReturnedEquals = this.httpErrorCodeReturnedEquals;
+    final keyPrefixEquals = this.keyPrefixEquals;
+    return {
+      if (httpErrorCodeReturnedEquals != null)
+        'HttpErrorCodeReturnedEquals': httpErrorCodeReturnedEquals,
+      if (keyPrefixEquals != null) 'KeyPrefixEquals': keyPrefixEquals,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final httpErrorCodeReturnedEquals = this.httpErrorCodeReturnedEquals;
+    final keyPrefixEquals = this.keyPrefixEquals;
     final $children = <_s.XmlNode>[
       if (httpErrorCodeReturnedEquals != null)
         _s.encodeXmlStringValue(
@@ -12341,7 +13374,7 @@ class Condition {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12349,54 +13382,63 @@ class Condition {
 /// <p/>
 class ContinuationEvent {
   ContinuationEvent();
+
+  factory ContinuationEvent.fromJson(Map<String, dynamic> _) {
+    return ContinuationEvent();
+  }
+
   factory ContinuationEvent.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return ContinuationEvent();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 class CopyObjectOutput {
   /// Indicates whether the copied object uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Container for all response elements.
-  final CopyObjectResult copyObjectResult;
+  final CopyObjectResult? copyObjectResult;
 
   /// Version of the copied object in the destination bucket.
-  final String copySourceVersionId;
+  final String? copySourceVersionId;
 
   /// If the object expiration is configured, the response includes this header.
-  final String expiration;
-  final RequestCharged requestCharged;
+  final String? expiration;
+  final RequestCharged? requestCharged;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header confirming the encryption
   /// algorithm used.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header to provide round-trip
   /// message integrity verification of the customer-provided encryption key.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// If present, specifies the AWS KMS Encryption Context to use for object
   /// encryption. The value of this header is a base64-encoded UTF-8 string
   /// holding JSON with the encryption context key-value pairs.
-  final String sSEKMSEncryptionContext;
+  final String? sSEKMSEncryptionContext;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
   /// symmetric customer managed customer master key (CMK) that was used for the
   /// object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
   /// S3 (for example, AES256, aws:kms).
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   /// Version ID of the newly created copy.
-  final String versionId;
+  final String? versionId;
 
   CopyObjectOutput({
     this.bucketKeyEnabled,
@@ -12411,47 +13453,126 @@ class CopyObjectOutput {
     this.serverSideEncryption,
     this.versionId,
   });
+
+  factory CopyObjectOutput.fromJson(Map<String, dynamic> json) {
+    return CopyObjectOutput(
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      copyObjectResult: json['CopyObjectResult'] != null
+          ? CopyObjectResult.fromJson(
+              json['CopyObjectResult'] as Map<String, dynamic>)
+          : null,
+      copySourceVersionId: json['x-amz-copy-source-version-id'] as String?,
+      expiration: json['x-amz-expiration'] as String?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      sSEKMSEncryptionContext:
+          json['x-amz-server-side-encryption-context'] as String?,
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final copyObjectResult = this.copyObjectResult;
+    final copySourceVersionId = this.copySourceVersionId;
+    final expiration = this.expiration;
+    final requestCharged = this.requestCharged;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final sSEKMSEncryptionContext = this.sSEKMSEncryptionContext;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    final versionId = this.versionId;
+    return {
+      if (copyObjectResult != null) 'CopyObjectResult': copyObjectResult,
+    };
+  }
 }
 
 /// Container for all response elements.
 class CopyObjectResult {
   /// Returns the ETag of the new object. The ETag reflects only changes to the
   /// contents of an object, not its metadata. The source and destination ETag is
-  /// identical for a successfully copied object.
-  final String eTag;
+  /// identical for a successfully copied non-multipart object.
+  final String? eTag;
 
-  /// Returns the date that the object was last modified.
-  final DateTime lastModified;
+  /// Creation date of the object.
+  final DateTime? lastModified;
 
   CopyObjectResult({
     this.eTag,
     this.lastModified,
   });
+
+  factory CopyObjectResult.fromJson(Map<String, dynamic> json) {
+    return CopyObjectResult(
+      eTag: json['ETag'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+    );
+  }
+
   factory CopyObjectResult.fromXml(_s.XmlElement elem) {
     return CopyObjectResult(
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final lastModified = this.lastModified;
+    return {
+      if (eTag != null) 'ETag': eTag,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+    };
+  }
 }
 
 /// Container for all response elements.
 class CopyPartResult {
   /// Entity tag of the object.
-  final String eTag;
+  final String? eTag;
 
   /// Date and time at which the object was uploaded.
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   CopyPartResult({
     this.eTag,
     this.lastModified,
   });
+
+  factory CopyPartResult.fromJson(Map<String, dynamic> json) {
+    return CopyPartResult(
+      eTag: json['ETag'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+    );
+  }
+
   factory CopyPartResult.fromXml(_s.XmlElement elem) {
     return CopyPartResult(
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
       lastModified: _s.extractXmlDateTimeValue(elem, 'LastModified'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final lastModified = this.lastModified;
+    return {
+      if (eTag != null) 'ETag': eTag,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+    };
   }
 }
 
@@ -12460,12 +13581,29 @@ class CreateBucketConfiguration {
   /// Specifies the Region where the bucket will be created. If you don't specify
   /// a Region, the bucket is created in the US East (N. Virginia) Region
   /// (us-east-1).
-  final BucketLocationConstraint locationConstraint;
+  final BucketLocationConstraint? locationConstraint;
 
   CreateBucketConfiguration({
     this.locationConstraint,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateBucketConfiguration.fromJson(Map<String, dynamic> json) {
+    return CreateBucketConfiguration(
+      locationConstraint:
+          (json['LocationConstraint'] as String?)?.toBucketLocationConstraint(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final locationConstraint = this.locationConstraint;
+    return {
+      if (locationConstraint != null)
+        'LocationConstraint': locationConstraint.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final locationConstraint = this.locationConstraint;
     final $children = <_s.XmlNode>[
       if (locationConstraint != null)
         _s.encodeXmlStringValue(
@@ -12477,7 +13615,7 @@ class CreateBucketConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12486,11 +13624,22 @@ class CreateBucketOutput {
   /// Specifies the Region where the bucket will be created. If you are creating a
   /// bucket on the US East (N. Virginia) Region (us-east-1), you do not need to
   /// specify the location.
-  final String location;
+  final String? location;
 
   CreateBucketOutput({
     this.location,
   });
+
+  factory CreateBucketOutput.fromJson(Map<String, dynamic> json) {
+    return CreateBucketOutput(
+      location: json['Location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    return {};
+  }
 }
 
 class CreateMultipartUploadOutput {
@@ -12505,70 +13654,68 @@ class CreateMultipartUploadOutput {
   /// The response also includes the <code>x-amz-abort-rule-id</code> header that
   /// provides the ID of the lifecycle configuration rule that defines this
   /// action.
-  final DateTime abortDate;
+  final DateTime? abortDate;
 
   /// This header is returned along with the <code>x-amz-abort-date</code> header.
   /// It identifies the applicable lifecycle configuration rule that defines the
   /// action to abort incomplete multipart uploads.
-  final String abortRuleId;
+  final String? abortRuleId;
 
   /// The name of the bucket to which the multipart upload was initiated.
   ///
-  /// When using this API with an access point, you must direct requests to the
+  /// When using this action with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests to
-  /// the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
-  final String bucket;
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  final String? bucket;
 
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Object key for which the multipart upload was initiated.
-  final String key;
-  final RequestCharged requestCharged;
+  final String? key;
+  final RequestCharged? requestCharged;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header confirming the encryption
   /// algorithm used.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header to provide round-trip
   /// message integrity verification of the customer-provided encryption key.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// If present, specifies the AWS KMS Encryption Context to use for object
   /// encryption. The value of this header is a base64-encoded UTF-8 string
   /// holding JSON with the encryption context key-value pairs.
-  final String sSEKMSEncryptionContext;
+  final String? sSEKMSEncryptionContext;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
   /// symmetric customer managed customer master key (CMK) that was used for the
   /// object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
   /// S3 (for example, AES256, aws:kms).
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   /// ID for the initiated multipart upload.
-  final String uploadId;
+  final String? uploadId;
 
   CreateMultipartUploadOutput({
     this.abortDate,
@@ -12584,28 +13731,93 @@ class CreateMultipartUploadOutput {
     this.serverSideEncryption,
     this.uploadId,
   });
+
+  factory CreateMultipartUploadOutput.fromJson(Map<String, dynamic> json) {
+    return CreateMultipartUploadOutput(
+      abortDate: timeStampFromJson(json['x-amz-abort-date']),
+      abortRuleId: json['x-amz-abort-rule-id'] as String?,
+      bucket: json['Bucket'] as String?,
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      key: json['Key'] as String?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      sSEKMSEncryptionContext:
+          json['x-amz-server-side-encryption-context'] as String?,
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+      uploadId: json['UploadId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abortDate = this.abortDate;
+    final abortRuleId = this.abortRuleId;
+    final bucket = this.bucket;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final key = this.key;
+    final requestCharged = this.requestCharged;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final sSEKMSEncryptionContext = this.sSEKMSEncryptionContext;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    final uploadId = this.uploadId;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (key != null) 'Key': key,
+      if (uploadId != null) 'UploadId': uploadId,
+    };
+  }
 }
 
 /// The container element for specifying the default Object Lock retention
 /// settings for new objects placed in the specified bucket.
+/// <note>
+/// <ul>
+/// <li>
+/// The <code>DefaultRetention</code> settings require both a mode and a period.
+/// </li>
+/// <li>
+/// The <code>DefaultRetention</code> period can be either <code>Days</code> or
+/// <code>Years</code> but you must select one. You cannot specify
+/// <code>Days</code> and <code>Years</code> at the same time.
+/// </li>
+/// </ul> </note>
 class DefaultRetention {
   /// The number of days that you want to specify for the default retention
-  /// period.
-  final int days;
+  /// period. Must be used with <code>Mode</code>.
+  final int? days;
 
   /// The default Object Lock retention mode you want to apply to new objects
-  /// placed in the specified bucket.
-  final ObjectLockRetentionMode mode;
+  /// placed in the specified bucket. Must be used with either <code>Days</code>
+  /// or <code>Years</code>.
+  final ObjectLockRetentionMode? mode;
 
   /// The number of years that you want to specify for the default retention
-  /// period.
-  final int years;
+  /// period. Must be used with <code>Mode</code>.
+  final int? years;
 
   DefaultRetention({
     this.days,
     this.mode,
     this.years,
   });
+
+  factory DefaultRetention.fromJson(Map<String, dynamic> json) {
+    return DefaultRetention(
+      days: json['Days'] as int?,
+      mode: (json['Mode'] as String?)?.toObjectLockRetentionMode(),
+      years: json['Years'] as int?,
+    );
+  }
+
   factory DefaultRetention.fromXml(_s.XmlElement elem) {
     return DefaultRetention(
       days: _s.extractXmlIntValue(elem, 'Days'),
@@ -12614,7 +13826,21 @@ class DefaultRetention {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final days = this.days;
+    final mode = this.mode;
+    final years = this.years;
+    return {
+      if (days != null) 'Days': days,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (years != null) 'Years': years,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final days = this.days;
+    final mode = this.mode;
+    final years = this.years;
     final $children = <_s.XmlNode>[
       if (mode != null) _s.encodeXmlStringValue('Mode', mode.toValue()),
       if (days != null) _s.encodeXmlIntValue('Days', days),
@@ -12626,7 +13852,7 @@ class DefaultRetention {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12638,15 +13864,37 @@ class Delete {
 
   /// Element to enable quiet mode for the request. When you add this element, you
   /// must set its value to true.
-  final bool quiet;
+  final bool? quiet;
 
   Delete({
-    @_s.required this.objects,
+    required this.objects,
     this.quiet,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory Delete.fromJson(Map<String, dynamic> json) {
+    return Delete(
+      objects: (json['Object'] as List)
+          .whereNotNull()
+          .map((e) => ObjectIdentifier.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      quiet: json['Quiet'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objects = this.objects;
+    final quiet = this.quiet;
+    return {
+      'Object': objects,
+      if (quiet != null) 'Quiet': quiet,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final objects = this.objects;
+    final quiet = this.quiet;
     final $children = <_s.XmlNode>[
-      ...objects?.map((e) => e?.toXml('Object')),
+      ...objects.map((e) => e.toXml('Object')),
       if (quiet != null) _s.encodeXmlBoolValue('Quiet', quiet),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -12655,7 +13903,7 @@ class Delete {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12664,19 +13912,19 @@ class Delete {
 class DeleteMarkerEntry {
   /// Specifies whether the object is (true) or is not (false) the latest version
   /// of an object.
-  final bool isLatest;
+  final bool? isLatest;
 
   /// The object key.
-  final String key;
+  final String? key;
 
   /// Date and time the object was last modified.
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The account that created the delete marker.&gt;
-  final Owner owner;
+  final Owner? owner;
 
   /// Version ID of an object.
-  final String versionId;
+  final String? versionId;
 
   DeleteMarkerEntry({
     this.isLatest,
@@ -12685,6 +13933,19 @@ class DeleteMarkerEntry {
     this.owner,
     this.versionId,
   });
+
+  factory DeleteMarkerEntry.fromJson(Map<String, dynamic> json) {
+    return DeleteMarkerEntry(
+      isLatest: json['IsLatest'] as bool?,
+      key: json['Key'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
   factory DeleteMarkerEntry.fromXml(_s.XmlElement elem) {
     return DeleteMarkerEntry(
       isLatest: _s.extractXmlBoolValue(elem, 'IsLatest'),
@@ -12693,6 +13954,22 @@ class DeleteMarkerEntry {
       owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isLatest = this.isLatest;
+    final key = this.key;
+    final lastModified = this.lastModified;
+    final owner = this.owner;
+    final versionId = this.versionId;
+    return {
+      if (isLatest != null) 'IsLatest': isLatest,
+      if (key != null) 'Key': key,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (owner != null) 'Owner': owner,
+      if (versionId != null) 'VersionId': versionId,
+    };
   }
 }
 
@@ -12721,11 +13998,18 @@ class DeleteMarkerReplication {
   /// <note>
   /// Indicates whether to replicate delete markers.
   /// </note>
-  final DeleteMarkerReplicationStatus status;
+  final DeleteMarkerReplicationStatus? status;
 
   DeleteMarkerReplication({
     this.status,
   });
+
+  factory DeleteMarkerReplication.fromJson(Map<String, dynamic> json) {
+    return DeleteMarkerReplication(
+      status: (json['Status'] as String?)?.toDeleteMarkerReplicationStatus(),
+    );
+  }
+
   factory DeleteMarkerReplication.fromXml(_s.XmlElement elem) {
     return DeleteMarkerReplication(
       status: _s
@@ -12734,7 +14018,15 @@ class DeleteMarkerReplication {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
     final $children = <_s.XmlNode>[
       if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
     ];
@@ -12744,7 +14036,7 @@ class DeleteMarkerReplication {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12762,7 +14054,6 @@ extension on DeleteMarkerReplicationStatus {
       case DeleteMarkerReplicationStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12774,51 +14065,103 @@ extension on String {
       case 'Disabled':
         return DeleteMarkerReplicationStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum DeleteMarkerReplicationStatus');
   }
 }
 
 class DeleteObjectOutput {
   /// Specifies whether the versioned object that was permanently deleted was
   /// (true) or was not (false) a delete marker.
-  final bool deleteMarker;
-  final RequestCharged requestCharged;
+  final bool? deleteMarker;
+  final RequestCharged? requestCharged;
 
   /// Returns the version ID of the delete marker created as a result of the
   /// DELETE operation.
-  final String versionId;
+  final String? versionId;
 
   DeleteObjectOutput({
     this.deleteMarker,
     this.requestCharged,
     this.versionId,
   });
+
+  factory DeleteObjectOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteObjectOutput(
+      deleteMarker: json['x-amz-delete-marker'] as bool?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteMarker = this.deleteMarker;
+    final requestCharged = this.requestCharged;
+    final versionId = this.versionId;
+    return {};
+  }
 }
 
 class DeleteObjectTaggingOutput {
   /// The versionId of the object the tag-set was removed from.
-  final String versionId;
+  final String? versionId;
 
   DeleteObjectTaggingOutput({
     this.versionId,
   });
+
+  factory DeleteObjectTaggingOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteObjectTaggingOutput(
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final versionId = this.versionId;
+    return {};
+  }
 }
 
 class DeleteObjectsOutput {
   /// Container element for a successful delete. It identifies the object that was
   /// successfully deleted.
-  final List<DeletedObject> deleted;
+  final List<DeletedObject>? deleted;
 
-  /// Container for a failed delete operation that describes the object that
-  /// Amazon S3 attempted to delete and the error it encountered.
-  final List<Error> errors;
-  final RequestCharged requestCharged;
+  /// Container for a failed delete action that describes the object that Amazon
+  /// S3 attempted to delete and the error it encountered.
+  final List<Error>? errors;
+  final RequestCharged? requestCharged;
 
   DeleteObjectsOutput({
     this.deleted,
     this.errors,
     this.requestCharged,
   });
+
+  factory DeleteObjectsOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteObjectsOutput(
+      deleted: (json['Deleted'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeletedObject.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      errors: (json['Error'] as List?)
+          ?.whereNotNull()
+          .map((e) => Error.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleted = this.deleted;
+    final errors = this.errors;
+    final requestCharged = this.requestCharged;
+    return {
+      if (deleted != null) 'Deleted': deleted,
+      if (errors != null) 'Error': errors,
+    };
+  }
 }
 
 /// Information about the deleted object.
@@ -12826,18 +14169,18 @@ class DeletedObject {
   /// Specifies whether the versioned object that was permanently deleted was
   /// (true) or was not (false) a delete marker. In a simple DELETE, this header
   /// indicates whether (true) or not (false) a delete marker was created.
-  final bool deleteMarker;
+  final bool? deleteMarker;
 
   /// The version ID of the delete marker created as a result of the DELETE
   /// operation. If you delete a specific object version, the value returned by
   /// this header is the version ID of the object version deleted.
-  final String deleteMarkerVersionId;
+  final String? deleteMarkerVersionId;
 
   /// The name of the deleted object.
-  final String key;
+  final String? key;
 
   /// The version ID of the deleted object.
-  final String versionId;
+  final String? versionId;
 
   DeletedObject({
     this.deleteMarker,
@@ -12845,6 +14188,16 @@ class DeletedObject {
     this.key,
     this.versionId,
   });
+
+  factory DeletedObject.fromJson(Map<String, dynamic> json) {
+    return DeletedObject(
+      deleteMarker: json['DeleteMarker'] as bool?,
+      deleteMarkerVersionId: json['DeleteMarkerVersionId'] as String?,
+      key: json['Key'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
   factory DeletedObject.fromXml(_s.XmlElement elem) {
     return DeletedObject(
       deleteMarker: _s.extractXmlBoolValue(elem, 'DeleteMarker'),
@@ -12853,6 +14206,20 @@ class DeletedObject {
       key: _s.extractXmlStringValue(elem, 'Key'),
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteMarker = this.deleteMarker;
+    final deleteMarkerVersionId = this.deleteMarkerVersionId;
+    final key = this.key;
+    final versionId = this.versionId;
+    return {
+      if (deleteMarker != null) 'DeleteMarker': deleteMarker,
+      if (deleteMarkerVersionId != null)
+        'DeleteMarkerVersionId': deleteMarkerVersionId,
+      if (key != null) 'Key': key,
+      if (versionId != null) 'VersionId': versionId,
+    };
   }
 }
 
@@ -12868,7 +14235,7 @@ class Destination {
   /// the AWS account that owns the destination bucket. If this is not specified
   /// in the replication configuration, the replicas are owned by same AWS account
   /// that owns the source object.
-  final AccessControlTranslation accessControlTranslation;
+  final AccessControlTranslation? accessControlTranslation;
 
   /// Destination bucket owner account ID. In a cross-account scenario, if you
   /// direct Amazon S3 to change replica ownership to the AWS account that owns
@@ -12876,24 +14243,24 @@ class Destination {
   /// <code>AccessControlTranslation</code> property, this is the account ID of
   /// the destination bucket owner. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-change-owner.html">Replication
-  /// Additional Configuration: Changing the Replica Owner</a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>.
-  final String account;
+  /// Additional Configuration: Changing the Replica Owner</a> in the <i>Amazon S3
+  /// User Guide</i>.
+  final String? account;
 
   /// A container that provides information about encryption. If
   /// <code>SourceSelectionCriteria</code> is specified, you must specify this
   /// element.
-  final EncryptionConfiguration encryptionConfiguration;
+  final EncryptionConfiguration? encryptionConfiguration;
 
   /// A container specifying replication metrics-related settings enabling
   /// replication metrics and events.
-  final Metrics metrics;
+  final Metrics? metrics;
 
   /// A container specifying S3 Replication Time Control (S3 RTC), including
   /// whether S3 RTC is enabled and the time when all objects and operations on
   /// objects must be replicated. Must be specified together with a
   /// <code>Metrics</code> block.
-  final ReplicationTime replicationTime;
+  final ReplicationTime? replicationTime;
 
   /// The storage class to use when replicating objects, such as S3 Standard or
   /// reduced redundancy. By default, Amazon S3 uses the storage class of the
@@ -12901,12 +14268,11 @@ class Destination {
   ///
   /// For valid values, see the <code>StorageClass</code> element of the <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html">PUT
-  /// Bucket replication</a> action in the <i>Amazon Simple Storage Service API
-  /// Reference</i>.
-  final StorageClass storageClass;
+  /// Bucket replication</a> action in the <i>Amazon S3 API Reference</i>.
+  final StorageClass? storageClass;
 
   Destination({
-    @_s.required this.bucket,
+    required this.bucket,
     this.accessControlTranslation,
     this.account,
     this.encryptionConfiguration,
@@ -12914,9 +14280,33 @@ class Destination {
     this.replicationTime,
     this.storageClass,
   });
+
+  factory Destination.fromJson(Map<String, dynamic> json) {
+    return Destination(
+      bucket: json['Bucket'] as String,
+      accessControlTranslation: json['AccessControlTranslation'] != null
+          ? AccessControlTranslation.fromJson(
+              json['AccessControlTranslation'] as Map<String, dynamic>)
+          : null,
+      account: json['Account'] as String?,
+      encryptionConfiguration: json['EncryptionConfiguration'] != null
+          ? EncryptionConfiguration.fromJson(
+              json['EncryptionConfiguration'] as Map<String, dynamic>)
+          : null,
+      metrics: json['Metrics'] != null
+          ? Metrics.fromJson(json['Metrics'] as Map<String, dynamic>)
+          : null,
+      replicationTime: json['ReplicationTime'] != null
+          ? ReplicationTime.fromJson(
+              json['ReplicationTime'] as Map<String, dynamic>)
+          : null,
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+    );
+  }
+
   factory Destination.fromXml(_s.XmlElement elem) {
     return Destination(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
       accessControlTranslation: _s
           .extractXmlChild(elem, 'AccessControlTranslation')
           ?.let((e) => AccessControlTranslation.fromXml(e)),
@@ -12934,18 +14324,46 @@ class Destination {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final accessControlTranslation = this.accessControlTranslation;
+    final account = this.account;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final metrics = this.metrics;
+    final replicationTime = this.replicationTime;
+    final storageClass = this.storageClass;
+    return {
+      'Bucket': bucket,
+      if (accessControlTranslation != null)
+        'AccessControlTranslation': accessControlTranslation,
+      if (account != null) 'Account': account,
+      if (encryptionConfiguration != null)
+        'EncryptionConfiguration': encryptionConfiguration,
+      if (metrics != null) 'Metrics': metrics,
+      if (replicationTime != null) 'ReplicationTime': replicationTime,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final accessControlTranslation = this.accessControlTranslation;
+    final account = this.account;
+    final encryptionConfiguration = this.encryptionConfiguration;
+    final metrics = this.metrics;
+    final replicationTime = this.replicationTime;
+    final storageClass = this.storageClass;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Bucket', bucket),
       if (account != null) _s.encodeXmlStringValue('Account', account),
       if (storageClass != null)
         _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
       if (accessControlTranslation != null)
-        accessControlTranslation?.toXml('AccessControlTranslation'),
+        accessControlTranslation.toXml('AccessControlTranslation'),
       if (encryptionConfiguration != null)
-        encryptionConfiguration?.toXml('EncryptionConfiguration'),
-      if (replicationTime != null) replicationTime?.toXml('ReplicationTime'),
-      if (metrics != null) metrics?.toXml('Metrics'),
+        encryptionConfiguration.toXml('EncryptionConfiguration'),
+      if (replicationTime != null) replicationTime.toXml('ReplicationTime'),
+      if (metrics != null) metrics.toXml('Metrics'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -12953,7 +14371,7 @@ class Destination {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -12974,7 +14392,6 @@ extension on EncodingType {
       case EncodingType.url:
         return 'url';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -12984,7 +14401,7 @@ extension on String {
       case 'url':
         return EncodingType.url;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum EncodingType');
   }
 }
 
@@ -12996,26 +14413,49 @@ class Encryption {
 
   /// If the encryption type is <code>aws:kms</code>, this optional value can be
   /// used to specify the encryption context for the restore results.
-  final String kMSContext;
+  final String? kMSContext;
 
   /// If the encryption type is <code>aws:kms</code>, this optional value
   /// specifies the ID of the symmetric customer managed AWS KMS CMK to use for
   /// encryption of job results. Amazon S3 only supports symmetric CMKs. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
   /// Developer Guide</i>.
-  final String kMSKeyId;
+  final String? kMSKeyId;
 
   Encryption({
-    @_s.required this.encryptionType,
+    required this.encryptionType,
     this.kMSContext,
     this.kMSKeyId,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory Encryption.fromJson(Map<String, dynamic> json) {
+    return Encryption(
+      encryptionType:
+          (json['EncryptionType'] as String).toServerSideEncryption(),
+      kMSContext: json['KMSContext'] as String?,
+      kMSKeyId: json['KMSKeyId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final encryptionType = this.encryptionType;
+    final kMSContext = this.kMSContext;
+    final kMSKeyId = this.kMSKeyId;
+    return {
+      'EncryptionType': encryptionType.toValue(),
+      if (kMSContext != null) 'KMSContext': kMSContext,
+      if (kMSKeyId != null) 'KMSKeyId': kMSKeyId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final encryptionType = this.encryptionType;
+    final kMSContext = this.kMSContext;
+    final kMSKeyId = this.kMSKeyId;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'EncryptionType', encryptionType?.toValue() ?? ''),
+      _s.encodeXmlStringValue('EncryptionType', encryptionType.toValue()),
       if (kMSKeyId != null) _s.encodeXmlStringValue('KMSKeyId', kMSKeyId),
       if (kMSContext != null) _s.encodeXmlStringValue('KMSContext', kMSContext),
     ];
@@ -13025,7 +14465,7 @@ class Encryption {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -13033,26 +14473,40 @@ class Encryption {
 /// Specifies encryption-related information for an Amazon S3 bucket that is a
 /// destination for replicated objects.
 class EncryptionConfiguration {
-  /// Specifies the ID (Key ARN or Alias ARN) of the customer managed customer
-  /// master key (CMK) stored in AWS Key Management Service (KMS) for the
-  /// destination bucket. Amazon S3 uses this key to encrypt replica objects.
-  /// Amazon S3 only supports symmetric customer managed CMKs. For more
-  /// information, see <a
+  /// Specifies the ID (Key ARN or Alias ARN) of the customer managed AWS KMS key
+  /// stored in AWS Key Management Service (KMS) for the destination bucket.
+  /// Amazon S3 uses this key to encrypt replica objects. Amazon S3 only supports
+  /// symmetric, customer managed KMS keys. For more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
   /// Developer Guide</i>.
-  final String replicaKmsKeyID;
+  final String? replicaKmsKeyID;
 
   EncryptionConfiguration({
     this.replicaKmsKeyID,
   });
+
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) {
+    return EncryptionConfiguration(
+      replicaKmsKeyID: json['ReplicaKmsKeyID'] as String?,
+    );
+  }
+
   factory EncryptionConfiguration.fromXml(_s.XmlElement elem) {
     return EncryptionConfiguration(
       replicaKmsKeyID: _s.extractXmlStringValue(elem, 'ReplicaKmsKeyID'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final replicaKmsKeyID = this.replicaKmsKeyID;
+    return {
+      if (replicaKmsKeyID != null) 'ReplicaKmsKeyID': replicaKmsKeyID,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final replicaKmsKeyID = this.replicaKmsKeyID;
     final $children = <_s.XmlNode>[
       if (replicaKmsKeyID != null)
         _s.encodeXmlStringValue('ReplicaKmsKeyID', replicaKmsKeyID),
@@ -13063,7 +14517,7 @@ class EncryptionConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -13073,10 +14527,19 @@ class EncryptionConfiguration {
 /// receives an <code>EndEvent</code>.
 class EndEvent {
   EndEvent();
+
+  factory EndEvent.fromJson(Map<String, dynamic> _) {
+    return EndEvent();
+  }
+
   factory EndEvent.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return EndEvent();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -13110,7 +14573,7 @@ class Error {
   /// </li>
   /// <li>
   /// <i>Description:</i> There is a problem with your AWS account that prevents
-  /// the operation from completing successfully. Contact AWS Support for further
+  /// the action from completing successfully. Contact AWS Support for further
   /// assistance.
   /// </li>
   /// <li>
@@ -13521,7 +14984,7 @@ class Error {
   /// <i>Code:</i> InvalidObjectState
   /// </li>
   /// <li>
-  /// <i>Description:</i> The operation is not valid for the current state of the
+  /// <i>Description:</i> The action is not valid for the current state of the
   /// object.
   /// </li>
   /// <li>
@@ -14197,7 +15660,7 @@ class Error {
   /// <i>Code:</i> OperationAborted
   /// </li>
   /// <li>
-  /// <i>Description:</i> A conflicting conditional operation is currently in
+  /// <i>Description:</i> A conflicting conditional action is currently in
   /// progress against this resource. Try again.
   /// </li>
   /// <li>
@@ -14479,10 +15942,10 @@ class Error {
   /// </li>
   /// </ul> </li>
   /// </ul> <p/>
-  final String code;
+  final String? code;
 
   /// The error key.
-  final String key;
+  final String? key;
 
   /// The error message contains a generic description of the error condition in
   /// English. It is intended for a human audience. Simple programs display the
@@ -14490,10 +15953,10 @@ class Error {
   /// don't know how or don't care to handle. Sophisticated programs with more
   /// exhaustive error handling and proper internationalization are more likely to
   /// ignore the error message.
-  final String message;
+  final String? message;
 
   /// The version ID of the error.
-  final String versionId;
+  final String? versionId;
 
   Error({
     this.code,
@@ -14501,6 +15964,16 @@ class Error {
     this.message,
     this.versionId,
   });
+
+  factory Error.fromJson(Map<String, dynamic> json) {
+    return Error(
+      code: json['Code'] as String?,
+      key: json['Key'] as String?,
+      message: json['Message'] as String?,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
   factory Error.fromXml(_s.XmlElement elem) {
     return Error(
       code: _s.extractXmlStringValue(elem, 'Code'),
@@ -14509,23 +15982,57 @@ class Error {
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final key = this.key;
+    final message = this.message;
+    final versionId = this.versionId;
+    return {
+      if (code != null) 'Code': code,
+      if (key != null) 'Key': key,
+      if (message != null) 'Message': message,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
 }
 
 /// The error information.
 class ErrorDocument {
   /// The object key name to use when a 4XX class error occurs.
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
   final String key;
 
   ErrorDocument({
-    @_s.required this.key,
+    required this.key,
   });
-  factory ErrorDocument.fromXml(_s.XmlElement elem) {
+
+  factory ErrorDocument.fromJson(Map<String, dynamic> json) {
     return ErrorDocument(
-      key: _s.extractXmlStringValue(elem, 'Key'),
+      key: json['Key'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory ErrorDocument.fromXml(_s.XmlElement elem) {
+    return ErrorDocument(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    return {
+      'Key': key,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
     ];
@@ -14535,7 +16042,7 @@ class ErrorDocument {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -14599,7 +16106,6 @@ extension on Event {
       case Event.s3ReplicationOperationReplicatedAfterThreshold:
         return 's3:Replication:OperationReplicatedAfterThreshold';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14641,32 +16147,47 @@ extension on String {
       case 's3:Replication:OperationReplicatedAfterThreshold':
         return Event.s3ReplicationOperationReplicatedAfterThreshold;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Event');
   }
 }
 
 /// Optional configuration to replicate existing source bucket objects. For more
-/// information, see <a href="
-/// https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#existing-object-replication">Replicating
-/// Existing Objects</a> in the <i>Amazon S3 Developer Guide</i>.
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-what-is-isnot-replicated.html#existing-object-replication">Replicating
+/// Existing Objects</a> in the <i>Amazon S3 User Guide</i>.
 class ExistingObjectReplication {
   /// <p/>
   final ExistingObjectReplicationStatus status;
 
   ExistingObjectReplication({
-    @_s.required this.status,
+    required this.status,
   });
-  factory ExistingObjectReplication.fromXml(_s.XmlElement elem) {
+
+  factory ExistingObjectReplication.fromJson(Map<String, dynamic> json) {
     return ExistingObjectReplication(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toExistingObjectReplicationStatus(),
+      status: (json['Status'] as String).toExistingObjectReplicationStatus(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory ExistingObjectReplication.fromXml(_s.XmlElement elem) {
+    return ExistingObjectReplication(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .toExistingObjectReplicationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14674,7 +16195,7 @@ class ExistingObjectReplication {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -14692,7 +16213,6 @@ extension on ExistingObjectReplicationStatus {
       case ExistingObjectReplicationStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14704,7 +16224,8 @@ extension on String {
       case 'Disabled':
         return ExistingObjectReplicationStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum ExistingObjectReplicationStatus');
   }
 }
 
@@ -14721,7 +16242,6 @@ extension on ExpirationStatus {
       case ExpirationStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14733,7 +16253,7 @@ extension on String {
       case 'Disabled':
         return ExpirationStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ExpirationStatus');
   }
 }
 
@@ -14747,7 +16267,6 @@ extension on ExpressionType {
       case ExpressionType.sql:
         return 'SQL';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14757,7 +16276,7 @@ extension on String {
       case 'SQL':
         return ExpressionType.sql;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ExpressionType');
   }
 }
 
@@ -14777,7 +16296,6 @@ extension on FileHeaderInfo {
       case FileHeaderInfo.none:
         return 'NONE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14791,7 +16309,7 @@ extension on String {
       case 'NONE':
         return FileHeaderInfo.none;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum FileHeaderInfo');
   }
 }
 
@@ -14803,17 +16321,24 @@ class FilterRule {
   /// Overlapping prefixes and suffixes are not supported. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
-  /// Event Notifications</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
-  final FilterRuleName name;
+  /// Event Notifications</a> in the <i>Amazon S3 User Guide</i>.
+  final FilterRuleName? name;
 
   /// The value that the filter searches for in object key names.
-  final String value;
+  final String? value;
 
   FilterRule({
     this.name,
     this.value,
   });
+
+  factory FilterRule.fromJson(Map<String, dynamic> json) {
+    return FilterRule(
+      name: (json['Name'] as String?)?.toFilterRuleName(),
+      value: json['Value'] as String?,
+    );
+  }
+
   factory FilterRule.fromXml(_s.XmlElement elem) {
     return FilterRule(
       name: _s.extractXmlStringValue(elem, 'Name')?.toFilterRuleName(),
@@ -14821,7 +16346,18 @@ class FilterRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final value = this.value;
     final $children = <_s.XmlNode>[
       if (name != null) _s.encodeXmlStringValue('Name', name.toValue()),
       if (value != null) _s.encodeXmlStringValue('Value', value),
@@ -14832,7 +16368,7 @@ class FilterRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -14850,7 +16386,6 @@ extension on FilterRuleName {
       case FilterRuleName.suffix:
         return 'suffix';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -14862,36 +16397,64 @@ extension on String {
       case 'suffix':
         return FilterRuleName.suffix;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum FilterRuleName');
   }
 }
 
 class GetBucketAccelerateConfigurationOutput {
   /// The accelerate configuration of the bucket.
-  final BucketAccelerateStatus status;
+  final BucketAccelerateStatus? status;
 
   GetBucketAccelerateConfigurationOutput({
     this.status,
   });
+
+  factory GetBucketAccelerateConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetBucketAccelerateConfigurationOutput(
+      status: (json['Status'] as String?)?.toBucketAccelerateStatus(),
+    );
+  }
+
   factory GetBucketAccelerateConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketAccelerateConfigurationOutput(
       status:
           _s.extractXmlStringValue(elem, 'Status')?.toBucketAccelerateStatus(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 class GetBucketAclOutput {
   /// A list of grants.
-  final List<Grant> grants;
+  final List<Grant>? grants;
 
   /// Container for the bucket owner's display name and ID.
-  final Owner owner;
+  final Owner? owner;
 
   GetBucketAclOutput({
     this.grants,
     this.owner,
   });
+
+  factory GetBucketAclOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketAclOutput(
+      grants: (json['AccessControlList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Grant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetBucketAclOutput.fromXml(_s.XmlElement elem) {
     return GetBucketAclOutput(
       grants: _s.extractXmlChild(elem, 'AccessControlList')?.let((elem) =>
@@ -14899,31 +16462,62 @@ class GetBucketAclOutput {
       owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final grants = this.grants;
+    final owner = this.owner;
+    return {
+      if (grants != null) 'AccessControlList': grants,
+      if (owner != null) 'Owner': owner,
+    };
+  }
 }
 
 class GetBucketAnalyticsConfigurationOutput {
   /// The configuration and any analyses for the analytics filter.
-  final AnalyticsConfiguration analyticsConfiguration;
+  final AnalyticsConfiguration? analyticsConfiguration;
 
   GetBucketAnalyticsConfigurationOutput({
     this.analyticsConfiguration,
   });
-  factory GetBucketAnalyticsConfigurationOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketAnalyticsConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
     return GetBucketAnalyticsConfigurationOutput(
-      analyticsConfiguration:
-          elem?.let((e) => AnalyticsConfiguration.fromXml(e)),
+      analyticsConfiguration: json['AnalyticsConfiguration'] != null
+          ? AnalyticsConfiguration.fromJson(
+              json['AnalyticsConfiguration'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final analyticsConfiguration = this.analyticsConfiguration;
+    return {
+      if (analyticsConfiguration != null)
+        'AnalyticsConfiguration': analyticsConfiguration,
+    };
   }
 }
 
 class GetBucketCorsOutput {
   /// A set of origins and methods (cross-origin access that you want to allow).
   /// You can add up to 100 rules to the configuration.
-  final List<CORSRule> cORSRules;
+  final List<CORSRule>? cORSRules;
 
   GetBucketCorsOutput({
     this.cORSRules,
   });
+
+  factory GetBucketCorsOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketCorsOutput(
+      cORSRules: (json['CORSRule'] as List?)
+          ?.whereNotNull()
+          .map((e) => CORSRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetBucketCorsOutput.fromXml(_s.XmlElement elem) {
     return GetBucketCorsOutput(
       cORSRules: elem
@@ -14932,60 +16526,118 @@ class GetBucketCorsOutput {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final cORSRules = this.cORSRules;
+    return {
+      if (cORSRules != null) 'CORSRule': cORSRules,
+    };
+  }
 }
 
 class GetBucketEncryptionOutput {
-  final ServerSideEncryptionConfiguration serverSideEncryptionConfiguration;
+  final ServerSideEncryptionConfiguration? serverSideEncryptionConfiguration;
 
   GetBucketEncryptionOutput({
     this.serverSideEncryptionConfiguration,
   });
-  factory GetBucketEncryptionOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketEncryptionOutput.fromJson(Map<String, dynamic> json) {
     return GetBucketEncryptionOutput(
       serverSideEncryptionConfiguration:
-          elem?.let((e) => ServerSideEncryptionConfiguration.fromXml(e)),
+          json['ServerSideEncryptionConfiguration'] != null
+              ? ServerSideEncryptionConfiguration.fromJson(
+                  json['ServerSideEncryptionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serverSideEncryptionConfiguration =
+        this.serverSideEncryptionConfiguration;
+    return {
+      if (serverSideEncryptionConfiguration != null)
+        'ServerSideEncryptionConfiguration': serverSideEncryptionConfiguration,
+    };
   }
 }
 
 class GetBucketIntelligentTieringConfigurationOutput {
   /// Container for S3 Intelligent-Tiering configuration.
-  final IntelligentTieringConfiguration intelligentTieringConfiguration;
+  final IntelligentTieringConfiguration? intelligentTieringConfiguration;
 
   GetBucketIntelligentTieringConfigurationOutput({
     this.intelligentTieringConfiguration,
   });
-  factory GetBucketIntelligentTieringConfigurationOutput.fromXml(
-      _s.XmlElement elem) {
+
+  factory GetBucketIntelligentTieringConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
     return GetBucketIntelligentTieringConfigurationOutput(
       intelligentTieringConfiguration:
-          elem?.let((e) => IntelligentTieringConfiguration.fromXml(e)),
+          json['IntelligentTieringConfiguration'] != null
+              ? IntelligentTieringConfiguration.fromJson(
+                  json['IntelligentTieringConfiguration']
+                      as Map<String, dynamic>)
+              : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final intelligentTieringConfiguration =
+        this.intelligentTieringConfiguration;
+    return {
+      if (intelligentTieringConfiguration != null)
+        'IntelligentTieringConfiguration': intelligentTieringConfiguration,
+    };
   }
 }
 
 class GetBucketInventoryConfigurationOutput {
   /// Specifies the inventory configuration.
-  final InventoryConfiguration inventoryConfiguration;
+  final InventoryConfiguration? inventoryConfiguration;
 
   GetBucketInventoryConfigurationOutput({
     this.inventoryConfiguration,
   });
-  factory GetBucketInventoryConfigurationOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketInventoryConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
     return GetBucketInventoryConfigurationOutput(
-      inventoryConfiguration:
-          elem?.let((e) => InventoryConfiguration.fromXml(e)),
+      inventoryConfiguration: json['InventoryConfiguration'] != null
+          ? InventoryConfiguration.fromJson(
+              json['InventoryConfiguration'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inventoryConfiguration = this.inventoryConfiguration;
+    return {
+      if (inventoryConfiguration != null)
+        'InventoryConfiguration': inventoryConfiguration,
+    };
   }
 }
 
 class GetBucketLifecycleConfigurationOutput {
   /// Container for a lifecycle rule.
-  final List<LifecycleRule> rules;
+  final List<LifecycleRule>? rules;
 
   GetBucketLifecycleConfigurationOutput({
     this.rules,
   });
+
+  factory GetBucketLifecycleConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
+    return GetBucketLifecycleConfigurationOutput(
+      rules: (json['Rule'] as List?)
+          ?.whereNotNull()
+          .map((e) => LifecycleRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetBucketLifecycleConfigurationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLifecycleConfigurationOutput(
       rules: elem
@@ -14994,19 +16646,43 @@ class GetBucketLifecycleConfigurationOutput {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      if (rules != null) 'Rule': rules,
+    };
+  }
 }
 
 class GetBucketLifecycleOutput {
   /// Container for a lifecycle rule.
-  final List<Rule> rules;
+  final List<Rule>? rules;
 
   GetBucketLifecycleOutput({
     this.rules,
   });
+
+  factory GetBucketLifecycleOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketLifecycleOutput(
+      rules: (json['Rule'] as List?)
+          ?.whereNotNull()
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetBucketLifecycleOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLifecycleOutput(
       rules: elem.findElements('Rule').map((c) => Rule.fromXml(c)).toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      if (rules != null) 'Rule': rules,
+    };
   }
 }
 
@@ -15016,11 +16692,19 @@ class GetBucketLocationOutput {
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
   /// and Endpoints</a>. Buckets in Region <code>us-east-1</code> have a
   /// LocationConstraint of <code>null</code>.
-  final BucketLocationConstraint locationConstraint;
+  final BucketLocationConstraint? locationConstraint;
 
   GetBucketLocationOutput({
     this.locationConstraint,
   });
+
+  factory GetBucketLocationOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketLocationOutput(
+      locationConstraint:
+          (json['LocationConstraint'] as String?)?.toBucketLocationConstraint(),
+    );
+  }
+
   factory GetBucketLocationOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLocationOutput(
       locationConstraint: _s
@@ -15028,14 +16712,32 @@ class GetBucketLocationOutput {
           ?.toBucketLocationConstraint(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final locationConstraint = this.locationConstraint;
+    return {
+      if (locationConstraint != null)
+        'LocationConstraint': locationConstraint.toValue(),
+    };
+  }
 }
 
 class GetBucketLoggingOutput {
-  final LoggingEnabled loggingEnabled;
+  final LoggingEnabled? loggingEnabled;
 
   GetBucketLoggingOutput({
     this.loggingEnabled,
   });
+
+  factory GetBucketLoggingOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketLoggingOutput(
+      loggingEnabled: json['LoggingEnabled'] != null
+          ? LoggingEnabled.fromJson(
+              json['LoggingEnabled'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory GetBucketLoggingOutput.fromXml(_s.XmlElement elem) {
     return GetBucketLoggingOutput(
       loggingEnabled: _s
@@ -15043,90 +16745,164 @@ class GetBucketLoggingOutput {
           ?.let((e) => LoggingEnabled.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final loggingEnabled = this.loggingEnabled;
+    return {
+      if (loggingEnabled != null) 'LoggingEnabled': loggingEnabled,
+    };
+  }
 }
 
 class GetBucketMetricsConfigurationOutput {
   /// Specifies the metrics configuration.
-  final MetricsConfiguration metricsConfiguration;
+  final MetricsConfiguration? metricsConfiguration;
 
   GetBucketMetricsConfigurationOutput({
     this.metricsConfiguration,
   });
-  factory GetBucketMetricsConfigurationOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketMetricsConfigurationOutput.fromJson(
+      Map<String, dynamic> json) {
     return GetBucketMetricsConfigurationOutput(
-      metricsConfiguration: elem?.let((e) => MetricsConfiguration.fromXml(e)),
+      metricsConfiguration: json['MetricsConfiguration'] != null
+          ? MetricsConfiguration.fromJson(
+              json['MetricsConfiguration'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final metricsConfiguration = this.metricsConfiguration;
+    return {
+      if (metricsConfiguration != null)
+        'MetricsConfiguration': metricsConfiguration,
+    };
   }
 }
 
 class GetBucketOwnershipControlsOutput {
   /// The <code>OwnershipControls</code> (BucketOwnerPreferred or ObjectWriter)
   /// currently in effect for this Amazon S3 bucket.
-  final OwnershipControls ownershipControls;
+  final OwnershipControls? ownershipControls;
 
   GetBucketOwnershipControlsOutput({
     this.ownershipControls,
   });
-  factory GetBucketOwnershipControlsOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketOwnershipControlsOutput.fromJson(Map<String, dynamic> json) {
     return GetBucketOwnershipControlsOutput(
-      ownershipControls: elem?.let((e) => OwnershipControls.fromXml(e)),
+      ownershipControls: json['OwnershipControls'] != null
+          ? OwnershipControls.fromJson(
+              json['OwnershipControls'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ownershipControls = this.ownershipControls;
+    return {
+      if (ownershipControls != null) 'OwnershipControls': ownershipControls,
+    };
   }
 }
 
 class GetBucketPolicyOutput {
   /// The bucket policy as a JSON document.
-  final String policy;
+  final String? policy;
 
   GetBucketPolicyOutput({
     this.policy,
   });
-  factory GetBucketPolicyOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketPolicyOutput.fromJson(Map<String, dynamic> json) {
     return GetBucketPolicyOutput(
-      policy: _s.extractXmlStringValue(elem, 'Policy'),
+      policy: json['Policy'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
   }
 }
 
 class GetBucketPolicyStatusOutput {
   /// The policy status for the specified bucket.
-  final PolicyStatus policyStatus;
+  final PolicyStatus? policyStatus;
 
   GetBucketPolicyStatusOutput({
     this.policyStatus,
   });
-  factory GetBucketPolicyStatusOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketPolicyStatusOutput.fromJson(Map<String, dynamic> json) {
     return GetBucketPolicyStatusOutput(
-      policyStatus: elem?.let((e) => PolicyStatus.fromXml(e)),
+      policyStatus: json['PolicyStatus'] != null
+          ? PolicyStatus.fromJson(json['PolicyStatus'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyStatus = this.policyStatus;
+    return {
+      if (policyStatus != null) 'PolicyStatus': policyStatus,
+    };
   }
 }
 
 class GetBucketReplicationOutput {
-  final ReplicationConfiguration replicationConfiguration;
+  final ReplicationConfiguration? replicationConfiguration;
 
   GetBucketReplicationOutput({
     this.replicationConfiguration,
   });
-  factory GetBucketReplicationOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetBucketReplicationOutput.fromJson(Map<String, dynamic> json) {
     return GetBucketReplicationOutput(
-      replicationConfiguration:
-          elem?.let((e) => ReplicationConfiguration.fromXml(e)),
+      replicationConfiguration: json['ReplicationConfiguration'] != null
+          ? ReplicationConfiguration.fromJson(
+              json['ReplicationConfiguration'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final replicationConfiguration = this.replicationConfiguration;
+    return {
+      if (replicationConfiguration != null)
+        'ReplicationConfiguration': replicationConfiguration,
+    };
   }
 }
 
 class GetBucketRequestPaymentOutput {
   /// Specifies who pays for the download and request fees.
-  final Payer payer;
+  final Payer? payer;
 
   GetBucketRequestPaymentOutput({
     this.payer,
   });
+
+  factory GetBucketRequestPaymentOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketRequestPaymentOutput(
+      payer: (json['Payer'] as String?)?.toPayer(),
+    );
+  }
+
   factory GetBucketRequestPaymentOutput.fromXml(_s.XmlElement elem) {
     return GetBucketRequestPaymentOutput(
       payer: _s.extractXmlStringValue(elem, 'Payer')?.toPayer(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final payer = this.payer;
+    return {
+      if (payer != null) 'Payer': payer.toValue(),
+    };
   }
 }
 
@@ -15135,13 +16911,33 @@ class GetBucketTaggingOutput {
   final List<Tag> tagSet;
 
   GetBucketTaggingOutput({
-    @_s.required this.tagSet,
+    required this.tagSet,
   });
+
+  factory GetBucketTaggingOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketTaggingOutput(
+      tagSet: (json['TagSet'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetBucketTaggingOutput.fromXml(_s.XmlElement elem) {
     return GetBucketTaggingOutput(
-      tagSet: _s.extractXmlChild(elem, 'TagSet')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      tagSet: _s
+          .extractXmlChild(elem, 'TagSet')!
+          .findElements('Tag')
+          .map((c) => Tag.fromXml(c))
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagSet = this.tagSet;
+    return {
+      'TagSet': tagSet,
+    };
   }
 }
 
@@ -15150,15 +16946,23 @@ class GetBucketVersioningOutput {
   /// configuration. This element is only returned if the bucket has been
   /// configured with MFA delete. If the bucket has never been so configured, this
   /// element is not returned.
-  final MFADeleteStatus mFADelete;
+  final MFADeleteStatus? mFADelete;
 
   /// The versioning state of the bucket.
-  final BucketVersioningStatus status;
+  final BucketVersioningStatus? status;
 
   GetBucketVersioningOutput({
     this.mFADelete,
     this.status,
   });
+
+  factory GetBucketVersioningOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketVersioningOutput(
+      mFADelete: (json['MfaDelete'] as String?)?.toMFADeleteStatus(),
+      status: (json['Status'] as String?)?.toBucketVersioningStatus(),
+    );
+  }
+
   factory GetBucketVersioningOutput.fromXml(_s.XmlElement elem) {
     return GetBucketVersioningOutput(
       mFADelete:
@@ -15167,23 +16971,32 @@ class GetBucketVersioningOutput {
           _s.extractXmlStringValue(elem, 'Status')?.toBucketVersioningStatus(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final mFADelete = this.mFADelete;
+    final status = this.status;
+    return {
+      if (mFADelete != null) 'MfaDelete': mFADelete.toValue(),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 class GetBucketWebsiteOutput {
   /// The object key name of the website error document to use for 4XX class
   /// errors.
-  final ErrorDocument errorDocument;
+  final ErrorDocument? errorDocument;
 
   /// The name of the index document for the website (for example
   /// <code>index.html</code>).
-  final IndexDocument indexDocument;
+  final IndexDocument? indexDocument;
 
   /// Specifies the redirect behavior of all requests to a website endpoint of an
   /// Amazon S3 bucket.
-  final RedirectAllRequestsTo redirectAllRequestsTo;
+  final RedirectAllRequestsTo? redirectAllRequestsTo;
 
   /// Rules that define when a redirect is applied and the redirect behavior.
-  final List<RoutingRule> routingRules;
+  final List<RoutingRule>? routingRules;
 
   GetBucketWebsiteOutput({
     this.errorDocument,
@@ -15191,6 +17004,28 @@ class GetBucketWebsiteOutput {
     this.redirectAllRequestsTo,
     this.routingRules,
   });
+
+  factory GetBucketWebsiteOutput.fromJson(Map<String, dynamic> json) {
+    return GetBucketWebsiteOutput(
+      errorDocument: json['ErrorDocument'] != null
+          ? ErrorDocument.fromJson(
+              json['ErrorDocument'] as Map<String, dynamic>)
+          : null,
+      indexDocument: json['IndexDocument'] != null
+          ? IndexDocument.fromJson(
+              json['IndexDocument'] as Map<String, dynamic>)
+          : null,
+      redirectAllRequestsTo: json['RedirectAllRequestsTo'] != null
+          ? RedirectAllRequestsTo.fromJson(
+              json['RedirectAllRequestsTo'] as Map<String, dynamic>)
+          : null,
+      routingRules: (json['RoutingRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoutingRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetBucketWebsiteOutput.fromXml(_s.XmlElement elem) {
     return GetBucketWebsiteOutput(
       errorDocument: _s
@@ -15208,172 +17043,232 @@ class GetBucketWebsiteOutput {
           .toList()),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final errorDocument = this.errorDocument;
+    final indexDocument = this.indexDocument;
+    final redirectAllRequestsTo = this.redirectAllRequestsTo;
+    final routingRules = this.routingRules;
+    return {
+      if (errorDocument != null) 'ErrorDocument': errorDocument,
+      if (indexDocument != null) 'IndexDocument': indexDocument,
+      if (redirectAllRequestsTo != null)
+        'RedirectAllRequestsTo': redirectAllRequestsTo,
+      if (routingRules != null) 'RoutingRules': routingRules,
+    };
+  }
 }
 
 class GetObjectAclOutput {
   /// A list of grants.
-  final List<Grant> grants;
+  final List<Grant>? grants;
 
   /// Container for the bucket owner's display name and ID.
-  final Owner owner;
-  final RequestCharged requestCharged;
+  final Owner? owner;
+  final RequestCharged? requestCharged;
 
   GetObjectAclOutput({
     this.grants,
     this.owner,
     this.requestCharged,
   });
+
+  factory GetObjectAclOutput.fromJson(Map<String, dynamic> json) {
+    return GetObjectAclOutput(
+      grants: (json['AccessControlList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Grant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final grants = this.grants;
+    final owner = this.owner;
+    final requestCharged = this.requestCharged;
+    return {
+      if (grants != null) 'AccessControlList': grants,
+      if (owner != null) 'Owner': owner,
+    };
+  }
 }
 
 class GetObjectLegalHoldOutput {
   /// The current Legal Hold status for the specified object.
-  final ObjectLockLegalHold legalHold;
+  final ObjectLockLegalHold? legalHold;
 
   GetObjectLegalHoldOutput({
     this.legalHold,
   });
-  factory GetObjectLegalHoldOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetObjectLegalHoldOutput.fromJson(Map<String, dynamic> json) {
     return GetObjectLegalHoldOutput(
-      legalHold: elem?.let((e) => ObjectLockLegalHold.fromXml(e)),
+      legalHold: json['LegalHold'] != null
+          ? ObjectLockLegalHold.fromJson(
+              json['LegalHold'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final legalHold = this.legalHold;
+    return {
+      if (legalHold != null) 'LegalHold': legalHold,
+    };
   }
 }
 
 class GetObjectLockConfigurationOutput {
   /// The specified bucket's Object Lock configuration.
-  final ObjectLockConfiguration objectLockConfiguration;
+  final ObjectLockConfiguration? objectLockConfiguration;
 
   GetObjectLockConfigurationOutput({
     this.objectLockConfiguration,
   });
-  factory GetObjectLockConfigurationOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetObjectLockConfigurationOutput.fromJson(Map<String, dynamic> json) {
     return GetObjectLockConfigurationOutput(
-      objectLockConfiguration:
-          elem?.let((e) => ObjectLockConfiguration.fromXml(e)),
+      objectLockConfiguration: json['ObjectLockConfiguration'] != null
+          ? ObjectLockConfiguration.fromJson(
+              json['ObjectLockConfiguration'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectLockConfiguration = this.objectLockConfiguration;
+    return {
+      if (objectLockConfiguration != null)
+        'ObjectLockConfiguration': objectLockConfiguration,
+    };
   }
 }
 
 class GetObjectOutput {
   /// Indicates that a range of bytes was specified.
-  final String acceptRanges;
+  final String? acceptRanges;
 
   /// Object data.
-  final Uint8List body;
+  final Uint8List? body;
 
   /// Indicates whether the object uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Specifies caching behavior along the request/reply chain.
-  final String cacheControl;
+  final String? cacheControl;
 
   /// Specifies presentational information for the object.
-  final String contentDisposition;
+  final String? contentDisposition;
 
   /// Specifies what content encodings have been applied to the object and thus
   /// what decoding mechanisms must be applied to obtain the media-type referenced
   /// by the Content-Type header field.
-  final String contentEncoding;
+  final String? contentEncoding;
 
   /// The language the content is in.
-  final String contentLanguage;
+  final String? contentLanguage;
 
   /// Size of the body in bytes.
-  final int contentLength;
+  final int? contentLength;
 
   /// The portion of the object returned in the response.
-  final String contentRange;
+  final String? contentRange;
 
   /// A standard MIME type describing the format of the object data.
-  final String contentType;
+  final String? contentType;
 
   /// Specifies whether the object retrieved was (true) or was not (false) a
   /// Delete Marker. If false, this response header does not appear in the
   /// response.
-  final bool deleteMarker;
+  final bool? deleteMarker;
 
   /// An ETag is an opaque identifier assigned by a web server to a specific
   /// version of a resource found at a URL.
-  final String eTag;
+  final String? eTag;
 
   /// If the object expiration is configured (see PUT Bucket lifecycle), the
   /// response includes this header. It includes the expiry-date and rule-id
   /// key-value pairs providing object expiration information. The value of the
   /// rule-id is URL encoded.
-  final String expiration;
+  final String? expiration;
 
   /// The date and time at which the object is no longer cacheable.
-  final DateTime expires;
+  final DateTime? expires;
 
-  /// Last modified date of the object
-  final DateTime lastModified;
+  /// Creation date of the object.
+  final DateTime? lastModified;
 
   /// A map of metadata to store with the object in S3.
-  final Map<String, String> metadata;
+  final Map<String, String>? metadata;
 
   /// This is set to the number of metadata entries not returned in
   /// <code>x-amz-meta</code> headers. This can happen if you create metadata
   /// using an API like SOAP that supports more flexible metadata than the REST
   /// API. For example, using SOAP, you can create metadata whose values are not
   /// legal HTTP headers.
-  final int missingMeta;
+  final int? missingMeta;
 
   /// Indicates whether this object has an active legal hold. This field is only
   /// returned if you have permission to view an object's legal hold status.
-  final ObjectLockLegalHoldStatus objectLockLegalHoldStatus;
+  final ObjectLockLegalHoldStatus? objectLockLegalHoldStatus;
 
   /// The Object Lock mode currently in place for this object.
-  final ObjectLockMode objectLockMode;
+  final ObjectLockMode? objectLockMode;
 
   /// The date and time when this object's Object Lock will expire.
-  final DateTime objectLockRetainUntilDate;
+  final DateTime? objectLockRetainUntilDate;
 
   /// The count of parts this object has.
-  final int partsCount;
+  final int? partsCount;
 
   /// Amazon S3 can return this if your request involves a bucket that is either a
   /// source or destination in a replication rule.
-  final ReplicationStatus replicationStatus;
-  final RequestCharged requestCharged;
+  final ReplicationStatus? replicationStatus;
+  final RequestCharged? requestCharged;
 
-  /// Provides information about object restoration operation and expiration time
-  /// of the restored object copy.
-  final String restore;
+  /// Provides information about object restoration action and expiration time of
+  /// the restored object copy.
+  final String? restore;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header confirming the encryption
   /// algorithm used.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header to provide round-trip
   /// message integrity verification of the customer-provided encryption key.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
   /// symmetric customer managed customer master key (CMK) that was used for the
   /// object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
   /// S3 (for example, AES256, aws:kms).
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   /// Provides storage class information of the object. Amazon S3 returns this
   /// header for all objects except for S3 Standard storage class objects.
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   /// The number of tags, if any, on the object.
-  final int tagCount;
+  final int? tagCount;
 
   /// Version of the object.
-  final String versionId;
+  final String? versionId;
 
   /// If the bucket is configured as a website, redirects requests for this object
   /// to another object in the same bucket or to an external URL. Amazon S3 stores
   /// the value of this header in the object metadata.
-  final String websiteRedirectLocation;
+  final String? websiteRedirectLocation;
 
   GetObjectOutput({
     this.acceptRanges,
@@ -15409,19 +17304,118 @@ class GetObjectOutput {
     this.versionId,
     this.websiteRedirectLocation,
   });
+
+  factory GetObjectOutput.fromJson(Map<String, dynamic> json) {
+    return GetObjectOutput(
+      acceptRanges: json['accept-ranges'] as String?,
+      body: _s.decodeNullableUint8List(json['Body'] as String?),
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      cacheControl: json['Cache-Control'] as String?,
+      contentDisposition: json['Content-Disposition'] as String?,
+      contentEncoding: json['Content-Encoding'] as String?,
+      contentLanguage: json['Content-Language'] as String?,
+      contentLength: json['Content-Length'] as int?,
+      contentRange: json['Content-Range'] as String?,
+      contentType: json['Content-Type'] as String?,
+      deleteMarker: json['x-amz-delete-marker'] as bool?,
+      eTag: json['ETag'] as String?,
+      expiration: json['x-amz-expiration'] as String?,
+      expires: timeStampFromJson(json['Expires']),
+      lastModified: timeStampFromJson(json['Last-Modified']),
+      metadata: (json['x-amz-meta-'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      missingMeta: json['x-amz-missing-meta'] as int?,
+      objectLockLegalHoldStatus:
+          (json['x-amz-object-lock-legal-hold'] as String?)
+              ?.toObjectLockLegalHoldStatus(),
+      objectLockMode:
+          (json['x-amz-object-lock-mode'] as String?)?.toObjectLockMode(),
+      objectLockRetainUntilDate:
+          timeStampFromJson(json['x-amz-object-lock-retain-until-date']),
+      partsCount: json['x-amz-mp-parts-count'] as int?,
+      replicationStatus:
+          (json['x-amz-replication-status'] as String?)?.toReplicationStatus(),
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      restore: json['x-amz-restore'] as String?,
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+      storageClass: (json['x-amz-storage-class'] as String?)?.toStorageClass(),
+      tagCount: json['x-amz-tagging-count'] as int?,
+      versionId: json['x-amz-version-id'] as String?,
+      websiteRedirectLocation:
+          json['x-amz-website-redirect-location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptRanges = this.acceptRanges;
+    final body = this.body;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final cacheControl = this.cacheControl;
+    final contentDisposition = this.contentDisposition;
+    final contentEncoding = this.contentEncoding;
+    final contentLanguage = this.contentLanguage;
+    final contentLength = this.contentLength;
+    final contentRange = this.contentRange;
+    final contentType = this.contentType;
+    final deleteMarker = this.deleteMarker;
+    final eTag = this.eTag;
+    final expiration = this.expiration;
+    final expires = this.expires;
+    final lastModified = this.lastModified;
+    final metadata = this.metadata;
+    final missingMeta = this.missingMeta;
+    final objectLockLegalHoldStatus = this.objectLockLegalHoldStatus;
+    final objectLockMode = this.objectLockMode;
+    final objectLockRetainUntilDate = this.objectLockRetainUntilDate;
+    final partsCount = this.partsCount;
+    final replicationStatus = this.replicationStatus;
+    final requestCharged = this.requestCharged;
+    final restore = this.restore;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    final storageClass = this.storageClass;
+    final tagCount = this.tagCount;
+    final versionId = this.versionId;
+    final websiteRedirectLocation = this.websiteRedirectLocation;
+    return {
+      if (body != null) 'Body': base64Encode(body),
+    };
+  }
 }
 
 class GetObjectRetentionOutput {
   /// The container element for an object's retention settings.
-  final ObjectLockRetention retention;
+  final ObjectLockRetention? retention;
 
   GetObjectRetentionOutput({
     this.retention,
   });
-  factory GetObjectRetentionOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetObjectRetentionOutput.fromJson(Map<String, dynamic> json) {
     return GetObjectRetentionOutput(
-      retention: elem?.let((e) => ObjectLockRetention.fromXml(e)),
+      retention: json['Retention'] != null
+          ? ObjectLockRetention.fromJson(
+              json['Retention'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final retention = this.retention;
+    return {
+      if (retention != null) 'Retention': retention,
+    };
   }
 }
 
@@ -15430,38 +17424,84 @@ class GetObjectTaggingOutput {
   final List<Tag> tagSet;
 
   /// The versionId of the object for which you got the tagging information.
-  final String versionId;
+  final String? versionId;
 
   GetObjectTaggingOutput({
-    @_s.required this.tagSet,
+    required this.tagSet,
     this.versionId,
   });
+
+  factory GetObjectTaggingOutput.fromJson(Map<String, dynamic> json) {
+    return GetObjectTaggingOutput(
+      tagSet: (json['TagSet'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagSet = this.tagSet;
+    final versionId = this.versionId;
+    return {
+      'TagSet': tagSet,
+    };
+  }
 }
 
 class GetObjectTorrentOutput {
   /// A Bencoded dictionary as defined by the BitTorrent specification
-  final Uint8List body;
-  final RequestCharged requestCharged;
+  final Uint8List? body;
+  final RequestCharged? requestCharged;
 
   GetObjectTorrentOutput({
     this.body,
     this.requestCharged,
   });
+
+  factory GetObjectTorrentOutput.fromJson(Map<String, dynamic> json) {
+    return GetObjectTorrentOutput(
+      body: _s.decodeNullableUint8List(json['Body'] as String?),
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    final requestCharged = this.requestCharged;
+    return {
+      if (body != null) 'Body': base64Encode(body),
+    };
+  }
 }
 
 class GetPublicAccessBlockOutput {
   /// The <code>PublicAccessBlock</code> configuration currently in effect for
   /// this Amazon S3 bucket.
-  final PublicAccessBlockConfiguration publicAccessBlockConfiguration;
+  final PublicAccessBlockConfiguration? publicAccessBlockConfiguration;
 
   GetPublicAccessBlockOutput({
     this.publicAccessBlockConfiguration,
   });
-  factory GetPublicAccessBlockOutput.fromXml(_s.XmlElement elem) {
+
+  factory GetPublicAccessBlockOutput.fromJson(Map<String, dynamic> json) {
     return GetPublicAccessBlockOutput(
-      publicAccessBlockConfiguration:
-          elem?.let((e) => PublicAccessBlockConfiguration.fromXml(e)),
+      publicAccessBlockConfiguration: json['PublicAccessBlockConfiguration'] !=
+              null
+          ? PublicAccessBlockConfiguration.fromJson(
+              json['PublicAccessBlockConfiguration'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final publicAccessBlockConfiguration = this.publicAccessBlockConfiguration;
+    return {
+      if (publicAccessBlockConfiguration != null)
+        'PublicAccessBlockConfiguration': publicAccessBlockConfiguration,
+    };
   }
 }
 
@@ -15471,11 +17511,26 @@ class GlacierJobParameters {
   final Tier tier;
 
   GlacierJobParameters({
-    @_s.required this.tier,
+    required this.tier,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory GlacierJobParameters.fromJson(Map<String, dynamic> json) {
+    return GlacierJobParameters(
+      tier: (json['Tier'] as String).toTier(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tier = this.tier;
+    return {
+      'Tier': tier.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final tier = this.tier;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Tier', tier?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Tier', tier.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15483,7 +17538,7 @@ class GlacierJobParameters {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -15491,15 +17546,25 @@ class GlacierJobParameters {
 /// Container for grant information.
 class Grant {
   /// The person being granted permissions.
-  final Grantee grantee;
+  final Grantee? grantee;
 
   /// Specifies the permission given to the grantee.
-  final Permission permission;
+  final Permission? permission;
 
   Grant({
     this.grantee,
     this.permission,
   });
+
+  factory Grant.fromJson(Map<String, dynamic> json) {
+    return Grant(
+      grantee: json['Grantee'] != null
+          ? Grantee.fromJson(json['Grantee'] as Map<String, dynamic>)
+          : null,
+      permission: (json['Permission'] as String?)?.toPermission(),
+    );
+  }
+
   factory Grant.fromXml(_s.XmlElement elem) {
     return Grant(
       grantee:
@@ -15508,9 +17573,20 @@ class Grant {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final grantee = this.grantee;
+    final permission = this.permission;
+    return {
+      if (grantee != null) 'Grantee': grantee,
+      if (permission != null) 'Permission': permission.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final grantee = this.grantee;
+    final permission = this.permission;
     final $children = <_s.XmlNode>[
-      if (grantee != null) grantee?.toXml('Grantee'),
+      if (grantee != null) grantee.toXml('Grantee'),
       if (permission != null)
         _s.encodeXmlStringValue('Permission', permission.toValue()),
     ];
@@ -15520,7 +17596,7 @@ class Grant {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -15531,7 +17607,7 @@ class Grantee {
   final Type type;
 
   /// Screen name of the grantee.
-  final String displayName;
+  final String? displayName;
 
   /// Email address of the grantee.
   /// <note>
@@ -15568,24 +17644,35 @@ class Grantee {
   /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">Regions
   /// and Endpoints</a> in the AWS General Reference.
   /// </note>
-  final String emailAddress;
+  final String? emailAddress;
 
   /// The canonical user ID of the grantee.
-  final String id;
+  final String? id;
 
   /// URI of the grantee group.
-  final String uri;
+  final String? uri;
 
   Grantee({
-    @_s.required this.type,
+    required this.type,
     this.displayName,
     this.emailAddress,
     this.id,
     this.uri,
   });
+
+  factory Grantee.fromJson(Map<String, dynamic> json) {
+    return Grantee(
+      type: (json['xsi:type'] as String).toType(),
+      displayName: json['DisplayName'] as String?,
+      emailAddress: json['EmailAddress'] as String?,
+      id: json['ID'] as String?,
+      uri: json['URI'] as String?,
+    );
+  }
+
   factory Grantee.fromXml(_s.XmlElement elem) {
     return Grantee(
-      type: _s.extractXmlStringAttribute(elem, 'xsi:type')?.toType(),
+      type: _s.extractXmlStringAttribute(elem, 'xsi:type')!.toType(),
       displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
       emailAddress: _s.extractXmlStringValue(elem, 'EmailAddress'),
       id: _s.extractXmlStringValue(elem, 'ID'),
@@ -15593,7 +17680,27 @@ class Grantee {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final displayName = this.displayName;
+    final emailAddress = this.emailAddress;
+    final id = this.id;
+    final uri = this.uri;
+    return {
+      'xsi:type': type.toValue(),
+      if (displayName != null) 'DisplayName': displayName,
+      if (emailAddress != null) 'EmailAddress': emailAddress,
+      if (id != null) 'ID': id,
+      if (uri != null) 'URI': uri,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final type = this.type;
+    final displayName = this.displayName;
+    final emailAddress = this.emailAddress;
+    final id = this.id;
+    final uri = this.uri;
     final $children = <_s.XmlNode>[
       if (displayName != null)
         _s.encodeXmlStringValue('DisplayName', displayName),
@@ -15606,77 +17713,77 @@ class Grantee {
       ...?attributes,
       _s.XmlAttribute(_s.XmlName('xsi', 'xmlns'),
           'http://www.w3.org/2001/XMLSchema-instance'),
-      if (type != null) _s.XmlAttribute(_s.XmlName('xsi:type'), type.toValue()),
+      _s.XmlAttribute(_s.XmlName('xsi:type'), type.toValue()),
     ];
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class HeadObjectOutput {
   /// Indicates that a range of bytes was specified.
-  final String acceptRanges;
+  final String? acceptRanges;
 
   /// The archive state of the head object.
-  final ArchiveStatus archiveStatus;
+  final ArchiveStatus? archiveStatus;
 
   /// Indicates whether the object uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Specifies caching behavior along the request/reply chain.
-  final String cacheControl;
+  final String? cacheControl;
 
   /// Specifies presentational information for the object.
-  final String contentDisposition;
+  final String? contentDisposition;
 
   /// Specifies what content encodings have been applied to the object and thus
   /// what decoding mechanisms must be applied to obtain the media-type referenced
   /// by the Content-Type header field.
-  final String contentEncoding;
+  final String? contentEncoding;
 
   /// The language the content is in.
-  final String contentLanguage;
+  final String? contentLanguage;
 
   /// Size of the body in bytes.
-  final int contentLength;
+  final int? contentLength;
 
   /// A standard MIME type describing the format of the object data.
-  final String contentType;
+  final String? contentType;
 
   /// Specifies whether the object retrieved was (true) or was not (false) a
   /// Delete Marker. If false, this response header does not appear in the
   /// response.
-  final bool deleteMarker;
+  final bool? deleteMarker;
 
   /// An ETag is an opaque identifier assigned by a web server to a specific
   /// version of a resource found at a URL.
-  final String eTag;
+  final String? eTag;
 
   /// If the object expiration is configured (see PUT Bucket lifecycle), the
   /// response includes this header. It includes the expiry-date and rule-id
   /// key-value pairs providing object expiration information. The value of the
   /// rule-id is URL encoded.
-  final String expiration;
+  final String? expiration;
 
   /// The date and time at which the object is no longer cacheable.
-  final DateTime expires;
+  final DateTime? expires;
 
-  /// Last modified date of the object
-  final DateTime lastModified;
+  /// Creation date of the object.
+  final DateTime? lastModified;
 
   /// A map of metadata to store with the object in S3.
-  final Map<String, String> metadata;
+  final Map<String, String>? metadata;
 
   /// This is set to the number of metadata entries not returned in
   /// <code>x-amz-meta</code> headers. This can happen if you create metadata
   /// using an API like SOAP that supports more flexible metadata than the REST
   /// API. For example, using SOAP, you can create metadata whose values are not
   /// legal HTTP headers.
-  final int missingMeta;
+  final int? missingMeta;
 
   /// Specifies whether a legal hold is in effect for this object. This header is
   /// only returned if the requester has the <code>s3:GetObjectLegalHold</code>
@@ -15685,22 +17792,22 @@ class HeadObjectOutput {
   /// Object Lock, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Object
   /// Lock</a>.
-  final ObjectLockLegalHoldStatus objectLockLegalHoldStatus;
+  final ObjectLockLegalHoldStatus? objectLockLegalHoldStatus;
 
   /// The Object Lock mode, if any, that's in effect for this object. This header
   /// is only returned if the requester has the <code>s3:GetObjectRetention</code>
   /// permission. For more information about S3 Object Lock, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html">Object
   /// Lock</a>.
-  final ObjectLockMode objectLockMode;
+  final ObjectLockMode? objectLockMode;
 
   /// The date and time when the Object Lock retention period expires. This header
   /// is only returned if the requester has the <code>s3:GetObjectRetention</code>
   /// permission.
-  final DateTime objectLockRetainUntilDate;
+  final DateTime? objectLockRetainUntilDate;
 
   /// The count of parts this object has.
-  final int partsCount;
+  final int? partsCount;
 
   /// Amazon S3 can return this header if your request involves a bucket that is
   /// either a source or a destination in a replication rule.
@@ -15742,8 +17849,8 @@ class HeadObjectOutput {
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Replication</a>.
-  final ReplicationStatus replicationStatus;
-  final RequestCharged requestCharged;
+  final ReplicationStatus? replicationStatus;
+  final RequestCharged? requestCharged;
 
   /// If the object is an archived object (an object whose storage class is
   /// GLACIER), the response includes this header if either the archive
@@ -15754,7 +17861,7 @@ class HeadObjectOutput {
   /// If an archive copy is already restored, the header value indicates when
   /// Amazon S3 is scheduled to delete the object copy. For example:
   ///
-  /// <code>x-amz-restore: ongoing-request="false", expiry-date="Fri, 23 Dec 2012
+  /// <code>x-amz-restore: ongoing-request="false", expiry-date="Fri, 21 Dec 2012
   /// 00:00:00 GMT"</code>
   ///
   /// If the object restoration is in progress, the header returns the value
@@ -15763,29 +17870,29 @@ class HeadObjectOutput {
   /// For more information about archiving objects, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-transition-general-considerations">Transitioning
   /// Objects: General Considerations</a>.
-  final String restore;
+  final String? restore;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header confirming the encryption
   /// algorithm used.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header to provide round-trip
   /// message integrity verification of the customer-provided encryption key.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
   /// symmetric customer managed customer master key (CMK) that was used for the
   /// object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// If the object is stored using server-side encryption either with an AWS KMS
   /// customer master key (CMK) or an Amazon S3-managed encryption key, the
   /// response includes this header with the value of the server-side encryption
   /// algorithm used when storing this object in Amazon S3 (for example, AES256,
   /// aws:kms).
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   /// Provides storage class information of the object. Amazon S3 returns this
   /// header for all objects except for S3 Standard storage class objects.
@@ -15793,15 +17900,15 @@ class HeadObjectOutput {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html">Storage
   /// Classes</a>.
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   /// Version of the object.
-  final String versionId;
+  final String? versionId;
 
   /// If the bucket is configured as a website, redirects requests for this object
   /// to another object in the same bucket or to an external URL. Amazon S3 stores
   /// the value of this header in the object metadata.
-  final String websiteRedirectLocation;
+  final String? websiteRedirectLocation;
 
   HeadObjectOutput({
     this.acceptRanges,
@@ -15835,6 +17942,89 @@ class HeadObjectOutput {
     this.versionId,
     this.websiteRedirectLocation,
   });
+
+  factory HeadObjectOutput.fromJson(Map<String, dynamic> json) {
+    return HeadObjectOutput(
+      acceptRanges: json['accept-ranges'] as String?,
+      archiveStatus:
+          (json['x-amz-archive-status'] as String?)?.toArchiveStatus(),
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      cacheControl: json['Cache-Control'] as String?,
+      contentDisposition: json['Content-Disposition'] as String?,
+      contentEncoding: json['Content-Encoding'] as String?,
+      contentLanguage: json['Content-Language'] as String?,
+      contentLength: json['Content-Length'] as int?,
+      contentType: json['Content-Type'] as String?,
+      deleteMarker: json['x-amz-delete-marker'] as bool?,
+      eTag: json['ETag'] as String?,
+      expiration: json['x-amz-expiration'] as String?,
+      expires: timeStampFromJson(json['Expires']),
+      lastModified: timeStampFromJson(json['Last-Modified']),
+      metadata: (json['x-amz-meta-'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      missingMeta: json['x-amz-missing-meta'] as int?,
+      objectLockLegalHoldStatus:
+          (json['x-amz-object-lock-legal-hold'] as String?)
+              ?.toObjectLockLegalHoldStatus(),
+      objectLockMode:
+          (json['x-amz-object-lock-mode'] as String?)?.toObjectLockMode(),
+      objectLockRetainUntilDate:
+          timeStampFromJson(json['x-amz-object-lock-retain-until-date']),
+      partsCount: json['x-amz-mp-parts-count'] as int?,
+      replicationStatus:
+          (json['x-amz-replication-status'] as String?)?.toReplicationStatus(),
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      restore: json['x-amz-restore'] as String?,
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+      storageClass: (json['x-amz-storage-class'] as String?)?.toStorageClass(),
+      versionId: json['x-amz-version-id'] as String?,
+      websiteRedirectLocation:
+          json['x-amz-website-redirect-location'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final acceptRanges = this.acceptRanges;
+    final archiveStatus = this.archiveStatus;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final cacheControl = this.cacheControl;
+    final contentDisposition = this.contentDisposition;
+    final contentEncoding = this.contentEncoding;
+    final contentLanguage = this.contentLanguage;
+    final contentLength = this.contentLength;
+    final contentType = this.contentType;
+    final deleteMarker = this.deleteMarker;
+    final eTag = this.eTag;
+    final expiration = this.expiration;
+    final expires = this.expires;
+    final lastModified = this.lastModified;
+    final metadata = this.metadata;
+    final missingMeta = this.missingMeta;
+    final objectLockLegalHoldStatus = this.objectLockLegalHoldStatus;
+    final objectLockMode = this.objectLockMode;
+    final objectLockRetainUntilDate = this.objectLockRetainUntilDate;
+    final partsCount = this.partsCount;
+    final replicationStatus = this.replicationStatus;
+    final requestCharged = this.requestCharged;
+    final restore = this.restore;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    final storageClass = this.storageClass;
+    final versionId = this.versionId;
+    final websiteRedirectLocation = this.websiteRedirectLocation;
+    return {};
+  }
 }
 
 /// Container for the <code>Suffix</code> element.
@@ -15844,18 +18034,39 @@ class IndexDocument {
   /// request to samplebucket/images/ the data that is returned will be for the
   /// object with the key name images/index.html) The suffix must not be empty and
   /// must not include a slash character.
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
   final String suffix;
 
   IndexDocument({
-    @_s.required this.suffix,
+    required this.suffix,
   });
-  factory IndexDocument.fromXml(_s.XmlElement elem) {
+
+  factory IndexDocument.fromJson(Map<String, dynamic> json) {
     return IndexDocument(
-      suffix: _s.extractXmlStringValue(elem, 'Suffix'),
+      suffix: json['Suffix'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory IndexDocument.fromXml(_s.XmlElement elem) {
+    return IndexDocument(
+      suffix: _s.extractXmlStringValue(elem, 'Suffix')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final suffix = this.suffix;
+    return {
+      'Suffix': suffix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final suffix = this.suffix;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Suffix', suffix),
     ];
@@ -15865,7 +18076,7 @@ class IndexDocument {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -15873,38 +18084,55 @@ class IndexDocument {
 /// Container element that identifies who initiated the multipart upload.
 class Initiator {
   /// Name of the Principal.
-  final String displayName;
+  final String? displayName;
 
   /// If the principal is an AWS account, it provides the Canonical User ID. If
   /// the principal is an IAM User, it provides a user ARN value.
-  final String id;
+  final String? id;
 
   Initiator({
     this.displayName,
     this.id,
   });
+
+  factory Initiator.fromJson(Map<String, dynamic> json) {
+    return Initiator(
+      displayName: json['DisplayName'] as String?,
+      id: json['ID'] as String?,
+    );
+  }
+
   factory Initiator.fromXml(_s.XmlElement elem) {
     return Initiator(
       displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
       id: _s.extractXmlStringValue(elem, 'ID'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    final id = this.id;
+    return {
+      if (displayName != null) 'DisplayName': displayName,
+      if (id != null) 'ID': id,
+    };
+  }
 }
 
 /// Describes the serialization format of the object.
 class InputSerialization {
   /// Describes the serialization of a CSV-encoded object.
-  final CSVInput csv;
+  final CSVInput? csv;
 
   /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2.
   /// Default Value: NONE.
-  final CompressionType compressionType;
+  final CompressionType? compressionType;
 
   /// Specifies JSON as object's input serialization format.
-  final JSONInput json;
+  final JSONInput? json;
 
   /// Specifies Parquet as object's input serialization format.
-  final ParquetInput parquet;
+  final ParquetInput? parquet;
 
   InputSerialization({
     this.csv,
@@ -15912,13 +18140,47 @@ class InputSerialization {
     this.json,
     this.parquet,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory InputSerialization.fromJson(Map<String, dynamic> json) {
+    return InputSerialization(
+      csv: json['CSV'] != null
+          ? CSVInput.fromJson(json['CSV'] as Map<String, dynamic>)
+          : null,
+      compressionType:
+          (json['CompressionType'] as String?)?.toCompressionType(),
+      json: json['JSON'] != null
+          ? JSONInput.fromJson(json['JSON'] as Map<String, dynamic>)
+          : null,
+      parquet: json['Parquet'] != null
+          ? ParquetInput.fromJson(json['Parquet'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    final compressionType = this.compressionType;
+    final json = this.json;
+    final parquet = this.parquet;
+    return {
+      if (csv != null) 'CSV': csv,
+      if (compressionType != null) 'CompressionType': compressionType.toValue(),
+      if (json != null) 'JSON': json,
+      if (parquet != null) 'Parquet': parquet,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final csv = this.csv;
+    final compressionType = this.compressionType;
+    final json = this.json;
+    final parquet = this.parquet;
     final $children = <_s.XmlNode>[
-      if (csv != null) csv?.toXml('CSV'),
+      if (csv != null) csv.toXml('CSV'),
       if (compressionType != null)
         _s.encodeXmlStringValue('CompressionType', compressionType.toValue()),
-      if (json != null) json?.toXml('JSON'),
-      if (parquet != null) parquet?.toXml('Parquet'),
+      if (json != null) json.toXml('JSON'),
+      if (parquet != null) parquet.toXml('Parquet'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15926,7 +18188,7 @@ class InputSerialization {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -15944,7 +18206,6 @@ extension on IntelligentTieringAccessTier {
       case IntelligentTieringAccessTier.deepArchiveAccess:
         return 'DEEP_ARCHIVE_ACCESS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -15956,7 +18217,7 @@ extension on String {
       case 'DEEP_ARCHIVE_ACCESS':
         return IntelligentTieringAccessTier.deepArchiveAccess;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum IntelligentTieringAccessTier');
   }
 }
 
@@ -15965,16 +18226,27 @@ extension on String {
 class IntelligentTieringAndOperator {
   /// An object key name prefix that identifies the subset of objects to which the
   /// configuration applies.
-  final String prefix;
+  final String? prefix;
 
   /// All of these tags must exist in the object's tag set in order for the
   /// configuration to apply.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   IntelligentTieringAndOperator({
     this.prefix,
     this.tags,
   });
+
+  factory IntelligentTieringAndOperator.fromJson(Map<String, dynamic> json) {
+    return IntelligentTieringAndOperator(
+      prefix: json['Prefix'] as String?,
+      tags: (json['Tag'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory IntelligentTieringAndOperator.fromXml(_s.XmlElement elem) {
     return IntelligentTieringAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
@@ -15982,10 +18254,21 @@ class IntelligentTieringAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    final tags = this.tags;
+    return {
+      if (prefix != null) 'Prefix': prefix,
+      if (tags != null) 'Tag': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
+      if (tags != null) ...tags.map((e) => e.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15993,7 +18276,7 @@ class IntelligentTieringAndOperator {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16017,20 +18300,36 @@ class IntelligentTieringConfiguration {
 
   /// Specifies a bucket filter. The configuration only includes objects that meet
   /// the filter's criteria.
-  final IntelligentTieringFilter filter;
+  final IntelligentTieringFilter? filter;
 
   IntelligentTieringConfiguration({
-    @_s.required this.id,
-    @_s.required this.status,
-    @_s.required this.tierings,
+    required this.id,
+    required this.status,
+    required this.tierings,
     this.filter,
   });
+
+  factory IntelligentTieringConfiguration.fromJson(Map<String, dynamic> json) {
+    return IntelligentTieringConfiguration(
+      id: json['Id'] as String,
+      status: (json['Status'] as String).toIntelligentTieringStatus(),
+      tierings: (json['Tiering'] as List)
+          .whereNotNull()
+          .map((e) => Tiering.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      filter: json['Filter'] != null
+          ? IntelligentTieringFilter.fromJson(
+              json['Filter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory IntelligentTieringConfiguration.fromXml(_s.XmlElement elem) {
     return IntelligentTieringConfiguration(
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toIntelligentTieringStatus(),
+          .extractXmlStringValue(elem, 'Status')!
+          .toIntelligentTieringStatus(),
       tierings:
           elem.findElements('Tiering').map((c) => Tiering.fromXml(c)).toList(),
       filter: _s
@@ -16039,12 +18338,29 @@ class IntelligentTieringConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final status = this.status;
+    final tierings = this.tierings;
+    final filter = this.filter;
+    return {
+      'Id': id,
+      'Status': status.toValue(),
+      'Tiering': tierings,
+      if (filter != null) 'Filter': filter,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final id = this.id;
+    final status = this.status;
+    final tierings = this.tierings;
+    final filter = this.filter;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      if (filter != null) filter?.toXml('Filter'),
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
-      ...tierings?.map((e) => e?.toXml('Tiering')),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      ...tierings.map((e) => e.toXml('Tiering')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16052,7 +18368,7 @@ class IntelligentTieringConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16063,18 +18379,38 @@ class IntelligentTieringFilter {
   /// A conjunction (logical AND) of predicates, which is used in evaluating a
   /// metrics filter. The operator must have at least two predicates, and an
   /// object must match all of the predicates in order for the filter to apply.
-  final IntelligentTieringAndOperator and;
+  final IntelligentTieringAndOperator? and;
 
   /// An object key name prefix that identifies the subset of objects to which the
   /// rule applies.
-  final String prefix;
-  final Tag tag;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? prefix;
+  final Tag? tag;
 
   IntelligentTieringFilter({
     this.and,
     this.prefix,
     this.tag,
   });
+
+  factory IntelligentTieringFilter.fromJson(Map<String, dynamic> json) {
+    return IntelligentTieringFilter(
+      and: json['And'] != null
+          ? IntelligentTieringAndOperator.fromJson(
+              json['And'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+      tag: json['Tag'] != null
+          ? Tag.fromJson(json['Tag'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory IntelligentTieringFilter.fromXml(_s.XmlElement elem) {
     return IntelligentTieringFilter(
       and: _s
@@ -16085,11 +18421,25 @@ class IntelligentTieringFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    return {
+      if (and != null) 'And': and,
+      if (prefix != null) 'Prefix': prefix,
+      if (tag != null) 'Tag': tag,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tag != null) tag?.toXml('Tag'),
-      if (and != null) and?.toXml('And'),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16097,7 +18447,7 @@ class IntelligentTieringFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16115,7 +18465,6 @@ extension on IntelligentTieringStatus {
       case IntelligentTieringStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -16127,15 +18476,14 @@ extension on String {
       case 'Disabled':
         return IntelligentTieringStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum IntelligentTieringStatus');
   }
 }
 
 /// Specifies the inventory configuration for an Amazon S3 bucket. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETInventoryConfig.html">GET
-/// Bucket inventory</a> in the <i>Amazon Simple Storage Service API
-/// Reference</i>.
+/// Bucket inventory</a> in the <i>Amazon S3 API Reference</i>.
 class InventoryConfiguration {
   /// Contains information about where to publish the inventory results.
   final InventoryDestination destination;
@@ -16160,33 +18508,52 @@ class InventoryConfiguration {
 
   /// Specifies an inventory filter. The inventory only includes objects that meet
   /// the filter's criteria.
-  final InventoryFilter filter;
+  final InventoryFilter? filter;
 
   /// Contains the optional fields that are included in the inventory results.
-  final List<InventoryOptionalField> optionalFields;
+  final List<InventoryOptionalField>? optionalFields;
 
   InventoryConfiguration({
-    @_s.required this.destination,
-    @_s.required this.id,
-    @_s.required this.includedObjectVersions,
-    @_s.required this.isEnabled,
-    @_s.required this.schedule,
+    required this.destination,
+    required this.id,
+    required this.includedObjectVersions,
+    required this.isEnabled,
+    required this.schedule,
     this.filter,
     this.optionalFields,
   });
+
+  factory InventoryConfiguration.fromJson(Map<String, dynamic> json) {
+    return InventoryConfiguration(
+      destination: InventoryDestination.fromJson(
+          json['Destination'] as Map<String, dynamic>),
+      id: json['Id'] as String,
+      includedObjectVersions: (json['IncludedObjectVersions'] as String)
+          .toInventoryIncludedObjectVersions(),
+      isEnabled: json['IsEnabled'] as bool,
+      schedule:
+          InventorySchedule.fromJson(json['Schedule'] as Map<String, dynamic>),
+      filter: json['Filter'] != null
+          ? InventoryFilter.fromJson(json['Filter'] as Map<String, dynamic>)
+          : null,
+      optionalFields: (json['OptionalFields'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toInventoryOptionalField())
+          .toList(),
+    );
+  }
+
   factory InventoryConfiguration.fromXml(_s.XmlElement elem) {
     return InventoryConfiguration(
-      destination: _s
-          .extractXmlChild(elem, 'Destination')
-          ?.let((e) => InventoryDestination.fromXml(e)),
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      destination: InventoryDestination.fromXml(
+          _s.extractXmlChild(elem, 'Destination')!),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       includedObjectVersions: _s
-          .extractXmlStringValue(elem, 'IncludedObjectVersions')
-          ?.toInventoryIncludedObjectVersions(),
-      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled'),
-      schedule: _s
-          .extractXmlChild(elem, 'Schedule')
-          ?.let((e) => InventorySchedule.fromXml(e)),
+          .extractXmlStringValue(elem, 'IncludedObjectVersions')!
+          .toInventoryIncludedObjectVersions(),
+      isEnabled: _s.extractXmlBoolValue(elem, 'IsEnabled')!,
+      schedule:
+          InventorySchedule.fromXml(_s.extractXmlChild(elem, 'Schedule')!),
       filter: _s
           .extractXmlChild(elem, 'Filter')
           ?.let((e) => InventoryFilter.fromXml(e)),
@@ -16198,21 +18565,48 @@ class InventoryConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final id = this.id;
+    final includedObjectVersions = this.includedObjectVersions;
+    final isEnabled = this.isEnabled;
+    final schedule = this.schedule;
+    final filter = this.filter;
+    final optionalFields = this.optionalFields;
+    return {
+      'Destination': destination,
+      'Id': id,
+      'IncludedObjectVersions': includedObjectVersions.toValue(),
+      'IsEnabled': isEnabled,
+      'Schedule': schedule,
+      if (filter != null) 'Filter': filter,
+      if (optionalFields != null)
+        'OptionalFields': optionalFields.map((e) => e.toValue()).toList(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final destination = this.destination;
+    final id = this.id;
+    final includedObjectVersions = this.includedObjectVersions;
+    final isEnabled = this.isEnabled;
+    final schedule = this.schedule;
+    final filter = this.filter;
+    final optionalFields = this.optionalFields;
     final $children = <_s.XmlNode>[
-      destination?.toXml('Destination'),
+      destination.toXml('Destination'),
       _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-      if (filter != null) filter?.toXml('Filter'),
+      if (filter != null) filter.toXml('Filter'),
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue(
-          'IncludedObjectVersions', includedObjectVersions?.toValue() ?? ''),
+          'IncludedObjectVersions', includedObjectVersions.toValue()),
       if (optionalFields != null)
         _s.XmlElement(
             _s.XmlName('OptionalFields'),
             [],
-            optionalFields.map(
-                (e) => _s.encodeXmlStringValue('Field', e?.toValue() ?? ''))),
-      schedule?.toXml('Schedule'),
+            optionalFields
+                .map((e) => _s.encodeXmlStringValue('Field', e.toValue()))),
+      schedule.toXml('Schedule'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16220,7 +18614,7 @@ class InventoryConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16232,19 +18626,34 @@ class InventoryDestination {
   final InventoryS3BucketDestination s3BucketDestination;
 
   InventoryDestination({
-    @_s.required this.s3BucketDestination,
+    required this.s3BucketDestination,
   });
-  factory InventoryDestination.fromXml(_s.XmlElement elem) {
+
+  factory InventoryDestination.fromJson(Map<String, dynamic> json) {
     return InventoryDestination(
-      s3BucketDestination: _s
-          .extractXmlChild(elem, 'S3BucketDestination')
-          ?.let((e) => InventoryS3BucketDestination.fromXml(e)),
+      s3BucketDestination: InventoryS3BucketDestination.fromJson(
+          json['S3BucketDestination'] as Map<String, dynamic>),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory InventoryDestination.fromXml(_s.XmlElement elem) {
+    return InventoryDestination(
+      s3BucketDestination: InventoryS3BucketDestination.fromXml(
+          _s.extractXmlChild(elem, 'S3BucketDestination')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3BucketDestination = this.s3BucketDestination;
+    return {
+      'S3BucketDestination': s3BucketDestination,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3BucketDestination = this.s3BucketDestination;
     final $children = <_s.XmlNode>[
-      s3BucketDestination?.toXml('S3BucketDestination'),
+      s3BucketDestination.toXml('S3BucketDestination'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16252,7 +18661,7 @@ class InventoryDestination {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16261,15 +18670,27 @@ class InventoryDestination {
 /// results.
 class InventoryEncryption {
   /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
-  final SSEKMS ssekms;
+  final SSEKMS? ssekms;
 
   /// Specifies the use of SSE-S3 to encrypt delivered inventory reports.
-  final SSES3 sses3;
+  final SSES3? sses3;
 
   InventoryEncryption({
     this.ssekms,
     this.sses3,
   });
+
+  factory InventoryEncryption.fromJson(Map<String, dynamic> json) {
+    return InventoryEncryption(
+      ssekms: json['SSE-KMS'] != null
+          ? SSEKMS.fromJson(json['SSE-KMS'] as Map<String, dynamic>)
+          : null,
+      sses3: json['SSE-S3'] != null
+          ? SSES3.fromJson(json['SSE-S3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory InventoryEncryption.fromXml(_s.XmlElement elem) {
     return InventoryEncryption(
       ssekms:
@@ -16278,10 +18699,21 @@ class InventoryEncryption {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
+    return {
+      if (ssekms != null) 'SSE-KMS': ssekms,
+      if (sses3 != null) 'SSE-S3': sses3,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final ssekms = this.ssekms;
+    final sses3 = this.sses3;
     final $children = <_s.XmlNode>[
-      if (sses3 != null) sses3?.toXml('SSE-S3'),
-      if (ssekms != null) ssekms?.toXml('SSE-KMS'),
+      if (sses3 != null) sses3.toXml('SSE-S3'),
+      if (ssekms != null) ssekms.toXml('SSE-KMS'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16289,7 +18721,7 @@ class InventoryEncryption {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16301,15 +18733,30 @@ class InventoryFilter {
   final String prefix;
 
   InventoryFilter({
-    @_s.required this.prefix,
+    required this.prefix,
   });
-  factory InventoryFilter.fromXml(_s.XmlElement elem) {
+
+  factory InventoryFilter.fromJson(Map<String, dynamic> json) {
     return InventoryFilter(
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
+      prefix: json['Prefix'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory InventoryFilter.fromXml(_s.XmlElement elem) {
+    return InventoryFilter(
+      prefix: _s.extractXmlStringValue(elem, 'Prefix')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    return {
+      'Prefix': prefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Prefix', prefix),
     ];
@@ -16319,7 +18766,7 @@ class InventoryFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16340,7 +18787,6 @@ extension on InventoryFormat {
       case InventoryFormat.parquet:
         return 'Parquet';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -16354,7 +18800,7 @@ extension on String {
       case 'Parquet':
         return InventoryFormat.parquet;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InventoryFormat');
   }
 }
 
@@ -16371,7 +18817,6 @@ extension on InventoryFrequency {
       case InventoryFrequency.weekly:
         return 'Weekly';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -16383,7 +18828,7 @@ extension on String {
       case 'Weekly':
         return InventoryFrequency.weekly;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InventoryFrequency');
   }
 }
 
@@ -16400,7 +18845,6 @@ extension on InventoryIncludedObjectVersions {
       case InventoryIncludedObjectVersions.current:
         return 'Current';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -16412,7 +18856,8 @@ extension on String {
       case 'Current':
         return InventoryIncludedObjectVersions.current;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum InventoryIncludedObjectVersions');
   }
 }
 
@@ -16428,6 +18873,7 @@ enum InventoryOptionalField {
   objectLockMode,
   objectLockLegalHoldStatus,
   intelligentTieringAccessTier,
+  bucketKeyStatus,
 }
 
 extension on InventoryOptionalField {
@@ -16455,8 +18901,9 @@ extension on InventoryOptionalField {
         return 'ObjectLockLegalHoldStatus';
       case InventoryOptionalField.intelligentTieringAccessTier:
         return 'IntelligentTieringAccessTier';
+      case InventoryOptionalField.bucketKeyStatus:
+        return 'BucketKeyStatus';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -16485,8 +18932,10 @@ extension on String {
         return InventoryOptionalField.objectLockLegalHoldStatus;
       case 'IntelligentTieringAccessTier':
         return InventoryOptionalField.intelligentTieringAccessTier;
+      case 'BucketKeyStatus':
+        return InventoryOptionalField.bucketKeyStatus;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InventoryOptionalField');
   }
 }
 
@@ -16506,26 +18955,40 @@ class InventoryS3BucketDestination {
   /// Although this value is optional, we strongly recommend that you set it to
   /// help prevent problems if the destination bucket ownership changes.
   /// </note>
-  final String accountId;
+  final String? accountId;
 
   /// Contains the type of server-side encryption used to encrypt the inventory
   /// results.
-  final InventoryEncryption encryption;
+  final InventoryEncryption? encryption;
 
   /// The prefix that is prepended to all inventory results.
-  final String prefix;
+  final String? prefix;
 
   InventoryS3BucketDestination({
-    @_s.required this.bucket,
-    @_s.required this.format,
+    required this.bucket,
+    required this.format,
     this.accountId,
     this.encryption,
     this.prefix,
   });
+
+  factory InventoryS3BucketDestination.fromJson(Map<String, dynamic> json) {
+    return InventoryS3BucketDestination(
+      bucket: json['Bucket'] as String,
+      format: (json['Format'] as String).toInventoryFormat(),
+      accountId: json['AccountId'] as String?,
+      encryption: json['Encryption'] != null
+          ? InventoryEncryption.fromJson(
+              json['Encryption'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
   factory InventoryS3BucketDestination.fromXml(_s.XmlElement elem) {
     return InventoryS3BucketDestination(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      format: _s.extractXmlStringValue(elem, 'Format')?.toInventoryFormat(),
+      bucket: _s.extractXmlStringValue(elem, 'Bucket')!,
+      format: _s.extractXmlStringValue(elem, 'Format')!.toInventoryFormat(),
       accountId: _s.extractXmlStringValue(elem, 'AccountId'),
       encryption: _s
           .extractXmlChild(elem, 'Encryption')
@@ -16534,13 +18997,33 @@ class InventoryS3BucketDestination {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final format = this.format;
+    final accountId = this.accountId;
+    final encryption = this.encryption;
+    final prefix = this.prefix;
+    return {
+      'Bucket': bucket,
+      'Format': format.toValue(),
+      if (accountId != null) 'AccountId': accountId,
+      if (encryption != null) 'Encryption': encryption,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final format = this.format;
+    final accountId = this.accountId;
+    final encryption = this.encryption;
+    final prefix = this.prefix;
     final $children = <_s.XmlNode>[
       if (accountId != null) _s.encodeXmlStringValue('AccountId', accountId),
       _s.encodeXmlStringValue('Bucket', bucket),
-      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Format', format.toValue()),
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (encryption != null) encryption?.toXml('Encryption'),
+      if (encryption != null) encryption.toXml('Encryption'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16548,7 +19031,7 @@ class InventoryS3BucketDestination {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16559,18 +19042,33 @@ class InventorySchedule {
   final InventoryFrequency frequency;
 
   InventorySchedule({
-    @_s.required this.frequency,
+    required this.frequency,
   });
-  factory InventorySchedule.fromXml(_s.XmlElement elem) {
+
+  factory InventorySchedule.fromJson(Map<String, dynamic> json) {
     return InventorySchedule(
-      frequency:
-          _s.extractXmlStringValue(elem, 'Frequency')?.toInventoryFrequency(),
+      frequency: (json['Frequency'] as String).toInventoryFrequency(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory InventorySchedule.fromXml(_s.XmlElement elem) {
+    return InventorySchedule(
+      frequency:
+          _s.extractXmlStringValue(elem, 'Frequency')!.toInventoryFrequency(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final frequency = this.frequency;
+    return {
+      'Frequency': frequency.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final frequency = this.frequency;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Frequency', frequency?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Frequency', frequency.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16578,7 +19076,7 @@ class InventorySchedule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16586,12 +19084,27 @@ class InventorySchedule {
 /// Specifies JSON as object's input serialization format.
 class JSONInput {
   /// The type of JSON. Valid values: Document, Lines.
-  final JSONType type;
+  final JSONType? type;
 
   JSONInput({
     this.type,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory JSONInput.fromJson(Map<String, dynamic> json) {
+    return JSONInput(
+      type: (json['Type'] as String?)?.toJSONType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final type = this.type;
     final $children = <_s.XmlNode>[
       if (type != null) _s.encodeXmlStringValue('Type', type.toValue()),
     ];
@@ -16601,7 +19114,7 @@ class JSONInput {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16610,12 +19123,27 @@ class JSONInput {
 class JSONOutput {
   /// The value used to separate individual records in the output. If no value is
   /// specified, Amazon S3 uses a newline character ('\n').
-  final String recordDelimiter;
+  final String? recordDelimiter;
 
   JSONOutput({
     this.recordDelimiter,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory JSONOutput.fromJson(Map<String, dynamic> json) {
+    return JSONOutput(
+      recordDelimiter: json['RecordDelimiter'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordDelimiter = this.recordDelimiter;
+    return {
+      if (recordDelimiter != null) 'RecordDelimiter': recordDelimiter,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final recordDelimiter = this.recordDelimiter;
     final $children = <_s.XmlNode>[
       if (recordDelimiter != null)
         _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
@@ -16626,7 +19154,7 @@ class JSONOutput {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16644,7 +19172,6 @@ extension on JSONType {
       case JSONType.lines:
         return 'LINES';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -16656,7 +19183,7 @@ extension on String {
       case 'LINES':
         return JSONType.lines;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum JSONType');
   }
 }
 
@@ -16665,28 +19192,44 @@ class LambdaFunctionConfiguration {
   /// The Amazon S3 bucket event for which to invoke the AWS Lambda function. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Supported
-  /// Event Types</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// Event Types</a> in the <i>Amazon S3 User Guide</i>.
   final List<Event> events;
 
   /// The Amazon Resource Name (ARN) of the AWS Lambda function that Amazon S3
   /// invokes when the specified event type occurs.
   final String lambdaFunctionArn;
-  final NotificationConfigurationFilter filter;
-  final String id;
+  final NotificationConfigurationFilter? filter;
+  final String? id;
 
   LambdaFunctionConfiguration({
-    @_s.required this.events,
-    @_s.required this.lambdaFunctionArn,
+    required this.events,
+    required this.lambdaFunctionArn,
     this.filter,
     this.id,
   });
+
+  factory LambdaFunctionConfiguration.fromJson(Map<String, dynamic> json) {
+    return LambdaFunctionConfiguration(
+      events: (json['Event'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toEvent())
+          .toList(),
+      lambdaFunctionArn: json['CloudFunction'] as String,
+      filter: json['Filter'] != null
+          ? NotificationConfigurationFilter.fromJson(
+              json['Filter'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+    );
+  }
+
   factory LambdaFunctionConfiguration.fromXml(_s.XmlElement elem) {
     return LambdaFunctionConfiguration(
       events: _s
           .extractXmlStringListValues(elem, 'Event')
           .map((s) => s.toEvent())
           .toList(),
-      lambdaFunctionArn: _s.extractXmlStringValue(elem, 'CloudFunction'),
+      lambdaFunctionArn: _s.extractXmlStringValue(elem, 'CloudFunction')!,
       filter: _s
           .extractXmlChild(elem, 'Filter')
           ?.let((e) => NotificationConfigurationFilter.fromXml(e)),
@@ -16694,13 +19237,29 @@ class LambdaFunctionConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final lambdaFunctionArn = this.lambdaFunctionArn;
+    final filter = this.filter;
+    final id = this.id;
+    return {
+      'Event': events.map((e) => e.toValue()).toList(),
+      'CloudFunction': lambdaFunctionArn,
+      if (filter != null) 'Filter': filter,
+      if (id != null) 'Id': id,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final events = this.events;
+    final lambdaFunctionArn = this.lambdaFunctionArn;
+    final filter = this.filter;
+    final id = this.id;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('CloudFunction', lambdaFunctionArn),
-      ...events
-          ?.map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
-      if (filter != null) filter?.toXml('Filter'),
+      ...events.map((e) => _s.encodeXmlStringValue('Event', e.toValue())),
+      if (filter != null) filter.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16708,7 +19267,7 @@ class LambdaFunctionConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16719,11 +19278,29 @@ class LifecycleConfiguration {
   final List<Rule> rules;
 
   LifecycleConfiguration({
-    @_s.required this.rules,
+    required this.rules,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory LifecycleConfiguration.fromJson(Map<String, dynamic> json) {
+    return LifecycleConfiguration(
+      rules: (json['Rule'] as List)
+          .whereNotNull()
+          .map((e) => Rule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      'Rule': rules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final rules = this.rules;
     final $children = <_s.XmlNode>[
-      ...rules?.map((e) => e?.toXml('Rule')),
+      ...rules.map((e) => e.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16731,7 +19308,7 @@ class LifecycleConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16740,23 +19317,32 @@ class LifecycleConfiguration {
 class LifecycleExpiration {
   /// Indicates at what date the object is to be moved or deleted. Should be in
   /// GMT ISO 8601 Format.
-  final DateTime date;
+  final DateTime? date;
 
   /// Indicates the lifetime, in days, of the objects that are subject to the
   /// rule. The value must be a non-zero positive integer.
-  final int days;
+  final int? days;
 
   /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent
   /// versions. If set to true, the delete marker will be expired; if set to false
   /// the policy takes no action. This cannot be specified with Days or Date in a
   /// Lifecycle Expiration Policy.
-  final bool expiredObjectDeleteMarker;
+  final bool? expiredObjectDeleteMarker;
 
   LifecycleExpiration({
     this.date,
     this.days,
     this.expiredObjectDeleteMarker,
   });
+
+  factory LifecycleExpiration.fromJson(Map<String, dynamic> json) {
+    return LifecycleExpiration(
+      date: timeStampFromJson(json['Date']),
+      days: json['Days'] as int?,
+      expiredObjectDeleteMarker: json['ExpiredObjectDeleteMarker'] as bool?,
+    );
+  }
+
   factory LifecycleExpiration.fromXml(_s.XmlElement elem) {
     return LifecycleExpiration(
       date: _s.extractXmlDateTimeValue(elem, 'Date',
@@ -16767,7 +19353,22 @@ class LifecycleExpiration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final days = this.days;
+    final expiredObjectDeleteMarker = this.expiredObjectDeleteMarker;
+    return {
+      if (date != null) 'Date': iso8601ToJson(date),
+      if (days != null) 'Days': days,
+      if (expiredObjectDeleteMarker != null)
+        'ExpiredObjectDeleteMarker': expiredObjectDeleteMarker,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final date = this.date;
+    final days = this.days;
+    final expiredObjectDeleteMarker = this.expiredObjectDeleteMarker;
     final $children = <_s.XmlNode>[
       if (date != null)
         _s.encodeXmlDateTimeValue('Date', date, formatter: _s.iso8601ToJson),
@@ -16782,7 +19383,7 @@ class LifecycleExpiration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16792,34 +19393,46 @@ class LifecycleRule {
   /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule
   /// is not currently being applied.
   final ExpirationStatus status;
-  final AbortIncompleteMultipartUpload abortIncompleteMultipartUpload;
+  final AbortIncompleteMultipartUpload? abortIncompleteMultipartUpload;
 
   /// Specifies the expiration for the lifecycle of the object in the form of
   /// date, days and, whether the object has a delete marker.
-  final LifecycleExpiration expiration;
-  final LifecycleRuleFilter filter;
+  final LifecycleExpiration? expiration;
+
+  /// The <code>Filter</code> is used to identify objects that a Lifecycle Rule
+  /// applies to. A <code>Filter</code> must have exactly one of
+  /// <code>Prefix</code>, <code>Tag</code>, or <code>And</code> specified.
+  /// <code>Filter</code> is required if the <code>LifecycleRule</code> does not
+  /// containt a <code>Prefix</code> element.
+  final LifecycleRuleFilter? filter;
 
   /// Unique identifier for the rule. The value cannot be longer than 255
   /// characters.
-  final String id;
-  final NoncurrentVersionExpiration noncurrentVersionExpiration;
+  final String? id;
+  final NoncurrentVersionExpiration? noncurrentVersionExpiration;
 
   /// Specifies the transition rule for the lifecycle rule that describes when
   /// noncurrent objects transition to a specific storage class. If your bucket is
   /// versioning-enabled (or versioning is suspended), you can set this action to
   /// request that Amazon S3 transition noncurrent object versions to a specific
   /// storage class at a set period in the object's lifetime.
-  final List<NoncurrentVersionTransition> noncurrentVersionTransitions;
+  final List<NoncurrentVersionTransition>? noncurrentVersionTransitions;
 
-  /// Prefix identifying one or more objects to which the rule applies. This is No
+  /// Prefix identifying one or more objects to which the rule applies. This is no
   /// longer used; use <code>Filter</code> instead.
-  final String prefix;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? prefix;
 
   /// Specifies when an Amazon S3 object transitions to a specified storage class.
-  final List<Transition> transitions;
+  final List<Transition>? transitions;
 
   LifecycleRule({
-    @_s.required this.status,
+    required this.status,
     this.abortIncompleteMultipartUpload,
     this.expiration,
     this.filter,
@@ -16829,9 +19442,44 @@ class LifecycleRule {
     this.prefix,
     this.transitions,
   });
+
+  factory LifecycleRule.fromJson(Map<String, dynamic> json) {
+    return LifecycleRule(
+      status: (json['Status'] as String).toExpirationStatus(),
+      abortIncompleteMultipartUpload: json['AbortIncompleteMultipartUpload'] !=
+              null
+          ? AbortIncompleteMultipartUpload.fromJson(
+              json['AbortIncompleteMultipartUpload'] as Map<String, dynamic>)
+          : null,
+      expiration: json['Expiration'] != null
+          ? LifecycleExpiration.fromJson(
+              json['Expiration'] as Map<String, dynamic>)
+          : null,
+      filter: json['Filter'] != null
+          ? LifecycleRuleFilter.fromJson(json['Filter'] as Map<String, dynamic>)
+          : null,
+      id: json['ID'] as String?,
+      noncurrentVersionExpiration: json['NoncurrentVersionExpiration'] != null
+          ? NoncurrentVersionExpiration.fromJson(
+              json['NoncurrentVersionExpiration'] as Map<String, dynamic>)
+          : null,
+      noncurrentVersionTransitions: (json['NoncurrentVersionTransition']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              NoncurrentVersionTransition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      prefix: json['Prefix'] as String?,
+      transitions: (json['Transition'] as List?)
+          ?.whereNotNull()
+          .map((e) => Transition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory LifecycleRule.fromXml(_s.XmlElement elem) {
     return LifecycleRule(
-      status: _s.extractXmlStringValue(elem, 'Status')?.toExpirationStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')!.toExpirationStatus(),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
           ?.let((e) => AbortIncompleteMultipartUpload.fromXml(e)),
@@ -16857,22 +19505,56 @@ class LifecycleRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
+    final expiration = this.expiration;
+    final filter = this.filter;
+    final id = this.id;
+    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
+    final noncurrentVersionTransitions = this.noncurrentVersionTransitions;
+    final prefix = this.prefix;
+    final transitions = this.transitions;
+    return {
+      'Status': status.toValue(),
+      if (abortIncompleteMultipartUpload != null)
+        'AbortIncompleteMultipartUpload': abortIncompleteMultipartUpload,
+      if (expiration != null) 'Expiration': expiration,
+      if (filter != null) 'Filter': filter,
+      if (id != null) 'ID': id,
+      if (noncurrentVersionExpiration != null)
+        'NoncurrentVersionExpiration': noncurrentVersionExpiration,
+      if (noncurrentVersionTransitions != null)
+        'NoncurrentVersionTransition': noncurrentVersionTransitions,
+      if (prefix != null) 'Prefix': prefix,
+      if (transitions != null) 'Transition': transitions,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
+    final expiration = this.expiration;
+    final filter = this.filter;
+    final id = this.id;
+    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
+    final noncurrentVersionTransitions = this.noncurrentVersionTransitions;
+    final prefix = this.prefix;
+    final transitions = this.transitions;
     final $children = <_s.XmlNode>[
-      if (expiration != null) expiration?.toXml('Expiration'),
+      if (expiration != null) expiration.toXml('Expiration'),
       if (id != null) _s.encodeXmlStringValue('ID', id),
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (filter != null) filter?.toXml('Filter'),
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
-      if (transitions != null)
-        ...transitions.map((e) => e?.toXml('Transition')),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      if (transitions != null) ...transitions.map((e) => e.toXml('Transition')),
       if (noncurrentVersionTransitions != null)
         ...noncurrentVersionTransitions
-            .map((e) => e?.toXml('NoncurrentVersionTransition')),
+            .map((e) => e.toXml('NoncurrentVersionTransition')),
       if (noncurrentVersionExpiration != null)
-        noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
+        noncurrentVersionExpiration.toXml('NoncurrentVersionExpiration'),
       if (abortIncompleteMultipartUpload != null)
-        abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
+        abortIncompleteMultipartUpload.toXml('AbortIncompleteMultipartUpload'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16880,7 +19562,7 @@ class LifecycleRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16890,16 +19572,27 @@ class LifecycleRule {
 /// the predicates configured inside the And operator.
 class LifecycleRuleAndOperator {
   /// Prefix identifying one or more objects to which the rule applies.
-  final String prefix;
+  final String? prefix;
 
   /// All of these tags must exist in the object's tag set in order for the rule
   /// to apply.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   LifecycleRuleAndOperator({
     this.prefix,
     this.tags,
   });
+
+  factory LifecycleRuleAndOperator.fromJson(Map<String, dynamic> json) {
+    return LifecycleRuleAndOperator(
+      prefix: json['Prefix'] as String?,
+      tags: (json['Tag'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory LifecycleRuleAndOperator.fromXml(_s.XmlElement elem) {
     return LifecycleRuleAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
@@ -16907,10 +19600,21 @@ class LifecycleRuleAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    final tags = this.tags;
+    return {
+      if (prefix != null) 'Prefix': prefix,
+      if (tags != null) 'Tag': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
+      if (tags != null) ...tags.map((e) => e.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16918,7 +19622,7 @@ class LifecycleRuleAndOperator {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -16927,19 +19631,39 @@ class LifecycleRuleAndOperator {
 /// applies to. A <code>Filter</code> must have exactly one of
 /// <code>Prefix</code>, <code>Tag</code>, or <code>And</code> specified.
 class LifecycleRuleFilter {
-  final LifecycleRuleAndOperator and;
+  final LifecycleRuleAndOperator? and;
 
   /// Prefix identifying one or more objects to which the rule applies.
-  final String prefix;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? prefix;
 
   /// This tag must exist in the object's tag set in order for the rule to apply.
-  final Tag tag;
+  final Tag? tag;
 
   LifecycleRuleFilter({
     this.and,
     this.prefix,
     this.tag,
   });
+
+  factory LifecycleRuleFilter.fromJson(Map<String, dynamic> json) {
+    return LifecycleRuleFilter(
+      and: json['And'] != null
+          ? LifecycleRuleAndOperator.fromJson(
+              json['And'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+      tag: json['Tag'] != null
+          ? Tag.fromJson(json['Tag'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory LifecycleRuleFilter.fromXml(_s.XmlElement elem) {
     return LifecycleRuleFilter(
       and: _s
@@ -16950,11 +19674,25 @@ class LifecycleRuleFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    return {
+      if (and != null) 'And': and,
+      if (prefix != null) 'Prefix': prefix,
+      if (tag != null) 'Tag': tag,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tag != null) tag?.toXml('Tag'),
-      if (and != null) and?.toXml('And'),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16962,29 +19700,29 @@ class LifecycleRuleFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class ListBucketAnalyticsConfigurationsOutput {
   /// The list of analytics configurations for a bucket.
-  final List<AnalyticsConfiguration> analyticsConfigurationList;
+  final List<AnalyticsConfiguration>? analyticsConfigurationList;
 
   /// The marker that is used as a starting point for this analytics configuration
   /// list response. This value is present if it was sent in the request.
-  final String continuationToken;
+  final String? continuationToken;
 
   /// Indicates whether the returned list of analytics configurations is complete.
   /// A value of true indicates that the list is not complete and the
   /// NextContinuationToken will be provided for a subsequent request.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// <code>NextContinuationToken</code> is sent when <code>isTruncated</code> is
   /// true, which indicates that there are more analytics configurations to list.
   /// The next request must include this <code>NextContinuationToken</code>. The
   /// token is obfuscated and is not a usable value.
-  final String nextContinuationToken;
+  final String? nextContinuationToken;
 
   ListBucketAnalyticsConfigurationsOutput({
     this.analyticsConfigurationList,
@@ -16992,6 +19730,21 @@ class ListBucketAnalyticsConfigurationsOutput {
     this.isTruncated,
     this.nextContinuationToken,
   });
+
+  factory ListBucketAnalyticsConfigurationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListBucketAnalyticsConfigurationsOutput(
+      analyticsConfigurationList: (json['AnalyticsConfiguration'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => AnalyticsConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      continuationToken: json['ContinuationToken'] as String?,
+      isTruncated: json['IsTruncated'] as bool?,
+      nextContinuationToken: json['NextContinuationToken'] as String?,
+    );
+  }
+
   factory ListBucketAnalyticsConfigurationsOutput.fromXml(_s.XmlElement elem) {
     return ListBucketAnalyticsConfigurationsOutput(
       analyticsConfigurationList: elem
@@ -17004,27 +19757,42 @@ class ListBucketAnalyticsConfigurationsOutput {
           _s.extractXmlStringValue(elem, 'NextContinuationToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final analyticsConfigurationList = this.analyticsConfigurationList;
+    final continuationToken = this.continuationToken;
+    final isTruncated = this.isTruncated;
+    final nextContinuationToken = this.nextContinuationToken;
+    return {
+      if (analyticsConfigurationList != null)
+        'AnalyticsConfiguration': analyticsConfigurationList,
+      if (continuationToken != null) 'ContinuationToken': continuationToken,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (nextContinuationToken != null)
+        'NextContinuationToken': nextContinuationToken,
+    };
+  }
 }
 
 class ListBucketIntelligentTieringConfigurationsOutput {
   /// The ContinuationToken that represents a placeholder from where this request
   /// should begin.
-  final String continuationToken;
+  final String? continuationToken;
 
   /// The list of S3 Intelligent-Tiering configurations for a bucket.
-  final List<IntelligentTieringConfiguration>
+  final List<IntelligentTieringConfiguration>?
       intelligentTieringConfigurationList;
 
   /// Indicates whether the returned list of analytics configurations is complete.
   /// A value of true indicates that the list is not complete and the
   /// NextContinuationToken will be provided for a subsequent request.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The marker used to continue this inventory configuration listing. Use the
   /// <code>NextContinuationToken</code> from this response to continue the
   /// listing in a subsequent request. The continuation token is an opaque value
   /// that Amazon S3 understands.
-  final String nextContinuationToken;
+  final String? nextContinuationToken;
 
   ListBucketIntelligentTieringConfigurationsOutput({
     this.continuationToken,
@@ -17032,6 +19800,22 @@ class ListBucketIntelligentTieringConfigurationsOutput {
     this.isTruncated,
     this.nextContinuationToken,
   });
+
+  factory ListBucketIntelligentTieringConfigurationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListBucketIntelligentTieringConfigurationsOutput(
+      continuationToken: json['ContinuationToken'] as String?,
+      intelligentTieringConfigurationList:
+          (json['IntelligentTieringConfiguration'] as List?)
+              ?.whereNotNull()
+              .map((e) => IntelligentTieringConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      nextContinuationToken: json['NextContinuationToken'] as String?,
+    );
+  }
+
   factory ListBucketIntelligentTieringConfigurationsOutput.fromXml(
       _s.XmlElement elem) {
     return ListBucketIntelligentTieringConfigurationsOutput(
@@ -17045,26 +19829,42 @@ class ListBucketIntelligentTieringConfigurationsOutput {
           _s.extractXmlStringValue(elem, 'NextContinuationToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final continuationToken = this.continuationToken;
+    final intelligentTieringConfigurationList =
+        this.intelligentTieringConfigurationList;
+    final isTruncated = this.isTruncated;
+    final nextContinuationToken = this.nextContinuationToken;
+    return {
+      if (continuationToken != null) 'ContinuationToken': continuationToken,
+      if (intelligentTieringConfigurationList != null)
+        'IntelligentTieringConfiguration': intelligentTieringConfigurationList,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (nextContinuationToken != null)
+        'NextContinuationToken': nextContinuationToken,
+    };
+  }
 }
 
 class ListBucketInventoryConfigurationsOutput {
   /// If sent in the request, the marker that is used as a starting point for this
   /// inventory configuration list response.
-  final String continuationToken;
+  final String? continuationToken;
 
   /// The list of inventory configurations for a bucket.
-  final List<InventoryConfiguration> inventoryConfigurationList;
+  final List<InventoryConfiguration>? inventoryConfigurationList;
 
   /// Tells whether the returned list of inventory configurations is complete. A
   /// value of true indicates that the list is not complete and the
   /// NextContinuationToken is provided for a subsequent request.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The marker used to continue this inventory configuration listing. Use the
   /// <code>NextContinuationToken</code> from this response to continue the
   /// listing in a subsequent request. The continuation token is an opaque value
   /// that Amazon S3 understands.
-  final String nextContinuationToken;
+  final String? nextContinuationToken;
 
   ListBucketInventoryConfigurationsOutput({
     this.continuationToken,
@@ -17072,6 +19872,21 @@ class ListBucketInventoryConfigurationsOutput {
     this.isTruncated,
     this.nextContinuationToken,
   });
+
+  factory ListBucketInventoryConfigurationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListBucketInventoryConfigurationsOutput(
+      continuationToken: json['ContinuationToken'] as String?,
+      inventoryConfigurationList: (json['InventoryConfiguration'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => InventoryConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool?,
+      nextContinuationToken: json['NextContinuationToken'] as String?,
+    );
+  }
+
   factory ListBucketInventoryConfigurationsOutput.fromXml(_s.XmlElement elem) {
     return ListBucketInventoryConfigurationsOutput(
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
@@ -17084,26 +19899,41 @@ class ListBucketInventoryConfigurationsOutput {
           _s.extractXmlStringValue(elem, 'NextContinuationToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final continuationToken = this.continuationToken;
+    final inventoryConfigurationList = this.inventoryConfigurationList;
+    final isTruncated = this.isTruncated;
+    final nextContinuationToken = this.nextContinuationToken;
+    return {
+      if (continuationToken != null) 'ContinuationToken': continuationToken,
+      if (inventoryConfigurationList != null)
+        'InventoryConfiguration': inventoryConfigurationList,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (nextContinuationToken != null)
+        'NextContinuationToken': nextContinuationToken,
+    };
+  }
 }
 
 class ListBucketMetricsConfigurationsOutput {
   /// The marker that is used as a starting point for this metrics configuration
   /// list response. This value is present if it was sent in the request.
-  final String continuationToken;
+  final String? continuationToken;
 
   /// Indicates whether the returned list of metrics configurations is complete. A
   /// value of true indicates that the list is not complete and the
   /// NextContinuationToken will be provided for a subsequent request.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The list of metrics configurations for a bucket.
-  final List<MetricsConfiguration> metricsConfigurationList;
+  final List<MetricsConfiguration>? metricsConfigurationList;
 
   /// The marker used to continue a metrics configuration listing that has been
   /// truncated. Use the <code>NextContinuationToken</code> from a previously
   /// truncated list response to continue the listing. The continuation token is
   /// an opaque value that Amazon S3 understands.
-  final String nextContinuationToken;
+  final String? nextContinuationToken;
 
   ListBucketMetricsConfigurationsOutput({
     this.continuationToken,
@@ -17111,6 +19941,20 @@ class ListBucketMetricsConfigurationsOutput {
     this.metricsConfigurationList,
     this.nextContinuationToken,
   });
+
+  factory ListBucketMetricsConfigurationsOutput.fromJson(
+      Map<String, dynamic> json) {
+    return ListBucketMetricsConfigurationsOutput(
+      continuationToken: json['ContinuationToken'] as String?,
+      isTruncated: json['IsTruncated'] as bool?,
+      metricsConfigurationList: (json['MetricsConfiguration'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetricsConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextContinuationToken: json['NextContinuationToken'] as String?,
+    );
+  }
+
   factory ListBucketMetricsConfigurationsOutput.fromXml(_s.XmlElement elem) {
     return ListBucketMetricsConfigurationsOutput(
       continuationToken: _s.extractXmlStringValue(elem, 'ContinuationToken'),
@@ -17123,19 +19967,47 @@ class ListBucketMetricsConfigurationsOutput {
           _s.extractXmlStringValue(elem, 'NextContinuationToken'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final continuationToken = this.continuationToken;
+    final isTruncated = this.isTruncated;
+    final metricsConfigurationList = this.metricsConfigurationList;
+    final nextContinuationToken = this.nextContinuationToken;
+    return {
+      if (continuationToken != null) 'ContinuationToken': continuationToken,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (metricsConfigurationList != null)
+        'MetricsConfiguration': metricsConfigurationList,
+      if (nextContinuationToken != null)
+        'NextContinuationToken': nextContinuationToken,
+    };
+  }
 }
 
 class ListBucketsOutput {
   /// The list of buckets owned by the requestor.
-  final List<Bucket> buckets;
+  final List<Bucket>? buckets;
 
   /// The owner of the buckets listed.
-  final Owner owner;
+  final Owner? owner;
 
   ListBucketsOutput({
     this.buckets,
     this.owner,
   });
+
+  factory ListBucketsOutput.fromJson(Map<String, dynamic> json) {
+    return ListBucketsOutput(
+      buckets: (json['Buckets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Bucket.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ListBucketsOutput.fromXml(_s.XmlElement elem) {
     return ListBucketsOutput(
       buckets: _s.extractXmlChild(elem, 'Buckets')?.let((elem) =>
@@ -17143,21 +20015,30 @@ class ListBucketsOutput {
       owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final buckets = this.buckets;
+    final owner = this.owner;
+    return {
+      if (buckets != null) 'Buckets': buckets,
+      if (owner != null) 'Owner': owner,
+    };
+  }
 }
 
 class ListMultipartUploadsOutput {
   /// The name of the bucket to which the multipart upload was initiated.
-  final String bucket;
+  final String? bucket;
 
   /// If you specify a delimiter in the request, then the result returns each
   /// distinct key prefix containing the delimiter in a
   /// <code>CommonPrefixes</code> element. The distinct key prefixes are returned
   /// in the <code>Prefix</code> child element.
-  final List<CommonPrefix> commonPrefixes;
+  final List<CommonPrefix>? commonPrefixes;
 
   /// Contains the delimiter you specified in the request. If you don't specify a
   /// delimiter in your request, this element is absent from the response.
-  final String delimiter;
+  final String? delimiter;
 
   /// Encoding type used by Amazon S3 to encode object keys in the response.
   ///
@@ -17167,40 +20048,40 @@ class ListMultipartUploadsOutput {
   ///
   /// <code>Delimiter</code>, <code>KeyMarker</code>, <code>Prefix</code>,
   /// <code>NextKeyMarker</code>, <code>Key</code>.
-  final EncodingType encodingType;
+  final EncodingType? encodingType;
 
   /// Indicates whether the returned list of multipart uploads is truncated. A
   /// value of true indicates that the list was truncated. The list can be
   /// truncated if the number of multipart uploads exceeds the limit allowed or
   /// specified by max uploads.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// The key at or after which the listing began.
-  final String keyMarker;
+  final String? keyMarker;
 
   /// Maximum number of multipart uploads that could have been included in the
   /// response.
-  final int maxUploads;
+  final int? maxUploads;
 
   /// When a list is truncated, this element specifies the value that should be
   /// used for the key-marker request parameter in a subsequent request.
-  final String nextKeyMarker;
+  final String? nextKeyMarker;
 
   /// When a list is truncated, this element specifies the value that should be
   /// used for the <code>upload-id-marker</code> request parameter in a subsequent
   /// request.
-  final String nextUploadIdMarker;
+  final String? nextUploadIdMarker;
 
   /// When a prefix is provided in the request, this field contains the specified
   /// prefix. The result contains only keys starting with the specified prefix.
-  final String prefix;
+  final String? prefix;
 
   /// Upload ID after which listing began.
-  final String uploadIdMarker;
+  final String? uploadIdMarker;
 
   /// Container for elements related to a particular multipart upload. A response
   /// can contain zero or more <code>Upload</code> elements.
-  final List<MultipartUpload> uploads;
+  final List<MultipartUpload>? uploads;
 
   ListMultipartUploadsOutput({
     this.bucket,
@@ -17216,6 +20097,30 @@ class ListMultipartUploadsOutput {
     this.uploadIdMarker,
     this.uploads,
   });
+
+  factory ListMultipartUploadsOutput.fromJson(Map<String, dynamic> json) {
+    return ListMultipartUploadsOutput(
+      bucket: json['Bucket'] as String?,
+      commonPrefixes: (json['CommonPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CommonPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      delimiter: json['Delimiter'] as String?,
+      encodingType: (json['EncodingType'] as String?)?.toEncodingType(),
+      isTruncated: json['IsTruncated'] as bool?,
+      keyMarker: json['KeyMarker'] as String?,
+      maxUploads: json['MaxUploads'] as int?,
+      nextKeyMarker: json['NextKeyMarker'] as String?,
+      nextUploadIdMarker: json['NextUploadIdMarker'] as String?,
+      prefix: json['Prefix'] as String?,
+      uploadIdMarker: json['UploadIdMarker'] as String?,
+      uploads: (json['Upload'] as List?)
+          ?.whereNotNull()
+          .map((e) => MultipartUpload.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListMultipartUploadsOutput.fromXml(_s.XmlElement elem) {
     return ListMultipartUploadsOutput(
       bucket: _s.extractXmlStringValue(elem, 'Bucket'),
@@ -17239,15 +20144,44 @@ class ListMultipartUploadsOutput {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final commonPrefixes = this.commonPrefixes;
+    final delimiter = this.delimiter;
+    final encodingType = this.encodingType;
+    final isTruncated = this.isTruncated;
+    final keyMarker = this.keyMarker;
+    final maxUploads = this.maxUploads;
+    final nextKeyMarker = this.nextKeyMarker;
+    final nextUploadIdMarker = this.nextUploadIdMarker;
+    final prefix = this.prefix;
+    final uploadIdMarker = this.uploadIdMarker;
+    final uploads = this.uploads;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (commonPrefixes != null) 'CommonPrefixes': commonPrefixes,
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (encodingType != null) 'EncodingType': encodingType.toValue(),
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (keyMarker != null) 'KeyMarker': keyMarker,
+      if (maxUploads != null) 'MaxUploads': maxUploads,
+      if (nextKeyMarker != null) 'NextKeyMarker': nextKeyMarker,
+      if (nextUploadIdMarker != null) 'NextUploadIdMarker': nextUploadIdMarker,
+      if (prefix != null) 'Prefix': prefix,
+      if (uploadIdMarker != null) 'UploadIdMarker': uploadIdMarker,
+      if (uploads != null) 'Upload': uploads,
+    };
+  }
 }
 
 class ListObjectVersionsOutput {
   /// All of the keys rolled up into a common prefix count as a single return when
   /// calculating the number of returns.
-  final List<CommonPrefix> commonPrefixes;
+  final List<CommonPrefix>? commonPrefixes;
 
   /// Container for an object that is a delete marker.
-  final List<DeleteMarkerEntry> deleteMarkers;
+  final List<DeleteMarkerEntry>? deleteMarkers;
 
   /// The delimiter grouping the included keys. A delimiter is a character that
   /// you specify to group keys. All keys that contain the same string between the
@@ -17255,7 +20189,7 @@ class ListObjectVersionsOutput {
   /// result element in <code>CommonPrefixes</code>. These groups are counted as
   /// one result against the max-keys limitation. These keys are not returned
   /// elsewhere in the response.
-  final String delimiter;
+  final String? delimiter;
 
   /// Encoding type used by Amazon S3 to encode object key names in the XML
   /// response.
@@ -17266,44 +20200,44 @@ class ListObjectVersionsOutput {
   ///
   /// <code>KeyMarker, NextKeyMarker, Prefix, Key</code>, and
   /// <code>Delimiter</code>.
-  final EncodingType encodingType;
+  final EncodingType? encodingType;
 
   /// A flag that indicates whether Amazon S3 returned all of the results that
   /// satisfied the search criteria. If your results were truncated, you can make
   /// a follow-up paginated request using the NextKeyMarker and
   /// NextVersionIdMarker response parameters as a starting place in another
   /// request to return the rest of the results.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// Marks the last key returned in a truncated response.
-  final String keyMarker;
+  final String? keyMarker;
 
   /// Specifies the maximum number of objects to return.
-  final int maxKeys;
+  final int? maxKeys;
 
   /// The bucket name.
-  final String name;
+  final String? name;
 
   /// When the number of responses exceeds the value of <code>MaxKeys</code>,
   /// <code>NextKeyMarker</code> specifies the first key not returned that
   /// satisfies the search criteria. Use this value for the key-marker request
   /// parameter in a subsequent request.
-  final String nextKeyMarker;
+  final String? nextKeyMarker;
 
   /// When the number of responses exceeds the value of <code>MaxKeys</code>,
   /// <code>NextVersionIdMarker</code> specifies the first object version not
   /// returned that satisfies the search criteria. Use this value for the
   /// version-id-marker request parameter in a subsequent request.
-  final String nextVersionIdMarker;
+  final String? nextVersionIdMarker;
 
   /// Selects objects that start with the value supplied by this parameter.
-  final String prefix;
+  final String? prefix;
 
   /// Marks the last version of the key returned in a truncated response.
-  final String versionIdMarker;
+  final String? versionIdMarker;
 
   /// Container for version information.
-  final List<ObjectVersion> versions;
+  final List<ObjectVersion>? versions;
 
   ListObjectVersionsOutput({
     this.commonPrefixes,
@@ -17320,6 +20254,34 @@ class ListObjectVersionsOutput {
     this.versionIdMarker,
     this.versions,
   });
+
+  factory ListObjectVersionsOutput.fromJson(Map<String, dynamic> json) {
+    return ListObjectVersionsOutput(
+      commonPrefixes: (json['CommonPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CommonPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deleteMarkers: (json['DeleteMarker'] as List?)
+          ?.whereNotNull()
+          .map((e) => DeleteMarkerEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      delimiter: json['Delimiter'] as String?,
+      encodingType: (json['EncodingType'] as String?)?.toEncodingType(),
+      isTruncated: json['IsTruncated'] as bool?,
+      keyMarker: json['KeyMarker'] as String?,
+      maxKeys: json['MaxKeys'] as int?,
+      name: json['Name'] as String?,
+      nextKeyMarker: json['NextKeyMarker'] as String?,
+      nextVersionIdMarker: json['NextVersionIdMarker'] as String?,
+      prefix: json['Prefix'] as String?,
+      versionIdMarker: json['VersionIdMarker'] as String?,
+      versions: (json['Version'] as List?)
+          ?.whereNotNull()
+          .map((e) => ObjectVersion.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListObjectVersionsOutput.fromXml(_s.XmlElement elem) {
     return ListObjectVersionsOutput(
       commonPrefixes: elem
@@ -17348,11 +20310,43 @@ class ListObjectVersionsOutput {
           .toList(),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final commonPrefixes = this.commonPrefixes;
+    final deleteMarkers = this.deleteMarkers;
+    final delimiter = this.delimiter;
+    final encodingType = this.encodingType;
+    final isTruncated = this.isTruncated;
+    final keyMarker = this.keyMarker;
+    final maxKeys = this.maxKeys;
+    final name = this.name;
+    final nextKeyMarker = this.nextKeyMarker;
+    final nextVersionIdMarker = this.nextVersionIdMarker;
+    final prefix = this.prefix;
+    final versionIdMarker = this.versionIdMarker;
+    final versions = this.versions;
+    return {
+      if (commonPrefixes != null) 'CommonPrefixes': commonPrefixes,
+      if (deleteMarkers != null) 'DeleteMarker': deleteMarkers,
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (encodingType != null) 'EncodingType': encodingType.toValue(),
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (keyMarker != null) 'KeyMarker': keyMarker,
+      if (maxKeys != null) 'MaxKeys': maxKeys,
+      if (name != null) 'Name': name,
+      if (nextKeyMarker != null) 'NextKeyMarker': nextKeyMarker,
+      if (nextVersionIdMarker != null)
+        'NextVersionIdMarker': nextVersionIdMarker,
+      if (prefix != null) 'Prefix': prefix,
+      if (versionIdMarker != null) 'VersionIdMarker': versionIdMarker,
+      if (versions != null) 'Version': versions,
+    };
+  }
 }
 
 class ListObjectsOutput {
-  /// All of the keys rolled up in a common prefix count as a single return when
-  /// calculating the number of returns.
+  /// All of the keys (up to 1,000) rolled up in a common prefix count as a single
+  /// return when calculating the number of returns.
   ///
   /// A response can contain CommonPrefixes only if you specify a delimiter.
   ///
@@ -17366,34 +20360,34 @@ class ListObjectsOutput {
   /// notes/summer/july, the common prefix is notes/summer/. All of the keys that
   /// roll up into a common prefix count as a single return when calculating the
   /// number of returns.
-  final List<CommonPrefix> commonPrefixes;
+  final List<CommonPrefix>? commonPrefixes;
 
   /// Metadata about each object returned.
-  final List<Object> contents;
+  final List<Object>? contents;
 
   /// Causes keys that contain the same string between the prefix and the first
   /// occurrence of the delimiter to be rolled up into a single result element in
   /// the <code>CommonPrefixes</code> collection. These rolled-up keys are not
   /// returned elsewhere in the response. Each rolled-up result counts as only one
   /// return against the <code>MaxKeys</code> value.
-  final String delimiter;
+  final String? delimiter;
 
   /// Encoding type used by Amazon S3 to encode object keys in the response.
-  final EncodingType encodingType;
+  final EncodingType? encodingType;
 
   /// A flag that indicates whether Amazon S3 returned all of the results that
   /// satisfied the search criteria.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// Indicates where in the bucket listing begins. Marker is included in the
   /// response if it was sent with the request.
-  final String marker;
+  final String? marker;
 
   /// The maximum number of keys returned in the response body.
-  final int maxKeys;
+  final int? maxKeys;
 
   /// The bucket name.
-  final String name;
+  final String? name;
 
   /// When response is truncated (the IsTruncated element value in the response is
   /// true), you can use the key name in this field as marker in the subsequent
@@ -17402,10 +20396,10 @@ class ListObjectsOutput {
   /// parameter specified. If response does not include the NextMarker and it is
   /// truncated, you can use the value of the last Key in the response as the
   /// marker in the subsequent request to get the next set of object keys.
-  final String nextMarker;
+  final String? nextMarker;
 
   /// Keys that begin with the indicated prefix.
-  final String prefix;
+  final String? prefix;
 
   ListObjectsOutput({
     this.commonPrefixes,
@@ -17419,6 +20413,28 @@ class ListObjectsOutput {
     this.nextMarker,
     this.prefix,
   });
+
+  factory ListObjectsOutput.fromJson(Map<String, dynamic> json) {
+    return ListObjectsOutput(
+      commonPrefixes: (json['CommonPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CommonPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      contents: (json['Contents'] as List?)
+          ?.whereNotNull()
+          .map((e) => Object.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      delimiter: json['Delimiter'] as String?,
+      encodingType: (json['EncodingType'] as String?)?.toEncodingType(),
+      isTruncated: json['IsTruncated'] as bool?,
+      marker: json['Marker'] as String?,
+      maxKeys: json['MaxKeys'] as int?,
+      name: json['Name'] as String?,
+      nextMarker: json['NextMarker'] as String?,
+      prefix: json['Prefix'] as String?,
+    );
+  }
+
   factory ListObjectsOutput.fromXml(_s.XmlElement elem) {
     return ListObjectsOutput(
       commonPrefixes: elem
@@ -17438,11 +20454,36 @@ class ListObjectsOutput {
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final commonPrefixes = this.commonPrefixes;
+    final contents = this.contents;
+    final delimiter = this.delimiter;
+    final encodingType = this.encodingType;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxKeys = this.maxKeys;
+    final name = this.name;
+    final nextMarker = this.nextMarker;
+    final prefix = this.prefix;
+    return {
+      if (commonPrefixes != null) 'CommonPrefixes': commonPrefixes,
+      if (contents != null) 'Contents': contents,
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (encodingType != null) 'EncodingType': encodingType.toValue(),
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (marker != null) 'Marker': marker,
+      if (maxKeys != null) 'MaxKeys': maxKeys,
+      if (name != null) 'Name': name,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+      if (prefix != null) 'Prefix': prefix,
+    };
+  }
 }
 
 class ListObjectsV2Output {
-  /// All of the keys rolled up into a common prefix count as a single return when
-  /// calculating the number of returns.
+  /// All of the keys (up to 1,000) rolled up into a common prefix count as a
+  /// single return when calculating the number of returns.
   ///
   /// A response can contain <code>CommonPrefixes</code> only if you specify a
   /// delimiter.
@@ -17459,21 +20500,21 @@ class ListObjectsV2Output {
   /// prefix is <code>notes/summer/</code>. All of the keys that roll up into a
   /// common prefix count as a single return when calculating the number of
   /// returns.
-  final List<CommonPrefix> commonPrefixes;
+  final List<CommonPrefix>? commonPrefixes;
 
   /// Metadata about each object returned.
-  final List<Object> contents;
+  final List<Object>? contents;
 
   /// If ContinuationToken was sent with the request, it is included in the
   /// response.
-  final String continuationToken;
+  final String? continuationToken;
 
   /// Causes keys that contain the same string between the prefix and the first
   /// occurrence of the delimiter to be rolled up into a single result element in
   /// the CommonPrefixes collection. These rolled-up keys are not returned
   /// elsewhere in the response. Each rolled-up result counts as only one return
   /// against the <code>MaxKeys</code> value.
-  final String delimiter;
+  final String? delimiter;
 
   /// Encoding type used by Amazon S3 to encode object key names in the XML
   /// response.
@@ -17483,58 +20524,56 @@ class ListObjectsV2Output {
   /// following response elements:
   ///
   /// <code>Delimiter, Prefix, Key,</code> and <code>StartAfter</code>.
-  final EncodingType encodingType;
+  final EncodingType? encodingType;
 
   /// Set to false if all of the results were returned. Set to true if more keys
   /// are available to return. If the number of results exceeds that specified by
   /// MaxKeys, all of the results might not be returned.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// KeyCount is the number of keys returned with this request. KeyCount will
-  /// always be less than equals to MaxKeys field. Say you ask for 50 keys, your
-  /// result will include less than equals 50 keys
-  final int keyCount;
+  /// always be less than or equals to MaxKeys field. Say you ask for 50 keys,
+  /// your result will include less than equals 50 keys
+  final int? keyCount;
 
-  /// Sets the maximum number of keys returned in the response. By default the API
-  /// returns up to 1,000 key names. The response might contain fewer keys but
-  /// will never contain more.
-  final int maxKeys;
+  /// Sets the maximum number of keys returned in the response. By default the
+  /// action returns up to 1,000 key names. The response might contain fewer keys
+  /// but will never contain more.
+  final int? maxKeys;
 
   /// The bucket name.
   ///
-  /// When using this API with an access point, you must direct requests to the
+  /// When using this action with an access point, you must direct requests to the
   /// access point hostname. The access point hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.s3-accesspoint.<i>Region</i>.amazonaws.com.
-  /// When using this operation with an access point through the AWS SDKs, you
+  /// When using this action with an access point through the AWS SDKs, you
   /// provide the access point ARN in place of the bucket name. For more
   /// information about access point ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/using-access-points.html">Using
-  /// Access Points</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html">Using
+  /// access points</a> in the <i>Amazon S3 User Guide</i>.
   ///
-  /// When using this API with Amazon S3 on Outposts, you must direct requests to
-  /// the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
+  /// When using this action with Amazon S3 on Outposts, you must direct requests
+  /// to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form
   /// <i>AccessPointName</i>-<i>AccountId</i>.<i>outpostID</i>.s3-outposts.<i>Region</i>.amazonaws.com.
-  /// When using this operation using S3 on Outposts through the AWS SDKs, you
+  /// When using this action using S3 on Outposts through the AWS SDKs, you
   /// provide the Outposts bucket ARN in place of the bucket name. For more
   /// information about S3 on Outposts ARNs, see <a
-  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/S3onOutposts.html">Using
-  /// S3 on Outposts</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
-  final String name;
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html">Using
+  /// S3 on Outposts</a> in the <i>Amazon S3 User Guide</i>.
+  final String? name;
 
   /// <code>NextContinuationToken</code> is sent when <code>isTruncated</code> is
   /// true, which means there are more keys in the bucket that can be listed. The
   /// next list requests to Amazon S3 can be continued with this
   /// <code>NextContinuationToken</code>. <code>NextContinuationToken</code> is
   /// obfuscated and is not a real key
-  final String nextContinuationToken;
+  final String? nextContinuationToken;
 
   /// Keys that begin with the indicated prefix.
-  final String prefix;
+  final String? prefix;
 
   /// If StartAfter was sent with the request, it is included in the response.
-  final String startAfter;
+  final String? startAfter;
 
   ListObjectsV2Output({
     this.commonPrefixes,
@@ -17550,6 +20589,30 @@ class ListObjectsV2Output {
     this.prefix,
     this.startAfter,
   });
+
+  factory ListObjectsV2Output.fromJson(Map<String, dynamic> json) {
+    return ListObjectsV2Output(
+      commonPrefixes: (json['CommonPrefixes'] as List?)
+          ?.whereNotNull()
+          .map((e) => CommonPrefix.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      contents: (json['Contents'] as List?)
+          ?.whereNotNull()
+          .map((e) => Object.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      continuationToken: json['ContinuationToken'] as String?,
+      delimiter: json['Delimiter'] as String?,
+      encodingType: (json['EncodingType'] as String?)?.toEncodingType(),
+      isTruncated: json['IsTruncated'] as bool?,
+      keyCount: json['KeyCount'] as int?,
+      maxKeys: json['MaxKeys'] as int?,
+      name: json['Name'] as String?,
+      nextContinuationToken: json['NextContinuationToken'] as String?,
+      prefix: json['Prefix'] as String?,
+      startAfter: json['StartAfter'] as String?,
+    );
+  }
+
   factory ListObjectsV2Output.fromXml(_s.XmlElement elem) {
     return ListObjectsV2Output(
       commonPrefixes: elem
@@ -17572,6 +20635,36 @@ class ListObjectsV2Output {
       startAfter: _s.extractXmlStringValue(elem, 'StartAfter'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final commonPrefixes = this.commonPrefixes;
+    final contents = this.contents;
+    final continuationToken = this.continuationToken;
+    final delimiter = this.delimiter;
+    final encodingType = this.encodingType;
+    final isTruncated = this.isTruncated;
+    final keyCount = this.keyCount;
+    final maxKeys = this.maxKeys;
+    final name = this.name;
+    final nextContinuationToken = this.nextContinuationToken;
+    final prefix = this.prefix;
+    final startAfter = this.startAfter;
+    return {
+      if (commonPrefixes != null) 'CommonPrefixes': commonPrefixes,
+      if (contents != null) 'Contents': contents,
+      if (continuationToken != null) 'ContinuationToken': continuationToken,
+      if (delimiter != null) 'Delimiter': delimiter,
+      if (encodingType != null) 'EncodingType': encodingType.toValue(),
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (keyCount != null) 'KeyCount': keyCount,
+      if (maxKeys != null) 'MaxKeys': maxKeys,
+      if (name != null) 'Name': name,
+      if (nextContinuationToken != null)
+        'NextContinuationToken': nextContinuationToken,
+      if (prefix != null) 'Prefix': prefix,
+      if (startAfter != null) 'StartAfter': startAfter,
+    };
+  }
 }
 
 class ListPartsOutput {
@@ -17586,59 +20679,59 @@ class ListPartsOutput {
   /// The response will also include the <code>x-amz-abort-rule-id</code> header
   /// that will provide the ID of the lifecycle configuration rule that defines
   /// this action.
-  final DateTime abortDate;
+  final DateTime? abortDate;
 
   /// This header is returned along with the <code>x-amz-abort-date</code> header.
   /// It identifies applicable lifecycle configuration rule that defines the
   /// action to abort incomplete multipart uploads.
-  final String abortRuleId;
+  final String? abortRuleId;
 
   /// The name of the bucket to which the multipart upload was initiated.
-  final String bucket;
+  final String? bucket;
 
   /// Container element that identifies who initiated the multipart upload. If the
   /// initiator is an AWS account, this element provides the same information as
   /// the <code>Owner</code> element. If the initiator is an IAM User, this
   /// element provides the user ARN and display name.
-  final Initiator initiator;
+  final Initiator? initiator;
 
   /// Indicates whether the returned list of parts is truncated. A true value
   /// indicates that the list was truncated. A list can be truncated if the number
   /// of parts exceeds the limit returned in the MaxParts element.
-  final bool isTruncated;
+  final bool? isTruncated;
 
   /// Object key for which the multipart upload was initiated.
-  final String key;
+  final String? key;
 
   /// Maximum number of parts that were allowed in the response.
-  final int maxParts;
+  final int? maxParts;
 
   /// When a list is truncated, this element specifies the last part in the list,
   /// as well as the value to use for the part-number-marker request parameter in
   /// a subsequent request.
-  final int nextPartNumberMarker;
+  final int? nextPartNumberMarker;
 
   /// Container element that identifies the object owner, after the object is
   /// created. If multipart upload is initiated by an IAM user, this element
   /// provides the parent account ID and display name.
-  final Owner owner;
+  final Owner? owner;
 
   /// When a list is truncated, this element specifies the last part in the list,
   /// as well as the value to use for the part-number-marker request parameter in
   /// a subsequent request.
-  final int partNumberMarker;
+  final int? partNumberMarker;
 
   /// Container for elements related to a particular part. A response can contain
   /// zero or more <code>Part</code> elements.
-  final List<Part> parts;
-  final RequestCharged requestCharged;
+  final List<Part>? parts;
+  final RequestCharged? requestCharged;
 
   /// Class of storage (STANDARD or REDUCED_REDUNDANCY) used to store the uploaded
   /// object.
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   /// Upload ID identifying the multipart upload whose parts are being listed.
-  final String uploadId;
+  final String? uploadId;
 
   ListPartsOutput({
     this.abortDate,
@@ -17656,13 +20749,70 @@ class ListPartsOutput {
     this.storageClass,
     this.uploadId,
   });
+
+  factory ListPartsOutput.fromJson(Map<String, dynamic> json) {
+    return ListPartsOutput(
+      abortDate: timeStampFromJson(json['x-amz-abort-date']),
+      abortRuleId: json['x-amz-abort-rule-id'] as String?,
+      bucket: json['Bucket'] as String?,
+      initiator: json['Initiator'] != null
+          ? Initiator.fromJson(json['Initiator'] as Map<String, dynamic>)
+          : null,
+      isTruncated: json['IsTruncated'] as bool?,
+      key: json['Key'] as String?,
+      maxParts: json['MaxParts'] as int?,
+      nextPartNumberMarker: json['NextPartNumberMarker'] as int?,
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      partNumberMarker: json['PartNumberMarker'] as int?,
+      parts: (json['Part'] as List?)
+          ?.whereNotNull()
+          .map((e) => Part.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      uploadId: json['UploadId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final abortDate = this.abortDate;
+    final abortRuleId = this.abortRuleId;
+    final bucket = this.bucket;
+    final initiator = this.initiator;
+    final isTruncated = this.isTruncated;
+    final key = this.key;
+    final maxParts = this.maxParts;
+    final nextPartNumberMarker = this.nextPartNumberMarker;
+    final owner = this.owner;
+    final partNumberMarker = this.partNumberMarker;
+    final parts = this.parts;
+    final requestCharged = this.requestCharged;
+    final storageClass = this.storageClass;
+    final uploadId = this.uploadId;
+    return {
+      if (bucket != null) 'Bucket': bucket,
+      if (initiator != null) 'Initiator': initiator,
+      if (isTruncated != null) 'IsTruncated': isTruncated,
+      if (key != null) 'Key': key,
+      if (maxParts != null) 'MaxParts': maxParts,
+      if (nextPartNumberMarker != null)
+        'NextPartNumberMarker': nextPartNumberMarker,
+      if (owner != null) 'Owner': owner,
+      if (partNumberMarker != null) 'PartNumberMarker': partNumberMarker,
+      if (parts != null) 'Part': parts,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+      if (uploadId != null) 'UploadId': uploadId,
+    };
+  }
 }
 
 /// Describes where logs are stored and the prefix that Amazon S3 assigns to all
 /// log object keys for a bucket. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlogging.html">PUT
-/// Bucket logging</a> in the <i>Amazon Simple Storage Service API
-/// Reference</i>.
+/// Bucket logging</a> in the <i>Amazon S3 API Reference</i>.
 class LoggingEnabled {
   /// Specifies the bucket where you want Amazon S3 to store server access logs.
   /// You can have your logs delivered to any bucket that you own, including the
@@ -17678,17 +20828,29 @@ class LoggingEnabled {
   final String targetPrefix;
 
   /// Container for granting information.
-  final List<TargetGrant> targetGrants;
+  final List<TargetGrant>? targetGrants;
 
   LoggingEnabled({
-    @_s.required this.targetBucket,
-    @_s.required this.targetPrefix,
+    required this.targetBucket,
+    required this.targetPrefix,
     this.targetGrants,
   });
+
+  factory LoggingEnabled.fromJson(Map<String, dynamic> json) {
+    return LoggingEnabled(
+      targetBucket: json['TargetBucket'] as String,
+      targetPrefix: json['TargetPrefix'] as String,
+      targetGrants: (json['TargetGrants'] as List?)
+          ?.whereNotNull()
+          .map((e) => TargetGrant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory LoggingEnabled.fromXml(_s.XmlElement elem) {
     return LoggingEnabled(
-      targetBucket: _s.extractXmlStringValue(elem, 'TargetBucket'),
-      targetPrefix: _s.extractXmlStringValue(elem, 'TargetPrefix'),
+      targetBucket: _s.extractXmlStringValue(elem, 'TargetBucket')!,
+      targetPrefix: _s.extractXmlStringValue(elem, 'TargetPrefix')!,
       targetGrants: _s.extractXmlChild(elem, 'TargetGrants')?.let((elem) => elem
           .findElements('Grant')
           .map((c) => TargetGrant.fromXml(c))
@@ -17696,12 +20858,26 @@ class LoggingEnabled {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final targetBucket = this.targetBucket;
+    final targetPrefix = this.targetPrefix;
+    final targetGrants = this.targetGrants;
+    return {
+      'TargetBucket': targetBucket,
+      'TargetPrefix': targetPrefix,
+      if (targetGrants != null) 'TargetGrants': targetGrants,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final targetBucket = this.targetBucket;
+    final targetPrefix = this.targetPrefix;
+    final targetGrants = this.targetGrants;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('TargetBucket', targetBucket),
       if (targetGrants != null)
         _s.XmlElement(_s.XmlName('TargetGrants'), [],
-            targetGrants.map((e) => e?.toXml('Grant'))),
+            targetGrants.map((e) => e.toXml('Grant'))),
       _s.encodeXmlStringValue('TargetPrefix', targetPrefix),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -17710,7 +20886,7 @@ class LoggingEnabled {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -17728,7 +20904,6 @@ extension on MFADelete {
       case MFADelete.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17740,7 +20915,7 @@ extension on String {
       case 'Disabled':
         return MFADelete.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MFADelete');
   }
 }
 
@@ -17757,7 +20932,6 @@ extension on MFADeleteStatus {
       case MFADeleteStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17769,7 +20943,7 @@ extension on String {
       case 'Disabled':
         return MFADeleteStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MFADeleteStatus');
   }
 }
 
@@ -17786,7 +20960,6 @@ extension on MetadataDirective {
       case MetadataDirective.replace:
         return 'REPLACE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -17798,23 +20971,42 @@ extension on String {
       case 'REPLACE':
         return MetadataDirective.replace;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MetadataDirective');
   }
 }
 
 /// A metadata key-value pair to store with an object.
 class MetadataEntry {
   /// Name of the Object.
-  final String name;
+  final String? name;
 
   /// Value of the Object.
-  final String value;
+  final String? value;
 
   MetadataEntry({
     this.name,
     this.value,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory MetadataEntry.fromJson(Map<String, dynamic> json) {
+    return MetadataEntry(
+      name: json['Name'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      if (name != null) 'Name': name,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final value = this.value;
     final $children = <_s.XmlNode>[
       if (name != null) _s.encodeXmlStringValue('Name', name),
       if (value != null) _s.encodeXmlStringValue('Value', value),
@@ -17825,7 +21017,7 @@ class MetadataEntry {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -17838,25 +21030,47 @@ class Metrics {
 
   /// A container specifying the time threshold for emitting the
   /// <code>s3:Replication:OperationMissedThreshold</code> event.
-  final ReplicationTimeValue eventThreshold;
+  final ReplicationTimeValue? eventThreshold;
 
   Metrics({
-    @_s.required this.status,
+    required this.status,
     this.eventThreshold,
   });
+
+  factory Metrics.fromJson(Map<String, dynamic> json) {
+    return Metrics(
+      status: (json['Status'] as String).toMetricsStatus(),
+      eventThreshold: json['EventThreshold'] != null
+          ? ReplicationTimeValue.fromJson(
+              json['EventThreshold'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory Metrics.fromXml(_s.XmlElement elem) {
     return Metrics(
-      status: _s.extractXmlStringValue(elem, 'Status')?.toMetricsStatus(),
+      status: _s.extractXmlStringValue(elem, 'Status')!.toMetricsStatus(),
       eventThreshold: _s
           .extractXmlChild(elem, 'EventThreshold')
           ?.let((e) => ReplicationTimeValue.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final eventThreshold = this.eventThreshold;
+    return {
+      'Status': status.toValue(),
+      if (eventThreshold != null) 'EventThreshold': eventThreshold,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final eventThreshold = this.eventThreshold;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
-      if (eventThreshold != null) eventThreshold?.toXml('EventThreshold'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      if (eventThreshold != null) eventThreshold.toXml('EventThreshold'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17864,7 +21078,7 @@ class Metrics {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -17874,15 +21088,26 @@ class Metrics {
 /// object must match all of the predicates in order for the filter to apply.
 class MetricsAndOperator {
   /// The prefix used when evaluating an AND predicate.
-  final String prefix;
+  final String? prefix;
 
   /// The list of tags used when evaluating an AND predicate.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   MetricsAndOperator({
     this.prefix,
     this.tags,
   });
+
+  factory MetricsAndOperator.fromJson(Map<String, dynamic> json) {
+    return MetricsAndOperator(
+      prefix: json['Prefix'] as String?,
+      tags: (json['Tag'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory MetricsAndOperator.fromXml(_s.XmlElement elem) {
     return MetricsAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
@@ -17890,10 +21115,21 @@ class MetricsAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    final tags = this.tags;
+    return {
+      if (prefix != null) 'Prefix': prefix,
+      if (tags != null) 'Tag': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
+      if (tags != null) ...tags.map((e) => e.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17901,7 +21137,7 @@ class MetricsAndOperator {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -17912,8 +21148,7 @@ class MetricsAndOperator {
 /// replacement of the existing metrics configuration. If you don't include the
 /// elements you want to keep, they are erased. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTMetricConfiguration.html">
-/// PUT Bucket metrics</a> in the <i>Amazon Simple Storage Service API
-/// Reference</i>.
+/// PUT Bucket metrics</a> in the <i>Amazon S3 API Reference</i>.
 class MetricsConfiguration {
   /// The ID used to identify the metrics configuration.
   final String id;
@@ -17921,25 +21156,46 @@ class MetricsConfiguration {
   /// Specifies a metrics configuration filter. The metrics configuration will
   /// only include objects that meet the filter's criteria. A filter must be a
   /// prefix, a tag, or a conjunction (MetricsAndOperator).
-  final MetricsFilter filter;
+  final MetricsFilter? filter;
 
   MetricsConfiguration({
-    @_s.required this.id,
+    required this.id,
     this.filter,
   });
+
+  factory MetricsConfiguration.fromJson(Map<String, dynamic> json) {
+    return MetricsConfiguration(
+      id: json['Id'] as String,
+      filter: json['Filter'] != null
+          ? MetricsFilter.fromJson(json['Filter'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory MetricsConfiguration.fromXml(_s.XmlElement elem) {
     return MetricsConfiguration(
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       filter: _s
           .extractXmlChild(elem, 'Filter')
           ?.let((e) => MetricsFilter.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final filter = this.filter;
+    return {
+      'Id': id,
+      if (filter != null) 'Filter': filter,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final id = this.id;
+    final filter = this.filter;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      if (filter != null) filter?.toXml('Filter'),
+      if (filter != null) filter.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17947,7 +21203,7 @@ class MetricsConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -17959,19 +21215,32 @@ class MetricsFilter {
   /// A conjunction (logical AND) of predicates, which is used in evaluating a
   /// metrics filter. The operator must have at least two predicates, and an
   /// object must match all of the predicates in order for the filter to apply.
-  final MetricsAndOperator and;
+  final MetricsAndOperator? and;
 
   /// The prefix used when evaluating a metrics filter.
-  final String prefix;
+  final String? prefix;
 
   /// The tag used when evaluating a metrics filter.
-  final Tag tag;
+  final Tag? tag;
 
   MetricsFilter({
     this.and,
     this.prefix,
     this.tag,
   });
+
+  factory MetricsFilter.fromJson(Map<String, dynamic> json) {
+    return MetricsFilter(
+      and: json['And'] != null
+          ? MetricsAndOperator.fromJson(json['And'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+      tag: json['Tag'] != null
+          ? Tag.fromJson(json['Tag'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory MetricsFilter.fromXml(_s.XmlElement elem) {
     return MetricsFilter(
       and: _s
@@ -17982,11 +21251,25 @@ class MetricsFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    return {
+      if (and != null) 'And': and,
+      if (prefix != null) 'Prefix': prefix,
+      if (tag != null) 'Tag': tag,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tag != null) tag?.toXml('Tag'),
-      if (and != null) and?.toXml('And'),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17994,7 +21277,7 @@ class MetricsFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18012,7 +21295,6 @@ extension on MetricsStatus {
       case MetricsStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18024,29 +21306,29 @@ extension on String {
       case 'Disabled':
         return MetricsStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum MetricsStatus');
   }
 }
 
 /// Container for the <code>MultipartUpload</code> for the Amazon S3 object.
 class MultipartUpload {
   /// Date and time at which the multipart upload was initiated.
-  final DateTime initiated;
+  final DateTime? initiated;
 
   /// Identifies who initiated the multipart upload.
-  final Initiator initiator;
+  final Initiator? initiator;
 
   /// Key of the object for which the multipart upload was initiated.
-  final String key;
+  final String? key;
 
   /// Specifies the owner of the object that is part of the multipart upload.
-  final Owner owner;
+  final Owner? owner;
 
   /// The class of storage used to store the object.
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   /// Upload ID that identifies the multipart upload.
-  final String uploadId;
+  final String? uploadId;
 
   MultipartUpload({
     this.initiated,
@@ -18056,6 +21338,22 @@ class MultipartUpload {
     this.storageClass,
     this.uploadId,
   });
+
+  factory MultipartUpload.fromJson(Map<String, dynamic> json) {
+    return MultipartUpload(
+      initiated: timeStampFromJson(json['Initiated']),
+      initiator: json['Initiator'] != null
+          ? Initiator.fromJson(json['Initiator'] as Map<String, dynamic>)
+          : null,
+      key: json['Key'] as String?,
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      uploadId: json['UploadId'] as String?,
+    );
+  }
+
   factory MultipartUpload.fromXml(_s.XmlElement elem) {
     return MultipartUpload(
       initiated: _s.extractXmlDateTimeValue(elem, 'Initiated'),
@@ -18068,6 +21366,23 @@ class MultipartUpload {
           _s.extractXmlStringValue(elem, 'StorageClass')?.toStorageClass(),
       uploadId: _s.extractXmlStringValue(elem, 'UploadId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiated = this.initiated;
+    final initiator = this.initiator;
+    final key = this.key;
+    final owner = this.owner;
+    final storageClass = this.storageClass;
+    final uploadId = this.uploadId;
+    return {
+      if (initiated != null) 'Initiated': unixTimestampToJson(initiated),
+      if (initiator != null) 'Initiator': initiator,
+      if (key != null) 'Key': key,
+      if (owner != null) 'Owner': owner,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+      if (uploadId != null) 'UploadId': uploadId,
+    };
   }
 }
 
@@ -18082,19 +21397,34 @@ class NoncurrentVersionExpiration {
   /// calculations, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">How
   /// Amazon S3 Calculates When an Object Became Noncurrent</a> in the <i>Amazon
-  /// Simple Storage Service Developer Guide</i>.
-  final int noncurrentDays;
+  /// S3 User Guide</i>.
+  final int? noncurrentDays;
 
   NoncurrentVersionExpiration({
     this.noncurrentDays,
   });
+
+  factory NoncurrentVersionExpiration.fromJson(Map<String, dynamic> json) {
+    return NoncurrentVersionExpiration(
+      noncurrentDays: json['NoncurrentDays'] as int?,
+    );
+  }
+
   factory NoncurrentVersionExpiration.fromXml(_s.XmlElement elem) {
     return NoncurrentVersionExpiration(
       noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final noncurrentDays = this.noncurrentDays;
+    return {
+      if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final noncurrentDays = this.noncurrentDays;
     final $children = <_s.XmlNode>[
       if (noncurrentDays != null)
         _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
@@ -18105,7 +21435,7 @@ class NoncurrentVersionExpiration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18126,16 +21456,25 @@ class NoncurrentVersionTransition {
   /// calculations, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html#non-current-days-calculations">How
   /// Amazon S3 Calculates How Long an Object Has Been Noncurrent</a> in the
-  /// <i>Amazon Simple Storage Service Developer Guide</i>.
-  final int noncurrentDays;
+  /// <i>Amazon S3 User Guide</i>.
+  final int? noncurrentDays;
 
   /// The class of storage used to store the object.
-  final TransitionStorageClass storageClass;
+  final TransitionStorageClass? storageClass;
 
   NoncurrentVersionTransition({
     this.noncurrentDays,
     this.storageClass,
   });
+
+  factory NoncurrentVersionTransition.fromJson(Map<String, dynamic> json) {
+    return NoncurrentVersionTransition(
+      noncurrentDays: json['NoncurrentDays'] as int?,
+      storageClass:
+          (json['StorageClass'] as String?)?.toTransitionStorageClass(),
+    );
+  }
+
   factory NoncurrentVersionTransition.fromXml(_s.XmlElement elem) {
     return NoncurrentVersionTransition(
       noncurrentDays: _s.extractXmlIntValue(elem, 'NoncurrentDays'),
@@ -18145,7 +21484,18 @@ class NoncurrentVersionTransition {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final noncurrentDays = this.noncurrentDays;
+    final storageClass = this.storageClass;
+    return {
+      if (noncurrentDays != null) 'NoncurrentDays': noncurrentDays,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final noncurrentDays = this.noncurrentDays;
+    final storageClass = this.storageClass;
     final $children = <_s.XmlNode>[
       if (noncurrentDays != null)
         _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
@@ -18158,7 +21508,7 @@ class NoncurrentVersionTransition {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18168,21 +21518,41 @@ class NoncurrentVersionTransition {
 class NotificationConfiguration {
   /// Describes the AWS Lambda functions to invoke and the events for which to
   /// invoke them.
-  final List<LambdaFunctionConfiguration> lambdaFunctionConfigurations;
+  final List<LambdaFunctionConfiguration>? lambdaFunctionConfigurations;
 
   /// The Amazon Simple Queue Service queues to publish messages to and the events
   /// for which to publish messages.
-  final List<QueueConfiguration> queueConfigurations;
+  final List<QueueConfiguration>? queueConfigurations;
 
   /// The topic to which notifications are sent and the events for which
   /// notifications are generated.
-  final List<TopicConfiguration> topicConfigurations;
+  final List<TopicConfiguration>? topicConfigurations;
 
   NotificationConfiguration({
     this.lambdaFunctionConfigurations,
     this.queueConfigurations,
     this.topicConfigurations,
   });
+
+  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return NotificationConfiguration(
+      lambdaFunctionConfigurations: (json['CloudFunctionConfiguration']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              LambdaFunctionConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      queueConfigurations: (json['QueueConfiguration'] as List?)
+          ?.whereNotNull()
+          .map((e) => QueueConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      topicConfigurations: (json['TopicConfiguration'] as List?)
+          ?.whereNotNull()
+          .map((e) => TopicConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory NotificationConfiguration.fromXml(_s.XmlElement elem) {
     return NotificationConfiguration(
       lambdaFunctionConfigurations: elem
@@ -18200,15 +21570,32 @@ class NotificationConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final lambdaFunctionConfigurations = this.lambdaFunctionConfigurations;
+    final queueConfigurations = this.queueConfigurations;
+    final topicConfigurations = this.topicConfigurations;
+    return {
+      if (lambdaFunctionConfigurations != null)
+        'CloudFunctionConfiguration': lambdaFunctionConfigurations,
+      if (queueConfigurations != null)
+        'QueueConfiguration': queueConfigurations,
+      if (topicConfigurations != null)
+        'TopicConfiguration': topicConfigurations,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final lambdaFunctionConfigurations = this.lambdaFunctionConfigurations;
+    final queueConfigurations = this.queueConfigurations;
+    final topicConfigurations = this.topicConfigurations;
     final $children = <_s.XmlNode>[
       if (topicConfigurations != null)
-        ...topicConfigurations.map((e) => e?.toXml('TopicConfiguration')),
+        ...topicConfigurations.map((e) => e.toXml('TopicConfiguration')),
       if (queueConfigurations != null)
-        ...queueConfigurations.map((e) => e?.toXml('QueueConfiguration')),
+        ...queueConfigurations.map((e) => e.toXml('QueueConfiguration')),
       if (lambdaFunctionConfigurations != null)
         ...lambdaFunctionConfigurations
-            .map((e) => e?.toXml('CloudFunctionConfiguration')),
+            .map((e) => e.toXml('CloudFunctionConfiguration')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18216,30 +21603,49 @@ class NotificationConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class NotificationConfigurationDeprecated {
   /// Container for specifying the AWS Lambda notification configuration.
-  final CloudFunctionConfiguration cloudFunctionConfiguration;
+  final CloudFunctionConfiguration? cloudFunctionConfiguration;
 
   /// This data type is deprecated. This data type specifies the configuration for
   /// publishing messages to an Amazon Simple Queue Service (Amazon SQS) queue
   /// when Amazon S3 detects specified events.
-  final QueueConfigurationDeprecated queueConfiguration;
+  final QueueConfigurationDeprecated? queueConfiguration;
 
   /// This data type is deprecated. A container for specifying the configuration
   /// for publication of messages to an Amazon Simple Notification Service (Amazon
   /// SNS) topic when Amazon S3 detects specified events.
-  final TopicConfigurationDeprecated topicConfiguration;
+  final TopicConfigurationDeprecated? topicConfiguration;
 
   NotificationConfigurationDeprecated({
     this.cloudFunctionConfiguration,
     this.queueConfiguration,
     this.topicConfiguration,
   });
+
+  factory NotificationConfigurationDeprecated.fromJson(
+      Map<String, dynamic> json) {
+    return NotificationConfigurationDeprecated(
+      cloudFunctionConfiguration: json['CloudFunctionConfiguration'] != null
+          ? CloudFunctionConfiguration.fromJson(
+              json['CloudFunctionConfiguration'] as Map<String, dynamic>)
+          : null,
+      queueConfiguration: json['QueueConfiguration'] != null
+          ? QueueConfigurationDeprecated.fromJson(
+              json['QueueConfiguration'] as Map<String, dynamic>)
+          : null,
+      topicConfiguration: json['TopicConfiguration'] != null
+          ? TopicConfigurationDeprecated.fromJson(
+              json['TopicConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory NotificationConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return NotificationConfigurationDeprecated(
       cloudFunctionConfiguration: _s
@@ -18254,14 +21660,29 @@ class NotificationConfigurationDeprecated {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final cloudFunctionConfiguration = this.cloudFunctionConfiguration;
+    final queueConfiguration = this.queueConfiguration;
+    final topicConfiguration = this.topicConfiguration;
+    return {
+      if (cloudFunctionConfiguration != null)
+        'CloudFunctionConfiguration': cloudFunctionConfiguration,
+      if (queueConfiguration != null) 'QueueConfiguration': queueConfiguration,
+      if (topicConfiguration != null) 'TopicConfiguration': topicConfiguration,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cloudFunctionConfiguration = this.cloudFunctionConfiguration;
+    final queueConfiguration = this.queueConfiguration;
+    final topicConfiguration = this.topicConfiguration;
     final $children = <_s.XmlNode>[
       if (topicConfiguration != null)
-        topicConfiguration?.toXml('TopicConfiguration'),
+        topicConfiguration.toXml('TopicConfiguration'),
       if (queueConfiguration != null)
-        queueConfiguration?.toXml('QueueConfiguration'),
+        queueConfiguration.toXml('QueueConfiguration'),
       if (cloudFunctionConfiguration != null)
-        cloudFunctionConfiguration?.toXml('CloudFunctionConfiguration'),
+        cloudFunctionConfiguration.toXml('CloudFunctionConfiguration'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18269,7 +21690,7 @@ class NotificationConfigurationDeprecated {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18277,14 +21698,22 @@ class NotificationConfigurationDeprecated {
 /// Specifies object key name filtering rules. For information about key name
 /// filtering, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Configuring
-/// Event Notifications</a> in the <i>Amazon Simple Storage Service Developer
-/// Guide</i>.
+/// Event Notifications</a> in the <i>Amazon S3 User Guide</i>.
 class NotificationConfigurationFilter {
-  final S3KeyFilter key;
+  final S3KeyFilter? key;
 
   NotificationConfigurationFilter({
     this.key,
   });
+
+  factory NotificationConfigurationFilter.fromJson(Map<String, dynamic> json) {
+    return NotificationConfigurationFilter(
+      key: json['S3Key'] != null
+          ? S3KeyFilter.fromJson(json['S3Key'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory NotificationConfigurationFilter.fromXml(_s.XmlElement elem) {
     return NotificationConfigurationFilter(
       key:
@@ -18292,9 +21721,17 @@ class NotificationConfigurationFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    return {
+      if (key != null) 'S3Key': key,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
     final $children = <_s.XmlNode>[
-      if (key != null) key?.toXml('S3Key'),
+      if (key != null) key.toXml('S3Key'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18302,7 +21739,7 @@ class NotificationConfigurationFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18331,23 +21768,23 @@ class Object {
   /// encryption.
   /// </li>
   /// </ul>
-  final String eTag;
+  final String? eTag;
 
   /// The name that you assign to an object. You use the object key to retrieve
   /// the object.
-  final String key;
+  final String? key;
 
-  /// The date the Object was Last Modified
-  final DateTime lastModified;
+  /// Creation date of the object.
+  final DateTime? lastModified;
 
   /// The owner of the object
-  final Owner owner;
+  final Owner? owner;
 
   /// Size in bytes of the object
-  final int size;
+  final int? size;
 
   /// The class of storage used to store the object.
-  final ObjectStorageClass storageClass;
+  final ObjectStorageClass? storageClass;
 
   Object({
     this.eTag,
@@ -18357,6 +21794,20 @@ class Object {
     this.size,
     this.storageClass,
   });
+
+  factory Object.fromJson(Map<String, dynamic> json) {
+    return Object(
+      eTag: json['ETag'] as String?,
+      key: json['Key'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      size: json['Size'] as int?,
+      storageClass: (json['StorageClass'] as String?)?.toObjectStorageClass(),
+    );
+  }
+
   factory Object.fromXml(_s.XmlElement elem) {
     return Object(
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
@@ -18368,6 +21819,24 @@ class Object {
           .extractXmlStringValue(elem, 'StorageClass')
           ?.toObjectStorageClass(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final key = this.key;
+    final lastModified = this.lastModified;
+    final owner = this.owner;
+    final size = this.size;
+    final storageClass = this.storageClass;
+    return {
+      if (eTag != null) 'ETag': eTag,
+      if (key != null) 'Key': key,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (owner != null) 'Owner': owner,
+      if (size != null) 'Size': size,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+    };
   }
 }
 
@@ -18399,7 +21868,6 @@ extension on ObjectCannedACL {
       case ObjectCannedACL.bucketOwnerFullControl:
         return 'bucket-owner-full-control';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18421,23 +21889,48 @@ extension on String {
       case 'bucket-owner-full-control':
         return ObjectCannedACL.bucketOwnerFullControl;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectCannedACL');
   }
 }
 
 /// Object Identifier is unique value to identify objects.
 class ObjectIdentifier {
-  /// Key name of the object to delete.
+  /// Key name of the object.
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
   final String key;
 
   /// VersionId for the specific version of the object to delete.
-  final String versionId;
+  final String? versionId;
 
   ObjectIdentifier({
-    @_s.required this.key,
+    required this.key,
     this.versionId,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ObjectIdentifier.fromJson(Map<String, dynamic> json) {
+    return ObjectIdentifier(
+      key: json['Key'] as String,
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final versionId = this.versionId;
+    return {
+      'Key': key,
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final versionId = this.versionId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       if (versionId != null) _s.encodeXmlStringValue('VersionId', versionId),
@@ -18448,7 +21941,7 @@ class ObjectIdentifier {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18456,15 +21949,32 @@ class ObjectIdentifier {
 /// The container element for Object Lock configuration parameters.
 class ObjectLockConfiguration {
   /// Indicates whether this bucket has an Object Lock configuration enabled.
-  final ObjectLockEnabled objectLockEnabled;
+  /// Enable <code>ObjectLockEnabled</code> when you apply
+  /// <code>ObjectLockConfiguration</code> to a bucket.
+  final ObjectLockEnabled? objectLockEnabled;
 
-  /// The Object Lock rule in place for the specified object.
-  final ObjectLockRule rule;
+  /// Specifies the Object Lock rule for the specified object. Enable the this
+  /// rule when you apply <code>ObjectLockConfiguration</code> to a bucket. Bucket
+  /// settings require both a mode and a period. The period can be either
+  /// <code>Days</code> or <code>Years</code> but you must select one. You cannot
+  /// specify <code>Days</code> and <code>Years</code> at the same time.
+  final ObjectLockRule? rule;
 
   ObjectLockConfiguration({
     this.objectLockEnabled,
     this.rule,
   });
+
+  factory ObjectLockConfiguration.fromJson(Map<String, dynamic> json) {
+    return ObjectLockConfiguration(
+      objectLockEnabled:
+          (json['ObjectLockEnabled'] as String?)?.toObjectLockEnabled(),
+      rule: json['Rule'] != null
+          ? ObjectLockRule.fromJson(json['Rule'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ObjectLockConfiguration.fromXml(_s.XmlElement elem) {
     return ObjectLockConfiguration(
       objectLockEnabled: _s
@@ -18476,12 +21986,24 @@ class ObjectLockConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final objectLockEnabled = this.objectLockEnabled;
+    final rule = this.rule;
+    return {
+      if (objectLockEnabled != null)
+        'ObjectLockEnabled': objectLockEnabled.toValue(),
+      if (rule != null) 'Rule': rule,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final objectLockEnabled = this.objectLockEnabled;
+    final rule = this.rule;
     final $children = <_s.XmlNode>[
       if (objectLockEnabled != null)
         _s.encodeXmlStringValue(
             'ObjectLockEnabled', objectLockEnabled.toValue()),
-      if (rule != null) rule?.toXml('Rule'),
+      if (rule != null) rule.toXml('Rule'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18489,7 +22011,7 @@ class ObjectLockConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18504,7 +22026,6 @@ extension on ObjectLockEnabled {
       case ObjectLockEnabled.enabled:
         return 'Enabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18514,18 +22035,25 @@ extension on String {
       case 'Enabled':
         return ObjectLockEnabled.enabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectLockEnabled');
   }
 }
 
 /// A Legal Hold configuration for an object.
 class ObjectLockLegalHold {
   /// Indicates whether the specified object has a Legal Hold in place.
-  final ObjectLockLegalHoldStatus status;
+  final ObjectLockLegalHoldStatus? status;
 
   ObjectLockLegalHold({
     this.status,
   });
+
+  factory ObjectLockLegalHold.fromJson(Map<String, dynamic> json) {
+    return ObjectLockLegalHold(
+      status: (json['Status'] as String?)?.toObjectLockLegalHoldStatus(),
+    );
+  }
+
   factory ObjectLockLegalHold.fromXml(_s.XmlElement elem) {
     return ObjectLockLegalHold(
       status: _s
@@ -18534,7 +22062,15 @@ class ObjectLockLegalHold {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
     final $children = <_s.XmlNode>[
       if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
     ];
@@ -18544,7 +22080,7 @@ class ObjectLockLegalHold {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18562,7 +22098,6 @@ extension on ObjectLockLegalHoldStatus {
       case ObjectLockLegalHoldStatus.off:
         return 'OFF';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18574,7 +22109,7 @@ extension on String {
       case 'OFF':
         return ObjectLockLegalHoldStatus.off;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectLockLegalHoldStatus');
   }
 }
 
@@ -18591,7 +22126,6 @@ extension on ObjectLockMode {
       case ObjectLockMode.compliance:
         return 'COMPLIANCE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18603,22 +22137,30 @@ extension on String {
       case 'COMPLIANCE':
         return ObjectLockMode.compliance;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectLockMode');
   }
 }
 
 /// A Retention configuration for an object.
 class ObjectLockRetention {
   /// Indicates the Retention mode for the specified object.
-  final ObjectLockRetentionMode mode;
+  final ObjectLockRetentionMode? mode;
 
   /// The date on which this Object Lock Retention will expire.
-  final DateTime retainUntilDate;
+  final DateTime? retainUntilDate;
 
   ObjectLockRetention({
     this.mode,
     this.retainUntilDate,
   });
+
+  factory ObjectLockRetention.fromJson(Map<String, dynamic> json) {
+    return ObjectLockRetention(
+      mode: (json['Mode'] as String?)?.toObjectLockRetentionMode(),
+      retainUntilDate: timeStampFromJson(json['RetainUntilDate']),
+    );
+  }
+
   factory ObjectLockRetention.fromXml(_s.XmlElement elem) {
     return ObjectLockRetention(
       mode: _s.extractXmlStringValue(elem, 'Mode')?.toObjectLockRetentionMode(),
@@ -18627,7 +22169,19 @@ class ObjectLockRetention {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final retainUntilDate = this.retainUntilDate;
+    return {
+      if (mode != null) 'Mode': mode.toValue(),
+      if (retainUntilDate != null)
+        'RetainUntilDate': iso8601ToJson(retainUntilDate),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final mode = this.mode;
+    final retainUntilDate = this.retainUntilDate;
     final $children = <_s.XmlNode>[
       if (mode != null) _s.encodeXmlStringValue('Mode', mode.toValue()),
       if (retainUntilDate != null)
@@ -18640,7 +22194,7 @@ class ObjectLockRetention {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18658,7 +22212,6 @@ extension on ObjectLockRetentionMode {
       case ObjectLockRetentionMode.compliance:
         return 'COMPLIANCE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18670,19 +22223,32 @@ extension on String {
       case 'COMPLIANCE':
         return ObjectLockRetentionMode.compliance;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectLockRetentionMode');
   }
 }
 
 /// The container element for an Object Lock rule.
 class ObjectLockRule {
-  /// The default retention period that you want to apply to new objects placed in
-  /// the specified bucket.
-  final DefaultRetention defaultRetention;
+  /// The default Object Lock retention mode and period that you want to apply to
+  /// new objects placed in the specified bucket. Bucket settings require both a
+  /// mode and a period. The period can be either <code>Days</code> or
+  /// <code>Years</code> but you must select one. You cannot specify
+  /// <code>Days</code> and <code>Years</code> at the same time.
+  final DefaultRetention? defaultRetention;
 
   ObjectLockRule({
     this.defaultRetention,
   });
+
+  factory ObjectLockRule.fromJson(Map<String, dynamic> json) {
+    return ObjectLockRule(
+      defaultRetention: json['DefaultRetention'] != null
+          ? DefaultRetention.fromJson(
+              json['DefaultRetention'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ObjectLockRule.fromXml(_s.XmlElement elem) {
     return ObjectLockRule(
       defaultRetention: _s
@@ -18691,9 +22257,17 @@ class ObjectLockRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final defaultRetention = this.defaultRetention;
+    return {
+      if (defaultRetention != null) 'DefaultRetention': defaultRetention,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final defaultRetention = this.defaultRetention;
     final $children = <_s.XmlNode>[
-      if (defaultRetention != null) defaultRetention?.toXml('DefaultRetention'),
+      if (defaultRetention != null) defaultRetention.toXml('DefaultRetention'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18701,7 +22275,7 @@ class ObjectLockRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18728,7 +22302,6 @@ extension on ObjectOwnership {
       case ObjectOwnership.objectWriter:
         return 'ObjectWriter';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18740,7 +22313,7 @@ extension on String {
       case 'ObjectWriter':
         return ObjectOwnership.objectWriter;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectOwnership');
   }
 }
 
@@ -18775,7 +22348,6 @@ extension on ObjectStorageClass {
       case ObjectStorageClass.outposts:
         return 'OUTPOSTS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18799,36 +22371,36 @@ extension on String {
       case 'OUTPOSTS':
         return ObjectStorageClass.outposts;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectStorageClass');
   }
 }
 
 /// The version of an object.
 class ObjectVersion {
   /// The entity tag is an MD5 hash of that version of the object.
-  final String eTag;
+  final String? eTag;
 
   /// Specifies whether the object is (true) or is not (false) the latest version
   /// of an object.
-  final bool isLatest;
+  final bool? isLatest;
 
   /// The object key.
-  final String key;
+  final String? key;
 
   /// Date and time the object was last modified.
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// Specifies the owner of the object.
-  final Owner owner;
+  final Owner? owner;
 
   /// Size in bytes of the object.
-  final int size;
+  final int? size;
 
   /// The class of storage used to store the object.
-  final ObjectVersionStorageClass storageClass;
+  final ObjectVersionStorageClass? storageClass;
 
   /// Version ID of an object.
-  final String versionId;
+  final String? versionId;
 
   ObjectVersion({
     this.eTag,
@@ -18840,6 +22412,23 @@ class ObjectVersion {
     this.storageClass,
     this.versionId,
   });
+
+  factory ObjectVersion.fromJson(Map<String, dynamic> json) {
+    return ObjectVersion(
+      eTag: json['ETag'] as String?,
+      isLatest: json['IsLatest'] as bool?,
+      key: json['Key'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      owner: json['Owner'] != null
+          ? Owner.fromJson(json['Owner'] as Map<String, dynamic>)
+          : null,
+      size: json['Size'] as int?,
+      storageClass:
+          (json['StorageClass'] as String?)?.toObjectVersionStorageClass(),
+      versionId: json['VersionId'] as String?,
+    );
+  }
+
   factory ObjectVersion.fromXml(_s.XmlElement elem) {
     return ObjectVersion(
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
@@ -18854,6 +22443,28 @@ class ObjectVersion {
       versionId: _s.extractXmlStringValue(elem, 'VersionId'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final isLatest = this.isLatest;
+    final key = this.key;
+    final lastModified = this.lastModified;
+    final owner = this.owner;
+    final size = this.size;
+    final storageClass = this.storageClass;
+    final versionId = this.versionId;
+    return {
+      if (eTag != null) 'ETag': eTag,
+      if (isLatest != null) 'IsLatest': isLatest,
+      if (key != null) 'Key': key,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (owner != null) 'Owner': owner,
+      if (size != null) 'Size': size,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+      if (versionId != null) 'VersionId': versionId,
+    };
+  }
 }
 
 enum ObjectVersionStorageClass {
@@ -18866,7 +22477,6 @@ extension on ObjectVersionStorageClass {
       case ObjectVersionStorageClass.standard:
         return 'STANDARD';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18876,7 +22486,7 @@ extension on String {
       case 'STANDARD':
         return ObjectVersionStorageClass.standard;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ObjectVersionStorageClass');
   }
 }
 
@@ -18884,14 +22494,31 @@ extension on String {
 class OutputLocation {
   /// Describes an S3 location that will receive the results of the restore
   /// request.
-  final S3Location s3;
+  final S3Location? s3;
 
   OutputLocation({
     this.s3,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory OutputLocation.fromJson(Map<String, dynamic> json) {
+    return OutputLocation(
+      s3: json['S3'] != null
+          ? S3Location.fromJson(json['S3'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3 = this.s3;
+    return {
+      if (s3 != null) 'S3': s3,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final s3 = this.s3;
     final $children = <_s.XmlNode>[
-      if (s3 != null) s3?.toXml('S3'),
+      if (s3 != null) s3.toXml('S3'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18899,7 +22526,7 @@ class OutputLocation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18907,19 +22534,42 @@ class OutputLocation {
 /// Describes how results of the Select job are serialized.
 class OutputSerialization {
   /// Describes the serialization of CSV-encoded Select results.
-  final CSVOutput csv;
+  final CSVOutput? csv;
 
   /// Specifies JSON as request's output serialization format.
-  final JSONOutput json;
+  final JSONOutput? json;
 
   OutputSerialization({
     this.csv,
     this.json,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory OutputSerialization.fromJson(Map<String, dynamic> json) {
+    return OutputSerialization(
+      csv: json['CSV'] != null
+          ? CSVOutput.fromJson(json['CSV'] as Map<String, dynamic>)
+          : null,
+      json: json['JSON'] != null
+          ? JSONOutput.fromJson(json['JSON'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csv = this.csv;
+    final json = this.json;
+    return {
+      if (csv != null) 'CSV': csv,
+      if (json != null) 'JSON': json,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final csv = this.csv;
+    final json = this.json;
     final $children = <_s.XmlNode>[
-      if (csv != null) csv?.toXml('CSV'),
-      if (json != null) json?.toXml('JSON'),
+      if (csv != null) csv.toXml('CSV'),
+      if (json != null) json.toXml('JSON'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18927,7 +22577,7 @@ class OutputSerialization {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18935,15 +22585,23 @@ class OutputSerialization {
 /// Container for the owner's display name and ID.
 class Owner {
   /// Container for the display name of the owner.
-  final String displayName;
+  final String? displayName;
 
   /// Container for the ID of the owner.
-  final String id;
+  final String? id;
 
   Owner({
     this.displayName,
     this.id,
   });
+
+  factory Owner.fromJson(Map<String, dynamic> json) {
+    return Owner(
+      displayName: json['DisplayName'] as String?,
+      id: json['ID'] as String?,
+    );
+  }
+
   factory Owner.fromXml(_s.XmlElement elem) {
     return Owner(
       displayName: _s.extractXmlStringValue(elem, 'DisplayName'),
@@ -18951,7 +22609,18 @@ class Owner {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final displayName = this.displayName;
+    final id = this.id;
+    return {
+      if (displayName != null) 'DisplayName': displayName,
+      if (id != null) 'ID': id,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final displayName = this.displayName;
+    final id = this.id;
     final $children = <_s.XmlNode>[
       if (displayName != null)
         _s.encodeXmlStringValue('DisplayName', displayName),
@@ -18963,7 +22632,7 @@ class Owner {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -18978,7 +22647,6 @@ extension on OwnerOverride {
       case OwnerOverride.destination:
         return 'Destination';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -18988,7 +22656,7 @@ extension on String {
       case 'Destination':
         return OwnerOverride.destination;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum OwnerOverride');
   }
 }
 
@@ -18998,8 +22666,18 @@ class OwnershipControls {
   final List<OwnershipControlsRule> rules;
 
   OwnershipControls({
-    @_s.required this.rules,
+    required this.rules,
   });
+
+  factory OwnershipControls.fromJson(Map<String, dynamic> json) {
+    return OwnershipControls(
+      rules: (json['Rule'] as List)
+          .whereNotNull()
+          .map((e) => OwnershipControlsRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory OwnershipControls.fromXml(_s.XmlElement elem) {
     return OwnershipControls(
       rules: elem
@@ -19009,9 +22687,17 @@ class OwnershipControls {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      'Rule': rules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final rules = this.rules;
     final $children = <_s.XmlNode>[
-      ...rules?.map((e) => e?.toXml('Rule')),
+      ...rules.map((e) => e.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19019,7 +22705,7 @@ class OwnershipControls {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19029,20 +22715,34 @@ class OwnershipControlsRule {
   final ObjectOwnership objectOwnership;
 
   OwnershipControlsRule({
-    @_s.required this.objectOwnership,
+    required this.objectOwnership,
   });
-  factory OwnershipControlsRule.fromXml(_s.XmlElement elem) {
+
+  factory OwnershipControlsRule.fromJson(Map<String, dynamic> json) {
     return OwnershipControlsRule(
-      objectOwnership: _s
-          .extractXmlStringValue(elem, 'ObjectOwnership')
-          ?.toObjectOwnership(),
+      objectOwnership: (json['ObjectOwnership'] as String).toObjectOwnership(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory OwnershipControlsRule.fromXml(_s.XmlElement elem) {
+    return OwnershipControlsRule(
+      objectOwnership: _s
+          .extractXmlStringValue(elem, 'ObjectOwnership')!
+          .toObjectOwnership(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final objectOwnership = this.objectOwnership;
+    return {
+      'ObjectOwnership': objectOwnership.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final objectOwnership = this.objectOwnership;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'ObjectOwnership', objectOwnership?.toValue() ?? ''),
+      _s.encodeXmlStringValue('ObjectOwnership', objectOwnership.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19050,7 +22750,7 @@ class OwnershipControlsRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19058,7 +22758,16 @@ class OwnershipControlsRule {
 /// Container for Parquet.
 class ParquetInput {
   ParquetInput();
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ParquetInput.fromJson(Map<String, dynamic> _) {
+    return ParquetInput();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final $children = <_s.XmlNode>[];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19066,7 +22775,7 @@ class ParquetInput {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19074,17 +22783,17 @@ class ParquetInput {
 /// Container for elements related to a part.
 class Part {
   /// Entity tag returned when the part was uploaded.
-  final String eTag;
+  final String? eTag;
 
   /// Date and time at which the part was uploaded.
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// Part number identifying the part. This is a positive integer between 1 and
   /// 10,000.
-  final int partNumber;
+  final int? partNumber;
 
   /// Size in bytes of the uploaded part data.
-  final int size;
+  final int? size;
 
   Part({
     this.eTag,
@@ -19092,6 +22801,16 @@ class Part {
     this.partNumber,
     this.size,
   });
+
+  factory Part.fromJson(Map<String, dynamic> json) {
+    return Part(
+      eTag: json['ETag'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      partNumber: json['PartNumber'] as int?,
+      size: json['Size'] as int?,
+    );
+  }
+
   factory Part.fromXml(_s.XmlElement elem) {
     return Part(
       eTag: _s.extractXmlStringValue(elem, 'ETag'),
@@ -19099,6 +22818,20 @@ class Part {
       partNumber: _s.extractXmlIntValue(elem, 'PartNumber'),
       size: _s.extractXmlIntValue(elem, 'Size'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eTag = this.eTag;
+    final lastModified = this.lastModified;
+    final partNumber = this.partNumber;
+    final size = this.size;
+    return {
+      if (eTag != null) 'ETag': eTag,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (partNumber != null) 'PartNumber': partNumber,
+      if (size != null) 'Size': size,
+    };
   }
 }
 
@@ -19115,7 +22848,6 @@ extension on Payer {
       case Payer.bucketOwner:
         return 'BucketOwner';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -19127,7 +22859,7 @@ extension on String {
       case 'BucketOwner':
         return Payer.bucketOwner;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Payer');
   }
 }
 
@@ -19153,7 +22885,6 @@ extension on Permission {
       case Permission.readAcp:
         return 'READ_ACP';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -19171,7 +22902,7 @@ extension on String {
       case 'READ_ACP':
         return Permission.readAcp;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Permission');
   }
 }
 
@@ -19180,34 +22911,57 @@ class PolicyStatus {
   /// The policy status for this bucket. <code>TRUE</code> indicates that this
   /// bucket is public. <code>FALSE</code> indicates that the bucket is not
   /// public.
-  final bool isPublic;
+  final bool? isPublic;
 
   PolicyStatus({
     this.isPublic,
   });
+
+  factory PolicyStatus.fromJson(Map<String, dynamic> json) {
+    return PolicyStatus(
+      isPublic: json['IsPublic'] as bool?,
+    );
+  }
+
   factory PolicyStatus.fromXml(_s.XmlElement elem) {
     return PolicyStatus(
       isPublic: _s.extractXmlBoolValue(elem, 'IsPublic'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isPublic = this.isPublic;
+    return {
+      if (isPublic != null) 'IsPublic': isPublic,
+    };
   }
 }
 
 /// This data type contains information about progress of an operation.
 class Progress {
   /// The current number of uncompressed object bytes processed.
-  final int bytesProcessed;
+  final int? bytesProcessed;
 
   /// The current number of bytes of records payload data returned.
-  final int bytesReturned;
+  final int? bytesReturned;
 
   /// The current number of object bytes scanned.
-  final int bytesScanned;
+  final int? bytesScanned;
 
   Progress({
     this.bytesProcessed,
     this.bytesReturned,
     this.bytesScanned,
   });
+
+  factory Progress.fromJson(Map<String, dynamic> json) {
+    return Progress(
+      bytesProcessed: json['BytesProcessed'] as int?,
+      bytesReturned: json['BytesReturned'] as int?,
+      bytesScanned: json['BytesScanned'] as int?,
+    );
+  }
+
   factory Progress.fromXml(_s.XmlElement elem) {
     return Progress(
       bytesProcessed: _s.extractXmlIntValue(elem, 'BytesProcessed'),
@@ -19215,22 +22969,49 @@ class Progress {
       bytesScanned: _s.extractXmlIntValue(elem, 'BytesScanned'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final bytesProcessed = this.bytesProcessed;
+    final bytesReturned = this.bytesReturned;
+    final bytesScanned = this.bytesScanned;
+    return {
+      if (bytesProcessed != null) 'BytesProcessed': bytesProcessed,
+      if (bytesReturned != null) 'BytesReturned': bytesReturned,
+      if (bytesScanned != null) 'BytesScanned': bytesScanned,
+    };
+  }
 }
 
 /// This data type contains information about the progress event of an
 /// operation.
 class ProgressEvent {
   /// The Progress event details.
-  final Progress details;
+  final Progress? details;
 
   ProgressEvent({
     this.details,
   });
+
+  factory ProgressEvent.fromJson(Map<String, dynamic> json) {
+    return ProgressEvent(
+      details: json['Details'] != null
+          ? Progress.fromJson(json['Details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ProgressEvent.fromXml(_s.XmlElement elem) {
     return ProgressEvent(
       details:
           _s.extractXmlChild(elem, 'Details')?.let((e) => Progress.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    return {
+      if (details != null) 'Details': details,
+    };
   }
 }
 
@@ -19247,7 +23028,6 @@ extension on Protocol {
       case Protocol.https:
         return 'https';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -19259,7 +23039,7 @@ extension on String {
       case 'https':
         return Protocol.https;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Protocol');
   }
 }
 
@@ -19268,8 +23048,7 @@ extension on String {
 /// more information about when Amazon S3 considers a bucket or object public,
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html#access-control-block-public-access-policy-status">The
-/// Meaning of "Public"</a> in the <i>Amazon Simple Storage Service Developer
-/// Guide</i>.
+/// Meaning of "Public"</a> in the <i>Amazon S3 User Guide</i>.
 class PublicAccessBlockConfiguration {
   /// Specifies whether Amazon S3 should block public access control lists (ACLs)
   /// for this bucket and objects in this bucket. Setting this element to
@@ -19287,7 +23066,7 @@ class PublicAccessBlockConfiguration {
   /// </li>
   /// </ul>
   /// Enabling this setting doesn't affect existing policies or ACLs.
-  final bool blockPublicAcls;
+  final bool? blockPublicAcls;
 
   /// Specifies whether Amazon S3 should block public bucket policies for this
   /// bucket. Setting this element to <code>TRUE</code> causes Amazon S3 to reject
@@ -19295,7 +23074,7 @@ class PublicAccessBlockConfiguration {
   /// access.
   ///
   /// Enabling this setting doesn't affect existing bucket policies.
-  final bool blockPublicPolicy;
+  final bool? blockPublicPolicy;
 
   /// Specifies whether Amazon S3 should ignore public ACLs for this bucket and
   /// objects in this bucket. Setting this element to <code>TRUE</code> causes
@@ -19304,7 +23083,7 @@ class PublicAccessBlockConfiguration {
   ///
   /// Enabling this setting doesn't affect the persistence of any existing ACLs
   /// and doesn't prevent new public ACLs from being set.
-  final bool ignorePublicAcls;
+  final bool? ignorePublicAcls;
 
   /// Specifies whether Amazon S3 should restrict public bucket policies for this
   /// bucket. Setting this element to <code>TRUE</code> restricts access to this
@@ -19314,7 +23093,7 @@ class PublicAccessBlockConfiguration {
   /// Enabling this setting doesn't affect previously stored bucket policies,
   /// except that public and cross-account access within any public bucket policy,
   /// including non-public delegation to specific accounts, is blocked.
-  final bool restrictPublicBuckets;
+  final bool? restrictPublicBuckets;
 
   PublicAccessBlockConfiguration({
     this.blockPublicAcls,
@@ -19322,6 +23101,16 @@ class PublicAccessBlockConfiguration {
     this.ignorePublicAcls,
     this.restrictPublicBuckets,
   });
+
+  factory PublicAccessBlockConfiguration.fromJson(Map<String, dynamic> json) {
+    return PublicAccessBlockConfiguration(
+      blockPublicAcls: json['BlockPublicAcls'] as bool?,
+      blockPublicPolicy: json['BlockPublicPolicy'] as bool?,
+      ignorePublicAcls: json['IgnorePublicAcls'] as bool?,
+      restrictPublicBuckets: json['RestrictPublicBuckets'] as bool?,
+    );
+  }
+
   factory PublicAccessBlockConfiguration.fromXml(_s.XmlElement elem) {
     return PublicAccessBlockConfiguration(
       blockPublicAcls: _s.extractXmlBoolValue(elem, 'BlockPublicAcls'),
@@ -19332,7 +23121,25 @@ class PublicAccessBlockConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final blockPublicAcls = this.blockPublicAcls;
+    final blockPublicPolicy = this.blockPublicPolicy;
+    final ignorePublicAcls = this.ignorePublicAcls;
+    final restrictPublicBuckets = this.restrictPublicBuckets;
+    return {
+      if (blockPublicAcls != null) 'BlockPublicAcls': blockPublicAcls,
+      if (blockPublicPolicy != null) 'BlockPublicPolicy': blockPublicPolicy,
+      if (ignorePublicAcls != null) 'IgnorePublicAcls': ignorePublicAcls,
+      if (restrictPublicBuckets != null)
+        'RestrictPublicBuckets': restrictPublicBuckets,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final blockPublicAcls = this.blockPublicAcls;
+    final blockPublicPolicy = this.blockPublicPolicy;
+    final ignorePublicAcls = this.ignorePublicAcls;
+    final restrictPublicBuckets = this.restrictPublicBuckets;
     final $children = <_s.XmlNode>[
       if (blockPublicAcls != null)
         _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
@@ -19349,80 +23156,116 @@ class PublicAccessBlockConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class PutObjectAclOutput {
-  final RequestCharged requestCharged;
+  final RequestCharged? requestCharged;
 
   PutObjectAclOutput({
     this.requestCharged,
   });
+
+  factory PutObjectAclOutput.fromJson(Map<String, dynamic> json) {
+    return PutObjectAclOutput(
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestCharged = this.requestCharged;
+    return {};
+  }
 }
 
 class PutObjectLegalHoldOutput {
-  final RequestCharged requestCharged;
+  final RequestCharged? requestCharged;
 
   PutObjectLegalHoldOutput({
     this.requestCharged,
   });
+
+  factory PutObjectLegalHoldOutput.fromJson(Map<String, dynamic> json) {
+    return PutObjectLegalHoldOutput(
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestCharged = this.requestCharged;
+    return {};
+  }
 }
 
 class PutObjectLockConfigurationOutput {
-  final RequestCharged requestCharged;
+  final RequestCharged? requestCharged;
 
   PutObjectLockConfigurationOutput({
     this.requestCharged,
   });
+
+  factory PutObjectLockConfigurationOutput.fromJson(Map<String, dynamic> json) {
+    return PutObjectLockConfigurationOutput(
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestCharged = this.requestCharged;
+    return {};
+  }
 }
 
 class PutObjectOutput {
   /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Entity tag for the uploaded object.
-  final String eTag;
+  final String? eTag;
 
   /// If the expiration is configured for the object (see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html">PutBucketLifecycleConfiguration</a>),
   /// the response includes this header. It includes the expiry-date and rule-id
   /// key-value pairs that provide information about object expiration. The value
   /// of the rule-id is URL encoded.
-  final String expiration;
-  final RequestCharged requestCharged;
+  final String? expiration;
+  final RequestCharged? requestCharged;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header confirming the encryption
   /// algorithm used.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header to provide round-trip
   /// message integrity verification of the customer-provided encryption key.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// If present, specifies the AWS KMS Encryption Context to use for object
   /// encryption. The value of this header is a base64-encoded UTF-8 string
   /// holding JSON with the encryption context key-value pairs.
-  final String sSEKMSEncryptionContext;
+  final String? sSEKMSEncryptionContext;
 
   /// If <code>x-amz-server-side-encryption</code> is present and has the value of
   /// <code>aws:kms</code>, this header specifies the ID of the AWS Key Management
   /// Service (AWS KMS) symmetric customer managed customer master key (CMK) that
   /// was used for the object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// If you specified server-side encryption either with an AWS KMS customer
   /// master key (CMK) or Amazon S3-managed encryption key in your PUT request,
   /// the response includes this header. It confirms the encryption algorithm that
   /// Amazon S3 used to encrypt the object.
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   /// Version of the object.
-  final String versionId;
+  final String? versionId;
 
   PutObjectOutput({
     this.bucketKeyEnabled,
@@ -19436,23 +23279,82 @@ class PutObjectOutput {
     this.serverSideEncryption,
     this.versionId,
   });
+
+  factory PutObjectOutput.fromJson(Map<String, dynamic> json) {
+    return PutObjectOutput(
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      eTag: json['ETag'] as String?,
+      expiration: json['x-amz-expiration'] as String?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      sSEKMSEncryptionContext:
+          json['x-amz-server-side-encryption-context'] as String?,
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final eTag = this.eTag;
+    final expiration = this.expiration;
+    final requestCharged = this.requestCharged;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final sSEKMSEncryptionContext = this.sSEKMSEncryptionContext;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    final versionId = this.versionId;
+    return {};
+  }
 }
 
 class PutObjectRetentionOutput {
-  final RequestCharged requestCharged;
+  final RequestCharged? requestCharged;
 
   PutObjectRetentionOutput({
     this.requestCharged,
   });
+
+  factory PutObjectRetentionOutput.fromJson(Map<String, dynamic> json) {
+    return PutObjectRetentionOutput(
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestCharged = this.requestCharged;
+    return {};
+  }
 }
 
 class PutObjectTaggingOutput {
   /// The versionId of the object the tag-set was added to.
-  final String versionId;
+  final String? versionId;
 
   PutObjectTaggingOutput({
     this.versionId,
   });
+
+  factory PutObjectTaggingOutput.fromJson(Map<String, dynamic> json) {
+    return PutObjectTaggingOutput(
+      versionId: json['x-amz-version-id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final versionId = this.versionId;
+    return {};
+  }
 }
 
 /// Specifies the configuration for publishing messages to an Amazon Simple
@@ -19464,22 +23366,38 @@ class QueueConfiguration {
   /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3
   /// publishes a message when it detects events of the specified type.
   final String queueArn;
-  final NotificationConfigurationFilter filter;
-  final String id;
+  final NotificationConfigurationFilter? filter;
+  final String? id;
 
   QueueConfiguration({
-    @_s.required this.events,
-    @_s.required this.queueArn,
+    required this.events,
+    required this.queueArn,
     this.filter,
     this.id,
   });
+
+  factory QueueConfiguration.fromJson(Map<String, dynamic> json) {
+    return QueueConfiguration(
+      events: (json['Event'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toEvent())
+          .toList(),
+      queueArn: json['Queue'] as String,
+      filter: json['Filter'] != null
+          ? NotificationConfigurationFilter.fromJson(
+              json['Filter'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+    );
+  }
+
   factory QueueConfiguration.fromXml(_s.XmlElement elem) {
     return QueueConfiguration(
       events: _s
           .extractXmlStringListValues(elem, 'Event')
           .map((s) => s.toEvent())
           .toList(),
-      queueArn: _s.extractXmlStringValue(elem, 'Queue'),
+      queueArn: _s.extractXmlStringValue(elem, 'Queue')!,
       filter: _s
           .extractXmlChild(elem, 'Filter')
           ?.let((e) => NotificationConfigurationFilter.fromXml(e)),
@@ -19487,13 +23405,29 @@ class QueueConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final queueArn = this.queueArn;
+    final filter = this.filter;
+    final id = this.id;
+    return {
+      'Event': events.map((e) => e.toValue()).toList(),
+      'Queue': queueArn,
+      if (filter != null) 'Filter': filter,
+      if (id != null) 'Id': id,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final events = this.events;
+    final queueArn = this.queueArn;
+    final filter = this.filter;
+    final id = this.id;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Queue', queueArn),
-      ...events
-          ?.map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
-      if (filter != null) filter?.toXml('Filter'),
+      ...events.map((e) => _s.encodeXmlStringValue('Event', e.toValue())),
+      if (filter != null) filter.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19501,7 +23435,7 @@ class QueueConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19512,15 +23446,15 @@ class QueueConfiguration {
 /// publishing messages to an Amazon Simple Queue Service (Amazon SQS) queue
 /// when Amazon S3 detects specified events.
 class QueueConfigurationDeprecated {
-  final Event event;
+  final Event? event;
 
-  /// A collection of bucket events for which to send notifications
-  final List<Event> events;
-  final String id;
+  /// A collection of bucket events for which to send notifications.
+  final List<Event>? events;
+  final String? id;
 
   /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3
   /// publishes a message when it detects events of the specified type.
-  final String queue;
+  final String? queue;
 
   QueueConfigurationDeprecated({
     this.event,
@@ -19528,6 +23462,19 @@ class QueueConfigurationDeprecated {
     this.id,
     this.queue,
   });
+
+  factory QueueConfigurationDeprecated.fromJson(Map<String, dynamic> json) {
+    return QueueConfigurationDeprecated(
+      event: (json['Event'] as String?)?.toEvent(),
+      events: (json['Event'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEvent())
+          .toList(),
+      id: json['Id'] as String?,
+      queue: json['Queue'] as String?,
+    );
+  }
+
   factory QueueConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return QueueConfigurationDeprecated(
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
@@ -19540,13 +23487,29 @@ class QueueConfigurationDeprecated {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    final events = this.events;
+    final id = this.id;
+    final queue = this.queue;
+    return {
+      if (event != null) 'Event': event.toValue(),
+      if (events != null) 'Event': events.map((e) => e.toValue()).toList(),
+      if (id != null) 'Id': id,
+      if (queue != null) 'Queue': queue,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final event = this.event;
+    final events = this.events;
+    final id = this.id;
+    final queue = this.queue;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('Id', id),
       if (event != null) _s.encodeXmlStringValue('Event', event.toValue()),
       if (events != null)
-        ...events
-            .map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+        ...events.map((e) => _s.encodeXmlStringValue('Event', e.toValue())),
       if (queue != null) _s.encodeXmlStringValue('Queue', queue),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -19555,7 +23518,7 @@ class QueueConfigurationDeprecated {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19573,7 +23536,6 @@ extension on QuoteFields {
       case QuoteFields.asneeded:
         return 'ASNEEDED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -19585,22 +23547,36 @@ extension on String {
       case 'ASNEEDED':
         return QuoteFields.asneeded;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum QuoteFields');
   }
 }
 
 /// The container for the records event.
 class RecordsEvent {
   /// The byte array of partial, one or more result records.
-  final Uint8List payload;
+  final Uint8List? payload;
 
   RecordsEvent({
     this.payload,
   });
+
+  factory RecordsEvent.fromJson(Map<String, dynamic> json) {
+    return RecordsEvent(
+      payload: _s.decodeNullableUint8List(json['Payload'] as String?),
+    );
+  }
+
   factory RecordsEvent.fromXml(_s.XmlElement elem) {
     return RecordsEvent(
       payload: _s.extractXmlUint8ListValue(elem, 'Payload'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final payload = this.payload;
+    return {
+      if (payload != null) 'Payload': base64Encode(payload),
+    };
   }
 }
 
@@ -19608,15 +23584,15 @@ class RecordsEvent {
 /// specify a different error code to return.
 class Redirect {
   /// The host name to use in the redirect request.
-  final String hostName;
+  final String? hostName;
 
   /// The HTTP redirect code to use on the response. Not required if one of the
   /// siblings is present.
-  final String httpRedirectCode;
+  final String? httpRedirectCode;
 
   /// Protocol to use when redirecting requests. The default is the protocol that
   /// is used in the original request.
-  final Protocol protocol;
+  final Protocol? protocol;
 
   /// The object key prefix to use in the redirect request. For example, to
   /// redirect requests for all pages with prefix <code>docs/</code> (objects in
@@ -19625,13 +23601,25 @@ class Redirect {
   /// and in the Redirect set <code>ReplaceKeyPrefixWith</code> to
   /// <code>/documents</code>. Not required if one of the siblings is present. Can
   /// be present only if <code>ReplaceKeyWith</code> is not provided.
-  final String replaceKeyPrefixWith;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? replaceKeyPrefixWith;
 
   /// The specific object key to use in the redirect request. For example,
   /// redirect request to <code>error.html</code>. Not required if one of the
   /// siblings is present. Can be present only if
   /// <code>ReplaceKeyPrefixWith</code> is not provided.
-  final String replaceKeyWith;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? replaceKeyWith;
 
   Redirect({
     this.hostName,
@@ -19640,6 +23628,17 @@ class Redirect {
     this.replaceKeyPrefixWith,
     this.replaceKeyWith,
   });
+
+  factory Redirect.fromJson(Map<String, dynamic> json) {
+    return Redirect(
+      hostName: json['HostName'] as String?,
+      httpRedirectCode: json['HttpRedirectCode'] as String?,
+      protocol: (json['Protocol'] as String?)?.toProtocol(),
+      replaceKeyPrefixWith: json['ReplaceKeyPrefixWith'] as String?,
+      replaceKeyWith: json['ReplaceKeyWith'] as String?,
+    );
+  }
+
   factory Redirect.fromXml(_s.XmlElement elem) {
     return Redirect(
       hostName: _s.extractXmlStringValue(elem, 'HostName'),
@@ -19651,7 +23650,28 @@ class Redirect {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final hostName = this.hostName;
+    final httpRedirectCode = this.httpRedirectCode;
+    final protocol = this.protocol;
+    final replaceKeyPrefixWith = this.replaceKeyPrefixWith;
+    final replaceKeyWith = this.replaceKeyWith;
+    return {
+      if (hostName != null) 'HostName': hostName,
+      if (httpRedirectCode != null) 'HttpRedirectCode': httpRedirectCode,
+      if (protocol != null) 'Protocol': protocol.toValue(),
+      if (replaceKeyPrefixWith != null)
+        'ReplaceKeyPrefixWith': replaceKeyPrefixWith,
+      if (replaceKeyWith != null) 'ReplaceKeyWith': replaceKeyWith,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostName = this.hostName;
+    final httpRedirectCode = this.httpRedirectCode;
+    final protocol = this.protocol;
+    final replaceKeyPrefixWith = this.replaceKeyPrefixWith;
+    final replaceKeyWith = this.replaceKeyWith;
     final $children = <_s.XmlNode>[
       if (hostName != null) _s.encodeXmlStringValue('HostName', hostName),
       if (httpRedirectCode != null)
@@ -19669,7 +23689,7 @@ class Redirect {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19682,20 +23702,39 @@ class RedirectAllRequestsTo {
 
   /// Protocol to use when redirecting requests. The default is the protocol that
   /// is used in the original request.
-  final Protocol protocol;
+  final Protocol? protocol;
 
   RedirectAllRequestsTo({
-    @_s.required this.hostName,
+    required this.hostName,
     this.protocol,
   });
+
+  factory RedirectAllRequestsTo.fromJson(Map<String, dynamic> json) {
+    return RedirectAllRequestsTo(
+      hostName: json['HostName'] as String,
+      protocol: (json['Protocol'] as String?)?.toProtocol(),
+    );
+  }
+
   factory RedirectAllRequestsTo.fromXml(_s.XmlElement elem) {
     return RedirectAllRequestsTo(
-      hostName: _s.extractXmlStringValue(elem, 'HostName'),
+      hostName: _s.extractXmlStringValue(elem, 'HostName')!,
       protocol: _s.extractXmlStringValue(elem, 'Protocol')?.toProtocol(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final hostName = this.hostName;
+    final protocol = this.protocol;
+    return {
+      'HostName': hostName,
+      if (protocol != null) 'Protocol': protocol.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostName = this.hostName;
+    final protocol = this.protocol;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HostName', hostName),
       if (protocol != null)
@@ -19707,7 +23746,7 @@ class RedirectAllRequestsTo {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19727,19 +23766,34 @@ class ReplicaModifications {
   final ReplicaModificationsStatus status;
 
   ReplicaModifications({
-    @_s.required this.status,
+    required this.status,
   });
-  factory ReplicaModifications.fromXml(_s.XmlElement elem) {
+
+  factory ReplicaModifications.fromJson(Map<String, dynamic> json) {
     return ReplicaModifications(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toReplicaModificationsStatus(),
+      status: (json['Status'] as String).toReplicaModificationsStatus(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory ReplicaModifications.fromXml(_s.XmlElement elem) {
+    return ReplicaModifications(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .toReplicaModificationsStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19747,7 +23801,7 @@ class ReplicaModifications {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19765,7 +23819,6 @@ extension on ReplicaModificationsStatus {
       case ReplicaModificationsStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -19777,7 +23830,7 @@ extension on String {
       case 'Disabled':
         return ReplicaModificationsStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReplicaModificationsStatus');
   }
 }
 
@@ -19788,8 +23841,7 @@ class ReplicationConfiguration {
   /// (IAM) role that Amazon S3 assumes when replicating objects. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-how-setup.html">How
-  /// to Set Up Replication</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
+  /// to Set Up Replication</a> in the <i>Amazon S3 User Guide</i>.
   final String role;
 
   /// A container for one or more replication rules. A replication configuration
@@ -19797,12 +23849,23 @@ class ReplicationConfiguration {
   final List<ReplicationRule> rules;
 
   ReplicationConfiguration({
-    @_s.required this.role,
-    @_s.required this.rules,
+    required this.role,
+    required this.rules,
   });
+
+  factory ReplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ReplicationConfiguration(
+      role: json['Role'] as String,
+      rules: (json['Rule'] as List)
+          .whereNotNull()
+          .map((e) => ReplicationRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ReplicationConfiguration.fromXml(_s.XmlElement elem) {
     return ReplicationConfiguration(
-      role: _s.extractXmlStringValue(elem, 'Role'),
+      role: _s.extractXmlStringValue(elem, 'Role')!,
       rules: elem
           .findElements('Rule')
           .map((c) => ReplicationRule.fromXml(c))
@@ -19810,10 +23873,21 @@ class ReplicationConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final role = this.role;
+    final rules = this.rules;
+    return {
+      'Role': role,
+      'Rule': rules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final role = this.role;
+    final rules = this.rules;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Role', role),
-      ...rules?.map((e) => e?.toXml('Rule')),
+      ...rules.map((e) => e.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19821,7 +23895,7 @@ class ReplicationConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19835,19 +23909,25 @@ class ReplicationRule {
 
   /// Specifies whether the rule is enabled.
   final ReplicationRuleStatus status;
-  final DeleteMarkerReplication deleteMarkerReplication;
+  final DeleteMarkerReplication? deleteMarkerReplication;
 
   /// <p/>
-  final ExistingObjectReplication existingObjectReplication;
-  final ReplicationRuleFilter filter;
+  final ExistingObjectReplication? existingObjectReplication;
+  final ReplicationRuleFilter? filter;
 
   /// A unique identifier for the rule. The maximum value is 255 characters.
-  final String id;
+  final String? id;
 
   /// An object key name prefix that identifies the object or objects to which the
   /// rule applies. The maximum prefix length is 1,024 characters. To include all
   /// objects in a bucket, specify an empty string.
-  final String prefix;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? prefix;
 
   /// The priority indicates which rule has precedence whenever two or more
   /// replication rules conflict. Amazon S3 will attempt to replicate objects
@@ -19858,19 +23938,19 @@ class ReplicationRule {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/replication.html">Replication</a>
-  /// in the <i>Amazon Simple Storage Service Developer Guide</i>.
-  final int priority;
+  /// in the <i>Amazon S3 User Guide</i>.
+  final int? priority;
 
   /// A container that describes additional filters for identifying the source
   /// objects that you want to replicate. You can choose to enable or disable the
   /// replication of these objects. Currently, Amazon S3 supports only the filter
   /// that you can specify for objects created with server-side encryption using a
   /// customer master key (CMK) stored in AWS Key Management Service (SSE-KMS).
-  final SourceSelectionCriteria sourceSelectionCriteria;
+  final SourceSelectionCriteria? sourceSelectionCriteria;
 
   ReplicationRule({
-    @_s.required this.destination,
-    @_s.required this.status,
+    required this.destination,
+    required this.status,
     this.deleteMarkerReplication,
     this.existingObjectReplication,
     this.filter,
@@ -19879,13 +23959,40 @@ class ReplicationRule {
     this.priority,
     this.sourceSelectionCriteria,
   });
+
+  factory ReplicationRule.fromJson(Map<String, dynamic> json) {
+    return ReplicationRule(
+      destination:
+          Destination.fromJson(json['Destination'] as Map<String, dynamic>),
+      status: (json['Status'] as String).toReplicationRuleStatus(),
+      deleteMarkerReplication: json['DeleteMarkerReplication'] != null
+          ? DeleteMarkerReplication.fromJson(
+              json['DeleteMarkerReplication'] as Map<String, dynamic>)
+          : null,
+      existingObjectReplication: json['ExistingObjectReplication'] != null
+          ? ExistingObjectReplication.fromJson(
+              json['ExistingObjectReplication'] as Map<String, dynamic>)
+          : null,
+      filter: json['Filter'] != null
+          ? ReplicationRuleFilter.fromJson(
+              json['Filter'] as Map<String, dynamic>)
+          : null,
+      id: json['ID'] as String?,
+      prefix: json['Prefix'] as String?,
+      priority: json['Priority'] as int?,
+      sourceSelectionCriteria: json['SourceSelectionCriteria'] != null
+          ? SourceSelectionCriteria.fromJson(
+              json['SourceSelectionCriteria'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ReplicationRule.fromXml(_s.XmlElement elem) {
     return ReplicationRule(
-      destination: _s
-          .extractXmlChild(elem, 'Destination')
-          ?.let((e) => Destination.fromXml(e)),
+      destination:
+          Destination.fromXml(_s.extractXmlChild(elem, 'Destination')!),
       status:
-          _s.extractXmlStringValue(elem, 'Status')?.toReplicationRuleStatus(),
+          _s.extractXmlStringValue(elem, 'Status')!.toReplicationRuleStatus(),
       deleteMarkerReplication: _s
           .extractXmlChild(elem, 'DeleteMarkerReplication')
           ?.let((e) => DeleteMarkerReplication.fromXml(e)),
@@ -19904,20 +24011,55 @@ class ReplicationRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final status = this.status;
+    final deleteMarkerReplication = this.deleteMarkerReplication;
+    final existingObjectReplication = this.existingObjectReplication;
+    final filter = this.filter;
+    final id = this.id;
+    final prefix = this.prefix;
+    final priority = this.priority;
+    final sourceSelectionCriteria = this.sourceSelectionCriteria;
+    return {
+      'Destination': destination,
+      'Status': status.toValue(),
+      if (deleteMarkerReplication != null)
+        'DeleteMarkerReplication': deleteMarkerReplication,
+      if (existingObjectReplication != null)
+        'ExistingObjectReplication': existingObjectReplication,
+      if (filter != null) 'Filter': filter,
+      if (id != null) 'ID': id,
+      if (prefix != null) 'Prefix': prefix,
+      if (priority != null) 'Priority': priority,
+      if (sourceSelectionCriteria != null)
+        'SourceSelectionCriteria': sourceSelectionCriteria,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final destination = this.destination;
+    final status = this.status;
+    final deleteMarkerReplication = this.deleteMarkerReplication;
+    final existingObjectReplication = this.existingObjectReplication;
+    final filter = this.filter;
+    final id = this.id;
+    final prefix = this.prefix;
+    final priority = this.priority;
+    final sourceSelectionCriteria = this.sourceSelectionCriteria;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('ID', id),
       if (priority != null) _s.encodeXmlIntValue('Priority', priority),
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (filter != null) filter?.toXml('Filter'),
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      if (filter != null) filter.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
       if (sourceSelectionCriteria != null)
-        sourceSelectionCriteria?.toXml('SourceSelectionCriteria'),
+        sourceSelectionCriteria.toXml('SourceSelectionCriteria'),
       if (existingObjectReplication != null)
-        existingObjectReplication?.toXml('ExistingObjectReplication'),
-      destination?.toXml('Destination'),
+        existingObjectReplication.toXml('ExistingObjectReplication'),
+      destination.toXml('Destination'),
       if (deleteMarkerReplication != null)
-        deleteMarkerReplication?.toXml('DeleteMarkerReplication'),
+        deleteMarkerReplication.toXml('DeleteMarkerReplication'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19925,7 +24067,7 @@ class ReplicationRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19943,21 +24085,32 @@ class ReplicationRule {
 /// </li>
 /// <li>
 /// If you specify a filter based on multiple tags, wrap the <code>Tag</code>
-/// elements in an <code>And</code> tag
+/// elements in an <code>And</code> tag.
 /// </li>
 /// </ul>
 class ReplicationRuleAndOperator {
   /// An object key name prefix that identifies the subset of objects to which the
   /// rule applies.
-  final String prefix;
+  final String? prefix;
 
   /// An array of tags containing key and value pairs.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ReplicationRuleAndOperator({
     this.prefix,
     this.tags,
   });
+
+  factory ReplicationRuleAndOperator.fromJson(Map<String, dynamic> json) {
+    return ReplicationRuleAndOperator(
+      prefix: json['Prefix'] as String?,
+      tags: (json['Tag'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ReplicationRuleAndOperator.fromXml(_s.XmlElement elem) {
     return ReplicationRuleAndOperator(
       prefix: _s.extractXmlStringValue(elem, 'Prefix'),
@@ -19965,10 +24118,21 @@ class ReplicationRuleAndOperator {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    final tags = this.tags;
+    return {
+      if (prefix != null) 'Prefix': prefix,
+      if (tags != null) 'Tag': tags,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final tags = this.tags;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
+      if (tags != null) ...tags.map((e) => e.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19976,7 +24140,7 @@ class ReplicationRuleAndOperator {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -19999,22 +24163,42 @@ class ReplicationRuleFilter {
   /// elements in an <code>And</code> tag.
   /// </li>
   /// </ul>
-  final ReplicationRuleAndOperator and;
+  final ReplicationRuleAndOperator? and;
 
   /// An object key name prefix that identifies the subset of objects to which the
   /// rule applies.
-  final String prefix;
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
+  final String? prefix;
 
   /// A container for specifying a tag key and value.
   ///
   /// The rule applies only to objects that have the tag in their tag set.
-  final Tag tag;
+  final Tag? tag;
 
   ReplicationRuleFilter({
     this.and,
     this.prefix,
     this.tag,
   });
+
+  factory ReplicationRuleFilter.fromJson(Map<String, dynamic> json) {
+    return ReplicationRuleFilter(
+      and: json['And'] != null
+          ? ReplicationRuleAndOperator.fromJson(
+              json['And'] as Map<String, dynamic>)
+          : null,
+      prefix: json['Prefix'] as String?,
+      tag: json['Tag'] != null
+          ? Tag.fromJson(json['Tag'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory ReplicationRuleFilter.fromXml(_s.XmlElement elem) {
     return ReplicationRuleFilter(
       and: _s
@@ -20025,11 +24209,25 @@ class ReplicationRuleFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
+    return {
+      if (and != null) 'And': and,
+      if (prefix != null) 'Prefix': prefix,
+      if (tag != null) 'Tag': tag,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final and = this.and;
+    final prefix = this.prefix;
+    final tag = this.tag;
     final $children = <_s.XmlNode>[
       if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
-      if (tag != null) tag?.toXml('Tag'),
-      if (and != null) and?.toXml('And'),
+      if (tag != null) tag.toXml('Tag'),
+      if (and != null) and.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20037,7 +24235,7 @@ class ReplicationRuleFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20055,7 +24253,6 @@ extension on ReplicationRuleStatus {
       case ReplicationRuleStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -20067,7 +24264,7 @@ extension on String {
       case 'Disabled':
         return ReplicationRuleStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReplicationRuleStatus');
   }
 }
 
@@ -20090,7 +24287,6 @@ extension on ReplicationStatus {
       case ReplicationStatus.replica:
         return 'REPLICA';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -20106,7 +24302,7 @@ extension on String {
       case 'REPLICA':
         return ReplicationStatus.replica;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReplicationStatus');
   }
 }
 
@@ -20123,23 +24319,40 @@ class ReplicationTime {
   final ReplicationTimeValue time;
 
   ReplicationTime({
-    @_s.required this.status,
-    @_s.required this.time,
+    required this.status,
+    required this.time,
   });
-  factory ReplicationTime.fromXml(_s.XmlElement elem) {
+
+  factory ReplicationTime.fromJson(Map<String, dynamic> json) {
     return ReplicationTime(
-      status:
-          _s.extractXmlStringValue(elem, 'Status')?.toReplicationTimeStatus(),
-      time: _s
-          .extractXmlChild(elem, 'Time')
-          ?.let((e) => ReplicationTimeValue.fromXml(e)),
+      status: (json['Status'] as String).toReplicationTimeStatus(),
+      time: ReplicationTimeValue.fromJson(json['Time'] as Map<String, dynamic>),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory ReplicationTime.fromXml(_s.XmlElement elem) {
+    return ReplicationTime(
+      status:
+          _s.extractXmlStringValue(elem, 'Status')!.toReplicationTimeStatus(),
+      time: ReplicationTimeValue.fromXml(_s.extractXmlChild(elem, 'Time')!),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    final time = this.time;
+    return {
+      'Status': status.toValue(),
+      'Time': time,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
+    final time = this.time;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
-      time?.toXml('Time'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      time.toXml('Time'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20147,7 +24360,7 @@ class ReplicationTime {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20165,7 +24378,6 @@ extension on ReplicationTimeStatus {
       case ReplicationTimeStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -20177,7 +24389,7 @@ extension on String {
       case 'Disabled':
         return ReplicationTimeStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ReplicationTimeStatus');
   }
 }
 
@@ -20187,18 +24399,33 @@ class ReplicationTimeValue {
   /// Contains an integer specifying time in minutes.
   ///
   /// Valid values: 15 minutes.
-  final int minutes;
+  final int? minutes;
 
   ReplicationTimeValue({
     this.minutes,
   });
+
+  factory ReplicationTimeValue.fromJson(Map<String, dynamic> json) {
+    return ReplicationTimeValue(
+      minutes: json['Minutes'] as int?,
+    );
+  }
+
   factory ReplicationTimeValue.fromXml(_s.XmlElement elem) {
     return ReplicationTimeValue(
       minutes: _s.extractXmlIntValue(elem, 'Minutes'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final minutes = this.minutes;
+    return {
+      if (minutes != null) 'Minutes': minutes,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final minutes = this.minutes;
     final $children = <_s.XmlNode>[
       if (minutes != null) _s.encodeXmlIntValue('Minutes', minutes),
     ];
@@ -20208,7 +24435,7 @@ class ReplicationTimeValue {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20225,7 +24452,6 @@ extension on RequestCharged {
       case RequestCharged.requester:
         return 'requester';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -20235,7 +24461,7 @@ extension on String {
       case 'requester':
         return RequestCharged.requester;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RequestCharged');
   }
 }
 
@@ -20243,8 +24469,7 @@ extension on String {
 /// Bucket owners need not specify this parameter in their requests. For
 /// information about downloading objects from requester pays buckets, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html">Downloading
-/// Objects in Requestor Pays Buckets</a> in the <i>Amazon S3 Developer
-/// Guide</i>.
+/// Objects in Requestor Pays Buckets</a> in the <i>Amazon S3 User Guide</i>.
 enum RequestPayer {
   requester,
 }
@@ -20255,7 +24480,6 @@ extension on RequestPayer {
       case RequestPayer.requester:
         return 'requester';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -20265,7 +24489,7 @@ extension on String {
       case 'requester':
         return RequestPayer.requester;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RequestPayer');
   }
 }
 
@@ -20275,11 +24499,26 @@ class RequestPaymentConfiguration {
   final Payer payer;
 
   RequestPaymentConfiguration({
-    @_s.required this.payer,
+    required this.payer,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory RequestPaymentConfiguration.fromJson(Map<String, dynamic> json) {
+    return RequestPaymentConfiguration(
+      payer: (json['Payer'] as String).toPayer(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final payer = this.payer;
+    return {
+      'Payer': payer.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final payer = this.payer;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Payer', payer?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Payer', payer.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20287,7 +24526,7 @@ class RequestPaymentConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20297,12 +24536,27 @@ class RequestPaymentConfiguration {
 class RequestProgress {
   /// Specifies whether periodic QueryProgress frames should be sent. Valid
   /// values: TRUE, FALSE. Default value: FALSE.
-  final bool enabled;
+  final bool? enabled;
 
   RequestProgress({
     this.enabled,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory RequestProgress.fromJson(Map<String, dynamic> json) {
+    return RequestProgress(
+      enabled: json['Enabled'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      if (enabled != null) 'Enabled': enabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final enabled = this.enabled;
     final $children = <_s.XmlNode>[
       if (enabled != null) _s.encodeXmlBoolValue('Enabled', enabled),
     ];
@@ -20312,22 +24566,36 @@ class RequestProgress {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class RestoreObjectOutput {
-  final RequestCharged requestCharged;
+  final RequestCharged? requestCharged;
 
   /// Indicates the path in the provided S3 output location where Select results
   /// will be restored to.
-  final String restoreOutputPath;
+  final String? restoreOutputPath;
 
   RestoreObjectOutput({
     this.requestCharged,
     this.restoreOutputPath,
   });
+
+  factory RestoreObjectOutput.fromJson(Map<String, dynamic> json) {
+    return RestoreObjectOutput(
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      restoreOutputPath: json['x-amz-restore-output-path'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requestCharged = this.requestCharged;
+    final restoreOutputPath = this.restoreOutputPath;
+    return {};
+  }
 }
 
 /// Container for restore job parameters.
@@ -20337,26 +24605,26 @@ class RestoreRequest {
   ///
   /// The Days element is required for regular restores, and must not be provided
   /// for select requests.
-  final int days;
+  final int? days;
 
   /// The optional description for the job.
-  final String description;
+  final String? description;
 
   /// S3 Glacier related parameters pertaining to this job. Do not use with
   /// restores that specify <code>OutputLocation</code>.
-  final GlacierJobParameters glacierJobParameters;
+  final GlacierJobParameters? glacierJobParameters;
 
   /// Describes the location where the restore job's output is stored.
-  final OutputLocation outputLocation;
+  final OutputLocation? outputLocation;
 
   /// Describes the parameters for Select job types.
-  final SelectParameters selectParameters;
+  final SelectParameters? selectParameters;
 
   /// Retrieval tier at which the restore will be processed.
-  final Tier tier;
+  final Tier? tier;
 
   /// Type of restore request.
-  final RestoreRequestType type;
+  final RestoreRequestType? type;
 
   RestoreRequest({
     this.days,
@@ -20367,17 +24635,66 @@ class RestoreRequest {
     this.tier,
     this.type,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory RestoreRequest.fromJson(Map<String, dynamic> json) {
+    return RestoreRequest(
+      days: json['Days'] as int?,
+      description: json['Description'] as String?,
+      glacierJobParameters: json['GlacierJobParameters'] != null
+          ? GlacierJobParameters.fromJson(
+              json['GlacierJobParameters'] as Map<String, dynamic>)
+          : null,
+      outputLocation: json['OutputLocation'] != null
+          ? OutputLocation.fromJson(
+              json['OutputLocation'] as Map<String, dynamic>)
+          : null,
+      selectParameters: json['SelectParameters'] != null
+          ? SelectParameters.fromJson(
+              json['SelectParameters'] as Map<String, dynamic>)
+          : null,
+      tier: (json['Tier'] as String?)?.toTier(),
+      type: (json['Type'] as String?)?.toRestoreRequestType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final days = this.days;
+    final description = this.description;
+    final glacierJobParameters = this.glacierJobParameters;
+    final outputLocation = this.outputLocation;
+    final selectParameters = this.selectParameters;
+    final tier = this.tier;
+    final type = this.type;
+    return {
+      if (days != null) 'Days': days,
+      if (description != null) 'Description': description,
+      if (glacierJobParameters != null)
+        'GlacierJobParameters': glacierJobParameters,
+      if (outputLocation != null) 'OutputLocation': outputLocation,
+      if (selectParameters != null) 'SelectParameters': selectParameters,
+      if (tier != null) 'Tier': tier.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final days = this.days;
+    final description = this.description;
+    final glacierJobParameters = this.glacierJobParameters;
+    final outputLocation = this.outputLocation;
+    final selectParameters = this.selectParameters;
+    final tier = this.tier;
+    final type = this.type;
     final $children = <_s.XmlNode>[
       if (days != null) _s.encodeXmlIntValue('Days', days),
       if (glacierJobParameters != null)
-        glacierJobParameters?.toXml('GlacierJobParameters'),
+        glacierJobParameters.toXml('GlacierJobParameters'),
       if (type != null) _s.encodeXmlStringValue('Type', type.toValue()),
       if (tier != null) _s.encodeXmlStringValue('Tier', tier.toValue()),
       if (description != null)
         _s.encodeXmlStringValue('Description', description),
-      if (selectParameters != null) selectParameters?.toXml('SelectParameters'),
-      if (outputLocation != null) outputLocation?.toXml('OutputLocation'),
+      if (selectParameters != null) selectParameters.toXml('SelectParameters'),
+      if (outputLocation != null) outputLocation.toXml('OutputLocation'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20385,7 +24702,7 @@ class RestoreRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20400,7 +24717,6 @@ extension on RestoreRequestType {
       case RestoreRequestType.select:
         return 'SELECT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -20410,15 +24726,14 @@ extension on String {
       case 'SELECT':
         return RestoreRequestType.select;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RestoreRequestType');
   }
 }
 
 /// Specifies the redirect behavior and when a redirect is applied. For more
 /// information about routing rules, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html#advanced-conditional-redirects">Configuring
-/// advanced conditional redirects</a> in the <i>Amazon Simple Storage Service
-/// Developer Guide</i>.
+/// advanced conditional redirects</a> in the <i>Amazon S3 User Guide</i>.
 class RoutingRule {
   /// Container for redirect information. You can redirect requests to another
   /// host, to another page, or with another protocol. In the event of an error,
@@ -20430,26 +24745,46 @@ class RoutingRule {
   /// <code>/docs</code> folder, redirect to the <code>/documents</code> folder.
   /// 2. If request results in HTTP error 4xx, redirect request to another host
   /// where you might process the error.
-  final Condition condition;
+  final Condition? condition;
 
   RoutingRule({
-    @_s.required this.redirect,
+    required this.redirect,
     this.condition,
   });
+
+  factory RoutingRule.fromJson(Map<String, dynamic> json) {
+    return RoutingRule(
+      redirect: Redirect.fromJson(json['Redirect'] as Map<String, dynamic>),
+      condition: json['Condition'] != null
+          ? Condition.fromJson(json['Condition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory RoutingRule.fromXml(_s.XmlElement elem) {
     return RoutingRule(
-      redirect:
-          _s.extractXmlChild(elem, 'Redirect')?.let((e) => Redirect.fromXml(e)),
+      redirect: Redirect.fromXml(_s.extractXmlChild(elem, 'Redirect')!),
       condition: _s
           .extractXmlChild(elem, 'Condition')
           ?.let((e) => Condition.fromXml(e)),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final redirect = this.redirect;
+    final condition = this.condition;
+    return {
+      'Redirect': redirect,
+      if (condition != null) 'Condition': condition,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final redirect = this.redirect;
+    final condition = this.condition;
     final $children = <_s.XmlNode>[
-      if (condition != null) condition?.toXml('Condition'),
-      redirect?.toXml('Redirect'),
+      if (condition != null) condition.toXml('Condition'),
+      redirect.toXml('Redirect'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20457,7 +24792,7 @@ class RoutingRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20465,39 +24800,44 @@ class RoutingRule {
 /// Specifies lifecycle rules for an Amazon S3 bucket. For more information, see
 /// <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTlifecycle.html">Put
-/// Bucket Lifecycle Configuration</a> in the <i>Amazon Simple Storage Service
-/// API Reference</i>. For examples, see <a
+/// Bucket Lifecycle Configuration</a> in the <i>Amazon S3 API Reference</i>.
+/// For examples, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html#API_PutBucketLifecycleConfiguration_Examples">Put
-/// Bucket Lifecycle Configuration Examples</a>
+/// Bucket Lifecycle Configuration Examples</a>.
 class Rule {
   /// Object key prefix that identifies one or more objects to which this rule
   /// applies.
+  /// <important>
+  /// Replacement must be made for object keys containing special characters (such
+  /// as carriage returns) when using XML requests. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-xml-related-constraints">
+  /// XML related object key constraints</a>.
+  /// </important>
   final String prefix;
 
   /// If <code>Enabled</code>, the rule is currently being applied. If
   /// <code>Disabled</code>, the rule is not currently being applied.
   final ExpirationStatus status;
-  final AbortIncompleteMultipartUpload abortIncompleteMultipartUpload;
+  final AbortIncompleteMultipartUpload? abortIncompleteMultipartUpload;
 
   /// Specifies the expiration for the lifecycle of the object.
-  final LifecycleExpiration expiration;
+  final LifecycleExpiration? expiration;
 
   /// Unique identifier for the rule. The value can't be longer than 255
   /// characters.
-  final String id;
-  final NoncurrentVersionExpiration noncurrentVersionExpiration;
-  final NoncurrentVersionTransition noncurrentVersionTransition;
+  final String? id;
+  final NoncurrentVersionExpiration? noncurrentVersionExpiration;
+  final NoncurrentVersionTransition? noncurrentVersionTransition;
 
   /// Specifies when an object transitions to a specified storage class. For more
   /// information about Amazon S3 lifecycle configuration rules, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">Transitioning
-  /// Objects Using Amazon S3 Lifecycle</a> in the <i>Amazon Simple Storage
-  /// Service Developer Guide</i>.
-  final Transition transition;
+  /// Objects Using Amazon S3 Lifecycle</a> in the <i>Amazon S3 User Guide</i>.
+  final Transition? transition;
 
   Rule({
-    @_s.required this.prefix,
-    @_s.required this.status,
+    required this.prefix,
+    required this.status,
     this.abortIncompleteMultipartUpload,
     this.expiration,
     this.id,
@@ -20505,10 +24845,39 @@ class Rule {
     this.noncurrentVersionTransition,
     this.transition,
   });
+
+  factory Rule.fromJson(Map<String, dynamic> json) {
+    return Rule(
+      prefix: json['Prefix'] as String,
+      status: (json['Status'] as String).toExpirationStatus(),
+      abortIncompleteMultipartUpload: json['AbortIncompleteMultipartUpload'] !=
+              null
+          ? AbortIncompleteMultipartUpload.fromJson(
+              json['AbortIncompleteMultipartUpload'] as Map<String, dynamic>)
+          : null,
+      expiration: json['Expiration'] != null
+          ? LifecycleExpiration.fromJson(
+              json['Expiration'] as Map<String, dynamic>)
+          : null,
+      id: json['ID'] as String?,
+      noncurrentVersionExpiration: json['NoncurrentVersionExpiration'] != null
+          ? NoncurrentVersionExpiration.fromJson(
+              json['NoncurrentVersionExpiration'] as Map<String, dynamic>)
+          : null,
+      noncurrentVersionTransition: json['NoncurrentVersionTransition'] != null
+          ? NoncurrentVersionTransition.fromJson(
+              json['NoncurrentVersionTransition'] as Map<String, dynamic>)
+          : null,
+      transition: json['Transition'] != null
+          ? Transition.fromJson(json['Transition'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory Rule.fromXml(_s.XmlElement elem) {
     return Rule(
-      prefix: _s.extractXmlStringValue(elem, 'Prefix'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toExpirationStatus(),
+      prefix: _s.extractXmlStringValue(elem, 'Prefix')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toExpirationStatus(),
       abortIncompleteMultipartUpload: _s
           .extractXmlChild(elem, 'AbortIncompleteMultipartUpload')
           ?.let((e) => AbortIncompleteMultipartUpload.fromXml(e)),
@@ -20528,19 +24897,51 @@ class Rule {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final prefix = this.prefix;
+    final status = this.status;
+    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
+    final expiration = this.expiration;
+    final id = this.id;
+    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
+    final noncurrentVersionTransition = this.noncurrentVersionTransition;
+    final transition = this.transition;
+    return {
+      'Prefix': prefix,
+      'Status': status.toValue(),
+      if (abortIncompleteMultipartUpload != null)
+        'AbortIncompleteMultipartUpload': abortIncompleteMultipartUpload,
+      if (expiration != null) 'Expiration': expiration,
+      if (id != null) 'ID': id,
+      if (noncurrentVersionExpiration != null)
+        'NoncurrentVersionExpiration': noncurrentVersionExpiration,
+      if (noncurrentVersionTransition != null)
+        'NoncurrentVersionTransition': noncurrentVersionTransition,
+      if (transition != null) 'Transition': transition,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final prefix = this.prefix;
+    final status = this.status;
+    final abortIncompleteMultipartUpload = this.abortIncompleteMultipartUpload;
+    final expiration = this.expiration;
+    final id = this.id;
+    final noncurrentVersionExpiration = this.noncurrentVersionExpiration;
+    final noncurrentVersionTransition = this.noncurrentVersionTransition;
+    final transition = this.transition;
     final $children = <_s.XmlNode>[
-      if (expiration != null) expiration?.toXml('Expiration'),
+      if (expiration != null) expiration.toXml('Expiration'),
       if (id != null) _s.encodeXmlStringValue('ID', id),
       _s.encodeXmlStringValue('Prefix', prefix),
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
-      if (transition != null) transition?.toXml('Transition'),
+      _s.encodeXmlStringValue('Status', status.toValue()),
+      if (transition != null) transition.toXml('Transition'),
       if (noncurrentVersionTransition != null)
-        noncurrentVersionTransition?.toXml('NoncurrentVersionTransition'),
+        noncurrentVersionTransition.toXml('NoncurrentVersionTransition'),
       if (noncurrentVersionExpiration != null)
-        noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
+        noncurrentVersionExpiration.toXml('NoncurrentVersionExpiration'),
       if (abortIncompleteMultipartUpload != null)
-        abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
+        abortIncompleteMultipartUpload.toXml('AbortIncompleteMultipartUpload'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20548,18 +24949,28 @@ class Rule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 /// A container for object key name prefix and suffix filtering rules.
 class S3KeyFilter {
-  final List<FilterRule> filterRules;
+  final List<FilterRule>? filterRules;
 
   S3KeyFilter({
     this.filterRules,
   });
+
+  factory S3KeyFilter.fromJson(Map<String, dynamic> json) {
+    return S3KeyFilter(
+      filterRules: (json['FilterRule'] as List?)
+          ?.whereNotNull()
+          .map((e) => FilterRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory S3KeyFilter.fromXml(_s.XmlElement elem) {
     return S3KeyFilter(
       filterRules: elem
@@ -20569,10 +24980,17 @@ class S3KeyFilter {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final filterRules = this.filterRules;
+    return {
+      if (filterRules != null) 'FilterRule': filterRules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final filterRules = this.filterRules;
     final $children = <_s.XmlNode>[
-      if (filterRules != null)
-        ...filterRules.map((e) => e?.toXml('FilterRule')),
+      if (filterRules != null) ...filterRules.map((e) => e.toXml('FilterRule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20580,7 +24998,7 @@ class S3KeyFilter {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20595,24 +25013,24 @@ class S3Location {
   final String prefix;
 
   /// A list of grants that control access to the staged results.
-  final List<Grant> accessControlList;
+  final List<Grant>? accessControlList;
 
   /// The canned ACL to apply to the restore results.
-  final ObjectCannedACL cannedACL;
-  final Encryption encryption;
+  final ObjectCannedACL? cannedACL;
+  final Encryption? encryption;
 
   /// The class of storage used to store the restore results.
-  final StorageClass storageClass;
+  final StorageClass? storageClass;
 
   /// The tag-set that is applied to the restore results.
-  final Tagging tagging;
+  final Tagging? tagging;
 
   /// A list of metadata to store with the restore results in S3.
-  final List<MetadataEntry> userMetadata;
+  final List<MetadataEntry>? userMetadata;
 
   S3Location({
-    @_s.required this.bucketName,
-    @_s.required this.prefix,
+    required this.bucketName,
+    required this.prefix,
     this.accessControlList,
     this.cannedACL,
     this.encryption,
@@ -20620,20 +25038,73 @@ class S3Location {
     this.tagging,
     this.userMetadata,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory S3Location.fromJson(Map<String, dynamic> json) {
+    return S3Location(
+      bucketName: json['BucketName'] as String,
+      prefix: json['Prefix'] as String,
+      accessControlList: (json['AccessControlList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Grant.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cannedACL: (json['CannedACL'] as String?)?.toObjectCannedACL(),
+      encryption: json['Encryption'] != null
+          ? Encryption.fromJson(json['Encryption'] as Map<String, dynamic>)
+          : null,
+      storageClass: (json['StorageClass'] as String?)?.toStorageClass(),
+      tagging: json['Tagging'] != null
+          ? Tagging.fromJson(json['Tagging'] as Map<String, dynamic>)
+          : null,
+      userMetadata: (json['UserMetadata'] as List?)
+          ?.whereNotNull()
+          .map((e) => MetadataEntry.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    final accessControlList = this.accessControlList;
+    final cannedACL = this.cannedACL;
+    final encryption = this.encryption;
+    final storageClass = this.storageClass;
+    final tagging = this.tagging;
+    final userMetadata = this.userMetadata;
+    return {
+      'BucketName': bucketName,
+      'Prefix': prefix,
+      if (accessControlList != null) 'AccessControlList': accessControlList,
+      if (cannedACL != null) 'CannedACL': cannedACL.toValue(),
+      if (encryption != null) 'Encryption': encryption,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+      if (tagging != null) 'Tagging': tagging,
+      if (userMetadata != null) 'UserMetadata': userMetadata,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucketName = this.bucketName;
+    final prefix = this.prefix;
+    final accessControlList = this.accessControlList;
+    final cannedACL = this.cannedACL;
+    final encryption = this.encryption;
+    final storageClass = this.storageClass;
+    final tagging = this.tagging;
+    final userMetadata = this.userMetadata;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('BucketName', bucketName),
       _s.encodeXmlStringValue('Prefix', prefix),
-      if (encryption != null) encryption?.toXml('Encryption'),
+      if (encryption != null) encryption.toXml('Encryption'),
       if (cannedACL != null)
         _s.encodeXmlStringValue('CannedACL', cannedACL.toValue()),
       if (accessControlList != null)
         _s.XmlElement(_s.XmlName('AccessControlList'), [],
-            accessControlList.map((e) => e?.toXml('Grant'))),
-      if (tagging != null) tagging?.toXml('Tagging'),
+            accessControlList.map((e) => e.toXml('Grant'))),
+      if (tagging != null) tagging.toXml('Tagging'),
       if (userMetadata != null)
         _s.XmlElement(_s.XmlName('UserMetadata'), [],
-            userMetadata.map((e) => e?.toXml('MetadataEntry'))),
+            userMetadata.map((e) => e.toXml('MetadataEntry'))),
       if (storageClass != null)
         _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
     ];
@@ -20643,7 +25114,7 @@ class S3Location {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20656,15 +25127,30 @@ class SSEKMS {
   final String keyId;
 
   SSEKMS({
-    @_s.required this.keyId,
+    required this.keyId,
   });
-  factory SSEKMS.fromXml(_s.XmlElement elem) {
+
+  factory SSEKMS.fromJson(Map<String, dynamic> json) {
     return SSEKMS(
-      keyId: _s.extractXmlStringValue(elem, 'KeyId'),
+      keyId: json['KeyId'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory SSEKMS.fromXml(_s.XmlElement elem) {
+    return SSEKMS(
+      keyId: _s.extractXmlStringValue(elem, 'KeyId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyId = this.keyId;
+    return {
+      'KeyId': keyId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final keyId = this.keyId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('KeyId', keyId),
     ];
@@ -20674,7 +25160,7 @@ class SSEKMS {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20682,13 +25168,22 @@ class SSEKMS {
 /// Specifies the use of SSE-S3 to encrypt delivered inventory reports.
 class SSES3 {
   SSES3();
+
+  factory SSES3.fromJson(Map<String, dynamic> _) {
+    return SSES3();
+  }
+
   factory SSES3.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return SSES3();
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
     final $children = <_s.XmlNode>[];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20696,7 +25191,7 @@ class SSES3 {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20712,20 +25207,39 @@ class ScanRange {
   /// interpreted to mean scan the last N bytes of the file. For example,
   /// <code>&lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt;</code>
   /// means scan the last 50 bytes.
-  final int end;
+  final int? end;
 
   /// Specifies the start of the byte range. This parameter is optional. Valid
   /// values: non-negative integers. The default value is 0. If only start is
   /// supplied, it means scan from that point to the end of the file.For example;
   /// <code>&lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt;</code>
   /// means scan from byte 50 until the end of the file.
-  final int start;
+  final int? start;
 
   ScanRange({
     this.end,
     this.start,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ScanRange.fromJson(Map<String, dynamic> json) {
+    return ScanRange(
+      end: json['End'] as int?,
+      start: json['Start'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final end = this.end;
+    final start = this.start;
+    return {
+      if (end != null) 'End': end,
+      if (start != null) 'Start': start,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final end = this.end;
+    final start = this.start;
     final $children = <_s.XmlNode>[
       if (start != null) _s.encodeXmlIntValue('Start', start),
       if (end != null) _s.encodeXmlIntValue('End', end),
@@ -20736,7 +25250,7 @@ class ScanRange {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20744,19 +25258,19 @@ class ScanRange {
 /// The container for selecting objects from a content event stream.
 class SelectObjectContentEventStream {
   /// The Continuation Event.
-  final ContinuationEvent cont;
+  final ContinuationEvent? cont;
 
   /// The End Event.
-  final EndEvent end;
+  final EndEvent? end;
 
   /// The Progress Event.
-  final ProgressEvent progress;
+  final ProgressEvent? progress;
 
   /// The Records Event.
-  final RecordsEvent records;
+  final RecordsEvent? records;
 
   /// The Stats Event.
-  final StatsEvent stats;
+  final StatsEvent? stats;
 
   SelectObjectContentEventStream({
     this.cont,
@@ -20765,6 +25279,27 @@ class SelectObjectContentEventStream {
     this.records,
     this.stats,
   });
+
+  factory SelectObjectContentEventStream.fromJson(Map<String, dynamic> json) {
+    return SelectObjectContentEventStream(
+      cont: json['Cont'] != null
+          ? ContinuationEvent.fromJson(json['Cont'] as Map<String, dynamic>)
+          : null,
+      end: json['End'] != null
+          ? EndEvent.fromJson(json['End'] as Map<String, dynamic>)
+          : null,
+      progress: json['Progress'] != null
+          ? ProgressEvent.fromJson(json['Progress'] as Map<String, dynamic>)
+          : null,
+      records: json['Records'] != null
+          ? RecordsEvent.fromJson(json['Records'] as Map<String, dynamic>)
+          : null,
+      stats: json['Stats'] != null
+          ? StatsEvent.fromJson(json['Stats'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory SelectObjectContentEventStream.fromXml(_s.XmlElement elem) {
     return SelectObjectContentEventStream(
       cont: _s
@@ -20781,19 +25316,45 @@ class SelectObjectContentEventStream {
           _s.extractXmlChild(elem, 'Stats')?.let((e) => StatsEvent.fromXml(e)),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final cont = this.cont;
+    final end = this.end;
+    final progress = this.progress;
+    final records = this.records;
+    final stats = this.stats;
+    return {
+      if (cont != null) 'Cont': cont,
+      if (end != null) 'End': end,
+      if (progress != null) 'Progress': progress,
+      if (records != null) 'Records': records,
+      if (stats != null) 'Stats': stats,
+    };
+  }
 }
 
 class SelectObjectContentOutput {
   /// The array of results.
-  final SelectObjectContentEventStream payload;
+  final SelectObjectContentEventStream? payload;
 
   SelectObjectContentOutput({
     this.payload,
   });
-  factory SelectObjectContentOutput.fromXml(_s.XmlElement elem) {
+
+  factory SelectObjectContentOutput.fromJson(Map<String, dynamic> json) {
     return SelectObjectContentOutput(
-      payload: elem?.let((e) => SelectObjectContentEventStream.fromXml(e)),
+      payload: json['Payload'] != null
+          ? SelectObjectContentEventStream.fromJson(
+              json['Payload'] as Map<String, dynamic>)
+          : null,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final payload = this.payload;
+    return {
+      if (payload != null) 'Payload': payload,
+    };
   }
 }
 
@@ -20826,28 +25387,28 @@ class SelectObjectContentRequest {
   /// response.
   final OutputSerialization outputSerialization;
 
-  /// The account id of the expected bucket owner. If the bucket is owned by a
+  /// The account ID of the expected bucket owner. If the bucket is owned by a
   /// different account, the request will fail with an HTTP <code>403 (Access
   /// Denied)</code> error.
-  final String expectedBucketOwner;
+  final String? expectedBucketOwner;
 
   /// Specifies if periodic request progress information should be enabled.
-  final RequestProgress requestProgress;
+  final RequestProgress? requestProgress;
 
   /// The SSE Algorithm used to encrypt the object. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
   /// Encryption (Using Customer-Provided Encryption Keys</a>.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// The SSE Customer Key. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
   /// Encryption (Using Customer-Provided Encryption Keys</a>.
-  final Uint8List sSECustomerKey;
+  final Uint8List? sSECustomerKey;
 
   /// The SSE Customer Key MD5. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html">Server-Side
   /// Encryption (Using Customer-Provided Encryption Keys</a>.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// Specifies the byte range of the object to get the records from. A record is
   /// processed when its first byte is contained by the range. This parameter is
@@ -20871,15 +25432,15 @@ class SelectObjectContentRequest {
   /// process only the records within the last 50 bytes of the file.
   /// </li>
   /// </ul>
-  final ScanRange scanRange;
+  final ScanRange? scanRange;
 
   SelectObjectContentRequest({
-    @_s.required this.bucket,
-    @_s.required this.expression,
-    @_s.required this.expressionType,
-    @_s.required this.inputSerialization,
-    @_s.required this.key,
-    @_s.required this.outputSerialization,
+    required this.bucket,
+    required this.expression,
+    required this.expressionType,
+    required this.inputSerialization,
+    required this.key,
+    required this.outputSerialization,
     this.expectedBucketOwner,
     this.requestProgress,
     this.sSECustomerAlgorithm,
@@ -20887,15 +25448,77 @@ class SelectObjectContentRequest {
     this.sSECustomerKeyMD5,
     this.scanRange,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory SelectObjectContentRequest.fromJson(Map<String, dynamic> json) {
+    return SelectObjectContentRequest(
+      bucket: json['Bucket'] as String,
+      expression: json['Expression'] as String,
+      expressionType: (json['ExpressionType'] as String).toExpressionType(),
+      inputSerialization: InputSerialization.fromJson(
+          json['InputSerialization'] as Map<String, dynamic>),
+      key: json['Key'] as String,
+      outputSerialization: OutputSerialization.fromJson(
+          json['OutputSerialization'] as Map<String, dynamic>),
+      expectedBucketOwner: json['x-amz-expected-bucket-owner'] as String?,
+      requestProgress: json['RequestProgress'] != null
+          ? RequestProgress.fromJson(
+              json['RequestProgress'] as Map<String, dynamic>)
+          : null,
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKey: _s.decodeNullableUint8List(
+          json['x-amz-server-side-encryption-customer-key'] as String?),
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      scanRange: json['ScanRange'] != null
+          ? ScanRange.fromJson(json['ScanRange'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucket = this.bucket;
+    final expression = this.expression;
+    final expressionType = this.expressionType;
+    final inputSerialization = this.inputSerialization;
+    final key = this.key;
+    final outputSerialization = this.outputSerialization;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final requestProgress = this.requestProgress;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKey = this.sSECustomerKey;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final scanRange = this.scanRange;
+    return {
+      'Expression': expression,
+      'ExpressionType': expressionType.toValue(),
+      'InputSerialization': inputSerialization,
+      'OutputSerialization': outputSerialization,
+      if (requestProgress != null) 'RequestProgress': requestProgress,
+      if (scanRange != null) 'ScanRange': scanRange,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final bucket = this.bucket;
+    final expression = this.expression;
+    final expressionType = this.expressionType;
+    final inputSerialization = this.inputSerialization;
+    final key = this.key;
+    final outputSerialization = this.outputSerialization;
+    final expectedBucketOwner = this.expectedBucketOwner;
+    final requestProgress = this.requestProgress;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKey = this.sSECustomerKey;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final scanRange = this.scanRange;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Expression', expression),
-      _s.encodeXmlStringValue(
-          'ExpressionType', expressionType?.toValue() ?? ''),
-      if (requestProgress != null) requestProgress?.toXml('RequestProgress'),
-      inputSerialization?.toXml('InputSerialization'),
-      outputSerialization?.toXml('OutputSerialization'),
-      if (scanRange != null) scanRange?.toXml('ScanRange'),
+      _s.encodeXmlStringValue('ExpressionType', expressionType.toValue()),
+      if (requestProgress != null) requestProgress.toXml('RequestProgress'),
+      inputSerialization.toXml('InputSerialization'),
+      outputSerialization.toXml('OutputSerialization'),
+      if (scanRange != null) scanRange.toXml('ScanRange'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20903,7 +25526,7 @@ class SelectObjectContentRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20923,18 +25546,46 @@ class SelectParameters {
   final OutputSerialization outputSerialization;
 
   SelectParameters({
-    @_s.required this.expression,
-    @_s.required this.expressionType,
-    @_s.required this.inputSerialization,
-    @_s.required this.outputSerialization,
+    required this.expression,
+    required this.expressionType,
+    required this.inputSerialization,
+    required this.outputSerialization,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory SelectParameters.fromJson(Map<String, dynamic> json) {
+    return SelectParameters(
+      expression: json['Expression'] as String,
+      expressionType: (json['ExpressionType'] as String).toExpressionType(),
+      inputSerialization: InputSerialization.fromJson(
+          json['InputSerialization'] as Map<String, dynamic>),
+      outputSerialization: OutputSerialization.fromJson(
+          json['OutputSerialization'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final expression = this.expression;
+    final expressionType = this.expressionType;
+    final inputSerialization = this.inputSerialization;
+    final outputSerialization = this.outputSerialization;
+    return {
+      'Expression': expression,
+      'ExpressionType': expressionType.toValue(),
+      'InputSerialization': inputSerialization,
+      'OutputSerialization': outputSerialization,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final expression = this.expression;
+    final expressionType = this.expressionType;
+    final inputSerialization = this.inputSerialization;
+    final outputSerialization = this.outputSerialization;
     final $children = <_s.XmlNode>[
-      inputSerialization?.toXml('InputSerialization'),
-      _s.encodeXmlStringValue(
-          'ExpressionType', expressionType?.toValue() ?? ''),
+      inputSerialization.toXml('InputSerialization'),
+      _s.encodeXmlStringValue('ExpressionType', expressionType.toValue()),
       _s.encodeXmlStringValue('Expression', expression),
-      outputSerialization?.toXml('OutputSerialization'),
+      outputSerialization.toXml('OutputSerialization'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -20942,7 +25593,7 @@ class SelectParameters {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -20960,7 +25611,6 @@ extension on ServerSideEncryption {
       case ServerSideEncryption.awsKms:
         return 'aws:kms';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -20972,7 +25622,7 @@ extension on String {
       case 'aws:kms':
         return ServerSideEncryption.awsKms;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ServerSideEncryption');
   }
 }
 
@@ -20980,19 +25630,18 @@ extension on String {
 /// bucket. If a PUT Object request doesn't specify any server-side encryption,
 /// this default encryption will be applied. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTencryption.html">PUT
-/// Bucket encryption</a> in the <i>Amazon Simple Storage Service API
-/// Reference</i>.
+/// Bucket encryption</a> in the <i>Amazon S3 API Reference</i>.
 class ServerSideEncryptionByDefault {
   /// Server-side encryption algorithm to use for the default encryption.
   final ServerSideEncryption sSEAlgorithm;
 
-  /// AWS Key Management Service (KMS) customer master key ID to use for the
+  /// AWS Key Management Service (KMS) customer AWS KMS key ID to use for the
   /// default encryption. This parameter is allowed if and only if
   /// <code>SSEAlgorithm</code> is set to <code>aws:kms</code>.
   ///
-  /// You can specify the key ID or the Amazon Resource Name (ARN) of the CMK.
+  /// You can specify the key ID or the Amazon Resource Name (ARN) of the KMS key.
   /// However, if you are using encryption with cross-account operations, you must
-  /// use a fully qualified CMK ARN. For more information, see <a
+  /// use a fully qualified KMS key ARN. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html#bucket-encryption-update-bucket-policy">Using
   /// encryption for cross-account operations</a>.
   ///
@@ -21007,30 +25656,49 @@ class ServerSideEncryptionByDefault {
   /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
   /// </li>
   /// </ul> <important>
-  /// Amazon S3 only supports symmetric CMKs and not asymmetric CMKs. For more
-  /// information, see <a
+  /// Amazon S3 only supports symmetric KMS keys and not asymmetric KMS keys. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html">Using
-  /// Symmetric and Asymmetric Keys</a> in the <i>AWS Key Management Service
+  /// symmetric and asymmetric keys</a> in the <i>AWS Key Management Service
   /// Developer Guide</i>.
   /// </important>
-  final String kMSMasterKeyID;
+  final String? kMSMasterKeyID;
 
   ServerSideEncryptionByDefault({
-    @_s.required this.sSEAlgorithm,
+    required this.sSEAlgorithm,
     this.kMSMasterKeyID,
   });
+
+  factory ServerSideEncryptionByDefault.fromJson(Map<String, dynamic> json) {
+    return ServerSideEncryptionByDefault(
+      sSEAlgorithm: (json['SSEAlgorithm'] as String).toServerSideEncryption(),
+      kMSMasterKeyID: json['KMSMasterKeyID'] as String?,
+    );
+  }
+
   factory ServerSideEncryptionByDefault.fromXml(_s.XmlElement elem) {
     return ServerSideEncryptionByDefault(
       sSEAlgorithm: _s
-          .extractXmlStringValue(elem, 'SSEAlgorithm')
-          ?.toServerSideEncryption(),
+          .extractXmlStringValue(elem, 'SSEAlgorithm')!
+          .toServerSideEncryption(),
       kMSMasterKeyID: _s.extractXmlStringValue(elem, 'KMSMasterKeyID'),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final sSEAlgorithm = this.sSEAlgorithm;
+    final kMSMasterKeyID = this.kMSMasterKeyID;
+    return {
+      'SSEAlgorithm': sSEAlgorithm.toValue(),
+      if (kMSMasterKeyID != null) 'KMSMasterKeyID': kMSMasterKeyID,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final sSEAlgorithm = this.sSEAlgorithm;
+    final kMSMasterKeyID = this.kMSMasterKeyID;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm?.toValue() ?? ''),
+      _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm.toValue()),
       if (kMSMasterKeyID != null)
         _s.encodeXmlStringValue('KMSMasterKeyID', kMSMasterKeyID),
     ];
@@ -21040,7 +25708,7 @@ class ServerSideEncryptionByDefault {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21052,8 +25720,20 @@ class ServerSideEncryptionConfiguration {
   final List<ServerSideEncryptionRule> rules;
 
   ServerSideEncryptionConfiguration({
-    @_s.required this.rules,
+    required this.rules,
   });
+
+  factory ServerSideEncryptionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return ServerSideEncryptionConfiguration(
+      rules: (json['Rule'] as List)
+          .whereNotNull()
+          .map((e) =>
+              ServerSideEncryptionRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ServerSideEncryptionConfiguration.fromXml(_s.XmlElement elem) {
     return ServerSideEncryptionConfiguration(
       rules: elem
@@ -21063,9 +25743,17 @@ class ServerSideEncryptionConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final rules = this.rules;
+    return {
+      'Rule': rules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final rules = this.rules;
     final $children = <_s.XmlNode>[
-      ...rules?.map((e) => e?.toXml('Rule')),
+      ...rules.map((e) => e.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21073,7 +25761,7 @@ class ServerSideEncryptionConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21083,7 +25771,7 @@ class ServerSideEncryptionRule {
   /// Specifies the default server-side encryption to apply to new objects in the
   /// bucket. If a PUT Object request doesn't specify any server-side encryption,
   /// this default encryption will be applied.
-  final ServerSideEncryptionByDefault applyServerSideEncryptionByDefault;
+  final ServerSideEncryptionByDefault? applyServerSideEncryptionByDefault;
 
   /// Specifies whether Amazon S3 should use an S3 Bucket Key with server-side
   /// encryption using KMS (SSE-KMS) for new objects in the bucket. Existing
@@ -21093,14 +25781,26 @@ class ServerSideEncryptionRule {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html">Amazon
-  /// S3 Bucket Keys</a> in the <i>Amazon Simple Storage Service Developer
-  /// Guide</i>.
-  final bool bucketKeyEnabled;
+  /// S3 Bucket Keys</a> in the <i>Amazon S3 User Guide</i>.
+  final bool? bucketKeyEnabled;
 
   ServerSideEncryptionRule({
     this.applyServerSideEncryptionByDefault,
     this.bucketKeyEnabled,
   });
+
+  factory ServerSideEncryptionRule.fromJson(Map<String, dynamic> json) {
+    return ServerSideEncryptionRule(
+      applyServerSideEncryptionByDefault:
+          json['ApplyServerSideEncryptionByDefault'] != null
+              ? ServerSideEncryptionByDefault.fromJson(
+                  json['ApplyServerSideEncryptionByDefault']
+                      as Map<String, dynamic>)
+              : null,
+      bucketKeyEnabled: json['BucketKeyEnabled'] as bool?,
+    );
+  }
+
   factory ServerSideEncryptionRule.fromXml(_s.XmlElement elem) {
     return ServerSideEncryptionRule(
       applyServerSideEncryptionByDefault: _s
@@ -21110,11 +25810,26 @@ class ServerSideEncryptionRule {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final applyServerSideEncryptionByDefault =
+        this.applyServerSideEncryptionByDefault;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    return {
+      if (applyServerSideEncryptionByDefault != null)
+        'ApplyServerSideEncryptionByDefault':
+            applyServerSideEncryptionByDefault,
+      if (bucketKeyEnabled != null) 'BucketKeyEnabled': bucketKeyEnabled,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final applyServerSideEncryptionByDefault =
+        this.applyServerSideEncryptionByDefault;
+    final bucketKeyEnabled = this.bucketKeyEnabled;
     final $children = <_s.XmlNode>[
       if (applyServerSideEncryptionByDefault != null)
         applyServerSideEncryptionByDefault
-            ?.toXml('ApplyServerSideEncryptionByDefault'),
+            .toXml('ApplyServerSideEncryptionByDefault'),
       if (bucketKeyEnabled != null)
         _s.encodeXmlBoolValue('BucketKeyEnabled', bucketKeyEnabled),
     ];
@@ -21124,7 +25839,7 @@ class ServerSideEncryptionRule {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21145,17 +25860,31 @@ class SourceSelectionCriteria {
   /// the replication configuration is the earlier version, V1. In the earlier
   /// version, this element is not allowed
   /// </note>
-  final ReplicaModifications replicaModifications;
+  final ReplicaModifications? replicaModifications;
 
   /// A container for filter information for the selection of Amazon S3 objects
   /// encrypted with AWS KMS. If you include <code>SourceSelectionCriteria</code>
   /// in the replication configuration, this element is required.
-  final SseKmsEncryptedObjects sseKmsEncryptedObjects;
+  final SseKmsEncryptedObjects? sseKmsEncryptedObjects;
 
   SourceSelectionCriteria({
     this.replicaModifications,
     this.sseKmsEncryptedObjects,
   });
+
+  factory SourceSelectionCriteria.fromJson(Map<String, dynamic> json) {
+    return SourceSelectionCriteria(
+      replicaModifications: json['ReplicaModifications'] != null
+          ? ReplicaModifications.fromJson(
+              json['ReplicaModifications'] as Map<String, dynamic>)
+          : null,
+      sseKmsEncryptedObjects: json['SseKmsEncryptedObjects'] != null
+          ? SseKmsEncryptedObjects.fromJson(
+              json['SseKmsEncryptedObjects'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory SourceSelectionCriteria.fromXml(_s.XmlElement elem) {
     return SourceSelectionCriteria(
       replicaModifications: _s
@@ -21167,12 +25896,25 @@ class SourceSelectionCriteria {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final replicaModifications = this.replicaModifications;
+    final sseKmsEncryptedObjects = this.sseKmsEncryptedObjects;
+    return {
+      if (replicaModifications != null)
+        'ReplicaModifications': replicaModifications,
+      if (sseKmsEncryptedObjects != null)
+        'SseKmsEncryptedObjects': sseKmsEncryptedObjects,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final replicaModifications = this.replicaModifications;
+    final sseKmsEncryptedObjects = this.sseKmsEncryptedObjects;
     final $children = <_s.XmlNode>[
       if (sseKmsEncryptedObjects != null)
-        sseKmsEncryptedObjects?.toXml('SseKmsEncryptedObjects'),
+        sseKmsEncryptedObjects.toXml('SseKmsEncryptedObjects'),
       if (replicaModifications != null)
-        replicaModifications?.toXml('ReplicaModifications'),
+        replicaModifications.toXml('ReplicaModifications'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21180,7 +25922,7 @@ class SourceSelectionCriteria {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21189,24 +25931,38 @@ class SourceSelectionCriteria {
 /// with AWS KMS.
 class SseKmsEncryptedObjects {
   /// Specifies whether Amazon S3 replicates objects created with server-side
-  /// encryption using a customer master key (CMK) stored in AWS Key Management
-  /// Service.
+  /// encryption using an AWS KMS key stored in AWS Key Management Service.
   final SseKmsEncryptedObjectsStatus status;
 
   SseKmsEncryptedObjects({
-    @_s.required this.status,
+    required this.status,
   });
-  factory SseKmsEncryptedObjects.fromXml(_s.XmlElement elem) {
+
+  factory SseKmsEncryptedObjects.fromJson(Map<String, dynamic> json) {
     return SseKmsEncryptedObjects(
-      status: _s
-          .extractXmlStringValue(elem, 'Status')
-          ?.toSseKmsEncryptedObjectsStatus(),
+      status: (json['Status'] as String).toSseKmsEncryptedObjectsStatus(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory SseKmsEncryptedObjects.fromXml(_s.XmlElement elem) {
+    return SseKmsEncryptedObjects(
+      status: _s
+          .extractXmlStringValue(elem, 'Status')!
+          .toSseKmsEncryptedObjectsStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final status = this.status;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21214,7 +25970,7 @@ class SseKmsEncryptedObjects {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21232,7 +25988,6 @@ extension on SseKmsEncryptedObjectsStatus {
       case SseKmsEncryptedObjectsStatus.disabled:
         return 'Disabled';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21244,26 +25999,35 @@ extension on String {
       case 'Disabled':
         return SseKmsEncryptedObjectsStatus.disabled;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum SseKmsEncryptedObjectsStatus');
   }
 }
 
 /// Container for the stats details.
 class Stats {
   /// The total number of uncompressed object bytes processed.
-  final int bytesProcessed;
+  final int? bytesProcessed;
 
   /// The total number of bytes of records payload data returned.
-  final int bytesReturned;
+  final int? bytesReturned;
 
   /// The total number of object bytes scanned.
-  final int bytesScanned;
+  final int? bytesScanned;
 
   Stats({
     this.bytesProcessed,
     this.bytesReturned,
     this.bytesScanned,
   });
+
+  factory Stats.fromJson(Map<String, dynamic> json) {
+    return Stats(
+      bytesProcessed: json['BytesProcessed'] as int?,
+      bytesReturned: json['BytesReturned'] as int?,
+      bytesScanned: json['BytesScanned'] as int?,
+    );
+  }
+
   factory Stats.fromXml(_s.XmlElement elem) {
     return Stats(
       bytesProcessed: _s.extractXmlIntValue(elem, 'BytesProcessed'),
@@ -21271,21 +26035,48 @@ class Stats {
       bytesScanned: _s.extractXmlIntValue(elem, 'BytesScanned'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final bytesProcessed = this.bytesProcessed;
+    final bytesReturned = this.bytesReturned;
+    final bytesScanned = this.bytesScanned;
+    return {
+      if (bytesProcessed != null) 'BytesProcessed': bytesProcessed,
+      if (bytesReturned != null) 'BytesReturned': bytesReturned,
+      if (bytesScanned != null) 'BytesScanned': bytesScanned,
+    };
+  }
 }
 
 /// Container for the Stats Event.
 class StatsEvent {
   /// The Stats event details.
-  final Stats details;
+  final Stats? details;
 
   StatsEvent({
     this.details,
   });
+
+  factory StatsEvent.fromJson(Map<String, dynamic> json) {
+    return StatsEvent(
+      details: json['Details'] != null
+          ? Stats.fromJson(json['Details'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory StatsEvent.fromXml(_s.XmlElement elem) {
     return StatsEvent(
       details:
           _s.extractXmlChild(elem, 'Details')?.let((e) => Stats.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    return {
+      if (details != null) 'Details': details,
+    };
   }
 }
 
@@ -21320,7 +26111,6 @@ extension on StorageClass {
       case StorageClass.outposts:
         return 'OUTPOSTS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21344,7 +26134,7 @@ extension on String {
       case 'OUTPOSTS':
         return StorageClass.outposts;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum StorageClass');
   }
 }
 
@@ -21354,11 +26144,21 @@ extension on String {
 class StorageClassAnalysis {
   /// Specifies how data related to the storage class analysis for an Amazon S3
   /// bucket should be exported.
-  final StorageClassAnalysisDataExport dataExport;
+  final StorageClassAnalysisDataExport? dataExport;
 
   StorageClassAnalysis({
     this.dataExport,
   });
+
+  factory StorageClassAnalysis.fromJson(Map<String, dynamic> json) {
+    return StorageClassAnalysis(
+      dataExport: json['DataExport'] != null
+          ? StorageClassAnalysisDataExport.fromJson(
+              json['DataExport'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory StorageClassAnalysis.fromXml(_s.XmlElement elem) {
     return StorageClassAnalysis(
       dataExport: _s
@@ -21367,9 +26167,17 @@ class StorageClassAnalysis {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final dataExport = this.dataExport;
+    return {
+      if (dataExport != null) 'DataExport': dataExport,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final dataExport = this.dataExport;
     final $children = <_s.XmlNode>[
-      if (dataExport != null) dataExport?.toXml('DataExport'),
+      if (dataExport != null) dataExport.toXml('DataExport'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21377,7 +26185,7 @@ class StorageClassAnalysis {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21393,25 +26201,45 @@ class StorageClassAnalysisDataExport {
   final StorageClassAnalysisSchemaVersion outputSchemaVersion;
 
   StorageClassAnalysisDataExport({
-    @_s.required this.destination,
-    @_s.required this.outputSchemaVersion,
+    required this.destination,
+    required this.outputSchemaVersion,
   });
-  factory StorageClassAnalysisDataExport.fromXml(_s.XmlElement elem) {
+
+  factory StorageClassAnalysisDataExport.fromJson(Map<String, dynamic> json) {
     return StorageClassAnalysisDataExport(
-      destination: _s
-          .extractXmlChild(elem, 'Destination')
-          ?.let((e) => AnalyticsExportDestination.fromXml(e)),
-      outputSchemaVersion: _s
-          .extractXmlStringValue(elem, 'OutputSchemaVersion')
-          ?.toStorageClassAnalysisSchemaVersion(),
+      destination: AnalyticsExportDestination.fromJson(
+          json['Destination'] as Map<String, dynamic>),
+      outputSchemaVersion: (json['OutputSchemaVersion'] as String)
+          .toStorageClassAnalysisSchemaVersion(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory StorageClassAnalysisDataExport.fromXml(_s.XmlElement elem) {
+    return StorageClassAnalysisDataExport(
+      destination: AnalyticsExportDestination.fromXml(
+          _s.extractXmlChild(elem, 'Destination')!),
+      outputSchemaVersion: _s
+          .extractXmlStringValue(elem, 'OutputSchemaVersion')!
+          .toStorageClassAnalysisSchemaVersion(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destination = this.destination;
+    final outputSchemaVersion = this.outputSchemaVersion;
+    return {
+      'Destination': destination,
+      'OutputSchemaVersion': outputSchemaVersion.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final destination = this.destination;
+    final outputSchemaVersion = this.outputSchemaVersion;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue(
-          'OutputSchemaVersion', outputSchemaVersion?.toValue() ?? ''),
-      destination?.toXml('Destination'),
+          'OutputSchemaVersion', outputSchemaVersion.toValue()),
+      destination.toXml('Destination'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21419,7 +26247,7 @@ class StorageClassAnalysisDataExport {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21434,7 +26262,6 @@ extension on StorageClassAnalysisSchemaVersion {
       case StorageClassAnalysisSchemaVersion.v_1:
         return 'V_1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21444,7 +26271,8 @@ extension on String {
       case 'V_1':
         return StorageClassAnalysisSchemaVersion.v_1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum StorageClassAnalysisSchemaVersion');
   }
 }
 
@@ -21457,17 +26285,36 @@ class Tag {
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromXml(_s.XmlElement elem) {
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      key: json['Key'] as String,
+      value: json['Value'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory Tag.fromXml(_s.XmlElement elem) {
+    return Tag(
+      key: _s.extractXmlStringValue(elem, 'Key')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
       _s.encodeXmlStringValue('Value', value),
@@ -21478,7 +26325,7 @@ class Tag {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21489,12 +26336,30 @@ class Tagging {
   final List<Tag> tagSet;
 
   Tagging({
-    @_s.required this.tagSet,
+    required this.tagSet,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory Tagging.fromJson(Map<String, dynamic> json) {
+    return Tagging(
+      tagSet: (json['TagSet'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagSet = this.tagSet;
+    return {
+      'TagSet': tagSet,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final tagSet = this.tagSet;
     final $children = <_s.XmlNode>[
       _s.XmlElement(
-          _s.XmlName('TagSet'), [], tagSet?.map((e) => e?.toXml('Tag'))),
+          _s.XmlName('TagSet'), [], tagSet.map((e) => e.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21502,7 +26367,7 @@ class Tagging {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21520,7 +26385,6 @@ extension on TaggingDirective {
       case TaggingDirective.replace:
         return 'REPLACE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21532,22 +26396,32 @@ extension on String {
       case 'REPLACE':
         return TaggingDirective.replace;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TaggingDirective');
   }
 }
 
 /// Container for granting information.
 class TargetGrant {
   /// Container for the person being granted permissions.
-  final Grantee grantee;
+  final Grantee? grantee;
 
   /// Logging permissions assigned to the grantee for the bucket.
-  final BucketLogsPermission permission;
+  final BucketLogsPermission? permission;
 
   TargetGrant({
     this.grantee,
     this.permission,
   });
+
+  factory TargetGrant.fromJson(Map<String, dynamic> json) {
+    return TargetGrant(
+      grantee: json['Grantee'] != null
+          ? Grantee.fromJson(json['Grantee'] as Map<String, dynamic>)
+          : null,
+      permission: (json['Permission'] as String?)?.toBucketLogsPermission(),
+    );
+  }
+
   factory TargetGrant.fromXml(_s.XmlElement elem) {
     return TargetGrant(
       grantee:
@@ -21558,9 +26432,20 @@ class TargetGrant {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final grantee = this.grantee;
+    final permission = this.permission;
+    return {
+      if (grantee != null) 'Grantee': grantee,
+      if (permission != null) 'Permission': permission.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final grantee = this.grantee;
+    final permission = this.permission;
     final $children = <_s.XmlNode>[
-      if (grantee != null) grantee?.toXml('Grantee'),
+      if (grantee != null) grantee.toXml('Grantee'),
       if (permission != null)
         _s.encodeXmlStringValue('Permission', permission.toValue()),
     ];
@@ -21570,7 +26455,7 @@ class TargetGrant {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21591,7 +26476,6 @@ extension on Tier {
       case Tier.expedited:
         return 'Expedited';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21605,7 +26489,7 @@ extension on String {
       case 'Expedited':
         return Tier.expedited;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Tier');
   }
 }
 
@@ -21628,22 +26512,42 @@ class Tiering {
   final int days;
 
   Tiering({
-    @_s.required this.accessTier,
-    @_s.required this.days,
+    required this.accessTier,
+    required this.days,
   });
-  factory Tiering.fromXml(_s.XmlElement elem) {
+
+  factory Tiering.fromJson(Map<String, dynamic> json) {
     return Tiering(
-      accessTier: _s
-          .extractXmlStringValue(elem, 'AccessTier')
-          ?.toIntelligentTieringAccessTier(),
-      days: _s.extractXmlIntValue(elem, 'Days'),
+      accessTier:
+          (json['AccessTier'] as String).toIntelligentTieringAccessTier(),
+      days: json['Days'] as int,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory Tiering.fromXml(_s.XmlElement elem) {
+    return Tiering(
+      accessTier: _s
+          .extractXmlStringValue(elem, 'AccessTier')!
+          .toIntelligentTieringAccessTier(),
+      days: _s.extractXmlIntValue(elem, 'Days')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessTier = this.accessTier;
+    final days = this.days;
+    return {
+      'AccessTier': accessTier.toValue(),
+      'Days': days,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final accessTier = this.accessTier;
+    final days = this.days;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Days', days),
-      _s.encodeXmlStringValue('AccessTier', accessTier?.toValue() ?? ''),
+      _s.encodeXmlStringValue('AccessTier', accessTier.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21651,7 +26555,7 @@ class Tiering {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21663,28 +26567,44 @@ class TopicConfiguration {
   /// The Amazon S3 bucket event about which to send notifications. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Supported
-  /// Event Types</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
+  /// Event Types</a> in the <i>Amazon S3 User Guide</i>.
   final List<Event> events;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Amazon S3
   /// publishes a message when it detects events of the specified type.
   final String topicArn;
-  final NotificationConfigurationFilter filter;
-  final String id;
+  final NotificationConfigurationFilter? filter;
+  final String? id;
 
   TopicConfiguration({
-    @_s.required this.events,
-    @_s.required this.topicArn,
+    required this.events,
+    required this.topicArn,
     this.filter,
     this.id,
   });
+
+  factory TopicConfiguration.fromJson(Map<String, dynamic> json) {
+    return TopicConfiguration(
+      events: (json['Event'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toEvent())
+          .toList(),
+      topicArn: json['Topic'] as String,
+      filter: json['Filter'] != null
+          ? NotificationConfigurationFilter.fromJson(
+              json['Filter'] as Map<String, dynamic>)
+          : null,
+      id: json['Id'] as String?,
+    );
+  }
+
   factory TopicConfiguration.fromXml(_s.XmlElement elem) {
     return TopicConfiguration(
       events: _s
           .extractXmlStringListValues(elem, 'Event')
           .map((s) => s.toEvent())
           .toList(),
-      topicArn: _s.extractXmlStringValue(elem, 'Topic'),
+      topicArn: _s.extractXmlStringValue(elem, 'Topic')!,
       filter: _s
           .extractXmlChild(elem, 'Filter')
           ?.let((e) => NotificationConfigurationFilter.fromXml(e)),
@@ -21692,13 +26612,29 @@ class TopicConfiguration {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final topicArn = this.topicArn;
+    final filter = this.filter;
+    final id = this.id;
+    return {
+      'Event': events.map((e) => e.toValue()).toList(),
+      'Topic': topicArn,
+      if (filter != null) 'Filter': filter,
+      if (id != null) 'Id': id,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final events = this.events;
+    final topicArn = this.topicArn;
+    final filter = this.filter;
+    final id = this.id;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Topic', topicArn),
-      ...events
-          ?.map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
-      if (filter != null) filter?.toXml('Filter'),
+      ...events.map((e) => _s.encodeXmlStringValue('Event', e.toValue())),
+      if (filter != null) filter.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -21706,7 +26642,7 @@ class TopicConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21718,15 +26654,15 @@ class TopicConfiguration {
 /// instead.
 class TopicConfigurationDeprecated {
   /// Bucket event for which to send notifications.
-  final Event event;
+  final Event? event;
 
   /// A collection of events related to objects
-  final List<Event> events;
-  final String id;
+  final List<Event>? events;
+  final String? id;
 
   /// Amazon SNS topic to which Amazon S3 will publish a message to report the
   /// specified events for the bucket.
-  final String topic;
+  final String? topic;
 
   TopicConfigurationDeprecated({
     this.event,
@@ -21734,6 +26670,19 @@ class TopicConfigurationDeprecated {
     this.id,
     this.topic,
   });
+
+  factory TopicConfigurationDeprecated.fromJson(Map<String, dynamic> json) {
+    return TopicConfigurationDeprecated(
+      event: (json['Event'] as String?)?.toEvent(),
+      events: (json['Event'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toEvent())
+          .toList(),
+      id: json['Id'] as String?,
+      topic: json['Topic'] as String?,
+    );
+  }
+
   factory TopicConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return TopicConfigurationDeprecated(
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
@@ -21746,12 +26695,28 @@ class TopicConfigurationDeprecated {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final event = this.event;
+    final events = this.events;
+    final id = this.id;
+    final topic = this.topic;
+    return {
+      if (event != null) 'Event': event.toValue(),
+      if (events != null) 'Event': events.map((e) => e.toValue()).toList(),
+      if (id != null) 'Id': id,
+      if (topic != null) 'Topic': topic,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final event = this.event;
+    final events = this.events;
+    final id = this.id;
+    final topic = this.topic;
     final $children = <_s.XmlNode>[
       if (id != null) _s.encodeXmlStringValue('Id', id),
       if (events != null)
-        ...events
-            .map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+        ...events.map((e) => _s.encodeXmlStringValue('Event', e.toValue())),
       if (event != null) _s.encodeXmlStringValue('Event', event.toValue()),
       if (topic != null) _s.encodeXmlStringValue('Topic', topic),
     ];
@@ -21761,7 +26726,7 @@ class TopicConfigurationDeprecated {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21769,25 +26734,34 @@ class TopicConfigurationDeprecated {
 /// Specifies when an object transitions to a specified storage class. For more
 /// information about Amazon S3 lifecycle configuration rules, see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/lifecycle-transition-general-considerations.html">Transitioning
-/// Objects Using Amazon S3 Lifecycle</a> in the <i>Amazon Simple Storage
-/// Service Developer Guide</i>.
+/// Objects Using Amazon S3 Lifecycle</a> in the <i>Amazon S3 User Guide</i>.
 class Transition {
   /// Indicates when objects are transitioned to the specified storage class. The
   /// date value must be in ISO 8601 format. The time is always midnight UTC.
-  final DateTime date;
+  final DateTime? date;
 
   /// Indicates the number of days after creation when objects are transitioned to
   /// the specified storage class. The value must be a positive integer.
-  final int days;
+  final int? days;
 
   /// The storage class to which you want the object to transition.
-  final TransitionStorageClass storageClass;
+  final TransitionStorageClass? storageClass;
 
   Transition({
     this.date,
     this.days,
     this.storageClass,
   });
+
+  factory Transition.fromJson(Map<String, dynamic> json) {
+    return Transition(
+      date: timeStampFromJson(json['Date']),
+      days: json['Days'] as int?,
+      storageClass:
+          (json['StorageClass'] as String?)?.toTransitionStorageClass(),
+    );
+  }
+
   factory Transition.fromXml(_s.XmlElement elem) {
     return Transition(
       date: _s.extractXmlDateTimeValue(elem, 'Date',
@@ -21799,7 +26773,21 @@ class Transition {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final days = this.days;
+    final storageClass = this.storageClass;
+    return {
+      if (date != null) 'Date': iso8601ToJson(date),
+      if (days != null) 'Days': days,
+      if (storageClass != null) 'StorageClass': storageClass.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final date = this.date;
+    final days = this.days;
+    final storageClass = this.storageClass;
     final $children = <_s.XmlNode>[
       if (date != null)
         _s.encodeXmlDateTimeValue('Date', date, formatter: _s.iso8601ToJson),
@@ -21813,7 +26801,7 @@ class Transition {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -21840,7 +26828,6 @@ extension on TransitionStorageClass {
       case TransitionStorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21858,7 +26845,7 @@ extension on String {
       case 'DEEP_ARCHIVE':
         return TransitionStorageClass.deepArchive;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TransitionStorageClass');
   }
 }
 
@@ -21878,7 +26865,6 @@ extension on Type {
       case Type.group:
         return 'Group';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -21892,41 +26878,41 @@ extension on String {
       case 'Group':
         return Type.group;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Type');
   }
 }
 
 class UploadPartCopyOutput {
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Container for all response elements.
-  final CopyPartResult copyPartResult;
+  final CopyPartResult? copyPartResult;
 
   /// The version of the source object that was copied, if you have enabled
   /// versioning on the source bucket.
-  final String copySourceVersionId;
-  final RequestCharged requestCharged;
+  final String? copySourceVersionId;
+  final RequestCharged? requestCharged;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header confirming the encryption
   /// algorithm used.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header to provide round-trip
   /// message integrity verification of the customer-provided encryption key.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
   /// symmetric customer managed customer master key (CMK) that was used for the
   /// object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
   /// S3 (for example, AES256, aws:kms).
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   UploadPartCopyOutput({
     this.bucketKeyEnabled,
@@ -21938,35 +26924,71 @@ class UploadPartCopyOutput {
     this.sSEKMSKeyId,
     this.serverSideEncryption,
   });
+
+  factory UploadPartCopyOutput.fromJson(Map<String, dynamic> json) {
+    return UploadPartCopyOutput(
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      copyPartResult: json['CopyPartResult'] != null
+          ? CopyPartResult.fromJson(
+              json['CopyPartResult'] as Map<String, dynamic>)
+          : null,
+      copySourceVersionId: json['x-amz-copy-source-version-id'] as String?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final copyPartResult = this.copyPartResult;
+    final copySourceVersionId = this.copySourceVersionId;
+    final requestCharged = this.requestCharged;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    return {
+      if (copyPartResult != null) 'CopyPartResult': copyPartResult,
+    };
+  }
 }
 
 class UploadPartOutput {
   /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side
   /// encryption with AWS KMS (SSE-KMS).
-  final bool bucketKeyEnabled;
+  final bool? bucketKeyEnabled;
 
   /// Entity tag for the uploaded object.
-  final String eTag;
-  final RequestCharged requestCharged;
+  final String? eTag;
+  final RequestCharged? requestCharged;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header confirming the encryption
   /// algorithm used.
-  final String sSECustomerAlgorithm;
+  final String? sSECustomerAlgorithm;
 
   /// If server-side encryption with a customer-provided encryption key was
   /// requested, the response will include this header to provide round-trip
   /// message integrity verification of the customer-provided encryption key.
-  final String sSECustomerKeyMD5;
+  final String? sSECustomerKeyMD5;
 
   /// If present, specifies the ID of the AWS Key Management Service (AWS KMS)
   /// symmetric customer managed customer master key (CMK) was used for the
   /// object.
-  final String sSEKMSKeyId;
+  final String? sSEKMSKeyId;
 
   /// The server-side encryption algorithm used when storing this object in Amazon
   /// S3 (for example, AES256, aws:kms).
-  final ServerSideEncryption serverSideEncryption;
+  final ServerSideEncryption? serverSideEncryption;
 
   UploadPartOutput({
     this.bucketKeyEnabled,
@@ -21977,28 +26999,75 @@ class UploadPartOutput {
     this.sSEKMSKeyId,
     this.serverSideEncryption,
   });
+
+  factory UploadPartOutput.fromJson(Map<String, dynamic> json) {
+    return UploadPartOutput(
+      bucketKeyEnabled:
+          json['x-amz-server-side-encryption-bucket-key-enabled'] as bool?,
+      eTag: json['ETag'] as String?,
+      requestCharged:
+          (json['x-amz-request-charged'] as String?)?.toRequestCharged(),
+      sSECustomerAlgorithm:
+          json['x-amz-server-side-encryption-customer-algorithm'] as String?,
+      sSECustomerKeyMD5:
+          json['x-amz-server-side-encryption-customer-key-MD5'] as String?,
+      sSEKMSKeyId:
+          json['x-amz-server-side-encryption-aws-kms-key-id'] as String?,
+      serverSideEncryption: (json['x-amz-server-side-encryption'] as String?)
+          ?.toServerSideEncryption(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketKeyEnabled = this.bucketKeyEnabled;
+    final eTag = this.eTag;
+    final requestCharged = this.requestCharged;
+    final sSECustomerAlgorithm = this.sSECustomerAlgorithm;
+    final sSECustomerKeyMD5 = this.sSECustomerKeyMD5;
+    final sSEKMSKeyId = this.sSEKMSKeyId;
+    final serverSideEncryption = this.serverSideEncryption;
+    return {};
+  }
 }
 
 /// Describes the versioning state of an Amazon S3 bucket. For more information,
 /// see <a
 /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTVersioningStatus.html">PUT
-/// Bucket versioning</a> in the <i>Amazon Simple Storage Service API
-/// Reference</i>.
+/// Bucket versioning</a> in the <i>Amazon S3 API Reference</i>.
 class VersioningConfiguration {
   /// Specifies whether MFA delete is enabled in the bucket versioning
   /// configuration. This element is only returned if the bucket has been
   /// configured with MFA delete. If the bucket has never been so configured, this
   /// element is not returned.
-  final MFADelete mFADelete;
+  final MFADelete? mFADelete;
 
   /// The versioning state of the bucket.
-  final BucketVersioningStatus status;
+  final BucketVersioningStatus? status;
 
   VersioningConfiguration({
     this.mFADelete,
     this.status,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory VersioningConfiguration.fromJson(Map<String, dynamic> json) {
+    return VersioningConfiguration(
+      mFADelete: (json['MfaDelete'] as String?)?.toMFADelete(),
+      status: (json['Status'] as String?)?.toBucketVersioningStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mFADelete = this.mFADelete;
+    final status = this.status;
+    return {
+      if (mFADelete != null) 'MfaDelete': mFADelete.toValue(),
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final mFADelete = this.mFADelete;
+    final status = this.status;
     final $children = <_s.XmlNode>[
       if (mFADelete != null)
         _s.encodeXmlStringValue('MfaDelete', mFADelete.toValue()),
@@ -22010,7 +27079,7 @@ class VersioningConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -22018,19 +27087,19 @@ class VersioningConfiguration {
 /// Specifies website configuration parameters for an Amazon S3 bucket.
 class WebsiteConfiguration {
   /// The name of the error document for the website.
-  final ErrorDocument errorDocument;
+  final ErrorDocument? errorDocument;
 
   /// The name of the index document for the website.
-  final IndexDocument indexDocument;
+  final IndexDocument? indexDocument;
 
   /// The redirect behavior for every request to this bucket's website endpoint.
   /// <important>
   /// If you specify this property, you can't specify any other property.
   /// </important>
-  final RedirectAllRequestsTo redirectAllRequestsTo;
+  final RedirectAllRequestsTo? redirectAllRequestsTo;
 
   /// Rules that define when a redirect is applied and the redirect behavior.
-  final List<RoutingRule> routingRules;
+  final List<RoutingRule>? routingRules;
 
   WebsiteConfiguration({
     this.errorDocument,
@@ -22038,15 +27107,55 @@ class WebsiteConfiguration {
     this.redirectAllRequestsTo,
     this.routingRules,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
-    final $children = <_s.XmlNode>[
-      if (errorDocument != null) errorDocument?.toXml('ErrorDocument'),
-      if (indexDocument != null) indexDocument?.toXml('IndexDocument'),
+
+  factory WebsiteConfiguration.fromJson(Map<String, dynamic> json) {
+    return WebsiteConfiguration(
+      errorDocument: json['ErrorDocument'] != null
+          ? ErrorDocument.fromJson(
+              json['ErrorDocument'] as Map<String, dynamic>)
+          : null,
+      indexDocument: json['IndexDocument'] != null
+          ? IndexDocument.fromJson(
+              json['IndexDocument'] as Map<String, dynamic>)
+          : null,
+      redirectAllRequestsTo: json['RedirectAllRequestsTo'] != null
+          ? RedirectAllRequestsTo.fromJson(
+              json['RedirectAllRequestsTo'] as Map<String, dynamic>)
+          : null,
+      routingRules: (json['RoutingRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => RoutingRule.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorDocument = this.errorDocument;
+    final indexDocument = this.indexDocument;
+    final redirectAllRequestsTo = this.redirectAllRequestsTo;
+    final routingRules = this.routingRules;
+    return {
+      if (errorDocument != null) 'ErrorDocument': errorDocument,
+      if (indexDocument != null) 'IndexDocument': indexDocument,
       if (redirectAllRequestsTo != null)
-        redirectAllRequestsTo?.toXml('RedirectAllRequestsTo'),
+        'RedirectAllRequestsTo': redirectAllRequestsTo,
+      if (routingRules != null) 'RoutingRules': routingRules,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final errorDocument = this.errorDocument;
+    final indexDocument = this.indexDocument;
+    final redirectAllRequestsTo = this.redirectAllRequestsTo;
+    final routingRules = this.routingRules;
+    final $children = <_s.XmlNode>[
+      if (errorDocument != null) errorDocument.toXml('ErrorDocument'),
+      if (indexDocument != null) indexDocument.toXml('IndexDocument'),
+      if (redirectAllRequestsTo != null)
+        redirectAllRequestsTo.toXml('RedirectAllRequestsTo'),
       if (routingRules != null)
         _s.XmlElement(_s.XmlName('RoutingRules'), [],
-            routingRules.map((e) => e?.toXml('RoutingRule'))),
+            routingRules.map((e) => e.toXml('RoutingRule'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -22054,43 +27163,43 @@ class WebsiteConfiguration {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
 
 class BucketAlreadyExists extends _s.GenericAwsException {
-  BucketAlreadyExists({String type, String message})
+  BucketAlreadyExists({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyExists', message: message);
 }
 
 class BucketAlreadyOwnedByYou extends _s.GenericAwsException {
-  BucketAlreadyOwnedByYou({String type, String message})
+  BucketAlreadyOwnedByYou({String? type, String? message})
       : super(type: type, code: 'BucketAlreadyOwnedByYou', message: message);
 }
 
 class InvalidObjectState extends _s.GenericAwsException {
-  InvalidObjectState({String type, String message})
+  InvalidObjectState({String? type, String? message})
       : super(type: type, code: 'InvalidObjectState', message: message);
 }
 
 class NoSuchBucket extends _s.GenericAwsException {
-  NoSuchBucket({String type, String message})
+  NoSuchBucket({String? type, String? message})
       : super(type: type, code: 'NoSuchBucket', message: message);
 }
 
 class NoSuchKey extends _s.GenericAwsException {
-  NoSuchKey({String type, String message})
+  NoSuchKey({String? type, String? message})
       : super(type: type, code: 'NoSuchKey', message: message);
 }
 
 class NoSuchUpload extends _s.GenericAwsException {
-  NoSuchUpload({String type, String message})
+  NoSuchUpload({String? type, String? message})
       : super(type: type, code: 'NoSuchUpload', message: message);
 }
 
 class ObjectAlreadyInActiveTierError extends _s.GenericAwsException {
-  ObjectAlreadyInActiveTierError({String type, String message})
+  ObjectAlreadyInActiveTierError({String? type, String? message})
       : super(
             type: type,
             code: 'ObjectAlreadyInActiveTierError',
@@ -22098,7 +27207,7 @@ class ObjectAlreadyInActiveTierError extends _s.GenericAwsException {
 }
 
 class ObjectNotInActiveTierError extends _s.GenericAwsException {
-  ObjectNotInActiveTierError({String type, String message})
+  ObjectNotInActiveTierError({String? type, String? message})
       : super(type: type, code: 'ObjectNotInActiveTierError', message: message);
 }
 

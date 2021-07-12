@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import 'package:aws_client/src/shared/shared.dart' as _s;
 import 'package:aws_client/src/shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export 'package:aws_client/src/shared/shared.dart' show AwsClientCredentials;
-
-part 'uri_parameter_querystring_params_headers_and_json_body.g.dart';
 
 /// URI parameter, querystring params, headers and JSON body
 class UriParameterQuerystringParamsHeadersAndJsonBody {
   final _s.RestJsonProtocol _protocol;
   UriParameterQuerystringParamsHeadersAndJsonBody({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -45,14 +38,16 @@ class UriParameterQuerystringParamsHeadersAndJsonBody {
         );
 
   Future<void> operationName0({
-    String ascending,
-    String checksum,
-    StructType config,
-    String pageToken,
-    String pipelineId,
+    required String pipelineId,
+    String? ascending,
+    String? checksum,
+    StructType? config,
+    String? pageToken,
   }) async {
-    final headers = <String, String>{};
-    checksum?.let((v) => headers['x-amz-checksum'] = v.toString());
+    ArgumentError.checkNotNull(pipelineId, 'pipelineId');
+    final headers = <String, String>{
+      if (checksum != null) 'x-amz-checksum': checksum.toString(),
+    };
     final $query = <String, List<String>>{
       if (ascending != null) 'Ascending': [ascending],
       if (pageToken != null) 'PageToken': [pageToken],
@@ -72,22 +67,30 @@ class UriParameterQuerystringParamsHeadersAndJsonBody {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StructType {
-  @_s.JsonKey(name: 'A')
-  final String a;
-  @_s.JsonKey(name: 'B')
-  final String b;
+  final String? a;
+  final String? b;
 
   StructType({
     this.a,
     this.b,
   });
-  Map<String, dynamic> toJson() => _$StructTypeToJson(this);
+
+  factory StructType.fromJson(Map<String, dynamic> json) {
+    return StructType(
+      a: json['A'] as String?,
+      b: json['B'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final a = this.a;
+    final b = this.b;
+    return {
+      if (a != null) 'A': a,
+      if (b != null) 'B': b,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

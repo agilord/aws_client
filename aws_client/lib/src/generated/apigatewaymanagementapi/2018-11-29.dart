@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-11-29.g.dart';
 
 /// The Amazon API Gateway Management API allows you to directly manage runtime
 /// aspects of your deployed APIs. To use it, you must explicitly set the SDK's
@@ -35,10 +28,10 @@ part '2018-11-29.g.dart';
 class ApiGatewayManagementApi {
   final _s.RestJsonProtocol _protocol;
   ApiGatewayManagementApi({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -56,7 +49,7 @@ class ApiGatewayManagementApi {
   /// May throw [LimitExceededException].
   /// May throw [ForbiddenException].
   Future<void> deleteConnection({
-    @_s.required String connectionId,
+    required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     await _protocol.send(
@@ -73,7 +66,7 @@ class ApiGatewayManagementApi {
   /// May throw [LimitExceededException].
   /// May throw [ForbiddenException].
   Future<GetConnectionResponse> getConnection({
-    @_s.required String connectionId,
+    required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     final response = await _protocol.send(
@@ -98,8 +91,8 @@ class ApiGatewayManagementApi {
   /// Parameter [data] :
   /// The data to be sent to the client specified by its connection id.
   Future<void> postToConnection({
-    @_s.required String connectionId,
-    @_s.required Uint8List data,
+    required String connectionId,
+    required Uint8List data,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
     ArgumentError.checkNotNull(data, 'data');
@@ -112,73 +105,89 @@ class ApiGatewayManagementApi {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConnectionResponse {
   /// The time in ISO 8601 format for when the connection was established.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'connectedAt')
-  final DateTime connectedAt;
-  @_s.JsonKey(name: 'identity')
-  final Identity identity;
+  final DateTime? connectedAt;
+  final Identity? identity;
 
   /// The time in ISO 8601 format for when the connection was last active.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'lastActiveAt')
-  final DateTime lastActiveAt;
+  final DateTime? lastActiveAt;
 
   GetConnectionResponse({
     this.connectedAt,
     this.identity,
     this.lastActiveAt,
   });
-  factory GetConnectionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConnectionResponseFromJson(json);
+
+  factory GetConnectionResponse.fromJson(Map<String, dynamic> json) {
+    return GetConnectionResponse(
+      connectedAt: timeStampFromJson(json['connectedAt']),
+      identity: json['identity'] != null
+          ? Identity.fromJson(json['identity'] as Map<String, dynamic>)
+          : null,
+      lastActiveAt: timeStampFromJson(json['lastActiveAt']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectedAt = this.connectedAt;
+    final identity = this.identity;
+    final lastActiveAt = this.lastActiveAt;
+    return {
+      if (connectedAt != null) 'connectedAt': iso8601ToJson(connectedAt),
+      if (identity != null) 'identity': identity,
+      if (lastActiveAt != null) 'lastActiveAt': iso8601ToJson(lastActiveAt),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Identity {
   /// The source IP address of the TCP connection making the request to API
   /// Gateway.
-  @_s.JsonKey(name: 'sourceIp')
   final String sourceIp;
 
   /// The User Agent of the API caller.
-  @_s.JsonKey(name: 'userAgent')
   final String userAgent;
 
   Identity({
-    @_s.required this.sourceIp,
-    @_s.required this.userAgent,
+    required this.sourceIp,
+    required this.userAgent,
   });
-  factory Identity.fromJson(Map<String, dynamic> json) =>
-      _$IdentityFromJson(json);
+
+  factory Identity.fromJson(Map<String, dynamic> json) {
+    return Identity(
+      sourceIp: json['sourceIp'] as String,
+      userAgent: json['userAgent'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceIp = this.sourceIp;
+    final userAgent = this.userAgent;
+    return {
+      'sourceIp': sourceIp,
+      'userAgent': userAgent,
+    };
+  }
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class GoneException extends _s.GenericAwsException {
-  GoneException({String type, String message})
+  GoneException({String? type, String? message})
       : super(type: type, code: 'GoneException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class PayloadTooLargeException extends _s.GenericAwsException {
-  PayloadTooLargeException({String type, String message})
+  PayloadTooLargeException({String? type, String? message})
       : super(type: type, code: 'PayloadTooLargeException', message: message);
 }
 

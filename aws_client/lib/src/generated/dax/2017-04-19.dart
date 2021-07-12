@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-04-19.g.dart';
 
 /// DAX is a managed caching service engineered for Amazon DynamoDB. DAX
 /// dramatically speeds up database reads by caching frequently-accessed data
@@ -36,10 +29,10 @@ part '2017-04-19.g.dart';
 class Dax {
   final _s.JsonProtocol _protocol;
   Dax({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -67,6 +60,7 @@ class Dax {
   /// May throw [ServiceLinkedRoleNotFoundFault].
   /// May throw [InvalidParameterValueException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clusterName] :
   /// The cluster identifier. This parameter is stored as a lowercase string.
@@ -111,6 +105,18 @@ class Dax {
   /// list must equal the <code>ReplicationFactor</code> parameter. If you omit
   /// this parameter, DAX will spread the nodes across Availability Zones for
   /// the highest availability.
+  ///
+  /// Parameter [clusterEndpointEncryptionType] :
+  /// The type of encryption the cluster's endpoint should support. Values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> for no encryption
+  /// </li>
+  /// <li>
+  /// <code>TLS</code> for Transport Layer Security
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [description] :
   /// A description of the cluster.
@@ -182,19 +188,20 @@ class Dax {
   /// Parameter [tags] :
   /// A set of tags to associate with the DAX cluster.
   Future<CreateClusterResponse> createCluster({
-    @_s.required String clusterName,
-    @_s.required String iamRoleArn,
-    @_s.required String nodeType,
-    @_s.required int replicationFactor,
-    List<String> availabilityZones,
-    String description,
-    String notificationTopicArn,
-    String parameterGroupName,
-    String preferredMaintenanceWindow,
-    SSESpecification sSESpecification,
-    List<String> securityGroupIds,
-    String subnetGroupName,
-    List<Tag> tags,
+    required String clusterName,
+    required String iamRoleArn,
+    required String nodeType,
+    required int replicationFactor,
+    List<String>? availabilityZones,
+    ClusterEndpointEncryptionType? clusterEndpointEncryptionType,
+    String? description,
+    String? notificationTopicArn,
+    String? parameterGroupName,
+    String? preferredMaintenanceWindow,
+    SSESpecification? sSESpecification,
+    List<String>? securityGroupIds,
+    String? subnetGroupName,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
@@ -216,6 +223,9 @@ class Dax {
         'NodeType': nodeType,
         'ReplicationFactor': replicationFactor,
         if (availabilityZones != null) 'AvailabilityZones': availabilityZones,
+        if (clusterEndpointEncryptionType != null)
+          'ClusterEndpointEncryptionType':
+              clusterEndpointEncryptionType.toValue(),
         if (description != null) 'Description': description,
         if (notificationTopicArn != null)
           'NotificationTopicArn': notificationTopicArn,
@@ -250,8 +260,8 @@ class Dax {
   /// Parameter [description] :
   /// A description of the parameter group.
   Future<CreateParameterGroupResponse> createParameterGroup({
-    @_s.required String parameterGroupName,
-    String description,
+    required String parameterGroupName,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     final headers = <String, String>{
@@ -290,9 +300,9 @@ class Dax {
   /// Parameter [description] :
   /// A description for the subnet group
   Future<CreateSubnetGroupResponse> createSubnetGroup({
-    @_s.required String subnetGroupName,
-    @_s.required List<String> subnetIds,
-    String description,
+    required String subnetGroupName,
+    required List<String> subnetIds,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(subnetGroupName, 'subnetGroupName');
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
@@ -342,10 +352,10 @@ class Dax {
   /// Parameter [nodeIdsToRemove] :
   /// The unique identifiers of the nodes to be removed from the cluster.
   Future<DecreaseReplicationFactorResponse> decreaseReplicationFactor({
-    @_s.required String clusterName,
-    @_s.required int newReplicationFactor,
-    List<String> availabilityZones,
-    List<String> nodeIdsToRemove,
+    required String clusterName,
+    required int newReplicationFactor,
+    List<String>? availabilityZones,
+    List<String>? nodeIdsToRemove,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(newReplicationFactor, 'newReplicationFactor');
@@ -384,7 +394,7 @@ class Dax {
   /// Parameter [clusterName] :
   /// The name of the cluster to be deleted.
   Future<DeleteClusterResponse> deleteCluster({
-    @_s.required String clusterName,
+    required String clusterName,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     final headers = <String, String>{
@@ -417,7 +427,7 @@ class Dax {
   /// Parameter [parameterGroupName] :
   /// The name of the parameter group to delete.
   Future<DeleteParameterGroupResponse> deleteParameterGroup({
-    @_s.required String parameterGroupName,
+    required String parameterGroupName,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     final headers = <String, String>{
@@ -451,7 +461,7 @@ class Dax {
   /// Parameter [subnetGroupName] :
   /// The name of the subnet group to delete.
   Future<DeleteSubnetGroupResponse> deleteSubnetGroup({
-    @_s.required String subnetGroupName,
+    required String subnetGroupName,
   }) async {
     ArgumentError.checkNotNull(subnetGroupName, 'subnetGroupName');
     final headers = <String, String>{
@@ -511,9 +521,9 @@ class Dax {
   /// the response includes only results beyond the token, up to the value
   /// specified by <code>MaxResults</code>.
   Future<DescribeClustersResponse> describeClusters({
-    List<String> clusterNames,
-    int maxResults,
-    String nextToken,
+    List<String>? clusterNames,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -555,8 +565,8 @@ class Dax {
   /// the response includes only results beyond the token, up to the value
   /// specified by <code>MaxResults</code>.
   Future<DescribeDefaultParametersResponse> describeDefaultParameters({
-    int maxResults,
-    String nextToken,
+    int? maxResults,
+    String? nextToken,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -621,13 +631,13 @@ class Dax {
   /// The beginning of the time interval to retrieve events for, specified in
   /// ISO 8601 format.
   Future<DescribeEventsResponse> describeEvents({
-    int duration,
-    DateTime endTime,
-    int maxResults,
-    String nextToken,
-    String sourceName,
-    SourceType sourceType,
-    DateTime startTime,
+    int? duration,
+    DateTime? endTime,
+    int? maxResults,
+    String? nextToken,
+    String? sourceName,
+    SourceType? sourceType,
+    DateTime? startTime,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -677,9 +687,9 @@ class Dax {
   /// Parameter [parameterGroupNames] :
   /// The names of the parameter groups.
   Future<DescribeParameterGroupsResponse> describeParameterGroups({
-    int maxResults,
-    String nextToken,
-    List<String> parameterGroupNames,
+    int? maxResults,
+    String? nextToken,
+    List<String>? parameterGroupNames,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -729,10 +739,10 @@ class Dax {
   /// How the parameter is defined. For example, <code>system</code> denotes a
   /// system-defined parameter.
   Future<DescribeParametersResponse> describeParameters({
-    @_s.required String parameterGroupName,
-    int maxResults,
-    String nextToken,
-    String source,
+    required String parameterGroupName,
+    int? maxResults,
+    String? nextToken,
+    String? source,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     final headers = <String, String>{
@@ -778,9 +788,9 @@ class Dax {
   /// Parameter [subnetGroupNames] :
   /// The name of the subnet group.
   Future<DescribeSubnetGroupsResponse> describeSubnetGroups({
-    int maxResults,
-    String nextToken,
-    List<String> subnetGroupNames,
+    int? maxResults,
+    String? nextToken,
+    List<String>? subnetGroupNames,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -826,9 +836,9 @@ class Dax {
   /// Use this parameter if you want to distribute the nodes across multiple
   /// AZs.
   Future<IncreaseReplicationFactorResponse> increaseReplicationFactor({
-    @_s.required String clusterName,
-    @_s.required int newReplicationFactor,
-    List<String> availabilityZones,
+    required String clusterName,
+    required int newReplicationFactor,
+    List<String>? availabilityZones,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(newReplicationFactor, 'newReplicationFactor');
@@ -870,8 +880,8 @@ class Dax {
   /// pagination of results from this action. If this parameter is specified,
   /// the response includes only results beyond the token.
   Future<ListTagsResponse> listTags({
-    @_s.required String resourceName,
-    String nextToken,
+    required String resourceName,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     final headers = <String, String>{
@@ -913,8 +923,8 @@ class Dax {
   /// Parameter [nodeId] :
   /// The system-assigned ID of the node to be rebooted.
   Future<RebootNodeResponse> rebootNode({
-    @_s.required String clusterName,
-    @_s.required String nodeId,
+    required String clusterName,
+    required String nodeId,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodeId, 'nodeId');
@@ -954,8 +964,8 @@ class Dax {
   /// Parameter [tags] :
   /// The tags to be assigned to the DAX resource.
   Future<TagResourceResponse> tagResource({
-    @_s.required String resourceName,
-    @_s.required List<Tag> tags,
+    required String resourceName,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -996,8 +1006,8 @@ class Dax {
   /// A list of tag keys. If the DAX cluster has any tags with these keys, then
   /// the tags are removed from the cluster.
   Future<UntagResourceResponse> untagResource({
-    @_s.required String resourceName,
-    @_s.required List<String> tagKeys,
+    required String resourceName,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1042,7 +1052,9 @@ class Dax {
   /// The Amazon Resource Name (ARN) that identifies the topic.
   ///
   /// Parameter [notificationTopicStatus] :
-  /// The current state of the topic.
+  /// The current state of the topic. A value of “active” means that
+  /// notifications will be sent to the topic. A value of “inactive” means that
+  /// notifications will not be sent to the topic.
   ///
   /// Parameter [parameterGroupName] :
   /// The name of a parameter group for this cluster.
@@ -1058,13 +1070,13 @@ class Dax {
   /// the DAX cluster. If this parameter is not specified, DAX assigns the
   /// default VPC security group to each node.
   Future<UpdateClusterResponse> updateCluster({
-    @_s.required String clusterName,
-    String description,
-    String notificationTopicArn,
-    String notificationTopicStatus,
-    String parameterGroupName,
-    String preferredMaintenanceWindow,
-    List<String> securityGroupIds,
+    required String clusterName,
+    String? description,
+    String? notificationTopicArn,
+    String? notificationTopicStatus,
+    String? parameterGroupName,
+    String? preferredMaintenanceWindow,
+    List<String>? securityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     final headers = <String, String>{
@@ -1111,9 +1123,15 @@ class Dax {
   /// Parameter [parameterNameValues] :
   /// An array of name-value pairs for the parameters in the group. Each element
   /// in the array represents a single parameter.
+  /// <note>
+  /// <code>record-ttl-millis</code> and <code>query-ttl-millis</code> are the
+  /// only supported parameter names. For more details, see <a
+  /// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.cluster-management.html#DAX.cluster-management.custom-settings.ttl">Configuring
+  /// TTL Settings</a>.
+  /// </note>
   Future<UpdateParameterGroupResponse> updateParameterGroup({
-    @_s.required String parameterGroupName,
-    @_s.required List<ParameterNameValue> parameterNameValues,
+    required String parameterGroupName,
+    required List<ParameterNameValue> parameterNameValues,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
     ArgumentError.checkNotNull(parameterNameValues, 'parameterNameValues');
@@ -1153,9 +1171,9 @@ class Dax {
   /// Parameter [subnetIds] :
   /// A list of subnet IDs in the subnet group.
   Future<UpdateSubnetGroupResponse> updateSubnetGroup({
-    @_s.required String subnetGroupName,
-    String description,
-    List<String> subnetIds,
+    required String subnetGroupName,
+    String? description,
+    List<String>? subnetIds,
   }) async {
     ArgumentError.checkNotNull(subnetGroupName, 'subnetGroupName');
     final headers = <String, String>{
@@ -1180,105 +1198,115 @@ class Dax {
 }
 
 enum ChangeType {
-  @_s.JsonValue('IMMEDIATE')
   immediate,
-  @_s.JsonValue('REQUIRES_REBOOT')
   requiresReboot,
 }
 
+extension on ChangeType {
+  String toValue() {
+    switch (this) {
+      case ChangeType.immediate:
+        return 'IMMEDIATE';
+      case ChangeType.requiresReboot:
+        return 'REQUIRES_REBOOT';
+    }
+  }
+}
+
+extension on String {
+  ChangeType toChangeType() {
+    switch (this) {
+      case 'IMMEDIATE':
+        return ChangeType.immediate;
+      case 'REQUIRES_REBOOT':
+        return ChangeType.requiresReboot;
+    }
+    throw Exception('$this is not known in enum ChangeType');
+  }
+}
+
 /// Contains all of the attributes of a specific DAX cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Cluster {
   /// The number of nodes in the cluster that are active (i.e., capable of serving
   /// requests).
-  @_s.JsonKey(name: 'ActiveNodes')
-  final int activeNodes;
+  final int? activeNodes;
 
   /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
-  @_s.JsonKey(name: 'ClusterArn')
-  final String clusterArn;
+  final String? clusterArn;
 
-  /// The configuration endpoint for this DAX cluster, consisting of a DNS name
-  /// and a port number. Client applications can specify this endpoint, rather
-  /// than an individual node endpoint, and allow the DAX client software to
-  /// intelligently route requests and responses to nodes in the DAX cluster.
-  @_s.JsonKey(name: 'ClusterDiscoveryEndpoint')
-  final Endpoint clusterDiscoveryEndpoint;
+  /// The endpoint for this DAX cluster, consisting of a DNS name, a port number,
+  /// and a URL. Applications should use the URL to configure the DAX client to
+  /// find their cluster.
+  final Endpoint? clusterDiscoveryEndpoint;
+
+  /// The type of encryption supported by the cluster's endpoint. Values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> for no encryption
+  ///
+  /// <code>TLS</code> for Transport Layer Security
+  /// </li>
+  /// </ul>
+  final ClusterEndpointEncryptionType? clusterEndpointEncryptionType;
 
   /// The name of the DAX cluster.
-  @_s.JsonKey(name: 'ClusterName')
-  final String clusterName;
+  final String? clusterName;
 
   /// The description of the cluster.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// A valid Amazon Resource Name (ARN) that identifies an IAM role. At runtime,
   /// DAX will assume this role and use the role's permissions to access DynamoDB
   /// on your behalf.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// A list of nodes to be removed from the cluster.
-  @_s.JsonKey(name: 'NodeIdsToRemove')
-  final List<String> nodeIdsToRemove;
+  final List<String>? nodeIdsToRemove;
 
   /// The node type for the nodes in the cluster. (All nodes in a DAX cluster are
   /// of the same type.)
-  @_s.JsonKey(name: 'NodeType')
-  final String nodeType;
+  final String? nodeType;
 
   /// A list of nodes that are currently in the cluster.
-  @_s.JsonKey(name: 'Nodes')
-  final List<Node> nodes;
+  final List<Node>? nodes;
 
   /// Describes a notification topic and its status. Notification topics are used
   /// for publishing DAX events to subscribers using Amazon Simple Notification
   /// Service (SNS).
-  @_s.JsonKey(name: 'NotificationConfiguration')
-  final NotificationConfiguration notificationConfiguration;
+  final NotificationConfiguration? notificationConfiguration;
 
   /// The parameter group being used by nodes in the cluster.
-  @_s.JsonKey(name: 'ParameterGroup')
-  final ParameterGroupStatus parameterGroup;
+  final ParameterGroupStatus? parameterGroup;
 
   /// A range of time when maintenance of DAX cluster software will be performed.
   /// For example: <code>sun:01:00-sun:09:00</code>. Cluster maintenance normally
   /// takes less than 30 minutes, and is performed automatically within the
   /// maintenance window.
-  @_s.JsonKey(name: 'PreferredMaintenanceWindow')
-  final String preferredMaintenanceWindow;
+  final String? preferredMaintenanceWindow;
 
   /// The description of the server-side encryption status on the specified DAX
   /// cluster.
-  @_s.JsonKey(name: 'SSEDescription')
-  final SSEDescription sSEDescription;
+  final SSEDescription? sSEDescription;
 
   /// A list of security groups, and the status of each, for the nodes in the
   /// cluster.
-  @_s.JsonKey(name: 'SecurityGroups')
-  final List<SecurityGroupMembership> securityGroups;
+  final List<SecurityGroupMembership>? securityGroups;
 
   /// The current status of the cluster.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The subnet group where the DAX cluster is running.
-  @_s.JsonKey(name: 'SubnetGroup')
-  final String subnetGroup;
+  final String? subnetGroup;
 
   /// The total number of nodes in the cluster.
-  @_s.JsonKey(name: 'TotalNodes')
-  final int totalNodes;
+  final int? totalNodes;
 
   Cluster({
     this.activeNodes,
     this.clusterArn,
     this.clusterDiscoveryEndpoint,
+    this.clusterEndpointEncryptionType,
     this.clusterName,
     this.description,
     this.iamRoleArn,
@@ -1294,322 +1322,551 @@ class Cluster {
     this.subnetGroup,
     this.totalNodes,
   });
-  factory Cluster.fromJson(Map<String, dynamic> json) =>
-      _$ClusterFromJson(json);
+
+  factory Cluster.fromJson(Map<String, dynamic> json) {
+    return Cluster(
+      activeNodes: json['ActiveNodes'] as int?,
+      clusterArn: json['ClusterArn'] as String?,
+      clusterDiscoveryEndpoint: json['ClusterDiscoveryEndpoint'] != null
+          ? Endpoint.fromJson(
+              json['ClusterDiscoveryEndpoint'] as Map<String, dynamic>)
+          : null,
+      clusterEndpointEncryptionType:
+          (json['ClusterEndpointEncryptionType'] as String?)
+              ?.toClusterEndpointEncryptionType(),
+      clusterName: json['ClusterName'] as String?,
+      description: json['Description'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      nodeIdsToRemove: (json['NodeIdsToRemove'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nodeType: json['NodeType'] as String?,
+      nodes: (json['Nodes'] as List?)
+          ?.whereNotNull()
+          .map((e) => Node.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      notificationConfiguration: json['NotificationConfiguration'] != null
+          ? NotificationConfiguration.fromJson(
+              json['NotificationConfiguration'] as Map<String, dynamic>)
+          : null,
+      parameterGroup: json['ParameterGroup'] != null
+          ? ParameterGroupStatus.fromJson(
+              json['ParameterGroup'] as Map<String, dynamic>)
+          : null,
+      preferredMaintenanceWindow: json['PreferredMaintenanceWindow'] as String?,
+      sSEDescription: json['SSEDescription'] != null
+          ? SSEDescription.fromJson(
+              json['SSEDescription'] as Map<String, dynamic>)
+          : null,
+      securityGroups: (json['SecurityGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SecurityGroupMembership.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: json['Status'] as String?,
+      subnetGroup: json['SubnetGroup'] as String?,
+      totalNodes: json['TotalNodes'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activeNodes = this.activeNodes;
+    final clusterArn = this.clusterArn;
+    final clusterDiscoveryEndpoint = this.clusterDiscoveryEndpoint;
+    final clusterEndpointEncryptionType = this.clusterEndpointEncryptionType;
+    final clusterName = this.clusterName;
+    final description = this.description;
+    final iamRoleArn = this.iamRoleArn;
+    final nodeIdsToRemove = this.nodeIdsToRemove;
+    final nodeType = this.nodeType;
+    final nodes = this.nodes;
+    final notificationConfiguration = this.notificationConfiguration;
+    final parameterGroup = this.parameterGroup;
+    final preferredMaintenanceWindow = this.preferredMaintenanceWindow;
+    final sSEDescription = this.sSEDescription;
+    final securityGroups = this.securityGroups;
+    final status = this.status;
+    final subnetGroup = this.subnetGroup;
+    final totalNodes = this.totalNodes;
+    return {
+      if (activeNodes != null) 'ActiveNodes': activeNodes,
+      if (clusterArn != null) 'ClusterArn': clusterArn,
+      if (clusterDiscoveryEndpoint != null)
+        'ClusterDiscoveryEndpoint': clusterDiscoveryEndpoint,
+      if (clusterEndpointEncryptionType != null)
+        'ClusterEndpointEncryptionType':
+            clusterEndpointEncryptionType.toValue(),
+      if (clusterName != null) 'ClusterName': clusterName,
+      if (description != null) 'Description': description,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (nodeIdsToRemove != null) 'NodeIdsToRemove': nodeIdsToRemove,
+      if (nodeType != null) 'NodeType': nodeType,
+      if (nodes != null) 'Nodes': nodes,
+      if (notificationConfiguration != null)
+        'NotificationConfiguration': notificationConfiguration,
+      if (parameterGroup != null) 'ParameterGroup': parameterGroup,
+      if (preferredMaintenanceWindow != null)
+        'PreferredMaintenanceWindow': preferredMaintenanceWindow,
+      if (sSEDescription != null) 'SSEDescription': sSEDescription,
+      if (securityGroups != null) 'SecurityGroups': securityGroups,
+      if (status != null) 'Status': status,
+      if (subnetGroup != null) 'SubnetGroup': subnetGroup,
+      if (totalNodes != null) 'TotalNodes': totalNodes,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+enum ClusterEndpointEncryptionType {
+  none,
+  tls,
+}
+
+extension on ClusterEndpointEncryptionType {
+  String toValue() {
+    switch (this) {
+      case ClusterEndpointEncryptionType.none:
+        return 'NONE';
+      case ClusterEndpointEncryptionType.tls:
+        return 'TLS';
+    }
+  }
+}
+
+extension on String {
+  ClusterEndpointEncryptionType toClusterEndpointEncryptionType() {
+    switch (this) {
+      case 'NONE':
+        return ClusterEndpointEncryptionType.none;
+      case 'TLS':
+        return ClusterEndpointEncryptionType.tls;
+    }
+    throw Exception('$this is not known in enum ClusterEndpointEncryptionType');
+  }
+}
+
 class CreateClusterResponse {
   /// A description of the DAX cluster that you have created.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   CreateClusterResponse({
     this.cluster,
   });
-  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateClusterResponseFromJson(json);
+
+  factory CreateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return CreateClusterResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateParameterGroupResponse {
   /// Represents the output of a <i>CreateParameterGroup</i> action.
-  @_s.JsonKey(name: 'ParameterGroup')
-  final ParameterGroup parameterGroup;
+  final ParameterGroup? parameterGroup;
 
   CreateParameterGroupResponse({
     this.parameterGroup,
   });
-  factory CreateParameterGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateParameterGroupResponseFromJson(json);
+
+  factory CreateParameterGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateParameterGroupResponse(
+      parameterGroup: json['ParameterGroup'] != null
+          ? ParameterGroup.fromJson(
+              json['ParameterGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterGroup = this.parameterGroup;
+    return {
+      if (parameterGroup != null) 'ParameterGroup': parameterGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSubnetGroupResponse {
   /// Represents the output of a <i>CreateSubnetGroup</i> operation.
-  @_s.JsonKey(name: 'SubnetGroup')
-  final SubnetGroup subnetGroup;
+  final SubnetGroup? subnetGroup;
 
   CreateSubnetGroupResponse({
     this.subnetGroup,
   });
-  factory CreateSubnetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSubnetGroupResponseFromJson(json);
+
+  factory CreateSubnetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSubnetGroupResponse(
+      subnetGroup: json['SubnetGroup'] != null
+          ? SubnetGroup.fromJson(json['SubnetGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetGroup = this.subnetGroup;
+    return {
+      if (subnetGroup != null) 'SubnetGroup': subnetGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DecreaseReplicationFactorResponse {
   /// A description of the DAX cluster, after you have decreased its replication
   /// factor.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DecreaseReplicationFactorResponse({
     this.cluster,
   });
+
   factory DecreaseReplicationFactorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DecreaseReplicationFactorResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DecreaseReplicationFactorResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteClusterResponse {
   /// A description of the DAX cluster that is being deleted.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   DeleteClusterResponse({
     this.cluster,
   });
-  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteClusterResponseFromJson(json);
+
+  factory DeleteClusterResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteClusterResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteParameterGroupResponse {
   /// A user-specified message for this action (i.e., a reason for deleting the
   /// parameter group).
-  @_s.JsonKey(name: 'DeletionMessage')
-  final String deletionMessage;
+  final String? deletionMessage;
 
   DeleteParameterGroupResponse({
     this.deletionMessage,
   });
-  factory DeleteParameterGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteParameterGroupResponseFromJson(json);
+
+  factory DeleteParameterGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteParameterGroupResponse(
+      deletionMessage: json['DeletionMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionMessage = this.deletionMessage;
+    return {
+      if (deletionMessage != null) 'DeletionMessage': deletionMessage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteSubnetGroupResponse {
   /// A user-specified message for this action (i.e., a reason for deleting the
   /// subnet group).
-  @_s.JsonKey(name: 'DeletionMessage')
-  final String deletionMessage;
+  final String? deletionMessage;
 
   DeleteSubnetGroupResponse({
     this.deletionMessage,
   });
-  factory DeleteSubnetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteSubnetGroupResponseFromJson(json);
+
+  factory DeleteSubnetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteSubnetGroupResponse(
+      deletionMessage: json['DeletionMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deletionMessage = this.deletionMessage;
+    return {
+      if (deletionMessage != null) 'DeletionMessage': deletionMessage,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClustersResponse {
   /// The descriptions of your DAX clusters, in response to a
   /// <i>DescribeClusters</i> request.
-  @_s.JsonKey(name: 'Clusters')
-  final List<Cluster> clusters;
+  final List<Cluster>? clusters;
 
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeClustersResponse({
     this.clusters,
     this.nextToken,
   });
-  factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClustersResponseFromJson(json);
+
+  factory DescribeClustersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeClustersResponse(
+      clusters: (json['Clusters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Cluster.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clusters = this.clusters;
+    final nextToken = this.nextToken;
+    return {
+      if (clusters != null) 'Clusters': clusters,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDefaultParametersResponse {
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of parameters. Each element in the list represents one parameter.
-  @_s.JsonKey(name: 'Parameters')
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   DescribeDefaultParametersResponse({
     this.nextToken,
     this.parameters,
   });
+
   factory DescribeDefaultParametersResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeDefaultParametersResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeDefaultParametersResponse(
+      nextToken: json['NextToken'] as String?,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parameters = this.parameters;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeEventsResponse {
   /// An array of events. Each element in the array represents one event.
-  @_s.JsonKey(name: 'Events')
-  final List<Event> events;
+  final List<Event>? events;
 
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   DescribeEventsResponse({
     this.events,
     this.nextToken,
   });
-  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeEventsResponseFromJson(json);
+
+  factory DescribeEventsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeEventsResponse(
+      events: (json['Events'] as List?)
+          ?.whereNotNull()
+          .map((e) => Event.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextToken = this.nextToken;
+    return {
+      if (events != null) 'Events': events,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeParameterGroupsResponse {
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of parameter groups. Each element in the array represents one
   /// parameter group.
-  @_s.JsonKey(name: 'ParameterGroups')
-  final List<ParameterGroup> parameterGroups;
+  final List<ParameterGroup>? parameterGroups;
 
   DescribeParameterGroupsResponse({
     this.nextToken,
     this.parameterGroups,
   });
-  factory DescribeParameterGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeParameterGroupsResponseFromJson(json);
+
+  factory DescribeParameterGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeParameterGroupsResponse(
+      nextToken: json['NextToken'] as String?,
+      parameterGroups: (json['ParameterGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parameterGroups = this.parameterGroups;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parameterGroups != null) 'ParameterGroups': parameterGroups,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeParametersResponse {
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of parameters within a parameter group. Each element in the list
   /// represents one parameter.
-  @_s.JsonKey(name: 'Parameters')
-  final List<Parameter> parameters;
+  final List<Parameter>? parameters;
 
   DescribeParametersResponse({
     this.nextToken,
     this.parameters,
   });
-  factory DescribeParametersResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeParametersResponseFromJson(json);
+
+  factory DescribeParametersResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeParametersResponse(
+      nextToken: json['NextToken'] as String?,
+      parameters: (json['Parameters'] as List?)
+          ?.whereNotNull()
+          .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final parameters = this.parameters;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (parameters != null) 'Parameters': parameters,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSubnetGroupsResponse {
   /// Provides an identifier to allow retrieval of paginated results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of subnet groups. Each element in the array represents a single
   /// subnet group.
-  @_s.JsonKey(name: 'SubnetGroups')
-  final List<SubnetGroup> subnetGroups;
+  final List<SubnetGroup>? subnetGroups;
 
   DescribeSubnetGroupsResponse({
     this.nextToken,
     this.subnetGroups,
   });
-  factory DescribeSubnetGroupsResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSubnetGroupsResponseFromJson(json);
+
+  factory DescribeSubnetGroupsResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSubnetGroupsResponse(
+      nextToken: json['NextToken'] as String?,
+      subnetGroups: (json['SubnetGroups'] as List?)
+          ?.whereNotNull()
+          .map((e) => SubnetGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final subnetGroups = this.subnetGroups;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (subnetGroups != null) 'SubnetGroups': subnetGroups,
+    };
+  }
 }
 
 /// Represents the information required for client programs to connect to the
-/// configuration endpoint for a DAX cluster, or to an individual node within
-/// the cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// endpoint for a DAX cluster.
 class Endpoint {
   /// The DNS hostname of the endpoint.
-  @_s.JsonKey(name: 'Address')
-  final String address;
+  final String? address;
 
   /// The port number that applications should use to connect to the endpoint.
-  @_s.JsonKey(name: 'Port')
-  final int port;
+  final int? port;
+
+  /// The URL that applications should use to connect to the endpoint. The default
+  /// ports are 8111 for the "dax" protocol and 9111 for the "daxs" protocol.
+  final String? url;
 
   Endpoint({
     this.address,
     this.port,
+    this.url,
   });
-  factory Endpoint.fromJson(Map<String, dynamic> json) =>
-      _$EndpointFromJson(json);
+
+  factory Endpoint.fromJson(Map<String, dynamic> json) {
+    return Endpoint(
+      address: json['Address'] as String?,
+      port: json['Port'] as int?,
+      url: json['URL'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final address = this.address;
+    final port = this.port;
+    final url = this.url;
+    return {
+      if (address != null) 'Address': address,
+      if (port != null) 'Port': port,
+      if (url != null) 'URL': url,
+    };
+  }
 }
 
 /// Represents a single occurrence of something interesting within the system.
 /// Some examples of events are creating a DAX cluster, adding or removing a
 /// node, or rebooting a node.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Event {
   /// The date and time when the event occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Date')
-  final DateTime date;
+  final DateTime? date;
 
   /// A user-defined message associated with the event.
-  @_s.JsonKey(name: 'Message')
-  final String message;
+  final String? message;
 
   /// The source of the event. For example, if the event occurred at the node
   /// level, the source would be the node ID.
-  @_s.JsonKey(name: 'SourceName')
-  final String sourceName;
+  final String? sourceName;
 
   /// Specifies the origin of this event - a cluster, a parameter group, a node
   /// ID, etc.
-  @_s.JsonKey(name: 'SourceType')
-  final SourceType sourceType;
+  final SourceType? sourceType;
 
   Event({
     this.date,
@@ -1617,95 +1874,145 @@ class Event {
     this.sourceName,
     this.sourceType,
   });
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      date: timeStampFromJson(json['Date']),
+      message: json['Message'] as String?,
+      sourceName: json['SourceName'] as String?,
+      sourceType: (json['SourceType'] as String?)?.toSourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final date = this.date;
+    final message = this.message;
+    final sourceName = this.sourceName;
+    final sourceType = this.sourceType;
+    return {
+      if (date != null) 'Date': unixTimestampToJson(date),
+      if (message != null) 'Message': message,
+      if (sourceName != null) 'SourceName': sourceName,
+      if (sourceType != null) 'SourceType': sourceType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IncreaseReplicationFactorResponse {
   /// A description of the DAX cluster. with its new replication factor.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   IncreaseReplicationFactorResponse({
     this.cluster,
   });
+
   factory IncreaseReplicationFactorResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$IncreaseReplicationFactorResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return IncreaseReplicationFactorResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
 enum IsModifiable {
-  @_s.JsonValue('TRUE')
   $true,
-  @_s.JsonValue('FALSE')
   $false,
-  @_s.JsonValue('CONDITIONAL')
   conditional,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on IsModifiable {
+  String toValue() {
+    switch (this) {
+      case IsModifiable.$true:
+        return 'TRUE';
+      case IsModifiable.$false:
+        return 'FALSE';
+      case IsModifiable.conditional:
+        return 'CONDITIONAL';
+    }
+  }
+}
+
+extension on String {
+  IsModifiable toIsModifiable() {
+    switch (this) {
+      case 'TRUE':
+        return IsModifiable.$true;
+      case 'FALSE':
+        return IsModifiable.$false;
+      case 'CONDITIONAL':
+        return IsModifiable.conditional;
+    }
+    throw Exception('$this is not known in enum IsModifiable');
+  }
+}
+
 class ListTagsResponse {
   /// If this value is present, there are additional results to be displayed. To
   /// retrieve them, call <code>ListTags</code> again, with <code>NextToken</code>
   /// set to this value.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A list of tags currently associated with the DAX cluster.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Represents an individual node within a DAX cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Node {
   /// The Availability Zone (AZ) in which the node has been deployed.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The endpoint for the node, consisting of a DNS name and a port number.
   /// Client applications can connect directly to a node endpoint, if desired (as
   /// an alternative to allowing DAX client software to intelligently route
   /// requests and responses to nodes in the DAX cluster.
-  @_s.JsonKey(name: 'Endpoint')
-  final Endpoint endpoint;
+  final Endpoint? endpoint;
 
   /// The date and time (in UNIX epoch format) when the node was launched.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'NodeCreateTime')
-  final DateTime nodeCreateTime;
+  final DateTime? nodeCreateTime;
 
   /// A system-generated identifier for the node.
-  @_s.JsonKey(name: 'NodeId')
-  final String nodeId;
+  final String? nodeId;
 
   /// The current status of the node. For example: <code>available</code>.
-  @_s.JsonKey(name: 'NodeStatus')
-  final String nodeStatus;
+  final String? nodeStatus;
 
   /// The status of the parameter group associated with this node. For example,
   /// <code>in-sync</code>.
-  @_s.JsonKey(name: 'ParameterGroupStatus')
-  final String parameterGroupStatus;
+  final String? parameterGroupStatus;
 
   Node({
     this.availabilityZone,
@@ -1715,107 +2022,139 @@ class Node {
     this.nodeStatus,
     this.parameterGroupStatus,
   });
-  factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
+
+  factory Node.fromJson(Map<String, dynamic> json) {
+    return Node(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      endpoint: json['Endpoint'] != null
+          ? Endpoint.fromJson(json['Endpoint'] as Map<String, dynamic>)
+          : null,
+      nodeCreateTime: timeStampFromJson(json['NodeCreateTime']),
+      nodeId: json['NodeId'] as String?,
+      nodeStatus: json['NodeStatus'] as String?,
+      parameterGroupStatus: json['ParameterGroupStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final endpoint = this.endpoint;
+    final nodeCreateTime = this.nodeCreateTime;
+    final nodeId = this.nodeId;
+    final nodeStatus = this.nodeStatus;
+    final parameterGroupStatus = this.parameterGroupStatus;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (endpoint != null) 'Endpoint': endpoint,
+      if (nodeCreateTime != null)
+        'NodeCreateTime': unixTimestampToJson(nodeCreateTime),
+      if (nodeId != null) 'NodeId': nodeId,
+      if (nodeStatus != null) 'NodeStatus': nodeStatus,
+      if (parameterGroupStatus != null)
+        'ParameterGroupStatus': parameterGroupStatus,
+    };
+  }
 }
 
 /// Represents a parameter value that is applicable to a particular node type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NodeTypeSpecificValue {
   /// A node type to which the parameter value applies.
-  @_s.JsonKey(name: 'NodeType')
-  final String nodeType;
+  final String? nodeType;
 
   /// The parameter value for this node type.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   NodeTypeSpecificValue({
     this.nodeType,
     this.value,
   });
-  factory NodeTypeSpecificValue.fromJson(Map<String, dynamic> json) =>
-      _$NodeTypeSpecificValueFromJson(json);
+
+  factory NodeTypeSpecificValue.fromJson(Map<String, dynamic> json) {
+    return NodeTypeSpecificValue(
+      nodeType: json['NodeType'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeType = this.nodeType;
+    final value = this.value;
+    return {
+      if (nodeType != null) 'NodeType': nodeType,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Describes a notification topic and its status. Notification topics are used
 /// for publishing DAX events to subscribers using Amazon Simple Notification
 /// Service (SNS).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class NotificationConfiguration {
   /// The Amazon Resource Name (ARN) that identifies the topic.
-  @_s.JsonKey(name: 'TopicArn')
-  final String topicArn;
+  final String? topicArn;
 
-  /// The current state of the topic.
-  @_s.JsonKey(name: 'TopicStatus')
-  final String topicStatus;
+  /// The current state of the topic. A value of “active” means that notifications
+  /// will be sent to the topic. A value of “inactive” means that notifications
+  /// will not be sent to the topic.
+  final String? topicStatus;
 
   NotificationConfiguration({
     this.topicArn,
     this.topicStatus,
   });
-  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$NotificationConfigurationFromJson(json);
+
+  factory NotificationConfiguration.fromJson(Map<String, dynamic> json) {
+    return NotificationConfiguration(
+      topicArn: json['TopicArn'] as String?,
+      topicStatus: json['TopicStatus'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final topicArn = this.topicArn;
+    final topicStatus = this.topicStatus;
+    return {
+      if (topicArn != null) 'TopicArn': topicArn,
+      if (topicStatus != null) 'TopicStatus': topicStatus,
+    };
+  }
 }
 
 /// Describes an individual setting that controls some aspect of DAX behavior.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Parameter {
   /// A range of values within which the parameter can be set.
-  @_s.JsonKey(name: 'AllowedValues')
-  final String allowedValues;
+  final String? allowedValues;
 
   /// The conditions under which changes to this parameter can be applied. For
   /// example, <code>requires-reboot</code> indicates that a new value for this
   /// parameter will only take effect if a node is rebooted.
-  @_s.JsonKey(name: 'ChangeType')
-  final ChangeType changeType;
+  final ChangeType? changeType;
 
   /// The data type of the parameter. For example, <code>integer</code>:
-  @_s.JsonKey(name: 'DataType')
-  final String dataType;
+  final String? dataType;
 
   /// A description of the parameter
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// Whether the customer is allowed to modify the parameter.
-  @_s.JsonKey(name: 'IsModifiable')
-  final IsModifiable isModifiable;
+  final IsModifiable? isModifiable;
 
   /// A list of node types, and specific parameter values for each node.
-  @_s.JsonKey(name: 'NodeTypeSpecificValues')
-  final List<NodeTypeSpecificValue> nodeTypeSpecificValues;
+  final List<NodeTypeSpecificValue>? nodeTypeSpecificValues;
 
   /// The name of the parameter.
-  @_s.JsonKey(name: 'ParameterName')
-  final String parameterName;
+  final String? parameterName;
 
   /// Determines whether the parameter can be applied to any nodes, or only nodes
   /// of a particular type.
-  @_s.JsonKey(name: 'ParameterType')
-  final ParameterType parameterType;
+  final ParameterType? parameterType;
 
   /// The value for the parameter.
-  @_s.JsonKey(name: 'ParameterValue')
-  final String parameterValue;
+  final String? parameterValue;
 
   /// How the parameter is defined. For example, <code>system</code> denotes a
   /// system-defined parameter.
-  @_s.JsonKey(name: 'Source')
-  final String source;
+  final String? source;
 
   Parameter({
     this.allowedValues,
@@ -1829,115 +2168,208 @@ class Parameter {
     this.parameterValue,
     this.source,
   });
-  factory Parameter.fromJson(Map<String, dynamic> json) =>
-      _$ParameterFromJson(json);
+
+  factory Parameter.fromJson(Map<String, dynamic> json) {
+    return Parameter(
+      allowedValues: json['AllowedValues'] as String?,
+      changeType: (json['ChangeType'] as String?)?.toChangeType(),
+      dataType: json['DataType'] as String?,
+      description: json['Description'] as String?,
+      isModifiable: (json['IsModifiable'] as String?)?.toIsModifiable(),
+      nodeTypeSpecificValues: (json['NodeTypeSpecificValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => NodeTypeSpecificValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      parameterName: json['ParameterName'] as String?,
+      parameterType: (json['ParameterType'] as String?)?.toParameterType(),
+      parameterValue: json['ParameterValue'] as String?,
+      source: json['Source'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowedValues = this.allowedValues;
+    final changeType = this.changeType;
+    final dataType = this.dataType;
+    final description = this.description;
+    final isModifiable = this.isModifiable;
+    final nodeTypeSpecificValues = this.nodeTypeSpecificValues;
+    final parameterName = this.parameterName;
+    final parameterType = this.parameterType;
+    final parameterValue = this.parameterValue;
+    final source = this.source;
+    return {
+      if (allowedValues != null) 'AllowedValues': allowedValues,
+      if (changeType != null) 'ChangeType': changeType.toValue(),
+      if (dataType != null) 'DataType': dataType,
+      if (description != null) 'Description': description,
+      if (isModifiable != null) 'IsModifiable': isModifiable.toValue(),
+      if (nodeTypeSpecificValues != null)
+        'NodeTypeSpecificValues': nodeTypeSpecificValues,
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterType != null) 'ParameterType': parameterType.toValue(),
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+      if (source != null) 'Source': source,
+    };
+  }
 }
 
 /// A named set of parameters that are applied to all of the nodes in a DAX
 /// cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParameterGroup {
   /// A description of the parameter group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the parameter group.
-  @_s.JsonKey(name: 'ParameterGroupName')
-  final String parameterGroupName;
+  final String? parameterGroupName;
 
   ParameterGroup({
     this.description,
     this.parameterGroupName,
   });
-  factory ParameterGroup.fromJson(Map<String, dynamic> json) =>
-      _$ParameterGroupFromJson(json);
+
+  factory ParameterGroup.fromJson(Map<String, dynamic> json) {
+    return ParameterGroup(
+      description: json['Description'] as String?,
+      parameterGroupName: json['ParameterGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final parameterGroupName = this.parameterGroupName;
+    return {
+      if (description != null) 'Description': description,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+    };
+  }
 }
 
 /// The status of a parameter group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParameterGroupStatus {
   /// The node IDs of one or more nodes to be rebooted.
-  @_s.JsonKey(name: 'NodeIdsToReboot')
-  final List<String> nodeIdsToReboot;
+  final List<String>? nodeIdsToReboot;
 
   /// The status of parameter updates.
-  @_s.JsonKey(name: 'ParameterApplyStatus')
-  final String parameterApplyStatus;
+  final String? parameterApplyStatus;
 
   /// The name of the parameter group.
-  @_s.JsonKey(name: 'ParameterGroupName')
-  final String parameterGroupName;
+  final String? parameterGroupName;
 
   ParameterGroupStatus({
     this.nodeIdsToReboot,
     this.parameterApplyStatus,
     this.parameterGroupName,
   });
-  factory ParameterGroupStatus.fromJson(Map<String, dynamic> json) =>
-      _$ParameterGroupStatusFromJson(json);
+
+  factory ParameterGroupStatus.fromJson(Map<String, dynamic> json) {
+    return ParameterGroupStatus(
+      nodeIdsToReboot: (json['NodeIdsToReboot'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      parameterApplyStatus: json['ParameterApplyStatus'] as String?,
+      parameterGroupName: json['ParameterGroupName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nodeIdsToReboot = this.nodeIdsToReboot;
+    final parameterApplyStatus = this.parameterApplyStatus;
+    final parameterGroupName = this.parameterGroupName;
+    return {
+      if (nodeIdsToReboot != null) 'NodeIdsToReboot': nodeIdsToReboot,
+      if (parameterApplyStatus != null)
+        'ParameterApplyStatus': parameterApplyStatus,
+      if (parameterGroupName != null) 'ParameterGroupName': parameterGroupName,
+    };
+  }
 }
 
 /// An individual DAX parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ParameterNameValue {
   /// The name of the parameter.
-  @_s.JsonKey(name: 'ParameterName')
-  final String parameterName;
+  final String? parameterName;
 
   /// The value of the parameter.
-  @_s.JsonKey(name: 'ParameterValue')
-  final String parameterValue;
+  final String? parameterValue;
 
   ParameterNameValue({
     this.parameterName,
     this.parameterValue,
   });
-  Map<String, dynamic> toJson() => _$ParameterNameValueToJson(this);
+
+  factory ParameterNameValue.fromJson(Map<String, dynamic> json) {
+    return ParameterNameValue(
+      parameterName: json['ParameterName'] as String?,
+      parameterValue: json['ParameterValue'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterName = this.parameterName;
+    final parameterValue = this.parameterValue;
+    return {
+      if (parameterName != null) 'ParameterName': parameterName,
+      if (parameterValue != null) 'ParameterValue': parameterValue,
+    };
+  }
 }
 
 enum ParameterType {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('NODE_TYPE_SPECIFIC')
   nodeTypeSpecific,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ParameterType {
+  String toValue() {
+    switch (this) {
+      case ParameterType.$default:
+        return 'DEFAULT';
+      case ParameterType.nodeTypeSpecific:
+        return 'NODE_TYPE_SPECIFIC';
+    }
+  }
+}
+
+extension on String {
+  ParameterType toParameterType() {
+    switch (this) {
+      case 'DEFAULT':
+        return ParameterType.$default;
+      case 'NODE_TYPE_SPECIFIC':
+        return ParameterType.nodeTypeSpecific;
+    }
+    throw Exception('$this is not known in enum ParameterType');
+  }
+}
+
 class RebootNodeResponse {
   /// A description of the DAX cluster after a node has been rebooted.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   RebootNodeResponse({
     this.cluster,
   });
-  factory RebootNodeResponse.fromJson(Map<String, dynamic> json) =>
-      _$RebootNodeResponseFromJson(json);
+
+  factory RebootNodeResponse.fromJson(Map<String, dynamic> json) {
+    return RebootNodeResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
 /// The description of the server-side encryption status on the specified DAX
 /// cluster.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SSEDescription {
   /// The current state of server-side encryption:
   ///
@@ -1955,74 +2387,122 @@ class SSEDescription {
   /// <code>DISABLED</code> - Server-side encryption is disabled.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'Status')
-  final SSEStatus status;
+  final SSEStatus? status;
 
   SSEDescription({
     this.status,
   });
-  factory SSEDescription.fromJson(Map<String, dynamic> json) =>
-      _$SSEDescriptionFromJson(json);
+
+  factory SSEDescription.fromJson(Map<String, dynamic> json) {
+    return SSEDescription(
+      status: (json['Status'] as String?)?.toSSEStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
 /// Represents the settings used to enable server-side encryption.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SSESpecification {
   /// Indicates whether server-side encryption is enabled (true) or disabled
   /// (false) on the cluster.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   SSESpecification({
-    @_s.required this.enabled,
+    required this.enabled,
   });
-  Map<String, dynamic> toJson() => _$SSESpecificationToJson(this);
+
+  factory SSESpecification.fromJson(Map<String, dynamic> json) {
+    return SSESpecification(
+      enabled: json['Enabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    return {
+      'Enabled': enabled,
+    };
+  }
 }
 
 enum SSEStatus {
-  @_s.JsonValue('ENABLING')
   enabling,
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLING')
   disabling,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
+extension on SSEStatus {
+  String toValue() {
+    switch (this) {
+      case SSEStatus.enabling:
+        return 'ENABLING';
+      case SSEStatus.enabled:
+        return 'ENABLED';
+      case SSEStatus.disabling:
+        return 'DISABLING';
+      case SSEStatus.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  SSEStatus toSSEStatus() {
+    switch (this) {
+      case 'ENABLING':
+        return SSEStatus.enabling;
+      case 'ENABLED':
+        return SSEStatus.enabled;
+      case 'DISABLING':
+        return SSEStatus.disabling;
+      case 'DISABLED':
+        return SSEStatus.disabled;
+    }
+    throw Exception('$this is not known in enum SSEStatus');
+  }
+}
+
 /// An individual VPC security group and its status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SecurityGroupMembership {
   /// The unique ID for this security group.
-  @_s.JsonKey(name: 'SecurityGroupIdentifier')
-  final String securityGroupIdentifier;
+  final String? securityGroupIdentifier;
 
   /// The status of this security group.
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   SecurityGroupMembership({
     this.securityGroupIdentifier,
     this.status,
   });
-  factory SecurityGroupMembership.fromJson(Map<String, dynamic> json) =>
-      _$SecurityGroupMembershipFromJson(json);
+
+  factory SecurityGroupMembership.fromJson(Map<String, dynamic> json) {
+    return SecurityGroupMembership(
+      securityGroupIdentifier: json['SecurityGroupIdentifier'] as String?,
+      status: json['Status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIdentifier = this.securityGroupIdentifier;
+    final status = this.status;
+    return {
+      if (securityGroupIdentifier != null)
+        'SecurityGroupIdentifier': securityGroupIdentifier,
+      if (status != null) 'Status': status,
+    };
+  }
 }
 
 enum SourceType {
-  @_s.JsonValue('CLUSTER')
   cluster,
-  @_s.JsonValue('PARAMETER_GROUP')
   parameterGroup,
-  @_s.JsonValue('SUBNET_GROUP')
   subnetGroup,
 }
 
@@ -2036,32 +2516,54 @@ extension on SourceType {
       case SourceType.subnetGroup:
         return 'SUBNET_GROUP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SourceType toSourceType() {
+    switch (this) {
+      case 'CLUSTER':
+        return SourceType.cluster;
+      case 'PARAMETER_GROUP':
+        return SourceType.parameterGroup;
+      case 'SUBNET_GROUP':
+        return SourceType.subnetGroup;
+    }
+    throw Exception('$this is not known in enum SourceType');
   }
 }
 
 /// Represents the subnet associated with a DAX cluster. This parameter refers
 /// to subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used
 /// with DAX.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Subnet {
   /// The Availability Zone (AZ) for the subnet.
-  @_s.JsonKey(name: 'SubnetAvailabilityZone')
-  final String subnetAvailabilityZone;
+  final String? subnetAvailabilityZone;
 
   /// The system-assigned identifier for the subnet.
-  @_s.JsonKey(name: 'SubnetIdentifier')
-  final String subnetIdentifier;
+  final String? subnetIdentifier;
 
   Subnet({
     this.subnetAvailabilityZone,
     this.subnetIdentifier,
   });
-  factory Subnet.fromJson(Map<String, dynamic> json) => _$SubnetFromJson(json);
+
+  factory Subnet.fromJson(Map<String, dynamic> json) {
+    return Subnet(
+      subnetAvailabilityZone: json['SubnetAvailabilityZone'] as String?,
+      subnetIdentifier: json['SubnetIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetAvailabilityZone = this.subnetAvailabilityZone;
+    final subnetIdentifier = this.subnetIdentifier;
+    return {
+      if (subnetAvailabilityZone != null)
+        'SubnetAvailabilityZone': subnetAvailabilityZone,
+      if (subnetIdentifier != null) 'SubnetIdentifier': subnetIdentifier,
+    };
+  }
 }
 
 /// Represents the output of one of the following actions:
@@ -2074,27 +2576,18 @@ class Subnet {
 /// <i>ModifySubnetGroup</i>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SubnetGroup {
   /// The description of the subnet group.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The name of the subnet group.
-  @_s.JsonKey(name: 'SubnetGroupName')
-  final String subnetGroupName;
+  final String? subnetGroupName;
 
   /// A list of subnets associated with the subnet group.
-  @_s.JsonKey(name: 'Subnets')
-  final List<Subnet> subnets;
+  final List<Subnet>? subnets;
 
   /// The Amazon Virtual Private Cloud identifier (VPC ID) of the subnet group.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   SubnetGroup({
     this.description,
@@ -2102,8 +2595,31 @@ class SubnetGroup {
     this.subnets,
     this.vpcId,
   });
-  factory SubnetGroup.fromJson(Map<String, dynamic> json) =>
-      _$SubnetGroupFromJson(json);
+
+  factory SubnetGroup.fromJson(Map<String, dynamic> json) {
+    return SubnetGroup(
+      description: json['Description'] as String?,
+      subnetGroupName: json['SubnetGroupName'] as String?,
+      subnets: (json['Subnets'] as List?)
+          ?.whereNotNull()
+          .map((e) => Subnet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final subnetGroupName = this.subnetGroupName;
+    final subnets = this.subnets;
+    final vpcId = this.vpcId;
+    return {
+      if (description != null) 'Description': description,
+      if (subnetGroupName != null) 'SubnetGroupName': subnetGroupName,
+      if (subnets != null) 'Subnets': subnets,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
 }
 
 /// A description of a tag. Every tag is a key-value pair. You can add up to 50
@@ -2115,128 +2631,172 @@ class SubnetGroup {
 /// the prefix <code>user:</code>.
 ///
 /// You cannot backdate the application of a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key for the tag. Tag keys are case sensitive. Every DAX cluster can only
   /// have one tag with the same key. If you try to add an existing tag (same
   /// key), the existing tag value will be updated to the new value.
-  @_s.JsonKey(name: 'Key')
-  final String key;
+  final String? key;
 
   /// The value of the tag. Tag values are case-sensitive and can be null.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   /// The list of tags that are associated with the DAX resource.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   TagResourceResponse({
     this.tags,
   });
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> json) {
+    return TagResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   /// The tag keys that have been removed from the cluster.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   UntagResourceResponse({
     this.tags,
   });
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) {
+    return UntagResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateClusterResponse {
   /// A description of the DAX cluster, after it has been modified.
-  @_s.JsonKey(name: 'Cluster')
-  final Cluster cluster;
+  final Cluster? cluster;
 
   UpdateClusterResponse({
     this.cluster,
   });
-  factory UpdateClusterResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateClusterResponseFromJson(json);
+
+  factory UpdateClusterResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateClusterResponse(
+      cluster: json['Cluster'] != null
+          ? Cluster.fromJson(json['Cluster'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cluster = this.cluster;
+    return {
+      if (cluster != null) 'Cluster': cluster,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateParameterGroupResponse {
   /// The parameter group that has been modified.
-  @_s.JsonKey(name: 'ParameterGroup')
-  final ParameterGroup parameterGroup;
+  final ParameterGroup? parameterGroup;
 
   UpdateParameterGroupResponse({
     this.parameterGroup,
   });
-  factory UpdateParameterGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateParameterGroupResponseFromJson(json);
+
+  factory UpdateParameterGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateParameterGroupResponse(
+      parameterGroup: json['ParameterGroup'] != null
+          ? ParameterGroup.fromJson(
+              json['ParameterGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final parameterGroup = this.parameterGroup;
+    return {
+      if (parameterGroup != null) 'ParameterGroup': parameterGroup,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSubnetGroupResponse {
   /// The subnet group that has been modified.
-  @_s.JsonKey(name: 'SubnetGroup')
-  final SubnetGroup subnetGroup;
+  final SubnetGroup? subnetGroup;
 
   UpdateSubnetGroupResponse({
     this.subnetGroup,
   });
-  factory UpdateSubnetGroupResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSubnetGroupResponseFromJson(json);
+
+  factory UpdateSubnetGroupResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSubnetGroupResponse(
+      subnetGroup: json['SubnetGroup'] != null
+          ? SubnetGroup.fromJson(json['SubnetGroup'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final subnetGroup = this.subnetGroup;
+    return {
+      if (subnetGroup != null) 'SubnetGroup': subnetGroup,
+    };
+  }
 }
 
 class ClusterAlreadyExistsFault extends _s.GenericAwsException {
-  ClusterAlreadyExistsFault({String type, String message})
+  ClusterAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'ClusterAlreadyExistsFault', message: message);
 }
 
 class ClusterNotFoundFault extends _s.GenericAwsException {
-  ClusterNotFoundFault({String type, String message})
+  ClusterNotFoundFault({String? type, String? message})
       : super(type: type, code: 'ClusterNotFoundFault', message: message);
 }
 
 class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
-  ClusterQuotaForCustomerExceededFault({String type, String message})
+  ClusterQuotaForCustomerExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ClusterQuotaForCustomerExceededFault',
@@ -2244,7 +2804,7 @@ class ClusterQuotaForCustomerExceededFault extends _s.GenericAwsException {
 }
 
 class InsufficientClusterCapacityFault extends _s.GenericAwsException {
-  InsufficientClusterCapacityFault({String type, String message})
+  InsufficientClusterCapacityFault({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientClusterCapacityFault',
@@ -2252,17 +2812,17 @@ class InsufficientClusterCapacityFault extends _s.GenericAwsException {
 }
 
 class InvalidARNFault extends _s.GenericAwsException {
-  InvalidARNFault({String type, String message})
+  InvalidARNFault({String? type, String? message})
       : super(type: type, code: 'InvalidARNFault', message: message);
 }
 
 class InvalidClusterStateFault extends _s.GenericAwsException {
-  InvalidClusterStateFault({String type, String message})
+  InvalidClusterStateFault({String? type, String? message})
       : super(type: type, code: 'InvalidClusterStateFault', message: message);
 }
 
 class InvalidParameterCombinationException extends _s.GenericAwsException {
-  InvalidParameterCombinationException({String type, String message})
+  InvalidParameterCombinationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterCombinationException',
@@ -2270,7 +2830,7 @@ class InvalidParameterCombinationException extends _s.GenericAwsException {
 }
 
 class InvalidParameterGroupStateFault extends _s.GenericAwsException {
-  InvalidParameterGroupStateFault({String type, String message})
+  InvalidParameterGroupStateFault({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterGroupStateFault',
@@ -2278,7 +2838,7 @@ class InvalidParameterGroupStateFault extends _s.GenericAwsException {
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
-  InvalidParameterValueException({String type, String message})
+  InvalidParameterValueException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValueException',
@@ -2286,23 +2846,23 @@ class InvalidParameterValueException extends _s.GenericAwsException {
 }
 
 class InvalidSubnet extends _s.GenericAwsException {
-  InvalidSubnet({String type, String message})
+  InvalidSubnet({String? type, String? message})
       : super(type: type, code: 'InvalidSubnet', message: message);
 }
 
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
-  InvalidVPCNetworkStateFault({String type, String message})
+  InvalidVPCNetworkStateFault({String? type, String? message})
       : super(
             type: type, code: 'InvalidVPCNetworkStateFault', message: message);
 }
 
 class NodeNotFoundFault extends _s.GenericAwsException {
-  NodeNotFoundFault({String type, String message})
+  NodeNotFoundFault({String? type, String? message})
       : super(type: type, code: 'NodeNotFoundFault', message: message);
 }
 
 class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
-  NodeQuotaForClusterExceededFault({String type, String message})
+  NodeQuotaForClusterExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'NodeQuotaForClusterExceededFault',
@@ -2310,7 +2870,7 @@ class NodeQuotaForClusterExceededFault extends _s.GenericAwsException {
 }
 
 class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
-  NodeQuotaForCustomerExceededFault({String type, String message})
+  NodeQuotaForCustomerExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'NodeQuotaForCustomerExceededFault',
@@ -2318,7 +2878,7 @@ class NodeQuotaForCustomerExceededFault extends _s.GenericAwsException {
 }
 
 class ParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
-  ParameterGroupAlreadyExistsFault({String type, String message})
+  ParameterGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'ParameterGroupAlreadyExistsFault',
@@ -2326,13 +2886,13 @@ class ParameterGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class ParameterGroupNotFoundFault extends _s.GenericAwsException {
-  ParameterGroupNotFoundFault({String type, String message})
+  ParameterGroupNotFoundFault({String? type, String? message})
       : super(
             type: type, code: 'ParameterGroupNotFoundFault', message: message);
 }
 
 class ParameterGroupQuotaExceededFault extends _s.GenericAwsException {
-  ParameterGroupQuotaExceededFault({String type, String message})
+  ParameterGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'ParameterGroupQuotaExceededFault',
@@ -2340,15 +2900,23 @@ class ParameterGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class ServiceLinkedRoleNotFoundFault extends _s.GenericAwsException {
-  ServiceLinkedRoleNotFoundFault({String type, String message})
+  ServiceLinkedRoleNotFoundFault({String? type, String? message})
       : super(
             type: type,
             code: 'ServiceLinkedRoleNotFoundFault',
             message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String? type, String? message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class SubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
-  SubnetGroupAlreadyExistsFault({String type, String message})
+  SubnetGroupAlreadyExistsFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubnetGroupAlreadyExistsFault',
@@ -2356,17 +2924,17 @@ class SubnetGroupAlreadyExistsFault extends _s.GenericAwsException {
 }
 
 class SubnetGroupInUseFault extends _s.GenericAwsException {
-  SubnetGroupInUseFault({String type, String message})
+  SubnetGroupInUseFault({String? type, String? message})
       : super(type: type, code: 'SubnetGroupInUseFault', message: message);
 }
 
 class SubnetGroupNotFoundFault extends _s.GenericAwsException {
-  SubnetGroupNotFoundFault({String type, String message})
+  SubnetGroupNotFoundFault({String? type, String? message})
       : super(type: type, code: 'SubnetGroupNotFoundFault', message: message);
 }
 
 class SubnetGroupQuotaExceededFault extends _s.GenericAwsException {
-  SubnetGroupQuotaExceededFault({String type, String message})
+  SubnetGroupQuotaExceededFault({String? type, String? message})
       : super(
             type: type,
             code: 'SubnetGroupQuotaExceededFault',
@@ -2374,22 +2942,22 @@ class SubnetGroupQuotaExceededFault extends _s.GenericAwsException {
 }
 
 class SubnetInUse extends _s.GenericAwsException {
-  SubnetInUse({String type, String message})
+  SubnetInUse({String? type, String? message})
       : super(type: type, code: 'SubnetInUse', message: message);
 }
 
 class SubnetQuotaExceededFault extends _s.GenericAwsException {
-  SubnetQuotaExceededFault({String type, String message})
+  SubnetQuotaExceededFault({String? type, String? message})
       : super(type: type, code: 'SubnetQuotaExceededFault', message: message);
 }
 
 class TagNotFoundFault extends _s.GenericAwsException {
-  TagNotFoundFault({String type, String message})
+  TagNotFoundFault({String? type, String? message})
       : super(type: type, code: 'TagNotFoundFault', message: message);
 }
 
 class TagQuotaPerResourceExceeded extends _s.GenericAwsException {
-  TagQuotaPerResourceExceeded({String type, String message})
+  TagQuotaPerResourceExceeded({String? type, String? message})
       : super(
             type: type, code: 'TagQuotaPerResourceExceeded', message: message);
 }
@@ -2431,6 +2999,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ParameterGroupQuotaExceededFault(type: type, message: message),
   'ServiceLinkedRoleNotFoundFault': (type, message) =>
       ServiceLinkedRoleNotFoundFault(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'SubnetGroupAlreadyExistsFault': (type, message) =>
       SubnetGroupAlreadyExistsFault(type: type, message: message),
   'SubnetGroupInUseFault': (type, message) =>

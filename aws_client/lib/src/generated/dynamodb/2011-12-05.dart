@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2011-12-05.g.dart';
 
 /// Amazon DynamoDB is a fast, highly scalable, highly available, cost-effective
 /// non-relational database service.
@@ -34,10 +27,10 @@ part '2011-12-05.g.dart';
 class DynamoDB {
   final _s.JsonProtocol _protocol;
   DynamoDB({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -70,7 +63,7 @@ class DynamoDB {
   /// May throw [RequestLimitExceeded].
   /// May throw [InternalServerError].
   Future<BatchGetItemOutput> batchGetItem({
-    @_s.required Map<String, KeysAndAttributes> requestItems,
+    required Map<String, KeysAndAttributes> requestItems,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
     final headers = <String, String>{
@@ -107,7 +100,7 @@ class DynamoDB {
   /// A map of table name to list-of-write-requests. Used as input to the
   /// <code>BatchWriteItem</code> API call
   Future<BatchWriteItemOutput> batchWriteItem({
-    @_s.required Map<String, List<WriteRequest>> requestItems,
+    required Map<String, List<WriteRequest>> requestItems,
   }) async {
     ArgumentError.checkNotNull(requestItems, 'requestItems');
     final headers = <String, String>{
@@ -149,9 +142,9 @@ class DynamoDB {
   /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
   /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
   Future<CreateTableOutput> createTable({
-    @_s.required KeySchema keySchema,
-    @_s.required ProvisionedThroughput provisionedThroughput,
-    @_s.required String tableName,
+    required KeySchema keySchema,
+    required ProvisionedThroughput provisionedThroughput,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(keySchema, 'keySchema');
     ArgumentError.checkNotNull(provisionedThroughput, 'provisionedThroughput');
@@ -161,12 +154,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -207,10 +194,10 @@ class DynamoDB {
   /// <code>_</code> (underscore), <code>-</code> (hyphen) and <code>.</code>
   /// (period).
   Future<DeleteItemOutput> deleteItem({
-    @_s.required Key key,
-    @_s.required String tableName,
-    Map<String, ExpectedAttributeValue> expected,
-    ReturnValue returnValues,
+    required Key key,
+    required String tableName,
+    Map<String, ExpectedAttributeValue>? expected,
+    ReturnValue? returnValues,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -219,12 +206,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -266,7 +247,7 @@ class DynamoDB {
   /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
   /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
   Future<DeleteTableOutput> deleteTable({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -274,12 +255,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -314,7 +289,7 @@ class DynamoDB {
   /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
   /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
   Future<DescribeTableOutput> describeTable({
-    @_s.required String tableName,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -322,12 +297,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -366,10 +335,10 @@ class DynamoDB {
   /// are <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
   /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
   Future<GetItemOutput> getItem({
-    @_s.required Key key,
-    @_s.required String tableName,
-    List<String> attributesToGet,
-    bool consistentRead,
+    required Key key,
+    required String tableName,
+    List<String>? attributesToGet,
+    bool? consistentRead,
   }) async {
     ArgumentError.checkNotNull(key, 'key');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -378,12 +347,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -418,19 +381,14 @@ class DynamoDB {
   /// <code>LastEvaluatedTableName</code> value in the response, use that value
   /// here to continue the list.
   Future<ListTablesOutput> listTables({
-    String exclusiveStartTableName,
-    int limit,
+    String? exclusiveStartTableName,
+    int? limit,
   }) async {
     _s.validateStringLength(
       'exclusiveStartTableName',
       exclusiveStartTableName,
       3,
       255,
-    );
-    _s.validateStringPattern(
-      'exclusiveStartTableName',
-      exclusiveStartTableName,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     _s.validateNumRange(
       'limit',
@@ -479,10 +437,10 @@ class DynamoDB {
   /// are <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
   /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
   Future<PutItemOutput> putItem({
-    @_s.required Map<String, AttributeValue> item,
-    @_s.required String tableName,
-    Map<String, ExpectedAttributeValue> expected,
-    ReturnValue returnValues,
+    required Map<String, AttributeValue> item,
+    required String tableName,
+    Map<String, ExpectedAttributeValue>? expected,
+    ReturnValue? returnValues,
   }) async {
     ArgumentError.checkNotNull(item, 'item');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -491,12 +449,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -575,15 +527,15 @@ class DynamoDB {
   /// returns results reflecting the requested order, determined by the range
   /// key. The default value is <code>true</code> (forward).
   Future<QueryOutput> query({
-    @_s.required AttributeValue hashKeyValue,
-    @_s.required String tableName,
-    List<String> attributesToGet,
-    bool consistentRead,
-    bool count,
-    Key exclusiveStartKey,
-    int limit,
-    Condition rangeKeyCondition,
-    bool scanIndexForward,
+    required AttributeValue hashKeyValue,
+    required String tableName,
+    List<String>? attributesToGet,
+    bool? consistentRead,
+    bool? count,
+    Key? exclusiveStartKey,
+    int? limit,
+    Condition? rangeKeyCondition,
+    bool? scanIndexForward,
   }) async {
     ArgumentError.checkNotNull(hashKeyValue, 'hashKeyValue');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -592,12 +544,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -675,12 +621,12 @@ class DynamoDB {
   /// Parameter [scanFilter] :
   /// Evaluates the scan results and returns only the desired values.
   Future<ScanOutput> scan({
-    @_s.required String tableName,
-    List<String> attributesToGet,
-    bool count,
-    Key exclusiveStartKey,
-    int limit,
-    Map<String, Condition> scanFilter,
+    required String tableName,
+    List<String>? attributesToGet,
+    bool? count,
+    Key? exclusiveStartKey,
+    int? limit,
+    Map<String, Condition>? scanFilter,
   }) async {
     ArgumentError.checkNotNull(tableName, 'tableName');
     _s.validateStringLength(
@@ -688,12 +634,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -744,11 +684,11 @@ class DynamoDB {
   /// <code>_</code> (underscore), <code>-</code> (hyphen) and <code>.</code>
   /// (period).
   Future<UpdateItemOutput> updateItem({
-    @_s.required Map<String, AttributeValueUpdate> attributeUpdates,
-    @_s.required Key key,
-    @_s.required String tableName,
-    Map<String, ExpectedAttributeValue> expected,
-    ReturnValue returnValues,
+    required Map<String, AttributeValueUpdate> attributeUpdates,
+    required Key key,
+    required String tableName,
+    Map<String, ExpectedAttributeValue>? expected,
+    ReturnValue? returnValues,
   }) async {
     ArgumentError.checkNotNull(attributeUpdates, 'attributeUpdates');
     ArgumentError.checkNotNull(key, 'key');
@@ -758,12 +698,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -803,8 +737,8 @@ class DynamoDB {
   /// <code>a-z</code>, <code>A-Z</code>, <code>0-9</code>, <code>_</code>
   /// (underscore), <code>-</code> (hyphen) and <code>.</code> (period).
   Future<UpdateTableOutput> updateTable({
-    @_s.required ProvisionedThroughput provisionedThroughput,
-    @_s.required String tableName,
+    required ProvisionedThroughput provisionedThroughput,
+    required String tableName,
   }) async {
     ArgumentError.checkNotNull(provisionedThroughput, 'provisionedThroughput');
     ArgumentError.checkNotNull(tableName, 'tableName');
@@ -813,12 +747,6 @@ class DynamoDB {
       tableName,
       3,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'tableName',
-      tableName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -849,51 +777,62 @@ class DynamoDB {
 /// If a set of values is specified, then the values in the specified set are
 /// removed from the old set.
 enum AttributeAction {
-  @_s.JsonValue('ADD')
   add,
-  @_s.JsonValue('PUT')
   put,
-  @_s.JsonValue('DELETE')
   delete,
+}
+
+extension on AttributeAction {
+  String toValue() {
+    switch (this) {
+      case AttributeAction.add:
+        return 'ADD';
+      case AttributeAction.put:
+        return 'PUT';
+      case AttributeAction.delete:
+        return 'DELETE';
+    }
+  }
+}
+
+extension on String {
+  AttributeAction toAttributeAction() {
+    switch (this) {
+      case 'ADD':
+        return AttributeAction.add;
+      case 'PUT':
+        return AttributeAction.put;
+      case 'DELETE':
+        return AttributeAction.delete;
+    }
+    throw Exception('$this is not known in enum AttributeAction');
+  }
 }
 
 /// AttributeValue can be <code>String</code>, <code>Number</code>,
 /// <code>Binary</code>, <code>StringSet</code>, <code>NumberSet</code>,
 /// <code>BinarySet</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AttributeValue {
   /// Binary attributes are sequences of unsigned bytes.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'B')
-  final Uint8List b;
+  final Uint8List? b;
 
   /// A set of binary attributes.
-  @Uint8ListListConverter()
-  @_s.JsonKey(name: 'BS')
-  final List<Uint8List> bs;
+  final List<Uint8List>? bs;
 
   /// Numbers are positive or negative exact-value decimals and integers. A number
   /// can have up to 38 digits precision and can be between 10^-128 to 10^+126.
-  @_s.JsonKey(name: 'N')
-  final String n;
+  final String? n;
 
   /// A set of numbers.
-  @_s.JsonKey(name: 'NS')
-  final List<String> ns;
+  final List<String>? ns;
 
   /// Strings are Unicode with UTF-8 binary encoding. The maximum size is limited
   /// by the size of the primary key (1024 bytes as a range part of a key or 2048
   /// bytes as a single part hash key) or the item size (64k).
-  @_s.JsonKey(name: 'S')
-  final String s;
+  final String? s;
 
   /// A set of strings.
-  @_s.JsonKey(name: 'SS')
-  final List<String> ss;
+  final List<String>? ss;
 
   AttributeValue({
     this.b,
@@ -903,40 +842,77 @@ class AttributeValue {
     this.s,
     this.ss,
   });
-  factory AttributeValue.fromJson(Map<String, dynamic> json) =>
-      _$AttributeValueFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AttributeValueToJson(this);
+  factory AttributeValue.fromJson(Map<String, dynamic> json) {
+    return AttributeValue(
+      b: _s.decodeNullableUint8List(json['B'] as String?),
+      bs: (json['BS'] as List?)
+          ?.whereNotNull()
+          .map((e) => _s.decodeUint8List(e as String))
+          .toList(),
+      n: json['N'] as String?,
+      ns: (json['NS'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      s: json['S'] as String?,
+      ss: (json['SS'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final b = this.b;
+    final bs = this.bs;
+    final n = this.n;
+    final ns = this.ns;
+    final s = this.s;
+    final ss = this.ss;
+    return {
+      if (b != null) 'B': base64Encode(b),
+      if (bs != null) 'BS': bs.map(base64Encode).toList(),
+      if (n != null) 'N': n,
+      if (ns != null) 'NS': ns,
+      if (s != null) 'S': s,
+      if (ss != null) 'SS': ss,
+    };
+  }
 }
 
 /// Specifies the attribute to update and how to perform the update. Possible
 /// values: <code>PUT</code> (default), <code>ADD</code> or <code>DELETE</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class AttributeValueUpdate {
-  @_s.JsonKey(name: 'Action')
-  final AttributeAction action;
-  @_s.JsonKey(name: 'Value')
-  final AttributeValue value;
+  final AttributeAction? action;
+  final AttributeValue? value;
 
   AttributeValueUpdate({
     this.action,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$AttributeValueUpdateToJson(this);
+
+  factory AttributeValueUpdate.fromJson(Map<String, dynamic> json) {
+    return AttributeValueUpdate(
+      action: (json['Action'] as String?)?.toAttributeAction(),
+      value: json['Value'] != null
+          ? AttributeValue.fromJson(json['Value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final value = this.value;
+    return {
+      if (action != null) 'Action': action.toValue(),
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchGetItemOutput {
-  @_s.JsonKey(name: 'Responses')
-  final Map<String, BatchResponse> responses;
+  final Map<String, BatchResponse>? responses;
 
   /// Contains a map of tables and their respective keys that were not processed
   /// with the current response, possibly due to reaching a limit on the response
@@ -944,78 +920,126 @@ class BatchGetItemOutput {
   /// <code>RequestItems</code> parameter (so the value can be provided directly
   /// to a subsequent <code>BatchGetItem</code> operation). For more information,
   /// see the above <code>RequestItems</code> parameter.
-  @_s.JsonKey(name: 'UnprocessedKeys')
-  final Map<String, KeysAndAttributes> unprocessedKeys;
+  final Map<String, KeysAndAttributes>? unprocessedKeys;
 
   BatchGetItemOutput({
     this.responses,
     this.unprocessedKeys,
   });
-  factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchGetItemOutputFromJson(json);
+
+  factory BatchGetItemOutput.fromJson(Map<String, dynamic> json) {
+    return BatchGetItemOutput(
+      responses: (json['Responses'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, BatchResponse.fromJson(e as Map<String, dynamic>))),
+      unprocessedKeys: (json['UnprocessedKeys'] as Map<String, dynamic>?)?.map(
+          (k, e) => MapEntry(
+              k, KeysAndAttributes.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responses = this.responses;
+    final unprocessedKeys = this.unprocessedKeys;
+    return {
+      if (responses != null) 'Responses': responses,
+      if (unprocessedKeys != null) 'UnprocessedKeys': unprocessedKeys,
+    };
+  }
 }
 
 /// The item attributes from a response in a specific table, along with the read
 /// resources consumed on the table during the request.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchResponse {
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
-  @_s.JsonKey(name: 'Items')
-  final List<Map<String, AttributeValue>> items;
+  final double? consumedCapacityUnits;
+  final List<Map<String, AttributeValue>>? items;
 
   BatchResponse({
     this.consumedCapacityUnits,
     this.items,
   });
-  factory BatchResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchResponseFromJson(json);
+
+  factory BatchResponse.fromJson(Map<String, dynamic> json) {
+    return BatchResponse(
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    final items = this.items;
+    return {
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+      if (items != null) 'Items': items,
+    };
+  }
 }
 
 /// A container for <code>BatchWriteItem</code> response
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchWriteItemOutput {
   /// The response object as a result of <code>BatchWriteItem</code> call. This is
   /// essentially a map of table name to <code>ConsumedCapacityUnits</code>.
-  @_s.JsonKey(name: 'Responses')
-  final Map<String, BatchWriteResponse> responses;
+  final Map<String, BatchWriteResponse>? responses;
 
   /// The Items which we could not successfully process in a
   /// <code>BatchWriteItem</code> call is returned as
   /// <code>UnprocessedItems</code>
-  @_s.JsonKey(name: 'UnprocessedItems')
-  final Map<String, List<WriteRequest>> unprocessedItems;
+  final Map<String, List<WriteRequest>>? unprocessedItems;
 
   BatchWriteItemOutput({
     this.responses,
     this.unprocessedItems,
   });
-  factory BatchWriteItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$BatchWriteItemOutputFromJson(json);
+
+  factory BatchWriteItemOutput.fromJson(Map<String, dynamic> json) {
+    return BatchWriteItemOutput(
+      responses: (json['Responses'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, BatchWriteResponse.fromJson(e as Map<String, dynamic>))),
+      unprocessedItems: (json['UnprocessedItems'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(
+              k,
+              (e as List)
+                  .whereNotNull()
+                  .map((e) => WriteRequest.fromJson(e as Map<String, dynamic>))
+                  .toList())),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final responses = this.responses;
+    final unprocessedItems = this.unprocessedItems;
+    return {
+      if (responses != null) 'Responses': responses,
+      if (unprocessedItems != null) 'UnprocessedItems': unprocessedItems,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BatchWriteResponse {
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
+  final double? consumedCapacityUnits;
 
   BatchWriteResponse({
     this.consumedCapacityUnits,
   });
-  factory BatchWriteResponse.fromJson(Map<String, dynamic> json) =>
-      _$BatchWriteResponseFromJson(json);
+
+  factory BatchWriteResponse.fromJson(Map<String, dynamic> json) {
+    return BatchWriteResponse(
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    return {
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+    };
+  }
 }
 
 /// A comparison operator is an enumeration of several operations:
@@ -1041,220 +1065,350 @@ class BatchWriteResponse {
 /// Query operations support a subset of the available comparison operators: EQ,
 /// LE, LT, GE, GT, BETWEEN, and BEGINS_WITH.
 enum ComparisonOperator {
-  @_s.JsonValue('EQ')
   eq,
-  @_s.JsonValue('NE')
   ne,
-  @_s.JsonValue('IN')
   $in,
-  @_s.JsonValue('LE')
   le,
-  @_s.JsonValue('LT')
   lt,
-  @_s.JsonValue('GE')
   ge,
-  @_s.JsonValue('GT')
   gt,
-  @_s.JsonValue('BETWEEN')
   between,
-  @_s.JsonValue('NOT_NULL')
   notNull,
-  @_s.JsonValue('NULL')
   $null,
-  @_s.JsonValue('CONTAINS')
   contains,
-  @_s.JsonValue('NOT_CONTAINS')
   notContains,
-  @_s.JsonValue('BEGINS_WITH')
   beginsWith,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
-class Condition {
-  @_s.JsonKey(name: 'ComparisonOperator')
-  final ComparisonOperator comparisonOperator;
-  @_s.JsonKey(name: 'AttributeValueList')
-  final List<AttributeValue> attributeValueList;
-
-  Condition({
-    @_s.required this.comparisonOperator,
-    this.attributeValueList,
-  });
-  Map<String, dynamic> toJson() => _$ConditionToJson(this);
+extension on ComparisonOperator {
+  String toValue() {
+    switch (this) {
+      case ComparisonOperator.eq:
+        return 'EQ';
+      case ComparisonOperator.ne:
+        return 'NE';
+      case ComparisonOperator.$in:
+        return 'IN';
+      case ComparisonOperator.le:
+        return 'LE';
+      case ComparisonOperator.lt:
+        return 'LT';
+      case ComparisonOperator.ge:
+        return 'GE';
+      case ComparisonOperator.gt:
+        return 'GT';
+      case ComparisonOperator.between:
+        return 'BETWEEN';
+      case ComparisonOperator.notNull:
+        return 'NOT_NULL';
+      case ComparisonOperator.$null:
+        return 'NULL';
+      case ComparisonOperator.contains:
+        return 'CONTAINS';
+      case ComparisonOperator.notContains:
+        return 'NOT_CONTAINS';
+      case ComparisonOperator.beginsWith:
+        return 'BEGINS_WITH';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ComparisonOperator toComparisonOperator() {
+    switch (this) {
+      case 'EQ':
+        return ComparisonOperator.eq;
+      case 'NE':
+        return ComparisonOperator.ne;
+      case 'IN':
+        return ComparisonOperator.$in;
+      case 'LE':
+        return ComparisonOperator.le;
+      case 'LT':
+        return ComparisonOperator.lt;
+      case 'GE':
+        return ComparisonOperator.ge;
+      case 'GT':
+        return ComparisonOperator.gt;
+      case 'BETWEEN':
+        return ComparisonOperator.between;
+      case 'NOT_NULL':
+        return ComparisonOperator.notNull;
+      case 'NULL':
+        return ComparisonOperator.$null;
+      case 'CONTAINS':
+        return ComparisonOperator.contains;
+      case 'NOT_CONTAINS':
+        return ComparisonOperator.notContains;
+      case 'BEGINS_WITH':
+        return ComparisonOperator.beginsWith;
+    }
+    throw Exception('$this is not known in enum ComparisonOperator');
+  }
+}
+
+class Condition {
+  final ComparisonOperator comparisonOperator;
+  final List<AttributeValue>? attributeValueList;
+
+  Condition({
+    required this.comparisonOperator,
+    this.attributeValueList,
+  });
+
+  factory Condition.fromJson(Map<String, dynamic> json) {
+    return Condition(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String).toComparisonOperator(),
+      attributeValueList: (json['AttributeValueList'] as List?)
+          ?.whereNotNull()
+          .map((e) => AttributeValue.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final attributeValueList = this.attributeValueList;
+    return {
+      'ComparisonOperator': comparisonOperator.toValue(),
+      if (attributeValueList != null) 'AttributeValueList': attributeValueList,
+    };
+  }
+}
+
 class CreateTableOutput {
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   CreateTableOutput({
     this.tableDescription,
   });
-  factory CreateTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$CreateTableOutputFromJson(json);
+
+  factory CreateTableOutput.fromJson(Map<String, dynamic> json) {
+    return CreateTableOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteItemOutput {
   /// If the <code>ReturnValues</code> parameter is provided as
   /// <code>ALL_OLD</code> in the request, Amazon DynamoDB returns an array of
   /// attribute name-value pairs (essentially, the deleted item). Otherwise, the
   /// response contains an empty set.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, AttributeValue> attributes;
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
+  final Map<String, AttributeValue>? attributes;
+  final double? consumedCapacityUnits;
 
   DeleteItemOutput({
     this.attributes,
     this.consumedCapacityUnits,
   });
-  factory DeleteItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteItemOutputFromJson(json);
+
+  factory DeleteItemOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteItemOutput(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+    };
+  }
 }
 
 /// A container for a Delete BatchWrite request
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DeleteRequest {
   /// The item's key to be delete
-  @_s.JsonKey(name: 'Key')
   final Key key;
 
   DeleteRequest({
-    @_s.required this.key,
+    required this.key,
   });
-  factory DeleteRequest.fromJson(Map<String, dynamic> json) =>
-      _$DeleteRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeleteRequestToJson(this);
+  factory DeleteRequest.fromJson(Map<String, dynamic> json) {
+    return DeleteRequest(
+      key: Key.fromJson(json['Key'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    return {
+      'Key': key,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTableOutput {
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   DeleteTableOutput({
     this.tableDescription,
   });
-  factory DeleteTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTableOutputFromJson(json);
+
+  factory DeleteTableOutput.fromJson(Map<String, dynamic> json) {
+    return DeleteTableOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTableOutput {
-  @_s.JsonKey(name: 'Table')
-  final TableDescription table;
+  final TableDescription? table;
 
   DescribeTableOutput({
     this.table,
   });
-  factory DescribeTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTableOutputFromJson(json);
+
+  factory DescribeTableOutput.fromJson(Map<String, dynamic> json) {
+    return DescribeTableOutput(
+      table: json['Table'] != null
+          ? TableDescription.fromJson(json['Table'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final table = this.table;
+    return {
+      if (table != null) 'Table': table,
+    };
+  }
 }
 
 /// Allows you to provide an attribute name, and whether or not Amazon DynamoDB
 /// should check to see if the attribute value already exists; or if the
 /// attribute value exists and has a particular value before changing it.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExpectedAttributeValue {
   /// Specify whether or not a value already exists for the attribute name-value
   /// pair.
-  @_s.JsonKey(name: 'Exists')
-  final bool exists;
+  final bool? exists;
 
   /// Specify whether or not a value already exists and has a specific content for
   /// the attribute name-value pair.
-  @_s.JsonKey(name: 'Value')
-  final AttributeValue value;
+  final AttributeValue? value;
 
   ExpectedAttributeValue({
     this.exists,
     this.value,
   });
-  Map<String, dynamic> toJson() => _$ExpectedAttributeValueToJson(this);
+
+  factory ExpectedAttributeValue.fromJson(Map<String, dynamic> json) {
+    return ExpectedAttributeValue(
+      exists: json['Exists'] as bool?,
+      value: json['Value'] != null
+          ? AttributeValue.fromJson(json['Value'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final exists = this.exists;
+    final value = this.value;
+    return {
+      if (exists != null) 'Exists': exists,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetItemOutput {
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
+  final double? consumedCapacityUnits;
 
   /// Contains the requested attributes.
-  @_s.JsonKey(name: 'Item')
-  final Map<String, AttributeValue> item;
+  final Map<String, AttributeValue>? item;
 
   GetItemOutput({
     this.consumedCapacityUnits,
     this.item,
   });
-  factory GetItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$GetItemOutputFromJson(json);
+
+  factory GetItemOutput.fromJson(Map<String, dynamic> json) {
+    return GetItemOutput(
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+      item: (json['Item'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    final item = this.item;
+    return {
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+      if (item != null) 'Item': item,
+    };
+  }
 }
 
 /// The primary key that uniquely identifies each item in a table. A primary key
 /// can be a one attribute (hash) primary key or a two attribute
 /// (hash-and-range) primary key.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Key {
   /// A hash key element is treated as the primary key, and can be a string or a
   /// number. Single attribute primary keys have one index value. The value can be
   /// <code>String</code>, <code>Number</code>, <code>StringSet</code>,
   /// <code>NumberSet</code>.
-  @_s.JsonKey(name: 'HashKeyElement')
   final AttributeValue hashKeyElement;
 
   /// A range key element is treated as a secondary key (used in conjunction with
   /// the primary key), and can be a string or a number, and is only used for
   /// hash-and-range primary keys. The value can be <code>String</code>,
   /// <code>Number</code>, <code>StringSet</code>, <code>NumberSet</code>.
-  @_s.JsonKey(name: 'RangeKeyElement')
-  final AttributeValue rangeKeyElement;
+  final AttributeValue? rangeKeyElement;
 
   Key({
-    @_s.required this.hashKeyElement,
+    required this.hashKeyElement,
     this.rangeKeyElement,
   });
-  factory Key.fromJson(Map<String, dynamic> json) => _$KeyFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeyToJson(this);
+  factory Key.fromJson(Map<String, dynamic> json) {
+    return Key(
+      hashKeyElement: AttributeValue.fromJson(
+          json['HashKeyElement'] as Map<String, dynamic>),
+      rangeKeyElement: json['RangeKeyElement'] != null
+          ? AttributeValue.fromJson(
+              json['RangeKeyElement'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hashKeyElement = this.hashKeyElement;
+    final rangeKeyElement = this.rangeKeyElement;
+    return {
+      'HashKeyElement': hashKeyElement,
+      if (rangeKeyElement != null) 'RangeKeyElement': rangeKeyElement,
+    };
+  }
 }
 
 /// The KeySchema identifies the primary key as a one attribute primary key
@@ -1262,108 +1416,146 @@ class Key {
 /// attribute primary keys have one index value: a <code>HashKeyElement</code>.
 /// A composite hash-and-range primary key contains two attribute values: a
 /// <code>HashKeyElement</code> and a <code>RangeKeyElement</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeySchema {
   /// A hash key element is treated as the primary key, and can be a string or a
   /// number. Single attribute primary keys have one index value. The value can be
   /// <code>String</code>, <code>Number</code>, <code>StringSet</code>,
   /// <code>NumberSet</code>.
-  @_s.JsonKey(name: 'HashKeyElement')
   final KeySchemaElement hashKeyElement;
 
   /// A range key element is treated as a secondary key (used in conjunction with
   /// the primary key), and can be a string or a number, and is only used for
   /// hash-and-range primary keys. The value can be <code>String</code>,
   /// <code>Number</code>, <code>StringSet</code>, <code>NumberSet</code>.
-  @_s.JsonKey(name: 'RangeKeyElement')
-  final KeySchemaElement rangeKeyElement;
+  final KeySchemaElement? rangeKeyElement;
 
   KeySchema({
-    @_s.required this.hashKeyElement,
+    required this.hashKeyElement,
     this.rangeKeyElement,
   });
-  factory KeySchema.fromJson(Map<String, dynamic> json) =>
-      _$KeySchemaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeySchemaToJson(this);
+  factory KeySchema.fromJson(Map<String, dynamic> json) {
+    return KeySchema(
+      hashKeyElement: KeySchemaElement.fromJson(
+          json['HashKeyElement'] as Map<String, dynamic>),
+      rangeKeyElement: json['RangeKeyElement'] != null
+          ? KeySchemaElement.fromJson(
+              json['RangeKeyElement'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hashKeyElement = this.hashKeyElement;
+    final rangeKeyElement = this.rangeKeyElement;
+    return {
+      'HashKeyElement': hashKeyElement,
+      if (rangeKeyElement != null) 'RangeKeyElement': rangeKeyElement,
+    };
+  }
 }
 
 /// <code>KeySchemaElement</code> is the primary key (hash or hash-and-range)
 /// structure for the table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeySchemaElement {
   /// The <code>AttributeName</code> of the <code>KeySchemaElement</code>.
-  @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
   /// The <code>AttributeType</code> of the <code>KeySchemaElement</code> which
   /// can be a <code>String</code> or a <code>Number</code>.
-  @_s.JsonKey(name: 'AttributeType')
   final ScalarAttributeType attributeType;
 
   KeySchemaElement({
-    @_s.required this.attributeName,
-    @_s.required this.attributeType,
+    required this.attributeName,
+    required this.attributeType,
   });
-  factory KeySchemaElement.fromJson(Map<String, dynamic> json) =>
-      _$KeySchemaElementFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeySchemaElementToJson(this);
+  factory KeySchemaElement.fromJson(Map<String, dynamic> json) {
+    return KeySchemaElement(
+      attributeName: json['AttributeName'] as String,
+      attributeType: (json['AttributeType'] as String).toScalarAttributeType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributeName = this.attributeName;
+    final attributeType = this.attributeType;
+    return {
+      'AttributeName': attributeName,
+      'AttributeType': attributeType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeysAndAttributes {
-  @_s.JsonKey(name: 'Keys')
   final List<Key> keys;
-  @_s.JsonKey(name: 'AttributesToGet')
-  final List<String> attributesToGet;
-  @_s.JsonKey(name: 'ConsistentRead')
-  final bool consistentRead;
+  final List<String>? attributesToGet;
+  final bool? consistentRead;
 
   KeysAndAttributes({
-    @_s.required this.keys,
+    required this.keys,
     this.attributesToGet,
     this.consistentRead,
   });
-  factory KeysAndAttributes.fromJson(Map<String, dynamic> json) =>
-      _$KeysAndAttributesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeysAndAttributesToJson(this);
+  factory KeysAndAttributes.fromJson(Map<String, dynamic> json) {
+    return KeysAndAttributes(
+      keys: (json['Keys'] as List)
+          .whereNotNull()
+          .map((e) => Key.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      attributesToGet: (json['AttributesToGet'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      consistentRead: json['ConsistentRead'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keys = this.keys;
+    final attributesToGet = this.attributesToGet;
+    final consistentRead = this.consistentRead;
+    return {
+      'Keys': keys,
+      if (attributesToGet != null) 'AttributesToGet': attributesToGet,
+      if (consistentRead != null) 'ConsistentRead': consistentRead,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTablesOutput {
   /// The name of the last table in the current list. Use this value as the
   /// <code>ExclusiveStartTableName</code> in a new request to continue the list
   /// until all the table names are returned. If this value is null, all table
   /// names have been returned.
-  @_s.JsonKey(name: 'LastEvaluatedTableName')
-  final String lastEvaluatedTableName;
-  @_s.JsonKey(name: 'TableNames')
-  final List<String> tableNames;
+  final String? lastEvaluatedTableName;
+  final List<String>? tableNames;
 
   ListTablesOutput({
     this.lastEvaluatedTableName,
     this.tableNames,
   });
-  factory ListTablesOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTablesOutputFromJson(json);
+
+  factory ListTablesOutput.fromJson(Map<String, dynamic> json) {
+    return ListTablesOutput(
+      lastEvaluatedTableName: json['LastEvaluatedTableName'] as String?,
+      tableNames: (json['TableNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastEvaluatedTableName = this.lastEvaluatedTableName;
+    final tableNames = this.tableNames;
+    return {
+      if (lastEvaluatedTableName != null)
+        'LastEvaluatedTableName': lastEvaluatedTableName,
+      if (tableNames != null) 'TableNames': tableNames,
+    };
+  }
 }
 
 /// Provisioned throughput reserves the required read and write resources for
@@ -1374,50 +1566,46 @@ class ListTablesOutput {
 /// and strictly consistent reads. For 2k item size, double the value. For 3k,
 /// triple the value, etc. Eventually-consistent reads consume half the
 /// resources of strictly consistent reads.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ProvisionedThroughput {
   /// <code>ReadCapacityUnits</code> are in terms of strictly consistent reads,
   /// assuming items of 1k. 2k items require twice the
   /// <code>ReadCapacityUnits</code>. Eventually-consistent reads only require
   /// half the <code>ReadCapacityUnits</code> of stirctly consistent reads.
-  @_s.JsonKey(name: 'ReadCapacityUnits')
   final int readCapacityUnits;
 
   /// <code>WriteCapacityUnits</code> are in terms of strictly consistent reads,
   /// assuming items of 1k. 2k items require twice the
   /// <code>WriteCapacityUnits</code>.
-  @_s.JsonKey(name: 'WriteCapacityUnits')
   final int writeCapacityUnits;
 
   ProvisionedThroughput({
-    @_s.required this.readCapacityUnits,
-    @_s.required this.writeCapacityUnits,
+    required this.readCapacityUnits,
+    required this.writeCapacityUnits,
   });
-  Map<String, dynamic> toJson() => _$ProvisionedThroughputToJson(this);
+
+  factory ProvisionedThroughput.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughput(
+      readCapacityUnits: json['ReadCapacityUnits'] as int,
+      writeCapacityUnits: json['WriteCapacityUnits'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      'ReadCapacityUnits': readCapacityUnits,
+      'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ProvisionedThroughputDescription {
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastDecreaseDateTime')
-  final DateTime lastDecreaseDateTime;
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastIncreaseDateTime')
-  final DateTime lastIncreaseDateTime;
-  @_s.JsonKey(name: 'NumberOfDecreasesToday')
-  final int numberOfDecreasesToday;
-  @_s.JsonKey(name: 'ReadCapacityUnits')
-  final int readCapacityUnits;
-  @_s.JsonKey(name: 'WriteCapacityUnits')
-  final int writeCapacityUnits;
+  final DateTime? lastDecreaseDateTime;
+  final DateTime? lastIncreaseDateTime;
+  final int? numberOfDecreasesToday;
+  final int? readCapacityUnits;
+  final int? writeCapacityUnits;
 
   ProvisionedThroughputDescription({
     this.lastDecreaseDateTime,
@@ -1426,75 +1614,104 @@ class ProvisionedThroughputDescription {
     this.readCapacityUnits,
     this.writeCapacityUnits,
   });
-  factory ProvisionedThroughputDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ProvisionedThroughputDescriptionFromJson(json);
+
+  factory ProvisionedThroughputDescription.fromJson(Map<String, dynamic> json) {
+    return ProvisionedThroughputDescription(
+      lastDecreaseDateTime: timeStampFromJson(json['LastDecreaseDateTime']),
+      lastIncreaseDateTime: timeStampFromJson(json['LastIncreaseDateTime']),
+      numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int?,
+      readCapacityUnits: json['ReadCapacityUnits'] as int?,
+      writeCapacityUnits: json['WriteCapacityUnits'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastDecreaseDateTime = this.lastDecreaseDateTime;
+    final lastIncreaseDateTime = this.lastIncreaseDateTime;
+    final numberOfDecreasesToday = this.numberOfDecreasesToday;
+    final readCapacityUnits = this.readCapacityUnits;
+    final writeCapacityUnits = this.writeCapacityUnits;
+    return {
+      if (lastDecreaseDateTime != null)
+        'LastDecreaseDateTime': unixTimestampToJson(lastDecreaseDateTime),
+      if (lastIncreaseDateTime != null)
+        'LastIncreaseDateTime': unixTimestampToJson(lastIncreaseDateTime),
+      if (numberOfDecreasesToday != null)
+        'NumberOfDecreasesToday': numberOfDecreasesToday,
+      if (readCapacityUnits != null) 'ReadCapacityUnits': readCapacityUnits,
+      if (writeCapacityUnits != null) 'WriteCapacityUnits': writeCapacityUnits,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutItemOutput {
   /// Attribute values before the put operation, but only if the
   /// <code>ReturnValues</code> parameter is specified as <code>ALL_OLD</code> in
   /// the request.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, AttributeValue> attributes;
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
+  final Map<String, AttributeValue>? attributes;
+  final double? consumedCapacityUnits;
 
   PutItemOutput({
     this.attributes,
     this.consumedCapacityUnits,
   });
-  factory PutItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$PutItemOutputFromJson(json);
+
+  factory PutItemOutput.fromJson(Map<String, dynamic> json) {
+    return PutItemOutput(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+    };
+  }
 }
 
 /// A container for a Put BatchWrite request
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class PutRequest {
   /// The item to put
-  @_s.JsonKey(name: 'Item')
   final Map<String, AttributeValue> item;
 
   PutRequest({
-    @_s.required this.item,
+    required this.item,
   });
-  factory PutRequest.fromJson(Map<String, dynamic> json) =>
-      _$PutRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PutRequestToJson(this);
+  factory PutRequest.fromJson(Map<String, dynamic> json) {
+    return PutRequest(
+      item: (json['Item'] as Map<String, dynamic>).map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final item = this.item;
+    return {
+      'Item': item,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class QueryOutput {
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
+  final double? consumedCapacityUnits;
 
   /// Number of items in the response.
-  @_s.JsonKey(name: 'Count')
-  final int count;
-  @_s.JsonKey(name: 'Items')
-  final List<Map<String, AttributeValue>> items;
+  final int? count;
+  final List<Map<String, AttributeValue>>? items;
 
   /// Primary key of the item where the query operation stopped, inclusive of the
   /// previous result set. Use this value to start a new operation excluding this
   /// value in the new request. The <code>LastEvaluatedKey</code> is null when the
   /// entire query result set is complete (i.e. the operation processed the "last
   /// page").
-  @_s.JsonKey(name: 'LastEvaluatedKey')
-  final Key lastEvaluatedKey;
+  final Key? lastEvaluatedKey;
 
   QueryOutput({
     this.consumedCapacityUnits,
@@ -1502,8 +1719,35 @@ class QueryOutput {
     this.items,
     this.lastEvaluatedKey,
   });
-  factory QueryOutput.fromJson(Map<String, dynamic> json) =>
-      _$QueryOutputFromJson(json);
+
+  factory QueryOutput.fromJson(Map<String, dynamic> json) {
+    return QueryOutput(
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+      count: json['Count'] as int?,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      lastEvaluatedKey: json['LastEvaluatedKey'] != null
+          ? Key.fromJson(json['LastEvaluatedKey'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    final count = this.count;
+    final items = this.items;
+    final lastEvaluatedKey = this.lastEvaluatedKey;
+    return {
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+      if (count != null) 'Count': count,
+      if (items != null) 'Items': items,
+      if (lastEvaluatedKey != null) 'LastEvaluatedKey': lastEvaluatedKey,
+    };
+  }
 }
 
 /// Use this parameter if you want to get the attribute name-value pairs before
@@ -1525,15 +1769,10 @@ class QueryOutput {
 /// only, as they are after the operation.</li>
 /// </ul>
 enum ReturnValue {
-  @_s.JsonValue('NONE')
   none,
-  @_s.JsonValue('ALL_OLD')
   allOld,
-  @_s.JsonValue('UPDATED_OLD')
   updatedOld,
-  @_s.JsonValue('ALL_NEW')
   allNew,
-  @_s.JsonValue('UPDATED_NEW')
   updatedNew,
 }
 
@@ -1551,46 +1790,77 @@ extension on ReturnValue {
       case ReturnValue.updatedNew:
         return 'UPDATED_NEW';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ReturnValue toReturnValue() {
+    switch (this) {
+      case 'NONE':
+        return ReturnValue.none;
+      case 'ALL_OLD':
+        return ReturnValue.allOld;
+      case 'UPDATED_OLD':
+        return ReturnValue.updatedOld;
+      case 'ALL_NEW':
+        return ReturnValue.allNew;
+      case 'UPDATED_NEW':
+        return ReturnValue.updatedNew;
+    }
+    throw Exception('$this is not known in enum ReturnValue');
   }
 }
 
 enum ScalarAttributeType {
-  @_s.JsonValue('S')
   s,
-  @_s.JsonValue('N')
   n,
-  @_s.JsonValue('B')
   b,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ScalarAttributeType {
+  String toValue() {
+    switch (this) {
+      case ScalarAttributeType.s:
+        return 'S';
+      case ScalarAttributeType.n:
+        return 'N';
+      case ScalarAttributeType.b:
+        return 'B';
+    }
+  }
+}
+
+extension on String {
+  ScalarAttributeType toScalarAttributeType() {
+    switch (this) {
+      case 'S':
+        return ScalarAttributeType.s;
+      case 'N':
+        return ScalarAttributeType.n;
+      case 'B':
+        return ScalarAttributeType.b;
+    }
+    throw Exception('$this is not known in enum ScalarAttributeType');
+  }
+}
+
 class ScanOutput {
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
+  final double? consumedCapacityUnits;
 
   /// Number of items in the response.
-  @_s.JsonKey(name: 'Count')
-  final int count;
-  @_s.JsonKey(name: 'Items')
-  final List<Map<String, AttributeValue>> items;
+  final int? count;
+  final List<Map<String, AttributeValue>>? items;
 
   /// Primary key of the item where the scan operation stopped. Provide this value
   /// in a subsequent scan operation to continue the operation from that point.
   /// The <code>LastEvaluatedKey</code> is null when the entire scan result set is
   /// complete (i.e. the operation processed the "last page").
-  @_s.JsonKey(name: 'LastEvaluatedKey')
-  final Key lastEvaluatedKey;
+  final Key? lastEvaluatedKey;
 
   /// Number of items in the complete scan before any filters are applied. A high
   /// <code>ScannedCount</code> value with few, or no, <code>Count</code> results
   /// indicates an inefficient <code>Scan</code> operation.
-  @_s.JsonKey(name: 'ScannedCount')
-  final int scannedCount;
+  final int? scannedCount;
 
   ScanOutput({
     this.consumedCapacityUnits,
@@ -1599,33 +1869,50 @@ class ScanOutput {
     this.lastEvaluatedKey,
     this.scannedCount,
   });
-  factory ScanOutput.fromJson(Map<String, dynamic> json) =>
-      _$ScanOutputFromJson(json);
+
+  factory ScanOutput.fromJson(Map<String, dynamic> json) {
+    return ScanOutput(
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+      count: json['Count'] as int?,
+      items: (json['Items'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as Map<String, dynamic>).map((k, e) =>
+              MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))))
+          .toList(),
+      lastEvaluatedKey: json['LastEvaluatedKey'] != null
+          ? Key.fromJson(json['LastEvaluatedKey'] as Map<String, dynamic>)
+          : null,
+      scannedCount: json['ScannedCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    final count = this.count;
+    final items = this.items;
+    final lastEvaluatedKey = this.lastEvaluatedKey;
+    final scannedCount = this.scannedCount;
+    return {
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+      if (count != null) 'Count': count,
+      if (items != null) 'Items': items,
+      if (lastEvaluatedKey != null) 'LastEvaluatedKey': lastEvaluatedKey,
+      if (scannedCount != null) 'ScannedCount': scannedCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TableDescription {
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDateTime')
-  final DateTime creationDateTime;
-  @_s.JsonKey(name: 'ItemCount')
-  final int itemCount;
-  @_s.JsonKey(name: 'KeySchema')
-  final KeySchema keySchema;
-  @_s.JsonKey(name: 'ProvisionedThroughput')
-  final ProvisionedThroughputDescription provisionedThroughput;
+  final DateTime? creationDateTime;
+  final int? itemCount;
+  final KeySchema? keySchema;
+  final ProvisionedThroughputDescription? provisionedThroughput;
 
   /// The name of the table being described.
-  @_s.JsonKey(name: 'TableName')
-  final String tableName;
-  @_s.JsonKey(name: 'TableSizeBytes')
-  final int tableSizeBytes;
-  @_s.JsonKey(name: 'TableStatus')
-  final TableStatus tableStatus;
+  final String? tableName;
+  final int? tableSizeBytes;
+  final TableStatus? tableStatus;
 
   TableDescription({
     this.creationDateTime,
@@ -1636,85 +1923,175 @@ class TableDescription {
     this.tableSizeBytes,
     this.tableStatus,
   });
-  factory TableDescription.fromJson(Map<String, dynamic> json) =>
-      _$TableDescriptionFromJson(json);
+
+  factory TableDescription.fromJson(Map<String, dynamic> json) {
+    return TableDescription(
+      creationDateTime: timeStampFromJson(json['CreationDateTime']),
+      itemCount: json['ItemCount'] as int?,
+      keySchema: json['KeySchema'] != null
+          ? KeySchema.fromJson(json['KeySchema'] as Map<String, dynamic>)
+          : null,
+      provisionedThroughput: json['ProvisionedThroughput'] != null
+          ? ProvisionedThroughputDescription.fromJson(
+              json['ProvisionedThroughput'] as Map<String, dynamic>)
+          : null,
+      tableName: json['TableName'] as String?,
+      tableSizeBytes: json['TableSizeBytes'] as int?,
+      tableStatus: (json['TableStatus'] as String?)?.toTableStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDateTime = this.creationDateTime;
+    final itemCount = this.itemCount;
+    final keySchema = this.keySchema;
+    final provisionedThroughput = this.provisionedThroughput;
+    final tableName = this.tableName;
+    final tableSizeBytes = this.tableSizeBytes;
+    final tableStatus = this.tableStatus;
+    return {
+      if (creationDateTime != null)
+        'CreationDateTime': unixTimestampToJson(creationDateTime),
+      if (itemCount != null) 'ItemCount': itemCount,
+      if (keySchema != null) 'KeySchema': keySchema,
+      if (provisionedThroughput != null)
+        'ProvisionedThroughput': provisionedThroughput,
+      if (tableName != null) 'TableName': tableName,
+      if (tableSizeBytes != null) 'TableSizeBytes': tableSizeBytes,
+      if (tableStatus != null) 'TableStatus': tableStatus.toValue(),
+    };
+  }
 }
 
 enum TableStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('ACTIVE')
   active,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on TableStatus {
+  String toValue() {
+    switch (this) {
+      case TableStatus.creating:
+        return 'CREATING';
+      case TableStatus.updating:
+        return 'UPDATING';
+      case TableStatus.deleting:
+        return 'DELETING';
+      case TableStatus.active:
+        return 'ACTIVE';
+    }
+  }
+}
+
+extension on String {
+  TableStatus toTableStatus() {
+    switch (this) {
+      case 'CREATING':
+        return TableStatus.creating;
+      case 'UPDATING':
+        return TableStatus.updating;
+      case 'DELETING':
+        return TableStatus.deleting;
+      case 'ACTIVE':
+        return TableStatus.active;
+    }
+    throw Exception('$this is not known in enum TableStatus');
+  }
+}
+
 class UpdateItemOutput {
   /// A map of attribute name-value pairs, but only if the
   /// <code>ReturnValues</code> parameter is specified as something other than
   /// <code>NONE</code> in the request.
-  @_s.JsonKey(name: 'Attributes')
-  final Map<String, AttributeValue> attributes;
-  @_s.JsonKey(name: 'ConsumedCapacityUnits')
-  final double consumedCapacityUnits;
+  final Map<String, AttributeValue>? attributes;
+  final double? consumedCapacityUnits;
 
   UpdateItemOutput({
     this.attributes,
     this.consumedCapacityUnits,
   });
-  factory UpdateItemOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateItemOutputFromJson(json);
+
+  factory UpdateItemOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateItemOutput(
+      attributes: (json['Attributes'] as Map<String, dynamic>?)?.map((k, e) =>
+          MapEntry(k, AttributeValue.fromJson(e as Map<String, dynamic>))),
+      consumedCapacityUnits: json['ConsumedCapacityUnits'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final attributes = this.attributes;
+    final consumedCapacityUnits = this.consumedCapacityUnits;
+    return {
+      if (attributes != null) 'Attributes': attributes,
+      if (consumedCapacityUnits != null)
+        'ConsumedCapacityUnits': consumedCapacityUnits,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateTableOutput {
-  @_s.JsonKey(name: 'TableDescription')
-  final TableDescription tableDescription;
+  final TableDescription? tableDescription;
 
   UpdateTableOutput({
     this.tableDescription,
   });
-  factory UpdateTableOutput.fromJson(Map<String, dynamic> json) =>
-      _$UpdateTableOutputFromJson(json);
+
+  factory UpdateTableOutput.fromJson(Map<String, dynamic> json) {
+    return UpdateTableOutput(
+      tableDescription: json['TableDescription'] != null
+          ? TableDescription.fromJson(
+              json['TableDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tableDescription = this.tableDescription;
+    return {
+      if (tableDescription != null) 'TableDescription': tableDescription,
+    };
+  }
 }
 
 /// This structure is a Union of PutRequest and DeleteRequest. It can contain
 /// exactly one of <code>PutRequest</code> or <code>DeleteRequest</code>. Never
 /// Both. This is enforced in the code.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WriteRequest {
-  @_s.JsonKey(name: 'DeleteRequest')
-  final DeleteRequest deleteRequest;
-  @_s.JsonKey(name: 'PutRequest')
-  final PutRequest putRequest;
+  final DeleteRequest? deleteRequest;
+  final PutRequest? putRequest;
 
   WriteRequest({
     this.deleteRequest,
     this.putRequest,
   });
-  factory WriteRequest.fromJson(Map<String, dynamic> json) =>
-      _$WriteRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WriteRequestToJson(this);
+  factory WriteRequest.fromJson(Map<String, dynamic> json) {
+    return WriteRequest(
+      deleteRequest: json['DeleteRequest'] != null
+          ? DeleteRequest.fromJson(
+              json['DeleteRequest'] as Map<String, dynamic>)
+          : null,
+      putRequest: json['PutRequest'] != null
+          ? PutRequest.fromJson(json['PutRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deleteRequest = this.deleteRequest;
+    final putRequest = this.putRequest;
+    return {
+      if (deleteRequest != null) 'DeleteRequest': deleteRequest,
+      if (putRequest != null) 'PutRequest': putRequest,
+    };
+  }
 }
 
 class ConditionalCheckFailedException extends _s.GenericAwsException {
-  ConditionalCheckFailedException({String type, String message})
+  ConditionalCheckFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'ConditionalCheckFailedException',
@@ -1722,17 +2099,17 @@ class ConditionalCheckFailedException extends _s.GenericAwsException {
 }
 
 class InternalServerError extends _s.GenericAwsException {
-  InternalServerError({String type, String message})
+  InternalServerError({String? type, String? message})
       : super(type: type, code: 'InternalServerError', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ProvisionedThroughputExceededException extends _s.GenericAwsException {
-  ProvisionedThroughputExceededException({String type, String message})
+  ProvisionedThroughputExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ProvisionedThroughputExceededException',
@@ -1740,17 +2117,17 @@ class ProvisionedThroughputExceededException extends _s.GenericAwsException {
 }
 
 class RequestLimitExceeded extends _s.GenericAwsException {
-  RequestLimitExceeded({String type, String message})
+  RequestLimitExceeded({String? type, String? message})
       : super(type: type, code: 'RequestLimitExceeded', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 

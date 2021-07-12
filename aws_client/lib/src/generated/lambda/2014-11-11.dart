@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2014-11-11.g.dart';
 
 /// This is the AWS Lambda API Reference. The AWS Lambda Developer Guide
 /// provides additional information. For the service overview, go to <a
@@ -35,10 +28,10 @@ part '2014-11-11.g.dart';
 class Lambda {
   final _s.RestJsonProtocol _protocol;
   Lambda({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -102,11 +95,11 @@ class Lambda {
   /// href="http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html#Kinesis-GetShardIterator-request-ShardIteratorType">ShardIteratorType</a>
   /// in the Amazon Kinesis Service API Reference.
   Future<EventSourceConfiguration> addEventSource({
-    @_s.required String eventSource,
-    @_s.required String functionName,
-    @_s.required String role,
-    int batchSize,
-    Map<String, String> parameters,
+    required String eventSource,
+    required String functionName,
+    required String role,
+    int? batchSize,
+    Map<String, String>? parameters,
   }) async {
     ArgumentError.checkNotNull(eventSource, 'eventSource');
     ArgumentError.checkNotNull(functionName, 'functionName');
@@ -117,19 +110,7 @@ class Lambda {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-      isRequired: true,
-    );
     final $payload = <String, dynamic>{
       'EventSource': eventSource,
       'FunctionName': functionName,
@@ -157,7 +138,7 @@ class Lambda {
   /// Parameter [functionName] :
   /// The Lambda function to delete.
   Future<void> deleteFunction({
-    @_s.required String functionName,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -165,12 +146,6 @@ class Lambda {
       functionName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     await _protocol.send(
@@ -194,7 +169,7 @@ class Lambda {
   /// Parameter [uuid] :
   /// The AWS Lambda assigned ID of the event source mapping.
   Future<EventSourceConfiguration> getEventSource({
-    @_s.required String uuid,
+    required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
     final response = await _protocol.send(
@@ -222,7 +197,7 @@ class Lambda {
   /// Parameter [functionName] :
   /// The Lambda function name.
   Future<GetFunctionResponse> getFunction({
-    @_s.required String functionName,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -230,12 +205,6 @@ class Lambda {
       functionName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -261,7 +230,7 @@ class Lambda {
   /// The name of the Lambda function for which you want to retrieve the
   /// configuration information.
   Future<FunctionConfiguration> getFunctionConfiguration({
-    @_s.required String functionName,
+    required String functionName,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -269,12 +238,6 @@ class Lambda {
       functionName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -305,8 +268,8 @@ class Lambda {
   /// Parameter [invokeArgs] :
   /// JSON that you want to provide to your Lambda function as input.
   Future<InvokeAsyncResponse> invokeAsync({
-    @_s.required String functionName,
-    @_s.required Uint8List invokeArgs,
+    required String functionName,
+    required Uint8List invokeArgs,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -314,12 +277,6 @@ class Lambda {
       functionName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(invokeArgs, 'invokeArgs');
@@ -363,21 +320,16 @@ class Lambda {
   /// Optional integer. Specifies the maximum number of event sources to return
   /// in response. This value must be greater than 0.
   Future<ListEventSourcesResponse> listEventSources({
-    String eventSourceArn,
-    String functionName,
-    String marker,
-    int maxItems,
+    String? eventSourceArn,
+    String? functionName,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateStringLength(
       'functionName',
       functionName,
       1,
       64,
-    );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
     );
     _s.validateNumRange(
       'maxItems',
@@ -419,8 +371,8 @@ class Lambda {
   /// Optional integer. Specifies the maximum number of AWS Lambda functions to
   /// return in response. This parameter value must be greater than 0.
   Future<ListFunctionsResponse> listFunctions({
-    String marker,
-    int maxItems,
+    String? marker,
+    int? maxItems,
   }) async {
     _s.validateNumRange(
       'maxItems',
@@ -455,7 +407,7 @@ class Lambda {
   /// Parameter [uuid] :
   /// The event source mapping ID.
   Future<void> removeEventSource({
-    @_s.required String uuid,
+    required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
     await _protocol.send(
@@ -508,12 +460,12 @@ class Lambda {
   /// this value based on your expected execution time. The default is 3
   /// seconds.
   Future<FunctionConfiguration> updateFunctionConfiguration({
-    @_s.required String functionName,
-    String description,
-    String handler,
-    int memorySize,
-    String role,
-    int timeout,
+    required String functionName,
+    String? description,
+    String? handler,
+    int? memorySize,
+    String? role,
+    int? timeout,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -523,33 +475,17 @@ class Lambda {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
     );
-    _s.validateStringPattern(
-      'handler',
-      handler,
-      r'''[a-zA-Z0-9./\-_]+''',
-    );
     _s.validateNumRange(
       'memorySize',
       memorySize,
       128,
       1024,
-    );
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
     );
     _s.validateNumRange(
       'timeout',
@@ -635,15 +571,15 @@ class Lambda {
   /// this value based on your expected execution time. The default is 3
   /// seconds.
   Future<FunctionConfiguration> uploadFunction({
-    @_s.required String functionName,
-    @_s.required Uint8List functionZip,
-    @_s.required String handler,
-    @_s.required Mode mode,
-    @_s.required String role,
-    @_s.required Runtime runtime,
-    String description,
-    int memorySize,
-    int timeout,
+    required String functionName,
+    required Uint8List functionZip,
+    required String handler,
+    required Mode mode,
+    required String role,
+    required Runtime runtime,
+    String? description,
+    int? memorySize,
+    int? timeout,
   }) async {
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
@@ -653,28 +589,10 @@ class Lambda {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'functionName',
-      functionName,
-      r'''[a-zA-Z0-9-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionZip, 'functionZip');
     ArgumentError.checkNotNull(handler, 'handler');
-    _s.validateStringPattern(
-      'handler',
-      handler,
-      r'''[a-zA-Z0-9./\-_]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(mode, 'mode');
     ArgumentError.checkNotNull(role, 'role');
-    _s.validateStringPattern(
-      'role',
-      role,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runtime, 'runtime');
     _s.validateStringLength(
       'description',
@@ -695,10 +613,10 @@ class Lambda {
       60,
     );
     final $query = <String, List<String>>{
-      if (handler != null) 'Handler': [handler],
-      if (mode != null) 'Mode': [mode.toValue()],
-      if (role != null) 'Role': [role],
-      if (runtime != null) 'Runtime': [runtime.toValue()],
+      'Handler': [handler],
+      'Mode': [mode.toValue()],
+      'Role': [role],
+      'Runtime': [runtime.toValue()],
       if (description != null) 'Description': [description],
       if (memorySize != null) 'MemorySize': [memorySize.toString()],
       if (timeout != null) 'Timeout': [timeout.toString()],
@@ -715,57 +633,42 @@ class Lambda {
 }
 
 /// Describes mapping between an Amazon Kinesis stream and a Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class EventSourceConfiguration {
   /// The largest number of records that AWS Lambda will POST in the invocation
   /// request to your function.
-  @_s.JsonKey(name: 'BatchSize')
-  final int batchSize;
+  final int? batchSize;
 
   /// The Amazon Resource Name (ARN) of the Amazon Kinesis stream that is the
   /// source of events.
-  @_s.JsonKey(name: 'EventSource')
-  final String eventSource;
+  final String? eventSource;
 
   /// The Lambda function to invoke when AWS Lambda detects an event on the
   /// stream.
-  @_s.JsonKey(name: 'FunctionName')
-  final String functionName;
+  final String? functionName;
 
   /// Indicates whether the event source mapping is currently honored. Events are
   /// only processes if IsActive is true.
-  @_s.JsonKey(name: 'IsActive')
-  final bool isActive;
+  final bool? isActive;
 
   /// The UTC time string indicating the last time the event mapping was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The map (key-value pairs) defining the configuration for AWS Lambda to use
   /// when reading the event source.
-  @_s.JsonKey(name: 'Parameters')
-  final Map<String, String> parameters;
+  final Map<String, String>? parameters;
 
   /// The ARN of the IAM role (invocation role) that AWS Lambda can assume to read
   /// from the stream and invoke the function.
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// The description of the health of the event source mapping. Valid values are:
   /// "PENDING", "OK", and "PROBLEM:<i>message</i>". Initially this staus is
   /// "PENDING". When AWS Lambda begins processing events, it changes the status
   /// to "OK".
-  @_s.JsonKey(name: 'Status')
-  final String status;
+  final String? status;
 
   /// The AWS Lambda assigned opaque identifier for the mapping.
-  @_s.JsonKey(name: 'UUID')
-  final String uuid;
+  final String? uuid;
 
   EventSourceConfiguration({
     this.batchSize,
@@ -778,95 +681,121 @@ class EventSourceConfiguration {
     this.status,
     this.uuid,
   });
-  factory EventSourceConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$EventSourceConfigurationFromJson(json);
+
+  factory EventSourceConfiguration.fromJson(Map<String, dynamic> json) {
+    return EventSourceConfiguration(
+      batchSize: json['BatchSize'] as int?,
+      eventSource: json['EventSource'] as String?,
+      functionName: json['FunctionName'] as String?,
+      isActive: json['IsActive'] as bool?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      parameters: (json['Parameters'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      role: json['Role'] as String?,
+      status: json['Status'] as String?,
+      uuid: json['UUID'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final batchSize = this.batchSize;
+    final eventSource = this.eventSource;
+    final functionName = this.functionName;
+    final isActive = this.isActive;
+    final lastModified = this.lastModified;
+    final parameters = this.parameters;
+    final role = this.role;
+    final status = this.status;
+    final uuid = this.uuid;
+    return {
+      if (batchSize != null) 'BatchSize': batchSize,
+      if (eventSource != null) 'EventSource': eventSource,
+      if (functionName != null) 'FunctionName': functionName,
+      if (isActive != null) 'IsActive': isActive,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (parameters != null) 'Parameters': parameters,
+      if (role != null) 'Role': role,
+      if (status != null) 'Status': status,
+      if (uuid != null) 'UUID': uuid,
+    };
+  }
 }
 
 /// The object for the Lambda function location.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FunctionCodeLocation {
   /// The presigned URL you can use to download the function's .zip file that you
   /// previously uploaded. The URL is valid for up to 10 minutes.
-  @_s.JsonKey(name: 'Location')
-  final String location;
+  final String? location;
 
   /// The repository from which you can download the function.
-  @_s.JsonKey(name: 'RepositoryType')
-  final String repositoryType;
+  final String? repositoryType;
 
   FunctionCodeLocation({
     this.location,
     this.repositoryType,
   });
-  factory FunctionCodeLocation.fromJson(Map<String, dynamic> json) =>
-      _$FunctionCodeLocationFromJson(json);
+
+  factory FunctionCodeLocation.fromJson(Map<String, dynamic> json) {
+    return FunctionCodeLocation(
+      location: json['Location'] as String?,
+      repositoryType: json['RepositoryType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final repositoryType = this.repositoryType;
+    return {
+      if (location != null) 'Location': location,
+      if (repositoryType != null) 'RepositoryType': repositoryType,
+    };
+  }
 }
 
 /// A complex type that describes function metadata.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FunctionConfiguration {
   /// The size, in bytes, of the function .zip file you uploaded.
-  @_s.JsonKey(name: 'CodeSize')
-  final int codeSize;
+  final int? codeSize;
 
   /// A Lambda-assigned unique identifier for the current function code and
   /// related configuration.
-  @_s.JsonKey(name: 'ConfigurationId')
-  final String configurationId;
+  final String? configurationId;
 
   /// The user-provided description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The Amazon Resource Name (ARN) assigned to the function.
-  @_s.JsonKey(name: 'FunctionARN')
-  final String functionARN;
+  final String? functionARN;
 
   /// The name of the function.
-  @_s.JsonKey(name: 'FunctionName')
-  final String functionName;
+  final String? functionName;
 
   /// The function Lambda calls to begin executing your function.
-  @_s.JsonKey(name: 'Handler')
-  final String handler;
+  final String? handler;
 
   /// The timestamp of the last time you updated the function.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The memory size, in MB, you configured for the function. Must be a multiple
   /// of 64 MB.
-  @_s.JsonKey(name: 'MemorySize')
-  final int memorySize;
+  final int? memorySize;
 
   /// The type of the Lambda function you uploaded.
-  @_s.JsonKey(name: 'Mode')
-  final Mode mode;
+  final Mode? mode;
 
   /// The Amazon Resource Name (ARN) of the IAM role that Lambda assumes when it
   /// executes your function to access any other Amazon Web Services (AWS)
   /// resources.
-  @_s.JsonKey(name: 'Role')
-  final String role;
+  final String? role;
 
   /// The runtime environment for the Lambda function.
-  @_s.JsonKey(name: 'Runtime')
-  final Runtime runtime;
+  final Runtime? runtime;
 
   /// The function execution time at which Lambda should terminate the function.
   /// Because the execution time has cost implications, we recommend you set this
   /// value based on your expected execution time. The default is 3 seconds.
-  @_s.JsonKey(name: 'Timeout')
-  final int timeout;
+  final int? timeout;
 
   FunctionConfiguration({
     this.codeSize,
@@ -882,141 +811,235 @@ class FunctionConfiguration {
     this.runtime,
     this.timeout,
   });
-  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FunctionConfigurationFromJson(json);
+
+  factory FunctionConfiguration.fromJson(Map<String, dynamic> json) {
+    return FunctionConfiguration(
+      codeSize: json['CodeSize'] as int?,
+      configurationId: json['ConfigurationId'] as String?,
+      description: json['Description'] as String?,
+      functionARN: json['FunctionARN'] as String?,
+      functionName: json['FunctionName'] as String?,
+      handler: json['Handler'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      memorySize: json['MemorySize'] as int?,
+      mode: (json['Mode'] as String?)?.toMode(),
+      role: json['Role'] as String?,
+      runtime: (json['Runtime'] as String?)?.toRuntime(),
+      timeout: json['Timeout'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeSize = this.codeSize;
+    final configurationId = this.configurationId;
+    final description = this.description;
+    final functionARN = this.functionARN;
+    final functionName = this.functionName;
+    final handler = this.handler;
+    final lastModified = this.lastModified;
+    final memorySize = this.memorySize;
+    final mode = this.mode;
+    final role = this.role;
+    final runtime = this.runtime;
+    final timeout = this.timeout;
+    return {
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (configurationId != null) 'ConfigurationId': configurationId,
+      if (description != null) 'Description': description,
+      if (functionARN != null) 'FunctionARN': functionARN,
+      if (functionName != null) 'FunctionName': functionName,
+      if (handler != null) 'Handler': handler,
+      if (lastModified != null)
+        'LastModified': unixTimestampToJson(lastModified),
+      if (memorySize != null) 'MemorySize': memorySize,
+      if (mode != null) 'Mode': mode.toValue(),
+      if (role != null) 'Role': role,
+      if (runtime != null) 'Runtime': runtime.toValue(),
+      if (timeout != null) 'Timeout': timeout,
+    };
+  }
 }
 
 /// This response contains the object for AWS Lambda function location (see
 /// <a>API_FunctionCodeLocation</a>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetFunctionResponse {
-  @_s.JsonKey(name: 'Code')
-  final FunctionCodeLocation code;
-  @_s.JsonKey(name: 'Configuration')
-  final FunctionConfiguration configuration;
+  final FunctionCodeLocation? code;
+  final FunctionConfiguration? configuration;
 
   GetFunctionResponse({
     this.code,
     this.configuration,
   });
-  factory GetFunctionResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetFunctionResponseFromJson(json);
+
+  factory GetFunctionResponse.fromJson(Map<String, dynamic> json) {
+    return GetFunctionResponse(
+      code: json['Code'] != null
+          ? FunctionCodeLocation.fromJson(json['Code'] as Map<String, dynamic>)
+          : null,
+      configuration: json['Configuration'] != null
+          ? FunctionConfiguration.fromJson(
+              json['Configuration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final code = this.code;
+    final configuration = this.configuration;
+    return {
+      if (code != null) 'Code': code,
+      if (configuration != null) 'Configuration': configuration,
+    };
+  }
 }
 
 /// One of the parameters in the request is invalid. For example, if you
 /// provided an IAM role for AWS Lambda to assume in the
 /// <code>UploadFunction</code> or the <code>UpdateFunctionConfiguration</code>
 /// API, that AWS Lambda is unable to assume you will get this exception.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidParameterValueException implements _s.AwsException {
-  @_s.JsonKey(name: 'Type')
-  final String type;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? type;
+  final String? message;
 
   InvalidParameterValueException({
     this.type,
     this.message,
   });
-  factory InvalidParameterValueException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidParameterValueExceptionFromJson(json);
+
+  factory InvalidParameterValueException.fromJson(Map<String, dynamic> json) {
+    return InvalidParameterValueException(
+      type: json['Type'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final message = this.message;
+    return {
+      if (type != null) 'Type': type,
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 /// The request body could not be parsed as JSON.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvalidRequestContentException implements _s.AwsException {
-  @_s.JsonKey(name: 'Type')
-  final String type;
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? type;
+  final String? message;
 
   InvalidRequestContentException({
     this.type,
     this.message,
   });
-  factory InvalidRequestContentException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidRequestContentExceptionFromJson(json);
+
+  factory InvalidRequestContentException.fromJson(Map<String, dynamic> json) {
+    return InvalidRequestContentException(
+      type: json['Type'] as String?,
+      message: json['message'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final message = this.message;
+    return {
+      if (type != null) 'Type': type,
+      if (message != null) 'message': message,
+    };
+  }
 }
 
 /// Upon success, it returns empty response. Otherwise, throws an exception.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InvokeAsyncResponse {
   /// It will be 202 upon success.
-  @_s.JsonKey(name: 'Status')
-  final int status;
+  final int? status;
 
   InvokeAsyncResponse({
     this.status,
   });
-  factory InvokeAsyncResponse.fromJson(Map<String, dynamic> json) =>
-      _$InvokeAsyncResponseFromJson(json);
+
+  factory InvokeAsyncResponse.fromJson(Map<String, dynamic> json) {
+    return InvokeAsyncResponse(
+      status: json['Status'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {};
+  }
 }
 
 /// Contains a list of event sources (see <a>API_EventSourceConfiguration</a>)
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListEventSourcesResponse {
   /// An arrary of <code>EventSourceConfiguration</code> objects.
-  @_s.JsonKey(name: 'EventSources')
-  final List<EventSourceConfiguration> eventSources;
+  final List<EventSourceConfiguration>? eventSources;
 
   /// A string, present if there are more event source mappings.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListEventSourcesResponse({
     this.eventSources,
     this.nextMarker,
   });
-  factory ListEventSourcesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListEventSourcesResponseFromJson(json);
+
+  factory ListEventSourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListEventSourcesResponse(
+      eventSources: (json['EventSources'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              EventSourceConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventSources = this.eventSources;
+    final nextMarker = this.nextMarker;
+    return {
+      if (eventSources != null) 'EventSources': eventSources,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
 /// Contains a list of AWS Lambda function configurations (see
 /// <a>API_FunctionConfiguration</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListFunctionsResponse {
   /// A list of Lambda functions.
-  @_s.JsonKey(name: 'Functions')
-  final List<FunctionConfiguration> functions;
+  final List<FunctionConfiguration>? functions;
 
   /// A string, present if there are more functions.
-  @_s.JsonKey(name: 'NextMarker')
-  final String nextMarker;
+  final String? nextMarker;
 
   ListFunctionsResponse({
     this.functions,
     this.nextMarker,
   });
-  factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListFunctionsResponseFromJson(json);
+
+  factory ListFunctionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListFunctionsResponse(
+      functions: (json['Functions'] as List?)
+          ?.whereNotNull()
+          .map((e) => FunctionConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final functions = this.functions;
+    final nextMarker = this.nextMarker;
+    return {
+      if (functions != null) 'Functions': functions,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
+  }
 }
 
 enum Mode {
-  @_s.JsonValue('event')
   event,
 }
 
@@ -1026,32 +1049,47 @@ extension on Mode {
       case Mode.event:
         return 'event';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Mode toMode() {
+    switch (this) {
+      case 'event':
+        return Mode.event;
+    }
+    throw Exception('$this is not known in enum Mode');
   }
 }
 
 /// The function or the event source specified in the request does not exist.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ResourceNotFoundException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? message;
+  final String? type;
 
   ResourceNotFoundException({
     this.message,
     this.type,
   });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$ResourceNotFoundExceptionFromJson(json);
+
+  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) {
+    return ResourceNotFoundException(
+      message: json['Message'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final type = this.type;
+    return {
+      if (message != null) 'Message': message,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 enum Runtime {
-  @_s.JsonValue('nodejs')
   nodejs,
 }
 
@@ -1061,28 +1099,44 @@ extension on Runtime {
       case Runtime.nodejs:
         return 'nodejs';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Runtime toRuntime() {
+    switch (this) {
+      case 'nodejs':
+        return Runtime.nodejs;
+    }
+    throw Exception('$this is not known in enum Runtime');
   }
 }
 
 /// The AWS Lambda service encountered an internal error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ServiceException implements _s.AwsException {
-  @_s.JsonKey(name: 'Message')
-  final String message;
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? message;
+  final String? type;
 
   ServiceException({
     this.message,
     this.type,
   });
-  factory ServiceException.fromJson(Map<String, dynamic> json) =>
-      _$ServiceExceptionFromJson(json);
+
+  factory ServiceException.fromJson(Map<String, dynamic> json) {
+    return ServiceException(
+      message: json['Message'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final message = this.message;
+    final type = this.type;
+    return {
+      if (message != null) 'Message': message,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{

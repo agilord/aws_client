@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2012-01-25.g.dart';
 
 /// The Amazon Simple Workflow Service (Amazon SWF) makes it easy to build
 /// applications that use Amazon's cloud to coordinate work across distributed
@@ -35,10 +28,10 @@ part '2012-01-25.g.dart';
 class Swf {
   final _s.JsonProtocol _protocol;
   Swf({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -155,13 +148,13 @@ class Swf {
   /// You can specify at most one of these in a request.
   /// </note>
   Future<WorkflowExecutionCount> countClosedWorkflowExecutions({
-    @_s.required String domain,
-    CloseStatusFilter closeStatusFilter,
-    ExecutionTimeFilter closeTimeFilter,
-    WorkflowExecutionFilter executionFilter,
-    ExecutionTimeFilter startTimeFilter,
-    TagFilter tagFilter,
-    WorkflowTypeFilter typeFilter,
+    required String domain,
+    CloseStatusFilter? closeStatusFilter,
+    ExecutionTimeFilter? closeTimeFilter,
+    WorkflowExecutionFilter? executionFilter,
+    ExecutionTimeFilter? startTimeFilter,
+    TagFilter? tagFilter,
+    WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -279,11 +272,11 @@ class Swf {
   /// of these in a request.
   /// </note>
   Future<WorkflowExecutionCount> countOpenWorkflowExecutions({
-    @_s.required String domain,
-    @_s.required ExecutionTimeFilter startTimeFilter,
-    WorkflowExecutionFilter executionFilter,
-    TagFilter tagFilter,
-    WorkflowTypeFilter typeFilter,
+    required String domain,
+    required ExecutionTimeFilter startTimeFilter,
+    WorkflowExecutionFilter? executionFilter,
+    TagFilter? tagFilter,
+    WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -359,8 +352,8 @@ class Swf {
   /// Parameter [taskList] :
   /// The name of the task list.
   Future<PendingTaskCount> countPendingActivityTasks({
-    @_s.required String domain,
-    @_s.required TaskList taskList,
+    required String domain,
+    required TaskList taskList,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -433,8 +426,8 @@ class Swf {
   /// Parameter [taskList] :
   /// The name of the task list.
   Future<PendingTaskCount> countPendingDecisionTasks({
-    @_s.required String domain,
-    @_s.required TaskList taskList,
+    required String domain,
+    required TaskList taskList,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -520,8 +513,8 @@ class Swf {
   /// Parameter [domain] :
   /// The name of the domain in which the activity type is registered.
   Future<void> deprecateActivityType({
-    @_s.required ActivityType activityType,
-    @_s.required String domain,
+    required ActivityType activityType,
+    required String domain,
   }) async {
     ArgumentError.checkNotNull(activityType, 'activityType');
     ArgumentError.checkNotNull(domain, 'domain');
@@ -536,7 +529,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.DeprecateActivityType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -593,7 +586,7 @@ class Swf {
   /// Parameter [name] :
   /// The name of the domain to deprecate.
   Future<void> deprecateDomain({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -607,7 +600,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.DeprecateDomain'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -676,8 +669,8 @@ class Swf {
   /// Parameter [workflowType] :
   /// The workflow type to deprecate.
   Future<void> deprecateWorkflowType({
-    @_s.required String domain,
-    @_s.required WorkflowType workflowType,
+    required String domain,
+    required WorkflowType workflowType,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -692,7 +685,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.DeprecateWorkflowType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -758,8 +751,8 @@ class Swf {
   /// Parameter [domain] :
   /// The name of the domain in which the activity type is registered.
   Future<ActivityTypeDetail> describeActivityType({
-    @_s.required ActivityType activityType,
-    @_s.required String domain,
+    required ActivityType activityType,
+    required String domain,
   }) async {
     ArgumentError.checkNotNull(activityType, 'activityType');
     ArgumentError.checkNotNull(domain, 'domain');
@@ -825,7 +818,7 @@ class Swf {
   /// Parameter [name] :
   /// The name of the domain to describe.
   Future<DomainDetail> describeDomain({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -895,8 +888,8 @@ class Swf {
   /// Parameter [execution] :
   /// The workflow execution to describe.
   Future<WorkflowExecutionDetail> describeWorkflowExecution({
-    @_s.required String domain,
-    @_s.required WorkflowExecution execution,
+    required String domain,
+    required WorkflowExecution execution,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -977,8 +970,8 @@ class Swf {
   /// Parameter [workflowType] :
   /// The workflow type to describe.
   Future<WorkflowTypeDetail> describeWorkflowType({
-    @_s.required String domain,
-    @_s.required WorkflowType workflowType,
+    required String domain,
+    required WorkflowType workflowType,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1072,11 +1065,11 @@ class Swf {
   /// default the results are returned in ascending order of the
   /// <code>eventTimeStamp</code> of the events.
   Future<History> getWorkflowExecutionHistory({
-    @_s.required String domain,
-    @_s.required WorkflowExecution execution,
-    int maximumPageSize,
-    String nextPageToken,
-    bool reverseOrder,
+    required String domain,
+    required WorkflowExecution execution,
+    int? maximumPageSize,
+    String? nextPageToken,
+    bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1188,12 +1181,12 @@ class Swf {
   /// default, the results are returned in ascending alphabetical order by
   /// <code>name</code> of the activity types.
   Future<ActivityTypeInfos> listActivityTypes({
-    @_s.required String domain,
-    @_s.required RegistrationStatus registrationStatus,
-    int maximumPageSize,
-    String name,
-    String nextPageToken,
-    bool reverseOrder,
+    required String domain,
+    required RegistrationStatus registrationStatus,
+    int? maximumPageSize,
+    String? name,
+    String? nextPageToken,
+    bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1234,7 +1227,7 @@ class Swf {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus?.toValue() ?? '',
+        'registrationStatus': registrationStatus.toValue(),
         if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
         if (name != null) 'name': name,
         if (nextPageToken != null) 'nextPageToken': nextPageToken,
@@ -1378,16 +1371,16 @@ class Swf {
   /// You can specify at most one of these in a request.
   /// </note>
   Future<WorkflowExecutionInfos> listClosedWorkflowExecutions({
-    @_s.required String domain,
-    CloseStatusFilter closeStatusFilter,
-    ExecutionTimeFilter closeTimeFilter,
-    WorkflowExecutionFilter executionFilter,
-    int maximumPageSize,
-    String nextPageToken,
-    bool reverseOrder,
-    ExecutionTimeFilter startTimeFilter,
-    TagFilter tagFilter,
-    WorkflowTypeFilter typeFilter,
+    required String domain,
+    CloseStatusFilter? closeStatusFilter,
+    ExecutionTimeFilter? closeTimeFilter,
+    WorkflowExecutionFilter? executionFilter,
+    int? maximumPageSize,
+    String? nextPageToken,
+    bool? reverseOrder,
+    ExecutionTimeFilter? startTimeFilter,
+    TagFilter? tagFilter,
+    WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1498,10 +1491,10 @@ class Swf {
   /// default, the results are returned in ascending alphabetical order by
   /// <code>name</code> of the domains.
   Future<DomainInfos> listDomains({
-    @_s.required RegistrationStatus registrationStatus,
-    int maximumPageSize,
-    String nextPageToken,
-    bool reverseOrder,
+    required RegistrationStatus registrationStatus,
+    int? maximumPageSize,
+    String? nextPageToken,
+    bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(registrationStatus, 'registrationStatus');
     _s.validateNumRange(
@@ -1527,7 +1520,7 @@ class Swf {
       // TODO queryParams
       headers: headers,
       payload: {
-        'registrationStatus': registrationStatus?.toValue() ?? '',
+        'registrationStatus': registrationStatus.toValue(),
         if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
         if (nextPageToken != null) 'nextPageToken': nextPageToken,
         if (reverseOrder != null) 'reverseOrder': reverseOrder,
@@ -1644,14 +1637,14 @@ class Swf {
   /// of these in a request.
   /// </note>
   Future<WorkflowExecutionInfos> listOpenWorkflowExecutions({
-    @_s.required String domain,
-    @_s.required ExecutionTimeFilter startTimeFilter,
-    WorkflowExecutionFilter executionFilter,
-    int maximumPageSize,
-    String nextPageToken,
-    bool reverseOrder,
-    TagFilter tagFilter,
-    WorkflowTypeFilter typeFilter,
+    required String domain,
+    required ExecutionTimeFilter startTimeFilter,
+    WorkflowExecutionFilter? executionFilter,
+    int? maximumPageSize,
+    String? nextPageToken,
+    bool? reverseOrder,
+    TagFilter? tagFilter,
+    WorkflowTypeFilter? typeFilter,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1708,7 +1701,7 @@ class Swf {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the Amazon SWF domain.
   Future<ListTagsForResourceOutput> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1800,12 +1793,12 @@ class Swf {
   /// default the results are returned in ascending alphabetical order of the
   /// <code>name</code> of the workflow types.
   Future<WorkflowTypeInfos> listWorkflowTypes({
-    @_s.required String domain,
-    @_s.required RegistrationStatus registrationStatus,
-    int maximumPageSize,
-    String name,
-    String nextPageToken,
-    bool reverseOrder,
+    required String domain,
+    required RegistrationStatus registrationStatus,
+    int? maximumPageSize,
+    String? name,
+    String? nextPageToken,
+    bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -1846,7 +1839,7 @@ class Swf {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus?.toValue() ?? '',
+        'registrationStatus': registrationStatus.toValue(),
         if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
         if (name != null) 'name': name,
         if (nextPageToken != null) 'nextPageToken': nextPageToken,
@@ -1922,9 +1915,9 @@ class Swf {
   /// enables diagnostic tracing when problems arise. The form of this identity
   /// is user defined.
   Future<ActivityTask> pollForActivityTask({
-    @_s.required String domain,
-    @_s.required TaskList taskList,
-    String identity,
+    required String domain,
+    required TaskList taskList,
+    String? identity,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2069,12 +2062,12 @@ class Swf {
   /// default the results are returned in ascending order of the
   /// <code>eventTimestamp</code> of the events.
   Future<DecisionTask> pollForDecisionTask({
-    @_s.required String domain,
-    @_s.required TaskList taskList,
-    String identity,
-    int maximumPageSize,
-    String nextPageToken,
-    bool reverseOrder,
+    required String domain,
+    required TaskList taskList,
+    String? identity,
+    int? maximumPageSize,
+    String? nextPageToken,
+    bool? reverseOrder,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2202,8 +2195,8 @@ class Swf {
   /// Parameter [details] :
   /// If specified, contains details about the progress of the task.
   Future<ActivityTaskStatus> recordActivityTaskHeartbeat({
-    @_s.required String taskToken,
-    String details,
+    required String taskToken,
+    String? details,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
     _s.validateStringLength(
@@ -2380,16 +2373,16 @@ class Swf {
   /// Parameter [description] :
   /// A textual description of the activity type.
   Future<void> registerActivityType({
-    @_s.required String domain,
-    @_s.required String name,
-    @_s.required String version,
-    String defaultTaskHeartbeatTimeout,
-    TaskList defaultTaskList,
-    String defaultTaskPriority,
-    String defaultTaskScheduleToCloseTimeout,
-    String defaultTaskScheduleToStartTimeout,
-    String defaultTaskStartToCloseTimeout,
-    String description,
+    required String domain,
+    required String name,
+    required String version,
+    String? defaultTaskHeartbeatTimeout,
+    TaskList? defaultTaskList,
+    String? defaultTaskPriority,
+    String? defaultTaskScheduleToCloseTimeout,
+    String? defaultTaskScheduleToStartTimeout,
+    String? defaultTaskStartToCloseTimeout,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2449,7 +2442,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterActivityType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2545,10 +2538,10 @@ class Swf {
   /// Tags may only contain unicode letters, digits, whitespace, or these
   /// symbols: <code>_ . : / = + - @</code>.
   Future<void> registerDomain({
-    @_s.required String name,
-    @_s.required String workflowExecutionRetentionPeriodInDays,
-    String description,
-    List<ResourceTag> tags,
+    required String name,
+    required String workflowExecutionRetentionPeriodInDays,
+    String? description,
+    List<ResourceTag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -2577,7 +2570,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterDomain'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2756,16 +2749,16 @@ class Swf {
   /// Parameter [description] :
   /// Textual description of the workflow type.
   Future<void> registerWorkflowType({
-    @_s.required String domain,
-    @_s.required String name,
-    @_s.required String version,
-    ChildPolicy defaultChildPolicy,
-    String defaultExecutionStartToCloseTimeout,
-    String defaultLambdaRole,
-    TaskList defaultTaskList,
-    String defaultTaskPriority,
-    String defaultTaskStartToCloseTimeout,
-    String description,
+    required String domain,
+    required String name,
+    required String version,
+    ChildPolicy? defaultChildPolicy,
+    String? defaultExecutionStartToCloseTimeout,
+    String? defaultLambdaRole,
+    TaskList? defaultTaskList,
+    String? defaultTaskPriority,
+    String? defaultTaskStartToCloseTimeout,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2819,7 +2812,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RegisterWorkflowType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2899,9 +2892,9 @@ class Swf {
   /// Parameter [runId] :
   /// The runId of the workflow execution to cancel.
   Future<void> requestCancelWorkflowExecution({
-    @_s.required String domain,
-    @_s.required String workflowId,
-    String runId,
+    required String domain,
+    required String workflowId,
+    String? runId,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -2929,7 +2922,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RequestCancelWorkflowExecution'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3005,8 +2998,8 @@ class Swf {
   /// Parameter [details] :
   /// Information about the cancellation.
   Future<void> respondActivityTaskCanceled({
-    @_s.required String taskToken,
-    String details,
+    required String taskToken,
+    String? details,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
     _s.validateStringLength(
@@ -3026,7 +3019,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskCanceled'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3101,8 +3094,8 @@ class Swf {
   /// The result of the activity task. It is a free form string that is
   /// implementation specific.
   Future<void> respondActivityTaskCompleted({
-    @_s.required String taskToken,
-    String result,
+    required String taskToken,
+    String? result,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
     _s.validateStringLength(
@@ -3122,7 +3115,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskCompleted'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3194,9 +3187,9 @@ class Swf {
   /// Parameter [reason] :
   /// Description of the error that may assist in diagnostics.
   Future<void> respondActivityTaskFailed({
-    @_s.required String taskToken,
-    String details,
-    String reason,
+    required String taskToken,
+    String? details,
+    String? reason,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
     _s.validateStringLength(
@@ -3222,7 +3215,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondActivityTaskFailed'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3278,9 +3271,9 @@ class Swf {
   /// Parameter [executionContext] :
   /// User defined context to add to workflow execution.
   Future<void> respondDecisionTaskCompleted({
-    @_s.required String taskToken,
-    List<Decision> decisions,
-    String executionContext,
+    required String taskToken,
+    List<Decision>? decisions,
+    String? executionContext,
   }) async {
     ArgumentError.checkNotNull(taskToken, 'taskToken');
     _s.validateStringLength(
@@ -3300,7 +3293,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.RespondDecisionTaskCompleted'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3374,11 +3367,11 @@ class Swf {
   /// Parameter [runId] :
   /// The runId of the workflow execution to signal.
   Future<void> signalWorkflowExecution({
-    @_s.required String domain,
-    @_s.required String signalName,
-    @_s.required String workflowId,
-    String input,
-    String runId,
+    required String domain,
+    required String signalName,
+    required String workflowId,
+    String? input,
+    String? runId,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3420,7 +3413,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.SignalWorkflowExecution'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3648,17 +3641,17 @@ class Swf {
   /// returned.
   /// </note>
   Future<Run> startWorkflowExecution({
-    @_s.required String domain,
-    @_s.required String workflowId,
-    @_s.required WorkflowType workflowType,
-    ChildPolicy childPolicy,
-    String executionStartToCloseTimeout,
-    String input,
-    String lambdaRole,
-    List<String> tagList,
-    TaskList taskList,
-    String taskPriority,
-    String taskStartToCloseTimeout,
+    required String domain,
+    required String workflowId,
+    required WorkflowType workflowType,
+    ChildPolicy? childPolicy,
+    String? executionStartToCloseTimeout,
+    String? input,
+    String? lambdaRole,
+    List<String>? tagList,
+    TaskList? taskList,
+    String? taskPriority,
+    String? taskStartToCloseTimeout,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3750,8 +3743,8 @@ class Swf {
   /// Tags may only contain unicode letters, digits, whitespace, or these
   /// symbols: <code>_ . : / = + - @</code>.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required List<ResourceTag> tags,
+    required String resourceArn,
+    required List<ResourceTag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -3766,7 +3759,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3871,12 +3864,12 @@ class Swf {
   /// Parameter [runId] :
   /// The runId of the workflow execution to terminate.
   Future<void> terminateWorkflowExecution({
-    @_s.required String domain,
-    @_s.required String workflowId,
-    ChildPolicy childPolicy,
-    String details,
-    String reason,
-    String runId,
+    required String domain,
+    required String workflowId,
+    ChildPolicy? childPolicy,
+    String? details,
+    String? reason,
+    String? runId,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -3916,7 +3909,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.TerminateWorkflowExecution'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -3988,8 +3981,8 @@ class Swf {
   /// Parameter [domain] :
   /// The name of the domain of the deprecated activity type.
   Future<void> undeprecateActivityType({
-    @_s.required ActivityType activityType,
-    @_s.required String domain,
+    required ActivityType activityType,
+    required String domain,
   }) async {
     ArgumentError.checkNotNull(activityType, 'activityType');
     ArgumentError.checkNotNull(domain, 'domain');
@@ -4004,7 +3997,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.UndeprecateActivityType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4058,7 +4051,7 @@ class Swf {
   /// Parameter [name] :
   /// The name of the domain of the deprecated workflow type.
   Future<void> undeprecateDomain({
-    @_s.required String name,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -4072,7 +4065,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.UndeprecateDomain'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4139,8 +4132,8 @@ class Swf {
   /// Parameter [workflowType] :
   /// The name of the domain of the deprecated workflow type.
   Future<void> undeprecateWorkflowType({
-    @_s.required String domain,
-    @_s.required WorkflowType workflowType,
+    required String domain,
+    required WorkflowType workflowType,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
     _s.validateStringLength(
@@ -4155,7 +4148,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.UndeprecateWorkflowType'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4180,8 +4173,8 @@ class Swf {
   /// Parameter [tagKeys] :
   /// The list of tags to remove from the Amazon SWF domain.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -4196,7 +4189,7 @@ class Swf {
       'Content-Type': 'application/x-amz-json-1.0',
       'X-Amz-Target': 'SimpleWorkflowService.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -4211,62 +4204,73 @@ class Swf {
 }
 
 /// Unit of work sent to an activity worker.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTask {
   /// The unique ID of the task.
-  @_s.JsonKey(name: 'activityId')
   final String activityId;
 
   /// The type of this activity task.
-  @_s.JsonKey(name: 'activityType')
   final ActivityType activityType;
 
   /// The ID of the <code>ActivityTaskStarted</code> event recorded in the
   /// history.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The opaque string used as a handle on the task. This token is used by
   /// workers to communicate progress and response information back to the system
   /// about the task.
-  @_s.JsonKey(name: 'taskToken')
   final String taskToken;
 
   /// The workflow execution that started this activity task.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The inputs provided when the activity task was scheduled. The form of the
   /// input is user defined and should be meaningful to the activity
   /// implementation.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   ActivityTask({
-    @_s.required this.activityId,
-    @_s.required this.activityType,
-    @_s.required this.startedEventId,
-    @_s.required this.taskToken,
-    @_s.required this.workflowExecution,
+    required this.activityId,
+    required this.activityType,
+    required this.startedEventId,
+    required this.taskToken,
+    required this.workflowExecution,
     this.input,
   });
-  factory ActivityTask.fromJson(Map<String, dynamic> json) =>
-      _$ActivityTaskFromJson(json);
+
+  factory ActivityTask.fromJson(Map<String, dynamic> json) {
+    return ActivityTask(
+      activityId: json['activityId'] as String,
+      activityType:
+          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+      startedEventId: json['startedEventId'] as int,
+      taskToken: json['taskToken'] as String,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      input: json['input'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final activityType = this.activityType;
+    final startedEventId = this.startedEventId;
+    final taskToken = this.taskToken;
+    final workflowExecution = this.workflowExecution;
+    final input = this.input;
+    return {
+      'activityId': activityId,
+      'activityType': activityType,
+      'startedEventId': startedEventId,
+      'taskToken': taskToken,
+      'workflowExecution': workflowExecution,
+      if (input != null) 'input': input,
+    };
+  }
 }
 
 /// Provides the details of the <code>ActivityTaskCancelRequested</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskCancelRequestedEventAttributes {
   /// The unique ID of the task.
-  @_s.JsonKey(name: 'activityId')
   final String activityId;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -4274,188 +4278,219 @@ class ActivityTaskCancelRequestedEventAttributes {
   /// decision for this cancellation request. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   ActivityTaskCancelRequestedEventAttributes({
-    @_s.required this.activityId,
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.activityId,
+    required this.decisionTaskCompletedEventId,
   });
+
   factory ActivityTaskCancelRequestedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ActivityTaskCancelRequestedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ActivityTaskCancelRequestedEventAttributes(
+      activityId: json['activityId'] as String,
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'activityId': activityId,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 /// Provides the details of the <code>ActivityTaskCanceled</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskCanceledEventAttributes {
   /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
   /// when this activity task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
   /// activity task was started. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// Details of the cancellation.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// If set, contains the ID of the last <code>ActivityTaskCancelRequested</code>
   /// event recorded for this activity task. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'latestCancelRequestedEventId')
-  final int latestCancelRequestedEventId;
+  final int? latestCancelRequestedEventId;
 
   ActivityTaskCanceledEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
+    required this.scheduledEventId,
+    required this.startedEventId,
     this.details,
     this.latestCancelRequestedEventId,
   });
+
   factory ActivityTaskCanceledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ActivityTaskCanceledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ActivityTaskCanceledEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      details: json['details'] as String?,
+      latestCancelRequestedEventId:
+          json['latestCancelRequestedEventId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final details = this.details;
+    final latestCancelRequestedEventId = this.latestCancelRequestedEventId;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (details != null) 'details': details,
+      if (latestCancelRequestedEventId != null)
+        'latestCancelRequestedEventId': latestCancelRequestedEventId,
+    };
+  }
 }
 
 /// Provides the details of the <code>ActivityTaskCompleted</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskCompletedEventAttributes {
   /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
   /// when this activity task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
   /// activity task was started. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The results of the activity task.
-  @_s.JsonKey(name: 'result')
-  final String result;
+  final String? result;
 
   ActivityTaskCompletedEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
+    required this.scheduledEventId,
+    required this.startedEventId,
     this.result,
   });
+
   factory ActivityTaskCompletedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ActivityTaskCompletedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ActivityTaskCompletedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final result = this.result;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (result != null) 'result': result,
+    };
+  }
 }
 
 /// Provides the details of the <code>ActivityTaskFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskFailedEventAttributes {
   /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
   /// when this activity task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
   /// activity task was started. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The details of the failure.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// The reason provided for the failure.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   ActivityTaskFailedEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
+    required this.scheduledEventId,
+    required this.startedEventId,
     this.details,
     this.reason,
   });
+
   factory ActivityTaskFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ActivityTaskFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ActivityTaskFailedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
 }
 
 /// Provides the details of the <code>ActivityTaskScheduled</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskScheduledEventAttributes {
   /// The unique ID of the activity task.
-  @_s.JsonKey(name: 'activityId')
   final String activityId;
 
   /// The type of the activity task.
-  @_s.JsonKey(name: 'activityType')
   final ActivityType activityType;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision that resulted in the scheduling of this activity task. This
   /// information can be useful for diagnosing problems by tracing back the chain
   /// of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The task list in which the activity task has been scheduled.
-  @_s.JsonKey(name: 'taskList')
   final TaskList taskList;
 
   /// Data attached to the event that can be used by the decider in subsequent
   /// workflow tasks. This data isn't sent to the activity.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The maximum time before which the worker processing this task must report
   /// progress by calling <a>RecordActivityTaskHeartbeat</a>. If the timeout is
   /// exceeded, the activity task is automatically timed out. If the worker
   /// subsequently attempts to record a heartbeat or return a result, it is
   /// ignored.
-  @_s.JsonKey(name: 'heartbeatTimeout')
-  final String heartbeatTimeout;
+  final String? heartbeatTimeout;
 
   /// The input provided to the activity task.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The maximum amount of time for this activity task.
-  @_s.JsonKey(name: 'scheduleToCloseTimeout')
-  final String scheduleToCloseTimeout;
+  final String? scheduleToCloseTimeout;
 
   /// The maximum amount of time the activity task can wait to be assigned to a
   /// worker.
-  @_s.JsonKey(name: 'scheduleToStartTimeout')
-  final String scheduleToStartTimeout;
+  final String? scheduleToStartTimeout;
 
   /// The maximum amount of time a worker may take to process the activity task.
-  @_s.JsonKey(name: 'startToCloseTimeout')
-  final String startToCloseTimeout;
+  final String? startToCloseTimeout;
 
   /// The priority to assign to the scheduled activity task. If set, this
   /// overrides any default priority value that was assigned when the activity
@@ -4469,14 +4504,13 @@ class ActivityTaskScheduledEventAttributes {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   ActivityTaskScheduledEventAttributes({
-    @_s.required this.activityId,
-    @_s.required this.activityType,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.taskList,
+    required this.activityId,
+    required this.activityType,
+    required this.decisionTaskCompletedEventId,
+    required this.taskList,
     this.control,
     this.heartbeatTimeout,
     this.input,
@@ -4485,121 +4519,210 @@ class ActivityTaskScheduledEventAttributes {
     this.startToCloseTimeout,
     this.taskPriority,
   });
+
   factory ActivityTaskScheduledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ActivityTaskScheduledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ActivityTaskScheduledEventAttributes(
+      activityId: json['activityId'] as String,
+      activityType:
+          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      control: json['control'] as String?,
+      heartbeatTimeout: json['heartbeatTimeout'] as String?,
+      input: json['input'] as String?,
+      scheduleToCloseTimeout: json['scheduleToCloseTimeout'] as String?,
+      scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
+      taskPriority: json['taskPriority'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final activityType = this.activityType;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final taskList = this.taskList;
+    final control = this.control;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final input = this.input;
+    final scheduleToCloseTimeout = this.scheduleToCloseTimeout;
+    final scheduleToStartTimeout = this.scheduleToStartTimeout;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    final taskPriority = this.taskPriority;
+    return {
+      'activityId': activityId,
+      'activityType': activityType,
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'taskList': taskList,
+      if (control != null) 'control': control,
+      if (heartbeatTimeout != null) 'heartbeatTimeout': heartbeatTimeout,
+      if (input != null) 'input': input,
+      if (scheduleToCloseTimeout != null)
+        'scheduleToCloseTimeout': scheduleToCloseTimeout,
+      if (scheduleToStartTimeout != null)
+        'scheduleToStartTimeout': scheduleToStartTimeout,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+    };
+  }
 }
 
 /// Provides the details of the <code>ActivityTaskStarted</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskStartedEventAttributes {
   /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
   /// when this activity task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// Identity of the worker that was assigned this task. This aids diagnostics
   /// when problems arise. The form of this identity is user defined.
-  @_s.JsonKey(name: 'identity')
-  final String identity;
+  final String? identity;
 
   ActivityTaskStartedEventAttributes({
-    @_s.required this.scheduledEventId,
+    required this.scheduledEventId,
     this.identity,
   });
+
   factory ActivityTaskStartedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ActivityTaskStartedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ActivityTaskStartedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      identity: json['identity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final identity = this.identity;
+    return {
+      'scheduledEventId': scheduledEventId,
+      if (identity != null) 'identity': identity,
+    };
+  }
 }
 
 /// Status information about an activity task.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskStatus {
   /// Set to <code>true</code> if cancellation of the task is requested.
-  @_s.JsonKey(name: 'cancelRequested')
   final bool cancelRequested;
 
   ActivityTaskStatus({
-    @_s.required this.cancelRequested,
+    required this.cancelRequested,
   });
-  factory ActivityTaskStatus.fromJson(Map<String, dynamic> json) =>
-      _$ActivityTaskStatusFromJson(json);
+
+  factory ActivityTaskStatus.fromJson(Map<String, dynamic> json) {
+    return ActivityTaskStatus(
+      cancelRequested: json['cancelRequested'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cancelRequested = this.cancelRequested;
+    return {
+      'cancelRequested': cancelRequested,
+    };
+  }
 }
 
 /// Provides the details of the <code>ActivityTaskTimedOut</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTaskTimedOutEventAttributes {
   /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
   /// when this activity task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>ActivityTaskStarted</code> event recorded when this
   /// activity task was started. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The type of the timeout that caused this event.
-  @_s.JsonKey(name: 'timeoutType')
   final ActivityTaskTimeoutType timeoutType;
 
   /// Contains the content of the <code>details</code> parameter for the last call
   /// made by the activity to <code>RecordActivityTaskHeartbeat</code>.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   ActivityTaskTimedOutEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.timeoutType,
+    required this.scheduledEventId,
+    required this.startedEventId,
+    required this.timeoutType,
     this.details,
   });
+
   factory ActivityTaskTimedOutEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ActivityTaskTimedOutEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ActivityTaskTimedOutEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      timeoutType: (json['timeoutType'] as String).toActivityTaskTimeoutType(),
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final timeoutType = this.timeoutType;
+    final details = this.details;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      'timeoutType': timeoutType.toValue(),
+      if (details != null) 'details': details,
+    };
+  }
 }
 
 enum ActivityTaskTimeoutType {
-  @_s.JsonValue('START_TO_CLOSE')
   startToClose,
-  @_s.JsonValue('SCHEDULE_TO_START')
   scheduleToStart,
-  @_s.JsonValue('SCHEDULE_TO_CLOSE')
   scheduleToClose,
-  @_s.JsonValue('HEARTBEAT')
   heartbeat,
 }
 
+extension on ActivityTaskTimeoutType {
+  String toValue() {
+    switch (this) {
+      case ActivityTaskTimeoutType.startToClose:
+        return 'START_TO_CLOSE';
+      case ActivityTaskTimeoutType.scheduleToStart:
+        return 'SCHEDULE_TO_START';
+      case ActivityTaskTimeoutType.scheduleToClose:
+        return 'SCHEDULE_TO_CLOSE';
+      case ActivityTaskTimeoutType.heartbeat:
+        return 'HEARTBEAT';
+    }
+  }
+}
+
+extension on String {
+  ActivityTaskTimeoutType toActivityTaskTimeoutType() {
+    switch (this) {
+      case 'START_TO_CLOSE':
+        return ActivityTaskTimeoutType.startToClose;
+      case 'SCHEDULE_TO_START':
+        return ActivityTaskTimeoutType.scheduleToStart;
+      case 'SCHEDULE_TO_CLOSE':
+        return ActivityTaskTimeoutType.scheduleToClose;
+      case 'HEARTBEAT':
+        return ActivityTaskTimeoutType.heartbeat;
+    }
+    throw Exception('$this is not known in enum ActivityTaskTimeoutType');
+  }
+}
+
 /// Represents an activity type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ActivityType {
   /// The name of this activity.
   /// <note>
   /// The combination of activity type name and version must be unique within a
   /// domain.
   /// </note>
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The version of this activity.
@@ -4607,25 +4730,31 @@ class ActivityType {
   /// The combination of activity type name and version must be unique with in a
   /// domain.
   /// </note>
-  @_s.JsonKey(name: 'version')
   final String version;
 
   ActivityType({
-    @_s.required this.name,
-    @_s.required this.version,
+    required this.name,
+    required this.version,
   });
-  factory ActivityType.fromJson(Map<String, dynamic> json) =>
-      _$ActivityTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ActivityTypeToJson(this);
+  factory ActivityType.fromJson(Map<String, dynamic> json) {
+    return ActivityType(
+      name: json['name'] as String,
+      version: json['version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      'name': name,
+      'version': version,
+    };
+  }
 }
 
 /// Configuration settings registered with the activity type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTypeConfiguration {
   /// The default maximum time, in seconds, before which a worker processing a
   /// task must report progress by calling <a>RecordActivityTaskHeartbeat</a>.
@@ -4640,16 +4769,14 @@ class ActivityTypeConfiguration {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'defaultTaskHeartbeatTimeout')
-  final String defaultTaskHeartbeatTimeout;
+  final String? defaultTaskHeartbeatTimeout;
 
   /// The default task list specified for this activity type at registration. This
   /// default is used if a task list isn't provided when a task is scheduled
   /// through the <code>ScheduleActivityTask</code> <a>Decision</a>. You can
   /// override the default registered task list when scheduling a task through the
   /// <code>ScheduleActivityTask</code> <a>Decision</a>.
-  @_s.JsonKey(name: 'defaultTaskList')
-  final TaskList defaultTaskList;
+  final TaskList? defaultTaskList;
 
   /// The default task priority for tasks of this activity type, specified at
   /// registration. If not set, then <code>0</code> is used as the default
@@ -4663,8 +4790,7 @@ class ActivityTypeConfiguration {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'defaultTaskPriority')
-  final String defaultTaskPriority;
+  final String? defaultTaskPriority;
 
   /// The default maximum duration, specified when registering the activity type,
   /// for tasks of this activity type. You can override this default when
@@ -4673,8 +4799,7 @@ class ActivityTypeConfiguration {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'defaultTaskScheduleToCloseTimeout')
-  final String defaultTaskScheduleToCloseTimeout;
+  final String? defaultTaskScheduleToCloseTimeout;
 
   /// The default maximum duration, specified when registering the activity type,
   /// that a task of an activity type can wait before being assigned to a worker.
@@ -4683,8 +4808,7 @@ class ActivityTypeConfiguration {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'defaultTaskScheduleToStartTimeout')
-  final String defaultTaskScheduleToStartTimeout;
+  final String? defaultTaskScheduleToStartTimeout;
 
   /// The default maximum duration for tasks of an activity type specified when
   /// registering the activity type. You can override this default when scheduling
@@ -4692,8 +4816,7 @@ class ActivityTypeConfiguration {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'defaultTaskStartToCloseTimeout')
-  final String defaultTaskStartToCloseTimeout;
+  final String? defaultTaskStartToCloseTimeout;
 
   ActivityTypeConfiguration({
     this.defaultTaskHeartbeatTimeout,
@@ -4703,19 +4826,52 @@ class ActivityTypeConfiguration {
     this.defaultTaskScheduleToStartTimeout,
     this.defaultTaskStartToCloseTimeout,
   });
-  factory ActivityTypeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ActivityTypeConfigurationFromJson(json);
+
+  factory ActivityTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeConfiguration(
+      defaultTaskHeartbeatTimeout:
+          json['defaultTaskHeartbeatTimeout'] as String?,
+      defaultTaskList: json['defaultTaskList'] != null
+          ? TaskList.fromJson(json['defaultTaskList'] as Map<String, dynamic>)
+          : null,
+      defaultTaskPriority: json['defaultTaskPriority'] as String?,
+      defaultTaskScheduleToCloseTimeout:
+          json['defaultTaskScheduleToCloseTimeout'] as String?,
+      defaultTaskScheduleToStartTimeout:
+          json['defaultTaskScheduleToStartTimeout'] as String?,
+      defaultTaskStartToCloseTimeout:
+          json['defaultTaskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultTaskHeartbeatTimeout = this.defaultTaskHeartbeatTimeout;
+    final defaultTaskList = this.defaultTaskList;
+    final defaultTaskPriority = this.defaultTaskPriority;
+    final defaultTaskScheduleToCloseTimeout =
+        this.defaultTaskScheduleToCloseTimeout;
+    final defaultTaskScheduleToStartTimeout =
+        this.defaultTaskScheduleToStartTimeout;
+    final defaultTaskStartToCloseTimeout = this.defaultTaskStartToCloseTimeout;
+    return {
+      if (defaultTaskHeartbeatTimeout != null)
+        'defaultTaskHeartbeatTimeout': defaultTaskHeartbeatTimeout,
+      if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
+      if (defaultTaskPriority != null)
+        'defaultTaskPriority': defaultTaskPriority,
+      if (defaultTaskScheduleToCloseTimeout != null)
+        'defaultTaskScheduleToCloseTimeout': defaultTaskScheduleToCloseTimeout,
+      if (defaultTaskScheduleToStartTimeout != null)
+        'defaultTaskScheduleToStartTimeout': defaultTaskScheduleToStartTimeout,
+      if (defaultTaskStartToCloseTimeout != null)
+        'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
+    };
+  }
 }
 
 /// Detailed information about an activity type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTypeDetail {
   /// The configuration settings registered with the activity type.
-  @_s.JsonKey(name: 'configuration')
   final ActivityTypeConfiguration configuration;
 
   /// General information about the activity type.
@@ -4734,68 +4890,91 @@ class ActivityTypeDetail {
   /// supporting this type running. You cannot create new tasks of this type.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'typeInfo')
   final ActivityTypeInfo typeInfo;
 
   ActivityTypeDetail({
-    @_s.required this.configuration,
-    @_s.required this.typeInfo,
+    required this.configuration,
+    required this.typeInfo,
   });
-  factory ActivityTypeDetail.fromJson(Map<String, dynamic> json) =>
-      _$ActivityTypeDetailFromJson(json);
+
+  factory ActivityTypeDetail.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeDetail(
+      configuration: ActivityTypeConfiguration.fromJson(
+          json['configuration'] as Map<String, dynamic>),
+      typeInfo:
+          ActivityTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final typeInfo = this.typeInfo;
+    return {
+      'configuration': configuration,
+      'typeInfo': typeInfo,
+    };
+  }
 }
 
 /// Detailed information about an activity type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTypeInfo {
   /// The <a>ActivityType</a> type structure representing the activity type.
-  @_s.JsonKey(name: 'activityType')
   final ActivityType activityType;
 
   /// The date and time this activity type was created through
   /// <a>RegisterActivityType</a>.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The current status of the activity type.
-  @_s.JsonKey(name: 'status')
   final RegistrationStatus status;
 
   /// If DEPRECATED, the date and time <a>DeprecateActivityType</a> was called.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'deprecationDate')
-  final DateTime deprecationDate;
+  final DateTime? deprecationDate;
 
   /// The description of the activity type provided in
   /// <a>RegisterActivityType</a>.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   ActivityTypeInfo({
-    @_s.required this.activityType,
-    @_s.required this.creationDate,
-    @_s.required this.status,
+    required this.activityType,
+    required this.creationDate,
+    required this.status,
     this.deprecationDate,
     this.description,
   });
-  factory ActivityTypeInfo.fromJson(Map<String, dynamic> json) =>
-      _$ActivityTypeInfoFromJson(json);
+
+  factory ActivityTypeInfo.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeInfo(
+      activityType:
+          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+      creationDate:
+          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      status: (json['status'] as String).toRegistrationStatus(),
+      deprecationDate: timeStampFromJson(json['deprecationDate']),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityType = this.activityType;
+    final creationDate = this.creationDate;
+    final status = this.status;
+    final deprecationDate = this.deprecationDate;
+    final description = this.description;
+    return {
+      'activityType': activityType,
+      'creationDate': unixTimestampToJson(creationDate),
+      'status': status.toValue(),
+      if (deprecationDate != null)
+        'deprecationDate': unixTimestampToJson(deprecationDate),
+      if (description != null) 'description': description,
+    };
+  }
 }
 
 /// Contains a paginated list of activity type information structures.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ActivityTypeInfos {
   /// List of activity type information.
-  @_s.JsonKey(name: 'typeInfos')
   final List<ActivityTypeInfo> typeInfos;
 
   /// If a <code>NextPageToken</code> was returned by a previous call, there are
@@ -4805,15 +4984,31 @@ class ActivityTypeInfos {
   ///
   /// The configured <code>maximumPageSize</code> determines how many results can
   /// be returned in a single call.
-  @_s.JsonKey(name: 'nextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   ActivityTypeInfos({
-    @_s.required this.typeInfos,
+    required this.typeInfos,
     this.nextPageToken,
   });
-  factory ActivityTypeInfos.fromJson(Map<String, dynamic> json) =>
-      _$ActivityTypeInfosFromJson(json);
+
+  factory ActivityTypeInfos.fromJson(Map<String, dynamic> json) {
+    return ActivityTypeInfos(
+      typeInfos: (json['typeInfos'] as List)
+          .whereNotNull()
+          .map((e) => ActivityTypeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typeInfos = this.typeInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'typeInfos': typeInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
 }
 
 /// Provides the details of the <code>CancelTimer</code> decision.
@@ -4844,35 +5039,57 @@ class ActivityTypeInfos {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CancelTimerDecisionAttributes {
   /// The unique ID of the timer to cancel.
-  @_s.JsonKey(name: 'timerId')
   final String timerId;
 
   CancelTimerDecisionAttributes({
-    @_s.required this.timerId,
+    required this.timerId,
   });
-  Map<String, dynamic> toJson() => _$CancelTimerDecisionAttributesToJson(this);
+
+  factory CancelTimerDecisionAttributes.fromJson(Map<String, dynamic> json) {
+    return CancelTimerDecisionAttributes(
+      timerId: json['timerId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final timerId = this.timerId;
+    return {
+      'timerId': timerId,
+    };
+  }
 }
 
 enum CancelTimerFailedCause {
-  @_s.JsonValue('TIMER_ID_UNKNOWN')
   timerIdUnknown,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
 }
 
+extension on CancelTimerFailedCause {
+  String toValue() {
+    switch (this) {
+      case CancelTimerFailedCause.timerIdUnknown:
+        return 'TIMER_ID_UNKNOWN';
+      case CancelTimerFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  CancelTimerFailedCause toCancelTimerFailedCause() {
+    switch (this) {
+      case 'TIMER_ID_UNKNOWN':
+        return CancelTimerFailedCause.timerIdUnknown;
+      case 'OPERATION_NOT_PERMITTED':
+        return CancelTimerFailedCause.operationNotPermitted;
+    }
+    throw Exception('$this is not known in enum CancelTimerFailedCause');
+  }
+}
+
 /// Provides the details of the <code>CancelTimerFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelTimerFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -4884,28 +5101,41 @@ class CancelTimerFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final CancelTimerFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>CancelTimer</code> decision to
   /// cancel this timer. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The timerId provided in the <code>CancelTimer</code> decision that failed.
-  @_s.JsonKey(name: 'timerId')
   final String timerId;
 
   CancelTimerFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.timerId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.timerId,
   });
-  factory CancelTimerFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelTimerFailedEventAttributesFromJson(json);
+
+  factory CancelTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
+    return CancelTimerFailedEventAttributes(
+      cause: (json['cause'] as String).toCancelTimerFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      timerId: json['timerId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final timerId = this.timerId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'timerId': timerId,
+    };
+  }
 }
 
 /// Provides the details of the <code>CancelWorkflowExecution</code> decision.
@@ -4936,37 +5166,60 @@ class CancelTimerFailedEventAttributes {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CancelWorkflowExecutionDecisionAttributes {
   /// Details of the cancellation.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   CancelWorkflowExecutionDecisionAttributes({
     this.details,
   });
-  Map<String, dynamic> toJson() =>
-      _$CancelWorkflowExecutionDecisionAttributesToJson(this);
+
+  factory CancelWorkflowExecutionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return CancelWorkflowExecutionDecisionAttributes(
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    return {
+      if (details != null) 'details': details,
+    };
+  }
 }
 
 enum CancelWorkflowExecutionFailedCause {
-  @_s.JsonValue('UNHANDLED_DECISION')
   unhandledDecision,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
+}
+
+extension on CancelWorkflowExecutionFailedCause {
+  String toValue() {
+    switch (this) {
+      case CancelWorkflowExecutionFailedCause.unhandledDecision:
+        return 'UNHANDLED_DECISION';
+      case CancelWorkflowExecutionFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  CancelWorkflowExecutionFailedCause toCancelWorkflowExecutionFailedCause() {
+    switch (this) {
+      case 'UNHANDLED_DECISION':
+        return CancelWorkflowExecutionFailedCause.unhandledDecision;
+      case 'OPERATION_NOT_PERMITTED':
+        return CancelWorkflowExecutionFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum CancelWorkflowExecutionFailedCause');
+  }
 }
 
 /// Provides the details of the <code>CancelWorkflowExecutionFailed</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CancelWorkflowExecutionFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -4978,7 +5231,6 @@ class CancelWorkflowExecutionFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final CancelWorkflowExecutionFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -4986,24 +5238,34 @@ class CancelWorkflowExecutionFailedEventAttributes {
   /// decision for this cancellation request. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   CancelWorkflowExecutionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
   });
+
   factory CancelWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$CancelWorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return CancelWorkflowExecutionFailedEventAttributes(
+      cause: (json['cause'] as String).toCancelWorkflowExecutionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 enum ChildPolicy {
-  @_s.JsonValue('TERMINATE')
   terminate,
-  @_s.JsonValue('REQUEST_CANCEL')
   requestCancel,
-  @_s.JsonValue('ABANDON')
   abandon,
 }
 
@@ -5017,310 +5279,449 @@ extension on ChildPolicy {
       case ChildPolicy.abandon:
         return 'ABANDON';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ChildPolicy toChildPolicy() {
+    switch (this) {
+      case 'TERMINATE':
+        return ChildPolicy.terminate;
+      case 'REQUEST_CANCEL':
+        return ChildPolicy.requestCancel;
+      case 'ABANDON':
+        return ChildPolicy.abandon;
+    }
+    throw Exception('$this is not known in enum ChildPolicy');
   }
 }
 
 /// Provide details of the <code>ChildWorkflowExecutionCanceled</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChildWorkflowExecutionCanceledEventAttributes {
   /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to start this child workflow execution. This information can
   /// be useful for diagnosing problems by tracing back the chain of events
   /// leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
   /// this child workflow execution was started. This information can be useful
   /// for diagnosing problems by tracing back the chain of events leading up to
   /// this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The child workflow execution that was canceled.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The type of the child workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// Details of the cancellation (if provided).
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   ChildWorkflowExecutionCanceledEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.workflowExecution,
-    @_s.required this.workflowType,
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
     this.details,
   });
+
   factory ChildWorkflowExecutionCanceledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChildWorkflowExecutionCanceledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionCanceledEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final details = this.details;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (details != null) 'details': details,
+    };
+  }
 }
 
 /// Provides the details of the <code>ChildWorkflowExecutionCompleted</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChildWorkflowExecutionCompletedEventAttributes {
   /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to start this child workflow execution. This information can
   /// be useful for diagnosing problems by tracing back the chain of events
   /// leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
   /// this child workflow execution was started. This information can be useful
   /// for diagnosing problems by tracing back the chain of events leading up to
   /// this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The child workflow execution that was completed.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The type of the child workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// The result of the child workflow execution.
-  @_s.JsonKey(name: 'result')
-  final String result;
+  final String? result;
 
   ChildWorkflowExecutionCompletedEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.workflowExecution,
-    @_s.required this.workflowType,
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
     this.result,
   });
+
   factory ChildWorkflowExecutionCompletedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChildWorkflowExecutionCompletedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionCompletedEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final result = this.result;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (result != null) 'result': result,
+    };
+  }
 }
 
 /// Provides the details of the <code>ChildWorkflowExecutionFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChildWorkflowExecutionFailedEventAttributes {
   /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to start this child workflow execution. This information can
   /// be useful for diagnosing problems by tracing back the chain of events
   /// leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
   /// this child workflow execution was started. This information can be useful
   /// for diagnosing problems by tracing back the chain of events leading up to
   /// this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The child workflow execution that failed.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The type of the child workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// The details of the failure (if provided).
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// The reason for the failure (if provided).
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   ChildWorkflowExecutionFailedEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.workflowExecution,
-    @_s.required this.workflowType,
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
     this.details,
     this.reason,
   });
+
   factory ChildWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChildWorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionFailedEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
 }
 
 /// Provides the details of the <code>ChildWorkflowExecutionStarted</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChildWorkflowExecutionStartedEventAttributes {
   /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to start this child workflow execution. This information can
   /// be useful for diagnosing problems by tracing back the chain of events
   /// leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The child workflow execution that was started.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The type of the child workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   ChildWorkflowExecutionStartedEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.workflowExecution,
-    @_s.required this.workflowType,
+    required this.initiatedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
   });
+
   factory ChildWorkflowExecutionStartedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChildWorkflowExecutionStartedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionStartedEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+    };
+  }
 }
 
 /// Provides the details of the <code>ChildWorkflowExecutionTerminated</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChildWorkflowExecutionTerminatedEventAttributes {
   /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to start this child workflow execution. This information can
   /// be useful for diagnosing problems by tracing back the chain of events
   /// leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
   /// this child workflow execution was started. This information can be useful
   /// for diagnosing problems by tracing back the chain of events leading up to
   /// this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The child workflow execution that was terminated.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The type of the child workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   ChildWorkflowExecutionTerminatedEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.workflowExecution,
-    @_s.required this.workflowType,
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.workflowExecution,
+    required this.workflowType,
   });
+
   factory ChildWorkflowExecutionTerminatedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChildWorkflowExecutionTerminatedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionTerminatedEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+    };
+  }
 }
 
 /// Provides the details of the <code>ChildWorkflowExecutionTimedOut</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ChildWorkflowExecutionTimedOutEventAttributes {
   /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to start this child workflow execution. This information can
   /// be useful for diagnosing problems by tracing back the chain of events
   /// leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The ID of the <code>ChildWorkflowExecutionStarted</code> event recorded when
   /// this child workflow execution was started. This information can be useful
   /// for diagnosing problems by tracing back the chain of events leading up to
   /// this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The type of the timeout that caused the child workflow execution to time
   /// out.
-  @_s.JsonKey(name: 'timeoutType')
   final WorkflowExecutionTimeoutType timeoutType;
 
   /// The child workflow execution that timed out.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The type of the child workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   ChildWorkflowExecutionTimedOutEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.timeoutType,
-    @_s.required this.workflowExecution,
-    @_s.required this.workflowType,
+    required this.initiatedEventId,
+    required this.startedEventId,
+    required this.timeoutType,
+    required this.workflowExecution,
+    required this.workflowType,
   });
+
   factory ChildWorkflowExecutionTimedOutEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ChildWorkflowExecutionTimedOutEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ChildWorkflowExecutionTimedOutEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      timeoutType:
+          (json['timeoutType'] as String).toWorkflowExecutionTimeoutType(),
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final startedEventId = this.startedEventId;
+    final timeoutType = this.timeoutType;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'startedEventId': startedEventId,
+      'timeoutType': timeoutType.toValue(),
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+    };
+  }
 }
 
 enum CloseStatus {
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
-  @_s.JsonValue('CANCELED')
   canceled,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('CONTINUED_AS_NEW')
   continuedAsNew,
-  @_s.JsonValue('TIMED_OUT')
   timedOut,
+}
+
+extension on CloseStatus {
+  String toValue() {
+    switch (this) {
+      case CloseStatus.completed:
+        return 'COMPLETED';
+      case CloseStatus.failed:
+        return 'FAILED';
+      case CloseStatus.canceled:
+        return 'CANCELED';
+      case CloseStatus.terminated:
+        return 'TERMINATED';
+      case CloseStatus.continuedAsNew:
+        return 'CONTINUED_AS_NEW';
+      case CloseStatus.timedOut:
+        return 'TIMED_OUT';
+    }
+  }
+}
+
+extension on String {
+  CloseStatus toCloseStatus() {
+    switch (this) {
+      case 'COMPLETED':
+        return CloseStatus.completed;
+      case 'FAILED':
+        return CloseStatus.failed;
+      case 'CANCELED':
+        return CloseStatus.canceled;
+      case 'TERMINATED':
+        return CloseStatus.terminated;
+      case 'CONTINUED_AS_NEW':
+        return CloseStatus.continuedAsNew;
+      case 'TIMED_OUT':
+        return CloseStatus.timedOut;
+    }
+    throw Exception('$this is not known in enum CloseStatus');
+  }
 }
 
 /// Used to filter the closed workflow executions in visibility APIs by their
 /// close status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CloseStatusFilter {
   /// The close status that must match the close status of an execution for it to
   /// meet the criteria of this filter.
-  @_s.JsonKey(name: 'status')
   final CloseStatus status;
 
   CloseStatusFilter({
-    @_s.required this.status,
+    required this.status,
   });
-  Map<String, dynamic> toJson() => _$CloseStatusFilterToJson(this);
+
+  factory CloseStatusFilter.fromJson(Map<String, dynamic> json) {
+    return CloseStatusFilter(
+      status: (json['status'] as String).toCloseStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'status': status.toValue(),
+    };
+  }
 }
 
 /// Provides the details of the <code>CompleteWorkflowExecution</code> decision.
@@ -5351,38 +5752,62 @@ class CloseStatusFilter {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CompleteWorkflowExecutionDecisionAttributes {
   /// The result of the workflow execution. The form of the result is
   /// implementation defined.
-  @_s.JsonKey(name: 'result')
-  final String result;
+  final String? result;
 
   CompleteWorkflowExecutionDecisionAttributes({
     this.result,
   });
-  Map<String, dynamic> toJson() =>
-      _$CompleteWorkflowExecutionDecisionAttributesToJson(this);
+
+  factory CompleteWorkflowExecutionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return CompleteWorkflowExecutionDecisionAttributes(
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final result = this.result;
+    return {
+      if (result != null) 'result': result,
+    };
+  }
 }
 
 enum CompleteWorkflowExecutionFailedCause {
-  @_s.JsonValue('UNHANDLED_DECISION')
   unhandledDecision,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
+}
+
+extension on CompleteWorkflowExecutionFailedCause {
+  String toValue() {
+    switch (this) {
+      case CompleteWorkflowExecutionFailedCause.unhandledDecision:
+        return 'UNHANDLED_DECISION';
+      case CompleteWorkflowExecutionFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  CompleteWorkflowExecutionFailedCause
+      toCompleteWorkflowExecutionFailedCause() {
+    switch (this) {
+      case 'UNHANDLED_DECISION':
+        return CompleteWorkflowExecutionFailedCause.unhandledDecision;
+      case 'OPERATION_NOT_PERMITTED':
+        return CompleteWorkflowExecutionFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum CompleteWorkflowExecutionFailedCause');
+  }
 }
 
 /// Provides the details of the <code>CompleteWorkflowExecutionFailed</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CompleteWorkflowExecutionFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -5394,7 +5819,6 @@ class CompleteWorkflowExecutionFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final CompleteWorkflowExecutionFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -5402,16 +5826,29 @@ class CompleteWorkflowExecutionFailedEventAttributes {
   /// decision to complete this execution. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   CompleteWorkflowExecutionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
   });
+
   factory CompleteWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$CompleteWorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return CompleteWorkflowExecutionFailedEventAttributes(
+      cause: (json['cause'] as String).toCompleteWorkflowExecutionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 /// Provides the details of the <code>ContinueAsNewWorkflowExecution</code>
@@ -5457,11 +5894,6 @@ class CompleteWorkflowExecutionFailedEventAttributes {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ContinueAsNewWorkflowExecutionDecisionAttributes {
   /// If set, specifies the policy to use for the child workflow executions of the
   /// new execution if it is terminated by calling the
@@ -5491,8 +5923,7 @@ class ContinueAsNewWorkflowExecutionDecisionAttributes {
   /// parameter is set nor a default child policy was specified at registration
   /// time then a fault is returned.
   /// </note>
-  @_s.JsonKey(name: 'childPolicy')
-  final ChildPolicy childPolicy;
+  final ChildPolicy? childPolicy;
 
   /// If set, specifies the total duration for this workflow execution. This
   /// overrides the <code>defaultExecutionStartToCloseTimeout</code> specified
@@ -5506,28 +5937,23 @@ class ContinueAsNewWorkflowExecutionDecisionAttributes {
   /// If neither this field is set nor a default execution start-to-close timeout
   /// was specified at registration time then a fault is returned.
   /// </note>
-  @_s.JsonKey(name: 'executionStartToCloseTimeout')
-  final String executionStartToCloseTimeout;
+  final String? executionStartToCloseTimeout;
 
   /// The input provided to the new workflow execution.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The IAM role to attach to the new (continued) execution.
-  @_s.JsonKey(name: 'lambdaRole')
-  final String lambdaRole;
+  final String? lambdaRole;
 
   /// The list of tags to associate with the new workflow execution. A maximum of
   /// 5 tags can be specified. You can list workflow executions with a specific
   /// tag by calling <a>ListOpenWorkflowExecutions</a> or
   /// <a>ListClosedWorkflowExecutions</a> and specifying a <a>TagFilter</a>.
-  @_s.JsonKey(name: 'tagList')
-  final List<String> tagList;
+  final List<String>? tagList;
 
   /// The task list to use for the decisions of the new (continued) workflow
   /// execution.
-  @_s.JsonKey(name: 'taskList')
-  final TaskList taskList;
+  final TaskList? taskList;
 
   /// The task priority that, if set, specifies the priority for the decision
   /// tasks for this workflow execution. This overrides the defaultTaskPriority
@@ -5539,8 +5965,7 @@ class ContinueAsNewWorkflowExecutionDecisionAttributes {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   /// Specifies the maximum duration of decision tasks for the new workflow
   /// execution. This parameter overrides the
@@ -5556,12 +5981,10 @@ class ContinueAsNewWorkflowExecutionDecisionAttributes {
   /// start-to-close timeout was specified at registration time then a fault is
   /// returned.
   /// </note>
-  @_s.JsonKey(name: 'taskStartToCloseTimeout')
-  final String taskStartToCloseTimeout;
+  final String? taskStartToCloseTimeout;
 
   /// The version of the workflow to start.
-  @_s.JsonKey(name: 'workflowTypeVersion')
-  final String workflowTypeVersion;
+  final String? workflowTypeVersion;
 
   ContinueAsNewWorkflowExecutionDecisionAttributes({
     this.childPolicy,
@@ -5574,38 +5997,132 @@ class ContinueAsNewWorkflowExecutionDecisionAttributes {
     this.taskStartToCloseTimeout,
     this.workflowTypeVersion,
   });
-  Map<String, dynamic> toJson() =>
-      _$ContinueAsNewWorkflowExecutionDecisionAttributesToJson(this);
+
+  factory ContinueAsNewWorkflowExecutionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ContinueAsNewWorkflowExecutionDecisionAttributes(
+      childPolicy: (json['childPolicy'] as String?)?.toChildPolicy(),
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String?,
+      input: json['input'] as String?,
+      lambdaRole: json['lambdaRole'] as String?,
+      tagList: (json['tagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      taskList: json['taskList'] != null
+          ? TaskList.fromJson(json['taskList'] as Map<String, dynamic>)
+          : null,
+      taskPriority: json['taskPriority'] as String?,
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+      workflowTypeVersion: json['workflowTypeVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final tagList = this.tagList;
+    final taskList = this.taskList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    final workflowTypeVersion = this.workflowTypeVersion;
+    return {
+      if (childPolicy != null) 'childPolicy': childPolicy.toValue(),
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (tagList != null) 'tagList': tagList,
+      if (taskList != null) 'taskList': taskList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+      if (workflowTypeVersion != null)
+        'workflowTypeVersion': workflowTypeVersion,
+    };
+  }
 }
 
 enum ContinueAsNewWorkflowExecutionFailedCause {
-  @_s.JsonValue('UNHANDLED_DECISION')
   unhandledDecision,
-  @_s.JsonValue('WORKFLOW_TYPE_DEPRECATED')
   workflowTypeDeprecated,
-  @_s.JsonValue('WORKFLOW_TYPE_DOES_NOT_EXIST')
   workflowTypeDoesNotExist,
-  @_s.JsonValue('DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED')
   defaultExecutionStartToCloseTimeoutUndefined,
-  @_s.JsonValue('DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED')
   defaultTaskStartToCloseTimeoutUndefined,
-  @_s.JsonValue('DEFAULT_TASK_LIST_UNDEFINED')
   defaultTaskListUndefined,
-  @_s.JsonValue('DEFAULT_CHILD_POLICY_UNDEFINED')
   defaultChildPolicyUndefined,
-  @_s.JsonValue('CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED')
   continueAsNewWorkflowExecutionRateExceeded,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
+}
+
+extension on ContinueAsNewWorkflowExecutionFailedCause {
+  String toValue() {
+    switch (this) {
+      case ContinueAsNewWorkflowExecutionFailedCause.unhandledDecision:
+        return 'UNHANDLED_DECISION';
+      case ContinueAsNewWorkflowExecutionFailedCause.workflowTypeDeprecated:
+        return 'WORKFLOW_TYPE_DEPRECATED';
+      case ContinueAsNewWorkflowExecutionFailedCause.workflowTypeDoesNotExist:
+        return 'WORKFLOW_TYPE_DOES_NOT_EXIST';
+      case ContinueAsNewWorkflowExecutionFailedCause
+          .defaultExecutionStartToCloseTimeoutUndefined:
+        return 'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED';
+      case ContinueAsNewWorkflowExecutionFailedCause
+          .defaultTaskStartToCloseTimeoutUndefined:
+        return 'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED';
+      case ContinueAsNewWorkflowExecutionFailedCause.defaultTaskListUndefined:
+        return 'DEFAULT_TASK_LIST_UNDEFINED';
+      case ContinueAsNewWorkflowExecutionFailedCause
+          .defaultChildPolicyUndefined:
+        return 'DEFAULT_CHILD_POLICY_UNDEFINED';
+      case ContinueAsNewWorkflowExecutionFailedCause
+          .continueAsNewWorkflowExecutionRateExceeded:
+        return 'CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED';
+      case ContinueAsNewWorkflowExecutionFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  ContinueAsNewWorkflowExecutionFailedCause
+      toContinueAsNewWorkflowExecutionFailedCause() {
+    switch (this) {
+      case 'UNHANDLED_DECISION':
+        return ContinueAsNewWorkflowExecutionFailedCause.unhandledDecision;
+      case 'WORKFLOW_TYPE_DEPRECATED':
+        return ContinueAsNewWorkflowExecutionFailedCause.workflowTypeDeprecated;
+      case 'WORKFLOW_TYPE_DOES_NOT_EXIST':
+        return ContinueAsNewWorkflowExecutionFailedCause
+            .workflowTypeDoesNotExist;
+      case 'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED':
+        return ContinueAsNewWorkflowExecutionFailedCause
+            .defaultExecutionStartToCloseTimeoutUndefined;
+      case 'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED':
+        return ContinueAsNewWorkflowExecutionFailedCause
+            .defaultTaskStartToCloseTimeoutUndefined;
+      case 'DEFAULT_TASK_LIST_UNDEFINED':
+        return ContinueAsNewWorkflowExecutionFailedCause
+            .defaultTaskListUndefined;
+      case 'DEFAULT_CHILD_POLICY_UNDEFINED':
+        return ContinueAsNewWorkflowExecutionFailedCause
+            .defaultChildPolicyUndefined;
+      case 'CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED':
+        return ContinueAsNewWorkflowExecutionFailedCause
+            .continueAsNewWorkflowExecutionRateExceeded;
+      case 'OPERATION_NOT_PERMITTED':
+        return ContinueAsNewWorkflowExecutionFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum ContinueAsNewWorkflowExecutionFailedCause');
+  }
 }
 
 /// Provides the details of the
 /// <code>ContinueAsNewWorkflowExecutionFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ContinueAsNewWorkflowExecutionFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -5617,7 +6134,6 @@ class ContinueAsNewWorkflowExecutionFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final ContinueAsNewWorkflowExecutionFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -5625,16 +6141,30 @@ class ContinueAsNewWorkflowExecutionFailedEventAttributes {
   /// <code>ContinueAsNewWorkflowExecution</code> decision that started this
   /// execution. This information can be useful for diagnosing problems by tracing
   /// back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   ContinueAsNewWorkflowExecutionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
   });
+
   factory ContinueAsNewWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ContinueAsNewWorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ContinueAsNewWorkflowExecutionFailedEventAttributes(
+      cause: (json['cause'] as String)
+          .toContinueAsNewWorkflowExecutionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 /// Specifies a decision made by the decider. A decision can be one of these
@@ -5865,94 +6395,75 @@ class ContinueAsNewWorkflowExecutionFailedEventAttributes {
 /// <code> <a>StartChildWorkflowExecutionDecisionAttributes</a> </code>
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Decision {
   /// Specifies the type of the decision.
-  @_s.JsonKey(name: 'decisionType')
   final DecisionType decisionType;
 
   /// Provides the details of the <code>CancelTimer</code> decision. It isn't set
   /// for other decision types.
-  @_s.JsonKey(name: 'cancelTimerDecisionAttributes')
-  final CancelTimerDecisionAttributes cancelTimerDecisionAttributes;
+  final CancelTimerDecisionAttributes? cancelTimerDecisionAttributes;
 
   /// Provides the details of the <code>CancelWorkflowExecution</code> decision.
   /// It isn't set for other decision types.
-  @_s.JsonKey(name: 'cancelWorkflowExecutionDecisionAttributes')
-  final CancelWorkflowExecutionDecisionAttributes
+  final CancelWorkflowExecutionDecisionAttributes?
       cancelWorkflowExecutionDecisionAttributes;
 
   /// Provides the details of the <code>CompleteWorkflowExecution</code> decision.
   /// It isn't set for other decision types.
-  @_s.JsonKey(name: 'completeWorkflowExecutionDecisionAttributes')
-  final CompleteWorkflowExecutionDecisionAttributes
+  final CompleteWorkflowExecutionDecisionAttributes?
       completeWorkflowExecutionDecisionAttributes;
 
   /// Provides the details of the <code>ContinueAsNewWorkflowExecution</code>
   /// decision. It isn't set for other decision types.
-  @_s.JsonKey(name: 'continueAsNewWorkflowExecutionDecisionAttributes')
-  final ContinueAsNewWorkflowExecutionDecisionAttributes
+  final ContinueAsNewWorkflowExecutionDecisionAttributes?
       continueAsNewWorkflowExecutionDecisionAttributes;
 
   /// Provides the details of the <code>FailWorkflowExecution</code> decision. It
   /// isn't set for other decision types.
-  @_s.JsonKey(name: 'failWorkflowExecutionDecisionAttributes')
-  final FailWorkflowExecutionDecisionAttributes
+  final FailWorkflowExecutionDecisionAttributes?
       failWorkflowExecutionDecisionAttributes;
 
   /// Provides the details of the <code>RecordMarker</code> decision. It isn't set
   /// for other decision types.
-  @_s.JsonKey(name: 'recordMarkerDecisionAttributes')
-  final RecordMarkerDecisionAttributes recordMarkerDecisionAttributes;
+  final RecordMarkerDecisionAttributes? recordMarkerDecisionAttributes;
 
   /// Provides the details of the <code>RequestCancelActivityTask</code> decision.
   /// It isn't set for other decision types.
-  @_s.JsonKey(name: 'requestCancelActivityTaskDecisionAttributes')
-  final RequestCancelActivityTaskDecisionAttributes
+  final RequestCancelActivityTaskDecisionAttributes?
       requestCancelActivityTaskDecisionAttributes;
 
   /// Provides the details of the
   /// <code>RequestCancelExternalWorkflowExecution</code> decision. It isn't set
   /// for other decision types.
-  @_s.JsonKey(name: 'requestCancelExternalWorkflowExecutionDecisionAttributes')
-  final RequestCancelExternalWorkflowExecutionDecisionAttributes
+  final RequestCancelExternalWorkflowExecutionDecisionAttributes?
       requestCancelExternalWorkflowExecutionDecisionAttributes;
 
   /// Provides the details of the <code>ScheduleActivityTask</code> decision. It
   /// isn't set for other decision types.
-  @_s.JsonKey(name: 'scheduleActivityTaskDecisionAttributes')
-  final ScheduleActivityTaskDecisionAttributes
+  final ScheduleActivityTaskDecisionAttributes?
       scheduleActivityTaskDecisionAttributes;
 
   /// Provides the details of the <code>ScheduleLambdaFunction</code> decision. It
   /// isn't set for other decision types.
-  @_s.JsonKey(name: 'scheduleLambdaFunctionDecisionAttributes')
-  final ScheduleLambdaFunctionDecisionAttributes
+  final ScheduleLambdaFunctionDecisionAttributes?
       scheduleLambdaFunctionDecisionAttributes;
 
   /// Provides the details of the <code>SignalExternalWorkflowExecution</code>
   /// decision. It isn't set for other decision types.
-  @_s.JsonKey(name: 'signalExternalWorkflowExecutionDecisionAttributes')
-  final SignalExternalWorkflowExecutionDecisionAttributes
+  final SignalExternalWorkflowExecutionDecisionAttributes?
       signalExternalWorkflowExecutionDecisionAttributes;
 
   /// Provides the details of the <code>StartChildWorkflowExecution</code>
   /// decision. It isn't set for other decision types.
-  @_s.JsonKey(name: 'startChildWorkflowExecutionDecisionAttributes')
-  final StartChildWorkflowExecutionDecisionAttributes
+  final StartChildWorkflowExecutionDecisionAttributes?
       startChildWorkflowExecutionDecisionAttributes;
 
   /// Provides the details of the <code>StartTimer</code> decision. It isn't set
   /// for other decision types.
-  @_s.JsonKey(name: 'startTimerDecisionAttributes')
-  final StartTimerDecisionAttributes startTimerDecisionAttributes;
+  final StartTimerDecisionAttributes? startTimerDecisionAttributes;
 
   Decision({
-    @_s.required this.decisionType,
+    required this.decisionType,
     this.cancelTimerDecisionAttributes,
     this.cancelWorkflowExecutionDecisionAttributes,
     this.completeWorkflowExecutionDecisionAttributes,
@@ -5967,39 +6478,175 @@ class Decision {
     this.startChildWorkflowExecutionDecisionAttributes,
     this.startTimerDecisionAttributes,
   });
-  Map<String, dynamic> toJson() => _$DecisionToJson(this);
+
+  factory Decision.fromJson(Map<String, dynamic> json) {
+    return Decision(
+      decisionType: (json['decisionType'] as String).toDecisionType(),
+      cancelTimerDecisionAttributes:
+          json['cancelTimerDecisionAttributes'] != null
+              ? CancelTimerDecisionAttributes.fromJson(
+                  json['cancelTimerDecisionAttributes'] as Map<String, dynamic>)
+              : null,
+      cancelWorkflowExecutionDecisionAttributes:
+          json['cancelWorkflowExecutionDecisionAttributes'] != null
+              ? CancelWorkflowExecutionDecisionAttributes.fromJson(
+                  json['cancelWorkflowExecutionDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      completeWorkflowExecutionDecisionAttributes:
+          json['completeWorkflowExecutionDecisionAttributes'] != null
+              ? CompleteWorkflowExecutionDecisionAttributes.fromJson(
+                  json['completeWorkflowExecutionDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      continueAsNewWorkflowExecutionDecisionAttributes:
+          json['continueAsNewWorkflowExecutionDecisionAttributes'] != null
+              ? ContinueAsNewWorkflowExecutionDecisionAttributes.fromJson(
+                  json['continueAsNewWorkflowExecutionDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      failWorkflowExecutionDecisionAttributes:
+          json['failWorkflowExecutionDecisionAttributes'] != null
+              ? FailWorkflowExecutionDecisionAttributes.fromJson(
+                  json['failWorkflowExecutionDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      recordMarkerDecisionAttributes: json['recordMarkerDecisionAttributes'] !=
+              null
+          ? RecordMarkerDecisionAttributes.fromJson(
+              json['recordMarkerDecisionAttributes'] as Map<String, dynamic>)
+          : null,
+      requestCancelActivityTaskDecisionAttributes:
+          json['requestCancelActivityTaskDecisionAttributes'] != null
+              ? RequestCancelActivityTaskDecisionAttributes.fromJson(
+                  json['requestCancelActivityTaskDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      requestCancelExternalWorkflowExecutionDecisionAttributes: json[
+                  'requestCancelExternalWorkflowExecutionDecisionAttributes'] !=
+              null
+          ? RequestCancelExternalWorkflowExecutionDecisionAttributes.fromJson(
+              json['requestCancelExternalWorkflowExecutionDecisionAttributes']
+                  as Map<String, dynamic>)
+          : null,
+      scheduleActivityTaskDecisionAttributes:
+          json['scheduleActivityTaskDecisionAttributes'] != null
+              ? ScheduleActivityTaskDecisionAttributes.fromJson(
+                  json['scheduleActivityTaskDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      scheduleLambdaFunctionDecisionAttributes:
+          json['scheduleLambdaFunctionDecisionAttributes'] != null
+              ? ScheduleLambdaFunctionDecisionAttributes.fromJson(
+                  json['scheduleLambdaFunctionDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      signalExternalWorkflowExecutionDecisionAttributes:
+          json['signalExternalWorkflowExecutionDecisionAttributes'] != null
+              ? SignalExternalWorkflowExecutionDecisionAttributes.fromJson(
+                  json['signalExternalWorkflowExecutionDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      startChildWorkflowExecutionDecisionAttributes:
+          json['startChildWorkflowExecutionDecisionAttributes'] != null
+              ? StartChildWorkflowExecutionDecisionAttributes.fromJson(
+                  json['startChildWorkflowExecutionDecisionAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      startTimerDecisionAttributes: json['startTimerDecisionAttributes'] != null
+          ? StartTimerDecisionAttributes.fromJson(
+              json['startTimerDecisionAttributes'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionType = this.decisionType;
+    final cancelTimerDecisionAttributes = this.cancelTimerDecisionAttributes;
+    final cancelWorkflowExecutionDecisionAttributes =
+        this.cancelWorkflowExecutionDecisionAttributes;
+    final completeWorkflowExecutionDecisionAttributes =
+        this.completeWorkflowExecutionDecisionAttributes;
+    final continueAsNewWorkflowExecutionDecisionAttributes =
+        this.continueAsNewWorkflowExecutionDecisionAttributes;
+    final failWorkflowExecutionDecisionAttributes =
+        this.failWorkflowExecutionDecisionAttributes;
+    final recordMarkerDecisionAttributes = this.recordMarkerDecisionAttributes;
+    final requestCancelActivityTaskDecisionAttributes =
+        this.requestCancelActivityTaskDecisionAttributes;
+    final requestCancelExternalWorkflowExecutionDecisionAttributes =
+        this.requestCancelExternalWorkflowExecutionDecisionAttributes;
+    final scheduleActivityTaskDecisionAttributes =
+        this.scheduleActivityTaskDecisionAttributes;
+    final scheduleLambdaFunctionDecisionAttributes =
+        this.scheduleLambdaFunctionDecisionAttributes;
+    final signalExternalWorkflowExecutionDecisionAttributes =
+        this.signalExternalWorkflowExecutionDecisionAttributes;
+    final startChildWorkflowExecutionDecisionAttributes =
+        this.startChildWorkflowExecutionDecisionAttributes;
+    final startTimerDecisionAttributes = this.startTimerDecisionAttributes;
+    return {
+      'decisionType': decisionType.toValue(),
+      if (cancelTimerDecisionAttributes != null)
+        'cancelTimerDecisionAttributes': cancelTimerDecisionAttributes,
+      if (cancelWorkflowExecutionDecisionAttributes != null)
+        'cancelWorkflowExecutionDecisionAttributes':
+            cancelWorkflowExecutionDecisionAttributes,
+      if (completeWorkflowExecutionDecisionAttributes != null)
+        'completeWorkflowExecutionDecisionAttributes':
+            completeWorkflowExecutionDecisionAttributes,
+      if (continueAsNewWorkflowExecutionDecisionAttributes != null)
+        'continueAsNewWorkflowExecutionDecisionAttributes':
+            continueAsNewWorkflowExecutionDecisionAttributes,
+      if (failWorkflowExecutionDecisionAttributes != null)
+        'failWorkflowExecutionDecisionAttributes':
+            failWorkflowExecutionDecisionAttributes,
+      if (recordMarkerDecisionAttributes != null)
+        'recordMarkerDecisionAttributes': recordMarkerDecisionAttributes,
+      if (requestCancelActivityTaskDecisionAttributes != null)
+        'requestCancelActivityTaskDecisionAttributes':
+            requestCancelActivityTaskDecisionAttributes,
+      if (requestCancelExternalWorkflowExecutionDecisionAttributes != null)
+        'requestCancelExternalWorkflowExecutionDecisionAttributes':
+            requestCancelExternalWorkflowExecutionDecisionAttributes,
+      if (scheduleActivityTaskDecisionAttributes != null)
+        'scheduleActivityTaskDecisionAttributes':
+            scheduleActivityTaskDecisionAttributes,
+      if (scheduleLambdaFunctionDecisionAttributes != null)
+        'scheduleLambdaFunctionDecisionAttributes':
+            scheduleLambdaFunctionDecisionAttributes,
+      if (signalExternalWorkflowExecutionDecisionAttributes != null)
+        'signalExternalWorkflowExecutionDecisionAttributes':
+            signalExternalWorkflowExecutionDecisionAttributes,
+      if (startChildWorkflowExecutionDecisionAttributes != null)
+        'startChildWorkflowExecutionDecisionAttributes':
+            startChildWorkflowExecutionDecisionAttributes,
+      if (startTimerDecisionAttributes != null)
+        'startTimerDecisionAttributes': startTimerDecisionAttributes,
+    };
+  }
 }
 
 /// A structure that represents a decision task. Decision tasks are sent to
 /// deciders in order for them to make decisions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DecisionTask {
   /// A paginated list of history events of the workflow execution. The decider
   /// uses this during the processing of the decision task.
-  @_s.JsonKey(name: 'events')
   final List<HistoryEvent> events;
 
   /// The ID of the <code>DecisionTaskStarted</code> event recorded in the
   /// history.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The opaque string used as a handle on the task. This token is used by
   /// workers to communicate progress and response information back to the system
   /// about the task.
-  @_s.JsonKey(name: 'taskToken')
   final String taskToken;
 
   /// The workflow execution for which this decision task was created.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   /// The type of the workflow execution for which this decision task was created.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// If a <code>NextPageToken</code> was returned by a previous call, there are
@@ -6009,72 +6656,108 @@ class DecisionTask {
   ///
   /// The configured <code>maximumPageSize</code> determines how many results can
   /// be returned in a single call.
-  @_s.JsonKey(name: 'nextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   /// The ID of the DecisionTaskStarted event of the previous decision task of
   /// this workflow execution that was processed by the decider. This can be used
   /// to determine the events in the history new since the last decision task
   /// received by the decider.
-  @_s.JsonKey(name: 'previousStartedEventId')
-  final int previousStartedEventId;
+  final int? previousStartedEventId;
 
   DecisionTask({
-    @_s.required this.events,
-    @_s.required this.startedEventId,
-    @_s.required this.taskToken,
-    @_s.required this.workflowExecution,
-    @_s.required this.workflowType,
+    required this.events,
+    required this.startedEventId,
+    required this.taskToken,
+    required this.workflowExecution,
+    required this.workflowType,
     this.nextPageToken,
     this.previousStartedEventId,
   });
-  factory DecisionTask.fromJson(Map<String, dynamic> json) =>
-      _$DecisionTaskFromJson(json);
+
+  factory DecisionTask.fromJson(Map<String, dynamic> json) {
+    return DecisionTask(
+      events: (json['events'] as List)
+          .whereNotNull()
+          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      startedEventId: json['startedEventId'] as int,
+      taskToken: json['taskToken'] as String,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      nextPageToken: json['nextPageToken'] as String?,
+      previousStartedEventId: json['previousStartedEventId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final startedEventId = this.startedEventId;
+    final taskToken = this.taskToken;
+    final workflowExecution = this.workflowExecution;
+    final workflowType = this.workflowType;
+    final nextPageToken = this.nextPageToken;
+    final previousStartedEventId = this.previousStartedEventId;
+    return {
+      'events': events,
+      'startedEventId': startedEventId,
+      'taskToken': taskToken,
+      'workflowExecution': workflowExecution,
+      'workflowType': workflowType,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+      if (previousStartedEventId != null)
+        'previousStartedEventId': previousStartedEventId,
+    };
+  }
 }
 
 /// Provides the details of the <code>DecisionTaskCompleted</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DecisionTaskCompletedEventAttributes {
   /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
   /// when this decision task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>DecisionTaskStarted</code> event recorded when this
   /// decision task was started. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// User defined context for the workflow execution.
-  @_s.JsonKey(name: 'executionContext')
-  final String executionContext;
+  final String? executionContext;
 
   DecisionTaskCompletedEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
+    required this.scheduledEventId,
+    required this.startedEventId,
     this.executionContext,
   });
+
   factory DecisionTaskCompletedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$DecisionTaskCompletedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return DecisionTaskCompletedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      executionContext: json['executionContext'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final executionContext = this.executionContext;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (executionContext != null) 'executionContext': executionContext,
+    };
+  }
 }
 
 /// Provides details about the <code>DecisionTaskScheduled</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DecisionTaskScheduledEventAttributes {
   /// The name of the task list in which the decision task was scheduled.
-  @_s.JsonKey(name: 'taskList')
   final TaskList taskList;
 
   /// The maximum duration for this decision task. The task is considered timed
@@ -6082,8 +6765,7 @@ class DecisionTaskScheduledEventAttributes {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'startToCloseTimeout')
-  final String startToCloseTimeout;
+  final String? startToCloseTimeout;
 
   /// A task priority that, if set, specifies the priority for this decision task.
   /// Valid values are integers that range from Java's
@@ -6094,168 +6776,284 @@ class DecisionTaskScheduledEventAttributes {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   DecisionTaskScheduledEventAttributes({
-    @_s.required this.taskList,
+    required this.taskList,
     this.startToCloseTimeout,
     this.taskPriority,
   });
+
   factory DecisionTaskScheduledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$DecisionTaskScheduledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return DecisionTaskScheduledEventAttributes(
+      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
+      taskPriority: json['taskPriority'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final taskList = this.taskList;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    final taskPriority = this.taskPriority;
+    return {
+      'taskList': taskList,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+    };
+  }
 }
 
 /// Provides the details of the <code>DecisionTaskStarted</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DecisionTaskStartedEventAttributes {
   /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
   /// when this decision task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// Identity of the decider making the request. This enables diagnostic tracing
   /// when problems arise. The form of this identity is user defined.
-  @_s.JsonKey(name: 'identity')
-  final String identity;
+  final String? identity;
 
   DecisionTaskStartedEventAttributes({
-    @_s.required this.scheduledEventId,
+    required this.scheduledEventId,
     this.identity,
   });
+
   factory DecisionTaskStartedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$DecisionTaskStartedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return DecisionTaskStartedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      identity: json['identity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final identity = this.identity;
+    return {
+      'scheduledEventId': scheduledEventId,
+      if (identity != null) 'identity': identity,
+    };
+  }
 }
 
 /// Provides the details of the <code>DecisionTaskTimedOut</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DecisionTaskTimedOutEventAttributes {
   /// The ID of the <code>DecisionTaskScheduled</code> event that was recorded
   /// when this decision task was scheduled. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>DecisionTaskStarted</code> event recorded when this
   /// decision task was started. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The type of timeout that expired before the decision task could be
   /// completed.
-  @_s.JsonKey(name: 'timeoutType')
   final DecisionTaskTimeoutType timeoutType;
 
   DecisionTaskTimedOutEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.timeoutType,
+    required this.scheduledEventId,
+    required this.startedEventId,
+    required this.timeoutType,
   });
+
   factory DecisionTaskTimedOutEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$DecisionTaskTimedOutEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return DecisionTaskTimedOutEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      timeoutType: (json['timeoutType'] as String).toDecisionTaskTimeoutType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final timeoutType = this.timeoutType;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      'timeoutType': timeoutType.toValue(),
+    };
+  }
 }
 
 enum DecisionTaskTimeoutType {
-  @_s.JsonValue('START_TO_CLOSE')
   startToClose,
 }
 
+extension on DecisionTaskTimeoutType {
+  String toValue() {
+    switch (this) {
+      case DecisionTaskTimeoutType.startToClose:
+        return 'START_TO_CLOSE';
+    }
+  }
+}
+
+extension on String {
+  DecisionTaskTimeoutType toDecisionTaskTimeoutType() {
+    switch (this) {
+      case 'START_TO_CLOSE':
+        return DecisionTaskTimeoutType.startToClose;
+    }
+    throw Exception('$this is not known in enum DecisionTaskTimeoutType');
+  }
+}
+
 enum DecisionType {
-  @_s.JsonValue('ScheduleActivityTask')
   scheduleActivityTask,
-  @_s.JsonValue('RequestCancelActivityTask')
   requestCancelActivityTask,
-  @_s.JsonValue('CompleteWorkflowExecution')
   completeWorkflowExecution,
-  @_s.JsonValue('FailWorkflowExecution')
   failWorkflowExecution,
-  @_s.JsonValue('CancelWorkflowExecution')
   cancelWorkflowExecution,
-  @_s.JsonValue('ContinueAsNewWorkflowExecution')
   continueAsNewWorkflowExecution,
-  @_s.JsonValue('RecordMarker')
   recordMarker,
-  @_s.JsonValue('StartTimer')
   startTimer,
-  @_s.JsonValue('CancelTimer')
   cancelTimer,
-  @_s.JsonValue('SignalExternalWorkflowExecution')
   signalExternalWorkflowExecution,
-  @_s.JsonValue('RequestCancelExternalWorkflowExecution')
   requestCancelExternalWorkflowExecution,
-  @_s.JsonValue('StartChildWorkflowExecution')
   startChildWorkflowExecution,
-  @_s.JsonValue('ScheduleLambdaFunction')
   scheduleLambdaFunction,
 }
 
+extension on DecisionType {
+  String toValue() {
+    switch (this) {
+      case DecisionType.scheduleActivityTask:
+        return 'ScheduleActivityTask';
+      case DecisionType.requestCancelActivityTask:
+        return 'RequestCancelActivityTask';
+      case DecisionType.completeWorkflowExecution:
+        return 'CompleteWorkflowExecution';
+      case DecisionType.failWorkflowExecution:
+        return 'FailWorkflowExecution';
+      case DecisionType.cancelWorkflowExecution:
+        return 'CancelWorkflowExecution';
+      case DecisionType.continueAsNewWorkflowExecution:
+        return 'ContinueAsNewWorkflowExecution';
+      case DecisionType.recordMarker:
+        return 'RecordMarker';
+      case DecisionType.startTimer:
+        return 'StartTimer';
+      case DecisionType.cancelTimer:
+        return 'CancelTimer';
+      case DecisionType.signalExternalWorkflowExecution:
+        return 'SignalExternalWorkflowExecution';
+      case DecisionType.requestCancelExternalWorkflowExecution:
+        return 'RequestCancelExternalWorkflowExecution';
+      case DecisionType.startChildWorkflowExecution:
+        return 'StartChildWorkflowExecution';
+      case DecisionType.scheduleLambdaFunction:
+        return 'ScheduleLambdaFunction';
+    }
+  }
+}
+
+extension on String {
+  DecisionType toDecisionType() {
+    switch (this) {
+      case 'ScheduleActivityTask':
+        return DecisionType.scheduleActivityTask;
+      case 'RequestCancelActivityTask':
+        return DecisionType.requestCancelActivityTask;
+      case 'CompleteWorkflowExecution':
+        return DecisionType.completeWorkflowExecution;
+      case 'FailWorkflowExecution':
+        return DecisionType.failWorkflowExecution;
+      case 'CancelWorkflowExecution':
+        return DecisionType.cancelWorkflowExecution;
+      case 'ContinueAsNewWorkflowExecution':
+        return DecisionType.continueAsNewWorkflowExecution;
+      case 'RecordMarker':
+        return DecisionType.recordMarker;
+      case 'StartTimer':
+        return DecisionType.startTimer;
+      case 'CancelTimer':
+        return DecisionType.cancelTimer;
+      case 'SignalExternalWorkflowExecution':
+        return DecisionType.signalExternalWorkflowExecution;
+      case 'RequestCancelExternalWorkflowExecution':
+        return DecisionType.requestCancelExternalWorkflowExecution;
+      case 'StartChildWorkflowExecution':
+        return DecisionType.startChildWorkflowExecution;
+      case 'ScheduleLambdaFunction':
+        return DecisionType.scheduleLambdaFunction;
+    }
+    throw Exception('$this is not known in enum DecisionType');
+  }
+}
+
 /// Contains the configuration settings of a domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainConfiguration {
   /// The retention period for workflow executions in this domain.
-  @_s.JsonKey(name: 'workflowExecutionRetentionPeriodInDays')
   final String workflowExecutionRetentionPeriodInDays;
 
   DomainConfiguration({
-    @_s.required this.workflowExecutionRetentionPeriodInDays,
+    required this.workflowExecutionRetentionPeriodInDays,
   });
-  factory DomainConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$DomainConfigurationFromJson(json);
+
+  factory DomainConfiguration.fromJson(Map<String, dynamic> json) {
+    return DomainConfiguration(
+      workflowExecutionRetentionPeriodInDays:
+          json['workflowExecutionRetentionPeriodInDays'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowExecutionRetentionPeriodInDays =
+        this.workflowExecutionRetentionPeriodInDays;
+    return {
+      'workflowExecutionRetentionPeriodInDays':
+          workflowExecutionRetentionPeriodInDays,
+    };
+  }
 }
 
 /// Contains details of a domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainDetail {
   /// The domain configuration. Currently, this includes only the domain's
   /// retention period.
-  @_s.JsonKey(name: 'configuration')
   final DomainConfiguration configuration;
 
   /// The basic information about a domain, such as its name, status, and
   /// description.
-  @_s.JsonKey(name: 'domainInfo')
   final DomainInfo domainInfo;
 
   DomainDetail({
-    @_s.required this.configuration,
-    @_s.required this.domainInfo,
+    required this.configuration,
+    required this.domainInfo,
   });
-  factory DomainDetail.fromJson(Map<String, dynamic> json) =>
-      _$DomainDetailFromJson(json);
+
+  factory DomainDetail.fromJson(Map<String, dynamic> json) {
+    return DomainDetail(
+      configuration: DomainConfiguration.fromJson(
+          json['configuration'] as Map<String, dynamic>),
+      domainInfo:
+          DomainInfo.fromJson(json['domainInfo'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final domainInfo = this.domainInfo;
+    return {
+      'configuration': configuration,
+      'domainInfo': domainInfo,
+    };
+  }
 }
 
 /// Contains general information about a domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainInfo {
   /// The name of the domain. This name is unique within the account.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The status of the domain:
@@ -6272,36 +7070,47 @@ class DomainInfo {
   /// workflow executions in this domain.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'status')
   final RegistrationStatus status;
 
   /// The ARN of the domain.
-  @_s.JsonKey(name: 'arn')
-  final String arn;
+  final String? arn;
 
   /// The description of the domain provided through <a>RegisterDomain</a>.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   DomainInfo({
-    @_s.required this.name,
-    @_s.required this.status,
+    required this.name,
+    required this.status,
     this.arn,
     this.description,
   });
-  factory DomainInfo.fromJson(Map<String, dynamic> json) =>
-      _$DomainInfoFromJson(json);
+
+  factory DomainInfo.fromJson(Map<String, dynamic> json) {
+    return DomainInfo(
+      name: json['name'] as String,
+      status: (json['status'] as String).toRegistrationStatus(),
+      arn: json['arn'] as String?,
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final status = this.status;
+    final arn = this.arn;
+    final description = this.description;
+    return {
+      'name': name,
+      'status': status.toValue(),
+      if (arn != null) 'arn': arn,
+      if (description != null) 'description': description,
+    };
+  }
 }
 
 /// Contains a paginated collection of DomainInfo structures.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DomainInfos {
   /// A list of DomainInfo structures.
-  @_s.JsonKey(name: 'domainInfos')
   final List<DomainInfo> domainInfos;
 
   /// If a <code>NextPageToken</code> was returned by a previous call, there are
@@ -6311,133 +7120,347 @@ class DomainInfos {
   ///
   /// The configured <code>maximumPageSize</code> determines how many results can
   /// be returned in a single call.
-  @_s.JsonKey(name: 'nextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   DomainInfos({
-    @_s.required this.domainInfos,
+    required this.domainInfos,
     this.nextPageToken,
   });
-  factory DomainInfos.fromJson(Map<String, dynamic> json) =>
-      _$DomainInfosFromJson(json);
+
+  factory DomainInfos.fromJson(Map<String, dynamic> json) {
+    return DomainInfos(
+      domainInfos: (json['domainInfos'] as List)
+          .whereNotNull()
+          .map((e) => DomainInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainInfos = this.domainInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'domainInfos': domainInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
 }
 
 enum EventType {
-  @_s.JsonValue('WorkflowExecutionStarted')
   workflowExecutionStarted,
-  @_s.JsonValue('WorkflowExecutionCancelRequested')
   workflowExecutionCancelRequested,
-  @_s.JsonValue('WorkflowExecutionCompleted')
   workflowExecutionCompleted,
-  @_s.JsonValue('CompleteWorkflowExecutionFailed')
   completeWorkflowExecutionFailed,
-  @_s.JsonValue('WorkflowExecutionFailed')
   workflowExecutionFailed,
-  @_s.JsonValue('FailWorkflowExecutionFailed')
   failWorkflowExecutionFailed,
-  @_s.JsonValue('WorkflowExecutionTimedOut')
   workflowExecutionTimedOut,
-  @_s.JsonValue('WorkflowExecutionCanceled')
   workflowExecutionCanceled,
-  @_s.JsonValue('CancelWorkflowExecutionFailed')
   cancelWorkflowExecutionFailed,
-  @_s.JsonValue('WorkflowExecutionContinuedAsNew')
   workflowExecutionContinuedAsNew,
-  @_s.JsonValue('ContinueAsNewWorkflowExecutionFailed')
   continueAsNewWorkflowExecutionFailed,
-  @_s.JsonValue('WorkflowExecutionTerminated')
   workflowExecutionTerminated,
-  @_s.JsonValue('DecisionTaskScheduled')
   decisionTaskScheduled,
-  @_s.JsonValue('DecisionTaskStarted')
   decisionTaskStarted,
-  @_s.JsonValue('DecisionTaskCompleted')
   decisionTaskCompleted,
-  @_s.JsonValue('DecisionTaskTimedOut')
   decisionTaskTimedOut,
-  @_s.JsonValue('ActivityTaskScheduled')
   activityTaskScheduled,
-  @_s.JsonValue('ScheduleActivityTaskFailed')
   scheduleActivityTaskFailed,
-  @_s.JsonValue('ActivityTaskStarted')
   activityTaskStarted,
-  @_s.JsonValue('ActivityTaskCompleted')
   activityTaskCompleted,
-  @_s.JsonValue('ActivityTaskFailed')
   activityTaskFailed,
-  @_s.JsonValue('ActivityTaskTimedOut')
   activityTaskTimedOut,
-  @_s.JsonValue('ActivityTaskCanceled')
   activityTaskCanceled,
-  @_s.JsonValue('ActivityTaskCancelRequested')
   activityTaskCancelRequested,
-  @_s.JsonValue('RequestCancelActivityTaskFailed')
   requestCancelActivityTaskFailed,
-  @_s.JsonValue('WorkflowExecutionSignaled')
   workflowExecutionSignaled,
-  @_s.JsonValue('MarkerRecorded')
   markerRecorded,
-  @_s.JsonValue('RecordMarkerFailed')
   recordMarkerFailed,
-  @_s.JsonValue('TimerStarted')
   timerStarted,
-  @_s.JsonValue('StartTimerFailed')
   startTimerFailed,
-  @_s.JsonValue('TimerFired')
   timerFired,
-  @_s.JsonValue('TimerCanceled')
   timerCanceled,
-  @_s.JsonValue('CancelTimerFailed')
   cancelTimerFailed,
-  @_s.JsonValue('StartChildWorkflowExecutionInitiated')
   startChildWorkflowExecutionInitiated,
-  @_s.JsonValue('StartChildWorkflowExecutionFailed')
   startChildWorkflowExecutionFailed,
-  @_s.JsonValue('ChildWorkflowExecutionStarted')
   childWorkflowExecutionStarted,
-  @_s.JsonValue('ChildWorkflowExecutionCompleted')
   childWorkflowExecutionCompleted,
-  @_s.JsonValue('ChildWorkflowExecutionFailed')
   childWorkflowExecutionFailed,
-  @_s.JsonValue('ChildWorkflowExecutionTimedOut')
   childWorkflowExecutionTimedOut,
-  @_s.JsonValue('ChildWorkflowExecutionCanceled')
   childWorkflowExecutionCanceled,
-  @_s.JsonValue('ChildWorkflowExecutionTerminated')
   childWorkflowExecutionTerminated,
-  @_s.JsonValue('SignalExternalWorkflowExecutionInitiated')
   signalExternalWorkflowExecutionInitiated,
-  @_s.JsonValue('SignalExternalWorkflowExecutionFailed')
   signalExternalWorkflowExecutionFailed,
-  @_s.JsonValue('ExternalWorkflowExecutionSignaled')
   externalWorkflowExecutionSignaled,
-  @_s.JsonValue('RequestCancelExternalWorkflowExecutionInitiated')
   requestCancelExternalWorkflowExecutionInitiated,
-  @_s.JsonValue('RequestCancelExternalWorkflowExecutionFailed')
   requestCancelExternalWorkflowExecutionFailed,
-  @_s.JsonValue('ExternalWorkflowExecutionCancelRequested')
   externalWorkflowExecutionCancelRequested,
-  @_s.JsonValue('LambdaFunctionScheduled')
   lambdaFunctionScheduled,
-  @_s.JsonValue('LambdaFunctionStarted')
   lambdaFunctionStarted,
-  @_s.JsonValue('LambdaFunctionCompleted')
   lambdaFunctionCompleted,
-  @_s.JsonValue('LambdaFunctionFailed')
   lambdaFunctionFailed,
-  @_s.JsonValue('LambdaFunctionTimedOut')
   lambdaFunctionTimedOut,
-  @_s.JsonValue('ScheduleLambdaFunctionFailed')
   scheduleLambdaFunctionFailed,
-  @_s.JsonValue('StartLambdaFunctionFailed')
   startLambdaFunctionFailed,
 }
 
+extension on EventType {
+  String toValue() {
+    switch (this) {
+      case EventType.workflowExecutionStarted:
+        return 'WorkflowExecutionStarted';
+      case EventType.workflowExecutionCancelRequested:
+        return 'WorkflowExecutionCancelRequested';
+      case EventType.workflowExecutionCompleted:
+        return 'WorkflowExecutionCompleted';
+      case EventType.completeWorkflowExecutionFailed:
+        return 'CompleteWorkflowExecutionFailed';
+      case EventType.workflowExecutionFailed:
+        return 'WorkflowExecutionFailed';
+      case EventType.failWorkflowExecutionFailed:
+        return 'FailWorkflowExecutionFailed';
+      case EventType.workflowExecutionTimedOut:
+        return 'WorkflowExecutionTimedOut';
+      case EventType.workflowExecutionCanceled:
+        return 'WorkflowExecutionCanceled';
+      case EventType.cancelWorkflowExecutionFailed:
+        return 'CancelWorkflowExecutionFailed';
+      case EventType.workflowExecutionContinuedAsNew:
+        return 'WorkflowExecutionContinuedAsNew';
+      case EventType.continueAsNewWorkflowExecutionFailed:
+        return 'ContinueAsNewWorkflowExecutionFailed';
+      case EventType.workflowExecutionTerminated:
+        return 'WorkflowExecutionTerminated';
+      case EventType.decisionTaskScheduled:
+        return 'DecisionTaskScheduled';
+      case EventType.decisionTaskStarted:
+        return 'DecisionTaskStarted';
+      case EventType.decisionTaskCompleted:
+        return 'DecisionTaskCompleted';
+      case EventType.decisionTaskTimedOut:
+        return 'DecisionTaskTimedOut';
+      case EventType.activityTaskScheduled:
+        return 'ActivityTaskScheduled';
+      case EventType.scheduleActivityTaskFailed:
+        return 'ScheduleActivityTaskFailed';
+      case EventType.activityTaskStarted:
+        return 'ActivityTaskStarted';
+      case EventType.activityTaskCompleted:
+        return 'ActivityTaskCompleted';
+      case EventType.activityTaskFailed:
+        return 'ActivityTaskFailed';
+      case EventType.activityTaskTimedOut:
+        return 'ActivityTaskTimedOut';
+      case EventType.activityTaskCanceled:
+        return 'ActivityTaskCanceled';
+      case EventType.activityTaskCancelRequested:
+        return 'ActivityTaskCancelRequested';
+      case EventType.requestCancelActivityTaskFailed:
+        return 'RequestCancelActivityTaskFailed';
+      case EventType.workflowExecutionSignaled:
+        return 'WorkflowExecutionSignaled';
+      case EventType.markerRecorded:
+        return 'MarkerRecorded';
+      case EventType.recordMarkerFailed:
+        return 'RecordMarkerFailed';
+      case EventType.timerStarted:
+        return 'TimerStarted';
+      case EventType.startTimerFailed:
+        return 'StartTimerFailed';
+      case EventType.timerFired:
+        return 'TimerFired';
+      case EventType.timerCanceled:
+        return 'TimerCanceled';
+      case EventType.cancelTimerFailed:
+        return 'CancelTimerFailed';
+      case EventType.startChildWorkflowExecutionInitiated:
+        return 'StartChildWorkflowExecutionInitiated';
+      case EventType.startChildWorkflowExecutionFailed:
+        return 'StartChildWorkflowExecutionFailed';
+      case EventType.childWorkflowExecutionStarted:
+        return 'ChildWorkflowExecutionStarted';
+      case EventType.childWorkflowExecutionCompleted:
+        return 'ChildWorkflowExecutionCompleted';
+      case EventType.childWorkflowExecutionFailed:
+        return 'ChildWorkflowExecutionFailed';
+      case EventType.childWorkflowExecutionTimedOut:
+        return 'ChildWorkflowExecutionTimedOut';
+      case EventType.childWorkflowExecutionCanceled:
+        return 'ChildWorkflowExecutionCanceled';
+      case EventType.childWorkflowExecutionTerminated:
+        return 'ChildWorkflowExecutionTerminated';
+      case EventType.signalExternalWorkflowExecutionInitiated:
+        return 'SignalExternalWorkflowExecutionInitiated';
+      case EventType.signalExternalWorkflowExecutionFailed:
+        return 'SignalExternalWorkflowExecutionFailed';
+      case EventType.externalWorkflowExecutionSignaled:
+        return 'ExternalWorkflowExecutionSignaled';
+      case EventType.requestCancelExternalWorkflowExecutionInitiated:
+        return 'RequestCancelExternalWorkflowExecutionInitiated';
+      case EventType.requestCancelExternalWorkflowExecutionFailed:
+        return 'RequestCancelExternalWorkflowExecutionFailed';
+      case EventType.externalWorkflowExecutionCancelRequested:
+        return 'ExternalWorkflowExecutionCancelRequested';
+      case EventType.lambdaFunctionScheduled:
+        return 'LambdaFunctionScheduled';
+      case EventType.lambdaFunctionStarted:
+        return 'LambdaFunctionStarted';
+      case EventType.lambdaFunctionCompleted:
+        return 'LambdaFunctionCompleted';
+      case EventType.lambdaFunctionFailed:
+        return 'LambdaFunctionFailed';
+      case EventType.lambdaFunctionTimedOut:
+        return 'LambdaFunctionTimedOut';
+      case EventType.scheduleLambdaFunctionFailed:
+        return 'ScheduleLambdaFunctionFailed';
+      case EventType.startLambdaFunctionFailed:
+        return 'StartLambdaFunctionFailed';
+    }
+  }
+}
+
+extension on String {
+  EventType toEventType() {
+    switch (this) {
+      case 'WorkflowExecutionStarted':
+        return EventType.workflowExecutionStarted;
+      case 'WorkflowExecutionCancelRequested':
+        return EventType.workflowExecutionCancelRequested;
+      case 'WorkflowExecutionCompleted':
+        return EventType.workflowExecutionCompleted;
+      case 'CompleteWorkflowExecutionFailed':
+        return EventType.completeWorkflowExecutionFailed;
+      case 'WorkflowExecutionFailed':
+        return EventType.workflowExecutionFailed;
+      case 'FailWorkflowExecutionFailed':
+        return EventType.failWorkflowExecutionFailed;
+      case 'WorkflowExecutionTimedOut':
+        return EventType.workflowExecutionTimedOut;
+      case 'WorkflowExecutionCanceled':
+        return EventType.workflowExecutionCanceled;
+      case 'CancelWorkflowExecutionFailed':
+        return EventType.cancelWorkflowExecutionFailed;
+      case 'WorkflowExecutionContinuedAsNew':
+        return EventType.workflowExecutionContinuedAsNew;
+      case 'ContinueAsNewWorkflowExecutionFailed':
+        return EventType.continueAsNewWorkflowExecutionFailed;
+      case 'WorkflowExecutionTerminated':
+        return EventType.workflowExecutionTerminated;
+      case 'DecisionTaskScheduled':
+        return EventType.decisionTaskScheduled;
+      case 'DecisionTaskStarted':
+        return EventType.decisionTaskStarted;
+      case 'DecisionTaskCompleted':
+        return EventType.decisionTaskCompleted;
+      case 'DecisionTaskTimedOut':
+        return EventType.decisionTaskTimedOut;
+      case 'ActivityTaskScheduled':
+        return EventType.activityTaskScheduled;
+      case 'ScheduleActivityTaskFailed':
+        return EventType.scheduleActivityTaskFailed;
+      case 'ActivityTaskStarted':
+        return EventType.activityTaskStarted;
+      case 'ActivityTaskCompleted':
+        return EventType.activityTaskCompleted;
+      case 'ActivityTaskFailed':
+        return EventType.activityTaskFailed;
+      case 'ActivityTaskTimedOut':
+        return EventType.activityTaskTimedOut;
+      case 'ActivityTaskCanceled':
+        return EventType.activityTaskCanceled;
+      case 'ActivityTaskCancelRequested':
+        return EventType.activityTaskCancelRequested;
+      case 'RequestCancelActivityTaskFailed':
+        return EventType.requestCancelActivityTaskFailed;
+      case 'WorkflowExecutionSignaled':
+        return EventType.workflowExecutionSignaled;
+      case 'MarkerRecorded':
+        return EventType.markerRecorded;
+      case 'RecordMarkerFailed':
+        return EventType.recordMarkerFailed;
+      case 'TimerStarted':
+        return EventType.timerStarted;
+      case 'StartTimerFailed':
+        return EventType.startTimerFailed;
+      case 'TimerFired':
+        return EventType.timerFired;
+      case 'TimerCanceled':
+        return EventType.timerCanceled;
+      case 'CancelTimerFailed':
+        return EventType.cancelTimerFailed;
+      case 'StartChildWorkflowExecutionInitiated':
+        return EventType.startChildWorkflowExecutionInitiated;
+      case 'StartChildWorkflowExecutionFailed':
+        return EventType.startChildWorkflowExecutionFailed;
+      case 'ChildWorkflowExecutionStarted':
+        return EventType.childWorkflowExecutionStarted;
+      case 'ChildWorkflowExecutionCompleted':
+        return EventType.childWorkflowExecutionCompleted;
+      case 'ChildWorkflowExecutionFailed':
+        return EventType.childWorkflowExecutionFailed;
+      case 'ChildWorkflowExecutionTimedOut':
+        return EventType.childWorkflowExecutionTimedOut;
+      case 'ChildWorkflowExecutionCanceled':
+        return EventType.childWorkflowExecutionCanceled;
+      case 'ChildWorkflowExecutionTerminated':
+        return EventType.childWorkflowExecutionTerminated;
+      case 'SignalExternalWorkflowExecutionInitiated':
+        return EventType.signalExternalWorkflowExecutionInitiated;
+      case 'SignalExternalWorkflowExecutionFailed':
+        return EventType.signalExternalWorkflowExecutionFailed;
+      case 'ExternalWorkflowExecutionSignaled':
+        return EventType.externalWorkflowExecutionSignaled;
+      case 'RequestCancelExternalWorkflowExecutionInitiated':
+        return EventType.requestCancelExternalWorkflowExecutionInitiated;
+      case 'RequestCancelExternalWorkflowExecutionFailed':
+        return EventType.requestCancelExternalWorkflowExecutionFailed;
+      case 'ExternalWorkflowExecutionCancelRequested':
+        return EventType.externalWorkflowExecutionCancelRequested;
+      case 'LambdaFunctionScheduled':
+        return EventType.lambdaFunctionScheduled;
+      case 'LambdaFunctionStarted':
+        return EventType.lambdaFunctionStarted;
+      case 'LambdaFunctionCompleted':
+        return EventType.lambdaFunctionCompleted;
+      case 'LambdaFunctionFailed':
+        return EventType.lambdaFunctionFailed;
+      case 'LambdaFunctionTimedOut':
+        return EventType.lambdaFunctionTimedOut;
+      case 'ScheduleLambdaFunctionFailed':
+        return EventType.scheduleLambdaFunctionFailed;
+      case 'StartLambdaFunctionFailed':
+        return EventType.startLambdaFunctionFailed;
+    }
+    throw Exception('$this is not known in enum EventType');
+  }
+}
+
 enum ExecutionStatus {
-  @_s.JsonValue('OPEN')
   open,
-  @_s.JsonValue('CLOSED')
   closed,
+}
+
+extension on ExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case ExecutionStatus.open:
+        return 'OPEN';
+      case ExecutionStatus.closed:
+        return 'CLOSED';
+    }
+  }
+}
+
+extension on String {
+  ExecutionStatus toExecutionStatus() {
+    switch (this) {
+      case 'OPEN':
+        return ExecutionStatus.open;
+      case 'CLOSED':
+        return ExecutionStatus.closed;
+    }
+    throw Exception('$this is not known in enum ExecutionStatus');
+  }
 }
 
 /// Used to filter the workflow executions in visibility APIs by various
@@ -6445,85 +7468,107 @@ enum ExecutionStatus {
 /// satisfied by each returned query result. The parameter values are in the <a
 /// href="https://en.wikipedia.org/wiki/Unix_time">Unix Time format</a>. For
 /// example: <code>"oldestDate": 1325376070.</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ExecutionTimeFilter {
   /// Specifies the oldest start or close date and time to return.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'oldestDate')
   final DateTime oldestDate;
 
   /// Specifies the latest start or close date and time to return.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'latestDate')
-  final DateTime latestDate;
+  final DateTime? latestDate;
 
   ExecutionTimeFilter({
-    @_s.required this.oldestDate,
+    required this.oldestDate,
     this.latestDate,
   });
-  Map<String, dynamic> toJson() => _$ExecutionTimeFilterToJson(this);
+
+  factory ExecutionTimeFilter.fromJson(Map<String, dynamic> json) {
+    return ExecutionTimeFilter(
+      oldestDate: nonNullableTimeStampFromJson(json['oldestDate'] as Object),
+      latestDate: timeStampFromJson(json['latestDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oldestDate = this.oldestDate;
+    final latestDate = this.latestDate;
+    return {
+      'oldestDate': unixTimestampToJson(oldestDate),
+      if (latestDate != null) 'latestDate': unixTimestampToJson(latestDate),
+    };
+  }
 }
 
 /// Provides the details of the
 /// <code>ExternalWorkflowExecutionCancelRequested</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExternalWorkflowExecutionCancelRequestedEventAttributes {
   /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
   /// event corresponding to the
   /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
   /// external workflow execution. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The external workflow execution to which the cancellation request was
   /// delivered.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   ExternalWorkflowExecutionCancelRequestedEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.workflowExecution,
+    required this.initiatedEventId,
+    required this.workflowExecution,
   });
+
   factory ExternalWorkflowExecutionCancelRequestedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExternalWorkflowExecutionCancelRequestedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ExternalWorkflowExecutionCancelRequestedEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final workflowExecution = this.workflowExecution;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'workflowExecution': workflowExecution,
+    };
+  }
 }
 
 /// Provides the details of the <code>ExternalWorkflowExecutionSignaled</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExternalWorkflowExecutionSignaledEventAttributes {
   /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>SignalExternalWorkflowExecution</code> decision
   /// to request this signal. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The external workflow execution that the signal was delivered to.
-  @_s.JsonKey(name: 'workflowExecution')
   final WorkflowExecution workflowExecution;
 
   ExternalWorkflowExecutionSignaledEventAttributes({
-    @_s.required this.initiatedEventId,
-    @_s.required this.workflowExecution,
+    required this.initiatedEventId,
+    required this.workflowExecution,
   });
+
   factory ExternalWorkflowExecutionSignaledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ExternalWorkflowExecutionSignaledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ExternalWorkflowExecutionSignaledEventAttributes(
+      initiatedEventId: json['initiatedEventId'] as int,
+      workflowExecution: WorkflowExecution.fromJson(
+          json['workflowExecution'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final initiatedEventId = this.initiatedEventId;
+    final workflowExecution = this.workflowExecution;
+    return {
+      'initiatedEventId': initiatedEventId,
+      'workflowExecution': workflowExecution,
+    };
+  }
 }
 
 /// Provides the details of the <code>FailWorkflowExecution</code> decision.
@@ -6554,41 +7599,66 @@ class ExternalWorkflowExecutionSignaledEventAttributes {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FailWorkflowExecutionDecisionAttributes {
   /// Details of the failure.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// A descriptive reason for the failure that may help in diagnostics.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   FailWorkflowExecutionDecisionAttributes({
     this.details,
     this.reason,
   });
-  Map<String, dynamic> toJson() =>
-      _$FailWorkflowExecutionDecisionAttributesToJson(this);
+
+  factory FailWorkflowExecutionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return FailWorkflowExecutionDecisionAttributes(
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
 }
 
 enum FailWorkflowExecutionFailedCause {
-  @_s.JsonValue('UNHANDLED_DECISION')
   unhandledDecision,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
 }
 
+extension on FailWorkflowExecutionFailedCause {
+  String toValue() {
+    switch (this) {
+      case FailWorkflowExecutionFailedCause.unhandledDecision:
+        return 'UNHANDLED_DECISION';
+      case FailWorkflowExecutionFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  FailWorkflowExecutionFailedCause toFailWorkflowExecutionFailedCause() {
+    switch (this) {
+      case 'UNHANDLED_DECISION':
+        return FailWorkflowExecutionFailedCause.unhandledDecision;
+      case 'OPERATION_NOT_PERMITTED':
+        return FailWorkflowExecutionFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum FailWorkflowExecutionFailedCause');
+  }
+}
+
 /// Provides the details of the <code>FailWorkflowExecutionFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailWorkflowExecutionFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -6600,7 +7670,6 @@ class FailWorkflowExecutionFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final FailWorkflowExecutionFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -6608,29 +7677,36 @@ class FailWorkflowExecutionFailedEventAttributes {
   /// decision to fail this execution. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   FailWorkflowExecutionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
   });
+
   factory FailWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$FailWorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return FailWorkflowExecutionFailedEventAttributes(
+      cause: (json['cause'] as String).toFailWorkflowExecutionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 /// Paginated representation of a workflow history for a workflow execution.
 /// This is the up to date, complete and authoritative record of the events
 /// related to all tasks and events in the life of the workflow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class History {
   /// The list of history events.
-  @_s.JsonKey(name: 'events')
   final List<HistoryEvent> events;
 
   /// If a <code>NextPageToken</code> was returned by a previous call, there are
@@ -6640,15 +7716,31 @@ class History {
   ///
   /// The configured <code>maximumPageSize</code> determines how many results can
   /// be returned in a single call.
-  @_s.JsonKey(name: 'nextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   History({
-    @_s.required this.events,
+    required this.events,
     this.nextPageToken,
   });
-  factory History.fromJson(Map<String, dynamic> json) =>
-      _$HistoryFromJson(json);
+
+  factory History.fromJson(Map<String, dynamic> json) {
+    return History(
+      events: (json['events'] as List)
+          .whereNotNull()
+          .map((e) => HistoryEvent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final events = this.events;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'events': events,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
 }
 
 /// Event within a workflow execution. A history event can be one of these
@@ -6856,393 +7948,332 @@ class History {
 /// because a time out was exceeded.
 /// </li>
 /// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class HistoryEvent {
   /// The system generated ID of the event. This ID uniquely identifies the event
   /// with in the workflow execution history.
-  @_s.JsonKey(name: 'eventId')
   final int eventId;
 
   /// The date and time when the event occurred.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'eventTimestamp')
   final DateTime eventTimestamp;
 
   /// The type of the history event.
-  @_s.JsonKey(name: 'eventType')
   final EventType eventType;
 
   /// If the event is of type <code>ActivityTaskcancelRequested</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'activityTaskCancelRequestedEventAttributes')
-  final ActivityTaskCancelRequestedEventAttributes
+  final ActivityTaskCancelRequestedEventAttributes?
       activityTaskCancelRequestedEventAttributes;
 
   /// If the event is of type <code>ActivityTaskCanceled</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'activityTaskCanceledEventAttributes')
-  final ActivityTaskCanceledEventAttributes activityTaskCanceledEventAttributes;
+  final ActivityTaskCanceledEventAttributes?
+      activityTaskCanceledEventAttributes;
 
   /// If the event is of type <code>ActivityTaskCompleted</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'activityTaskCompletedEventAttributes')
-  final ActivityTaskCompletedEventAttributes
+  final ActivityTaskCompletedEventAttributes?
       activityTaskCompletedEventAttributes;
 
   /// If the event is of type <code>ActivityTaskFailed</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'activityTaskFailedEventAttributes')
-  final ActivityTaskFailedEventAttributes activityTaskFailedEventAttributes;
+  final ActivityTaskFailedEventAttributes? activityTaskFailedEventAttributes;
 
   /// If the event is of type <code>ActivityTaskScheduled</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'activityTaskScheduledEventAttributes')
-  final ActivityTaskScheduledEventAttributes
+  final ActivityTaskScheduledEventAttributes?
       activityTaskScheduledEventAttributes;
 
   /// If the event is of type <code>ActivityTaskStarted</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'activityTaskStartedEventAttributes')
-  final ActivityTaskStartedEventAttributes activityTaskStartedEventAttributes;
+  final ActivityTaskStartedEventAttributes? activityTaskStartedEventAttributes;
 
   /// If the event is of type <code>ActivityTaskTimedOut</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'activityTaskTimedOutEventAttributes')
-  final ActivityTaskTimedOutEventAttributes activityTaskTimedOutEventAttributes;
+  final ActivityTaskTimedOutEventAttributes?
+      activityTaskTimedOutEventAttributes;
 
   /// If the event is of type <code>CancelTimerFailed</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'cancelTimerFailedEventAttributes')
-  final CancelTimerFailedEventAttributes cancelTimerFailedEventAttributes;
+  final CancelTimerFailedEventAttributes? cancelTimerFailedEventAttributes;
 
   /// If the event is of type <code>CancelWorkflowExecutionFailed</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'cancelWorkflowExecutionFailedEventAttributes')
-  final CancelWorkflowExecutionFailedEventAttributes
+  final CancelWorkflowExecutionFailedEventAttributes?
       cancelWorkflowExecutionFailedEventAttributes;
 
   /// If the event is of type <code>ChildWorkflowExecutionCanceled</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'childWorkflowExecutionCanceledEventAttributes')
-  final ChildWorkflowExecutionCanceledEventAttributes
+  final ChildWorkflowExecutionCanceledEventAttributes?
       childWorkflowExecutionCanceledEventAttributes;
 
   /// If the event is of type <code>ChildWorkflowExecutionCompleted</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'childWorkflowExecutionCompletedEventAttributes')
-  final ChildWorkflowExecutionCompletedEventAttributes
+  final ChildWorkflowExecutionCompletedEventAttributes?
       childWorkflowExecutionCompletedEventAttributes;
 
   /// If the event is of type <code>ChildWorkflowExecutionFailed</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'childWorkflowExecutionFailedEventAttributes')
-  final ChildWorkflowExecutionFailedEventAttributes
+  final ChildWorkflowExecutionFailedEventAttributes?
       childWorkflowExecutionFailedEventAttributes;
 
   /// If the event is of type <code>ChildWorkflowExecutionStarted</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'childWorkflowExecutionStartedEventAttributes')
-  final ChildWorkflowExecutionStartedEventAttributes
+  final ChildWorkflowExecutionStartedEventAttributes?
       childWorkflowExecutionStartedEventAttributes;
 
   /// If the event is of type <code>ChildWorkflowExecutionTerminated</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'childWorkflowExecutionTerminatedEventAttributes')
-  final ChildWorkflowExecutionTerminatedEventAttributes
+  final ChildWorkflowExecutionTerminatedEventAttributes?
       childWorkflowExecutionTerminatedEventAttributes;
 
   /// If the event is of type <code>ChildWorkflowExecutionTimedOut</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'childWorkflowExecutionTimedOutEventAttributes')
-  final ChildWorkflowExecutionTimedOutEventAttributes
+  final ChildWorkflowExecutionTimedOutEventAttributes?
       childWorkflowExecutionTimedOutEventAttributes;
 
   /// If the event is of type <code>CompleteWorkflowExecutionFailed</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'completeWorkflowExecutionFailedEventAttributes')
-  final CompleteWorkflowExecutionFailedEventAttributes
+  final CompleteWorkflowExecutionFailedEventAttributes?
       completeWorkflowExecutionFailedEventAttributes;
 
   /// If the event is of type <code>ContinueAsNewWorkflowExecutionFailed</code>
   /// then this member is set and provides detailed information about the event.
   /// It isn't set for other event types.
-  @_s.JsonKey(name: 'continueAsNewWorkflowExecutionFailedEventAttributes')
-  final ContinueAsNewWorkflowExecutionFailedEventAttributes
+  final ContinueAsNewWorkflowExecutionFailedEventAttributes?
       continueAsNewWorkflowExecutionFailedEventAttributes;
 
   /// If the event is of type <code>DecisionTaskCompleted</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventAttributes')
-  final DecisionTaskCompletedEventAttributes
+  final DecisionTaskCompletedEventAttributes?
       decisionTaskCompletedEventAttributes;
 
   /// If the event is of type <code>DecisionTaskScheduled</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'decisionTaskScheduledEventAttributes')
-  final DecisionTaskScheduledEventAttributes
+  final DecisionTaskScheduledEventAttributes?
       decisionTaskScheduledEventAttributes;
 
   /// If the event is of type <code>DecisionTaskStarted</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'decisionTaskStartedEventAttributes')
-  final DecisionTaskStartedEventAttributes decisionTaskStartedEventAttributes;
+  final DecisionTaskStartedEventAttributes? decisionTaskStartedEventAttributes;
 
   /// If the event is of type <code>DecisionTaskTimedOut</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'decisionTaskTimedOutEventAttributes')
-  final DecisionTaskTimedOutEventAttributes decisionTaskTimedOutEventAttributes;
+  final DecisionTaskTimedOutEventAttributes?
+      decisionTaskTimedOutEventAttributes;
 
   /// If the event is of type
   /// <code>ExternalWorkflowExecutionCancelRequested</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'externalWorkflowExecutionCancelRequestedEventAttributes')
-  final ExternalWorkflowExecutionCancelRequestedEventAttributes
+  final ExternalWorkflowExecutionCancelRequestedEventAttributes?
       externalWorkflowExecutionCancelRequestedEventAttributes;
 
   /// If the event is of type <code>ExternalWorkflowExecutionSignaled</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'externalWorkflowExecutionSignaledEventAttributes')
-  final ExternalWorkflowExecutionSignaledEventAttributes
+  final ExternalWorkflowExecutionSignaledEventAttributes?
       externalWorkflowExecutionSignaledEventAttributes;
 
   /// If the event is of type <code>FailWorkflowExecutionFailed</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'failWorkflowExecutionFailedEventAttributes')
-  final FailWorkflowExecutionFailedEventAttributes
+  final FailWorkflowExecutionFailedEventAttributes?
       failWorkflowExecutionFailedEventAttributes;
 
   /// Provides the details of the <code>LambdaFunctionCompleted</code> event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'lambdaFunctionCompletedEventAttributes')
-  final LambdaFunctionCompletedEventAttributes
+  final LambdaFunctionCompletedEventAttributes?
       lambdaFunctionCompletedEventAttributes;
 
   /// Provides the details of the <code>LambdaFunctionFailed</code> event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'lambdaFunctionFailedEventAttributes')
-  final LambdaFunctionFailedEventAttributes lambdaFunctionFailedEventAttributes;
+  final LambdaFunctionFailedEventAttributes?
+      lambdaFunctionFailedEventAttributes;
 
   /// Provides the details of the <code>LambdaFunctionScheduled</code> event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'lambdaFunctionScheduledEventAttributes')
-  final LambdaFunctionScheduledEventAttributes
+  final LambdaFunctionScheduledEventAttributes?
       lambdaFunctionScheduledEventAttributes;
 
   /// Provides the details of the <code>LambdaFunctionStarted</code> event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'lambdaFunctionStartedEventAttributes')
-  final LambdaFunctionStartedEventAttributes
+  final LambdaFunctionStartedEventAttributes?
       lambdaFunctionStartedEventAttributes;
 
   /// Provides the details of the <code>LambdaFunctionTimedOut</code> event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'lambdaFunctionTimedOutEventAttributes')
-  final LambdaFunctionTimedOutEventAttributes
+  final LambdaFunctionTimedOutEventAttributes?
       lambdaFunctionTimedOutEventAttributes;
 
   /// If the event is of type <code>MarkerRecorded</code> then this member is set
   /// and provides detailed information about the event. It isn't set for other
   /// event types.
-  @_s.JsonKey(name: 'markerRecordedEventAttributes')
-  final MarkerRecordedEventAttributes markerRecordedEventAttributes;
+  final MarkerRecordedEventAttributes? markerRecordedEventAttributes;
 
   /// If the event is of type <code>DecisionTaskFailed</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'recordMarkerFailedEventAttributes')
-  final RecordMarkerFailedEventAttributes recordMarkerFailedEventAttributes;
+  final RecordMarkerFailedEventAttributes? recordMarkerFailedEventAttributes;
 
   /// If the event is of type <code>RequestCancelActivityTaskFailed</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'requestCancelActivityTaskFailedEventAttributes')
-  final RequestCancelActivityTaskFailedEventAttributes
+  final RequestCancelActivityTaskFailedEventAttributes?
       requestCancelActivityTaskFailedEventAttributes;
 
   /// If the event is of type
   /// <code>RequestCancelExternalWorkflowExecutionFailed</code> then this member
   /// is set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(
-      name: 'requestCancelExternalWorkflowExecutionFailedEventAttributes')
-  final RequestCancelExternalWorkflowExecutionFailedEventAttributes
+  final RequestCancelExternalWorkflowExecutionFailedEventAttributes?
       requestCancelExternalWorkflowExecutionFailedEventAttributes;
 
   /// If the event is of type
   /// <code>RequestCancelExternalWorkflowExecutionInitiated</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(
-      name: 'requestCancelExternalWorkflowExecutionInitiatedEventAttributes')
-  final RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
+  final RequestCancelExternalWorkflowExecutionInitiatedEventAttributes?
       requestCancelExternalWorkflowExecutionInitiatedEventAttributes;
 
   /// If the event is of type <code>ScheduleActivityTaskFailed</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'scheduleActivityTaskFailedEventAttributes')
-  final ScheduleActivityTaskFailedEventAttributes
+  final ScheduleActivityTaskFailedEventAttributes?
       scheduleActivityTaskFailedEventAttributes;
 
   /// Provides the details of the <code>ScheduleLambdaFunctionFailed</code> event.
   /// It isn't set for other event types.
-  @_s.JsonKey(name: 'scheduleLambdaFunctionFailedEventAttributes')
-  final ScheduleLambdaFunctionFailedEventAttributes
+  final ScheduleLambdaFunctionFailedEventAttributes?
       scheduleLambdaFunctionFailedEventAttributes;
 
   /// If the event is of type <code>SignalExternalWorkflowExecutionFailed</code>
   /// then this member is set and provides detailed information about the event.
   /// It isn't set for other event types.
-  @_s.JsonKey(name: 'signalExternalWorkflowExecutionFailedEventAttributes')
-  final SignalExternalWorkflowExecutionFailedEventAttributes
+  final SignalExternalWorkflowExecutionFailedEventAttributes?
       signalExternalWorkflowExecutionFailedEventAttributes;
 
   /// If the event is of type
   /// <code>SignalExternalWorkflowExecutionInitiated</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'signalExternalWorkflowExecutionInitiatedEventAttributes')
-  final SignalExternalWorkflowExecutionInitiatedEventAttributes
+  final SignalExternalWorkflowExecutionInitiatedEventAttributes?
       signalExternalWorkflowExecutionInitiatedEventAttributes;
 
   /// If the event is of type <code>StartChildWorkflowExecutionFailed</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'startChildWorkflowExecutionFailedEventAttributes')
-  final StartChildWorkflowExecutionFailedEventAttributes
+  final StartChildWorkflowExecutionFailedEventAttributes?
       startChildWorkflowExecutionFailedEventAttributes;
 
   /// If the event is of type <code>StartChildWorkflowExecutionInitiated</code>
   /// then this member is set and provides detailed information about the event.
   /// It isn't set for other event types.
-  @_s.JsonKey(name: 'startChildWorkflowExecutionInitiatedEventAttributes')
-  final StartChildWorkflowExecutionInitiatedEventAttributes
+  final StartChildWorkflowExecutionInitiatedEventAttributes?
       startChildWorkflowExecutionInitiatedEventAttributes;
 
   /// Provides the details of the <code>StartLambdaFunctionFailed</code> event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'startLambdaFunctionFailedEventAttributes')
-  final StartLambdaFunctionFailedEventAttributes
+  final StartLambdaFunctionFailedEventAttributes?
       startLambdaFunctionFailedEventAttributes;
 
   /// If the event is of type <code>StartTimerFailed</code> then this member is
   /// set and provides detailed information about the event. It isn't set for
   /// other event types.
-  @_s.JsonKey(name: 'startTimerFailedEventAttributes')
-  final StartTimerFailedEventAttributes startTimerFailedEventAttributes;
+  final StartTimerFailedEventAttributes? startTimerFailedEventAttributes;
 
   /// If the event is of type <code>TimerCanceled</code> then this member is set
   /// and provides detailed information about the event. It isn't set for other
   /// event types.
-  @_s.JsonKey(name: 'timerCanceledEventAttributes')
-  final TimerCanceledEventAttributes timerCanceledEventAttributes;
+  final TimerCanceledEventAttributes? timerCanceledEventAttributes;
 
   /// If the event is of type <code>TimerFired</code> then this member is set and
   /// provides detailed information about the event. It isn't set for other event
   /// types.
-  @_s.JsonKey(name: 'timerFiredEventAttributes')
-  final TimerFiredEventAttributes timerFiredEventAttributes;
+  final TimerFiredEventAttributes? timerFiredEventAttributes;
 
   /// If the event is of type <code>TimerStarted</code> then this member is set
   /// and provides detailed information about the event. It isn't set for other
   /// event types.
-  @_s.JsonKey(name: 'timerStartedEventAttributes')
-  final TimerStartedEventAttributes timerStartedEventAttributes;
+  final TimerStartedEventAttributes? timerStartedEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionCancelRequested</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionCancelRequestedEventAttributes')
-  final WorkflowExecutionCancelRequestedEventAttributes
+  final WorkflowExecutionCancelRequestedEventAttributes?
       workflowExecutionCancelRequestedEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionCanceled</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionCanceledEventAttributes')
-  final WorkflowExecutionCanceledEventAttributes
+  final WorkflowExecutionCanceledEventAttributes?
       workflowExecutionCanceledEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionCompleted</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionCompletedEventAttributes')
-  final WorkflowExecutionCompletedEventAttributes
+  final WorkflowExecutionCompletedEventAttributes?
       workflowExecutionCompletedEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionContinuedAsNew</code> then
   /// this member is set and provides detailed information about the event. It
   /// isn't set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionContinuedAsNewEventAttributes')
-  final WorkflowExecutionContinuedAsNewEventAttributes
+  final WorkflowExecutionContinuedAsNewEventAttributes?
       workflowExecutionContinuedAsNewEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionFailed</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionFailedEventAttributes')
-  final WorkflowExecutionFailedEventAttributes
+  final WorkflowExecutionFailedEventAttributes?
       workflowExecutionFailedEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionSignaled</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionSignaledEventAttributes')
-  final WorkflowExecutionSignaledEventAttributes
+  final WorkflowExecutionSignaledEventAttributes?
       workflowExecutionSignaledEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionStarted</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionStartedEventAttributes')
-  final WorkflowExecutionStartedEventAttributes
+  final WorkflowExecutionStartedEventAttributes?
       workflowExecutionStartedEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionTerminated</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionTerminatedEventAttributes')
-  final WorkflowExecutionTerminatedEventAttributes
+  final WorkflowExecutionTerminatedEventAttributes?
       workflowExecutionTerminatedEventAttributes;
 
   /// If the event is of type <code>WorkflowExecutionTimedOut</code> then this
   /// member is set and provides detailed information about the event. It isn't
   /// set for other event types.
-  @_s.JsonKey(name: 'workflowExecutionTimedOutEventAttributes')
-  final WorkflowExecutionTimedOutEventAttributes
+  final WorkflowExecutionTimedOutEventAttributes?
       workflowExecutionTimedOutEventAttributes;
 
   HistoryEvent({
-    @_s.required this.eventId,
-    @_s.required this.eventTimestamp,
-    @_s.required this.eventType,
+    required this.eventId,
+    required this.eventTimestamp,
+    required this.eventType,
     this.activityTaskCancelRequestedEventAttributes,
     this.activityTaskCanceledEventAttributes,
     this.activityTaskCompletedEventAttributes,
@@ -7298,262 +8329,954 @@ class HistoryEvent {
     this.workflowExecutionTerminatedEventAttributes,
     this.workflowExecutionTimedOutEventAttributes,
   });
-  factory HistoryEvent.fromJson(Map<String, dynamic> json) =>
-      _$HistoryEventFromJson(json);
+
+  factory HistoryEvent.fromJson(Map<String, dynamic> json) {
+    return HistoryEvent(
+      eventId: json['eventId'] as int,
+      eventTimestamp:
+          nonNullableTimeStampFromJson(json['eventTimestamp'] as Object),
+      eventType: (json['eventType'] as String).toEventType(),
+      activityTaskCancelRequestedEventAttributes:
+          json['activityTaskCancelRequestedEventAttributes'] != null
+              ? ActivityTaskCancelRequestedEventAttributes.fromJson(
+                  json['activityTaskCancelRequestedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      activityTaskCanceledEventAttributes:
+          json['activityTaskCanceledEventAttributes'] != null
+              ? ActivityTaskCanceledEventAttributes.fromJson(
+                  json['activityTaskCanceledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      activityTaskCompletedEventAttributes:
+          json['activityTaskCompletedEventAttributes'] != null
+              ? ActivityTaskCompletedEventAttributes.fromJson(
+                  json['activityTaskCompletedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      activityTaskFailedEventAttributes:
+          json['activityTaskFailedEventAttributes'] != null
+              ? ActivityTaskFailedEventAttributes.fromJson(
+                  json['activityTaskFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      activityTaskScheduledEventAttributes:
+          json['activityTaskScheduledEventAttributes'] != null
+              ? ActivityTaskScheduledEventAttributes.fromJson(
+                  json['activityTaskScheduledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      activityTaskStartedEventAttributes:
+          json['activityTaskStartedEventAttributes'] != null
+              ? ActivityTaskStartedEventAttributes.fromJson(
+                  json['activityTaskStartedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      activityTaskTimedOutEventAttributes:
+          json['activityTaskTimedOutEventAttributes'] != null
+              ? ActivityTaskTimedOutEventAttributes.fromJson(
+                  json['activityTaskTimedOutEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      cancelTimerFailedEventAttributes:
+          json['cancelTimerFailedEventAttributes'] != null
+              ? CancelTimerFailedEventAttributes.fromJson(
+                  json['cancelTimerFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      cancelWorkflowExecutionFailedEventAttributes:
+          json['cancelWorkflowExecutionFailedEventAttributes'] != null
+              ? CancelWorkflowExecutionFailedEventAttributes.fromJson(
+                  json['cancelWorkflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      childWorkflowExecutionCanceledEventAttributes:
+          json['childWorkflowExecutionCanceledEventAttributes'] != null
+              ? ChildWorkflowExecutionCanceledEventAttributes.fromJson(
+                  json['childWorkflowExecutionCanceledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      childWorkflowExecutionCompletedEventAttributes:
+          json['childWorkflowExecutionCompletedEventAttributes'] != null
+              ? ChildWorkflowExecutionCompletedEventAttributes.fromJson(
+                  json['childWorkflowExecutionCompletedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      childWorkflowExecutionFailedEventAttributes:
+          json['childWorkflowExecutionFailedEventAttributes'] != null
+              ? ChildWorkflowExecutionFailedEventAttributes.fromJson(
+                  json['childWorkflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      childWorkflowExecutionStartedEventAttributes:
+          json['childWorkflowExecutionStartedEventAttributes'] != null
+              ? ChildWorkflowExecutionStartedEventAttributes.fromJson(
+                  json['childWorkflowExecutionStartedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      childWorkflowExecutionTerminatedEventAttributes:
+          json['childWorkflowExecutionTerminatedEventAttributes'] != null
+              ? ChildWorkflowExecutionTerminatedEventAttributes.fromJson(
+                  json['childWorkflowExecutionTerminatedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      childWorkflowExecutionTimedOutEventAttributes:
+          json['childWorkflowExecutionTimedOutEventAttributes'] != null
+              ? ChildWorkflowExecutionTimedOutEventAttributes.fromJson(
+                  json['childWorkflowExecutionTimedOutEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      completeWorkflowExecutionFailedEventAttributes:
+          json['completeWorkflowExecutionFailedEventAttributes'] != null
+              ? CompleteWorkflowExecutionFailedEventAttributes.fromJson(
+                  json['completeWorkflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      continueAsNewWorkflowExecutionFailedEventAttributes:
+          json['continueAsNewWorkflowExecutionFailedEventAttributes'] != null
+              ? ContinueAsNewWorkflowExecutionFailedEventAttributes.fromJson(
+                  json['continueAsNewWorkflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      decisionTaskCompletedEventAttributes:
+          json['decisionTaskCompletedEventAttributes'] != null
+              ? DecisionTaskCompletedEventAttributes.fromJson(
+                  json['decisionTaskCompletedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      decisionTaskScheduledEventAttributes:
+          json['decisionTaskScheduledEventAttributes'] != null
+              ? DecisionTaskScheduledEventAttributes.fromJson(
+                  json['decisionTaskScheduledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      decisionTaskStartedEventAttributes:
+          json['decisionTaskStartedEventAttributes'] != null
+              ? DecisionTaskStartedEventAttributes.fromJson(
+                  json['decisionTaskStartedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      decisionTaskTimedOutEventAttributes:
+          json['decisionTaskTimedOutEventAttributes'] != null
+              ? DecisionTaskTimedOutEventAttributes.fromJson(
+                  json['decisionTaskTimedOutEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      externalWorkflowExecutionCancelRequestedEventAttributes: json[
+                  'externalWorkflowExecutionCancelRequestedEventAttributes'] !=
+              null
+          ? ExternalWorkflowExecutionCancelRequestedEventAttributes.fromJson(
+              json['externalWorkflowExecutionCancelRequestedEventAttributes']
+                  as Map<String, dynamic>)
+          : null,
+      externalWorkflowExecutionSignaledEventAttributes:
+          json['externalWorkflowExecutionSignaledEventAttributes'] != null
+              ? ExternalWorkflowExecutionSignaledEventAttributes.fromJson(
+                  json['externalWorkflowExecutionSignaledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      failWorkflowExecutionFailedEventAttributes:
+          json['failWorkflowExecutionFailedEventAttributes'] != null
+              ? FailWorkflowExecutionFailedEventAttributes.fromJson(
+                  json['failWorkflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      lambdaFunctionCompletedEventAttributes:
+          json['lambdaFunctionCompletedEventAttributes'] != null
+              ? LambdaFunctionCompletedEventAttributes.fromJson(
+                  json['lambdaFunctionCompletedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      lambdaFunctionFailedEventAttributes:
+          json['lambdaFunctionFailedEventAttributes'] != null
+              ? LambdaFunctionFailedEventAttributes.fromJson(
+                  json['lambdaFunctionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      lambdaFunctionScheduledEventAttributes:
+          json['lambdaFunctionScheduledEventAttributes'] != null
+              ? LambdaFunctionScheduledEventAttributes.fromJson(
+                  json['lambdaFunctionScheduledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      lambdaFunctionStartedEventAttributes:
+          json['lambdaFunctionStartedEventAttributes'] != null
+              ? LambdaFunctionStartedEventAttributes.fromJson(
+                  json['lambdaFunctionStartedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      lambdaFunctionTimedOutEventAttributes:
+          json['lambdaFunctionTimedOutEventAttributes'] != null
+              ? LambdaFunctionTimedOutEventAttributes.fromJson(
+                  json['lambdaFunctionTimedOutEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      markerRecordedEventAttributes:
+          json['markerRecordedEventAttributes'] != null
+              ? MarkerRecordedEventAttributes.fromJson(
+                  json['markerRecordedEventAttributes'] as Map<String, dynamic>)
+              : null,
+      recordMarkerFailedEventAttributes:
+          json['recordMarkerFailedEventAttributes'] != null
+              ? RecordMarkerFailedEventAttributes.fromJson(
+                  json['recordMarkerFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      requestCancelActivityTaskFailedEventAttributes:
+          json['requestCancelActivityTaskFailedEventAttributes'] != null
+              ? RequestCancelActivityTaskFailedEventAttributes.fromJson(
+                  json['requestCancelActivityTaskFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      requestCancelExternalWorkflowExecutionFailedEventAttributes: json[
+                  'requestCancelExternalWorkflowExecutionFailedEventAttributes'] !=
+              null
+          ? RequestCancelExternalWorkflowExecutionFailedEventAttributes.fromJson(
+              json['requestCancelExternalWorkflowExecutionFailedEventAttributes']
+                  as Map<String, dynamic>)
+          : null,
+      requestCancelExternalWorkflowExecutionInitiatedEventAttributes: json[
+                  'requestCancelExternalWorkflowExecutionInitiatedEventAttributes'] !=
+              null
+          ? RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
+              .fromJson(json[
+                      'requestCancelExternalWorkflowExecutionInitiatedEventAttributes']
+                  as Map<String, dynamic>)
+          : null,
+      scheduleActivityTaskFailedEventAttributes:
+          json['scheduleActivityTaskFailedEventAttributes'] != null
+              ? ScheduleActivityTaskFailedEventAttributes.fromJson(
+                  json['scheduleActivityTaskFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      scheduleLambdaFunctionFailedEventAttributes:
+          json['scheduleLambdaFunctionFailedEventAttributes'] != null
+              ? ScheduleLambdaFunctionFailedEventAttributes.fromJson(
+                  json['scheduleLambdaFunctionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      signalExternalWorkflowExecutionFailedEventAttributes:
+          json['signalExternalWorkflowExecutionFailedEventAttributes'] != null
+              ? SignalExternalWorkflowExecutionFailedEventAttributes.fromJson(
+                  json['signalExternalWorkflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      signalExternalWorkflowExecutionInitiatedEventAttributes: json[
+                  'signalExternalWorkflowExecutionInitiatedEventAttributes'] !=
+              null
+          ? SignalExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
+              json['signalExternalWorkflowExecutionInitiatedEventAttributes']
+                  as Map<String, dynamic>)
+          : null,
+      startChildWorkflowExecutionFailedEventAttributes:
+          json['startChildWorkflowExecutionFailedEventAttributes'] != null
+              ? StartChildWorkflowExecutionFailedEventAttributes.fromJson(
+                  json['startChildWorkflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      startChildWorkflowExecutionInitiatedEventAttributes:
+          json['startChildWorkflowExecutionInitiatedEventAttributes'] != null
+              ? StartChildWorkflowExecutionInitiatedEventAttributes.fromJson(
+                  json['startChildWorkflowExecutionInitiatedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      startLambdaFunctionFailedEventAttributes:
+          json['startLambdaFunctionFailedEventAttributes'] != null
+              ? StartLambdaFunctionFailedEventAttributes.fromJson(
+                  json['startLambdaFunctionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      startTimerFailedEventAttributes:
+          json['startTimerFailedEventAttributes'] != null
+              ? StartTimerFailedEventAttributes.fromJson(
+                  json['startTimerFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      timerCanceledEventAttributes: json['timerCanceledEventAttributes'] != null
+          ? TimerCanceledEventAttributes.fromJson(
+              json['timerCanceledEventAttributes'] as Map<String, dynamic>)
+          : null,
+      timerFiredEventAttributes: json['timerFiredEventAttributes'] != null
+          ? TimerFiredEventAttributes.fromJson(
+              json['timerFiredEventAttributes'] as Map<String, dynamic>)
+          : null,
+      timerStartedEventAttributes: json['timerStartedEventAttributes'] != null
+          ? TimerStartedEventAttributes.fromJson(
+              json['timerStartedEventAttributes'] as Map<String, dynamic>)
+          : null,
+      workflowExecutionCancelRequestedEventAttributes:
+          json['workflowExecutionCancelRequestedEventAttributes'] != null
+              ? WorkflowExecutionCancelRequestedEventAttributes.fromJson(
+                  json['workflowExecutionCancelRequestedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionCanceledEventAttributes:
+          json['workflowExecutionCanceledEventAttributes'] != null
+              ? WorkflowExecutionCanceledEventAttributes.fromJson(
+                  json['workflowExecutionCanceledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionCompletedEventAttributes:
+          json['workflowExecutionCompletedEventAttributes'] != null
+              ? WorkflowExecutionCompletedEventAttributes.fromJson(
+                  json['workflowExecutionCompletedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionContinuedAsNewEventAttributes:
+          json['workflowExecutionContinuedAsNewEventAttributes'] != null
+              ? WorkflowExecutionContinuedAsNewEventAttributes.fromJson(
+                  json['workflowExecutionContinuedAsNewEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionFailedEventAttributes:
+          json['workflowExecutionFailedEventAttributes'] != null
+              ? WorkflowExecutionFailedEventAttributes.fromJson(
+                  json['workflowExecutionFailedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionSignaledEventAttributes:
+          json['workflowExecutionSignaledEventAttributes'] != null
+              ? WorkflowExecutionSignaledEventAttributes.fromJson(
+                  json['workflowExecutionSignaledEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionStartedEventAttributes:
+          json['workflowExecutionStartedEventAttributes'] != null
+              ? WorkflowExecutionStartedEventAttributes.fromJson(
+                  json['workflowExecutionStartedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionTerminatedEventAttributes:
+          json['workflowExecutionTerminatedEventAttributes'] != null
+              ? WorkflowExecutionTerminatedEventAttributes.fromJson(
+                  json['workflowExecutionTerminatedEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+      workflowExecutionTimedOutEventAttributes:
+          json['workflowExecutionTimedOutEventAttributes'] != null
+              ? WorkflowExecutionTimedOutEventAttributes.fromJson(
+                  json['workflowExecutionTimedOutEventAttributes']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final eventId = this.eventId;
+    final eventTimestamp = this.eventTimestamp;
+    final eventType = this.eventType;
+    final activityTaskCancelRequestedEventAttributes =
+        this.activityTaskCancelRequestedEventAttributes;
+    final activityTaskCanceledEventAttributes =
+        this.activityTaskCanceledEventAttributes;
+    final activityTaskCompletedEventAttributes =
+        this.activityTaskCompletedEventAttributes;
+    final activityTaskFailedEventAttributes =
+        this.activityTaskFailedEventAttributes;
+    final activityTaskScheduledEventAttributes =
+        this.activityTaskScheduledEventAttributes;
+    final activityTaskStartedEventAttributes =
+        this.activityTaskStartedEventAttributes;
+    final activityTaskTimedOutEventAttributes =
+        this.activityTaskTimedOutEventAttributes;
+    final cancelTimerFailedEventAttributes =
+        this.cancelTimerFailedEventAttributes;
+    final cancelWorkflowExecutionFailedEventAttributes =
+        this.cancelWorkflowExecutionFailedEventAttributes;
+    final childWorkflowExecutionCanceledEventAttributes =
+        this.childWorkflowExecutionCanceledEventAttributes;
+    final childWorkflowExecutionCompletedEventAttributes =
+        this.childWorkflowExecutionCompletedEventAttributes;
+    final childWorkflowExecutionFailedEventAttributes =
+        this.childWorkflowExecutionFailedEventAttributes;
+    final childWorkflowExecutionStartedEventAttributes =
+        this.childWorkflowExecutionStartedEventAttributes;
+    final childWorkflowExecutionTerminatedEventAttributes =
+        this.childWorkflowExecutionTerminatedEventAttributes;
+    final childWorkflowExecutionTimedOutEventAttributes =
+        this.childWorkflowExecutionTimedOutEventAttributes;
+    final completeWorkflowExecutionFailedEventAttributes =
+        this.completeWorkflowExecutionFailedEventAttributes;
+    final continueAsNewWorkflowExecutionFailedEventAttributes =
+        this.continueAsNewWorkflowExecutionFailedEventAttributes;
+    final decisionTaskCompletedEventAttributes =
+        this.decisionTaskCompletedEventAttributes;
+    final decisionTaskScheduledEventAttributes =
+        this.decisionTaskScheduledEventAttributes;
+    final decisionTaskStartedEventAttributes =
+        this.decisionTaskStartedEventAttributes;
+    final decisionTaskTimedOutEventAttributes =
+        this.decisionTaskTimedOutEventAttributes;
+    final externalWorkflowExecutionCancelRequestedEventAttributes =
+        this.externalWorkflowExecutionCancelRequestedEventAttributes;
+    final externalWorkflowExecutionSignaledEventAttributes =
+        this.externalWorkflowExecutionSignaledEventAttributes;
+    final failWorkflowExecutionFailedEventAttributes =
+        this.failWorkflowExecutionFailedEventAttributes;
+    final lambdaFunctionCompletedEventAttributes =
+        this.lambdaFunctionCompletedEventAttributes;
+    final lambdaFunctionFailedEventAttributes =
+        this.lambdaFunctionFailedEventAttributes;
+    final lambdaFunctionScheduledEventAttributes =
+        this.lambdaFunctionScheduledEventAttributes;
+    final lambdaFunctionStartedEventAttributes =
+        this.lambdaFunctionStartedEventAttributes;
+    final lambdaFunctionTimedOutEventAttributes =
+        this.lambdaFunctionTimedOutEventAttributes;
+    final markerRecordedEventAttributes = this.markerRecordedEventAttributes;
+    final recordMarkerFailedEventAttributes =
+        this.recordMarkerFailedEventAttributes;
+    final requestCancelActivityTaskFailedEventAttributes =
+        this.requestCancelActivityTaskFailedEventAttributes;
+    final requestCancelExternalWorkflowExecutionFailedEventAttributes =
+        this.requestCancelExternalWorkflowExecutionFailedEventAttributes;
+    final requestCancelExternalWorkflowExecutionInitiatedEventAttributes =
+        this.requestCancelExternalWorkflowExecutionInitiatedEventAttributes;
+    final scheduleActivityTaskFailedEventAttributes =
+        this.scheduleActivityTaskFailedEventAttributes;
+    final scheduleLambdaFunctionFailedEventAttributes =
+        this.scheduleLambdaFunctionFailedEventAttributes;
+    final signalExternalWorkflowExecutionFailedEventAttributes =
+        this.signalExternalWorkflowExecutionFailedEventAttributes;
+    final signalExternalWorkflowExecutionInitiatedEventAttributes =
+        this.signalExternalWorkflowExecutionInitiatedEventAttributes;
+    final startChildWorkflowExecutionFailedEventAttributes =
+        this.startChildWorkflowExecutionFailedEventAttributes;
+    final startChildWorkflowExecutionInitiatedEventAttributes =
+        this.startChildWorkflowExecutionInitiatedEventAttributes;
+    final startLambdaFunctionFailedEventAttributes =
+        this.startLambdaFunctionFailedEventAttributes;
+    final startTimerFailedEventAttributes =
+        this.startTimerFailedEventAttributes;
+    final timerCanceledEventAttributes = this.timerCanceledEventAttributes;
+    final timerFiredEventAttributes = this.timerFiredEventAttributes;
+    final timerStartedEventAttributes = this.timerStartedEventAttributes;
+    final workflowExecutionCancelRequestedEventAttributes =
+        this.workflowExecutionCancelRequestedEventAttributes;
+    final workflowExecutionCanceledEventAttributes =
+        this.workflowExecutionCanceledEventAttributes;
+    final workflowExecutionCompletedEventAttributes =
+        this.workflowExecutionCompletedEventAttributes;
+    final workflowExecutionContinuedAsNewEventAttributes =
+        this.workflowExecutionContinuedAsNewEventAttributes;
+    final workflowExecutionFailedEventAttributes =
+        this.workflowExecutionFailedEventAttributes;
+    final workflowExecutionSignaledEventAttributes =
+        this.workflowExecutionSignaledEventAttributes;
+    final workflowExecutionStartedEventAttributes =
+        this.workflowExecutionStartedEventAttributes;
+    final workflowExecutionTerminatedEventAttributes =
+        this.workflowExecutionTerminatedEventAttributes;
+    final workflowExecutionTimedOutEventAttributes =
+        this.workflowExecutionTimedOutEventAttributes;
+    return {
+      'eventId': eventId,
+      'eventTimestamp': unixTimestampToJson(eventTimestamp),
+      'eventType': eventType.toValue(),
+      if (activityTaskCancelRequestedEventAttributes != null)
+        'activityTaskCancelRequestedEventAttributes':
+            activityTaskCancelRequestedEventAttributes,
+      if (activityTaskCanceledEventAttributes != null)
+        'activityTaskCanceledEventAttributes':
+            activityTaskCanceledEventAttributes,
+      if (activityTaskCompletedEventAttributes != null)
+        'activityTaskCompletedEventAttributes':
+            activityTaskCompletedEventAttributes,
+      if (activityTaskFailedEventAttributes != null)
+        'activityTaskFailedEventAttributes': activityTaskFailedEventAttributes,
+      if (activityTaskScheduledEventAttributes != null)
+        'activityTaskScheduledEventAttributes':
+            activityTaskScheduledEventAttributes,
+      if (activityTaskStartedEventAttributes != null)
+        'activityTaskStartedEventAttributes':
+            activityTaskStartedEventAttributes,
+      if (activityTaskTimedOutEventAttributes != null)
+        'activityTaskTimedOutEventAttributes':
+            activityTaskTimedOutEventAttributes,
+      if (cancelTimerFailedEventAttributes != null)
+        'cancelTimerFailedEventAttributes': cancelTimerFailedEventAttributes,
+      if (cancelWorkflowExecutionFailedEventAttributes != null)
+        'cancelWorkflowExecutionFailedEventAttributes':
+            cancelWorkflowExecutionFailedEventAttributes,
+      if (childWorkflowExecutionCanceledEventAttributes != null)
+        'childWorkflowExecutionCanceledEventAttributes':
+            childWorkflowExecutionCanceledEventAttributes,
+      if (childWorkflowExecutionCompletedEventAttributes != null)
+        'childWorkflowExecutionCompletedEventAttributes':
+            childWorkflowExecutionCompletedEventAttributes,
+      if (childWorkflowExecutionFailedEventAttributes != null)
+        'childWorkflowExecutionFailedEventAttributes':
+            childWorkflowExecutionFailedEventAttributes,
+      if (childWorkflowExecutionStartedEventAttributes != null)
+        'childWorkflowExecutionStartedEventAttributes':
+            childWorkflowExecutionStartedEventAttributes,
+      if (childWorkflowExecutionTerminatedEventAttributes != null)
+        'childWorkflowExecutionTerminatedEventAttributes':
+            childWorkflowExecutionTerminatedEventAttributes,
+      if (childWorkflowExecutionTimedOutEventAttributes != null)
+        'childWorkflowExecutionTimedOutEventAttributes':
+            childWorkflowExecutionTimedOutEventAttributes,
+      if (completeWorkflowExecutionFailedEventAttributes != null)
+        'completeWorkflowExecutionFailedEventAttributes':
+            completeWorkflowExecutionFailedEventAttributes,
+      if (continueAsNewWorkflowExecutionFailedEventAttributes != null)
+        'continueAsNewWorkflowExecutionFailedEventAttributes':
+            continueAsNewWorkflowExecutionFailedEventAttributes,
+      if (decisionTaskCompletedEventAttributes != null)
+        'decisionTaskCompletedEventAttributes':
+            decisionTaskCompletedEventAttributes,
+      if (decisionTaskScheduledEventAttributes != null)
+        'decisionTaskScheduledEventAttributes':
+            decisionTaskScheduledEventAttributes,
+      if (decisionTaskStartedEventAttributes != null)
+        'decisionTaskStartedEventAttributes':
+            decisionTaskStartedEventAttributes,
+      if (decisionTaskTimedOutEventAttributes != null)
+        'decisionTaskTimedOutEventAttributes':
+            decisionTaskTimedOutEventAttributes,
+      if (externalWorkflowExecutionCancelRequestedEventAttributes != null)
+        'externalWorkflowExecutionCancelRequestedEventAttributes':
+            externalWorkflowExecutionCancelRequestedEventAttributes,
+      if (externalWorkflowExecutionSignaledEventAttributes != null)
+        'externalWorkflowExecutionSignaledEventAttributes':
+            externalWorkflowExecutionSignaledEventAttributes,
+      if (failWorkflowExecutionFailedEventAttributes != null)
+        'failWorkflowExecutionFailedEventAttributes':
+            failWorkflowExecutionFailedEventAttributes,
+      if (lambdaFunctionCompletedEventAttributes != null)
+        'lambdaFunctionCompletedEventAttributes':
+            lambdaFunctionCompletedEventAttributes,
+      if (lambdaFunctionFailedEventAttributes != null)
+        'lambdaFunctionFailedEventAttributes':
+            lambdaFunctionFailedEventAttributes,
+      if (lambdaFunctionScheduledEventAttributes != null)
+        'lambdaFunctionScheduledEventAttributes':
+            lambdaFunctionScheduledEventAttributes,
+      if (lambdaFunctionStartedEventAttributes != null)
+        'lambdaFunctionStartedEventAttributes':
+            lambdaFunctionStartedEventAttributes,
+      if (lambdaFunctionTimedOutEventAttributes != null)
+        'lambdaFunctionTimedOutEventAttributes':
+            lambdaFunctionTimedOutEventAttributes,
+      if (markerRecordedEventAttributes != null)
+        'markerRecordedEventAttributes': markerRecordedEventAttributes,
+      if (recordMarkerFailedEventAttributes != null)
+        'recordMarkerFailedEventAttributes': recordMarkerFailedEventAttributes,
+      if (requestCancelActivityTaskFailedEventAttributes != null)
+        'requestCancelActivityTaskFailedEventAttributes':
+            requestCancelActivityTaskFailedEventAttributes,
+      if (requestCancelExternalWorkflowExecutionFailedEventAttributes != null)
+        'requestCancelExternalWorkflowExecutionFailedEventAttributes':
+            requestCancelExternalWorkflowExecutionFailedEventAttributes,
+      if (requestCancelExternalWorkflowExecutionInitiatedEventAttributes !=
+          null)
+        'requestCancelExternalWorkflowExecutionInitiatedEventAttributes':
+            requestCancelExternalWorkflowExecutionInitiatedEventAttributes,
+      if (scheduleActivityTaskFailedEventAttributes != null)
+        'scheduleActivityTaskFailedEventAttributes':
+            scheduleActivityTaskFailedEventAttributes,
+      if (scheduleLambdaFunctionFailedEventAttributes != null)
+        'scheduleLambdaFunctionFailedEventAttributes':
+            scheduleLambdaFunctionFailedEventAttributes,
+      if (signalExternalWorkflowExecutionFailedEventAttributes != null)
+        'signalExternalWorkflowExecutionFailedEventAttributes':
+            signalExternalWorkflowExecutionFailedEventAttributes,
+      if (signalExternalWorkflowExecutionInitiatedEventAttributes != null)
+        'signalExternalWorkflowExecutionInitiatedEventAttributes':
+            signalExternalWorkflowExecutionInitiatedEventAttributes,
+      if (startChildWorkflowExecutionFailedEventAttributes != null)
+        'startChildWorkflowExecutionFailedEventAttributes':
+            startChildWorkflowExecutionFailedEventAttributes,
+      if (startChildWorkflowExecutionInitiatedEventAttributes != null)
+        'startChildWorkflowExecutionInitiatedEventAttributes':
+            startChildWorkflowExecutionInitiatedEventAttributes,
+      if (startLambdaFunctionFailedEventAttributes != null)
+        'startLambdaFunctionFailedEventAttributes':
+            startLambdaFunctionFailedEventAttributes,
+      if (startTimerFailedEventAttributes != null)
+        'startTimerFailedEventAttributes': startTimerFailedEventAttributes,
+      if (timerCanceledEventAttributes != null)
+        'timerCanceledEventAttributes': timerCanceledEventAttributes,
+      if (timerFiredEventAttributes != null)
+        'timerFiredEventAttributes': timerFiredEventAttributes,
+      if (timerStartedEventAttributes != null)
+        'timerStartedEventAttributes': timerStartedEventAttributes,
+      if (workflowExecutionCancelRequestedEventAttributes != null)
+        'workflowExecutionCancelRequestedEventAttributes':
+            workflowExecutionCancelRequestedEventAttributes,
+      if (workflowExecutionCanceledEventAttributes != null)
+        'workflowExecutionCanceledEventAttributes':
+            workflowExecutionCanceledEventAttributes,
+      if (workflowExecutionCompletedEventAttributes != null)
+        'workflowExecutionCompletedEventAttributes':
+            workflowExecutionCompletedEventAttributes,
+      if (workflowExecutionContinuedAsNewEventAttributes != null)
+        'workflowExecutionContinuedAsNewEventAttributes':
+            workflowExecutionContinuedAsNewEventAttributes,
+      if (workflowExecutionFailedEventAttributes != null)
+        'workflowExecutionFailedEventAttributes':
+            workflowExecutionFailedEventAttributes,
+      if (workflowExecutionSignaledEventAttributes != null)
+        'workflowExecutionSignaledEventAttributes':
+            workflowExecutionSignaledEventAttributes,
+      if (workflowExecutionStartedEventAttributes != null)
+        'workflowExecutionStartedEventAttributes':
+            workflowExecutionStartedEventAttributes,
+      if (workflowExecutionTerminatedEventAttributes != null)
+        'workflowExecutionTerminatedEventAttributes':
+            workflowExecutionTerminatedEventAttributes,
+      if (workflowExecutionTimedOutEventAttributes != null)
+        'workflowExecutionTimedOutEventAttributes':
+            workflowExecutionTimedOutEventAttributes,
+    };
+  }
 }
 
 /// Provides the details of the <code>LambdaFunctionCompleted</code> event. It
 /// isn't set for other event types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionCompletedEventAttributes {
   /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
   /// when this Lambda task was scheduled. To help diagnose issues, use this
   /// information to trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>LambdaFunctionStarted</code> event recorded when this
   /// activity task started. To help diagnose issues, use this information to
   /// trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The results of the Lambda task.
-  @_s.JsonKey(name: 'result')
-  final String result;
+  final String? result;
 
   LambdaFunctionCompletedEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
+    required this.scheduledEventId,
+    required this.startedEventId,
     this.result,
   });
+
   factory LambdaFunctionCompletedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$LambdaFunctionCompletedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return LambdaFunctionCompletedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final result = this.result;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (result != null) 'result': result,
+    };
+  }
 }
 
 /// Provides the details of the <code>LambdaFunctionFailed</code> event. It
 /// isn't set for other event types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionFailedEventAttributes {
   /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
   /// when this activity task was scheduled. To help diagnose issues, use this
   /// information to trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>LambdaFunctionStarted</code> event recorded when this
   /// activity task started. To help diagnose issues, use this information to
   /// trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The details of the failure.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// The reason provided for the failure.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   LambdaFunctionFailedEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
+    required this.scheduledEventId,
+    required this.startedEventId,
     this.details,
     this.reason,
   });
+
   factory LambdaFunctionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$LambdaFunctionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return LambdaFunctionFailedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
 }
 
 /// Provides the details of the <code>LambdaFunctionScheduled</code> event. It
 /// isn't set for other event types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionScheduledEventAttributes {
   /// The ID of the <code>LambdaFunctionCompleted</code> event corresponding to
   /// the decision that resulted in scheduling this activity task. To help
   /// diagnose issues, use this information to trace back the chain of events
   /// leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The unique ID of the Lambda task.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The name of the Lambda function.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Data attached to the event that the decider can use in subsequent workflow
   /// tasks. This data isn't sent to the Lambda task.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The input provided to the Lambda task.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The maximum amount of time a worker can take to process the Lambda task.
-  @_s.JsonKey(name: 'startToCloseTimeout')
-  final String startToCloseTimeout;
+  final String? startToCloseTimeout;
 
   LambdaFunctionScheduledEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.id,
-    @_s.required this.name,
+    required this.decisionTaskCompletedEventId,
+    required this.id,
+    required this.name,
     this.control,
     this.input,
     this.startToCloseTimeout,
   });
+
   factory LambdaFunctionScheduledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$LambdaFunctionScheduledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return LambdaFunctionScheduledEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      control: json['control'] as String?,
+      input: json['input'] as String?,
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final id = this.id;
+    final name = this.name;
+    final control = this.control;
+    final input = this.input;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'id': id,
+      'name': name,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+    };
+  }
 }
 
 /// Provides the details of the <code>LambdaFunctionStarted</code> event. It
 /// isn't set for other event types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionStartedEventAttributes {
   /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
   /// when this activity task was scheduled. To help diagnose issues, use this
   /// information to trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   LambdaFunctionStartedEventAttributes({
-    @_s.required this.scheduledEventId,
+    required this.scheduledEventId,
   });
+
   factory LambdaFunctionStartedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$LambdaFunctionStartedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return LambdaFunctionStartedEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    return {
+      'scheduledEventId': scheduledEventId,
+    };
+  }
 }
 
 /// Provides details of the <code>LambdaFunctionTimedOut</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaFunctionTimedOutEventAttributes {
   /// The ID of the <code>LambdaFunctionScheduled</code> event that was recorded
   /// when this activity task was scheduled. To help diagnose issues, use this
   /// information to trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'scheduledEventId')
   final int scheduledEventId;
 
   /// The ID of the <code>ActivityTaskStarted</code> event that was recorded when
   /// this activity task started. To help diagnose issues, use this information to
   /// trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The type of the timeout that caused this event.
-  @_s.JsonKey(name: 'timeoutType')
-  final LambdaFunctionTimeoutType timeoutType;
+  final LambdaFunctionTimeoutType? timeoutType;
 
   LambdaFunctionTimedOutEventAttributes({
-    @_s.required this.scheduledEventId,
-    @_s.required this.startedEventId,
+    required this.scheduledEventId,
+    required this.startedEventId,
     this.timeoutType,
   });
+
   factory LambdaFunctionTimedOutEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$LambdaFunctionTimedOutEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return LambdaFunctionTimedOutEventAttributes(
+      scheduledEventId: json['scheduledEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      timeoutType:
+          (json['timeoutType'] as String?)?.toLambdaFunctionTimeoutType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final scheduledEventId = this.scheduledEventId;
+    final startedEventId = this.startedEventId;
+    final timeoutType = this.timeoutType;
+    return {
+      'scheduledEventId': scheduledEventId,
+      'startedEventId': startedEventId,
+      if (timeoutType != null) 'timeoutType': timeoutType.toValue(),
+    };
+  }
 }
 
 enum LambdaFunctionTimeoutType {
-  @_s.JsonValue('START_TO_CLOSE')
   startToClose,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on LambdaFunctionTimeoutType {
+  String toValue() {
+    switch (this) {
+      case LambdaFunctionTimeoutType.startToClose:
+        return 'START_TO_CLOSE';
+    }
+  }
+}
+
+extension on String {
+  LambdaFunctionTimeoutType toLambdaFunctionTimeoutType() {
+    switch (this) {
+      case 'START_TO_CLOSE':
+        return LambdaFunctionTimeoutType.startToClose;
+    }
+    throw Exception('$this is not known in enum LambdaFunctionTimeoutType');
+  }
+}
+
 class ListTagsForResourceOutput {
   /// An array of tags associated with the domain.
-  @_s.JsonKey(name: 'tags')
-  final List<ResourceTag> tags;
+  final List<ResourceTag>? tags;
 
   ListTagsForResourceOutput({
     this.tags,
   });
-  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceOutputFromJson(json);
+
+  factory ListTagsForResourceOutput.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceOutput(
+      tags: (json['tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceTag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// Provides the details of the <code>MarkerRecorded</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MarkerRecordedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>RecordMarker</code> decision that
   /// requested this marker. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The name of the marker.
-  @_s.JsonKey(name: 'markerName')
   final String markerName;
 
   /// The details of the marker.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   MarkerRecordedEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.markerName,
+    required this.decisionTaskCompletedEventId,
+    required this.markerName,
     this.details,
   });
-  factory MarkerRecordedEventAttributes.fromJson(Map<String, dynamic> json) =>
-      _$MarkerRecordedEventAttributesFromJson(json);
+
+  factory MarkerRecordedEventAttributes.fromJson(Map<String, dynamic> json) {
+    return MarkerRecordedEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      markerName: json['markerName'] as String,
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final markerName = this.markerName;
+    final details = this.details;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'markerName': markerName,
+      if (details != null) 'details': details,
+    };
+  }
 }
 
 /// Contains the count of tasks in a task list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PendingTaskCount {
   /// The number of tasks in the task list.
-  @_s.JsonKey(name: 'count')
   final int count;
 
   /// If set to true, indicates that the actual count was more than the maximum
   /// supported by this API and the count returned is the truncated value.
-  @_s.JsonKey(name: 'truncated')
-  final bool truncated;
+  final bool? truncated;
 
   PendingTaskCount({
-    @_s.required this.count,
+    required this.count,
     this.truncated,
   });
-  factory PendingTaskCount.fromJson(Map<String, dynamic> json) =>
-      _$PendingTaskCountFromJson(json);
+
+  factory PendingTaskCount.fromJson(Map<String, dynamic> json) {
+    return PendingTaskCount(
+      count: json['count'] as int,
+      truncated: json['truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final truncated = this.truncated;
+    return {
+      'count': count,
+      if (truncated != null) 'truncated': truncated,
+    };
+  }
 }
 
 /// Provides the details of the <code>RecordMarker</code> decision.
@@ -7584,38 +9307,59 @@ class PendingTaskCount {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RecordMarkerDecisionAttributes {
   /// The name of the marker.
-  @_s.JsonKey(name: 'markerName')
   final String markerName;
 
   /// The details of the marker.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   RecordMarkerDecisionAttributes({
-    @_s.required this.markerName,
+    required this.markerName,
     this.details,
   });
-  Map<String, dynamic> toJson() => _$RecordMarkerDecisionAttributesToJson(this);
+
+  factory RecordMarkerDecisionAttributes.fromJson(Map<String, dynamic> json) {
+    return RecordMarkerDecisionAttributes(
+      markerName: json['markerName'] as String,
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final markerName = this.markerName;
+    final details = this.details;
+    return {
+      'markerName': markerName,
+      if (details != null) 'details': details,
+    };
+  }
 }
 
 enum RecordMarkerFailedCause {
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
 }
 
+extension on RecordMarkerFailedCause {
+  String toValue() {
+    switch (this) {
+      case RecordMarkerFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  RecordMarkerFailedCause toRecordMarkerFailedCause() {
+    switch (this) {
+      case 'OPERATION_NOT_PERMITTED':
+        return RecordMarkerFailedCause.operationNotPermitted;
+    }
+    throw Exception('$this is not known in enum RecordMarkerFailedCause');
+  }
+}
+
 /// Provides the details of the <code>RecordMarkerFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RecordMarkerFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -7627,34 +9371,46 @@ class RecordMarkerFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final RecordMarkerFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>RecordMarkerFailed</code> decision
   /// for this cancellation request. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The marker's name.
-  @_s.JsonKey(name: 'markerName')
   final String markerName;
 
   RecordMarkerFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.markerName,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.markerName,
   });
+
   factory RecordMarkerFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$RecordMarkerFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return RecordMarkerFailedEventAttributes(
+      cause: (json['cause'] as String).toRecordMarkerFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      markerName: json['markerName'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final markerName = this.markerName;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'markerName': markerName,
+    };
+  }
 }
 
 enum RegistrationStatus {
-  @_s.JsonValue('REGISTERED')
   registered,
-  @_s.JsonValue('DEPRECATED')
   deprecated,
 }
 
@@ -7666,7 +9422,18 @@ extension on RegistrationStatus {
       case RegistrationStatus.deprecated:
         return 'DEPRECATED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RegistrationStatus toRegistrationStatus() {
+    switch (this) {
+      case 'REGISTERED':
+        return RegistrationStatus.registered;
+      case 'DEPRECATED':
+        return RegistrationStatus.deprecated;
+    }
+    throw Exception('$this is not known in enum RegistrationStatus');
   }
 }
 
@@ -7698,41 +9465,64 @@ extension on RegistrationStatus {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RequestCancelActivityTaskDecisionAttributes {
   /// The <code>activityId</code> of the activity task to be canceled.
-  @_s.JsonKey(name: 'activityId')
   final String activityId;
 
   RequestCancelActivityTaskDecisionAttributes({
-    @_s.required this.activityId,
+    required this.activityId,
   });
-  Map<String, dynamic> toJson() =>
-      _$RequestCancelActivityTaskDecisionAttributesToJson(this);
+
+  factory RequestCancelActivityTaskDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return RequestCancelActivityTaskDecisionAttributes(
+      activityId: json['activityId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    return {
+      'activityId': activityId,
+    };
+  }
 }
 
 enum RequestCancelActivityTaskFailedCause {
-  @_s.JsonValue('ACTIVITY_ID_UNKNOWN')
   activityIdUnknown,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
+}
+
+extension on RequestCancelActivityTaskFailedCause {
+  String toValue() {
+    switch (this) {
+      case RequestCancelActivityTaskFailedCause.activityIdUnknown:
+        return 'ACTIVITY_ID_UNKNOWN';
+      case RequestCancelActivityTaskFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  RequestCancelActivityTaskFailedCause
+      toRequestCancelActivityTaskFailedCause() {
+    switch (this) {
+      case 'ACTIVITY_ID_UNKNOWN':
+        return RequestCancelActivityTaskFailedCause.activityIdUnknown;
+      case 'OPERATION_NOT_PERMITTED':
+        return RequestCancelActivityTaskFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum RequestCancelActivityTaskFailedCause');
+  }
 }
 
 /// Provides the details of the <code>RequestCancelActivityTaskFailed</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RequestCancelActivityTaskFailedEventAttributes {
   /// The activityId provided in the <code>RequestCancelActivityTask</code>
   /// decision that failed.
-  @_s.JsonKey(name: 'activityId')
   final String activityId;
 
   /// The cause of the failure. This information is generated by the system and
@@ -7745,7 +9535,6 @@ class RequestCancelActivityTaskFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final RequestCancelActivityTaskFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -7753,17 +9542,33 @@ class RequestCancelActivityTaskFailedEventAttributes {
   /// decision for this cancellation request. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   RequestCancelActivityTaskFailedEventAttributes({
-    @_s.required this.activityId,
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.activityId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
   });
+
   factory RequestCancelActivityTaskFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$RequestCancelActivityTaskFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return RequestCancelActivityTaskFailedEventAttributes(
+      activityId: json['activityId'] as String,
+      cause: (json['cause'] as String).toRequestCancelActivityTaskFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'activityId': activityId,
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 /// Provides the details of the
@@ -7795,50 +9600,87 @@ class RequestCancelActivityTaskFailedEventAttributes {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RequestCancelExternalWorkflowExecutionDecisionAttributes {
   /// The <code>workflowId</code> of the external workflow execution to cancel.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// The data attached to the event that can be used by the decider in subsequent
   /// workflow tasks.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The <code>runId</code> of the external workflow execution to cancel.
-  @_s.JsonKey(name: 'runId')
-  final String runId;
+  final String? runId;
 
   RequestCancelExternalWorkflowExecutionDecisionAttributes({
-    @_s.required this.workflowId,
+    required this.workflowId,
     this.control,
     this.runId,
   });
-  Map<String, dynamic> toJson() =>
-      _$RequestCancelExternalWorkflowExecutionDecisionAttributesToJson(this);
+
+  factory RequestCancelExternalWorkflowExecutionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return RequestCancelExternalWorkflowExecutionDecisionAttributes(
+      workflowId: json['workflowId'] as String,
+      control: json['control'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final runId = this.runId;
+    return {
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
+    };
+  }
 }
 
 enum RequestCancelExternalWorkflowExecutionFailedCause {
-  @_s.JsonValue('UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION')
   unknownExternalWorkflowExecution,
-  @_s.JsonValue('REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED')
   requestCancelExternalWorkflowExecutionRateExceeded,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
+}
+
+extension on RequestCancelExternalWorkflowExecutionFailedCause {
+  String toValue() {
+    switch (this) {
+      case RequestCancelExternalWorkflowExecutionFailedCause
+          .unknownExternalWorkflowExecution:
+        return 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION';
+      case RequestCancelExternalWorkflowExecutionFailedCause
+          .requestCancelExternalWorkflowExecutionRateExceeded:
+        return 'REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED';
+      case RequestCancelExternalWorkflowExecutionFailedCause
+          .operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  RequestCancelExternalWorkflowExecutionFailedCause
+      toRequestCancelExternalWorkflowExecutionFailedCause() {
+    switch (this) {
+      case 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION':
+        return RequestCancelExternalWorkflowExecutionFailedCause
+            .unknownExternalWorkflowExecution;
+      case 'REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED':
+        return RequestCancelExternalWorkflowExecutionFailedCause
+            .requestCancelExternalWorkflowExecutionRateExceeded;
+      case 'OPERATION_NOT_PERMITTED':
+        return RequestCancelExternalWorkflowExecutionFailedCause
+            .operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum RequestCancelExternalWorkflowExecutionFailedCause');
+  }
 }
 
 /// Provides the details of the
 /// <code>RequestCancelExternalWorkflowExecutionFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -7850,7 +9692,6 @@ class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final RequestCancelExternalWorkflowExecutionFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -7858,7 +9699,6 @@ class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
   /// <code>RequestCancelExternalWorkflowExecution</code> decision for this
   /// cancellation request. This information can be useful for diagnosing problems
   /// by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
@@ -7866,77 +9706,109 @@ class RequestCancelExternalWorkflowExecutionFailedEventAttributes {
   /// <code>RequestCancelExternalWorkflowExecution</code> decision to cancel this
   /// external workflow execution. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The <code>workflowId</code> of the external workflow to which the cancel
   /// request was to be delivered.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// The data attached to the event that the decider can use in subsequent
   /// workflow tasks. This data isn't sent to the workflow execution.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The <code>runId</code> of the external workflow execution.
-  @_s.JsonKey(name: 'runId')
-  final String runId;
+  final String? runId;
 
   RequestCancelExternalWorkflowExecutionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.initiatedEventId,
-    @_s.required this.workflowId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.initiatedEventId,
+    required this.workflowId,
     this.control,
     this.runId,
   });
+
   factory RequestCancelExternalWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$RequestCancelExternalWorkflowExecutionFailedEventAttributesFromJson(
-          json);
+      Map<String, dynamic> json) {
+    return RequestCancelExternalWorkflowExecutionFailedEventAttributes(
+      cause: (json['cause'] as String)
+          .toRequestCancelExternalWorkflowExecutionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      initiatedEventId: json['initiatedEventId'] as int,
+      workflowId: json['workflowId'] as String,
+      control: json['control'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final initiatedEventId = this.initiatedEventId;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final runId = this.runId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'initiatedEventId': initiatedEventId,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
+    };
+  }
 }
 
 /// Provides the details of the
 /// <code>RequestCancelExternalWorkflowExecutionInitiated</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the
   /// <code>RequestCancelExternalWorkflowExecution</code> decision for this
   /// cancellation request. This information can be useful for diagnosing problems
   /// by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The <code>workflowId</code> of the external workflow execution to be
   /// canceled.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// Data attached to the event that can be used by the decider in subsequent
   /// workflow tasks.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The <code>runId</code> of the external workflow execution to be canceled.
-  @_s.JsonKey(name: 'runId')
-  final String runId;
+  final String? runId;
 
   RequestCancelExternalWorkflowExecutionInitiatedEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.workflowId,
+    required this.decisionTaskCompletedEventId,
+    required this.workflowId,
     this.control,
     this.runId,
   });
+
   factory RequestCancelExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$RequestCancelExternalWorkflowExecutionInitiatedEventAttributesFromJson(
-          json);
+      Map<String, dynamic> json) {
+    return RequestCancelExternalWorkflowExecutionInitiatedEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      workflowId: json['workflowId'] as String,
+      control: json['control'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final runId = this.runId;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
+    };
+  }
 }
 
 /// Tags are key-value pairs that can be associated with Amazon SWF state
@@ -7944,47 +9816,58 @@ class RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
 ///
 /// Tags may only contain unicode letters, digits, whitespace, or these symbols:
 /// <code>_ . : / = + - @</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ResourceTag {
   /// The key of a tag.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// The value of a tag.
-  @_s.JsonKey(name: 'value')
-  final String value;
+  final String? value;
 
   ResourceTag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory ResourceTag.fromJson(Map<String, dynamic> json) =>
-      _$ResourceTagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResourceTagToJson(this);
+  factory ResourceTag.fromJson(Map<String, dynamic> json) {
+    return ResourceTag(
+      key: json['key'] as String,
+      value: json['value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      if (value != null) 'value': value,
+    };
+  }
 }
 
 /// Specifies the <code>runId</code> of a workflow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Run {
   /// The <code>runId</code> of a workflow execution. This ID is generated by the
   /// service and can be used to uniquely identify the workflow execution within a
   /// domain.
-  @_s.JsonKey(name: 'runId')
-  final String runId;
+  final String? runId;
 
   Run({
     this.runId,
   });
-  factory Run.fromJson(Map<String, dynamic> json) => _$RunFromJson(json);
+
+  factory Run.fromJson(Map<String, dynamic> json) {
+    return Run(
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runId = this.runId;
+    return {
+      if (runId != null) 'runId': runId,
+    };
+  }
 }
 
 /// Provides the details of the <code>ScheduleActivityTask</code> decision.
@@ -8030,11 +9913,6 @@ class Run {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScheduleActivityTaskDecisionAttributes {
   /// The <code>activityId</code> of the activity task.
   ///
@@ -8043,17 +9921,14 @@ class ScheduleActivityTaskDecisionAttributes {
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
   /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
   /// <code>arn</code>.
-  @_s.JsonKey(name: 'activityId')
   final String activityId;
 
   /// The type of the activity task to schedule.
-  @_s.JsonKey(name: 'activityType')
   final ActivityType activityType;
 
   /// Data attached to the event that can be used by the decider in subsequent
   /// workflow tasks. This data isn't sent to the activity.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// If set, specifies the maximum time before which a worker processing a task
   /// of this type must report progress by calling
@@ -8065,12 +9940,10 @@ class ScheduleActivityTaskDecisionAttributes {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'heartbeatTimeout')
-  final String heartbeatTimeout;
+  final String? heartbeatTimeout;
 
   /// The input provided to the activity task.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The maximum duration for this activity task.
   ///
@@ -8082,8 +9955,7 @@ class ScheduleActivityTaskDecisionAttributes {
   /// field is set nor a default schedule-to-close timeout was specified at
   /// registration time then a fault is returned.
   /// </note>
-  @_s.JsonKey(name: 'scheduleToCloseTimeout')
-  final String scheduleToCloseTimeout;
+  final String? scheduleToCloseTimeout;
 
   /// If set, specifies the maximum duration the activity task can wait to be
   /// assigned to a worker. This overrides the default schedule-to-start timeout
@@ -8098,8 +9970,7 @@ class ScheduleActivityTaskDecisionAttributes {
   /// field is set nor a default schedule-to-start timeout was specified at
   /// registration time then a fault is returned.
   /// </note>
-  @_s.JsonKey(name: 'scheduleToStartTimeout')
-  final String scheduleToStartTimeout;
+  final String? scheduleToStartTimeout;
 
   /// If set, specifies the maximum duration a worker may take to process this
   /// activity task. This overrides the default start-to-close timeout specified
@@ -8113,8 +9984,7 @@ class ScheduleActivityTaskDecisionAttributes {
   /// is set nor a default start-to-close timeout was specified at registration
   /// time then a fault is returned.
   /// </note>
-  @_s.JsonKey(name: 'startToCloseTimeout')
-  final String startToCloseTimeout;
+  final String? startToCloseTimeout;
 
   /// If set, specifies the name of the task list in which to schedule the
   /// activity task. If not specified, the <code>defaultTaskList</code> registered
@@ -8130,8 +10000,7 @@ class ScheduleActivityTaskDecisionAttributes {
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
   /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
   /// <code>arn</code>.
-  @_s.JsonKey(name: 'taskList')
-  final TaskList taskList;
+  final TaskList? taskList;
 
   /// If set, specifies the priority with which the activity task is to be
   /// assigned to a worker. This overrides the defaultTaskPriority specified when
@@ -8143,12 +10012,11 @@ class ScheduleActivityTaskDecisionAttributes {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   ScheduleActivityTaskDecisionAttributes({
-    @_s.required this.activityId,
-    @_s.required this.activityType,
+    required this.activityId,
+    required this.activityType,
     this.control,
     this.heartbeatTimeout,
     this.input,
@@ -8158,50 +10026,142 @@ class ScheduleActivityTaskDecisionAttributes {
     this.taskList,
     this.taskPriority,
   });
-  Map<String, dynamic> toJson() =>
-      _$ScheduleActivityTaskDecisionAttributesToJson(this);
+
+  factory ScheduleActivityTaskDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ScheduleActivityTaskDecisionAttributes(
+      activityId: json['activityId'] as String,
+      activityType:
+          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+      control: json['control'] as String?,
+      heartbeatTimeout: json['heartbeatTimeout'] as String?,
+      input: json['input'] as String?,
+      scheduleToCloseTimeout: json['scheduleToCloseTimeout'] as String?,
+      scheduleToStartTimeout: json['scheduleToStartTimeout'] as String?,
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
+      taskList: json['taskList'] != null
+          ? TaskList.fromJson(json['taskList'] as Map<String, dynamic>)
+          : null,
+      taskPriority: json['taskPriority'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final activityType = this.activityType;
+    final control = this.control;
+    final heartbeatTimeout = this.heartbeatTimeout;
+    final input = this.input;
+    final scheduleToCloseTimeout = this.scheduleToCloseTimeout;
+    final scheduleToStartTimeout = this.scheduleToStartTimeout;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    final taskList = this.taskList;
+    final taskPriority = this.taskPriority;
+    return {
+      'activityId': activityId,
+      'activityType': activityType,
+      if (control != null) 'control': control,
+      if (heartbeatTimeout != null) 'heartbeatTimeout': heartbeatTimeout,
+      if (input != null) 'input': input,
+      if (scheduleToCloseTimeout != null)
+        'scheduleToCloseTimeout': scheduleToCloseTimeout,
+      if (scheduleToStartTimeout != null)
+        'scheduleToStartTimeout': scheduleToStartTimeout,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+      if (taskList != null) 'taskList': taskList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+    };
+  }
 }
 
 enum ScheduleActivityTaskFailedCause {
-  @_s.JsonValue('ACTIVITY_TYPE_DEPRECATED')
   activityTypeDeprecated,
-  @_s.JsonValue('ACTIVITY_TYPE_DOES_NOT_EXIST')
   activityTypeDoesNotExist,
-  @_s.JsonValue('ACTIVITY_ID_ALREADY_IN_USE')
   activityIdAlreadyInUse,
-  @_s.JsonValue('OPEN_ACTIVITIES_LIMIT_EXCEEDED')
   openActivitiesLimitExceeded,
-  @_s.JsonValue('ACTIVITY_CREATION_RATE_EXCEEDED')
   activityCreationRateExceeded,
-  @_s.JsonValue('DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED')
   defaultScheduleToCloseTimeoutUndefined,
-  @_s.JsonValue('DEFAULT_TASK_LIST_UNDEFINED')
   defaultTaskListUndefined,
-  @_s.JsonValue('DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED')
   defaultScheduleToStartTimeoutUndefined,
-  @_s.JsonValue('DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED')
   defaultStartToCloseTimeoutUndefined,
-  @_s.JsonValue('DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED')
   defaultHeartbeatTimeoutUndefined,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
 }
 
+extension on ScheduleActivityTaskFailedCause {
+  String toValue() {
+    switch (this) {
+      case ScheduleActivityTaskFailedCause.activityTypeDeprecated:
+        return 'ACTIVITY_TYPE_DEPRECATED';
+      case ScheduleActivityTaskFailedCause.activityTypeDoesNotExist:
+        return 'ACTIVITY_TYPE_DOES_NOT_EXIST';
+      case ScheduleActivityTaskFailedCause.activityIdAlreadyInUse:
+        return 'ACTIVITY_ID_ALREADY_IN_USE';
+      case ScheduleActivityTaskFailedCause.openActivitiesLimitExceeded:
+        return 'OPEN_ACTIVITIES_LIMIT_EXCEEDED';
+      case ScheduleActivityTaskFailedCause.activityCreationRateExceeded:
+        return 'ACTIVITY_CREATION_RATE_EXCEEDED';
+      case ScheduleActivityTaskFailedCause
+          .defaultScheduleToCloseTimeoutUndefined:
+        return 'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED';
+      case ScheduleActivityTaskFailedCause.defaultTaskListUndefined:
+        return 'DEFAULT_TASK_LIST_UNDEFINED';
+      case ScheduleActivityTaskFailedCause
+          .defaultScheduleToStartTimeoutUndefined:
+        return 'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED';
+      case ScheduleActivityTaskFailedCause.defaultStartToCloseTimeoutUndefined:
+        return 'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED';
+      case ScheduleActivityTaskFailedCause.defaultHeartbeatTimeoutUndefined:
+        return 'DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED';
+      case ScheduleActivityTaskFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  ScheduleActivityTaskFailedCause toScheduleActivityTaskFailedCause() {
+    switch (this) {
+      case 'ACTIVITY_TYPE_DEPRECATED':
+        return ScheduleActivityTaskFailedCause.activityTypeDeprecated;
+      case 'ACTIVITY_TYPE_DOES_NOT_EXIST':
+        return ScheduleActivityTaskFailedCause.activityTypeDoesNotExist;
+      case 'ACTIVITY_ID_ALREADY_IN_USE':
+        return ScheduleActivityTaskFailedCause.activityIdAlreadyInUse;
+      case 'OPEN_ACTIVITIES_LIMIT_EXCEEDED':
+        return ScheduleActivityTaskFailedCause.openActivitiesLimitExceeded;
+      case 'ACTIVITY_CREATION_RATE_EXCEEDED':
+        return ScheduleActivityTaskFailedCause.activityCreationRateExceeded;
+      case 'DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED':
+        return ScheduleActivityTaskFailedCause
+            .defaultScheduleToCloseTimeoutUndefined;
+      case 'DEFAULT_TASK_LIST_UNDEFINED':
+        return ScheduleActivityTaskFailedCause.defaultTaskListUndefined;
+      case 'DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED':
+        return ScheduleActivityTaskFailedCause
+            .defaultScheduleToStartTimeoutUndefined;
+      case 'DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED':
+        return ScheduleActivityTaskFailedCause
+            .defaultStartToCloseTimeoutUndefined;
+      case 'DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED':
+        return ScheduleActivityTaskFailedCause.defaultHeartbeatTimeoutUndefined;
+      case 'OPERATION_NOT_PERMITTED':
+        return ScheduleActivityTaskFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum ScheduleActivityTaskFailedCause');
+  }
+}
+
 /// Provides the details of the <code>ScheduleActivityTaskFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScheduleActivityTaskFailedEventAttributes {
   /// The activityId provided in the <code>ScheduleActivityTask</code> decision
   /// that failed.
-  @_s.JsonKey(name: 'activityId')
   final String activityId;
 
   /// The activity type provided in the <code>ScheduleActivityTask</code> decision
   /// that failed.
-  @_s.JsonKey(name: 'activityType')
   final ActivityType activityType;
 
   /// The cause of the failure. This information is generated by the system and
@@ -8214,89 +10174,149 @@ class ScheduleActivityTaskFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final ScheduleActivityTaskFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision that resulted in the scheduling of this activity task. This
   /// information can be useful for diagnosing problems by tracing back the chain
   /// of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   ScheduleActivityTaskFailedEventAttributes({
-    @_s.required this.activityId,
-    @_s.required this.activityType,
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.activityId,
+    required this.activityType,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
   });
+
   factory ScheduleActivityTaskFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ScheduleActivityTaskFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ScheduleActivityTaskFailedEventAttributes(
+      activityId: json['activityId'] as String,
+      activityType:
+          ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
+      cause: (json['cause'] as String).toScheduleActivityTaskFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final activityId = this.activityId;
+    final activityType = this.activityType;
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    return {
+      'activityId': activityId,
+      'activityType': activityType,
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+    };
+  }
 }
 
 /// Decision attributes specified in
 /// <code>scheduleLambdaFunctionDecisionAttributes</code> within the list of
 /// decisions <code>decisions</code> passed to
 /// <a>RespondDecisionTaskCompleted</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ScheduleLambdaFunctionDecisionAttributes {
   /// A string that identifies the Lambda function execution in the event history.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The name, or ARN, of the Lambda function to schedule.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The data attached to the event that the decider can use in subsequent
   /// workflow tasks. This data isn't sent to the Lambda task.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The optional input data to be supplied to the Lambda function.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The timeout value, in seconds, after which the Lambda function is considered
   /// to be failed once it has started. This can be any integer from 1-300
   /// (1s-5m). If no value is supplied, than a default value of 300s is assumed.
-  @_s.JsonKey(name: 'startToCloseTimeout')
-  final String startToCloseTimeout;
+  final String? startToCloseTimeout;
 
   ScheduleLambdaFunctionDecisionAttributes({
-    @_s.required this.id,
-    @_s.required this.name,
+    required this.id,
+    required this.name,
     this.control,
     this.input,
     this.startToCloseTimeout,
   });
-  Map<String, dynamic> toJson() =>
-      _$ScheduleLambdaFunctionDecisionAttributesToJson(this);
+
+  factory ScheduleLambdaFunctionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return ScheduleLambdaFunctionDecisionAttributes(
+      id: json['id'] as String,
+      name: json['name'] as String,
+      control: json['control'] as String?,
+      input: json['input'] as String?,
+      startToCloseTimeout: json['startToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final name = this.name;
+    final control = this.control;
+    final input = this.input;
+    final startToCloseTimeout = this.startToCloseTimeout;
+    return {
+      'id': id,
+      'name': name,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (startToCloseTimeout != null)
+        'startToCloseTimeout': startToCloseTimeout,
+    };
+  }
 }
 
 enum ScheduleLambdaFunctionFailedCause {
-  @_s.JsonValue('ID_ALREADY_IN_USE')
   idAlreadyInUse,
-  @_s.JsonValue('OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED')
   openLambdaFunctionsLimitExceeded,
-  @_s.JsonValue('LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED')
   lambdaFunctionCreationRateExceeded,
-  @_s.JsonValue('LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION')
   lambdaServiceNotAvailableInRegion,
+}
+
+extension on ScheduleLambdaFunctionFailedCause {
+  String toValue() {
+    switch (this) {
+      case ScheduleLambdaFunctionFailedCause.idAlreadyInUse:
+        return 'ID_ALREADY_IN_USE';
+      case ScheduleLambdaFunctionFailedCause.openLambdaFunctionsLimitExceeded:
+        return 'OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED';
+      case ScheduleLambdaFunctionFailedCause.lambdaFunctionCreationRateExceeded:
+        return 'LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED';
+      case ScheduleLambdaFunctionFailedCause.lambdaServiceNotAvailableInRegion:
+        return 'LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION';
+    }
+  }
+}
+
+extension on String {
+  ScheduleLambdaFunctionFailedCause toScheduleLambdaFunctionFailedCause() {
+    switch (this) {
+      case 'ID_ALREADY_IN_USE':
+        return ScheduleLambdaFunctionFailedCause.idAlreadyInUse;
+      case 'OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED':
+        return ScheduleLambdaFunctionFailedCause
+            .openLambdaFunctionsLimitExceeded;
+      case 'LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED':
+        return ScheduleLambdaFunctionFailedCause
+            .lambdaFunctionCreationRateExceeded;
+      case 'LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION':
+        return ScheduleLambdaFunctionFailedCause
+            .lambdaServiceNotAvailableInRegion;
+    }
+    throw Exception(
+        '$this is not known in enum ScheduleLambdaFunctionFailedCause');
+  }
 }
 
 /// Provides the details of the <code>ScheduleLambdaFunctionFailed</code> event.
 /// It isn't set for other event types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ScheduleLambdaFunctionFailedEventAttributes {
   /// The cause of the failure. To help diagnose issues, use this information to
   /// trace back the chain of events leading up to this event.
@@ -8308,34 +10328,50 @@ class ScheduleLambdaFunctionFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final ScheduleLambdaFunctionFailedCause cause;
 
   /// The ID of the <code>LambdaFunctionCompleted</code> event corresponding to
   /// the decision that resulted in scheduling this Lambda task. To help diagnose
   /// issues, use this information to trace back the chain of events leading up to
   /// this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The ID provided in the <code>ScheduleLambdaFunction</code> decision that
   /// failed.
-  @_s.JsonKey(name: 'id')
   final String id;
 
   /// The name of the Lambda function.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   ScheduleLambdaFunctionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.id,
-    @_s.required this.name,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.id,
+    required this.name,
   });
+
   factory ScheduleLambdaFunctionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$ScheduleLambdaFunctionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return ScheduleLambdaFunctionFailedEventAttributes(
+      cause: (json['cause'] as String).toScheduleLambdaFunctionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      id: json['id'] as String,
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final id = this.id;
+    final name = this.name;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'id': id,
+      'name': name,
+    };
+  }
 }
 
 /// Provides the details of the <code>SignalExternalWorkflowExecution</code>
@@ -8367,62 +10403,101 @@ class ScheduleLambdaFunctionFailedEventAttributes {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SignalExternalWorkflowExecutionDecisionAttributes {
   /// The name of the signal.The target workflow execution uses the signal name
   /// and input to process the signal.
-  @_s.JsonKey(name: 'signalName')
   final String signalName;
 
   /// The <code>workflowId</code> of the workflow execution to be signaled.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// The data attached to the event that can be used by the decider in subsequent
   /// decision tasks.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The input data to be provided with the signal. The target workflow execution
   /// uses the signal name and input data to process the signal.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The <code>runId</code> of the workflow execution to be signaled.
-  @_s.JsonKey(name: 'runId')
-  final String runId;
+  final String? runId;
 
   SignalExternalWorkflowExecutionDecisionAttributes({
-    @_s.required this.signalName,
-    @_s.required this.workflowId,
+    required this.signalName,
+    required this.workflowId,
     this.control,
     this.input,
     this.runId,
   });
-  Map<String, dynamic> toJson() =>
-      _$SignalExternalWorkflowExecutionDecisionAttributesToJson(this);
+
+  factory SignalExternalWorkflowExecutionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return SignalExternalWorkflowExecutionDecisionAttributes(
+      signalName: json['signalName'] as String,
+      workflowId: json['workflowId'] as String,
+      control: json['control'] as String?,
+      input: json['input'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signalName = this.signalName;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final input = this.input;
+    final runId = this.runId;
+    return {
+      'signalName': signalName,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (runId != null) 'runId': runId,
+    };
+  }
 }
 
 enum SignalExternalWorkflowExecutionFailedCause {
-  @_s.JsonValue('UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION')
   unknownExternalWorkflowExecution,
-  @_s.JsonValue('SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED')
   signalExternalWorkflowExecutionRateExceeded,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
+}
+
+extension on SignalExternalWorkflowExecutionFailedCause {
+  String toValue() {
+    switch (this) {
+      case SignalExternalWorkflowExecutionFailedCause
+          .unknownExternalWorkflowExecution:
+        return 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION';
+      case SignalExternalWorkflowExecutionFailedCause
+          .signalExternalWorkflowExecutionRateExceeded:
+        return 'SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED';
+      case SignalExternalWorkflowExecutionFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  SignalExternalWorkflowExecutionFailedCause
+      toSignalExternalWorkflowExecutionFailedCause() {
+    switch (this) {
+      case 'UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION':
+        return SignalExternalWorkflowExecutionFailedCause
+            .unknownExternalWorkflowExecution;
+      case 'SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED':
+        return SignalExternalWorkflowExecutionFailedCause
+            .signalExternalWorkflowExecutionRateExceeded;
+      case 'OPERATION_NOT_PERMITTED':
+        return SignalExternalWorkflowExecutionFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum SignalExternalWorkflowExecutionFailedCause');
+  }
 }
 
 /// Provides the details of the
 /// <code>SignalExternalWorkflowExecutionFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SignalExternalWorkflowExecutionFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -8434,7 +10509,6 @@ class SignalExternalWorkflowExecutionFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final SignalExternalWorkflowExecutionFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -8442,93 +10516,130 @@ class SignalExternalWorkflowExecutionFailedEventAttributes {
   /// <code>SignalExternalWorkflowExecution</code> decision for this signal. This
   /// information can be useful for diagnosing problems by tracing back the chain
   /// of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>SignalExternalWorkflowExecution</code> decision
   /// to request this signal. This information can be useful for diagnosing
   /// problems by tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The <code>workflowId</code> of the external workflow execution that the
   /// signal was being delivered to.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// The data attached to the event that the decider can use in subsequent
   /// workflow tasks. This data isn't sent to the workflow execution.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The <code>runId</code> of the external workflow execution that the signal
   /// was being delivered to.
-  @_s.JsonKey(name: 'runId')
-  final String runId;
+  final String? runId;
 
   SignalExternalWorkflowExecutionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.initiatedEventId,
-    @_s.required this.workflowId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.initiatedEventId,
+    required this.workflowId,
     this.control,
     this.runId,
   });
+
   factory SignalExternalWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$SignalExternalWorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return SignalExternalWorkflowExecutionFailedEventAttributes(
+      cause: (json['cause'] as String)
+          .toSignalExternalWorkflowExecutionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      initiatedEventId: json['initiatedEventId'] as int,
+      workflowId: json['workflowId'] as String,
+      control: json['control'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final initiatedEventId = this.initiatedEventId;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final runId = this.runId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'initiatedEventId': initiatedEventId,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (runId != null) 'runId': runId,
+    };
+  }
 }
 
 /// Provides the details of the
 /// <code>SignalExternalWorkflowExecutionInitiated</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SignalExternalWorkflowExecutionInitiatedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the
   /// <code>SignalExternalWorkflowExecution</code> decision for this signal. This
   /// information can be useful for diagnosing problems by tracing back the chain
   /// of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The name of the signal.
-  @_s.JsonKey(name: 'signalName')
   final String signalName;
 
   /// The <code>workflowId</code> of the external workflow execution.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// Data attached to the event that can be used by the decider in subsequent
   /// decision tasks.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The input provided to the signal.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The <code>runId</code> of the external workflow execution to send the signal
   /// to.
-  @_s.JsonKey(name: 'runId')
-  final String runId;
+  final String? runId;
 
   SignalExternalWorkflowExecutionInitiatedEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.signalName,
-    @_s.required this.workflowId,
+    required this.decisionTaskCompletedEventId,
+    required this.signalName,
+    required this.workflowId,
     this.control,
     this.input,
     this.runId,
   });
+
   factory SignalExternalWorkflowExecutionInitiatedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$SignalExternalWorkflowExecutionInitiatedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return SignalExternalWorkflowExecutionInitiatedEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      signalName: json['signalName'] as String,
+      workflowId: json['workflowId'] as String,
+      control: json['control'] as String?,
+      input: json['input'] as String?,
+      runId: json['runId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final signalName = this.signalName;
+    final workflowId = this.workflowId;
+    final control = this.control;
+    final input = this.input;
+    final runId = this.runId;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'signalName': signalName,
+      'workflowId': workflowId,
+      if (control != null) 'control': control,
+      if (input != null) 'input': input,
+      if (runId != null) 'runId': runId,
+    };
+  }
 }
 
 /// Provides the details of the <code>StartChildWorkflowExecution</code>
@@ -8579,11 +10690,6 @@ class SignalExternalWorkflowExecutionInitiatedEventAttributes {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartChildWorkflowExecutionDecisionAttributes {
   /// The <code>workflowId</code> of the workflow execution.
   ///
@@ -8592,11 +10698,9 @@ class StartChildWorkflowExecutionDecisionAttributes {
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
   /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
   /// <code>arn</code>.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// The type of the workflow execution to be started.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// If set, specifies the policy to use for the child workflow executions if the
@@ -8627,13 +10731,11 @@ class StartChildWorkflowExecutionDecisionAttributes {
   /// parameter is set nor a default child policy was specified at registration
   /// time then a fault is returned.
   /// </note>
-  @_s.JsonKey(name: 'childPolicy')
-  final ChildPolicy childPolicy;
+  final ChildPolicy? childPolicy;
 
   /// The data attached to the event that can be used by the decider in subsequent
   /// workflow tasks. This data isn't sent to the child workflow execution.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The total duration for this workflow execution. This overrides the
   /// defaultExecutionStartToCloseTimeout specified when registering the workflow
@@ -8648,23 +10750,19 @@ class StartChildWorkflowExecutionDecisionAttributes {
   /// start-to-close timeout was specified at registration time then a fault is
   /// returned.
   /// </note>
-  @_s.JsonKey(name: 'executionStartToCloseTimeout')
-  final String executionStartToCloseTimeout;
+  final String? executionStartToCloseTimeout;
 
   /// The input to be provided to the workflow execution.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The IAM role attached to the child workflow execution.
-  @_s.JsonKey(name: 'lambdaRole')
-  final String lambdaRole;
+  final String? lambdaRole;
 
   /// The list of tags to associate with the child workflow execution. A maximum
   /// of 5 tags can be specified. You can list workflow executions with a specific
   /// tag by calling <a>ListOpenWorkflowExecutions</a> or
   /// <a>ListClosedWorkflowExecutions</a> and specifying a <a>TagFilter</a>.
-  @_s.JsonKey(name: 'tagList')
-  final List<String> tagList;
+  final List<String>? tagList;
 
   /// The name of the task list to be used for decision tasks of the child
   /// workflow execution.
@@ -8679,8 +10777,7 @@ class StartChildWorkflowExecutionDecisionAttributes {
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
   /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
   /// <code>arn</code>.
-  @_s.JsonKey(name: 'taskList')
-  final TaskList taskList;
+  final TaskList? taskList;
 
   /// A task priority that, if set, specifies the priority for a decision task of
   /// this workflow execution. This overrides the defaultTaskPriority specified
@@ -8692,8 +10789,7 @@ class StartChildWorkflowExecutionDecisionAttributes {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   /// Specifies the maximum duration of decision tasks for this workflow
   /// execution. This parameter overrides the
@@ -8708,12 +10804,11 @@ class StartChildWorkflowExecutionDecisionAttributes {
   /// neither this parameter is set nor a default task start-to-close timeout was
   /// specified at registration time then a fault is returned.
   /// </note>
-  @_s.JsonKey(name: 'taskStartToCloseTimeout')
-  final String taskStartToCloseTimeout;
+  final String? taskStartToCloseTimeout;
 
   StartChildWorkflowExecutionDecisionAttributes({
-    @_s.required this.workflowId,
-    @_s.required this.workflowType,
+    required this.workflowId,
+    required this.workflowType,
     this.childPolicy,
     this.control,
     this.executionStartToCloseTimeout,
@@ -8724,42 +10819,144 @@ class StartChildWorkflowExecutionDecisionAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
-  Map<String, dynamic> toJson() =>
-      _$StartChildWorkflowExecutionDecisionAttributesToJson(this);
+
+  factory StartChildWorkflowExecutionDecisionAttributes.fromJson(
+      Map<String, dynamic> json) {
+    return StartChildWorkflowExecutionDecisionAttributes(
+      workflowId: json['workflowId'] as String,
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      childPolicy: (json['childPolicy'] as String?)?.toChildPolicy(),
+      control: json['control'] as String?,
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String?,
+      input: json['input'] as String?,
+      lambdaRole: json['lambdaRole'] as String?,
+      tagList: (json['tagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      taskList: json['taskList'] != null
+          ? TaskList.fromJson(json['taskList'] as Map<String, dynamic>)
+          : null,
+      taskPriority: json['taskPriority'] as String?,
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
+    final childPolicy = this.childPolicy;
+    final control = this.control;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final tagList = this.tagList;
+    final taskList = this.taskList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    return {
+      'workflowId': workflowId,
+      'workflowType': workflowType,
+      if (childPolicy != null) 'childPolicy': childPolicy.toValue(),
+      if (control != null) 'control': control,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (tagList != null) 'tagList': tagList,
+      if (taskList != null) 'taskList': taskList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+    };
+  }
 }
 
 enum StartChildWorkflowExecutionFailedCause {
-  @_s.JsonValue('WORKFLOW_TYPE_DOES_NOT_EXIST')
   workflowTypeDoesNotExist,
-  @_s.JsonValue('WORKFLOW_TYPE_DEPRECATED')
   workflowTypeDeprecated,
-  @_s.JsonValue('OPEN_CHILDREN_LIMIT_EXCEEDED')
   openChildrenLimitExceeded,
-  @_s.JsonValue('OPEN_WORKFLOWS_LIMIT_EXCEEDED')
   openWorkflowsLimitExceeded,
-  @_s.JsonValue('CHILD_CREATION_RATE_EXCEEDED')
   childCreationRateExceeded,
-  @_s.JsonValue('WORKFLOW_ALREADY_RUNNING')
   workflowAlreadyRunning,
-  @_s.JsonValue('DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED')
   defaultExecutionStartToCloseTimeoutUndefined,
-  @_s.JsonValue('DEFAULT_TASK_LIST_UNDEFINED')
   defaultTaskListUndefined,
-  @_s.JsonValue('DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED')
   defaultTaskStartToCloseTimeoutUndefined,
-  @_s.JsonValue('DEFAULT_CHILD_POLICY_UNDEFINED')
   defaultChildPolicyUndefined,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
+}
+
+extension on StartChildWorkflowExecutionFailedCause {
+  String toValue() {
+    switch (this) {
+      case StartChildWorkflowExecutionFailedCause.workflowTypeDoesNotExist:
+        return 'WORKFLOW_TYPE_DOES_NOT_EXIST';
+      case StartChildWorkflowExecutionFailedCause.workflowTypeDeprecated:
+        return 'WORKFLOW_TYPE_DEPRECATED';
+      case StartChildWorkflowExecutionFailedCause.openChildrenLimitExceeded:
+        return 'OPEN_CHILDREN_LIMIT_EXCEEDED';
+      case StartChildWorkflowExecutionFailedCause.openWorkflowsLimitExceeded:
+        return 'OPEN_WORKFLOWS_LIMIT_EXCEEDED';
+      case StartChildWorkflowExecutionFailedCause.childCreationRateExceeded:
+        return 'CHILD_CREATION_RATE_EXCEEDED';
+      case StartChildWorkflowExecutionFailedCause.workflowAlreadyRunning:
+        return 'WORKFLOW_ALREADY_RUNNING';
+      case StartChildWorkflowExecutionFailedCause
+          .defaultExecutionStartToCloseTimeoutUndefined:
+        return 'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED';
+      case StartChildWorkflowExecutionFailedCause.defaultTaskListUndefined:
+        return 'DEFAULT_TASK_LIST_UNDEFINED';
+      case StartChildWorkflowExecutionFailedCause
+          .defaultTaskStartToCloseTimeoutUndefined:
+        return 'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED';
+      case StartChildWorkflowExecutionFailedCause.defaultChildPolicyUndefined:
+        return 'DEFAULT_CHILD_POLICY_UNDEFINED';
+      case StartChildWorkflowExecutionFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  StartChildWorkflowExecutionFailedCause
+      toStartChildWorkflowExecutionFailedCause() {
+    switch (this) {
+      case 'WORKFLOW_TYPE_DOES_NOT_EXIST':
+        return StartChildWorkflowExecutionFailedCause.workflowTypeDoesNotExist;
+      case 'WORKFLOW_TYPE_DEPRECATED':
+        return StartChildWorkflowExecutionFailedCause.workflowTypeDeprecated;
+      case 'OPEN_CHILDREN_LIMIT_EXCEEDED':
+        return StartChildWorkflowExecutionFailedCause.openChildrenLimitExceeded;
+      case 'OPEN_WORKFLOWS_LIMIT_EXCEEDED':
+        return StartChildWorkflowExecutionFailedCause
+            .openWorkflowsLimitExceeded;
+      case 'CHILD_CREATION_RATE_EXCEEDED':
+        return StartChildWorkflowExecutionFailedCause.childCreationRateExceeded;
+      case 'WORKFLOW_ALREADY_RUNNING':
+        return StartChildWorkflowExecutionFailedCause.workflowAlreadyRunning;
+      case 'DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED':
+        return StartChildWorkflowExecutionFailedCause
+            .defaultExecutionStartToCloseTimeoutUndefined;
+      case 'DEFAULT_TASK_LIST_UNDEFINED':
+        return StartChildWorkflowExecutionFailedCause.defaultTaskListUndefined;
+      case 'DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED':
+        return StartChildWorkflowExecutionFailedCause
+            .defaultTaskStartToCloseTimeoutUndefined;
+      case 'DEFAULT_CHILD_POLICY_UNDEFINED':
+        return StartChildWorkflowExecutionFailedCause
+            .defaultChildPolicyUndefined;
+      case 'OPERATION_NOT_PERMITTED':
+        return StartChildWorkflowExecutionFailedCause.operationNotPermitted;
+    }
+    throw Exception(
+        '$this is not known in enum StartChildWorkflowExecutionFailedCause');
+  }
 }
 
 /// Provides the details of the <code>StartChildWorkflowExecutionFailed</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartChildWorkflowExecutionFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -8771,14 +10968,12 @@ class StartChildWorkflowExecutionFailedEventAttributes {
   /// Using IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final StartChildWorkflowExecutionFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to request this child workflow execution. This information
   /// can be useful for diagnosing problems by tracing back the chain of events.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// When the <code>cause</code> is <code>WORKFLOW_ALREADY_RUNNING</code>,
@@ -8791,43 +10986,62 @@ class StartChildWorkflowExecutionFailedEventAttributes {
   /// When the <code>cause</code> isn't <code>WORKFLOW_ALREADY_RUNNING</code>,
   /// <code>initiatedEventId</code> is set to <code>0</code> because the
   /// <code>StartChildWorkflowExecutionInitiated</code> event doesn't exist.
-  @_s.JsonKey(name: 'initiatedEventId')
   final int initiatedEventId;
 
   /// The <code>workflowId</code> of the child workflow execution.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// The workflow type provided in the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> that failed.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// The data attached to the event that the decider can use in subsequent
   /// workflow tasks. This data isn't sent to the child workflow execution.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   StartChildWorkflowExecutionFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.initiatedEventId,
-    @_s.required this.workflowId,
-    @_s.required this.workflowType,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.initiatedEventId,
+    required this.workflowId,
+    required this.workflowType,
     this.control,
   });
+
   factory StartChildWorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartChildWorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return StartChildWorkflowExecutionFailedEventAttributes(
+      cause:
+          (json['cause'] as String).toStartChildWorkflowExecutionFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      initiatedEventId: json['initiatedEventId'] as int,
+      workflowId: json['workflowId'] as String,
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      control: json['control'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final initiatedEventId = this.initiatedEventId;
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
+    final control = this.control;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'initiatedEventId': initiatedEventId,
+      'workflowId': workflowId,
+      'workflowType': workflowType,
+      if (control != null) 'control': control,
+    };
+  }
 }
 
 /// Provides the details of the
 /// <code>StartChildWorkflowExecutionInitiated</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartChildWorkflowExecutionInitiatedEventAttributes {
   /// The policy to use for the child workflow executions if this execution gets
   /// terminated by explicitly calling the <a>TerminateWorkflowExecution</a>
@@ -8850,33 +11064,27 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
   /// run.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'childPolicy')
   final ChildPolicy childPolicy;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>StartChildWorkflowExecution</code>
   /// <a>Decision</a> to request this child workflow execution. This information
   /// can be useful for diagnosing problems by tracing back the cause of events.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The name of the task list used for the decision tasks of the child workflow
   /// execution.
-  @_s.JsonKey(name: 'taskList')
   final TaskList taskList;
 
   /// The <code>workflowId</code> of the child workflow execution.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   /// The type of the child workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// Data attached to the event that can be used by the decider in subsequent
   /// decision tasks. This data isn't sent to the activity.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   /// The maximum duration for the child workflow execution. If the workflow
   /// execution isn't closed within this duration, it is timed out and
@@ -8884,20 +11092,16 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'executionStartToCloseTimeout')
-  final String executionStartToCloseTimeout;
+  final String? executionStartToCloseTimeout;
 
   /// The inputs provided to the child workflow execution.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The IAM role to attach to the child workflow execution.
-  @_s.JsonKey(name: 'lambdaRole')
-  final String lambdaRole;
+  final String? lambdaRole;
 
   /// The list of tags to associated with the child workflow execution.
-  @_s.JsonKey(name: 'tagList')
-  final List<String> tagList;
+  final List<String>? tagList;
 
   /// The priority assigned for the decision tasks for this workflow execution.
   /// Valid values are integers that range from Java's
@@ -8908,23 +11112,21 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   /// The maximum duration allowed for the decision tasks for this workflow
   /// execution.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'taskStartToCloseTimeout')
-  final String taskStartToCloseTimeout;
+  final String? taskStartToCloseTimeout;
 
   StartChildWorkflowExecutionInitiatedEventAttributes({
-    @_s.required this.childPolicy,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.taskList,
-    @_s.required this.workflowId,
-    @_s.required this.workflowType,
+    required this.childPolicy,
+    required this.decisionTaskCompletedEventId,
+    required this.taskList,
+    required this.workflowId,
+    required this.workflowType,
     this.control,
     this.executionStartToCloseTimeout,
     this.input,
@@ -8933,23 +11135,88 @@ class StartChildWorkflowExecutionInitiatedEventAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
+
   factory StartChildWorkflowExecutionInitiatedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartChildWorkflowExecutionInitiatedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return StartChildWorkflowExecutionInitiatedEventAttributes(
+      childPolicy: (json['childPolicy'] as String).toChildPolicy(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      workflowId: json['workflowId'] as String,
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      control: json['control'] as String?,
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String?,
+      input: json['input'] as String?,
+      lambdaRole: json['lambdaRole'] as String?,
+      tagList: (json['tagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      taskPriority: json['taskPriority'] as String?,
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final taskList = this.taskList;
+    final workflowId = this.workflowId;
+    final workflowType = this.workflowType;
+    final control = this.control;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final tagList = this.tagList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    return {
+      'childPolicy': childPolicy.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'taskList': taskList,
+      'workflowId': workflowId,
+      'workflowType': workflowType,
+      if (control != null) 'control': control,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (tagList != null) 'tagList': tagList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+    };
+  }
 }
 
 enum StartLambdaFunctionFailedCause {
-  @_s.JsonValue('ASSUME_ROLE_FAILED')
   assumeRoleFailed,
+}
+
+extension on StartLambdaFunctionFailedCause {
+  String toValue() {
+    switch (this) {
+      case StartLambdaFunctionFailedCause.assumeRoleFailed:
+        return 'ASSUME_ROLE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  StartLambdaFunctionFailedCause toStartLambdaFunctionFailedCause() {
+    switch (this) {
+      case 'ASSUME_ROLE_FAILED':
+        return StartLambdaFunctionFailedCause.assumeRoleFailed;
+    }
+    throw Exception(
+        '$this is not known in enum StartLambdaFunctionFailedCause');
+  }
 }
 
 /// Provides the details of the <code>StartLambdaFunctionFailed</code> event. It
 /// isn't set for other event types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartLambdaFunctionFailedEventAttributes {
   /// The cause of the failure. To help diagnose issues, use this information to
   /// trace back the chain of events leading up to this event.
@@ -8960,27 +11227,41 @@ class StartLambdaFunctionFailedEventAttributes {
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">Lambda
   /// Tasks</a> in the <i>Amazon SWF Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
-  final StartLambdaFunctionFailedCause cause;
+  final StartLambdaFunctionFailedCause? cause;
 
   /// A description that can help diagnose the cause of the fault.
-  @_s.JsonKey(name: 'message')
-  final String message;
+  final String? message;
 
   /// The ID of the <code>ActivityTaskScheduled</code> event that was recorded
   /// when this activity task was scheduled. To help diagnose issues, use this
   /// information to trace back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'scheduledEventId')
-  final int scheduledEventId;
+  final int? scheduledEventId;
 
   StartLambdaFunctionFailedEventAttributes({
     this.cause,
     this.message,
     this.scheduledEventId,
   });
+
   factory StartLambdaFunctionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$StartLambdaFunctionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return StartLambdaFunctionFailedEventAttributes(
+      cause: (json['cause'] as String?)?.toStartLambdaFunctionFailedCause(),
+      message: json['message'] as String?,
+      scheduledEventId: json['scheduledEventId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final message = this.message;
+    final scheduledEventId = this.scheduledEventId;
+    return {
+      if (cause != null) 'cause': cause.toValue(),
+      if (message != null) 'message': message,
+      if (scheduledEventId != null) 'scheduledEventId': scheduledEventId,
+    };
+  }
 }
 
 /// Provides the details of the <code>StartTimer</code> decision.
@@ -9011,17 +11292,11 @@ class StartLambdaFunctionFailedEventAttributes {
 /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html">Using
 /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
 /// Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartTimerDecisionAttributes {
   /// The duration to wait before firing the timer.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>.
-  @_s.JsonKey(name: 'startToFireTimeout')
   final String startToFireTimeout;
 
   /// The unique ID of the timer.
@@ -9031,39 +11306,77 @@ class StartTimerDecisionAttributes {
   /// (vertical bar), or any control characters (<code>\u0000-\u001f</code> |
   /// <code>\u007f-\u009f</code>). Also, it must not contain the literal string
   /// <code>arn</code>.
-  @_s.JsonKey(name: 'timerId')
   final String timerId;
 
   /// The data attached to the event that can be used by the decider in subsequent
   /// workflow tasks.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   StartTimerDecisionAttributes({
-    @_s.required this.startToFireTimeout,
-    @_s.required this.timerId,
+    required this.startToFireTimeout,
+    required this.timerId,
     this.control,
   });
-  Map<String, dynamic> toJson() => _$StartTimerDecisionAttributesToJson(this);
+
+  factory StartTimerDecisionAttributes.fromJson(Map<String, dynamic> json) {
+    return StartTimerDecisionAttributes(
+      startToFireTimeout: json['startToFireTimeout'] as String,
+      timerId: json['timerId'] as String,
+      control: json['control'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startToFireTimeout = this.startToFireTimeout;
+    final timerId = this.timerId;
+    final control = this.control;
+    return {
+      'startToFireTimeout': startToFireTimeout,
+      'timerId': timerId,
+      if (control != null) 'control': control,
+    };
+  }
 }
 
 enum StartTimerFailedCause {
-  @_s.JsonValue('TIMER_ID_ALREADY_IN_USE')
   timerIdAlreadyInUse,
-  @_s.JsonValue('OPEN_TIMERS_LIMIT_EXCEEDED')
   openTimersLimitExceeded,
-  @_s.JsonValue('TIMER_CREATION_RATE_EXCEEDED')
   timerCreationRateExceeded,
-  @_s.JsonValue('OPERATION_NOT_PERMITTED')
   operationNotPermitted,
 }
 
+extension on StartTimerFailedCause {
+  String toValue() {
+    switch (this) {
+      case StartTimerFailedCause.timerIdAlreadyInUse:
+        return 'TIMER_ID_ALREADY_IN_USE';
+      case StartTimerFailedCause.openTimersLimitExceeded:
+        return 'OPEN_TIMERS_LIMIT_EXCEEDED';
+      case StartTimerFailedCause.timerCreationRateExceeded:
+        return 'TIMER_CREATION_RATE_EXCEEDED';
+      case StartTimerFailedCause.operationNotPermitted:
+        return 'OPERATION_NOT_PERMITTED';
+    }
+  }
+}
+
+extension on String {
+  StartTimerFailedCause toStartTimerFailedCause() {
+    switch (this) {
+      case 'TIMER_ID_ALREADY_IN_USE':
+        return StartTimerFailedCause.timerIdAlreadyInUse;
+      case 'OPEN_TIMERS_LIMIT_EXCEEDED':
+        return StartTimerFailedCause.openTimersLimitExceeded;
+      case 'TIMER_CREATION_RATE_EXCEEDED':
+        return StartTimerFailedCause.timerCreationRateExceeded;
+      case 'OPERATION_NOT_PERMITTED':
+        return StartTimerFailedCause.operationNotPermitted;
+    }
+    throw Exception('$this is not known in enum StartTimerFailedCause');
+  }
+}
+
 /// Provides the details of the <code>StartTimerFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartTimerFailedEventAttributes {
   /// The cause of the failure. This information is generated by the system and
   /// can be useful for diagnostic purposes.
@@ -9075,212 +11388,281 @@ class StartTimerFailedEventAttributes {
   /// IAM to Manage Access to Amazon SWF Workflows</a> in the <i>Amazon SWF
   /// Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'cause')
   final StartTimerFailedCause cause;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>StartTimer</code> decision for this
   /// activity task. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The timerId provided in the <code>StartTimer</code> decision that failed.
-  @_s.JsonKey(name: 'timerId')
   final String timerId;
 
   StartTimerFailedEventAttributes({
-    @_s.required this.cause,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.timerId,
+    required this.cause,
+    required this.decisionTaskCompletedEventId,
+    required this.timerId,
   });
-  factory StartTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) =>
-      _$StartTimerFailedEventAttributesFromJson(json);
+
+  factory StartTimerFailedEventAttributes.fromJson(Map<String, dynamic> json) {
+    return StartTimerFailedEventAttributes(
+      cause: (json['cause'] as String).toStartTimerFailedCause(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      timerId: json['timerId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final timerId = this.timerId;
+    return {
+      'cause': cause.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'timerId': timerId,
+    };
+  }
 }
 
 /// Used to filter the workflow executions in visibility APIs based on a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TagFilter {
   /// Specifies the tag that must be associated with the execution for it to meet
   /// the filter criteria.
   ///
   /// Tags may only contain unicode letters, digits, whitespace, or these symbols:
   /// <code>_ . : / = + - @</code>.
-  @_s.JsonKey(name: 'tag')
   final String tag;
 
   TagFilter({
-    @_s.required this.tag,
+    required this.tag,
   });
-  Map<String, dynamic> toJson() => _$TagFilterToJson(this);
+
+  factory TagFilter.fromJson(Map<String, dynamic> json) {
+    return TagFilter(
+      tag: json['tag'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tag = this.tag;
+    return {
+      'tag': tag,
+    };
+  }
 }
 
 /// Represents a task list.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class TaskList {
   /// The name of the task list.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   TaskList({
-    @_s.required this.name,
+    required this.name,
   });
-  factory TaskList.fromJson(Map<String, dynamic> json) =>
-      _$TaskListFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TaskListToJson(this);
+  factory TaskList.fromJson(Map<String, dynamic> json) {
+    return TaskList(
+      name: json['name'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      'name': name,
+    };
+  }
 }
 
 /// Provides the details of the <code>TimerCanceled</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimerCanceledEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>CancelTimer</code> decision to
   /// cancel this timer. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The ID of the <code>TimerStarted</code> event that was recorded when this
   /// timer was started. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The unique ID of the timer that was canceled.
-  @_s.JsonKey(name: 'timerId')
   final String timerId;
 
   TimerCanceledEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.startedEventId,
-    @_s.required this.timerId,
+    required this.decisionTaskCompletedEventId,
+    required this.startedEventId,
+    required this.timerId,
   });
-  factory TimerCanceledEventAttributes.fromJson(Map<String, dynamic> json) =>
-      _$TimerCanceledEventAttributesFromJson(json);
+
+  factory TimerCanceledEventAttributes.fromJson(Map<String, dynamic> json) {
+    return TimerCanceledEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      startedEventId: json['startedEventId'] as int,
+      timerId: json['timerId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final startedEventId = this.startedEventId;
+    final timerId = this.timerId;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'startedEventId': startedEventId,
+      'timerId': timerId,
+    };
+  }
 }
 
 /// Provides the details of the <code>TimerFired</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimerFiredEventAttributes {
   /// The ID of the <code>TimerStarted</code> event that was recorded when this
   /// timer was started. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'startedEventId')
   final int startedEventId;
 
   /// The unique ID of the timer that fired.
-  @_s.JsonKey(name: 'timerId')
   final String timerId;
 
   TimerFiredEventAttributes({
-    @_s.required this.startedEventId,
-    @_s.required this.timerId,
+    required this.startedEventId,
+    required this.timerId,
   });
-  factory TimerFiredEventAttributes.fromJson(Map<String, dynamic> json) =>
-      _$TimerFiredEventAttributesFromJson(json);
+
+  factory TimerFiredEventAttributes.fromJson(Map<String, dynamic> json) {
+    return TimerFiredEventAttributes(
+      startedEventId: json['startedEventId'] as int,
+      timerId: json['timerId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final startedEventId = this.startedEventId;
+    final timerId = this.timerId;
+    return {
+      'startedEventId': startedEventId,
+      'timerId': timerId,
+    };
+  }
 }
 
 /// Provides the details of the <code>TimerStarted</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TimerStartedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>StartTimer</code> decision for this
   /// activity task. This information can be useful for diagnosing problems by
   /// tracing back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The duration of time after which the timer fires.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>.
-  @_s.JsonKey(name: 'startToFireTimeout')
   final String startToFireTimeout;
 
   /// The unique ID of the timer that was started.
-  @_s.JsonKey(name: 'timerId')
   final String timerId;
 
   /// Data attached to the event that can be used by the decider in subsequent
   /// workflow tasks.
-  @_s.JsonKey(name: 'control')
-  final String control;
+  final String? control;
 
   TimerStartedEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.startToFireTimeout,
-    @_s.required this.timerId,
+    required this.decisionTaskCompletedEventId,
+    required this.startToFireTimeout,
+    required this.timerId,
     this.control,
   });
-  factory TimerStartedEventAttributes.fromJson(Map<String, dynamic> json) =>
-      _$TimerStartedEventAttributesFromJson(json);
+
+  factory TimerStartedEventAttributes.fromJson(Map<String, dynamic> json) {
+    return TimerStartedEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      startToFireTimeout: json['startToFireTimeout'] as String,
+      timerId: json['timerId'] as String,
+      control: json['control'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final startToFireTimeout = this.startToFireTimeout;
+    final timerId = this.timerId;
+    final control = this.control;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'startToFireTimeout': startToFireTimeout,
+      'timerId': timerId,
+      if (control != null) 'control': control,
+    };
+  }
 }
 
 /// Represents a workflow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WorkflowExecution {
   /// A system-generated unique identifier for the workflow execution.
-  @_s.JsonKey(name: 'runId')
   final String runId;
 
   /// The user defined identifier associated with the workflow execution.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   WorkflowExecution({
-    @_s.required this.runId,
-    @_s.required this.workflowId,
+    required this.runId,
+    required this.workflowId,
   });
-  factory WorkflowExecution.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowExecutionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WorkflowExecutionToJson(this);
+  factory WorkflowExecution.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecution(
+      runId: json['runId'] as String,
+      workflowId: json['workflowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final runId = this.runId;
+    final workflowId = this.workflowId;
+    return {
+      'runId': runId,
+      'workflowId': workflowId,
+    };
+  }
 }
 
 enum WorkflowExecutionCancelRequestedCause {
-  @_s.JsonValue('CHILD_POLICY_APPLIED')
   childPolicyApplied,
+}
+
+extension on WorkflowExecutionCancelRequestedCause {
+  String toValue() {
+    switch (this) {
+      case WorkflowExecutionCancelRequestedCause.childPolicyApplied:
+        return 'CHILD_POLICY_APPLIED';
+    }
+  }
+}
+
+extension on String {
+  WorkflowExecutionCancelRequestedCause
+      toWorkflowExecutionCancelRequestedCause() {
+    switch (this) {
+      case 'CHILD_POLICY_APPLIED':
+        return WorkflowExecutionCancelRequestedCause.childPolicyApplied;
+    }
+    throw Exception(
+        '$this is not known in enum WorkflowExecutionCancelRequestedCause');
+  }
 }
 
 /// Provides the details of the <code>WorkflowExecutionCancelRequested</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionCancelRequestedEventAttributes {
   /// If set, indicates that the request to cancel the workflow execution was
   /// automatically generated, and specifies the cause. This happens if the parent
   /// workflow execution times out or is terminated, and the child policy is set
   /// to cancel child executions.
-  @_s.JsonKey(name: 'cause')
-  final WorkflowExecutionCancelRequestedCause cause;
+  final WorkflowExecutionCancelRequestedCause? cause;
 
   /// The ID of the <code>RequestCancelExternalWorkflowExecutionInitiated</code>
   /// event corresponding to the
@@ -9289,88 +11671,118 @@ class WorkflowExecutionCancelRequestedEventAttributes {
   /// of the source workflow execution. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'externalInitiatedEventId')
-  final int externalInitiatedEventId;
+  final int? externalInitiatedEventId;
 
   /// The external workflow execution for which the cancellation was requested.
-  @_s.JsonKey(name: 'externalWorkflowExecution')
-  final WorkflowExecution externalWorkflowExecution;
+  final WorkflowExecution? externalWorkflowExecution;
 
   WorkflowExecutionCancelRequestedEventAttributes({
     this.cause,
     this.externalInitiatedEventId,
     this.externalWorkflowExecution,
   });
+
   factory WorkflowExecutionCancelRequestedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionCancelRequestedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionCancelRequestedEventAttributes(
+      cause:
+          (json['cause'] as String?)?.toWorkflowExecutionCancelRequestedCause(),
+      externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
+      externalWorkflowExecution: json['externalWorkflowExecution'] != null
+          ? WorkflowExecution.fromJson(
+              json['externalWorkflowExecution'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cause = this.cause;
+    final externalInitiatedEventId = this.externalInitiatedEventId;
+    final externalWorkflowExecution = this.externalWorkflowExecution;
+    return {
+      if (cause != null) 'cause': cause.toValue(),
+      if (externalInitiatedEventId != null)
+        'externalInitiatedEventId': externalInitiatedEventId,
+      if (externalWorkflowExecution != null)
+        'externalWorkflowExecution': externalWorkflowExecution,
+    };
+  }
 }
 
 /// Provides the details of the <code>WorkflowExecutionCanceled</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionCanceledEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>CancelWorkflowExecution</code>
   /// decision for this cancellation request. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The details of the cancellation.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   WorkflowExecutionCanceledEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.decisionTaskCompletedEventId,
     this.details,
   });
+
   factory WorkflowExecutionCanceledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionCanceledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionCanceledEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      details: json['details'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final details = this.details;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      if (details != null) 'details': details,
+    };
+  }
 }
 
 /// Provides the details of the <code>WorkflowExecutionCompleted</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionCompletedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>CompleteWorkflowExecution</code>
   /// decision to complete this execution. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The result produced by the workflow execution upon successful completion.
-  @_s.JsonKey(name: 'result')
-  final String result;
+  final String? result;
 
   WorkflowExecutionCompletedEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.decisionTaskCompletedEventId,
     this.result,
   });
+
   factory WorkflowExecutionCompletedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionCompletedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionCompletedEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      result: json['result'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final result = this.result;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      if (result != null) 'result': result,
+    };
+  }
 }
 
 /// The configuration settings for a workflow execution including timeout
 /// values, tasklist etc. These configuration settings are determined from the
 /// defaults specified when registering the workflow type and those specified
 /// when starting the workflow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionConfiguration {
   /// The policy to use for the child workflow executions if this workflow
   /// execution is terminated, by calling the <a>TerminateWorkflowExecution</a>
@@ -9393,31 +11805,26 @@ class WorkflowExecutionConfiguration {
   /// run.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'childPolicy')
   final ChildPolicy childPolicy;
 
   /// The total duration for this workflow execution.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'executionStartToCloseTimeout')
   final String executionStartToCloseTimeout;
 
   /// The task list used for the decision tasks generated for this workflow
   /// execution.
-  @_s.JsonKey(name: 'taskList')
   final TaskList taskList;
 
   /// The maximum duration allowed for decision tasks for this workflow execution.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'taskStartToCloseTimeout')
   final String taskStartToCloseTimeout;
 
   /// The IAM role attached to the child workflow execution.
-  @_s.JsonKey(name: 'lambdaRole')
-  final String lambdaRole;
+  final String? lambdaRole;
 
   /// The priority assigned to decision tasks for this workflow execution. Valid
   /// values are integers that range from Java's <code>Integer.MIN_VALUE</code>
@@ -9427,28 +11834,49 @@ class WorkflowExecutionConfiguration {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   WorkflowExecutionConfiguration({
-    @_s.required this.childPolicy,
-    @_s.required this.executionStartToCloseTimeout,
-    @_s.required this.taskList,
-    @_s.required this.taskStartToCloseTimeout,
+    required this.childPolicy,
+    required this.executionStartToCloseTimeout,
+    required this.taskList,
+    required this.taskStartToCloseTimeout,
     this.lambdaRole,
     this.taskPriority,
   });
-  factory WorkflowExecutionConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowExecutionConfigurationFromJson(json);
+
+  factory WorkflowExecutionConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionConfiguration(
+      childPolicy: (json['childPolicy'] as String).toChildPolicy(),
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String,
+      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String,
+      lambdaRole: json['lambdaRole'] as String?,
+      taskPriority: json['taskPriority'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final taskList = this.taskList;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    final lambdaRole = this.lambdaRole;
+    final taskPriority = this.taskPriority;
+    return {
+      'childPolicy': childPolicy.toValue(),
+      'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      'taskList': taskList,
+      'taskStartToCloseTimeout': taskStartToCloseTimeout,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+    };
+  }
 }
 
 /// Provides the details of the <code>WorkflowExecutionContinuedAsNew</code>
 /// event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionContinuedAsNewEventAttributes {
   /// The policy to use for the child workflow executions of the new execution if
   /// it is terminated by calling the <a>TerminateWorkflowExecution</a> action
@@ -9471,7 +11899,6 @@ class WorkflowExecutionContinuedAsNewEventAttributes {
   /// run.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'childPolicy')
   final ChildPolicy childPolicy;
 
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
@@ -9479,59 +11906,49 @@ class WorkflowExecutionContinuedAsNewEventAttributes {
   /// <code>ContinueAsNewWorkflowExecution</code> decision that started this
   /// execution. This information can be useful for diagnosing problems by tracing
   /// back the chain of events leading up to this event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The <code>runId</code> of the new workflow execution.
-  @_s.JsonKey(name: 'newExecutionRunId')
   final String newExecutionRunId;
 
   /// The task list to use for the decisions of the new (continued) workflow
   /// execution.
-  @_s.JsonKey(name: 'taskList')
   final TaskList taskList;
 
   /// The workflow type of this execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// The total duration allowed for the new workflow execution.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'executionStartToCloseTimeout')
-  final String executionStartToCloseTimeout;
+  final String? executionStartToCloseTimeout;
 
   /// The input provided to the new workflow execution.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The IAM role to attach to the new (continued) workflow execution.
-  @_s.JsonKey(name: 'lambdaRole')
-  final String lambdaRole;
+  final String? lambdaRole;
 
   /// The list of tags associated with the new workflow execution.
-  @_s.JsonKey(name: 'tagList')
-  final List<String> tagList;
+  final List<String>? tagList;
 
   /// The priority of the task to use for the decisions of the new (continued)
   /// workflow execution.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   /// The maximum duration of decision tasks for the new workflow execution.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'taskStartToCloseTimeout')
-  final String taskStartToCloseTimeout;
+  final String? taskStartToCloseTimeout;
 
   WorkflowExecutionContinuedAsNewEventAttributes({
-    @_s.required this.childPolicy,
-    @_s.required this.decisionTaskCompletedEventId,
-    @_s.required this.newExecutionRunId,
-    @_s.required this.taskList,
-    @_s.required this.workflowType,
+    required this.childPolicy,
+    required this.decisionTaskCompletedEventId,
+    required this.newExecutionRunId,
+    required this.taskList,
+    required this.workflowType,
     this.executionStartToCloseTimeout,
     this.input,
     this.lambdaRole,
@@ -9539,160 +11956,238 @@ class WorkflowExecutionContinuedAsNewEventAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
+
   factory WorkflowExecutionContinuedAsNewEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionContinuedAsNewEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionContinuedAsNewEventAttributes(
+      childPolicy: (json['childPolicy'] as String).toChildPolicy(),
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      newExecutionRunId: json['newExecutionRunId'] as String,
+      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String?,
+      input: json['input'] as String?,
+      lambdaRole: json['lambdaRole'] as String?,
+      tagList: (json['tagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      taskPriority: json['taskPriority'] as String?,
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final newExecutionRunId = this.newExecutionRunId;
+    final taskList = this.taskList;
+    final workflowType = this.workflowType;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final tagList = this.tagList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    return {
+      'childPolicy': childPolicy.toValue(),
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      'newExecutionRunId': newExecutionRunId,
+      'taskList': taskList,
+      'workflowType': workflowType,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (tagList != null) 'tagList': tagList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+    };
+  }
 }
 
 /// Contains the count of workflow executions returned from
 /// <a>CountOpenWorkflowExecutions</a> or <a>CountClosedWorkflowExecutions</a>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionCount {
   /// The number of workflow executions.
-  @_s.JsonKey(name: 'count')
   final int count;
 
   /// If set to true, indicates that the actual count was more than the maximum
   /// supported by this API and the count returned is the truncated value.
-  @_s.JsonKey(name: 'truncated')
-  final bool truncated;
+  final bool? truncated;
 
   WorkflowExecutionCount({
-    @_s.required this.count,
+    required this.count,
     this.truncated,
   });
-  factory WorkflowExecutionCount.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowExecutionCountFromJson(json);
+
+  factory WorkflowExecutionCount.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionCount(
+      count: json['count'] as int,
+      truncated: json['truncated'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final truncated = this.truncated;
+    return {
+      'count': count,
+      if (truncated != null) 'truncated': truncated,
+    };
+  }
 }
 
 /// Contains details about a workflow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionDetail {
   /// The configuration settings for this workflow execution including timeout
   /// values, tasklist etc.
-  @_s.JsonKey(name: 'executionConfiguration')
   final WorkflowExecutionConfiguration executionConfiguration;
 
   /// Information about the workflow execution.
-  @_s.JsonKey(name: 'executionInfo')
   final WorkflowExecutionInfo executionInfo;
 
   /// The number of tasks for this workflow execution. This includes open and
   /// closed tasks of all types.
-  @_s.JsonKey(name: 'openCounts')
   final WorkflowExecutionOpenCounts openCounts;
 
   /// The time when the last activity task was scheduled for this workflow
   /// execution. You can use this information to determine if the workflow has not
   /// made progress for an unusually long period of time and might require a
   /// corrective action.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'latestActivityTaskTimestamp')
-  final DateTime latestActivityTaskTimestamp;
+  final DateTime? latestActivityTaskTimestamp;
 
   /// The latest executionContext provided by the decider for this workflow
   /// execution. A decider can provide an executionContext (a free-form string)
   /// when closing a decision task using <a>RespondDecisionTaskCompleted</a>.
-  @_s.JsonKey(name: 'latestExecutionContext')
-  final String latestExecutionContext;
+  final String? latestExecutionContext;
 
   WorkflowExecutionDetail({
-    @_s.required this.executionConfiguration,
-    @_s.required this.executionInfo,
-    @_s.required this.openCounts,
+    required this.executionConfiguration,
+    required this.executionInfo,
+    required this.openCounts,
     this.latestActivityTaskTimestamp,
     this.latestExecutionContext,
   });
-  factory WorkflowExecutionDetail.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowExecutionDetailFromJson(json);
+
+  factory WorkflowExecutionDetail.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionDetail(
+      executionConfiguration: WorkflowExecutionConfiguration.fromJson(
+          json['executionConfiguration'] as Map<String, dynamic>),
+      executionInfo: WorkflowExecutionInfo.fromJson(
+          json['executionInfo'] as Map<String, dynamic>),
+      openCounts: WorkflowExecutionOpenCounts.fromJson(
+          json['openCounts'] as Map<String, dynamic>),
+      latestActivityTaskTimestamp:
+          timeStampFromJson(json['latestActivityTaskTimestamp']),
+      latestExecutionContext: json['latestExecutionContext'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionConfiguration = this.executionConfiguration;
+    final executionInfo = this.executionInfo;
+    final openCounts = this.openCounts;
+    final latestActivityTaskTimestamp = this.latestActivityTaskTimestamp;
+    final latestExecutionContext = this.latestExecutionContext;
+    return {
+      'executionConfiguration': executionConfiguration,
+      'executionInfo': executionInfo,
+      'openCounts': openCounts,
+      if (latestActivityTaskTimestamp != null)
+        'latestActivityTaskTimestamp':
+            unixTimestampToJson(latestActivityTaskTimestamp),
+      if (latestExecutionContext != null)
+        'latestExecutionContext': latestExecutionContext,
+    };
+  }
 }
 
 /// Provides the details of the <code>WorkflowExecutionFailed</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionFailedEventAttributes {
   /// The ID of the <code>DecisionTaskCompleted</code> event corresponding to the
   /// decision task that resulted in the <code>FailWorkflowExecution</code>
   /// decision to fail this execution. This information can be useful for
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event.
-  @_s.JsonKey(name: 'decisionTaskCompletedEventId')
   final int decisionTaskCompletedEventId;
 
   /// The details of the failure.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// The descriptive reason provided for the failure.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   WorkflowExecutionFailedEventAttributes({
-    @_s.required this.decisionTaskCompletedEventId,
+    required this.decisionTaskCompletedEventId,
     this.details,
     this.reason,
   });
+
   factory WorkflowExecutionFailedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionFailedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionFailedEventAttributes(
+      decisionTaskCompletedEventId: json['decisionTaskCompletedEventId'] as int,
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final decisionTaskCompletedEventId = this.decisionTaskCompletedEventId;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'decisionTaskCompletedEventId': decisionTaskCompletedEventId,
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
 }
 
 /// Used to filter the workflow executions in visibility APIs by their
 /// <code>workflowId</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class WorkflowExecutionFilter {
   /// The workflowId to pass of match the criteria of this filter.
-  @_s.JsonKey(name: 'workflowId')
   final String workflowId;
 
   WorkflowExecutionFilter({
-    @_s.required this.workflowId,
+    required this.workflowId,
   });
-  Map<String, dynamic> toJson() => _$WorkflowExecutionFilterToJson(this);
+
+  factory WorkflowExecutionFilter.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionFilter(
+      workflowId: json['workflowId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workflowId = this.workflowId;
+    return {
+      'workflowId': workflowId,
+    };
+  }
 }
 
 /// Contains information about a workflow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionInfo {
   /// The workflow execution this information is about.
-  @_s.JsonKey(name: 'execution')
   final WorkflowExecution execution;
 
   /// The current status of the execution.
-  @_s.JsonKey(name: 'executionStatus')
   final ExecutionStatus executionStatus;
 
   /// The time when the execution was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'startTimestamp')
   final DateTime startTimestamp;
 
   /// The type of the workflow execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// Set to true if a cancellation is requested for this workflow execution.
-  @_s.JsonKey(name: 'cancelRequested')
-  final bool cancelRequested;
+  final bool? cancelRequested;
 
   /// If the execution status is closed then this specifies how the execution was
   /// closed:
@@ -9721,50 +12216,83 @@ class WorkflowExecutionInfo {
   /// carry on the workflow.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'closeStatus')
-  final CloseStatus closeStatus;
+  final CloseStatus? closeStatus;
 
   /// The time when the workflow execution was closed. Set only if the execution
   /// status is CLOSED.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'closeTimestamp')
-  final DateTime closeTimestamp;
+  final DateTime? closeTimestamp;
 
   /// If this workflow execution is a child of another execution then contains the
   /// workflow execution that started this execution.
-  @_s.JsonKey(name: 'parent')
-  final WorkflowExecution parent;
+  final WorkflowExecution? parent;
 
   /// The list of tags associated with the workflow execution. Tags can be used to
   /// identify and list workflow executions of interest through the visibility
   /// APIs. A workflow execution can have a maximum of 5 tags.
-  @_s.JsonKey(name: 'tagList')
-  final List<String> tagList;
+  final List<String>? tagList;
 
   WorkflowExecutionInfo({
-    @_s.required this.execution,
-    @_s.required this.executionStatus,
-    @_s.required this.startTimestamp,
-    @_s.required this.workflowType,
+    required this.execution,
+    required this.executionStatus,
+    required this.startTimestamp,
+    required this.workflowType,
     this.cancelRequested,
     this.closeStatus,
     this.closeTimestamp,
     this.parent,
     this.tagList,
   });
-  factory WorkflowExecutionInfo.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowExecutionInfoFromJson(json);
+
+  factory WorkflowExecutionInfo.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionInfo(
+      execution:
+          WorkflowExecution.fromJson(json['execution'] as Map<String, dynamic>),
+      executionStatus: (json['executionStatus'] as String).toExecutionStatus(),
+      startTimestamp:
+          nonNullableTimeStampFromJson(json['startTimestamp'] as Object),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      cancelRequested: json['cancelRequested'] as bool?,
+      closeStatus: (json['closeStatus'] as String?)?.toCloseStatus(),
+      closeTimestamp: timeStampFromJson(json['closeTimestamp']),
+      parent: json['parent'] != null
+          ? WorkflowExecution.fromJson(json['parent'] as Map<String, dynamic>)
+          : null,
+      tagList: (json['tagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final execution = this.execution;
+    final executionStatus = this.executionStatus;
+    final startTimestamp = this.startTimestamp;
+    final workflowType = this.workflowType;
+    final cancelRequested = this.cancelRequested;
+    final closeStatus = this.closeStatus;
+    final closeTimestamp = this.closeTimestamp;
+    final parent = this.parent;
+    final tagList = this.tagList;
+    return {
+      'execution': execution,
+      'executionStatus': executionStatus.toValue(),
+      'startTimestamp': unixTimestampToJson(startTimestamp),
+      'workflowType': workflowType,
+      if (cancelRequested != null) 'cancelRequested': cancelRequested,
+      if (closeStatus != null) 'closeStatus': closeStatus.toValue(),
+      if (closeTimestamp != null)
+        'closeTimestamp': unixTimestampToJson(closeTimestamp),
+      if (parent != null) 'parent': parent,
+      if (tagList != null) 'tagList': tagList,
+    };
+  }
 }
 
 /// Contains a paginated list of information about workflow executions.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionInfos {
   /// The list of workflow information structures.
-  @_s.JsonKey(name: 'executionInfos')
   final List<WorkflowExecutionInfo> executionInfos;
 
   /// If a <code>NextPageToken</code> was returned by a previous call, there are
@@ -9774,68 +12302,92 @@ class WorkflowExecutionInfos {
   ///
   /// The configured <code>maximumPageSize</code> determines how many results can
   /// be returned in a single call.
-  @_s.JsonKey(name: 'nextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   WorkflowExecutionInfos({
-    @_s.required this.executionInfos,
+    required this.executionInfos,
     this.nextPageToken,
   });
-  factory WorkflowExecutionInfos.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowExecutionInfosFromJson(json);
+
+  factory WorkflowExecutionInfos.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionInfos(
+      executionInfos: (json['executionInfos'] as List)
+          .whereNotNull()
+          .map((e) => WorkflowExecutionInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final executionInfos = this.executionInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'executionInfos': executionInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
 }
 
 /// Contains the counts of open tasks, child workflow executions and timers for
 /// a workflow execution.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionOpenCounts {
   /// The count of activity tasks whose status is <code>OPEN</code>.
-  @_s.JsonKey(name: 'openActivityTasks')
   final int openActivityTasks;
 
   /// The count of child workflow executions whose status is <code>OPEN</code>.
-  @_s.JsonKey(name: 'openChildWorkflowExecutions')
   final int openChildWorkflowExecutions;
 
   /// The count of decision tasks whose status is OPEN. A workflow execution can
   /// have at most one open decision task.
-  @_s.JsonKey(name: 'openDecisionTasks')
   final int openDecisionTasks;
 
   /// The count of timers started by this workflow execution that have not fired
   /// yet.
-  @_s.JsonKey(name: 'openTimers')
   final int openTimers;
 
   /// The count of Lambda tasks whose status is <code>OPEN</code>.
-  @_s.JsonKey(name: 'openLambdaFunctions')
-  final int openLambdaFunctions;
+  final int? openLambdaFunctions;
 
   WorkflowExecutionOpenCounts({
-    @_s.required this.openActivityTasks,
-    @_s.required this.openChildWorkflowExecutions,
-    @_s.required this.openDecisionTasks,
-    @_s.required this.openTimers,
+    required this.openActivityTasks,
+    required this.openChildWorkflowExecutions,
+    required this.openDecisionTasks,
+    required this.openTimers,
     this.openLambdaFunctions,
   });
-  factory WorkflowExecutionOpenCounts.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowExecutionOpenCountsFromJson(json);
+
+  factory WorkflowExecutionOpenCounts.fromJson(Map<String, dynamic> json) {
+    return WorkflowExecutionOpenCounts(
+      openActivityTasks: json['openActivityTasks'] as int,
+      openChildWorkflowExecutions: json['openChildWorkflowExecutions'] as int,
+      openDecisionTasks: json['openDecisionTasks'] as int,
+      openTimers: json['openTimers'] as int,
+      openLambdaFunctions: json['openLambdaFunctions'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final openActivityTasks = this.openActivityTasks;
+    final openChildWorkflowExecutions = this.openChildWorkflowExecutions;
+    final openDecisionTasks = this.openDecisionTasks;
+    final openTimers = this.openTimers;
+    final openLambdaFunctions = this.openLambdaFunctions;
+    return {
+      'openActivityTasks': openActivityTasks,
+      'openChildWorkflowExecutions': openChildWorkflowExecutions,
+      'openDecisionTasks': openDecisionTasks,
+      'openTimers': openTimers,
+      if (openLambdaFunctions != null)
+        'openLambdaFunctions': openLambdaFunctions,
+    };
+  }
 }
 
 /// Provides the details of the <code>WorkflowExecutionSignaled</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionSignaledEventAttributes {
   /// The name of the signal received. The decider can use the signal name and
   /// inputs to determine how to the process the signal.
-  @_s.JsonKey(name: 'signalName')
   final String signalName;
 
   /// The ID of the <code>SignalExternalWorkflowExecutionInitiated</code> event
@@ -9845,36 +12397,53 @@ class WorkflowExecutionSignaledEventAttributes {
   /// diagnosing problems by tracing back the chain of events leading up to this
   /// event. This field is set only if the signal was initiated by another
   /// workflow execution.
-  @_s.JsonKey(name: 'externalInitiatedEventId')
-  final int externalInitiatedEventId;
+  final int? externalInitiatedEventId;
 
   /// The workflow execution that sent the signal. This is set only of the signal
   /// was sent by another workflow execution.
-  @_s.JsonKey(name: 'externalWorkflowExecution')
-  final WorkflowExecution externalWorkflowExecution;
+  final WorkflowExecution? externalWorkflowExecution;
 
   /// The inputs provided with the signal. The decider can use the signal name and
   /// inputs to determine how to process the signal.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   WorkflowExecutionSignaledEventAttributes({
-    @_s.required this.signalName,
+    required this.signalName,
     this.externalInitiatedEventId,
     this.externalWorkflowExecution,
     this.input,
   });
+
   factory WorkflowExecutionSignaledEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionSignaledEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionSignaledEventAttributes(
+      signalName: json['signalName'] as String,
+      externalInitiatedEventId: json['externalInitiatedEventId'] as int?,
+      externalWorkflowExecution: json['externalWorkflowExecution'] != null
+          ? WorkflowExecution.fromJson(
+              json['externalWorkflowExecution'] as Map<String, dynamic>)
+          : null,
+      input: json['input'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final signalName = this.signalName;
+    final externalInitiatedEventId = this.externalInitiatedEventId;
+    final externalWorkflowExecution = this.externalWorkflowExecution;
+    final input = this.input;
+    return {
+      'signalName': signalName,
+      if (externalInitiatedEventId != null)
+        'externalInitiatedEventId': externalInitiatedEventId,
+      if (externalWorkflowExecution != null)
+        'externalWorkflowExecution': externalWorkflowExecution,
+      if (input != null) 'input': input,
+    };
+  }
 }
 
 /// Provides details of <code>WorkflowExecutionStarted</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionStartedEventAttributes {
   /// The policy to use for the child workflow executions if this workflow
   /// execution is terminated, by calling the <a>TerminateWorkflowExecution</a>
@@ -9897,39 +12466,32 @@ class WorkflowExecutionStartedEventAttributes {
   /// run.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'childPolicy')
   final ChildPolicy childPolicy;
 
   /// The name of the task list for scheduling the decision tasks for this
   /// workflow execution.
-  @_s.JsonKey(name: 'taskList')
   final TaskList taskList;
 
   /// The workflow type of this execution.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// If this workflow execution was started due to a
   /// <code>ContinueAsNewWorkflowExecution</code> decision, then it contains the
   /// <code>runId</code> of the previous workflow execution that was closed and
   /// continued as this execution.
-  @_s.JsonKey(name: 'continuedExecutionRunId')
-  final String continuedExecutionRunId;
+  final String? continuedExecutionRunId;
 
   /// The maximum duration for this workflow execution.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'executionStartToCloseTimeout')
-  final String executionStartToCloseTimeout;
+  final String? executionStartToCloseTimeout;
 
   /// The input provided to the workflow execution.
-  @_s.JsonKey(name: 'input')
-  final String input;
+  final String? input;
 
   /// The IAM role attached to the workflow execution.
-  @_s.JsonKey(name: 'lambdaRole')
-  final String lambdaRole;
+  final String? lambdaRole;
 
   /// The ID of the <code>StartChildWorkflowExecutionInitiated</code> event
   /// corresponding to the <code>StartChildWorkflowExecution</code>
@@ -9937,34 +12499,29 @@ class WorkflowExecutionStartedEventAttributes {
   /// ID can be found in the history of the source workflow execution. This
   /// information can be useful for diagnosing problems by tracing back the chain
   /// of events leading up to this event.
-  @_s.JsonKey(name: 'parentInitiatedEventId')
-  final int parentInitiatedEventId;
+  final int? parentInitiatedEventId;
 
   /// The source workflow execution that started this workflow execution. The
   /// member isn't set if the workflow execution was not started by a workflow.
-  @_s.JsonKey(name: 'parentWorkflowExecution')
-  final WorkflowExecution parentWorkflowExecution;
+  final WorkflowExecution? parentWorkflowExecution;
 
   /// The list of tags associated with this workflow execution. An execution can
   /// have up to 5 tags.
-  @_s.JsonKey(name: 'tagList')
-  final List<String> tagList;
+  final List<String>? tagList;
 
   /// The priority of the decision tasks in the workflow execution.
-  @_s.JsonKey(name: 'taskPriority')
-  final String taskPriority;
+  final String? taskPriority;
 
   /// The maximum duration of decision tasks for this workflow type.
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'taskStartToCloseTimeout')
-  final String taskStartToCloseTimeout;
+  final String? taskStartToCloseTimeout;
 
   WorkflowExecutionStartedEventAttributes({
-    @_s.required this.childPolicy,
-    @_s.required this.taskList,
-    @_s.required this.workflowType,
+    required this.childPolicy,
+    required this.taskList,
+    required this.workflowType,
     this.continuedExecutionRunId,
     this.executionStartToCloseTimeout,
     this.input,
@@ -9975,26 +12532,103 @@ class WorkflowExecutionStartedEventAttributes {
     this.taskPriority,
     this.taskStartToCloseTimeout,
   });
+
   factory WorkflowExecutionStartedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionStartedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionStartedEventAttributes(
+      childPolicy: (json['childPolicy'] as String).toChildPolicy(),
+      taskList: TaskList.fromJson(json['taskList'] as Map<String, dynamic>),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      continuedExecutionRunId: json['continuedExecutionRunId'] as String?,
+      executionStartToCloseTimeout:
+          json['executionStartToCloseTimeout'] as String?,
+      input: json['input'] as String?,
+      lambdaRole: json['lambdaRole'] as String?,
+      parentInitiatedEventId: json['parentInitiatedEventId'] as int?,
+      parentWorkflowExecution: json['parentWorkflowExecution'] != null
+          ? WorkflowExecution.fromJson(
+              json['parentWorkflowExecution'] as Map<String, dynamic>)
+          : null,
+      tagList: (json['tagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      taskPriority: json['taskPriority'] as String?,
+      taskStartToCloseTimeout: json['taskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final taskList = this.taskList;
+    final workflowType = this.workflowType;
+    final continuedExecutionRunId = this.continuedExecutionRunId;
+    final executionStartToCloseTimeout = this.executionStartToCloseTimeout;
+    final input = this.input;
+    final lambdaRole = this.lambdaRole;
+    final parentInitiatedEventId = this.parentInitiatedEventId;
+    final parentWorkflowExecution = this.parentWorkflowExecution;
+    final tagList = this.tagList;
+    final taskPriority = this.taskPriority;
+    final taskStartToCloseTimeout = this.taskStartToCloseTimeout;
+    return {
+      'childPolicy': childPolicy.toValue(),
+      'taskList': taskList,
+      'workflowType': workflowType,
+      if (continuedExecutionRunId != null)
+        'continuedExecutionRunId': continuedExecutionRunId,
+      if (executionStartToCloseTimeout != null)
+        'executionStartToCloseTimeout': executionStartToCloseTimeout,
+      if (input != null) 'input': input,
+      if (lambdaRole != null) 'lambdaRole': lambdaRole,
+      if (parentInitiatedEventId != null)
+        'parentInitiatedEventId': parentInitiatedEventId,
+      if (parentWorkflowExecution != null)
+        'parentWorkflowExecution': parentWorkflowExecution,
+      if (tagList != null) 'tagList': tagList,
+      if (taskPriority != null) 'taskPriority': taskPriority,
+      if (taskStartToCloseTimeout != null)
+        'taskStartToCloseTimeout': taskStartToCloseTimeout,
+    };
+  }
 }
 
 enum WorkflowExecutionTerminatedCause {
-  @_s.JsonValue('CHILD_POLICY_APPLIED')
   childPolicyApplied,
-  @_s.JsonValue('EVENT_LIMIT_EXCEEDED')
   eventLimitExceeded,
-  @_s.JsonValue('OPERATOR_INITIATED')
   operatorInitiated,
 }
 
+extension on WorkflowExecutionTerminatedCause {
+  String toValue() {
+    switch (this) {
+      case WorkflowExecutionTerminatedCause.childPolicyApplied:
+        return 'CHILD_POLICY_APPLIED';
+      case WorkflowExecutionTerminatedCause.eventLimitExceeded:
+        return 'EVENT_LIMIT_EXCEEDED';
+      case WorkflowExecutionTerminatedCause.operatorInitiated:
+        return 'OPERATOR_INITIATED';
+    }
+  }
+}
+
+extension on String {
+  WorkflowExecutionTerminatedCause toWorkflowExecutionTerminatedCause() {
+    switch (this) {
+      case 'CHILD_POLICY_APPLIED':
+        return WorkflowExecutionTerminatedCause.childPolicyApplied;
+      case 'EVENT_LIMIT_EXCEEDED':
+        return WorkflowExecutionTerminatedCause.eventLimitExceeded;
+      case 'OPERATOR_INITIATED':
+        return WorkflowExecutionTerminatedCause.operatorInitiated;
+    }
+    throw Exception(
+        '$this is not known in enum WorkflowExecutionTerminatedCause');
+  }
+}
+
 /// Provides the details of the <code>WorkflowExecutionTerminated</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionTerminatedEventAttributes {
   /// The policy used for the child workflow executions of this workflow
   /// execution.
@@ -10016,41 +12650,52 @@ class WorkflowExecutionTerminatedEventAttributes {
   /// run.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'childPolicy')
   final ChildPolicy childPolicy;
 
   /// If set, indicates that the workflow execution was automatically terminated,
   /// and specifies the cause. This happens if the parent workflow execution times
   /// out or is terminated and the child policy is set to terminate child
   /// executions.
-  @_s.JsonKey(name: 'cause')
-  final WorkflowExecutionTerminatedCause cause;
+  final WorkflowExecutionTerminatedCause? cause;
 
   /// The details provided for the termination.
-  @_s.JsonKey(name: 'details')
-  final String details;
+  final String? details;
 
   /// The reason provided for the termination.
-  @_s.JsonKey(name: 'reason')
-  final String reason;
+  final String? reason;
 
   WorkflowExecutionTerminatedEventAttributes({
-    @_s.required this.childPolicy,
+    required this.childPolicy,
     this.cause,
     this.details,
     this.reason,
   });
+
   factory WorkflowExecutionTerminatedEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionTerminatedEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionTerminatedEventAttributes(
+      childPolicy: (json['childPolicy'] as String).toChildPolicy(),
+      cause: (json['cause'] as String?)?.toWorkflowExecutionTerminatedCause(),
+      details: json['details'] as String?,
+      reason: json['reason'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final cause = this.cause;
+    final details = this.details;
+    final reason = this.reason;
+    return {
+      'childPolicy': childPolicy.toValue(),
+      if (cause != null) 'cause': cause.toValue(),
+      if (details != null) 'details': details,
+      if (reason != null) 'reason': reason,
+    };
+  }
 }
 
 /// Provides the details of the <code>WorkflowExecutionTimedOut</code> event.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowExecutionTimedOutEventAttributes {
   /// The policy used for the child workflow executions of this workflow
   /// execution.
@@ -10072,40 +12717,65 @@ class WorkflowExecutionTimedOutEventAttributes {
   /// run.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'childPolicy')
   final ChildPolicy childPolicy;
 
   /// The type of timeout that caused this event.
-  @_s.JsonKey(name: 'timeoutType')
   final WorkflowExecutionTimeoutType timeoutType;
 
   WorkflowExecutionTimedOutEventAttributes({
-    @_s.required this.childPolicy,
-    @_s.required this.timeoutType,
+    required this.childPolicy,
+    required this.timeoutType,
   });
+
   factory WorkflowExecutionTimedOutEventAttributes.fromJson(
-          Map<String, dynamic> json) =>
-      _$WorkflowExecutionTimedOutEventAttributesFromJson(json);
+      Map<String, dynamic> json) {
+    return WorkflowExecutionTimedOutEventAttributes(
+      childPolicy: (json['childPolicy'] as String).toChildPolicy(),
+      timeoutType:
+          (json['timeoutType'] as String).toWorkflowExecutionTimeoutType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final childPolicy = this.childPolicy;
+    final timeoutType = this.timeoutType;
+    return {
+      'childPolicy': childPolicy.toValue(),
+      'timeoutType': timeoutType.toValue(),
+    };
+  }
 }
 
 enum WorkflowExecutionTimeoutType {
-  @_s.JsonValue('START_TO_CLOSE')
   startToClose,
 }
 
+extension on WorkflowExecutionTimeoutType {
+  String toValue() {
+    switch (this) {
+      case WorkflowExecutionTimeoutType.startToClose:
+        return 'START_TO_CLOSE';
+    }
+  }
+}
+
+extension on String {
+  WorkflowExecutionTimeoutType toWorkflowExecutionTimeoutType() {
+    switch (this) {
+      case 'START_TO_CLOSE':
+        return WorkflowExecutionTimeoutType.startToClose;
+    }
+    throw Exception('$this is not known in enum WorkflowExecutionTimeoutType');
+  }
+}
+
 /// Represents a workflow type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WorkflowType {
   /// The name of the workflow type.
   /// <note>
   /// The combination of workflow type name and version must be unique with in a
   /// domain.
   /// </note>
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The version of the workflow type.
@@ -10113,25 +12783,31 @@ class WorkflowType {
   /// The combination of workflow type name and version must be unique with in a
   /// domain.
   /// </note>
-  @_s.JsonKey(name: 'version')
   final String version;
 
   WorkflowType({
-    @_s.required this.name,
-    @_s.required this.version,
+    required this.name,
+    required this.version,
   });
-  factory WorkflowType.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WorkflowTypeToJson(this);
+  factory WorkflowType.fromJson(Map<String, dynamic> json) {
+    return WorkflowType(
+      name: json['name'] as String,
+      version: json['version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      'name': name,
+      'version': version,
+    };
+  }
 }
 
 /// The configuration settings of a workflow type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowTypeConfiguration {
   /// The default policy to use for the child workflow executions when a workflow
   /// execution of this type is terminated, by calling the
@@ -10157,8 +12833,7 @@ class WorkflowTypeConfiguration {
   /// run.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'defaultChildPolicy')
-  final ChildPolicy defaultChildPolicy;
+  final ChildPolicy? defaultChildPolicy;
 
   /// The default maximum duration, specified when registering the workflow type,
   /// for executions of this workflow type. This default can be overridden when
@@ -10167,8 +12842,7 @@ class WorkflowTypeConfiguration {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'defaultExecutionStartToCloseTimeout')
-  final String defaultExecutionStartToCloseTimeout;
+  final String? defaultExecutionStartToCloseTimeout;
 
   /// The default IAM role attached to this workflow type.
   /// <note>
@@ -10179,16 +12853,14 @@ class WorkflowTypeConfiguration {
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html">https://docs.aws.amazon.com/amazonswf/latest/developerguide/lambda-task.html</a>
   /// in the <i>Amazon SWF Developer Guide</i>.
   /// </note>
-  @_s.JsonKey(name: 'defaultLambdaRole')
-  final String defaultLambdaRole;
+  final String? defaultLambdaRole;
 
   /// The default task list, specified when registering the workflow type, for
   /// decisions tasks scheduled for workflow executions of this type. This default
   /// can be overridden when starting a workflow execution using the
   /// <a>StartWorkflowExecution</a> action or the
   /// <code>StartChildWorkflowExecution</code> <a>Decision</a>.
-  @_s.JsonKey(name: 'defaultTaskList')
-  final TaskList defaultTaskList;
+  final TaskList? defaultTaskList;
 
   /// The default task priority, specified when registering the workflow type, for
   /// all decision tasks of this workflow type. This default can be overridden
@@ -10203,8 +12875,7 @@ class WorkflowTypeConfiguration {
   /// For more information about setting task priority, see <a
   /// href="https://docs.aws.amazon.com/amazonswf/latest/developerguide/programming-priority.html">Setting
   /// Task Priority</a> in the <i>Amazon SWF Developer Guide</i>.
-  @_s.JsonKey(name: 'defaultTaskPriority')
-  final String defaultTaskPriority;
+  final String? defaultTaskPriority;
 
   /// The default maximum duration, specified when registering the workflow type,
   /// that a decision task for executions of this workflow type might take before
@@ -10217,8 +12888,7 @@ class WorkflowTypeConfiguration {
   ///
   /// The duration is specified in seconds, an integer greater than or equal to
   /// <code>0</code>. You can use <code>NONE</code> to specify unlimited duration.
-  @_s.JsonKey(name: 'defaultTaskStartToCloseTimeout')
-  final String defaultTaskStartToCloseTimeout;
+  final String? defaultTaskStartToCloseTimeout;
 
   WorkflowTypeConfiguration({
     this.defaultChildPolicy,
@@ -10228,20 +12898,51 @@ class WorkflowTypeConfiguration {
     this.defaultTaskPriority,
     this.defaultTaskStartToCloseTimeout,
   });
-  factory WorkflowTypeConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowTypeConfigurationFromJson(json);
+
+  factory WorkflowTypeConfiguration.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeConfiguration(
+      defaultChildPolicy:
+          (json['defaultChildPolicy'] as String?)?.toChildPolicy(),
+      defaultExecutionStartToCloseTimeout:
+          json['defaultExecutionStartToCloseTimeout'] as String?,
+      defaultLambdaRole: json['defaultLambdaRole'] as String?,
+      defaultTaskList: json['defaultTaskList'] != null
+          ? TaskList.fromJson(json['defaultTaskList'] as Map<String, dynamic>)
+          : null,
+      defaultTaskPriority: json['defaultTaskPriority'] as String?,
+      defaultTaskStartToCloseTimeout:
+          json['defaultTaskStartToCloseTimeout'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final defaultChildPolicy = this.defaultChildPolicy;
+    final defaultExecutionStartToCloseTimeout =
+        this.defaultExecutionStartToCloseTimeout;
+    final defaultLambdaRole = this.defaultLambdaRole;
+    final defaultTaskList = this.defaultTaskList;
+    final defaultTaskPriority = this.defaultTaskPriority;
+    final defaultTaskStartToCloseTimeout = this.defaultTaskStartToCloseTimeout;
+    return {
+      if (defaultChildPolicy != null)
+        'defaultChildPolicy': defaultChildPolicy.toValue(),
+      if (defaultExecutionStartToCloseTimeout != null)
+        'defaultExecutionStartToCloseTimeout':
+            defaultExecutionStartToCloseTimeout,
+      if (defaultLambdaRole != null) 'defaultLambdaRole': defaultLambdaRole,
+      if (defaultTaskList != null) 'defaultTaskList': defaultTaskList,
+      if (defaultTaskPriority != null)
+        'defaultTaskPriority': defaultTaskPriority,
+      if (defaultTaskStartToCloseTimeout != null)
+        'defaultTaskStartToCloseTimeout': defaultTaskStartToCloseTimeout,
+    };
+  }
 }
 
 /// Contains details about a workflow type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowTypeDetail {
   /// Configuration settings of the workflow type registered through
   /// <a>RegisterWorkflowType</a>
-  @_s.JsonKey(name: 'configuration')
   final WorkflowTypeConfiguration configuration;
 
   /// General information about the workflow type.
@@ -10261,90 +12962,121 @@ class WorkflowTypeDetail {
   /// this type.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'typeInfo')
   final WorkflowTypeInfo typeInfo;
 
   WorkflowTypeDetail({
-    @_s.required this.configuration,
-    @_s.required this.typeInfo,
+    required this.configuration,
+    required this.typeInfo,
   });
-  factory WorkflowTypeDetail.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowTypeDetailFromJson(json);
+
+  factory WorkflowTypeDetail.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeDetail(
+      configuration: WorkflowTypeConfiguration.fromJson(
+          json['configuration'] as Map<String, dynamic>),
+      typeInfo:
+          WorkflowTypeInfo.fromJson(json['typeInfo'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configuration = this.configuration;
+    final typeInfo = this.typeInfo;
+    return {
+      'configuration': configuration,
+      'typeInfo': typeInfo,
+    };
+  }
 }
 
 /// Used to filter workflow execution query results by type. Each parameter, if
 /// specified, defines a rule that must be satisfied by each returned result.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class WorkflowTypeFilter {
   /// Name of the workflow type.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// Version of the workflow type.
-  @_s.JsonKey(name: 'version')
-  final String version;
+  final String? version;
 
   WorkflowTypeFilter({
-    @_s.required this.name,
+    required this.name,
     this.version,
   });
-  Map<String, dynamic> toJson() => _$WorkflowTypeFilterToJson(this);
+
+  factory WorkflowTypeFilter.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeFilter(
+      name: json['name'] as String,
+      version: json['version'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final version = this.version;
+    return {
+      'name': name,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// Contains information about a workflow type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowTypeInfo {
   /// The date when this type was registered.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The current status of the workflow type.
-  @_s.JsonKey(name: 'status')
   final RegistrationStatus status;
 
   /// The workflow type this information is about.
-  @_s.JsonKey(name: 'workflowType')
   final WorkflowType workflowType;
 
   /// If the type is in deprecated state, then it is set to the date when the type
   /// was deprecated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'deprecationDate')
-  final DateTime deprecationDate;
+  final DateTime? deprecationDate;
 
   /// The description of the type registered through <a>RegisterWorkflowType</a>.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   WorkflowTypeInfo({
-    @_s.required this.creationDate,
-    @_s.required this.status,
-    @_s.required this.workflowType,
+    required this.creationDate,
+    required this.status,
+    required this.workflowType,
     this.deprecationDate,
     this.description,
   });
-  factory WorkflowTypeInfo.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowTypeInfoFromJson(json);
+
+  factory WorkflowTypeInfo.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeInfo(
+      creationDate:
+          nonNullableTimeStampFromJson(json['creationDate'] as Object),
+      status: (json['status'] as String).toRegistrationStatus(),
+      workflowType:
+          WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
+      deprecationDate: timeStampFromJson(json['deprecationDate']),
+      description: json['description'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final status = this.status;
+    final workflowType = this.workflowType;
+    final deprecationDate = this.deprecationDate;
+    final description = this.description;
+    return {
+      'creationDate': unixTimestampToJson(creationDate),
+      'status': status.toValue(),
+      'workflowType': workflowType,
+      if (deprecationDate != null)
+        'deprecationDate': unixTimestampToJson(deprecationDate),
+      if (description != null) 'description': description,
+    };
+  }
 }
 
 /// Contains a paginated list of information structures about workflow types.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkflowTypeInfos {
   /// The list of workflow type information.
-  @_s.JsonKey(name: 'typeInfos')
   final List<WorkflowTypeInfo> typeInfos;
 
   /// If a <code>NextPageToken</code> was returned by a previous call, there are
@@ -10354,64 +13086,80 @@ class WorkflowTypeInfos {
   ///
   /// The configured <code>maximumPageSize</code> determines how many results can
   /// be returned in a single call.
-  @_s.JsonKey(name: 'nextPageToken')
-  final String nextPageToken;
+  final String? nextPageToken;
 
   WorkflowTypeInfos({
-    @_s.required this.typeInfos,
+    required this.typeInfos,
     this.nextPageToken,
   });
-  factory WorkflowTypeInfos.fromJson(Map<String, dynamic> json) =>
-      _$WorkflowTypeInfosFromJson(json);
+
+  factory WorkflowTypeInfos.fromJson(Map<String, dynamic> json) {
+    return WorkflowTypeInfos(
+      typeInfos: (json['typeInfos'] as List)
+          .whereNotNull()
+          .map((e) => WorkflowTypeInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextPageToken: json['nextPageToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typeInfos = this.typeInfos;
+    final nextPageToken = this.nextPageToken;
+    return {
+      'typeInfos': typeInfos,
+      if (nextPageToken != null) 'nextPageToken': nextPageToken,
+    };
+  }
 }
 
 class DefaultUndefinedFault extends _s.GenericAwsException {
-  DefaultUndefinedFault({String type, String message})
+  DefaultUndefinedFault({String? type, String? message})
       : super(type: type, code: 'DefaultUndefinedFault', message: message);
 }
 
 class DomainAlreadyExistsFault extends _s.GenericAwsException {
-  DomainAlreadyExistsFault({String type, String message})
+  DomainAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'DomainAlreadyExistsFault', message: message);
 }
 
 class DomainDeprecatedFault extends _s.GenericAwsException {
-  DomainDeprecatedFault({String type, String message})
+  DomainDeprecatedFault({String? type, String? message})
       : super(type: type, code: 'DomainDeprecatedFault', message: message);
 }
 
 class LimitExceededFault extends _s.GenericAwsException {
-  LimitExceededFault({String type, String message})
+  LimitExceededFault({String? type, String? message})
       : super(type: type, code: 'LimitExceededFault', message: message);
 }
 
 class OperationNotPermittedFault extends _s.GenericAwsException {
-  OperationNotPermittedFault({String type, String message})
+  OperationNotPermittedFault({String? type, String? message})
       : super(type: type, code: 'OperationNotPermittedFault', message: message);
 }
 
 class TooManyTagsFault extends _s.GenericAwsException {
-  TooManyTagsFault({String type, String message})
+  TooManyTagsFault({String? type, String? message})
       : super(type: type, code: 'TooManyTagsFault', message: message);
 }
 
 class TypeAlreadyExistsFault extends _s.GenericAwsException {
-  TypeAlreadyExistsFault({String type, String message})
+  TypeAlreadyExistsFault({String? type, String? message})
       : super(type: type, code: 'TypeAlreadyExistsFault', message: message);
 }
 
 class TypeDeprecatedFault extends _s.GenericAwsException {
-  TypeDeprecatedFault({String type, String message})
+  TypeDeprecatedFault({String? type, String? message})
       : super(type: type, code: 'TypeDeprecatedFault', message: message);
 }
 
 class UnknownResourceFault extends _s.GenericAwsException {
-  UnknownResourceFault({String type, String message})
+  UnknownResourceFault({String? type, String? message})
       : super(type: type, code: 'UnknownResourceFault', message: message);
 }
 
 class WorkflowExecutionAlreadyStartedFault extends _s.GenericAwsException {
-  WorkflowExecutionAlreadyStartedFault({String type, String message})
+  WorkflowExecutionAlreadyStartedFault({String? type, String? message})
       : super(
             type: type,
             code: 'WorkflowExecutionAlreadyStartedFault',

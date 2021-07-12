@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2018-05-23.g.dart';
 
 /// Amazon Kinesis Data Analytics is a fully managed service that you can use to
 /// process and analyze streaming data using Java, SQL, or Scala. The service
@@ -34,10 +27,10 @@ part '2018-05-23.g.dart';
 class KinesisAnalyticsV2 {
   final _s.JsonProtocol _protocol;
   KinesisAnalyticsV2({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -65,14 +58,27 @@ class KinesisAnalyticsV2 {
   /// Parameter [cloudWatchLoggingOption] :
   /// Provides the Amazon CloudWatch log stream Amazon Resource Name (ARN).
   ///
+  /// Parameter [conditionalToken] :
+  /// A value you use to implement strong concurrency for application updates.
+  /// You must provide the <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>. You get the application's current
+  /// <code>ConditionalToken</code> using <a>DescribeApplication</a>. For better
+  /// concurrency support, use the <code>ConditionalToken</code> parameter
+  /// instead of <code>CurrentApplicationVersionId</code>.
+  ///
   /// Parameter [currentApplicationVersionId] :
-  /// The version ID of the Kinesis Data Analytics application. You can retrieve
-  /// the application version ID using <a>DescribeApplication</a>.
+  /// The version ID of the Kinesis Data Analytics application. You must provide
+  /// the <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>.You can retrieve the application version ID
+  /// using <a>DescribeApplication</a>. For better concurrency support, use the
+  /// <code>ConditionalToken</code> parameter instead of
+  /// <code>CurrentApplicationVersionId</code>.
   Future<AddApplicationCloudWatchLoggingOptionResponse>
       addApplicationCloudWatchLoggingOption({
-    @_s.required String applicationName,
-    @_s.required CloudWatchLoggingOption cloudWatchLoggingOption,
-    @_s.required int currentApplicationVersionId,
+    required String applicationName,
+    required CloudWatchLoggingOption cloudWatchLoggingOption,
+    String? conditionalToken,
+    int? currentApplicationVersionId,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -82,22 +88,19 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         cloudWatchLoggingOption, 'cloudWatchLoggingOption');
-    ArgumentError.checkNotNull(
-        currentApplicationVersionId, 'currentApplicationVersionId');
+    _s.validateStringLength(
+      'conditionalToken',
+      conditionalToken,
+      1,
+      512,
+    );
     _s.validateNumRange(
       'currentApplicationVersionId',
       currentApplicationVersionId,
       1,
       999999999,
-      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -113,7 +116,9 @@ class KinesisAnalyticsV2 {
       payload: {
         'ApplicationName': applicationName,
         'CloudWatchLoggingOption': cloudWatchLoggingOption,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
+        if (conditionalToken != null) 'ConditionalToken': conditionalToken,
+        if (currentApplicationVersionId != null)
+          'CurrentApplicationVersionId': currentApplicationVersionId,
       },
     );
 
@@ -145,16 +150,17 @@ class KinesisAnalyticsV2 {
   /// streaming source.
   ///
   /// Parameter [currentApplicationVersionId] :
-  /// The current version of your application. You can use the
-  /// <a>DescribeApplication</a> operation to find the current application
-  /// version.
+  /// The current version of your application. You must provide the
+  /// <code>ApplicationVersionID</code> or the <code>ConditionalToken</code>.You
+  /// can use the <a>DescribeApplication</a> operation to find the current
+  /// application version.
   ///
   /// Parameter [input] :
   /// The <a>Input</a> to add.
   Future<AddApplicationInputResponse> addApplicationInput({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required Input input,
+    required String applicationName,
+    required int currentApplicationVersionId,
+    required Input input,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -162,12 +168,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -232,10 +232,10 @@ class KinesisAnalyticsV2 {
   /// The <a>InputProcessingConfiguration</a> to add to the application.
   Future<AddApplicationInputProcessingConfigurationResponse>
       addApplicationInputProcessingConfiguration({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required String inputId,
-    @_s.required InputProcessingConfiguration inputProcessingConfiguration,
+    required String applicationName,
+    required int currentApplicationVersionId,
+    required String inputId,
+    required InputProcessingConfiguration inputProcessingConfiguration,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -243,12 +243,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -266,12 +260,6 @@ class KinesisAnalyticsV2 {
       inputId,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'inputId',
-      inputId,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -343,9 +331,9 @@ class KinesisAnalyticsV2 {
   /// delivery stream, or an AWS Lambda function), and record the formation to
   /// use when writing to the destination.
   Future<AddApplicationOutputResponse> addApplicationOutput({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required Output output,
+    required String applicationName,
+    required int currentApplicationVersionId,
+    required Output output,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -353,12 +341,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -423,9 +405,9 @@ class KinesisAnalyticsV2 {
   /// name, and the resulting in-application table that is created.
   Future<AddApplicationReferenceDataSourceResponse>
       addApplicationReferenceDataSource({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required ReferenceDataSource referenceDataSource,
+    required String applicationName,
+    required int currentApplicationVersionId,
+    required ReferenceDataSource referenceDataSource,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -433,12 +415,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -500,20 +476,33 @@ class KinesisAnalyticsV2 {
   /// Parameter [applicationName] :
   /// The name of an existing application.
   ///
-  /// Parameter [currentApplicationVersionId] :
-  /// The version of the application to which you want to add the VPC
-  /// configuration. You can use the <a>DescribeApplication</a> operation to get
-  /// the current application version. If the version specified is not the
-  /// current version, the <code>ConcurrentModificationException</code> is
-  /// returned.
-  ///
   /// Parameter [vpcConfiguration] :
   /// Description of the VPC to add to the application.
+  ///
+  /// Parameter [conditionalToken] :
+  /// A value you use to implement strong concurrency for application updates.
+  /// You must provide the <code>ApplicationVersionID</code> or the
+  /// <code>ConditionalToken</code>. You get the application's current
+  /// <code>ConditionalToken</code> using <a>DescribeApplication</a>. For better
+  /// concurrency support, use the <code>ConditionalToken</code> parameter
+  /// instead of <code>CurrentApplicationVersionId</code>.
+  ///
+  /// Parameter [currentApplicationVersionId] :
+  /// The version of the application to which you want to add the VPC
+  /// configuration. You must provide the
+  /// <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>. You can use the <a>DescribeApplication</a>
+  /// operation to get the current application version. If the version specified
+  /// is not the current version, the
+  /// <code>ConcurrentModificationException</code> is returned. For better
+  /// concurrency support, use the <code>ConditionalToken</code> parameter
+  /// instead of <code>CurrentApplicationVersionId</code>.
   Future<AddApplicationVpcConfigurationResponse>
       addApplicationVpcConfiguration({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required VpcConfiguration vpcConfiguration,
+    required String applicationName,
+    required VpcConfiguration vpcConfiguration,
+    String? conditionalToken,
+    int? currentApplicationVersionId,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -523,22 +512,19 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
+    ArgumentError.checkNotNull(vpcConfiguration, 'vpcConfiguration');
+    _s.validateStringLength(
+      'conditionalToken',
+      conditionalToken,
+      1,
+      512,
     );
-    ArgumentError.checkNotNull(
-        currentApplicationVersionId, 'currentApplicationVersionId');
     _s.validateNumRange(
       'currentApplicationVersionId',
       currentApplicationVersionId,
       1,
       999999999,
-      isRequired: true,
     );
-    ArgumentError.checkNotNull(vpcConfiguration, 'vpcConfiguration');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.AddApplicationVpcConfiguration'
@@ -551,8 +537,10 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
         'VpcConfiguration': vpcConfiguration,
+        if (conditionalToken != null) 'ConditionalToken': conditionalToken,
+        if (currentApplicationVersionId != null)
+          'CurrentApplicationVersionId': currentApplicationVersionId,
       },
     );
 
@@ -576,8 +564,9 @@ class KinesisAnalyticsV2 {
   /// The name of your application (for example, <code>sample-app</code>).
   ///
   /// Parameter [runtimeEnvironment] :
-  /// The runtime environment for the application (<code>SQL-1.0</code>,
-  /// <code>FLINK-1_6</code>, or <code>FLINK-1_8</code>).
+  /// The runtime environment for the application (<code>SQL-1_0</code>,
+  /// <code>FLINK-1_6</code>, <code>FLINK-1_8</code>, or
+  /// <code>FLINK-1_11</code>).
   ///
   /// Parameter [serviceExecutionRole] :
   /// The IAM role used by the application to access Kinesis data streams,
@@ -589,6 +578,11 @@ class KinesisAnalyticsV2 {
   ///
   /// Parameter [applicationDescription] :
   /// A summary description of the application.
+  ///
+  /// Parameter [applicationMode] :
+  /// Use the <code>STREAMING</code> mode to create a Kinesis Data Analytics
+  /// Studio notebook. To create a Kinesis Data Analytics Studio notebook, use
+  /// the <code>INTERACTIVE</code> mode.
   ///
   /// Parameter [cloudWatchLoggingOptions] :
   /// Use this parameter to configure an Amazon CloudWatch log stream to monitor
@@ -602,13 +596,14 @@ class KinesisAnalyticsV2 {
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html">Using
   /// Tagging</a>.
   Future<CreateApplicationResponse> createApplication({
-    @_s.required String applicationName,
-    @_s.required RuntimeEnvironment runtimeEnvironment,
-    @_s.required String serviceExecutionRole,
-    ApplicationConfiguration applicationConfiguration,
-    String applicationDescription,
-    List<CloudWatchLoggingOption> cloudWatchLoggingOptions,
-    List<Tag> tags,
+    required String applicationName,
+    required RuntimeEnvironment runtimeEnvironment,
+    required String serviceExecutionRole,
+    ApplicationConfiguration? applicationConfiguration,
+    String? applicationDescription,
+    ApplicationMode? applicationMode,
+    List<CloudWatchLoggingOption>? cloudWatchLoggingOptions,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -618,12 +613,6 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(runtimeEnvironment, 'runtimeEnvironment');
     ArgumentError.checkNotNull(serviceExecutionRole, 'serviceExecutionRole');
     _s.validateStringLength(
@@ -631,12 +620,6 @@ class KinesisAnalyticsV2 {
       serviceExecutionRole,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'serviceExecutionRole',
-      serviceExecutionRole,
-      r'''arn:.*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -657,12 +640,14 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'RuntimeEnvironment': runtimeEnvironment?.toValue() ?? '',
+        'RuntimeEnvironment': runtimeEnvironment.toValue(),
         'ServiceExecutionRole': serviceExecutionRole,
         if (applicationConfiguration != null)
           'ApplicationConfiguration': applicationConfiguration,
         if (applicationDescription != null)
           'ApplicationDescription': applicationDescription,
+        if (applicationMode != null)
+          'ApplicationMode': applicationMode.toValue(),
         if (cloudWatchLoggingOptions != null)
           'CloudWatchLoggingOptions': cloudWatchLoggingOptions,
         if (tags != null) 'Tags': tags,
@@ -677,10 +662,14 @@ class KinesisAnalyticsV2 {
   /// dashboard.
   ///
   /// The IAM role or user used to call this API defines the permissions to
-  /// access the extension. Once the presigned URL is created, no additional
+  /// access the extension. After the presigned URL is created, no additional
   /// permission is required to access this URL. IAM authorization policies for
   /// this API are also enforced for every HTTP request that attempts to connect
   /// to the extension.
+  ///
+  /// You control the amount of time that the URL will be valid using the
+  /// <code>SessionExpirationDurationInSeconds</code> parameter. If you do not
+  /// provide this parameter, the returned URL is valid for twelve hours.
   /// <note>
   /// The URL that you get from a call to CreateApplicationPresignedUrl must be
   /// used within 3 minutes to be valid. If you first try to use the URL after
@@ -702,9 +691,9 @@ class KinesisAnalyticsV2 {
   /// Parameter [sessionExpirationDurationInSeconds] :
   /// The duration in seconds for which the returned URL will be valid.
   Future<CreateApplicationPresignedUrlResponse> createApplicationPresignedUrl({
-    @_s.required String applicationName,
-    @_s.required UrlType urlType,
-    int sessionExpirationDurationInSeconds,
+    required String applicationName,
+    required UrlType urlType,
+    int? sessionExpirationDurationInSeconds,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -712,12 +701,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(urlType, 'urlType');
@@ -739,7 +722,7 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'UrlType': urlType?.toValue() ?? '',
+        'UrlType': urlType.toValue(),
         if (sessionExpirationDurationInSeconds != null)
           'SessionExpirationDurationInSeconds':
               sessionExpirationDurationInSeconds,
@@ -765,8 +748,8 @@ class KinesisAnalyticsV2 {
   /// Parameter [snapshotName] :
   /// An identifier for the application snapshot.
   Future<void> createApplicationSnapshot({
-    @_s.required String applicationName,
-    @_s.required String snapshotName,
+    required String applicationName,
+    required String snapshotName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -774,12 +757,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(snapshotName, 'snapshotName');
@@ -790,17 +767,11 @@ class KinesisAnalyticsV2 {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'snapshotName',
-      snapshotName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.CreateApplicationSnapshot'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -811,8 +782,6 @@ class KinesisAnalyticsV2 {
         'SnapshotName': snapshotName,
       },
     );
-
-    return CreateApplicationSnapshotResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified application. Kinesis Data Analytics halts
@@ -831,8 +800,8 @@ class KinesisAnalyticsV2 {
   /// Parameter [createTimestamp] :
   /// Use the <code>DescribeApplication</code> operation to get this value.
   Future<void> deleteApplication({
-    @_s.required String applicationName,
-    @_s.required DateTime createTimestamp,
+    required String applicationName,
+    required DateTime createTimestamp,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -842,18 +811,12 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(createTimestamp, 'createTimestamp');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.DeleteApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -864,8 +827,6 @@ class KinesisAnalyticsV2 {
         'CreateTimestamp': unixTimestampToJson(createTimestamp),
       },
     );
-
-    return DeleteApplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics
@@ -887,14 +848,27 @@ class KinesisAnalyticsV2 {
   /// <code>CloudWatchLoggingOptionId</code> by using the
   /// <a>DescribeApplication</a> operation.
   ///
+  /// Parameter [conditionalToken] :
+  /// A value you use to implement strong concurrency for application updates.
+  /// You must provide the <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>. You get the application's current
+  /// <code>ConditionalToken</code> using <a>DescribeApplication</a>. For better
+  /// concurrency support, use the <code>ConditionalToken</code> parameter
+  /// instead of <code>CurrentApplicationVersionId</code>.
+  ///
   /// Parameter [currentApplicationVersionId] :
-  /// The version ID of the application. You can retrieve the application
-  /// version ID using <a>DescribeApplication</a>.
+  /// The version ID of the application. You must provide the
+  /// <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>. You can retrieve the application version ID
+  /// using <a>DescribeApplication</a>. For better concurrency support, use the
+  /// <code>ConditionalToken</code> parameter instead of
+  /// <code>CurrentApplicationVersionId</code>.
   Future<DeleteApplicationCloudWatchLoggingOptionResponse>
       deleteApplicationCloudWatchLoggingOption({
-    @_s.required String applicationName,
-    @_s.required String cloudWatchLoggingOptionId,
-    @_s.required int currentApplicationVersionId,
+    required String applicationName,
+    required String cloudWatchLoggingOptionId,
+    String? conditionalToken,
+    int? currentApplicationVersionId,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -902,12 +876,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -919,20 +887,17 @@ class KinesisAnalyticsV2 {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'cloudWatchLoggingOptionId',
-      cloudWatchLoggingOptionId,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'conditionalToken',
+      conditionalToken,
+      1,
+      512,
     );
-    ArgumentError.checkNotNull(
-        currentApplicationVersionId, 'currentApplicationVersionId');
     _s.validateNumRange(
       'currentApplicationVersionId',
       currentApplicationVersionId,
       1,
       999999999,
-      isRequired: true,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -948,7 +913,9 @@ class KinesisAnalyticsV2 {
       payload: {
         'ApplicationName': applicationName,
         'CloudWatchLoggingOptionId': cloudWatchLoggingOptionId,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
+        if (conditionalToken != null) 'ConditionalToken': conditionalToken,
+        if (currentApplicationVersionId != null)
+          'CurrentApplicationVersionId': currentApplicationVersionId,
       },
     );
 
@@ -979,9 +946,9 @@ class KinesisAnalyticsV2 {
   /// application by using the <a>DescribeApplication</a> operation.
   Future<DeleteApplicationInputProcessingConfigurationResponse>
       deleteApplicationInputProcessingConfiguration({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required String inputId,
+    required String applicationName,
+    required int currentApplicationVersionId,
+    required String inputId,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -989,12 +956,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -1012,12 +973,6 @@ class KinesisAnalyticsV2 {
       inputId,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'inputId',
-      inputId,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1071,9 +1026,9 @@ class KinesisAnalyticsV2 {
   /// <a>DescribeApplication</a> operation to get the specific
   /// <code>OutputId</code>.
   Future<DeleteApplicationOutputResponse> deleteApplicationOutput({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required String outputId,
+    required String applicationName,
+    required int currentApplicationVersionId,
+    required String outputId,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1081,12 +1036,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -1104,12 +1053,6 @@ class KinesisAnalyticsV2 {
       outputId,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'outputId',
-      outputId,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1161,9 +1104,9 @@ class KinesisAnalyticsV2 {
   /// <a>DescribeApplication</a> operation to get the reference ID.
   Future<DeleteApplicationReferenceDataSourceResponse>
       deleteApplicationReferenceDataSource({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required String referenceId,
+    required String applicationName,
+    required int currentApplicationVersionId,
+    required String referenceId,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1171,12 +1114,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -1194,12 +1131,6 @@ class KinesisAnalyticsV2 {
       referenceId,
       1,
       50,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'referenceId',
-      referenceId,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1242,9 +1173,9 @@ class KinesisAnalyticsV2 {
   /// Parameter [snapshotName] :
   /// The identifier for the snapshot delete.
   Future<void> deleteApplicationSnapshot({
-    @_s.required String applicationName,
-    @_s.required DateTime snapshotCreationTimestamp,
-    @_s.required String snapshotName,
+    required String applicationName,
+    required DateTime snapshotCreationTimestamp,
+    required String snapshotName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1252,12 +1183,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -1270,17 +1195,11 @@ class KinesisAnalyticsV2 {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'snapshotName',
-      snapshotName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.DeleteApplicationSnapshot'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1293,8 +1212,6 @@ class KinesisAnalyticsV2 {
         'SnapshotName': snapshotName,
       },
     );
-
-    return DeleteApplicationSnapshotResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes a VPC configuration from a Kinesis Data Analytics application.
@@ -1308,17 +1225,30 @@ class KinesisAnalyticsV2 {
   /// Parameter [applicationName] :
   /// The name of an existing application.
   ///
-  /// Parameter [currentApplicationVersionId] :
-  /// The current application version ID. You can retrieve the application
-  /// version ID using <a>DescribeApplication</a>.
-  ///
   /// Parameter [vpcConfigurationId] :
   /// The ID of the VPC configuration to delete.
+  ///
+  /// Parameter [conditionalToken] :
+  /// A value you use to implement strong concurrency for application updates.
+  /// You must provide the <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>. You get the application's current
+  /// <code>ConditionalToken</code> using <a>DescribeApplication</a>. For better
+  /// concurrency support, use the <code>ConditionalToken</code> parameter
+  /// instead of <code>CurrentApplicationVersionId</code>.
+  ///
+  /// Parameter [currentApplicationVersionId] :
+  /// The current application version ID. You must provide the
+  /// <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>. You can retrieve the application version ID
+  /// using <a>DescribeApplication</a>. For better concurrency support, use the
+  /// <code>ConditionalToken</code> parameter instead of
+  /// <code>CurrentApplicationVersionId</code>.
   Future<DeleteApplicationVpcConfigurationResponse>
       deleteApplicationVpcConfiguration({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    @_s.required String vpcConfigurationId,
+    required String applicationName,
+    required String vpcConfigurationId,
+    String? conditionalToken,
+    int? currentApplicationVersionId,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1326,21 +1256,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(
-        currentApplicationVersionId, 'currentApplicationVersionId');
-    _s.validateNumRange(
-      'currentApplicationVersionId',
-      currentApplicationVersionId,
-      1,
-      999999999,
       isRequired: true,
     );
     ArgumentError.checkNotNull(vpcConfigurationId, 'vpcConfigurationId');
@@ -1351,11 +1266,17 @@ class KinesisAnalyticsV2 {
       50,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'vpcConfigurationId',
-      vpcConfigurationId,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'conditionalToken',
+      conditionalToken,
+      1,
+      512,
+    );
+    _s.validateNumRange(
+      'currentApplicationVersionId',
+      currentApplicationVersionId,
+      1,
+      999999999,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1370,8 +1291,10 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
         'VpcConfigurationId': vpcConfigurationId,
+        if (conditionalToken != null) 'ConditionalToken': conditionalToken,
+        if (currentApplicationVersionId != null)
+          'CurrentApplicationVersionId': currentApplicationVersionId,
       },
     );
 
@@ -1395,8 +1318,8 @@ class KinesisAnalyticsV2 {
   /// Displays verbose information about a Kinesis Data Analytics application,
   /// including the application's job plan.
   Future<DescribeApplicationResponse> describeApplication({
-    @_s.required String applicationName,
-    bool includeAdditionalDetails,
+    required String applicationName,
+    bool? includeAdditionalDetails,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1404,12 +1327,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1445,8 +1362,8 @@ class KinesisAnalyticsV2 {
   /// The identifier of an application snapshot. You can retrieve this value
   /// using .
   Future<DescribeApplicationSnapshotResponse> describeApplicationSnapshot({
-    @_s.required String applicationName,
-    @_s.required String snapshotName,
+    required String applicationName,
+    required String snapshotName,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1456,24 +1373,12 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(snapshotName, 'snapshotName');
     _s.validateStringLength(
       'snapshotName',
       snapshotName,
       1,
       256,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'snapshotName',
-      snapshotName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1493,6 +1398,64 @@ class KinesisAnalyticsV2 {
     );
 
     return DescribeApplicationSnapshotResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Provides a detailed description of a specified version of the application.
+  /// To see a list of all the versions of an application, invoke the
+  /// <a>ListApplicationVersions</a> operation.
+  /// <note>
+  /// This operation is supported only for Amazon Kinesis Data Analytics for
+  /// Apache Flink.
+  /// </note>
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedOperationException].
+  ///
+  /// Parameter [applicationName] :
+  /// The name of the application for which you want to get the version
+  /// description.
+  ///
+  /// Parameter [applicationVersionId] :
+  /// The ID of the application version for which you want to get the
+  /// description.
+  Future<DescribeApplicationVersionResponse> describeApplicationVersion({
+    required String applicationName,
+    required int applicationVersionId,
+  }) async {
+    ArgumentError.checkNotNull(applicationName, 'applicationName');
+    _s.validateStringLength(
+      'applicationName',
+      applicationName,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(applicationVersionId, 'applicationVersionId');
+    _s.validateNumRange(
+      'applicationVersionId',
+      applicationVersionId,
+      1,
+      999999999,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'KinesisAnalytics_20180523.DescribeApplicationVersion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationName': applicationName,
+        'ApplicationVersionId': applicationVersionId,
+      },
+    );
+
+    return DescribeApplicationVersionResponse.fromJson(jsonResponse.body);
   }
 
   /// Infers a schema for a SQL-based Kinesis Data Analytics application by
@@ -1530,11 +1493,11 @@ class KinesisAnalyticsV2 {
   /// Specify this parameter to discover a schema from data in an Amazon S3
   /// object.
   Future<DiscoverInputSchemaResponse> discoverInputSchema({
-    @_s.required String serviceExecutionRole,
-    InputProcessingConfiguration inputProcessingConfiguration,
-    InputStartingPositionConfiguration inputStartingPositionConfiguration,
-    String resourceARN,
-    S3Configuration s3Configuration,
+    required String serviceExecutionRole,
+    InputProcessingConfiguration? inputProcessingConfiguration,
+    InputStartingPositionConfiguration? inputStartingPositionConfiguration,
+    String? resourceARN,
+    S3Configuration? s3Configuration,
   }) async {
     ArgumentError.checkNotNull(serviceExecutionRole, 'serviceExecutionRole');
     _s.validateStringLength(
@@ -1544,22 +1507,11 @@ class KinesisAnalyticsV2 {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'serviceExecutionRole',
-      serviceExecutionRole,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'resourceARN',
       resourceARN,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1603,9 +1555,9 @@ class KinesisAnalyticsV2 {
   /// it to the value of the previous call's <code>NextToken</code> response to
   /// indicate where the output should continue from.
   Future<ListApplicationSnapshotsResponse> listApplicationSnapshots({
-    @_s.required String applicationName,
-    int limit,
-    String nextToken,
+    required String applicationName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1613,12 +1565,6 @@ class KinesisAnalyticsV2 {
       applicationName,
       1,
       128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1653,6 +1599,79 @@ class KinesisAnalyticsV2 {
     return ListApplicationSnapshotsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists all the versions for the specified application, including versions
+  /// that were rolled back. The response also includes a summary of the
+  /// configuration associated with each version.
+  ///
+  /// To get the complete description of a specific application version, invoke
+  /// the <a>DescribeApplicationVersion</a> operation.
+  /// <note>
+  /// This operation is supported only for Amazon Kinesis Data Analytics for
+  /// Apache Flink.
+  /// </note>
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedOperationException].
+  ///
+  /// Parameter [applicationName] :
+  /// The name of the application for which you want to list all versions.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of versions to list in this invocation of the
+  /// operation.
+  ///
+  /// Parameter [nextToken] :
+  /// If a previous invocation of this operation returned a pagination token,
+  /// pass it into this value to retrieve the next set of results. For more
+  /// information about pagination, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/pagination.html">Using
+  /// the AWS Command Line Interface's Pagination Options</a>.
+  Future<ListApplicationVersionsResponse> listApplicationVersions({
+    required String applicationName,
+    int? limit,
+    String? nextToken,
+  }) async {
+    ArgumentError.checkNotNull(applicationName, 'applicationName');
+    _s.validateStringLength(
+      'applicationName',
+      applicationName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      512,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'KinesisAnalytics_20180523.ListApplicationVersions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationName': applicationName,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListApplicationVersionsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns a list of Kinesis Data Analytics applications in your account. For
   /// each application, the response includes the application name, Amazon
   /// Resource Name (ARN), and status.
@@ -1672,8 +1691,8 @@ class KinesisAnalyticsV2 {
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/pagination.html">Using
   /// the AWS Command Line Interface's Pagination Options</a>.
   Future<ListApplicationsResponse> listApplications({
-    int limit,
-    String nextToken,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1686,11 +1705,6 @@ class KinesisAnalyticsV2 {
       nextToken,
       1,
       128,
-    );
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9_.-]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1723,7 +1737,7 @@ class KinesisAnalyticsV2 {
   /// Parameter [resourceARN] :
   /// The ARN of the application for which to retrieve tags.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceARN,
+    required String resourceARN,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1731,12 +1745,6 @@ class KinesisAnalyticsV2 {
       resourceARN,
       1,
       2048,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1757,6 +1765,72 @@ class KinesisAnalyticsV2 {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Reverts the application to the previous running version. You can roll back
+  /// an application if you suspect it is stuck in a transient status.
+  ///
+  /// You can roll back an application only if it is in the
+  /// <code>UPDATING</code> or <code>AUTOSCALING</code> status.
+  ///
+  /// When you rollback an application, it loads state data from the last
+  /// successful snapshot. If the application has no snapshots, Kinesis Data
+  /// Analytics rejects the rollback request.
+  ///
+  /// This action is not supported for Kinesis Data Analytics for SQL
+  /// applications.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [UnsupportedOperationException].
+  ///
+  /// Parameter [applicationName] :
+  /// The name of the application.
+  ///
+  /// Parameter [currentApplicationVersionId] :
+  /// The current application version ID. You can retrieve the application
+  /// version ID using <a>DescribeApplication</a>.
+  Future<RollbackApplicationResponse> rollbackApplication({
+    required String applicationName,
+    required int currentApplicationVersionId,
+  }) async {
+    ArgumentError.checkNotNull(applicationName, 'applicationName');
+    _s.validateStringLength(
+      'applicationName',
+      applicationName,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        currentApplicationVersionId, 'currentApplicationVersionId');
+    _s.validateNumRange(
+      'currentApplicationVersionId',
+      currentApplicationVersionId,
+      1,
+      999999999,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'KinesisAnalytics_20180523.RollbackApplication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationName': applicationName,
+        'CurrentApplicationVersionId': currentApplicationVersionId,
+      },
+    );
+
+    return RollbackApplicationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts the specified Kinesis Data Analytics application. After creating an
   /// application, you must exclusively call this operation to start your
   /// application.
@@ -1774,8 +1848,8 @@ class KinesisAnalyticsV2 {
   /// Identifies the run configuration (start parameters) of a Kinesis Data
   /// Analytics application.
   Future<void> startApplication({
-    @_s.required String applicationName,
-    @_s.required RunConfiguration runConfiguration,
+    required String applicationName,
+    RunConfiguration? runConfiguration,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1785,18 +1859,11 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(runConfiguration, 'runConfiguration');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.StartApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1804,11 +1871,9 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'RunConfiguration': runConfiguration,
+        if (runConfiguration != null) 'RunConfiguration': runConfiguration,
       },
     );
-
-    return StartApplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Stops the application from processing data. You can stop an application
@@ -1847,8 +1912,8 @@ class KinesisAnalyticsV2 {
   /// <code>UPDATING</code>, <code>STOPPING</code>, <code>AUTOSCALING</code>, or
   /// <code>RUNNING</code> status.
   Future<void> stopApplication({
-    @_s.required String applicationName,
-    bool force,
+    required String applicationName,
+    bool? force,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1858,17 +1923,11 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.StopApplication'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1879,8 +1938,6 @@ class KinesisAnalyticsV2 {
         if (force != null) 'Force': force,
       },
     );
-
-    return StopApplicationResponse.fromJson(jsonResponse.body);
   }
 
   /// Adds one or more key-value tags to a Kinesis Data Analytics application.
@@ -1902,8 +1959,8 @@ class KinesisAnalyticsV2 {
   /// Parameter [tags] :
   /// The key-value tags to assign to the application.
   Future<void> tagResource({
-    @_s.required String resourceARN,
-    @_s.required List<Tag> tags,
+    required String resourceARN,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1913,18 +1970,12 @@ class KinesisAnalyticsV2 {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.TagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1935,8 +1986,6 @@ class KinesisAnalyticsV2 {
         'Tags': tags,
       },
     );
-
-    return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes one or more tags from a Kinesis Data Analytics application. For
@@ -1957,8 +2006,8 @@ class KinesisAnalyticsV2 {
   /// Parameter [tagKeys] :
   /// A list of keys of tags to remove from the specified application.
   Future<void> untagResource({
-    @_s.required String resourceARN,
-    @_s.required List<String> tagKeys,
+    required String resourceARN,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceARN, 'resourceARN');
     _s.validateStringLength(
@@ -1968,18 +2017,12 @@ class KinesisAnalyticsV2 {
       2048,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceARN',
-      resourceARN,
-      r'''arn:.*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'KinesisAnalytics_20180523.UntagResource'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1990,8 +2033,6 @@ class KinesisAnalyticsV2 {
         'TagKeys': tagKeys,
       },
     );
-
-    return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing Kinesis Data Analytics application. Using this
@@ -2014,13 +2055,10 @@ class KinesisAnalyticsV2 {
   /// May throw [ConcurrentModificationException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidApplicationConfigurationException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [applicationName] :
   /// The name of the application to update.
-  ///
-  /// Parameter [currentApplicationVersionId] :
-  /// The current application version ID. You can retrieve the application
-  /// version ID using <a>DescribeApplication</a>.
   ///
   /// Parameter [applicationConfigurationUpdate] :
   /// Describes application configuration updates.
@@ -2031,18 +2069,35 @@ class KinesisAnalyticsV2 {
   /// new CloudWatch logging option, use
   /// <a>AddApplicationCloudWatchLoggingOption</a>.
   ///
+  /// Parameter [conditionalToken] :
+  /// A value you use to implement strong concurrency for application updates.
+  /// You must provide the <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>. You get the application's current
+  /// <code>ConditionalToken</code> using <a>DescribeApplication</a>. For better
+  /// concurrency support, use the <code>ConditionalToken</code> parameter
+  /// instead of <code>CurrentApplicationVersionId</code>.
+  ///
+  /// Parameter [currentApplicationVersionId] :
+  /// The current application version ID. You must provide the
+  /// <code>CurrentApplicationVersionId</code> or the
+  /// <code>ConditionalToken</code>.You can retrieve the application version ID
+  /// using <a>DescribeApplication</a>. For better concurrency support, use the
+  /// <code>ConditionalToken</code> parameter instead of
+  /// <code>CurrentApplicationVersionId</code>.
+  ///
   /// Parameter [runConfigurationUpdate] :
   /// Describes updates to the application's starting parameters.
   ///
   /// Parameter [serviceExecutionRoleUpdate] :
   /// Describes updates to the service execution role.
   Future<UpdateApplicationResponse> updateApplication({
-    @_s.required String applicationName,
-    @_s.required int currentApplicationVersionId,
-    ApplicationConfigurationUpdate applicationConfigurationUpdate,
-    List<CloudWatchLoggingOptionUpdate> cloudWatchLoggingOptionUpdates,
-    RunConfigurationUpdate runConfigurationUpdate,
-    String serviceExecutionRoleUpdate,
+    required String applicationName,
+    ApplicationConfigurationUpdate? applicationConfigurationUpdate,
+    List<CloudWatchLoggingOptionUpdate>? cloudWatchLoggingOptionUpdates,
+    String? conditionalToken,
+    int? currentApplicationVersionId,
+    RunConfigurationUpdate? runConfigurationUpdate,
+    String? serviceExecutionRoleUpdate,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -2052,31 +2107,23 @@ class KinesisAnalyticsV2 {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'applicationName',
-      applicationName,
-      r'''[a-zA-Z0-9_.-]+''',
-      isRequired: true,
+    _s.validateStringLength(
+      'conditionalToken',
+      conditionalToken,
+      1,
+      512,
     );
-    ArgumentError.checkNotNull(
-        currentApplicationVersionId, 'currentApplicationVersionId');
     _s.validateNumRange(
       'currentApplicationVersionId',
       currentApplicationVersionId,
       1,
       999999999,
-      isRequired: true,
     );
     _s.validateStringLength(
       'serviceExecutionRoleUpdate',
       serviceExecutionRoleUpdate,
       1,
       2048,
-    );
-    _s.validateStringPattern(
-      'serviceExecutionRoleUpdate',
-      serviceExecutionRoleUpdate,
-      r'''arn:.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2090,11 +2137,13 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'CurrentApplicationVersionId': currentApplicationVersionId,
         if (applicationConfigurationUpdate != null)
           'ApplicationConfigurationUpdate': applicationConfigurationUpdate,
         if (cloudWatchLoggingOptionUpdates != null)
           'CloudWatchLoggingOptionUpdates': cloudWatchLoggingOptionUpdates,
+        if (conditionalToken != null) 'ConditionalToken': conditionalToken,
+        if (currentApplicationVersionId != null)
+          'CurrentApplicationVersionId': currentApplicationVersionId,
         if (runConfigurationUpdate != null)
           'RunConfigurationUpdate': runConfigurationUpdate,
         if (serviceExecutionRoleUpdate != null)
@@ -2104,28 +2153,96 @@ class KinesisAnalyticsV2 {
 
     return UpdateApplicationResponse.fromJson(jsonResponse.body);
   }
+
+  /// Updates the maintenance configuration of the Kinesis Data Analytics
+  /// application.
+  ///
+  /// You can invoke this operation on an application that is in one of the two
+  /// following states: <code>READY</code> or <code>RUNNING</code>. If you
+  /// invoke it when the application is in a state other than these two states,
+  /// it throws a <code>ResourceInUseException</code>. The service makes use of
+  /// the updated configuration the next time it schedules maintenance for the
+  /// application. If you invoke this operation after the service schedules
+  /// maintenance, the service will apply the configuration update the next time
+  /// it schedules maintenance for the application. This means that you might
+  /// not see the maintenance configuration update applied to the maintenance
+  /// process that follows a successful invocation of this operation, but to the
+  /// following maintenance process instead.
+  ///
+  /// To see the current maintenance configuration of your application, invoke
+  /// the <a>DescribeApplication</a> operation.
+  ///
+  /// For information about application maintenance, see <a
+  /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/maintenance.html">Kinesis
+  /// Data Analytics for Apache Flink Maintenance</a>.
+  /// <note>
+  /// This operation is supported only for Amazon Kinesis Data Analytics for
+  /// Apache Flink.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [ConcurrentModificationException].
+  /// May throw [UnsupportedOperationException].
+  ///
+  /// Parameter [applicationMaintenanceConfigurationUpdate] :
+  /// Describes the application maintenance configuration update.
+  ///
+  /// Parameter [applicationName] :
+  /// The name of the application for which you want to update the maintenance
+  /// configuration.
+  Future<UpdateApplicationMaintenanceConfigurationResponse>
+      updateApplicationMaintenanceConfiguration({
+    required ApplicationMaintenanceConfigurationUpdate
+        applicationMaintenanceConfigurationUpdate,
+    required String applicationName,
+  }) async {
+    ArgumentError.checkNotNull(applicationMaintenanceConfigurationUpdate,
+        'applicationMaintenanceConfigurationUpdate');
+    ArgumentError.checkNotNull(applicationName, 'applicationName');
+    _s.validateStringLength(
+      'applicationName',
+      applicationName,
+      1,
+      128,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'KinesisAnalytics_20180523.UpdateApplicationMaintenanceConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationMaintenanceConfigurationUpdate':
+            applicationMaintenanceConfigurationUpdate,
+        'ApplicationName': applicationName,
+      },
+    );
+
+    return UpdateApplicationMaintenanceConfigurationResponse.fromJson(
+        jsonResponse.body);
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddApplicationCloudWatchLoggingOptionResponse {
   /// The application's ARN.
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The new version ID of the Kinesis Data Analytics application. Kinesis Data
   /// Analytics updates the <code>ApplicationVersionId</code> each time you change
   /// the CloudWatch logging options.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   /// The descriptions of the current CloudWatch logging options for the Kinesis
   /// Data Analytics application.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptionDescriptions')
-  final List<CloudWatchLoggingOptionDescription>
+  final List<CloudWatchLoggingOptionDescription>?
       cloudWatchLoggingOptionDescriptions;
 
   AddApplicationCloudWatchLoggingOptionResponse({
@@ -2133,35 +2250,52 @@ class AddApplicationCloudWatchLoggingOptionResponse {
     this.applicationVersionId,
     this.cloudWatchLoggingOptionDescriptions,
   });
+
   factory AddApplicationCloudWatchLoggingOptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddApplicationCloudWatchLoggingOptionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AddApplicationCloudWatchLoggingOptionResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+      cloudWatchLoggingOptionDescriptions:
+          (json['CloudWatchLoggingOptionDescriptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => CloudWatchLoggingOptionDescription.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    final cloudWatchLoggingOptionDescriptions =
+        this.cloudWatchLoggingOptionDescriptions;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+      if (cloudWatchLoggingOptionDescriptions != null)
+        'CloudWatchLoggingOptionDescriptions':
+            cloudWatchLoggingOptionDescriptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddApplicationInputProcessingConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the application.
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// Provides the current application version.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   /// The input ID that is associated with the application input. This is the ID
   /// that Kinesis Data Analytics assigns to each input configuration that you add
   /// to your application.
-  @_s.JsonKey(name: 'InputId')
-  final String inputId;
+  final String? inputId;
 
   /// The description of the preprocessor that executes on records in this input
   /// before the application's code is run.
-  @_s.JsonKey(name: 'InputProcessingConfigurationDescription')
-  final InputProcessingConfigurationDescription
+  final InputProcessingConfigurationDescription?
       inputProcessingConfigurationDescription;
 
   AddApplicationInputProcessingConfigurationResponse({
@@ -2170,291 +2304,459 @@ class AddApplicationInputProcessingConfigurationResponse {
     this.inputId,
     this.inputProcessingConfigurationDescription,
   });
+
   factory AddApplicationInputProcessingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddApplicationInputProcessingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AddApplicationInputProcessingConfigurationResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+      inputId: json['InputId'] as String?,
+      inputProcessingConfigurationDescription:
+          json['InputProcessingConfigurationDescription'] != null
+              ? InputProcessingConfigurationDescription.fromJson(
+                  json['InputProcessingConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    final inputId = this.inputId;
+    final inputProcessingConfigurationDescription =
+        this.inputProcessingConfigurationDescription;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+      if (inputId != null) 'InputId': inputId,
+      if (inputProcessingConfigurationDescription != null)
+        'InputProcessingConfigurationDescription':
+            inputProcessingConfigurationDescription,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddApplicationInputResponse {
   /// The Amazon Resource Name (ARN) of the application.
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// Provides the current application version.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   /// Describes the application input configuration.
-  @_s.JsonKey(name: 'InputDescriptions')
-  final List<InputDescription> inputDescriptions;
+  final List<InputDescription>? inputDescriptions;
 
   AddApplicationInputResponse({
     this.applicationARN,
     this.applicationVersionId,
     this.inputDescriptions,
   });
-  factory AddApplicationInputResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddApplicationInputResponseFromJson(json);
+
+  factory AddApplicationInputResponse.fromJson(Map<String, dynamic> json) {
+    return AddApplicationInputResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+      inputDescriptions: (json['InputDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    final inputDescriptions = this.inputDescriptions;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+      if (inputDescriptions != null) 'InputDescriptions': inputDescriptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddApplicationOutputResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The updated application version ID. Kinesis Data Analytics increments this
   /// ID when the application is updated.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   /// Describes the application output configuration. For more information, see <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-output.html">Configuring
   /// Application Output</a>.
-  @_s.JsonKey(name: 'OutputDescriptions')
-  final List<OutputDescription> outputDescriptions;
+  final List<OutputDescription>? outputDescriptions;
 
   AddApplicationOutputResponse({
     this.applicationARN,
     this.applicationVersionId,
     this.outputDescriptions,
   });
-  factory AddApplicationOutputResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddApplicationOutputResponseFromJson(json);
+
+  factory AddApplicationOutputResponse.fromJson(Map<String, dynamic> json) {
+    return AddApplicationOutputResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+      outputDescriptions: (json['OutputDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutputDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    final outputDescriptions = this.outputDescriptions;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+      if (outputDescriptions != null) 'OutputDescriptions': outputDescriptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddApplicationReferenceDataSourceResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The updated application version ID. Kinesis Data Analytics increments this
   /// ID when the application is updated.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   /// Describes reference data sources configured for the application.
-  @_s.JsonKey(name: 'ReferenceDataSourceDescriptions')
-  final List<ReferenceDataSourceDescription> referenceDataSourceDescriptions;
+  final List<ReferenceDataSourceDescription>? referenceDataSourceDescriptions;
 
   AddApplicationReferenceDataSourceResponse({
     this.applicationARN,
     this.applicationVersionId,
     this.referenceDataSourceDescriptions,
   });
+
   factory AddApplicationReferenceDataSourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddApplicationReferenceDataSourceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AddApplicationReferenceDataSourceResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+      referenceDataSourceDescriptions:
+          (json['ReferenceDataSourceDescriptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => ReferenceDataSourceDescription.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    final referenceDataSourceDescriptions =
+        this.referenceDataSourceDescriptions;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+      if (referenceDataSourceDescriptions != null)
+        'ReferenceDataSourceDescriptions': referenceDataSourceDescriptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddApplicationVpcConfigurationResponse {
   /// The ARN of the application.
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// Provides the current application version. Kinesis Data Analytics updates the
   /// ApplicationVersionId each time you update the application.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   /// The parameters of the new VPC configuration.
-  @_s.JsonKey(name: 'VpcConfigurationDescription')
-  final VpcConfigurationDescription vpcConfigurationDescription;
+  final VpcConfigurationDescription? vpcConfigurationDescription;
 
   AddApplicationVpcConfigurationResponse({
     this.applicationARN,
     this.applicationVersionId,
     this.vpcConfigurationDescription,
   });
+
   factory AddApplicationVpcConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$AddApplicationVpcConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return AddApplicationVpcConfigurationResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+      vpcConfigurationDescription: json['VpcConfigurationDescription'] != null
+          ? VpcConfigurationDescription.fromJson(
+              json['VpcConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    final vpcConfigurationDescription = this.vpcConfigurationDescription;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+      if (vpcConfigurationDescription != null)
+        'VpcConfigurationDescription': vpcConfigurationDescription,
+    };
+  }
 }
 
-/// Describes code configuration for a Flink-based Kinesis Data Analytics
-/// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// Describes code configuration for an application.
 class ApplicationCodeConfiguration {
   /// Specifies whether the code content is in text or zip format.
-  @_s.JsonKey(name: 'CodeContentType')
   final CodeContentType codeContentType;
 
   /// The location and type of the application code.
-  @_s.JsonKey(name: 'CodeContent')
-  final CodeContent codeContent;
+  final CodeContent? codeContent;
 
   ApplicationCodeConfiguration({
-    @_s.required this.codeContentType,
+    required this.codeContentType,
     this.codeContent,
   });
-  Map<String, dynamic> toJson() => _$ApplicationCodeConfigurationToJson(this);
+
+  factory ApplicationCodeConfiguration.fromJson(Map<String, dynamic> json) {
+    return ApplicationCodeConfiguration(
+      codeContentType: (json['CodeContentType'] as String).toCodeContentType(),
+      codeContent: json['CodeContent'] != null
+          ? CodeContent.fromJson(json['CodeContent'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeContentType = this.codeContentType;
+    final codeContent = this.codeContent;
+    return {
+      'CodeContentType': codeContentType.toValue(),
+      if (codeContent != null) 'CodeContent': codeContent,
+    };
+  }
 }
 
-/// Describes code configuration for a Flink-based Kinesis Data Analytics
-/// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Describes code configuration for an application.
 class ApplicationCodeConfigurationDescription {
   /// Specifies whether the code content is in text or zip format.
-  @_s.JsonKey(name: 'CodeContentType')
   final CodeContentType codeContentType;
 
   /// Describes details about the location and format of the application code.
-  @_s.JsonKey(name: 'CodeContentDescription')
-  final CodeContentDescription codeContentDescription;
+  final CodeContentDescription? codeContentDescription;
 
   ApplicationCodeConfigurationDescription({
-    @_s.required this.codeContentType,
+    required this.codeContentType,
     this.codeContentDescription,
   });
+
   factory ApplicationCodeConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ApplicationCodeConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ApplicationCodeConfigurationDescription(
+      codeContentType: (json['CodeContentType'] as String).toCodeContentType(),
+      codeContentDescription: json['CodeContentDescription'] != null
+          ? CodeContentDescription.fromJson(
+              json['CodeContentDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeContentType = this.codeContentType;
+    final codeContentDescription = this.codeContentDescription;
+    return {
+      'CodeContentType': codeContentType.toValue(),
+      if (codeContentDescription != null)
+        'CodeContentDescription': codeContentDescription,
+    };
+  }
 }
 
-/// Describes code configuration updates to a Flink-based Kinesis Data Analytics
-/// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// Describes code configuration updates for an application. This is supported
+/// for a Flink-based Kinesis Data Analytics application or a SQL-based Kinesis
+/// Data Analytics application.
 class ApplicationCodeConfigurationUpdate {
   /// Describes updates to the code content type.
-  @_s.JsonKey(name: 'CodeContentTypeUpdate')
-  final CodeContentType codeContentTypeUpdate;
+  final CodeContentType? codeContentTypeUpdate;
 
   /// Describes updates to the code content of an application.
-  @_s.JsonKey(name: 'CodeContentUpdate')
-  final CodeContentUpdate codeContentUpdate;
+  final CodeContentUpdate? codeContentUpdate;
 
   ApplicationCodeConfigurationUpdate({
     this.codeContentTypeUpdate,
     this.codeContentUpdate,
   });
-  Map<String, dynamic> toJson() =>
-      _$ApplicationCodeConfigurationUpdateToJson(this);
+
+  factory ApplicationCodeConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationCodeConfigurationUpdate(
+      codeContentTypeUpdate:
+          (json['CodeContentTypeUpdate'] as String?)?.toCodeContentType(),
+      codeContentUpdate: json['CodeContentUpdate'] != null
+          ? CodeContentUpdate.fromJson(
+              json['CodeContentUpdate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeContentTypeUpdate = this.codeContentTypeUpdate;
+    final codeContentUpdate = this.codeContentUpdate;
+    return {
+      if (codeContentTypeUpdate != null)
+        'CodeContentTypeUpdate': codeContentTypeUpdate.toValue(),
+      if (codeContentUpdate != null) 'CodeContentUpdate': codeContentUpdate,
+    };
+  }
 }
 
 /// Specifies the creation parameters for a Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationConfiguration {
   /// The code location and type parameters for a Flink-based Kinesis Data
   /// Analytics application.
-  @_s.JsonKey(name: 'ApplicationCodeConfiguration')
-  final ApplicationCodeConfiguration applicationCodeConfiguration;
+  final ApplicationCodeConfiguration? applicationCodeConfiguration;
 
   /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
-  @_s.JsonKey(name: 'ApplicationSnapshotConfiguration')
-  final ApplicationSnapshotConfiguration applicationSnapshotConfiguration;
+  final ApplicationSnapshotConfiguration? applicationSnapshotConfiguration;
 
   /// Describes execution properties for a Flink-based Kinesis Data Analytics
   /// application.
-  @_s.JsonKey(name: 'EnvironmentProperties')
-  final EnvironmentProperties environmentProperties;
+  final EnvironmentProperties? environmentProperties;
 
   /// The creation and update parameters for a Flink-based Kinesis Data Analytics
   /// application.
-  @_s.JsonKey(name: 'FlinkApplicationConfiguration')
-  final FlinkApplicationConfiguration flinkApplicationConfiguration;
+  final FlinkApplicationConfiguration? flinkApplicationConfiguration;
 
   /// The creation and update parameters for a SQL-based Kinesis Data Analytics
   /// application.
-  @_s.JsonKey(name: 'SqlApplicationConfiguration')
-  final SqlApplicationConfiguration sqlApplicationConfiguration;
+  final SqlApplicationConfiguration? sqlApplicationConfiguration;
 
   /// The array of descriptions of VPC configurations available to the
   /// application.
-  @_s.JsonKey(name: 'VpcConfigurations')
-  final List<VpcConfiguration> vpcConfigurations;
+  final List<VpcConfiguration>? vpcConfigurations;
+
+  /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
+  final ZeppelinApplicationConfiguration? zeppelinApplicationConfiguration;
 
   ApplicationConfiguration({
-    @_s.required this.applicationCodeConfiguration,
+    this.applicationCodeConfiguration,
     this.applicationSnapshotConfiguration,
     this.environmentProperties,
     this.flinkApplicationConfiguration,
     this.sqlApplicationConfiguration,
     this.vpcConfigurations,
+    this.zeppelinApplicationConfiguration,
   });
-  Map<String, dynamic> toJson() => _$ApplicationConfigurationToJson(this);
+
+  factory ApplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ApplicationConfiguration(
+      applicationCodeConfiguration: json['ApplicationCodeConfiguration'] != null
+          ? ApplicationCodeConfiguration.fromJson(
+              json['ApplicationCodeConfiguration'] as Map<String, dynamic>)
+          : null,
+      applicationSnapshotConfiguration:
+          json['ApplicationSnapshotConfiguration'] != null
+              ? ApplicationSnapshotConfiguration.fromJson(
+                  json['ApplicationSnapshotConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      environmentProperties: json['EnvironmentProperties'] != null
+          ? EnvironmentProperties.fromJson(
+              json['EnvironmentProperties'] as Map<String, dynamic>)
+          : null,
+      flinkApplicationConfiguration:
+          json['FlinkApplicationConfiguration'] != null
+              ? FlinkApplicationConfiguration.fromJson(
+                  json['FlinkApplicationConfiguration'] as Map<String, dynamic>)
+              : null,
+      sqlApplicationConfiguration: json['SqlApplicationConfiguration'] != null
+          ? SqlApplicationConfiguration.fromJson(
+              json['SqlApplicationConfiguration'] as Map<String, dynamic>)
+          : null,
+      vpcConfigurations: (json['VpcConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => VpcConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      zeppelinApplicationConfiguration:
+          json['ZeppelinApplicationConfiguration'] != null
+              ? ZeppelinApplicationConfiguration.fromJson(
+                  json['ZeppelinApplicationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationCodeConfiguration = this.applicationCodeConfiguration;
+    final applicationSnapshotConfiguration =
+        this.applicationSnapshotConfiguration;
+    final environmentProperties = this.environmentProperties;
+    final flinkApplicationConfiguration = this.flinkApplicationConfiguration;
+    final sqlApplicationConfiguration = this.sqlApplicationConfiguration;
+    final vpcConfigurations = this.vpcConfigurations;
+    final zeppelinApplicationConfiguration =
+        this.zeppelinApplicationConfiguration;
+    return {
+      if (applicationCodeConfiguration != null)
+        'ApplicationCodeConfiguration': applicationCodeConfiguration,
+      if (applicationSnapshotConfiguration != null)
+        'ApplicationSnapshotConfiguration': applicationSnapshotConfiguration,
+      if (environmentProperties != null)
+        'EnvironmentProperties': environmentProperties,
+      if (flinkApplicationConfiguration != null)
+        'FlinkApplicationConfiguration': flinkApplicationConfiguration,
+      if (sqlApplicationConfiguration != null)
+        'SqlApplicationConfiguration': sqlApplicationConfiguration,
+      if (vpcConfigurations != null) 'VpcConfigurations': vpcConfigurations,
+      if (zeppelinApplicationConfiguration != null)
+        'ZeppelinApplicationConfiguration': zeppelinApplicationConfiguration,
+    };
+  }
 }
 
 /// Describes details about the application code and starting parameters for a
 /// Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationConfigurationDescription {
   /// The details about the application code for a Flink-based Kinesis Data
   /// Analytics application.
-  @_s.JsonKey(name: 'ApplicationCodeConfigurationDescription')
-  final ApplicationCodeConfigurationDescription
+  final ApplicationCodeConfigurationDescription?
       applicationCodeConfigurationDescription;
 
   /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
-  @_s.JsonKey(name: 'ApplicationSnapshotConfigurationDescription')
-  final ApplicationSnapshotConfigurationDescription
+  final ApplicationSnapshotConfigurationDescription?
       applicationSnapshotConfigurationDescription;
 
   /// Describes execution properties for a Flink-based Kinesis Data Analytics
   /// application.
-  @_s.JsonKey(name: 'EnvironmentPropertyDescriptions')
-  final EnvironmentPropertyDescriptions environmentPropertyDescriptions;
+  final EnvironmentPropertyDescriptions? environmentPropertyDescriptions;
 
   /// The details about a Flink-based Kinesis Data Analytics application.
-  @_s.JsonKey(name: 'FlinkApplicationConfigurationDescription')
-  final FlinkApplicationConfigurationDescription
+  final FlinkApplicationConfigurationDescription?
       flinkApplicationConfigurationDescription;
 
   /// The details about the starting properties for a Kinesis Data Analytics
   /// application.
-  @_s.JsonKey(name: 'RunConfigurationDescription')
-  final RunConfigurationDescription runConfigurationDescription;
+  final RunConfigurationDescription? runConfigurationDescription;
 
   /// The details about inputs, outputs, and reference data sources for a
   /// SQL-based Kinesis Data Analytics application.
-  @_s.JsonKey(name: 'SqlApplicationConfigurationDescription')
-  final SqlApplicationConfigurationDescription
+  final SqlApplicationConfigurationDescription?
       sqlApplicationConfigurationDescription;
 
   /// The array of descriptions of VPC configurations available to the
   /// application.
-  @_s.JsonKey(name: 'VpcConfigurationDescriptions')
-  final List<VpcConfigurationDescription> vpcConfigurationDescriptions;
+  final List<VpcConfigurationDescription>? vpcConfigurationDescriptions;
+
+  /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
+  final ZeppelinApplicationConfigurationDescription?
+      zeppelinApplicationConfigurationDescription;
 
   ApplicationConfigurationDescription({
     this.applicationCodeConfigurationDescription,
@@ -2464,49 +2766,132 @@ class ApplicationConfigurationDescription {
     this.runConfigurationDescription,
     this.sqlApplicationConfigurationDescription,
     this.vpcConfigurationDescriptions,
+    this.zeppelinApplicationConfigurationDescription,
   });
+
   factory ApplicationConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ApplicationConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ApplicationConfigurationDescription(
+      applicationCodeConfigurationDescription:
+          json['ApplicationCodeConfigurationDescription'] != null
+              ? ApplicationCodeConfigurationDescription.fromJson(
+                  json['ApplicationCodeConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      applicationSnapshotConfigurationDescription:
+          json['ApplicationSnapshotConfigurationDescription'] != null
+              ? ApplicationSnapshotConfigurationDescription.fromJson(
+                  json['ApplicationSnapshotConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      environmentPropertyDescriptions:
+          json['EnvironmentPropertyDescriptions'] != null
+              ? EnvironmentPropertyDescriptions.fromJson(
+                  json['EnvironmentPropertyDescriptions']
+                      as Map<String, dynamic>)
+              : null,
+      flinkApplicationConfigurationDescription:
+          json['FlinkApplicationConfigurationDescription'] != null
+              ? FlinkApplicationConfigurationDescription.fromJson(
+                  json['FlinkApplicationConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      runConfigurationDescription: json['RunConfigurationDescription'] != null
+          ? RunConfigurationDescription.fromJson(
+              json['RunConfigurationDescription'] as Map<String, dynamic>)
+          : null,
+      sqlApplicationConfigurationDescription:
+          json['SqlApplicationConfigurationDescription'] != null
+              ? SqlApplicationConfigurationDescription.fromJson(
+                  json['SqlApplicationConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      vpcConfigurationDescriptions: (json['VpcConfigurationDescriptions']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              VpcConfigurationDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      zeppelinApplicationConfigurationDescription:
+          json['ZeppelinApplicationConfigurationDescription'] != null
+              ? ZeppelinApplicationConfigurationDescription.fromJson(
+                  json['ZeppelinApplicationConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationCodeConfigurationDescription =
+        this.applicationCodeConfigurationDescription;
+    final applicationSnapshotConfigurationDescription =
+        this.applicationSnapshotConfigurationDescription;
+    final environmentPropertyDescriptions =
+        this.environmentPropertyDescriptions;
+    final flinkApplicationConfigurationDescription =
+        this.flinkApplicationConfigurationDescription;
+    final runConfigurationDescription = this.runConfigurationDescription;
+    final sqlApplicationConfigurationDescription =
+        this.sqlApplicationConfigurationDescription;
+    final vpcConfigurationDescriptions = this.vpcConfigurationDescriptions;
+    final zeppelinApplicationConfigurationDescription =
+        this.zeppelinApplicationConfigurationDescription;
+    return {
+      if (applicationCodeConfigurationDescription != null)
+        'ApplicationCodeConfigurationDescription':
+            applicationCodeConfigurationDescription,
+      if (applicationSnapshotConfigurationDescription != null)
+        'ApplicationSnapshotConfigurationDescription':
+            applicationSnapshotConfigurationDescription,
+      if (environmentPropertyDescriptions != null)
+        'EnvironmentPropertyDescriptions': environmentPropertyDescriptions,
+      if (flinkApplicationConfigurationDescription != null)
+        'FlinkApplicationConfigurationDescription':
+            flinkApplicationConfigurationDescription,
+      if (runConfigurationDescription != null)
+        'RunConfigurationDescription': runConfigurationDescription,
+      if (sqlApplicationConfigurationDescription != null)
+        'SqlApplicationConfigurationDescription':
+            sqlApplicationConfigurationDescription,
+      if (vpcConfigurationDescriptions != null)
+        'VpcConfigurationDescriptions': vpcConfigurationDescriptions,
+      if (zeppelinApplicationConfigurationDescription != null)
+        'ZeppelinApplicationConfigurationDescription':
+            zeppelinApplicationConfigurationDescription,
+    };
+  }
 }
 
 /// Describes updates to an application's configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationConfigurationUpdate {
-  /// Describes updates to a Flink-based Kinesis Data Analytics application's code
-  /// configuration.
-  @_s.JsonKey(name: 'ApplicationCodeConfigurationUpdate')
-  final ApplicationCodeConfigurationUpdate applicationCodeConfigurationUpdate;
+  /// Describes updates to an application's code configuration.
+  final ApplicationCodeConfigurationUpdate? applicationCodeConfigurationUpdate;
 
   /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
-  @_s.JsonKey(name: 'ApplicationSnapshotConfigurationUpdate')
-  final ApplicationSnapshotConfigurationUpdate
+  final ApplicationSnapshotConfigurationUpdate?
       applicationSnapshotConfigurationUpdate;
 
   /// Describes updates to the environment properties for a Flink-based Kinesis
   /// Data Analytics application.
-  @_s.JsonKey(name: 'EnvironmentPropertyUpdates')
-  final EnvironmentPropertyUpdates environmentPropertyUpdates;
+  final EnvironmentPropertyUpdates? environmentPropertyUpdates;
 
   /// Describes updates to a Flink-based Kinesis Data Analytics application's
   /// configuration.
-  @_s.JsonKey(name: 'FlinkApplicationConfigurationUpdate')
-  final FlinkApplicationConfigurationUpdate flinkApplicationConfigurationUpdate;
+  final FlinkApplicationConfigurationUpdate?
+      flinkApplicationConfigurationUpdate;
 
   /// Describes updates to a SQL-based Kinesis Data Analytics application's
   /// configuration.
-  @_s.JsonKey(name: 'SqlApplicationConfigurationUpdate')
-  final SqlApplicationConfigurationUpdate sqlApplicationConfigurationUpdate;
+  final SqlApplicationConfigurationUpdate? sqlApplicationConfigurationUpdate;
 
   /// Updates to the array of descriptions of VPC configurations available to the
   /// application.
-  @_s.JsonKey(name: 'VpcConfigurationUpdates')
-  final List<VpcConfigurationUpdate> vpcConfigurationUpdates;
+  final List<VpcConfigurationUpdate>? vpcConfigurationUpdates;
+
+  /// Updates to the configuration of a Kinesis Data Analytics Studio notebook.
+  final ZeppelinApplicationConfigurationUpdate?
+      zeppelinApplicationConfigurationUpdate;
 
   ApplicationConfigurationUpdate({
     this.applicationCodeConfigurationUpdate,
@@ -2515,243 +2900,705 @@ class ApplicationConfigurationUpdate {
     this.flinkApplicationConfigurationUpdate,
     this.sqlApplicationConfigurationUpdate,
     this.vpcConfigurationUpdates,
+    this.zeppelinApplicationConfigurationUpdate,
   });
-  Map<String, dynamic> toJson() => _$ApplicationConfigurationUpdateToJson(this);
+
+  factory ApplicationConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return ApplicationConfigurationUpdate(
+      applicationCodeConfigurationUpdate:
+          json['ApplicationCodeConfigurationUpdate'] != null
+              ? ApplicationCodeConfigurationUpdate.fromJson(
+                  json['ApplicationCodeConfigurationUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      applicationSnapshotConfigurationUpdate:
+          json['ApplicationSnapshotConfigurationUpdate'] != null
+              ? ApplicationSnapshotConfigurationUpdate.fromJson(
+                  json['ApplicationSnapshotConfigurationUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      environmentPropertyUpdates: json['EnvironmentPropertyUpdates'] != null
+          ? EnvironmentPropertyUpdates.fromJson(
+              json['EnvironmentPropertyUpdates'] as Map<String, dynamic>)
+          : null,
+      flinkApplicationConfigurationUpdate:
+          json['FlinkApplicationConfigurationUpdate'] != null
+              ? FlinkApplicationConfigurationUpdate.fromJson(
+                  json['FlinkApplicationConfigurationUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      sqlApplicationConfigurationUpdate:
+          json['SqlApplicationConfigurationUpdate'] != null
+              ? SqlApplicationConfigurationUpdate.fromJson(
+                  json['SqlApplicationConfigurationUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      vpcConfigurationUpdates: (json['VpcConfigurationUpdates'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => VpcConfigurationUpdate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      zeppelinApplicationConfigurationUpdate:
+          json['ZeppelinApplicationConfigurationUpdate'] != null
+              ? ZeppelinApplicationConfigurationUpdate.fromJson(
+                  json['ZeppelinApplicationConfigurationUpdate']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationCodeConfigurationUpdate =
+        this.applicationCodeConfigurationUpdate;
+    final applicationSnapshotConfigurationUpdate =
+        this.applicationSnapshotConfigurationUpdate;
+    final environmentPropertyUpdates = this.environmentPropertyUpdates;
+    final flinkApplicationConfigurationUpdate =
+        this.flinkApplicationConfigurationUpdate;
+    final sqlApplicationConfigurationUpdate =
+        this.sqlApplicationConfigurationUpdate;
+    final vpcConfigurationUpdates = this.vpcConfigurationUpdates;
+    final zeppelinApplicationConfigurationUpdate =
+        this.zeppelinApplicationConfigurationUpdate;
+    return {
+      if (applicationCodeConfigurationUpdate != null)
+        'ApplicationCodeConfigurationUpdate':
+            applicationCodeConfigurationUpdate,
+      if (applicationSnapshotConfigurationUpdate != null)
+        'ApplicationSnapshotConfigurationUpdate':
+            applicationSnapshotConfigurationUpdate,
+      if (environmentPropertyUpdates != null)
+        'EnvironmentPropertyUpdates': environmentPropertyUpdates,
+      if (flinkApplicationConfigurationUpdate != null)
+        'FlinkApplicationConfigurationUpdate':
+            flinkApplicationConfigurationUpdate,
+      if (sqlApplicationConfigurationUpdate != null)
+        'SqlApplicationConfigurationUpdate': sqlApplicationConfigurationUpdate,
+      if (vpcConfigurationUpdates != null)
+        'VpcConfigurationUpdates': vpcConfigurationUpdates,
+      if (zeppelinApplicationConfigurationUpdate != null)
+        'ZeppelinApplicationConfigurationUpdate':
+            zeppelinApplicationConfigurationUpdate,
+    };
+  }
 }
 
 /// Describes the application, including the application Amazon Resource Name
 /// (ARN), status, latest version, and input and output configurations.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationDetail {
   /// The ARN of the application.
-  @_s.JsonKey(name: 'ApplicationARN')
   final String applicationARN;
 
   /// The name of the application.
-  @_s.JsonKey(name: 'ApplicationName')
   final String applicationName;
 
   /// The status of the application.
-  @_s.JsonKey(name: 'ApplicationStatus')
   final ApplicationStatus applicationStatus;
 
   /// Provides the current application version. Kinesis Data Analytics updates the
   /// <code>ApplicationVersionId</code> each time you update the application.
-  @_s.JsonKey(name: 'ApplicationVersionId')
   final int applicationVersionId;
 
-  /// The runtime environment for the application (<code>SQL-1.0</code>,
-  /// <code>FLINK-1_6</code>, or <code>FLINK-1_8</code>).
-  @_s.JsonKey(name: 'RuntimeEnvironment')
+  /// The runtime environment for the application (<code>SQL-1_0</code>,
+  /// <code>FLINK-1_6</code>, <code>FLINK-1_8</code>, or <code>FLINK-1_11</code>).
   final RuntimeEnvironment runtimeEnvironment;
 
-  /// Provides details about the application's Java, SQL, or Scala code and
-  /// starting parameters.
-  @_s.JsonKey(name: 'ApplicationConfigurationDescription')
-  final ApplicationConfigurationDescription applicationConfigurationDescription;
+  /// Describes details about the application code and starting parameters for a
+  /// Kinesis Data Analytics application.
+  final ApplicationConfigurationDescription?
+      applicationConfigurationDescription;
 
   /// The description of the application.
-  @_s.JsonKey(name: 'ApplicationDescription')
-  final String applicationDescription;
+  final String? applicationDescription;
+
+  /// The details of the maintenance configuration for the application.
+  final ApplicationMaintenanceConfigurationDescription?
+      applicationMaintenanceConfigurationDescription;
+
+  /// To create a Kinesis Data Analytics Studio notebook, you must set the mode to
+  /// <code>INTERACTIVE</code>. However, for a Kinesis Data Analytics for Apache
+  /// Flink application, the mode is optional.
+  final ApplicationMode? applicationMode;
+
+  /// If you reverted the application using <a>RollbackApplication</a>, the
+  /// application version when <code>RollbackApplication</code> was called.
+  final int? applicationVersionRolledBackFrom;
+
+  /// The version to which you want to roll back the application.
+  final int? applicationVersionRolledBackTo;
+
+  /// The previous application version before the latest application update.
+  /// <a>RollbackApplication</a> reverts the application to this version.
+  final int? applicationVersionUpdatedFrom;
 
   /// Describes the application Amazon CloudWatch logging options.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptionDescriptions')
-  final List<CloudWatchLoggingOptionDescription>
+  final List<CloudWatchLoggingOptionDescription>?
       cloudWatchLoggingOptionDescriptions;
 
+  /// A value you use to implement strong concurrency for application updates.
+  final String? conditionalToken;
+
   /// The current timestamp when the application was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreateTimestamp')
-  final DateTime createTimestamp;
+  final DateTime? createTimestamp;
 
   /// The current timestamp when the application was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdateTimestamp')
-  final DateTime lastUpdateTimestamp;
+  final DateTime? lastUpdateTimestamp;
 
   /// Specifies the IAM role that the application uses to access external
   /// resources.
-  @_s.JsonKey(name: 'ServiceExecutionRole')
-  final String serviceExecutionRole;
+  final String? serviceExecutionRole;
 
   ApplicationDetail({
-    @_s.required this.applicationARN,
-    @_s.required this.applicationName,
-    @_s.required this.applicationStatus,
-    @_s.required this.applicationVersionId,
-    @_s.required this.runtimeEnvironment,
+    required this.applicationARN,
+    required this.applicationName,
+    required this.applicationStatus,
+    required this.applicationVersionId,
+    required this.runtimeEnvironment,
     this.applicationConfigurationDescription,
     this.applicationDescription,
+    this.applicationMaintenanceConfigurationDescription,
+    this.applicationMode,
+    this.applicationVersionRolledBackFrom,
+    this.applicationVersionRolledBackTo,
+    this.applicationVersionUpdatedFrom,
     this.cloudWatchLoggingOptionDescriptions,
+    this.conditionalToken,
     this.createTimestamp,
     this.lastUpdateTimestamp,
     this.serviceExecutionRole,
   });
-  factory ApplicationDetail.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationDetailFromJson(json);
+
+  factory ApplicationDetail.fromJson(Map<String, dynamic> json) {
+    return ApplicationDetail(
+      applicationARN: json['ApplicationARN'] as String,
+      applicationName: json['ApplicationName'] as String,
+      applicationStatus:
+          (json['ApplicationStatus'] as String).toApplicationStatus(),
+      applicationVersionId: json['ApplicationVersionId'] as int,
+      runtimeEnvironment:
+          (json['RuntimeEnvironment'] as String).toRuntimeEnvironment(),
+      applicationConfigurationDescription:
+          json['ApplicationConfigurationDescription'] != null
+              ? ApplicationConfigurationDescription.fromJson(
+                  json['ApplicationConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      applicationDescription: json['ApplicationDescription'] as String?,
+      applicationMaintenanceConfigurationDescription:
+          json['ApplicationMaintenanceConfigurationDescription'] != null
+              ? ApplicationMaintenanceConfigurationDescription.fromJson(
+                  json['ApplicationMaintenanceConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      applicationMode:
+          (json['ApplicationMode'] as String?)?.toApplicationMode(),
+      applicationVersionRolledBackFrom:
+          json['ApplicationVersionRolledBackFrom'] as int?,
+      applicationVersionRolledBackTo:
+          json['ApplicationVersionRolledBackTo'] as int?,
+      applicationVersionUpdatedFrom:
+          json['ApplicationVersionUpdatedFrom'] as int?,
+      cloudWatchLoggingOptionDescriptions:
+          (json['CloudWatchLoggingOptionDescriptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => CloudWatchLoggingOptionDescription.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      conditionalToken: json['ConditionalToken'] as String?,
+      createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+      lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+      serviceExecutionRole: json['ServiceExecutionRole'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationName = this.applicationName;
+    final applicationStatus = this.applicationStatus;
+    final applicationVersionId = this.applicationVersionId;
+    final runtimeEnvironment = this.runtimeEnvironment;
+    final applicationConfigurationDescription =
+        this.applicationConfigurationDescription;
+    final applicationDescription = this.applicationDescription;
+    final applicationMaintenanceConfigurationDescription =
+        this.applicationMaintenanceConfigurationDescription;
+    final applicationMode = this.applicationMode;
+    final applicationVersionRolledBackFrom =
+        this.applicationVersionRolledBackFrom;
+    final applicationVersionRolledBackTo = this.applicationVersionRolledBackTo;
+    final applicationVersionUpdatedFrom = this.applicationVersionUpdatedFrom;
+    final cloudWatchLoggingOptionDescriptions =
+        this.cloudWatchLoggingOptionDescriptions;
+    final conditionalToken = this.conditionalToken;
+    final createTimestamp = this.createTimestamp;
+    final lastUpdateTimestamp = this.lastUpdateTimestamp;
+    final serviceExecutionRole = this.serviceExecutionRole;
+    return {
+      'ApplicationARN': applicationARN,
+      'ApplicationName': applicationName,
+      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationVersionId': applicationVersionId,
+      'RuntimeEnvironment': runtimeEnvironment.toValue(),
+      if (applicationConfigurationDescription != null)
+        'ApplicationConfigurationDescription':
+            applicationConfigurationDescription,
+      if (applicationDescription != null)
+        'ApplicationDescription': applicationDescription,
+      if (applicationMaintenanceConfigurationDescription != null)
+        'ApplicationMaintenanceConfigurationDescription':
+            applicationMaintenanceConfigurationDescription,
+      if (applicationMode != null) 'ApplicationMode': applicationMode.toValue(),
+      if (applicationVersionRolledBackFrom != null)
+        'ApplicationVersionRolledBackFrom': applicationVersionRolledBackFrom,
+      if (applicationVersionRolledBackTo != null)
+        'ApplicationVersionRolledBackTo': applicationVersionRolledBackTo,
+      if (applicationVersionUpdatedFrom != null)
+        'ApplicationVersionUpdatedFrom': applicationVersionUpdatedFrom,
+      if (cloudWatchLoggingOptionDescriptions != null)
+        'CloudWatchLoggingOptionDescriptions':
+            cloudWatchLoggingOptionDescriptions,
+      if (conditionalToken != null) 'ConditionalToken': conditionalToken,
+      if (createTimestamp != null)
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
+      if (lastUpdateTimestamp != null)
+        'LastUpdateTimestamp': unixTimestampToJson(lastUpdateTimestamp),
+      if (serviceExecutionRole != null)
+        'ServiceExecutionRole': serviceExecutionRole,
+    };
+  }
+}
+
+/// The details of the maintenance configuration for the application.
+class ApplicationMaintenanceConfigurationDescription {
+  /// The end time for the maintenance window.
+  final String applicationMaintenanceWindowEndTime;
+
+  /// The start time for the maintenance window.
+  final String applicationMaintenanceWindowStartTime;
+
+  ApplicationMaintenanceConfigurationDescription({
+    required this.applicationMaintenanceWindowEndTime,
+    required this.applicationMaintenanceWindowStartTime,
+  });
+
+  factory ApplicationMaintenanceConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationMaintenanceConfigurationDescription(
+      applicationMaintenanceWindowEndTime:
+          json['ApplicationMaintenanceWindowEndTime'] as String,
+      applicationMaintenanceWindowStartTime:
+          json['ApplicationMaintenanceWindowStartTime'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationMaintenanceWindowEndTime =
+        this.applicationMaintenanceWindowEndTime;
+    final applicationMaintenanceWindowStartTime =
+        this.applicationMaintenanceWindowStartTime;
+    return {
+      'ApplicationMaintenanceWindowEndTime':
+          applicationMaintenanceWindowEndTime,
+      'ApplicationMaintenanceWindowStartTime':
+          applicationMaintenanceWindowStartTime,
+    };
+  }
+}
+
+/// Describes the updated maintenance configuration for the application.
+class ApplicationMaintenanceConfigurationUpdate {
+  /// The updated start time for the maintenance window.
+  final String applicationMaintenanceWindowStartTimeUpdate;
+
+  ApplicationMaintenanceConfigurationUpdate({
+    required this.applicationMaintenanceWindowStartTimeUpdate,
+  });
+
+  factory ApplicationMaintenanceConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationMaintenanceConfigurationUpdate(
+      applicationMaintenanceWindowStartTimeUpdate:
+          json['ApplicationMaintenanceWindowStartTimeUpdate'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationMaintenanceWindowStartTimeUpdate =
+        this.applicationMaintenanceWindowStartTimeUpdate;
+    return {
+      'ApplicationMaintenanceWindowStartTimeUpdate':
+          applicationMaintenanceWindowStartTimeUpdate,
+    };
+  }
+}
+
+enum ApplicationMode {
+  streaming,
+  interactive,
+}
+
+extension on ApplicationMode {
+  String toValue() {
+    switch (this) {
+      case ApplicationMode.streaming:
+        return 'STREAMING';
+      case ApplicationMode.interactive:
+        return 'INTERACTIVE';
+    }
+  }
+}
+
+extension on String {
+  ApplicationMode toApplicationMode() {
+    switch (this) {
+      case 'STREAMING':
+        return ApplicationMode.streaming;
+      case 'INTERACTIVE':
+        return ApplicationMode.interactive;
+    }
+    throw Exception('$this is not known in enum ApplicationMode');
+  }
 }
 
 /// Specifies the method and snapshot to use when restarting an application
 /// using previously saved application state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ApplicationRestoreConfiguration {
   /// Specifies how the application should be restored.
-  @_s.JsonKey(name: 'ApplicationRestoreType')
   final ApplicationRestoreType applicationRestoreType;
 
   /// The identifier of an existing snapshot of application state to use to
   /// restart an application. The application uses this value if
   /// <code>RESTORE_FROM_CUSTOM_SNAPSHOT</code> is specified for the
   /// <code>ApplicationRestoreType</code>.
-  @_s.JsonKey(name: 'SnapshotName')
-  final String snapshotName;
+  final String? snapshotName;
 
   ApplicationRestoreConfiguration({
-    @_s.required this.applicationRestoreType,
+    required this.applicationRestoreType,
     this.snapshotName,
   });
-  factory ApplicationRestoreConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationRestoreConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$ApplicationRestoreConfigurationToJson(this);
+  factory ApplicationRestoreConfiguration.fromJson(Map<String, dynamic> json) {
+    return ApplicationRestoreConfiguration(
+      applicationRestoreType:
+          (json['ApplicationRestoreType'] as String).toApplicationRestoreType(),
+      snapshotName: json['SnapshotName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationRestoreType = this.applicationRestoreType;
+    final snapshotName = this.snapshotName;
+    return {
+      'ApplicationRestoreType': applicationRestoreType.toValue(),
+      if (snapshotName != null) 'SnapshotName': snapshotName,
+    };
+  }
 }
 
 enum ApplicationRestoreType {
-  @_s.JsonValue('SKIP_RESTORE_FROM_SNAPSHOT')
   skipRestoreFromSnapshot,
-  @_s.JsonValue('RESTORE_FROM_LATEST_SNAPSHOT')
   restoreFromLatestSnapshot,
-  @_s.JsonValue('RESTORE_FROM_CUSTOM_SNAPSHOT')
   restoreFromCustomSnapshot,
 }
 
-/// Describes whether snapshots are enabled for a Flink-based Kinesis Data
-/// Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
-class ApplicationSnapshotConfiguration {
-  /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
-  /// Analytics application.
-  @_s.JsonKey(name: 'SnapshotsEnabled')
-  final bool snapshotsEnabled;
+extension on ApplicationRestoreType {
+  String toValue() {
+    switch (this) {
+      case ApplicationRestoreType.skipRestoreFromSnapshot:
+        return 'SKIP_RESTORE_FROM_SNAPSHOT';
+      case ApplicationRestoreType.restoreFromLatestSnapshot:
+        return 'RESTORE_FROM_LATEST_SNAPSHOT';
+      case ApplicationRestoreType.restoreFromCustomSnapshot:
+        return 'RESTORE_FROM_CUSTOM_SNAPSHOT';
+    }
+  }
+}
 
-  ApplicationSnapshotConfiguration({
-    @_s.required this.snapshotsEnabled,
-  });
-  Map<String, dynamic> toJson() =>
-      _$ApplicationSnapshotConfigurationToJson(this);
+extension on String {
+  ApplicationRestoreType toApplicationRestoreType() {
+    switch (this) {
+      case 'SKIP_RESTORE_FROM_SNAPSHOT':
+        return ApplicationRestoreType.skipRestoreFromSnapshot;
+      case 'RESTORE_FROM_LATEST_SNAPSHOT':
+        return ApplicationRestoreType.restoreFromLatestSnapshot;
+      case 'RESTORE_FROM_CUSTOM_SNAPSHOT':
+        return ApplicationRestoreType.restoreFromCustomSnapshot;
+    }
+    throw Exception('$this is not known in enum ApplicationRestoreType');
+  }
 }
 
 /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
 /// Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class ApplicationSnapshotConfiguration {
+  /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
+  /// Analytics application.
+  final bool snapshotsEnabled;
+
+  ApplicationSnapshotConfiguration({
+    required this.snapshotsEnabled,
+  });
+
+  factory ApplicationSnapshotConfiguration.fromJson(Map<String, dynamic> json) {
+    return ApplicationSnapshotConfiguration(
+      snapshotsEnabled: json['SnapshotsEnabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotsEnabled = this.snapshotsEnabled;
+    return {
+      'SnapshotsEnabled': snapshotsEnabled,
+    };
+  }
+}
+
+/// Describes whether snapshots are enabled for a Flink-based Kinesis Data
+/// Analytics application.
 class ApplicationSnapshotConfigurationDescription {
   /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
-  @_s.JsonKey(name: 'SnapshotsEnabled')
   final bool snapshotsEnabled;
 
   ApplicationSnapshotConfigurationDescription({
-    @_s.required this.snapshotsEnabled,
+    required this.snapshotsEnabled,
   });
+
   factory ApplicationSnapshotConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ApplicationSnapshotConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ApplicationSnapshotConfigurationDescription(
+      snapshotsEnabled: json['SnapshotsEnabled'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotsEnabled = this.snapshotsEnabled;
+    return {
+      'SnapshotsEnabled': snapshotsEnabled,
+    };
+  }
 }
 
 /// Describes updates to whether snapshots are enabled for a Flink-based Kinesis
 /// Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ApplicationSnapshotConfigurationUpdate {
-  /// Describes updates to whether snapshots are enabled for a Flink-based Kinesis
-  /// Data Analytics application.
-  @_s.JsonKey(name: 'SnapshotsEnabledUpdate')
+  /// Describes updates to whether snapshots are enabled for an application.
   final bool snapshotsEnabledUpdate;
 
   ApplicationSnapshotConfigurationUpdate({
-    @_s.required this.snapshotsEnabledUpdate,
+    required this.snapshotsEnabledUpdate,
   });
-  Map<String, dynamic> toJson() =>
-      _$ApplicationSnapshotConfigurationUpdateToJson(this);
+
+  factory ApplicationSnapshotConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return ApplicationSnapshotConfigurationUpdate(
+      snapshotsEnabledUpdate: json['SnapshotsEnabledUpdate'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotsEnabledUpdate = this.snapshotsEnabledUpdate;
+    return {
+      'SnapshotsEnabledUpdate': snapshotsEnabledUpdate,
+    };
+  }
 }
 
 enum ApplicationStatus {
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('AUTOSCALING')
   autoscaling,
-  @_s.JsonValue('FORCE_STOPPING')
   forceStopping,
+  maintenance,
+  rollingBack,
+  rolledBack,
+}
+
+extension on ApplicationStatus {
+  String toValue() {
+    switch (this) {
+      case ApplicationStatus.deleting:
+        return 'DELETING';
+      case ApplicationStatus.starting:
+        return 'STARTING';
+      case ApplicationStatus.stopping:
+        return 'STOPPING';
+      case ApplicationStatus.ready:
+        return 'READY';
+      case ApplicationStatus.running:
+        return 'RUNNING';
+      case ApplicationStatus.updating:
+        return 'UPDATING';
+      case ApplicationStatus.autoscaling:
+        return 'AUTOSCALING';
+      case ApplicationStatus.forceStopping:
+        return 'FORCE_STOPPING';
+      case ApplicationStatus.maintenance:
+        return 'MAINTENANCE';
+      case ApplicationStatus.rollingBack:
+        return 'ROLLING_BACK';
+      case ApplicationStatus.rolledBack:
+        return 'ROLLED_BACK';
+    }
+  }
+}
+
+extension on String {
+  ApplicationStatus toApplicationStatus() {
+    switch (this) {
+      case 'DELETING':
+        return ApplicationStatus.deleting;
+      case 'STARTING':
+        return ApplicationStatus.starting;
+      case 'STOPPING':
+        return ApplicationStatus.stopping;
+      case 'READY':
+        return ApplicationStatus.ready;
+      case 'RUNNING':
+        return ApplicationStatus.running;
+      case 'UPDATING':
+        return ApplicationStatus.updating;
+      case 'AUTOSCALING':
+        return ApplicationStatus.autoscaling;
+      case 'FORCE_STOPPING':
+        return ApplicationStatus.forceStopping;
+      case 'MAINTENANCE':
+        return ApplicationStatus.maintenance;
+      case 'ROLLING_BACK':
+        return ApplicationStatus.rollingBack;
+      case 'ROLLED_BACK':
+        return ApplicationStatus.rolledBack;
+    }
+    throw Exception('$this is not known in enum ApplicationStatus');
+  }
 }
 
 /// Provides application summary information, including the application Amazon
 /// Resource Name (ARN), name, and status.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationSummary {
   /// The ARN of the application.
-  @_s.JsonKey(name: 'ApplicationARN')
   final String applicationARN;
 
   /// The name of the application.
-  @_s.JsonKey(name: 'ApplicationName')
   final String applicationName;
 
   /// The status of the application.
-  @_s.JsonKey(name: 'ApplicationStatus')
   final ApplicationStatus applicationStatus;
 
   /// Provides the current application version.
-  @_s.JsonKey(name: 'ApplicationVersionId')
   final int applicationVersionId;
 
-  /// The runtime environment for the application (<code>SQL-1.0</code>,
-  /// <code>FLINK-1_6</code>, or <code>FLINK-1_8</code>).
-  @_s.JsonKey(name: 'RuntimeEnvironment')
+  /// The runtime environment for the application.
   final RuntimeEnvironment runtimeEnvironment;
 
+  /// For a Kinesis Data Analytics for Apache Flink application, the mode is
+  /// <code>STREAMING</code>. For a Kinesis Data Analytics Studio notebook, it is
+  /// <code>INTERACTIVE</code>.
+  final ApplicationMode? applicationMode;
+
   ApplicationSummary({
-    @_s.required this.applicationARN,
-    @_s.required this.applicationName,
-    @_s.required this.applicationStatus,
-    @_s.required this.applicationVersionId,
-    @_s.required this.runtimeEnvironment,
+    required this.applicationARN,
+    required this.applicationName,
+    required this.applicationStatus,
+    required this.applicationVersionId,
+    required this.runtimeEnvironment,
+    this.applicationMode,
   });
-  factory ApplicationSummary.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationSummaryFromJson(json);
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      applicationARN: json['ApplicationARN'] as String,
+      applicationName: json['ApplicationName'] as String,
+      applicationStatus:
+          (json['ApplicationStatus'] as String).toApplicationStatus(),
+      applicationVersionId: json['ApplicationVersionId'] as int,
+      runtimeEnvironment:
+          (json['RuntimeEnvironment'] as String).toRuntimeEnvironment(),
+      applicationMode:
+          (json['ApplicationMode'] as String?)?.toApplicationMode(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationName = this.applicationName;
+    final applicationStatus = this.applicationStatus;
+    final applicationVersionId = this.applicationVersionId;
+    final runtimeEnvironment = this.runtimeEnvironment;
+    final applicationMode = this.applicationMode;
+    return {
+      'ApplicationARN': applicationARN,
+      'ApplicationName': applicationName,
+      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationVersionId': applicationVersionId,
+      'RuntimeEnvironment': runtimeEnvironment.toValue(),
+      if (applicationMode != null) 'ApplicationMode': applicationMode.toValue(),
+    };
+  }
+}
+
+/// The summary of the application version.
+class ApplicationVersionSummary {
+  /// The status of the application.
+  final ApplicationStatus applicationStatus;
+
+  /// The ID of the application version. Kinesis Data Analytics updates the
+  /// <code>ApplicationVersionId</code> each time you update the application.
+  final int applicationVersionId;
+
+  ApplicationVersionSummary({
+    required this.applicationStatus,
+    required this.applicationVersionId,
+  });
+
+  factory ApplicationVersionSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationVersionSummary(
+      applicationStatus:
+          (json['ApplicationStatus'] as String).toApplicationStatus(),
+      applicationVersionId: json['ApplicationVersionId'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationStatus = this.applicationStatus;
+    final applicationVersionId = this.applicationVersionId;
+    return {
+      'ApplicationStatus': applicationStatus.toValue(),
+      'ApplicationVersionId': applicationVersionId,
+    };
+  }
+}
+
+enum ArtifactType {
+  udf,
+  dependencyJar,
+}
+
+extension on ArtifactType {
+  String toValue() {
+    switch (this) {
+      case ArtifactType.udf:
+        return 'UDF';
+      case ArtifactType.dependencyJar:
+        return 'DEPENDENCY_JAR';
+    }
+  }
+}
+
+extension on String {
+  ArtifactType toArtifactType() {
+    switch (this) {
+      case 'UDF':
+        return ArtifactType.udf;
+      case 'DEPENDENCY_JAR':
+        return ArtifactType.dependencyJar;
+    }
+    throw Exception('$this is not known in enum ArtifactType');
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides additional
@@ -2763,30 +3610,125 @@ class ApplicationSummary {
 /// <code>"name1", "address1"</code>
 ///
 /// <code>"name2", "address2"</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CSVMappingParameters {
   /// The column delimiter. For example, in a CSV format, a comma (",") is the
   /// typical column delimiter.
-  @_s.JsonKey(name: 'RecordColumnDelimiter')
   final String recordColumnDelimiter;
 
   /// The row delimiter. For example, in a CSV format, <i>'\n'</i> is the typical
   /// row delimiter.
-  @_s.JsonKey(name: 'RecordRowDelimiter')
   final String recordRowDelimiter;
 
   CSVMappingParameters({
-    @_s.required this.recordColumnDelimiter,
-    @_s.required this.recordRowDelimiter,
+    required this.recordColumnDelimiter,
+    required this.recordRowDelimiter,
   });
-  factory CSVMappingParameters.fromJson(Map<String, dynamic> json) =>
-      _$CSVMappingParametersFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CSVMappingParametersToJson(this);
+  factory CSVMappingParameters.fromJson(Map<String, dynamic> json) {
+    return CSVMappingParameters(
+      recordColumnDelimiter: json['RecordColumnDelimiter'] as String,
+      recordRowDelimiter: json['RecordRowDelimiter'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordColumnDelimiter = this.recordColumnDelimiter;
+    final recordRowDelimiter = this.recordRowDelimiter;
+    return {
+      'RecordColumnDelimiter': recordColumnDelimiter,
+      'RecordRowDelimiter': recordRowDelimiter,
+    };
+  }
+}
+
+/// The configuration parameters for the default AWS Glue database. You use this
+/// database for SQL queries that you write in a Kinesis Data Analytics Studio
+/// notebook.
+class CatalogConfiguration {
+  /// The configuration parameters for the default AWS Glue database. You use this
+  /// database for Apache Flink SQL queries and table API transforms that you
+  /// write in a Kinesis Data Analytics Studio notebook.
+  final GlueDataCatalogConfiguration glueDataCatalogConfiguration;
+
+  CatalogConfiguration({
+    required this.glueDataCatalogConfiguration,
+  });
+
+  factory CatalogConfiguration.fromJson(Map<String, dynamic> json) {
+    return CatalogConfiguration(
+      glueDataCatalogConfiguration: GlueDataCatalogConfiguration.fromJson(
+          json['GlueDataCatalogConfiguration'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glueDataCatalogConfiguration = this.glueDataCatalogConfiguration;
+    return {
+      'GlueDataCatalogConfiguration': glueDataCatalogConfiguration,
+    };
+  }
+}
+
+/// The configuration parameters for the default AWS Glue database. You use this
+/// database for Apache Flink SQL queries and table API transforms that you
+/// write in a Kinesis Data Analytics Studio notebook.
+class CatalogConfigurationDescription {
+  /// The configuration parameters for the default AWS Glue database. You use this
+  /// database for SQL queries that you write in a Kinesis Data Analytics Studio
+  /// notebook.
+  final GlueDataCatalogConfigurationDescription
+      glueDataCatalogConfigurationDescription;
+
+  CatalogConfigurationDescription({
+    required this.glueDataCatalogConfigurationDescription,
+  });
+
+  factory CatalogConfigurationDescription.fromJson(Map<String, dynamic> json) {
+    return CatalogConfigurationDescription(
+      glueDataCatalogConfigurationDescription:
+          GlueDataCatalogConfigurationDescription.fromJson(
+              json['GlueDataCatalogConfigurationDescription']
+                  as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glueDataCatalogConfigurationDescription =
+        this.glueDataCatalogConfigurationDescription;
+    return {
+      'GlueDataCatalogConfigurationDescription':
+          glueDataCatalogConfigurationDescription,
+    };
+  }
+}
+
+/// Updates to
+class CatalogConfigurationUpdate {
+  /// Updates to the configuration parameters for the default AWS Glue database.
+  /// You use this database for SQL queries that you write in a Kinesis Data
+  /// Analytics Studio notebook.
+  final GlueDataCatalogConfigurationUpdate glueDataCatalogConfigurationUpdate;
+
+  CatalogConfigurationUpdate({
+    required this.glueDataCatalogConfigurationUpdate,
+  });
+
+  factory CatalogConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return CatalogConfigurationUpdate(
+      glueDataCatalogConfigurationUpdate:
+          GlueDataCatalogConfigurationUpdate.fromJson(
+              json['GlueDataCatalogConfigurationUpdate']
+                  as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final glueDataCatalogConfigurationUpdate =
+        this.glueDataCatalogConfigurationUpdate;
+    return {
+      'GlueDataCatalogConfigurationUpdate': glueDataCatalogConfigurationUpdate,
+    };
+  }
 }
 
 /// Describes an application's checkpointing configuration. Checkpointing is the
@@ -2796,11 +3738,6 @@ class CSVMappingParameters {
 /// Checkpoints for Fault Tolerance</a> in the <a
 /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
 /// Flink Documentation</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CheckpointConfiguration {
   /// Describes whether the application uses Kinesis Data Analytics' default
   /// checkpointing behavior. You must set this property to <code>CUSTOM</code> in
@@ -2823,18 +3760,16 @@ class CheckpointConfiguration {
   /// <b>MinPauseBetweenCheckpoints:</b> 5000
   /// </li>
   /// </ul> </note>
-  @_s.JsonKey(name: 'ConfigurationType')
   final ConfigurationType configurationType;
 
   /// Describes the interval in milliseconds between checkpoint operations.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
   /// <code>DEFAULT</code>, the application will use a
-  /// <code>CheckpointInterval</code> vaue of 60000, even if this value is set to
+  /// <code>CheckpointInterval</code> value of 60000, even if this value is set to
   /// another value using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'CheckpointInterval')
-  final int checkpointInterval;
+  final int? checkpointInterval;
 
   /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data
   /// Analytics application.
@@ -2844,8 +3779,7 @@ class CheckpointConfiguration {
   /// <code>CheckpointingEnabled</code> value of <code>true</code>, even if this
   /// value is set to another value using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'CheckpointingEnabled')
-  final bool checkpointingEnabled;
+  final bool? checkpointingEnabled;
 
   /// Describes the minimum time in milliseconds after a checkpoint operation
   /// completes that a new checkpoint operation can start. If a checkpoint
@@ -2862,35 +3796,52 @@ class CheckpointConfiguration {
   /// <code>MinPauseBetweenCheckpoints</code> value of 5000, even if this value is
   /// set using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'MinPauseBetweenCheckpoints')
-  final int minPauseBetweenCheckpoints;
+  final int? minPauseBetweenCheckpoints;
 
   CheckpointConfiguration({
-    @_s.required this.configurationType,
+    required this.configurationType,
     this.checkpointInterval,
     this.checkpointingEnabled,
     this.minPauseBetweenCheckpoints,
   });
-  Map<String, dynamic> toJson() => _$CheckpointConfigurationToJson(this);
+
+  factory CheckpointConfiguration.fromJson(Map<String, dynamic> json) {
+    return CheckpointConfiguration(
+      configurationType:
+          (json['ConfigurationType'] as String).toConfigurationType(),
+      checkpointInterval: json['CheckpointInterval'] as int?,
+      checkpointingEnabled: json['CheckpointingEnabled'] as bool?,
+      minPauseBetweenCheckpoints: json['MinPauseBetweenCheckpoints'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationType = this.configurationType;
+    final checkpointInterval = this.checkpointInterval;
+    final checkpointingEnabled = this.checkpointingEnabled;
+    final minPauseBetweenCheckpoints = this.minPauseBetweenCheckpoints;
+    return {
+      'ConfigurationType': configurationType.toValue(),
+      if (checkpointInterval != null) 'CheckpointInterval': checkpointInterval,
+      if (checkpointingEnabled != null)
+        'CheckpointingEnabled': checkpointingEnabled,
+      if (minPauseBetweenCheckpoints != null)
+        'MinPauseBetweenCheckpoints': minPauseBetweenCheckpoints,
+    };
+  }
 }
 
 /// Describes checkpointing parameters for a Flink-based Kinesis Data Analytics
 /// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CheckpointConfigurationDescription {
   /// Describes the interval in milliseconds between checkpoint operations.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
   /// <code>DEFAULT</code>, the application will use a
-  /// <code>CheckpointInterval</code> vaue of 60000, even if this value is set to
+  /// <code>CheckpointInterval</code> value of 60000, even if this value is set to
   /// another value using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'CheckpointInterval')
-  final int checkpointInterval;
+  final int? checkpointInterval;
 
   /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data
   /// Analytics application.
@@ -2900,8 +3851,7 @@ class CheckpointConfigurationDescription {
   /// <code>CheckpointingEnabled</code> value of <code>true</code>, even if this
   /// value is set to another value using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'CheckpointingEnabled')
-  final bool checkpointingEnabled;
+  final bool? checkpointingEnabled;
 
   /// Describes whether the application uses the default checkpointing behavior in
   /// Kinesis Data Analytics.
@@ -2921,8 +3871,7 @@ class CheckpointConfigurationDescription {
   /// <b>MinPauseBetweenCheckpoints:</b> 5000
   /// </li>
   /// </ul> </note>
-  @_s.JsonKey(name: 'ConfigurationType')
-  final ConfigurationType configurationType;
+  final ConfigurationType? configurationType;
 
   /// Describes the minimum time in milliseconds after a checkpoint operation
   /// completes that a new checkpoint operation can start.
@@ -2932,8 +3881,7 @@ class CheckpointConfigurationDescription {
   /// <code>MinPauseBetweenCheckpoints</code> value of 5000, even if this value is
   /// set using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'MinPauseBetweenCheckpoints')
-  final int minPauseBetweenCheckpoints;
+  final int? minPauseBetweenCheckpoints;
 
   CheckpointConfigurationDescription({
     this.checkpointInterval,
@@ -2941,29 +3889,47 @@ class CheckpointConfigurationDescription {
     this.configurationType,
     this.minPauseBetweenCheckpoints,
   });
+
   factory CheckpointConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$CheckpointConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return CheckpointConfigurationDescription(
+      checkpointInterval: json['CheckpointInterval'] as int?,
+      checkpointingEnabled: json['CheckpointingEnabled'] as bool?,
+      configurationType:
+          (json['ConfigurationType'] as String?)?.toConfigurationType(),
+      minPauseBetweenCheckpoints: json['MinPauseBetweenCheckpoints'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkpointInterval = this.checkpointInterval;
+    final checkpointingEnabled = this.checkpointingEnabled;
+    final configurationType = this.configurationType;
+    final minPauseBetweenCheckpoints = this.minPauseBetweenCheckpoints;
+    return {
+      if (checkpointInterval != null) 'CheckpointInterval': checkpointInterval,
+      if (checkpointingEnabled != null)
+        'CheckpointingEnabled': checkpointingEnabled,
+      if (configurationType != null)
+        'ConfigurationType': configurationType.toValue(),
+      if (minPauseBetweenCheckpoints != null)
+        'MinPauseBetweenCheckpoints': minPauseBetweenCheckpoints,
+    };
+  }
 }
 
 /// Describes updates to the checkpointing parameters for a Flink-based Kinesis
 /// Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CheckpointConfigurationUpdate {
   /// Describes updates to the interval in milliseconds between checkpoint
   /// operations.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
   /// <code>DEFAULT</code>, the application will use a
-  /// <code>CheckpointInterval</code> vaue of 60000, even if this value is set to
+  /// <code>CheckpointInterval</code> value of 60000, even if this value is set to
   /// another value using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'CheckpointIntervalUpdate')
-  final int checkpointIntervalUpdate;
+  final int? checkpointIntervalUpdate;
 
   /// Describes updates to whether checkpointing is enabled for an application.
   /// <note>
@@ -2972,8 +3938,7 @@ class CheckpointConfigurationUpdate {
   /// <code>CheckpointingEnabled</code> value of <code>true</code>, even if this
   /// value is set to another value using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'CheckpointingEnabledUpdate')
-  final bool checkpointingEnabledUpdate;
+  final bool? checkpointingEnabledUpdate;
 
   /// Describes updates to whether the application uses the default checkpointing
   /// behavior of Kinesis Data Analytics. You must set this property to
@@ -2996,8 +3961,7 @@ class CheckpointConfigurationUpdate {
   /// <b>MinPauseBetweenCheckpoints:</b> 5000
   /// </li>
   /// </ul> </note>
-  @_s.JsonKey(name: 'ConfigurationTypeUpdate')
-  final ConfigurationType configurationTypeUpdate;
+  final ConfigurationType? configurationTypeUpdate;
 
   /// Describes updates to the minimum time in milliseconds after a checkpoint
   /// operation completes that a new checkpoint operation can start.
@@ -3007,8 +3971,7 @@ class CheckpointConfigurationUpdate {
   /// <code>MinPauseBetweenCheckpoints</code> value of 5000, even if this value is
   /// set using this API or in application code.
   /// </note>
-  @_s.JsonKey(name: 'MinPauseBetweenCheckpointsUpdate')
-  final int minPauseBetweenCheckpointsUpdate;
+  final int? minPauseBetweenCheckpointsUpdate;
 
   CheckpointConfigurationUpdate({
     this.checkpointIntervalUpdate,
@@ -3016,42 +3979,69 @@ class CheckpointConfigurationUpdate {
     this.configurationTypeUpdate,
     this.minPauseBetweenCheckpointsUpdate,
   });
-  Map<String, dynamic> toJson() => _$CheckpointConfigurationUpdateToJson(this);
+
+  factory CheckpointConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return CheckpointConfigurationUpdate(
+      checkpointIntervalUpdate: json['CheckpointIntervalUpdate'] as int?,
+      checkpointingEnabledUpdate: json['CheckpointingEnabledUpdate'] as bool?,
+      configurationTypeUpdate:
+          (json['ConfigurationTypeUpdate'] as String?)?.toConfigurationType(),
+      minPauseBetweenCheckpointsUpdate:
+          json['MinPauseBetweenCheckpointsUpdate'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkpointIntervalUpdate = this.checkpointIntervalUpdate;
+    final checkpointingEnabledUpdate = this.checkpointingEnabledUpdate;
+    final configurationTypeUpdate = this.configurationTypeUpdate;
+    final minPauseBetweenCheckpointsUpdate =
+        this.minPauseBetweenCheckpointsUpdate;
+    return {
+      if (checkpointIntervalUpdate != null)
+        'CheckpointIntervalUpdate': checkpointIntervalUpdate,
+      if (checkpointingEnabledUpdate != null)
+        'CheckpointingEnabledUpdate': checkpointingEnabledUpdate,
+      if (configurationTypeUpdate != null)
+        'ConfigurationTypeUpdate': configurationTypeUpdate.toValue(),
+      if (minPauseBetweenCheckpointsUpdate != null)
+        'MinPauseBetweenCheckpointsUpdate': minPauseBetweenCheckpointsUpdate,
+    };
+  }
 }
 
 /// Provides a description of Amazon CloudWatch logging options, including the
 /// log stream Amazon Resource Name (ARN).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CloudWatchLoggingOption {
   /// The ARN of the CloudWatch log to receive application messages.
-  @_s.JsonKey(name: 'LogStreamARN')
   final String logStreamARN;
 
   CloudWatchLoggingOption({
-    @_s.required this.logStreamARN,
+    required this.logStreamARN,
   });
-  Map<String, dynamic> toJson() => _$CloudWatchLoggingOptionToJson(this);
+
+  factory CloudWatchLoggingOption.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLoggingOption(
+      logStreamARN: json['LogStreamARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logStreamARN = this.logStreamARN;
+    return {
+      'LogStreamARN': logStreamARN,
+    };
+  }
 }
 
 /// Describes the Amazon CloudWatch logging option.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CloudWatchLoggingOptionDescription {
   /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application
   /// messages.
-  @_s.JsonKey(name: 'LogStreamARN')
   final String logStreamARN;
 
   /// The ID of the CloudWatch logging option description.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptionId')
-  final String cloudWatchLoggingOptionId;
+  final String? cloudWatchLoggingOptionId;
 
   /// The IAM ARN of the role to use to send application messages.
   /// <note>
@@ -3059,97 +4049,126 @@ class CloudWatchLoggingOptionDescription {
   /// API version have an application-level service execution role rather than a
   /// resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   CloudWatchLoggingOptionDescription({
-    @_s.required this.logStreamARN,
+    required this.logStreamARN,
     this.cloudWatchLoggingOptionId,
     this.roleARN,
   });
+
   factory CloudWatchLoggingOptionDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$CloudWatchLoggingOptionDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return CloudWatchLoggingOptionDescription(
+      logStreamARN: json['LogStreamARN'] as String,
+      cloudWatchLoggingOptionId: json['CloudWatchLoggingOptionId'] as String?,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logStreamARN = this.logStreamARN;
+    final cloudWatchLoggingOptionId = this.cloudWatchLoggingOptionId;
+    final roleARN = this.roleARN;
+    return {
+      'LogStreamARN': logStreamARN,
+      if (cloudWatchLoggingOptionId != null)
+        'CloudWatchLoggingOptionId': cloudWatchLoggingOptionId,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// Describes the Amazon CloudWatch logging option updates.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CloudWatchLoggingOptionUpdate {
   /// The ID of the CloudWatch logging option to update
-  @_s.JsonKey(name: 'CloudWatchLoggingOptionId')
   final String cloudWatchLoggingOptionId;
 
   /// The Amazon Resource Name (ARN) of the CloudWatch log to receive application
   /// messages.
-  @_s.JsonKey(name: 'LogStreamARNUpdate')
-  final String logStreamARNUpdate;
+  final String? logStreamARNUpdate;
 
   CloudWatchLoggingOptionUpdate({
-    @_s.required this.cloudWatchLoggingOptionId,
+    required this.cloudWatchLoggingOptionId,
     this.logStreamARNUpdate,
   });
-  Map<String, dynamic> toJson() => _$CloudWatchLoggingOptionUpdateToJson(this);
+
+  factory CloudWatchLoggingOptionUpdate.fromJson(Map<String, dynamic> json) {
+    return CloudWatchLoggingOptionUpdate(
+      cloudWatchLoggingOptionId: json['CloudWatchLoggingOptionId'] as String,
+      logStreamARNUpdate: json['LogStreamARNUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLoggingOptionId = this.cloudWatchLoggingOptionId;
+    final logStreamARNUpdate = this.logStreamARNUpdate;
+    return {
+      'CloudWatchLoggingOptionId': cloudWatchLoggingOptionId,
+      if (logStreamARNUpdate != null) 'LogStreamARNUpdate': logStreamARNUpdate,
+    };
+  }
 }
 
 /// Specifies either the application code, or the location of the application
 /// code, for a Flink-based Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class CodeContent {
-  /// Information about the Amazon S3 bucket containing the application code.
-  @_s.JsonKey(name: 'S3ContentLocation')
-  final S3ContentLocation s3ContentLocation;
+  /// Information about the Amazon S3 bucket that contains the application code.
+  final S3ContentLocation? s3ContentLocation;
 
   /// The text-format code for a Flink-based Kinesis Data Analytics application.
-  @_s.JsonKey(name: 'TextContent')
-  final String textContent;
+  final String? textContent;
 
   /// The zip-format code for a Flink-based Kinesis Data Analytics application.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'ZipFileContent')
-  final Uint8List zipFileContent;
+  final Uint8List? zipFileContent;
 
   CodeContent({
     this.s3ContentLocation,
     this.textContent,
     this.zipFileContent,
   });
-  Map<String, dynamic> toJson() => _$CodeContentToJson(this);
+
+  factory CodeContent.fromJson(Map<String, dynamic> json) {
+    return CodeContent(
+      s3ContentLocation: json['S3ContentLocation'] != null
+          ? S3ContentLocation.fromJson(
+              json['S3ContentLocation'] as Map<String, dynamic>)
+          : null,
+      textContent: json['TextContent'] as String?,
+      zipFileContent:
+          _s.decodeNullableUint8List(json['ZipFileContent'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3ContentLocation = this.s3ContentLocation;
+    final textContent = this.textContent;
+    final zipFileContent = this.zipFileContent;
+    return {
+      if (s3ContentLocation != null) 'S3ContentLocation': s3ContentLocation,
+      if (textContent != null) 'TextContent': textContent,
+      if (zipFileContent != null)
+        'ZipFileContent': base64Encode(zipFileContent),
+    };
+  }
 }
 
-/// Describes details about the application code for a Flink-based Kinesis Data
-/// Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Describes details about the code of a Kinesis Data Analytics application.
 class CodeContentDescription {
   /// The checksum that can be used to validate zip-format code.
-  @_s.JsonKey(name: 'CodeMD5')
-  final String codeMD5;
+  final String? codeMD5;
 
   /// The size in bytes of the application code. Can be used to validate
   /// zip-format code.
-  @_s.JsonKey(name: 'CodeSize')
-  final int codeSize;
+  final int? codeSize;
 
   /// The S3 bucket Amazon Resource Name (ARN), file key, and object version of
   /// the application code stored in Amazon S3.
-  @_s.JsonKey(name: 'S3ApplicationCodeLocationDescription')
-  final S3ApplicationCodeLocationDescription
+  final S3ApplicationCodeLocationDescription?
       s3ApplicationCodeLocationDescription;
 
   /// The text-format code
-  @_s.JsonKey(name: 'TextContent')
-  final String textContent;
+  final String? textContent;
 
   CodeContentDescription({
     this.codeMD5,
@@ -3157,121 +4176,299 @@ class CodeContentDescription {
     this.s3ApplicationCodeLocationDescription,
     this.textContent,
   });
-  factory CodeContentDescription.fromJson(Map<String, dynamic> json) =>
-      _$CodeContentDescriptionFromJson(json);
+
+  factory CodeContentDescription.fromJson(Map<String, dynamic> json) {
+    return CodeContentDescription(
+      codeMD5: json['CodeMD5'] as String?,
+      codeSize: json['CodeSize'] as int?,
+      s3ApplicationCodeLocationDescription:
+          json['S3ApplicationCodeLocationDescription'] != null
+              ? S3ApplicationCodeLocationDescription.fromJson(
+                  json['S3ApplicationCodeLocationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      textContent: json['TextContent'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final codeMD5 = this.codeMD5;
+    final codeSize = this.codeSize;
+    final s3ApplicationCodeLocationDescription =
+        this.s3ApplicationCodeLocationDescription;
+    final textContent = this.textContent;
+    return {
+      if (codeMD5 != null) 'CodeMD5': codeMD5,
+      if (codeSize != null) 'CodeSize': codeSize,
+      if (s3ApplicationCodeLocationDescription != null)
+        'S3ApplicationCodeLocationDescription':
+            s3ApplicationCodeLocationDescription,
+      if (textContent != null) 'TextContent': textContent,
+    };
+  }
 }
 
 enum CodeContentType {
-  @_s.JsonValue('PLAINTEXT')
   plaintext,
-  @_s.JsonValue('ZIPFILE')
   zipfile,
 }
 
-/// Describes an update to the code of a Flink-based Kinesis Data Analytics
-/// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+extension on CodeContentType {
+  String toValue() {
+    switch (this) {
+      case CodeContentType.plaintext:
+        return 'PLAINTEXT';
+      case CodeContentType.zipfile:
+        return 'ZIPFILE';
+    }
+  }
+}
+
+extension on String {
+  CodeContentType toCodeContentType() {
+    switch (this) {
+      case 'PLAINTEXT':
+        return CodeContentType.plaintext;
+      case 'ZIPFILE':
+        return CodeContentType.zipfile;
+    }
+    throw Exception('$this is not known in enum CodeContentType');
+  }
+}
+
+/// Describes an update to the code of an application. Not supported for Apache
+/// Zeppelin.
 class CodeContentUpdate {
   /// Describes an update to the location of code for an application.
-  @_s.JsonKey(name: 'S3ContentLocationUpdate')
-  final S3ContentLocationUpdate s3ContentLocationUpdate;
+  final S3ContentLocationUpdate? s3ContentLocationUpdate;
 
   /// Describes an update to the text code for an application.
-  @_s.JsonKey(name: 'TextContentUpdate')
-  final String textContentUpdate;
+  final String? textContentUpdate;
 
   /// Describes an update to the zipped code for an application.
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'ZipFileContentUpdate')
-  final Uint8List zipFileContentUpdate;
+  final Uint8List? zipFileContentUpdate;
 
   CodeContentUpdate({
     this.s3ContentLocationUpdate,
     this.textContentUpdate,
     this.zipFileContentUpdate,
   });
-  Map<String, dynamic> toJson() => _$CodeContentUpdateToJson(this);
+
+  factory CodeContentUpdate.fromJson(Map<String, dynamic> json) {
+    return CodeContentUpdate(
+      s3ContentLocationUpdate: json['S3ContentLocationUpdate'] != null
+          ? S3ContentLocationUpdate.fromJson(
+              json['S3ContentLocationUpdate'] as Map<String, dynamic>)
+          : null,
+      textContentUpdate: json['TextContentUpdate'] as String?,
+      zipFileContentUpdate:
+          _s.decodeNullableUint8List(json['ZipFileContentUpdate'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3ContentLocationUpdate = this.s3ContentLocationUpdate;
+    final textContentUpdate = this.textContentUpdate;
+    final zipFileContentUpdate = this.zipFileContentUpdate;
+    return {
+      if (s3ContentLocationUpdate != null)
+        'S3ContentLocationUpdate': s3ContentLocationUpdate,
+      if (textContentUpdate != null) 'TextContentUpdate': textContentUpdate,
+      if (zipFileContentUpdate != null)
+        'ZipFileContentUpdate': base64Encode(zipFileContentUpdate),
+    };
+  }
 }
 
 enum ConfigurationType {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('CUSTOM')
   custom,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConfigurationType {
+  String toValue() {
+    switch (this) {
+      case ConfigurationType.$default:
+        return 'DEFAULT';
+      case ConfigurationType.custom:
+        return 'CUSTOM';
+    }
+  }
+}
+
+extension on String {
+  ConfigurationType toConfigurationType() {
+    switch (this) {
+      case 'DEFAULT':
+        return ConfigurationType.$default;
+      case 'CUSTOM':
+        return ConfigurationType.custom;
+    }
+    throw Exception('$this is not known in enum ConfigurationType');
+  }
+}
+
 class CreateApplicationPresignedUrlResponse {
   /// The URL of the extension.
-  @_s.JsonKey(name: 'AuthorizedUrl')
-  final String authorizedUrl;
+  final String? authorizedUrl;
 
   CreateApplicationPresignedUrlResponse({
     this.authorizedUrl,
   });
+
   factory CreateApplicationPresignedUrlResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateApplicationPresignedUrlResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateApplicationPresignedUrlResponse(
+      authorizedUrl: json['AuthorizedUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authorizedUrl = this.authorizedUrl;
+    return {
+      if (authorizedUrl != null) 'AuthorizedUrl': authorizedUrl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApplicationResponse {
   /// In response to your <code>CreateApplication</code> request, Kinesis Data
   /// Analytics returns a response with details of the application it created.
-  @_s.JsonKey(name: 'ApplicationDetail')
   final ApplicationDetail applicationDetail;
 
   CreateApplicationResponse({
-    @_s.required this.applicationDetail,
+    required this.applicationDetail,
   });
-  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApplicationResponseFromJson(json);
+
+  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResponse(
+      applicationDetail: ApplicationDetail.fromJson(
+          json['ApplicationDetail'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationDetail = this.applicationDetail;
+    return {
+      'ApplicationDetail': applicationDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApplicationSnapshotResponse {
   CreateApplicationSnapshotResponse();
-  factory CreateApplicationSnapshotResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateApplicationSnapshotResponseFromJson(json);
+
+  factory CreateApplicationSnapshotResponse.fromJson(Map<String, dynamic> _) {
+    return CreateApplicationSnapshotResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Specifies dependency JARs, as well as JAR files that contain user-defined
+/// functions (UDF).
+class CustomArtifactConfiguration {
+  /// <code>UDF</code> stands for user-defined functions. This type of artifact
+  /// must be in an S3 bucket. A <code>DEPENDENCY_JAR</code> can be in either
+  /// Maven or an S3 bucket.
+  final ArtifactType artifactType;
+
+  /// The parameters required to fully specify a Maven reference.
+  final MavenReference? mavenReference;
+  final S3ContentLocation? s3ContentLocation;
+
+  CustomArtifactConfiguration({
+    required this.artifactType,
+    this.mavenReference,
+    this.s3ContentLocation,
+  });
+
+  factory CustomArtifactConfiguration.fromJson(Map<String, dynamic> json) {
+    return CustomArtifactConfiguration(
+      artifactType: (json['ArtifactType'] as String).toArtifactType(),
+      mavenReference: json['MavenReference'] != null
+          ? MavenReference.fromJson(
+              json['MavenReference'] as Map<String, dynamic>)
+          : null,
+      s3ContentLocation: json['S3ContentLocation'] != null
+          ? S3ContentLocation.fromJson(
+              json['S3ContentLocation'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactType = this.artifactType;
+    final mavenReference = this.mavenReference;
+    final s3ContentLocation = this.s3ContentLocation;
+    return {
+      'ArtifactType': artifactType.toValue(),
+      if (mavenReference != null) 'MavenReference': mavenReference,
+      if (s3ContentLocation != null) 'S3ContentLocation': s3ContentLocation,
+    };
+  }
+}
+
+/// Specifies a dependency JAR or a JAR of user-defined functions.
+class CustomArtifactConfigurationDescription {
+  /// <code>UDF</code> stands for user-defined functions. This type of artifact
+  /// must be in an S3 bucket. A <code>DEPENDENCY_JAR</code> can be in either
+  /// Maven or an S3 bucket.
+  final ArtifactType? artifactType;
+
+  /// The parameters that are required to specify a Maven dependency.
+  final MavenReference? mavenReferenceDescription;
+  final S3ContentLocation? s3ContentLocationDescription;
+
+  CustomArtifactConfigurationDescription({
+    this.artifactType,
+    this.mavenReferenceDescription,
+    this.s3ContentLocationDescription,
+  });
+
+  factory CustomArtifactConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return CustomArtifactConfigurationDescription(
+      artifactType: (json['ArtifactType'] as String?)?.toArtifactType(),
+      mavenReferenceDescription: json['MavenReferenceDescription'] != null
+          ? MavenReference.fromJson(
+              json['MavenReferenceDescription'] as Map<String, dynamic>)
+          : null,
+      s3ContentLocationDescription: json['S3ContentLocationDescription'] != null
+          ? S3ContentLocation.fromJson(
+              json['S3ContentLocationDescription'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactType = this.artifactType;
+    final mavenReferenceDescription = this.mavenReferenceDescription;
+    final s3ContentLocationDescription = this.s3ContentLocationDescription;
+    return {
+      if (artifactType != null) 'ArtifactType': artifactType.toValue(),
+      if (mavenReferenceDescription != null)
+        'MavenReferenceDescription': mavenReferenceDescription,
+      if (s3ContentLocationDescription != null)
+        'S3ContentLocationDescription': s3ContentLocationDescription,
+    };
+  }
+}
+
 class DeleteApplicationCloudWatchLoggingOptionResponse {
   /// The application's Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The version ID of the application. Kinesis Data Analytics updates the
   /// <code>ApplicationVersionId</code> each time you change the CloudWatch
   /// logging options.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   /// The descriptions of the remaining CloudWatch logging options for the
   /// application.
-  @_s.JsonKey(name: 'CloudWatchLoggingOptionDescriptions')
-  final List<CloudWatchLoggingOptionDescription>
+  final List<CloudWatchLoggingOptionDescription>?
       cloudWatchLoggingOptionDescriptions;
 
   DeleteApplicationCloudWatchLoggingOptionResponse({
@@ -3279,207 +4476,381 @@ class DeleteApplicationCloudWatchLoggingOptionResponse {
     this.applicationVersionId,
     this.cloudWatchLoggingOptionDescriptions,
   });
+
   factory DeleteApplicationCloudWatchLoggingOptionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteApplicationCloudWatchLoggingOptionResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteApplicationCloudWatchLoggingOptionResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+      cloudWatchLoggingOptionDescriptions:
+          (json['CloudWatchLoggingOptionDescriptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => CloudWatchLoggingOptionDescription.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    final cloudWatchLoggingOptionDescriptions =
+        this.cloudWatchLoggingOptionDescriptions;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+      if (cloudWatchLoggingOptionDescriptions != null)
+        'CloudWatchLoggingOptionDescriptions':
+            cloudWatchLoggingOptionDescriptions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApplicationInputProcessingConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the application.
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The current application version ID.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   DeleteApplicationInputProcessingConfigurationResponse({
     this.applicationARN,
     this.applicationVersionId,
   });
+
   factory DeleteApplicationInputProcessingConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteApplicationInputProcessingConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteApplicationInputProcessingConfigurationResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApplicationOutputResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The current application version ID.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   DeleteApplicationOutputResponse({
     this.applicationARN,
     this.applicationVersionId,
   });
-  factory DeleteApplicationOutputResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteApplicationOutputResponseFromJson(json);
+
+  factory DeleteApplicationOutputResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteApplicationOutputResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApplicationReferenceDataSourceResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The updated version ID of the application.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   DeleteApplicationReferenceDataSourceResponse({
     this.applicationARN,
     this.applicationVersionId,
   });
+
   factory DeleteApplicationReferenceDataSourceResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteApplicationReferenceDataSourceResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteApplicationReferenceDataSourceResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApplicationResponse {
   DeleteApplicationResponse();
-  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteApplicationResponseFromJson(json);
+
+  factory DeleteApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApplicationSnapshotResponse {
   DeleteApplicationSnapshotResponse();
-  factory DeleteApplicationSnapshotResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteApplicationSnapshotResponseFromJson(json);
+
+  factory DeleteApplicationSnapshotResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteApplicationSnapshotResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteApplicationVpcConfigurationResponse {
   /// The ARN of the Kinesis Data Analytics application.
-  @_s.JsonKey(name: 'ApplicationARN')
-  final String applicationARN;
+  final String? applicationARN;
 
   /// The updated version ID of the application.
-  @_s.JsonKey(name: 'ApplicationVersionId')
-  final int applicationVersionId;
+  final int? applicationVersionId;
 
   DeleteApplicationVpcConfigurationResponse({
     this.applicationARN,
     this.applicationVersionId,
   });
+
   factory DeleteApplicationVpcConfigurationResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeleteApplicationVpcConfigurationResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DeleteApplicationVpcConfigurationResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationVersionId: json['ApplicationVersionId'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationVersionId = this.applicationVersionId;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationVersionId != null)
+        'ApplicationVersionId': applicationVersionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// The information required to deploy a Kinesis Data Analytics Studio notebook
+/// as an application with durable state..
+class DeployAsApplicationConfiguration {
+  /// The description of an Amazon S3 object that contains the Amazon Data
+  /// Analytics application, including the Amazon Resource Name (ARN) of the S3
+  /// bucket, the name of the Amazon S3 object that contains the data, and the
+  /// version number of the Amazon S3 object that contains the data.
+  final S3ContentBaseLocation s3ContentLocation;
+
+  DeployAsApplicationConfiguration({
+    required this.s3ContentLocation,
+  });
+
+  factory DeployAsApplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return DeployAsApplicationConfiguration(
+      s3ContentLocation: S3ContentBaseLocation.fromJson(
+          json['S3ContentLocation'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3ContentLocation = this.s3ContentLocation;
+    return {
+      'S3ContentLocation': s3ContentLocation,
+    };
+  }
+}
+
+/// The configuration information required to deploy an Amazon Data Analytics
+/// Studio notebook as an application with durable state.
+class DeployAsApplicationConfigurationDescription {
+  /// The location that holds the data required to specify an Amazon Data
+  /// Analytics application.
+  final S3ContentBaseLocationDescription s3ContentLocationDescription;
+
+  DeployAsApplicationConfigurationDescription({
+    required this.s3ContentLocationDescription,
+  });
+
+  factory DeployAsApplicationConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return DeployAsApplicationConfigurationDescription(
+      s3ContentLocationDescription: S3ContentBaseLocationDescription.fromJson(
+          json['S3ContentLocationDescription'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3ContentLocationDescription = this.s3ContentLocationDescription;
+    return {
+      'S3ContentLocationDescription': s3ContentLocationDescription,
+    };
+  }
+}
+
+/// Updates to the configuration information required to deploy an Amazon Data
+/// Analytics Studio notebook as an application with durable state..
+class DeployAsApplicationConfigurationUpdate {
+  /// Updates to the location that holds the data required to specify an Amazon
+  /// Data Analytics application.
+  final S3ContentBaseLocationUpdate s3ContentLocationUpdate;
+
+  DeployAsApplicationConfigurationUpdate({
+    required this.s3ContentLocationUpdate,
+  });
+
+  factory DeployAsApplicationConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return DeployAsApplicationConfigurationUpdate(
+      s3ContentLocationUpdate: S3ContentBaseLocationUpdate.fromJson(
+          json['S3ContentLocationUpdate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final s3ContentLocationUpdate = this.s3ContentLocationUpdate;
+    return {
+      'S3ContentLocationUpdate': s3ContentLocationUpdate,
+    };
+  }
+}
+
 class DescribeApplicationResponse {
   /// Provides a description of the application, such as the application's Amazon
   /// Resource Name (ARN), status, and latest version.
-  @_s.JsonKey(name: 'ApplicationDetail')
   final ApplicationDetail applicationDetail;
 
   DescribeApplicationResponse({
-    @_s.required this.applicationDetail,
+    required this.applicationDetail,
   });
-  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeApplicationResponseFromJson(json);
+
+  factory DescribeApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeApplicationResponse(
+      applicationDetail: ApplicationDetail.fromJson(
+          json['ApplicationDetail'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationDetail = this.applicationDetail;
+    return {
+      'ApplicationDetail': applicationDetail,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeApplicationSnapshotResponse {
   /// An object containing information about the application snapshot.
-  @_s.JsonKey(name: 'SnapshotDetails')
   final SnapshotDetails snapshotDetails;
 
   DescribeApplicationSnapshotResponse({
-    @_s.required this.snapshotDetails,
+    required this.snapshotDetails,
   });
+
   factory DescribeApplicationSnapshotResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeApplicationSnapshotResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeApplicationSnapshotResponse(
+      snapshotDetails: SnapshotDetails.fromJson(
+          json['SnapshotDetails'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotDetails = this.snapshotDetails;
+    return {
+      'SnapshotDetails': snapshotDetails,
+    };
+  }
+}
+
+class DescribeApplicationVersionResponse {
+  final ApplicationDetail? applicationVersionDetail;
+
+  DescribeApplicationVersionResponse({
+    this.applicationVersionDetail,
+  });
+
+  factory DescribeApplicationVersionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DescribeApplicationVersionResponse(
+      applicationVersionDetail: json['ApplicationVersionDetail'] != null
+          ? ApplicationDetail.fromJson(
+              json['ApplicationVersionDetail'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationVersionDetail = this.applicationVersionDetail;
+    return {
+      if (applicationVersionDetail != null)
+        'ApplicationVersionDetail': applicationVersionDetail,
+    };
+  }
 }
 
 /// Describes the data format when records are written to the destination in a
 /// SQL-based Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class DestinationSchema {
   /// Specifies the format of the records on the output stream.
-  @_s.JsonKey(name: 'RecordFormatType')
   final RecordFormatType recordFormatType;
 
   DestinationSchema({
-    @_s.required this.recordFormatType,
+    required this.recordFormatType,
   });
-  factory DestinationSchema.fromJson(Map<String, dynamic> json) =>
-      _$DestinationSchemaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DestinationSchemaToJson(this);
+  factory DestinationSchema.fromJson(Map<String, dynamic> json) {
+    return DestinationSchema(
+      recordFormatType:
+          (json['RecordFormatType'] as String).toRecordFormatType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordFormatType = this.recordFormatType;
+    return {
+      'RecordFormatType': recordFormatType.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DiscoverInputSchemaResponse {
   /// The schema inferred from the streaming source. It identifies the format of
   /// the data in the streaming source and how each data element maps to
   /// corresponding columns in the in-application stream that you can create.
-  @_s.JsonKey(name: 'InputSchema')
-  final SourceSchema inputSchema;
+  final SourceSchema? inputSchema;
 
   /// An array of elements, where each element corresponds to a row in a stream
   /// record (a stream record can have more than one row).
-  @_s.JsonKey(name: 'ParsedInputRecords')
-  final List<List<String>> parsedInputRecords;
+  final List<List<String>>? parsedInputRecords;
 
   /// The stream data that was modified by the processor specified in the
   /// <code>InputProcessingConfiguration</code> parameter.
-  @_s.JsonKey(name: 'ProcessedInputRecords')
-  final List<String> processedInputRecords;
+  final List<String>? processedInputRecords;
 
   /// The raw stream data that was sampled to infer the schema.
-  @_s.JsonKey(name: 'RawInputRecords')
-  final List<String> rawInputRecords;
+  final List<String>? rawInputRecords;
 
   DiscoverInputSchemaResponse({
     this.inputSchema,
@@ -3487,72 +4858,126 @@ class DiscoverInputSchemaResponse {
     this.processedInputRecords,
     this.rawInputRecords,
   });
-  factory DiscoverInputSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$DiscoverInputSchemaResponseFromJson(json);
+
+  factory DiscoverInputSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return DiscoverInputSchemaResponse(
+      inputSchema: json['InputSchema'] != null
+          ? SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>)
+          : null,
+      parsedInputRecords: (json['ParsedInputRecords'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              (e as List).whereNotNull().map((e) => e as String).toList())
+          .toList(),
+      processedInputRecords: (json['ProcessedInputRecords'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      rawInputRecords: (json['RawInputRecords'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputSchema = this.inputSchema;
+    final parsedInputRecords = this.parsedInputRecords;
+    final processedInputRecords = this.processedInputRecords;
+    final rawInputRecords = this.rawInputRecords;
+    return {
+      if (inputSchema != null) 'InputSchema': inputSchema,
+      if (parsedInputRecords != null) 'ParsedInputRecords': parsedInputRecords,
+      if (processedInputRecords != null)
+        'ProcessedInputRecords': processedInputRecords,
+      if (rawInputRecords != null) 'RawInputRecords': rawInputRecords,
+    };
+  }
 }
 
 /// Describes execution properties for a Flink-based Kinesis Data Analytics
 /// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class EnvironmentProperties {
   /// Describes the execution property groups.
-  @_s.JsonKey(name: 'PropertyGroups')
   final List<PropertyGroup> propertyGroups;
 
   EnvironmentProperties({
-    @_s.required this.propertyGroups,
+    required this.propertyGroups,
   });
-  Map<String, dynamic> toJson() => _$EnvironmentPropertiesToJson(this);
+
+  factory EnvironmentProperties.fromJson(Map<String, dynamic> json) {
+    return EnvironmentProperties(
+      propertyGroups: (json['PropertyGroups'] as List)
+          .whereNotNull()
+          .map((e) => PropertyGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyGroups = this.propertyGroups;
+    return {
+      'PropertyGroups': propertyGroups,
+    };
+  }
 }
 
-/// Describes the execution properties for a Flink-based Kinesis Data Analytics
-/// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Describes the execution properties for an Apache Flink runtime.
 class EnvironmentPropertyDescriptions {
   /// Describes the execution property groups.
-  @_s.JsonKey(name: 'PropertyGroupDescriptions')
-  final List<PropertyGroup> propertyGroupDescriptions;
+  final List<PropertyGroup>? propertyGroupDescriptions;
 
   EnvironmentPropertyDescriptions({
     this.propertyGroupDescriptions,
   });
-  factory EnvironmentPropertyDescriptions.fromJson(Map<String, dynamic> json) =>
-      _$EnvironmentPropertyDescriptionsFromJson(json);
+
+  factory EnvironmentPropertyDescriptions.fromJson(Map<String, dynamic> json) {
+    return EnvironmentPropertyDescriptions(
+      propertyGroupDescriptions: (json['PropertyGroupDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => PropertyGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyGroupDescriptions = this.propertyGroupDescriptions;
+    return {
+      if (propertyGroupDescriptions != null)
+        'PropertyGroupDescriptions': propertyGroupDescriptions,
+    };
+  }
 }
 
 /// Describes updates to the execution property groups for a Flink-based Kinesis
-/// Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// Data Analytics application or a Studio notebook.
 class EnvironmentPropertyUpdates {
   /// Describes updates to the execution property groups.
-  @_s.JsonKey(name: 'PropertyGroups')
   final List<PropertyGroup> propertyGroups;
 
   EnvironmentPropertyUpdates({
-    @_s.required this.propertyGroups,
+    required this.propertyGroups,
   });
-  Map<String, dynamic> toJson() => _$EnvironmentPropertyUpdatesToJson(this);
+
+  factory EnvironmentPropertyUpdates.fromJson(Map<String, dynamic> json) {
+    return EnvironmentPropertyUpdates(
+      propertyGroups: (json['PropertyGroups'] as List)
+          .whereNotNull()
+          .map((e) => PropertyGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyGroups = this.propertyGroups;
+    return {
+      'PropertyGroups': propertyGroups,
+    };
+  }
 }
 
 /// Describes configuration parameters for a Flink-based Kinesis Data Analytics
-/// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// application or a Studio notebook.
 class FlinkApplicationConfiguration {
   /// Describes an application's checkpointing configuration. Checkpointing is the
   /// process of persisting application state for fault tolerance. For more
@@ -3561,39 +4986,60 @@ class FlinkApplicationConfiguration {
   /// Checkpoints for Fault Tolerance</a> in the <a
   /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
   /// Flink Documentation</a>.
-  @_s.JsonKey(name: 'CheckpointConfiguration')
-  final CheckpointConfiguration checkpointConfiguration;
+  final CheckpointConfiguration? checkpointConfiguration;
 
   /// Describes configuration parameters for Amazon CloudWatch logging for an
   /// application.
-  @_s.JsonKey(name: 'MonitoringConfiguration')
-  final MonitoringConfiguration monitoringConfiguration;
+  final MonitoringConfiguration? monitoringConfiguration;
 
   /// Describes parameters for how an application executes multiple tasks
   /// simultaneously.
-  @_s.JsonKey(name: 'ParallelismConfiguration')
-  final ParallelismConfiguration parallelismConfiguration;
+  final ParallelismConfiguration? parallelismConfiguration;
 
   FlinkApplicationConfiguration({
     this.checkpointConfiguration,
     this.monitoringConfiguration,
     this.parallelismConfiguration,
   });
-  Map<String, dynamic> toJson() => _$FlinkApplicationConfigurationToJson(this);
+
+  factory FlinkApplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return FlinkApplicationConfiguration(
+      checkpointConfiguration: json['CheckpointConfiguration'] != null
+          ? CheckpointConfiguration.fromJson(
+              json['CheckpointConfiguration'] as Map<String, dynamic>)
+          : null,
+      monitoringConfiguration: json['MonitoringConfiguration'] != null
+          ? MonitoringConfiguration.fromJson(
+              json['MonitoringConfiguration'] as Map<String, dynamic>)
+          : null,
+      parallelismConfiguration: json['ParallelismConfiguration'] != null
+          ? ParallelismConfiguration.fromJson(
+              json['ParallelismConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkpointConfiguration = this.checkpointConfiguration;
+    final monitoringConfiguration = this.monitoringConfiguration;
+    final parallelismConfiguration = this.parallelismConfiguration;
+    return {
+      if (checkpointConfiguration != null)
+        'CheckpointConfiguration': checkpointConfiguration,
+      if (monitoringConfiguration != null)
+        'MonitoringConfiguration': monitoringConfiguration,
+      if (parallelismConfiguration != null)
+        'ParallelismConfiguration': parallelismConfiguration,
+    };
+  }
 }
 
 /// Describes configuration parameters for a Flink-based Kinesis Data Analytics
 /// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FlinkApplicationConfigurationDescription {
   /// Describes an application's checkpointing configuration. Checkpointing is the
   /// process of persisting application state for fault tolerance.
-  @_s.JsonKey(name: 'CheckpointConfigurationDescription')
-  final CheckpointConfigurationDescription checkpointConfigurationDescription;
+  final CheckpointConfigurationDescription? checkpointConfigurationDescription;
 
   /// The job plan for an application. For more information about the job plan,
   /// see <a
@@ -3603,18 +5049,16 @@ class FlinkApplicationConfigurationDescription {
   /// Flink Documentation</a>. To retrieve the job plan for the application, use
   /// the <a>DescribeApplicationRequest$IncludeAdditionalDetails</a> parameter of
   /// the <a>DescribeApplication</a> operation.
-  @_s.JsonKey(name: 'JobPlanDescription')
-  final String jobPlanDescription;
+  final String? jobPlanDescription;
 
   /// Describes configuration parameters for Amazon CloudWatch logging for an
   /// application.
-  @_s.JsonKey(name: 'MonitoringConfigurationDescription')
-  final MonitoringConfigurationDescription monitoringConfigurationDescription;
+  final MonitoringConfigurationDescription? monitoringConfigurationDescription;
 
   /// Describes parameters for how an application executes multiple tasks
   /// simultaneously.
-  @_s.JsonKey(name: 'ParallelismConfigurationDescription')
-  final ParallelismConfigurationDescription parallelismConfigurationDescription;
+  final ParallelismConfigurationDescription?
+      parallelismConfigurationDescription;
 
   FlinkApplicationConfigurationDescription({
     this.checkpointConfigurationDescription,
@@ -3622,51 +5066,115 @@ class FlinkApplicationConfigurationDescription {
     this.monitoringConfigurationDescription,
     this.parallelismConfigurationDescription,
   });
+
   factory FlinkApplicationConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$FlinkApplicationConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return FlinkApplicationConfigurationDescription(
+      checkpointConfigurationDescription:
+          json['CheckpointConfigurationDescription'] != null
+              ? CheckpointConfigurationDescription.fromJson(
+                  json['CheckpointConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      jobPlanDescription: json['JobPlanDescription'] as String?,
+      monitoringConfigurationDescription:
+          json['MonitoringConfigurationDescription'] != null
+              ? MonitoringConfigurationDescription.fromJson(
+                  json['MonitoringConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      parallelismConfigurationDescription:
+          json['ParallelismConfigurationDescription'] != null
+              ? ParallelismConfigurationDescription.fromJson(
+                  json['ParallelismConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkpointConfigurationDescription =
+        this.checkpointConfigurationDescription;
+    final jobPlanDescription = this.jobPlanDescription;
+    final monitoringConfigurationDescription =
+        this.monitoringConfigurationDescription;
+    final parallelismConfigurationDescription =
+        this.parallelismConfigurationDescription;
+    return {
+      if (checkpointConfigurationDescription != null)
+        'CheckpointConfigurationDescription':
+            checkpointConfigurationDescription,
+      if (jobPlanDescription != null) 'JobPlanDescription': jobPlanDescription,
+      if (monitoringConfigurationDescription != null)
+        'MonitoringConfigurationDescription':
+            monitoringConfigurationDescription,
+      if (parallelismConfigurationDescription != null)
+        'ParallelismConfigurationDescription':
+            parallelismConfigurationDescription,
+    };
+  }
 }
 
 /// Describes updates to the configuration parameters for a Flink-based Kinesis
 /// Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class FlinkApplicationConfigurationUpdate {
   /// Describes updates to an application's checkpointing configuration.
   /// Checkpointing is the process of persisting application state for fault
   /// tolerance.
-  @_s.JsonKey(name: 'CheckpointConfigurationUpdate')
-  final CheckpointConfigurationUpdate checkpointConfigurationUpdate;
+  final CheckpointConfigurationUpdate? checkpointConfigurationUpdate;
 
   /// Describes updates to the configuration parameters for Amazon CloudWatch
   /// logging for an application.
-  @_s.JsonKey(name: 'MonitoringConfigurationUpdate')
-  final MonitoringConfigurationUpdate monitoringConfigurationUpdate;
+  final MonitoringConfigurationUpdate? monitoringConfigurationUpdate;
 
   /// Describes updates to the parameters for how an application executes multiple
   /// tasks simultaneously.
-  @_s.JsonKey(name: 'ParallelismConfigurationUpdate')
-  final ParallelismConfigurationUpdate parallelismConfigurationUpdate;
+  final ParallelismConfigurationUpdate? parallelismConfigurationUpdate;
 
   FlinkApplicationConfigurationUpdate({
     this.checkpointConfigurationUpdate,
     this.monitoringConfigurationUpdate,
     this.parallelismConfigurationUpdate,
   });
-  Map<String, dynamic> toJson() =>
-      _$FlinkApplicationConfigurationUpdateToJson(this);
+
+  factory FlinkApplicationConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return FlinkApplicationConfigurationUpdate(
+      checkpointConfigurationUpdate:
+          json['CheckpointConfigurationUpdate'] != null
+              ? CheckpointConfigurationUpdate.fromJson(
+                  json['CheckpointConfigurationUpdate'] as Map<String, dynamic>)
+              : null,
+      monitoringConfigurationUpdate:
+          json['MonitoringConfigurationUpdate'] != null
+              ? MonitoringConfigurationUpdate.fromJson(
+                  json['MonitoringConfigurationUpdate'] as Map<String, dynamic>)
+              : null,
+      parallelismConfigurationUpdate: json['ParallelismConfigurationUpdate'] !=
+              null
+          ? ParallelismConfigurationUpdate.fromJson(
+              json['ParallelismConfigurationUpdate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkpointConfigurationUpdate = this.checkpointConfigurationUpdate;
+    final monitoringConfigurationUpdate = this.monitoringConfigurationUpdate;
+    final parallelismConfigurationUpdate = this.parallelismConfigurationUpdate;
+    return {
+      if (checkpointConfigurationUpdate != null)
+        'CheckpointConfigurationUpdate': checkpointConfigurationUpdate,
+      if (monitoringConfigurationUpdate != null)
+        'MonitoringConfigurationUpdate': monitoringConfigurationUpdate,
+      if (parallelismConfigurationUpdate != null)
+        'ParallelismConfigurationUpdate': parallelismConfigurationUpdate,
+    };
+  }
 }
 
 /// Describes the starting parameters for a Flink-based Kinesis Data Analytics
 /// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class FlinkRunConfiguration {
   /// When restoring from a snapshot, specifies whether the runtime is allowed to
   /// skip a state that cannot be mapped to the new program. This will happen if
@@ -3683,33 +5191,110 @@ class FlinkRunConfiguration {
   /// be set to <code>false</code>, even if it was previously set to
   /// <code>true</code>.
   /// </note>
-  @_s.JsonKey(name: 'AllowNonRestoredState')
-  final bool allowNonRestoredState;
+  final bool? allowNonRestoredState;
 
   FlinkRunConfiguration({
     this.allowNonRestoredState,
   });
-  factory FlinkRunConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$FlinkRunConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FlinkRunConfigurationToJson(this);
+  factory FlinkRunConfiguration.fromJson(Map<String, dynamic> json) {
+    return FlinkRunConfiguration(
+      allowNonRestoredState: json['AllowNonRestoredState'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowNonRestoredState = this.allowNonRestoredState;
+    return {
+      if (allowNonRestoredState != null)
+        'AllowNonRestoredState': allowNonRestoredState,
+    };
+  }
+}
+
+/// The configuration of the Glue Data Catalog that you use for Apache Flink SQL
+/// queries and table API transforms that you write in an application.
+class GlueDataCatalogConfiguration {
+  /// The Amazon Resource Name (ARN) of the database.
+  final String databaseARN;
+
+  GlueDataCatalogConfiguration({
+    required this.databaseARN,
+  });
+
+  factory GlueDataCatalogConfiguration.fromJson(Map<String, dynamic> json) {
+    return GlueDataCatalogConfiguration(
+      databaseARN: json['DatabaseARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseARN = this.databaseARN;
+    return {
+      'DatabaseARN': databaseARN,
+    };
+  }
+}
+
+/// The configuration of the Glue Data Catalog that you use for Apache Flink SQL
+/// queries and table API transforms that you write in an application.
+class GlueDataCatalogConfigurationDescription {
+  /// The Amazon Resource Name (ARN) of the database.
+  final String databaseARN;
+
+  GlueDataCatalogConfigurationDescription({
+    required this.databaseARN,
+  });
+
+  factory GlueDataCatalogConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return GlueDataCatalogConfigurationDescription(
+      databaseARN: json['DatabaseARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseARN = this.databaseARN;
+    return {
+      'DatabaseARN': databaseARN,
+    };
+  }
+}
+
+/// Updates to the configuration of the Glue Data Catalog that you use for SQL
+/// queries that you write in a Kinesis Data Analytics Studio notebook.
+class GlueDataCatalogConfigurationUpdate {
+  /// The updated Amazon Resource Name (ARN) of the database.
+  final String? databaseARNUpdate;
+
+  GlueDataCatalogConfigurationUpdate({
+    this.databaseARNUpdate,
+  });
+
+  factory GlueDataCatalogConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return GlueDataCatalogConfigurationUpdate(
+      databaseARNUpdate: json['DatabaseARNUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final databaseARNUpdate = this.databaseARNUpdate;
+    return {
+      if (databaseARNUpdate != null) 'DatabaseARNUpdate': databaseARNUpdate,
+    };
+  }
 }
 
 /// When you configure the application input for a SQL-based Kinesis Data
 /// Analytics application, you specify the streaming source, the in-application
 /// stream name that is created, and the mapping between the two.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Input {
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns in the in-application stream that is
   /// being created.
   ///
   /// Also used to describe the format of the reference data source.
-  @_s.JsonKey(name: 'InputSchema')
   final SourceSchema inputSchema;
 
   /// The name prefix to use when creating an in-application stream. Suppose that
@@ -3718,95 +5303,119 @@ class Input {
   /// count you specified) in-application streams with the names
   /// "<code>MyInApplicationStream_001</code>,"
   /// "<code>MyInApplicationStream_002</code>," and so on.
-  @_s.JsonKey(name: 'NamePrefix')
   final String namePrefix;
 
   /// Describes the number of in-application streams to create.
-  @_s.JsonKey(name: 'InputParallelism')
-  final InputParallelism inputParallelism;
+  final InputParallelism? inputParallelism;
 
   /// The <a>InputProcessingConfiguration</a> for the input. An input processor
   /// transforms records as they are received from the stream, before the
   /// application's SQL code executes. Currently, the only input processing
   /// configuration available is <a>InputLambdaProcessor</a>.
-  @_s.JsonKey(name: 'InputProcessingConfiguration')
-  final InputProcessingConfiguration inputProcessingConfiguration;
+  final InputProcessingConfiguration? inputProcessingConfiguration;
 
   /// If the streaming source is an Amazon Kinesis Data Firehose delivery stream,
   /// identifies the delivery stream's ARN.
-  @_s.JsonKey(name: 'KinesisFirehoseInput')
-  final KinesisFirehoseInput kinesisFirehoseInput;
+  final KinesisFirehoseInput? kinesisFirehoseInput;
 
   /// If the streaming source is an Amazon Kinesis data stream, identifies the
   /// stream's Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'KinesisStreamsInput')
-  final KinesisStreamsInput kinesisStreamsInput;
+  final KinesisStreamsInput? kinesisStreamsInput;
 
   Input({
-    @_s.required this.inputSchema,
-    @_s.required this.namePrefix,
+    required this.inputSchema,
+    required this.namePrefix,
     this.inputParallelism,
     this.inputProcessingConfiguration,
     this.kinesisFirehoseInput,
     this.kinesisStreamsInput,
   });
-  Map<String, dynamic> toJson() => _$InputToJson(this);
+
+  factory Input.fromJson(Map<String, dynamic> json) {
+    return Input(
+      inputSchema:
+          SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>),
+      namePrefix: json['NamePrefix'] as String,
+      inputParallelism: json['InputParallelism'] != null
+          ? InputParallelism.fromJson(
+              json['InputParallelism'] as Map<String, dynamic>)
+          : null,
+      inputProcessingConfiguration: json['InputProcessingConfiguration'] != null
+          ? InputProcessingConfiguration.fromJson(
+              json['InputProcessingConfiguration'] as Map<String, dynamic>)
+          : null,
+      kinesisFirehoseInput: json['KinesisFirehoseInput'] != null
+          ? KinesisFirehoseInput.fromJson(
+              json['KinesisFirehoseInput'] as Map<String, dynamic>)
+          : null,
+      kinesisStreamsInput: json['KinesisStreamsInput'] != null
+          ? KinesisStreamsInput.fromJson(
+              json['KinesisStreamsInput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputSchema = this.inputSchema;
+    final namePrefix = this.namePrefix;
+    final inputParallelism = this.inputParallelism;
+    final inputProcessingConfiguration = this.inputProcessingConfiguration;
+    final kinesisFirehoseInput = this.kinesisFirehoseInput;
+    final kinesisStreamsInput = this.kinesisStreamsInput;
+    return {
+      'InputSchema': inputSchema,
+      'NamePrefix': namePrefix,
+      if (inputParallelism != null) 'InputParallelism': inputParallelism,
+      if (inputProcessingConfiguration != null)
+        'InputProcessingConfiguration': inputProcessingConfiguration,
+      if (kinesisFirehoseInput != null)
+        'KinesisFirehoseInput': kinesisFirehoseInput,
+      if (kinesisStreamsInput != null)
+        'KinesisStreamsInput': kinesisStreamsInput,
+    };
+  }
 }
 
 /// Describes the application input configuration for a SQL-based Kinesis Data
 /// Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InputDescription {
   /// Returns the in-application stream names that are mapped to the stream
   /// source.
-  @_s.JsonKey(name: 'InAppStreamNames')
-  final List<String> inAppStreamNames;
+  final List<String>? inAppStreamNames;
 
   /// The input ID that is associated with the application input. This is the ID
   /// that Kinesis Data Analytics assigns to each input configuration that you add
   /// to your application.
-  @_s.JsonKey(name: 'InputId')
-  final String inputId;
+  final String? inputId;
 
   /// Describes the configured parallelism (number of in-application streams
   /// mapped to the streaming source).
-  @_s.JsonKey(name: 'InputParallelism')
-  final InputParallelism inputParallelism;
+  final InputParallelism? inputParallelism;
 
   /// The description of the preprocessor that executes on records in this input
   /// before the application's code is run.
-  @_s.JsonKey(name: 'InputProcessingConfigurationDescription')
-  final InputProcessingConfigurationDescription
+  final InputProcessingConfigurationDescription?
       inputProcessingConfigurationDescription;
 
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns in the in-application stream that is
   /// being created.
-  @_s.JsonKey(name: 'InputSchema')
-  final SourceSchema inputSchema;
+  final SourceSchema? inputSchema;
 
   /// The point at which the application is configured to read from the input
   /// stream.
-  @_s.JsonKey(name: 'InputStartingPositionConfiguration')
-  final InputStartingPositionConfiguration inputStartingPositionConfiguration;
+  final InputStartingPositionConfiguration? inputStartingPositionConfiguration;
 
   /// If a Kinesis Data Firehose delivery stream is configured as a streaming
   /// source, provides the delivery stream's ARN.
-  @_s.JsonKey(name: 'KinesisFirehoseInputDescription')
-  final KinesisFirehoseInputDescription kinesisFirehoseInputDescription;
+  final KinesisFirehoseInputDescription? kinesisFirehoseInputDescription;
 
   /// If a Kinesis data stream is configured as a streaming source, provides the
   /// Kinesis data stream's Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'KinesisStreamsInputDescription')
-  final KinesisStreamsInputDescription kinesisStreamsInputDescription;
+  final KinesisStreamsInputDescription? kinesisStreamsInputDescription;
 
   /// The in-application name prefix.
-  @_s.JsonKey(name: 'NamePrefix')
-  final String namePrefix;
+  final String? namePrefix;
 
   InputDescription({
     this.inAppStreamNames,
@@ -3819,18 +5428,84 @@ class InputDescription {
     this.kinesisStreamsInputDescription,
     this.namePrefix,
   });
-  factory InputDescription.fromJson(Map<String, dynamic> json) =>
-      _$InputDescriptionFromJson(json);
+
+  factory InputDescription.fromJson(Map<String, dynamic> json) {
+    return InputDescription(
+      inAppStreamNames: (json['InAppStreamNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      inputId: json['InputId'] as String?,
+      inputParallelism: json['InputParallelism'] != null
+          ? InputParallelism.fromJson(
+              json['InputParallelism'] as Map<String, dynamic>)
+          : null,
+      inputProcessingConfigurationDescription:
+          json['InputProcessingConfigurationDescription'] != null
+              ? InputProcessingConfigurationDescription.fromJson(
+                  json['InputProcessingConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      inputSchema: json['InputSchema'] != null
+          ? SourceSchema.fromJson(json['InputSchema'] as Map<String, dynamic>)
+          : null,
+      inputStartingPositionConfiguration:
+          json['InputStartingPositionConfiguration'] != null
+              ? InputStartingPositionConfiguration.fromJson(
+                  json['InputStartingPositionConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      kinesisFirehoseInputDescription:
+          json['KinesisFirehoseInputDescription'] != null
+              ? KinesisFirehoseInputDescription.fromJson(
+                  json['KinesisFirehoseInputDescription']
+                      as Map<String, dynamic>)
+              : null,
+      kinesisStreamsInputDescription: json['KinesisStreamsInputDescription'] !=
+              null
+          ? KinesisStreamsInputDescription.fromJson(
+              json['KinesisStreamsInputDescription'] as Map<String, dynamic>)
+          : null,
+      namePrefix: json['NamePrefix'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inAppStreamNames = this.inAppStreamNames;
+    final inputId = this.inputId;
+    final inputParallelism = this.inputParallelism;
+    final inputProcessingConfigurationDescription =
+        this.inputProcessingConfigurationDescription;
+    final inputSchema = this.inputSchema;
+    final inputStartingPositionConfiguration =
+        this.inputStartingPositionConfiguration;
+    final kinesisFirehoseInputDescription =
+        this.kinesisFirehoseInputDescription;
+    final kinesisStreamsInputDescription = this.kinesisStreamsInputDescription;
+    final namePrefix = this.namePrefix;
+    return {
+      if (inAppStreamNames != null) 'InAppStreamNames': inAppStreamNames,
+      if (inputId != null) 'InputId': inputId,
+      if (inputParallelism != null) 'InputParallelism': inputParallelism,
+      if (inputProcessingConfigurationDescription != null)
+        'InputProcessingConfigurationDescription':
+            inputProcessingConfigurationDescription,
+      if (inputSchema != null) 'InputSchema': inputSchema,
+      if (inputStartingPositionConfiguration != null)
+        'InputStartingPositionConfiguration':
+            inputStartingPositionConfiguration,
+      if (kinesisFirehoseInputDescription != null)
+        'KinesisFirehoseInputDescription': kinesisFirehoseInputDescription,
+      if (kinesisStreamsInputDescription != null)
+        'KinesisStreamsInputDescription': kinesisStreamsInputDescription,
+      if (namePrefix != null) 'NamePrefix': namePrefix,
+    };
+  }
 }
 
 /// An object that contains the Amazon Resource Name (ARN) of the AWS Lambda
 /// function that is used to preprocess records in the stream in a SQL-based
 /// Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputLambdaProcessor {
   /// The ARN of the AWS Lambda function that operates on records in the stream.
   /// <note>
@@ -3840,23 +5515,29 @@ class InputLambdaProcessor {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   InputLambdaProcessor({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
   });
-  Map<String, dynamic> toJson() => _$InputLambdaProcessorToJson(this);
+
+  factory InputLambdaProcessor.fromJson(Map<String, dynamic> json) {
+    return InputLambdaProcessor(
+      resourceARN: json['ResourceARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    return {
+      'ResourceARN': resourceARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, an object that contains
 /// the Amazon Resource Name (ARN) of the AWS Lambda function that is used to
 /// preprocess records in the stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InputLambdaProcessorDescription {
   /// The ARN of the AWS Lambda function that is used to preprocess the records in
   /// the stream.
@@ -3867,7 +5548,6 @@ class InputLambdaProcessorDescription {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   /// The ARN of the IAM role that is used to access the AWS Lambda function.
@@ -3876,25 +5556,33 @@ class InputLambdaProcessorDescription {
   /// current API version have an application-level service execution role rather
   /// than a resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   InputLambdaProcessorDescription({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
     this.roleARN,
   });
-  factory InputLambdaProcessorDescription.fromJson(Map<String, dynamic> json) =>
-      _$InputLambdaProcessorDescriptionFromJson(json);
+
+  factory InputLambdaProcessorDescription.fromJson(Map<String, dynamic> json) {
+    return InputLambdaProcessorDescription(
+      resourceARN: json['ResourceARN'] as String,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, represents an update to
 /// the <a>InputLambdaProcessor</a> that is used to preprocess the records in
 /// the stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputLambdaProcessorUpdate {
   /// The Amazon Resource Name (ARN) of the new AWS Lambda function that is used
   /// to preprocess the records in the stream.
@@ -3905,165 +5593,248 @@ class InputLambdaProcessorUpdate {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
-  @_s.JsonKey(name: 'ResourceARNUpdate')
   final String resourceARNUpdate;
 
   InputLambdaProcessorUpdate({
-    @_s.required this.resourceARNUpdate,
+    required this.resourceARNUpdate,
   });
-  Map<String, dynamic> toJson() => _$InputLambdaProcessorUpdateToJson(this);
+
+  factory InputLambdaProcessorUpdate.fromJson(Map<String, dynamic> json) {
+    return InputLambdaProcessorUpdate(
+      resourceARNUpdate: json['ResourceARNUpdate'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    return {
+      'ResourceARNUpdate': resourceARNUpdate,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the number of
 /// in-application streams to create for a given streaming source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputParallelism {
   /// The number of in-application streams to create.
-  @_s.JsonKey(name: 'Count')
-  final int count;
+  final int? count;
 
   InputParallelism({
     this.count,
   });
-  factory InputParallelism.fromJson(Map<String, dynamic> json) =>
-      _$InputParallelismFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InputParallelismToJson(this);
+  factory InputParallelism.fromJson(Map<String, dynamic> json) {
+    return InputParallelism(
+      count: json['Count'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    return {
+      if (count != null) 'Count': count,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides updates to the
 /// parallelism count.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputParallelismUpdate {
   /// The number of in-application streams to create for the specified streaming
   /// source.
-  @_s.JsonKey(name: 'CountUpdate')
   final int countUpdate;
 
   InputParallelismUpdate({
-    @_s.required this.countUpdate,
+    required this.countUpdate,
   });
-  Map<String, dynamic> toJson() => _$InputParallelismUpdateToJson(this);
+
+  factory InputParallelismUpdate.fromJson(Map<String, dynamic> json) {
+    return InputParallelismUpdate(
+      countUpdate: json['CountUpdate'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final countUpdate = this.countUpdate;
+    return {
+      'CountUpdate': countUpdate,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes a processor
 /// that is used to preprocess the records in the stream before being processed
 /// by your application code. Currently, the only input processor available is
 /// <a href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputProcessingConfiguration {
   /// The <a>InputLambdaProcessor</a> that is used to preprocess the records in
   /// the stream before being processed by your application code.
-  @_s.JsonKey(name: 'InputLambdaProcessor')
   final InputLambdaProcessor inputLambdaProcessor;
 
   InputProcessingConfiguration({
-    @_s.required this.inputLambdaProcessor,
+    required this.inputLambdaProcessor,
   });
-  Map<String, dynamic> toJson() => _$InputProcessingConfigurationToJson(this);
+
+  factory InputProcessingConfiguration.fromJson(Map<String, dynamic> json) {
+    return InputProcessingConfiguration(
+      inputLambdaProcessor: InputLambdaProcessor.fromJson(
+          json['InputLambdaProcessor'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputLambdaProcessor = this.inputLambdaProcessor;
+    return {
+      'InputLambdaProcessor': inputLambdaProcessor,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides the
 /// configuration information about an input processor. Currently, the only
 /// input processor available is <a
 /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class InputProcessingConfigurationDescription {
   /// Provides configuration information about the associated
   /// <a>InputLambdaProcessorDescription</a>
-  @_s.JsonKey(name: 'InputLambdaProcessorDescription')
-  final InputLambdaProcessorDescription inputLambdaProcessorDescription;
+  final InputLambdaProcessorDescription? inputLambdaProcessorDescription;
 
   InputProcessingConfigurationDescription({
     this.inputLambdaProcessorDescription,
   });
+
   factory InputProcessingConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$InputProcessingConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return InputProcessingConfigurationDescription(
+      inputLambdaProcessorDescription:
+          json['InputLambdaProcessorDescription'] != null
+              ? InputLambdaProcessorDescription.fromJson(
+                  json['InputLambdaProcessorDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputLambdaProcessorDescription =
+        this.inputLambdaProcessorDescription;
+    return {
+      if (inputLambdaProcessorDescription != null)
+        'InputLambdaProcessorDescription': inputLambdaProcessorDescription,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes updates to an
 /// <a>InputProcessingConfiguration</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputProcessingConfigurationUpdate {
   /// Provides update information for an <a>InputLambdaProcessor</a>.
-  @_s.JsonKey(name: 'InputLambdaProcessorUpdate')
   final InputLambdaProcessorUpdate inputLambdaProcessorUpdate;
 
   InputProcessingConfigurationUpdate({
-    @_s.required this.inputLambdaProcessorUpdate,
+    required this.inputLambdaProcessorUpdate,
   });
-  Map<String, dynamic> toJson() =>
-      _$InputProcessingConfigurationUpdateToJson(this);
+
+  factory InputProcessingConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return InputProcessingConfigurationUpdate(
+      inputLambdaProcessorUpdate: InputLambdaProcessorUpdate.fromJson(
+          json['InputLambdaProcessorUpdate'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputLambdaProcessorUpdate = this.inputLambdaProcessorUpdate;
+    return {
+      'InputLambdaProcessorUpdate': inputLambdaProcessorUpdate,
+    };
+  }
 }
 
 /// Describes updates for an SQL-based Kinesis Data Analytics application's
 /// input schema.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputSchemaUpdate {
   /// A list of <code>RecordColumn</code> objects. Each object describes the
   /// mapping of the streaming source element to the corresponding column in the
   /// in-application stream.
-  @_s.JsonKey(name: 'RecordColumnUpdates')
-  final List<RecordColumn> recordColumnUpdates;
+  final List<RecordColumn>? recordColumnUpdates;
 
   /// Specifies the encoding of the records in the streaming source; for example,
   /// UTF-8.
-  @_s.JsonKey(name: 'RecordEncodingUpdate')
-  final String recordEncodingUpdate;
+  final String? recordEncodingUpdate;
 
   /// Specifies the format of the records on the streaming source.
-  @_s.JsonKey(name: 'RecordFormatUpdate')
-  final RecordFormat recordFormatUpdate;
+  final RecordFormat? recordFormatUpdate;
 
   InputSchemaUpdate({
     this.recordColumnUpdates,
     this.recordEncodingUpdate,
     this.recordFormatUpdate,
   });
-  Map<String, dynamic> toJson() => _$InputSchemaUpdateToJson(this);
+
+  factory InputSchemaUpdate.fromJson(Map<String, dynamic> json) {
+    return InputSchemaUpdate(
+      recordColumnUpdates: (json['RecordColumnUpdates'] as List?)
+          ?.whereNotNull()
+          .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordEncodingUpdate: json['RecordEncodingUpdate'] as String?,
+      recordFormatUpdate: json['RecordFormatUpdate'] != null
+          ? RecordFormat.fromJson(
+              json['RecordFormatUpdate'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordColumnUpdates = this.recordColumnUpdates;
+    final recordEncodingUpdate = this.recordEncodingUpdate;
+    final recordFormatUpdate = this.recordFormatUpdate;
+    return {
+      if (recordColumnUpdates != null)
+        'RecordColumnUpdates': recordColumnUpdates,
+      if (recordEncodingUpdate != null)
+        'RecordEncodingUpdate': recordEncodingUpdate,
+      if (recordFormatUpdate != null) 'RecordFormatUpdate': recordFormatUpdate,
+    };
+  }
 }
 
 enum InputStartingPosition {
-  @_s.JsonValue('NOW')
   now,
-  @_s.JsonValue('TRIM_HORIZON')
   trimHorizon,
-  @_s.JsonValue('LAST_STOPPED_POINT')
   lastStoppedPoint,
+}
+
+extension on InputStartingPosition {
+  String toValue() {
+    switch (this) {
+      case InputStartingPosition.now:
+        return 'NOW';
+      case InputStartingPosition.trimHorizon:
+        return 'TRIM_HORIZON';
+      case InputStartingPosition.lastStoppedPoint:
+        return 'LAST_STOPPED_POINT';
+    }
+  }
+}
+
+extension on String {
+  InputStartingPosition toInputStartingPosition() {
+    switch (this) {
+      case 'NOW':
+        return InputStartingPosition.now;
+      case 'TRIM_HORIZON':
+        return InputStartingPosition.trimHorizon;
+      case 'LAST_STOPPED_POINT':
+        return InputStartingPosition.lastStoppedPoint;
+    }
+    throw Exception('$this is not known in enum InputStartingPosition');
+  }
 }
 
 /// Describes the point at which the application reads from the streaming
 /// source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class InputStartingPositionConfiguration {
   /// The starting position on the stream.
   ///
@@ -4082,65 +5853,62 @@ class InputStartingPositionConfiguration {
   /// last stopped reading.
   /// </li>
   /// </ul>
-  @_s.JsonKey(name: 'InputStartingPosition')
-  final InputStartingPosition inputStartingPosition;
+  final InputStartingPosition? inputStartingPosition;
 
   InputStartingPositionConfiguration({
     this.inputStartingPosition,
   });
-  factory InputStartingPositionConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$InputStartingPositionConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$InputStartingPositionConfigurationToJson(this);
+  factory InputStartingPositionConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return InputStartingPositionConfiguration(
+      inputStartingPosition:
+          (json['InputStartingPosition'] as String?)?.toInputStartingPosition(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputStartingPosition = this.inputStartingPosition;
+    return {
+      if (inputStartingPosition != null)
+        'InputStartingPosition': inputStartingPosition.toValue(),
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes updates to a
 /// specific input configuration (identified by the <code>InputId</code> of an
 /// application).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class InputUpdate {
   /// The input ID of the application input to be updated.
-  @_s.JsonKey(name: 'InputId')
   final String inputId;
 
   /// Describes the parallelism updates (the number of in-application streams
   /// Kinesis Data Analytics creates for the specific streaming source).
-  @_s.JsonKey(name: 'InputParallelismUpdate')
-  final InputParallelismUpdate inputParallelismUpdate;
+  final InputParallelismUpdate? inputParallelismUpdate;
 
   /// Describes updates to an <a>InputProcessingConfiguration</a>.
-  @_s.JsonKey(name: 'InputProcessingConfigurationUpdate')
-  final InputProcessingConfigurationUpdate inputProcessingConfigurationUpdate;
+  final InputProcessingConfigurationUpdate? inputProcessingConfigurationUpdate;
 
   /// Describes the data format on the streaming source, and how record elements
   /// on the streaming source map to columns of the in-application stream that is
   /// created.
-  @_s.JsonKey(name: 'InputSchemaUpdate')
-  final InputSchemaUpdate inputSchemaUpdate;
+  final InputSchemaUpdate? inputSchemaUpdate;
 
   /// If a Kinesis Data Firehose delivery stream is the streaming source to be
   /// updated, provides an updated stream ARN.
-  @_s.JsonKey(name: 'KinesisFirehoseInputUpdate')
-  final KinesisFirehoseInputUpdate kinesisFirehoseInputUpdate;
+  final KinesisFirehoseInputUpdate? kinesisFirehoseInputUpdate;
 
   /// If a Kinesis data stream is the streaming source to be updated, provides an
   /// updated stream Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'KinesisStreamsInputUpdate')
-  final KinesisStreamsInputUpdate kinesisStreamsInputUpdate;
+  final KinesisStreamsInputUpdate? kinesisStreamsInputUpdate;
 
   /// The name prefix for in-application streams that Kinesis Data Analytics
   /// creates for the specific streaming source.
-  @_s.JsonKey(name: 'NamePrefixUpdate')
-  final String namePrefixUpdate;
+  final String? namePrefixUpdate;
 
   InputUpdate({
-    @_s.required this.inputId,
+    required this.inputId,
     this.inputParallelismUpdate,
     this.inputProcessingConfigurationUpdate,
     this.inputSchemaUpdate,
@@ -4148,59 +5916,115 @@ class InputUpdate {
     this.kinesisStreamsInputUpdate,
     this.namePrefixUpdate,
   });
-  Map<String, dynamic> toJson() => _$InputUpdateToJson(this);
+
+  factory InputUpdate.fromJson(Map<String, dynamic> json) {
+    return InputUpdate(
+      inputId: json['InputId'] as String,
+      inputParallelismUpdate: json['InputParallelismUpdate'] != null
+          ? InputParallelismUpdate.fromJson(
+              json['InputParallelismUpdate'] as Map<String, dynamic>)
+          : null,
+      inputProcessingConfigurationUpdate:
+          json['InputProcessingConfigurationUpdate'] != null
+              ? InputProcessingConfigurationUpdate.fromJson(
+                  json['InputProcessingConfigurationUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      inputSchemaUpdate: json['InputSchemaUpdate'] != null
+          ? InputSchemaUpdate.fromJson(
+              json['InputSchemaUpdate'] as Map<String, dynamic>)
+          : null,
+      kinesisFirehoseInputUpdate: json['KinesisFirehoseInputUpdate'] != null
+          ? KinesisFirehoseInputUpdate.fromJson(
+              json['KinesisFirehoseInputUpdate'] as Map<String, dynamic>)
+          : null,
+      kinesisStreamsInputUpdate: json['KinesisStreamsInputUpdate'] != null
+          ? KinesisStreamsInputUpdate.fromJson(
+              json['KinesisStreamsInputUpdate'] as Map<String, dynamic>)
+          : null,
+      namePrefixUpdate: json['NamePrefixUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputId = this.inputId;
+    final inputParallelismUpdate = this.inputParallelismUpdate;
+    final inputProcessingConfigurationUpdate =
+        this.inputProcessingConfigurationUpdate;
+    final inputSchemaUpdate = this.inputSchemaUpdate;
+    final kinesisFirehoseInputUpdate = this.kinesisFirehoseInputUpdate;
+    final kinesisStreamsInputUpdate = this.kinesisStreamsInputUpdate;
+    final namePrefixUpdate = this.namePrefixUpdate;
+    return {
+      'InputId': inputId,
+      if (inputParallelismUpdate != null)
+        'InputParallelismUpdate': inputParallelismUpdate,
+      if (inputProcessingConfigurationUpdate != null)
+        'InputProcessingConfigurationUpdate':
+            inputProcessingConfigurationUpdate,
+      if (inputSchemaUpdate != null) 'InputSchemaUpdate': inputSchemaUpdate,
+      if (kinesisFirehoseInputUpdate != null)
+        'KinesisFirehoseInputUpdate': kinesisFirehoseInputUpdate,
+      if (kinesisStreamsInputUpdate != null)
+        'KinesisStreamsInputUpdate': kinesisStreamsInputUpdate,
+      if (namePrefixUpdate != null) 'NamePrefixUpdate': namePrefixUpdate,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides additional
 /// mapping information when JSON is the record format on the streaming source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class JSONMappingParameters {
   /// The path to the top-level parent that contains the records.
-  @_s.JsonKey(name: 'RecordRowPath')
   final String recordRowPath;
 
   JSONMappingParameters({
-    @_s.required this.recordRowPath,
+    required this.recordRowPath,
   });
-  factory JSONMappingParameters.fromJson(Map<String, dynamic> json) =>
-      _$JSONMappingParametersFromJson(json);
 
-  Map<String, dynamic> toJson() => _$JSONMappingParametersToJson(this);
+  factory JSONMappingParameters.fromJson(Map<String, dynamic> json) {
+    return JSONMappingParameters(
+      recordRowPath: json['RecordRowPath'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordRowPath = this.recordRowPath;
+    return {
+      'RecordRowPath': recordRowPath,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, identifies a Kinesis
 /// Data Firehose delivery stream as the streaming source. You provide the
 /// delivery stream's Amazon Resource Name (ARN).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisFirehoseInput {
   /// The Amazon Resource Name (ARN) of the delivery stream.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   KinesisFirehoseInput({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
   });
-  Map<String, dynamic> toJson() => _$KinesisFirehoseInputToJson(this);
+
+  factory KinesisFirehoseInput.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseInput(
+      resourceARN: json['ResourceARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    return {
+      'ResourceARN': resourceARN,
+    };
+  }
 }
 
 /// Describes the Amazon Kinesis Data Firehose delivery stream that is
 /// configured as the streaming source in the application input configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KinesisFirehoseInputDescription {
   /// The Amazon Resource Name (ARN) of the delivery stream.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   /// The ARN of the IAM role that Kinesis Data Analytics assumes to access the
@@ -4210,66 +6034,85 @@ class KinesisFirehoseInputDescription {
   /// current API version have an application-level service execution role rather
   /// than a resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   KinesisFirehoseInputDescription({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
     this.roleARN,
   });
-  factory KinesisFirehoseInputDescription.fromJson(Map<String, dynamic> json) =>
-      _$KinesisFirehoseInputDescriptionFromJson(json);
+
+  factory KinesisFirehoseInputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseInputDescription(
+      resourceARN: json['ResourceARN'] as String,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, when updating
 /// application input configuration, provides information about a Kinesis Data
 /// Firehose delivery stream as the streaming source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisFirehoseInputUpdate {
   /// The Amazon Resource Name (ARN) of the input delivery stream to read.
-  @_s.JsonKey(name: 'ResourceARNUpdate')
   final String resourceARNUpdate;
 
   KinesisFirehoseInputUpdate({
-    @_s.required this.resourceARNUpdate,
+    required this.resourceARNUpdate,
   });
-  Map<String, dynamic> toJson() => _$KinesisFirehoseInputUpdateToJson(this);
+
+  factory KinesisFirehoseInputUpdate.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseInputUpdate(
+      resourceARNUpdate: json['ResourceARNUpdate'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    return {
+      'ResourceARNUpdate': resourceARNUpdate,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, when configuring
 /// application output, identifies a Kinesis Data Firehose delivery stream as
 /// the destination. You provide the stream Amazon Resource Name (ARN) of the
 /// delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisFirehoseOutput {
   /// The ARN of the destination delivery stream to write to.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   KinesisFirehoseOutput({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
   });
-  Map<String, dynamic> toJson() => _$KinesisFirehoseOutputToJson(this);
+
+  factory KinesisFirehoseOutput.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseOutput(
+      resourceARN: json['ResourceARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    return {
+      'ResourceARN': resourceARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application's output, describes the
 /// Kinesis Data Firehose delivery stream that is configured as its destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KinesisFirehoseOutputDescription {
   /// The Amazon Resource Name (ARN) of the delivery stream.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the
@@ -4279,67 +6122,85 @@ class KinesisFirehoseOutputDescription {
   /// current API version have an application-level service execution role rather
   /// than a resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   KinesisFirehoseOutputDescription({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
     this.roleARN,
   });
-  factory KinesisFirehoseOutputDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$KinesisFirehoseOutputDescriptionFromJson(json);
+
+  factory KinesisFirehoseOutputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseOutputDescription(
+      resourceARN: json['ResourceARN'] as String,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, when updating an output
 /// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about a Kinesis Data Firehose delivery stream that is configured
 /// as the destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisFirehoseOutputUpdate {
   /// The Amazon Resource Name (ARN) of the delivery stream to write to.
-  @_s.JsonKey(name: 'ResourceARNUpdate')
   final String resourceARNUpdate;
 
   KinesisFirehoseOutputUpdate({
-    @_s.required this.resourceARNUpdate,
+    required this.resourceARNUpdate,
   });
-  Map<String, dynamic> toJson() => _$KinesisFirehoseOutputUpdateToJson(this);
+
+  factory KinesisFirehoseOutputUpdate.fromJson(Map<String, dynamic> json) {
+    return KinesisFirehoseOutputUpdate(
+      resourceARNUpdate: json['ResourceARNUpdate'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    return {
+      'ResourceARNUpdate': resourceARNUpdate,
+    };
+  }
 }
 
 /// Identifies a Kinesis data stream as the streaming source. You provide the
 /// stream's Amazon Resource Name (ARN).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisStreamsInput {
   /// The ARN of the input Kinesis data stream to read.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   KinesisStreamsInput({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
   });
-  Map<String, dynamic> toJson() => _$KinesisStreamsInputToJson(this);
+
+  factory KinesisStreamsInput.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsInput(
+      resourceARN: json['ResourceARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    return {
+      'ResourceARN': resourceARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the Kinesis
 /// data stream that is configured as the streaming source in the application
 /// input configuration.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KinesisStreamsInputDescription {
   /// The Amazon Resource Name (ARN) of the Kinesis data stream.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the
@@ -4349,65 +6210,84 @@ class KinesisStreamsInputDescription {
   /// current API version have an application-level service execution role rather
   /// than a resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   KinesisStreamsInputDescription({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
     this.roleARN,
   });
-  factory KinesisStreamsInputDescription.fromJson(Map<String, dynamic> json) =>
-      _$KinesisStreamsInputDescriptionFromJson(json);
+
+  factory KinesisStreamsInputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsInputDescription(
+      resourceARN: json['ResourceARN'] as String,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// When you update the input configuration for a SQL-based Kinesis Data
 /// Analytics application, provides information about a Kinesis stream as the
 /// streaming source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisStreamsInputUpdate {
   /// The Amazon Resource Name (ARN) of the input Kinesis data stream to read.
-  @_s.JsonKey(name: 'ResourceARNUpdate')
   final String resourceARNUpdate;
 
   KinesisStreamsInputUpdate({
-    @_s.required this.resourceARNUpdate,
+    required this.resourceARNUpdate,
   });
-  Map<String, dynamic> toJson() => _$KinesisStreamsInputUpdateToJson(this);
+
+  factory KinesisStreamsInputUpdate.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsInputUpdate(
+      resourceARNUpdate: json['ResourceARNUpdate'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    return {
+      'ResourceARNUpdate': resourceARNUpdate,
+    };
+  }
 }
 
 /// When you configure a SQL-based Kinesis Data Analytics application's output,
 /// identifies a Kinesis data stream as the destination. You provide the stream
 /// Amazon Resource Name (ARN).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisStreamsOutput {
   /// The ARN of the destination Kinesis data stream to write to.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   KinesisStreamsOutput({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
   });
-  Map<String, dynamic> toJson() => _$KinesisStreamsOutputToJson(this);
+
+  factory KinesisStreamsOutput.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsOutput(
+      resourceARN: json['ResourceARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    return {
+      'ResourceARN': resourceARN,
+    };
+  }
 }
 
 /// For an SQL-based Kinesis Data Analytics application's output, describes the
 /// Kinesis data stream that is configured as its destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class KinesisStreamsOutputDescription {
   /// The Amazon Resource Name (ARN) of the Kinesis data stream.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   /// The ARN of the IAM role that Kinesis Data Analytics can assume to access the
@@ -4417,46 +6297,60 @@ class KinesisStreamsOutputDescription {
   /// current API version have an application-level service execution role rather
   /// than a resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   KinesisStreamsOutputDescription({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
     this.roleARN,
   });
-  factory KinesisStreamsOutputDescription.fromJson(Map<String, dynamic> json) =>
-      _$KinesisStreamsOutputDescriptionFromJson(json);
+
+  factory KinesisStreamsOutputDescription.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsOutputDescription(
+      resourceARN: json['ResourceARN'] as String,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// When you update a SQL-based Kinesis Data Analytics application's output
 /// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about a Kinesis data stream that is configured as the
 /// destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class KinesisStreamsOutputUpdate {
   /// The Amazon Resource Name (ARN) of the Kinesis data stream where you want to
   /// write the output.
-  @_s.JsonKey(name: 'ResourceARNUpdate')
   final String resourceARNUpdate;
 
   KinesisStreamsOutputUpdate({
-    @_s.required this.resourceARNUpdate,
+    required this.resourceARNUpdate,
   });
-  Map<String, dynamic> toJson() => _$KinesisStreamsOutputUpdateToJson(this);
+
+  factory KinesisStreamsOutputUpdate.fromJson(Map<String, dynamic> json) {
+    return KinesisStreamsOutputUpdate(
+      resourceARNUpdate: json['ResourceARNUpdate'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    return {
+      'ResourceARNUpdate': resourceARNUpdate,
+    };
+  }
 }
 
 /// When you configure a SQL-based Kinesis Data Analytics application's output,
 /// identifies an AWS Lambda function as the destination. You provide the
 /// function Amazon Resource Name (ARN) of the Lambda function.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LambdaOutput {
   /// The Amazon Resource Name (ARN) of the destination Lambda function to write
   /// to.
@@ -4467,25 +6361,30 @@ class LambdaOutput {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   LambdaOutput({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
   });
-  Map<String, dynamic> toJson() => _$LambdaOutputToJson(this);
+
+  factory LambdaOutput.fromJson(Map<String, dynamic> json) {
+    return LambdaOutput(
+      resourceARN: json['ResourceARN'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    return {
+      'ResourceARN': resourceARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application's output, describes the
 /// AWS Lambda function that is configured as its destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class LambdaOutputDescription {
   /// The Amazon Resource Name (ARN) of the destination Lambda function.
-  @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
   /// The ARN of the IAM role that Kinesis Data Analytics can assume to write to
@@ -4495,26 +6394,34 @@ class LambdaOutputDescription {
   /// current API version have an application-level service execution role rather
   /// than a resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'RoleARN')
-  final String roleARN;
+  final String? roleARN;
 
   LambdaOutputDescription({
-    @_s.required this.resourceARN,
+    required this.resourceARN,
     this.roleARN,
   });
-  factory LambdaOutputDescription.fromJson(Map<String, dynamic> json) =>
-      _$LambdaOutputDescriptionFromJson(json);
+
+  factory LambdaOutputDescription.fromJson(Map<String, dynamic> json) {
+    return LambdaOutputDescription(
+      resourceARN: json['ResourceARN'] as String,
+      roleARN: json['RoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARN = this.resourceARN;
+    final roleARN = this.roleARN;
+    return {
+      'ResourceARN': resourceARN,
+      if (roleARN != null) 'RoleARN': roleARN,
+    };
+  }
 }
 
 /// When you update an SQL-based Kinesis Data Analytics application's output
 /// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about an AWS Lambda function that is configured as the
 /// destination.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class LambdaOutputUpdate {
   /// The Amazon Resource Name (ARN) of the destination AWS Lambda function.
   /// <note>
@@ -4524,48 +6431,106 @@ class LambdaOutputUpdate {
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
-  @_s.JsonKey(name: 'ResourceARNUpdate')
   final String resourceARNUpdate;
 
   LambdaOutputUpdate({
-    @_s.required this.resourceARNUpdate,
+    required this.resourceARNUpdate,
   });
-  Map<String, dynamic> toJson() => _$LambdaOutputUpdateToJson(this);
+
+  factory LambdaOutputUpdate.fromJson(Map<String, dynamic> json) {
+    return LambdaOutputUpdate(
+      resourceARNUpdate: json['ResourceARNUpdate'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceARNUpdate = this.resourceARNUpdate;
+    return {
+      'ResourceARNUpdate': resourceARNUpdate,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApplicationSnapshotsResponse {
   /// The token for the next set of results, or <code>null</code> if there are no
   /// additional results.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// A collection of objects containing information about the application
   /// snapshots.
-  @_s.JsonKey(name: 'SnapshotSummaries')
-  final List<SnapshotDetails> snapshotSummaries;
+  final List<SnapshotDetails>? snapshotSummaries;
 
   ListApplicationSnapshotsResponse({
     this.nextToken,
     this.snapshotSummaries,
   });
-  factory ListApplicationSnapshotsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListApplicationSnapshotsResponseFromJson(json);
+
+  factory ListApplicationSnapshotsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationSnapshotsResponse(
+      nextToken: json['NextToken'] as String?,
+      snapshotSummaries: (json['SnapshotSummaries'] as List?)
+          ?.whereNotNull()
+          .map((e) => SnapshotDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final snapshotSummaries = this.snapshotSummaries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (snapshotSummaries != null) 'SnapshotSummaries': snapshotSummaries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class ListApplicationVersionsResponse {
+  /// A list of the application versions and the associated configuration
+  /// summaries. The list includes application versions that were rolled back.
+  ///
+  /// To get the complete description of a specific application version, invoke
+  /// the <a>DescribeApplicationVersion</a> operation.
+  final List<ApplicationVersionSummary>? applicationVersionSummaries;
+
+  /// The pagination token for the next set of results, or <code>null</code> if
+  /// there are no additional results. To retrieve the next set of items, pass
+  /// this token into a subsequent invocation of this operation. For more
+  /// information about pagination, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/pagination.html">Using
+  /// the AWS Command Line Interface's Pagination Options</a>.
+  final String? nextToken;
+
+  ListApplicationVersionsResponse({
+    this.applicationVersionSummaries,
+    this.nextToken,
+  });
+
+  factory ListApplicationVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationVersionsResponse(
+      applicationVersionSummaries:
+          (json['ApplicationVersionSummaries'] as List?)
+              ?.whereNotNull()
+              .map((e) =>
+                  ApplicationVersionSummary.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationVersionSummaries = this.applicationVersionSummaries;
+    final nextToken = this.nextToken;
+    return {
+      if (applicationVersionSummaries != null)
+        'ApplicationVersionSummaries': applicationVersionSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
+}
+
 class ListApplicationsResponse {
   /// A list of <code>ApplicationSummary</code> objects.
-  @_s.JsonKey(name: 'ApplicationSummaries')
   final List<ApplicationSummary> applicationSummaries;
 
   /// The pagination token for the next set of results, or <code>null</code> if
@@ -4574,183 +6539,347 @@ class ListApplicationsResponse {
   /// <a
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/pagination.html">Using
   /// the AWS Command Line Interface's Pagination Options</a>.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApplicationsResponse({
-    @_s.required this.applicationSummaries,
+    required this.applicationSummaries,
     this.nextToken,
   });
-  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListApplicationsResponseFromJson(json);
+
+  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationsResponse(
+      applicationSummaries: (json['ApplicationSummaries'] as List)
+          .whereNotNull()
+          .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationSummaries = this.applicationSummaries;
+    final nextToken = this.nextToken;
+    return {
+      'ApplicationSummaries': applicationSummaries,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// The key-value tags assigned to the application.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 enum LogLevel {
-  @_s.JsonValue('INFO')
   info,
-  @_s.JsonValue('WARN')
   warn,
-  @_s.JsonValue('ERROR')
   error,
-  @_s.JsonValue('DEBUG')
   debug,
+}
+
+extension on LogLevel {
+  String toValue() {
+    switch (this) {
+      case LogLevel.info:
+        return 'INFO';
+      case LogLevel.warn:
+        return 'WARN';
+      case LogLevel.error:
+        return 'ERROR';
+      case LogLevel.debug:
+        return 'DEBUG';
+    }
+  }
+}
+
+extension on String {
+  LogLevel toLogLevel() {
+    switch (this) {
+      case 'INFO':
+        return LogLevel.info;
+      case 'WARN':
+        return LogLevel.warn;
+      case 'ERROR':
+        return LogLevel.error;
+      case 'DEBUG':
+        return LogLevel.debug;
+    }
+    throw Exception('$this is not known in enum LogLevel');
+  }
 }
 
 /// When you configure a SQL-based Kinesis Data Analytics application's input at
 /// the time of creating or updating an application, provides additional mapping
 /// information specific to the record format (such as JSON, CSV, or record
 /// fields delimited by some delimiter) on the streaming source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class MappingParameters {
   /// Provides additional mapping information when the record format uses
   /// delimiters (for example, CSV).
-  @_s.JsonKey(name: 'CSVMappingParameters')
-  final CSVMappingParameters cSVMappingParameters;
+  final CSVMappingParameters? cSVMappingParameters;
 
   /// Provides additional mapping information when JSON is the record format on
   /// the streaming source.
-  @_s.JsonKey(name: 'JSONMappingParameters')
-  final JSONMappingParameters jSONMappingParameters;
+  final JSONMappingParameters? jSONMappingParameters;
 
   MappingParameters({
     this.cSVMappingParameters,
     this.jSONMappingParameters,
   });
-  factory MappingParameters.fromJson(Map<String, dynamic> json) =>
-      _$MappingParametersFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MappingParametersToJson(this);
+  factory MappingParameters.fromJson(Map<String, dynamic> json) {
+    return MappingParameters(
+      cSVMappingParameters: json['CSVMappingParameters'] != null
+          ? CSVMappingParameters.fromJson(
+              json['CSVMappingParameters'] as Map<String, dynamic>)
+          : null,
+      jSONMappingParameters: json['JSONMappingParameters'] != null
+          ? JSONMappingParameters.fromJson(
+              json['JSONMappingParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cSVMappingParameters = this.cSVMappingParameters;
+    final jSONMappingParameters = this.jSONMappingParameters;
+    return {
+      if (cSVMappingParameters != null)
+        'CSVMappingParameters': cSVMappingParameters,
+      if (jSONMappingParameters != null)
+        'JSONMappingParameters': jSONMappingParameters,
+    };
+  }
+}
+
+/// The information required to specify a Maven reference. You can use Maven
+/// references to specify dependency JAR files.
+class MavenReference {
+  /// The artifact ID of the Maven reference.
+  final String artifactId;
+
+  /// The group ID of the Maven reference.
+  final String groupId;
+
+  /// The version of the Maven reference.
+  final String version;
+
+  MavenReference({
+    required this.artifactId,
+    required this.groupId,
+    required this.version,
+  });
+
+  factory MavenReference.fromJson(Map<String, dynamic> json) {
+    return MavenReference(
+      artifactId: json['ArtifactId'] as String,
+      groupId: json['GroupId'] as String,
+      version: json['Version'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final artifactId = this.artifactId;
+    final groupId = this.groupId;
+    final version = this.version;
+    return {
+      'ArtifactId': artifactId,
+      'GroupId': groupId,
+      'Version': version,
+    };
+  }
 }
 
 enum MetricsLevel {
-  @_s.JsonValue('APPLICATION')
   application,
-  @_s.JsonValue('TASK')
   task,
-  @_s.JsonValue('OPERATOR')
   operator,
-  @_s.JsonValue('PARALLELISM')
   parallelism,
 }
 
-/// Describes configuration parameters for Amazon CloudWatch logging for a
-/// Flink-based Kinesis Data Analytics application. For more information about
-/// CloudWatch logging, see <a
+extension on MetricsLevel {
+  String toValue() {
+    switch (this) {
+      case MetricsLevel.application:
+        return 'APPLICATION';
+      case MetricsLevel.task:
+        return 'TASK';
+      case MetricsLevel.operator:
+        return 'OPERATOR';
+      case MetricsLevel.parallelism:
+        return 'PARALLELISM';
+    }
+  }
+}
+
+extension on String {
+  MetricsLevel toMetricsLevel() {
+    switch (this) {
+      case 'APPLICATION':
+        return MetricsLevel.application;
+      case 'TASK':
+        return MetricsLevel.task;
+      case 'OPERATOR':
+        return MetricsLevel.operator;
+      case 'PARALLELISM':
+        return MetricsLevel.parallelism;
+    }
+    throw Exception('$this is not known in enum MetricsLevel');
+  }
+}
+
+/// Describes configuration parameters for Amazon CloudWatch logging for an
+/// application. For more information about CloudWatch logging, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html">Monitoring</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class MonitoringConfiguration {
   /// Describes whether to use the default CloudWatch logging configuration for an
   /// application. You must set this property to <code>CUSTOM</code> in order to
   /// set the <code>LogLevel</code> or <code>MetricsLevel</code> parameters.
-  @_s.JsonKey(name: 'ConfigurationType')
   final ConfigurationType configurationType;
 
   /// Describes the verbosity of the CloudWatch Logs for an application.
-  @_s.JsonKey(name: 'LogLevel')
-  final LogLevel logLevel;
+  final LogLevel? logLevel;
 
   /// Describes the granularity of the CloudWatch Logs for an application. The
   /// <code>Parallelism</code> level is not recommended for applications with a
   /// Parallelism over 64 due to excessive costs.
-  @_s.JsonKey(name: 'MetricsLevel')
-  final MetricsLevel metricsLevel;
+  final MetricsLevel? metricsLevel;
 
   MonitoringConfiguration({
-    @_s.required this.configurationType,
+    required this.configurationType,
     this.logLevel,
     this.metricsLevel,
   });
-  Map<String, dynamic> toJson() => _$MonitoringConfigurationToJson(this);
+
+  factory MonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return MonitoringConfiguration(
+      configurationType:
+          (json['ConfigurationType'] as String).toConfigurationType(),
+      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
+      metricsLevel: (json['MetricsLevel'] as String?)?.toMetricsLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationType = this.configurationType;
+    final logLevel = this.logLevel;
+    final metricsLevel = this.metricsLevel;
+    return {
+      'ConfigurationType': configurationType.toValue(),
+      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (metricsLevel != null) 'MetricsLevel': metricsLevel.toValue(),
+    };
+  }
 }
 
-/// Describes configuration parameters for CloudWatch logging for a Flink-based
-/// Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Describes configuration parameters for CloudWatch logging for an
+/// application.
 class MonitoringConfigurationDescription {
   /// Describes whether to use the default CloudWatch logging configuration for an
   /// application.
-  @_s.JsonKey(name: 'ConfigurationType')
-  final ConfigurationType configurationType;
+  final ConfigurationType? configurationType;
 
   /// Describes the verbosity of the CloudWatch Logs for an application.
-  @_s.JsonKey(name: 'LogLevel')
-  final LogLevel logLevel;
+  final LogLevel? logLevel;
 
   /// Describes the granularity of the CloudWatch Logs for an application.
-  @_s.JsonKey(name: 'MetricsLevel')
-  final MetricsLevel metricsLevel;
+  final MetricsLevel? metricsLevel;
 
   MonitoringConfigurationDescription({
     this.configurationType,
     this.logLevel,
     this.metricsLevel,
   });
+
   factory MonitoringConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$MonitoringConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return MonitoringConfigurationDescription(
+      configurationType:
+          (json['ConfigurationType'] as String?)?.toConfigurationType(),
+      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
+      metricsLevel: (json['MetricsLevel'] as String?)?.toMetricsLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationType = this.configurationType;
+    final logLevel = this.logLevel;
+    final metricsLevel = this.metricsLevel;
+    return {
+      if (configurationType != null)
+        'ConfigurationType': configurationType.toValue(),
+      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+      if (metricsLevel != null) 'MetricsLevel': metricsLevel.toValue(),
+    };
+  }
 }
 
 /// Describes updates to configuration parameters for Amazon CloudWatch logging
-/// for a Flink-based Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// for an application.
 class MonitoringConfigurationUpdate {
   /// Describes updates to whether to use the default CloudWatch logging
   /// configuration for an application. You must set this property to
   /// <code>CUSTOM</code> in order to set the <code>LogLevel</code> or
   /// <code>MetricsLevel</code> parameters.
-  @_s.JsonKey(name: 'ConfigurationTypeUpdate')
-  final ConfigurationType configurationTypeUpdate;
+  final ConfigurationType? configurationTypeUpdate;
 
   /// Describes updates to the verbosity of the CloudWatch Logs for an
   /// application.
-  @_s.JsonKey(name: 'LogLevelUpdate')
-  final LogLevel logLevelUpdate;
+  final LogLevel? logLevelUpdate;
 
   /// Describes updates to the granularity of the CloudWatch Logs for an
   /// application. The <code>Parallelism</code> level is not recommended for
   /// applications with a Parallelism over 64 due to excessive costs.
-  @_s.JsonKey(name: 'MetricsLevelUpdate')
-  final MetricsLevel metricsLevelUpdate;
+  final MetricsLevel? metricsLevelUpdate;
 
   MonitoringConfigurationUpdate({
     this.configurationTypeUpdate,
     this.logLevelUpdate,
     this.metricsLevelUpdate,
   });
-  Map<String, dynamic> toJson() => _$MonitoringConfigurationUpdateToJson(this);
+
+  factory MonitoringConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return MonitoringConfigurationUpdate(
+      configurationTypeUpdate:
+          (json['ConfigurationTypeUpdate'] as String?)?.toConfigurationType(),
+      logLevelUpdate: (json['LogLevelUpdate'] as String?)?.toLogLevel(),
+      metricsLevelUpdate:
+          (json['MetricsLevelUpdate'] as String?)?.toMetricsLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationTypeUpdate = this.configurationTypeUpdate;
+    final logLevelUpdate = this.logLevelUpdate;
+    final metricsLevelUpdate = this.metricsLevelUpdate;
+    return {
+      if (configurationTypeUpdate != null)
+        'ConfigurationTypeUpdate': configurationTypeUpdate.toValue(),
+      if (logLevelUpdate != null) 'LogLevelUpdate': logLevelUpdate.toValue(),
+      if (metricsLevelUpdate != null)
+        'MetricsLevelUpdate': metricsLevelUpdate.toValue(),
+    };
+  }
 }
 
 /// Describes a SQL-based Kinesis Data Analytics application's output
@@ -4759,78 +6888,92 @@ class MonitoringConfigurationUpdate {
 /// destination can be a Kinesis data stream or a Kinesis Data Firehose delivery
 /// stream.
 /// <p/>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Output {
   /// Describes the data format when records are written to the destination.
-  @_s.JsonKey(name: 'DestinationSchema')
   final DestinationSchema destinationSchema;
 
   /// The name of the in-application stream.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// Identifies a Kinesis Data Firehose delivery stream as the destination.
-  @_s.JsonKey(name: 'KinesisFirehoseOutput')
-  final KinesisFirehoseOutput kinesisFirehoseOutput;
+  final KinesisFirehoseOutput? kinesisFirehoseOutput;
 
   /// Identifies a Kinesis data stream as the destination.
-  @_s.JsonKey(name: 'KinesisStreamsOutput')
-  final KinesisStreamsOutput kinesisStreamsOutput;
+  final KinesisStreamsOutput? kinesisStreamsOutput;
 
   /// Identifies an AWS Lambda function as the destination.
-  @_s.JsonKey(name: 'LambdaOutput')
-  final LambdaOutput lambdaOutput;
+  final LambdaOutput? lambdaOutput;
 
   Output({
-    @_s.required this.destinationSchema,
-    @_s.required this.name,
+    required this.destinationSchema,
+    required this.name,
     this.kinesisFirehoseOutput,
     this.kinesisStreamsOutput,
     this.lambdaOutput,
   });
-  Map<String, dynamic> toJson() => _$OutputToJson(this);
+
+  factory Output.fromJson(Map<String, dynamic> json) {
+    return Output(
+      destinationSchema: DestinationSchema.fromJson(
+          json['DestinationSchema'] as Map<String, dynamic>),
+      name: json['Name'] as String,
+      kinesisFirehoseOutput: json['KinesisFirehoseOutput'] != null
+          ? KinesisFirehoseOutput.fromJson(
+              json['KinesisFirehoseOutput'] as Map<String, dynamic>)
+          : null,
+      kinesisStreamsOutput: json['KinesisStreamsOutput'] != null
+          ? KinesisStreamsOutput.fromJson(
+              json['KinesisStreamsOutput'] as Map<String, dynamic>)
+          : null,
+      lambdaOutput: json['LambdaOutput'] != null
+          ? LambdaOutput.fromJson(json['LambdaOutput'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationSchema = this.destinationSchema;
+    final name = this.name;
+    final kinesisFirehoseOutput = this.kinesisFirehoseOutput;
+    final kinesisStreamsOutput = this.kinesisStreamsOutput;
+    final lambdaOutput = this.lambdaOutput;
+    return {
+      'DestinationSchema': destinationSchema,
+      'Name': name,
+      if (kinesisFirehoseOutput != null)
+        'KinesisFirehoseOutput': kinesisFirehoseOutput,
+      if (kinesisStreamsOutput != null)
+        'KinesisStreamsOutput': kinesisStreamsOutput,
+      if (lambdaOutput != null) 'LambdaOutput': lambdaOutput,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the
 /// application output configuration, which includes the in-application stream
 /// name and the destination where the stream data is written. The destination
 /// can be a Kinesis data stream or a Kinesis Data Firehose delivery stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OutputDescription {
   /// The data format used for writing data to the destination.
-  @_s.JsonKey(name: 'DestinationSchema')
-  final DestinationSchema destinationSchema;
+  final DestinationSchema? destinationSchema;
 
   /// Describes the Kinesis Data Firehose delivery stream that is configured as
   /// the destination where output is written.
-  @_s.JsonKey(name: 'KinesisFirehoseOutputDescription')
-  final KinesisFirehoseOutputDescription kinesisFirehoseOutputDescription;
+  final KinesisFirehoseOutputDescription? kinesisFirehoseOutputDescription;
 
   /// Describes the Kinesis data stream that is configured as the destination
   /// where output is written.
-  @_s.JsonKey(name: 'KinesisStreamsOutputDescription')
-  final KinesisStreamsOutputDescription kinesisStreamsOutputDescription;
+  final KinesisStreamsOutputDescription? kinesisStreamsOutputDescription;
 
   /// Describes the Lambda function that is configured as the destination where
   /// output is written.
-  @_s.JsonKey(name: 'LambdaOutputDescription')
-  final LambdaOutputDescription lambdaOutputDescription;
+  final LambdaOutputDescription? lambdaOutputDescription;
 
   /// The name of the in-application stream that is configured as output.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// A unique identifier for the output configuration.
-  @_s.JsonKey(name: 'OutputId')
-  final String outputId;
+  final String? outputId;
 
   OutputDescription({
     this.destinationSchema,
@@ -4840,80 +6983,151 @@ class OutputDescription {
     this.name,
     this.outputId,
   });
-  factory OutputDescription.fromJson(Map<String, dynamic> json) =>
-      _$OutputDescriptionFromJson(json);
+
+  factory OutputDescription.fromJson(Map<String, dynamic> json) {
+    return OutputDescription(
+      destinationSchema: json['DestinationSchema'] != null
+          ? DestinationSchema.fromJson(
+              json['DestinationSchema'] as Map<String, dynamic>)
+          : null,
+      kinesisFirehoseOutputDescription:
+          json['KinesisFirehoseOutputDescription'] != null
+              ? KinesisFirehoseOutputDescription.fromJson(
+                  json['KinesisFirehoseOutputDescription']
+                      as Map<String, dynamic>)
+              : null,
+      kinesisStreamsOutputDescription:
+          json['KinesisStreamsOutputDescription'] != null
+              ? KinesisStreamsOutputDescription.fromJson(
+                  json['KinesisStreamsOutputDescription']
+                      as Map<String, dynamic>)
+              : null,
+      lambdaOutputDescription: json['LambdaOutputDescription'] != null
+          ? LambdaOutputDescription.fromJson(
+              json['LambdaOutputDescription'] as Map<String, dynamic>)
+          : null,
+      name: json['Name'] as String?,
+      outputId: json['OutputId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final destinationSchema = this.destinationSchema;
+    final kinesisFirehoseOutputDescription =
+        this.kinesisFirehoseOutputDescription;
+    final kinesisStreamsOutputDescription =
+        this.kinesisStreamsOutputDescription;
+    final lambdaOutputDescription = this.lambdaOutputDescription;
+    final name = this.name;
+    final outputId = this.outputId;
+    return {
+      if (destinationSchema != null) 'DestinationSchema': destinationSchema,
+      if (kinesisFirehoseOutputDescription != null)
+        'KinesisFirehoseOutputDescription': kinesisFirehoseOutputDescription,
+      if (kinesisStreamsOutputDescription != null)
+        'KinesisStreamsOutputDescription': kinesisStreamsOutputDescription,
+      if (lambdaOutputDescription != null)
+        'LambdaOutputDescription': lambdaOutputDescription,
+      if (name != null) 'Name': name,
+      if (outputId != null) 'OutputId': outputId,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes updates to the
 /// output configuration identified by the <code>OutputId</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class OutputUpdate {
   /// Identifies the specific output configuration that you want to update.
-  @_s.JsonKey(name: 'OutputId')
   final String outputId;
 
   /// Describes the data format when records are written to the destination.
-  @_s.JsonKey(name: 'DestinationSchemaUpdate')
-  final DestinationSchema destinationSchemaUpdate;
+  final DestinationSchema? destinationSchemaUpdate;
 
   /// Describes a Kinesis Data Firehose delivery stream as the destination for the
   /// output.
-  @_s.JsonKey(name: 'KinesisFirehoseOutputUpdate')
-  final KinesisFirehoseOutputUpdate kinesisFirehoseOutputUpdate;
+  final KinesisFirehoseOutputUpdate? kinesisFirehoseOutputUpdate;
 
   /// Describes a Kinesis data stream as the destination for the output.
-  @_s.JsonKey(name: 'KinesisStreamsOutputUpdate')
-  final KinesisStreamsOutputUpdate kinesisStreamsOutputUpdate;
+  final KinesisStreamsOutputUpdate? kinesisStreamsOutputUpdate;
 
   /// Describes an AWS Lambda function as the destination for the output.
-  @_s.JsonKey(name: 'LambdaOutputUpdate')
-  final LambdaOutputUpdate lambdaOutputUpdate;
+  final LambdaOutputUpdate? lambdaOutputUpdate;
 
   /// If you want to specify a different in-application stream for this output
   /// configuration, use this field to specify the new in-application stream name.
-  @_s.JsonKey(name: 'NameUpdate')
-  final String nameUpdate;
+  final String? nameUpdate;
 
   OutputUpdate({
-    @_s.required this.outputId,
+    required this.outputId,
     this.destinationSchemaUpdate,
     this.kinesisFirehoseOutputUpdate,
     this.kinesisStreamsOutputUpdate,
     this.lambdaOutputUpdate,
     this.nameUpdate,
   });
-  Map<String, dynamic> toJson() => _$OutputUpdateToJson(this);
+
+  factory OutputUpdate.fromJson(Map<String, dynamic> json) {
+    return OutputUpdate(
+      outputId: json['OutputId'] as String,
+      destinationSchemaUpdate: json['DestinationSchemaUpdate'] != null
+          ? DestinationSchema.fromJson(
+              json['DestinationSchemaUpdate'] as Map<String, dynamic>)
+          : null,
+      kinesisFirehoseOutputUpdate: json['KinesisFirehoseOutputUpdate'] != null
+          ? KinesisFirehoseOutputUpdate.fromJson(
+              json['KinesisFirehoseOutputUpdate'] as Map<String, dynamic>)
+          : null,
+      kinesisStreamsOutputUpdate: json['KinesisStreamsOutputUpdate'] != null
+          ? KinesisStreamsOutputUpdate.fromJson(
+              json['KinesisStreamsOutputUpdate'] as Map<String, dynamic>)
+          : null,
+      lambdaOutputUpdate: json['LambdaOutputUpdate'] != null
+          ? LambdaOutputUpdate.fromJson(
+              json['LambdaOutputUpdate'] as Map<String, dynamic>)
+          : null,
+      nameUpdate: json['NameUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final outputId = this.outputId;
+    final destinationSchemaUpdate = this.destinationSchemaUpdate;
+    final kinesisFirehoseOutputUpdate = this.kinesisFirehoseOutputUpdate;
+    final kinesisStreamsOutputUpdate = this.kinesisStreamsOutputUpdate;
+    final lambdaOutputUpdate = this.lambdaOutputUpdate;
+    final nameUpdate = this.nameUpdate;
+    return {
+      'OutputId': outputId,
+      if (destinationSchemaUpdate != null)
+        'DestinationSchemaUpdate': destinationSchemaUpdate,
+      if (kinesisFirehoseOutputUpdate != null)
+        'KinesisFirehoseOutputUpdate': kinesisFirehoseOutputUpdate,
+      if (kinesisStreamsOutputUpdate != null)
+        'KinesisStreamsOutputUpdate': kinesisStreamsOutputUpdate,
+      if (lambdaOutputUpdate != null) 'LambdaOutputUpdate': lambdaOutputUpdate,
+      if (nameUpdate != null) 'NameUpdate': nameUpdate,
+    };
+  }
 }
 
 /// Describes parameters for how a Flink-based Kinesis Data Analytics
-/// application application executes multiple tasks simultaneously. For more
-/// information about parallelism, see <a
+/// application executes multiple tasks simultaneously. For more information
+/// about parallelism, see <a
 /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/parallel.html">Parallel
 /// Execution</a> in the <a
 /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
 /// Flink Documentation</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ParallelismConfiguration {
   /// Describes whether the application uses the default parallelism for the
   /// Kinesis Data Analytics service. You must set this property to
   /// <code>CUSTOM</code> in order to change your application's
   /// <code>AutoScalingEnabled</code>, <code>Parallelism</code>, or
   /// <code>ParallelismPerKPU</code> properties.
-  @_s.JsonKey(name: 'ConfigurationType')
   final ConfigurationType configurationType;
 
   /// Describes whether the Kinesis Data Analytics service can increase the
   /// parallelism of the application in response to increased throughput.
-  @_s.JsonKey(name: 'AutoScalingEnabled')
-  final bool autoScalingEnabled;
+  final bool? autoScalingEnabled;
 
   /// Describes the initial number of parallel tasks that a Flink-based Kinesis
   /// Data Analytics application can perform. If <code>AutoScalingEnabled</code>
@@ -4926,43 +7140,56 @@ class ParallelismConfiguration {
   /// application load is reduced, the service can reduce the
   /// <code>CurrentParallelism</code> value down to the <code>Parallelism</code>
   /// setting.
-  @_s.JsonKey(name: 'Parallelism')
-  final int parallelism;
+  final int? parallelism;
 
   /// Describes the number of parallel tasks that a Flink-based Kinesis Data
   /// Analytics application can perform per Kinesis Processing Unit (KPU) used by
   /// the application. For more information about KPUs, see <a
   /// href="http://aws.amazon.com/kinesis/data-analytics/pricing/">Amazon Kinesis
   /// Data Analytics Pricing</a>.
-  @_s.JsonKey(name: 'ParallelismPerKPU')
-  final int parallelismPerKPU;
+  final int? parallelismPerKPU;
 
   ParallelismConfiguration({
-    @_s.required this.configurationType,
+    required this.configurationType,
     this.autoScalingEnabled,
     this.parallelism,
     this.parallelismPerKPU,
   });
-  Map<String, dynamic> toJson() => _$ParallelismConfigurationToJson(this);
+
+  factory ParallelismConfiguration.fromJson(Map<String, dynamic> json) {
+    return ParallelismConfiguration(
+      configurationType:
+          (json['ConfigurationType'] as String).toConfigurationType(),
+      autoScalingEnabled: json['AutoScalingEnabled'] as bool?,
+      parallelism: json['Parallelism'] as int?,
+      parallelismPerKPU: json['ParallelismPerKPU'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configurationType = this.configurationType;
+    final autoScalingEnabled = this.autoScalingEnabled;
+    final parallelism = this.parallelism;
+    final parallelismPerKPU = this.parallelismPerKPU;
+    return {
+      'ConfigurationType': configurationType.toValue(),
+      if (autoScalingEnabled != null) 'AutoScalingEnabled': autoScalingEnabled,
+      if (parallelism != null) 'Parallelism': parallelism,
+      if (parallelismPerKPU != null) 'ParallelismPerKPU': parallelismPerKPU,
+    };
+  }
 }
 
 /// Describes parameters for how a Flink-based Kinesis Data Analytics
 /// application executes multiple tasks simultaneously.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParallelismConfigurationDescription {
   /// Describes whether the Kinesis Data Analytics service can increase the
   /// parallelism of the application in response to increased throughput.
-  @_s.JsonKey(name: 'AutoScalingEnabled')
-  final bool autoScalingEnabled;
+  final bool? autoScalingEnabled;
 
   /// Describes whether the application uses the default parallelism for the
   /// Kinesis Data Analytics service.
-  @_s.JsonKey(name: 'ConfigurationType')
-  final ConfigurationType configurationType;
+  final ConfigurationType? configurationType;
 
   /// Describes the current number of parallel tasks that a Flink-based Kinesis
   /// Data Analytics application can perform. If <code>AutoScalingEnabled</code>
@@ -4973,8 +7200,7 @@ class ParallelismConfigurationDescription {
   /// and can be increased by requesting a limit increase. If application load is
   /// reduced, the service can reduce the <code>CurrentParallelism</code> value
   /// down to the <code>Parallelism</code> setting.
-  @_s.JsonKey(name: 'CurrentParallelism')
-  final int currentParallelism;
+  final int? currentParallelism;
 
   /// Describes the initial number of parallel tasks that a Flink-based Kinesis
   /// Data Analytics application can perform. If <code>AutoScalingEnabled</code>
@@ -4986,14 +7212,12 @@ class ParallelismConfigurationDescription {
   /// and can be increased by requesting a limit increase. If application load is
   /// reduced, the service can reduce the <code>CurrentParallelism</code> value
   /// down to the <code>Parallelism</code> setting.
-  @_s.JsonKey(name: 'Parallelism')
-  final int parallelism;
+  final int? parallelism;
 
   /// Describes the number of parallel tasks that a Flink-based Kinesis Data
   /// Analytics application can perform per Kinesis Processing Unit (KPU) used by
   /// the application.
-  @_s.JsonKey(name: 'ParallelismPerKPU')
-  final int parallelismPerKPU;
+  final int? parallelismPerKPU;
 
   ParallelismConfigurationDescription({
     this.autoScalingEnabled,
@@ -5002,36 +7226,54 @@ class ParallelismConfigurationDescription {
     this.parallelism,
     this.parallelismPerKPU,
   });
+
   factory ParallelismConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$ParallelismConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return ParallelismConfigurationDescription(
+      autoScalingEnabled: json['AutoScalingEnabled'] as bool?,
+      configurationType:
+          (json['ConfigurationType'] as String?)?.toConfigurationType(),
+      currentParallelism: json['CurrentParallelism'] as int?,
+      parallelism: json['Parallelism'] as int?,
+      parallelismPerKPU: json['ParallelismPerKPU'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingEnabled = this.autoScalingEnabled;
+    final configurationType = this.configurationType;
+    final currentParallelism = this.currentParallelism;
+    final parallelism = this.parallelism;
+    final parallelismPerKPU = this.parallelismPerKPU;
+    return {
+      if (autoScalingEnabled != null) 'AutoScalingEnabled': autoScalingEnabled,
+      if (configurationType != null)
+        'ConfigurationType': configurationType.toValue(),
+      if (currentParallelism != null) 'CurrentParallelism': currentParallelism,
+      if (parallelism != null) 'Parallelism': parallelism,
+      if (parallelismPerKPU != null) 'ParallelismPerKPU': parallelismPerKPU,
+    };
+  }
 }
 
-/// Describes updates to parameters for how a Flink-based Kinesis Data Analytics
-/// application executes multiple tasks simultaneously.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// Describes updates to parameters for how an application executes multiple
+/// tasks simultaneously.
 class ParallelismConfigurationUpdate {
   /// Describes updates to whether the Kinesis Data Analytics service can increase
-  /// the parallelism of the application in response to increased throughput.
-  @_s.JsonKey(name: 'AutoScalingEnabledUpdate')
-  final bool autoScalingEnabledUpdate;
+  /// the parallelism of a Flink-based Kinesis Data Analytics application in
+  /// response to increased throughput.
+  final bool? autoScalingEnabledUpdate;
 
   /// Describes updates to whether the application uses the default parallelism
   /// for the Kinesis Data Analytics service, or if a custom parallelism is used.
   /// You must set this property to <code>CUSTOM</code> in order to change your
   /// application's <code>AutoScalingEnabled</code>, <code>Parallelism</code>, or
   /// <code>ParallelismPerKPU</code> properties.
-  @_s.JsonKey(name: 'ConfigurationTypeUpdate')
-  final ConfigurationType configurationTypeUpdate;
+  final ConfigurationType? configurationTypeUpdate;
 
   /// Describes updates to the number of parallel tasks an application can perform
   /// per Kinesis Processing Unit (KPU) used by the application.
-  @_s.JsonKey(name: 'ParallelismPerKPUUpdate')
-  final int parallelismPerKPUUpdate;
+  final int? parallelismPerKPUUpdate;
 
   /// Describes updates to the initial number of parallel tasks an application can
   /// perform. If <code>AutoScalingEnabled</code> is set to True, then Kinesis
@@ -5043,8 +7285,7 @@ class ParallelismConfigurationUpdate {
   /// by requesting a limit increase. If application load is reduced, the service
   /// will reduce <code>CurrentParallelism</code> down to the
   /// <code>Parallelism</code> setting.
-  @_s.JsonKey(name: 'ParallelismUpdate')
-  final int parallelismUpdate;
+  final int? parallelismUpdate;
 
   ParallelismConfigurationUpdate({
     this.autoScalingEnabledUpdate,
@@ -5052,33 +7293,63 @@ class ParallelismConfigurationUpdate {
     this.parallelismPerKPUUpdate,
     this.parallelismUpdate,
   });
-  Map<String, dynamic> toJson() => _$ParallelismConfigurationUpdateToJson(this);
+
+  factory ParallelismConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return ParallelismConfigurationUpdate(
+      autoScalingEnabledUpdate: json['AutoScalingEnabledUpdate'] as bool?,
+      configurationTypeUpdate:
+          (json['ConfigurationTypeUpdate'] as String?)?.toConfigurationType(),
+      parallelismPerKPUUpdate: json['ParallelismPerKPUUpdate'] as int?,
+      parallelismUpdate: json['ParallelismUpdate'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final autoScalingEnabledUpdate = this.autoScalingEnabledUpdate;
+    final configurationTypeUpdate = this.configurationTypeUpdate;
+    final parallelismPerKPUUpdate = this.parallelismPerKPUUpdate;
+    final parallelismUpdate = this.parallelismUpdate;
+    return {
+      if (autoScalingEnabledUpdate != null)
+        'AutoScalingEnabledUpdate': autoScalingEnabledUpdate,
+      if (configurationTypeUpdate != null)
+        'ConfigurationTypeUpdate': configurationTypeUpdate.toValue(),
+      if (parallelismPerKPUUpdate != null)
+        'ParallelismPerKPUUpdate': parallelismPerKPUUpdate,
+      if (parallelismUpdate != null) 'ParallelismUpdate': parallelismUpdate,
+    };
+  }
 }
 
-/// Property key-value pairs passed into a Flink-based Kinesis Data Analytics
-/// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// Property key-value pairs passed into an application.
 class PropertyGroup {
   /// Describes the key of an application execution property key-value pair.
-  @_s.JsonKey(name: 'PropertyGroupId')
   final String propertyGroupId;
 
   /// Describes the value of an application execution property key-value pair.
-  @_s.JsonKey(name: 'PropertyMap')
   final Map<String, String> propertyMap;
 
   PropertyGroup({
-    @_s.required this.propertyGroupId,
-    @_s.required this.propertyMap,
+    required this.propertyGroupId,
+    required this.propertyMap,
   });
-  factory PropertyGroup.fromJson(Map<String, dynamic> json) =>
-      _$PropertyGroupFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PropertyGroupToJson(this);
+  factory PropertyGroup.fromJson(Map<String, dynamic> json) {
+    return PropertyGroup(
+      propertyGroupId: json['PropertyGroupId'] as String,
+      propertyMap: (json['PropertyMap'] as Map<String, dynamic>)
+          .map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final propertyGroupId = this.propertyGroupId;
+    final propertyMap = this.propertyMap;
+    return {
+      'PropertyGroupId': propertyGroupId,
+      'PropertyMap': propertyMap,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the mapping of
@@ -5086,73 +7357,110 @@ class PropertyGroup {
 /// in-application stream.
 ///
 /// Also used to describe the format of the reference data source.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RecordColumn {
   /// The name of the column that is created in the in-application input stream or
   /// reference table.
-  @_s.JsonKey(name: 'Name')
   final String name;
 
   /// The type of column created in the in-application input stream or reference
   /// table.
-  @_s.JsonKey(name: 'SqlType')
   final String sqlType;
 
   /// A reference to the data element in the streaming input or the reference data
   /// source.
-  @_s.JsonKey(name: 'Mapping')
-  final String mapping;
+  final String? mapping;
 
   RecordColumn({
-    @_s.required this.name,
-    @_s.required this.sqlType,
+    required this.name,
+    required this.sqlType,
     this.mapping,
   });
-  factory RecordColumn.fromJson(Map<String, dynamic> json) =>
-      _$RecordColumnFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RecordColumnToJson(this);
+  factory RecordColumn.fromJson(Map<String, dynamic> json) {
+    return RecordColumn(
+      name: json['Name'] as String,
+      sqlType: json['SqlType'] as String,
+      mapping: json['Mapping'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final sqlType = this.sqlType;
+    final mapping = this.mapping;
+    return {
+      'Name': name,
+      'SqlType': sqlType,
+      if (mapping != null) 'Mapping': mapping,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the record
 /// format and relevant mapping information that should be applied to schematize
 /// the records on the stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RecordFormat {
   /// The type of record format.
-  @_s.JsonKey(name: 'RecordFormatType')
   final RecordFormatType recordFormatType;
 
   /// When you configure application input at the time of creating or updating an
   /// application, provides additional mapping information specific to the record
   /// format (such as JSON, CSV, or record fields delimited by some delimiter) on
   /// the streaming source.
-  @_s.JsonKey(name: 'MappingParameters')
-  final MappingParameters mappingParameters;
+  final MappingParameters? mappingParameters;
 
   RecordFormat({
-    @_s.required this.recordFormatType,
+    required this.recordFormatType,
     this.mappingParameters,
   });
-  factory RecordFormat.fromJson(Map<String, dynamic> json) =>
-      _$RecordFormatFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RecordFormatToJson(this);
+  factory RecordFormat.fromJson(Map<String, dynamic> json) {
+    return RecordFormat(
+      recordFormatType:
+          (json['RecordFormatType'] as String).toRecordFormatType(),
+      mappingParameters: json['MappingParameters'] != null
+          ? MappingParameters.fromJson(
+              json['MappingParameters'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordFormatType = this.recordFormatType;
+    final mappingParameters = this.mappingParameters;
+    return {
+      'RecordFormatType': recordFormatType.toValue(),
+      if (mappingParameters != null) 'MappingParameters': mappingParameters,
+    };
+  }
 }
 
 enum RecordFormatType {
-  @_s.JsonValue('JSON')
   json,
-  @_s.JsonValue('CSV')
   csv,
+}
+
+extension on RecordFormatType {
+  String toValue() {
+    switch (this) {
+      case RecordFormatType.json:
+        return 'JSON';
+      case RecordFormatType.csv:
+        return 'CSV';
+    }
+  }
+}
+
+extension on String {
+  RecordFormatType toRecordFormatType() {
+    switch (this) {
+      case 'JSON':
+        return RecordFormatType.json;
+      case 'CSV':
+        return RecordFormatType.csv;
+    }
+    throw Exception('$this is not known in enum RecordFormatType');
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the reference
@@ -5160,73 +7468,105 @@ enum RecordFormatType {
 /// object key name), the resulting in-application table name that is created,
 /// and the necessary schema to map the data elements in the Amazon S3 object to
 /// the in-application table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReferenceDataSource {
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns created in the in-application stream.
-  @_s.JsonKey(name: 'ReferenceSchema')
   final SourceSchema referenceSchema;
 
   /// The name of the in-application table to create.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// Identifies the S3 bucket and object that contains the reference data. A
   /// Kinesis Data Analytics application loads reference data only once. If the
   /// data changes, you call the <a>UpdateApplication</a> operation to trigger
   /// reloading of data into your application.
-  @_s.JsonKey(name: 'S3ReferenceDataSource')
-  final S3ReferenceDataSource s3ReferenceDataSource;
+  final S3ReferenceDataSource? s3ReferenceDataSource;
 
   ReferenceDataSource({
-    @_s.required this.referenceSchema,
-    @_s.required this.tableName,
+    required this.referenceSchema,
+    required this.tableName,
     this.s3ReferenceDataSource,
   });
-  Map<String, dynamic> toJson() => _$ReferenceDataSourceToJson(this);
+
+  factory ReferenceDataSource.fromJson(Map<String, dynamic> json) {
+    return ReferenceDataSource(
+      referenceSchema: SourceSchema.fromJson(
+          json['ReferenceSchema'] as Map<String, dynamic>),
+      tableName: json['TableName'] as String,
+      s3ReferenceDataSource: json['S3ReferenceDataSource'] != null
+          ? S3ReferenceDataSource.fromJson(
+              json['S3ReferenceDataSource'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final referenceSchema = this.referenceSchema;
+    final tableName = this.tableName;
+    final s3ReferenceDataSource = this.s3ReferenceDataSource;
+    return {
+      'ReferenceSchema': referenceSchema,
+      'TableName': tableName,
+      if (s3ReferenceDataSource != null)
+        'S3ReferenceDataSource': s3ReferenceDataSource,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the reference
 /// data source configured for an application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ReferenceDataSourceDescription {
   /// The ID of the reference data source. This is the ID that Kinesis Data
   /// Analytics assigns when you add the reference data source to your application
   /// using the <a>CreateApplication</a> or <a>UpdateApplication</a> operation.
-  @_s.JsonKey(name: 'ReferenceId')
   final String referenceId;
 
   /// Provides the Amazon S3 bucket name, the object key name that contains the
   /// reference data.
-  @_s.JsonKey(name: 'S3ReferenceDataSourceDescription')
   final S3ReferenceDataSourceDescription s3ReferenceDataSourceDescription;
 
   /// The in-application table name created by the specific reference data source
   /// configuration.
-  @_s.JsonKey(name: 'TableName')
   final String tableName;
 
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns created in the in-application stream.
-  @_s.JsonKey(name: 'ReferenceSchema')
-  final SourceSchema referenceSchema;
+  final SourceSchema? referenceSchema;
 
   ReferenceDataSourceDescription({
-    @_s.required this.referenceId,
-    @_s.required this.s3ReferenceDataSourceDescription,
-    @_s.required this.tableName,
+    required this.referenceId,
+    required this.s3ReferenceDataSourceDescription,
+    required this.tableName,
     this.referenceSchema,
   });
-  factory ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) =>
-      _$ReferenceDataSourceDescriptionFromJson(json);
+
+  factory ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
+    return ReferenceDataSourceDescription(
+      referenceId: json['ReferenceId'] as String,
+      s3ReferenceDataSourceDescription:
+          S3ReferenceDataSourceDescription.fromJson(
+              json['S3ReferenceDataSourceDescription'] as Map<String, dynamic>),
+      tableName: json['TableName'] as String,
+      referenceSchema: json['ReferenceSchema'] != null
+          ? SourceSchema.fromJson(
+              json['ReferenceSchema'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final referenceId = this.referenceId;
+    final s3ReferenceDataSourceDescription =
+        this.s3ReferenceDataSourceDescription;
+    final tableName = this.tableName;
+    final referenceSchema = this.referenceSchema;
+    return {
+      'ReferenceId': referenceId,
+      'S3ReferenceDataSourceDescription': s3ReferenceDataSourceDescription,
+      'TableName': tableName,
+      if (referenceSchema != null) 'ReferenceSchema': referenceSchema,
+    };
+  }
 }
 
 /// When you update a reference data source configuration for a SQL-based
@@ -5235,125 +7575,230 @@ class ReferenceDataSourceDescription {
 /// in-application table name that is created, and updated mapping information
 /// that maps the data in the Amazon S3 object to the in-application reference
 /// table that is created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ReferenceDataSourceUpdate {
   /// The ID of the reference data source that is being updated. You can use the
   /// <a>DescribeApplication</a> operation to get this value.
-  @_s.JsonKey(name: 'ReferenceId')
   final String referenceId;
 
   /// Describes the format of the data in the streaming source, and how each data
   /// element maps to corresponding columns created in the in-application stream.
-  @_s.JsonKey(name: 'ReferenceSchemaUpdate')
-  final SourceSchema referenceSchemaUpdate;
+  final SourceSchema? referenceSchemaUpdate;
 
   /// Describes the S3 bucket name, object key name, and IAM role that Kinesis
   /// Data Analytics can assume to read the Amazon S3 object on your behalf and
   /// populate the in-application reference table.
-  @_s.JsonKey(name: 'S3ReferenceDataSourceUpdate')
-  final S3ReferenceDataSourceUpdate s3ReferenceDataSourceUpdate;
+  final S3ReferenceDataSourceUpdate? s3ReferenceDataSourceUpdate;
 
   /// The in-application table name that is created by this update.
-  @_s.JsonKey(name: 'TableNameUpdate')
-  final String tableNameUpdate;
+  final String? tableNameUpdate;
 
   ReferenceDataSourceUpdate({
-    @_s.required this.referenceId,
+    required this.referenceId,
     this.referenceSchemaUpdate,
     this.s3ReferenceDataSourceUpdate,
     this.tableNameUpdate,
   });
-  Map<String, dynamic> toJson() => _$ReferenceDataSourceUpdateToJson(this);
+
+  factory ReferenceDataSourceUpdate.fromJson(Map<String, dynamic> json) {
+    return ReferenceDataSourceUpdate(
+      referenceId: json['ReferenceId'] as String,
+      referenceSchemaUpdate: json['ReferenceSchemaUpdate'] != null
+          ? SourceSchema.fromJson(
+              json['ReferenceSchemaUpdate'] as Map<String, dynamic>)
+          : null,
+      s3ReferenceDataSourceUpdate: json['S3ReferenceDataSourceUpdate'] != null
+          ? S3ReferenceDataSourceUpdate.fromJson(
+              json['S3ReferenceDataSourceUpdate'] as Map<String, dynamic>)
+          : null,
+      tableNameUpdate: json['TableNameUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final referenceId = this.referenceId;
+    final referenceSchemaUpdate = this.referenceSchemaUpdate;
+    final s3ReferenceDataSourceUpdate = this.s3ReferenceDataSourceUpdate;
+    final tableNameUpdate = this.tableNameUpdate;
+    return {
+      'ReferenceId': referenceId,
+      if (referenceSchemaUpdate != null)
+        'ReferenceSchemaUpdate': referenceSchemaUpdate,
+      if (s3ReferenceDataSourceUpdate != null)
+        'S3ReferenceDataSourceUpdate': s3ReferenceDataSourceUpdate,
+      if (tableNameUpdate != null) 'TableNameUpdate': tableNameUpdate,
+    };
+  }
+}
+
+class RollbackApplicationResponse {
+  final ApplicationDetail applicationDetail;
+
+  RollbackApplicationResponse({
+    required this.applicationDetail,
+  });
+
+  factory RollbackApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return RollbackApplicationResponse(
+      applicationDetail: ApplicationDetail.fromJson(
+          json['ApplicationDetail'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationDetail = this.applicationDetail;
+    return {
+      'ApplicationDetail': applicationDetail,
+    };
+  }
 }
 
 /// Describes the starting parameters for an Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RunConfiguration {
   /// Describes the restore behavior of a restarting application.
-  @_s.JsonKey(name: 'ApplicationRestoreConfiguration')
-  final ApplicationRestoreConfiguration applicationRestoreConfiguration;
+  final ApplicationRestoreConfiguration? applicationRestoreConfiguration;
 
   /// Describes the starting parameters for a Flink-based Kinesis Data Analytics
   /// application.
-  @_s.JsonKey(name: 'FlinkRunConfiguration')
-  final FlinkRunConfiguration flinkRunConfiguration;
+  final FlinkRunConfiguration? flinkRunConfiguration;
 
   /// Describes the starting parameters for a SQL-based Kinesis Data Analytics
   /// application application.
-  @_s.JsonKey(name: 'SqlRunConfigurations')
-  final List<SqlRunConfiguration> sqlRunConfigurations;
+  final List<SqlRunConfiguration>? sqlRunConfigurations;
 
   RunConfiguration({
     this.applicationRestoreConfiguration,
     this.flinkRunConfiguration,
     this.sqlRunConfigurations,
   });
-  Map<String, dynamic> toJson() => _$RunConfigurationToJson(this);
+
+  factory RunConfiguration.fromJson(Map<String, dynamic> json) {
+    return RunConfiguration(
+      applicationRestoreConfiguration:
+          json['ApplicationRestoreConfiguration'] != null
+              ? ApplicationRestoreConfiguration.fromJson(
+                  json['ApplicationRestoreConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      flinkRunConfiguration: json['FlinkRunConfiguration'] != null
+          ? FlinkRunConfiguration.fromJson(
+              json['FlinkRunConfiguration'] as Map<String, dynamic>)
+          : null,
+      sqlRunConfigurations: (json['SqlRunConfigurations'] as List?)
+          ?.whereNotNull()
+          .map((e) => SqlRunConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationRestoreConfiguration =
+        this.applicationRestoreConfiguration;
+    final flinkRunConfiguration = this.flinkRunConfiguration;
+    final sqlRunConfigurations = this.sqlRunConfigurations;
+    return {
+      if (applicationRestoreConfiguration != null)
+        'ApplicationRestoreConfiguration': applicationRestoreConfiguration,
+      if (flinkRunConfiguration != null)
+        'FlinkRunConfiguration': flinkRunConfiguration,
+      if (sqlRunConfigurations != null)
+        'SqlRunConfigurations': sqlRunConfigurations,
+    };
+  }
 }
 
 /// Describes the starting properties for a Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RunConfigurationDescription {
   /// Describes the restore behavior of a restarting application.
-  @_s.JsonKey(name: 'ApplicationRestoreConfigurationDescription')
-  final ApplicationRestoreConfiguration
+  final ApplicationRestoreConfiguration?
       applicationRestoreConfigurationDescription;
-  @_s.JsonKey(name: 'FlinkRunConfigurationDescription')
-  final FlinkRunConfiguration flinkRunConfigurationDescription;
+  final FlinkRunConfiguration? flinkRunConfigurationDescription;
 
   RunConfigurationDescription({
     this.applicationRestoreConfigurationDescription,
     this.flinkRunConfigurationDescription,
   });
-  factory RunConfigurationDescription.fromJson(Map<String, dynamic> json) =>
-      _$RunConfigurationDescriptionFromJson(json);
+
+  factory RunConfigurationDescription.fromJson(Map<String, dynamic> json) {
+    return RunConfigurationDescription(
+      applicationRestoreConfigurationDescription:
+          json['ApplicationRestoreConfigurationDescription'] != null
+              ? ApplicationRestoreConfiguration.fromJson(
+                  json['ApplicationRestoreConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      flinkRunConfigurationDescription:
+          json['FlinkRunConfigurationDescription'] != null
+              ? FlinkRunConfiguration.fromJson(
+                  json['FlinkRunConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationRestoreConfigurationDescription =
+        this.applicationRestoreConfigurationDescription;
+    final flinkRunConfigurationDescription =
+        this.flinkRunConfigurationDescription;
+    return {
+      if (applicationRestoreConfigurationDescription != null)
+        'ApplicationRestoreConfigurationDescription':
+            applicationRestoreConfigurationDescription,
+      if (flinkRunConfigurationDescription != null)
+        'FlinkRunConfigurationDescription': flinkRunConfigurationDescription,
+    };
+  }
 }
 
 /// Describes the updates to the starting parameters for a Kinesis Data
 /// Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RunConfigurationUpdate {
   /// Describes updates to the restore behavior of a restarting application.
-  @_s.JsonKey(name: 'ApplicationRestoreConfiguration')
-  final ApplicationRestoreConfiguration applicationRestoreConfiguration;
+  final ApplicationRestoreConfiguration? applicationRestoreConfiguration;
 
   /// Describes the starting parameters for a Flink-based Kinesis Data Analytics
   /// application.
-  @_s.JsonKey(name: 'FlinkRunConfiguration')
-  final FlinkRunConfiguration flinkRunConfiguration;
+  final FlinkRunConfiguration? flinkRunConfiguration;
 
   RunConfigurationUpdate({
     this.applicationRestoreConfiguration,
     this.flinkRunConfiguration,
   });
-  Map<String, dynamic> toJson() => _$RunConfigurationUpdateToJson(this);
+
+  factory RunConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return RunConfigurationUpdate(
+      applicationRestoreConfiguration:
+          json['ApplicationRestoreConfiguration'] != null
+              ? ApplicationRestoreConfiguration.fromJson(
+                  json['ApplicationRestoreConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      flinkRunConfiguration: json['FlinkRunConfiguration'] != null
+          ? FlinkRunConfiguration.fromJson(
+              json['FlinkRunConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationRestoreConfiguration =
+        this.applicationRestoreConfiguration;
+    final flinkRunConfiguration = this.flinkRunConfiguration;
+    return {
+      if (applicationRestoreConfiguration != null)
+        'ApplicationRestoreConfiguration': applicationRestoreConfiguration,
+      if (flinkRunConfiguration != null)
+        'FlinkRunConfiguration': flinkRunConfiguration,
+    };
+  }
 }
 
 enum RuntimeEnvironment {
-  @_s.JsonValue('SQL-1_0')
   sql_1_0,
-  @_s.JsonValue('FLINK-1_6')
   flink_1_6,
-  @_s.JsonValue('FLINK-1_8')
   flink_1_8,
-  @_s.JsonValue('FLINK-1_11')
   flink_1_11,
+  zeppelinFlink_1_0,
 }
 
 extension on RuntimeEnvironment {
@@ -5367,124 +7812,271 @@ extension on RuntimeEnvironment {
         return 'FLINK-1_8';
       case RuntimeEnvironment.flink_1_11:
         return 'FLINK-1_11';
+      case RuntimeEnvironment.zeppelinFlink_1_0:
+        return 'ZEPPELIN-FLINK-1_0';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Describes the location of a Flink-based Kinesis Data Analytics application's
-/// code stored in an S3 bucket.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  RuntimeEnvironment toRuntimeEnvironment() {
+    switch (this) {
+      case 'SQL-1_0':
+        return RuntimeEnvironment.sql_1_0;
+      case 'FLINK-1_6':
+        return RuntimeEnvironment.flink_1_6;
+      case 'FLINK-1_8':
+        return RuntimeEnvironment.flink_1_8;
+      case 'FLINK-1_11':
+        return RuntimeEnvironment.flink_1_11;
+      case 'ZEPPELIN-FLINK-1_0':
+        return RuntimeEnvironment.zeppelinFlink_1_0;
+    }
+    throw Exception('$this is not known in enum RuntimeEnvironment');
+  }
+}
+
+/// Describes the location of an application's code stored in an S3 bucket.
 class S3ApplicationCodeLocationDescription {
   /// The Amazon Resource Name (ARN) for the S3 bucket containing the application
   /// code.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// The file key for the object containing the application code.
-  @_s.JsonKey(name: 'FileKey')
   final String fileKey;
 
   /// The version of the object containing the application code.
-  @_s.JsonKey(name: 'ObjectVersion')
-  final String objectVersion;
+  final String? objectVersion;
 
   S3ApplicationCodeLocationDescription({
-    @_s.required this.bucketARN,
-    @_s.required this.fileKey,
+    required this.bucketARN,
+    required this.fileKey,
     this.objectVersion,
   });
+
   factory S3ApplicationCodeLocationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$S3ApplicationCodeLocationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return S3ApplicationCodeLocationDescription(
+      bucketARN: json['BucketARN'] as String,
+      fileKey: json['FileKey'] as String,
+      objectVersion: json['ObjectVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final fileKey = this.fileKey;
+    final objectVersion = this.objectVersion;
+    return {
+      'BucketARN': bucketARN,
+      'FileKey': fileKey,
+      if (objectVersion != null) 'ObjectVersion': objectVersion,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides a description
 /// of an Amazon S3 data source, including the Amazon Resource Name (ARN) of the
 /// S3 bucket and the name of the Amazon S3 object that contains the data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3Configuration {
   /// The ARN of the S3 bucket that contains the data.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// The name of the object that contains the data.
-  @_s.JsonKey(name: 'FileKey')
   final String fileKey;
 
   S3Configuration({
-    @_s.required this.bucketARN,
-    @_s.required this.fileKey,
+    required this.bucketARN,
+    required this.fileKey,
   });
-  Map<String, dynamic> toJson() => _$S3ConfigurationToJson(this);
+
+  factory S3Configuration.fromJson(Map<String, dynamic> json) {
+    return S3Configuration(
+      bucketARN: json['BucketARN'] as String,
+      fileKey: json['FileKey'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final fileKey = this.fileKey;
+    return {
+      'BucketARN': bucketARN,
+      'FileKey': fileKey,
+    };
+  }
 }
 
-/// For a Flink-based Kinesis Data Analytics application, provides a description
-/// of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3
-/// bucket, the name of the Amazon S3 object that contains the data, and the
-/// version number of the Amazon S3 object that contains the data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// The S3 bucket that holds the application information.
+class S3ContentBaseLocation {
+  /// The Amazon Resource Name (ARN) of the S3 bucket.
+  final String bucketARN;
+
+  /// The base path for the S3 bucket.
+  final String? basePath;
+
+  S3ContentBaseLocation({
+    required this.bucketARN,
+    this.basePath,
+  });
+
+  factory S3ContentBaseLocation.fromJson(Map<String, dynamic> json) {
+    return S3ContentBaseLocation(
+      bucketARN: json['BucketARN'] as String,
+      basePath: json['BasePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final basePath = this.basePath;
+    return {
+      'BucketARN': bucketARN,
+      if (basePath != null) 'BasePath': basePath,
+    };
+  }
+}
+
+/// The description of the S3 base location that holds the application.
+class S3ContentBaseLocationDescription {
+  /// The Amazon Resource Name (ARN) of the S3 bucket.
+  final String bucketARN;
+
+  /// The base path for the S3 bucket.
+  final String? basePath;
+
+  S3ContentBaseLocationDescription({
+    required this.bucketARN,
+    this.basePath,
+  });
+
+  factory S3ContentBaseLocationDescription.fromJson(Map<String, dynamic> json) {
+    return S3ContentBaseLocationDescription(
+      bucketARN: json['BucketARN'] as String,
+      basePath: json['BasePath'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final basePath = this.basePath;
+    return {
+      'BucketARN': bucketARN,
+      if (basePath != null) 'BasePath': basePath,
+    };
+  }
+}
+
+/// The information required to update the S3 base location that holds the
+/// application.
+class S3ContentBaseLocationUpdate {
+  /// The updated Amazon Resource Name (ARN) of the S3 bucket.
+  final String bucketARNUpdate;
+
+  /// The updated S3 bucket path.
+  final String? basePathUpdate;
+
+  S3ContentBaseLocationUpdate({
+    required this.bucketARNUpdate,
+    this.basePathUpdate,
+  });
+
+  factory S3ContentBaseLocationUpdate.fromJson(Map<String, dynamic> json) {
+    return S3ContentBaseLocationUpdate(
+      bucketARNUpdate: json['BucketARNUpdate'] as String,
+      basePathUpdate: json['BasePathUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARNUpdate = this.bucketARNUpdate;
+    final basePathUpdate = this.basePathUpdate;
+    return {
+      'BucketARNUpdate': bucketARNUpdate,
+      if (basePathUpdate != null) 'BasePathUpdate': basePathUpdate,
+    };
+  }
+}
+
+/// For a Kinesis Data Analytics application provides a description of an Amazon
+/// S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the
+/// name of the Amazon S3 object that contains the data, and the version number
+/// of the Amazon S3 object that contains the data.
 class S3ContentLocation {
   /// The Amazon Resource Name (ARN) for the S3 bucket containing the application
   /// code.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// The file key for the object containing the application code.
-  @_s.JsonKey(name: 'FileKey')
   final String fileKey;
 
   /// The version of the object containing the application code.
-  @_s.JsonKey(name: 'ObjectVersion')
-  final String objectVersion;
+  final String? objectVersion;
 
   S3ContentLocation({
-    @_s.required this.bucketARN,
-    @_s.required this.fileKey,
+    required this.bucketARN,
+    required this.fileKey,
     this.objectVersion,
   });
-  Map<String, dynamic> toJson() => _$S3ContentLocationToJson(this);
+
+  factory S3ContentLocation.fromJson(Map<String, dynamic> json) {
+    return S3ContentLocation(
+      bucketARN: json['BucketARN'] as String,
+      fileKey: json['FileKey'] as String,
+      objectVersion: json['ObjectVersion'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final fileKey = this.fileKey;
+    final objectVersion = this.objectVersion;
+    return {
+      'BucketARN': bucketARN,
+      'FileKey': fileKey,
+      if (objectVersion != null) 'ObjectVersion': objectVersion,
+    };
+  }
 }
 
-/// Describes an update for the Amazon S3 code content location for a
-/// Flink-based Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// Describes an update for the Amazon S3 code content location for an
+/// application.
 class S3ContentLocationUpdate {
   /// The new Amazon Resource Name (ARN) for the S3 bucket containing the
   /// application code.
-  @_s.JsonKey(name: 'BucketARNUpdate')
-  final String bucketARNUpdate;
+  final String? bucketARNUpdate;
 
   /// The new file key for the object containing the application code.
-  @_s.JsonKey(name: 'FileKeyUpdate')
-  final String fileKeyUpdate;
+  final String? fileKeyUpdate;
 
   /// The new version of the object containing the application code.
-  @_s.JsonKey(name: 'ObjectVersionUpdate')
-  final String objectVersionUpdate;
+  final String? objectVersionUpdate;
 
   S3ContentLocationUpdate({
     this.bucketARNUpdate,
     this.fileKeyUpdate,
     this.objectVersionUpdate,
   });
-  Map<String, dynamic> toJson() => _$S3ContentLocationUpdateToJson(this);
+
+  factory S3ContentLocationUpdate.fromJson(Map<String, dynamic> json) {
+    return S3ContentLocationUpdate(
+      bucketARNUpdate: json['BucketARNUpdate'] as String?,
+      fileKeyUpdate: json['FileKeyUpdate'] as String?,
+      objectVersionUpdate: json['ObjectVersionUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARNUpdate = this.bucketARNUpdate;
+    final fileKeyUpdate = this.fileKeyUpdate;
+    final objectVersionUpdate = this.objectVersionUpdate;
+    return {
+      if (bucketARNUpdate != null) 'BucketARNUpdate': bucketARNUpdate,
+      if (fileKeyUpdate != null) 'FileKeyUpdate': fileKeyUpdate,
+      if (objectVersionUpdate != null)
+        'ObjectVersionUpdate': objectVersionUpdate,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, identifies the Amazon S3
@@ -5493,41 +8085,42 @@ class S3ContentLocationUpdate {
 /// A Kinesis Data Analytics application loads reference data only once. If the
 /// data changes, you call the <a>UpdateApplication</a> operation to trigger
 /// reloading of data into your application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3ReferenceDataSource {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
-  @_s.JsonKey(name: 'BucketARN')
-  final String bucketARN;
+  final String? bucketARN;
 
   /// The object key name containing the reference data.
-  @_s.JsonKey(name: 'FileKey')
-  final String fileKey;
+  final String? fileKey;
 
   S3ReferenceDataSource({
     this.bucketARN,
     this.fileKey,
   });
-  Map<String, dynamic> toJson() => _$S3ReferenceDataSourceToJson(this);
+
+  factory S3ReferenceDataSource.fromJson(Map<String, dynamic> json) {
+    return S3ReferenceDataSource(
+      bucketARN: json['BucketARN'] as String?,
+      fileKey: json['FileKey'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final fileKey = this.fileKey;
+    return {
+      if (bucketARN != null) 'BucketARN': bucketARN,
+      if (fileKey != null) 'FileKey': fileKey,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, provides the bucket name
 /// and object key name that stores the reference data.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class S3ReferenceDataSourceDescription {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
-  @_s.JsonKey(name: 'BucketARN')
   final String bucketARN;
 
   /// Amazon S3 object key name.
-  @_s.JsonKey(name: 'FileKey')
   final String fileKey;
 
   /// The ARN of the IAM role that Kinesis Data Analytics can assume to read the
@@ -5538,261 +8131,412 @@ class S3ReferenceDataSourceDescription {
   /// current API version have an application-level service execution role rather
   /// than a resource-level role.
   /// </note>
-  @_s.JsonKey(name: 'ReferenceRoleARN')
-  final String referenceRoleARN;
+  final String? referenceRoleARN;
 
   S3ReferenceDataSourceDescription({
-    @_s.required this.bucketARN,
-    @_s.required this.fileKey,
+    required this.bucketARN,
+    required this.fileKey,
     this.referenceRoleARN,
   });
-  factory S3ReferenceDataSourceDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$S3ReferenceDataSourceDescriptionFromJson(json);
+
+  factory S3ReferenceDataSourceDescription.fromJson(Map<String, dynamic> json) {
+    return S3ReferenceDataSourceDescription(
+      bucketARN: json['BucketARN'] as String,
+      fileKey: json['FileKey'] as String,
+      referenceRoleARN: json['ReferenceRoleARN'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARN = this.bucketARN;
+    final fileKey = this.fileKey;
+    final referenceRoleARN = this.referenceRoleARN;
+    return {
+      'BucketARN': bucketARN,
+      'FileKey': fileKey,
+      if (referenceRoleARN != null) 'ReferenceRoleARN': referenceRoleARN,
+    };
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the Amazon S3
 /// bucket name and object key name for an in-application reference table.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class S3ReferenceDataSourceUpdate {
   /// The Amazon Resource Name (ARN) of the S3 bucket.
-  @_s.JsonKey(name: 'BucketARNUpdate')
-  final String bucketARNUpdate;
+  final String? bucketARNUpdate;
 
   /// The object key name.
-  @_s.JsonKey(name: 'FileKeyUpdate')
-  final String fileKeyUpdate;
+  final String? fileKeyUpdate;
 
   S3ReferenceDataSourceUpdate({
     this.bucketARNUpdate,
     this.fileKeyUpdate,
   });
-  Map<String, dynamic> toJson() => _$S3ReferenceDataSourceUpdateToJson(this);
+
+  factory S3ReferenceDataSourceUpdate.fromJson(Map<String, dynamic> json) {
+    return S3ReferenceDataSourceUpdate(
+      bucketARNUpdate: json['BucketARNUpdate'] as String?,
+      fileKeyUpdate: json['FileKeyUpdate'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bucketARNUpdate = this.bucketARNUpdate;
+    final fileKeyUpdate = this.fileKeyUpdate;
+    return {
+      if (bucketARNUpdate != null) 'BucketARNUpdate': bucketARNUpdate,
+      if (fileKeyUpdate != null) 'FileKeyUpdate': fileKeyUpdate,
+    };
+  }
 }
 
 /// Provides details about a snapshot of application state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SnapshotDetails {
   /// The current application version ID when the snapshot was created.
-  @_s.JsonKey(name: 'ApplicationVersionId')
   final int applicationVersionId;
 
   /// The identifier for the application snapshot.
-  @_s.JsonKey(name: 'SnapshotName')
   final String snapshotName;
 
   /// The status of the application snapshot.
-  @_s.JsonKey(name: 'SnapshotStatus')
   final SnapshotStatus snapshotStatus;
 
   /// The timestamp of the application snapshot.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SnapshotCreationTimestamp')
-  final DateTime snapshotCreationTimestamp;
+  final DateTime? snapshotCreationTimestamp;
 
   SnapshotDetails({
-    @_s.required this.applicationVersionId,
-    @_s.required this.snapshotName,
-    @_s.required this.snapshotStatus,
+    required this.applicationVersionId,
+    required this.snapshotName,
+    required this.snapshotStatus,
     this.snapshotCreationTimestamp,
   });
-  factory SnapshotDetails.fromJson(Map<String, dynamic> json) =>
-      _$SnapshotDetailsFromJson(json);
+
+  factory SnapshotDetails.fromJson(Map<String, dynamic> json) {
+    return SnapshotDetails(
+      applicationVersionId: json['ApplicationVersionId'] as int,
+      snapshotName: json['SnapshotName'] as String,
+      snapshotStatus: (json['SnapshotStatus'] as String).toSnapshotStatus(),
+      snapshotCreationTimestamp:
+          timeStampFromJson(json['SnapshotCreationTimestamp']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationVersionId = this.applicationVersionId;
+    final snapshotName = this.snapshotName;
+    final snapshotStatus = this.snapshotStatus;
+    final snapshotCreationTimestamp = this.snapshotCreationTimestamp;
+    return {
+      'ApplicationVersionId': applicationVersionId,
+      'SnapshotName': snapshotName,
+      'SnapshotStatus': snapshotStatus.toValue(),
+      if (snapshotCreationTimestamp != null)
+        'SnapshotCreationTimestamp':
+            unixTimestampToJson(snapshotCreationTimestamp),
+    };
+  }
 }
 
 enum SnapshotStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('DELETING')
   deleting,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on SnapshotStatus {
+  String toValue() {
+    switch (this) {
+      case SnapshotStatus.creating:
+        return 'CREATING';
+      case SnapshotStatus.ready:
+        return 'READY';
+      case SnapshotStatus.deleting:
+        return 'DELETING';
+      case SnapshotStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  SnapshotStatus toSnapshotStatus() {
+    switch (this) {
+      case 'CREATING':
+        return SnapshotStatus.creating;
+      case 'READY':
+        return SnapshotStatus.ready;
+      case 'DELETING':
+        return SnapshotStatus.deleting;
+      case 'FAILED':
+        return SnapshotStatus.failed;
+    }
+    throw Exception('$this is not known in enum SnapshotStatus');
+  }
 }
 
 /// For a SQL-based Kinesis Data Analytics application, describes the format of
 /// the data in the streaming source, and how each data element maps to
 /// corresponding columns created in the in-application stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SourceSchema {
   /// A list of <code>RecordColumn</code> objects.
-  @_s.JsonKey(name: 'RecordColumns')
   final List<RecordColumn> recordColumns;
 
   /// Specifies the format of the records on the streaming source.
-  @_s.JsonKey(name: 'RecordFormat')
   final RecordFormat recordFormat;
 
   /// Specifies the encoding of the records in the streaming source. For example,
   /// UTF-8.
-  @_s.JsonKey(name: 'RecordEncoding')
-  final String recordEncoding;
+  final String? recordEncoding;
 
   SourceSchema({
-    @_s.required this.recordColumns,
-    @_s.required this.recordFormat,
+    required this.recordColumns,
+    required this.recordFormat,
     this.recordEncoding,
   });
-  factory SourceSchema.fromJson(Map<String, dynamic> json) =>
-      _$SourceSchemaFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SourceSchemaToJson(this);
+  factory SourceSchema.fromJson(Map<String, dynamic> json) {
+    return SourceSchema(
+      recordColumns: (json['RecordColumns'] as List)
+          .whereNotNull()
+          .map((e) => RecordColumn.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      recordFormat:
+          RecordFormat.fromJson(json['RecordFormat'] as Map<String, dynamic>),
+      recordEncoding: json['RecordEncoding'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final recordColumns = this.recordColumns;
+    final recordFormat = this.recordFormat;
+    final recordEncoding = this.recordEncoding;
+    return {
+      'RecordColumns': recordColumns,
+      'RecordFormat': recordFormat,
+      if (recordEncoding != null) 'RecordEncoding': recordEncoding,
+    };
+  }
 }
 
 /// Describes the inputs, outputs, and reference data sources for a SQL-based
 /// Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SqlApplicationConfiguration {
   /// The array of <a>Input</a> objects describing the input streams used by the
   /// application.
-  @_s.JsonKey(name: 'Inputs')
-  final List<Input> inputs;
+  final List<Input>? inputs;
 
   /// The array of <a>Output</a> objects describing the destination streams used
   /// by the application.
-  @_s.JsonKey(name: 'Outputs')
-  final List<Output> outputs;
+  final List<Output>? outputs;
 
   /// The array of <a>ReferenceDataSource</a> objects describing the reference
   /// data sources used by the application.
-  @_s.JsonKey(name: 'ReferenceDataSources')
-  final List<ReferenceDataSource> referenceDataSources;
+  final List<ReferenceDataSource>? referenceDataSources;
 
   SqlApplicationConfiguration({
     this.inputs,
     this.outputs,
     this.referenceDataSources,
   });
-  Map<String, dynamic> toJson() => _$SqlApplicationConfigurationToJson(this);
+
+  factory SqlApplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return SqlApplicationConfiguration(
+      inputs: (json['Inputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Input.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputs: (json['Outputs'] as List?)
+          ?.whereNotNull()
+          .map((e) => Output.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      referenceDataSources: (json['ReferenceDataSources'] as List?)
+          ?.whereNotNull()
+          .map((e) => ReferenceDataSource.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputs = this.inputs;
+    final outputs = this.outputs;
+    final referenceDataSources = this.referenceDataSources;
+    return {
+      if (inputs != null) 'Inputs': inputs,
+      if (outputs != null) 'Outputs': outputs,
+      if (referenceDataSources != null)
+        'ReferenceDataSources': referenceDataSources,
+    };
+  }
 }
 
 /// Describes the inputs, outputs, and reference data sources for a SQL-based
 /// Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SqlApplicationConfigurationDescription {
   /// The array of <a>InputDescription</a> objects describing the input streams
   /// used by the application.
-  @_s.JsonKey(name: 'InputDescriptions')
-  final List<InputDescription> inputDescriptions;
+  final List<InputDescription>? inputDescriptions;
 
   /// The array of <a>OutputDescription</a> objects describing the destination
   /// streams used by the application.
-  @_s.JsonKey(name: 'OutputDescriptions')
-  final List<OutputDescription> outputDescriptions;
+  final List<OutputDescription>? outputDescriptions;
 
   /// The array of <a>ReferenceDataSourceDescription</a> objects describing the
   /// reference data sources used by the application.
-  @_s.JsonKey(name: 'ReferenceDataSourceDescriptions')
-  final List<ReferenceDataSourceDescription> referenceDataSourceDescriptions;
+  final List<ReferenceDataSourceDescription>? referenceDataSourceDescriptions;
 
   SqlApplicationConfigurationDescription({
     this.inputDescriptions,
     this.outputDescriptions,
     this.referenceDataSourceDescriptions,
   });
+
   factory SqlApplicationConfigurationDescription.fromJson(
-          Map<String, dynamic> json) =>
-      _$SqlApplicationConfigurationDescriptionFromJson(json);
+      Map<String, dynamic> json) {
+    return SqlApplicationConfigurationDescription(
+      inputDescriptions: (json['InputDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputDescriptions: (json['OutputDescriptions'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutputDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      referenceDataSourceDescriptions:
+          (json['ReferenceDataSourceDescriptions'] as List?)
+              ?.whereNotNull()
+              .map((e) => ReferenceDataSourceDescription.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputDescriptions = this.inputDescriptions;
+    final outputDescriptions = this.outputDescriptions;
+    final referenceDataSourceDescriptions =
+        this.referenceDataSourceDescriptions;
+    return {
+      if (inputDescriptions != null) 'InputDescriptions': inputDescriptions,
+      if (outputDescriptions != null) 'OutputDescriptions': outputDescriptions,
+      if (referenceDataSourceDescriptions != null)
+        'ReferenceDataSourceDescriptions': referenceDataSourceDescriptions,
+    };
+  }
 }
 
 /// Describes updates to the input streams, destination streams, and reference
 /// data sources for a SQL-based Kinesis Data Analytics application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SqlApplicationConfigurationUpdate {
   /// The array of <a>InputUpdate</a> objects describing the new input streams
   /// used by the application.
-  @_s.JsonKey(name: 'InputUpdates')
-  final List<InputUpdate> inputUpdates;
+  final List<InputUpdate>? inputUpdates;
 
   /// The array of <a>OutputUpdate</a> objects describing the new destination
   /// streams used by the application.
-  @_s.JsonKey(name: 'OutputUpdates')
-  final List<OutputUpdate> outputUpdates;
+  final List<OutputUpdate>? outputUpdates;
 
   /// The array of <a>ReferenceDataSourceUpdate</a> objects describing the new
   /// reference data sources used by the application.
-  @_s.JsonKey(name: 'ReferenceDataSourceUpdates')
-  final List<ReferenceDataSourceUpdate> referenceDataSourceUpdates;
+  final List<ReferenceDataSourceUpdate>? referenceDataSourceUpdates;
 
   SqlApplicationConfigurationUpdate({
     this.inputUpdates,
     this.outputUpdates,
     this.referenceDataSourceUpdates,
   });
-  Map<String, dynamic> toJson() =>
-      _$SqlApplicationConfigurationUpdateToJson(this);
+
+  factory SqlApplicationConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return SqlApplicationConfigurationUpdate(
+      inputUpdates: (json['InputUpdates'] as List?)
+          ?.whereNotNull()
+          .map((e) => InputUpdate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      outputUpdates: (json['OutputUpdates'] as List?)
+          ?.whereNotNull()
+          .map((e) => OutputUpdate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      referenceDataSourceUpdates: (json['ReferenceDataSourceUpdates'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ReferenceDataSourceUpdate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputUpdates = this.inputUpdates;
+    final outputUpdates = this.outputUpdates;
+    final referenceDataSourceUpdates = this.referenceDataSourceUpdates;
+    return {
+      if (inputUpdates != null) 'InputUpdates': inputUpdates,
+      if (outputUpdates != null) 'OutputUpdates': outputUpdates,
+      if (referenceDataSourceUpdates != null)
+        'ReferenceDataSourceUpdates': referenceDataSourceUpdates,
+    };
+  }
 }
 
 /// Describes the starting parameters for a SQL-based Kinesis Data Analytics
 /// application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class SqlRunConfiguration {
   /// The input source ID. You can get this ID by calling the
   /// <a>DescribeApplication</a> operation.
-  @_s.JsonKey(name: 'InputId')
   final String inputId;
 
   /// The point at which you want the application to start processing records from
   /// the streaming source.
-  @_s.JsonKey(name: 'InputStartingPositionConfiguration')
   final InputStartingPositionConfiguration inputStartingPositionConfiguration;
 
   SqlRunConfiguration({
-    @_s.required this.inputId,
-    @_s.required this.inputStartingPositionConfiguration,
+    required this.inputId,
+    required this.inputStartingPositionConfiguration,
   });
-  Map<String, dynamic> toJson() => _$SqlRunConfigurationToJson(this);
+
+  factory SqlRunConfiguration.fromJson(Map<String, dynamic> json) {
+    return SqlRunConfiguration(
+      inputId: json['InputId'] as String,
+      inputStartingPositionConfiguration:
+          InputStartingPositionConfiguration.fromJson(
+              json['InputStartingPositionConfiguration']
+                  as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final inputId = this.inputId;
+    final inputStartingPositionConfiguration =
+        this.inputStartingPositionConfiguration;
+    return {
+      'InputId': inputId,
+      'InputStartingPositionConfiguration': inputStartingPositionConfiguration,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartApplicationResponse {
   StartApplicationResponse();
-  factory StartApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartApplicationResponseFromJson(json);
+
+  factory StartApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return StartApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopApplicationResponse {
   StopApplicationResponse();
-  factory StopApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopApplicationResponseFromJson(json);
+
+  factory StopApplicationResponse.fromJson(Map<String, dynamic> _) {
+    return StopApplicationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// A key-value pair (the value is optional) that you can define and assign to
@@ -5802,71 +8546,124 @@ class StopApplicationResponse {
 /// of user-defined application tags is 50. For more information, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html">Using
 /// Tagging</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the key-value tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the key-value tag. The value is optional.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TagResourceResponse {
   TagResourceResponse();
-  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$TagResourceResponseFromJson(json);
+
+  factory TagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return TagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UntagResourceResponse {
   UntagResourceResponse();
-  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$UntagResourceResponseFromJson(json);
+
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> _) {
+    return UntagResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class UpdateApplicationMaintenanceConfigurationResponse {
+  /// The Amazon Resource Name (ARN) of the application.
+  final String? applicationARN;
+
+  /// The application maintenance configuration description after the update.
+  final ApplicationMaintenanceConfigurationDescription?
+      applicationMaintenanceConfigurationDescription;
+
+  UpdateApplicationMaintenanceConfigurationResponse({
+    this.applicationARN,
+    this.applicationMaintenanceConfigurationDescription,
+  });
+
+  factory UpdateApplicationMaintenanceConfigurationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateApplicationMaintenanceConfigurationResponse(
+      applicationARN: json['ApplicationARN'] as String?,
+      applicationMaintenanceConfigurationDescription:
+          json['ApplicationMaintenanceConfigurationDescription'] != null
+              ? ApplicationMaintenanceConfigurationDescription.fromJson(
+                  json['ApplicationMaintenanceConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationARN = this.applicationARN;
+    final applicationMaintenanceConfigurationDescription =
+        this.applicationMaintenanceConfigurationDescription;
+    return {
+      if (applicationARN != null) 'ApplicationARN': applicationARN,
+      if (applicationMaintenanceConfigurationDescription != null)
+        'ApplicationMaintenanceConfigurationDescription':
+            applicationMaintenanceConfigurationDescription,
+    };
+  }
+}
+
 class UpdateApplicationResponse {
   /// Describes application updates.
-  @_s.JsonKey(name: 'ApplicationDetail')
   final ApplicationDetail applicationDetail;
 
   UpdateApplicationResponse({
-    @_s.required this.applicationDetail,
+    required this.applicationDetail,
   });
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApplicationResponseFromJson(json);
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApplicationResponse(
+      applicationDetail: ApplicationDetail.fromJson(
+          json['ApplicationDetail'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationDetail = this.applicationDetail;
+    return {
+      'ApplicationDetail': applicationDetail,
+    };
+  }
 }
 
 enum UrlType {
-  @_s.JsonValue('FLINK_DASHBOARD_URL')
   flinkDashboardUrl,
+  zeppelinUiUrl,
 }
 
 extension on UrlType {
@@ -5874,112 +8671,466 @@ extension on UrlType {
     switch (this) {
       case UrlType.flinkDashboardUrl:
         return 'FLINK_DASHBOARD_URL';
+      case UrlType.zeppelinUiUrl:
+        return 'ZEPPELIN_UI_URL';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UrlType toUrlType() {
+    switch (this) {
+      case 'FLINK_DASHBOARD_URL':
+        return UrlType.flinkDashboardUrl;
+      case 'ZEPPELIN_UI_URL':
+        return UrlType.zeppelinUiUrl;
+    }
+    throw Exception('$this is not known in enum UrlType');
   }
 }
 
 /// Describes the parameters of a VPC used by the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VpcConfiguration {
   /// The array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SecurityGroup.html">SecurityGroup</a>
   /// IDs used by the VPC configuration.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// The array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Subnet.html">Subnet</a>
   /// IDs used by the VPC configuration.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   VpcConfiguration({
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetIds,
+    required this.securityGroupIds,
+    required this.subnetIds,
   });
-  Map<String, dynamic> toJson() => _$VpcConfigurationToJson(this);
+
+  factory VpcConfiguration.fromJson(Map<String, dynamic> json) {
+    return VpcConfiguration(
+      securityGroupIds: (json['SecurityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+    };
+  }
 }
 
 /// Describes the parameters of a VPC used by the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VpcConfigurationDescription {
   /// The array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SecurityGroup.html">SecurityGroup</a>
   /// IDs used by the VPC configuration.
-  @_s.JsonKey(name: 'SecurityGroupIds')
   final List<String> securityGroupIds;
 
   /// The array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Subnet.html">Subnet</a>
   /// IDs used by the VPC configuration.
-  @_s.JsonKey(name: 'SubnetIds')
   final List<String> subnetIds;
 
   /// The ID of the VPC configuration.
-  @_s.JsonKey(name: 'VpcConfigurationId')
   final String vpcConfigurationId;
 
   /// The ID of the associated VPC.
-  @_s.JsonKey(name: 'VpcId')
   final String vpcId;
 
   VpcConfigurationDescription({
-    @_s.required this.securityGroupIds,
-    @_s.required this.subnetIds,
-    @_s.required this.vpcConfigurationId,
-    @_s.required this.vpcId,
+    required this.securityGroupIds,
+    required this.subnetIds,
+    required this.vpcConfigurationId,
+    required this.vpcId,
   });
-  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) =>
-      _$VpcConfigurationDescriptionFromJson(json);
+
+  factory VpcConfigurationDescription.fromJson(Map<String, dynamic> json) {
+    return VpcConfigurationDescription(
+      securityGroupIds: (json['SecurityGroupIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIds: (json['SubnetIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      vpcConfigurationId: json['VpcConfigurationId'] as String,
+      vpcId: json['VpcId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final securityGroupIds = this.securityGroupIds;
+    final subnetIds = this.subnetIds;
+    final vpcConfigurationId = this.vpcConfigurationId;
+    final vpcId = this.vpcId;
+    return {
+      'SecurityGroupIds': securityGroupIds,
+      'SubnetIds': subnetIds,
+      'VpcConfigurationId': vpcConfigurationId,
+      'VpcId': vpcId,
+    };
+  }
 }
 
 /// Describes updates to the VPC configuration used by the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class VpcConfigurationUpdate {
   /// Describes an update to the ID of the VPC configuration.
-  @_s.JsonKey(name: 'VpcConfigurationId')
   final String vpcConfigurationId;
 
   /// Describes updates to the array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_SecurityGroup.html">SecurityGroup</a>
   /// IDs used by the VPC configuration.
-  @_s.JsonKey(name: 'SecurityGroupIdUpdates')
-  final List<String> securityGroupIdUpdates;
+  final List<String>? securityGroupIdUpdates;
 
   /// Describes updates to the array of <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Subnet.html">Subnet</a>
   /// IDs used by the VPC configuration.
-  @_s.JsonKey(name: 'SubnetIdUpdates')
-  final List<String> subnetIdUpdates;
+  final List<String>? subnetIdUpdates;
 
   VpcConfigurationUpdate({
-    @_s.required this.vpcConfigurationId,
+    required this.vpcConfigurationId,
     this.securityGroupIdUpdates,
     this.subnetIdUpdates,
   });
-  Map<String, dynamic> toJson() => _$VpcConfigurationUpdateToJson(this);
+
+  factory VpcConfigurationUpdate.fromJson(Map<String, dynamic> json) {
+    return VpcConfigurationUpdate(
+      vpcConfigurationId: json['VpcConfigurationId'] as String,
+      securityGroupIdUpdates: (json['SecurityGroupIdUpdates'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      subnetIdUpdates: (json['SubnetIdUpdates'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final vpcConfigurationId = this.vpcConfigurationId;
+    final securityGroupIdUpdates = this.securityGroupIdUpdates;
+    final subnetIdUpdates = this.subnetIdUpdates;
+    return {
+      'VpcConfigurationId': vpcConfigurationId,
+      if (securityGroupIdUpdates != null)
+        'SecurityGroupIdUpdates': securityGroupIdUpdates,
+      if (subnetIdUpdates != null) 'SubnetIdUpdates': subnetIdUpdates,
+    };
+  }
+}
+
+/// The configuration of a Kinesis Data Analytics Studio notebook.
+class ZeppelinApplicationConfiguration {
+  /// The AWS Glue Data Catalog that you use in queries in a Kinesis Data
+  /// Analytics Studio notebook.
+  final CatalogConfiguration? catalogConfiguration;
+
+  /// Custom artifacts are dependency JARs and user-defined functions (UDF).
+  final List<CustomArtifactConfiguration>? customArtifactsConfiguration;
+
+  /// The information required to deploy a Kinesis Data Analytics Studio notebook
+  /// as an application with durable state..
+  final DeployAsApplicationConfiguration? deployAsApplicationConfiguration;
+
+  /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
+  final ZeppelinMonitoringConfiguration? monitoringConfiguration;
+
+  ZeppelinApplicationConfiguration({
+    this.catalogConfiguration,
+    this.customArtifactsConfiguration,
+    this.deployAsApplicationConfiguration,
+    this.monitoringConfiguration,
+  });
+
+  factory ZeppelinApplicationConfiguration.fromJson(Map<String, dynamic> json) {
+    return ZeppelinApplicationConfiguration(
+      catalogConfiguration: json['CatalogConfiguration'] != null
+          ? CatalogConfiguration.fromJson(
+              json['CatalogConfiguration'] as Map<String, dynamic>)
+          : null,
+      customArtifactsConfiguration: (json['CustomArtifactsConfiguration']
+              as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              CustomArtifactConfiguration.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      deployAsApplicationConfiguration:
+          json['DeployAsApplicationConfiguration'] != null
+              ? DeployAsApplicationConfiguration.fromJson(
+                  json['DeployAsApplicationConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      monitoringConfiguration: json['MonitoringConfiguration'] != null
+          ? ZeppelinMonitoringConfiguration.fromJson(
+              json['MonitoringConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogConfiguration = this.catalogConfiguration;
+    final customArtifactsConfiguration = this.customArtifactsConfiguration;
+    final deployAsApplicationConfiguration =
+        this.deployAsApplicationConfiguration;
+    final monitoringConfiguration = this.monitoringConfiguration;
+    return {
+      if (catalogConfiguration != null)
+        'CatalogConfiguration': catalogConfiguration,
+      if (customArtifactsConfiguration != null)
+        'CustomArtifactsConfiguration': customArtifactsConfiguration,
+      if (deployAsApplicationConfiguration != null)
+        'DeployAsApplicationConfiguration': deployAsApplicationConfiguration,
+      if (monitoringConfiguration != null)
+        'MonitoringConfiguration': monitoringConfiguration,
+    };
+  }
+}
+
+/// The configuration of a Kinesis Data Analytics Studio notebook.
+class ZeppelinApplicationConfigurationDescription {
+  /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
+  final ZeppelinMonitoringConfigurationDescription
+      monitoringConfigurationDescription;
+
+  /// The AWS Glue Data Catalog that is associated with the Kinesis Data Analytics
+  /// Studio notebook.
+  final CatalogConfigurationDescription? catalogConfigurationDescription;
+
+  /// Custom artifacts are dependency JARs and user-defined functions (UDF).
+  final List<CustomArtifactConfigurationDescription>?
+      customArtifactsConfigurationDescription;
+
+  /// The parameters required to deploy a Kinesis Data Analytics Studio notebook
+  /// as an application with durable state..
+  final DeployAsApplicationConfigurationDescription?
+      deployAsApplicationConfigurationDescription;
+
+  ZeppelinApplicationConfigurationDescription({
+    required this.monitoringConfigurationDescription,
+    this.catalogConfigurationDescription,
+    this.customArtifactsConfigurationDescription,
+    this.deployAsApplicationConfigurationDescription,
+  });
+
+  factory ZeppelinApplicationConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ZeppelinApplicationConfigurationDescription(
+      monitoringConfigurationDescription:
+          ZeppelinMonitoringConfigurationDescription.fromJson(
+              json['MonitoringConfigurationDescription']
+                  as Map<String, dynamic>),
+      catalogConfigurationDescription:
+          json['CatalogConfigurationDescription'] != null
+              ? CatalogConfigurationDescription.fromJson(
+                  json['CatalogConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+      customArtifactsConfigurationDescription:
+          (json['CustomArtifactsConfigurationDescription'] as List?)
+              ?.whereNotNull()
+              .map((e) => CustomArtifactConfigurationDescription.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      deployAsApplicationConfigurationDescription:
+          json['DeployAsApplicationConfigurationDescription'] != null
+              ? DeployAsApplicationConfigurationDescription.fromJson(
+                  json['DeployAsApplicationConfigurationDescription']
+                      as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitoringConfigurationDescription =
+        this.monitoringConfigurationDescription;
+    final catalogConfigurationDescription =
+        this.catalogConfigurationDescription;
+    final customArtifactsConfigurationDescription =
+        this.customArtifactsConfigurationDescription;
+    final deployAsApplicationConfigurationDescription =
+        this.deployAsApplicationConfigurationDescription;
+    return {
+      'MonitoringConfigurationDescription': monitoringConfigurationDescription,
+      if (catalogConfigurationDescription != null)
+        'CatalogConfigurationDescription': catalogConfigurationDescription,
+      if (customArtifactsConfigurationDescription != null)
+        'CustomArtifactsConfigurationDescription':
+            customArtifactsConfigurationDescription,
+      if (deployAsApplicationConfigurationDescription != null)
+        'DeployAsApplicationConfigurationDescription':
+            deployAsApplicationConfigurationDescription,
+    };
+  }
+}
+
+/// Updates to the configuration of Kinesis Data Analytics Studio notebook.
+class ZeppelinApplicationConfigurationUpdate {
+  /// Updates to the configuration of the AWS Glue Data Catalog that is associated
+  /// with the Kinesis Data Analytics Studio notebook.
+  final CatalogConfigurationUpdate? catalogConfigurationUpdate;
+
+  /// Updates to the customer artifacts. Custom artifacts are dependency JAR files
+  /// and user-defined functions (UDF).
+  final List<CustomArtifactConfiguration>? customArtifactsConfigurationUpdate;
+  final DeployAsApplicationConfigurationUpdate?
+      deployAsApplicationConfigurationUpdate;
+
+  /// Updates to the monitoring configuration of a Kinesis Data Analytics Studio
+  /// notebook.
+  final ZeppelinMonitoringConfigurationUpdate? monitoringConfigurationUpdate;
+
+  ZeppelinApplicationConfigurationUpdate({
+    this.catalogConfigurationUpdate,
+    this.customArtifactsConfigurationUpdate,
+    this.deployAsApplicationConfigurationUpdate,
+    this.monitoringConfigurationUpdate,
+  });
+
+  factory ZeppelinApplicationConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return ZeppelinApplicationConfigurationUpdate(
+      catalogConfigurationUpdate: json['CatalogConfigurationUpdate'] != null
+          ? CatalogConfigurationUpdate.fromJson(
+              json['CatalogConfigurationUpdate'] as Map<String, dynamic>)
+          : null,
+      customArtifactsConfigurationUpdate:
+          (json['CustomArtifactsConfigurationUpdate'] as List?)
+              ?.whereNotNull()
+              .map((e) => CustomArtifactConfiguration.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
+      deployAsApplicationConfigurationUpdate:
+          json['DeployAsApplicationConfigurationUpdate'] != null
+              ? DeployAsApplicationConfigurationUpdate.fromJson(
+                  json['DeployAsApplicationConfigurationUpdate']
+                      as Map<String, dynamic>)
+              : null,
+      monitoringConfigurationUpdate:
+          json['MonitoringConfigurationUpdate'] != null
+              ? ZeppelinMonitoringConfigurationUpdate.fromJson(
+                  json['MonitoringConfigurationUpdate'] as Map<String, dynamic>)
+              : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final catalogConfigurationUpdate = this.catalogConfigurationUpdate;
+    final customArtifactsConfigurationUpdate =
+        this.customArtifactsConfigurationUpdate;
+    final deployAsApplicationConfigurationUpdate =
+        this.deployAsApplicationConfigurationUpdate;
+    final monitoringConfigurationUpdate = this.monitoringConfigurationUpdate;
+    return {
+      if (catalogConfigurationUpdate != null)
+        'CatalogConfigurationUpdate': catalogConfigurationUpdate,
+      if (customArtifactsConfigurationUpdate != null)
+        'CustomArtifactsConfigurationUpdate':
+            customArtifactsConfigurationUpdate,
+      if (deployAsApplicationConfigurationUpdate != null)
+        'DeployAsApplicationConfigurationUpdate':
+            deployAsApplicationConfigurationUpdate,
+      if (monitoringConfigurationUpdate != null)
+        'MonitoringConfigurationUpdate': monitoringConfigurationUpdate,
+    };
+  }
+}
+
+/// Describes configuration parameters for Amazon CloudWatch logging for a
+/// Kinesis Data Analytics Studio notebook. For more information about
+/// CloudWatch logging, see <a
+/// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html">Monitoring</a>.
+class ZeppelinMonitoringConfiguration {
+  /// The verbosity of the CloudWatch Logs for an application.
+  final LogLevel logLevel;
+
+  ZeppelinMonitoringConfiguration({
+    required this.logLevel,
+  });
+
+  factory ZeppelinMonitoringConfiguration.fromJson(Map<String, dynamic> json) {
+    return ZeppelinMonitoringConfiguration(
+      logLevel: (json['LogLevel'] as String).toLogLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logLevel = this.logLevel;
+    return {
+      'LogLevel': logLevel.toValue(),
+    };
+  }
+}
+
+/// The monitoring configuration for Apache Zeppelin within a Kinesis Data
+/// Analytics Studio notebook.
+class ZeppelinMonitoringConfigurationDescription {
+  /// Describes the verbosity of the CloudWatch Logs for an application.
+  final LogLevel? logLevel;
+
+  ZeppelinMonitoringConfigurationDescription({
+    this.logLevel,
+  });
+
+  factory ZeppelinMonitoringConfigurationDescription.fromJson(
+      Map<String, dynamic> json) {
+    return ZeppelinMonitoringConfigurationDescription(
+      logLevel: (json['LogLevel'] as String?)?.toLogLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logLevel = this.logLevel;
+    return {
+      if (logLevel != null) 'LogLevel': logLevel.toValue(),
+    };
+  }
+}
+
+/// Updates to the monitoring configuration for Apache Zeppelin within a Kinesis
+/// Data Analytics Studio notebook.
+class ZeppelinMonitoringConfigurationUpdate {
+  /// Updates to the logging level for Apache Zeppelin within a Kinesis Data
+  /// Analytics Studio notebook.
+  final LogLevel logLevelUpdate;
+
+  ZeppelinMonitoringConfigurationUpdate({
+    required this.logLevelUpdate,
+  });
+
+  factory ZeppelinMonitoringConfigurationUpdate.fromJson(
+      Map<String, dynamic> json) {
+    return ZeppelinMonitoringConfigurationUpdate(
+      logLevelUpdate: (json['LogLevelUpdate'] as String).toLogLevel(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final logLevelUpdate = this.logLevelUpdate;
+    return {
+      'LogLevelUpdate': logLevelUpdate.toValue(),
+    };
+  }
 }
 
 class CodeValidationException extends _s.GenericAwsException {
-  CodeValidationException({String type, String message})
+  CodeValidationException({String? type, String? message})
       : super(type: type, code: 'CodeValidationException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -5987,7 +9138,7 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class InvalidApplicationConfigurationException extends _s.GenericAwsException {
-  InvalidApplicationConfigurationException({String type, String message})
+  InvalidApplicationConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidApplicationConfigurationException',
@@ -5995,33 +9146,34 @@ class InvalidApplicationConfigurationException extends _s.GenericAwsException {
 }
 
 class InvalidArgumentException extends _s.GenericAwsException {
-  InvalidArgumentException({String type, String message})
+  InvalidArgumentException({String? type, String? message})
       : super(type: type, code: 'InvalidArgumentException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class ResourceInUseException extends _s.GenericAwsException {
-  ResourceInUseException({String type, String message})
+  ResourceInUseException({String? type, String? message})
       : super(type: type, code: 'ResourceInUseException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceProvisionedThroughputExceededException
     extends _s.GenericAwsException {
-  ResourceProvisionedThroughputExceededException({String type, String message})
+  ResourceProvisionedThroughputExceededException(
+      {String? type, String? message})
       : super(
             type: type,
             code: 'ResourceProvisionedThroughputExceededException',
@@ -6029,18 +9181,18 @@ class ResourceProvisionedThroughputExceededException
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 class UnableToDetectSchemaException extends _s.GenericAwsException {
-  UnableToDetectSchemaException({String type, String message})
+  UnableToDetectSchemaException({String? type, String? message})
       : super(
             type: type,
             code: 'UnableToDetectSchemaException',
@@ -6048,7 +9200,7 @@ class UnableToDetectSchemaException extends _s.GenericAwsException {
 }
 
 class UnsupportedOperationException extends _s.GenericAwsException {
-  UnsupportedOperationException({String type, String message})
+  UnsupportedOperationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedOperationException',

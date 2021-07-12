@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,36 +11,28 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2014-05-30.g.dart';
 
 /// This is documentation for <b>AWS CloudHSM Classic</b>. For more information,
 /// see <a href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM
 /// Classic FAQs</a>, the <a
-/// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+/// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
 /// Classic User Guide</a>, and the <a
-/// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+/// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
 /// CloudHSM Classic API Reference</a>.
 class CloudHsm {
   final _s.JsonProtocol _protocol;
   CloudHsm({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -54,16 +47,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Adds or overwrites one or more tags for the specified AWS CloudHSM
@@ -82,16 +75,10 @@ class CloudHsm {
   /// Parameter [tagList] :
   /// One or more tags.
   Future<AddTagsToResourceResponse> addTagsToResource({
-    @_s.required String resourceArn,
-    @_s.required List<Tag> tagList,
+    required String resourceArn,
+    required List<Tag> tagList,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''[\w :+=./\\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagList, 'tagList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -116,16 +103,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Creates a high-availability partition group. A high-availability partition
@@ -138,15 +125,9 @@ class CloudHsm {
   /// Parameter [label] :
   /// The label of the new high-availability partition group.
   Future<CreateHapgResponse> createHapg({
-    @_s.required String label,
+    required String label,
   }) async {
     ArgumentError.checkNotNull(label, 'label');
-    _s.validateStringPattern(
-      'label',
-      label,
-      r'''[a-zA-Z0-9_.-]{1,64}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.CreateHapg'
@@ -169,16 +150,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Creates an uninitialized HSM instance.
@@ -227,57 +208,19 @@ class CloudHsm {
   /// The IP address for the syslog monitoring server. The AWS CloudHSM service
   /// only supports one syslog monitoring server.
   Future<CreateHsmResponse> createHsm({
-    @_s.required String iamRoleArn,
-    @_s.required String sshKey,
-    @_s.required String subnetId,
-    @_s.required SubscriptionType subscriptionType,
-    String clientToken,
-    String eniIp,
-    String externalId,
-    String syslogIp,
+    required String iamRoleArn,
+    required String sshKey,
+    required String subnetId,
+    required SubscriptionType subscriptionType,
+    String? clientToken,
+    String? eniIp,
+    String? externalId,
+    String? syslogIp,
   }) async {
     ArgumentError.checkNotNull(iamRoleArn, 'iamRoleArn');
-    _s.validateStringPattern(
-      'iamRoleArn',
-      iamRoleArn,
-      r'''arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\+=,\.\-@]{1,64}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sshKey, 'sshKey');
-    _s.validateStringPattern(
-      'sshKey',
-      sshKey,
-      r'''[a-zA-Z0-9+/= ._:\\@-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subnetId, 'subnetId');
-    _s.validateStringPattern(
-      'subnetId',
-      subnetId,
-      r'''subnet-[0-9a-f]{8}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(subscriptionType, 'subscriptionType');
-    _s.validateStringPattern(
-      'clientToken',
-      clientToken,
-      r'''[a-zA-Z0-9]{1,64}''',
-    );
-    _s.validateStringPattern(
-      'eniIp',
-      eniIp,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
-    _s.validateStringPattern(
-      'externalId',
-      externalId,
-      r'''[\w :+=./-]*''',
-    );
-    _s.validateStringPattern(
-      'syslogIp',
-      syslogIp,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.CreateHsm'
@@ -292,7 +235,7 @@ class CloudHsm {
         'IamRoleArn': iamRoleArn,
         'SshKey': sshKey,
         'SubnetId': subnetId,
-        'SubscriptionType': subscriptionType?.toValue() ?? '',
+        'SubscriptionType': subscriptionType.toValue(),
         if (clientToken != null) 'ClientToken': clientToken,
         if (eniIp != null) 'EniIp': eniIp,
         if (externalId != null) 'ExternalId': externalId,
@@ -307,16 +250,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Creates an HSM client.
@@ -332,8 +275,8 @@ class CloudHsm {
   /// Parameter [label] :
   /// The label for the client.
   Future<CreateLunaClientResponse> createLunaClient({
-    @_s.required String certificate,
-    String label,
+    required String certificate,
+    String? label,
   }) async {
     ArgumentError.checkNotNull(certificate, 'certificate');
     _s.validateStringLength(
@@ -342,17 +285,6 @@ class CloudHsm {
       600,
       2400,
       isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificate',
-      certificate,
-      r'''[\w :+=./\n-]*''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'label',
-      label,
-      r'''[a-zA-Z0-9_.-]{2,64}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -377,16 +309,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Deletes a high-availability partition group.
@@ -398,15 +330,9 @@ class CloudHsm {
   /// Parameter [hapgArn] :
   /// The ARN of the high-availability partition group to delete.
   Future<DeleteHapgResponse> deleteHapg({
-    @_s.required String hapgArn,
+    required String hapgArn,
   }) async {
     ArgumentError.checkNotNull(hapgArn, 'hapgArn');
-    _s.validateStringPattern(
-      'hapgArn',
-      hapgArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hapg-[0-9a-f]{8}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DeleteHapg'
@@ -429,16 +355,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Deletes an HSM. After completion, this operation cannot be undone and your
@@ -451,15 +377,9 @@ class CloudHsm {
   /// Parameter [hsmArn] :
   /// The ARN of the HSM to delete.
   Future<DeleteHsmResponse> deleteHsm({
-    @_s.required String hsmArn,
+    required String hsmArn,
   }) async {
     ArgumentError.checkNotNull(hsmArn, 'hsmArn');
-    _s.validateStringPattern(
-      'hsmArn',
-      hsmArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hsm-[0-9a-f]{8}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DeleteHsm'
@@ -482,16 +402,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Deletes a client.
@@ -503,15 +423,9 @@ class CloudHsm {
   /// Parameter [clientArn] :
   /// The ARN of the client to delete.
   Future<DeleteLunaClientResponse> deleteLunaClient({
-    @_s.required String clientArn,
+    required String clientArn,
   }) async {
     ArgumentError.checkNotNull(clientArn, 'clientArn');
-    _s.validateStringPattern(
-      'clientArn',
-      clientArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DeleteLunaClient'
@@ -534,16 +448,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Retrieves information about a high-availability partition group.
@@ -555,15 +469,9 @@ class CloudHsm {
   /// Parameter [hapgArn] :
   /// The ARN of the high-availability partition group to describe.
   Future<DescribeHapgResponse> describeHapg({
-    @_s.required String hapgArn,
+    required String hapgArn,
   }) async {
     ArgumentError.checkNotNull(hapgArn, 'hapgArn');
-    _s.validateStringPattern(
-      'hapgArn',
-      hapgArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hapg-[0-9a-f]{8}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DescribeHapg'
@@ -586,16 +494,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Retrieves information about an HSM. You can identify the HSM by its ARN or
@@ -613,19 +521,9 @@ class CloudHsm {
   /// The serial number of the HSM. Either the <code>HsmArn</code> or the
   /// <code>HsmSerialNumber</code> parameter must be specified.
   Future<DescribeHsmResponse> describeHsm({
-    String hsmArn,
-    String hsmSerialNumber,
+    String? hsmArn,
+    String? hsmSerialNumber,
   }) async {
-    _s.validateStringPattern(
-      'hsmArn',
-      hsmArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hsm-[0-9a-f]{8}''',
-    );
-    _s.validateStringPattern(
-      'hsmSerialNumber',
-      hsmSerialNumber,
-      r'''\d{1,16}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DescribeHsm'
@@ -649,16 +547,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Retrieves information about an HSM client.
@@ -673,19 +571,9 @@ class CloudHsm {
   /// Parameter [clientArn] :
   /// The ARN of the client.
   Future<DescribeLunaClientResponse> describeLunaClient({
-    String certificateFingerprint,
-    String clientArn,
+    String? certificateFingerprint,
+    String? clientArn,
   }) async {
-    _s.validateStringPattern(
-      'certificateFingerprint',
-      certificateFingerprint,
-      r'''([0-9a-fA-F][0-9a-fA-F]:){15}[0-9a-fA-F][0-9a-fA-F]''',
-    );
-    _s.validateStringPattern(
-      'clientArn',
-      clientArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.DescribeLunaClient'
@@ -710,16 +598,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Gets the configuration files necessary to connect to all high availability
@@ -739,17 +627,11 @@ class CloudHsm {
   /// A list of ARNs that identify the high-availability partition groups that
   /// are associated with the client.
   Future<GetConfigResponse> getConfig({
-    @_s.required String clientArn,
-    @_s.required ClientVersion clientVersion,
-    @_s.required List<String> hapgList,
+    required String clientArn,
+    required ClientVersion clientVersion,
+    required List<String> hapgList,
   }) async {
     ArgumentError.checkNotNull(clientArn, 'clientArn');
-    _s.validateStringPattern(
-      'clientArn',
-      clientArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(clientVersion, 'clientVersion');
     ArgumentError.checkNotNull(hapgList, 'hapgList');
     final headers = <String, String>{
@@ -764,7 +646,7 @@ class CloudHsm {
       headers: headers,
       payload: {
         'ClientArn': clientArn,
-        'ClientVersion': clientVersion?.toValue() ?? '',
+        'ClientVersion': clientVersion.toValue(),
         'HapgList': hapgList,
       },
     );
@@ -776,16 +658,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Lists the Availability Zones that have available AWS CloudHSM capacity.
@@ -813,16 +695,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Lists the high-availability partition groups for the account.
@@ -841,13 +723,8 @@ class CloudHsm {
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListHapgs</code>. Pass null if this is the first call.
   Future<ListHapgsResponse> listHapgs({
-    String nextToken,
+    String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListHapgs'
@@ -870,16 +747,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Retrieves the identifiers of all of the HSMs provisioned for the current
@@ -899,13 +776,8 @@ class CloudHsm {
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListHsms</code>. Pass null if this is the first call.
   Future<ListHsmsResponse> listHsms({
-    String nextToken,
+    String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListHsms'
@@ -928,16 +800,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Lists all of the clients.
@@ -956,13 +828,8 @@ class CloudHsm {
   /// The <code>NextToken</code> value from a previous call to
   /// <code>ListLunaClients</code>. Pass null if this is the first call.
   Future<ListLunaClientsResponse> listLunaClients({
-    String nextToken,
+    String? nextToken,
   }) async {
-    _s.validateStringPattern(
-      'nextToken',
-      nextToken,
-      r'''[a-zA-Z0-9+/]*''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListLunaClients'
@@ -985,16 +852,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Returns a list of all tags for the specified AWS CloudHSM resource.
@@ -1006,15 +873,9 @@ class CloudHsm {
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''[\w :+=./\\-]*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ListTagsForResource'
@@ -1037,16 +898,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Modifies an existing high-availability partition group.
@@ -1065,22 +926,11 @@ class CloudHsm {
   /// The list of partition serial numbers to make members of the
   /// high-availability partition group.
   Future<ModifyHapgResponse> modifyHapg({
-    @_s.required String hapgArn,
-    String label,
-    List<String> partitionSerialList,
+    required String hapgArn,
+    String? label,
+    List<String>? partitionSerialList,
   }) async {
     ArgumentError.checkNotNull(hapgArn, 'hapgArn');
-    _s.validateStringPattern(
-      'hapgArn',
-      hapgArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hapg-[0-9a-f]{8}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'label',
-      label,
-      r'''[a-zA-Z0-9_.-]{1,64}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyHapg'
@@ -1106,16 +956,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Modifies an HSM.
@@ -1156,45 +1006,14 @@ class CloudHsm {
   /// The new IP address for the syslog monitoring server. The AWS CloudHSM
   /// service only supports one syslog monitoring server.
   Future<ModifyHsmResponse> modifyHsm({
-    @_s.required String hsmArn,
-    String eniIp,
-    String externalId,
-    String iamRoleArn,
-    String subnetId,
-    String syslogIp,
+    required String hsmArn,
+    String? eniIp,
+    String? externalId,
+    String? iamRoleArn,
+    String? subnetId,
+    String? syslogIp,
   }) async {
     ArgumentError.checkNotNull(hsmArn, 'hsmArn');
-    _s.validateStringPattern(
-      'hsmArn',
-      hsmArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:hsm-[0-9a-f]{8}''',
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'eniIp',
-      eniIp,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
-    _s.validateStringPattern(
-      'externalId',
-      externalId,
-      r'''[\w :+=./-]*''',
-    );
-    _s.validateStringPattern(
-      'iamRoleArn',
-      iamRoleArn,
-      r'''arn:aws(-iso)?:iam::[0-9]{12}:role/[a-zA-Z0-9_\+=,\.\-@]{1,64}''',
-    );
-    _s.validateStringPattern(
-      'subnetId',
-      subnetId,
-      r'''subnet-[0-9a-f]{8}''',
-    );
-    _s.validateStringPattern(
-      'syslogIp',
-      syslogIp,
-      r'''\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyHsm'
@@ -1222,16 +1041,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Modifies the certificate used by the client.
@@ -1247,8 +1066,8 @@ class CloudHsm {
   /// Parameter [clientArn] :
   /// The ARN of the client.
   Future<ModifyLunaClientResponse> modifyLunaClient({
-    @_s.required String certificate,
-    @_s.required String clientArn,
+    required String certificate,
+    required String clientArn,
   }) async {
     ArgumentError.checkNotNull(certificate, 'certificate');
     _s.validateStringLength(
@@ -1258,19 +1077,7 @@ class CloudHsm {
       2400,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificate',
-      certificate,
-      r'''[\w :+=./\n-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(clientArn, 'clientArn');
-    _s.validateStringPattern(
-      'clientArn',
-      clientArn,
-      r'''arn:aws(-iso)?:cloudhsm:[a-zA-Z0-9\-]*:[0-9]{12}:client-[0-9a-f]{8}''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'CloudHsmFrontendService.ModifyLunaClient'
@@ -1294,16 +1101,16 @@ class CloudHsm {
   /// information, see <a
   /// href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM Classic
   /// FAQs</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
-  /// Classic User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS
+  /// CloudHSM Classic User Guide</a>, and the <a
+  /// href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
   /// CloudHSM Classic API Reference</a>.
   ///
   /// <b>For information about the current version of AWS CloudHSM</b>, see <a
   /// href="http://aws.amazon.com/cloudhsm/">AWS CloudHSM</a>, the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/userguide/">AWS CloudHSM
   /// User Guide</a>, and the <a
-  /// href="http://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
+  /// href="https://docs.aws.amazon.com/cloudhsm/latest/APIReference/">AWS
   /// CloudHSM API Reference</a>.
   ///
   /// Removes one or more tags from the specified AWS CloudHSM resource.
@@ -1324,16 +1131,10 @@ class CloudHsm {
   /// Specify only the tag key to remove (not the value). To overwrite the value
   /// for an existing tag, use <a>AddTagsToResource</a>.
   Future<RemoveTagsFromResourceResponse> removeTagsFromResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeyList,
+    required String resourceArn,
+    required List<String> tagKeyList,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''[\w :+=./\\-]*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tagKeyList, 'tagKeyList');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1355,27 +1156,30 @@ class CloudHsm {
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AddTagsToResourceResponse {
   /// The status of the operation.
-  @_s.JsonKey(name: 'Status')
   final String status;
 
   AddTagsToResourceResponse({
-    @_s.required this.status,
+    required this.status,
   });
-  factory AddTagsToResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$AddTagsToResourceResponseFromJson(json);
+
+  factory AddTagsToResourceResponse.fromJson(Map<String, dynamic> json) {
+    return AddTagsToResourceResponse(
+      status: json['Status'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status,
+    };
+  }
 }
 
 enum ClientVersion {
-  @_s.JsonValue('5.1')
   $5_1,
-  @_s.JsonValue('5.3')
   $5_3,
 }
 
@@ -1387,204 +1191,220 @@ extension on ClientVersion {
       case ClientVersion.$5_3:
         return '5.3';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Indicates that an internal error occurred.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class CloudHsmInternalException implements _s.AwsException {
-  CloudHsmInternalException();
-  factory CloudHsmInternalException.fromJson(Map<String, dynamic> json) =>
-      _$CloudHsmInternalExceptionFromJson(json);
+extension on String {
+  ClientVersion toClientVersion() {
+    switch (this) {
+      case '5.1':
+        return ClientVersion.$5_1;
+      case '5.3':
+        return ClientVersion.$5_3;
+    }
+    throw Exception('$this is not known in enum ClientVersion');
+  }
 }
 
 enum CloudHsmObjectState {
-  @_s.JsonValue('READY')
   ready,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('DEGRADED')
   degraded,
 }
 
-/// Indicates that an exception occurred in the AWS CloudHSM service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class CloudHsmServiceException implements _s.AwsException {
-  /// Additional information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
+extension on CloudHsmObjectState {
+  String toValue() {
+    switch (this) {
+      case CloudHsmObjectState.ready:
+        return 'READY';
+      case CloudHsmObjectState.updating:
+        return 'UPDATING';
+      case CloudHsmObjectState.degraded:
+        return 'DEGRADED';
+    }
+  }
+}
 
-  /// Indicates if the action can be retried.
-  @_s.JsonKey(name: 'retryable')
-  final bool retryable;
-
-  CloudHsmServiceException({
-    this.message,
-    this.retryable,
-  });
-  factory CloudHsmServiceException.fromJson(Map<String, dynamic> json) =>
-      _$CloudHsmServiceExceptionFromJson(json);
+extension on String {
+  CloudHsmObjectState toCloudHsmObjectState() {
+    switch (this) {
+      case 'READY':
+        return CloudHsmObjectState.ready;
+      case 'UPDATING':
+        return CloudHsmObjectState.updating;
+      case 'DEGRADED':
+        return CloudHsmObjectState.degraded;
+    }
+    throw Exception('$this is not known in enum CloudHsmObjectState');
+  }
 }
 
 /// Contains the output of the <a>CreateHAPartitionGroup</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateHapgResponse {
   /// The ARN of the high-availability partition group.
-  @_s.JsonKey(name: 'HapgArn')
-  final String hapgArn;
+  final String? hapgArn;
 
   CreateHapgResponse({
     this.hapgArn,
   });
-  factory CreateHapgResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateHapgResponseFromJson(json);
+
+  factory CreateHapgResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHapgResponse(
+      hapgArn: json['HapgArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hapgArn = this.hapgArn;
+    return {
+      if (hapgArn != null) 'HapgArn': hapgArn,
+    };
+  }
 }
 
 /// Contains the output of the <code>CreateHsm</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateHsmResponse {
   /// The ARN of the HSM.
-  @_s.JsonKey(name: 'HsmArn')
-  final String hsmArn;
+  final String? hsmArn;
 
   CreateHsmResponse({
     this.hsmArn,
   });
-  factory CreateHsmResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateHsmResponseFromJson(json);
+
+  factory CreateHsmResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHsmResponse(
+      hsmArn: json['HsmArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmArn = this.hsmArn;
+    return {
+      if (hsmArn != null) 'HsmArn': hsmArn,
+    };
+  }
 }
 
 /// Contains the output of the <a>CreateLunaClient</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateLunaClientResponse {
   /// The ARN of the client.
-  @_s.JsonKey(name: 'ClientArn')
-  final String clientArn;
+  final String? clientArn;
 
   CreateLunaClientResponse({
     this.clientArn,
   });
-  factory CreateLunaClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateLunaClientResponseFromJson(json);
+
+  factory CreateLunaClientResponse.fromJson(Map<String, dynamic> json) {
+    return CreateLunaClientResponse(
+      clientArn: json['ClientArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientArn = this.clientArn;
+    return {
+      if (clientArn != null) 'ClientArn': clientArn,
+    };
+  }
 }
 
 /// Contains the output of the <a>DeleteHapg</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteHapgResponse {
   /// The status of the action.
-  @_s.JsonKey(name: 'Status')
   final String status;
 
   DeleteHapgResponse({
-    @_s.required this.status,
+    required this.status,
   });
-  factory DeleteHapgResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteHapgResponseFromJson(json);
+
+  factory DeleteHapgResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteHapgResponse(
+      status: json['Status'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status,
+    };
+  }
 }
 
 /// Contains the output of the <a>DeleteHsm</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteHsmResponse {
   /// The status of the operation.
-  @_s.JsonKey(name: 'Status')
   final String status;
 
   DeleteHsmResponse({
-    @_s.required this.status,
+    required this.status,
   });
-  factory DeleteHsmResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteHsmResponseFromJson(json);
+
+  factory DeleteHsmResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteHsmResponse(
+      status: json['Status'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteLunaClientResponse {
   /// The status of the action.
-  @_s.JsonKey(name: 'Status')
   final String status;
 
   DeleteLunaClientResponse({
-    @_s.required this.status,
+    required this.status,
   });
-  factory DeleteLunaClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteLunaClientResponseFromJson(json);
+
+  factory DeleteLunaClientResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteLunaClientResponse(
+      status: json['Status'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status,
+    };
+  }
 }
 
 /// Contains the output of the <a>DescribeHapg</a> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeHapgResponse {
   /// The ARN of the high-availability partition group.
-  @_s.JsonKey(name: 'HapgArn')
-  final String hapgArn;
+  final String? hapgArn;
 
   /// The serial number of the high-availability partition group.
-  @_s.JsonKey(name: 'HapgSerial')
-  final String hapgSerial;
+  final String? hapgSerial;
 
   /// <p/>
-  @_s.JsonKey(name: 'HsmsLastActionFailed')
-  final List<String> hsmsLastActionFailed;
+  final List<String>? hsmsLastActionFailed;
 
   /// <p/>
-  @_s.JsonKey(name: 'HsmsPendingDeletion')
-  final List<String> hsmsPendingDeletion;
+  final List<String>? hsmsPendingDeletion;
 
   /// <p/>
-  @_s.JsonKey(name: 'HsmsPendingRegistration')
-  final List<String> hsmsPendingRegistration;
+  final List<String>? hsmsPendingRegistration;
 
   /// The label for the high-availability partition group.
-  @_s.JsonKey(name: 'Label')
-  final String label;
+  final String? label;
 
   /// The date and time the high-availability partition group was last modified.
-  @_s.JsonKey(name: 'LastModifiedTimestamp')
-  final String lastModifiedTimestamp;
+  final String? lastModifiedTimestamp;
 
   /// The list of partition serial numbers that belong to the high-availability
   /// partition group.
-  @_s.JsonKey(name: 'PartitionSerialList')
-  final List<String> partitionSerialList;
+  final List<String>? partitionSerialList;
 
   /// The state of the high-availability partition group.
-  @_s.JsonKey(name: 'State')
-  final CloudHsmObjectState state;
+  final CloudHsmObjectState? state;
 
   DescribeHapgResponse({
     this.hapgArn,
@@ -1597,98 +1417,124 @@ class DescribeHapgResponse {
     this.partitionSerialList,
     this.state,
   });
-  factory DescribeHapgResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeHapgResponseFromJson(json);
+
+  factory DescribeHapgResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeHapgResponse(
+      hapgArn: json['HapgArn'] as String?,
+      hapgSerial: json['HapgSerial'] as String?,
+      hsmsLastActionFailed: (json['HsmsLastActionFailed'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      hsmsPendingDeletion: (json['HsmsPendingDeletion'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      hsmsPendingRegistration: (json['HsmsPendingRegistration'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      label: json['Label'] as String?,
+      lastModifiedTimestamp: json['LastModifiedTimestamp'] as String?,
+      partitionSerialList: (json['PartitionSerialList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      state: (json['State'] as String?)?.toCloudHsmObjectState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hapgArn = this.hapgArn;
+    final hapgSerial = this.hapgSerial;
+    final hsmsLastActionFailed = this.hsmsLastActionFailed;
+    final hsmsPendingDeletion = this.hsmsPendingDeletion;
+    final hsmsPendingRegistration = this.hsmsPendingRegistration;
+    final label = this.label;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    final partitionSerialList = this.partitionSerialList;
+    final state = this.state;
+    return {
+      if (hapgArn != null) 'HapgArn': hapgArn,
+      if (hapgSerial != null) 'HapgSerial': hapgSerial,
+      if (hsmsLastActionFailed != null)
+        'HsmsLastActionFailed': hsmsLastActionFailed,
+      if (hsmsPendingDeletion != null)
+        'HsmsPendingDeletion': hsmsPendingDeletion,
+      if (hsmsPendingRegistration != null)
+        'HsmsPendingRegistration': hsmsPendingRegistration,
+      if (label != null) 'Label': label,
+      if (lastModifiedTimestamp != null)
+        'LastModifiedTimestamp': lastModifiedTimestamp,
+      if (partitionSerialList != null)
+        'PartitionSerialList': partitionSerialList,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 /// Contains the output of the <a>DescribeHsm</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeHsmResponse {
   /// The Availability Zone that the HSM is in.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
+  final String? availabilityZone;
 
   /// The identifier of the elastic network interface (ENI) attached to the HSM.
-  @_s.JsonKey(name: 'EniId')
-  final String eniId;
+  final String? eniId;
 
   /// The IP address assigned to the HSM's ENI.
-  @_s.JsonKey(name: 'EniIp')
-  final String eniIp;
+  final String? eniIp;
 
   /// The ARN of the HSM.
-  @_s.JsonKey(name: 'HsmArn')
-  final String hsmArn;
+  final String? hsmArn;
 
   /// The HSM model type.
-  @_s.JsonKey(name: 'HsmType')
-  final String hsmType;
+  final String? hsmType;
 
   /// The ARN of the IAM role assigned to the HSM.
-  @_s.JsonKey(name: 'IamRoleArn')
-  final String iamRoleArn;
+  final String? iamRoleArn;
 
   /// The list of partitions on the HSM.
-  @_s.JsonKey(name: 'Partitions')
-  final List<String> partitions;
+  final List<String>? partitions;
 
   /// The serial number of the HSM.
-  @_s.JsonKey(name: 'SerialNumber')
-  final String serialNumber;
+  final String? serialNumber;
 
   /// The date and time that the server certificate was last updated.
-  @_s.JsonKey(name: 'ServerCertLastUpdated')
-  final String serverCertLastUpdated;
+  final String? serverCertLastUpdated;
 
   /// The URI of the certificate server.
-  @_s.JsonKey(name: 'ServerCertUri')
-  final String serverCertUri;
+  final String? serverCertUri;
 
   /// The HSM software version.
-  @_s.JsonKey(name: 'SoftwareVersion')
-  final String softwareVersion;
+  final String? softwareVersion;
 
   /// The date and time that the SSH key was last updated.
-  @_s.JsonKey(name: 'SshKeyLastUpdated')
-  final String sshKeyLastUpdated;
+  final String? sshKeyLastUpdated;
 
   /// The public SSH key.
-  @_s.JsonKey(name: 'SshPublicKey')
-  final String sshPublicKey;
+  final String? sshPublicKey;
 
   /// The status of the HSM.
-  @_s.JsonKey(name: 'Status')
-  final HsmStatus status;
+  final HsmStatus? status;
 
   /// Contains additional information about the status of the HSM.
-  @_s.JsonKey(name: 'StatusDetails')
-  final String statusDetails;
+  final String? statusDetails;
 
   /// The identifier of the subnet that the HSM is in.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The subscription end date.
-  @_s.JsonKey(name: 'SubscriptionEndDate')
-  final String subscriptionEndDate;
+  final String? subscriptionEndDate;
 
   /// The subscription start date.
-  @_s.JsonKey(name: 'SubscriptionStartDate')
-  final String subscriptionStartDate;
-  @_s.JsonKey(name: 'SubscriptionType')
-  final SubscriptionType subscriptionType;
+  final String? subscriptionStartDate;
+  final SubscriptionType? subscriptionType;
 
   /// The name of the HSM vendor.
-  @_s.JsonKey(name: 'VendorName')
-  final String vendorName;
+  final String? vendorName;
 
   /// The identifier of the VPC that the HSM is in.
-  @_s.JsonKey(name: 'VpcId')
-  final String vpcId;
+  final String? vpcId;
 
   DescribeHsmResponse({
     this.availabilityZone,
@@ -1713,35 +1559,104 @@ class DescribeHsmResponse {
     this.vendorName,
     this.vpcId,
   });
-  factory DescribeHsmResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeHsmResponseFromJson(json);
+
+  factory DescribeHsmResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeHsmResponse(
+      availabilityZone: json['AvailabilityZone'] as String?,
+      eniId: json['EniId'] as String?,
+      eniIp: json['EniIp'] as String?,
+      hsmArn: json['HsmArn'] as String?,
+      hsmType: json['HsmType'] as String?,
+      iamRoleArn: json['IamRoleArn'] as String?,
+      partitions: (json['Partitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      serialNumber: json['SerialNumber'] as String?,
+      serverCertLastUpdated: json['ServerCertLastUpdated'] as String?,
+      serverCertUri: json['ServerCertUri'] as String?,
+      softwareVersion: json['SoftwareVersion'] as String?,
+      sshKeyLastUpdated: json['SshKeyLastUpdated'] as String?,
+      sshPublicKey: json['SshPublicKey'] as String?,
+      status: (json['Status'] as String?)?.toHsmStatus(),
+      statusDetails: json['StatusDetails'] as String?,
+      subnetId: json['SubnetId'] as String?,
+      subscriptionEndDate: json['SubscriptionEndDate'] as String?,
+      subscriptionStartDate: json['SubscriptionStartDate'] as String?,
+      subscriptionType:
+          (json['SubscriptionType'] as String?)?.toSubscriptionType(),
+      vendorName: json['VendorName'] as String?,
+      vpcId: json['VpcId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final availabilityZone = this.availabilityZone;
+    final eniId = this.eniId;
+    final eniIp = this.eniIp;
+    final hsmArn = this.hsmArn;
+    final hsmType = this.hsmType;
+    final iamRoleArn = this.iamRoleArn;
+    final partitions = this.partitions;
+    final serialNumber = this.serialNumber;
+    final serverCertLastUpdated = this.serverCertLastUpdated;
+    final serverCertUri = this.serverCertUri;
+    final softwareVersion = this.softwareVersion;
+    final sshKeyLastUpdated = this.sshKeyLastUpdated;
+    final sshPublicKey = this.sshPublicKey;
+    final status = this.status;
+    final statusDetails = this.statusDetails;
+    final subnetId = this.subnetId;
+    final subscriptionEndDate = this.subscriptionEndDate;
+    final subscriptionStartDate = this.subscriptionStartDate;
+    final subscriptionType = this.subscriptionType;
+    final vendorName = this.vendorName;
+    final vpcId = this.vpcId;
+    return {
+      if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
+      if (eniId != null) 'EniId': eniId,
+      if (eniIp != null) 'EniIp': eniIp,
+      if (hsmArn != null) 'HsmArn': hsmArn,
+      if (hsmType != null) 'HsmType': hsmType,
+      if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
+      if (partitions != null) 'Partitions': partitions,
+      if (serialNumber != null) 'SerialNumber': serialNumber,
+      if (serverCertLastUpdated != null)
+        'ServerCertLastUpdated': serverCertLastUpdated,
+      if (serverCertUri != null) 'ServerCertUri': serverCertUri,
+      if (softwareVersion != null) 'SoftwareVersion': softwareVersion,
+      if (sshKeyLastUpdated != null) 'SshKeyLastUpdated': sshKeyLastUpdated,
+      if (sshPublicKey != null) 'SshPublicKey': sshPublicKey,
+      if (status != null) 'Status': status.toValue(),
+      if (statusDetails != null) 'StatusDetails': statusDetails,
+      if (subnetId != null) 'SubnetId': subnetId,
+      if (subscriptionEndDate != null)
+        'SubscriptionEndDate': subscriptionEndDate,
+      if (subscriptionStartDate != null)
+        'SubscriptionStartDate': subscriptionStartDate,
+      if (subscriptionType != null)
+        'SubscriptionType': subscriptionType.toValue(),
+      if (vendorName != null) 'VendorName': vendorName,
+      if (vpcId != null) 'VpcId': vpcId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeLunaClientResponse {
   /// The certificate installed on the HSMs used by this client.
-  @_s.JsonKey(name: 'Certificate')
-  final String certificate;
+  final String? certificate;
 
   /// The certificate fingerprint.
-  @_s.JsonKey(name: 'CertificateFingerprint')
-  final String certificateFingerprint;
+  final String? certificateFingerprint;
 
   /// The ARN of the client.
-  @_s.JsonKey(name: 'ClientArn')
-  final String clientArn;
+  final String? clientArn;
 
   /// The label of the client.
-  @_s.JsonKey(name: 'Label')
-  final String label;
+  final String? label;
 
   /// The date and time the client was last modified.
-  @_s.JsonKey(name: 'LastModifiedTimestamp')
-  final String lastModifiedTimestamp;
+  final String? lastModifiedTimestamp;
 
   DescribeLunaClientResponse({
     this.certificate,
@@ -1750,237 +1665,361 @@ class DescribeLunaClientResponse {
     this.label,
     this.lastModifiedTimestamp,
   });
-  factory DescribeLunaClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeLunaClientResponseFromJson(json);
+
+  factory DescribeLunaClientResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeLunaClientResponse(
+      certificate: json['Certificate'] as String?,
+      certificateFingerprint: json['CertificateFingerprint'] as String?,
+      clientArn: json['ClientArn'] as String?,
+      label: json['Label'] as String?,
+      lastModifiedTimestamp: json['LastModifiedTimestamp'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final certificateFingerprint = this.certificateFingerprint;
+    final clientArn = this.clientArn;
+    final label = this.label;
+    final lastModifiedTimestamp = this.lastModifiedTimestamp;
+    return {
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateFingerprint != null)
+        'CertificateFingerprint': certificateFingerprint,
+      if (clientArn != null) 'ClientArn': clientArn,
+      if (label != null) 'Label': label,
+      if (lastModifiedTimestamp != null)
+        'LastModifiedTimestamp': lastModifiedTimestamp,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetConfigResponse {
   /// The certificate file containing the server.pem files of the HSMs.
-  @_s.JsonKey(name: 'ConfigCred')
-  final String configCred;
+  final String? configCred;
 
   /// The chrystoki.conf configuration file.
-  @_s.JsonKey(name: 'ConfigFile')
-  final String configFile;
+  final String? configFile;
 
   /// The type of credentials.
-  @_s.JsonKey(name: 'ConfigType')
-  final String configType;
+  final String? configType;
 
   GetConfigResponse({
     this.configCred,
     this.configFile,
     this.configType,
   });
-  factory GetConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetConfigResponseFromJson(json);
+
+  factory GetConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetConfigResponse(
+      configCred: json['ConfigCred'] as String?,
+      configFile: json['ConfigFile'] as String?,
+      configType: json['ConfigType'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final configCred = this.configCred;
+    final configFile = this.configFile;
+    final configType = this.configType;
+    return {
+      if (configCred != null) 'ConfigCred': configCred,
+      if (configFile != null) 'ConfigFile': configFile,
+      if (configType != null) 'ConfigType': configType,
+    };
+  }
 }
 
 enum HsmStatus {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('RUNNING')
   running,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('SUSPENDED')
   suspended,
-  @_s.JsonValue('TERMINATING')
   terminating,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('DEGRADED')
   degraded,
 }
 
-/// Indicates that one or more of the request parameters are not valid.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InvalidRequestException implements _s.AwsException {
-  InvalidRequestException();
-  factory InvalidRequestException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidRequestExceptionFromJson(json);
+extension on HsmStatus {
+  String toValue() {
+    switch (this) {
+      case HsmStatus.pending:
+        return 'PENDING';
+      case HsmStatus.running:
+        return 'RUNNING';
+      case HsmStatus.updating:
+        return 'UPDATING';
+      case HsmStatus.suspended:
+        return 'SUSPENDED';
+      case HsmStatus.terminating:
+        return 'TERMINATING';
+      case HsmStatus.terminated:
+        return 'TERMINATED';
+      case HsmStatus.degraded:
+        return 'DEGRADED';
+    }
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  HsmStatus toHsmStatus() {
+    switch (this) {
+      case 'PENDING':
+        return HsmStatus.pending;
+      case 'RUNNING':
+        return HsmStatus.running;
+      case 'UPDATING':
+        return HsmStatus.updating;
+      case 'SUSPENDED':
+        return HsmStatus.suspended;
+      case 'TERMINATING':
+        return HsmStatus.terminating;
+      case 'TERMINATED':
+        return HsmStatus.terminated;
+      case 'DEGRADED':
+        return HsmStatus.degraded;
+    }
+    throw Exception('$this is not known in enum HsmStatus');
+  }
+}
+
 class ListAvailableZonesResponse {
   /// The list of Availability Zones that have available AWS CloudHSM capacity.
-  @_s.JsonKey(name: 'AZList')
-  final List<String> aZList;
+  final List<String>? aZList;
 
   ListAvailableZonesResponse({
     this.aZList,
   });
-  factory ListAvailableZonesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListAvailableZonesResponseFromJson(json);
+
+  factory ListAvailableZonesResponse.fromJson(Map<String, dynamic> json) {
+    return ListAvailableZonesResponse(
+      aZList: (json['AZList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aZList = this.aZList;
+    return {
+      if (aZList != null) 'AZList': aZList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHapgsResponse {
   /// The list of high-availability partition groups.
-  @_s.JsonKey(name: 'HapgList')
   final List<String> hapgList;
 
   /// If not null, more results are available. Pass this value to
   /// <code>ListHapgs</code> to retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListHapgsResponse({
-    @_s.required this.hapgList,
+    required this.hapgList,
     this.nextToken,
   });
-  factory ListHapgsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListHapgsResponseFromJson(json);
+
+  factory ListHapgsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHapgsResponse(
+      hapgList: (json['HapgList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hapgList = this.hapgList;
+    final nextToken = this.nextToken;
+    return {
+      'HapgList': hapgList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
 /// Contains the output of the <code>ListHsms</code> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListHsmsResponse {
   /// The list of ARNs that identify the HSMs.
-  @_s.JsonKey(name: 'HsmList')
-  final List<String> hsmList;
+  final List<String>? hsmList;
 
   /// If not null, more results are available. Pass this value to
   /// <code>ListHsms</code> to retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListHsmsResponse({
     this.hsmList,
     this.nextToken,
   });
-  factory ListHsmsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListHsmsResponseFromJson(json);
+
+  factory ListHsmsResponse.fromJson(Map<String, dynamic> json) {
+    return ListHsmsResponse(
+      hsmList: (json['HsmList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmList = this.hsmList;
+    final nextToken = this.nextToken;
+    return {
+      if (hsmList != null) 'HsmList': hsmList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListLunaClientsResponse {
   /// The list of clients.
-  @_s.JsonKey(name: 'ClientList')
   final List<String> clientList;
 
   /// If not null, more results are available. Pass this to
   /// <code>ListLunaClients</code> to retrieve the next set of items.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListLunaClientsResponse({
-    @_s.required this.clientList,
+    required this.clientList,
     this.nextToken,
   });
-  factory ListLunaClientsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListLunaClientsResponseFromJson(json);
+
+  factory ListLunaClientsResponse.fromJson(Map<String, dynamic> json) {
+    return ListLunaClientsResponse(
+      clientList: (json['ClientList'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientList = this.clientList;
+    final nextToken = this.nextToken;
+    return {
+      'ClientList': clientList,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
   /// One or more tags.
-  @_s.JsonKey(name: 'TagList')
   final List<Tag> tagList;
 
   ListTagsForResourceResponse({
-    @_s.required this.tagList,
+    required this.tagList,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tagList: (json['TagList'] as List)
+          .whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      'TagList': tagList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyHapgResponse {
   /// The ARN of the high-availability partition group.
-  @_s.JsonKey(name: 'HapgArn')
-  final String hapgArn;
+  final String? hapgArn;
 
   ModifyHapgResponse({
     this.hapgArn,
   });
-  factory ModifyHapgResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyHapgResponseFromJson(json);
+
+  factory ModifyHapgResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyHapgResponse(
+      hapgArn: json['HapgArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hapgArn = this.hapgArn;
+    return {
+      if (hapgArn != null) 'HapgArn': hapgArn,
+    };
+  }
 }
 
 /// Contains the output of the <a>ModifyHsm</a> operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyHsmResponse {
   /// The ARN of the HSM.
-  @_s.JsonKey(name: 'HsmArn')
-  final String hsmArn;
+  final String? hsmArn;
 
   ModifyHsmResponse({
     this.hsmArn,
   });
-  factory ModifyHsmResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyHsmResponseFromJson(json);
+
+  factory ModifyHsmResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyHsmResponse(
+      hsmArn: json['HsmArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hsmArn = this.hsmArn;
+    return {
+      if (hsmArn != null) 'HsmArn': hsmArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyLunaClientResponse {
   /// The ARN of the client.
-  @_s.JsonKey(name: 'ClientArn')
-  final String clientArn;
+  final String? clientArn;
 
   ModifyLunaClientResponse({
     this.clientArn,
   });
-  factory ModifyLunaClientResponse.fromJson(Map<String, dynamic> json) =>
-      _$ModifyLunaClientResponseFromJson(json);
+
+  factory ModifyLunaClientResponse.fromJson(Map<String, dynamic> json) {
+    return ModifyLunaClientResponse(
+      clientArn: json['ClientArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientArn = this.clientArn;
+    return {
+      if (clientArn != null) 'ClientArn': clientArn,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveTagsFromResourceResponse {
   /// The status of the operation.
-  @_s.JsonKey(name: 'Status')
   final String status;
 
   RemoveTagsFromResourceResponse({
-    @_s.required this.status,
+    required this.status,
   });
-  factory RemoveTagsFromResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveTagsFromResourceResponseFromJson(json);
+
+  factory RemoveTagsFromResourceResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveTagsFromResourceResponse(
+      status: json['Status'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final status = this.status;
+    return {
+      'Status': status,
+    };
+  }
 }
 
 /// Specifies the type of subscription for the HSM.
@@ -1994,7 +2033,6 @@ class RemoveTagsFromResourceResponse {
 /// </li>
 /// </ul>
 enum SubscriptionType {
-  @_s.JsonValue('PRODUCTION')
   production,
 }
 
@@ -2004,38 +2042,70 @@ extension on SubscriptionType {
       case SubscriptionType.production:
         return 'PRODUCTION';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SubscriptionType toSubscriptionType() {
+    switch (this) {
+      case 'PRODUCTION':
+        return SubscriptionType.production;
+    }
+    throw Exception('$this is not known in enum SubscriptionType');
   }
 }
 
 /// A key-value pair that identifies or specifies metadata about an AWS CloudHSM
 /// resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      'Value': value,
+    };
+  }
+}
+
+class CloudHsmInternalException extends _s.GenericAwsException {
+  CloudHsmInternalException({String? type, String? message})
+      : super(type: type, code: 'CloudHsmInternalException', message: message);
+}
+
+class CloudHsmServiceException extends _s.GenericAwsException {
+  CloudHsmServiceException({String? type, String? message})
+      : super(type: type, code: 'CloudHsmServiceException', message: message);
+}
+
+class InvalidRequestException extends _s.GenericAwsException {
+  InvalidRequestException({String? type, String? message})
+      : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
-  'CloudHsmInternalException': (type, message) => CloudHsmInternalException(),
+  'CloudHsmInternalException': (type, message) =>
+      CloudHsmInternalException(type: type, message: message),
   'CloudHsmServiceException': (type, message) =>
-      CloudHsmServiceException(message: message),
-  'InvalidRequestException': (type, message) => InvalidRequestException(),
+      CloudHsmServiceException(type: type, message: message),
+  'InvalidRequestException': (type, message) =>
+      InvalidRequestException(type: type, message: message),
 };

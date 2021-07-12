@@ -3,13 +3,19 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
 
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
-    show Uint8ListConverter, Uint8ListListConverter;
+    show
+        rfc822ToJson,
+        iso8601ToJson,
+        unixTimestampToJson,
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
 
@@ -18,10 +24,10 @@ export '../../shared/shared.dart' show AwsClientCredentials;
 class Route53 {
   final _s.RestXmlProtocol _protocol;
   Route53({
-    String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    String? region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -32,7 +38,7 @@ class Route53 {
           endpointUrl: endpointUrl,
         );
 
-  /// Activates a key signing key (KSK) so that it can be used for signing by
+  /// Activates a key-signing key (KSK) so that it can be used for signing by
   /// DNSSEC. This operation changes the KSK status to <code>ACTIVE</code>.
   ///
   /// May throw [ConcurrentModification].
@@ -45,10 +51,12 @@ class Route53 {
   /// A unique string used to identify a hosted zone.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
   Future<ActivateKeySigningKeyResponse> activateKeySigningKey({
-    @_s.required String hostedZoneId,
-    @_s.required String name,
+    required String hostedZoneId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -112,9 +120,9 @@ class Route53 {
   /// Parameter [comment] :
   /// <i>Optional:</i> A comment about the association request.
   Future<AssociateVPCWithHostedZoneResponse> associateVPCWithHostedZone({
-    @_s.required String hostedZoneId,
-    @_s.required VPC vpc,
-    String comment,
+    required String hostedZoneId,
+    required VPC vpc,
+    String? comment,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -257,8 +265,8 @@ class Route53 {
   /// The ID of the hosted zone that contains the resource record sets that you
   /// want to change.
   Future<ChangeResourceRecordSetsResponse> changeResourceRecordSets({
-    @_s.required ChangeBatch changeBatch,
-    @_s.required String hostedZoneId,
+    required ChangeBatch changeBatch,
+    required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(changeBatch, 'changeBatch');
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
@@ -327,10 +335,10 @@ class Route53 {
   /// from the specified health check or hosted zone. You can specify up to 10
   /// keys.
   Future<void> changeTagsForResource({
-    @_s.required String resourceId,
-    @_s.required TagResourceType resourceType,
-    List<Tag> addTags,
-    List<String> removeTagKeys,
+    required String resourceId,
+    required TagResourceType resourceType,
+    List<Tag>? addTags,
+    List<String>? removeTagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -442,8 +450,8 @@ class Route53 {
   /// Parameter [healthCheckConfig] :
   /// A complex type that contains settings for a new health check.
   Future<CreateHealthCheckResponse> createHealthCheck({
-    @_s.required String callerReference,
-    @_s.required HealthCheckConfig healthCheckConfig,
+    required String callerReference,
+    required HealthCheckConfig healthCheckConfig,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
     _s.validateStringLength(
@@ -471,10 +479,9 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateHealthCheckResponse(
-      healthCheck: _s
-          .extractXmlChild($elem, 'HealthCheck')
-          ?.let((e) => HealthCheck.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      healthCheck:
+          HealthCheck.fromXml(_s.extractXmlChild($elem, 'HealthCheck')!),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
@@ -524,6 +531,9 @@ class Route53 {
   /// zones, this means that the NS and SOA records are not yet available on all
   /// Route 53 DNS servers. When the NS and SOA records are available, the
   /// status of the zone changes to <code>INSYNC</code>.
+  ///
+  /// The <code>CreateHostedZone</code> request requires the caller to have an
+  /// <code>ec2:DescribeVpcs</code> permission.
   ///
   /// May throw [InvalidDomainName].
   /// May throw [HostedZoneAlreadyExists].
@@ -586,11 +596,11 @@ class Route53 {
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html">AssociateVPCWithHostedZone</a>
   /// after you create a hosted zone.
   Future<CreateHostedZoneResponse> createHostedZone({
-    @_s.required String callerReference,
-    @_s.required String name,
-    String delegationSetId,
-    HostedZoneConfig hostedZoneConfig,
-    VPC vpc,
+    required String callerReference,
+    required String name,
+    String? delegationSetId,
+    HostedZoneConfig? hostedZoneConfig,
+    VPC? vpc,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
     _s.validateStringLength(
@@ -634,21 +644,16 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateHostedZoneResponse(
-      changeInfo: _s
-          .extractXmlChild($elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
-      delegationSet: _s
-          .extractXmlChild($elem, 'DelegationSet')
-          ?.let((e) => DelegationSet.fromXml(e)),
-      hostedZone: _s
-          .extractXmlChild($elem, 'HostedZone')
-          ?.let((e) => HostedZone.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild($elem, 'ChangeInfo')!),
+      delegationSet:
+          DelegationSet.fromXml(_s.extractXmlChild($elem, 'DelegationSet')!),
+      hostedZone: HostedZone.fromXml(_s.extractXmlChild($elem, 'HostedZone')!),
       vpc: _s.extractXmlChild($elem, 'VPC')?.let((e) => VPC.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
-  /// Creates a new key signing key (KSK) associated with a hosted zone. You can
+  /// Creates a new key-signing key (KSK) associated with a hosted zone. You can
   /// only have two KSKs per hosted zone.
   ///
   /// May throw [NoSuchHostedZone].
@@ -669,13 +674,14 @@ class Route53 {
   /// The unique string (ID) used to identify a hosted zone.
   ///
   /// Parameter [keyManagementServiceArn] :
-  /// The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key
-  /// Management Service (KMS). The <code>KeyManagementServiceArn</code> must be
-  /// unique for each key signing key (KSK) in a single hosted zone. To see an
-  /// example of <code>KeyManagementServiceArn</code> that grants the correct
-  /// permissions for DNSSEC, scroll down to <b>Example</b>.
+  /// The Amazon resource name (ARN) for a customer managed customer master key
+  /// (CMK) in AWS Key Management Service (AWS KMS). The
+  /// <code>KeyManagementServiceArn</code> must be unique for each key-signing
+  /// key (KSK) in a single hosted zone. To see an example of
+  /// <code>KeyManagementServiceArn</code> that grants the correct permissions
+  /// for DNSSEC, scroll down to <b>Example</b>.
   ///
-  /// You must configure the CMK as follows:
+  /// You must configure the customer managed CMK as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -701,27 +707,28 @@ class Route53 {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// <code>"Service": "dnssec.route53.aws.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with CMK in KMS, see <a
+  /// For more information about working with a customer managed CMK in AWS KMS,
+  /// see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
   /// Key Management Service concepts</a>.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
-  /// <code>Name</code> must be unique for each key signing key in the same
-  /// hosted zone.
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
   ///
   /// Parameter [status] :
-  /// A string specifying the initial status of the key signing key (KSK). You
+  /// A string specifying the initial status of the key-signing key (KSK). You
   /// can set the value to <code>ACTIVE</code> or <code>INACTIVE</code>.
   Future<CreateKeySigningKeyResponse> createKeySigningKey({
-    @_s.required String callerReference,
-    @_s.required String hostedZoneId,
-    @_s.required String keyManagementServiceArn,
-    @_s.required String name,
-    @_s.required String status,
+    required String callerReference,
+    required String hostedZoneId,
+    required String keyManagementServiceArn,
+    required String name,
+    required String status,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
     _s.validateStringLength(
@@ -777,13 +784,10 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateKeySigningKeyResponse(
-      changeInfo: _s
-          .extractXmlChild($elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
-      keySigningKey: _s
-          .extractXmlChild($elem, 'KeySigningKey')
-          ?.let((e) => KeySigningKey.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild($elem, 'ChangeInfo')!),
+      keySigningKey:
+          KeySigningKey.fromXml(_s.extractXmlChild($elem, 'KeySigningKey')!),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
@@ -931,8 +935,8 @@ class Route53 {
   /// The ID of the hosted zone that you want to log queries for. You can log
   /// queries only for public hosted zones.
   Future<CreateQueryLoggingConfigResponse> createQueryLoggingConfig({
-    @_s.required String cloudWatchLogsLogGroupArn,
-    @_s.required String hostedZoneId,
+    required String cloudWatchLogsLogGroupArn,
+    required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(
         cloudWatchLogsLogGroupArn, 'cloudWatchLogsLogGroupArn');
@@ -961,10 +965,9 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateQueryLoggingConfigResponse(
-      queryLoggingConfig: _s
-          .extractXmlChild($elem, 'QueryLoggingConfig')
-          ?.let((e) => QueryLoggingConfig.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      queryLoggingConfig: QueryLoggingConfig.fromXml(
+          _s.extractXmlChild($elem, 'QueryLoggingConfig')!),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
@@ -1051,8 +1054,8 @@ class Route53 {
   /// If you want to mark the delegation set for an existing hosted zone as
   /// reusable, the ID for that hosted zone.
   Future<CreateReusableDelegationSetResponse> createReusableDelegationSet({
-    @_s.required String callerReference,
-    String hostedZoneId,
+    required String callerReference,
+    String? hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(callerReference, 'callerReference');
     _s.validateStringLength(
@@ -1084,10 +1087,9 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateReusableDelegationSetResponse(
-      delegationSet: _s
-          .extractXmlChild($elem, 'DelegationSet')
-          ?.let((e) => DelegationSet.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      delegationSet:
+          DelegationSet.fromXml(_s.extractXmlChild($elem, 'DelegationSet')!),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
@@ -1112,9 +1114,9 @@ class Route53 {
   /// Parameter [comment] :
   /// (Optional) Any comments that you want to include about the traffic policy.
   Future<CreateTrafficPolicyResponse> createTrafficPolicy({
-    @_s.required String document,
-    @_s.required String name,
-    String comment,
+    required String document,
+    required String name,
+    String? comment,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
     _s.validateStringLength(
@@ -1154,10 +1156,9 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateTrafficPolicyResponse(
-      trafficPolicy: _s
-          .extractXmlChild($elem, 'TrafficPolicy')
-          ?.let((e) => TrafficPolicy.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      trafficPolicy:
+          TrafficPolicy.fromXml(_s.extractXmlChild($elem, 'TrafficPolicy')!),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
@@ -1197,11 +1198,11 @@ class Route53 {
   /// The version of the traffic policy that you want to use to create resource
   /// record sets in the specified hosted zone.
   Future<CreateTrafficPolicyInstanceResponse> createTrafficPolicyInstance({
-    @_s.required String hostedZoneId,
-    @_s.required String name,
-    @_s.required int ttl,
-    @_s.required String trafficPolicyId,
-    @_s.required int trafficPolicyVersion,
+    required String hostedZoneId,
+    required String name,
+    required int ttl,
+    required String trafficPolicyId,
+    required int trafficPolicyVersion,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -1263,10 +1264,9 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateTrafficPolicyInstanceResponse(
-      trafficPolicyInstance: _s
-          .extractXmlChild($elem, 'TrafficPolicyInstance')
-          ?.let((e) => TrafficPolicyInstance.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      trafficPolicyInstance: TrafficPolicyInstance.fromXml(
+          _s.extractXmlChild($elem, 'TrafficPolicyInstance')!),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
@@ -1298,9 +1298,9 @@ class Route53 {
   /// The comment that you specified in the
   /// <code>CreateTrafficPolicyVersion</code> request, if any.
   Future<CreateTrafficPolicyVersionResponse> createTrafficPolicyVersion({
-    @_s.required String document,
-    @_s.required String id,
-    String comment,
+    required String document,
+    required String id,
+    String? comment,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
     _s.validateStringLength(
@@ -1340,10 +1340,9 @@ class Route53 {
     );
     final $elem = await _s.xmlFromResponse($result);
     return CreateTrafficPolicyVersionResponse(
-      trafficPolicy: _s
-          .extractXmlChild($elem, 'TrafficPolicy')
-          ?.let((e) => TrafficPolicy.fromXml(e)),
-      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+      trafficPolicy:
+          TrafficPolicy.fromXml(_s.extractXmlChild($elem, 'TrafficPolicy')!),
+      location: _s.extractHeaderStringValue($result.headers, 'Location')!,
     );
   }
 
@@ -1375,8 +1374,8 @@ class Route53 {
   /// want to authorize associating with your hosted zone.
   Future<CreateVPCAssociationAuthorizationResponse>
       createVPCAssociationAuthorization({
-    @_s.required String hostedZoneId,
-    @_s.required VPC vpc,
+    required String hostedZoneId,
+    required VPC vpc,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -1405,7 +1404,7 @@ class Route53 {
     return CreateVPCAssociationAuthorizationResponse.fromXml($result.body);
   }
 
-  /// Deactivates a key signing key (KSK) so that it will not be used for
+  /// Deactivates a key-signing key (KSK) so that it will not be used for
   /// signing by DNSSEC. This operation changes the KSK status to
   /// <code>INACTIVE</code>.
   ///
@@ -1420,10 +1419,10 @@ class Route53 {
   /// A unique string used to identify a hosted zone.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// A string used to identify a key-signing key (KSK).
   Future<DeactivateKeySigningKeyResponse> deactivateKeySigningKey({
-    @_s.required String hostedZoneId,
-    @_s.required String name,
+    required String hostedZoneId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -1476,7 +1475,7 @@ class Route53 {
   /// Parameter [healthCheckId] :
   /// The ID of the health check that you want to delete.
   Future<void> deleteHealthCheck({
-    @_s.required String healthCheckId,
+    required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
     _s.validateStringLength(
@@ -1559,7 +1558,7 @@ class Route53 {
   /// Parameter [id] :
   /// The ID of the hosted zone you want to delete.
   Future<DeleteHostedZoneResponse> deleteHostedZone({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1577,8 +1576,8 @@ class Route53 {
     return DeleteHostedZoneResponse.fromXml($result.body);
   }
 
-  /// Deletes a key signing key (KSK). Before you can delete a KSK, you must
-  /// deactivate it. The KSK must be deactived before you can delete it
+  /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must
+  /// deactivate it. The KSK must be deactivated before you can delete it
   /// regardless of whether the hosted zone is enabled for DNSSEC signing.
   ///
   /// May throw [ConcurrentModification].
@@ -1591,10 +1590,10 @@ class Route53 {
   /// A unique string used to identify a hosted zone.
   ///
   /// Parameter [name] :
-  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// A string used to identify a key-signing key (KSK).
   Future<DeleteKeySigningKeyResponse> deleteKeySigningKey({
-    @_s.required String hostedZoneId,
-    @_s.required String name,
+    required String hostedZoneId,
+    required String name,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -1636,7 +1635,7 @@ class Route53 {
   /// Parameter [id] :
   /// The ID of the configuration that you want to delete.
   Future<void> deleteQueryLoggingConfig({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1672,7 +1671,7 @@ class Route53 {
   /// Parameter [id] :
   /// The ID of the reusable delegation set that you want to delete.
   Future<void> deleteReusableDelegationSet({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1721,8 +1720,8 @@ class Route53 {
   /// Parameter [version] :
   /// The version number of the traffic policy that you want to delete.
   Future<void> deleteTrafficPolicy({
-    @_s.required String id,
-    @_s.required int version,
+    required String id,
+    required int version,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1767,7 +1766,7 @@ class Route53 {
   /// traffic policy instance.
   /// </important>
   Future<void> deleteTrafficPolicyInstance({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -1814,8 +1813,8 @@ class Route53 {
   /// account with a hosted zone that was created with a different AWS account,
   /// a complex type that includes the ID and region of the VPC.
   Future<void> deleteVPCAssociationAuthorization({
-    @_s.required String hostedZoneId,
-    @_s.required VPC vpc,
+    required String hostedZoneId,
+    required VPC vpc,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -1844,7 +1843,7 @@ class Route53 {
   }
 
   /// Disables DNSSEC signing in a specific hosted zone. This action does not
-  /// deactivate any key signing keys (KSKs) that are active in the hosted zone.
+  /// deactivate any key-signing keys (KSKs) that are active in the hosted zone.
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidArgument].
@@ -1857,7 +1856,7 @@ class Route53 {
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
   Future<DisableHostedZoneDNSSECResponse> disableHostedZoneDNSSEC({
-    @_s.required String hostedZoneId,
+    required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -1924,9 +1923,9 @@ class Route53 {
   /// Parameter [comment] :
   /// <i>Optional:</i> A comment about the disassociation request.
   Future<DisassociateVPCFromHostedZoneResponse> disassociateVPCFromHostedZone({
-    @_s.required String hostedZoneId,
-    @_s.required VPC vpc,
-    String comment,
+    required String hostedZoneId,
+    required VPC vpc,
+    String? comment,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -1969,7 +1968,7 @@ class Route53 {
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
   Future<EnableHostedZoneDNSSECResponse> enableHostedZoneDNSSEC({
-    @_s.required String hostedZoneId,
+    required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -2034,7 +2033,7 @@ class Route53 {
   /// </li>
   /// </ul>
   Future<GetAccountLimitResponse> getAccountLimit({
-    @_s.required AccountLimitType type,
+    required AccountLimitType type,
   }) async {
     ArgumentError.checkNotNull(type, 'type');
     final $result = await _protocol.send(
@@ -2069,7 +2068,7 @@ class Route53 {
   /// value that <code>ChangeResourceRecordSets</code> returned in the
   /// <code>Id</code> element when you submitted the request.
   Future<GetChangeResponse> getChange({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2087,6 +2086,8 @@ class Route53 {
     return GetChangeResponse.fromXml($result.body);
   }
 
+  /// Route 53 does not perform authorization for this API because it retrieves
+  /// information that is already available to the public.
   /// <important>
   /// <code>GetCheckerIpRanges</code> still works, but we recommend that you
   /// download ip-ranges.json, which includes IP address ranges for all AWS
@@ -2105,7 +2106,7 @@ class Route53 {
   }
 
   /// Returns information about DNSSEC for a specific hosted zone, including the
-  /// key signing keys (KSKs) and zone signing keys (ZSKs) in the hosted zone.
+  /// key-signing keys (KSKs) in the hosted zone.
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidArgument].
@@ -2113,7 +2114,7 @@ class Route53 {
   /// Parameter [hostedZoneId] :
   /// A unique string used to identify a hosted zone.
   Future<GetDNSSECResponse> getDNSSEC({
-    @_s.required String hostedZoneId,
+    required String hostedZoneId,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -2134,6 +2135,9 @@ class Route53 {
 
   /// Gets information about whether a specified geographic location is
   /// supported for Amazon Route 53 geolocation resource record sets.
+  ///
+  /// Route 53 does not perform authorization for this API because it retrieves
+  /// information that is already available to the public.
   ///
   /// Use the following syntax to determine whether a continent is supported for
   /// geolocation:
@@ -2191,18 +2195,17 @@ class Route53 {
   /// 3166-1 alpha-2</a>.
   ///
   /// Parameter [subdivisionCode] :
-  /// For <code>SubdivisionCode</code>, Amazon Route 53 supports only states of
-  /// the United States. For a list of state abbreviations, see <a
+  /// The code for the subdivision, such as a particular state within the United
+  /// States. For a list of US state abbreviations, see <a
   /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter
   /// State and Possession Abbreviations</a> on the United States Postal Service
-  /// website.
-  ///
-  /// If you specify <code>subdivisioncode</code>, you must also specify
-  /// <code>US</code> for <code>CountryCode</code>.
+  /// website. For a list of all supported subdivision codes, use the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html">ListGeoLocations</a>
+  /// API.
   Future<GetGeoLocationResponse> getGeoLocation({
-    String continentCode,
-    String countryCode,
-    String subdivisionCode,
+    String? continentCode,
+    String? countryCode,
+    String? subdivisionCode,
   }) async {
     _s.validateStringLength(
       'continentCode',
@@ -2248,7 +2251,7 @@ class Route53 {
   /// value to specify which health check to use. The value can be up to 64
   /// characters long.
   Future<GetHealthCheckResponse> getHealthCheck({
-    @_s.required String healthCheckId,
+    required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
     _s.validateStringLength(
@@ -2295,7 +2298,7 @@ class Route53 {
   /// </note>
   Future<GetHealthCheckLastFailureReasonResponse>
       getHealthCheckLastFailureReason({
-    @_s.required String healthCheckId,
+    required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
     _s.validateStringLength(
@@ -2330,7 +2333,7 @@ class Route53 {
   /// check.
   /// </note>
   Future<GetHealthCheckStatusResponse> getHealthCheckStatus({
-    @_s.required String healthCheckId,
+    required String healthCheckId,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
     _s.validateStringLength(
@@ -2358,7 +2361,7 @@ class Route53 {
   /// Parameter [id] :
   /// The ID of the hosted zone that you want to get information about.
   Future<GetHostedZoneResponse> getHostedZone({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2420,8 +2423,8 @@ class Route53 {
   /// </li>
   /// </ul>
   Future<GetHostedZoneLimitResponse> getHostedZoneLimit({
-    @_s.required String hostedZoneId,
-    @_s.required HostedZoneLimitType type,
+    required String hostedZoneId,
+    required HostedZoneLimitType type,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -2456,7 +2459,7 @@ class Route53 {
   /// The ID of the configuration for DNS query logging that you want to get
   /// information about.
   Future<GetQueryLoggingConfigResponse> getQueryLoggingConfig({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2485,7 +2488,7 @@ class Route53 {
   /// The ID of the reusable delegation set that you want to get a list of name
   /// servers for.
   Future<GetReusableDelegationSetResponse> getReusableDelegationSet({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2524,8 +2527,8 @@ class Route53 {
   /// maximum number of hosted zones that you can associate with the specified
   /// reusable delegation set.
   Future<GetReusableDelegationSetLimitResponse> getReusableDelegationSetLimit({
-    @_s.required String delegationSetId,
-    @_s.required ReusableDelegationSetLimitType type,
+    required String delegationSetId,
+    required ReusableDelegationSetLimitType type,
   }) async {
     ArgumentError.checkNotNull(delegationSetId, 'delegationSetId');
     _s.validateStringLength(
@@ -2561,8 +2564,8 @@ class Route53 {
   /// The version number of the traffic policy that you want to get information
   /// about.
   Future<GetTrafficPolicyResponse> getTrafficPolicy({
-    @_s.required String id,
-    @_s.required int version,
+    required String id,
+    required int version,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2608,7 +2611,7 @@ class Route53 {
   /// The ID of the traffic policy instance that you want to get information
   /// about.
   Future<GetTrafficPolicyInstanceResponse> getTrafficPolicyInstance({
-    @_s.required String id,
+    required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -2645,6 +2648,9 @@ class Route53 {
   /// Route 53 supports subdivisions for a country (for example, states or
   /// provinces), the subdivisions for that country are listed in alphabetical
   /// order immediately after the corresponding country.
+  ///
+  /// Route 53 does not perform authorization for this API because it retrieves
+  /// information that is already available to the public.
   ///
   /// For a list of supported geolocation codes, see the <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html">GeoLocation</a>
@@ -2690,10 +2696,10 @@ class Route53 {
   /// To list subdivisions (U.S. states), you must include both
   /// <code>startcountrycode</code> and <code>startsubdivisioncode</code>.
   Future<ListGeoLocationsResponse> listGeoLocations({
-    String maxItems,
-    String startContinentCode,
-    String startCountryCode,
-    String startSubdivisionCode,
+    String? maxItems,
+    String? startContinentCode,
+    String? startCountryCode,
+    String? startSubdivisionCode,
   }) async {
     _s.validateStringLength(
       'startContinentCode',
@@ -2756,8 +2762,8 @@ class Route53 {
   /// <code>MaxItems</code> to a value greater than 100, Route 53 returns only
   /// the first 100 health checks.
   Future<ListHealthChecksResponse> listHealthChecks({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -2816,9 +2822,9 @@ class Route53 {
   /// zone ID of the first hosted zone that Route 53 will return if you submit
   /// another request.
   Future<ListHostedZonesResponse> listHostedZones({
-    String delegationSetId,
-    String marker,
-    String maxItems,
+    String? delegationSetId,
+    String? marker,
+    String? maxItems,
   }) async {
     _s.validateStringLength(
       'delegationSetId',
@@ -2945,9 +2951,9 @@ class Route53 {
   /// <code>NextHostedZoneId</code> specify the first hosted zone in the next
   /// group of <code>maxitems</code> hosted zones.
   Future<ListHostedZonesByNameResponse> listHostedZonesByName({
-    String dNSName,
-    String hostedZoneId,
-    String maxItems,
+    String? dNSName,
+    String? hostedZoneId,
+    String? maxItems,
   }) async {
     _s.validateStringLength(
       'dNSName',
@@ -3023,10 +3029,10 @@ class Route53 {
   /// If the previous response didn't include a <code>NextToken</code> element,
   /// there are no more hosted zones to get.
   Future<ListHostedZonesByVPCResponse> listHostedZonesByVPC({
-    @_s.required String vPCId,
-    @_s.required VPCRegion vPCRegion,
-    String maxItems,
-    String nextToken,
+    required String vPCId,
+    required VPCRegion vPCRegion,
+    String? maxItems,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(vPCId, 'vPCId');
     _s.validateStringLength(
@@ -3044,8 +3050,8 @@ class Route53 {
       1024,
     );
     final $query = <String, List<String>>{
-      if (vPCId != null) 'vpcid': [vPCId],
-      if (vPCRegion != null) 'vpcregion': [vPCRegion.toValue()],
+      'vpcid': [vPCId],
+      'vpcregion': [vPCRegion.toValue()],
       if (maxItems != null) 'maxitems': [maxItems],
       if (nextToken != null) 'nexttoken': [nextToken],
     };
@@ -3105,9 +3111,9 @@ class Route53 {
   /// <code>NextToken</code> from the previous response and specify that value
   /// for <code>NextToken</code> in the request.
   Future<ListQueryLoggingConfigsResponse> listQueryLoggingConfigs({
-    String hostedZoneId,
-    String maxResults,
-    String nextToken,
+    String? hostedZoneId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'hostedZoneId',
@@ -3137,7 +3143,7 @@ class Route53 {
 
   /// Lists the resource record sets in a specified hosted zone.
   ///
-  /// <code>ListResourceRecordSets</code> returns up to 100 resource record sets
+  /// <code>ListResourceRecordSets</code> returns up to 300 resource record sets
   /// at a time in ASCII order, beginning at a position specified by the
   /// <code>name</code> and <code>type</code> elements.
   ///
@@ -3271,11 +3277,11 @@ class Route53 {
   /// Constraint: Specifying <code>type</code> without specifying
   /// <code>name</code> returns an <code>InvalidInput</code> error.
   Future<ListResourceRecordSetsResponse> listResourceRecordSets({
-    @_s.required String hostedZoneId,
-    String maxItems,
-    String startRecordIdentifier,
-    String startRecordName,
-    RRType startRecordType,
+    required String hostedZoneId,
+    String? maxItems,
+    String? startRecordIdentifier,
+    String? startRecordName,
+    RRType? startRecordType,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -3336,8 +3342,8 @@ class Route53 {
   /// return in the response to this request. If you specify a value greater
   /// than 100, Route 53 returns only the first 100 reusable delegation sets.
   Future<ListReusableDelegationSetsResponse> listReusableDelegationSets({
-    String marker,
-    String maxItems,
+    String? marker,
+    String? maxItems,
   }) async {
     _s.validateStringLength(
       'marker',
@@ -3386,8 +3392,8 @@ class Route53 {
   /// </li>
   /// </ul>
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceId,
-    @_s.required TagResourceType resourceType,
+    required String resourceId,
+    required TagResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -3436,8 +3442,8 @@ class Route53 {
   /// </li>
   /// </ul>
   Future<ListTagsForResourcesResponse> listTagsForResources({
-    @_s.required List<String> resourceIds,
-    @_s.required TagResourceType resourceType,
+    required List<String> resourceIds,
+    required TagResourceType resourceType,
   }) async {
     ArgumentError.checkNotNull(resourceIds, 'resourceIds');
     ArgumentError.checkNotNull(resourceType, 'resourceType');
@@ -3489,8 +3495,8 @@ class Route53 {
   /// <code>TrafficPolicyIdMarker</code> that was returned in the previous
   /// response.
   Future<ListTrafficPoliciesResponse> listTrafficPolicies({
-    String maxItems,
-    String trafficPolicyIdMarker,
+    String? maxItems,
+    String? trafficPolicyIdMarker,
   }) async {
     _s.validateStringLength(
       'trafficPolicyIdMarker',
@@ -3578,10 +3584,10 @@ class Route53 {
   /// If the value of <code>IsTruncated</code> in the previous response was
   /// <code>false</code>, there are no more traffic policy instances to get.
   Future<ListTrafficPolicyInstancesResponse> listTrafficPolicyInstances({
-    String hostedZoneIdMarker,
-    String maxItems,
-    String trafficPolicyInstanceNameMarker,
-    RRType trafficPolicyInstanceTypeMarker,
+    String? hostedZoneIdMarker,
+    String? maxItems,
+    String? trafficPolicyInstanceNameMarker,
+    RRType? trafficPolicyInstanceTypeMarker,
   }) async {
     _s.validateStringLength(
       'hostedZoneIdMarker',
@@ -3671,10 +3677,10 @@ class Route53 {
   /// <code>false</code>, there are no more traffic policy instances to get.
   Future<ListTrafficPolicyInstancesByHostedZoneResponse>
       listTrafficPolicyInstancesByHostedZone({
-    @_s.required String hostedZoneId,
-    String maxItems,
-    String trafficPolicyInstanceNameMarker,
-    RRType trafficPolicyInstanceTypeMarker,
+    required String hostedZoneId,
+    String? maxItems,
+    String? trafficPolicyInstanceNameMarker,
+    RRType? trafficPolicyInstanceTypeMarker,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -3691,7 +3697,7 @@ class Route53 {
       1024,
     );
     final $query = <String, List<String>>{
-      if (hostedZoneId != null) 'id': [hostedZoneId],
+      'id': [hostedZoneId],
       if (maxItems != null) 'maxitems': [maxItems],
       if (trafficPolicyInstanceNameMarker != null)
         'trafficpolicyinstancename': [trafficPolicyInstanceNameMarker],
@@ -3789,12 +3795,12 @@ class Route53 {
   /// <code>false</code>, there are no more traffic policy instances to get.
   Future<ListTrafficPolicyInstancesByPolicyResponse>
       listTrafficPolicyInstancesByPolicy({
-    @_s.required String trafficPolicyId,
-    @_s.required int trafficPolicyVersion,
-    String hostedZoneIdMarker,
-    String maxItems,
-    String trafficPolicyInstanceNameMarker,
-    RRType trafficPolicyInstanceTypeMarker,
+    required String trafficPolicyId,
+    required int trafficPolicyVersion,
+    String? hostedZoneIdMarker,
+    String? maxItems,
+    String? trafficPolicyInstanceNameMarker,
+    RRType? trafficPolicyInstanceTypeMarker,
   }) async {
     ArgumentError.checkNotNull(trafficPolicyId, 'trafficPolicyId');
     _s.validateStringLength(
@@ -3825,9 +3831,8 @@ class Route53 {
       1024,
     );
     final $query = <String, List<String>>{
-      if (trafficPolicyId != null) 'id': [trafficPolicyId],
-      if (trafficPolicyVersion != null)
-        'version': [trafficPolicyVersion.toString()],
+      'id': [trafficPolicyId],
+      'version': [trafficPolicyVersion.toString()],
       if (hostedZoneIdMarker != null) 'hostedzoneid': [hostedZoneIdMarker],
       if (maxItems != null) 'maxitems': [maxItems],
       if (trafficPolicyInstanceNameMarker != null)
@@ -3878,9 +3883,9 @@ class Route53 {
   /// the value of <code>TrafficPolicyVersionMarker</code> in the previous
   /// response.
   Future<ListTrafficPolicyVersionsResponse> listTrafficPolicyVersions({
-    @_s.required String id,
-    String maxItems,
-    String trafficPolicyVersionMarker,
+    required String id,
+    String? maxItems,
+    String? trafficPolicyVersionMarker,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -3940,9 +3945,9 @@ class Route53 {
   /// <code>ListVPCAssociationAuthorizations</code> request.
   Future<ListVPCAssociationAuthorizationsResponse>
       listVPCAssociationAuthorizations({
-    @_s.required String hostedZoneId,
-    String maxResults,
-    String nextToken,
+    required String hostedZoneId,
+    String? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -3976,6 +3981,8 @@ class Route53 {
   /// for a specified record name and type. You can optionally specify the IP
   /// address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet
   /// mask.
+  ///
+  /// This call only supports querying public hosted zones.
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [InvalidInput].
@@ -4024,12 +4031,12 @@ class Route53 {
   /// <code>TestDnsAnswer</code> uses the IP address of a DNS resolver in the
   /// AWS US East (N. Virginia) Region (<code>us-east-1</code>).
   Future<TestDNSAnswerResponse> testDNSAnswer({
-    @_s.required String hostedZoneId,
-    @_s.required String recordName,
-    @_s.required RRType recordType,
-    String eDNS0ClientSubnetIP,
-    String eDNS0ClientSubnetMask,
-    String resolverIP,
+    required String hostedZoneId,
+    required String recordName,
+    required RRType recordType,
+    String? eDNS0ClientSubnetIP,
+    String? eDNS0ClientSubnetMask,
+    String? resolverIP,
   }) async {
     ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
     _s.validateStringLength(
@@ -4054,11 +4061,6 @@ class Route53 {
       0,
       45,
     );
-    _s.validateStringPattern(
-      'eDNS0ClientSubnetIP',
-      eDNS0ClientSubnetIP,
-      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-    );
     _s.validateStringLength(
       'eDNS0ClientSubnetMask',
       eDNS0ClientSubnetMask,
@@ -4071,15 +4073,10 @@ class Route53 {
       0,
       45,
     );
-    _s.validateStringPattern(
-      'resolverIP',
-      resolverIP,
-      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
-    );
     final $query = <String, List<String>>{
-      if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
-      if (recordName != null) 'recordname': [recordName],
-      if (recordType != null) 'recordtype': [recordType.toValue()],
+      'hostedzoneid': [hostedZoneId],
+      'recordname': [recordName],
+      'recordtype': [recordType.toValue()],
       if (eDNS0ClientSubnetIP != null)
         'edns0clientsubnetip': [eDNS0ClientSubnetIP],
       if (eDNS0ClientSubnetMask != null)
@@ -4469,23 +4466,23 @@ class Route53 {
   /// (You can't change the value of <code>Type</code> when you update a health
   /// check.)
   Future<UpdateHealthCheckResponse> updateHealthCheck({
-    @_s.required String healthCheckId,
-    AlarmIdentifier alarmIdentifier,
-    List<String> childHealthChecks,
-    bool disabled,
-    bool enableSNI,
-    int failureThreshold,
-    String fullyQualifiedDomainName,
-    int healthCheckVersion,
-    int healthThreshold,
-    String iPAddress,
-    InsufficientDataHealthStatus insufficientDataHealthStatus,
-    bool inverted,
-    int port,
-    List<HealthCheckRegion> regions,
-    List<ResettableElementName> resetElements,
-    String resourcePath,
-    String searchString,
+    required String healthCheckId,
+    AlarmIdentifier? alarmIdentifier,
+    List<String>? childHealthChecks,
+    bool? disabled,
+    bool? enableSNI,
+    int? failureThreshold,
+    String? fullyQualifiedDomainName,
+    int? healthCheckVersion,
+    int? healthThreshold,
+    String? iPAddress,
+    InsufficientDataHealthStatus? insufficientDataHealthStatus,
+    bool? inverted,
+    int? port,
+    List<HealthCheckRegion>? regions,
+    List<ResettableElementName>? resetElements,
+    String? resourcePath,
+    String? searchString,
   }) async {
     ArgumentError.checkNotNull(healthCheckId, 'healthCheckId');
     _s.validateStringLength(
@@ -4524,11 +4521,6 @@ class Route53 {
       iPAddress,
       0,
       45,
-    );
-    _s.validateStringPattern(
-      'iPAddress',
-      iPAddress,
-      r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
     );
     _s.validateNumRange(
       'port',
@@ -4595,8 +4587,8 @@ class Route53 {
   /// <code>Comment</code>, Amazon Route 53 deletes the existing value of the
   /// <code>Comment</code> element, if any.
   Future<UpdateHostedZoneCommentResponse> updateHostedZoneComment({
-    @_s.required String id,
-    String comment,
+    required String id,
+    String? comment,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -4644,9 +4636,9 @@ class Route53 {
   /// The value of <code>Version</code> for the traffic policy that you want to
   /// update the comment for.
   Future<UpdateTrafficPolicyCommentResponse> updateTrafficPolicyComment({
-    @_s.required String comment,
-    @_s.required String id,
-    @_s.required int version,
+    required String comment,
+    required String id,
+    required int version,
   }) async {
     ArgumentError.checkNotNull(comment, 'comment');
     _s.validateStringLength(
@@ -4735,10 +4727,10 @@ class Route53 {
   /// The version of the traffic policy that you want Amazon Route 53 to use to
   /// update resource record sets for the specified traffic policy instance.
   Future<UpdateTrafficPolicyInstanceResponse> updateTrafficPolicyInstance({
-    @_s.required String id,
-    @_s.required int ttl,
-    @_s.required String trafficPolicyId,
-    @_s.required int trafficPolicyVersion,
+    required String id,
+    required int ttl,
+    required String trafficPolicyId,
+    required int trafficPolicyVersion,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     _s.validateStringLength(
@@ -4830,14 +4822,31 @@ class AccountLimit {
   final int value;
 
   AccountLimit({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
+
+  factory AccountLimit.fromJson(Map<String, dynamic> json) {
+    return AccountLimit(
+      type: (json['Type'] as String).toAccountLimitType(),
+      value: json['Value'] as int,
+    );
+  }
+
   factory AccountLimit.fromXml(_s.XmlElement elem) {
     return AccountLimit(
-      type: _s.extractXmlStringValue(elem, 'Type')?.toAccountLimitType(),
-      value: _s.extractXmlIntValue(elem, 'Value'),
+      type: _s.extractXmlStringValue(elem, 'Type')!.toAccountLimitType(),
+      value: _s.extractXmlIntValue(elem, 'Value')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
   }
 }
 
@@ -4863,7 +4872,6 @@ extension on AccountLimitType {
       case AccountLimitType.maxTrafficPoliciesByOwner:
         return 'MAX_TRAFFIC_POLICIES_BY_OWNER';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -4881,7 +4889,7 @@ extension on String {
       case 'MAX_TRAFFIC_POLICIES_BY_OWNER':
         return AccountLimitType.maxTrafficPoliciesByOwner;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum AccountLimitType');
   }
 }
 
@@ -4889,14 +4897,27 @@ class ActivateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
   ActivateKeySigningKeyResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory ActivateKeySigningKeyResponse.fromJson(Map<String, dynamic> json) {
+    return ActivateKeySigningKeyResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory ActivateKeySigningKeyResponse.fromXml(_s.XmlElement elem) {
     return ActivateKeySigningKeyResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -4928,25 +4949,44 @@ class AlarmIdentifier {
   /// was created in.
   ///
   /// For the current list of CloudWatch regions, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#cw_region">Amazon
-  /// CloudWatch</a> in the <i>AWS Service Endpoints</i> chapter of the <i>Amazon
-  /// Web Services General Reference</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/cw_region.html">Amazon
+  /// CloudWatch endpoints and quotas</a> in the <i>Amazon Web Services General
+  /// Reference</i>.
   final CloudWatchRegion region;
 
   AlarmIdentifier({
-    @_s.required this.name,
-    @_s.required this.region,
+    required this.name,
+    required this.region,
   });
-  factory AlarmIdentifier.fromXml(_s.XmlElement elem) {
+
+  factory AlarmIdentifier.fromJson(Map<String, dynamic> json) {
     return AlarmIdentifier(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      region: _s.extractXmlStringValue(elem, 'Region')?.toCloudWatchRegion(),
+      name: json['Name'] as String,
+      region: (json['Region'] as String).toCloudWatchRegion(),
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory AlarmIdentifier.fromXml(_s.XmlElement elem) {
+    return AlarmIdentifier(
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      region: _s.extractXmlStringValue(elem, 'Region')!.toCloudWatchRegion(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final region = this.region;
+    return {
+      'Name': name,
+      'Region': region.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final region = this.region;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Region', region?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Region', region.toValue()),
       _s.encodeXmlStringValue('Name', name),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -4955,7 +4995,7 @@ class AlarmIdentifier {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5257,21 +5297,20 @@ class AliasTarget {
   /// Specify the hosted zone ID for the region that you created the environment
   /// in. The environment must have a regionalized subdomain. For a list of
   /// regions and the corresponding hosted zone IDs, see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html#elasticbeanstalk_region">AWS
-  /// Elastic Beanstalk</a> in the "AWS Service Endpoints" chapter of the
-  /// <i>Amazon Web Services General Reference</i>.
+  /// href="https://docs.aws.amazon.com/general/latest/gr/elasticbeanstalk.html">AWS
+  /// Elastic Beanstalk endpoints and quotas</a> in the the <i>Amazon Web Services
+  /// General Reference</i>.
   /// </dd> <dt>ELB load balancer</dt> <dd>
   /// Specify the value of the hosted zone ID for the load balancer. Use the
   /// following methods to get the hosted zone ID:
   ///
   /// <ul>
   /// <li>
-  /// <a href="https://docs.aws.amazon.com/general/latest/gr/elb.html">Service
-  /// Endpoints</a> table in the "Elastic Load Balancing Endpoints and Quotas"
-  /// topic in the <i>Amazon Web Services General Reference</i>: Use the value
-  /// that corresponds with the region that you created your load balancer in.
-  /// Note that there are separate columns for Application and Classic Load
-  /// Balancers and for Network Load Balancers.
+  /// <a href="https://docs.aws.amazon.com/general/latest/gr/elb.html">Elastic
+  /// Load Balancing endpoints and quotas</a> topic in the <i>Amazon Web Services
+  /// General Reference</i>: Use the value that corresponds with the region that
+  /// you created your load balancer in. Note that there are separate columns for
+  /// Application and Classic Load Balancers and for Network Load Balancers.
   /// </li>
   /// <li>
   /// <b>AWS Management Console</b>: Go to the Amazon EC2 page, choose <b>Load
@@ -5325,20 +5364,43 @@ class AliasTarget {
   final String hostedZoneId;
 
   AliasTarget({
-    @_s.required this.dNSName,
-    @_s.required this.evaluateTargetHealth,
-    @_s.required this.hostedZoneId,
+    required this.dNSName,
+    required this.evaluateTargetHealth,
+    required this.hostedZoneId,
   });
-  factory AliasTarget.fromXml(_s.XmlElement elem) {
+
+  factory AliasTarget.fromJson(Map<String, dynamic> json) {
     return AliasTarget(
-      dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
-      evaluateTargetHealth:
-          _s.extractXmlBoolValue(elem, 'EvaluateTargetHealth'),
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
+      dNSName: json['DNSName'] as String,
+      evaluateTargetHealth: json['EvaluateTargetHealth'] as bool,
+      hostedZoneId: json['HostedZoneId'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory AliasTarget.fromXml(_s.XmlElement elem) {
+    return AliasTarget(
+      dNSName: _s.extractXmlStringValue(elem, 'DNSName')!,
+      evaluateTargetHealth:
+          _s.extractXmlBoolValue(elem, 'EvaluateTargetHealth')!,
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dNSName = this.dNSName;
+    final evaluateTargetHealth = this.evaluateTargetHealth;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      'DNSName': dNSName,
+      'EvaluateTargetHealth': evaluateTargetHealth,
+      'HostedZoneId': hostedZoneId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final dNSName = this.dNSName;
+    final evaluateTargetHealth = this.evaluateTargetHealth;
+    final hostedZoneId = this.hostedZoneId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
       _s.encodeXmlStringValue('DNSName', dNSName),
@@ -5350,7 +5412,7 @@ class AliasTarget {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5370,16 +5432,39 @@ class AssociateVPCWithHostedZoneRequest {
   final VPC vpc;
 
   /// <i>Optional:</i> A comment about the association request.
-  final String comment;
+  final String? comment;
 
   AssociateVPCWithHostedZoneRequest({
-    @_s.required this.hostedZoneId,
-    @_s.required this.vpc,
+    required this.hostedZoneId,
+    required this.vpc,
     this.comment,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory AssociateVPCWithHostedZoneRequest.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateVPCWithHostedZoneRequest(
+      hostedZoneId: json['Id'] as String,
+      vpc: VPC.fromJson(json['VPC'] as Map<String, dynamic>),
+      comment: json['Comment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
+    final comment = this.comment;
+    return {
+      'VPC': vpc,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
-      vpc?.toXml('VPC'),
+      vpc.toXml('VPC'),
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -5388,7 +5473,7 @@ class AssociateVPCWithHostedZoneRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5400,14 +5485,28 @@ class AssociateVPCWithHostedZoneResponse {
   final ChangeInfo changeInfo;
 
   AssociateVPCWithHostedZoneResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory AssociateVPCWithHostedZoneResponse.fromJson(
+      Map<String, dynamic> json) {
+    return AssociateVPCWithHostedZoneResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory AssociateVPCWithHostedZoneResponse.fromXml(_s.XmlElement elem) {
     return AssociateVPCWithHostedZoneResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -5444,13 +5543,33 @@ class Change {
   final ResourceRecordSet resourceRecordSet;
 
   Change({
-    @_s.required this.action,
-    @_s.required this.resourceRecordSet,
+    required this.action,
+    required this.resourceRecordSet,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory Change.fromJson(Map<String, dynamic> json) {
+    return Change(
+      action: (json['Action'] as String).toChangeAction(),
+      resourceRecordSet: ResourceRecordSet.fromJson(
+          json['ResourceRecordSet'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final action = this.action;
+    final resourceRecordSet = this.resourceRecordSet;
+    return {
+      'Action': action.toValue(),
+      'ResourceRecordSet': resourceRecordSet,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final action = this.action;
+    final resourceRecordSet = this.resourceRecordSet;
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Action', action?.toValue() ?? ''),
-      resourceRecordSet?.toXml('ResourceRecordSet'),
+      _s.encodeXmlStringValue('Action', action.toValue()),
+      resourceRecordSet.toXml('ResourceRecordSet'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5458,7 +5577,7 @@ class Change {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5479,7 +5598,6 @@ extension on ChangeAction {
       case ChangeAction.upsert:
         return 'UPSERT';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5493,7 +5611,7 @@ extension on String {
       case 'UPSERT':
         return ChangeAction.upsert;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChangeAction');
   }
 }
 
@@ -5504,17 +5622,39 @@ class ChangeBatch {
 
   /// <i>Optional:</i> Any comments you want to include about a change batch
   /// request.
-  final String comment;
+  final String? comment;
 
   ChangeBatch({
-    @_s.required this.changes,
+    required this.changes,
     this.comment,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ChangeBatch.fromJson(Map<String, dynamic> json) {
+    return ChangeBatch(
+      changes: (json['Changes'] as List)
+          .whereNotNull()
+          .map((e) => Change.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      comment: json['Comment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changes = this.changes;
+    final comment = this.comment;
+    return {
+      'Changes': changes,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final changes = this.changes;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
       _s.XmlElement(
-          _s.XmlName('Changes'), [], changes?.map((e) => e?.toXml('Change'))),
+          _s.XmlName('Changes'), [], changes.map((e) => e.toXml('Change'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5522,7 +5662,7 @@ class ChangeBatch {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5550,21 +5690,44 @@ class ChangeInfo {
   /// This element contains an ID that you use when performing a <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html">GetChange</a>
   /// action to get detailed information about the change.
-  final String comment;
+  final String? comment;
 
   ChangeInfo({
-    @_s.required this.id,
-    @_s.required this.status,
-    @_s.required this.submittedAt,
+    required this.id,
+    required this.status,
+    required this.submittedAt,
     this.comment,
   });
+
+  factory ChangeInfo.fromJson(Map<String, dynamic> json) {
+    return ChangeInfo(
+      id: json['Id'] as String,
+      status: (json['Status'] as String).toChangeStatus(),
+      submittedAt: nonNullableTimeStampFromJson(json['SubmittedAt'] as Object),
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory ChangeInfo.fromXml(_s.XmlElement elem) {
     return ChangeInfo(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      status: _s.extractXmlStringValue(elem, 'Status')?.toChangeStatus(),
-      submittedAt: _s.extractXmlDateTimeValue(elem, 'SubmittedAt'),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      status: _s.extractXmlStringValue(elem, 'Status')!.toChangeStatus(),
+      submittedAt: _s.extractXmlDateTimeValue(elem, 'SubmittedAt')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final status = this.status;
+    final submittedAt = this.submittedAt;
+    final comment = this.comment;
+    return {
+      'Id': id,
+      'Status': status.toValue(),
+      'SubmittedAt': unixTimestampToJson(submittedAt),
+      if (comment != null) 'Comment': comment,
+    };
   }
 }
 
@@ -5579,12 +5742,31 @@ class ChangeResourceRecordSetsRequest {
   final String hostedZoneId;
 
   ChangeResourceRecordSetsRequest({
-    @_s.required this.changeBatch,
-    @_s.required this.hostedZoneId,
+    required this.changeBatch,
+    required this.hostedZoneId,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ChangeResourceRecordSetsRequest.fromJson(Map<String, dynamic> json) {
+    return ChangeResourceRecordSetsRequest(
+      changeBatch:
+          ChangeBatch.fromJson(json['ChangeBatch'] as Map<String, dynamic>),
+      hostedZoneId: json['Id'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeBatch = this.changeBatch;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      'ChangeBatch': changeBatch,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final changeBatch = this.changeBatch;
+    final hostedZoneId = this.hostedZoneId;
     final $children = <_s.XmlNode>[
-      changeBatch?.toXml('ChangeBatch'),
+      changeBatch.toXml('ChangeBatch'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5592,7 +5774,7 @@ class ChangeResourceRecordSetsRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5608,14 +5790,27 @@ class ChangeResourceRecordSetsResponse {
   final ChangeInfo changeInfo;
 
   ChangeResourceRecordSetsResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory ChangeResourceRecordSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ChangeResourceRecordSetsResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory ChangeResourceRecordSetsResponse.fromXml(_s.XmlElement elem) {
     return ChangeResourceRecordSetsResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -5632,7 +5827,6 @@ extension on ChangeStatus {
       case ChangeStatus.insync:
         return 'INSYNC';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5644,7 +5838,7 @@ extension on String {
       case 'INSYNC':
         return ChangeStatus.insync;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ChangeStatus');
   }
 }
 
@@ -5671,23 +5865,54 @@ class ChangeTagsForResourceRequest {
   /// <code>Value</code> for.
   ///
   /// You can add a maximum of 10 tags to a health check or a hosted zone.
-  final List<Tag> addTags;
+  final List<Tag>? addTags;
 
   /// A complex type that contains a list of the tags that you want to delete from
   /// the specified health check or hosted zone. You can specify up to 10 keys.
-  final List<String> removeTagKeys;
+  final List<String>? removeTagKeys;
 
   ChangeTagsForResourceRequest({
-    @_s.required this.resourceId,
-    @_s.required this.resourceType,
+    required this.resourceId,
+    required this.resourceType,
     this.addTags,
     this.removeTagKeys,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ChangeTagsForResourceRequest.fromJson(Map<String, dynamic> json) {
+    return ChangeTagsForResourceRequest(
+      resourceId: json['ResourceId'] as String,
+      resourceType: (json['ResourceType'] as String).toTagResourceType(),
+      addTags: (json['AddTags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      removeTagKeys: (json['RemoveTagKeys'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final addTags = this.addTags;
+    final removeTagKeys = this.removeTagKeys;
+    return {
+      if (addTags != null) 'AddTags': addTags,
+      if (removeTagKeys != null) 'RemoveTagKeys': removeTagKeys,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final addTags = this.addTags;
+    final removeTagKeys = this.removeTagKeys;
     final $children = <_s.XmlNode>[
       if (addTags != null)
         _s.XmlElement(
-            _s.XmlName('AddTags'), [], addTags.map((e) => e?.toXml('Tag'))),
+            _s.XmlName('AddTags'), [], addTags.map((e) => e.toXml('Tag'))),
       if (removeTagKeys != null)
         _s.XmlElement(_s.XmlName('RemoveTagKeys'), [],
             removeTagKeys.map((e) => _s.encodeXmlStringValue('Key', e))),
@@ -5698,7 +5923,7 @@ class ChangeTagsForResourceRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -5706,10 +5931,19 @@ class ChangeTagsForResourceRequest {
 /// Empty response for the request.
 class ChangeTagsForResourceResponse {
   ChangeTagsForResourceResponse();
+
+  factory ChangeTagsForResourceResponse.fromJson(Map<String, dynamic> _) {
+    return ChangeTagsForResourceResponse();
+  }
+
   factory ChangeTagsForResourceResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return ChangeTagsForResourceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -5752,34 +5986,73 @@ class CloudWatchAlarmConfiguration {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/CW_Support_For_AWS.html">Amazon
   /// CloudWatch Namespaces, Dimensions, and Metrics Reference</a> in the
   /// <i>Amazon CloudWatch User Guide</i>.
-  final List<Dimension> dimensions;
+  final List<Dimension>? dimensions;
 
   CloudWatchAlarmConfiguration({
-    @_s.required this.comparisonOperator,
-    @_s.required this.evaluationPeriods,
-    @_s.required this.metricName,
-    @_s.required this.namespace,
-    @_s.required this.period,
-    @_s.required this.statistic,
-    @_s.required this.threshold,
+    required this.comparisonOperator,
+    required this.evaluationPeriods,
+    required this.metricName,
+    required this.namespace,
+    required this.period,
+    required this.statistic,
+    required this.threshold,
     this.dimensions,
   });
+
+  factory CloudWatchAlarmConfiguration.fromJson(Map<String, dynamic> json) {
+    return CloudWatchAlarmConfiguration(
+      comparisonOperator:
+          (json['ComparisonOperator'] as String).toComparisonOperator(),
+      evaluationPeriods: json['EvaluationPeriods'] as int,
+      metricName: json['MetricName'] as String,
+      namespace: json['Namespace'] as String,
+      period: json['Period'] as int,
+      statistic: (json['Statistic'] as String).toStatistic(),
+      threshold: json['Threshold'] as double,
+      dimensions: (json['Dimensions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Dimension.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory CloudWatchAlarmConfiguration.fromXml(_s.XmlElement elem) {
     return CloudWatchAlarmConfiguration(
       comparisonOperator: _s
-          .extractXmlStringValue(elem, 'ComparisonOperator')
-          ?.toComparisonOperator(),
-      evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods'),
-      metricName: _s.extractXmlStringValue(elem, 'MetricName'),
-      namespace: _s.extractXmlStringValue(elem, 'Namespace'),
-      period: _s.extractXmlIntValue(elem, 'Period'),
-      statistic: _s.extractXmlStringValue(elem, 'Statistic')?.toStatistic(),
-      threshold: _s.extractXmlDoubleValue(elem, 'Threshold'),
+          .extractXmlStringValue(elem, 'ComparisonOperator')!
+          .toComparisonOperator(),
+      evaluationPeriods: _s.extractXmlIntValue(elem, 'EvaluationPeriods')!,
+      metricName: _s.extractXmlStringValue(elem, 'MetricName')!,
+      namespace: _s.extractXmlStringValue(elem, 'Namespace')!,
+      period: _s.extractXmlIntValue(elem, 'Period')!,
+      statistic: _s.extractXmlStringValue(elem, 'Statistic')!.toStatistic(),
+      threshold: _s.extractXmlDoubleValue(elem, 'Threshold')!,
       dimensions: _s.extractXmlChild(elem, 'Dimensions')?.let((elem) => elem
           .findElements('Dimension')
           .map((c) => Dimension.fromXml(c))
           .toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comparisonOperator = this.comparisonOperator;
+    final evaluationPeriods = this.evaluationPeriods;
+    final metricName = this.metricName;
+    final namespace = this.namespace;
+    final period = this.period;
+    final statistic = this.statistic;
+    final threshold = this.threshold;
+    final dimensions = this.dimensions;
+    return {
+      'ComparisonOperator': comparisonOperator.toValue(),
+      'EvaluationPeriods': evaluationPeriods,
+      'MetricName': metricName,
+      'Namespace': namespace,
+      'Period': period,
+      'Statistic': statistic.toValue(),
+      'Threshold': threshold,
+      if (dimensions != null) 'Dimensions': dimensions,
+    };
   }
 }
 
@@ -5871,7 +6144,6 @@ extension on CloudWatchRegion {
       case CloudWatchRegion.usIsobEast_1:
         return 'us-isob-east-1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5933,7 +6205,7 @@ extension on String {
       case 'us-isob-east-1':
         return CloudWatchRegion.usIsobEast_1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum CloudWatchRegion');
   }
 }
 
@@ -5956,7 +6228,6 @@ extension on ComparisonOperator {
       case ComparisonOperator.lessThanOrEqualToThreshold:
         return 'LessThanOrEqualToThreshold';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -5972,7 +6243,7 @@ extension on String {
       case 'LessThanOrEqualToThreshold':
         return ComparisonOperator.lessThanOrEqualToThreshold;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ComparisonOperator');
   }
 }
 
@@ -6012,13 +6283,33 @@ class CreateHealthCheckRequest {
   final HealthCheckConfig healthCheckConfig;
 
   CreateHealthCheckRequest({
-    @_s.required this.callerReference,
-    @_s.required this.healthCheckConfig,
+    required this.callerReference,
+    required this.healthCheckConfig,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateHealthCheckRequest.fromJson(Map<String, dynamic> json) {
+    return CreateHealthCheckRequest(
+      callerReference: json['CallerReference'] as String,
+      healthCheckConfig: HealthCheckConfig.fromJson(
+          json['HealthCheckConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final healthCheckConfig = this.healthCheckConfig;
+    return {
+      'CallerReference': callerReference,
+      'HealthCheckConfig': healthCheckConfig,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final healthCheckConfig = this.healthCheckConfig;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      healthCheckConfig?.toXml('HealthCheckConfig'),
+      healthCheckConfig.toXml('HealthCheckConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6026,7 +6317,7 @@ class CreateHealthCheckRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6040,9 +6331,25 @@ class CreateHealthCheckResponse {
   final String location;
 
   CreateHealthCheckResponse({
-    @_s.required this.healthCheck,
-    @_s.required this.location,
+    required this.healthCheck,
+    required this.location,
   });
+
+  factory CreateHealthCheckResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHealthCheckResponse(
+      healthCheck:
+          HealthCheck.fromJson(json['HealthCheck'] as Map<String, dynamic>),
+      location: json['Location'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheck = this.healthCheck;
+    final location = this.location;
+    return {
+      'HealthCheck': healthCheck,
+    };
+  }
 }
 
 /// A complex type that contains information about the request to create a
@@ -6073,7 +6380,7 @@ class CreateHostedZoneRequest {
   /// the ID that Amazon Route 53 assigned to the reusable delegation set when you
   /// created it. For more information about reusable delegation sets, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html">CreateReusableDelegationSet</a>.
-  final String delegationSetId;
+  final String? delegationSetId;
 
   /// (Optional) A complex type that contains the following optional values:
   ///
@@ -6087,7 +6394,7 @@ class CreateHostedZoneRequest {
   /// </ul>
   /// If you don't specify a comment or the <code>PrivateZone</code> element, omit
   /// <code>HostedZoneConfig</code> and the other elements.
-  final HostedZoneConfig hostedZoneConfig;
+  final HostedZoneConfig? hostedZoneConfig;
 
   /// (Private hosted zones only) A complex type that contains information about
   /// the Amazon VPC that you're associating with this hosted zone.
@@ -6096,21 +6403,57 @@ class CreateHostedZoneRequest {
   /// To associate additional Amazon VPCs with the hosted zone, use <a
   /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AssociateVPCWithHostedZone.html">AssociateVPCWithHostedZone</a>
   /// after you create a hosted zone.
-  final VPC vpc;
+  final VPC? vpc;
 
   CreateHostedZoneRequest({
-    @_s.required this.callerReference,
-    @_s.required this.name,
+    required this.callerReference,
+    required this.name,
     this.delegationSetId,
     this.hostedZoneConfig,
     this.vpc,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateHostedZoneRequest.fromJson(Map<String, dynamic> json) {
+    return CreateHostedZoneRequest(
+      callerReference: json['CallerReference'] as String,
+      name: json['Name'] as String,
+      delegationSetId: json['DelegationSetId'] as String?,
+      hostedZoneConfig: json['HostedZoneConfig'] != null
+          ? HostedZoneConfig.fromJson(
+              json['HostedZoneConfig'] as Map<String, dynamic>)
+          : null,
+      vpc: json['VPC'] != null
+          ? VPC.fromJson(json['VPC'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final name = this.name;
+    final delegationSetId = this.delegationSetId;
+    final hostedZoneConfig = this.hostedZoneConfig;
+    final vpc = this.vpc;
+    return {
+      'CallerReference': callerReference,
+      'Name': name,
+      if (delegationSetId != null) 'DelegationSetId': delegationSetId,
+      if (hostedZoneConfig != null) 'HostedZoneConfig': hostedZoneConfig,
+      if (vpc != null) 'VPC': vpc,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final name = this.name;
+    final delegationSetId = this.delegationSetId;
+    final hostedZoneConfig = this.hostedZoneConfig;
+    final vpc = this.vpc;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
-      if (vpc != null) vpc?.toXml('VPC'),
+      if (vpc != null) vpc.toXml('VPC'),
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      if (hostedZoneConfig != null) hostedZoneConfig?.toXml('HostedZoneConfig'),
+      if (hostedZoneConfig != null) hostedZoneConfig.toXml('HostedZoneConfig'),
       if (delegationSetId != null)
         _s.encodeXmlStringValue('DelegationSetId', delegationSetId),
     ];
@@ -6120,7 +6463,7 @@ class CreateHostedZoneRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6142,15 +6485,44 @@ class CreateHostedZoneResponse {
 
   /// A complex type that contains information about an Amazon VPC that you
   /// associated with this hosted zone.
-  final VPC vpc;
+  final VPC? vpc;
 
   CreateHostedZoneResponse({
-    @_s.required this.changeInfo,
-    @_s.required this.delegationSet,
-    @_s.required this.hostedZone,
-    @_s.required this.location,
+    required this.changeInfo,
+    required this.delegationSet,
+    required this.hostedZone,
+    required this.location,
     this.vpc,
   });
+
+  factory CreateHostedZoneResponse.fromJson(Map<String, dynamic> json) {
+    return CreateHostedZoneResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+      delegationSet:
+          DelegationSet.fromJson(json['DelegationSet'] as Map<String, dynamic>),
+      hostedZone:
+          HostedZone.fromJson(json['HostedZone'] as Map<String, dynamic>),
+      location: json['Location'] as String,
+      vpc: json['VPC'] != null
+          ? VPC.fromJson(json['VPC'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    final delegationSet = this.delegationSet;
+    final hostedZone = this.hostedZone;
+    final location = this.location;
+    final vpc = this.vpc;
+    return {
+      'ChangeInfo': changeInfo,
+      'DelegationSet': delegationSet,
+      'HostedZone': hostedZone,
+      if (vpc != null) 'VPC': vpc,
+    };
+  }
 }
 
 class CreateKeySigningKeyRequest {
@@ -6160,13 +6532,14 @@ class CreateKeySigningKeyRequest {
   /// The unique string (ID) used to identify a hosted zone.
   final String hostedZoneId;
 
-  /// The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key
-  /// Management Service (KMS). The <code>KeyManagementServiceArn</code> must be
-  /// unique for each key signing key (KSK) in a single hosted zone. To see an
-  /// example of <code>KeyManagementServiceArn</code> that grants the correct
-  /// permissions for DNSSEC, scroll down to <b>Example</b>.
+  /// The Amazon resource name (ARN) for a customer managed customer master key
+  /// (CMK) in AWS Key Management Service (AWS KMS). The
+  /// <code>KeyManagementServiceArn</code> must be unique for each key-signing key
+  /// (KSK) in a single hosted zone. To see an example of
+  /// <code>KeyManagementServiceArn</code> that grants the correct permissions for
+  /// DNSSEC, scroll down to <b>Example</b>.
   ///
-  /// You must configure the CMK as follows:
+  /// You must configure the customer managed CMK as follows:
   /// <dl> <dt>Status</dt> <dd>
   /// Enabled
   /// </dd> <dt>Key spec</dt> <dd>
@@ -6192,31 +6565,63 @@ class CreateKeySigningKeyRequest {
   ///
   /// <ul>
   /// <li>
-  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// <code>"Service": "dnssec.route53.aws.amazonaws.com"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with CMK in KMS, see <a
+  /// For more information about working with a customer managed CMK in AWS KMS,
+  /// see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
   /// Key Management Service concepts</a>.
   final String keyManagementServiceArn;
 
-  /// An alphanumeric string used to identify a key signing key (KSK).
-  /// <code>Name</code> must be unique for each key signing key in the same hosted
-  /// zone.
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
   final String name;
 
-  /// A string specifying the initial status of the key signing key (KSK). You can
+  /// A string specifying the initial status of the key-signing key (KSK). You can
   /// set the value to <code>ACTIVE</code> or <code>INACTIVE</code>.
   final String status;
 
   CreateKeySigningKeyRequest({
-    @_s.required this.callerReference,
-    @_s.required this.hostedZoneId,
-    @_s.required this.keyManagementServiceArn,
-    @_s.required this.name,
-    @_s.required this.status,
+    required this.callerReference,
+    required this.hostedZoneId,
+    required this.keyManagementServiceArn,
+    required this.name,
+    required this.status,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateKeySigningKeyRequest.fromJson(Map<String, dynamic> json) {
+    return CreateKeySigningKeyRequest(
+      callerReference: json['CallerReference'] as String,
+      hostedZoneId: json['HostedZoneId'] as String,
+      keyManagementServiceArn: json['KeyManagementServiceArn'] as String,
+      name: json['Name'] as String,
+      status: json['Status'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final hostedZoneId = this.hostedZoneId;
+    final keyManagementServiceArn = this.keyManagementServiceArn;
+    final name = this.name;
+    final status = this.status;
+    return {
+      'CallerReference': callerReference,
+      'HostedZoneId': hostedZoneId,
+      'KeyManagementServiceArn': keyManagementServiceArn,
+      'Name': name,
+      'Status': status,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final hostedZoneId = this.hostedZoneId;
+    final keyManagementServiceArn = this.keyManagementServiceArn;
+    final name = this.name;
+    final status = this.status;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
       _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
@@ -6231,7 +6636,7 @@ class CreateKeySigningKeyRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6239,17 +6644,37 @@ class CreateKeySigningKeyRequest {
 class CreateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
-  /// The key signing key (KSK) that the request creates.
+  /// The key-signing key (KSK) that the request creates.
   final KeySigningKey keySigningKey;
 
-  /// The unique URL representing the new key signing key (KSK).
+  /// The unique URL representing the new key-signing key (KSK).
   final String location;
 
   CreateKeySigningKeyResponse({
-    @_s.required this.changeInfo,
-    @_s.required this.keySigningKey,
-    @_s.required this.location,
+    required this.changeInfo,
+    required this.keySigningKey,
+    required this.location,
   });
+
+  factory CreateKeySigningKeyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateKeySigningKeyResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+      keySigningKey:
+          KeySigningKey.fromJson(json['KeySigningKey'] as Map<String, dynamic>),
+      location: json['Location'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    final keySigningKey = this.keySigningKey;
+    final location = this.location;
+    return {
+      'ChangeInfo': changeInfo,
+      'KeySigningKey': keySigningKey,
+    };
+  }
 }
 
 class CreateQueryLoggingConfigRequest {
@@ -6270,10 +6695,29 @@ class CreateQueryLoggingConfigRequest {
   final String hostedZoneId;
 
   CreateQueryLoggingConfigRequest({
-    @_s.required this.cloudWatchLogsLogGroupArn,
-    @_s.required this.hostedZoneId,
+    required this.cloudWatchLogsLogGroupArn,
+    required this.hostedZoneId,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateQueryLoggingConfigRequest.fromJson(Map<String, dynamic> json) {
+    return CreateQueryLoggingConfigRequest(
+      cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String,
+      hostedZoneId: json['HostedZoneId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsLogGroupArn = this.cloudWatchLogsLogGroupArn;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
+      'HostedZoneId': hostedZoneId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final cloudWatchLogsLogGroupArn = this.cloudWatchLogsLogGroupArn;
+    final hostedZoneId = this.hostedZoneId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
       _s.encodeXmlStringValue(
@@ -6285,7 +6729,7 @@ class CreateQueryLoggingConfigRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6300,9 +6744,25 @@ class CreateQueryLoggingConfigResponse {
   final QueryLoggingConfig queryLoggingConfig;
 
   CreateQueryLoggingConfigResponse({
-    @_s.required this.location,
-    @_s.required this.queryLoggingConfig,
+    required this.location,
+    required this.queryLoggingConfig,
   });
+
+  factory CreateQueryLoggingConfigResponse.fromJson(Map<String, dynamic> json) {
+    return CreateQueryLoggingConfigResponse(
+      location: json['Location'] as String,
+      queryLoggingConfig: QueryLoggingConfig.fromJson(
+          json['QueryLoggingConfig'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final queryLoggingConfig = this.queryLoggingConfig;
+    return {
+      'QueryLoggingConfig': queryLoggingConfig,
+    };
+  }
 }
 
 class CreateReusableDelegationSetRequest {
@@ -6317,13 +6777,33 @@ class CreateReusableDelegationSetRequest {
 
   /// If you want to mark the delegation set for an existing hosted zone as
   /// reusable, the ID for that hosted zone.
-  final String hostedZoneId;
+  final String? hostedZoneId;
 
   CreateReusableDelegationSetRequest({
-    @_s.required this.callerReference,
+    required this.callerReference,
     this.hostedZoneId,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateReusableDelegationSetRequest.fromJson(
+      Map<String, dynamic> json) {
+    return CreateReusableDelegationSetRequest(
+      callerReference: json['CallerReference'] as String,
+      hostedZoneId: json['HostedZoneId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final hostedZoneId = this.hostedZoneId;
+    return {
+      'CallerReference': callerReference,
+      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final callerReference = this.callerReference;
+    final hostedZoneId = this.hostedZoneId;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
       if (hostedZoneId != null)
@@ -6335,7 +6815,7 @@ class CreateReusableDelegationSetRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6348,9 +6828,26 @@ class CreateReusableDelegationSetResponse {
   final String location;
 
   CreateReusableDelegationSetResponse({
-    @_s.required this.delegationSet,
-    @_s.required this.location,
+    required this.delegationSet,
+    required this.location,
   });
+
+  factory CreateReusableDelegationSetResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateReusableDelegationSetResponse(
+      delegationSet:
+          DelegationSet.fromJson(json['DelegationSet'] as Map<String, dynamic>),
+      location: json['Location'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationSet = this.delegationSet;
+    final location = this.location;
+    return {
+      'DelegationSet': delegationSet,
+    };
+  }
 }
 
 /// A complex type that contains information about the resource record sets that
@@ -6379,13 +6876,45 @@ class CreateTrafficPolicyInstanceRequest {
   final int trafficPolicyVersion;
 
   CreateTrafficPolicyInstanceRequest({
-    @_s.required this.hostedZoneId,
-    @_s.required this.name,
-    @_s.required this.ttl,
-    @_s.required this.trafficPolicyId,
-    @_s.required this.trafficPolicyVersion,
+    required this.hostedZoneId,
+    required this.name,
+    required this.ttl,
+    required this.trafficPolicyId,
+    required this.trafficPolicyVersion,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateTrafficPolicyInstanceRequest.fromJson(
+      Map<String, dynamic> json) {
+    return CreateTrafficPolicyInstanceRequest(
+      hostedZoneId: json['HostedZoneId'] as String,
+      name: json['Name'] as String,
+      ttl: json['TTL'] as int,
+      trafficPolicyId: json['TrafficPolicyId'] as String,
+      trafficPolicyVersion: json['TrafficPolicyVersion'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final name = this.name;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
+    return {
+      'HostedZoneId': hostedZoneId,
+      'Name': name,
+      'TTL': ttl,
+      'TrafficPolicyId': trafficPolicyId,
+      'TrafficPolicyVersion': trafficPolicyVersion,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostedZoneId = this.hostedZoneId;
+    final name = this.name;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
       _s.encodeXmlStringValue('Name', name),
@@ -6399,7 +6928,7 @@ class CreateTrafficPolicyInstanceRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6414,9 +6943,26 @@ class CreateTrafficPolicyInstanceResponse {
   final TrafficPolicyInstance trafficPolicyInstance;
 
   CreateTrafficPolicyInstanceResponse({
-    @_s.required this.location,
-    @_s.required this.trafficPolicyInstance,
+    required this.location,
+    required this.trafficPolicyInstance,
   });
+
+  factory CreateTrafficPolicyInstanceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateTrafficPolicyInstanceResponse(
+      location: json['Location'] as String,
+      trafficPolicyInstance: TrafficPolicyInstance.fromJson(
+          json['TrafficPolicyInstance'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final trafficPolicyInstance = this.trafficPolicyInstance;
+    return {
+      'TrafficPolicyInstance': trafficPolicyInstance,
+    };
+  }
 }
 
 /// A complex type that contains information about the traffic policy that you
@@ -6432,14 +6978,37 @@ class CreateTrafficPolicyRequest {
   final String name;
 
   /// (Optional) Any comments that you want to include about the traffic policy.
-  final String comment;
+  final String? comment;
 
   CreateTrafficPolicyRequest({
-    @_s.required this.document,
-    @_s.required this.name,
+    required this.document,
+    required this.name,
     this.comment,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateTrafficPolicyRequest.fromJson(Map<String, dynamic> json) {
+    return CreateTrafficPolicyRequest(
+      document: json['Document'] as String,
+      name: json['Name'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final name = this.name;
+    final comment = this.comment;
+    return {
+      'Document': document,
+      'Name': name,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final document = this.document;
+    final name = this.name;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('Document', document),
@@ -6451,7 +7020,7 @@ class CreateTrafficPolicyRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6466,9 +7035,25 @@ class CreateTrafficPolicyResponse {
   final TrafficPolicy trafficPolicy;
 
   CreateTrafficPolicyResponse({
-    @_s.required this.location,
-    @_s.required this.trafficPolicy,
+    required this.location,
+    required this.trafficPolicy,
   });
+
+  factory CreateTrafficPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTrafficPolicyResponse(
+      location: json['Location'] as String,
+      trafficPolicy:
+          TrafficPolicy.fromJson(json['TrafficPolicy'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final trafficPolicy = this.trafficPolicy;
+    return {
+      'TrafficPolicy': trafficPolicy,
+    };
+  }
 }
 
 /// A complex type that contains information about the traffic policy that you
@@ -6485,14 +7070,37 @@ class CreateTrafficPolicyVersionRequest {
 
   /// The comment that you specified in the
   /// <code>CreateTrafficPolicyVersion</code> request, if any.
-  final String comment;
+  final String? comment;
 
   CreateTrafficPolicyVersionRequest({
-    @_s.required this.document,
-    @_s.required this.id,
+    required this.document,
+    required this.id,
     this.comment,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateTrafficPolicyVersionRequest.fromJson(
+      Map<String, dynamic> json) {
+    return CreateTrafficPolicyVersionRequest(
+      document: json['Document'] as String,
+      id: json['Id'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final id = this.id;
+    final comment = this.comment;
+    return {
+      'Document': document,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final document = this.document;
+    final id = this.id;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Document', document),
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
@@ -6503,7 +7111,7 @@ class CreateTrafficPolicyVersionRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6519,9 +7127,26 @@ class CreateTrafficPolicyVersionResponse {
   final TrafficPolicy trafficPolicy;
 
   CreateTrafficPolicyVersionResponse({
-    @_s.required this.location,
-    @_s.required this.trafficPolicy,
+    required this.location,
+    required this.trafficPolicy,
   });
+
+  factory CreateTrafficPolicyVersionResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateTrafficPolicyVersionResponse(
+      location: json['Location'] as String,
+      trafficPolicy:
+          TrafficPolicy.fromJson(json['TrafficPolicy'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final location = this.location;
+    final trafficPolicy = this.trafficPolicy;
+    return {
+      'TrafficPolicy': trafficPolicy,
+    };
+  }
 }
 
 /// A complex type that contains information about the request to authorize
@@ -6538,12 +7163,31 @@ class CreateVPCAssociationAuthorizationRequest {
   final VPC vpc;
 
   CreateVPCAssociationAuthorizationRequest({
-    @_s.required this.hostedZoneId,
-    @_s.required this.vpc,
+    required this.hostedZoneId,
+    required this.vpc,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory CreateVPCAssociationAuthorizationRequest.fromJson(
+      Map<String, dynamic> json) {
+    return CreateVPCAssociationAuthorizationRequest(
+      hostedZoneId: json['Id'] as String,
+      vpc: VPC.fromJson(json['VPC'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
+    return {
+      'VPC': vpc,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
     final $children = <_s.XmlNode>[
-      vpc?.toXml('VPC'),
+      vpc.toXml('VPC'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6551,7 +7195,7 @@ class CreateVPCAssociationAuthorizationRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6566,45 +7210,90 @@ class CreateVPCAssociationAuthorizationResponse {
   final VPC vpc;
 
   CreateVPCAssociationAuthorizationResponse({
-    @_s.required this.hostedZoneId,
-    @_s.required this.vpc,
+    required this.hostedZoneId,
+    required this.vpc,
   });
+
+  factory CreateVPCAssociationAuthorizationResponse.fromJson(
+      Map<String, dynamic> json) {
+    return CreateVPCAssociationAuthorizationResponse(
+      hostedZoneId: json['HostedZoneId'] as String,
+      vpc: VPC.fromJson(json['VPC'] as Map<String, dynamic>),
+    );
+  }
+
   factory CreateVPCAssociationAuthorizationResponse.fromXml(
       _s.XmlElement elem) {
     return CreateVPCAssociationAuthorizationResponse(
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
-      vpc: _s.extractXmlChild(elem, 'VPC')?.let((e) => VPC.fromXml(e)),
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      vpc: VPC.fromXml(_s.extractXmlChild(elem, 'VPC')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
+    return {
+      'HostedZoneId': hostedZoneId,
+      'VPC': vpc,
+    };
   }
 }
 
 /// A string repesenting the status of DNSSEC signing.
 class DNSSECStatus {
-  /// Indicates your hosted zone signging status: <code>SIGNING</code>,
-  /// <code>NOT_SIGNING</code>, or <code>INTERNAL_FAILURE</code>. If the status is
-  /// <code>INTERNAL_FAILURE</code>, see <code>StatusMessage</code> for
-  /// information about steps that you can take to correct the problem.
+  /// A string that represents the current hosted zone signing status.
   ///
-  /// A status <code>INTERNAL_FAILURE</code> means there was an error during a
-  /// request. Before you can continue to work with DNSSEC signing, including
-  /// working with key signing keys (KSKs), you must correct the problem by
-  /// enabling or disabling DNSSEC signing for the hosted zone.
-  final String serveSignature;
+  /// Status can have one of the following values:
+  /// <dl> <dt>SIGNING</dt> <dd>
+  /// DNSSEC signing is enabled for the hosted zone.
+  /// </dd> <dt>NOT_SIGNING</dt> <dd>
+  /// DNSSEC signing is not enabled for the hosted zone.
+  /// </dd> <dt>DELETING</dt> <dd>
+  /// DNSSEC signing is in the process of being removed for the hosted zone.
+  /// </dd> <dt>ACTION_NEEDED</dt> <dd>
+  /// There is a problem with signing in the hosted zone that requires you to take
+  /// action to resolve. For example, the customer managed customer master key
+  /// (CMK) might have been deleted, or the permissions for the customer managed
+  /// CMK might have been changed.
+  /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
+  /// There was an error during a request. Before you can continue to work with
+  /// DNSSEC signing, including with key-signing keys (KSKs), you must correct the
+  /// problem by enabling or disabling DNSSEC signing for the hosted zone.
+  /// </dd> </dl>
+  final String? serveSignature;
 
   /// The status message provided for the following DNSSEC signing status:
   /// <code>INTERNAL_FAILURE</code>. The status message includes information about
   /// what the problem might be and steps that you can take to correct the issue.
-  final String statusMessage;
+  final String? statusMessage;
 
   DNSSECStatus({
     this.serveSignature,
     this.statusMessage,
   });
+
+  factory DNSSECStatus.fromJson(Map<String, dynamic> json) {
+    return DNSSECStatus(
+      serveSignature: json['ServeSignature'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
   factory DNSSECStatus.fromXml(_s.XmlElement elem) {
     return DNSSECStatus(
       serveSignature: _s.extractXmlStringValue(elem, 'ServeSignature'),
       statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final serveSignature = this.serveSignature;
+    final statusMessage = this.statusMessage;
+    return {
+      if (serveSignature != null) 'ServeSignature': serveSignature,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
   }
 }
 
@@ -6612,14 +7301,27 @@ class DeactivateKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
   DeactivateKeySigningKeyResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory DeactivateKeySigningKeyResponse.fromJson(Map<String, dynamic> json) {
+    return DeactivateKeySigningKeyResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory DeactivateKeySigningKeyResponse.fromXml(_s.XmlElement elem) {
     return DeactivateKeySigningKeyResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -6633,34 +7335,65 @@ class DelegationSet {
 
   /// The value that you specified for <code>CallerReference</code> when you
   /// created the reusable delegation set.
-  final String callerReference;
+  final String? callerReference;
 
   /// The ID that Amazon Route 53 assigns to a reusable delegation set.
-  final String id;
+  final String? id;
 
   DelegationSet({
-    @_s.required this.nameServers,
+    required this.nameServers,
     this.callerReference,
     this.id,
   });
+
+  factory DelegationSet.fromJson(Map<String, dynamic> json) {
+    return DelegationSet(
+      nameServers: (json['NameServers'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      callerReference: json['CallerReference'] as String?,
+      id: json['Id'] as String?,
+    );
+  }
+
   factory DelegationSet.fromXml(_s.XmlElement elem) {
     return DelegationSet(
-      nameServers: _s
-          .extractXmlChild(elem, 'NameServers')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'NameServer')),
+      nameServers: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'NameServers')!, 'NameServer'),
       callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
       id: _s.extractXmlStringValue(elem, 'Id'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nameServers = this.nameServers;
+    final callerReference = this.callerReference;
+    final id = this.id;
+    return {
+      'NameServers': nameServers,
+      if (callerReference != null) 'CallerReference': callerReference,
+      if (id != null) 'Id': id,
+    };
   }
 }
 
 /// An empty element.
 class DeleteHealthCheckResponse {
   DeleteHealthCheckResponse();
+
+  factory DeleteHealthCheckResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteHealthCheckResponse();
+  }
+
   factory DeleteHealthCheckResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteHealthCheckResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6672,14 +7405,27 @@ class DeleteHostedZoneResponse {
   final ChangeInfo changeInfo;
 
   DeleteHostedZoneResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory DeleteHostedZoneResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteHostedZoneResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory DeleteHostedZoneResponse.fromXml(_s.XmlElement elem) {
     return DeleteHostedZoneResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -6687,53 +7433,102 @@ class DeleteKeySigningKeyResponse {
   final ChangeInfo changeInfo;
 
   DeleteKeySigningKeyResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory DeleteKeySigningKeyResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteKeySigningKeyResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory DeleteKeySigningKeyResponse.fromXml(_s.XmlElement elem) {
     return DeleteKeySigningKeyResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
 class DeleteQueryLoggingConfigResponse {
   DeleteQueryLoggingConfigResponse();
+
+  factory DeleteQueryLoggingConfigResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteQueryLoggingConfigResponse();
+  }
+
   factory DeleteQueryLoggingConfigResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteQueryLoggingConfigResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element.
 class DeleteReusableDelegationSetResponse {
   DeleteReusableDelegationSetResponse();
+
+  factory DeleteReusableDelegationSetResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteReusableDelegationSetResponse();
+  }
+
   factory DeleteReusableDelegationSetResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteReusableDelegationSetResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element.
 class DeleteTrafficPolicyInstanceResponse {
   DeleteTrafficPolicyInstanceResponse();
+
+  factory DeleteTrafficPolicyInstanceResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTrafficPolicyInstanceResponse();
+  }
+
   factory DeleteTrafficPolicyInstanceResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteTrafficPolicyInstanceResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
 /// An empty element.
 class DeleteTrafficPolicyResponse {
   DeleteTrafficPolicyResponse();
+
+  factory DeleteTrafficPolicyResponse.fromJson(Map<String, dynamic> _) {
+    return DeleteTrafficPolicyResponse();
+  }
+
   factory DeleteTrafficPolicyResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteTrafficPolicyResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6752,12 +7547,31 @@ class DeleteVPCAssociationAuthorizationRequest {
   final VPC vpc;
 
   DeleteVPCAssociationAuthorizationRequest({
-    @_s.required this.hostedZoneId,
-    @_s.required this.vpc,
+    required this.hostedZoneId,
+    required this.vpc,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory DeleteVPCAssociationAuthorizationRequest.fromJson(
+      Map<String, dynamic> json) {
+    return DeleteVPCAssociationAuthorizationRequest(
+      hostedZoneId: json['Id'] as String,
+      vpc: VPC.fromJson(json['VPC'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
+    return {
+      'VPC': vpc,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
     final $children = <_s.XmlNode>[
-      vpc?.toXml('VPC'),
+      vpc.toXml('VPC'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6765,7 +7579,7 @@ class DeleteVPCAssociationAuthorizationRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6773,10 +7587,20 @@ class DeleteVPCAssociationAuthorizationRequest {
 /// Empty response for the request.
 class DeleteVPCAssociationAuthorizationResponse {
   DeleteVPCAssociationAuthorizationResponse();
+
+  factory DeleteVPCAssociationAuthorizationResponse.fromJson(
+      Map<String, dynamic> _) {
+    return DeleteVPCAssociationAuthorizationResponse();
+  }
+
   factory DeleteVPCAssociationAuthorizationResponse.fromXml(
       // ignore: avoid_unused_constructor_parameters
       _s.XmlElement elem) {
     return DeleteVPCAssociationAuthorizationResponse();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
   }
 }
 
@@ -6792,14 +7616,31 @@ class Dimension {
   final String value;
 
   Dimension({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
+
+  factory Dimension.fromJson(Map<String, dynamic> json) {
+    return Dimension(
+      name: json['Name'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
   factory Dimension.fromXml(_s.XmlElement elem) {
     return Dimension(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      value: _s.extractXmlStringValue(elem, 'Value')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'Name': name,
+      'Value': value,
+    };
   }
 }
 
@@ -6807,14 +7648,27 @@ class DisableHostedZoneDNSSECResponse {
   final ChangeInfo changeInfo;
 
   DisableHostedZoneDNSSECResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory DisableHostedZoneDNSSECResponse.fromJson(Map<String, dynamic> json) {
+    return DisableHostedZoneDNSSECResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory DisableHostedZoneDNSSECResponse.fromXml(_s.XmlElement elem) {
     return DisableHostedZoneDNSSECResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -6829,16 +7683,39 @@ class DisassociateVPCFromHostedZoneRequest {
   final VPC vpc;
 
   /// <i>Optional:</i> A comment about the disassociation request.
-  final String comment;
+  final String? comment;
 
   DisassociateVPCFromHostedZoneRequest({
-    @_s.required this.hostedZoneId,
-    @_s.required this.vpc,
+    required this.hostedZoneId,
+    required this.vpc,
     this.comment,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory DisassociateVPCFromHostedZoneRequest.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateVPCFromHostedZoneRequest(
+      hostedZoneId: json['Id'] as String,
+      vpc: VPC.fromJson(json['VPC'] as Map<String, dynamic>),
+      comment: json['Comment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
+    final comment = this.comment;
+    return {
+      'VPC': vpc,
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final hostedZoneId = this.hostedZoneId;
+    final vpc = this.vpc;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
-      vpc?.toXml('VPC'),
+      vpc.toXml('VPC'),
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -6847,7 +7724,7 @@ class DisassociateVPCFromHostedZoneRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6860,14 +7737,28 @@ class DisassociateVPCFromHostedZoneResponse {
   final ChangeInfo changeInfo;
 
   DisassociateVPCFromHostedZoneResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory DisassociateVPCFromHostedZoneResponse.fromJson(
+      Map<String, dynamic> json) {
+    return DisassociateVPCFromHostedZoneResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory DisassociateVPCFromHostedZoneResponse.fromXml(_s.XmlElement elem) {
     return DisassociateVPCFromHostedZoneResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -6875,14 +7766,27 @@ class EnableHostedZoneDNSSECResponse {
   final ChangeInfo changeInfo;
 
   EnableHostedZoneDNSSECResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory EnableHostedZoneDNSSECResponse.fromJson(Map<String, dynamic> json) {
+    return EnableHostedZoneDNSSECResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory EnableHostedZoneDNSSECResponse.fromXml(_s.XmlElement elem) {
     return EnableHostedZoneDNSSECResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -6918,14 +7822,14 @@ class GeoLocation {
   /// Constraint: Specifying <code>ContinentCode</code> with either
   /// <code>CountryCode</code> or <code>SubdivisionCode</code> returns an
   /// <code>InvalidInput</code> error.
-  final String continentCode;
+  final String? continentCode;
 
   /// For geolocation resource record sets, the two-letter code for a country.
   ///
   /// Amazon Route 53 uses the two-letter country codes that are specified in <a
   /// href="https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2">ISO standard 3166-1
   /// alpha-2</a>.
-  final String countryCode;
+  final String? countryCode;
 
   /// For geolocation resource record sets, the two-letter code for a state of the
   /// United States. Route 53 doesn't support any other values for
@@ -6936,13 +7840,22 @@ class GeoLocation {
   ///
   /// If you specify <code>subdivisioncode</code>, you must also specify
   /// <code>US</code> for <code>CountryCode</code>.
-  final String subdivisionCode;
+  final String? subdivisionCode;
 
   GeoLocation({
     this.continentCode,
     this.countryCode,
     this.subdivisionCode,
   });
+
+  factory GeoLocation.fromJson(Map<String, dynamic> json) {
+    return GeoLocation(
+      continentCode: json['ContinentCode'] as String?,
+      countryCode: json['CountryCode'] as String?,
+      subdivisionCode: json['SubdivisionCode'] as String?,
+    );
+  }
+
   factory GeoLocation.fromXml(_s.XmlElement elem) {
     return GeoLocation(
       continentCode: _s.extractXmlStringValue(elem, 'ContinentCode'),
@@ -6951,7 +7864,21 @@ class GeoLocation {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final continentCode = this.continentCode;
+    final countryCode = this.countryCode;
+    final subdivisionCode = this.subdivisionCode;
+    return {
+      if (continentCode != null) 'ContinentCode': continentCode,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (subdivisionCode != null) 'SubdivisionCode': subdivisionCode,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final continentCode = this.continentCode;
+    final countryCode = this.countryCode;
+    final subdivisionCode = this.subdivisionCode;
     final $children = <_s.XmlNode>[
       if (continentCode != null)
         _s.encodeXmlStringValue('ContinentCode', continentCode),
@@ -6966,7 +7893,7 @@ class GeoLocation {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -6975,24 +7902,29 @@ class GeoLocation {
 /// subdivision names for the specified <code>geolocation</code> code.
 class GeoLocationDetails {
   /// The two-letter code for the continent.
-  final String continentCode;
+  final String? continentCode;
 
   /// The full name of the continent.
-  final String continentName;
+  final String? continentName;
 
   /// The two-letter code for the country.
-  final String countryCode;
+  final String? countryCode;
 
   /// The name of the country.
-  final String countryName;
+  final String? countryName;
 
-  /// The code for the subdivision. Route 53 currently supports only states in the
-  /// United States.
-  final String subdivisionCode;
+  /// The code for the subdivision, such as a particular state within the United
+  /// States. For a list of US state abbreviations, see <a
+  /// href="https://pe.usps.com/text/pub28/28apb.htm">Appendix B: Two–Letter State
+  /// and Possession Abbreviations</a> on the United States Postal Service
+  /// website. For a list of all supported subdivision codes, use the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListGeoLocations.html">ListGeoLocations</a>
+  /// API.
+  final String? subdivisionCode;
 
   /// The full name of the subdivision. Route 53 currently supports only states in
   /// the United States.
-  final String subdivisionName;
+  final String? subdivisionName;
 
   GeoLocationDetails({
     this.continentCode,
@@ -7002,6 +7934,18 @@ class GeoLocationDetails {
     this.subdivisionCode,
     this.subdivisionName,
   });
+
+  factory GeoLocationDetails.fromJson(Map<String, dynamic> json) {
+    return GeoLocationDetails(
+      continentCode: json['ContinentCode'] as String?,
+      continentName: json['ContinentName'] as String?,
+      countryCode: json['CountryCode'] as String?,
+      countryName: json['CountryName'] as String?,
+      subdivisionCode: json['SubdivisionCode'] as String?,
+      subdivisionName: json['SubdivisionName'] as String?,
+    );
+  }
+
   factory GeoLocationDetails.fromXml(_s.XmlElement elem) {
     return GeoLocationDetails(
       continentCode: _s.extractXmlStringValue(elem, 'ContinentCode'),
@@ -7011,6 +7955,23 @@ class GeoLocationDetails {
       subdivisionCode: _s.extractXmlStringValue(elem, 'SubdivisionCode'),
       subdivisionName: _s.extractXmlStringValue(elem, 'SubdivisionName'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final continentCode = this.continentCode;
+    final continentName = this.continentName;
+    final countryCode = this.countryCode;
+    final countryName = this.countryName;
+    final subdivisionCode = this.subdivisionCode;
+    final subdivisionName = this.subdivisionName;
+    return {
+      if (continentCode != null) 'ContinentCode': continentCode,
+      if (continentName != null) 'ContinentName': continentName,
+      if (countryCode != null) 'CountryCode': countryCode,
+      if (countryName != null) 'CountryName': countryName,
+      if (subdivisionCode != null) 'SubdivisionCode': subdivisionCode,
+      if (subdivisionName != null) 'SubdivisionName': subdivisionName,
+    };
   }
 }
 
@@ -7030,16 +7991,31 @@ class GetAccountLimitResponse {
   final AccountLimit limit;
 
   GetAccountLimitResponse({
-    @_s.required this.count,
-    @_s.required this.limit,
+    required this.count,
+    required this.limit,
   });
+
+  factory GetAccountLimitResponse.fromJson(Map<String, dynamic> json) {
+    return GetAccountLimitResponse(
+      count: json['Count'] as int,
+      limit: AccountLimit.fromJson(json['Limit'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetAccountLimitResponse.fromXml(_s.XmlElement elem) {
     return GetAccountLimitResponse(
-      count: _s.extractXmlIntValue(elem, 'Count'),
-      limit: _s
-          .extractXmlChild(elem, 'Limit')
-          ?.let((e) => AccountLimit.fromXml(e)),
+      count: _s.extractXmlIntValue(elem, 'Count')!,
+      limit: AccountLimit.fromXml(_s.extractXmlChild(elem, 'Limit')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final limit = this.limit;
+    return {
+      'Count': count,
+      'Limit': limit,
+    };
   }
 }
 
@@ -7049,14 +8025,27 @@ class GetChangeResponse {
   final ChangeInfo changeInfo;
 
   GetChangeResponse({
-    @_s.required this.changeInfo,
+    required this.changeInfo,
   });
+
+  factory GetChangeResponse.fromJson(Map<String, dynamic> json) {
+    return GetChangeResponse(
+      changeInfo:
+          ChangeInfo.fromJson(json['ChangeInfo'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetChangeResponse.fromXml(_s.XmlElement elem) {
     return GetChangeResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
+      changeInfo: ChangeInfo.fromXml(_s.extractXmlChild(elem, 'ChangeInfo')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeInfo = this.changeInfo;
+    return {
+      'ChangeInfo': changeInfo,
+    };
   }
 }
 
@@ -7067,39 +8056,73 @@ class GetCheckerIpRangesResponse {
   final List<String> checkerIpRanges;
 
   GetCheckerIpRangesResponse({
-    @_s.required this.checkerIpRanges,
+    required this.checkerIpRanges,
   });
+
+  factory GetCheckerIpRangesResponse.fromJson(Map<String, dynamic> json) {
+    return GetCheckerIpRangesResponse(
+      checkerIpRanges: (json['CheckerIpRanges'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
   factory GetCheckerIpRangesResponse.fromXml(_s.XmlElement elem) {
     return GetCheckerIpRangesResponse(
-      checkerIpRanges: _s
-          .extractXmlChild(elem, 'CheckerIpRanges')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      checkerIpRanges: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'CheckerIpRanges')!, 'member'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkerIpRanges = this.checkerIpRanges;
+    return {
+      'CheckerIpRanges': checkerIpRanges,
+    };
   }
 }
 
 class GetDNSSECResponse {
-  /// The key signing keys (KSKs) in your account.
+  /// The key-signing keys (KSKs) in your account.
   final List<KeySigningKey> keySigningKeys;
 
   /// A string repesenting the status of DNSSEC.
   final DNSSECStatus status;
 
   GetDNSSECResponse({
-    @_s.required this.keySigningKeys,
-    @_s.required this.status,
+    required this.keySigningKeys,
+    required this.status,
   });
+
+  factory GetDNSSECResponse.fromJson(Map<String, dynamic> json) {
+    return GetDNSSECResponse(
+      keySigningKeys: (json['KeySigningKeys'] as List)
+          .whereNotNull()
+          .map((e) => KeySigningKey.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      status: DNSSECStatus.fromJson(json['Status'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetDNSSECResponse.fromXml(_s.XmlElement elem) {
     return GetDNSSECResponse(
-      keySigningKeys: _s.extractXmlChild(elem, 'KeySigningKeys')?.let((elem) =>
-          elem
-              .findElements('member')
-              .map((c) => KeySigningKey.fromXml(c))
-              .toList()),
-      status: _s
-          .extractXmlChild(elem, 'Status')
-          ?.let((e) => DNSSECStatus.fromXml(e)),
+      keySigningKeys: _s
+          .extractXmlChild(elem, 'KeySigningKeys')!
+          .findElements('member')
+          .map((c) => KeySigningKey.fromXml(c))
+          .toList(),
+      status: DNSSECStatus.fromXml(_s.extractXmlChild(elem, 'Status')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keySigningKeys = this.keySigningKeys;
+    final status = this.status;
+    return {
+      'KeySigningKeys': keySigningKeys,
+      'Status': status,
+    };
   }
 }
 
@@ -7111,14 +8134,28 @@ class GetGeoLocationResponse {
   final GeoLocationDetails geoLocationDetails;
 
   GetGeoLocationResponse({
-    @_s.required this.geoLocationDetails,
+    required this.geoLocationDetails,
   });
+
+  factory GetGeoLocationResponse.fromJson(Map<String, dynamic> json) {
+    return GetGeoLocationResponse(
+      geoLocationDetails: GeoLocationDetails.fromJson(
+          json['GeoLocationDetails'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetGeoLocationResponse.fromXml(_s.XmlElement elem) {
     return GetGeoLocationResponse(
-      geoLocationDetails: _s
-          .extractXmlChild(elem, 'GeoLocationDetails')
-          ?.let((e) => GeoLocationDetails.fromXml(e)),
+      geoLocationDetails: GeoLocationDetails.fromXml(
+          _s.extractXmlChild(elem, 'GeoLocationDetails')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final geoLocationDetails = this.geoLocationDetails;
+    return {
+      'GeoLocationDetails': geoLocationDetails,
+    };
   }
 }
 
@@ -7129,12 +8166,26 @@ class GetHealthCheckCountResponse {
   final int healthCheckCount;
 
   GetHealthCheckCountResponse({
-    @_s.required this.healthCheckCount,
+    required this.healthCheckCount,
   });
+
+  factory GetHealthCheckCountResponse.fromJson(Map<String, dynamic> json) {
+    return GetHealthCheckCountResponse(
+      healthCheckCount: json['HealthCheckCount'] as int,
+    );
+  }
+
   factory GetHealthCheckCountResponse.fromXml(_s.XmlElement elem) {
     return GetHealthCheckCountResponse(
-      healthCheckCount: _s.extractXmlIntValue(elem, 'HealthCheckCount'),
+      healthCheckCount: _s.extractXmlIntValue(elem, 'HealthCheckCount')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheckCount = this.healthCheckCount;
+    return {
+      'HealthCheckCount': healthCheckCount,
+    };
   }
 }
 
@@ -7146,17 +8197,35 @@ class GetHealthCheckLastFailureReasonResponse {
   final List<HealthCheckObservation> healthCheckObservations;
 
   GetHealthCheckLastFailureReasonResponse({
-    @_s.required this.healthCheckObservations,
+    required this.healthCheckObservations,
   });
+
+  factory GetHealthCheckLastFailureReasonResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetHealthCheckLastFailureReasonResponse(
+      healthCheckObservations: (json['HealthCheckObservations'] as List)
+          .whereNotNull()
+          .map(
+              (e) => HealthCheckObservation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetHealthCheckLastFailureReasonResponse.fromXml(_s.XmlElement elem) {
     return GetHealthCheckLastFailureReasonResponse(
       healthCheckObservations: _s
-          .extractXmlChild(elem, 'HealthCheckObservations')
-          ?.let((elem) => elem
-              .findElements('HealthCheckObservation')
-              .map((c) => HealthCheckObservation.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'HealthCheckObservations')!
+          .findElements('HealthCheckObservation')
+          .map((c) => HealthCheckObservation.fromXml(c))
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheckObservations = this.healthCheckObservations;
+    return {
+      'HealthCheckObservations': healthCheckObservations,
+    };
   }
 }
 
@@ -7168,14 +8237,28 @@ class GetHealthCheckResponse {
   final HealthCheck healthCheck;
 
   GetHealthCheckResponse({
-    @_s.required this.healthCheck,
+    required this.healthCheck,
   });
+
+  factory GetHealthCheckResponse.fromJson(Map<String, dynamic> json) {
+    return GetHealthCheckResponse(
+      healthCheck:
+          HealthCheck.fromJson(json['HealthCheck'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetHealthCheckResponse.fromXml(_s.XmlElement elem) {
     return GetHealthCheckResponse(
-      healthCheck: _s
-          .extractXmlChild(elem, 'HealthCheck')
-          ?.let((e) => HealthCheck.fromXml(e)),
+      healthCheck:
+          HealthCheck.fromXml(_s.extractXmlChild(elem, 'HealthCheck')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheck = this.healthCheck;
+    return {
+      'HealthCheck': healthCheck,
+    };
   }
 }
 
@@ -7188,17 +8271,34 @@ class GetHealthCheckStatusResponse {
   final List<HealthCheckObservation> healthCheckObservations;
 
   GetHealthCheckStatusResponse({
-    @_s.required this.healthCheckObservations,
+    required this.healthCheckObservations,
   });
+
+  factory GetHealthCheckStatusResponse.fromJson(Map<String, dynamic> json) {
+    return GetHealthCheckStatusResponse(
+      healthCheckObservations: (json['HealthCheckObservations'] as List)
+          .whereNotNull()
+          .map(
+              (e) => HealthCheckObservation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetHealthCheckStatusResponse.fromXml(_s.XmlElement elem) {
     return GetHealthCheckStatusResponse(
       healthCheckObservations: _s
-          .extractXmlChild(elem, 'HealthCheckObservations')
-          ?.let((elem) => elem
-              .findElements('HealthCheckObservation')
-              .map((c) => HealthCheckObservation.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'HealthCheckObservations')!
+          .findElements('HealthCheckObservation')
+          .map((c) => HealthCheckObservation.fromXml(c))
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheckObservations = this.healthCheckObservations;
+    return {
+      'HealthCheckObservations': healthCheckObservations,
+    };
   }
 }
 
@@ -7210,12 +8310,26 @@ class GetHostedZoneCountResponse {
   final int hostedZoneCount;
 
   GetHostedZoneCountResponse({
-    @_s.required this.hostedZoneCount,
+    required this.hostedZoneCount,
   });
+
+  factory GetHostedZoneCountResponse.fromJson(Map<String, dynamic> json) {
+    return GetHostedZoneCountResponse(
+      hostedZoneCount: json['HostedZoneCount'] as int,
+    );
+  }
+
   factory GetHostedZoneCountResponse.fromXml(_s.XmlElement elem) {
     return GetHostedZoneCountResponse(
-      hostedZoneCount: _s.extractXmlIntValue(elem, 'HostedZoneCount'),
+      hostedZoneCount: _s.extractXmlIntValue(elem, 'HostedZoneCount')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneCount = this.hostedZoneCount;
+    return {
+      'HostedZoneCount': hostedZoneCount,
+    };
   }
 }
 
@@ -7235,16 +8349,31 @@ class GetHostedZoneLimitResponse {
   final HostedZoneLimit limit;
 
   GetHostedZoneLimitResponse({
-    @_s.required this.count,
-    @_s.required this.limit,
+    required this.count,
+    required this.limit,
   });
+
+  factory GetHostedZoneLimitResponse.fromJson(Map<String, dynamic> json) {
+    return GetHostedZoneLimitResponse(
+      count: json['Count'] as int,
+      limit: HostedZoneLimit.fromJson(json['Limit'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetHostedZoneLimitResponse.fromXml(_s.XmlElement elem) {
     return GetHostedZoneLimitResponse(
-      count: _s.extractXmlIntValue(elem, 'Count'),
-      limit: _s
-          .extractXmlChild(elem, 'Limit')
-          ?.let((e) => HostedZoneLimit.fromXml(e)),
+      count: _s.extractXmlIntValue(elem, 'Count')!,
+      limit: HostedZoneLimit.fromXml(_s.extractXmlChild(elem, 'Limit')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final limit = this.limit;
+    return {
+      'Count': count,
+      'Limit': limit,
+    };
   }
 }
 
@@ -7257,28 +8386,53 @@ class GetHostedZoneResponse {
 
   /// A complex type that lists the Amazon Route 53 name servers for the specified
   /// hosted zone.
-  final DelegationSet delegationSet;
+  final DelegationSet? delegationSet;
 
   /// A complex type that contains information about the VPCs that are associated
   /// with the specified hosted zone.
-  final List<VPC> vPCs;
+  final List<VPC>? vPCs;
 
   GetHostedZoneResponse({
-    @_s.required this.hostedZone,
+    required this.hostedZone,
     this.delegationSet,
     this.vPCs,
   });
+
+  factory GetHostedZoneResponse.fromJson(Map<String, dynamic> json) {
+    return GetHostedZoneResponse(
+      hostedZone:
+          HostedZone.fromJson(json['HostedZone'] as Map<String, dynamic>),
+      delegationSet: json['DelegationSet'] != null
+          ? DelegationSet.fromJson(
+              json['DelegationSet'] as Map<String, dynamic>)
+          : null,
+      vPCs: (json['VPCs'] as List?)
+          ?.whereNotNull()
+          .map((e) => VPC.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory GetHostedZoneResponse.fromXml(_s.XmlElement elem) {
     return GetHostedZoneResponse(
-      hostedZone: _s
-          .extractXmlChild(elem, 'HostedZone')
-          ?.let((e) => HostedZone.fromXml(e)),
+      hostedZone: HostedZone.fromXml(_s.extractXmlChild(elem, 'HostedZone')!),
       delegationSet: _s
           .extractXmlChild(elem, 'DelegationSet')
           ?.let((e) => DelegationSet.fromXml(e)),
       vPCs: _s.extractXmlChild(elem, 'VPCs')?.let((elem) =>
           elem.findElements('VPC').map((c) => VPC.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZone = this.hostedZone;
+    final delegationSet = this.delegationSet;
+    final vPCs = this.vPCs;
+    return {
+      'HostedZone': hostedZone,
+      if (delegationSet != null) 'DelegationSet': delegationSet,
+      if (vPCs != null) 'VPCs': vPCs,
+    };
   }
 }
 
@@ -7290,14 +8444,28 @@ class GetQueryLoggingConfigResponse {
   final QueryLoggingConfig queryLoggingConfig;
 
   GetQueryLoggingConfigResponse({
-    @_s.required this.queryLoggingConfig,
+    required this.queryLoggingConfig,
   });
+
+  factory GetQueryLoggingConfigResponse.fromJson(Map<String, dynamic> json) {
+    return GetQueryLoggingConfigResponse(
+      queryLoggingConfig: QueryLoggingConfig.fromJson(
+          json['QueryLoggingConfig'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetQueryLoggingConfigResponse.fromXml(_s.XmlElement elem) {
     return GetQueryLoggingConfigResponse(
-      queryLoggingConfig: _s
-          .extractXmlChild(elem, 'QueryLoggingConfig')
-          ?.let((e) => QueryLoggingConfig.fromXml(e)),
+      queryLoggingConfig: QueryLoggingConfig.fromXml(
+          _s.extractXmlChild(elem, 'QueryLoggingConfig')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryLoggingConfig = this.queryLoggingConfig;
+    return {
+      'QueryLoggingConfig': queryLoggingConfig,
+    };
   }
 }
 
@@ -7312,16 +8480,34 @@ class GetReusableDelegationSetLimitResponse {
   final ReusableDelegationSetLimit limit;
 
   GetReusableDelegationSetLimitResponse({
-    @_s.required this.count,
-    @_s.required this.limit,
+    required this.count,
+    required this.limit,
   });
+
+  factory GetReusableDelegationSetLimitResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetReusableDelegationSetLimitResponse(
+      count: json['Count'] as int,
+      limit: ReusableDelegationSetLimit.fromJson(
+          json['Limit'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetReusableDelegationSetLimitResponse.fromXml(_s.XmlElement elem) {
     return GetReusableDelegationSetLimitResponse(
-      count: _s.extractXmlIntValue(elem, 'Count'),
-      limit: _s
-          .extractXmlChild(elem, 'Limit')
-          ?.let((e) => ReusableDelegationSetLimit.fromXml(e)),
+      count: _s.extractXmlIntValue(elem, 'Count')!,
+      limit: ReusableDelegationSetLimit.fromXml(
+          _s.extractXmlChild(elem, 'Limit')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final count = this.count;
+    final limit = this.limit;
+    return {
+      'Count': count,
+      'Limit': limit,
+    };
   }
 }
 
@@ -7332,14 +8518,28 @@ class GetReusableDelegationSetResponse {
   final DelegationSet delegationSet;
 
   GetReusableDelegationSetResponse({
-    @_s.required this.delegationSet,
+    required this.delegationSet,
   });
+
+  factory GetReusableDelegationSetResponse.fromJson(Map<String, dynamic> json) {
+    return GetReusableDelegationSetResponse(
+      delegationSet:
+          DelegationSet.fromJson(json['DelegationSet'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetReusableDelegationSetResponse.fromXml(_s.XmlElement elem) {
     return GetReusableDelegationSetResponse(
-      delegationSet: _s
-          .extractXmlChild(elem, 'DelegationSet')
-          ?.let((e) => DelegationSet.fromXml(e)),
+      delegationSet:
+          DelegationSet.fromXml(_s.extractXmlChild(elem, 'DelegationSet')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationSet = this.delegationSet;
+    return {
+      'DelegationSet': delegationSet,
+    };
   }
 }
 
@@ -7351,13 +8551,28 @@ class GetTrafficPolicyInstanceCountResponse {
   final int trafficPolicyInstanceCount;
 
   GetTrafficPolicyInstanceCountResponse({
-    @_s.required this.trafficPolicyInstanceCount,
+    required this.trafficPolicyInstanceCount,
   });
+
+  factory GetTrafficPolicyInstanceCountResponse.fromJson(
+      Map<String, dynamic> json) {
+    return GetTrafficPolicyInstanceCountResponse(
+      trafficPolicyInstanceCount: json['TrafficPolicyInstanceCount'] as int,
+    );
+  }
+
   factory GetTrafficPolicyInstanceCountResponse.fromXml(_s.XmlElement elem) {
     return GetTrafficPolicyInstanceCountResponse(
       trafficPolicyInstanceCount:
-          _s.extractXmlIntValue(elem, 'TrafficPolicyInstanceCount'),
+          _s.extractXmlIntValue(elem, 'TrafficPolicyInstanceCount')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficPolicyInstanceCount = this.trafficPolicyInstanceCount;
+    return {
+      'TrafficPolicyInstanceCount': trafficPolicyInstanceCount,
+    };
   }
 }
 
@@ -7368,14 +8583,28 @@ class GetTrafficPolicyInstanceResponse {
   final TrafficPolicyInstance trafficPolicyInstance;
 
   GetTrafficPolicyInstanceResponse({
-    @_s.required this.trafficPolicyInstance,
+    required this.trafficPolicyInstance,
   });
+
+  factory GetTrafficPolicyInstanceResponse.fromJson(Map<String, dynamic> json) {
+    return GetTrafficPolicyInstanceResponse(
+      trafficPolicyInstance: TrafficPolicyInstance.fromJson(
+          json['TrafficPolicyInstance'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetTrafficPolicyInstanceResponse.fromXml(_s.XmlElement elem) {
     return GetTrafficPolicyInstanceResponse(
-      trafficPolicyInstance: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstance')
-          ?.let((e) => TrafficPolicyInstance.fromXml(e)),
+      trafficPolicyInstance: TrafficPolicyInstance.fromXml(
+          _s.extractXmlChild(elem, 'TrafficPolicyInstance')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficPolicyInstance = this.trafficPolicyInstance;
+    return {
+      'TrafficPolicyInstance': trafficPolicyInstance,
+    };
   }
 }
 
@@ -7385,14 +8614,28 @@ class GetTrafficPolicyResponse {
   final TrafficPolicy trafficPolicy;
 
   GetTrafficPolicyResponse({
-    @_s.required this.trafficPolicy,
+    required this.trafficPolicy,
   });
+
+  factory GetTrafficPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetTrafficPolicyResponse(
+      trafficPolicy:
+          TrafficPolicy.fromJson(json['TrafficPolicy'] as Map<String, dynamic>),
+    );
+  }
+
   factory GetTrafficPolicyResponse.fromXml(_s.XmlElement elem) {
     return GetTrafficPolicyResponse(
-      trafficPolicy: _s
-          .extractXmlChild(elem, 'TrafficPolicy')
-          ?.let((e) => TrafficPolicy.fromXml(e)),
+      trafficPolicy:
+          TrafficPolicy.fromXml(_s.extractXmlChild(elem, 'TrafficPolicy')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficPolicy = this.trafficPolicy;
+    return {
+      'TrafficPolicy': trafficPolicy,
+    };
   }
 }
 
@@ -7410,7 +8653,7 @@ class HealthCheck {
   /// to the health check.
   final int healthCheckVersion;
 
-  /// The identifier that Amazon Route 53assigned to the health check when you
+  /// The identifier that Amazon Route 53 assigned to the health check when you
   /// created it. When you add or update a resource record set, you use this value
   /// to specify which health check to use. The value can be up to 64 characters
   /// long.
@@ -7418,29 +8661,47 @@ class HealthCheck {
 
   /// A complex type that contains information about the CloudWatch alarm that
   /// Amazon Route 53 is monitoring for this health check.
-  final CloudWatchAlarmConfiguration cloudWatchAlarmConfiguration;
+  final CloudWatchAlarmConfiguration? cloudWatchAlarmConfiguration;
 
   /// If the health check was created by another service, the service that created
   /// the health check. When a health check is created by another service, you
   /// can't edit or delete it using Amazon Route 53.
-  final LinkedService linkedService;
+  final LinkedService? linkedService;
 
   HealthCheck({
-    @_s.required this.callerReference,
-    @_s.required this.healthCheckConfig,
-    @_s.required this.healthCheckVersion,
-    @_s.required this.id,
+    required this.callerReference,
+    required this.healthCheckConfig,
+    required this.healthCheckVersion,
+    required this.id,
     this.cloudWatchAlarmConfiguration,
     this.linkedService,
   });
+
+  factory HealthCheck.fromJson(Map<String, dynamic> json) {
+    return HealthCheck(
+      callerReference: json['CallerReference'] as String,
+      healthCheckConfig: HealthCheckConfig.fromJson(
+          json['HealthCheckConfig'] as Map<String, dynamic>),
+      healthCheckVersion: json['HealthCheckVersion'] as int,
+      id: json['Id'] as String,
+      cloudWatchAlarmConfiguration: json['CloudWatchAlarmConfiguration'] != null
+          ? CloudWatchAlarmConfiguration.fromJson(
+              json['CloudWatchAlarmConfiguration'] as Map<String, dynamic>)
+          : null,
+      linkedService: json['LinkedService'] != null
+          ? LinkedService.fromJson(
+              json['LinkedService'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory HealthCheck.fromXml(_s.XmlElement elem) {
     return HealthCheck(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      healthCheckConfig: _s
-          .extractXmlChild(elem, 'HealthCheckConfig')
-          ?.let((e) => HealthCheckConfig.fromXml(e)),
-      healthCheckVersion: _s.extractXmlIntValue(elem, 'HealthCheckVersion'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      healthCheckConfig: HealthCheckConfig.fromXml(
+          _s.extractXmlChild(elem, 'HealthCheckConfig')!),
+      healthCheckVersion: _s.extractXmlIntValue(elem, 'HealthCheckVersion')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
       cloudWatchAlarmConfiguration: _s
           .extractXmlChild(elem, 'CloudWatchAlarmConfiguration')
           ?.let((e) => CloudWatchAlarmConfiguration.fromXml(e)),
@@ -7448,6 +8709,24 @@ class HealthCheck {
           .extractXmlChild(elem, 'LinkedService')
           ?.let((e) => LinkedService.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final healthCheckConfig = this.healthCheckConfig;
+    final healthCheckVersion = this.healthCheckVersion;
+    final id = this.id;
+    final cloudWatchAlarmConfiguration = this.cloudWatchAlarmConfiguration;
+    final linkedService = this.linkedService;
+    return {
+      'CallerReference': callerReference,
+      'HealthCheckConfig': healthCheckConfig,
+      'HealthCheckVersion': healthCheckVersion,
+      'Id': id,
+      if (cloudWatchAlarmConfiguration != null)
+        'CloudWatchAlarmConfiguration': cloudWatchAlarmConfiguration,
+      if (linkedService != null) 'LinkedService': linkedService,
+    };
   }
 }
 
@@ -7516,12 +8795,12 @@ class HealthCheckConfig {
   /// A complex type that identifies the CloudWatch alarm that you want Amazon
   /// Route 53 health checkers to use to determine whether the specified health
   /// check is healthy.
-  final AlarmIdentifier alarmIdentifier;
+  final AlarmIdentifier? alarmIdentifier;
 
   /// (CALCULATED Health Checks Only) A complex type that contains one
   /// <code>ChildHealthCheck</code> element for each health check that you want to
   /// associate with a <code>CALCULATED</code> health check.
-  final List<String> childHealthChecks;
+  final List<String>? childHealthChecks;
 
   /// Stops Route 53 from performing health checks. When you disable a health
   /// check, here's what happens:
@@ -7549,7 +8828,7 @@ class HealthCheckConfig {
   /// Charges for a health check still apply when the health check is disabled.
   /// For more information, see <a
   /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
-  final bool disabled;
+  final bool? disabled;
 
   /// Specify whether you want Amazon Route 53 to send the value of
   /// <code>FullyQualifiedDomainName</code> to the endpoint in the
@@ -7574,7 +8853,7 @@ class HealthCheckConfig {
   /// a health checker will retry the handshake. In the second attempt, the health
   /// checker will omit <code>FullyQualifiedDomainName</code> from the
   /// <code>client_hello</code> message.
-  final bool enableSNI;
+  final bool? enableSNI;
 
   /// The number of consecutive health checks that an endpoint must pass or fail
   /// for Amazon Route 53 to change the current status of the endpoint from
@@ -7585,7 +8864,7 @@ class HealthCheckConfig {
   ///
   /// If you don't specify a value for <code>FailureThreshold</code>, the default
   /// value is three health checks.
-  final int failureThreshold;
+  final int? failureThreshold;
 
   /// Amazon Route 53 behavior depends on whether you specify a value for
   /// <code>IPAddress</code>.
@@ -7659,7 +8938,7 @@ class HealthCheckConfig {
   /// does when you specify a value for <code>IPAddress</code>. If the value of
   /// <code>Type</code> is <code>TCP</code>, Route 53 doesn't pass a
   /// <code>Host</code> header.
-  final String fullyQualifiedDomainName;
+  final String? fullyQualifiedDomainName;
 
   /// The number of child health checks that are associated with a
   /// <code>CALCULATED</code> health check that Amazon Route 53 must consider
@@ -7681,7 +8960,7 @@ class HealthCheckConfig {
   /// to be healthy.
   /// </li>
   /// </ul>
-  final int healthThreshold;
+  final int? healthThreshold;
 
   /// The IPv4 or IPv6 IP address of the endpoint that you want Amazon Route 53 to
   /// perform health checks on. If you don't specify a value for
@@ -7734,7 +9013,7 @@ class HealthCheckConfig {
   /// </ul>
   /// When the value of <code>Type</code> is <code>CALCULATED</code> or
   /// <code>CLOUDWATCH_METRIC</code>, omit <code>IPAddress</code>.
-  final String iPAddress;
+  final String? iPAddress;
 
   /// When CloudWatch has insufficient data about the metric to determine the
   /// alarm state, the status that you want Amazon Route 53 to assign to the
@@ -7754,12 +9033,12 @@ class HealthCheckConfig {
   /// default status for the health check is healthy.
   /// </li>
   /// </ul>
-  final InsufficientDataHealthStatus insufficientDataHealthStatus;
+  final InsufficientDataHealthStatus? insufficientDataHealthStatus;
 
   /// Specify whether you want Amazon Route 53 to invert the status of a health
   /// check, for example, to consider a health check unhealthy when it otherwise
   /// would be considered healthy.
-  final bool inverted;
+  final bool? inverted;
 
   /// Specify whether you want Amazon Route 53 to measure the latency between
   /// health checkers in multiple AWS regions and your endpoint, and to display
@@ -7769,7 +9048,7 @@ class HealthCheckConfig {
   /// You can't change the value of <code>MeasureLatency</code> after you create a
   /// health check.
   /// </important>
-  final bool measureLatency;
+  final bool? measureLatency;
 
   /// The port on the endpoint that you want Amazon Route 53 to perform health
   /// checks on.
@@ -7778,7 +9057,7 @@ class HealthCheckConfig {
   /// <code>Type</code> of <code>CLOUDWATCH_METRIC</code> or
   /// <code>CALCULATED</code>.
   /// </note>
-  final int port;
+  final int? port;
 
   /// A complex type that contains one <code>Region</code> element for each region
   /// from which you want Amazon Route 53 health checkers to check the specified
@@ -7792,7 +9071,7 @@ class HealthCheckConfig {
   /// health checks, Route 53 will briefly continue to perform checks from that
   /// region to ensure that some health checkers are always checking the endpoint
   /// (for example, if you replace three regions with four different regions).
-  final List<HealthCheckRegion> regions;
+  final List<HealthCheckRegion>? regions;
 
   /// The number of seconds between the time that Amazon Route 53 gets a response
   /// from your endpoint and the time that it sends the next health check request.
@@ -7803,14 +9082,14 @@ class HealthCheckConfig {
   /// </important>
   /// If you don't specify a value for <code>RequestInterval</code>, the default
   /// value is <code>30</code> seconds.
-  final int requestInterval;
+  final int? requestInterval;
 
   /// The path, if any, that you want Amazon Route 53 to request when performing
   /// health checks. The path can be any value for which your endpoint will return
   /// an HTTP status code of 2xx or 3xx when the endpoint is healthy, for example,
   /// the file /docs/route53-health-check.html. You can also include query string
   /// parameters, for example, <code>/welcome.html?language=jp&amp;login=y</code>.
-  final String resourcePath;
+  final String? resourcePath;
 
   /// If the value of Type is <code>HTTP_STR_MATCH</code> or
   /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
@@ -7819,10 +9098,10 @@ class HealthCheckConfig {
   ///
   /// Route 53 considers case when searching for <code>SearchString</code> in the
   /// response body.
-  final String searchString;
+  final String? searchString;
 
   HealthCheckConfig({
-    @_s.required this.type,
+    required this.type,
     this.alarmIdentifier,
     this.childHealthChecks,
     this.disabled,
@@ -7840,9 +9119,43 @@ class HealthCheckConfig {
     this.resourcePath,
     this.searchString,
   });
+
+  factory HealthCheckConfig.fromJson(Map<String, dynamic> json) {
+    return HealthCheckConfig(
+      type: (json['Type'] as String).toHealthCheckType(),
+      alarmIdentifier: json['AlarmIdentifier'] != null
+          ? AlarmIdentifier.fromJson(
+              json['AlarmIdentifier'] as Map<String, dynamic>)
+          : null,
+      childHealthChecks: (json['ChildHealthChecks'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      disabled: json['Disabled'] as bool?,
+      enableSNI: json['EnableSNI'] as bool?,
+      failureThreshold: json['FailureThreshold'] as int?,
+      fullyQualifiedDomainName: json['FullyQualifiedDomainName'] as String?,
+      healthThreshold: json['HealthThreshold'] as int?,
+      iPAddress: json['IPAddress'] as String?,
+      insufficientDataHealthStatus:
+          (json['InsufficientDataHealthStatus'] as String?)
+              ?.toInsufficientDataHealthStatus(),
+      inverted: json['Inverted'] as bool?,
+      measureLatency: json['MeasureLatency'] as bool?,
+      port: json['Port'] as int?,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toHealthCheckRegion())
+          .toList(),
+      requestInterval: json['RequestInterval'] as int?,
+      resourcePath: json['ResourcePath'] as String?,
+      searchString: json['SearchString'] as String?,
+    );
+  }
+
   factory HealthCheckConfig.fromXml(_s.XmlElement elem) {
     return HealthCheckConfig(
-      type: _s.extractXmlStringValue(elem, 'Type')?.toHealthCheckType(),
+      type: _s.extractXmlStringValue(elem, 'Type')!.toHealthCheckType(),
       alarmIdentifier: _s
           .extractXmlChild(elem, 'AlarmIdentifier')
           ?.let((e) => AlarmIdentifier.fromXml(e)),
@@ -7871,11 +9184,69 @@ class HealthCheckConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final alarmIdentifier = this.alarmIdentifier;
+    final childHealthChecks = this.childHealthChecks;
+    final disabled = this.disabled;
+    final enableSNI = this.enableSNI;
+    final failureThreshold = this.failureThreshold;
+    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
+    final healthThreshold = this.healthThreshold;
+    final iPAddress = this.iPAddress;
+    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
+    final inverted = this.inverted;
+    final measureLatency = this.measureLatency;
+    final port = this.port;
+    final regions = this.regions;
+    final requestInterval = this.requestInterval;
+    final resourcePath = this.resourcePath;
+    final searchString = this.searchString;
+    return {
+      'Type': type.toValue(),
+      if (alarmIdentifier != null) 'AlarmIdentifier': alarmIdentifier,
+      if (childHealthChecks != null) 'ChildHealthChecks': childHealthChecks,
+      if (disabled != null) 'Disabled': disabled,
+      if (enableSNI != null) 'EnableSNI': enableSNI,
+      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
+      if (fullyQualifiedDomainName != null)
+        'FullyQualifiedDomainName': fullyQualifiedDomainName,
+      if (healthThreshold != null) 'HealthThreshold': healthThreshold,
+      if (iPAddress != null) 'IPAddress': iPAddress,
+      if (insufficientDataHealthStatus != null)
+        'InsufficientDataHealthStatus': insufficientDataHealthStatus.toValue(),
+      if (inverted != null) 'Inverted': inverted,
+      if (measureLatency != null) 'MeasureLatency': measureLatency,
+      if (port != null) 'Port': port,
+      if (regions != null) 'Regions': regions.map((e) => e.toValue()).toList(),
+      if (requestInterval != null) 'RequestInterval': requestInterval,
+      if (resourcePath != null) 'ResourcePath': resourcePath,
+      if (searchString != null) 'SearchString': searchString,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final type = this.type;
+    final alarmIdentifier = this.alarmIdentifier;
+    final childHealthChecks = this.childHealthChecks;
+    final disabled = this.disabled;
+    final enableSNI = this.enableSNI;
+    final failureThreshold = this.failureThreshold;
+    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
+    final healthThreshold = this.healthThreshold;
+    final iPAddress = this.iPAddress;
+    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
+    final inverted = this.inverted;
+    final measureLatency = this.measureLatency;
+    final port = this.port;
+    final regions = this.regions;
+    final requestInterval = this.requestInterval;
+    final resourcePath = this.resourcePath;
+    final searchString = this.searchString;
     final $children = <_s.XmlNode>[
       if (iPAddress != null) _s.encodeXmlStringValue('IPAddress', iPAddress),
       if (port != null) _s.encodeXmlIntValue('Port', port),
-      _s.encodeXmlStringValue('Type', type?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Type', type.toValue()),
       if (resourcePath != null)
         _s.encodeXmlStringValue('ResourcePath', resourcePath),
       if (fullyQualifiedDomainName != null)
@@ -7901,12 +9272,9 @@ class HealthCheckConfig {
                 .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
       if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
-        _s.XmlElement(
-            _s.XmlName('Regions'),
-            [],
-            regions.map(
-                (e) => _s.encodeXmlStringValue('Region', e?.toValue() ?? ''))),
-      if (alarmIdentifier != null) alarmIdentifier?.toXml('AlarmIdentifier'),
+        _s.XmlElement(_s.XmlName('Regions'), [],
+            regions.map((e) => _s.encodeXmlStringValue('Region', e.toValue()))),
+      if (alarmIdentifier != null) alarmIdentifier.toXml('AlarmIdentifier'),
       if (insufficientDataHealthStatus != null)
         _s.encodeXmlStringValue('InsufficientDataHealthStatus',
             insufficientDataHealthStatus.toValue()),
@@ -7917,7 +9285,7 @@ class HealthCheckConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -7927,21 +9295,32 @@ class HealthCheckConfig {
 class HealthCheckObservation {
   /// The IP address of the Amazon Route 53 health checker that provided the
   /// failure reason in <code>StatusReport</code>.
-  final String iPAddress;
+  final String? iPAddress;
 
   /// The region of the Amazon Route 53 health checker that provided the status in
   /// <code>StatusReport</code>.
-  final HealthCheckRegion region;
+  final HealthCheckRegion? region;
 
   /// A complex type that contains the last failure reason as reported by one
   /// Amazon Route 53 health checker and the time of the failed health check.
-  final StatusReport statusReport;
+  final StatusReport? statusReport;
 
   HealthCheckObservation({
     this.iPAddress,
     this.region,
     this.statusReport,
   });
+
+  factory HealthCheckObservation.fromJson(Map<String, dynamic> json) {
+    return HealthCheckObservation(
+      iPAddress: json['IPAddress'] as String?,
+      region: (json['Region'] as String?)?.toHealthCheckRegion(),
+      statusReport: json['StatusReport'] != null
+          ? StatusReport.fromJson(json['StatusReport'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
   factory HealthCheckObservation.fromXml(_s.XmlElement elem) {
     return HealthCheckObservation(
       iPAddress: _s.extractXmlStringValue(elem, 'IPAddress'),
@@ -7950,6 +9329,17 @@ class HealthCheckObservation {
           .extractXmlChild(elem, 'StatusReport')
           ?.let((e) => StatusReport.fromXml(e)),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final iPAddress = this.iPAddress;
+    final region = this.region;
+    final statusReport = this.statusReport;
+    return {
+      if (iPAddress != null) 'IPAddress': iPAddress,
+      if (region != null) 'Region': region.toValue(),
+      if (statusReport != null) 'StatusReport': statusReport,
+    };
   }
 }
 
@@ -7984,7 +9374,6 @@ extension on HealthCheckRegion {
       case HealthCheckRegion.saEast_1:
         return 'sa-east-1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8008,7 +9397,7 @@ extension on String {
       case 'sa-east-1':
         return HealthCheckRegion.saEast_1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum HealthCheckRegion');
   }
 }
 
@@ -8040,7 +9429,6 @@ extension on HealthCheckType {
       case HealthCheckType.cloudwatchMetric:
         return 'CLOUDWATCH_METRIC';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8062,7 +9450,7 @@ extension on String {
       case 'CLOUDWATCH_METRIC':
         return HealthCheckType.cloudwatchMetric;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum HealthCheckType');
   }
 }
 
@@ -8089,29 +9477,46 @@ class HostedZone {
   /// <code>HostedZoneConfig</code> and <code>Comment</code> elements from the
   /// request, the <code>Config</code> and <code>Comment</code> elements don't
   /// appear in the response.
-  final HostedZoneConfig config;
+  final HostedZoneConfig? config;
 
   /// If the hosted zone was created by another service, the service that created
   /// the hosted zone. When a hosted zone is created by another service, you can't
   /// edit or delete it using Route 53.
-  final LinkedService linkedService;
+  final LinkedService? linkedService;
 
   /// The number of resource record sets in the hosted zone.
-  final int resourceRecordSetCount;
+  final int? resourceRecordSetCount;
 
   HostedZone({
-    @_s.required this.callerReference,
-    @_s.required this.id,
-    @_s.required this.name,
+    required this.callerReference,
+    required this.id,
+    required this.name,
     this.config,
     this.linkedService,
     this.resourceRecordSetCount,
   });
+
+  factory HostedZone.fromJson(Map<String, dynamic> json) {
+    return HostedZone(
+      callerReference: json['CallerReference'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      config: json['Config'] != null
+          ? HostedZoneConfig.fromJson(json['Config'] as Map<String, dynamic>)
+          : null,
+      linkedService: json['LinkedService'] != null
+          ? LinkedService.fromJson(
+              json['LinkedService'] as Map<String, dynamic>)
+          : null,
+      resourceRecordSetCount: json['ResourceRecordSetCount'] as int?,
+    );
+  }
+
   factory HostedZone.fromXml(_s.XmlElement elem) {
     return HostedZone(
-      callerReference: _s.extractXmlStringValue(elem, 'CallerReference'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
+      callerReference: _s.extractXmlStringValue(elem, 'CallerReference')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
       config: _s
           .extractXmlChild(elem, 'Config')
           ?.let((e) => HostedZoneConfig.fromXml(e)),
@@ -8122,6 +9527,24 @@ class HostedZone {
           _s.extractXmlIntValue(elem, 'ResourceRecordSetCount'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final callerReference = this.callerReference;
+    final id = this.id;
+    final name = this.name;
+    final config = this.config;
+    final linkedService = this.linkedService;
+    final resourceRecordSetCount = this.resourceRecordSetCount;
+    return {
+      'CallerReference': callerReference,
+      'Id': id,
+      'Name': name,
+      if (config != null) 'Config': config,
+      if (linkedService != null) 'LinkedService': linkedService,
+      if (resourceRecordSetCount != null)
+        'ResourceRecordSetCount': resourceRecordSetCount,
+    };
+  }
 }
 
 /// A complex type that contains an optional comment about your hosted zone. If
@@ -8129,15 +9552,23 @@ class HostedZone {
 /// <code>HostedZoneConfig</code> and <code>Comment</code> elements.
 class HostedZoneConfig {
   /// Any comments that you want to include about the hosted zone.
-  final String comment;
+  final String? comment;
 
   /// A value that indicates whether this is a private hosted zone.
-  final bool privateZone;
+  final bool? privateZone;
 
   HostedZoneConfig({
     this.comment,
     this.privateZone,
   });
+
+  factory HostedZoneConfig.fromJson(Map<String, dynamic> json) {
+    return HostedZoneConfig(
+      comment: json['Comment'] as String?,
+      privateZone: json['PrivateZone'] as bool?,
+    );
+  }
+
   factory HostedZoneConfig.fromXml(_s.XmlElement elem) {
     return HostedZoneConfig(
       comment: _s.extractXmlStringValue(elem, 'Comment'),
@@ -8145,7 +9576,18 @@ class HostedZoneConfig {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final privateZone = this.privateZone;
+    return {
+      if (comment != null) 'Comment': comment,
+      if (privateZone != null) 'PrivateZone': privateZone,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final comment = this.comment;
+    final privateZone = this.privateZone;
     final $children = <_s.XmlNode>[
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
       if (privateZone != null)
@@ -8157,7 +9599,7 @@ class HostedZoneConfig {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -8183,14 +9625,31 @@ class HostedZoneLimit {
   final int value;
 
   HostedZoneLimit({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
+
+  factory HostedZoneLimit.fromJson(Map<String, dynamic> json) {
+    return HostedZoneLimit(
+      type: (json['Type'] as String).toHostedZoneLimitType(),
+      value: json['Value'] as int,
+    );
+  }
+
   factory HostedZoneLimit.fromXml(_s.XmlElement elem) {
     return HostedZoneLimit(
-      type: _s.extractXmlStringValue(elem, 'Type')?.toHostedZoneLimitType(),
-      value: _s.extractXmlIntValue(elem, 'Value'),
+      type: _s.extractXmlStringValue(elem, 'Type')!.toHostedZoneLimitType(),
+      value: _s.extractXmlIntValue(elem, 'Value')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
   }
 }
 
@@ -8207,7 +9666,6 @@ extension on HostedZoneLimitType {
       case HostedZoneLimitType.maxVpcsAssociatedByZone:
         return 'MAX_VPCS_ASSOCIATED_BY_ZONE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8219,7 +9677,7 @@ extension on String {
       case 'MAX_VPCS_ASSOCIATED_BY_ZONE':
         return HostedZoneLimitType.maxVpcsAssociatedByZone;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum HostedZoneLimitType');
   }
 }
 
@@ -8233,7 +9691,7 @@ class HostedZoneOwner {
   /// <code>OwningAccount</code> contains the account ID of that account. For
   /// example, when you use AWS Cloud Map to create a hosted zone, Cloud Map
   /// creates the hosted zone using the current AWS account.
-  final String owningAccount;
+  final String? owningAccount;
 
   /// If an AWS service uses its own account to create a hosted zone and associate
   /// the specified VPC with that hosted zone, <code>OwningService</code> contains
@@ -8241,17 +9699,34 @@ class HostedZoneOwner {
   /// File System (Amazon EFS) created a hosted zone and associated a VPC with the
   /// hosted zone, the value of <code>OwningService</code> is
   /// <code>efs.amazonaws.com</code>.
-  final String owningService;
+  final String? owningService;
 
   HostedZoneOwner({
     this.owningAccount,
     this.owningService,
   });
+
+  factory HostedZoneOwner.fromJson(Map<String, dynamic> json) {
+    return HostedZoneOwner(
+      owningAccount: json['OwningAccount'] as String?,
+      owningService: json['OwningService'] as String?,
+    );
+  }
+
   factory HostedZoneOwner.fromXml(_s.XmlElement elem) {
     return HostedZoneOwner(
       owningAccount: _s.extractXmlStringValue(elem, 'OwningAccount'),
       owningService: _s.extractXmlStringValue(elem, 'OwningService'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final owningAccount = this.owningAccount;
+    final owningService = this.owningService;
+    return {
+      if (owningAccount != null) 'OwningAccount': owningAccount,
+      if (owningService != null) 'OwningService': owningService,
+    };
   }
 }
 
@@ -8274,18 +9749,36 @@ class HostedZoneSummary {
   final HostedZoneOwner owner;
 
   HostedZoneSummary({
-    @_s.required this.hostedZoneId,
-    @_s.required this.name,
-    @_s.required this.owner,
+    required this.hostedZoneId,
+    required this.name,
+    required this.owner,
   });
+
+  factory HostedZoneSummary.fromJson(Map<String, dynamic> json) {
+    return HostedZoneSummary(
+      hostedZoneId: json['HostedZoneId'] as String,
+      name: json['Name'] as String,
+      owner: HostedZoneOwner.fromJson(json['Owner'] as Map<String, dynamic>),
+    );
+  }
+
   factory HostedZoneSummary.fromXml(_s.XmlElement elem) {
     return HostedZoneSummary(
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      owner: _s
-          .extractXmlChild(elem, 'Owner')
-          ?.let((e) => HostedZoneOwner.fromXml(e)),
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      owner: HostedZoneOwner.fromXml(_s.extractXmlChild(elem, 'Owner')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final name = this.name;
+    final owner = this.owner;
+    return {
+      'HostedZoneId': hostedZoneId,
+      'Name': name,
+      'Owner': owner,
+    };
   }
 }
 
@@ -8305,7 +9798,6 @@ extension on InsufficientDataHealthStatus {
       case InsufficientDataHealthStatus.lastKnownStatus:
         return 'LastKnownStatus';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -8319,55 +9811,56 @@ extension on String {
       case 'LastKnownStatus':
         return InsufficientDataHealthStatus.lastKnownStatus;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum InsufficientDataHealthStatus');
   }
 }
 
-/// A key signing key (KSK) is a complex type that represents a public/private
+/// A key-signing key (KSK) is a complex type that represents a public/private
 /// key pair. The private key is used to generate a digital signature for the
 /// zone signing key (ZSK). The public key is stored in the DNS and is used to
 /// authenticate the ZSK. A KSK is always associated with a hosted zone; it
 /// cannot exist by itself.
 class KeySigningKey {
-  /// The date when the key signing key (KSK) was created.
-  final DateTime createdDate;
+  /// The date when the key-signing key (KSK) was created.
+  final DateTime? createdDate;
 
   /// A string that represents a DNSKEY record.
-  final String dNSKEYRecord;
+  final String? dNSKEYRecord;
 
   /// A string that represents a delegation signer (DS) record.
-  final String dSRecord;
+  final String? dSRecord;
 
   /// A string used to represent the delegation signer digest algorithm. This
   /// value must follow the guidelines provided by <a
   /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
   /// 3.3</a>.
-  final String digestAlgorithmMnemonic;
+  final String? digestAlgorithmMnemonic;
 
   /// An integer used to represent the delegation signer digest algorithm. This
   /// value must follow the guidelines provided by <a
   /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
   /// 3.3</a>.
-  final int digestAlgorithmType;
+  final int? digestAlgorithmType;
 
   /// A cryptographic digest of a DNSKEY resource record (RR). DNSKEY records are
   /// used to publish the public key that resolvers can use to verify DNSSEC
   /// signatures that are used to secure certain kinds of information provided by
   /// the DNS system.
-  final String digestValue;
+  final String? digestValue;
 
-  /// An integer that specifies how the key is used. For key signing key (KSK),
+  /// An integer that specifies how the key is used. For key-signing key (KSK),
   /// this value is always 257.
-  final int flag;
+  final int? flag;
 
   /// An integer used to identify the DNSSEC record for the domain name. The
   /// process used to calculate the value is described in <a
   /// href="https://tools.ietf.org/rfc/rfc4034.txt">RFC-4034 Appendix B</a>.
-  final int keyTag;
+  final int? keyTag;
 
-  /// The Amazon resource name (ARN) used to identify the customer managed key
-  /// (CMK) in AWS Key Management Service (KMS). The <code>KmsArn</code> must be
-  /// unique for each key signing key (KSK) in a single hosted zone.
+  /// The Amazon resource name (ARN) used to identify the customer managed
+  /// customer master key (CMK) in AWS Key Management Service (AWS KMS). The
+  /// <code>KmsArn</code> must be unique for each key-signing key (KSK) in a
+  /// single hosted zone.
   ///
   /// You must configure the CMK as follows:
   /// <dl> <dt>Status</dt> <dd>
@@ -8398,57 +9891,62 @@ class KeySigningKey {
   /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
   /// </li>
   /// </ul> </dd> </dl>
-  /// For more information about working with the customer managed key (CMK) in
-  /// KMS, see <a
+  /// For more information about working with the customer managed CMK in AWS KMS,
+  /// see <a
   /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
   /// Key Management Service concepts</a>.
-  final String kmsArn;
+  final String? kmsArn;
 
-  /// The last time that the key signing key (KSK) was changed.
-  final DateTime lastModifiedDate;
+  /// The last time that the key-signing key (KSK) was changed.
+  final DateTime? lastModifiedDate;
 
-  /// An alphanumeric string used to identify a key signing key (KSK).
-  /// <code>Name</code> must be unique for each key signing key in the same hosted
-  /// zone.
-  final String name;
+  /// A string used to identify a key-signing key (KSK). <code>Name</code> can
+  /// include numbers, letters, and underscores (_). <code>Name</code> must be
+  /// unique for each key-signing key in the same hosted zone.
+  final String? name;
 
   /// The public key, represented as a Base64 encoding, as required by <a
   /// href="https://tools.ietf.org/rfc/rfc4034.txt"> RFC-4034 Page 5</a>.
-  final String publicKey;
+  final String? publicKey;
 
   /// A string used to represent the signing algorithm. This value must follow the
   /// guidelines provided by <a
   /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
   /// 3.1</a>.
-  final String signingAlgorithmMnemonic;
+  final String? signingAlgorithmMnemonic;
 
   /// An integer used to represent the signing algorithm. This value must follow
   /// the guidelines provided by <a
   /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
   /// 3.1</a>.
-  final int signingAlgorithmType;
+  final int? signingAlgorithmType;
 
-  /// A string that represents the current key signing key (KSK) status.
+  /// A string that represents the current key-signing key (KSK) status.
   ///
   /// Status can have one of the following values:
   /// <dl> <dt>ACTIVE</dt> <dd>
   /// The KSK is being used for signing.
   /// </dd> <dt>INACTIVE</dt> <dd>
   /// The KSK is not being used for signing.
+  /// </dd> <dt>DELETING</dt> <dd>
+  /// The KSK is in the process of being deleted.
   /// </dd> <dt>ACTION_NEEDED</dt> <dd>
-  /// There is an error in the KSK that requires you to take action to resolve.
+  /// There is a problem with the KSK that requires you to take action to resolve.
+  /// For example, the customer managed customer master key (CMK) might have been
+  /// deleted, or the permissions for the customer managed CMK might have been
+  /// changed.
   /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
   /// There was an error during a request. Before you can continue to work with
   /// DNSSEC signing, including actions that involve this KSK, you must correct
   /// the problem. For example, you may need to activate or deactivate the KSK.
   /// </dd> </dl>
-  final String status;
+  final String? status;
 
-  /// The status message provided for the following key signing key (KSK)
+  /// The status message provided for the following key-signing key (KSK)
   /// statuses: <code>ACTION_NEEDED</code> or <code>INTERNAL_FAILURE</code>. The
   /// status message includes information about what the problem might be and
   /// steps that you can take to correct the issue.
-  final String statusMessage;
+  final String? statusMessage;
 
   KeySigningKey({
     this.createdDate,
@@ -8468,6 +9966,28 @@ class KeySigningKey {
     this.status,
     this.statusMessage,
   });
+
+  factory KeySigningKey.fromJson(Map<String, dynamic> json) {
+    return KeySigningKey(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      dNSKEYRecord: json['DNSKEYRecord'] as String?,
+      dSRecord: json['DSRecord'] as String?,
+      digestAlgorithmMnemonic: json['DigestAlgorithmMnemonic'] as String?,
+      digestAlgorithmType: json['DigestAlgorithmType'] as int?,
+      digestValue: json['DigestValue'] as String?,
+      flag: json['Flag'] as int?,
+      keyTag: json['KeyTag'] as int?,
+      kmsArn: json['KmsArn'] as String?,
+      lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+      name: json['Name'] as String?,
+      publicKey: json['PublicKey'] as String?,
+      signingAlgorithmMnemonic: json['SigningAlgorithmMnemonic'] as String?,
+      signingAlgorithmType: json['SigningAlgorithmType'] as int?,
+      status: json['Status'] as String?,
+      statusMessage: json['StatusMessage'] as String?,
+    );
+  }
+
   factory KeySigningKey.fromXml(_s.XmlElement elem) {
     return KeySigningKey(
       createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
@@ -8490,6 +10010,48 @@ class KeySigningKey {
       statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final dNSKEYRecord = this.dNSKEYRecord;
+    final dSRecord = this.dSRecord;
+    final digestAlgorithmMnemonic = this.digestAlgorithmMnemonic;
+    final digestAlgorithmType = this.digestAlgorithmType;
+    final digestValue = this.digestValue;
+    final flag = this.flag;
+    final keyTag = this.keyTag;
+    final kmsArn = this.kmsArn;
+    final lastModifiedDate = this.lastModifiedDate;
+    final name = this.name;
+    final publicKey = this.publicKey;
+    final signingAlgorithmMnemonic = this.signingAlgorithmMnemonic;
+    final signingAlgorithmType = this.signingAlgorithmType;
+    final status = this.status;
+    final statusMessage = this.statusMessage;
+    return {
+      if (createdDate != null) 'CreatedDate': unixTimestampToJson(createdDate),
+      if (dNSKEYRecord != null) 'DNSKEYRecord': dNSKEYRecord,
+      if (dSRecord != null) 'DSRecord': dSRecord,
+      if (digestAlgorithmMnemonic != null)
+        'DigestAlgorithmMnemonic': digestAlgorithmMnemonic,
+      if (digestAlgorithmType != null)
+        'DigestAlgorithmType': digestAlgorithmType,
+      if (digestValue != null) 'DigestValue': digestValue,
+      if (flag != null) 'Flag': flag,
+      if (keyTag != null) 'KeyTag': keyTag,
+      if (kmsArn != null) 'KmsArn': kmsArn,
+      if (lastModifiedDate != null)
+        'LastModifiedDate': unixTimestampToJson(lastModifiedDate),
+      if (name != null) 'Name': name,
+      if (publicKey != null) 'PublicKey': publicKey,
+      if (signingAlgorithmMnemonic != null)
+        'SigningAlgorithmMnemonic': signingAlgorithmMnemonic,
+      if (signingAlgorithmType != null)
+        'SigningAlgorithmType': signingAlgorithmType,
+      if (status != null) 'Status': status,
+      if (statusMessage != null) 'StatusMessage': statusMessage,
+    };
+  }
 }
 
 /// If a health check or hosted zone was created by another service,
@@ -8501,22 +10063,39 @@ class LinkedService {
   /// optional description that can be provided by the other service. When a
   /// resource is created by another service, you can't edit or delete it using
   /// Amazon Route 53.
-  final String description;
+  final String? description;
 
   /// If the health check or hosted zone was created by another service, the
   /// service that created the resource. When a resource is created by another
   /// service, you can't edit or delete it using Amazon Route 53.
-  final String servicePrincipal;
+  final String? servicePrincipal;
 
   LinkedService({
     this.description,
     this.servicePrincipal,
   });
+
+  factory LinkedService.fromJson(Map<String, dynamic> json) {
+    return LinkedService(
+      description: json['Description'] as String?,
+      servicePrincipal: json['ServicePrincipal'] as String?,
+    );
+  }
+
   factory LinkedService.fromXml(_s.XmlElement elem) {
     return LinkedService(
       description: _s.extractXmlStringValue(elem, 'Description'),
       servicePrincipal: _s.extractXmlStringValue(elem, 'ServicePrincipal'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final servicePrincipal = this.servicePrincipal;
+    return {
+      if (description != null) 'Description': description,
+      if (servicePrincipal != null) 'ServicePrincipal': servicePrincipal,
+    };
   }
 }
 
@@ -8542,43 +10121,75 @@ class ListGeoLocationsResponse {
   /// request to display more locations. Enter the value of
   /// <code>NextContinentCode</code> in the <code>startcontinentcode</code>
   /// parameter in another <code>ListGeoLocations</code> request.
-  final String nextContinentCode;
+  final String? nextContinentCode;
 
   /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
   /// request to display more locations. Enter the value of
   /// <code>NextCountryCode</code> in the <code>startcountrycode</code> parameter
   /// in another <code>ListGeoLocations</code> request.
-  final String nextCountryCode;
+  final String? nextCountryCode;
 
   /// If <code>IsTruncated</code> is <code>true</code>, you can make a follow-up
   /// request to display more locations. Enter the value of
   /// <code>NextSubdivisionCode</code> in the <code>startsubdivisioncode</code>
   /// parameter in another <code>ListGeoLocations</code> request.
-  final String nextSubdivisionCode;
+  final String? nextSubdivisionCode;
 
   ListGeoLocationsResponse({
-    @_s.required this.geoLocationDetailsList,
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
+    required this.geoLocationDetailsList,
+    required this.isTruncated,
+    required this.maxItems,
     this.nextContinentCode,
     this.nextCountryCode,
     this.nextSubdivisionCode,
   });
+
+  factory ListGeoLocationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListGeoLocationsResponse(
+      geoLocationDetailsList: (json['GeoLocationDetailsList'] as List)
+          .whereNotNull()
+          .map((e) => GeoLocationDetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      nextContinentCode: json['NextContinentCode'] as String?,
+      nextCountryCode: json['NextCountryCode'] as String?,
+      nextSubdivisionCode: json['NextSubdivisionCode'] as String?,
+    );
+  }
+
   factory ListGeoLocationsResponse.fromXml(_s.XmlElement elem) {
     return ListGeoLocationsResponse(
       geoLocationDetailsList: _s
-          .extractXmlChild(elem, 'GeoLocationDetailsList')
-          ?.let((elem) => elem
-              .findElements('GeoLocationDetails')
-              .map((c) => GeoLocationDetails.fromXml(c))
-              .toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+          .extractXmlChild(elem, 'GeoLocationDetailsList')!
+          .findElements('GeoLocationDetails')
+          .map((c) => GeoLocationDetails.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       nextContinentCode: _s.extractXmlStringValue(elem, 'NextContinentCode'),
       nextCountryCode: _s.extractXmlStringValue(elem, 'NextCountryCode'),
       nextSubdivisionCode:
           _s.extractXmlStringValue(elem, 'NextSubdivisionCode'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final geoLocationDetailsList = this.geoLocationDetailsList;
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final nextContinentCode = this.nextContinentCode;
+    final nextCountryCode = this.nextCountryCode;
+    final nextSubdivisionCode = this.nextSubdivisionCode;
+    return {
+      'GeoLocationDetailsList': geoLocationDetailsList,
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      if (nextContinentCode != null) 'NextContinentCode': nextContinentCode,
+      if (nextCountryCode != null) 'NextCountryCode': nextCountryCode,
+      if (nextSubdivisionCode != null)
+        'NextSubdivisionCode': nextSubdivisionCode,
+    };
   }
 }
 
@@ -8609,26 +10220,56 @@ class ListHealthChecksResponse {
   /// 53 returns if you submit another <code>ListHealthChecks</code> request and
   /// specify the value of <code>NextMarker</code> in the <code>marker</code>
   /// parameter.
-  final String nextMarker;
+  final String? nextMarker;
 
   ListHealthChecksResponse({
-    @_s.required this.healthChecks,
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
+    required this.healthChecks,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
     this.nextMarker,
   });
+
+  factory ListHealthChecksResponse.fromJson(Map<String, dynamic> json) {
+    return ListHealthChecksResponse(
+      healthChecks: (json['HealthChecks'] as List)
+          .whereNotNull()
+          .map((e) => HealthCheck.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as String,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory ListHealthChecksResponse.fromXml(_s.XmlElement elem) {
     return ListHealthChecksResponse(
-      healthChecks: _s.extractXmlChild(elem, 'HealthChecks')?.let((elem) => elem
+      healthChecks: _s
+          .extractXmlChild(elem, 'HealthChecks')!
           .findElements('HealthCheck')
           .map((c) => HealthCheck.fromXml(c))
-          .toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthChecks = this.healthChecks;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final nextMarker = this.nextMarker;
+    return {
+      'HealthChecks': healthChecks,
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -8654,10 +10295,10 @@ class ListHostedZonesByNameResponse {
   /// <code>DNSName</code> is the value that you specified for the
   /// <code>dnsname</code> parameter in the request that produced the current
   /// response.
-  final String dNSName;
+  final String? dNSName;
 
   /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
-  final String hostedZoneId;
+  final String? hostedZoneId;
 
   /// If <code>IsTruncated</code> is true, the value of <code>NextDNSName</code>
   /// is the name of the first hosted zone in the next group of
@@ -8668,7 +10309,7 @@ class ListHostedZonesByNameResponse {
   ///
   /// This element is present only if <code>IsTruncated</code> is
   /// <code>true</code>.
-  final String nextDNSName;
+  final String? nextDNSName;
 
   /// If <code>IsTruncated</code> is <code>true</code>, the value of
   /// <code>NextHostedZoneId</code> identifies the first hosted zone in the next
@@ -8679,30 +10320,66 @@ class ListHostedZonesByNameResponse {
   ///
   /// This element is present only if <code>IsTruncated</code> is
   /// <code>true</code>.
-  final String nextHostedZoneId;
+  final String? nextHostedZoneId;
 
   ListHostedZonesByNameResponse({
-    @_s.required this.hostedZones,
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
+    required this.hostedZones,
+    required this.isTruncated,
+    required this.maxItems,
     this.dNSName,
     this.hostedZoneId,
     this.nextDNSName,
     this.nextHostedZoneId,
   });
+
+  factory ListHostedZonesByNameResponse.fromJson(Map<String, dynamic> json) {
+    return ListHostedZonesByNameResponse(
+      hostedZones: (json['HostedZones'] as List)
+          .whereNotNull()
+          .map((e) => HostedZone.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      dNSName: json['DNSName'] as String?,
+      hostedZoneId: json['HostedZoneId'] as String?,
+      nextDNSName: json['NextDNSName'] as String?,
+      nextHostedZoneId: json['NextHostedZoneId'] as String?,
+    );
+  }
+
   factory ListHostedZonesByNameResponse.fromXml(_s.XmlElement elem) {
     return ListHostedZonesByNameResponse(
-      hostedZones: _s.extractXmlChild(elem, 'HostedZones')?.let((elem) => elem
+      hostedZones: _s
+          .extractXmlChild(elem, 'HostedZones')!
           .findElements('HostedZone')
           .map((c) => HostedZone.fromXml(c))
-          .toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
       hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
       nextDNSName: _s.extractXmlStringValue(elem, 'NextDNSName'),
       nextHostedZoneId: _s.extractXmlStringValue(elem, 'NextHostedZoneId'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZones = this.hostedZones;
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final dNSName = this.dNSName;
+    final hostedZoneId = this.hostedZoneId;
+    final nextDNSName = this.nextDNSName;
+    final nextHostedZoneId = this.nextHostedZoneId;
+    return {
+      'HostedZones': hostedZones,
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      if (dNSName != null) 'DNSName': dNSName,
+      if (hostedZoneId != null) 'HostedZoneId': hostedZoneId,
+      if (nextDNSName != null) 'NextDNSName': nextDNSName,
+      if (nextHostedZoneId != null) 'NextHostedZoneId': nextHostedZoneId,
+    };
   }
 }
 
@@ -8719,23 +10396,46 @@ class ListHostedZonesByVPCResponse {
 
   /// The value that you specified for <code>NextToken</code> in the most recent
   /// <code>ListHostedZonesByVPC</code> request.
-  final String nextToken;
+  final String? nextToken;
 
   ListHostedZonesByVPCResponse({
-    @_s.required this.hostedZoneSummaries,
-    @_s.required this.maxItems,
+    required this.hostedZoneSummaries,
+    required this.maxItems,
     this.nextToken,
   });
+
+  factory ListHostedZonesByVPCResponse.fromJson(Map<String, dynamic> json) {
+    return ListHostedZonesByVPCResponse(
+      hostedZoneSummaries: (json['HostedZoneSummaries'] as List)
+          .whereNotNull()
+          .map((e) => HostedZoneSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      maxItems: json['MaxItems'] as String,
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory ListHostedZonesByVPCResponse.fromXml(_s.XmlElement elem) {
     return ListHostedZonesByVPCResponse(
-      hostedZoneSummaries: _s.extractXmlChild(elem, 'HostedZoneSummaries')?.let(
-          (elem) => elem
-              .findElements('HostedZoneSummary')
-              .map((c) => HostedZoneSummary.fromXml(c))
-              .toList()),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+      hostedZoneSummaries: _s
+          .extractXmlChild(elem, 'HostedZoneSummaries')!
+          .findElements('HostedZoneSummary')
+          .map((c) => HostedZoneSummary.fromXml(c))
+          .toList(),
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneSummaries = this.hostedZoneSummaries;
+    final maxItems = this.maxItems;
+    final nextToken = this.nextToken;
+    return {
+      'HostedZoneSummaries': hostedZoneSummaries,
+      'MaxItems': maxItems,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -8767,26 +10467,56 @@ class ListHostedZonesResponse {
   ///
   /// This element is present only if <code>IsTruncated</code> is
   /// <code>true</code>.
-  final String nextMarker;
+  final String? nextMarker;
 
   ListHostedZonesResponse({
-    @_s.required this.hostedZones,
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
+    required this.hostedZones,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
     this.nextMarker,
   });
+
+  factory ListHostedZonesResponse.fromJson(Map<String, dynamic> json) {
+    return ListHostedZonesResponse(
+      hostedZones: (json['HostedZones'] as List)
+          .whereNotNull()
+          .map((e) => HostedZone.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as String,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory ListHostedZonesResponse.fromXml(_s.XmlElement elem) {
     return ListHostedZonesResponse(
-      hostedZones: _s.extractXmlChild(elem, 'HostedZones')?.let((elem) => elem
+      hostedZones: _s
+          .extractXmlChild(elem, 'HostedZones')!
           .findElements('HostedZone')
           .map((c) => HostedZone.fromXml(c))
-          .toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZones = this.hostedZones;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final nextMarker = this.nextMarker;
+    return {
+      'HostedZones': hostedZones,
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -8807,21 +10537,41 @@ class ListQueryLoggingConfigsResponse {
   /// request. Get the value of <code>NextToken</code> that Amazon Route 53
   /// returned in the previous response and include it in <code>NextToken</code>
   /// in the next request.
-  final String nextToken;
+  final String? nextToken;
 
   ListQueryLoggingConfigsResponse({
-    @_s.required this.queryLoggingConfigs,
+    required this.queryLoggingConfigs,
     this.nextToken,
   });
+
+  factory ListQueryLoggingConfigsResponse.fromJson(Map<String, dynamic> json) {
+    return ListQueryLoggingConfigsResponse(
+      queryLoggingConfigs: (json['QueryLoggingConfigs'] as List)
+          .whereNotNull()
+          .map((e) => QueryLoggingConfig.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory ListQueryLoggingConfigsResponse.fromXml(_s.XmlElement elem) {
     return ListQueryLoggingConfigsResponse(
-      queryLoggingConfigs: _s.extractXmlChild(elem, 'QueryLoggingConfigs')?.let(
-          (elem) => elem
-              .findElements('QueryLoggingConfig')
-              .map((c) => QueryLoggingConfig.fromXml(c))
-              .toList()),
+      queryLoggingConfigs: _s
+          .extractXmlChild(elem, 'QueryLoggingConfigs')!
+          .findElements('QueryLoggingConfig')
+          .map((c) => QueryLoggingConfig.fromXml(c))
+          .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final queryLoggingConfigs = this.queryLoggingConfigs;
+    final nextToken = this.nextToken;
+    return {
+      'QueryLoggingConfigs': queryLoggingConfigs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -8846,41 +10596,74 @@ class ListResourceRecordSetsResponse {
   /// For information about routing policies, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html">Choosing
   /// a Routing Policy</a> in the <i>Amazon Route 53 Developer Guide</i>.
-  final String nextRecordIdentifier;
+  final String? nextRecordIdentifier;
 
   /// If the results were truncated, the name of the next record in the list.
   ///
   /// This element is present only if <code>IsTruncated</code> is true.
-  final String nextRecordName;
+  final String? nextRecordName;
 
   /// If the results were truncated, the type of the next record in the list.
   ///
   /// This element is present only if <code>IsTruncated</code> is true.
-  final RRType nextRecordType;
+  final RRType? nextRecordType;
 
   ListResourceRecordSetsResponse({
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
-    @_s.required this.resourceRecordSets,
+    required this.isTruncated,
+    required this.maxItems,
+    required this.resourceRecordSets,
     this.nextRecordIdentifier,
     this.nextRecordName,
     this.nextRecordType,
   });
+
+  factory ListResourceRecordSetsResponse.fromJson(Map<String, dynamic> json) {
+    return ListResourceRecordSetsResponse(
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      resourceRecordSets: (json['ResourceRecordSets'] as List)
+          .whereNotNull()
+          .map((e) => ResourceRecordSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextRecordIdentifier: json['NextRecordIdentifier'] as String?,
+      nextRecordName: json['NextRecordName'] as String?,
+      nextRecordType: (json['NextRecordType'] as String?)?.toRRType(),
+    );
+  }
+
   factory ListResourceRecordSetsResponse.fromXml(_s.XmlElement elem) {
     return ListResourceRecordSetsResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
-      resourceRecordSets: _s.extractXmlChild(elem, 'ResourceRecordSets')?.let(
-          (elem) => elem
-              .findElements('ResourceRecordSet')
-              .map((c) => ResourceRecordSet.fromXml(c))
-              .toList()),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
+      resourceRecordSets: _s
+          .extractXmlChild(elem, 'ResourceRecordSets')!
+          .findElements('ResourceRecordSet')
+          .map((c) => ResourceRecordSet.fromXml(c))
+          .toList(),
       nextRecordIdentifier:
           _s.extractXmlStringValue(elem, 'NextRecordIdentifier'),
       nextRecordName: _s.extractXmlStringValue(elem, 'NextRecordName'),
       nextRecordType:
           _s.extractXmlStringValue(elem, 'NextRecordType')?.toRRType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final resourceRecordSets = this.resourceRecordSets;
+    final nextRecordIdentifier = this.nextRecordIdentifier;
+    final nextRecordName = this.nextRecordName;
+    final nextRecordType = this.nextRecordType;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'ResourceRecordSets': resourceRecordSets,
+      if (nextRecordIdentifier != null)
+        'NextRecordIdentifier': nextRecordIdentifier,
+      if (nextRecordName != null) 'NextRecordName': nextRecordName,
+      if (nextRecordType != null) 'NextRecordType': nextRecordType.toValue(),
+    };
   }
 }
 
@@ -8911,27 +10694,57 @@ class ListReusableDelegationSetsResponse {
   /// Amazon Route 53 will return if you submit another
   /// <code>ListReusableDelegationSets</code> request and specify the value of
   /// <code>NextMarker</code> in the <code>marker</code> parameter.
-  final String nextMarker;
+  final String? nextMarker;
 
   ListReusableDelegationSetsResponse({
-    @_s.required this.delegationSets,
-    @_s.required this.isTruncated,
-    @_s.required this.marker,
-    @_s.required this.maxItems,
+    required this.delegationSets,
+    required this.isTruncated,
+    required this.marker,
+    required this.maxItems,
     this.nextMarker,
   });
+
+  factory ListReusableDelegationSetsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListReusableDelegationSetsResponse(
+      delegationSets: (json['DelegationSets'] as List)
+          .whereNotNull()
+          .map((e) => DelegationSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      isTruncated: json['IsTruncated'] as bool,
+      marker: json['Marker'] as String,
+      maxItems: json['MaxItems'] as String,
+      nextMarker: json['NextMarker'] as String?,
+    );
+  }
+
   factory ListReusableDelegationSetsResponse.fromXml(_s.XmlElement elem) {
     return ListReusableDelegationSetsResponse(
-      delegationSets: _s.extractXmlChild(elem, 'DelegationSets')?.let((elem) =>
-          elem
-              .findElements('DelegationSet')
-              .map((c) => DelegationSet.fromXml(c))
-              .toList()),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      marker: _s.extractXmlStringValue(elem, 'Marker'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+      delegationSets: _s
+          .extractXmlChild(elem, 'DelegationSets')!
+          .findElements('DelegationSet')
+          .map((c) => DelegationSet.fromXml(c))
+          .toList(),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      marker: _s.extractXmlStringValue(elem, 'Marker')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       nextMarker: _s.extractXmlStringValue(elem, 'NextMarker'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final delegationSets = this.delegationSets;
+    final isTruncated = this.isTruncated;
+    final marker = this.marker;
+    final maxItems = this.maxItems;
+    final nextMarker = this.nextMarker;
+    return {
+      'DelegationSets': delegationSets,
+      'IsTruncated': isTruncated,
+      'Marker': marker,
+      'MaxItems': maxItems,
+      if (nextMarker != null) 'NextMarker': nextMarker,
+    };
   }
 }
 
@@ -8943,14 +10756,28 @@ class ListTagsForResourceResponse {
   final ResourceTagSet resourceTagSet;
 
   ListTagsForResourceResponse({
-    @_s.required this.resourceTagSet,
+    required this.resourceTagSet,
   });
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      resourceTagSet: ResourceTagSet.fromJson(
+          json['ResourceTagSet'] as Map<String, dynamic>),
+    );
+  }
+
   factory ListTagsForResourceResponse.fromXml(_s.XmlElement elem) {
     return ListTagsForResourceResponse(
-      resourceTagSet: _s
-          .extractXmlChild(elem, 'ResourceTagSet')
-          ?.let((e) => ResourceTagSet.fromXml(e)),
+      resourceTagSet:
+          ResourceTagSet.fromXml(_s.extractXmlChild(elem, 'ResourceTagSet')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTagSet = this.resourceTagSet;
+    return {
+      'ResourceTagSet': resourceTagSet,
+    };
   }
 }
 
@@ -8974,13 +10801,34 @@ class ListTagsForResourcesRequest {
   final TagResourceType resourceType;
 
   ListTagsForResourcesRequest({
-    @_s.required this.resourceIds,
-    @_s.required this.resourceType,
+    required this.resourceIds,
+    required this.resourceType,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory ListTagsForResourcesRequest.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourcesRequest(
+      resourceIds: (json['ResourceIds'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      resourceType: (json['ResourceType'] as String).toTagResourceType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceIds = this.resourceIds;
+    final resourceType = this.resourceType;
+    return {
+      'ResourceIds': resourceIds,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final resourceIds = this.resourceIds;
+    final resourceType = this.resourceType;
     final $children = <_s.XmlNode>[
       _s.XmlElement(_s.XmlName('ResourceIds'), [],
-          resourceIds?.map((e) => _s.encodeXmlStringValue('ResourceId', e))),
+          resourceIds.map((e) => _s.encodeXmlStringValue('ResourceId', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8988,7 +10836,7 @@ class ListTagsForResourcesRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9000,16 +10848,33 @@ class ListTagsForResourcesResponse {
   final List<ResourceTagSet> resourceTagSets;
 
   ListTagsForResourcesResponse({
-    @_s.required this.resourceTagSets,
+    required this.resourceTagSets,
   });
+
+  factory ListTagsForResourcesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourcesResponse(
+      resourceTagSets: (json['ResourceTagSets'] as List)
+          .whereNotNull()
+          .map((e) => ResourceTagSet.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListTagsForResourcesResponse.fromXml(_s.XmlElement elem) {
     return ListTagsForResourcesResponse(
-      resourceTagSets: _s.extractXmlChild(elem, 'ResourceTagSets')?.let(
-          (elem) => elem
-              .findElements('ResourceTagSet')
-              .map((c) => ResourceTagSet.fromXml(c))
-              .toList()),
+      resourceTagSets: _s
+          .extractXmlChild(elem, 'ResourceTagSets')!
+          .findElements('ResourceTagSet')
+          .map((c) => ResourceTagSet.fromXml(c))
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceTagSets = this.resourceTagSets;
+    return {
+      'ResourceTagSets': resourceTagSets,
+    };
   }
 }
 
@@ -9036,24 +10901,49 @@ class ListTrafficPoliciesResponse {
   final List<TrafficPolicySummary> trafficPolicySummaries;
 
   ListTrafficPoliciesResponse({
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
-    @_s.required this.trafficPolicyIdMarker,
-    @_s.required this.trafficPolicySummaries,
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyIdMarker,
+    required this.trafficPolicySummaries,
   });
+
+  factory ListTrafficPoliciesResponse.fromJson(Map<String, dynamic> json) {
+    return ListTrafficPoliciesResponse(
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      trafficPolicyIdMarker: json['TrafficPolicyIdMarker'] as String,
+      trafficPolicySummaries: (json['TrafficPolicySummaries'] as List)
+          .whereNotNull()
+          .map((e) => TrafficPolicySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ListTrafficPoliciesResponse.fromXml(_s.XmlElement elem) {
     return ListTrafficPoliciesResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       trafficPolicyIdMarker:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyIdMarker'),
+          _s.extractXmlStringValue(elem, 'TrafficPolicyIdMarker')!,
       trafficPolicySummaries: _s
-          .extractXmlChild(elem, 'TrafficPolicySummaries')
-          ?.let((elem) => elem
-              .findElements('TrafficPolicySummary')
-              .map((c) => TrafficPolicySummary.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'TrafficPolicySummaries')!
+          .findElements('TrafficPolicySummary')
+          .map((c) => TrafficPolicySummary.fromXml(c))
+          .toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyIdMarker = this.trafficPolicyIdMarker;
+    final trafficPolicySummaries = this.trafficPolicySummaries;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyIdMarker': trafficPolicyIdMarker,
+      'TrafficPolicySummaries': trafficPolicySummaries,
+    };
   }
 }
 
@@ -9081,38 +10971,74 @@ class ListTrafficPolicyInstancesByHostedZoneResponse {
   /// If <code>IsTruncated</code> is <code>true</code>,
   /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
   /// traffic policy instance in the next group of traffic policy instances.
-  final String trafficPolicyInstanceNameMarker;
+  final String? trafficPolicyInstanceNameMarker;
 
   /// If <code>IsTruncated</code> is true,
   /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
   /// record sets that are associated with the first traffic policy instance in
   /// the next group of traffic policy instances.
-  final RRType trafficPolicyInstanceTypeMarker;
+  final RRType? trafficPolicyInstanceTypeMarker;
 
   ListTrafficPolicyInstancesByHostedZoneResponse({
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
-    @_s.required this.trafficPolicyInstances,
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyInstances,
     this.trafficPolicyInstanceNameMarker,
     this.trafficPolicyInstanceTypeMarker,
   });
+
+  factory ListTrafficPolicyInstancesByHostedZoneResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListTrafficPolicyInstancesByHostedZoneResponse(
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      trafficPolicyInstances: (json['TrafficPolicyInstances'] as List)
+          .whereNotNull()
+          .map((e) => TrafficPolicyInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trafficPolicyInstanceNameMarker:
+          json['TrafficPolicyInstanceNameMarker'] as String?,
+      trafficPolicyInstanceTypeMarker:
+          (json['TrafficPolicyInstanceTypeMarker'] as String?)?.toRRType(),
+    );
+  }
+
   factory ListTrafficPolicyInstancesByHostedZoneResponse.fromXml(
       _s.XmlElement elem) {
     return ListTrafficPolicyInstancesByHostedZoneResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       trafficPolicyInstances: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstances')
-          ?.let((elem) => elem
-              .findElements('TrafficPolicyInstance')
-              .map((c) => TrafficPolicyInstance.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'TrafficPolicyInstances')!
+          .findElements('TrafficPolicyInstance')
+          .map((c) => TrafficPolicyInstance.fromXml(c))
+          .toList(),
       trafficPolicyInstanceNameMarker:
           _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
       trafficPolicyInstanceTypeMarker: _s
           .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
           ?.toRRType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyInstances = this.trafficPolicyInstances;
+    final trafficPolicyInstanceNameMarker =
+        this.trafficPolicyInstanceNameMarker;
+    final trafficPolicyInstanceTypeMarker =
+        this.trafficPolicyInstanceTypeMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyInstances': trafficPolicyInstances,
+      if (trafficPolicyInstanceNameMarker != null)
+        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
+      if (trafficPolicyInstanceTypeMarker != null)
+        'TrafficPolicyInstanceTypeMarker':
+            trafficPolicyInstanceTypeMarker.toValue(),
+    };
   }
 }
 
@@ -9139,39 +11065,56 @@ class ListTrafficPolicyInstancesByPolicyResponse {
   /// If <code>IsTruncated</code> is <code>true</code>,
   /// <code>HostedZoneIdMarker</code> is the ID of the hosted zone of the first
   /// traffic policy instance in the next group of traffic policy instances.
-  final String hostedZoneIdMarker;
+  final String? hostedZoneIdMarker;
 
   /// If <code>IsTruncated</code> is <code>true</code>,
   /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
   /// traffic policy instance in the next group of <code>MaxItems</code> traffic
   /// policy instances.
-  final String trafficPolicyInstanceNameMarker;
+  final String? trafficPolicyInstanceNameMarker;
 
   /// If <code>IsTruncated</code> is <code>true</code>,
   /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
   /// record sets that are associated with the first traffic policy instance in
   /// the next group of <code>MaxItems</code> traffic policy instances.
-  final RRType trafficPolicyInstanceTypeMarker;
+  final RRType? trafficPolicyInstanceTypeMarker;
 
   ListTrafficPolicyInstancesByPolicyResponse({
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
-    @_s.required this.trafficPolicyInstances,
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyInstances,
     this.hostedZoneIdMarker,
     this.trafficPolicyInstanceNameMarker,
     this.trafficPolicyInstanceTypeMarker,
   });
+
+  factory ListTrafficPolicyInstancesByPolicyResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListTrafficPolicyInstancesByPolicyResponse(
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      trafficPolicyInstances: (json['TrafficPolicyInstances'] as List)
+          .whereNotNull()
+          .map((e) => TrafficPolicyInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hostedZoneIdMarker: json['HostedZoneIdMarker'] as String?,
+      trafficPolicyInstanceNameMarker:
+          json['TrafficPolicyInstanceNameMarker'] as String?,
+      trafficPolicyInstanceTypeMarker:
+          (json['TrafficPolicyInstanceTypeMarker'] as String?)?.toRRType(),
+    );
+  }
+
   factory ListTrafficPolicyInstancesByPolicyResponse.fromXml(
       _s.XmlElement elem) {
     return ListTrafficPolicyInstancesByPolicyResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       trafficPolicyInstances: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstances')
-          ?.let((elem) => elem
-              .findElements('TrafficPolicyInstance')
-              .map((c) => TrafficPolicyInstance.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'TrafficPolicyInstances')!
+          .findElements('TrafficPolicyInstance')
+          .map((c) => TrafficPolicyInstance.fromXml(c))
+          .toList(),
       hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
       trafficPolicyInstanceNameMarker:
           _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
@@ -9179,6 +11122,28 @@ class ListTrafficPolicyInstancesByPolicyResponse {
           .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
           ?.toRRType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyInstances = this.trafficPolicyInstances;
+    final hostedZoneIdMarker = this.hostedZoneIdMarker;
+    final trafficPolicyInstanceNameMarker =
+        this.trafficPolicyInstanceNameMarker;
+    final trafficPolicyInstanceTypeMarker =
+        this.trafficPolicyInstanceTypeMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyInstances': trafficPolicyInstances,
+      if (hostedZoneIdMarker != null) 'HostedZoneIdMarker': hostedZoneIdMarker,
+      if (trafficPolicyInstanceNameMarker != null)
+        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
+      if (trafficPolicyInstanceTypeMarker != null)
+        'TrafficPolicyInstanceTypeMarker':
+            trafficPolicyInstanceTypeMarker.toValue(),
+    };
   }
 }
 
@@ -9206,39 +11171,56 @@ class ListTrafficPolicyInstancesResponse {
   /// <code>HostedZoneIdMarker</code> is the ID of the hosted zone of the first
   /// traffic policy instance that Route 53 will return if you submit another
   /// <code>ListTrafficPolicyInstances</code> request.
-  final String hostedZoneIdMarker;
+  final String? hostedZoneIdMarker;
 
   /// If <code>IsTruncated</code> is <code>true</code>,
   /// <code>TrafficPolicyInstanceNameMarker</code> is the name of the first
   /// traffic policy instance that Route 53 will return if you submit another
   /// <code>ListTrafficPolicyInstances</code> request.
-  final String trafficPolicyInstanceNameMarker;
+  final String? trafficPolicyInstanceNameMarker;
 
   /// If <code>IsTruncated</code> is <code>true</code>,
   /// <code>TrafficPolicyInstanceTypeMarker</code> is the DNS type of the resource
   /// record sets that are associated with the first traffic policy instance that
   /// Amazon Route 53 will return if you submit another
   /// <code>ListTrafficPolicyInstances</code> request.
-  final RRType trafficPolicyInstanceTypeMarker;
+  final RRType? trafficPolicyInstanceTypeMarker;
 
   ListTrafficPolicyInstancesResponse({
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
-    @_s.required this.trafficPolicyInstances,
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicyInstances,
     this.hostedZoneIdMarker,
     this.trafficPolicyInstanceNameMarker,
     this.trafficPolicyInstanceTypeMarker,
   });
+
+  factory ListTrafficPolicyInstancesResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListTrafficPolicyInstancesResponse(
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      trafficPolicyInstances: (json['TrafficPolicyInstances'] as List)
+          .whereNotNull()
+          .map((e) => TrafficPolicyInstance.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      hostedZoneIdMarker: json['HostedZoneIdMarker'] as String?,
+      trafficPolicyInstanceNameMarker:
+          json['TrafficPolicyInstanceNameMarker'] as String?,
+      trafficPolicyInstanceTypeMarker:
+          (json['TrafficPolicyInstanceTypeMarker'] as String?)?.toRRType(),
+    );
+  }
+
   factory ListTrafficPolicyInstancesResponse.fromXml(_s.XmlElement elem) {
     return ListTrafficPolicyInstancesResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
       trafficPolicyInstances: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstances')
-          ?.let((elem) => elem
-              .findElements('TrafficPolicyInstance')
-              .map((c) => TrafficPolicyInstance.fromXml(c))
-              .toList()),
+          .extractXmlChild(elem, 'TrafficPolicyInstances')!
+          .findElements('TrafficPolicyInstance')
+          .map((c) => TrafficPolicyInstance.fromXml(c))
+          .toList(),
       hostedZoneIdMarker: _s.extractXmlStringValue(elem, 'HostedZoneIdMarker'),
       trafficPolicyInstanceNameMarker:
           _s.extractXmlStringValue(elem, 'TrafficPolicyInstanceNameMarker'),
@@ -9246,6 +11228,28 @@ class ListTrafficPolicyInstancesResponse {
           .extractXmlStringValue(elem, 'TrafficPolicyInstanceTypeMarker')
           ?.toRRType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicyInstances = this.trafficPolicyInstances;
+    final hostedZoneIdMarker = this.hostedZoneIdMarker;
+    final trafficPolicyInstanceNameMarker =
+        this.trafficPolicyInstanceNameMarker;
+    final trafficPolicyInstanceTypeMarker =
+        this.trafficPolicyInstanceTypeMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicyInstances': trafficPolicyInstances,
+      if (hostedZoneIdMarker != null) 'HostedZoneIdMarker': hostedZoneIdMarker,
+      if (trafficPolicyInstanceNameMarker != null)
+        'TrafficPolicyInstanceNameMarker': trafficPolicyInstanceNameMarker,
+      if (trafficPolicyInstanceTypeMarker != null)
+        'TrafficPolicyInstanceTypeMarker':
+            trafficPolicyInstanceTypeMarker.toValue(),
+    };
   }
 }
 
@@ -9279,23 +11283,50 @@ class ListTrafficPolicyVersionsResponse {
   final String trafficPolicyVersionMarker;
 
   ListTrafficPolicyVersionsResponse({
-    @_s.required this.isTruncated,
-    @_s.required this.maxItems,
-    @_s.required this.trafficPolicies,
-    @_s.required this.trafficPolicyVersionMarker,
+    required this.isTruncated,
+    required this.maxItems,
+    required this.trafficPolicies,
+    required this.trafficPolicyVersionMarker,
   });
+
+  factory ListTrafficPolicyVersionsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListTrafficPolicyVersionsResponse(
+      isTruncated: json['IsTruncated'] as bool,
+      maxItems: json['MaxItems'] as String,
+      trafficPolicies: (json['TrafficPolicies'] as List)
+          .whereNotNull()
+          .map((e) => TrafficPolicy.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      trafficPolicyVersionMarker: json['TrafficPolicyVersionMarker'] as String,
+    );
+  }
+
   factory ListTrafficPolicyVersionsResponse.fromXml(_s.XmlElement elem) {
     return ListTrafficPolicyVersionsResponse(
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
-      trafficPolicies: _s.extractXmlChild(elem, 'TrafficPolicies')?.let(
-          (elem) => elem
-              .findElements('TrafficPolicy')
-              .map((c) => TrafficPolicy.fromXml(c))
-              .toList()),
+      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated')!,
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems')!,
+      trafficPolicies: _s
+          .extractXmlChild(elem, 'TrafficPolicies')!
+          .findElements('TrafficPolicy')
+          .map((c) => TrafficPolicy.fromXml(c))
+          .toList(),
       trafficPolicyVersionMarker:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyVersionMarker'),
+          _s.extractXmlStringValue(elem, 'TrafficPolicyVersionMarker')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isTruncated = this.isTruncated;
+    final maxItems = this.maxItems;
+    final trafficPolicies = this.trafficPolicies;
+    final trafficPolicyVersionMarker = this.trafficPolicyVersionMarker;
+    return {
+      'IsTruncated': isTruncated,
+      'MaxItems': maxItems,
+      'TrafficPolicies': trafficPolicies,
+      'TrafficPolicyVersionMarker': trafficPolicyVersionMarker,
+    };
   }
 }
 
@@ -9313,20 +11344,47 @@ class ListVPCAssociationAuthorizationsResponse {
   /// page of VPCs, submit another <code>ListVPCAssociationAuthorizations</code>
   /// request, and include the value of the <code>NextToken</code> element from
   /// the response in the <code>nexttoken</code> request parameter.
-  final String nextToken;
+  final String? nextToken;
 
   ListVPCAssociationAuthorizationsResponse({
-    @_s.required this.hostedZoneId,
-    @_s.required this.vPCs,
+    required this.hostedZoneId,
+    required this.vPCs,
     this.nextToken,
   });
+
+  factory ListVPCAssociationAuthorizationsResponse.fromJson(
+      Map<String, dynamic> json) {
+    return ListVPCAssociationAuthorizationsResponse(
+      hostedZoneId: json['HostedZoneId'] as String,
+      vPCs: (json['VPCs'] as List)
+          .whereNotNull()
+          .map((e) => VPC.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
   factory ListVPCAssociationAuthorizationsResponse.fromXml(_s.XmlElement elem) {
     return ListVPCAssociationAuthorizationsResponse(
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
-      vPCs: _s.extractXmlChild(elem, 'VPCs')?.let((elem) =>
-          elem.findElements('VPC').map((c) => VPC.fromXml(c)).toList()),
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      vPCs: _s
+          .extractXmlChild(elem, 'VPCs')!
+          .findElements('VPC')
+          .map((c) => VPC.fromXml(c))
+          .toList(),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final vPCs = this.vPCs;
+    final nextToken = this.nextToken;
+    return {
+      'HostedZoneId': hostedZoneId,
+      'VPCs': vPCs,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
   }
 }
 
@@ -9344,17 +11402,37 @@ class QueryLoggingConfig {
   final String id;
 
   QueryLoggingConfig({
-    @_s.required this.cloudWatchLogsLogGroupArn,
-    @_s.required this.hostedZoneId,
-    @_s.required this.id,
+    required this.cloudWatchLogsLogGroupArn,
+    required this.hostedZoneId,
+    required this.id,
   });
+
+  factory QueryLoggingConfig.fromJson(Map<String, dynamic> json) {
+    return QueryLoggingConfig(
+      cloudWatchLogsLogGroupArn: json['CloudWatchLogsLogGroupArn'] as String,
+      hostedZoneId: json['HostedZoneId'] as String,
+      id: json['Id'] as String,
+    );
+  }
+
   factory QueryLoggingConfig.fromXml(_s.XmlElement elem) {
     return QueryLoggingConfig(
       cloudWatchLogsLogGroupArn:
-          _s.extractXmlStringValue(elem, 'CloudWatchLogsLogGroupArn'),
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
+          _s.extractXmlStringValue(elem, 'CloudWatchLogsLogGroupArn')!,
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cloudWatchLogsLogGroupArn = this.cloudWatchLogsLogGroupArn;
+    final hostedZoneId = this.hostedZoneId;
+    final id = this.id;
+    return {
+      'CloudWatchLogsLogGroupArn': cloudWatchLogsLogGroupArn,
+      'HostedZoneId': hostedZoneId,
+      'Id': id,
+    };
   }
 }
 
@@ -9404,7 +11482,6 @@ extension on RRType {
       case RRType.ds:
         return 'DS';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9438,7 +11515,7 @@ extension on String {
       case 'DS':
         return RRType.ds;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum RRType');
   }
 }
 
@@ -9461,7 +11538,6 @@ extension on ResettableElementName {
       case ResettableElementName.childHealthChecks:
         return 'ChildHealthChecks';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9477,7 +11553,7 @@ extension on String {
       case 'ChildHealthChecks':
         return ResettableElementName.childHealthChecks;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ResettableElementName');
   }
 }
 
@@ -9502,15 +11578,30 @@ class ResourceRecord {
   final String value;
 
   ResourceRecord({
-    @_s.required this.value,
+    required this.value,
   });
-  factory ResourceRecord.fromXml(_s.XmlElement elem) {
+
+  factory ResourceRecord.fromJson(Map<String, dynamic> json) {
     return ResourceRecord(
-      value: _s.extractXmlStringValue(elem, 'Value'),
+      value: json['Value'] as String,
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  factory ResourceRecord.fromXml(_s.XmlElement elem) {
+    return ResourceRecord(
+      value: _s.extractXmlStringValue(elem, 'Value')!,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final value = this.value;
+    return {
+      'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final value = this.value;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Value', value),
     ];
@@ -9520,7 +11611,7 @@ class ResourceRecord {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -9580,9 +11671,9 @@ class ResourceRecordSet {
   /// DNS Resource Record Types</a> in the <i>Amazon Route 53 Developer Guide</i>.
   ///
   /// Valid values for basic resource record sets: <code>A</code> |
-  /// <code>AAAA</code> | <code>CAA</code> | <code>CNAME</code> | <code>MX</code>
-  /// | <code>NAPTR</code> | <code>NS</code> | <code>PTR</code> | <code>SOA</code>
-  /// | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>
+  /// <code>AAAA</code> | <code>CAA</code> | <code>CNAME</code> | <code>DS</code>
+  /// |<code>MX</code> | <code>NAPTR</code> | <code>NS</code> | <code>PTR</code> |
+  /// <code>SOA</code> | <code>SPF</code> | <code>SRV</code> | <code>TXT</code>
   ///
   /// Values for weighted, latency, geolocation, and failover resource record
   /// sets: <code>A</code> | <code>AAAA</code> | <code>CAA</code> |
@@ -9672,7 +11763,7 @@ class ResourceRecordSet {
   /// Guide</i>.
   /// </li>
   /// </ul>
-  final AliasTarget aliasTarget;
+  final AliasTarget? aliasTarget;
 
   /// <i>Failover resource record sets only:</i> To configure failover, you add
   /// the <code>Failover</code> element to two resource record sets. For one
@@ -9732,7 +11823,7 @@ class ResourceRecordSet {
   /// Failover in a Private Hosted Zone</a>
   /// </li>
   /// </ul>
-  final ResourceRecordSetFailover failover;
+  final ResourceRecordSetFailover? failover;
 
   /// <i>Geolocation resource record sets only:</i> A complex type that lets you
   /// control how Amazon Route 53 responds to DNS queries based on the geographic
@@ -9774,7 +11865,7 @@ class ResourceRecordSet {
   /// You can't create non-geolocation resource record sets that have the same
   /// values for the <code>Name</code> and <code>Type</code> elements as
   /// geolocation resource record sets.
-  final GeoLocation geoLocation;
+  final GeoLocation? geoLocation;
 
   /// If you want Amazon Route 53 to return this resource record set in response
   /// to a DNS query only when the status of a health check is healthy, include
@@ -9926,7 +12017,7 @@ class ResourceRecordSet {
   /// Associate that health check with the resource record set.
   /// </li>
   /// </ul> </important>
-  final String healthCheckId;
+  final String? healthCheckId;
 
   /// <i>Multivalue answer resource record sets only</i>: To route traffic
   /// approximately randomly to multiple resources, such as web servers, create
@@ -9962,7 +12053,7 @@ class ResourceRecordSet {
   /// </li>
   /// </ul>
   /// You can't create multivalue answer alias records.
-  final bool multiValueAnswer;
+  final bool? multiValueAnswer;
 
   /// <i>Latency-based resource record sets only:</i> The Amazon EC2 Region where
   /// you created the resource that this resource record set refers to. The
@@ -10001,14 +12092,14 @@ class ResourceRecordSet {
   /// record sets.
   /// </li>
   /// </ul>
-  final ResourceRecordSetRegion region;
+  final ResourceRecordSetRegion? region;
 
   /// Information about the resource records to act upon.
   /// <note>
   /// If you're creating an alias resource record set, omit
   /// <code>ResourceRecords</code>.
   /// </note>
-  final List<ResourceRecord> resourceRecords;
+  final List<ResourceRecord>? resourceRecords;
 
   /// <i>Resource record sets that have a routing policy other than simple:</i> An
   /// identifier that differentiates among multiple resource record sets that have
@@ -10020,7 +12111,7 @@ class ResourceRecordSet {
   /// For information about routing policies, see <a
   /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html">Choosing
   /// a Routing Policy</a> in the <i>Amazon Route 53 Developer Guide</i>.
-  final String setIdentifier;
+  final String? setIdentifier;
 
   /// The resource record cache time to live (TTL), in seconds. Note the
   /// following:
@@ -10050,7 +12141,7 @@ class ResourceRecordSet {
   /// change the effect of the values that you specify for <code>Weight</code>.
   /// </li>
   /// </ul>
-  final int ttl;
+  final int? ttl;
 
   /// When you create a traffic policy instance, Amazon Route 53 automatically
   /// creates a resource record set. <code>TrafficPolicyInstanceId</code> is the
@@ -10064,7 +12155,7 @@ class ResourceRecordSet {
   /// automatically delete the traffic policy instance, and you'll continue to be
   /// charged for it even though it's no longer in use.
   /// </important>
-  final String trafficPolicyInstanceId;
+  final String? trafficPolicyInstanceId;
 
   /// <i>Weighted resource record sets only:</i> Among resource record sets that
   /// have the same combination of DNS name and type, a value that determines the
@@ -10108,11 +12199,11 @@ class ResourceRecordSet {
   /// the <i>Amazon Route 53 Developer Guide</i>.
   /// </li>
   /// </ul>
-  final int weight;
+  final int? weight;
 
   ResourceRecordSet({
-    @_s.required this.name,
-    @_s.required this.type,
+    required this.name,
+    required this.type,
     this.aliasTarget,
     this.failover,
     this.geoLocation,
@@ -10125,10 +12216,36 @@ class ResourceRecordSet {
     this.trafficPolicyInstanceId,
     this.weight,
   });
+
+  factory ResourceRecordSet.fromJson(Map<String, dynamic> json) {
+    return ResourceRecordSet(
+      name: json['Name'] as String,
+      type: (json['Type'] as String).toRRType(),
+      aliasTarget: json['AliasTarget'] != null
+          ? AliasTarget.fromJson(json['AliasTarget'] as Map<String, dynamic>)
+          : null,
+      failover: (json['Failover'] as String?)?.toResourceRecordSetFailover(),
+      geoLocation: json['GeoLocation'] != null
+          ? GeoLocation.fromJson(json['GeoLocation'] as Map<String, dynamic>)
+          : null,
+      healthCheckId: json['HealthCheckId'] as String?,
+      multiValueAnswer: json['MultiValueAnswer'] as bool?,
+      region: (json['Region'] as String?)?.toResourceRecordSetRegion(),
+      resourceRecords: (json['ResourceRecords'] as List?)
+          ?.whereNotNull()
+          .map((e) => ResourceRecord.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      setIdentifier: json['SetIdentifier'] as String?,
+      ttl: json['TTL'] as int?,
+      trafficPolicyInstanceId: json['TrafficPolicyInstanceId'] as String?,
+      weight: json['Weight'] as int?,
+    );
+  }
+
   factory ResourceRecordSet.fromXml(_s.XmlElement elem) {
     return ResourceRecordSet(
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toRRType(),
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!.toRRType(),
       aliasTarget: _s
           .extractXmlChild(elem, 'AliasTarget')
           ?.let((e) => AliasTarget.fromXml(e)),
@@ -10155,15 +12272,60 @@ class ResourceRecordSet {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final type = this.type;
+    final aliasTarget = this.aliasTarget;
+    final failover = this.failover;
+    final geoLocation = this.geoLocation;
+    final healthCheckId = this.healthCheckId;
+    final multiValueAnswer = this.multiValueAnswer;
+    final region = this.region;
+    final resourceRecords = this.resourceRecords;
+    final setIdentifier = this.setIdentifier;
+    final ttl = this.ttl;
+    final trafficPolicyInstanceId = this.trafficPolicyInstanceId;
+    final weight = this.weight;
+    return {
+      'Name': name,
+      'Type': type.toValue(),
+      if (aliasTarget != null) 'AliasTarget': aliasTarget,
+      if (failover != null) 'Failover': failover.toValue(),
+      if (geoLocation != null) 'GeoLocation': geoLocation,
+      if (healthCheckId != null) 'HealthCheckId': healthCheckId,
+      if (multiValueAnswer != null) 'MultiValueAnswer': multiValueAnswer,
+      if (region != null) 'Region': region.toValue(),
+      if (resourceRecords != null) 'ResourceRecords': resourceRecords,
+      if (setIdentifier != null) 'SetIdentifier': setIdentifier,
+      if (ttl != null) 'TTL': ttl,
+      if (trafficPolicyInstanceId != null)
+        'TrafficPolicyInstanceId': trafficPolicyInstanceId,
+      if (weight != null) 'Weight': weight,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final name = this.name;
+    final type = this.type;
+    final aliasTarget = this.aliasTarget;
+    final failover = this.failover;
+    final geoLocation = this.geoLocation;
+    final healthCheckId = this.healthCheckId;
+    final multiValueAnswer = this.multiValueAnswer;
+    final region = this.region;
+    final resourceRecords = this.resourceRecords;
+    final setIdentifier = this.setIdentifier;
+    final ttl = this.ttl;
+    final trafficPolicyInstanceId = this.trafficPolicyInstanceId;
+    final weight = this.weight;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
-      _s.encodeXmlStringValue('Type', type?.toValue() ?? ''),
+      _s.encodeXmlStringValue('Type', type.toValue()),
       if (setIdentifier != null)
         _s.encodeXmlStringValue('SetIdentifier', setIdentifier),
       if (weight != null) _s.encodeXmlIntValue('Weight', weight),
       if (region != null) _s.encodeXmlStringValue('Region', region.toValue()),
-      if (geoLocation != null) geoLocation?.toXml('GeoLocation'),
+      if (geoLocation != null) geoLocation.toXml('GeoLocation'),
       if (failover != null)
         _s.encodeXmlStringValue('Failover', failover.toValue()),
       if (multiValueAnswer != null)
@@ -10171,8 +12333,8 @@ class ResourceRecordSet {
       if (ttl != null) _s.encodeXmlIntValue('TTL', ttl),
       if (resourceRecords != null)
         _s.XmlElement(_s.XmlName('ResourceRecords'), [],
-            resourceRecords.map((e) => e?.toXml('ResourceRecord'))),
-      if (aliasTarget != null) aliasTarget?.toXml('AliasTarget'),
+            resourceRecords.map((e) => e.toXml('ResourceRecord'))),
+      if (aliasTarget != null) aliasTarget.toXml('AliasTarget'),
       if (healthCheckId != null)
         _s.encodeXmlStringValue('HealthCheckId', healthCheckId),
       if (trafficPolicyInstanceId != null)
@@ -10185,7 +12347,7 @@ class ResourceRecordSet {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10203,7 +12365,6 @@ extension on ResourceRecordSetFailover {
       case ResourceRecordSetFailover.secondary:
         return 'SECONDARY';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10215,7 +12376,7 @@ extension on String {
       case 'SECONDARY':
         return ResourceRecordSetFailover.secondary;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ResourceRecordSetFailover');
   }
 }
 
@@ -10295,7 +12456,6 @@ extension on ResourceRecordSetRegion {
       case ResourceRecordSetRegion.euSouth_1:
         return 'eu-south-1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10349,14 +12509,14 @@ extension on String {
       case 'eu-south-1':
         return ResourceRecordSetRegion.euSouth_1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum ResourceRecordSetRegion');
   }
 }
 
 /// A complex type containing a resource and its associated tags.
 class ResourceTagSet {
   /// The ID for the specified resource.
-  final String resourceId;
+  final String? resourceId;
 
   /// The type of the resource.
   ///
@@ -10368,16 +12528,28 @@ class ResourceTagSet {
   /// The resource type for hosted zones is <code>hostedzone</code>.
   /// </li>
   /// </ul>
-  final TagResourceType resourceType;
+  final TagResourceType? resourceType;
 
   /// The tags associated with the specified resource.
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ResourceTagSet({
     this.resourceId,
     this.resourceType,
     this.tags,
   });
+
+  factory ResourceTagSet.fromJson(Map<String, dynamic> json) {
+    return ResourceTagSet(
+      resourceId: json['ResourceId'] as String?,
+      resourceType: (json['ResourceType'] as String?)?.toTagResourceType(),
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   factory ResourceTagSet.fromXml(_s.XmlElement elem) {
     return ResourceTagSet(
       resourceId: _s.extractXmlStringValue(elem, 'ResourceId'),
@@ -10386,6 +12558,17 @@ class ResourceTagSet {
       tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
           elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resourceId = this.resourceId;
+    final resourceType = this.resourceType;
+    final tags = this.tags;
+    return {
+      if (resourceId != null) 'ResourceId': resourceId,
+      if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      if (tags != null) 'Tags': tags,
+    };
   }
 }
 
@@ -10403,16 +12586,33 @@ class ReusableDelegationSetLimit {
   final int value;
 
   ReusableDelegationSetLimit({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
+
+  factory ReusableDelegationSetLimit.fromJson(Map<String, dynamic> json) {
+    return ReusableDelegationSetLimit(
+      type: (json['Type'] as String).toReusableDelegationSetLimitType(),
+      value: json['Value'] as int,
+    );
+  }
+
   factory ReusableDelegationSetLimit.fromXml(_s.XmlElement elem) {
     return ReusableDelegationSetLimit(
       type: _s
-          .extractXmlStringValue(elem, 'Type')
-          ?.toReusableDelegationSetLimitType(),
-      value: _s.extractXmlIntValue(elem, 'Value'),
+          .extractXmlStringValue(elem, 'Type')!
+          .toReusableDelegationSetLimitType(),
+      value: _s.extractXmlIntValue(elem, 'Value')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
   }
 }
 
@@ -10426,7 +12626,6 @@ extension on ReusableDelegationSetLimitType {
       case ReusableDelegationSetLimitType.maxZonesByReusableDelegationSet:
         return 'MAX_ZONES_BY_REUSABLE_DELEGATION_SET';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10436,7 +12635,8 @@ extension on String {
       case 'MAX_ZONES_BY_REUSABLE_DELEGATION_SET':
         return ReusableDelegationSetLimitType.maxZonesByReusableDelegationSet;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception(
+        '$this is not known in enum ReusableDelegationSetLimitType');
   }
 }
 
@@ -10462,7 +12662,6 @@ extension on Statistic {
       case Statistic.minimum:
         return 'Minimum';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10480,7 +12679,7 @@ extension on String {
       case 'Minimum':
         return Statistic.minimum;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum Statistic');
   }
 }
 
@@ -10492,21 +12691,38 @@ class StatusReport {
   /// Coordinated Universal Time (UTC). For example, the value
   /// <code>2017-03-27T17:48:16.751Z</code> represents March 27, 2017 at
   /// 17:48:16.751 UTC.
-  final DateTime checkedTime;
+  final DateTime? checkedTime;
 
   /// A description of the status of the health check endpoint as reported by one
   /// of the Amazon Route 53 health checkers.
-  final String status;
+  final String? status;
 
   StatusReport({
     this.checkedTime,
     this.status,
   });
+
+  factory StatusReport.fromJson(Map<String, dynamic> json) {
+    return StatusReport(
+      checkedTime: timeStampFromJson(json['CheckedTime']),
+      status: json['Status'] as String?,
+    );
+  }
+
   factory StatusReport.fromXml(_s.XmlElement elem) {
     return StatusReport(
       checkedTime: _s.extractXmlDateTimeValue(elem, 'CheckedTime'),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final checkedTime = this.checkedTime;
+    final status = this.status;
+    return {
+      if (checkedTime != null) 'CheckedTime': unixTimestampToJson(checkedTime),
+      if (status != null) 'Status': status,
+    };
   }
 }
 
@@ -10536,7 +12752,7 @@ class Tag {
   /// health check.
   /// </li>
   /// </ul>
-  final String key;
+  final String? key;
 
   /// The value of <code>Value</code> depends on the operation that you want to
   /// perform:
@@ -10551,12 +12767,20 @@ class Tag {
   /// assign the tag.
   /// </li>
   /// </ul>
-  final String value;
+  final String? value;
 
   Tag({
     this.key,
     this.value,
   });
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String?,
+      value: json['Value'] as String?,
+    );
+  }
+
   factory Tag.fromXml(_s.XmlElement elem) {
     return Tag(
       key: _s.extractXmlStringValue(elem, 'Key'),
@@ -10564,7 +12788,18 @@ class Tag {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      if (key != null) 'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final key = this.key;
+    final value = this.value;
     final $children = <_s.XmlNode>[
       if (key != null) _s.encodeXmlStringValue('Key', key),
       if (value != null) _s.encodeXmlStringValue('Value', value),
@@ -10575,7 +12810,7 @@ class Tag {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -10593,7 +12828,6 @@ extension on TagResourceType {
       case TagResourceType.hostedzone:
         return 'hostedzone';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -10605,7 +12839,7 @@ extension on String {
       case 'hostedzone':
         return TagResourceType.hostedzone;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum TagResourceType');
   }
 }
 
@@ -10638,23 +12872,55 @@ class TestDNSAnswerResponse {
   final String responseCode;
 
   TestDNSAnswerResponse({
-    @_s.required this.nameserver,
-    @_s.required this.protocol,
-    @_s.required this.recordData,
-    @_s.required this.recordName,
-    @_s.required this.recordType,
-    @_s.required this.responseCode,
+    required this.nameserver,
+    required this.protocol,
+    required this.recordData,
+    required this.recordName,
+    required this.recordType,
+    required this.responseCode,
   });
+
+  factory TestDNSAnswerResponse.fromJson(Map<String, dynamic> json) {
+    return TestDNSAnswerResponse(
+      nameserver: json['Nameserver'] as String,
+      protocol: json['Protocol'] as String,
+      recordData: (json['RecordData'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      recordName: json['RecordName'] as String,
+      recordType: (json['RecordType'] as String).toRRType(),
+      responseCode: json['ResponseCode'] as String,
+    );
+  }
+
   factory TestDNSAnswerResponse.fromXml(_s.XmlElement elem) {
     return TestDNSAnswerResponse(
-      nameserver: _s.extractXmlStringValue(elem, 'Nameserver'),
-      protocol: _s.extractXmlStringValue(elem, 'Protocol'),
-      recordData: _s.extractXmlChild(elem, 'RecordData')?.let(
-          (elem) => _s.extractXmlStringListValues(elem, 'RecordDataEntry')),
-      recordName: _s.extractXmlStringValue(elem, 'RecordName'),
-      recordType: _s.extractXmlStringValue(elem, 'RecordType')?.toRRType(),
-      responseCode: _s.extractXmlStringValue(elem, 'ResponseCode'),
+      nameserver: _s.extractXmlStringValue(elem, 'Nameserver')!,
+      protocol: _s.extractXmlStringValue(elem, 'Protocol')!,
+      recordData: _s.extractXmlStringListValues(
+          _s.extractXmlChild(elem, 'RecordData')!, 'RecordDataEntry'),
+      recordName: _s.extractXmlStringValue(elem, 'RecordName')!,
+      recordType: _s.extractXmlStringValue(elem, 'RecordType')!.toRRType(),
+      responseCode: _s.extractXmlStringValue(elem, 'ResponseCode')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nameserver = this.nameserver;
+    final protocol = this.protocol;
+    final recordData = this.recordData;
+    final recordName = this.recordName;
+    final recordType = this.recordType;
+    final responseCode = this.responseCode;
+    return {
+      'Nameserver': nameserver,
+      'Protocol': protocol,
+      'RecordData': recordData,
+      'RecordName': recordName,
+      'RecordType': recordType.toValue(),
+      'ResponseCode': responseCode,
+    };
   }
 }
 
@@ -10685,25 +12951,54 @@ class TrafficPolicy {
 
   /// The comment that you specify in the <code>CreateTrafficPolicy</code>
   /// request, if any.
-  final String comment;
+  final String? comment;
 
   TrafficPolicy({
-    @_s.required this.document,
-    @_s.required this.id,
-    @_s.required this.name,
-    @_s.required this.type,
-    @_s.required this.version,
+    required this.document,
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.version,
     this.comment,
   });
+
+  factory TrafficPolicy.fromJson(Map<String, dynamic> json) {
+    return TrafficPolicy(
+      document: json['Document'] as String,
+      id: json['Id'] as String,
+      name: json['Name'] as String,
+      type: (json['Type'] as String).toRRType(),
+      version: json['Version'] as int,
+      comment: json['Comment'] as String?,
+    );
+  }
+
   factory TrafficPolicy.fromXml(_s.XmlElement elem) {
     return TrafficPolicy(
-      document: _s.extractXmlStringValue(elem, 'Document'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toRRType(),
-      version: _s.extractXmlIntValue(elem, 'Version'),
+      document: _s.extractXmlStringValue(elem, 'Document')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!.toRRType(),
+      version: _s.extractXmlIntValue(elem, 'Version')!,
       comment: _s.extractXmlStringValue(elem, 'Comment'),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final document = this.document;
+    final id = this.id;
+    final name = this.name;
+    final type = this.type;
+    final version = this.version;
+    final comment = this.comment;
+    return {
+      'Document': document,
+      'Id': id,
+      'Name': name,
+      'Type': type.toValue(),
+      'Version': version,
+      if (comment != null) 'Comment': comment,
+    };
   }
 }
 
@@ -10758,29 +13053,68 @@ class TrafficPolicyInstance {
   final int trafficPolicyVersion;
 
   TrafficPolicyInstance({
-    @_s.required this.hostedZoneId,
-    @_s.required this.id,
-    @_s.required this.message,
-    @_s.required this.name,
-    @_s.required this.state,
-    @_s.required this.ttl,
-    @_s.required this.trafficPolicyId,
-    @_s.required this.trafficPolicyType,
-    @_s.required this.trafficPolicyVersion,
+    required this.hostedZoneId,
+    required this.id,
+    required this.message,
+    required this.name,
+    required this.state,
+    required this.ttl,
+    required this.trafficPolicyId,
+    required this.trafficPolicyType,
+    required this.trafficPolicyVersion,
   });
+
+  factory TrafficPolicyInstance.fromJson(Map<String, dynamic> json) {
+    return TrafficPolicyInstance(
+      hostedZoneId: json['HostedZoneId'] as String,
+      id: json['Id'] as String,
+      message: json['Message'] as String,
+      name: json['Name'] as String,
+      state: json['State'] as String,
+      ttl: json['TTL'] as int,
+      trafficPolicyId: json['TrafficPolicyId'] as String,
+      trafficPolicyType: (json['TrafficPolicyType'] as String).toRRType(),
+      trafficPolicyVersion: json['TrafficPolicyVersion'] as int,
+    );
+  }
+
   factory TrafficPolicyInstance.fromXml(_s.XmlElement elem) {
     return TrafficPolicyInstance(
-      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      message: _s.extractXmlStringValue(elem, 'Message'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      state: _s.extractXmlStringValue(elem, 'State'),
-      ttl: _s.extractXmlIntValue(elem, 'TTL'),
-      trafficPolicyId: _s.extractXmlStringValue(elem, 'TrafficPolicyId'),
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId')!,
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      message: _s.extractXmlStringValue(elem, 'Message')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      state: _s.extractXmlStringValue(elem, 'State')!,
+      ttl: _s.extractXmlIntValue(elem, 'TTL')!,
+      trafficPolicyId: _s.extractXmlStringValue(elem, 'TrafficPolicyId')!,
       trafficPolicyType:
-          _s.extractXmlStringValue(elem, 'TrafficPolicyType')?.toRRType(),
-      trafficPolicyVersion: _s.extractXmlIntValue(elem, 'TrafficPolicyVersion'),
+          _s.extractXmlStringValue(elem, 'TrafficPolicyType')!.toRRType(),
+      trafficPolicyVersion:
+          _s.extractXmlIntValue(elem, 'TrafficPolicyVersion')!,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZoneId = this.hostedZoneId;
+    final id = this.id;
+    final message = this.message;
+    final name = this.name;
+    final state = this.state;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyType = this.trafficPolicyType;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
+    return {
+      'HostedZoneId': hostedZoneId,
+      'Id': id,
+      'Message': message,
+      'Name': name,
+      'State': state,
+      'TTL': ttl,
+      'TrafficPolicyId': trafficPolicyId,
+      'TrafficPolicyType': trafficPolicyType.toValue(),
+      'TrafficPolicyVersion': trafficPolicyVersion,
+    };
   }
 }
 
@@ -10806,20 +13140,46 @@ class TrafficPolicySummary {
   final RRType type;
 
   TrafficPolicySummary({
-    @_s.required this.id,
-    @_s.required this.latestVersion,
-    @_s.required this.name,
-    @_s.required this.trafficPolicyCount,
-    @_s.required this.type,
+    required this.id,
+    required this.latestVersion,
+    required this.name,
+    required this.trafficPolicyCount,
+    required this.type,
   });
+
+  factory TrafficPolicySummary.fromJson(Map<String, dynamic> json) {
+    return TrafficPolicySummary(
+      id: json['Id'] as String,
+      latestVersion: json['LatestVersion'] as int,
+      name: json['Name'] as String,
+      trafficPolicyCount: json['TrafficPolicyCount'] as int,
+      type: (json['Type'] as String).toRRType(),
+    );
+  }
+
   factory TrafficPolicySummary.fromXml(_s.XmlElement elem) {
     return TrafficPolicySummary(
-      id: _s.extractXmlStringValue(elem, 'Id'),
-      latestVersion: _s.extractXmlIntValue(elem, 'LatestVersion'),
-      name: _s.extractXmlStringValue(elem, 'Name'),
-      trafficPolicyCount: _s.extractXmlIntValue(elem, 'TrafficPolicyCount'),
-      type: _s.extractXmlStringValue(elem, 'Type')?.toRRType(),
+      id: _s.extractXmlStringValue(elem, 'Id')!,
+      latestVersion: _s.extractXmlIntValue(elem, 'LatestVersion')!,
+      name: _s.extractXmlStringValue(elem, 'Name')!,
+      trafficPolicyCount: _s.extractXmlIntValue(elem, 'TrafficPolicyCount')!,
+      type: _s.extractXmlStringValue(elem, 'Type')!.toRRType(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final latestVersion = this.latestVersion;
+    final name = this.name;
+    final trafficPolicyCount = this.trafficPolicyCount;
+    final type = this.type;
+    return {
+      'Id': id,
+      'LatestVersion': latestVersion,
+      'Name': name,
+      'TrafficPolicyCount': trafficPolicyCount,
+      'Type': type.toValue(),
+    };
   }
 }
 
@@ -10834,12 +13194,12 @@ class UpdateHealthCheckRequest {
   /// A complex type that identifies the CloudWatch alarm that you want Amazon
   /// Route 53 health checkers to use to determine whether the specified health
   /// check is healthy.
-  final AlarmIdentifier alarmIdentifier;
+  final AlarmIdentifier? alarmIdentifier;
 
   /// A complex type that contains one <code>ChildHealthCheck</code> element for
   /// each health check that you want to associate with a <code>CALCULATED</code>
   /// health check.
-  final List<String> childHealthChecks;
+  final List<String>? childHealthChecks;
 
   /// Stops Route 53 from performing health checks. When you disable a health
   /// check, here's what happens:
@@ -10867,7 +13227,7 @@ class UpdateHealthCheckRequest {
   /// Charges for a health check still apply when the health check is disabled.
   /// For more information, see <a
   /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
-  final bool disabled;
+  final bool? disabled;
 
   /// Specify whether you want Amazon Route 53 to send the value of
   /// <code>FullyQualifiedDomainName</code> to the endpoint in the
@@ -10892,7 +13252,7 @@ class UpdateHealthCheckRequest {
   /// a health checker will retry the handshake. In the second attempt, the health
   /// checker will omit <code>FullyQualifiedDomainName</code> from the
   /// <code>client_hello</code> message.
-  final bool enableSNI;
+  final bool? enableSNI;
 
   /// The number of consecutive health checks that an endpoint must pass or fail
   /// for Amazon Route 53 to change the current status of the endpoint from
@@ -10903,7 +13263,7 @@ class UpdateHealthCheckRequest {
   ///
   /// If you don't specify a value for <code>FailureThreshold</code>, the default
   /// value is three health checks.
-  final int failureThreshold;
+  final int? failureThreshold;
 
   /// Amazon Route 53 behavior depends on whether you specify a value for
   /// <code>IPAddress</code>.
@@ -10982,7 +13342,7 @@ class UpdateHealthCheckRequest {
   /// does when you specify a value for <code>IPAddress</code>. If the value of
   /// <code>Type</code> is <code>TCP</code>, Route 53 doesn't pass a
   /// <code>Host</code> header.
-  final String fullyQualifiedDomainName;
+  final String? fullyQualifiedDomainName;
 
   /// A sequential counter that Amazon Route 53 sets to <code>1</code> when you
   /// create a health check and increments by 1 each time you update settings for
@@ -11008,7 +13368,7 @@ class UpdateHealthCheckRequest {
   /// <code>HealthCheckVersionMismatch</code> error.
   /// </li>
   /// </ul>
-  final int healthCheckVersion;
+  final int? healthCheckVersion;
 
   /// The number of child health checks that are associated with a
   /// <code>CALCULATED</code> health that Amazon Route 53 must consider healthy
@@ -11029,7 +13389,7 @@ class UpdateHealthCheckRequest {
   /// to be healthy.
   /// </li>
   /// </ul>
-  final int healthThreshold;
+  final int? healthThreshold;
 
   /// The IPv4 or IPv6 IP address for the endpoint that you want Amazon Route 53
   /// to perform health checks on. If you don't specify a value for
@@ -11100,7 +13460,7 @@ class UpdateHealthCheckRequest {
   /// Addresses</a>
   /// </li>
   /// </ul>
-  final String iPAddress;
+  final String? iPAddress;
 
   /// When CloudWatch has insufficient data about the metric to determine the
   /// alarm state, the status that you want Amazon Route 53 to assign to the
@@ -11120,12 +13480,12 @@ class UpdateHealthCheckRequest {
   /// status for the health check is healthy.
   /// </li>
   /// </ul>
-  final InsufficientDataHealthStatus insufficientDataHealthStatus;
+  final InsufficientDataHealthStatus? insufficientDataHealthStatus;
 
   /// Specify whether you want Amazon Route 53 to invert the status of a health
   /// check, for example, to consider a health check unhealthy when it otherwise
   /// would be considered healthy.
-  final bool inverted;
+  final bool? inverted;
 
   /// The port on the endpoint that you want Amazon Route 53 to perform health
   /// checks on.
@@ -11134,12 +13494,12 @@ class UpdateHealthCheckRequest {
   /// <code>Type</code> of <code>CLOUDWATCH_METRIC</code> or
   /// <code>CALCULATED</code>.
   /// </note>
-  final int port;
+  final int? port;
 
   /// A complex type that contains one <code>Region</code> element for each region
   /// that you want Amazon Route 53 health checkers to check the specified
   /// endpoint from.
-  final List<HealthCheckRegion> regions;
+  final List<HealthCheckRegion>? regions;
 
   /// A complex type that contains one <code>ResettableElementName</code> element
   /// for each element that you want to reset to the default value. Valid values
@@ -11167,7 +13527,7 @@ class UpdateHealthCheckRequest {
   /// to null.
   /// </li>
   /// </ul>
-  final List<ResettableElementName> resetElements;
+  final List<ResettableElementName>? resetElements;
 
   /// The path that you want Amazon Route 53 to request when performing health
   /// checks. The path can be any value for which your endpoint will return an
@@ -11176,17 +13536,17 @@ class UpdateHealthCheckRequest {
   /// parameters, for example, <code>/welcome.html?language=jp&amp;login=y</code>.
   ///
   /// Specify this value only if you want to change it.
-  final String resourcePath;
+  final String? resourcePath;
 
   /// If the value of <code>Type</code> is <code>HTTP_STR_MATCH</code> or
   /// <code>HTTPS_STR_MATCH</code>, the string that you want Amazon Route 53 to
   /// search for in the response body from the specified resource. If the string
   /// appears in the response body, Route 53 considers the resource healthy. (You
   /// can't change the value of <code>Type</code> when you update a health check.)
-  final String searchString;
+  final String? searchString;
 
   UpdateHealthCheckRequest({
-    @_s.required this.healthCheckId,
+    required this.healthCheckId,
     this.alarmIdentifier,
     this.childHealthChecks,
     this.disabled,
@@ -11204,7 +13564,102 @@ class UpdateHealthCheckRequest {
     this.resourcePath,
     this.searchString,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory UpdateHealthCheckRequest.fromJson(Map<String, dynamic> json) {
+    return UpdateHealthCheckRequest(
+      healthCheckId: json['HealthCheckId'] as String,
+      alarmIdentifier: json['AlarmIdentifier'] != null
+          ? AlarmIdentifier.fromJson(
+              json['AlarmIdentifier'] as Map<String, dynamic>)
+          : null,
+      childHealthChecks: (json['ChildHealthChecks'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      disabled: json['Disabled'] as bool?,
+      enableSNI: json['EnableSNI'] as bool?,
+      failureThreshold: json['FailureThreshold'] as int?,
+      fullyQualifiedDomainName: json['FullyQualifiedDomainName'] as String?,
+      healthCheckVersion: json['HealthCheckVersion'] as int?,
+      healthThreshold: json['HealthThreshold'] as int?,
+      iPAddress: json['IPAddress'] as String?,
+      insufficientDataHealthStatus:
+          (json['InsufficientDataHealthStatus'] as String?)
+              ?.toInsufficientDataHealthStatus(),
+      inverted: json['Inverted'] as bool?,
+      port: json['Port'] as int?,
+      regions: (json['Regions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toHealthCheckRegion())
+          .toList(),
+      resetElements: (json['ResetElements'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toResettableElementName())
+          .toList(),
+      resourcePath: json['ResourcePath'] as String?,
+      searchString: json['SearchString'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheckId = this.healthCheckId;
+    final alarmIdentifier = this.alarmIdentifier;
+    final childHealthChecks = this.childHealthChecks;
+    final disabled = this.disabled;
+    final enableSNI = this.enableSNI;
+    final failureThreshold = this.failureThreshold;
+    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
+    final healthCheckVersion = this.healthCheckVersion;
+    final healthThreshold = this.healthThreshold;
+    final iPAddress = this.iPAddress;
+    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
+    final inverted = this.inverted;
+    final port = this.port;
+    final regions = this.regions;
+    final resetElements = this.resetElements;
+    final resourcePath = this.resourcePath;
+    final searchString = this.searchString;
+    return {
+      if (alarmIdentifier != null) 'AlarmIdentifier': alarmIdentifier,
+      if (childHealthChecks != null) 'ChildHealthChecks': childHealthChecks,
+      if (disabled != null) 'Disabled': disabled,
+      if (enableSNI != null) 'EnableSNI': enableSNI,
+      if (failureThreshold != null) 'FailureThreshold': failureThreshold,
+      if (fullyQualifiedDomainName != null)
+        'FullyQualifiedDomainName': fullyQualifiedDomainName,
+      if (healthCheckVersion != null) 'HealthCheckVersion': healthCheckVersion,
+      if (healthThreshold != null) 'HealthThreshold': healthThreshold,
+      if (iPAddress != null) 'IPAddress': iPAddress,
+      if (insufficientDataHealthStatus != null)
+        'InsufficientDataHealthStatus': insufficientDataHealthStatus.toValue(),
+      if (inverted != null) 'Inverted': inverted,
+      if (port != null) 'Port': port,
+      if (regions != null) 'Regions': regions.map((e) => e.toValue()).toList(),
+      if (resetElements != null)
+        'ResetElements': resetElements.map((e) => e.toValue()).toList(),
+      if (resourcePath != null) 'ResourcePath': resourcePath,
+      if (searchString != null) 'SearchString': searchString,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final healthCheckId = this.healthCheckId;
+    final alarmIdentifier = this.alarmIdentifier;
+    final childHealthChecks = this.childHealthChecks;
+    final disabled = this.disabled;
+    final enableSNI = this.enableSNI;
+    final failureThreshold = this.failureThreshold;
+    final fullyQualifiedDomainName = this.fullyQualifiedDomainName;
+    final healthCheckVersion = this.healthCheckVersion;
+    final healthThreshold = this.healthThreshold;
+    final iPAddress = this.iPAddress;
+    final insufficientDataHealthStatus = this.insufficientDataHealthStatus;
+    final inverted = this.inverted;
+    final port = this.port;
+    final regions = this.regions;
+    final resetElements = this.resetElements;
+    final resourcePath = this.resourcePath;
+    final searchString = this.searchString;
     final $children = <_s.XmlNode>[
       if (healthCheckVersion != null)
         _s.encodeXmlIntValue('HealthCheckVersion', healthCheckVersion),
@@ -11231,12 +13686,9 @@ class UpdateHealthCheckRequest {
                 .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
       if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
-        _s.XmlElement(
-            _s.XmlName('Regions'),
-            [],
-            regions.map(
-                (e) => _s.encodeXmlStringValue('Region', e?.toValue() ?? ''))),
-      if (alarmIdentifier != null) alarmIdentifier?.toXml('AlarmIdentifier'),
+        _s.XmlElement(_s.XmlName('Regions'), [],
+            regions.map((e) => _s.encodeXmlStringValue('Region', e.toValue()))),
+      if (alarmIdentifier != null) alarmIdentifier.toXml('AlarmIdentifier'),
       if (insufficientDataHealthStatus != null)
         _s.encodeXmlStringValue('InsufficientDataHealthStatus',
             insufficientDataHealthStatus.toValue()),
@@ -11244,8 +13696,8 @@ class UpdateHealthCheckRequest {
         _s.XmlElement(
             _s.XmlName('ResetElements'),
             [],
-            resetElements.map((e) => _s.encodeXmlStringValue(
-                'ResettableElementName', e?.toValue() ?? ''))),
+            resetElements.map((e) =>
+                _s.encodeXmlStringValue('ResettableElementName', e.toValue()))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -11253,7 +13705,7 @@ class UpdateHealthCheckRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11266,14 +13718,28 @@ class UpdateHealthCheckResponse {
   final HealthCheck healthCheck;
 
   UpdateHealthCheckResponse({
-    @_s.required this.healthCheck,
+    required this.healthCheck,
   });
+
+  factory UpdateHealthCheckResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateHealthCheckResponse(
+      healthCheck:
+          HealthCheck.fromJson(json['HealthCheck'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateHealthCheckResponse.fromXml(_s.XmlElement elem) {
     return UpdateHealthCheckResponse(
-      healthCheck: _s
-          .extractXmlChild(elem, 'HealthCheck')
-          ?.let((e) => HealthCheck.fromXml(e)),
+      healthCheck:
+          HealthCheck.fromXml(_s.extractXmlChild(elem, 'HealthCheck')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final healthCheck = this.healthCheck;
+    return {
+      'HealthCheck': healthCheck,
+    };
   }
 }
 
@@ -11285,13 +13751,31 @@ class UpdateHostedZoneCommentRequest {
   /// The new comment for the hosted zone. If you don't specify a value for
   /// <code>Comment</code>, Amazon Route 53 deletes the existing value of the
   /// <code>Comment</code> element, if any.
-  final String comment;
+  final String? comment;
 
   UpdateHostedZoneCommentRequest({
-    @_s.required this.id,
+    required this.id,
     this.comment,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory UpdateHostedZoneCommentRequest.fromJson(Map<String, dynamic> json) {
+    return UpdateHostedZoneCommentRequest(
+      id: json['Id'] as String,
+      comment: json['Comment'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final comment = this.comment;
+    return {
+      if (comment != null) 'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final id = this.id;
+    final comment = this.comment;
     final $children = <_s.XmlNode>[
       if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
@@ -11301,7 +13785,7 @@ class UpdateHostedZoneCommentRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11314,14 +13798,27 @@ class UpdateHostedZoneCommentResponse {
   final HostedZone hostedZone;
 
   UpdateHostedZoneCommentResponse({
-    @_s.required this.hostedZone,
+    required this.hostedZone,
   });
+
+  factory UpdateHostedZoneCommentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateHostedZoneCommentResponse(
+      hostedZone:
+          HostedZone.fromJson(json['HostedZone'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateHostedZoneCommentResponse.fromXml(_s.XmlElement elem) {
     return UpdateHostedZoneCommentResponse(
-      hostedZone: _s
-          .extractXmlChild(elem, 'HostedZone')
-          ?.let((e) => HostedZone.fromXml(e)),
+      hostedZone: HostedZone.fromXml(_s.extractXmlChild(elem, 'HostedZone')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final hostedZone = this.hostedZone;
+    return {
+      'HostedZone': hostedZone,
+    };
   }
 }
 
@@ -11340,11 +13837,33 @@ class UpdateTrafficPolicyCommentRequest {
   final int version;
 
   UpdateTrafficPolicyCommentRequest({
-    @_s.required this.comment,
-    @_s.required this.id,
-    @_s.required this.version,
+    required this.comment,
+    required this.id,
+    required this.version,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory UpdateTrafficPolicyCommentRequest.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTrafficPolicyCommentRequest(
+      comment: json['Comment'] as String,
+      id: json['Id'] as String,
+      version: json['Version'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final comment = this.comment;
+    final id = this.id;
+    final version = this.version;
+    return {
+      'Comment': comment,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final comment = this.comment;
+    final id = this.id;
+    final version = this.version;
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Comment', comment),
     ];
@@ -11354,7 +13873,7 @@ class UpdateTrafficPolicyCommentRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11366,14 +13885,29 @@ class UpdateTrafficPolicyCommentResponse {
   final TrafficPolicy trafficPolicy;
 
   UpdateTrafficPolicyCommentResponse({
-    @_s.required this.trafficPolicy,
+    required this.trafficPolicy,
   });
+
+  factory UpdateTrafficPolicyCommentResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTrafficPolicyCommentResponse(
+      trafficPolicy:
+          TrafficPolicy.fromJson(json['TrafficPolicy'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateTrafficPolicyCommentResponse.fromXml(_s.XmlElement elem) {
     return UpdateTrafficPolicyCommentResponse(
-      trafficPolicy: _s
-          .extractXmlChild(elem, 'TrafficPolicy')
-          ?.let((e) => TrafficPolicy.fromXml(e)),
+      trafficPolicy:
+          TrafficPolicy.fromXml(_s.extractXmlChild(elem, 'TrafficPolicy')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficPolicy = this.trafficPolicy;
+    return {
+      'TrafficPolicy': trafficPolicy,
+    };
   }
 }
 
@@ -11396,12 +13930,39 @@ class UpdateTrafficPolicyInstanceRequest {
   final int trafficPolicyVersion;
 
   UpdateTrafficPolicyInstanceRequest({
-    @_s.required this.id,
-    @_s.required this.ttl,
-    @_s.required this.trafficPolicyId,
-    @_s.required this.trafficPolicyVersion,
+    required this.id,
+    required this.ttl,
+    required this.trafficPolicyId,
+    required this.trafficPolicyVersion,
   });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+
+  factory UpdateTrafficPolicyInstanceRequest.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTrafficPolicyInstanceRequest(
+      id: json['Id'] as String,
+      ttl: json['TTL'] as int,
+      trafficPolicyId: json['TrafficPolicyId'] as String,
+      trafficPolicyVersion: json['TrafficPolicyVersion'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final id = this.id;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
+    return {
+      'TTL': ttl,
+      'TrafficPolicyId': trafficPolicyId,
+      'TrafficPolicyVersion': trafficPolicyVersion,
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final id = this.id;
+    final ttl = this.ttl;
+    final trafficPolicyId = this.trafficPolicyId;
+    final trafficPolicyVersion = this.trafficPolicyVersion;
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('TTL', ttl),
       _s.encodeXmlStringValue('TrafficPolicyId', trafficPolicyId),
@@ -11413,7 +13974,7 @@ class UpdateTrafficPolicyInstanceRequest {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11426,29 +13987,52 @@ class UpdateTrafficPolicyInstanceResponse {
   final TrafficPolicyInstance trafficPolicyInstance;
 
   UpdateTrafficPolicyInstanceResponse({
-    @_s.required this.trafficPolicyInstance,
+    required this.trafficPolicyInstance,
   });
+
+  factory UpdateTrafficPolicyInstanceResponse.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateTrafficPolicyInstanceResponse(
+      trafficPolicyInstance: TrafficPolicyInstance.fromJson(
+          json['TrafficPolicyInstance'] as Map<String, dynamic>),
+    );
+  }
+
   factory UpdateTrafficPolicyInstanceResponse.fromXml(_s.XmlElement elem) {
     return UpdateTrafficPolicyInstanceResponse(
-      trafficPolicyInstance: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstance')
-          ?.let((e) => TrafficPolicyInstance.fromXml(e)),
+      trafficPolicyInstance: TrafficPolicyInstance.fromXml(
+          _s.extractXmlChild(elem, 'TrafficPolicyInstance')!),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    final trafficPolicyInstance = this.trafficPolicyInstance;
+    return {
+      'TrafficPolicyInstance': trafficPolicyInstance,
+    };
   }
 }
 
 /// (Private hosted zones only) A complex type that contains information about
 /// an Amazon VPC.
 class VPC {
-  final String vPCId;
+  final String? vPCId;
 
   /// (Private hosted zones only) The region that an Amazon VPC was created in.
-  final VPCRegion vPCRegion;
+  final VPCRegion? vPCRegion;
 
   VPC({
     this.vPCId,
     this.vPCRegion,
   });
+
+  factory VPC.fromJson(Map<String, dynamic> json) {
+    return VPC(
+      vPCId: json['VPCId'] as String?,
+      vPCRegion: (json['VPCRegion'] as String?)?.toVPCRegion(),
+    );
+  }
+
   factory VPC.fromXml(_s.XmlElement elem) {
     return VPC(
       vPCId: _s.extractXmlStringValue(elem, 'VPCId'),
@@ -11456,7 +14040,18 @@ class VPC {
     );
   }
 
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+  Map<String, dynamic> toJson() {
+    final vPCId = this.vPCId;
+    final vPCRegion = this.vPCRegion;
+    return {
+      if (vPCId != null) 'VPCId': vPCId,
+      if (vPCRegion != null) 'VPCRegion': vPCRegion.toValue(),
+    };
+  }
+
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute>? attributes}) {
+    final vPCId = this.vPCId;
+    final vPCRegion = this.vPCRegion;
     final $children = <_s.XmlNode>[
       if (vPCRegion != null)
         _s.encodeXmlStringValue('VPCRegion', vPCRegion.toValue()),
@@ -11468,7 +14063,7 @@ class VPC {
     return _s.XmlElement(
       _s.XmlName(elemName),
       $attributes,
-      $children.where((e) => e != null),
+      $children,
     );
   }
 }
@@ -11558,7 +14153,6 @@ extension on VPCRegion {
       case VPCRegion.euSouth_1:
         return 'eu-south-1';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11618,105 +14212,105 @@ extension on String {
       case 'eu-south-1':
         return VPCRegion.euSouth_1;
     }
-    throw Exception('Unknown enum value: $this');
+    throw Exception('$this is not known in enum VPCRegion');
   }
 }
 
 class ConcurrentModification extends _s.GenericAwsException {
-  ConcurrentModification({String type, String message})
+  ConcurrentModification({String? type, String? message})
       : super(type: type, code: 'ConcurrentModification', message: message);
 }
 
 class ConflictingDomainExists extends _s.GenericAwsException {
-  ConflictingDomainExists({String type, String message})
+  ConflictingDomainExists({String? type, String? message})
       : super(type: type, code: 'ConflictingDomainExists', message: message);
 }
 
 class ConflictingTypes extends _s.GenericAwsException {
-  ConflictingTypes({String type, String message})
+  ConflictingTypes({String? type, String? message})
       : super(type: type, code: 'ConflictingTypes', message: message);
 }
 
 class DNSSECNotFound extends _s.GenericAwsException {
-  DNSSECNotFound({String type, String message})
+  DNSSECNotFound({String? type, String? message})
       : super(type: type, code: 'DNSSECNotFound', message: message);
 }
 
 class DelegationSetAlreadyCreated extends _s.GenericAwsException {
-  DelegationSetAlreadyCreated({String type, String message})
+  DelegationSetAlreadyCreated({String? type, String? message})
       : super(
             type: type, code: 'DelegationSetAlreadyCreated', message: message);
 }
 
 class DelegationSetAlreadyReusable extends _s.GenericAwsException {
-  DelegationSetAlreadyReusable({String type, String message})
+  DelegationSetAlreadyReusable({String? type, String? message})
       : super(
             type: type, code: 'DelegationSetAlreadyReusable', message: message);
 }
 
 class DelegationSetInUse extends _s.GenericAwsException {
-  DelegationSetInUse({String type, String message})
+  DelegationSetInUse({String? type, String? message})
       : super(type: type, code: 'DelegationSetInUse', message: message);
 }
 
 class DelegationSetNotAvailable extends _s.GenericAwsException {
-  DelegationSetNotAvailable({String type, String message})
+  DelegationSetNotAvailable({String? type, String? message})
       : super(type: type, code: 'DelegationSetNotAvailable', message: message);
 }
 
 class DelegationSetNotReusable extends _s.GenericAwsException {
-  DelegationSetNotReusable({String type, String message})
+  DelegationSetNotReusable({String? type, String? message})
       : super(type: type, code: 'DelegationSetNotReusable', message: message);
 }
 
 class HealthCheckAlreadyExists extends _s.GenericAwsException {
-  HealthCheckAlreadyExists({String type, String message})
+  HealthCheckAlreadyExists({String? type, String? message})
       : super(type: type, code: 'HealthCheckAlreadyExists', message: message);
 }
 
 class HealthCheckInUse extends _s.GenericAwsException {
-  HealthCheckInUse({String type, String message})
+  HealthCheckInUse({String? type, String? message})
       : super(type: type, code: 'HealthCheckInUse', message: message);
 }
 
 class HealthCheckVersionMismatch extends _s.GenericAwsException {
-  HealthCheckVersionMismatch({String type, String message})
+  HealthCheckVersionMismatch({String? type, String? message})
       : super(type: type, code: 'HealthCheckVersionMismatch', message: message);
 }
 
 class HostedZoneAlreadyExists extends _s.GenericAwsException {
-  HostedZoneAlreadyExists({String type, String message})
+  HostedZoneAlreadyExists({String? type, String? message})
       : super(type: type, code: 'HostedZoneAlreadyExists', message: message);
 }
 
 class HostedZoneNotEmpty extends _s.GenericAwsException {
-  HostedZoneNotEmpty({String type, String message})
+  HostedZoneNotEmpty({String? type, String? message})
       : super(type: type, code: 'HostedZoneNotEmpty', message: message);
 }
 
 class HostedZoneNotFound extends _s.GenericAwsException {
-  HostedZoneNotFound({String type, String message})
+  HostedZoneNotFound({String? type, String? message})
       : super(type: type, code: 'HostedZoneNotFound', message: message);
 }
 
 class HostedZoneNotPrivate extends _s.GenericAwsException {
-  HostedZoneNotPrivate({String type, String message})
+  HostedZoneNotPrivate({String? type, String? message})
       : super(type: type, code: 'HostedZoneNotPrivate', message: message);
 }
 
 class HostedZonePartiallyDelegated extends _s.GenericAwsException {
-  HostedZonePartiallyDelegated({String type, String message})
+  HostedZonePartiallyDelegated({String? type, String? message})
       : super(
             type: type, code: 'HostedZonePartiallyDelegated', message: message);
 }
 
 class IncompatibleVersion extends _s.GenericAwsException {
-  IncompatibleVersion({String type, String message})
+  IncompatibleVersion({String? type, String? message})
       : super(type: type, code: 'IncompatibleVersion', message: message);
 }
 
 class InsufficientCloudWatchLogsResourcePolicy extends _s.GenericAwsException {
-  InsufficientCloudWatchLogsResourcePolicy({String type, String message})
+  InsufficientCloudWatchLogsResourcePolicy({String? type, String? message})
       : super(
             type: type,
             code: 'InsufficientCloudWatchLogsResourcePolicy',
@@ -11724,68 +14318,68 @@ class InsufficientCloudWatchLogsResourcePolicy extends _s.GenericAwsException {
 }
 
 class InvalidArgument extends _s.GenericAwsException {
-  InvalidArgument({String type, String message})
+  InvalidArgument({String? type, String? message})
       : super(type: type, code: 'InvalidArgument', message: message);
 }
 
 class InvalidChangeBatch extends _s.GenericAwsException {
-  InvalidChangeBatch({String type, String message})
+  InvalidChangeBatch({String? type, String? message})
       : super(type: type, code: 'InvalidChangeBatch', message: message);
 }
 
 class InvalidDomainName extends _s.GenericAwsException {
-  InvalidDomainName({String type, String message})
+  InvalidDomainName({String? type, String? message})
       : super(type: type, code: 'InvalidDomainName', message: message);
 }
 
 class InvalidInput extends _s.GenericAwsException {
-  InvalidInput({String type, String message})
+  InvalidInput({String? type, String? message})
       : super(type: type, code: 'InvalidInput', message: message);
 }
 
 class InvalidKMSArn extends _s.GenericAwsException {
-  InvalidKMSArn({String type, String message})
+  InvalidKMSArn({String? type, String? message})
       : super(type: type, code: 'InvalidKMSArn', message: message);
 }
 
 class InvalidKeySigningKeyName extends _s.GenericAwsException {
-  InvalidKeySigningKeyName({String type, String message})
+  InvalidKeySigningKeyName({String? type, String? message})
       : super(type: type, code: 'InvalidKeySigningKeyName', message: message);
 }
 
 class InvalidKeySigningKeyStatus extends _s.GenericAwsException {
-  InvalidKeySigningKeyStatus({String type, String message})
+  InvalidKeySigningKeyStatus({String? type, String? message})
       : super(type: type, code: 'InvalidKeySigningKeyStatus', message: message);
 }
 
 class InvalidPaginationToken extends _s.GenericAwsException {
-  InvalidPaginationToken({String type, String message})
+  InvalidPaginationToken({String? type, String? message})
       : super(type: type, code: 'InvalidPaginationToken', message: message);
 }
 
 class InvalidSigningStatus extends _s.GenericAwsException {
-  InvalidSigningStatus({String type, String message})
+  InvalidSigningStatus({String? type, String? message})
       : super(type: type, code: 'InvalidSigningStatus', message: message);
 }
 
 class InvalidTrafficPolicyDocument extends _s.GenericAwsException {
-  InvalidTrafficPolicyDocument({String type, String message})
+  InvalidTrafficPolicyDocument({String? type, String? message})
       : super(
             type: type, code: 'InvalidTrafficPolicyDocument', message: message);
 }
 
 class InvalidVPCId extends _s.GenericAwsException {
-  InvalidVPCId({String type, String message})
+  InvalidVPCId({String? type, String? message})
       : super(type: type, code: 'InvalidVPCId', message: message);
 }
 
 class KeySigningKeyAlreadyExists extends _s.GenericAwsException {
-  KeySigningKeyAlreadyExists({String type, String message})
+  KeySigningKeyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'KeySigningKeyAlreadyExists', message: message);
 }
 
 class KeySigningKeyInParentDSRecord extends _s.GenericAwsException {
-  KeySigningKeyInParentDSRecord({String type, String message})
+  KeySigningKeyInParentDSRecord({String? type, String? message})
       : super(
             type: type,
             code: 'KeySigningKeyInParentDSRecord',
@@ -11793,12 +14387,12 @@ class KeySigningKeyInParentDSRecord extends _s.GenericAwsException {
 }
 
 class KeySigningKeyInUse extends _s.GenericAwsException {
-  KeySigningKeyInUse({String type, String message})
+  KeySigningKeyInUse({String? type, String? message})
       : super(type: type, code: 'KeySigningKeyInUse', message: message);
 }
 
 class KeySigningKeyWithActiveStatusNotFound extends _s.GenericAwsException {
-  KeySigningKeyWithActiveStatusNotFound({String type, String message})
+  KeySigningKeyWithActiveStatusNotFound({String? type, String? message})
       : super(
             type: type,
             code: 'KeySigningKeyWithActiveStatusNotFound',
@@ -11806,84 +14400,84 @@ class KeySigningKeyWithActiveStatusNotFound extends _s.GenericAwsException {
 }
 
 class LastVPCAssociation extends _s.GenericAwsException {
-  LastVPCAssociation({String type, String message})
+  LastVPCAssociation({String? type, String? message})
       : super(type: type, code: 'LastVPCAssociation', message: message);
 }
 
 class LimitsExceeded extends _s.GenericAwsException {
-  LimitsExceeded({String type, String message})
+  LimitsExceeded({String? type, String? message})
       : super(type: type, code: 'LimitsExceeded', message: message);
 }
 
 class NoSuchChange extends _s.GenericAwsException {
-  NoSuchChange({String type, String message})
+  NoSuchChange({String? type, String? message})
       : super(type: type, code: 'NoSuchChange', message: message);
 }
 
 class NoSuchCloudWatchLogsLogGroup extends _s.GenericAwsException {
-  NoSuchCloudWatchLogsLogGroup({String type, String message})
+  NoSuchCloudWatchLogsLogGroup({String? type, String? message})
       : super(
             type: type, code: 'NoSuchCloudWatchLogsLogGroup', message: message);
 }
 
 class NoSuchDelegationSet extends _s.GenericAwsException {
-  NoSuchDelegationSet({String type, String message})
+  NoSuchDelegationSet({String? type, String? message})
       : super(type: type, code: 'NoSuchDelegationSet', message: message);
 }
 
 class NoSuchGeoLocation extends _s.GenericAwsException {
-  NoSuchGeoLocation({String type, String message})
+  NoSuchGeoLocation({String? type, String? message})
       : super(type: type, code: 'NoSuchGeoLocation', message: message);
 }
 
 class NoSuchHealthCheck extends _s.GenericAwsException {
-  NoSuchHealthCheck({String type, String message})
+  NoSuchHealthCheck({String? type, String? message})
       : super(type: type, code: 'NoSuchHealthCheck', message: message);
 }
 
 class NoSuchHostedZone extends _s.GenericAwsException {
-  NoSuchHostedZone({String type, String message})
+  NoSuchHostedZone({String? type, String? message})
       : super(type: type, code: 'NoSuchHostedZone', message: message);
 }
 
 class NoSuchKeySigningKey extends _s.GenericAwsException {
-  NoSuchKeySigningKey({String type, String message})
+  NoSuchKeySigningKey({String? type, String? message})
       : super(type: type, code: 'NoSuchKeySigningKey', message: message);
 }
 
 class NoSuchQueryLoggingConfig extends _s.GenericAwsException {
-  NoSuchQueryLoggingConfig({String type, String message})
+  NoSuchQueryLoggingConfig({String? type, String? message})
       : super(type: type, code: 'NoSuchQueryLoggingConfig', message: message);
 }
 
 class NoSuchTrafficPolicy extends _s.GenericAwsException {
-  NoSuchTrafficPolicy({String type, String message})
+  NoSuchTrafficPolicy({String? type, String? message})
       : super(type: type, code: 'NoSuchTrafficPolicy', message: message);
 }
 
 class NoSuchTrafficPolicyInstance extends _s.GenericAwsException {
-  NoSuchTrafficPolicyInstance({String type, String message})
+  NoSuchTrafficPolicyInstance({String? type, String? message})
       : super(
             type: type, code: 'NoSuchTrafficPolicyInstance', message: message);
 }
 
 class NotAuthorizedException extends _s.GenericAwsException {
-  NotAuthorizedException({String type, String message})
+  NotAuthorizedException({String? type, String? message})
       : super(type: type, code: 'NotAuthorizedException', message: message);
 }
 
 class PriorRequestNotComplete extends _s.GenericAwsException {
-  PriorRequestNotComplete({String type, String message})
+  PriorRequestNotComplete({String? type, String? message})
       : super(type: type, code: 'PriorRequestNotComplete', message: message);
 }
 
 class PublicZoneVPCAssociation extends _s.GenericAwsException {
-  PublicZoneVPCAssociation({String type, String message})
+  PublicZoneVPCAssociation({String? type, String? message})
       : super(type: type, code: 'PublicZoneVPCAssociation', message: message);
 }
 
 class QueryLoggingConfigAlreadyExists extends _s.GenericAwsException {
-  QueryLoggingConfigAlreadyExists({String type, String message})
+  QueryLoggingConfigAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'QueryLoggingConfigAlreadyExists',
@@ -11891,32 +14485,32 @@ class QueryLoggingConfigAlreadyExists extends _s.GenericAwsException {
 }
 
 class ThrottlingException extends _s.GenericAwsException {
-  ThrottlingException({String type, String message})
+  ThrottlingException({String? type, String? message})
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
 class TooManyHealthChecks extends _s.GenericAwsException {
-  TooManyHealthChecks({String type, String message})
+  TooManyHealthChecks({String? type, String? message})
       : super(type: type, code: 'TooManyHealthChecks', message: message);
 }
 
 class TooManyHostedZones extends _s.GenericAwsException {
-  TooManyHostedZones({String type, String message})
+  TooManyHostedZones({String? type, String? message})
       : super(type: type, code: 'TooManyHostedZones', message: message);
 }
 
 class TooManyKeySigningKeys extends _s.GenericAwsException {
-  TooManyKeySigningKeys({String type, String message})
+  TooManyKeySigningKeys({String? type, String? message})
       : super(type: type, code: 'TooManyKeySigningKeys', message: message);
 }
 
 class TooManyTrafficPolicies extends _s.GenericAwsException {
-  TooManyTrafficPolicies({String type, String message})
+  TooManyTrafficPolicies({String? type, String? message})
       : super(type: type, code: 'TooManyTrafficPolicies', message: message);
 }
 
 class TooManyTrafficPolicyInstances extends _s.GenericAwsException {
-  TooManyTrafficPolicyInstances({String type, String message})
+  TooManyTrafficPolicyInstances({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyTrafficPolicyInstances',
@@ -11925,7 +14519,7 @@ class TooManyTrafficPolicyInstances extends _s.GenericAwsException {
 
 class TooManyTrafficPolicyVersionsForCurrentPolicy
     extends _s.GenericAwsException {
-  TooManyTrafficPolicyVersionsForCurrentPolicy({String type, String message})
+  TooManyTrafficPolicyVersionsForCurrentPolicy({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyTrafficPolicyVersionsForCurrentPolicy',
@@ -11933,7 +14527,7 @@ class TooManyTrafficPolicyVersionsForCurrentPolicy
 }
 
 class TooManyVPCAssociationAuthorizations extends _s.GenericAwsException {
-  TooManyVPCAssociationAuthorizations({String type, String message})
+  TooManyVPCAssociationAuthorizations({String? type, String? message})
       : super(
             type: type,
             code: 'TooManyVPCAssociationAuthorizations',
@@ -11941,17 +14535,17 @@ class TooManyVPCAssociationAuthorizations extends _s.GenericAwsException {
 }
 
 class TrafficPolicyAlreadyExists extends _s.GenericAwsException {
-  TrafficPolicyAlreadyExists({String type, String message})
+  TrafficPolicyAlreadyExists({String? type, String? message})
       : super(type: type, code: 'TrafficPolicyAlreadyExists', message: message);
 }
 
 class TrafficPolicyInUse extends _s.GenericAwsException {
-  TrafficPolicyInUse({String type, String message})
+  TrafficPolicyInUse({String? type, String? message})
       : super(type: type, code: 'TrafficPolicyInUse', message: message);
 }
 
 class TrafficPolicyInstanceAlreadyExists extends _s.GenericAwsException {
-  TrafficPolicyInstanceAlreadyExists({String type, String message})
+  TrafficPolicyInstanceAlreadyExists({String? type, String? message})
       : super(
             type: type,
             code: 'TrafficPolicyInstanceAlreadyExists',
@@ -11959,7 +14553,7 @@ class TrafficPolicyInstanceAlreadyExists extends _s.GenericAwsException {
 }
 
 class VPCAssociationAuthorizationNotFound extends _s.GenericAwsException {
-  VPCAssociationAuthorizationNotFound({String type, String message})
+  VPCAssociationAuthorizationNotFound({String? type, String? message})
       : super(
             type: type,
             code: 'VPCAssociationAuthorizationNotFound',
@@ -11967,7 +14561,7 @@ class VPCAssociationAuthorizationNotFound extends _s.GenericAwsException {
 }
 
 class VPCAssociationNotFound extends _s.GenericAwsException {
-  VPCAssociationNotFound({String type, String message})
+  VPCAssociationNotFound({String? type, String? message})
       : super(type: type, code: 'VPCAssociationNotFound', message: message);
 }
 

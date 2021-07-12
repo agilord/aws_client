@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2019-12-02.g.dart';
 
 /// Amazon EventBridge Schema Registry
 class Schemas {
   final _s.RestJsonProtocol _protocol;
   Schemas({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -63,9 +56,9 @@ class Schemas {
   /// Parameter [tags] :
   /// Tags associated with the resource.
   Future<CreateDiscovererResponse> createDiscoverer({
-    @_s.required String sourceArn,
-    String description,
-    Map<String, String> tags,
+    required String sourceArn,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     _s.validateStringLength(
@@ -113,9 +106,9 @@ class Schemas {
   /// Parameter [tags] :
   /// Tags to associate with the registry.
   Future<CreateRegistryResponse> createRegistry({
-    @_s.required String registryName,
-    String description,
-    Map<String, String> tags,
+    required String registryName,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     _s.validateStringLength(
@@ -165,12 +158,12 @@ class Schemas {
   /// Parameter [tags] :
   /// Tags associated with the schema.
   Future<CreateSchemaResponse> createSchema({
-    @_s.required String content,
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    @_s.required Type type,
-    String description,
-    Map<String, String> tags,
+    required String content,
+    required String registryName,
+    required String schemaName,
+    required Type type,
+    String? description,
+    Map<String, String>? tags,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
     _s.validateStringLength(
@@ -191,7 +184,7 @@ class Schemas {
     );
     final $payload = <String, dynamic>{
       'Content': content,
-      'Type': type?.toValue() ?? '',
+      'Type': type.toValue(),
       if (description != null) 'Description': description,
       if (tags != null) 'tags': tags,
     };
@@ -217,7 +210,7 @@ class Schemas {
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
   Future<void> deleteDiscoverer({
-    @_s.required String discovererId,
+    required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
     await _protocol.send(
@@ -240,7 +233,7 @@ class Schemas {
   /// Parameter [registryName] :
   /// The name of the registry.
   Future<void> deleteRegistry({
-    @_s.required String registryName,
+    required String registryName,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     await _protocol.send(
@@ -263,7 +256,7 @@ class Schemas {
   /// Parameter [registryName] :
   /// The name of the registry.
   Future<void> deleteResourcePolicy({
-    String registryName,
+    String? registryName,
   }) async {
     final $query = <String, List<String>>{
       if (registryName != null) 'registryName': [registryName],
@@ -292,8 +285,8 @@ class Schemas {
   /// Parameter [schemaName] :
   /// The name of the schema.
   Future<void> deleteSchema({
-    @_s.required String registryName,
-    @_s.required String schemaName,
+    required String registryName,
+    required String schemaName,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
@@ -324,9 +317,9 @@ class Schemas {
   /// Parameter [schemaVersion] :
   /// The version number of the schema
   Future<void> deleteSchemaVersion({
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    @_s.required String schemaVersion,
+    required String registryName,
+    required String schemaName,
+    required String schemaVersion,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
@@ -361,10 +354,10 @@ class Schemas {
   /// Parameter [schemaVersion] :
   /// Specifying this limits the results to only this schema version.
   Future<DescribeCodeBindingResponse> describeCodeBinding({
-    @_s.required String language,
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    String schemaVersion,
+    required String language,
+    required String registryName,
+    required String schemaName,
+    String? schemaVersion,
   }) async {
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(registryName, 'registryName');
@@ -395,7 +388,7 @@ class Schemas {
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
   Future<DescribeDiscovererResponse> describeDiscoverer({
-    @_s.required String discovererId,
+    required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
     final response = await _protocol.send(
@@ -419,7 +412,7 @@ class Schemas {
   /// Parameter [registryName] :
   /// The name of the registry.
   Future<DescribeRegistryResponse> describeRegistry({
-    @_s.required String registryName,
+    required String registryName,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     final response = await _protocol.send(
@@ -449,9 +442,9 @@ class Schemas {
   /// Parameter [schemaVersion] :
   /// Specifying this limits the results to only this schema version.
   Future<DescribeSchemaResponse> describeSchema({
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    String schemaVersion,
+    required String registryName,
+    required String schemaName,
+    String? schemaVersion,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
@@ -487,16 +480,16 @@ class Schemas {
   /// Parameter [schemaVersion] :
   /// Specifying this limits the results to only this schema version.
   Future<ExportSchemaResponse> exportSchema({
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    @_s.required String type,
-    String schemaVersion,
+    required String registryName,
+    required String schemaName,
+    required String type,
+    String? schemaVersion,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
     ArgumentError.checkNotNull(type, 'type');
     final $query = <String, List<String>>{
-      if (type != null) 'type': [type],
+      'type': [type],
       if (schemaVersion != null) 'schemaVersion': [schemaVersion],
     };
     final response = await _protocol.send(
@@ -531,10 +524,10 @@ class Schemas {
   /// Parameter [schemaVersion] :
   /// Specifying this limits the results to only this schema version.
   Future<GetCodeBindingSourceResponse> getCodeBindingSource({
-    @_s.required String language,
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    String schemaVersion,
+    required String language,
+    required String registryName,
+    required String schemaName,
+    String? schemaVersion,
   }) async {
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(registryName, 'registryName');
@@ -571,14 +564,14 @@ class Schemas {
   /// Parameter [type] :
   /// The type of event.
   Future<GetDiscoveredSchemaResponse> getDiscoveredSchema({
-    @_s.required List<String> events,
-    @_s.required Type type,
+    required List<String> events,
+    required Type type,
   }) async {
     ArgumentError.checkNotNull(events, 'events');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Events': events,
-      'Type': type?.toValue() ?? '',
+      'Type': type.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -601,7 +594,7 @@ class Schemas {
   /// Parameter [registryName] :
   /// The name of the registry.
   Future<GetResourcePolicyResponse> getResourcePolicy({
-    String registryName,
+    String? registryName,
   }) async {
     final $query = <String, List<String>>{
       if (registryName != null) 'registryName': [registryName],
@@ -637,10 +630,10 @@ class Schemas {
   /// Specifying this limits the results to only those ARNs that start with the
   /// specified prefix.
   Future<ListDiscoverersResponse> listDiscoverers({
-    String discovererIdPrefix,
-    int limit,
-    String nextToken,
-    String sourceArnPrefix,
+    String? discovererIdPrefix,
+    int? limit,
+    String? nextToken,
+    String? sourceArnPrefix,
   }) async {
     final $query = <String, List<String>>{
       if (discovererIdPrefix != null)
@@ -680,10 +673,10 @@ class Schemas {
   /// Can be set to Local or AWS to limit responses to your custom registries,
   /// or the ones provided by AWS.
   Future<ListRegistriesResponse> listRegistries({
-    int limit,
-    String nextToken,
-    String registryNamePrefix,
-    String scope,
+    int? limit,
+    String? nextToken,
+    String? registryNamePrefix,
+    String? scope,
   }) async {
     final $query = <String, List<String>>{
       if (limit != null) 'limit': [limit.toString()],
@@ -722,10 +715,10 @@ class Schemas {
   /// the first page, leave NextToken empty. The token will expire in 24 hours,
   /// and cannot be shared with other accounts.
   Future<ListSchemaVersionsResponse> listSchemaVersions({
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    int limit,
-    String nextToken,
+    required String registryName,
+    required String schemaName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
@@ -764,10 +757,10 @@ class Schemas {
   /// Specifying this limits the results to only those schema names that start
   /// with the specified prefix.
   Future<ListSchemasResponse> listSchemas({
-    @_s.required String registryName,
-    int limit,
-    String nextToken,
-    String schemaNamePrefix,
+    required String registryName,
+    int? limit,
+    String? nextToken,
+    String? schemaNamePrefix,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     final $query = <String, List<String>>{
@@ -796,7 +789,7 @@ class Schemas {
   /// Parameter [resourceArn] :
   /// The ARN of the resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final response = await _protocol.send(
@@ -830,10 +823,10 @@ class Schemas {
   /// Parameter [schemaVersion] :
   /// Specifying this limits the results to only this schema version.
   Future<PutCodeBindingResponse> putCodeBinding({
-    @_s.required String language,
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    String schemaVersion,
+    required String language,
+    required String registryName,
+    required String schemaName,
+    String? schemaVersion,
   }) async {
     ArgumentError.checkNotNull(language, 'language');
     ArgumentError.checkNotNull(registryName, 'registryName');
@@ -871,16 +864,16 @@ class Schemas {
   /// Parameter [revisionId] :
   /// The revision ID of the policy.
   Future<PutResourcePolicyResponse> putResourcePolicy({
-    @_s.required String policy,
-    String registryName,
-    String revisionId,
+    required Object policy,
+    String? registryName,
+    String? revisionId,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
     final $query = <String, List<String>>{
       if (registryName != null) 'registryName': [registryName],
     };
     final $payload = <String, dynamic>{
-      'Policy': policy == null ? null : jsonEncode(policy),
+      'Policy': jsonEncode(policy),
       if (revisionId != null) 'RevisionId': revisionId,
     };
     final response = await _protocol.send(
@@ -913,15 +906,15 @@ class Schemas {
   /// the first page, leave NextToken empty. The token will expire in 24 hours,
   /// and cannot be shared with other accounts.
   Future<SearchSchemasResponse> searchSchemas({
-    @_s.required String keywords,
-    @_s.required String registryName,
-    int limit,
-    String nextToken,
+    required String keywords,
+    required String registryName,
+    int? limit,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(keywords, 'keywords');
     ArgumentError.checkNotNull(registryName, 'registryName');
     final $query = <String, List<String>>{
-      if (keywords != null) 'keywords': [keywords],
+      'keywords': [keywords],
       if (limit != null) 'limit': [limit.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -948,7 +941,7 @@ class Schemas {
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
   Future<StartDiscovererResponse> startDiscoverer({
-    @_s.required String discovererId,
+    required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
     final response = await _protocol.send(
@@ -973,7 +966,7 @@ class Schemas {
   /// Parameter [discovererId] :
   /// The ID of the discoverer.
   Future<StopDiscovererResponse> stopDiscoverer({
-    @_s.required String discovererId,
+    required String discovererId,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
     final response = await _protocol.send(
@@ -999,8 +992,8 @@ class Schemas {
   /// Parameter [tags] :
   /// Tags associated with the resource.
   Future<void> tagResource({
-    @_s.required String resourceArn,
-    @_s.required Map<String, String> tags,
+    required String resourceArn,
+    required Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1028,13 +1021,13 @@ class Schemas {
   /// Parameter [tagKeys] :
   /// Keys of key-value pairs.
   Future<void> untagResource({
-    @_s.required String resourceArn,
-    @_s.required List<String> tagKeys,
+    required String resourceArn,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $query = <String, List<String>>{
-      if (tagKeys != null) 'tagKeys': tagKeys,
+      'tagKeys': tagKeys,
     };
     await _protocol.send(
       payload: null,
@@ -1060,8 +1053,8 @@ class Schemas {
   /// Parameter [description] :
   /// The description of the discoverer to update.
   Future<UpdateDiscovererResponse> updateDiscoverer({
-    @_s.required String discovererId,
-    String description,
+    required String discovererId,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(discovererId, 'discovererId');
     _s.validateStringLength(
@@ -1097,8 +1090,8 @@ class Schemas {
   /// Parameter [description] :
   /// The description of the registry to update.
   Future<UpdateRegistryResponse> updateRegistry({
-    @_s.required String registryName,
-    String description,
+    required String registryName,
+    String? description,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     _s.validateStringLength(
@@ -1148,12 +1141,12 @@ class Schemas {
   /// Parameter [type] :
   /// The schema type for the events schema.
   Future<UpdateSchemaResponse> updateSchema({
-    @_s.required String registryName,
-    @_s.required String schemaName,
-    String clientTokenId,
-    String content,
-    String description,
-    Type type,
+    required String registryName,
+    required String schemaName,
+    String? clientTokenId,
+    String? content,
+    String? description,
+    Type? type,
   }) async {
     ArgumentError.checkNotNull(registryName, 'registryName');
     ArgumentError.checkNotNull(schemaName, 'schemaName');
@@ -1193,43 +1186,56 @@ class Schemas {
 }
 
 enum CodeGenerationStatus {
-  @_s.JsonValue('CREATE_IN_PROGRESS')
   createInProgress,
-  @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
-  @_s.JsonValue('CREATE_FAILED')
   createFailed,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on CodeGenerationStatus {
+  String toValue() {
+    switch (this) {
+      case CodeGenerationStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case CodeGenerationStatus.createComplete:
+        return 'CREATE_COMPLETE';
+      case CodeGenerationStatus.createFailed:
+        return 'CREATE_FAILED';
+    }
+  }
+}
+
+extension on String {
+  CodeGenerationStatus toCodeGenerationStatus() {
+    switch (this) {
+      case 'CREATE_IN_PROGRESS':
+        return CodeGenerationStatus.createInProgress;
+      case 'CREATE_COMPLETE':
+        return CodeGenerationStatus.createComplete;
+      case 'CREATE_FAILED':
+        return CodeGenerationStatus.createFailed;
+    }
+    throw Exception('$this is not known in enum CodeGenerationStatus');
+  }
+}
+
 class CreateDiscovererResponse {
   /// The description of the discoverer.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the discoverer.
-  @_s.JsonKey(name: 'DiscovererArn')
-  final String discovererArn;
+  final String? discovererArn;
 
   /// The ID of the discoverer.
-  @_s.JsonKey(name: 'DiscovererId')
-  final String discovererId;
+  final String? discovererId;
 
   /// The ARN of the event bus.
-  @_s.JsonKey(name: 'SourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The state of the discoverer.
-  @_s.JsonKey(name: 'State')
-  final DiscovererState state;
+  final DiscovererState? state;
 
   /// Tags associated with the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   CreateDiscovererResponse({
     this.description,
@@ -1239,31 +1245,49 @@ class CreateDiscovererResponse {
     this.state,
     this.tags,
   });
-  factory CreateDiscovererResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateDiscovererResponseFromJson(json);
+
+  factory CreateDiscovererResponse.fromJson(Map<String, dynamic> json) {
+    return CreateDiscovererResponse(
+      description: json['Description'] as String?,
+      discovererArn: json['DiscovererArn'] as String?,
+      discovererId: json['DiscovererId'] as String?,
+      sourceArn: json['SourceArn'] as String?,
+      state: (json['State'] as String?)?.toDiscovererState(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final discovererArn = this.discovererArn;
+    final discovererId = this.discovererId;
+    final sourceArn = this.sourceArn;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (discovererArn != null) 'DiscovererArn': discovererArn,
+      if (discovererId != null) 'DiscovererId': discovererId,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateRegistryResponse {
   /// The description of the registry.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// Tags associated with the registry.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   CreateRegistryResponse({
     this.description,
@@ -1271,47 +1295,53 @@ class CreateRegistryResponse {
     this.registryName,
     this.tags,
   });
-  factory CreateRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateRegistryResponseFromJson(json);
+
+  factory CreateRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return CreateRegistryResponse(
+      description: json['Description'] as String?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final registryArn = this.registryArn;
+    final registryName = this.registryName;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (registryArn != null) 'RegistryArn': registryArn,
+      if (registryName != null) 'RegistryName': registryName,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateSchemaResponse {
   /// The description of the schema.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date and time that schema was modified.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The ARN of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The version number of the schema
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? schemaVersion;
+  final Map<String, String>? tags;
 
   /// The type of the schema.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The date the schema version was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'VersionCreatedDate')
-  final DateTime versionCreatedDate;
+  final DateTime? versionCreatedDate;
 
   CreateSchemaResponse({
     this.description,
@@ -1323,33 +1353,56 @@ class CreateSchemaResponse {
     this.type,
     this.versionCreatedDate,
   });
-  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateSchemaResponseFromJson(json);
+
+  factory CreateSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return CreateSchemaResponse(
+      description: json['Description'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersion: json['SchemaVersion'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: json['Type'] as String?,
+      versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lastModified = this.lastModified;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersion = this.schemaVersion;
+    final tags = this.tags;
+    final type = this.type;
+    final versionCreatedDate = this.versionCreatedDate;
+    return {
+      if (description != null) 'Description': description,
+      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'Type': type,
+      if (versionCreatedDate != null)
+        'VersionCreatedDate': iso8601ToJson(versionCreatedDate),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCodeBindingResponse {
   /// The time and date that the code binding was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date and time that code bindings were modified.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// The current status of code binding generation.
-  @_s.JsonKey(name: 'Status')
-  final CodeGenerationStatus status;
+  final CodeGenerationStatus? status;
 
   DescribeCodeBindingResponse({
     this.creationDate,
@@ -1357,39 +1410,48 @@ class DescribeCodeBindingResponse {
     this.schemaVersion,
     this.status,
   });
-  factory DescribeCodeBindingResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeCodeBindingResponseFromJson(json);
+
+  factory DescribeCodeBindingResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeCodeBindingResponse(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      lastModified: timeStampFromJson(json['LastModified']),
+      schemaVersion: json['SchemaVersion'] as String?,
+      status: (json['Status'] as String?)?.toCodeGenerationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final lastModified = this.lastModified;
+    final schemaVersion = this.schemaVersion;
+    final status = this.status;
+    return {
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeDiscovererResponse {
   /// The description of the discoverer.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the discoverer.
-  @_s.JsonKey(name: 'DiscovererArn')
-  final String discovererArn;
+  final String? discovererArn;
 
   /// The ID of the discoverer.
-  @_s.JsonKey(name: 'DiscovererId')
-  final String discovererId;
+  final String? discovererId;
 
   /// The ARN of the event bus.
-  @_s.JsonKey(name: 'SourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The state of the discoverer.
-  @_s.JsonKey(name: 'State')
-  final DiscovererState state;
+  final DiscovererState? state;
 
   /// Tags associated with the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DescribeDiscovererResponse({
     this.description,
@@ -1399,31 +1461,49 @@ class DescribeDiscovererResponse {
     this.state,
     this.tags,
   });
-  factory DescribeDiscovererResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeDiscovererResponseFromJson(json);
+
+  factory DescribeDiscovererResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeDiscovererResponse(
+      description: json['Description'] as String?,
+      discovererArn: json['DiscovererArn'] as String?,
+      discovererId: json['DiscovererId'] as String?,
+      sourceArn: json['SourceArn'] as String?,
+      state: (json['State'] as String?)?.toDiscovererState(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final discovererArn = this.discovererArn;
+    final discovererId = this.discovererId;
+    final sourceArn = this.sourceArn;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (discovererArn != null) 'DiscovererArn': discovererArn,
+      if (discovererId != null) 'DiscovererId': discovererId,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeRegistryResponse {
   /// The description of the registry.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// Tags associated with the registry.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DescribeRegistryResponse({
     this.description,
@@ -1431,53 +1511,58 @@ class DescribeRegistryResponse {
     this.registryName,
     this.tags,
   });
-  factory DescribeRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeRegistryResponseFromJson(json);
+
+  factory DescribeRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeRegistryResponse(
+      description: json['Description'] as String?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final registryArn = this.registryArn;
+    final registryName = this.registryName;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (registryArn != null) 'RegistryArn': registryArn,
+      if (registryName != null) 'RegistryName': registryName,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeSchemaResponse {
   /// The source of the schema definition.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   /// The description of the schema.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date and time that schema was modified.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The ARN of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The version number of the schema
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// Tags associated with the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The type of the schema.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The date the schema version was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'VersionCreatedDate')
-  final DateTime versionCreatedDate;
+  final DateTime? versionCreatedDate;
 
   DescribeSchemaResponse({
     this.content,
@@ -1490,42 +1575,90 @@ class DescribeSchemaResponse {
     this.type,
     this.versionCreatedDate,
   });
-  factory DescribeSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$DescribeSchemaResponseFromJson(json);
+
+  factory DescribeSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return DescribeSchemaResponse(
+      content: json['Content'] as String?,
+      description: json['Description'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersion: json['SchemaVersion'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: json['Type'] as String?,
+      versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final description = this.description;
+    final lastModified = this.lastModified;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersion = this.schemaVersion;
+    final tags = this.tags;
+    final type = this.type;
+    final versionCreatedDate = this.versionCreatedDate;
+    return {
+      if (content != null) 'Content': content,
+      if (description != null) 'Description': description,
+      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'Type': type,
+      if (versionCreatedDate != null)
+        'VersionCreatedDate': iso8601ToJson(versionCreatedDate),
+    };
+  }
 }
 
 enum DiscovererState {
-  @_s.JsonValue('STARTED')
   started,
-  @_s.JsonValue('STOPPED')
   stopped,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on DiscovererState {
+  String toValue() {
+    switch (this) {
+      case DiscovererState.started:
+        return 'STARTED';
+      case DiscovererState.stopped:
+        return 'STOPPED';
+    }
+  }
+}
+
+extension on String {
+  DiscovererState toDiscovererState() {
+    switch (this) {
+      case 'STARTED':
+        return DiscovererState.started;
+      case 'STOPPED':
+        return DiscovererState.stopped;
+    }
+    throw Exception('$this is not known in enum DiscovererState');
+  }
+}
+
 class DiscovererSummary {
   /// The ARN of the discoverer.
-  @_s.JsonKey(name: 'DiscovererArn')
-  final String discovererArn;
+  final String? discovererArn;
 
   /// The ID of the discoverer.
-  @_s.JsonKey(name: 'DiscovererId')
-  final String discovererId;
+  final String? discovererId;
 
   /// The ARN of the event bus.
-  @_s.JsonKey(name: 'SourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The state of the discoverer.
-  @_s.JsonKey(name: 'State')
-  final DiscovererState state;
+  final DiscovererState? state;
 
   /// Tags associated with the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   DiscovererSummary({
     this.discovererArn,
@@ -1534,26 +1667,40 @@ class DiscovererSummary {
     this.state,
     this.tags,
   });
-  factory DiscovererSummary.fromJson(Map<String, dynamic> json) =>
-      _$DiscovererSummaryFromJson(json);
+
+  factory DiscovererSummary.fromJson(Map<String, dynamic> json) {
+    return DiscovererSummary(
+      discovererArn: json['DiscovererArn'] as String?,
+      discovererId: json['DiscovererId'] as String?,
+      sourceArn: json['SourceArn'] as String?,
+      state: (json['State'] as String?)?.toDiscovererState(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final discovererArn = this.discovererArn;
+    final discovererId = this.discovererId;
+    final sourceArn = this.sourceArn;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (discovererArn != null) 'DiscovererArn': discovererArn,
+      if (discovererId != null) 'DiscovererId': discovererId,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ExportSchemaResponse {
-  @_s.JsonKey(name: 'Content')
-  final String content;
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? content;
+  final String? schemaArn;
+  final String? schemaName;
+  final String? schemaVersion;
+  final String? type;
 
   ExportSchemaResponse({
     this.content,
@@ -1562,201 +1709,276 @@ class ExportSchemaResponse {
     this.schemaVersion,
     this.type,
   });
-  factory ExportSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$ExportSchemaResponseFromJson(json);
+
+  factory ExportSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return ExportSchemaResponse(
+      content: json['Content'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersion: json['SchemaVersion'] as String?,
+      type: json['Type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersion = this.schemaVersion;
+    final type = this.type;
+    return {
+      if (content != null) 'Content': content,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (type != null) 'Type': type,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCodeBindingSourceResponse {
-  @Uint8ListConverter()
-  @_s.JsonKey(name: 'Body')
-  final Uint8List body;
+  final Uint8List? body;
 
   GetCodeBindingSourceResponse({
     this.body,
   });
-  factory GetCodeBindingSourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCodeBindingSourceResponseFromJson(json);
+
+  factory GetCodeBindingSourceResponse.fromJson(Map<String, dynamic> json) {
+    return GetCodeBindingSourceResponse(
+      body: _s.decodeNullableUint8List(json['Body'] as String?),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final body = this.body;
+    return {
+      if (body != null) 'Body': base64Encode(body),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetDiscoveredSchemaResponse {
   /// The source of the schema definition.
-  @_s.JsonKey(name: 'Content')
-  final String content;
+  final String? content;
 
   GetDiscoveredSchemaResponse({
     this.content,
   });
-  factory GetDiscoveredSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetDiscoveredSchemaResponseFromJson(json);
+
+  factory GetDiscoveredSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return GetDiscoveredSchemaResponse(
+      content: json['Content'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final content = this.content;
+    return {
+      if (content != null) 'Content': content,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetResourcePolicyResponse {
   /// The resource-based policy.
-  @_s.JsonKey(name: 'Policy')
-  final Object policy;
+  final Object? policy;
 
   /// The revision ID.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   GetResourcePolicyResponse({
     this.policy,
     this.revisionId,
   });
-  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetResourcePolicyResponseFromJson(json);
+
+  factory GetResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetResourcePolicyResponse(
+      policy:
+          json['Policy'] == null ? null : jsonDecode(json['Policy'] as String),
+      revisionId: json['RevisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    final revisionId = this.revisionId;
+    return {
+      if (policy != null) 'Policy': jsonEncode(policy),
+      if (revisionId != null) 'RevisionId': revisionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListDiscoverersResponse {
   /// An array of DiscovererSummary information.
-  @_s.JsonKey(name: 'Discoverers')
-  final List<DiscovererSummary> discoverers;
+  final List<DiscovererSummary>? discoverers;
 
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
   /// cannot be shared with other accounts.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListDiscoverersResponse({
     this.discoverers,
     this.nextToken,
   });
-  factory ListDiscoverersResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListDiscoverersResponseFromJson(json);
+
+  factory ListDiscoverersResponse.fromJson(Map<String, dynamic> json) {
+    return ListDiscoverersResponse(
+      discoverers: (json['Discoverers'] as List?)
+          ?.whereNotNull()
+          .map((e) => DiscovererSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final discoverers = this.discoverers;
+    final nextToken = this.nextToken;
+    return {
+      if (discoverers != null) 'Discoverers': discoverers,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListRegistriesResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
   /// cannot be shared with other accounts.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of registry summaries.
-  @_s.JsonKey(name: 'Registries')
-  final List<RegistrySummary> registries;
+  final List<RegistrySummary>? registries;
 
   ListRegistriesResponse({
     this.nextToken,
     this.registries,
   });
-  factory ListRegistriesResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListRegistriesResponseFromJson(json);
+
+  factory ListRegistriesResponse.fromJson(Map<String, dynamic> json) {
+    return ListRegistriesResponse(
+      nextToken: json['NextToken'] as String?,
+      registries: (json['Registries'] as List?)
+          ?.whereNotNull()
+          .map((e) => RegistrySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final registries = this.registries;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (registries != null) 'Registries': registries,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSchemaVersionsResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
   /// cannot be shared with other accounts.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of schema version summaries.
-  @_s.JsonKey(name: 'SchemaVersions')
-  final List<SchemaVersionSummary> schemaVersions;
+  final List<SchemaVersionSummary>? schemaVersions;
 
   ListSchemaVersionsResponse({
     this.nextToken,
     this.schemaVersions,
   });
-  factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSchemaVersionsResponseFromJson(json);
+
+  factory ListSchemaVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchemaVersionsResponse(
+      nextToken: json['NextToken'] as String?,
+      schemaVersions: (json['SchemaVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final schemaVersions = this.schemaVersions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemaVersions != null) 'SchemaVersions': schemaVersions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListSchemasResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
   /// cannot be shared with other accounts.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of schema summaries.
-  @_s.JsonKey(name: 'Schemas')
-  final List<SchemaSummary> schemas;
+  final List<SchemaSummary>? schemas;
 
   ListSchemasResponse({
     this.nextToken,
     this.schemas,
   });
-  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListSchemasResponseFromJson(json);
+
+  factory ListSchemasResponse.fromJson(Map<String, dynamic> json) {
+    return ListSchemasResponse(
+      nextToken: json['NextToken'] as String?,
+      schemas: (json['Schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => SchemaSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final schemas = this.schemas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemas != null) 'Schemas': schemas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsForResourceResponse {
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   ListTagsForResourceResponse({
     this.tags,
   });
-  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsForResourceResponseFromJson(json);
+
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsForResourceResponse(
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tags = this.tags;
+    return {
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutCodeBindingResponse {
   /// The time and date that the code binding was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreationDate')
-  final DateTime creationDate;
+  final DateTime? creationDate;
 
   /// The date and time that code bindings were modified.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// The current status of code binding generation.
-  @_s.JsonKey(name: 'Status')
-  final CodeGenerationStatus status;
+  final CodeGenerationStatus? status;
 
   PutCodeBindingResponse({
     this.creationDate,
@@ -1764,86 +1986,113 @@ class PutCodeBindingResponse {
     this.schemaVersion,
     this.status,
   });
-  factory PutCodeBindingResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutCodeBindingResponseFromJson(json);
+
+  factory PutCodeBindingResponse.fromJson(Map<String, dynamic> json) {
+    return PutCodeBindingResponse(
+      creationDate: timeStampFromJson(json['CreationDate']),
+      lastModified: timeStampFromJson(json['LastModified']),
+      schemaVersion: json['SchemaVersion'] as String?,
+      status: (json['Status'] as String?)?.toCodeGenerationStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final creationDate = this.creationDate;
+    final lastModified = this.lastModified;
+    final schemaVersion = this.schemaVersion;
+    final status = this.status;
+    return {
+      if (creationDate != null) 'CreationDate': iso8601ToJson(creationDate),
+      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (status != null) 'Status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutResourcePolicyResponse {
   /// The resource-based policy.
-  @_s.JsonKey(name: 'Policy')
-  final Object policy;
+  final Object? policy;
 
   /// The revision ID of the policy.
-  @_s.JsonKey(name: 'RevisionId')
-  final String revisionId;
+  final String? revisionId;
 
   PutResourcePolicyResponse({
     this.policy,
     this.revisionId,
   });
-  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutResourcePolicyResponseFromJson(json);
+
+  factory PutResourcePolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutResourcePolicyResponse(
+      policy:
+          json['Policy'] == null ? null : jsonDecode(json['Policy'] as String),
+      revisionId: json['RevisionId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    final revisionId = this.revisionId;
+    return {
+      if (policy != null) 'Policy': jsonEncode(policy),
+      if (revisionId != null) 'RevisionId': revisionId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RegistrySummary {
   /// The ARN of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// Tags associated with the registry.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   RegistrySummary({
     this.registryArn,
     this.registryName,
     this.tags,
   });
-  factory RegistrySummary.fromJson(Map<String, dynamic> json) =>
-      _$RegistrySummaryFromJson(json);
+
+  factory RegistrySummary.fromJson(Map<String, dynamic> json) {
+    return RegistrySummary(
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registryArn = this.registryArn;
+    final registryName = this.registryName;
+    final tags = this.tags;
+    return {
+      if (registryArn != null) 'RegistryArn': registryArn,
+      if (registryName != null) 'RegistryName': registryName,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
 /// A summary of schema details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaSummary {
   /// The date and time that schema was modified.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The ARN of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// Tags associated with the schema.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   /// The number of versions available for the schema.
-  @_s.JsonKey(name: 'VersionCount')
-  final int versionCount;
+  final int? versionCount;
 
   SchemaSummary({
     this.lastModified,
@@ -1852,31 +2101,46 @@ class SchemaSummary {
     this.tags,
     this.versionCount,
   });
-  factory SchemaSummary.fromJson(Map<String, dynamic> json) =>
-      _$SchemaSummaryFromJson(json);
+
+  factory SchemaSummary.fromJson(Map<String, dynamic> json) {
+    return SchemaSummary(
+      lastModified: timeStampFromJson(json['LastModified']),
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      versionCount: json['VersionCount'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final lastModified = this.lastModified;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final tags = this.tags;
+    final versionCount = this.versionCount;
+    return {
+      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (tags != null) 'tags': tags,
+      if (versionCount != null) 'VersionCount': versionCount,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SchemaVersionSummary {
   /// The ARN of the schema version.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The version number of the schema.
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// The type of schema.
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   SchemaVersionSummary({
     this.schemaArn,
@@ -1884,31 +2148,42 @@ class SchemaVersionSummary {
     this.schemaVersion,
     this.type,
   });
-  factory SchemaVersionSummary.fromJson(Map<String, dynamic> json) =>
-      _$SchemaVersionSummaryFromJson(json);
+
+  factory SchemaVersionSummary.fromJson(Map<String, dynamic> json) {
+    return SchemaVersionSummary(
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersion: json['SchemaVersion'] as String?,
+      type: (json['Type'] as String?)?.toType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersion = this.schemaVersion;
+    final type = this.type;
+    return {
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchSchemaSummary {
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// The ARN of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// An array of schema version summaries.
-  @_s.JsonKey(name: 'SchemaVersions')
-  final List<SearchSchemaVersionSummary> schemaVersions;
+  final List<SearchSchemaVersionSummary>? schemaVersions;
 
   SearchSchemaSummary({
     this.registryName,
@@ -1916,110 +2191,164 @@ class SearchSchemaSummary {
     this.schemaName,
     this.schemaVersions,
   });
-  factory SearchSchemaSummary.fromJson(Map<String, dynamic> json) =>
-      _$SearchSchemaSummaryFromJson(json);
+
+  factory SearchSchemaSummary.fromJson(Map<String, dynamic> json) {
+    return SearchSchemaSummary(
+      registryName: json['RegistryName'] as String?,
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersions: (json['SchemaVersions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              SearchSchemaVersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final registryName = this.registryName;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersions = this.schemaVersions;
+    return {
+      if (registryName != null) 'RegistryName': registryName,
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersions != null) 'SchemaVersions': schemaVersions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchSchemaVersionSummary {
   /// The date the schema version was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedDate')
-  final DateTime createdDate;
+  final DateTime? createdDate;
 
   /// The version number of the schema
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
+  final String? schemaVersion;
 
   /// The type of schema.
-  @_s.JsonKey(name: 'Type')
-  final Type type;
+  final Type? type;
 
   SearchSchemaVersionSummary({
     this.createdDate,
     this.schemaVersion,
     this.type,
   });
-  factory SearchSchemaVersionSummary.fromJson(Map<String, dynamic> json) =>
-      _$SearchSchemaVersionSummaryFromJson(json);
+
+  factory SearchSchemaVersionSummary.fromJson(Map<String, dynamic> json) {
+    return SearchSchemaVersionSummary(
+      createdDate: timeStampFromJson(json['CreatedDate']),
+      schemaVersion: json['SchemaVersion'] as String?,
+      type: (json['Type'] as String?)?.toType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final createdDate = this.createdDate;
+    final schemaVersion = this.schemaVersion;
+    final type = this.type;
+    return {
+      if (createdDate != null) 'CreatedDate': iso8601ToJson(createdDate),
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class SearchSchemasResponse {
   /// The token that specifies the next page of results to return. To request the
   /// first page, leave NextToken empty. The token will expire in 24 hours, and
   /// cannot be shared with other accounts.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of SearchSchemaSummary information.
-  @_s.JsonKey(name: 'Schemas')
-  final List<SearchSchemaSummary> schemas;
+  final List<SearchSchemaSummary>? schemas;
 
   SearchSchemasResponse({
     this.nextToken,
     this.schemas,
   });
-  factory SearchSchemasResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchSchemasResponseFromJson(json);
+
+  factory SearchSchemasResponse.fromJson(Map<String, dynamic> json) {
+    return SearchSchemasResponse(
+      nextToken: json['NextToken'] as String?,
+      schemas: (json['Schemas'] as List?)
+          ?.whereNotNull()
+          .map((e) => SearchSchemaSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final schemas = this.schemas;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (schemas != null) 'Schemas': schemas,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartDiscovererResponse {
   /// The ID of the discoverer.
-  @_s.JsonKey(name: 'DiscovererId')
-  final String discovererId;
+  final String? discovererId;
 
   /// The state of the discoverer.
-  @_s.JsonKey(name: 'State')
-  final DiscovererState state;
+  final DiscovererState? state;
 
   StartDiscovererResponse({
     this.discovererId,
     this.state,
   });
-  factory StartDiscovererResponse.fromJson(Map<String, dynamic> json) =>
-      _$StartDiscovererResponseFromJson(json);
+
+  factory StartDiscovererResponse.fromJson(Map<String, dynamic> json) {
+    return StartDiscovererResponse(
+      discovererId: json['DiscovererId'] as String?,
+      state: (json['State'] as String?)?.toDiscovererState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final discovererId = this.discovererId;
+    final state = this.state;
+    return {
+      if (discovererId != null) 'DiscovererId': discovererId,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopDiscovererResponse {
   /// The ID of the discoverer.
-  @_s.JsonKey(name: 'DiscovererId')
-  final String discovererId;
+  final String? discovererId;
 
   /// The state of the discoverer.
-  @_s.JsonKey(name: 'State')
-  final DiscovererState state;
+  final DiscovererState? state;
 
   StopDiscovererResponse({
     this.discovererId,
     this.state,
   });
-  factory StopDiscovererResponse.fromJson(Map<String, dynamic> json) =>
-      _$StopDiscovererResponseFromJson(json);
+
+  factory StopDiscovererResponse.fromJson(Map<String, dynamic> json) {
+    return StopDiscovererResponse(
+      discovererId: json['DiscovererId'] as String?,
+      state: (json['State'] as String?)?.toDiscovererState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final discovererId = this.discovererId;
+    final state = this.state;
+    return {
+      if (discovererId != null) 'DiscovererId': discovererId,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 enum Type {
-  @_s.JsonValue('OpenApi3')
   openApi3,
-  @_s.JsonValue('JSONSchemaDraft4')
   jSONSchemaDraft4,
 }
 
@@ -2031,39 +2360,39 @@ extension on Type {
       case Type.jSONSchemaDraft4:
         return 'JSONSchemaDraft4';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Type toType() {
+    switch (this) {
+      case 'OpenApi3':
+        return Type.openApi3;
+      case 'JSONSchemaDraft4':
+        return Type.jSONSchemaDraft4;
+    }
+    throw Exception('$this is not known in enum Type');
+  }
+}
+
 class UpdateDiscovererResponse {
   /// The description of the discoverer.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the discoverer.
-  @_s.JsonKey(name: 'DiscovererArn')
-  final String discovererArn;
+  final String? discovererArn;
 
   /// The ID of the discoverer.
-  @_s.JsonKey(name: 'DiscovererId')
-  final String discovererId;
+  final String? discovererId;
 
   /// The ARN of the event bus.
-  @_s.JsonKey(name: 'SourceArn')
-  final String sourceArn;
+  final String? sourceArn;
 
   /// The state of the discoverer.
-  @_s.JsonKey(name: 'State')
-  final DiscovererState state;
+  final DiscovererState? state;
 
   /// Tags associated with the resource.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   UpdateDiscovererResponse({
     this.description,
@@ -2073,31 +2402,49 @@ class UpdateDiscovererResponse {
     this.state,
     this.tags,
   });
-  factory UpdateDiscovererResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateDiscovererResponseFromJson(json);
+
+  factory UpdateDiscovererResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateDiscovererResponse(
+      description: json['Description'] as String?,
+      discovererArn: json['DiscovererArn'] as String?,
+      discovererId: json['DiscovererId'] as String?,
+      sourceArn: json['SourceArn'] as String?,
+      state: (json['State'] as String?)?.toDiscovererState(),
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final discovererArn = this.discovererArn;
+    final discovererId = this.discovererId;
+    final sourceArn = this.sourceArn;
+    final state = this.state;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (discovererArn != null) 'DiscovererArn': discovererArn,
+      if (discovererId != null) 'DiscovererId': discovererId,
+      if (sourceArn != null) 'SourceArn': sourceArn,
+      if (state != null) 'State': state.toValue(),
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRegistryResponse {
   /// The description of the registry.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The ARN of the registry.
-  @_s.JsonKey(name: 'RegistryArn')
-  final String registryArn;
+  final String? registryArn;
 
   /// The name of the registry.
-  @_s.JsonKey(name: 'RegistryName')
-  final String registryName;
+  final String? registryName;
 
   /// Tags associated with the registry.
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final Map<String, String>? tags;
 
   UpdateRegistryResponse({
     this.description,
@@ -2105,47 +2452,53 @@ class UpdateRegistryResponse {
     this.registryName,
     this.tags,
   });
-  factory UpdateRegistryResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRegistryResponseFromJson(json);
+
+  factory UpdateRegistryResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateRegistryResponse(
+      description: json['Description'] as String?,
+      registryArn: json['RegistryArn'] as String?,
+      registryName: json['RegistryName'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final registryArn = this.registryArn;
+    final registryName = this.registryName;
+    final tags = this.tags;
+    return {
+      if (description != null) 'Description': description,
+      if (registryArn != null) 'RegistryArn': registryArn,
+      if (registryName != null) 'RegistryName': registryName,
+      if (tags != null) 'tags': tags,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateSchemaResponse {
   /// The description of the schema.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The date and time that schema was modified.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'LastModified')
-  final DateTime lastModified;
+  final DateTime? lastModified;
 
   /// The ARN of the schema.
-  @_s.JsonKey(name: 'SchemaArn')
-  final String schemaArn;
+  final String? schemaArn;
 
   /// The name of the schema.
-  @_s.JsonKey(name: 'SchemaName')
-  final String schemaName;
+  final String? schemaName;
 
   /// The version number of the schema
-  @_s.JsonKey(name: 'SchemaVersion')
-  final String schemaVersion;
-  @_s.JsonKey(name: 'tags')
-  final Map<String, String> tags;
+  final String? schemaVersion;
+  final Map<String, String>? tags;
 
   /// The type of the schema.
-  @_s.JsonKey(name: 'Type')
-  final String type;
+  final String? type;
 
   /// The date the schema version was created.
-  @IsoDateTimeConverter()
-  @_s.JsonKey(name: 'VersionCreatedDate')
-  final DateTime versionCreatedDate;
+  final DateTime? versionCreatedDate;
 
   UpdateSchemaResponse({
     this.description,
@@ -2157,60 +2510,94 @@ class UpdateSchemaResponse {
     this.type,
     this.versionCreatedDate,
   });
-  factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateSchemaResponseFromJson(json);
+
+  factory UpdateSchemaResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateSchemaResponse(
+      description: json['Description'] as String?,
+      lastModified: timeStampFromJson(json['LastModified']),
+      schemaArn: json['SchemaArn'] as String?,
+      schemaName: json['SchemaName'] as String?,
+      schemaVersion: json['SchemaVersion'] as String?,
+      tags: (json['tags'] as Map<String, dynamic>?)
+          ?.map((k, e) => MapEntry(k, e as String)),
+      type: json['Type'] as String?,
+      versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final description = this.description;
+    final lastModified = this.lastModified;
+    final schemaArn = this.schemaArn;
+    final schemaName = this.schemaName;
+    final schemaVersion = this.schemaVersion;
+    final tags = this.tags;
+    final type = this.type;
+    final versionCreatedDate = this.versionCreatedDate;
+    return {
+      if (description != null) 'Description': description,
+      if (lastModified != null) 'LastModified': iso8601ToJson(lastModified),
+      if (schemaArn != null) 'SchemaArn': schemaArn,
+      if (schemaName != null) 'SchemaName': schemaName,
+      if (schemaVersion != null) 'SchemaVersion': schemaVersion,
+      if (tags != null) 'tags': tags,
+      if (type != null) 'Type': type,
+      if (versionCreatedDate != null)
+        'VersionCreatedDate': iso8601ToJson(versionCreatedDate),
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class GoneException extends _s.GenericAwsException {
-  GoneException({String type, String message})
+  GoneException({String? type, String? message})
       : super(type: type, code: 'GoneException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class PreconditionFailedException extends _s.GenericAwsException {
-  PreconditionFailedException({String type, String message})
+  PreconditionFailedException({String? type, String? message})
       : super(
             type: type, code: 'PreconditionFailedException', message: message);
 }
 
 class ServiceUnavailableException extends _s.GenericAwsException {
-  ServiceUnavailableException({String type, String message})
+  ServiceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ServiceUnavailableException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class UnauthorizedException extends _s.GenericAwsException {
-  UnauthorizedException({String type, String message})
+  UnauthorizedException({String? type, String? message})
       : super(type: type, code: 'UnauthorizedException', message: message);
 }
 

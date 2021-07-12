@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-09-08.g.dart';
 
 /// The AWS Serverless Application Repository makes it easy for developers and
 /// enterprises to quickly find
@@ -78,10 +71,10 @@ part '2017-09-08.g.dart';
 class ServerlessApplicationRepository {
   final _s.RestJsonProtocol _protocol;
   ServerlessApplicationRepository({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -205,21 +198,21 @@ class ServerlessApplicationRepository {
   /// You can specify only one of templateBody and templateUrl; otherwise an
   /// error results.
   Future<CreateApplicationResponse> createApplication({
-    @_s.required String author,
-    @_s.required String description,
-    @_s.required String name,
-    String homePageUrl,
-    List<String> labels,
-    String licenseBody,
-    String licenseUrl,
-    String readmeBody,
-    String readmeUrl,
-    String semanticVersion,
-    String sourceCodeArchiveUrl,
-    String sourceCodeUrl,
-    String spdxLicenseId,
-    String templateBody,
-    String templateUrl,
+    required String author,
+    required String description,
+    required String name,
+    String? homePageUrl,
+    List<String>? labels,
+    String? licenseBody,
+    String? licenseUrl,
+    String? readmeBody,
+    String? readmeUrl,
+    String? semanticVersion,
+    String? sourceCodeArchiveUrl,
+    String? sourceCodeUrl,
+    String? spdxLicenseId,
+    String? templateBody,
+    String? templateUrl,
   }) async {
     ArgumentError.checkNotNull(author, 'author');
     ArgumentError.checkNotNull(description, 'description');
@@ -281,12 +274,12 @@ class ServerlessApplicationRepository {
   /// Parameter [templateUrl] :
   /// A link to the packaged AWS SAM template of your application.
   Future<CreateApplicationVersionResponse> createApplicationVersion({
-    @_s.required String applicationId,
-    @_s.required String semanticVersion,
-    String sourceCodeArchiveUrl,
-    String sourceCodeUrl,
-    String templateBody,
-    String templateUrl,
+    required String applicationId,
+    required String semanticVersion,
+    String? sourceCodeArchiveUrl,
+    String? sourceCodeUrl,
+    String? templateBody,
+    String? templateUrl,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
@@ -437,19 +430,19 @@ class ServerlessApplicationRepository {
   /// Pattern:
   /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
   Future<CreateCloudFormationChangeSetResponse> createCloudFormationChangeSet({
-    @_s.required String applicationId,
-    @_s.required String stackName,
-    List<String> capabilities,
-    String changeSetName,
-    String clientToken,
-    String description,
-    List<String> notificationArns,
-    List<ParameterValue> parameterOverrides,
-    List<String> resourceTypes,
-    RollbackConfiguration rollbackConfiguration,
-    String semanticVersion,
-    List<Tag> tags,
-    String templateId,
+    required String applicationId,
+    required String stackName,
+    List<String>? capabilities,
+    String? changeSetName,
+    String? clientToken,
+    String? description,
+    List<String>? notificationArns,
+    List<ParameterValue>? parameterOverrides,
+    List<String>? resourceTypes,
+    RollbackConfiguration? rollbackConfiguration,
+    String? semanticVersion,
+    List<Tag>? tags,
+    String? templateId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(stackName, 'stackName');
@@ -496,8 +489,8 @@ class ServerlessApplicationRepository {
   /// <a href="https://semver.org/">https://semver.org/</a>
   ///
   Future<CreateCloudFormationTemplateResponse> createCloudFormationTemplate({
-    @_s.required String applicationId,
-    String semanticVersion,
+    required String applicationId,
+    String? semanticVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{
@@ -525,7 +518,7 @@ class ServerlessApplicationRepository {
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
   Future<void> deleteApplication({
-    @_s.required String applicationId,
+    required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     await _protocol.send(
@@ -550,8 +543,8 @@ class ServerlessApplicationRepository {
   /// Parameter [semanticVersion] :
   /// The semantic version of the application to get.
   Future<GetApplicationResponse> getApplication({
-    @_s.required String applicationId,
-    String semanticVersion,
+    required String applicationId,
+    String? semanticVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $query = <String, List<String>>{
@@ -578,7 +571,7 @@ class ServerlessApplicationRepository {
   /// Parameter [applicationId] :
   /// The Amazon Resource Name (ARN) of the application.
   Future<GetApplicationPolicyResponse> getApplicationPolicy({
-    @_s.required String applicationId,
+    required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final response = await _protocol.send(
@@ -607,8 +600,8 @@ class ServerlessApplicationRepository {
   /// Pattern:
   /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
   Future<GetCloudFormationTemplateResponse> getCloudFormationTemplate({
-    @_s.required String applicationId,
-    @_s.required String templateId,
+    required String applicationId,
+    required String templateId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(templateId, 'templateId');
@@ -642,10 +635,10 @@ class ServerlessApplicationRepository {
   /// Parameter [semanticVersion] :
   /// The semantic version of the application to get.
   Future<ListApplicationDependenciesResponse> listApplicationDependencies({
-    @_s.required String applicationId,
-    int maxItems,
-    String nextToken,
-    String semanticVersion,
+    required String applicationId,
+    int? maxItems,
+    String? nextToken,
+    String? semanticVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateNumRange(
@@ -687,9 +680,9 @@ class ServerlessApplicationRepository {
   /// Parameter [nextToken] :
   /// A token to specify where to start paginating.
   Future<ListApplicationVersionsResponse> listApplicationVersions({
-    @_s.required String applicationId,
-    int maxItems,
-    String nextToken,
+    required String applicationId,
+    int? maxItems,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     _s.validateNumRange(
@@ -726,8 +719,8 @@ class ServerlessApplicationRepository {
   /// Parameter [nextToken] :
   /// A token to specify where to start paginating.
   Future<ListApplicationsResponse> listApplications({
-    int maxItems,
-    String nextToken,
+    int? maxItems,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxItems',
@@ -768,8 +761,8 @@ class ServerlessApplicationRepository {
   /// Parameter [statements] :
   /// An array of policy statements applied to the application.
   Future<PutApplicationPolicyResponse> putApplicationPolicy({
-    @_s.required String applicationId,
-    @_s.required List<ApplicationPolicyStatement> statements,
+    required String applicationId,
+    required List<ApplicationPolicyStatement> statements,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(statements, 'statements');
@@ -801,8 +794,8 @@ class ServerlessApplicationRepository {
   /// Parameter [organizationId] :
   /// The AWS Organization ID to unshare the application from.
   Future<void> unshareApplication({
-    @_s.required String applicationId,
-    @_s.required String organizationId,
+    required String applicationId,
+    required String organizationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(organizationId, 'organizationId');
@@ -864,13 +857,13 @@ class ServerlessApplicationRepository {
   ///
   /// Maximum size 5 MB
   Future<UpdateApplicationResponse> updateApplication({
-    @_s.required String applicationId,
-    String author,
-    String description,
-    String homePageUrl,
-    List<String> labels,
-    String readmeBody,
-    String readmeUrl,
+    required String applicationId,
+    String? author,
+    String? description,
+    String? homePageUrl,
+    List<String>? labels,
+    String? readmeBody,
+    String? readmeUrl,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{
@@ -892,76 +885,95 @@ class ServerlessApplicationRepository {
 }
 
 /// A nested application summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationDependencySummary {
   /// The Amazon Resource Name (ARN) of the nested application.
-  @_s.JsonKey(name: 'applicationId')
   final String applicationId;
 
   /// The semantic version of the nested application.
-  @_s.JsonKey(name: 'semanticVersion')
   final String semanticVersion;
 
   ApplicationDependencySummary({
-    @_s.required this.applicationId,
-    @_s.required this.semanticVersion,
+    required this.applicationId,
+    required this.semanticVersion,
   });
-  factory ApplicationDependencySummary.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationDependencySummaryFromJson(json);
+
+  factory ApplicationDependencySummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationDependencySummary(
+      applicationId: json['applicationId'] as String,
+      semanticVersion: json['semanticVersion'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final semanticVersion = this.semanticVersion;
+    return {
+      'applicationId': applicationId,
+      'semanticVersion': semanticVersion,
+    };
+  }
 }
 
 /// Policy statement applied to the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ApplicationPolicyStatement {
   /// For the list of actions supported for this operation, see <a
   /// href="https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions">Application
   /// Permissions</a>.
-  @_s.JsonKey(name: 'actions')
   final List<String> actions;
 
   /// An array of AWS account IDs, or * to make the application public.
-  @_s.JsonKey(name: 'principals')
   final List<String> principals;
 
   /// An array of PrinciplalOrgIDs, which corresponds to AWS IAM <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#principal-org-id">aws:PrincipalOrgID</a>
   /// global condition key.
-  @_s.JsonKey(name: 'principalOrgIDs')
-  final List<String> principalOrgIDs;
+  final List<String>? principalOrgIDs;
 
   /// A unique ID for the statement.
-  @_s.JsonKey(name: 'statementId')
-  final String statementId;
+  final String? statementId;
 
   ApplicationPolicyStatement({
-    @_s.required this.actions,
-    @_s.required this.principals,
+    required this.actions,
+    required this.principals,
     this.principalOrgIDs,
     this.statementId,
   });
-  factory ApplicationPolicyStatement.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationPolicyStatementFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ApplicationPolicyStatementToJson(this);
+  factory ApplicationPolicyStatement.fromJson(Map<String, dynamic> json) {
+    return ApplicationPolicyStatement(
+      actions: (json['actions'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      principals: (json['principals'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      principalOrgIDs: (json['principalOrgIDs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      statementId: json['statementId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final principals = this.principals;
+    final principalOrgIDs = this.principalOrgIDs;
+    final statementId = this.statementId;
+    return {
+      'actions': actions,
+      'principals': principals,
+      if (principalOrgIDs != null) 'principalOrgIDs': principalOrgIDs,
+      if (statementId != null) 'statementId': statementId,
+    };
+  }
 }
 
 /// Summary of details about the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ApplicationSummary {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
   final String applicationId;
 
   /// The name of the author publishing the app.
@@ -969,13 +981,11 @@ class ApplicationSummary {
   /// Minimum length=1. Maximum length=127.
   ///
   /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-  @_s.JsonKey(name: 'author')
   final String author;
 
   /// The description of the application.
   ///
   /// Minimum length=1. Maximum length=256
-  @_s.JsonKey(name: 'description')
   final String description;
 
   /// The name of the application.
@@ -983,139 +993,178 @@ class ApplicationSummary {
   /// Minimum length=1. Maximum length=140
   ///
   /// Pattern: "[a-zA-Z0-9\\-]+";
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// A URL with more information about the application, for example the location
   /// of your GitHub repository for the application.
-  @_s.JsonKey(name: 'homePageUrl')
-  final String homePageUrl;
+  final String? homePageUrl;
 
   /// Labels to improve discovery of apps in search results.
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
   /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-  @_s.JsonKey(name: 'labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// A valid identifier from <a
   /// href="https://spdx.org/licenses/">https://spdx.org/licenses/</a>.
-  @_s.JsonKey(name: 'spdxLicenseId')
-  final String spdxLicenseId;
+  final String? spdxLicenseId;
 
   ApplicationSummary({
-    @_s.required this.applicationId,
-    @_s.required this.author,
-    @_s.required this.description,
-    @_s.required this.name,
+    required this.applicationId,
+    required this.author,
+    required this.description,
+    required this.name,
     this.creationTime,
     this.homePageUrl,
     this.labels,
     this.spdxLicenseId,
   });
-  factory ApplicationSummary.fromJson(Map<String, dynamic> json) =>
-      _$ApplicationSummaryFromJson(json);
+
+  factory ApplicationSummary.fromJson(Map<String, dynamic> json) {
+    return ApplicationSummary(
+      applicationId: json['applicationId'] as String,
+      author: json['author'] as String,
+      description: json['description'] as String,
+      name: json['name'] as String,
+      creationTime: json['creationTime'] as String?,
+      homePageUrl: json['homePageUrl'] as String?,
+      labels: (json['labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      spdxLicenseId: json['spdxLicenseId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final author = this.author;
+    final description = this.description;
+    final name = this.name;
+    final creationTime = this.creationTime;
+    final homePageUrl = this.homePageUrl;
+    final labels = this.labels;
+    final spdxLicenseId = this.spdxLicenseId;
+    return {
+      'applicationId': applicationId,
+      'author': author,
+      'description': description,
+      'name': name,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (homePageUrl != null) 'homePageUrl': homePageUrl,
+      if (labels != null) 'labels': labels,
+      if (spdxLicenseId != null) 'spdxLicenseId': spdxLicenseId,
+    };
+  }
 }
 
 /// Values that must be specified in order to deploy some applications.
 enum Capability {
-  @_s.JsonValue('CAPABILITY_IAM')
   capabilityIam,
-  @_s.JsonValue('CAPABILITY_NAMED_IAM')
   capabilityNamedIam,
-  @_s.JsonValue('CAPABILITY_AUTO_EXPAND')
   capabilityAutoExpand,
-  @_s.JsonValue('CAPABILITY_RESOURCE_POLICY')
   capabilityResourcePolicy,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Capability {
+  String toValue() {
+    switch (this) {
+      case Capability.capabilityIam:
+        return 'CAPABILITY_IAM';
+      case Capability.capabilityNamedIam:
+        return 'CAPABILITY_NAMED_IAM';
+      case Capability.capabilityAutoExpand:
+        return 'CAPABILITY_AUTO_EXPAND';
+      case Capability.capabilityResourcePolicy:
+        return 'CAPABILITY_RESOURCE_POLICY';
+    }
+  }
+}
+
+extension on String {
+  Capability toCapability() {
+    switch (this) {
+      case 'CAPABILITY_IAM':
+        return Capability.capabilityIam;
+      case 'CAPABILITY_NAMED_IAM':
+        return Capability.capabilityNamedIam;
+      case 'CAPABILITY_AUTO_EXPAND':
+        return Capability.capabilityAutoExpand;
+      case 'CAPABILITY_RESOURCE_POLICY':
+        return Capability.capabilityResourcePolicy;
+    }
+    throw Exception('$this is not known in enum Capability');
+  }
+}
+
 class CreateApplicationResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The name of the author publishing the app.
   ///
   /// Minimum length=1. Maximum length=127.
   ///
   /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-  @_s.JsonKey(name: 'author')
-  final String author;
+  final String? author;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// The description of the application.
   ///
   /// Minimum length=1. Maximum length=256
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// A URL with more information about the application, for example the location
   /// of your GitHub repository for the application.
-  @_s.JsonKey(name: 'homePageUrl')
-  final String homePageUrl;
+  final String? homePageUrl;
 
   /// Whether the author of this application has been verified. This means means
   /// that AWS has made a good faith review, as a reasonable and prudent service
   /// provider, of the information provided by the requester and has confirmed
   /// that the requester's identity is as claimed.
-  @_s.JsonKey(name: 'isVerifiedAuthor')
-  final bool isVerifiedAuthor;
+  final bool? isVerifiedAuthor;
 
   /// Labels to improve discovery of apps in search results.
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
   /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-  @_s.JsonKey(name: 'labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// A link to a license file of the app that matches the spdxLicenseID value of
   /// your application.
   ///
   /// Maximum size 5 MB
-  @_s.JsonKey(name: 'licenseUrl')
-  final String licenseUrl;
+  final String? licenseUrl;
 
   /// The name of the application.
   ///
   /// Minimum length=1. Maximum length=140
   ///
   /// Pattern: "[a-zA-Z0-9\\-]+";
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A link to the readme file in Markdown language that contains a more detailed
   /// description of the application and how it works.
   ///
   /// Maximum size 5 MB
-  @_s.JsonKey(name: 'readmeUrl')
-  final String readmeUrl;
+  final String? readmeUrl;
 
   /// A valid identifier from https://spdx.org/licenses/.
-  @_s.JsonKey(name: 'spdxLicenseId')
-  final String spdxLicenseId;
+  final String? spdxLicenseId;
 
   /// The URL to the public profile of a verified author. This URL is submitted by
   /// the author.
-  @_s.JsonKey(name: 'verifiedAuthorUrl')
-  final String verifiedAuthorUrl;
+  final String? verifiedAuthorUrl;
 
   /// Version information about the application.
-  @_s.JsonKey(name: 'version')
-  final Version version;
+  final Version? version;
 
   CreateApplicationResponse({
     this.applicationId,
@@ -1132,27 +1181,71 @@ class CreateApplicationResponse {
     this.verifiedAuthorUrl,
     this.version,
   });
-  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateApplicationResponseFromJson(json);
+
+  factory CreateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationResponse(
+      applicationId: json['applicationId'] as String?,
+      author: json['author'] as String?,
+      creationTime: json['creationTime'] as String?,
+      description: json['description'] as String?,
+      homePageUrl: json['homePageUrl'] as String?,
+      isVerifiedAuthor: json['isVerifiedAuthor'] as bool?,
+      labels: (json['labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      licenseUrl: json['licenseUrl'] as String?,
+      name: json['name'] as String?,
+      readmeUrl: json['readmeUrl'] as String?,
+      spdxLicenseId: json['spdxLicenseId'] as String?,
+      verifiedAuthorUrl: json['verifiedAuthorUrl'] as String?,
+      version: json['version'] != null
+          ? Version.fromJson(json['version'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final author = this.author;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final homePageUrl = this.homePageUrl;
+    final isVerifiedAuthor = this.isVerifiedAuthor;
+    final labels = this.labels;
+    final licenseUrl = this.licenseUrl;
+    final name = this.name;
+    final readmeUrl = this.readmeUrl;
+    final spdxLicenseId = this.spdxLicenseId;
+    final verifiedAuthorUrl = this.verifiedAuthorUrl;
+    final version = this.version;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (author != null) 'author': author,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (description != null) 'description': description,
+      if (homePageUrl != null) 'homePageUrl': homePageUrl,
+      if (isVerifiedAuthor != null) 'isVerifiedAuthor': isVerifiedAuthor,
+      if (labels != null) 'labels': labels,
+      if (licenseUrl != null) 'licenseUrl': licenseUrl,
+      if (name != null) 'name': name,
+      if (readmeUrl != null) 'readmeUrl': readmeUrl,
+      if (spdxLicenseId != null) 'spdxLicenseId': spdxLicenseId,
+      if (verifiedAuthorUrl != null) 'verifiedAuthorUrl': verifiedAuthorUrl,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateApplicationVersionResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// An array of parameter types supported by the application.
-  @_s.JsonKey(name: 'parameterDefinitions')
-  final List<ParameterDefinition> parameterDefinitions;
+  final List<ParameterDefinition>? parameterDefinitions;
 
   /// A list of values that you must specify before you can deploy certain
   /// applications.
@@ -1208,38 +1301,32 @@ class CreateApplicationVersionResponse {
   /// don't specify
   /// this parameter for an application that requires capabilities, the call will
   /// fail.
-  @_s.JsonKey(name: 'requiredCapabilities')
-  final List<Capability> requiredCapabilities;
+  final List<Capability>? requiredCapabilities;
 
   /// Whether all of the AWS resources contained in this application are supported
   /// in the region
   /// in which it is being retrieved.
-  @_s.JsonKey(name: 'resourcesSupported')
-  final bool resourcesSupported;
+  final bool? resourcesSupported;
 
   /// The semantic version of the application:
   ///
   ///
   /// <a href="https://semver.org/">https://semver.org/</a>
   ///
-  @_s.JsonKey(name: 'semanticVersion')
-  final String semanticVersion;
+  final String? semanticVersion;
 
   /// A link to the S3 object that contains the ZIP archive of the source code for
   /// this version of your application.
   ///
   /// Maximum size 50 MB
-  @_s.JsonKey(name: 'sourceCodeArchiveUrl')
-  final String sourceCodeArchiveUrl;
+  final String? sourceCodeArchiveUrl;
 
   /// A link to a public repository for the source code of your application, for
   /// example the URL of a specific GitHub commit.
-  @_s.JsonKey(name: 'sourceCodeUrl')
-  final String sourceCodeUrl;
+  final String? sourceCodeUrl;
 
   /// A link to the packaged AWS SAM template of your application.
-  @_s.JsonKey(name: 'templateUrl')
-  final String templateUrl;
+  final String? templateUrl;
 
   CreateApplicationVersionResponse({
     this.applicationId,
@@ -1252,40 +1339,75 @@ class CreateApplicationVersionResponse {
     this.sourceCodeUrl,
     this.templateUrl,
   });
-  factory CreateApplicationVersionResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateApplicationVersionResponseFromJson(json);
+
+  factory CreateApplicationVersionResponse.fromJson(Map<String, dynamic> json) {
+    return CreateApplicationVersionResponse(
+      applicationId: json['applicationId'] as String?,
+      creationTime: json['creationTime'] as String?,
+      parameterDefinitions: (json['parameterDefinitions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ParameterDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requiredCapabilities: (json['requiredCapabilities'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toCapability())
+          .toList(),
+      resourcesSupported: json['resourcesSupported'] as bool?,
+      semanticVersion: json['semanticVersion'] as String?,
+      sourceCodeArchiveUrl: json['sourceCodeArchiveUrl'] as String?,
+      sourceCodeUrl: json['sourceCodeUrl'] as String?,
+      templateUrl: json['templateUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final creationTime = this.creationTime;
+    final parameterDefinitions = this.parameterDefinitions;
+    final requiredCapabilities = this.requiredCapabilities;
+    final resourcesSupported = this.resourcesSupported;
+    final semanticVersion = this.semanticVersion;
+    final sourceCodeArchiveUrl = this.sourceCodeArchiveUrl;
+    final sourceCodeUrl = this.sourceCodeUrl;
+    final templateUrl = this.templateUrl;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (parameterDefinitions != null)
+        'parameterDefinitions': parameterDefinitions,
+      if (requiredCapabilities != null)
+        'requiredCapabilities':
+            requiredCapabilities.map((e) => e.toValue()).toList(),
+      if (resourcesSupported != null) 'resourcesSupported': resourcesSupported,
+      if (semanticVersion != null) 'semanticVersion': semanticVersion,
+      if (sourceCodeArchiveUrl != null)
+        'sourceCodeArchiveUrl': sourceCodeArchiveUrl,
+      if (sourceCodeUrl != null) 'sourceCodeUrl': sourceCodeUrl,
+      if (templateUrl != null) 'templateUrl': templateUrl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCloudFormationChangeSetResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The Amazon Resource Name (ARN) of the change set.
   ///
   /// Length constraints: Minimum length of 1.
   ///
   /// Pattern: ARN:[-a-zA-Z0-9:/]*
-  @_s.JsonKey(name: 'changeSetId')
-  final String changeSetId;
+  final String? changeSetId;
 
   /// The semantic version of the application:
   ///
   ///
   /// <a href="https://semver.org/">https://semver.org/</a>
   ///
-  @_s.JsonKey(name: 'semanticVersion')
-  final String semanticVersion;
+  final String? semanticVersion;
 
   /// The unique ID of the stack.
-  @_s.JsonKey(name: 'stackId')
-  final String stackId;
+  final String? stackId;
 
   CreateCloudFormationChangeSetResponse({
     this.applicationId,
@@ -1293,56 +1415,64 @@ class CreateCloudFormationChangeSetResponse {
     this.semanticVersion,
     this.stackId,
   });
+
   factory CreateCloudFormationChangeSetResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCloudFormationChangeSetResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCloudFormationChangeSetResponse(
+      applicationId: json['applicationId'] as String?,
+      changeSetId: json['changeSetId'] as String?,
+      semanticVersion: json['semanticVersion'] as String?,
+      stackId: json['stackId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final changeSetId = this.changeSetId;
+    final semanticVersion = this.semanticVersion;
+    final stackId = this.stackId;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (changeSetId != null) 'changeSetId': changeSetId,
+      if (semanticVersion != null) 'semanticVersion': semanticVersion,
+      if (stackId != null) 'stackId': stackId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCloudFormationTemplateResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// The date and time this template expires. Templates
   /// expire 1 hour after creation.
-  @_s.JsonKey(name: 'expirationTime')
-  final String expirationTime;
+  final String? expirationTime;
 
   /// The semantic version of the application:
   ///
   ///
   /// <a href="https://semver.org/">https://semver.org/</a>
   ///
-  @_s.JsonKey(name: 'semanticVersion')
-  final String semanticVersion;
+  final String? semanticVersion;
 
   /// Status of the template creation workflow.
   ///
   /// Possible values: PREPARING | ACTIVE | EXPIRED
   ///
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   /// The UUID returned by CreateCloudFormationTemplate.
   ///
   /// Pattern:
   /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
-  @_s.JsonKey(name: 'templateId')
-  final String templateId;
+  final String? templateId;
 
   /// A link to the template that can be used to deploy the application using
   /// AWS CloudFormation.
-  @_s.JsonKey(name: 'templateUrl')
-  final String templateUrl;
+  final String? templateUrl;
 
   CreateCloudFormationTemplateResponse({
     this.applicationId,
@@ -1353,110 +1483,130 @@ class CreateCloudFormationTemplateResponse {
     this.templateId,
     this.templateUrl,
   });
+
   factory CreateCloudFormationTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCloudFormationTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCloudFormationTemplateResponse(
+      applicationId: json['applicationId'] as String?,
+      creationTime: json['creationTime'] as String?,
+      expirationTime: json['expirationTime'] as String?,
+      semanticVersion: json['semanticVersion'] as String?,
+      status: (json['status'] as String?)?.toStatus(),
+      templateId: json['templateId'] as String?,
+      templateUrl: json['templateUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final creationTime = this.creationTime;
+    final expirationTime = this.expirationTime;
+    final semanticVersion = this.semanticVersion;
+    final status = this.status;
+    final templateId = this.templateId;
+    final templateUrl = this.templateUrl;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (expirationTime != null) 'expirationTime': expirationTime,
+      if (semanticVersion != null) 'semanticVersion': semanticVersion,
+      if (status != null) 'status': status.toValue(),
+      if (templateId != null) 'templateId': templateId,
+      if (templateUrl != null) 'templateUrl': templateUrl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApplicationPolicyResponse {
   /// An array of policy statements applied to the application.
-  @_s.JsonKey(name: 'statements')
-  final List<ApplicationPolicyStatement> statements;
+  final List<ApplicationPolicyStatement>? statements;
 
   GetApplicationPolicyResponse({
     this.statements,
   });
-  factory GetApplicationPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetApplicationPolicyResponseFromJson(json);
+
+  factory GetApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetApplicationPolicyResponse(
+      statements: (json['statements'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ApplicationPolicyStatement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statements = this.statements;
+    return {
+      if (statements != null) 'statements': statements,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetApplicationResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The name of the author publishing the app.
   ///
   /// Minimum length=1. Maximum length=127.
   ///
   /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-  @_s.JsonKey(name: 'author')
-  final String author;
+  final String? author;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// The description of the application.
   ///
   /// Minimum length=1. Maximum length=256
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// A URL with more information about the application, for example the location
   /// of your GitHub repository for the application.
-  @_s.JsonKey(name: 'homePageUrl')
-  final String homePageUrl;
+  final String? homePageUrl;
 
   /// Whether the author of this application has been verified. This means means
   /// that AWS has made a good faith review, as a reasonable and prudent service
   /// provider, of the information provided by the requester and has confirmed
   /// that the requester's identity is as claimed.
-  @_s.JsonKey(name: 'isVerifiedAuthor')
-  final bool isVerifiedAuthor;
+  final bool? isVerifiedAuthor;
 
   /// Labels to improve discovery of apps in search results.
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
   /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-  @_s.JsonKey(name: 'labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// A link to a license file of the app that matches the spdxLicenseID value of
   /// your application.
   ///
   /// Maximum size 5 MB
-  @_s.JsonKey(name: 'licenseUrl')
-  final String licenseUrl;
+  final String? licenseUrl;
 
   /// The name of the application.
   ///
   /// Minimum length=1. Maximum length=140
   ///
   /// Pattern: "[a-zA-Z0-9\\-]+";
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A link to the readme file in Markdown language that contains a more detailed
   /// description of the application and how it works.
   ///
   /// Maximum size 5 MB
-  @_s.JsonKey(name: 'readmeUrl')
-  final String readmeUrl;
+  final String? readmeUrl;
 
   /// A valid identifier from https://spdx.org/licenses/.
-  @_s.JsonKey(name: 'spdxLicenseId')
-  final String spdxLicenseId;
+  final String? spdxLicenseId;
 
   /// The URL to the public profile of a verified author. This URL is submitted by
   /// the author.
-  @_s.JsonKey(name: 'verifiedAuthorUrl')
-  final String verifiedAuthorUrl;
+  final String? verifiedAuthorUrl;
 
   /// Version information about the application.
-  @_s.JsonKey(name: 'version')
-  final Version version;
+  final Version? version;
 
   GetApplicationResponse({
     this.applicationId,
@@ -1473,55 +1623,95 @@ class GetApplicationResponse {
     this.verifiedAuthorUrl,
     this.version,
   });
-  factory GetApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetApplicationResponseFromJson(json);
+
+  factory GetApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return GetApplicationResponse(
+      applicationId: json['applicationId'] as String?,
+      author: json['author'] as String?,
+      creationTime: json['creationTime'] as String?,
+      description: json['description'] as String?,
+      homePageUrl: json['homePageUrl'] as String?,
+      isVerifiedAuthor: json['isVerifiedAuthor'] as bool?,
+      labels: (json['labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      licenseUrl: json['licenseUrl'] as String?,
+      name: json['name'] as String?,
+      readmeUrl: json['readmeUrl'] as String?,
+      spdxLicenseId: json['spdxLicenseId'] as String?,
+      verifiedAuthorUrl: json['verifiedAuthorUrl'] as String?,
+      version: json['version'] != null
+          ? Version.fromJson(json['version'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final author = this.author;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final homePageUrl = this.homePageUrl;
+    final isVerifiedAuthor = this.isVerifiedAuthor;
+    final labels = this.labels;
+    final licenseUrl = this.licenseUrl;
+    final name = this.name;
+    final readmeUrl = this.readmeUrl;
+    final spdxLicenseId = this.spdxLicenseId;
+    final verifiedAuthorUrl = this.verifiedAuthorUrl;
+    final version = this.version;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (author != null) 'author': author,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (description != null) 'description': description,
+      if (homePageUrl != null) 'homePageUrl': homePageUrl,
+      if (isVerifiedAuthor != null) 'isVerifiedAuthor': isVerifiedAuthor,
+      if (labels != null) 'labels': labels,
+      if (licenseUrl != null) 'licenseUrl': licenseUrl,
+      if (name != null) 'name': name,
+      if (readmeUrl != null) 'readmeUrl': readmeUrl,
+      if (spdxLicenseId != null) 'spdxLicenseId': spdxLicenseId,
+      if (verifiedAuthorUrl != null) 'verifiedAuthorUrl': verifiedAuthorUrl,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCloudFormationTemplateResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// The date and time this template expires. Templates
   /// expire 1 hour after creation.
-  @_s.JsonKey(name: 'expirationTime')
-  final String expirationTime;
+  final String? expirationTime;
 
   /// The semantic version of the application:
   ///
   ///
   /// <a href="https://semver.org/">https://semver.org/</a>
   ///
-  @_s.JsonKey(name: 'semanticVersion')
-  final String semanticVersion;
+  final String? semanticVersion;
 
   /// Status of the template creation workflow.
   ///
   /// Possible values: PREPARING | ACTIVE | EXPIRED
   ///
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   /// The UUID returned by CreateCloudFormationTemplate.
   ///
   /// Pattern:
   /// [0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}
-  @_s.JsonKey(name: 'templateId')
-  final String templateId;
+  final String? templateId;
 
   /// A link to the template that can be used to deploy the application using
   /// AWS CloudFormation.
-  @_s.JsonKey(name: 'templateUrl')
-  final String templateUrl;
+  final String? templateUrl;
 
   GetCloudFormationTemplateResponse({
     this.applicationId,
@@ -1532,100 +1722,151 @@ class GetCloudFormationTemplateResponse {
     this.templateId,
     this.templateUrl,
   });
+
   factory GetCloudFormationTemplateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCloudFormationTemplateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCloudFormationTemplateResponse(
+      applicationId: json['applicationId'] as String?,
+      creationTime: json['creationTime'] as String?,
+      expirationTime: json['expirationTime'] as String?,
+      semanticVersion: json['semanticVersion'] as String?,
+      status: (json['status'] as String?)?.toStatus(),
+      templateId: json['templateId'] as String?,
+      templateUrl: json['templateUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final creationTime = this.creationTime;
+    final expirationTime = this.expirationTime;
+    final semanticVersion = this.semanticVersion;
+    final status = this.status;
+    final templateId = this.templateId;
+    final templateUrl = this.templateUrl;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (expirationTime != null) 'expirationTime': expirationTime,
+      if (semanticVersion != null) 'semanticVersion': semanticVersion,
+      if (status != null) 'status': status.toValue(),
+      if (templateId != null) 'templateId': templateId,
+      if (templateUrl != null) 'templateUrl': templateUrl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApplicationDependenciesResponse {
   /// An array of application summaries nested in the application.
-  @_s.JsonKey(name: 'dependencies')
-  final List<ApplicationDependencySummary> dependencies;
+  final List<ApplicationDependencySummary>? dependencies;
 
   /// The token to request the next page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApplicationDependenciesResponse({
     this.dependencies,
     this.nextToken,
   });
+
   factory ListApplicationDependenciesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListApplicationDependenciesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListApplicationDependenciesResponse(
+      dependencies: (json['dependencies'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ApplicationDependencySummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dependencies = this.dependencies;
+    final nextToken = this.nextToken;
+    return {
+      if (dependencies != null) 'dependencies': dependencies,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApplicationVersionsResponse {
   /// The token to request the next page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// An array of version summaries for the application.
-  @_s.JsonKey(name: 'versions')
-  final List<VersionSummary> versions;
+  final List<VersionSummary>? versions;
 
   ListApplicationVersionsResponse({
     this.nextToken,
     this.versions,
   });
-  factory ListApplicationVersionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListApplicationVersionsResponseFromJson(json);
+
+  factory ListApplicationVersionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationVersionsResponse(
+      nextToken: json['nextToken'] as String?,
+      versions: (json['versions'] as List?)
+          ?.whereNotNull()
+          .map((e) => VersionSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final versions = this.versions;
+    return {
+      if (nextToken != null) 'nextToken': nextToken,
+      if (versions != null) 'versions': versions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListApplicationsResponse {
   /// An array of application summaries.
-  @_s.JsonKey(name: 'applications')
-  final List<ApplicationSummary> applications;
+  final List<ApplicationSummary>? applications;
 
   /// The token to request the next page of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListApplicationsResponse({
     this.applications,
     this.nextToken,
   });
-  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListApplicationsResponseFromJson(json);
+
+  factory ListApplicationsResponse.fromJson(Map<String, dynamic> json) {
+    return ListApplicationsResponse(
+      applications: (json['applications'] as List?)
+          ?.whereNotNull()
+          .map((e) => ApplicationSummary.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applications = this.applications;
+    final nextToken = this.nextToken;
+    return {
+      if (applications != null) 'applications': applications,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// Parameters supported by the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ParameterDefinition {
   /// The name of the parameter.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// A list of AWS SAM resources that use this parameter.
-  @_s.JsonKey(name: 'referencedByResources')
   final List<String> referencedByResources;
 
   /// A regular expression that represents the patterns to allow for String types.
-  @_s.JsonKey(name: 'allowedPattern')
-  final String allowedPattern;
+  final String? allowedPattern;
 
   /// An array containing the list of values allowed for the parameter.
-  @_s.JsonKey(name: 'allowedValues')
-  final List<String> allowedValues;
+  final List<String>? allowedValues;
 
   /// A string that explains a constraint when the constraint is violated. For
   /// example, without a constraint description,
@@ -1645,45 +1886,37 @@ class ParameterDefinition {
   /// Malformed input-Parameter MyParameter must contain only uppercase and
   /// lowercase letters and numbers.
   ///
-  @_s.JsonKey(name: 'constraintDescription')
-  final String constraintDescription;
+  final String? constraintDescription;
 
   /// A value of the appropriate type for the template to use if no value is
   /// specified when a stack is created.
   /// If you define constraints for the parameter, you must specify a value that
   /// adheres to those constraints.
-  @_s.JsonKey(name: 'defaultValue')
-  final String defaultValue;
+  final String? defaultValue;
 
   /// A string of up to 4,000 characters that describes the parameter.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// An integer value that determines the largest number of characters that you
   /// want to allow for String types.
-  @_s.JsonKey(name: 'maxLength')
-  final int maxLength;
+  final int? maxLength;
 
   /// A numeric value that determines the largest numeric value that you want to
   /// allow for Number types.
-  @_s.JsonKey(name: 'maxValue')
-  final int maxValue;
+  final int? maxValue;
 
   /// An integer value that determines the smallest number of characters that you
   /// want to allow for String types.
-  @_s.JsonKey(name: 'minLength')
-  final int minLength;
+  final int? minLength;
 
   /// A numeric value that determines the smallest numeric value that you want to
   /// allow for Number types.
-  @_s.JsonKey(name: 'minValue')
-  final int minValue;
+  final int? minValue;
 
   /// Whether to mask the parameter value whenever anyone makes a call that
   /// describes the stack. If you set the
   /// value to true, the parameter value is masked with asterisks (*****).
-  @_s.JsonKey(name: 'noEcho')
-  final bool noEcho;
+  final bool? noEcho;
 
   /// The type of the parameter.
   ///
@@ -1721,12 +1954,11 @@ class ParameterDefinition {
   ///
   /// For example, users might specify "test,dev,prod", and then Ref results in
   /// ["test","dev","prod"].
-  @_s.JsonKey(name: 'type')
-  final String type;
+  final String? type;
 
   ParameterDefinition({
-    @_s.required this.name,
-    @_s.required this.referencedByResources,
+    required this.name,
+    required this.referencedByResources,
     this.allowedPattern,
     this.allowedValues,
     this.constraintDescription,
@@ -1739,134 +1971,243 @@ class ParameterDefinition {
     this.noEcho,
     this.type,
   });
-  factory ParameterDefinition.fromJson(Map<String, dynamic> json) =>
-      _$ParameterDefinitionFromJson(json);
+
+  factory ParameterDefinition.fromJson(Map<String, dynamic> json) {
+    return ParameterDefinition(
+      name: json['name'] as String,
+      referencedByResources: (json['referencedByResources'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      allowedPattern: json['allowedPattern'] as String?,
+      allowedValues: (json['allowedValues'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      constraintDescription: json['constraintDescription'] as String?,
+      defaultValue: json['defaultValue'] as String?,
+      description: json['description'] as String?,
+      maxLength: json['maxLength'] as int?,
+      maxValue: json['maxValue'] as int?,
+      minLength: json['minLength'] as int?,
+      minValue: json['minValue'] as int?,
+      noEcho: json['noEcho'] as bool?,
+      type: json['type'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final referencedByResources = this.referencedByResources;
+    final allowedPattern = this.allowedPattern;
+    final allowedValues = this.allowedValues;
+    final constraintDescription = this.constraintDescription;
+    final defaultValue = this.defaultValue;
+    final description = this.description;
+    final maxLength = this.maxLength;
+    final maxValue = this.maxValue;
+    final minLength = this.minLength;
+    final minValue = this.minValue;
+    final noEcho = this.noEcho;
+    final type = this.type;
+    return {
+      'name': name,
+      'referencedByResources': referencedByResources,
+      if (allowedPattern != null) 'allowedPattern': allowedPattern,
+      if (allowedValues != null) 'allowedValues': allowedValues,
+      if (constraintDescription != null)
+        'constraintDescription': constraintDescription,
+      if (defaultValue != null) 'defaultValue': defaultValue,
+      if (description != null) 'description': description,
+      if (maxLength != null) 'maxLength': maxLength,
+      if (maxValue != null) 'maxValue': maxValue,
+      if (minLength != null) 'minLength': minLength,
+      if (minValue != null) 'minValue': minValue,
+      if (noEcho != null) 'noEcho': noEcho,
+      if (type != null) 'type': type,
+    };
+  }
 }
 
 /// Parameter value of the application.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ParameterValue {
   /// The key associated with the parameter. If you don't specify a key and value
   /// for a particular parameter, AWS CloudFormation
   /// uses the default value that is specified in your template.
-  @_s.JsonKey(name: 'name')
   final String name;
 
   /// The input value associated with the parameter.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   ParameterValue({
-    @_s.required this.name,
-    @_s.required this.value,
+    required this.name,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ParameterValueToJson(this);
+
+  factory ParameterValue.fromJson(Map<String, dynamic> json) {
+    return ParameterValue(
+      name: json['name'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    final value = this.value;
+    return {
+      'name': name,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class PutApplicationPolicyResponse {
   /// An array of policy statements applied to the application.
-  @_s.JsonKey(name: 'statements')
-  final List<ApplicationPolicyStatement> statements;
+  final List<ApplicationPolicyStatement>? statements;
 
   PutApplicationPolicyResponse({
     this.statements,
   });
-  factory PutApplicationPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$PutApplicationPolicyResponseFromJson(json);
+
+  factory PutApplicationPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return PutApplicationPolicyResponse(
+      statements: (json['statements'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ApplicationPolicyStatement.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final statements = this.statements;
+    return {
+      if (statements != null) 'statements': statements,
+    };
+  }
 }
 
 /// This property corresponds to the <i>AWS CloudFormation <a
 /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
 /// </i> Data Type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RollbackConfiguration {
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
   /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
   /// </i> Data Type.
-  @_s.JsonKey(name: 'monitoringTimeInMinutes')
-  final int monitoringTimeInMinutes;
+  final int? monitoringTimeInMinutes;
 
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
   /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration">RollbackConfiguration</a>
   /// </i> Data Type.
-  @_s.JsonKey(name: 'rollbackTriggers')
-  final List<RollbackTrigger> rollbackTriggers;
+  final List<RollbackTrigger>? rollbackTriggers;
 
   RollbackConfiguration({
     this.monitoringTimeInMinutes,
     this.rollbackTriggers,
   });
-  Map<String, dynamic> toJson() => _$RollbackConfigurationToJson(this);
+
+  factory RollbackConfiguration.fromJson(Map<String, dynamic> json) {
+    return RollbackConfiguration(
+      monitoringTimeInMinutes: json['monitoringTimeInMinutes'] as int?,
+      rollbackTriggers: (json['rollbackTriggers'] as List?)
+          ?.whereNotNull()
+          .map((e) => RollbackTrigger.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final monitoringTimeInMinutes = this.monitoringTimeInMinutes;
+    final rollbackTriggers = this.rollbackTriggers;
+    return {
+      if (monitoringTimeInMinutes != null)
+        'monitoringTimeInMinutes': monitoringTimeInMinutes,
+      if (rollbackTriggers != null) 'rollbackTriggers': rollbackTriggers,
+    };
+  }
 }
 
 /// This property corresponds to the <i>AWS CloudFormation <a
 /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
 /// </i> Data Type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RollbackTrigger {
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
   /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
   /// </i> Data Type.
-  @_s.JsonKey(name: 'arn')
   final String arn;
 
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
   /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger">RollbackTrigger</a>
   /// </i> Data Type.
-  @_s.JsonKey(name: 'type')
   final String type;
 
   RollbackTrigger({
-    @_s.required this.arn,
-    @_s.required this.type,
+    required this.arn,
+    required this.type,
   });
-  Map<String, dynamic> toJson() => _$RollbackTriggerToJson(this);
+
+  factory RollbackTrigger.fromJson(Map<String, dynamic> json) {
+    return RollbackTrigger(
+      arn: json['arn'] as String,
+      type: json['type'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final type = this.type;
+    return {
+      'arn': arn,
+      'type': type,
+    };
+  }
 }
 
 enum Status {
-  @_s.JsonValue('PREPARING')
   preparing,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('EXPIRED')
   expired,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.preparing:
+        return 'PREPARING';
+      case Status.active:
+        return 'ACTIVE';
+      case Status.expired:
+        return 'EXPIRED';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'PREPARING':
+        return Status.preparing;
+      case 'ACTIVE':
+        return Status.active;
+      case 'EXPIRED':
+        return Status.expired;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
 }
 
 /// This property corresponds to the <i>AWS CloudFormation <a
 /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">Tag</a>
 /// </i> Data Type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class Tag {
   /// This property corresponds to the content of the same name for the <i>AWS
   /// CloudFormation <a
   /// href="https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag">Tag</a>
   /// </i> Data Type.
-  @_s.JsonKey(name: 'key')
   final String key;
 
   /// This property corresponds to the content of the same name for the <i>AWS
@@ -1875,98 +2216,94 @@ class Tag {
   /// Tag</a>
   /// </i>
   /// Data Type.
-  @_s.JsonKey(name: 'value')
   final String value;
 
   Tag({
-    @_s.required this.key,
-    @_s.required this.value,
+    required this.key,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['key'] as String,
+      value: json['value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'key': key,
+      'value': value,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateApplicationResponse {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
-  final String applicationId;
+  final String? applicationId;
 
   /// The name of the author publishing the app.
   ///
   /// Minimum length=1. Maximum length=127.
   ///
   /// Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
-  @_s.JsonKey(name: 'author')
-  final String author;
+  final String? author;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
-  final String creationTime;
+  final String? creationTime;
 
   /// The description of the application.
   ///
   /// Minimum length=1. Maximum length=256
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
   /// A URL with more information about the application, for example the location
   /// of your GitHub repository for the application.
-  @_s.JsonKey(name: 'homePageUrl')
-  final String homePageUrl;
+  final String? homePageUrl;
 
   /// Whether the author of this application has been verified. This means means
   /// that AWS has made a good faith review, as a reasonable and prudent service
   /// provider, of the information provided by the requester and has confirmed
   /// that the requester's identity is as claimed.
-  @_s.JsonKey(name: 'isVerifiedAuthor')
-  final bool isVerifiedAuthor;
+  final bool? isVerifiedAuthor;
 
   /// Labels to improve discovery of apps in search results.
   ///
   /// Minimum length=1. Maximum length=127. Maximum number of labels: 10
   ///
   /// Pattern: "^[a-zA-Z0-9+\\-_:\\/@]+$";
-  @_s.JsonKey(name: 'labels')
-  final List<String> labels;
+  final List<String>? labels;
 
   /// A link to a license file of the app that matches the spdxLicenseID value of
   /// your application.
   ///
   /// Maximum size 5 MB
-  @_s.JsonKey(name: 'licenseUrl')
-  final String licenseUrl;
+  final String? licenseUrl;
 
   /// The name of the application.
   ///
   /// Minimum length=1. Maximum length=140
   ///
   /// Pattern: "[a-zA-Z0-9\\-]+";
-  @_s.JsonKey(name: 'name')
-  final String name;
+  final String? name;
 
   /// A link to the readme file in Markdown language that contains a more detailed
   /// description of the application and how it works.
   ///
   /// Maximum size 5 MB
-  @_s.JsonKey(name: 'readmeUrl')
-  final String readmeUrl;
+  final String? readmeUrl;
 
   /// A valid identifier from https://spdx.org/licenses/.
-  @_s.JsonKey(name: 'spdxLicenseId')
-  final String spdxLicenseId;
+  final String? spdxLicenseId;
 
   /// The URL to the public profile of a verified author. This URL is submitted by
   /// the author.
-  @_s.JsonKey(name: 'verifiedAuthorUrl')
-  final String verifiedAuthorUrl;
+  final String? verifiedAuthorUrl;
 
   /// Version information about the application.
-  @_s.JsonKey(name: 'version')
-  final Version version;
+  final Version? version;
 
   UpdateApplicationResponse({
     this.applicationId,
@@ -1983,27 +2320,71 @@ class UpdateApplicationResponse {
     this.verifiedAuthorUrl,
     this.version,
   });
-  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateApplicationResponseFromJson(json);
+
+  factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateApplicationResponse(
+      applicationId: json['applicationId'] as String?,
+      author: json['author'] as String?,
+      creationTime: json['creationTime'] as String?,
+      description: json['description'] as String?,
+      homePageUrl: json['homePageUrl'] as String?,
+      isVerifiedAuthor: json['isVerifiedAuthor'] as bool?,
+      labels: (json['labels'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      licenseUrl: json['licenseUrl'] as String?,
+      name: json['name'] as String?,
+      readmeUrl: json['readmeUrl'] as String?,
+      spdxLicenseId: json['spdxLicenseId'] as String?,
+      verifiedAuthorUrl: json['verifiedAuthorUrl'] as String?,
+      version: json['version'] != null
+          ? Version.fromJson(json['version'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final author = this.author;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final homePageUrl = this.homePageUrl;
+    final isVerifiedAuthor = this.isVerifiedAuthor;
+    final labels = this.labels;
+    final licenseUrl = this.licenseUrl;
+    final name = this.name;
+    final readmeUrl = this.readmeUrl;
+    final spdxLicenseId = this.spdxLicenseId;
+    final verifiedAuthorUrl = this.verifiedAuthorUrl;
+    final version = this.version;
+    return {
+      if (applicationId != null) 'applicationId': applicationId,
+      if (author != null) 'author': author,
+      if (creationTime != null) 'creationTime': creationTime,
+      if (description != null) 'description': description,
+      if (homePageUrl != null) 'homePageUrl': homePageUrl,
+      if (isVerifiedAuthor != null) 'isVerifiedAuthor': isVerifiedAuthor,
+      if (labels != null) 'labels': labels,
+      if (licenseUrl != null) 'licenseUrl': licenseUrl,
+      if (name != null) 'name': name,
+      if (readmeUrl != null) 'readmeUrl': readmeUrl,
+      if (spdxLicenseId != null) 'spdxLicenseId': spdxLicenseId,
+      if (verifiedAuthorUrl != null) 'verifiedAuthorUrl': verifiedAuthorUrl,
+      if (version != null) 'version': version,
+    };
+  }
 }
 
 /// Application version details.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Version {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
   final String applicationId;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
   final String creationTime;
 
   /// An array of parameter types supported by the application.
-  @_s.JsonKey(name: 'parameterDefinitions')
   final List<ParameterDefinition> parameterDefinitions;
 
   /// A list of values that you must specify before you can deploy certain
@@ -2060,13 +2441,11 @@ class Version {
   /// don't specify
   /// this parameter for an application that requires capabilities, the call will
   /// fail.
-  @_s.JsonKey(name: 'requiredCapabilities')
   final List<Capability> requiredCapabilities;
 
   /// Whether all of the AWS resources contained in this application are supported
   /// in the region
   /// in which it is being retrieved.
-  @_s.JsonKey(name: 'resourcesSupported')
   final bool resourcesSupported;
 
   /// The semantic version of the application:
@@ -2074,53 +2453,85 @@ class Version {
   ///
   /// <a href="https://semver.org/">https://semver.org/</a>
   ///
-  @_s.JsonKey(name: 'semanticVersion')
   final String semanticVersion;
 
   /// A link to the packaged AWS SAM template of your application.
-  @_s.JsonKey(name: 'templateUrl')
   final String templateUrl;
 
   /// A link to the S3 object that contains the ZIP archive of the source code for
   /// this version of your application.
   ///
   /// Maximum size 50 MB
-  @_s.JsonKey(name: 'sourceCodeArchiveUrl')
-  final String sourceCodeArchiveUrl;
+  final String? sourceCodeArchiveUrl;
 
   /// A link to a public repository for the source code of your application, for
   /// example the URL of a specific GitHub commit.
-  @_s.JsonKey(name: 'sourceCodeUrl')
-  final String sourceCodeUrl;
+  final String? sourceCodeUrl;
 
   Version({
-    @_s.required this.applicationId,
-    @_s.required this.creationTime,
-    @_s.required this.parameterDefinitions,
-    @_s.required this.requiredCapabilities,
-    @_s.required this.resourcesSupported,
-    @_s.required this.semanticVersion,
-    @_s.required this.templateUrl,
+    required this.applicationId,
+    required this.creationTime,
+    required this.parameterDefinitions,
+    required this.requiredCapabilities,
+    required this.resourcesSupported,
+    required this.semanticVersion,
+    required this.templateUrl,
     this.sourceCodeArchiveUrl,
     this.sourceCodeUrl,
   });
-  factory Version.fromJson(Map<String, dynamic> json) =>
-      _$VersionFromJson(json);
+
+  factory Version.fromJson(Map<String, dynamic> json) {
+    return Version(
+      applicationId: json['applicationId'] as String,
+      creationTime: json['creationTime'] as String,
+      parameterDefinitions: (json['parameterDefinitions'] as List)
+          .whereNotNull()
+          .map((e) => ParameterDefinition.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      requiredCapabilities: (json['requiredCapabilities'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toCapability())
+          .toList(),
+      resourcesSupported: json['resourcesSupported'] as bool,
+      semanticVersion: json['semanticVersion'] as String,
+      templateUrl: json['templateUrl'] as String,
+      sourceCodeArchiveUrl: json['sourceCodeArchiveUrl'] as String?,
+      sourceCodeUrl: json['sourceCodeUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final creationTime = this.creationTime;
+    final parameterDefinitions = this.parameterDefinitions;
+    final requiredCapabilities = this.requiredCapabilities;
+    final resourcesSupported = this.resourcesSupported;
+    final semanticVersion = this.semanticVersion;
+    final templateUrl = this.templateUrl;
+    final sourceCodeArchiveUrl = this.sourceCodeArchiveUrl;
+    final sourceCodeUrl = this.sourceCodeUrl;
+    return {
+      'applicationId': applicationId,
+      'creationTime': creationTime,
+      'parameterDefinitions': parameterDefinitions,
+      'requiredCapabilities':
+          requiredCapabilities.map((e) => e.toValue()).toList(),
+      'resourcesSupported': resourcesSupported,
+      'semanticVersion': semanticVersion,
+      'templateUrl': templateUrl,
+      if (sourceCodeArchiveUrl != null)
+        'sourceCodeArchiveUrl': sourceCodeArchiveUrl,
+      if (sourceCodeUrl != null) 'sourceCodeUrl': sourceCodeUrl,
+    };
+  }
 }
 
 /// An application version summary.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class VersionSummary {
   /// The application Amazon Resource Name (ARN).
-  @_s.JsonKey(name: 'applicationId')
   final String applicationId;
 
   /// The date and time this resource was created.
-  @_s.JsonKey(name: 'creationTime')
   final String creationTime;
 
   /// The semantic version of the application:
@@ -2128,52 +2539,70 @@ class VersionSummary {
   ///
   /// <a href="https://semver.org/">https://semver.org/</a>
   ///
-  @_s.JsonKey(name: 'semanticVersion')
   final String semanticVersion;
 
   /// A link to a public repository for the source code of your application, for
   /// example the URL of a specific GitHub commit.
-  @_s.JsonKey(name: 'sourceCodeUrl')
-  final String sourceCodeUrl;
+  final String? sourceCodeUrl;
 
   VersionSummary({
-    @_s.required this.applicationId,
-    @_s.required this.creationTime,
-    @_s.required this.semanticVersion,
+    required this.applicationId,
+    required this.creationTime,
+    required this.semanticVersion,
     this.sourceCodeUrl,
   });
-  factory VersionSummary.fromJson(Map<String, dynamic> json) =>
-      _$VersionSummaryFromJson(json);
+
+  factory VersionSummary.fromJson(Map<String, dynamic> json) {
+    return VersionSummary(
+      applicationId: json['applicationId'] as String,
+      creationTime: json['creationTime'] as String,
+      semanticVersion: json['semanticVersion'] as String,
+      sourceCodeUrl: json['sourceCodeUrl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final applicationId = this.applicationId;
+    final creationTime = this.creationTime;
+    final semanticVersion = this.semanticVersion;
+    final sourceCodeUrl = this.sourceCodeUrl;
+    return {
+      'applicationId': applicationId,
+      'creationTime': creationTime,
+      'semanticVersion': semanticVersion,
+      if (sourceCodeUrl != null) 'sourceCodeUrl': sourceCodeUrl,
+    };
+  }
 }
 
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class ConflictException extends _s.GenericAwsException {
-  ConflictException({String type, String message})
+  ConflictException({String? type, String? message})
       : super(type: type, code: 'ConflictException', message: message);
 }
 
 class ForbiddenException extends _s.GenericAwsException {
-  ForbiddenException({String type, String message})
+  ForbiddenException({String? type, String? message})
       : super(type: type, code: 'ForbiddenException', message: message);
 }
 
 class InternalServerErrorException extends _s.GenericAwsException {
-  InternalServerErrorException({String type, String message})
+  InternalServerErrorException({String? type, String? message})
       : super(
             type: type, code: 'InternalServerErrorException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

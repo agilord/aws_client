@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,31 +11,23 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2015-04-08.g.dart';
 
 /// Amazon WorkSpaces enables you to provision virtual, cloud-based Microsoft
 /// Windows and Amazon Linux desktops for your users.
 class WorkSpaces {
   final _s.JsonProtocol _protocol;
   WorkSpaces({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -69,8 +62,8 @@ class WorkSpaces {
   /// Parameter [resourceId] :
   /// The identifier of the directory to associate the connection alias with.
   Future<AssociateConnectionAliasResult> associateConnectionAlias({
-    @_s.required String aliasId,
-    @_s.required String resourceId,
+    required String aliasId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
     _s.validateStringLength(
@@ -78,12 +71,6 @@ class WorkSpaces {
       aliasId,
       13,
       68,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -129,8 +116,8 @@ class WorkSpaces {
   /// Parameter [groupIds] :
   /// The identifiers of one or more IP access control groups.
   Future<void> associateIpGroups({
-    @_s.required String directoryId,
-    @_s.required List<String> groupIds,
+    required String directoryId,
+    required List<String> groupIds,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringLength(
@@ -140,18 +127,12 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupIds, 'groupIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.AssociateIpGroups'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -162,8 +143,6 @@ class WorkSpaces {
         'GroupIds': groupIds,
       },
     );
-
-    return AssociateIpGroupsResult.fromJson(jsonResponse.body);
   }
 
   /// Adds one or more rules to the specified IP access control group.
@@ -183,22 +162,16 @@ class WorkSpaces {
   /// Parameter [userRules] :
   /// The rules to add to the group.
   Future<void> authorizeIpRules({
-    @_s.required String groupId,
-    @_s.required List<IpRuleItem> userRules,
+    required String groupId,
+    required List<IpRuleItem> userRules,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.AuthorizeIpRules'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -209,8 +182,6 @@ class WorkSpaces {
         'UserRules': userRules,
       },
     );
-
-    return AuthorizeIpRulesResult.fromJson(jsonResponse.body);
   }
 
   /// Copies the specified image from the specified Region to the current
@@ -256,11 +227,11 @@ class WorkSpaces {
   /// Parameter [tags] :
   /// The tags for the image.
   Future<CopyWorkspaceImageResult> copyWorkspaceImage({
-    @_s.required String name,
-    @_s.required String sourceImageId,
-    @_s.required String sourceRegion,
-    String description,
-    List<Tag> tags,
+    required String name,
+    required String sourceImageId,
+    required String sourceRegion,
+    String? description,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -270,19 +241,7 @@ class WorkSpaces {
       64,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'name',
-      name,
-      r'''^[a-zA-Z0-9_./()\\-]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceImageId, 'sourceImageId');
-    _s.validateStringPattern(
-      'sourceImageId',
-      sourceImageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceRegion, 'sourceRegion');
     _s.validateStringLength(
       'sourceRegion',
@@ -291,22 +250,11 @@ class WorkSpaces {
       31,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'sourceRegion',
-      sourceRegion,
-      r'''^[-0-9a-z]{1,31}$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'description',
       description,
       1,
       256,
-    );
-    _s.validateStringPattern(
-      'description',
-      description,
-      r'''^[a-zA-Z0-9_./() -]+$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -355,8 +303,8 @@ class WorkSpaces {
   /// Parameter [tags] :
   /// The tags to associate with the connection alias.
   Future<CreateConnectionAliasResult> createConnectionAlias({
-    @_s.required String connectionString,
-    List<Tag> tags,
+    required String connectionString,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(connectionString, 'connectionString');
     _s.validateStringLength(
@@ -364,12 +312,6 @@ class WorkSpaces {
       connectionString,
       1,
       255,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'connectionString',
-      connectionString,
-      r'''^[.0-9a-zA-Z\-]{1,255}$''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -423,10 +365,10 @@ class WorkSpaces {
   /// Parameter [userRules] :
   /// The rules to add to the group.
   Future<CreateIpGroupResult> createIpGroup({
-    @_s.required String groupName,
-    String groupDesc,
-    List<Tag> tags,
-    List<IpRuleItem> userRules,
+    required String groupName,
+    String? groupDesc,
+    List<Tag>? tags,
+    List<IpRuleItem>? userRules,
   }) async {
     ArgumentError.checkNotNull(groupName, 'groupName');
     final headers = <String, String>{
@@ -464,8 +406,8 @@ class WorkSpaces {
   /// Parameter [tags] :
   /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
   Future<void> createTags({
-    @_s.required String resourceId,
-    @_s.required List<Tag> tags,
+    required String resourceId,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -480,7 +422,7 @@ class WorkSpaces {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.CreateTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -491,8 +433,86 @@ class WorkSpaces {
         'Tags': tags,
       },
     );
+  }
 
-    return CreateTagsResult.fromJson(jsonResponse.body);
+  /// Creates the specified WorkSpace bundle. For more information about
+  /// creating WorkSpace bundles, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/create-custom-bundle.html">
+  /// Create a Custom WorkSpaces Image and Bundle</a>.
+  ///
+  /// May throw [ResourceUnavailableException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [bundleDescription] :
+  /// The description of the bundle.
+  ///
+  /// Parameter [bundleName] :
+  /// The name of the bundle.
+  ///
+  /// Parameter [imageId] :
+  /// The identifier of the image that is used to create the bundle.
+  ///
+  /// Parameter [tags] :
+  /// The tags associated with the bundle.
+  /// <note>
+  /// To add tags at the same time when you're creating the bundle, you must
+  /// create an IAM policy that grants your IAM user permissions to use
+  /// <code>workspaces:CreateTags</code>.
+  /// </note>
+  Future<CreateWorkspaceBundleResult> createWorkspaceBundle({
+    required String bundleDescription,
+    required String bundleName,
+    required ComputeType computeType,
+    required String imageId,
+    required UserStorage userStorage,
+    RootStorage? rootStorage,
+    List<Tag>? tags,
+  }) async {
+    ArgumentError.checkNotNull(bundleDescription, 'bundleDescription');
+    _s.validateStringLength(
+      'bundleDescription',
+      bundleDescription,
+      1,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(bundleName, 'bundleName');
+    _s.validateStringLength(
+      'bundleName',
+      bundleName,
+      1,
+      64,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(computeType, 'computeType');
+    ArgumentError.checkNotNull(imageId, 'imageId');
+    ArgumentError.checkNotNull(userStorage, 'userStorage');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateWorkspaceBundle'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BundleDescription': bundleDescription,
+        'BundleName': bundleName,
+        'ComputeType': computeType,
+        'ImageId': imageId,
+        'UserStorage': userStorage,
+        if (rootStorage != null) 'RootStorage': rootStorage,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateWorkspaceBundleResult.fromJson(jsonResponse.body);
   }
 
   /// Creates one or more WorkSpaces.
@@ -506,7 +526,7 @@ class WorkSpaces {
   /// Parameter [workspaces] :
   /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
   Future<CreateWorkspacesResult> createWorkspaces({
-    @_s.required List<WorkspaceRequest> workspaces,
+    required List<WorkspaceRequest> workspaces,
   }) async {
     ArgumentError.checkNotNull(workspaces, 'workspaces');
     final headers = <String, String>{
@@ -556,7 +576,7 @@ class WorkSpaces {
   /// Parameter [aliasId] :
   /// The identifier of the connection alias to delete.
   Future<void> deleteConnectionAlias({
-    @_s.required String aliasId,
+    required String aliasId,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
     _s.validateStringLength(
@@ -566,17 +586,11 @@ class WorkSpaces {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteConnectionAlias'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -586,8 +600,6 @@ class WorkSpaces {
         'AliasId': aliasId,
       },
     );
-
-    return DeleteConnectionAliasResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified IP access control group.
@@ -603,20 +615,14 @@ class WorkSpaces {
   /// Parameter [groupId] :
   /// The identifier of the IP access control group.
   Future<void> deleteIpGroup({
-    @_s.required String groupId,
+    required String groupId,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteIpGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -626,8 +632,6 @@ class WorkSpaces {
         'GroupId': groupId,
       },
     );
-
-    return DeleteIpGroupResult.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified tags from the specified WorkSpaces resource.
@@ -643,8 +647,8 @@ class WorkSpaces {
   /// Parameter [tagKeys] :
   /// The tag keys.
   Future<void> deleteTags({
-    @_s.required String resourceId,
-    @_s.required List<String> tagKeys,
+    required String resourceId,
+    required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -659,7 +663,7 @@ class WorkSpaces {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteTags'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -670,8 +674,37 @@ class WorkSpaces {
         'TagKeys': tagKeys,
       },
     );
+  }
 
-    return DeleteTagsResult.fromJson(jsonResponse.body);
+  /// Deletes the specified WorkSpace bundle. For more information about
+  /// deleting WorkSpace bundles, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete_bundle.html">
+  /// Delete a Custom WorkSpaces Bundle or Image</a>.
+  ///
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAssociatedException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [bundleId] :
+  /// The identifier of the bundle.
+  Future<void> deleteWorkspaceBundle({
+    String? bundleId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DeleteWorkspaceBundle'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (bundleId != null) 'BundleId': bundleId,
+      },
+    );
   }
 
   /// Deletes the specified image from your account. To delete an image, you
@@ -685,20 +718,14 @@ class WorkSpaces {
   /// Parameter [imageId] :
   /// The identifier of the image.
   Future<void> deleteWorkspaceImage({
-    @_s.required String imageId,
+    required String imageId,
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
-    _s.validateStringPattern(
-      'imageId',
-      imageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeleteWorkspaceImage'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -708,8 +735,6 @@ class WorkSpaces {
         'ImageId': imageId,
       },
     );
-
-    return DeleteWorkspaceImageResult.fromJson(jsonResponse.body);
   }
 
   /// Deregisters the specified directory. This operation is asynchronous and
@@ -743,7 +768,7 @@ class WorkSpaces {
   /// directory, you must remove them before you deregister the directory, or
   /// you will receive an OperationNotSupportedException error.
   Future<void> deregisterWorkspaceDirectory({
-    @_s.required String directoryId,
+    required String directoryId,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringLength(
@@ -753,17 +778,11 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DeregisterWorkspaceDirectory'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -773,8 +792,6 @@ class WorkSpaces {
         'DirectoryId': directoryId,
       },
     );
-
-    return DeregisterWorkspaceDirectoryResult.fromJson(jsonResponse.body);
   }
 
   /// Retrieves a list that describes the configuration of Bring Your Own
@@ -806,7 +823,7 @@ class WorkSpaces {
   /// If you received a <code>NextToken</code> from a previous call that was
   /// paginated, provide this token to receive the next set of results.
   Future<DescribeAccountModificationsResult> describeAccountModifications({
-    String nextToken,
+    String? nextToken,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -842,7 +859,7 @@ class WorkSpaces {
   /// Parameter [resourceIds] :
   /// The resource identifier, in the form of directory IDs.
   Future<DescribeClientPropertiesResult> describeClientProperties({
-    @_s.required List<String> resourceIds,
+    required List<String> resourceIds,
   }) async {
     ArgumentError.checkNotNull(resourceIds, 'resourceIds');
     final headers = <String, String>{
@@ -885,9 +902,9 @@ class WorkSpaces {
   /// paginated, provide this token to receive the next set of results.
   Future<DescribeConnectionAliasPermissionsResult>
       describeConnectionAliasPermissions({
-    @_s.required String aliasId,
-    int maxResults,
-    String nextToken,
+    required String aliasId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
     _s.validateStringLength(
@@ -895,12 +912,6 @@ class WorkSpaces {
       aliasId,
       13,
       68,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -957,10 +968,10 @@ class WorkSpaces {
   /// Parameter [resourceId] :
   /// The identifier of the directory associated with the connection alias.
   Future<DescribeConnectionAliasesResult> describeConnectionAliases({
-    List<String> aliasIds,
-    int limit,
-    String nextToken,
-    String resourceId,
+    List<String>? aliasIds,
+    int? limit,
+    String? nextToken,
+    String? resourceId,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1016,9 +1027,9 @@ class WorkSpaces {
   /// If you received a <code>NextToken</code> from a previous call that was
   /// paginated, provide this token to receive the next set of results.
   Future<DescribeIpGroupsResult> describeIpGroups({
-    List<String> groupIds,
-    int maxResults,
-    String nextToken,
+    List<String>? groupIds,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1061,7 +1072,7 @@ class WorkSpaces {
   /// are WorkSpaces, registered directories, images, custom bundles, IP access
   /// control groups, and connection aliases.
   Future<DescribeTagsResult> describeTags({
-    @_s.required String resourceId,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1107,12 +1118,12 @@ class WorkSpaces {
   /// The owner of the bundles. You cannot combine this parameter with any other
   /// filter.
   ///
-  /// Specify <code>AMAZON</code> to describe the bundles provided by AWS or
-  /// null to describe the bundles that belong to your account.
+  /// To describe the bundles provided by AWS, specify <code>AMAZON</code>. To
+  /// describe the bundles that belong to your account, don't specify a value.
   Future<DescribeWorkspaceBundlesResult> describeWorkspaceBundles({
-    List<String> bundleIds,
-    String nextToken,
-    String owner,
+    List<String>? bundleIds,
+    String? nextToken,
+    String? owner,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1156,9 +1167,9 @@ class WorkSpaces {
   /// If you received a <code>NextToken</code> from a previous call that was
   /// paginated, provide this token to receive the next set of results.
   Future<DescribeWorkspaceDirectoriesResult> describeWorkspaceDirectories({
-    List<String> directoryIds,
-    int limit,
-    String nextToken,
+    List<String>? directoryIds,
+    int? limit,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'limit',
@@ -1210,17 +1221,11 @@ class WorkSpaces {
   /// paginated, provide this token to receive the next set of results.
   Future<DescribeWorkspaceImagePermissionsResult>
       describeWorkspaceImagePermissions({
-    @_s.required String imageId,
-    int maxResults,
-    String nextToken,
+    required String imageId,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(imageId, 'imageId');
-    _s.validateStringPattern(
-      'imageId',
-      imageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1272,10 +1277,10 @@ class WorkSpaces {
   /// If you received a <code>NextToken</code> from a previous call that was
   /// paginated, provide this token to receive the next set of results.
   Future<DescribeWorkspaceImagesResult> describeWorkspaceImages({
-    List<String> imageIds,
-    ImageType imageType,
-    int maxResults,
-    String nextToken,
+    List<String>? imageIds,
+    ImageType? imageType,
+    int? maxResults,
+    String? nextToken,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1319,15 +1324,9 @@ class WorkSpaces {
   /// Parameter [workspaceId] :
   /// The identifier of the WorkSpace.
   Future<DescribeWorkspaceSnapshotsResult> describeWorkspaceSnapshots({
-    @_s.required String workspaceId,
+    required String workspaceId,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceSnapshots'
@@ -1384,28 +1383,18 @@ class WorkSpaces {
   /// call <a>DescribeWorkspaces</a> with this identifier, no information is
   /// returned.
   Future<DescribeWorkspacesResult> describeWorkspaces({
-    String bundleId,
-    String directoryId,
-    int limit,
-    String nextToken,
-    String userName,
-    List<String> workspaceIds,
+    String? bundleId,
+    String? directoryId,
+    int? limit,
+    String? nextToken,
+    String? userName,
+    List<String>? workspaceIds,
   }) async {
-    _s.validateStringPattern(
-      'bundleId',
-      bundleId,
-      r'''^wsb-[0-9a-z]{8,63}$''',
-    );
     _s.validateStringLength(
       'directoryId',
       directoryId,
       10,
       65,
-    );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
     );
     _s.validateNumRange(
       'limit',
@@ -1460,8 +1449,8 @@ class WorkSpaces {
   /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
   Future<DescribeWorkspacesConnectionStatusResult>
       describeWorkspacesConnectionStatus({
-    String nextToken,
-    List<String> workspaceIds,
+    String? nextToken,
+    List<String>? workspaceIds,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -1509,7 +1498,7 @@ class WorkSpaces {
   /// Parameter [aliasId] :
   /// The identifier of the connection alias to disassociate.
   Future<void> disassociateConnectionAlias({
-    @_s.required String aliasId,
+    required String aliasId,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
     _s.validateStringLength(
@@ -1519,17 +1508,11 @@ class WorkSpaces {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DisassociateConnectionAlias'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1539,8 +1522,6 @@ class WorkSpaces {
         'AliasId': aliasId,
       },
     );
-
-    return DisassociateConnectionAliasResult.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified IP access control group from the specified
@@ -1557,8 +1538,8 @@ class WorkSpaces {
   /// Parameter [groupIds] :
   /// The identifiers of one or more IP access control groups.
   Future<void> disassociateIpGroups({
-    @_s.required String directoryId,
-    @_s.required List<String> groupIds,
+    required String directoryId,
+    required List<String> groupIds,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringLength(
@@ -1568,18 +1549,12 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(groupIds, 'groupIds');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.DisassociateIpGroups'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1590,8 +1565,6 @@ class WorkSpaces {
         'GroupIds': groupIds,
       },
     );
-
-    return DisassociateIpGroupsResult.fromJson(jsonResponse.body);
   }
 
   /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into
@@ -1642,20 +1615,14 @@ class WorkSpaces {
   /// Parameter [tags] :
   /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
   Future<ImportWorkspaceImageResult> importWorkspaceImage({
-    @_s.required String ec2ImageId,
-    @_s.required String imageDescription,
-    @_s.required String imageName,
-    @_s.required WorkspaceImageIngestionProcess ingestionProcess,
-    List<Application> applications,
-    List<Tag> tags,
+    required String ec2ImageId,
+    required String imageDescription,
+    required String imageName,
+    required WorkspaceImageIngestionProcess ingestionProcess,
+    List<Application>? applications,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(ec2ImageId, 'ec2ImageId');
-    _s.validateStringPattern(
-      'ec2ImageId',
-      ec2ImageId,
-      r'''^ami\-([a-f0-9]{8}|[a-f0-9]{17})$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(imageDescription, 'imageDescription');
     _s.validateStringLength(
       'imageDescription',
@@ -1664,24 +1631,12 @@ class WorkSpaces {
       256,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'imageDescription',
-      imageDescription,
-      r'''^[a-zA-Z0-9_./() -]+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(imageName, 'imageName');
     _s.validateStringLength(
       'imageName',
       imageName,
       1,
       64,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'imageName',
-      imageName,
-      r'''^[a-zA-Z0-9_./()\\-]+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(ingestionProcess, 'ingestionProcess');
@@ -1699,9 +1654,9 @@ class WorkSpaces {
         'Ec2ImageId': ec2ImageId,
         'ImageDescription': imageDescription,
         'ImageName': imageName,
-        'IngestionProcess': ingestionProcess?.toValue() ?? '',
+        'IngestionProcess': ingestionProcess.toValue(),
         if (applications != null)
-          'Applications': applications.map((e) => e?.toValue() ?? '').toList(),
+          'Applications': applications.map((e) => e.toValue()).toList(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1738,18 +1693,12 @@ class WorkSpaces {
   /// paginated, provide this token to receive the next set of results.
   Future<ListAvailableManagementCidrRangesResult>
       listAvailableManagementCidrRanges({
-    @_s.required String managementCidrRangeConstraint,
-    int maxResults,
-    String nextToken,
+    required String managementCidrRangeConstraint,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         managementCidrRangeConstraint, 'managementCidrRangeConstraint');
-    _s.validateStringPattern(
-      'managementCidrRangeConstraint',
-      managementCidrRangeConstraint,
-      r'''^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(3[0-2]|[1-2][0-9]|[0-9]))$''',
-      isRequired: true,
-    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -1811,23 +1760,11 @@ class WorkSpaces {
   /// Parameter [sourceWorkspaceId] :
   /// The identifier of the WorkSpace to migrate from.
   Future<MigrateWorkspaceResult> migrateWorkspace({
-    @_s.required String bundleId,
-    @_s.required String sourceWorkspaceId,
+    required String bundleId,
+    required String sourceWorkspaceId,
   }) async {
     ArgumentError.checkNotNull(bundleId, 'bundleId');
-    _s.validateStringPattern(
-      'bundleId',
-      bundleId,
-      r'''^wsb-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sourceWorkspaceId, 'sourceWorkspaceId');
-    _s.validateStringPattern(
-      'sourceWorkspaceId',
-      sourceWorkspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.MigrateWorkspace'
@@ -1867,19 +1804,14 @@ class WorkSpaces {
   /// Parameter [dedicatedTenancySupport] :
   /// The status of BYOL.
   Future<void> modifyAccount({
-    String dedicatedTenancyManagementCidrRange,
-    DedicatedTenancySupportEnum dedicatedTenancySupport,
+    String? dedicatedTenancyManagementCidrRange,
+    DedicatedTenancySupportEnum? dedicatedTenancySupport,
   }) async {
-    _s.validateStringPattern(
-      'dedicatedTenancyManagementCidrRange',
-      dedicatedTenancyManagementCidrRange,
-      r'''(^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.0\.0)(\/(16$))$''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyAccount'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1893,8 +1825,6 @@ class WorkSpaces {
           'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
       },
     );
-
-    return ModifyAccountResult.fromJson(jsonResponse.body);
   }
 
   /// Modifies the properties of the specified Amazon WorkSpaces clients.
@@ -1909,8 +1839,8 @@ class WorkSpaces {
   /// Parameter [resourceId] :
   /// The resource identifiers, in the form of directory IDs.
   Future<void> modifyClientProperties({
-    @_s.required ClientProperties clientProperties,
-    @_s.required String resourceId,
+    required ClientProperties clientProperties,
+    required String resourceId,
   }) async {
     ArgumentError.checkNotNull(clientProperties, 'clientProperties');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -1925,7 +1855,7 @@ class WorkSpaces {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyClientProperties'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1936,8 +1866,6 @@ class WorkSpaces {
         'ResourceId': resourceId,
       },
     );
-
-    return ModifyClientPropertiesResult.fromJson(jsonResponse.body);
   }
 
   /// Modifies the self-service WorkSpace management capabilities for your
@@ -1955,8 +1883,8 @@ class WorkSpaces {
   /// Parameter [selfservicePermissions] :
   /// The permissions to enable or disable self-service capabilities.
   Future<void> modifySelfservicePermissions({
-    @_s.required String resourceId,
-    @_s.required SelfservicePermissions selfservicePermissions,
+    required String resourceId,
+    required SelfservicePermissions selfservicePermissions,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -1966,19 +1894,13 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         selfservicePermissions, 'selfservicePermissions');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifySelfservicePermissions'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1989,8 +1911,6 @@ class WorkSpaces {
         'SelfservicePermissions': selfservicePermissions,
       },
     );
-
-    return ModifySelfservicePermissionsResult.fromJson(jsonResponse.body);
   }
 
   /// Specifies which devices and operating systems users can use to access
@@ -2007,8 +1927,8 @@ class WorkSpaces {
   /// Parameter [workspaceAccessProperties] :
   /// The device types and operating systems to enable or disable for access.
   Future<void> modifyWorkspaceAccessProperties({
-    @_s.required String resourceId,
-    @_s.required WorkspaceAccessProperties workspaceAccessProperties,
+    required String resourceId,
+    required WorkspaceAccessProperties workspaceAccessProperties,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -2018,19 +1938,13 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         workspaceAccessProperties, 'workspaceAccessProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceAccessProperties'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2041,8 +1955,6 @@ class WorkSpaces {
         'WorkspaceAccessProperties': workspaceAccessProperties,
       },
     );
-
-    return ModifyWorkspaceAccessPropertiesResult.fromJson(jsonResponse.body);
   }
 
   /// Modify the default properties used to create WorkSpaces.
@@ -2058,8 +1970,8 @@ class WorkSpaces {
   /// Parameter [workspaceCreationProperties] :
   /// The default properties for creating WorkSpaces.
   Future<void> modifyWorkspaceCreationProperties({
-    @_s.required String resourceId,
-    @_s.required WorkspaceCreationProperties workspaceCreationProperties,
+    required String resourceId,
+    required WorkspaceCreationProperties workspaceCreationProperties,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     _s.validateStringLength(
@@ -2069,19 +1981,13 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceId',
-      resourceId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         workspaceCreationProperties, 'workspaceCreationProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceCreationProperties'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2092,8 +1998,6 @@ class WorkSpaces {
         'WorkspaceCreationProperties': workspaceCreationProperties,
       },
     );
-
-    return ModifyWorkspaceCreationPropertiesResult.fromJson(jsonResponse.body);
   }
 
   /// Modifies the specified WorkSpace properties. For important information
@@ -2115,22 +2019,16 @@ class WorkSpaces {
   /// Parameter [workspaceProperties] :
   /// The properties of the WorkSpace.
   Future<void> modifyWorkspaceProperties({
-    @_s.required String workspaceId,
-    @_s.required WorkspaceProperties workspaceProperties,
+    required String workspaceId,
+    required WorkspaceProperties workspaceProperties,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workspaceProperties, 'workspaceProperties');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceProperties'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2141,8 +2039,6 @@ class WorkSpaces {
         'WorkspaceProperties': workspaceProperties,
       },
     );
-
-    return ModifyWorkspacePropertiesResult.fromJson(jsonResponse.body);
   }
 
   /// Sets the state of the specified WorkSpace.
@@ -2163,22 +2059,16 @@ class WorkSpaces {
   /// Parameter [workspaceState] :
   /// The WorkSpace state.
   Future<void> modifyWorkspaceState({
-    @_s.required String workspaceId,
-    @_s.required TargetWorkspaceState workspaceState,
+    required String workspaceId,
+    required TargetWorkspaceState workspaceState,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(workspaceState, 'workspaceState');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.ModifyWorkspaceState'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2186,11 +2076,9 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'WorkspaceId': workspaceId,
-        'WorkspaceState': workspaceState?.toValue() ?? '',
+        'WorkspaceState': workspaceState.toValue(),
       },
     );
-
-    return ModifyWorkspaceStateResult.fromJson(jsonResponse.body);
   }
 
   /// Reboots the specified WorkSpaces.
@@ -2204,7 +2092,7 @@ class WorkSpaces {
   /// Parameter [rebootWorkspaceRequests] :
   /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
   Future<RebootWorkspacesResult> rebootWorkspaces({
-    @_s.required List<RebootRequest> rebootWorkspaceRequests,
+    required List<RebootRequest> rebootWorkspaceRequests,
   }) async {
     ArgumentError.checkNotNull(
         rebootWorkspaceRequests, 'rebootWorkspaceRequests');
@@ -2243,7 +2131,7 @@ class WorkSpaces {
   /// Parameter [rebuildWorkspaceRequests] :
   /// The WorkSpace to rebuild. You can specify a single WorkSpace.
   Future<RebuildWorkspacesResult> rebuildWorkspaces({
-    @_s.required List<RebuildRequest> rebuildWorkspaceRequests,
+    required List<RebuildRequest> rebuildWorkspaceRequests,
   }) async {
     ArgumentError.checkNotNull(
         rebuildWorkspaceRequests, 'rebuildWorkspaceRequests');
@@ -2319,12 +2207,12 @@ class WorkSpaces {
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
   /// Your Own Windows Desktop Images</a>.
   Future<void> registerWorkspaceDirectory({
-    @_s.required String directoryId,
-    @_s.required bool enableWorkDocs,
-    bool enableSelfService,
-    List<String> subnetIds,
-    List<Tag> tags,
-    Tenancy tenancy,
+    required String directoryId,
+    required bool enableWorkDocs,
+    bool? enableSelfService,
+    List<String>? subnetIds,
+    List<Tag>? tags,
+    Tenancy? tenancy,
   }) async {
     ArgumentError.checkNotNull(directoryId, 'directoryId');
     _s.validateStringLength(
@@ -2334,18 +2222,12 @@ class WorkSpaces {
       65,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'directoryId',
-      directoryId,
-      r'''^d-[0-9a-f]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(enableWorkDocs, 'enableWorkDocs');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RegisterWorkspaceDirectory'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2360,8 +2242,6 @@ class WorkSpaces {
         if (tenancy != null) 'Tenancy': tenancy.toValue(),
       },
     );
-
-    return RegisterWorkspaceDirectoryResult.fromJson(jsonResponse.body);
   }
 
   /// Restores the specified WorkSpace to its last known healthy state.
@@ -2385,20 +2265,14 @@ class WorkSpaces {
   /// Parameter [workspaceId] :
   /// The identifier of the WorkSpace.
   Future<void> restoreWorkspace({
-    @_s.required String workspaceId,
+    required String workspaceId,
   }) async {
     ArgumentError.checkNotNull(workspaceId, 'workspaceId');
-    _s.validateStringPattern(
-      'workspaceId',
-      workspaceId,
-      r'''^ws-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RestoreWorkspace'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2408,8 +2282,6 @@ class WorkSpaces {
         'WorkspaceId': workspaceId,
       },
     );
-
-    return RestoreWorkspaceResult.fromJson(jsonResponse.body);
   }
 
   /// Removes one or more rules from the specified IP access control group.
@@ -2425,22 +2297,16 @@ class WorkSpaces {
   /// Parameter [userRules] :
   /// The rules to remove from the group.
   Future<void> revokeIpRules({
-    @_s.required String groupId,
-    @_s.required List<String> userRules,
+    required String groupId,
+    required List<String> userRules,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.RevokeIpRules'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2451,8 +2317,6 @@ class WorkSpaces {
         'UserRules': userRules,
       },
     );
-
-    return RevokeIpRulesResult.fromJson(jsonResponse.body);
   }
 
   /// Starts the specified WorkSpaces.
@@ -2463,7 +2327,7 @@ class WorkSpaces {
   /// Parameter [startWorkspaceRequests] :
   /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
   Future<StartWorkspacesResult> startWorkspaces({
-    @_s.required List<StartRequest> startWorkspaceRequests,
+    required List<StartRequest> startWorkspaceRequests,
   }) async {
     ArgumentError.checkNotNull(
         startWorkspaceRequests, 'startWorkspaceRequests');
@@ -2494,7 +2358,7 @@ class WorkSpaces {
   /// Parameter [stopWorkspaceRequests] :
   /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
   Future<StopWorkspacesResult> stopWorkspaces({
-    @_s.required List<StopRequest> stopWorkspaceRequests,
+    required List<StopRequest> stopWorkspaceRequests,
   }) async {
     ArgumentError.checkNotNull(stopWorkspaceRequests, 'stopWorkspaceRequests');
     final headers = <String, String>{
@@ -2552,7 +2416,7 @@ class WorkSpaces {
   /// Parameter [terminateWorkspaceRequests] :
   /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
   Future<TerminateWorkspacesResult> terminateWorkspaces({
-    @_s.required List<TerminateRequest> terminateWorkspaceRequests,
+    required List<TerminateRequest> terminateWorkspaceRequests,
   }) async {
     ArgumentError.checkNotNull(
         terminateWorkspaceRequests, 'terminateWorkspaceRequests');
@@ -2616,8 +2480,8 @@ class WorkSpaces {
   /// Indicates whether to share or unshare the connection alias with the
   /// specified AWS account.
   Future<void> updateConnectionAliasPermission({
-    @_s.required String aliasId,
-    @_s.required ConnectionAliasPermission connectionAliasPermission,
+    required String aliasId,
+    required ConnectionAliasPermission connectionAliasPermission,
   }) async {
     ArgumentError.checkNotNull(aliasId, 'aliasId');
     _s.validateStringLength(
@@ -2627,19 +2491,13 @@ class WorkSpaces {
       68,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'aliasId',
-      aliasId,
-      r'''^wsca-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         connectionAliasPermission, 'connectionAliasPermission');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.UpdateConnectionAliasPermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2650,8 +2508,6 @@ class WorkSpaces {
         'ConnectionAliasPermission': connectionAliasPermission,
       },
     );
-
-    return UpdateConnectionAliasPermissionResult.fromJson(jsonResponse.body);
   }
 
   /// Replaces the current rules of the specified IP access control group with
@@ -2669,22 +2525,16 @@ class WorkSpaces {
   /// Parameter [userRules] :
   /// One or more rules.
   Future<void> updateRulesOfIpGroup({
-    @_s.required String groupId,
-    @_s.required List<IpRuleItem> userRules,
+    required String groupId,
+    required List<IpRuleItem> userRules,
   }) async {
     ArgumentError.checkNotNull(groupId, 'groupId');
-    _s.validateStringPattern(
-      'groupId',
-      groupId,
-      r'''wsipg-[0-9a-z]{8,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(userRules, 'userRules');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.UpdateRulesOfIpGroup'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2695,8 +2545,48 @@ class WorkSpaces {
         'UserRules': userRules,
       },
     );
+  }
 
-    return UpdateRulesOfIpGroupResult.fromJson(jsonResponse.body);
+  /// Updates a WorkSpace bundle with a new image. For more information about
+  /// updating WorkSpace bundles, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-custom-bundle.html">
+  /// Update a Custom WorkSpaces Bundle</a>.
+  /// <important>
+  /// Existing WorkSpaces aren't automatically updated when you update the
+  /// bundle that they're based on. To update existing WorkSpaces that are based
+  /// on a bundle that you've updated, you must either rebuild the WorkSpaces or
+  /// delete and recreate them.
+  /// </important>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [bundleId] :
+  /// The identifier of the bundle.
+  ///
+  /// Parameter [imageId] :
+  /// The identifier of the image.
+  Future<void> updateWorkspaceBundle({
+    String? bundleId,
+    String? imageId,
+  }) async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.UpdateWorkspaceBundle'
+    };
+    await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (bundleId != null) 'BundleId': bundleId,
+        if (imageId != null) 'ImageId': imageId,
+      },
+    );
   }
 
   /// Shares or unshares an image with one account in the same AWS Region by
@@ -2751,30 +2641,18 @@ class WorkSpaces {
   /// account ID.
   /// </important>
   Future<void> updateWorkspaceImagePermission({
-    @_s.required bool allowCopyImage,
-    @_s.required String imageId,
-    @_s.required String sharedAccountId,
+    required bool allowCopyImage,
+    required String imageId,
+    required String sharedAccountId,
   }) async {
     ArgumentError.checkNotNull(allowCopyImage, 'allowCopyImage');
     ArgumentError.checkNotNull(imageId, 'imageId');
-    _s.validateStringPattern(
-      'imageId',
-      imageId,
-      r'''wsi-[0-9a-z]{9,63}$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
-    _s.validateStringPattern(
-      'sharedAccountId',
-      sharedAccountId,
-      r'''^\d{12}$''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'WorkspacesService.UpdateWorkspaceImagePermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2786,53 +2664,60 @@ class WorkSpaces {
         'SharedAccountId': sharedAccountId,
       },
     );
-
-    return UpdateWorkspaceImagePermissionResult.fromJson(jsonResponse.body);
   }
 }
 
 enum AccessPropertyValue {
-  @_s.JsonValue('ALLOW')
   allow,
-  @_s.JsonValue('DENY')
   deny,
+}
+
+extension on AccessPropertyValue {
+  String toValue() {
+    switch (this) {
+      case AccessPropertyValue.allow:
+        return 'ALLOW';
+      case AccessPropertyValue.deny:
+        return 'DENY';
+    }
+  }
+}
+
+extension on String {
+  AccessPropertyValue toAccessPropertyValue() {
+    switch (this) {
+      case 'ALLOW':
+        return AccessPropertyValue.allow;
+      case 'DENY':
+        return AccessPropertyValue.deny;
+    }
+    throw Exception('$this is not known in enum AccessPropertyValue');
+  }
 }
 
 /// Describes a modification to the configuration of Bring Your Own License
 /// (BYOL) for the specified account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AccountModification {
   /// The IP address range, specified as an IPv4 CIDR block, for the management
   /// network interface used for the account.
-  @_s.JsonKey(name: 'DedicatedTenancyManagementCidrRange')
-  final String dedicatedTenancyManagementCidrRange;
+  final String? dedicatedTenancyManagementCidrRange;
 
   /// The status of BYOL (whether BYOL is being enabled or disabled).
-  @_s.JsonKey(name: 'DedicatedTenancySupport')
-  final DedicatedTenancySupportResultEnum dedicatedTenancySupport;
+  final DedicatedTenancySupportResultEnum? dedicatedTenancySupport;
 
   /// The error code that is returned if the configuration of BYOL cannot be
   /// modified.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The text of the error message that is returned if the configuration of BYOL
   /// cannot be modified.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The state of the modification to the configuration of BYOL.
-  @_s.JsonKey(name: 'ModificationState')
-  final DedicatedTenancyModificationStateEnum modificationState;
+  final DedicatedTenancyModificationStateEnum? modificationState;
 
   /// The timestamp when the modification of the BYOL configuration was started.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'StartTime')
-  final DateTime startTime;
+  final DateTime? startTime;
 
   AccountModification({
     this.dedicatedTenancyManagementCidrRange,
@@ -2842,14 +2727,46 @@ class AccountModification {
     this.modificationState,
     this.startTime,
   });
-  factory AccountModification.fromJson(Map<String, dynamic> json) =>
-      _$AccountModificationFromJson(json);
+
+  factory AccountModification.fromJson(Map<String, dynamic> json) {
+    return AccountModification(
+      dedicatedTenancyManagementCidrRange:
+          json['DedicatedTenancyManagementCidrRange'] as String?,
+      dedicatedTenancySupport: (json['DedicatedTenancySupport'] as String?)
+          ?.toDedicatedTenancySupportResultEnum(),
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      modificationState: (json['ModificationState'] as String?)
+          ?.toDedicatedTenancyModificationStateEnum(),
+      startTime: timeStampFromJson(json['StartTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dedicatedTenancyManagementCidrRange =
+        this.dedicatedTenancyManagementCidrRange;
+    final dedicatedTenancySupport = this.dedicatedTenancySupport;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final modificationState = this.modificationState;
+    final startTime = this.startTime;
+    return {
+      if (dedicatedTenancyManagementCidrRange != null)
+        'DedicatedTenancyManagementCidrRange':
+            dedicatedTenancyManagementCidrRange,
+      if (dedicatedTenancySupport != null)
+        'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (modificationState != null)
+        'ModificationState': modificationState.toValue(),
+      if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
+    };
+  }
 }
 
 enum Application {
-  @_s.JsonValue('Microsoft_Office_2016')
   microsoftOffice_2016,
-  @_s.JsonValue('Microsoft_Office_2019')
   microsoftOffice_2019,
 }
 
@@ -2861,175 +2778,270 @@ extension on Application {
       case Application.microsoftOffice_2019:
         return 'Microsoft_Office_2019';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  Application toApplication() {
+    switch (this) {
+      case 'Microsoft_Office_2016':
+        return Application.microsoftOffice_2016;
+      case 'Microsoft_Office_2019':
+        return Application.microsoftOffice_2019;
+    }
+    throw Exception('$this is not known in enum Application');
+  }
+}
+
 class AssociateConnectionAliasResult {
   /// The identifier of the connection alias association. You use the connection
   /// identifier in the DNS TXT record when you're configuring your DNS routing
   /// policies.
-  @_s.JsonKey(name: 'ConnectionIdentifier')
-  final String connectionIdentifier;
+  final String? connectionIdentifier;
 
   AssociateConnectionAliasResult({
     this.connectionIdentifier,
   });
-  factory AssociateConnectionAliasResult.fromJson(Map<String, dynamic> json) =>
-      _$AssociateConnectionAliasResultFromJson(json);
+
+  factory AssociateConnectionAliasResult.fromJson(Map<String, dynamic> json) {
+    return AssociateConnectionAliasResult(
+      connectionIdentifier: json['ConnectionIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionIdentifier = this.connectionIdentifier;
+    return {
+      if (connectionIdentifier != null)
+        'ConnectionIdentifier': connectionIdentifier,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class AssociateIpGroupsResult {
   AssociateIpGroupsResult();
-  factory AssociateIpGroupsResult.fromJson(Map<String, dynamic> json) =>
-      _$AssociateIpGroupsResultFromJson(json);
+
+  factory AssociateIpGroupsResult.fromJson(Map<String, dynamic> _) {
+    return AssociateIpGroupsResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum AssociationStatus {
-  @_s.JsonValue('NOT_ASSOCIATED')
   notAssociated,
-  @_s.JsonValue('ASSOCIATED_WITH_OWNER_ACCOUNT')
   associatedWithOwnerAccount,
-  @_s.JsonValue('ASSOCIATED_WITH_SHARED_ACCOUNT')
   associatedWithSharedAccount,
-  @_s.JsonValue('PENDING_ASSOCIATION')
   pendingAssociation,
-  @_s.JsonValue('PENDING_DISASSOCIATION')
   pendingDisassociation,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on AssociationStatus {
+  String toValue() {
+    switch (this) {
+      case AssociationStatus.notAssociated:
+        return 'NOT_ASSOCIATED';
+      case AssociationStatus.associatedWithOwnerAccount:
+        return 'ASSOCIATED_WITH_OWNER_ACCOUNT';
+      case AssociationStatus.associatedWithSharedAccount:
+        return 'ASSOCIATED_WITH_SHARED_ACCOUNT';
+      case AssociationStatus.pendingAssociation:
+        return 'PENDING_ASSOCIATION';
+      case AssociationStatus.pendingDisassociation:
+        return 'PENDING_DISASSOCIATION';
+    }
+  }
+}
+
+extension on String {
+  AssociationStatus toAssociationStatus() {
+    switch (this) {
+      case 'NOT_ASSOCIATED':
+        return AssociationStatus.notAssociated;
+      case 'ASSOCIATED_WITH_OWNER_ACCOUNT':
+        return AssociationStatus.associatedWithOwnerAccount;
+      case 'ASSOCIATED_WITH_SHARED_ACCOUNT':
+        return AssociationStatus.associatedWithSharedAccount;
+      case 'PENDING_ASSOCIATION':
+        return AssociationStatus.pendingAssociation;
+      case 'PENDING_DISASSOCIATION':
+        return AssociationStatus.pendingDisassociation;
+    }
+    throw Exception('$this is not known in enum AssociationStatus');
+  }
+}
+
 class AuthorizeIpRulesResult {
   AuthorizeIpRulesResult();
-  factory AuthorizeIpRulesResult.fromJson(Map<String, dynamic> json) =>
-      _$AuthorizeIpRulesResultFromJson(json);
+
+  factory AuthorizeIpRulesResult.fromJson(Map<String, dynamic> _) {
+    return AuthorizeIpRulesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes an Amazon WorkSpaces client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ClientProperties {
   /// Specifies whether users can cache their credentials on the Amazon WorkSpaces
   /// client. When enabled, users can choose to reconnect to their WorkSpaces
   /// without re-entering their credentials.
-  @_s.JsonKey(name: 'ReconnectEnabled')
-  final ReconnectEnum reconnectEnabled;
+  final ReconnectEnum? reconnectEnabled;
 
   ClientProperties({
     this.reconnectEnabled,
   });
-  factory ClientProperties.fromJson(Map<String, dynamic> json) =>
-      _$ClientPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ClientPropertiesToJson(this);
+  factory ClientProperties.fromJson(Map<String, dynamic> json) {
+    return ClientProperties(
+      reconnectEnabled:
+          (json['ReconnectEnabled'] as String?)?.toReconnectEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final reconnectEnabled = this.reconnectEnabled;
+    return {
+      if (reconnectEnabled != null)
+        'ReconnectEnabled': reconnectEnabled.toValue(),
+    };
+  }
 }
 
 /// Information about the Amazon WorkSpaces client.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ClientPropertiesResult {
   /// Information about the Amazon WorkSpaces client.
-  @_s.JsonKey(name: 'ClientProperties')
-  final ClientProperties clientProperties;
+  final ClientProperties? clientProperties;
 
   /// The resource identifier, in the form of a directory ID.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   ClientPropertiesResult({
     this.clientProperties,
     this.resourceId,
   });
-  factory ClientPropertiesResult.fromJson(Map<String, dynamic> json) =>
-      _$ClientPropertiesResultFromJson(json);
+
+  factory ClientPropertiesResult.fromJson(Map<String, dynamic> json) {
+    return ClientPropertiesResult(
+      clientProperties: json['ClientProperties'] != null
+          ? ClientProperties.fromJson(
+              json['ClientProperties'] as Map<String, dynamic>)
+          : null,
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientProperties = this.clientProperties;
+    final resourceId = this.resourceId;
+    return {
+      if (clientProperties != null) 'ClientProperties': clientProperties,
+      if (resourceId != null) 'ResourceId': resourceId,
+    };
+  }
 }
 
 enum Compute {
-  @_s.JsonValue('VALUE')
   value,
-  @_s.JsonValue('STANDARD')
   standard,
-  @_s.JsonValue('PERFORMANCE')
   performance,
-  @_s.JsonValue('POWER')
   power,
-  @_s.JsonValue('GRAPHICS')
   graphics,
-  @_s.JsonValue('POWERPRO')
   powerpro,
-  @_s.JsonValue('GRAPHICSPRO')
   graphicspro,
 }
 
-/// Describes the compute type.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Compute {
+  String toValue() {
+    switch (this) {
+      case Compute.value:
+        return 'VALUE';
+      case Compute.standard:
+        return 'STANDARD';
+      case Compute.performance:
+        return 'PERFORMANCE';
+      case Compute.power:
+        return 'POWER';
+      case Compute.graphics:
+        return 'GRAPHICS';
+      case Compute.powerpro:
+        return 'POWERPRO';
+      case Compute.graphicspro:
+        return 'GRAPHICSPRO';
+    }
+  }
+}
+
+extension on String {
+  Compute toCompute() {
+    switch (this) {
+      case 'VALUE':
+        return Compute.value;
+      case 'STANDARD':
+        return Compute.standard;
+      case 'PERFORMANCE':
+        return Compute.performance;
+      case 'POWER':
+        return Compute.power;
+      case 'GRAPHICS':
+        return Compute.graphics;
+      case 'POWERPRO':
+        return Compute.powerpro;
+      case 'GRAPHICSPRO':
+        return Compute.graphicspro;
+    }
+    throw Exception('$this is not known in enum Compute');
+  }
+}
+
+/// Describes the compute type of the bundle.
 class ComputeType {
   /// The compute type.
-  @_s.JsonKey(name: 'Name')
-  final Compute name;
+  final Compute? name;
 
   ComputeType({
     this.name,
   });
-  factory ComputeType.fromJson(Map<String, dynamic> json) =>
-      _$ComputeTypeFromJson(json);
+
+  factory ComputeType.fromJson(Map<String, dynamic> json) {
+    return ComputeType(
+      name: (json['Name'] as String?)?.toCompute(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final name = this.name;
+    return {
+      if (name != null) 'Name': name.toValue(),
+    };
+  }
 }
 
 /// Describes a connection alias. Connection aliases are used for cross-Region
 /// redirection. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConnectionAlias {
   /// The identifier of the connection alias.
-  @_s.JsonKey(name: 'AliasId')
-  final String aliasId;
+  final String? aliasId;
 
   /// The association status of the connection alias.
-  @_s.JsonKey(name: 'Associations')
-  final List<ConnectionAliasAssociation> associations;
+  final List<ConnectionAliasAssociation>? associations;
 
   /// The connection string specified for the connection alias. The connection
   /// string must be in the form of a fully qualified domain name (FQDN), such as
   /// <code>www.example.com</code>.
-  @_s.JsonKey(name: 'ConnectionString')
-  final String connectionString;
+  final String? connectionString;
 
   /// The identifier of the AWS account that owns the connection alias.
-  @_s.JsonKey(name: 'OwnerAccountId')
-  final String ownerAccountId;
+  final String? ownerAccountId;
 
   /// The current state of the connection alias.
-  @_s.JsonKey(name: 'State')
-  final ConnectionAliasState state;
+  final ConnectionAliasState? state;
 
   ConnectionAlias({
     this.aliasId,
@@ -3038,38 +3050,56 @@ class ConnectionAlias {
     this.ownerAccountId,
     this.state,
   });
-  factory ConnectionAlias.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionAliasFromJson(json);
+
+  factory ConnectionAlias.fromJson(Map<String, dynamic> json) {
+    return ConnectionAlias(
+      aliasId: json['AliasId'] as String?,
+      associations: (json['Associations'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ConnectionAliasAssociation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      connectionString: json['ConnectionString'] as String?,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      state: (json['State'] as String?)?.toConnectionAliasState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliasId = this.aliasId;
+    final associations = this.associations;
+    final connectionString = this.connectionString;
+    final ownerAccountId = this.ownerAccountId;
+    final state = this.state;
+    return {
+      if (aliasId != null) 'AliasId': aliasId,
+      if (associations != null) 'Associations': associations,
+      if (connectionString != null) 'ConnectionString': connectionString,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 /// Describes a connection alias association that is used for cross-Region
 /// redirection. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ConnectionAliasAssociation {
   /// The identifier of the AWS account that associated the connection alias with
   /// a directory.
-  @_s.JsonKey(name: 'AssociatedAccountId')
-  final String associatedAccountId;
+  final String? associatedAccountId;
 
   /// The association status of the connection alias.
-  @_s.JsonKey(name: 'AssociationStatus')
-  final AssociationStatus associationStatus;
+  final AssociationStatus? associationStatus;
 
   /// The identifier of the connection alias association. You use the connection
   /// identifier in the DNS TXT record when you're configuring your DNS routing
   /// policies.
-  @_s.JsonKey(name: 'ConnectionIdentifier')
-  final String connectionIdentifier;
+  final String? connectionIdentifier;
 
   /// The identifier of the directory associated with a connection alias.
-  @_s.JsonKey(name: 'ResourceId')
-  final String resourceId;
+  final String? resourceId;
 
   ConnectionAliasAssociation({
     this.associatedAccountId,
@@ -3077,128 +3107,239 @@ class ConnectionAliasAssociation {
     this.connectionIdentifier,
     this.resourceId,
   });
-  factory ConnectionAliasAssociation.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionAliasAssociationFromJson(json);
+
+  factory ConnectionAliasAssociation.fromJson(Map<String, dynamic> json) {
+    return ConnectionAliasAssociation(
+      associatedAccountId: json['AssociatedAccountId'] as String?,
+      associationStatus:
+          (json['AssociationStatus'] as String?)?.toAssociationStatus(),
+      connectionIdentifier: json['ConnectionIdentifier'] as String?,
+      resourceId: json['ResourceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final associatedAccountId = this.associatedAccountId;
+    final associationStatus = this.associationStatus;
+    final connectionIdentifier = this.connectionIdentifier;
+    final resourceId = this.resourceId;
+    return {
+      if (associatedAccountId != null)
+        'AssociatedAccountId': associatedAccountId,
+      if (associationStatus != null)
+        'AssociationStatus': associationStatus.toValue(),
+      if (connectionIdentifier != null)
+        'ConnectionIdentifier': connectionIdentifier,
+      if (resourceId != null) 'ResourceId': resourceId,
+    };
+  }
 }
 
 /// Describes the permissions for a connection alias. Connection aliases are
 /// used for cross-Region redirection. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
 /// Cross-Region Redirection for Amazon WorkSpaces</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class ConnectionAliasPermission {
   /// Indicates whether the specified AWS account is allowed to associate the
   /// connection alias with a directory.
-  @_s.JsonKey(name: 'AllowAssociation')
   final bool allowAssociation;
 
   /// The identifier of the AWS account that the connection alias is shared with.
-  @_s.JsonKey(name: 'SharedAccountId')
   final String sharedAccountId;
 
   ConnectionAliasPermission({
-    @_s.required this.allowAssociation,
-    @_s.required this.sharedAccountId,
+    required this.allowAssociation,
+    required this.sharedAccountId,
   });
-  factory ConnectionAliasPermission.fromJson(Map<String, dynamic> json) =>
-      _$ConnectionAliasPermissionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConnectionAliasPermissionToJson(this);
+  factory ConnectionAliasPermission.fromJson(Map<String, dynamic> json) {
+    return ConnectionAliasPermission(
+      allowAssociation: json['AllowAssociation'] as bool,
+      sharedAccountId: json['SharedAccountId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final allowAssociation = this.allowAssociation;
+    final sharedAccountId = this.sharedAccountId;
+    return {
+      'AllowAssociation': allowAssociation,
+      'SharedAccountId': sharedAccountId,
+    };
+  }
 }
 
 enum ConnectionAliasState {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('CREATED')
   created,
-  @_s.JsonValue('DELETING')
   deleting,
 }
 
+extension on ConnectionAliasState {
+  String toValue() {
+    switch (this) {
+      case ConnectionAliasState.creating:
+        return 'CREATING';
+      case ConnectionAliasState.created:
+        return 'CREATED';
+      case ConnectionAliasState.deleting:
+        return 'DELETING';
+    }
+  }
+}
+
+extension on String {
+  ConnectionAliasState toConnectionAliasState() {
+    switch (this) {
+      case 'CREATING':
+        return ConnectionAliasState.creating;
+      case 'CREATED':
+        return ConnectionAliasState.created;
+      case 'DELETING':
+        return ConnectionAliasState.deleting;
+    }
+    throw Exception('$this is not known in enum ConnectionAliasState');
+  }
+}
+
 enum ConnectionState {
-  @_s.JsonValue('CONNECTED')
   connected,
-  @_s.JsonValue('DISCONNECTED')
   disconnected,
-  @_s.JsonValue('UNKNOWN')
   unknown,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ConnectionState {
+  String toValue() {
+    switch (this) {
+      case ConnectionState.connected:
+        return 'CONNECTED';
+      case ConnectionState.disconnected:
+        return 'DISCONNECTED';
+      case ConnectionState.unknown:
+        return 'UNKNOWN';
+    }
+  }
+}
+
+extension on String {
+  ConnectionState toConnectionState() {
+    switch (this) {
+      case 'CONNECTED':
+        return ConnectionState.connected;
+      case 'DISCONNECTED':
+        return ConnectionState.disconnected;
+      case 'UNKNOWN':
+        return ConnectionState.unknown;
+    }
+    throw Exception('$this is not known in enum ConnectionState');
+  }
+}
+
 class CopyWorkspaceImageResult {
   /// The identifier of the image.
-  @_s.JsonKey(name: 'ImageId')
-  final String imageId;
+  final String? imageId;
 
   CopyWorkspaceImageResult({
     this.imageId,
   });
-  factory CopyWorkspaceImageResult.fromJson(Map<String, dynamic> json) =>
-      _$CopyWorkspaceImageResultFromJson(json);
+
+  factory CopyWorkspaceImageResult.fromJson(Map<String, dynamic> json) {
+    return CopyWorkspaceImageResult(
+      imageId: json['ImageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    return {
+      if (imageId != null) 'ImageId': imageId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateConnectionAliasResult {
   /// The identifier of the connection alias.
-  @_s.JsonKey(name: 'AliasId')
-  final String aliasId;
+  final String? aliasId;
 
   CreateConnectionAliasResult({
     this.aliasId,
   });
-  factory CreateConnectionAliasResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateConnectionAliasResultFromJson(json);
+
+  factory CreateConnectionAliasResult.fromJson(Map<String, dynamic> json) {
+    return CreateConnectionAliasResult(
+      aliasId: json['AliasId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliasId = this.aliasId;
+    return {
+      if (aliasId != null) 'AliasId': aliasId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateIpGroupResult {
   /// The identifier of the group.
-  @_s.JsonKey(name: 'GroupId')
-  final String groupId;
+  final String? groupId;
 
   CreateIpGroupResult({
     this.groupId,
   });
-  factory CreateIpGroupResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateIpGroupResultFromJson(json);
+
+  factory CreateIpGroupResult.fromJson(Map<String, dynamic> json) {
+    return CreateIpGroupResult(
+      groupId: json['GroupId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupId = this.groupId;
+    return {
+      if (groupId != null) 'GroupId': groupId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTagsResult {
   CreateTagsResult();
-  factory CreateTagsResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateTagsResultFromJson(json);
+
+  factory CreateTagsResult.fromJson(Map<String, dynamic> _) {
+    return CreateTagsResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class CreateWorkspaceBundleResult {
+  final WorkspaceBundle? workspaceBundle;
+
+  CreateWorkspaceBundleResult({
+    this.workspaceBundle,
+  });
+
+  factory CreateWorkspaceBundleResult.fromJson(Map<String, dynamic> json) {
+    return CreateWorkspaceBundleResult(
+      workspaceBundle: json['WorkspaceBundle'] != null
+          ? WorkspaceBundle.fromJson(
+              json['WorkspaceBundle'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceBundle = this.workspaceBundle;
+    return {
+      if (workspaceBundle != null) 'WorkspaceBundle': workspaceBundle,
+    };
+  }
+}
+
 class CreateWorkspacesResult {
   /// Information about the WorkSpaces that could not be created.
-  @_s.JsonKey(name: 'FailedRequests')
-  final List<FailedCreateWorkspaceRequest> failedRequests;
+  final List<FailedCreateWorkspaceRequest>? failedRequests;
 
   /// Information about the WorkSpaces that were created.
   ///
@@ -3206,28 +3347,73 @@ class CreateWorkspacesResult {
   /// immediately available for use with other operations. For example, if you
   /// call <a>DescribeWorkspaces</a> before the WorkSpace is created, the
   /// information returned can be incomplete.
-  @_s.JsonKey(name: 'PendingRequests')
-  final List<Workspace> pendingRequests;
+  final List<Workspace>? pendingRequests;
 
   CreateWorkspacesResult({
     this.failedRequests,
     this.pendingRequests,
   });
-  factory CreateWorkspacesResult.fromJson(Map<String, dynamic> json) =>
-      _$CreateWorkspacesResultFromJson(json);
+
+  factory CreateWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return CreateWorkspacesResult(
+      failedRequests: (json['FailedRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedCreateWorkspaceRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      pendingRequests: (json['PendingRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) => Workspace.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    final pendingRequests = this.pendingRequests;
+    return {
+      if (failedRequests != null) 'FailedRequests': failedRequests,
+      if (pendingRequests != null) 'PendingRequests': pendingRequests,
+    };
+  }
 }
 
 enum DedicatedTenancyModificationStateEnum {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('COMPLETED')
   completed,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
+extension on DedicatedTenancyModificationStateEnum {
+  String toValue() {
+    switch (this) {
+      case DedicatedTenancyModificationStateEnum.pending:
+        return 'PENDING';
+      case DedicatedTenancyModificationStateEnum.completed:
+        return 'COMPLETED';
+      case DedicatedTenancyModificationStateEnum.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  DedicatedTenancyModificationStateEnum
+      toDedicatedTenancyModificationStateEnum() {
+    switch (this) {
+      case 'PENDING':
+        return DedicatedTenancyModificationStateEnum.pending;
+      case 'COMPLETED':
+        return DedicatedTenancyModificationStateEnum.completed;
+      case 'FAILED':
+        return DedicatedTenancyModificationStateEnum.failed;
+    }
+    throw Exception(
+        '$this is not known in enum DedicatedTenancyModificationStateEnum');
+  }
+}
+
 enum DedicatedTenancySupportEnum {
-  @_s.JsonValue('ENABLED')
   enabled,
 }
 
@@ -3237,38 +3423,62 @@ extension on DedicatedTenancySupportEnum {
       case DedicatedTenancySupportEnum.enabled:
         return 'ENABLED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  DedicatedTenancySupportEnum toDedicatedTenancySupportEnum() {
+    switch (this) {
+      case 'ENABLED':
+        return DedicatedTenancySupportEnum.enabled;
+    }
+    throw Exception('$this is not known in enum DedicatedTenancySupportEnum');
   }
 }
 
 enum DedicatedTenancySupportResultEnum {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
+}
+
+extension on DedicatedTenancySupportResultEnum {
+  String toValue() {
+    switch (this) {
+      case DedicatedTenancySupportResultEnum.enabled:
+        return 'ENABLED';
+      case DedicatedTenancySupportResultEnum.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  DedicatedTenancySupportResultEnum toDedicatedTenancySupportResultEnum() {
+    switch (this) {
+      case 'ENABLED':
+        return DedicatedTenancySupportResultEnum.enabled;
+      case 'DISABLED':
+        return DedicatedTenancySupportResultEnum.disabled;
+    }
+    throw Exception(
+        '$this is not known in enum DedicatedTenancySupportResultEnum');
+  }
 }
 
 /// Describes the default values that are used to create WorkSpaces. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html">Update
 /// Directory Details for Your WorkSpaces</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DefaultWorkspaceCreationProperties {
   /// The identifier of the default security group to apply to WorkSpaces when
   /// they are created. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-security-groups.html">
   /// Security Groups for Your WorkSpaces</a>.
-  @_s.JsonKey(name: 'CustomSecurityGroupId')
-  final String customSecurityGroupId;
+  final String? customSecurityGroupId;
 
   /// The organizational unit (OU) in the directory for the WorkSpace machine
   /// accounts.
-  @_s.JsonKey(name: 'DefaultOu')
-  final String defaultOu;
+  final String? defaultOu;
 
   /// Specifies whether to automatically assign an Elastic public IP address to
   /// WorkSpaces in this directory by default. If enabled, the Elastic public IP
@@ -3281,24 +3491,20 @@ class DefaultWorkspaceCreationProperties {
   /// or to existing WorkSpaces that you rebuild. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-vpc.html">
   /// Configure a VPC for Amazon WorkSpaces</a>.
-  @_s.JsonKey(name: 'EnableInternetAccess')
-  final bool enableInternetAccess;
+  final bool? enableInternetAccess;
 
   /// Specifies whether maintenance mode is enabled for WorkSpaces. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html">WorkSpace
   /// Maintenance</a>.
-  @_s.JsonKey(name: 'EnableMaintenanceMode')
-  final bool enableMaintenanceMode;
+  final bool? enableMaintenanceMode;
 
   /// Specifies whether the directory is enabled for Amazon WorkDocs.
-  @_s.JsonKey(name: 'EnableWorkDocs')
-  final bool enableWorkDocs;
+  final bool? enableWorkDocs;
 
   /// Specifies whether WorkSpace users are local administrators on their
   /// WorkSpaces.
-  @_s.JsonKey(name: 'UserEnabledAsLocalAdministrator')
-  final bool userEnabledAsLocalAdministrator;
+  final bool? userEnabledAsLocalAdministrator;
 
   DefaultWorkspaceCreationProperties({
     this.customSecurityGroupId,
@@ -3308,96 +3514,150 @@ class DefaultWorkspaceCreationProperties {
     this.enableWorkDocs,
     this.userEnabledAsLocalAdministrator,
   });
+
   factory DefaultWorkspaceCreationProperties.fromJson(
-          Map<String, dynamic> json) =>
-      _$DefaultWorkspaceCreationPropertiesFromJson(json);
+      Map<String, dynamic> json) {
+    return DefaultWorkspaceCreationProperties(
+      customSecurityGroupId: json['CustomSecurityGroupId'] as String?,
+      defaultOu: json['DefaultOu'] as String?,
+      enableInternetAccess: json['EnableInternetAccess'] as bool?,
+      enableMaintenanceMode: json['EnableMaintenanceMode'] as bool?,
+      enableWorkDocs: json['EnableWorkDocs'] as bool?,
+      userEnabledAsLocalAdministrator:
+          json['UserEnabledAsLocalAdministrator'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customSecurityGroupId = this.customSecurityGroupId;
+    final defaultOu = this.defaultOu;
+    final enableInternetAccess = this.enableInternetAccess;
+    final enableMaintenanceMode = this.enableMaintenanceMode;
+    final enableWorkDocs = this.enableWorkDocs;
+    final userEnabledAsLocalAdministrator =
+        this.userEnabledAsLocalAdministrator;
+    return {
+      if (customSecurityGroupId != null)
+        'CustomSecurityGroupId': customSecurityGroupId,
+      if (defaultOu != null) 'DefaultOu': defaultOu,
+      if (enableInternetAccess != null)
+        'EnableInternetAccess': enableInternetAccess,
+      if (enableMaintenanceMode != null)
+        'EnableMaintenanceMode': enableMaintenanceMode,
+      if (enableWorkDocs != null) 'EnableWorkDocs': enableWorkDocs,
+      if (userEnabledAsLocalAdministrator != null)
+        'UserEnabledAsLocalAdministrator': userEnabledAsLocalAdministrator,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteConnectionAliasResult {
   DeleteConnectionAliasResult();
-  factory DeleteConnectionAliasResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteConnectionAliasResultFromJson(json);
+
+  factory DeleteConnectionAliasResult.fromJson(Map<String, dynamic> _) {
+    return DeleteConnectionAliasResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteIpGroupResult {
   DeleteIpGroupResult();
-  factory DeleteIpGroupResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteIpGroupResultFromJson(json);
+
+  factory DeleteIpGroupResult.fromJson(Map<String, dynamic> _) {
+    return DeleteIpGroupResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTagsResult {
   DeleteTagsResult();
-  factory DeleteTagsResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTagsResultFromJson(json);
+
+  factory DeleteTagsResult.fromJson(Map<String, dynamic> _) {
+    return DeleteTagsResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class DeleteWorkspaceBundleResult {
+  DeleteWorkspaceBundleResult();
+
+  factory DeleteWorkspaceBundleResult.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkspaceBundleResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class DeleteWorkspaceImageResult {
   DeleteWorkspaceImageResult();
-  factory DeleteWorkspaceImageResult.fromJson(Map<String, dynamic> json) =>
-      _$DeleteWorkspaceImageResultFromJson(json);
+
+  factory DeleteWorkspaceImageResult.fromJson(Map<String, dynamic> _) {
+    return DeleteWorkspaceImageResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeregisterWorkspaceDirectoryResult {
   DeregisterWorkspaceDirectoryResult();
-  factory DeregisterWorkspaceDirectoryResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DeregisterWorkspaceDirectoryResultFromJson(json);
+
+  factory DeregisterWorkspaceDirectoryResult.fromJson(Map<String, dynamic> _) {
+    return DeregisterWorkspaceDirectoryResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountModificationsResult {
   /// The list of modifications to the configuration of BYOL.
-  @_s.JsonKey(name: 'AccountModifications')
-  final List<AccountModification> accountModifications;
+  final List<AccountModification>? accountModifications;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   DescribeAccountModificationsResult({
     this.accountModifications,
     this.nextToken,
   });
+
   factory DescribeAccountModificationsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeAccountModificationsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeAccountModificationsResult(
+      accountModifications: (json['AccountModifications'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccountModification.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accountModifications = this.accountModifications;
+    final nextToken = this.nextToken;
+    return {
+      if (accountModifications != null)
+        'AccountModifications': accountModifications,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeAccountResult {
   /// The IP address range, specified as an IPv4 CIDR block, used for the
   /// management network interface.
@@ -3406,414 +3666,585 @@ class DescribeAccountResult {
   /// management network. It is used for interactive streaming of the WorkSpace
   /// desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to
   /// manage the WorkSpace.
-  @_s.JsonKey(name: 'DedicatedTenancyManagementCidrRange')
-  final String dedicatedTenancyManagementCidrRange;
+  final String? dedicatedTenancyManagementCidrRange;
 
   /// The status of BYOL (whether BYOL is enabled or disabled).
-  @_s.JsonKey(name: 'DedicatedTenancySupport')
-  final DedicatedTenancySupportResultEnum dedicatedTenancySupport;
+  final DedicatedTenancySupportResultEnum? dedicatedTenancySupport;
 
   DescribeAccountResult({
     this.dedicatedTenancyManagementCidrRange,
     this.dedicatedTenancySupport,
   });
-  factory DescribeAccountResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeAccountResultFromJson(json);
+
+  factory DescribeAccountResult.fromJson(Map<String, dynamic> json) {
+    return DescribeAccountResult(
+      dedicatedTenancyManagementCidrRange:
+          json['DedicatedTenancyManagementCidrRange'] as String?,
+      dedicatedTenancySupport: (json['DedicatedTenancySupport'] as String?)
+          ?.toDedicatedTenancySupportResultEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final dedicatedTenancyManagementCidrRange =
+        this.dedicatedTenancyManagementCidrRange;
+    final dedicatedTenancySupport = this.dedicatedTenancySupport;
+    return {
+      if (dedicatedTenancyManagementCidrRange != null)
+        'DedicatedTenancyManagementCidrRange':
+            dedicatedTenancyManagementCidrRange,
+      if (dedicatedTenancySupport != null)
+        'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeClientPropertiesResult {
   /// Information about the specified Amazon WorkSpaces clients.
-  @_s.JsonKey(name: 'ClientPropertiesList')
-  final List<ClientPropertiesResult> clientPropertiesList;
+  final List<ClientPropertiesResult>? clientPropertiesList;
 
   DescribeClientPropertiesResult({
     this.clientPropertiesList,
   });
-  factory DescribeClientPropertiesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeClientPropertiesResultFromJson(json);
+
+  factory DescribeClientPropertiesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeClientPropertiesResult(
+      clientPropertiesList: (json['ClientPropertiesList'] as List?)
+          ?.whereNotNull()
+          .map(
+              (e) => ClientPropertiesResult.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientPropertiesList = this.clientPropertiesList;
+    return {
+      if (clientPropertiesList != null)
+        'ClientPropertiesList': clientPropertiesList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConnectionAliasPermissionsResult {
   /// The identifier of the connection alias.
-  @_s.JsonKey(name: 'AliasId')
-  final String aliasId;
+  final String? aliasId;
 
   /// The permissions associated with a connection alias.
-  @_s.JsonKey(name: 'ConnectionAliasPermissions')
-  final List<ConnectionAliasPermission> connectionAliasPermissions;
+  final List<ConnectionAliasPermission>? connectionAliasPermissions;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   DescribeConnectionAliasPermissionsResult({
     this.aliasId,
     this.connectionAliasPermissions,
     this.nextToken,
   });
+
   factory DescribeConnectionAliasPermissionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeConnectionAliasPermissionsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeConnectionAliasPermissionsResult(
+      aliasId: json['AliasId'] as String?,
+      connectionAliasPermissions: (json['ConnectionAliasPermissions'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              ConnectionAliasPermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final aliasId = this.aliasId;
+    final connectionAliasPermissions = this.connectionAliasPermissions;
+    final nextToken = this.nextToken;
+    return {
+      if (aliasId != null) 'AliasId': aliasId,
+      if (connectionAliasPermissions != null)
+        'ConnectionAliasPermissions': connectionAliasPermissions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeConnectionAliasesResult {
   /// Information about the specified connection aliases.
-  @_s.JsonKey(name: 'ConnectionAliases')
-  final List<ConnectionAlias> connectionAliases;
+  final List<ConnectionAlias>? connectionAliases;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   DescribeConnectionAliasesResult({
     this.connectionAliases,
     this.nextToken,
   });
-  factory DescribeConnectionAliasesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeConnectionAliasesResultFromJson(json);
+
+  factory DescribeConnectionAliasesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeConnectionAliasesResult(
+      connectionAliases: (json['ConnectionAliases'] as List?)
+          ?.whereNotNull()
+          .map((e) => ConnectionAlias.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionAliases = this.connectionAliases;
+    final nextToken = this.nextToken;
+    return {
+      if (connectionAliases != null) 'ConnectionAliases': connectionAliases,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeIpGroupsResult {
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   /// Information about the IP access control groups.
-  @_s.JsonKey(name: 'Result')
-  final List<WorkspacesIpGroup> result;
+  final List<WorkspacesIpGroup>? result;
 
   DescribeIpGroupsResult({
     this.nextToken,
     this.result,
   });
-  factory DescribeIpGroupsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeIpGroupsResultFromJson(json);
+
+  factory DescribeIpGroupsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeIpGroupsResult(
+      nextToken: json['NextToken'] as String?,
+      result: (json['Result'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkspacesIpGroup.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final result = this.result;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (result != null) 'Result': result,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeTagsResult {
   /// The tags.
-  @_s.JsonKey(name: 'TagList')
-  final List<Tag> tagList;
+  final List<Tag>? tagList;
 
   DescribeTagsResult({
     this.tagList,
   });
-  factory DescribeTagsResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeTagsResultFromJson(json);
+
+  factory DescribeTagsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeTagsResult(
+      tagList: (json['TagList'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final tagList = this.tagList;
+    return {
+      if (tagList != null) 'TagList': tagList,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkspaceBundlesResult {
   /// Information about the bundles.
-  @_s.JsonKey(name: 'Bundles')
-  final List<WorkspaceBundle> bundles;
+  final List<WorkspaceBundle>? bundles;
 
-  /// The token to use to retrieve the next set of results, or null if there are
-  /// no more results available. This token is valid for one day and must be used
-  /// within that time frame.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return. This token is valid for one day
+  /// and must be used within that time frame.
+  final String? nextToken;
 
   DescribeWorkspaceBundlesResult({
     this.bundles,
     this.nextToken,
   });
-  factory DescribeWorkspaceBundlesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeWorkspaceBundlesResultFromJson(json);
+
+  factory DescribeWorkspaceBundlesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkspaceBundlesResult(
+      bundles: (json['Bundles'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkspaceBundle.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bundles = this.bundles;
+    final nextToken = this.nextToken;
+    return {
+      if (bundles != null) 'Bundles': bundles,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkspaceDirectoriesResult {
   /// Information about the directories.
-  @_s.JsonKey(name: 'Directories')
-  final List<WorkspaceDirectory> directories;
+  final List<WorkspaceDirectory>? directories;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   DescribeWorkspaceDirectoriesResult({
     this.directories,
     this.nextToken,
   });
+
   factory DescribeWorkspaceDirectoriesResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeWorkspaceDirectoriesResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeWorkspaceDirectoriesResult(
+      directories: (json['Directories'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkspaceDirectory.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directories = this.directories;
+    final nextToken = this.nextToken;
+    return {
+      if (directories != null) 'Directories': directories,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkspaceImagePermissionsResult {
   /// The identifier of the image.
-  @_s.JsonKey(name: 'ImageId')
-  final String imageId;
+  final String? imageId;
 
   /// The identifiers of the AWS accounts that the image has been shared with.
-  @_s.JsonKey(name: 'ImagePermissions')
-  final List<ImagePermission> imagePermissions;
+  final List<ImagePermission>? imagePermissions;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   DescribeWorkspaceImagePermissionsResult({
     this.imageId,
     this.imagePermissions,
     this.nextToken,
   });
+
   factory DescribeWorkspaceImagePermissionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeWorkspaceImagePermissionsResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeWorkspaceImagePermissionsResult(
+      imageId: json['ImageId'] as String?,
+      imagePermissions: (json['ImagePermissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => ImagePermission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    final imagePermissions = this.imagePermissions;
+    final nextToken = this.nextToken;
+    return {
+      if (imageId != null) 'ImageId': imageId,
+      if (imagePermissions != null) 'ImagePermissions': imagePermissions,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkspaceImagesResult {
   /// Information about the images.
-  @_s.JsonKey(name: 'Images')
-  final List<WorkspaceImage> images;
+  final List<WorkspaceImage>? images;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   DescribeWorkspaceImagesResult({
     this.images,
     this.nextToken,
   });
-  factory DescribeWorkspaceImagesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeWorkspaceImagesResultFromJson(json);
+
+  factory DescribeWorkspaceImagesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkspaceImagesResult(
+      images: (json['Images'] as List?)
+          ?.whereNotNull()
+          .map((e) => WorkspaceImage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final images = this.images;
+    final nextToken = this.nextToken;
+    return {
+      if (images != null) 'Images': images,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkspaceSnapshotsResult {
   /// Information about the snapshots that can be used to rebuild a WorkSpace.
   /// These snapshots include the user volume.
-  @_s.JsonKey(name: 'RebuildSnapshots')
-  final List<Snapshot> rebuildSnapshots;
+  final List<Snapshot>? rebuildSnapshots;
 
   /// Information about the snapshots that can be used to restore a WorkSpace.
   /// These snapshots include both the root volume and the user volume.
-  @_s.JsonKey(name: 'RestoreSnapshots')
-  final List<Snapshot> restoreSnapshots;
+  final List<Snapshot>? restoreSnapshots;
 
   DescribeWorkspaceSnapshotsResult({
     this.rebuildSnapshots,
     this.restoreSnapshots,
   });
-  factory DescribeWorkspaceSnapshotsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeWorkspaceSnapshotsResultFromJson(json);
+
+  factory DescribeWorkspaceSnapshotsResult.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkspaceSnapshotsResult(
+      rebuildSnapshots: (json['RebuildSnapshots'] as List?)
+          ?.whereNotNull()
+          .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      restoreSnapshots: (json['RestoreSnapshots'] as List?)
+          ?.whereNotNull()
+          .map((e) => Snapshot.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final rebuildSnapshots = this.rebuildSnapshots;
+    final restoreSnapshots = this.restoreSnapshots;
+    return {
+      if (rebuildSnapshots != null) 'RebuildSnapshots': rebuildSnapshots,
+      if (restoreSnapshots != null) 'RestoreSnapshots': restoreSnapshots,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkspacesConnectionStatusResult {
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   /// Information about the connection status of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspacesConnectionStatus')
-  final List<WorkspaceConnectionStatus> workspacesConnectionStatus;
+  final List<WorkspaceConnectionStatus>? workspacesConnectionStatus;
 
   DescribeWorkspacesConnectionStatusResult({
     this.nextToken,
     this.workspacesConnectionStatus,
   });
+
   factory DescribeWorkspacesConnectionStatusResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeWorkspacesConnectionStatusResultFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeWorkspacesConnectionStatusResult(
+      nextToken: json['NextToken'] as String?,
+      workspacesConnectionStatus: (json['WorkspacesConnectionStatus'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              WorkspaceConnectionStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final workspacesConnectionStatus = this.workspacesConnectionStatus;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (workspacesConnectionStatus != null)
+        'WorkspacesConnectionStatus': workspacesConnectionStatus,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeWorkspacesResult {
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   /// Information about the WorkSpaces.
   ///
   /// Because <a>CreateWorkspaces</a> is an asynchronous operation, some of the
   /// returned information could be incomplete.
-  @_s.JsonKey(name: 'Workspaces')
-  final List<Workspace> workspaces;
+  final List<Workspace>? workspaces;
 
   DescribeWorkspacesResult({
     this.nextToken,
     this.workspaces,
   });
-  factory DescribeWorkspacesResult.fromJson(Map<String, dynamic> json) =>
-      _$DescribeWorkspacesResultFromJson(json);
+
+  factory DescribeWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return DescribeWorkspacesResult(
+      nextToken: json['NextToken'] as String?,
+      workspaces: (json['Workspaces'] as List?)
+          ?.whereNotNull()
+          .map((e) => Workspace.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final workspaces = this.workspaces;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (workspaces != null) 'Workspaces': workspaces,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateConnectionAliasResult {
   DisassociateConnectionAliasResult();
-  factory DisassociateConnectionAliasResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$DisassociateConnectionAliasResultFromJson(json);
+
+  factory DisassociateConnectionAliasResult.fromJson(Map<String, dynamic> _) {
+    return DisassociateConnectionAliasResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DisassociateIpGroupsResult {
   DisassociateIpGroupsResult();
-  factory DisassociateIpGroupsResult.fromJson(Map<String, dynamic> json) =>
-      _$DisassociateIpGroupsResultFromJson(json);
+
+  factory DisassociateIpGroupsResult.fromJson(Map<String, dynamic> _) {
+    return DisassociateIpGroupsResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes a WorkSpace that cannot be created.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedCreateWorkspaceRequest {
   /// The error code that is returned if the WorkSpace cannot be created.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The text of the error message that is returned if the WorkSpace cannot be
   /// created.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// Information about the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceRequest')
-  final WorkspaceRequest workspaceRequest;
+  final WorkspaceRequest? workspaceRequest;
 
   FailedCreateWorkspaceRequest({
     this.errorCode,
     this.errorMessage,
     this.workspaceRequest,
   });
-  factory FailedCreateWorkspaceRequest.fromJson(Map<String, dynamic> json) =>
-      _$FailedCreateWorkspaceRequestFromJson(json);
+
+  factory FailedCreateWorkspaceRequest.fromJson(Map<String, dynamic> json) {
+    return FailedCreateWorkspaceRequest(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      workspaceRequest: json['WorkspaceRequest'] != null
+          ? WorkspaceRequest.fromJson(
+              json['WorkspaceRequest'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final workspaceRequest = this.workspaceRequest;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (workspaceRequest != null) 'WorkspaceRequest': workspaceRequest,
+    };
+  }
 }
 
 /// Describes a WorkSpace that could not be rebooted. (<a>RebootWorkspaces</a>),
 /// rebuilt (<a>RebuildWorkspaces</a>), restored (<a>RestoreWorkspace</a>),
 /// terminated (<a>TerminateWorkspaces</a>), started (<a>StartWorkspaces</a>),
 /// or stopped (<a>StopWorkspaces</a>).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class FailedWorkspaceChangeRequest {
   /// The error code that is returned if the WorkSpace cannot be rebooted.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The text of the error message that is returned if the WorkSpace cannot be
   /// rebooted.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
-  final String workspaceId;
+  final String? workspaceId;
 
   FailedWorkspaceChangeRequest({
     this.errorCode,
     this.errorMessage,
     this.workspaceId,
   });
-  factory FailedWorkspaceChangeRequest.fromJson(Map<String, dynamic> json) =>
-      _$FailedWorkspaceChangeRequestFromJson(json);
+
+  factory FailedWorkspaceChangeRequest.fromJson(Map<String, dynamic> json) {
+    return FailedWorkspaceChangeRequest(
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      workspaceId: json['WorkspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final workspaceId = this.workspaceId;
+    return {
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (workspaceId != null) 'WorkspaceId': workspaceId,
+    };
+  }
 }
 
 /// Describes the AWS accounts that have been granted permission to use a shared
 /// image. For more information about sharing images, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
 /// Share or Unshare a Custom WorkSpaces Image</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ImagePermission {
   /// The identifier of the AWS account that an image has been shared with.
-  @_s.JsonKey(name: 'SharedAccountId')
-  final String sharedAccountId;
+  final String? sharedAccountId;
 
   ImagePermission({
     this.sharedAccountId,
   });
-  factory ImagePermission.fromJson(Map<String, dynamic> json) =>
-      _$ImagePermissionFromJson(json);
+
+  factory ImagePermission.fromJson(Map<String, dynamic> json) {
+    return ImagePermission(
+      sharedAccountId: json['SharedAccountId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sharedAccountId = this.sharedAccountId;
+    return {
+      if (sharedAccountId != null) 'SharedAccountId': sharedAccountId,
+    };
+  }
 }
 
 enum ImageType {
-  @_s.JsonValue('OWNED')
   owned,
-  @_s.JsonValue('SHARED')
   shared,
 }
 
@@ -3825,410 +4256,602 @@ extension on ImageType {
       case ImageType.shared:
         return 'SHARED';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  ImageType toImageType() {
+    switch (this) {
+      case 'OWNED':
+        return ImageType.owned;
+      case 'SHARED':
+        return ImageType.shared;
+    }
+    throw Exception('$this is not known in enum ImageType');
+  }
+}
+
 class ImportWorkspaceImageResult {
   /// The identifier of the WorkSpace image.
-  @_s.JsonKey(name: 'ImageId')
-  final String imageId;
+  final String? imageId;
 
   ImportWorkspaceImageResult({
     this.imageId,
   });
-  factory ImportWorkspaceImageResult.fromJson(Map<String, dynamic> json) =>
-      _$ImportWorkspaceImageResultFromJson(json);
+
+  factory ImportWorkspaceImageResult.fromJson(Map<String, dynamic> json) {
+    return ImportWorkspaceImageResult(
+      imageId: json['ImageId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final imageId = this.imageId;
+    return {
+      if (imageId != null) 'ImageId': imageId,
+    };
+  }
 }
 
 /// Describes a rule for an IP access control group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class IpRuleItem {
   /// The IP address range, in CIDR notation.
-  @_s.JsonKey(name: 'ipRule')
-  final String ipRule;
+  final String? ipRule;
 
   /// The description.
-  @_s.JsonKey(name: 'ruleDesc')
-  final String ruleDesc;
+  final String? ruleDesc;
 
   IpRuleItem({
     this.ipRule,
     this.ruleDesc,
   });
-  factory IpRuleItem.fromJson(Map<String, dynamic> json) =>
-      _$IpRuleItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$IpRuleItemToJson(this);
+  factory IpRuleItem.fromJson(Map<String, dynamic> json) {
+    return IpRuleItem(
+      ipRule: json['ipRule'] as String?,
+      ruleDesc: json['ruleDesc'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final ipRule = this.ipRule;
+    final ruleDesc = this.ruleDesc;
+    return {
+      if (ipRule != null) 'ipRule': ipRule,
+      if (ruleDesc != null) 'ruleDesc': ruleDesc,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListAvailableManagementCidrRangesResult {
   /// The list of available IP address ranges, specified as IPv4 CIDR blocks.
-  @_s.JsonKey(name: 'ManagementCidrRanges')
-  final List<String> managementCidrRanges;
+  final List<String>? managementCidrRanges;
 
-  /// The token to use to retrieve the next set of results, or null if no more
-  /// results are available.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  /// The token to use to retrieve the next page of results. This value is null
+  /// when there are no more results to return.
+  final String? nextToken;
 
   ListAvailableManagementCidrRangesResult({
     this.managementCidrRanges,
     this.nextToken,
   });
+
   factory ListAvailableManagementCidrRangesResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListAvailableManagementCidrRangesResultFromJson(json);
+      Map<String, dynamic> json) {
+    return ListAvailableManagementCidrRangesResult(
+      managementCidrRanges: (json['ManagementCidrRanges'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final managementCidrRanges = this.managementCidrRanges;
+    final nextToken = this.nextToken;
+    return {
+      if (managementCidrRanges != null)
+        'ManagementCidrRanges': managementCidrRanges,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class MigrateWorkspaceResult {
   /// The original identifier of the WorkSpace that is being migrated.
-  @_s.JsonKey(name: 'SourceWorkspaceId')
-  final String sourceWorkspaceId;
+  final String? sourceWorkspaceId;
 
   /// The new identifier of the WorkSpace that is being migrated. If the migration
   /// does not succeed, the target WorkSpace ID will not be used, and the
   /// WorkSpace will still have the original WorkSpace ID.
-  @_s.JsonKey(name: 'TargetWorkspaceId')
-  final String targetWorkspaceId;
+  final String? targetWorkspaceId;
 
   MigrateWorkspaceResult({
     this.sourceWorkspaceId,
     this.targetWorkspaceId,
   });
-  factory MigrateWorkspaceResult.fromJson(Map<String, dynamic> json) =>
-      _$MigrateWorkspaceResultFromJson(json);
+
+  factory MigrateWorkspaceResult.fromJson(Map<String, dynamic> json) {
+    return MigrateWorkspaceResult(
+      sourceWorkspaceId: json['SourceWorkspaceId'] as String?,
+      targetWorkspaceId: json['TargetWorkspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final sourceWorkspaceId = this.sourceWorkspaceId;
+    final targetWorkspaceId = this.targetWorkspaceId;
+    return {
+      if (sourceWorkspaceId != null) 'SourceWorkspaceId': sourceWorkspaceId,
+      if (targetWorkspaceId != null) 'TargetWorkspaceId': targetWorkspaceId,
+    };
+  }
 }
 
 enum ModificationResourceEnum {
-  @_s.JsonValue('ROOT_VOLUME')
   rootVolume,
-  @_s.JsonValue('USER_VOLUME')
   userVolume,
-  @_s.JsonValue('COMPUTE_TYPE')
   computeType,
 }
 
+extension on ModificationResourceEnum {
+  String toValue() {
+    switch (this) {
+      case ModificationResourceEnum.rootVolume:
+        return 'ROOT_VOLUME';
+      case ModificationResourceEnum.userVolume:
+        return 'USER_VOLUME';
+      case ModificationResourceEnum.computeType:
+        return 'COMPUTE_TYPE';
+    }
+  }
+}
+
+extension on String {
+  ModificationResourceEnum toModificationResourceEnum() {
+    switch (this) {
+      case 'ROOT_VOLUME':
+        return ModificationResourceEnum.rootVolume;
+      case 'USER_VOLUME':
+        return ModificationResourceEnum.userVolume;
+      case 'COMPUTE_TYPE':
+        return ModificationResourceEnum.computeType;
+    }
+    throw Exception('$this is not known in enum ModificationResourceEnum');
+  }
+}
+
 /// Describes a WorkSpace modification.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModificationState {
   /// The resource.
-  @_s.JsonKey(name: 'Resource')
-  final ModificationResourceEnum resource;
+  final ModificationResourceEnum? resource;
 
   /// The modification state.
-  @_s.JsonKey(name: 'State')
-  final ModificationStateEnum state;
+  final ModificationStateEnum? state;
 
   ModificationState({
     this.resource,
     this.state,
   });
-  factory ModificationState.fromJson(Map<String, dynamic> json) =>
-      _$ModificationStateFromJson(json);
+
+  factory ModificationState.fromJson(Map<String, dynamic> json) {
+    return ModificationState(
+      resource: (json['Resource'] as String?)?.toModificationResourceEnum(),
+      state: (json['State'] as String?)?.toModificationStateEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resource = this.resource;
+    final state = this.state;
+    return {
+      if (resource != null) 'Resource': resource.toValue(),
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 enum ModificationStateEnum {
-  @_s.JsonValue('UPDATE_INITIATED')
   updateInitiated,
-  @_s.JsonValue('UPDATE_IN_PROGRESS')
   updateInProgress,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ModificationStateEnum {
+  String toValue() {
+    switch (this) {
+      case ModificationStateEnum.updateInitiated:
+        return 'UPDATE_INITIATED';
+      case ModificationStateEnum.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+    }
+  }
+}
+
+extension on String {
+  ModificationStateEnum toModificationStateEnum() {
+    switch (this) {
+      case 'UPDATE_INITIATED':
+        return ModificationStateEnum.updateInitiated;
+      case 'UPDATE_IN_PROGRESS':
+        return ModificationStateEnum.updateInProgress;
+    }
+    throw Exception('$this is not known in enum ModificationStateEnum');
+  }
+}
+
 class ModifyAccountResult {
   ModifyAccountResult();
-  factory ModifyAccountResult.fromJson(Map<String, dynamic> json) =>
-      _$ModifyAccountResultFromJson(json);
+
+  factory ModifyAccountResult.fromJson(Map<String, dynamic> _) {
+    return ModifyAccountResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyClientPropertiesResult {
   ModifyClientPropertiesResult();
-  factory ModifyClientPropertiesResult.fromJson(Map<String, dynamic> json) =>
-      _$ModifyClientPropertiesResultFromJson(json);
+
+  factory ModifyClientPropertiesResult.fromJson(Map<String, dynamic> _) {
+    return ModifyClientPropertiesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifySelfservicePermissionsResult {
   ModifySelfservicePermissionsResult();
-  factory ModifySelfservicePermissionsResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModifySelfservicePermissionsResultFromJson(json);
+
+  factory ModifySelfservicePermissionsResult.fromJson(Map<String, dynamic> _) {
+    return ModifySelfservicePermissionsResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyWorkspaceAccessPropertiesResult {
   ModifyWorkspaceAccessPropertiesResult();
+
   factory ModifyWorkspaceAccessPropertiesResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModifyWorkspaceAccessPropertiesResultFromJson(json);
+      Map<String, dynamic> _) {
+    return ModifyWorkspaceAccessPropertiesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyWorkspaceCreationPropertiesResult {
   ModifyWorkspaceCreationPropertiesResult();
+
   factory ModifyWorkspaceCreationPropertiesResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$ModifyWorkspaceCreationPropertiesResultFromJson(json);
+      Map<String, dynamic> _) {
+    return ModifyWorkspaceCreationPropertiesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyWorkspacePropertiesResult {
   ModifyWorkspacePropertiesResult();
-  factory ModifyWorkspacePropertiesResult.fromJson(Map<String, dynamic> json) =>
-      _$ModifyWorkspacePropertiesResultFromJson(json);
+
+  factory ModifyWorkspacePropertiesResult.fromJson(Map<String, dynamic> _) {
+    return ModifyWorkspacePropertiesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ModifyWorkspaceStateResult {
   ModifyWorkspaceStateResult();
-  factory ModifyWorkspaceStateResult.fromJson(Map<String, dynamic> json) =>
-      _$ModifyWorkspaceStateResultFromJson(json);
+
+  factory ModifyWorkspaceStateResult.fromJson(Map<String, dynamic> _) {
+    return ModifyWorkspaceStateResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// The operating system that the image is running.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class OperatingSystem {
   /// The operating system.
-  @_s.JsonKey(name: 'Type')
-  final OperatingSystemType type;
+  final OperatingSystemType? type;
 
   OperatingSystem({
     this.type,
   });
-  factory OperatingSystem.fromJson(Map<String, dynamic> json) =>
-      _$OperatingSystemFromJson(json);
+
+  factory OperatingSystem.fromJson(Map<String, dynamic> json) {
+    return OperatingSystem(
+      type: (json['Type'] as String?)?.toOperatingSystemType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    return {
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 enum OperatingSystemType {
-  @_s.JsonValue('WINDOWS')
   windows,
-  @_s.JsonValue('LINUX')
   linux,
 }
 
+extension on OperatingSystemType {
+  String toValue() {
+    switch (this) {
+      case OperatingSystemType.windows:
+        return 'WINDOWS';
+      case OperatingSystemType.linux:
+        return 'LINUX';
+    }
+  }
+}
+
+extension on String {
+  OperatingSystemType toOperatingSystemType() {
+    switch (this) {
+      case 'WINDOWS':
+        return OperatingSystemType.windows;
+      case 'LINUX':
+        return OperatingSystemType.linux;
+    }
+    throw Exception('$this is not known in enum OperatingSystemType');
+  }
+}
+
 /// Describes the information used to reboot a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RebootRequest {
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
   final String workspaceId;
 
   RebootRequest({
-    @_s.required this.workspaceId,
+    required this.workspaceId,
   });
-  Map<String, dynamic> toJson() => _$RebootRequestToJson(this);
+
+  factory RebootRequest.fromJson(Map<String, dynamic> json) {
+    return RebootRequest(
+      workspaceId: json['WorkspaceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceId = this.workspaceId;
+    return {
+      'WorkspaceId': workspaceId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RebootWorkspacesResult {
   /// Information about the WorkSpaces that could not be rebooted.
-  @_s.JsonKey(name: 'FailedRequests')
-  final List<FailedWorkspaceChangeRequest> failedRequests;
+  final List<FailedWorkspaceChangeRequest>? failedRequests;
 
   RebootWorkspacesResult({
     this.failedRequests,
   });
-  factory RebootWorkspacesResult.fromJson(Map<String, dynamic> json) =>
-      _$RebootWorkspacesResultFromJson(json);
+
+  factory RebootWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return RebootWorkspacesResult(
+      failedRequests: (json['FailedRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    return {
+      if (failedRequests != null) 'FailedRequests': failedRequests,
+    };
+  }
 }
 
 /// Describes the information used to rebuild a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class RebuildRequest {
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
   final String workspaceId;
 
   RebuildRequest({
-    @_s.required this.workspaceId,
+    required this.workspaceId,
   });
-  Map<String, dynamic> toJson() => _$RebuildRequestToJson(this);
+
+  factory RebuildRequest.fromJson(Map<String, dynamic> json) {
+    return RebuildRequest(
+      workspaceId: json['WorkspaceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceId = this.workspaceId;
+    return {
+      'WorkspaceId': workspaceId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RebuildWorkspacesResult {
   /// Information about the WorkSpace that could not be rebuilt.
-  @_s.JsonKey(name: 'FailedRequests')
-  final List<FailedWorkspaceChangeRequest> failedRequests;
+  final List<FailedWorkspaceChangeRequest>? failedRequests;
 
   RebuildWorkspacesResult({
     this.failedRequests,
   });
-  factory RebuildWorkspacesResult.fromJson(Map<String, dynamic> json) =>
-      _$RebuildWorkspacesResultFromJson(json);
+
+  factory RebuildWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return RebuildWorkspacesResult(
+      failedRequests: (json['FailedRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    return {
+      if (failedRequests != null) 'FailedRequests': failedRequests,
+    };
+  }
 }
 
 enum ReconnectEnum {
-  @_s.JsonValue('ENABLED')
   enabled,
-  @_s.JsonValue('DISABLED')
   disabled,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on ReconnectEnum {
+  String toValue() {
+    switch (this) {
+      case ReconnectEnum.enabled:
+        return 'ENABLED';
+      case ReconnectEnum.disabled:
+        return 'DISABLED';
+    }
+  }
+}
+
+extension on String {
+  ReconnectEnum toReconnectEnum() {
+    switch (this) {
+      case 'ENABLED':
+        return ReconnectEnum.enabled;
+      case 'DISABLED':
+        return ReconnectEnum.disabled;
+    }
+    throw Exception('$this is not known in enum ReconnectEnum');
+  }
+}
+
 class RegisterWorkspaceDirectoryResult {
   RegisterWorkspaceDirectoryResult();
-  factory RegisterWorkspaceDirectoryResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$RegisterWorkspaceDirectoryResultFromJson(json);
+
+  factory RegisterWorkspaceDirectoryResult.fromJson(Map<String, dynamic> _) {
+    return RegisterWorkspaceDirectoryResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RestoreWorkspaceResult {
   RestoreWorkspaceResult();
-  factory RestoreWorkspaceResult.fromJson(Map<String, dynamic> json) =>
-      _$RestoreWorkspaceResultFromJson(json);
+
+  factory RestoreWorkspaceResult.fromJson(Map<String, dynamic> _) {
+    return RestoreWorkspaceResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RevokeIpRulesResult {
   RevokeIpRulesResult();
-  factory RevokeIpRulesResult.fromJson(Map<String, dynamic> json) =>
-      _$RevokeIpRulesResultFromJson(json);
+
+  factory RevokeIpRulesResult.fromJson(Map<String, dynamic> _) {
+    return RevokeIpRulesResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 /// Describes the root volume for a WorkSpace bundle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RootStorage {
   /// The size of the root volume.
-  @_s.JsonKey(name: 'Capacity')
-  final String capacity;
+  final String? capacity;
 
   RootStorage({
     this.capacity,
   });
-  factory RootStorage.fromJson(Map<String, dynamic> json) =>
-      _$RootStorageFromJson(json);
+
+  factory RootStorage.fromJson(Map<String, dynamic> json) {
+    return RootStorage(
+      capacity: json['Capacity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacity = this.capacity;
+    return {
+      if (capacity != null) 'Capacity': capacity,
+    };
+  }
 }
 
 enum RunningMode {
-  @_s.JsonValue('AUTO_STOP')
   autoStop,
-  @_s.JsonValue('ALWAYS_ON')
   alwaysOn,
+}
+
+extension on RunningMode {
+  String toValue() {
+    switch (this) {
+      case RunningMode.autoStop:
+        return 'AUTO_STOP';
+      case RunningMode.alwaysOn:
+        return 'ALWAYS_ON';
+    }
+  }
+}
+
+extension on String {
+  RunningMode toRunningMode() {
+    switch (this) {
+      case 'AUTO_STOP':
+        return RunningMode.autoStop;
+      case 'ALWAYS_ON':
+        return RunningMode.alwaysOn;
+    }
+    throw Exception('$this is not known in enum RunningMode');
+  }
 }
 
 /// Describes the self-service permissions for a directory. For more
 /// information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/enable-user-self-service-workspace-management.html">Enable
 /// Self-Service WorkSpace Management Capabilities for Your Users</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SelfservicePermissions {
   /// Specifies whether users can change the compute type (bundle) for their
   /// WorkSpace.
-  @_s.JsonKey(name: 'ChangeComputeType')
-  final ReconnectEnum changeComputeType;
+  final ReconnectEnum? changeComputeType;
 
   /// Specifies whether users can increase the volume size of the drives on their
   /// WorkSpace.
-  @_s.JsonKey(name: 'IncreaseVolumeSize')
-  final ReconnectEnum increaseVolumeSize;
+  final ReconnectEnum? increaseVolumeSize;
 
   /// Specifies whether users can rebuild the operating system of a WorkSpace to
   /// its original state.
-  @_s.JsonKey(name: 'RebuildWorkspace')
-  final ReconnectEnum rebuildWorkspace;
+  final ReconnectEnum? rebuildWorkspace;
 
   /// Specifies whether users can restart their WorkSpace.
-  @_s.JsonKey(name: 'RestartWorkspace')
-  final ReconnectEnum restartWorkspace;
+  final ReconnectEnum? restartWorkspace;
 
   /// Specifies whether users can switch the running mode of their WorkSpace.
-  @_s.JsonKey(name: 'SwitchRunningMode')
-  final ReconnectEnum switchRunningMode;
+  final ReconnectEnum? switchRunningMode;
 
   SelfservicePermissions({
     this.changeComputeType,
@@ -4237,127 +4860,197 @@ class SelfservicePermissions {
     this.restartWorkspace,
     this.switchRunningMode,
   });
-  factory SelfservicePermissions.fromJson(Map<String, dynamic> json) =>
-      _$SelfservicePermissionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SelfservicePermissionsToJson(this);
+  factory SelfservicePermissions.fromJson(Map<String, dynamic> json) {
+    return SelfservicePermissions(
+      changeComputeType:
+          (json['ChangeComputeType'] as String?)?.toReconnectEnum(),
+      increaseVolumeSize:
+          (json['IncreaseVolumeSize'] as String?)?.toReconnectEnum(),
+      rebuildWorkspace:
+          (json['RebuildWorkspace'] as String?)?.toReconnectEnum(),
+      restartWorkspace:
+          (json['RestartWorkspace'] as String?)?.toReconnectEnum(),
+      switchRunningMode:
+          (json['SwitchRunningMode'] as String?)?.toReconnectEnum(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final changeComputeType = this.changeComputeType;
+    final increaseVolumeSize = this.increaseVolumeSize;
+    final rebuildWorkspace = this.rebuildWorkspace;
+    final restartWorkspace = this.restartWorkspace;
+    final switchRunningMode = this.switchRunningMode;
+    return {
+      if (changeComputeType != null)
+        'ChangeComputeType': changeComputeType.toValue(),
+      if (increaseVolumeSize != null)
+        'IncreaseVolumeSize': increaseVolumeSize.toValue(),
+      if (rebuildWorkspace != null)
+        'RebuildWorkspace': rebuildWorkspace.toValue(),
+      if (restartWorkspace != null)
+        'RestartWorkspace': restartWorkspace.toValue(),
+      if (switchRunningMode != null)
+        'SwitchRunningMode': switchRunningMode.toValue(),
+    };
+  }
 }
 
 /// Describes a snapshot.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Snapshot {
   /// The time when the snapshot was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'SnapshotTime')
-  final DateTime snapshotTime;
+  final DateTime? snapshotTime;
 
   Snapshot({
     this.snapshotTime,
   });
-  factory Snapshot.fromJson(Map<String, dynamic> json) =>
-      _$SnapshotFromJson(json);
+
+  factory Snapshot.fromJson(Map<String, dynamic> json) {
+    return Snapshot(
+      snapshotTime: timeStampFromJson(json['SnapshotTime']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final snapshotTime = this.snapshotTime;
+    return {
+      if (snapshotTime != null)
+        'SnapshotTime': unixTimestampToJson(snapshotTime),
+    };
+  }
 }
 
 /// Information used to start a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StartRequest {
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
-  final String workspaceId;
+  final String? workspaceId;
 
   StartRequest({
     this.workspaceId,
   });
-  Map<String, dynamic> toJson() => _$StartRequestToJson(this);
+
+  factory StartRequest.fromJson(Map<String, dynamic> json) {
+    return StartRequest(
+      workspaceId: json['WorkspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceId = this.workspaceId;
+    return {
+      if (workspaceId != null) 'WorkspaceId': workspaceId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StartWorkspacesResult {
   /// Information about the WorkSpaces that could not be started.
-  @_s.JsonKey(name: 'FailedRequests')
-  final List<FailedWorkspaceChangeRequest> failedRequests;
+  final List<FailedWorkspaceChangeRequest>? failedRequests;
 
   StartWorkspacesResult({
     this.failedRequests,
   });
-  factory StartWorkspacesResult.fromJson(Map<String, dynamic> json) =>
-      _$StartWorkspacesResultFromJson(json);
+
+  factory StartWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return StartWorkspacesResult(
+      failedRequests: (json['FailedRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    return {
+      if (failedRequests != null) 'FailedRequests': failedRequests,
+    };
+  }
 }
 
 /// Describes the information used to stop a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class StopRequest {
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
-  final String workspaceId;
+  final String? workspaceId;
 
   StopRequest({
     this.workspaceId,
   });
-  Map<String, dynamic> toJson() => _$StopRequestToJson(this);
+
+  factory StopRequest.fromJson(Map<String, dynamic> json) {
+    return StopRequest(
+      workspaceId: json['WorkspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceId = this.workspaceId;
+    return {
+      if (workspaceId != null) 'WorkspaceId': workspaceId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class StopWorkspacesResult {
   /// Information about the WorkSpaces that could not be stopped.
-  @_s.JsonKey(name: 'FailedRequests')
-  final List<FailedWorkspaceChangeRequest> failedRequests;
+  final List<FailedWorkspaceChangeRequest>? failedRequests;
 
   StopWorkspacesResult({
     this.failedRequests,
   });
-  factory StopWorkspacesResult.fromJson(Map<String, dynamic> json) =>
-      _$StopWorkspacesResultFromJson(json);
+
+  factory StopWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return StopWorkspacesResult(
+      failedRequests: (json['FailedRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    return {
+      if (failedRequests != null) 'FailedRequests': failedRequests,
+    };
+  }
 }
 
 /// Describes a tag.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// The key of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// The value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 enum TargetWorkspaceState {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('ADMIN_MAINTENANCE')
   adminMaintenance,
 }
 
@@ -4369,14 +5062,23 @@ extension on TargetWorkspaceState {
       case TargetWorkspaceState.adminMaintenance:
         return 'ADMIN_MAINTENANCE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  TargetWorkspaceState toTargetWorkspaceState() {
+    switch (this) {
+      case 'AVAILABLE':
+        return TargetWorkspaceState.available;
+      case 'ADMIN_MAINTENANCE':
+        return TargetWorkspaceState.adminMaintenance;
+    }
+    throw Exception('$this is not known in enum TargetWorkspaceState');
   }
 }
 
 enum Tenancy {
-  @_s.JsonValue('DEDICATED')
   dedicated,
-  @_s.JsonValue('SHARED')
   shared,
 }
 
@@ -4388,139 +5090,172 @@ extension on Tenancy {
       case Tenancy.shared:
         return 'SHARED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  Tenancy toTenancy() {
+    switch (this) {
+      case 'DEDICATED':
+        return Tenancy.dedicated;
+      case 'SHARED':
+        return Tenancy.shared;
+    }
+    throw Exception('$this is not known in enum Tenancy');
   }
 }
 
 /// Describes the information used to terminate a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class TerminateRequest {
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
   final String workspaceId;
 
   TerminateRequest({
-    @_s.required this.workspaceId,
+    required this.workspaceId,
   });
-  Map<String, dynamic> toJson() => _$TerminateRequestToJson(this);
+
+  factory TerminateRequest.fromJson(Map<String, dynamic> json) {
+    return TerminateRequest(
+      workspaceId: json['WorkspaceId'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final workspaceId = this.workspaceId;
+    return {
+      'WorkspaceId': workspaceId,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class TerminateWorkspacesResult {
   /// Information about the WorkSpaces that could not be terminated.
-  @_s.JsonKey(name: 'FailedRequests')
-  final List<FailedWorkspaceChangeRequest> failedRequests;
+  final List<FailedWorkspaceChangeRequest>? failedRequests;
 
   TerminateWorkspacesResult({
     this.failedRequests,
   });
-  factory TerminateWorkspacesResult.fromJson(Map<String, dynamic> json) =>
-      _$TerminateWorkspacesResultFromJson(json);
+
+  factory TerminateWorkspacesResult.fromJson(Map<String, dynamic> json) {
+    return TerminateWorkspacesResult(
+      failedRequests: (json['FailedRequests'] as List?)
+          ?.whereNotNull()
+          .map((e) =>
+              FailedWorkspaceChangeRequest.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final failedRequests = this.failedRequests;
+    return {
+      if (failedRequests != null) 'FailedRequests': failedRequests,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateConnectionAliasPermissionResult {
   UpdateConnectionAliasPermissionResult();
+
   factory UpdateConnectionAliasPermissionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateConnectionAliasPermissionResultFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateConnectionAliasPermissionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateRulesOfIpGroupResult {
   UpdateRulesOfIpGroupResult();
-  factory UpdateRulesOfIpGroupResult.fromJson(Map<String, dynamic> json) =>
-      _$UpdateRulesOfIpGroupResultFromJson(json);
+
+  factory UpdateRulesOfIpGroupResult.fromJson(Map<String, dynamic> _) {
+    return UpdateRulesOfIpGroupResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class UpdateWorkspaceBundleResult {
+  UpdateWorkspaceBundleResult();
+
+  factory UpdateWorkspaceBundleResult.fromJson(Map<String, dynamic> _) {
+    return UpdateWorkspaceBundleResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
+}
+
 class UpdateWorkspaceImagePermissionResult {
   UpdateWorkspaceImagePermissionResult();
+
   factory UpdateWorkspaceImagePermissionResult.fromJson(
-          Map<String, dynamic> json) =>
-      _$UpdateWorkspaceImagePermissionResultFromJson(json);
+      Map<String, dynamic> _) {
+    return UpdateWorkspaceImagePermissionResult();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
-/// Describes the user storage for a WorkSpace bundle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+/// Describes the user volume for a WorkSpace bundle.
 class UserStorage {
-  /// The size of the user storage.
-  @_s.JsonKey(name: 'Capacity')
-  final String capacity;
+  /// The size of the user volume.
+  final String? capacity;
 
   UserStorage({
     this.capacity,
   });
-  factory UserStorage.fromJson(Map<String, dynamic> json) =>
-      _$UserStorageFromJson(json);
+
+  factory UserStorage.fromJson(Map<String, dynamic> json) {
+    return UserStorage(
+      capacity: json['Capacity'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final capacity = this.capacity;
+    return {
+      if (capacity != null) 'Capacity': capacity,
+    };
+  }
 }
 
 /// Describes a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Workspace {
   /// The identifier of the bundle used to create the WorkSpace.
-  @_s.JsonKey(name: 'BundleId')
-  final String bundleId;
+  final String? bundleId;
 
   /// The name of the WorkSpace, as seen by the operating system. The format of
   /// this name varies. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/launch-workspaces-tutorials.html">
   /// Launch a WorkSpace</a>.
-  @_s.JsonKey(name: 'ComputerName')
-  final String computerName;
+  final String? computerName;
 
   /// The identifier of the AWS Directory Service directory for the WorkSpace.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The error code that is returned if the WorkSpace cannot be created.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The text of the error message that is returned if the WorkSpace cannot be
   /// created.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The IP address of the WorkSpace.
-  @_s.JsonKey(name: 'IpAddress')
-  final String ipAddress;
+  final String? ipAddress;
 
   /// The modification states of the WorkSpace.
-  @_s.JsonKey(name: 'ModificationStates')
-  final List<ModificationState> modificationStates;
+  final List<ModificationState>? modificationStates;
 
   /// Indicates whether the data stored on the root volume is encrypted.
-  @_s.JsonKey(name: 'RootVolumeEncryptionEnabled')
-  final bool rootVolumeEncryptionEnabled;
+  final bool? rootVolumeEncryptionEnabled;
 
   /// The operational state of the WorkSpace.
   /// <note>
@@ -4532,33 +5267,26 @@ class Workspace {
   /// DescribeWorkSpaces</a>. If the WorkSpace ID isn't returned, then the
   /// WorkSpace has been successfully terminated.
   /// </note>
-  @_s.JsonKey(name: 'State')
-  final WorkspaceState state;
+  final WorkspaceState? state;
 
   /// The identifier of the subnet for the WorkSpace.
-  @_s.JsonKey(name: 'SubnetId')
-  final String subnetId;
+  final String? subnetId;
 
   /// The user for the WorkSpace.
-  @_s.JsonKey(name: 'UserName')
-  final String userName;
+  final String? userName;
 
   /// Indicates whether the data stored on the user volume is encrypted.
-  @_s.JsonKey(name: 'UserVolumeEncryptionEnabled')
-  final bool userVolumeEncryptionEnabled;
+  final bool? userVolumeEncryptionEnabled;
 
   /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored
   /// on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
-  @_s.JsonKey(name: 'VolumeEncryptionKey')
-  final String volumeEncryptionKey;
+  final String? volumeEncryptionKey;
 
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
-  final String workspaceId;
+  final String? workspaceId;
 
   /// The properties of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceProperties')
-  final WorkspaceProperties workspaceProperties;
+  final WorkspaceProperties? workspaceProperties;
 
   Workspace({
     this.bundleId,
@@ -4577,31 +5305,89 @@ class Workspace {
     this.workspaceId,
     this.workspaceProperties,
   });
-  factory Workspace.fromJson(Map<String, dynamic> json) =>
-      _$WorkspaceFromJson(json);
+
+  factory Workspace.fromJson(Map<String, dynamic> json) {
+    return Workspace(
+      bundleId: json['BundleId'] as String?,
+      computerName: json['ComputerName'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      ipAddress: json['IpAddress'] as String?,
+      modificationStates: (json['ModificationStates'] as List?)
+          ?.whereNotNull()
+          .map((e) => ModificationState.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
+      state: (json['State'] as String?)?.toWorkspaceState(),
+      subnetId: json['SubnetId'] as String?,
+      userName: json['UserName'] as String?,
+      userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
+      volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
+      workspaceId: json['WorkspaceId'] as String?,
+      workspaceProperties: json['WorkspaceProperties'] != null
+          ? WorkspaceProperties.fromJson(
+              json['WorkspaceProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bundleId = this.bundleId;
+    final computerName = this.computerName;
+    final directoryId = this.directoryId;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final ipAddress = this.ipAddress;
+    final modificationStates = this.modificationStates;
+    final rootVolumeEncryptionEnabled = this.rootVolumeEncryptionEnabled;
+    final state = this.state;
+    final subnetId = this.subnetId;
+    final userName = this.userName;
+    final userVolumeEncryptionEnabled = this.userVolumeEncryptionEnabled;
+    final volumeEncryptionKey = this.volumeEncryptionKey;
+    final workspaceId = this.workspaceId;
+    final workspaceProperties = this.workspaceProperties;
+    return {
+      if (bundleId != null) 'BundleId': bundleId,
+      if (computerName != null) 'ComputerName': computerName,
+      if (directoryId != null) 'DirectoryId': directoryId,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (modificationStates != null) 'ModificationStates': modificationStates,
+      if (rootVolumeEncryptionEnabled != null)
+        'RootVolumeEncryptionEnabled': rootVolumeEncryptionEnabled,
+      if (state != null) 'State': state.toValue(),
+      if (subnetId != null) 'SubnetId': subnetId,
+      if (userName != null) 'UserName': userName,
+      if (userVolumeEncryptionEnabled != null)
+        'UserVolumeEncryptionEnabled': userVolumeEncryptionEnabled,
+      if (volumeEncryptionKey != null)
+        'VolumeEncryptionKey': volumeEncryptionKey,
+      if (workspaceId != null) 'WorkspaceId': workspaceId,
+      if (workspaceProperties != null)
+        'WorkspaceProperties': workspaceProperties,
+    };
+  }
 }
 
 /// The device types and operating systems that can be used to access a
 /// WorkSpace. For more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-network-requirements.html">Amazon
 /// WorkSpaces Client Network Requirements</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WorkspaceAccessProperties {
   /// Indicates whether users can use Android devices to access their WorkSpaces.
-  @_s.JsonKey(name: 'DeviceTypeAndroid')
-  final AccessPropertyValue deviceTypeAndroid;
+  final AccessPropertyValue? deviceTypeAndroid;
 
   /// Indicates whether users can use Chromebooks to access their WorkSpaces.
-  @_s.JsonKey(name: 'DeviceTypeChromeOs')
-  final AccessPropertyValue deviceTypeChromeOs;
+  final AccessPropertyValue? deviceTypeChromeOs;
 
   /// Indicates whether users can use iOS devices to access their WorkSpaces.
-  @_s.JsonKey(name: 'DeviceTypeIos')
-  final AccessPropertyValue deviceTypeIos;
+  final AccessPropertyValue? deviceTypeIos;
+
+  /// Indicates whether users can use Linux clients to access their WorkSpaces.
+  final AccessPropertyValue? deviceTypeLinux;
 
   /// Indicates whether users can use macOS clients to access their WorkSpaces. To
   /// restrict WorkSpaces access to trusted devices (also known as managed
@@ -4609,12 +5395,10 @@ class WorkspaceAccessProperties {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html">Restrict
   /// WorkSpaces Access to Trusted Devices</a>.
-  @_s.JsonKey(name: 'DeviceTypeOsx')
-  final AccessPropertyValue deviceTypeOsx;
+  final AccessPropertyValue? deviceTypeOsx;
 
   /// Indicates whether users can access their WorkSpaces through a web browser.
-  @_s.JsonKey(name: 'DeviceTypeWeb')
-  final AccessPropertyValue deviceTypeWeb;
+  final AccessPropertyValue? deviceTypeWeb;
 
   /// Indicates whether users can use Windows clients to access their WorkSpaces.
   /// To restrict WorkSpaces access to trusted devices (also known as managed
@@ -4622,79 +5406,109 @@ class WorkspaceAccessProperties {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/trusted-devices.html">Restrict
   /// WorkSpaces Access to Trusted Devices</a>.
-  @_s.JsonKey(name: 'DeviceTypeWindows')
-  final AccessPropertyValue deviceTypeWindows;
+  final AccessPropertyValue? deviceTypeWindows;
 
   /// Indicates whether users can use zero client devices to access their
   /// WorkSpaces.
-  @_s.JsonKey(name: 'DeviceTypeZeroClient')
-  final AccessPropertyValue deviceTypeZeroClient;
+  final AccessPropertyValue? deviceTypeZeroClient;
 
   WorkspaceAccessProperties({
     this.deviceTypeAndroid,
     this.deviceTypeChromeOs,
     this.deviceTypeIos,
+    this.deviceTypeLinux,
     this.deviceTypeOsx,
     this.deviceTypeWeb,
     this.deviceTypeWindows,
     this.deviceTypeZeroClient,
   });
-  factory WorkspaceAccessProperties.fromJson(Map<String, dynamic> json) =>
-      _$WorkspaceAccessPropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WorkspaceAccessPropertiesToJson(this);
+  factory WorkspaceAccessProperties.fromJson(Map<String, dynamic> json) {
+    return WorkspaceAccessProperties(
+      deviceTypeAndroid:
+          (json['DeviceTypeAndroid'] as String?)?.toAccessPropertyValue(),
+      deviceTypeChromeOs:
+          (json['DeviceTypeChromeOs'] as String?)?.toAccessPropertyValue(),
+      deviceTypeIos:
+          (json['DeviceTypeIos'] as String?)?.toAccessPropertyValue(),
+      deviceTypeLinux:
+          (json['DeviceTypeLinux'] as String?)?.toAccessPropertyValue(),
+      deviceTypeOsx:
+          (json['DeviceTypeOsx'] as String?)?.toAccessPropertyValue(),
+      deviceTypeWeb:
+          (json['DeviceTypeWeb'] as String?)?.toAccessPropertyValue(),
+      deviceTypeWindows:
+          (json['DeviceTypeWindows'] as String?)?.toAccessPropertyValue(),
+      deviceTypeZeroClient:
+          (json['DeviceTypeZeroClient'] as String?)?.toAccessPropertyValue(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deviceTypeAndroid = this.deviceTypeAndroid;
+    final deviceTypeChromeOs = this.deviceTypeChromeOs;
+    final deviceTypeIos = this.deviceTypeIos;
+    final deviceTypeLinux = this.deviceTypeLinux;
+    final deviceTypeOsx = this.deviceTypeOsx;
+    final deviceTypeWeb = this.deviceTypeWeb;
+    final deviceTypeWindows = this.deviceTypeWindows;
+    final deviceTypeZeroClient = this.deviceTypeZeroClient;
+    return {
+      if (deviceTypeAndroid != null)
+        'DeviceTypeAndroid': deviceTypeAndroid.toValue(),
+      if (deviceTypeChromeOs != null)
+        'DeviceTypeChromeOs': deviceTypeChromeOs.toValue(),
+      if (deviceTypeIos != null) 'DeviceTypeIos': deviceTypeIos.toValue(),
+      if (deviceTypeLinux != null) 'DeviceTypeLinux': deviceTypeLinux.toValue(),
+      if (deviceTypeOsx != null) 'DeviceTypeOsx': deviceTypeOsx.toValue(),
+      if (deviceTypeWeb != null) 'DeviceTypeWeb': deviceTypeWeb.toValue(),
+      if (deviceTypeWindows != null)
+        'DeviceTypeWindows': deviceTypeWindows.toValue(),
+      if (deviceTypeZeroClient != null)
+        'DeviceTypeZeroClient': deviceTypeZeroClient.toValue(),
+    };
+  }
 }
 
 /// Describes a WorkSpace bundle.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkspaceBundle {
-  /// The bundle identifier.
-  @_s.JsonKey(name: 'BundleId')
-  final String bundleId;
+  /// The identifier of the bundle.
+  final String? bundleId;
 
-  /// The compute type. For more information, see <a
+  /// The compute type of the bundle. For more information, see <a
   /// href="http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles">Amazon
   /// WorkSpaces Bundles</a>.
-  @_s.JsonKey(name: 'ComputeType')
-  final ComputeType computeType;
+  final ComputeType? computeType;
 
-  /// A description.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  /// The time when the bundle was created.
+  final DateTime? creationTime;
 
-  /// The image identifier of the bundle.
-  @_s.JsonKey(name: 'ImageId')
-  final String imageId;
+  /// The description of the bundle.
+  final String? description;
+
+  /// The identifier of the image that was used to create the bundle.
+  final String? imageId;
 
   /// The last time that the bundle was updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastUpdatedTime')
-  final DateTime lastUpdatedTime;
+  final DateTime? lastUpdatedTime;
 
   /// The name of the bundle.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The owner of the bundle. This is the account identifier of the owner, or
   /// <code>AMAZON</code> if the bundle is provided by AWS.
-  @_s.JsonKey(name: 'Owner')
-  final String owner;
+  final String? owner;
 
   /// The size of the root volume.
-  @_s.JsonKey(name: 'RootStorage')
-  final RootStorage rootStorage;
+  final RootStorage? rootStorage;
 
-  /// The size of the user storage.
-  @_s.JsonKey(name: 'UserStorage')
-  final UserStorage userStorage;
+  /// The size of the user volume.
+  final UserStorage? userStorage;
 
   WorkspaceBundle({
     this.bundleId,
     this.computeType,
+    this.creationTime,
     this.description,
     this.imageId,
     this.lastUpdatedTime,
@@ -4703,35 +5517,70 @@ class WorkspaceBundle {
     this.rootStorage,
     this.userStorage,
   });
-  factory WorkspaceBundle.fromJson(Map<String, dynamic> json) =>
-      _$WorkspaceBundleFromJson(json);
+
+  factory WorkspaceBundle.fromJson(Map<String, dynamic> json) {
+    return WorkspaceBundle(
+      bundleId: json['BundleId'] as String?,
+      computeType: json['ComputeType'] != null
+          ? ComputeType.fromJson(json['ComputeType'] as Map<String, dynamic>)
+          : null,
+      creationTime: timeStampFromJson(json['CreationTime']),
+      description: json['Description'] as String?,
+      imageId: json['ImageId'] as String?,
+      lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+      name: json['Name'] as String?,
+      owner: json['Owner'] as String?,
+      rootStorage: json['RootStorage'] != null
+          ? RootStorage.fromJson(json['RootStorage'] as Map<String, dynamic>)
+          : null,
+      userStorage: json['UserStorage'] != null
+          ? UserStorage.fromJson(json['UserStorage'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bundleId = this.bundleId;
+    final computeType = this.computeType;
+    final creationTime = this.creationTime;
+    final description = this.description;
+    final imageId = this.imageId;
+    final lastUpdatedTime = this.lastUpdatedTime;
+    final name = this.name;
+    final owner = this.owner;
+    final rootStorage = this.rootStorage;
+    final userStorage = this.userStorage;
+    return {
+      if (bundleId != null) 'BundleId': bundleId,
+      if (computeType != null) 'ComputeType': computeType,
+      if (creationTime != null)
+        'CreationTime': unixTimestampToJson(creationTime),
+      if (description != null) 'Description': description,
+      if (imageId != null) 'ImageId': imageId,
+      if (lastUpdatedTime != null)
+        'LastUpdatedTime': unixTimestampToJson(lastUpdatedTime),
+      if (name != null) 'Name': name,
+      if (owner != null) 'Owner': owner,
+      if (rootStorage != null) 'RootStorage': rootStorage,
+      if (userStorage != null) 'UserStorage': userStorage,
+    };
+  }
 }
 
 /// Describes the connection status of a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkspaceConnectionStatus {
   /// The connection state of the WorkSpace. The connection state is unknown if
   /// the WorkSpace is stopped.
-  @_s.JsonKey(name: 'ConnectionState')
-  final ConnectionState connectionState;
+  final ConnectionState? connectionState;
 
   /// The timestamp of the connection status check.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'ConnectionStateCheckTimestamp')
-  final DateTime connectionStateCheckTimestamp;
+  final DateTime? connectionStateCheckTimestamp;
 
   /// The timestamp of the last known user connection.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastKnownUserConnectionTimestamp')
-  final DateTime lastKnownUserConnectionTimestamp;
+  final DateTime? lastKnownUserConnectionTimestamp;
 
   /// The identifier of the WorkSpace.
-  @_s.JsonKey(name: 'WorkspaceId')
-  final String workspaceId;
+  final String? workspaceId;
 
   WorkspaceConnectionStatus({
     this.connectionState,
@@ -4739,23 +5588,45 @@ class WorkspaceConnectionStatus {
     this.lastKnownUserConnectionTimestamp,
     this.workspaceId,
   });
-  factory WorkspaceConnectionStatus.fromJson(Map<String, dynamic> json) =>
-      _$WorkspaceConnectionStatusFromJson(json);
+
+  factory WorkspaceConnectionStatus.fromJson(Map<String, dynamic> json) {
+    return WorkspaceConnectionStatus(
+      connectionState:
+          (json['ConnectionState'] as String?)?.toConnectionState(),
+      connectionStateCheckTimestamp:
+          timeStampFromJson(json['ConnectionStateCheckTimestamp']),
+      lastKnownUserConnectionTimestamp:
+          timeStampFromJson(json['LastKnownUserConnectionTimestamp']),
+      workspaceId: json['WorkspaceId'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final connectionState = this.connectionState;
+    final connectionStateCheckTimestamp = this.connectionStateCheckTimestamp;
+    final lastKnownUserConnectionTimestamp =
+        this.lastKnownUserConnectionTimestamp;
+    final workspaceId = this.workspaceId;
+    return {
+      if (connectionState != null) 'ConnectionState': connectionState.toValue(),
+      if (connectionStateCheckTimestamp != null)
+        'ConnectionStateCheckTimestamp':
+            unixTimestampToJson(connectionStateCheckTimestamp),
+      if (lastKnownUserConnectionTimestamp != null)
+        'LastKnownUserConnectionTimestamp':
+            unixTimestampToJson(lastKnownUserConnectionTimestamp),
+      if (workspaceId != null) 'WorkspaceId': workspaceId,
+    };
+  }
 }
 
 /// Describes the default properties that are used for creating WorkSpaces. For
 /// more information, see <a
 /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html">Update
 /// Directory Details for Your WorkSpaces</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class WorkspaceCreationProperties {
   /// The identifier of your custom security group.
-  @_s.JsonKey(name: 'CustomSecurityGroupId')
-  final String customSecurityGroupId;
+  final String? customSecurityGroupId;
 
   /// The default organizational unit (OU) for your WorkSpaces directories. This
   /// string must be the full Lightweight Directory Access Protocol (LDAP)
@@ -4776,19 +5647,16 @@ class WorkspaceCreationProperties {
   /// The API doesn't validate whether the OU exists.
   /// </li>
   /// </ul> </important>
-  @_s.JsonKey(name: 'DefaultOu')
-  final String defaultOu;
+  final String? defaultOu;
 
   /// Indicates whether internet access is enabled for your WorkSpaces.
-  @_s.JsonKey(name: 'EnableInternetAccess')
-  final bool enableInternetAccess;
+  final bool? enableInternetAccess;
 
   /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/workspace-maintenance.html">WorkSpace
   /// Maintenance</a>.
-  @_s.JsonKey(name: 'EnableMaintenanceMode')
-  final bool enableMaintenanceMode;
+  final bool? enableMaintenanceMode;
 
   /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.
   /// <note>
@@ -4807,12 +5675,10 @@ class WorkspaceCreationProperties {
   /// the existing WorkSpaces and any new WorkSpaces that are launched in the
   /// directory will have WorkDocs enabled.
   /// </note>
-  @_s.JsonKey(name: 'EnableWorkDocs')
-  final bool enableWorkDocs;
+  final bool? enableWorkDocs;
 
   /// Indicates whether users are local administrators of their WorkSpaces.
-  @_s.JsonKey(name: 'UserEnabledAsLocalAdministrator')
-  final bool userEnabledAsLocalAdministrator;
+  final bool? userEnabledAsLocalAdministrator;
 
   WorkspaceCreationProperties({
     this.customSecurityGroupId,
@@ -4822,54 +5688,73 @@ class WorkspaceCreationProperties {
     this.enableWorkDocs,
     this.userEnabledAsLocalAdministrator,
   });
-  Map<String, dynamic> toJson() => _$WorkspaceCreationPropertiesToJson(this);
+
+  factory WorkspaceCreationProperties.fromJson(Map<String, dynamic> json) {
+    return WorkspaceCreationProperties(
+      customSecurityGroupId: json['CustomSecurityGroupId'] as String?,
+      defaultOu: json['DefaultOu'] as String?,
+      enableInternetAccess: json['EnableInternetAccess'] as bool?,
+      enableMaintenanceMode: json['EnableMaintenanceMode'] as bool?,
+      enableWorkDocs: json['EnableWorkDocs'] as bool?,
+      userEnabledAsLocalAdministrator:
+          json['UserEnabledAsLocalAdministrator'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final customSecurityGroupId = this.customSecurityGroupId;
+    final defaultOu = this.defaultOu;
+    final enableInternetAccess = this.enableInternetAccess;
+    final enableMaintenanceMode = this.enableMaintenanceMode;
+    final enableWorkDocs = this.enableWorkDocs;
+    final userEnabledAsLocalAdministrator =
+        this.userEnabledAsLocalAdministrator;
+    return {
+      if (customSecurityGroupId != null)
+        'CustomSecurityGroupId': customSecurityGroupId,
+      if (defaultOu != null) 'DefaultOu': defaultOu,
+      if (enableInternetAccess != null)
+        'EnableInternetAccess': enableInternetAccess,
+      if (enableMaintenanceMode != null)
+        'EnableMaintenanceMode': enableMaintenanceMode,
+      if (enableWorkDocs != null) 'EnableWorkDocs': enableWorkDocs,
+      if (userEnabledAsLocalAdministrator != null)
+        'UserEnabledAsLocalAdministrator': userEnabledAsLocalAdministrator,
+    };
+  }
 }
 
 /// Describes a directory that is used with Amazon WorkSpaces.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkspaceDirectory {
   /// The directory alias.
-  @_s.JsonKey(name: 'Alias')
-  final String alias;
+  final String? alias;
 
   /// The user name for the service account.
-  @_s.JsonKey(name: 'CustomerUserName')
-  final String customerUserName;
+  final String? customerUserName;
 
   /// The directory identifier.
-  @_s.JsonKey(name: 'DirectoryId')
-  final String directoryId;
+  final String? directoryId;
 
   /// The name of the directory.
-  @_s.JsonKey(name: 'DirectoryName')
-  final String directoryName;
+  final String? directoryName;
 
   /// The directory type.
-  @_s.JsonKey(name: 'DirectoryType')
-  final WorkspaceDirectoryType directoryType;
+  final WorkspaceDirectoryType? directoryType;
 
   /// The IP addresses of the DNS servers for the directory.
-  @_s.JsonKey(name: 'DnsIpAddresses')
-  final List<String> dnsIpAddresses;
+  final List<String>? dnsIpAddresses;
 
   /// The identifier of the IAM role. This is the role that allows Amazon
   /// WorkSpaces to make calls to other services, such as Amazon EC2, on your
   /// behalf.
-  @_s.JsonKey(name: 'IamRoleId')
-  final String iamRoleId;
+  final String? iamRoleId;
 
   /// The registration code for the directory. This is the code that users enter
   /// in their Amazon WorkSpaces client application to connect to the directory.
-  @_s.JsonKey(name: 'RegistrationCode')
-  final String registrationCode;
+  final String? registrationCode;
 
   /// The default self-service permissions for WorkSpaces in the directory.
-  @_s.JsonKey(name: 'SelfservicePermissions')
-  final SelfservicePermissions selfservicePermissions;
+  final SelfservicePermissions? selfservicePermissions;
 
   /// The state of the directory's registration with Amazon WorkSpaces. After a
   /// directory is deregistered, the <code>DEREGISTERED</code> state is returned
@@ -4879,37 +5764,30 @@ class WorkspaceDirectory {
   /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceDirectories.html">
   /// DescribeWorkspaceDirectories</a>. If the directory ID isn't returned, then
   /// the directory has been successfully deregistered.
-  @_s.JsonKey(name: 'State')
-  final WorkspaceDirectoryState state;
+  final WorkspaceDirectoryState? state;
 
   /// The identifiers of the subnets used with the directory.
-  @_s.JsonKey(name: 'SubnetIds')
-  final List<String> subnetIds;
+  final List<String>? subnetIds;
 
   /// Specifies whether the directory is dedicated or shared. To use Bring Your
   /// Own License (BYOL), this value must be set to <code>DEDICATED</code>. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
   /// Your Own Windows Desktop Images</a>.
-  @_s.JsonKey(name: 'Tenancy')
-  final Tenancy tenancy;
+  final Tenancy? tenancy;
 
   /// The devices and operating systems that users can use to access WorkSpaces.
-  @_s.JsonKey(name: 'WorkspaceAccessProperties')
-  final WorkspaceAccessProperties workspaceAccessProperties;
+  final WorkspaceAccessProperties? workspaceAccessProperties;
 
   /// The default creation properties for all WorkSpaces in the directory.
-  @_s.JsonKey(name: 'WorkspaceCreationProperties')
-  final DefaultWorkspaceCreationProperties workspaceCreationProperties;
+  final DefaultWorkspaceCreationProperties? workspaceCreationProperties;
 
   /// The identifier of the security group that is assigned to new WorkSpaces.
-  @_s.JsonKey(name: 'WorkspaceSecurityGroupId')
-  final String workspaceSecurityGroupId;
+  final String? workspaceSecurityGroupId;
 
   /// The identifiers of the IP access control groups associated with the
   /// directory.
-  @_s.JsonKey(name: 'ipGroupIds')
-  final List<String> ipGroupIds;
+  final List<String>? ipGroupIds;
 
   WorkspaceDirectory({
     this.alias,
@@ -4929,83 +5807,197 @@ class WorkspaceDirectory {
     this.workspaceSecurityGroupId,
     this.ipGroupIds,
   });
-  factory WorkspaceDirectory.fromJson(Map<String, dynamic> json) =>
-      _$WorkspaceDirectoryFromJson(json);
+
+  factory WorkspaceDirectory.fromJson(Map<String, dynamic> json) {
+    return WorkspaceDirectory(
+      alias: json['Alias'] as String?,
+      customerUserName: json['CustomerUserName'] as String?,
+      directoryId: json['DirectoryId'] as String?,
+      directoryName: json['DirectoryName'] as String?,
+      directoryType:
+          (json['DirectoryType'] as String?)?.toWorkspaceDirectoryType(),
+      dnsIpAddresses: (json['DnsIpAddresses'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      iamRoleId: json['IamRoleId'] as String?,
+      registrationCode: json['RegistrationCode'] as String?,
+      selfservicePermissions: json['SelfservicePermissions'] != null
+          ? SelfservicePermissions.fromJson(
+              json['SelfservicePermissions'] as Map<String, dynamic>)
+          : null,
+      state: (json['State'] as String?)?.toWorkspaceDirectoryState(),
+      subnetIds: (json['SubnetIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      tenancy: (json['Tenancy'] as String?)?.toTenancy(),
+      workspaceAccessProperties: json['WorkspaceAccessProperties'] != null
+          ? WorkspaceAccessProperties.fromJson(
+              json['WorkspaceAccessProperties'] as Map<String, dynamic>)
+          : null,
+      workspaceCreationProperties: json['WorkspaceCreationProperties'] != null
+          ? DefaultWorkspaceCreationProperties.fromJson(
+              json['WorkspaceCreationProperties'] as Map<String, dynamic>)
+          : null,
+      workspaceSecurityGroupId: json['WorkspaceSecurityGroupId'] as String?,
+      ipGroupIds: (json['ipGroupIds'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final alias = this.alias;
+    final customerUserName = this.customerUserName;
+    final directoryId = this.directoryId;
+    final directoryName = this.directoryName;
+    final directoryType = this.directoryType;
+    final dnsIpAddresses = this.dnsIpAddresses;
+    final iamRoleId = this.iamRoleId;
+    final registrationCode = this.registrationCode;
+    final selfservicePermissions = this.selfservicePermissions;
+    final state = this.state;
+    final subnetIds = this.subnetIds;
+    final tenancy = this.tenancy;
+    final workspaceAccessProperties = this.workspaceAccessProperties;
+    final workspaceCreationProperties = this.workspaceCreationProperties;
+    final workspaceSecurityGroupId = this.workspaceSecurityGroupId;
+    final ipGroupIds = this.ipGroupIds;
+    return {
+      if (alias != null) 'Alias': alias,
+      if (customerUserName != null) 'CustomerUserName': customerUserName,
+      if (directoryId != null) 'DirectoryId': directoryId,
+      if (directoryName != null) 'DirectoryName': directoryName,
+      if (directoryType != null) 'DirectoryType': directoryType.toValue(),
+      if (dnsIpAddresses != null) 'DnsIpAddresses': dnsIpAddresses,
+      if (iamRoleId != null) 'IamRoleId': iamRoleId,
+      if (registrationCode != null) 'RegistrationCode': registrationCode,
+      if (selfservicePermissions != null)
+        'SelfservicePermissions': selfservicePermissions,
+      if (state != null) 'State': state.toValue(),
+      if (subnetIds != null) 'SubnetIds': subnetIds,
+      if (tenancy != null) 'Tenancy': tenancy.toValue(),
+      if (workspaceAccessProperties != null)
+        'WorkspaceAccessProperties': workspaceAccessProperties,
+      if (workspaceCreationProperties != null)
+        'WorkspaceCreationProperties': workspaceCreationProperties,
+      if (workspaceSecurityGroupId != null)
+        'WorkspaceSecurityGroupId': workspaceSecurityGroupId,
+      if (ipGroupIds != null) 'ipGroupIds': ipGroupIds,
+    };
+  }
 }
 
 enum WorkspaceDirectoryState {
-  @_s.JsonValue('REGISTERING')
   registering,
-  @_s.JsonValue('REGISTERED')
   registered,
-  @_s.JsonValue('DEREGISTERING')
   deregistering,
-  @_s.JsonValue('DEREGISTERED')
   deregistered,
-  @_s.JsonValue('ERROR')
   error,
 }
 
+extension on WorkspaceDirectoryState {
+  String toValue() {
+    switch (this) {
+      case WorkspaceDirectoryState.registering:
+        return 'REGISTERING';
+      case WorkspaceDirectoryState.registered:
+        return 'REGISTERED';
+      case WorkspaceDirectoryState.deregistering:
+        return 'DEREGISTERING';
+      case WorkspaceDirectoryState.deregistered:
+        return 'DEREGISTERED';
+      case WorkspaceDirectoryState.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  WorkspaceDirectoryState toWorkspaceDirectoryState() {
+    switch (this) {
+      case 'REGISTERING':
+        return WorkspaceDirectoryState.registering;
+      case 'REGISTERED':
+        return WorkspaceDirectoryState.registered;
+      case 'DEREGISTERING':
+        return WorkspaceDirectoryState.deregistering;
+      case 'DEREGISTERED':
+        return WorkspaceDirectoryState.deregistered;
+      case 'ERROR':
+        return WorkspaceDirectoryState.error;
+    }
+    throw Exception('$this is not known in enum WorkspaceDirectoryState');
+  }
+}
+
 enum WorkspaceDirectoryType {
-  @_s.JsonValue('SIMPLE_AD')
   simpleAd,
-  @_s.JsonValue('AD_CONNECTOR')
   adConnector,
 }
 
+extension on WorkspaceDirectoryType {
+  String toValue() {
+    switch (this) {
+      case WorkspaceDirectoryType.simpleAd:
+        return 'SIMPLE_AD';
+      case WorkspaceDirectoryType.adConnector:
+        return 'AD_CONNECTOR';
+    }
+  }
+}
+
+extension on String {
+  WorkspaceDirectoryType toWorkspaceDirectoryType() {
+    switch (this) {
+      case 'SIMPLE_AD':
+        return WorkspaceDirectoryType.simpleAd;
+      case 'AD_CONNECTOR':
+        return WorkspaceDirectoryType.adConnector;
+    }
+    throw Exception('$this is not known in enum WorkspaceDirectoryType');
+  }
+}
+
 /// Describes a WorkSpace image.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkspaceImage {
   /// The date when the image was created. If the image has been shared, the AWS
   /// account that the image has been shared with sees the original creation date
   /// of the image.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'Created')
-  final DateTime created;
+  final DateTime? created;
 
   /// The description of the image.
-  @_s.JsonKey(name: 'Description')
-  final String description;
+  final String? description;
 
   /// The error code that is returned for the image.
-  @_s.JsonKey(name: 'ErrorCode')
-  final String errorCode;
+  final String? errorCode;
 
   /// The text of the error message that is returned for the image.
-  @_s.JsonKey(name: 'ErrorMessage')
-  final String errorMessage;
+  final String? errorMessage;
 
   /// The identifier of the image.
-  @_s.JsonKey(name: 'ImageId')
-  final String imageId;
+  final String? imageId;
 
   /// The name of the image.
-  @_s.JsonKey(name: 'Name')
-  final String name;
+  final String? name;
 
   /// The operating system that the image is running.
-  @_s.JsonKey(name: 'OperatingSystem')
-  final OperatingSystem operatingSystem;
+  final OperatingSystem? operatingSystem;
 
   /// The identifier of the AWS account that owns the image.
-  @_s.JsonKey(name: 'OwnerAccountId')
-  final String ownerAccountId;
+  final String? ownerAccountId;
 
   /// Specifies whether the image is running on dedicated hardware. When Bring
   /// Your Own License (BYOL) is enabled, this value is set to
   /// <code>DEDICATED</code>. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">Bring
   /// Your Own Windows Desktop Images</a>.
-  @_s.JsonKey(name: 'RequiredTenancy')
-  final WorkspaceImageRequiredTenancy requiredTenancy;
+  final WorkspaceImageRequiredTenancy? requiredTenancy;
 
   /// The status of the image.
-  @_s.JsonKey(name: 'State')
-  final WorkspaceImageState state;
+  final WorkspaceImageState? state;
 
   WorkspaceImage({
     this.created,
@@ -5019,18 +6011,56 @@ class WorkspaceImage {
     this.requiredTenancy,
     this.state,
   });
-  factory WorkspaceImage.fromJson(Map<String, dynamic> json) =>
-      _$WorkspaceImageFromJson(json);
+
+  factory WorkspaceImage.fromJson(Map<String, dynamic> json) {
+    return WorkspaceImage(
+      created: timeStampFromJson(json['Created']),
+      description: json['Description'] as String?,
+      errorCode: json['ErrorCode'] as String?,
+      errorMessage: json['ErrorMessage'] as String?,
+      imageId: json['ImageId'] as String?,
+      name: json['Name'] as String?,
+      operatingSystem: json['OperatingSystem'] != null
+          ? OperatingSystem.fromJson(
+              json['OperatingSystem'] as Map<String, dynamic>)
+          : null,
+      ownerAccountId: json['OwnerAccountId'] as String?,
+      requiredTenancy: (json['RequiredTenancy'] as String?)
+          ?.toWorkspaceImageRequiredTenancy(),
+      state: (json['State'] as String?)?.toWorkspaceImageState(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final created = this.created;
+    final description = this.description;
+    final errorCode = this.errorCode;
+    final errorMessage = this.errorMessage;
+    final imageId = this.imageId;
+    final name = this.name;
+    final operatingSystem = this.operatingSystem;
+    final ownerAccountId = this.ownerAccountId;
+    final requiredTenancy = this.requiredTenancy;
+    final state = this.state;
+    return {
+      if (created != null) 'Created': unixTimestampToJson(created),
+      if (description != null) 'Description': description,
+      if (errorCode != null) 'ErrorCode': errorCode,
+      if (errorMessage != null) 'ErrorMessage': errorMessage,
+      if (imageId != null) 'ImageId': imageId,
+      if (name != null) 'Name': name,
+      if (operatingSystem != null) 'OperatingSystem': operatingSystem,
+      if (ownerAccountId != null) 'OwnerAccountId': ownerAccountId,
+      if (requiredTenancy != null) 'RequiredTenancy': requiredTenancy.toValue(),
+      if (state != null) 'State': state.toValue(),
+    };
+  }
 }
 
 enum WorkspaceImageIngestionProcess {
-  @_s.JsonValue('BYOL_REGULAR')
   byolRegular,
-  @_s.JsonValue('BYOL_GRAPHICS')
   byolGraphics,
-  @_s.JsonValue('BYOL_GRAPHICSPRO')
   byolGraphicspro,
-  @_s.JsonValue('BYOL_REGULAR_WSP')
   byolRegularWsp,
 }
 
@@ -5046,63 +6076,114 @@ extension on WorkspaceImageIngestionProcess {
       case WorkspaceImageIngestionProcess.byolRegularWsp:
         return 'BYOL_REGULAR_WSP';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  WorkspaceImageIngestionProcess toWorkspaceImageIngestionProcess() {
+    switch (this) {
+      case 'BYOL_REGULAR':
+        return WorkspaceImageIngestionProcess.byolRegular;
+      case 'BYOL_GRAPHICS':
+        return WorkspaceImageIngestionProcess.byolGraphics;
+      case 'BYOL_GRAPHICSPRO':
+        return WorkspaceImageIngestionProcess.byolGraphicspro;
+      case 'BYOL_REGULAR_WSP':
+        return WorkspaceImageIngestionProcess.byolRegularWsp;
+    }
+    throw Exception(
+        '$this is not known in enum WorkspaceImageIngestionProcess');
   }
 }
 
 enum WorkspaceImageRequiredTenancy {
-  @_s.JsonValue('DEFAULT')
   $default,
-  @_s.JsonValue('DEDICATED')
   dedicated,
 }
 
+extension on WorkspaceImageRequiredTenancy {
+  String toValue() {
+    switch (this) {
+      case WorkspaceImageRequiredTenancy.$default:
+        return 'DEFAULT';
+      case WorkspaceImageRequiredTenancy.dedicated:
+        return 'DEDICATED';
+    }
+  }
+}
+
+extension on String {
+  WorkspaceImageRequiredTenancy toWorkspaceImageRequiredTenancy() {
+    switch (this) {
+      case 'DEFAULT':
+        return WorkspaceImageRequiredTenancy.$default;
+      case 'DEDICATED':
+        return WorkspaceImageRequiredTenancy.dedicated;
+    }
+    throw Exception('$this is not known in enum WorkspaceImageRequiredTenancy');
+  }
+}
+
 enum WorkspaceImageState {
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('ERROR')
   error,
 }
 
+extension on WorkspaceImageState {
+  String toValue() {
+    switch (this) {
+      case WorkspaceImageState.available:
+        return 'AVAILABLE';
+      case WorkspaceImageState.pending:
+        return 'PENDING';
+      case WorkspaceImageState.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  WorkspaceImageState toWorkspaceImageState() {
+    switch (this) {
+      case 'AVAILABLE':
+        return WorkspaceImageState.available;
+      case 'PENDING':
+        return WorkspaceImageState.pending;
+      case 'ERROR':
+        return WorkspaceImageState.error;
+    }
+    throw Exception('$this is not known in enum WorkspaceImageState');
+  }
+}
+
 /// Describes a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WorkspaceProperties {
   /// The compute type. For more information, see <a
   /// href="http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles">Amazon
   /// WorkSpaces Bundles</a>.
-  @_s.JsonKey(name: 'ComputeTypeName')
-  final Compute computeTypeName;
+  final Compute? computeTypeName;
 
   /// The size of the root volume. For important information about how to modify
   /// the size of the root and user volumes, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html">Modify
   /// a WorkSpace</a>.
-  @_s.JsonKey(name: 'RootVolumeSizeGib')
-  final int rootVolumeSizeGib;
+  final int? rootVolumeSizeGib;
 
   /// The running mode. For more information, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/running-mode.html">Manage
   /// the WorkSpace Running Mode</a>.
-  @_s.JsonKey(name: 'RunningMode')
-  final RunningMode runningMode;
+  final RunningMode? runningMode;
 
   /// The time after a user logs off when WorkSpaces are automatically stopped.
   /// Configured in 60-minute intervals.
-  @_s.JsonKey(name: 'RunningModeAutoStopTimeoutInMinutes')
-  final int runningModeAutoStopTimeoutInMinutes;
+  final int? runningModeAutoStopTimeoutInMinutes;
 
   /// The size of the user storage. For important information about how to modify
   /// the size of the root and user volumes, see <a
   /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html">Modify
   /// a WorkSpace</a>.
-  @_s.JsonKey(name: 'UserVolumeSizeGib')
-  final int userVolumeSizeGib;
+  final int? userVolumeSizeGib;
 
   WorkspaceProperties({
     this.computeTypeName,
@@ -5111,131 +6192,240 @@ class WorkspaceProperties {
     this.runningModeAutoStopTimeoutInMinutes,
     this.userVolumeSizeGib,
   });
-  factory WorkspaceProperties.fromJson(Map<String, dynamic> json) =>
-      _$WorkspacePropertiesFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WorkspacePropertiesToJson(this);
+  factory WorkspaceProperties.fromJson(Map<String, dynamic> json) {
+    return WorkspaceProperties(
+      computeTypeName: (json['ComputeTypeName'] as String?)?.toCompute(),
+      rootVolumeSizeGib: json['RootVolumeSizeGib'] as int?,
+      runningMode: (json['RunningMode'] as String?)?.toRunningMode(),
+      runningModeAutoStopTimeoutInMinutes:
+          json['RunningModeAutoStopTimeoutInMinutes'] as int?,
+      userVolumeSizeGib: json['UserVolumeSizeGib'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final computeTypeName = this.computeTypeName;
+    final rootVolumeSizeGib = this.rootVolumeSizeGib;
+    final runningMode = this.runningMode;
+    final runningModeAutoStopTimeoutInMinutes =
+        this.runningModeAutoStopTimeoutInMinutes;
+    final userVolumeSizeGib = this.userVolumeSizeGib;
+    return {
+      if (computeTypeName != null) 'ComputeTypeName': computeTypeName.toValue(),
+      if (rootVolumeSizeGib != null) 'RootVolumeSizeGib': rootVolumeSizeGib,
+      if (runningMode != null) 'RunningMode': runningMode.toValue(),
+      if (runningModeAutoStopTimeoutInMinutes != null)
+        'RunningModeAutoStopTimeoutInMinutes':
+            runningModeAutoStopTimeoutInMinutes,
+      if (userVolumeSizeGib != null) 'UserVolumeSizeGib': userVolumeSizeGib,
+    };
+  }
 }
 
 /// Describes the information used to create a WorkSpace.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class WorkspaceRequest {
   /// The identifier of the bundle for the WorkSpace. You can use
   /// <a>DescribeWorkspaceBundles</a> to list the available bundles.
-  @_s.JsonKey(name: 'BundleId')
   final String bundleId;
 
   /// The identifier of the AWS Directory Service directory for the WorkSpace. You
   /// can use <a>DescribeWorkspaceDirectories</a> to list the available
   /// directories.
-  @_s.JsonKey(name: 'DirectoryId')
   final String directoryId;
 
   /// The user name of the user for the WorkSpace. This user name must exist in
   /// the AWS Directory Service directory for the WorkSpace.
-  @_s.JsonKey(name: 'UserName')
   final String userName;
 
   /// Indicates whether the data stored on the root volume is encrypted.
-  @_s.JsonKey(name: 'RootVolumeEncryptionEnabled')
-  final bool rootVolumeEncryptionEnabled;
+  final bool? rootVolumeEncryptionEnabled;
 
   /// The tags for the WorkSpace.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   /// Indicates whether the data stored on the user volume is encrypted.
-  @_s.JsonKey(name: 'UserVolumeEncryptionEnabled')
-  final bool userVolumeEncryptionEnabled;
+  final bool? userVolumeEncryptionEnabled;
 
   /// The symmetric AWS KMS customer master key (CMK) used to encrypt data stored
   /// on your WorkSpace. Amazon WorkSpaces does not support asymmetric CMKs.
-  @_s.JsonKey(name: 'VolumeEncryptionKey')
-  final String volumeEncryptionKey;
+  final String? volumeEncryptionKey;
 
   /// The WorkSpace properties.
-  @_s.JsonKey(name: 'WorkspaceProperties')
-  final WorkspaceProperties workspaceProperties;
+  final WorkspaceProperties? workspaceProperties;
 
   WorkspaceRequest({
-    @_s.required this.bundleId,
-    @_s.required this.directoryId,
-    @_s.required this.userName,
+    required this.bundleId,
+    required this.directoryId,
+    required this.userName,
     this.rootVolumeEncryptionEnabled,
     this.tags,
     this.userVolumeEncryptionEnabled,
     this.volumeEncryptionKey,
     this.workspaceProperties,
   });
-  factory WorkspaceRequest.fromJson(Map<String, dynamic> json) =>
-      _$WorkspaceRequestFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WorkspaceRequestToJson(this);
+  factory WorkspaceRequest.fromJson(Map<String, dynamic> json) {
+    return WorkspaceRequest(
+      bundleId: json['BundleId'] as String,
+      directoryId: json['DirectoryId'] as String,
+      userName: json['UserName'] as String,
+      rootVolumeEncryptionEnabled: json['RootVolumeEncryptionEnabled'] as bool?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userVolumeEncryptionEnabled: json['UserVolumeEncryptionEnabled'] as bool?,
+      volumeEncryptionKey: json['VolumeEncryptionKey'] as String?,
+      workspaceProperties: json['WorkspaceProperties'] != null
+          ? WorkspaceProperties.fromJson(
+              json['WorkspaceProperties'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final bundleId = this.bundleId;
+    final directoryId = this.directoryId;
+    final userName = this.userName;
+    final rootVolumeEncryptionEnabled = this.rootVolumeEncryptionEnabled;
+    final tags = this.tags;
+    final userVolumeEncryptionEnabled = this.userVolumeEncryptionEnabled;
+    final volumeEncryptionKey = this.volumeEncryptionKey;
+    final workspaceProperties = this.workspaceProperties;
+    return {
+      'BundleId': bundleId,
+      'DirectoryId': directoryId,
+      'UserName': userName,
+      if (rootVolumeEncryptionEnabled != null)
+        'RootVolumeEncryptionEnabled': rootVolumeEncryptionEnabled,
+      if (tags != null) 'Tags': tags,
+      if (userVolumeEncryptionEnabled != null)
+        'UserVolumeEncryptionEnabled': userVolumeEncryptionEnabled,
+      if (volumeEncryptionKey != null)
+        'VolumeEncryptionKey': volumeEncryptionKey,
+      if (workspaceProperties != null)
+        'WorkspaceProperties': workspaceProperties,
+    };
+  }
 }
 
 enum WorkspaceState {
-  @_s.JsonValue('PENDING')
   pending,
-  @_s.JsonValue('AVAILABLE')
   available,
-  @_s.JsonValue('IMPAIRED')
   impaired,
-  @_s.JsonValue('UNHEALTHY')
   unhealthy,
-  @_s.JsonValue('REBOOTING')
   rebooting,
-  @_s.JsonValue('STARTING')
   starting,
-  @_s.JsonValue('REBUILDING')
   rebuilding,
-  @_s.JsonValue('RESTORING')
   restoring,
-  @_s.JsonValue('MAINTENANCE')
   maintenance,
-  @_s.JsonValue('ADMIN_MAINTENANCE')
   adminMaintenance,
-  @_s.JsonValue('TERMINATING')
   terminating,
-  @_s.JsonValue('TERMINATED')
   terminated,
-  @_s.JsonValue('SUSPENDED')
   suspended,
-  @_s.JsonValue('UPDATING')
   updating,
-  @_s.JsonValue('STOPPING')
   stopping,
-  @_s.JsonValue('STOPPED')
   stopped,
-  @_s.JsonValue('ERROR')
   error,
 }
 
+extension on WorkspaceState {
+  String toValue() {
+    switch (this) {
+      case WorkspaceState.pending:
+        return 'PENDING';
+      case WorkspaceState.available:
+        return 'AVAILABLE';
+      case WorkspaceState.impaired:
+        return 'IMPAIRED';
+      case WorkspaceState.unhealthy:
+        return 'UNHEALTHY';
+      case WorkspaceState.rebooting:
+        return 'REBOOTING';
+      case WorkspaceState.starting:
+        return 'STARTING';
+      case WorkspaceState.rebuilding:
+        return 'REBUILDING';
+      case WorkspaceState.restoring:
+        return 'RESTORING';
+      case WorkspaceState.maintenance:
+        return 'MAINTENANCE';
+      case WorkspaceState.adminMaintenance:
+        return 'ADMIN_MAINTENANCE';
+      case WorkspaceState.terminating:
+        return 'TERMINATING';
+      case WorkspaceState.terminated:
+        return 'TERMINATED';
+      case WorkspaceState.suspended:
+        return 'SUSPENDED';
+      case WorkspaceState.updating:
+        return 'UPDATING';
+      case WorkspaceState.stopping:
+        return 'STOPPING';
+      case WorkspaceState.stopped:
+        return 'STOPPED';
+      case WorkspaceState.error:
+        return 'ERROR';
+    }
+  }
+}
+
+extension on String {
+  WorkspaceState toWorkspaceState() {
+    switch (this) {
+      case 'PENDING':
+        return WorkspaceState.pending;
+      case 'AVAILABLE':
+        return WorkspaceState.available;
+      case 'IMPAIRED':
+        return WorkspaceState.impaired;
+      case 'UNHEALTHY':
+        return WorkspaceState.unhealthy;
+      case 'REBOOTING':
+        return WorkspaceState.rebooting;
+      case 'STARTING':
+        return WorkspaceState.starting;
+      case 'REBUILDING':
+        return WorkspaceState.rebuilding;
+      case 'RESTORING':
+        return WorkspaceState.restoring;
+      case 'MAINTENANCE':
+        return WorkspaceState.maintenance;
+      case 'ADMIN_MAINTENANCE':
+        return WorkspaceState.adminMaintenance;
+      case 'TERMINATING':
+        return WorkspaceState.terminating;
+      case 'TERMINATED':
+        return WorkspaceState.terminated;
+      case 'SUSPENDED':
+        return WorkspaceState.suspended;
+      case 'UPDATING':
+        return WorkspaceState.updating;
+      case 'STOPPING':
+        return WorkspaceState.stopping;
+      case 'STOPPED':
+        return WorkspaceState.stopped;
+      case 'ERROR':
+        return WorkspaceState.error;
+    }
+    throw Exception('$this is not known in enum WorkspaceState');
+  }
+}
+
 /// Describes an IP access control group.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class WorkspacesIpGroup {
   /// The description of the group.
-  @_s.JsonKey(name: 'groupDesc')
-  final String groupDesc;
+  final String? groupDesc;
 
   /// The identifier of the group.
-  @_s.JsonKey(name: 'groupId')
-  final String groupId;
+  final String? groupId;
 
   /// The name of the group.
-  @_s.JsonKey(name: 'groupName')
-  final String groupName;
+  final String? groupName;
 
   /// The rules.
-  @_s.JsonKey(name: 'userRules')
-  final List<IpRuleItem> userRules;
+  final List<IpRuleItem>? userRules;
 
   WorkspacesIpGroup({
     this.groupDesc,
@@ -5243,17 +6433,40 @@ class WorkspacesIpGroup {
     this.groupName,
     this.userRules,
   });
-  factory WorkspacesIpGroup.fromJson(Map<String, dynamic> json) =>
-      _$WorkspacesIpGroupFromJson(json);
+
+  factory WorkspacesIpGroup.fromJson(Map<String, dynamic> json) {
+    return WorkspacesIpGroup(
+      groupDesc: json['groupDesc'] as String?,
+      groupId: json['groupId'] as String?,
+      groupName: json['groupName'] as String?,
+      userRules: (json['userRules'] as List?)
+          ?.whereNotNull()
+          .map((e) => IpRuleItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final groupDesc = this.groupDesc;
+    final groupId = this.groupId;
+    final groupName = this.groupName;
+    final userRules = this.userRules;
+    return {
+      if (groupDesc != null) 'groupDesc': groupDesc,
+      if (groupId != null) 'groupId': groupId,
+      if (groupName != null) 'groupName': groupName,
+      if (userRules != null) 'userRules': userRules,
+    };
+  }
 }
 
 class AccessDeniedException extends _s.GenericAwsException {
-  AccessDeniedException({String type, String message})
+  AccessDeniedException({String? type, String? message})
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
 class InvalidParameterValuesException extends _s.GenericAwsException {
-  InvalidParameterValuesException({String type, String message})
+  InvalidParameterValuesException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidParameterValuesException',
@@ -5261,7 +6474,7 @@ class InvalidParameterValuesException extends _s.GenericAwsException {
 }
 
 class InvalidResourceStateException extends _s.GenericAwsException {
-  InvalidResourceStateException({String type, String message})
+  InvalidResourceStateException({String? type, String? message})
       : super(
             type: type,
             code: 'InvalidResourceStateException',
@@ -5269,13 +6482,13 @@ class InvalidResourceStateException extends _s.GenericAwsException {
 }
 
 class OperationInProgressException extends _s.GenericAwsException {
-  OperationInProgressException({String type, String message})
+  OperationInProgressException({String? type, String? message})
       : super(
             type: type, code: 'OperationInProgressException', message: message);
 }
 
 class OperationNotSupportedException extends _s.GenericAwsException {
-  OperationNotSupportedException({String type, String message})
+  OperationNotSupportedException({String? type, String? message})
       : super(
             type: type,
             code: 'OperationNotSupportedException',
@@ -5283,7 +6496,7 @@ class OperationNotSupportedException extends _s.GenericAwsException {
 }
 
 class ResourceAlreadyExistsException extends _s.GenericAwsException {
-  ResourceAlreadyExistsException({String type, String message})
+  ResourceAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceAlreadyExistsException',
@@ -5291,13 +6504,13 @@ class ResourceAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class ResourceAssociatedException extends _s.GenericAwsException {
-  ResourceAssociatedException({String type, String message})
+  ResourceAssociatedException({String? type, String? message})
       : super(
             type: type, code: 'ResourceAssociatedException', message: message);
 }
 
 class ResourceCreationFailedException extends _s.GenericAwsException {
-  ResourceCreationFailedException({String type, String message})
+  ResourceCreationFailedException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceCreationFailedException',
@@ -5305,7 +6518,7 @@ class ResourceCreationFailedException extends _s.GenericAwsException {
 }
 
 class ResourceLimitExceededException extends _s.GenericAwsException {
-  ResourceLimitExceededException({String type, String message})
+  ResourceLimitExceededException({String? type, String? message})
       : super(
             type: type,
             code: 'ResourceLimitExceededException',
@@ -5313,18 +6526,18 @@ class ResourceLimitExceededException extends _s.GenericAwsException {
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class ResourceUnavailableException extends _s.GenericAwsException {
-  ResourceUnavailableException({String type, String message})
+  ResourceUnavailableException({String? type, String? message})
       : super(
             type: type, code: 'ResourceUnavailableException', message: message);
 }
 
 class UnsupportedNetworkConfigurationException extends _s.GenericAwsException {
-  UnsupportedNetworkConfigurationException({String type, String message})
+  UnsupportedNetworkConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedNetworkConfigurationException',
@@ -5333,7 +6546,7 @@ class UnsupportedNetworkConfigurationException extends _s.GenericAwsException {
 
 class UnsupportedWorkspaceConfigurationException
     extends _s.GenericAwsException {
-  UnsupportedWorkspaceConfigurationException({String type, String message})
+  UnsupportedWorkspaceConfigurationException({String? type, String? message})
       : super(
             type: type,
             code: 'UnsupportedWorkspaceConfigurationException',
@@ -5341,7 +6554,7 @@ class UnsupportedWorkspaceConfigurationException
 }
 
 class WorkspacesDefaultRoleNotFoundException extends _s.GenericAwsException {
-  WorkspacesDefaultRoleNotFoundException({String type, String message})
+  WorkspacesDefaultRoleNotFoundException({String? type, String? message})
       : super(
             type: type,
             code: 'WorkspacesDefaultRoleNotFoundException',

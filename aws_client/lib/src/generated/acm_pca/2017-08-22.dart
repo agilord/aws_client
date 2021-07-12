@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,21 +11,13 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2017-08-22.g.dart';
 
 /// This is the <i>ACM Private CA API Reference</i>. It provides descriptions,
 /// syntax, and usage examples for each of the actions and data types involved
@@ -45,10 +38,10 @@ part '2017-08-22.g.dart';
 class AcmPca {
   final _s.JsonProtocol _protocol;
   AcmPca({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -71,7 +64,7 @@ class AcmPca {
   /// certificates issued by the CA. If successful, this action returns the
   /// Amazon Resource Name (ARN) of the CA.
   ///
-  /// ACM Private CAA assets that are stored in Amazon S3 can be protected with
+  /// ACM Private CA assets that are stored in Amazon S3 can be protected with
   /// encryption. For more information, see <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#crl-encryption">Encrypting
   /// Your CRLs</a>.
@@ -97,12 +90,28 @@ class AcmPca {
   /// The type of the certificate authority.
   ///
   /// Parameter [idempotencyToken] :
-  /// Alphanumeric string that can be used to distinguish between calls to
-  /// <b>CreateCertificateAuthority</b>. For a given token, ACM Private CA
-  /// creates exactly one CA. If you issue a subsequent call using the same
-  /// token, ACM Private CA returns the ARN of the existing CA and takes no
-  /// further action. If you change the idempotency token across multiple calls,
-  /// ACM Private CA creates a unique CA for each unique token.
+  /// Custom string that can be used to distinguish between calls to the
+  /// <b>CreateCertificateAuthority</b> action. Idempotency tokens for
+  /// <b>CreateCertificateAuthority</b> time out after five minutes. Therefore,
+  /// if you call <b>CreateCertificateAuthority</b> multiple times with the same
+  /// idempotency token within five minutes, ACM Private CA recognizes that you
+  /// are requesting only certificate authority and will issue only one. If you
+  /// change the idempotency token for each call, PCA recognizes that you are
+  /// requesting multiple certificate authorities.
+  ///
+  /// Parameter [keyStorageSecurityStandard] :
+  /// Specifies a cryptographic key management compliance standard used for
+  /// handling CA keys.
+  ///
+  /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
+  ///
+  /// Note: <code>FIPS_140_2_LEVEL_3_OR_HIGHER</code> is not supported in Region
+  /// ap-northeast-3. When creating a CA in the ap-northeast-3, you must provide
+  /// <code>FIPS_140_2_LEVEL_2_OR_HIGHER</code> as the argument for
+  /// <code>KeyStorageSecurityStandard</code>. Failure to do this results in an
+  /// <code>InvalidArgsException</code> with the message, "A certificate
+  /// authority cannot be created in this region with the specified security
+  /// standard."
   ///
   /// Parameter [revocationConfiguration] :
   /// Contains a Boolean value that you can use to enable a certification
@@ -120,12 +129,13 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html">Controlling
   /// Access Using IAM Tags</a>.
   Future<CreateCertificateAuthorityResponse> createCertificateAuthority({
-    @_s.required
-        CertificateAuthorityConfiguration certificateAuthorityConfiguration,
-    @_s.required CertificateAuthorityType certificateAuthorityType,
-    String idempotencyToken,
-    RevocationConfiguration revocationConfiguration,
-    List<Tag> tags,
+    required CertificateAuthorityConfiguration
+        certificateAuthorityConfiguration,
+    required CertificateAuthorityType certificateAuthorityType,
+    String? idempotencyToken,
+    KeyStorageSecurityStandard? keyStorageSecurityStandard,
+    RevocationConfiguration? revocationConfiguration,
+    List<Tag>? tags,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityConfiguration, 'certificateAuthorityConfiguration');
@@ -136,11 +146,6 @@ class AcmPca {
       idempotencyToken,
       1,
       36,
-    );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -154,8 +159,10 @@ class AcmPca {
       headers: headers,
       payload: {
         'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
-        'CertificateAuthorityType': certificateAuthorityType?.toValue() ?? '',
+        'CertificateAuthorityType': certificateAuthorityType.toValue(),
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
+        if (keyStorageSecurityStandard != null)
+          'KeyStorageSecurityStandard': keyStorageSecurityStandard.toValue(),
         if (revocationConfiguration != null)
           'RevocationConfiguration': revocationConfiguration,
         if (tags != null) 'Tags': tags,
@@ -180,7 +187,7 @@ class AcmPca {
   /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaAuthAccess.html">Configure
   /// Access to ACM Private CA</a>.
   /// </note>
-  /// ACM Private CAA assets that are stored in Amazon S3 can be protected with
+  /// ACM Private CA assets that are stored in Amazon S3 can be protected with
   /// encryption. For more information, see <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaAuditReport.html#audit-report-encryption">Encrypting
   /// Your Audit Reports</a>.
@@ -207,9 +214,9 @@ class AcmPca {
   /// The name of the S3 bucket that will contain the audit report.
   Future<CreateCertificateAuthorityAuditReportResponse>
       createCertificateAuthorityAuditReport({
-    @_s.required AuditReportResponseFormat auditReportResponseFormat,
-    @_s.required String certificateAuthorityArn,
-    @_s.required String s3BucketName,
+    required AuditReportResponseFormat auditReportResponseFormat,
+    required String certificateAuthorityArn,
+    required String s3BucketName,
   }) async {
     ArgumentError.checkNotNull(
         auditReportResponseFormat, 'auditReportResponseFormat');
@@ -220,12 +227,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(s3BucketName, 's3BucketName');
@@ -247,7 +248,7 @@ class AcmPca {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuditReportResponseFormat': auditReportResponseFormat?.toValue() ?? '',
+        'AuditReportResponseFormat': auditReportResponseFormat.toValue(),
         'CertificateAuthorityArn': certificateAuthorityArn,
         'S3BucketName': s3BucketName,
       },
@@ -317,10 +318,10 @@ class AcmPca {
   /// Parameter [sourceAccount] :
   /// The ID of the calling account.
   Future<void> createPermission({
-    @_s.required List<ActionType> actions,
-    @_s.required String certificateAuthorityArn,
-    @_s.required String principal,
-    String sourceAccount,
+    required List<ActionType> actions,
+    required String certificateAuthorityArn,
+    required String principal,
+    String? sourceAccount,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(
@@ -332,12 +333,6 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringLength(
       'principal',
@@ -346,35 +341,24 @@ class AcmPca {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'principal',
-      principal,
-      r'''^[^*]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'sourceAccount',
       sourceAccount,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'sourceAccount',
-      sourceAccount,
-      r'''[0-9]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.CreatePermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'Actions': actions?.map((e) => e?.toValue() ?? '')?.toList(),
+        'Actions': actions.map((e) => e.toValue()).toList(),
         'CertificateAuthorityArn': certificateAuthorityArn,
         'Principal': principal,
         if (sourceAccount != null) 'SourceAccount': sourceAccount,
@@ -434,8 +418,8 @@ class AcmPca {
   /// The number of days to make a CA restorable after it has been deleted. This
   /// can be anywhere from 7 to 30 days, with 30 being the default.
   Future<void> deleteCertificateAuthority({
-    @_s.required String certificateAuthorityArn,
-    int permanentDeletionTimeInDays,
+    required String certificateAuthorityArn,
+    int? permanentDeletionTimeInDays,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -444,12 +428,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -462,7 +440,7 @@ class AcmPca {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeleteCertificateAuthority'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -532,9 +510,9 @@ class AcmPca {
   /// Parameter [sourceAccount] :
   /// The AWS account that calls this action.
   Future<void> deletePermission({
-    @_s.required String certificateAuthorityArn,
-    @_s.required String principal,
-    String sourceAccount,
+    required String certificateAuthorityArn,
+    required String principal,
+    String? sourceAccount,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -545,12 +523,6 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(principal, 'principal');
     _s.validateStringLength(
       'principal',
@@ -559,28 +531,17 @@ class AcmPca {
       128,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'principal',
-      principal,
-      r'''^[^*]+$''',
-      isRequired: true,
-    );
     _s.validateStringLength(
       'sourceAccount',
       sourceAccount,
       12,
       12,
     );
-    _s.validateStringPattern(
-      'sourceAccount',
-      sourceAccount,
-      r'''[0-9]+''',
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeletePermission'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -653,7 +614,7 @@ class AcmPca {
   /// action. The ARN value must have the form
   /// <code>arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab</code>.
   Future<void> deletePolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -663,17 +624,11 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.DeletePolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -711,7 +666,7 @@ class AcmPca {
   /// </li>
   /// <li>
   /// <code>FAILED</code> - Your private CA has failed. Your CA can fail because
-  /// of problems such a network outage or backend AWS failure or other errors.
+  /// of problems such a network outage or back-end AWS failure or other errors.
   /// A failed CA can never return to the pending state. You must create a new
   /// CA.
   /// </li>
@@ -733,7 +688,7 @@ class AcmPca {
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
   /// </code>.
   Future<DescribeCertificateAuthorityResponse> describeCertificateAuthority({
-    @_s.required String certificateAuthorityArn,
+    required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -742,12 +697,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -794,8 +743,8 @@ class AcmPca {
   /// </code>.
   Future<DescribeCertificateAuthorityAuditReportResponse>
       describeCertificateAuthorityAuditReport({
-    @_s.required String auditReportId,
-    @_s.required String certificateAuthorityArn,
+    required String auditReportId,
+    required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(auditReportId, 'auditReportId');
     _s.validateStringLength(
@@ -805,12 +754,6 @@ class AcmPca {
       36,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'auditReportId',
-      auditReportId,
-      r'''[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
     _s.validateStringLength(
@@ -818,12 +761,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -878,8 +815,8 @@ class AcmPca {
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
   /// </code>.
   Future<GetCertificateResponse> getCertificate({
-    @_s.required String certificateArn,
-    @_s.required String certificateAuthorityArn,
+    required String certificateArn,
+    required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(certificateArn, 'certificateArn');
     _s.validateStringLength(
@@ -889,12 +826,6 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateArn',
-      certificateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
     _s.validateStringLength(
@@ -902,12 +833,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -946,7 +871,7 @@ class AcmPca {
   /// </code>.
   Future<GetCertificateAuthorityCertificateResponse>
       getCertificateAuthorityCertificate({
-    @_s.required String certificateAuthorityArn,
+    required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -955,12 +880,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1005,7 +924,7 @@ class AcmPca {
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
   /// </code>
   Future<GetCertificateAuthorityCsrResponse> getCertificateAuthorityCsr({
-    @_s.required String certificateAuthorityArn,
+    required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -1014,12 +933,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1088,7 +1001,7 @@ class AcmPca {
   /// policy retrieved. You can find the CA's ARN by calling the
   /// ListCertificateAuthorities action.
   Future<GetPolicyResponse> getPolicy({
-    @_s.required String resourceArn,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     _s.validateStringLength(
@@ -1096,12 +1009,6 @@ class AcmPca {
       resourceArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1130,8 +1037,8 @@ class AcmPca {
   /// <li>
   /// In ACM Private CA, call the <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
-  /// action to create the private CA that that you plan to back with the
-  /// imported certificate.
+  /// action to create the private CA that you plan to back with the imported
+  /// certificate.
   /// </li>
   /// <li>
   /// Call the <a
@@ -1161,7 +1068,7 @@ class AcmPca {
   /// externally hosted.
   /// </li>
   /// </ul>
-  /// The following addtitional requirements apply when you import a CA
+  /// The following additional requirements apply when you import a CA
   /// certificate.
   ///
   /// <ul>
@@ -1290,9 +1197,9 @@ class AcmPca {
   /// This parameter must be supplied when you import a subordinate CA. When you
   /// import a root CA, there is no chain.
   Future<void> importCertificateAuthorityCertificate({
-    @_s.required Uint8List certificate,
-    @_s.required String certificateAuthorityArn,
-    Uint8List certificateChain,
+    required Uint8List certificate,
+    required String certificateAuthorityArn,
+    Uint8List? certificateChain,
   }) async {
     ArgumentError.checkNotNull(certificate, 'certificate');
     ArgumentError.checkNotNull(
@@ -1304,24 +1211,18 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.ImportCertificateAuthorityCertificate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       // TODO queryParams
       headers: headers,
       payload: {
-        'Certificate': certificate?.let(base64Encode),
+        'Certificate': base64Encode(certificate),
         'CertificateAuthorityArn': certificateAuthorityArn,
         if (certificateChain != null)
           'CertificateChain': base64Encode(certificateChain),
@@ -1358,13 +1259,13 @@ class AcmPca {
   ///
   /// Parameter [csr] :
   /// The certificate signing request (CSR) for the certificate you want to
-  /// issue. You can use the following OpenSSL command to create the CSR and a
-  /// 2048 bit RSA private key.
+  /// issue. As an example, you can use the following OpenSSL command to create
+  /// the CSR and a 2048 bit RSA private key.
   ///
   /// <code>openssl req -new -newkey rsa:2048 -days 365 -keyout
   /// private/test_cert_priv_key.pem -out csr/test_cert_.csr</code>
   ///
-  /// If you have a configuration file, you can use the following OpenSSL
+  /// If you have a configuration file, you can then use the following OpenSSL
   /// command. The <code>usr_cert</code> block in the configuration file
   /// contains your X509 version 3 extensions.
   ///
@@ -1380,26 +1281,51 @@ class AcmPca {
   /// issued.
   ///
   /// This parameter should not be confused with the
-  /// <code>SigningAlgorithm</code> parameter used to sign a CSR.
+  /// <code>SigningAlgorithm</code> parameter used to sign a CSR in the
+  /// <code>CreateCertificateAuthority</code> action.
   ///
   /// Parameter [validity] :
-  /// Information describing the validity period of the certificate.
+  /// Information describing the end of the validity period of the certificate.
+  /// This parameter sets the “Not After” date for the certificate.
   ///
-  /// When issuing a certificate, ACM Private CA sets the "Not Before" date in
-  /// the validity field to date and time minus 60 minutes. This is intended to
-  /// compensate for time inconsistencies across systems of 60 minutes or less.
+  /// Certificate validity is the period of time during which a certificate is
+  /// valid. Validity can be expressed as an explicit date and time when the
+  /// certificate expires, or as a span of time after issuance, stated in days,
+  /// months, or years. For more information, see <a
+  /// href="https://tools.ietf.org/html/rfc5280#section-4.1.2.5">Validity</a> in
+  /// RFC 5280.
   ///
-  /// The validity period configured on a certificate must not exceed the limit
-  /// set by its parents in the CA hierarchy.
+  /// This value is unaffected when <code>ValidityNotBefore</code> is also
+  /// specified. For example, if <code>Validity</code> is set to 20 days in the
+  /// future, the certificate will expire 20 days from issuance time regardless
+  /// of the <code>ValidityNotBefore</code> value.
+  ///
+  /// The end of the validity period configured on a certificate must not exceed
+  /// the limit set on its parents in the CA hierarchy.
+  ///
+  /// Parameter [apiPassthrough] :
+  /// Specifies X.509 certificate information to be included in the issued
+  /// certificate. An <code>APIPassthrough</code> or
+  /// <code>APICSRPassthrough</code> template variant must be selected, or else
+  /// this parameter is ignored. For more information about using these
+  /// templates, see <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html">Understanding
+  /// Certificate Templates</a>.
+  ///
+  /// If conflicting or duplicate certificate information is supplied during
+  /// certificate issuance, ACM Private CA applies <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html#template-order-of-operations">order
+  /// of operation rules</a> to determine what information is used.
   ///
   /// Parameter [idempotencyToken] :
-  /// Custom string that can be used to distinguish between calls to the
-  /// <b>IssueCertificate</b> action. Idempotency tokens time out after one
-  /// hour. Therefore, if you call <b>IssueCertificate</b> multiple times with
-  /// the same idempotency token within 5 minutes, ACM Private CA recognizes
-  /// that you are requesting only one certificate and will issue only one. If
-  /// you change the idempotency token for each call, PCA recognizes that you
-  /// are requesting multiple certificates.
+  /// Alphanumeric string that can be used to distinguish between calls to the
+  /// <b>IssueCertificate</b> action. Idempotency tokens for
+  /// <b>IssueCertificate</b> time out after one minute. Therefore, if you call
+  /// <b>IssueCertificate</b> multiple times with the same idempotency token
+  /// within one minute, ACM Private CA recognizes that you are requesting only
+  /// one certificate and will issue only one. If you change the idempotency
+  /// token for each call, PCA recognizes that you are requesting multiple
+  /// certificates.
   ///
   /// Parameter [templateArn] :
   /// Specifies a custom configuration template to use when issuing a
@@ -1414,66 +1340,41 @@ class AcmPca {
   /// Note: The CA depth configured on a subordinate CA certificate must not
   /// exceed the limit set by its parents in the CA hierarchy.
   ///
-  /// The following service-owned <code>TemplateArn</code> values are supported
-  /// by ACM Private CA:
+  /// For a list of <code>TemplateArn</code> values supported by ACM Private CA,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html">Understanding
+  /// Certificate Templates</a>.
   ///
-  /// <ul>
-  /// <li>
-  /// arn:aws:acm-pca:::template/CodeSigningCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/CodeSigningCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityClientAuthCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityClientAuthCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityServerAuthCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/EndEntityServerAuthCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/OCSPSigningCertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/OCSPSigningCertificate_CSRPassthrough/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/RootCACertificate/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen0/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen1/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen2/V1
-  /// </li>
-  /// <li>
-  /// arn:aws:acm-pca:::template/SubordinateCACertificate_PathLen3/V1
-  /// </li>
-  /// </ul>
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html">Using
-  /// Templates</a>.
+  /// Parameter [validityNotBefore] :
+  /// Information describing the start of the validity period of the
+  /// certificate. This parameter sets the “Not Before" date for the
+  /// certificate.
+  ///
+  /// By default, when issuing a certificate, ACM Private CA sets the "Not
+  /// Before" date to the issuance time minus 60 minutes. This compensates for
+  /// clock inconsistencies across computer systems. The
+  /// <code>ValidityNotBefore</code> parameter can be used to customize the “Not
+  /// Before” value.
+  ///
+  /// Unlike the <code>Validity</code> parameter, the
+  /// <code>ValidityNotBefore</code> parameter is optional.
+  ///
+  /// The <code>ValidityNotBefore</code> value is expressed as an explicit date
+  /// and time, using the <code>Validity</code> type value
+  /// <code>ABSOLUTE</code>. For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_Validity.html">Validity</a>
+  /// in this API reference and <a
+  /// href="https://tools.ietf.org/html/rfc5280#section-4.1.2.5">Validity</a> in
+  /// RFC 5280.
   Future<IssueCertificateResponse> issueCertificate({
-    @_s.required String certificateAuthorityArn,
-    @_s.required Uint8List csr,
-    @_s.required SigningAlgorithm signingAlgorithm,
-    @_s.required Validity validity,
-    String idempotencyToken,
-    String templateArn,
+    required String certificateAuthorityArn,
+    required Uint8List csr,
+    required SigningAlgorithm signingAlgorithm,
+    required Validity validity,
+    ApiPassthrough? apiPassthrough,
+    String? idempotencyToken,
+    String? templateArn,
+    Validity? validityNotBefore,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -1482,12 +1383,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(csr, 'csr');
@@ -1499,21 +1394,11 @@ class AcmPca {
       1,
       36,
     );
-    _s.validateStringPattern(
-      'idempotencyToken',
-      idempotencyToken,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]*''',
-    );
     _s.validateStringLength(
       'templateArn',
       templateArn,
       5,
       200,
-    );
-    _s.validateStringPattern(
-      'templateArn',
-      templateArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1527,11 +1412,13 @@ class AcmPca {
       headers: headers,
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
-        'Csr': csr?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue() ?? '',
+        'Csr': base64Encode(csr),
+        'SigningAlgorithm': signingAlgorithm.toValue(),
         'Validity': validity,
+        if (apiPassthrough != null) 'ApiPassthrough': apiPassthrough,
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
         if (templateArn != null) 'TemplateArn': templateArn,
+        if (validityNotBefore != null) 'ValidityNotBefore': validityNotBefore,
       },
     );
 
@@ -1560,9 +1447,9 @@ class AcmPca {
   /// Use this parameter to filter the returned set of certificate authorities
   /// based on their owner. The default is SELF.
   Future<ListCertificateAuthoritiesResponse> listCertificateAuthorities({
-    int maxResults,
-    String nextToken,
-    ResourceOwner resourceOwner,
+    int? maxResults,
+    String? nextToken,
+    ResourceOwner? resourceOwner,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1657,9 +1544,9 @@ class AcmPca {
   /// you receive a response with truncated results. Set it to the value of
   /// <b>NextToken</b> from the response you just received.
   Future<ListPermissionsResponse> listPermissions({
-    @_s.required String certificateAuthorityArn,
-    int maxResults,
-    String nextToken,
+    required String certificateAuthorityArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -1668,12 +1555,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1741,9 +1622,9 @@ class AcmPca {
   /// you receive a response with truncated results. Set it to the value of
   /// <b>NextToken</b> from the response you just received.
   Future<ListTagsResponse> listTags({
-    @_s.required String certificateAuthorityArn,
-    int maxResults,
-    String nextToken,
+    required String certificateAuthorityArn,
+    int? maxResults,
+    String? nextToken,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -1752,12 +1633,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1842,7 +1717,7 @@ class AcmPca {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [policy] :
-  /// The path and filename of a JSON-formatted IAM policy to attach to the
+  /// The path and file name of a JSON-formatted IAM policy to attach to the
   /// specified private CA resource. If this policy does not contain all
   /// required statements or if it includes any statement that is not allowed,
   /// the <code>PutPolicy</code> action returns an
@@ -1858,8 +1733,8 @@ class AcmPca {
   /// action.
   /// <p/>
   Future<void> putPolicy({
-    @_s.required String policy,
-    @_s.required String resourceArn,
+    required String policy,
+    required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(policy, 'policy');
     _s.validateStringLength(
@@ -1867,12 +1742,6 @@ class AcmPca {
       policy,
       1,
       20480,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'policy',
-      policy,
-      r'''[\u0009\u000A\u000D\u0020-\u00FF]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -1883,17 +1752,11 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'resourceArn',
-      resourceArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.PutPolicy'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -1941,7 +1804,7 @@ class AcmPca {
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
   /// </code>
   Future<void> restoreCertificateAuthority({
-    @_s.required String certificateAuthorityArn,
+    required String certificateAuthorityArn,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -1952,17 +1815,11 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.RestoreCertificateAuthority'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2036,9 +1893,9 @@ class AcmPca {
   /// Parameter [revocationReason] :
   /// Specifies why you revoked the certificate.
   Future<void> revokeCertificate({
-    @_s.required String certificateAuthorityArn,
-    @_s.required String certificateSerial,
-    @_s.required RevocationReason revocationReason,
+    required String certificateAuthorityArn,
+    required String certificateSerial,
+    required RevocationReason revocationReason,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -2047,12 +1904,6 @@ class AcmPca {
       certificateAuthorityArn,
       5,
       200,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(certificateSerial, 'certificateSerial');
@@ -2068,7 +1919,7 @@ class AcmPca {
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.RevokeCertificate'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2077,7 +1928,7 @@ class AcmPca {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'CertificateSerial': certificateSerial,
-        'RevocationReason': revocationReason?.toValue() ?? '',
+        'RevocationReason': revocationReason.toValue(),
       },
     );
   }
@@ -2112,8 +1963,8 @@ class AcmPca {
   /// Parameter [tags] :
   /// List of tags to be associated with the CA.
   Future<void> tagCertificateAuthority({
-    @_s.required String certificateAuthorityArn,
-    @_s.required List<Tag> tags,
+    required String certificateAuthorityArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -2124,18 +1975,12 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.TagCertificateAuthority'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2174,8 +2019,8 @@ class AcmPca {
   /// Parameter [tags] :
   /// List of tags to be removed from the CA.
   Future<void> untagCertificateAuthority({
-    @_s.required String certificateAuthorityArn,
-    @_s.required List<Tag> tags,
+    required String certificateAuthorityArn,
+    required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -2186,18 +2031,12 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.UntagCertificateAuthority'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2244,9 +2083,9 @@ class AcmPca {
   /// Parameter [status] :
   /// Status of your private CA.
   Future<void> updateCertificateAuthority({
-    @_s.required String certificateAuthorityArn,
-    RevocationConfiguration revocationConfiguration,
-    CertificateAuthorityStatus status,
+    required String certificateAuthorityArn,
+    RevocationConfiguration? revocationConfiguration,
+    CertificateAuthorityStatus? status,
   }) async {
     ArgumentError.checkNotNull(
         certificateAuthorityArn, 'certificateAuthorityArn');
@@ -2257,17 +2096,11 @@ class AcmPca {
       200,
       isRequired: true,
     );
-    _s.validateStringPattern(
-      'certificateAuthorityArn',
-      certificateAuthorityArn,
-      r'''arn:[\w+=/,.@-]+:[\w+=/,.@-]+:[\w+=/,.@-]*:[0-9]*:[\w+=,.@-]+(/[\w+=,.@-]+)*''',
-      isRequired: true,
-    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'ACMPrivateCA.UpdateCertificateAuthority'
     };
-    final jsonResponse = await _protocol.send(
+    await _protocol.send(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
@@ -2283,92 +2116,69 @@ class AcmPca {
   }
 }
 
-/// Contains information about the certificate subject. The certificate can be
-/// one issued by your private certificate authority (CA) or it can be your
-/// private CA certificate. The <b>Subject</b> field in the certificate
-/// identifies the entity that owns or controls the public key in the
-/// certificate. The entity can be a user, computer, device, or service. The
-/// <b>Subject</b> must contain an X.500 distinguished name (DN). A DN is a
-/// sequence of relative distinguished names (RDNs). The RDNs are separated by
-/// commas in the certificate. The DN must be unique for each entity, but your
-/// private CA can issue more than one certificate with the same DN to the same
-/// entity.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// Contains information about the certificate subject. The <code>Subject</code>
+/// field in the certificate identifies the entity that owns or controls the
+/// public key in the certificate. The entity can be a user, computer, device,
+/// or service. The <code>Subject </code>must contain an X.500 distinguished
+/// name (DN). A DN is a sequence of relative distinguished names (RDNs). The
+/// RDNs are separated by commas in the certificate.
 class ASN1Subject {
   /// For CA and end-entity certificates in a private PKI, the common name (CN)
   /// can be any string within the length limit.
   ///
   /// Note: In publicly trusted certificates, the common name must be a fully
   /// qualified domain name (FQDN) associated with the certificate subject.
-  @_s.JsonKey(name: 'CommonName')
-  final String commonName;
+  final String? commonName;
 
   /// Two-digit code that specifies the country in which the certificate subject
   /// located.
-  @_s.JsonKey(name: 'Country')
-  final String country;
+  final String? country;
 
   /// Disambiguating information for the certificate subject.
-  @_s.JsonKey(name: 'DistinguishedNameQualifier')
-  final String distinguishedNameQualifier;
+  final String? distinguishedNameQualifier;
 
   /// Typically a qualifier appended to the name of an individual. Examples
   /// include Jr. for junior, Sr. for senior, and III for third.
-  @_s.JsonKey(name: 'GenerationQualifier')
-  final String generationQualifier;
+  final String? generationQualifier;
 
   /// First name.
-  @_s.JsonKey(name: 'GivenName')
-  final String givenName;
+  final String? givenName;
 
   /// Concatenation that typically contains the first letter of the
   /// <b>GivenName</b>, the first letter of the middle name if one exists, and the
-  /// first letter of the <b>SurName</b>.
-  @_s.JsonKey(name: 'Initials')
-  final String initials;
+  /// first letter of the <b>Surname</b>.
+  final String? initials;
 
   /// The locality (such as a city or town) in which the certificate subject is
   /// located.
-  @_s.JsonKey(name: 'Locality')
-  final String locality;
+  final String? locality;
 
   /// Legal name of the organization with which the certificate subject is
   /// affiliated.
-  @_s.JsonKey(name: 'Organization')
-  final String organization;
+  final String? organization;
 
   /// A subdivision or unit of the organization (such as sales or finance) with
   /// which the certificate subject is affiliated.
-  @_s.JsonKey(name: 'OrganizationalUnit')
-  final String organizationalUnit;
+  final String? organizationalUnit;
 
   /// Typically a shortened version of a longer <b>GivenName</b>. For example,
   /// Jonathan is often shortened to John. Elizabeth is often shortened to Beth,
   /// Liz, or Eliza.
-  @_s.JsonKey(name: 'Pseudonym')
-  final String pseudonym;
+  final String? pseudonym;
 
   /// The certificate serial number.
-  @_s.JsonKey(name: 'SerialNumber')
-  final String serialNumber;
+  final String? serialNumber;
 
   /// State in which the subject of the certificate is located.
-  @_s.JsonKey(name: 'State')
-  final String state;
+  final String? state;
 
   /// Family name. In the US and the UK, for example, the surname of an individual
   /// is ordered last. In Asian cultures the surname is typically ordered first.
-  @_s.JsonKey(name: 'Surname')
-  final String surname;
+  final String? surname;
 
   /// A title such as Mr. or Ms., which is pre-pended to the name to refer
   /// formally to the certificate subject.
-  @_s.JsonKey(name: 'Title')
-  final String title;
+  final String? title;
 
   ASN1Subject({
     this.commonName,
@@ -2386,85 +2196,171 @@ class ASN1Subject {
     this.surname,
     this.title,
   });
-  factory ASN1Subject.fromJson(Map<String, dynamic> json) =>
-      _$ASN1SubjectFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ASN1SubjectToJson(this);
+  factory ASN1Subject.fromJson(Map<String, dynamic> json) {
+    return ASN1Subject(
+      commonName: json['CommonName'] as String?,
+      country: json['Country'] as String?,
+      distinguishedNameQualifier: json['DistinguishedNameQualifier'] as String?,
+      generationQualifier: json['GenerationQualifier'] as String?,
+      givenName: json['GivenName'] as String?,
+      initials: json['Initials'] as String?,
+      locality: json['Locality'] as String?,
+      organization: json['Organization'] as String?,
+      organizationalUnit: json['OrganizationalUnit'] as String?,
+      pseudonym: json['Pseudonym'] as String?,
+      serialNumber: json['SerialNumber'] as String?,
+      state: json['State'] as String?,
+      surname: json['Surname'] as String?,
+      title: json['Title'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final commonName = this.commonName;
+    final country = this.country;
+    final distinguishedNameQualifier = this.distinguishedNameQualifier;
+    final generationQualifier = this.generationQualifier;
+    final givenName = this.givenName;
+    final initials = this.initials;
+    final locality = this.locality;
+    final organization = this.organization;
+    final organizationalUnit = this.organizationalUnit;
+    final pseudonym = this.pseudonym;
+    final serialNumber = this.serialNumber;
+    final state = this.state;
+    final surname = this.surname;
+    final title = this.title;
+    return {
+      if (commonName != null) 'CommonName': commonName,
+      if (country != null) 'Country': country,
+      if (distinguishedNameQualifier != null)
+        'DistinguishedNameQualifier': distinguishedNameQualifier,
+      if (generationQualifier != null)
+        'GenerationQualifier': generationQualifier,
+      if (givenName != null) 'GivenName': givenName,
+      if (initials != null) 'Initials': initials,
+      if (locality != null) 'Locality': locality,
+      if (organization != null) 'Organization': organization,
+      if (organizationalUnit != null) 'OrganizationalUnit': organizationalUnit,
+      if (pseudonym != null) 'Pseudonym': pseudonym,
+      if (serialNumber != null) 'SerialNumber': serialNumber,
+      if (state != null) 'State': state,
+      if (surname != null) 'Surname': surname,
+      if (title != null) 'Title': title,
+    };
+  }
 }
 
 /// Provides access information used by the <code>authorityInfoAccess</code> and
 /// <code>subjectInfoAccess</code> extensions described in <a
 /// href="https://tools.ietf.org/html/rfc5280">RFC 5280</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessDescription {
   /// The location of <code>AccessDescription</code> information.
-  @_s.JsonKey(name: 'AccessLocation')
   final GeneralName accessLocation;
 
   /// The type and format of <code>AccessDescription</code> information.
-  @_s.JsonKey(name: 'AccessMethod')
   final AccessMethod accessMethod;
 
   AccessDescription({
-    @_s.required this.accessLocation,
-    @_s.required this.accessMethod,
+    required this.accessLocation,
+    required this.accessMethod,
   });
-  factory AccessDescription.fromJson(Map<String, dynamic> json) =>
-      _$AccessDescriptionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AccessDescriptionToJson(this);
+  factory AccessDescription.fromJson(Map<String, dynamic> json) {
+    return AccessDescription(
+      accessLocation:
+          GeneralName.fromJson(json['AccessLocation'] as Map<String, dynamic>),
+      accessMethod:
+          AccessMethod.fromJson(json['AccessMethod'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessLocation = this.accessLocation;
+    final accessMethod = this.accessMethod;
+    return {
+      'AccessLocation': accessLocation,
+      'AccessMethod': accessMethod,
+    };
+  }
 }
 
 /// Describes the type and format of extension access. Only one of
 /// <code>CustomObjectIdentifier</code> or <code>AccessMethodType</code> may be
 /// provided. Providing both results in <code>InvalidArgsException</code>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class AccessMethod {
   /// Specifies the <code>AccessMethod</code>.
-  @_s.JsonKey(name: 'AccessMethodType')
-  final AccessMethodType accessMethodType;
+  final AccessMethodType? accessMethodType;
 
   /// An object identifier (OID) specifying the <code>AccessMethod</code>. The OID
   /// must satisfy the regular expression shown below. For more information, see
   /// NIST's definition of <a
   /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
   /// Identifier (OID)</a>.
-  @_s.JsonKey(name: 'CustomObjectIdentifier')
-  final String customObjectIdentifier;
+  final String? customObjectIdentifier;
 
   AccessMethod({
     this.accessMethodType,
     this.customObjectIdentifier,
   });
-  factory AccessMethod.fromJson(Map<String, dynamic> json) =>
-      _$AccessMethodFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AccessMethodToJson(this);
+  factory AccessMethod.fromJson(Map<String, dynamic> json) {
+    return AccessMethod(
+      accessMethodType:
+          (json['AccessMethodType'] as String?)?.toAccessMethodType(),
+      customObjectIdentifier: json['CustomObjectIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final accessMethodType = this.accessMethodType;
+    final customObjectIdentifier = this.customObjectIdentifier;
+    return {
+      if (accessMethodType != null)
+        'AccessMethodType': accessMethodType.toValue(),
+      if (customObjectIdentifier != null)
+        'CustomObjectIdentifier': customObjectIdentifier,
+    };
+  }
 }
 
 enum AccessMethodType {
-  @_s.JsonValue('CA_REPOSITORY')
   caRepository,
-  @_s.JsonValue('RESOURCE_PKI_MANIFEST')
   resourcePkiManifest,
-  @_s.JsonValue('RESOURCE_PKI_NOTIFY')
   resourcePkiNotify,
 }
 
+extension on AccessMethodType {
+  String toValue() {
+    switch (this) {
+      case AccessMethodType.caRepository:
+        return 'CA_REPOSITORY';
+      case AccessMethodType.resourcePkiManifest:
+        return 'RESOURCE_PKI_MANIFEST';
+      case AccessMethodType.resourcePkiNotify:
+        return 'RESOURCE_PKI_NOTIFY';
+    }
+  }
+}
+
+extension on String {
+  AccessMethodType toAccessMethodType() {
+    switch (this) {
+      case 'CA_REPOSITORY':
+        return AccessMethodType.caRepository;
+      case 'RESOURCE_PKI_MANIFEST':
+        return AccessMethodType.resourcePkiManifest;
+      case 'RESOURCE_PKI_NOTIFY':
+        return AccessMethodType.resourcePkiNotify;
+    }
+    throw Exception('$this is not known in enum AccessMethodType');
+  }
+}
+
 enum ActionType {
-  @_s.JsonValue('IssueCertificate')
   issueCertificate,
-  @_s.JsonValue('GetCertificate')
   getCertificate,
-  @_s.JsonValue('ListPermissions')
   listPermissions,
 }
 
@@ -2478,14 +2374,65 @@ extension on ActionType {
       case ActionType.listPermissions:
         return 'ListPermissions';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ActionType toActionType() {
+    switch (this) {
+      case 'IssueCertificate':
+        return ActionType.issueCertificate;
+      case 'GetCertificate':
+        return ActionType.getCertificate;
+      case 'ListPermissions':
+        return ActionType.listPermissions;
+    }
+    throw Exception('$this is not known in enum ActionType');
+  }
+}
+
+/// Contains X.509 certificate information to be placed in an issued
+/// certificate. An <code>APIPassthrough</code> or
+/// <code>APICSRPassthrough</code> template variant must be selected, or else
+/// this parameter is ignored.
+///
+/// If conflicting or duplicate certificate information is supplied from other
+/// sources, ACM Private CA applies <a
+/// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html#template-order-of-operations">order
+/// of operation rules</a> to determine what information is used.
+class ApiPassthrough {
+  /// Specifies X.509 extension information for a certificate.
+  final Extensions? extensions;
+  final ASN1Subject? subject;
+
+  ApiPassthrough({
+    this.extensions,
+    this.subject,
+  });
+
+  factory ApiPassthrough.fromJson(Map<String, dynamic> json) {
+    return ApiPassthrough(
+      extensions: json['Extensions'] != null
+          ? Extensions.fromJson(json['Extensions'] as Map<String, dynamic>)
+          : null,
+      subject: json['Subject'] != null
+          ? ASN1Subject.fromJson(json['Subject'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final extensions = this.extensions;
+    final subject = this.subject;
+    return {
+      if (extensions != null) 'Extensions': extensions,
+      if (subject != null) 'Subject': subject,
+    };
   }
 }
 
 enum AuditReportResponseFormat {
-  @_s.JsonValue('JSON')
   json,
-  @_s.JsonValue('CSV')
   csv,
 }
 
@@ -2497,17 +2444,52 @@ extension on AuditReportResponseFormat {
       case AuditReportResponseFormat.csv:
         return 'CSV';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  AuditReportResponseFormat toAuditReportResponseFormat() {
+    switch (this) {
+      case 'JSON':
+        return AuditReportResponseFormat.json;
+      case 'CSV':
+        return AuditReportResponseFormat.csv;
+    }
+    throw Exception('$this is not known in enum AuditReportResponseFormat');
   }
 }
 
 enum AuditReportStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('SUCCESS')
   success,
-  @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on AuditReportStatus {
+  String toValue() {
+    switch (this) {
+      case AuditReportStatus.creating:
+        return 'CREATING';
+      case AuditReportStatus.success:
+        return 'SUCCESS';
+      case AuditReportStatus.failed:
+        return 'FAILED';
+    }
+  }
+}
+
+extension on String {
+  AuditReportStatus toAuditReportStatus() {
+    switch (this) {
+      case 'CREATING':
+        return AuditReportStatus.creating;
+      case 'SUCCESS':
+        return AuditReportStatus.success;
+      case 'FAILED':
+        return AuditReportStatus.failed;
+    }
+    throw Exception('$this is not known in enum AuditReportStatus');
+  }
 }
 
 /// Contains information about your private certificate authority (CA). Your
@@ -2523,79 +2505,69 @@ enum AuditReportStatus {
 /// certificate. Call the <a
 /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html">ImportCertificateAuthorityCertificate</a>
 /// action to import the signed certificate into AWS Certificate Manager (ACM).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CertificateAuthority {
   /// Amazon Resource Name (ARN) for your private certificate authority (CA). The
   /// format is <code> <i>12345678-1234-1234-1234-123456789012</i> </code>.
-  @_s.JsonKey(name: 'Arn')
-  final String arn;
+  final String? arn;
 
   /// Your private CA configuration.
-  @_s.JsonKey(name: 'CertificateAuthorityConfiguration')
-  final CertificateAuthorityConfiguration certificateAuthorityConfiguration;
+  final CertificateAuthorityConfiguration? certificateAuthorityConfiguration;
 
   /// Date and time at which your private CA was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Reason the request to create your private CA failed.
-  @_s.JsonKey(name: 'FailureReason')
-  final FailureReason failureReason;
+  final FailureReason? failureReason;
+
+  /// Defines a cryptographic key management compliance standard used for handling
+  /// CA keys.
+  ///
+  /// Default: FIPS_140_2_LEVEL_3_OR_HIGHER
+  ///
+  /// Note: AWS Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER.
+  /// You must explicitly specify this parameter and value when creating a CA in
+  /// that Region. Specifying a different value (or no value) results in an
+  /// <code>InvalidArgsException</code> with the message "A certificate authority
+  /// cannot be created in this region with the specified security standard."
+  final KeyStorageSecurityStandard? keyStorageSecurityStandard;
 
   /// Date and time at which your private CA was last updated.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'LastStateChangeAt')
-  final DateTime lastStateChangeAt;
+  final DateTime? lastStateChangeAt;
 
   /// Date and time after which your private CA certificate is not valid.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'NotAfter')
-  final DateTime notAfter;
+  final DateTime? notAfter;
 
   /// Date and time before which your private CA certificate is not valid.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'NotBefore')
-  final DateTime notBefore;
+  final DateTime? notBefore;
 
   /// The AWS account ID that owns the certificate authority.
-  @_s.JsonKey(name: 'OwnerAccount')
-  final String ownerAccount;
+  final String? ownerAccount;
 
   /// The period during which a deleted CA can be restored. For more information,
   /// see the <code>PermanentDeletionTimeInDays</code> parameter of the <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html">DeleteCertificateAuthorityRequest</a>
   /// action.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'RestorableUntil')
-  final DateTime restorableUntil;
+  final DateTime? restorableUntil;
 
   /// Information about the certificate revocation list (CRL) created and
   /// maintained by your private CA.
-  @_s.JsonKey(name: 'RevocationConfiguration')
-  final RevocationConfiguration revocationConfiguration;
+  final RevocationConfiguration? revocationConfiguration;
 
   /// Serial number of your private CA.
-  @_s.JsonKey(name: 'Serial')
-  final String serial;
+  final String? serial;
 
   /// Status of your private CA.
-  @_s.JsonKey(name: 'Status')
-  final CertificateAuthorityStatus status;
+  final CertificateAuthorityStatus? status;
 
   /// Type of your private CA.
-  @_s.JsonKey(name: 'Type')
-  final CertificateAuthorityType type;
+  final CertificateAuthorityType? type;
 
   CertificateAuthority({
     this.arn,
     this.certificateAuthorityConfiguration,
     this.createdAt,
     this.failureReason,
+    this.keyStorageSecurityStandard,
     this.lastStateChangeAt,
     this.notAfter,
     this.notBefore,
@@ -2606,8 +2578,74 @@ class CertificateAuthority {
     this.status,
     this.type,
   });
-  factory CertificateAuthority.fromJson(Map<String, dynamic> json) =>
-      _$CertificateAuthorityFromJson(json);
+
+  factory CertificateAuthority.fromJson(Map<String, dynamic> json) {
+    return CertificateAuthority(
+      arn: json['Arn'] as String?,
+      certificateAuthorityConfiguration:
+          json['CertificateAuthorityConfiguration'] != null
+              ? CertificateAuthorityConfiguration.fromJson(
+                  json['CertificateAuthorityConfiguration']
+                      as Map<String, dynamic>)
+              : null,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      failureReason: (json['FailureReason'] as String?)?.toFailureReason(),
+      keyStorageSecurityStandard:
+          (json['KeyStorageSecurityStandard'] as String?)
+              ?.toKeyStorageSecurityStandard(),
+      lastStateChangeAt: timeStampFromJson(json['LastStateChangeAt']),
+      notAfter: timeStampFromJson(json['NotAfter']),
+      notBefore: timeStampFromJson(json['NotBefore']),
+      ownerAccount: json['OwnerAccount'] as String?,
+      restorableUntil: timeStampFromJson(json['RestorableUntil']),
+      revocationConfiguration: json['RevocationConfiguration'] != null
+          ? RevocationConfiguration.fromJson(
+              json['RevocationConfiguration'] as Map<String, dynamic>)
+          : null,
+      serial: json['Serial'] as String?,
+      status: (json['Status'] as String?)?.toCertificateAuthorityStatus(),
+      type: (json['Type'] as String?)?.toCertificateAuthorityType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final arn = this.arn;
+    final certificateAuthorityConfiguration =
+        this.certificateAuthorityConfiguration;
+    final createdAt = this.createdAt;
+    final failureReason = this.failureReason;
+    final keyStorageSecurityStandard = this.keyStorageSecurityStandard;
+    final lastStateChangeAt = this.lastStateChangeAt;
+    final notAfter = this.notAfter;
+    final notBefore = this.notBefore;
+    final ownerAccount = this.ownerAccount;
+    final restorableUntil = this.restorableUntil;
+    final revocationConfiguration = this.revocationConfiguration;
+    final serial = this.serial;
+    final status = this.status;
+    final type = this.type;
+    return {
+      if (arn != null) 'Arn': arn,
+      if (certificateAuthorityConfiguration != null)
+        'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (failureReason != null) 'FailureReason': failureReason.toValue(),
+      if (keyStorageSecurityStandard != null)
+        'KeyStorageSecurityStandard': keyStorageSecurityStandard.toValue(),
+      if (lastStateChangeAt != null)
+        'LastStateChangeAt': unixTimestampToJson(lastStateChangeAt),
+      if (notAfter != null) 'NotAfter': unixTimestampToJson(notAfter),
+      if (notBefore != null) 'NotBefore': unixTimestampToJson(notBefore),
+      if (ownerAccount != null) 'OwnerAccount': ownerAccount,
+      if (restorableUntil != null)
+        'RestorableUntil': unixTimestampToJson(restorableUntil),
+      if (revocationConfiguration != null)
+        'RevocationConfiguration': revocationConfiguration,
+      if (serial != null) 'Serial': serial,
+      if (status != null) 'Status': status.toValue(),
+      if (type != null) 'Type': type.toValue(),
+    };
+  }
 }
 
 /// Contains configuration information for your private certificate authority
@@ -2618,63 +2656,68 @@ class CertificateAuthority {
 /// information when you call the <a
 /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html">CreateCertificateAuthority</a>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CertificateAuthorityConfiguration {
   /// Type of the public key algorithm and size, in bits, of the key pair that
   /// your CA creates when it issues a certificate. When you create a subordinate
   /// CA, you must use a key algorithm supported by the parent CA.
-  @_s.JsonKey(name: 'KeyAlgorithm')
   final KeyAlgorithm keyAlgorithm;
 
   /// Name of the algorithm your private CA uses to sign certificate requests.
   ///
   /// This parameter should not be confused with the <code>SigningAlgorithm</code>
   /// parameter used to sign certificates when they are issued.
-  @_s.JsonKey(name: 'SigningAlgorithm')
   final SigningAlgorithm signingAlgorithm;
 
   /// Structure that contains X.500 distinguished name information for your
   /// private CA.
-  @_s.JsonKey(name: 'Subject')
   final ASN1Subject subject;
 
   /// Specifies information to be added to the extension section of the
   /// certificate signing request (CSR).
-  @_s.JsonKey(name: 'CsrExtensions')
-  final CsrExtensions csrExtensions;
+  final CsrExtensions? csrExtensions;
 
   CertificateAuthorityConfiguration({
-    @_s.required this.keyAlgorithm,
-    @_s.required this.signingAlgorithm,
-    @_s.required this.subject,
+    required this.keyAlgorithm,
+    required this.signingAlgorithm,
+    required this.subject,
     this.csrExtensions,
   });
-  factory CertificateAuthorityConfiguration.fromJson(
-          Map<String, dynamic> json) =>
-      _$CertificateAuthorityConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CertificateAuthorityConfigurationToJson(this);
+  factory CertificateAuthorityConfiguration.fromJson(
+      Map<String, dynamic> json) {
+    return CertificateAuthorityConfiguration(
+      keyAlgorithm: (json['KeyAlgorithm'] as String).toKeyAlgorithm(),
+      signingAlgorithm:
+          (json['SigningAlgorithm'] as String).toSigningAlgorithm(),
+      subject: ASN1Subject.fromJson(json['Subject'] as Map<String, dynamic>),
+      csrExtensions: json['CsrExtensions'] != null
+          ? CsrExtensions.fromJson(
+              json['CsrExtensions'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyAlgorithm = this.keyAlgorithm;
+    final signingAlgorithm = this.signingAlgorithm;
+    final subject = this.subject;
+    final csrExtensions = this.csrExtensions;
+    return {
+      'KeyAlgorithm': keyAlgorithm.toValue(),
+      'SigningAlgorithm': signingAlgorithm.toValue(),
+      'Subject': subject,
+      if (csrExtensions != null) 'CsrExtensions': csrExtensions,
+    };
+  }
 }
 
 enum CertificateAuthorityStatus {
-  @_s.JsonValue('CREATING')
   creating,
-  @_s.JsonValue('PENDING_CERTIFICATE')
   pendingCertificate,
-  @_s.JsonValue('ACTIVE')
   active,
-  @_s.JsonValue('DELETED')
   deleted,
-  @_s.JsonValue('DISABLED')
   disabled,
-  @_s.JsonValue('EXPIRED')
   expired,
-  @_s.JsonValue('FAILED')
   failed,
 }
 
@@ -2696,14 +2739,33 @@ extension on CertificateAuthorityStatus {
       case CertificateAuthorityStatus.failed:
         return 'FAILED';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  CertificateAuthorityStatus toCertificateAuthorityStatus() {
+    switch (this) {
+      case 'CREATING':
+        return CertificateAuthorityStatus.creating;
+      case 'PENDING_CERTIFICATE':
+        return CertificateAuthorityStatus.pendingCertificate;
+      case 'ACTIVE':
+        return CertificateAuthorityStatus.active;
+      case 'DELETED':
+        return CertificateAuthorityStatus.deleted;
+      case 'DISABLED':
+        return CertificateAuthorityStatus.disabled;
+      case 'EXPIRED':
+        return CertificateAuthorityStatus.expired;
+      case 'FAILED':
+        return CertificateAuthorityStatus.failed;
+    }
+    throw Exception('$this is not known in enum CertificateAuthorityStatus');
   }
 }
 
 enum CertificateAuthorityType {
-  @_s.JsonValue('ROOT')
   root,
-  @_s.JsonValue('SUBORDINATE')
   subordinate,
 }
 
@@ -2715,53 +2777,77 @@ extension on CertificateAuthorityType {
       case CertificateAuthorityType.subordinate:
         return 'SUBORDINATE';
     }
-    throw Exception('Unknown enum value: $this');
   }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on String {
+  CertificateAuthorityType toCertificateAuthorityType() {
+    switch (this) {
+      case 'ROOT':
+        return CertificateAuthorityType.root;
+      case 'SUBORDINATE':
+        return CertificateAuthorityType.subordinate;
+    }
+    throw Exception('$this is not known in enum CertificateAuthorityType');
+  }
+}
+
 class CreateCertificateAuthorityAuditReportResponse {
   /// An alphanumeric string that contains a report identifier.
-  @_s.JsonKey(name: 'AuditReportId')
-  final String auditReportId;
+  final String? auditReportId;
 
   /// The <b>key</b> that uniquely identifies the report file in your S3 bucket.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   CreateCertificateAuthorityAuditReportResponse({
     this.auditReportId,
     this.s3Key,
   });
+
   factory CreateCertificateAuthorityAuditReportResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCertificateAuthorityAuditReportResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCertificateAuthorityAuditReportResponse(
+      auditReportId: json['AuditReportId'] as String?,
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditReportId = this.auditReportId;
+    final s3Key = this.s3Key;
+    return {
+      if (auditReportId != null) 'AuditReportId': auditReportId,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateCertificateAuthorityResponse {
   /// If successful, the Amazon Resource Name (ARN) of the certificate authority
   /// (CA). This is of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>
   /// </code>.
-  @_s.JsonKey(name: 'CertificateAuthorityArn')
-  final String certificateAuthorityArn;
+  final String? certificateAuthorityArn;
 
   CreateCertificateAuthorityResponse({
     this.certificateAuthorityArn,
   });
+
   factory CreateCertificateAuthorityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateCertificateAuthorityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return CreateCertificateAuthorityResponse(
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    return {
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+    };
+  }
 }
 
 /// Contains configuration information for a certificate revocation list (CRL).
@@ -2775,7 +2861,7 @@ class CreateCertificateAuthorityResponse {
 /// certificate it issues. Your S3 bucket policy must give write permission to
 /// ACM Private CA.
 ///
-/// ACM Private CAA assets that are stored in Amazon S3 can be protected with
+/// ACM Private CA assets that are stored in Amazon S3 can be protected with
 /// encryption. For more information, see <a
 /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#crl-encryption">Encrypting
 /// Your CRLs</a>.
@@ -2852,11 +2938,6 @@ class CreateCertificateAuthorityResponse {
 /// can use the following OpenSSL command to list a CRL.
 ///
 /// <code>openssl crl -inform DER -text -in <i>crl_path</i> -noout</code>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CrlConfiguration {
   /// Boolean value that specifies whether certificate revocation lists (CRLs) are
   /// enabled. You can use this value to enable certificate revocation for a new
@@ -2865,94 +2946,135 @@ class CrlConfiguration {
   /// action or for an existing CA when you call the <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
   /// action.
-  @_s.JsonKey(name: 'Enabled')
   final bool enabled;
 
   /// Name inserted into the certificate <b>CRL Distribution Points</b> extension
   /// that enables the use of an alias for the CRL distribution point. Use this
   /// value if you don't want the name of your S3 bucket to be public.
-  @_s.JsonKey(name: 'CustomCname')
-  final String customCname;
+  final String? customCname;
 
   /// Validity period of the CRL in days.
-  @_s.JsonKey(name: 'ExpirationInDays')
-  final int expirationInDays;
+  final int? expirationInDays;
 
   /// Name of the S3 bucket that contains the CRL. If you do not provide a value
   /// for the <b>CustomCname</b> argument, the name of your S3 bucket is placed
   /// into the <b>CRL Distribution Points</b> extension of the issued certificate.
   /// You can change the name of your bucket by calling the <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html">UpdateCertificateAuthority</a>
-  /// action. You must specify a bucket policy that allows ACM Private CA to write
-  /// the CRL to your bucket.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  /// action. You must specify a <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#s3-policies">bucket
+  /// policy</a> that allows ACM Private CA to write the CRL to your bucket.
+  final String? s3BucketName;
+
+  /// Determines whether the CRL will be publicly readable or privately held in
+  /// the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be
+  /// accessible over the public internet. If you choose
+  /// BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access
+  /// the CRL, and your PKI clients may need an alternative method of access.
+  ///
+  /// If no value is specified, the default is <code>PUBLIC_READ</code>.
+  ///
+  /// <i>Note:</i> This default can cause CA creation to fail in some
+  /// circumstances. If you have have enabled the Block Public Access (BPA)
+  /// feature in your S3 account, then you must specify the value of this
+  /// parameter as <code>BUCKET_OWNER_FULL_CONTROL</code>, and not doing so
+  /// results in an error. If you have disabled BPA in S3, then you can specify
+  /// either <code>BUCKET_OWNER_FULL_CONTROL</code> or <code>PUBLIC_READ</code> as
+  /// the value.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#s3-bpa">Blocking
+  /// public access to the S3 bucket</a>.
+  final S3ObjectAcl? s3ObjectAcl;
 
   CrlConfiguration({
-    @_s.required this.enabled,
+    required this.enabled,
     this.customCname,
     this.expirationInDays,
     this.s3BucketName,
+    this.s3ObjectAcl,
   });
-  factory CrlConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$CrlConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CrlConfigurationToJson(this);
+  factory CrlConfiguration.fromJson(Map<String, dynamic> json) {
+    return CrlConfiguration(
+      enabled: json['Enabled'] as bool,
+      customCname: json['CustomCname'] as String?,
+      expirationInDays: json['ExpirationInDays'] as int?,
+      s3BucketName: json['S3BucketName'] as String?,
+      s3ObjectAcl: (json['S3ObjectAcl'] as String?)?.toS3ObjectAcl(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final enabled = this.enabled;
+    final customCname = this.customCname;
+    final expirationInDays = this.expirationInDays;
+    final s3BucketName = this.s3BucketName;
+    final s3ObjectAcl = this.s3ObjectAcl;
+    return {
+      'Enabled': enabled,
+      if (customCname != null) 'CustomCname': customCname,
+      if (expirationInDays != null) 'ExpirationInDays': expirationInDays,
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3ObjectAcl != null) 'S3ObjectAcl': s3ObjectAcl.toValue(),
+    };
+  }
 }
 
 /// Describes the certificate extensions to be added to the certificate signing
 /// request (CSR).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CsrExtensions {
   /// Indicates the purpose of the certificate and of the key contained in the
   /// certificate.
-  @_s.JsonKey(name: 'KeyUsage')
-  final KeyUsage keyUsage;
+  final KeyUsage? keyUsage;
 
   /// For CA certificates, provides a path to additional information pertaining to
   /// the CA, such as revocation and policy. For more information, see <a
   /// href="https://tools.ietf.org/html/rfc5280#section-4.2.2.2">Subject
   /// Information Access</a> in RFC 5280.
-  @_s.JsonKey(name: 'SubjectInformationAccess')
-  final List<AccessDescription> subjectInformationAccess;
+  final List<AccessDescription>? subjectInformationAccess;
 
   CsrExtensions({
     this.keyUsage,
     this.subjectInformationAccess,
   });
-  factory CsrExtensions.fromJson(Map<String, dynamic> json) =>
-      _$CsrExtensionsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CsrExtensionsToJson(this);
+  factory CsrExtensions.fromJson(Map<String, dynamic> json) {
+    return CsrExtensions(
+      keyUsage: json['KeyUsage'] != null
+          ? KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>)
+          : null,
+      subjectInformationAccess: (json['SubjectInformationAccess'] as List?)
+          ?.whereNotNull()
+          .map((e) => AccessDescription.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final keyUsage = this.keyUsage;
+    final subjectInformationAccess = this.subjectInformationAccess;
+    return {
+      if (keyUsage != null) 'KeyUsage': keyUsage,
+      if (subjectInformationAccess != null)
+        'SubjectInformationAccess': subjectInformationAccess,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCertificateAuthorityAuditReportResponse {
   /// Specifies whether report creation is in progress, has succeeded, or has
   /// failed.
-  @_s.JsonKey(name: 'AuditReportStatus')
-  final AuditReportStatus auditReportStatus;
+  final AuditReportStatus? auditReportStatus;
 
   /// The date and time at which the report was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// Name of the S3 bucket that contains the report.
-  @_s.JsonKey(name: 'S3BucketName')
-  final String s3BucketName;
+  final String? s3BucketName;
 
   /// S3 <b>key</b> that uniquely identifies the report file in your S3 bucket.
-  @_s.JsonKey(name: 'S3Key')
-  final String s3Key;
+  final String? s3Key;
 
   DescribeCertificateAuthorityAuditReportResponse({
     this.auditReportStatus,
@@ -2960,108 +3082,323 @@ class DescribeCertificateAuthorityAuditReportResponse {
     this.s3BucketName,
     this.s3Key,
   });
+
   factory DescribeCertificateAuthorityAuditReportResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCertificateAuthorityAuditReportResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCertificateAuthorityAuditReportResponse(
+      auditReportStatus:
+          (json['AuditReportStatus'] as String?)?.toAuditReportStatus(),
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      s3BucketName: json['S3BucketName'] as String?,
+      s3Key: json['S3Key'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final auditReportStatus = this.auditReportStatus;
+    final createdAt = this.createdAt;
+    final s3BucketName = this.s3BucketName;
+    final s3Key = this.s3Key;
+    return {
+      if (auditReportStatus != null)
+        'AuditReportStatus': auditReportStatus.toValue(),
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (s3BucketName != null) 'S3BucketName': s3BucketName,
+      if (s3Key != null) 'S3Key': s3Key,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DescribeCertificateAuthorityResponse {
   /// A <a
   /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CertificateAuthority.html">CertificateAuthority</a>
   /// structure that contains information about your private CA.
-  @_s.JsonKey(name: 'CertificateAuthority')
-  final CertificateAuthority certificateAuthority;
+  final CertificateAuthority? certificateAuthority;
 
   DescribeCertificateAuthorityResponse({
     this.certificateAuthority,
   });
+
   factory DescribeCertificateAuthorityResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$DescribeCertificateAuthorityResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return DescribeCertificateAuthorityResponse(
+      certificateAuthority: json['CertificateAuthority'] != null
+          ? CertificateAuthority.fromJson(
+              json['CertificateAuthority'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthority = this.certificateAuthority;
+    return {
+      if (certificateAuthority != null)
+        'CertificateAuthority': certificateAuthority,
+    };
+  }
 }
 
 /// Describes an Electronic Data Interchange (EDI) entity as described in as
 /// defined in <a href="https://tools.ietf.org/html/rfc5280">Subject Alternative
 /// Name</a> in RFC 5280.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EdiPartyName {
   /// Specifies the party name.
-  @_s.JsonKey(name: 'PartyName')
   final String partyName;
 
   /// Specifies the name assigner.
-  @_s.JsonKey(name: 'NameAssigner')
-  final String nameAssigner;
+  final String? nameAssigner;
 
   EdiPartyName({
-    @_s.required this.partyName,
+    required this.partyName,
     this.nameAssigner,
   });
-  factory EdiPartyName.fromJson(Map<String, dynamic> json) =>
-      _$EdiPartyNameFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EdiPartyNameToJson(this);
+  factory EdiPartyName.fromJson(Map<String, dynamic> json) {
+    return EdiPartyName(
+      partyName: json['PartyName'] as String,
+      nameAssigner: json['NameAssigner'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final partyName = this.partyName;
+    final nameAssigner = this.nameAssigner;
+    return {
+      'PartyName': partyName,
+      if (nameAssigner != null) 'NameAssigner': nameAssigner,
+    };
+  }
+}
+
+/// Specifies additional purposes for which the certified public key may be used
+/// other than basic purposes indicated in the <code>KeyUsage</code> extension.
+class ExtendedKeyUsage {
+  /// Specifies a custom <code>ExtendedKeyUsage</code> with an object identifier
+  /// (OID).
+  final String? extendedKeyUsageObjectIdentifier;
+
+  /// Specifies a standard <code>ExtendedKeyUsage</code> as defined as in <a
+  /// href="https://tools.ietf.org/html/rfc5280#section-4.2.1.12">RFC 5280</a>.
+  final ExtendedKeyUsageType? extendedKeyUsageType;
+
+  ExtendedKeyUsage({
+    this.extendedKeyUsageObjectIdentifier,
+    this.extendedKeyUsageType,
+  });
+
+  factory ExtendedKeyUsage.fromJson(Map<String, dynamic> json) {
+    return ExtendedKeyUsage(
+      extendedKeyUsageObjectIdentifier:
+          json['ExtendedKeyUsageObjectIdentifier'] as String?,
+      extendedKeyUsageType:
+          (json['ExtendedKeyUsageType'] as String?)?.toExtendedKeyUsageType(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final extendedKeyUsageObjectIdentifier =
+        this.extendedKeyUsageObjectIdentifier;
+    final extendedKeyUsageType = this.extendedKeyUsageType;
+    return {
+      if (extendedKeyUsageObjectIdentifier != null)
+        'ExtendedKeyUsageObjectIdentifier': extendedKeyUsageObjectIdentifier,
+      if (extendedKeyUsageType != null)
+        'ExtendedKeyUsageType': extendedKeyUsageType.toValue(),
+    };
+  }
+}
+
+enum ExtendedKeyUsageType {
+  serverAuth,
+  clientAuth,
+  codeSigning,
+  emailProtection,
+  timeStamping,
+  ocspSigning,
+  smartCardLogin,
+  documentSigning,
+  certificateTransparency,
+}
+
+extension on ExtendedKeyUsageType {
+  String toValue() {
+    switch (this) {
+      case ExtendedKeyUsageType.serverAuth:
+        return 'SERVER_AUTH';
+      case ExtendedKeyUsageType.clientAuth:
+        return 'CLIENT_AUTH';
+      case ExtendedKeyUsageType.codeSigning:
+        return 'CODE_SIGNING';
+      case ExtendedKeyUsageType.emailProtection:
+        return 'EMAIL_PROTECTION';
+      case ExtendedKeyUsageType.timeStamping:
+        return 'TIME_STAMPING';
+      case ExtendedKeyUsageType.ocspSigning:
+        return 'OCSP_SIGNING';
+      case ExtendedKeyUsageType.smartCardLogin:
+        return 'SMART_CARD_LOGIN';
+      case ExtendedKeyUsageType.documentSigning:
+        return 'DOCUMENT_SIGNING';
+      case ExtendedKeyUsageType.certificateTransparency:
+        return 'CERTIFICATE_TRANSPARENCY';
+    }
+  }
+}
+
+extension on String {
+  ExtendedKeyUsageType toExtendedKeyUsageType() {
+    switch (this) {
+      case 'SERVER_AUTH':
+        return ExtendedKeyUsageType.serverAuth;
+      case 'CLIENT_AUTH':
+        return ExtendedKeyUsageType.clientAuth;
+      case 'CODE_SIGNING':
+        return ExtendedKeyUsageType.codeSigning;
+      case 'EMAIL_PROTECTION':
+        return ExtendedKeyUsageType.emailProtection;
+      case 'TIME_STAMPING':
+        return ExtendedKeyUsageType.timeStamping;
+      case 'OCSP_SIGNING':
+        return ExtendedKeyUsageType.ocspSigning;
+      case 'SMART_CARD_LOGIN':
+        return ExtendedKeyUsageType.smartCardLogin;
+      case 'DOCUMENT_SIGNING':
+        return ExtendedKeyUsageType.documentSigning;
+      case 'CERTIFICATE_TRANSPARENCY':
+        return ExtendedKeyUsageType.certificateTransparency;
+    }
+    throw Exception('$this is not known in enum ExtendedKeyUsageType');
+  }
+}
+
+/// Contains X.509 extension information for a certificate.
+class Extensions {
+  /// Contains a sequence of one or more policy information terms, each of which
+  /// consists of an object identifier (OID) and optional qualifiers. For more
+  /// information, see NIST's definition of <a
+  /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
+  /// Identifier (OID)</a>.
+  ///
+  /// In an end-entity certificate, these terms indicate the policy under which
+  /// the certificate was issued and the purposes for which it may be used. In a
+  /// CA certificate, these terms limit the set of policies for certification
+  /// paths that include this certificate.
+  final List<PolicyInformation>? certificatePolicies;
+
+  /// Specifies additional purposes for which the certified public key may be used
+  /// other than basic purposes indicated in the <code>KeyUsage</code> extension.
+  final List<ExtendedKeyUsage>? extendedKeyUsage;
+  final KeyUsage? keyUsage;
+
+  /// The subject alternative name extension allows identities to be bound to the
+  /// subject of the certificate. These identities may be included in addition to
+  /// or in place of the identity in the subject field of the certificate.
+  final List<GeneralName>? subjectAlternativeNames;
+
+  Extensions({
+    this.certificatePolicies,
+    this.extendedKeyUsage,
+    this.keyUsage,
+    this.subjectAlternativeNames,
+  });
+
+  factory Extensions.fromJson(Map<String, dynamic> json) {
+    return Extensions(
+      certificatePolicies: (json['CertificatePolicies'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      extendedKeyUsage: (json['ExtendedKeyUsage'] as List?)
+          ?.whereNotNull()
+          .map((e) => ExtendedKeyUsage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      keyUsage: json['KeyUsage'] != null
+          ? KeyUsage.fromJson(json['KeyUsage'] as Map<String, dynamic>)
+          : null,
+      subjectAlternativeNames: (json['SubjectAlternativeNames'] as List?)
+          ?.whereNotNull()
+          .map((e) => GeneralName.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificatePolicies = this.certificatePolicies;
+    final extendedKeyUsage = this.extendedKeyUsage;
+    final keyUsage = this.keyUsage;
+    final subjectAlternativeNames = this.subjectAlternativeNames;
+    return {
+      if (certificatePolicies != null)
+        'CertificatePolicies': certificatePolicies,
+      if (extendedKeyUsage != null) 'ExtendedKeyUsage': extendedKeyUsage,
+      if (keyUsage != null) 'KeyUsage': keyUsage,
+      if (subjectAlternativeNames != null)
+        'SubjectAlternativeNames': subjectAlternativeNames,
+    };
+  }
 }
 
 enum FailureReason {
-  @_s.JsonValue('REQUEST_TIMED_OUT')
   requestTimedOut,
-  @_s.JsonValue('UNSUPPORTED_ALGORITHM')
   unsupportedAlgorithm,
-  @_s.JsonValue('OTHER')
   other,
+}
+
+extension on FailureReason {
+  String toValue() {
+    switch (this) {
+      case FailureReason.requestTimedOut:
+        return 'REQUEST_TIMED_OUT';
+      case FailureReason.unsupportedAlgorithm:
+        return 'UNSUPPORTED_ALGORITHM';
+      case FailureReason.other:
+        return 'OTHER';
+    }
+  }
+}
+
+extension on String {
+  FailureReason toFailureReason() {
+    switch (this) {
+      case 'REQUEST_TIMED_OUT':
+        return FailureReason.requestTimedOut;
+      case 'UNSUPPORTED_ALGORITHM':
+        return FailureReason.unsupportedAlgorithm;
+      case 'OTHER':
+        return FailureReason.other;
+    }
+    throw Exception('$this is not known in enum FailureReason');
+  }
 }
 
 /// Describes an ASN.1 X.400 <code>GeneralName</code> as defined in <a
 /// href="https://tools.ietf.org/html/rfc5280">RFC 5280</a>. Only one of the
-/// following naming options should be providied. Providing more than one option
+/// following naming options should be provided. Providing more than one option
 /// results in an <code>InvalidArgsException</code> error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class GeneralName {
-  @_s.JsonKey(name: 'DirectoryName')
-  final ASN1Subject directoryName;
+  final ASN1Subject? directoryName;
 
   /// Represents <code>GeneralName</code> as a DNS name.
-  @_s.JsonKey(name: 'DnsName')
-  final String dnsName;
+  final String? dnsName;
 
   /// Represents <code>GeneralName</code> as an <code>EdiPartyName</code> object.
-  @_s.JsonKey(name: 'EdiPartyName')
-  final EdiPartyName ediPartyName;
+  final EdiPartyName? ediPartyName;
 
   /// Represents <code>GeneralName</code> as an IPv4 or IPv6 address.
-  @_s.JsonKey(name: 'IpAddress')
-  final String ipAddress;
+  final String? ipAddress;
 
   /// Represents <code>GeneralName</code> using an <code>OtherName</code> object.
-  @_s.JsonKey(name: 'OtherName')
-  final OtherName otherName;
+  final OtherName? otherName;
 
   /// Represents <code>GeneralName</code> as an object identifier (OID).
-  @_s.JsonKey(name: 'RegisteredId')
-  final String registeredId;
+  final String? registeredId;
 
   /// Represents <code>GeneralName</code> as an <a
   /// href="https://tools.ietf.org/html/rfc822">RFC 822</a> email address.
-  @_s.JsonKey(name: 'Rfc822Name')
-  final String rfc822Name;
+  final String? rfc822Name;
 
   /// Represents <code>GeneralName</code> as a URI.
-  @_s.JsonKey(name: 'UniformResourceIdentifier')
-  final String uniformResourceIdentifier;
+  final String? uniformResourceIdentifier;
 
   GeneralName({
     this.directoryName,
@@ -3073,173 +3410,280 @@ class GeneralName {
     this.rfc822Name,
     this.uniformResourceIdentifier,
   });
-  factory GeneralName.fromJson(Map<String, dynamic> json) =>
-      _$GeneralNameFromJson(json);
 
-  Map<String, dynamic> toJson() => _$GeneralNameToJson(this);
+  factory GeneralName.fromJson(Map<String, dynamic> json) {
+    return GeneralName(
+      directoryName: json['DirectoryName'] != null
+          ? ASN1Subject.fromJson(json['DirectoryName'] as Map<String, dynamic>)
+          : null,
+      dnsName: json['DnsName'] as String?,
+      ediPartyName: json['EdiPartyName'] != null
+          ? EdiPartyName.fromJson(json['EdiPartyName'] as Map<String, dynamic>)
+          : null,
+      ipAddress: json['IpAddress'] as String?,
+      otherName: json['OtherName'] != null
+          ? OtherName.fromJson(json['OtherName'] as Map<String, dynamic>)
+          : null,
+      registeredId: json['RegisteredId'] as String?,
+      rfc822Name: json['Rfc822Name'] as String?,
+      uniformResourceIdentifier: json['UniformResourceIdentifier'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final directoryName = this.directoryName;
+    final dnsName = this.dnsName;
+    final ediPartyName = this.ediPartyName;
+    final ipAddress = this.ipAddress;
+    final otherName = this.otherName;
+    final registeredId = this.registeredId;
+    final rfc822Name = this.rfc822Name;
+    final uniformResourceIdentifier = this.uniformResourceIdentifier;
+    return {
+      if (directoryName != null) 'DirectoryName': directoryName,
+      if (dnsName != null) 'DnsName': dnsName,
+      if (ediPartyName != null) 'EdiPartyName': ediPartyName,
+      if (ipAddress != null) 'IpAddress': ipAddress,
+      if (otherName != null) 'OtherName': otherName,
+      if (registeredId != null) 'RegisteredId': registeredId,
+      if (rfc822Name != null) 'Rfc822Name': rfc822Name,
+      if (uniformResourceIdentifier != null)
+        'UniformResourceIdentifier': uniformResourceIdentifier,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCertificateAuthorityCertificateResponse {
   /// Base64-encoded certificate authority (CA) certificate.
-  @_s.JsonKey(name: 'Certificate')
-  final String certificate;
+  final String? certificate;
 
   /// Base64-encoded certificate chain that includes any intermediate certificates
   /// and chains up to root certificate that you used to sign your private CA
   /// certificate. The chain does not include your private CA certificate. If this
   /// is a root CA, the value will be null.
-  @_s.JsonKey(name: 'CertificateChain')
-  final String certificateChain;
+  final String? certificateChain;
 
   GetCertificateAuthorityCertificateResponse({
     this.certificate,
     this.certificateChain,
   });
+
   factory GetCertificateAuthorityCertificateResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCertificateAuthorityCertificateResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCertificateAuthorityCertificateResponse(
+      certificate: json['Certificate'] as String?,
+      certificateChain: json['CertificateChain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final certificateChain = this.certificateChain;
+    return {
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateChain != null) 'CertificateChain': certificateChain,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCertificateAuthorityCsrResponse {
   /// The base64 PEM-encoded certificate signing request (CSR) for your private CA
   /// certificate.
-  @_s.JsonKey(name: 'Csr')
-  final String csr;
+  final String? csr;
 
   GetCertificateAuthorityCsrResponse({
     this.csr,
   });
+
   factory GetCertificateAuthorityCsrResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GetCertificateAuthorityCsrResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return GetCertificateAuthorityCsrResponse(
+      csr: json['Csr'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final csr = this.csr;
+    return {
+      if (csr != null) 'Csr': csr,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetCertificateResponse {
   /// The base64 PEM-encoded certificate specified by the
   /// <code>CertificateArn</code> parameter.
-  @_s.JsonKey(name: 'Certificate')
-  final String certificate;
+  final String? certificate;
 
   /// The base64 PEM-encoded certificate chain that chains up to the root CA
   /// certificate that you used to sign your private CA certificate.
-  @_s.JsonKey(name: 'CertificateChain')
-  final String certificateChain;
+  final String? certificateChain;
 
   GetCertificateResponse({
     this.certificate,
     this.certificateChain,
   });
-  factory GetCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetCertificateResponseFromJson(json);
+
+  factory GetCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return GetCertificateResponse(
+      certificate: json['Certificate'] as String?,
+      certificateChain: json['CertificateChain'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificate = this.certificate;
+    final certificateChain = this.certificateChain;
+    return {
+      if (certificate != null) 'Certificate': certificate,
+      if (certificateChain != null) 'CertificateChain': certificateChain,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetPolicyResponse {
   /// The policy attached to the private CA as a JSON document.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   GetPolicyResponse({
     this.policy,
   });
-  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetPolicyResponseFromJson(json);
+
+  factory GetPolicyResponse.fromJson(Map<String, dynamic> json) {
+    return GetPolicyResponse(
+      policy: json['Policy'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policy = this.policy;
+    return {
+      if (policy != null) 'Policy': policy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class IssueCertificateResponse {
   /// The Amazon Resource Name (ARN) of the issued certificate and the certificate
   /// serial number. This is of the form:
   ///
   /// <code>arn:aws:acm-pca:<i>region</i>:<i>account</i>:certificate-authority/<i>12345678-1234-1234-1234-123456789012</i>/certificate/<i>286535153982981100925020015808220737245</i>
   /// </code>
-  @_s.JsonKey(name: 'CertificateArn')
-  final String certificateArn;
+  final String? certificateArn;
 
   IssueCertificateResponse({
     this.certificateArn,
   });
-  factory IssueCertificateResponse.fromJson(Map<String, dynamic> json) =>
-      _$IssueCertificateResponseFromJson(json);
+
+  factory IssueCertificateResponse.fromJson(Map<String, dynamic> json) {
+    return IssueCertificateResponse(
+      certificateArn: json['CertificateArn'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateArn = this.certificateArn;
+    return {
+      if (certificateArn != null) 'CertificateArn': certificateArn,
+    };
+  }
 }
 
 enum KeyAlgorithm {
-  @_s.JsonValue('RSA_2048')
   rsa_2048,
-  @_s.JsonValue('RSA_4096')
   rsa_4096,
-  @_s.JsonValue('EC_prime256v1')
   ecPrime256v1,
-  @_s.JsonValue('EC_secp384r1')
   ecSecp384r1,
+}
+
+extension on KeyAlgorithm {
+  String toValue() {
+    switch (this) {
+      case KeyAlgorithm.rsa_2048:
+        return 'RSA_2048';
+      case KeyAlgorithm.rsa_4096:
+        return 'RSA_4096';
+      case KeyAlgorithm.ecPrime256v1:
+        return 'EC_prime256v1';
+      case KeyAlgorithm.ecSecp384r1:
+        return 'EC_secp384r1';
+    }
+  }
+}
+
+extension on String {
+  KeyAlgorithm toKeyAlgorithm() {
+    switch (this) {
+      case 'RSA_2048':
+        return KeyAlgorithm.rsa_2048;
+      case 'RSA_4096':
+        return KeyAlgorithm.rsa_4096;
+      case 'EC_prime256v1':
+        return KeyAlgorithm.ecPrime256v1;
+      case 'EC_secp384r1':
+        return KeyAlgorithm.ecSecp384r1;
+    }
+    throw Exception('$this is not known in enum KeyAlgorithm');
+  }
+}
+
+enum KeyStorageSecurityStandard {
+  fips_140_2Level_2OrHigher,
+  fips_140_2Level_3OrHigher,
+}
+
+extension on KeyStorageSecurityStandard {
+  String toValue() {
+    switch (this) {
+      case KeyStorageSecurityStandard.fips_140_2Level_2OrHigher:
+        return 'FIPS_140_2_LEVEL_2_OR_HIGHER';
+      case KeyStorageSecurityStandard.fips_140_2Level_3OrHigher:
+        return 'FIPS_140_2_LEVEL_3_OR_HIGHER';
+    }
+  }
+}
+
+extension on String {
+  KeyStorageSecurityStandard toKeyStorageSecurityStandard() {
+    switch (this) {
+      case 'FIPS_140_2_LEVEL_2_OR_HIGHER':
+        return KeyStorageSecurityStandard.fips_140_2Level_2OrHigher;
+      case 'FIPS_140_2_LEVEL_3_OR_HIGHER':
+        return KeyStorageSecurityStandard.fips_140_2Level_3OrHigher;
+    }
+    throw Exception('$this is not known in enum KeyStorageSecurityStandard');
+  }
 }
 
 /// Defines one or more purposes for which the key contained in the certificate
 /// can be used. Default value for each option is false.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class KeyUsage {
   /// Key can be used to sign CRLs.
-  @_s.JsonKey(name: 'CRLSign')
-  final bool cRLSign;
+  final bool? cRLSign;
 
   /// Key can be used to decipher data.
-  @_s.JsonKey(name: 'DataEncipherment')
-  final bool dataEncipherment;
+  final bool? dataEncipherment;
 
   /// Key can be used only to decipher data.
-  @_s.JsonKey(name: 'DecipherOnly')
-  final bool decipherOnly;
+  final bool? decipherOnly;
 
   /// Key can be used for digital signing.
-  @_s.JsonKey(name: 'DigitalSignature')
-  final bool digitalSignature;
+  final bool? digitalSignature;
 
   /// Key can be used only to encipher data.
-  @_s.JsonKey(name: 'EncipherOnly')
-  final bool encipherOnly;
+  final bool? encipherOnly;
 
   /// Key can be used in a key-agreement protocol.
-  @_s.JsonKey(name: 'KeyAgreement')
-  final bool keyAgreement;
+  final bool? keyAgreement;
 
   /// Key can be used to sign certificates.
-  @_s.JsonKey(name: 'KeyCertSign')
-  final bool keyCertSign;
+  final bool? keyCertSign;
 
   /// Key can be used to encipher data.
-  @_s.JsonKey(name: 'KeyEncipherment')
-  final bool keyEncipherment;
+  final bool? keyEncipherment;
 
   /// Key can be used for non-repudiation.
-  @_s.JsonKey(name: 'NonRepudiation')
-  final bool nonRepudiation;
+  final bool? nonRepudiation;
 
   KeyUsage({
     this.cRLSign,
@@ -3252,82 +3696,146 @@ class KeyUsage {
     this.keyEncipherment,
     this.nonRepudiation,
   });
-  factory KeyUsage.fromJson(Map<String, dynamic> json) =>
-      _$KeyUsageFromJson(json);
 
-  Map<String, dynamic> toJson() => _$KeyUsageToJson(this);
+  factory KeyUsage.fromJson(Map<String, dynamic> json) {
+    return KeyUsage(
+      cRLSign: json['CRLSign'] as bool?,
+      dataEncipherment: json['DataEncipherment'] as bool?,
+      decipherOnly: json['DecipherOnly'] as bool?,
+      digitalSignature: json['DigitalSignature'] as bool?,
+      encipherOnly: json['EncipherOnly'] as bool?,
+      keyAgreement: json['KeyAgreement'] as bool?,
+      keyCertSign: json['KeyCertSign'] as bool?,
+      keyEncipherment: json['KeyEncipherment'] as bool?,
+      nonRepudiation: json['NonRepudiation'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cRLSign = this.cRLSign;
+    final dataEncipherment = this.dataEncipherment;
+    final decipherOnly = this.decipherOnly;
+    final digitalSignature = this.digitalSignature;
+    final encipherOnly = this.encipherOnly;
+    final keyAgreement = this.keyAgreement;
+    final keyCertSign = this.keyCertSign;
+    final keyEncipherment = this.keyEncipherment;
+    final nonRepudiation = this.nonRepudiation;
+    return {
+      if (cRLSign != null) 'CRLSign': cRLSign,
+      if (dataEncipherment != null) 'DataEncipherment': dataEncipherment,
+      if (decipherOnly != null) 'DecipherOnly': decipherOnly,
+      if (digitalSignature != null) 'DigitalSignature': digitalSignature,
+      if (encipherOnly != null) 'EncipherOnly': encipherOnly,
+      if (keyAgreement != null) 'KeyAgreement': keyAgreement,
+      if (keyCertSign != null) 'KeyCertSign': keyCertSign,
+      if (keyEncipherment != null) 'KeyEncipherment': keyEncipherment,
+      if (nonRepudiation != null) 'NonRepudiation': nonRepudiation,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListCertificateAuthoritiesResponse {
   /// Summary information about each certificate authority you have created.
-  @_s.JsonKey(name: 'CertificateAuthorities')
-  final List<CertificateAuthority> certificateAuthorities;
+  final List<CertificateAuthority>? certificateAuthorities;
 
   /// When the list is truncated, this value is present and should be used for the
   /// <code>NextToken</code> parameter in a subsequent pagination request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListCertificateAuthoritiesResponse({
     this.certificateAuthorities,
     this.nextToken,
   });
+
   factory ListCertificateAuthoritiesResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$ListCertificateAuthoritiesResponseFromJson(json);
+      Map<String, dynamic> json) {
+    return ListCertificateAuthoritiesResponse(
+      certificateAuthorities: (json['CertificateAuthorities'] as List?)
+          ?.whereNotNull()
+          .map((e) => CertificateAuthority.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['NextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certificateAuthorities = this.certificateAuthorities;
+    final nextToken = this.nextToken;
+    return {
+      if (certificateAuthorities != null)
+        'CertificateAuthorities': certificateAuthorities,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListPermissionsResponse {
   /// When the list is truncated, this value is present and should be used for the
   /// <b>NextToken</b> parameter in a subsequent pagination request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// Summary information about each permission assigned by the specified private
   /// CA, including the action enabled, the policy provided, and the time of
   /// creation.
-  @_s.JsonKey(name: 'Permissions')
-  final List<Permission> permissions;
+  final List<Permission>? permissions;
 
   ListPermissionsResponse({
     this.nextToken,
     this.permissions,
   });
-  factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListPermissionsResponseFromJson(json);
+
+  factory ListPermissionsResponse.fromJson(Map<String, dynamic> json) {
+    return ListPermissionsResponse(
+      nextToken: json['NextToken'] as String?,
+      permissions: (json['Permissions'] as List?)
+          ?.whereNotNull()
+          .map((e) => Permission.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final permissions = this.permissions;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (permissions != null) 'Permissions': permissions,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class ListTagsResponse {
   /// When the list is truncated, this value is present and should be used for the
   /// <b>NextToken</b> parameter in a subsequent pagination request.
-  @_s.JsonKey(name: 'NextToken')
-  final String nextToken;
+  final String? nextToken;
 
   /// The tags associated with your private CA.
-  @_s.JsonKey(name: 'Tags')
-  final List<Tag> tags;
+  final List<Tag>? tags;
 
   ListTagsResponse({
     this.nextToken,
     this.tags,
   });
-  factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListTagsResponseFromJson(json);
+
+  factory ListTagsResponse.fromJson(Map<String, dynamic> json) {
+    return ListTagsResponse(
+      nextToken: json['NextToken'] as String?,
+      tags: (json['Tags'] as List?)
+          ?.whereNotNull()
+          .map((e) => Tag.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final nextToken = this.nextToken;
+    final tags = this.tags;
+    return {
+      if (nextToken != null) 'NextToken': nextToken,
+      if (tags != null) 'Tags': tags,
+    };
+  }
 }
 
 /// Defines a custom ASN.1 X.400 <code>GeneralName</code> using an object
@@ -3335,28 +3843,33 @@ class ListTagsResponse {
 /// shown below. For more information, see NIST's definition of <a
 /// href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
 /// Identifier (OID)</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class OtherName {
   /// Specifies an OID.
-  @_s.JsonKey(name: 'TypeId')
   final String typeId;
 
   /// Specifies an OID value.
-  @_s.JsonKey(name: 'Value')
   final String value;
 
   OtherName({
-    @_s.required this.typeId,
-    @_s.required this.value,
+    required this.typeId,
+    required this.value,
   });
-  factory OtherName.fromJson(Map<String, dynamic> json) =>
-      _$OtherNameFromJson(json);
 
-  Map<String, dynamic> toJson() => _$OtherNameToJson(this);
+  factory OtherName.fromJson(Map<String, dynamic> json) {
+    return OtherName(
+      typeId: json['TypeId'] as String,
+      value: json['Value'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final typeId = this.typeId;
+    final value = this.value;
+    return {
+      'TypeId': typeId,
+      'Value': value,
+    };
+  }
 }
 
 /// Permissions designate which private CA actions can be performed by an AWS
@@ -3370,38 +3883,26 @@ class OtherName {
 /// action, and listed with the <a
 /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListPermissions.html">ListPermissions</a>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class Permission {
   /// The private CA actions that can be performed by the designated AWS service.
-  @_s.JsonKey(name: 'Actions')
-  final List<ActionType> actions;
+  final List<ActionType>? actions;
 
   /// The Amazon Resource Number (ARN) of the private CA from which the permission
   /// was issued.
-  @_s.JsonKey(name: 'CertificateAuthorityArn')
-  final String certificateAuthorityArn;
+  final String? certificateAuthorityArn;
 
   /// The time at which the permission was created.
-  @UnixDateTimeConverter()
-  @_s.JsonKey(name: 'CreatedAt')
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   /// The name of the policy that is associated with the permission.
-  @_s.JsonKey(name: 'Policy')
-  final String policy;
+  final String? policy;
 
   /// The AWS service or entity that holds the permission. At this time, the only
   /// valid principal is <code>acm.amazonaws.com</code>.
-  @_s.JsonKey(name: 'Principal')
-  final String principal;
+  final String? principal;
 
   /// The ID of the account that assigned the permission.
-  @_s.JsonKey(name: 'SourceAccount')
-  final String sourceAccount;
+  final String? sourceAccount;
 
   Permission({
     this.actions,
@@ -3411,14 +3912,163 @@ class Permission {
     this.principal,
     this.sourceAccount,
   });
-  factory Permission.fromJson(Map<String, dynamic> json) =>
-      _$PermissionFromJson(json);
+
+  factory Permission.fromJson(Map<String, dynamic> json) {
+    return Permission(
+      actions: (json['Actions'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toActionType())
+          .toList(),
+      certificateAuthorityArn: json['CertificateAuthorityArn'] as String?,
+      createdAt: timeStampFromJson(json['CreatedAt']),
+      policy: json['Policy'] as String?,
+      principal: json['Principal'] as String?,
+      sourceAccount: json['SourceAccount'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final actions = this.actions;
+    final certificateAuthorityArn = this.certificateAuthorityArn;
+    final createdAt = this.createdAt;
+    final policy = this.policy;
+    final principal = this.principal;
+    final sourceAccount = this.sourceAccount;
+    return {
+      if (actions != null) 'Actions': actions.map((e) => e.toValue()).toList(),
+      if (certificateAuthorityArn != null)
+        'CertificateAuthorityArn': certificateAuthorityArn,
+      if (createdAt != null) 'CreatedAt': unixTimestampToJson(createdAt),
+      if (policy != null) 'Policy': policy,
+      if (principal != null) 'Principal': principal,
+      if (sourceAccount != null) 'SourceAccount': sourceAccount,
+    };
+  }
+}
+
+/// Defines the X.509 <code>CertificatePolicies</code> extension.
+class PolicyInformation {
+  /// Specifies the object identifier (OID) of the certificate policy under which
+  /// the certificate was issued. For more information, see NIST's definition of
+  /// <a href="https://csrc.nist.gov/glossary/term/Object_Identifier">Object
+  /// Identifier (OID)</a>.
+  final String certPolicyId;
+
+  /// Modifies the given <code>CertPolicyId</code> with a qualifier. ACM Private
+  /// CA supports the certification practice statement (CPS) qualifier.
+  final List<PolicyQualifierInfo>? policyQualifiers;
+
+  PolicyInformation({
+    required this.certPolicyId,
+    this.policyQualifiers,
+  });
+
+  factory PolicyInformation.fromJson(Map<String, dynamic> json) {
+    return PolicyInformation(
+      certPolicyId: json['CertPolicyId'] as String,
+      policyQualifiers: (json['PolicyQualifiers'] as List?)
+          ?.whereNotNull()
+          .map((e) => PolicyQualifierInfo.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final certPolicyId = this.certPolicyId;
+    final policyQualifiers = this.policyQualifiers;
+    return {
+      'CertPolicyId': certPolicyId,
+      if (policyQualifiers != null) 'PolicyQualifiers': policyQualifiers,
+    };
+  }
+}
+
+enum PolicyQualifierId {
+  cps,
+}
+
+extension on PolicyQualifierId {
+  String toValue() {
+    switch (this) {
+      case PolicyQualifierId.cps:
+        return 'CPS';
+    }
+  }
+}
+
+extension on String {
+  PolicyQualifierId toPolicyQualifierId() {
+    switch (this) {
+      case 'CPS':
+        return PolicyQualifierId.cps;
+    }
+    throw Exception('$this is not known in enum PolicyQualifierId');
+  }
+}
+
+/// Modifies the <code>CertPolicyId</code> of a <code>PolicyInformation</code>
+/// object with a qualifier. ACM Private CA supports the certification practice
+/// statement (CPS) qualifier.
+class PolicyQualifierInfo {
+  /// Identifies the qualifier modifying a <code>CertPolicyId</code>.
+  final PolicyQualifierId policyQualifierId;
+
+  /// Defines the qualifier type. ACM Private CA supports the use of a URI for a
+  /// CPS qualifier in this field.
+  final Qualifier qualifier;
+
+  PolicyQualifierInfo({
+    required this.policyQualifierId,
+    required this.qualifier,
+  });
+
+  factory PolicyQualifierInfo.fromJson(Map<String, dynamic> json) {
+    return PolicyQualifierInfo(
+      policyQualifierId:
+          (json['PolicyQualifierId'] as String).toPolicyQualifierId(),
+      qualifier: Qualifier.fromJson(json['Qualifier'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final policyQualifierId = this.policyQualifierId;
+    final qualifier = this.qualifier;
+    return {
+      'PolicyQualifierId': policyQualifierId.toValue(),
+      'Qualifier': qualifier,
+    };
+  }
+}
+
+/// Defines a <code>PolicyInformation</code> qualifier. ACM Private CA supports
+/// the <a
+/// href="https://tools.ietf.org/html/rfc5280#section-4.2.1.4">certification
+/// practice statement (CPS) qualifier</a> defined in RFC 5280.
+class Qualifier {
+  /// Contains a pointer to a certification practice statement (CPS) published by
+  /// the CA.
+  final String cpsUri;
+
+  Qualifier({
+    required this.cpsUri,
+  });
+
+  factory Qualifier.fromJson(Map<String, dynamic> json) {
+    return Qualifier(
+      cpsUri: json['CpsUri'] as String,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cpsUri = this.cpsUri;
+    return {
+      'CpsUri': cpsUri,
+    };
+  }
 }
 
 enum ResourceOwner {
-  @_s.JsonValue('SELF')
   self,
-  @_s.JsonValue('OTHER_ACCOUNTS')
   otherAccounts,
 }
 
@@ -3430,7 +4080,18 @@ extension on ResourceOwner {
       case ResourceOwner.otherAccounts:
         return 'OTHER_ACCOUNTS';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  ResourceOwner toResourceOwner() {
+    switch (this) {
+      case 'SELF':
+        return ResourceOwner.self;
+      case 'OTHER_ACCOUNTS':
+        return ResourceOwner.otherAccounts;
+    }
+    throw Exception('$this is not known in enum ResourceOwner');
   }
 }
 
@@ -3442,42 +4103,40 @@ extension on ResourceOwner {
 /// certificate revocation list (CRL). A CRL contains information about
 /// certificates revoked by your CA. For more information, see <a
 /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html">RevokeCertificate</a>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class RevocationConfiguration {
   /// Configuration of the certificate revocation list (CRL), if any, maintained
   /// by your private CA.
-  @_s.JsonKey(name: 'CrlConfiguration')
-  final CrlConfiguration crlConfiguration;
+  final CrlConfiguration? crlConfiguration;
 
   RevocationConfiguration({
     this.crlConfiguration,
   });
-  factory RevocationConfiguration.fromJson(Map<String, dynamic> json) =>
-      _$RevocationConfigurationFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RevocationConfigurationToJson(this);
+  factory RevocationConfiguration.fromJson(Map<String, dynamic> json) {
+    return RevocationConfiguration(
+      crlConfiguration: json['CrlConfiguration'] != null
+          ? CrlConfiguration.fromJson(
+              json['CrlConfiguration'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final crlConfiguration = this.crlConfiguration;
+    return {
+      if (crlConfiguration != null) 'CrlConfiguration': crlConfiguration,
+    };
+  }
 }
 
 enum RevocationReason {
-  @_s.JsonValue('UNSPECIFIED')
   unspecified,
-  @_s.JsonValue('KEY_COMPROMISE')
   keyCompromise,
-  @_s.JsonValue('CERTIFICATE_AUTHORITY_COMPROMISE')
   certificateAuthorityCompromise,
-  @_s.JsonValue('AFFILIATION_CHANGED')
   affiliationChanged,
-  @_s.JsonValue('SUPERSEDED')
   superseded,
-  @_s.JsonValue('CESSATION_OF_OPERATION')
   cessationOfOperation,
-  @_s.JsonValue('PRIVILEGE_WITHDRAWN')
   privilegeWithdrawn,
-  @_s.JsonValue('A_A_COMPROMISE')
   aACompromise,
 }
 
@@ -3501,22 +4160,67 @@ extension on RevocationReason {
       case RevocationReason.aACompromise:
         return 'A_A_COMPROMISE';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RevocationReason toRevocationReason() {
+    switch (this) {
+      case 'UNSPECIFIED':
+        return RevocationReason.unspecified;
+      case 'KEY_COMPROMISE':
+        return RevocationReason.keyCompromise;
+      case 'CERTIFICATE_AUTHORITY_COMPROMISE':
+        return RevocationReason.certificateAuthorityCompromise;
+      case 'AFFILIATION_CHANGED':
+        return RevocationReason.affiliationChanged;
+      case 'SUPERSEDED':
+        return RevocationReason.superseded;
+      case 'CESSATION_OF_OPERATION':
+        return RevocationReason.cessationOfOperation;
+      case 'PRIVILEGE_WITHDRAWN':
+        return RevocationReason.privilegeWithdrawn;
+      case 'A_A_COMPROMISE':
+        return RevocationReason.aACompromise;
+    }
+    throw Exception('$this is not known in enum RevocationReason');
+  }
+}
+
+enum S3ObjectAcl {
+  publicRead,
+  bucketOwnerFullControl,
+}
+
+extension on S3ObjectAcl {
+  String toValue() {
+    switch (this) {
+      case S3ObjectAcl.publicRead:
+        return 'PUBLIC_READ';
+      case S3ObjectAcl.bucketOwnerFullControl:
+        return 'BUCKET_OWNER_FULL_CONTROL';
+    }
+  }
+}
+
+extension on String {
+  S3ObjectAcl toS3ObjectAcl() {
+    switch (this) {
+      case 'PUBLIC_READ':
+        return S3ObjectAcl.publicRead;
+      case 'BUCKET_OWNER_FULL_CONTROL':
+        return S3ObjectAcl.bucketOwnerFullControl;
+    }
+    throw Exception('$this is not known in enum S3ObjectAcl');
   }
 }
 
 enum SigningAlgorithm {
-  @_s.JsonValue('SHA256WITHECDSA')
   sha256withecdsa,
-  @_s.JsonValue('SHA384WITHECDSA')
   sha384withecdsa,
-  @_s.JsonValue('SHA512WITHECDSA')
   sha512withecdsa,
-  @_s.JsonValue('SHA256WITHRSA')
   sha256withrsa,
-  @_s.JsonValue('SHA384WITHRSA')
   sha384withrsa,
-  @_s.JsonValue('SHA512WITHRSA')
   sha512withrsa,
 }
 
@@ -3536,7 +4240,26 @@ extension on SigningAlgorithm {
       case SigningAlgorithm.sha512withrsa:
         return 'SHA512WITHRSA';
     }
-    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  SigningAlgorithm toSigningAlgorithm() {
+    switch (this) {
+      case 'SHA256WITHECDSA':
+        return SigningAlgorithm.sha256withecdsa;
+      case 'SHA384WITHECDSA':
+        return SigningAlgorithm.sha384withecdsa;
+      case 'SHA512WITHECDSA':
+        return SigningAlgorithm.sha512withecdsa;
+      case 'SHA256WITHRSA':
+        return SigningAlgorithm.sha256withrsa;
+      case 'SHA384WITHRSA':
+        return SigningAlgorithm.sha384withrsa;
+      case 'SHA512WITHRSA':
+        return SigningAlgorithm.sha512withrsa;
+    }
+    throw Exception('$this is not known in enum SigningAlgorithm');
   }
 }
 
@@ -3547,44 +4270,48 @@ extension on SigningAlgorithm {
 /// action. To remove a tag, call the <a
 /// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UntagCertificateAuthority.html">UntagCertificateAuthority</a>
 /// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Tag {
   /// Key (name) of the tag.
-  @_s.JsonKey(name: 'Key')
   final String key;
 
   /// Value of the tag.
-  @_s.JsonKey(name: 'Value')
-  final String value;
+  final String? value;
 
   Tag({
-    @_s.required this.key,
+    required this.key,
     this.value,
   });
-  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TagToJson(this);
+  factory Tag.fromJson(Map<String, dynamic> json) {
+    return Tag(
+      key: json['Key'] as String,
+      value: json['Value'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final key = this.key;
+    final value = this.value;
+    return {
+      'Key': key,
+      if (value != null) 'Value': value,
+    };
+  }
 }
 
 /// Validity specifies the period of time during which a certificate is valid.
-/// Validity can be expressed as an explicit date and time when the certificate
-/// expires, or as a span of time after issuance, stated in days, months, or
-/// years. For more information, see <a
+/// Validity can be expressed as an explicit date and time when the validity of
+/// a certificate starts or expires, or as a span of time after issuance, stated
+/// in days, months, or years. For more information, see <a
 /// href="https://tools.ietf.org/html/rfc5280#section-4.1.2.5">Validity</a> in
 /// RFC 5280.
 ///
-/// You can issue a certificate by calling the <a
-/// href="https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_IssueCertificate.html">IssueCertificate</a>
-/// action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// ACM Private CA API consumes the <code>Validity</code> data type differently
+/// in two distinct parameters of the <code>IssueCertificate</code> action. The
+/// required parameter <code>IssueCertificate</code>:<code>Validity</code>
+/// specifies the end of a certificate's validity period. The optional parameter
+/// <code>IssueCertificate</code>:<code>ValidityNotBefore</code> specifies a
+/// customized starting time for the validity period.
 class Validity {
   /// Determines how <i>ACM Private CA</i> interprets the <code>Value</code>
   /// parameter, an integer. Supported validity types include those listed below.
@@ -3605,8 +4332,8 @@ class Validity {
   /// Output expiration date/time: 12/31/2049 23:59:59
   /// </li>
   /// </ul>
-  /// <code>ABSOLUTE</code>: The specific date and time when the certificate will
-  /// expire, expressed in seconds since the Unix Epoch.
+  /// <code>ABSOLUTE</code>: The specific date and time when the validity of a
+  /// certificate will start or expire, expressed in seconds since the Unix Epoch.
   ///
   /// <ul>
   /// <li>
@@ -3634,42 +4361,85 @@ class Validity {
   /// (<code>DAYS</code>) is one day. The minimum validity for a certificate using
   /// absolute time (<code>ABSOLUTE</code> or <code>END_DATE</code>) is one
   /// second.
-  @_s.JsonKey(name: 'Type')
   final ValidityPeriodType type;
 
   /// A long integer interpreted according to the value of <code>Type</code>,
   /// below.
-  @_s.JsonKey(name: 'Value')
   final int value;
 
   Validity({
-    @_s.required this.type,
-    @_s.required this.value,
+    required this.type,
+    required this.value,
   });
-  Map<String, dynamic> toJson() => _$ValidityToJson(this);
+
+  factory Validity.fromJson(Map<String, dynamic> json) {
+    return Validity(
+      type: (json['Type'] as String).toValidityPeriodType(),
+      value: json['Value'] as int,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final type = this.type;
+    final value = this.value;
+    return {
+      'Type': type.toValue(),
+      'Value': value,
+    };
+  }
 }
 
 enum ValidityPeriodType {
-  @_s.JsonValue('END_DATE')
   endDate,
-  @_s.JsonValue('ABSOLUTE')
   absolute,
-  @_s.JsonValue('DAYS')
   days,
-  @_s.JsonValue('MONTHS')
   months,
-  @_s.JsonValue('YEARS')
   years,
 }
 
+extension on ValidityPeriodType {
+  String toValue() {
+    switch (this) {
+      case ValidityPeriodType.endDate:
+        return 'END_DATE';
+      case ValidityPeriodType.absolute:
+        return 'ABSOLUTE';
+      case ValidityPeriodType.days:
+        return 'DAYS';
+      case ValidityPeriodType.months:
+        return 'MONTHS';
+      case ValidityPeriodType.years:
+        return 'YEARS';
+    }
+  }
+}
+
+extension on String {
+  ValidityPeriodType toValidityPeriodType() {
+    switch (this) {
+      case 'END_DATE':
+        return ValidityPeriodType.endDate;
+      case 'ABSOLUTE':
+        return ValidityPeriodType.absolute;
+      case 'DAYS':
+        return ValidityPeriodType.days;
+      case 'MONTHS':
+        return ValidityPeriodType.months;
+      case 'YEARS':
+        return ValidityPeriodType.years;
+    }
+    throw Exception('$this is not known in enum ValidityPeriodType');
+  }
+}
+
 class CertificateMismatchException extends _s.GenericAwsException {
-  CertificateMismatchException({String type, String message})
+  CertificateMismatchException({String? type, String? message})
       : super(
             type: type, code: 'CertificateMismatchException', message: message);
 }
 
 class ConcurrentModificationException extends _s.GenericAwsException {
-  ConcurrentModificationException({String type, String message})
+  ConcurrentModificationException({String? type, String? message})
       : super(
             type: type,
             code: 'ConcurrentModificationException',
@@ -3677,57 +4447,57 @@ class ConcurrentModificationException extends _s.GenericAwsException {
 }
 
 class InvalidArgsException extends _s.GenericAwsException {
-  InvalidArgsException({String type, String message})
+  InvalidArgsException({String? type, String? message})
       : super(type: type, code: 'InvalidArgsException', message: message);
 }
 
 class InvalidArnException extends _s.GenericAwsException {
-  InvalidArnException({String type, String message})
+  InvalidArnException({String? type, String? message})
       : super(type: type, code: 'InvalidArnException', message: message);
 }
 
 class InvalidNextTokenException extends _s.GenericAwsException {
-  InvalidNextTokenException({String type, String message})
+  InvalidNextTokenException({String? type, String? message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
 }
 
 class InvalidPolicyException extends _s.GenericAwsException {
-  InvalidPolicyException({String type, String message})
+  InvalidPolicyException({String? type, String? message})
       : super(type: type, code: 'InvalidPolicyException', message: message);
 }
 
 class InvalidRequestException extends _s.GenericAwsException {
-  InvalidRequestException({String type, String message})
+  InvalidRequestException({String? type, String? message})
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
 class InvalidStateException extends _s.GenericAwsException {
-  InvalidStateException({String type, String message})
+  InvalidStateException({String? type, String? message})
       : super(type: type, code: 'InvalidStateException', message: message);
 }
 
 class InvalidTagException extends _s.GenericAwsException {
-  InvalidTagException({String type, String message})
+  InvalidTagException({String? type, String? message})
       : super(type: type, code: 'InvalidTagException', message: message);
 }
 
 class LimitExceededException extends _s.GenericAwsException {
-  LimitExceededException({String type, String message})
+  LimitExceededException({String? type, String? message})
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
 class LockoutPreventedException extends _s.GenericAwsException {
-  LockoutPreventedException({String type, String message})
+  LockoutPreventedException({String? type, String? message})
       : super(type: type, code: 'LockoutPreventedException', message: message);
 }
 
 class MalformedCSRException extends _s.GenericAwsException {
-  MalformedCSRException({String type, String message})
+  MalformedCSRException({String? type, String? message})
       : super(type: type, code: 'MalformedCSRException', message: message);
 }
 
 class MalformedCertificateException extends _s.GenericAwsException {
-  MalformedCertificateException({String type, String message})
+  MalformedCertificateException({String? type, String? message})
       : super(
             type: type,
             code: 'MalformedCertificateException',
@@ -3735,7 +4505,7 @@ class MalformedCertificateException extends _s.GenericAwsException {
 }
 
 class PermissionAlreadyExistsException extends _s.GenericAwsException {
-  PermissionAlreadyExistsException({String type, String message})
+  PermissionAlreadyExistsException({String? type, String? message})
       : super(
             type: type,
             code: 'PermissionAlreadyExistsException',
@@ -3743,7 +4513,7 @@ class PermissionAlreadyExistsException extends _s.GenericAwsException {
 }
 
 class RequestAlreadyProcessedException extends _s.GenericAwsException {
-  RequestAlreadyProcessedException({String type, String message})
+  RequestAlreadyProcessedException({String? type, String? message})
       : super(
             type: type,
             code: 'RequestAlreadyProcessedException',
@@ -3751,22 +4521,22 @@ class RequestAlreadyProcessedException extends _s.GenericAwsException {
 }
 
 class RequestFailedException extends _s.GenericAwsException {
-  RequestFailedException({String type, String message})
+  RequestFailedException({String? type, String? message})
       : super(type: type, code: 'RequestFailedException', message: message);
 }
 
 class RequestInProgressException extends _s.GenericAwsException {
-  RequestInProgressException({String type, String message})
+  RequestInProgressException({String? type, String? message})
       : super(type: type, code: 'RequestInProgressException', message: message);
 }
 
 class ResourceNotFoundException extends _s.GenericAwsException {
-  ResourceNotFoundException({String type, String message})
+  ResourceNotFoundException({String? type, String? message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
 class TooManyTagsException extends _s.GenericAwsException {
-  TooManyTagsException({String type, String message})
+  TooManyTagsException({String? type, String? message})
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 

@@ -3,6 +3,7 @@
 // ignore_for_file: unused_import
 // ignore_for_file: unused_local_variable
 // ignore_for_file: unused_shown_name
+// ignore_for_file: camel_case_types
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -10,30 +11,22 @@ import 'dart:typed_data';
 import '../../shared/shared.dart' as _s;
 import '../../shared/shared.dart'
     show
-        Uint8ListConverter,
-        Uint8ListListConverter,
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson,
-        RfcDateTimeConverter,
-        IsoDateTimeConverter,
-        UnixDateTimeConverter,
-        StringJsonConverter,
-        Base64JsonConverter;
+        nonNullableTimeStampFromJson,
+        timeStampFromJson;
 
 export '../../shared/shared.dart' show AwsClientCredentials;
-
-part '2020-08-11.g.dart';
 
 /// AWS Amplify Admin API
 class AmplifyBackend {
   final _s.RestJsonProtocol _protocol;
   AmplifyBackend({
-    @_s.required String region,
-    _s.AwsClientCredentials credentials,
-    _s.Client client,
-    String endpointUrl,
+    required String region,
+    _s.AwsClientCredentials? credentials,
+    _s.Client? client,
+    String? endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
@@ -61,9 +54,9 @@ class AmplifyBackend {
   /// Parameter [targetEnvironmentName] :
   /// The name of the destination backend environment to be created.
   Future<CloneBackendResponse> cloneBackend({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String targetEnvironmentName,
+    required String appId,
+    required String backendEnvironmentName,
+    required String targetEnvironmentName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -100,16 +93,16 @@ class AmplifyBackend {
   /// The name of the backend environment.
   ///
   /// Parameter [resourceConfig] :
-  /// The resource configuration for the backend creation request.
+  /// The resource configuration for the create backend request.
   ///
   /// Parameter [resourceName] :
   /// The name of the resource.
   Future<CreateBackendResponse> createBackend({
-    @_s.required String appId,
-    @_s.required String appName,
-    @_s.required String backendEnvironmentName,
-    ResourceConfig resourceConfig,
-    String resourceName,
+    required String appId,
+    required String appName,
+    required String backendEnvironmentName,
+    ResourceConfig? resourceConfig,
+    String? resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(appName, 'appName');
@@ -150,10 +143,10 @@ class AmplifyBackend {
   /// Parameter [resourceName] :
   /// The name of this resource.
   Future<CreateBackendAPIResponse> createBackendAPI({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required BackendAPIResourceConfig resourceConfig,
-    @_s.required String resourceName,
+    required String appId,
+    required String backendEnvironmentName,
+    required BackendAPIResourceConfig resourceConfig,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -193,10 +186,10 @@ class AmplifyBackend {
   /// Parameter [resourceName] :
   /// The name of this resource.
   Future<CreateBackendAuthResponse> createBackendAuth({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required CreateBackendAuthResourceConfig resourceConfig,
-    @_s.required String resourceName,
+    required String appId,
+    required String backendEnvironmentName,
+    required CreateBackendAuthResourceConfig resourceConfig,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -230,8 +223,8 @@ class AmplifyBackend {
   /// Parameter [backendManagerAppId] :
   /// The app ID for the backend manager.
   Future<CreateBackendConfigResponse> createBackendConfig({
-    @_s.required String appId,
-    String backendManagerAppId,
+    required String appId,
+    String? backendManagerAppId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final $payload = <String, dynamic>{
@@ -258,7 +251,7 @@ class AmplifyBackend {
   /// Parameter [appId] :
   /// The app ID.
   Future<CreateTokenResponse> createToken({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final response = await _protocol.send(
@@ -283,8 +276,8 @@ class AmplifyBackend {
   /// Parameter [backendEnvironmentName] :
   /// The name of the backend environment.
   Future<DeleteBackendResponse> deleteBackend({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
+    required String appId,
+    required String backendEnvironmentName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -319,10 +312,10 @@ class AmplifyBackend {
   /// Defines the resource configuration for the data model in your Amplify
   /// project.
   Future<DeleteBackendAPIResponse> deleteBackendAPI({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String resourceName,
-    BackendAPIResourceConfig resourceConfig,
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
+    BackendAPIResourceConfig? resourceConfig,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -358,9 +351,9 @@ class AmplifyBackend {
   /// Parameter [resourceName] :
   /// The name of this resource.
   Future<DeleteBackendAuthResponse> deleteBackendAuth({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String resourceName,
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -392,8 +385,8 @@ class AmplifyBackend {
   /// Parameter [sessionId] :
   /// The session ID.
   Future<DeleteTokenResponse> deleteToken({
-    @_s.required String appId,
-    @_s.required String sessionId,
+    required String appId,
+    required String sessionId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(sessionId, 'sessionId');
@@ -423,9 +416,9 @@ class AmplifyBackend {
   /// Parameter [resourceName] :
   /// The name of this resource.
   Future<GenerateBackendAPIModelsResponse> generateBackendAPIModels({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String resourceName,
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -457,8 +450,8 @@ class AmplifyBackend {
   /// Parameter [backendEnvironmentName] :
   /// The name of the backend environment.
   Future<GetBackendResponse> getBackend({
-    @_s.required String appId,
-    String backendEnvironmentName,
+    required String appId,
+    String? backendEnvironmentName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final $payload = <String, dynamic>{
@@ -494,10 +487,10 @@ class AmplifyBackend {
   /// Defines the resource configuration for the data model in your Amplify
   /// project.
   Future<GetBackendAPIResponse> getBackendAPI({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String resourceName,
-    BackendAPIResourceConfig resourceConfig,
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
+    BackendAPIResourceConfig? resourceConfig,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -533,9 +526,9 @@ class AmplifyBackend {
   /// Parameter [resourceName] :
   /// The name of this resource.
   Future<GetBackendAPIModelsResponse> getBackendAPIModels({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String resourceName,
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -554,7 +547,7 @@ class AmplifyBackend {
     return GetBackendAPIModelsResponse.fromJson(response);
   }
 
-  /// Gets backend auth details.
+  /// Gets a backend auth details.
   ///
   /// May throw [NotFoundException].
   /// May throw [GatewayTimeoutException].
@@ -570,9 +563,9 @@ class AmplifyBackend {
   /// Parameter [resourceName] :
   /// The name of this resource.
   Future<GetBackendAuthResponse> getBackendAuth({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String resourceName,
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -607,9 +600,9 @@ class AmplifyBackend {
   /// Parameter [jobId] :
   /// The ID for the job.
   Future<GetBackendJobResponse> getBackendJob({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String jobId,
+    required String appId,
+    required String backendEnvironmentName,
+    required String jobId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -638,8 +631,8 @@ class AmplifyBackend {
   /// Parameter [sessionId] :
   /// The session ID.
   Future<GetTokenResponse> getToken({
-    @_s.required String appId,
-    @_s.required String sessionId,
+    required String appId,
+    required String sessionId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(sessionId, 'sessionId');
@@ -651,6 +644,60 @@ class AmplifyBackend {
       exceptionFnMap: _exceptionFns,
     );
     return GetTokenResponse.fromJson(response);
+  }
+
+  /// Imports an existing backend authentication resource.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [appId] :
+  /// The app ID.
+  ///
+  /// Parameter [backendEnvironmentName] :
+  /// The name of the backend environment.
+  ///
+  /// Parameter [nativeClientId] :
+  /// The ID of the Amazon Cognito native client.
+  ///
+  /// Parameter [userPoolId] :
+  /// The ID of the Amazon Cognito user pool.
+  ///
+  /// Parameter [webClientId] :
+  /// The ID of the Amazon Cognito web client.
+  ///
+  /// Parameter [identityPoolId] :
+  /// The ID of the Amazon Cognito identity pool.
+  Future<ImportBackendAuthResponse> importBackendAuth({
+    required String appId,
+    required String backendEnvironmentName,
+    required String nativeClientId,
+    required String userPoolId,
+    required String webClientId,
+    String? identityPoolId,
+  }) async {
+    ArgumentError.checkNotNull(appId, 'appId');
+    ArgumentError.checkNotNull(
+        backendEnvironmentName, 'backendEnvironmentName');
+    ArgumentError.checkNotNull(nativeClientId, 'nativeClientId');
+    ArgumentError.checkNotNull(userPoolId, 'userPoolId');
+    ArgumentError.checkNotNull(webClientId, 'webClientId');
+    final $payload = <String, dynamic>{
+      'nativeClientId': nativeClientId,
+      'userPoolId': userPoolId,
+      'webClientId': webClientId,
+      if (identityPoolId != null) 'identityPoolId': identityPoolId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/backend/${Uri.encodeComponent(appId)}/auth/${Uri.encodeComponent(backendEnvironmentName)}/import',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ImportBackendAuthResponse.fromJson(response);
   }
 
   /// Lists the jobs for the backend of an Amplify app.
@@ -683,13 +730,13 @@ class AmplifyBackend {
   /// Filters the list of response objects to include only those with the
   /// specified status.
   Future<ListBackendJobsResponse> listBackendJobs({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    String jobId,
-    int maxResults,
-    String nextToken,
-    String operation,
-    String status,
+    required String appId,
+    required String backendEnvironmentName,
+    String? jobId,
+    int? maxResults,
+    String? nextToken,
+    String? operation,
+    String? status,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -730,8 +777,8 @@ class AmplifyBackend {
   /// Parameter [cleanAmplifyApp] :
   /// Cleans up the Amplify Console app if this value is set to true.
   Future<RemoveAllBackendsResponse> removeAllBackends({
-    @_s.required String appId,
-    bool cleanAmplifyApp,
+    required String appId,
+    bool? cleanAmplifyApp,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final $payload = <String, dynamic>{
@@ -746,8 +793,7 @@ class AmplifyBackend {
     return RemoveAllBackendsResponse.fromJson(response);
   }
 
-  /// Removes the AWS resources that are required to access the Amplify Admin
-  /// UI.
+  /// Removes the AWS resources required to access the Amplify Admin UI.
   ///
   /// May throw [NotFoundException].
   /// May throw [GatewayTimeoutException].
@@ -757,7 +803,7 @@ class AmplifyBackend {
   /// Parameter [appId] :
   /// The app ID.
   Future<RemoveBackendConfigResponse> removeBackendConfig({
-    @_s.required String appId,
+    required String appId,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final response = await _protocol.send(
@@ -789,10 +835,10 @@ class AmplifyBackend {
   /// Defines the resource configuration for the data model in your Amplify
   /// project.
   Future<UpdateBackendAPIResponse> updateBackendAPI({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String resourceName,
-    BackendAPIResourceConfig resourceConfig,
+    required String appId,
+    required String backendEnvironmentName,
+    required String resourceName,
+    BackendAPIResourceConfig? resourceConfig,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -831,10 +877,10 @@ class AmplifyBackend {
   /// Parameter [resourceName] :
   /// The name of this resource.
   Future<UpdateBackendAuthResponse> updateBackendAuth({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required UpdateBackendAuthResourceConfig resourceConfig,
-    @_s.required String resourceName,
+    required String appId,
+    required String backendEnvironmentName,
+    required UpdateBackendAuthResourceConfig resourceConfig,
+    required String resourceName,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -855,8 +901,7 @@ class AmplifyBackend {
     return UpdateBackendAuthResponse.fromJson(response);
   }
 
-  /// Updates the AWS resources that are required to access the Amplify Admin
-  /// UI.
+  /// Updates the AWS resources required to access the Amplify Admin UI.
   ///
   /// May throw [NotFoundException].
   /// May throw [GatewayTimeoutException].
@@ -869,8 +914,8 @@ class AmplifyBackend {
   /// Parameter [loginAuthConfig] :
   /// Describes the Amazon Cognito configuration for Admin UI access.
   Future<UpdateBackendConfigResponse> updateBackendConfig({
-    @_s.required String appId,
-    LoginAuthConfigReqObj loginAuthConfig,
+    required String appId,
+    LoginAuthConfigReqObj? loginAuthConfig,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     final $payload = <String, dynamic>{
@@ -902,18 +947,18 @@ class AmplifyBackend {
   /// The ID for the job.
   ///
   /// Parameter [operation] :
-  /// Filters the list of response objects to include only those with the
+  /// Filters the list of response objects to only include those with the
   /// specified operation name.
   ///
   /// Parameter [status] :
   /// Filters the list of response objects to include only those with the
   /// specified status.
   Future<UpdateBackendJobResponse> updateBackendJob({
-    @_s.required String appId,
-    @_s.required String backendEnvironmentName,
-    @_s.required String jobId,
-    String operation,
-    String status,
+    required String appId,
+    required String backendEnvironmentName,
+    required String jobId,
+    String? operation,
+    String? status,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
     ArgumentError.checkNotNull(
@@ -935,57 +980,65 @@ class AmplifyBackend {
 }
 
 enum AuthResources {
-  @_s.JsonValue('USER_POOL_ONLY')
   userPoolOnly,
-  @_s.JsonValue('IDENTITY_POOL_AND_USER_POOL')
   identityPoolAndUserPool,
+}
+
+extension on AuthResources {
+  String toValue() {
+    switch (this) {
+      case AuthResources.userPoolOnly:
+        return 'USER_POOL_ONLY';
+      case AuthResources.identityPoolAndUserPool:
+        return 'IDENTITY_POOL_AND_USER_POOL';
+    }
+  }
+}
+
+extension on String {
+  AuthResources toAuthResources() {
+    switch (this) {
+      case 'USER_POOL_ONLY':
+        return AuthResources.userPoolOnly;
+      case 'IDENTITY_POOL_AND_USER_POOL':
+        return AuthResources.identityPoolAndUserPool;
+    }
+    throw Exception('$this is not known in enum AuthResources');
+  }
 }
 
 /// The authentication settings for accessing provisioned data models in your
 /// Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackendAPIAppSyncAuthSettings {
-  /// The Amazon Cognito user pool ID, if Amazon Cognito is used as an
+  /// The Amazon Cognito user pool ID, if Amazon Cognito was used as an
   /// authentication setting to access your data models.
-  @_s.JsonKey(name: 'cognitoUserPoolId')
-  final String cognitoUserPoolId;
+  final String? cognitoUserPoolId;
 
-  /// The API key description for API_KEY, if it is used as an authentication
+  /// The API key description for API_KEY, if it was used as an authentication
   /// mechanism to access your data models.
-  @_s.JsonKey(name: 'description')
-  final String description;
+  final String? description;
 
-  /// The API key expiration time for API_KEY, if it is used as an authentication
+  /// The API key expiration time for API_KEY, if it was used as an authentication
   /// mechanism to access your data models.
-  @_s.JsonKey(name: 'expirationTime')
-  final double expirationTime;
+  final double? expirationTime;
 
   /// The expiry time for the OpenID authentication mechanism.
-  @_s.JsonKey(name: 'openIDAuthTTL')
-  final String openIDAuthTTL;
+  final String? openIDAuthTTL;
 
-  /// The clientID for openID, if openID is used as an authentication setting to
+  /// The clientID for openID, if openID was used as an authentication setting to
   /// access your data models.
-  @_s.JsonKey(name: 'openIDClientId')
-  final String openIDClientId;
+  final String? openIDClientId;
 
   /// The expiry time for the OpenID authentication mechanism.
-  @_s.JsonKey(name: 'openIDIatTTL')
-  final String openIDIatTTL;
+  final String? openIDIatTTL;
 
-  /// The openID issuer URL, if openID is used as an authentication setting to
+  /// The openID issuer URL, if openID was used as an authentication setting to
   /// access your data models.
-  @_s.JsonKey(name: 'openIDIssueURL')
-  final String openIDIssueURL;
+  final String? openIDIssueURL;
 
-  /// The openID provider name, if openID is used as an authentication mechanism
+  /// The OpenID provider name, if OpenID was used as an authentication mechanism
   /// to access your data models.
-  @_s.JsonKey(name: 'openIDProviderName')
-  final String openIDProviderName;
+  final String? openIDProviderName;
 
   BackendAPIAppSyncAuthSettings({
     this.cognitoUserPoolId,
@@ -997,92 +1050,124 @@ class BackendAPIAppSyncAuthSettings {
     this.openIDIssueURL,
     this.openIDProviderName,
   });
-  factory BackendAPIAppSyncAuthSettings.fromJson(Map<String, dynamic> json) =>
-      _$BackendAPIAppSyncAuthSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BackendAPIAppSyncAuthSettingsToJson(this);
+  factory BackendAPIAppSyncAuthSettings.fromJson(Map<String, dynamic> json) {
+    return BackendAPIAppSyncAuthSettings(
+      cognitoUserPoolId: json['cognitoUserPoolId'] as String?,
+      description: json['description'] as String?,
+      expirationTime: json['expirationTime'] as double?,
+      openIDAuthTTL: json['openIDAuthTTL'] as String?,
+      openIDClientId: json['openIDClientId'] as String?,
+      openIDIatTTL: json['openIDIatTTL'] as String?,
+      openIDIssueURL: json['openIDIssueURL'] as String?,
+      openIDProviderName: json['openIDProviderName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final cognitoUserPoolId = this.cognitoUserPoolId;
+    final description = this.description;
+    final expirationTime = this.expirationTime;
+    final openIDAuthTTL = this.openIDAuthTTL;
+    final openIDClientId = this.openIDClientId;
+    final openIDIatTTL = this.openIDIatTTL;
+    final openIDIssueURL = this.openIDIssueURL;
+    final openIDProviderName = this.openIDProviderName;
+    return {
+      if (cognitoUserPoolId != null) 'cognitoUserPoolId': cognitoUserPoolId,
+      if (description != null) 'description': description,
+      if (expirationTime != null) 'expirationTime': expirationTime,
+      if (openIDAuthTTL != null) 'openIDAuthTTL': openIDAuthTTL,
+      if (openIDClientId != null) 'openIDClientId': openIDClientId,
+      if (openIDIatTTL != null) 'openIDIatTTL': openIDIatTTL,
+      if (openIDIssueURL != null) 'openIDIssueURL': openIDIssueURL,
+      if (openIDProviderName != null) 'openIDProviderName': openIDProviderName,
+    };
+  }
 }
 
 /// Describes the auth types for your configured data models.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackendAPIAuthType {
   /// Describes the authentication mode.
-  @_s.JsonKey(name: 'mode')
-  final Mode mode;
+  final Mode? mode;
 
   /// Describes settings for the authentication mode.
-  @_s.JsonKey(name: 'settings')
-  final BackendAPIAppSyncAuthSettings settings;
+  final BackendAPIAppSyncAuthSettings? settings;
 
   BackendAPIAuthType({
     this.mode,
     this.settings,
   });
-  factory BackendAPIAuthType.fromJson(Map<String, dynamic> json) =>
-      _$BackendAPIAuthTypeFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BackendAPIAuthTypeToJson(this);
+  factory BackendAPIAuthType.fromJson(Map<String, dynamic> json) {
+    return BackendAPIAuthType(
+      mode: (json['mode'] as String?)?.toMode(),
+      settings: json['settings'] != null
+          ? BackendAPIAppSyncAuthSettings.fromJson(
+              json['settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mode = this.mode;
+    final settings = this.settings;
+    return {
+      if (mode != null) 'mode': mode.toValue(),
+      if (settings != null) 'settings': settings,
+    };
+  }
 }
 
-/// Describes the conflict resolution configuration for the data model
+/// Describes the conflict resolution configuration for your data model
 /// configured in your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackendAPIConflictResolution {
   /// The strategy for conflict resolution.
-  @_s.JsonKey(name: 'resolutionStrategy')
-  final ResolutionStrategy resolutionStrategy;
+  final ResolutionStrategy? resolutionStrategy;
 
   BackendAPIConflictResolution({
     this.resolutionStrategy,
   });
-  factory BackendAPIConflictResolution.fromJson(Map<String, dynamic> json) =>
-      _$BackendAPIConflictResolutionFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BackendAPIConflictResolutionToJson(this);
+  factory BackendAPIConflictResolution.fromJson(Map<String, dynamic> json) {
+    return BackendAPIConflictResolution(
+      resolutionStrategy:
+          (json['resolutionStrategy'] as String?)?.toResolutionStrategy(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final resolutionStrategy = this.resolutionStrategy;
+    return {
+      if (resolutionStrategy != null)
+        'resolutionStrategy': resolutionStrategy.toValue(),
+    };
+  }
 }
 
-/// The resource configuration for the data model, configured as a part of the
-/// Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// The resource config for the data model, configured as a part of the Amplify
+/// project.
 class BackendAPIResourceConfig {
   /// Additional authentication methods used to interact with your data models.
-  @_s.JsonKey(name: 'additionalAuthTypes')
-  final List<BackendAPIAuthType> additionalAuthTypes;
+  final List<BackendAPIAuthType>? additionalAuthTypes;
 
   /// The API name used to interact with the data model, configured as a part of
-  /// the Amplify project.
-  @_s.JsonKey(name: 'apiName')
-  final String apiName;
+  /// the amplify project.
+  final String? apiName;
 
   /// The conflict resolution strategy for your data stored in the data models.
-  @_s.JsonKey(name: 'conflictResolution')
-  final BackendAPIConflictResolution conflictResolution;
+  final BackendAPIConflictResolution? conflictResolution;
 
   /// The default authentication type for interacting with the configured data
   /// models in your Amplify project.
-  @_s.JsonKey(name: 'defaultAuthType')
-  final BackendAPIAuthType defaultAuthType;
+  final BackendAPIAuthType? defaultAuthType;
 
   /// The service used to provision and interact with the data model.
-  @_s.JsonKey(name: 'service')
-  final String service;
+  final String? service;
 
   /// The definition of the data model in the annotated transform of the GraphQL
   /// schema.
-  @_s.JsonKey(name: 'transformSchema')
-  final String transformSchema;
+  final String? transformSchema;
 
   BackendAPIResourceConfig({
     this.additionalAuthTypes,
@@ -1092,83 +1177,108 @@ class BackendAPIResourceConfig {
     this.service,
     this.transformSchema,
   });
-  factory BackendAPIResourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$BackendAPIResourceConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BackendAPIResourceConfigToJson(this);
+  factory BackendAPIResourceConfig.fromJson(Map<String, dynamic> json) {
+    return BackendAPIResourceConfig(
+      additionalAuthTypes: (json['additionalAuthTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackendAPIAuthType.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      apiName: json['apiName'] as String?,
+      conflictResolution: json['conflictResolution'] != null
+          ? BackendAPIConflictResolution.fromJson(
+              json['conflictResolution'] as Map<String, dynamic>)
+          : null,
+      defaultAuthType: json['defaultAuthType'] != null
+          ? BackendAPIAuthType.fromJson(
+              json['defaultAuthType'] as Map<String, dynamic>)
+          : null,
+      service: json['service'] as String?,
+      transformSchema: json['transformSchema'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalAuthTypes = this.additionalAuthTypes;
+    final apiName = this.apiName;
+    final conflictResolution = this.conflictResolution;
+    final defaultAuthType = this.defaultAuthType;
+    final service = this.service;
+    final transformSchema = this.transformSchema;
+    return {
+      if (additionalAuthTypes != null)
+        'additionalAuthTypes': additionalAuthTypes,
+      if (apiName != null) 'apiName': apiName,
+      if (conflictResolution != null) 'conflictResolution': conflictResolution,
+      if (defaultAuthType != null) 'defaultAuthType': defaultAuthType,
+      if (service != null) 'service': service,
+      if (transformSchema != null) 'transformSchema': transformSchema,
+    };
+  }
 }
 
 /// Describes third-party social federation configurations for allowing your app
 /// users to sign in using OAuth.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class BackendAuthSocialProviderConfig {
-  /// Describes the client_id that can be obtained from the third-party social
+  /// Describes the client_id which can be obtained from the third-party social
   /// federation provider.
-  @_s.JsonKey(name: 'client_id')
-  final String clientId;
+  final String? clientId;
 
-  /// Describes the client_secret that can be obtained from third-party social
+  /// Describes the client_secret which can be obtained from third-party social
   /// federation providers.
-  @_s.JsonKey(name: 'client_secret')
-  final String clientSecret;
+  final String? clientSecret;
 
   BackendAuthSocialProviderConfig({
     this.clientId,
     this.clientSecret,
   });
-  factory BackendAuthSocialProviderConfig.fromJson(Map<String, dynamic> json) =>
-      _$BackendAuthSocialProviderConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$BackendAuthSocialProviderConfigToJson(this);
+  factory BackendAuthSocialProviderConfig.fromJson(Map<String, dynamic> json) {
+    return BackendAuthSocialProviderConfig(
+      clientId: json['client_id'] as String?,
+      clientSecret: json['client_secret'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final clientId = this.clientId;
+    final clientSecret = this.clientSecret;
+    return {
+      if (clientId != null) 'client_id': clientId,
+      if (clientSecret != null) 'client_secret': clientSecret,
+    };
+  }
 }
 
 /// The response object for this operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class BackendJobRespObj {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
   final String appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
   final String backendEnvironmentName;
 
   /// The time when the job was created.
-  @_s.JsonKey(name: 'createTime')
-  final String createTime;
+  final String? createTime;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The time when the job was last updated.
-  @_s.JsonKey(name: 'updateTime')
-  final String updateTime;
+  final String? updateTime;
 
   BackendJobRespObj({
-    @_s.required this.appId,
-    @_s.required this.backendEnvironmentName,
+    required this.appId,
+    required this.backendEnvironmentName,
     this.createTime,
     this.error,
     this.jobId,
@@ -1176,39 +1286,60 @@ class BackendJobRespObj {
     this.status,
     this.updateTime,
   });
-  factory BackendJobRespObj.fromJson(Map<String, dynamic> json) =>
-      _$BackendJobRespObjFromJson(json);
+
+  factory BackendJobRespObj.fromJson(Map<String, dynamic> json) {
+    return BackendJobRespObj(
+      appId: json['appId'] as String,
+      backendEnvironmentName: json['backendEnvironmentName'] as String,
+      createTime: json['createTime'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+      updateTime: json['updateTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final createTime = this.createTime;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    final updateTime = this.updateTime;
+    return {
+      'appId': appId,
+      'backendEnvironmentName': backendEnvironmentName,
+      if (createTime != null) 'createTime': createTime,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+      if (updateTime != null) 'updateTime': updateTime,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CloneBackendResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CloneBackendResponse({
     this.appId,
@@ -1218,39 +1349,55 @@ class CloneBackendResponse {
     this.operation,
     this.status,
   });
-  factory CloneBackendResponse.fromJson(Map<String, dynamic> json) =>
-      _$CloneBackendResponseFromJson(json);
+
+  factory CloneBackendResponse.fromJson(Map<String, dynamic> json) {
+    return CloneBackendResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackendAPIResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CreateBackendAPIResponse({
     this.appId,
@@ -1260,251 +1407,335 @@ class CreateBackendAPIResponse {
     this.operation,
     this.status,
   });
-  factory CreateBackendAPIResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendAPIResponseFromJson(json);
+
+  factory CreateBackendAPIResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackendAPIResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// Describes the forgot password policy for authenticating into the Amplify
 /// app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreateBackendAuthForgotPasswordConfig {
-  /// Describes which method to use (either SMS or email) to deliver messages to
-  /// app users that want to recover their password.
-  @_s.JsonKey(name: 'deliveryMethod')
+  /// Describes which mode to use (either SMS or email) to deliver messages to app
+  /// users that want to recover their password.
   final DeliveryMethod deliveryMethod;
 
   /// The configuration for the email sent when an app user forgets their
   /// password.
-  @_s.JsonKey(name: 'emailSettings')
-  final EmailSettings emailSettings;
+  final EmailSettings? emailSettings;
 
   /// The configuration for the SMS message sent when an app user forgets their
   /// password.
-  @_s.JsonKey(name: 'smsSettings')
-  final SmsSettings smsSettings;
+  final SmsSettings? smsSettings;
 
   CreateBackendAuthForgotPasswordConfig({
-    @_s.required this.deliveryMethod,
+    required this.deliveryMethod,
     this.emailSettings,
     this.smsSettings,
   });
-  factory CreateBackendAuthForgotPasswordConfig.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateBackendAuthForgotPasswordConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CreateBackendAuthForgotPasswordConfigToJson(this);
+  factory CreateBackendAuthForgotPasswordConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CreateBackendAuthForgotPasswordConfig(
+      deliveryMethod: (json['deliveryMethod'] as String).toDeliveryMethod(),
+      emailSettings: json['emailSettings'] != null
+          ? EmailSettings.fromJson(
+              json['emailSettings'] as Map<String, dynamic>)
+          : null,
+      smsSettings: json['smsSettings'] != null
+          ? SmsSettings.fromJson(json['smsSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryMethod = this.deliveryMethod;
+    final emailSettings = this.emailSettings;
+    final smsSettings = this.smsSettings;
+    return {
+      'deliveryMethod': deliveryMethod.toValue(),
+      if (emailSettings != null) 'emailSettings': emailSettings,
+      if (smsSettings != null) 'smsSettings': smsSettings,
+    };
+  }
 }
 
 /// Describes authorization configurations for the auth resources, configured as
 /// a part of your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreateBackendAuthIdentityPoolConfig {
-  /// Name of the identity pool used for authorization.
-  @_s.JsonKey(name: 'identityPoolName')
+  /// Name of the Amazon Cognito identity pool used for authorization.
   final String identityPoolName;
 
   /// Set to true or false based on whether you want to enable guest authorization
   /// to your Amplify app.
-  @_s.JsonKey(name: 'unauthenticatedLogin')
   final bool unauthenticatedLogin;
 
   CreateBackendAuthIdentityPoolConfig({
-    @_s.required this.identityPoolName,
-    @_s.required this.unauthenticatedLogin,
+    required this.identityPoolName,
+    required this.unauthenticatedLogin,
   });
-  factory CreateBackendAuthIdentityPoolConfig.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateBackendAuthIdentityPoolConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CreateBackendAuthIdentityPoolConfigToJson(this);
+  factory CreateBackendAuthIdentityPoolConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CreateBackendAuthIdentityPoolConfig(
+      identityPoolName: json['identityPoolName'] as String,
+      unauthenticatedLogin: json['unauthenticatedLogin'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final identityPoolName = this.identityPoolName;
+    final unauthenticatedLogin = this.unauthenticatedLogin;
+    return {
+      'identityPoolName': identityPoolName,
+      'unauthenticatedLogin': unauthenticatedLogin,
+    };
+  }
 }
 
-/// Describes whether to apply multi-factor authentication (MFA) policies for
-/// your Amazon Cognito user pool that's configured as a part of your Amplify
-/// project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// Describes whether multi-factor authentication policies should be applied for
+/// your Amazon Cognito user pool configured as a part of your Amplify project.
 class CreateBackendAuthMFAConfig {
-  /// Describes whether MFA should be [ON, OFF, or OPTIONAL] for authentication in
+  /// Describes whether MFA should be [ON, OFF, OPTIONAL] for authentication in
   /// your Amplify project.
-  @_s.JsonKey(name: 'MFAMode')
   final MFAMode mFAMode;
 
   /// Describes the configuration settings and methods for your Amplify app users
   /// to use MFA.
-  @_s.JsonKey(name: 'settings')
-  final Settings settings;
+  final Settings? settings;
 
   CreateBackendAuthMFAConfig({
-    @_s.required this.mFAMode,
+    required this.mFAMode,
     this.settings,
   });
-  factory CreateBackendAuthMFAConfig.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendAuthMFAConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CreateBackendAuthMFAConfigToJson(this);
+  factory CreateBackendAuthMFAConfig.fromJson(Map<String, dynamic> json) {
+    return CreateBackendAuthMFAConfig(
+      mFAMode: (json['MFAMode'] as String).toMFAMode(),
+      settings: json['settings'] != null
+          ? Settings.fromJson(json['settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mFAMode = this.mFAMode;
+    final settings = this.settings;
+    return {
+      'MFAMode': mFAMode.toValue(),
+      if (settings != null) 'settings': settings,
+    };
+  }
 }
 
 /// Creates the OAuth configuration for your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreateBackendAuthOAuthConfig {
   /// The OAuth grant type that you use to allow app users to authenticate from
   /// your Amplify app.
-  @_s.JsonKey(name: 'oAuthGrantType')
   final OAuthGrantType oAuthGrantType;
 
-  /// List of OAuth-related flows that allow your app users to authenticate from
-  /// your Amplify app.
-  @_s.JsonKey(name: 'oAuthScopes')
+  /// List of OAuth-related flows used to allow your app users to authenticate
+  /// from your Amplify app.
   final List<OAuthScopesElement> oAuthScopes;
 
   /// The redirected URI for signing in to your Amplify app.
-  @_s.JsonKey(name: 'redirectSignInURIs')
   final List<String> redirectSignInURIs;
 
-  /// Redirect URLs that OAuth uses when a user signs out of an Amplify app.
-  @_s.JsonKey(name: 'redirectSignOutURIs')
+  /// Redirect URLs used by OAuth when a user signs out of an Amplify app.
   final List<String> redirectSignOutURIs;
 
   /// The domain prefix for your Amplify app.
-  @_s.JsonKey(name: 'domainPrefix')
-  final String domainPrefix;
+  final String? domainPrefix;
 
-  /// The settings for using social identity providers for access to your Amplify
-  /// app.
-  @_s.JsonKey(name: 'socialProviderSettings')
-  final SocialProviderSettings socialProviderSettings;
+  /// The settings for using social providers to access your Amplify app.
+  final SocialProviderSettings? socialProviderSettings;
 
   CreateBackendAuthOAuthConfig({
-    @_s.required this.oAuthGrantType,
-    @_s.required this.oAuthScopes,
-    @_s.required this.redirectSignInURIs,
-    @_s.required this.redirectSignOutURIs,
+    required this.oAuthGrantType,
+    required this.oAuthScopes,
+    required this.redirectSignInURIs,
+    required this.redirectSignOutURIs,
     this.domainPrefix,
     this.socialProviderSettings,
   });
-  factory CreateBackendAuthOAuthConfig.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendAuthOAuthConfigFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CreateBackendAuthOAuthConfigToJson(this);
+  factory CreateBackendAuthOAuthConfig.fromJson(Map<String, dynamic> json) {
+    return CreateBackendAuthOAuthConfig(
+      oAuthGrantType: (json['oAuthGrantType'] as String).toOAuthGrantType(),
+      oAuthScopes: (json['oAuthScopes'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toOAuthScopesElement())
+          .toList(),
+      redirectSignInURIs: (json['redirectSignInURIs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      redirectSignOutURIs: (json['redirectSignOutURIs'] as List)
+          .whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      domainPrefix: json['domainPrefix'] as String?,
+      socialProviderSettings: json['socialProviderSettings'] != null
+          ? SocialProviderSettings.fromJson(
+              json['socialProviderSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final oAuthGrantType = this.oAuthGrantType;
+    final oAuthScopes = this.oAuthScopes;
+    final redirectSignInURIs = this.redirectSignInURIs;
+    final redirectSignOutURIs = this.redirectSignOutURIs;
+    final domainPrefix = this.domainPrefix;
+    final socialProviderSettings = this.socialProviderSettings;
+    return {
+      'oAuthGrantType': oAuthGrantType.toValue(),
+      'oAuthScopes': oAuthScopes.map((e) => e.toValue()).toList(),
+      'redirectSignInURIs': redirectSignInURIs,
+      'redirectSignOutURIs': redirectSignOutURIs,
+      if (domainPrefix != null) 'domainPrefix': domainPrefix,
+      if (socialProviderSettings != null)
+        'socialProviderSettings': socialProviderSettings,
+    };
+  }
 }
 
-/// The password policy configuration for the backend of your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
+/// The password policy configuration for the backend to your Amplify project.
 class CreateBackendAuthPasswordPolicyConfig {
   /// The minimum length of the password used to access the backend of your
   /// Amplify project.
-  @_s.JsonKey(name: 'minimumLength')
   final double minimumLength;
 
   /// Additional constraints for the password used to access the backend of your
   /// Amplify project.
-  @_s.JsonKey(name: 'additionalConstraints')
-  final List<AdditionalConstraintsElement> additionalConstraints;
+  final List<AdditionalConstraintsElement>? additionalConstraints;
 
   CreateBackendAuthPasswordPolicyConfig({
-    @_s.required this.minimumLength,
+    required this.minimumLength,
     this.additionalConstraints,
   });
-  factory CreateBackendAuthPasswordPolicyConfig.fromJson(
-          Map<String, dynamic> json) =>
-      _$CreateBackendAuthPasswordPolicyConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CreateBackendAuthPasswordPolicyConfigToJson(this);
+  factory CreateBackendAuthPasswordPolicyConfig.fromJson(
+      Map<String, dynamic> json) {
+    return CreateBackendAuthPasswordPolicyConfig(
+      minimumLength: json['minimumLength'] as double,
+      additionalConstraints: (json['additionalConstraints'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAdditionalConstraintsElement())
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final minimumLength = this.minimumLength;
+    final additionalConstraints = this.additionalConstraints;
+    return {
+      'minimumLength': minimumLength,
+      if (additionalConstraints != null)
+        'additionalConstraints':
+            additionalConstraints.map((e) => e.toValue()).toList(),
+    };
+  }
 }
 
 /// Defines the resource configuration when creating an auth resource in your
 /// Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreateBackendAuthResourceConfig {
   /// Defines whether you want to configure only authentication or both
   /// authentication and authorization settings.
-  @_s.JsonKey(name: 'authResources')
   final AuthResources authResources;
 
   /// Defines the service name to use when configuring an authentication resource
   /// in your Amplify project.
-  @_s.JsonKey(name: 'service')
   final Service service;
 
-  /// Describes the authentication configuration for the Amazon Cognito user pool,
-  /// provisioned as a part of the auth resource in your Amplify project.
-  @_s.JsonKey(name: 'userPoolConfigs')
+  /// Describes authentication configuration for the Amazon Cognito user pool,
+  /// provisioned as a part of your auth resource in the Amplify project.
   final CreateBackendAuthUserPoolConfig userPoolConfigs;
 
   /// Describes the authorization configuration for the Amazon Cognito identity
-  /// pool, provisioned as a part of the auth resource in your Amplify project.
-  @_s.JsonKey(name: 'identityPoolConfigs')
-  final CreateBackendAuthIdentityPoolConfig identityPoolConfigs;
+  /// pool, provisioned as a part of your auth resource in the Amplify project.
+  final CreateBackendAuthIdentityPoolConfig? identityPoolConfigs;
 
   CreateBackendAuthResourceConfig({
-    @_s.required this.authResources,
-    @_s.required this.service,
-    @_s.required this.userPoolConfigs,
+    required this.authResources,
+    required this.service,
+    required this.userPoolConfigs,
     this.identityPoolConfigs,
   });
-  factory CreateBackendAuthResourceConfig.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendAuthResourceConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CreateBackendAuthResourceConfigToJson(this);
+  factory CreateBackendAuthResourceConfig.fromJson(Map<String, dynamic> json) {
+    return CreateBackendAuthResourceConfig(
+      authResources: (json['authResources'] as String).toAuthResources(),
+      service: (json['service'] as String).toService(),
+      userPoolConfigs: CreateBackendAuthUserPoolConfig.fromJson(
+          json['userPoolConfigs'] as Map<String, dynamic>),
+      identityPoolConfigs: json['identityPoolConfigs'] != null
+          ? CreateBackendAuthIdentityPoolConfig.fromJson(
+              json['identityPoolConfigs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authResources = this.authResources;
+    final service = this.service;
+    final userPoolConfigs = this.userPoolConfigs;
+    final identityPoolConfigs = this.identityPoolConfigs;
+    return {
+      'authResources': authResources.toValue(),
+      'service': service.toValue(),
+      'userPoolConfigs': userPoolConfigs,
+      if (identityPoolConfigs != null)
+        'identityPoolConfigs': identityPoolConfigs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackendAuthResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CreateBackendAuthResponse({
     this.appId,
@@ -1514,91 +1745,137 @@ class CreateBackendAuthResponse {
     this.operation,
     this.status,
   });
-  factory CreateBackendAuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendAuthResponseFromJson(json);
+
+  factory CreateBackendAuthResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackendAuthResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// Describes the Amazon Cognito user pool configuration for the auth resource
 /// to be configured for your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class CreateBackendAuthUserPoolConfig {
-  /// The required attributes to sign up new users in the Amazon Cognito user
-  /// pool.
-  @_s.JsonKey(name: 'requiredSignUpAttributes')
+  /// The required attributes to sign up new users in the user pool.
   final List<RequiredSignUpAttributesElement> requiredSignUpAttributes;
 
-  /// Describes the sign-in methods that your Amplify app users to log in using
-  /// the Amazon Cognito user pool that's configured as a part of your Amplify
+  /// Describes the sign-in methods that your Amplify app users use to log in
+  /// using the Amazon Cognito user pool, configured as a part of your Amplify
   /// project.
-  @_s.JsonKey(name: 'signInMethod')
   final SignInMethod signInMethod;
 
   /// The Amazon Cognito user pool name.
-  @_s.JsonKey(name: 'userPoolName')
   final String userPoolName;
 
   /// Describes the forgotten password policy for your Amazon Cognito user pool,
   /// configured as a part of your Amplify project.
-  @_s.JsonKey(name: 'forgotPassword')
-  final CreateBackendAuthForgotPasswordConfig forgotPassword;
+  final CreateBackendAuthForgotPasswordConfig? forgotPassword;
 
-  /// Describes whether to apply multi-factor authentication (MFA) policies for
-  /// your Amazon Cognito user pool that's configured as a part of your Amplify
-  /// project.
-  @_s.JsonKey(name: 'mfa')
-  final CreateBackendAuthMFAConfig mfa;
+  /// Describes whether multi-factor authentication policies should be applied for
+  /// your Amazon Cognito user pool configured as a part of your Amplify project.
+  final CreateBackendAuthMFAConfig? mfa;
 
   /// Describes the OAuth policy and rules for your Amazon Cognito user pool,
   /// configured as a part of your Amplify project.
-  @_s.JsonKey(name: 'oAuth')
-  final CreateBackendAuthOAuthConfig oAuth;
+  final CreateBackendAuthOAuthConfig? oAuth;
 
   /// Describes the password policy for your Amazon Cognito user pool, configured
   /// as a part of your Amplify project.
-  @_s.JsonKey(name: 'passwordPolicy')
-  final CreateBackendAuthPasswordPolicyConfig passwordPolicy;
+  final CreateBackendAuthPasswordPolicyConfig? passwordPolicy;
 
   CreateBackendAuthUserPoolConfig({
-    @_s.required this.requiredSignUpAttributes,
-    @_s.required this.signInMethod,
-    @_s.required this.userPoolName,
+    required this.requiredSignUpAttributes,
+    required this.signInMethod,
+    required this.userPoolName,
     this.forgotPassword,
     this.mfa,
     this.oAuth,
     this.passwordPolicy,
   });
-  factory CreateBackendAuthUserPoolConfig.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendAuthUserPoolConfigFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      _$CreateBackendAuthUserPoolConfigToJson(this);
+  factory CreateBackendAuthUserPoolConfig.fromJson(Map<String, dynamic> json) {
+    return CreateBackendAuthUserPoolConfig(
+      requiredSignUpAttributes: (json['requiredSignUpAttributes'] as List)
+          .whereNotNull()
+          .map((e) => (e as String).toRequiredSignUpAttributesElement())
+          .toList(),
+      signInMethod: (json['signInMethod'] as String).toSignInMethod(),
+      userPoolName: json['userPoolName'] as String,
+      forgotPassword: json['forgotPassword'] != null
+          ? CreateBackendAuthForgotPasswordConfig.fromJson(
+              json['forgotPassword'] as Map<String, dynamic>)
+          : null,
+      mfa: json['mfa'] != null
+          ? CreateBackendAuthMFAConfig.fromJson(
+              json['mfa'] as Map<String, dynamic>)
+          : null,
+      oAuth: json['oAuth'] != null
+          ? CreateBackendAuthOAuthConfig.fromJson(
+              json['oAuth'] as Map<String, dynamic>)
+          : null,
+      passwordPolicy: json['passwordPolicy'] != null
+          ? CreateBackendAuthPasswordPolicyConfig.fromJson(
+              json['passwordPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final requiredSignUpAttributes = this.requiredSignUpAttributes;
+    final signInMethod = this.signInMethod;
+    final userPoolName = this.userPoolName;
+    final forgotPassword = this.forgotPassword;
+    final mfa = this.mfa;
+    final oAuth = this.oAuth;
+    final passwordPolicy = this.passwordPolicy;
+    return {
+      'requiredSignUpAttributes':
+          requiredSignUpAttributes.map((e) => e.toValue()).toList(),
+      'signInMethod': signInMethod.toValue(),
+      'userPoolName': userPoolName,
+      if (forgotPassword != null) 'forgotPassword': forgotPassword,
+      if (mfa != null) 'mfa': mfa,
+      if (oAuth != null) 'oAuth': oAuth,
+      if (passwordPolicy != null) 'passwordPolicy': passwordPolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackendConfigResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CreateBackendConfigResponse({
     this.appId,
@@ -1606,39 +1883,49 @@ class CreateBackendConfigResponse {
     this.jobId,
     this.status,
   });
-  factory CreateBackendConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendConfigResponseFromJson(json);
+
+  factory CreateBackendConfigResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackendConfigResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      jobId: json['jobId'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final jobId = this.jobId;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (jobId != null) 'jobId': jobId,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateBackendResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   CreateBackendResponse({
     this.appId,
@@ -1648,31 +1935,49 @@ class CreateBackendResponse {
     this.operation,
     this.status,
   });
-  factory CreateBackendResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateBackendResponseFromJson(json);
+
+  factory CreateBackendResponse.fromJson(Map<String, dynamic> json) {
+    return CreateBackendResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class CreateTokenResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// One-time challenge code for authenticating into the Amplify Admin UI.
-  @_s.JsonKey(name: 'challengeCode')
-  final String challengeCode;
+  final String? challengeCode;
 
   /// A unique ID provided when creating a new challenge token.
-  @_s.JsonKey(name: 'sessionId')
-  final String sessionId;
+  final String? sessionId;
 
   /// The expiry time for the one-time generated token code.
-  @_s.JsonKey(name: 'ttl')
-  final String ttl;
+  final String? ttl;
 
   CreateTokenResponse({
     this.appId,
@@ -1680,39 +1985,48 @@ class CreateTokenResponse {
     this.sessionId,
     this.ttl,
   });
-  factory CreateTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$CreateTokenResponseFromJson(json);
+
+  factory CreateTokenResponse.fromJson(Map<String, dynamic> json) {
+    return CreateTokenResponse(
+      appId: json['appId'] as String?,
+      challengeCode: json['challengeCode'] as String?,
+      sessionId: json['sessionId'] as String?,
+      ttl: json['ttl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final challengeCode = this.challengeCode;
+    final sessionId = this.sessionId;
+    final ttl = this.ttl;
+    return {
+      if (appId != null) 'appId': appId,
+      if (challengeCode != null) 'challengeCode': challengeCode,
+      if (sessionId != null) 'sessionId': sessionId,
+      if (ttl != null) 'ttl': ttl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackendAPIResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DeleteBackendAPIResponse({
     this.appId,
@@ -1722,39 +2036,55 @@ class DeleteBackendAPIResponse {
     this.operation,
     this.status,
   });
-  factory DeleteBackendAPIResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackendAPIResponseFromJson(json);
+
+  factory DeleteBackendAPIResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBackendAPIResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackendAuthResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DeleteBackendAuthResponse({
     this.appId,
@@ -1764,39 +2094,55 @@ class DeleteBackendAuthResponse {
     this.operation,
     this.status,
   });
-  factory DeleteBackendAuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackendAuthResponseFromJson(json);
+
+  factory DeleteBackendAuthResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBackendAuthResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteBackendResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   DeleteBackendResponse({
     this.appId,
@@ -1806,89 +2152,136 @@ class DeleteBackendResponse {
     this.operation,
     this.status,
   });
-  factory DeleteBackendResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteBackendResponseFromJson(json);
+
+  factory DeleteBackendResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteBackendResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class DeleteTokenResponse {
   /// Indicates whether the request succeeded or failed.
-  @_s.JsonKey(name: 'isSuccess')
-  final bool isSuccess;
+  final bool? isSuccess;
 
   DeleteTokenResponse({
     this.isSuccess,
   });
-  factory DeleteTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$DeleteTokenResponseFromJson(json);
+
+  factory DeleteTokenResponse.fromJson(Map<String, dynamic> json) {
+    return DeleteTokenResponse(
+      isSuccess: json['isSuccess'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final isSuccess = this.isSuccess;
+    return {
+      if (isSuccess != null) 'isSuccess': isSuccess,
+    };
+  }
 }
 
 enum DeliveryMethod {
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('SMS')
   sms,
+}
+
+extension on DeliveryMethod {
+  String toValue() {
+    switch (this) {
+      case DeliveryMethod.email:
+        return 'EMAIL';
+      case DeliveryMethod.sms:
+        return 'SMS';
+    }
+  }
+}
+
+extension on String {
+  DeliveryMethod toDeliveryMethod() {
+    switch (this) {
+      case 'EMAIL':
+        return DeliveryMethod.email;
+      case 'SMS':
+        return DeliveryMethod.sms;
+    }
+    throw Exception('$this is not known in enum DeliveryMethod');
+  }
 }
 
 /// The configuration for the email sent when an app user forgets their
 /// password.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class EmailSettings {
   /// The body of the email.
-  @_s.JsonKey(name: 'emailMessage')
-  final String emailMessage;
+  final String? emailMessage;
 
   /// The subject of the email.
-  @_s.JsonKey(name: 'emailSubject')
-  final String emailSubject;
+  final String? emailSubject;
 
   EmailSettings({
     this.emailMessage,
     this.emailSubject,
   });
-  factory EmailSettings.fromJson(Map<String, dynamic> json) =>
-      _$EmailSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$EmailSettingsToJson(this);
+  factory EmailSettings.fromJson(Map<String, dynamic> json) {
+    return EmailSettings(
+      emailMessage: json['emailMessage'] as String?,
+      emailSubject: json['emailSubject'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final emailMessage = this.emailMessage;
+    final emailSubject = this.emailSubject;
+    return {
+      if (emailMessage != null) 'emailMessage': emailMessage,
+      if (emailSubject != null) 'emailSubject': emailSubject,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GenerateBackendAPIModelsResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   GenerateBackendAPIModelsResponse({
     this.appId,
@@ -1898,58 +2291,81 @@ class GenerateBackendAPIModelsResponse {
     this.operation,
     this.status,
   });
-  factory GenerateBackendAPIModelsResponse.fromJson(
-          Map<String, dynamic> json) =>
-      _$GenerateBackendAPIModelsResponseFromJson(json);
+
+  factory GenerateBackendAPIModelsResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateBackendAPIModelsResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackendAPIModelsResponse {
-  /// Stringified JSON of the DataStore model.
-  @_s.JsonKey(name: 'models')
-  final String models;
+  /// Stringified JSON of the datastore model.
+  final String? models;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final Status status;
+  final Status? status;
 
   GetBackendAPIModelsResponse({
     this.models,
     this.status,
   });
-  factory GetBackendAPIModelsResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBackendAPIModelsResponseFromJson(json);
+
+  factory GetBackendAPIModelsResponse.fromJson(Map<String, dynamic> json) {
+    return GetBackendAPIModelsResponse(
+      models: json['models'] as String?,
+      status: (json['status'] as String?)?.toStatus(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final models = this.models;
+    final status = this.status;
+    return {
+      if (models != null) 'models': models,
+      if (status != null) 'status': status.toValue(),
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackendAPIResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The resource configuration for this response object.
-  @_s.JsonKey(name: 'resourceConfig')
-  final BackendAPIResourceConfig resourceConfig;
+  final BackendAPIResourceConfig? resourceConfig;
 
   /// The name of this resource.
-  @_s.JsonKey(name: 'resourceName')
-  final String resourceName;
+  final String? resourceName;
 
   GetBackendAPIResponse({
     this.appId,
@@ -1958,36 +2374,53 @@ class GetBackendAPIResponse {
     this.resourceConfig,
     this.resourceName,
   });
-  factory GetBackendAPIResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBackendAPIResponseFromJson(json);
+
+  factory GetBackendAPIResponse.fromJson(Map<String, dynamic> json) {
+    return GetBackendAPIResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      resourceConfig: json['resourceConfig'] != null
+          ? BackendAPIResourceConfig.fromJson(
+              json['resourceConfig'] as Map<String, dynamic>)
+          : null,
+      resourceName: json['resourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final resourceConfig = this.resourceConfig;
+    final resourceName = this.resourceName;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (resourceConfig != null) 'resourceConfig': resourceConfig,
+      if (resourceName != null) 'resourceName': resourceName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackendAuthResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The resource configuration for authorization requests to the backend of your
   /// Amplify project.
-  @_s.JsonKey(name: 'resourceConfig')
-  final CreateBackendAuthResourceConfig resourceConfig;
+  final CreateBackendAuthResourceConfig? resourceConfig;
 
   /// The name of this resource.
-  @_s.JsonKey(name: 'resourceName')
-  final String resourceName;
+  final String? resourceName;
 
   GetBackendAuthResponse({
     this.appId,
@@ -1996,47 +2429,61 @@ class GetBackendAuthResponse {
     this.resourceConfig,
     this.resourceName,
   });
-  factory GetBackendAuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBackendAuthResponseFromJson(json);
+
+  factory GetBackendAuthResponse.fromJson(Map<String, dynamic> json) {
+    return GetBackendAuthResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      resourceConfig: json['resourceConfig'] != null
+          ? CreateBackendAuthResourceConfig.fromJson(
+              json['resourceConfig'] as Map<String, dynamic>)
+          : null,
+      resourceName: json['resourceName'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final resourceConfig = this.resourceConfig;
+    final resourceName = this.resourceName;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (resourceConfig != null) 'resourceConfig': resourceConfig,
+      if (resourceName != null) 'resourceName': resourceName,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackendJobResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
   /// The time when the job was created.
-  @_s.JsonKey(name: 'createTime')
-  final String createTime;
+  final String? createTime;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The time when the job was last updated.
-  @_s.JsonKey(name: 'updateTime')
-  final String updateTime;
+  final String? updateTime;
 
   GetBackendJobResponse({
     this.appId,
@@ -2048,40 +2495,61 @@ class GetBackendJobResponse {
     this.status,
     this.updateTime,
   });
-  factory GetBackendJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBackendJobResponseFromJson(json);
+
+  factory GetBackendJobResponse.fromJson(Map<String, dynamic> json) {
+    return GetBackendJobResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      createTime: json['createTime'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+      updateTime: json['updateTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final createTime = this.createTime;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    final updateTime = this.updateTime;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (createTime != null) 'createTime': createTime,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+      if (updateTime != null) 'updateTime': updateTime,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetBackendResponse {
-  /// A stringified version of the current configurations for your Amplify
-  /// project.
-  @_s.JsonKey(name: 'amplifyMetaConfig')
-  final String amplifyMetaConfig;
+  /// A stringified version of the current configs for your Amplify project.
+  final String? amplifyMetaConfig;
 
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the app.
-  @_s.JsonKey(name: 'appName')
-  final String appName;
+  final String? appName;
 
   /// A list of backend environments in an array.
-  @_s.JsonKey(name: 'backendEnvironmentList')
-  final List<String> backendEnvironmentList;
+  final List<String>? backendEnvironmentList;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
   /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  final String? error;
 
   GetBackendResponse({
     this.amplifyMetaConfig,
@@ -2091,31 +2559,53 @@ class GetBackendResponse {
     this.backendEnvironmentName,
     this.error,
   });
-  factory GetBackendResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetBackendResponseFromJson(json);
+
+  factory GetBackendResponse.fromJson(Map<String, dynamic> json) {
+    return GetBackendResponse(
+      amplifyMetaConfig: json['amplifyMetaConfig'] as String?,
+      appId: json['appId'] as String?,
+      appName: json['appName'] as String?,
+      backendEnvironmentList: (json['backendEnvironmentList'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final amplifyMetaConfig = this.amplifyMetaConfig;
+    final appId = this.appId;
+    final appName = this.appName;
+    final backendEnvironmentList = this.backendEnvironmentList;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    return {
+      if (amplifyMetaConfig != null) 'amplifyMetaConfig': amplifyMetaConfig,
+      if (appId != null) 'appId': appId,
+      if (appName != null) 'appName': appName,
+      if (backendEnvironmentList != null)
+        'backendEnvironmentList': backendEnvironmentList,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class GetTokenResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The one-time challenge code for authenticating into the Amplify Admin UI.
-  @_s.JsonKey(name: 'challengeCode')
-  final String challengeCode;
+  final String? challengeCode;
 
   /// A unique ID provided when creating a new challenge token.
-  @_s.JsonKey(name: 'sessionId')
-  final String sessionId;
+  final String? sessionId;
 
   /// The expiry time for the one-time generated token code.
-  @_s.JsonKey(name: 'ttl')
-  final String ttl;
+  final String? ttl;
 
   GetTokenResponse({
     this.appId,
@@ -2123,56 +2613,135 @@ class GetTokenResponse {
     this.sessionId,
     this.ttl,
   });
-  factory GetTokenResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetTokenResponseFromJson(json);
+
+  factory GetTokenResponse.fromJson(Map<String, dynamic> json) {
+    return GetTokenResponse(
+      appId: json['appId'] as String?,
+      challengeCode: json['challengeCode'] as String?,
+      sessionId: json['sessionId'] as String?,
+      ttl: json['ttl'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final challengeCode = this.challengeCode;
+    final sessionId = this.sessionId;
+    final ttl = this.ttl;
+    return {
+      if (appId != null) 'appId': appId,
+      if (challengeCode != null) 'challengeCode': challengeCode,
+      if (sessionId != null) 'sessionId': sessionId,
+      if (ttl != null) 'ttl': ttl,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+class ImportBackendAuthResponse {
+  /// The app ID.
+  final String? appId;
+
+  /// The name of the backend environment.
+  final String? backendEnvironmentName;
+
+  /// If the request fails, this error is returned.
+  final String? error;
+
+  /// The ID for the job.
+  final String? jobId;
+
+  /// The name of the operation.
+  final String? operation;
+
+  /// The current status of the request.
+  final String? status;
+
+  ImportBackendAuthResponse({
+    this.appId,
+    this.backendEnvironmentName,
+    this.error,
+    this.jobId,
+    this.operation,
+    this.status,
+  });
+
+  factory ImportBackendAuthResponse.fromJson(Map<String, dynamic> json) {
+    return ImportBackendAuthResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
+}
+
 class ListBackendJobsResponse {
   /// An array of jobs and their properties.
-  @_s.JsonKey(name: 'jobs')
-  final List<BackendJobRespObj> jobs;
+  final List<BackendJobRespObj>? jobs;
 
   /// The token for the next set of results.
-  @_s.JsonKey(name: 'nextToken')
-  final String nextToken;
+  final String? nextToken;
 
   ListBackendJobsResponse({
     this.jobs,
     this.nextToken,
   });
-  factory ListBackendJobsResponse.fromJson(Map<String, dynamic> json) =>
-      _$ListBackendJobsResponseFromJson(json);
+
+  factory ListBackendJobsResponse.fromJson(Map<String, dynamic> json) {
+    return ListBackendJobsResponse(
+      jobs: (json['jobs'] as List?)
+          ?.whereNotNull()
+          .map((e) => BackendJobRespObj.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      nextToken: json['nextToken'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final jobs = this.jobs;
+    final nextToken = this.nextToken;
+    return {
+      if (jobs != null) 'jobs': jobs,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+  }
 }
 
 /// The request object for this operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class LoginAuthConfigReqObj {
-  /// The Amazon Cognito identity pool ID used for Amplify Admin UI login
+  /// The Amazon Cognito identity pool ID used for the Amplify Admin UI login
   /// authorization.
-  @_s.JsonKey(name: 'aws_cognito_identity_pool_id')
-  final String awsCognitoIdentityPoolId;
+  final String? awsCognitoIdentityPoolId;
 
   /// The AWS Region for the Amplify Admin UI login.
-  @_s.JsonKey(name: 'aws_cognito_region')
-  final String awsCognitoRegion;
+  final String? awsCognitoRegion;
 
   /// The Amazon Cognito user pool ID used for Amplify Admin UI login
   /// authentication.
-  @_s.JsonKey(name: 'aws_user_pools_id')
-  final String awsUserPoolsId;
+  final String? awsUserPoolsId;
 
   /// The web client ID for the Amazon Cognito user pools.
-  @_s.JsonKey(name: 'aws_user_pools_web_client_id')
-  final String awsUserPoolsWebClientId;
+  final String? awsUserPoolsWebClientId;
 
   LoginAuthConfigReqObj({
     this.awsCognitoIdentityPoolId,
@@ -2180,64 +2749,146 @@ class LoginAuthConfigReqObj {
     this.awsUserPoolsId,
     this.awsUserPoolsWebClientId,
   });
-  factory LoginAuthConfigReqObj.fromJson(Map<String, dynamic> json) =>
-      _$LoginAuthConfigReqObjFromJson(json);
 
-  Map<String, dynamic> toJson() => _$LoginAuthConfigReqObjToJson(this);
+  factory LoginAuthConfigReqObj.fromJson(Map<String, dynamic> json) {
+    return LoginAuthConfigReqObj(
+      awsCognitoIdentityPoolId: json['aws_cognito_identity_pool_id'] as String?,
+      awsCognitoRegion: json['aws_cognito_region'] as String?,
+      awsUserPoolsId: json['aws_user_pools_id'] as String?,
+      awsUserPoolsWebClientId: json['aws_user_pools_web_client_id'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final awsCognitoIdentityPoolId = this.awsCognitoIdentityPoolId;
+    final awsCognitoRegion = this.awsCognitoRegion;
+    final awsUserPoolsId = this.awsUserPoolsId;
+    final awsUserPoolsWebClientId = this.awsUserPoolsWebClientId;
+    return {
+      if (awsCognitoIdentityPoolId != null)
+        'aws_cognito_identity_pool_id': awsCognitoIdentityPoolId,
+      if (awsCognitoRegion != null) 'aws_cognito_region': awsCognitoRegion,
+      if (awsUserPoolsId != null) 'aws_user_pools_id': awsUserPoolsId,
+      if (awsUserPoolsWebClientId != null)
+        'aws_user_pools_web_client_id': awsUserPoolsWebClientId,
+    };
+  }
 }
 
 enum MFAMode {
-  @_s.JsonValue('ON')
   on,
-  @_s.JsonValue('OFF')
   off,
-  @_s.JsonValue('OPTIONAL')
   optional,
 }
 
+extension on MFAMode {
+  String toValue() {
+    switch (this) {
+      case MFAMode.on:
+        return 'ON';
+      case MFAMode.off:
+        return 'OFF';
+      case MFAMode.optional:
+        return 'OPTIONAL';
+    }
+  }
+}
+
+extension on String {
+  MFAMode toMFAMode() {
+    switch (this) {
+      case 'ON':
+        return MFAMode.on;
+      case 'OFF':
+        return MFAMode.off;
+      case 'OPTIONAL':
+        return MFAMode.optional;
+    }
+    throw Exception('$this is not known in enum MFAMode');
+  }
+}
+
 enum Mode {
-  @_s.JsonValue('API_KEY')
   apiKey,
-  @_s.JsonValue('AWS_IAM')
   awsIam,
-  @_s.JsonValue('AMAZON_COGNITO_USER_POOLS')
   amazonCognitoUserPools,
-  @_s.JsonValue('OPENID_CONNECT')
   openidConnect,
 }
 
+extension on Mode {
+  String toValue() {
+    switch (this) {
+      case Mode.apiKey:
+        return 'API_KEY';
+      case Mode.awsIam:
+        return 'AWS_IAM';
+      case Mode.amazonCognitoUserPools:
+        return 'AMAZON_COGNITO_USER_POOLS';
+      case Mode.openidConnect:
+        return 'OPENID_CONNECT';
+    }
+  }
+}
+
+extension on String {
+  Mode toMode() {
+    switch (this) {
+      case 'API_KEY':
+        return Mode.apiKey;
+      case 'AWS_IAM':
+        return Mode.awsIam;
+      case 'AMAZON_COGNITO_USER_POOLS':
+        return Mode.amazonCognitoUserPools;
+      case 'OPENID_CONNECT':
+        return Mode.openidConnect;
+    }
+    throw Exception('$this is not known in enum Mode');
+  }
+}
+
 enum OAuthGrantType {
-  @_s.JsonValue('CODE')
   code,
-  @_s.JsonValue('IMPLICIT')
   implicit,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on OAuthGrantType {
+  String toValue() {
+    switch (this) {
+      case OAuthGrantType.code:
+        return 'CODE';
+      case OAuthGrantType.implicit:
+        return 'IMPLICIT';
+    }
+  }
+}
+
+extension on String {
+  OAuthGrantType toOAuthGrantType() {
+    switch (this) {
+      case 'CODE':
+        return OAuthGrantType.code;
+      case 'IMPLICIT':
+        return OAuthGrantType.implicit;
+    }
+    throw Exception('$this is not known in enum OAuthGrantType');
+  }
+}
+
 class RemoveAllBackendsResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   RemoveAllBackendsResponse({
     this.appId,
@@ -2246,174 +2897,314 @@ class RemoveAllBackendsResponse {
     this.operation,
     this.status,
   });
-  factory RemoveAllBackendsResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveAllBackendsResponseFromJson(json);
+
+  factory RemoveAllBackendsResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveAllBackendsResponse(
+      appId: json['appId'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class RemoveBackendConfigResponse {
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   RemoveBackendConfigResponse({
     this.error,
   });
-  factory RemoveBackendConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$RemoveBackendConfigResponseFromJson(json);
+
+  factory RemoveBackendConfigResponse.fromJson(Map<String, dynamic> json) {
+    return RemoveBackendConfigResponse(
+      error: json['error'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final error = this.error;
+    return {
+      if (error != null) 'error': error,
+    };
+  }
 }
 
 enum ResolutionStrategy {
-  @_s.JsonValue('OPTIMISTIC_CONCURRENCY')
   optimisticConcurrency,
-  @_s.JsonValue('LAMBDA')
   lambda,
-  @_s.JsonValue('AUTOMERGE')
   automerge,
-  @_s.JsonValue('NONE')
   none,
+}
+
+extension on ResolutionStrategy {
+  String toValue() {
+    switch (this) {
+      case ResolutionStrategy.optimisticConcurrency:
+        return 'OPTIMISTIC_CONCURRENCY';
+      case ResolutionStrategy.lambda:
+        return 'LAMBDA';
+      case ResolutionStrategy.automerge:
+        return 'AUTOMERGE';
+      case ResolutionStrategy.none:
+        return 'NONE';
+    }
+  }
+}
+
+extension on String {
+  ResolutionStrategy toResolutionStrategy() {
+    switch (this) {
+      case 'OPTIMISTIC_CONCURRENCY':
+        return ResolutionStrategy.optimisticConcurrency;
+      case 'LAMBDA':
+        return ResolutionStrategy.lambda;
+      case 'AUTOMERGE':
+        return ResolutionStrategy.automerge;
+      case 'NONE':
+        return ResolutionStrategy.none;
+    }
+    throw Exception('$this is not known in enum ResolutionStrategy');
+  }
 }
 
 /// Defines the resource configuration for the data model in your Amplify
 /// project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class ResourceConfig {
   ResourceConfig();
-  Map<String, dynamic> toJson() => _$ResourceConfigToJson(this);
+
+  factory ResourceConfig.fromJson(Map<String, dynamic> _) {
+    return ResourceConfig();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {};
+  }
 }
 
 enum Service {
-  @_s.JsonValue('COGNITO')
   cognito,
+}
+
+extension on Service {
+  String toValue() {
+    switch (this) {
+      case Service.cognito:
+        return 'COGNITO';
+    }
+  }
+}
+
+extension on String {
+  Service toService() {
+    switch (this) {
+      case 'COGNITO':
+        return Service.cognito;
+    }
+    throw Exception('$this is not known in enum Service');
+  }
 }
 
 /// The settings of your MFA configuration for the backend of your Amplify
 /// project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class Settings {
   /// The supported MFA types.
-  @_s.JsonKey(name: 'mfaTypes')
-  final List<MfaTypesElement> mfaTypes;
+  final List<MfaTypesElement>? mfaTypes;
 
   /// The body of the SMS message.
-  @_s.JsonKey(name: 'smsMessage')
-  final String smsMessage;
+  final String? smsMessage;
 
   Settings({
     this.mfaTypes,
     this.smsMessage,
   });
-  factory Settings.fromJson(Map<String, dynamic> json) =>
-      _$SettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SettingsToJson(this);
+  factory Settings.fromJson(Map<String, dynamic> json) {
+    return Settings(
+      mfaTypes: (json['mfaTypes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toMfaTypesElement())
+          .toList(),
+      smsMessage: json['smsMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mfaTypes = this.mfaTypes;
+    final smsMessage = this.smsMessage;
+    return {
+      if (mfaTypes != null)
+        'mfaTypes': mfaTypes.map((e) => e.toValue()).toList(),
+      if (smsMessage != null) 'smsMessage': smsMessage,
+    };
+  }
 }
 
 enum SignInMethod {
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('EMAIL_AND_PHONE_NUMBER')
   emailAndPhoneNumber,
-  @_s.JsonValue('PHONE_NUMBER')
   phoneNumber,
-  @_s.JsonValue('USERNAME')
   username,
 }
 
+extension on SignInMethod {
+  String toValue() {
+    switch (this) {
+      case SignInMethod.email:
+        return 'EMAIL';
+      case SignInMethod.emailAndPhoneNumber:
+        return 'EMAIL_AND_PHONE_NUMBER';
+      case SignInMethod.phoneNumber:
+        return 'PHONE_NUMBER';
+      case SignInMethod.username:
+        return 'USERNAME';
+    }
+  }
+}
+
+extension on String {
+  SignInMethod toSignInMethod() {
+    switch (this) {
+      case 'EMAIL':
+        return SignInMethod.email;
+      case 'EMAIL_AND_PHONE_NUMBER':
+        return SignInMethod.emailAndPhoneNumber;
+      case 'PHONE_NUMBER':
+        return SignInMethod.phoneNumber;
+      case 'USERNAME':
+        return SignInMethod.username;
+    }
+    throw Exception('$this is not known in enum SignInMethod');
+  }
+}
+
 /// SMS settings for authentication.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SmsSettings {
   /// The body of the SMS message.
-  @_s.JsonKey(name: 'smsMessage')
-  final String smsMessage;
+  final String? smsMessage;
 
   SmsSettings({
     this.smsMessage,
   });
-  factory SmsSettings.fromJson(Map<String, dynamic> json) =>
-      _$SmsSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SmsSettingsToJson(this);
+  factory SmsSettings.fromJson(Map<String, dynamic> json) {
+    return SmsSettings(
+      smsMessage: json['smsMessage'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final smsMessage = this.smsMessage;
+    return {
+      if (smsMessage != null) 'smsMessage': smsMessage,
+    };
+  }
 }
 
 /// The settings for using the social identity providers for access to your
 /// Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: true)
 class SocialProviderSettings {
-  @_s.JsonKey(name: 'Facebook')
-  final BackendAuthSocialProviderConfig facebook;
-  @_s.JsonKey(name: 'Google')
-  final BackendAuthSocialProviderConfig google;
-  @_s.JsonKey(name: 'LoginWithAmazon')
-  final BackendAuthSocialProviderConfig loginWithAmazon;
+  final BackendAuthSocialProviderConfig? facebook;
+  final BackendAuthSocialProviderConfig? google;
+  final BackendAuthSocialProviderConfig? loginWithAmazon;
 
   SocialProviderSettings({
     this.facebook,
     this.google,
     this.loginWithAmazon,
   });
-  factory SocialProviderSettings.fromJson(Map<String, dynamic> json) =>
-      _$SocialProviderSettingsFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SocialProviderSettingsToJson(this);
+  factory SocialProviderSettings.fromJson(Map<String, dynamic> json) {
+    return SocialProviderSettings(
+      facebook: json['Facebook'] != null
+          ? BackendAuthSocialProviderConfig.fromJson(
+              json['Facebook'] as Map<String, dynamic>)
+          : null,
+      google: json['Google'] != null
+          ? BackendAuthSocialProviderConfig.fromJson(
+              json['Google'] as Map<String, dynamic>)
+          : null,
+      loginWithAmazon: json['LoginWithAmazon'] != null
+          ? BackendAuthSocialProviderConfig.fromJson(
+              json['LoginWithAmazon'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final facebook = this.facebook;
+    final google = this.google;
+    final loginWithAmazon = this.loginWithAmazon;
+    return {
+      if (facebook != null) 'Facebook': facebook,
+      if (google != null) 'Google': google,
+      if (loginWithAmazon != null) 'LoginWithAmazon': loginWithAmazon,
+    };
+  }
 }
 
 enum Status {
-  @_s.JsonValue('LATEST')
   latest,
-  @_s.JsonValue('STALE')
   stale,
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.latest:
+        return 'LATEST';
+      case Status.stale:
+        return 'STALE';
+    }
+  }
+}
+
+extension on String {
+  Status toStatus() {
+    switch (this) {
+      case 'LATEST':
+        return Status.latest;
+      case 'STALE':
+        return Status.stale;
+    }
+    throw Exception('$this is not known in enum Status');
+  }
+}
+
 class UpdateBackendAPIResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   UpdateBackendAPIResponse({
     this.appId,
@@ -2423,120 +3214,168 @@ class UpdateBackendAPIResponse {
     this.operation,
     this.status,
   });
-  factory UpdateBackendAPIResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBackendAPIResponseFromJson(json);
+
+  factory UpdateBackendAPIResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendAPIResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
 /// Describes the forgot password policy for authenticating into the Amplify
 /// app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateBackendAuthForgotPasswordConfig {
-  /// Describes which method to use (either SMS or email) to deliver messages to
-  /// app users that want to recover their password.
-  @_s.JsonKey(name: 'deliveryMethod')
-  final DeliveryMethod deliveryMethod;
+  /// Describes which mode to use (either SMS or email) to deliver messages to app
+  /// users that want to recover their password.
+  final DeliveryMethod? deliveryMethod;
 
   /// The configuration for the email sent when an app user forgets their
   /// password.
-  @_s.JsonKey(name: 'emailSettings')
-  final EmailSettings emailSettings;
+  final EmailSettings? emailSettings;
 
   /// The configuration for the SMS message sent when an Amplify app user forgets
   /// their password.
-  @_s.JsonKey(name: 'smsSettings')
-  final SmsSettings smsSettings;
+  final SmsSettings? smsSettings;
 
   UpdateBackendAuthForgotPasswordConfig({
     this.deliveryMethod,
     this.emailSettings,
     this.smsSettings,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateBackendAuthForgotPasswordConfigToJson(this);
+
+  factory UpdateBackendAuthForgotPasswordConfig.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateBackendAuthForgotPasswordConfig(
+      deliveryMethod: (json['deliveryMethod'] as String?)?.toDeliveryMethod(),
+      emailSettings: json['emailSettings'] != null
+          ? EmailSettings.fromJson(
+              json['emailSettings'] as Map<String, dynamic>)
+          : null,
+      smsSettings: json['smsSettings'] != null
+          ? SmsSettings.fromJson(json['smsSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final deliveryMethod = this.deliveryMethod;
+    final emailSettings = this.emailSettings;
+    final smsSettings = this.smsSettings;
+    return {
+      if (deliveryMethod != null) 'deliveryMethod': deliveryMethod.toValue(),
+      if (emailSettings != null) 'emailSettings': emailSettings,
+      if (smsSettings != null) 'smsSettings': smsSettings,
+    };
+  }
 }
 
 /// Describes the authorization configuration for the Amazon Cognito identity
 /// pool, provisioned as a part of your auth resource in the Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateBackendAuthIdentityPoolConfig {
-  /// A Boolean value that you can set to allow or disallow guest-level
+  /// A boolean value which can be set to allow or disallow guest-level
   /// authorization into your Amplify app.
-  @_s.JsonKey(name: 'unauthenticatedLogin')
-  final bool unauthenticatedLogin;
+  final bool? unauthenticatedLogin;
 
   UpdateBackendAuthIdentityPoolConfig({
     this.unauthenticatedLogin,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateBackendAuthIdentityPoolConfigToJson(this);
+
+  factory UpdateBackendAuthIdentityPoolConfig.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateBackendAuthIdentityPoolConfig(
+      unauthenticatedLogin: json['unauthenticatedLogin'] as bool?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final unauthenticatedLogin = this.unauthenticatedLogin;
+    return {
+      if (unauthenticatedLogin != null)
+        'unauthenticatedLogin': unauthenticatedLogin,
+    };
+  }
 }
 
 /// Updates the multi-factor authentication (MFA) configuration for the backend
 /// of your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateBackendAuthMFAConfig {
   /// The MFA mode for the backend of your Amplify project.
-  @_s.JsonKey(name: 'MFAMode')
-  final MFAMode mFAMode;
+  final MFAMode? mFAMode;
 
   /// The settings of your MFA configuration for the backend of your Amplify
   /// project.
-  @_s.JsonKey(name: 'settings')
-  final Settings settings;
+  final Settings? settings;
 
   UpdateBackendAuthMFAConfig({
     this.mFAMode,
     this.settings,
   });
-  Map<String, dynamic> toJson() => _$UpdateBackendAuthMFAConfigToJson(this);
+
+  factory UpdateBackendAuthMFAConfig.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendAuthMFAConfig(
+      mFAMode: (json['MFAMode'] as String?)?.toMFAMode(),
+      settings: json['settings'] != null
+          ? Settings.fromJson(json['settings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final mFAMode = this.mFAMode;
+    final settings = this.settings;
+    return {
+      if (mFAMode != null) 'MFAMode': mFAMode.toValue(),
+      if (settings != null) 'settings': settings,
+    };
+  }
 }
 
 /// The OAuth configurations for authenticating users into your Amplify app.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateBackendAuthOAuthConfig {
   /// The Amazon Cognito domain prefix used to create a hosted UI for
   /// authentication.
-  @_s.JsonKey(name: 'domainPrefix')
-  final String domainPrefix;
+  final String? domainPrefix;
 
   /// The OAuth grant type to allow app users to authenticate from your Amplify
   /// app.
-  @_s.JsonKey(name: 'oAuthGrantType')
-  final OAuthGrantType oAuthGrantType;
+  final OAuthGrantType? oAuthGrantType;
 
   /// The list of OAuth-related flows that can allow users to authenticate from
   /// your Amplify app.
-  @_s.JsonKey(name: 'oAuthScopes')
-  final List<OAuthScopesElement> oAuthScopes;
+  final List<OAuthScopesElement>? oAuthScopes;
 
-  /// Redirect URLs that OAuth uses when a user signs in to an Amplify app.
-  @_s.JsonKey(name: 'redirectSignInURIs')
-  final List<String> redirectSignInURIs;
+  /// Redirect URLs used by OAuth when a user signs in to an Amplify app.
+  final List<String>? redirectSignInURIs;
 
-  /// Redirect URLs that OAuth uses when a user signs out of an Amplify app.
-  @_s.JsonKey(name: 'redirectSignOutURIs')
-  final List<String> redirectSignOutURIs;
+  /// Redirect URLs used by OAuth when a user signs out of an Amplify app.
+  final List<String>? redirectSignOutURIs;
 
   /// Describes third-party social federation configurations for allowing your
   /// users to sign in with OAuth.
-  @_s.JsonKey(name: 'socialProviderSettings')
-  final SocialProviderSettings socialProviderSettings;
+  final SocialProviderSettings? socialProviderSettings;
 
   UpdateBackendAuthOAuthConfig({
     this.domainPrefix,
@@ -2546,102 +3385,162 @@ class UpdateBackendAuthOAuthConfig {
     this.redirectSignOutURIs,
     this.socialProviderSettings,
   });
-  Map<String, dynamic> toJson() => _$UpdateBackendAuthOAuthConfigToJson(this);
+
+  factory UpdateBackendAuthOAuthConfig.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendAuthOAuthConfig(
+      domainPrefix: json['domainPrefix'] as String?,
+      oAuthGrantType: (json['oAuthGrantType'] as String?)?.toOAuthGrantType(),
+      oAuthScopes: (json['oAuthScopes'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toOAuthScopesElement())
+          .toList(),
+      redirectSignInURIs: (json['redirectSignInURIs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      redirectSignOutURIs: (json['redirectSignOutURIs'] as List?)
+          ?.whereNotNull()
+          .map((e) => e as String)
+          .toList(),
+      socialProviderSettings: json['socialProviderSettings'] != null
+          ? SocialProviderSettings.fromJson(
+              json['socialProviderSettings'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final domainPrefix = this.domainPrefix;
+    final oAuthGrantType = this.oAuthGrantType;
+    final oAuthScopes = this.oAuthScopes;
+    final redirectSignInURIs = this.redirectSignInURIs;
+    final redirectSignOutURIs = this.redirectSignOutURIs;
+    final socialProviderSettings = this.socialProviderSettings;
+    return {
+      if (domainPrefix != null) 'domainPrefix': domainPrefix,
+      if (oAuthGrantType != null) 'oAuthGrantType': oAuthGrantType.toValue(),
+      if (oAuthScopes != null)
+        'oAuthScopes': oAuthScopes.map((e) => e.toValue()).toList(),
+      if (redirectSignInURIs != null) 'redirectSignInURIs': redirectSignInURIs,
+      if (redirectSignOutURIs != null)
+        'redirectSignOutURIs': redirectSignOutURIs,
+      if (socialProviderSettings != null)
+        'socialProviderSettings': socialProviderSettings,
+    };
+  }
 }
 
-/// Describes the password policy for your Amazon Cognito user pool that's
-/// configured as a part of your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// Describes the password policy for your Amazon Cognito user pool configured
+/// as a part of your Amplify project.
 class UpdateBackendAuthPasswordPolicyConfig {
-  /// Describes additional constrains on the password requirements to sign in to
-  /// the auth resource, configured as a part of your Amplify project.
-  @_s.JsonKey(name: 'additionalConstraints')
-  final List<AdditionalConstraintsElement> additionalConstraints;
+  /// Describes additional constraints on password requirements to sign in to the
+  /// auth resource, configured as a part of your Amplify project.
+  final List<AdditionalConstraintsElement>? additionalConstraints;
 
   /// Describes the minimum length of the password required to sign in to the auth
   /// resource, configured as a part of your Amplify project.
-  @_s.JsonKey(name: 'minimumLength')
-  final double minimumLength;
+  final double? minimumLength;
 
   UpdateBackendAuthPasswordPolicyConfig({
     this.additionalConstraints,
     this.minimumLength,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateBackendAuthPasswordPolicyConfigToJson(this);
+
+  factory UpdateBackendAuthPasswordPolicyConfig.fromJson(
+      Map<String, dynamic> json) {
+    return UpdateBackendAuthPasswordPolicyConfig(
+      additionalConstraints: (json['additionalConstraints'] as List?)
+          ?.whereNotNull()
+          .map((e) => (e as String).toAdditionalConstraintsElement())
+          .toList(),
+      minimumLength: json['minimumLength'] as double?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final additionalConstraints = this.additionalConstraints;
+    final minimumLength = this.minimumLength;
+    return {
+      if (additionalConstraints != null)
+        'additionalConstraints':
+            additionalConstraints.map((e) => e.toValue()).toList(),
+      if (minimumLength != null) 'minimumLength': minimumLength,
+    };
+  }
 }
 
 /// Defines the resource configuration when updating an authentication resource
 /// in your Amplify project.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
 class UpdateBackendAuthResourceConfig {
   /// Defines the service name to use when configuring an authentication resource
   /// in your Amplify project.
-  @_s.JsonKey(name: 'authResources')
   final AuthResources authResources;
 
   /// Defines the service name to use when configuring an authentication resource
   /// in your Amplify project.
-  @_s.JsonKey(name: 'service')
   final Service service;
 
   /// Describes the authentication configuration for the Amazon Cognito user pool,
-  /// provisioned as a part of the auth resource in your Amplify project.
-  @_s.JsonKey(name: 'userPoolConfigs')
+  /// provisioned as a part of your auth resource in the Amplify project.
   final UpdateBackendAuthUserPoolConfig userPoolConfigs;
 
   /// Describes the authorization configuration for the Amazon Cognito identity
-  /// pool, provisioned as a part of the auth resource in your Amplify project.
-  @_s.JsonKey(name: 'identityPoolConfigs')
-  final UpdateBackendAuthIdentityPoolConfig identityPoolConfigs;
+  /// pool, provisioned as a part of your auth resource in the Amplify project.
+  final UpdateBackendAuthIdentityPoolConfig? identityPoolConfigs;
 
   UpdateBackendAuthResourceConfig({
-    @_s.required this.authResources,
-    @_s.required this.service,
-    @_s.required this.userPoolConfigs,
+    required this.authResources,
+    required this.service,
+    required this.userPoolConfigs,
     this.identityPoolConfigs,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateBackendAuthResourceConfigToJson(this);
+
+  factory UpdateBackendAuthResourceConfig.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendAuthResourceConfig(
+      authResources: (json['authResources'] as String).toAuthResources(),
+      service: (json['service'] as String).toService(),
+      userPoolConfigs: UpdateBackendAuthUserPoolConfig.fromJson(
+          json['userPoolConfigs'] as Map<String, dynamic>),
+      identityPoolConfigs: json['identityPoolConfigs'] != null
+          ? UpdateBackendAuthIdentityPoolConfig.fromJson(
+              json['identityPoolConfigs'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final authResources = this.authResources;
+    final service = this.service;
+    final userPoolConfigs = this.userPoolConfigs;
+    final identityPoolConfigs = this.identityPoolConfigs;
+    return {
+      'authResources': authResources.toValue(),
+      'service': service.toValue(),
+      'userPoolConfigs': userPoolConfigs,
+      if (identityPoolConfigs != null)
+        'identityPoolConfigs': identityPoolConfigs,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBackendAuthResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   UpdateBackendAuthResponse({
     this.appId,
@@ -2651,38 +3550,55 @@ class UpdateBackendAuthResponse {
     this.operation,
     this.status,
   });
-  factory UpdateBackendAuthResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBackendAuthResponseFromJson(json);
+
+  factory UpdateBackendAuthResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendAuthResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+    };
+  }
 }
 
-/// Describes the Amazon Cognito user pool configuration to configure the
-/// authorization resource for your Amplify project on an update.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
+/// Describes the Amazon Cognito user pool configuration for the authorization
+/// resource to be configured for your Amplify project on an update.
 class UpdateBackendAuthUserPoolConfig {
   /// Describes the forgot password policy for your Amazon Cognito user pool,
   /// configured as a part of your Amplify project.
-  @_s.JsonKey(name: 'forgotPassword')
-  final UpdateBackendAuthForgotPasswordConfig forgotPassword;
+  final UpdateBackendAuthForgotPasswordConfig? forgotPassword;
 
-  /// Describes whether to apply multi-factor authentication (MFA) policies for
-  /// your Amazon Cognito user pool that's configured as a part of your Amplify
-  /// project.
-  @_s.JsonKey(name: 'mfa')
-  final UpdateBackendAuthMFAConfig mfa;
+  /// Describes whether multi-factor authentication policies should be applied for
+  /// your Amazon Cognito user pool configured as a part of your Amplify project.
+  final UpdateBackendAuthMFAConfig? mfa;
 
   /// Describes the OAuth policy and rules for your Amazon Cognito user pool,
   /// configured as a part of your Amplify project.
-  @_s.JsonKey(name: 'oAuth')
-  final UpdateBackendAuthOAuthConfig oAuth;
+  final UpdateBackendAuthOAuthConfig? oAuth;
 
   /// Describes the password policy for your Amazon Cognito user pool, configured
   /// as a part of your Amplify project.
-  @_s.JsonKey(name: 'passwordPolicy')
-  final UpdateBackendAuthPasswordPolicyConfig passwordPolicy;
+  final UpdateBackendAuthPasswordPolicyConfig? passwordPolicy;
 
   UpdateBackendAuthUserPoolConfig({
     this.forgotPassword,
@@ -2690,32 +3606,55 @@ class UpdateBackendAuthUserPoolConfig {
     this.oAuth,
     this.passwordPolicy,
   });
-  Map<String, dynamic> toJson() =>
-      _$UpdateBackendAuthUserPoolConfigToJson(this);
+
+  factory UpdateBackendAuthUserPoolConfig.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendAuthUserPoolConfig(
+      forgotPassword: json['forgotPassword'] != null
+          ? UpdateBackendAuthForgotPasswordConfig.fromJson(
+              json['forgotPassword'] as Map<String, dynamic>)
+          : null,
+      mfa: json['mfa'] != null
+          ? UpdateBackendAuthMFAConfig.fromJson(
+              json['mfa'] as Map<String, dynamic>)
+          : null,
+      oAuth: json['oAuth'] != null
+          ? UpdateBackendAuthOAuthConfig.fromJson(
+              json['oAuth'] as Map<String, dynamic>)
+          : null,
+      passwordPolicy: json['passwordPolicy'] != null
+          ? UpdateBackendAuthPasswordPolicyConfig.fromJson(
+              json['passwordPolicy'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final forgotPassword = this.forgotPassword;
+    final mfa = this.mfa;
+    final oAuth = this.oAuth;
+    final passwordPolicy = this.passwordPolicy;
+    return {
+      if (forgotPassword != null) 'forgotPassword': forgotPassword,
+      if (mfa != null) 'mfa': mfa,
+      if (oAuth != null) 'oAuth': oAuth,
+      if (passwordPolicy != null) 'passwordPolicy': passwordPolicy,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBackendConfigResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The app ID for the backend manager.
-  @_s.JsonKey(name: 'backendManagerAppId')
-  final String backendManagerAppId;
+  final String? backendManagerAppId;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// Describes the Amazon Cognito configurations for the Admin UI auth resource
   /// to log in with.
-  @_s.JsonKey(name: 'loginAuthConfig')
-  final LoginAuthConfigReqObj loginAuthConfig;
+  final LoginAuthConfigReqObj? loginAuthConfig;
 
   UpdateBackendConfigResponse({
     this.appId,
@@ -2723,47 +3662,58 @@ class UpdateBackendConfigResponse {
     this.error,
     this.loginAuthConfig,
   });
-  factory UpdateBackendConfigResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBackendConfigResponseFromJson(json);
+
+  factory UpdateBackendConfigResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendConfigResponse(
+      appId: json['appId'] as String?,
+      backendManagerAppId: json['backendManagerAppId'] as String?,
+      error: json['error'] as String?,
+      loginAuthConfig: json['loginAuthConfig'] != null
+          ? LoginAuthConfigReqObj.fromJson(
+              json['loginAuthConfig'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendManagerAppId = this.backendManagerAppId;
+    final error = this.error;
+    final loginAuthConfig = this.loginAuthConfig;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendManagerAppId != null)
+        'backendManagerAppId': backendManagerAppId,
+      if (error != null) 'error': error,
+      if (loginAuthConfig != null) 'loginAuthConfig': loginAuthConfig,
+    };
+  }
 }
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
 class UpdateBackendJobResponse {
   /// The app ID.
-  @_s.JsonKey(name: 'appId')
-  final String appId;
+  final String? appId;
 
   /// The name of the backend environment.
-  @_s.JsonKey(name: 'backendEnvironmentName')
-  final String backendEnvironmentName;
+  final String? backendEnvironmentName;
 
   /// The time when the job was created.
-  @_s.JsonKey(name: 'createTime')
-  final String createTime;
+  final String? createTime;
 
-  /// If the request failed, this is the returned error.
-  @_s.JsonKey(name: 'error')
-  final String error;
+  /// If the request fails, this error is returned.
+  final String? error;
 
   /// The ID for the job.
-  @_s.JsonKey(name: 'jobId')
-  final String jobId;
+  final String? jobId;
 
   /// The name of the operation.
-  @_s.JsonKey(name: 'operation')
-  final String operation;
+  final String? operation;
 
   /// The current status of the request.
-  @_s.JsonKey(name: 'status')
-  final String status;
+  final String? status;
 
   /// The time when the job was last updated.
-  @_s.JsonKey(name: 'updateTime')
-  final String updateTime;
+  final String? updateTime;
 
   UpdateBackendJobResponse({
     this.appId,
@@ -2775,95 +3725,273 @@ class UpdateBackendJobResponse {
     this.status,
     this.updateTime,
   });
-  factory UpdateBackendJobResponse.fromJson(Map<String, dynamic> json) =>
-      _$UpdateBackendJobResponseFromJson(json);
+
+  factory UpdateBackendJobResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateBackendJobResponse(
+      appId: json['appId'] as String?,
+      backendEnvironmentName: json['backendEnvironmentName'] as String?,
+      createTime: json['createTime'] as String?,
+      error: json['error'] as String?,
+      jobId: json['jobId'] as String?,
+      operation: json['operation'] as String?,
+      status: json['status'] as String?,
+      updateTime: json['updateTime'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final appId = this.appId;
+    final backendEnvironmentName = this.backendEnvironmentName;
+    final createTime = this.createTime;
+    final error = this.error;
+    final jobId = this.jobId;
+    final operation = this.operation;
+    final status = this.status;
+    final updateTime = this.updateTime;
+    return {
+      if (appId != null) 'appId': appId,
+      if (backendEnvironmentName != null)
+        'backendEnvironmentName': backendEnvironmentName,
+      if (createTime != null) 'createTime': createTime,
+      if (error != null) 'error': error,
+      if (jobId != null) 'jobId': jobId,
+      if (operation != null) 'operation': operation,
+      if (status != null) 'status': status,
+      if (updateTime != null) 'updateTime': updateTime,
+    };
+  }
 }
 
 enum AdditionalConstraintsElement {
-  @_s.JsonValue('REQUIRE_DIGIT')
   requireDigit,
-  @_s.JsonValue('REQUIRE_LOWERCASE')
   requireLowercase,
-  @_s.JsonValue('REQUIRE_SYMBOL')
   requireSymbol,
-  @_s.JsonValue('REQUIRE_UPPERCASE')
   requireUppercase,
 }
 
+extension on AdditionalConstraintsElement {
+  String toValue() {
+    switch (this) {
+      case AdditionalConstraintsElement.requireDigit:
+        return 'REQUIRE_DIGIT';
+      case AdditionalConstraintsElement.requireLowercase:
+        return 'REQUIRE_LOWERCASE';
+      case AdditionalConstraintsElement.requireSymbol:
+        return 'REQUIRE_SYMBOL';
+      case AdditionalConstraintsElement.requireUppercase:
+        return 'REQUIRE_UPPERCASE';
+    }
+  }
+}
+
+extension on String {
+  AdditionalConstraintsElement toAdditionalConstraintsElement() {
+    switch (this) {
+      case 'REQUIRE_DIGIT':
+        return AdditionalConstraintsElement.requireDigit;
+      case 'REQUIRE_LOWERCASE':
+        return AdditionalConstraintsElement.requireLowercase;
+      case 'REQUIRE_SYMBOL':
+        return AdditionalConstraintsElement.requireSymbol;
+      case 'REQUIRE_UPPERCASE':
+        return AdditionalConstraintsElement.requireUppercase;
+    }
+    throw Exception('$this is not known in enum AdditionalConstraintsElement');
+  }
+}
+
 enum MfaTypesElement {
-  @_s.JsonValue('SMS')
   sms,
-  @_s.JsonValue('TOTP')
   totp,
 }
 
+extension on MfaTypesElement {
+  String toValue() {
+    switch (this) {
+      case MfaTypesElement.sms:
+        return 'SMS';
+      case MfaTypesElement.totp:
+        return 'TOTP';
+    }
+  }
+}
+
+extension on String {
+  MfaTypesElement toMfaTypesElement() {
+    switch (this) {
+      case 'SMS':
+        return MfaTypesElement.sms;
+      case 'TOTP':
+        return MfaTypesElement.totp;
+    }
+    throw Exception('$this is not known in enum MfaTypesElement');
+  }
+}
+
 enum OAuthScopesElement {
-  @_s.JsonValue('PHONE')
   phone,
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('OPENID')
   openid,
-  @_s.JsonValue('PROFILE')
   profile,
-  @_s.JsonValue('AWS_COGNITO_SIGNIN_USER_ADMIN')
   awsCognitoSigninUserAdmin,
 }
 
+extension on OAuthScopesElement {
+  String toValue() {
+    switch (this) {
+      case OAuthScopesElement.phone:
+        return 'PHONE';
+      case OAuthScopesElement.email:
+        return 'EMAIL';
+      case OAuthScopesElement.openid:
+        return 'OPENID';
+      case OAuthScopesElement.profile:
+        return 'PROFILE';
+      case OAuthScopesElement.awsCognitoSigninUserAdmin:
+        return 'AWS_COGNITO_SIGNIN_USER_ADMIN';
+    }
+  }
+}
+
+extension on String {
+  OAuthScopesElement toOAuthScopesElement() {
+    switch (this) {
+      case 'PHONE':
+        return OAuthScopesElement.phone;
+      case 'EMAIL':
+        return OAuthScopesElement.email;
+      case 'OPENID':
+        return OAuthScopesElement.openid;
+      case 'PROFILE':
+        return OAuthScopesElement.profile;
+      case 'AWS_COGNITO_SIGNIN_USER_ADMIN':
+        return OAuthScopesElement.awsCognitoSigninUserAdmin;
+    }
+    throw Exception('$this is not known in enum OAuthScopesElement');
+  }
+}
+
 enum RequiredSignUpAttributesElement {
-  @_s.JsonValue('ADDRESS')
   address,
-  @_s.JsonValue('BIRTHDATE')
   birthdate,
-  @_s.JsonValue('EMAIL')
   email,
-  @_s.JsonValue('FAMILY_NAME')
   familyName,
-  @_s.JsonValue('GENDER')
   gender,
-  @_s.JsonValue('GIVEN_NAME')
   givenName,
-  @_s.JsonValue('LOCALE')
   locale,
-  @_s.JsonValue('MIDDLE_NAME')
   middleName,
-  @_s.JsonValue('NAME')
   name,
-  @_s.JsonValue('NICKNAME')
   nickname,
-  @_s.JsonValue('PHONE_NUMBER')
   phoneNumber,
-  @_s.JsonValue('PICTURE')
   picture,
-  @_s.JsonValue('PREFERRED_USERNAME')
   preferredUsername,
-  @_s.JsonValue('PROFILE')
   profile,
-  @_s.JsonValue('UPDATED_AT')
   updatedAt,
-  @_s.JsonValue('WEBSITE')
   website,
-  @_s.JsonValue('ZONE_INFO')
   zoneInfo,
 }
 
+extension on RequiredSignUpAttributesElement {
+  String toValue() {
+    switch (this) {
+      case RequiredSignUpAttributesElement.address:
+        return 'ADDRESS';
+      case RequiredSignUpAttributesElement.birthdate:
+        return 'BIRTHDATE';
+      case RequiredSignUpAttributesElement.email:
+        return 'EMAIL';
+      case RequiredSignUpAttributesElement.familyName:
+        return 'FAMILY_NAME';
+      case RequiredSignUpAttributesElement.gender:
+        return 'GENDER';
+      case RequiredSignUpAttributesElement.givenName:
+        return 'GIVEN_NAME';
+      case RequiredSignUpAttributesElement.locale:
+        return 'LOCALE';
+      case RequiredSignUpAttributesElement.middleName:
+        return 'MIDDLE_NAME';
+      case RequiredSignUpAttributesElement.name:
+        return 'NAME';
+      case RequiredSignUpAttributesElement.nickname:
+        return 'NICKNAME';
+      case RequiredSignUpAttributesElement.phoneNumber:
+        return 'PHONE_NUMBER';
+      case RequiredSignUpAttributesElement.picture:
+        return 'PICTURE';
+      case RequiredSignUpAttributesElement.preferredUsername:
+        return 'PREFERRED_USERNAME';
+      case RequiredSignUpAttributesElement.profile:
+        return 'PROFILE';
+      case RequiredSignUpAttributesElement.updatedAt:
+        return 'UPDATED_AT';
+      case RequiredSignUpAttributesElement.website:
+        return 'WEBSITE';
+      case RequiredSignUpAttributesElement.zoneInfo:
+        return 'ZONE_INFO';
+    }
+  }
+}
+
+extension on String {
+  RequiredSignUpAttributesElement toRequiredSignUpAttributesElement() {
+    switch (this) {
+      case 'ADDRESS':
+        return RequiredSignUpAttributesElement.address;
+      case 'BIRTHDATE':
+        return RequiredSignUpAttributesElement.birthdate;
+      case 'EMAIL':
+        return RequiredSignUpAttributesElement.email;
+      case 'FAMILY_NAME':
+        return RequiredSignUpAttributesElement.familyName;
+      case 'GENDER':
+        return RequiredSignUpAttributesElement.gender;
+      case 'GIVEN_NAME':
+        return RequiredSignUpAttributesElement.givenName;
+      case 'LOCALE':
+        return RequiredSignUpAttributesElement.locale;
+      case 'MIDDLE_NAME':
+        return RequiredSignUpAttributesElement.middleName;
+      case 'NAME':
+        return RequiredSignUpAttributesElement.name;
+      case 'NICKNAME':
+        return RequiredSignUpAttributesElement.nickname;
+      case 'PHONE_NUMBER':
+        return RequiredSignUpAttributesElement.phoneNumber;
+      case 'PICTURE':
+        return RequiredSignUpAttributesElement.picture;
+      case 'PREFERRED_USERNAME':
+        return RequiredSignUpAttributesElement.preferredUsername;
+      case 'PROFILE':
+        return RequiredSignUpAttributesElement.profile;
+      case 'UPDATED_AT':
+        return RequiredSignUpAttributesElement.updatedAt;
+      case 'WEBSITE':
+        return RequiredSignUpAttributesElement.website;
+      case 'ZONE_INFO':
+        return RequiredSignUpAttributesElement.zoneInfo;
+    }
+    throw Exception(
+        '$this is not known in enum RequiredSignUpAttributesElement');
+  }
+}
+
 class BadRequestException extends _s.GenericAwsException {
-  BadRequestException({String type, String message})
+  BadRequestException({String? type, String? message})
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
 class GatewayTimeoutException extends _s.GenericAwsException {
-  GatewayTimeoutException({String type, String message})
+  GatewayTimeoutException({String? type, String? message})
       : super(type: type, code: 'GatewayTimeoutException', message: message);
 }
 
 class NotFoundException extends _s.GenericAwsException {
-  NotFoundException({String type, String message})
+  NotFoundException({String? type, String? message})
       : super(type: type, code: 'NotFoundException', message: message);
 }
 
 class TooManyRequestsException extends _s.GenericAwsException {
-  TooManyRequestsException({String type, String message})
+  TooManyRequestsException({String? type, String? message})
       : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 

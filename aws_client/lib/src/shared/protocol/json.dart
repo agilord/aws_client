@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:meta/meta.dart';
 
 import '../credentials.dart';
 import '_sign.dart';
@@ -21,26 +20,26 @@ class JsonProtocol {
   );
 
   factory JsonProtocol({
-    Client client,
-    ServiceMetadata service,
-    String region,
-    String endpointUrl,
-    AwsClientCredentials credentials,
+    Client? client,
+    ServiceMetadata? service,
+    String? region,
+    String? endpointUrl,
+    AwsClientCredentials? credentials,
   }) {
     client ??= Client();
     final endpoint = Endpoint.forProtocol(
         service: service, region: region, endpointUrl: endpointUrl);
     credentials ??= AwsClientCredentials.resolve();
     ArgumentError.checkNotNull(credentials, 'credentials');
-    return JsonProtocol._(client, endpoint, credentials);
+    return JsonProtocol._(client, endpoint, credentials!);
   }
 
   Future<JsonResponse> send({
-    @required String method,
-    @required String requestUri,
-    @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, List<String>> queryParams,
-    Map<String, String> headers,
+    required String method,
+    required String requestUri,
+    required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, List<String>>? queryParams,
+    Map<String, String>? headers,
     dynamic payload,
   }) async {
     var uri = Uri.parse('${_endpoint.url}$requestUri');
@@ -74,7 +73,7 @@ class JsonProtocol {
 
     final parsedBody = body.isEmpty
         ? <String, dynamic>{}
-        : jsonDecode(body) as Map<String, dynamic>;
+        : (jsonDecode(body) as Map<String, dynamic>?)!;
 
     // TODO: replace return type with Map<String, dynamic> and discard the
     // JsonResponse class. The generated code will have to adjust as well.

@@ -30,12 +30,12 @@ void main() {
     );
 
     final output = await service.operationName0();
-    expect(output.list[0].bar, "firstbar");
-    expect(output.list[0].baz, "firstbaz");
-    expect(output.list[0].foo, "firstfoo");
-    expect(output.list[1].bar, "secondbar");
-    expect(output.list[1].baz, "secondbaz");
-    expect(output.list[1].foo, "secondfoo");
+    expect(output.list?[0].bar, "firstbar");
+    expect(output.list?[0].baz, "firstbaz");
+    expect(output.list?[0].foo, "firstfoo");
+    expect(output.list?[1].bar, "secondbar");
+    expect(output.list?[1].baz, "secondbaz");
+    expect(output.list?[1].foo, "secondfoo");
 /*
 {
   "List": [
